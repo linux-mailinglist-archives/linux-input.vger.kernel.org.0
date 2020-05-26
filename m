@@ -2,77 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4942F1E1809
-	for <lists+linux-input@lfdr.de>; Tue, 26 May 2020 01:02:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB00F1E1952
+	for <lists+linux-input@lfdr.de>; Tue, 26 May 2020 04:23:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731270AbgEYXCK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 25 May 2020 19:02:10 -0400
-Received: from gate2.alliedtelesis.co.nz ([202.36.163.20]:50576 "EHLO
-        gate2.alliedtelesis.co.nz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725969AbgEYXCJ (ORCPT
+        id S2388393AbgEZCWy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 25 May 2020 22:22:54 -0400
+Received: from emcscan.emc.com.tw ([192.72.220.5]:33958 "EHLO
+        emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388454AbgEZCWy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 25 May 2020 19:02:09 -0400
-Received: from mmarshal3.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id DAFD8891B1;
-        Tue, 26 May 2020 11:02:05 +1200 (NZST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-        s=mail181024; t=1590447725;
-        bh=fH21vaeruc+kAM4fRkdYBDX8IezlA8s+rV2IxWRdUUQ=;
-        h=From:To:Cc:Subject:Date;
-        b=bQFUbSXvHUFXQUnOjO7zu2nuk/5dZTo2scG6o2aQjXG+HyKgSwBbP3qmCyE4fC9zQ
-         bGDqRT2+Hkt1GbBtQpidXa6kEx9WD5GDHD3IZL1Q1ZAFzrTBJcxRIsEz+bu17qOdmF
-         bCqTt2A+dHFVXflilJ157r+2BJxBjd5NbYGsMZ3A0tgy/MkFhWYXt4DS1/l4ErMgIW
-         f4xm1khPvOi31Y9tXokMFC/LFPztkPgAinRtMGwNpEJKPk5aXd/Qc9SW021W054nNE
-         BCprFdFeEOtDUppl8PZRJvmkZ4CCetB/vxwd2E1qoxAwI42upQzOGODJhghklm96RS
-         TdjuT340RZEQA==
-Received: from smtp (Not Verified[10.32.16.33]) by mmarshal3.atlnz.lc with Trustwave SEG (v7,5,8,10121)
-        id <B5ecc4e6c0000>; Tue, 26 May 2020 11:02:05 +1200
-Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.20])
-        by smtp (Postfix) with ESMTP id DE20F13ED4B;
-        Tue, 26 May 2020 11:02:02 +1200 (NZST)
-Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
-        id D486C28006C; Tue, 26 May 2020 11:02:03 +1200 (NZST)
-From:   Chris Packham <chris.packham@alliedtelesis.co.nz>
-To:     jikos@kernel.org, benjamin.tissoires@redhat.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        trivial@kernel.org,
-        Chris Packham <chris.packham@alliedtelesis.co.nz>
-Subject: [PATCH] HID: logitech-dj: Fix spelling in comment
-Date:   Tue, 26 May 2020 11:02:01 +1200
-Message-Id: <20200525230201.14985-1-chris.packham@alliedtelesis.co.nz>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-x-atlnz-ls: pat
+        Mon, 25 May 2020 22:22:54 -0400
+X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
+   d="scan'208";a="35734193"
+Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
+  by emcscan.emc.com.tw with ESMTP; 26 May 2020 10:22:51 +0800
+Received: from 192.168.10.23
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(122906:0:AUTH_RELAY)
+        (envelope-from <jingle.wu@emc.com.tw>); Tue, 26 May 2020 10:22:49 +0800 (CST)
+Received: from 49.216.87.26
+        by webmail.emc.com.tw with Mail2000 ESMTPA Server V7.00(2482:0:AUTH_LOGIN)
+        (envelope-from <jingle.wu@emc.com.tw>); Tue, 26 May 2020 10:22:48 +0800 (CST)
+From:   "Jingle.Wu" <jingle.wu@emc.com.tw>
+To:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        dmitry.torokhov@gmail.com
+Cc:     phoenix@emc.com.tw, dave.wang@emc.com.tw, josh.chen@emc.com.tw,
+        "Jingle.Wu" <jingle.wu@emc.com.tw>
+Subject: [PATCH] Input: elantech - Remove read/write registers in attr.
+Date:   Tue, 26 May 2020 10:22:46 +0800
+Message-Id: <20200526022246.4542-1-jingle.wu@emc.com.tw>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Change 'unhandeled' to 'unhandled'.
+New Elan IC would not be accessed with the specific regiters.
 
-Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
+Signed-off-by: Jingle Wu <jingle.wu@emc.com.tw>
 ---
- drivers/hid/hid-logitech-dj.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/input/mouse/elantech.c | 20 --------------------
+ 1 file changed, 20 deletions(-)
 
-diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.=
-c
-index ed9b1c1f460d..51e1305cc375 100644
---- a/drivers/hid/hid-logitech-dj.c
-+++ b/drivers/hid/hid-logitech-dj.c
-@@ -820,7 +820,7 @@ static void logi_dj_recv_queue_unknown_work(struct dj=
-_receiver_dev *djrcv_dev)
- {
- 	struct dj_workitem workitem =3D { .type =3D WORKITEM_TYPE_UNKNOWN };
-=20
--	/* Rate limit queries done because of unhandeled reports to 2/sec */
-+	/* Rate limit queries done because of unhandled reports to 2/sec */
- 	if (time_before(jiffies, djrcv_dev->last_query + HZ / 2))
- 		return;
-=20
---=20
-2.25.1
+diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
+index 2d8434b7b623..fa1aa5f441f5 100644
+--- a/drivers/input/mouse/elantech.c
++++ b/drivers/input/mouse/elantech.c
+@@ -1280,31 +1280,11 @@ static ssize_t elantech_set_int_attr(struct psmouse *psmouse,
+ 			    elantech_show_int_attr,			       \
+ 			    elantech_set_int_attr)
+ 
+-ELANTECH_INT_ATTR(reg_07, 0x07);
+-ELANTECH_INT_ATTR(reg_10, 0x10);
+-ELANTECH_INT_ATTR(reg_11, 0x11);
+-ELANTECH_INT_ATTR(reg_20, 0x20);
+-ELANTECH_INT_ATTR(reg_21, 0x21);
+-ELANTECH_INT_ATTR(reg_22, 0x22);
+-ELANTECH_INT_ATTR(reg_23, 0x23);
+-ELANTECH_INT_ATTR(reg_24, 0x24);
+-ELANTECH_INT_ATTR(reg_25, 0x25);
+-ELANTECH_INT_ATTR(reg_26, 0x26);
+ ELANTECH_INFO_ATTR(debug);
+ ELANTECH_INFO_ATTR(paritycheck);
+ ELANTECH_INFO_ATTR(crc_enabled);
+ 
+ static struct attribute *elantech_attrs[] = {
+-	&psmouse_attr_reg_07.dattr.attr,
+-	&psmouse_attr_reg_10.dattr.attr,
+-	&psmouse_attr_reg_11.dattr.attr,
+-	&psmouse_attr_reg_20.dattr.attr,
+-	&psmouse_attr_reg_21.dattr.attr,
+-	&psmouse_attr_reg_22.dattr.attr,
+-	&psmouse_attr_reg_23.dattr.attr,
+-	&psmouse_attr_reg_24.dattr.attr,
+-	&psmouse_attr_reg_25.dattr.attr,
+-	&psmouse_attr_reg_26.dattr.attr,
+ 	&psmouse_attr_debug.dattr.attr,
+ 	&psmouse_attr_paritycheck.dattr.attr,
+ 	&psmouse_attr_crc_enabled.dattr.attr,
+-- 
+2.17.1
 
