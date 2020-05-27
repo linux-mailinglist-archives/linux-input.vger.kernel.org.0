@@ -2,82 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7E1C1E424D
-	for <lists+linux-input@lfdr.de>; Wed, 27 May 2020 14:29:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB2BC1E4340
+	for <lists+linux-input@lfdr.de>; Wed, 27 May 2020 15:16:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728661AbgE0M3Z convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Wed, 27 May 2020 08:29:25 -0400
-Received: from mail.eclipso.de ([217.69.254.104]:55764 "EHLO mail.eclipso.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728513AbgE0M3Z (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 May 2020 08:29:25 -0400
-Received: from mail.eclipso.de (www1.eclipso.de [217.69.254.102])
-        by mail.eclipso.de with ESMTP id 65708121
-        for <linux-input@vger.kernel.org>; Wed, 27 May 2020 14:29:24 +0200 (CEST)
-Date:   Wed, 27 May 2020 14:29:24 +0200
+        id S2388071AbgE0NQc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 May 2020 09:16:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32978 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387979AbgE0NQ3 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 27 May 2020 09:16:29 -0400
+X-Greylist: delayed 525 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 27 May 2020 06:16:28 PDT
+Received: from msa13.plala.or.jp (msa13.plala.or.jp [IPv6:2400:7800:0:502e::13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A72CBC08C5C1;
+        Wed, 27 May 2020 06:16:28 -0700 (PDT)
+Received: from mwebp13 ([172.23.13.133]) by msa12.plala.or.jp with ESMTP
+          id <20200527130743.MHTA4246.msa12.plala.or.jp@mwebp13>;
+          Wed, 27 May 2020 22:07:43 +0900
+Date:   Wed, 27 May 2020 22:07:42 +0900
+From:   "Mrs.Judith Rice" <hamurafujimi@tmail.plala.or.jp>
+Reply-To: jonesevansje@gmail.com
+Message-ID: <20200527220743.YHFYN.789.root@mwebp13>
+Subject: Spende
 MIME-Version: 1.0
-Message-ID: <b8944022e5733abf0910c6447bf47b47@mail.eclipso.de>
-X-Mailer: eclipso / 7.4.0
-From:   " " <denk@eclipso.email>
-Subject: Re: Re: Re: Re: Add a second working PNP_ID for a T470s
-Reply-To: " " <denk@eclipso.email>
-To:     "Dmitry Torokhov" <dmitry.torokhov@gmail.com>
-Cc:     <linux-input@vger.kernel.org>
-In-Reply-To: <20200527061019.GI89269@dtor-ws>
-References: <ff770543cd53ae818363c0fe86477965@mail.eclipso.de>
-        <20200424222546.GK125362@dtor-ws>
-        <1a56dbaf4c20a4a375da9a6d281b865b@mail.eclipso.de>
-        <a6c89d6692bd551617dfaaf9275e7cea@mail.eclipso.de>
-        <20200527061019.GI89269@dtor-ws>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-Content-Disposition: inline
+Content-Type: text/plain; charset=iso-2022-jp
+Content-Transfer-Encoding: 7bit
+X-Priority: 3 (Normal)
+Sensitivity: Normal
+X-VirusScan: Outbound; mvir-ac12; Wed, 27 May 2020 22:07:43 +0900
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+Attn:
 
-thank you very much!
-Regarding my additional question about the error message: Is it possible, to omit this error on shutdown?
+Es tut uns leid, dass wir Sie aufgrund eines Mismanagent of Beneficaries-Fonds von unseren ernannten Zonal Managern versp&#228;tet kontaktiert haben. Bitte beachten Sie, dass Sie qualifiziert sind, die Zahlung von 900.000,00 USD an der ATM-Karte mit neunhunderttausend Dollar zu erhalten.
 
-Thanks and best
-Dennis
+Als Entsch&#228;digung von WORLD BANK / IWF (Internationaler W&#228;hrungsfonds) f&#252;r die automatisch &#252;ber einen E-Mail-Wahlautomaten gezogenen, die in der Vergangenheit noch nicht abgeschlossene Transaktionen hatten.
 
+F&#252;r weitere Informationen kontaktieren Sie bitte Rev.EVANS JONES ( jonesevansje@gmail.com )
 
---- Ursprüngliche Nachricht ---
-Von: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Datum: 27.05.2020 08:10:19
-An: <denk@eclipso.email>
-Betreff: Re: Re: Re: Add a second working PNP_ID for a T470s
+Bitte senden Sie ihm Ihre pers&#246;nlichen Daten wie:
 
-Hi Dennis,
+Vollst&#228;ndiger Name:
+Wohnanschrift:
+Telefonnummer:
+Herkunftsland:
 
-On Fri, May 22, 2020 at 01:42:35PM +0200,   wrote:
-> Hi Dmitry,
-> 
-> as far as I can see, there was no reply from you. If so, then I may
-have missed that, sorry for that.
-> As I said I am not aware of any issues when running the touchpad and
-trackpoint with RMI4. The only difference is the mentioned error message
-during shutdown, which I would like to get rid of, if possible.
-> Can the patch be merged? Anything missing for that?
-
-Sorry, my fault as I have been busy lately and my patch queue grew
-really long. The patch is applied, thank you for your work (and
-patience).
-
-Thanks.
-
--- 
-Dmitry
-
-
-
----
-
-________________________________________________________
-Ihre E-Mail-Postfächer sicher & zentral an einem Ort. Jetzt wechseln und alte E-Mail-Adresse mitnehmen! https://www.eclipso.de
-
+Gr&#252;&#223;e,
+Mrs. Judith Rice
 
