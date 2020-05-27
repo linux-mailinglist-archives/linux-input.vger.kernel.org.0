@@ -2,63 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 479371E38ED
-	for <lists+linux-input@lfdr.de>; Wed, 27 May 2020 08:20:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C80A1E38F3
+	for <lists+linux-input@lfdr.de>; Wed, 27 May 2020 08:20:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727953AbgE0GST convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Wed, 27 May 2020 02:18:19 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:47643 "EHLO
+        id S1728015AbgE0GTX convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Wed, 27 May 2020 02:19:23 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:47647 "EHLO
         youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727923AbgE0GSS (ORCPT
+        with ESMTP id S1725267AbgE0GTX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 May 2020 02:18:18 -0400
-Received: from mail-pf1-f197.google.com ([209.85.210.197])
+        Wed, 27 May 2020 02:19:23 -0400
+Received: from mail-pf1-f200.google.com ([209.85.210.200])
         by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.86_2)
         (envelope-from <kai.heng.feng@canonical.com>)
-        id 1jdpOK-0004WE-6d
-        for linux-input@vger.kernel.org; Wed, 27 May 2020 06:18:16 +0000
-Received: by mail-pf1-f197.google.com with SMTP id m17so18834058pfh.1
-        for <linux-input@vger.kernel.org>; Tue, 26 May 2020 23:18:16 -0700 (PDT)
+        id 1jdpPN-0004Y7-Fs
+        for linux-input@vger.kernel.org; Wed, 27 May 2020 06:19:21 +0000
+Received: by mail-pf1-f200.google.com with SMTP id 194so18820250pfb.15
+        for <linux-input@vger.kernel.org>; Tue, 26 May 2020 23:19:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
          :content-transfer-encoding:message-id:references:to;
-        bh=vyY8c2L/LhgRPKf+Jdno0CTyY7OpU2lIFU0hqsnB65Y=;
-        b=XE8YyUrObfhPXBtLiUjwpykBc2BOS4RWyqTbs/MtalvG1UlVdZkzpyA+02T7xQLz7Y
-         9odPZiYatRG3kJHoNZdZfTrXeQgBcgsqd+8J34ZpRDVGePNXKl8FqDGhugwdPkE5OGxW
-         LPPWvxjkOg1TSzfKHeDEPlmMoNkYEpvkU1QdGshuALRdifEpdcAq0AljEHphr6cZJkQO
-         QRTnlAlFb2cAM9KDMAAxnj2rOFMIzsY5fiPpEsKiVss0yvmn7gQwcdNiKwOJ+lOnkbL9
-         qI/5evTcpvKNs7Z2VO7aeVAmniCmylhlZiQtZ/OuhhTaxoTCgPLghXISkYZ22oT5wuuS
-         Flqw==
-X-Gm-Message-State: AOAM533l4dkauJjeJa5+u+nH13vuzvlhPq2zc8CotO4fOFHjDvvQs9EN
-        BsrMLbIybjcHJk7phalpPriGprn6enNYcIP8SirUKFtr6Gzkw5l7UJqSyL6LuwVE+k81OfJAjQe
-        lcQpTx5khV01W5R4pibj7kauDwrl3xqdDKdZhlWYt
-X-Received: by 2002:a17:902:82c9:: with SMTP id u9mr4462418plz.179.1590560294556;
-        Tue, 26 May 2020 23:18:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwazWv37SfcUrKOPhNN5aIAaxE6SHyIu4E4zHD4p5MX3syOTTwgsYE/LwqAmCBsDBLgEfTX2Q==
-X-Received: by 2002:a17:902:82c9:: with SMTP id u9mr4462406plz.179.1590560294200;
-        Tue, 26 May 2020 23:18:14 -0700 (PDT)
+        bh=g3G10oTdQUGktU+UO7WQ3PW2TAHAFN2Zb3zq425YYyk=;
+        b=EJhpnVEZjt8OB9+UhvY0A2hW+CACFsPyMLVGRJ27R+r7QMyzlcjV90Qa7Fb0R+Lcq+
+         ZbSpwB63ldG5Oe3zvdr/EgTKSEPQfyUfaSGPWE0QxV5kan7Z6A9pvWxJ0Bw0eh+bjk62
+         ww8Xvwo2lkTQh7eSlRWrU7CNHsdrPINQCsrR6SsLa9Ua2XDZNBVTsRHUgad3Pu6v705+
+         h5o8PEduiBJTAltPnw0bERUqpbcWXNPznZv47OtoM1TTLse2xyUj7mW+Y0flo9jHpjrI
+         l29XkO6zUtrlIlawGrA/Hh8xulL/206xyElPQDPv7ZYLN4SMyB3NIcso31FgDvw9Gccw
+         j9Cw==
+X-Gm-Message-State: AOAM531g6nZd59Jiqf5jA639Vm00N8V68Db/b1xXGwIaWqFVEtGOEkN3
+        cpe52NrNwl59x5xxUSP6vaxjUpnlQSfAMY/wVYdi4n8Wqf3IjFt1Y/9+KCnprnqLMH7yVrZch4h
+        aIjD813y5djGEoVzxueE7igd6BSRzLW+oagc21GCu
+X-Received: by 2002:a17:902:b110:: with SMTP id q16mr3231238plr.221.1590560360149;
+        Tue, 26 May 2020 23:19:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwBIb9+Qpyu2p2CRX6M0xxGWgWILNhjV3F4UW8F6y8Qt/zVz7kocYeSWmjCgzKGw9FxwL0PDg==
+X-Received: by 2002:a17:902:b110:: with SMTP id q16mr3231222plr.221.1590560359845;
+        Tue, 26 May 2020 23:19:19 -0700 (PDT)
 Received: from [192.168.1.208] (220-133-187-190.HINET-IP.hinet.net. [220.133.187.190])
-        by smtp.gmail.com with ESMTPSA id v22sm1195350pfu.172.2020.05.26.23.18.12
+        by smtp.gmail.com with ESMTPSA id y4sm1165764pfq.10.2020.05.26.23.19.18
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 26 May 2020 23:18:13 -0700 (PDT)
+        Tue, 26 May 2020 23:19:19 -0700 (PDT)
 Content-Type: text/plain;
         charset=us-ascii
 Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
-Subject: Re: [PATCH] HID: multitouch: enable multi-input as a quirk for some
- devices
+Subject: Re: [PATCH] HID: multitouch: Remove MT_CLS_WIN_8_DUAL
 From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
-In-Reply-To: <20200526150717.324783-1-benjamin.tissoires@redhat.com>
-Date:   Wed, 27 May 2020 14:18:10 +0800
+In-Reply-To: <CAO-hwJ+mTjVpBiY9vHXA2Y6D+cXYemixFJ++i+KwZZ25Z6LHHA@mail.gmail.com>
+Date:   Wed, 27 May 2020 14:19:16 +0800
 Cc:     Jiri Kosina <jikos@kernel.org>,
-        "open list:INTEL INTEGRATED SENSOR HUB DRIVER" 
-        <linux-input@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        stable@vger.kernel.org
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
 Content-Transfer-Encoding: 8BIT
-Message-Id: <27B6F419-A68E-459D-AB6B-7BF2D935C6E0@canonical.com>
-References: <20200526150717.324783-1-benjamin.tissoires@redhat.com>
+Message-Id: <A51B9D28-88BF-42EB-9161-8E3081B128D2@canonical.com>
+References: <20200414091842.25972-1-kai.heng.feng@canonical.com>
+ <nycvar.YFH.7.76.2005261023250.25812@cbobk.fhfr.pm>
+ <CAO-hwJ+mTjVpBiY9vHXA2Y6D+cXYemixFJ++i+KwZZ25Z6LHHA@mail.gmail.com>
 To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
 X-Mailer: Apple Mail (2.3608.80.23.2.2)
 Sender: linux-input-owner@vger.kernel.org
@@ -68,104 +67,48 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 
 
-> On May 26, 2020, at 23:07, Benjamin Tissoires <benjamin.tissoires@redhat.com> wrote:
+> On May 26, 2020, at 16:43, Benjamin Tissoires <benjamin.tissoires@redhat.com> wrote:
 > 
-> Two touchpad/trackstick combos are currently not behaving properly.
-> They define a mouse emulation collection, as per Win8 requirements,
-> but also define a separate mouse collection for the trackstick.
+> On Tue, May 26, 2020 at 10:24 AM Jiri Kosina <jikos@kernel.org> wrote:
+>> 
+>> On Tue, 14 Apr 2020, Kai-Heng Feng wrote:
+>> 
+>>> After commit c23e2043d5f7 ("HID: multitouch: do not filter mice nodes"),
+>>> MT_CLS_WIN_8 also supports mouse nodes, hence make MT_CLS_WIN_8_DUAL
+>>> redundant.
+>>> 
+>>> Remove MT_CLS_WIN_8_DUAL accordingly.
+>> 
+>> Benjamin, can I get your Ack on this one please?
 > 
-> The way the kernel currently treat the collections is that it
-> merges both in one device. However, given that the first mouse
-> collection already defines X,Y and left, right buttons, when
-> mapping the events from the second mouse collection, hid-multitouch
-> sees that these events are already mapped, and simply ignores them.
+> Heh, funny enough I was trying to fix
+> https://bugzilla.kernel.org/show_bug.cgi?id=207235 and was pondering
+> this one too.
 > 
-> To be able to report events from the tracktick, add a new quirked
-> class for it, and manually add the 2 devices we know about.
+> To fix #207235, I'll likely need to add a new class and quirk in
+> hid-multitouch. I can't really find a generic solution for now, and we
+> better have a local quirk for the 2 devices we currently have and
+> backport those to stable. However, this patch will likely conflict
+> (trivially), with the new quirks, so I was thinking:
+> - submitting my quick and dirty quirk and mark it to stable
+> - apply this one on top of it (this one really doesn't need to go to stable)
 > 
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=207235
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> How does that sound?
 
-Tested-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Sounds good. I'll resend this patch once your patch lands in the tree.
 
-> ---
-> drivers/hid/hid-multitouch.c | 26 ++++++++++++++++++++++++++
-> 1 file changed, 26 insertions(+)
+Kai-Heng
+
 > 
-> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-> index 03c720b47306..39e4da7468e1 100644
-> --- a/drivers/hid/hid-multitouch.c
-> +++ b/drivers/hid/hid-multitouch.c
-> @@ -69,6 +69,7 @@ MODULE_LICENSE("GPL");
-> #define MT_QUIRK_ASUS_CUSTOM_UP		BIT(17)
-> #define MT_QUIRK_WIN8_PTP_BUTTONS	BIT(18)
-> #define MT_QUIRK_SEPARATE_APP_REPORT	BIT(19)
-> +#define MT_QUIRK_FORCE_MULTI_INPUT	BIT(20)
+> Cheers,
+> Benjamin
 > 
-> #define MT_INPUTMODE_TOUCHSCREEN	0x02
-> #define MT_INPUTMODE_TOUCHPAD		0x03
-> @@ -189,6 +190,7 @@ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
-> #define MT_CLS_WIN_8				0x0012
-> #define MT_CLS_EXPORT_ALL_INPUTS		0x0013
-> #define MT_CLS_WIN_8_DUAL			0x0014
-> +#define MT_CLS_WIN_8_FORCE_MULTI_INPUT		0x0015
-> 
-> /* vendor specific classes */
-> #define MT_CLS_3M				0x0101
-> @@ -279,6 +281,15 @@ static const struct mt_class mt_classes[] = {
-> 			MT_QUIRK_CONTACT_CNT_ACCURATE |
-> 			MT_QUIRK_WIN8_PTP_BUTTONS,
-> 		.export_all_inputs = true },
-> +	{ .name = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
-> +		.quirks = MT_QUIRK_ALWAYS_VALID |
-> +			MT_QUIRK_IGNORE_DUPLICATES |
-> +			MT_QUIRK_HOVERING |
-> +			MT_QUIRK_CONTACT_CNT_ACCURATE |
-> +			MT_QUIRK_STICKY_FINGERS |
-> +			MT_QUIRK_WIN8_PTP_BUTTONS |
-> +			MT_QUIRK_FORCE_MULTI_INPUT,
-> +		.export_all_inputs = true },
-> 
-> 	/*
-> 	 * vendor specific classes
-> @@ -1714,6 +1725,11 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> 	if (id->group != HID_GROUP_MULTITOUCH_WIN_8)
-> 		hdev->quirks |= HID_QUIRK_MULTI_INPUT;
-> 
-> +	if (mtclass->quirks & MT_QUIRK_FORCE_MULTI_INPUT) {
-> +		hdev->quirks &= ~HID_QUIRK_INPUT_PER_APP;
-> +		hdev->quirks |= HID_QUIRK_MULTI_INPUT;
-> +	}
-> +
-> 	timer_setup(&td->release_timer, mt_expired_timeout, 0);
-> 
-> 	ret = hid_parse(hdev);
-> @@ -1926,6 +1942,11 @@ static const struct hid_device_id mt_devices[] = {
-> 		MT_USB_DEVICE(USB_VENDOR_ID_DWAV,
-> 			USB_DEVICE_ID_DWAV_EGALAX_MULTITOUCH_C002) },
-> 
-> +	/* Elan devices */
-> +	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
-> +		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
-> +			USB_VENDOR_ID_ELAN, 0x313a) },
-> +
-> 	/* Elitegroup panel */
-> 	{ .driver_data = MT_CLS_SERIAL,
-> 		MT_USB_DEVICE(USB_VENDOR_ID_ELITEGROUP,
-> @@ -2056,6 +2077,11 @@ static const struct hid_device_id mt_devices[] = {
-> 		MT_USB_DEVICE(USB_VENDOR_ID_STANTUM_STM,
-> 			USB_DEVICE_ID_MTP_STM)},
-> 
-> +	/* Synaptics devices */
-> +	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
-> +		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
-> +			USB_VENDOR_ID_SYNAPTICS, 0xce08) },
-> +
-> 	/* TopSeed panels */
-> 	{ .driver_data = MT_CLS_TOPSEED,
-> 		MT_USB_DEVICE(USB_VENDOR_ID_TOPSEED2,
-> -- 
-> 2.25.1
+>> 
+>> Thanks,
+>> 
+>> --
+>> Jiri Kosina
+>> SUSE Labs
+>> 
 > 
 
