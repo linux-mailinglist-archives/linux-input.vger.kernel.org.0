@@ -2,290 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 237B71E7791
-	for <lists+linux-input@lfdr.de>; Fri, 29 May 2020 09:57:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36A211E7A4C
+	for <lists+linux-input@lfdr.de>; Fri, 29 May 2020 12:16:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725906AbgE2H5K (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 29 May 2020 03:57:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35896 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725601AbgE2H5J (ORCPT
+        id S1726829AbgE2KQU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 29 May 2020 06:16:20 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:45483 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725601AbgE2KQR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 29 May 2020 03:57:09 -0400
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9658EC03E969
-        for <linux-input@vger.kernel.org>; Fri, 29 May 2020 00:57:08 -0700 (PDT)
-Received: by mail-io1-xd44.google.com with SMTP id y18so1397205iow.3
-        for <linux-input@vger.kernel.org>; Fri, 29 May 2020 00:57:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6iyrdGdy8vv3RwEyhu4e8z3Eit8Z5kcmx8hWb/9BhYE=;
-        b=nYu9a40QCHX96h3faDwNUIYMKfaG6+CCWftMSxtpisMoi6aG5ANjdzBUM2p8HqamCx
-         b6Jf5sabtBZJ9DRvx7LrxMT+SObsUpobfRwJbXYSCWgUxKM8gjz2igxYzt9s7T9X5j6w
-         L2Z2i55pOVxcM4jd3aBnmqir0wRMSBvpUqOjGAvR+5w/+oSvq+weNSQ7yyXDCGuqxOUB
-         z6kNAY+LWZHLTlGAwy57XQR9Vj3CVPmEmNT38ojHXJybK7dgPF4U7mSa84wnij/043wZ
-         xmulUS/q54ejGpLABHcsBV4v9wWnVcfbn8l9j1bYFdvd9tpxO/bBgE4abGXsZFPb61oV
-         kUCA==
+        Fri, 29 May 2020 06:16:17 -0400
+Received: by mail-lj1-f196.google.com with SMTP id z18so1881456lji.12;
+        Fri, 29 May 2020 03:16:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6iyrdGdy8vv3RwEyhu4e8z3Eit8Z5kcmx8hWb/9BhYE=;
-        b=LuEL9h/Qd3D79a5cQUmHCkYHa66af7+U3PVIsrESTOyMFyKw2KmJytkU3lmHALW87m
-         WurVWfl4vDmBxV0oakYA7Q7pkpXbGq5Egf0L5xWmzp5OuygJrc6EBo9T2m8BXwYiuMnS
-         4ZRoSRgA+/FdXUXdGgvDWl2MzVTsquhbju2EV61vOYsUnoPeyx4QZqiB4ldN0uxLK4fq
-         ky+lNsNtLQLsOfIuKCtKKArB7+C/UcEK6p+FqUp4Xa7c8WcYqtc37Rft/a4T7cbvrbMF
-         gLjQvA8e2A8bvKcMSv8gPq9bQFhKM9WY75TkOKMuKNvLDkF2jGA9aBXmKL7cgn9UO272
-         hb4w==
-X-Gm-Message-State: AOAM531qNQ2g7bNaH+huJYDltudnKxBSBteUF1LYzM/sSIGBhAFxN7pZ
-        Z7TsMLLzRTx2hqu+fLES7YJshobKxs0HvxSHaGo=
-X-Google-Smtp-Source: ABdhPJzXnUhrqOlgPidxO9okZunOCRHJqQxiDjchpYcehCVXoT0xHi7+oiNXUy4GPAj0SrHLO3JxXo8c6LLcGPc236s=
-X-Received: by 2002:a02:5184:: with SMTP id s126mr4807329jaa.30.1590739027859;
- Fri, 29 May 2020 00:57:07 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Qb23YrFge2bev6B+pdY5MYpRbBAt1YLbxMOSUywPdHk=;
+        b=cZaH0DKeLwkKayN1g+x2VJNhADXnu4nL0vSdS/b+fM2kg+16H4sXwqx6iK+z8ZyLeF
+         uPY2l26f1BPnMQft2ohw7um4HIFJRpj6OL3aQkyb1cFItrFXrXmSCdT5H7jC+TlyQwDm
+         ZjfpqLk5ryiZaCaBSoSaMAVOEfWBRMg2yP4zNFDPNLx1iDNny2k1ZgNw3mx02BIpRWVV
+         XKCXBojmkFewoirKEDwupB9EKXMiPWwfaXZg7aJUIaIrifa5ohS7rFYYTkMXQGo2J/z0
+         0CVzTu3Gp9kz3GXLKhI4Dir9VBMXpCVOy+TnoQHfJ7wUQFB5TvozI5lpt2meE0lEoBln
+         9m3A==
+X-Gm-Message-State: AOAM531MzDINtCgDtROORRtIEWc36Cnsd2TOl9Tl3yF03DFtuIwvi6f6
+        51KH4BmEL9ijvv2nF/RLdPs=
+X-Google-Smtp-Source: ABdhPJyb49lJcndlDqUtkrSajYOpqC0lpLBM00Du0tW1RABChW4sreguvSnQJV4+HR28+sDilaHYIw==
+X-Received: by 2002:a05:651c:39b:: with SMTP id e27mr3886282ljp.253.1590747373144;
+        Fri, 29 May 2020 03:16:13 -0700 (PDT)
+Received: from xi.terra (c-beaee455.07-184-6d6c6d4.bbcust.telenor.se. [85.228.174.190])
+        by smtp.gmail.com with ESMTPSA id h26sm2236339lja.0.2020.05.29.03.16.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 May 2020 03:16:12 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.93.0.4)
+        (envelope-from <johan@kernel.org>)
+        id 1jec3c-0004TR-D6; Fri, 29 May 2020 12:16:08 +0200
+Date:   Fri, 29 May 2020 12:16:08 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Alexandru Ardelean <alexandru.ardelean@analog.com>
+Cc:     bcm-kernel-feedback-list@broadcom.com, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-aspeed@lists.ozlabs.org, linux-samsung-soc@vger.kernel.org,
+        linux-amlogic@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-pm@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, devel@driverdev.osuosl.org,
+        vilhelm.gray@gmail.com, syednwaris@gmail.com,
+        fabrice.gasnier@st.com, mcoquelin.stm32@gmail.com,
+        alexandre.torgue@st.com, jic23@kernel.org, dan@dlrobertson.com,
+        jikos@kernel.org, srinivas.pandruvada@linux.intel.com,
+        linus.walleij@linaro.org, wens@csie.org, hdegoede@redhat.com,
+        rjui@broadcom.com, sbranden@broadcom.com, peda@axentia.se,
+        kgene@kernel.org, krzk@kernel.org, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, ak@it-klinger.de, paul@crapouillou.net,
+        milo.kim@ti.com, vz@mleia.com, slemieux.tyco@gmail.com,
+        khilman@baylibre.com, matthias.bgg@gmail.com, agross@kernel.org,
+        bjorn.andersson@linaro.org, heiko@sntech.de, orsonzhai@gmail.com,
+        baolin.wang7@gmail.com, zhang.lyra@gmail.com, mripard@kernel.org,
+        tduszyns@gmail.com, rmfrfs@gmail.com, lorenzo.bianconi83@gmail.com,
+        ktsai@capellamicro.com, songqiang1304521@gmail.com,
+        tomislav.denis@avl.com, eajames@linux.ibm.com,
+        dmitry.torokhov@gmail.com, coproscefalo@gmail.com
+Subject: Re: [PATCH 4/5] iio: light: lm3533-als: remove explicit parent
+ assignment
+Message-ID: <20200529101608.GC19480@localhost>
+References: <20200522082208.383631-1-alexandru.ardelean@analog.com>
+ <20200522082208.383631-4-alexandru.ardelean@analog.com>
 MIME-Version: 1.0
-References: <CANFaMLGVGmS4i3fdH2rYeqSgqk3Gm=sxaLLMuKx4T1eY9ZvyEg@mail.gmail.com>
- <CANq1E4QUMssPJXvR4njunbV4+2-0ojYvvDxQSTX_0iFPGoTYVw@mail.gmail.com>
- <CANFaMLH69uwUrwcn060wCz1YxaDNS+jbbduXA6ORgO7Gst3=hw@mail.gmail.com> <CANFaMLHu3Eo5oZ3jMw_Rx6NGtJ1UePWiTtQm942DHqvP33EQTA@mail.gmail.com>
-In-Reply-To: <CANFaMLHu3Eo5oZ3jMw_Rx6NGtJ1UePWiTtQm942DHqvP33EQTA@mail.gmail.com>
-From:   David Rheinsberg <david.rheinsberg@gmail.com>
-Date:   Fri, 29 May 2020 09:56:56 +0200
-Message-ID: <CADyDSO5CTkMeiOPbZG7SX=z7-sM-nbpvcDHRYfB5VqZCJHEWGA@mail.gmail.com>
-Subject: Re: [PATCH v2] HID: Wiimote: Treat the d-pad as an analogue stick
-To:     Daniel Morse <daniel.morse@gmail.com>
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Jiri Kosina <jikos@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200522082208.383631-4-alexandru.ardelean@analog.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi
+On Fri, May 22, 2020 at 11:22:07AM +0300, Alexandru Ardelean wrote:
+> This assignment is the more peculiar of the bunch as it assigns the parent
+> of the platform-device's device (i.e. pdev->dev.parent) as the IIO device's
+> parent.
+>
+> It's unclear whether this is intentional or not.
+> Hence it is in it's own patch.
 
-On Tue, 26 May 2020 at 23:41, Daniel Morse <daniel.morse@gmail.com> wrote:
->
-> The controllers from the Super Nintendo Classic Edition (AKA the SNES
-> Mini) appear as a Classic Controller Pro when connected to a Wii
-> Remote. All the buttons work as the same, with the d-pad being mapped
-> the same as the d-pad on the Classic Controller Pro. This differs from
-> the behaviour of most controllers with d-pads and no analogue sticks,
-> where the d-pad maps to ABS_HAT1X for left and right, and ABS_HAT1Y
-> for up and down. This patch adds an option to the hid-wiimote module
-> to make the Super Nintendo Classic Controller behave this way.
->
-> The patch has been tested with a Super Nintendo Classic Controller
-> plugged into a Wii Remote in both with the option both enabled and
-> disabled. When enabled the d-pad acts as the analogue control, and
-> when disabled it acts as it did before the patch was applied. This
-> patch has not been tested with e Wii Classic Controller (either the
-> original or the pro version) as I do not have one of these
-> controllers.
->
-> Although I have not tested it with these controllers, I think it is
-> likely this patch will also work with the NES Classic Edition
-> Controllers.
->
-> Changes from V1 to V2
-> * 3 if statements to control the behaviour, one to make the d-pad
-> register as button presses when the behaviour is disabled, and 2 to
-> make it act as an analog stick when enabled (once for each of the
-> motion plus states)
-> * the values for lx and ly are calculated and then passed to
-> input_report_abs() in one place, rather then calling
-> input_report_abs() from different places depending on how the values
-> are determined.
-> * using an array to map from button presses to analog value.
-> * reduced the values used to indicate the position of the analog stick
-> so they can fit inside a __s8
+Yeah, we have a few mfd drivers whose child drivers registers their
+class devices directly under the parent mfd device rather than the
+corresponding child platform device.
 
-Thanks a lot for the followup. I have minor questions and suggestions,
-but I am ok with this going in. Please see below.
+Since it's done consistently I think you need to update them all if you
+really want to change this. 
 
-> Signed-off-by: Daniel G. Morse <dmorse@speedfox.co.uk>
+And it may not be worth it since at least in theory someone could now be
+relying on this topology.
+
+> Signed-off-by: Alexandru Ardelean <alexandru.ardelean@analog.com>
 > ---
->  drivers/hid/hid-wiimote-core.c    |  5 +++
->  drivers/hid/hid-wiimote-modules.c | 67 ++++++++++++++++++++-----------
->  drivers/hid/hid-wiimote.h         |  1 +
->  3 files changed, 49 insertions(+), 24 deletions(-)
->
-> diff --git a/drivers/hid/hid-wiimote-core.c b/drivers/hid/hid-wiimote-core.c
-> index 92874dbe4d4a..f83c6356879e 100644
-> --- a/drivers/hid/hid-wiimote-core.c
-> +++ b/drivers/hid/hid-wiimote-core.c
-> @@ -1870,6 +1870,11 @@ static const struct hid_device_id
-> wiimote_hid_devices[] = {
->                  USB_DEVICE_ID_NINTENDO_WIIMOTE2) },
->      { }
->  };
-> +
-> +bool dpad_as_analog = false;
-> +module_param(dpad_as_analog, bool, 0644);
-> +MODULE_PARM_DESC(dpad_as_analog, "Use D-Pad as main analog input");
-> +
+>  drivers/iio/light/lm3533-als.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/iio/light/lm3533-als.c b/drivers/iio/light/lm3533-als.c
+> index bc196c212881..0f380ec8d30c 100644
+> --- a/drivers/iio/light/lm3533-als.c
+> +++ b/drivers/iio/light/lm3533-als.c
+> @@ -852,7 +852,6 @@ static int lm3533_als_probe(struct platform_device *pdev)
+>  	indio_dev->channels = lm3533_als_channels;
+>  	indio_dev->num_channels = ARRAY_SIZE(lm3533_als_channels);
+>  	indio_dev->name = dev_name(&pdev->dev);
+> -	indio_dev->dev.parent = pdev->dev.parent;
+>  	indio_dev->modes = INDIO_DIRECT_MODE;
+>  
+>  	als = iio_priv(indio_dev);
 
-This might be overly pedantic, but I like the variables in hid-wiimote
-prefixed with their namespace. So how about:
-
-bool wiimote_dpad_as_analog = false;
-module_param_named(dpad_as_analog, wiimote_dpad_as_analog, bool, 0644);
-MODULE_PARM_DESC(dpad_as_analog, "Use D-Pad as main analog input");
-
->  MODULE_DEVICE_TABLE(hid, wiimote_hid_devices);
->
->  static struct hid_driver wiimote_hid_driver = {
-> diff --git a/drivers/hid/hid-wiimote-modules.c
-> b/drivers/hid/hid-wiimote-modules.c
-> index 2c3925357857..cfd2f0f8318a 100644
-> --- a/drivers/hid/hid-wiimote-modules.c
-> +++ b/drivers/hid/hid-wiimote-modules.c
-> @@ -1088,12 +1088,28 @@ static void wiimod_classic_in_ext(struct
-> wiimote_data *wdata, const __u8 *ext)
->       * is the same as before.
->       */
->
-> +    __s8 digital_to_analog[3] = {0x20, 0, -0x20};
-
-You mentioned it in your commit-msg, but I could not follow. Why did
-you reduce these values? 0x7f should fit into __s8, shouldn't it?
-
-Also, you can drop the `__` prefix, it is only needed in uapis. And I
-would make this `static const`:
-
-    static const s8 digital_to_analog[3] = {0x20, 0, -0x20};
-
-> +
->      if (wdata->state.flags & WIIPROTO_FLAG_MP_ACTIVE) {
-> -        lx = ext[0] & 0x3e;
-> -        ly = ext[1] & 0x3e;
-> +        if (dpad_as_analog) {
-> +             lx = digital_to_analog[(1 - !(ext[4] & 0x80)
-> +                     + !(ext[1] & 0x01))];
-> +             ly = digital_to_analog[(1 - !(ext[4] & 0x40)
-> +                     + !(ext[0] & 0x01))];
-
-Oh, right, buttons are inverted. Sorry for missing that in my ealier
-suggestion. This looks good! Btw., if you drop the parenthesis around
-the entire expression, it should fit into 80ch and thus into one line:
-
-             lx = digital_to_analog[1 - !(ext[4] & 0x80) + !(ext[1] & 0x01)];
-=> 78ch
-
-(same for the other 3 occurrences)
-
-> +        } else {
-> +            lx = (ext[0] & 0x3e) - 0x20;
-> +            ly = (ext[1] & 0x3e) - 0x20;
-> +        }
->      } else {
-> -        lx = ext[0] & 0x3f;
-> -        ly = ext[1] & 0x3f;
-> +        if (dpad_as_analog) {
-> +             lx = digital_to_analog[(1 - !(ext[4] & 0x80)
-> +                     + !(ext[5] & 0x02))];
-> +             ly = digital_to_analog[(1 - !(ext[4] & 0x40)
-> +                     + !(ext[5] & 0x01))];
-> +        } else {
-> +            lx = (ext[0] & 0x3f) - 0x20;
-> +            ly = (ext[1] & 0x3f) - 0x20;
-> +        }
->      }
->
->      rx = (ext[0] >> 3) & 0x18;
-> @@ -1110,19 +1126,13 @@ static void wiimod_classic_in_ext(struct
-> wiimote_data *wdata, const __u8 *ext)
->      rt <<= 1;
->      lt <<= 1;
->
-> -    input_report_abs(wdata->extension.input, ABS_HAT1X, lx - 0x20);
-> -    input_report_abs(wdata->extension.input, ABS_HAT1Y, ly - 0x20);
-> +    input_report_abs(wdata->extension.input, ABS_HAT1X, lx);
-> +    input_report_abs(wdata->extension.input, ABS_HAT1Y, ly);
->      input_report_abs(wdata->extension.input, ABS_HAT2X, rx - 0x20);
->      input_report_abs(wdata->extension.input, ABS_HAT2Y, ry - 0x20);
->      input_report_abs(wdata->extension.input, ABS_HAT3X, rt);
->      input_report_abs(wdata->extension.input, ABS_HAT3Y, lt);
->
-> -    input_report_key(wdata->extension.input,
-> -             wiimod_classic_map[WIIMOD_CLASSIC_KEY_RIGHT],
-> -             !(ext[4] & 0x80));
-> -    input_report_key(wdata->extension.input,
-> -             wiimod_classic_map[WIIMOD_CLASSIC_KEY_DOWN],
-> -             !(ext[4] & 0x40));
->      input_report_key(wdata->extension.input,
->               wiimod_classic_map[WIIMOD_CLASSIC_KEY_LT],
->               !(ext[4] & 0x20));
-> @@ -1157,20 +1167,29 @@ static void wiimod_classic_in_ext(struct
-> wiimote_data *wdata, const __u8 *ext)
->               wiimod_classic_map[WIIMOD_CLASSIC_KEY_ZR],
->               !(ext[5] & 0x04));
->
-> -    if (wdata->state.flags & WIIPROTO_FLAG_MP_ACTIVE) {
-> -        input_report_key(wdata->extension.input,
-> -             wiimod_classic_map[WIIMOD_CLASSIC_KEY_LEFT],
-> -             !(ext[1] & 0x01));
-> -        input_report_key(wdata->extension.input,
-> -             wiimod_classic_map[WIIMOD_CLASSIC_KEY_UP],
-> -             !(ext[0] & 0x01));
-> -    } else {
-> +    if (!dpad_as_analog) {
->          input_report_key(wdata->extension.input,
-> -             wiimod_classic_map[WIIMOD_CLASSIC_KEY_LEFT],
-> -             !(ext[5] & 0x02));
-> +                 wiimod_classic_map[WIIMOD_CLASSIC_KEY_RIGHT],
-> +                 !(ext[4] & 0x80));
->          input_report_key(wdata->extension.input,
-> -             wiimod_classic_map[WIIMOD_CLASSIC_KEY_UP],
-> -             !(ext[5] & 0x01));
-> +                 wiimod_classic_map[WIIMOD_CLASSIC_KEY_DOWN],
-> +                 !(ext[4] & 0x40));
-> +
-> +        if (wdata->state.flags & WIIPROTO_FLAG_MP_ACTIVE) {
-> +            input_report_key(wdata->extension.input,
-> +                 wiimod_classic_map[WIIMOD_CLASSIC_KEY_LEFT],
-> +                 !(ext[1] & 0x01));
-> +            input_report_key(wdata->extension.input,
-> +                 wiimod_classic_map[WIIMOD_CLASSIC_KEY_UP],
-> +                 !(ext[0] & 0x01));
-> +        } else {
-> +            input_report_key(wdata->extension.input,
-> +                 wiimod_classic_map[WIIMOD_CLASSIC_KEY_LEFT],
-> +                 !(ext[5] & 0x02));
-> +            input_report_key(wdata->extension.input,
-> +                 wiimod_classic_map[WIIMOD_CLASSIC_KEY_UP],
-> +                 !(ext[5] & 0x01));
-> +        }
->      }
->
->      input_sync(wdata->extension.input);
-> diff --git a/drivers/hid/hid-wiimote.h b/drivers/hid/hid-wiimote.h
-> index b2a26a0a8f12..0079801f599c 100644
-> --- a/drivers/hid/hid-wiimote.h
-> +++ b/drivers/hid/hid-wiimote.h
-> @@ -372,4 +372,5 @@ static inline int wiimote_cmd_wait_noint(struct
-> wiimote_data *wdata)
->          return 0;
->  }
->
-> +extern bool dpad_as_analog;
->  #endif
-
-Can you move this up? It is kinda hidden down here. The order in the
-wiimote header usually is types,variables,functions,inlines. So
-basically between `struct wiimote_data` and `/* wiimote modules */`.
-
-When you resend, can you include:
-
-    Reviewed-by: David Rheinsberg <david.rheinsberg@gmail.com>
-
-and then please include in CC:
-
-    Jiri Kosina <jikos@kernel.org>
-
-He will then apply it to the HID tree.
-
-Thanks a lot!
-
-> --
-> 2.25.1
+Johan
