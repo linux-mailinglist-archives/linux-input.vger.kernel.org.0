@@ -2,329 +2,211 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 310D21E7B0A
-	for <lists+linux-input@lfdr.de>; Fri, 29 May 2020 12:58:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 636271E7EFA
+	for <lists+linux-input@lfdr.de>; Fri, 29 May 2020 15:42:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725562AbgE2K6D (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 29 May 2020 06:58:03 -0400
-Received: from mga09.intel.com ([134.134.136.24]:50157 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725306AbgE2K6C (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 29 May 2020 06:58:02 -0400
-IronPort-SDR: 1coRkDVSCVVNm3ZVYBeeWTvA2pNJFAsczobx3bjq1yc/0+vTK2cOK7juNlWorP1AtjcbwQ3Qvx
- HMmqV6YK/vdA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2020 03:58:02 -0700
-IronPort-SDR: NVMmxGp2mc1ghh5/+F3h12A0A9AlL7R2MC00Zp/x+FdINYju0AN/71Ul/JfB2A1nAzCPmQPJYw
- M5CyNeJi+A9w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,448,1583222400"; 
-   d="scan'208";a="469471520"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga006.fm.intel.com with ESMTP; 29 May 2020 03:58:00 -0700
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1jeciB-009bLT-9v; Fri, 29 May 2020 13:58:03 +0300
-Date:   Fri, 29 May 2020 13:58:03 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Fengping Yu <fengping.yu@mediatek.com>
-Cc:     Yingjoe Chen <yingjoe.chen@mediatek.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v12 2/3] drivers: input: keyboard: Add mtk keypad driver
-Message-ID: <20200529105803.GI1634618@smile.fi.intel.com>
-References: <20200529015618.128283-1-fengping.yu@mediatek.com>
- <20200529015618.128283-3-fengping.yu@mediatek.com>
+        id S1726934AbgE2Nmp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 29 May 2020 09:42:45 -0400
+Received: from mail-eopbgr680057.outbound.protection.outlook.com ([40.107.68.57]:51584
+        "EHLO NAM04-BN3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726827AbgE2Nmo (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 29 May 2020 09:42:44 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NWqORxtqlNoptL1ECeO3brTiiggEYvTlT/AGoDn8DKAYyc7MsLR4prH/rxeDfrFmPjXaO24tsEwdMegZq++fRA/hW61dC3+566i9FmjHm5GVukhjV4BFRabbVfo0NwJQU95DHPxaHemgyJKFK/tZbQhtlLJTjV9ifYiR9ZEv2UMD6gQPwSFg4naCvkqLm//iRhmpUwCPo4M7xHPfi/EGA6CoyJQ7D6U0rZkKvDVcZ9WlbDDJ6UJtb1azKsiOT7Aak80cyq5WmKNRrckG1RVsnVdppV+ir6/TjeXKWcBecK7VIce3rEa+RAJVousD/zFdJpAWkML3fpP6zJxucjCP3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bcaFTh2TzQ7FE2SJ8suotl2PPD56lUxsIGukKvqEw08=;
+ b=nKFAbh44oR3eUM0BdfOduoiPQmq/QVEsxbhOTR4kXy8h7ocezxhBHYIK1RFu9GPJl2BdMbfLda7HDBi7QleH1SqnxzTnjS1mgC4VUlVVy4oRDAUnDc980QOuKRx1tvgL499xo3EkgAOcUjHdKRmE3S9SVxUxgTpSmuhno4xjlIPowUwxlkvfFUrpddRuYt5ZpWJ2odqmxT/9rLf+rdxMu6+L9wScQ2K/Ff7R0Ohk1jj/wfC/hSzo4r/a7jFprHwDqULp6CAzTkRt35krpI8mqZpk4Sm0rMLIHas9YPvpdozI6UtmhXwA9yPIvzNpIRM3s19vSiz1Wegd9/8oehEzlw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bcaFTh2TzQ7FE2SJ8suotl2PPD56lUxsIGukKvqEw08=;
+ b=wYlShrBviXyDkJLwbZVeb/EXSYkWAP7NjrokUKK5tHH8SRlVmGn/8Jqhg29SrbsS2Cm1fQuN5dlARvGclK1wYnEy6EZTbRbaDDaMNa75Pw5kt+jxIr8M/DE1BIkmsUC5OXZuKdO/oqkRDECvV/JCniVoBIXkydMQMrQqOdKzloU=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=amd.com;
+Received: from BYAPR12MB2726.namprd12.prod.outlook.com (2603:10b6:a03:66::17)
+ by BYAPR12MB2805.namprd12.prod.outlook.com (2603:10b6:a03:72::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.23; Fri, 29 May
+ 2020 13:42:40 +0000
+Received: from BYAPR12MB2726.namprd12.prod.outlook.com
+ ([fe80::a984:b7cb:3ad0:7508]) by BYAPR12MB2726.namprd12.prod.outlook.com
+ ([fe80::a984:b7cb:3ad0:7508%6]) with mapi id 15.20.3045.018; Fri, 29 May 2020
+ 13:42:40 +0000
+From:   Sandeep Singh <Sandeep.Singh@amd.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        srinivas.pandruvada@linux.intel.com, jic23@kernel.org,
+        linux-iio@vger.kernel.org, hdegoede@redhat.com,
+        Nehal-bakulchandra.Shah@amd.com, andy.shevchenko@gmail.com,
+        mail@richard-neumann.de
+Cc:     Shyam-sundar.S-k@amd.com, Sandeep Singh <sandeep.singh@amd.com>
+Subject: [PATCH v5 0/4] SFH: Add Support for AMD Sensor Fusion Hub
+Date:   Fri, 29 May 2020 19:12:06 +0530
+Message-Id: <1590759730-32494-1-git-send-email-Sandeep.Singh@amd.com>
+X-Mailer: git-send-email 2.7.4
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MAXPR01CA0075.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:49::17) To BYAPR12MB2726.namprd12.prod.outlook.com
+ (2603:10b6:a03:66::17)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200529015618.128283-3-fengping.yu@mediatek.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from andbang2.amd.com (165.204.156.251) by MAXPR01CA0075.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:49::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3045.17 via Frontend Transport; Fri, 29 May 2020 13:42:36 +0000
+X-Mailer: git-send-email 2.7.4
+X-Originating-IP: [165.204.156.251]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 7d86102a-eeee-4c7b-3b56-08d803d627b8
+X-MS-TrafficTypeDiagnostic: BYAPR12MB2805:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BYAPR12MB2805AEE1A51B6843F7D0214CE08F0@BYAPR12MB2805.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Forefront-PRVS: 04180B6720
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: G+xJr2q8mfXj+JFRYZIEPlQifQUjR6g1J7/E8y2tbbqTj+aKGKU1xzm5LaLMpF+WbgCfK0WiLNJZp4OEJ/zbXjckOCe1e1LF6ZDUBF3iq8MKBcj5z7/7yeAsy24SozRFvwjsZz2DxwLkvJAejdMn7tzhHNPRwixpb32Qwd5w8Y4gDnEbpWmFQs2KSOVt/jsdxzpPOGlDQTCSBB3rjq7MNJgJZcFPg/11C1oR5ZJraxKjr3iZ9aOyU/izPJQ0+2OiMrt+s7lfXCEc5GSewOh0CWc1zDMOurwDqZGAYQv9OOCX5gdJnoRBYnBC6AawUBo8H2MUePRLYeMQmuGUYGj2WKEfuNptUSNL1QBZjryM4AjWKTnanmzd2XlUVBqWTkGBnNp6Fi+pHjfpJWVPGwvgxexqBBqVWu0wv7elh3V1kSEkzgMC2TKFU5VS7dbUJ7cTKvep07vv10LsOF/JYb9RTw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB2726.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(39860400002)(396003)(376002)(366004)(346002)(136003)(316002)(86362001)(83380400001)(478600001)(66476007)(7696005)(52116002)(2906002)(6666004)(966005)(66946007)(6486002)(66556008)(36756003)(5660300002)(7416002)(2616005)(16526019)(186003)(956004)(4326008)(26005)(8936002)(8676002)(921003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: w5MX2ZFpaE2HfeJdYRQgBq/ksqrSLgDKc1I35UR3eBls9IBqY8RIek/a/lEkZknbkTALT7I5oBlyGEH8s8j+zazAO/10n59dzNqHN1RM4cZTdVt5/XBPS4SsCC3zCVt7SADFX5yZTTYptTOiIGooGemxYe5kZvKcnz3o42ZY/1Bv9ss2JVTHqv5XB3DL0IUQI4vpMziqXDv3y1qP6w9IDo50ZyeySnjGhfFQmrARUor607J5cSLYfMcjXOTd1k6GosOPX1xMdVzPvhVX1xLyimFlAVD1RG1oyyexo8Ese60DhVAkYFBcnJm2o34y5NygKddRk3sfSshunSRAlgmH96II6g2J/i6t0PWrZgS9fmBFFXJZRKLQ7tWmWH4r/JIXOumtQw1ObLr3rBv6dntBAYeDBNL5i2TI/LyQCUPnVlZ8tlqb2K/noSyBeOvMQwpOpFqAg0Y26rUuMK91VQGF5vJFP8K7Fn+zvRLgBY/xQFmBqekynsG0oRoR+8gJ6Tbn
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d86102a-eeee-4c7b-3b56-08d803d627b8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2020 13:42:40.3071
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7Vszq0jhL9FYPqUWURV3f3BtdVDmVVFwhPMyDUE3r84rzIQnYGPY6hrEHDNjQo2f
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2805
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, May 29, 2020 at 09:56:20AM +0800, Fengping Yu wrote:
-> From: "fengping.yu" <fengping.yu@mediatek.com>
-> 
-> This adds matrix keypad support for Mediatek SoCs.
+From: Sandeep Singh <sandeep.singh@amd.com>
 
-FWIW,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+AMD SFH(Sensor Fusion Hub) is HID based driver.SFH FW
+is part of MP2 processor (MP2 which is an ARM® Cortex-M4
+core based co-processor to x86) and it runs on MP2 where
+in driver resides on X86.The driver functionalities are
+divided  into three parts:-
 
-One comment to the code below, up to Dmitry to decide.
+1: amd-mp2-pcie:-       This module will communicate with MP2 FW and
+                        provide that data into DRAM.
+2: Client driver :-     This part for driver will use dram data and
+                        convert that data into HID format based on
+                        HID reports.
+3: Transport driver :-  This part of driver will communicate with
+                        HID core. Communication between devices and
+                        HID core is mostly done via HID reports
 
-P.S. If you ignore tags given you, people will be discouraged to review your
-contribution. Yes, I'm talking about Marco's ones.
+In terms of architecture it is much more reassembles like
+ISH(Intel Integrated Sensor Hub). However the major difference
+is all the hid reports are generated as part of kernel driver.
+AMD SFH driver taken reference from ISH in terms of
+design and functionalities at fewer location.
 
-> Signed-off-by: fengping.yu <fengping.yu@mediatek.com>
-> ---
->  drivers/input/keyboard/Kconfig   |  11 ++
->  drivers/input/keyboard/Makefile  |   1 +
->  drivers/input/keyboard/mtk-kpd.c | 205 +++++++++++++++++++++++++++++++
->  3 files changed, 217 insertions(+)
->  create mode 100644 drivers/input/keyboard/mtk-kpd.c
-> 
-> diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
-> index 28de965a08d5..0803668bfa36 100644
-> --- a/drivers/input/keyboard/Kconfig
-> +++ b/drivers/input/keyboard/Kconfig
-> @@ -782,6 +782,17 @@ config KEYBOARD_BCM
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called bcm-keypad.
->  
-> +config KEYBOARD_MTK_KPD
-> +	tristate "MediaTek Keypad Support"
-> +	depends on ARCH_MEDIATEK || COMPILE_TEST
-> +	select REGMAP_MMIO
-> +	select INPUT_MATRIXKMAP
-> +	help
-> +	  Say Y here if you want to use the keypad on MediaTek SoCs.
-> +	  If unsure, say N.
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called mtk-kpd.
-> +
->  config KEYBOARD_MTK_PMIC
->  	tristate "MediaTek PMIC keys support"
->  	depends on MFD_MT6397
-> diff --git a/drivers/input/keyboard/Makefile b/drivers/input/keyboard/Makefile
-> index 1d689fdd5c00..6c9d852c377e 100644
-> --- a/drivers/input/keyboard/Makefile
-> +++ b/drivers/input/keyboard/Makefile
-> @@ -43,6 +43,7 @@ obj-$(CONFIG_KEYBOARD_MATRIX)		+= matrix_keypad.o
->  obj-$(CONFIG_KEYBOARD_MAX7359)		+= max7359_keypad.o
->  obj-$(CONFIG_KEYBOARD_MCS)		+= mcs_touchkey.o
->  obj-$(CONFIG_KEYBOARD_MPR121)		+= mpr121_touchkey.o
-> +obj-$(CONFIG_KEYBOARD_MTK_KPD)		+= mtk-kpd.o
->  obj-$(CONFIG_KEYBOARD_MTK_PMIC) 	+= mtk-pmic-keys.o
->  obj-$(CONFIG_KEYBOARD_NEWTON)		+= newtonkbd.o
->  obj-$(CONFIG_KEYBOARD_NOMADIK)		+= nomadik-ske-keypad.o
-> diff --git a/drivers/input/keyboard/mtk-kpd.c b/drivers/input/keyboard/mtk-kpd.c
-> new file mode 100644
-> index 000000000000..0a6b8e2530bc
-> --- /dev/null
-> +++ b/drivers/input/keyboard/mtk-kpd.c
-> @@ -0,0 +1,205 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2019 MediaTek Inc.
-> + * Author Terry Chang <terry.chang@mediatek.com>
-> + */
-> +#include <linux/bitops.h>
-> +#include <linux/clk.h>
-> +#include <linux/input/matrix_keypad.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/module.h>
-> +#include <linux/property.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/regmap.h>
-> +
-> +#define MTK_KPD_NAME		"mtk-kpd"
-> +#define MTK_KPD_MEM		0x0004
-> +#define MTK_KPD_DEBOUNCE	0x0018
-> +#define MTK_KPD_DEBOUNCE_MASK	GENMASK(13, 0)
-> +#define MTK_KPD_DEBOUNCE_MAX_US	256000
-> +#define MTK_KPD_NUM_MEMS	5
-> +#define MTK_KPD_NUM_BITS	136	/* 4*32+8 MEM5 only use 8 BITS */
-> +
-> +struct mtk_keypad {
-> +	struct regmap *regmap;
-> +	struct input_dev *input_dev;
-> +	struct clk *clk;
-> +	void __iomem *base;
-> +	u32 n_rows;
-> +	u32 n_cols;
-> +	DECLARE_BITMAP(keymap_state, MTK_KPD_NUM_BITS);
-> +};
-> +
-> +static const struct regmap_config keypad_regmap_cfg = {
-> +	.reg_bits = 32,
-> +	.val_bits = 32,
-> +	.reg_stride = sizeof(u32),
-> +	.max_register = 36,
-> +};
-> +
-> +static irqreturn_t kpd_irq_handler(int irq, void *dev_id)
-> +{
-> +	struct mtk_keypad *keypad = dev_id;
-> +	unsigned short *keycode = keypad->input_dev->keycode;
-> +	DECLARE_BITMAP(new_state, MTK_KPD_NUM_BITS);
-> +	DECLARE_BITMAP(change, MTK_KPD_NUM_BITS);
-> +	int bit_nr;
-> +	int pressed;
-> +	unsigned short code;
-> +
-> +	regmap_raw_read(keypad->regmap, MTK_KPD_MEM,
-> +			new_state, MTK_KPD_NUM_MEMS);
-> +
-> +	bitmap_xor(change, new_state, keypad->keymap_state, MTK_KPD_NUM_BITS);
-> +
-> +	for_each_set_bit(bit_nr, change, MTK_KPD_NUM_BITS) {
-> +		/* 1: not pressed, 0: pressed */
-> +		pressed = !test_bit(bit_nr, new_state);
-> +		dev_dbg(&keypad->input_dev->dev, "%s",
-> +			pressed ? "pressed" : "released");
-> +
-> +		/* 32bit register only use low 16bit as keypad mem register */
-> +		code = keycode[bit_nr - 16 * (BITS_TO_U32(bit_nr) - 1)];
-> +
-> +		input_report_key(keypad->input_dev, code, pressed);
-> +		input_sync(keypad->input_dev);
-> +
-> +		dev_dbg(&keypad->input_dev->dev,
-> +			"report Linux keycode = %d\n", code);
-> +	}
-> +
-> +	bitmap_copy(keypad->keymap_state, new_state, MTK_KPD_NUM_BITS);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static void kpd_clk_disable(void *data)
-> +{
-> +	clk_disable_unprepare(data);
-> +}
-> +
-> +static int kpd_pdrv_probe(struct platform_device *pdev)
-> +{
-> +	struct mtk_keypad *keypad;
-> +	unsigned int irq;
-> +	u32 debounce;
-> +	bool wakeup;
-> +	int ret;
-> +
-> +	keypad = devm_kzalloc(&pdev->dev, sizeof(*keypad), GFP_KERNEL);
-> +	if (!keypad)
-> +		return -ENOMEM;
-> +
-> +	keypad->base = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(keypad->base))
-> +		return PTR_ERR(keypad->base);
-> +
-> +	keypad->regmap = devm_regmap_init_mmio(&pdev->dev,
-> +					       keypad->base,
-> +					       &keypad_regmap_cfg);
-> +	if (IS_ERR(keypad->regmap)) {
-> +		dev_err(&pdev->dev,
-> +			"regmap init failed:%ld\n", PTR_ERR(keypad->regmap));
-> +		return PTR_ERR(keypad->regmap);
-> +	}
-> +
-> +	bitmap_fill(keypad->keymap_state, MTK_KPD_NUM_BITS);
-> +
-> +	keypad->input_dev = devm_input_allocate_device(&pdev->dev);
-> +	if (!keypad->input_dev) {
-> +		dev_err(&pdev->dev, "Failed to allocate input dev\n");
-> +		return -ENOMEM;
-> +	}
-> +
-> +	keypad->input_dev->name = MTK_KPD_NAME;
-> +	keypad->input_dev->id.bustype = BUS_HOST;
-> +
-> +	ret = matrix_keypad_parse_properties(&pdev->dev, &keypad->n_rows,
-> +					     &keypad->n_cols);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "Failed to parse keypad params\n");
-> +		return ret;
-> +	}
-> +
-> +	if (device_property_read_u32(&pdev->dev, "mediatek,debounce-us",
-> +				     &debounce))
-> +		debounce = 16000;
-> +
-> +	if (debounce > MTK_KPD_DEBOUNCE_MAX_US) {
-> +		dev_err(&pdev->dev, "Debounce time exceeds the maximum allowed time %dus\n",
-> +			MTK_KPD_DEBOUNCE_MAX_US);
-> +		return -EINVAL;
-> +	}
-> +
-> +	wakeup = device_property_read_bool(&pdev->dev, "wakeup-source");
-> +
-> +	dev_dbg(&pdev->dev, "n_row=%d n_col=%d debounce=%d\n",
-> +		keypad->n_rows, keypad->n_cols, debounce);
-> +
-> +	ret = matrix_keypad_build_keymap(NULL, NULL,
-> +					 keypad->n_rows,
-> +					 keypad->n_cols,
-> +					 NULL,
-> +					 keypad->input_dev);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "Failed to build keymap\n");
-> +		return ret;
-> +	}
-> +
-> +	regmap_write(keypad->regmap, MTK_KPD_DEBOUNCE,
-> +		     debounce * 32 / 1000 & MTK_KPD_DEBOUNCE_MASK);
-> +
-> +	keypad->clk = devm_clk_get(&pdev->dev, "kpd");
-> +	if (IS_ERR(keypad->clk))
-> +		return keypad->clk;
-> +
-> +	ret = clk_prepare_enable(keypad->clk);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "cannot prepare/enable keypad clock\n");
-> +		return ret;
-> +	}
-> +
-> +	ret = devm_add_action_or_reset(&pdev->dev, kpd_clk_disable, keypad->clk);
-> +	if (ret)
-> +		return ret;
-> +
-> +	irq = platform_get_irq(pdev, 0);
-> +	if (irq < 0)
-> +		return irq;
-> +
-> +	ret = devm_request_threaded_irq(&pdev->dev, irq,
-> +					NULL, kpd_irq_handler, 0,
-> +					MTK_KPD_NAME, keypad);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "Failed to request IRQ#%d:%d\n",
-> +			irq, ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = input_register_device(keypad->input_dev);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "Failed to register device\n");
-> +		return ret;
-> +	}
-> +
+AMD sensor fusion Hub is part of a SOC 17h family based platforms.
+The solution is working well on several OEM products.
+AMD SFH uses HID over PCIe bus.
 
-> +	return device_init_wakeup(&pdev->dev, wakeup);
+Sandeep Singh (4):
+  SFH: Add maintainers and documentation for AMD SFH based on HID
+    framework
+  SFH: PCI driver to add support of AMD sensor fusion Hub using HID
+    framework
+  SFH: Transport Driver to add support of AMD Sensor Fusion Hub (SFH)
+  SFH: Create HID report to Enable support of AMD sensor fusion Hub
+    (SFH)
 
-I'm not sure that it's good idea to fail the probe if we can't register wake up
-source. Keypad is still working, right? Perhaps simple warning?
+Changes since v1:
+        -Fix auto build test warnings
+        -Fix warnings captured using smatch
+        -Changes suggested by Dan Carpenter
 
-> +}
-> +
-> +static const struct of_device_id kpd_of_match[] = {
-> +	{ .compatible = "mediatek,mt6779-keypad" },
-> +	{ .compatible = "mediatek,mt6873-keypad" },
-> +	{ /* sentinel */ }
-> +};
-> +
-> +static struct platform_driver kpd_pdrv = {
-> +	.probe = kpd_pdrv_probe,
-> +	.driver = {
-> +		   .name = MTK_KPD_NAME,
-> +		   .of_match_table = kpd_of_match,
-> +	},
-> +};
-> +module_platform_driver(kpd_pdrv);
-> +
-> +MODULE_AUTHOR("Mediatek Corporation");
-> +MODULE_DESCRIPTION("MTK Keypad (KPD) Driver");
-> +MODULE_LICENSE("GPL");
-> -- 
-> 2.18.0
+Links of the review comments for v1:
+        [1] https://patchwork.kernel.org/patch/11325163/
+        [2] https://patchwork.kernel.org/patch/11325167/
+        [3] https://patchwork.kernel.org/patch/11325171/
+        [4] https://patchwork.kernel.org/patch/11325187/
+
+
+Changes since v2:
+        -Debugfs divided into another patch
+        -Fix some cosmetic changes
+        -Fix for review comments
+         Reported and Suggested by:-  Srinivas Pandruvada
+
+Links of the review comments for v2:
+        [1] https://patchwork.kernel.org/patch/11355491/
+        [2] https://patchwork.kernel.org/patch/11355495/
+        [3] https://patchwork.kernel.org/patch/11355499/
+        [4] https://patchwork.kernel.org/patch/11355503/
+
+
+Changes since v3:
+	-removed debugfs suggested by - Benjamin Tissoires
+
+Links of the review comments for v3:
+	[1] https://lkml.org/lkml/2020/2/11/1256
+	[2] https://lkml.org/lkml/2020/2/11/1257
+	[3] https://lkml.org/lkml/2020/2/11/1258
+	[4] https://lkml.org/lkml/2020/2/11/1259
+	[5] https://lkml.org/lkml/2020/2/11/1260 
+
+
+Changes since v4:
+	- Rework done based on review comments by - Andy Shevchenko
+	- changes done based on suggested by -Richard Neumann
+
+Links of the review comments for v4:
+	[1] https://lkml.org/lkml/2020/2/26/1360
+	[2] https://lkml.org/lkml/2020/2/26/1361
+	[3] https://lkml.org/lkml/2020/2/26/1362
+	[4] https://lkml.org/lkml/2020/2/26/1363
+	[5] https://lkml.org/lkml/2020/2/27/1
+
+
+Sandeep Singh (4):
+  SFH: Add maintainers and documentation for AMD SFH based      on HID
+    framework
+  SFH: PCI driver to add support of AMD sensor fusion Hub using HID
+    framework
+  SFH: Transport Driver to add support of AMD Sensor Fusion Hub (SFH
+  SFH: Create HID report to Enable support of AMD sensor fusion Hub
+    (SFH)
+
+ Documentation/hid/amd-sfh-hid.rst                  | 160 +++++
+ MAINTAINERS                                        |   8 +
+ drivers/hid/Kconfig                                |   2 +
+ drivers/hid/Makefile                               |   1 +
+ drivers/hid/amd-sfh-hid/Kconfig                    |  21 +
+ drivers/hid/amd-sfh-hid/Makefile                   |  16 +
+ drivers/hid/amd-sfh-hid/amd_mp2_pcie.c             | 196 +++++++
+ drivers/hid/amd-sfh-hid/amd_mp2_pcie.h             | 137 +++++
+ drivers/hid/amd-sfh-hid/amdsfh-hid-client.c        | 256 ++++++++
+ drivers/hid/amd-sfh-hid/amdsfh-hid.c               | 179 ++++++
+ drivers/hid/amd-sfh-hid/amdsfh-hid.h               |  84 +++
+ .../hid_descriptor/amd_sfh_hid_descriptor.c        | 251 ++++++++
+ .../hid_descriptor/amd_sfh_hid_descriptor.h        | 125 ++++
+ .../hid_descriptor/amd_sfh_hid_report_descriptor.h | 642 +++++++++++++++++++++
+ 14 files changed, 2078 insertions(+)
+ create mode 100644 Documentation/hid/amd-sfh-hid.rst
+ create mode 100644 drivers/hid/amd-sfh-hid/Kconfig
+ create mode 100644 drivers/hid/amd-sfh-hid/Makefile
+ create mode 100644 drivers/hid/amd-sfh-hid/amd_mp2_pcie.c
+ create mode 100644 drivers/hid/amd-sfh-hid/amd_mp2_pcie.h
+ create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-hid-client.c
+ create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-hid.c
+ create mode 100644 drivers/hid/amd-sfh-hid/amdsfh-hid.h
+ create mode 100644 drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_descriptor.c
+ create mode 100644 drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_descriptor.h
+ create mode 100644 drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_report_descriptor.h
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.7.4
 
