@@ -2,176 +2,139 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2113E1EA100
-	for <lists+linux-input@lfdr.de>; Mon,  1 Jun 2020 11:32:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB1901EA12E
+	for <lists+linux-input@lfdr.de>; Mon,  1 Jun 2020 11:46:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725831AbgFAJch (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 Jun 2020 05:32:37 -0400
-Received: from mga12.intel.com ([192.55.52.136]:28148 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725290AbgFAJch (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 1 Jun 2020 05:32:37 -0400
-IronPort-SDR: ysZSCcUlU8uxigWQK6glvPiMIA/iQrKQFOrbbFzetgf9053pzqLB+pOdaTbwlhd/H72sPxIdmf
- H0ZURQC4BPHQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2020 02:32:37 -0700
-IronPort-SDR: nTif1mTtkHi87XZiGU70czwtX/SDkyvcmgJrttLqVCTKcoabc4BmuzI7P5TPPZVdLGzswEnEVZ
- hKGv+W/ALVvA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,460,1583222400"; 
-   d="scan'208";a="470229744"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga006.fm.intel.com with ESMTP; 01 Jun 2020 02:32:34 -0700
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1jfgo9-00AC72-GP; Mon, 01 Jun 2020 12:32:37 +0300
-Date:   Mon, 1 Jun 2020 12:32:37 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Fengping Yu <fengping.yu@mediatek.com>
-Cc:     Yingjoe Chen <yingjoe.chen@mediatek.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v13 1/3] dt-bindings: Add keypad devicetree documentation
-Message-ID: <20200601093237.GB2428291@smile.fi.intel.com>
-References: <20200601022548.18213-1-fengping.yu@mediatek.com>
- <20200601022548.18213-2-fengping.yu@mediatek.com>
+        id S1725909AbgFAJqc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 Jun 2020 05:46:32 -0400
+Received: from mail-ed1-f52.google.com ([209.85.208.52]:41480 "EHLO
+        mail-ed1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725847AbgFAJqb (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 1 Jun 2020 05:46:31 -0400
+Received: by mail-ed1-f52.google.com with SMTP id ce8so666105edb.8
+        for <linux-input@vger.kernel.org>; Mon, 01 Jun 2020 02:46:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5SdNebRWb0eqGSPOmp4SHITORCQs0yRLVDgcjJ7dgHg=;
+        b=ajzi5gCmLnwknr3LxFPckHLtA0VyboEyKxqYfpPZJHLoCsm9Ld/n8tD9TX3DitZr5A
+         w3OTxyApdKkV8Z+MBcFi1iAwAfo0rpQgMjZobOjUQC9oLd+zzMuyssCFav/VyBM/O2rR
+         qQR6Gq4oruNk8qjPrJ8/WxS0jY46hrWSYQBmJ9gp44JW/F43QuD8l57/CZoWMf5rfazx
+         EsDzW3ZgBiU1rpqPVL83uY/vyuw43iur/Yfxu9th1n3NlwrkAF7bJYfYsug6pusjmSL8
+         Jivj//S/Xm/iewiNtNLUEi9JmeQQB/59z0j+5033CCDrTzCq4rhqcDC+m4DaURtq51op
+         4rkA==
+X-Gm-Message-State: AOAM532JKuutBVxdGCZnlMUNxXNfW5gne+cmfxCIkTrap1/Wop2BxYkt
+        cVOsfYIPa1otQa7/c7fAyjE8CFW9WCk=
+X-Google-Smtp-Source: ABdhPJx7Qz9w1oqsvErMjUJ10iZ8OgLvbKeUU7ZCcHwu3tuXrXmpj3cDIdpMgvRmdeoNy87aCmdCBg==
+X-Received: by 2002:a50:9547:: with SMTP id v7mr21902955eda.78.1591004788651;
+        Mon, 01 Jun 2020 02:46:28 -0700 (PDT)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com. [209.85.221.44])
+        by smtp.gmail.com with ESMTPSA id dd7sm15983761edb.19.2020.06.01.02.46.28
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Jun 2020 02:46:28 -0700 (PDT)
+Received: by mail-wr1-f44.google.com with SMTP id p5so4878271wrw.9
+        for <linux-input@vger.kernel.org>; Mon, 01 Jun 2020 02:46:28 -0700 (PDT)
+X-Received: by 2002:a5d:5351:: with SMTP id t17mr6793858wrv.287.1591004787868;
+ Mon, 01 Jun 2020 02:46:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200601022548.18213-2-fengping.yu@mediatek.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <CANFaMLHQwNf3GnPYAxR-ryrYmO-wVmsEHijzVHEYozUt0EzDJw@mail.gmail.com>
+ <CADyDSO5=fN=yw0kZQDpEgrbYXO-PCHDVcYbTk9n1X5XKFef+cA@mail.gmail.com>
+In-Reply-To: <CADyDSO5=fN=yw0kZQDpEgrbYXO-PCHDVcYbTk9n1X5XKFef+cA@mail.gmail.com>
+From:   Daniel Morse <dmorse@speedfox.co.uk>
+Date:   Mon, 1 Jun 2020 10:46:16 +0100
+X-Gmail-Original-Message-ID: <CANFaMLFFqGi__011BFEL485X91LOw6rxTGynRyNDPD5JVr5c_g@mail.gmail.com>
+Message-ID: <CANFaMLFFqGi__011BFEL485X91LOw6rxTGynRyNDPD5JVr5c_g@mail.gmail.com>
+Subject: Re: [PATCH v3] HID: Wiimote: Treat the d-pad as an analogue stick
+To:     David Rheinsberg <david.rheinsberg@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jun 01, 2020 at 10:25:47AM +0800, Fengping Yu wrote:
-> From: "fengping.yu" <fengping.yu@mediatek.com>
-> 
-> Add Mediatek matrix keypad dt-bindings doc as yaml schema.
-> 
-> Signed-off-by: fengping.yu <fengping.yu@mediatek.com>
-> Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
+On Mon, 1 Jun 2020 at 08:27, David Rheinsberg
+<david.rheinsberg@gmail.com> wrote:
+>
+> Hi
+>
+> On Sat, 30 May 2020 at 17:04, Daniel Morse <dmorse@speedfox.co.uk> wrote:
+> >
+> > The controllers from the Super Nintendo Classic Edition (AKA the SNES
+> > Mini) appear as a Classic Controller Pro when connected to a Wii
+> > Remote. All the buttons work as the same, with the d-pad being mapped
+> > the same as the d-pad on the Classic Controller Pro. This differs from
+> > the behaviour of most controllers with d-pads and no analogue sticks,
+> > where the d-pad maps to ABS_HAT1X for left and right, and ABS_HAT1Y
+> > for up and down. This patch adds an option to the hid-wiimote module
+> > to make the Super Nintendo Classic Controller behave this way.
+> >
+> > The patch has been tested with a Super Nintendo Classic Controller
+> > plugged into a Wii Remote in both with the option both enabled and
+> > disabled. When enabled the d-pad acts as the analogue control, and
+> > when disabled it acts as it did before the patch was applied. This
+> > patch has not been tested with e Wii Classic Controller (either the
+> > original or the pro version) as I do not have one of these
+> > controllers.
+> >
+> > Although I have not tested it with these controllers, I think it is
+> > likely this patch will also work with the NES Classic Edition
+> > Controllers.
+> >
+> > Changes from V1 to V2
+> > * 3 if statements to control the behaviour, one to make the d-pad
+> > register as button presses when the behaviour is disabled, and 2 to
+> > make it act as an analog stick when enabled (once for each of the
+> > motion plus states)
+> > * the values for lx and ly are calculated and then passed to
+> > input_report_abs() in one place, rather then calling
+> > input_report_abs() from different places depending on how the values
+> > are determined.
+> > * using an array to map from button presses to analog value.
+> > * reduced the values used to indicate the position of the analog stick
+> >
+> > Changes from V3 to V3
+> > * Moved the definition of dpad_as_analog in hid-wiimote.h
+> > * Renamed the dpad_as_analog vaiable to wiimote_dpad_as_analog
+> > * changed digital_to_analog from an __s8 to static const s8
+> > * Removed the unnecessary braces when getting values from digital_to_analog
+> >
+> > Note: I have also attached a patch file to this final version in
+> > addition to the code in the body because gmail web client keeps
+> > turning the tabs into spaces.
+> >
+> > Signed-off-by: Daniel G. Morse <dmorse@speedfox.co.uk>
+> > Reviewed-by: David Rheinsberg <david.rheinsberg@gmail.com>
+> >
+> > From 8909feec10fda919d1ec46c95418d63ac52ee41f Mon Sep 17 00:00:00 2001
+> > From: Speedfox <speedfox@speedfox.co.uk>
+> > Date: Tue, 26 May 2020 02:55:50 +0100
+> > Subject: [PATCH] Added option to make d-pad analog
+> >
+> > Updates from code review
+> > ---
+>
+> You can put comments below these 3 dashes^^. There seems to be some
+> email-header in the commit message above, and the changes between
+> versions can also be put outside of the commit message. Some
+> subsystems keep it in the commit-message, though. Maybe Jiri can strip
+> that when applying? The `Signed-off-by`-etc lines are usually last in
+> the commit-message. I don't mind either way.
 
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Since it's probably best that Jiri applies the patch from the
+attachment which I included to get around gmail's inability to use
+tabs, I think it'll be easiest to let him strip out that superfluous
+email header when he does that rather than me sending another version
+of the patch.
 
-I didn't review this.
-
-> ---
->  .../devicetree/bindings/input/mtk-kpd.yaml    | 95 +++++++++++++++++++
->  1 file changed, 95 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/mtk-kpd.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/input/mtk-kpd.yaml b/Documentation/devicetree/bindings/input/mtk-kpd.yaml
-> new file mode 100644
-> index 000000000000..586cd196dd00
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/mtk-kpd.yaml
-> @@ -0,0 +1,95 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +version: 1
-> +
-> +$id: http://devicetree.org/schemas/input/mtk-keypad.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Mediatek's Keypad Controller device tree bindings
-> +
-> +maintainer:
-> +  - Fengping Yu <fengping.yu@mediatek.com>
-> +
-> +description: |
-> +  Mediatek's Keypad controller is used to interface a SoC with a matrix-type
-> +  keypad device. The keypad controller supports multiple row and column lines.
-> +  A key can be placed at each intersection of a unique row and a unique column.
-> +  The keypad controller can sense a key-press and key-release and report the
-> +  event using a interrupt to the cpu.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - const: "mediatek,mt6779-keypad"
-> +      - const: "mediatek,mt6873-keypad"
-> +
-> +  clock-names:
-> +    description: Names of the clocks listed in clocks property in the same order
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    description: Must contain one entry, for the module clock
-> +    refs: devicetree/bindings/clocks/clock-bindings.txt for details.
-> +
-> +  interrupts:
-> +    description: A single interrupt specifier
-> +    maxItems: 1
-> +
-> +  linux,keymap:
-> +    description: The keymap for keys as described in the binding document
-> +    refs: devicetree/bindings/input/matrix-keymap.txt
-> +    minItems: 1
-> +    maxItems: 16
-> +
-> +  pinctrl-0:
-> +    description: Specify pin control groups used for this controller
-> +    refs: devicetree/bindings/pinctrl/pinctrl-bindings.txt
-> +
-> +  pinctrl-names:
-> +    description: Names for optional pin modes
-> +    maxItems: 1
-> +
-> +  reg:
-> +    description: The base address of the Keypad register bank
-> +    maxItems: 1
-> +
-> +  wakeup-source:
-> +    description: use any event on keypad as wakeup event
-> +    type: boolean
-> +
-> +  keypad,num-columns:
-> +    description: Number of column lines connected to the keypad controller,
-> +    it is not equal to PCB columns number, instead you should add required value
-> +    for each IC
-> +
-> +  keypad,num-rows:
-> +    description: Number of row lines connected to the keypad controller, it is
-> +    not equal to PCB rows number, instead you should add required value for each IC
-> +
-> +  mediatek,debounce-us:
-> +    description: Debounce interval in microseconds
-> +    maximum: 256000
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - linux,keymap
-> +  - pinctrl
-> +  - clocks
-> +  - clock-names
-> +
-> +examples:
-> +  - |
-> +
-> +  keypad: kp@10010000 {
-> +    compatible = "mediatek,mt6779-keypad";
-> +    reg = <0 0x10010000 0 0x1000>;
-> +    linux,keymap = < MATRIX_KEY(0x00, 0x00, KEY_VOLUMEDOWN) >;
-> +    interrupts = <GIC_SPI 75 IRQ_TYPE_EDGE_FALLING>;
-> +    clocks = <&clk26m>;
-> +    clock-names = "kpd";
-> +    pinctrl-names = "default";
-> +    pinctrl-0 = <&kpd_gpios_def_cfg>;
-> +  };
-> -- 
-> 2.18.0
-
--- 
-With Best Regards,
-Andy Shevchenko
+>
+> Anyway, thanks for the patch, looks all good!
+> David
 
 
+Thanks again for reviewing my patch.
+
+--Daniel
