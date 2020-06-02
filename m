@@ -2,156 +2,214 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 423541EB81A
-	for <lists+linux-input@lfdr.de>; Tue,  2 Jun 2020 11:14:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D585E1EBDC1
+	for <lists+linux-input@lfdr.de>; Tue,  2 Jun 2020 16:15:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726267AbgFBJOZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 Jun 2020 05:14:25 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:20034 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726215AbgFBJOY (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Jun 2020 05:14:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1591089262;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=4RDDGu/p3yDXdb7tcQQ0NXx81PbLpa+m/UKBUd+JAOM=;
-        b=Oo56AxdHmF7A3xu3tjLlX+cY6uR00oyqyghbu8RBjn3LyKNkuLKpxAIzLHxzjRZNF7k/nW
-        /g/CpN9jkiqQqZ+oByJwgBEEwlfEgB/KtCaVMhpVY7CEgXkQ0VZA5P7+vSwdtmePMb4Ybc
-        fQnWKHirGKwHwaiCCgYelG/XriIzxWQ=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-3d_pAlHFOGOFJI-o--4WfA-1; Tue, 02 Jun 2020 05:14:21 -0400
-X-MC-Unique: 3d_pAlHFOGOFJI-o--4WfA-1
-Received: by mail-qv1-f72.google.com with SMTP id a8so2930546qvt.7
-        for <linux-input@vger.kernel.org>; Tue, 02 Jun 2020 02:14:21 -0700 (PDT)
+        id S1726139AbgFBOOs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 Jun 2020 10:14:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56846 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727785AbgFBOOp (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Jun 2020 10:14:45 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1042C08C5C1
+        for <linux-input@vger.kernel.org>; Tue,  2 Jun 2020 07:14:43 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id a45so1127466pje.1
+        for <linux-input@vger.kernel.org>; Tue, 02 Jun 2020 07:14:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=H48Dtjb26Y6aJBKqqk8tf63ll6/f3aU/WJ3tDbC6/4U=;
+        b=iNvcnNWRCBNFFRZ5v4a1+M7Tsf2DG06cC77WBS7lgo52gbT3v9aVafGFL5WMlBqUBi
+         AJyAraqd6Ic4JN0NqHkwleDbcjPMaYmfqUwaI8AIGoE6UxhbIngmOFEblVuLqCcdopKJ
+         RUFi+Jm5yxce/TD4d856GOS+oH+ts8Ma3a8O4sudJ/QS4GgBrTdiM3+812CRT9sZyxR/
+         WxJXEvq0Hmc8crMdu+etNfSQy94OImcaHiZ1JRiDdTiYnOhctzSMla3ih9z9R06PfOQ+
+         ErBzeI55nl83R7ZGMfSnV2NDMxKkHWwYUAv1SrZ/YQxgqHxjQfW7VgFQ41TgkyiL14fv
+         c66Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=4RDDGu/p3yDXdb7tcQQ0NXx81PbLpa+m/UKBUd+JAOM=;
-        b=BH8cSB97nm63lZoowoO90HC11wgUWAvYuVnDGDmKt6NT44ouAeh4wpssgdJq1uRaq3
-         uKW8yhayhaMxfHsmU7a1SP8AgJWJ2f5Mo9sVdME+VbUVmYf0l2DIHYmEfMrc9Ej32Cht
-         V7hn7bEmUft0OBlUmfcArwAD6t52gll+2ErT4pf57Ga+5bkh44s7kPrBAwCD2/q8vlSu
-         nv43XWz6rEpIM4Hk45jv5dadhciHUaOLWtBTWd5xf4sutteBOe4FWG4LohOO+LBTC5dX
-         xK4HuGgsrT4W8gUPmLSC2i/and9CB9RVv3RpsyMfCZtW4m+ZHbNAObRoEWr+eMz/ZXRM
-         jjVg==
-X-Gm-Message-State: AOAM533TJ2Sbj9WZBi4JDdGF8P0KD6gJaxeyzn5EefHUrFmpRP32Lv08
-        Fb6OqU7Q3y2xEjcRa1Xy3a8OZZiUDFv9JDWy1ArKVvpO0R68fN5EAr+gOJNEGm2isOb9NEKhIXb
-        ALwpfwiZIRwJBS+B/AcWwrGnm8rjGwtBta4DkoSY=
-X-Received: by 2002:ac8:2a3a:: with SMTP id k55mr25902497qtk.294.1591089260954;
-        Tue, 02 Jun 2020 02:14:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx1WsROjUW769DDxgpU4rag4njM1zCpRsTRcIP45qynEm0hFX3w+3IiwkjfSW1L8qjbkw7t1oMXMfjCmYljgak=
-X-Received: by 2002:ac8:2a3a:: with SMTP id k55mr25902481qtk.294.1591089260695;
- Tue, 02 Jun 2020 02:14:20 -0700 (PDT)
+        bh=H48Dtjb26Y6aJBKqqk8tf63ll6/f3aU/WJ3tDbC6/4U=;
+        b=MkVCzemgNVV3MpfWQ6DdXuNDQJUsWvvTGvoSa1FoBeUVFTdK9+8h6lCM6IJXFpK2DE
+         qi5MTDK9785/CnmUF2AkKUBnZz+9oLI+imGZKTNkkAUkwdVXf2dTXJtWMses+fz90Ajp
+         lENlb4u9KEH94gMVZMyT166Svl8czR/UNi7KDD1IqbiG/P5Cjmb49tiyARP+LTbBDQBL
+         p9AiEhVD2eB+2MsIXuFoOH2hGR1z+qqfWOHR6C+kXO70z8qM4l+Wc5BK0NDvL4C+Ya5M
+         nJrgSP7QJooZ+rr2T5DR84rNwKknENAlya0gstKQ7gofiE7+2ucnesirdLBj+g/onnSO
+         oZcw==
+X-Gm-Message-State: AOAM531xxIF9yg7eXQkr17xQNmyuXoPvx+iZ6SyHzaGqpLMDJIGN08f/
+        E9LlAh1jiXJA5k3TSOGaPk5pv8eb/FBR+n5hXyR9eA==
+X-Google-Smtp-Source: ABdhPJzbP2WVOcVpP2y5PxqDJtQRHydE30I/yUrHaPl/xtbWFAYkICSxh6iI6aichb24biZL5pzUnTXRkxt5XhhuI0g=
+X-Received: by 2002:a17:90a:2a8e:: with SMTP id j14mr5750844pjd.136.1591107282850;
+ Tue, 02 Jun 2020 07:14:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200529195951.GA3767@dtor-ws> <CANMq1KDDa8jGwo9BNneJ=8y1HunM9hiRS2c0i5ASJ6+X4qvodw@mail.gmail.com>
- <CABXOdTeTHUtWyutfQ3oO7c_g=q5GrDsdKZbSe1dwLWSeNFi-sQ@mail.gmail.com>
- <20200530010926.GM89269@dtor-ws> <CABXOdTexbFqvHNALBeXrU5djbrLaK93fBTd6_rTCOhbEadYRgg@mail.gmail.com>
- <20200530013419.GN89269@dtor-ws> <nycvar.YFH.7.76.2006011912150.13242@cbobk.fhfr.pm>
-In-Reply-To: <nycvar.YFH.7.76.2006011912150.13242@cbobk.fhfr.pm>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 2 Jun 2020 11:14:09 +0200
-Message-ID: <CAO-hwJLTrGs39OsxtY_r0He02Au64vg1x1_tzGjCQzyNzBCARw@mail.gmail.com>
-Subject: Re: [PATCH] HID: usbhid: do not sleep when opening device
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Guenter Roeck <groeck@google.com>,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Linux USB Mailing List <linux-usb@vger.kernel.org>,
+References: <0000000000004afcae05a7041e98@google.com>
+In-Reply-To: <0000000000004afcae05a7041e98@google.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Tue, 2 Jun 2020 16:14:31 +0200
+Message-ID: <CAAeHK+ykPQ8Fmit_3cn17YKzrCWtX010HRKmBCJAQ__OMdwCDA@mail.gmail.com>
+Subject: Re: INFO: task hung in corrupted (2)
+To:     syzbot <syzbot+6921abfb75d6fc79c0eb@syzkaller.appspotmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
+        LKML <linux-kernel@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     amir73il@gmail.com, Felipe Balbi <balbi@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jan Kara <jack@suse.cz>, kuba@kernel.org,
+        linux-fsdevel@vger.kernel.org, mathew.j.martineau@linux.intel.com,
+        matthieu.baerts@tessares.net, mptcp@lists.01.org,
+        netdev <netdev@vger.kernel.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jun 1, 2020 at 7:13 PM Jiri Kosina <jikos@kernel.org> wrote:
+On Mon, Jun 1, 2020 at 1:30 PM syzbot
+<syzbot+6921abfb75d6fc79c0eb@syzkaller.appspotmail.com> wrote:
 >
-> On Fri, 29 May 2020, Dmitry Torokhov wrote:
+> Hello,
 >
-> > > > > > > usbhid tries to give the device 50 milliseconds to drain its queues
-> > > > > > > when opening the device, but does it naively by simply sleeping in open
-> > > > > > > handler, which slows down device probing (and thus may affect overall
-> > > > > > > boot time).
-> > > > > > >
-> > > > > > > However we do not need to sleep as we can instead mark a point of time
-> > > > > > > in the future when we should start processing the events.
-> > > > > > >
-> > > > > > > Reported-by: Nicolas Boichat <drinkcat@chromium.org>
-> > > > > > > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > > > > > > ---
-> > > > > > >  drivers/hid/usbhid/hid-core.c | 27 +++++++++++++++------------
-> > > > > > >  drivers/hid/usbhid/usbhid.h   |  1 +
-> > > > > > >  2 files changed, 16 insertions(+), 12 deletions(-)
-> > > > > > >
-> > > > > > > diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
-> > > > > > > index c7bc9db5b192..e69992e945b2 100644
-> > > > > > > --- a/drivers/hid/usbhid/hid-core.c
-> > > > > > > +++ b/drivers/hid/usbhid/hid-core.c
-> > > > > > > @@ -95,6 +95,19 @@ static int hid_start_in(struct hid_device *hid)
-> > > > > > >                                 set_bit(HID_NO_BANDWIDTH, &usbhid->iofl);
-> > > > > > >                 } else {
-> > > > > > >                         clear_bit(HID_NO_BANDWIDTH, &usbhid->iofl);
-> > > > > > > +
-> > > > > > > +                       if (test_and_clear_bit(HID_RESUME_RUNNING,
-> > > > > > > +                                              &usbhid->iofl)) {
-> > > > > > > +                               /*
-> > > > > > > +                                * In case events are generated while nobody was
-> > > > > > > +                                * listening, some are released when the device
-> > > > > > > +                                * is re-opened. Wait 50 msec for the queue to
-> > > > > > > +                                * empty before allowing events to go through
-> > > > > > > +                                * hid.
-> > > > > > > +                                */
-> > > > > > > +                               usbhid->input_start_time = jiffies +
-> > > > > > > +                                                          msecs_to_jiffies(50);
-> > > > > > > +                       }
-> > > > > > >                 }
-> > > > > > >         }
-> > > > > > >         spin_unlock_irqrestore(&usbhid->lock, flags);
-> > > > > > > @@ -280,7 +293,8 @@ static void hid_irq_in(struct urb *urb)
-> > > > > > >                 if (!test_bit(HID_OPENED, &usbhid->iofl))
-> > > > > > >                         break;
-> > > > > > >                 usbhid_mark_busy(usbhid);
-> > > > > > > -               if (!test_bit(HID_RESUME_RUNNING, &usbhid->iofl)) {
-> > > > > > > +               if (!test_bit(HID_RESUME_RUNNING, &usbhid->iofl) &&
-> > > > > > > +                   time_after(jiffies, usbhid->input_start_time)) {
-> > > > > >
-> > > > > > Are we worried about jiffies overflowing (32-bit@1000Hz is "only" 49.7 days...)
-> > > > > >
-> > > > >
-> > > > > time_after() is overflow-safe. That is why it is used and jiffies is
-> > > > > not compared directly.
-> > > >
-> > > > Well, it is overflow safe, but still can not measure more than 50 days,
-> > > > so if you have a device open for 50+ days there will be a 50msec gap
-> > > > where it may lose events.
-> > > >
-> > >
-> > > Or you could explicitly use 64-bit jiffies.
-> >
-> > Indeed.
-> >
-> > Jiri, Benjamin, do you have preference between jiffies64 and ktime_t? I
-> > guess jiffies64 is a tiny bit less expensive.
+> syzbot found the following crash on:
 >
-> If I would be writing the code, I'd use ktime_t, because I personally like
-> that abstraction more :) But either variant works for me.
+> HEAD commit:    b0c3ba31 Merge tag 'fsnotify_for_v5.7-rc8' of git://git.ke..
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=14089eee100000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=ce116858301bc2ea
+> dashboard link: https://syzkaller.appspot.com/bug?extid=6921abfb75d6fc79c0eb
+> compiler:       clang version 10.0.0 (https://github.com/llvm/llvm-project/ c2443155a0fb245c8f17f2c1c72b6ea391e86e81)
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14947d26100000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=172726d2100000
+>
+> The bug was bisected to:
+>
+> commit f2c2e717642c66f7fe7e5dd69b2e8ff5849f4d10
+> Author: Andrey Konovalov <andreyknvl@google.com>
+> Date:   Mon Feb 24 16:13:03 2020 +0000
+>
+>     usb: gadget: add raw-gadget interface
+>
+> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=119e4702100000
+> final crash:    https://syzkaller.appspot.com/x/report.txt?x=139e4702100000
+> console output: https://syzkaller.appspot.com/x/log.txt?x=159e4702100000
+>
+> IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> Reported-by: syzbot+6921abfb75d6fc79c0eb@syzkaller.appspotmail.com
+> Fixes: f2c2e717642c ("usb: gadget: add raw-gadget interface")
+>
+> INFO: task syz-executor610:7072 blocked for more than 143 seconds.
+>       Not tainted 5.7.0-rc7-syzkaller #0
+> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+> syz-executor610 D24336  7072   7071 0x80004002
+> Call Trace:
+>  context_switch kernel/sched/core.c:3367 [inline]
+>  __schedule+0x805/0xc90 kernel/sched/core.c:4083
+>
+> Showing all locks held in the system:
+> 1 lock held by khungtaskd/1134:
+>  #0: ffffffff892e85d0 (rcu_read_lock){....}-{1:2}, at: rcu_lock_acquire+0x0/0x30 net/mptcp/pm_netlink.c:860
+> 1 lock held by in:imklog/6715:
+>  #0: ffff8880a441e6b0 (&f->f_pos_lock){+.+.}-{3:3}, at: __fdget_pos+0x25d/0x2f0 fs/file.c:826
+> 6 locks held by kworker/1:0/7064:
+> 1 lock held by syz-executor610/7072:
+>  #0: ffffffff892eab20 (rcu_state.exp_mutex){+.+.}-{3:3}, at: exp_funnel_lock kernel/rcu/tree_exp.h:290 [inline]
+>  #0: ffffffff892eab20 (rcu_state.exp_mutex){+.+.}-{3:3}, at: synchronize_rcu_expedited+0x1bd/0x5b0 kernel/rcu/tree_exp.h:856
+> 4 locks held by systemd-udevd/7099:
+>  #0: ffff8880a7fdcc70 (&p->lock){+.+.}-{3:3}, at: seq_read+0x60/0xce0 fs/seq_file.c:153
+>  #1: ffff888096486888 (&of->mutex){+.+.}-{3:3}, at: kernfs_seq_start+0x50/0x3b0 fs/kernfs/file.c:111
+>  #2: ffff88809fc0d660 (kn->count#78){.+.+}-{0:0}, at: kernfs_seq_start+0x6f/0x3b0 fs/kernfs/file.c:112
+>  #3: ffff8880a1df7218 (&dev->mutex){....}-{3:3}, at: device_lock_interruptible include/linux/device.h:773 [inline]
+>  #3: ffff8880a1df7218 (&dev->mutex){....}-{3:3}, at: serial_show+0x22/0xa0 drivers/usb/core/sysfs.c:142
+>
+> =============================================
+>
+> NMI backtrace for cpu 0
+> CPU: 0 PID: 1134 Comm: khungtaskd Not tainted 5.7.0-rc7-syzkaller #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> Call Trace:
+>  __dump_stack lib/dump_stack.c:77 [inline]
+>  dump_stack+0x1e9/0x30e lib/dump_stack.c:118
+>  nmi_cpu_backtrace+0x9f/0x180 lib/nmi_backtrace.c:101
+>  nmi_trigger_cpumask_backtrace+0x16a/0x280 lib/nmi_backtrace.c:62
+>  check_hung_uninterruptible_tasks kernel/hung_task.c:205 [inline]
+>  watchdog+0xd2a/0xd40 kernel/hung_task.c:289
+>  kthread+0x353/0x380 kernel/kthread.c:268
+>  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:351
+> Sending NMI from CPU 0 to CPUs 1:
+> NMI backtrace for cpu 1
+> CPU: 1 PID: 7064 Comm: kworker/1:0 Not tainted 5.7.0-rc7-syzkaller #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> Workqueue: usb_hub_wq hub_event
+> RIP: 0010:__sanitizer_cov_trace_const_cmp4+0x0/0x90 kernel/kcov.c:275
+> Code: 4c f2 08 48 c1 e0 03 48 83 c8 18 49 89 14 02 4d 89 44 f2 18 49 ff c1 4d 89 0a c3 0f 1f 44 00 00 66 2e 0f 1f 84 00 00 00 00 00 <4c> 8b 04 24 65 48 8b 04 25 40 1e 02 00 65 8b 0d 78 96 8e 7e f7 c1
+> RSP: 0018:ffffc90001676cf0 EFLAGS: 00000246
+> RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff88809fb9e240
+> RDX: 0000000000000000 RSI: 0000000000000000 RDI: 00000000ffffffff
+> RBP: ffff888092d24a04 R08: ffffffff86034f3b R09: ffffc900016790cc
+> R10: 0000000000000004 R11: 0000000000000000 R12: ffff888092d24a00
+> R13: 0000000000000000 R14: dffffc0000000000 R15: ffff888092d24a00
+> FS:  0000000000000000(0000) GS:ffff8880ae900000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00000000004c6e68 CR3: 0000000092d41000 CR4: 00000000001406e0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> Call Trace:
+>  hid_apply_multiplier drivers/hid/hid-core.c:1106 [inline]
 
-I don't have a strong opinion on either variant. Feel free to use
-whatever you like the most.
+Looks like an issue in the HID subsystem, adding HID maintainers.
 
-Cheers,
-Benjamin
-
+>  hid_setup_resolution_multiplier+0x2ab/0xbe0 drivers/hid/hid-core.c:1163
+>  hid_open_report+0xab2/0xdd0 drivers/hid/hid-core.c:1274
+>  hid_parse include/linux/hid.h:1017 [inline]
+>  ms_probe+0x12f/0x3f0 drivers/hid/hid-microsoft.c:388
+>  hid_device_probe+0x26c/0x410 drivers/hid/hid-core.c:2263
+>  really_probe+0x704/0xf60 drivers/base/dd.c:520
+>  driver_probe_device+0xe6/0x230 drivers/base/dd.c:697
+>  bus_for_each_drv+0x108/0x170 drivers/base/bus.c:431
+>  __device_attach+0x20c/0x3a0 drivers/base/dd.c:870
+>  bus_probe_device+0xb8/0x1f0 drivers/base/bus.c:491
+>  device_add+0x1828/0x1ba0 drivers/base/core.c:2557
+>  hid_add_device+0xa2a/0xef0 drivers/hid/hid-core.c:2419
+>  usbhid_probe+0x9bd/0xd10 drivers/hid/usbhid/hid-core.c:1407
+>  usb_probe_interface+0x614/0xac0 drivers/usb/core/driver.c:374
+>  really_probe+0x761/0xf60 drivers/base/dd.c:524
+>  driver_probe_device+0xe6/0x230 drivers/base/dd.c:697
+>  bus_for_each_drv+0x108/0x170 drivers/base/bus.c:431
+>  __device_attach+0x20c/0x3a0 drivers/base/dd.c:870
+>  bus_probe_device+0xb8/0x1f0 drivers/base/bus.c:491
+>  device_add+0x1828/0x1ba0 drivers/base/core.c:2557
+>  usb_set_configuration+0x19d2/0x1f20 drivers/usb/core/message.c:2032
+>  usb_generic_driver_probe+0x82/0x140 drivers/usb/core/generic.c:241
+>  usb_probe_device+0x12d/0x1d0 drivers/usb/core/driver.c:272
+>  really_probe+0x761/0xf60 drivers/base/dd.c:524
+>  driver_probe_device+0xe6/0x230 drivers/base/dd.c:697
+>  bus_for_each_drv+0x108/0x170 drivers/base/bus.c:431
+>  __device_attach+0x20c/0x3a0 drivers/base/dd.c:870
+>  bus_probe_device+0xb8/0x1f0 drivers/base/bus.c:491
+>  device_add+0x1828/0x1ba0 drivers/base/core.c:2557
+>  usb_new_device+0xcc3/0x1650 drivers/usb/core/hub.c:2554
+>  hub_port_connect drivers/usb/core/hub.c:5208 [inline]
+>  hub_port_connect_change drivers/usb/core/hub.c:5348 [inline]
+>  port_event drivers/usb/core/hub.c:5494 [inline]
+>  hub_event+0x2823/0x4cb0 drivers/usb/core/hub.c:5576
+>  process_one_work+0x76e/0xfd0 kernel/workqueue.c:2268
+>  worker_thread+0xa7f/0x1450 kernel/workqueue.c:2414
+>  kthread+0x353/0x380 kernel/kthread.c:268
+>  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:351
 >
-> Thanks!
 >
-> --
-> Jiri Kosina
-> SUSE Labs
+> ---
+> This bug is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
 >
-
+> syzbot will keep track of this bug report. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+> syzbot can test patches for this bug, for details see:
+> https://goo.gl/tpsmEJ#testing-patches
