@@ -2,55 +2,20 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D2DE91EC16A
-	for <lists+linux-input@lfdr.de>; Tue,  2 Jun 2020 19:52:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D6E21EC228
+	for <lists+linux-input@lfdr.de>; Tue,  2 Jun 2020 20:50:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727860AbgFBRwr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 Jun 2020 13:52:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34288 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726977AbgFBRwq (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Jun 2020 13:52:46 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D32EC05BD1E;
-        Tue,  2 Jun 2020 10:52:46 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id nu7so1775788pjb.0;
-        Tue, 02 Jun 2020 10:52:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=DsDlTAN5nXx2eXeaYpyOizF6rp89+ZyQuZEoODyhpKQ=;
-        b=lOt5bDJGsfK9IyNxz3BNa4rLKdk08R28EoDJrT2TUNMLbDyn8CzBBmFfkFe6atRsGn
-         NQUzHizY/xR0tIwR/Fv6cLBvYq4vV4+Q1oNNa578UCAQkfJUbXwU0XvgRE6TIZ4K0ZVL
-         +IilnKMWHrYZbepwRYHoTr0hmJk9tLHnDUs3xNl11dsFboIB3dq7c9tD088BsqY9MbHi
-         +SPZDl667YmxpVexTZNqnhx5Pgecw0OPK+asacMRjWAHfk4LuN6hUAN5lYYRVMImMTkJ
-         rkLXt/cXLA5dp+fg8J/cStQdFtFGauWWiBHCKiftRfNn+KL8xQifFcVN5QzSVxpMF7pD
-         M3Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=DsDlTAN5nXx2eXeaYpyOizF6rp89+ZyQuZEoODyhpKQ=;
-        b=U00ouh3hVq2L2Jg3vGDxYcJ3zFR8t1gZ/1wcxlxJMosennXQF06KuA8aV2GDal0kKw
-         PI8zuYGCq+38jHEPqoduIcAIzNv7ZgSWT0JiPQaNqd8IE3yCSuof5R3MOKsWZrXnFUcb
-         +BuSwa2SBstAAiEQX4fOx+c6kPuBC6YlYEVtlP7gkwrfDwuq6Iy9oszydufX5UFX2Wib
-         QDXxU2aG7tGj5t9yPFQJOyYKHy/eevoG/AV2CkZZJKZEOOOnrR2FC0Y/Vegt4/xzQQ39
-         TBJqc2eK+RaElAbOlbkt/Uy7Kg6nq0p8fSAY9cDg6oCc+F2fqxKZcG860AbZjVmFW94T
-         58rQ==
-X-Gm-Message-State: AOAM532E0h2YggFJI1IZzECHCLAvpM+tTerk7c5eG+fLDMmgZLtWdJkb
-        kjFsDHsW/uac2yU45Xqn18s=
-X-Google-Smtp-Source: ABdhPJw4j3qAh/n1rbRzh5j+Qh1ZpRvg/yNd1He12Pkb+W7uWkt4zY60I9IIhaoAP1YKs8H+3eduzw==
-X-Received: by 2002:a17:902:c411:: with SMTP id k17mr22524187plk.165.1591120365656;
-        Tue, 02 Jun 2020 10:52:45 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
-        by smtp.gmail.com with ESMTPSA id m9sm2909107pfo.200.2020.06.02.10.52.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2020 10:52:44 -0700 (PDT)
-Date:   Tue, 2 Jun 2020 10:52:41 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+        id S1726875AbgFBSuR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 Jun 2020 14:50:17 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:56130 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726000AbgFBSuQ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Jun 2020 14:50:16 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id 6D3B82A3702
+Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
         linux-acpi@vger.kernel.org, linux-iio@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
@@ -84,8 +49,6 @@ Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
         Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
         kernel@collabora.com, Peter Hutterer <peter.hutterer@redhat.com>,
         Benjamin Tissoires <btissoir@redhat.com>
-Subject: Re: [PATCHv2 0/7] Support inhibiting input devices
-Message-ID: <20200602175241.GO89269@dtor-ws>
 References: <20200515164943.28480-1-andrzej.p@collabora.com>
  <842b95bb-8391-5806-fe65-be64b02de122@redhat.com>
  <e6030957-97dc-5b04-7855-bc14a78164c8@collabora.com>
@@ -96,96 +59,134 @@ References: <20200515164943.28480-1-andrzej.p@collabora.com>
  <aa2ce2ab-e5bc-9cb4-8b53-c1ef9348b646@redhat.com>
  <20200527063430.GJ89269@dtor-ws>
  <88f939cd-1518-d516-59f2-8f627a6a70d2@collabora.com>
+ <20200602175241.GO89269@dtor-ws>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <82e9f2ab-a16e-51ee-1413-bedf0122026a@collabora.com>
+Date:   Tue, 2 Jun 2020 20:50:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <20200602175241.GO89269@dtor-ws>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <88f939cd-1518-d516-59f2-8f627a6a70d2@collabora.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Andrzej,
+Hi Dmitry,
 
-On Tue, Jun 02, 2020 at 06:56:40PM +0200, Andrzej Pietrasiewicz wrote:
-> Hi Dmitry,
+W dniu 02.06.2020 o 19:52, Dmitry Torokhov pisze:
+> Hi Andrzej,
 > 
-> W dniu 27.05.2020 o�08:34, Dmitry Torokhov pisze:
-> > That said, I think the way we should handle inhibit/uninhibit, is that
-> > if we have the callback defined, then we call it, and only call open and
-> > close if uninhibit or inhibit are _not_ defined.
-> > 
+> On Tue, Jun 02, 2020 at 06:56:40PM +0200, Andrzej Pietrasiewicz wrote:
+>> Hi Dmitry,
+>>
+>> W dniu 27.05.2020 o 08:34, Dmitry Torokhov pisze:
+>>> That said, I think the way we should handle inhibit/uninhibit, is that
+>>> if we have the callback defined, then we call it, and only call open and
+>>> close if uninhibit or inhibit are _not_ defined.
+>>>
+>>
+>> If I understand you correctly you suggest to call either inhibit,
+>> if provided or close, if inhibit is not provided, but not both,
+>> that is, if both are provided then on the inhibit path only
+>> inhibit is called. And, consequently, you suggest to call either
+>> uninhibit or open, but not both. The rest of my mail makes this
+>> assumption, so kindly confirm if I understand you correctly.
 > 
-> If I understand you correctly you suggest to call either inhibit,
-> if provided or close, if inhibit is not provided, but not both,
-> that is, if both are provided then on the inhibit path only
-> inhibit is called. And, consequently, you suggest to call either
-> uninhibit or open, but not both. The rest of my mail makes this
-> assumption, so kindly confirm if I understand you correctly.
+> Yes, that is correct. If a driver wants really fine-grained control, it
+> will provide inhibit (or both inhibit and close), otherwise it will rely
+> on close in place of inhibit.
+> 
+>>
+>> In my opinion this idea will not work.
+>>
+>> The first question is should we be able to inhibit a device
+>> which is not opened? In my opinion we should, in order to be
+>> able to inhibit a device in anticipation without needing to
+>> open it first.
+> 
+> I agree.
+> 
+>>
+>> Then what does opening (with input_open_device()) an inhibited
+>> device mean? Should it succeed or should it fail?
+> 
+> It should succeed.
+> 
+>> If it is not
+>> the first opening then effectively it boils down to increasing
+>> device's and handle's counters, so we can allow it to succeed.
+>> If, however, the device is being opened for the first time,
+>> the ->open() method wants to be called, but that somehow
+>> contradicts the device's inhibited state. So a logical thing
+>> to do is to either fail input_open_device() or postpone ->open()
+>> invocation to the moment of uninhibiting - and the latter is
+>> what the patches in this series currently do.
+>>
+>> Failing input_open_device() because of the inhibited state is
+>> not the right thing to do. Let me explain. Suppose that a device
+>> is already inhibited and then a new matching handler appears
+>> in the system. Most handlers (apm-power.c, evbug.c, input-leds.c,
+>> mac_hid.c, sysrq.c, vt/keyboard.c and rfkill/input.c) don't create
+>> any character devices (only evdev.c, joydev.c and mousedev.c do),
+>> so for them it makes no sense to delay calling input_open_device()
+>> and it is called in handler's ->connect(). If input_open_device()
+>> now fails, we have lost the only chance for this ->connect() to
+>> succeed.
+>>
+>> Summarizing, IMO the uninhibit path should be calling both
+>> ->open() and ->uninhibit() (if provided), and conversely, the inhibit
+>> path should be calling both ->inhibit() and ->close() (if provided).
+> 
+> So what you are trying to say is that you see inhibit as something that
+> is done in addition to what happens in close. But what exactly do you
+> want to do in inhibit, in addition to what close is doing?
 
-Yes, that is correct. If a driver wants really fine-grained control, it
-will provide inhibit (or both inhibit and close), otherwise it will rely
-on close in place of inhibit.
+See below (*).
 
 > 
-> In my opinion this idea will not work.
+> In my view, if we want to have a dedicated inhibit callback, then it
+> will do everything that close does, they both are aware of each other
+> and can sort out the state transitions between them. For drivers that do
+> not have dedicated inhibit/uninhibit, we can use open and close
+> handlers, and have input core sort out when each should be called. That
+> means that we should not call dev->open() in input_open_device() when
+> device is inhibited (and same for dev->close() in input_close_device).
+> And when uninhibiting, we should not call dev->open() when there are no
+> users for the device, and no dev->close() when inhibiting with no users.
 > 
-> The first question is should we be able to inhibit a device
-> which is not opened? In my opinion we should, in order to be
-> able to inhibit a device in anticipation without needing to
-> open it first.
+> Do you see any problems with this approach?
 
-I agree.
+My concern is that if e.g. both ->open() and ->uninhibit() are provided,
+then in certain circumstances ->open() won't be called:
 
-> 
-> Then what does opening (with input_open_device()) an inhibited
-> device mean? Should it succeed or should it fail?
+1. users == 0
+2. inhibit happens
+3. input_open_device() happens, ->open() not called
+4. uninhibit happens
+5. as part of uninhibit ->uninhibit() is only called, but ->open() is not.
 
-It should succeed.
+They way I understand your answer is that we implicitly impose requirements
+on drivers which choose to implement e.g. both ->open() and ->uninhibit():
+in such a case ->uninhibit() should be doing exactly the same things as
+->open() does. Which leads to a conclusion that in practice no drivers
+should choose to implement both, otherwise they must be aware that
+->uninhibit() can be sometimes called instead of ->open(). Then ->open()
+becomes synonymous with ->uninhibit(), and ->close() with ->inhibit().
+Or, maybe, then ->inhibit() can be a superset of ->close() and
+->uninhibit() a superset of ->open().
 
-> If it is not
-> the first opening then effectively it boils down to increasing
-> device's and handle's counters, so we can allow it to succeed.
-> If, however, the device is being opened for the first time,
-> the ->open() method wants to be called, but that somehow
-> contradicts the device's inhibited state. So a logical thing
-> to do is to either fail input_open_device() or postpone ->open()
-> invocation to the moment of uninhibiting - and the latter is
-> what the patches in this series currently do.
-> 
-> Failing input_open_device() because of the inhibited state is
-> not the right thing to do. Let me explain. Suppose that a device
-> is already inhibited and then a new matching handler appears
-> in the system. Most handlers (apm-power.c, evbug.c, input-leds.c,
-> mac_hid.c, sysrq.c, vt/keyboard.c and rfkill/input.c) don't create
-> any character devices (only evdev.c, joydev.c and mousedev.c do),
-> so for them it makes no sense to delay calling input_open_device()
-> and it is called in handler's ->connect(). If input_open_device()
-> now fails, we have lost the only chance for this ->connect() to
-> succeed.
-> 
-> Summarizing, IMO the uninhibit path should be calling both
-> ->open() and ->uninhibit() (if provided), and conversely, the inhibit
-> path should be calling both ->inhibit() and ->close() (if provided).
+If such an approach is ok with you, it is ok with me, too.
 
-So what you are trying to say is that you see inhibit as something that
-is done in addition to what happens in close. But what exactly do you
-want to do in inhibit, in addition to what close is doing?
+(*)
+Calling both ->inhibit() and ->close() (if they are provided) allows
+drivers to go fancy and fail inhibiting (which is impossible using
+only ->close() as it does not return a value, but ->inhibit() by design
+does). Then ->uninhibit() is mostly for symmetry.
 
-In my view, if we want to have a dedicated inhibit callback, then it
-will do everything that close does, they both are aware of each other
-and can sort out the state transitions between them. For drivers that do
-not have dedicated inhibit/uninhibit, we can use open and close
-handlers, and have input core sort out when each should be called. That
-means that we should not call dev->open() in input_open_device() when
-device is inhibited (and same for dev->close() in input_close_device).
-And when uninhibiting, we should not call dev->open() when there are no
-users for the device, and no dev->close() when inhibiting with no users.
+Regards,
 
-Do you see any problems with this approach?
-
-Thanks.
-
--- 
-Dmitry
+Andrzej
