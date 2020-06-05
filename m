@@ -2,38 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B9FF1EF7C5
-	for <lists+linux-input@lfdr.de>; Fri,  5 Jun 2020 14:29:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59DCB1EF762
+	for <lists+linux-input@lfdr.de>; Fri,  5 Jun 2020 14:29:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726981AbgFEM3b (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 5 Jun 2020 08:29:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57602 "EHLO mail.kernel.org"
+        id S1727023AbgFEM0B (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 5 Jun 2020 08:26:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57900 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726960AbgFEMZt (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 5 Jun 2020 08:25:49 -0400
+        id S1727017AbgFEM0A (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 5 Jun 2020 08:26:00 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7B93B208B6;
-        Fri,  5 Jun 2020 12:25:48 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1013920820;
+        Fri,  5 Jun 2020 12:25:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591359949;
-        bh=FD53rO+fysM1m9xUdrgMsKK/8LhBRRYiQHHK8cczxf8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iYbDtDjW8LzTZykMHA1soBmbw1YKEdPwYj3xPQ7yD7RseKHLAZ/nfBZFCpLzX7D1b
-         l9n6WS7ej01U9IIGPuU0NtMMnD1zMAMw9EIWcjzOm8jtXAi2YuWpUS2hHpYZ38gHeh
-         5NoxjOanjrb2fjlGSJQskjkITEi/ZqqDUgrn2ryo=
+        s=default; t=1591359959;
+        bh=+/l/HKb94QJ1fLl/aY9Ci1ZVow5m6nAWV0fLci86yno=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ai8AfOaRun5UtE8+K3s7ii5XJMsBhy584xcYCUEDfzBwykR7TGVqvlYBwWcYvvPhT
+         InI0aeWp6+n0y69FmfFo6Vx3ehtjUyI4kI9aUSTaKpmhO113/BcQ9O1pl+j3BVLBbU
+         uIGLueetq4xw39kG+Cai96bpI9LHy3KT+sObhPHo=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dennis Kadioglu <denk@eclipso.email>,
+Cc:     Stephan Gerhold <stephan@gerhold.net>,
+        Andi Shyti <andi@etezian.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 07/14] Input: synaptics - add a second working PNP_ID for Lenovo T470s
-Date:   Fri,  5 Jun 2020 08:25:33 -0400
-Message-Id: <20200605122540.2882539-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 1/9] Input: mms114 - fix handling of mms345l
+Date:   Fri,  5 Jun 2020 08:25:49 -0400
+Message-Id: <20200605122558.2882712-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200605122540.2882539-1-sashal@kernel.org>
-References: <20200605122540.2882539-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -43,35 +42,68 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Dennis Kadioglu <denk@eclipso.email>
+From: Stephan Gerhold <stephan@gerhold.net>
 
-[ Upstream commit 642aa86eaf8f1e6fe894f20fd7f12f0db52ee03c ]
+[ Upstream commit 3f8f770575d911c989043d8f0fb8dec96360c41c ]
 
-The Lenovo Thinkpad T470s I own has a different touchpad with "LEN007a"
-instead of the already included PNP ID "LEN006c". However, my touchpad
-seems to work well without any problems using RMI. So this patch adds the
-other PNP ID.
+MMS345L is another first generation touch screen from Melfas,
+which uses the same registers as MMS152.
 
-Signed-off-by: Dennis Kadioglu <denk@eclipso.email>
-Link: https://lore.kernel.org/r/ff770543cd53ae818363c0fe86477965@mail.eclipso.de
+However, using I2C_M_NOSTART for it causes errors when reading:
+
+	i2c i2c-0: sendbytes: NAK bailout.
+	mms114 0-0048: __mms114_read_reg: i2c transfer failed (-5)
+
+The driver works fine as soon as I2C_M_NOSTART is removed.
+
+Reviewed-by: Andi Shyti <andi@etezian.org>
+Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
+Link: https://lore.kernel.org/r/20200405170904.61512-1-stephan@gerhold.net
+[dtor: removed separate mms345l handling, made everyone use standard
+transfer mode, propagated the 10bit addressing flag to the read part of the
+transfer as well.]
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/mouse/synaptics.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/input/touchscreen/mms114.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
-index 4d2036209b45..758dae8d6500 100644
---- a/drivers/input/mouse/synaptics.c
-+++ b/drivers/input/mouse/synaptics.c
-@@ -170,6 +170,7 @@ static const char * const smbus_pnp_ids[] = {
- 	"LEN005b", /* P50 */
- 	"LEN005e", /* T560 */
- 	"LEN006c", /* T470s */
-+	"LEN007a", /* T470s */
- 	"LEN0071", /* T480 */
- 	"LEN0072", /* X1 Carbon Gen 5 (2017) - Elan/ALPS trackpoint */
- 	"LEN0073", /* X1 Carbon G5 (Elantech) */
+diff --git a/drivers/input/touchscreen/mms114.c b/drivers/input/touchscreen/mms114.c
+index a5ab774da4cc..fca908ba4841 100644
+--- a/drivers/input/touchscreen/mms114.c
++++ b/drivers/input/touchscreen/mms114.c
+@@ -91,15 +91,15 @@ static int __mms114_read_reg(struct mms114_data *data, unsigned int reg,
+ 	if (reg <= MMS114_MODE_CONTROL && reg + len > MMS114_MODE_CONTROL)
+ 		BUG();
+ 
+-	/* Write register: use repeated start */
++	/* Write register */
+ 	xfer[0].addr = client->addr;
+-	xfer[0].flags = I2C_M_TEN | I2C_M_NOSTART;
++	xfer[0].flags = client->flags & I2C_M_TEN;
+ 	xfer[0].len = 1;
+ 	xfer[0].buf = &buf;
+ 
+ 	/* Read data */
+ 	xfer[1].addr = client->addr;
+-	xfer[1].flags = I2C_M_RD;
++	xfer[1].flags = (client->flags & I2C_M_TEN) | I2C_M_RD;
+ 	xfer[1].len = len;
+ 	xfer[1].buf = val;
+ 
+@@ -428,10 +428,8 @@ static int mms114_probe(struct i2c_client *client,
+ 	const void *match_data;
+ 	int error;
+ 
+-	if (!i2c_check_functionality(client->adapter,
+-				I2C_FUNC_PROTOCOL_MANGLING)) {
+-		dev_err(&client->dev,
+-			"Need i2c bus that supports protocol mangling\n");
++	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
++		dev_err(&client->dev, "Not supported I2C adapter\n");
+ 		return -ENODEV;
+ 	}
+ 
 -- 
 2.25.1
 
