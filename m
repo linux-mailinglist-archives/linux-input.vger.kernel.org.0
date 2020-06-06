@@ -2,132 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 86FEE1F008F
-	for <lists+linux-input@lfdr.de>; Fri,  5 Jun 2020 21:50:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FB051F0483
+	for <lists+linux-input@lfdr.de>; Sat,  6 Jun 2020 06:00:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728067AbgFETuI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 5 Jun 2020 15:50:08 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:41599 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727868AbgFETuH (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 5 Jun 2020 15:50:07 -0400
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 49dtXG0LfBz4D;
-        Fri,  5 Jun 2020 21:49:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1591386603; bh=nw6ZPbzMEGEU3ympvmvF/EBnKh28J/TObnDHFEogcNM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZQGk/WcmQdG+yyITewmCzwmMOtBeMJF66LJXev36YPIF5HrC5ZHZ2yLz3vJylFOY2
-         WT3VOkjF3kAcjfTkMR4gxIzFUE/sY5FqXj8AFOnZJ4Tr6DOXWsqghWyoTnW+bmLd7W
-         jwf7lDWpwE9H61I5VhaqXwCJeCG+3Lg1TEqxk1KZ6vhl2INRouIoCb0udoubFJKGQI
-         IsEim/o9vF8TNZ0H+HPzCDx+zT08J5O7Oou9dsj0/dTuOSTcvd1399RdkvL5g6/Eot
-         j+wtjmvTFf8Ae7wTPa5xvRXyXIACc/X1FvT/PQI7a7lj4fzSUFS7z0POvlS/mwXhVU
-         JIdjeHtEOaibA==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.2 at mail
-Date:   Fri, 5 Jun 2020 21:49:48 +0200
-From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc:     linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-tegra@vger.kernel.org, patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Ferruh Yigit <fery@cypress.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Peter Hutterer <peter.hutterer@redhat.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        kernel@collabora.com
-Subject: Re: [PATCH v3 5/7] iio: adc: exynos: Use input_device_enabled()
-Message-ID: <20200605194948.GC9553@qmqm.qmqm.pl>
-References: <20200604072853.GP89269@dtor-ws>
- <20200605173335.13753-1-andrzej.p@collabora.com>
- <20200605173335.13753-6-andrzej.p@collabora.com>
+        id S1725864AbgFFEAl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 6 Jun 2020 00:00:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36116 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725791AbgFFEAk (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 6 Jun 2020 00:00:40 -0400
+X-Greylist: delayed 401 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 05 Jun 2020 21:00:40 PDT
+Received: from gnutoo.cyberdimension.org (cyberdimension.org [IPv6:2001:910:1314:ffff::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F176C08C5C2
+        for <linux-input@vger.kernel.org>; Fri,  5 Jun 2020 21:00:39 -0700 (PDT)
+Received: from gnutoo.cyberdimension.org (localhost [127.0.0.1])
+        by cyberdimension.org (OpenSMTPD) with ESMTP id 5a29ae10;
+        Sat, 6 Jun 2020 03:50:12 +0000 (UTC)
+Received: from primarylaptop.localdomain (localhost.localdomain [::1])
+        by gnutoo.cyberdimension.org (OpenSMTPD) with ESMTP id a97d4652;
+        Sat, 6 Jun 2020 03:50:12 +0000 (UTC)
+From:   Denis 'GNUtoo' Carikli <GNUtoo@cyberdimension.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Henrik Rydberg <rydberg@bitmath.org>,
+        Andi Shyti <andi@etezian.org>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        linux-input@vger.kernel.org,
+        Denis 'GNUtoo' Carikli <GNUtoo@cyberdimension.org>,
+        Javi Ferrer <javi.f.o@gmail.com>
+Subject: [PATCH] Input: mms114: don't report 0 pressure while still tracking contact(s)
+Date:   Sat,  6 Jun 2020 05:50:17 +0200
+Message-Id: <20200606035017.7271-1-GNUtoo@cyberdimension.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-2
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200605173335.13753-6-andrzej.p@collabora.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jun 05, 2020 at 07:33:33PM +0200, Andrzej Pietrasiewicz wrote:
-> A new helper is available, so use it. Inspecting 'users' member of
-> input_dev requires taking device's mutex.
-> 
-> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-> ---
->  drivers/iio/adc/exynos_adc.c | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/iio/adc/exynos_adc.c b/drivers/iio/adc/exynos_adc.c
-> index 22131a677445..294715bafe25 100644
-> --- a/drivers/iio/adc/exynos_adc.c
-> +++ b/drivers/iio/adc/exynos_adc.c
-> @@ -630,10 +630,13 @@ static irqreturn_t exynos_ts_isr(int irq, void *dev_id)
->  	struct exynos_adc *info = dev_id;
->  	struct iio_dev *dev = dev_get_drvdata(info->dev);
->  	u32 x, y;
-> -	bool pressed;
-> +	bool pressed, cont;
->  	int ret;
->  
-> -	while (info->input->users) {
-> +	mutex_lock(&info->input->mutex);
-> +	cont = input_device_enabled(info->input);
-> +	mutex_unlock(&info->input->mutex);
-> +	while (cont) {
->  		ret = exynos_read_s3c64xx_ts(dev, &x, &y);
->  		if (ret == -ETIMEDOUT)
->  			break;
-> @@ -651,6 +654,10 @@ static irqreturn_t exynos_ts_isr(int irq, void *dev_id)
->  		input_sync(info->input);
->  
->  		usleep_range(1000, 1100);
-> +
-> +		mutex_lock(&info->input->mutex);
-> +		cont = input_device_enabled(info->input);
-> +		mutex_unlock(&info->input->mutex);
->  	}
+In the middle of a sliding gesture, we manage to have events
+that look like that:
+    Event: time 1571859641.595517, -------------- SYN_REPORT ------------
+    Event: time 1571859641.606593, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y), value 1193
+    Event: time 1571859641.606593, type 3 (EV_ABS), code 48 (ABS_MT_TOUCH_MAJOR), value 21
+    Event: time 1571859641.606593, type 3 (EV_ABS), code 58 (ABS_MT_PRESSURE), value 0
+    Event: time 1571859641.606593, type 3 (EV_ABS), code 1 (ABS_Y), value 1193
+    Event: time 1571859641.606593, type 3 (EV_ABS), code 24 (ABS_PRESSURE), value 0
+    Event: time 1571859641.606593, -------------- SYN_REPORT ------------
 
-The mutex doesn't really protect anything here, but I would nevertheless
-suggest this sequence instead:
+In such cases, we still have a valid ABS_MT_TRACKING_ID along
+with an ABS_MT_TOUCH_MAJOR that is > 0, which both indicates
+that the sliding is still in progress.
 
-lock()
-while (test) {
-	unlock()
-	...
-	lock()
-}
-unlock()
+However in Documentation/input/multi-touch-protocol.rst, we
+have:
+    ABS_MT_PRESSURE
+        The pressure, in arbitrary units, on the contact
+        area. May be used instead of TOUCH and WIDTH for
+        pressure-based devices or any device with a spatial
+        signal intensity distribution.
 
-Best Regards,
-Micha³ Miros³aw
+Because of that userspace may consider an ABS_MT_PRESSURE
+of 0 as an indication that the sliding stopped. This has
+side effects such as making it difficult to unlock the
+screen under Android.
+
+This fix was tested on the following devices:
+- GT-I9300 with a glass screen protection
+- GT-I9300 without any screen protection
+- GT-N7105 with a glass screen protection
+
+Reported-by: Javi Ferrer <javi.f.o@gmail.com>
+Signed-off-by: Denis 'GNUtoo' Carikli <GNUtoo@cyberdimension.org>
+---
+ drivers/input/touchscreen/mms114.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/input/touchscreen/mms114.c b/drivers/input/touchscreen/mms114.c
+index 2ef1adaed9af..adc18cd9a437 100644
+--- a/drivers/input/touchscreen/mms114.c
++++ b/drivers/input/touchscreen/mms114.c
+@@ -183,7 +183,10 @@ static void mms114_process_mt(struct mms114_data *data, struct mms114_touch *tou
+ 	if (touch->pressed) {
+ 		touchscreen_report_pos(input_dev, &data->props, x, y, true);
+ 		input_report_abs(input_dev, ABS_MT_TOUCH_MAJOR, touch->width);
+-		input_report_abs(input_dev, ABS_MT_PRESSURE, touch->strength);
++		if (touch->strength) {
++			input_report_abs(input_dev, ABS_MT_PRESSURE,
++					 touch->strength);
++		}
+ 	}
+ }
+ 
+-- 
+2.26.2
+
