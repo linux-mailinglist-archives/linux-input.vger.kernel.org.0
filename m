@@ -2,35 +2,36 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38FA21F2D9D
-	for <lists+linux-input@lfdr.de>; Tue,  9 Jun 2020 02:36:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B7231F2D8E
+	for <lists+linux-input@lfdr.de>; Tue,  9 Jun 2020 02:36:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729951AbgFIAfE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Jun 2020 20:35:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34864 "EHLO mail.kernel.org"
+        id S1729860AbgFIAe2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Jun 2020 20:34:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35056 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729827AbgFHXOb (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:14:31 -0400
+        id S1729844AbgFHXOh (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 8 Jun 2020 19:14:37 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2D65D214F1;
-        Mon,  8 Jun 2020 23:14:30 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D0D6D208C3;
+        Mon,  8 Jun 2020 23:14:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591658070;
-        bh=0s4kw//tMF6/0U/1tQBmB3KpJtoo0PmRghH2t4jItlg=;
+        s=default; t=1591658077;
+        bh=rbi3a+PbdSMbyR8m15t3ysXJq+b6p36K+8o0FGva/1w=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ElU86haAyRjSgMmVkatfW4Z7s9sIevaNjbD1ap3fihDVUFwUyplPgIsgoeUbX7ZsB
-         UjxXBsWwosLCIABdsNmUSybs93HhQxT75JpCeaXsgFco/tQT1wDJXOJiwUmfKb4O6c
-         tkUCXD0/J3S+nQqSoVPyB4xSipHATBuRCnzRxdpI=
+        b=F+pel3pWj1bKwvTHTraQMu/riPxObsoSgSgmzUAFHs7zJ9jsZAq47TkgkaYA1TuGQ
+         a5HEBK6fcyzAvVZZk0xPcL6Hqe/mdO4zAChBstvag9h72MGV2wim2Rgo/UGNlky/Us
+         UvzzFC5Nm5uxMs7WeSvREmri44t62oHXYeIyamdQ=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Daniel Playfair Cal <daniel.playfair.cal@gmail.com>,
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Mario Limonciello <mario.limonciello@dell.com>,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.6 116/606] HID: i2c-hid: reset Synaptics SYNA2393 on resume
-Date:   Mon,  8 Jun 2020 19:04:01 -0400
-Message-Id: <20200608231211.3363633-116-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.6 122/606] HID: quirks: Add HID_QUIRK_NO_INIT_REPORTS quirk for Dell K12A keyboard-dock
+Date:   Mon,  8 Jun 2020 19:04:07 -0400
+Message-Id: <20200608231211.3363633-122-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200608231211.3363633-1-sashal@kernel.org>
 References: <20200608231211.3363633-1-sashal@kernel.org>
@@ -43,53 +44,50 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Daniel Playfair Cal <daniel.playfair.cal@gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit 538f67407e2c0e5ed2a46e7d7ffa52f2e30c7ef8 ]
+[ Upstream commit 1e189f267015a098bdcb82cc652d13fbf2203fa0 ]
 
-On the Dell XPS 9570, the Synaptics SYNA2393 touchpad generates spurious
-interrupts after resuming from suspend until it receives some input or
-is reset. Add it to the quirk I2C_HID_QUIRK_RESET_ON_RESUME so that it
-is reset when resuming from suspend.
+Add a HID_QUIRK_NO_INIT_REPORTS quirk for the Dell K12A keyboard-dock,
+which can be used with various Dell Venue 11 models.
 
-More information about the bug can be found in this mailing list
-discussion: https://www.spinics.net/lists/linux-input/msg59530.html
+Without this quirk the keyboard/touchpad combo works fine when connected
+at boot, but when hotplugged 9 out of 10 times it will not work properly.
+Adding the quirk fixes this.
 
-Signed-off-by: Daniel Playfair Cal <daniel.playfair.cal@gmail.com>
+Cc: Mario Limonciello <mario.limonciello@dell.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-ids.h              | 3 +++
- drivers/hid/i2c-hid/i2c-hid-core.c | 2 ++
- 2 files changed, 5 insertions(+)
+ drivers/hid/hid-ids.h    | 1 +
+ drivers/hid/hid-quirks.c | 1 +
+ 2 files changed, 2 insertions(+)
 
 diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index b3cc26ca375f..55afc089cb25 100644
+index 55afc089cb25..b1d6156ebf9d 100644
 --- a/drivers/hid/hid-ids.h
 +++ b/drivers/hid/hid-ids.h
-@@ -1094,6 +1094,9 @@
- #define USB_DEVICE_ID_SYMBOL_SCANNER_2	0x1300
- #define USB_DEVICE_ID_SYMBOL_SCANNER_3	0x1200
- 
-+#define I2C_VENDOR_ID_SYNAPTICS     0x06cb
-+#define I2C_PRODUCT_ID_SYNAPTICS_SYNA2393   0x7a13
-+
- #define USB_VENDOR_ID_SYNAPTICS		0x06cb
- #define USB_DEVICE_ID_SYNAPTICS_TP	0x0001
- #define USB_DEVICE_ID_SYNAPTICS_INT_TP	0x0002
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 009000c5d55c..294c84e136d7 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -177,6 +177,8 @@ static const struct i2c_hid_quirks {
- 		 I2C_HID_QUIRK_BOGUS_IRQ },
- 	{ USB_VENDOR_ID_ALPS_JP, HID_ANY_ID,
- 		 I2C_HID_QUIRK_RESET_ON_RESUME },
-+	{ I2C_VENDOR_ID_SYNAPTICS, I2C_PRODUCT_ID_SYNAPTICS_SYNA2393,
-+		 I2C_HID_QUIRK_RESET_ON_RESUME },
- 	{ USB_VENDOR_ID_ITE, I2C_DEVICE_ID_ITE_LENOVO_LEGION_Y720,
- 		I2C_HID_QUIRK_BAD_INPUT_SIZE },
- 	{ 0, 0 }
+@@ -1111,6 +1111,7 @@
+ #define USB_DEVICE_ID_SYNAPTICS_LTS2	0x1d10
+ #define USB_DEVICE_ID_SYNAPTICS_HD	0x0ac3
+ #define USB_DEVICE_ID_SYNAPTICS_QUAD_HD	0x1ac3
++#define USB_DEVICE_ID_SYNAPTICS_DELL_K12A	0x2819
+ #define USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5_012	0x2968
+ #define USB_DEVICE_ID_SYNAPTICS_TP_V103	0x5710
+ #define USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5	0x81a7
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index 3735546bb524..acc7c14f7fbc 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -163,6 +163,7 @@ static const struct hid_device_id hid_quirks[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_LTS2), HID_QUIRK_NO_INIT_REPORTS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_QUAD_HD), HID_QUIRK_NO_INIT_REPORTS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_TP_V103), HID_QUIRK_NO_INIT_REPORTS },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, USB_DEVICE_ID_SYNAPTICS_DELL_K12A), HID_QUIRK_NO_INIT_REPORTS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_TOPMAX, USB_DEVICE_ID_TOPMAX_COBRAPAD), HID_QUIRK_BADPAD },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_TOUCHPACK, USB_DEVICE_ID_TOUCHPACK_RTS), HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_TPV, USB_DEVICE_ID_TPV_OPTICAL_TOUCHSCREEN_8882), HID_QUIRK_NOGET },
 -- 
 2.25.1
 
