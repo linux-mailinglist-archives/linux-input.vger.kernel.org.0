@@ -2,124 +2,152 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22C2A1F0F86
-	for <lists+linux-input@lfdr.de>; Sun,  7 Jun 2020 22:24:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A1581F10FB
+	for <lists+linux-input@lfdr.de>; Mon,  8 Jun 2020 03:06:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726679AbgFGUYS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 7 Jun 2020 16:24:18 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:53638 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726093AbgFGUYS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 7 Jun 2020 16:24:18 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 44C241C0BD2; Sun,  7 Jun 2020 22:24:15 +0200 (CEST)
-Date:   Sun, 7 Jun 2020 22:24:14 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc:     linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-tegra@vger.kernel.org, patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Ferruh Yigit <fery@cypress.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Peter Hutterer <peter.hutterer@redhat.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        kernel@collabora.com
-Subject: Re: [PATCH v3 0/7] Support inhibiting input devices
-Message-ID: <20200607202414.GB13138@amd>
-References: <20200604072853.GP89269@dtor-ws>
- <20200605173335.13753-1-andrzej.p@collabora.com>
+        id S1728065AbgFHBG0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 7 Jun 2020 21:06:26 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:48919 "EHLO
+        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727999AbgFHBGZ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sun, 7 Jun 2020 21:06:25 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id 2684D5C00BE;
+        Sun,  7 Jun 2020 21:06:24 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute7.internal (MEProxy); Sun, 07 Jun 2020 21:06:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=gohUca9ZcTiOY5R3L2pWXlJFZMd
+        WnRkUga5db+Mz1oo=; b=M1EL5Guubpn1p9RSFcXqE1NG5P/kx1tzFeZlvQs4MdM
+        mdt06JYn3Gnb8opqKSPapXORtbFj32vOHfrhh8YNBRACIz+09viG6BxZ4/VAVMCe
+        jntjSWR+zuhPkY5kH6kjSzWxN317Ex1EIyI8a1Q+bYZQcmx+sReuxdP3pSY83KzY
+        7BFe3F6sJF9Uc93hinB6fueoVsx/SRbOvMkYgGZUfi228tuvUyrDDYLh43JPHUD7
+        iQ7qvS51mXXxG+9Nv2Lv+4rd4Es+Ky04tZizU5tsd+VVQsN6wc3zSLYcxu8laRYQ
+        8IAsf6DcPwmPWDYKPU1a6RWNGddrT2eUG4tuI/Jlonw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=gohUca
+        9ZcTiOY5R3L2pWXlJFZMdWnRkUga5db+Mz1oo=; b=RaOAnRzBn78/obH3n285oV
+        gVP8W+4K+IVdWHKJ21B3BsNkdgFyj0sitdjAF/nxeg4lPSJ6f6Q2wa6JeHHtMvhI
+        smkZwFiPtuxI7/g1WA27VEzFJIQ7NhVRdjKNWaP8QKrM0b9L9vgq1zxLyexpsUxi
+        KhiVT3VMA7FbYQLMEVnmp/oPCX4dHxivFnL8e8xFCyNLd/bYa2kFQWFVA6JbomCx
+        +djyMwMKI1OP45X6wkssE3+JfwuYQLyMChX6+BNmWYmcMCOl9wJOIk5AGJSP4k0h
+        nNDue+ZSHB12cbU8/znsUYVeP+1mgvW+5lLTuqIXsLu6kMO85zOluZJzThh2N3qQ
+        ==
+X-ME-Sender: <xms:Do_dXvH-p2CroZ6GqYyvgmNSd8YFS_kuvub_7sjctRyvnZdh-X-ECw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudehtddggedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefrvghtvghr
+    ucfjuhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
+    eqnecuggftrfgrthhtvghrnhephefhheffgfehleegueduleehgfdvfeevkeduveejveej
+    veevgfeggfduudefueevnecukfhppeduudejrddvtddrieekrddufedvnecuvehluhhsth
+    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhdrhhhuthht
+    vghrvghrseifhhhoqdhtrdhnvght
+X-ME-Proxy: <xmx:Do_dXsUutmJLFKc-e9WT5LVqs8IWiCrBsJPYAXnYIgR-9ErF593SyQ>
+    <xmx:Do_dXhJAk6BaX3iZ9Nz5F_MF0pCUWaDjtVGV6H6FjlVEhjjwe7ObIg>
+    <xmx:Do_dXtHfvZvBrdCYdD6PTq5xrLpuwiWHLFb2-PN9OYET4BSH2lvGkw>
+    <xmx:EI_dXoSPWzS1OdoBuwwVnRBkTXsBTIeKQNzHp6zijPMpem3Z2zNRRg>
+Received: from koala (117-20-68-132.751444.bne.nbn.aussiebb.net [117.20.68.132])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 478C530614FA;
+        Sun,  7 Jun 2020 21:06:20 -0400 (EDT)
+Date:   Mon, 8 Jun 2020 11:06:15 +1000
+From:   Peter Hutterer <peter.hutterer@who-t.net>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Denis 'GNUtoo' Carikli <GNUtoo@cyberdimension.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Andi Shyti <andi@etezian.org>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        linux-input@vger.kernel.org, Javi Ferrer <javi.f.o@gmail.com>
+Subject: Re: [PATCH] Input: mms114: don't report 0 pressure while still
+ tracking contact(s)
+Message-ID: <20200608010615.GA58259@koala>
+References: <20200606035017.7271-1-GNUtoo@cyberdimension.org>
+ <20200606181806.GR89269@dtor-ws>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="E39vaYmALEf/7YXx"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200605173335.13753-1-andrzej.p@collabora.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20200606181806.GR89269@dtor-ws>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Sat, Jun 06, 2020 at 11:18:06AM -0700, Dmitry Torokhov wrote:
+> Hi Denis,
+> 
+> On Sat, Jun 06, 2020 at 05:50:17AM +0200, Denis 'GNUtoo' Carikli wrote:
+> > In the middle of a sliding gesture, we manage to have events
+> > that look like that:
+> >     Event: time 1571859641.595517, -------------- SYN_REPORT ------------
+> >     Event: time 1571859641.606593, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y), value 1193
+> >     Event: time 1571859641.606593, type 3 (EV_ABS), code 48 (ABS_MT_TOUCH_MAJOR), value 21
+> >     Event: time 1571859641.606593, type 3 (EV_ABS), code 58 (ABS_MT_PRESSURE), value 0
+> >     Event: time 1571859641.606593, type 3 (EV_ABS), code 1 (ABS_Y), value 1193
+> >     Event: time 1571859641.606593, type 3 (EV_ABS), code 24 (ABS_PRESSURE), value 0
+> >     Event: time 1571859641.606593, -------------- SYN_REPORT ------------
+> > 
+> > In such cases, we still have a valid ABS_MT_TRACKING_ID along
+> > with an ABS_MT_TOUCH_MAJOR that is > 0, which both indicates
+> > that the sliding is still in progress.
+> > 
+> > However in Documentation/input/multi-touch-protocol.rst, we
+> > have:
+> >     ABS_MT_PRESSURE
+> >         The pressure, in arbitrary units, on the contact
+> >         area. May be used instead of TOUCH and WIDTH for
+> >         pressure-based devices or any device with a spatial
+> >         signal intensity distribution.
+> > 
+> > Because of that userspace may consider an ABS_MT_PRESSURE
+> > of 0 as an indication that the sliding stopped. This has
+> > side effects such as making it difficult to unlock the
+> > screen under Android.
+> > 
+> > This fix was tested on the following devices:
+> > - GT-I9300 with a glass screen protection
+> > - GT-I9300 without any screen protection
+> > - GT-N7105 with a glass screen protection
+> > 
+> > Reported-by: Javi Ferrer <javi.f.o@gmail.com>
+> > Signed-off-by: Denis 'GNUtoo' Carikli <GNUtoo@cyberdimension.org>
+> > ---
+> >  drivers/input/touchscreen/mms114.c | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/input/touchscreen/mms114.c b/drivers/input/touchscreen/mms114.c
+> > index 2ef1adaed9af..adc18cd9a437 100644
+> > --- a/drivers/input/touchscreen/mms114.c
+> > +++ b/drivers/input/touchscreen/mms114.c
+> > @@ -183,7 +183,10 @@ static void mms114_process_mt(struct mms114_data *data, struct mms114_touch *tou
+> >  	if (touch->pressed) {
+> >  		touchscreen_report_pos(input_dev, &data->props, x, y, true);
+> >  		input_report_abs(input_dev, ABS_MT_TOUCH_MAJOR, touch->width);
+> > -		input_report_abs(input_dev, ABS_MT_PRESSURE, touch->strength);
+> > +		if (touch->strength) {
+> > +			input_report_abs(input_dev, ABS_MT_PRESSURE,
+> > +					 touch->strength);
+> 
+> So this will result in userspace believing that pressure is unchanged
+> from the previous packet. I wonder if we should report
+> 
+> 		input_report_abs(input_dev, ABS_MT_PRESSURE,
+> 				 max(touch->strength, 1));
+> 
+> instead.
 
---E39vaYmALEf/7YXx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+fwiw, this could still be interpreted as a lifted touch, especially if the
+pressure values are comparatively high (say you go from 100 to 1).
+we have to use thresholds for what is a touch up because a number of devices
+give us nonzero pressure for ever-so-slight touches (or even hovers).
+so a nonzero pressure isn't a guarantee for touch down.
 
-On Fri 2020-06-05 19:33:28, Andrzej Pietrasiewicz wrote:
-> Userspace might want to implement a policy to temporarily disregard input
-> from certain devices.
+not on this device, but from my POV I'd rather have the device pretend the
+pressure is the same as the last known touch than just forcing it to 1, a
+value that may be completely out of place.
 
-Wow, you certainly cc a lot of lists.
-
-> An example use case is a convertible laptop, whose keyboard can be folded
-> under the screen to create tablet-like experience. The user then must hold
-> the laptop in such a way that it is difficult to avoid pressing the keybo=
-ard
-> keys. It is therefore desirable to temporarily disregard input from the
-> keyboard, until it is folded back. This obviously is a policy which should
-> be kept out of the kernel, but the kernel must provide suitable means to
-> implement such a policy.
->=20
-> Due to interactions with suspend/resume, a helper has been added for driv=
-ers
-> to decide if the device is being used or not (PATCH 1/7) and it has been
-> applied to relevant drivers (PATCH 2,4,5,6/7).
-
-But is that a right way to implement it?
-
-We want this for cellphones, too -- touchscreen should be disabled
-while the device is locked in the pocket -- but we really want the
-touchscreen hardware to be powered down in that case (because it keeps
-SoC busy and eats a _lot_ of electricity).
-
-But simplistic "receive an event and then drop it if device is
-inhibited" does not allow that...
-
-Best regards,
-								Pavel
-							=09
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---E39vaYmALEf/7YXx
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl7dTO4ACgkQMOfwapXb+vKNuACgw3cpx7Z15Nm3EAs8yyTuu1RS
-DsYAn1yorcZKMbA2oKpOoVakbRalRIie
-=Dt1J
------END PGP SIGNATURE-----
-
---E39vaYmALEf/7YXx--
+Cheers,
+   Peter
