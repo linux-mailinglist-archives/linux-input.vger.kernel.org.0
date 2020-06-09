@@ -2,60 +2,53 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2392B1F4074
-	for <lists+linux-input@lfdr.de>; Tue,  9 Jun 2020 18:14:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB8C61F4749
+	for <lists+linux-input@lfdr.de>; Tue,  9 Jun 2020 21:42:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731245AbgFIQOZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 9 Jun 2020 12:14:25 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:60380 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1731170AbgFIQOS (ORCPT
+        id S2389364AbgFITlh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 9 Jun 2020 15:41:37 -0400
+Received: from mx0b-00154904.pphosted.com ([148.163.137.20]:26360 "EHLO
+        mx0b-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2389350AbgFITlb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 9 Jun 2020 12:14:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1591719256;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=3q22RYspYRyYbER8pK6XhkMiHhqOP+KQeLb3BfV3ios=;
-        b=R3Gze83qmQcztRthzuI3imdVYJ5+TKD1c6vj+5wOomGxoCwFeZ0NfncQvU6ydysKlxcegz
-        Ir/A8H152DGy2elI7xBeLthXMytzsCFpbDnyPnA7FxZ5YKHFW9XBAN3WMz2KWZWF0cJ91o
-        bojNYckd9GL6E5MRqHxysKir76xxptw=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-265-t0KfmXa-NnKi-t-H6ms6kQ-1; Tue, 09 Jun 2020 12:14:15 -0400
-X-MC-Unique: t0KfmXa-NnKi-t-H6ms6kQ-1
-Received: by mail-ej1-f72.google.com with SMTP id r11so7691835ejd.1
-        for <linux-input@vger.kernel.org>; Tue, 09 Jun 2020 09:14:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=3q22RYspYRyYbER8pK6XhkMiHhqOP+KQeLb3BfV3ios=;
-        b=CwxPL+EReO9f2H5sKr0IzICiOQx2c25mgeDmQFHEwMku2FQccBkn7MV2J2QLKeqF/r
-         npWQgKunBP6rljE0ABn6kRGDDRT1SxgsVlVsf93ApyC1oqHxGht+O7hotMcviUlmN2Zc
-         PYiQgvtPPt805Bta4H41JpD2VL8fqkO/b8KHYjh0UGyYsR2fX9zPJ1qndgLnA2zNiRBi
-         ZpSA/oVn1zfDnyOdpIBvz1P96+6bxIGLM0JaPrDbi1Ra+H4RWeAybt/jEybhZ3NQqCr6
-         h0Pi6eh3oVssjFSp35b1AMAJDkXZlyl3WQxaWZ5tgcxF4ysumN73vltilsK+Dg2YR91U
-         xhOg==
-X-Gm-Message-State: AOAM530HoaHTSl+ASkd53FmToOixSEiNR3p+nhPUP5myPTkG4GF455d/
-        K1xKaIJ66SdF24CELAGee2Hg2x2d+6smLLPCRSz9uQBVTDz5vF/wQSmojL2n/wGfdB3Bqv79nnq
-        j1fR/0akEZ0PBXyHy2Drno6U=
-X-Received: by 2002:a17:906:b7c8:: with SMTP id fy8mr25767624ejb.85.1591719253509;
-        Tue, 09 Jun 2020 09:14:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwxGjWA3j+DcBexKy5awWiWEr8epdgclPYU7N2XWOY5sJ5h4HvsCXoxB1j+wWy5yC1n/oRJQw==
-X-Received: by 2002:a17:906:b7c8:: with SMTP id fy8mr25767602ejb.85.1591719253188;
-        Tue, 09 Jun 2020 09:14:13 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id d11sm10688895edy.79.2020.06.09.09.14.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Jun 2020 09:14:12 -0700 (PDT)
-Subject: Re: [PATCH 2/3] platform/x86: dell-wmi: add new keymap type 0x0012
-To:     Mario.Limonciello@dell.com, y.linux@paritcher.com
-Cc:     linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        mjg59@srcf.ucam.org, pali@kernel.org, linux-input@vger.kernel.org
+        Tue, 9 Jun 2020 15:41:31 -0400
+Received: from pps.filterd (m0170396.ppops.net [127.0.0.1])
+        by mx0b-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 059JbPEW026700;
+        Tue, 9 Jun 2020 15:41:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=smtpout1;
+ bh=T9irgzVCL7LJPLZqxd5NImvO9V7kKx0afgsKhA8gs4k=;
+ b=uOh90i1BAfXCylHWQYysataPvYaeRSQPoQeKUgMJne9sl3xiMaz9XUw2DIaQ5lYNsjDl
+ MjyKUirFkyIzPz4U1snqxKCyDY62Pe/JuhJjXnxKlQobV2QWbcQznY0rWjEDUrgPUG/7
+ 528ZBmcK1zBMHzFaRKwUD97po0fWgD5TmDT8RcWJ6cMfJXvqRGU16AdcJGPHJwZq4hPn
+ Yxb6jqHfDkto3aXGlxcmMpBOSHxY1FbLEMIThQmKYvgdIw4WZpATu76KuMwCHBxajf0k
+ 4X82T6dGrgX7qKznA5U4n6N7+c6HrM/t8gTtK94bIDyz5rzKkagckz7AmOpkhdBqOP1X JA== 
+Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com [67.231.157.37])
+        by mx0b-00154904.pphosted.com with ESMTP id 31g6yy2jht-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 09 Jun 2020 15:41:22 -0400
+Received: from pps.filterd (m0089483.ppops.net [127.0.0.1])
+        by mx0b-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 059JX6ln167227;
+        Tue, 9 Jun 2020 15:41:22 -0400
+Received: from ausc60ps301.us.dell.com (ausc60ps301.us.dell.com [143.166.148.206])
+        by mx0b-00154901.pphosted.com with ESMTP id 31g7xfxyqk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 09 Jun 2020 15:41:22 -0400
+X-LoopCount0: from 10.166.132.129
+X-PREM-Routing: D-Outbound
+X-IronPort-AV: E=Sophos;i="5.60,349,1549951200"; 
+   d="scan'208";a="1450864496"
+From:   <Mario.Limonciello@dell.com>
+To:     <hdegoede@redhat.com>, <y.linux@paritcher.com>
+CC:     <linux-kernel@vger.kernel.org>,
+        <platform-driver-x86@vger.kernel.org>, <mjg59@srcf.ucam.org>,
+        <pali@kernel.org>, <linux-input@vger.kernel.org>
+Subject: RE: [PATCH 2/3] platform/x86: dell-wmi: add new keymap type 0x0012
+Thread-Topic: [PATCH 2/3] platform/x86: dell-wmi: add new keymap type 0x0012
+Thread-Index: AQHWPUx5kZ6BCWcrZkepA13uOwTuTKjO2RsQgACifgD//7DjgIABQqkA///7V4CAAGDBgP//5M/A
+Date:   Tue, 9 Jun 2020 19:41:20 +0000
+Message-ID: <d9e3953bac9a4b4f8bf5b67add075368@AUSX13MPC105.AMER.DELL.COM>
 References: <cover.1591584631.git.y.linux@paritcher.com>
  <0dc191a3d16f0e114f6a8976433e248018e10c43.1591584631.git.y.linux@paritcher.com>
  <83fe431cacbc4708962767668ac8f06f@AUSX13MPC105.AMER.DELL.COM>
@@ -63,116 +56,101 @@ References: <cover.1591584631.git.y.linux@paritcher.com>
  <7f9f0410696141cfabb0237d33b7b529@AUSX13MPC105.AMER.DELL.COM>
  <137d8e69-a83f-6129-19e0-316ef0a51076@redhat.com>
  <ae45da27126d470888ef0d839665b9ed@AUSX13MPC105.AMER.DELL.COM>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <10fcfbe7-cf2e-0911-334b-60be3336c990@redhat.com>
-Date:   Tue, 9 Jun 2020 18:14:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <ae45da27126d470888ef0d839665b9ed@AUSX13MPC105.AMER.DELL.COM>
-Content-Type: text/plain; charset=utf-8; format=flowed
+ <10fcfbe7-cf2e-0911-334b-60be3336c990@redhat.com>
+In-Reply-To: <10fcfbe7-cf2e-0911-334b-60be3336c990@redhat.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2020-06-09T19:41:19.0527934Z;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_ActionId=7475ca18-8a64-4486-b09d-f0463db4b82f;
+ MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [143.166.24.60]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
+ definitions=2020-06-09_13:2020-06-09,2020-06-09 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 malwarescore=0
+ bulkscore=0 spamscore=0 mlxlogscore=963 cotscore=-2147483648 adultscore=0
+ lowpriorityscore=0 priorityscore=1501 mlxscore=0 phishscore=0
+ clxscore=1015 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2006090148
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ mlxscore=0 adultscore=0 bulkscore=0 mlxlogscore=999 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2006090149
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
-
-On 6/9/20 5:36 PM, Mario.Limonciello@dell.com wrote:
-> Loop linux-input mailing list and trim to the relevant conversation.
-> 
->>> Can you please comment here how you would like to see events like this
->> should come
->>> through to userspace?
->>>
->>> * Wrong power adapter (you have X and should have Y)
->>> * You have plugged a dock into the wrong port
->>> * Fn-lock mode
->>
->> Note just thinking out loud here.
->>
->> I'm thinking we just need a mechanism to show a "user notification". This
->> would
->> be just a plain text string passed from the kernel to userspace. I guess we
->> may also want some mechanism to build (on the kernel side) a small file
->> with all possible messages for translation from US English to other
->> languages.
-> 
-> The part that falls apart here is that some strings have dynamic data added to
-> them.  For example in the case I said wrong power adapter there will be some numbers
-> put into the string based on what comes into the buffer.  So how will you translate
-> these?
-> 
-> I guess you can draw a line in the sand and say all strings that can be emitted must
-> be "static and generic".
-
-Right, that is what I was thinking, although for the power adapter case
-I was thinking there are not so much variants so we can just do
-a couple of fixed strings for the combos, or maybe just sat that
-the adapter does not delivers enough power and that at minimum X watts
-is necessary" then we only have 1 variable and we can probably easily
-do fixed strings for the few cases of X.
-
-Or we could get fancy and do some generic notification mechanism outside
-of printk/dmesg where we push a format string + parameters to the format
-string to userspace. So that the translation can be done on the format
-string rather then on the end result. I'm not sure we need to make things
-that complicated though.
-
->> So the idea would be that e.g. gnome-shell can listen for these in some way
->> and then show a notification in its notification mechanism with the
->> message,
->> like how it does for when software updates are available for example.
->>
->> I think we can make this as simple as using the normal printk buffer for
->> this
->> and prefixing the messages with "USER NOTIFY", we already have some
->> messages
->> in the kernel which would qualify for this, e.g. in the USB core we have:
->>
->>                   dev_info(&udev->dev, "not running at top speed; "
->>                           "connect to a high speed hub\n");
->>
->> This one is about USB1 vs USB2 ports, but we have a similar one somewhere
->> for USB2 vs USB3 ports (I think) which would also be an interesting message
->> to actually show to the user inside the desktop environment.
->>
->> So sticking with the above example, we could change that to
->>
->> #define USER_NOTIFY "USER NOTIFY: "
->>
->> dev_info(&udev->dev, USER_NOTIFY "not running at top speed; connect to a
->> high speed hub\n");
->>
->> And then userspace would trigger on the "USER NOTIFY: " part, keep the
->> bit before it (which describes the device) as is, try to translate
->> the text after it and then combine the text before it + the possibly
->> translated text after it and show that as a notification.
->>
->> The reason for (ab)using the printk ring-buffer for this is that
->> we will still want to have these messages in dmesg too anyways,
->> so why add a new mechanism and send the same message twice if
->> we can just tag the messages inside the printk ring-buffer ?
->>
->> Note the dev_info above would likely be replaced with some new
->> helper which also does some magic to help with gathering a
->> list of strings to translate.
->>
->> Again just thinking out loud here. If anyone has any initial
->> reaction to this please let me know...
->>
-> 
-> As a general comment, I think it captures very well the possibility
-> that the kernel has more information than userspace about the circumstances
-> of something that a user should be notified.  Definitely that's the
-> case for these WMI/ACPI events, and I would think similar circumstances
-> can apply to other subsystem too.
-
-Right, that was my idea behind having a generic notification mechanism.
-
-Regards,
-
-Hans
-
+PiBSaWdodCwgdGhhdCBpcyB3aGF0IEkgd2FzIHRoaW5raW5nLCBhbHRob3VnaCBmb3IgdGhlIHBv
+d2VyIGFkYXB0ZXIgY2FzZQ0KPiBJIHdhcyB0aGlua2luZyB0aGVyZSBhcmUgbm90IHNvIG11Y2gg
+dmFyaWFudHMgc28gd2UgY2FuIGp1c3QgZG8NCj4gYSBjb3VwbGUgb2YgZml4ZWQgc3RyaW5ncyBm
+b3IgdGhlIGNvbWJvcywgb3IgbWF5YmUganVzdCBzYXQgdGhhdA0KPiB0aGUgYWRhcHRlciBkb2Vz
+IG5vdCBkZWxpdmVycyBlbm91Z2ggcG93ZXIgYW5kIHRoYXQgYXQgbWluaW11bSBYIHdhdHRzDQo+
+IGlzIG5lY2Vzc2FyeSIgdGhlbiB3ZSBvbmx5IGhhdmUgMSB2YXJpYWJsZSBhbmQgd2UgY2FuIHBy
+b2JhYmx5IGVhc2lseQ0KPiBkbyBmaXhlZCBzdHJpbmdzIGZvciB0aGUgZmV3IGNhc2VzIG9mIFgu
+DQoNCkkgd291bGQgcmF0aGVyIGhhdmUgYSBnZW5lcmljIGZpeGVkIHN0cmluZyBvciBmaXhlZCBz
+dHJpbmdzIHdpdGggYSBzaW5nbGUNCnRoYW4gYW4gYXJyYXkuICBCdXQgdGhlIHByb2JsZW0gdGhl
+biBpcyB0aGF0IHRoZSBudW1iZXJzIGFyZSBub3QgZGlzY292ZXJhYmxlDQpmcm9tIGFueXdoZXJl
+IGFuZCB3b3VsZCBuZWVkIHRvIGJlIGhhcmRjb2RlZC4gIFNvIGluIHRoYXQgcmVnYXJkIEkgdGhp
+bmsgZ2VuZXJpYw0KZml4ZWQgc3RyaW5ncyBpcyB0aGUgb25seSB3YXkgdGhpcyBjYW4gd29yay4N
+Cg0KPiANCj4gT3Igd2UgY291bGQgZ2V0IGZhbmN5IGFuZCBkbyBzb21lIGdlbmVyaWMgbm90aWZp
+Y2F0aW9uIG1lY2hhbmlzbSBvdXRzaWRlDQo+IG9mIHByaW50ay9kbWVzZyB3aGVyZSB3ZSBwdXNo
+IGEgZm9ybWF0IHN0cmluZyArIHBhcmFtZXRlcnMgdG8gdGhlIGZvcm1hdA0KPiBzdHJpbmcgdG8g
+dXNlcnNwYWNlLiBTbyB0aGF0IHRoZSB0cmFuc2xhdGlvbiBjYW4gYmUgZG9uZSBvbiB0aGUgZm9y
+bWF0DQo+IHN0cmluZyByYXRoZXIgdGhlbiBvbiB0aGUgZW5kIHJlc3VsdC4gSSdtIG5vdCBzdXJl
+IHdlIG5lZWQgdG8gbWFrZSB0aGluZ3MNCj4gdGhhdCBjb21wbGljYXRlZCB0aG91Z2guDQo+IA0K
+PiA+PiBTbyB0aGUgaWRlYSB3b3VsZCBiZSB0aGF0IGUuZy4gZ25vbWUtc2hlbGwgY2FuIGxpc3Rl
+biBmb3IgdGhlc2UgaW4gc29tZQ0KPiB3YXkNCj4gPj4gYW5kIHRoZW4gc2hvdyBhIG5vdGlmaWNh
+dGlvbiBpbiBpdHMgbm90aWZpY2F0aW9uIG1lY2hhbmlzbSB3aXRoIHRoZQ0KPiA+PiBtZXNzYWdl
+LA0KPiA+PiBsaWtlIGhvdyBpdCBkb2VzIGZvciB3aGVuIHNvZnR3YXJlIHVwZGF0ZXMgYXJlIGF2
+YWlsYWJsZSBmb3IgZXhhbXBsZS4NCj4gPj4NCj4gPj4gSSB0aGluayB3ZSBjYW4gbWFrZSB0aGlz
+IGFzIHNpbXBsZSBhcyB1c2luZyB0aGUgbm9ybWFsIHByaW50ayBidWZmZXIgZm9yDQo+ID4+IHRo
+aXMNCj4gPj4gYW5kIHByZWZpeGluZyB0aGUgbWVzc2FnZXMgd2l0aCAiVVNFUiBOT1RJRlkiLCB3
+ZSBhbHJlYWR5IGhhdmUgc29tZQ0KPiA+PiBtZXNzYWdlcw0KPiA+PiBpbiB0aGUga2VybmVsIHdo
+aWNoIHdvdWxkIHF1YWxpZnkgZm9yIHRoaXMsIGUuZy4gaW4gdGhlIFVTQiBjb3JlIHdlDQo+IGhh
+dmU6DQo+ID4+DQo+ID4+ICAgICAgICAgICAgICAgICAgIGRldl9pbmZvKCZ1ZGV2LT5kZXYsICJu
+b3QgcnVubmluZyBhdCB0b3Agc3BlZWQ7ICINCj4gPj4gICAgICAgICAgICAgICAgICAgICAgICAg
+ICAiY29ubmVjdCB0byBhIGhpZ2ggc3BlZWQgaHViXG4iKTsNCj4gPj4NCj4gPj4gVGhpcyBvbmUg
+aXMgYWJvdXQgVVNCMSB2cyBVU0IyIHBvcnRzLCBidXQgd2UgaGF2ZSBhIHNpbWlsYXIgb25lDQo+
+IHNvbWV3aGVyZQ0KPiA+PiBmb3IgVVNCMiB2cyBVU0IzIHBvcnRzIChJIHRoaW5rKSB3aGljaCB3
+b3VsZCBhbHNvIGJlIGFuIGludGVyZXN0aW5nDQo+IG1lc3NhZ2UNCj4gPj4gdG8gYWN0dWFsbHkg
+c2hvdyB0byB0aGUgdXNlciBpbnNpZGUgdGhlIGRlc2t0b3AgZW52aXJvbm1lbnQuDQo+ID4+DQo+
+ID4+IFNvIHN0aWNraW5nIHdpdGggdGhlIGFib3ZlIGV4YW1wbGUsIHdlIGNvdWxkIGNoYW5nZSB0
+aGF0IHRvDQo+ID4+DQo+ID4+ICNkZWZpbmUgVVNFUl9OT1RJRlkgIlVTRVIgTk9USUZZOiAiDQo+
+ID4+DQo+ID4+IGRldl9pbmZvKCZ1ZGV2LT5kZXYsIFVTRVJfTk9USUZZICJub3QgcnVubmluZyBh
+dCB0b3Agc3BlZWQ7IGNvbm5lY3QgdG8gYQ0KPiA+PiBoaWdoIHNwZWVkIGh1YlxuIik7DQo+ID4+
+DQo+ID4+IEFuZCB0aGVuIHVzZXJzcGFjZSB3b3VsZCB0cmlnZ2VyIG9uIHRoZSAiVVNFUiBOT1RJ
+Rlk6ICIgcGFydCwga2VlcCB0aGUNCj4gPj4gYml0IGJlZm9yZSBpdCAod2hpY2ggZGVzY3JpYmVz
+IHRoZSBkZXZpY2UpIGFzIGlzLCB0cnkgdG8gdHJhbnNsYXRlDQo+ID4+IHRoZSB0ZXh0IGFmdGVy
+IGl0IGFuZCB0aGVuIGNvbWJpbmUgdGhlIHRleHQgYmVmb3JlIGl0ICsgdGhlIHBvc3NpYmx5DQo+
+ID4+IHRyYW5zbGF0ZWQgdGV4dCBhZnRlciBpdCBhbmQgc2hvdyB0aGF0IGFzIGEgbm90aWZpY2F0
+aW9uLg0KPiA+Pg0KPiA+PiBUaGUgcmVhc29uIGZvciAoYWIpdXNpbmcgdGhlIHByaW50ayByaW5n
+LWJ1ZmZlciBmb3IgdGhpcyBpcyB0aGF0DQo+ID4+IHdlIHdpbGwgc3RpbGwgd2FudCB0byBoYXZl
+IHRoZXNlIG1lc3NhZ2VzIGluIGRtZXNnIHRvbyBhbnl3YXlzLA0KPiA+PiBzbyB3aHkgYWRkIGEg
+bmV3IG1lY2hhbmlzbSBhbmQgc2VuZCB0aGUgc2FtZSBtZXNzYWdlIHR3aWNlIGlmDQo+ID4+IHdl
+IGNhbiBqdXN0IHRhZyB0aGUgbWVzc2FnZXMgaW5zaWRlIHRoZSBwcmludGsgcmluZy1idWZmZXIg
+Pw0KPiA+Pg0KPiA+PiBOb3RlIHRoZSBkZXZfaW5mbyBhYm92ZSB3b3VsZCBsaWtlbHkgYmUgcmVw
+bGFjZWQgd2l0aCBzb21lIG5ldw0KPiA+PiBoZWxwZXIgd2hpY2ggYWxzbyBkb2VzIHNvbWUgbWFn
+aWMgdG8gaGVscCB3aXRoIGdhdGhlcmluZyBhDQo+ID4+IGxpc3Qgb2Ygc3RyaW5ncyB0byB0cmFu
+c2xhdGUuDQo+ID4+DQo+ID4+IEFnYWluIGp1c3QgdGhpbmtpbmcgb3V0IGxvdWQgaGVyZS4gSWYg
+YW55b25lIGhhcyBhbnkgaW5pdGlhbA0KPiA+PiByZWFjdGlvbiB0byB0aGlzIHBsZWFzZSBsZXQg
+bWUga25vdy4uLg0KPiA+Pg0KPiA+DQo+ID4gQXMgYSBnZW5lcmFsIGNvbW1lbnQsIEkgdGhpbmsg
+aXQgY2FwdHVyZXMgdmVyeSB3ZWxsIHRoZSBwb3NzaWJpbGl0eQ0KPiA+IHRoYXQgdGhlIGtlcm5l
+bCBoYXMgbW9yZSBpbmZvcm1hdGlvbiB0aGFuIHVzZXJzcGFjZSBhYm91dCB0aGUNCj4gY2lyY3Vt
+c3RhbmNlcw0KPiA+IG9mIHNvbWV0aGluZyB0aGF0IGEgdXNlciBzaG91bGQgYmUgbm90aWZpZWQu
+ICBEZWZpbml0ZWx5IHRoYXQncyB0aGUNCj4gPiBjYXNlIGZvciB0aGVzZSBXTUkvQUNQSSBldmVu
+dHMsIGFuZCBJIHdvdWxkIHRoaW5rIHNpbWlsYXIgY2lyY3Vtc3RhbmNlcw0KPiA+IGNhbiBhcHBs
+eSB0byBvdGhlciBzdWJzeXN0ZW0gdG9vLg0KPiANCj4gUmlnaHQsIHRoYXQgd2FzIG15IGlkZWEg
+YmVoaW5kIGhhdmluZyBhIGdlbmVyaWMgbm90aWZpY2F0aW9uIG1lY2hhbmlzbS4NCj4gDQo+IFJl
+Z2FyZHMsDQo+IA0KPiBIYW5zDQoNCg==
