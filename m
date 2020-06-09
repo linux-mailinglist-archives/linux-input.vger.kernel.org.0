@@ -2,69 +2,74 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CA641F3B01
-	for <lists+linux-input@lfdr.de>; Tue,  9 Jun 2020 14:47:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D97811F3B6E
+	for <lists+linux-input@lfdr.de>; Tue,  9 Jun 2020 15:09:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728461AbgFIMrb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 9 Jun 2020 08:47:31 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:54322 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729556AbgFIMqk (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 9 Jun 2020 08:46:40 -0400
-Received: from Q.local (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D0AA61314;
-        Tue,  9 Jun 2020 14:46:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1591706797;
-        bh=OOH+LAXUnO54rY/U8UNrIE1qIeSrYaq/xrNetIgDJ/Q=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=d0tSCri1MiOPPEmnFQJsxZ1iXXrFBfNY1UgzCqbmHnRQpzb2sBVwxrnhpt1YvIDYM
-         9O8tEfYEuTcvx5LLozaR/xhnD/5vEVFulm666XCiyTYhALNo39jq6cX8p2WEBBzA3y
-         vKJ+C0jjMUv9voc3ni4x0DkMUH/yrGowKq38GeiE=
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jiri Kosina <trivial@kernel.org>,
-        linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK
-        , TOUCHSCREEN)...), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 10/17] drivers: input: joystick: Fix trivial spelling
-Date:   Tue,  9 Jun 2020 13:46:03 +0100
-Message-Id: <20200609124610.3445662-11-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200609124610.3445662-1-kieran.bingham+renesas@ideasonboard.com>
-References: <20200609124610.3445662-1-kieran.bingham+renesas@ideasonboard.com>
+        id S1726937AbgFINJb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 9 Jun 2020 09:09:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54410 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725948AbgFINJa (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 9 Jun 2020 09:09:30 -0400
+Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5188AC05BD1E
+        for <linux-input@vger.kernel.org>; Tue,  9 Jun 2020 06:09:30 -0700 (PDT)
+Received: by mail-il1-x143.google.com with SMTP id x18so1260253ilp.1
+        for <linux-input@vger.kernel.org>; Tue, 09 Jun 2020 06:09:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SJh9CwyVSTXvz8wjovEtRYmvQcXfzwMmH19UP5w8CfQ=;
+        b=J79mn1sJKyQZNH5+KkNYW2OTKgDQ0Gn+axadbJEwFwqudq7vqcscgE/1jNDpW2nPmo
+         rLwDOZbs/9HHSt/JSWdmoLer8uenNKZ8113uN43Gvk36rlG88c7L93v/dQgyWhx7ETe8
+         qJz2LF4nKduWTFdHAnDciFyQVug/cHmD2NFqUoi/5sL1ons5lvMAgP2iE1dtoPZYgQK9
+         vKuch5hym9zHHf/S8TLkxneHp9nitW/YQXmGrV3gUprFstjCf0KRoeYYI293x4jGZPtT
+         v0V35fNEqm/tOPhWOJ+pgsK4bKGqwfKLRkJYajpxzwPbCv0M4sz958FqkfBsgZAaT+29
+         U3kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SJh9CwyVSTXvz8wjovEtRYmvQcXfzwMmH19UP5w8CfQ=;
+        b=eGpTxUm9tdFrthZofU/+hWFkswXqzq8ORz6b0+2b89ir98ee+HmZhnSep6IVTqD+PC
+         qCoV/0Tv/kwyUrhw3LKGDmAa3W5z0/bKx6A9MlhOY6tu9jzTwf6fqQZQIVkyuOxHPSy8
+         G0sCUtvvQXJG05ZKg52WDGZqT5jsX8O4+wMoMe2cWCN9k4WrTG2hgB5toRr1Q5hCNhCq
+         rk2bwXW5l/okbwnFVNAR+uNxYOaxL2VkLXgzmZXgha+s5eJCRzeFVziCPO/X2ESqzds+
+         FFlWxKS0Cbt+WDCNauRlnAhj97p5MwqdIPaux78Pyc3OaIJ2DNJvclmcYqdHUvbmS4mV
+         ClYA==
+X-Gm-Message-State: AOAM530h2t1OKx7x0gUEYhFKiG1n/PnjtZ+BhuCmTSDepKoiOJoSKp5N
+        oMHbqbgBt4bVfkRmML9fooyxJS9demSu+Yv5Q7flFiNA
+X-Google-Smtp-Source: ABdhPJzPzt4oIrZp5bEYFCafCphSMyQqb3hNhb99Nl8LBjw+kfZY3wHdBnBNjnXtzKs2/G7rHrIvsHH9hCvTE/nHpoI=
+X-Received: by 2002:a92:d0cc:: with SMTP id y12mr25959801ila.308.1591708168992;
+ Tue, 09 Jun 2020 06:09:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CANFaMLHQwNf3GnPYAxR-ryrYmO-wVmsEHijzVHEYozUt0EzDJw@mail.gmail.com>
+ <CADyDSO5=fN=yw0kZQDpEgrbYXO-PCHDVcYbTk9n1X5XKFef+cA@mail.gmail.com>
+ <CANFaMLFFqGi__011BFEL485X91LOw6rxTGynRyNDPD5JVr5c_g@mail.gmail.com> <CANFaMLHGUHgV6xL1kCYj7Uy2GhdJp=og6Rb0sL=2d-Uihkf2ag@mail.gmail.com>
+In-Reply-To: <CANFaMLHGUHgV6xL1kCYj7Uy2GhdJp=og6Rb0sL=2d-Uihkf2ag@mail.gmail.com>
+From:   David Rheinsberg <david.rheinsberg@gmail.com>
+Date:   Tue, 9 Jun 2020 15:09:17 +0200
+Message-ID: <CADyDSO4Fy2zH_d8k=yZRkqK+nN3YSCKpx1ysK3+GPk=s+G_9TQ@mail.gmail.com>
+Subject: Re: [PATCH v3] HID: Wiimote: Treat the d-pad as an analogue stick
+To:     Daniel Morse <daniel.morse@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The word 'descriptor' is misspelled throughout the tree.
+On Tue, 9 Jun 2020 at 11:16, Daniel Morse <daniel.morse@gmail.com> wrote:
+>
+> Just wanted to check in and see if there was anything else I needed to
+> do to this patch before it gets merged?
 
-Fix it up accordingly:
-    decriptors -> descriptors
+There shouldn't be. But sometimes it takes a while for non-critical
+patches to be picked up. I will add Benjamin as well, maybe he is
+around and can apply patches.
 
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
- drivers/input/joystick/spaceball.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/input/joystick/spaceball.c b/drivers/input/joystick/spaceball.c
-index cf7cbcd0c29d..92002a8b9e8b 100644
---- a/drivers/input/joystick/spaceball.c
-+++ b/drivers/input/joystick/spaceball.c
-@@ -124,7 +124,7 @@ static void spaceball_process_packet(struct spaceball* spaceball)
- }
- 
- /*
-- * Spaceball 4000 FLX packets all start with a one letter packet-type decriptor,
-+ * Spaceball 4000 FLX packets all start with a one letter packet-type descriptor,
-  * and end in 0x0d. It uses '^' as an escape for CR, XOFF and XON characters which
-  * can occur in the axis values.
-  */
--- 
-2.25.1
-
+Thanks
+David
