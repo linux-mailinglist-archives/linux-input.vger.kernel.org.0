@@ -2,117 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C5D31F378B
-	for <lists+linux-input@lfdr.de>; Tue,  9 Jun 2020 12:03:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 245511F379A
+	for <lists+linux-input@lfdr.de>; Tue,  9 Jun 2020 12:07:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727037AbgFIKDS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 9 Jun 2020 06:03:18 -0400
-Received: from mout.gmx.net ([212.227.17.22]:60023 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726286AbgFIKDR (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 9 Jun 2020 06:03:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1591696992;
-        bh=FecC3CcgoMyAyUL7IixAQEc5aGyHVazx2HQgrl03F0I=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=CxnvygdiyuVJ3Wu7j75TgUNC3CAHsIKH8NWxHSzMZduvN+drAmb0gE3j09gLINQ/6
-         CsK7dWaR8Z79mZZDb1dYsTDejzo6dg6qPvQ/8XWbtQ5jwYPVC5XVZi5925aMRaTblf
-         lmgcfJ2RNlDawg6ndLx8JpAHv8UWcOcA2czDGx0w=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([95.91.214.106]) by mail.gmx.com
- (mrgmx104 [212.227.17.168]) with ESMTPSA (Nemesis) id
- 1MORAU-1jIeDR3czO-00PrpT; Tue, 09 Jun 2020 12:03:11 +0200
-From:   Sebastian Parschauer <s.parschauer@gmx.de>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org,
-        Sebastian Parschauer <s.parschauer@gmx.de>,
-        stable@vger.kernel.org
-Subject: [PATCH] HID: quirks: Always poll Obins Anne Pro 2 keyboard
-Date:   Tue,  9 Jun 2020 12:00:53 +0200
-Message-Id: <20200609100053.15016-1-s.parschauer@gmx.de>
+        id S1728629AbgFIKHM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 9 Jun 2020 06:07:12 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:49735 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726286AbgFIKHL (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 9 Jun 2020 06:07:11 -0400
+Received: from threadripper.lan ([149.172.98.151]) by mrelayeu.kundenserver.de
+ (mreue010 [212.227.15.129]) with ESMTPA (Nemesis) id
+ 1Mi2eP-1j4qU50v2n-00e7rY; Tue, 09 Jun 2020 12:06:48 +0200
+From:   Arnd Bergmann <arnd@arndb.de>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Guenter Roeck <linux@roeck-us.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        linux-input@vger.kernel.org, Markus Koch <markus@notsyncing.net>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: joystick - work around "adi" module name confict
+Date:   Tue,  9 Jun 2020 12:06:33 +0200
+Message-Id: <20200609100643.1245061-1-arnd@arndb.de>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:IGIu3ROjnVTEQRVzlKXmK1FJWjCNExL+/+MYjCgzt4euEDbimiL
- Bb+zGxoLGyeSXx5V5ovoXN2zVp+5yw4+vOlYYH2kP3UrD8uVpVkg4RDFqutEbllAFExxkLL
- KqxByVk5ljGJcoepWaufhFqTA7M2qdPLQZ16e1MNzWbf3VGlWVJnlObAbEMLNkFR+o+D9kh
- 3gVVLEWFpbdRmeBEE8uTA==
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:E1BYE3XcXEHjtosxrdg/fikSVlwD8VOcBmuHGtndGssMyxHHQEj
+ xZbBbi/ZbSwpR6LO4vC/QnYbtZvO9mYIgqObrIvDweZ2XCPv+NjSumw3nOFpLQONp0xfZVB
+ xSXu4/UMp1E4OzosPamj/mgLe6K2xrJsQLIE/ROCt9KifQoOiQQv52U/3gAw0c99XSVeKWU
+ 7Vr86uG+WVYfZ+z7+O4CQ==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:bIoJyn+1dN0=:UPhQGavs9xitq47L/F0bNz
- WFZtTRMu24KK1ObhVHstw14xBhnFup/ZSnenSxTiGs6v7qvRGOpsmaiVhmj8WdU0wVtSDPFw5
- FwHUVlGpEu12MVc0nw3QDiSNRJlmMfLEUrmlwDMc6zAXsiMwFoH26BJiWBL9Y7bPH+i2Jt3iV
- xoo01CA2JTVhwQlT98A6dQu917hN4LtpXmZGxncnQ+epDQgBHG5CMRuBMmCo3dUbJCionUnXB
- TeCRLHaqrFIc4Psq6hqFle6M2djqTfa/wmUXF6GdOdSRJIG7Bxuo67IPqWik9FciqT7yT3j8f
- piB4vEm14X6s9E/rXf0fkSaqNgo2NZF4gvO1HFxqSHlKGavP46ku4tpV1mydGViT6Mag+r9Mr
- X4UI9eLX17uhD7zww4FMh2uEvG5b3+yBxUaFmd+gV44ACSh1/MpYMY2VAqHYzimWQU3tao3Gp
- GLyY3DGmWhCvN45TzmkCrjGZrAdM1pxMenLlpP4xU2bTSF/ampqN9fdNjE3RK9eG7AcD/i5Ob
- 0BvmwLkgA1GpIsLpjEJgl5Nl/XwcBXVJoLNBILopxqe9RDSIjTgl3RhQGUZZUYZYko2b/ocIo
- AKNf+GTmeuvw9GI9zqIdHaT4cqFnf9+aPzTXaes4aJM/DVrRLa1cfjIAIF7kx6v+hEyrYtoOu
- HvqZMYhWOylnzYEwIt8bbeSasgGLqtyKLQ6B+8BRL1XpxLSySExq0uueMQhA4KLxEwOJ3q5qL
- YRd2+pI04zkwXaJFC1frEx5HX5b8Qhljdi45ffBnT03BKsglavBFZ2MvP7QebJcpL7Kv0iBr5
- wkdFohEKh9uqAFSoTc0NHQRwBIWRCU0WUiOzCSB5Nw+gHdl4QdYYkOTWRYVAL/Obv8fSgZZsR
- MUFiTaixvyOWPn9YqhLHp/diYhCNT3dnoX80tGn3N3sacg01o4qNT/iDEzODNPBV9z0N3RvmO
- z8eh6cgkQbete72Xkz54iOkNheHe3OW5eGzU/W1aXJ9WQjJBVijBUfwmzSMnNkkBNVdDig54y
- TwDZaM/G7MEkf2OFe5GWnkk6nyONYTHMSC/f4MF9LrSZrV4gmyhNr+uM0d9M6kQAt1IRNKzoH
- 3b56XkSnCHiKzkCXwu9dgx/dbmhnMwUmuhNsynOzfKa7h/t9B3PVTbvceJUJXcpnmmsMBfpQR
- aJK8UrvP8j8EZAJ3UF3+Ge3PVEB1ZCEp8SzOGuX/Ez+yOpgcEhpNzmeUCu87t6SebQF+Ds0TF
- PzhBp0+o6uTfdkG6c
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/sIqOr2R5mM=:Pa7Z6GzzqsG48g+NvgDRBf
+ le4/8g4Llr6TzN6BwEafmkUgjtPd7HGrApQj6SjRWOaaaqauP9U/Wcf1sHajlECcx2XUj2fDw
+ MuKmxbDzcg04R7YyFlNzbWPwd4EriRcEVz9iP4ZwUA5JJXyuf3v+nSl9GMH8MTw0ESSeEa/e1
+ hsFETgHpH+HMefPF2d0hm0tdKx1nVL5sA/+RFQav1sECrcHbIr0gG2ukE2ueCTcjg6SqJbyeY
+ EprTyDktkLMYHPzQmrVoSN5pGgtBtA0PxgbjFje2bSHMFYMoSqJJOz0QRR/SLyW4Zqek5euQY
+ pKNqddcR/W9DxNTMTFBn4AgZjppUz1vJjx3Js05uoM/VVTtvtuT6VX73ylGBAjJ7HOOEhrVxw
+ Kaaz0iMRYXEFlS0aCGiCRVV5bwkK9UreLBO5T9Uiq+k9Wpi9bfXoI6iU5MvhTy4/7sqoDj9Cw
+ 7r3Y2bCOnBjOKuocJftKt4b7mi61WOLArHnsGdNVFTvY9FriHgpsIFFTAGUf8JIfRI6JXWHAc
+ xNTDQwK/KAFZiSW/3YQnMDGxe4GXhGwXpzW2r7lj3CM+iexMBKVRXbToZmTVGc8ztpg7fiUJk
+ bel+A/nxi0ojIMXolgAA7ibJuOB4hu3BTsBCBHeW7hKXYG3GGtyKHPtTxf9j6Eo9qYpSqQG0V
+ ioivWTzGNH/twsLYp4F/GXjTlr1GyBI7kZ0RNZ7COUmwoNJCLSdd3u/298CxaYoQE1QaCZpAu
+ YO4Bl59Iib4dM6sPrwYPif9RTVCNCytMtHZPEHcKVeFO+9PMlPlGpPhTOu+hKlnNbeNYsZeJT
+ kqvxerrnN+RVY3lk/fd4Cn5RN1j7xeM0wkXaTT4IAELFqiFmkI=
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The Obins Anne Pro 2 keyboard (04d9:a293) disconnects after a few
-minutes of inactivity when using it wired and typing does not result
-in any input events any more. This is a common firmware flaw. So add
-the ALWAYS_POLL quirk for this device.
+Making module name conflicts a fatal error breaks sparc64
+allmodconfig:
 
-GitHub user Dietrich Moerman (dietrichm) tested the quirk and
-requested my help in my project
-https://github.com/sriemer/fix-linux-mouse issue 22 to provide
-this patch.
+Error log:
+error: the following would cause module name conflict:
+  drivers/char/adi.ko
+  drivers/input/joystick/adi.ko
 
-Link: https://www.reddit.com/r/AnnePro/comments/gruzcb/anne_pro_2_linux_ca=
-nt_type_after_inactivity/
-Signed-off-by: Sebastian Parschauer <s.parschauer@gmx.de>
-Cc: stable@vger.kernel.org # v4.16+
-=2D--
- drivers/hid/hid-ids.h    | 1 +
- drivers/hid/hid-quirks.c | 1 +
- 2 files changed, 2 insertions(+)
+Renaming one of the modules would solve the problem, but then cause other
+problems because neither of them is automatically loaded and changing
+the name is likely to break any setup that relies on manually loading
+it by name.
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 1c71a1aa76b2..3a1047e143d2 100644
-=2D-- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -624,6 +624,7 @@
- #define USB_DEVICE_ID_HOLTEK_ALT_MOUSE_A081	0xa081
- #define USB_DEVICE_ID_HOLTEK_ALT_MOUSE_A0C2	0xa0c2
- #define USB_DEVICE_ID_HOLTEK_ALT_KEYBOARD_A096	0xa096
-+#define USB_DEVICE_ID_HOLTEK_ALT_KEYBOARD_A293	0xa293
+As there is probably no sparc64 system with this kind of ancient joystick
+attached, work around it by adding a Kconfig dependency that forbids
+them from both being modules.  It is still possible to build the joystick
+driver if the sparc64 adi driver is built-in.
 
- #define USB_VENDOR_ID_IMATION		0x0718
- #define USB_DEVICE_ID_DISC_STAKKA	0xd000
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index e4cb543de0cd..67839d5eece8 100644
-=2D-- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -88,6 +88,7 @@ static const struct hid_device_id hid_quirks[] =3D {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HAPP, USB_DEVICE_ID_UGCI_FIGHTING), HID_Q=
-UIRK_BADPAD | HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HAPP, USB_DEVICE_ID_UGCI_FLYING), HID_QUI=
-RK_BADPAD | HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HOLTEK_ALT, USB_DEVICE_ID_HOLTEK_ALT_KEYB=
-OARD_A096), HID_QUIRK_NO_INIT_REPORTS },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_HOLTEK_ALT, USB_DEVICE_ID_HOLTEK_ALT_KEYB=
-OARD_A293), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_LOGITECH_OEM_USB_OP=
-TICAL_MOUSE_0A4A), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_LOGITECH_OEM_USB_OP=
-TICAL_MOUSE_0B4A), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HP, USB_PRODUCT_ID_HP_PIXART_OEM_USB_OPTI=
-CAL_MOUSE), HID_QUIRK_ALWAYS_POLL },
-=2D-
+Reported-by: Guenter Roeck <linux@roeck-us.net>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+This should get merged through the kbuild tree together
+with the patch that turns the warning into an error, if the
+joystick maintainers are ok with the hack.
+---
+ drivers/input/joystick/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconfig
+index 940b744639c7..6f73f02059b5 100644
+--- a/drivers/input/joystick/Kconfig
++++ b/drivers/input/joystick/Kconfig
+@@ -45,6 +45,7 @@ config JOYSTICK_A3D
+ config JOYSTICK_ADI
+ 	tristate "Logitech ADI digital joysticks and gamepads"
+ 	select GAMEPORT
++	depends on ADI!=m # avoid module name conflict
+ 	help
+ 	  Say Y here if you have a Logitech controller using the ADI
+ 	  protocol over the PC gameport.
+-- 
 2.26.2
 
