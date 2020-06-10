@@ -2,195 +2,195 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 700A71F4BFD
-	for <lists+linux-input@lfdr.de>; Wed, 10 Jun 2020 06:01:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D1B21F4C6A
+	for <lists+linux-input@lfdr.de>; Wed, 10 Jun 2020 06:38:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725927AbgFJEBp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 10 Jun 2020 00:01:45 -0400
-Received: from mga02.intel.com ([134.134.136.20]:21495 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725844AbgFJEBp (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 10 Jun 2020 00:01:45 -0400
-IronPort-SDR: 1v613VCgp5zAeV5lGv22KuR7MNyqJ+yuJ8mkAnsNkzYeL/FgLL4l2VFwKlGYBIjDskgSERTPZ4
- 78BFhFn8EqLQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2020 21:01:44 -0700
-IronPort-SDR: 6dCOsUL/pk9ol8CuMPge/SW7dmKMtPV0cj1rerzMN8IBJx8GYv83hamiDDLShUWL8XSVeL5IXL
- SO1DkInWeLnQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,494,1583222400"; 
-   d="scan'208";a="260014988"
-Received: from lkp-server01.sh.intel.com (HELO 19cb45ee048e) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 09 Jun 2020 21:01:43 -0700
-Received: from kbuild by 19cb45ee048e with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1jirvq-00001F-JF; Wed, 10 Jun 2020 04:01:42 +0000
-Date:   Wed, 10 Jun 2020 12:01:08 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [input:for-linus] BUILD SUCCESS
- 751ad34fbad74c3ed4a9ede24764b4253d4faa84
-Message-ID: <5ee05b04.8T6k/yEREtbXqWIz%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1725270AbgFJEia (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 10 Jun 2020 00:38:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56846 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725268AbgFJEi3 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 10 Jun 2020 00:38:29 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 718CFC05BD1E;
+        Tue,  9 Jun 2020 21:38:27 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id d6so361694pjs.3;
+        Tue, 09 Jun 2020 21:38:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=bYegErhvXUhKWYoec/3/c1SV8F3ijk3h3IUkeCGeUVE=;
+        b=QxPlUIxUHr9+eA/5Zu9Fz3/+FxoUWMPM1E5U2ckHJ+6Djxxv+ManRZOS2+ncEmGiul
+         gX+0GXaX0qLgyJaN9zpvTlIiq2UqJiQw3uyNuTCj5sZOO5/3qOj9wLXQih+nxka5Pw+F
+         z3PBMJ5GGY7OaM46XEl834rMuA4nh/4qfX0UEQDUTnbxmTo6xpMJAW6vr9+Ll/T3sJ3S
+         tkJjoV4SzXn5m29UcofvIZbP2Sx8UpG+AVNXLihHEkkQCL8rhI5YzY12HGcmGUN9G7es
+         AykDgjXiKv4C3NU5WrMfbqnmRel1cjlYX9NEd2UVQGjD1PWe777KrsxuWt8UmSJfjhcU
+         QVFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=bYegErhvXUhKWYoec/3/c1SV8F3ijk3h3IUkeCGeUVE=;
+        b=r/ginXKfRBM/TmkrW+DACuAtuMNWz7DC69q5r/i8Uc01Xu6foAMpcdeSWFQKeaYUN/
+         NKgbLTCdODceYsdIcgvhfaivmBLsQ//aA8P+UdKAUl6m6zufbdpgViIg1rDwu4D28XIO
+         qPc1cF/4JIxO6ADeZQDn0xcAK3toxUfTce5CU0kytZ807Wma9FzqScvF9eAFkO3DSd4H
+         6JecqfnhbQ4UhFKPNPtwP4PZ6eyJrVlF9CVsW+vHyjsHxdWQwsrYIvB8AL03ILR9y+DW
+         wwOuVQExxW5VP9uhA3+8ZRtnkWCrP+jc5mDIWuthiBjoFvQtU7fIuZ+FnEmGbWkpnm5G
+         0vuA==
+X-Gm-Message-State: AOAM530CRZq4+ZTlxg0RAIUpN5ad1i1XI98YrA1pR+ZTKjvBjJv9LyDK
+        ZoT4O9FXgboAyMCdTZiP1Os=
+X-Google-Smtp-Source: ABdhPJwobrYmsbIzKhRC/8ezHlCXe/nzhD+kLnuVdC8/nhctqZEqM5gAQ/EtclACpuhNV5aDVIv+WQ==
+X-Received: by 2002:a17:902:b710:: with SMTP id d16mr1482133pls.28.1591763906797;
+        Tue, 09 Jun 2020 21:38:26 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
+        by smtp.gmail.com with ESMTPSA id h17sm9559235pgv.41.2020.06.09.21.38.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jun 2020 21:38:26 -0700 (PDT)
+Date:   Tue, 9 Jun 2020 21:38:24 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     groeck@chromium.org, Nicolas Boichat <drinkcat@chromium.org>,
+        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2] HID: usbhid: do not sleep when opening device
+Message-ID: <20200610043824.GA171503@dtor-ws>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git  for-linus
-branch HEAD: 751ad34fbad74c3ed4a9ede24764b4253d4faa84  Input: adi - work around module name confict
+usbhid tries to give the device 50 milliseconds to drain its queues when
+opening the device, but dies it naively by simply sleeping in open handler,
+which slows down device probing (and thus may affect overall boot time).
 
-elapsed time: 480m
+However we do not need to sleep as we can instead mark a point of time in
+the future when we should start processing the events.
 
-configs tested: 136
-configs skipped: 9
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-arm                                 defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                               allnoconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-m68k                         amcore_defconfig
-mips                       rbtx49xx_defconfig
-um                                  defconfig
-sh                     magicpanelr2_defconfig
-powerpc                  mpc885_ads_defconfig
-mips                           xway_defconfig
-arm                       cns3420vb_defconfig
-m68k                          sun3x_defconfig
-sparc                       sparc32_defconfig
-riscv                          rv32_defconfig
-arm                           h3600_defconfig
-sparc                            allyesconfig
-powerpc                    mvme5100_defconfig
-openrisc                 simple_smp_defconfig
-sh                           se7705_defconfig
-mips                     decstation_defconfig
-nios2                               defconfig
-openrisc                            defconfig
-sh                           se7619_defconfig
-sh                 kfr2r09-romimage_defconfig
-arm                          moxart_defconfig
-arc                         haps_hs_defconfig
-m68k                            mac_defconfig
-arm                        oxnas_v6_defconfig
-arm                    vt8500_v6_v7_defconfig
-mips                         tb0219_defconfig
-m68k                        mvme16x_defconfig
-mips                          malta_defconfig
-arc                          axs101_defconfig
-sh                           se7724_defconfig
-arm                       aspeed_g5_defconfig
-arm                            dove_defconfig
-xtensa                           alldefconfig
-arm                         shannon_defconfig
-arm                         socfpga_defconfig
-sh                   sh7724_generic_defconfig
-arm                            qcom_defconfig
-sh                             espt_defconfig
-powerpc                          allmodconfig
-powerpc                     mpc512x_defconfig
-i386                              allnoconfig
-arm                       omap2plus_defconfig
-i386                             alldefconfig
-s390                              allnoconfig
-parisc                generic-32bit_defconfig
-arm                          ep93xx_defconfig
-s390                                defconfig
-i386                             allyesconfig
-i386                                defconfig
-i386                              debian-10.3
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                              allnoconfig
-m68k                           sun3_defconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                            allyesconfig
-c6x                              allyesconfig
-c6x                               allnoconfig
-openrisc                         allyesconfig
-nds32                               defconfig
-nds32                             allnoconfig
-csky                             allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-h8300                            allmodconfig
-xtensa                              defconfig
-arc                                 defconfig
-arc                              allyesconfig
-sh                               allmodconfig
-sh                                allnoconfig
-microblaze                        allnoconfig
-mips                             allyesconfig
-mips                              allnoconfig
-mips                             allmodconfig
-parisc                            allnoconfig
-parisc                              defconfig
-parisc                           allyesconfig
-parisc                           allmodconfig
-powerpc                             defconfig
-powerpc                          allyesconfig
-powerpc                          rhel-kconfig
-powerpc                           allnoconfig
-i386                 randconfig-a001-20200607
-i386                 randconfig-a006-20200607
-i386                 randconfig-a002-20200607
-i386                 randconfig-a005-20200607
-i386                 randconfig-a004-20200607
-i386                 randconfig-a003-20200607
-i386                 randconfig-a001-20200609
-i386                 randconfig-a002-20200609
-i386                 randconfig-a006-20200609
-i386                 randconfig-a005-20200609
-i386                 randconfig-a003-20200609
-i386                 randconfig-a004-20200609
-i386                 randconfig-a014-20200607
-i386                 randconfig-a015-20200607
-i386                 randconfig-a011-20200607
-i386                 randconfig-a016-20200607
-i386                 randconfig-a012-20200607
-i386                 randconfig-a013-20200607
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-s390                             allyesconfig
-s390                             allmodconfig
-sparc                               defconfig
-sparc64                             defconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                          allmodconfig
-um                                allnoconfig
-um                               allyesconfig
-um                               allmodconfig
-x86_64                                   rhel
-x86_64                               rhel-7.6
-x86_64                    rhel-7.6-kselftests
-x86_64                         rhel-7.2-clear
-x86_64                                    lkp
-x86_64                              fedora-25
-x86_64                                  kexec
-
+Reported-by: Nicolas Boichat <drinkcat@chromium.org>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
+v2: switched from using jiffies to ktime_t to make sure we won't have
+issues with jiffies overflowing.
+
+ drivers/hid/usbhid/hid-core.c | 53 +++++++++++++++++++----------------
+ drivers/hid/usbhid/usbhid.h   |  2 ++
+ 2 files changed, 31 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
+index c7bc9db5b192..72c92aab2b18 100644
+--- a/drivers/hid/usbhid/hid-core.c
++++ b/drivers/hid/usbhid/hid-core.c
+@@ -26,6 +26,7 @@
+ #include <linux/wait.h>
+ #include <linux/workqueue.h>
+ #include <linux/string.h>
++#include <linux/timekeeping.h>
+ 
+ #include <linux/usb.h>
+ 
+@@ -95,6 +96,18 @@ static int hid_start_in(struct hid_device *hid)
+ 				set_bit(HID_NO_BANDWIDTH, &usbhid->iofl);
+ 		} else {
+ 			clear_bit(HID_NO_BANDWIDTH, &usbhid->iofl);
++
++			if (test_bit(HID_RESUME_RUNNING, &usbhid->iofl)) {
++				/*
++				 * In case events are generated while nobody was
++				 * listening, some are released when the device
++				 * is re-opened. Wait 50 msec for the queue to
++				 * empty before allowing events to go through
++				 * hid.
++				 */
++				usbhid->input_start_time =
++					ktime_add_ms(ktime_get_coarse(), 50);
++			}
+ 		}
+ 	}
+ 	spin_unlock_irqrestore(&usbhid->lock, flags);
+@@ -280,20 +293,23 @@ static void hid_irq_in(struct urb *urb)
+ 		if (!test_bit(HID_OPENED, &usbhid->iofl))
+ 			break;
+ 		usbhid_mark_busy(usbhid);
+-		if (!test_bit(HID_RESUME_RUNNING, &usbhid->iofl)) {
+-			hid_input_report(urb->context, HID_INPUT_REPORT,
+-					 urb->transfer_buffer,
+-					 urb->actual_length, 1);
+-			/*
+-			 * autosuspend refused while keys are pressed
+-			 * because most keyboards don't wake up when
+-			 * a key is released
+-			 */
+-			if (hid_check_keys_pressed(hid))
+-				set_bit(HID_KEYS_PRESSED, &usbhid->iofl);
+-			else
+-				clear_bit(HID_KEYS_PRESSED, &usbhid->iofl);
++		if (test_bit(HID_RESUME_RUNNING, &usbhid->iofl)) {
++			if (ktime_before(ktime_get_coarse(),
++					 usbhid->input_start_time))
++				break;
++			clear_bit(HID_RESUME_RUNNING, &usbhid->iofl);
+ 		}
++		hid_input_report(urb->context, HID_INPUT_REPORT,
++				 urb->transfer_buffer, urb->actual_length, 1);
++		/*
++		 * autosuspend refused while keys are pressed
++		 * because most keyboards don't wake up when
++		 * a key is released
++		 */
++		if (hid_check_keys_pressed(hid))
++			set_bit(HID_KEYS_PRESSED, &usbhid->iofl);
++		else
++			clear_bit(HID_KEYS_PRESSED, &usbhid->iofl);
+ 		break;
+ 	case -EPIPE:		/* stall */
+ 		usbhid_mark_busy(usbhid);
+@@ -714,17 +730,6 @@ static int usbhid_open(struct hid_device *hid)
+ 	}
+ 
+ 	usb_autopm_put_interface(usbhid->intf);
+-
+-	/*
+-	 * In case events are generated while nobody was listening,
+-	 * some are released when the device is re-opened.
+-	 * Wait 50 msec for the queue to empty before allowing events
+-	 * to go through hid.
+-	 */
+-	if (res == 0)
+-		msleep(50);
+-
+-	clear_bit(HID_RESUME_RUNNING, &usbhid->iofl);
+ 	return res;
+ }
+ 
+diff --git a/drivers/hid/usbhid/usbhid.h b/drivers/hid/usbhid/usbhid.h
+index 8620408bd7af..0f0bcf7037f8 100644
+--- a/drivers/hid/usbhid/usbhid.h
++++ b/drivers/hid/usbhid/usbhid.h
+@@ -13,6 +13,7 @@
+ 
+ #include <linux/types.h>
+ #include <linux/slab.h>
++#include <linux/ktime.h>
+ #include <linux/list.h>
+ #include <linux/mutex.h>
+ #include <linux/timer.h>
+@@ -82,6 +83,7 @@ struct usbhid_device {
+ 
+ 	spinlock_t lock;						/* fifo spinlock */
+ 	unsigned long iofl;                                             /* I/O flags (CTRL_RUNNING, OUT_RUNNING) */
++	ktime_t input_start_time;					/* When to start handling input */
+ 	struct timer_list io_retry;                                     /* Retry timer */
+ 	unsigned long stop_retry;                                       /* Time to give up, in jiffies */
+ 	unsigned int retry_delay;                                       /* Delay length in ms */
+-- 
+2.27.0.278.ge193c7cf3a9-goog
+
+
+-- 
+Dmitry
