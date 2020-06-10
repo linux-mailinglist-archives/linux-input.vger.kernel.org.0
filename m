@@ -2,61 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4CF21F4FBF
-	for <lists+linux-input@lfdr.de>; Wed, 10 Jun 2020 09:56:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DC971F4F9D
+	for <lists+linux-input@lfdr.de>; Wed, 10 Jun 2020 09:52:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726535AbgFJH4Z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 10 Jun 2020 03:56:25 -0400
-Received: from servermail.famema.br ([200.144.25.6]:37377 "EHLO
-        servermail.famema.br" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726651AbgFJH4W (ORCPT
+        id S1726512AbgFJHwo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 10 Jun 2020 03:52:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58554 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726396AbgFJHwo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 10 Jun 2020 03:56:22 -0400
-X-Greylist: delayed 608 seconds by postgrey-1.27 at vger.kernel.org; Wed, 10 Jun 2020 03:56:21 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by servermail.famema.br (Postfix) with ESMTP id E3C569621E6;
-        Wed, 10 Jun 2020 04:46:49 -0300 (-03)
-X-Virus-Scanned: amavisd-new at famema.br
-Received: from servermail.famema.br ([127.0.0.1])
-        by localhost (servermail.famema.br [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id E4xIHDwjq3O4; Wed, 10 Jun 2020 04:46:49 -0300 (-03)
-Received: from localhost (localhost [127.0.0.1])
-        by servermail.famema.br (Postfix) with ESMTP id 5CB43962203;
-        Wed, 10 Jun 2020 04:46:49 -0300 (-03)
-DKIM-Filter: OpenDKIM Filter v2.7.1 servermail.famema.br 5CB43962203
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=famema.br;
-        s=86F4FE00-7603-11E7-9C6D-2EF790A36966; t=1591775209;
-        bh=JmpsuLHkosS/kErOB5THpJCHSgUORYELdwrXm0iIYfQ=;
-        h=Date:From:Reply-To:Message-ID:Subject:MIME-Version:Content-Type:
-         Content-Transfer-Encoding;
-        b=a9ZIMnH1+c0HfFNc+2FqKbPZTJ5aDtKnrqcjekq3Z3hS6KQhtn+aBIYtixj0vxp8f
-         gulWXDlCkrMG19VRoChHR8j17PQX/HEZoqBI7ii/T3hW+YMDoKkZ6KZzmp6gahS+MR
-         MdZAYgDIZL7rsujm5lZSZPHO7ArNjcGXp4xLBKB4=
-X-Virus-Scanned: amavisd-new at famema.br
-Received: from servermail.famema.br ([127.0.0.1])
-        by localhost (servermail.famema.br [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id h-1EqjWCpQ4y; Wed, 10 Jun 2020 04:46:49 -0300 (-03)
-Received: from servermail.famema.br (servermail.famema.br [200.144.25.6])
-        by servermail.famema.br (Postfix) with ESMTP id 8BB419621E6;
-        Wed, 10 Jun 2020 04:46:47 -0300 (-03)
-Date:   Wed, 10 Jun 2020 04:46:47 -0300 (BRT)
-From:   Manuel Franco <noperes@famema.br>
-Reply-To: Manuel Franco <manuelfranco72.33@gmail.com>
-Message-ID: <1540328671.284250.1591775207467.JavaMail.root@famema.br>
-Subject: 
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.235.60.90]
-X-Mailer: Zimbra 8.0.2_GA_5569 (zclient/8.0.2_GA_5569)
-Thread-Topic: 
-Thread-Index: aUOAM/0fgx2SyfhphLWOMSZzQYFGyg==
-To:     unlisted-recipients:; (no To-header on input)
+        Wed, 10 Jun 2020 03:52:44 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD8CDC03E96B;
+        Wed, 10 Jun 2020 00:52:43 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id 2526C2A3FC4
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+To:     linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-tegra@vger.kernel.org, patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Peter Hutterer <peter.hutterer@redhat.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
+        kernel@collabora.com
+Subject: [FIXED PATCH v4 5/7] iio: adc: exynos: Use input_device_enabled()
+Date:   Wed, 10 Jun 2020 09:52:30 +0200
+Message-Id: <20200610075230.14172-1-andrzej.p@collabora.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200610012801.GA11530@qmqm.qmqm.pl>
+References: <20200610012801.GA11530@qmqm.qmqm.pl>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+A new helper is available, so use it. Inspecting 'users' member of
+input_dev requires taking device's mutex.
 
+Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+---
+ drivers/iio/adc/exynos_adc.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Ihre Antwort ist in Bezug auf die 2.000.000.000,00 Dollar erforderlich, die Ihnen von Herrn Manuel Franco gespendet wurden, um sich selbst und andere weniger Privilegien in Ihrer N&auml;he zu unterst&uuml;tzen. Um Ihr Geld in Anspruch zu nehmen, kontaktieren Sie ihn bitte &uuml;ber diese E-Mail: manuelfranco72.33@gmail.com
+diff --git a/drivers/iio/adc/exynos_adc.c b/drivers/iio/adc/exynos_adc.c
+index 22131a677445..2761c3aea2c6 100644
+--- a/drivers/iio/adc/exynos_adc.c
++++ b/drivers/iio/adc/exynos_adc.c
+@@ -633,7 +633,9 @@ static irqreturn_t exynos_ts_isr(int irq, void *dev_id)
+ 	bool pressed;
+ 	int ret;
+ 
+-	while (info->input->users) {
++	mutex_lock(&info->input->mutex);
++	while (input_device_enabled(info->input)) {
++		mutex_unlock(&info->input->mutex);
+ 		ret = exynos_read_s3c64xx_ts(dev, &x, &y);
+ 		if (ret == -ETIMEDOUT)
+ 			break;
+@@ -651,7 +653,10 @@ static irqreturn_t exynos_ts_isr(int irq, void *dev_id)
+ 		input_sync(info->input);
+ 
+ 		usleep_range(1000, 1100);
++
++		mutex_lock(&info->input->mutex);
+ 	}
++	mutex_unlock(&info->input->mutex);
+ 
+ 	writel(0, ADC_V1_CLRINTPNDNUP(info->regs));
+ 
+-- 
+2.17.1
+
