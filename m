@@ -2,71 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43CD01F61F5
-	for <lists+linux-input@lfdr.de>; Thu, 11 Jun 2020 08:58:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF4841F6670
+	for <lists+linux-input@lfdr.de>; Thu, 11 Jun 2020 13:18:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726552AbgFKG6M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 11 Jun 2020 02:58:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46068 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726526AbgFKG6M (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 11 Jun 2020 02:58:12 -0400
-Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 715312072F;
-        Thu, 11 Jun 2020 06:58:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591858691;
-        bh=0LbPkXRKmQkzn1hd+4rIfvZFetgQ3Peh+JzAEL1lQps=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=O3qs0YGIPTZOCVvYK09B38ZLCrvyQXfhFPkNIj9EONJrb4gx4y/3C82XzGAUvROYX
-         UKxLQBKEIYP8vHde8UwgJibJwfxGpIe4e6Ur2/8Oo2nnUTNxnCKvsMBrbA0Q3YwQcr
-         CpIZk4jcSbcafBckOgnl0MEO3t7egdQMUgLhllBU=
-Date:   Thu, 11 Jun 2020 08:58:06 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Peter Hutterer <peter.hutterer@who-t.net>
-cc:     Andrey Konovalov <andreyknvl@google.com>,
-        syzbot <syzbot+6921abfb75d6fc79c0eb@syzkaller.appspotmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        amir73il@gmail.com, Felipe Balbi <balbi@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jan Kara <jack@suse.cz>, kuba@kernel.org,
-        linux-fsdevel@vger.kernel.org, mathew.j.martineau@linux.intel.com,
-        matthieu.baerts@tessares.net, mptcp@lists.01.org,
-        netdev <netdev@vger.kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Subject: Re: INFO: task hung in corrupted (2)
-In-Reply-To: <20200611045118.GA306934@jelly>
-Message-ID: <nycvar.YFH.7.76.2006110856290.13242@cbobk.fhfr.pm>
-References: <0000000000004afcae05a7041e98@google.com> <CAAeHK+ykPQ8Fmit_3cn17YKzrCWtX010HRKmBCJAQ__OMdwCDA@mail.gmail.com> <nycvar.YFH.7.76.2006041339220.13242@cbobk.fhfr.pm> <20200611045118.GA306934@jelly>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S1727973AbgFKLSu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 11 Jun 2020 07:18:50 -0400
+Received: from condef-01.nifty.com ([202.248.20.66]:50869 "EHLO
+        condef-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728014AbgFKLSt (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 11 Jun 2020 07:18:49 -0400
+X-Greylist: delayed 528 seconds by postgrey-1.27 at vger.kernel.org; Thu, 11 Jun 2020 07:18:48 EDT
+Received: from conssluserg-06.nifty.com ([10.126.8.85])by condef-01.nifty.com with ESMTP id 05BB6OUg009306
+        for <linux-input@vger.kernel.org>; Thu, 11 Jun 2020 20:06:24 +0900
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 05BB5qnx030522;
+        Thu, 11 Jun 2020 20:05:53 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 05BB5qnx030522
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1591873553;
+        bh=Z6mErzgADy1W4xnRSK8XzwQH8dT4V+lF4n/qwopigKg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=UHaD0XZbq0U4zrKKFEpMRtKpW6vlSd7zscIjTDbYzt/e8smseAR+8RkNiKfI9jaJk
+         HJwGgp4CaE5gK4CjvGUBnbpG0aE7EP78T6tgC89AFwC9YNOyeD0Bz6LxncXq4eMKHB
+         0fbovKNXRoUcdee61vH50vAV6uFBT5WZgYSW9KoyGJULZCxxiZ8EiYIdswEyYiyk25
+         s73mQfIU2zN6+iSDc7IY/h+5WMIHbMfoIM8rrgTDs5wyBLj7F5lmkWmWzSdCmvTO/0
+         qLWmYLldzal7BlZjLp37NYZ3371L94jIrhQ8d2VPxNcOXwoau1oxoke4uo4gRHrvDD
+         C1W0QzPVx5P0Q==
+X-Nifty-SrcIP: [209.85.222.54]
+Received: by mail-ua1-f54.google.com with SMTP id 59so1956266uam.7;
+        Thu, 11 Jun 2020 04:05:53 -0700 (PDT)
+X-Gm-Message-State: AOAM53374xT3zkfaQ9hag9LvQ/QPIfG/Gug9oDHUi7W1WIaJfCbWPvax
+        iULJwBefokHj21ab0VDU7WoMkDHP+kKaHLGZ2LI=
+X-Google-Smtp-Source: ABdhPJzW2sMhVjXctonLV5znGoBTj46fBxKHnxcsDXobKRWVzaKE52M6VoTyQ1K8nTeDjHFlLA/esj2bFGctkAdAjL4=
+X-Received: by 2002:ab0:156d:: with SMTP id p42mr5998538uae.121.1591873551924;
+ Thu, 11 Jun 2020 04:05:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <20200609100643.1245061-1-arnd@arndb.de>
+In-Reply-To: <20200609100643.1245061-1-arnd@arndb.de>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 11 Jun 2020 20:05:15 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQo-cmpwBDC0t1+tAKL+j0eYPQc3ZZjcKcqdZA06eSRPg@mail.gmail.com>
+Message-ID: <CAK7LNAQo-cmpwBDC0t1+tAKL+j0eYPQc3ZZjcKcqdZA06eSRPg@mail.gmail.com>
+Subject: Re: [PATCH] Input: joystick - work around "adi" module name confict
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-input@vger.kernel.org, Markus Koch <markus@notsyncing.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 11 Jun 2020, Peter Hutterer wrote:
+On Tue, Jun 9, 2020 at 7:07 PM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> Making module name conflicts a fatal error breaks sparc64
+> allmodconfig:
+>
+> Error log:
+> error: the following would cause module name conflict:
+>   drivers/char/adi.ko
+>   drivers/input/joystick/adi.ko
+>
+> Renaming one of the modules would solve the problem, but then cause other
+> problems because neither of them is automatically loaded and changing
+> the name is likely to break any setup that relies on manually loading
+> it by name.
+>
+> As there is probably no sparc64 system with this kind of ancient joystick
+> attached, work around it by adding a Kconfig dependency that forbids
+> them from both being modules.  It is still possible to build the joystick
+> driver if the sparc64 adi driver is built-in.
+>
+> Reported-by: Guenter Roeck <linux@roeck-us.net>
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: linux-input@vger.kernel.org
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> This should get merged through the kbuild tree together
+> with the patch that turns the warning into an error, if the
+> joystick maintainers are ok with the hack.
 
-> based on the line numbers it's the while loop in there which is also the one
-> that could be unbounded if the hid collection isn't set up correctly or if
-> we have some other corruption happening.
+Note:
+Dmitry picked up this patch.
+(commit 751ad34fbad74c3ed4a9ede24764b4253d4faa84)
 
-Given the fact this is syzkaller-induced, it's almost certainly a 
-completely bogus collection. So we are surely missing sanity check that 
-there exists a collection with idx -1.
 
-> Need to page this back in to figure out what could be happening here.
 
-Thanks,
+
+
+> ---
+>  drivers/input/joystick/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconfig
+> index 940b744639c7..6f73f02059b5 100644
+> --- a/drivers/input/joystick/Kconfig
+> +++ b/drivers/input/joystick/Kconfig
+> @@ -45,6 +45,7 @@ config JOYSTICK_A3D
+>  config JOYSTICK_ADI
+>         tristate "Logitech ADI digital joysticks and gamepads"
+>         select GAMEPORT
+> +       depends on ADI!=m # avoid module name conflict
+>         help
+>           Say Y here if you have a Logitech controller using the ADI
+>           protocol over the PC gameport.
+> --
+> 2.26.2
+>
+
 
 -- 
-Jiri Kosina
-SUSE Labs
-
+Best Regards
+Masahiro Yamada
