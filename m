@@ -2,173 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FD171F7768
-	for <lists+linux-input@lfdr.de>; Fri, 12 Jun 2020 13:43:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF67B1F7824
+	for <lists+linux-input@lfdr.de>; Fri, 12 Jun 2020 14:53:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725791AbgFLLnV convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Fri, 12 Jun 2020 07:43:21 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:32841 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725805AbgFLLnU (ORCPT
+        id S1726319AbgFLMx2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 12 Jun 2020 08:53:28 -0400
+Received: from a80-127-99-228.adsl.xs4all.nl ([80.127.99.228]:52326 "EHLO
+        hetgrotebos.org" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726085AbgFLMx1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 12 Jun 2020 07:43:20 -0400
-Received: from mail-pl1-f199.google.com ([209.85.214.199])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <kai.heng.feng@canonical.com>)
-        id 1jji5d-00088M-Do
-        for linux-input@vger.kernel.org; Fri, 12 Jun 2020 11:43:17 +0000
-Received: by mail-pl1-f199.google.com with SMTP id s7so5994371plp.13
-        for <linux-input@vger.kernel.org>; Fri, 12 Jun 2020 04:43:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=tX6T036XKpQGxpEe93S96KsVk1SJ0qpeUi5sT/LTWg0=;
-        b=s5x8Ap9d48yjBVI8JSN5bP5M6flb08bHCwAjAuMRjti30TwSKqSFh1VfiAfGyLyw3O
-         FMOxK3C03FhZ8b1ZQK4MXf3ATtcDTThPF+0CfHh/nPFyAByrE3JEtogKKXFMKO9DoUEz
-         BhLSuozYrr4BBMijcxG3uecCn/uI56MRn2BRMpbWe21KpsF9VBhksPAapNW5vVpsi4Up
-         LLWWFEcLjQsu1GStR2mXwnaTd6iKNYz9dWKKkEyfo11xei5RrvEmi1M3BHU0Lq4Tbw7p
-         kEZZGElLgBYKcEP1827gUc5fI2GAPHj+yy4hzzqwJNVEvGxeRwjXD2E3bSFlB++Q39Bv
-         sDrw==
-X-Gm-Message-State: AOAM530DtydzY9XEtW4+taPziMFQaIFe8UbnwZvbZA9N05zntdEFdZqm
-        Se/7YOP85iRP+H3tuOSOZSVMLaHDXDRQ6TSLufGI0fxMQ9Pi4VsHpqok+g/HeKSjXtUOSjiMbqS
-        bIE8OTF48pUHaMAp+3vXQgTGvFps0bsnyhtQy0ZWI
-X-Received: by 2002:a05:6a00:1592:: with SMTP id u18mr7181386pfk.26.1591962195972;
-        Fri, 12 Jun 2020 04:43:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzNLrjKPMekm6EZDo957A/izfwCYUmN88T9k29qkhw1VSuhndg3IARKc8GvW7HriAbpIeY9pw==
-X-Received: by 2002:a05:6a00:1592:: with SMTP id u18mr7181362pfk.26.1591962195591;
-        Fri, 12 Jun 2020 04:43:15 -0700 (PDT)
-Received: from [192.168.1.208] (220-133-187-190.HINET-IP.hinet.net. [220.133.187.190])
-        by smtp.gmail.com with ESMTPSA id q22sm6124729pfg.192.2020.06.12.04.43.13
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 12 Jun 2020 04:43:15 -0700 (PDT)
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
-Subject: Re: [PATCH] HID: intel-ish-hid: Replace PCI_DEV_FLAGS_NO_D3 with
- pci_save_state
-From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
-In-Reply-To: <7E88D4A8-8056-4E12-8B2C-27307A7C5E7D@canonical.com>
-Date:   Fri, 12 Jun 2020 19:43:11 +0800
-Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Zhang Lixu <lixu.zhang@intel.com>, Even Xu <even.xu@intel.com>,
-        Alexios Zavras <alexios.zavras@intel.com>,
+        Fri, 12 Jun 2020 08:53:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=wizzup.org;
+         s=mail; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:
+        To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=P/4m8oH4r9vKUxudC6qh4bZsAwsr4DkQ56baJece2HA=; b=OAznpocwDW+mYL9vTj11Ykec3Q
+        hzBvmkfJqwUPtSdQU6hEhc6s5KIcEwaNh5e8w/Or1fD6/qFXGBzv28eW02cL3lnC/wMF2/u+cJZAY
+        Yzf3dvc1EeCdI7rbX4l9YQKAAi7hSg5ZkcG6bEUDuJdnFEgzLjMicZzo/uGqcqsZ2Wg5OeUGLN8BE
+        s4CISuoDb5N9QP1kulwAlaTnuMReVOnHH6hQ1AxdwfHVfc7TkzamPvnQEGxrd3Ucxx7hb+WpWjBD+
+        FKQPDAeKEjI44Bg6D3ZBa2x+AmspubAOEFEox5jUO0rItJQl7F/tSjaLeQ0d1Pwsm1p7QPVYL/y/I
+        3q2vySjQ==;
+Received: from kgpe-d16.fritz.box ([192.168.178.62])
+        by hetgrotebos.org with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <merlijn@wizzup.org>)
+        id 1jjjBC-0007uZ-7h; Fri, 12 Jun 2020 12:53:06 +0000
+From:   Merlijn Wajer <merlijn@wizzup.org>
+Cc:     pavel@ucw.cz, Merlijn Wajer <merlijn@wizzup.org>,
+        =?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jeffrey Hugo <jhugo@codeaurora.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Song Hongyan <hongyan.song@intel.com>,
-        "open list:INTEL INTEGRATED SENSOR HUB DRIVER" 
-        <linux-input@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Transfer-Encoding: 8BIT
-Message-Id: <68C336BB-C2E1-4DE4-8137-18F7FBEF140C@canonical.com>
-References: <20200505131730.22118-1-kai.heng.feng@canonical.com>
- <dd8033a053be145fd178a89dc362a25a22e17a42.camel@linux.intel.com>
- <7E88D4A8-8056-4E12-8B2C-27307A7C5E7D@canonical.com>
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-X-Mailer: Apple Mail (2.3608.80.23.2.2)
+        Borislav Petkov <bp@suse.de>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Mattias Jacobsson <2pi@mok.nu>,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        Mark Gross <mgross@linux.intel.com>,
+        linux-omap@vger.kernel.org (open list:OMAP DEVICE TREE SUPPORT),
+        devicetree@vger.kernel.org (open list:OMAP DEVICE TREE SUPPORT),
+        linux-kernel@vger.kernel.org (open list),
+        linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK
+        , TOUCHSCREEN)...)
+Subject: [PATCH 0/2] Add SW_MACHINE_COVER key
+Date:   Fri, 12 Jun 2020 14:53:57 +0200
+Message-Id: <20200612125402.18393-1-merlijn@wizzup.org>
+X-Mailer: git-send-email 2.24.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+this series adds the sw_machine_cover key, and changes the nokia n900 dts to
+expose the key via gpio-keys.
 
+before, this gpio was used as card detect gpio, causing the card not to show up
+if the phone was booted without cover, see this thread on linux-omap:
 
-> On May 21, 2020, at 12:43, Kai-Heng Feng <kai.heng.feng@canonical.com> wrote:
-> 
-> Hi Srinivas,
-> 
->> On May 9, 2020, at 01:45, Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> wrote:
->> 
->> On Tue, 2020-05-05 at 21:17 +0800, Kai-Heng Feng wrote:
->>> PCI_DEV_FLAGS_NO_D3 should not be used outside of PCI core.
->>> 
->>> Instead, we can use pci_save_state() to hint PCI core that the device
->>> should stay at D0 during suspend.
->> 
->> Your changes are doing more than just changing the flag. Can you
->> explain more about the other changes?
-> 
-> By using pci_save_state(), in addition to keep itself stay at D0, the parent bridge will also stay at D0.
-> So it's a better approach to achieve the same thing.
-> 
->> Also make sure that you test on both platforms which has regular S3 and
->> S0ix (modern standby system).
-> 
-> Actually I don't have any physical hardware to test the patch, I found the issue when I search for D3 quirks through the source code.
-> 
-> Can you guys do a quick smoketest for this patch?
+    n900: remove mmc1 "safety feature"? (was: re: mmc0 on nokia n900 on linux 5.4.18)
 
-Tested this patch on an S2idle system with intel-ish (Latitude 9510) and it works fine.
-Please consider merging this patch, thanks!
+since there is no realistic use for using this gpio as card detect, instead
+expose it to userspace via gpio-keys. there are no event type for machine covers
+yet, so add that first.
 
-Kai-Heng
+the key should be 1 when the cover is closed, and 0 when the cover is open.
 
-> 
-> Kai-Heng
-> 
->> 
->> Thanks,
->> Srinivas
->> 
->> 
->>> 
->>> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
->>> ---
->>> drivers/hid/intel-ish-hid/ipc/pci-ish.c | 15 ++++++++++-----
->>> 1 file changed, 10 insertions(+), 5 deletions(-)
->>> 
->>> diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
->>> b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
->>> index f491d8b4e24c..ab588b9c8d09 100644
->>> --- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
->>> +++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
->>> @@ -106,6 +106,11 @@ static inline bool ish_should_enter_d0i3(struct
->>> pci_dev *pdev)
->>> 	return !pm_suspend_via_firmware() || pdev->device ==
->>> CHV_DEVICE_ID;
->>> }
->>> 
->>> +static inline bool ish_should_leave_d0i3(struct pci_dev *pdev)
->>> +{
->>> +	return !pm_resume_via_firmware() || pdev->device ==
->>> CHV_DEVICE_ID;
->>> +}
->>> +
->>> /**
->>> * ish_probe() - PCI driver probe callback
->>> * @pdev:	pci device
->>> @@ -215,9 +220,7 @@ static void __maybe_unused
->>> ish_resume_handler(struct work_struct *work)
->>> 	struct ishtp_device *dev = pci_get_drvdata(pdev);
->>> 	int ret;
->>> 
->>> -	/* Check the NO_D3 flag to distinguish the resume paths */
->>> -	if (pdev->dev_flags & PCI_DEV_FLAGS_NO_D3) {
->>> -		pdev->dev_flags &= ~PCI_DEV_FLAGS_NO_D3;
->>> +	if (ish_should_leave_d0i3(pdev) && !dev->suspend_flag) {
->>> 		disable_irq_wake(pdev->irq);
->>> 
->>> 		ishtp_send_resume(dev);
->>> @@ -281,8 +284,10 @@ static int __maybe_unused ish_suspend(struct
->>> device *device)
->>> 			 */
->>> 			ish_disable_dma(dev);
->>> 		} else {
->>> -			/* Set the NO_D3 flag, the ISH would enter D0i3
->>> */
->>> -			pdev->dev_flags |= PCI_DEV_FLAGS_NO_D3;
->>> +			/* Save state so PCI core will keep the device
->>> at D0,
->>> +			 * the ISH would enter D0i3
->>> +			 */
->>> +			pci_save_state(pdev);
->>> 
->> Did you test on some C
->> 
->> 
->>> 			enable_irq_wake(pdev->irq);
->>> 		}
-> 
+starting the nokia n900 with the cover removed, putting the cover in place:
+
+    event: time 1581684523.415296, type 5 (ev_sw), code 16 (?), value 1
+
+removing the cover again, exposing mmc1 and the battery:
+
+    event: time 1581684529.413706, type 5 (ev_sw), code 16 (?), value 0
+
+Merlijn Wajer (2):
+  Input: add `SW_MACHINE_COVER`
+  ARM: dts: n900: remove mmc1 card detect gpio
+
+ arch/arm/boot/dts/omap3-n900.dts       | 12 ++++++++----
+ include/linux/mod_devicetable.h        |  2 +-
+ include/uapi/linux/input-event-codes.h |  3 ++-
+ 3 files changed, 11 insertions(+), 6 deletions(-)
+
+-- 
+2.24.1
 
