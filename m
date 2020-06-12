@@ -2,217 +2,173 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 470911F7572
-	for <lists+linux-input@lfdr.de>; Fri, 12 Jun 2020 10:48:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FD171F7768
+	for <lists+linux-input@lfdr.de>; Fri, 12 Jun 2020 13:43:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726398AbgFLIsB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 12 Jun 2020 04:48:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59678 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726292AbgFLIsB (ORCPT
+        id S1725791AbgFLLnV convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Fri, 12 Jun 2020 07:43:21 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:32841 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725805AbgFLLnU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 12 Jun 2020 04:48:01 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6CBCC03E96F;
-        Fri, 12 Jun 2020 01:48:00 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id ADEDA2A52ED
-Subject: Re: [PATCH v4 0/7] Support inhibiting input devices
-To:     Hans de Goede <hdegoede@redhat.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Linux PM <linux-pm@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-iio@vger.kernel.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Samsung SoC <linux-samsung-soc@vger.kernel.org>,
-        linux-input@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Ferruh Yigit <fery@cypress.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Peter Hutterer <peter.hutterer@redhat.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        Collabora Kernel ML <kernel@collabora.com>
-References: <2336e15d-ff4b-bbb6-c701-dbf3aa110fcd@redhat.com>
- <20200608112211.12125-1-andrzej.p@collabora.com>
- <964ca07a-3da5-101f-7edf-64bdeec98a4b@redhat.com>
- <CAJZ5v0hB2ra2K=dd9ZjVyy1V2b1PmFHm79uDO2HtHU1D_4YUbw@mail.gmail.com>
- <6136f26c-e090-e025-af55-4c5f3a6aec92@collabora.com>
- <3e61c9c1-b211-da9f-c55b-b44eb6522f2a@redhat.com>
- <2d5fd063-66bc-c707-4041-84a17c0a7d04@collabora.com>
- <40988408-8f36-3a52-6439-34084de6b129@redhat.com>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <16342ec8-2c8e-d030-b253-0db534f04ba6@collabora.com>
-Date:   Fri, 12 Jun 2020 10:47:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <40988408-8f36-3a52-6439-34084de6b129@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        Fri, 12 Jun 2020 07:43:20 -0400
+Received: from mail-pl1-f199.google.com ([209.85.214.199])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <kai.heng.feng@canonical.com>)
+        id 1jji5d-00088M-Do
+        for linux-input@vger.kernel.org; Fri, 12 Jun 2020 11:43:17 +0000
+Received: by mail-pl1-f199.google.com with SMTP id s7so5994371plp.13
+        for <linux-input@vger.kernel.org>; Fri, 12 Jun 2020 04:43:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=tX6T036XKpQGxpEe93S96KsVk1SJ0qpeUi5sT/LTWg0=;
+        b=s5x8Ap9d48yjBVI8JSN5bP5M6flb08bHCwAjAuMRjti30TwSKqSFh1VfiAfGyLyw3O
+         FMOxK3C03FhZ8b1ZQK4MXf3ATtcDTThPF+0CfHh/nPFyAByrE3JEtogKKXFMKO9DoUEz
+         BhLSuozYrr4BBMijcxG3uecCn/uI56MRn2BRMpbWe21KpsF9VBhksPAapNW5vVpsi4Up
+         LLWWFEcLjQsu1GStR2mXwnaTd6iKNYz9dWKKkEyfo11xei5RrvEmi1M3BHU0Lq4Tbw7p
+         kEZZGElLgBYKcEP1827gUc5fI2GAPHj+yy4hzzqwJNVEvGxeRwjXD2E3bSFlB++Q39Bv
+         sDrw==
+X-Gm-Message-State: AOAM530DtydzY9XEtW4+taPziMFQaIFe8UbnwZvbZA9N05zntdEFdZqm
+        Se/7YOP85iRP+H3tuOSOZSVMLaHDXDRQ6TSLufGI0fxMQ9Pi4VsHpqok+g/HeKSjXtUOSjiMbqS
+        bIE8OTF48pUHaMAp+3vXQgTGvFps0bsnyhtQy0ZWI
+X-Received: by 2002:a05:6a00:1592:: with SMTP id u18mr7181386pfk.26.1591962195972;
+        Fri, 12 Jun 2020 04:43:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzNLrjKPMekm6EZDo957A/izfwCYUmN88T9k29qkhw1VSuhndg3IARKc8GvW7HriAbpIeY9pw==
+X-Received: by 2002:a05:6a00:1592:: with SMTP id u18mr7181362pfk.26.1591962195591;
+        Fri, 12 Jun 2020 04:43:15 -0700 (PDT)
+Received: from [192.168.1.208] (220-133-187-190.HINET-IP.hinet.net. [220.133.187.190])
+        by smtp.gmail.com with ESMTPSA id q22sm6124729pfg.192.2020.06.12.04.43.13
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 12 Jun 2020 04:43:15 -0700 (PDT)
+Content-Type: text/plain;
+        charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+Subject: Re: [PATCH] HID: intel-ish-hid: Replace PCI_DEV_FLAGS_NO_D3 with
+ pci_save_state
+From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
+In-Reply-To: <7E88D4A8-8056-4E12-8B2C-27307A7C5E7D@canonical.com>
+Date:   Fri, 12 Jun 2020 19:43:11 +0800
+Cc:     "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Zhang Lixu <lixu.zhang@intel.com>, Even Xu <even.xu@intel.com>,
+        Alexios Zavras <alexios.zavras@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Song Hongyan <hongyan.song@intel.com>,
+        "open list:INTEL INTEGRATED SENSOR HUB DRIVER" 
+        <linux-input@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Content-Transfer-Encoding: 8BIT
+Message-Id: <68C336BB-C2E1-4DE4-8137-18F7FBEF140C@canonical.com>
+References: <20200505131730.22118-1-kai.heng.feng@canonical.com>
+ <dd8033a053be145fd178a89dc362a25a22e17a42.camel@linux.intel.com>
+ <7E88D4A8-8056-4E12-8B2C-27307A7C5E7D@canonical.com>
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Hans,
 
-W dniu 12.06.2020 o 10:30, Hans de Goede pisze:
-> Hi,
+
+> On May 21, 2020, at 12:43, Kai-Heng Feng <kai.heng.feng@canonical.com> wrote:
 > 
-> On 6/10/20 3:41 PM, Andrzej Pietrasiewicz wrote:
->> Hi Hans,
->>
->> W dniu 10.06.2020 o 15:21, Hans de Goede pisze:
->>> Hi,
->>>
->>> On 6/10/20 3:12 PM, Andrzej Pietrasiewicz wrote:
->>>> Hi All,
->>>>
->>>> W dniu 10.06.2020 o 12:38, Rafael J. Wysocki pisze:
->>>>> On Wed, Jun 10, 2020 at 11:50 AM Hans de Goede <hdegoede@redhat.com> wrote:
->>>>>>
->>>>>> Hi All,
->>>>>>
->>>>>> On 6/8/20 1:22 PM, Andrzej Pietrasiewicz wrote:
->>>>>>> This is a quick respin of v3, with just two small changes, please see
->>>>>>> the changelog below.
->>>>>>>
->>>>>>> Userspace might want to implement a policy to temporarily disregard input
->>>>>>> from certain devices.
->>>>>>>
->>>>>>> An example use case is a convertible laptop, whose keyboard can be folded
->>>>>>> under the screen to create tablet-like experience. The user then must hold
->>>>>>> the laptop in such a way that it is difficult to avoid pressing the keyboard
->>>>>>> keys. It is therefore desirable to temporarily disregard input from the
->>>>>>> keyboard, until it is folded back. This obviously is a policy which should
->>>>>>> be kept out of the kernel, but the kernel must provide suitable means to
->>>>>>> implement such a policy.
->>>>>>
->>>>>> First of all sorry to start a somewhat new discussion about this
->>>>>> while this patch set is also somewhat far along in the review process,
->>>>>> but I believe what I discuss below needs to be taken into account.
->>>>>>
->>>>>> Yesterday I have been looking into why an Asus T101HA would not stay
->>>>>> suspended when the LID is closed. The cause is that the USB HID multi-touch
->>>>>> touchpad in the base of the device starts sending events when the screen
->>>>>> gets close to the touchpad (so when the LID is fully closed) and these
->>>>>> events are causing a wakeup from suspend. HID multi-touch devices
->>>>>> do have a way to tell them to fully stop sending events, also disabling
->>>>>> the USB remote wakeup the device is doing. The question is when to tell
->>>>>> it to not send events though ...
->>>>>>
->>>>>> So now I've been thinking about how to fix this and I believe that there
->>>>>> is some interaction between this problem and this patch-set.
->>>>>>
->>>>>> The problem I'm seeing on the T101HA is about wakeups, so the question
->>>>>> which I want to discuss is:
->>>>>>
->>>>>> 1. How does inhibiting interact with enabling /
->>>>>> disabling the device as a wakeup source ?
->>>>>>
->>>>>> 2. Since we have now made inhibiting equal open/close how does open/close
->>>>>> interact with a device being a wakeup source ?
->>>>>>
->>>>>> And my own initial (to be discussed) answers to these questions:
->>>>>>
->>>>>> 1. It seems to me that when a device is inhibited it should not be a
->>>>>> wakeup source, so where possible a input-device-driver should disable
->>>>>> a device's wakeup capabilities on suspend if inhibited
->>>>>
->>>>> If "inhibit" means "do not generate any events going forward", then
->>>>> this must also cover wakeup events, so I agree.
->>>>
->>>> I agree, too.
->>>>
->>>>>
->>>>>> 2. This one is trickier I don't think we have really clearly specified
->>>>>> any behavior here. The default behavior of most drivers seems to be
->>>>>> using something like this in their suspend callback:
->>>>>>
->>>>>>           if (device_may_wakeup(dev))
->>>>>>                   enable_irq_wake(data->irq);
->>>>>>           else if (input->users)
->>>>>>                   foo_stop_receiving_events(data);
->>>>>>
->>>>>> Since this is what most drivers seem to do I believe we should keep
->>>>>> this as is and that we should just clearly document that if the
->>>>>> input_device has users (has been opened) or not does not matter
->>>>>> for its wakeup behavior.
->>>>>>
->>>>>> Combining these 2 answers leads to this new pseudo code template
->>>>>> for an input-device's suspend method:
->>>>>>
->>>>>>          /*
->>>>>>           * If inhibited we have already disabled events and
->>>>>>           * we do NOT want to setup the device as wake source.
->>>>>>           */
->>>>>>          if (input->inhibited)
->>>>>>                  return 0;
->>>>
->>>> Right, if a device is inhibited it shouldn't become a wakeup source,
->>>> because that would contradict the purpose of being inhibited.
->>>
->>> Ack. Note I do think that we need to document this (and more
->>> in general the answer to both questions from above) clearly so
->>> that going forward if there are any questions about how this is
->>> supposed to work we can just point to the docs.
->>>
->>> Can you do a follow-up patch, or include a patch in your next
->>> version which documents this (once we agree on what "this"
->>> exactly is) ?
->>
->> Sure I can. Just need to know when "this" becomes stable enough ;)
->> If this series otherwise looks mature enough I would opt for a
->> follow-up patch.
+> Hi Srinivas,
 > 
-> FWIW after my flip-flop to agreeing with Dmitry that the 2
-> (inhibit vs wakeup) should be completely orthogonal this new
-> policy is stable/mature from my pov (and consistent with how
-> we handle wakeup vs input_dev->users).
+>> On May 9, 2020, at 01:45, Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> wrote:
+>> 
+>> On Tue, 2020-05-05 at 21:17 +0800, Kai-Heng Feng wrote:
+>>> PCI_DEV_FLAGS_NO_D3 should not be used outside of PCI core.
+>>> 
+>>> Instead, we can use pci_save_state() to hint PCI core that the device
+>>> should stay at D0 during suspend.
+>> 
+>> Your changes are doing more than just changing the flag. Can you
+>> explain more about the other changes?
 > 
-> I still think it would be good to do a follow-up documentation
-> patch documenting that these (and esp. inhibit) are orthogonal.
+> By using pci_save_state(), in addition to keep itself stay at D0, the parent bridge will also stay at D0.
+> So it's a better approach to achieve the same thing.
 > 
-> This will mean for example that if a device is inhibit but
-> still wakeup enabled and the device's close method silences
-> the devices, that it needs to be unsilenced in suspend.
-> This might be worth mentioning in the docs even though
-> drivers which silence the device on close should already
-> unsilence the device on suspend when it is wakeup-enabled.
+>> Also make sure that you test on both platforms which has regular S3 and
+>> S0ix (modern standby system).
 > 
-> Note maybe we should give it a couple of days for others to
-> give their opinion before you submit the follow-up documentation
-> patch.
+> Actually I don't have any physical hardware to test the patch, I found the issue when I search for D3 quirks through the source code.
+> 
+> Can you guys do a quick smoketest for this patch?
+
+Tested this patch on an S2idle system with intel-ish (Latitude 9510) and it works fine.
+Please consider merging this patch, thanks!
+
+Kai-Heng
+
+> 
+> Kai-Heng
+> 
+>> 
+>> Thanks,
+>> Srinivas
+>> 
+>> 
+>>> 
+>>> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+>>> ---
+>>> drivers/hid/intel-ish-hid/ipc/pci-ish.c | 15 ++++++++++-----
+>>> 1 file changed, 10 insertions(+), 5 deletions(-)
+>>> 
+>>> diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+>>> b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+>>> index f491d8b4e24c..ab588b9c8d09 100644
+>>> --- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+>>> +++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+>>> @@ -106,6 +106,11 @@ static inline bool ish_should_enter_d0i3(struct
+>>> pci_dev *pdev)
+>>> 	return !pm_suspend_via_firmware() || pdev->device ==
+>>> CHV_DEVICE_ID;
+>>> }
+>>> 
+>>> +static inline bool ish_should_leave_d0i3(struct pci_dev *pdev)
+>>> +{
+>>> +	return !pm_resume_via_firmware() || pdev->device ==
+>>> CHV_DEVICE_ID;
+>>> +}
+>>> +
+>>> /**
+>>> * ish_probe() - PCI driver probe callback
+>>> * @pdev:	pci device
+>>> @@ -215,9 +220,7 @@ static void __maybe_unused
+>>> ish_resume_handler(struct work_struct *work)
+>>> 	struct ishtp_device *dev = pci_get_drvdata(pdev);
+>>> 	int ret;
+>>> 
+>>> -	/* Check the NO_D3 flag to distinguish the resume paths */
+>>> -	if (pdev->dev_flags & PCI_DEV_FLAGS_NO_D3) {
+>>> -		pdev->dev_flags &= ~PCI_DEV_FLAGS_NO_D3;
+>>> +	if (ish_should_leave_d0i3(pdev) && !dev->suspend_flag) {
+>>> 		disable_irq_wake(pdev->irq);
+>>> 
+>>> 		ishtp_send_resume(dev);
+>>> @@ -281,8 +284,10 @@ static int __maybe_unused ish_suspend(struct
+>>> device *device)
+>>> 			 */
+>>> 			ish_disable_dma(dev);
+>>> 		} else {
+>>> -			/* Set the NO_D3 flag, the ISH would enter D0i3
+>>> */
+>>> -			pdev->dev_flags |= PCI_DEV_FLAGS_NO_D3;
+>>> +			/* Save state so PCI core will keep the device
+>>> at D0,
+>>> +			 * the ISH would enter D0i3
+>>> +			 */
+>>> +			pci_save_state(pdev);
+>>> 
+>> Did you test on some C
+>> 
+>> 
+>>> 			enable_irq_wake(pdev->irq);
+>>> 		}
 > 
 
-True. I will send something after the weekend.
-
-Andrzej
