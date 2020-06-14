@@ -2,82 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 533201F8B10
-	for <lists+linux-input@lfdr.de>; Mon, 15 Jun 2020 00:11:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 449461F8B63
+	for <lists+linux-input@lfdr.de>; Mon, 15 Jun 2020 01:57:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727939AbgFNWLk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 14 Jun 2020 18:11:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57292 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727928AbgFNWLj (ORCPT
+        id S1727995AbgFNX5s (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 14 Jun 2020 19:57:48 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:59037 "EHLO
+        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728034AbgFNX5o (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 14 Jun 2020 18:11:39 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72E2BC05BD43
-        for <linux-input@vger.kernel.org>; Sun, 14 Jun 2020 15:11:38 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id d7so8359638lfi.12
-        for <linux-input@vger.kernel.org>; Sun, 14 Jun 2020 15:11:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=brBkfPJsDlO8CeO7NdrZLGFHoAC35/ypCCvWn/hrLWA=;
-        b=fpq1+Z+IrTNddSR05StqCJ7fos9SsxoCYKjsqhAreTBMMcszTOqyhQg3gMbQ5Q2URV
-         fgXL2mRaqWRppZtZAmfBz2weuX4GWulYfQeDKJzgqUHHRADOLnuWsGPfcNVs38w4vyQ9
-         eWFHiJS2FXQeeU24XvgckEu89m0uZ+XXCc4naO9tcli6xF3SHtsJB3lzwG8P+LDSo4WV
-         iS/FXYZPeJdgDW+EF/rsEQhoNIhkDf+yRGav3Eee9gpCzF7yp/STbCa9NWGStR1u7/Dl
-         SUdN1GFezHSNWdju1ci2MbgVSiPtSsgl5o1a06TMjFdljXyFO01gSazSUHDZ7bOENx02
-         gxhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=brBkfPJsDlO8CeO7NdrZLGFHoAC35/ypCCvWn/hrLWA=;
-        b=CDcZEPHtzyvrPbVK42eANSYBz8CACP0Hd9Cpwh0IHomrY4B9+6E/94/NfdigwWscIK
-         eeP1RotQ1ngicZqyDkAqS6Ns2d4MQjxjyerAIaZgL8+WEKy7Ld5cs50BQ4bavJXk/fgQ
-         NShROxH3F+2nCRaUhANp7KnckZL+fbR5DOb1xhUNIBqjNNzRT8B5t0qbOlxm+CVHGK1R
-         pHJnUcR3ssXa+YIkJELFPwI5GUAGCjRLSXgk5geJU4dWcB8YGP1RvF1TZOLvcbkzQ0Gs
-         35hAQdcGZAzZVdXibFz8Gkd2iY15P31EvrFZ2b+Amd0DZKVSVx9WcWBKHp4xo2puB6Be
-         o0eg==
-X-Gm-Message-State: AOAM533g31NJ7ykbTpjFhvwTF+pa4fgeuoRNTkTnd23Hw7H9ifKSQx8r
-        FqYkUvMMtJwNdJ+qccAEzOF+zYktQ9sJN1CvFFU=
-X-Google-Smtp-Source: ABdhPJxtBYsHjs8YeTUhZw3aVSRw04gLkMdUtzpUhOCJ/tparK5er8Zfu2rn1Jq6Rrm0Wsma95+mQ7NnU6JVTEHgQ3g=
-X-Received: by 2002:a05:6512:110d:: with SMTP id l13mr12250060lfg.93.1592172696931;
- Sun, 14 Jun 2020 15:11:36 -0700 (PDT)
+        Sun, 14 Jun 2020 19:57:44 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id 7A2FC5C005F;
+        Sun, 14 Jun 2020 19:57:43 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute7.internal (MEProxy); Sun, 14 Jun 2020 19:57:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=aAUf8ZWtRuKYcWh/bNGV7WxxMMD
+        6waNEhYXD401M6pE=; b=NGW8bXCUSlx9FV1XlDsAtNbSPVjuPl/0AGvYVYKosU4
+        qUiZls7nxrcqTbY5ICbVcjOXnWs64zGxlKzt+7PV69NxiXB5jRz7Kp6xBuXq2V+R
+        29x9P/4xS7pdoSOLERDJH+N+WHdNpwZIscWmoOmzCi94lNFFRzi961CqcJ99IkYK
+        l+cTudEqi3MQUZKPTB6eOpTMqsSobHN3IHJUJcFULCPvCHLmBem3eduJHKOgf9Cc
+        AZF/83SKJAXLWCG+5VZ9t9axZbOWcnu1FHqionSWbOoteH8vbizj956zrEXFpU4o
+        fhUsZOCWQcjpHOBf/+VUBYof9ZO5edfZbdMNjzcWjeA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=aAUf8Z
+        WtRuKYcWh/bNGV7WxxMMD6waNEhYXD401M6pE=; b=o1lG4zhJGIqjCytJytfuIU
+        LcPCFkDBgkSKtXAE7iEAqSPkjByhIkiEVnlH0iljY1Xkgt9+lucrw5CCbxRGHkUy
+        6MFPiPSrYibg1DFpQExJRW1Ab7uW5PtT8LkDD3asp8NzYo1u1xaXKRO+/P7JZV5L
+        cHYwjzJvx4uOqiBbHZa/a/sFX7HL/BbcXfOJBlUjJ+C1FE41rAPB3tCD/W7nJ2fZ
+        FkhFMbdWmiY5LQpa5rYdqMOxxdSklTKJQxX3m7reGYGCPQfS8hediEFZuX2Wdem4
+        CS6k8NdTl2QA8RuRaf5Fsd6//KTIEKoa/nIGHaAPBXPw5PFgTiqrOmq4+/7/d1jg
+        ==
+X-ME-Sender: <xms:drnmXkC3lE_7-MAYC2SiyzVwt9186hDB3MrYKTeKR69mA2JqQxY6LQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudeijedgvdelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefrvghtvghr
+    ucfjuhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
+    eqnecuggftrfgrthhtvghrnhephefhheffgfehleegueduleehgfdvfeevkeduveejveej
+    veevgfeggfduudefueevnecukfhppeduudejrddvtddrieekrddufedvnecuvehluhhsth
+    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhdrhhhuthht
+    vghrvghrseifhhhoqdhtrdhnvght
+X-ME-Proxy: <xmx:drnmXmii6zX1AqXMT3ItVL5bmOZZA141DwGZ6joX5Ng3_3l4LH6Avw>
+    <xmx:drnmXnnufYjcXBIxG_WcTCIbAjJpcTto6E-iMnEpP0yPhiwjl3iRnw>
+    <xmx:drnmXqyrTkwAdzOBF_14BW2ajzU0TFv42Anb1tTmnIUoOPR8JrAJ5Q>
+    <xmx:d7nmXrchMwPcGFoKkwXJQsK6d3FBlBlVE_UZvV269Piv9Y0sCTZ_Ow>
+Received: from koala (117-20-68-132.751444.bne.nbn.aussiebb.net [117.20.68.132])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 60ECB3061CB6;
+        Sun, 14 Jun 2020 19:57:40 -0400 (EDT)
+Date:   Mon, 15 Jun 2020 09:57:35 +1000
+From:   Peter Hutterer <peter.hutterer@who-t.net>
+To:     Denis 'GNUtoo' Carikli <GNUtoo@cyberdimension.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Andi Shyti <andi@etezian.org>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        linux-input@vger.kernel.org, Javi Ferrer <javi.f.o@gmail.com>
+Subject: Re: [PATCH] Input: mms114: don't report 0 pressure while still
+ tracking contact(s)
+Message-ID: <20200614235735.GA11069@koala>
+References: <20200606035017.7271-1-GNUtoo@cyberdimension.org>
+ <20200606181806.GR89269@dtor-ws>
+ <20200612194619.0ac97cf2@primarylaptop.localdomain>
 MIME-Version: 1.0
-Received: by 2002:a19:86c3:0:0:0:0:0 with HTTP; Sun, 14 Jun 2020 15:11:36
- -0700 (PDT)
-Reply-To: afringawa6@gmail.com
-From:   Afrin Gawa <louisabesson@gmail.com>
-Date:   Sun, 14 Jun 2020 22:11:36 +0000
-Message-ID: <CABnvJd2gsjYysqAV9D2x9pU8tmcCsGYr50XE+UGYmj0wu3BJWw@mail.gmail.com>
-Subject: Please respond urgently
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200612194619.0ac97cf2@primarylaptop.localdomain>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Greetings,
+On Fri, Jun 12, 2020 at 07:46:19PM +0200, Denis 'GNUtoo' Carikli wrote:
+> On Sat, 6 Jun 2020 11:18:06 -0700
+> Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+> 
+> > Hi Denis,
+> Hi,
+> 
+> > Could you please post longer sequence from evtest leading to the
+> > packet with 0 pressure?
+> 
+> Here's the full sequence, of a slide from the botton to the top, I hope
+> that it's not too long:
 
-I know that this mail will come to you as a surprise as we have never
-met before, but need not to worry as I am contacting you independently
-of my investigation and no one is informed of this communication. I
-need your urgent assistance in transferring the sum of $11,300,000.00
-USD immediately to your private account.The money has been here in our
-Bank lying dormant for years now without anybody coming for the claim
-of it.
+[...]
 
-I want to release the money to you as the relative to our deceased
-customer (the account owner) who died along with his supposed NEXT OF
-KIN since 16th October 2005. The Banking laws here does not allow such
-money to stay more than 15 years, because the money will be recalled
-to the Bank treasury account as an unclaimed fund.
+> > Properties:
+> >   Property type 1 (INPUT_PROP_DIRECT)
+> > Testing ... (interrupt to exit)
+> > Event: time 1585880998.920994, type 3 (EV_ABS), code 57
+> > (ABS_MT_TRACKING_ID), value 0 Event: time 1585880998.920994, type 3
+> > (EV_ABS), code 53 (ABS_MT_POSITION_X), value 400 Event: time
+> > 1585880998.920994, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y),
+> > value 1262 Event: time 1585880998.920994, type 3 (EV_ABS), code 48
+> > (ABS_MT_TOUCH_MAJOR), value 6 Event: time 1585880998.920994, type 3
+> > (EV_ABS), code 58 (ABS_MT_PRESSURE), value 90 Event: time
+> > 1585880998.920994, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 1
+> > Event: time 1585880998.920994, type 3 (EV_ABS), code 0 (ABS_X), value
+> > 400 Event: time 1585880998.920994, type 3 (EV_ABS), code 1 (ABS_Y),
+> > value 1262 Event: time 1585880998.920994, type 3 (EV_ABS), code 24
+> > (ABS_PRESSURE), value 90 Event: time 1585880998.920994,
+> > -------------- SYN_REPORT ------------ Event: time 1585880998.943145,
 
-By indicating your interest I will send you the full details on how
-the business will be executed.
+sorry, but this is completely unreadable. Please make sure it's in the
+originally formatting that evtest/evemu/libinput record spit out. Thanks.
 
-Please respond urgently and delete if you are not interested.
+Cheers,
+   Peter
 
-Best Regards,
-Mr. Afrin Gawa
