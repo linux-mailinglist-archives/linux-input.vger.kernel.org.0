@@ -2,118 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01B361F8ACE
-	for <lists+linux-input@lfdr.de>; Sun, 14 Jun 2020 23:03:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 533201F8B10
+	for <lists+linux-input@lfdr.de>; Mon, 15 Jun 2020 00:11:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727918AbgFNVDI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 14 Jun 2020 17:03:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46792 "EHLO
+        id S1727939AbgFNWLk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 14 Jun 2020 18:11:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726938AbgFNVDG (ORCPT
+        with ESMTP id S1727928AbgFNWLj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 14 Jun 2020 17:03:06 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D72CC03E97C;
-        Sun, 14 Jun 2020 14:03:05 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id w20so6710717pga.6;
-        Sun, 14 Jun 2020 14:03:05 -0700 (PDT)
+        Sun, 14 Jun 2020 18:11:39 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72E2BC05BD43
+        for <linux-input@vger.kernel.org>; Sun, 14 Jun 2020 15:11:38 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id d7so8359638lfi.12
+        for <linux-input@vger.kernel.org>; Sun, 14 Jun 2020 15:11:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=LuKrGdsyJt363mkqnjfvHbulwnJ9TO1k3D/bFALSM6Q=;
-        b=M1v4894OoBgKF8izTIkH6jmFVP524510jNiBjJGnDTw/E0a1oBDAeC1R0j+05TPxad
-         CEGL557RLDnJuq/ExdD6BS1EOQZclyk74RTiDlDP77AlYuvQlbt3PZXgV8fhtXmu2hOL
-         JPbBP9sDP55x5+07FGVJHPV1l/c4QYOhEFYi4dy+oQWyYO0J9oL8qe6GT5EjK+upQ+sy
-         sAIMoSBxU5hoPudZ4wTMhTiD7w40r05FB2pfqqPXRMnEdKA0L50iUFetPr6ZM2qgWDjF
-         HnhtV2NqK3z6H8viGcZWTOYmFOBN0CxAgB7nSq61BbvBwgtVkPcCf4iOBp1PJh64XWxb
-         Gs7Q==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=brBkfPJsDlO8CeO7NdrZLGFHoAC35/ypCCvWn/hrLWA=;
+        b=fpq1+Z+IrTNddSR05StqCJ7fos9SsxoCYKjsqhAreTBMMcszTOqyhQg3gMbQ5Q2URV
+         fgXL2mRaqWRppZtZAmfBz2weuX4GWulYfQeDKJzgqUHHRADOLnuWsGPfcNVs38w4vyQ9
+         eWFHiJS2FXQeeU24XvgckEu89m0uZ+XXCc4naO9tcli6xF3SHtsJB3lzwG8P+LDSo4WV
+         iS/FXYZPeJdgDW+EF/rsEQhoNIhkDf+yRGav3Eee9gpCzF7yp/STbCa9NWGStR1u7/Dl
+         SUdN1GFezHSNWdju1ci2MbgVSiPtSsgl5o1a06TMjFdljXyFO01gSazSUHDZ7bOENx02
+         gxhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=LuKrGdsyJt363mkqnjfvHbulwnJ9TO1k3D/bFALSM6Q=;
-        b=fefG5bB6TXXd5NQRpykQPRUNxZyzJXB+RiczElFE1hsu29q7v8Qo2ktVmFlPdSfxSI
-         iHmNP3Y+Rc8DwNahwpvQlk0l8nCYyu8uSvodEmU3gsGh8wk86oAO0aUFS/U6T9pgA8zd
-         WGqfXnjalTrHq1p76fpRQCnayjgIHLAaJd9lqZ6TDhoh+2FuBNHry3nH4BuU6GxUr0hs
-         Y/gJf5MZjj0rww3MCm5u51R0UXAOiUwf1l6ZZlOkeGwty5Qdmp4jyrvWOh5Mxnpy/gHJ
-         wSap1b7b7nCKz43g8WDil/lIhcAl8c/aC4iAapAv38O0vkOBWClm6R/uhVhw861lDtMC
-         EejQ==
-X-Gm-Message-State: AOAM531qyLpicWTCLpk+h5VMCPlqpIJxwgMbQCHWVOgle//+FtP6W71K
-        lk1JJGvi6GZhtXaiiZSAQho=
-X-Google-Smtp-Source: ABdhPJwXDOBq8wOZFlPoba1fs6Y0oquuokAQpP5cQY0aeDvPQ3lMxVJGG2HLpazYAGspfRPXVGz15Q==
-X-Received: by 2002:a63:6bc5:: with SMTP id g188mr14069494pgc.395.1592168585045;
-        Sun, 14 Jun 2020 14:03:05 -0700 (PDT)
-Received: from sultan-box.localdomain ([89.45.90.111])
-        by smtp.gmail.com with ESMTPSA id d184sm1827746pfd.85.2020.06.14.14.03.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Jun 2020 14:03:04 -0700 (PDT)
-From:   Sultan Alsawaf <sultan@kerneltoast.com>
-X-Google-Original-From: Sultan Alsawaf
-To:     Aaron Ma <aaron.ma@canonical.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        HungNien Chen <hn.chen@weidahitech.com>,
-        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Pavel Balan <admin@kryma.net>, Tin Huynh <tnhuynh@apm.com>,
-        Wolfram Sang <wsa@kernel.org>,
-        You-Sheng Yang <vicamo.yang@canonical.com>
-Cc:     Sultan Alsawaf <sultan@kerneltoast.com>
-Subject: [PATCH 2/2] HID: i2c-hid: Use block reads when possible to save power
-Date:   Sun, 14 Jun 2020 14:02:55 -0700
-Message-Id: <20200614210255.4641-3-sultan@kerneltoast.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200614210255.4641-1-sultan@kerneltoast.com>
-References: <20200614210255.4641-1-sultan@kerneltoast.com>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=brBkfPJsDlO8CeO7NdrZLGFHoAC35/ypCCvWn/hrLWA=;
+        b=CDcZEPHtzyvrPbVK42eANSYBz8CACP0Hd9Cpwh0IHomrY4B9+6E/94/NfdigwWscIK
+         eeP1RotQ1ngicZqyDkAqS6Ns2d4MQjxjyerAIaZgL8+WEKy7Ld5cs50BQ4bavJXk/fgQ
+         NShROxH3F+2nCRaUhANp7KnckZL+fbR5DOb1xhUNIBqjNNzRT8B5t0qbOlxm+CVHGK1R
+         pHJnUcR3ssXa+YIkJELFPwI5GUAGCjRLSXgk5geJU4dWcB8YGP1RvF1TZOLvcbkzQ0Gs
+         35hAQdcGZAzZVdXibFz8Gkd2iY15P31EvrFZ2b+Amd0DZKVSVx9WcWBKHp4xo2puB6Be
+         o0eg==
+X-Gm-Message-State: AOAM533g31NJ7ykbTpjFhvwTF+pa4fgeuoRNTkTnd23Hw7H9ifKSQx8r
+        FqYkUvMMtJwNdJ+qccAEzOF+zYktQ9sJN1CvFFU=
+X-Google-Smtp-Source: ABdhPJxtBYsHjs8YeTUhZw3aVSRw04gLkMdUtzpUhOCJ/tparK5er8Zfu2rn1Jq6Rrm0Wsma95+mQ7NnU6JVTEHgQ3g=
+X-Received: by 2002:a05:6512:110d:: with SMTP id l13mr12250060lfg.93.1592172696931;
+ Sun, 14 Jun 2020 15:11:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a19:86c3:0:0:0:0:0 with HTTP; Sun, 14 Jun 2020 15:11:36
+ -0700 (PDT)
+Reply-To: afringawa6@gmail.com
+From:   Afrin Gawa <louisabesson@gmail.com>
+Date:   Sun, 14 Jun 2020 22:11:36 +0000
+Message-ID: <CABnvJd2gsjYysqAV9D2x9pU8tmcCsGYr50XE+UGYmj0wu3BJWw@mail.gmail.com>
+Subject: Please respond urgently
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Sultan Alsawaf <sultan@kerneltoast.com>
+Greetings,
 
-We have no way of knowing how large an incoming payload is going to be,
-so the only strategy available up until now has been to always retrieve
-the maximum possible report length over i2c, which can be quite
-inefficient. For devices that send reports in block read format, the i2c
-controller driver can read the payload length on the fly and terminate
-the i2c transaction early, resulting in considerable power savings.
+I know that this mail will come to you as a surprise as we have never
+met before, but need not to worry as I am contacting you independently
+of my investigation and no one is informed of this communication. I
+need your urgent assistance in transferring the sum of $11,300,000.00
+USD immediately to your private account.The money has been here in our
+Bank lying dormant for years now without anybody coming for the claim
+of it.
 
-On a Dell Precision 15 5540 with an i9-9880H, resting my finger on the
-touchpad causes psys power readings to go up by about 4W and hover there
-until I remove my finger. With this patch, my psys readings go from 4.7W
-down to 3.1W, yielding about 1.6W in savings. This is because my
-touchpad's max report length is 60 bytes, but all of the regular reports
-it sends for touch events are only 32 bytes, so the i2c transfer is
-roughly halved for the common case.
+I want to release the money to you as the relative to our deceased
+customer (the account owner) who died along with his supposed NEXT OF
+KIN since 16th October 2005. The Banking laws here does not allow such
+money to stay more than 15 years, because the money will be recalled
+to the Bank treasury account as an unclaimed fund.
 
-Signed-off-by: Sultan Alsawaf <sultan@kerneltoast.com>
----
- drivers/hid/i2c-hid/i2c-hid-core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+By indicating your interest I will send you the full details on how
+the business will be executed.
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 294c84e136d7..4b507de48d70 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -476,7 +476,8 @@ static void i2c_hid_get_input(struct i2c_hid *ihid)
- 	if (size > ihid->bufsize)
- 		size = ihid->bufsize;
- 
--	ret = i2c_master_recv(ihid->client, ihid->inbuf, size);
-+	ret = i2c_transfer_buffer_flags(ihid->client, ihid->inbuf, size,
-+					I2C_M_RD | I2C_M_RECV_LEN);
- 	if (ret != size) {
- 		if (ret < 0)
- 			return;
--- 
-2.27.0
+Please respond urgently and delete if you are not interested.
 
+Best Regards,
+Mr. Afrin Gawa
