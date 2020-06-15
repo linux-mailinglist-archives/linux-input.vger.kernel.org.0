@@ -2,110 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17C261F8DEC
-	for <lists+linux-input@lfdr.de>; Mon, 15 Jun 2020 08:35:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AD9A1F8DF0
+	for <lists+linux-input@lfdr.de>; Mon, 15 Jun 2020 08:36:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728251AbgFOGft (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 15 Jun 2020 02:35:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49444 "EHLO
+        id S1728251AbgFOGgm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 15 Jun 2020 02:36:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728210AbgFOGft (ORCPT
+        with ESMTP id S1728163AbgFOGgl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 15 Jun 2020 02:35:49 -0400
-Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC9C7C061A0E;
-        Sun, 14 Jun 2020 23:35:48 -0700 (PDT)
-Received: by mail-il1-x141.google.com with SMTP id x18so14274685ilp.1;
-        Sun, 14 Jun 2020 23:35:48 -0700 (PDT)
+        Mon, 15 Jun 2020 02:36:41 -0400
+Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CFDBC061A0E;
+        Sun, 14 Jun 2020 23:36:40 -0700 (PDT)
+Received: by mail-il1-x144.google.com with SMTP id j19so10083271ilk.9;
+        Sun, 14 Jun 2020 23:36:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=1TsNpet0kPA2yLEVEKHNLGs/+445G25oFUvw6oaAJ0w=;
-        b=DDtyxcaqXE1CbSTIHz+12EXHjLAq53Fctk19+Ph/3cGHlqp9WD5EapNKVHNyqUFIuQ
-         XOsU2rM7k0GZTJ2liGiVhbxmHiqLoFYiht1wFUCPUbpGZBK8FJF6U8skfiYtS7eCiaM1
-         2+k0srp9yCaRI9JY14eI3x+jdGOX8eUHJjURs6aVMT4EBSpuugZo086AVk3RVS7uHt6M
-         V33R73TypSyI6nzGxw/doTKWZN0JvCPizmpDF5JEV5+AzFmdx5/p9VGBlpgdY+YASulO
-         Bg78tG+pla90oHx87MU1s3tEQHM4W9sAGXxG3QlztrZe10OunjY5JQMinGQHRA/C0NV1
-         jCBA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BzMeUKuUyJ2mfwS8ROotjoI9/ypgi2R999TrALWXqeM=;
+        b=JigDBEdIzzTTP3gqOGmhQ2GymQKEi0GO/RTGfMSGESgMQqnLGWK/yGPGULXIocnnoD
+         Xk7+zfMKvohfpxnUIyVwboiHbs6+HwRviv9P3hDPGKd4XehH5cunvpe7FOKkYeUDn00i
+         bmcK2FcJBHWexKKVt7pPkCwckGuyQhxFk/ErqKquNp0dQP9HNTk1EeNTrdI0xuzpBFx1
+         A6nCAlpNqmm7Gg4CnO3eg+6y/eTMrsg4VDXMoXxQTrdG73rfuzwtjF86//3inA7ilpeL
+         K+K4NEB5fK2Ye3ce0v7dBI2J8jzpVkChAI79oEmHsLDsm509MhCLN5Z6qvWyj5sowaxE
+         SZ+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=1TsNpet0kPA2yLEVEKHNLGs/+445G25oFUvw6oaAJ0w=;
-        b=FC7JDeLeQ5PHJyAKWKJPpVS189Obu59/kVdF6HoRCQMyggllA/Az9QNg2ex+kAk7RH
-         Vz+zhn5VU+vScEOG+DXtaPwj5G/H0Q1u873CBZrMfDszwvG7D2FUFFqwVQGH58qAZeAU
-         vv27aLWcbsUtYzo3NAHTbTSCuQ2arLPRCa9ZVMCChUmTSlxwJSjdEoYydT/PO3Anj14W
-         vWueXBUbaIVTXtzGAYBXLi0uH8seZtOfGx3GLPQpm+uwzyosURrsY8uuwtUlRiu76azk
-         XVb4a7qhctil8YQLDFJgy1rW/ge7uxa5QVVaB0cRvDsDnLm4nrUV3RZjCqLZ2wahbdbQ
-         /8+g==
-X-Gm-Message-State: AOAM53173lwd0wg6IbhSKz/YMUEBgu5ZxAe2agohTWmQNvpyu8klmuMM
-        ebfLfeUPydidApk132CUi+UoWXblqw4=
-X-Google-Smtp-Source: ABdhPJyl4VbD63c0LIONL4RXBr7lyvsOsefVC/7P3Ibl1HQ8tg+KhzI+mYTN/v8v0kw0WqLNRFjJgA==
-X-Received: by 2002:a92:d811:: with SMTP id y17mr24753982ilm.31.1592202948360;
-        Sun, 14 Jun 2020 23:35:48 -0700 (PDT)
-Received: from cs-u-kase.dtc.umn.edu (cs-u-kase.cs.umn.edu. [160.94.64.2])
-        by smtp.googlemail.com with ESMTPSA id q75sm7392753iod.22.2020.06.14.23.35.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Jun 2020 23:35:47 -0700 (PDT)
-From:   Navid Emamdoost <navid.emamdoost@gmail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Navid Emamdoost <navid.emamdoost@gmail.com>,
-        =?UTF-8?q?Pawe=C5=82=20Chmiel?= <pawel.mikolaj.chmiel@gmail.com>,
-        Jonathan Bakker <xc-racer2@live.ca>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     emamd001@umn.edu, wu000273@umn.edu, kjlu@umn.edu,
-        mccamant@cs.umn.edu, andy.shevchenko@gmail.com
-Subject: [PATCH v2] Input: bma150: fix ref count leak in bma150_open
-Date:   Mon, 15 Jun 2020 01:35:33 -0500
-Message-Id: <20200615063534.80497-1-navid.emamdoost@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BzMeUKuUyJ2mfwS8ROotjoI9/ypgi2R999TrALWXqeM=;
+        b=FMmGxC1flWDURnh+aWcGgWdAewjw8J9f7eUFtJtQPc+XtNoHD9coetjh/sVKjad2Dl
+         WQINeagoYOVeFPKf0eymFgfkaA8SfsB54HsNSenG8YKPrEh4Gewh8hrGQDxW6F0MnAxT
+         SeAVSuX9DpINPoGhw5scD48+Ea8gy3DXLjQrxjog7gW7XNRENdYIAorZ0urFcVsHbddi
+         kQilJm853L3IBsrOXYSfSJB1/dIJpt04GUY2LnHAN6KlcTyh48r9bsU7HvOEV+BvDacg
+         DQM9/BKFo5xXWeDErRpXCXxb6DKL+DXZ8NQHyrT9jSTFFM6Xi0p8leSw44NCotDmtrrx
+         HDEw==
+X-Gm-Message-State: AOAM5320nvpVJ97wjewtqJJ1ywOfaBm+y/avKR5/EmhRZJWPrUFXEjde
+        fWUaQMnT+taEExiQ1IuouFUKuQ4gzsjz8AoXajQ=
+X-Google-Smtp-Source: ABdhPJzcdxEnPC2YbZby/YnY8Zr3ZGHT3bnunhra2/DiGyRtelpJiiS0AQZNqRF4F4M6DEoaT29/UOqVg7mOU0JcbDg=
+X-Received: by 2002:a05:6e02:13f4:: with SMTP id w20mr25628332ilj.294.1592202999825;
+ Sun, 14 Jun 2020 23:36:39 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200614055604.67969-1-navid.emamdoost@gmail.com> <CAHp75VcuRvaQwcTP0+Y+QJTvjoEzYTvV40coUxnsZPfWnwcNMg@mail.gmail.com>
 In-Reply-To: <CAHp75VcuRvaQwcTP0+Y+QJTvjoEzYTvV40coUxnsZPfWnwcNMg@mail.gmail.com>
-References: <CAHp75VcuRvaQwcTP0+Y+QJTvjoEzYTvV40coUxnsZPfWnwcNMg@mail.gmail.com>
+From:   Navid Emamdoost <navid.emamdoost@gmail.com>
+Date:   Mon, 15 Jun 2020 01:36:28 -0500
+Message-ID: <CAEkB2ES7SjV8JMb8MAO9CWhg=_VekQehF+NxxYs6e6=xySUEBw@mail.gmail.com>
+Subject: Re: [PATCH] Input: bma150: fix ref count leak in bma150_open
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jonathan Bakker <xc-racer2@live.ca>,
+        =?UTF-8?Q?Pawe=C5=82_Chmiel?= <pawel.mikolaj.chmiel@gmail.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Navid Emamdoost <emamd001@umn.edu>,
+        Qiushi Wu <wu000273@umn.edu>, Kangjie Lu <kjlu@umn.edu>,
+        Stephen McCamant <smccaman@umn.edu>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-in bma150_open, pm_runtime_get_sync is called which
-increments the counter even in case of failure, leading to incorrect
-ref count. In case of failure, decrement the ref count before returning.
+On Sun, Jun 14, 2020 at 4:27 AM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Sun, Jun 14, 2020 at 8:58 AM Navid Emamdoost
+> <navid.emamdoost@gmail.com> wrote:
+> >
+> > in bma150_open, pm_runtime_get_sync is called which
+> > increments the counter even in case of failure, leading to incorrect
+> > ref count. In case of failure, decrement the ref count before returning.
+>
+> ...
+>
+> >         error = pm_runtime_get_sync(&bma150->client->dev);
+> >         if (error < 0 && error != -ENOSYS)
+> > -               return error;
+> > +               goto out;
+>
+> So, what will happen in case of -ENOSYS?
+I'm not sure!
 
-Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
----
-Changes in v2:
-	-- repplace pm_runtime_put with pm_runtime_put_noidle
----
- drivers/input/misc/bma150.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+>
+> ...
+>
+> > +       pm_runtime_put(&bma150->client->dev);
+>
+> Slightly better to use _put_noidle(). (More consistency with error path)
 
-diff --git a/drivers/input/misc/bma150.c b/drivers/input/misc/bma150.c
-index a9d984da95f3..ec394b4faa14 100644
---- a/drivers/input/misc/bma150.c
-+++ b/drivers/input/misc/bma150.c
-@@ -348,7 +348,7 @@ static int bma150_open(struct input_dev *input)
- 
- 	error = pm_runtime_get_sync(&bma150->client->dev);
- 	if (error < 0 && error != -ENOSYS)
--		return error;
-+		goto out;
- 
- 	/*
- 	 * See if runtime PM woke up the device. If runtime PM
-@@ -357,10 +357,13 @@ static int bma150_open(struct input_dev *input)
- 	if (bma150->mode != BMA150_MODE_NORMAL) {
- 		error = bma150_set_mode(bma150, BMA150_MODE_NORMAL);
- 		if (error)
--			return error;
-+			goto out;
- 	}
- 
- 	return 0;
-+out:
-+	pm_runtime_put_noidle(&bma150->client->dev);
-+	return error;
- }
- 
- static void bma150_close(struct input_dev *input)
+v2 is sent.
+
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+
+
+
 -- 
-2.17.1
-
+Navid.
