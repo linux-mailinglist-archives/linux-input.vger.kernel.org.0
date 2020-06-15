@@ -2,116 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 449461F8B63
-	for <lists+linux-input@lfdr.de>; Mon, 15 Jun 2020 01:57:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17C261F8DEC
+	for <lists+linux-input@lfdr.de>; Mon, 15 Jun 2020 08:35:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727995AbgFNX5s (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 14 Jun 2020 19:57:48 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:59037 "EHLO
-        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728034AbgFNX5o (ORCPT
+        id S1728251AbgFOGft (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 15 Jun 2020 02:35:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49444 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728210AbgFOGft (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 14 Jun 2020 19:57:44 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id 7A2FC5C005F;
-        Sun, 14 Jun 2020 19:57:43 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute7.internal (MEProxy); Sun, 14 Jun 2020 19:57:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=aAUf8ZWtRuKYcWh/bNGV7WxxMMD
-        6waNEhYXD401M6pE=; b=NGW8bXCUSlx9FV1XlDsAtNbSPVjuPl/0AGvYVYKosU4
-        qUiZls7nxrcqTbY5ICbVcjOXnWs64zGxlKzt+7PV69NxiXB5jRz7Kp6xBuXq2V+R
-        29x9P/4xS7pdoSOLERDJH+N+WHdNpwZIscWmoOmzCi94lNFFRzi961CqcJ99IkYK
-        l+cTudEqi3MQUZKPTB6eOpTMqsSobHN3IHJUJcFULCPvCHLmBem3eduJHKOgf9Cc
-        AZF/83SKJAXLWCG+5VZ9t9axZbOWcnu1FHqionSWbOoteH8vbizj956zrEXFpU4o
-        fhUsZOCWQcjpHOBf/+VUBYof9ZO5edfZbdMNjzcWjeA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=aAUf8Z
-        WtRuKYcWh/bNGV7WxxMMD6waNEhYXD401M6pE=; b=o1lG4zhJGIqjCytJytfuIU
-        LcPCFkDBgkSKtXAE7iEAqSPkjByhIkiEVnlH0iljY1Xkgt9+lucrw5CCbxRGHkUy
-        6MFPiPSrYibg1DFpQExJRW1Ab7uW5PtT8LkDD3asp8NzYo1u1xaXKRO+/P7JZV5L
-        cHYwjzJvx4uOqiBbHZa/a/sFX7HL/BbcXfOJBlUjJ+C1FE41rAPB3tCD/W7nJ2fZ
-        FkhFMbdWmiY5LQpa5rYdqMOxxdSklTKJQxX3m7reGYGCPQfS8hediEFZuX2Wdem4
-        CS6k8NdTl2QA8RuRaf5Fsd6//KTIEKoa/nIGHaAPBXPw5PFgTiqrOmq4+/7/d1jg
-        ==
-X-ME-Sender: <xms:drnmXkC3lE_7-MAYC2SiyzVwt9186hDB3MrYKTeKR69mA2JqQxY6LQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudeijedgvdelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefrvghtvghr
-    ucfjuhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
-    eqnecuggftrfgrthhtvghrnhephefhheffgfehleegueduleehgfdvfeevkeduveejveej
-    veevgfeggfduudefueevnecukfhppeduudejrddvtddrieekrddufedvnecuvehluhhsth
-    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhdrhhhuthht
-    vghrvghrseifhhhoqdhtrdhnvght
-X-ME-Proxy: <xmx:drnmXmii6zX1AqXMT3ItVL5bmOZZA141DwGZ6joX5Ng3_3l4LH6Avw>
-    <xmx:drnmXnnufYjcXBIxG_WcTCIbAjJpcTto6E-iMnEpP0yPhiwjl3iRnw>
-    <xmx:drnmXqyrTkwAdzOBF_14BW2ajzU0TFv42Anb1tTmnIUoOPR8JrAJ5Q>
-    <xmx:d7nmXrchMwPcGFoKkwXJQsK6d3FBlBlVE_UZvV269Piv9Y0sCTZ_Ow>
-Received: from koala (117-20-68-132.751444.bne.nbn.aussiebb.net [117.20.68.132])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 60ECB3061CB6;
-        Sun, 14 Jun 2020 19:57:40 -0400 (EDT)
-Date:   Mon, 15 Jun 2020 09:57:35 +1000
-From:   Peter Hutterer <peter.hutterer@who-t.net>
-To:     Denis 'GNUtoo' Carikli <GNUtoo@cyberdimension.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Andi Shyti <andi@etezian.org>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        linux-input@vger.kernel.org, Javi Ferrer <javi.f.o@gmail.com>
-Subject: Re: [PATCH] Input: mms114: don't report 0 pressure while still
- tracking contact(s)
-Message-ID: <20200614235735.GA11069@koala>
-References: <20200606035017.7271-1-GNUtoo@cyberdimension.org>
- <20200606181806.GR89269@dtor-ws>
- <20200612194619.0ac97cf2@primarylaptop.localdomain>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200612194619.0ac97cf2@primarylaptop.localdomain>
+        Mon, 15 Jun 2020 02:35:49 -0400
+Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC9C7C061A0E;
+        Sun, 14 Jun 2020 23:35:48 -0700 (PDT)
+Received: by mail-il1-x141.google.com with SMTP id x18so14274685ilp.1;
+        Sun, 14 Jun 2020 23:35:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=1TsNpet0kPA2yLEVEKHNLGs/+445G25oFUvw6oaAJ0w=;
+        b=DDtyxcaqXE1CbSTIHz+12EXHjLAq53Fctk19+Ph/3cGHlqp9WD5EapNKVHNyqUFIuQ
+         XOsU2rM7k0GZTJ2liGiVhbxmHiqLoFYiht1wFUCPUbpGZBK8FJF6U8skfiYtS7eCiaM1
+         2+k0srp9yCaRI9JY14eI3x+jdGOX8eUHJjURs6aVMT4EBSpuugZo086AVk3RVS7uHt6M
+         V33R73TypSyI6nzGxw/doTKWZN0JvCPizmpDF5JEV5+AzFmdx5/p9VGBlpgdY+YASulO
+         Bg78tG+pla90oHx87MU1s3tEQHM4W9sAGXxG3QlztrZe10OunjY5JQMinGQHRA/C0NV1
+         jCBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=1TsNpet0kPA2yLEVEKHNLGs/+445G25oFUvw6oaAJ0w=;
+        b=FC7JDeLeQ5PHJyAKWKJPpVS189Obu59/kVdF6HoRCQMyggllA/Az9QNg2ex+kAk7RH
+         Vz+zhn5VU+vScEOG+DXtaPwj5G/H0Q1u873CBZrMfDszwvG7D2FUFFqwVQGH58qAZeAU
+         vv27aLWcbsUtYzo3NAHTbTSCuQ2arLPRCa9ZVMCChUmTSlxwJSjdEoYydT/PO3Anj14W
+         vWueXBUbaIVTXtzGAYBXLi0uH8seZtOfGx3GLPQpm+uwzyosURrsY8uuwtUlRiu76azk
+         XVb4a7qhctil8YQLDFJgy1rW/ge7uxa5QVVaB0cRvDsDnLm4nrUV3RZjCqLZ2wahbdbQ
+         /8+g==
+X-Gm-Message-State: AOAM53173lwd0wg6IbhSKz/YMUEBgu5ZxAe2agohTWmQNvpyu8klmuMM
+        ebfLfeUPydidApk132CUi+UoWXblqw4=
+X-Google-Smtp-Source: ABdhPJyl4VbD63c0LIONL4RXBr7lyvsOsefVC/7P3Ibl1HQ8tg+KhzI+mYTN/v8v0kw0WqLNRFjJgA==
+X-Received: by 2002:a92:d811:: with SMTP id y17mr24753982ilm.31.1592202948360;
+        Sun, 14 Jun 2020 23:35:48 -0700 (PDT)
+Received: from cs-u-kase.dtc.umn.edu (cs-u-kase.cs.umn.edu. [160.94.64.2])
+        by smtp.googlemail.com with ESMTPSA id q75sm7392753iod.22.2020.06.14.23.35.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Jun 2020 23:35:47 -0700 (PDT)
+From:   Navid Emamdoost <navid.emamdoost@gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Navid Emamdoost <navid.emamdoost@gmail.com>,
+        =?UTF-8?q?Pawe=C5=82=20Chmiel?= <pawel.mikolaj.chmiel@gmail.com>,
+        Jonathan Bakker <xc-racer2@live.ca>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     emamd001@umn.edu, wu000273@umn.edu, kjlu@umn.edu,
+        mccamant@cs.umn.edu, andy.shevchenko@gmail.com
+Subject: [PATCH v2] Input: bma150: fix ref count leak in bma150_open
+Date:   Mon, 15 Jun 2020 01:35:33 -0500
+Message-Id: <20200615063534.80497-1-navid.emamdoost@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CAHp75VcuRvaQwcTP0+Y+QJTvjoEzYTvV40coUxnsZPfWnwcNMg@mail.gmail.com>
+References: <CAHp75VcuRvaQwcTP0+Y+QJTvjoEzYTvV40coUxnsZPfWnwcNMg@mail.gmail.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jun 12, 2020 at 07:46:19PM +0200, Denis 'GNUtoo' Carikli wrote:
-> On Sat, 6 Jun 2020 11:18:06 -0700
-> Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
-> 
-> > Hi Denis,
-> Hi,
-> 
-> > Could you please post longer sequence from evtest leading to the
-> > packet with 0 pressure?
-> 
-> Here's the full sequence, of a slide from the botton to the top, I hope
-> that it's not too long:
+in bma150_open, pm_runtime_get_sync is called which
+increments the counter even in case of failure, leading to incorrect
+ref count. In case of failure, decrement the ref count before returning.
 
-[...]
+Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+---
+Changes in v2:
+	-- repplace pm_runtime_put with pm_runtime_put_noidle
+---
+ drivers/input/misc/bma150.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-> > Properties:
-> >   Property type 1 (INPUT_PROP_DIRECT)
-> > Testing ... (interrupt to exit)
-> > Event: time 1585880998.920994, type 3 (EV_ABS), code 57
-> > (ABS_MT_TRACKING_ID), value 0 Event: time 1585880998.920994, type 3
-> > (EV_ABS), code 53 (ABS_MT_POSITION_X), value 400 Event: time
-> > 1585880998.920994, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y),
-> > value 1262 Event: time 1585880998.920994, type 3 (EV_ABS), code 48
-> > (ABS_MT_TOUCH_MAJOR), value 6 Event: time 1585880998.920994, type 3
-> > (EV_ABS), code 58 (ABS_MT_PRESSURE), value 90 Event: time
-> > 1585880998.920994, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 1
-> > Event: time 1585880998.920994, type 3 (EV_ABS), code 0 (ABS_X), value
-> > 400 Event: time 1585880998.920994, type 3 (EV_ABS), code 1 (ABS_Y),
-> > value 1262 Event: time 1585880998.920994, type 3 (EV_ABS), code 24
-> > (ABS_PRESSURE), value 90 Event: time 1585880998.920994,
-> > -------------- SYN_REPORT ------------ Event: time 1585880998.943145,
-
-sorry, but this is completely unreadable. Please make sure it's in the
-originally formatting that evtest/evemu/libinput record spit out. Thanks.
-
-Cheers,
-   Peter
+diff --git a/drivers/input/misc/bma150.c b/drivers/input/misc/bma150.c
+index a9d984da95f3..ec394b4faa14 100644
+--- a/drivers/input/misc/bma150.c
++++ b/drivers/input/misc/bma150.c
+@@ -348,7 +348,7 @@ static int bma150_open(struct input_dev *input)
+ 
+ 	error = pm_runtime_get_sync(&bma150->client->dev);
+ 	if (error < 0 && error != -ENOSYS)
+-		return error;
++		goto out;
+ 
+ 	/*
+ 	 * See if runtime PM woke up the device. If runtime PM
+@@ -357,10 +357,13 @@ static int bma150_open(struct input_dev *input)
+ 	if (bma150->mode != BMA150_MODE_NORMAL) {
+ 		error = bma150_set_mode(bma150, BMA150_MODE_NORMAL);
+ 		if (error)
+-			return error;
++			goto out;
+ 	}
+ 
+ 	return 0;
++out:
++	pm_runtime_put_noidle(&bma150->client->dev);
++	return error;
+ }
+ 
+ static void bma150_close(struct input_dev *input)
+-- 
+2.17.1
 
