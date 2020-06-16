@@ -2,65 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EDACC1FABEA
-	for <lists+linux-input@lfdr.de>; Tue, 16 Jun 2020 11:09:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B2DB1FAE88
+	for <lists+linux-input@lfdr.de>; Tue, 16 Jun 2020 12:50:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728016AbgFPJI6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 16 Jun 2020 05:08:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40878 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726052AbgFPJI5 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 16 Jun 2020 05:08:57 -0400
-Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7FB3120679;
-        Tue, 16 Jun 2020 09:08:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592298537;
-        bh=7Qa4mM8KgfhmotUA5hQlnoGWSH1rIvpzaj3OQr5EUSU=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=jF3YoqXH8IeGKg90r6lpZ7hSVqsST1gnBqI94D5FvpLD24LMi8ffsZQNvOOn0BAD5
-         jBW2cLy7u0e0M0SvQinoT9b20bp3Y/kMGiZFa5d8qUdduVOhUcwR4gglkL3a07OK8q
-         2sBCWqtRQ7tuE8bB+haqjW+wame3kq792eR+EE9o=
-Date:   Tue, 16 Jun 2020 11:08:53 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Rodrigo Rivas Costa <rodrigorivascosta@gmail.com>
-cc:     Siarhei Vishniakou <svv@google.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: Kasan crash in hid-steam
-In-Reply-To: <20200615174149.GA38082@casa>
-Message-ID: <nycvar.YFH.7.76.2006161108150.13242@cbobk.fhfr.pm>
-References: <CAKF84v0xsK2d+XEEnNC+SnE987fDaD=RyvZzZW3ew8L4K0JHzg@mail.gmail.com> <20200613122235.GA11175@casa> <CAKF84v05UjZg-7ZrVcwExk7Jkux=siR4Y8UnMt7KV0-9BrRfzg@mail.gmail.com> <20200615174149.GA38082@casa>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S1727966AbgFPKuf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 16 Jun 2020 06:50:35 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:53246 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725775AbgFPKuf (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 16 Jun 2020 06:50:35 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 1318F1C0C0A; Tue, 16 Jun 2020 12:50:33 +0200 (CEST)
+Date:   Tue, 16 Jun 2020 12:50:02 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Merlijn Wajer <merlijn@wizzup.org>
+Cc:     Beno??t Cousson <bcousson@baylibre.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jeffrey Hugo <jhugo@codeaurora.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Borislav Petkov <bp@suse.de>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Mattias Jacobsson <2pi@mok.nu>,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        Mark Gross <mgross@linux.intel.com>,
+        "open list:OMAP DEVICE TREE SUPPORT" <linux-omap@vger.kernel.org>,
+        "open list:OMAP DEVICE TREE SUPPORT" <devicetree@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." 
+        <linux-input@vger.kernel.org>
+Subject: Re: [PATCH 0/2] Add SW_MACHINE_COVER key
+Message-ID: <20200616105002.GA1718@bug>
+References: <20200612125402.18393-1-merlijn@wizzup.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200612125402.18393-1-merlijn@wizzup.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 15 Jun 2020, Rodrigo Rivas Costa wrote:
-
-> > Thanks Rodrigo,
-> > 
-> > I ran the test 50 times with your patch, and no crashes.
+On Fri 2020-06-12 14:53:57, Merlijn Wajer wrote:
+> this series adds the sw_machine_cover key, and changes the nokia n900 dts to
+> expose the key via gpio-keys.
 > 
-> Great! Let me CC the linux-input maintainers, to see if they can commit
-> this.
+> before, this gpio was used as card detect gpio, causing the card not to show up
+> if the phone was booted without cover, see this thread on linux-omap:
 > 
-> > Tested-by: Siarhei Vishniakou <svv@google.com>
-> Signed-off-by: Rodrigo Rivas Costa <rodrigorivascosta@gmail.com>
+>     n900: remove mmc1 "safety feature"? (was: re: mmc0 on nokia n900 on linux 5.4.18)
+> 
+> since there is no realistic use for using this gpio as card detect, instead
+> expose it to userspace via gpio-keys. there are no event type for machine covers
+> yet, so add that first.
+> 
+> the key should be 1 when the cover is closed, and 0 when the cover is open.
+> 
+> starting the nokia n900 with the cover removed, putting the cover in place:
+> 
+>     event: time 1581684523.415296, type 5 (ev_sw), code 16 (?), value 1
+> 
+> removing the cover again, exposing mmc1 and the battery:
+> 
+>     event: time 1581684529.413706, type 5 (ev_sw), code 16 (?), value 0
 
-Thanks for fixing the issue.
+Looks good to me.
 
-Could you please send me/Benjamin the patch, with changelog and all the 
-signed-off-by/Tested-by lines, so that we could apply it?
+Acked-by: Pavel Machek <pavel@ucw.cz>
 
-Thanks,
+									Pavel
+
 
 -- 
-Jiri Kosina
-SUSE Labs
-
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
