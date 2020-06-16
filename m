@@ -2,84 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 302CC1FBBF2
-	for <lists+linux-input@lfdr.de>; Tue, 16 Jun 2020 18:41:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BD761FBC0A
+	for <lists+linux-input@lfdr.de>; Tue, 16 Jun 2020 18:45:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729193AbgFPQlF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 16 Jun 2020 12:41:05 -0400
-Received: from mga07.intel.com ([134.134.136.100]:41184 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729128AbgFPQlF (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 16 Jun 2020 12:41:05 -0400
-IronPort-SDR: qmZyRixgNGHyu/UWp921TM85C6Ta/qcy4FvXhNRQsSHMZUVjPC7/eAx2h0PtIOHBGzA026ox9D
- 8ZraUZeuj3GQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2020 09:41:03 -0700
-IronPort-SDR: vOTL9Z9BRo/G3pbkgYs1YGSfddmO6CUcxYjGuz7mKVEO6WPdtEplFfuA7hAAj5snw1hRJWTyYh
- KkAHxDxAyDCQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,518,1583222400"; 
-   d="scan'208";a="298972651"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga004.fm.intel.com with ESMTP; 16 Jun 2020 09:40:59 -0700
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1jlEdx-00DsI7-UL; Tue, 16 Jun 2020 19:41:01 +0300
-Date:   Tue, 16 Jun 2020 19:41:01 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Sultan Alsawaf <sultan@kerneltoast.com>,
-        Andi Shyti <andi.shyti@intel.com>
-Cc:     jarkko.nikula@linux.intel.com, aaron.ma@canonical.com,
-        admin@kryma.net, benjamin.tissoires@redhat.com,
-        hdegoede@redhat.com, hn.chen@weidahitech.com, jikos@kernel.org,
-        kai.heng.feng@canonical.com, linux-i2c@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mika.westerberg@linux.intel.com, vicamo.yang@canonical.com,
-        wsa@kernel.org
-Subject: Re: [PATCH v2] HID: i2c-hid: Use block reads when possible to save
- power
-Message-ID: <20200616164101.GY2428291@smile.fi.intel.com>
-References: <c4373272-e656-773c-dfd2-0efc4c53c92d@linux.intel.com>
- <20200616154951.3050-1-sultan@kerneltoast.com>
+        id S1729005AbgFPQpK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 16 Jun 2020 12:45:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55480 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728861AbgFPQpK (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 16 Jun 2020 12:45:10 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3B0FC061573
+        for <linux-input@vger.kernel.org>; Tue, 16 Jun 2020 09:45:09 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id q25so3826582wmj.0
+        for <linux-input@vger.kernel.org>; Tue, 16 Jun 2020 09:45:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=SI9vJE2rDg56OuojCSDu+U/KawnOkhGpWXvUI9Sv53Q=;
+        b=YlMFFHCOduF39EtP3gnjwPsSwDTGNdIJQmgzc5ZPpEzrS5dX/PPx6rWeyHAzByn2tQ
+         WqzUll2cOHQG4A+tph7JjMaXd0zA7WucCMbOWprPSOD8BlwRAXVn7ywKc1t9VTNL97EZ
+         OcFzRvVjHZq1COnrgeVimozawI6S/wEUqmU26aktfSllA+xGs3M693FNFpwOMde8ME6L
+         74stDDSW9kX7GBlz8dRi7vnGmbJq6FNKeJTwUa5LXCvUNfeLWV51+uzRPpvQLQRocXgI
+         X9mRd2EGK02TCWZVe8qo+6jtTaRxZKnhekK/S0kHXHb0s1TLA4Pd6bnPsjPFxYF47HOe
+         t+Ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=SI9vJE2rDg56OuojCSDu+U/KawnOkhGpWXvUI9Sv53Q=;
+        b=j/GIwf93ik22wiFbcM7QYy2wIzR5Vo9/batzLKHSjDyqy2BRFNSmX67uedYeR6aezz
+         LltPBpeHjRm7TRnEoEQzpogxZCqUghDlkjUxu1mxR8U76Jctz2D4upANvXhSQ0VwqcPj
+         XNVj2rZxTYEFfs1FgLv6IBgQfi3CJln0zZkCWnGIrY8v9zYocnZtQOFhsKUFAyLigTqp
+         u9w6Hd8Ip4PKUo/FVU2SJ81BCHcN1PEr2BEsYv0Cvx2/TgMJ2Q6SvZIP+aGc7RayWLWI
+         WrjkbZ87D7LNuMpCw+qNqtQRk1V/qHVGkHMpZKUy1/qGa1H9TgaUbMbIXjdtJjWURlxV
+         Mr6Q==
+X-Gm-Message-State: AOAM531iK7bzvi468GgtrpQ9yN+M5IgsOykA174IeYygCGTDNnB9zgF7
+        fNh2UwoszoJe1FaF25cx+50=
+X-Google-Smtp-Source: ABdhPJyh0hFtBzijMQzUCHAILHvv7Gk3E5X7548vyLcVjITjVGldPvsY6aoByNtDtE0GRSbj+ThXfg==
+X-Received: by 2002:a7b:c249:: with SMTP id b9mr3854534wmj.143.1592325908509;
+        Tue, 16 Jun 2020 09:45:08 -0700 (PDT)
+Received: from localhost.localdomain ([92.176.4.241])
+        by smtp.gmail.com with ESMTPSA id c6sm5016875wma.15.2020.06.16.09.45.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jun 2020 09:45:07 -0700 (PDT)
+From:   Rodrigo Rivas Costa <rodrigorivascosta@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     linux-input <linux-input@vger.kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Rodrigo Rivas Costa <rodrigorivascosta@gmail.com>,
+        Siarhei Vishniakou <svv@google.com>
+Subject: [PATCH] HID: steam: fixes race in handling device list.
+Date:   Tue, 16 Jun 2020 18:44:18 +0200
+Message-Id: <20200616164418.14426-1-rodrigorivascosta@gmail.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <nycvar.YFH.7.76.2006161108150.13242@cbobk.fhfr.pm>
+References: <nycvar.YFH.7.76.2006161108150.13242@cbobk.fhfr.pm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200616154951.3050-1-sultan@kerneltoast.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jun 16, 2020 at 08:49:51AM -0700, Sultan Alsawaf wrote:
-> From: Sultan Alsawaf <sultan@kerneltoast.com>
-> 
-> We have no way of knowing how large an incoming payload is going to be,
-> so the only strategy available up until now has been to always retrieve
-> the maximum possible report length over i2c, which can be quite
-> inefficient. For devices that send reports in block read format, the i2c
-> controller driver can read the payload length on the fly and terminate
-> the i2c transaction early, resulting in considerable power savings.
-> 
-> On a Dell Precision 15 5540 with an i9-9880H, resting my finger on the
-> touchpad causes psys power readings to go up by about 4W and hover there
-> until I remove my finger. With this patch, my psys readings go from 4.7W
-> down to 3.1W, yielding about 1.6W in savings. This is because my
-> touchpad's max report length is 60 bytes, but all of the regular reports
-> it sends for touch events are only 32 bytes, so the i2c transfer is
-> roughly halved for the common case.
+Using uhid and KASAN this driver crashed because it was getting
+several connection events where it only expected one. Then the
+device was added several times to the static device list and it got
+corrupted.
 
-> +	/* Try to do a block read if the size fits in one byte */
-> +	flags = size > 255 ? I2C_M_RD : I2C_M_RD | I2C_M_RECV_LEN;
+This patch checks if the device is already in the list before adding
+it.
 
-AFAIR SMBus specification tells about 256. Why 255?
+Signed-off-by: Rodrigo Rivas Costa <rodrigorivascosta@gmail.com>
+Tested-by: Siarhei Vishniakou <svv@google.com>
+---
+ drivers/hid/hid-steam.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Andi, am I correct?
-
+diff --git a/drivers/hid/hid-steam.c b/drivers/hid/hid-steam.c
+index 6286204d4c56..a3b151b29bd7 100644
+--- a/drivers/hid/hid-steam.c
++++ b/drivers/hid/hid-steam.c
+@@ -526,7 +526,8 @@ static int steam_register(struct steam_device *steam)
+ 			steam_battery_register(steam);
+ 
+ 		mutex_lock(&steam_devices_lock);
+-		list_add(&steam->list, &steam_devices);
++		if (list_empty(&steam->list))
++			list_add(&steam->list, &steam_devices);
+ 		mutex_unlock(&steam_devices_lock);
+ 	}
+ 
+@@ -552,7 +553,7 @@ static void steam_unregister(struct steam_device *steam)
+ 		hid_info(steam->hdev, "Steam Controller '%s' disconnected",
+ 				steam->serial_no);
+ 		mutex_lock(&steam_devices_lock);
+-		list_del(&steam->list);
++		list_del_init(&steam->list);
+ 		mutex_unlock(&steam_devices_lock);
+ 		steam->serial_no[0] = 0;
+ 	}
+@@ -738,6 +739,7 @@ static int steam_probe(struct hid_device *hdev,
+ 	mutex_init(&steam->mutex);
+ 	steam->quirks = id->driver_data;
+ 	INIT_WORK(&steam->work_connect, steam_work_connect_cb);
++	INIT_LIST_HEAD(&steam->list);
+ 
+ 	steam->client_hdev = steam_create_client_hid(hdev);
+ 	if (IS_ERR(steam->client_hdev)) {
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.27.0
 
