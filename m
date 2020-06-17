@@ -2,34 +2,34 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3C711FC6FF
-	for <lists+linux-input@lfdr.de>; Wed, 17 Jun 2020 09:17:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 094651FC704
+	for <lists+linux-input@lfdr.de>; Wed, 17 Jun 2020 09:17:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726497AbgFQHRF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 17 Jun 2020 03:17:05 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:40227 "EHLO
+        id S1726591AbgFQHRZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 17 Jun 2020 03:17:25 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:51135 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725894AbgFQHRF (ORCPT
+        with ESMTP id S1725894AbgFQHRZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 17 Jun 2020 03:17:05 -0400
-Received: from mail-qt1-f175.google.com ([209.85.160.175]) by
- mrelayeu.kundenserver.de (mreue109 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1N6bsG-1ipZ8D2Pi2-017zvT; Wed, 17 Jun 2020 09:17:03 +0200
-Received: by mail-qt1-f175.google.com with SMTP id w90so751645qtd.8;
-        Wed, 17 Jun 2020 00:17:03 -0700 (PDT)
-X-Gm-Message-State: AOAM53130BrU9USZtErF23TQobrdR1KS1IhlnIL2ygjbrYj8neALDC/z
-        A8uQPIsed7+gr7aCQT266pufBp2IQtBJfWmU1F8=
-X-Google-Smtp-Source: ABdhPJyWa8LewoQBzabNarDH0ZTp0ECXYU14r5yxZh7G4mXnu9ldr8IzKJjlSDz5qUf/PhHXTGzsDygZ0gCOlJviwqY=
-X-Received: by 2002:ac8:7417:: with SMTP id p23mr25192754qtq.204.1592378222298;
- Wed, 17 Jun 2020 00:17:02 -0700 (PDT)
+        Wed, 17 Jun 2020 03:17:25 -0400
+Received: from mail-qk1-f176.google.com ([209.85.222.176]) by
+ mrelayeu.kundenserver.de (mreue009 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1MTiHd-1jJf0o0ELV-00U3CK; Wed, 17 Jun 2020 09:17:23 +0200
+Received: by mail-qk1-f176.google.com with SMTP id f18so1146990qkh.1;
+        Wed, 17 Jun 2020 00:17:22 -0700 (PDT)
+X-Gm-Message-State: AOAM530dJZ6mjfBeAfS/d9WwEiJn0zfjT/FC9+5Izwiob+tpi3+bQKt4
+        b0uJ/l3kiHlxc1yOHzpx7v376OL5Fa5LYhI7YUI=
+X-Google-Smtp-Source: ABdhPJzrVFsJeqz/gwKfNe9UY0hlG+JXbQ7QhG4NYp9SSFLCcqr2pUVf2YXSUvi3MQNAKYKvvivKDhm4wQjKAZElbSM=
+X-Received: by 2002:a37:62ce:: with SMTP id w197mr5265621qkb.394.1592378241742;
+ Wed, 17 Jun 2020 00:17:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200617065539.25805-1-geert+renesas@glider.be> <20200617065539.25805-2-geert+renesas@glider.be>
-In-Reply-To: <20200617065539.25805-2-geert+renesas@glider.be>
+References: <20200617065539.25805-1-geert+renesas@glider.be> <20200617065539.25805-3-geert+renesas@glider.be>
+In-Reply-To: <20200617065539.25805-3-geert+renesas@glider.be>
 From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 17 Jun 2020 09:16:46 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a05scGaz6ATu1-QkbxOsgCW8_OAGSZ0v9GRt6P3Xs5Qxg@mail.gmail.com>
-Message-ID: <CAK8P3a05scGaz6ATu1-QkbxOsgCW8_OAGSZ0v9GRt6P3Xs5Qxg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] sh: Remove SH5-based Cayman platform
+Date:   Wed, 17 Jun 2020 09:17:06 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a2JuoO42Jw59xrKPHEaib=kuKJ_B4_kPpgxbZAOzv_gBQ@mail.gmail.com>
+Message-ID: <CAK8P3a2JuoO42Jw59xrKPHEaib=kuKJ_B4_kPpgxbZAOzv_gBQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] input: i8042 - Remove special Cayman handling
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Yoshinori Sato <ysato@users.sourceforge.jp>,
         Rich Felker <dalias@libc.org>,
@@ -38,24 +38,24 @@ Cc:     Yoshinori Sato <ysato@users.sourceforge.jp>,
         "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:gRl57bWkffm+CaqkIeMVZp0WQx49c8rLT46PvPSGZmBlzJXrdK0
- Ql081LnA1FimtLSZ7iI+IgfvATE6DVlS1YZaXhhzuZUflS1mWfWQXj6fNGlnGcY5sfDTp/v
- ambn7weAvywSWwV/BsSfkgqTLCk3IBDwsrKLeKNFSUiAm4ANfNr69QVn9+Z03hol3Zt0caW
- XcLLoYCCTxgn8w6qbPklA==
+X-Provags-ID: V03:K1:RJKJYCkswHgeuAqOT9gUbkjT6i61thmstb/oVsYPNhSKtD9rcp7
+ AizRbtCoDO4xAQhW4JKAaVGbi8y7tTvA8DbAkyRrno+K5hFifOvjckeef0xDwrvm0aUlh/3
+ IdW6WoM51HRdhv1+gHPdahXw/DYStRg85tkPwIuBKz8QhvF0jk6FOM83mYI1FLhvrleFaw8
+ lpFVDsiHXyPZnOcICTv+w==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:PTJ70fZYDtw=:u/cDzZH6Dq+XqbOv1U7OFG
- ensXK6wwhVrmtTWQbpZYAZ4a/SXOjDJlfhkVY1P9hkn7Qtrkx/9wUQAeMVTY//8qZ1gKqiaxt
- 0avfe85TDnH3/qMJT9IMc+FFI3WguBQbWKhWeKd4h00Prdu4YQWVui5XVjMmW0WY7//cW7bi/
- hqEps/m3x6Uca1y9WupW1LN9F50gqXcPD120Cc1xQ6v4iIg/RqFvta9CwTACFt03Cn2gkpmZf
- +/DaGHhp1KMeR1h/JSGcydJgOa3cvBwaq6iIyFo7mrWtkJVvlY0bXZve1+38mIiM0aCxQWYag
- TX3JfX1tRIYwxt1qCcceZgUu50HS6sJSII+phbtcqcLRqp5G1MvJUhtuQ+eQ0fB9kyvjhXhzM
- l2WQowm2F+gqjMSScMMQmmnAzGTr5XrXuMTtWbYpl9UGHgr/8LaJF3HDhgLqJyZdp55lQd3O8
- XmpD4XUshfI18DT3caqI+KExvdxrG8hLzXaGjq/TlkDMnHcQBHXMcPucCb8LXC67Omw9NMWwT
- yL0LKjIe+/tEhrRmxJxQr8ztD7YC21R0rLvTOY71OYWoim63lnPbkSND50zZkql9GrZxCq213
- d/JkL+eNYaa+nnNAQ2l2AJPoedDf4+9wa7EOFsf6klFqtoOu0EZB9nglBnwUgzizXDj6nH/4/
- a2g05XG7jpGP4koO2rN3vzTPpkRUqki/KPqMXCTMKzcMTPbYsCLc6ZDEZ6ZobmBfT6WsGexv/
- fceY+R3CYQgxv7Hu5DzFsuixTBM3AVXOLNzzi6zAJyQOozZ9A5sk/Ntt/Sv9xCOfk/kIQMCbV
- oEhWa2j/0hCq1GtWokwQ3E7CXn5wB5ZcVQePrCJPDDw+FVd1+g=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:A2ARPWA6N8M=:OyZE4vE//AQWmgQi6QLCoT
+ d49CRVevq4kY1BhgZhk/6Dkox9DVF/Vh3diki+WeGgDGQTPpMBUcUYlHR7HrLD3QGYBIzN/pd
+ SYfN5CSUf+hsKoGQi69vgPPT4SC1pZpXd54lggwNT06ZLf2Q0m1uzEMp2XcqdWFAH5tzkENwd
+ JrK4qaW/DJsoyv+uO/XOobphTwqhcO/VNUp4TTrGGO2snBTxOBYGd5+qdQ1/l9dPVaF5KeIr1
+ 3KUL5YWp+u+Gv4bFNWGpyFcyTo03zHgbyhr643miGohnQ9ImTkt89cN80oJdaMYp5Jo+NWnKH
+ nM9QvoS9lWSRrV3aR5YrOLE/6WAwbzNSyGep5jnjeRPT2VvdoxFoulMymyqx7wBwrwuL2NGqo
+ 41EmB9KRTVf5D2o5wLRnvhx3aDgCKBvk2lvoqbwaYsQdOsPwJxRIiCsk4722/gq9+1Rf4O/cZ
+ DkBe77KxmqgBfLLo/shzjbl+YR1LmJweH2cdj/uTVuri30dXi7/8rgJOC1+LfITegcC3eB5rU
+ 2b+k6txBUukJamlmNJw+bsszqPcayHz+HNXMAYkcnNdEMYlOO/hfwUYgFBp6MJpqm6DwvTjtk
+ XNJDDAx8ViDKjKN5P3r5DCCmsslwTKXW6sdNc89nApMpC2VbA0xqS1aql2/UPA9jW2Vqk5MO8
+ cGoL6ula8AK5usoI0/XX1SA6cX6Tc7WumxCgP3cNlKcJ/Hq7a6ub4yz9whx4r7usG3GxFtVLz
+ X1NCyJMAiG3mAIH3+g1+IxS6p2jHmQ0Y8QAFwbPkfgfiYVJ4eXJJ53RXopSm5+1IftHyOOix9
+ Jm6faFanILFSGx31UpyW6SH7faJzvswo+j5TGROaFGNi6wgMlE=
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
@@ -64,15 +64,10 @@ X-Mailing-List: linux-input@vger.kernel.org
 On Wed, Jun 17, 2020 at 8:55 AM Geert Uytterhoeven
 <geert+renesas@glider.be> wrote:
 >
-> Since the removal of core support for SH5, Cayman support can no longer
-> be selected.
+> As of commit 37744feebc086908 ("sh: remove sh5 support"), support for
+> the SH5-based Cayman platform can no longer be selected.
 >
-> Fixes: 37744feebc086908 ("sh: remove sh5 support")
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Good catch!
-
-I thought I had recursively checked for all unused Kconfig symbols,
-but I somehow missed this.
+> ---
 
 Acked-by: Arnd Bergmann <arnd@arndb.de>
