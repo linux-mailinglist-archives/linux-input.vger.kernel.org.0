@@ -2,35 +2,36 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C26B91FE585
-	for <lists+linux-input@lfdr.de>; Thu, 18 Jun 2020 04:26:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E19BE1FE4C7
+	for <lists+linux-input@lfdr.de>; Thu, 18 Jun 2020 04:21:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730434AbgFRC0b (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 17 Jun 2020 22:26:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48150 "EHLO mail.kernel.org"
+        id S1729332AbgFRCUy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 17 Jun 2020 22:20:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50360 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729721AbgFRBRC (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 17 Jun 2020 21:17:02 -0400
+        id S1729987AbgFRBSv (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 17 Jun 2020 21:18:51 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 073FC221F1;
-        Thu, 18 Jun 2020 01:17:01 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D6E45221EB;
+        Thu, 18 Jun 2020 01:18:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592443022;
-        bh=1r1fw6u+sogIcOlFix7QL3YOSTMRICnyNQPQivxLnH4=;
+        s=default; t=1592443130;
+        bh=CH7RtoRUTVwOheAN0dNoDi9CupulVZRjl1+5U8fV7rw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iIEuIjG/RtAZUz5rLibp/jIjstSCSouFW8pkYYekm9tkxsliyuPOIYzkJ7I7r+AFa
-         boKd33dioAK95ZNXzZWKfDcGedjU2eQhn/z1Aa418w5KoAofl5sDMLkmz9DQKAcZd3
-         HW10esePDSvlMPHR4DgM49pO1lRYRp1IAeJf4znM=
+        b=HZvep69nqTU4j/X2OfZolDGyUO57+omhoLqtapcS/I0YAps0ANJPCF5WAI6bsKQJa
+         eDkBuHgn7ueSE9Is+yKfCE+o4MHoEwKBjX5CeOpcJxY87KKVQGALa5sHXgZOlc8irr
+         mhZp/k2Fnd7ubTfooazGiIdqQzrno5FZb4gdFLEQ=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Marco Felsch <m.felsch@pengutronix.de>,
+Cc:     Stephan Gerhold <stephan@gerhold.net>,
+        Andi Shyti <andi@etezian.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 023/266] Input: edt-ft5x06 - fix get_default register write access
-Date:   Wed, 17 Jun 2020 21:12:28 -0400
-Message-Id: <20200618011631.604574-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 103/266] Input: mms114 - add extra compatible for mms345l
+Date:   Wed, 17 Jun 2020 21:13:48 -0400
+Message-Id: <20200618011631.604574-103-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200618011631.604574-1-sashal@kernel.org>
 References: <20200618011631.604574-1-sashal@kernel.org>
@@ -43,57 +44,86 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Marco Felsch <m.felsch@pengutronix.de>
+From: Stephan Gerhold <stephan@gerhold.net>
 
-[ Upstream commit 255cdaf73412de13608fb776101402dca68bed2b ]
+[ Upstream commit 7842087b0196d674ed877d768de8f2a34d7fdc53 ]
 
-Since commit b6eba86030bf ("Input: edt-ft5x06 - add offset support for
-ev-ft5726") offset-x and offset-y is supported. Devices using those
-offset parameters don't support the offset parameter so we need to add
-the NO_REGISTER check for edt_ft5x06_ts_get_defaults().
+MMS345L is another first generation touch screen from Melfas,
+which uses mostly the same registers as MMS152.
 
-Fixes: b6eba86030bf ("Input: edt-ft5x06 - add offset support for ev-ft5726")
-Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-Link: https://lore.kernel.org/r/20200227112819.16754-2-m.felsch@pengutronix.de
+However, there is some garbage printed during initialization.
+Apparently MMS345L does not have the MMS152_COMPAT_GROUP register
+that is read+printed during initialization.
+
+  TSP FW Rev: bootloader 0x6 / core 0x26 / config 0x26, Compat group: \x06
+
+On earlier kernel versions the compat group was actually printed as
+an ASCII control character, seems like it gets escaped now.
+
+But we probably shouldn't print something from a random register.
+
+Add a separate "melfas,mms345l" compatible that avoids reading
+from the MMS152_COMPAT_GROUP register. This might also help in case
+there is some other device-specific quirk in the future.
+
+Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
+Reviewed-by: Andi Shyti <andi@etezian.org>
+Link: https://lore.kernel.org/r/20200423102431.2715-1-stephan@gerhold.net
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/touchscreen/edt-ft5x06.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ drivers/input/touchscreen/mms114.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-index 240e8de24cd2..b41b97c962ed 100644
---- a/drivers/input/touchscreen/edt-ft5x06.c
-+++ b/drivers/input/touchscreen/edt-ft5x06.c
-@@ -935,19 +935,25 @@ static void edt_ft5x06_ts_get_defaults(struct device *dev,
+diff --git a/drivers/input/touchscreen/mms114.c b/drivers/input/touchscreen/mms114.c
+index fca908ba4841..fb28fd2d6f1c 100644
+--- a/drivers/input/touchscreen/mms114.c
++++ b/drivers/input/touchscreen/mms114.c
+@@ -54,6 +54,7 @@
+ enum mms_type {
+ 	TYPE_MMS114	= 114,
+ 	TYPE_MMS152	= 152,
++	TYPE_MMS345L	= 345,
+ };
  
- 	error = device_property_read_u32(dev, "offset", &val);
- 	if (!error) {
--		edt_ft5x06_register_write(tsdata, reg_addr->reg_offset, val);
-+		if (reg_addr->reg_offset != NO_REGISTER)
-+			edt_ft5x06_register_write(tsdata,
-+						  reg_addr->reg_offset, val);
- 		tsdata->offset = val;
- 	}
+ struct mms114_data {
+@@ -250,6 +251,15 @@ static int mms114_get_version(struct mms114_data *data)
+ 	int error;
  
- 	error = device_property_read_u32(dev, "offset-x", &val);
- 	if (!error) {
--		edt_ft5x06_register_write(tsdata, reg_addr->reg_offset_x, val);
-+		if (reg_addr->reg_offset_x != NO_REGISTER)
-+			edt_ft5x06_register_write(tsdata,
-+						  reg_addr->reg_offset_x, val);
- 		tsdata->offset_x = val;
- 	}
+ 	switch (data->type) {
++	case TYPE_MMS345L:
++		error = __mms114_read_reg(data, MMS152_FW_REV, 3, buf);
++		if (error)
++			return error;
++
++		dev_info(dev, "TSP FW Rev: bootloader 0x%x / core 0x%x / config 0x%x\n",
++			 buf[0], buf[1], buf[2]);
++		break;
++
+ 	case TYPE_MMS152:
+ 		error = __mms114_read_reg(data, MMS152_FW_REV, 3, buf);
+ 		if (error)
+@@ -287,8 +297,8 @@ static int mms114_setup_regs(struct mms114_data *data)
+ 	if (error < 0)
+ 		return error;
  
- 	error = device_property_read_u32(dev, "offset-y", &val);
- 	if (!error) {
--		edt_ft5x06_register_write(tsdata, reg_addr->reg_offset_y, val);
-+		if (reg_addr->reg_offset_y != NO_REGISTER)
-+			edt_ft5x06_register_write(tsdata,
-+						  reg_addr->reg_offset_y, val);
- 		tsdata->offset_y = val;
- 	}
- }
+-	/* MMS152 has no configuration or power on registers */
+-	if (data->type == TYPE_MMS152)
++	/* Only MMS114 has configuration and power on registers */
++	if (data->type != TYPE_MMS114)
+ 		return 0;
+ 
+ 	error = mms114_set_active(data, true);
+@@ -598,6 +608,9 @@ static const struct of_device_id mms114_dt_match[] = {
+ 	}, {
+ 		.compatible = "melfas,mms152",
+ 		.data = (void *)TYPE_MMS152,
++	}, {
++		.compatible = "melfas,mms345l",
++		.data = (void *)TYPE_MMS345L,
+ 	},
+ 	{ }
+ };
 -- 
 2.25.1
 
