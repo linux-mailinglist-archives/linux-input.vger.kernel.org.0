@@ -2,39 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AF811FDB74
-	for <lists+linux-input@lfdr.de>; Thu, 18 Jun 2020 03:13:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AEC81FDD1A
+	for <lists+linux-input@lfdr.de>; Thu, 18 Jun 2020 03:24:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728792AbgFRBLq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 17 Jun 2020 21:11:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39814 "EHLO mail.kernel.org"
+        id S1731058AbgFRBXr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 17 Jun 2020 21:23:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57680 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728783AbgFRBLp (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 17 Jun 2020 21:11:45 -0400
+        id S1731053AbgFRBXr (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 17 Jun 2020 21:23:47 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CE0EE2193E;
-        Thu, 18 Jun 2020 01:11:43 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5632D20B1F;
+        Thu, 18 Jun 2020 01:23:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592442704;
-        bh=vBCBMzp/dJxu7P6BbPG/qZxbQff9ivykBWjmPDcspNE=;
+        s=default; t=1592443426;
+        bh=BsadBBKHMduPoUtjwsrBRPIOISPZDN5z2L7lqKeMfHQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=L+4460dC2NVk/0LwIaikLKDXVfmmIvISp3wx1yKLCWRgaX+fwqSUxPtgPo3R8Holt
-         WfssjV8JyyJ/bDHyLbFnOfHbP0+SsUYFUnsItjMTkyKozWEarfVOz8vZCAfR0fty09
-         WjmBeoyNOH8B/srJ8BzlozK/TCk4d9un4/V6C6ZM=
+        b=bJZsR2EBNiKSDzEEUg4RwGQxERRxHS/c8/AwgGpbXOBtBb66DLmVfU8fJLjHIdE0P
+         P5dE1F9oLd0ILW+zFpc8px6t0lxhya2RISfchS+U8N2xNEj85fGdOoCtSlx/P+ECIF
+         aHZEAE9dWphDZNyA/0YvnwURWWfpROMZf0lo1pQQ=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.7 166/388] HID: intel-ish-hid: avoid bogus uninitialized-variable warning
-Date:   Wed, 17 Jun 2020 21:04:23 -0400
-Message-Id: <20200618010805.600873-166-sashal@kernel.org>
+Cc:     Stephan Gerhold <stephan@gerhold.net>,
+        Andi Shyti <andi@etezian.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 066/172] Input: mms114 - add extra compatible for mms345l
+Date:   Wed, 17 Jun 2020 21:20:32 -0400
+Message-Id: <20200618012218.607130-66-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200618010805.600873-1-sashal@kernel.org>
-References: <20200618010805.600873-1-sashal@kernel.org>
+In-Reply-To: <20200618012218.607130-1-sashal@kernel.org>
+References: <20200618012218.607130-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -44,54 +44,86 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+From: Stephan Gerhold <stephan@gerhold.net>
 
-[ Upstream commit 0b66fb3e6b7a53688f8e20945ac78cd3d832c65f ]
+[ Upstream commit 7842087b0196d674ed877d768de8f2a34d7fdc53 ]
 
-Older compilers like gcc-4.8 don't see that the variable is
-initialized when it is used:
+MMS345L is another first generation touch screen from Melfas,
+which uses mostly the same registers as MMS152.
 
-In file included from include/linux/compiler_types.h:68:0,
-                 from <command-line>:0:
-drivers/hid/intel-ish-hid/ishtp-fw-loader.c: In function 'load_fw_from_host':
-include/linux/compiler-gcc.h:75:45: warning: 'fw_info.ldr_capability.max_dma_buf_size' may be used uninitialized in this function [-Wmaybe-uninitialized]
- #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-                                             ^
-drivers/hid/intel-ish-hid/ishtp-fw-loader.c:770:22: note: 'fw_info.ldr_capability.max_dma_buf_size' was declared here
-  struct shim_fw_info fw_info;
-                      ^
+However, there is some garbage printed during initialization.
+Apparently MMS345L does not have the MMS152_COMPAT_GROUP register
+that is read+printed during initialization.
 
-Make sure to initialize it before returning an error from ish_query_loader_prop().
+  TSP FW Rev: bootloader 0x6 / core 0x26 / config 0x26, Compat group: \x06
 
-Fixes: 91b228107da3 ("HID: intel-ish-hid: ISH firmware loader client driver")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+On earlier kernel versions the compat group was actually printed as
+an ASCII control character, seems like it gets escaped now.
+
+But we probably shouldn't print something from a random register.
+
+Add a separate "melfas,mms345l" compatible that avoids reading
+from the MMS152_COMPAT_GROUP register. This might also help in case
+there is some other device-specific quirk in the future.
+
+Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
+Reviewed-by: Andi Shyti <andi@etezian.org>
+Link: https://lore.kernel.org/r/20200423102431.2715-1-stephan@gerhold.net
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/intel-ish-hid/ishtp-fw-loader.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/input/touchscreen/mms114.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/hid/intel-ish-hid/ishtp-fw-loader.c b/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
-index aa2dbed30fc3..6cf59fd26ad7 100644
---- a/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
-+++ b/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
-@@ -480,6 +480,7 @@ static int ish_query_loader_prop(struct ishtp_cl_data *client_data,
- 			    sizeof(ldr_xfer_query_resp));
- 	if (rv < 0) {
- 		client_data->flag_retry = true;
-+		*fw_info = (struct shim_fw_info){};
- 		return rv;
- 	}
+diff --git a/drivers/input/touchscreen/mms114.c b/drivers/input/touchscreen/mms114.c
+index a5ab774da4cc..a31b593f5b5f 100644
+--- a/drivers/input/touchscreen/mms114.c
++++ b/drivers/input/touchscreen/mms114.c
+@@ -54,6 +54,7 @@
+ enum mms_type {
+ 	TYPE_MMS114	= 114,
+ 	TYPE_MMS152	= 152,
++	TYPE_MMS345L	= 345,
+ };
  
-@@ -489,6 +490,7 @@ static int ish_query_loader_prop(struct ishtp_cl_data *client_data,
- 			"data size %d is not equal to size of loader_xfer_query_response %zu\n",
- 			rv, sizeof(struct loader_xfer_query_response));
- 		client_data->flag_retry = true;
-+		*fw_info = (struct shim_fw_info){};
- 		return -EMSGSIZE;
- 	}
+ struct mms114_data {
+@@ -250,6 +251,15 @@ static int mms114_get_version(struct mms114_data *data)
+ 	int error;
  
+ 	switch (data->type) {
++	case TYPE_MMS345L:
++		error = __mms114_read_reg(data, MMS152_FW_REV, 3, buf);
++		if (error)
++			return error;
++
++		dev_info(dev, "TSP FW Rev: bootloader 0x%x / core 0x%x / config 0x%x\n",
++			 buf[0], buf[1], buf[2]);
++		break;
++
+ 	case TYPE_MMS152:
+ 		error = __mms114_read_reg(data, MMS152_FW_REV, 3, buf);
+ 		if (error)
+@@ -287,8 +297,8 @@ static int mms114_setup_regs(struct mms114_data *data)
+ 	if (error < 0)
+ 		return error;
+ 
+-	/* MMS152 has no configuration or power on registers */
+-	if (data->type == TYPE_MMS152)
++	/* Only MMS114 has configuration and power on registers */
++	if (data->type != TYPE_MMS114)
+ 		return 0;
+ 
+ 	error = mms114_set_active(data, true);
+@@ -600,6 +610,9 @@ static const struct of_device_id mms114_dt_match[] = {
+ 	}, {
+ 		.compatible = "melfas,mms152",
+ 		.data = (void *)TYPE_MMS152,
++	}, {
++		.compatible = "melfas,mms345l",
++		.data = (void *)TYPE_MMS345L,
+ 	},
+ 	{ }
+ };
 -- 
 2.25.1
 
