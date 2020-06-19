@@ -2,105 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CFABB20156E
-	for <lists+linux-input@lfdr.de>; Fri, 19 Jun 2020 18:23:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A89C82015CD
+	for <lists+linux-input@lfdr.de>; Fri, 19 Jun 2020 18:31:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394593AbgFSQWK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 19 Jun 2020 12:22:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55614 "EHLO
+        id S2390312AbgFSO6J (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 19 Jun 2020 10:58:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389830AbgFSPAU (ORCPT
+        with ESMTP id S2390350AbgFSO6I (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 19 Jun 2020 11:00:20 -0400
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E28DC06174E
-        for <linux-input@vger.kernel.org>; Fri, 19 Jun 2020 08:00:21 -0700 (PDT)
-Received: by mail-qt1-x844.google.com with SMTP id e3so965765qts.12
-        for <linux-input@vger.kernel.org>; Fri, 19 Jun 2020 08:00:21 -0700 (PDT)
+        Fri, 19 Jun 2020 10:58:08 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4983C06174E
+        for <linux-input@vger.kernel.org>; Fri, 19 Jun 2020 07:58:08 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id g21so4954848wmg.0
+        for <linux-input@vger.kernel.org>; Fri, 19 Jun 2020 07:58:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6jQMgzSY4KWxzOGjk3kjhBgIuMt4xSU5jPQFL8NifHc=;
-        b=NA1I1n4hgoWZjPUoWs/zcYqk6QgZ0A5f9ERRa2PobhhmbedW1kPEQ+hysyOthQ/Izk
-         Y7KOZw28CAK+KQ9wicip8Q/oO6vlHkRZTgxwKHBqA9SvEXp06Kg8eV09OISWnLI1D1gR
-         I8YBGDNUibAQL+tmTZOimVZy5TJqveiCuVNpalJPJjtavRh3rK1tbPVaw055oICuh7uS
-         Hhw6JRpMdYWLUJMdzADViMNkxKT8Nv4EBhRM3epztxwRP8REg64Pc8eFzssgrp/HBSPV
-         caFNIMXXJshD0irwwVjWo6xZxZBDikpSI0KlYqCsHwg/Jn8CrzSXf9PA0x+HL34PVOwS
-         Vx7g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qlHKVuiHe8mY0zQtBxb4XV8bYdEFMK4nb0VIctDBF+w=;
+        b=r8Rvvxoot00RNraOrmIhovemuUioUrYhGQgvYCZamIsisSI5E7gATOWifMLFVOF5pk
+         R+YrjxJMZGdwmmfHJt6feutYSWSH9kq6uY7UQ9YOuliOrSB0/4j6bey8HHPd53NPOXnK
+         upLpI/y4yvooVRftwbwVTdSLpStxXTF8AgzcCrl5SkSvBVDzPQnekFqzx5iKlEy+XP4Y
+         pu9m0G5WX8W6TaN06MoFKOOQqzMyaFEQXlYJsWxG2gzOH4k2kIGx0Yhw/xTYTI9Cz7Xi
+         bFbE3DpWgShcq7PLOZS4TOw7IACGF5sCZ3vJy0mMjaEwATz3ZkicAljHvin8smMAvcYt
+         gnbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6jQMgzSY4KWxzOGjk3kjhBgIuMt4xSU5jPQFL8NifHc=;
-        b=AfI9RY+rOovNOzZV0OqlDxSXwTiwii3hX2osW+OUeA7+zmB7WSuHJVrAblw4AqavKx
-         a5Jr7k+f2fBW7NnCacUhkEibCSzMOn99jwc99M1Tq1SjY1iCww/xt4uVRUI6tlCcThMX
-         JAK+r8lILeHTrbNy4PCP2ZvIUEOKl4CAtx7zpzCK01qaEo3px/7lX4gOmVG/mPcZVbGq
-         wg7C30V8rifdBVSLAEtHFYmsicWWF41+zhJmFdOW7KQFn7QiNeoRaHgGW3uIH3JNMvnD
-         6/YfVfTzj993xILyWnPBvxwIuoxJvr/605vv0kXfMRGBzB0rFy/t3lxqtxQid/2UMKSG
-         DUbQ==
-X-Gm-Message-State: AOAM530rSoXaiUnBhrxFqxCOuftZbgZSce79Cj5+OW9H95S2qm2S1gD0
-        Iue3BYoEkBNQeqq6g35ZsCr+SrYg5FOYqslEbG24tg==
-X-Google-Smtp-Source: ABdhPJyuiIvI9lfSGWYopAZkwyCivu3i+yTXcXX3GRwO6fHF2y48UEkMZVpNWApqBjfnBJMZuVA1MqCuE49RkQEUt1A=
-X-Received: by 2002:ac8:357b:: with SMTP id z56mr3875082qtb.107.1592578819902;
- Fri, 19 Jun 2020 08:00:19 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qlHKVuiHe8mY0zQtBxb4XV8bYdEFMK4nb0VIctDBF+w=;
+        b=sxx2ZqAP/rxlA303lzJ9BekXSyRQcw/kIbrz+JD+LTMLxg+ZkBOPBZSJq0fS4bs7jQ
+         u3AfvA290oHo2h6PSdfnFOcyYRwfSkcCFAsnEH1eAA4OxInbIDK653ELrF8Tj0UsXyrQ
+         65pIuTckSc62zVFnuQ7Wq0hvP4/Z15QYQ+MdSMW1KXlwOpWzk+6zqU8ATcxoch/rA4aA
+         x4/mGy7jYRkKKaVDaAQhD+XE2HfLy9w4icesrtOGP/XXRDcbJSYZn7ID7/Do5sZiZhQ7
+         VFnZkgDrOJgAWNZ88i6kz5+GvxCSxewAymYFdLB86edtXEkpczdy0TQVamkUDTY5ASx3
+         SVjg==
+X-Gm-Message-State: AOAM532oCEKrYC7yCOFFa/w6DNeJ/LgQi5wIiMLq44D49tgtzz1EcL1L
+        dY0f05fW8v0ofYYZI3kPkmJPm/JU
+X-Google-Smtp-Source: ABdhPJxklkKCozDRBqNspdrGnM8MWKdwU44CmT9yi9hPqASUY31WeYUGUnPdzYxuDE+9OmQj5Mp26g==
+X-Received: by 2002:a1c:ac8a:: with SMTP id v132mr4071500wme.26.1592578687341;
+        Fri, 19 Jun 2020 07:58:07 -0700 (PDT)
+Received: from david-x1.fritz.box (p200300c2a7202e00cce94073abf366fb.dip0.t-ipconnect.de. [2003:c2:a720:2e00:cce9:4073:abf3:66fb])
+        by smtp.gmail.com with ESMTPSA id c206sm7704026wmf.36.2020.06.19.07.58.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Jun 2020 07:58:06 -0700 (PDT)
+From:   David Rheinsberg <david.rheinsberg@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        David Herrmann <dh.herrmann@gmail.com>,
+        David Rheinsberg <david.rheinsberg@gmail.com>
+Subject: [PATCH] MAINTAINERS: update uhid and hid-wiimote entry
+Date:   Fri, 19 Jun 2020 16:57:59 +0200
+Message-Id: <20200619145759.37941-1-david.rheinsberg@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20200619145759.37941-1-david.rheinsberg@gmail.com>
-In-Reply-To: <20200619145759.37941-1-david.rheinsberg@gmail.com>
-From:   David Herrmann <dh.herrmann@gmail.com>
-Date:   Fri, 19 Jun 2020 17:00:08 +0200
-Message-ID: <CANq1E4QJkp7famiAa-HNzHcXOC=TvA13kDmQdPH38OW5JCFOZg@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: update uhid and hid-wiimote entry
-To:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-Cc:     Jiri Kosina <jikos@kernel.org>, david.rheinsberg@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi
+My last name changed to "Rheinsberg", so update the maintainer entries
+and adjust the emails while at it.
 
-On Fri, Jun 19, 2020 at 4:58 PM David Rheinsberg
-<david.rheinsberg@gmail.com> wrote:
->
-> My last name changed to "Rheinsberg", so update the maintainer entries
-> and adjust the emails while at it.
->
-> Signed-off-by: David Rheinsberg <david.rheinsberg@gmail.com>
-> ---
->  MAINTAINERS | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+Signed-off-by: David Rheinsberg <david.rheinsberg@gmail.com>
+---
+ MAINTAINERS | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-In case you want it from this email-address as well:
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 465210f17948..e1d82d8de7dc 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -17390,7 +17390,7 @@ F:	Documentation/admin-guide/ufs.rst
+ F:	fs/ufs/
+ 
+ UHID USERSPACE HID IO DRIVER
+-M:	David Herrmann <dh.herrmann@googlemail.com>
++M:	David Rheinsberg <david.rheinsberg@gmail.com>
+ L:	linux-input@vger.kernel.org
+ S:	Maintained
+ F:	drivers/hid/uhid.c
+@@ -18334,7 +18334,7 @@ S:	Maintained
+ F:	drivers/rtc/rtc-sd3078.c
+ 
+ WIIMOTE HID DRIVER
+-M:	David Herrmann <dh.herrmann@googlemail.com>
++M:	David Rheinsberg <david.rheinsberg@gmail.com>
+ L:	linux-input@vger.kernel.org
+ S:	Maintained
+ F:	drivers/hid/hid-wiimote*
+-- 
+2.27.0
 
-Signed-off-by: David Herrmann <dh.herrmann@gmail.com>
-
-Thanks!
-David
-
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 465210f17948..e1d82d8de7dc 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -17390,7 +17390,7 @@ F:      Documentation/admin-guide/ufs.rst
->  F:     fs/ufs/
->
->  UHID USERSPACE HID IO DRIVER
-> -M:     David Herrmann <dh.herrmann@googlemail.com>
-> +M:     David Rheinsberg <david.rheinsberg@gmail.com>
->  L:     linux-input@vger.kernel.org
->  S:     Maintained
->  F:     drivers/hid/uhid.c
-> @@ -18334,7 +18334,7 @@ S:      Maintained
->  F:     drivers/rtc/rtc-sd3078.c
->
->  WIIMOTE HID DRIVER
-> -M:     David Herrmann <dh.herrmann@googlemail.com>
-> +M:     David Rheinsberg <david.rheinsberg@gmail.com>
->  L:     linux-input@vger.kernel.org
->  S:     Maintained
->  F:     drivers/hid/hid-wiimote*
-> --
-> 2.27.0
->
