@@ -2,59 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FADD200292
-	for <lists+linux-input@lfdr.de>; Fri, 19 Jun 2020 09:15:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E73C62002AA
+	for <lists+linux-input@lfdr.de>; Fri, 19 Jun 2020 09:22:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727916AbgFSHPz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 19 Jun 2020 03:15:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52578 "EHLO mail.kernel.org"
+        id S1730523AbgFSHWa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 19 Jun 2020 03:22:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54726 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730329AbgFSHPx (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 19 Jun 2020 03:15:53 -0400
+        id S1730686AbgFSHW3 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 19 Jun 2020 03:22:29 -0400
 Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7269F2078D;
-        Fri, 19 Jun 2020 07:15:52 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 13AF520707;
+        Fri, 19 Jun 2020 07:22:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592550953;
-        bh=epIDZKQdTwE1MW539B+tuV7ILotiTGRB84XqiGR/YDw=;
+        s=default; t=1592551348;
+        bh=nVr2Sq+RBfD6ijktwys6btoPkhmLIz2o64rIv90to5Y=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=I3zIhqk44E2hS3DLEY8+YmYLvXgypa3wEJZR2/lBrhJjBQ/DPrP99kKCJbZEPrZDK
-         pwN2ljEQ75NDMmelq/vGTs6ijH16OcH3u6dvac2nX448MT3TwKxilq7KgnRjluyZ7b
-         /kptJk/ClI7O+eZwMFznDlg7P8dY3eUJpBO0omhc=
-Date:   Fri, 19 Jun 2020 09:15:50 +0200 (CEST)
+        b=KZrAOl9mnIXIDYhIz2Dpxf3KD/t+D9QMJ1j+szkdID6hZYKJDyLbGoTZNjEoovcyM
+         VMXnFhq8mFJmU+eX3tFoh65AuzhquDvO3O/wOnBJv3NAAFQC9yb3Dl1bYREm+E1ULM
+         GoeXE3FWab2K4c2X+DOpzLjsstZ2H/ZCWo4Qol7I=
+Date:   Fri, 19 Jun 2020 09:22:26 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     =?ISO-8859-15?Q?Fran=E7ois-Xavier_Carton?= <fx.carton91@gmail.com>
-cc:     linux-input@vger.kernel.org, Ethan Lee <flibitijibibo@gmail.com>,
-        Bastien Nocera <hadess@hadess.net>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH v2 2/4] HID: gamecube-adapter: add rumble support
-In-Reply-To: <20200512084616.32158-2-fx.carton91@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2006190915260.13242@cbobk.fhfr.pm>
-References: <20200512084616.32158-1-fx.carton91@gmail.com> <20200512084616.32158-2-fx.carton91@gmail.com>
+To:     Rodrigo Rivas Costa <rodrigorivascosta@gmail.com>
+cc:     linux-input <linux-input@vger.kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Siarhei Vishniakou <svv@google.com>
+Subject: Re: [PATCH] HID: steam: fixes race in handling device list.
+In-Reply-To: <20200616164418.14426-1-rodrigorivascosta@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2006190922180.13242@cbobk.fhfr.pm>
+References: <nycvar.YFH.7.76.2006161108150.13242@cbobk.fhfr.pm> <20200616164418.14426-1-rodrigorivascosta@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 12 May 2020, François-Xavier Carton wrote:
+On Tue, 16 Jun 2020, Rodrigo Rivas Costa wrote:
 
-> Add rumble support for the hid-gamecube-adapter driver. Rumble is
-> reported with a single output report for all four controllers.
+> Using uhid and KASAN this driver crashed because it was getting
+> several connection events where it only expected one. Then the
+> device was added several times to the static device list and it got
+> corrupted.
 > 
-> Signed-off-by: François-Xavier Carton <fx.carton91@gmail.com>
+> This patch checks if the device is already in the list before adding
+> it.
 
-Francois,
-
-somehow I seem to be missing 1/4 from this series in my inbox. Could you 
-please resend it my way?
-
-Thanks.
+Applied, thanks.
 
 -- 
 Jiri Kosina
