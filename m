@@ -2,106 +2,170 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 389D820538A
-	for <lists+linux-input@lfdr.de>; Tue, 23 Jun 2020 15:35:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24EA72054FF
+	for <lists+linux-input@lfdr.de>; Tue, 23 Jun 2020 16:41:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732681AbgFWNfW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 23 Jun 2020 09:35:22 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:59518 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732616AbgFWNfW (ORCPT
+        id S1732844AbgFWOlU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 23 Jun 2020 10:41:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56334 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732831AbgFWOlT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 23 Jun 2020 09:35:22 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 5FFD01C0C0A; Tue, 23 Jun 2020 15:35:19 +0200 (CEST)
-Date:   Tue, 23 Jun 2020 15:35:12 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc:     linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-tegra@vger.kernel.org, patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
+        Tue, 23 Jun 2020 10:41:19 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B65CC061573
+        for <linux-input@vger.kernel.org>; Tue, 23 Jun 2020 07:41:19 -0700 (PDT)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1jnk6m-00043q-NL; Tue, 23 Jun 2020 16:41:08 +0200
+Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1jnk6j-0000GH-Mh; Tue, 23 Jun 2020 16:41:05 +0200
+Date:   Tue, 23 Jun 2020 16:41:05 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Roy Im <roy.im.opensource@diasemi.com>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Brian Masney <masneyb@onstation.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Pascal PAILLET-LME <p.paillet@st.com>,
+        Rob Herring <robh@kernel.org>,
+        Samuel Ortiz <sameo@linux.intel.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Peter Hutterer <peter.hutterer@redhat.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        Micha?? Miros??aw <mirq-linux@rere.qmqm.pl>,
-        kernel@collabora.com
-Subject: Re: [PATCH v2] Input: document inhibiting
-Message-ID: <20200623133512.GA2783@bug>
-References: <f9007f37-c526-5fa4-3188-a554d2434177@redhat.com>
- <20200617101822.8558-1-andrzej.p@collabora.com>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Support Opensource <support.opensource@diasemi.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+Subject: Re: [RESEND PATCH V13 3/3] Input: new da7280 haptic driver
+Message-ID: <20200623144105.mxhcrtezbghjb2vb@taurus.defre.kleine-koenig.org>
+References: <cover.1592221223.git.Roy.Im@diasemi.com>
+ <135761fd309eb9424faeb631b6e6c66147b57666.1592221223.git.Roy.Im@diasemi.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="sap42vwa5imj2ksw"
 Content-Disposition: inline
-In-Reply-To: <20200617101822.8558-1-andrzej.p@collabora.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <135761fd309eb9424faeb631b6e6c66147b57666.1592221223.git.Roy.Im@diasemi.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi!
 
-> +Inhibiting input devices
-> +~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +Inhibiting a device means ignoring input events from it. As such it is about maintaining
-> +relationships with input handlers - either already existing relationships, or relationships
-> +to be established while the device is in inhibited state.
-> +
-> +If a device is inhibited, no input handler will receive events from it.
-> +
-> +The fact that nobody wants events from the device is exploited further, by calling device's
-> +close() (if there are users) and open() (if there are users) on inhibit and uninhibit
-> +operations, respectively. Indeed, the meaning of close() is to stop providing events
-> +to the input core and that of open() is to start providing events to the input core.
-> +
-> +Calling the device's close() method on inhibit (if there are users) allows the driver
-> +to save power. Either by directly powering down the device or by releasing the
-> +runtime-pm reference it got in open() when the driver is using runtime-pm.
-> +
-> +Inhibiting and uninhibiting are orthogonal to opening and closing the device by input
-> +handlers. Userspace might want to inhibit a device in anticipation before any handler is
-> +positively matched against it.
+--sap42vwa5imj2ksw
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ok.
+Hello,
 
-> +Inhibiting and uninhibiting are orthogonal to device's being a wakeup source, too. 
-> Being a +wakeup source plays a role when the system is sleeping, not when the system is 
-> operating. +How drivers should program their interaction between inhibiting, sleeping 
-> and being a wakeup +source is driver-specific. + +Taking the analogy with the network 
+On Mon, Jun 15, 2020 at 08:40:23PM +0900, Roy Im wrote:
+> Adds support for the Dialog DA7280 LRA/ERM Haptic Driver with
+> multiple mode and integrated waveform memory and wideband support.
+> It communicates via an I2C bus to the device.
+>=20
+> Signed-off-by: Roy Im <roy.im.opensource@diasemi.com>
 
-I don't believe making interaction driver-specific is good idea. We should decide
-what reasonable behaviour is and then make drivers implement that...
+Just some picky comments below.
 
-Best regards,
-									Pavel
--- 
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+> +	error =3D pwm_apply_state(haptics->pwm_dev, &state);
+> +	if (error)
+> +		dev_err(haptics->dev,
+> +			"failed to apply pwm state: %pE\n",
+> +			ERR_PTR(error));
+
+You can save some horizontal space here by dropping the \n after the
+first comma. (There are a few more occurences.)
+
+> +	return error;
+> +}
+> +[...]
+> +
+> +		/* Sync up PWM state and ensure it is off. */
+> +		pwm_init_state(haptics->pwm_dev, &state);
+> +		state.enabled =3D false;
+> +		error =3D pwm_apply_state(haptics->pwm_dev, &state);
+> +		if (error) {
+> +			dev_err(dev,
+> +				"failed to apply initial PWM state: %pE\n",
+> +				ERR_PTR(error));
+> +			return error;
+> +		}
+> +
+> +		/* Check PWM Period, it must be in 10k ~ 250kHz */
+
+The unit of a PWM period is in (nano)seconds, to it cannot be in the
+range [10kHz, 250kHz]. (Is this too picky?)
+
+> +		period2freq =3D 1000000 / state.period;
+> +		if (period2freq < DA7280_MIN_PWM_FREQ_KHZ ||
+> +		    period2freq > DA7280_MAX_PWM_FREQ_KHZ) {
+> +			dev_err(dev, "Not supported PWM frequency(%d)\n",
+> +				period2freq);
+
+Doesn't the compiler warn here about period2freq being unsigned and %d
+being for signed int values?
+
+For my (non-native) English ear s/Not supported/Unsupported/ sounds
+better. Also my eyes would be pleases by a space before the opening
+brace.
+
+> +			return -EINVAL;
+> +		}
+> +	}
+> +
+> +
+> +[...]
+> +static struct i2c_driver da7280_driver =3D {
+> +	.driver	=3D {
+> +		.name		=3D "da7280",
+> +		.of_match_table	=3D of_match_ptr(da7280_of_match),
+> +		.pm		=3D &da7280_pm_ops,
+
+I don't like alignment of =3D, but I'm aware this is a subjective thing.
+(The reason for me is that adding a new member that is longer than the
+already existing requires touching all lines. So I stick to a single
+space before a =3D.)
+
+> +	},
+> +	.probe	  =3D da7280_probe,
+> +	.id_table =3D da7280_i2c_id,
+> +};
+> +module_i2c_driver(da7280_driver);
+> +
+> +MODULE_DESCRIPTION("DA7280 haptics driver");
+> +MODULE_AUTHOR("Roy Im <Roy.Im.Opensource@diasemi.com>");
+> +MODULE_LICENSE("GPL");
+> --=20
+> end-of-patch for RESEND PATCH V13
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--sap42vwa5imj2ksw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl7yFH4ACgkQwfwUeK3K
+7AkzyQgAinqodG7O9W0MXAaThAuQIllst+boEpiHowQfbTKPWIfhEtcsGoBNoQvb
+hySvg0WAH6jI6LNsfnM2uIabLaPjC9mVIFyG0YU2g4ulASEOrOSqZrxCGEJxZPEi
+57o7NJCw7RaXvH/QGP0zg/+NP0o/kWZlr6GFP/ZPBi5/Xa7Nonqws+DRNjPzdN9v
+pKhKf6QJhNTQuVCn6an+Uo9kl4F28kvx4DLDfW3ljZC+g+1PH/4uZi9iNy83V8Uo
+XlY6hqJ3b70fotLm2Oo7chj3dPAeerkxx5mezIQpgidqqct2PcPzfUbPx+xPBm59
+tZsRyjSeuO9u/M3kgOBYaKTPWQb8oQ==
+=j9ju
+-----END PGP SIGNATURE-----
+
+--sap42vwa5imj2ksw--
