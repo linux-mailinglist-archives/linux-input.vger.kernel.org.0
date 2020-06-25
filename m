@@ -2,113 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A19D20A041
-	for <lists+linux-input@lfdr.de>; Thu, 25 Jun 2020 15:46:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D75E20A04D
+	for <lists+linux-input@lfdr.de>; Thu, 25 Jun 2020 15:50:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405188AbgFYNqZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 25 Jun 2020 09:46:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40254 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404937AbgFYNqY (ORCPT
+        id S2404937AbgFYNu4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 25 Jun 2020 09:50:56 -0400
+Received: from esa4.mentor.iphmx.com ([68.232.137.252]:27460 "EHLO
+        esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404803AbgFYNu4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 25 Jun 2020 09:46:24 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0C3EC08C5C1
-        for <linux-input@vger.kernel.org>; Thu, 25 Jun 2020 06:46:23 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id z13so5911072wrw.5
-        for <linux-input@vger.kernel.org>; Thu, 25 Jun 2020 06:46:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=YSDkyeiSDPLPSRAXrfvq4hAW6FiEkGgtYpOfXK2AXGA=;
-        b=lXRq50woUMyAOo+aBe/Y+d4mKY0BVZx4Vh4nKd7h9ENUtC7ULyMbIvzGfXwmSVqAzA
-         vRzhl8S6bPXsfCl8oh6GmZ8c7JuGMCDLSegnevL70hOezgJai+knT/0cmNeAJpW5keef
-         PZljUUp/zfFUfQi2U8npVjRJUosqFaqVUoWiHARx297f6Cbu/52xnnw4hwXk+rqxFFGI
-         VP/oD6um0vZZyy3YLQVbTOG1HYNmrs5fDZSjrrfD2rEflKKh1ue5hemcFJOG095yusiw
-         ealSwjBzSWxG00ntStbFMDDU3aKfbZ6IL8KGQnminkmhlvhG1kT9n+V6kCM/thU3z3Hv
-         rTJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=YSDkyeiSDPLPSRAXrfvq4hAW6FiEkGgtYpOfXK2AXGA=;
-        b=LKMcmO/ulQjg7WNEDvSqgOU2XJP0RFfk+y+HEZ4hvw5TMBR8fU0lnKbbUObmy61Q8O
-         TVihHK0z92TbEMF13CiClkgaaBV3vJR37O6b5giu/SnJHHHbXkZWefsqLoptjrCTq4AM
-         XjuYB9D71A1RZaXIURz6GRg6nKXOxBCFRpw23EyvFBq4SicJ2/gdxGvWuH/umK8JB5kh
-         yEuYfYMUT6twsMKX6ePKNotFiKEyjQU/L6Pms5feuw6oohOhw7XZHZC5YfRGgLEFZNeH
-         DsbKRT5PmzGYa7OUlwaBBpeAcUB04tXNRZGoIK9rmG2G/UEwL1gB8HJi1JPH2c8e2uGZ
-         WR9Q==
-X-Gm-Message-State: AOAM533TGBAMsyfI+EaPGl+2Etn4kZ00cQJPEw+nc/alsyUNVQr60NtH
-        4CKGFf96QOJOP8sVSowW3z7WCw==
-X-Google-Smtp-Source: ABdhPJxV1aPJE7TkDoKw11SuB6u5jTx8/+gh7CQnd2DMnvzldy5dviAH/ORaQptndhcG/wuagh6rbw==
-X-Received: by 2002:a5d:46d0:: with SMTP id g16mr39739354wrs.229.1593092782457;
-        Thu, 25 Jun 2020 06:46:22 -0700 (PDT)
-Received: from dell ([2.27.35.144])
-        by smtp.gmail.com with ESMTPSA id d10sm9155362wrx.66.2020.06.25.06.46.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2020 06:46:21 -0700 (PDT)
-Date:   Thu, 25 Jun 2020 14:46:20 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Cc:     Ikjoon Jang <ikjn@chromium.org>, devicetree@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Nicolas Boitchat <drinkcat@chromium.org>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v7] dt-bindings: mfd: Convert ChromeOS EC bindings to
- json-schema
-Message-ID: <20200625134620.GS954398@dell>
-References: <20200306085513.76024-1-ikjn@chromium.org>
- <20200417101333.GA3737@dell>
- <ab5adcd1-18f2-9b1c-8c5d-744f7a0e5579@collabora.com>
+        Thu, 25 Jun 2020 09:50:56 -0400
+IronPort-SDR: 6iKE5uuaWB8s3Hutxs+7krh///GWOC1lHF3rmlQim5bbGtvrep5jaoP7dhUSCxh76EdzzgHysz
+ 3d+IHjwLvSuRck7hlivhFnkY72SuYI1HByzVk4CceNvE99vvL32McWcg28UO3MOFKHwSQvM8oc
+ XyVFLg28IREzuVyJ9NQHYHpSswa8jD9sAL4YGwE4RljVtS4HAe55HHux53RADyB8E6Oyp+wB1o
+ PTwLnJAJhsTnWRgQyH2FlSj6xXEiPjE7wBuFdrd18jay0dTZqJ6/9FuTArVAIxWMgkP41BwcmA
+ /k4=
+X-IronPort-AV: E=Sophos;i="5.75,279,1589270400"; 
+   d="scan'208";a="50311698"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+  by esa4.mentor.iphmx.com with ESMTP; 25 Jun 2020 05:50:55 -0800
+IronPort-SDR: YNW2iLDxJT7b7gRTlTexBmc0jFGCY8AO5eUVe7CIGZhds5fBJ80JMie2uvZudrTfOcxKQ98toH
+ HGifkF6yZDKna8M4EaVOkwM4W+n10y6X1hFhRyG2HzFdOl9ZZnC94DBg+VAxTqZVk//j+AtqvU
+ D+qiKxRCU3R4cw+OfK3DjjRsTavlm7s1khZv58+zkEpFhk6C4gm9xCOgxx1FYbOesUkw5HrF6P
+ yMS4ELlABnUBawqHtNTXCgckacEBvECFen95ufGPd6M7QSx4pn64z3oB6k8e6AEpuHkfZ404/p
+ FGQ=
+Subject: Re: [PATCH v11 00/56] atmel_mxt_ts misc
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC:     <nick@shmanahar.org>, <jikos@kernel.org>,
+        <benjamin.tissoires@redhat.com>, <bsz@semihalf.com>,
+        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>
+References: <20200508055656.96389-1-jiada_wang@mentor.com>
+ <20200527064307.GK89269@dtor-ws>
+From:   "Wang, Jiada" <jiada_wang@mentor.com>
+Message-ID: <2f7964da-0dca-2d13-3559-28b4582a3278@mentor.com>
+Date:   Thu, 25 Jun 2020 22:50:49 +0900
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ab5adcd1-18f2-9b1c-8c5d-744f7a0e5579@collabora.com>
+In-Reply-To: <20200527064307.GK89269@dtor-ws>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: svr-orw-mbx-01.mgc.mentorg.com (147.34.90.201) To
+ svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 25 Jun 2020, Enric Balletbo i Serra wrote:
+Hello Dmitry
 
-> Hi Lee,
+sorry for the delay,
+
+On 2020/05/27 15:43, Dmitry Torokhov wrote:
+> Hi Jiada,
 > 
-> On 17/4/20 12:13, Lee Jones wrote:
-> > On Fri, 06 Mar 2020, Ikjoon Jang wrote:
-> > 
-> >> Convert the ChromeOS EC bindings to json-schema.
-> >>
-> >> Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
-> >> Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-> >> ---
-> >>  .../devicetree/bindings/mfd/cros-ec.txt       |  76 -----------
-> >>  .../bindings/mfd/google,cros-ec.yaml          | 129 ++++++++++++++++++
-> >>  2 files changed, 129 insertions(+), 76 deletions(-)
-> >>  delete mode 100644 Documentation/devicetree/bindings/mfd/cros-ec.txt
-> >>  create mode 100644 Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-> > 
-> > Applied, thanks.
+> On Thu, May 07, 2020 at 10:56:00PM -0700, Jiada Wang wrote:
+>> This patch-set forward ports Nick Dyer's work in ndyer/linux github
+>> repository as long as some other features and fixes
 > 
-> I don't see this patch applied, I am missing something?
+> Sorry for ignoring the series for quite a while. I guess my biggest
+> issue with the series is that quite a bit of patches are trying to
+> handle the fallout from a very unfortunate design decision in the
+> driver: the fact that it attempts to automatically upload firmware and
+> config on every boot/probe. This design was done at my urging because I
+> did not have access to the technical documentation and did not realize
+> that the controller has non-volatile memory for both firmware and
+> configuration. We should only attempt to automatically load firmware
+> where device does not have non-volatile memory and is unable function
+> otherwise, in all other cases we better leave it to userspace to decide
+> whether to execute firmware update and when. The kernel should only
+> provide facilities so that userspace can initiate firmware update. This
+> design has worked well for Chrome OS for many years (it used Atmel
+> controllers in several products), and I would like to bring it to the
+> mainline.
 
-It should be there.  Not sure when the MFD repo was last pushed.
+I agree with you, I will review the patch-set,
+and only pick these not related to firmware/cfg upload
 
-I'll try pushing it again (there are a couple of new patches from
-today).  Maybe that will spur a fetch from -next.  If it's still not
-there tomorrow, let me know and I'll investigate further.
-
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Thanks,
+jiada
+> 
+> Thanks.
+> 
