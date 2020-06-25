@@ -2,133 +2,163 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3FDF207F2B
-	for <lists+linux-input@lfdr.de>; Thu, 25 Jun 2020 00:09:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92038209967
+	for <lists+linux-input@lfdr.de>; Thu, 25 Jun 2020 07:23:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390166AbgFXWJf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 24 Jun 2020 18:09:35 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:33229 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387853AbgFXWJe (ORCPT
+        id S2389789AbgFYFXX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 25 Jun 2020 01:23:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47372 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389559AbgFYFXW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 24 Jun 2020 18:09:34 -0400
-Received: by mail-qt1-f193.google.com with SMTP id h23so3115369qtr.0;
-        Wed, 24 Jun 2020 15:09:33 -0700 (PDT)
+        Thu, 25 Jun 2020 01:23:22 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95487C061573;
+        Wed, 24 Jun 2020 22:23:22 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id u128so2763715pgu.13;
+        Wed, 24 Jun 2020 22:23:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=G7EYtpN+7APVu3hftiJBUcaii12rvBtQLcLyvFMd3fw=;
+        b=jJIIJMoxL6YsQVrG7We7n48E+SeW7jk0D25Di+/5IowuwUSecYdFowrs3zU3Ar+clB
+         D7O/AgEWBWfMEOmUWDep0xWKKl8zbs3ABy/eLh8Y/rqrV47ShC/omyeBMohoN+RrEVGv
+         zMvNYy9Si2WXLoSyXeQBtE7pOxnk/4Z7HeqYSbK1usdxxvj/KfrRfwmgezF21rhBaQxL
+         3dJ6sXHFV3I5r1Oc+FaC8rLXBwY9Jos35avaKEVvJB2z+WsyWE2Q+utTq9C5fOgPuUom
+         YtjrsnSlphGxBQ7IyrYgDi/KklkyWAiY6PraldKhi3/UqKrYGyFCbNJyeSWtvQ/inbve
+         nzFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version;
-        bh=H/RysOR6N0zpE6c3ebPBn7+IKDXpPNRcb77mnWUMTFM=;
-        b=Ny5odRbKAi5LzNa43J7hHBhF3MbPRmVRjrmvnz+U/Xkv7pV53PZdPxZik4xpgllf7s
-         FC5izVUC/R3feViW1nLbeywuguz5V+rWlgU4558Z44CSgYkI/2UTFXL+qkUnTS7ydzCx
-         S96ktNXHp9PnsvgaG6+XqhVbaOs+al+DvsimulCoTDpMwGoedqGOgfnK6jq9YoCGzUeH
-         6a4FWCvgJr+yOZWIaWHelGodQemu8JVAjPMC20PK7o6T4ccNXyD2BgY9wtuVlnlvEc+o
-         E8PHgVha5ayseyYLn38dl413xKgKdr4yMAp31YnjJvY7qHod8byMIYyDELD335ZTLFNr
-         4KZA==
-X-Gm-Message-State: AOAM533aRnfjifDmXiT4fDcwbNvbjXjHcnltk8kPa3D/0uoQ3tKIo0/X
-        6FXnkgaKo37/xCOL54voaiU=
-X-Google-Smtp-Source: ABdhPJys6wWsK6KiL7nbAlGhSwPps/gASOoCedqRYHgNRnuTH+wOUARmK+jnpjYf0Tr5DAogt1xdjQ==
-X-Received: by 2002:aed:3386:: with SMTP id v6mr29626444qtd.187.1593036572579;
-        Wed, 24 Jun 2020 15:09:32 -0700 (PDT)
-Received: from dek-x230.localnet (pool-108-24-134-99.cmdnnj.fios.verizon.net. [108.24.134.99])
-        by smtp.gmail.com with ESMTPSA id p128sm2705938qka.47.2020.06.24.15.09.31
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=G7EYtpN+7APVu3hftiJBUcaii12rvBtQLcLyvFMd3fw=;
+        b=K28tgkfoCC8MvqtkB+9VehH8oOJV/d4JTmfExcYPuzjIExcbmCSILzj0p8JXOqhaWV
+         cVwSEOubffJF345A5/ihg4RsJK989UOrfqR7DnBFZ3wVUJvuAFRjJo5qNg/Trr5KqF76
+         da2l1ywh0A8G3jrSgKL1I2KUOAkkY7gLF+4Rrxj8O9KUryB64oAxFD4ty4OGA5lTvhDt
+         L+XITm9mYrvAfxtru8AYfSJ/X39KdrIo+XLIwPpjZnWNjzvcrUHd+1rZjiEAP/ay63uE
+         IpTYmQlXwk+WenhJgxxb8uocXdKZjz0zkiZgFTXJ3kRBe+ETuyRjnEFrZDNRzFep8j5j
+         Wu2w==
+X-Gm-Message-State: AOAM531M4mn/6sThDL6JdPyB1HLr54hoXZxTES0J5rufbajX/NPLjsk1
+        HEu0TvAG64wmkDhpsMhQxn4=
+X-Google-Smtp-Source: ABdhPJw9IVvFgD9u6cKkJI+eEsVm8cCM5YDQSmq1Y1wrIMZkohaI0YZ2wNwSQKKZGzZRenNdJo7hRA==
+X-Received: by 2002:a65:46c9:: with SMTP id n9mr23942588pgr.89.1593062601705;
+        Wed, 24 Jun 2020 22:23:21 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
+        by smtp.gmail.com with ESMTPSA id i12sm21668804pfk.180.2020.06.24.22.23.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2020 15:09:31 -0700 (PDT)
-From:   David Korth <gerbilsoft@gerbilsoft.com>
-To:     David Rheinsberg <david.rheinsberg@gmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] HID: wiimote: Initialize the controller LEDs with a device ID value
-Date:   Wed, 24 Jun 2020 18:05:38 -0400
-Message-ID: <2498150.lGaqSPkdTl@dek-x230>
-In-Reply-To: <CANq1E4T_SNUrewDQ59bonr7tTKFa=wRYwXLWHMCiNA0KN0H9Aw@mail.gmail.com>
-References: <20200622225728.330-1-gerbilsoft@gerbilsoft.com> <CANq1E4T_SNUrewDQ59bonr7tTKFa=wRYwXLWHMCiNA0KN0H9Aw@mail.gmail.com>
+        Wed, 24 Jun 2020 22:23:20 -0700 (PDT)
+Date:   Wed, 24 Jun 2020 22:23:18 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-iio@vger.kernel.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Samsung SoC <linux-samsung-soc@vger.kernel.org>,
+        linux-input@vger.kernel.org,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Ferruh Yigit <fery@cypress.com>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Peter Hutterer <peter.hutterer@redhat.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        Collabora Kernel ML <kernel@collabora.com>
+Subject: Re: [PATCH v4 3/7] ACPI: button: Access input device's users under
+ appropriate mutex
+Message-ID: <20200625052318.GE248110@dtor-ws>
+References: <2336e15d-ff4b-bbb6-c701-dbf3aa110fcd@redhat.com>
+ <20200608112211.12125-1-andrzej.p@collabora.com>
+ <20200608112211.12125-4-andrzej.p@collabora.com>
+ <CAJZ5v0j7e9TzDtEiDXmj3fLAQ7CvFHoe7Q3aYKKas3PEXrsUuw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart2327861.XAFRqVoOGU"; micalg="pgp-sha256"; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJZ5v0j7e9TzDtEiDXmj3fLAQ7CvFHoe7Q3aYKKas3PEXrsUuw@mail.gmail.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
---nextPart2327861.XAFRqVoOGU
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-
-On Wednesday, June 24, 2020 6:04:55 AM EDT David Rheinsberg wrote:
-> Hi
+On Wed, Jun 24, 2020 at 05:00:09PM +0200, Rafael J. Wysocki wrote:
+> On Mon, Jun 8, 2020 at 1:22 PM Andrzej Pietrasiewicz
+> <andrzej.p@collabora.com> wrote:
+> >
+> > Inspecting input device's 'users' member should be done under device's
+> > mutex, so add appropriate invocations.
+> >
+> > Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 > 
-> On Tue, Jun 23, 2020 at 12:57 AM David Korth <gerbilsoft@gerbilsoft.com> 
-wrote:
-> > Based on a similar commit for Sony Sixaxis and DualShock 4 controllers:
-> > HID: sony: Initialize the controller LEDs with a device ID value
-> > 
-> > Wii remotes have the same player LED layout as Sixaxis controllers,
-> > so the wiimote setup is based on the Sixaxis code.
+> This looks like a fix that might be applied independently of the other
+> patches in the series.
 > 
-> Please include a description of the patch in the commit-message. It
-> took me quite a while to understand what the intention of this patch
-> is.
+> Do you want me to pick it up?
 
-Will do.
+If you pick it we'll have to have a dance with this series. Can I apply
+instead?
 
-> So what you are trying is to allocate a unique ID to each connected
-> wiimote, so they automatically display unique IDs, right?
-> 
-> Can you explain why this has to be done in the kernel driver? Why
-> isn't user-space assigning the right ID? User-space needs to attach
-> controllers to their respective engine anyway, in which case the IDs
-> the kernel assigns would be wrong, right? How does user-space display
-> the matching ID in their UI (e.g., for configuration use-cases)? The
-> way you set them does not allow user-space to query the ID, does it?
-> Lastly, wouldn't a device-reconnect want the same ID to be assigned
-> again? With the logic you apply, user-space would have to override
-> every ID for that to work.
-> 
-> Is there an actual use-case for this? Or is this just to align the
-> driver with the other gamepads?
-
-Most userspace programs aren't aware of controller LEDs. The only one I know 
-of that is, Steam, has its own input layer and bypasses the HID drivers 
-entirely.
-
-As far as I know, there's no simple "set player ID" API that could be used to 
-set a device-independent player number, so every program would need to support 
-each type of controller in order to set the LEDs.
-
-I've been manually setting the player IDs on Wii controllers when running 
-multiplayer games by writing to the /sys/class/leds/ directory. Having the 
-hid-wiimote driver do this itself significantly reduces setup time.
+I do not think this change has any practical effect as nobody
+attaches/detached input handlers or opening/closing input devices when
+system goes through device resume phase.
 
 > 
-> Thanks
-> David
-> 
+> > ---
+> >  drivers/acpi/button.c | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/acpi/button.c b/drivers/acpi/button.c
+> > index 78cfc70cb320..ff7ab291f678 100644
+> > --- a/drivers/acpi/button.c
+> > +++ b/drivers/acpi/button.c
+> > @@ -456,13 +456,16 @@ static int acpi_button_resume(struct device *dev)
+> >  {
+> >         struct acpi_device *device = to_acpi_device(dev);
+> >         struct acpi_button *button = acpi_driver_data(device);
+> > +       struct input_dev *input = button->input;
+> >
+> >         button->suspended = false;
+> > -       if (button->type == ACPI_BUTTON_TYPE_LID && button->input->users) {
+> > +       mutex_lock(&input->mutex);
+> > +       if (button->type == ACPI_BUTTON_TYPE_LID && input->users) {
+> >                 button->last_state = !!acpi_lid_evaluate_state(device);
+> >                 button->last_time = ktime_get();
+> >                 acpi_lid_initialize_state(device);
+> >         }
+> > +       mutex_unlock(&input->mutex);
+> >         return 0;
+> >  }
+> >  #endif
+> > --
+> > 2.17.1
+> >
 
---nextPart2327861.XAFRqVoOGU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+Thanks.
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEBKTd2QxoniMIp2ejTC/4LR6byCgFAl7zzjIACgkQTC/4LR6b
-yChVzg//X26Y6hKZxQy4cDA1rgOX4e105gYsE80z9Qwwsm4anXZNgXsZXYfhLaW0
-hfgKIvM08EXszBIkVDXrKW7gO+irRmZfbZGVqMP4QTC6vr6FO3eFnGyH/NGX6QCI
-/SzB0Wl23BlIujOXGNCj2I/Gs7gJ1lJ2XpMcOQQpdJwWas1DWOGhSQ36hMw0D3iF
-9swjyU0HR++xg7H0B26wFgJ1ZGjC1dOvYNh8uPKPKB/Un/lN9kuSOSIowcFK17En
-Wl5TN41gIKr8IoG2EZ0EKaDLM5tdrmcdrcmQV7Qg+U/fLRZPdrrHslO8tHZhy9pc
-ldnIYbCEJ5mFBdkCDl9zaUTKXhx4dwSTqpLcFNVjnYEk8roxgk+Ur6tVwbiZs8Xd
-TOUfzuvzyIE7yaRiUXVDQo+zgtKVj7wcLHMhPkhngMYmYWSq3Jrpw3zePxDtitdd
-kE6mWZmNgnrnJFjjAVp5gnTxdSQeT3bz5PH8PTEwXW6jSE+6dbuIoPQu6ONW2PRi
-LlntfKBuqaDOU0Jbqrw/HxQsdupLNNHSi1l9SoGt3C8ET5sW9cd1SuBzDM8uaLK1
-AxhObrHrSWa0iIj64bB1QCEvghVYAg+Xqe6V1hMfdoDdg8EF3QmQFM7j0VEbXkdx
-/Cn53xTl4GkSWxnJPD3essXj4VnBSLRJKYouZkG15l5MsSZPMDQ=
-=F17s
------END PGP SIGNATURE-----
-
---nextPart2327861.XAFRqVoOGU--
-
-
-
+-- 
+Dmitry
