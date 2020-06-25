@@ -2,123 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A07EC209D23
-	for <lists+linux-input@lfdr.de>; Thu, 25 Jun 2020 12:55:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F38720A01C
+	for <lists+linux-input@lfdr.de>; Thu, 25 Jun 2020 15:38:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404063AbgFYKzm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 25 Jun 2020 06:55:42 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:46412 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404042AbgFYKzm (ORCPT
+        id S2404895AbgFYNiN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 25 Jun 2020 09:38:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38798 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404890AbgFYNiM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 25 Jun 2020 06:55:42 -0400
-Received: by mail-oi1-f195.google.com with SMTP id l63so4532914oih.13;
-        Thu, 25 Jun 2020 03:55:41 -0700 (PDT)
+        Thu, 25 Jun 2020 09:38:12 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91E6CC08C5C1
+        for <linux-input@vger.kernel.org>; Thu, 25 Jun 2020 06:38:11 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id dp18so5968574ejc.8
+        for <linux-input@vger.kernel.org>; Thu, 25 Jun 2020 06:38:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=toeZr3f3cXXiy5O4xqdJNfWKL25HayKXBFowpIGVPzo=;
+        b=AA+65QOKZych2gRtEZiE9DhNPdr1pD9r+CZLbWZAK50+1VBYpF2KGIRtiOG78leUbL
+         SQ2jvc8H1Rj/xZqt2ryepnMFahyR5xVLGwpcGBybeRav3mWHZBB/aPWG4BJY9pPNCqcF
+         aBmIYDWd2jw8GBXghJoFc0XnYAtCvU34TBfi8+o/oNMSY7vSzbkr16BQNBYXgY68aS1b
+         I1MAfZhCtpz/YAnWminXJ5Ej3P3HmdcwMVybmvq4NxY2aNQraPj8cPkDyRUUONfIiWve
+         Azkrapo77/87ywmss+Rdnj5X0vcYV03+dLlWeZshAAp18PC47qHmWpfRx+NfAkYiiQXo
+         D74g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TrUXVh5K34ExkyosZm6J1FzTLucnrfzr2MGexVTzx7A=;
-        b=EDEalBM1t/9VXmckPzbNjY25D6IoMcyNWBb+hrEoH8jC/Q+oJl8lSm80mjg2uQEnsh
-         mJ0iQjPQfGG+unfCTOArQ+VmLCvtKMXRSwP4fJco608qCO5CPZd1VaCwGmK9BOw63mmP
-         NrtqP3qMjG+0wwsRXJpJE+pKRF9dObo0D8Gej1TYA/P31WadIrw8w7E8QVOvCX+Bk27q
-         8gyI1sPv2Bo5ToZUbNOkxRkgk8tC2jKRjjb6zrH/V3RftrlxwGMt+glqGLRufzEryXNF
-         QF5SqyR6mUhfF8hsVSWXpvCnw6X61kUcMaVmwx01R68uF8LvwK5En2j1fNDcr9DMZC03
-         m6oA==
-X-Gm-Message-State: AOAM531di9ZZWLCC6i8yU52Hj9OgbdYK0jECXSnsfdZzZQ6a9wboRJ6c
-        2OUybgKXOH15f68+aCJOTa3Q+K5CaMcguS2Hn7c=
-X-Google-Smtp-Source: ABdhPJxEHcU+htFP7B4i5hFRJBFdP4Ml1jBQ9xnktdScLVwnwA+huwt1DnfbyHYvIexy3b5Mqz0mUcFvn4VuBdP0DQA=
-X-Received: by 2002:a54:4585:: with SMTP id z5mr1709742oib.110.1593082540828;
- Thu, 25 Jun 2020 03:55:40 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=toeZr3f3cXXiy5O4xqdJNfWKL25HayKXBFowpIGVPzo=;
+        b=le2IpSvIpGp45LX9+LQogDOY8sgrL+KA/dslA8ZlkAMosboA5qikR5kqPa3TqEUKU1
+         34BduXDFB16k55GdeAi7SeNxJMJbSBQTQqHTt2KUv0e9AP7HeoBiWK91jrD/dV7sGCx6
+         C+qX6uKZVoZjvDEpMgUBp12QvxFXUGhYKuk8/vZHO60gMKNRC188tlFP6LoPFtKraRUy
+         vYZ+JrBtwYJROLyBOcV+BkD7yBph4TIQtwWZwuZnX8IHlcMLby3vFAg2DccoBYblCJo6
+         WoKlk3Vk1SnhsBXd199g+e8qq9tHmR7sZmi6yC1OmewCtXFAg4mQV6H3w9hEM6kZ20D+
+         sR+Q==
+X-Gm-Message-State: AOAM53163e7fUsPlRho2rID6A/G40WTExuMHBm12jSLfuJSWHpP2CjUn
+        9NAQlVpGM4kjcB1awSQzHYQ=
+X-Google-Smtp-Source: ABdhPJwWgSUFMRv3j2pEbi3vhlfCtpIBsbviwT+TAtJUuAlZsLhWd/eOa6mdrFxhLKP5eQmiO28d1g==
+X-Received: by 2002:a17:906:35ce:: with SMTP id p14mr21008544ejb.514.1593092290339;
+        Thu, 25 Jun 2020 06:38:10 -0700 (PDT)
+Received: from arch.lan (c-2f28235c.013-97-62726f1.bbcust.telenor.se. [92.35.40.47])
+        by smtp.gmail.com with ESMTPSA id lo20sm11044907ejb.62.2020.06.25.06.38.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jun 2020 06:38:09 -0700 (PDT)
+From:   David Pedersen <limero1337@gmail.com>
+To:     dmitry.torokhov@gmail.com
+Cc:     linux-input@vger.kernel.org, David Pedersen <limero1337@gmail.com>
+Subject: [PATCH] Input: i8042 - add Lenovo XiaoXin Air 12 to i8042 nomux list
+Date:   Thu, 25 Jun 2020 15:37:54 +0200
+Message-Id: <20200625133754.291325-1-limero1337@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <2336e15d-ff4b-bbb6-c701-dbf3aa110fcd@redhat.com>
- <20200608112211.12125-1-andrzej.p@collabora.com> <20200608112211.12125-4-andrzej.p@collabora.com>
- <CAJZ5v0j7e9TzDtEiDXmj3fLAQ7CvFHoe7Q3aYKKas3PEXrsUuw@mail.gmail.com> <20200625052318.GE248110@dtor-ws>
-In-Reply-To: <20200625052318.GE248110@dtor-ws>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Thu, 25 Jun 2020 12:55:29 +0200
-Message-ID: <CAJZ5v0hgQt-amMn8xiF_0kyVZ-9pQxgm5H-VcFpinVQGKnYhwQ@mail.gmail.com>
-Subject: Re: [PATCH v4 3/7] ACPI: button: Access input device's users under
- appropriate mutex
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-iio@vger.kernel.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Samsung SoC <linux-samsung-soc@vger.kernel.org>,
-        linux-input@vger.kernel.org,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Ferruh Yigit <fery@cypress.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Peter Hutterer <peter.hutterer@redhat.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        Collabora Kernel ML <kernel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jun 25, 2020 at 7:23 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> On Wed, Jun 24, 2020 at 05:00:09PM +0200, Rafael J. Wysocki wrote:
-> > On Mon, Jun 8, 2020 at 1:22 PM Andrzej Pietrasiewicz
-> > <andrzej.p@collabora.com> wrote:
-> > >
-> > > Inspecting input device's 'users' member should be done under device's
-> > > mutex, so add appropriate invocations.
-> > >
-> > > Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-> >
-> > This looks like a fix that might be applied independently of the other
-> > patches in the series.
-> >
-> > Do you want me to pick it up?
->
-> If you pick it we'll have to have a dance with this series. Can I apply
-> instead?
+This fixes two finger trackpad scroll on the Lenovo XiaoXin Air 12.
+Without nomux, the trackpad behaves as if only one finger is present and
+moves the cursor when trying to scroll.
 
-Yes, please.
+Signed-off-by: David Pedersen <limero1337@gmail.com>
+---
+ drivers/input/serio/i8042-x86ia64io.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Also feel free to add
-
-Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-
-to it.
-
-> I do not think this change has any practical effect as nobody
-> attaches/detached input handlers or opening/closing input devices when
-> system goes through device resume phase.
-
-Indeed.
-
-Thanks!
+diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
+index 7e048b557462..858a26302198 100644
+--- a/drivers/input/serio/i8042-x86ia64io.h
++++ b/drivers/input/serio/i8042-x86ia64io.h
+@@ -425,6 +425,13 @@ static const struct dmi_system_id __initconst i8042_dmi_nomux_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "076804U"),
+ 		},
+ 	},
++	{
++		/* Lenovo XiaoXin Air 12 */
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "80UN"),
++		},
++	},
+ 	{
+ 		.matches = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
+--
+2.27.0
