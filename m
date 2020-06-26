@@ -2,122 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 15EC620AC33
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jun 2020 08:19:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A23CF20AD99
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jun 2020 09:57:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728034AbgFZGTJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 26 Jun 2020 02:19:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52334 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726451AbgFZGTI (ORCPT
+        id S1728865AbgFZH47 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 26 Jun 2020 03:56:59 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:45922 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728687AbgFZH46 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 26 Jun 2020 02:19:08 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B24A5C08C5C1
-        for <linux-input@vger.kernel.org>; Thu, 25 Jun 2020 23:19:08 -0700 (PDT)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1johhR-0001r4-L1; Fri, 26 Jun 2020 08:18:57 +0200
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1johhN-00015J-AA; Fri, 26 Jun 2020 08:18:53 +0200
-Date:   Fri, 26 Jun 2020 08:18:53 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Roy Im <roy.im.opensource@diasemi.com>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Brian Masney <masneyb@onstation.org>,
+        Fri, 26 Jun 2020 03:56:58 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: eballetbo)
+        with ESMTPSA id A533B2A58EC
+Subject: Re: [PATCH v7] dt-bindings: mfd: Convert ChromeOS EC bindings to
+ json-schema
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     Ikjoon Jang <ikjn@chromium.org>, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Pascal PAILLET-LME <p.paillet@st.com>,
-        Rob Herring <robh@kernel.org>,
-        Samuel Ortiz <sameo@linux.intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Support Opensource <support.opensource@diasemi.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org
-Subject: Re: [PATCH v14 3/3] Input: new da7280 haptic driver
-Message-ID: <20200626061853.hyb7dwta6ths2qo2@taurus.defre.kleine-koenig.org>
-References: <cover.1593017969.git.Roy.Im@diasemi.com>
- <8b05f5bd46eac415c628e965f59b2b57aff86bbe.1593017969.git.Roy.Im@diasemi.com>
+        Gwendal Grignou <gwendal@chromium.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Benson Leung <bleung@chromium.org>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Nicolas Boitchat <drinkcat@chromium.org>,
+        linux-input@vger.kernel.org
+References: <20200306085513.76024-1-ikjn@chromium.org>
+ <20200417101333.GA3737@dell>
+ <ab5adcd1-18f2-9b1c-8c5d-744f7a0e5579@collabora.com>
+ <20200625134620.GS954398@dell>
+From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <b2f27cee-327e-c96c-aa12-5e1ef1f352aa@collabora.com>
+Date:   Fri, 26 Jun 2020 09:56:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="l5lbv7flvyngebwk"
-Content-Disposition: inline
-In-Reply-To: <8b05f5bd46eac415c628e965f59b2b57aff86bbe.1593017969.git.Roy.Im@diasemi.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+In-Reply-To: <20200625134620.GS954398@dell>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi Lee,
 
---l5lbv7flvyngebwk
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 25/6/20 15:46, Lee Jones wrote:
+> On Thu, 25 Jun 2020, Enric Balletbo i Serra wrote:
+> 
+>> Hi Lee,
+>>
+>> On 17/4/20 12:13, Lee Jones wrote:
+>>> On Fri, 06 Mar 2020, Ikjoon Jang wrote:
+>>>
+>>>> Convert the ChromeOS EC bindings to json-schema.
+>>>>
+>>>> Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
+>>>> Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+>>>> ---
+>>>>  .../devicetree/bindings/mfd/cros-ec.txt       |  76 -----------
+>>>>  .../bindings/mfd/google,cros-ec.yaml          | 129 ++++++++++++++++++
+>>>>  2 files changed, 129 insertions(+), 76 deletions(-)
+>>>>  delete mode 100644 Documentation/devicetree/bindings/mfd/cros-ec.txt
+>>>>  create mode 100644 Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+>>>
+>>> Applied, thanks.
+>>
+>> I don't see this patch applied, I am missing something?
+> 
+> It should be there.  Not sure when the MFD repo was last pushed.
+> 
+> I'll try pushing it again (there are a couple of new patches from
+> today).  Maybe that will spur a fetch from -next.  If it's still not
+> there tomorrow, let me know and I'll investigate further.
+> 
 
-Hello,
+Still not there, just to make sure I am looking at the right branch, I am checking
 
-=66rom the PWM POV I'm happy now. Just a few minor comments that I noticed
-while checking the PWM details.
+https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git/log/?h=for-mfd-next
 
-On Thu, Jun 25, 2020 at 01:59:29AM +0900, Roy Im wrote:
-> +		val =3D haptics->ps_seq_id << DA7280_PS_SEQ_ID_SHIFT |
-> +			haptics->ps_seq_loop << DA7280_PS_SEQ_LOOP_SHIFT;
-
-If you write this as:
-
-	val =3D FIELD_PREP(DA7280_PS_SEQ_ID_MASK, haptics->ps_seq_id) |
-		FIELD_PREP(DA7280_PS_SEQ_LOOP_MASK, haptics->ps_seq_loop);
-
-you get some additional checks for free and can drop all defines for ..._SH=
-IFT .
-
-> +static u8 da7280_haptic_of_gpi_pol_str(struct device *dev,
-> +				       const char *str)
-> +{
-> +	if (!strcmp(str, "Rising-edge"))
-> +		return 0;
-> +	else if (!strcmp(str, "Falling-edge"))
-> +		return 1;
-> +	else if (!strcmp(str, "Both-edge"))
-> +		return 2;
-> +
-> +	dev_warn(dev, "Invalid string - set to default\n");
-
-Maybe mention "Rising-edge" being the default?
-
-> +	return 0;
-> +}
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---l5lbv7flvyngebwk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl71k0oACgkQwfwUeK3K
-7AkjFwgAldH3KRBxt3eudCHkipnw7VuyQf7SQOeIBpqehW+F0UEblbR8l96xgv/G
-8wzR4sL28wQuPpDxs7zvvqaN3H6JakX+BIL/9yIAtBh1LCGca01s8peLC9EhuYac
-zFtc97/+fEmhjqjMmeyThz8s+uy3C7mO3rjaQODNsW9ZhD8XmmFuvwyI4//0uF55
-uVEn36SrwI7Osmy16vKWluKpuk+d1b8otenjJq9uLJW6ACSQrCv+YTZzrmVBqTyY
-OCPVLOXtYhSUlQLNkwa95ENVA4h/ZzRG5qs139nfo9H3aqDaz62dJ5iYbdrdri0U
-0B/l+NTYigDURR4k4KErR4u3aQfMVw==
-=zSqA
------END PGP SIGNATURE-----
-
---l5lbv7flvyngebwk--
+Thanks,
+ Enric
