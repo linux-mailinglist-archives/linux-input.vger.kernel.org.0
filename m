@@ -2,139 +2,161 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DFA120B0EB
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jun 2020 13:51:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E10B20B250
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jun 2020 15:17:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727102AbgFZLvd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 26 Jun 2020 07:51:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47176 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725884AbgFZLvc (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 26 Jun 2020 07:51:32 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC46EC08C5DB;
-        Fri, 26 Jun 2020 04:51:32 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 836812A0056
-Subject: Re: [PATCH] tty/sysrq: Add alternative SysRq key
-To:     Jiri Slaby <jslaby@suse.com>, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S1726960AbgFZNRe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 26 Jun 2020 09:17:34 -0400
+Received: from mail-am6eur05on2042.outbound.protection.outlook.com ([40.107.22.42]:23516
+        "EHLO EUR05-AM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726165AbgFZNRe (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 26 Jun 2020 09:17:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ifLUtfEfvANhNE3QDcZss4MdtR4gN26k5SnsH8cTRVjsqtp0SgnLy7AdyveDnRFqRxsGqvBlmk1nv9TPvYkL7sDjHeIwZNRbnlUKEQsXahlBff92Z/epNdprQlsB1RgkDk1FHD53HrnsRQB8gbnKryPuu/cSiQoOf+TA/rR24ctIXtjkikxNiMH7OCshnBVAJVnKgLmPZ8Rj+9jLNqyy5CV77Wq+BOb8FmpyZ3ZvnEBt4xzcVxePO2oy/ZrWeyRL2PabVfBCSa+jnks3jnd89pkXm/QG/rmum9RubTE/r+yfgv14MNpGu2PIljYCXS0zSzbrBwOclOfCbK7Gv+saig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m91G/Uj7AF9QPGjx6bWwCjYQjMFr+H+2xJzI8REW+WQ=;
+ b=UwsS7SvHqllF3KHPpfK+6dLh/4AyMh5uAhxbYyNemSTujVWKoc8Wu2Y9vicfB3iBzAAPN6VKWhBk0tYgAQ2rYLg/arq8jPftGzwdWXS/j+y+84wlho9ZVaaduMWXom/ZF4L/VFlV17cAh2Hrz6OqkxVH3DpyzobLxsy2oZ+dMBh0aGY8+wzNvtEhnjhkjTh8HtYY8COWisLbdKmufQhh8Km1gWMIaiEoeEi4W7W0EDv1JiEjvolXydZuGDyPyryfY+8Y4GyHUusurZwIC6WOQsEGUgRV/t0ORFzI5WlbLid5frIA3czC4BF1awzv8updqA/Zum2wRzLMvrPeSYdQ1w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=diasemi.com; dmarc=pass action=none header.from=diasemi.com;
+ dkim=pass header.d=diasemi.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dialogsemiconductor.onmicrosoft.com;
+ s=selector1-dialogsemiconductor-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m91G/Uj7AF9QPGjx6bWwCjYQjMFr+H+2xJzI8REW+WQ=;
+ b=MsXRrqqcqQXTi1Rv8ChdW3DFN0HVOt14N2G/Cxz18FLiXdjUf2HSCipHO81JTiuFQK+KogGSQYUhJMhywn73m92g5tNugLs/A7sPuUQDTnA9NhbEix+S2sZYkqjWlLEm0t9W1gJZq3VgUvwPYoNtp5gVvWrq5Cp5zNQaR/Zh3zk=
+Received: from DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:11c::13)
+ by DB8PR10MB3226.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:11d::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.23; Fri, 26 Jun
+ 2020 13:17:29 +0000
+Received: from DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::843a:1bdd:adc4:3a56]) by DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::843a:1bdd:adc4:3a56%8]) with mapi id 15.20.3131.023; Fri, 26 Jun 2020
+ 13:17:29 +0000
+From:   Roy Im <roy.im.opensource@diasemi.com>
+To:     =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Roy Im <roy.im.opensource@diasemi.com>
+CC:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Brian Masney <masneyb@onstation.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        kernel@collabora.com
-References: <20200511180145.GU89269@dtor-ws>
- <20200619162819.715-1-andrzej.p@collabora.com>
- <7c61ac4d-959f-0069-d1db-7e1ba646ac64@suse.com>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <32cbe134-52fb-1478-95d9-fceadbda2177@collabora.com>
-Date:   Fri, 26 Jun 2020 13:51:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <7c61ac4d-959f-0069-d1db-7e1ba646ac64@suse.com>
-Content-Type: text/plain; charset=iso-8859-2; format=flowed
+        Greg KH <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Pascal PAILLET-LME <p.paillet@st.com>,
+        Rob Herring <robh@kernel.org>,
+        Samuel Ortiz <sameo@linux.intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Support Opensource <Support.Opensource@diasemi.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>
+Subject: RE: [PATCH v14 3/3] Input: new da7280 haptic driver
+Thread-Topic: [PATCH v14 3/3] Input: new da7280 haptic driver
+Thread-Index: AQHWSttjHK/j6/E1ykmZ1XiOSN6cvKjqbZ2AgAAQPeA=
+Date:   Fri, 26 Jun 2020 13:17:29 +0000
+Message-ID: <DB8PR10MB33563278561DFC2E50420F1C85930@DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM>
+References: <cover.1593017969.git.Roy.Im@diasemi.com>
+ <8b05f5bd46eac415c628e965f59b2b57aff86bbe.1593017969.git.Roy.Im@diasemi.com>
+ <20200626061853.hyb7dwta6ths2qo2@taurus.defre.kleine-koenig.org>
+In-Reply-To: <20200626061853.hyb7dwta6ths2qo2@taurus.defre.kleine-koenig.org>
+Accept-Language: ko-KR, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: pengutronix.de; dkim=none (message not signed)
+ header.d=none;pengutronix.de; dmarc=none action=none header.from=diasemi.com;
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [1.240.7.28]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: aff4573b-bf9d-4dff-7aab-08d819d34727
+x-ms-traffictypediagnostic: DB8PR10MB3226:
+x-ms-exchange-sharedmailbox-routingagent-processed: True
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DB8PR10MB32262F35CA9DCA1120BE670CA2930@DB8PR10MB3226.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 0446F0FCE1
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: OQaOdM/e7CbPHZjZ7Q6YEUI3advqMlflSZAtY8P8CO/tlUBCjtfPdmsLvskabxpROprMVGaRBfXa2Hit7p6yXcWOenUW+RYX8kmqfZG+BqIye4CfbCltBXUUaw1ih7D3hWEQBgp0nlXV30/O7tfMFQjrYBY0xlBVRr6763S3/fxr2TFt7bTRHzQbJUGqtjWxBLyUsYvlHaq4/889so8iMtTuEmHa8NejGmqq4zXzalKxGmJCfVpDUjB0DUhFQL53pdITzDAqSDE0u3uItbcpTrFSndqt3Y4mrhnv6OozdbhCB+XVCf3IQukBOAY0flu/UzpFGOmAfV1VwJ9r8Oo4kzU96ft1G/BTKbQN/zOxVI651UmHTJJUzAfplyof/LlxYXfLU100FkG64kYCfClYKw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(396003)(136003)(346002)(366004)(39850400004)(376002)(5660300002)(478600001)(64756008)(66446008)(66476007)(110136005)(8676002)(83080400001)(54906003)(52536014)(33656002)(9686003)(7696005)(83380400001)(2906002)(55016002)(26005)(4326008)(7416002)(966005)(76116006)(186003)(66574015)(71200400001)(66556008)(66946007)(86362001)(316002)(53546011)(6506007)(8936002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: WzR/mbyQv8reNzj30JJXyDuFCujCiYYSJ0ukItwk71eknRPXFzrKsxVoLlCo5H3Xxi/Qi7pjVqG9okrc0eHYfglbe7Pw8ReJdPhM3CMQbr8K/3H7DvLo31DwUvC7f1YNP1O601L/WbmQ5PvURGQwwx1eDVgvqeq8H4U3RizId7yvQAO+rS4BhvyYaRHDrcujWNerv7M3kEh80sLHNHaZ5w9526KssEim4FpzONttS4wY0PNuB7KIn700PyECo9u1+FfZzmu9aIfPIwCRFnpp01WCjL+kjOay0xaeirAkgCcQ7/2aEwezekfoJZ7+kk7BIZ8HDS6cDMyqmko6M6FEoha/dXT2ZtuW0ZqVzhO0g0BWQfxHQRmYTebbonc4j2Xv37BQqyZia1fO0o+4uyAYmuA4g3BdA21/Fadmzi4KMhOJXpsuUr92GT1FIVLvw/Zit/HPTjCyXAFpjc/GDdFdPU8kFSKDsxN9q5ykKfHvttY=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: diasemi.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: aff4573b-bf9d-4dff-7aab-08d819d34727
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jun 2020 13:17:29.3995
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Qa/1PsZBadEVpOnrUbxOw6dOrUm/et+HLFJl2vGGeHc9bEloPfJqklftrausJdCVQpOZov4wGWau8C1A4ElwpQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR10MB3226
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jiri,
+> On Fri, June 26, 2020 3:19 PM, Uwe Kleine-K=F6nig wrote:
+> Hello,
+> from the PWM POV I'm happy now. Just a few minor comments that I noticed =
+while checking the PWM details.
 
-W dniu 22.06.2020 o 08:24, Jiri Slaby pisze:
-> On 19. 06. 20, 18:28, Andrzej Pietrasiewicz wrote:
->> There exist machines which don't have SysRq key at all, e.g. chromebooks.
->>
->> This patch allows configuring an alternative key to act as SysRq. Devices
->> which declare KEY_SYSRQ in their 'keybit' bitmap continue using KEY_SYSRQ,
->> but other devices use the alternative SysRq key instead, by default F10.
->> Which key is actually used can be modified with sysrq's module parameter.
->>
->> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
->> ---
->>   drivers/tty/sysrq.c | 28 +++++++++++++++++++++++++---
->>   1 file changed, 25 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/tty/sysrq.c b/drivers/tty/sysrq.c
->> index 0dc3878794fd..e1d271c84746 100644
->> --- a/drivers/tty/sysrq.c
->> +++ b/drivers/tty/sysrq.c
->> @@ -604,6 +604,7 @@ EXPORT_SYMBOL(handle_sysrq);
->>   
->>   #ifdef CONFIG_INPUT
->>   static int sysrq_reset_downtime_ms;
->> +static unsigned short alternative_sysrq_key = KEY_F10;
-> 
-> I would go for sysrq_alternative_key to preserve the namespace naming.
-> 
->> @@ -825,11 +828,15 @@ static bool sysrq_handle_keypress(struct sysrq_state *sysrq,
->>   		 * triggering print screen function.
->>   		 */
->>   		if (sysrq->active)
->> -			clear_bit(KEY_SYSRQ, sysrq->handle.dev->key);
->> +			clear_bit(sysrq->sysrq_key, sysrq->handle.dev->key);
->>   
->>   		break;
->>   
->>   	default:
->> +		/* handle non-default sysrq key */
->> +		if (code == sysrq->sysrq_key)
->> +			goto key_sysrq;
->> +
->>   		if (sysrq->active && value && value != 2) {
->>   			sysrq->need_reinject = false;
->>   			__handle_sysrq(sysrq_xlate[code], true);
->> @@ -924,6 +931,14 @@ static int sysrq_connect(struct input_handler *handler,
->>   	sysrq->handle.private = sysrq;
->>   	timer_setup(&sysrq->keyreset_timer, sysrq_do_reset, 0);
->>   
->> +	if (test_bit(KEY_SYSRQ, dev->keybit)) {
->> +		sysrq->sysrq_key = KEY_SYSRQ;
->> +		pr_info("%s: using default sysrq key [%x]\n", dev->name, KEY_SYSRQ);
->> +	} else {
->> +		sysrq->sysrq_key = alternative_sysrq_key;
->> +		pr_info("%s: Using alternative sysrq key: [%x]\n", dev->name, sysrq->sysrq_key);
-> 
-> Capital U, lowercase u above. Do we want to print the info in the
-> default case, actually?
-> 
->> +	}
->> +
->>   	error = input_register_handle(&sysrq->handle);
->>   	if (error) {
->>   		pr_err("Failed to register input sysrq handler, error %d\n",
->> @@ -1032,6 +1047,13 @@ module_param_array_named(reset_seq, sysrq_reset_seq, sysrq_reset_seq,
->>   
->>   module_param_named(sysrq_downtime_ms, sysrq_reset_downtime_ms, int, 0644);
->>   
->> +module_param(alternative_sysrq_key, ushort, 0644);
->> +MODULE_PARM_DESC(alternative_sysrq_key,
->> +	"Alternative SysRq key for input devices that don't have SysRq key. F10 by default.\n"
-> 
-> If you line-break here, I suggest adding a \t or two to the beginning of
-> the following lines:
-> 
->> +	"Example\n"
->> +	"Using F9 as SysRq:\n"
->> +	"sysrq.alternative_sysrq_key=0x43\n");
-> 
-> The last \n is superfluous, there would be an empty line.
-> 
-> Looking at emulate_raw in drivers/tty/vt/keyboard.c, you seem you need
-> to update that one as well. Otherwise raw keyboard mode won't send sysrq
-> sequence, when you press it, right?
-> 
+Many thanks for your comments.
 
-The way I understand the input subsystem kbd_handler and sysrq_handler are
-independent. The purpose of the former is to provide keystrokes to the
-(current) terminal, while the purpose of the latter is to execute predefined
-actions when specific key combinations are pressed. What is more,
-the sysrq_handler is actually a filter and when one of its actions is triggered
-then the corresponding keystrokes are filtered-out.
+>=20
+> On Thu, Jun 25, 2020 at 01:59:29AM +0900, Roy Im wrote:
+> > +		val =3D haptics->ps_seq_id << DA7280_PS_SEQ_ID_SHIFT |
+> > +			haptics->ps_seq_loop << DA7280_PS_SEQ_LOOP_SHIFT;
+>=20
+> If you write this as:
+>=20
+> 	val =3D FIELD_PREP(DA7280_PS_SEQ_ID_MASK, haptics->ps_seq_id) |
+> 		FIELD_PREP(DA7280_PS_SEQ_LOOP_MASK, haptics->ps_seq_loop);
+>=20
+> you get some additional checks for free and can drop all defines for ..._=
+SHIFT .
 
-Regards,
+It is not difficult to update that as you advise, but I think having the sh=
+ift there explicitly makes it more readable, so most of the drivers from my=
+ team have the defines(shift) up to now. I guess this is a kind of subjecti=
+ve thing.=20
+Do you think it is still necessary? Then I will update as you said.
 
-Andrzej
+>=20
+> > +static u8 da7280_haptic_of_gpi_pol_str(struct device *dev,
+> > +				       const char *str)
+> > +{
+> > +	if (!strcmp(str, "Rising-edge"))
+> > +		return 0;
+> > +	else if (!strcmp(str, "Falling-edge"))
+> > +		return 1;
+> > +	else if (!strcmp(str, "Both-edge"))
+> > +		return 2;
+> > +
+> > +	dev_warn(dev, "Invalid string - set to default\n");
+>=20
+> Maybe mention "Rising-edge" being the default?
+
+OK, I will change them to be clear.
+
+>=20
+> > +	return 0;
+> > +}
+>=20
+> Best regards
+> Uwe
+>=20
+> --
+> Pengutronix e.K.                           | Uwe Kleine-K=F6nig          =
+  |
+> Industrial Linux Solutions                 | https://www.pengutronix.de/ =
+|
