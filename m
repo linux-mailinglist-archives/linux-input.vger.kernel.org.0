@@ -2,125 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E83C420A981
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jun 2020 02:04:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C45520AB07
+	for <lists+linux-input@lfdr.de>; Fri, 26 Jun 2020 05:57:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725792AbgFZAEt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 25 Jun 2020 20:04:49 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:35401 "EHLO
-        wout1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725767AbgFZAEt (ORCPT
+        id S1726139AbgFZD5J (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 25 Jun 2020 23:57:09 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:34529 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726082AbgFZD5I (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 25 Jun 2020 20:04:49 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id 076105C2;
-        Thu, 25 Jun 2020 20:04:47 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute7.internal (MEProxy); Thu, 25 Jun 2020 20:04:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=YXHHLdVWLue1a90OYvvunJ/aSFi
-        gm7A74sQtH6FEw74=; b=qKeCOJw4Bfz56TH27rhWGvW9No5TJbkrdRWMmKkFr4A
-        TpnBWhzAo403xwrhM5izzGvmfKMxkcEg6IG95BhQqs6SgBAya3HdXiMJq6aytscN
-        17ROq/g3OL9i+x3dJ5+CFuPAE1PVP6KuObrrvGuEYj0JvXqwjtMtYqnEPc3GkWBJ
-        U/PbWCw4cUblOdgT4izH9wjJYJbxGzw8nLOn17hAPcFWaOOr/sLLyHoDVDsSsGbR
-        zmEz/66KaUhn/0+J1V8bpCx9KwXuFGAYGJegZJgqEEhDMCXKlMmp4svjts6xyYgH
-        TtQluPck++jATQlFAfZttpC0+HWgkpik8Knqj4vJoeg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=YXHHLd
-        VWLue1a90OYvvunJ/aSFigm7A74sQtH6FEw74=; b=FYMJb1Z+eEvCn7inHvdogX
-        djswW68jAQl7JAyWpMdBIdNR1NMoA7O9EAhlRSmgXf+FSQmqPZPh0KjngRUDudDO
-        SamyazQa8HoLAlRfLVhUaZoFTU+wsM2kNoO2d79nmEJ/IL9/fhn0an9nFo9Yued2
-        EyLI+NtgDgwG3xM1+dc7Ag234GAALGnJRh1xit6l+7SSLAefHn3kyglqPTSRy76M
-        OvQDaKGtw6Vc4ljVVCd3+nKYv8YE27VR1qDm2Aqd0NnruhJt48wnhHbwSQcv4gTm
-        vqmdhV6BX9XqaUto5/N6rLlWK5UxnMRVPU4+vMT3vWzYxMx643VpcBag4RYYgaxA
-        ==
-X-ME-Sender: <xms:njv1XkBKStrWAITu9GNXGq4ZQmq_fTdZ_fu3cI7gTWNQTqc3KbTI4g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudeltddgvdelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefrvghtvghr
-    ucfjuhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
-    eqnecuggftrfgrthhtvghrnhephefhheffgfehleegueduleehgfdvfeevkeduveejveej
-    veevgfeggfduudefueevnecukfhppeduudejrddvtddrieekrddufedvnecuvehluhhsth
-    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhdrhhhuthht
-    vghrvghrseifhhhoqdhtrdhnvght
-X-ME-Proxy: <xmx:njv1Xmg5TeuClvhj1NCwyPXodXO7fmom88Cqe4iEw4LdQJ9nZaKlDQ>
-    <xmx:njv1Xnk5taTZlDvSdyQt_xN9-KZL4IzORUb8XXX1xbCkhTPfxUDG1A>
-    <xmx:njv1XqyaOyFTt-VV368eEryQ8W6gm9YfM_-D4qq_mk0ZKCl_kZ8IuQ>
-    <xmx:nzv1XrcIkQ0prQej0H103aNU-V5EdyZfhPDXJ5hXxniADW6l5mVvrQ>
-Received: from koala (117-20-68-132.751444.bne.nbn.aussiebb.net [117.20.68.132])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 40440328005A;
-        Thu, 25 Jun 2020 20:04:44 -0400 (EDT)
-Date:   Fri, 26 Jun 2020 10:04:39 +1000
-From:   Peter Hutterer <peter.hutterer@who-t.net>
-To:     Denis 'GNUtoo' Carikli <GNUtoo@cyberdimension.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Andi Shyti <andi@etezian.org>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        linux-input@vger.kernel.org, Javi Ferrer <javi.f.o@gmail.com>
-Subject: Re: [PATCH] Input: mms114: don't report 0 pressure while still
- tracking contact(s)
-Message-ID: <20200626000439.GA108136@koala>
-References: <20200606035017.7271-1-GNUtoo@cyberdimension.org>
- <20200606181806.GR89269@dtor-ws>
- <20200612194619.0ac97cf2@primarylaptop.localdomain>
- <20200614235735.GA11069@koala>
- <20200623182540.0ed5de81@primarylaptop.localdomain>
+        Thu, 25 Jun 2020 23:57:08 -0400
+Received: by mail-qt1-f195.google.com with SMTP id u17so6569270qtq.1;
+        Thu, 25 Jun 2020 20:57:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=kJ7+MitTL2u/SJRdhAtn56mONVO+G9P0+BelTtfOntQ=;
+        b=XrvNW5GEmIteQN5fyPzMHlQNlWJVe3yEKh/9II3S05JuZAoQ3YaJZZAvv9zfk+Cldx
+         3k0LDGkR4k0J1l5wmjjnjer+L2tkTRWkNBKjye2/3P6mYyFFgLG1+WkXP//cJg9wpvPD
+         ykT7AaWw+PWGVcd8UO+0Zi2TMNvmluJwPwH5Po5j0eEF5UQ5xivfdCjMp2J0gy49KFyo
+         6kab7XlawMWW9GQZbIuqfjHX7g3P1sgJ+QVl/RR9fmKmgFRCaC2yDqTsYXeQYId3ntLb
+         Bw6pKhbrpn8qoqad1Z7vzh7JxJJAp6AO1d9rX5KVM/qTUPbeyforVCZ6RjyfPJf+8qA2
+         3Jkw==
+X-Gm-Message-State: AOAM531NUWaBYvv0g6N++zbyQjKEQuvQi+xVDZz6vVVTgPb0TBCkVJfC
+        o4JwrzzP9kOQlYETelkKB/s=
+X-Google-Smtp-Source: ABdhPJzHeWvgQQatmv437XIWqbm5ZKPH0mBAGfUhz/q3ue1X7/V6sFcuCPelEhGM2P8bFw5pMBnCaA==
+X-Received: by 2002:ac8:2914:: with SMTP id y20mr862187qty.30.1593143827688;
+        Thu, 25 Jun 2020 20:57:07 -0700 (PDT)
+Received: from dek-x230.localnet (pool-108-24-134-99.cmdnnj.fios.verizon.net. [108.24.134.99])
+        by smtp.gmail.com with ESMTPSA id x53sm2240861qtj.63.2020.06.25.20.57.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jun 2020 20:57:06 -0700 (PDT)
+From:   David Korth <gerbilsoft@gerbilsoft.com>
+To:     David Rheinsberg <david.rheinsberg@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] HID: wiimote: Initialize the controller LEDs with a device ID value
+Date:   Thu, 25 Jun 2020 23:57:05 -0400
+Message-ID: <2516866.vuYhMxLoTh@dek-x230>
+In-Reply-To: <CADyDSO7HKNP8ihsW2-qouG5SYpOJ1LfD2sAbDfRkJ3iSkHvGNg@mail.gmail.com>
+References: <20200622225728.330-1-gerbilsoft@gerbilsoft.com> <2498150.lGaqSPkdTl@dek-x230> <CADyDSO7HKNP8ihsW2-qouG5SYpOJ1LfD2sAbDfRkJ3iSkHvGNg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200623182540.0ed5de81@primarylaptop.localdomain>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jun 23, 2020 at 06:25:45PM +0200, Denis 'GNUtoo' Carikli wrote:
-> On Mon, 15 Jun 2020 09:57:35 +1000
-> Peter Hutterer <peter.hutterer@who-t.net> wrote:
-> > > > Event: time 1585880998.920994, type 3 (EV_ABS), code 57
-> > > > (ABS_MT_TRACKING_ID), value 0 Event: time 1585880998.920994, type
-> > > > 3 (EV_ABS), code 53 (ABS_MT_POSITION_X), value 400 Event: time
-> > sorry, but this is completely unreadable. Please make sure it's in the
-> > originally formatting that evtest/evemu/libinput record spit out.
-> > Thanks.
-> Indeed.
+On Thursday, June 25, 2020 3:09:46 AM EDT David Rheinsberg wrote:
+> Hi
 > 
-> I'm sorry about that, I didn't see it while sending the mail.
+> On Thu, 25 Jun 2020 at 00:09, David Korth <gerbilsoft@gerbilsoft.com> wrote:
+> > I've been manually setting the player IDs on Wii controllers when running
+> > multiplayer games by writing to the /sys/class/leds/ directory. Having the
+> > hid-wiimote driver do this itself significantly reduces setup time.
+> 
+> What do you mean with "reduces setup time significantly"? Why would it
+> take that long to set the LEDs?
+> 
+> Thanks
+> David
 
-thanks for the log. Basically - the problem is that ABS_MT_TOUCH_MAJOR and
-ABS_PRESSURE are completely unrelated on the device and the latter has
-apparently random values. 1585880999.248531 is an event where you go from
-almost max pressure to 0 without changing touch major.
+The LED setup in this case is done entirely manually by me writing to the 
+individual files in /sys/class/leds/. This has to be done when the controllers 
+are connected initially, and if a controller has to be reconnected for some 
+reason (e.g. it runs out of batteries). I don't know of any userspace tools 
+that would make this easier to automate, except maybe a shell script, and I'd 
+probably still need to run it manually.
 
-Since pressure is more common, you'll have to expect that userspace may
-ignore major/minor and handle pressure instead where available. Doubly so
-since historically the major/minor value range has been completely random
-while pressure was at least somewhat predictable. In this sequence, your
-touch major ranges from 4-14 despite the axis range being 0-255.
+Both the Sixaxis and Xpad drivers appear to implement something similar, so 
+perhaps a higher-level "player number" mechanism that works with all 
+controllers would be worth looking into. This could in theory be done with a 
+userspace daemon too (or a udev hook).
 
-Historically, pressure has also been used as equivalent to touch size, so
-decoupling touch size and pressure is tricky anyway. Speaking from
-libinput's POV I would disable ABS_(MT_)PRESSURE in this device since it's
-not reliable to detect a touch. But then we'd still need a quirk in place to
-tell us what the possible touch major range could be to make sense of that
-number.
+As it is right now, I still think implementing it in the wiimote driver is the 
+best method to keep it consistent with the rest of the drivers without having 
+to install additional userspace tools.
 
-Cheers,
-   Peter
+Thanks
 
-> Event: time 1585880999.248531, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y), value 1210
-> Event: time 1585880999.248531, type 3 (EV_ABS), code 48 (ABS_MT_TOUCH_MAJOR), value 14
-> Event: time 1585880999.248531, type 3 (EV_ABS), code 58 (ABS_MT_PRESSURE), value 244
-> Event: time 1585880999.248531, type 3 (EV_ABS), code 1 (ABS_Y), value 1210
-> Event: time 1585880999.248531, type 3 (EV_ABS), code 24 (ABS_PRESSURE), value 244
-> Event: time 1585880999.248531, -------------- SYN_REPORT ------------
-> Event: time 1585880999.259798, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y), value 1208
-> Event: time 1585880999.259798, type 3 (EV_ABS), code 58 (ABS_MT_PRESSURE), value 0
-> Event: time 1585880999.259798, type 3 (EV_ABS), code 1 (ABS_Y), value 1208
-> Event: time 1585880999.259798, type 3 (EV_ABS), code 24 (ABS_PRESSURE), value 0
-> Event: time 1585880999.259798, -------------- SYN_REPORT ------------
+
