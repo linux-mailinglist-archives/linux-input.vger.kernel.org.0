@@ -2,78 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D550B20B78B
-	for <lists+linux-input@lfdr.de>; Fri, 26 Jun 2020 19:49:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE64C20C48E
+	for <lists+linux-input@lfdr.de>; Sun, 28 Jun 2020 00:05:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725939AbgFZRts (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 26 Jun 2020 13:49:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46048 "EHLO
+        id S1726596AbgF0WFC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 27 Jun 2020 18:05:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725833AbgFZRts (ORCPT
+        with ESMTP id S1726316AbgF0WFB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 26 Jun 2020 13:49:48 -0400
-Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com [IPv6:2607:f8b0:4864:20::e31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72351C03E979
-        for <linux-input@vger.kernel.org>; Fri, 26 Jun 2020 10:49:48 -0700 (PDT)
-Received: by mail-vs1-xe31.google.com with SMTP id v1so5922670vsb.10
-        for <linux-input@vger.kernel.org>; Fri, 26 Jun 2020 10:49:48 -0700 (PDT)
+        Sat, 27 Jun 2020 18:05:01 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49BB1C061794
+        for <linux-input@vger.kernel.org>; Sat, 27 Jun 2020 15:05:01 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id o2so12527824wmh.2
+        for <linux-input@vger.kernel.org>; Sat, 27 Jun 2020 15:05:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=s8mpfmsEu0eLBx3AlZHjh1F2GfDdaKEB5L7qQAMJThU=;
-        b=n/uuOMIeWpxzR+7Ioq/979SAFuaOFxzJhXMOsaHzJsDepBzFgccx4MgzkNavOrlk/K
-         bd7dQFxdT1ZTO84g7juFhRSDlScr5YDSEPZAaqh5pCS6wAZaje0xo6b5OKOhnonTIwtM
-         JwwQs9QsNWgUqsjoKUET6Wz3TSjYU82DdL+Jc=
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=hDm0J70xfMLbVvceQHwxPddZCp69UMTk2d0jtKg2a8s=;
+        b=f9F4OeCeRmjyCn/l5zWRCnvqn8abBSCJ0Y8qujQ0kmxWn834D2fXcj9rvsWpCDPIuS
+         J4EoerIfxQNxbL3GXEU7ldfNRYPjw9+UDx+oUErzer3ipQGx1bMVBJ4GKw5qxwtLFKgm
+         GIGKX0Yf3u59BQOeDfpIf5jZ+3vnA0ZzLii/fzh6lT1DnoxV12hExchyOgRH8ZWUzh6h
+         YfJSqrAXwDwYWOkanSpTn/205IELx8NOzYqaPLRhLaj+p8d8Tqco8ZlQgP7W4AOriRZo
+         /C1JWu9y1DjEpYGijceZGziK7m0b44a1VzD/YaM40U0hZVpq1t42ddRbOo9XgyjTsiIU
+         X8hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=s8mpfmsEu0eLBx3AlZHjh1F2GfDdaKEB5L7qQAMJThU=;
-        b=rtHttdFOEXTT80YvNW8I4aEMQZMeIeXaFpSy2MsP45FBARP5SDv1zeyNsw33NzfozJ
-         NVBbWH4LT7rQk+dvwGfU7YquQ3dqrPE1pvDQRIc5NcoI9n46m5zv0nUgnwHRbotK6QZK
-         PJO9m4CUxGTwfr7I0pEOUP6RhHcQlLbUQq69P+HOs5QQhxQBh7sE8WzywpOhvS6ZIY1q
-         3MENxR23UhR8HQmLaFeuSl6EU8j3xRKmKmSQBHuohBxShLWA6H9GTnY3p5BwfQVxdCpH
-         H1Y1w+DOlwjdw8gkKy/MeTCbBVOSP55gSaD4kyBWpzbD6Bxdvf6yqeoDvBkRttGmfJj8
-         KmyQ==
-X-Gm-Message-State: AOAM5316wFuHtrC1fNXkoWSxSpPLRL02ilp8Ocw8RZeCu5Ey/t6LCok6
-        Z46iuJOl9MDZ8eQaEXBgGl6Gk9iyJ/E=
-X-Google-Smtp-Source: ABdhPJwXMuuyoP4zElllC6uEF9gDkFEiQj0rt5mPBjBIpJAm4sHWlHQkKKsVstLpF+2vFE8TTNDPlw==
-X-Received: by 2002:a67:4c1:: with SMTP id 184mr3326617vse.102.1593193787357;
-        Fri, 26 Jun 2020 10:49:47 -0700 (PDT)
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com. [209.85.221.179])
-        by smtp.gmail.com with ESMTPSA id v4sm3522111vsk.9.2020.06.26.10.49.46
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jun 2020 10:49:46 -0700 (PDT)
-Received: by mail-vk1-f179.google.com with SMTP id k66so1241910vkk.2
-        for <linux-input@vger.kernel.org>; Fri, 26 Jun 2020 10:49:46 -0700 (PDT)
-X-Received: by 2002:a1f:a0c2:: with SMTP id j185mr3001148vke.95.1593193785610;
- Fri, 26 Jun 2020 10:49:45 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=hDm0J70xfMLbVvceQHwxPddZCp69UMTk2d0jtKg2a8s=;
+        b=sCufXo3/MXKE0K4O/0hbTHw0ckv6YX3KEGf/UcnGoSaDCetM5NXzud5MCkO1AO+gKd
+         q3qwsOH3Ki7fsrTwURtpdJyCrwMNqKf5M1X2Ym8Zw5L8z6oLsVRG1EMH/5VNIOXgaPP0
+         lfflafhqARCZAFcHxQWqETXfSdKojuVo3AUDHDZx3V8WP2+MA8etvBrBmfV7Glc7wjH0
+         hKKpQRz9f1d0grivWywrqkVPvUvQRvzcCEYMLgWYV+9pC617DdV/glEXQvJNIPvJVwrP
+         csz1opGIxPG71AMCf85+VGitYGFF2DkyU2OwRinXr4JBXCYuqEwKkIDESnx6CO1k2pVm
+         oNNg==
+X-Gm-Message-State: AOAM53143mxmPacpCTZc5Q2c9gEkMXsUKrprpYRYzOBLIsxShg2m6256
+        HVTUVbWdQoNltVvMWCYFWRCM825bdGmhqfcq9IUYzx+j4ws=
+X-Google-Smtp-Source: ABdhPJzB2PS1uLzfXnv9RJ9+8ywF0BTYmMReQpmFB2cwHUGJdFU/VqT1TPNRIciUkUVNxK28Z0jWU0doicUzCH8V5Ek=
+X-Received: by 2002:a7b:c043:: with SMTP id u3mr10377547wmc.185.1593295180142;
+ Sat, 27 Jun 2020 14:59:40 -0700 (PDT)
 MIME-Version: 1.0
-From:   Harry Cutts <hcutts@chromium.org>
-Date:   Fri, 26 Jun 2020 10:49:34 -0700
-X-Gmail-Original-Message-ID: <CA+jURctpKw3fDCWJCi_XrNaO=thyzk=AUqq=FWXaFSWfaYaSjw@mail.gmail.com>
-Message-ID: <CA+jURctpKw3fDCWJCi_XrNaO=thyzk=AUqq=FWXaFSWfaYaSjw@mail.gmail.com>
-Subject: Request to revert "Input: elants_i2c - Report resolution information
- for touch major"
-To:     linux-input <linux-input@vger.kernel.org>
+Received: by 2002:adf:f187:0:0:0:0:0 with HTTP; Sat, 27 Jun 2020 14:59:39
+ -0700 (PDT)
+Reply-To: un.org@i.ua
+From:   helen <upspostexpress@gmail.com>
+Date:   Sat, 27 Jun 2020 22:59:39 +0100
+Message-ID: <CA+HWcLeFxWA2HFg2eTDi9xRk8OKWn7oojHXSEX-EzsM7GcSGnA@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+MONEY-GRAM TRANSFERRED PAYMENT INFO:
 
-We've been seeing a lot of issues with ELAN touch screens caused by
-the patch "Input: elants_i2c - Report resolution information for touch
-major". It turns out that the resolution of 1 unit per mm was not
-correct for a number of touch screens, causing touch sizes to be
-reported as way too large (e.g. in https://crbug.com/1085648). We've
-reverted that patch in our Kernel branches, but request that it be
-reverted upstream as well until ELAN can figure out a more accurate
-way to report the touch major resolution.
+Below is the sender=E2=80=99s information
 
-Thanks,
 
-Harry Cutts
-Chrome OS Touch/Input team
+
+1. MG. REFERENCE NO#: 36360857
+
+2. SENDER'S NAME: Johnson Williams
+
+3. AMOUNT TO PICKUP: US$10,000
+
+
+
+Go to any Money Gram office near you and pick up the payment Track the
+
+Reference Number by visiting and click the link below
+
+(https://secure.moneygram.com/embed/track) and enter the Reference
+
+Number: 36360857 and the Last Name: Williams, you will find the payment
+
+available for pickup instantly.
+
+Yours Sincerely,
+
+Mrs. Helen Marvis
+United Nations Liaison Office
+Directorate for International Payments
