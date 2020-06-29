@@ -2,90 +2,157 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE64C20C48E
-	for <lists+linux-input@lfdr.de>; Sun, 28 Jun 2020 00:05:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E547720CB2D
+	for <lists+linux-input@lfdr.de>; Mon, 29 Jun 2020 02:29:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726596AbgF0WFC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 27 Jun 2020 18:05:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51034 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726316AbgF0WFB (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sat, 27 Jun 2020 18:05:01 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49BB1C061794
-        for <linux-input@vger.kernel.org>; Sat, 27 Jun 2020 15:05:01 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id o2so12527824wmh.2
-        for <linux-input@vger.kernel.org>; Sat, 27 Jun 2020 15:05:01 -0700 (PDT)
+        id S1726399AbgF2A33 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 28 Jun 2020 20:29:29 -0400
+Received: from mail-vi1eur05on2053.outbound.protection.outlook.com ([40.107.21.53]:64703
+        "EHLO EUR05-VI1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726395AbgF2A32 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 28 Jun 2020 20:29:28 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LzjKM0kqJ6gSObphKK6Rq19m6pnwU42CFkrRR0MNP/CkoMyfmEmi7rUpuiP4NKyHQpoM5+w4gFr5nrcFnnRmZOwfLxzq6oRGSrnCCpyGs/nSdvAAQADQ/e98c9xM08wZ94TUJYWaTcO4Z9v6s+OqZei7rWnmer8tJwlI6rcwmixgFwwc2BhxJjL6QgM4ieigOMOSzqlAUAbE/ksl6wr7LB67bCAM07jA3aSNdQnqZtMxgxbuQQsSLzM9taiPZnm7b5P96Ukay8i/b1jqQ8k97EZdkA2h9hDN9iizAyhic/N+dMHFFBCvALXynvs6kTXmpyPjBlINK7zdx6W4dbX+Nw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zN0vR1oSSYIdNgzDbY+8GkQYgBVGYiavz98DhgwaHFA=;
+ b=n8i3w/RHkfcLiKG1dJEqZeTQ9G2fK15KG+O9553kuYuQ0shYhn84HWOus2epOa7bEIJzYv6uA6nDo+NP3Oac0fL8DBjzsxnZZMAs9sob7N11f2LJeQd7/U8fHfPCjEbWB3QmeUjQSnbHTRA6dymhx65fpqnis2AUElclAR+/neK6klz2wLOMu6XS1MMMedxhlLF9Lvz89k1OLVo7CkJ497MojwDQqzlEEky4GCSU02DeWr/cbKFeqSEw8oP+FEMzNcr/Oj/Z5GdvypbcO1UCCO7A4/fT7TI7DG0WuAxeN7afKweRGvPDG/6kmzXIhnTu6gl5j87BUCvGrqt2nSQTKA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=diasemi.com; dmarc=pass action=none header.from=diasemi.com;
+ dkim=pass header.d=diasemi.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=hDm0J70xfMLbVvceQHwxPddZCp69UMTk2d0jtKg2a8s=;
-        b=f9F4OeCeRmjyCn/l5zWRCnvqn8abBSCJ0Y8qujQ0kmxWn834D2fXcj9rvsWpCDPIuS
-         J4EoerIfxQNxbL3GXEU7ldfNRYPjw9+UDx+oUErzer3ipQGx1bMVBJ4GKw5qxwtLFKgm
-         GIGKX0Yf3u59BQOeDfpIf5jZ+3vnA0ZzLii/fzh6lT1DnoxV12hExchyOgRH8ZWUzh6h
-         YfJSqrAXwDwYWOkanSpTn/205IELx8NOzYqaPLRhLaj+p8d8Tqco8ZlQgP7W4AOriRZo
-         /C1JWu9y1DjEpYGijceZGziK7m0b44a1VzD/YaM40U0hZVpq1t42ddRbOo9XgyjTsiIU
-         X8hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=hDm0J70xfMLbVvceQHwxPddZCp69UMTk2d0jtKg2a8s=;
-        b=sCufXo3/MXKE0K4O/0hbTHw0ckv6YX3KEGf/UcnGoSaDCetM5NXzud5MCkO1AO+gKd
-         q3qwsOH3Ki7fsrTwURtpdJyCrwMNqKf5M1X2Ym8Zw5L8z6oLsVRG1EMH/5VNIOXgaPP0
-         lfflafhqARCZAFcHxQWqETXfSdKojuVo3AUDHDZx3V8WP2+MA8etvBrBmfV7Glc7wjH0
-         hKKpQRz9f1d0grivWywrqkVPvUvQRvzcCEYMLgWYV+9pC617DdV/glEXQvJNIPvJVwrP
-         csz1opGIxPG71AMCf85+VGitYGFF2DkyU2OwRinXr4JBXCYuqEwKkIDESnx6CO1k2pVm
-         oNNg==
-X-Gm-Message-State: AOAM53143mxmPacpCTZc5Q2c9gEkMXsUKrprpYRYzOBLIsxShg2m6256
-        HVTUVbWdQoNltVvMWCYFWRCM825bdGmhqfcq9IUYzx+j4ws=
-X-Google-Smtp-Source: ABdhPJzB2PS1uLzfXnv9RJ9+8ywF0BTYmMReQpmFB2cwHUGJdFU/VqT1TPNRIciUkUVNxK28Z0jWU0doicUzCH8V5Ek=
-X-Received: by 2002:a7b:c043:: with SMTP id u3mr10377547wmc.185.1593295180142;
- Sat, 27 Jun 2020 14:59:40 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:adf:f187:0:0:0:0:0 with HTTP; Sat, 27 Jun 2020 14:59:39
- -0700 (PDT)
-Reply-To: un.org@i.ua
-From:   helen <upspostexpress@gmail.com>
-Date:   Sat, 27 Jun 2020 22:59:39 +0100
-Message-ID: <CA+HWcLeFxWA2HFg2eTDi9xRk8OKWn7oojHXSEX-EzsM7GcSGnA@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+ d=dialogsemiconductor.onmicrosoft.com;
+ s=selector1-dialogsemiconductor-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zN0vR1oSSYIdNgzDbY+8GkQYgBVGYiavz98DhgwaHFA=;
+ b=Jvnqd6NGM/qSRiDypPhhveLg8sk8/kDiRHySu0l+0fs43q5oyq9eRSeIY3xYZ83Biv2dJYEBv29vXZoU5D2N/KS2u7m5u+g1qbybwHGAGYecPaH90ET+CyGf1my817FUeiOlskZhWCK/YmMi2Sc5gTw6RGqAYTnWkSbXH37V7FM=
+Received: from DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:11c::13)
+ by DB8PR10MB3418.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:eb::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.20; Mon, 29 Jun
+ 2020 00:29:22 +0000
+Received: from DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::843a:1bdd:adc4:3a56]) by DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::843a:1bdd:adc4:3a56%8]) with mapi id 15.20.3131.026; Mon, 29 Jun 2020
+ 00:29:21 +0000
+From:   Roy Im <roy.im.opensource@diasemi.com>
+To:     =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Roy Im <roy.im.opensource@diasemi.com>
+CC:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Brian Masney <masneyb@onstation.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Pascal PAILLET-LME <p.paillet@st.com>,
+        Rob Herring <robh@kernel.org>,
+        Samuel Ortiz <sameo@linux.intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Support Opensource <Support.Opensource@diasemi.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>
+Subject: RE: [PATCH v14 3/3] Input: new da7280 haptic driver
+Thread-Topic: [PATCH v14 3/3] Input: new da7280 haptic driver
+Thread-Index: AQHWSttjHK/j6/E1ykmZ1XiOSN6cvKjqbZ2AgAB09ICAACxPAIADrkvg
+Date:   Mon, 29 Jun 2020 00:29:21 +0000
+Message-ID: <DB8PR10MB33566ABB47A00C8A5F281BE1856E0@DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM>
+References: <cover.1593017969.git.Roy.Im@diasemi.com>
+ <8b05f5bd46eac415c628e965f59b2b57aff86bbe.1593017969.git.Roy.Im@diasemi.com>
+ <20200626061853.hyb7dwta6ths2qo2@taurus.defre.kleine-koenig.org>
+ <DB8PR10MB33563278561DFC2E50420F1C85930@DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM>
+ <20200626155604.poqryunm7fyqmgek@pengutronix.de>
+In-Reply-To: <20200626155604.poqryunm7fyqmgek@pengutronix.de>
+Accept-Language: ko-KR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: pengutronix.de; dkim=none (message not signed)
+ header.d=none;pengutronix.de; dmarc=none action=none header.from=diasemi.com;
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [1.234.57.66]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5486bb98-7cd1-49f4-e07a-08d81bc37800
+x-ms-traffictypediagnostic: DB8PR10MB3418:
+x-ms-exchange-sharedmailbox-routingagent-processed: True
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DB8PR10MB3418540EC439C1FA55095117A26E0@DB8PR10MB3418.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-forefront-prvs: 044968D9E1
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 2DV0RDYfNnclPwGH8aBouSDFVqt3VgkS4kR31qdHI8mGFyOnMu9wfGEv9SNpvjJs/ohg6cFKxfS5Bw0vo598BSTiAHDNOLFpuCvGxlX1nkPr/gWgulOlYlpo7AFT+/ouEDFQeVa/Ns9XU8lUJpw/ygLUDm8ak/CA2otw8u3p3Kvx9bgnG7yjsnXViSqfF/olHo04p0iPYrQAopb1zkVqMT/7o74NOdQYDt6S8rP5RyVxABMCKjjPJzxajXVHXR8DJs7DyCqPpPYdd/ZC6gGFCP3lSxmuo63sBgvI3nayYeZu3T9XlWoZpH6TMtOBkLwbRNV08DcTR5dL73VUuLGpdBTDBBIY0XQ37bS/CzwrewRZnxY3qgVhflS/VaE9Fa0brYZ3WHM6TFaISBmB/LlyFg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(346002)(376002)(396003)(366004)(136003)(39850400004)(55016002)(7696005)(33656002)(5660300002)(6506007)(66946007)(76116006)(66556008)(71200400001)(66446008)(64756008)(110136005)(66476007)(53546011)(9686003)(2906002)(86362001)(966005)(186003)(52536014)(8676002)(83380400001)(4326008)(66574015)(54906003)(7416002)(8936002)(26005)(316002)(478600001)(83080400001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: wDKF4vZHlusa4+6uE5WQWnUDGx/Qo4+c+YtmXsGfjz/Gu0CxDjgmBfqbQrkJmWZ7P27am8VG5If3wgXb+MGmsn9TJuAlYpP+jRjwfp2GdkChbSNtxGNCc0LaG+wDQ53smfzcHWLhp2QFdYqhDagzykpZb3jPp3MfeoBwOrv8BShyfnWa4UwuA9tnQAKKbRotVf+tmBRFpg2o4iT6Mnxv9xWSKGiLXS5eG+3Gqcu4SerwJvtgyls6bkRpv80Kx0zkuF+C6Ricmc4jERqrlIU2MN+Kd3qO1kYv6G7XHp/B3tCWs8P6V3nCf9CFqQPylBsbXIcQUgPXwSU+KTUGNSZyAF7e9/RNEzjMc1SLUbzMY837kI8M7FLsPFyEkNzBvK+3NcTASMZMFuE3xsx9Q0g36kyu9LnCeCM+jBIUH+A5yXhac3I/1jcoMZNHIt5f3H3neudC7gKnEuVCdSOMw5S4lEuhiPrmadpMI5nzBv8oCkg=
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: diasemi.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5486bb98-7cd1-49f4-e07a-08d81bc37800
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2020 00:29:21.6750
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ezceQSXo0amf4ZoUeHZ/Y7i6Qlt5rFvPHpI8C0DGp5cPAAMN9Tg8xvnSJsInAMlQaV66w8zYEscj9F66DgJJwQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR10MB3418
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-MONEY-GRAM TRANSFERRED PAYMENT INFO:
+On Sat, June 27, 2020 12:56 AM, Uwe Kleine-K=F6nig wrote:
+> On Fri, Jun 26, 2020 at 01:17:29PM +0000, Roy Im wrote:
+> > > On Fri, June 26, 2020 3:19 PM, Uwe Kleine-K=F6nig wrote:
+> > > Hello,
+> > > from the PWM POV I'm happy now. Just a few minor comments that I noti=
+ced while checking the PWM details.
+> >
+> > Many thanks for your comments.
+> >
+> > >
+> > > On Thu, Jun 25, 2020 at 01:59:29AM +0900, Roy Im wrote:
+> > > > +		val =3D haptics->ps_seq_id << DA7280_PS_SEQ_ID_SHIFT |
+> > > > +			haptics->ps_seq_loop << DA7280_PS_SEQ_LOOP_SHIFT;
+> > >
+> > > If you write this as:
+> > >
+> > > 	val =3D FIELD_PREP(DA7280_PS_SEQ_ID_MASK, haptics->ps_seq_id) |
+> > > 		FIELD_PREP(DA7280_PS_SEQ_LOOP_MASK, haptics->ps_seq_loop);
+> > >
+> > > you get some additional checks for free and can drop all defines for =
+..._SHIFT .
+> >
+> > It is not difficult to update that as you advise, but I think having
+> > the shift there explicitly makes it more readable, so most of the
+> > drivers from my team have the defines(shift) up to now. I guess this
+> > is a kind of subjective thing.
+> > Do you think it is still necessary? Then I will update as you said.
+>=20
+> No, from my side it's not a hard requirement (and after all I'm not the o=
+ne who will take your commit). I personally like it better
+> with FIELD_PREP, but I can still sleep if you don't agree :-)
+>=20
+> What I don't like about having both ..._SHIFT and ..._MASK is that there =
+is some duplication as ..._SHIFT can be calculated
+> from ..._MASK:
+>=20
+> 	#define LALA_SHIFT (ffs(LALA_MASK) - 1)
 
-Below is the sender=E2=80=99s information
+OK, I got it and I will update.
 
-
-
-1. MG. REFERENCE NO#: 36360857
-
-2. SENDER'S NAME: Johnson Williams
-
-3. AMOUNT TO PICKUP: US$10,000
-
-
-
-Go to any Money Gram office near you and pick up the payment Track the
-
-Reference Number by visiting and click the link below
-
-(https://secure.moneygram.com/embed/track) and enter the Reference
-
-Number: 36360857 and the Last Name: Williams, you will find the payment
-
-available for pickup instantly.
-
-Yours Sincerely,
-
-Mrs. Helen Marvis
-United Nations Liaison Office
-Directorate for International Payments
+>=20
+> Best regards
+> Uwe
+>=20
+> --
+> Pengutronix e.K.                           | Uwe Kleine-K=F6nig          =
+  |
+> Industrial Linux Solutions                 | https://www.pengutronix.de/ =
+|
