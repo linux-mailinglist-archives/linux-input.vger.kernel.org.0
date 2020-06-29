@@ -2,143 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A878F20E309
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jun 2020 00:02:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E09C20E8DD
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jun 2020 01:14:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388276AbgF2VK5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 29 Jun 2020 17:10:57 -0400
-Received: from www.zeus03.de ([194.117.254.33]:59304 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390541AbgF2VKg (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 Jun 2020 17:10:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=k1; bh=1R5VbfyjnCD0CmpFWZBQGlSYfWm+
-        NoLCMYa6SRuHNZI=; b=DuUNS0rIyBlqryiO1lADl4AQ5JfcuOPcJDV2IVFGM+pG
-        BxMC/hkT5dkyCGF6Q1HTk4aJwCOLxenQqr8CAwZ8iWxCG9hxIYJYDosJU+dNoPJO
-        Wze1Y9QWn06Sop7cYVo1anfQUotBy+ag5oUFAmqaYsB6C/ClU4FdFIxQ5eTRYoo=
-Received: (qmail 2172219 invoked from network); 29 Jun 2020 23:10:30 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 29 Jun 2020 23:10:30 +0200
-X-UD-Smtp-Session: l3s3148p1@IvsbfT+pqsMgAwDPXwOPAI5mQFP60fXe
-Date:   Mon, 29 Jun 2020 23:10:27 +0200
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc:     corbet@lwn.net, aaro.koskinen@iki.fi, tony@atomide.com,
-        linux@armlinux.org.uk, daniel@zonque.org, haojian.zhuang@gmail.com,
-        robert.jarzmik@free.fr, kgene@kernel.org, krzk@kernel.org,
-        dmitry.torokhov@gmail.com, lee.jones@linaro.org,
-        ulf.hansson@linaro.org, davem@davemloft.net, kuba@kernel.org,
-        b.zolnierkie@samsung.com, j.neuschaefer@gmx.net,
-        mchehab+samsung@kernel.org, gustavo@embeddedor.com,
-        gregkh@linuxfoundation.org, yanaijie@huawei.com,
-        daniel.vetter@ffwll.ch, rafael.j.wysocki@intel.com,
-        Julia.Lawall@inria.fr, linus.walleij@linaro.org,
-        viresh.kumar@linaro.org, arnd@arndb.de, jani.nikula@intel.com,
-        yuehaibing@huawei.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-parisc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH] Remove handhelds.org links and email addresses
-Message-ID: <20200629211027.GA1481@kunai>
-References: <20200629203121.7892-1-grandmaster@al2klimov.de>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="G4iJoqBmSsgzjUCe"
-Content-Disposition: inline
-In-Reply-To: <20200629203121.7892-1-grandmaster@al2klimov.de>
+        id S1728174AbgF2Wjf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 29 Jun 2020 18:39:35 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:50114 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726311AbgF2Wje (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 29 Jun 2020 18:39:34 -0400
+Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <kai.heng.feng@canonical.com>)
+        id 1jplDz-000853-3e; Mon, 29 Jun 2020 04:16:55 +0000
+From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
+To:     srinivas.pandruvada@linux.intel.com
+Cc:     Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Zhang Lixu <lixu.zhang@intel.com>, Even Xu <even.xu@intel.com>,
+        linux-input@vger.kernel.org (open list:INTEL INTEGRATED SENSOR HUB
+        DRIVER), linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v3] HID: intel-ish-hid: Replace PCI_DEV_FLAGS_NO_D3 with pci_save_state
+Date:   Mon, 29 Jun 2020 12:16:46 +0800
+Message-Id: <20200629041648.19113-1-kai.heng.feng@canonical.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+PCI_DEV_FLAGS_NO_D3 should not be used outside of PCI core.
 
---G4iJoqBmSsgzjUCe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Instead, we can use pci_save_state() to hint PCI core that the device
+should stay at D0 during suspend. By doing so, PCI core will let the
+upstream bridges also stays at D0 so the entire hierarchy is in the
+correct power state as PCI spec mandates.
 
-Hi Alexander,
+Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+---
+v3:
+ - Use multi-line comments.
+v2:
+ - Wording change.
 
-thanks for trying to fix this, yet I have some doubts.
+ drivers/hid/intel-ish-hid/ipc/pci-ish.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-On Mon, Jun 29, 2020 at 10:31:21PM +0200, Alexander A. Klimov wrote:
-> Rationale:
-> https://lore.kernel.org/linux-doc/20200626110706.7b5d4a38@lwn.net/
+diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+index f491d8b4e24c..c6d48a8648b7 100644
+--- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
++++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+@@ -106,6 +106,11 @@ static inline bool ish_should_enter_d0i3(struct pci_dev *pdev)
+ 	return !pm_suspend_via_firmware() || pdev->device == CHV_DEVICE_ID;
+ }
+ 
++static inline bool ish_should_leave_d0i3(struct pci_dev *pdev)
++{
++	return !pm_resume_via_firmware() || pdev->device == CHV_DEVICE_ID;
++}
++
+ /**
+  * ish_probe() - PCI driver probe callback
+  * @pdev:	pci device
+@@ -215,9 +220,7 @@ static void __maybe_unused ish_resume_handler(struct work_struct *work)
+ 	struct ishtp_device *dev = pci_get_drvdata(pdev);
+ 	int ret;
+ 
+-	/* Check the NO_D3 flag to distinguish the resume paths */
+-	if (pdev->dev_flags & PCI_DEV_FLAGS_NO_D3) {
+-		pdev->dev_flags &= ~PCI_DEV_FLAGS_NO_D3;
++	if (ish_should_leave_d0i3(pdev) && !dev->suspend_flag) {
+ 		disable_irq_wake(pdev->irq);
+ 
+ 		ishtp_send_resume(dev);
+@@ -281,8 +284,11 @@ static int __maybe_unused ish_suspend(struct device *device)
+ 			 */
+ 			ish_disable_dma(dev);
+ 		} else {
+-			/* Set the NO_D3 flag, the ISH would enter D0i3 */
+-			pdev->dev_flags |= PCI_DEV_FLAGS_NO_D3;
++			/*
++			 * Save state so PCI core will keep the device at D0,
++			 * the ISH would enter D0i3
++			 */
++			pci_save_state(pdev);
+ 
+ 			enable_irq_wake(pdev->irq);
+ 		}
+-- 
+2.17.1
 
-I think we need some text here. Clicking on a link to understand what a
-patch is about is not comfortable. You can add the link with a Link: tag
-for additional information.
-
-Removing stale email addresses may have some value, but removing...
-
->  Compaq's Bootldr + John Dorsey's patch for Assabet support
-> -(http://www.handhelds.org/Compaq/bootldr.html)
-
-... information like this is not good. 'Wayback machine' still has
-copies in case someone wants to look at where the infos came from.
-
-> - * Copyright 2004-2005  Phil Blundell <pb@handhelds.org>
-> + * Copyright 2004-2005  Phil Blundell
-
-This is an OK case in my book...
-
-
-> -MODULE_AUTHOR("Phil Blundell <pb@handhelds.org>");
-> +MODULE_AUTHOR("Phil Blundell");
-
-... same here ...
-
-> @@ -435,7 +435,6 @@
->                             case a PCI bridge (DEC chip 21152). The value of
->                             'pb' is now only initialized if a de4x5 chip is
->                             present.
-> -                           <france@handhelds.org>
-
-This is kind of a signature and should be kept IMO.
-
->   * 2001/07/23: <rmk@arm.linux.org.uk>
-> - *	- Hand merge version from handhelds.org CVS tree.  See patch
-> + *	- Hand merge version from CVS tree.  See patch
-
-That information may be useful.
-
-
->  /* SPDX-License-Identifier: GPL-2.0-only */
->  /* -*- linux-c -*-
-> - *
-> - * (C) 2003 zecke@handhelds.org
-
-Removing copyright is a bad idea.
-
-Probably some comment blocks are cruft meanwhile and can be removed as a
-whole. That can be discussed. But removing only the handhelds.org part
-makes most parts worse IMHO.
-
-Thanks and happy hacking,
-
-   Wolfram
-
-
---G4iJoqBmSsgzjUCe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl76WMAACgkQFA3kzBSg
-KbZgWA/+IxRkb15JXVvwYM1c4ReuUiEUrJ0KOI0M0XELe0YWelDrhgcOtSC0ozRT
-lTt8uizNNBK4bsRpoo+ghjZvNELOeMx+4VsVtMM+IoXXxIKha1jSJ1hqFDsBcCP0
-urAvhdaNyC+TWmEM2H98eb5JfdSxKxrzjIMs4tTBlZOBnu+wAoiDZv4mPf/y1bGv
-L33lwlFG6tkWpVX2veVNoTg04TG0LupAtXUyiI+Hnxt7srbugymQs0iwtd5sCt2R
-AG+BmuN5zmUS5cISCL6p1uXSxVRrs3FI02dwU7m5yvBfvHHSGVsx+f9wPpnpqNc8
-1I3oAR+Ct2K3lvu3uLBY2xDL4WbTmPobmzGLXbwB8ksPC/B1TV5LC/+TI2F+c+gk
-ROaTdQqzt4H0wfzNFOzYT8zGyZOoiPFro7jxCcH9CZjbkeDi19sJt7TQ6I1B0I9+
-bSTAb7s3yWhzUypFHzdR0PT97e8zeiK/xJUTbPkvv+JsDZZvPht423X7CYEUjaCo
-sPQ5UuDSfS4xT25PBabjhNeunmODzCE/+DrtbOSuM5AV63TOoVMB8zWBoJH17emH
-mRgD29xeEITWlq/fBWcPWIjgFDVanjDPYIW2/jnGqm7RLTaw703ajQSbD/7ELOAB
-84gr1NpIeJuhMnRnB11nHCJsUWnRqvl2rt7lretb/tFUB8LhGFE=
-=FQ9k
------END PGP SIGNATURE-----
-
---G4iJoqBmSsgzjUCe--
