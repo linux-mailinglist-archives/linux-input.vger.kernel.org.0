@@ -2,157 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E547720CB2D
-	for <lists+linux-input@lfdr.de>; Mon, 29 Jun 2020 02:29:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D5F520D46B
+	for <lists+linux-input@lfdr.de>; Mon, 29 Jun 2020 21:14:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726399AbgF2A33 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 28 Jun 2020 20:29:29 -0400
-Received: from mail-vi1eur05on2053.outbound.protection.outlook.com ([40.107.21.53]:64703
-        "EHLO EUR05-VI1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726395AbgF2A32 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 28 Jun 2020 20:29:28 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LzjKM0kqJ6gSObphKK6Rq19m6pnwU42CFkrRR0MNP/CkoMyfmEmi7rUpuiP4NKyHQpoM5+w4gFr5nrcFnnRmZOwfLxzq6oRGSrnCCpyGs/nSdvAAQADQ/e98c9xM08wZ94TUJYWaTcO4Z9v6s+OqZei7rWnmer8tJwlI6rcwmixgFwwc2BhxJjL6QgM4ieigOMOSzqlAUAbE/ksl6wr7LB67bCAM07jA3aSNdQnqZtMxgxbuQQsSLzM9taiPZnm7b5P96Ukay8i/b1jqQ8k97EZdkA2h9hDN9iizAyhic/N+dMHFFBCvALXynvs6kTXmpyPjBlINK7zdx6W4dbX+Nw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zN0vR1oSSYIdNgzDbY+8GkQYgBVGYiavz98DhgwaHFA=;
- b=n8i3w/RHkfcLiKG1dJEqZeTQ9G2fK15KG+O9553kuYuQ0shYhn84HWOus2epOa7bEIJzYv6uA6nDo+NP3Oac0fL8DBjzsxnZZMAs9sob7N11f2LJeQd7/U8fHfPCjEbWB3QmeUjQSnbHTRA6dymhx65fpqnis2AUElclAR+/neK6klz2wLOMu6XS1MMMedxhlLF9Lvz89k1OLVo7CkJ497MojwDQqzlEEky4GCSU02DeWr/cbKFeqSEw8oP+FEMzNcr/Oj/Z5GdvypbcO1UCCO7A4/fT7TI7DG0WuAxeN7afKweRGvPDG/6kmzXIhnTu6gl5j87BUCvGrqt2nSQTKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=diasemi.com; dmarc=pass action=none header.from=diasemi.com;
- dkim=pass header.d=diasemi.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dialogsemiconductor.onmicrosoft.com;
- s=selector1-dialogsemiconductor-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zN0vR1oSSYIdNgzDbY+8GkQYgBVGYiavz98DhgwaHFA=;
- b=Jvnqd6NGM/qSRiDypPhhveLg8sk8/kDiRHySu0l+0fs43q5oyq9eRSeIY3xYZ83Biv2dJYEBv29vXZoU5D2N/KS2u7m5u+g1qbybwHGAGYecPaH90ET+CyGf1my817FUeiOlskZhWCK/YmMi2Sc5gTw6RGqAYTnWkSbXH37V7FM=
-Received: from DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:11c::13)
- by DB8PR10MB3418.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:eb::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.20; Mon, 29 Jun
- 2020 00:29:22 +0000
-Received: from DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::843a:1bdd:adc4:3a56]) by DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::843a:1bdd:adc4:3a56%8]) with mapi id 15.20.3131.026; Mon, 29 Jun 2020
- 00:29:21 +0000
-From:   Roy Im <roy.im.opensource@diasemi.com>
-To:     =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Roy Im <roy.im.opensource@diasemi.com>
-CC:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Brian Masney <masneyb@onstation.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Pascal PAILLET-LME <p.paillet@st.com>,
-        Rob Herring <robh@kernel.org>,
-        Samuel Ortiz <sameo@linux.intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Support Opensource <Support.Opensource@diasemi.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>
-Subject: RE: [PATCH v14 3/3] Input: new da7280 haptic driver
-Thread-Topic: [PATCH v14 3/3] Input: new da7280 haptic driver
-Thread-Index: AQHWSttjHK/j6/E1ykmZ1XiOSN6cvKjqbZ2AgAB09ICAACxPAIADrkvg
-Date:   Mon, 29 Jun 2020 00:29:21 +0000
-Message-ID: <DB8PR10MB33566ABB47A00C8A5F281BE1856E0@DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM>
-References: <cover.1593017969.git.Roy.Im@diasemi.com>
- <8b05f5bd46eac415c628e965f59b2b57aff86bbe.1593017969.git.Roy.Im@diasemi.com>
- <20200626061853.hyb7dwta6ths2qo2@taurus.defre.kleine-koenig.org>
- <DB8PR10MB33563278561DFC2E50420F1C85930@DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM>
- <20200626155604.poqryunm7fyqmgek@pengutronix.de>
-In-Reply-To: <20200626155604.poqryunm7fyqmgek@pengutronix.de>
-Accept-Language: ko-KR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: pengutronix.de; dkim=none (message not signed)
- header.d=none;pengutronix.de; dmarc=none action=none header.from=diasemi.com;
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [1.234.57.66]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5486bb98-7cd1-49f4-e07a-08d81bc37800
-x-ms-traffictypediagnostic: DB8PR10MB3418:
-x-ms-exchange-sharedmailbox-routingagent-processed: True
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB8PR10MB3418540EC439C1FA55095117A26E0@DB8PR10MB3418.EURPRD10.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 044968D9E1
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 2DV0RDYfNnclPwGH8aBouSDFVqt3VgkS4kR31qdHI8mGFyOnMu9wfGEv9SNpvjJs/ohg6cFKxfS5Bw0vo598BSTiAHDNOLFpuCvGxlX1nkPr/gWgulOlYlpo7AFT+/ouEDFQeVa/Ns9XU8lUJpw/ygLUDm8ak/CA2otw8u3p3Kvx9bgnG7yjsnXViSqfF/olHo04p0iPYrQAopb1zkVqMT/7o74NOdQYDt6S8rP5RyVxABMCKjjPJzxajXVHXR8DJs7DyCqPpPYdd/ZC6gGFCP3lSxmuo63sBgvI3nayYeZu3T9XlWoZpH6TMtOBkLwbRNV08DcTR5dL73VUuLGpdBTDBBIY0XQ37bS/CzwrewRZnxY3qgVhflS/VaE9Fa0brYZ3WHM6TFaISBmB/LlyFg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(346002)(376002)(396003)(366004)(136003)(39850400004)(55016002)(7696005)(33656002)(5660300002)(6506007)(66946007)(76116006)(66556008)(71200400001)(66446008)(64756008)(110136005)(66476007)(53546011)(9686003)(2906002)(86362001)(966005)(186003)(52536014)(8676002)(83380400001)(4326008)(66574015)(54906003)(7416002)(8936002)(26005)(316002)(478600001)(83080400001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: wDKF4vZHlusa4+6uE5WQWnUDGx/Qo4+c+YtmXsGfjz/Gu0CxDjgmBfqbQrkJmWZ7P27am8VG5If3wgXb+MGmsn9TJuAlYpP+jRjwfp2GdkChbSNtxGNCc0LaG+wDQ53smfzcHWLhp2QFdYqhDagzykpZb3jPp3MfeoBwOrv8BShyfnWa4UwuA9tnQAKKbRotVf+tmBRFpg2o4iT6Mnxv9xWSKGiLXS5eG+3Gqcu4SerwJvtgyls6bkRpv80Kx0zkuF+C6Ricmc4jERqrlIU2MN+Kd3qO1kYv6G7XHp/B3tCWs8P6V3nCf9CFqQPylBsbXIcQUgPXwSU+KTUGNSZyAF7e9/RNEzjMc1SLUbzMY837kI8M7FLsPFyEkNzBvK+3NcTASMZMFuE3xsx9Q0g36kyu9LnCeCM+jBIUH+A5yXhac3I/1jcoMZNHIt5f3H3neudC7gKnEuVCdSOMw5S4lEuhiPrmadpMI5nzBv8oCkg=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        id S1729042AbgF2TIV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 29 Jun 2020 15:08:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41738 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729229AbgF2TCn (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 29 Jun 2020 15:02:43 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE9E3C031C5D;
+        Mon, 29 Jun 2020 10:43:32 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id 35so7387270ple.0;
+        Mon, 29 Jun 2020 10:43:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=wwO/+1x3ujsY+tBQxjynuoHG+S+oW8bGQ0JEGfkKl18=;
+        b=q6VTKnjrIQ9GZwtHp6W8lnaBCt0D7cnVX6zRR8zbRsgPRvWzkckmhVQnxhqhf2SztQ
+         +rk54A5VZ9T4y8tgIPDQb2TK0x30Gc2bxIHNeCV0+k/5JB2Qr8S31+9nzkZBv4H8B1dZ
+         S7Nx4knFUO5IYs75LGDNQGVYwC5/HUd+5nFVLyNwxvBUTDWBLKcOMr+cfrw2308dlldI
+         WrqpGGQ1IqKJYywRAR3S7h1nqCGSB1qKSb+phXXH60lUsIejGQpbomdqL9cK9Pvyslbk
+         Bs7T7ZU5e11Xcs+YQNk7qBcKT8bG04FCbxH16bkFyZa/Mw58JAhLh7JMcLNIom4umbOz
+         8tYg==
+X-Gm-Message-State: AOAM531FeqTpQdRePUJND4B+dv1KI7Dv6qrhGRy6ZmJ4M4L9UEoNnusq
+        4lvR0Io1hgJZb7GOeKItGzSoD7l6
+X-Google-Smtp-Source: ABdhPJwBT8x6FA0IDZEkNk2enlT2SeUgMHnfKY6ICLSCwyeYI5Ca9yC95pTwUTqHMsvKBPHYnrf8pw==
+X-Received: by 2002:a17:90a:70c6:: with SMTP id a6mr16987836pjm.16.1593452612181;
+        Mon, 29 Jun 2020 10:43:32 -0700 (PDT)
+Received: from sultan-box.localdomain ([89.46.114.241])
+        by smtp.gmail.com with ESMTPSA id m14sm353976pgn.83.2020.06.29.10.43.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2020 10:43:31 -0700 (PDT)
+Date:   Mon, 29 Jun 2020 10:43:28 -0700
+From:   Sultan Alsawaf <sultan@kerneltoast.com>
+To:     Jarkko Nikula <jarkko.nikula@linux.intel.com>
+Cc:     aaron.ma@canonical.com, admin@kryma.net,
+        andriy.shevchenko@linux.intel.com, benjamin.tissoires@redhat.com,
+        hdegoede@redhat.com, hn.chen@weidahitech.com, jikos@kernel.org,
+        kai.heng.feng@canonical.com, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mika.westerberg@linux.intel.com, vicamo.yang@canonical.com,
+        wsa@kernel.org
+Subject: Re: [PATCH v2] HID: i2c-hid: Use block reads when possible to save
+ power
+Message-ID: <20200629174328.GB1646@sultan-box.localdomain>
+References: <c4373272-e656-773c-dfd2-0efc4c53c92d@linux.intel.com>
+ <20200616154951.3050-1-sultan@kerneltoast.com>
+ <37ceaf7a-3421-e305-4355-a6b40ae54843@linux.intel.com>
 MIME-Version: 1.0
-X-OriginatorOrg: diasemi.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5486bb98-7cd1-49f4-e07a-08d81bc37800
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jun 2020 00:29:21.6750
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ezceQSXo0amf4ZoUeHZ/Y7i6Qlt5rFvPHpI8C0DGp5cPAAMN9Tg8xvnSJsInAMlQaV66w8zYEscj9F66DgJJwQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR10MB3418
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <37ceaf7a-3421-e305-4355-a6b40ae54843@linux.intel.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, June 27, 2020 12:56 AM, Uwe Kleine-K=F6nig wrote:
-> On Fri, Jun 26, 2020 at 01:17:29PM +0000, Roy Im wrote:
-> > > On Fri, June 26, 2020 3:19 PM, Uwe Kleine-K=F6nig wrote:
-> > > Hello,
-> > > from the PWM POV I'm happy now. Just a few minor comments that I noti=
-ced while checking the PWM details.
-> >
-> > Many thanks for your comments.
-> >
-> > >
-> > > On Thu, Jun 25, 2020 at 01:59:29AM +0900, Roy Im wrote:
-> > > > +		val =3D haptics->ps_seq_id << DA7280_PS_SEQ_ID_SHIFT |
-> > > > +			haptics->ps_seq_loop << DA7280_PS_SEQ_LOOP_SHIFT;
-> > >
-> > > If you write this as:
-> > >
-> > > 	val =3D FIELD_PREP(DA7280_PS_SEQ_ID_MASK, haptics->ps_seq_id) |
-> > > 		FIELD_PREP(DA7280_PS_SEQ_LOOP_MASK, haptics->ps_seq_loop);
-> > >
-> > > you get some additional checks for free and can drop all defines for =
-..._SHIFT .
-> >
-> > It is not difficult to update that as you advise, but I think having
-> > the shift there explicitly makes it more readable, so most of the
-> > drivers from my team have the defines(shift) up to now. I guess this
-> > is a kind of subjective thing.
-> > Do you think it is still necessary? Then I will update as you said.
->=20
-> No, from my side it's not a hard requirement (and after all I'm not the o=
-ne who will take your commit). I personally like it better
-> with FIELD_PREP, but I can still sleep if you don't agree :-)
->=20
-> What I don't like about having both ..._SHIFT and ..._MASK is that there =
-is some duplication as ..._SHIFT can be calculated
-> from ..._MASK:
->=20
-> 	#define LALA_SHIFT (ffs(LALA_MASK) - 1)
+On Wed, Jun 17, 2020 at 02:17:19PM +0300, Jarkko Nikula wrote:
+> On 6/16/20 6:49 PM, Sultan Alsawaf wrote:
+> > From: Sultan Alsawaf <sultan@kerneltoast.com>
+> > 
+> > We have no way of knowing how large an incoming payload is going to be,
+> > so the only strategy available up until now has been to always retrieve
+> > the maximum possible report length over i2c, which can be quite
+> > inefficient. For devices that send reports in block read format, the i2c
+> > controller driver can read the payload length on the fly and terminate
+> > the i2c transaction early, resulting in considerable power savings.
+> > 
+> > On a Dell Precision 15 5540 with an i9-9880H, resting my finger on the
+> > touchpad causes psys power readings to go up by about 4W and hover there
+> > until I remove my finger. With this patch, my psys readings go from 4.7W
+> > down to 3.1W, yielding about 1.6W in savings. This is because my
+> > touchpad's max report length is 60 bytes, but all of the regular reports
+> > it sends for touch events are only 32 bytes, so the i2c transfer is
+> > roughly halved for the common case.
+> > 
+> > Signed-off-by: Sultan Alsawaf <sultan@kerneltoast.com>
+> > ---
+> > Jarkko, could you try this?
+> >   drivers/hid/i2c-hid/i2c-hid-core.c | 5 ++++-
+> >   1 file changed, 4 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+> > index 294c84e136d7..739dccfc57e1 100644
+> > --- a/drivers/hid/i2c-hid/i2c-hid-core.c
+> > +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+> > @@ -472,11 +472,14 @@ static void i2c_hid_get_input(struct i2c_hid *ihid)
+> >   	int ret;
+> >   	u32 ret_size;
+> >   	int size = le16_to_cpu(ihid->hdesc.wMaxInputLength);
+> > +	u16 flags;
+> >   	if (size > ihid->bufsize)
+> >   		size = ihid->bufsize;
+> > -	ret = i2c_master_recv(ihid->client, ihid->inbuf, size);
+> > +	/* Try to do a block read if the size fits in one byte */
+> > +	flags = size > 255 ? I2C_M_RD : I2C_M_RD | I2C_M_RECV_LEN;
+> > +	ret = i2c_transfer_buffer_flags(ihid->client, ihid->inbuf, size, flags);
+> >   	if (ret != size) {
+> >   		if (ret < 0)
+> >   			return;
+> 
+> This still causes a regression for me.
 
-OK, I got it and I will update.
+Hmm, for some reason in 5.8 I get the same problem, but 5.7 is fine. Could you
+try this on 5.7 and see if it works?
 
->=20
-> Best regards
-> Uwe
->=20
-> --
-> Pengutronix e.K.                           | Uwe Kleine-K=F6nig          =
-  |
-> Industrial Linux Solutions                 | https://www.pengutronix.de/ =
-|
+In the meantime I'll bisect 5.8 to see why it's causing problems for me...
+
+Sultan
