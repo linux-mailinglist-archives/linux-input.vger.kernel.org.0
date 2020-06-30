@@ -2,107 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F327D20FB4F
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jun 2020 20:04:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B61BC20FCC3
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jun 2020 21:29:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389537AbgF3SER (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 Jun 2020 14:04:17 -0400
-Received: from muru.com ([72.249.23.125]:60076 "EHLO muru.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729105AbgF3SER (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 Jun 2020 14:04:17 -0400
-Received: from atomide.com (localhost [127.0.0.1])
-        by muru.com (Postfix) with ESMTPS id D27D78164;
-        Tue, 30 Jun 2020 18:05:06 +0000 (UTC)
-Date:   Tue, 30 Jun 2020 11:04:11 -0700
-From:   Tony Lindgren <tony@atomide.com>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Pavel Machek <pavel@denx.de>,
-        Merlijn Wajer <merlijn@wizzup.org>, jikos@suse.cz,
-        vojtech@suse.cz,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Beno??t Cousson <bcousson@baylibre.com>,
+        id S1727955AbgF3T3p (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 Jun 2020 15:29:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43476 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726961AbgF3T3o (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 30 Jun 2020 15:29:44 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F17FC061755;
+        Tue, 30 Jun 2020 12:29:44 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id k5so342966pjg.3;
+        Tue, 30 Jun 2020 12:29:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=z9NbGrJNVhmDvwjE4p/JaViBJ44BVQVTuZHg6UXMIYY=;
+        b=co3GS2Cjq3IS4PBvsxpk3iaeANWXu9yXQTCa2iad2uBkShSkMJdxn3+XTqZQwNfDXy
+         RlY76zsgVjCL43sSBus5UM6FBRu0aVIGHO4JN/bDnKmaer8C5enTUMgjW4YUfz0eEODp
+         txdPInWQ7GWQUOgDHHs67W+oOI5hBCYfzX84Pyz9UvnCOi9y2q9BZsXzQtKmfkRJwZS/
+         DSpFrB5U9oQ8oRblkl/qrgws8AvvQ8uhGK98S0lQDOU8OMLjrYC4/eH9XoZZOebAzwN3
+         GMrQM3PT/yZRtiT7PUVWYyuFrPxxrQknyJOyE0djQIFkCeBzVBbtogf+f5Rg3LzrjwjY
+         5UiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=z9NbGrJNVhmDvwjE4p/JaViBJ44BVQVTuZHg6UXMIYY=;
+        b=IJ1p4wsJ8933pTc/90QJlWLZOVSf+VxrPV0IsOJCBOVWIgIw0WzFeUgAipJCoZfo3s
+         IetVpmsBSlp0AmQJfvYJVRt8RzYYPgPGn6EgTm3pkd1t7ATGMNpRuC6Ek7b34OxIl3Ly
+         0XSy2p+RBFriT9v0pJCZyKuELLs9S1yeAoW97hvxpMRyc+zxJQq5cADi7Li8nNxd7FDK
+         ms7Tbqo7yqhbtnv9aiPDHnetMKMMKBMQrZx2IgF492WB+eNCbAbUuz7HaSLNG+27A8oa
+         SMusYD7DnsJUec00RYHnsNoCNT2ROzm81mZL6OvSSNgRRkFIyFlVAxe5uwmKhAPsm0Kk
+         bZoA==
+X-Gm-Message-State: AOAM533VYVJW+nsZ17bV/+OIiebLSAYxaGNpjw9V/EvDo7Yr2sD8fB/8
+        bmjv9GUbuTixMfrBQ309ypk=
+X-Google-Smtp-Source: ABdhPJwv4jFJgO1XEbhIRLji/2KijRhr9g67KUtACfRcPhhVmiFQ8SFh/i4yjIkB/MOaOvhH2n3yTg==
+X-Received: by 2002:a17:902:8a8f:: with SMTP id p15mr19083179plo.172.1593545383723;
+        Tue, 30 Jun 2020 12:29:43 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id s12sm3554059pgp.54.2020.06.30.12.29.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2020 12:29:43 -0700 (PDT)
+Date:   Tue, 30 Jun 2020 12:29:41 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Merlijn Wajer <merlijn@wizzup.org>
+Cc:     pavel@ucw.cz,
+        =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
+        Tony Lindgren <tony@atomide.com>,
         Rob Herring <robh+dt@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Borislav Petkov <bp@suse.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Jeffrey Hugo <jhugo@codeaurora.org>,
         Thomas Gleixner <tglx@linutronix.de>,
+        Borislav Petkov <bp@suse.de>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
         Mattias Jacobsson <2pi@mok.nu>,
-        Mark Gross <mgross@linux.intel.com>,
         Russell King <rmk+kernel@armlinux.org.uk>,
+        Mark Gross <mgross@linux.intel.com>,
         "open list:OMAP DEVICE TREE SUPPORT" <linux-omap@vger.kernel.org>,
         "open list:OMAP DEVICE TREE SUPPORT" <devicetree@vger.kernel.org>,
         open list <linux-kernel@vger.kernel.org>,
         "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." 
         <linux-input@vger.kernel.org>
-Subject: Re: input maintainer -- are you there? was Re: [PATCH 1/2] Input:
- add `SW_MACHINE_COVER`
-Message-ID: <20200630180411.GE37466@atomide.com>
+Subject: Re: [PATCH 0/2] Add SW_MACHINE_COVER key
+Message-ID: <20200630192941.GI248110@dtor-ws>
 References: <20200612125402.18393-1-merlijn@wizzup.org>
- <20200612125402.18393-2-merlijn@wizzup.org>
- <20200616105045.GB1718@bug>
- <fef69c79-9943-7bd1-5c51-101f551cf2c8@wizzup.org>
- <20200629133644.GA22227@amd>
- <20200630052212.GH248110@dtor-ws>
- <20200630175853.GA15783@duo.ucw.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200630175853.GA15783@duo.ucw.cz>
+In-Reply-To: <20200612125402.18393-1-merlijn@wizzup.org>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-* Pavel Machek <pavel@ucw.cz> [200630 17:59]:
-> Hi!
-> 
-> > > > Looks like we're blocking on this input patch.
-> > > > 
-> > > > On 16/06/2020 12:50, Pavel Machek wrote:
-> > > > > On Fri 2020-06-12 14:53:58, Merlijn Wajer wrote:
-> > > > >> This event code represents the state of a removable cover of a device.
-> > > > >> Value 0 means that the cover is open or removed, value 1 means that the
-> > > > >> cover is closed.
-> > > > >>
-> > > > >> Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com> Acked-by: Tony Lindgren 
-> > > > >> <tony@atomide.com> Signed-off-by: Merlijn Wajer <merlijn@wizzup.org> ---
-> > > > > 
-> > > > > Dmitry, can we get some kind of comment here, or better yet can we get you to apply this?
-> > > > 
-> > > > This is part of a patch series to resolve problems with the Nokia N900
-> > > > not booting when the cover is removed (making the cover be the card
-> > > > detect was also just weird IMHO). Just removing the card-detect from the
-> > > > DTS is fine, but it was suggested that we expose the data instead as
-> > > > input event. And that's gotten no response for about four months.
-> > > > 
-> > > > Should we just drop the feature and only remove the cd-gpios line from
-> > > > the DTS, assuming upstream doesn't want this SW_MACHINE_COVER code?
-> > > 
-> > > I believe series is good, lets keep it. Changing now will only delay
-> > > it a bit more. Let me try to get Dmitry's attention...
-> > > 
-> > > If that does not work, we can get Linus' attention :-).
-> > > 
-> > > If that does not work, umm, there are some other options.
-> > 
-> > Sorry, am really swamped the last couple months. I can pick up the input
-> > code, do you want me to pick up DTS as well?
-> 
-> No problem, sorry for being pushy.
-> 
-> If you could pick up just the input one-liner, that would be best. It
-> is not risky.
-> 
-> OMAP people will take care of the DTS, I believe, and we can iterate
-> if it does not work at the first try.
+On Fri, Jun 12, 2020 at 02:53:57PM +0200, Merlijn Wajer wrote:
 
-I already acked the dts change a while back, please just queue them
-together. Or if you want me to pick it up, please set up an immutable
-branch for me against v5.8-rc1 to also merge in :)
+Applied, thank you.
 
-Regards,
-
-Tony
+-- 
+Dmitry
