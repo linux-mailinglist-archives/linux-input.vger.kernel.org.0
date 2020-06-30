@@ -2,136 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF09320EE8F
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jun 2020 08:32:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0590420EEBA
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jun 2020 08:43:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730175AbgF3Gb4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 30 Jun 2020 02:31:56 -0400
-Received: from smtp.al2klimov.de ([78.46.175.9]:41058 "EHLO smtp.al2klimov.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730002AbgF3Gbz (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 30 Jun 2020 02:31:55 -0400
-X-Greylist: delayed 36006 seconds by postgrey-1.27 at vger.kernel.org; Tue, 30 Jun 2020 02:31:53 EDT
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id 4EA0BBC078;
-        Tue, 30 Jun 2020 06:31:41 +0000 (UTC)
-Subject: Re: [PATCH] Remove handhelds.org links and email addresses
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     corbet@lwn.net, aaro.koskinen@iki.fi, tony@atomide.com,
-        linux@armlinux.org.uk, daniel@zonque.org, haojian.zhuang@gmail.com,
-        robert.jarzmik@free.fr, kgene@kernel.org, krzk@kernel.org,
-        dmitry.torokhov@gmail.com, lee.jones@linaro.org,
-        ulf.hansson@linaro.org, davem@davemloft.net, kuba@kernel.org,
-        b.zolnierkie@samsung.com, j.neuschaefer@gmx.net,
-        mchehab+samsung@kernel.org, gustavo@embeddedor.com,
-        gregkh@linuxfoundation.org, yanaijie@huawei.com,
-        daniel.vetter@ffwll.ch, rafael.j.wysocki@intel.com,
-        Julia.Lawall@inria.fr, linus.walleij@linaro.org,
-        viresh.kumar@linaro.org, arnd@arndb.de, jani.nikula@intel.com,
-        yuehaibing@huawei.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
-        linux-parisc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-fbdev@vger.kernel.org
-References: <20200629203121.7892-1-grandmaster@al2klimov.de>
- <20200629211027.GA1481@kunai>
-From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Message-ID: <09c27ac7-f5bc-064b-6751-9edc04de1679@al2klimov.de>
-Date:   Tue, 30 Jun 2020 08:31:40 +0200
-MIME-Version: 1.0
-In-Reply-To: <20200629211027.GA1481@kunai>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Spamd-Bar: +
-X-Spam-Level: *
-Authentication-Results: smtp.al2klimov.de;
-        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
+        id S1730445AbgF3GnM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 Jun 2020 02:43:12 -0400
+Received: from smtp23.cstnet.cn ([159.226.251.23]:58288 "EHLO cstnet.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1730002AbgF3GnM (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 30 Jun 2020 02:43:12 -0400
+X-Greylist: delayed 405 seconds by postgrey-1.27 at vger.kernel.org; Tue, 30 Jun 2020 02:43:11 EDT
+Received: from localhost (unknown [159.226.5.99])
+        by APP-03 (Coremail) with SMTP id rQCowACnr_Ni3fpeCzNNAQ--.45316S2;
+        Tue, 30 Jun 2020 14:36:18 +0800 (CST)
+From:   Chen Ni <vulab@iscas.ac.cn>
+To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Xu Wang <vulab@iscas.ac.cn>
+Subject: [PATCH] input: misc: remove needless check before usb_free_coherent()
+Date:   Tue, 30 Jun 2020 06:36:16 +0000
+Message-Id: <20200630063616.8060-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: rQCowACnr_Ni3fpeCzNNAQ--.45316S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrKFWrZw4UGr47GFWDGr4kZwb_yoWkCrXEv3
+        yUuF9xuryq9F4Ykr4UKwnxZr95tr4I9w4kWrn5tFW5JFWIg3s0vr1UXFZ0yw4DXa9rWF45
+        twn2grWFkw4fWjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbcxFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+        A2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+        Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s
+        1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
+        cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE14v26Fkl6r4jowAm72CE4IkC6x0Yz7v_Jr0_Gr
+        1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW8AwCF
+        04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
+        18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vI
+        r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
+        1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAI
+        cVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjMmh7UUUUU==
+X-Originating-IP: [159.226.5.99]
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiAw0DA13qZLQOjQAAsq
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+From: Xu Wang <vulab@iscas.ac.cn>
 
+usb_free_coherent() is safe with NULL addr and this check is
+not required.
 
-Am 29.06.20 um 23:10 schrieb Wolfram Sang:
-> Hi Alexander,
-> 
-> thanks for trying to fix this, yet I have some doubts.
-> 
-> On Mon, Jun 29, 2020 at 10:31:21PM +0200, Alexander A. Klimov wrote:
->> Rationale:
->> https://lore.kernel.org/linux-doc/20200626110706.7b5d4a38@lwn.net/
-> 
-> I think we need some text here. Clicking on a link to understand what a
-> patch is about is not comfortable. You can add the link with a Link: tag
-> for additional information.
-Fine. I can easily make a v2 patch, but first...
+Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
+---
+ drivers/input/misc/cm109.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-> 
-> Removing stale email addresses may have some value, but removing...
-> 
->>   Compaq's Bootldr + John Dorsey's patch for Assabet support
->> -(http://www.handhelds.org/Compaq/bootldr.html)
-> 
-> ... information like this is not good. 'Wayback machine' still has
-> copies in case someone wants to look at where the infos came from.
-If we shall not remove *this link*, maybe we shall not remove *all links*?
+diff --git a/drivers/input/misc/cm109.c b/drivers/input/misc/cm109.c
+index c09b9628ad34..e413801f0491 100644
+--- a/drivers/input/misc/cm109.c
++++ b/drivers/input/misc/cm109.c
+@@ -663,12 +663,8 @@ static const struct usb_device_id cm109_usb_table[] = {
+ static void cm109_usb_cleanup(struct cm109_dev *dev)
+ {
+ 	kfree(dev->ctl_req);
+-	if (dev->ctl_data)
+-		usb_free_coherent(dev->udev, USB_PKT_LEN,
+-				  dev->ctl_data, dev->ctl_dma);
+-	if (dev->irq_data)
+-		usb_free_coherent(dev->udev, USB_PKT_LEN,
+-				  dev->irq_data, dev->irq_dma);
++	usb_free_coherent(dev->udev, USB_PKT_LEN, dev->ctl_data, dev->ctl_dma);
++	usb_free_coherent(dev->udev, USB_PKT_LEN, dev->irq_data, dev->irq_dma);
+ 
+ 	usb_free_urb(dev->urb_irq);	/* parameter validation in core/urb */
+ 	usb_free_urb(dev->urb_ctl);	/* parameter validation in core/urb */
+-- 
+2.17.1
 
-@Jon You've kinda initiated the patch, what's your opinion? Bad 
-squatters or good Wayback machine?
-
-> 
->> - * Copyright 2004-2005  Phil Blundell <pb@handhelds.org>
->> + * Copyright 2004-2005  Phil Blundell
-> 
-> This is an OK case in my book...
-> 
-> 
->> -MODULE_AUTHOR("Phil Blundell <pb@handhelds.org>");
->> +MODULE_AUTHOR("Phil Blundell");
-> 
-> ... same here ...
-> 
->> @@ -435,7 +435,6 @@
->>                              case a PCI bridge (DEC chip 21152). The value of
->>                              'pb' is now only initialized if a de4x5 chip is
->>                              present.
->> -                           <france@handhelds.org>
-> 
-> This is kind of a signature and should be kept IMO.
-What for? An email address is for someone who'd like to send an email to 
-it. At the moment handhelds.org doesn't even have an MX record.
-
-> 
->>    * 2001/07/23: <rmk@arm.linux.org.uk>
->> - *	- Hand merge version from handhelds.org CVS tree.  See patch
->> + *	- Hand merge version from CVS tree.  See patch
-> 
-> That information may be useful.
-Again: What for? For visiting it and thinking like damn, it's gone?
-
-> 
-> 
->>   /* SPDX-License-Identifier: GPL-2.0-only */
->>   /* -*- linux-c -*-
->> - *
->> - * (C) 2003 zecke@handhelds.org
-> 
-> Removing copyright is a bad idea.
-IMAO the CREDITS file is for (c) headers.
-If you didn't submit a patch for that - your problem.
-
-If you disagree, I can look up git blame.
-
-> 
-> Probably some comment blocks are cruft meanwhile and can be removed as a
-> whole. That can be discussed. But removing only the handhelds.org part
-> makes most parts worse IMHO.
-> 
-> Thanks and happy hacking,
-> 
->     Wolfram
-> 
