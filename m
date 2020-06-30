@@ -2,126 +2,153 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88A3120EC1C
-	for <lists+linux-input@lfdr.de>; Tue, 30 Jun 2020 05:39:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFD8520ED44
+	for <lists+linux-input@lfdr.de>; Tue, 30 Jun 2020 07:16:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729225AbgF3Djb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 29 Jun 2020 23:39:31 -0400
-Received: from mail-eopbgr80077.outbound.protection.outlook.com ([40.107.8.77]:20470
-        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728930AbgF3Dja (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 Jun 2020 23:39:30 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eOmkqpRWR8+PelCSa0oWlBmbYaVycpssOvLtRic9BCPr3fSIMWUz9Py5KxFkIfLrcHsryPBavwzNLpggV4QtxYuTZjFX2lTuoH6Pw+hqe0H8k7abLP1ChrXZYxPL9HW2p/9Vs2wA3kU3/SWJoVOidHc6t4UfrMazn85V02GpqqMckDCi+KTE7d6h3S0GqGJ7YyWN9nRn3T9WlUbLtN8ER187MO/FBN+405PD2r9RRzs7U+8JQZmzp5Iqyl0eENuNRS8yR/WY+I/hcEnb1yPUnajkpc6ucVHX6gtr49f2Wfwc4nReMoVH+HfOCu2nFpmW+EHzLQ7NbymCIRR6Imc7qg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fFbVeDpkEZiB3GHfBb4dAjahX614EmMhhkTdbG+Kzrc=;
- b=lIL01JJ+gfu/Od0gWs8iRl2IarckzqeZPe4hzkosiQMcBmJi4E+/vjNVjxO++CDyWP/IC1VWGwf+3BXYdyOYOryQcCmTpRi04dHiUHkVso4SI593vrSXuXJ3xMMaVRmO4escMENFEz06+vlZiFbZaEw+puQfFTavnGKOhn5qL9vKxkT4g78jBfQkxiHa/O8Uh4ZiYiuro00ySZ3tgKe3mbZOeN6NYsACOsQkDovQYDuKdxnava8AhF+SOy2mzk81LHKmDfWWhl5BrrB4q2+pWD+t7Iitetgql4EzJIyNn2d3UOKxBJpKOm1hUTQkT7iVZ56KQt7vLJRZC3FiRnaENg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=diasemi.com; dmarc=pass action=none header.from=diasemi.com;
- dkim=pass header.d=diasemi.com; arc=none
+        id S1726019AbgF3FQX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 30 Jun 2020 01:16:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52962 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725845AbgF3FQX (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 30 Jun 2020 01:16:23 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32E4BC061755;
+        Mon, 29 Jun 2020 22:16:23 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id d10so8002973pls.5;
+        Mon, 29 Jun 2020 22:16:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dialogsemiconductor.onmicrosoft.com;
- s=selector1-dialogsemiconductor-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fFbVeDpkEZiB3GHfBb4dAjahX614EmMhhkTdbG+Kzrc=;
- b=v4n/cqEbSovOLsXU6IUWo7VCCaW3VNDYCmjjZ/F6Fe8gXcPAQxWcCIx1WZ6tIALqc7FzyskezfAhGIFMbwXB01Wj6xDbHMVrT+Il5WZuM+qlQ/CcyXQivH5RHCH2T6uyr0r6HipA2+sNbZfuPeJGWan0rpk1lWQ4MY23CcmL97k=
-Received: from DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:11c::13)
- by DB8PR10MB3893.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:16f::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.20; Tue, 30 Jun
- 2020 03:39:26 +0000
-Received: from DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::843a:1bdd:adc4:3a56]) by DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::843a:1bdd:adc4:3a56%8]) with mapi id 15.20.3131.027; Tue, 30 Jun 2020
- 03:39:26 +0000
-From:   Roy Im <roy.im.opensource@diasemi.com>
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Roy Im <roy.im.opensource@diasemi.com>,
-        Uwe Kleine-Koenig <u.kleine-koenig@pengutronix.de>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Brian Masney <masneyb@onstation.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Pascal PAILLET-LME <p.paillet@st.com>,
-        Rob Herring <robh@kernel.org>,
-        Samuel Ortiz <sameo@linux.intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-CC:     Support Opensource <Support.Opensource@diasemi.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>
-Subject: RE: [PATCH v15 3/3] Input: new da7280 haptic driver
-Thread-Topic: [PATCH v15 3/3] Input: new da7280 haptic driver
-Thread-Index: AQHWToqxLBZ+X/qhXECVbuzW09LfNajwe9sAgAAEvXA=
-Date:   Tue, 30 Jun 2020 03:39:26 +0000
-Message-ID: <DB8PR10MB3356EF71023E587911611C0C856F0@DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM>
-References: <cover.1593435662.git.Roy.Im@diasemi.com>
- <c7b8cb993abe7bb771108bb94e5d9edbeb4f7103.1593435662.git.Roy.Im@diasemi.com>
- <602a5743-d27b-3e81-e917-d343f58d35e9@infradead.org>
-In-Reply-To: <602a5743-d27b-3e81-e917-d343f58d35e9@infradead.org>
-Accept-Language: ko-KR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: infradead.org; dkim=none (message not signed)
- header.d=none;infradead.org; dmarc=none action=none header.from=diasemi.com;
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [1.234.57.66]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8ef6509e-211f-475d-f05b-08d81ca73006
-x-ms-traffictypediagnostic: DB8PR10MB3893:
-x-ms-exchange-sharedmailbox-routingagent-processed: True
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB8PR10MB3893910BB13C8335E2926F81A26F0@DB8PR10MB3893.EURPRD10.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 0450A714CB
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: AAX3NsRKAJizRAr5MH3tc6gogKsR8K3fkCKUAzYCBSVtyVStVUS7+M9dJU5SWanJ9RwWYQXpzgtxlo42A5T6KlrNrFvDL/ip6+z5yIkedOSFrE52myS6arXPNpr1c1oT4fQ7KLIAWumexP6WKNe0uYKlJZJEXEkVIv2YJI8YkeEFRnW1SAE7mgejmcsOUm4Kv8kli6SEk1dmkbAxCmXfMF8o+PV1ZiLdioZKu1+hqQ1VPFPonoc4qr3QeCs1Zg2AYe0kACpkk3wCiPEGgAgr0PSv08SgeTp6+Aay9wjCv3wgTAQ9aLNKFtC+v71/uAM3G1GxhHP9MeodtoaZvUqYo7CBHHKg5PMMpT6JxFlA/r39llbWqfYYHmjIfoGGYSHg
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(396003)(346002)(366004)(39860400002)(376002)(136003)(316002)(4326008)(66446008)(64756008)(8936002)(66476007)(66556008)(52536014)(110136005)(54906003)(66946007)(7416002)(33656002)(2906002)(86362001)(9686003)(55016002)(8676002)(76116006)(26005)(53546011)(83380400001)(6506007)(186003)(71200400001)(5660300002)(7696005)(478600001)(921003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: iGgOYRebembPSwgkzBCd0nBVx03zBeEBi5rmNf49AzDUwJTdAB7HGpFPu6L1ScLQoJ0xijD9VZtm+MyUKxndCn3fQNV7+J/eRh1Ri/uQq74RrOI7br1WvKAQ02V2fVmqIL4VEmz+zVEUaqlVrB7IQ83YwEplIxm3sNLyswVpP1/vT0ChcUb60Y9QTkK1V/8sqEz21kLUj6hyNAUXfCyhFDzihJjwoEHzeJMlWhEFqlgYgS4aGM6AvuDedz+aCnZLol7xh3u8qeBQtBBYPGVcJhaUhzUSVWx4S70maxzjciP4UbAcfD3NfAJYu/Xp+/ULBKeG2Mep4GmS1S21Blmf+iSQeY0UVUN5xiSdaArkLDDephj0uXM0JLJH3uLpo14bkKp0FizQmiBbRacyj4R12ar8HFhKJA9ddrVfTfQW6/M65VCO5MEqbhIVYoM+D8B2dfStp1cv6Y6cj1GYd9drRVOselMhOwTOjsHP/qEt5zo=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=KRE9HsVlW2ijkl1bDdvucGdd1+JiCPkhH6g/2ZjIZAo=;
+        b=hZU0yUL1AN1k4PEsFBvtVzeLaj4e39AO8qO24WkHVfTj+4cSk+/I/gRZksRFSG0P5F
+         ct2PWPUBlKDpPzKRGDul3OMYXd0g7RDTDruf/E28UZb71mT5tfbUls8ysYiRT8G65UYH
+         WXr7i62LjidQPmb9tKyxxDCYw6/jEN+foXc0rarHW0s9FI9ntM4/09tLYurk9cIomrF6
+         iaytL1nO0crq0BiNqX/aY8kQMu9EyFLT9nGa3Sv7drPToQYKBcmLglC8YQL8jj0EQXze
+         sV0E0H43baIXcZvb10l3oMrx165I5YBkqUbl5R8JibP4SRnUYfRDOwJRIYqH+XxgHCt0
+         ZWOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=KRE9HsVlW2ijkl1bDdvucGdd1+JiCPkhH6g/2ZjIZAo=;
+        b=esL9aE/fJ9hNUt60vCbhaLei/gSPMWSuXD07D6WdMzZoQm33oqrnGoLaBmelM8sLwm
+         rDMepjM19ftytNOtu52naZvC24MHnBFQoAVNoMYHH6fFaiAhDpRyBRilsearq2wyaMtz
+         uTwrLQR5Y6THaBuxFjbHfxYyXj0hN+daz1jSDR8UYStRXBSWD3rWg19Ww+zTnB0cY++5
+         +w5Hvf0mwdxSy3Tw3ymXKVKy6IcYEN08rru+HOs3OPkTFTDKU13a//zBYhoMbv0eIQ+u
+         7wxUJhVH4fH45quNeEV6MZqaueHVUXM+Lj9Dpm5mKT89uf8WnsIUcvi0Kt9PwMn2+D4y
+         y17g==
+X-Gm-Message-State: AOAM531GtaYzO1ajJxuz+XiLFTaYW1kZXAbheGQ5JuhpT1jI8Fh4yybp
+        JtYVcjt5oIvgp0pOy8unGfnaNdqN
+X-Google-Smtp-Source: ABdhPJz5L6z5VGRh2LLZ5I+cwIBdPBP86ivSnmaciY39M5h8VH4ZPau1l7IsaW3SrtWjGT73gxu7mQ==
+X-Received: by 2002:a17:902:aa97:: with SMTP id d23mr16732653plr.128.1593494181579;
+        Mon, 29 Jun 2020 22:16:21 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
+        by smtp.gmail.com with ESMTPSA id u24sm1289938pga.47.2020.06.29.22.16.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2020 22:16:20 -0700 (PDT)
+Date:   Mon, 29 Jun 2020 22:16:19 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Derek Basehore <dbasehore@chromium.org>
+Cc:     jiada_wang@mentor.com, jeffrey.l.hugo@gmail.com,
+        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: elan_i2c - only increment wakeup count on touch
+Message-ID: <20200630051619.GG248110@dtor-ws>
+References: <20200630005707.2181126-1-dbasehore@chromium.org>
 MIME-Version: 1.0
-X-OriginatorOrg: diasemi.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8ef6509e-211f-475d-f05b-08d81ca73006
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jun 2020 03:39:26.2916
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4U+cIpuXHWrcW1OHATu83S50bdp/xbiiTn7bXYcfBreZMT0j9R8v6vgDycgSNxZg2xyiCf9rlyrinAYH58EcSw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR10MB3893
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200630005707.2181126-1-dbasehore@chromium.org>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-T24gVHVlLCBKdW5lIDMwLCAyMDIwIDEyOjE0IFBNLCBSYW5keSBEdW5sYXAgd3JvdGU6IA0KPiBP
-biA2LzI5LzIwIDY6MDEgQU0sIFJveSBJbSB3cm90ZToNCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9pbnB1dC9taXNjL0tjb25maWcgYi9kcml2ZXJzL2lucHV0L21pc2MvS2NvbmZpZw0KPiA+IGlu
-ZGV4IDM2MmU4YTAuLjc5ZmJkZGIgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVycy9pbnB1dC9taXNj
-L0tjb25maWcNCj4gPiArKysgYi9kcml2ZXJzL2lucHV0L21pc2MvS2NvbmZpZw0KPiA+IEBAIC04
-NjksNCArODY5LDE3IEBAIGNvbmZpZyBJTlBVVF9TVFBNSUMxX09OS0VZDQo+ID4gIAkgIFRvIGNv
-bXBpbGUgdGhpcyBkcml2ZXIgYXMgYSBtb2R1bGUsIGNob29zZSBNIGhlcmU6IHRoZQ0KPiA+ICAJ
-ICBtb2R1bGUgd2lsbCBiZSBjYWxsZWQgc3RwbWljMV9vbmtleS4NCj4gPg0KPiA+ICtjb25maWcg
-SU5QVVRfREE3MjgwX0hBUFRJQ1MNCj4gPiArCXRyaXN0YXRlICJEaWFsb2cgU2VtaWNvbmR1Y3Rv
-ciBEQTcyODAgaGFwdGljcyBzdXBwb3J0Ig0KPiA+ICsJZGVwZW5kcyBvbiBJTlBVVCAmJiBJMkMN
-Cj4gPiArCXNlbGVjdCBJTlBVVF9GRl9NRU1MRVNTDQo+ID4gKwlzZWxlY3QgUkVHTUFQX0kyQw0K
-PiA+ICsJaGVscA0KPiA+ICsJICBTYXkgWSB0byBlbmFibGUgc3VwcG9ydCBmb3IgdGhlIERpYWxv
-ZyBEQTcyODAgaGFwdGljcyBkcml2ZXIuDQo+ID4gKwkgIFRoZSBoYXB0aWNzIGNhbiBiZSBjb250
-cm9sbGVkIGJ5IGkyYyBjb21tdW5pY2F0aW9uLA0KPiANCj4gSWYgeW91IG1ha2UgYW55IG1vcmUg
-dXBkYXRlcywgbWFrZSB0aGlzOiAgIEkyQyBjb21tdW5pY2F0aW9uLA0KPiBwbGVhc2UuDQoNCk9L
-LCBJIHdpbGwgZG8uIFRoYW5rcyBmb3IgeW91ciBjb21tZW50Lg0KDQo+IA0KPiA+ICsJICBvciBi
-eSBQV00gaW5wdXQsIG9yIGJ5IEdQSS4NCj4gPiArDQo+ID4gKwkgIFRvIGNvbXBpbGUgdGhpcyBk
-cml2ZXIgYXMgYSBtb2R1bGUsIGNob29zZSBNIGhlcmU6IHRoZQ0KPiA+ICsJICBtb2R1bGUgd2ls
-bCBiZSBjYWxsZWQgZGE3MjgwLg0KPiA+ICsNCj4gPiAgZW5kaWYNCj4gDQo+IHRoYW5rcy4NCj4g
-LS0NCj4gflJhbmR5DQoNCg==
+On Mon, Jun 29, 2020 at 05:57:07PM -0700, Derek Basehore wrote:
+> This moves the wakeup increment for elan devices to the touch report.
+> This prevents the drivers from incorrectly reporting a wakeup when the
+> resume callback resets then device, which causes an interrupt to
+> occur. This also avoids error messages when these interrupts occur,
+> since this behavior is expected.
+> 
+> Signed-off-by: Derek Basehore <dbasehore@chromium.org>
+> ---
+>  drivers/input/mouse/elan_i2c_core.c | 16 +++++++++++++---
+>  1 file changed, 13 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
+> index cdbe6b38c73c1..6ad53a75f9807 100644
+> --- a/drivers/input/mouse/elan_i2c_core.c
+> +++ b/drivers/input/mouse/elan_i2c_core.c
+> @@ -49,6 +49,7 @@
+>  
+>  #define ETP_MAX_FINGERS		5
+>  #define ETP_FINGER_DATA_LEN	5
+> +#define ETP_REPORT_LEN_OFFSET	0
+>  #define ETP_REPORT_ID		0x5D
+>  #define ETP_TP_REPORT_ID	0x5E
+>  #define ETP_REPORT_ID_OFFSET	2
+> @@ -1018,6 +1019,8 @@ static void elan_report_absolute(struct elan_tp_data *data, u8 *packet)
+>  	u8 hover_info = packet[ETP_HOVER_INFO_OFFSET];
+>  	bool contact_valid, hover_event;
+>  
+> +	pm_wakeup_event(&data->client->dev, 0);
+> +
+>  	hover_event = hover_info & 0x40;
+>  	for (i = 0; i < ETP_MAX_FINGERS; i++) {
+>  		contact_valid = tp_info & (1U << (3 + i));
+> @@ -1041,6 +1044,8 @@ static void elan_report_trackpoint(struct elan_tp_data *data, u8 *report)
+>  	u8 *packet = &report[ETP_REPORT_ID_OFFSET + 1];
+>  	int x, y;
+>  
+> +	pm_wakeup_event(&data->client->dev, 0);
+> +
+>  	if (!data->tp_input) {
+>  		dev_warn_once(&data->client->dev,
+>  			      "received a trackpoint report while no trackpoint device has been created. Please report upstream.\n");
+> @@ -1065,7 +1070,6 @@ static void elan_report_trackpoint(struct elan_tp_data *data, u8 *report)
+>  static irqreturn_t elan_isr(int irq, void *dev_id)
+>  {
+>  	struct elan_tp_data *data = dev_id;
+> -	struct device *dev = &data->client->dev;
+>  	int error;
+>  	u8 report[ETP_MAX_REPORT_LEN];
+>  
+> @@ -1083,7 +1087,13 @@ static irqreturn_t elan_isr(int irq, void *dev_id)
+>  	if (error)
+>  		goto out;
+>  
+> -	pm_wakeup_event(dev, 0);
+> +	/*
+> +	 * Controllers may send a full length report on power on and reset
+> +	 * cases. There are only meaningless bytes in these reports except for
+> +	 * report[ETP_REPORT_LEN_OFFSET], which is 0.
+> +	 */
+
+Is this true for all versions of firmware? Also, should we pay attention
+to the value of this field for various types of reports?
+
+> +	if (!report[ETP_REPORT_LEN_OFFSET])
+> +		goto out;
+>  
+>  	switch (report[ETP_REPORT_ID_OFFSET]) {
+>  	case ETP_REPORT_ID:
+> @@ -1093,7 +1103,7 @@ static irqreturn_t elan_isr(int irq, void *dev_id)
+>  		elan_report_trackpoint(data, report);
+>  		break;
+>  	default:
+> -		dev_err(dev, "invalid report id data (%x)\n",
+> +		dev_err(&data->client->dev, "invalid report id data (%x)\n",
+>  			report[ETP_REPORT_ID_OFFSET]);
+>  	}
+>  
+> -- 
+> 2.27.0.212.ge8ba1cc988-goog
+> 
+
+Thanks.
+
+-- 
+Dmitry
