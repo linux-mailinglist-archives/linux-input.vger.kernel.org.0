@@ -2,133 +2,191 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7C6B211634
-	for <lists+linux-input@lfdr.de>; Thu,  2 Jul 2020 00:41:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE571211F9A
+	for <lists+linux-input@lfdr.de>; Thu,  2 Jul 2020 11:17:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726312AbgGAWls (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 1 Jul 2020 18:41:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55040 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726114AbgGAWlr (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 1 Jul 2020 18:41:47 -0400
-Received: from localhost (mobile-166-175-191-139.mycingular.net [166.175.191.139])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id ED3362082F;
-        Wed,  1 Jul 2020 22:41:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593643307;
-        bh=n2vGfZSBPjybhWDA+g1S8i5WOzxKsIimFmP4WaB3i/k=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=TUG0m1DmEwhAYs7l/5QTJrOhDJDby5unDa852whT5oB/UNlvATBgfsnl/26I5DcA/
-         vpv2Nom93bhpOJJw0DR+hmCK4/MgE+GNHnfgbqO005+8G7SDuA6AOtBSfyjIbvWSd3
-         yiteYTEVRnZ5ALyh3h6W2QSfOliqQVipE5abOG0s=
-Date:   Wed, 1 Jul 2020 17:41:45 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Fabio Estevam <festevam@gmail.com>
-Cc:     Marek Vasut <marex@denx.de>,
-        Ksenija Stanojevic <ksenija.stanojevic@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: mxs_lradc_ts: Warning due to "0 is an invalid IRQ number"
-Message-ID: <20200701224145.GA3616172@bjorn-Precision-5520>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOMZO5D7z=Eg=WYgzrpqn9VoU8HxMeBbEZiv9KLjMVD1_kRo+w@mail.gmail.com>
+        id S1726475AbgGBJRK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 2 Jul 2020 05:17:10 -0400
+Received: from emcscan.emc.com.tw ([192.72.220.5]:55136 "EHLO
+        emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726462AbgGBJRK (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Jul 2020 05:17:10 -0400
+X-Greylist: delayed 631 seconds by postgrey-1.27 at vger.kernel.org; Thu, 02 Jul 2020 05:17:09 EDT
+X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
+   d="scan'208";a="36257856"
+Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
+  by emcscan.emc.com.tw with ESMTP; 02 Jul 2020 17:06:31 +0800
+Received: from 192.168.10.23
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(43927:0:AUTH_RELAY)
+        (envelope-from <jingle.wu@emc.com.tw>); Thu, 02 Jul 2020 17:06:29 +0800 (CST)
+Received: from 101.12.40.229
+        by webmail.emc.com.tw with Mail2000 ESMTPA Server V7.00(2483:0:AUTH_LOGIN)
+        (envelope-from <jingle.wu@emc.com.tw>); Thu, 02 Jul 2020 17:06:28 +0800 (CST)
+From:   Jingle Wu <jingle.wu@emc.com.tw>
+To:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        dmitry.torokhov@gmail.com
+Cc:     phoenix@emc.com.tw, dave.wang@emc.com.tw, josh.chen@emc.com.tw,
+        Jingle Wu <jingle.wu@emc.com.tw>
+Subject: [PATCH] Input: elan_i2c - Add ic type 0x14, modify the iap method for all IC.
+Date:   Thu,  2 Jul 2020 05:06:23 -0400
+Message-Id: <20200702090623.4130-1-jingle.wu@emc.com.tw>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-[+cc Rob, LKML for visibility & archive]
+The 0x14 is 512 page size.
 
-On Wed, Jul 01, 2020 at 12:32:48PM -0300, Fabio Estevam wrote:
-> On Tue, Jun 16, 2020 at 8:52 PM Fabio Estevam <festevam@gmail.com> wrote:
-> > I am seeing the following warning on a imx28-evk running linux-next:
-> >
-> > [    7.625012] ------------[ cut here ]------------
-> > [    7.630111] WARNING: CPU: 0 PID: 1 at drivers/base/platform.c:317
-> > __platform_get_irq_byname+0x74/0x90
-> > [    7.639692] 0 is an invalid IRQ number
-> > [    7.643540] Modules linked in:
-> > [    7.646961] CPU: 0 PID: 1 Comm: swapper Not tainted
-> > 5.8.0-rc1-next-20200616-dirty #92
-> > [    7.654896] Hardware name: Freescale MXS (Device Tree)
-> > [    7.660434] [<c00105ec>] (unwind_backtrace) from [<c000e070>]
-> > (show_stack+0x10/0x14)
-> > [    7.668591] [<c000e070>] (show_stack) from [<c001aa90>] (__warn+0xe4/0x108)
-> > [    7.675941] [<c001aa90>] (__warn) from [<c001ab20>]
-> > (warn_slowpath_fmt+0x6c/0xb8)
-> > [    7.683575] [<c001ab20>] (warn_slowpath_fmt) from [<c0491b44>]
-> > (__platform_get_irq_byname+0x74/0x90)
-> > [    7.693101] [<c0491b44>] (__platform_get_irq_byname) from
-> > [<c0491b70>] (platform_get_irq_byname+0x10/0x48)
-> > [    7.703154] [<c0491b70>] (platform_get_irq_byname) from
-> > [<c056e234>] (mxs_lradc_ts_probe+0x190/0x384)
-> > [    7.712771] [<c056e234>] (mxs_lradc_ts_probe) from [<c0491850>]
-> > (platform_drv_probe+0x48/0x98)
-> > [    7.722806] [<c0491850>] (platform_drv_probe) from [<c048f7f0>]
-> > (really_probe+0x218/0x348)
-> > [    7.731530] [<c048f7f0>] (really_probe) from [<c048fa28>]
-> > (driver_probe_device+0x58/0xb4)
-> > [    7.740189] [<c048fa28>] (driver_probe_device) from [<c048fc2c>]
-> > (device_driver_attach+0x58/0x60)
-> > [    7.749471] [<c048fc2c>] (device_driver_attach) from [<c048fcb8>]
-> > (__driver_attach+0x84/0xc0)
-> > [    7.758394] [<c048fcb8>] (__driver_attach) from [<c048db28>]
-> > (bus_for_each_dev+0x70/0xb4)
-> > [    7.766977] [<c048db28>] (bus_for_each_dev) from [<c048eb24>]
-> > (bus_add_driver+0x154/0x1e0)
-> > [    7.775385] [<c048eb24>] (bus_add_driver) from [<c0490774>]
-> > (driver_register+0x74/0x108)
-> > [    7.783872] [<c0490774>] (driver_register) from [<c000a2fc>]
-> > (do_one_initcall+0x68/0x268)
-> > [    7.792467] [<c000a2fc>] (do_one_initcall) from [<c0a00fa0>]
-> > (kernel_init_freeable+0x160/0x1f4)
-> > [    7.801661] [<c0a00fa0>] (kernel_init_freeable) from [<c0720c58>]
-> > (kernel_init+0x8/0xf4)
-> > [    7.810165] [<c0720c58>] (kernel_init) from [<c0008510>]
-> > (ret_from_fork+0x14/0x24)
-> > [    7.818101] Exception stack(0xc748dfb0 to 0xc748dff8)
-> > [    7.823273] dfa0:                                     00000000
-> > 00000000 00000000 00000000
-> > [    7.831815] dfc0: 00000000 00000000 00000000 00000000 00000000
-> > 00000000 00000000 00000000
-> > [    7.840351] dfe0: 00000000 00000000 00000000 00000000 00000013 00000000
-> > [    7.847322] irq event stamp: 273303
-> > [    7.850940] hardirqs last  enabled at (273311): [<c0066ed8>]
-> > console_unlock+0x390/0x534
-> > [    7.859314] hardirqs last disabled at (273328): [<c0066b8c>]
-> > console_unlock+0x44/0x534
-> > [    7.867605] softirqs last  enabled at (273344): [<c00097fc>]
-> > __do_softirq+0x2d4/0x450
-> > [    7.875817] softirqs last disabled at (273355): [<c001fe48>]
-> > irq_exit+0x150/0x174
-> > [    7.883472] ---[ end trace ddb222ada5cbf5cd ]---
-> > [    7.900004] input: mxs-lradc-ts as
-> > /devices/soc0/80000000.apb/80040000.apbx/80050000.lradc/mxs-lradc-ts/input/input0
-> >
-> > The touchscreen irq is defined as:
-> >
-> > enum mx28_lradc_irqs {
-> > MX28_LRADC_TS_IRQ = 0,
-> >
-> > Shouldn't we retrieve the IRQ number from the device tree instead?
+Signed-off-by: Jingle Wu <jingle.wu@emc.com.tw>
+---
+ drivers/input/mouse/elan_i2c.h       |  3 ++-
+ drivers/input/mouse/elan_i2c_core.c  | 16 ++++++++++++----
+ drivers/input/mouse/elan_i2c_i2c.c   | 24 ++++++++++++------------
+ drivers/input/mouse/elan_i2c_smbus.c |  2 +-
+ 4 files changed, 27 insertions(+), 18 deletions(-)
 
-  mxs_lradc_ts_probe()
-  {
-    ...
-    irq = platform_get_irq_byname(pdev, mxs_lradc_ts_irq_names[i]);
-    if (irq < 0)
-	    return irq;
+diff --git a/drivers/input/mouse/elan_i2c.h b/drivers/input/mouse/elan_i2c.h
+index af1a8ee8f38a..71fff2cef8b5 100644
+--- a/drivers/input/mouse/elan_i2c.h
++++ b/drivers/input/mouse/elan_i2c.h
+@@ -34,6 +34,7 @@
+ #define ETP_FW_IAP_INTF_ERR	(1 << 4)
+ #define ETP_FW_PAGE_SIZE	64
+ #define ETP_FW_PAGE_SIZE_128	128
++#define ETP_FW_PAGE_SIZE_512	512
+ #define ETP_FW_SIGNATURE_SIZE	6
+ 
+ struct i2c_client;
+@@ -73,7 +74,7 @@ struct elan_transport_ops {
+ 	int (*iap_get_mode)(struct i2c_client *client, enum tp_mode *mode);
+ 	int (*iap_reset)(struct i2c_client *client);
+ 
+-	int (*prepare_fw_update)(struct i2c_client *client);
++	int (*prepare_fw_update)(struct i2c_client *client, u16 ic_type);
+ 	int (*write_fw_block)(struct i2c_client *client, u16 fw_page_size,
+ 			      const u8 *page, u16 checksum, int idx);
+ 	int (*finish_fw_update)(struct i2c_client *client,
+diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
+index 5f584bcf306e..d64d3016ab7b 100644
+--- a/drivers/input/mouse/elan_i2c_core.c
++++ b/drivers/input/mouse/elan_i2c_core.c
+@@ -133,6 +133,7 @@ static int elan_get_fwinfo(struct elan_tp_data *data,
+ 		*validpage_count = 640;
+ 		break;
+ 	case 0x10:
++	case 0x14:
+ 		*validpage_count = 1024;
+ 		break;
+ 	case 0x11:
+@@ -152,12 +153,19 @@ static int elan_get_fwinfo(struct elan_tp_data *data,
+ 	*signature_address =
+ 		(*validpage_count * ETP_FW_PAGE_SIZE) - ETP_FW_SIGNATURE_SIZE;
+ 
+-	if ((data->pattern >= 0x01) && (data->iap_version == 1)) {
++	if ((data->ic_type == 0x14) && (data->iap_version >= 2))
++	{
++		*validpage_count /= 8;
++		*page_size = ETP_FW_PAGE_SIZE_512;
++	}
++	else if ((data->ic_type >= 0x0D) && (data->iap_version >= 1)) {
+ 		*validpage_count /= 2;
+ 		*page_size = ETP_FW_PAGE_SIZE_128;
+-	} else
++	}
++	else
++	{
+ 		*page_size = ETP_FW_PAGE_SIZE;
+-
++	}
+ 	return 0;
+ }
+ 
+@@ -486,7 +494,7 @@ static int __elan_update_firmware(struct elan_tp_data *data,
+ 	u16 boot_page_count;
+ 	u16 sw_checksum = 0, fw_checksum = 0;
+ 
+-	error = data->ops->prepare_fw_update(client);
++	error = data->ops->prepare_fw_update(client, data->ic_type);
+ 	if (error)
+ 		return error;
+ 
+diff --git a/drivers/input/mouse/elan_i2c_i2c.c b/drivers/input/mouse/elan_i2c_i2c.c
+index 6d0ee741308a..ef19fd5dacf6 100644
+--- a/drivers/input/mouse/elan_i2c_i2c.c
++++ b/drivers/input/mouse/elan_i2c_i2c.c
+@@ -254,7 +254,11 @@ static int elan_i2c_get_pattern(struct i2c_client *client, u8 *pattern)
+ 		dev_err(&client->dev, "failed to get pattern: %d\n", error);
+ 		return error;
+ 	}
+-	*pattern = val[1];
++
++	if((val[0]==0xFF)&&(val[1]==0xFF))
++		*pattern = 0;
++	else
++		*pattern = val[1];
+ 
+ 	return 0;
+ }
+@@ -560,7 +564,7 @@ static int elan_read_write_iap_type(struct i2c_client *client)
+ 	return -EIO;
+ }
+ 
+-static int elan_i2c_prepare_fw_update(struct i2c_client *client)
++static int elan_i2c_prepare_fw_update(struct i2c_client *client, u16 ic_type)
+ {
+ 	struct device *dev = &client->dev;
+ 	int error;
+@@ -568,13 +572,6 @@ static int elan_i2c_prepare_fw_update(struct i2c_client *client)
+ 	u8 val[3];
+ 	u16 password;
+ 	u8 iap_version;
+-	u8 pattern_ver;
+-
+-	error = elan_i2c_get_pattern(client, &pattern_ver);
+-	if (error) {
+-		dev_err(&client->dev, "failed to get pattern version\n");
+-		return error;
+-	}
+ 
+ 	error = elan_i2c_get_version(client, true, &iap_version);
+ 	if (error)
+@@ -611,8 +608,8 @@ static int elan_i2c_prepare_fw_update(struct i2c_client *client)
+ 		dev_err(dev, "wrong mode: %d\n", mode);
+ 		return -EIO;
+ 	}
+-
+-	if ((pattern_ver >= 0x1) && (iap_version == 1)) {
++	
++	if ((ic_type >= 0x0D) && (iap_version >= 1)) {
+ 		error = elan_read_write_iap_type(client);
+ 		if (error)
+ 			return error;
+@@ -666,7 +663,10 @@ static int elan_i2c_write_fw_block(struct i2c_client *client, u16 fw_page_size,
+ 	}
+ 
+ 	/* Wait for F/W to update one page ROM data. */
+-	msleep(35);
++	if(fw_page_size==ETP_FW_PAGE_SIZE_512)
++		msleep(50);
++	else
++		msleep(35);
+ 
+ 	error = elan_i2c_read_cmd(client, ETP_I2C_IAP_CTRL_CMD, val);
+ 	if (error) {
+diff --git a/drivers/input/mouse/elan_i2c_smbus.c b/drivers/input/mouse/elan_i2c_smbus.c
+index 0f441deef3cf..6d6090e7cb38 100644
+--- a/drivers/input/mouse/elan_i2c_smbus.c
++++ b/drivers/input/mouse/elan_i2c_smbus.c
+@@ -340,7 +340,7 @@ static int elan_smbus_set_flash_key(struct i2c_client *client)
+ 	return 0;
+ }
+ 
+-static int elan_smbus_prepare_fw_update(struct i2c_client *client)
++static int elan_smbus_prepare_fw_update(struct i2c_client *client, u16 ic_type)
+ {
+ 	struct device *dev = &client->dev;
+ 	int len;
+-- 
+2.17.1
 
-    virq = irq_of_parse_and_map(node, irq);
-    ...
-  }
-
-That's not right, is it?  irq_of_parse_and_map() takes an *index*, but
-we're passing an IRQ.
-
-mxs_lradc_adc_probe() also has the same pattern.
