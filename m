@@ -2,56 +2,44 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04504212BD7
-	for <lists+linux-input@lfdr.de>; Thu,  2 Jul 2020 20:02:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA9DC21347C
+	for <lists+linux-input@lfdr.de>; Fri,  3 Jul 2020 08:50:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727972AbgGBSB7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 2 Jul 2020 14:01:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52274 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727968AbgGBSB7 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 2 Jul 2020 14:01:59 -0400
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDF21C08C5C1;
-        Thu,  2 Jul 2020 11:01:58 -0700 (PDT)
-Received: by mail-qt1-x842.google.com with SMTP id h23so22015340qtr.0;
-        Thu, 02 Jul 2020 11:01:58 -0700 (PDT)
+        id S1725891AbgGCGuy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 3 Jul 2020 02:50:54 -0400
+Received: from mail-vi1eur05on2045.outbound.protection.outlook.com ([40.107.21.45]:16416
+        "EHLO EUR05-VI1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725764AbgGCGuy (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 3 Jul 2020 02:50:54 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kwBCkDDZk5rjrIvXMdZqqR7O7n4ixtWgJd4AEvi6KY0k/Gbhgl+sfB/tk9klVcNoXlVF/DMk2TZnuanA0Yv7Q4st393BWb3oSDnTlY4InxSLTafNA3iQ4y/ZIL6JE1eQmvhiIqGyGUKZxZOyhkrvAzpYPxiRlXojiwZWKsWRFpTdJV/dYpRcx5gXBAAsu+2YDSmbOkGDNy4BOk0UmhMwtiZml5j9/0Qu2yd/RA6b+pBsg3OwrG/nBtSm7WDqdgfBg2ckxPQ06yYM82+LBH7d8UfxnRFns5araVp1RDT3n8NuJBkgxkIx5SO++B7YFJe9RShGfKw1HIW/EWwOpA61Vg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4GtZOpI739HV15zfTD1RRJmSvG51rRmsfp1jIMmtExs=;
+ b=JKPoH4OdPBPfCVlfQn2KuTDCFS9yjppX0hnBD8aXJZ19lSO/4RshGGwb1R2YuWLYLSqEDJdCnfiQieOoBgr/ilDJBx6GkEuVEoF4h7U+wcn/MMd8bYFk5WnjGUN1JCfyDBMUpN/fzHpkI77IHl3nWjcEN4EKdWPTJ1O/oRspaQOw2fDMYDMRfgTEmxaBaw8kWMlNRltHlMxP0OmkFSkD9yPGQjy06LkK8VR4p+EO13PiDCkBqNBbo0rJuHdZEBJ86vmlPt0+eh7eqavW2+lQdbUERnIDmgEzfWgUeaFOzTbmYhCTI2IU4VphcylBGnG1yTh0oYHhxfxd2Gln58axvg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=diasemi.com; dmarc=pass action=none header.from=diasemi.com;
+ dkim=pass header.d=diasemi.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:subject:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=C0N6ebTMTdJ8oNLRoYmc25ksVK6daob4tarO6KDoNoM=;
-        b=pZx9UUs/2utdw+dFgEsECyNd+QMs4v4zfhQ4s37feSgKuHvsxSSfFoE1tVQz9h16A6
-         UlGSvKN4XxGvaIdzvXRbZe4aUpCghTw2k7mmo5xUPHbJhFfazyhl/AU3LALIqCZxanyT
-         lFGP1STuAWF3Yp5NMdu+lzzx5RF+Z7m3hmmk8doAOtTEKTkhQ4kaVF3jcrl4mX2CRAQ7
-         4eMhuN0/amQVrVZz9VzknE/+LeVa8TItTtTn4+Zp9GLpd9Locu49GFtmofd0IWfq9+eN
-         NoNQ0GVnYyQ/Q/CdOt2cDzXHEY2IThZYfJFHw7HaYhy9XSmT+/tMA1PeiNiCqoZsNXbx
-         gXng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=C0N6ebTMTdJ8oNLRoYmc25ksVK6daob4tarO6KDoNoM=;
-        b=J+GRtza+lpSbkTpxieNmiJUuDETEgDZgMCpqJMc5MW8iJE4ohfKRbewap3b8CBHhjR
-         xXshezurbyu7Y13EgSBUvoLC1I1IsRKtxSItJ2yOkgkTuYoY5UcZ8kndoMgLoKmQWkZw
-         ZAXkh7Aq+am5RLlvOOD3ShIDWfPt0hz1NmTsazmt2fl+oB//hiN4WSOOcKFP0SyR+/F/
-         mrUX8qvUpkiPVu27yZqjny6L9fDpXYFWKgo9GnmUKTZoZqcTIFrzmAJI2Rzc+M49UZz9
-         /+4mELPcBn92rvWhrhPhN6xJXqLIMfbaJVmwGgguRpa7YlVhEZ4OGrHc9cjCfjXf6XfL
-         hYiA==
-X-Gm-Message-State: AOAM533zaiX8+PJ5noeNVQpcvvmVtTKuhoMEk5Al+3QZNNaqy9GI8N4p
-        KaqP0FjR9bUv39WBxrO0H5EsRvex0jU=
-X-Google-Smtp-Source: ABdhPJz/ekMX8q4eOLJuDaTVvmxmrF/8nMPr96S4Z+gyQ8eRjnmAQPDHgXqLXM9JMhNmifTrB/J3OQ==
-X-Received: by 2002:ac8:409d:: with SMTP id p29mr32646851qtl.369.1593712917358;
-        Thu, 02 Jul 2020 11:01:57 -0700 (PDT)
-Received: from ?IPv6:2620:10d:c0a8:11d1::10e2? ([2620:10d:c091:480::1:e927])
-        by smtp.gmail.com with ESMTPSA id o10sm8992256qtq.71.2020.07.02.11.01.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Jul 2020 11:01:56 -0700 (PDT)
-From:   Jes Sorensen <jes.sorensen@gmail.com>
-X-Google-Original-From: Jes Sorensen <Jes.Sorensen@gmail.com>
-Subject: Re: [PATCH v15 3/3] Input: new da7280 haptic driver
-To:     Roy Im <roy.im.opensource@diasemi.com>,
+ d=dialogsemiconductor.onmicrosoft.com;
+ s=selector1-dialogsemiconductor-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4GtZOpI739HV15zfTD1RRJmSvG51rRmsfp1jIMmtExs=;
+ b=TEQTOrhVEFODI36FY7RXMsEZdO/M1V1veaaa15nsLtcXCTwGnjmvY/uZrqagm2yXI0iIVYuJ5twH4RfVtDUPqyyDjGtQVAgUNBGbAF8Z3CwgWqXjCdnWtLivL1kYRYMH1jae9BwidwiPNZSpHHJgivOxiwHHucID+nRVQ3q1TWc=
+Received: from DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:11c::13)
+ by DB6PR10MB1736.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:6:39::26) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.26; Fri, 3 Jul
+ 2020 06:50:47 +0000
+Received: from DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::843a:1bdd:adc4:3a56]) by DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::843a:1bdd:adc4:3a56%8]) with mapi id 15.20.3153.020; Fri, 3 Jul 2020
+ 06:50:47 +0000
+From:   Roy Im <roy.im.opensource@diasemi.com>
+To:     Jes Sorensen <jes.sorensen@gmail.com>,
+        Roy Im <roy.im.opensource@diasemi.com>,
         Uwe Kleine-Koenig <u.kleine-koenig@pengutronix.de>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Brian Masney <masneyb@onstation.org>,
@@ -64,107 +52,109 @@ To:     Roy Im <roy.im.opensource@diasemi.com>,
         Samuel Ortiz <sameo@linux.intel.com>,
         Thierry Reding <thierry.reding@gmail.com>,
         Thomas Gleixner <tglx@linutronix.de>
-Cc:     Support Opensource <support.opensource@diasemi.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org
+CC:     Support Opensource <Support.Opensource@diasemi.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>
+Subject: RE: [PATCH v15 3/3] Input: new da7280 haptic driver
+Thread-Topic: [PATCH v15 3/3] Input: new da7280 haptic driver
+Thread-Index: AQHWToqxLBZ+X/qhXECVbuzW09LfNaj0mKiAgADVbMA=
+Date:   Fri, 3 Jul 2020 06:50:47 +0000
+Message-ID: <DB8PR10MB3356C443A448F5B543C58BAC856A0@DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM>
 References: <cover.1593435662.git.Roy.Im@diasemi.com>
  <c7b8cb993abe7bb771108bb94e5d9edbeb4f7103.1593435662.git.Roy.Im@diasemi.com>
-Message-ID: <31377d96-3e6d-e7b6-30de-0c7e9e6f9364@gmail.com>
-Date:   Thu, 2 Jul 2020 14:01:55 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <c7b8cb993abe7bb771108bb94e5d9edbeb4f7103.1593435662.git.Roy.Im@diasemi.com>
-Content-Type: text/plain; charset=utf-8
+ <31377d96-3e6d-e7b6-30de-0c7e9e6f9364@gmail.com>
+In-Reply-To: <31377d96-3e6d-e7b6-30de-0c7e9e6f9364@gmail.com>
+Accept-Language: ko-KR, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=diasemi.com;
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [1.234.57.66]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 21a69ba6-9772-4b4c-5f9b-08d81f1d6aca
+x-ms-traffictypediagnostic: DB6PR10MB1736:
+x-ms-exchange-sharedmailbox-routingagent-processed: True
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DB6PR10MB1736098AA8C8A634480BB015A26A0@DB6PR10MB1736.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:3513;
+x-forefront-prvs: 045315E1EE
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: UUJVnmN0b+/lOhJwos7+Q7hPPg1GV0DSAGnvRtAvPYr5NeLMZdCOL9CWkTbYdpsVO57M65k2ApPZ8XkFZ/dNa0p27joEhzoYRWuozjiPzLNC41zPEUqI1pIpqrQHQ6nWDA4FqHd99Y59tTYcmQ7B65XMdWeA83P57+Wq8aCfLHsxqeQ6FrE6DSj/QcikovPyuzOmf/rZZjx75QOQ9zcYKu0ZRPG/OSfHTX4CP7FXD2OMZ2DjzglSR6DrzZ/V3PwM7xV356Rd16gE3JF13cgC5P7MOaSwvkw/zLzuXSlUwlmzUANrAMQtCyUFPydjm6zizp9XOL4TpENVxQCQmIXFcRhHIh/0dWn086VlT6U/CDX/+5k7wskAEkn2Xdwe+5FJ
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(39860400002)(366004)(396003)(136003)(376002)(346002)(76116006)(4326008)(83380400001)(2906002)(7416002)(110136005)(316002)(33656002)(71200400001)(8676002)(9686003)(55016002)(5660300002)(54906003)(66946007)(26005)(64756008)(86362001)(186003)(66476007)(53546011)(6506007)(8936002)(7696005)(478600001)(66446008)(52536014)(66556008)(921003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: VUS7RW+tk/zqv43rdkJrq4R9io6QgoUlutCBTuKm2BxyaGv6GY4l/YMknIlYEp8/wzv7quqCvrzJ7s/R20ZXBKoHgXq8c5bEKz8Vm4jQxTsPQcDh1BAPY4KVC80saGzUi0d46zGKw7Q4WcjcAucuj3so7JEylPye9QPkeSo0ZIHCUH0nrGmcoQrgKXLlsEY39Tt4eIHWb6wFKvVNw0a2Ez6r6k+/BLCYC4vGSkCJGU89Zq96Q/+VvdygyXafF6jRglUr8LqnlvrEFypMtXYwWM4TcgOBCVYu6bGOa7Bd7+k/sQMSkKecluqfbkbPQa3SEHn7JJLhVlE5WGgeyMLKhoKoKWD6rj2iPpC47Fwwav2K9qoo1hYX5mXq7/purslC5VhXeQ7p8SXkdhWjyEi4qa8YtlD4SnCOA6eBupyfR2SiFDLdfNus7AXPCJCkWOuKZfmZIH+GLQYhT9QuvxM6AGSYjzxL5gUaibhWGUaFvwA=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: diasemi.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3356.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 21a69ba6-9772-4b4c-5f9b-08d81f1d6aca
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jul 2020 06:50:47.8030
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 4/Hylx008vhO3h6axhurV1m+yJ1d0WtAF+ztZEiyQ/126eTt9pU+SUeZEvFUPhFGRyyv28lrQ9euGEOCYFoeSA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR10MB1736
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 6/29/20 9:01 AM, Roy Im wrote:
-> Adds support for the Dialog DA7280 LRA/ERM Haptic Driver with
-> multiple mode and integrated waveform memory and wideband support.
-> It communicates via an I2C bus to the device.
-> 
-> Signed-off-by: Roy Im <roy.im.opensource@diasemi.com>
-> ---
-> v15:
-> 	- Removed some defines and updated some comments.
-> v14:
-> 	- Updated pwm related code, alignments and comments.
-> v13:
-> 	- Updated some conditions in pwm function and alignments.
-> v12: No changes.
-> v11: 
-> 	- Updated the pwm related code, comments and typo.
-> v10: 
-> 	- Updated the pwm related function and added some comments.
-> v9: 
-> 	- Removed the header file and put the definitions into the c file.
-> 	- Updated the pwm code and error logs with %pE
-> v8: 
-> 	- Added changes to support FF_PERIODIC/FF_CUSTOM and FF_CONSTANT.
-> 	- Updated the dt-related code.
-> 	- Removed memless related functions.
-> v7: 
-> 	- Added more attributes to handle one value per file.
-> 	- Replaced and updated the dt-related code and functions called.
-> 	- Fixed error/functions.
-> v6: No changes.
-> v5: Fixed errors in Kconfig file.
-> v4: Updated code as dt-bindings are changed.
-> v3: No changes.
-> v2: Fixed kbuild error/warning
-> 
-> 
->  drivers/input/misc/Kconfig  |   13 +
->  drivers/input/misc/Makefile |    1 +
->  drivers/input/misc/da7280.c | 1838 +++++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 1852 insertions(+)
->  create mode 100644 drivers/input/misc/da7280.c
-
-[snip]
-
-> +static ssize_t
-> +patterns_store(struct device *dev,
-> +	       struct device_attribute *attr,
-> +	       const char *buf,
-> +	       size_t count)
-> +{
-> +	struct da7280_haptic *haptics = dev_get_drvdata(dev);
-> +	char cmd[MAX_USER_INPUT_LEN];
-> +	struct parse_data_t mem;
-> +	unsigned int val;
-> +	int error;
-> +
-> +	error = regmap_read(haptics->regmap, DA7280_MEM_CTL1, &val);
-> +	if (error)
-> +		return error;
-> +
-> +	if (count > MAX_USER_INPUT_LEN)
-> +		memcpy(cmd, buf, MAX_USER_INPUT_LEN);
-> +	else
-> +		memcpy(cmd, buf, count);
-> +
-> +	/* chop of '\n' introduced by echo at the end of the input */
-> +	if (cmd[count - 1] == '\n')
-> +		cmd[count - 1] = '\0';
-
-You have a potential memory corruption bug here for the case where
- count > MAX_USER_INPUT_LEN. The code correctly clamps the memcpy()
-length, but it still is at risk of writing beyond the end of the cmd
-buffer when doing the \0 termination.
-
-If you change the code above to say
-
-	if (count > MAX_USER_INPUT_LEN)
-		count = MAX_USER_INPUT_LEN
-	memcpy(cmd, buf, count);
-
-it should take care of it, and it will also return the actual count
-written to the caller.
-
-Cheers,
-Jes
+DQpPbiBGcmksIEp1bHkgMywgMjAyMCAzOjAyIEFNLCBKZXMgU29yZW5zZW4gd3JvdGU6DQo+IE9u
+IDYvMjkvMjAgOTowMSBBTSwgUm95IEltIHdyb3RlOg0KPiA+IEFkZHMgc3VwcG9ydCBmb3IgdGhl
+IERpYWxvZyBEQTcyODAgTFJBL0VSTSBIYXB0aWMgRHJpdmVyIHdpdGggbXVsdGlwbGUNCj4gPiBt
+b2RlIGFuZCBpbnRlZ3JhdGVkIHdhdmVmb3JtIG1lbW9yeSBhbmQgd2lkZWJhbmQgc3VwcG9ydC4N
+Cj4gPiBJdCBjb21tdW5pY2F0ZXMgdmlhIGFuIEkyQyBidXMgdG8gdGhlIGRldmljZS4NCj4gPg0K
+PiA+IFNpZ25lZC1vZmYtYnk6IFJveSBJbSA8cm95LmltLm9wZW5zb3VyY2VAZGlhc2VtaS5jb20+
+DQo+ID4gLS0tDQo+ID4gdjE1Og0KPiA+IAktIFJlbW92ZWQgc29tZSBkZWZpbmVzIGFuZCB1cGRh
+dGVkIHNvbWUgY29tbWVudHMuDQo+ID4gdjE0Og0KPiA+IAktIFVwZGF0ZWQgcHdtIHJlbGF0ZWQg
+Y29kZSwgYWxpZ25tZW50cyBhbmQgY29tbWVudHMuDQo+ID4gdjEzOg0KPiA+IAktIFVwZGF0ZWQg
+c29tZSBjb25kaXRpb25zIGluIHB3bSBmdW5jdGlvbiBhbmQgYWxpZ25tZW50cy4NCj4gPiB2MTI6
+IE5vIGNoYW5nZXMuDQo+ID4gdjExOg0KPiA+IAktIFVwZGF0ZWQgdGhlIHB3bSByZWxhdGVkIGNv
+ZGUsIGNvbW1lbnRzIGFuZCB0eXBvLg0KPiA+IHYxMDoNCj4gPiAJLSBVcGRhdGVkIHRoZSBwd20g
+cmVsYXRlZCBmdW5jdGlvbiBhbmQgYWRkZWQgc29tZSBjb21tZW50cy4NCj4gPiB2OToNCj4gPiAJ
+LSBSZW1vdmVkIHRoZSBoZWFkZXIgZmlsZSBhbmQgcHV0IHRoZSBkZWZpbml0aW9ucyBpbnRvIHRo
+ZSBjIGZpbGUuDQo+ID4gCS0gVXBkYXRlZCB0aGUgcHdtIGNvZGUgYW5kIGVycm9yIGxvZ3Mgd2l0
+aCAlcEUNCj4gPiB2ODoNCj4gPiAJLSBBZGRlZCBjaGFuZ2VzIHRvIHN1cHBvcnQgRkZfUEVSSU9E
+SUMvRkZfQ1VTVE9NIGFuZCBGRl9DT05TVEFOVC4NCj4gPiAJLSBVcGRhdGVkIHRoZSBkdC1yZWxh
+dGVkIGNvZGUuDQo+ID4gCS0gUmVtb3ZlZCBtZW1sZXNzIHJlbGF0ZWQgZnVuY3Rpb25zLg0KPiA+
+IHY3Og0KPiA+IAktIEFkZGVkIG1vcmUgYXR0cmlidXRlcyB0byBoYW5kbGUgb25lIHZhbHVlIHBl
+ciBmaWxlLg0KPiA+IAktIFJlcGxhY2VkIGFuZCB1cGRhdGVkIHRoZSBkdC1yZWxhdGVkIGNvZGUg
+YW5kIGZ1bmN0aW9ucyBjYWxsZWQuDQo+ID4gCS0gRml4ZWQgZXJyb3IvZnVuY3Rpb25zLg0KPiA+
+IHY2OiBObyBjaGFuZ2VzLg0KPiA+IHY1OiBGaXhlZCBlcnJvcnMgaW4gS2NvbmZpZyBmaWxlLg0K
+PiA+IHY0OiBVcGRhdGVkIGNvZGUgYXMgZHQtYmluZGluZ3MgYXJlIGNoYW5nZWQuDQo+ID4gdjM6
+IE5vIGNoYW5nZXMuDQo+ID4gdjI6IEZpeGVkIGtidWlsZCBlcnJvci93YXJuaW5nDQo+ID4NCj4g
+Pg0KPiA+ICBkcml2ZXJzL2lucHV0L21pc2MvS2NvbmZpZyAgfCAgIDEzICsNCj4gPiAgZHJpdmVy
+cy9pbnB1dC9taXNjL01ha2VmaWxlIHwgICAgMSArDQo+ID4gIGRyaXZlcnMvaW5wdXQvbWlzYy9k
+YTcyODAuYyB8IDE4MzgNCj4gPiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrDQo+ID4gIDMgZmlsZXMgY2hhbmdlZCwgMTg1MiBpbnNlcnRpb25zKCspDQo+ID4gIGNy
+ZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2lucHV0L21pc2MvZGE3MjgwLmMNCj4gDQo+IFtzbmlw
+XQ0KPiANCj4gPiArc3RhdGljIHNzaXplX3QNCj4gPiArcGF0dGVybnNfc3RvcmUoc3RydWN0IGRl
+dmljZSAqZGV2LA0KPiA+ICsJICAgICAgIHN0cnVjdCBkZXZpY2VfYXR0cmlidXRlICphdHRyLA0K
+PiA+ICsJICAgICAgIGNvbnN0IGNoYXIgKmJ1ZiwNCj4gPiArCSAgICAgICBzaXplX3QgY291bnQp
+DQo+ID4gK3sNCj4gPiArCXN0cnVjdCBkYTcyODBfaGFwdGljICpoYXB0aWNzID0gZGV2X2dldF9k
+cnZkYXRhKGRldik7DQo+ID4gKwljaGFyIGNtZFtNQVhfVVNFUl9JTlBVVF9MRU5dOw0KPiA+ICsJ
+c3RydWN0IHBhcnNlX2RhdGFfdCBtZW07DQo+ID4gKwl1bnNpZ25lZCBpbnQgdmFsOw0KPiA+ICsJ
+aW50IGVycm9yOw0KPiA+ICsNCj4gPiArCWVycm9yID0gcmVnbWFwX3JlYWQoaGFwdGljcy0+cmVn
+bWFwLCBEQTcyODBfTUVNX0NUTDEsICZ2YWwpOw0KPiA+ICsJaWYgKGVycm9yKQ0KPiA+ICsJCXJl
+dHVybiBlcnJvcjsNCj4gPiArDQo+ID4gKwlpZiAoY291bnQgPiBNQVhfVVNFUl9JTlBVVF9MRU4p
+DQo+ID4gKwkJbWVtY3B5KGNtZCwgYnVmLCBNQVhfVVNFUl9JTlBVVF9MRU4pOw0KPiA+ICsJZWxz
+ZQ0KPiA+ICsJCW1lbWNweShjbWQsIGJ1ZiwgY291bnQpOw0KPiA+ICsNCj4gPiArCS8qIGNob3Ag
+b2YgJ1xuJyBpbnRyb2R1Y2VkIGJ5IGVjaG8gYXQgdGhlIGVuZCBvZiB0aGUgaW5wdXQgKi8NCj4g
+PiArCWlmIChjbWRbY291bnQgLSAxXSA9PSAnXG4nKQ0KPiA+ICsJCWNtZFtjb3VudCAtIDFdID0g
+J1wwJzsNCj4gDQo+IFlvdSBoYXZlIGEgcG90ZW50aWFsIG1lbW9yeSBjb3JydXB0aW9uIGJ1ZyBo
+ZXJlIGZvciB0aGUgY2FzZSB3aGVyZSAgY291bnQgPiBNQVhfVVNFUl9JTlBVVF9MRU4uIFRoZSBj
+b2RlDQo+IGNvcnJlY3RseSBjbGFtcHMgdGhlIG1lbWNweSgpIGxlbmd0aCwgYnV0IGl0IHN0aWxs
+IGlzIGF0IHJpc2sgb2Ygd3JpdGluZyBiZXlvbmQgdGhlIGVuZCBvZiB0aGUgY21kIGJ1ZmZlciB3
+aGVuIGRvaW5nIHRoZSBcMA0KPiB0ZXJtaW5hdGlvbi4NCj4gDQo+IElmIHlvdSBjaGFuZ2UgdGhl
+IGNvZGUgYWJvdmUgdG8gc2F5DQo+IA0KPiAJaWYgKGNvdW50ID4gTUFYX1VTRVJfSU5QVVRfTEVO
+KQ0KPiAJCWNvdW50ID0gTUFYX1VTRVJfSU5QVVRfTEVODQo+IAltZW1jcHkoY21kLCBidWYsIGNv
+dW50KTsNCj4gDQo+IGl0IHNob3VsZCB0YWtlIGNhcmUgb2YgaXQsIGFuZCBpdCB3aWxsIGFsc28g
+cmV0dXJuIHRoZSBhY3R1YWwgY291bnQgd3JpdHRlbiB0byB0aGUgY2FsbGVyLg0KDQpZb3UgYXJl
+IHJpZ2h0IGFuZCB0aGFua3MgZm9yIHlvdXIgY29tbWVudCwgSSB3aWxsIGNoYW5nZSB0aGUgY29k
+ZSBhcyB5b3Ugc3VnZ2VzdGVkLg0KDQpLaW5kIHJlZ2FyZHMsDQpSb3kNCg==
