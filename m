@@ -2,134 +2,162 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B12A21578E
-	for <lists+linux-input@lfdr.de>; Mon,  6 Jul 2020 14:47:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06AB421576C
+	for <lists+linux-input@lfdr.de>; Mon,  6 Jul 2020 14:41:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729110AbgGFMr1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Jul 2020 08:47:27 -0400
-Received: from orion.archlinux.org ([88.198.91.70]:46772 "EHLO
-        orion.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729016AbgGFMr1 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Jul 2020 08:47:27 -0400
-X-Greylist: delayed 422 seconds by postgrey-1.27 at vger.kernel.org; Mon, 06 Jul 2020 08:47:25 EDT
-Received: from orion.archlinux.org (localhost [127.0.0.1])
-        by orion.archlinux.org (Postfix) with ESMTP id 9E11B1D358CA74;
-        Mon,  6 Jul 2020 12:40:21 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on orion.archlinux.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.7 required=5.0 tests=ALL_TRUSTED=-1,BAYES_00=-1,
-        DMARC_FAIL_NONE=0.25,T_DMARC_POLICY_NONE=0.01,T_DMARC_TESTS_FAIL=0.01
-        autolearn=no autolearn_force=no version=3.4.4
-X-Spam-BL-Results: 
-Received: from genesis (unknown [IPv6:2001:8a0:f254:2300:dad6:8c60:8394:88da])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: ffy00)
-        by orion.archlinux.org (Postfix) with ESMTPSA;
-        Mon,  6 Jul 2020 12:40:20 +0000 (UTC)
-Message-ID: <22e627b3b9ebef768c50ab6519278e61217b8575.camel@archlinux.org>
-Subject: Re: [PATCH] HID: logitech: Use HIDPP_RECEIVER_INDEX instead of 0xff
-From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@archlinux.org>
-To:     Mazin Rezk <mnrzk@protonmail.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "jikos@kernel.org" <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-In-Reply-To: <FW0Ps9vggIuA-9asmWgfQkNKSlcwuAhNfFXxK3QGSu4uJRAEykUGdoL5sbJsAlehWv__Eq4LKejp0QpxQRj5LYn5tOrVRDbjrcn3JVDGLAQ=@protonmail.com>
-References: <FW0Ps9vggIuA-9asmWgfQkNKSlcwuAhNfFXxK3QGSu4uJRAEykUGdoL5sbJsAlehWv__Eq4LKejp0QpxQRj5LYn5tOrVRDbjrcn3JVDGLAQ=@protonmail.com>
-Organization: Archlinux
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-/WyPnc9eaHFQuRQ9WKqk"
-Date:   Mon, 06 Jul 2020 13:40:09 +0100
+        id S1728414AbgGFMlj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Jul 2020 08:41:39 -0400
+Received: from vps-vb.mhejs.net ([37.28.154.113]:43542 "EHLO vps-vb.mhejs.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728973AbgGFMli (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 6 Jul 2020 08:41:38 -0400
+Received: from MUA
+        by vps-vb.mhejs.net with esmtps (TLS1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+        (Exim 4.93.0.4)
+        (envelope-from <mail@maciej.szmigiero.name>)
+        id 1jsQRB-0001gI-Tm; Mon, 06 Jul 2020 14:41:33 +0200
+Subject: Re: [PATCH] HID: logitech-hidpp: avoid repeated "multiplier = " log
+ messages
+To:     =?UTF-8?Q?Filipe_La=c3=adns?= <filipe.lains@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Harry Cutts <hcutts@chromium.org>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <7d2c980f071487cecfd1534adb7561b33d922af3.1593970340.git.mail@maciej.szmigiero.name>
+ <2f76f069f2078b3d51533f772f1094dcc03685a3.camel@gmail.com>
+From:   "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+Autocrypt: addr=mail@maciej.szmigiero.name; prefer-encrypt=mutual; keydata=
+ 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 mA==
+Message-ID: <6202799b-f887-a867-94b3-915607956ceb@maciej.szmigiero.name>
+Date:   Mon, 6 Jul 2020 14:41:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-User-Agent: Evolution 3.36.3 
+In-Reply-To: <2f76f069f2078b3d51533f772f1094dcc03685a3.camel@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On 06.07.2020 14:38, Filipe Laíns wrote:
+> On Sun, 2020-07-05 at 19:34 +0200, Maciej S. Szmigiero wrote:
+>> These messages appear each time the mouse wakes from sleep, in my
+>> case
+>> (Logitech M705), every minute or so.
+>> Let's downgrade them to the "debug" level so they don't fill the
+>> kernel log
+>> by default.
+>>
+>> While we are at it, let's make clear that this is a wheel multiplier
+>> (and
+>> not, for example, XY movement multiplier).
+>>
+>> Fixes: 4435ff2f09a2 ("HID: logitech: Enable high-resolution scrolling
+>> on Logitech mice")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Maciej S. Szmigiero <mail@maciej.szmigiero.name>
+>> ---
+>> Sending again since the previous message bounced for most recipients.
+>>
+>>  drivers/hid/hid-logitech-hidpp.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-
+>> logitech-hidpp.c
+>> index 1e1cf8eae649..b8b53dc95e86 100644
+>> --- a/drivers/hid/hid-logitech-hidpp.c
+>> +++ b/drivers/hid/hid-logitech-hidpp.c
+>> @@ -3146,7 +3146,7 @@ static int hi_res_scroll_enable(struct
+>> hidpp_device *hidpp)
+>>  		multiplier = 1;
+>>  
+>>  	hidpp->vertical_wheel_counter.wheel_multiplier = multiplier;
+>> -	hid_info(hidpp->hid_dev, "multiplier = %d\n", multiplier);
+>> +	hid_dbg(hidpp->hid_dev, "wheel multiplier = %d\n", multiplier);
+>>  	return 0;
+>>  }
+>>  
+> 
+> I have seen this being useful in some cases, however I do not have a
+> strong opinion on it. Peter would know better.
 
---=-/WyPnc9eaHFQuRQ9WKqk
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Well, the message is not being removed, only hidden by default, so
+it doesn't fill the kernel log.
 
-On Sun, 2020-07-05 at 02:48 +0000, Mazin Rezk wrote:
-> Some parts of hid-logitech-dj explicitly referred to 0xff for the
-> receiver index. This patch changes those references to the
-> HIDPP_RECEIVER_INDEX definition.
->=20
-> Signed-off-by: Mazin Rezk <mnrzk@protonmail.com>
-> ---
->  drivers/hid/hid-logitech-dj.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-
-> logitech-dj.c
-> index 48dff5d6b605..a78c13cc9f47 100644
-> --- a/drivers/hid/hid-logitech-dj.c
-> +++ b/drivers/hid/hid-logitech-dj.c
-> @@ -1153,7 +1153,7 @@ static int
-> logi_dj_recv_query_paired_devices(struct dj_receiver_dev *djrcv_dev)
->  	if (!dj_report)
->  		return -ENOMEM;
->  	dj_report->report_id =3D REPORT_ID_DJ_SHORT;
-> -	dj_report->device_index =3D 0xFF;
-> +	dj_report->device_index =3D HIDPP_RECEIVER_INDEX;
->  	dj_report->report_type =3D REPORT_TYPE_CMD_GET_PAIRED_DEVICES;
->  	retval =3D logi_dj_recv_send_report(djrcv_dev, dj_report);
->  	kfree(dj_report);
-> @@ -1175,7 +1175,7 @@ static int
-> logi_dj_recv_switch_to_dj_mode(struct dj_receiver_dev *djrcv_dev,
->=20
->  	if (djrcv_dev->type =3D=3D recvr_type_dj) {
->  		dj_report->report_id =3D REPORT_ID_DJ_SHORT;
-> -		dj_report->device_index =3D 0xFF;
-> +		dj_report->device_index =3D HIDPP_RECEIVER_INDEX;
->  		dj_report->report_type =3D REPORT_TYPE_CMD_SWITCH;
->  		dj_report->report_params[CMD_SWITCH_PARAM_DEVBITFIELD]
-> =3D 0x3F;
->  		dj_report-
-> >report_params[CMD_SWITCH_PARAM_TIMEOUT_SECONDS] =3D
-> @@ -1204,7 +1204,7 @@ static int
-> logi_dj_recv_switch_to_dj_mode(struct dj_receiver_dev *djrcv_dev,
->  	memset(buf, 0, HIDPP_REPORT_SHORT_LENGTH);
->=20
->  	buf[0] =3D REPORT_ID_HIDPP_SHORT;
-> -	buf[1] =3D 0xFF;
-> +	buf[1] =3D HIDPP_RECEIVER_INDEX;
->  	buf[2] =3D 0x80;
->  	buf[3] =3D 0x00;
->  	buf[4] =3D 0x00;
-> --
-> 2.27.0
+One can still enable it at runtime if wanted.
 
-This is correct :)
+> Cheers,
+> Filipe Laíns
+> 
 
-Reviewed-by: Filipe La=C3=ADns <lains@archlinux.org>
-
-Cheers,
-Filipe La=C3=ADns
-
---=-/WyPnc9eaHFQuRQ9WKqk
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAl8DG6kACgkQ+JPGdIFq
-qV1UBg//eqSKIXFbyMjShmQQySiGxq0hVM4CoIrhhOm7inq2j5LBiXXAdDOgkCHa
-jIxeN8hjrdkkt1wXNe0jq6jw2nPrhTCmocCuiWrQf0uzSYB3TLanQeoGr6JT05Rc
-Ngu7+PL+ZgdeZrDf69C/0iSwH/OkIsoZXZAUOOHFAkFNHj1Rvfa0aN615Fywusye
-f0DClrShi5P4NTjWbqwU3URCMAaQMg+/GpuuaZ/Txapel4WEX1Ky4EgjyHaYksWp
-wTfxb9HmkuEavhNqhyWnu17x3OTolBFmdGI+4SRo2mqr4ToS3Sdy4V/4RDNrJ37R
-/LS7cmqQyb0H+F4RY32OFLSW4prXURoaTzQDsvRdp1tsDwAykxZj91IgT9pDA2LK
-HPLCcR10RKgs5KLhXM/tpQOj9ebr6ejzX1+yE53tedTb993c6WlKAjlVNRY6GtJf
-gsnMAPBXHYfbBF19Zg+yNj1rMoByCPQ2KT/xing7bu7WkL0MkTLc8OQ1ZWh89yMK
-lA+G9cLXlZytUBCNgiUdIseqX218h8CQ+KNRnAfdzxjk5oVcioJ57Y1gRJWirioo
-hs3o0nXgJxkF2cwsVzhEaY03HVcvlwEpegSqMP+NuZY65hifbQnWuyOiTJHH8FcI
-a4EgqvCh/ScAzn9aeLGCZNA7+bDR/HZi34h1gUyn5K2kuPfRoEw=
-=16ci
------END PGP SIGNATURE-----
-
---=-/WyPnc9eaHFQuRQ9WKqk--
+Thanks,
+Maciej
