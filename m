@@ -2,498 +2,143 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 102542156A1
-	for <lists+linux-input@lfdr.de>; Mon,  6 Jul 2020 13:44:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5EE3215763
+	for <lists+linux-input@lfdr.de>; Mon,  6 Jul 2020 14:38:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729014AbgGFLoN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Jul 2020 07:44:13 -0400
-Received: from relay12.mail.gandi.net ([217.70.178.232]:36911 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728996AbgGFLoM (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Jul 2020 07:44:12 -0400
-Received: from localhost (lfbn-lyo-1-23-225.w86-202.abo.wanadoo.fr [86.202.118.225])
-        (Authenticated sender: kamel.bouhara@bootlin.com)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 4BAC3200007;
-        Mon,  6 Jul 2020 11:44:08 +0000 (UTC)
-From:   Kamel Bouhara <kamel.bouhara@bootlin.com>
-To:     William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-iio@vger.kernel.org,
-        Kamel Bouhara <kamel.bouhara@bootlin.com>
-Subject: [PATCH v6 5/5] counter: Add microchip TCB capture counter
-Date:   Mon,  6 Jul 2020 13:43:47 +0200
-Message-Id: <20200706114347.174452-6-kamel.bouhara@bootlin.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200706114347.174452-1-kamel.bouhara@bootlin.com>
-References: <20200706114347.174452-1-kamel.bouhara@bootlin.com>
+        id S1729005AbgGFMiK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Jul 2020 08:38:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38436 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728414AbgGFMiK (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Jul 2020 08:38:10 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFCB3C061794;
+        Mon,  6 Jul 2020 05:38:09 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id b6so40680784wrs.11;
+        Mon, 06 Jul 2020 05:38:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=message-id:subject:from:to:cc:in-reply-to:references:organization
+         :date:mime-version:user-agent;
+        bh=UlxO3hPX8FKOMLmnj0A7S3C/4WvNGuPtDs4m9jeq4vY=;
+        b=RYwaSxlPduOAWSvK50CoX9I1hSnEm6ogaQ+FFcgICmweYSq/0Lvdsa7GZy1rDi/qBa
+         5JAyjnsIyYDBPSYCnsnlimgGpm8streL5rjrTcY+G0jCpX5WF9KpN2LQe2lxSjFBJ6pR
+         w0t7VyJsolZqvI7h2GUSOFcDRH3inst7syNExslZadnWJXvtQQzAc2UIejK41t+4fZvB
+         md9P+hqgXQVCv5NuEIrr5zS6qEeQEqVItjZlJ8XpfePLrI+46q8zo4ulIHhl8HZcFTMd
+         jcZtGDj9BfWBu5XiV1yMEo45rZbi/G98Eq3sl5HBQo5PvRf73gBmUgWSjgUhSxSnUgpy
+         IWrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:in-reply-to
+         :references:organization:date:mime-version:user-agent;
+        bh=UlxO3hPX8FKOMLmnj0A7S3C/4WvNGuPtDs4m9jeq4vY=;
+        b=SlTNWkJa+JudH/VvKEtfQHDYWOyU5hp8x0gqUzJ1jV23fgeBbeJu1su0QcRFlT07BI
+         2Cow0x/Yn4BM+Ir8tMGrtab9B35j3p20eARvAQWjbSiT4XhDPB8/GBaN4/efQFMEfd3u
+         JGwG9qRvrCpfuB6gCVImoANHHUS8hlIgkU2xrPa5mSzp8k13VCa4FQSu2S2JEnvQFwr4
+         AOeQDheMCAms5gpYAHo8ur6hdVXAQOR0oo1Gc8lIi2t/7TLQAXK1wolgd7FND2WqU6jo
+         uOpQXk/huVSG3vr1Rsz15lVin6WMBkUvd4kZFdswUNfP7qrWKLhh5Wb8NfbRBbIFvjof
+         bAlg==
+X-Gm-Message-State: AOAM532BsqbGBPNwu48YS3WxE4ktHYJBHu3S2gxHPMF0EWweSXmjS2QZ
+        J2LbXm1ymP0tSIYUTJrLHsStMFmZo0SDYA==
+X-Google-Smtp-Source: ABdhPJzk++snLRL/3Zeg4bNmeyzlYwHvm5wO5AmviL5i6AEwJagIUnDIMAnnl27dbd6WFbaTAidK7g==
+X-Received: by 2002:adf:e68d:: with SMTP id r13mr46305862wrm.141.1594039088678;
+        Mon, 06 Jul 2020 05:38:08 -0700 (PDT)
+Received: from genesis ([2001:8a0:f254:2300:dad6:8c60:8394:88da])
+        by smtp.gmail.com with ESMTPSA id e23sm22716650wme.35.2020.07.06.05.38.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jul 2020 05:38:07 -0700 (PDT)
+Message-ID: <2f76f069f2078b3d51533f772f1094dcc03685a3.camel@gmail.com>
+Subject: Re: [PATCH] HID: logitech-hidpp: avoid repeated "multiplier = "
+ log messages
+From:   Filipe =?ISO-8859-1?Q?La=EDns?= <filipe.lains@gmail.com>
+To:     "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Harry Cutts <hcutts@chromium.org>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <7d2c980f071487cecfd1534adb7561b33d922af3.1593970340.git.mail@maciej.szmigiero.name>
+References: <7d2c980f071487cecfd1534adb7561b33d922af3.1593970340.git.mail@maciej.szmigiero.name>
+Organization: Archlinux
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-/JbVFOtHolAxXpvgH3yU"
+Date:   Mon, 06 Jul 2020 13:38:04 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Evolution 3.36.3 
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This drivers allows to use the capture mode of the Timer Counter Block
-hardware block available in Microchip SoCs through the counter subsystem.
 
-Two functions of the counter are supported for the moment: period
-capture and quadrature decoder. The latter is only supported by the
-SAMA5 series of SoCs.
+--=-/JbVFOtHolAxXpvgH3yU
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-For the period capture mode a basic setup has been chosen that will
-reset the counter each time the period is actually reached. Of course
-the device offers much more possibilities.
+On Sun, 2020-07-05 at 19:34 +0200, Maciej S. Szmigiero wrote:
+> These messages appear each time the mouse wakes from sleep, in my
+> case
+> (Logitech M705), every minute or so.
+> Let's downgrade them to the "debug" level so they don't fill the
+> kernel log
+> by default.
+>=20
+> While we are at it, let's make clear that this is a wheel multiplier
+> (and
+> not, for example, XY movement multiplier).
+>=20
+> Fixes: 4435ff2f09a2 ("HID: logitech: Enable high-resolution scrolling
+> on Logitech mice")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Maciej S. Szmigiero <mail@maciej.szmigiero.name>
+> ---
+> Sending again since the previous message bounced for most recipients.
+>=20
+>  drivers/hid/hid-logitech-hidpp.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-
+> logitech-hidpp.c
+> index 1e1cf8eae649..b8b53dc95e86 100644
+> --- a/drivers/hid/hid-logitech-hidpp.c
+> +++ b/drivers/hid/hid-logitech-hidpp.c
+> @@ -3146,7 +3146,7 @@ static int hi_res_scroll_enable(struct
+> hidpp_device *hidpp)
+>  		multiplier =3D 1;
+> =20
+>  	hidpp->vertical_wheel_counter.wheel_multiplier =3D multiplier;
+> -	hid_info(hidpp->hid_dev, "multiplier =3D %d\n", multiplier);
+> +	hid_dbg(hidpp->hid_dev, "wheel multiplier =3D %d\n", multiplier);
+>  	return 0;
+>  }
+> =20
 
-For quadrature mode, both channel 0 and 1 must be configured even if we
-only capture the position (no revolution/rotation).
+I have seen this being useful in some cases, however I do not have a
+strong opinion on it. Peter would know better.
 
-Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
----
- drivers/counter/Kconfig                 |  11 +
- drivers/counter/Makefile                |   1 +
- drivers/counter/microchip-tcb-capture.c | 397 ++++++++++++++++++++++++
- 3 files changed, 409 insertions(+)
- create mode 100644 drivers/counter/microchip-tcb-capture.c
+Cheers,
+Filipe La=C3=ADns
 
-diff --git a/drivers/counter/Kconfig b/drivers/counter/Kconfig
-index c80fa76bb531..2de53ab0dd25 100644
---- a/drivers/counter/Kconfig
-+++ b/drivers/counter/Kconfig
-@@ -70,4 +70,15 @@ config FTM_QUADDEC
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called ftm-quaddec.
- 
-+config MICROCHIP_TCB_CAPTURE
-+	tristate "Microchip Timer Counter Capture driver"
-+	depends on HAS_IOMEM && OF
-+	select REGMAP_MMIO
-+	help
-+	  Select this option to enable the Microchip Timer Counter Block
-+	  capture driver.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called microchip-tcb-capture.
-+
- endif # COUNTER
-diff --git a/drivers/counter/Makefile b/drivers/counter/Makefile
-index 55142d1f4c43..0a393f71e481 100644
---- a/drivers/counter/Makefile
-+++ b/drivers/counter/Makefile
-@@ -10,3 +10,4 @@ obj-$(CONFIG_STM32_TIMER_CNT)	+= stm32-timer-cnt.o
- obj-$(CONFIG_STM32_LPTIMER_CNT)	+= stm32-lptimer-cnt.o
- obj-$(CONFIG_TI_EQEP)		+= ti-eqep.o
- obj-$(CONFIG_FTM_QUADDEC)	+= ftm-quaddec.o
-+obj-$(CONFIG_MICROCHIP_TCB_CAPTURE)	+= microchip-tcb-capture.o
-diff --git a/drivers/counter/microchip-tcb-capture.c b/drivers/counter/microchip-tcb-capture.c
-new file mode 100644
-index 000000000000..f7b7743ddb94
---- /dev/null
-+++ b/drivers/counter/microchip-tcb-capture.c
-@@ -0,0 +1,397 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/**
-+ * Copyright (C) 2020 Microchip
-+ *
-+ * Author: Kamel Bouhara <kamel.bouhara@bootlin.com>
-+ */
-+#include <linux/clk.h>
-+#include <linux/counter.h>
-+#include <linux/mfd/syscon.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/of.h>
-+#include <linux/of_device.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+#include <soc/at91/atmel_tcb.h>
-+
-+#define ATMEL_TC_CMR_MASK	(ATMEL_TC_LDRA_RISING | ATMEL_TC_LDRB_FALLING | \
-+				 ATMEL_TC_ETRGEDG_RISING | ATMEL_TC_LDBDIS | \
-+				 ATMEL_TC_LDBSTOP)
-+
-+#define ATMEL_TC_QDEN			BIT(8)
-+#define ATMEL_TC_POSEN			BIT(9)
-+
-+struct mchp_tc_data {
-+	const struct atmel_tcb_config *tc_cfg;
-+	struct counter_device counter;
-+	struct regmap *regmap;
-+	int qdec_mode;
-+	int num_channels;
-+	int channel[2];
-+	bool trig_inverted;
-+};
-+
-+enum mchp_tc_count_function {
-+	MCHP_TC_FUNCTION_INCREASE,
-+	MCHP_TC_FUNCTION_QUADRATURE,
-+};
-+
-+static enum counter_count_function mchp_tc_count_functions[] = {
-+	[MCHP_TC_FUNCTION_INCREASE] = COUNTER_COUNT_FUNCTION_INCREASE,
-+	[MCHP_TC_FUNCTION_QUADRATURE] = COUNTER_COUNT_FUNCTION_QUADRATURE_X4,
-+};
-+
-+enum mchp_tc_synapse_action {
-+	MCHP_TC_SYNAPSE_ACTION_NONE = 0,
-+	MCHP_TC_SYNAPSE_ACTION_RISING_EDGE,
-+	MCHP_TC_SYNAPSE_ACTION_FALLING_EDGE,
-+	MCHP_TC_SYNAPSE_ACTION_BOTH_EDGE
-+};
-+
-+static enum counter_synapse_action mchp_tc_synapse_actions[] = {
-+	[MCHP_TC_SYNAPSE_ACTION_NONE] = COUNTER_SYNAPSE_ACTION_NONE,
-+	[MCHP_TC_SYNAPSE_ACTION_RISING_EDGE] = COUNTER_SYNAPSE_ACTION_RISING_EDGE,
-+	[MCHP_TC_SYNAPSE_ACTION_FALLING_EDGE] = COUNTER_SYNAPSE_ACTION_FALLING_EDGE,
-+	[MCHP_TC_SYNAPSE_ACTION_BOTH_EDGE] = COUNTER_SYNAPSE_ACTION_BOTH_EDGES,
-+};
-+
-+static struct counter_signal mchp_tc_count_signals[] = {
-+	{
-+		.id = 0,
-+		.name = "Channel A",
-+	},
-+	{
-+		.id = 1,
-+		.name = "Channel B",
-+	}
-+};
-+
-+static struct counter_synapse mchp_tc_count_synapses[] = {
-+	{
-+		.actions_list = mchp_tc_synapse_actions,
-+		.num_actions = ARRAY_SIZE(mchp_tc_synapse_actions),
-+		.signal = &mchp_tc_count_signals[0]
-+	},
-+	{
-+		.actions_list = mchp_tc_synapse_actions,
-+		.num_actions = ARRAY_SIZE(mchp_tc_synapse_actions),
-+		.signal = &mchp_tc_count_signals[1]
-+	}
-+};
-+
-+static int mchp_tc_count_function_get(struct counter_device *counter,
-+				      struct counter_count *count,
-+				      size_t *function)
-+{
-+	struct mchp_tc_data *const priv = counter->priv;
-+
-+	if (priv->qdec_mode)
-+		*function = MCHP_TC_FUNCTION_QUADRATURE;
-+	else
-+		*function = MCHP_TC_FUNCTION_INCREASE;
-+
-+	return 0;
-+}
-+
-+static int mchp_tc_count_function_set(struct counter_device *counter,
-+				      struct counter_count *count,
-+				      size_t function)
-+{
-+	struct mchp_tc_data *const priv = counter->priv;
-+	u32 bmr, cmr;
-+
-+	regmap_read(priv->regmap, ATMEL_TC_BMR, &bmr);
-+	regmap_read(priv->regmap, ATMEL_TC_REG(priv->channel[0], CMR), &cmr);
-+
-+	/* Set capture mode */
-+	cmr &= ~ATMEL_TC_WAVE;
-+
-+	switch (function) {
-+	case MCHP_TC_FUNCTION_INCREASE:
-+		priv->qdec_mode = 0;
-+		/* Set highest rate based on whether soc has gclk or not */
-+		bmr &= ~(ATMEL_TC_QDEN | ATMEL_TC_POSEN);
-+		if (priv->tc_cfg->has_gclk)
-+			cmr |= ATMEL_TC_TIMER_CLOCK2;
-+		else
-+			cmr |= ATMEL_TC_TIMER_CLOCK1;
-+		/* Setup the period capture mode */
-+		cmr |=  ATMEL_TC_CMR_MASK;
-+		cmr &= ~(ATMEL_TC_ABETRG | ATMEL_TC_XC0);
-+		break;
-+	case MCHP_TC_FUNCTION_QUADRATURE:
-+		if (!priv->tc_cfg->has_qdec)
-+			return -EINVAL;
-+		/* In QDEC mode settings both channels 0 and 1 are required */
-+		if (priv->num_channels < 2 || priv->channel[0] != 0 ||
-+		    priv->channel[1] != 1) {
-+			pr_err("Invalid channels number or id for quadrature mode\n");
-+			return -EINVAL;
-+		}
-+		priv->qdec_mode = 1;
-+		bmr |= ATMEL_TC_QDEN | ATMEL_TC_POSEN;
-+		cmr |= ATMEL_TC_ETRGEDG_RISING | ATMEL_TC_ABETRG | ATMEL_TC_XC0;
-+		break;
-+	}
-+
-+	regmap_write(priv->regmap, ATMEL_TC_BMR, bmr);
-+	regmap_write(priv->regmap, ATMEL_TC_REG(priv->channel[0], CMR), cmr);
-+
-+	/* Enable clock and trigger counter */
-+	regmap_write(priv->regmap, ATMEL_TC_REG(priv->channel[0], CCR),
-+		     ATMEL_TC_CLKEN | ATMEL_TC_SWTRG);
-+
-+	if (priv->qdec_mode) {
-+		regmap_write(priv->regmap,
-+			     ATMEL_TC_REG(priv->channel[1], CMR), cmr);
-+		regmap_write(priv->regmap,
-+			     ATMEL_TC_REG(priv->channel[1], CCR),
-+			     ATMEL_TC_CLKEN | ATMEL_TC_SWTRG);
-+	}
-+
-+	return 0;
-+}
-+
-+static int mchp_tc_count_signal_read(struct counter_device *counter,
-+				     struct counter_signal *signal,
-+				     enum counter_signal_value *val)
-+{
-+	struct mchp_tc_data *const priv = counter->priv;
-+	bool sigstatus;
-+	u32 sr;
-+
-+	regmap_read(priv->regmap, ATMEL_TC_REG(priv->channel[0], SR), &sr);
-+
-+	if (priv->trig_inverted)
-+		sigstatus = (sr & ATMEL_TC_MTIOB);
-+	else
-+		sigstatus = (sr & ATMEL_TC_MTIOA);
-+
-+	*val = sigstatus ? COUNTER_SIGNAL_HIGH : COUNTER_SIGNAL_LOW;
-+
-+	return 0;
-+}
-+
-+static int mchp_tc_count_action_get(struct counter_device *counter,
-+				    struct counter_count *count,
-+				    struct counter_synapse *synapse,
-+				    size_t *action)
-+{
-+	struct mchp_tc_data *const priv = counter->priv;
-+	u32 cmr;
-+
-+	regmap_read(priv->regmap, ATMEL_TC_REG(priv->channel[0], CMR), &cmr);
-+
-+	*action = MCHP_TC_SYNAPSE_ACTION_NONE;
-+
-+	if (cmr & ATMEL_TC_ETRGEDG_NONE)
-+		*action = MCHP_TC_SYNAPSE_ACTION_NONE;
-+	else if (cmr & ATMEL_TC_ETRGEDG_RISING)
-+		*action = MCHP_TC_SYNAPSE_ACTION_RISING_EDGE;
-+	else if (cmr & ATMEL_TC_ETRGEDG_FALLING)
-+		*action = MCHP_TC_SYNAPSE_ACTION_FALLING_EDGE;
-+	else if (cmr & ATMEL_TC_ETRGEDG_BOTH)
-+		*action = MCHP_TC_SYNAPSE_ACTION_BOTH_EDGE;
-+
-+	return 0;
-+}
-+
-+static int mchp_tc_count_action_set(struct counter_device *counter,
-+				    struct counter_count *count,
-+				    struct counter_synapse *synapse,
-+				    size_t action)
-+{
-+	struct mchp_tc_data *const priv = counter->priv;
-+	u32 edge = ATMEL_TC_ETRGEDG_NONE;
-+
-+	/* QDEC mode is rising edge only */
-+	if (priv->qdec_mode)
-+		return -EINVAL;
-+
-+	switch (action) {
-+	case MCHP_TC_SYNAPSE_ACTION_NONE:
-+		edge = ATMEL_TC_ETRGEDG_NONE;
-+		break;
-+	case MCHP_TC_SYNAPSE_ACTION_RISING_EDGE:
-+		edge = ATMEL_TC_ETRGEDG_RISING;
-+		break;
-+	case MCHP_TC_SYNAPSE_ACTION_FALLING_EDGE:
-+		edge = ATMEL_TC_ETRGEDG_FALLING;
-+		break;
-+	case MCHP_TC_SYNAPSE_ACTION_BOTH_EDGE:
-+		edge = ATMEL_TC_ETRGEDG_BOTH;
-+		break;
-+	}
-+
-+	return regmap_write_bits(priv->regmap,
-+				ATMEL_TC_REG(priv->channel[0], CMR),
-+				ATMEL_TC_ETRGEDG, edge);
-+}
-+
-+static int mchp_tc_count_read(struct counter_device *counter,
-+			      struct counter_count *count,
-+			      unsigned long *val)
-+{
-+	struct mchp_tc_data *const priv = counter->priv;
-+	u32 cnt;
-+
-+	regmap_read(priv->regmap, ATMEL_TC_REG(priv->channel[0], CV), &cnt);
-+	*val = cnt;
-+
-+	return 0;
-+}
-+
-+static struct counter_count mchp_tc_counts[] = {
-+	{
-+		.id = 0,
-+		.name = "Timer Counter",
-+		.functions_list = mchp_tc_count_functions,
-+		.num_functions = ARRAY_SIZE(mchp_tc_count_functions),
-+		.synapses = mchp_tc_count_synapses,
-+		.num_synapses = ARRAY_SIZE(mchp_tc_count_synapses),
-+	},
-+};
-+
-+static struct counter_ops mchp_tc_ops = {
-+	.signal_read  = mchp_tc_count_signal_read,
-+	.count_read   = mchp_tc_count_read,
-+	.function_get = mchp_tc_count_function_get,
-+	.function_set = mchp_tc_count_function_set,
-+	.action_get   = mchp_tc_count_action_get,
-+	.action_set   = mchp_tc_count_action_set
-+};
-+
-+static const struct atmel_tcb_config tcb_rm9200_config = {
-+		.counter_width = 16,
-+};
-+
-+static const struct atmel_tcb_config tcb_sam9x5_config = {
-+		.counter_width = 32,
-+};
-+
-+static const struct atmel_tcb_config tcb_sama5d2_config = {
-+		.counter_width = 32,
-+		.has_gclk = true,
-+		.has_qdec = true,
-+};
-+
-+static const struct atmel_tcb_config tcb_sama5d3_config = {
-+		.counter_width = 32,
-+		.has_qdec = true,
-+};
-+
-+static const struct of_device_id atmel_tc_of_match[] = {
-+	{ .compatible = "atmel,at91rm9200-tcb", .data = &tcb_rm9200_config, },
-+	{ .compatible = "atmel,at91sam9x5-tcb", .data = &tcb_sam9x5_config, },
-+	{ .compatible = "atmel,sama5d2-tcb", .data = &tcb_sama5d2_config, },
-+	{ .compatible = "atmel,sama5d3-tcb", .data = &tcb_sama5d3_config, },
-+	{ /* sentinel */ }
-+};
-+
-+static void mchp_tc_clk_remove(void *ptr)
-+{
-+	clk_disable_unprepare((struct clk *)ptr);
-+}
-+
-+static int mchp_tc_probe(struct platform_device *pdev)
-+{
-+	struct device_node *np = pdev->dev.of_node;
-+	const struct atmel_tcb_config *tcb_config;
-+	const struct of_device_id *match;
-+	struct mchp_tc_data *priv;
-+	char clk_name[7];
-+	struct regmap *regmap;
-+	struct clk *clk[3];
-+	int channel;
-+	int ret, i;
-+
-+	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	platform_set_drvdata(pdev, priv);
-+
-+	match = of_match_node(atmel_tc_of_match, np->parent);
-+	tcb_config = match->data;
-+	if (!tcb_config) {
-+		dev_err(&pdev->dev, "No matching parent node found\n");
-+		return -ENODEV;
-+	}
-+
-+	regmap = syscon_node_to_regmap(np->parent);
-+	if (IS_ERR(priv->regmap))
-+		return PTR_ERR(priv->regmap);
-+
-+	/* max. channels number is 2 when in QDEC mode */
-+	priv->num_channels = of_property_count_u32_elems(np, "reg");
-+	if (priv->num_channels < 0) {
-+		dev_err(&pdev->dev, "Invalid or missing channel\n");
-+		return -EINVAL;
-+	}
-+
-+	/* Register channels and initialize clocks */
-+	for (i = 0; i < priv->num_channels; i++) {
-+		ret = of_property_read_u32_index(np, "reg", i, &channel);
-+		if (ret < 0 || channel > 2)
-+			return -ENODEV;
-+
-+		priv->channel[i] = channel;
-+
-+		snprintf(clk_name, sizeof(clk_name), "t%d_clk", channel);
-+
-+		clk[i] = of_clk_get_by_name(np->parent, clk_name);
-+		if (IS_ERR(clk[i])) {
-+			/* Fallback to t0_clk */
-+			clk[i] = of_clk_get_by_name(np->parent, "t0_clk");
-+			if (IS_ERR(clk[i]))
-+				return PTR_ERR(clk[i]);
-+		}
-+
-+		ret = clk_prepare_enable(clk[i]);
-+		if (ret)
-+			return ret;
-+
-+		ret = devm_add_action_or_reset(&pdev->dev,
-+					       mchp_tc_clk_remove,
-+					       clk[i]);
-+		if (ret)
-+			return ret;
-+
-+		dev_dbg(&pdev->dev,
-+			"Initialized capture mode on channel %d\n",
-+			channel);
-+	}
-+
-+	priv->tc_cfg = tcb_config;
-+	priv->regmap = regmap;
-+	priv->counter.name = dev_name(&pdev->dev);
-+	priv->counter.parent = &pdev->dev;
-+	priv->counter.ops = &mchp_tc_ops;
-+	priv->counter.num_counts = ARRAY_SIZE(mchp_tc_counts);
-+	priv->counter.counts = mchp_tc_counts;
-+	priv->counter.num_signals = ARRAY_SIZE(mchp_tc_count_signals);
-+	priv->counter.signals = mchp_tc_count_signals;
-+	priv->counter.priv = priv;
-+
-+	return devm_counter_register(&pdev->dev, &priv->counter);
-+}
-+
-+static const struct of_device_id mchp_tc_dt_ids[] = {
-+	{ .compatible = "microchip,tcb-capture", },
-+	{ /* sentinel */ },
-+};
-+MODULE_DEVICE_TABLE(of, mchp_tc_dt_ids);
-+
-+static struct platform_driver mchp_tc_driver = {
-+	.probe = mchp_tc_probe,
-+	.driver = {
-+		.name = "microchip-tcb-capture",
-+		.of_match_table = mchp_tc_dt_ids,
-+	},
-+};
-+module_platform_driver(mchp_tc_driver);
-+
-+MODULE_AUTHOR("Kamel Bouhara <kamel.bouhara@bootlin.com>");
-+MODULE_DESCRIPTION("Microchip TCB Capture driver");
-+MODULE_LICENSE("GPL v2");
--- 
-2.26.2
+--=-/JbVFOtHolAxXpvgH3yU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAl8DGyYACgkQ+JPGdIFq
+qV2X+BAAodOXRsLeK4VZh5PBrDPvqTjUWn7Y1TEFkSZBxAQVzyL1Uv1TvtOjUPIn
+Q65fmafPxfwW+BNNiTeMhqVCUzPNLGjH65aHlVB5ZWYxiTO1k4OKwcCMgpcM6C69
+vdJ2lJjRjWpsmq6gw4QxlmuiaEm1BcAx6IbbIBBXFz2LoypDjT5D6enYLNdLMAdO
+/B+BtUJVhZJFeUV3gNqiUcay6YSKzkHycf+ZgpxFMOJRwnAfPKlVnqKXawzteJAX
+2YVNmyhc+qrNEpAw/t5KrBvoZZJr0XAF/izj021XtJjPPaDde8R1AtmJ1V2Ru6Sv
+Cq8f+AcuBCvykmS3RdWvOAq0BMyI8/hrrlc8iFsaja8GFZqfov+Qk+PnfSk+NAub
+/vbvurzLqV4Di68+8Zb5dvsYmQBIisf+gq7kvuUBd6aKTEdar84wOXCXMjjcdiDp
+zfz20Dpw+f62a5ORVkIJ305PwVugrWK8YR8HikdIdtSoSKkJMRaXn9Cyz1vi1W6D
+vGsuG1q0IjDxdKVkpW863RGC/AXMrQkOB24Mr5H499n8QWgnjqaCSYimoGGbzihU
+vy7YjOr5Ma5Olsq0kLXp3KY8RVcnXpSAcaoqAd0xWIKBwZPw/4cKDo7lD2uCjgKa
+B31lJwUKysIjK1AgQzNY7fKHOvmqxZGtJpSIg1FKg+sDav1j2us=
+=C+AW
+-----END PGP SIGNATURE-----
+
+--=-/JbVFOtHolAxXpvgH3yU--
 
