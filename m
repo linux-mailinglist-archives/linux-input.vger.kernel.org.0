@@ -2,109 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C43C9215E6A
-	for <lists+linux-input@lfdr.de>; Mon,  6 Jul 2020 20:36:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 866E2215F4E
+	for <lists+linux-input@lfdr.de>; Mon,  6 Jul 2020 21:27:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729822AbgGFSf5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 6 Jul 2020 14:35:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37732 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729751AbgGFSf5 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 6 Jul 2020 14:35:57 -0400
-Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com [IPv6:2607:f8b0:4864:20::a41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72B6BC061794
-        for <linux-input@vger.kernel.org>; Mon,  6 Jul 2020 11:35:57 -0700 (PDT)
-Received: by mail-vk1-xa41.google.com with SMTP id r7so8810592vkf.0
-        for <linux-input@vger.kernel.org>; Mon, 06 Jul 2020 11:35:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ij6ynVLooZvFUU1WdE13blPhJSL1lkPuycUflF9mzkk=;
-        b=S5E47DOPwDbYX9qAauzXw9PRmHeP+yPvDc6wa5lKnIARuccDh4qsjGVklgl9MMkude
-         M7VvzR6wUEffCmaFNnfMs9T0CK2uI24oyJ9/a7dICYFwuhGoC/TfskyWpbxmXLwPpVCW
-         Rmg+uA6dnC+5jpsYDsj8xGGD1Ho0cKYrMAI2Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ij6ynVLooZvFUU1WdE13blPhJSL1lkPuycUflF9mzkk=;
-        b=C3a6uoc4jeOqNrVK+KWH6PN1WU5W4XeafdIvMxLtqKDXLAJDMJpv9mmAWo69pWC+01
-         u9mAOyYpSdfhBklHsogvVUHdBm7Fa3qTT4for1UxJy91gjaET/mj/YYbl1e5dpGw8T1R
-         oYu46y7QayUHwjXcjynAdz8p2/fXu1ddGlM6CDG2v5LGCSdlKD3nfDXd8tbAZyUIj/96
-         fnL9IuLkgVwDPZgVlS4m3MEpyTTM8dNW9y5xYKZPD+TxkBr5P3UsLL8X4wUrvTkwlwys
-         YS4Nnf/wdy75TMtepZN5L2w0pWMlGtMDm4Tw791HAb89j07i5CyhkOEgpv/H0rE6xkMS
-         +hfA==
-X-Gm-Message-State: AOAM532bjR2uyOuzgsYDjQgRbmLy/Q29CuQXReWCs5AN9vztm6gir9pN
-        OsEUjSk80FBDtlqrbl3rpXT7ao0XG2w=
-X-Google-Smtp-Source: ABdhPJxG4YBC3CMRhPJIJMAMk1aPg5tfXLT6pA+T6HXEKa6v47J7btViGnucWOGJAbGbSCIsGn7nXw==
-X-Received: by 2002:a1f:3113:: with SMTP id x19mr34922951vkx.91.1594060556111;
-        Mon, 06 Jul 2020 11:35:56 -0700 (PDT)
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
-        by smtp.gmail.com with ESMTPSA id 73sm2830765vkw.13.2020.07.06.11.35.55
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jul 2020 11:35:55 -0700 (PDT)
-Received: by mail-vs1-f41.google.com with SMTP id o15so21113254vsp.12
-        for <linux-input@vger.kernel.org>; Mon, 06 Jul 2020 11:35:55 -0700 (PDT)
-X-Received: by 2002:a67:1702:: with SMTP id 2mr5791561vsx.153.1594060554613;
- Mon, 06 Jul 2020 11:35:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <7d2c980f071487cecfd1534adb7561b33d922af3.1593968925.git.mail@maciej.szmigiero.name>
-In-Reply-To: <7d2c980f071487cecfd1534adb7561b33d922af3.1593968925.git.mail@maciej.szmigiero.name>
-From:   Harry Cutts <hcutts@chromium.org>
-Date:   Mon, 6 Jul 2020 11:35:43 -0700
-X-Gmail-Original-Message-ID: <CA+jURcvL4B7xDObma5PZgTq4eaBbj6AGgBwDCSyf_mb7oRf+Lw@mail.gmail.com>
-Message-ID: <CA+jURcvL4B7xDObma5PZgTq4eaBbj6AGgBwDCSyf_mb7oRf+Lw@mail.gmail.com>
-Subject: Re: [PATCH] HID: logitech-hidpp: avoid repeated "multiplier = " log messages
-To:     "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-Cc:     Jiri Kosina <jikos@kernel.org>,
+        id S1726582AbgGFT1M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 6 Jul 2020 15:27:12 -0400
+Received: from forward500p.mail.yandex.net ([77.88.28.110]:58470 "EHLO
+        forward500p.mail.yandex.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726329AbgGFT1M (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 6 Jul 2020 15:27:12 -0400
+X-Greylist: delayed 381 seconds by postgrey-1.27 at vger.kernel.org; Mon, 06 Jul 2020 15:27:10 EDT
+Received: from mxback19j.mail.yandex.net (mxback19j.mail.yandex.net [IPv6:2a02:6b8:0:1619::95])
+        by forward500p.mail.yandex.net (Yandex) with ESMTP id 747DC9400DB;
+        Mon,  6 Jul 2020 22:20:48 +0300 (MSK)
+Received: from localhost (localhost [::1])
+        by mxback19j.mail.yandex.net (mxback/Yandex) with ESMTP id Icus1Vpk93-KluuMZ36;
+        Mon, 06 Jul 2020 22:20:47 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=0upti.me; s=mail; t=1594063248;
+        bh=ZHGsVMNkZpFDM7El5aZ1YiZR+LlM3nbtR3lE1SqzI3I=;
+        h=Message-Id:Cc:Subject:In-Reply-To:Date:References:To:From;
+        b=ABiIRI47iGjTPoQRdrfSPg6kjExVzno1ruGriDYOupJIuBSZ777M4Z2BNm4ZiCH59
+         BqronQEURmI7702ILgvJHo8VBgTSJ/4yaZ5VCaLRXe4pXZfgpjlx+AdpZ6GSWVgaQb
+         LcZIzMApkAa86yyqabbQx3jImJtaDHspfV/ywI0A=
+Authentication-Results: mxback19j.mail.yandex.net; dkim=pass header.i=@0upti.me
+Received: by iva2-15a880c55b23.qloud-c.yandex.net with HTTP;
+        Mon, 06 Jul 2020 22:20:47 +0300
+From:   Ilya K <me@0upti.me>
+To:     "lyude@redhat.com" <lyude@redhat.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Gaurav Agrawal <agrawalgaurav@gnome.org>,
+        Yussuf Khalil <dev@pp3345.net>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Dennis Kadioglu <denk@eclipso.email>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        linux-input <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Joe Perches <joe@perches.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+In-Reply-To: <2f68590f3352c6384efdf9838f16837d5990d1fe.camel@redhat.com>
+References: <20200703143457.132373-1-me@0upti.me> <2f68590f3352c6384efdf9838f16837d5990d1fe.camel@redhat.com>
+Subject: Re: [PATCH] input/synaptics: enable InterTouch for ThinkPad X1E 1st gen
+MIME-Version: 1.0
+X-Mailer: Yamail [ http://yandex.ru ] 5.0
+Date:   Mon, 06 Jul 2020 22:20:47 +0300
+Message-Id: <1295871594063151@mail.yandex.ru>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 5 Jul 2020 at 10:09, Maciej S. Szmigiero
-<mail@maciej.szmigiero.name> wrote:
->
-> These messages appear each time the mouse wakes from sleep, in my case
-> (Logitech M705), every minute or so.
-> Let's downgrade them to the "debug" level so they don't fill the kernel log
-> by default.
->
-> While we are at it, let's make clear that this is a wheel multiplier (and
-> not, for example, XY movement multiplier).
+(sorry for resending - the previous message got sent as HTML and bounced off the mailing list)
 
-Looks good to me, thanks!
+This actually made me retest it just now - it most definitely works, both by tapping and by actually clicking the button.
 
-Reviewed-by: Harry Cutts <hcutts@chromium.org>
-
-Harry Cutts
-Chrome OS Touch/Input team
-
+06.07.2020, 20:22, "Lyude Paul" <lyude@redhat.com>:
+> FWIW it's not placebo, it's why I always immediately notice when starting up a
+> new ThinkPad sample from lenovo if RMI4 is enabled or not :).
 >
-> Fixes: 4435ff2f09a2 ("HID: logitech: Enable high-resolution scrolling on Logitech mice")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Maciej S. Szmigiero <mail@maciej.szmigiero.name>
-> ---
->  drivers/hid/hid-logitech-hidpp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Anyway thank you for the patch, assuming you double-checked that clicking with
+> the clickpad still works (I made this mistake last time when trying to enable
+> this for the second generation X1 extreme):
 >
-> diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-> index 1e1cf8eae649..b8b53dc95e86 100644
-> --- a/drivers/hid/hid-logitech-hidpp.c
-> +++ b/drivers/hid/hid-logitech-hidpp.c
-> @@ -3146,7 +3146,7 @@ static int hi_res_scroll_enable(struct hidpp_device *hidpp)
->                 multiplier = 1;
+> Reviewed-by: Lyude Paul <lyude@redhat.com>
 >
->         hidpp->vertical_wheel_counter.wheel_multiplier = multiplier;
-> -       hid_info(hidpp->hid_dev, "multiplier = %d\n", multiplier);
-> +       hid_dbg(hidpp->hid_dev, "wheel multiplier = %d\n", multiplier);
->         return 0;
->  }
->
+> On Fri, 2020-07-03 at 17:34 +0300, K900 wrote:
+>>  From: Ilya Katsnelson <me@0upti.me>
+>>
+>>  Tested on my own laptop, touchpad feels slightly more responsive with
+>>  this on, though it might just be placebo.
+>>
+>>  Signed-off-by: Ilya Katsnelson <me@0upti.me>
+>>  ---
+>>   drivers/input/mouse/synaptics.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>>  diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
+>>  index 758dae8d6500..4b81b2d0fe06 100644
+>>  --- a/drivers/input/mouse/synaptics.c
+>>  +++ b/drivers/input/mouse/synaptics.c
+>>  @@ -179,6 +179,7 @@ static const char * const smbus_pnp_ids[] = {
+>>           "LEN0093", /* T480 */
+>>           "LEN0096", /* X280 */
+>>           "LEN0097", /* X280 -> ALPS trackpoint */
+>>  + "LEN0099", /* X1 Extreme 1st */
+>>           "LEN009b", /* T580 */
+>>           "LEN200f", /* T450s */
+>>           "LEN2044", /* L470 */
