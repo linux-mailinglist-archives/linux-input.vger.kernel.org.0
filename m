@@ -2,63 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 393672176BE
-	for <lists+linux-input@lfdr.de>; Tue,  7 Jul 2020 20:30:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A950E218564
+	for <lists+linux-input@lfdr.de>; Wed,  8 Jul 2020 13:01:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728164AbgGGSaW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 7 Jul 2020 14:30:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45138 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728149AbgGGSaV (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 7 Jul 2020 14:30:21 -0400
-Received: from embeddedor (unknown [200.39.26.250])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 41180206F6;
-        Tue,  7 Jul 2020 18:30:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594146621;
-        bh=xTRNX+tombqeYkaSwvGumK40pfLh5dWiBc6gh61ysqw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=0YrtAj7tQ/yq/2V3gsl6Ih2gYIDovZiLEolwSX/XiOdfmF9uZ63hV0ipmstb1K+jt
-         WQsXiCGOQbtbEtlYZsEYtG28/Y5T27RMjPb6GRbnDJJIvn8sDGfJsPlUKtriUJbTMF
-         XqFUn8bzlgICV3qF40EiAbWfT5TODneOvdBlDJ2A=
-Date:   Tue, 7 Jul 2020 13:35:48 -0500
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH][next] Input: Use fallthrough pseudo-keyword
-Message-ID: <20200707183548.GA1280@embeddedor>
-References: <20200707180857.GA30600@embeddedor>
- <20200707182654.GF3273837@dtor-ws>
+        id S1726586AbgGHLBO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Jul 2020 07:01:14 -0400
+Received: from mail.elsol.com.pe ([170.231.82.35]:33472 "EHLO
+        mail.elsol.com.pe" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726110AbgGHLBN (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Jul 2020 07:01:13 -0400
+X-Greylist: delayed 11944 seconds by postgrey-1.27 at vger.kernel.org; Wed, 08 Jul 2020 07:01:13 EDT
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.elsol.com.pe (Postfix) with ESMTP id 022596087A8;
+        Wed,  8 Jul 2020 02:15:59 -0500 (-05)
+Received: from mail.elsol.com.pe ([127.0.0.1])
+        by localhost (mail.elsol.com.pe [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id UEfOFQHhA0v4; Wed,  8 Jul 2020 02:15:58 -0500 (-05)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.elsol.com.pe (Postfix) with ESMTP id EA8E66086CB;
+        Wed,  8 Jul 2020 02:15:57 -0500 (-05)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.elsol.com.pe EA8E66086CB
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=elsol.com.pe;
+        s=17F39D2A-FFD0-11E7-BCBF-081969246B0E; t=1594192558;
+        bh=7Y6RtNhSVAIVHdJEU2gHHWYvaP8LRgEAhMNj0EoKaAA=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=QdSgsLhLezn/y6XRmCFHYHiTfvMRGp072fuHLwTqL6P/2+lzL3+bSJDSfigGRZU0I
+         LFM+6Ht19WCAaHM6nj1FMrnG5rbVUN+13xi4by1zvaeEq3m4Dw0Xu2lkPXMkHqVd97
+         W30b4NQPWVH2ci/UbiEzl5Vk4wfZT7B1ku1/BbbRyjTfNCJ5cKcTsUdTwRZ2vV70A1
+         KDhYu8WbVnF39Y0lLahsnCd1K1/uY1k7jil4TYWOEtivZjnrcFw6/0Q2Hxi5WsUXXU
+         pLP+t0NwLfqI1o7X5Owy1d6dyOY6kbduxl0YamWu2MwaQAiQDS5dsQPEiB+LiM8uFz
+         JFWiEOaATJGNg==
+X-Virus-Scanned: amavisd-new at elsol.com.pe
+Received: from mail.elsol.com.pe ([127.0.0.1])
+        by localhost (mail.elsol.com.pe [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id cGOCqLmmto8T; Wed,  8 Jul 2020 02:15:57 -0500 (-05)
+Received: from [10.86.65.172] (unknown [105.8.7.225])
+        by mail.elsol.com.pe (Postfix) with ESMTPSA id B557A60870C;
+        Wed,  8 Jul 2020 02:15:46 -0500 (-05)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200707182654.GF3273837@dtor-ws>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: =?utf-8?q?Covid_19_Wohlt=C3=A4tigkeitsfonds?=
+To:     Recipients <dreyes@elsol.com.pe>
+From:   ''Tayeb Souami'' <dreyes@elsol.com.pe>
+Date:   Wed, 08 Jul 2020 09:11:58 +0200
+Reply-To: Tayebsouam.spende@gmail.com
+Message-Id: <20200708071546.B557A60870C@mail.elsol.com.pe>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jul 07, 2020 at 11:26:54AM -0700, Dmitry Torokhov wrote:
-> On Tue, Jul 07, 2020 at 01:08:57PM -0500, Gustavo A. R. Silva wrote:
-> > Replace the existing /* fall through */ comments and its variants with
-> > the new pseudo-keyword macro fallthrough[1]. Also, remove unnecessary
-> > fall-through markings when it is the case.
-> > 
-> > [1] https://www.kernel.org/doc/html/latest/process/deprecated.html?highlight=fallthrough#implicit-switch-case-fall-through
-> > 
-> > Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-> 
-> Applied, thank you.
-> 
+Lieber Freund,
 
-Thanks, Dmitry.
+Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika, der =
+Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich an 5 zu=
+f=C3=A4llige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Ma=
+il nach einem Spinball ausgew=C3=A4hlt.Ich habe den gr=C3=B6=C3=9Ften Teil =
+meines Verm=C3=B6gens auf eine Reihe von Wohlt=C3=A4tigkeitsorganisationen =
+und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die =
+Summe von =E2=82=AC 2.000.000,00 an Sie als eine der ausgew=C3=A4hlten 5 zu=
+ spenden, um meine Gewinne zu =C3=BCberpr=C3=BCfen, sehen Sie bitte meine Y=
+ou Tube Seite unten.
 
---
-Gustavo
+UHR MICH HIER: https://www.youtube.com/watch?v=3DZ6ui8ZDQ6Ks
+
+
+
+Das ist dein Spendencode: [TS530342018]
+
+
+
+Antworten Sie mit dem SPENDE-CODE an diese
+
+E-Mail:Tayebsouam.spende@gmail.com
+
+
+Ich hoffe, Sie und Ihre Familie gl=C3=BCcklich zu machen.
+
+Gr=C3=BC=C3=9Fe
+Herr Tayeb Souami
