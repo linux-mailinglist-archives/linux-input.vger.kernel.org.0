@@ -2,84 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A950E218564
-	for <lists+linux-input@lfdr.de>; Wed,  8 Jul 2020 13:01:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0666A218793
+	for <lists+linux-input@lfdr.de>; Wed,  8 Jul 2020 14:33:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726586AbgGHLBO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Jul 2020 07:01:14 -0400
-Received: from mail.elsol.com.pe ([170.231.82.35]:33472 "EHLO
-        mail.elsol.com.pe" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726110AbgGHLBN (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Jul 2020 07:01:13 -0400
-X-Greylist: delayed 11944 seconds by postgrey-1.27 at vger.kernel.org; Wed, 08 Jul 2020 07:01:13 EDT
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.elsol.com.pe (Postfix) with ESMTP id 022596087A8;
-        Wed,  8 Jul 2020 02:15:59 -0500 (-05)
-Received: from mail.elsol.com.pe ([127.0.0.1])
-        by localhost (mail.elsol.com.pe [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id UEfOFQHhA0v4; Wed,  8 Jul 2020 02:15:58 -0500 (-05)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.elsol.com.pe (Postfix) with ESMTP id EA8E66086CB;
-        Wed,  8 Jul 2020 02:15:57 -0500 (-05)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.elsol.com.pe EA8E66086CB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=elsol.com.pe;
-        s=17F39D2A-FFD0-11E7-BCBF-081969246B0E; t=1594192558;
-        bh=7Y6RtNhSVAIVHdJEU2gHHWYvaP8LRgEAhMNj0EoKaAA=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=QdSgsLhLezn/y6XRmCFHYHiTfvMRGp072fuHLwTqL6P/2+lzL3+bSJDSfigGRZU0I
-         LFM+6Ht19WCAaHM6nj1FMrnG5rbVUN+13xi4by1zvaeEq3m4Dw0Xu2lkPXMkHqVd97
-         W30b4NQPWVH2ci/UbiEzl5Vk4wfZT7B1ku1/BbbRyjTfNCJ5cKcTsUdTwRZ2vV70A1
-         KDhYu8WbVnF39Y0lLahsnCd1K1/uY1k7jil4TYWOEtivZjnrcFw6/0Q2Hxi5WsUXXU
-         pLP+t0NwLfqI1o7X5Owy1d6dyOY6kbduxl0YamWu2MwaQAiQDS5dsQPEiB+LiM8uFz
-         JFWiEOaATJGNg==
-X-Virus-Scanned: amavisd-new at elsol.com.pe
-Received: from mail.elsol.com.pe ([127.0.0.1])
-        by localhost (mail.elsol.com.pe [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id cGOCqLmmto8T; Wed,  8 Jul 2020 02:15:57 -0500 (-05)
-Received: from [10.86.65.172] (unknown [105.8.7.225])
-        by mail.elsol.com.pe (Postfix) with ESMTPSA id B557A60870C;
-        Wed,  8 Jul 2020 02:15:46 -0500 (-05)
-Content-Type: text/plain; charset="utf-8"
+        id S1729224AbgGHMdp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Jul 2020 08:33:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60352 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729193AbgGHMda (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Jul 2020 08:33:30 -0400
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7B47C08EA4B
+        for <linux-input@vger.kernel.org>; Wed,  8 Jul 2020 05:33:29 -0700 (PDT)
+Received: by mail-io1-xd44.google.com with SMTP id v6so33105390iob.4
+        for <linux-input@vger.kernel.org>; Wed, 08 Jul 2020 05:33:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=/vBVbAxvijag95IA6OM26aTa2bKDnUtimRlc1mZm/7M=;
+        b=CtDA46Te1kJYGFqAkgr9Vub/YrG6WB2S+VlEURQEEM4x6m9sjli+Jz/yotFRmV/AMR
+         T/h2d+e8At09eChsFX2C+mUFLH+FsdwAy78KAtzHqTPpG69rhvmbmMUpZSALFUdgKxT3
+         rKV4TF8A0J+Za5tWsTPtObTKnCJJSeTUvLM0KCUCLapZUiUA/CE0qJguNsnmAcBYT7Bw
+         PUSSiRKtit7eL05YbTu8d4vZk3Rk52mtpEQs926eluhEg6IUrqIesfOKILheZFFzZp0P
+         0kRnPxRkSyAb2gIupk6cQmoDhkGW5ga2ONIfRh7Ui0T+vXHI9OfE4hLpnUDNkQjQgdsE
+         pxTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=/vBVbAxvijag95IA6OM26aTa2bKDnUtimRlc1mZm/7M=;
+        b=LJq8SYwypHe4pLSlH/FnM8vo7Bc2Yz+gnoHWJxItErj0mjAbCvwrwdwMcbgHR2pqto
+         jatJj1fhZhkouLkCJxDz3k7oMlDMvWPXLPRNf1E8H0zLFFJGGPNM1EN4AQGbjDu/LYCN
+         jgoe7K0R6TsO6ekb3gH5LnLOOhtIFrFUhpgRYqFTOqNUmG+m6Dgka8dG/aHmXQ1mFa1l
+         T3psEwrFqk81iwcEJnYPR+Ab+XEMluxs0I/5NVbnkYc/g7KvV/eSY9mWt/F00As05Vzd
+         e6SOa3z7RpUa5yvr43h+XtTAQa3KtaaKIn/lP+GZQbiGHytkY4A1Cjin5o3Qmk3isA+J
+         jNEA==
+X-Gm-Message-State: AOAM531f/+xyJyP1pTkgft3XlaR4CPEzvPNAg7OOIwe3D6of8i/iX1oG
+        mG61YSuMiCK6LIUxd/4EzvVvj+8qNeke1+f4/ZQ=
+X-Google-Smtp-Source: ABdhPJy69qBRFRW2d2u+0xyGHVfmVbQRW6SQ4gKLQIvGwSNWfhZDhNcIlxNh+7AirNZFy3An0aJSkt25Q8y7juQZu8o=
+X-Received: by 2002:a05:6638:12c7:: with SMTP id v7mr64754290jas.56.1594211609022;
+ Wed, 08 Jul 2020 05:33:29 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 2002:a05:6602:1582:0:0:0:0 with HTTP; Wed, 8 Jul 2020 05:33:28
+ -0700 (PDT)
+Reply-To: mmsafiatou057@gmail.com
+From:   "Mrs. Safitaou Zoungrana" <richardlaurentdr@gmail.com>
+Date:   Wed, 8 Jul 2020 12:33:28 +0000
+Message-ID: <CALJAiTVXhrKZYOHVoupnx6hmXXD0i2k4MOSO6HW+mj1BAydXhA@mail.gmail.com>
+Subject: My Dear Beloved One,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: =?utf-8?q?Covid_19_Wohlt=C3=A4tigkeitsfonds?=
-To:     Recipients <dreyes@elsol.com.pe>
-From:   ''Tayeb Souami'' <dreyes@elsol.com.pe>
-Date:   Wed, 08 Jul 2020 09:11:58 +0200
-Reply-To: Tayebsouam.spende@gmail.com
-Message-Id: <20200708071546.B557A60870C@mail.elsol.com.pe>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Lieber Freund,
+My Dear Beloved One,
 
-Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika, der =
-Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich an 5 zu=
-f=C3=A4llige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Ma=
-il nach einem Spinball ausgew=C3=A4hlt.Ich habe den gr=C3=B6=C3=9Ften Teil =
-meines Verm=C3=B6gens auf eine Reihe von Wohlt=C3=A4tigkeitsorganisationen =
-und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die =
-Summe von =E2=82=AC 2.000.000,00 an Sie als eine der ausgew=C3=A4hlten 5 zu=
- spenden, um meine Gewinne zu =C3=BCberpr=C3=BCfen, sehen Sie bitte meine Y=
-ou Tube Seite unten.
+I greet you in the name of God almighty the givers of all good things
+in life. Please kindly pardon me for any inconvenience this letter may
+cost you because I know it may come to you as a surprise as we have no
+previous correspondence.  I sent this mail praying for it to reach you
+in good health, since I myself are in a very critical health condition
+in which I sleep every night without knowing if I may be alive to see
+the next day.
 
-UHR MICH HIER: https://www.youtube.com/watch?v=3DZ6ui8ZDQ6Ks
+I am Mrs. Safiatou Zoungrana,  the wife of late Engineer Ralph
+Alphonso Zoungrana from Paris France but based here in Burkina Faso
+West Africa since eight years ago as a business woman dealing with
+gold exportation and Sales. We have been married for years before his
+sudden death although we were childless. I have been diagnosed with
+ovarian cancer and I have been battling with the sickness when my late
+lovely husband of a blessed memory was alive. May his soul rest in
+peace, Amen.
 
+My late Husband left the sum of =E2=82=AC7.900.000.00 Seven Million Nine
+Hundred Thousand Euros in a fix/suspense account in one of the prime
+bank here in Burkina Faso. Recently, my Doctor told me that I have few
+days to live due to the cancer problem. The one that disturbs me most
+is my blood pressure sickness.
 
+Having known my health condition I decided to seek for your kind
+assistance to transfer this fund into your account and you will use it
+to establish an orphanage home in my name. I will give you more
+details about the project as soon as I receive your reply in my
+private email (mmsafiatou057@gmail.com) to handle this project because
+I do not want to state all here until I see your reply, desire and
+commitment to handle this project.
 
-Das ist dein Spendencode: [TS530342018]
-
-
-
-Antworten Sie mit dem SPENDE-CODE an diese
-
-E-Mail:Tayebsouam.spende@gmail.com
-
-
-Ich hoffe, Sie und Ihre Familie gl=C3=BCcklich zu machen.
-
-Gr=C3=BC=C3=9Fe
-Herr Tayeb Souami
+My Regards to your family.
+Mrs. Safiatou Zoungrana.
