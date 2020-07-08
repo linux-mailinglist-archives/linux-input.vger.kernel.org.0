@@ -2,103 +2,74 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0101B218870
-	for <lists+linux-input@lfdr.de>; Wed,  8 Jul 2020 15:06:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3476219480
+	for <lists+linux-input@lfdr.de>; Thu,  9 Jul 2020 01:43:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729070AbgGHNGD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Jul 2020 09:06:03 -0400
-Received: from esa1.mentor.iphmx.com ([68.232.129.153]:46964 "EHLO
-        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729016AbgGHNGD (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 8 Jul 2020 09:06:03 -0400
-IronPort-SDR: EuY/f6T9Q0yMSk4FmAsthL52/Ao5DWeiOtEBVRO8oXiJ3djSVDd8M69klEMQJAAiIHyREX/aQ0
- yhSQKbcpxQl1vTAyv2eqRWHA+Vs4prYJCm7J9kIx/8uZv29VSXHBgSQhrpufeQN6TJHr+oEtvy
- Z97b4IluZoUBPdHAtPOBeLsZ3PBdTdzGTaWmMTZaU/XMP0QTlGwZm752ZERnGumsWgVX5A6Aij
- u7pbSJZ6LD7gP2stDSE3AhDmm7vg6j7h1ZjkeJdcJ6PTAFRLuBHTWzxesDxzBYfs8IERmuo0Gc
- 03s=
-X-IronPort-AV: E=Sophos;i="5.75,327,1589270400"; 
-   d="scan'208";a="52847563"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa1.mentor.iphmx.com with ESMTP; 08 Jul 2020 05:06:02 -0800
-IronPort-SDR: vQ91E3efLjDL/Pcel0FCEkydF1TkB0qRh//ggnUj8fAmF/M5ENyBuS9urX43DIufRqg4SA/Evd
- GShtVaEPgWllaWEEdolheF9SzCCtVAneT8a8zWkR9XsqcVhGf07v+pYaEfBx312LupS6QBk3ke
- FPAwYGB/PQfMv6mnBNGeZWnSIf0xjfQ/ghCixWBM0i3gadSpK10tOdmW58Dg4EfdsS2zoUEY8V
- eXM5T3/Ce+ccWfNFBD8a6TrdvsBygalH3eCG0DyO7JXyqn5xSDBBTIpNi0IK49RsVIZ2aysUk9
- r0U=
-Subject: Re: [PATCH v11 00/56] atmel_mxt_ts misc
-From:   "Wang, Jiada" <jiada_wang@mentor.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC:     <nick@shmanahar.org>, <jikos@kernel.org>,
-        <benjamin.tissoires@redhat.com>, <bsz@semihalf.com>,
-        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>
-References: <20200508055656.96389-1-jiada_wang@mentor.com>
- <20200527064307.GK89269@dtor-ws>
- <2f7964da-0dca-2d13-3559-28b4582a3278@mentor.com>
-Message-ID: <80fc7a3e-efd5-fab8-8ba8-8aa011944ab1@mentor.com>
-Date:   Wed, 8 Jul 2020 22:05:56 +0900
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726122AbgGHXnY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 8 Jul 2020 19:43:24 -0400
+Received: from sonic315-14.consmr.mail.bf2.yahoo.com ([74.6.134.124]:46104
+        "EHLO sonic315-14.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726044AbgGHXnY (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 8 Jul 2020 19:43:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1594251803; bh=NajTNMrfMLb6UXcjRhYpYerQX8PtVBLz0oFgaMINSWY=; h=Date:From:Reply-To:Subject:References:From:Subject; b=HN/tC86bgd9/bl0s6IeF7/tTIZBIL2DEL9PrwfD4kVUQ1LMi5I6lm6FBpl/KwSFQtXb2wamnZsFd3+s5GQLHbvZWMPE6bXjI4LmWKNNPYvKpNYd3sAjlI0CyjTzL7o7u1puNU63WnQ1Z8M2eFD+rWQf552GdEtjWNou67aqixJruaCX5ShsT3Z4RDlSHK5DpnRLtjFprtIRwEAypKTAIpUorNSa6zq1lHcRWnnXxxYQ9EbLBfXzINd6YFYAXmFhNLal23cmRn1UKz9oOCp9M6AfdyUoMonpp1c/aM3uh4Jcp4jFAzT1qY+KjeNt92/9HQmgroPrObTyzEMWxbOrsvw==
+X-YMail-OSG: ApNgELwVM1n3OnKggDcyUQbs6uDdswzcjNLrTQsL0FqezVfk.7hmyNK3PaHUDN0
+ Fsn_WbNiwszR6kSu31R5FivOmyuuv5HGWx7vVuii.TR2HlbiqUHnb2KlzsMgqhZpOc3bxngF3ZCb
+ cRjUjqmEL8x7NK8_4CuBWKPmJONtXQdP6eEwuDdUqOBPmVdR.7ypGNjMG1VPKsScoWSt.7A5yhmA
+ J43kLhp5ahK4mBMGvU4.JR_o3BDIyEiyYpP3hYwKLhNZK.D0iQPAM7a4rtxwY_eo1HUr3NkIaPe6
+ hHQJnz4C_f5CUkrRKBS0TnQToQZaHceZkWlXIX2BYt67EZOf7exqrdPpkvFKJNNurrFMativbm7X
+ mDXGcmqxGMtQO8p73kIrkugcvVcw6pfCffrhiWGa2CLPDzIwnvPrSrl2Dyz2kYJ2B3sMdkxTAzTw
+ UFTNsjiosfnJ.muRTIuR463gJ7tynb1k5Z5DIoLMsfL9dDSAvLUE702q_dBjQWU8z9aajFL6CDHT
+ AyvbVuTSdgZq0CN5KRXbBvvj7uy6wbMPnx9VyUWk7NAojM1w6lQZFJI.NUthoUq55vNMf3ue3myr
+ uxEPLl7ZoENxjrNGXG3iGP1P3AGS96G_cdX9.huM.nOj6zxwcCPQzm03LSrzYfrEQgc_q.4Sw29h
+ jaRgIuE4P6Txfrt7l5y78zYidR5.RsJC8yPOW0qLiXET0L_UkE4635ZZ70R2osfK8SXGb4f2ByOO
+ Qiq4qs.nhY69m.8HhZirKOGzF3jnx.Gf54jlYPBvtoaHa3Y4d1avdZEWyd_iXIIuyxNSqS0nXIhl
+ R7iNuM0QE6INCccjK5ALf1tW2lGzPRzn.wOCu5ySSbaY25yvW9iWs1bnoHCgOcYtvAC6Ku.9_e.H
+ .Fqo8q9u34mG.Ww1bEN.DwwPqGsyEULUCHgDKKNlTqacYTYcagUuCGpVLsrXh3Vd5TNpP2bF_tOu
+ N_NsaloNmJi3Fcsoqq46HpiAUjUN0sVCqRQjwQR8i9LDWRTPJv0XeLIdvdb8m8pedbVouWwB8iF5
+ Mjiol6S3IovfHEv0DTZh2t6wHqLYaYU62.5LKz9LnUIX5zrxV_a_fhNrSJlEKXOTHfiRsQbRo80z
+ QAZV6cXio6GnJdpJ4kCPiTI1mjTSsjTESifKh6OaTfQv6XxQEkTd_8eWqcp39icC4_ZN5Y84J6Gi
+ 8DNCP5uG8pt.XHkpGgCgH8tIaYmf3oGqfeNRNsXJwKM39QT0VlSQmitMO.GAQgiNj4.MYWZJjSGf
+ O1bJiE05RUl6IpfNcgWdLfbcZBBCS8vZ_CJis5oFQSjO3KymQlAYmNw.76xleRyiGZtJHSPx5AG7
+ A
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic315.consmr.mail.bf2.yahoo.com with HTTP; Wed, 8 Jul 2020 23:43:23 +0000
+Date:   Wed, 8 Jul 2020 23:43:20 +0000 (UTC)
+From:   Ms lisa Hugh <lisahugh531@gmail.com>
+Reply-To: ms.lisahugh000@gmail.com
+Message-ID: <538527762.4633085.1594251800761@mail.yahoo.com>
+Subject: MASSAGE FROM(Ms Lisa hugh).
 MIME-Version: 1.0
-In-Reply-To: <2f7964da-0dca-2d13-3559-28b4582a3278@mentor.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SVR-ORW-MBX-06.mgc.mentorg.com (147.34.90.206) To
- svr-orw-mbx-03.mgc.mentorg.com (147.34.90.203)
+References: <538527762.4633085.1594251800761.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.16197 YMailNodin Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello Dmitry
 
-I am working on refining this series,
-regarding your comment about drop changes related to
-upload firmware and config during boot.
 
-I found currently only config is uploaded during every boot.
-but firmware is only uploaded when userspace asks to do so via
-sysfs interface.
+Dear Friend,
 
-Could you help to confirm if this is the case?
+I am Ms Lisa hugh, work with the department of Audit and accounting manager here in the Bank(B.O.A).
 
-Thanks,
-Jiada
+Please i need your assistance for the transferring of thIs fund to your bank account for both of us benefit for life time investment, amount (US$4.5M DOLLARS).
 
-On 2020/06/25 22:50, Wang, Jiada wrote:
-> Hello Dmitry
-> 
-> sorry for the delay,
-> 
-> On 2020/05/27 15:43, Dmitry Torokhov wrote:
->> Hi Jiada,
->>
->> On Thu, May 07, 2020 at 10:56:00PM -0700, Jiada Wang wrote:
->>> This patch-set forward ports Nick Dyer's work in ndyer/linux github
->>> repository as long as some other features and fixes
->>
->> Sorry for ignoring the series for quite a while. I guess my biggest
->> issue with the series is that quite a bit of patches are trying to
->> handle the fallout from a very unfortunate design decision in the
->> driver: the fact that it attempts to automatically upload firmware and
->> config on every boot/probe. This design was done at my urging because I
->> did not have access to the technical documentation and did not realize
->> that the controller has non-volatile memory for both firmware and
->> configuration. We should only attempt to automatically load firmware
->> where device does not have non-volatile memory and is unable function
->> otherwise, in all other cases we better leave it to userspace to decide
->> whether to execute firmware update and when. The kernel should only
->> provide facilities so that userspace can initiate firmware update. This
->> design has worked well for Chrome OS for many years (it used Atmel
->> controllers in several products), and I would like to bring it to the
->> mainline.
-> 
-> I agree with you, I will review the patch-set,
-> and only pick these not related to firmware/cfg upload
-> 
-> Thanks,
-> jiada
->>
->> Thanks.
->>
+I have every inquiry details to make the bank believe you and release the fund in within 5 banking working days with your full co-operation with me for success.
+
+Note/ 50% for you why 50% for me after success of the transfer to your bank account.
+
+Below information is what i need from you so will can be reaching each other
+
+1)Full name ...
+2)Private telephone number...
+3)Age...
+4)Nationality...
+5)Occupation ...
+
+
+Thanks.
+
+Ms Lisa hugh.
