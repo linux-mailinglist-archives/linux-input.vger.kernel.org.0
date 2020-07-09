@@ -2,101 +2,179 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A66EC219A61
-	for <lists+linux-input@lfdr.de>; Thu,  9 Jul 2020 10:02:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBA3E219A94
+	for <lists+linux-input@lfdr.de>; Thu,  9 Jul 2020 10:15:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726420AbgGIICW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Jul 2020 04:02:22 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:55003 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726367AbgGIICU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Jul 2020 04:02:20 -0400
-Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <kai.heng.feng@canonical.com>)
-        id 1jtRVQ-0003Hx-4b; Thu, 09 Jul 2020 08:02:08 +0000
-From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
-To:     jikos@kernel.org, benjamin.tissoires@redhat.com
-Cc:     hdegoede@redhat.com, anthony.wong@canonical.com,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        You-Sheng Yang <vicamo.yang@canonical.com>,
-        Pavel Balan <admin@kryma.net>,
-        Aaron Ma <aaron.ma@canonical.com>,
-        HungNien Chen <hn.chen@weidahitech.com>,
-        Daniel Playfair Cal <daniel.playfair.cal@gmail.com>,
-        linux-input@vger.kernel.org (open list:HID CORE LAYER),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v4] HID: i2c-hid: Enable wakeup capability from Suspend-to-Idle
-Date:   Thu,  9 Jul 2020 15:57:29 +0800
-Message-Id: <20200709075731.5046-1-kai.heng.feng@canonical.com>
-X-Mailer: git-send-email 2.17.1
+        id S1726215AbgGIIPf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Jul 2020 04:15:35 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:55606 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726211AbgGIIPf (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Jul 2020 04:15:35 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id 3ECFB2A6173
+Subject: Re: [PATCH] tty/sysrq: Add alternative SysRq key
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>, kernel@collabora.com
+References: <20200511180145.GU89269@dtor-ws>
+ <20200619162819.715-1-andrzej.p@collabora.com>
+ <20200709050538.GG3273837@dtor-ws>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <ceb64085-5fff-f4c8-a2e5-ea9e1a7329bf@collabora.com>
+Date:   Thu, 9 Jul 2020 10:15:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+MIME-Version: 1.0
+In-Reply-To: <20200709050538.GG3273837@dtor-ws>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Many laptops can be woken up from Suspend-to-Idle by touchpad. This is
-also the default behavior on other OSes.
+Hi Dmitry,
 
-However, if touchpad and touchscreen contact to each other when lid is
-closed, wakeup events can be triggered inadventertly.
+W dniu 09.07.2020 o 07:05, Dmitry Torokhov pisze:
+> Hi Andrzej,
+> 
+> On Fri, Jun 19, 2020 at 06:28:19PM +0200, Andrzej Pietrasiewicz wrote:
+>> There exist machines which don't have SysRq key at all, e.g. chromebooks.
+>>
+>> This patch allows configuring an alternative key to act as SysRq. Devices
+>> which declare KEY_SYSRQ in their 'keybit' bitmap continue using KEY_SYSRQ,
+>> but other devices use the alternative SysRq key instead, by default F10.
+>> Which key is actually used can be modified with sysrq's module parameter.
+> 
+> I guess you will be removing KEY_SYSRQ form all Chrome OS internal AT
+> keyboards and external USB keyboard with Chrome OS layouts as well? Via
+> udev keymap? I suppose this could work... Or have a per device setting
+> as we allocate a separate handle for each input device attached to the
+> SysRq handler.
+> 
 
-So let's disable the wakeup by default, but enable the wakeup capability
-so users can enable it at their own discretion.
+To me it makes most sense to have the decision taken per each input
+device - if it is capable of providing KEY_SYSRQ, then it is used,
+otherwise the alternative is taken.
 
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
----
-v4:
- - Enable the capability, but disable the wakeup default.
+The question is how to provide this information at ->connect() time.
 
-v3:
- - Use device_init_wakeup().
- - Wording change.
+Ideally chromebook's keyboard should be modelled in such a way that
+it reflects reality. And the reality is that chromebooks probably
+declare they use full AT PS/2 keyboard even though they have less keys.
 
-v2:
- - Fix compile error when ACPI is not enabled.
+It is unclear to me whether it makes sense to struggle to better
+reflect actual keys repertoire at the kernel level. If udev's keymap
+can be used, that should do. Now, are we able to guarantee that the
+modification of the keyboard layout happens before the sysrq handler
+is matched against the keyboard?
 
- drivers/hid/i2c-hid/i2c-hid-core.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Andrzej
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 294c84e136d7..c18ca6a6cb3d 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -931,6 +931,14 @@ static void i2c_hid_acpi_fix_up_power(struct device *dev)
- 		acpi_device_fix_up_power(adev);
- }
- 
-+static void i2c_hid_acpi_enable_wakeup(struct device *dev)
-+{
-+	if (acpi_gbl_FADT.flags & ACPI_FADT_LOW_POWER_S0) {
-+		device_set_wakeup_capable(dev, true);
-+		device_set_wakeup_enable(dev, false);
-+	}
-+}
-+
- static const struct acpi_device_id i2c_hid_acpi_match[] = {
- 	{"ACPI0C50", 0 },
- 	{"PNP0C50", 0 },
-@@ -945,6 +953,8 @@ static inline int i2c_hid_acpi_pdata(struct i2c_client *client,
- }
- 
- static inline void i2c_hid_acpi_fix_up_power(struct device *dev) {}
-+
-+static inline void i2c_hid_acpi_enable_wakeup(struct device *dev) {}
- #endif
- 
- #ifdef CONFIG_OF
-@@ -1072,6 +1082,8 @@ static int i2c_hid_probe(struct i2c_client *client,
- 
- 	i2c_hid_acpi_fix_up_power(&client->dev);
- 
-+	i2c_hid_acpi_enable_wakeup(&client->dev);
-+
- 	device_enable_async_suspend(&client->dev);
- 
- 	/* Make sure there is something at this address */
--- 
-2.17.1
+>>
+>> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+>> ---
+>>   drivers/tty/sysrq.c | 28 +++++++++++++++++++++++++---
+>>   1 file changed, 25 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/tty/sysrq.c b/drivers/tty/sysrq.c
+>> index 0dc3878794fd..e1d271c84746 100644
+>> --- a/drivers/tty/sysrq.c
+>> +++ b/drivers/tty/sysrq.c
+>> @@ -604,6 +604,7 @@ EXPORT_SYMBOL(handle_sysrq);
+>>   
+>>   #ifdef CONFIG_INPUT
+>>   static int sysrq_reset_downtime_ms;
+>> +static unsigned short alternative_sysrq_key = KEY_F10;
+>>   
+>>   /* Simple translation table for the SysRq keys */
+>>   static const unsigned char sysrq_xlate[KEY_CNT] =
+>> @@ -621,6 +622,7 @@ struct sysrq_state {
+>>   	unsigned long key_down[BITS_TO_LONGS(KEY_CNT)];
+>>   	unsigned int alt;
+>>   	unsigned int alt_use;
+>> +	unsigned short sysrq_key;
+>>   	bool active;
+>>   	bool need_reinject;
+>>   	bool reinjecting;
+>> @@ -770,10 +772,10 @@ static void sysrq_reinject_alt_sysrq(struct work_struct *work)
+>>   
+>>   		/* Simulate press and release of Alt + SysRq */
+>>   		input_inject_event(handle, EV_KEY, alt_code, 1);
+>> -		input_inject_event(handle, EV_KEY, KEY_SYSRQ, 1);
+>> +		input_inject_event(handle, EV_KEY, sysrq->sysrq_key, 1);
+>>   		input_inject_event(handle, EV_SYN, SYN_REPORT, 1);
+>>   
+>> -		input_inject_event(handle, EV_KEY, KEY_SYSRQ, 0);
+>> +		input_inject_event(handle, EV_KEY, sysrq->sysrq_key, 0);
+>>   		input_inject_event(handle, EV_KEY, alt_code, 0);
+>>   		input_inject_event(handle, EV_SYN, SYN_REPORT, 1);
+>>   
+>> @@ -805,6 +807,7 @@ static bool sysrq_handle_keypress(struct sysrq_state *sysrq,
+>>   		}
+>>   		break;
+>>   
+>> +key_sysrq:
+>>   	case KEY_SYSRQ:
+>>   		if (value == 1 && sysrq->alt != KEY_RESERVED) {
+>>   			sysrq->active = true;
+>> @@ -825,11 +828,15 @@ static bool sysrq_handle_keypress(struct sysrq_state *sysrq,
+>>   		 * triggering print screen function.
+>>   		 */
+>>   		if (sysrq->active)
+>> -			clear_bit(KEY_SYSRQ, sysrq->handle.dev->key);
+>> +			clear_bit(sysrq->sysrq_key, sysrq->handle.dev->key);
+>>   
+>>   		break;
+>>   
+>>   	default:
+>> +		/* handle non-default sysrq key */
+>> +		if (code == sysrq->sysrq_key)
+>> +			goto key_sysrq;
+>> +
+>>   		if (sysrq->active && value && value != 2) {
+>>   			sysrq->need_reinject = false;
+>>   			__handle_sysrq(sysrq_xlate[code], true);
+>> @@ -924,6 +931,14 @@ static int sysrq_connect(struct input_handler *handler,
+>>   	sysrq->handle.private = sysrq;
+>>   	timer_setup(&sysrq->keyreset_timer, sysrq_do_reset, 0);
+>>   
+>> +	if (test_bit(KEY_SYSRQ, dev->keybit)) {
+>> +		sysrq->sysrq_key = KEY_SYSRQ;
+>> +		pr_info("%s: using default sysrq key [%x]\n", dev->name, KEY_SYSRQ);
+>> +	} else {
+>> +		sysrq->sysrq_key = alternative_sysrq_key;
+>> +		pr_info("%s: Using alternative sysrq key: [%x]\n", dev->name, sysrq->sysrq_key);
+>> +	}
+> 
+> This is way too noisy IMO.
+> 
+>> +
+>>   	error = input_register_handle(&sysrq->handle);
+>>   	if (error) {
+>>   		pr_err("Failed to register input sysrq handler, error %d\n",
+>> @@ -1032,6 +1047,13 @@ module_param_array_named(reset_seq, sysrq_reset_seq, sysrq_reset_seq,
+>>   
+>>   module_param_named(sysrq_downtime_ms, sysrq_reset_downtime_ms, int, 0644);
+>>   
+>> +module_param(alternative_sysrq_key, ushort, 0644);
+>> +MODULE_PARM_DESC(alternative_sysrq_key,
+>> +	"Alternative SysRq key for input devices that don't have SysRq key. F10 by default.\n"
+>> +	"Example\n"
+>> +	"Using F9 as SysRq:\n"
+>> +	"sysrq.alternative_sysrq_key=0x43\n");
+>> +
+>>   #else
+>>   
+>>   static inline void sysrq_register_handler(void)
+>>
+>> base-commit: 3d77e6a8804abcc0504c904bd6e5cdf3a5cf8162
+>> -- 
+>> 2.17.1
+>>
+> 
 
