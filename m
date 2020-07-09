@@ -2,33 +2,42 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBA3E219A94
-	for <lists+linux-input@lfdr.de>; Thu,  9 Jul 2020 10:15:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 490FF219B6F
+	for <lists+linux-input@lfdr.de>; Thu,  9 Jul 2020 10:50:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726215AbgGIIPf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Jul 2020 04:15:35 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:55606 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726211AbgGIIPf (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Jul 2020 04:15:35 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 3ECFB2A6173
-Subject: Re: [PATCH] tty/sysrq: Add alternative SysRq key
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>, kernel@collabora.com
-References: <20200511180145.GU89269@dtor-ws>
- <20200619162819.715-1-andrzej.p@collabora.com>
- <20200709050538.GG3273837@dtor-ws>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <ceb64085-5fff-f4c8-a2e5-ea9e1a7329bf@collabora.com>
-Date:   Thu, 9 Jul 2020 10:15:30 +0200
+        id S1726245AbgGIIuF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Jul 2020 04:50:05 -0400
+Received: from mx3.molgen.mpg.de ([141.14.17.11]:58709 "EHLO mx1.molgen.mpg.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726140AbgGIIuF (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 9 Jul 2020 04:50:05 -0400
+Received: from [192.168.0.6] (ip5f5af27e.dynamic.kabel-deutschland.de [95.90.242.126])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: pmenzel)
+        by mx.molgen.mpg.de (Postfix) with ESMTPSA id 9EF36206442F5;
+        Thu,  9 Jul 2020 10:50:02 +0200 (CEST)
+Subject: Re: i8042 AUX port [serio1] suspend takes a second on Dell XPS 13
+ 9360
+To:     Mario Limonciello <mario.limonciello@dell.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        it+linux-input@molgen.mpg.de, linux@leemhuis.info
+References: <5a74e1a7-2083-c6b2-f51a-f44908ac8bc4@molgen.mpg.de>
+ <20180130175017.72inurhk5l7tcvae@dtor-ws>
+ <20180130180736.ehucqywbz7zdl4v7@dtor-ws>
+ <f02b699d-b130-c09f-3e09-db62ecf2df2c@molgen.mpg.de>
+ <609c1f35df7346da8ac1d12c35e04cf7@ausx13mpc120.AMER.DELL.COM>
+ <b9223169-2282-4ada-999a-7f50d205ca7d@molgen.mpg.de>
+ <33355407b8d74575bab0c36e442141ea@ausx13mpc120.AMER.DELL.COM>
+ <9e83b8b4-7ea5-d286-a559-66e000df7da1@molgen.mpg.de>
+From:   Paul Menzel <pmenzel@molgen.mpg.de>
+Message-ID: <a1ef8c9e-14e5-11c4-d7d5-52225027b6b1@molgen.mpg.de>
+Date:   Thu, 9 Jul 2020 10:50:02 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200709050538.GG3273837@dtor-ws>
+In-Reply-To: <9e83b8b4-7ea5-d286-a559-66e000df7da1@molgen.mpg.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -37,144 +46,110 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+Dear Dmitry, dear Mario,
 
-W dniu 09.07.2020 o 07:05, Dmitry Torokhov pisze:
-> Hi Andrzej,
-> 
-> On Fri, Jun 19, 2020 at 06:28:19PM +0200, Andrzej Pietrasiewicz wrote:
->> There exist machines which don't have SysRq key at all, e.g. chromebooks.
+
+Am 21.02.18 um 10:22 schrieb Paul Menzel:
+
+> Am 15.02.2018 um 16:22 schrieb Mario.Limonciello@dell.com:
+>>> -----Original Message-----
+>>> From: Paul Menzel [mailto:pmenzel+linux-input@molgen.mpg.de]
+>>> Sent: Thursday, February 15, 2018 2:26 AM
+>>> On 02/14/18 18:11, Mario.Limonciello@dell.com wrote:
+>>>>
+>>>>> -----Original Message-----
+>>>>> From: Paul Menzel [mailto:pmenzel+linux-input@molgen.mpg.de]
+>>>>> Sent: Wednesday, February 14, 2018 10:41 AM
+>>>
+>>>>> On 01/30/18 19:07, Dmitry Torokhov wrote:
+>>>>>> On Tue, Jan 30, 2018 at 09:52:45AM -0800, Dmitry Torokhov wrote:
+>>>>>
+>>>>>>> On Tue, Jan 30, 2018 at 06:36:34PM +0100, Paul Menzel wrote:
+>>>>>
+>>>>>>>> I do not know, when it started, but with Linux 4.14-rc8 and 4.15,
+>>>>>>>> benchmarking suspend and resume time with `sleepgraph.py` [1][2], there is a
+>>>>>>>> regression, that i8042 AUX port [serio1] suspend takes a second on Dell XPS
+>>>>>>>> 13 9360 and TUXEDO Book 1406.
+>>>>>>>
+>>>>>>> It would be really helpful to know when the regression started.
+>>>>>>
+>>>>>> So the reason it takes longer is because the touchpad does not 
+>>>>>> want to talk to us for some reason and we wait until commands time out:
+>>>>>>
+>>>>>> [   94.591636] calling  serio1+ @ 2299, parent: i8042
+>>>>>> [   94.794292] psmouse serio1: Failed to disable mouse on isa0060/serio1
+>>>>>> [   95.593303] call serio1+ returned 0 after 974280 usecs
+>>>>>>
+>>>>>> but it is not clear why it happens, I do not think we changed anything
+>>>>>> in that path for a while, so it might be some other change affecting
+>>>>>> things indirectly. I'm afraid you'll have to narrow the scope, and
+>>>>>> ideally bisect.
+>>>>
+>>>> Please keep in mind the XPS 9360 has a touchpad that can operate in I2C
+>>>> or PS2 modes.  It's connected to both buses and with the right initialization
+>>>> sequence will come up in I2C mode.
+>>>>
+>>>> Assuming Paul M. has compiled and used hid-multitouch and i2c-hid the
+>>>> touchpad should be operating in I2C mode.
+>>>>
+>>>> When this happens I expect that the touchpad shouldn't be responding
+>>>> to PS2 commands.
+>>>>
+>>>> As a debugging tactic, you may consider to unload psmouse before
+>>>> suspend and still see the touchpad operational.
+>>>
+>>> Thank you! Unloading *psmouse* with `sudo modprobe -r psmouse` indeed
+>>> worked on the Dell XPS 13 9360, that means, the cursor is still 
+>>> functioning.
+>>>
+>>>>> Thank you for your replies. First of all, it looks like *only* the Dell
+>>>>> system is effected as I was unable to reproduce it on the TUXEDO Book
+>>>>> 1406. I have to verify that by finding old log files.
+>>>>
+>>>> Does this other laptop you are drawing a comparison to also have a
+>>>> touchpad that can operate in multiple modes?
+>>>>
+>>>> To make an accurate comparison you should determine what mode it's in.
+>>>
+>>> Yeah, removing the module *psmouse*, the cursor didn’t work there
+>>> anymore. I was really sure, that I saw that problem once on the TUXEDO
+>>> device too, but must have been mistaken, that’s why I corrected it.
+>>> Sorry for the misunderstanding.
+>>>
+>>> So, why does *psmouse* get loaded on the Dell XPS 13 9360 since at least
+>>> Linux 4.13? Or where the modules added causing the touchpad to operate
+>>> in I2C mode, which causes PS2 to stop to work?
 >>
->> This patch allows configuring an alternative key to act as SysRq. Devices
->> which declare KEY_SYSRQ in their 'keybit' bitmap continue using KEY_SYSRQ,
->> but other devices use the alternative SysRq key instead, by default F10.
->> Which key is actually used can be modified with sysrq's module parameter.
+>> It was like that before this laptop even launched to the market.
+>> It's been like that since way before 4.13.  I want to say maybe 
+>> 3.13ish is when
+>> I2C mode would come up instead.
 > 
-> I guess you will be removing KEY_SYSRQ form all Chrome OS internal AT
-> keyboards and external USB keyboard with Chrome OS layouts as well? Via
-> udev keymap? I suppose this could work... Or have a per device setting
-> as we allocate a separate handle for each input device attached to the
-> SysRq handler.
+> Indeed, analyzing the behavior on the current 8th generation Dell XPS 13 
+> 93*7*0 with the shipped Ubuntu with Linux 4.4.0-112-generic, the same 
+> delay is visible.
 > 
-
-To me it makes most sense to have the decision taken per each input
-device - if it is capable of providing KEY_SYSRQ, then it is used,
-otherwise the alternative is taken.
-
-The question is how to provide this information at ->connect() time.
-
-Ideally chromebook's keyboard should be modelled in such a way that
-it reflects reality. And the reality is that chromebooks probably
-declare they use full AT PS/2 keyboard even though they have less keys.
-
-It is unclear to me whether it makes sense to struggle to better
-reflect actual keys repertoire at the kernel level. If udev's keymap
-can be used, that should do. Now, are we able to guarantee that the
-modification of the keyboard layout happens before the sysrq handler
-is matched against the keyboard?
-
-Andrzej
-
+>> The order of events goes something like this:
+>> 1) Touchpad is initially in PS2 mode
+>> 2) psmouse loads
+>> 3) It reports that it may be supportable by a different bus
+>> 4) The sequence to switch to I2C mode happens
+>> 5) i2c-hid and hid-multitouch get loaded
+>> 6) psmouse is no longer functional
 >>
->> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
->> ---
->>   drivers/tty/sysrq.c | 28 +++++++++++++++++++++++++---
->>   1 file changed, 25 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/tty/sysrq.c b/drivers/tty/sysrq.c
->> index 0dc3878794fd..e1d271c84746 100644
->> --- a/drivers/tty/sysrq.c
->> +++ b/drivers/tty/sysrq.c
->> @@ -604,6 +604,7 @@ EXPORT_SYMBOL(handle_sysrq);
->>   
->>   #ifdef CONFIG_INPUT
->>   static int sysrq_reset_downtime_ms;
->> +static unsigned short alternative_sysrq_key = KEY_F10;
->>   
->>   /* Simple translation table for the SysRq keys */
->>   static const unsigned char sysrq_xlate[KEY_CNT] =
->> @@ -621,6 +622,7 @@ struct sysrq_state {
->>   	unsigned long key_down[BITS_TO_LONGS(KEY_CNT)];
->>   	unsigned int alt;
->>   	unsigned int alt_use;
->> +	unsigned short sysrq_key;
->>   	bool active;
->>   	bool need_reinject;
->>   	bool reinjecting;
->> @@ -770,10 +772,10 @@ static void sysrq_reinject_alt_sysrq(struct work_struct *work)
->>   
->>   		/* Simulate press and release of Alt + SysRq */
->>   		input_inject_event(handle, EV_KEY, alt_code, 1);
->> -		input_inject_event(handle, EV_KEY, KEY_SYSRQ, 1);
->> +		input_inject_event(handle, EV_KEY, sysrq->sysrq_key, 1);
->>   		input_inject_event(handle, EV_SYN, SYN_REPORT, 1);
->>   
->> -		input_inject_event(handle, EV_KEY, KEY_SYSRQ, 0);
->> +		input_inject_event(handle, EV_KEY, sysrq->sysrq_key, 0);
->>   		input_inject_event(handle, EV_KEY, alt_code, 0);
->>   		input_inject_event(handle, EV_SYN, SYN_REPORT, 1);
->>   
->> @@ -805,6 +807,7 @@ static bool sysrq_handle_keypress(struct sysrq_state *sysrq,
->>   		}
->>   		break;
->>   
->> +key_sysrq:
->>   	case KEY_SYSRQ:
->>   		if (value == 1 && sysrq->alt != KEY_RESERVED) {
->>   			sysrq->active = true;
->> @@ -825,11 +828,15 @@ static bool sysrq_handle_keypress(struct sysrq_state *sysrq,
->>   		 * triggering print screen function.
->>   		 */
->>   		if (sysrq->active)
->> -			clear_bit(KEY_SYSRQ, sysrq->handle.dev->key);
->> +			clear_bit(sysrq->sysrq_key, sysrq->handle.dev->key);
->>   
->>   		break;
->>   
->>   	default:
->> +		/* handle non-default sysrq key */
->> +		if (code == sysrq->sysrq_key)
->> +			goto key_sysrq;
->> +
->>   		if (sysrq->active && value && value != 2) {
->>   			sysrq->need_reinject = false;
->>   			__handle_sysrq(sysrq_xlate[code], true);
->> @@ -924,6 +931,14 @@ static int sysrq_connect(struct input_handler *handler,
->>   	sysrq->handle.private = sysrq;
->>   	timer_setup(&sysrq->keyreset_timer, sysrq_do_reset, 0);
->>   
->> +	if (test_bit(KEY_SYSRQ, dev->keybit)) {
->> +		sysrq->sysrq_key = KEY_SYSRQ;
->> +		pr_info("%s: using default sysrq key [%x]\n", dev->name, KEY_SYSRQ);
->> +	} else {
->> +		sysrq->sysrq_key = alternative_sysrq_key;
->> +		pr_info("%s: Using alternative sysrq key: [%x]\n", dev->name, sysrq->sysrq_key);
->> +	}
+>> Dmitry is there a way that we can connect the two events?  When 
+>> i2c-hid finds
+>> the touchpad notify psmouse to unload or at least stop trying to 
+>> access it to prevent
+>> the problem Paul is talking about with suspend?
 > 
-> This is way too noisy IMO.
-> 
->> +
->>   	error = input_register_handle(&sysrq->handle);
->>   	if (error) {
->>   		pr_err("Failed to register input sysrq handler, error %d\n",
->> @@ -1032,6 +1047,13 @@ module_param_array_named(reset_seq, sysrq_reset_seq, sysrq_reset_seq,
->>   
->>   module_param_named(sysrq_downtime_ms, sysrq_reset_downtime_ms, int, 0644);
->>   
->> +module_param(alternative_sysrq_key, ushort, 0644);
->> +MODULE_PARM_DESC(alternative_sysrq_key,
->> +	"Alternative SysRq key for input devices that don't have SysRq key. F10 by default.\n"
->> +	"Example\n"
->> +	"Using F9 as SysRq:\n"
->> +	"sysrq.alternative_sysrq_key=0x43\n");
->> +
->>   #else
->>   
->>   static inline void sysrq_register_handler(void)
->>
->> base-commit: 3d77e6a8804abcc0504c904bd6e5cdf3a5cf8162
->> -- 
->> 2.17.1
->>
-> 
+> That would be great. Please tell me, if there is a bug tracker, where 
+> this issue should reported to to track it.
 
+The issue is still present with Linux 5.8-rc4. Does Mario’s plan sound 
+feasible?
+
+
+Kind regards,
+
+Paul
