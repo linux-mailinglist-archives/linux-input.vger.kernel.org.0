@@ -2,156 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 529D4219D01
-	for <lists+linux-input@lfdr.de>; Thu,  9 Jul 2020 12:07:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E06B721A985
+	for <lists+linux-input@lfdr.de>; Thu,  9 Jul 2020 23:05:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726446AbgGIKHp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 9 Jul 2020 06:07:45 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:29519 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726327AbgGIKHo (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Jul 2020 06:07:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1594289262;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=XGzQ4h/xdgSnPNt6v8xNLAT0U2pdFmJEzgSG1Adoozc=;
-        b=RY0QX2t2WUz6p8KA/tLxlSe5PLlqmo3VgsFLSwIkvW3dPCZ8SOvd+LoL3EQAXfHxSmzDxd
-        U4HOW/uZlO0xf7hYfmhvI2psruar/2VGaHpv+z9In01UhnI1eX9+sqCCY0HXk+PRollMPj
-        advSBZJxCxWJ02JGU/+TCWWMz4Z7q04=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-461-VDBghZXeOxKk0lIRi9uwOw-1; Thu, 09 Jul 2020 06:07:41 -0400
-X-MC-Unique: VDBghZXeOxKk0lIRi9uwOw-1
-Received: by mail-ed1-f72.google.com with SMTP id u25so2107869edq.1
-        for <linux-input@vger.kernel.org>; Thu, 09 Jul 2020 03:07:41 -0700 (PDT)
+        id S1726265AbgGIVFq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Jul 2020 17:05:46 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:33952 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726196AbgGIVFq (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Jul 2020 17:05:46 -0400
+Received: by mail-io1-f65.google.com with SMTP id q74so3859762iod.1;
+        Thu, 09 Jul 2020 14:05:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=XGzQ4h/xdgSnPNt6v8xNLAT0U2pdFmJEzgSG1Adoozc=;
-        b=Kn+9xbJPsunz0TSIRBXmp+5AarTIiM2up3Pv1u8I9kFBKQxX94Enn735wx1WJLKmLn
-         Ngff6b4+PU2wbVixoGMjfDNKhWvKwWxk/2EDOigvTXZ70SLuex6R2/CzWzw6Mhu2mnQF
-         IBrN6I0MjcH3C1kCHLHwaLdoblFd1gEZoJthemOEm1zB04zcy2fs+vWRBs8qCqsr+7yb
-         DTVTFZWxkjdTzT12IQIeoptMNvbnzNIz6R2iAbCqLwz2zEy1g6IQfAxmmOOHjMpzPOhj
-         GsQfHKXLJT8Oe7Zpu6A2/nIoxNM0so5wa8J0tk+XS7Hx5yTz2t4mwJ86LolOsWP6LH3L
-         lXOA==
-X-Gm-Message-State: AOAM532WbD6KxHy1dc04XR+NPLUwtJY8u7DLfHi/UYJ4yTB2GblZtTZs
-        jWuO9tSnoMnas9TJKSWxABSHzrn5otddeCxAUYAy5cG++jeCjPMFArBmatsiP+piRBxQKMO8wYj
-        w0NZZW8UQCc1faSn6Vcdg0wY=
-X-Received: by 2002:a17:906:7250:: with SMTP id n16mr48439751ejk.290.1594289260121;
-        Thu, 09 Jul 2020 03:07:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwNztlPBh26eUmJzhZ9TTEOzcrkZpDS4/OKI+ILiWU7nscSANXIx0rJYN9g290LETLzlahYhQ==
-X-Received: by 2002:a17:906:7250:: with SMTP id n16mr48439733ejk.290.1594289259929;
-        Thu, 09 Jul 2020 03:07:39 -0700 (PDT)
-Received: from x1.localdomain (83-84-126-242.cable.dynamic.v4.ziggo.nl. [83.84.126.242])
-        by smtp.gmail.com with ESMTPSA id b11sm1657097edw.76.2020.07.09.03.07.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jul 2020 03:07:39 -0700 (PDT)
-Subject: Re: [PATCH v4] HID: i2c-hid: Enable wakeup capability from
- Suspend-to-Idle
-To:     Kai-Heng Feng <kai.heng.feng@canonical.com>, jikos@kernel.org,
-        benjamin.tissoires@redhat.com
-Cc:     anthony.wong@canonical.com,
-        You-Sheng Yang <vicamo.yang@canonical.com>,
-        Pavel Balan <admin@kryma.net>,
-        Aaron Ma <aaron.ma@canonical.com>,
-        HungNien Chen <hn.chen@weidahitech.com>,
-        Daniel Playfair Cal <daniel.playfair.cal@gmail.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20200709075731.5046-1-kai.heng.feng@canonical.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <82be7198-168f-d174-7cf8-10cd420e0bb6@redhat.com>
-Date:   Thu, 9 Jul 2020 12:05:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ciOCqx+pAUOAXkMzh0J3FjQTCHj6Fd5iCNLqebgsDgU=;
+        b=Gvs2fV2bO6x3CB44xl1nvtx1nl2LTaIM1Lr7ntZTq+sQvhXcpVkciL6gGuCYKFt8Bl
+         sj3+AaZG1UqKAmq6B9EL8nuiITAi3j/3/hox47hjMPyZz1zeZz0mr6cI9RfdRJhC5J7+
+         SKPl/7FF6EczzqtI8O8ZcMiu7Yg3ya1gcSZFwm2MaAKcVMM0A9pwSQY9x4PJox9nQgTk
+         bBkxcKR27LykZPc6+W3q0HYvY3pEjuL3SVT2Aq1X41va4bynouu7ptO8PlOl+/12JK03
+         z+4fIq4bEk9EsrCEsyFWOSHttocuB0Y9zIehgM36PmdztWLPy3IPSfLsCGgeliFcB2ej
+         nE2A==
+X-Gm-Message-State: AOAM531NroD/mlpesDpPZRg7eLDxnt4iKxs9W52UYziu/zL3tu7pjHUL
+        ydIYIzD+w0eBq8Ow5aGp9g==
+X-Google-Smtp-Source: ABdhPJxnuXjSuIY5ztk9nt9DROEKLr7d42biy9Xnb6UFa5gqju6Td/lGBeURmolKL3CIcMJNVa6suA==
+X-Received: by 2002:a05:6638:dcf:: with SMTP id m15mr75131676jaj.86.1594328745143;
+        Thu, 09 Jul 2020 14:05:45 -0700 (PDT)
+Received: from xps15 ([64.188.179.254])
+        by smtp.gmail.com with ESMTPSA id v5sm2709848ios.54.2020.07.09.14.05.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2020 14:05:44 -0700 (PDT)
+Received: (nullmailer pid 884608 invoked by uid 1000);
+        Thu, 09 Jul 2020 21:05:43 -0000
+Date:   Thu, 9 Jul 2020 15:05:43 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Kamel Bouhara <kamel.bouhara@bootlin.com>
+Cc:     linux-iio@vger.kernel.org,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v6 3/5] dt-bindings: microchip: atmel, at91rm9200-tcb:
+ add sama5d2 compatible
+Message-ID: <20200709210543.GA884561@bogus>
+References: <20200706114347.174452-1-kamel.bouhara@bootlin.com>
+ <20200706114347.174452-4-kamel.bouhara@bootlin.com>
 MIME-Version: 1.0
-In-Reply-To: <20200709075731.5046-1-kai.heng.feng@canonical.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200706114347.174452-4-kamel.bouhara@bootlin.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
-
-On 7/9/20 9:57 AM, Kai-Heng Feng wrote:
-> Many laptops can be woken up from Suspend-to-Idle by touchpad. This is
-> also the default behavior on other OSes.
+On Mon, 06 Jul 2020 13:43:45 +0200, Kamel Bouhara wrote:
+> From: Alexandre Belloni <alexandre.belloni@bootlin.com>
 > 
-> However, if touchpad and touchscreen contact to each other when lid is
-> closed, wakeup events can be triggered inadventertly.
+> The sama5d2 TC block TIMER_CLOCK1 is different from the at91sam9x5 one.
+> Instead of being MCK / 2, it is the TCB GCLK.
 > 
-> So let's disable the wakeup by default, but enable the wakeup capability
-> so users can enable it at their own discretion.
-> 
-> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-
-Thank you, this version looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
-
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
 > ---
-> v4:
->   - Enable the capability, but disable the wakeup default.
-> 
-> v3:
->   - Use device_init_wakeup().
->   - Wording change.
-> 
-> v2:
->   - Fix compile error when ACPI is not enabled.
-> 
->   drivers/hid/i2c-hid/i2c-hid-core.c | 12 ++++++++++++
->   1 file changed, 12 insertions(+)
-> 
-> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-> index 294c84e136d7..c18ca6a6cb3d 100644
-> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
-> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-> @@ -931,6 +931,14 @@ static void i2c_hid_acpi_fix_up_power(struct device *dev)
->   		acpi_device_fix_up_power(adev);
->   }
->   
-> +static void i2c_hid_acpi_enable_wakeup(struct device *dev)
-> +{
-> +	if (acpi_gbl_FADT.flags & ACPI_FADT_LOW_POWER_S0) {
-> +		device_set_wakeup_capable(dev, true);
-> +		device_set_wakeup_enable(dev, false);
-> +	}
-> +}
-> +
->   static const struct acpi_device_id i2c_hid_acpi_match[] = {
->   	{"ACPI0C50", 0 },
->   	{"PNP0C50", 0 },
-> @@ -945,6 +953,8 @@ static inline int i2c_hid_acpi_pdata(struct i2c_client *client,
->   }
->   
->   static inline void i2c_hid_acpi_fix_up_power(struct device *dev) {}
-> +
-> +static inline void i2c_hid_acpi_enable_wakeup(struct device *dev) {}
->   #endif
->   
->   #ifdef CONFIG_OF
-> @@ -1072,6 +1082,8 @@ static int i2c_hid_probe(struct i2c_client *client,
->   
->   	i2c_hid_acpi_fix_up_power(&client->dev);
->   
-> +	i2c_hid_acpi_enable_wakeup(&client->dev);
-> +
->   	device_enable_async_suspend(&client->dev);
->   
->   	/* Make sure there is something at this address */
+>  .../soc/microchip/atmel,at91rm9200-tcb.yaml   | 42 +++++++++++++++----
+>  1 file changed, 33 insertions(+), 9 deletions(-)
 > 
 
+Reviewed-by: Rob Herring <robh@kernel.org>
