@@ -2,74 +2,187 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3476219480
-	for <lists+linux-input@lfdr.de>; Thu,  9 Jul 2020 01:43:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBF8C2197AB
+	for <lists+linux-input@lfdr.de>; Thu,  9 Jul 2020 07:05:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726122AbgGHXnY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 8 Jul 2020 19:43:24 -0400
-Received: from sonic315-14.consmr.mail.bf2.yahoo.com ([74.6.134.124]:46104
-        "EHLO sonic315-14.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726044AbgGHXnY (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 8 Jul 2020 19:43:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1594251803; bh=NajTNMrfMLb6UXcjRhYpYerQX8PtVBLz0oFgaMINSWY=; h=Date:From:Reply-To:Subject:References:From:Subject; b=HN/tC86bgd9/bl0s6IeF7/tTIZBIL2DEL9PrwfD4kVUQ1LMi5I6lm6FBpl/KwSFQtXb2wamnZsFd3+s5GQLHbvZWMPE6bXjI4LmWKNNPYvKpNYd3sAjlI0CyjTzL7o7u1puNU63WnQ1Z8M2eFD+rWQf552GdEtjWNou67aqixJruaCX5ShsT3Z4RDlSHK5DpnRLtjFprtIRwEAypKTAIpUorNSa6zq1lHcRWnnXxxYQ9EbLBfXzINd6YFYAXmFhNLal23cmRn1UKz9oOCp9M6AfdyUoMonpp1c/aM3uh4Jcp4jFAzT1qY+KjeNt92/9HQmgroPrObTyzEMWxbOrsvw==
-X-YMail-OSG: ApNgELwVM1n3OnKggDcyUQbs6uDdswzcjNLrTQsL0FqezVfk.7hmyNK3PaHUDN0
- Fsn_WbNiwszR6kSu31R5FivOmyuuv5HGWx7vVuii.TR2HlbiqUHnb2KlzsMgqhZpOc3bxngF3ZCb
- cRjUjqmEL8x7NK8_4CuBWKPmJONtXQdP6eEwuDdUqOBPmVdR.7ypGNjMG1VPKsScoWSt.7A5yhmA
- J43kLhp5ahK4mBMGvU4.JR_o3BDIyEiyYpP3hYwKLhNZK.D0iQPAM7a4rtxwY_eo1HUr3NkIaPe6
- hHQJnz4C_f5CUkrRKBS0TnQToQZaHceZkWlXIX2BYt67EZOf7exqrdPpkvFKJNNurrFMativbm7X
- mDXGcmqxGMtQO8p73kIrkugcvVcw6pfCffrhiWGa2CLPDzIwnvPrSrl2Dyz2kYJ2B3sMdkxTAzTw
- UFTNsjiosfnJ.muRTIuR463gJ7tynb1k5Z5DIoLMsfL9dDSAvLUE702q_dBjQWU8z9aajFL6CDHT
- AyvbVuTSdgZq0CN5KRXbBvvj7uy6wbMPnx9VyUWk7NAojM1w6lQZFJI.NUthoUq55vNMf3ue3myr
- uxEPLl7ZoENxjrNGXG3iGP1P3AGS96G_cdX9.huM.nOj6zxwcCPQzm03LSrzYfrEQgc_q.4Sw29h
- jaRgIuE4P6Txfrt7l5y78zYidR5.RsJC8yPOW0qLiXET0L_UkE4635ZZ70R2osfK8SXGb4f2ByOO
- Qiq4qs.nhY69m.8HhZirKOGzF3jnx.Gf54jlYPBvtoaHa3Y4d1avdZEWyd_iXIIuyxNSqS0nXIhl
- R7iNuM0QE6INCccjK5ALf1tW2lGzPRzn.wOCu5ySSbaY25yvW9iWs1bnoHCgOcYtvAC6Ku.9_e.H
- .Fqo8q9u34mG.Ww1bEN.DwwPqGsyEULUCHgDKKNlTqacYTYcagUuCGpVLsrXh3Vd5TNpP2bF_tOu
- N_NsaloNmJi3Fcsoqq46HpiAUjUN0sVCqRQjwQR8i9LDWRTPJv0XeLIdvdb8m8pedbVouWwB8iF5
- Mjiol6S3IovfHEv0DTZh2t6wHqLYaYU62.5LKz9LnUIX5zrxV_a_fhNrSJlEKXOTHfiRsQbRo80z
- QAZV6cXio6GnJdpJ4kCPiTI1mjTSsjTESifKh6OaTfQv6XxQEkTd_8eWqcp39icC4_ZN5Y84J6Gi
- 8DNCP5uG8pt.XHkpGgCgH8tIaYmf3oGqfeNRNsXJwKM39QT0VlSQmitMO.GAQgiNj4.MYWZJjSGf
- O1bJiE05RUl6IpfNcgWdLfbcZBBCS8vZ_CJis5oFQSjO3KymQlAYmNw.76xleRyiGZtJHSPx5AG7
- A
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic315.consmr.mail.bf2.yahoo.com with HTTP; Wed, 8 Jul 2020 23:43:23 +0000
-Date:   Wed, 8 Jul 2020 23:43:20 +0000 (UTC)
-From:   Ms lisa Hugh <lisahugh531@gmail.com>
-Reply-To: ms.lisahugh000@gmail.com
-Message-ID: <538527762.4633085.1594251800761@mail.yahoo.com>
-Subject: MASSAGE FROM(Ms Lisa hugh).
+        id S1726196AbgGIFFm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Jul 2020 01:05:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44364 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725775AbgGIFFm (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Jul 2020 01:05:42 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED565C061A0B;
+        Wed,  8 Jul 2020 22:05:41 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id l63so433436pge.12;
+        Wed, 08 Jul 2020 22:05:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=RSBiaRWNpmnnYIrnRBkb/QFIFR/vxAHmvDKcfnM0bFI=;
+        b=nAlyMyHWRf4tDQC75hrWlWsZnL/Oi0AcfVoKCz0bhz0sQm9swAnupmKor1Qlv55Z8a
+         oBOYpMmGgeI8RnziEHCXrQWM+DUEzlBmOzUkFkhtwA3A8SrkWT2d9MNBkgIekINNCZ+k
+         dGY0Q6+fF2Darxv9LEJ4hblJ6YoKaVU8JbkveqWEGYPi9TK9w8r94yEt4SNlDw+3FOFy
+         qzjj6coj2WffA1oM2fi46+toplNJRK7NnsLvO7hyl17HGh/1UV8dgoW1qblfYjUXWaJ9
+         zSPI8zWChjxF+pXRpkauL81J9noQrAfg6B6kAJoXQZJD7eAG+jKhz9UbiORPW7i1AQ4H
+         wB7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=RSBiaRWNpmnnYIrnRBkb/QFIFR/vxAHmvDKcfnM0bFI=;
+        b=AYXBVjsE0tm1YOW1wZKaCQWEL7xutRRSry7qm7RmK5K50/RUm3EL2z8aCSIWIqJQWs
+         WNro40RQu3se/uj6hn7CpmJ09gWu/d835zRCAFC/yPwL6pXzyNelLBHrHPkrY1/tl4Mr
+         7fo3KafLkSWGmKsqqML9PeCcHxkMda5YkRLT8gx1GKYe5OEca4t/ED/SUlWy1d4F9hm0
+         CG4BIIJpG2lLC2Z7QcvgJe8ryeHHb4kMLyFi1iPNILxo2j87YYHubGc9nALNmbvMjet1
+         pq8a+cQ+NR61aY0LzoJaHj/UholKk5tq4drM708KyIcQOxE0m+eYOj4FuHOaF1TzfB/g
+         wj5A==
+X-Gm-Message-State: AOAM532COL1S8AELABDNKc3ZW3hBs97Jk9Dk+WgQxbmsHS6fytD7TOJs
+        OoDQuDcp6EWIEvJUESv1YEs=
+X-Google-Smtp-Source: ABdhPJw+YF+kg37uFFk1C/u6r7a1/mIM/ogrloAYiYtQIsilv32ckIyqTlYzgTqcDPTnSGg9O4lXZg==
+X-Received: by 2002:a62:7c97:: with SMTP id x145mr58034570pfc.80.1594271140905;
+        Wed, 08 Jul 2020 22:05:40 -0700 (PDT)
+Received: from dtor-ws ([100.99.132.186])
+        by smtp.gmail.com with ESMTPSA id c71sm1084598pje.32.2020.07.08.22.05.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jul 2020 22:05:40 -0700 (PDT)
+Date:   Wed, 8 Jul 2020 22:05:38 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>, kernel@collabora.com
+Subject: Re: [PATCH] tty/sysrq: Add alternative SysRq key
+Message-ID: <20200709050538.GG3273837@dtor-ws>
+References: <20200511180145.GU89269@dtor-ws>
+ <20200619162819.715-1-andrzej.p@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-References: <538527762.4633085.1594251800761.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.16197 YMailNodin Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101 Firefox/78.0
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200619162819.715-1-andrzej.p@collabora.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi Andrzej,
 
+On Fri, Jun 19, 2020 at 06:28:19PM +0200, Andrzej Pietrasiewicz wrote:
+> There exist machines which don't have SysRq key at all, e.g. chromebooks.
+> 
+> This patch allows configuring an alternative key to act as SysRq. Devices
+> which declare KEY_SYSRQ in their 'keybit' bitmap continue using KEY_SYSRQ,
+> but other devices use the alternative SysRq key instead, by default F10.
+> Which key is actually used can be modified with sysrq's module parameter.
 
-Dear Friend,
+I guess you will be removing KEY_SYSRQ form all Chrome OS internal AT
+keyboards and external USB keyboard with Chrome OS layouts as well? Via
+udev keymap? I suppose this could work... Or have a per device setting
+as we allocate a separate handle for each input device attached to the
+SysRq handler.
 
-I am Ms Lisa hugh, work with the department of Audit and accounting manager here in the Bank(B.O.A).
+> 
+> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+> ---
+>  drivers/tty/sysrq.c | 28 +++++++++++++++++++++++++---
+>  1 file changed, 25 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/tty/sysrq.c b/drivers/tty/sysrq.c
+> index 0dc3878794fd..e1d271c84746 100644
+> --- a/drivers/tty/sysrq.c
+> +++ b/drivers/tty/sysrq.c
+> @@ -604,6 +604,7 @@ EXPORT_SYMBOL(handle_sysrq);
+>  
+>  #ifdef CONFIG_INPUT
+>  static int sysrq_reset_downtime_ms;
+> +static unsigned short alternative_sysrq_key = KEY_F10;
+>  
+>  /* Simple translation table for the SysRq keys */
+>  static const unsigned char sysrq_xlate[KEY_CNT] =
+> @@ -621,6 +622,7 @@ struct sysrq_state {
+>  	unsigned long key_down[BITS_TO_LONGS(KEY_CNT)];
+>  	unsigned int alt;
+>  	unsigned int alt_use;
+> +	unsigned short sysrq_key;
+>  	bool active;
+>  	bool need_reinject;
+>  	bool reinjecting;
+> @@ -770,10 +772,10 @@ static void sysrq_reinject_alt_sysrq(struct work_struct *work)
+>  
+>  		/* Simulate press and release of Alt + SysRq */
+>  		input_inject_event(handle, EV_KEY, alt_code, 1);
+> -		input_inject_event(handle, EV_KEY, KEY_SYSRQ, 1);
+> +		input_inject_event(handle, EV_KEY, sysrq->sysrq_key, 1);
+>  		input_inject_event(handle, EV_SYN, SYN_REPORT, 1);
+>  
+> -		input_inject_event(handle, EV_KEY, KEY_SYSRQ, 0);
+> +		input_inject_event(handle, EV_KEY, sysrq->sysrq_key, 0);
+>  		input_inject_event(handle, EV_KEY, alt_code, 0);
+>  		input_inject_event(handle, EV_SYN, SYN_REPORT, 1);
+>  
+> @@ -805,6 +807,7 @@ static bool sysrq_handle_keypress(struct sysrq_state *sysrq,
+>  		}
+>  		break;
+>  
+> +key_sysrq:
+>  	case KEY_SYSRQ:
+>  		if (value == 1 && sysrq->alt != KEY_RESERVED) {
+>  			sysrq->active = true;
+> @@ -825,11 +828,15 @@ static bool sysrq_handle_keypress(struct sysrq_state *sysrq,
+>  		 * triggering print screen function.
+>  		 */
+>  		if (sysrq->active)
+> -			clear_bit(KEY_SYSRQ, sysrq->handle.dev->key);
+> +			clear_bit(sysrq->sysrq_key, sysrq->handle.dev->key);
+>  
+>  		break;
+>  
+>  	default:
+> +		/* handle non-default sysrq key */
+> +		if (code == sysrq->sysrq_key)
+> +			goto key_sysrq;
+> +
+>  		if (sysrq->active && value && value != 2) {
+>  			sysrq->need_reinject = false;
+>  			__handle_sysrq(sysrq_xlate[code], true);
+> @@ -924,6 +931,14 @@ static int sysrq_connect(struct input_handler *handler,
+>  	sysrq->handle.private = sysrq;
+>  	timer_setup(&sysrq->keyreset_timer, sysrq_do_reset, 0);
+>  
+> +	if (test_bit(KEY_SYSRQ, dev->keybit)) {
+> +		sysrq->sysrq_key = KEY_SYSRQ;
+> +		pr_info("%s: using default sysrq key [%x]\n", dev->name, KEY_SYSRQ);
+> +	} else {
+> +		sysrq->sysrq_key = alternative_sysrq_key;
+> +		pr_info("%s: Using alternative sysrq key: [%x]\n", dev->name, sysrq->sysrq_key);
+> +	}
 
-Please i need your assistance for the transferring of thIs fund to your bank account for both of us benefit for life time investment, amount (US$4.5M DOLLARS).
+This is way too noisy IMO.
 
-I have every inquiry details to make the bank believe you and release the fund in within 5 banking working days with your full co-operation with me for success.
+> +
+>  	error = input_register_handle(&sysrq->handle);
+>  	if (error) {
+>  		pr_err("Failed to register input sysrq handler, error %d\n",
+> @@ -1032,6 +1047,13 @@ module_param_array_named(reset_seq, sysrq_reset_seq, sysrq_reset_seq,
+>  
+>  module_param_named(sysrq_downtime_ms, sysrq_reset_downtime_ms, int, 0644);
+>  
+> +module_param(alternative_sysrq_key, ushort, 0644);
+> +MODULE_PARM_DESC(alternative_sysrq_key,
+> +	"Alternative SysRq key for input devices that don't have SysRq key. F10 by default.\n"
+> +	"Example\n"
+> +	"Using F9 as SysRq:\n"
+> +	"sysrq.alternative_sysrq_key=0x43\n");
+> +
+>  #else
+>  
+>  static inline void sysrq_register_handler(void)
+> 
+> base-commit: 3d77e6a8804abcc0504c904bd6e5cdf3a5cf8162
+> -- 
+> 2.17.1
+> 
 
-Note/ 50% for you why 50% for me after success of the transfer to your bank account.
-
-Below information is what i need from you so will can be reaching each other
-
-1)Full name ...
-2)Private telephone number...
-3)Age...
-4)Nationality...
-5)Occupation ...
-
-
-Thanks.
-
-Ms Lisa hugh.
+-- 
+Dmitry
