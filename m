@@ -2,451 +2,241 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B701219815
-	for <lists+linux-input@lfdr.de>; Thu,  9 Jul 2020 07:46:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 469C8219B00
+	for <lists+linux-input@lfdr.de>; Thu,  9 Jul 2020 10:39:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726129AbgGIFqN convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Thu, 9 Jul 2020 01:46:13 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:52490 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726119AbgGIFqM (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 9 Jul 2020 01:46:12 -0400
-Received: from mail-pf1-f199.google.com ([209.85.210.199])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <kai.heng.feng@canonical.com>)
-        id 1jtPNX-0001D9-GH
-        for linux-input@vger.kernel.org; Thu, 09 Jul 2020 05:46:08 +0000
-Received: by mail-pf1-f199.google.com with SMTP id o9so631434pfp.6
-        for <linux-input@vger.kernel.org>; Wed, 08 Jul 2020 22:45:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=M1ifysLgqDXDbHGxHKCsWQJw7BE7GNKc4IqGaASIT3Y=;
-        b=qZYtB/lcBmbSx3fXNG2CM8Hit4bu/Pt2NSRcUsdVHg3wgCnN7hydSCx6ka4hb+oZC1
-         8o8VLFFTMRPp1SysUO9rNlIMsAS3p0N51XEsMTk9r+TApCSNvyfmORLYaGNL2q2yiO4n
-         zYHcU4q9+BlBMe/1Aj5q8WtvunEFnBZokwrQ15f1pWC9yIvVcuuc2n3gRbwoRLUgu8ZC
-         4J4/T+QOUL7g2G2bTI39p/Qdh1v9Lj2GmWljvbz6pmelAXow00FyLKSI9JEtgS+yzsAB
-         ZU+Gn2JTsc/DpHrBjjyHQRLafkgDbKiZKyLHj5s5Q5YQhgJCThNLZOz02TSKoBSrOnyT
-         XsdQ==
-X-Gm-Message-State: AOAM533sMUakHAcfpeoTTLOMBZcRWjcMdl2U6KNP9uo/3wLujm/PTYJa
-        dkdWYae5PDyZxXjCu0G40gxp1Npjck2m+yiZQn2iKiyysYOVUDiB09Rugnsy1gn2ypSHdvMYd4h
-        bkFUPU6WRTvLjZeUMlZY6tyW2+YDyyg6wpVe/xc/m
-X-Received: by 2002:a62:5c02:: with SMTP id q2mr57929598pfb.232.1594273549857;
-        Wed, 08 Jul 2020 22:45:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxHvgLX9hYV2dgfBhwcMOIE14zeCsxGzP5SsryM3LrvJxy2yhP5bIIYNf/XlrjSvgnXPYAlhg==
-X-Received: by 2002:a62:5c02:: with SMTP id q2mr57929566pfb.232.1594273549232;
-        Wed, 08 Jul 2020 22:45:49 -0700 (PDT)
-Received: from [192.168.1.208] (220-133-187-190.HINET-IP.hinet.net. [220.133.187.190])
-        by smtp.gmail.com with ESMTPSA id s6sm1384654pfd.20.2020.07.08.22.45.46
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 08 Jul 2020 22:45:48 -0700 (PDT)
-Content-Type: text/plain;
-        charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
-Subject: Re: [PATCH v3] HID: i2c-hid: Enable touchpad wakeup from
- Suspend-to-Idle
-From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
-In-Reply-To: <3eafb89f-b711-0505-e7a7-a84d2901c57a@redhat.com>
-Date:   Thu, 9 Jul 2020 13:45:45 +0800
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        You-Sheng Yang <vicamo.yang@canonical.com>,
-        Daniel Playfair Cal <daniel.playfair.cal@gmail.com>,
-        HungNien Chen <hn.chen@weidahitech.com>,
-        Pavel Balan <admin@kryma.net>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Transfer-Encoding: 8BIT
-Message-Id: <82FBD6F5-68B1-41FD-8AE8-688CD71E14BA@canonical.com>
-References: <20200618145515.5055-1-kai.heng.feng@canonical.com>
- <c280d8b5-05bf-e560-51df-c57edeffe8a3@redhat.com>
- <FAF68BF5-FCBC-4D08-AF0F-98EEA209BB86@canonical.com>
- <1f96c309-cd64-6b84-1240-e67849637a50@redhat.com>
- <791C12EA-2A27-4BB1-9754-61C2198E7C27@canonical.com>
- <3eafb89f-b711-0505-e7a7-a84d2901c57a@redhat.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-X-Mailer: Apple Mail (2.3608.80.23.2.2)
+        id S1726261AbgGIIj0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 9 Jul 2020 04:39:26 -0400
+Received: from mail-eopbgr150055.outbound.protection.outlook.com ([40.107.15.55]:26254
+        "EHLO EUR01-DB5-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726247AbgGIIjY (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 9 Jul 2020 04:39:24 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Sv2Hq6DIryxFO25HNt7U3ACv6I9MR83e3/Yneae8tAGvGTolvWTaInqzauKeo6eIm8Wq3Bb9p1Z603arvzTVVb9bWTkYJtOjILc3u62PYDD0hMl+JpAdGp36GlSUoLT2XGTmWLhchrMXfmuUtHo41Q0yNERkd8moX3vnT8fng2GZHoZy+vh1dC4WrqaPUjEog9T1MjXFL8fjZZ3hD2FjLgtfrZoxwVlwywE/toMG+NO5RXDqREFuopmgEILAM+LN8j4byaOAEXy/qDlyznoOJkG7YstnA1iUkeknyawDvb6LyQ5hUpSEGEfKEg64kpYH2OcHflY/2I4vTe4RBLD4gw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=urtELUJ0hnccn3t6P4DlQi3KthIHDq27vmIsJqogZ5c=;
+ b=Fs3PMisEiIZNfcBmsa8Z7c/GO+tZYojjvCJ5swSmhCHC3kdom6ZW8ole4RhRVVkIJmKMxlFkUSKzM8HidJrqnM7fLqBqjarXc9Id1PN2d+GSOLPhUNXFO9UnMro5bWBMkwIGBYxbV+d1pNhV1uRXLUIvWTnjILDfEBSkw8oGkToUFQRdzyE5Vl8/ngzDJHdpLKy6uutAAmpaoiwp6dAJU3iCIcu55Z5ccjl7qOPn4Al1RINyHW26JrxwDh3gsSpz+ggMoDVWpxZAQasm5wtrvH19YI52kgpg45XB9eWDt2v45g4FM7BRQokMT1RkIdY/NpWgtqMhMzg8HcOIuQgSYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 193.240.239.45) smtp.rcpttodomain=vger.kernel.org
+ smtp.mailfrom=diasemi.com; dmarc=fail (p=none sp=none pct=100) action=none
+ header.from=diasemi.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dialogsemiconductor.onmicrosoft.com;
+ s=selector1-dialogsemiconductor-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=urtELUJ0hnccn3t6P4DlQi3KthIHDq27vmIsJqogZ5c=;
+ b=AN15PN0osb1KQGamHEGYTKxxSosp4JslMeMP6s+ouJu/I6a/PyJ9+kdW36p6cQIj1GmzE3it+Rr1o7NMk0hT9R5IEfqeMHoyPRJyirXI+SAV6r4sLjRcIXMfwr6uPHRFM5zGcSQsmVJFFVfkWDAB3E1v4SYkISanNf62ilbHoVU=
+Received: from AM6P191CA0073.EURP191.PROD.OUTLOOK.COM (2603:10a6:209:8a::14)
+ by VI1PR10MB2431.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:803:82::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.21; Thu, 9 Jul
+ 2020 08:39:18 +0000
+Received: from VE1EUR02FT054.eop-EUR02.prod.protection.outlook.com
+ (2603:10a6:209:8a:cafe::68) by AM6P191CA0073.outlook.office365.com
+ (2603:10a6:209:8a::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3174.20 via Frontend
+ Transport; Thu, 9 Jul 2020 08:39:17 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
+ 193.240.239.45) smtp.mailfrom=diasemi.com; vger.kernel.org; dkim=none
+ (message not signed) header.d=none;vger.kernel.org; dmarc=fail action=none
+ header.from=diasemi.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ diasemi.com discourages use of 193.240.239.45 as permitted sender)
+Received: from mailrelay1.diasemi.com (193.240.239.45) by
+ VE1EUR02FT054.mail.protection.outlook.com (10.152.13.218) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.3174.21 via Frontend Transport; Thu, 9 Jul 2020 08:39:17 +0000
+Received: from krsrvapps-03.diasemi.com (10.95.17.51) by
+ NB-EX-CASHUB01.diasemi.com (10.1.16.140) with Microsoft SMTP Server id
+ 14.3.468.0; Thu, 9 Jul 2020 10:39:14 +0200
+Received: by krsrvapps-03.diasemi.com (Postfix, from userid 22266)      id
+ 9F92C13F673; Thu,  9 Jul 2020 17:39:12 +0900 (KST)
+Message-ID: <1ee5793a334c3ea86c2089cce55ae24aaa335086.1594279649.git.Roy.Im@diasemi.com>
+In-Reply-To: <cover.1594279649.git.Roy.Im@diasemi.com>
+References: <cover.1594279649.git.Roy.Im@diasemi.com>
+From:   Roy Im <roy.im.opensource@diasemi.com>
+Date:   Thu, 9 Jul 2020 16:27:29 +0900
+Subject: [PATCH v16 2/3] dt-bindings: input: Add document bindings for DA7280
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Rob Herring <robh+dt@kernel.org>
+CC:     Support Opensource <support.opensource@diasemi.com>,
+        <devicetree@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-Forefront-Antispam-Report: CIP:193.240.239.45;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mailrelay1.diasemi.com;PTR:InfoDomainNonexistent;CAT:NONE;SFTY:;SFS:(4636009)(39860400002)(346002)(396003)(376002)(136003)(46966005)(82740400003)(4326008)(316002)(426003)(42186006)(356005)(336012)(26005)(6666004)(36906005)(186003)(81166007)(83380400001)(478600001)(2616005)(8676002)(8936002)(110136005)(54906003)(70586007)(86362001)(36756003)(70206006)(2906002)(6266002)(47076004)(33310700002)(82310400002)(5660300002);DIR:OUT;SFP:1101;
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: fb4c7059-29f9-4f31-92a9-08d823e3916f
+X-MS-TrafficTypeDiagnostic: VI1PR10MB2431:
+X-Microsoft-Antispam-PRVS: <VI1PR10MB24318FE737D3A1E116F4B8A2A2640@VI1PR10MB2431.EURPRD10.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: DVwr8Qw8C8wqZpgidsWXHtEEw5nYqOn9uDuOaT42Pt7PsXrXj2D+OU8JWau0oXnKKjQEO6F7w5Lb29lXVAeXhyBxJ2+gNQaMzxgRsI7jk1JSht1hrNzrdCceZ4nQ5r+j/bpiMgErXB3IPtaf+0bszf/ao9qmaUuVn7kAKFDRIzdwmUIpkgrGbLFU50QL6ke2Tk3Ixynnkr5izz7BRAhN9TSsOvycOUMnwrerwaYNgjv5vaMG4MCeqJln5xTucduLT9Rm3OOvzzqiki6b77Uzs49AQgyZXH4x2pTdX15U58nkNqc7Wt9DP5ec56/XoxYRC6HJ9nkoy1WndT1bu1xPjmUGHDNNSnrly/O5dBiZJ3xH0U7iqw0FNYbyfEwAZ/FGwsze90HR0/m8KTWPxMwXWmD8J2wFf9cSpyd3tVy+J4wsOfXhdXGsM+a4Dn20thXq
+X-OriginatorOrg: diasemi.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2020 08:39:17.4843
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb4c7059-29f9-4f31-92a9-08d823e3916f
+X-MS-Exchange-CrossTenant-Id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=511e3c0e-ee96-486e-a2ec-e272ffa37b7c;Ip=[193.240.239.45];Helo=[mailrelay1.diasemi.com]
+X-MS-Exchange-CrossTenant-AuthSource: VE1EUR02FT054.eop-EUR02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB2431
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Add device tree binding information for DA7280 haptic driver.
+Example bindings for DA7280 are added.
 
-> On Jul 3, 2020, at 20:27, Hans de Goede <hdegoede@redhat.com> wrote:
-> 
-> Hi,
-> 
-> On 7/1/20 8:46 AM, Kai-Heng Feng wrote:
->>> On Jun 19, 2020, at 17:56, Hans de Goede <hdegoede@redhat.com> wrote:
->>> 
->>> Hi,
->>> 
->>> On 6/19/20 6:16 AM, Kai-Heng Feng wrote:
->>>> Hi,
->>>>> On Jun 18, 2020, at 23:28, Hans de Goede <hdegoede@redhat.com> wrote:
->>>>> 
->>>>> Hi,
->>>>> 
->>>>> On 6/18/20 4:55 PM, Kai-Heng Feng wrote:
->>>>>> Many laptops can be woken up from Suspend-to-Idle by touchpad. This is
->>>>>> also the default behavior on other OSes.
->>>>>> So let's enable the wakeup support if the system defaults to
->>>>>> Suspend-to-Idle.
->>>>> 
->>>>> I have been debugging a spurious wakeup issue on an Asus T101HA,
->>>>> where the system would not stay suspended when the lid was closed.
->>>>> 
->>>>> The issue turns out to be that the touchpad is generating touch
->>>>> events when the lid/display gets close to the touchpad. In this case
->>>>> wakeup is already enabled by default because it is an USB device.
->>>> Sounds like a mechanical/hardware issue to me.
->>> 
->>> Nope, the laptop is pretty much in new state.
->> Ack.
->>> 
->>>> I've seen some old laptops have the same issue.
->>>> Swollen battery can push up the touchpad, makes it contact to touchscreen, and wakes up the system.
->>> 
->>> This is a 2-in-1 with a detachable keyboard, which is why the
->>> kbd/touchpad is a USB device rather then i2c-hid. Even if the
->>> battery were swollen this would push up the back cover of the
->>> tablet.
->> What's the behavior on Windows?
->> I wonder if Windows has a different wakeup policy?
->> Like disable remote wakeup for USB touchpad and touchscreen?
-> 
-> I'm afraid I no longer have Windows on the device, so I cannot
-> test this. I guess that Windows disables the builtin touchpad and
-> touchscreenn when the lid is closed. That is sensible to do from
-> a power-management pov even when not suspending, but just closing
-> the lid and using an external monitor + kbd.
+Reviewed-by: Rob Herring <robh@kernel.org>.
 
-Ok. This seems worth further investigation.
+Signed-off-by: Roy Im <roy.im.opensource@diasemi.com>
 
-> 
->>>>> So I do not believe that this is a good idea, most current devices
->>>>> with a HID multi-touch touchpad use i2c-hid and also use S2idle,
->>>>> so this will basically enable wakeup by touchpad on almost all
->>>>> current devices.
->>>> However, it's really handy to wake up the system from touchpad.
->>> 
->>> I agree this is somewhat handy, but the keyboard (space-bar) is
->>> usually sitting right next to it. So we can live without it,
->>> we really need to fix the spurious wakeup issue first, once
->>> that is fixed I'm fine with enabling wakeup by touchpad.
->> That's true. Spacebar is a good enough alternative.
->>> 
->>>>> There will likely be other devices with the same issue as the T101HA,
->>>>> but currently we are not seeing this issue because by default i2c-hid
->>>>> devices do not have wakeup enabled. This change will thus likely cause
->>>>> new spurious wakeup issues on more devices. So this seems like a
->>>>> bad idea.
->>>> But only under lid is closed?
->>> 
->>> Right.
->>> 
->>>> I wonder if it's okay to handle the case in s2idle_loop() or in userspace?
->>>> Lid close -> Wakeup event from touchpad -> Found the lid is closed
->>>> -> Turn off touchpad wakeup -> continue suspend.
->>> 
->>> I've discussed doing something about the spurious wakeup issue in
->>> the kernel with the the kernel input maintainer (Dmitry) here:
->>> 
->>> https://lore.kernel.org/linux-acpi/964ca07a-3da5-101f-7edf-64bdeec98a4b@redhat.com/
->>> 
->>> He was quite clear that this must be fixed in userspace. We did
->>> come up with a plan for fixing this in userspace:
->>> 
->>> 1) Have udev-rules setting using hwdb for quirks which tags
->>> some input devices as "input-disable-wake-on-closed-lid".
->>> A simple udev rule could tag all i2c-hid touchpads with this and
->>> for the detachable USB keyboards with builtin touchpad some
->>> 2-in-1s have we can then use quirks in hwdb to set the tag
->>> on those.
->> Maybe we can avoid using quirks in hwdb, external USB devices should have "Removable" bit set (i.e. it's external).
-> 
-> At the USB level there only is a somewhat reliable "removal" bit
-> for storage devices, defined at the storage protocol level.
-> 
-> For other devices there is:
-> 
-> cat /sys/bus/usb/devices/1-8/removable
-> 
-> This comes from the ACPI tables parsed by:
-> drivers/usb/core/usb-acpi.c
-> 
-> Which set the port's connect_type variable.
+---
+v16: No changes.
+v15: No changes.
+v14: No changes.
+v13: No changes.
+v12: No changes.
+v11: No changes.
+v10: No changes.
+v9: No changes.
+v8: Updated descriptions for new properties.
+v7: No changes.
+v6: No changes.
+v5: Updated descriptions and fixed errors.
+v4: Fixed commit message, properties.
+v3: Fixed subject format.
+v2: No changes
 
-Actually most laptops I've used correctly marked internally connected USB 2 device with Removable bit.
-And that's the reason why USB2 LPM, which only enables when Removable == 1, caused many issues for us.
 
-> 
-> I've tested this on a bunch of 2-in-1s with detachable USB
-> keyboards and it is almost completely random and not at
-> all related to the reality (both for the kbd-dock connector
-> and for other USB ports) this info is so unreliable it is
-> pretty much useless.
+ .../devicetree/bindings/input/dlg,da7280.txt       | 109 +++++++++++++++++++++
+ 1 file changed, 109 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/dlg,da7280.txt
 
-Ok, that means USB2 LPM will be inadvertently enabled for those devices...
-Doesn't sound right.
-
-> 
-> And the kbd-dock is special anyways, the dock is removable,
-> but when docked / the 2-in-1 is in laptop mode, the touchpad
-> should be treated as an internal touchpad, as it will be
-> covered by the display when the lid is closed.
-> 
-> Note I'm mostly referring to 2-in-1's which turn into normal
-> clamshell laptops when docked into their keyboard dock,
-> not those with the flimsy type-covers.
-> 
-> Good example's of the type I mean are the Asus T100 series
-> and the Lenovo Miix 300 / 310 / 320.
-
-Ok, good to know the difference.
-
-> 
->>> 2) Teach systemd-logind which does the suspend-on-lid on modern
->>> GNOME3 based systems to disable wakeup on the parent of
->>> input-devices which have this tag set before suspending.
->>> 
->>> As mentioned the kernel can then also use this to save
->>> some power by disable scanning for fingers on suspend.
->>> 
->>> If you have time to work on these 2 items, that would be
->>> great. Once this is in place I'm fine with the suggested
->>> kernel change.
->> Ok, let me investigate a bit more.
->>> 
->>> ###
->>> 
->>> Semi-off-topic:
->>> 
->>> The thread I linked to above is about adding a new inhibit
->>> feature to the input system, which is intended to allow
->>> telling the input system system to stop listening for
->>> events even if userspace has the device open (or it has
->>> in kernel listeners) once this has landed, we can use
->>> the same udev-tag to also teach systemd-logind to inhibit
->>> e.g. the touchpad when the lid is closed but the system is
->>> not suspending (e.g. external monitor connected).
->>> Combined with some extra hid-multitouch changes this will
->>> again allow us to tell the touchpad to stop scanning
->>> for fingers saving some power.
->>> 
->>> The inhibit feature could likewise also be enabled on
->>> internal touchpads and keyboards when a 360 degree (yoga)
->>> style 2-in-1 is in tablet mode to avoid accidental key-pressed /
->>> touchpad touches.
->> I thought disabling keyboard/touchpad in tablet mode is done by system firmware.
->> Is it different now?
-> 
-> It is in some cases but not always.
-> 
->> How does the kernel know it's in tablet mode?
-> 
-> There are various interfaces for this. I've recently submitted
-> a series of patches upstream adding an input dev with SW_TABLET
-> functionality to most 2-in-1s:
-> 
-> -I've done a bunch of fixes making the intel-vbtn code export
-> SW_TABLET on more devices
-> 
-> -I've added support for the INT33D3 ACPI device to
-> the soc_button_array driver, this device offers direct access
-> to a GPIO for SW_TABLET mode (when it has a non empty resource list)
-> 
-> -I've added SW_TABLET support for HP devices using HP's custom WMI
-> method for this to the hp_wmi driver.
-
-Thanks for implementing this.
-
-Seems like more and more devices will use software-based implementation for disabling input device.
-
-> 
-> 
->>> Note the inhibit when in tablet mode thing would require
->>> a new: "input-inhibit-on-tablet-mode" tag. At first I
->>> was thinking to just have an "input-device-is-internal"
->>> tag, but that would e.g. also apply to the touchscreen,
->>> on which we do want to disable wakeup when the lid is
->>> closed, but not when in tablet mode.
->>> 
->>> Hmm, I guess to prepare for the inhibit stuff we should
->>> probably call the other tag "input-inhibit-on-closed-lid"
->>> rather then "input-disable-wake-on-closed-lid", and then
->>> systemd-logind can defer that wit should also disable wake
->>> (or initially only disable wake) from that. Otherwise we
->>> get 4 possible tags and I don't see a usecase where we
->>> want to inhibit but not also disable wakeup.
->> I'll focus on the clamshell case for now, I don't have 2-in-1 in hand right now.
-> 
-> Ok, for the clamshell case it should be easy to have a few'
-> simple universal (based on the bus/connection type of the touchpad)
-> udev rules to tag them as "input-disable-wake-on-closed-lid".
-> 
-> Because of the Bay/Cherry Trail hw-enablement I've been doing as
-> a personal side project I have quite a few 2-in-1s, so I can
-> build on top of that adding a hwdb template + some initial
-> entries for tagging the touchpads in detachable keyboards the
-> same way.
-
-Ack.
-
-> 
-> 
->>> 
->>>>> Also your commit message mentions touchpads, but the change
->>>>> will also enable wakeup on most touchscreens out there, meaning
->>>>> that just picking up a device in tablet mode and accidentally
->>>>> touching the screen will wake it up.
->>>> I tried touch and i2c-hid touchscreen and it doesn't wake up the system.
->>> 
->>> I guess the :
->>> 
->>>        i2c_hid_set_power(client, I2C_HID_PWR_SLEEP);
->>> 
->>> Call from i2c_hid_suspend() causes that, interesting that that
->>> works for touchscreens but not for touchpads.
->>> 
->>> I'm pretty sure that if you comment out that line, your
->>> patch will cause wake-ups on touchscreens too, which
->>> IMHO means that your patch should maybe move the above
->>> call into the else of the:
->>> 
->>>        if (device_may_wakeup(&client->dev)) {
->>> 
->>> block, if we enable wakeup then it should work. This should
->>> probably be combined with being smarter about which devices
->>> to enable wakeup on by default...
->> Comment out that line doesn't make touchscreen have the ability to wake up the system.
->> My guess is that there's no ACPI GPIO connects to the touchscreen.
-> 
-> But there is, i2c-hid devices always have an interrupt line,
-> possibly the touchpad gets powered of on transition to D3 though.
-> 
-> Yes that is probably it, many touchscreens have a _PS3 method
-> like this:
-> 
->            Method (_PS3, 0, Serialized)  // _PS3: Power State 3
->            {
->                If ((^^^I2C7.AVBL == One))
->                {
->                    DATA = 0x1C
->                    ^^^I2C7.DL13 = BUFF /* \_SB_.PCI0.I2C6.TCS0.BUFF */
->                }
->            }
-> 
-> Which tells the PMIC to turn of the LDO supplying the touchscreen,
-> so that means no wake from suspend by the touchscreen.
-> 
-> I'm pretty sure you will find something similar in the ACPI
-> node describing the touchscreen on the device you are testing
-> with.
-> 
-> If the ACPI tables do not explicitly turn off the device on D3,
-> then it would be good to disable wake, and it cannot hurt on
-> devices which do completely power down the touchscreen. So
-> extending the "input-disable-wake-on-closed-lid" stuff to the
-> touchscreen is probably a good idea. But for starters lets just
-> focus on touchpads.
-
-Ok, thanks for the explanation!
-
-> 
->>>> However we should still handle the two different cases, probably differentiate touchpad and touchscreen in hid-multitouch.
->>> 
->>> Ack, see above.
->>> 
->>>>> Also hid multi-touch devices have 3 modes, see the diagrams
->>>>> in Microsoft hw design guides for win8/10 touch devices:
->>>>> 1. Reporting events with low latency (high power mode)
->>>>> 2. Reporting events with high latency (lower power mode)
->>>>> 3. Not reporting events (lowest power mode)
->>>>> 
->>>>> I actually still need to write some patches for hid-multitouch.c
->>>>> to set the mode to 2 or 3 on suspend depending on the device_may_wakeup
->>>>> setting of the parent. Once that patch is written, it should
->>>>> put most i2c-hid mt devices in mode 3, hopefully also helping
->>>>> with Linux' relative high power consumption when a device is
->>>>> suspended. With your change instead my to-be-written patch
->>>>> would put the device in mode 2, which would still be an
->>>>> improvement but less so.
->>>> IIRC, touchpad and touchscreen connect to different parents on all laptops I worked on.
->>>> So I think it's possible to enable mode 2 for touchpad, and mode 3 for touchscreen.
->>> 
->>> Ack.
->>> 
->>>> Touchpad wake is really handy, let's figure out how to enable it while covering all potential regression risks.
->>> 
->>> See above I believe we should first get the userspace bits to disable it
->>> when the lid is closed in place.  And even then we may need to have
->>> a Kconfig option to disable it for people running an older userspace,
->>> but I guess once the userspace bits are there, we can proceed without
->>> the Kconfig option and then add that later if necessary (if people are
->>> seeing regressions).
->> For now, as a comprise, can we still enable the wake up capability but disable it by default?
->> i.e. "device_init_wakeup(dev, false)" so user can still choose to enable touchpad wakeup at their own discretion.
-> 
-> Yes that sounds reasonable.
-
-Thanks, will send a new revision.
-
-Kai-Heng
-
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> 
->> Kai-Heng
->>> 
->>> Regards,
->>> 
->>> Hans
->>> 
->>> 
->>>>>> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
->>>>>> ---
->>>>>> v3:
->>>>>>  - Use device_init_wakeup().
->>>>>>  - Wording change.
->>>>>> v2:
->>>>>>  - Fix compile error when ACPI is not enabled.
->>>>>>  drivers/hid/i2c-hid/i2c-hid-core.c | 10 ++++++++++
->>>>>>  1 file changed, 10 insertions(+)
->>>>>> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
->>>>>> index 294c84e136d7..dae1d072daf6 100644
->>>>>> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
->>>>>> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
->>>>>> @@ -931,6 +931,12 @@ static void i2c_hid_acpi_fix_up_power(struct device *dev)
->>>>>>  		acpi_device_fix_up_power(adev);
->>>>>>  }
->>>>>>  +static void i2c_hid_acpi_enable_wakeup(struct device *dev)
->>>>>> +{
->>>>>> +	if (acpi_gbl_FADT.flags & ACPI_FADT_LOW_POWER_S0)
->>>>>> +		device_init_wakeup(dev, true);
->>>>>> +}
->>>>>> +
->>>>>>  static const struct acpi_device_id i2c_hid_acpi_match[] = {
->>>>>>  	{"ACPI0C50", 0 },
->>>>>>  	{"PNP0C50", 0 },
->>>>>> @@ -945,6 +951,8 @@ static inline int i2c_hid_acpi_pdata(struct i2c_client *client,
->>>>>>  }
->>>>>>    static inline void i2c_hid_acpi_fix_up_power(struct device *dev) {}
->>>>>> +
->>>>>> +static inline void i2c_hid_acpi_enable_wakeup(struct device *dev) {}
->>>>>>  #endif
->>>>>>    #ifdef CONFIG_OF
->>>>>> @@ -1072,6 +1080,8 @@ static int i2c_hid_probe(struct i2c_client *client,
->>>>>>    	i2c_hid_acpi_fix_up_power(&client->dev);
->>>>>>  +	i2c_hid_acpi_enable_wakeup(&client->dev);
->>>>>> +
->>>>>>  	device_enable_async_suspend(&client->dev);
->>>>>>    	/* Make sure there is something at this address */
+diff --git a/Documentation/devicetree/bindings/input/dlg,da7280.txt b/Documentation/devicetree/bindings/input/dlg,da7280.txt
+new file mode 100644
+index 0000000..e6b719d
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/dlg,da7280.txt
+@@ -0,0 +1,109 @@
++Dialog Semiconductor DA7280 Haptics bindings
++
++Required properties:
++- compatible: Should be "dlg,da7280".
++- reg: Specifies the I2C slave address.
++
++- interrupt-parent : Specifies the phandle of the interrupt controller to
++  which the IRQs from DA7280 are delivered to.
++
++- dlg,actuator-type: Set Actuator type. it should be one of:
++  "LRA" - Linear Resonance Actuator type.
++  "ERM-bar" - Bar type Eccentric Rotating Mass.
++  "ERM-coin" - Coin type Eccentric Rotating Mass.
++
++- dlg,const-op-mode: Haptic operation mode for FF_CONSTANT.
++  Possible values:
++	1 - Direct register override(DRO) mode triggered by i2c(default),
++	2 - PWM data source mode controlled by PWM duty,
++- dlg,periodic-op-mode: Haptic operation mode for FF_PERIODIC.
++  Possible values:
++	1 - Register triggered waveform memory(RTWM) mode, the pattern
++	    assigned to the PS_SEQ_ID played as much times as PS_SEQ_LOOP,
++	2 - Edge triggered waveform memory(ETWM) mode, external GPI(N)
++	    control are required to enable/disable and it needs to keep
++	    device enabled by sending magnitude (X > 0),
++	    the pattern is assigned to the GPI(N)_SEQUENCE_ID below.
++	The default value is 1 for both of the operation modes.
++	For more details, please see the datasheet.
++
++- dlg,nom-microvolt: Nominal actuator voltage rating.
++  Valid values: 0 - 6000000.
++- dlg,abs-max-microvolt: Absolute actuator maximum voltage rating.
++  Valid values: 0 - 6000000.
++- dlg,imax-microamp: Actuator max current rating.
++  Valid values: 0 - 252000.
++  Default: 130000.
++- dlg,impd-micro-ohms: the impedance of the actuator in micro ohms.
++  Valid values: 0 - 1500000000.
++
++Optional properties:
++- pwms : phandle to the physical PWM(Pulse Width Modulation) device.
++  PWM properties should be named "pwms". And number of cell is different
++  for each pwm device.
++  (See Documentation/devicetree/bindings/pwm/pwm.txt
++   for further information relating to pwm properties)
++
++- dlg,ps-seq-id: the PS_SEQ_ID(pattern ID in waveform memory inside chip)
++  to play back when RTWM-MODE is enabled.
++  Valid range: 0 - 15.
++- dlg,ps-seq-loop: the PS_SEQ_LOOP, Number of times the pre-stored sequence
++  pointed to by PS_SEQ_ID or GPI(N)_SEQUENCE_ID is repeated.
++  Valid range: 0 - 15.
++- dlg,gpiN-seq-id: the GPI(N)_SEQUENCE_ID, pattern to play
++  when gpi0 is triggered, 'N' must be 0 - 2.
++  Valid range: 0 - 15.
++- dlg,gpiN-mode: the pattern mode which can select either
++  "Single-pattern" or "Multi-pattern", 'N' must be 0 - 2.
++- dlg,gpiN-polarity: gpiN polarity which can be chosen among
++  "Rising-edge", "Falling-edge" and "Both-edge",
++  'N' must be 0 - 2
++  Haptic will work by this edge option in case of ETWM mode.
++
++- dlg,resonant-freq-hz: use in case of LRA.
++  the frequency range: 50 - 300.
++  Default: 205.
++
++- dlg,bemf-sens-enable: Enable for internal loop computations.
++- dlg,freq-track-enable: Enable for resonant frequency tracking.
++- dlg,acc-enable: Enable for active acceleration.
++- dlg,rapid-stop-enable: Enable for rapid stop.
++- dlg,amp-pid-enable: Enable for the amplitude PID.
++- dlg,mem-array: Customized waveform memory(patterns) data downloaded to
++  the device during initialization. This is an array of 100 values(u8).
++
++For further information, see device datasheet.
++
++======
++
++Example:
++
++	haptics: da7280-haptics@4a {
++		compatible = "dlg,da7280";
++		reg = <0x4a>;
++		interrupt-parent = <&gpio6>;
++		interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
++		dlg,actuator-type = "LRA";
++		dlg,dlg,const-op-mode = <1>;
++		dlg,dlg,periodic-op-mode = <1>;
++		dlg,nom-microvolt = <2000000>;
++		dlg,abs-max-microvolt = <2000000>;
++		dlg,imax-microamp = <170000>;
++		dlg,resonant-freq-hz = <180>;
++		dlg,impd-micro-ohms = <10500000>;
++		dlg,freq-track-enable;
++		dlg,rapid-stop-enable;
++		dlg,mem-array = <
++ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
++ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
++ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
++ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
++ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
++ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
++ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
++ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
++ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
++ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
++		>;
++
++	};
+-- 
+end-of-patch for PATCH v16
 
