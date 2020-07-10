@@ -2,68 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA13A21AF49
-	for <lists+linux-input@lfdr.de>; Fri, 10 Jul 2020 08:19:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DDAD21AFBF
+	for <lists+linux-input@lfdr.de>; Fri, 10 Jul 2020 08:51:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725966AbgGJGTk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Jul 2020 02:19:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52836 "EHLO
+        id S1726920AbgGJGve (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Jul 2020 02:51:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725851AbgGJGTj (ORCPT
+        with ESMTP id S1725851AbgGJGvd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Jul 2020 02:19:39 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C3ABC08C5CE;
-        Thu,  9 Jul 2020 23:19:39 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id j20so2092064pfe.5;
-        Thu, 09 Jul 2020 23:19:39 -0700 (PDT)
+        Fri, 10 Jul 2020 02:51:33 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B511BC08C5CE;
+        Thu,  9 Jul 2020 23:51:33 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id o13so2117887pgf.0;
+        Thu, 09 Jul 2020 23:51:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=z3152dqnSlWeiXq3wOBUus0ULGBKw90/q/Q1d/LB/HE=;
-        b=r+zGGnHnYmRgFFIAyQZNMQ8Uw6o+GY6iA7ubBKJNBoVMjKWQIPSXm0F4Ud9Zh1X07c
-         IT3cZjVwb88qqtZgZOGamepW4yyBni47O34Lmvdae7Q/MWpFf+M3/CzCmeuhozTT/1gy
-         xw7YhB6mnHKePJHGnMHHiHbL0KGFcZLVD0R2FjNjU1gp9YOosnwTIjgyKu+ftHazB3Cc
-         qH5WzIeIsuY59QCR9A0/Ug5KDg0fjnex/vJeFypP6/BIZutdFpYLv8NNKyqRXjlf7XTC
-         a4BeHkyC//WmbUFrB+Xmj4GO4oL8olLp98N+S7GFG9RWQZrXSXnO0fuYR/slkwqiC+Vp
-         hLqw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=aRcbte67HllyMh/6ETwbp4yTc4PE6dJTpZ82C/YKUPY=;
+        b=GATO1WWYVJXlZLIbU/IfrVtJ8g2rTA/j/KNE2PnLuFrcPoo4qSGk6a6R84CQTJz6X5
+         lhxjqeLd4ii//W3aDE5KKE3aHdlxe8MI5snbT8yFKil0bsQBu1+roed7E8VISlKTCzpU
+         s7sH4LL2XmlVOp0RZ52wzMTyC95KLTgLbh3D6H01E1+UvwgPJ3y669XS3Oc7kzhcGvJs
+         QkJJsENMDhiw5AXslt6rEFMoALS0f5glxfnXXpl6GQv+k6RTP3GuissFXEfYtnMbguDb
+         dhXYwoECBJiayg0dZRjkpYOB0EUfu3wDuA09endprrsZF884FRGnKrGwy3RmDJJx6r9Z
+         VapA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=z3152dqnSlWeiXq3wOBUus0ULGBKw90/q/Q1d/LB/HE=;
-        b=BPX+w6WVruzFinz67E+ToY/rzY7SaeJloIurgrWX2gQjxUcY8RImbONXi2SXpMwosq
-         APYM53RqU9i5tOe07qO4pHEmTyA0iuzPcb3OUhQnX3cKdm44Kd82470eEr5d49SpDQg6
-         H2KF6UDRQbbHEJmVdjAzTwMD6+IbASNYLRk3jsKC/HoD8uP7pAGBYyGYAGz5oq9+edB9
-         tYFfC7Nu22fI8OZ+oqy2wcO0aF6vRYurvT3EBOKVAfhUJx1hBaw22NaBCk0VxFnsvI/s
-         074GMPEWkLRlTDIj2sSH7DxHM5o2chXeGzUCVCewwnVTewsCdFr6nG663NBi05e2hSMM
-         tJiw==
-X-Gm-Message-State: AOAM533DuYrPs/EAcrPlQS+ntoSjNSXnjYdEKTDK24WV6/PMjiub3wqE
-        SthmzFVEogmGJtrIwr3RPUs=
-X-Google-Smtp-Source: ABdhPJwk1O0qjcabIuGkCbS6P0zOopiQEbwplyknGnMwjadxi2LOYOAkQZimFuhs7J6PJBkLi06Utw==
-X-Received: by 2002:a65:56cc:: with SMTP id w12mr56044215pgs.399.1594361979107;
-        Thu, 09 Jul 2020 23:19:39 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=aRcbte67HllyMh/6ETwbp4yTc4PE6dJTpZ82C/YKUPY=;
+        b=DlfV8mo9/S+5bdHIU0vOPA45sCq5t7RSkWUfV19a0YItLRfjqdPhBfH2nWLhX9lW3Z
+         iQK1C+pq5NuQNPrnxsq3uhIuZ/8VTFa2gEUYf4pOJniQEH/DKpkL0/d/bL2XAo1CrbOW
+         7js6yYSQqNQd3Wc66NQg8jC3zi96FKVG0586mSZz/imGC0zUIvGJ1a3m4AYtcUPD4F+b
+         T+dQChV67OSnTImdPjyV5kiOq3eWp1LinflWKB06anzubsB0yZDcezJjMqz3/KmthtFw
+         kRPk3D8ikAcP3oKMYyoNPNpWu8LJ5xV69DVNyuMCFnqlX6jDAYRE/ZzJ/AcM67lEO2IM
+         CerQ==
+X-Gm-Message-State: AOAM532TwEfJ+mscDwNdSB1DMqCpzwJUqk1yvzREQd1TTpK1hCx6sIVc
+        ZdFUI7N8M2HLz56HcsN1+AU=
+X-Google-Smtp-Source: ABdhPJzrwJm9DDCFDBnHxszZ8U5EoHgrwcdfMEkjEfYHwCs0UFauOr6/vhv6f82txMbpH1fic+XsAQ==
+X-Received: by 2002:a63:9d45:: with SMTP id i66mr58396630pgd.25.1594363893201;
+        Thu, 09 Jul 2020 23:51:33 -0700 (PDT)
 Received: from intel-CCE-SH.Home (x-plane.vip. [104.238.153.221])
-        by smtp.googlemail.com with ESMTPSA id m9sm4431132pjs.18.2020.07.09.23.19.31
+        by smtp.googlemail.com with ESMTPSA id 137sm4688648pgg.72.2020.07.09.23.51.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2020 23:19:38 -0700 (PDT)
+        Thu, 09 Jul 2020 23:51:32 -0700 (PDT)
 From:   Wei Shuai <cpuwolf@gmail.com>
-Cc:     cpuwolf@gmail.com, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     cpuwolf@gmail.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jeffrey Hugo <jhugo@codeaurora.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Borislav Petkov <bp@suse.de>, Mattias Jacobsson <2pi@mok.nu>,
+        Mark Gross <mgross@linux.intel.com>,
         Russell King <rmk+kernel@armlinux.org.uk>,
         Erwan Velu <e.velu@criteo.com>,
-        Mark Gross <mgross@linux.intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
         linux-kernel@vger.kernel.org (open list),
         linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK
         , TOUCHSCREEN)...)
-Subject: [PATCH] break joystick limitation of maxmium 80 buttons
-Date:   Fri, 10 Jul 2020 14:19:17 +0800
-Message-Id: <20200710061919.13108-1-cpuwolf@gmail.com>
+Subject: [PATCH] break joystick limitation of maximum 80 buttons
+Date:   Fri, 10 Jul 2020 14:51:10 +0800
+Message-Id: <20200710065112.18286-1-cpuwolf@gmail.com>
 X-Mailer: git-send-email 2.17.1
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <cpuwolf@gmail.com>
+References: <cpuwolf@gmail.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
@@ -75,10 +78,13 @@ include/uapi/linux/input-event-codes.h
 
 according to function hidinput_configure_usage() in file drivers/hid/hid-input.c
 
-the joystick button mapping is not a continues space, generally speak the mapping space is from
+the joystick button mapping is not a continues space
+generally speaking, the mapping space is from
 
 1. BTN_JOYSTICK~BTN_DEAD
 2. BTN_TRIGGER_HAPPY~KEY_MAX
+
+and
 
 Finally I got the max limitation is 80.
 
