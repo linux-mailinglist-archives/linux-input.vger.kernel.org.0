@@ -2,71 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CCEB121BEEB
-	for <lists+linux-input@lfdr.de>; Fri, 10 Jul 2020 23:02:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C307A21C1B5
+	for <lists+linux-input@lfdr.de>; Sat, 11 Jul 2020 04:00:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726305AbgGJVCI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 10 Jul 2020 17:02:08 -0400
-Received: from mail-io1-f71.google.com ([209.85.166.71]:51428 "EHLO
-        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726409AbgGJVCI (ORCPT
+        id S1727075AbgGKB74 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 10 Jul 2020 21:59:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37744 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726605AbgGKB74 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 10 Jul 2020 17:02:08 -0400
-Received: by mail-io1-f71.google.com with SMTP id l1so4369167ioh.18
-        for <linux-input@vger.kernel.org>; Fri, 10 Jul 2020 14:02:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=EcX2YoSI4hSwdGD5PhGCWpYPH2pi2umYsQ04cJa1lWU=;
-        b=Tp27BNhWWEAo0cYej+XqZCDOhJR12mB9XNbs4NsGUNO17Cj4waElQCPsRhApoGQ23R
-         c7MxYIVL+Vkp8YTxlyCGRJ7FE4cVfBUSdsysR4ti2I8yveicuSDrrZxw0O4urjSqeZfA
-         tYuRRCyTF4iTjWOgc4iWiOBbn+ORty1og4YGCmKGXoXjcbjM5YWuaK02wMjXyHZ1FZ6f
-         VdaHsoRslZKEAi+mq+bkuiF4KziepJ3psQs6vEFgLpmV4C9bqRl9uFDDWQ2WJKhKY/To
-         TYVCzHb/83n52egl5nhVQ4ghd7hNLiygn8hFRKGVnk662+d3I/9UwdigVGs7RkO0Cj0K
-         xI2w==
-X-Gm-Message-State: AOAM533Rzz20Bq0j5TIO854yXH2+vctTLab+blsxQUJ4xX1QJfGjO6r+
-        MLcD2g9xpcGJxKFLwagLCVaR2kqlvSVLNoBDLt1ppx9otyJ5
-X-Google-Smtp-Source: ABdhPJyEq9NElE2CSRzXLsV2eA/q4ph+H8ODuNt0JPwMVMptXa9fHTlPXbqtll4w0/ey3EQ8Hk51+Rr2HK3XNMuFsi5+FTKc0c7b
+        Fri, 10 Jul 2020 21:59:56 -0400
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 420DBC08C5DC;
+        Fri, 10 Jul 2020 18:59:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Type:Cc:To:Subject:Message-ID:
+        Date:From:In-Reply-To:References:MIME-Version:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=GJ2VXjaXhltgn72DqcDl/jnnOyZmVWOtXKtl2Y057oo=; b=tk4vRva+QY4640r/s8MZLCMbZV
+        cVXZMSneHNkeVaHz5yIRAH4KL12fr02XWi/CmEi+sHYaMqB5j4bD3IWUgchxIaTgXlXeLHbfI7ROE
+        5PY/GS2BxhijpdLfeUR17GFU689anJpACJNXncCMlWv/6nYeyKT4VZf/6Wb3v6WJmB1VbTXhkJ6i+
+        wSjHR5CxUM1DIRVpmJZJzHiKoXs4fEpFXUjaZ+IhIesRMibdUFviWaP0UZsytNK1uAoLZEckoBl+T
+        3y6+BNnbcseJzWZjrFDeaeg4gghcSd/d2WiBMQumxK73PqoqDMX7fqm1m+h2d4hNgUBLo99xhvVSh
+        DMIbde9Q==;
+Received: from mail-pl1-f169.google.com ([209.85.214.169])
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1ju4ny-0006nL-8h; Sat, 11 Jul 2020 01:59:54 +0000
+Received: by mail-pl1-f169.google.com with SMTP id x9so2978314plr.2;
+        Fri, 10 Jul 2020 18:59:54 -0700 (PDT)
+X-Gm-Message-State: AOAM5328m+FspgbAyQToMM1XM+K/ID0iRzaSYNgKo44dlY+vz3pe9y3i
+        DOhtLKcKK8f/HEb+g3icCYanQHW8mEaRZQ5ehRU=
+X-Google-Smtp-Source: ABdhPJy9VCFQi6K1gZSN++kbomTkvoCuFXvMgXWCiF21Lt+lovEI91BXTIDGuLt+jC7SpNJ1amw5FQDlw3XP0HqmAiE=
+X-Received: by 2002:a17:902:121:: with SMTP id 30mr62096147plb.44.1594432793558;
+ Fri, 10 Jul 2020 18:59:53 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a6b:7610:: with SMTP id g16mr44556439iom.115.1594414927282;
- Fri, 10 Jul 2020 14:02:07 -0700 (PDT)
-Date:   Fri, 10 Jul 2020 14:02:07 -0700
-In-Reply-To: <000000000000b9c33505a63f2fea@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000005d881b05aa1ca788@google.com>
-Subject: Re: KASAN: slab-out-of-bounds Read in mark_lock
-From:   syzbot <syzbot+31610284091be1bf04f4@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, balbi@kernel.org,
-        christophe.jaillet@wanadoo.fr, dmitry.torokhov@gmail.com,
-        gregkh@linuxfoundation.org, gustavo@embeddedor.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rafael@kernel.org, syzkaller-bugs@googlegroups.com
+References: <20200710151939.4894-1-grant.likely@arm.com>
+In-Reply-To: <20200710151939.4894-1-grant.likely@arm.com>
+From:   Darren Hart <dvhart@infradead.org>
+Date:   Fri, 10 Jul 2020 18:59:42 -0700
+X-Gmail-Original-Message-ID: <CAJuF2pzvh2G7_2q88a4e=dpB1RATrdF8jsOkpVuuueZLGGbsiQ@mail.gmail.com>
+Message-ID: <CAJuF2pzvh2G7_2q88a4e=dpB1RATrdF8jsOkpVuuueZLGGbsiQ@mail.gmail.com>
+Subject: Re: [PATCH] hid-input: Fix devices that return multiple bytes in
+ battery report
+To:     Grant Likely <grant.likely@secretlab.ca>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-input@vger.kernel.org,
+        Grant Likely <grant.likely@arm.com>,
+        Darren Hart <darren@dvhart.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-syzbot suspects this bug was fixed by commit:
+On Fri, Jul 10, 2020 at 8:19 AM Grant Likely <grant.likely@secretlab.ca> wrote:
+>
+> Some devices, particularly the 3DConnexion Spacemouse wireless 3D
+> controllers, return more than just the battery capacity in the battery
+> report. The Spacemouse devices return an additional byte with a device
+> specific field. However, hidinput_query_battery_capacity() only
+> requests a 2 byte transfer.
+>
+> When a spacemouse is connected via USB (direct wire, no wireless dongle)
+> and it returns a 3 byte report instead of the assumed 2 byte battery
+> report the larger transfer confuses and frightens the USB subsystem
+> which chooses to ignore the transfer. Then after 2 seconds assume the
+> device has stopped responding and reset it. This can be reproduced
+> easily by using a wired connection with a wireless spacemouse. The
+> Spacemouse will enter a loop of resetting every 2 seconds which can be
+> observed in dmesg.
+>
+> This patch solves the problem by increasing the transfer request to 4
+> bytes instead of 2. The fix isn't particularly elegant, but it is simple
+> and safe to backport to stable kernels. A further patch will follow to
+> more elegantly handle battery reports that contain additional data.
+>
 
-commit c154703bc8dd2231ae81aafef5589b795b2b7e09
-Author: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Date:   Sun Apr 19 04:18:07 2020 +0000
+Applied and tested on 5.8.0-rc4+ (aa0c9086b40c) with a 3Dconnexion
+SpaceMouse Wireless (tested connected via USB). Observed the same
+behavior Grant reports before the patch. After the patch, the device stays
+connected successfully.
 
-    Input: tca6416-keypad - fix a typo in MODULE_DESCRIPTION
+Tested-by: Darren Hart <dvhart@infradead.org>
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=151c0000900000
-start commit:   d2f8825a Merge tag 'for_linus' of git://git.kernel.org/pub..
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=c33c7f7c5471fd39
-dashboard link: https://syzkaller.appspot.com/bug?extid=31610284091be1bf04f4
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14797b81100000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11f86d6e100000
+Thanks Grant!
 
-If the result looks correct, please mark the bug fixed by replying with:
-
-#syz fix: Input: tca6416-keypad - fix a typo in MODULE_DESCRIPTION
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+> Signed-off-by: Grant Likely <grant.likely@secretlab.ca>
+> Cc: Darren Hart <darren@dvhart.com>
+> Cc: Jiri Kosina <jikos@kernel.org>
+> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Cc: stable@vger.kernel.org
+> ---
+>  drivers/hid/hid-input.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> index dea9cc65bf80..e8641ce677e4 100644
+> --- a/drivers/hid/hid-input.c
+> +++ b/drivers/hid/hid-input.c
+> @@ -350,13 +350,13 @@ static int hidinput_query_battery_capacity(struct hid_device *dev)
+>         u8 *buf;
+>         int ret;
+>
+> -       buf = kmalloc(2, GFP_KERNEL);
+> +       buf = kmalloc(4, GFP_KERNEL);
+>         if (!buf)
+>                 return -ENOMEM;
+>
+> -       ret = hid_hw_raw_request(dev, dev->battery_report_id, buf, 2,
+> +       ret = hid_hw_raw_request(dev, dev->battery_report_id, buf, 4,
+>                                  dev->battery_report_type, HID_REQ_GET_REPORT);
+> -       if (ret != 2) {
+> +       if (ret < 2) {
+>                 kfree(buf);
+>                 return -ENODATA;
+>         }
+> --
+> 2.20.1
+>
