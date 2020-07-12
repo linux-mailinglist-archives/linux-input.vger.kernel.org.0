@@ -2,128 +2,567 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D627921C6C2
-	for <lists+linux-input@lfdr.de>; Sun, 12 Jul 2020 01:55:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A59F921C7B0
+	for <lists+linux-input@lfdr.de>; Sun, 12 Jul 2020 08:08:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727112AbgGKXzH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 11 Jul 2020 19:55:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40832 "EHLO
+        id S1727890AbgGLGIv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 12 Jul 2020 02:08:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726939AbgGKXzH (ORCPT
+        with ESMTP id S1727777AbgGLGIv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 11 Jul 2020 19:55:07 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFF64C08C5DD;
-        Sat, 11 Jul 2020 16:55:06 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id e4so10573824ljn.4;
-        Sat, 11 Jul 2020 16:55:06 -0700 (PDT)
+        Sun, 12 Jul 2020 02:08:51 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4162BC08C5DD;
+        Sat, 11 Jul 2020 23:08:51 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id e8so4582270pgc.5;
+        Sat, 11 Jul 2020 23:08:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=E9dH9xs0WOC7kOt2IbwahbmPC33CGD8YY7xKZOFfTBQ=;
-        b=sHjyPED15yrfHyhsVLnPdupQLP3/g8GVPQemwRNJGA6EDHCMR1CO71/o0kZ2Oz8Kav
-         r488SxyoTCtqoTDxMOnAw4Irp285Yny/3CQjl+Tgr8eNPOJRGMR6Bd8WT5qSEHsFqR7S
-         Lv9GIKHOffRTtZgf1ifqVT/fhQN2Fy+edkkHyKEN3n0zVTowj5Qz4xd9Pz4gEfx2714i
-         sVnxzrqJSeaH/h0Dui8s9AFKu7WkbWc1FlhEUwK8RRrx3tFuW+o7CmIyuua+CCyPZTJP
-         2s5igv6p8F2/Rh/jzoajWl2s+yEUyEjUt0zuzmdPJkDS8e85hYwFPtKKV3fmXED7ICXj
-         sFDQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=m9I+YCJ3oY7kfSVe69yUDRyal68ES5zpMEmycCbYwhA=;
+        b=PSROYf+EmoEZKceR81oHenuvRNpGp//3Oc5Sw9eValQRFD1BVoAWwAxbt0ZArqsw/o
+         H0MRs6K8oix75cQZZPJZEXVEZDS4gOj/KSPUVTNYbyY25oD7z0WfP+tZjmhBnti5vE0A
+         amcNFMIFIX6+fpfY/YqRxl6HW+Xq6U+kHCK0iTmzBYw2yN/Sn0W8KsG8Q1ZpY2gMnJSX
+         UGas0PL8WdKTqGrHVZz1G5Z+BkKLVsGqVUag5E+G+zruYYRWD32/KfqRUrM2sE9oXV6B
+         dbDvQFeQ/oieZFa21Y1zEHujkOGa2J2QdXOuJAF+HarmBIslOLFjkjNLKx+p7WMUcZ/j
+         OEFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=E9dH9xs0WOC7kOt2IbwahbmPC33CGD8YY7xKZOFfTBQ=;
-        b=QbnDbCQBfdLY81LIrVUZG4VLtOuQtvOwYkxZpGkOJHblx7P2tfq7IsgDC54L9Z+Cbk
-         rKc06WXDFj0RCrJtRm05jwVsalziW2Cr0EctR05nfqZwhvQVhmvgHGdqaCO2v/8ml/TD
-         5q9ggKDqPgjWv9wnobruY7dXxriGlVMVhgq9vSUmN/eJ63a3wf5jjmiyQLoa7n7ce2Ko
-         QVXGalQE11QRG2msi1d+zucTwvzyE894pU+jgQ22xCHE8S925e80zp3i843PWCreErTP
-         uXWXwUavPYDLIl5r0XXoeCthb4emYCKPYH8WFCeX4e20ym6jZLrHcKh8Th2rqOegiTyC
-         SOlw==
-X-Gm-Message-State: AOAM531jxYL+iWalq4UstVvHvV0yuf1rGPWxDcg9H0PqmG+R6yJnePz3
-        a8BtVqrjmXBfTTyvaUznbMiFRRVYh/3OWRrM7ZhCzR1E7Nw=
-X-Google-Smtp-Source: ABdhPJxjD0K7f0vNG0otnFa0TzRqm8fcm99gbNPJ3m//mFp9ZflKoKVmrPeSmnChE3vkedJvYvRkJK+4D/f8GHWmvpk=
-X-Received: by 2002:a2e:954c:: with SMTP id t12mr43979065ljh.287.1594511705088;
- Sat, 11 Jul 2020 16:55:05 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=m9I+YCJ3oY7kfSVe69yUDRyal68ES5zpMEmycCbYwhA=;
+        b=iWSW+paFj33skB2pEO+AU3U7RCjFgdq1VXSsbwd4BOvxv0MIgMwQGWB/EzkFMTUYP8
+         bHTBJXmpDJIJJBeMHXF5Mf6gFz1NB5P5RYs6GVQygY28euRsJq1TPlhus+ZKq2evritM
+         VBwO+/8RYJu2L0V52TyWb/sGTEdhBHLZW/Rx0xL4hTh3Cstxs7XHmtlQbyrVlVbHxAHV
+         ffTzflNhqEAquQkjfoq6BxM9TxtkrJS5vPgSjdF6qAQMZutCWiPIh3Gm4BBMEsCuZXYm
+         Y/ZfmhW6LtC+W7R/0PvZh2l+rYlw/KLPVtahyk1nV1/IeRO+aZT+EQOPvuqERpQ/xZCA
+         dQag==
+X-Gm-Message-State: AOAM530tO38bVhG6uRhONeq3aPlV9hWONZiqykNL/RLVFbdNevI5W4hU
+        h5Va82k3yloeva8Qy+U3uys=
+X-Google-Smtp-Source: ABdhPJwAZFqinnAMoTqgHC2jHh4uSGo6gSa4MTrBLs+Liq2VQDHIBdnY09herw91boWvsMhlgaZllw==
+X-Received: by 2002:a63:3d07:: with SMTP id k7mr64680821pga.93.1594534129094;
+        Sat, 11 Jul 2020 23:08:49 -0700 (PDT)
+Received: from dtor-ws ([100.99.132.186])
+        by smtp.gmail.com with ESMTPSA id c134sm10707636pfc.115.2020.07.11.23.08.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Jul 2020 23:08:48 -0700 (PDT)
+Date:   Sat, 11 Jul 2020 23:08:46 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Jingle Wu <jingle.wu@emc.com.tw>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        phoenix@emc.com.tw, josh.chen@emc.com.tw, dave.wang@emc.com.tw
+Subject: Re: [PATCH 1/2] Input: elan_i2c - Add ic type 0x11 0x13 0x14.
+Message-ID: <20200712060846.GA3224245@dtor-ws>
+References: <20200710054047.5473-1-jingle.wu@emc.com.tw>
 MIME-Version: 1.0
-References: <cpuwolf@gmail.com> <20200710065112.18286-1-cpuwolf@gmail.com>
-In-Reply-To: <20200710065112.18286-1-cpuwolf@gmail.com>
-From:   Wei Shuai <cpuwolf@gmail.com>
-Date:   Sun, 12 Jul 2020 07:54:54 +0800
-Message-ID: <CACa7zykn0q9XJAUvrqnNATr4DUv3Kc7XujF3vm6sfRB5pE6YNQ@mail.gmail.com>
-Subject: [PATCH] Input: break joystick limitation of maximum 80 buttons
-To:     "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." 
-        <linux-input@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     cpuwolf <cpuwolf@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jeffrey Hugo <jhugo@codeaurora.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Borislav Petkov <bp@suse.de>, Mattias Jacobsson <2pi@mok.nu>,
-        Mark Gross <mgross@linux.intel.com>,
-        Russell King <rmk+kernel@armlinux.org.uk>,
-        Erwan Velu <e.velu@criteo.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200710054047.5473-1-jingle.wu@emc.com.tw>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The joystick max buttons 80 limitation comes from
+Hi Jingle,
 
-#define BTN_JOYSTICK 0x120
-#define BTN_DEAD 0x12f
-#define BTN_TRIGGER_HAPPY 0x2c0
-#define KEY_MAX 0x2ff
+On Fri, Jul 10, 2020 at 01:40:47AM -0400, Jingle Wu wrote:
+> Modify the iap method for all IC.
+> Get the correct value of ic_type for old and new pattern of
+> firmware.
 
-include/uapi/linux/input-event-codes.h
+Could you please tell me what devices this patch was tested with? I want
+to be sure we are not only adding support for newer devices, but also
+not breaking existing ones.
 
-according to function hidinput_configure_usage() in file drivers/hid/hid-input.c
+Also, could you please split this patch in 2: one adding variable length
+firmware page size support, and another adding the new IC types.
 
-the joystick button mapping is not a continues space
-generally speaking, the mapping space is from
+> 
+> Signed-off-by: Jingle Wu <jingle.wu@emc.com.tw>
+> ---
+>  drivers/input/mouse/elan_i2c.h       |   6 +-
+>  drivers/input/mouse/elan_i2c_core.c  |  52 ++++++++-----
+>  drivers/input/mouse/elan_i2c_i2c.c   | 109 ++++++++++++++++++++++-----
+>  drivers/input/mouse/elan_i2c_smbus.c |  10 +--
+>  4 files changed, 134 insertions(+), 43 deletions(-)
+> 
+> diff --git a/drivers/input/mouse/elan_i2c.h b/drivers/input/mouse/elan_i2c.h
+> index a9074ac9364f..f28b747978f5 100644
+> --- a/drivers/input/mouse/elan_i2c.h
+> +++ b/drivers/input/mouse/elan_i2c.h
+> @@ -33,6 +33,8 @@
+>  #define ETP_FW_IAP_PAGE_ERR	(1 << 5)
+>  #define ETP_FW_IAP_INTF_ERR	(1 << 4)
+>  #define ETP_FW_PAGE_SIZE	64
+> +#define ETP_FW_PAGE_SIZE_128	128
+> +#define ETP_FW_PAGE_SIZE_512	512
+>  #define ETP_FW_SIGNATURE_SIZE	6
+>  
+>  struct i2c_client;
+> @@ -72,8 +74,8 @@ struct elan_transport_ops {
+>  	int (*iap_get_mode)(struct i2c_client *client, enum tp_mode *mode);
+>  	int (*iap_reset)(struct i2c_client *client);
+>  
+> -	int (*prepare_fw_update)(struct i2c_client *client);
+> -	int (*write_fw_block)(struct i2c_client *client,
+> +	int (*prepare_fw_update)(struct i2c_client *client, u16 ic_type);
+> +	int (*write_fw_block)(struct i2c_client *client, u16 fw_page_size,
+>  			      const u8 *page, u16 checksum, int idx);
+>  	int (*finish_fw_update)(struct i2c_client *client,
+>  				struct completion *reset_done);
+> diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
+> index 3f9354baac4b..0703f7d0d02d 100644
+> --- a/drivers/input/mouse/elan_i2c_core.c
+> +++ b/drivers/input/mouse/elan_i2c_core.c
+> @@ -89,7 +89,8 @@ struct elan_tp_data {
+>  	u8			mode;
+>  	u16			ic_type;
+>  	u16			fw_validpage_count;
+> -	u16			fw_signature_address;
+> +	u16			fw_page_size;
+> +	u32			fw_signature_address;
+>  
+>  	bool			irq_wake;
+>  
+> @@ -100,8 +101,10 @@ struct elan_tp_data {
+>  	bool			middle_button;
+>  };
+>  
+> -static int elan_get_fwinfo(u16 ic_type, u16 *validpage_count,
+> -			   u16 *signature_address)
+> +static int elan_get_fwinfo(u16 ic_type, u8 iap_version, 
+> +                           u16 *validpage_count,
+> +			   u32 *signature_address,
+> +			   u16 *page_size)
+>  {
+>  	switch (ic_type) {
+>  	case 0x00:
+> @@ -124,18 +127,34 @@ static int elan_get_fwinfo(u16 ic_type, u16 *validpage_count,
+>  		*validpage_count = 640;
+>  		break;
+>  	case 0x10:
+> +	case 0x14:
+>  		*validpage_count = 1024;
+>  		break;
 
-1. BTN_JOYSTICK~BTN_DEAD
-2. BTN_TRIGGER_HAPPY~KEY_MAX
+I would prefer if we listed 0x14 separately below.
 
-Finally, I got the max limitation is 80.
-The patch is expanding KEY_MAX from 0x2ff to 4ff
-and the change has been verified on 104 button USB HID device on Ubuntu
+> +	case 0x11:
+> +		*validpage_count = 1280;
+> +		break;
+> +	case 0x13:
+> +		*validpage_count = 2048;
+> +		break;
+>  	default:
+>  		/* unknown ic type clear value */
+>  		*validpage_count = 0;
+>  		*signature_address = 0;
+> +		*page_size = 0;
+>  		return -ENXIO;
+>  	}
+>  
+>  	*signature_address =
+>  		(*validpage_count * ETP_FW_PAGE_SIZE) - ETP_FW_SIGNATURE_SIZE;
+>  
+> +	if ((ic_type == 0x14) && (iap_version >= 2)) {
+> +		*validpage_count /= 8;
+> +		*page_size = ETP_FW_PAGE_SIZE_512;
 
-Signed-off-by: Wei Shuai <cpuwolf@gmail.com>
----
- include/linux/mod_devicetable.h        | 2 +-
- include/uapi/linux/input-event-codes.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Do we really need to check ic_type here in addition to iap_version?
+I.e. IC 0x11 - can it have IAP 2? And will it be using 512 or 128 byte
+pages? In other words I am trying to understand if we could determine
+page size solely by IAP version.
 
-diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
-index 8d764aab29de..35eb59ae1f19 100644
---- a/include/linux/mod_devicetable.h
-+++ b/include/linux/mod_devicetable.h
-@@ -311,7 +311,7 @@ struct pcmcia_device_id {
- /* Input */
- #define INPUT_DEVICE_ID_EV_MAX         0x1f
- #define INPUT_DEVICE_ID_KEY_MIN_INTERESTING    0x71
--#define INPUT_DEVICE_ID_KEY_MAX                0x2ff
-+#define INPUT_DEVICE_ID_KEY_MAX                0x4ff
- #define INPUT_DEVICE_ID_REL_MAX                0x0f
- #define INPUT_DEVICE_ID_ABS_MAX                0x3f
- #define INPUT_DEVICE_ID_MSC_MAX                0x07
-diff --git a/include/uapi/linux/input-event-codes.h
-b/include/uapi/linux/input-event-codes.h
-index b6a835d37826..ad1b9bed3828 100644
---- a/include/uapi/linux/input-event-codes.h
-+++ b/include/uapi/linux/input-event-codes.h
-@@ -774,7 +774,7 @@
+> +	} else if ((ic_type >= 0x0D) && (iap_version >= 1)) {
+> +		*validpage_count /= 2;
+> +		*page_size = ETP_FW_PAGE_SIZE_128;
+> +	} else
+> +		*page_size = ETP_FW_PAGE_SIZE;
+>  	return 0;
+>  }
+>  
+> @@ -312,7 +331,6 @@ static int elan_initialize(struct elan_tp_data *data)
+>  static int elan_query_device_info(struct elan_tp_data *data)
+>  {
+>  	int error;
+> -	u16 ic_type;
+>  
+>  	error = data->ops->get_version(data->client, false, &data->fw_version);
+>  	if (error)
+> @@ -336,13 +354,10 @@ static int elan_query_device_info(struct elan_tp_data *data)
+>  	if (error)
+>  		return error;
+>  
+> -	if (data->pattern == 0x01)
+> -		ic_type = data->ic_type;
+> -	else
+> -		ic_type = data->iap_version;
+> -
+> -	error = elan_get_fwinfo(ic_type, &data->fw_validpage_count,
+> -				&data->fw_signature_address);
+> +	error = elan_get_fwinfo(data->ic_type, data->iap_version, 
+> +				&data->fw_validpage_count,
+> +				&data->fw_signature_address,
+> +				&data->fw_page_size);
+>  	if (error)
+>  		dev_warn(&data->client->dev,
+>  			 "unexpected iap version %#04x (ic type: %#04x), firmware update will not work\n",
+> @@ -430,14 +445,14 @@ static int elan_query_device_parameters(struct elan_tp_data *data)
+>   * IAP firmware updater related routines
+>   **********************************************************
+>   */
+> -static int elan_write_fw_block(struct elan_tp_data *data,
+> +static int elan_write_fw_block(struct elan_tp_data *data, u16 page_size,
 
- /* We avoid low common keys in module aliases so they don't get huge. */
- #define KEY_MIN_INTERESTING    KEY_MUTE
--#define KEY_MAX                        0x2ff
-+#define KEY_MAX                        0x4ff
- #define KEY_CNT                        (KEY_MAX+1)
+I think we have data->fw_page_size, we do not need to pass it separately
+here.
 
- /*
---
-2.17.1
+>  			       const u8 *page, u16 checksum, int idx)
+>  {
+>  	int retry = ETP_RETRY_COUNT;
+>  	int error;
+>  
+>  	do {
+> -		error = data->ops->write_fw_block(data->client,
+> +		error = data->ops->write_fw_block(data->client, page_size,
+>  						  page, checksum, idx);
+>  		if (!error)
+>  			return 0;
+> @@ -460,21 +475,22 @@ static int __elan_update_firmware(struct elan_tp_data *data,
+>  	u16 boot_page_count;
+>  	u16 sw_checksum = 0, fw_checksum = 0;
+>  
+> -	error = data->ops->prepare_fw_update(client);
+> +	error = data->ops->prepare_fw_update(client, data->ic_type);
+>  	if (error)
+>  		return error;
+>  
+>  	iap_start_addr = get_unaligned_le16(&fw->data[ETP_IAP_START_ADDR * 2]);
+>  
+> -	boot_page_count = (iap_start_addr * 2) / ETP_FW_PAGE_SIZE;
+> +	boot_page_count = (iap_start_addr * 2) / data->fw_page_size;
+>  	for (i = boot_page_count; i < data->fw_validpage_count; i++) {
+>  		u16 checksum = 0;
+> -		const u8 *page = &fw->data[i * ETP_FW_PAGE_SIZE];
+> +		const u8 *page = &fw->data[i * data->fw_page_size];
+>  
+> -		for (j = 0; j < ETP_FW_PAGE_SIZE; j += 2)
+> +		for (j = 0; j < data->fw_page_size; j += 2)
+>  			checksum += ((page[j + 1] << 8) | page[j]);
+>  
+> -		error = elan_write_fw_block(data, page, checksum, i);
+> +		error = elan_write_fw_block(data, data->fw_page_size,
+> +						page, checksum, i);
+>  		if (error) {
+>  			dev_err(dev, "write page %d fail: %d\n", i, error);
+>  			return error;
+> diff --git a/drivers/input/mouse/elan_i2c_i2c.c b/drivers/input/mouse/elan_i2c_i2c.c
+> index 058b35b1f9a9..91ef0c7bda43 100644
+> --- a/drivers/input/mouse/elan_i2c_i2c.c
+> +++ b/drivers/input/mouse/elan_i2c_i2c.c
+> @@ -19,6 +19,7 @@
+>  #include <linux/interrupt.h>
+>  #include <linux/jiffies.h>
+>  #include <linux/kernel.h>
+> +#include <linux/slab.h>
+>  #include <linux/sched.h>
+>  #include <asm/unaligned.h>
+>  
+> @@ -43,6 +44,7 @@
+>  #define ETP_I2C_RESOLUTION_CMD		0x0108
+>  #define ETP_I2C_PRESSURE_CMD		0x010A
+>  #define ETP_I2C_IAP_VERSION_CMD		0x0110
+> +#define ETP_I2C_IAP_VERSION_CMD_OLD		0x0111
+>  #define ETP_I2C_SET_CMD			0x0300
+>  #define ETP_I2C_POWER_CMD		0x0307
+>  #define ETP_I2C_FW_CHECKSUM_CMD		0x030F
+> @@ -53,6 +55,8 @@
+>  #define ETP_I2C_CALIBRATE_CMD		0x0316
+>  #define ETP_I2C_MAX_BASELINE_CMD	0x0317
+>  #define ETP_I2C_MIN_BASELINE_CMD	0x0318
+> +#define ETP_I2C_IAP_TYPE_REG	0x0040
+> +#define ETP_I2C_IAP_TYPE_CMD	0x0304
+>  
+>  #define ETP_I2C_REPORT_LEN		34
+>  #define ETP_I2C_DESC_LENGTH		30
+> @@ -249,7 +253,11 @@ static int elan_i2c_get_pattern(struct i2c_client *client, u8 *pattern)
+>  		dev_err(&client->dev, "failed to get pattern: %d\n", error);
+>  		return error;
+>  	}
+> -	*pattern = val[1];
+> +
+> +	if ((val[0] == 0xFF) && (val[1] == 0xFF))
+> +		*pattern = 0;
+> +	else
+> +		*pattern = val[1];
+
+This needs a comment explaining why we are doing it.
+
+>  
+>  	return 0;
+>  }
+> @@ -259,6 +267,7 @@ static int elan_i2c_get_version(struct i2c_client *client,
+>  {
+>  	int error;
+>  	u8 pattern_ver;
+> +	u16 iap_cmd;
+>  	u8 val[3];
+>  
+>  	error = elan_i2c_get_pattern(client, &pattern_ver);
+> @@ -266,9 +275,14 @@ static int elan_i2c_get_version(struct i2c_client *client,
+>  		dev_err(&client->dev, "failed to get pattern version\n");
+>  		return error;
+>  	}
+> +	
+> +	if (pattern_ver >= 0x01)
+> +		iap_cmd = ETP_I2C_IAP_VERSION_CMD;
+> +	else
+> +		iap_cmd = ETP_I2C_IAP_VERSION_CMD_OLD;
+
+Can we make it
+
+	if (!iap)
+		cmd = ETP_I2C_FW_VERSION_CMD;
+	else if (pattern_ver == 0)
+		cmd = ETP_I2C_IAP_VERSION_CMD_OLD;
+	else
+		cmd = ETP_I2C_IAP_VERSION_CMD;
+
+>  
+>  	error = elan_i2c_read_cmd(client,
+> -				  iap ? ETP_I2C_IAP_VERSION_CMD :
+> +				  iap ? iap_cmd :
+>  					ETP_I2C_FW_VERSION_CMD,
+>  				  val);
+>  	if (error) {
+> @@ -277,7 +291,7 @@ static int elan_i2c_get_version(struct i2c_client *client,
+>  		return error;
+>  	}
+>  
+> -	if (pattern_ver == 0x01)
+> +	if (pattern_ver >= 0x01)
+>  		*version = iap ? val[1] : val[0];
+>  	else
+>  		*version = val[0];
+> @@ -298,7 +312,7 @@ static int elan_i2c_get_sm_version(struct i2c_client *client,
+>  		return error;
+>  	}
+>  
+> -	if (pattern_ver == 0x01) {
+> +	if (pattern_ver >= 0x01) {
+>  		error = elan_i2c_read_cmd(client, ETP_I2C_IC_TYPE_CMD, val);
+>  		if (error) {
+>  			dev_err(&client->dev, "failed to get ic type: %d\n",
+> @@ -324,7 +338,14 @@ static int elan_i2c_get_sm_version(struct i2c_client *client,
+>  			return error;
+>  		}
+>  		*version = val[0];
+> -		*ic_type = val[1];
+> +
+> +		error = elan_i2c_read_cmd(client, ETP_I2C_IAP_VERSION_CMD, val);
+> +		if (error) {
+> +			dev_err(&client->dev, "failed to get ic type: %d\n",
+> +				error);
+> +			return error;
+> +		}
+> +		*ic_type = val[0];
+>  
+>  		error = elan_i2c_read_cmd(client, ETP_I2C_NSM_VERSION_CMD,
+>  					  val);
+> @@ -507,13 +528,53 @@ static int elan_i2c_set_flash_key(struct i2c_client *client)
+>  	return 0;
+>  }
+>  
+> -static int elan_i2c_prepare_fw_update(struct i2c_client *client)
+> +static int elan_read_write_iap_type(struct i2c_client *client)
+> +{
+> +	int error;
+> +	u16 constant;
+> +	u8 val[3];
+> +	int retry = 3;
+> +
+> +	do {
+> +		error = elan_i2c_write_cmd(client, ETP_I2C_IAP_TYPE_CMD,
+> +				ETP_I2C_IAP_TYPE_REG);
+> +		if (error) {
+> +			dev_err(&client->dev,
+> +					"cannot write iap type: %d\n", error);
+> +			return error;
+> +		}
+> +
+> +		error = elan_i2c_read_cmd(client, ETP_I2C_IAP_TYPE_CMD, val);
+> +		if (error) {
+> +			dev_err(&client->dev,
+> +				"failed to read iap type register: %d\n",
+> +				error);
+> +			return error;
+> +		}
+> +		constant = le16_to_cpup((__le16 *)val);
+> +		dev_dbg(&client->dev, "iap type reg: 0x%04x.\n", constant);
+> +
+> +		if (constant == ETP_I2C_IAP_TYPE_REG)
+> +			return 0;
+> +
+> +	} while (--retry > 0);
+> +
+> +	dev_err(&client->dev, "cannot set iap type.\n");
+> +	return -EIO;
+> +}
+> +
+> +static int elan_i2c_prepare_fw_update(struct i2c_client *client, u16 ic_type)
+>  {
+>  	struct device *dev = &client->dev;
+>  	int error;
+>  	enum tp_mode mode;
+>  	u8 val[3];
+>  	u16 password;
+> +	u8 iap_version;
+> +	
+> +	error = elan_i2c_get_version(client, true, &iap_version);
+> +	if (error)
+> +		return error;
+
+Haven't we queried IAP version already? Can we pass it in, along with
+ic_type?
+
+>  
+>  	/* Get FW in which mode	(IAP_MODE/MAIN_MODE)  */
+>  	error = elan_i2c_iap_get_mode(client, &mode);
+> @@ -546,6 +607,12 @@ static int elan_i2c_prepare_fw_update(struct i2c_client *client)
+>  		dev_err(dev, "wrong mode: %d\n", mode);
+>  		return -EIO;
+>  	}
+> +	
+> +	if ((ic_type >= 0x0D) && (iap_version >= 1)) {
+
+No need for parenthesis around simple comparisons. Also, do we really
+need to check both ic type and iap version? Is there ICs less than 0x0d
+with newer IAP versions?
+
+> +		error = elan_read_write_iap_type(client);
+> +		if (error)
+> +			return error;
+> +	}
+>  
+>  	/* Set flash key again */
+>  	error = elan_i2c_set_flash_key(client);
+> @@ -572,45 +639,51 @@ static int elan_i2c_prepare_fw_update(struct i2c_client *client)
+>  	return 0;
+>  }
+>  
+> -static int elan_i2c_write_fw_block(struct i2c_client *client,
+> +static int elan_i2c_write_fw_block(struct i2c_client *client, u16 fw_page_size,
+>  				   const u8 *page, u16 checksum, int idx)
+>  {
+>  	struct device *dev = &client->dev;
+> -	u8 page_store[ETP_FW_PAGE_SIZE + 4];
+> +	u8 *page_store = kcalloc(1, fw_page_size + 4, GFP_KERNEL);
+
+Why kcalloc()? kzalloc() if you want cleared memoryi, but I think
+kmalloc would be fine.
+
+>  	u8 val[3];
+>  	u16 result;
+> -	int ret, error;
+> +	int ret, error = 0;
+>  
+>  	page_store[0] = ETP_I2C_IAP_REG_L;
+>  	page_store[1] = ETP_I2C_IAP_REG_H;
+> -	memcpy(&page_store[2], page, ETP_FW_PAGE_SIZE);
+> +	memcpy(&page_store[2], page, fw_page_size);
+>  	/* recode checksum at last two bytes */
+> -	put_unaligned_le16(checksum, &page_store[ETP_FW_PAGE_SIZE + 2]);
+> +	put_unaligned_le16(checksum, &page_store[fw_page_size + 2]);
+>  
+> -	ret = i2c_master_send(client, page_store, sizeof(page_store));
+> -	if (ret != sizeof(page_store)) {
+> +	ret = i2c_master_send(client, page_store, fw_page_size + 4);
+> +	if (ret != fw_page_size + 4) {
+>  		error = ret < 0 ? ret : -EIO;
+>  		dev_err(dev, "Failed to write page %d: %d\n", idx, error);
+> -		return error;
+> +		goto exit;
+>  	}
+>  
+>  	/* Wait for F/W to update one page ROM data. */
+> -	msleep(35);
+> +	if (fw_page_size == ETP_FW_PAGE_SIZE_512)
+> +		msleep(50);
+> +	else
+> +		msleep(35);
+>  
+>  	error = elan_i2c_read_cmd(client, ETP_I2C_IAP_CTRL_CMD, val);
+>  	if (error) {
+>  		dev_err(dev, "Failed to read IAP write result: %d\n", error);
+> -		return error;
+> +		goto exit;
+>  	}
+>  
+>  	result = le16_to_cpup((__le16 *)val);
+>  	if (result & (ETP_FW_IAP_PAGE_ERR | ETP_FW_IAP_INTF_ERR)) {
+>  		dev_err(dev, "IAP reports failed write: %04hx\n",
+>  			result);
+> -		return -EIO;
+> +		error = -EIO;
+> +		goto exit;
+>  	}
+>  
+> -	return 0;
+> +exit:
+> +	kfree(page_store);
+> +	return error;
+>  }
+>  
+>  static int elan_i2c_finish_fw_update(struct i2c_client *client,
+> diff --git a/drivers/input/mouse/elan_i2c_smbus.c b/drivers/input/mouse/elan_i2c_smbus.c
+> index 8c3185d54c73..1e762c90c894 100644
+> --- a/drivers/input/mouse/elan_i2c_smbus.c
+> +++ b/drivers/input/mouse/elan_i2c_smbus.c
+> @@ -340,7 +340,7 @@ static int elan_smbus_set_flash_key(struct i2c_client *client)
+>  	return 0;
+>  }
+>  
+> -static int elan_smbus_prepare_fw_update(struct i2c_client *client)
+> +static int elan_smbus_prepare_fw_update(struct i2c_client *client, u16 ic_type)
+>  {
+>  	struct device *dev = &client->dev;
+>  	int len;
+> @@ -414,7 +414,7 @@ static int elan_smbus_prepare_fw_update(struct i2c_client *client)
+>  }
+>  
+>  
+> -static int elan_smbus_write_fw_block(struct i2c_client *client,
+> +static int elan_smbus_write_fw_block(struct i2c_client *client, u16 fw_page_size,
+>  				     const u8 *page, u16 checksum, int idx)
+>  {
+>  	struct device *dev = &client->dev;
+> @@ -429,7 +429,7 @@ static int elan_smbus_write_fw_block(struct i2c_client *client,
+>  	 */
+>  	error = i2c_smbus_write_block_data(client,
+>  					   ETP_SMBUS_WRITE_FW_BLOCK,
+> -					   ETP_FW_PAGE_SIZE / 2,
+> +					   fw_page_size / 2,
+>  					   page);
+>  	if (error) {
+>  		dev_err(dev, "Failed to write page %d (part %d): %d\n",
+> @@ -439,8 +439,8 @@ static int elan_smbus_write_fw_block(struct i2c_client *client,
+>  
+>  	error = i2c_smbus_write_block_data(client,
+>  					   ETP_SMBUS_WRITE_FW_BLOCK,
+> -					   ETP_FW_PAGE_SIZE / 2,
+> -					   page + ETP_FW_PAGE_SIZE / 2);
+> +					   fw_page_size / 2,
+> +					   page + fw_page_size / 2);
+>  	if (error) {
+>  		dev_err(dev, "Failed to write page %d (part %d): %d\n",
+>  			idx, 2, error);
+> -- 
+> 2.17.1
+> 
+
+Thanks.
+
+-- 
+Dmitry
