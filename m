@@ -2,95 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DB0721D195
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jul 2020 10:21:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FDA421D279
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jul 2020 11:06:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725969AbgGMIVp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 13 Jul 2020 04:21:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55848 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725818AbgGMIVp (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 13 Jul 2020 04:21:45 -0400
-Received: from smtp.al2klimov.de (smtp.al2klimov.de [IPv6:2a01:4f8:c0c:1465::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 772BCC061755;
-        Mon, 13 Jul 2020 01:21:45 -0700 (PDT)
-Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
-        by smtp.al2klimov.de (Postfix) with ESMTPA id 2C9B7BC0C2;
-        Mon, 13 Jul 2020 08:21:42 +0000 (UTC)
-From:   "Alexander A. Klimov" <grandmaster@al2klimov.de>
-To:     gupt21@gmail.com, jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Subject: [PATCH] HID: mcp2221: Replace HTTP links with HTTPS ones
-Date:   Mon, 13 Jul 2020 10:21:35 +0200
-Message-Id: <20200713082135.32350-1-grandmaster@al2klimov.de>
+        id S1726991AbgGMJG5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 13 Jul 2020 05:06:57 -0400
+Received: from mga05.intel.com ([192.55.52.43]:65288 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726360AbgGMJG5 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 13 Jul 2020 05:06:57 -0400
+IronPort-SDR: rdVohcU+3Q4J8OdjmcMcv+WtIWMDq/z+VRX1/DGDiEyD5OQLL28VgMb8zXYQYWSMHzy/0CfB3Y
+ lOza0Ld0/8LA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9680"; a="233437816"
+X-IronPort-AV: E=Sophos;i="5.75,347,1589266800"; 
+   d="scan'208";a="233437816"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2020 02:06:56 -0700
+IronPort-SDR: KngRHk5ve9Vleg4jLe3Lwqo7pjZZCYApD84txpQLS2Jy5hTjkz8pq0XWZz58RlwQEqB80dCovP
+ +52ySHD/mByQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,347,1589266800"; 
+   d="scan'208";a="316001867"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga008.jf.intel.com with ESMTP; 13 Jul 2020 02:06:53 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1juuQH-001ZDR-KF; Mon, 13 Jul 2020 12:06:53 +0300
+Date:   Mon, 13 Jul 2020 12:06:53 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Wei Shuai <cpuwolf@gmail.com>
+Cc:     "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." 
+        <linux-input@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jeffrey Hugo <jhugo@codeaurora.org>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Borislav Petkov <bp@suse.de>, Mattias Jacobsson <2pi@mok.nu>,
+        Mark Gross <mgross@linux.intel.com>,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        Erwan Velu <e.velu@criteo.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Input: break joystick limitation of maximum 80 buttons
+Message-ID: <20200713090653.GB3703480@smile.fi.intel.com>
+References: <cpuwolf@gmail.com>
+ <20200710065112.18286-1-cpuwolf@gmail.com>
+ <CACa7zykn0q9XJAUvrqnNATr4DUv3Kc7XujF3vm6sfRB5pE6YNQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: +++++
-X-Spam-Level: *****
-Authentication-Results: smtp.al2klimov.de;
-        auth=pass smtp.auth=aklimov@al2klimov.de smtp.mailfrom=grandmaster@al2klimov.de
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACa7zykn0q9XJAUvrqnNATr4DUv3Kc7XujF3vm6sfRB5pE6YNQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Rationale:
-Reduces attack surface on kernel devs opening the links for MITM
-as HTTPS traffic is much harder to manipulate.
-
-Deterministic algorithm:
-For each file:
-  If not .svg:
-    For each line:
-      If doesn't contain `\bxmlns\b`:
-        For each link, `\bhttp://[^# \t\r\n]*(?:\w|/)`:
-	  If neither `\bgnu\.org/license`, nor `\bmozilla\.org/MPL\b`:
-            If both the HTTP and HTTPS versions
-            return 200 OK and serve the same content:
-              Replace HTTP with HTTPS.
-
-Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
----
- Continuing my work started at 93431e0607e5.
- See also: git log --oneline '--author=Alexander A. Klimov <grandmaster@al2klimov.de>' v5.7..master
- (Actually letting a shell for loop submit all this stuff for me.)
-
- If there are any URLs to be removed completely or at least not just HTTPSified:
- Just clearly say so and I'll *undo my change*.
- See also: https://lkml.org/lkml/2020/6/27/64
-
- If there are any valid, but yet not changed URLs:
- See: https://lkml.org/lkml/2020/6/26/837
-
- If you apply the patch, please let me know.
-
- Sorry again to all maintainers who complained about subject lines.
- Now I realized that you want an actually perfect prefixes,
- not just subsystem ones.
- I tried my best...
- And yes, *I could* (at least half-)automate it.
- Impossible is nothing! :)
+On Sun, Jul 12, 2020 at 07:54:54AM +0800, Wei Shuai wrote:
+> The joystick max buttons 80 limitation comes from
+> 
+> #define BTN_JOYSTICK 0x120
+> #define BTN_DEAD 0x12f
+> #define BTN_TRIGGER_HAPPY 0x2c0
+> #define KEY_MAX 0x2ff
+> 
+> include/uapi/linux/input-event-codes.h
+> 
+> according to function hidinput_configure_usage() in file drivers/hid/hid-input.c
+> 
+> the joystick button mapping is not a continues space
+> generally speaking, the mapping space is from
+> 
+> 1. BTN_JOYSTICK~BTN_DEAD
+> 2. BTN_TRIGGER_HAPPY~KEY_MAX
+> 
+> Finally, I got the max limitation is 80.
+> The patch is expanding KEY_MAX from 0x2ff to 4ff
+> and the change has been verified on 104 button USB HID device on Ubuntu
 
 
- drivers/hid/hid-mcp2221.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+If you send and resend this patch too often, nobody will take you seriously.
+Also, you have to provide versioning and changelog in each submission.
+Besides that, above doesn't answer to question "why?". Why are you doing this
+at all? What the problem?
 
-diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
-index e1b93ce32e01..0d27ccb55dd9 100644
---- a/drivers/hid/hid-mcp2221.c
-+++ b/drivers/hid/hid-mcp2221.c
-@@ -4,7 +4,7 @@
-  *
-  * Copyright (c) 2020, Rishi Gupta <gupt21@gmail.com>
-  *
-- * Datasheet: http://ww1.microchip.com/downloads/en/DeviceDoc/20005565B.pdf
-+ * Datasheet: https://ww1.microchip.com/downloads/en/DeviceDoc/20005565B.pdf
-  */
- 
- #include <linux/module.h>
+
 -- 
-2.27.0
+With Best Regards,
+Andy Shevchenko
+
 
