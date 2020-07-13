@@ -2,116 +2,162 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B06E21CC65
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jul 2020 02:25:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71D3321CC67
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jul 2020 02:25:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728523AbgGMAY4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 12 Jul 2020 20:24:56 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:63768 "EHLO rere.qmqm.pl"
+        id S1728738AbgGMAY6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 12 Jul 2020 20:24:58 -0400
+Received: from rere.qmqm.pl ([91.227.64.183]:37924 "EHLO rere.qmqm.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728198AbgGMAY4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 12 Jul 2020 20:24:56 -0400
+        id S1728225AbgGMAY5 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 12 Jul 2020 20:24:57 -0400
 Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 4B4ktY68XxzMK;
-        Mon, 13 Jul 2020 02:24:53 +0200 (CEST)
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 4B4ktZ3rLPzbX;
+        Mon, 13 Jul 2020 02:24:54 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1594599893; bh=reGzsv6o0SzGu0kgFqBp5wQTdWo8aH1udGsrZ3tTDzI=;
+        t=1594599894; bh=DS7j2nESx27Z+IPXEJWh4A9sZjGNs/qXGuX2jAiyJKM=;
         h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
-        b=k/No+edIG1o08k2rPYLpVIdrL7iK7V6gB7NSAx7vTtPsbCkIQYwP15lBeiN6w8t+u
-         9RqJLid2ZxwNUjLFZNeayT4E6Tny8XPQH/4pKefUceNCPmbBs5b55iqcQPoPVY/LzF
-         uuv/t9n7yT4lVSV7DUo9qyI2bJYLFzOzZtSkCYbgAUJlM5vIVia7oeaedgMKVzLSJy
-         2+QKAP4WTTWek8RmKCcM+EF6SAiiqn9hWPrEbZdjcVhe2+yDraKS/wj0a5GQeQICmH
-         sK2sRUxURtDvSG+g31MfZVnU4osiYYU/SB9io/u9KlYVuegL3Kp5vb2oF8Wd3LrNnT
-         64lC2/yPgXT6w==
+        b=SiiW3Xen4cT28aIg9VJNnXDREALnqcNlPccJpcoSV9I8G6cmH89WcKEH+5WeywLyl
+         537XBRRAGi+XKoI+H90lfAJu814qfdNwbCDJqfF9hZGN/gRl4CGrN1ZA8KBBlXKl7/
+         g/B/hV/IRC6SPUeSSsbjzLvGigqHZUX2ptsGWbaLrcxR+1ZotwwivPOfQ/rtTx8iPM
+         G9fMFtKBkrifShx+jUjnok0q/1jwjDiuW+kbyQtMc9eF0OmSN11mAnOxodqyrrWXCp
+         xYqA20l0XujsNOkzFSx16QZb0D1ho02dPXIkorKoqr+G1zvnHOarTdSpRGudDdjbgO
+         JuwmhzRmGRfZA==
 X-Virus-Status: Clean
 X-Virus-Scanned: clamav-milter 0.102.3 at mail
-Date:   Mon, 13 Jul 2020 02:24:53 +0200
-Message-Id: <033014c56453b84d367dc6cd14f1dddabb057d9b.1594599118.git.mirq-linux@rere.qmqm.pl>
+Date:   Mon, 13 Jul 2020 02:24:54 +0200
+Message-Id: <7acd9534663ec8c35390dbd938fd212327c3f05f.1594599118.git.mirq-linux@rere.qmqm.pl>
 In-Reply-To: <cover.1594599118.git.mirq-linux@rere.qmqm.pl>
 References: <cover.1594599118.git.mirq-linux@rere.qmqm.pl>
 From:   =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Subject: [PATCH v6 1/5] input: elants: document some registers and values
+Subject: [PATCH v6 2/5] input: elants: support old touch report format
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Johnny Chuang <johnny.chuang@emc.com.tw>,
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
         James Chen <james.chen@emc.com.tw>,
-        Scott Liu <scott.liu@emc.com.tw>,
-        Henrik Rydberg <rydberg@bitmath.org>
+        Johnny Chuang <johnny.chuang@emc.com.tw>,
+        Scott Liu <scott.liu@emc.com.tw>
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add information found in downstream kernels, to make the code less
-magic. Fix comment spelling along the way.
+Support ELAN touchpad sensor with older firmware as found on eg. Asus
+Transformer Pads.
 
 Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
 Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
 Tested-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/input/touchscreen/elants_i2c.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ drivers/input/touchscreen/elants_i2c.c | 36 ++++++++++++++++++--------
+ 1 file changed, 25 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
-index 5477a5718202..fa4a2f6b69c6 100644
+index fa4a2f6b69c6..ba1816d08530 100644
 --- a/drivers/input/touchscreen/elants_i2c.c
 +++ b/drivers/input/touchscreen/elants_i2c.c
-@@ -82,7 +82,7 @@
+@@ -69,6 +69,7 @@
+ #define CMD_HEADER_REK		0x66
  
- #define HEADER_REPORT_10_FINGER	0x62
+ /* FW position data */
++#define PACKET_SIZE_OLD		40
+ #define PACKET_SIZE		55
+ #define MAX_CONTACT_NUM		10
+ #define FW_POS_HEADER		0
+@@ -849,7 +850,8 @@ static int elants_i2c_fw_update(struct elants_data *ts)
+  * Event reporting.
+  */
  
--/* Header (4 bytes) plus 3 fill 10-finger packets */
-+/* Header (4 bytes) plus 3 full 10-finger packets */
- #define MAX_PACKET_SIZE		169
- 
- #define BOOT_TIME_DELAY_MS	50
-@@ -97,6 +97,10 @@
- #define E_INFO_PHY_SCAN		0xD7
- #define E_INFO_PHY_DRIVER	0xD8
- 
-+/* FW write command, 0x54 0x?? 0x0, 0x01 */
-+#define E_POWER_STATE_SLEEP	0x50
-+#define E_POWER_STATE_RESUME	0x58
-+
- #define MAX_RETRIES		3
- #define MAX_FW_UPDATE_RETRIES	30
- 
-@@ -268,8 +272,8 @@ static int elants_i2c_calibrate(struct elants_data *ts)
+-static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf)
++static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf,
++				size_t report_len)
  {
- 	struct i2c_client *client = ts->client;
- 	int ret, error;
--	static const u8 w_flashkey[] = { 0x54, 0xC0, 0xE1, 0x5A };
--	static const u8 rek[] = { 0x54, 0x29, 0x00, 0x01 };
-+	static const u8 w_flashkey[] = { CMD_HEADER_WRITE, 0xC0, 0xE1, 0x5A };
-+	static const u8 rek[] = { CMD_HEADER_WRITE, 0x29, 0x00, 0x01 };
- 	static const u8 rek_resp[] = { CMD_HEADER_REK, 0x66, 0x66, 0x66 };
+ 	struct input_dev *input = ts->input;
+ 	unsigned int n_fingers;
+@@ -862,7 +864,8 @@ static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf)
+ 			buf[FW_POS_STATE];
  
- 	disable_irq(client->irq);
-@@ -1382,7 +1386,9 @@ static int __maybe_unused elants_i2c_suspend(struct device *dev)
- {
- 	struct i2c_client *client = to_i2c_client(dev);
- 	struct elants_data *ts = i2c_get_clientdata(client);
--	const u8 set_sleep_cmd[] = { 0x54, 0x50, 0x00, 0x01 };
-+	const u8 set_sleep_cmd[] = {
-+		CMD_HEADER_WRITE, E_POWER_STATE_SLEEP, 0x00, 0x01
-+	};
- 	int retry_cnt;
- 	int error;
+ 	dev_dbg(&ts->client->dev,
+-		"n_fingers: %u, state: %04x\n",  n_fingers, finger_state);
++		"n_fingers: %u, state: %04x, report_len: %zu\n",
++		n_fingers, finger_state, report_len);
  
-@@ -1419,7 +1425,9 @@ static int __maybe_unused elants_i2c_resume(struct device *dev)
+ 	/* Note: all fingers have the same tool type */
+ 	tool_type = buf[FW_POS_TOOL_TYPE] & BIT(0) ?
+@@ -876,8 +879,16 @@ static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf)
+ 			pos = &buf[FW_POS_XY + i * 3];
+ 			x = (((u16)pos[0] & 0xf0) << 4) | pos[1];
+ 			y = (((u16)pos[0] & 0x0f) << 8) | pos[2];
+-			p = buf[FW_POS_PRESSURE + i];
+-			w = buf[FW_POS_WIDTH + i];
++			if (report_len == PACKET_SIZE_OLD) {
++				w = buf[FW_POS_WIDTH + i / 2];
++				w >>= 4 * (~i & 1);	// little-endian-nibbles
++				w |= w << 4;
++				w |= !w;
++				p = w;
++			} else {
++				p = buf[FW_POS_PRESSURE + i];
++				w = buf[FW_POS_WIDTH + i];
++			}
+ 
+ 			dev_dbg(&ts->client->dev, "i=%d x=%d y=%d p=%d w=%d\n",
+ 				i, x, y, p, w);
+@@ -909,7 +920,8 @@ static u8 elants_i2c_calculate_checksum(u8 *buf)
+ 	return checksum;
+ }
+ 
+-static void elants_i2c_event(struct elants_data *ts, u8 *buf)
++static void elants_i2c_event(struct elants_data *ts, u8 *buf,
++			     size_t report_len)
  {
- 	struct i2c_client *client = to_i2c_client(dev);
- 	struct elants_data *ts = i2c_get_clientdata(client);
--	const u8 set_active_cmd[] = { 0x54, 0x58, 0x00, 0x01 };
-+	const u8 set_active_cmd[] = {
-+		CMD_HEADER_WRITE, E_POWER_STATE_RESUME, 0x00, 0x01
-+	};
- 	int retry_cnt;
- 	int error;
+ 	u8 checksum = elants_i2c_calculate_checksum(buf);
+ 
+@@ -923,7 +935,7 @@ static void elants_i2c_event(struct elants_data *ts, u8 *buf)
+ 			 "%s: unknown packet type: %02x\n",
+ 			 __func__, buf[FW_POS_HEADER]);
+ 	else
+-		elants_i2c_mt_event(ts, buf);
++		elants_i2c_mt_event(ts, buf, report_len);
+ }
+ 
+ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
+@@ -981,7 +993,8 @@ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
+ 			break;
+ 
+ 		case QUEUE_HEADER_SINGLE:
+-			elants_i2c_event(ts, &ts->buf[HEADER_SIZE]);
++			elants_i2c_event(ts, &ts->buf[HEADER_SIZE],
++					 ts->buf[FW_HDR_LENGTH]);
+ 			break;
+ 
+ 		case QUEUE_HEADER_NORMAL:
+@@ -994,17 +1007,18 @@ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
+ 			}
+ 
+ 			report_len = ts->buf[FW_HDR_LENGTH] / report_count;
+-			if (report_len != PACKET_SIZE) {
++			if (report_len != PACKET_SIZE &&
++			    report_len != PACKET_SIZE_OLD) {
+ 				dev_err(&client->dev,
+-					"mismatching report length: %*ph\n",
++					"unsupported report length: %*ph\n",
+ 					HEADER_SIZE, ts->buf);
+ 				break;
+ 			}
+ 
+ 			for (i = 0; i < report_count; i++) {
+ 				u8 *buf = ts->buf + HEADER_SIZE +
+-							i * PACKET_SIZE;
+-				elants_i2c_event(ts, buf);
++					  i * report_len;
++				elants_i2c_event(ts, buf, report_len);
+ 			}
+ 			break;
  
 -- 
 2.20.1
