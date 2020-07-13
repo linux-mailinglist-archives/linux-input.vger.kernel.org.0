@@ -2,652 +2,642 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 96FB521CD68
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jul 2020 04:53:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 241D021CD92
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jul 2020 05:18:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726261AbgGMCxX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 12 Jul 2020 22:53:23 -0400
-Received: from emcscan.emc.com.tw ([192.72.220.5]:65089 "EHLO
+        id S1726267AbgGMDSX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 12 Jul 2020 23:18:23 -0400
+Received: from emcscan.emc.com.tw ([192.72.220.5]:53724 "EHLO
         emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728559AbgGMCxW (ORCPT
+        with ESMTP id S1726261AbgGMDSW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 12 Jul 2020 22:53:22 -0400
+        Sun, 12 Jul 2020 23:18:22 -0400
 X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
-   d="scan'208";a="36395012"
+   d="scan'208";a="36395823"
 Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
-  by emcscan.emc.com.tw with ESMTP; 13 Jul 2020 10:53:12 +0800
+  by emcscan.emc.com.tw with ESMTP; 13 Jul 2020 11:18:17 +0800
 Received: from 192.168.10.23
-        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(100989:0:AUTH_RELAY)
-        (envelope-from <jingle.wu@emc.com.tw>); Mon, 13 Jul 2020 10:53:12 +0800 (CST)
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(195203:0:AUTH_RELAY)
+        (envelope-from <jingle.wu@emc.com.tw>); Mon, 13 Jul 2020 11:18:14 +0800 (CST)
 Received: from 192.168.33.11
-        by webmail.emc.com.tw with Mail2000 ESMTP Server V7.00(2485:0:AUTH_RELAY)
-        (envelope-from <jingle.wu@emc.com.tw>); Mon, 13 Jul 2020 10:53:09 +0800 (CST)
+        by webmail.emc.com.tw with Mail2000 ESMTP Server V7.00(2481:1:AUTH_RELAY)
+        (envelope-from <jingle.wu@emc.com.tw>); Mon, 13 Jul 2020 11:18:12 +0800 (CST)
 From:   "jingle" <jingle.wu@emc.com.tw>
 To:     "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>
 Cc:     <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
         <phoenix@emc.com.tw>, <josh.chen@emc.com.tw>,
         <dave.wang@emc.com.tw>
-References: <20200710054047.5473-1-jingle.wu@emc.com.tw> <20200712060846.GA3224245@dtor-ws>
-In-Reply-To: <20200712060846.GA3224245@dtor-ws>
-Subject: RE: [PATCH 1/2] Input: elan_i2c - Add ic type 0x11 0x13 0x14.
-Date:   Mon, 13 Jul 2020 10:53:09 +0800
-Message-ID: <000301d658c0$bdbc55d0$39350170$@emc.com.tw>
+References: <20200710054116.5529-1-jingle.wu@emc.com.tw> <20200712191126.GB3224245@dtor-ws>
+In-Reply-To: <20200712191126.GB3224245@dtor-ws>
+Subject: RE: [PATCH 2/2] Input: elan_i2c - High resolution report for new pattern 2.
+Date:   Mon, 13 Jul 2020 11:18:12 +0800
+Message-ID: <000701d658c4$3dbf4d70$b93de850$@emc.com.tw>
 MIME-Version: 1.0
 Content-Type: text/plain;
         charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 X-Mailer: Microsoft Outlook 14.0
-Thread-Index: AQFfRhhlA2l6ZyS8J6fW4qHcbJaTVwIg6JkiqeHm7UA=
+Thread-Index: AQIk/qKjI5lDqCyFkKulVrK90dsHswKWlen3qFLUl0A=
 Content-Language: zh-tw
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDYwMTFcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy1mYjM3MzM4Yi1jNGIzLTExZWEtODE5YS1mMDc5NTk2OWU3NWVcYW1lLXRlc3RcZmIzNzMzOGQtYzRiMy0xMWVhLTgxOWEtZjA3OTU5NjllNzVlYm9keS50eHQiIHN6PSIxODg5NSIgdD0iMTMyMzkwODIzODkxNDgwNDQ4IiBoPSI0VExheGIyclhVVjFWY0Y5eTRIa1VrRHV0L3M9IiBpZD0iIiBibD0iMCIgYm89IjEiLz48L21ldGE+
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDYwMTFcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy03YjRjODc0Ny1jNGI3LTExZWEtODE5YS1mMDc5NTk2OWU3NWVcYW1lLXRlc3RcN2I0Yzg3NDktYzRiNy0xMWVhLTgxOWEtZjA3OTU5NjllNzVlYm9keS50eHQiIHN6PSIyMDUwMyIgdD0iMTMyMzkwODM4OTI1MjgzNjc4IiBoPSJqaHZkYi9KQWJ4Qi9CdHh6S0NMbCtCOEJ3a0E9IiBpZD0iIiBibD0iMCIgYm89IjEiLz48L21ldGE+
 x-dg-rorf: true
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry:
+HI Dmitry:
 
-1. Could you please tell me what devices this patch was tested with? I want
-to be sure we are not only adding support for newer devices, but also not
-breaking existing ones.
---> The device which this patch was tested with was "coral".
---> Its corresponding ic_type was 0xD, 0xE, 0x10, 0x11, 0x13 0x14.
+1. Could you please explain relationship between IC types and "pattern"?
+--> There is no direct connection between IC_type and "pattern".
 
-2. Also, could you please split this patch in 2: one adding variable length
-firmware page size support, and another adding the new IC types.
---> As a result, Do I need to up-stream in total 3 patches?
+2. Can there be controllers with same IC type but different patterns?
+--> Yes, same IC type might have different pattern, ir depends on the TP
+size.
 
-3. 
-> +	case 0x14:
->  		*validpage_count = 1024;
->  		break;
-
-I would prefer if we listed 0x14 separately below.
---> OK
-
-4. Do we really need to check ic_type here in addition to iap_version?
---> Yes, different ic_type might feat with different iap version
-
-I.e. IC 0x11 - can it have IAP 2? 
+3. Do SMbus controllers use the new report type? 
 --> Yes
 
-And will it be using 512 or 128 byte pages? In other words I am trying to
-understand if we could determine page size solely by IAP version.
---> We need to have iap version and ic_type information to determine the
-page size (512 or 128).
+Do controllers use only one type of report (old or the new 0x60), or can
+they send mix?
+--> The controllers use only one type of report, it depends on the value of
+"pattern".
 
-5. I think we have data->fw_page_size, we do not need to pass it separately
-here.
---> OK
+4. The SMBus code always returns '0' as pattern. How can we have SMBus with
+pattern 2?
+--> The SMBus protocol was only triggered in PS2+SMBus mode. The PS2
+interface would read the "pattern" value and then transfer the value to
+SMBus driver
+
+The Change were in below patches.
+Elan_i2c:
+[PATCH 1/3] Input: elan_i2c - Do no operation for elan_smbus_set_mode
+function.
+[PATCH 2/3] Input: elan_i2c - Do no operation for elan_smbus_sleep_control
+function.
+[PATCH 3/3] Input: elan_i2c - Get the device information from PS/2 interface
+
+Elantench:
+[PATCH 1/6] Input: elantech - Add the pattern for firmware into
+elantech_device_info structure.
+[PATCH 2/6] Input: elantech - Add the function to get more bytes from
+register.
+[PATCH 3/6] Input: elantech - Increace and correct device information for
+pattern 0,1,2.
+[PATCH 4/6] Input: elantech - High resolution report for new pattern 2.
+[PATCH 5/6] Input: elantech - Transfer the device information from PS/2 to
+SMBus.
+[PATCH 6/6] Input: elantech - Add the flag which will also use host notify.
+
+5. I think it is OK if you declare buffer as:
+
+	u8 buffer[max(ETP_I2C_REPORT_LEN, ETP_I2C_REPORT_LEN_ID2)];
+
+and do not worry about dynamic allocation. It should be OK if you do a
+partial read here, we just want to make sure we consume all pending data
+before re-enabling interrupts.
+--> OK, we would initial the buffer as "u8 buffer[ETP_I2C_REPORT_LEN_ID2]".
 
 6.
-> +
-> +	if ((val[0] == 0xFF) && (val[1] == 0xFF))
-> +		*pattern = 0;
-> +	else
-> +		*pattern = val[1];
-
-This needs a comment explaining why we are doing it.
---> Some firmware of the IC_type did not create the pattern reading command,
-they would get 0xFF 0xFF value if we trigger the pattern command.
-As a result, we initial it as 0.
-
-7. Haven't we queried IAP version already? Can we pass it in, along with
-ic_type?
---> OK
-
-8.
-> +	if ((ic_type >= 0x0D) && (iap_version >= 1)) {
-
-No need for parenthesis around simple comparisons. Also, do we really need
-to check both ic type and iap version?
---> Yes
-
-Is there ICs less than 0x0d with newer IAP versions?
---> There have not been the ICs less than 0x0d with newer IAP versions so
-far.
-
-9.
-> -	u8 page_store[ETP_FW_PAGE_SIZE + 4];
-> +	u8 *page_store = kcalloc(1, fw_page_size + 4, GFP_KERNEL);
-
-Why kcalloc()? kzalloc() if you want cleared memoryi, but I think kmalloc
-would be fine.
---> Yes, we want to clear the memory.
+> -	*max_x = le16_to_cpup((__le16 *)val) & 0x0fff;
+> +	*max_x = le16_to_cpup((__le16 *)val) & 0xffff;
+There is no point in executing this max for 16 bit value, so if we can drop
+this altogether, as long as we are certain that older firmware did not
+return garbage in 4 upper bits of this data.
+--> We have internal check. the older firmware can also execute 16 bit
+value.  
 
 THANKS
 
-
-
 -----Original Message-----
 From: Dmitry Torokhov [mailto:dmitry.torokhov@gmail.com] 
-Sent: Sunday, July 12, 2020 2:09 PM
+Sent: Monday, July 13, 2020 3:11 AM
 To: Jingle Wu
 Cc: linux-kernel@vger.kernel.org; linux-input@vger.kernel.org;
 phoenix@emc.com.tw; josh.chen@emc.com.tw; dave.wang@emc.com.tw
-Subject: Re: [PATCH 1/2] Input: elan_i2c - Add ic type 0x11 0x13 0x14.
+Subject: Re: [PATCH 2/2] Input: elan_i2c - High resolution report for new
+pattern 2.
 
 Hi Jingle,
 
-On Fri, Jul 10, 2020 at 01:40:47AM -0400, Jingle Wu wrote:
-> Modify the iap method for all IC.
-> Get the correct value of ic_type for old and new pattern of firmware.
+On Fri, Jul 10, 2020 at 01:41:16AM -0400, Jingle Wu wrote:
+> Due to the higer resolution touchpads would be produced, The mainly 
+> modifications were as below:
+> 1. the former resolution bits were not enough. Extend the resolution 
+> bits from 12 to 16 bits.
+> 2. Increase the report ID 0x60 for higher resoltion of touchpads.
+> 3. Move the position of mk value in the report packet.
 
-Could you please tell me what devices this patch was tested with? I want to
-be sure we are not only adding support for newer devices, but also not
-breaking existing ones.
+Could you please explain relationship between IC types and "pattern"?
+Can there be controllers with same IC type but different patterns?
 
-Also, could you please split this patch in 2: one adding variable length
-firmware page size support, and another adding the new IC types.
+Do SMbus controllers use the new report type? Do controllers use only one
+type of report (old or the new 0x60), or can they send mix?
 
 > 
 > Signed-off-by: Jingle Wu <jingle.wu@emc.com.tw>
 > ---
->  drivers/input/mouse/elan_i2c.h       |   6 +-
->  drivers/input/mouse/elan_i2c_core.c  |  52 ++++++++-----
->  drivers/input/mouse/elan_i2c_i2c.c   | 109 ++++++++++++++++++++++-----
->  drivers/input/mouse/elan_i2c_smbus.c |  10 +--
->  4 files changed, 134 insertions(+), 43 deletions(-)
+>  drivers/input/mouse/elan_i2c.h       |   7 +-
+>  drivers/input/mouse/elan_i2c_core.c  | 134 +++++++++++++++++++++++----
+>  drivers/input/mouse/elan_i2c_i2c.c   |  48 +++++++---
+>  drivers/input/mouse/elan_i2c_smbus.c |  14 ++-
+>  4 files changed, 170 insertions(+), 33 deletions(-)
 > 
 > diff --git a/drivers/input/mouse/elan_i2c.h 
-> b/drivers/input/mouse/elan_i2c.h index a9074ac9364f..f28b747978f5 
+> b/drivers/input/mouse/elan_i2c.h index f28b747978f5..71fff2cef8b5 
 > 100644
 > --- a/drivers/input/mouse/elan_i2c.h
 > +++ b/drivers/input/mouse/elan_i2c.h
-> @@ -33,6 +33,8 @@
->  #define ETP_FW_IAP_PAGE_ERR	(1 << 5)
->  #define ETP_FW_IAP_INTF_ERR	(1 << 4)
->  #define ETP_FW_PAGE_SIZE	64
-> +#define ETP_FW_PAGE_SIZE_128	128
-> +#define ETP_FW_PAGE_SIZE_512	512
->  #define ETP_FW_SIGNATURE_SIZE	6
->  
->  struct i2c_client;
-> @@ -72,8 +74,8 @@ struct elan_transport_ops {
->  	int (*iap_get_mode)(struct i2c_client *client, enum tp_mode *mode);
->  	int (*iap_reset)(struct i2c_client *client);
->  
-> -	int (*prepare_fw_update)(struct i2c_client *client);
-> -	int (*write_fw_block)(struct i2c_client *client,
-> +	int (*prepare_fw_update)(struct i2c_client *client, u16 ic_type);
-> +	int (*write_fw_block)(struct i2c_client *client, u16 fw_page_size,
+> @@ -78,9 +78,12 @@ struct elan_transport_ops {
+>  	int (*write_fw_block)(struct i2c_client *client, u16 fw_page_size,
 >  			      const u8 *page, u16 checksum, int idx);
 >  	int (*finish_fw_update)(struct i2c_client *client,
->  				struct completion *reset_done);
-> diff --git a/drivers/input/mouse/elan_i2c_core.c 
+> -				struct completion *reset_done);
+> +				struct completion *reset_done,
+> +				int report_len);
+>  
+> -	int (*get_report)(struct i2c_client *client, u8 *report);
+> +	int (*get_report_length)(struct i2c_client *client, int
+*report_len);
+> +	int (*get_report)(struct i2c_client *client, u8 *report,
+> +					int report_len);
+>  	int (*get_pressure_adjustment)(struct i2c_client *client,
+>  				       int *adjustment);
+>  	int (*get_pattern)(struct i2c_client *client, u8 *pattern); diff 
+> --git a/drivers/input/mouse/elan_i2c_core.c 
 > b/drivers/input/mouse/elan_i2c_core.c
-> index 3f9354baac4b..0703f7d0d02d 100644
+> index 0703f7d0d02d..a1bdb25c2450 100644
 > --- a/drivers/input/mouse/elan_i2c_core.c
 > +++ b/drivers/input/mouse/elan_i2c_core.c
-> @@ -89,7 +89,8 @@ struct elan_tp_data {
+> @@ -42,6 +42,8 @@
+>  
+>  #define DRIVER_NAME		"elan_i2c"
+>  #define ELAN_VENDOR_ID		0x04f3
+> +#define ELAN_I2C_INTERFACE	1
+> +#define ELAN_SMBUS_INTERFACE	2
+>  #define ETP_MAX_PRESSURE	255
+>  #define ETP_FWIDTH_REDUCE	90
+>  #define ETP_FINGER_WIDTH	15
+> @@ -50,12 +52,13 @@
+>  #define ETP_MAX_FINGERS		5
+>  #define ETP_FINGER_DATA_LEN	5
+>  #define ETP_REPORT_ID		0x5D
+> +#define ETP_REPORT_ID2		0x60
+>  #define ETP_TP_REPORT_ID	0x5E
+>  #define ETP_REPORT_ID_OFFSET	2
+>  #define ETP_TOUCH_INFO_OFFSET	3
+>  #define ETP_FINGER_DATA_OFFSET	4
+>  #define ETP_HOVER_INFO_OFFSET	30
+> -#define ETP_MAX_REPORT_LEN	34
+> +#define ETP_MAX_REPORT_LEN	39
+>  
+>  /* The main device structure */
+>  struct elan_tp_data {
+> @@ -72,6 +75,8 @@ struct elan_tp_data {
+>  
+>  	struct mutex		sysfs_mutex;
+>  
+> +	int			interface;
+> +
+>  	unsigned int		max_x;
+>  	unsigned int		max_y;
+>  	unsigned int		width_x;
+> @@ -85,6 +90,7 @@ struct elan_tp_data {
+>  	u8			sm_version;
+>  	u8			iap_version;
+>  	u16			fw_checksum;
+> +	int			report_len;
+>  	int			pressure_adjustment;
 >  	u8			mode;
 >  	u16			ic_type;
->  	u16			fw_validpage_count;
-> -	u16			fw_signature_address;
-> +	u16			fw_page_size;
-> +	u32			fw_signature_address;
->  
->  	bool			irq_wake;
->  
-> @@ -100,8 +101,10 @@ struct elan_tp_data {
->  	bool			middle_button;
->  };
->  
-> -static int elan_get_fwinfo(u16 ic_type, u16 *validpage_count,
-> -			   u16 *signature_address)
-> +static int elan_get_fwinfo(u16 ic_type, u8 iap_version, 
-> +                           u16 *validpage_count,
-> +			   u32 *signature_address,
-> +			   u16 *page_size)
->  {
->  	switch (ic_type) {
->  	case 0x00:
-> @@ -124,18 +127,34 @@ static int elan_get_fwinfo(u16 ic_type, u16
-*validpage_count,
->  		*validpage_count = 640;
->  		break;
->  	case 0x10:
-> +	case 0x14:
->  		*validpage_count = 1024;
->  		break;
-
-I would prefer if we listed 0x14 separately below.
-
-> +	case 0x11:
-> +		*validpage_count = 1280;
-> +		break;
-> +	case 0x13:
-> +		*validpage_count = 2048;
-> +		break;
->  	default:
->  		/* unknown ic type clear value */
->  		*validpage_count = 0;
->  		*signature_address = 0;
-> +		*page_size = 0;
->  		return -ENXIO;
->  	}
->  
->  	*signature_address =
->  		(*validpage_count * ETP_FW_PAGE_SIZE) -
-ETP_FW_SIGNATURE_SIZE;
->  
-> +	if ((ic_type == 0x14) && (iap_version >= 2)) {
-> +		*validpage_count /= 8;
-> +		*page_size = ETP_FW_PAGE_SIZE_512;
-
-Do we really need to check ic_type here in addition to iap_version?
-I.e. IC 0x11 - can it have IAP 2? And will it be using 512 or 128 byte
-pages? In other words I am trying to understand if we could determine page
-size solely by IAP version.
-
-> +	} else if ((ic_type >= 0x0D) && (iap_version >= 1)) {
-> +		*validpage_count /= 2;
-> +		*page_size = ETP_FW_PAGE_SIZE_128;
-> +	} else
-> +		*page_size = ETP_FW_PAGE_SIZE;
->  	return 0;
->  }
->  
-> @@ -312,7 +331,6 @@ static int elan_initialize(struct elan_tp_data 
-> *data)  static int elan_query_device_info(struct elan_tp_data *data)  
-> {
->  	int error;
-> -	u16 ic_type;
->  
->  	error = data->ops->get_version(data->client, false,
-&data->fw_version);
->  	if (error)
-> @@ -336,13 +354,10 @@ static int elan_query_device_info(struct
-elan_tp_data *data)
+> @@ -354,6 +360,10 @@ static int elan_query_device_info(struct elan_tp_data
+*data)
 >  	if (error)
 >  		return error;
 >  
-> -	if (data->pattern == 0x01)
-> -		ic_type = data->ic_type;
-> -	else
-> -		ic_type = data->iap_version;
-> -
-> -	error = elan_get_fwinfo(ic_type, &data->fw_validpage_count,
-> -				&data->fw_signature_address);
-> +	error = elan_get_fwinfo(data->ic_type, data->iap_version, 
-> +				&data->fw_validpage_count,
-> +				&data->fw_signature_address,
-> +				&data->fw_page_size);
->  	if (error)
->  		dev_warn(&data->client->dev,
->  			 "unexpected iap version %#04x (ic type: %#04x),
-firmware update 
-> will not work\n", @@ -430,14 +445,14 @@ static int
-elan_query_device_parameters(struct elan_tp_data *data)
->   * IAP firmware updater related routines
->   **********************************************************
->   */
-> -static int elan_write_fw_block(struct elan_tp_data *data,
-> +static int elan_write_fw_block(struct elan_tp_data *data, u16 
-> +page_size,
-
-I think we have data->fw_page_size, we do not need to pass it separately
-here.
-
->  			       const u8 *page, u16 checksum, int idx)  {
->  	int retry = ETP_RETRY_COUNT;
->  	int error;
->  
->  	do {
-> -		error = data->ops->write_fw_block(data->client,
-> +		error = data->ops->write_fw_block(data->client, page_size,
->  						  page, checksum, idx);
->  		if (!error)
->  			return 0;
-> @@ -460,21 +475,22 @@ static int __elan_update_firmware(struct
-elan_tp_data *data,
->  	u16 boot_page_count;
->  	u16 sw_checksum = 0, fw_checksum = 0;
->  
-> -	error = data->ops->prepare_fw_update(client);
-> +	error = data->ops->prepare_fw_update(client, data->ic_type);
->  	if (error)
->  		return error;
->  
->  	iap_start_addr = get_unaligned_le16(&fw->data[ETP_IAP_START_ADDR * 
-> 2]);
->  
-> -	boot_page_count = (iap_start_addr * 2) / ETP_FW_PAGE_SIZE;
-> +	boot_page_count = (iap_start_addr * 2) / data->fw_page_size;
->  	for (i = boot_page_count; i < data->fw_validpage_count; i++) {
->  		u16 checksum = 0;
-> -		const u8 *page = &fw->data[i * ETP_FW_PAGE_SIZE];
-> +		const u8 *page = &fw->data[i * data->fw_page_size];
->  
-> -		for (j = 0; j < ETP_FW_PAGE_SIZE; j += 2)
-> +		for (j = 0; j < data->fw_page_size; j += 2)
->  			checksum += ((page[j + 1] << 8) | page[j]);
->  
-> -		error = elan_write_fw_block(data, page, checksum, i);
-> +		error = elan_write_fw_block(data, data->fw_page_size,
-> +						page, checksum, i);
->  		if (error) {
->  			dev_err(dev, "write page %d fail: %d\n", i, error);
->  			return error;
-> diff --git a/drivers/input/mouse/elan_i2c_i2c.c 
-> b/drivers/input/mouse/elan_i2c_i2c.c
-> index 058b35b1f9a9..91ef0c7bda43 100644
-> --- a/drivers/input/mouse/elan_i2c_i2c.c
-> +++ b/drivers/input/mouse/elan_i2c_i2c.c
-> @@ -19,6 +19,7 @@
->  #include <linux/interrupt.h>
->  #include <linux/jiffies.h>
->  #include <linux/kernel.h>
-> +#include <linux/slab.h>
->  #include <linux/sched.h>
->  #include <asm/unaligned.h>
->  
-> @@ -43,6 +44,7 @@
->  #define ETP_I2C_RESOLUTION_CMD		0x0108
->  #define ETP_I2C_PRESSURE_CMD		0x010A
->  #define ETP_I2C_IAP_VERSION_CMD		0x0110
-> +#define ETP_I2C_IAP_VERSION_CMD_OLD		0x0111
->  #define ETP_I2C_SET_CMD			0x0300
->  #define ETP_I2C_POWER_CMD		0x0307
->  #define ETP_I2C_FW_CHECKSUM_CMD		0x030F
-> @@ -53,6 +55,8 @@
->  #define ETP_I2C_CALIBRATE_CMD		0x0316
->  #define ETP_I2C_MAX_BASELINE_CMD	0x0317
->  #define ETP_I2C_MIN_BASELINE_CMD	0x0318
-> +#define ETP_I2C_IAP_TYPE_REG	0x0040
-> +#define ETP_I2C_IAP_TYPE_CMD	0x0304
->  
->  #define ETP_I2C_REPORT_LEN		34
->  #define ETP_I2C_DESC_LENGTH		30
-> @@ -249,7 +253,11 @@ static int elan_i2c_get_pattern(struct i2c_client
-*client, u8 *pattern)
->  		dev_err(&client->dev, "failed to get pattern: %d\n", error);
->  		return error;
->  	}
-> -	*pattern = val[1];
-> +
-> +	if ((val[0] == 0xFF) && (val[1] == 0xFF))
-> +		*pattern = 0;
-> +	else
-> +		*pattern = val[1];
-
-This needs a comment explaining why we are doing it.
-
->  
->  	return 0;
->  }
-> @@ -259,6 +267,7 @@ static int elan_i2c_get_version(struct i2c_client 
-> *client,  {
->  	int error;
->  	u8 pattern_ver;
-> +	u16 iap_cmd;
->  	u8 val[3];
->  
->  	error = elan_i2c_get_pattern(client, &pattern_ver); @@ -266,9 
-> +275,14 @@ static int elan_i2c_get_version(struct i2c_client *client,
->  		dev_err(&client->dev, "failed to get pattern version\n");
->  		return error;
->  	}
-> +	
-> +	if (pattern_ver >= 0x01)
-> +		iap_cmd = ETP_I2C_IAP_VERSION_CMD;
-> +	else
-> +		iap_cmd = ETP_I2C_IAP_VERSION_CMD_OLD;
-
-Can we make it
-
-	if (!iap)
-		cmd = ETP_I2C_FW_VERSION_CMD;
-	else if (pattern_ver == 0)
-		cmd = ETP_I2C_IAP_VERSION_CMD_OLD;
-	else
-		cmd = ETP_I2C_IAP_VERSION_CMD;
-
->  
->  	error = elan_i2c_read_cmd(client,
-> -				  iap ? ETP_I2C_IAP_VERSION_CMD :
-> +				  iap ? iap_cmd :
->  					ETP_I2C_FW_VERSION_CMD,
->  				  val);
->  	if (error) {
-> @@ -277,7 +291,7 @@ static int elan_i2c_get_version(struct i2c_client
-*client,
->  		return error;
->  	}
->  
-> -	if (pattern_ver == 0x01)
-> +	if (pattern_ver >= 0x01)
->  		*version = iap ? val[1] : val[0];
->  	else
->  		*version = val[0];
-> @@ -298,7 +312,7 @@ static int elan_i2c_get_sm_version(struct i2c_client
-*client,
->  		return error;
->  	}
->  
-> -	if (pattern_ver == 0x01) {
-> +	if (pattern_ver >= 0x01) {
->  		error = elan_i2c_read_cmd(client, ETP_I2C_IC_TYPE_CMD, val);
->  		if (error) {
->  			dev_err(&client->dev, "failed to get ic type: %d\n",
-@@ -324,7 
-> +338,14 @@ static int elan_i2c_get_sm_version(struct i2c_client *client,
->  			return error;
->  		}
->  		*version = val[0];
-> -		*ic_type = val[1];
-> +
-> +		error = elan_i2c_read_cmd(client, ETP_I2C_IAP_VERSION_CMD,
-val);
-> +		if (error) {
-> +			dev_err(&client->dev, "failed to get ic type: %d\n",
-> +				error);
-> +			return error;
-> +		}
-> +		*ic_type = val[0];
->  
->  		error = elan_i2c_read_cmd(client, ETP_I2C_NSM_VERSION_CMD,
->  					  val);
-> @@ -507,13 +528,53 @@ static int elan_i2c_set_flash_key(struct i2c_client
-*client)
->  	return 0;
->  }
->  
-> -static int elan_i2c_prepare_fw_update(struct i2c_client *client)
-> +static int elan_read_write_iap_type(struct i2c_client *client) {
-> +	int error;
-> +	u16 constant;
-> +	u8 val[3];
-> +	int retry = 3;
-> +
-> +	do {
-> +		error = elan_i2c_write_cmd(client, ETP_I2C_IAP_TYPE_CMD,
-> +				ETP_I2C_IAP_TYPE_REG);
-> +		if (error) {
-> +			dev_err(&client->dev,
-> +					"cannot write iap type: %d\n",
-error);
-> +			return error;
-> +		}
-> +
-> +		error = elan_i2c_read_cmd(client, ETP_I2C_IAP_TYPE_CMD,
-val);
-> +		if (error) {
-> +			dev_err(&client->dev,
-> +				"failed to read iap type register: %d\n",
-> +				error);
-> +			return error;
-> +		}
-> +		constant = le16_to_cpup((__le16 *)val);
-> +		dev_dbg(&client->dev, "iap type reg: 0x%04x.\n", constant);
-> +
-> +		if (constant == ETP_I2C_IAP_TYPE_REG)
-> +			return 0;
-> +
-> +	} while (--retry > 0);
-> +
-> +	dev_err(&client->dev, "cannot set iap type.\n");
-> +	return -EIO;
-> +}
-> +
-> +static int elan_i2c_prepare_fw_update(struct i2c_client *client, u16 
-> +ic_type)
->  {
->  	struct device *dev = &client->dev;
->  	int error;
->  	enum tp_mode mode;
->  	u8 val[3];
->  	u16 password;
-> +	u8 iap_version;
-> +	
-> +	error = elan_i2c_get_version(client, true, &iap_version);
+> +	error = data->ops->get_report_length(data->client,
+&data->report_len);
 > +	if (error)
 > +		return error;
-
-Haven't we queried IAP version already? Can we pass it in, along with
-ic_type?
-
+> +
+>  	error = elan_get_fwinfo(data->ic_type, data->iap_version, 
+>  				&data->fw_validpage_count,
+>  				&data->fw_signature_address,
+> @@ -366,16 +376,21 @@ static int elan_query_device_info(struct
+elan_tp_data *data)
+>  	return 0;
+>  }
 >  
->  	/* Get FW in which mode	(IAP_MODE/MAIN_MODE)  */
->  	error = elan_i2c_iap_get_mode(client, &mode); @@ -546,6 +607,12 @@ 
-> static int elan_i2c_prepare_fw_update(struct i2c_client *client)
->  		dev_err(dev, "wrong mode: %d\n", mode);
->  		return -EIO;
+> -static unsigned int elan_convert_resolution(u8 val)
+> +static unsigned int elan_convert_resolution(u8 val, u8 pattern)
+>  {
+>  	/*
+> -	 * (value from firmware) * 10 + 790 = dpi
+> -	 *
+> +	 * pattern <= 0x01:
+> +	 *	(value from firmware) * 10 + 790 = dpi
+> +	 * else
+> +	 *	((value from firmware) + 3) * 100 = dpi
+>  	 * We also have to convert dpi to dots/mm (*10/254 to avoid floating
+>  	 * point).
+>  	 */
+>  
+> -	return ((int)(char)val * 10 + 790) * 10 / 254;
+> +	if (pattern <= 0x01)
+> +		return ((int)(char)val * 10 + 790) * 10 / 254;
+> +	else
+> +		return (((int)(char)val + 3) * 100) * 10 / 254;
+>  }
+>  
+>  static int elan_query_device_parameters(struct elan_tp_data *data) @@ 
+> -424,8 +439,8 @@ static int elan_query_device_parameters(struct
+elan_tp_data *data)
+>  		if (error)
+>  			return error;
+>  
+> -		data->x_res = elan_convert_resolution(hw_x_res);
+> -		data->y_res = elan_convert_resolution(hw_y_res);
+> +		data->x_res = elan_convert_resolution(hw_x_res,
+data->pattern);
+> +		data->y_res = elan_convert_resolution(hw_y_res,
+data->pattern);
+>  	} else {
+>  		data->x_res = (data->max_x + 1) / x_mm;
+>  		data->y_res = (data->max_y + 1) / y_mm; @@ -502,7 +517,8 @@
+static 
+> int __elan_update_firmware(struct elan_tp_data *data,
+>  	/* Wait WDT reset and power on reset */
+>  	msleep(600);
+>  
+> -	error = data->ops->finish_fw_update(client, &data->fw_completion);
+> +	error = data->ops->finish_fw_update(client, &data->fw_completion,
+> +						data->report_len);
+>  	if (error)
+>  		return error;
+>  
+> @@ -958,7 +974,72 @@ static void elan_report_contact(struct elan_tp_data
+*data,
 >  	}
-> +	
-> +	if ((ic_type >= 0x0D) && (iap_version >= 1)) {
+>  }
+>  
+> -static void elan_report_absolute(struct elan_tp_data *data, u8 
+> *packet)
+> +/* higher resolution report for report id 0x60 */ static void 
+> +elan_report_contact_ID2(struct elan_tp_data *data,
+> +				int contact_num, bool contact_valid,
+> +				u8 *finger_data)
+> +{
+> +	struct input_dev *input = data->input;
+> +	unsigned int pos_x, pos_y;
+> +	unsigned int pressure, mk_x = 0, mk_y = 0;
+> +	unsigned int area_x, area_y, major = 0, minor = 0;
+> +	unsigned int scaled_pressure;
+> +
+> +	if (contact_valid) {
+> +		pos_x = (finger_data[0] << 8) |	finger_data[1];
+> +		pos_y = (finger_data[2] << 8) |	finger_data[3];
+> +
+> +		/* smbus report with high resolution is lack of mk values */
+> +		if (data->interface != ELAN_SMBUS_INTERFACE) {
+> +			mk_x = (finger_data[29 - 4 * contact_num] & 0x0f);
+> +			mk_y = (finger_data[29 - 4 * contact_num] >> 4);
+> +		}
+> +
+> +		pressure = finger_data[4];
+> +
+> +		if (pos_x > data->max_x || pos_y > data->max_y) {
+> +			dev_dbg(input->dev.parent,
+> +				"[%d] x=%d y=%d over max (%d, %d)",
+> +				contact_num, pos_x, pos_y,
+> +				data->max_x, data->max_y);
+> +			return;
+> +		}
+> +
+> +		/*
+> +		 * To avoid treating large finger as palm, let's reduce the
+> +		 * width x and y per trace.
+> +		 */
+> +		if (data->interface != ELAN_SMBUS_INTERFACE) {
+> +			area_x = mk_x * (data->width_x - ETP_FWIDTH_REDUCE);
+> +			area_y = mk_y * (data->width_y - ETP_FWIDTH_REDUCE);
+> +
+> +			major = max(area_x, area_y);
+> +			minor = min(area_x, area_y);
+> +		}
+> +
+> +		scaled_pressure = pressure + data->pressure_adjustment;
+> +
+> +		if (scaled_pressure > ETP_MAX_PRESSURE)
+> +			scaled_pressure = ETP_MAX_PRESSURE;
+> +
+> +		input_mt_slot(input, contact_num);
+> +		input_mt_report_slot_state(input, MT_TOOL_FINGER, true);
+> +		input_report_abs(input, ABS_MT_POSITION_X, pos_x);
+> +		input_report_abs(input, ABS_MT_POSITION_Y, data->max_y -
+pos_y);
+> +		input_report_abs(input, ABS_MT_PRESSURE, scaled_pressure);
+> +		if (data->interface != ELAN_SMBUS_INTERFACE) {
+> +			input_report_abs(input, ABS_TOOL_WIDTH, mk_x);
+> +			input_report_abs(input, ABS_MT_TOUCH_MAJOR, major);
+> +			input_report_abs(input, ABS_MT_TOUCH_MINOR, minor);
+> +		}
+> +	} else {
+> +		input_mt_slot(input, contact_num);
+> +		input_mt_report_slot_state(input, MT_TOOL_FINGER, false);
+> +	}
+> +}
+> +
+> +static void elan_report_absolute(struct elan_tp_data *data, u8 *packet,
+> +							u8 report_id)
+>  {
+>  	struct input_dev *input = data->input;
+>  	u8 *finger_data = &packet[ETP_FINGER_DATA_OFFSET]; @@ -970,7 
+> +1051,12 @@ static void elan_report_absolute(struct elan_tp_data *data, u8
+*packet)
+>  	hover_event = hover_info & 0x40;
+>  	for (i = 0; i < ETP_MAX_FINGERS; i++) {
+>  		contact_valid = tp_info & (1U << (3 + i));
+> -		elan_report_contact(data, i, contact_valid, finger_data);
+> +		if (report_id == ETP_REPORT_ID)
+> +			elan_report_contact(data, i, contact_valid,
+> +					finger_data);
+> +		else
+> +			elan_report_contact_ID2(data, i, contact_valid,
+> +					finger_data);
+>  
+>  		if (contact_valid)
+>  			finger_data += ETP_FINGER_DATA_LEN; @@ -1028,7
++1114,7 @@ static 
+> irqreturn_t elan_isr(int irq, void *dev_id)
+>  		goto out;
+>  	}
+>  
+> -	error = data->ops->get_report(data->client, report);
+> +	error = data->ops->get_report(data->client, report, 
+> +data->report_len);
+>  	if (error)
+>  		goto out;
+>  
+> @@ -1036,7 +1122,10 @@ static irqreturn_t elan_isr(int irq, void 
+> *dev_id)
+>  
+>  	switch (report[ETP_REPORT_ID_OFFSET]) {
+>  	case ETP_REPORT_ID:
+> -		elan_report_absolute(data, report);
+> +		elan_report_absolute(data, report, ETP_REPORT_ID);
+> +		break;
+> +	case ETP_REPORT_ID2:
+> +		elan_report_absolute(data, report, ETP_REPORT_ID2);
+>  		break;
+>  	case ETP_TP_REPORT_ID:
+>  		elan_report_trackpoint(data, report); @@ -1127,7 +1216,10 @@
+static 
+> int elan_setup_input_device(struct elan_tp_data *data)
+>  	input_abs_set_res(input, ABS_X, data->x_res);
+>  	input_abs_set_res(input, ABS_Y, data->y_res);
+>  	input_set_abs_params(input, ABS_PRESSURE, 0, ETP_MAX_PRESSURE, 0,
+0);
+> -	input_set_abs_params(input, ABS_TOOL_WIDTH, 0, ETP_FINGER_WIDTH, 0,
+0);
+> +	/* smbus report with pattern 2 is lack of mk values */
+> +	if (data->pattern <= 0x01 || data->interface !=
+ELAN_SMBUS_INTERFACE)
+> +		input_set_abs_params(input, ABS_TOOL_WIDTH, 0,
+> +					ETP_FINGER_WIDTH, 0, 0);
+>  	input_set_abs_params(input, ABS_DISTANCE, 0, 1, 0, 0);
+>  
+>  	/* And MT parameters */
+> @@ -1137,10 +1229,13 @@ static int elan_setup_input_device(struct
+elan_tp_data *data)
+>  	input_abs_set_res(input, ABS_MT_POSITION_Y, data->y_res);
+>  	input_set_abs_params(input, ABS_MT_PRESSURE, 0,
+>  			     ETP_MAX_PRESSURE, 0, 0);
+> -	input_set_abs_params(input, ABS_MT_TOUCH_MAJOR, 0,
+> -			     ETP_FINGER_WIDTH * max_width, 0, 0);
+> -	input_set_abs_params(input, ABS_MT_TOUCH_MINOR, 0,
+> -			     ETP_FINGER_WIDTH * min_width, 0, 0);
+> +	/* smbus report with pattern 2 is lack of mk values */
+> +	if (data->pattern <= 0x01 || data->interface != 
+> +ELAN_SMBUS_INTERFACE) {
 
-No need for parenthesis around simple comparisons. Also, do we really need
-to check both ic type and iap version? Is there ICs less than 0x0d with
-newer IAP versions?
+The SMBus code always returns '0' as pattern. How can we have SMBus with
+pattern 2?
 
-> +		error = elan_read_write_iap_type(client);
-> +		if (error)
-> +			return error;
+> +		input_set_abs_params(input, ABS_MT_TOUCH_MAJOR, 0,
+> +					ETP_FINGER_WIDTH * max_width, 0, 0);
+> +		input_set_abs_params(input, ABS_MT_TOUCH_MINOR, 0,
+> +					ETP_FINGER_WIDTH * min_width, 0, 0);
 > +	}
 >  
->  	/* Set flash key again */
->  	error = elan_i2c_set_flash_key(client); @@ -572,45 +639,51 @@ static
-
-> int elan_i2c_prepare_fw_update(struct i2c_client *client)
->  	return 0;
->  }
+>  	data->input = input;
 >  
-> -static int elan_i2c_write_fw_block(struct i2c_client *client,
-> +static int elan_i2c_write_fw_block(struct i2c_client *client, u16 
-> +fw_page_size,
->  				   const u8 *page, u16 checksum, int idx)  {
+> @@ -1161,16 +1256,18 @@ static int elan_probe(struct i2c_client *client,
 >  	struct device *dev = &client->dev;
-> -	u8 page_store[ETP_FW_PAGE_SIZE + 4];
-> +	u8 *page_store = kcalloc(1, fw_page_size + 4, GFP_KERNEL);
-
-Why kcalloc()? kzalloc() if you want cleared memoryi, but I think kmalloc
-would be fine.
-
->  	u8 val[3];
->  	u16 result;
-> -	int ret, error;
-> +	int ret, error = 0;
+>  	struct elan_tp_data *data;
+>  	unsigned long irqflags;
+> -	int error;
+> +	int interface, error;
 >  
->  	page_store[0] = ETP_I2C_IAP_REG_L;
->  	page_store[1] = ETP_I2C_IAP_REG_H;
-> -	memcpy(&page_store[2], page, ETP_FW_PAGE_SIZE);
-> +	memcpy(&page_store[2], page, fw_page_size);
->  	/* recode checksum at last two bytes */
-> -	put_unaligned_le16(checksum, &page_store[ETP_FW_PAGE_SIZE + 2]);
-> +	put_unaligned_le16(checksum, &page_store[fw_page_size + 2]);
+>  	if (IS_ENABLED(CONFIG_MOUSE_ELAN_I2C_I2C) &&
+>  	    i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
+> +		interface = ELAN_I2C_INTERFACE;
+>  		transport_ops = &elan_i2c_ops;
+>  	} else if (IS_ENABLED(CONFIG_MOUSE_ELAN_I2C_SMBUS) &&
+>  		   i2c_check_functionality(client->adapter,
+>  					   I2C_FUNC_SMBUS_BYTE_DATA |
+>  						I2C_FUNC_SMBUS_BLOCK_DATA |
+>  						I2C_FUNC_SMBUS_I2C_BLOCK)) {
+> +		interface = ELAN_SMBUS_INTERFACE;
+>  		transport_ops = &elan_smbus_ops;
+>  	} else {
+>  		dev_err(dev, "not a supported I2C/SMBus adapter\n"); @@
+-1185,6 
+> +1282,7 @@ static int elan_probe(struct i2c_client *client,
 >  
-> -	ret = i2c_master_send(client, page_store, sizeof(page_store));
-> -	if (ret != sizeof(page_store)) {
-> +	ret = i2c_master_send(client, page_store, fw_page_size + 4);
-> +	if (ret != fw_page_size + 4) {
->  		error = ret < 0 ? ret : -EIO;
->  		dev_err(dev, "Failed to write page %d: %d\n", idx, error);
-> -		return error;
-> +		goto exit;
+>  	data->ops = transport_ops;
+>  	data->client = client;
+> +	data->interface = interface;
+>  	init_completion(&data->fw_completion);
+>  	mutex_init(&data->sysfs_mutex);
+>  
+> diff --git a/drivers/input/mouse/elan_i2c_i2c.c 
+> b/drivers/input/mouse/elan_i2c_i2c.c
+> index 91ef0c7bda43..8f6e7302d699 100644
+> --- a/drivers/input/mouse/elan_i2c_i2c.c
+> +++ b/drivers/input/mouse/elan_i2c_i2c.c
+> @@ -59,6 +59,7 @@
+>  #define ETP_I2C_IAP_TYPE_CMD	0x0304
+>  
+>  #define ETP_I2C_REPORT_LEN		34
+> +#define ETP_I2C_REPORT_LEN_ID2		39
+>  #define ETP_I2C_DESC_LENGTH		30
+>  #define ETP_I2C_REPORT_DESC_LENGTH	158
+>  #define ETP_I2C_INF_LENGTH		2
+> @@ -281,7 +282,7 @@ static int elan_i2c_get_version(struct i2c_client
+*client,
+>  	else
+>  		iap_cmd = ETP_I2C_IAP_VERSION_CMD_OLD;
+>  
+> -	error = elan_i2c_read_cmd(client,
+> +        error = elan_i2c_read_cmd(client,
+>  				  iap ? iap_cmd :
+>  					ETP_I2C_FW_VERSION_CMD,
+>  				  val);
+> @@ -407,7 +408,7 @@ static int elan_i2c_get_max(struct i2c_client *client,
+>  		return error;
 >  	}
 >  
->  	/* Wait for F/W to update one page ROM data. */
-> -	msleep(35);
-> +	if (fw_page_size == ETP_FW_PAGE_SIZE_512)
-> +		msleep(50);
-> +	else
-> +		msleep(35);
+> -	*max_x = le16_to_cpup((__le16 *)val) & 0x0fff;
+> +	*max_x = le16_to_cpup((__le16 *)val) & 0xffff;
+
+There is no point in executing this max for 16 bit value, so if we can drop
+this altogether, as long as we are certain that older firmware did not
+return garbage in 4 upper bits of this data.
+
 >  
->  	error = elan_i2c_read_cmd(client, ETP_I2C_IAP_CTRL_CMD, val);
+>  	error = elan_i2c_read_cmd(client, ETP_I2C_MAX_Y_AXIS_CMD, val);
 >  	if (error) {
->  		dev_err(dev, "Failed to read IAP write result: %d\n",
-error);
-> -		return error;
-> +		goto exit;
->  	}
+> @@ -687,15 +688,16 @@ static int elan_i2c_write_fw_block(struct 
+> i2c_client *client, u16 fw_page_size,  }
 >  
->  	result = le16_to_cpup((__le16 *)val);
->  	if (result & (ETP_FW_IAP_PAGE_ERR | ETP_FW_IAP_INTF_ERR)) {
->  		dev_err(dev, "IAP reports failed write: %04hx\n",
->  			result);
-> -		return -EIO;
-> +		error = -EIO;
-> +		goto exit;
->  	}
->  
-> -	return 0;
-> +exit:
-> +	kfree(page_store);
-> +	return error;
->  }
->  
->  static int elan_i2c_finish_fw_update(struct i2c_client *client, diff 
-> --git a/drivers/input/mouse/elan_i2c_smbus.c 
-> b/drivers/input/mouse/elan_i2c_smbus.c
-> index 8c3185d54c73..1e762c90c894 100644
-> --- a/drivers/input/mouse/elan_i2c_smbus.c
-> +++ b/drivers/input/mouse/elan_i2c_smbus.c
-> @@ -340,7 +340,7 @@ static int elan_smbus_set_flash_key(struct i2c_client
-*client)
->  	return 0;
->  }
->  
-> -static int elan_smbus_prepare_fw_update(struct i2c_client *client)
-> +static int elan_smbus_prepare_fw_update(struct i2c_client *client, 
-> +u16 ic_type)
+>  static int elan_i2c_finish_fw_update(struct i2c_client *client,
+> -				     struct completion *completion)
+> +				     struct completion *completion,
+> +				     int report_len)
 >  {
 >  	struct device *dev = &client->dev;
+> -	int error;
+> +	int error = 0;
 >  	int len;
-> @@ -414,7 +414,7 @@ static int elan_smbus_prepare_fw_update(struct 
-> i2c_client *client)  }
+> -	u8 buffer[ETP_I2C_REPORT_LEN];
+> +	u8 *buffer = kcalloc(1, report_len, GFP_KERNEL);
+
+I think it is OK if you declare buffer as:
+
+	u8 buffer[max(ETP_I2C_REPORT_LEN, ETP_I2C_REPORT_LEN_ID2)];
+
+and do not worry about dynamic allocation. It should be OK if you do a
+partial read here, we just want to make sure we consume all pending data
+before re-enabling interrupts.
+
 >  
+> -	len = i2c_master_recv(client, buffer, ETP_I2C_REPORT_LEN);
+> -	if (len != ETP_I2C_REPORT_LEN) {
+> +	len = i2c_master_recv(client, buffer, report_len);
+> +	if (len != report_len) {
+>  		error = len < 0 ? len : -EIO;
+>  		dev_warn(dev, "failed to read I2C data after FW WDT reset:
+%d (%d)\n",
+>  			error, len);
+> @@ -723,26 +725,49 @@ static int elan_i2c_finish_fw_update(struct
+i2c_client *client,
+>  		error = len < 0 ? len : -EIO;
+>  		dev_err(dev, "failed to read INT signal: %d (%d)\n",
+>  			error, len);
+> +		goto exit;
+> +	}
+> +
+> +exit:
+> +	kfree(buffer);
+> +	return error;
+> +}
+> +
+> +static int elan_i2c_get_report_length(struct i2c_client *client,
+> +					int *report_len)
+> +{
+> +	int error;
+> +	u8 pattern_ver;
+> +
+> +	error = elan_i2c_get_pattern(client, &pattern_ver);
+> +	if (error) {
+> +		dev_err(&client->dev, "failed to get pattern version\n");
+>  		return error;
+>  	}
 >  
-> -static int elan_smbus_write_fw_block(struct i2c_client *client,
-> +static int elan_smbus_write_fw_block(struct i2c_client *client, u16 
-> +fw_page_size,
->  				     const u8 *page, u16 checksum, int idx)
-{
->  	struct device *dev = &client->dev;
-> @@ -429,7 +429,7 @@ static int elan_smbus_write_fw_block(struct i2c_client
-*client,
->  	 */
->  	error = i2c_smbus_write_block_data(client,
->  					   ETP_SMBUS_WRITE_FW_BLOCK,
-> -					   ETP_FW_PAGE_SIZE / 2,
-> +					   fw_page_size / 2,
->  					   page);
->  	if (error) {
->  		dev_err(dev, "Failed to write page %d (part %d): %d\n", @@
--439,8 
-> +439,8 @@ static int elan_smbus_write_fw_block(struct i2c_client 
-> *client,
+> +	if (pattern_ver <= 0x01)
+> +		*report_len = ETP_I2C_REPORT_LEN;
+> +	else
+> +		*report_len = ETP_I2C_REPORT_LEN_ID2;
+
+It looks like SMBus code always returns '0' as pattern. Do we need to have
+this method in transport code, or can it be moved into core?
+
+> +
+>  	return 0;
+>  }
 >  
->  	error = i2c_smbus_write_block_data(client,
->  					   ETP_SMBUS_WRITE_FW_BLOCK,
-> -					   ETP_FW_PAGE_SIZE / 2,
-> -					   page + ETP_FW_PAGE_SIZE / 2);
-> +					   fw_page_size / 2,
-> +					   page + fw_page_size / 2);
->  	if (error) {
->  		dev_err(dev, "Failed to write page %d (part %d): %d\n",
->  			idx, 2, error);
+> -static int elan_i2c_get_report(struct i2c_client *client, u8 *report)
+> +static int elan_i2c_get_report(struct i2c_client *client,
+> +					u8 *report, int report_len)
+>  {
+>  	int len;
+>  
+> -	len = i2c_master_recv(client, report, ETP_I2C_REPORT_LEN);
+> +	len = i2c_master_recv(client, report, report_len);
+>  	if (len < 0) {
+>  		dev_err(&client->dev, "failed to read report data: %d\n",
+len);
+>  		return len;
+>  	}
+>  
+> -	if (len != ETP_I2C_REPORT_LEN) {
+> +	if (len != report_len) {
+>  		dev_err(&client->dev,
+>  			"wrong report length (%d vs %d expected)\n",
+> -			len, ETP_I2C_REPORT_LEN);
+> +			len, report_len);
+>  		return -EIO;
+>  	}
+>  
+> @@ -779,5 +804,6 @@ const struct elan_transport_ops elan_i2c_ops = {
+>  
+>  	.get_pattern		= elan_i2c_get_pattern,
+>  
+> +	.get_report_length	= elan_i2c_get_report_length,
+>  	.get_report		= elan_i2c_get_report,
+>  };
+> diff --git a/drivers/input/mouse/elan_i2c_smbus.c 
+> b/drivers/input/mouse/elan_i2c_smbus.c
+> index 1e762c90c894..04f0fea670a0 100644
+> --- a/drivers/input/mouse/elan_i2c_smbus.c
+> +++ b/drivers/input/mouse/elan_i2c_smbus.c
+> @@ -469,7 +469,15 @@ static int elan_smbus_write_fw_block(struct
+i2c_client *client, u16 fw_page_size
+>  	return 0;
+>  }
+>  
+> -static int elan_smbus_get_report(struct i2c_client *client, u8 
+> *report)
+> +static int elan_smbus_get_report_length(struct i2c_client *client,
+> +					int *report_len)
+> +{
+> +	*report_len = ETP_SMBUS_REPORT_LEN;
+> +	return 0;
+> +}
+> +
+> +static int elan_smbus_get_report(struct i2c_client *client,
+> +				u8 *report, int report_len)
+>  {
+>  	int len;
+>  
+> @@ -494,7 +502,8 @@ static int elan_smbus_get_report(struct i2c_client 
+> *client, u8 *report)  }
+>  
+>  static int elan_smbus_finish_fw_update(struct i2c_client *client,
+> -				       struct completion *fw_completion)
+> +				       struct completion *fw_completion,
+> +				       int report_len)
+>  {
+>  	/* No special handling unlike I2C transport */
+>  	return 0;
+> @@ -534,6 +543,7 @@ const struct elan_transport_ops elan_smbus_ops = {
+>  	.write_fw_block		= elan_smbus_write_fw_block,
+>  	.finish_fw_update	= elan_smbus_finish_fw_update,
+>  
+> +	.get_report_length	= elan_smbus_get_report_length,
+>  	.get_report		= elan_smbus_get_report,
+>  	.get_pattern		= elan_smbus_get_pattern,
+>  };
 > --
 > 2.17.1
 > 
