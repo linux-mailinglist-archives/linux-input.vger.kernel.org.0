@@ -2,26 +2,26 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D10421CCDE
-	for <lists+linux-input@lfdr.de>; Mon, 13 Jul 2020 03:48:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96FB521CD68
+	for <lists+linux-input@lfdr.de>; Mon, 13 Jul 2020 04:53:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726523AbgGMBsO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 12 Jul 2020 21:48:14 -0400
-Received: from emcscan.emc.com.tw ([192.72.220.5]:62058 "EHLO
+        id S1726261AbgGMCxX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 12 Jul 2020 22:53:23 -0400
+Received: from emcscan.emc.com.tw ([192.72.220.5]:65089 "EHLO
         emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726262AbgGMBsO (ORCPT
+        with ESMTP id S1728559AbgGMCxW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 12 Jul 2020 21:48:14 -0400
+        Sun, 12 Jul 2020 22:53:22 -0400
 X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
-   d="scan'208";a="36393166"
+   d="scan'208";a="36395012"
 Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
-  by emcscan.emc.com.tw with ESMTP; 13 Jul 2020 09:48:01 +0800
+  by emcscan.emc.com.tw with ESMTP; 13 Jul 2020 10:53:12 +0800
 Received: from 192.168.10.23
-        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(67873:0:AUTH_RELAY)
-        (envelope-from <jingle.wu@emc.com.tw>); Mon, 13 Jul 2020 09:48:01 +0800 (CST)
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(100989:0:AUTH_RELAY)
+        (envelope-from <jingle.wu@emc.com.tw>); Mon, 13 Jul 2020 10:53:12 +0800 (CST)
 Received: from 192.168.33.11
-        by webmail.emc.com.tw with Mail2000 ESMTP Server V7.00(2487:0:AUTH_RELAY)
-        (envelope-from <jingle.wu@emc.com.tw>); Mon, 13 Jul 2020 09:47:58 +0800 (CST)
+        by webmail.emc.com.tw with Mail2000 ESMTP Server V7.00(2485:0:AUTH_RELAY)
+        (envelope-from <jingle.wu@emc.com.tw>); Mon, 13 Jul 2020 10:53:09 +0800 (CST)
 From:   "jingle" <jingle.wu@emc.com.tw>
 To:     "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>
 Cc:     <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
@@ -30,16 +30,16 @@ Cc:     <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
 References: <20200710054047.5473-1-jingle.wu@emc.com.tw> <20200712060846.GA3224245@dtor-ws>
 In-Reply-To: <20200712060846.GA3224245@dtor-ws>
 Subject: RE: [PATCH 1/2] Input: elan_i2c - Add ic type 0x11 0x13 0x14.
-Date:   Mon, 13 Jul 2020 09:47:58 +0800
-Message-ID: <002901d658b7$a2d1b480$e8751d80$@emc.com.tw>
+Date:   Mon, 13 Jul 2020 10:53:09 +0800
+Message-ID: <000301d658c0$bdbc55d0$39350170$@emc.com.tw>
 MIME-Version: 1.0
 Content-Type: text/plain;
         charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 X-Mailer: Microsoft Outlook 14.0
-Thread-Index: AQFfRhhlA2l6ZyS8J6fW4qHcbJaTVwIg6JkiqeHbAaA=
+Thread-Index: AQFfRhhlA2l6ZyS8J6fW4qHcbJaTVwIg6JkiqeHm7UA=
 Content-Language: zh-tw
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDYwMTFcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy1lMDYxYzc4OC1jNGFhLTExZWEtODE5YS1mMDc5NTk2OWU3NWVcYW1lLXRlc3RcZTA2MWM3OGEtYzRhYS0xMWVhLTgxOWEtZjA3OTU5NjllNzVlYm9keS50eHQiIHN6PSIxNzIzMiIgdD0iMTMyMzkwNzg0Nzg2NTcwMzQ4IiBoPSJYMjZsUDJmb2t6bUlsWEk5RHNxbVhZZ3YrQkU9IiBpZD0iIiBibD0iMCIgYm89IjEiLz48L21ldGE+
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDYwMTFcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy1mYjM3MzM4Yi1jNGIzLTExZWEtODE5YS1mMDc5NTk2OWU3NWVcYW1lLXRlc3RcZmIzNzMzOGQtYzRiMy0xMWVhLTgxOWEtZjA3OTU5NjllNzVlYm9keS50eHQiIHN6PSIxODg5NSIgdD0iMTMyMzkwODIzODkxNDgwNDQ4IiBoPSI0VExheGIyclhVVjFWY0Y5eTRIa1VrRHV0L3M9IiBpZD0iIiBibD0iMCIgYm89IjEiLz48L21ldGE+
 x-dg-rorf: true
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
@@ -48,17 +48,77 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Hi Dmitry:
 
-Could you please tell me what devices this patch was tested with? I want to
-be sure we are not only adding support for newer devices, but also not
+1. Could you please tell me what devices this patch was tested with? I want
+to be sure we are not only adding support for newer devices, but also not
 breaking existing ones.
 --> The device which this patch was tested with was "coral".
 --> Its corresponding ic_type was 0xD, 0xE, 0x10, 0x11, 0x13 0x14.
 
-Also, could you please split this patch in 2: one adding variable length
+2. Also, could you please split this patch in 2: one adding variable length
 firmware page size support, and another adding the new IC types.
 --> As a result, Do I need to up-stream in total 3 patches?
 
+3. 
+> +	case 0x14:
+>  		*validpage_count = 1024;
+>  		break;
+
+I would prefer if we listed 0x14 separately below.
+--> OK
+
+4. Do we really need to check ic_type here in addition to iap_version?
+--> Yes, different ic_type might feat with different iap version
+
+I.e. IC 0x11 - can it have IAP 2? 
+--> Yes
+
+And will it be using 512 or 128 byte pages? In other words I am trying to
+understand if we could determine page size solely by IAP version.
+--> We need to have iap version and ic_type information to determine the
+page size (512 or 128).
+
+5. I think we have data->fw_page_size, we do not need to pass it separately
+here.
+--> OK
+
+6.
+> +
+> +	if ((val[0] == 0xFF) && (val[1] == 0xFF))
+> +		*pattern = 0;
+> +	else
+> +		*pattern = val[1];
+
+This needs a comment explaining why we are doing it.
+--> Some firmware of the IC_type did not create the pattern reading command,
+they would get 0xFF 0xFF value if we trigger the pattern command.
+As a result, we initial it as 0.
+
+7. Haven't we queried IAP version already? Can we pass it in, along with
+ic_type?
+--> OK
+
+8.
+> +	if ((ic_type >= 0x0D) && (iap_version >= 1)) {
+
+No need for parenthesis around simple comparisons. Also, do we really need
+to check both ic type and iap version?
+--> Yes
+
+Is there ICs less than 0x0d with newer IAP versions?
+--> There have not been the ICs less than 0x0d with newer IAP versions so
+far.
+
+9.
+> -	u8 page_store[ETP_FW_PAGE_SIZE + 4];
+> +	u8 *page_store = kcalloc(1, fw_page_size + 4, GFP_KERNEL);
+
+Why kcalloc()? kzalloc() if you want cleared memoryi, but I think kmalloc
+would be fine.
+--> Yes, we want to clear the memory.
+
 THANKS
+
+
 
 -----Original Message-----
 From: Dmitry Torokhov [mailto:dmitry.torokhov@gmail.com] 
