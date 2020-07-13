@@ -2,35 +2,35 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 71D3321CC67
+	by mail.lfdr.de (Postfix) with ESMTP id 0420121CC66
 	for <lists+linux-input@lfdr.de>; Mon, 13 Jul 2020 02:25:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728738AbgGMAY6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 12 Jul 2020 20:24:58 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:37924 "EHLO rere.qmqm.pl"
+        id S1728720AbgGMAY5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 12 Jul 2020 20:24:57 -0400
+Received: from rere.qmqm.pl ([91.227.64.183]:42511 "EHLO rere.qmqm.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728225AbgGMAY5 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        id S1728454AbgGMAY5 (ORCPT <rfc822;linux-input@vger.kernel.org>);
         Sun, 12 Jul 2020 20:24:57 -0400
 Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 4B4ktZ3rLPzbX;
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 4B4ktZ6THTzbg;
         Mon, 13 Jul 2020 02:24:54 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1594599894; bh=DS7j2nESx27Z+IPXEJWh4A9sZjGNs/qXGuX2jAiyJKM=;
+        t=1594599895; bh=Yc1vLHFmVPmy/CjuM6EnoVAG4BHzdf5+1VHpHmaXcu4=;
         h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
-        b=SiiW3Xen4cT28aIg9VJNnXDREALnqcNlPccJpcoSV9I8G6cmH89WcKEH+5WeywLyl
-         537XBRRAGi+XKoI+H90lfAJu814qfdNwbCDJqfF9hZGN/gRl4CGrN1ZA8KBBlXKl7/
-         g/B/hV/IRC6SPUeSSsbjzLvGigqHZUX2ptsGWbaLrcxR+1ZotwwivPOfQ/rtTx8iPM
-         G9fMFtKBkrifShx+jUjnok0q/1jwjDiuW+kbyQtMc9eF0OmSN11mAnOxodqyrrWXCp
-         xYqA20l0XujsNOkzFSx16QZb0D1ho02dPXIkorKoqr+G1zvnHOarTdSpRGudDdjbgO
-         JuwmhzRmGRfZA==
+        b=m/yJLDZ1tGI1rbI1v1t19Af3dGlDaCHR0GRugyWVorDLJTo553q2wjOF9VUvAbNgT
+         qGkmSys9SNlZyS6IsnSojRXHCsUzTEeIOJD1K2j1tWnkvh+jC4NBDJemSaUInEqIwq
+         /BJRW07wodV7MH3JsoeV13Pn+A/M6tO/wGtq/v1JY1LKI+SYg2cej9fS94GxtoZ4Ou
+         6y/YaKG975GzkhLHxCnyGN0CNGLG9elmtkYi8WYdGCYbWQjzLu9AgLKRP3WtCpZBiO
+         /suLmvSPF9BRDc5o78l5NzFejT52GiMogIl93WCRkoxfEwaOgJW6PNoGF8VlsVEO8H
+         Gv63ffji+AFfw==
 X-Virus-Status: Clean
 X-Virus-Scanned: clamav-milter 0.102.3 at mail
 Date:   Mon, 13 Jul 2020 02:24:54 +0200
-Message-Id: <7acd9534663ec8c35390dbd938fd212327c3f05f.1594599118.git.mirq-linux@rere.qmqm.pl>
+Message-Id: <2f42bab5fc45d41bdac2a07a67b49c34b55eab0b.1594599118.git.mirq-linux@rere.qmqm.pl>
 In-Reply-To: <cover.1594599118.git.mirq-linux@rere.qmqm.pl>
 References: <cover.1594599118.git.mirq-linux@rere.qmqm.pl>
 From:   =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Subject: [PATCH v6 2/5] input: elants: support old touch report format
+Subject: [PATCH v6 3/5] input: elants: read touchscreen size for EKTF3624
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -46,119 +46,160 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Support ELAN touchpad sensor with older firmware as found on eg. Asus
-Transformer Pads.
+EKTF3624 as present in Asus TF300T tablet has touchscreen size encoded
+in different registers.
 
 Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
 Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
 Tested-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/input/touchscreen/elants_i2c.c | 36 ++++++++++++++++++--------
- 1 file changed, 25 insertions(+), 11 deletions(-)
+ drivers/input/touchscreen/elants_i2c.c | 84 ++++++++++++++++++++++++--
+ 1 file changed, 79 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
-index fa4a2f6b69c6..ba1816d08530 100644
+index ba1816d08530..d4c60c9fc38b 100644
 --- a/drivers/input/touchscreen/elants_i2c.c
 +++ b/drivers/input/touchscreen/elants_i2c.c
-@@ -69,6 +69,7 @@
- #define CMD_HEADER_REK		0x66
+@@ -35,7 +35,7 @@
+ #include <linux/input/mt.h>
+ #include <linux/input/touchscreen.h>
+ #include <linux/acpi.h>
+-#include <linux/of.h>
++#include <linux/of_device.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/regulator/consumer.h>
+ #include <asm/unaligned.h>
+@@ -43,6 +43,10 @@
+ /* Device, Driver information */
+ #define DEVICE_NAME	"elants_i2c"
  
- /* FW position data */
-+#define PACKET_SIZE_OLD		40
- #define PACKET_SIZE		55
- #define MAX_CONTACT_NUM		10
- #define FW_POS_HEADER		0
-@@ -849,7 +850,8 @@ static int elants_i2c_fw_update(struct elants_data *ts)
-  * Event reporting.
-  */
++/* Device IDs */
++#define EKTH3500	0
++#define EKTF3624	1
++
+ /* Convert from rows or columns into resolution */
+ #define ELAN_TS_RESOLUTION(n, m)   (((n) - 1) * (m))
  
--static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf)
-+static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf,
-+				size_t report_len)
- {
- 	struct input_dev *input = ts->input;
- 	unsigned int n_fingers;
-@@ -862,7 +864,8 @@ static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf)
- 			buf[FW_POS_STATE];
+@@ -94,6 +98,8 @@
+ #define E_ELAN_INFO_REK		0xE0
+ #define E_ELAN_INFO_TEST_VER	0xE0
+ #define E_ELAN_INFO_FW_ID	0xF0
++#define E_INFO_X_RES		0x60
++#define E_INFO_Y_RES		0x63
+ #define E_INFO_OSR		0xD6
+ #define E_INFO_PHY_SCAN		0xD7
+ #define E_INFO_PHY_DRIVER	0xD8
+@@ -156,6 +162,7 @@ struct elants_data {
  
- 	dev_dbg(&ts->client->dev,
--		"n_fingers: %u, state: %04x\n",  n_fingers, finger_state);
-+		"n_fingers: %u, state: %04x, report_len: %zu\n",
-+		n_fingers, finger_state, report_len);
+ 	bool wake_irq_enabled;
+ 	bool keep_power_in_suspend;
++	u8 chip_id;
  
- 	/* Note: all fingers have the same tool type */
- 	tool_type = buf[FW_POS_TOOL_TYPE] & BIT(0) ?
-@@ -876,8 +879,16 @@ static void elants_i2c_mt_event(struct elants_data *ts, u8 *buf)
- 			pos = &buf[FW_POS_XY + i * 3];
- 			x = (((u16)pos[0] & 0xf0) << 4) | pos[1];
- 			y = (((u16)pos[0] & 0x0f) << 8) | pos[2];
--			p = buf[FW_POS_PRESSURE + i];
--			w = buf[FW_POS_WIDTH + i];
-+			if (report_len == PACKET_SIZE_OLD) {
-+				w = buf[FW_POS_WIDTH + i / 2];
-+				w >>= 4 * (~i & 1);	// little-endian-nibbles
-+				w |= w << 4;
-+				w |= !w;
-+				p = w;
-+			} else {
-+				p = buf[FW_POS_PRESSURE + i];
-+				w = buf[FW_POS_WIDTH + i];
-+			}
- 
- 			dev_dbg(&ts->client->dev, "i=%d x=%d y=%d p=%d w=%d\n",
- 				i, x, y, p, w);
-@@ -909,7 +920,8 @@ static u8 elants_i2c_calculate_checksum(u8 *buf)
- 	return checksum;
+ 	/* Must be last to be used for DMA operations */
+ 	u8 buf[MAX_PACKET_SIZE] ____cacheline_aligned;
+@@ -433,7 +440,58 @@ static int elants_i2c_query_bc_version(struct elants_data *ts)
+ 	return 0;
  }
  
--static void elants_i2c_event(struct elants_data *ts, u8 *buf)
-+static void elants_i2c_event(struct elants_data *ts, u8 *buf,
-+			     size_t report_len)
+-static int elants_i2c_query_ts_info(struct elants_data *ts)
++static int elants_i2c_query_ts_info_ektf(struct elants_data *ts)
++{
++	struct i2c_client *client = ts->client;
++	int error;
++	u8 resp[4];
++	u16 phy_x, phy_y;
++	const u8 get_xres_cmd[] = {
++		CMD_HEADER_READ, E_INFO_X_RES, 0x00, 0x00
++	};
++	const u8 get_yres_cmd[] = {
++		CMD_HEADER_READ, E_INFO_Y_RES, 0x00, 0x00
++	};
++
++	/* Get X/Y size in mm */
++	error = elants_i2c_execute_command(client, get_xres_cmd,
++					   sizeof(get_xres_cmd),
++					   resp, sizeof(resp), 1,
++					   "get X size");
++	if (error)
++		return error;
++
++	phy_x = resp[2] | ((resp[3] & 0xF0) << 4);
++
++	error = elants_i2c_execute_command(client, get_yres_cmd,
++					   sizeof(get_yres_cmd),
++					   resp, sizeof(resp), 1,
++					   "get Y size");
++	if (error)
++		return error;
++
++	phy_y = resp[2] | ((resp[3] & 0xF0) << 4);
++
++	if (!phy_x || !phy_y) {
++		dev_warn(&client->dev,
++			 "invalid size data: %d x %d mm\n",
++			 phy_x, phy_y);
++		return 0;
++	}
++
++	dev_dbg(&client->dev, "phy_x=%d, phy_y=%d\n", phy_x, phy_y);
++
++	/* calculate resolution from size */
++	ts->x_max = 2240-1;
++	ts->x_res = DIV_ROUND_CLOSEST(ts->prop.max_x, phy_x);
++
++	ts->y_max = 1408-1;
++	ts->y_res = DIV_ROUND_CLOSEST(ts->prop.max_y, phy_y);
++
++	return 0;
++}
++
++static int elants_i2c_query_ts_info_ekth(struct elants_data *ts)
  {
- 	u8 checksum = elants_i2c_calculate_checksum(buf);
+ 	struct i2c_client *client = ts->client;
+ 	int error;
+@@ -584,8 +642,20 @@ static int elants_i2c_initialize(struct elants_data *ts)
+ 		error = elants_i2c_query_fw_version(ts);
+ 	if (!error)
+ 		error = elants_i2c_query_test_version(ts);
+-	if (!error)
+-		error = elants_i2c_query_ts_info(ts);
++
++	switch (ts->chip_id) {
++	case EKTH3500:
++		if (!error)
++			error = elants_i2c_query_ts_info_ekth(ts);
++		break;
++	case EKTF3624:
++		if (!error)
++			error = elants_i2c_query_ts_info_ektf(ts);
++		break;
++	default:
++		unreachable();
++		break;
++	}
  
-@@ -923,7 +935,7 @@ static void elants_i2c_event(struct elants_data *ts, u8 *buf)
- 			 "%s: unknown packet type: %02x\n",
- 			 __func__, buf[FW_POS_HEADER]);
- 	else
--		elants_i2c_mt_event(ts, buf);
-+		elants_i2c_mt_event(ts, buf, report_len);
- }
+ 	if (error)
+ 		ts->iap_mode = ELAN_IAP_RECOVERY;
+@@ -1262,6 +1332,9 @@ static int elants_i2c_probe(struct i2c_client *client,
+ 	ts->client = client;
+ 	i2c_set_clientdata(client, ts);
  
- static irqreturn_t elants_i2c_irq(int irq, void *_dev)
-@@ -981,7 +993,8 @@ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
- 			break;
++	if (client->dev.of_node)
++		ts->chip_id = (uintptr_t)of_device_get_match_data(&client->dev);
++
+ 	ts->vcc33 = devm_regulator_get(&client->dev, "vcc33");
+ 	if (IS_ERR(ts->vcc33)) {
+ 		error = PTR_ERR(ts->vcc33);
+@@ -1489,7 +1562,8 @@ MODULE_DEVICE_TABLE(acpi, elants_acpi_id);
  
- 		case QUEUE_HEADER_SINGLE:
--			elants_i2c_event(ts, &ts->buf[HEADER_SIZE]);
-+			elants_i2c_event(ts, &ts->buf[HEADER_SIZE],
-+					 ts->buf[FW_HDR_LENGTH]);
- 			break;
- 
- 		case QUEUE_HEADER_NORMAL:
-@@ -994,17 +1007,18 @@ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
- 			}
- 
- 			report_len = ts->buf[FW_HDR_LENGTH] / report_count;
--			if (report_len != PACKET_SIZE) {
-+			if (report_len != PACKET_SIZE &&
-+			    report_len != PACKET_SIZE_OLD) {
- 				dev_err(&client->dev,
--					"mismatching report length: %*ph\n",
-+					"unsupported report length: %*ph\n",
- 					HEADER_SIZE, ts->buf);
- 				break;
- 			}
- 
- 			for (i = 0; i < report_count; i++) {
- 				u8 *buf = ts->buf + HEADER_SIZE +
--							i * PACKET_SIZE;
--				elants_i2c_event(ts, buf);
-+					  i * report_len;
-+				elants_i2c_event(ts, buf, report_len);
- 			}
- 			break;
- 
+ #ifdef CONFIG_OF
+ static const struct of_device_id elants_of_match[] = {
+-	{ .compatible = "elan,ekth3500" },
++	{ .compatible = "elan,ekth3500", .data = (void *)EKTH3500 },
++	{ .compatible = "elan,ektf3624", .data = (void *)EKTF3624 },
+ 	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, elants_of_match);
 -- 
 2.20.1
 
