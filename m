@@ -2,52 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4129721FD83
-	for <lists+linux-input@lfdr.de>; Tue, 14 Jul 2020 21:40:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B98B8220D50
+	for <lists+linux-input@lfdr.de>; Wed, 15 Jul 2020 14:48:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729900AbgGNTkF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 14 Jul 2020 15:40:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49414 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729829AbgGNTkF (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 14 Jul 2020 15:40:05 -0400
-Subject: Re: [git pull] Input updates for v5.8-rc5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1594755604;
-        bh=pcuKZNaNufkGLHLNWD8QpG9rGBl7RWapF2nTKQpekvc=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=mzOWRcJMRTiDaHxP9rQQDoAD9PFEsJ1zPEh9/OU8USUNpZvCZUL9iSSSJfniKrLiJ
-         wUxoMyRuR+w/MUdzaGDG7/f02ixet9JW52aXIHcQhuf6hzSBbJ+gmM8ia4pT3Q3V0P
-         jKoF0gHDaDvhKBoT8my/Fs7uMEqiX/T159cOYPRU=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20200714002748.GA1477546@dtor-ws>
-References: <20200714002748.GA1477546@dtor-ws>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20200714002748.GA1477546@dtor-ws>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-X-PR-Tracked-Commit-Id: a50ca29523b18baea548bdf5df9b4b923c2bb4f6
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: e9919e11e219eaa5e8041b7b1a196839143e9125
-Message-Id: <159475560462.23655.616523737761639070.pr-tracker-bot@kernel.org>
-Date:   Tue, 14 Jul 2020 19:40:04 +0000
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+        id S1730054AbgGOMsp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 15 Jul 2020 08:48:45 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:60138 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728861AbgGOMsp (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 15 Jul 2020 08:48:45 -0400
+Received: from Q.local (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 80E1A564;
+        Wed, 15 Jul 2020 14:48:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1594817323;
+        bh=ymuoWEsdbUlRYdGRMk/tboXnTJb8BaO8toTY5V7aRxQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=AEuBZRjnvuPz8LxH97+ubyzGhBWRm59auYKmPT7gIsDbBuH51n63LTcwmXGcVRXdE
+         0U4O3VpTWs52HfRNy7JUD+ERwUwTMLaiOzatgXen2TVLE7ZrKjuYP/yNhw577sJOJ3
+         +S7VQe5cZRnY2yRUe74ZRksgY3MbUoCTr5ilMKHM=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     trivial@kernel.org
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, netdev@vger.kernel.org,
+        ath10k@lists.infradead.org, linux-wireless@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, linux-mm@kvack.org
+Subject: [PATCH v2 0/8] spelling.txt: /decriptors/descriptors/
+Date:   Wed, 15 Jul 2020 13:48:31 +0100
+Message-Id: <20200715124839.252822-1-kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The pull request you sent on Mon, 13 Jul 2020 17:53:32 -0700:
+I wouldn't normally go through spelling fixes, but I caught sight of
+this typo twice, and then foolishly grepped the tree for it, and saw how
+pervasive it was.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+so here I am ... fixing a typo globally... but with an addition in
+scripts/spelling.txt so it shouldn't re-appear ;-)
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/e9919e11e219eaa5e8041b7b1a196839143e9125
+V2: Posting before the merge windows close to pick up the last few
+non-merged patches, and ideally - to get the actaul spelling.txt entry
+picked up, and this time including trivial@kernel.org to let these get
+head through that tree if required.
 
-Thank you!
+Cc: trivial@kernel.org
+Cc: linux-arm-kernel@lists.infradead.org (moderated list:ARM SUB-ARCHITECTURES)
+Cc: linux-kernel@vger.kernel.org (open list)
+Cc: linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)...)
+Cc: netdev@vger.kernel.org (open list:NETWORKING DRIVERS)
+Cc: ath10k@lists.infradead.org (open list:QUALCOMM ATHEROS ATH10K WIRELESS DRIVER)
+Cc: linux-wireless@vger.kernel.org (open list:NETWORKING DRIVERS (WIRELESS))
+Cc: virtualization@lists.linux-foundation.org (open list:VIRTIO BALLOON)
+Cc: linux-mm@kvack.org (open list:MEMORY MANAGEMENT)
+
+Kieran Bingham (17):
+  arch: arm: mach-davinci: Fix trivial spelling
+  drivers: input: joystick: Fix trivial spelling
+  drivers: net: wan: Fix trivial spelling
+  drivers: net: wireless: Fix trivial spelling
+  include: dynamic_debug.h: Fix trivial spelling
+  kernel: trace: Fix trivial spelling
+  mm/balloon_compaction: Fix trivial spelling
+  scripts/spelling.txt: Add descriptors correction
+
+ arch/arm/mach-davinci/board-da830-evm.c | 2 +-
+ drivers/input/joystick/spaceball.c      | 2 +-
+ drivers/net/wan/lmc/lmc_main.c          | 2 +-
+ drivers/net/wireless/ath/ath10k/usb.c   | 2 +-
+ drivers/net/wireless/ath/ath6kl/usb.c   | 2 +-
+ drivers/net/wireless/cisco/airo.c       | 2 +-
+ include/linux/dynamic_debug.h           | 2 +-
+ kernel/trace/trace_events.c             | 2 +-
+ mm/balloon_compaction.c                 | 4 ++--
+ scripts/spelling.txt                    | 2 ++
+ 10 files changed, 12 insertions(+), 10 deletions(-)
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/prtracker
+2.25.1
+
