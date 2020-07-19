@@ -2,72 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE9212253E7
-	for <lists+linux-input@lfdr.de>; Sun, 19 Jul 2020 22:13:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55EAA225466
+	for <lists+linux-input@lfdr.de>; Mon, 20 Jul 2020 00:13:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726073AbgGSUNY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 19 Jul 2020 16:13:24 -0400
-Received: from mail-40136.protonmail.ch ([185.70.40.136]:34491 "EHLO
-        mail-40136.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726009AbgGSUNY (ORCPT
+        id S1726284AbgGSWMX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 19 Jul 2020 18:12:23 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:57701 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726156AbgGSWMX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 19 Jul 2020 16:13:24 -0400
-Date:   Sun, 19 Jul 2020 20:13:18 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1595189602;
-        bh=ugK9z9eotP/7q6gWxnIt9aiB94pARJM9EOM4j26gi1E=;
-        h=Date:To:From:Cc:Reply-To:Subject:From;
-        b=azpSz9vELHUzSy3xRPDEuX0VA9XsAtY/y8AXVhayngGK4pWZXfX5B2wIs4Y1AFLtN
-         O9LJq0Jv8vZWX5qBFjnCkH85ZBMuQxv/aTALz75BMeZCh69iAZ0y4b7O36aKk80LHe
-         ifr45tX82VpCbUdjkBqpAonG250eoHIx2egUygNI=
-To:     dmitry.torokhov@gmail.com
-From:   Colton Lewis <colton.w.lewis@protonmail.com>
-Cc:     linux-input@vger.kernel.org,
-        Colton Lewis <colton.w.lewis@protonmail.com>
-Reply-To: Colton Lewis <colton.w.lewis@protonmail.com>
-Subject: [PATCH] input: Correct kernel-doc inconsistency
-Message-ID: <20200719201312.148814-1-colton.w.lewis@protonmail.com>
+        Sun, 19 Jul 2020 18:12:23 -0400
+X-Originating-IP: 195.189.32.242
+Received: from pc.localdomain (unknown [195.189.32.242])
+        (Authenticated sender: contact@artur-rojek.eu)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id C6362FF805;
+        Sun, 19 Jul 2020 22:12:18 +0000 (UTC)
+From:   Artur Rojek <contact@artur-rojek.eu>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Heiko Stuebner <heiko@sntech.de>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Artur Rojek <contact@artur-rojek.eu>
+Subject: [PATCH v8 0/2] input: ADC joystick driver & DT bindings
+Date:   Mon, 20 Jul 2020 00:11:01 +0200
+Message-Id: <20200719221103.91644-1-contact@artur-rojek.eu>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Silence documentation build warnings by correcting kernel-doc comment
-for key_entry struct.
+Hi all,
 
-./include/linux/input/sparse-keymap.h:43: warning: Function parameter or me=
-mber 'sw' not described in 'key_entry'
+this series is a continuation of adc-joystick changes split from:
+https://lore.kernel.org/linux-iio/20200709152200.10039-1-contact@artur-rojek.eu/
 
-Signed-off-by: Colton Lewis <colton.w.lewis@protonmail.com>
----
- include/linux/input/sparse-keymap.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Rob, the bindings example in patch 1/2 depends on changes introduced
+in another patchset, still to be merged:
+https://lore.kernel.org/linux-iio/20200719205307.87385-4-contact@artur-rojek.eu/  
+Your scripts will most likely fail to validate this. You have already
+reviewed this patch when it was still part of the aforementioned series.
 
-diff --git a/include/linux/input/sparse-keymap.h b/include/linux/input/spar=
-se-keymap.h
-index d25d1452dc6e..119f4b275fc6 100644
---- a/include/linux/input/sparse-keymap.h
-+++ b/include/linux/input/sparse-keymap.h
-@@ -20,8 +20,9 @@
-  *=09private definitions.
-  * @code: Device-specific data identifying the button/switch
-  * @keycode: KEY_* code assigned to a key/button
-- * @sw.code: SW_* code assigned to a switch
-- * @sw.value: Value that should be sent in an input even when KE_SW
-+ * @sw: struct breaking keycode into code and value
-+ *=09.code: SW_* code assigned to a switch
-+ *=09.value: Value that should be sent in an input even when KE_SW
-  *=09switch is toggled. KE_VSW switches ignore this field and
-  *=09expect driver to supply value for the event.
-  *
---=20
-2.26.2
+Cheers,
+Artur
 
+Artur Rojek (2):
+  dt-bindings: input: Add docs for ADC driven joystick.
+  input: joystick: Add ADC attached joystick driver.
+
+ .../bindings/input/adc-joystick.yaml          | 121 +++++++++
+ drivers/input/joystick/Kconfig                |  10 +
+ drivers/input/joystick/Makefile               |   1 +
+ drivers/input/joystick/adc-joystick.c         | 253 ++++++++++++++++++
+ 4 files changed, 385 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/adc-joystick.yaml
+ create mode 100644 drivers/input/joystick/adc-joystick.c
+
+-- 
+2.27.0
 
