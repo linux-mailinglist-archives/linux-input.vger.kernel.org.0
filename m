@@ -2,64 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8795227024
-	for <lists+linux-input@lfdr.de>; Mon, 20 Jul 2020 23:05:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 438972271CC
+	for <lists+linux-input@lfdr.de>; Mon, 20 Jul 2020 23:46:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726601AbgGTVFp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Jul 2020 17:05:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32784 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726012AbgGTVFp (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Jul 2020 17:05:45 -0400
-X-Greylist: delayed 477 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 20 Jul 2020 14:05:45 PDT
-Received: from zero.eik.bme.hu (zero.eik.bme.hu [IPv6:2001:738:2001:2001::2001])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 956D6C061794
-        for <linux-input@vger.kernel.org>; Mon, 20 Jul 2020 14:05:45 -0700 (PDT)
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
-        by localhost (Postfix) with SMTP id 24922747DFA;
-        Mon, 20 Jul 2020 22:57:41 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
-        id 0A114747871; Mon, 20 Jul 2020 22:57:41 +0200 (CEST)
-From:   BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH] HID: apple: Add support for Matias wireless keyboard
-Date:   Mon, 20 Jul 2020 22:53:46 +0200
-To:     linux-input@vger.kernel.org
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Message-Id: <20200720205741.0A114747871@zero.eik.bme.hu>
-X-Spam-Checker-Version: Sophos PMX: 6.4.8.2820816, Antispam-Engine: 2.7.2.2107409, Antispam-Data: 2020.7.20.204817, AntiVirus-Engine: 5.75.0, AntiVirus-Data: 2020.7.20.5750000
-X-Spam-Flag: NO
-X-Spam-Probability: 8%
-X-Spam-Level: 
-X-Spam-Status: No, score=8% required=50%
+        id S1726771AbgGTVhS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 20 Jul 2020 17:37:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55060 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726428AbgGTVhS (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 20 Jul 2020 17:37:18 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EC6BE20717;
+        Mon, 20 Jul 2020 21:37:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1595281037;
+        bh=z2IM2Mu9HSt9sLr6cNZQIScq87Wopxln51FoHO14OGA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=qKt54JO7RICXcoaXzsmL5bCOMhysKkrdLvFoseZcZGYcBUQ5dzlHNxc6JLRnC33lv
+         c+XtViAT4Arpute8YDCGx2kE9CZiG50aO3lNZ0n12i841ltqvuawJ7aZe7abbn6gBr
+         Kmzr0o+osv5+oxk3ueIQA8UkueTgqkQbh8CAcQ+c=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Federico Ricchiuto <fed.ricchiuto@gmail.com>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.7 01/40] HID: i2c-hid: add Mediacom FlexBook edge13 to descriptor override
+Date:   Mon, 20 Jul 2020 17:36:36 -0400
+Message-Id: <20200720213715.406997-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The Matias Wireless keyboard has an Apple like layout and identifies
-as ISO RevB Alu keyboard. Use hid-apple for it so Fn key and media
-control functions work as expected.
+From: Federico Ricchiuto <fed.ricchiuto@gmail.com>
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+[ Upstream commit 43e666acb79f3d355dd89bf20f4d25d3b15da13e ]
+
+The Mediacom FlexBook edge13 uses the SIPODEV SP1064 touchpad, which does not
+supply descriptors, so it has to be added to the override list.
+
+Signed-off-by: Federico Ricchiuto <fed.ricchiuto@gmail.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-apple.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index e82f604d33e9..6b8f0d004d34 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -503,6 +503,8 @@ static const struct hid_device_id apple_devices[] = {
- 		.driver_data = APPLE_HAS_FN },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_REVB_ISO),
- 		.driver_data = APPLE_HAS_FN },
-+	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_REVB_ISO),
-+		.driver_data = APPLE_HAS_FN },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_REVB_JIS),
- 		.driver_data = APPLE_HAS_FN },
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_WIRELESS_ANSI),
+diff --git a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
+index ec142bc8c1daf..35f3bfc3e6f59 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
++++ b/drivers/hid/i2c-hid/i2c-hid-dmi-quirks.c
+@@ -373,6 +373,14 @@ static const struct dmi_system_id i2c_hid_dmi_desc_override_table[] = {
+ 		},
+ 		.driver_data = (void *)&sipodev_desc
+ 	},
++	{
++		.ident = "Mediacom FlexBook edge 13",
++		.matches = {
++			DMI_EXACT_MATCH(DMI_SYS_VENDOR, "MEDIACOM"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "FlexBook_edge13-M-FBE13"),
++		},
++		.driver_data = (void *)&sipodev_desc
++	},
+ 	{
+ 		.ident = "Odys Winbook 13",
+ 		.matches = {
 -- 
-2.21.3
+2.25.1
 
