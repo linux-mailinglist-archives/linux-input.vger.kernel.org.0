@@ -2,37 +2,35 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21B0D227188
-	for <lists+linux-input@lfdr.de>; Mon, 20 Jul 2020 23:44:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 444522270A8
+	for <lists+linux-input@lfdr.de>; Mon, 20 Jul 2020 23:39:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728061AbgGTViQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Jul 2020 17:38:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56660 "EHLO mail.kernel.org"
+        id S1728131AbgGTViZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 20 Jul 2020 17:38:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56936 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728053AbgGTViP (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Jul 2020 17:38:15 -0400
+        id S1728121AbgGTViY (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 20 Jul 2020 17:38:24 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 56B46207FC;
-        Mon, 20 Jul 2020 21:38:14 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 29F8E22BEF;
+        Mon, 20 Jul 2020 21:38:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595281095;
-        bh=T91JMT8+ATmHZgGTjTGeIrl+abx5KOHBjY+EUmJFlaQ=;
+        s=default; t=1595281104;
+        bh=kOVhulJk+pdwU88duSZrqzaEiuBdYU+NRWyGSP6HyBo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Gbc5sBQ7VQ5v745zter+nH6Hza4j2h3iHBLHnL5YSc1Ak0Q1iQDdllqoB6HDWQlqI
-         b0CipZpkqe/niZEAhsIk/UuT6p5n8+BHNVu27COjTeTLD4YbxxYJ/u8gqQafGzLwn6
-         NmrLUv5IjDuR1EiMzs7OmxBfutWgpXacP7U87InU=
+        b=JCMi54f/2rJyiENWFJn/D90f9R+AxO4eCXLAzuXdR3HQdSa/ZlT8OiYj1PEEU//0W
+         ojm/ZEWiPwyEug5e63Kk20RHNywwfqvZDiflMecYJ3icJmYjGYZMq3hIHJoPSJru+A
+         L1L9jZ4jlVbBLofXmETODsYCA5ncwDAYN1USs1xg=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Merlijn Wajer <merlijn@wizzup.org>,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Tony Lindgren <tony@atomide.com>,
+Cc:     Ilya Katsnelson <me@0upti.me>, Lyude Paul <lyude@redhat.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 06/34] Input: add `SW_MACHINE_COVER`
-Date:   Mon, 20 Jul 2020 17:37:39 -0400
-Message-Id: <20200720213807.407380-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 13/34] Input: synaptics - enable InterTouch for ThinkPad X1E 1st gen
+Date:   Mon, 20 Jul 2020 17:37:46 -0400
+Message-Id: <20200720213807.407380-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200720213807.407380-1-sashal@kernel.org>
 References: <20200720213807.407380-1-sashal@kernel.org>
@@ -45,52 +43,34 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Merlijn Wajer <merlijn@wizzup.org>
+From: Ilya Katsnelson <me@0upti.me>
 
-[ Upstream commit c463bb2a8f8d7d97aa414bf7714fc77e9d3b10df ]
+[ Upstream commit dcb00fc799dc03fd320e123e4c81b3278c763ea5 ]
 
-This event code represents the state of a removable cover of a device.
-Value 0 means that the cover is open or removed, value 1 means that the
-cover is closed.
+Tested on my own laptop, touchpad feels slightly more responsive with
+this on, though it might just be placebo.
 
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-Acked-by: Tony Lindgren <tony@atomide.com>
-Signed-off-by: Merlijn Wajer <merlijn@wizzup.org>
-Link: https://lore.kernel.org/r/20200612125402.18393-2-merlijn@wizzup.org
+Signed-off-by: Ilya Katsnelson <me@0upti.me>
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+Link: https://lore.kernel.org/r/20200703143457.132373-1-me@0upti.me
 Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- include/linux/mod_devicetable.h        | 2 +-
- include/uapi/linux/input-event-codes.h | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ drivers/input/mouse/synaptics.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
-index 953d7ca01eb60..4c56404e53a76 100644
---- a/include/linux/mod_devicetable.h
-+++ b/include/linux/mod_devicetable.h
-@@ -318,7 +318,7 @@ struct pcmcia_device_id {
- #define INPUT_DEVICE_ID_LED_MAX		0x0f
- #define INPUT_DEVICE_ID_SND_MAX		0x07
- #define INPUT_DEVICE_ID_FF_MAX		0x7f
--#define INPUT_DEVICE_ID_SW_MAX		0x0f
-+#define INPUT_DEVICE_ID_SW_MAX		0x10
- #define INPUT_DEVICE_ID_PROP_MAX	0x1f
- 
- #define INPUT_DEVICE_ID_MATCH_BUS	1
-diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index 85387c76c24f3..472cd5bc55676 100644
---- a/include/uapi/linux/input-event-codes.h
-+++ b/include/uapi/linux/input-event-codes.h
-@@ -808,7 +808,8 @@
- #define SW_LINEIN_INSERT	0x0d  /* set = inserted */
- #define SW_MUTE_DEVICE		0x0e  /* set = device disabled */
- #define SW_PEN_INSERTED		0x0f  /* set = pen inserted */
--#define SW_MAX			0x0f
-+#define SW_MACHINE_COVER	0x10  /* set = cover closed */
-+#define SW_MAX			0x10
- #define SW_CNT			(SW_MAX+1)
- 
- /*
+diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
+index 758dae8d65006..4b81b2d0fe067 100644
+--- a/drivers/input/mouse/synaptics.c
++++ b/drivers/input/mouse/synaptics.c
+@@ -179,6 +179,7 @@ static const char * const smbus_pnp_ids[] = {
+ 	"LEN0093", /* T480 */
+ 	"LEN0096", /* X280 */
+ 	"LEN0097", /* X280 -> ALPS trackpoint */
++	"LEN0099", /* X1 Extreme 1st */
+ 	"LEN009b", /* T580 */
+ 	"LEN200f", /* T450s */
+ 	"LEN2044", /* L470  */
 -- 
 2.25.1
 
