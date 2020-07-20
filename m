@@ -2,36 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C52CC227122
-	for <lists+linux-input@lfdr.de>; Mon, 20 Jul 2020 23:41:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95CD42270CE
+	for <lists+linux-input@lfdr.de>; Mon, 20 Jul 2020 23:39:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726697AbgGTVlu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 20 Jul 2020 17:41:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58704 "EHLO mail.kernel.org"
+        id S1728436AbgGTVjV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 20 Jul 2020 17:39:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58818 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728418AbgGTVjS (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 20 Jul 2020 17:39:18 -0400
+        id S1728431AbgGTVjU (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 20 Jul 2020 17:39:20 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1B81922D00;
-        Mon, 20 Jul 2020 21:39:17 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9AF3122CBB;
+        Mon, 20 Jul 2020 21:39:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1595281157;
-        bh=gsPJusJ2WJfAmoKVDrtfaIh+MKZOfkh8nvK442dShYQ=;
+        s=default; t=1595281160;
+        bh=RaFzk8/MP30nvxKII4UvXIlBJ607amNEXrGwQu6xw08=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Ae1QCZk7knyyDqxX5TetPTHFGKTLt+hPdfTomlKXKmmkxoZhNGXUWVGa0VmbNhvKN
-         nWkAsdl9sH79tYo97PawTc8sjxsKNNgNk+bbaJj4QIWK96o1XlpuEQxIQGLKdjeLg2
-         d7pSFfLd/UuQhFktYnjBkBlyH/ok4PVDbieegKNQ=
+        b=No+3br02ZP4WQ8PZeV28dfx8Ha5SmUXnQXGtwGKGjpm7W06HbpX4tOM/Q0Vp/M5pT
+         Z140dEDa38OfMAMNDZ+3eubqL0Q7x/CXwRvXiy7aAfnoNtzcIwmsAg3afrvmkGwfSc
+         irecL6y6fhZwGws8kD2sMOYup3EvjmbaBomTHBnI=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Joao Moreno <mail@joaomoreno.com>,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 02/13] HID: apple: Disable Fn-key key-re-mapping on clone keyboards
-Date:   Mon, 20 Jul 2020 17:39:03 -0400
-Message-Id: <20200720213914.407919-2-sashal@kernel.org>
+Cc:     Merlijn Wajer <merlijn@wizzup.org>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 04/13] Input: add `SW_MACHINE_COVER`
+Date:   Mon, 20 Jul 2020 17:39:05 -0400
+Message-Id: <20200720213914.407919-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200720213914.407919-1-sashal@kernel.org>
 References: <20200720213914.407919-1-sashal@kernel.org>
@@ -44,98 +45,52 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: Merlijn Wajer <merlijn@wizzup.org>
 
-[ Upstream commit a5d81646fa294eed57786a9310b06ca48902adf8 ]
+[ Upstream commit c463bb2a8f8d7d97aa414bf7714fc77e9d3b10df ]
 
-The Maxxter KB-BT-001 Bluetooth keyboard, which looks somewhat like the
-Apple Wireless Keyboard, is using the vendor and product IDs (05AC:0239)
-of the Apple Wireless Keyboard (2009 ANSI version) <sigh>.
+This event code represents the state of a removable cover of a device.
+Value 0 means that the cover is open or removed, value 1 means that the
+cover is closed.
 
-But its F1 - F10 keys are marked as sending F1 - F10, not the special
-functions hid-apple.c maps them too; and since its descriptors do not
-contain the HID_UP_CUSTOM | 0x0003 usage apple-hid looks for for the
-Fn-key, apple_setup_input() never gets called, so F1 - F6 are mapped
-to key-codes which have not been set in the keybit array causing them
-to not send any events at all.
-
-The lack of a usage code matching the Fn key in the clone is actually
-useful as this allows solving this problem in a generic way.
-
-This commits adds a fn_found flag and it adds a input_configured
-callback which checks if this flag is set once all usages have been
-mapped. If it is not set, then assume this is a clone and clear the
-quirks bitmap so that the hid-apple code does not add any special
-handling to this keyboard.
-
-This fixes F1 - F6 not sending anything at all and F7 - F12 sending
-the wrong codes on the Maxxter KB-BT-001 Bluetooth keyboard and on
-similar clones.
-
-Cc: Joao Moreno <mail@joaomoreno.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+Acked-by: Tony Lindgren <tony@atomide.com>
+Signed-off-by: Merlijn Wajer <merlijn@wizzup.org>
+Link: https://lore.kernel.org/r/20200612125402.18393-2-merlijn@wizzup.org
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-apple.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ include/linux/mod_devicetable.h        | 2 +-
+ include/uapi/linux/input-event-codes.h | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
-index 8ab8f2350bbcd..b58ab769aa7b3 100644
---- a/drivers/hid/hid-apple.c
-+++ b/drivers/hid/hid-apple.c
-@@ -57,6 +57,7 @@ MODULE_PARM_DESC(swap_opt_cmd, "Swap the Option (\"Alt\") and Command (\"Flag\")
- struct apple_sc {
- 	unsigned long quirks;
- 	unsigned int fn_on;
-+	unsigned int fn_found;
- 	DECLARE_BITMAP(pressed_numlock, KEY_CNT);
- };
+diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+index eba777807fc04..6f8eb1238235f 100644
+--- a/include/linux/mod_devicetable.h
++++ b/include/linux/mod_devicetable.h
+@@ -293,7 +293,7 @@ struct pcmcia_device_id {
+ #define INPUT_DEVICE_ID_LED_MAX		0x0f
+ #define INPUT_DEVICE_ID_SND_MAX		0x07
+ #define INPUT_DEVICE_ID_FF_MAX		0x7f
+-#define INPUT_DEVICE_ID_SW_MAX		0x0f
++#define INPUT_DEVICE_ID_SW_MAX		0x10
+ #define INPUT_DEVICE_ID_PROP_MAX	0x1f
  
-@@ -342,12 +343,15 @@ static int apple_input_mapping(struct hid_device *hdev, struct hid_input *hi,
- 		struct hid_field *field, struct hid_usage *usage,
- 		unsigned long **bit, int *max)
- {
-+	struct apple_sc *asc = hid_get_drvdata(hdev);
-+
- 	if (usage->hid == (HID_UP_CUSTOM | 0x0003) ||
- 			usage->hid == (HID_UP_MSVENDOR | 0x0003) ||
- 			usage->hid == (HID_UP_HPVENDOR2 | 0x0003)) {
- 		/* The fn key on Apple USB keyboards */
- 		set_bit(EV_REP, hi->input->evbit);
- 		hid_map_usage_clear(hi, usage, bit, max, EV_KEY, KEY_FN);
-+		asc->fn_found = true;
- 		apple_setup_input(hi->input);
- 		return 1;
- 	}
-@@ -374,6 +378,19 @@ static int apple_input_mapped(struct hid_device *hdev, struct hid_input *hi,
- 	return 0;
- }
+ #define INPUT_DEVICE_ID_MATCH_BUS	1
+diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+index 61769d4b7dbac..bce76e55a3c82 100644
+--- a/include/uapi/linux/input-event-codes.h
++++ b/include/uapi/linux/input-event-codes.h
+@@ -793,7 +793,8 @@
+ #define SW_LINEIN_INSERT	0x0d  /* set = inserted */
+ #define SW_MUTE_DEVICE		0x0e  /* set = device disabled */
+ #define SW_PEN_INSERTED		0x0f  /* set = pen inserted */
+-#define SW_MAX			0x0f
++#define SW_MACHINE_COVER	0x10  /* set = cover closed */
++#define SW_MAX			0x10
+ #define SW_CNT			(SW_MAX+1)
  
-+static int apple_input_configured(struct hid_device *hdev,
-+		struct hid_input *hidinput)
-+{
-+	struct apple_sc *asc = hid_get_drvdata(hdev);
-+
-+	if ((asc->quirks & APPLE_HAS_FN) && !asc->fn_found) {
-+		hid_info(hdev, "Fn key not found (Apple Wireless Keyboard clone?), disabling Fn key handling\n");
-+		asc->quirks = 0;
-+	}
-+
-+	return 0;
-+}
-+
- static int apple_probe(struct hid_device *hdev,
- 		const struct hid_device_id *id)
- {
-@@ -588,6 +605,7 @@ static struct hid_driver apple_driver = {
- 	.event = apple_event,
- 	.input_mapping = apple_input_mapping,
- 	.input_mapped = apple_input_mapped,
-+	.input_configured = apple_input_configured,
- };
- module_hid_driver(apple_driver);
- 
+ /*
 -- 
 2.25.1
 
