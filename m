@@ -2,97 +2,76 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43C91228202
-	for <lists+linux-input@lfdr.de>; Tue, 21 Jul 2020 16:23:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1FE922839B
+	for <lists+linux-input@lfdr.de>; Tue, 21 Jul 2020 17:23:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726700AbgGUOXS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 Jul 2020 10:23:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53346 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729116AbgGUOXS (ORCPT
+        id S1729607AbgGUPWY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Jul 2020 11:22:24 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:38292 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726436AbgGUPWY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 21 Jul 2020 10:23:18 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 175EFC061794;
-        Tue, 21 Jul 2020 07:23:18 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id d7so1558774plq.13;
-        Tue, 21 Jul 2020 07:23:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CX4eH9/QUA1u4saPv6izPwaTM6OqoGtAPvD7DC3yquA=;
-        b=H4P/VrzK9rOD3lnOaNH0hX9ZLYi7AoWW2siJNnBQYE09LI/XQ3Ip5TyyQg8gqTWv07
-         PAC/Ag6TGy+gxyN+27SXJMGJMZvmvNugN22G62XJcK180PdWd6GfbvgzV6XYKSbtHtyF
-         SLw5opNeUYvfCMqQwtYHHEMj80bXgD2y237FSBJmnmSYkJW4icj8RfwfHqWHhXWcgQUa
-         heDatMhgGWyCk8mTjzc4VKQxp40MAnPCBnqyqQ+46IV6IaN6JiIA/Y59DgOhUL7GfkZf
-         jjYJxTTFPdJxwXQGHQd4UDocuApmmkZBebHQmCUP85EIuXxe0eS/quSPus108oRHzqmI
-         P9og==
+        Tue, 21 Jul 2020 11:22:24 -0400
+Received: by mail-wr1-f68.google.com with SMTP id a14so6751561wra.5;
+        Tue, 21 Jul 2020 08:22:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CX4eH9/QUA1u4saPv6izPwaTM6OqoGtAPvD7DC3yquA=;
-        b=bnHAAcn+mybGS8XkiaCVmTf8reUghev6m8iJpufX3MbosUcVjtpLf4fUeV6fRYQkpe
-         E7IaHhm3mRGBicL4c2M7mQz5rqgrWPzSme1fJ4VDpEWW7qVV5qL45FTId20GugxjM8rp
-         6z1DxAQOucrT2xlKRipgRjuzJAzmRCHFRvCsAZan/3G6NnlVy/FWYKDXFQGw07wdn1i8
-         oUhVYDkA3mKeHab0ZsE+eSAkZ7DrC8BgWSst3ltb6VJICnhhrkkblhL6u1cM6g/aVx8p
-         Gtm4yq1M167UF6XEyVSVD+r4KhUOmlNlV407scMzrIewlUvwguv0nQ8cjKZu5av/odsL
-         YQnQ==
-X-Gm-Message-State: AOAM531ESByCZR19nIIcQR/XVTcg3J+Rr+xoyUcBMHYJaVoTf+PLPSeJ
-        R32mGAwdxldL5mzRaXQqcXUgQ7TYhAygJf3bXiR55AfmRX4=
-X-Google-Smtp-Source: ABdhPJxnpuDyH/u9trmPIq89haOgJSMaTcFCtl639VtNm1WgUMH05ZqjfNiwqqUMlBDkoaI0O0cvoy2rFOxsKhLk8qg=
-X-Received: by 2002:a17:902:8491:: with SMTP id c17mr22040941plo.262.1595341397575;
- Tue, 21 Jul 2020 07:23:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200721022324.21898-1-fengping.yu@mediatek.com>
- <20200721022324.21898-3-fengping.yu@mediatek.com> <87ft9l3v2l.fsf@baylibre.com>
-In-Reply-To: <87ft9l3v2l.fsf@baylibre.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 21 Jul 2020 17:23:03 +0300
-Message-ID: <CAHp75VcnfF3ucuAJXDDy8pit5-LE42d4ROkL2y3QZroK6RU4Rw@mail.gmail.com>
-Subject: Re: [PATCH v15 2/3] drivers: input:keyboard: Add mtk keypad driver
-To:     Mattijs Korpershoek <mkorpershoek@baylibre.com>
-Cc:     Fengping yu <fengping.yu@mediatek.com>,
-        Yingjoe Chen <yingjoe.chen@mediatek.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=duJ2HBhio/BkAyiZCAkWbkTUg4rjmwr+3L6EYBWx3/g=;
+        b=GOcMiiDPMp52fhoN2T9EH0DL81eoeamGtI/kisf0QKbuFL5pIgXINcfHXzwc5q5xcp
+         O9Gv962HWVVWKVt55voGXYL+CBMtgadtLwJKDurzM/m7tXpp4lnKkGicFO7gKuQg1Fvj
+         O5/uNg6eECMop6nM4EtQjKDPvLBcc6+YAKbuk3mlQJlzQqB3V7tp1yUUbCm+JrX5JWC4
+         JWd+8TTzQRJf+pRuxuisgq0TKrV3mhJkEbUTkyzC1Cb5dWxYSdYCtNFdaqMRMPGFStYR
+         IJzIMGBvGQESI5f/wEpcSP2D2PKjF1Dpzn2EoZOHm0BPiebGce+thXk1AafB2EtUfz1h
+         ydoQ==
+X-Gm-Message-State: AOAM530183MXGlZ88vJRhUVbp6ZcpERxjYfGfk44AQ1+7cqxD/i7xmGf
+        6+5C6zJzaZAXQoLzAqrecoY=
+X-Google-Smtp-Source: ABdhPJz/1xAiJ9wZTaqakzlijULHHXKAbAgEhVJRgxG7DXGUCbLqBvTyMCdI0jGdy3XiUAvxfI8cTg==
+X-Received: by 2002:a5d:6681:: with SMTP id l1mr13710248wru.47.1595344941801;
+        Tue, 21 Jul 2020 08:22:21 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id 207sm4276409wme.13.2020.07.21.08.22.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jul 2020 08:22:20 -0700 (PDT)
+Date:   Tue, 21 Jul 2020 15:22:18 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Boqun Feng <boqun.feng@gmail.com>
+Cc:     linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-scsi@vger.kernel.org, "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Michael Kelley <mikelley@microsoft.com>
+Subject: Re: [RFC 01/11] Drivers: hv: vmbus: Always use HV_HYP_PAGE_SIZE for
+ gpadl
+Message-ID: <20200721152218.ozpk2b4ymfdocu4p@liuwe-devbox-debian-v2>
+References: <20200721014135.84140-1-boqun.feng@gmail.com>
+ <20200721014135.84140-2-boqun.feng@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200721014135.84140-2-boqun.feng@gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jul 21, 2020 at 3:38 PM Mattijs Korpershoek
-<mkorpershoek@baylibre.com> wrote:
-> Fengping yu <fengping.yu@mediatek.com> writes:
+On Tue, Jul 21, 2020 at 09:41:25AM +0800, Boqun Feng wrote:
+> Since the hypervisor always uses 4K as its page size, the size of PFNs
+> used for gpadl should be HV_HYP_PAGE_SIZE rather than PAGE_SIZE, so
+> adjust this accordingly as the preparation for supporting 16K/64K page
+> size guests.
 
-> > This adds matrix keypad support for Mediatek SoCs.
+It may be worth calling out there is no change on x86 because
+HV_HYP_PAGE_SHIFT and PAGE_SHIFT are of the same value there.
 
-...
-
-> > +     keypad->regmap = devm_regmap_init_mmio(&pdev->dev,
-> > +                                            keypad->base,
-> > +                                            &keypad_regmap_cfg);
-> > +     if (IS_ERR(keypad->regmap)) {
-> > +             dev_err(&pdev->dev,
-> > +                     "regmap init failed:%ld\n", PTR_ERR(keypad->regmap));
-> > +             return PTR_ERR(keypad->regmap);
-> > +     }
-
-Okay, because another comment appeared, I would suggest to switch to
-%pe at the same time.
-
-            dev_err(&pdev->dev,   "regmap init failed: %pe\n", keypad->regmap);
-
--- 
-With Best Regards,
-Andy Shevchenko
+Wei.
