@@ -2,129 +2,609 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63F44227AE0
-	for <lists+linux-input@lfdr.de>; Tue, 21 Jul 2020 10:39:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10060227B3F
+	for <lists+linux-input@lfdr.de>; Tue, 21 Jul 2020 10:56:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728813AbgGUIjl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 Jul 2020 04:39:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56572 "EHLO
+        id S1728230AbgGUI43 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Jul 2020 04:56:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728418AbgGUIjl (ORCPT
+        with ESMTP id S1726673AbgGUI42 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 21 Jul 2020 04:39:41 -0400
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ED11C061794;
-        Tue, 21 Jul 2020 01:39:41 -0700 (PDT)
-Received: by mail-qt1-x844.google.com with SMTP id j10so15521033qtq.11;
-        Tue, 21 Jul 2020 01:39:41 -0700 (PDT)
+        Tue, 21 Jul 2020 04:56:28 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80AA1C061794
+        for <linux-input@vger.kernel.org>; Tue, 21 Jul 2020 01:56:28 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id g75so1991667wme.5
+        for <linux-input@vger.kernel.org>; Tue, 21 Jul 2020 01:56:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=pl7EZWmiDwJBT7lZl+dqeQwSQYq+gpMZJQPAX61Vc1k=;
-        b=japsxIaYfxBdMqncvjy5ilGa0f46e0ryCrw3nPjtP8bIcI3e6Cda4GMoR2yvJ9of4X
-         exN1AayGIZ2ZqEuJzgUO/h7w4c7FXIFPiZySVql8I3oVXAGTfXRaM70E4mQc0kT4m8l6
-         q7ZHk3dbYAb+fHPAN8/6n+6OldMzj/s9ikyxFbhwhK3yR/hbC6nS1AWDULLElQPYQRfk
-         LvakODx5M8I8gCRYdQ5xND272MzjvK7ALX4eSrg7tF1QkdPMVP7aqs77TkuxuMgBYqtt
-         GRNs2xMKToJ1xd5KjNYlTf6LQHJwW6uU2hPvkRZfifSBVoLxKJiRS1KRoHF+vV5mwgLA
-         ZkKg==
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=2dPXL6x4M9rmGcNdOtWUyqOc8xE6nTo6aUqtMuANSII=;
+        b=oTUKY/Czwtv9rmXWLKYzNmppXMXRrE9ysWS0QV9GItZoRzLogaZP5JIPXGvtFxiAoc
+         kqRYDRlLP2XZpQxr+Efva1v+/u3lIEhoJGYddwDganOZhuYjQKH/bE3H89MiYH88cnxV
+         36iMUOAj4t552cSt06AMlKtSgrSbIxL7yie9/k0DMHL2XqpuNT+sZTGLgR+wbpTrI63y
+         E25wfggrtH21+trVsyEYfIGOsIFhI5KT+EOWN/ICuVdpHRyXpjbCGF1dbGyX5x0REm0q
+         YbiKfh/IY6mxQ30lW+VJGFAUx4Jj/e9c/Dpa2m7cDOIcpob6t2S4OtcugS0oOitVWJzz
+         oskQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=pl7EZWmiDwJBT7lZl+dqeQwSQYq+gpMZJQPAX61Vc1k=;
-        b=eJnNYiVCh4TRvEZuXJtHgZ9NchBQJ1ifEhgIF3axbh5Dkqw0g7mgu06MioVssLBu2D
-         MZ+Xep7QHR2HtHqzTClnDC4sCAROsn3MkNnv1FW2UGewm3DTrAfa7nK5iBcYjwJJZWNC
-         ttkLW2f29mJQ2gyu5V6b08obMC8/MH/gOhnhqWLZUn/3jsajs7pwWEd/vcBU8Vrvwp5S
-         AbAHFcjnLq5Q2qdHXL+O/CeR5LYp8/nmyJ0UdkxP10UqezS7xpI2gSZDdbqYkVOpVaov
-         X3hBNQfbl66hVHsEQq7kMuO7sQzMRuX/ZuzNhEoup+vGR70o9FLvpk6Dkc4ndXhfBVZi
-         Vozg==
-X-Gm-Message-State: AOAM5300Z/LgVjMWG133t0S5c2IH5tkaZZ6916mcMpaGg48QW2V30uZt
-        0Q6WpyT768qftGrIIVAK+Hr++h9mmQ==
-X-Google-Smtp-Source: ABdhPJxe1Z/jmzC0J6uu0OyPwe0gihfRluX1lhIi7H0/BdRm6UJYVkGpYiWbPdzC7W9ZSvEqERmqag==
-X-Received: by 2002:ac8:191b:: with SMTP id t27mr28779822qtj.16.1595320780558;
-        Tue, 21 Jul 2020 01:39:40 -0700 (PDT)
-Received: from PWN (c-76-119-149-155.hsd1.ma.comcast.net. [76.119.149.155])
-        by smtp.gmail.com with ESMTPSA id z36sm22239254qtd.22.2020.07.21.01.39.39
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=2dPXL6x4M9rmGcNdOtWUyqOc8xE6nTo6aUqtMuANSII=;
+        b=dEq0Q64gppn6AZsv0d9gt/XQjTuOP11UAWyY+dl0HA/nSMRCbngzM5AVwT06Ssy6b9
+         qB++uBhcBTFGfMGVrx+kpzfVEfW+p8bEDs8d7U0Ok1MR33PBkvQw0FeJ+wxhz70WAtnB
+         O8UyVC43kjm8ymYeVFI0fvQbEahBbhMMb/5ST48y+SZLjwCn58csm3wR7XMX2M6WYTnT
+         1RR5hipAZO+2Edy96zplLZv+I04zx7fmUSCsECFXpPHz+JI64DGnTnANYX7NrWiuOO2I
+         eG5tFFDe2ut7aW6zmsKaD1UdzXV47+GECvKW/XYewRiYHQu1i58fxn+Qk966b9kVnhDP
+         yLKQ==
+X-Gm-Message-State: AOAM531BaKs+9mRNEL3TbZI9YH7CW0ad3T1o/QF/kU76XkYnhgoiGuLH
+        eiTaw0LR1ZeBkrUrnQYmXII=
+X-Google-Smtp-Source: ABdhPJy0no/whqwXKRMzK37H1qJOvKad5biUKropSLxWLq+U032X3BcT/f1dWnOrKKPeRb5LcXTiHQ==
+X-Received: by 2002:a1c:4143:: with SMTP id o64mr3188669wma.28.1595321787291;
+        Tue, 21 Jul 2020 01:56:27 -0700 (PDT)
+Received: from localhost ([2a01:e35:2e85:a600:8d21:7a42:1f4d:1bda])
+        by smtp.gmail.com with ESMTPSA id d10sm36092561wrx.66.2020.07.21.01.56.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2020 01:39:40 -0700 (PDT)
-Date:   Tue, 21 Jul 2020 04:39:38 -0400
-From:   Peilin Ye <yepeilin.cs@gmail.com>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        syzkaller-bugs@googlegroups.com,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [Linux-kernel-mentees] [PATCH v1] usbhid: Fix slab-out-of-bounds
- write in hiddev_ioctl_usage()
-Message-ID: <20200721083938.GA8005@PWN>
-References: <20200718231218.170730-1-yepeilin.cs@gmail.com>
- <20200720115400.GI2549@kadam>
- <20200720121257.GJ2571@kadam>
- <20200720191656.GA3366@PWN>
- <20200721071637.GK2571@kadam>
+        Tue, 21 Jul 2020 01:56:26 -0700 (PDT)
+Date:   Tue, 21 Jul 2020 10:57:36 +0200
+From:   =?utf-8?Q?Fran=C3=A7ois-Xavier?= Carton <fx.carton91@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     linux-input@vger.kernel.org, Ethan Lee <flibitijibibo@gmail.com>,
+        Bastien Nocera <hadess@hadess.net>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: Re: [PATCH v2 2/4] HID: gamecube-adapter: add rumble support
+Message-ID: <20200721085702.GA31353@pc-fx>
+Mail-Followup-To: Jiri Kosina <jikos@kernel.org>,
+        linux-input@vger.kernel.org, Ethan Lee <flibitijibibo@gmail.com>,
+        Bastien Nocera <hadess@hadess.net>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+References: <20200512084616.32158-1-fx.carton91@gmail.com>
+ <20200512084616.32158-2-fx.carton91@gmail.com>
+ <nycvar.YFH.7.76.2006190915260.13242@cbobk.fhfr.pm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/mixed; boundary="zhXaljGHf11kAtnf"
 Content-Disposition: inline
-In-Reply-To: <20200721071637.GK2571@kadam>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <nycvar.YFH.7.76.2006190915260.13242@cbobk.fhfr.pm>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jul 21, 2020 at 10:16:37AM +0300, Dan Carpenter wrote:
-> For some reason the reply-to header on your email is bogus:
-> 
-> Reply-To: 20200720121257.GJ2571@kadam
-> 
-> "kadam" is a system on my home network.
 
-Ah...I thought `Reply-To` and `In-Reply-To` are the same thing...Sorry
-for the beginner's mistake...
+--zhXaljGHf11kAtnf
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-> Yeah.  And in the caller it does:
+On Fri, Jun 19, 2020 at 09:15:50AM +0200, Jiri Kosina wrote:
+> On Tue, 12 May 2020, François-Xavier Carton wrote:
 > 
-> drivers/hid/hid-core.c
->    297          if (!parser->local.usage_index) /* Ignore padding fields */
->    298                  return 0;
->    299  
->    300          usages = max_t(unsigned, parser->local.usage_index,
->                 ^^^^^^^^^^^^^^
->    301                                   parser->global.report_count);
->    302  
->    303          field = hid_register_field(report, usages, parser->global.report_count);
->                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> So ->usages is always greater or equal to ->global.report_count.
+> > Add rumble support for the hid-gamecube-adapter driver. Rumble is
+> > reported with a single output report for all four controllers.
+> > 
+> > Signed-off-by: François-Xavier Carton <fx.carton91@gmail.com>
 > 
->    304          if (!field)
->    305                  return 0;
->    306  
->    307          field->physical = hid_lookup_collection(parser, HID_COLLECTION_PHYSICAL);
+> Francois,
 > 
-> > 
-> > Here, `values` equals to `global.report_count`. See how it is being
-> > called:
-> > 
-> > drivers/hid/hid-core.c:303:
-> > 
-> >         field = hid_register_field(report, usages, parser->global.report_count);
-> > 
-> > In hid_open_report(), `global.report_count` can be set by calling
-> > hid_parser_global().
-> > 
-> > However, the syzkaller reproducer made hid_open_report() to call
-> > hid_parser_main() __before__ `global.report_count` is properly set. It's
-> > zero. So hid_register_field() allocated `field` with `values` equals to
-> > zero - No room for value[] at all. I believe this caused the bug.
+> somehow I seem to be missing 1/4 from this series in my inbox. Could you 
+> please resend it my way?
 > 
-> I don't know if zero is valid or not.  I suspect it is valid.  We have
-> no reason to think that it's invalid.
+> Thanks.
+> 
+> -- 
+> Jiri Kosina
+> SUSE Labs
+> 
 
-I see, I will stop guessing and wait for the maintainers' feedback.
+Jiri,
 
-Thank you,
+Attached is the first patch.
 
-Peilin Ye
+Sorry for the late reply, I missed your email.
+
+Thanks,
+François-Xavier
+
+--zhXaljGHf11kAtnf
+Content-Type: text/x-diff; charset=utf-8
+Content-Disposition: inline;
+	filename="v2-0001-HID-gamecube-adapter-add-nintendo-gamecube-adapte.patch"
+Content-Transfer-Encoding: 8bit
+
+From 6064a903f39e9c25d0016224525e8b907620aa5d Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Fran=C3=A7ois-Xavier=20Carton?= <fx.carton91@gmail.com>
+Date: Sun, 12 Apr 2020 15:30:19 +0200
+Subject: [PATCH v2 1/4] HID: gamecube-adapter: add nintendo gamecube adapter
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The hid-gamecube-adapter driver supports Nintendo Gamecube Controller
+Adapters. They are USB devices on which up to four Nintendo Gamecube
+Controllers can be plugged. The driver creates independent input devices
+as controllers are connected.
+
+Signed-off-by: François-Xavier Carton <fx.carton91@gmail.com>
+---
+ 
+ Changelog:
+ v2:
+ - Replaced calibration parameters by auto calibration using saved
+   min/max values.
+ - Only send rumble output reports if the value changed.
+ - Only set rumble capability for normal controllers; wavebird
+   controllers do not support rumble.
+ - Send init command after suspend to get input reports again.
+ 
+ MAINTAINERS                        |   6 +
+ drivers/hid/Kconfig                |  10 +
+ drivers/hid/Makefile               |   1 +
+ drivers/hid/hid-gamecube-adapter.c | 386 +++++++++++++++++++++++++++++
+ drivers/hid/hid-ids.h              |   1 +
+ 5 files changed, 404 insertions(+)
+ create mode 100644 drivers/hid/hid-gamecube-adapter.c
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d5b1878f2815..585ddcf3a6dd 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7025,6 +7025,12 @@ F:	scripts/gcc-plugin.sh
+ F:	scripts/Makefile.gcc-plugins
+ F:	Documentation/kbuild/gcc-plugins.rst
+ 
++GAMECUBE ADAPTER HID DRIVER
++M: François-Xavier Carton <fx.carton91@gmail.com>
++L: linux-input@vger.kernel.org
++S: Maintained
++F: drivers/hid/hid-gamecube-adapter*
++
+ GASKET DRIVER FRAMEWORK
+ M:	Rob Springer <rspringer@google.com>
+ M:	Todd Poynor <toddpoynor@google.com>
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 7c89edbd6c5a..d49e261a74f6 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -350,6 +350,16 @@ config HID_EZKEY
+ 	---help---
+ 	Support for Ezkey BTC 8193 keyboard.
+ 
++config HID_GAMECUBE_ADAPTER
++	tristate "Nintendo Gamecube Controller Adapter support"
++	depends on HID
++	depends on USB_HID
++	---help---
++	Support for the Nintendo Gamecube Controller Adapter.
++
++	To compile this driver as a module, choose M here: the
++	module will be called hid-gamecube-adapter.
++
+ config HID_GEMBIRD
+ 	tristate "Gembird Joypad"
+ 	depends on HID
+diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+index d8ea4b8c95af..9cddc4d48db8 100644
+--- a/drivers/hid/Makefile
++++ b/drivers/hid/Makefile
+@@ -46,6 +46,7 @@ obj-$(CONFIG_HID_ELAN)		+= hid-elan.o
+ obj-$(CONFIG_HID_ELECOM)	+= hid-elecom.o
+ obj-$(CONFIG_HID_ELO)		+= hid-elo.o
+ obj-$(CONFIG_HID_EZKEY)		+= hid-ezkey.o
++obj-$(CONFIG_HID_GAMECUBE_ADAPTER)	+= hid-gamecube-adapter.o
+ obj-$(CONFIG_HID_GEMBIRD)	+= hid-gembird.o
+ obj-$(CONFIG_HID_GFRM)		+= hid-gfrm.o
+ obj-$(CONFIG_HID_GLORIOUS)  += hid-glorious.o
+diff --git a/drivers/hid/hid-gamecube-adapter.c b/drivers/hid/hid-gamecube-adapter.c
+new file mode 100644
+index 000000000000..b1268339889e
+--- /dev/null
++++ b/drivers/hid/hid-gamecube-adapter.c
+@@ -0,0 +1,386 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * HID driver for Nintendo Gamecube Controller Adapters
++ *
++ * Copyright (c) 2020 François-Xavier Carton <fx.carton91@gmail.com>
++ *
++ * This driver is based on:
++ *   https://github.com/ToadKing/wii-u-gc-adapter
++ *   drivers/hid/hid-wiimote-core.c
++ *   drivers/hid/hid-steam.c
++ *
++ */
++
++#include "hid-ids.h"
++#include <linux/device.h>
++#include <linux/hid.h>
++#include <linux/module.h>
++#include <linux/rcupdate.h>
++#include <linux/usb.h>
++#include "usbhid/usbhid.h"
++
++enum gamecube_output {
++	GC_CMD_INIT = 0x13
++};
++
++enum gamecube_input {
++	GC_INPUT_REPORT = 0x21
++};
++
++#define GC_INPUT_REPORT_SIZE 37
++
++enum gamecube_ctrl_flags {
++	GC_FLAG_EXTRAPOWER = BIT(2),
++	GC_TYPE_NORMAL = BIT(4),
++	GC_TYPE_WAVEBIRD = BIT(5),
++	GC_TYPES = GC_TYPE_NORMAL | GC_TYPE_WAVEBIRD
++};
++
++enum gamecube_btn {
++	GC_BTN_START = BIT(0),
++	GC_BTN_Z = BIT(1),
++	GC_BTN_R = BIT(2),
++	GC_BTN_L = BIT(3),
++	GC_BTN_A = BIT(8),
++	GC_BTN_B = BIT(9),
++	GC_BTN_X = BIT(10),
++	GC_BTN_Y = BIT(11),
++	GC_BTN_DPAD_LEFT = BIT(12),
++	GC_BTN_DPAD_RIGHT = BIT(13),
++	GC_BTN_DPAD_DOWN = BIT(14),
++	GC_BTN_DPAD_UP = BIT(15),
++};
++
++struct gamecube_ctrl {
++	struct input_dev __rcu *input;
++	enum gamecube_ctrl_flags flags;
++	struct gamecube_adapter *adpt;
++	struct work_struct work_connect;
++	spinlock_t flags_lock;
++};
++
++struct gamecube_adapter {
++	struct gamecube_ctrl ctrls[4];
++	struct hid_device *hdev;
++};
++
++static int gamecube_hid_send(struct hid_device *hdev, const u8 *data, size_t n)
++{
++	u8 *buf;
++	int ret;
++
++	buf = kmemdup(data, n, GFP_KERNEL);
++	if (!buf)
++		return -ENOMEM;
++	ret = hid_hw_output_report(hdev, buf, n);
++	kfree(buf);
++	return ret;
++}
++
++static int gamecube_send_cmd_init(struct hid_device *hdev)
++{
++	const u8 initcmd[] = {GC_CMD_INIT};
++	return gamecube_hid_send(hdev, initcmd, sizeof(initcmd));
++}
++
++static const unsigned int gamecube_buttons[] = {
++	BTN_START, BTN_TR2, BTN_TR, BTN_TL,
++	BTN_SOUTH, BTN_WEST, BTN_EAST, BTN_NORTH,
++	BTN_DPAD_LEFT, BTN_DPAD_RIGHT, BTN_DPAD_DOWN, BTN_DPAD_UP
++};
++
++static const unsigned int gamecube_axes[] = {
++	ABS_X, ABS_Y, ABS_RX, ABS_RY, ABS_Z, ABS_RZ
++};
++
++static const char *gamecube_ctrl_name(u8 type)
++{
++	switch (type) {
++	case GC_TYPE_NORMAL:
++		return "Standard Gamecube Controller";
++	case GC_TYPE_WAVEBIRD:
++		return "Wavebird Gamecube Controller";
++	}
++	return NULL;
++}
++
++static int gamecube_ctrl_create(struct gamecube_ctrl *ctrl, u8 type)
++{
++	struct input_dev *input;
++	struct hid_device *hdev = ctrl->adpt->hdev;
++	const char *name;
++	unsigned int i;
++	int ret;
++
++	name = gamecube_ctrl_name(type);
++	if (!name) {
++		unsigned int num = ctrl - ctrl->adpt->ctrls;
++		hid_warn(hdev, "port %u: unknown controller plugged in\n", num + 1);
++		return -EINVAL;
++	}
++
++	input = input_allocate_device();
++	if (!input)
++		return -ENOMEM;
++
++	input_set_drvdata(input, ctrl);
++	input->id.bustype = hdev->bus;
++	input->id.vendor = hdev->vendor;
++	input->id.product = hdev->product;
++	input->id.version = hdev->version;
++	input->name = name;
++
++	for (i = 0; i < ARRAY_SIZE(gamecube_buttons); i++)
++		input_set_capability(input, EV_KEY, gamecube_buttons[i]);
++	for (i = 0; i < ARRAY_SIZE(gamecube_axes); i++)
++		input_set_abs_params(input, gamecube_axes[i], 0, 255, 0, 0);
++
++	ret = input_register_device(input);
++	if (ret)
++		goto err_free_device;
++
++	rcu_assign_pointer(ctrl->input, input);
++	return 0;
++
++err_free_device:
++	input_free_device(input);
++	return ret;
++}
++
++static void gamecube_ctrl_destroy(struct gamecube_ctrl *ctrl)
++{
++	struct input_dev *input;
++	rcu_read_lock();
++	input = rcu_dereference(ctrl->input);
++	rcu_read_unlock();
++	if (!input)
++		return;
++	RCU_INIT_POINTER(ctrl->input, NULL);
++	synchronize_rcu();
++	input_unregister_device(input);
++}
++
++static void gamecube_work_connect_cb(struct work_struct *work)
++{
++	struct gamecube_ctrl *ctrl = container_of(work, struct gamecube_ctrl, work_connect);
++	struct input_dev *input;
++	unsigned long irq_flags;
++	unsigned int num = ctrl - ctrl->adpt->ctrls;
++	u8 type;
++
++	spin_lock_irqsave(&ctrl->flags_lock, irq_flags);
++	type = ctrl->flags & GC_TYPES;
++	spin_unlock_irqrestore(&ctrl->flags_lock, irq_flags);
++
++	rcu_read_lock();
++	input = rcu_dereference(ctrl->input);
++	rcu_read_unlock();
++
++	if (type && input) {
++		hid_info(ctrl->adpt->hdev, "port %u: already connected\n", num + 1);
++	} else if (type) {
++		hid_info(ctrl->adpt->hdev, "port %u: controller plugged in\n", num + 1);
++		gamecube_ctrl_create(ctrl, type);
++	} else if (input) {
++		hid_info(ctrl->adpt->hdev, "port %u: controller unplugged\n", num + 1);
++		gamecube_ctrl_destroy(ctrl);
++	}
++}
++
++static void gamecube_ctrl_handle_report(struct gamecube_ctrl *ctrl, u8 *data)
++{
++	struct input_dev *dev;
++	u16 btns = data[1] << 8 | data[2];
++	u8 old_flags, new_flags = data[0];
++	unsigned long irq_flags;
++
++	spin_lock_irqsave(&ctrl->flags_lock, irq_flags);
++	old_flags = ctrl->flags;
++	ctrl->flags = new_flags;
++	spin_unlock_irqrestore(&ctrl->flags_lock, irq_flags);
++
++	if ((new_flags & GC_TYPES) != (old_flags & GC_TYPES)) {
++		schedule_work(&ctrl->work_connect);
++		return;
++	}
++	if (!(new_flags & GC_TYPES))
++		return;
++
++	rcu_read_lock();
++	dev = rcu_dereference(ctrl->input);
++	if (!dev)
++		goto unlock;
++
++	input_report_key(dev, BTN_START, btns & GC_BTN_START);
++	input_report_key(dev, BTN_TR2, btns & GC_BTN_Z);
++	input_report_key(dev, BTN_TR, btns & GC_BTN_R);
++	input_report_key(dev, BTN_TL, btns & GC_BTN_L);
++	input_report_key(dev, BTN_SOUTH, btns & GC_BTN_A);
++	input_report_key(dev, BTN_WEST, btns & GC_BTN_B);
++	input_report_key(dev, BTN_EAST, btns & GC_BTN_X);
++	input_report_key(dev, BTN_NORTH, btns & GC_BTN_Y);
++	input_report_key(dev, BTN_DPAD_LEFT, btns & GC_BTN_DPAD_LEFT);
++	input_report_key(dev, BTN_DPAD_RIGHT, btns & GC_BTN_DPAD_RIGHT);
++	input_report_key(dev, BTN_DPAD_DOWN, btns & GC_BTN_DPAD_DOWN);
++	input_report_key(dev, BTN_DPAD_UP, btns & GC_BTN_DPAD_UP);
++	input_report_abs(dev, ABS_X, data[3]);
++	input_report_abs(dev, ABS_Y, 255 - data[4]);
++	input_report_abs(dev, ABS_RX, data[5]);
++	input_report_abs(dev, ABS_RY, 255 - data[6]);
++	input_report_abs(dev, ABS_Z, data[7]);
++	input_report_abs(dev, ABS_RZ, data[8]);
++	input_sync(dev);
++
++unlock:
++	rcu_read_unlock();
++}
++
++static int gamecube_hid_event(struct hid_device *hdev,
++					struct hid_report *report, u8 *raw_data, int size)
++{
++	struct gamecube_adapter *adpt = hid_get_drvdata(hdev);
++	unsigned int i;
++
++	if (size < 1)
++		return -EINVAL;
++	if (size == GC_INPUT_REPORT_SIZE && raw_data[0] == GC_INPUT_REPORT) {
++		for (i = 0; i < 4; i++)
++			gamecube_ctrl_handle_report(adpt->ctrls + i, raw_data + 1 + 9 * i);
++	} else {
++		hid_warn(hdev, "unhandled event\n");
++	}
++
++	return 0;
++}
++
++static struct gamecube_adapter *gamecube_adpt_create(struct hid_device *hdev)
++{
++	struct gamecube_adapter *adpt;
++	unsigned int i;
++
++	adpt = kzalloc(sizeof(*adpt), GFP_KERNEL);
++	if (!adpt)
++		return NULL;
++
++	adpt->hdev = hdev;
++	hid_set_drvdata(hdev, adpt);
++
++	for (i = 0; i < 4; i++) {
++		adpt->ctrls[i].adpt = adpt;
++		INIT_WORK(&adpt->ctrls[i].work_connect, gamecube_work_connect_cb);
++		spin_lock_init(&adpt->ctrls[i].flags_lock);
++	}
++
++	return adpt;
++}
++
++static void gamecube_adpt_destroy(struct gamecube_adapter *adpt)
++{
++	unsigned int i;
++
++	for (i = 0; i < 4; i++) {
++		gamecube_ctrl_destroy(adpt->ctrls + i);
++	}
++	hid_hw_close(adpt->hdev);
++	hid_hw_stop(adpt->hdev);
++	kfree(adpt);
++}
++
++/* This is needed, as by default the URB buffer size is set to 38, which is
++ * one byte too long and will result in EOVERFLOW failures.
++ */
++static int gamecube_fixup_urb_in(struct gamecube_adapter *adpt)
++{
++	struct hid_device *hdev = adpt->hdev;
++	struct usbhid_device *usbhid;
++
++	if (!hid_is_using_ll_driver(hdev, &usb_hid_driver))
++		return -EINVAL;
++	usbhid = hdev->driver_data;
++	if (usbhid->urbin->transfer_buffer_length < GC_INPUT_REPORT_SIZE)
++		return -EINVAL;
++	usbhid->urbin->transfer_buffer_length = GC_INPUT_REPORT_SIZE;
++	return 0;
++}
++
++static int gamecube_hid_probe(struct hid_device *hdev,
++				const struct hid_device_id *id)
++{
++	struct gamecube_adapter *adpt;
++	int ret;
++
++	adpt = gamecube_adpt_create(hdev);
++	if (!adpt) {
++		hid_err(hdev, "Can't alloc device\n");
++		return -ENOMEM;
++	}
++
++	ret = hid_parse(hdev);
++	if (ret) {
++		hid_err(hdev, "HID parse failed\n");
++		goto err;
++	}
++
++	ret = hid_hw_start(hdev, HID_CONNECT_HIDRAW);
++	if (ret) {
++		hid_err(hdev, "HW start failed\n");
++		goto err;
++	}
++
++	ret = hid_hw_open(hdev);
++	if (ret) {
++		hid_err(hdev, "cannot start hardware I/O\n");
++		goto err_stop;
++	}
++
++	ret = gamecube_fixup_urb_in(adpt);
++	if (ret) {
++		hid_err(hdev, "failed to fix input URB\n");
++		goto err_close;
++	}
++
++	ret = gamecube_send_cmd_init(hdev);
++	if (ret < 0) {
++		hid_err(hdev, "failed to send init command\n");
++		goto err_close;
++	}
++
++	hid_info(hdev, "new adapter registered\n");
++	return 0;
++
++err_close:
++	hid_hw_close(hdev);
++err_stop:
++	hid_hw_stop(hdev);
++err:
++	kfree(adpt);
++	return ret;
++}
++
++static void gamecube_hid_remove(struct hid_device *hdev)
++{
++	struct gamecube_adapter *adpt = hid_get_drvdata(hdev);
++
++	hid_info(hdev, "adapter removed\n");
++	gamecube_adpt_destroy(adpt);
++}
++
++static const struct hid_device_id gamecube_hid_devices[] = {
++	{ HID_USB_DEVICE(USB_VENDOR_ID_NINTENDO,
++			 USB_DEVICE_ID_NINTENDO_GAMECUBE_ADAPTER) },
++	{ }
++};
++MODULE_DEVICE_TABLE(hid, gamecube_hid_devices);
++
++static struct hid_driver gamecube_hid_driver = {
++	.name		= "gamecube-adapter",
++	.id_table	= gamecube_hid_devices,
++	.probe		= gamecube_hid_probe,
++	.remove		= gamecube_hid_remove,
++	.raw_event	= gamecube_hid_event,
++};
++module_hid_driver(gamecube_hid_driver);
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("François-Xavier Carton <fx.carton91@gmail.com>");
++MODULE_DESCRIPTION("Driver for Nintendo Gamecube Controller Adapters");
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index b18b13147a6f..1ebea811ea3b 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -882,6 +882,7 @@
+ #define USB_VENDOR_ID_NINTENDO		0x057e
+ #define USB_DEVICE_ID_NINTENDO_WIIMOTE	0x0306
+ #define USB_DEVICE_ID_NINTENDO_WIIMOTE2	0x0330
++#define USB_DEVICE_ID_NINTENDO_GAMECUBE_ADAPTER	0x0337
+ 
+ #define USB_VENDOR_ID_NOVATEK		0x0603
+ #define USB_DEVICE_ID_NOVATEK_PCT	0x0600
+-- 
+2.26.2
+
+
+--zhXaljGHf11kAtnf--
