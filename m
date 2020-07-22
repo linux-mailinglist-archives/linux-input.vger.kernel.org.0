@@ -2,131 +2,199 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 552682292C4
-	for <lists+linux-input@lfdr.de>; Wed, 22 Jul 2020 09:58:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45B84229B49
+	for <lists+linux-input@lfdr.de>; Wed, 22 Jul 2020 17:24:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726161AbgGVH6h (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 Jul 2020 03:58:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47534 "EHLO
+        id S1732633AbgGVPXu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 22 Jul 2020 11:23:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726153AbgGVH6g (ORCPT
+        with ESMTP id S1728812AbgGVPXt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 Jul 2020 03:58:36 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 926C1C0619DC
-        for <linux-input@vger.kernel.org>; Wed, 22 Jul 2020 00:58:36 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id z24so1469213ljn.8
-        for <linux-input@vger.kernel.org>; Wed, 22 Jul 2020 00:58:36 -0700 (PDT)
+        Wed, 22 Jul 2020 11:23:49 -0400
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A1D7C0619DC;
+        Wed, 22 Jul 2020 08:23:49 -0700 (PDT)
+Received: by mail-qt1-x843.google.com with SMTP id e7so2111096qti.1;
+        Wed, 22 Jul 2020 08:23:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QbAV89qrrKIACpY0C/Mhq61biM+O6+R6Lj7W2yCr7hE=;
-        b=EjDgkA/6Lu/0hNTaBhbuYESga8oUhfGm8xhz9KLlnfXT4czTKSTkMgTbZqw0JFBGqU
-         JbKxSd7MlZyg4/weQYKftlDihDF4oapNklC6ruSOvEyLI4c4YpVXjfkBLuR0aMtRFdwt
-         O9zMif53znpncvq6j1jVErNrJBXxW0a1yKkZlcofjNVGI2NWRoa96s1SbuLU2hqanFYJ
-         x6drfG/w766jim4YwOjIEWDjRUqgf4hxFzDyJ9yrLb2ewWJbApCq+KO6uk/Rk4nLIW2z
-         OkvcsbHpSinnHWhGs//GZz1+SlIHNdEMIcCKQHJsAxZFY+hgpp7T+hVxgAqwudqi3mcs
-         IQxA==
+        d=gmail.com; s=20161025;
+        h=from:subject:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=szq1EIALXI1InaxXczbdpSUPUkPqU/Qn6lzK/O+OxWc=;
+        b=CAEQLD0OIy3i76OKUVUS9iV+HfgTRqQh4zszhLDC4LN7XC5ZyA0o6CufBfhJxn4HO8
+         rH2qq5xY5Ex9GAc6mWgK1ej2k75dsWoGhYOwOvcT1chpP4OzZQ1/xAfEje5rEuEcgXXr
+         l4Q8QC6jP3o3uok4YZMv4sNc4v9bZzljJaj47Xi1leBMAiZwN8hUV37/luAgXoQbdgMX
+         GC7TS4nwFR79LtFHFQ2rcpFXYuBF8CWcYw3ZBrK7J5JWmfzpA0eGwaS00W/Es/iHZ8YF
+         lqi8H3YxWX7fTaZxvuFLKRwzi9sXVvNFt+YRzZio29P+RxmqIqbSKN3vnf07XH0X3bvu
+         DcPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=QbAV89qrrKIACpY0C/Mhq61biM+O6+R6Lj7W2yCr7hE=;
-        b=hQhl0CzoIRaIEHUzgTX+SHDMDo5X1LQTbs/TY4hQUbEoy/je/7Xh08lJp++YXygZHb
-         35GWfioKIvhwu2hnjfNwbKDSgdXL+hnGMWUlUr0vqS3oddni+GzYSZpirM8Ca5eo1tHF
-         Zod/ChLOkK7Hgv0T5oEx369wFQ0wgCbOh+s0Gdc3StnkofgHa7vSEWOQS3cvWdt5SSxN
-         CLnsLUtnvD6c+vsGHGdkPLcZwxfw8J471AfHKWgupmHfHdj7JtajsP3xKWif/97wGGgM
-         xL/OirZ69JByw1M0bGAE+Za4PirVoPbB2nN6geIj6Fzp0vWtk3beYUCwDAT5sH6bePNq
-         wV/A==
-X-Gm-Message-State: AOAM533hfYswHN5iIqr1JIjsBSMGp1cKFbWbaeXO822BxCfqlZFaCu+1
-        KgAxCKrvbfB177T6VPzdW8UkGw==
-X-Google-Smtp-Source: ABdhPJzLnS1C+cYDICXQhydYgEAy6QBOg2MQluGJGPIi2S0FgGVgpeBunpNHuZ8o1bSnFrEcK2pfNg==
-X-Received: by 2002:a2e:9207:: with SMTP id k7mr14228507ljg.120.1595404715023;
-        Wed, 22 Jul 2020 00:58:35 -0700 (PDT)
-Received: from localhost.localdomain (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
-        by smtp.gmail.com with ESMTPSA id h15sm6184322ljj.105.2020.07.22.00.58.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2020 00:58:34 -0700 (PDT)
-From:   Linus Walleij <linus.walleij@linaro.org>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Eudean Sun <eudean@arista.com>,
-        =?UTF-8?q?S=C3=A9bastien=20Szymanski?= 
-        <sebastien.szymanski@armadeus.com>
-Subject: [PATCH] HID: cp2112: Use irqchip template
-Date:   Wed, 22 Jul 2020 09:56:32 +0200
-Message-Id: <20200722075632.57962-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.26.2
+        bh=szq1EIALXI1InaxXczbdpSUPUkPqU/Qn6lzK/O+OxWc=;
+        b=VG2Y4Kqz/2RMKYYEpt/e2hH11p4o0iAr6tlm/iPC0G8+Xmo8q388cTtYjjY7oVoe6P
+         EX4IexiNuCm+sM0NLhmQA5WrVNT0sbPiS7piKEil0H7smRyRJ+MshYfDZgnU+/KBsmJX
+         o13hQB2GBpFIB14MyaTbjZfCRoZjs/9B36Ly1oay/ojWIaHMRu+OM0V0FC2lkMApwDR4
+         acOK98AnB56zrGC4gKhdhLbWDcyFwgH5ryqeRbdWkguOTo+xCyshGs7eDUpEmrX7aRjg
+         wCy2MIqBDkYRmdcMxl+N0lJsObBpIuPRbK+UdrCNeZsCNLgLxEJmiIzxpSdMrngrgUPB
+         4oMg==
+X-Gm-Message-State: AOAM5300//bfKV6AS5anhT68IxglKuP+UpWrFK3HgW0IFWWL4mjEHuAb
+        BO4NK9HbKYDDtZ+Vkm/I5TI=
+X-Google-Smtp-Source: ABdhPJyzsK6HT8/HMfmXsVfQBXHE3dyaA10OKIOIE/mnJ3TL4vgh3TQyfKIKhLOQA5bCg8/9sOPv5Q==
+X-Received: by 2002:ac8:41c6:: with SMTP id o6mr33903563qtm.292.1595431428291;
+        Wed, 22 Jul 2020 08:23:48 -0700 (PDT)
+Received: from ?IPv6:2620:10d:c0a8:11e1::10da? ([2620:10d:c091:480::1:4a2])
+        by smtp.gmail.com with ESMTPSA id d8sm6953qtr.12.2020.07.22.08.23.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jul 2020 08:23:46 -0700 (PDT)
+From:   Jes Sorensen <jes.sorensen@gmail.com>
+X-Google-Original-From: Jes Sorensen <Jes.Sorensen@gmail.com>
+Subject: Re: [PATCH v16 3/3] Input: new da7280 haptic driver
+To:     Roy Im <roy.im.opensource@diasemi.com>,
+        Uwe Kleine-Koenig <u.kleine-koenig@pengutronix.de>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Brian Masney <masneyb@onstation.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Pascal PAILLET-LME <p.paillet@st.com>,
+        Rob Herring <robh@kernel.org>,
+        Samuel Ortiz <sameo@linux.intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+Cc:     Support Opensource <support.opensource@diasemi.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+References: <cover.1594279649.git.Roy.Im@diasemi.com>
+ <b02ba5b5dbd3d58f27440ba639d32e4405061df3.1594279649.git.Roy.Im@diasemi.com>
+Message-ID: <bdc76da9-9223-b6d9-1fc1-2ef6e3b7afa7@gmail.com>
+Date:   Wed, 22 Jul 2020 11:23:45 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <b02ba5b5dbd3d58f27440ba639d32e4405061df3.1594279649.git.Roy.Im@diasemi.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This makes the driver use the irqchip template to assign
-properties to the gpio_irq_chip instead of using the
-explicit calls to gpiochip_irqchip_add(). The irqchip is
-instead added while adding the gpiochip.
+On 7/9/20 3:27 AM, Roy Im wrote:
+> Adds support for the Dialog DA7280 LRA/ERM Haptic Driver with
+> multiple mode and integrated waveform memory and wideband support.
+> It communicates via an I2C bus to the device.
+> 
+> Signed-off-by: Roy Im <roy.im.opensource@diasemi.com>
+> ---
+> v16:
+> 	- Corrected some code and updated description in Kconfig.
+> v15:
+> 	- Removed some defines and updated some comments.
+> v14:
+> 	- Updated pwm related code, alignments and comments.
+> v13:
+> 	- Updated some conditions in pwm function and alignments.
+> v12: No changes.
+> v11: 
+> 	- Updated the pwm related code, comments and typo.
+> v10: 
+> 	- Updated the pwm related function and added some comments.
+> v9: 
+> 	- Removed the header file and put the definitions into the c file.
+> 	- Updated the pwm code and error logs with %pE
+> v8: 
+> 	- Added changes to support FF_PERIODIC/FF_CUSTOM and FF_CONSTANT.
+> 	- Updated the dt-related code.
+> 	- Removed memless related functions.
+> v7: 
+> 	- Added more attributes to handle one value per file.
+> 	- Replaced and updated the dt-related code and functions called.
+> 	- Fixed error/functions.
+> v6: No changes.
+> v5: Fixed errors in Kconfig file.
+> v4: Updated code as dt-bindings are changed.
+> v3: No changes.
+> v2: Fixed kbuild error/warning
+> 
+> 
+>  drivers/input/misc/Kconfig  |   13 +
+>  drivers/input/misc/Makefile |    1 +
+>  drivers/input/misc/da7280.c | 1840 +++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 1854 insertions(+)
+>  create mode 100644 drivers/input/misc/da7280.c
 
-Cc: Eudean Sun <eudean@arista.com>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: Sébastien Szymanski <sebastien.szymanski@armadeus.com>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- drivers/hid/hid-cp2112.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+Hi Roy,
 
-diff --git a/drivers/hid/hid-cp2112.c b/drivers/hid/hid-cp2112.c
-index db1b55df0d13..222340e27e5f 100644
---- a/drivers/hid/hid-cp2112.c
-+++ b/drivers/hid/hid-cp2112.c
-@@ -1235,6 +1235,7 @@ static int cp2112_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	struct cp2112_device *dev;
- 	u8 buf[3];
- 	struct cp2112_smbus_config_report config;
-+	struct gpio_irq_chip *girq;
- 	int ret;
- 
- 	dev = devm_kzalloc(&hdev->dev, sizeof(*dev), GFP_KERNEL);
-@@ -1338,6 +1339,15 @@ static int cp2112_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	dev->gc.can_sleep		= 1;
- 	dev->gc.parent			= &hdev->dev;
- 
-+	girq = &dev->gc.irq;
-+	girq->chip = &cp2112_gpio_irqchip;
-+	/* The event comes from the outside so no parent handler */
-+	girq->parent_handler = NULL;
-+	girq->num_parents = 0;
-+	girq->parents = NULL;
-+	girq->default_type = IRQ_TYPE_NONE;
-+	girq->handler = handle_simple_irq;
-+
- 	ret = gpiochip_add_data(&dev->gc, dev);
- 	if (ret < 0) {
- 		hid_err(hdev, "error registering gpio chip\n");
-@@ -1353,17 +1363,8 @@ static int cp2112_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 	chmod_sysfs_attrs(hdev);
- 	hid_hw_power(hdev, PM_HINT_NORMAL);
- 
--	ret = gpiochip_irqchip_add(&dev->gc, &cp2112_gpio_irqchip, 0,
--				   handle_simple_irq, IRQ_TYPE_NONE);
--	if (ret) {
--		dev_err(dev->gc.parent, "failed to add IRQ chip\n");
--		goto err_sysfs_remove;
--	}
--
- 	return ret;
- 
--err_sysfs_remove:
--	sysfs_remove_group(&hdev->dev.kobj, &cp2112_attr_group);
- err_gpiochip_remove:
- 	gpiochip_remove(&dev->gc);
- err_free_i2c:
--- 
-2.26.2
+Overall the driver looks pretty good now. I did find one issue, see
+below. If you fix that I am happy to add a Reviewed-by line.
 
+Reviewed-By: Jes Sorensen <Jes.Sorensen@gmail.com>
+
+> diff --git a/drivers/input/misc/da7280.c b/drivers/input/misc/da7280.c
+> new file mode 100644
+> index 0000000..c8c42ac
+> --- /dev/null
+> +++ b/drivers/input/misc/da7280.c
+
+[snip]
+
+> +static int da7280_haptic_set_pwm(struct da7280_haptic *haptics, bool enabled)
+> +{
+> +	struct pwm_state state;
+> +	u64 period_mag_multi;
+> +	int error;
+> +
+> +	if (!haptics->gain && enabled) {
+> +		dev_err(haptics->dev,
+> +			"Please set the gain first for the pwm mode\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	pwm_get_state(haptics->pwm_dev, &state);
+> +	state.enabled = enabled;
+> +	if (enabled) {
+> +		period_mag_multi = state.period * haptics->gain;
+
+You are multiplying an unsigned int to a u16 and storing it in a u64.
+However, C doesn't promote the types, so you'll end up with an
+unexpected result here. You can fix it by promoting state.period to u64, ie:
+
+		period_mage_multi = (u64)state.period * haptics->gain;
+
+See the following example code which demonstrates the problem.
+
+#include <stdio.h>
+#include <stdint.h>
+
+uint64_t foo(unsigned int a, uint16_t b)
+{
+	uint64_t tmp = a * b;
+	return tmp;
+}
+
+uint64_t bar(unsigned int a, uint16_t b)
+{
+	uint64_t tmp = (uint64_t)a * b;
+	return tmp;
+}
+
+int main()
+{
+	uint64_t val;
+	unsigned int a = 0xff00ff00;
+	uint16_t b = 0x200;
+
+	val = foo(a, b);
+	printf("result(%0x, %0x) = %0llx\n", a, b, val);
+
+	val = bar(a, b);
+	printf("result(%0x, %0x) = %0llx\n", a, b, val);
+}
+
+Cheers,
+Jes
