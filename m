@@ -2,48 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BED1D22A32B
-	for <lists+linux-input@lfdr.de>; Thu, 23 Jul 2020 01:36:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 732C522A339
+	for <lists+linux-input@lfdr.de>; Thu, 23 Jul 2020 01:43:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729486AbgGVXgb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 Jul 2020 19:36:31 -0400
-Received: from mail-dm6nam10on2093.outbound.protection.outlook.com ([40.107.93.93]:64672
-        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726447AbgGVXga (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 Jul 2020 19:36:30 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DOJR7fbLwpEwaEaKmKTE7PRQO0ZPaW6nVtVSyyLczOSLnJVdvftDTQp02lk72xvIW8FKRWPNzB0+sFKgUEQNgWHEHYvefBpdrKbW+X356QUcs/950fat9H0vYci0PjZdnPqYKCyTuGzc/K4BQsew8IVobwhjcGwhpAmtyFo3Hznpxi4jSYp57WXKqH4Y6uvtdiyOpiko+LE0e/HWhV8QoUu+d49F2gj9Fijjx8P15iYaVZeuAQm+LHRlBoztB9+GTvkXwUE07DOmJo5uru9NyeUEnzqUqnhU+8Sz9EkSGYYBO+4JGCUVZsrVT+Dg1WUI6RMyIG31HwCPs4jbv0DkWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GwVZouGpBSEgbqRjpcHlHpYAkJzK9W/s6rqvMshw0Y4=;
- b=IQ/t9EO7v0twslPA+PQcoXFJ3XDfK452uSO03nYMzZI9Y3MXv1+YYj/Z4j/HRxm6wOvB0CVrtlgYmC9ajamhR4crJJiNMixE7XHtgfWY3plKr95PzGW2cZj42wg/UaCdnUOi1EhhGopyekujFrwGkkSGCOSuIrqLJSi5R4LMDCcUGJY//vH/FL5qK9qHzxPSju2spYRNUllKjfLLmPVMs/QR9cuswdEtw+XfULZfNyIQPe5hSMqqLzkaLk/r+bg+yeH7UJHPY30VrvLfJIi6BMioXeiOoZw+jfDrN8CoXlNl1JyEgiGJRL2MZb4OilICom4XM2vNz0f6sDfZpdauCQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GwVZouGpBSEgbqRjpcHlHpYAkJzK9W/s6rqvMshw0Y4=;
- b=hDqogZ5tIS6tT/H45FgRNOvahoOS/NyHnlsTal36WMIx6g0tE8zSWTAD+uqcMFFNFPcTEI1hs8rN9nY5e7TQg46938MlHlBiPgMmw8Z+jeDHKqpZ99P3JxcuiyZTeuVBRcYSUAM84LGzWJ4F4lx2Yw4HPHJWa0JLW7zulq+0QAY=
-Received: from MW2PR2101MB1052.namprd21.prod.outlook.com (2603:10b6:302:a::16)
- by MW2PR2101MB1849.namprd21.prod.outlook.com (2603:10b6:302:7::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.5; Wed, 22 Jul
- 2020 23:36:20 +0000
-Received: from MW2PR2101MB1052.namprd21.prod.outlook.com
- ([fe80::fc14:3ca6:8a8:7407]) by MW2PR2101MB1052.namprd21.prod.outlook.com
- ([fe80::fc14:3ca6:8a8:7407%8]) with mapi id 15.20.3239.005; Wed, 22 Jul 2020
- 23:36:20 +0000
-From:   Michael Kelley <mikelley@microsoft.com>
-To:     Boqun Feng <boqun.feng@gmail.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        id S1733092AbgGVXn0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 22 Jul 2020 19:43:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53482 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728607AbgGVXn0 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 22 Jul 2020 19:43:26 -0400
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com [IPv6:2607:f8b0:4864:20::f43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C788C0619DC;
+        Wed, 22 Jul 2020 16:43:26 -0700 (PDT)
+Received: by mail-qv1-xf43.google.com with SMTP id h17so1859318qvr.0;
+        Wed, 22 Jul 2020 16:43:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=l2HmVTWQFrIyLYEF4wtnm+j+dX6dmQDOMb0wFULihaY=;
+        b=Roh2VRSQqjg3YvlHRwXYWPTStlTwk4zQWTNPrBykssmo2LuF3KWzn799ESJ8by8rvn
+         ZdaLxmoRLr6AP5cXIl3Mm/P/lyGxmlZ2ysanTvmyx+z6tnI50aq98BhTu3+T7IQpmHiM
+         d9mHOjodbqhmm/dZrcsgACpleooAB3RLzI9Tz4OddNe2+cOE1VjTpkkmw5MlK0UlSL6P
+         RBbS1NvUZYZAze4ctI1cq3JjqRzB8TPoWvtoRxdYj2G6NuWJ03eraunKbc54BQUe6OEe
+         6ilAsnLYEhVCFZRYL289q5knpRrRXFRoAriXAsE2nDWUg8Bgy8hZ502KpzkD/YFbFT+T
+         ognQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=l2HmVTWQFrIyLYEF4wtnm+j+dX6dmQDOMb0wFULihaY=;
+        b=V+C794BJYrApci8hQIr7P5E6Hk+brtwCbXtlG8hbROKJ3R2zRw1SzAhFhW1HQDrFPm
+         egkeutTYUc0GbaXnPCMwcgIQ1MZDsSdKz1FpN2MHTXPdP4MXZ4vdgVW/XquEIfhfR5eW
+         arj28/3vIpBlVxRGo6GXGtPVBnEkTfXigapcPNmvaT9QmXLai0zvGHwYLAd2RzoFJLCb
+         zen99BAohvQ63GB/Wg2hcKik8vXxdPrJO8f+L5o6A+/TekOqg00IjFhzTa4MVjJHWWSz
+         coWa9U4clgj2eAh4Ni5RIeW38D9PZjEtSCRdaZz6tft/tSNhiBsA6Zvja7yu5L5UGVtU
+         vxag==
+X-Gm-Message-State: AOAM531XI4vVtig+Ln2pGQVrjB+rn26TVnrogGXkRT1huubjU7gDqJC1
+        pX7KUKk3A3IDQD4XT4axLWU=
+X-Google-Smtp-Source: ABdhPJy1f6boTE7FhwbHIyGPT+niBuJDADUvSj79UA7pGCTwufgaEZ8jshAaBRnnUAY0FYxrJoMy7g==
+X-Received: by 2002:ad4:4105:: with SMTP id i5mr2375780qvp.170.1595461405233;
+        Wed, 22 Jul 2020 16:43:25 -0700 (PDT)
+Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
+        by smtp.gmail.com with ESMTPSA id n127sm1254128qke.29.2020.07.22.16.43.24
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 22 Jul 2020 16:43:24 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 3254827C0054;
+        Wed, 22 Jul 2020 19:43:24 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Wed, 22 Jul 2020 19:43:24 -0400
+X-ME-Sender: <xms:G88YX6agW9mvoM2HasZTNFTyWyvJ65ka30j4rTxNI6j8j_x0BEBo5g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrhedtgddviecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcu
+    hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtth
+    gvrhhnpedvleeigedugfegveejhfejveeuveeiteejieekvdfgjeefudehfefhgfegvdeg
+    jeenucfkphephedvrdduheehrdduuddurdejudenucevlhhushhtvghrufhiiigvpedtne
+    curfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghr
+    shhonhgrlhhithihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvg
+    hngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvg
+X-ME-Proxy: <xmx:G88YX9amVjMuo2L7hp5gmXUqAfcA0ObM4Cibhawg6jWZzc-Cb3T84Q>
+    <xmx:G88YX0-lcQ5iokj1nfQGLu9xhJpeSfXSH5BwipWQ2S01ZCIpd0dIng>
+    <xmx:G88YX8rIn2zD1Fq8g14ZL5BPVUQ7m7Xxcy1_iCiRko6eGWzCMc8-Jg>
+    <xmx:HM8YXwDJ9MIK2Q9kuXGp7LoQm_ULlPgCG9hQ89kcmzuYn7lv2nC3VQ4-grQ>
+Received: from localhost (unknown [52.155.111.71])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 31E1C328005A;
+        Wed, 22 Jul 2020 19:43:23 -0400 (EDT)
+Date:   Thu, 23 Jul 2020 07:43:21 +0800
+From:   Boqun Feng <boqun.feng@gmail.com>
+To:     Michael Kelley <mikelley@microsoft.com>
+Cc:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
         "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>
-CC:     KY Srinivasan <kys@microsoft.com>,
+        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+        KY Srinivasan <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>, Jiri Kosina <jikos@kernel.org>,
@@ -53,91 +89,170 @@ CC:     KY Srinivasan <kys@microsoft.com>,
         Jakub Kicinski <kuba@kernel.org>,
         "James E.J. Bottomley" <jejb@linux.ibm.com>,
         "Martin K. Petersen" <martin.petersen@oracle.com>
-Subject: RE: [RFC 09/11] HID: hyperv: Make ringbuffer at least take two pages
-Thread-Topic: [RFC 09/11] HID: hyperv: Make ringbuffer at least take two pages
-Thread-Index: AQHWXwAnmlUu9XIV40S6+D4F8ioDMqkUQ2XQ
-Date:   Wed, 22 Jul 2020 23:36:15 +0000
-Message-ID: <MW2PR2101MB10524E4C2DB9FBADEF887165D7790@MW2PR2101MB1052.namprd21.prod.outlook.com>
+Subject: Re: [RFC 03/11] Drivers: hv: vmbus: Introduce types of GPADL
+Message-ID: <20200722234321.GC35358@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
 References: <20200721014135.84140-1-boqun.feng@gmail.com>
- <20200721014135.84140-10-boqun.feng@gmail.com>
-In-Reply-To: <20200721014135.84140-10-boqun.feng@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2020-07-22T23:36:13Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=b5faba3b-3e0f-4702-9b21-bf88bb383024;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=microsoft.com;
-x-originating-ip: [24.22.167.197]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 4d9d3e7a-160b-4fca-7c86-08d82e9809c3
-x-ms-traffictypediagnostic: MW2PR2101MB1849:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MW2PR2101MB18498D9714F4864EBF43AD67D7790@MW2PR2101MB1849.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: e3Ejb98qkyTLx5H2U9E9JLmq2aabRzEE9gMj4WvkJaoMRFmssKHSJU8rwLPxxpN5wq+gJcot8/99ZLK92SkjfVgfu7lXYEXGb2LmOVjHrMUXLVna5ug/+qcPO3JY5H70VOZQI9e+Xfv6lul+2+HewT8U0+hkvrlTosYzRNJjQ0VMV7O/6y4hao5MJzCuCfvB5DuiTf4fNSvxXIIhATOGV7LmKfE9tB1PON4AdqOiWdnfBko+qbfk9sdjGTv8Oo5cPfO5NG6Umq2quBfLWkCrkyHGSeivsJkosbA2s0QvcJM1O+iNPAp9NY9he4Ai7KmeeG5d45H/m1x3N4cWFOzqRw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR2101MB1052.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(396003)(136003)(39860400002)(346002)(376002)(366004)(71200400001)(54906003)(110136005)(5660300002)(4326008)(2906002)(316002)(6666004)(8990500004)(86362001)(55016002)(52536014)(7416002)(9686003)(76116006)(66946007)(64756008)(66556008)(66476007)(66446008)(8936002)(26005)(83380400001)(186003)(82950400001)(10290500003)(33656002)(6506007)(7696005)(478600001)(8676002)(82960400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: wsliCfEwL1oec4M+7Zm3Rk4IXaGUS7Oq/tzV03hXNu/8oWj2K+1tqheTELOTIcf8jQoImKStKoTOga/rUfOw0fMnAdSSCpo7JvwWwIPmzTf/nq2XAkbHXtlXYI2yNw0cHf+J9ONe8A9Q2xV/bZNGxIjjnlvZHeCZyICDTHirPqPE6eBWkTNJlvOWIAT2nGiD1eM/17bNCkww0j3vSMSDWrJt1sdCy3c5wrM9aVxYGxZAlYUblX9bpafoeR4kjVGu6sHObchucrXQ+I0ImUuvPdssY1nuk8k3z1ZjUT8cwRy30p9h6oXXrz/k/Y9Ii2+0+BaFISzMoDu6icm8Zn+Xs4nd6GPh6eeVyZFmugphfAjO3weq0SfQaxgA9llUZmSf9ZdVr83NLxfabsZHBQZAIampcLHRRohyptX0ko9PK1R48BQIn5nV/XJzJX6ddd21a+1tCFTYxvgjSVzFIRjvsbkygXwSeRwnvorwCU98xeBpleszEbex0ob/KYaisWiKGmGTKPlwb+u9+LaLiRh1FPVyf0JXlTXh0kajCaKivvLXXIVKeblziF8cRyGmfVJTrL649YC61SLaFKBjZ4qKoo1yOtrm/oRNwoLEzWAOPRgcuOZqCuB7elnaHbD6/EqCZlAfUwI9iyR9kv/4+aiLPw==
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ <20200721014135.84140-4-boqun.feng@gmail.com>
+ <MW2PR2101MB1052E3D15D411A5DC62A60F2D7790@MW2PR2101MB1052.namprd21.prod.outlook.com>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR2101MB1052.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4d9d3e7a-160b-4fca-7c86-08d82e9809c3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jul 2020 23:36:15.8845
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: j4mFeE/6btu381LIiOMjbXPWNHoNh9jqpStGRLgHHObRAa0cBQRRH+3lwrfVmfMTs5yeub+YeKUw/2jC7PCOD9PJKS/9/rjWNY9fC8Ae1Kk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR2101MB1849
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <MW2PR2101MB1052E3D15D411A5DC62A60F2D7790@MW2PR2101MB1052.namprd21.prod.outlook.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Boqun Feng <boqun.feng@gmail.com> Sent: Monday, July 20, 2020 6:42 PM
->=20
-> When PAGE_SIZE > HV_HYP_PAGE_SIZE, we need the ringbuffer size to be at
-> least 2 * PAGE_SIZE: one page for the header and at least one page of
-> the data part (because of the alignment requirement for double mapping).
->=20
-> So make sure the ringbuffer sizes to be at least 2 * PAGE_SIZE when
-> using vmbus_open() to establish the vmbus connection.
->=20
-> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
-> ---
->  drivers/hid/hid-hyperv.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/hid/hid-hyperv.c b/drivers/hid/hid-hyperv.c
-> index 0b6ee1dee625..36c5e157c691 100644
-> --- a/drivers/hid/hid-hyperv.c
-> +++ b/drivers/hid/hid-hyperv.c
-> @@ -104,8 +104,8 @@ struct synthhid_input_report {
->=20
->  #pragma pack(pop)
->=20
-> -#define INPUTVSC_SEND_RING_BUFFER_SIZE		(40 * 1024)
-> -#define INPUTVSC_RECV_RING_BUFFER_SIZE		(40 * 1024)
-> +#define INPUTVSC_SEND_RING_BUFFER_SIZE		(128 * 1024)
-> +#define INPUTVSC_RECV_RING_BUFFER_SIZE		(128 * 1024)
+On Wed, Jul 22, 2020 at 11:25:18PM +0000, Michael Kelley wrote:
+> From: Boqun Feng <boqun.feng@gmail.com> Sent: Monday, July 20, 2020 6:41 PM
+> > 
+> > This patch introduces two types of GPADL: HV_GPADL_{BUFFER, RING}. The
+> > types of GPADL are purely the concept in the guest, IOW the hypervisor
+> > treat them as the same.
+> > 
+> > The reason of introducing the types of GPADL is to support guests whose
+> > page size is not 4k (the page size of Hyper-V hypervisor). In these
+> > guests, both the headers and the data parts of the ringbuffers need to
+> > be aligned to the PAGE_SIZE, because 1) some of the ringbuffers will be
+> > mapped into userspace and 2) we use "double mapping" mechanism to
+> > support fast wrap-around, and "double mapping" relies on ringbuffers
+> > being page-aligned. However, the Hyper-V hypervisor only uses 4k
+> > (HV_HYP_PAGE_SIZE) headers. Our solution to this is that we always make
+> > the headers of ringbuffers take one guest page and when GPADL is
+> > established between the guest and hypervisor, the only first 4k of
+> > header is used. To handle this special case, we need the types of GPADL
+> > to differ different guest memory usage for GPADL.
+> > 
+> > Type enum is introduced along with several general interfaces to
+> > describe the differences between normal buffer GPADL and ringbuffer
+> > GPADL.
+> > 
+> > Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+> > ---
+> >  drivers/hv/channel.c   | 140 +++++++++++++++++++++++++++++++++++------
+> >  include/linux/hyperv.h |  44 ++++++++++++-
+> >  2 files changed, 164 insertions(+), 20 deletions(-)
+> 
+> [snip]
+> 
+> > 
+> > 
+> > @@ -437,7 +528,17 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
+> >  	open_msg->openid = newchannel->offermsg.child_relid;
+> >  	open_msg->child_relid = newchannel->offermsg.child_relid;
+> >  	open_msg->ringbuffer_gpadlhandle = newchannel->ringbuffer_gpadlhandle;
+> > -	open_msg->downstream_ringbuffer_pageoffset = newchannel-
+> > >ringbuffer_send_offset;
+> > +	/*
+> > +	 * The unit of ->downstream_ringbuffer_pageoffset is HV_HYP_PAGE and
+> > +	 * the unit of ->ringbuffer_send_offset is PAGE, so here we first
+> > +	 * calculate it into bytes and then convert into HV_HYP_PAGE. Also
+> > +	 * ->ringbuffer_send_offset is the offset in guest, while
+> > +	 * ->downstream_ringbuffer_pageoffset is the offset in gpadl (i.e. in
+> > +	 * hypervisor), so a (PAGE_SIZE - HV_HYP_PAGE_SIZE) gap need to be
+> > +	 * skipped.
+> > +	 */
+> > +	open_msg->downstream_ringbuffer_pageoffset =
+> > +		((newchannel->ringbuffer_send_offset << PAGE_SHIFT) - (PAGE_SIZE -
+> > HV_HYP_PAGE_SIZE)) >> HV_HYP_PAGE_SHIFT;
+> 
+> I couldn't find that the "downstream_ringbuffer_pageoffset" field
+> is used anywhere.  Can it just be deleted entirely instead of having
+> this really messy calculation?
+> 
 
-Use max(40 * 1024, 2 * PAGE_SIZE) like in patch 8 of the series?
+This field is part of struct vmbus_channel_open_channel, which means
+guest-hypervisor communication protocal requires us to set the field,
+IIUC. So I don't think we can delete it.
 
->=20
->=20
->  enum pipe_prot_msg_type {
-> --
-> 2.27.0
+To deal with the messy calculation, I do realize there is a similar
+calculation in hv_gpadl_hvpfn() too, so in the next version, I will
+add a new helper to do this "send offset in guest virtual address to
+send offset in GPADL calculation", and use it here and in
+hv_gpadl_hvpfn(). Thoughts?
 
+> >  	open_msg->target_vp = newchannel->target_vp;
+> > 
+> >  	if (userdatalen)
+> > @@ -497,6 +598,7 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
+> >  	return err;
+> >  }
+> > 
+> > +
+> 
+> Spurious add of a blank line?
+> 
+
+Yeah, I will fix this, thanks!
+
+Regards,
+Boqun
+
+> >  /*
+> >   * vmbus_connect_ring - Open the channel but reuse ring buffer
+> >   */
+> > diff --git a/include/linux/hyperv.h b/include/linux/hyperv.h
+> > index 692c89ccf5df..663f0a016237 100644
+> > --- a/include/linux/hyperv.h
+> > +++ b/include/linux/hyperv.h
+> > @@ -29,6 +29,48 @@
+> > 
+> >  #pragma pack(push, 1)
+> > 
+> > +/*
+> > + * Types for GPADL, decides is how GPADL header is created.
+> > + *
+> > + * It doesn't make much difference between BUFFER and RING if PAGE_SIZE is the
+> > + * same as HV_HYP_PAGE_SIZE.
+> > + *
+> > + * If PAGE_SIZE is bigger than HV_HYP_PAGE_SIZE, the headers of ring buffers
+> > + * will be of PAGE_SIZE, however, only the first HV_HYP_PAGE will be put
+> > + * into gpadl, therefore the number for HV_HYP_PAGE and the indexes of each
+> > + * HV_HYP_PAGE will be different between different types of GPADL, for example
+> > + * if PAGE_SIZE is 64K:
+> > + *
+> > + * BUFFER:
+> > + *
+> > + * gva:    |--       64k      --|--       64k      --| ... |
+> > + * gpa:    | 4k | 4k | ... | 4k | 4k | 4k | ... | 4k |
+> > + * index:  0    1    2     15   16   17   18 .. 31   32 ...
+> > + *         |    |    ...   |    |    |   ...    |   ...
+> > + *         v    V          V    V    V          V
+> > + * gpadl:  | 4k | 4k | ... | 4k | 4k | 4k | ... | 4k | ... |
+> > + * index:  0    1    2 ... 15   16   17   18 .. 31   32 ...
+> > + *
+> > + * RING:
+> > + *
+> > + *         | header  |           data           | header  |     data      |
+> > + * gva:    |-- 64k --|--       64k      --| ... |-- 64k --|-- 64k --| ... |
+> > + * gpa:    | 4k | .. | 4k | 4k | ... | 4k | ... | 4k | .. | 4k | .. | ... |
+> > + * index:  0    1    16   17   18    31   ...   n   n+1  n+16 ...         2n
+> > + *         |         /    /          /          |         /               /
+> > + *         |        /    /          /           |        /               /
+> > + *         |       /    /   ...    /    ...     |       /      ...      /
+> > + *         |      /    /          /             |      /               /
+> > + *         |     /    /          /              |     /               /
+> > + *         V    V    V          V               V    V               v
+> > + * gpadl:  | 4k | 4k |   ...    |    ...        | 4k | 4k |  ...     |
+> > + * index:  0    1    2   ...    16   ...       n-15 n-14 n-13  ...  2n-30
+> > + */
+> > +enum hv_gpadl_type {
+> > +	HV_GPADL_BUFFER,
+> > +	HV_GPADL_RING
+> > +};
+> > +
+> >  /* Single-page buffer */
+> >  struct hv_page_buffer {
+> >  	u32 len;
+> > @@ -111,7 +153,7 @@ struct hv_ring_buffer {
+> >  	} feature_bits;
+> > 
+> >  	/* Pad it to PAGE_SIZE so that data starts on page boundary */
+> > -	u8	reserved2[4028];
+> > +	u8	reserved2[PAGE_SIZE - 68];
+> > 
+> >  	/*
+> >  	 * Ring data starts here + RingDataStartOffset
+> > --
+> > 2.27.0
+> 
