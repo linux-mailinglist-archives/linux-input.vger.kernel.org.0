@@ -2,199 +2,171 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45B84229B49
-	for <lists+linux-input@lfdr.de>; Wed, 22 Jul 2020 17:24:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 839E9229FBC
+	for <lists+linux-input@lfdr.de>; Wed, 22 Jul 2020 21:00:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732633AbgGVPXu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 Jul 2020 11:23:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60252 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728812AbgGVPXt (ORCPT
+        id S1726841AbgGVTAa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 22 Jul 2020 15:00:30 -0400
+Received: from us-smtp-delivery-172.mimecast.com ([63.128.21.172]:34814 "EHLO
+        us-smtp-delivery-172.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726157AbgGVTAa (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 Jul 2020 11:23:49 -0400
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A1D7C0619DC;
-        Wed, 22 Jul 2020 08:23:49 -0700 (PDT)
-Received: by mail-qt1-x843.google.com with SMTP id e7so2111096qti.1;
-        Wed, 22 Jul 2020 08:23:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:subject:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=szq1EIALXI1InaxXczbdpSUPUkPqU/Qn6lzK/O+OxWc=;
-        b=CAEQLD0OIy3i76OKUVUS9iV+HfgTRqQh4zszhLDC4LN7XC5ZyA0o6CufBfhJxn4HO8
-         rH2qq5xY5Ex9GAc6mWgK1ej2k75dsWoGhYOwOvcT1chpP4OzZQ1/xAfEje5rEuEcgXXr
-         l4Q8QC6jP3o3uok4YZMv4sNc4v9bZzljJaj47Xi1leBMAiZwN8hUV37/luAgXoQbdgMX
-         GC7TS4nwFR79LtFHFQ2rcpFXYuBF8CWcYw3ZBrK7J5JWmfzpA0eGwaS00W/Es/iHZ8YF
-         lqi8H3YxWX7fTaZxvuFLKRwzi9sXVvNFt+YRzZio29P+RxmqIqbSKN3vnf07XH0X3bvu
-         DcPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=szq1EIALXI1InaxXczbdpSUPUkPqU/Qn6lzK/O+OxWc=;
-        b=VG2Y4Kqz/2RMKYYEpt/e2hH11p4o0iAr6tlm/iPC0G8+Xmo8q388cTtYjjY7oVoe6P
-         EX4IexiNuCm+sM0NLhmQA5WrVNT0sbPiS7piKEil0H7smRyRJ+MshYfDZgnU+/KBsmJX
-         o13hQB2GBpFIB14MyaTbjZfCRoZjs/9B36Ly1oay/ojWIaHMRu+OM0V0FC2lkMApwDR4
-         acOK98AnB56zrGC4gKhdhLbWDcyFwgH5ryqeRbdWkguOTo+xCyshGs7eDUpEmrX7aRjg
-         wCy2MIqBDkYRmdcMxl+N0lJsObBpIuPRbK+UdrCNeZsCNLgLxEJmiIzxpSdMrngrgUPB
-         4oMg==
-X-Gm-Message-State: AOAM5300//bfKV6AS5anhT68IxglKuP+UpWrFK3HgW0IFWWL4mjEHuAb
-        BO4NK9HbKYDDtZ+Vkm/I5TI=
-X-Google-Smtp-Source: ABdhPJyzsK6HT8/HMfmXsVfQBXHE3dyaA10OKIOIE/mnJ3TL4vgh3TQyfKIKhLOQA5bCg8/9sOPv5Q==
-X-Received: by 2002:ac8:41c6:: with SMTP id o6mr33903563qtm.292.1595431428291;
-        Wed, 22 Jul 2020 08:23:48 -0700 (PDT)
-Received: from ?IPv6:2620:10d:c0a8:11e1::10da? ([2620:10d:c091:480::1:4a2])
-        by smtp.gmail.com with ESMTPSA id d8sm6953qtr.12.2020.07.22.08.23.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Jul 2020 08:23:46 -0700 (PDT)
-From:   Jes Sorensen <jes.sorensen@gmail.com>
-X-Google-Original-From: Jes Sorensen <Jes.Sorensen@gmail.com>
-Subject: Re: [PATCH v16 3/3] Input: new da7280 haptic driver
-To:     Roy Im <roy.im.opensource@diasemi.com>,
-        Uwe Kleine-Koenig <u.kleine-koenig@pengutronix.de>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Brian Masney <masneyb@onstation.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Pascal PAILLET-LME <p.paillet@st.com>,
-        Rob Herring <robh@kernel.org>,
-        Samuel Ortiz <sameo@linux.intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     Support Opensource <support.opensource@diasemi.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org
-References: <cover.1594279649.git.Roy.Im@diasemi.com>
- <b02ba5b5dbd3d58f27440ba639d32e4405061df3.1594279649.git.Roy.Im@diasemi.com>
-Message-ID: <bdc76da9-9223-b6d9-1fc1-2ef6e3b7afa7@gmail.com>
-Date:   Wed, 22 Jul 2020 11:23:45 -0400
+        Wed, 22 Jul 2020 15:00:30 -0400
+X-Greylist: delayed 305 seconds by postgrey-1.27 at vger.kernel.org; Wed, 22 Jul 2020 15:00:29 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valvesoftware.com;
+        s=mc20150811; t=1595444428;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=66bSVg3OneKpdE2Dy9Qgc9ggin87cXYIRLiO43in0IU=;
+        b=HrhUjZjByRTVk/QMz7fWHF33mpQaqaeQKELIAwDsYP5pC22IN3HSpcMU269KB/VzyI7Kxs
+        ofTYhk/HaPHKUQq0KmsSMnVCJoeXCGa/W0Lsgz5prIg6q6HP4W8vqhaoWSgNGaMLVZym/O
+        FO3fHxea/c+0i6w8Gid0RkvJ2/uJKO8=
+Received: from smtp-01-blv1.valvesoftware.com (smtp01.valvesoftware.com
+ [208.64.203.181]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-167-1ZIC_m4XMTGYarcTWB4G5g-1; Wed, 22 Jul 2020 14:54:16 -0400
+X-MC-Unique: 1ZIC_m4XMTGYarcTWB4G5g-1
+Received: from [172.16.1.107] (helo=antispam.valve.org)
+        by smtp-01-blv1.valvesoftware.com with esmtp (Exim 4.86_2)
+        (envelope-from <pgriffais@valvesoftware.com>)
+        id 1jyJsd-0009Vc-PO
+        for linux-input@vger.kernel.org; Wed, 22 Jul 2020 11:54:15 -0700
+Received: from antispam.valve.org (127.0.0.1) id h325le0171sl for <linux-input@vger.kernel.org>; Wed, 22 Jul 2020 11:54:15 -0700 (envelope-from <pgriffais@valvesoftware.com>)
+Received: from mail1.valvemail.org ([172.16.144.22])
+        by antispam.valve.org ([172.16.1.107]) (SonicWALL 9.0.5.2081 )
+        with ESMTP id o202007221854150003466-5; Wed, 22 Jul 2020 11:54:15 -0700
+Received: from [172.16.36.148] (172.16.36.148) by mail1.valvemail.org
+ (172.16.144.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Wed, 22 Jul
+ 2020 11:54:15 -0700
+Subject: Re: [PATCH v11 00/11] HID: nintendo
+To:     Daniel Ogorchock <djogorchock@gmail.com>,
+        Bastien Nocera <hadess@hadess.net>
+CC:     Roderick Colenbrander <thunderbird2k@gmail.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        Billy Laws <blaws05@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        "Colenbrander, Roelof" <Roderick.Colenbrander@sony.com>,
+        Siarhei Vishniakou <svv@google.com>, <s.jegen@gmail.com>,
+        Carl Mueller <carmueller@gmail.com>
+References: <20200317032928.546172-1-djogorchock@gmail.com>
+ <64ed771ebdd6c47c11a94f4e0ae365c6106b93f6.camel@hadess.net>
+ <CAEc3jaACUvyrP=9=JZeUZEC16zDJ2NByJzaPHVO24024jwKJoA@mail.gmail.com>
+ <59a550594ac3824532a667c668bf1dcb80747599.camel@hadess.net>
+ <CAEc3jaDsSmCB0-AQDrh4_Cw3WjAavfXSy6G_A+bEtBF0U5ydkQ@mail.gmail.com>
+ <703dfd7eeeb0839a34f8668c3a0d79c1ffd3ed59.camel@hadess.net>
+ <CAEVj2tnXNF0BCSdH46DmNRtxPRO7oHkjdmvJuCmiRz4t4pFWuA@mail.gmail.com>
+From:   "Pierre-Loup A. Griffais" <pgriffais@valvesoftware.com>
+Message-ID: <292d45aa-cd32-3348-ce32-965281a52b20@valvesoftware.com>
+Date:   Wed, 22 Jul 2020 11:54:14 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <b02ba5b5dbd3d58f27440ba639d32e4405061df3.1594279649.git.Roy.Im@diasemi.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAEVj2tnXNF0BCSdH46DmNRtxPRO7oHkjdmvJuCmiRz4t4pFWuA@mail.gmail.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: mail1.valvemail.org (172.16.144.22) To mail1.valvemail.org
+ (172.16.144.22)
+X-EXCLAIMER-MD-CONFIG: fe5cb8ea-1338-4c54-81e0-ad323678e037
+X-Mlf-CnxnMgmt-Allow: 172.16.144.22
+X-Mlf-Version: 9.0.5.2081
+X-Mlf-License: BSVKCAP__
+X-Mlf-UniqueId: o202007221854150003466
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: valvesoftware.com
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 7/9/20 3:27 AM, Roy Im wrote:
-> Adds support for the Dialog DA7280 LRA/ERM Haptic Driver with
-> multiple mode and integrated waveform memory and wideband support.
-> It communicates via an I2C bus to the device.
-> 
-> Signed-off-by: Roy Im <roy.im.opensource@diasemi.com>
-> ---
-> v16:
-> 	- Corrected some code and updated description in Kconfig.
-> v15:
-> 	- Removed some defines and updated some comments.
-> v14:
-> 	- Updated pwm related code, alignments and comments.
-> v13:
-> 	- Updated some conditions in pwm function and alignments.
-> v12: No changes.
-> v11: 
-> 	- Updated the pwm related code, comments and typo.
-> v10: 
-> 	- Updated the pwm related function and added some comments.
-> v9: 
-> 	- Removed the header file and put the definitions into the c file.
-> 	- Updated the pwm code and error logs with %pE
-> v8: 
-> 	- Added changes to support FF_PERIODIC/FF_CUSTOM and FF_CONSTANT.
-> 	- Updated the dt-related code.
-> 	- Removed memless related functions.
-> v7: 
-> 	- Added more attributes to handle one value per file.
-> 	- Replaced and updated the dt-related code and functions called.
-> 	- Fixed error/functions.
-> v6: No changes.
-> v5: Fixed errors in Kconfig file.
-> v4: Updated code as dt-bindings are changed.
-> v3: No changes.
-> v2: Fixed kbuild error/warning
-> 
-> 
->  drivers/input/misc/Kconfig  |   13 +
->  drivers/input/misc/Makefile |    1 +
->  drivers/input/misc/da7280.c | 1840 +++++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 1854 insertions(+)
->  create mode 100644 drivers/input/misc/da7280.c
+Hi Daniel,
 
-Hi Roy,
+Sorry for hijacking this branch of the thread (it's the last one that=20
+survived my inbox) - it seems like merging this driver as-is would break=20
+Steam, according to user reports.
 
-Overall the driver looks pretty good now. I did find one issue, see
-below. If you fix that I am happy to add a Reviewed-by line.
+Is there any mechanism built into this hid_nintendo patch series to duck=20
+out of the way if userland directly opens the underlying hidraw device?=20
+That's what hid_steam does to coexist peacefully with userspace drivers=20
+(Steam being one of them, but not the only one).
 
-Reviewed-By: Jes Sorensen <Jes.Sorensen@gmail.com>
+Thanks,
+  - Pierre-Loup
 
-> diff --git a/drivers/input/misc/da7280.c b/drivers/input/misc/da7280.c
-> new file mode 100644
-> index 0000000..c8c42ac
-> --- /dev/null
-> +++ b/drivers/input/misc/da7280.c
+On 5/22/20 12:11 PM, Daniel Ogorchock wrote:
+> Hi Bastien,
+>=20
+> Apologies for the late reply. This thread sneaked past me somehow. If
+> we want to handle clone controllers with partial protocol
+> implementations, is it preferable to present them identically to
+> userspace, with non-existent functionality being no-ops? Or would it
+> be better to just not create the interfaces for missing functionality
+> (e.g. not create the led_classdevs for controllers without LEDs)? I
+> assume the latter makes more sense, since it doesn't lie to userspace.
+> Though it could potentially make the driver code messier.
+>=20
+> Thanks,
+> Daniel
+>=20
+> On Mon, Apr 27, 2020 at 3:56 AM Bastien Nocera <hadess@hadess.net> wrote:
+>>
+>> On Sun, 2020-04-26 at 15:31 -0700, Roderick Colenbrander wrote:
+>>> On Sun, Apr 26, 2020 at 2:14 PM Bastien Nocera <hadess@hadess.net>
+>>> wrote:
+>>>> On Sun, 2020-04-26 at 13:42 -0700, Roderick Colenbrander wrote:
+>>>> <snip>
+>>>>> I really wonder how a device like this should be handled. It
+>>>>> looks
+>>>>> like the device can also handle a bunch of other classic Nintendo
+>>>>> controllers.
+>>>>>
+>>>>> Is there anyway of detection this adapter? It feels nasty to have
+>>>>> to
+>>>>> hack in quirks for this device...
+>>>>
+>>>> The end game isn't very different from how we handle XBox 360, or
+>>>> PS3/PS4 "clone" devices.
+>>>>
+>>>> Those devices (the adapters) work on the actual Nintendo Switch
+>>>> hardware, so should probably work with the driver that handles the
+>>>> same
+>>>> type of hardware on Linux.
+>>>>
+>>>
+>>> (resend in plain text)
+>>>
+>>> I agree it probably makes sense to handle in this driver. I'm worried
+>>> about the application level implications. We have been doing a lot of
+>>> work e.g. on Android to try to make gamepads consistent. It is weird
+>>> to have a "Switch controller" with different features as applications
+>>> make assumptions and don't expect there to be multiple versions of a
+>>> particular controller. Any button mapping files would potentially be
+>>> wrong for those too, certain features are not there (e.g. no sensors
+>>> or no lights or rumble) or if they are the behaviour is different
+>>> (e.g. HD rumble vs a classic rumble motor).
+>>>
+>>> Ideally we would do some kind of "fixup" to change the device name
+>>> and
+>>> or replace the device ids to at least separate them.
+>>
+>> All those would be detectable at runtime. I'm not sure that it's ever a
+>> good idea to presume that a particular VID/PID combination will have,
+>> say, rumble and LEDs available when the driver can answer those
+>> questions.
+>>
+>> For example, I'm not sure that those controllers have either features
+>> (though I'm not certain they identify as Switch Pro controllers, but
+>> for the sake of argument):
+>> https://store.nintendo.com/super-nintendo-entertainment-system-controlle=
+r.html
+>> https://store.nintendo.com/nintendo-entertainment-system-controllers.htm=
+l
+>>
+>> Cheers
+>>
+>=20
+>=20
 
-[snip]
-
-> +static int da7280_haptic_set_pwm(struct da7280_haptic *haptics, bool enabled)
-> +{
-> +	struct pwm_state state;
-> +	u64 period_mag_multi;
-> +	int error;
-> +
-> +	if (!haptics->gain && enabled) {
-> +		dev_err(haptics->dev,
-> +			"Please set the gain first for the pwm mode\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	pwm_get_state(haptics->pwm_dev, &state);
-> +	state.enabled = enabled;
-> +	if (enabled) {
-> +		period_mag_multi = state.period * haptics->gain;
-
-You are multiplying an unsigned int to a u16 and storing it in a u64.
-However, C doesn't promote the types, so you'll end up with an
-unexpected result here. You can fix it by promoting state.period to u64, ie:
-
-		period_mage_multi = (u64)state.period * haptics->gain;
-
-See the following example code which demonstrates the problem.
-
-#include <stdio.h>
-#include <stdint.h>
-
-uint64_t foo(unsigned int a, uint16_t b)
-{
-	uint64_t tmp = a * b;
-	return tmp;
-}
-
-uint64_t bar(unsigned int a, uint16_t b)
-{
-	uint64_t tmp = (uint64_t)a * b;
-	return tmp;
-}
-
-int main()
-{
-	uint64_t val;
-	unsigned int a = 0xff00ff00;
-	uint16_t b = 0x200;
-
-	val = foo(a, b);
-	printf("result(%0x, %0x) = %0llx\n", a, b, val);
-
-	val = bar(a, b);
-	printf("result(%0x, %0x) = %0llx\n", a, b, val);
-}
-
-Cheers,
-Jes
