@@ -2,172 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E916A22A248
-	for <lists+linux-input@lfdr.de>; Thu, 23 Jul 2020 00:18:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFB3A22A2F8
+	for <lists+linux-input@lfdr.de>; Thu, 23 Jul 2020 01:20:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726462AbgGVWSP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 Jul 2020 18:18:15 -0400
-Received: from mga05.intel.com ([192.55.52.43]:27347 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726447AbgGVWSP (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 Jul 2020 18:18:15 -0400
-IronPort-SDR: SK6Tg6oheoViNc5AKY5YXbPIP6W5ryKrpF4FVTDbiVtrldIaTLLUxTmSXZ8ummAEXrWl4zVojp
- hihcsYEkLUhQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9690"; a="235303001"
-X-IronPort-AV: E=Sophos;i="5.75,383,1589266800"; 
-   d="scan'208";a="235303001"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2020 15:18:14 -0700
-IronPort-SDR: KnKm+WTPEdFK+qQ+6phXewcaF+f10Q5NHPhUUs/NgHwDgH4Sjt3EB1rZhWYipXlyORL+5PS3Nq
- Ej7m7DmbbrNw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,383,1589266800"; 
-   d="scan'208";a="462619623"
-Received: from lkp-server01.sh.intel.com (HELO 7a9a14fb1d52) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 22 Jul 2020 15:18:13 -0700
-Received: from kbuild by 7a9a14fb1d52 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1jyN40-000083-G1; Wed, 22 Jul 2020 22:18:12 +0000
-Date:   Thu, 23 Jul 2020 06:17:17 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [input:master] BUILD SUCCESS
- 37bd9e803daea816f2dc2c8f6dc264097eb3ebd2
-Message-ID: <5f18baed.rBFVGUsqBw/bi2m4%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1733151AbgGVXUm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 22 Jul 2020 19:20:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49954 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733132AbgGVXUl (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 22 Jul 2020 19:20:41 -0400
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F142BC0619E1;
+        Wed, 22 Jul 2020 16:20:40 -0700 (PDT)
+Received: by mail-qk1-x741.google.com with SMTP id l6so3731347qkc.6;
+        Wed, 22 Jul 2020 16:20:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=jeZreKDLGQJ/Jdd2kokTsoFaBdpo+SHh85v/8w3Kt6s=;
+        b=iDfPg+q2N0j+QEFb6C76HEy3RuhKS2RzaHQodwWTwlG2C9EzK7tTdMjHXFGXnPYbyM
+         sALV/RvUBaC6PPkhc6k3Y6UrYaUDLj76h3bNpaXUP24E3baIO6WY/t791hu1fzp6vowe
+         Gp3ZFmMSx1gFBu1B3SV+WmzEHm8xO1JlHt62/cGCtq7HtZeyCO6N+NF4LBojf/4O/f7R
+         O83caGrZluNFL36fTwlDKIDC2x0m88LOJJjfu7VCkMy3pPjUX4DPvMtjNRZJN4nJQbDL
+         dyp6Z8l1IfS353f8DIZnYNS589bWq4dWchVNRSIw22LjC38Icim1d06LydIFmBef3w0O
+         i71A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=jeZreKDLGQJ/Jdd2kokTsoFaBdpo+SHh85v/8w3Kt6s=;
+        b=kB1B8gI9rCnjHgP4ThZnMODESoyTEVCNdjhYIq4xaiASgP6Y7Dor5B5wN1X14AI0IH
+         MohDJMnEtNLxEWo+Yj5oZEvEcBujR+j+/hNNUTFL/wt7y2srTXgqGcF+BM55DkoI0XO1
+         CZDafFfQ73pPFstc/PAB/ORcORfDsslBrDGgVrlONm9ucgnET1QHE3wl3L1L5IyOpJni
+         vLyMFmu9LVvFgAnmlMLLminW//oVywIhzW5+9sEiIRBlgu6XteL/p9/ASLqf/Aj3CT6L
+         jQ279DqJx8HGxZgRlLjuCpTdbPkiqBYikNAa1Pv/yH6HhdWmXLKTqh28Ny+5DhPV0c6N
+         O/QQ==
+X-Gm-Message-State: AOAM530On9RLIcixOUa6dyQwoG+Tzko56PpaH6n65MszI0RYIHgVdx1q
+        8t6BZXP7gGsMoU0XwOoMaC8=
+X-Google-Smtp-Source: ABdhPJxh11At9hPgNwYpGZKxyU6SKg6Dl6hnWNxmRLW2cyP+pm0I76RQmRuj54+6S4HX3xcUeV3ZIw==
+X-Received: by 2002:a37:b387:: with SMTP id c129mr2449391qkf.292.1595460040175;
+        Wed, 22 Jul 2020 16:20:40 -0700 (PDT)
+Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
+        by smtp.gmail.com with ESMTPSA id p17sm1091785qkj.69.2020.07.22.16.20.38
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 22 Jul 2020 16:20:39 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailauth.nyi.internal (Postfix) with ESMTP id BC19B27C0054;
+        Wed, 22 Jul 2020 19:20:37 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Wed, 22 Jul 2020 19:20:37 -0400
+X-ME-Sender: <xms:xckYX6TjYGcA2LZjBrHUZvmr5zKTeELFRk3fagL4IA_GsNIfxqvOIA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrhedtgddvvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcu
+    hfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrdgtohhmqeenucggtffrrghtth
+    gvrhhnpedvleeigedugfegveejhfejveeuveeiteejieekvdfgjeefudehfefhgfegvdeg
+    jeenucfkphephedvrdduheehrdduuddurdejudenucevlhhushhtvghrufhiiigvpedtne
+    curfgrrhgrmhepmhgrihhlfhhrohhmpegsohhquhhnodhmvghsmhhtphgruhhthhhpvghr
+    shhonhgrlhhithihqdeiledvgeehtdeigedqudejjeekheehhedvqdgsohhquhhnrdhfvg
+    hngheppehgmhgrihhlrdgtohhmsehfihigmhgvrdhnrghmvg
+X-ME-Proxy: <xmx:xckYX_xg7GvHmkSnWDADLEQvOnEx_pbaCwfsMmoqMVVcSObVwtklxg>
+    <xmx:xckYX30LeDoMGnaggVRdql5GcCOCm9lWNGbiefV65Z5KwNV6HvS4Eg>
+    <xmx:xckYX2CejgGDLrAJjrahTWGckjh4qdj5M_6DGlt4ZX0lEwSsjFhGxQ>
+    <xmx:xckYXz7ZrquPCJejjqVMH6LPkqss1IcRdRGVugwlFBBoxflyi_sp3Vwf57k>
+Received: from localhost (unknown [52.155.111.71])
+        by mail.messagingengine.com (Postfix) with ESMTPA id C4B59328006A;
+        Wed, 22 Jul 2020 19:20:36 -0400 (EDT)
+Date:   Thu, 23 Jul 2020 07:20:35 +0800
+From:   Boqun Feng <boqun.feng@gmail.com>
+To:     Wei Liu <wei.liu@kernel.org>
+Cc:     linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-scsi@vger.kernel.org, "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Michael Kelley <mikelley@microsoft.com>
+Subject: Re: [RFC 01/11] Drivers: hv: vmbus: Always use HV_HYP_PAGE_SIZE for
+ gpadl
+Message-ID: <20200722232035.GB35358@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+References: <20200721014135.84140-1-boqun.feng@gmail.com>
+ <20200721014135.84140-2-boqun.feng@gmail.com>
+ <20200721152218.ozpk2b4ymfdocu4p@liuwe-devbox-debian-v2>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20200721152218.ozpk2b4ymfdocu4p@liuwe-devbox-debian-v2>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git  master
-branch HEAD: 37bd9e803daea816f2dc2c8f6dc264097eb3ebd2  Input: ati_remote2 - add missing newlines when printing module parameters
+On Tue, Jul 21, 2020 at 03:22:18PM +0000, Wei Liu wrote:
+> On Tue, Jul 21, 2020 at 09:41:25AM +0800, Boqun Feng wrote:
+> > Since the hypervisor always uses 4K as its page size, the size of PFNs
+> > used for gpadl should be HV_HYP_PAGE_SIZE rather than PAGE_SIZE, so
+> > adjust this accordingly as the preparation for supporting 16K/64K page
+> > size guests.
+> 
+> It may be worth calling out there is no change on x86 because
+> HV_HYP_PAGE_SHIFT and PAGE_SHIFT are of the same value there.
+> 
 
-elapsed time: 993m
+Sure, I will call it out in the commit log of the next version, thanks!
 
-configs tested: 110
-configs skipped: 3
+Regards,
+Boqun
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-arm                                 defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                               allnoconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-sh                               alldefconfig
-mips                         bigsur_defconfig
-arm                           sama5_defconfig
-arm                           omap1_defconfig
-mips                            e55_defconfig
-c6x                         dsk6455_defconfig
-m68k                         amcore_defconfig
-arm                          simpad_defconfig
-openrisc                         allyesconfig
-mips                   sb1250_swarm_defconfig
-arm                         shannon_defconfig
-arm                      footbridge_defconfig
-s390                             alldefconfig
-c6x                               allnoconfig
-powerpc                       ppc64_defconfig
-s390                          debug_defconfig
-arm                          pxa3xx_defconfig
-m68k                        m5407c3_defconfig
-sh                          sdk7780_defconfig
-arm                           h5000_defconfig
-i386                             allyesconfig
-i386                                defconfig
-i386                              debian-10.3
-i386                              allnoconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                              allnoconfig
-m68k                           sun3_defconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nds32                               defconfig
-nds32                             allnoconfig
-csky                             allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-nios2                               defconfig
-nios2                            allyesconfig
-openrisc                            defconfig
-c6x                              allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-h8300                            allmodconfig
-xtensa                              defconfig
-arc                                 defconfig
-arc                              allyesconfig
-sh                               allmodconfig
-sh                                allnoconfig
-microblaze                        allnoconfig
-mips                             allyesconfig
-mips                              allnoconfig
-mips                             allmodconfig
-parisc                            allnoconfig
-parisc                              defconfig
-parisc                           allyesconfig
-parisc                           allmodconfig
-powerpc                             defconfig
-powerpc                          allyesconfig
-powerpc                          rhel-kconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a001-20200719
-i386                 randconfig-a006-20200719
-i386                 randconfig-a002-20200719
-i386                 randconfig-a005-20200719
-i386                 randconfig-a003-20200719
-i386                 randconfig-a004-20200719
-i386                 randconfig-a015-20200719
-i386                 randconfig-a011-20200719
-i386                 randconfig-a016-20200719
-i386                 randconfig-a012-20200719
-i386                 randconfig-a013-20200719
-i386                 randconfig-a014-20200719
-x86_64               randconfig-a005-20200719
-x86_64               randconfig-a002-20200719
-x86_64               randconfig-a006-20200719
-x86_64               randconfig-a001-20200719
-x86_64               randconfig-a003-20200719
-x86_64               randconfig-a004-20200719
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-s390                             allyesconfig
-s390                              allnoconfig
-s390                             allmodconfig
-s390                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-sparc64                             defconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                          allmodconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                               rhel-8.3
-x86_64                                  kexec
-x86_64                                   rhel
-x86_64                                    lkp
-x86_64                              fedora-25
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> Wei.
