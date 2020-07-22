@@ -2,81 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 075B7228FC2
-	for <lists+linux-input@lfdr.de>; Wed, 22 Jul 2020 07:34:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A54CA228FDA
+	for <lists+linux-input@lfdr.de>; Wed, 22 Jul 2020 07:41:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727840AbgGVFey (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 Jul 2020 01:34:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53648 "EHLO
+        id S1726736AbgGVFlt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 22 Jul 2020 01:41:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726253AbgGVFex (ORCPT
+        with ESMTP id S1726696AbgGVFlt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 Jul 2020 01:34:53 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22F31C061794;
-        Tue, 21 Jul 2020 22:34:53 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id o1so403738plk.1;
-        Tue, 21 Jul 2020 22:34:53 -0700 (PDT)
+        Wed, 22 Jul 2020 01:41:49 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8A92C061794;
+        Tue, 21 Jul 2020 22:41:48 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id o22so579663pjw.2;
+        Tue, 21 Jul 2020 22:41:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=eHvPGjWaZQ28bLiz1ZmIQtg8R6kb+fan9GkxYboAYfo=;
-        b=ZjF9+TVnOp59Feo51MZERSlj/aMtRYnAdf2W84YVC6dlBkNbEho465KcRXsf+oyJq5
-         fqt8sc5kW7dFCrrVJZIJeGdObLRFCFjk3q6PwhKv7QLrj35pTnIeg9KB/aR6Kwehrj+V
-         2tSVo5hl9rFHv7j1yU5srYWPfqhSFUCc+N24xlTdSP4BojizGO+snDJfS6hhp7bipcRJ
-         PfhhvfH6FS5TMsSArWgzAjnWhHatQzxKAa0Zn087e6fDv0rj75z1BPxNd027lkx2Oibv
-         477tzC8PwM2/XpTwCtOfBLAkQGMLbvwcL2GsAvhaMIkWsktP7XYqeMbxmHdzriiyJRvi
-         cEJA==
+        bh=JOXcjH3Ds2znsGQsPtT2U0WmJsXIq3lc+gYn1wfYnuU=;
+        b=dEUQNOgGUrX8oVxReZCZ/tx5vnWEETp9edbUaud/VSlLiopK4JeDzocnvain0FsLMw
+         7PICdvOjUghPVTCW0qjN7n6SnZ2H5nN1HMvs9uDK+IXA85ET0oBW15K8tQX8j6o617pN
+         q+l75VjFGRhh/avhzCvbSqMXcuvtlbi3DMXeui18+MwYxPLsjtIX2AZUZJiOAE/9flCV
+         ea2Fhc2rKiCCf9XkPrhipvLf0Mgp4dryjrLrNufZYZ0rIbtgYRwukhkD6F9yssQLC+fk
+         WRh6Y5nrhcl9JFV3K3uPb9dVFzvSPLWAr6x/D7HTFWahFrwb9QZUZWXQW/5qLx4TRohI
+         fmGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=eHvPGjWaZQ28bLiz1ZmIQtg8R6kb+fan9GkxYboAYfo=;
-        b=adswr2RSM/qhnccf6fOJQHizeeSFNO383RFMccy4ZuarkoWUNpuX2Zq59eiDdbu1k3
-         cRtfP3/hdkQsJ3XjhEEQRXa1AkLT2hg0DvIN1QLKTdLCfhk0yW4GsckREgo8Lq4UrRf7
-         ACNhqmoj384D+F+nMhWx1NHR667lnPHSpXK7+CcwWF7d9Eq31e4A8dFonKH7ACabqeYD
-         NQpEGGiOqzTJPLNvIruOxa2F55dosfQSplAbQh+veZNr9wHeyRm+sCuCimXlZuFptz60
-         I2HOxSFVXPmmubogjvI+kxt462epUaBQvWDePAoRrU6Il62xBvKkrKErUilXnvDCxr7k
-         s2cQ==
-X-Gm-Message-State: AOAM532scLjqtaIgnZfSu0GKqqHzRzYHEUXxVDIcDmdsAly+C5UjNmkK
-        3Ik4DP1iVd9PgMvXzaKiJv8v79yQUHk=
-X-Google-Smtp-Source: ABdhPJxia3Jv7L1rBV7mCR11MY2r1s1r/L6fKp4S3olC+B7ULrwy8fi5s3+9HbG6iFS1b0oF/SuvCw==
-X-Received: by 2002:a17:902:7605:: with SMTP id k5mr24618970pll.331.1595396092514;
-        Tue, 21 Jul 2020 22:34:52 -0700 (PDT)
+        bh=JOXcjH3Ds2znsGQsPtT2U0WmJsXIq3lc+gYn1wfYnuU=;
+        b=uH0Yaikdy5yTVcvHRWVq4LPlk17Z/mc+iAZo4a9tkefIyHCi6qS3v86+0hSWv4kTqE
+         Wh4OFI8Ly4S4pj9xSRUPBUC7kLXRlgA3NB/PW+pKUHqL4vaNhw4duf8H3PRHky+A+8Io
+         NkgOlWJ85LoL8tZFiOCAPy5Km+G7qiLSSXwasjdcqyl4r/jUD3FP26SSpTgoohClTPXK
+         RWd0nXlw68oE3Flz7AciFyK4aaBdiYN8wIaEVue+L+gu5lu28AZTo+boyuIcbvdQJRbG
+         HTYEs8Xtp9HWZVVzu7swCspr6FO0yxjoM4Xel7Ti88ooEkLmp5lmmp6tg9/8OJBXp9fH
+         7BuQ==
+X-Gm-Message-State: AOAM531PQunOIab32ET/EYs2RtrCn0RZICuofunhWuASlJYauchVCe5P
+        kLJrKAFF17zoz7CfzuROGHY=
+X-Google-Smtp-Source: ABdhPJwyZCXr57OI4rRNX0FltpSSmzGxpQFnQXUcYXlI0UFD0tljQn5BhDndhCziMb1aAG5xOB3eAQ==
+X-Received: by 2002:a17:902:684e:: with SMTP id f14mr26597687pln.166.1595396508374;
+        Tue, 21 Jul 2020 22:41:48 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id m16sm22902732pfd.101.2020.07.21.22.34.51
+        by smtp.gmail.com with ESMTPSA id d16sm22280079pfo.156.2020.07.21.22.41.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2020 22:34:52 -0700 (PDT)
-Date:   Tue, 21 Jul 2020 22:34:50 -0700
+        Tue, 21 Jul 2020 22:41:47 -0700 (PDT)
+Date:   Tue, 21 Jul 2020 22:41:44 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Xiongfeng Wang <wangxiongfeng2@huawei.com>
-Cc:     syrjala@sci.fi, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: ati_remote2 - add missing newlines when printing
- module parameters
-Message-ID: <20200722053450.GP1665100@dtor-ws>
-References: <20200720092148.9320-1-wangxiongfeng2@huawei.com>
+To:     Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        linux-input@vger.kernel.org,
+        Marco Trevisan <marco.trevisan@canonical.com>,
+        Mark Pearson <mpearson@lenovo.com>,
+        Christian Kellner <ckellner@redhat.com>,
+        Benjamin Berg <bberg@redhat.com>,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] Add 3 new keycodes and use them for 3 new hotkeys on
+ new Lenovo Thinkpads
+Message-ID: <20200722054144.GQ1665100@dtor-ws>
+References: <20200717114155.56222-1-hdegoede@redhat.com>
+ <20200719225649.GA4341@khazad-dum.debian.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200720092148.9320-1-wangxiongfeng2@huawei.com>
+In-Reply-To: <20200719225649.GA4341@khazad-dum.debian.net>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jul 20, 2020 at 05:21:48PM +0800, Xiongfeng Wang wrote:
-> When I cat some module parameters by sysfs, it displays as follows. It's
-> better to add a newline for easy reading.
+On Sun, Jul 19, 2020 at 07:56:49PM -0300, Henrique de Moraes Holschuh wrote:
+> On Fri, 17 Jul 2020, Hans de Goede wrote:
+> > This is a simple patch-series adding support for 3 new hotkeys found
+> > on various new Lenovo Thinkpad models.
 > 
-> root@syzkaller:~# cat /sys/module/ati_remote2/parameters/mode_mask
-> 0x1froot@syzkaller:~# cat /sys/module/ati_remote2/parameters/channel_mask
-> 0xffffroot@syzkaller:~#
+> For all three patches, pending an ack for the new keycodes by the input
+> maintainers:
 > 
-> Signed-off-by: Xiongfeng Wang <wangxiongfeng2@huawei.com>
+> Acked-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
 
-Applied, thank you.
+Do you want me to merge all 3 through input tree?
+
+Thanks.
 
 -- 
 Dmitry
