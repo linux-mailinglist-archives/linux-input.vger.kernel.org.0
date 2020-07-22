@@ -2,27 +2,26 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4DE3228E32
-	for <lists+linux-input@lfdr.de>; Wed, 22 Jul 2020 04:29:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFEF4228E4B
+	for <lists+linux-input@lfdr.de>; Wed, 22 Jul 2020 04:56:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731781AbgGVC3n (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 21 Jul 2020 22:29:43 -0400
-Received: from emcscan.emc.com.tw ([192.72.220.5]:64449 "EHLO
+        id S1731647AbgGVCz7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 21 Jul 2020 22:55:59 -0400
+Received: from emcscan.emc.com.tw ([192.72.220.5]:16735 "EHLO
         emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731595AbgGVC3m (ORCPT
+        with ESMTP id S1731641AbgGVCz7 (ORCPT
         <rfc822;Linux-input@vger.kernel.org>);
-        Tue, 21 Jul 2020 22:29:42 -0400
-X-Greylist: delayed 604 seconds by postgrey-1.27 at vger.kernel.org; Tue, 21 Jul 2020 22:29:42 EDT
+        Tue, 21 Jul 2020 22:55:59 -0400
 X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
-   d="scan'208";a="36533943"
+   d="scan'208";a="36534837"
 Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
-  by emcscan.emc.com.tw with ESMTP; 22 Jul 2020 10:19:36 +0800
+  by emcscan.emc.com.tw with ESMTP; 22 Jul 2020 10:55:56 +0800
 Received: from 192.168.10.23
-        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(139077:0:AUTH_RELAY)
-        (envelope-from <dave.wang@emc.com.tw>); Wed, 22 Jul 2020 10:19:34 +0800 (CST)
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(78053:0:AUTH_RELAY)
+        (envelope-from <dave.wang@emc.com.tw>); Wed, 22 Jul 2020 10:55:55 +0800 (CST)
 Received: from 192.168.33.57
-        by webmail.emc.com.tw with Mail2000 ESMTP Server V7.00(2477:0:AUTH_RELAY)
-        (envelope-from <dave.wang@emc.com.tw>); Wed, 22 Jul 2020 10:19:33 +0800 (CST)
+        by webmail.emc.com.tw with Mail2000 ESMTP Server V7.00(2479:1:AUTH_RELAY)
+        (envelope-from <dave.wang@emc.com.tw>); Wed, 22 Jul 2020 10:55:53 +0800 (CST)
 From:   "Dave.Wang" <dave.wang@emc.com.tw>
 To:     "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>
 Cc:     <Linux-input@vger.kernel.org>, <Linux-kernel@vger.kernel.org>,
@@ -31,16 +30,16 @@ Cc:     <Linux-input@vger.kernel.org>, <Linux-kernel@vger.kernel.org>,
 References: <20191209111107.32239-1-dave.wang@emc.com.tw> <20200721161236.GI1665100@dtor-ws>
 In-Reply-To: <20200721161236.GI1665100@dtor-ws>
 Subject: RE: [PATCH 1/3] Input: elan_i2c - Do no operation for elan_smbus_set_mode function
-Date:   Wed, 22 Jul 2020 10:19:33 +0800
-Message-ID: <002601d65fce$8a0148d0$9e03da70$@emc.com.tw>
+Date:   Wed, 22 Jul 2020 10:55:53 +0800
+Message-ID: <002801d65fd3$9d82edf0$d888c9d0$@emc.com.tw>
 MIME-Version: 1.0
 Content-Type: text/plain;
         charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 X-Mailer: Microsoft Outlook 15.0
-Thread-Index: AQKMobxR7qDwdRZsC9ditFT1DgHVnAJCKYzFp5RE3UA=
+Thread-Index: AQKMobxR7qDwdRZsC9ditFT1DgHVnAJCKYzFp5RNdQA=
 Content-Language: zh-tw
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDYxMjlcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy1jNzQ1ODM0Mi1jYmMxLTExZWEtYWE4Yy04OGQ3ZjY1NjczMzBcYW1lLXRlc3RcYzc0NTgzNDMtY2JjMS0xMWVhLWFhOGMtODhkN2Y2NTY3MzMwYm9keS50eHQiIHN6PSIyNDMwIiB0PSIxMzIzOTg1Nzk3MzEyNzIyMzUiIGg9IjNHWVo1d1lBSHpXRHEvZk1ZN0pOb3ljV3pWTT0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDYxMjlcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy1kYWU5ZTYwZC1jYmM2LTExZWEtYWE4Yy04OGQ3ZjY1NjczMzBcYW1lLXRlc3RcZGFlOWU2MGYtY2JjNi0xMWVhLWFhOGMtODhkN2Y2NTY3MzMwYm9keS50eHQiIHN6PSIyNjM5IiB0PSIxMzIzOTg2MDE1MzUwMjU5NDgiIGg9IjllUnEvbUhKSVFIK05ta1lDRDM5UUdiNFRGRT0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
 x-dg-rorf: true
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
@@ -49,19 +48,23 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Dear Dmitry,
 
-Are there devices that do not trigger errors?
-=> Yes, there exist devices that would act normally. However, our team
-cannot organize the rule to recognize which devices could trigger this
-command without error. 
-What I sure about is that some devices would get TP no function while
-triggering this command. 
-Besides, ABS mode had been set in P/S2 protocol, so there is no need to set
-ABS mode again in SMBUS driver. 
+Should this be moved into core? Or we only plan on using this on SMbus?
+=> using on smbus.
 
-How do we put SMbus devices into low power mode?
-=> As far as I am concerned, core.c only set the mode into ABS mode or
-ENABLE_CALIBRATE mode after updating firmware. 
-I don't know what or when to set SMbus devices into low power mode.
+What will happen after firmware update? How can userspace verify that the
+firmware update completed successfully if we always return static data?
+=> FW modified the architecture that reading register cmd in P/S2 and then
+updating flow in SMbus.
+As a result, it would not get success result while updating firmware in
+SMbus driver.
+Elan will use the tool to update firmware.
+
+Can the device still be accessed via PS/2 while also using SMbus?
+=> Yes, the device could still be accessed via PS/2 while also using SMbus.
+However, we cannot use P/S2 driver and SMbus driver to read register
+simultaneously because of the limitation of driver (elantench (ps2) driver
+would be unmounted before loading into SMbus driver). So we use tool to
+update firmware in SMbus interface.
 
 Best regards,
 Dave
