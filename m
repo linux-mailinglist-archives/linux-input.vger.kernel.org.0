@@ -2,171 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 839E9229FBC
-	for <lists+linux-input@lfdr.de>; Wed, 22 Jul 2020 21:00:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 153E922A01B
+	for <lists+linux-input@lfdr.de>; Wed, 22 Jul 2020 21:23:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726841AbgGVTAa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 Jul 2020 15:00:30 -0400
-Received: from us-smtp-delivery-172.mimecast.com ([63.128.21.172]:34814 "EHLO
-        us-smtp-delivery-172.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726157AbgGVTAa (ORCPT
+        id S1732022AbgGVTXM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 22 Jul 2020 15:23:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41162 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726462AbgGVTXL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 Jul 2020 15:00:30 -0400
-X-Greylist: delayed 305 seconds by postgrey-1.27 at vger.kernel.org; Wed, 22 Jul 2020 15:00:29 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valvesoftware.com;
-        s=mc20150811; t=1595444428;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=66bSVg3OneKpdE2Dy9Qgc9ggin87cXYIRLiO43in0IU=;
-        b=HrhUjZjByRTVk/QMz7fWHF33mpQaqaeQKELIAwDsYP5pC22IN3HSpcMU269KB/VzyI7Kxs
-        ofTYhk/HaPHKUQq0KmsSMnVCJoeXCGa/W0Lsgz5prIg6q6HP4W8vqhaoWSgNGaMLVZym/O
-        FO3fHxea/c+0i6w8Gid0RkvJ2/uJKO8=
-Received: from smtp-01-blv1.valvesoftware.com (smtp01.valvesoftware.com
- [208.64.203.181]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-1ZIC_m4XMTGYarcTWB4G5g-1; Wed, 22 Jul 2020 14:54:16 -0400
-X-MC-Unique: 1ZIC_m4XMTGYarcTWB4G5g-1
-Received: from [172.16.1.107] (helo=antispam.valve.org)
-        by smtp-01-blv1.valvesoftware.com with esmtp (Exim 4.86_2)
-        (envelope-from <pgriffais@valvesoftware.com>)
-        id 1jyJsd-0009Vc-PO
-        for linux-input@vger.kernel.org; Wed, 22 Jul 2020 11:54:15 -0700
-Received: from antispam.valve.org (127.0.0.1) id h325le0171sl for <linux-input@vger.kernel.org>; Wed, 22 Jul 2020 11:54:15 -0700 (envelope-from <pgriffais@valvesoftware.com>)
-Received: from mail1.valvemail.org ([172.16.144.22])
-        by antispam.valve.org ([172.16.1.107]) (SonicWALL 9.0.5.2081 )
-        with ESMTP id o202007221854150003466-5; Wed, 22 Jul 2020 11:54:15 -0700
-Received: from [172.16.36.148] (172.16.36.148) by mail1.valvemail.org
- (172.16.144.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Wed, 22 Jul
- 2020 11:54:15 -0700
-Subject: Re: [PATCH v11 00/11] HID: nintendo
-To:     Daniel Ogorchock <djogorchock@gmail.com>,
-        Bastien Nocera <hadess@hadess.net>
-CC:     Roderick Colenbrander <thunderbird2k@gmail.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        Billy Laws <blaws05@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        "Colenbrander, Roelof" <Roderick.Colenbrander@sony.com>,
-        Siarhei Vishniakou <svv@google.com>, <s.jegen@gmail.com>,
-        Carl Mueller <carmueller@gmail.com>
+        Wed, 22 Jul 2020 15:23:11 -0400
+Received: from mail-vs1-xe44.google.com (mail-vs1-xe44.google.com [IPv6:2607:f8b0:4864:20::e44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5D61C0619DC
+        for <linux-input@vger.kernel.org>; Wed, 22 Jul 2020 12:23:11 -0700 (PDT)
+Received: by mail-vs1-xe44.google.com with SMTP id x205so1777369vsc.11
+        for <linux-input@vger.kernel.org>; Wed, 22 Jul 2020 12:23:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=68sOMskNUyISr4mOfQ0IHsxZDcffb/mqHEUKBilvfQ0=;
+        b=FPi5JKXeOzAfy0v6o2K8uFkuH8ZuyeYKGv/YPoMau7cgmYza+IWzhCFDptqGzImndP
+         YJTaL9fhY34z+VNOGWx6lbc33Q+5pPAwlGC4CwMvpa6iuv/2oQYE9MMBAJk0liARKMv4
+         jmUXg7T45MANM4hFN0acWJQQ4AZUlWUPDBt6crE+UI+ahgY5fVp1iXXAVkkZrWS1F3LA
+         pG9OhE8ErOqidbPOAOzdDG/ybo4vPm67n/viriHlqV9WcQdtk4r/i7VtTm3KF8AuEsg0
+         5mDLjV1TWUv864stb1K4blOpshGvXE9bFbteF3KrAN52pWzUaoObvkB2oLgteJI+c7GR
+         l7Bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=68sOMskNUyISr4mOfQ0IHsxZDcffb/mqHEUKBilvfQ0=;
+        b=jC+M421B2e26aLQ9/nhic7Z5+Z51yEUp3buriX0HP4OpC9qeXFsCHblCCAH97EqCHM
+         KrB9lOV+dCJyEIXlba1U+3OEgs9w5lBmae5qZ3HmuOUOA6fh31aIsPsJKMzL0oOgaw3M
+         evOfcAqaxswX7TpMpzRZlunpf0yIfJNVIN8aWo7rmWa65qLMo4816z57XnWdy5hlj2e/
+         ImpNG04dRdiE3xzt77Nvu9ZKT7hxxbEDzyPbTppe1oybcqWqJRwsIDeH0MBYnilBIMd5
+         vSzSDhkpPvK9Lj5JlcGS+uSZwIlVTlX6/Z6EHspvqyEZtpUy0CUB8VZvO+lWcjiXRj0M
+         5viA==
+X-Gm-Message-State: AOAM531fM2nXG9ceRLiCOOG/jGRHA/sknWFqnKCd/U5hHf2wqUIwPJ38
+        pvQEFuUafHPOvLYKSN50fiDCbZWnqsxPMeu55zDPIpF2GIg=
+X-Google-Smtp-Source: ABdhPJwJfEkiqXesIYMIkpLsn4WY4HoYehuOJS3CL/D2KXedemqh6Qr5A5PoKlkNJWKd8IXmAaqAYyCvQHJPxCSt4TI=
+X-Received: by 2002:a67:e9d1:: with SMTP id q17mr1324303vso.212.1595445791032;
+ Wed, 22 Jul 2020 12:23:11 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200317032928.546172-1-djogorchock@gmail.com>
  <64ed771ebdd6c47c11a94f4e0ae365c6106b93f6.camel@hadess.net>
  <CAEc3jaACUvyrP=9=JZeUZEC16zDJ2NByJzaPHVO24024jwKJoA@mail.gmail.com>
  <59a550594ac3824532a667c668bf1dcb80747599.camel@hadess.net>
  <CAEc3jaDsSmCB0-AQDrh4_Cw3WjAavfXSy6G_A+bEtBF0U5ydkQ@mail.gmail.com>
  <703dfd7eeeb0839a34f8668c3a0d79c1ffd3ed59.camel@hadess.net>
- <CAEVj2tnXNF0BCSdH46DmNRtxPRO7oHkjdmvJuCmiRz4t4pFWuA@mail.gmail.com>
-From:   "Pierre-Loup A. Griffais" <pgriffais@valvesoftware.com>
-Message-ID: <292d45aa-cd32-3348-ce32-965281a52b20@valvesoftware.com>
-Date:   Wed, 22 Jul 2020 11:54:14 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <CAEVj2tnXNF0BCSdH46DmNRtxPRO7oHkjdmvJuCmiRz4t4pFWuA@mail.gmail.com>
-Content-Language: en-US
-X-ClientProxiedBy: mail1.valvemail.org (172.16.144.22) To mail1.valvemail.org
- (172.16.144.22)
-X-EXCLAIMER-MD-CONFIG: fe5cb8ea-1338-4c54-81e0-ad323678e037
-X-Mlf-CnxnMgmt-Allow: 172.16.144.22
-X-Mlf-Version: 9.0.5.2081
-X-Mlf-License: BSVKCAP__
-X-Mlf-UniqueId: o202007221854150003466
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: valvesoftware.com
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+ <CAEVj2tnXNF0BCSdH46DmNRtxPRO7oHkjdmvJuCmiRz4t4pFWuA@mail.gmail.com> <292d45aa-cd32-3348-ce32-965281a52b20@valvesoftware.com>
+In-Reply-To: <292d45aa-cd32-3348-ce32-965281a52b20@valvesoftware.com>
+From:   Daniel Ogorchock <djogorchock@gmail.com>
+Date:   Wed, 22 Jul 2020 14:22:59 -0500
+Message-ID: <CAEVj2t=Az1G6X9Kj050aXVetW+PX==LgoEM9C3ES886NsYygcw@mail.gmail.com>
+Subject: Re: [PATCH v11 00/11] HID: nintendo
+To:     "Pierre-Loup A. Griffais" <pgriffais@valvesoftware.com>
+Cc:     Bastien Nocera <hadess@hadess.net>,
+        Roderick Colenbrander <thunderbird2k@gmail.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        Billy Laws <blaws05@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        "Colenbrander, Roelof" <Roderick.Colenbrander@sony.com>,
+        Siarhei Vishniakou <svv@google.com>, s.jegen@gmail.com,
+        Carl Mueller <carmueller@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Daniel,
+Hi Pierre-Loup,
 
-Sorry for hijacking this branch of the thread (it's the last one that=20
-survived my inbox) - it seems like merging this driver as-is would break=20
-Steam, according to user reports.
+On Wed, Jul 22, 2020 at 1:54 PM Pierre-Loup A. Griffais
+<pgriffais@valvesoftware.com> wrote:
+>
+> Hi Daniel,
+>
+> Sorry for hijacking this branch of the thread (it's the last one that
+> survived my inbox) - it seems like merging this driver as-is would break
+> Steam, according to user reports.
+>
+> Is there any mechanism built into this hid_nintendo patch series to duck
+> out of the way if userland directly opens the underlying hidraw device?
+> That's what hid_steam does to coexist peacefully with userspace drivers
+> (Steam being one of them, but not the only one).>
+> Thanks,
 
-Is there any mechanism built into this hid_nintendo patch series to duck=20
-out of the way if userland directly opens the underlying hidraw device?=20
-That's what hid_steam does to coexist peacefully with userspace drivers=20
-(Steam being one of them, but not the only one).
+I have run into the same issue of Steam/kernel fighting over the device.
+I opened an issue describing it here:
+https://github.com/ValveSoftware/steam-for-linux/issues/6651.
+
+I'd been telling people to use firejail as a temporary workaround to prevent
+steam from seeing the hidraw device. Note that hid-nintendo sets the most
+significant bit of the evdev's version number to allow userspace applications
+to discern it from the default hid device. There's no current mechanism in
+the driver to yield to userspace using hidraw, but I can look at what
+hid-steam is currently doing to accomplish that.
+
+I guess the downside to that method is that any other process listening to
+the controller's evdev events would cease to receive them (maybe a voice
+chat program using one of the buttons as a push-to-talk hotkey or something
+similar).
+
+Does steam use hidraw for the sony dualshock controllers as well? If so, is
+hid-sony doing anything special for that usecase?
+
+As an additional note to anyone following this thread: I have a newer patchset
+I need to submit which has a couple fixes for issues people have found while
+testing (sets a missing power supply flag and improves bluetooth connection
+stability). I will probably hold off on submitting that until we
+figure out the right
+solution to the hidraw issue.
 
 Thanks,
-  - Pierre-Loup
+Daniel
 
-On 5/22/20 12:11 PM, Daniel Ogorchock wrote:
-> Hi Bastien,
->=20
-> Apologies for the late reply. This thread sneaked past me somehow. If
-> we want to handle clone controllers with partial protocol
-> implementations, is it preferable to present them identically to
-> userspace, with non-existent functionality being no-ops? Or would it
-> be better to just not create the interfaces for missing functionality
-> (e.g. not create the led_classdevs for controllers without LEDs)? I
-> assume the latter makes more sense, since it doesn't lie to userspace.
-> Though it could potentially make the driver code messier.
->=20
-> Thanks,
-> Daniel
->=20
-> On Mon, Apr 27, 2020 at 3:56 AM Bastien Nocera <hadess@hadess.net> wrote:
->>
->> On Sun, 2020-04-26 at 15:31 -0700, Roderick Colenbrander wrote:
->>> On Sun, Apr 26, 2020 at 2:14 PM Bastien Nocera <hadess@hadess.net>
->>> wrote:
->>>> On Sun, 2020-04-26 at 13:42 -0700, Roderick Colenbrander wrote:
->>>> <snip>
->>>>> I really wonder how a device like this should be handled. It
->>>>> looks
->>>>> like the device can also handle a bunch of other classic Nintendo
->>>>> controllers.
->>>>>
->>>>> Is there anyway of detection this adapter? It feels nasty to have
->>>>> to
->>>>> hack in quirks for this device...
->>>>
->>>> The end game isn't very different from how we handle XBox 360, or
->>>> PS3/PS4 "clone" devices.
->>>>
->>>> Those devices (the adapters) work on the actual Nintendo Switch
->>>> hardware, so should probably work with the driver that handles the
->>>> same
->>>> type of hardware on Linux.
->>>>
->>>
->>> (resend in plain text)
->>>
->>> I agree it probably makes sense to handle in this driver. I'm worried
->>> about the application level implications. We have been doing a lot of
->>> work e.g. on Android to try to make gamepads consistent. It is weird
->>> to have a "Switch controller" with different features as applications
->>> make assumptions and don't expect there to be multiple versions of a
->>> particular controller. Any button mapping files would potentially be
->>> wrong for those too, certain features are not there (e.g. no sensors
->>> or no lights or rumble) or if they are the behaviour is different
->>> (e.g. HD rumble vs a classic rumble motor).
->>>
->>> Ideally we would do some kind of "fixup" to change the device name
->>> and
->>> or replace the device ids to at least separate them.
->>
->> All those would be detectable at runtime. I'm not sure that it's ever a
->> good idea to presume that a particular VID/PID combination will have,
->> say, rumble and LEDs available when the driver can answer those
->> questions.
->>
->> For example, I'm not sure that those controllers have either features
->> (though I'm not certain they identify as Switch Pro controllers, but
->> for the sake of argument):
->> https://store.nintendo.com/super-nintendo-entertainment-system-controlle=
-r.html
->> https://store.nintendo.com/nintendo-entertainment-system-controllers.htm=
-l
->>
->> Cheers
->>
->=20
->=20
-
+>   - Pierre-Loup
+>
