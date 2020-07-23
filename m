@@ -2,171 +2,317 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A004522A532
-	for <lists+linux-input@lfdr.de>; Thu, 23 Jul 2020 04:23:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8967822A53C
+	for <lists+linux-input@lfdr.de>; Thu, 23 Jul 2020 04:26:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729198AbgGWCXg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 22 Jul 2020 22:23:36 -0400
-Received: from mail-db8eur05on2047.outbound.protection.outlook.com ([40.107.20.47]:22497
-        "EHLO EUR05-DB8-obe.outbound.protection.outlook.com"
+        id S1733174AbgGWC0F (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 22 Jul 2020 22:26:05 -0400
+Received: from mail-dm6nam10on2133.outbound.protection.outlook.com ([40.107.93.133]:13281
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728914AbgGWCXf (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 22 Jul 2020 22:23:35 -0400
+        id S1728914AbgGWC0F (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 22 Jul 2020 22:26:05 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N8p9NOn/NiMAFZ2ZsGIAHPEBkspVMfJOPjQmxXfE5dYTcWwtCscCy+CE9TPAFAjBEjtsqRbFAyvV4R0BPQQ2j8Gx1qqIuIKFVbR4NRa2w6IrzsJg+fBZ3zghsVvLVyJDGR+Po0xv9xjMSwbwtjoxC00lzBZ9FZlV786lzC8S45N3W+FnDdT5x8eB03xUf/KojxjFkjrUIu+EV+xJCJLHgDuWjJR08gh7HAiPdqwbtHnwKumm0EKJkjrYV8mmBlPczqBXyT/ONlF55MtUaGmVymAHborbKOK7LhmfgUDdQwckz8b6MuMa577Iq39vFjTmFngR2m4SzM97MHI4IMLeVg==
+ b=Mk463RSstXzeCL76F4tPa7SXdpVsXXW6edmkOs6W1Q2WI/vMREWqo4M+dYTUs6SaQTDCoxyrTgNT7ZzKsPSgubUdYrTqSIpG2DDHNbuE4afiiPxiE17uw9JTCZTl3oURPp5MBvrkjiCiSXkNdz3KdqjP2fiAmQbCc7vKFCZgEuH4c7zWaDqn3fw2qdtuTDNNiiEIvf6uASxV5Ph8gpIlUAU7uqXLChpINj2h6a0qScWkDLa872TG03vllTubPppjy1cuyTHXzvkE3QSjROgmtB/Cn04KnYsLYYDTt8ryyamPlZqqESd9hK7+7qlKOGrG1d+9Y/dPc55LKoBT6FQRMg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1YACC/pCp8Pexd0ymROU7/FNDqjjZyW1maXtosY5YRM=;
- b=Bso/M/Yra4H84MYHFwyV2evgiqP0hURSp7+Da1/mHet5NfR3+qbHT52SAvygsWic09S9uz8IvwB0SVYUIa5uX7YJbjROjVs5VnMwimBJlzfcaGJzeejx0pjfSWy0QvGjfeXurYhJiVW8WoAjwOX1xwHj+uK92Pf9wG8+FxhRoaIafyQ22SfZFqT8a2jcLiVRVbcUvkOTSoU5+ZVy4C2wdRHPupJs/AGaLc6WFXubfJpFW+MSgGoOhI/ETGo1Bu/P13MhUdGAOVgGsEEinbRpH8JUV1C1jLd/VPD0nnCdCEAqdlU9ORDT1JnsJ7CCjX8VaxludMq8qrHrcv4v7h2iQg==
+ bh=lbGnwm6nigEVLD5O04pKymGg1ItEWvrWBLaJuQND2fw=;
+ b=Ex5LcQ81oMUFweP4ikeOiLe5cnL196G52Ryc67nzIsYyCnFervg+0TtRdGVP0qDSmvxGv2gO1/+tMWkQ5eQ9VZS1aWUqU3+wCbDiSg9HPtJ0SFegD21j6vyyJ0azjbnd/bwDvS/ihxyEAdUWj0PWaPGa5KUd66YWSKSMuH87dY6Wt41Wni7l3mE7xdu0zP3nrchv4OWCNB1qDJMxVmYOGJVIcrreCKk/87iTsyobUphQTep51v/ZGWPZsG0eF8el2qkW0IumqbD1SJsQsQ7h1YkfARIzngXpngwhRlfokX6+l1mCqKIRvO2bh/tHkJ0u7aPyexE40auGglFUUWnnQQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=diasemi.com; dmarc=pass action=none header.from=diasemi.com;
- dkim=pass header.d=diasemi.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dialogsemiconductor.onmicrosoft.com;
- s=selector1-dialogsemiconductor-onmicrosoft-com;
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1YACC/pCp8Pexd0ymROU7/FNDqjjZyW1maXtosY5YRM=;
- b=kc2y10NTQ5SedZ8JrdNG0jBd3TGWzcbzw0QfJBDfVHFjS3LTfveLBE9lcRNFbnLEkwU9imK5N5PlKSCbldzXuKfJGcwP8D4OMNx3YcJY1ndJC3zoHUlWcSE1JmDVokVqGdVf1Niv0Yc9BKZ/EugX2WHRTROJhTCerLHH7LqAMzU=
-Received: from DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:e9::10)
- by DB6PR1001MB1238.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:4:b3::14) with
+ bh=lbGnwm6nigEVLD5O04pKymGg1ItEWvrWBLaJuQND2fw=;
+ b=Jmg3847LaUuPjNhKXjhqyVIttpER/IhRPUHdium7hEztGas/HTpZ2ojnW0KZgHnD5vzf/8+jKzJwZzoP1VENernTy5T2sQ9qu4g2LvOT8v/5xiyVOCl1RZudwmizbQw2d8Rzs8rwP9BIoM/9Flh0Rwifr+g4nuzR1v8LDoUGZxM=
+Received: from MW2PR2101MB1052.namprd21.prod.outlook.com (2603:10b6:302:a::16)
+ by MWHPR21MB0752.namprd21.prod.outlook.com (2603:10b6:300:76::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.22; Thu, 23 Jul
- 2020 02:23:29 +0000
-Received: from DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::9913:d1be:cd0f:a620]) by DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::9913:d1be:cd0f:a620%6]) with mapi id 15.20.3216.023; Thu, 23 Jul 2020
- 02:23:29 +0000
-From:   Roy Im <roy.im.opensource@diasemi.com>
-To:     Jes Sorensen <jes.sorensen@gmail.com>,
-        Roy Im <roy.im.opensource@diasemi.com>,
-        Uwe Kleine-Koenig <u.kleine-koenig@pengutronix.de>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Brian Masney <masneyb@onstation.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Pascal PAILLET-LME <p.paillet@st.com>,
-        Rob Herring <robh@kernel.org>,
-        Samuel Ortiz <sameo@linux.intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-CC:     Support Opensource <Support.Opensource@diasemi.com>,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.14; Thu, 23 Jul
+ 2020 02:26:00 +0000
+Received: from MW2PR2101MB1052.namprd21.prod.outlook.com
+ ([fe80::fc14:3ca6:8a8:7407]) by MW2PR2101MB1052.namprd21.prod.outlook.com
+ ([fe80::fc14:3ca6:8a8:7407%8]) with mapi id 15.20.3239.005; Thu, 23 Jul 2020
+ 02:26:00 +0000
+From:   Michael Kelley <mikelley@microsoft.com>
+To:     "boqun.feng@gmail.com" <boqun.feng@gmail.com>
+CC:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
         "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>
-Subject: RE: [PATCH v16 3/3] Input: new da7280 haptic driver
-Thread-Topic: [PATCH v16 3/3] Input: new da7280 haptic driver
-Thread-Index: AQHWVcxyCdY0W8WVH0SKFGBEWuheuqkTzJSAgACTV9A=
-Date:   Thu, 23 Jul 2020 02:23:29 +0000
-Message-ID: <DB8PR10MB34362941F9428B498ED4B94E85760@DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM>
-References: <cover.1594279649.git.Roy.Im@diasemi.com>
- <b02ba5b5dbd3d58f27440ba639d32e4405061df3.1594279649.git.Roy.Im@diasemi.com>
- <bdc76da9-9223-b6d9-1fc1-2ef6e3b7afa7@gmail.com>
-In-Reply-To: <bdc76da9-9223-b6d9-1fc1-2ef6e3b7afa7@gmail.com>
-Accept-Language: ko-KR, en-US
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>
+Subject: RE: [RFC 11/11] scsi: storvsc: Support PAGE_SIZE larger than 4K
+Thread-Topic: [RFC 11/11] scsi: storvsc: Support PAGE_SIZE larger than 4K
+Thread-Index: AQHWXwAq7r8b2cLtUkWcYsdrWYe9TqkUScaQgAAf4oCAAAWJcA==
+Date:   Thu, 23 Jul 2020 02:26:00 +0000
+Message-ID: <MW2PR2101MB1052D1FD22F1A91082843EC0D7760@MW2PR2101MB1052.namprd21.prod.outlook.com>
+References: <20200721014135.84140-1-boqun.feng@gmail.com>
+ <20200721014135.84140-12-boqun.feng@gmail.com>
+ <MW2PR2101MB1052B072CA85F82B74BE799FD7760@MW2PR2101MB1052.namprd21.prod.outlook.com>
+ <20200723015149.GE35358@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+In-Reply-To: <20200723015149.GE35358@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2020-07-23T02:25:57Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=9c484212-fa3e-4409-8180-5e199ea96f1b;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0
 authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=diasemi.com;
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [1.240.7.28]
+ header.d=none;gmail.com; dmarc=none action=none header.from=microsoft.com;
+x-originating-ip: [24.22.167.197]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 713a70f6-1f14-4fae-5637-08d82eaf6344
-x-ms-traffictypediagnostic: DB6PR1001MB1238:
-x-ms-exchange-sharedmailbox-routingagent-processed: True
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: e49563da-fb26-4f14-d46f-08d82eafbd45
+x-ms-traffictypediagnostic: MWHPR21MB0752:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB6PR1001MB1238E9E7E3785B12D831D9AEA2760@DB6PR1001MB1238.EURPRD10.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:4941;
+x-microsoft-antispam-prvs: <MWHPR21MB07526B71E1AC30B6BD7764A6D7760@MWHPR21MB0752.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2276;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 9JSEF3BiRpuISVqVVE2V2W5azw3Y92wfEtNY5Y+FHqNKEKfQQ8z/eO1rYdmday+u32qitgEzaNXgOsh0LjB6NPslkatn7AfS/vLZjOO48Usg54Yu2cZWddtHmzb9IMY2QmpW5okKbIO99mwVGbUP/BoX0ekygClk1hwNooFSHSKcfFesnQQMffFnLxP4U9hUJjXxBVlMeb7FQCAchXzVye29x/fUjxv3C2cKMWELE1BX2QqI+iaaQMbmGYziysxlYeGWdZmpGk+5r88w+eA1p0NeYHnCdn4ZeZK8C6JFzk7tAD9OpGYGxeSwyYGC+zf1SK9/3yV5oB28xrObiOxK/aG8cDiZc/Um/NboNryAJXdyeZFbE0h7F7lB6jWpa7ke
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(396003)(39860400002)(376002)(346002)(366004)(136003)(52536014)(4326008)(478600001)(33656002)(83380400001)(5660300002)(7416002)(9686003)(55016002)(71200400001)(76116006)(8936002)(7696005)(66946007)(66446008)(66556008)(66476007)(64756008)(26005)(8676002)(54906003)(86362001)(316002)(6506007)(53546011)(186003)(2906002)(110136005)(921003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: lp2MBMvKkoukiLWE4o/R6RDFVdT07BmpAcoIWGvuJIchzl/Vuby+JMILRLeldyMhJjhX4NlKcSc6yWzhK47TaXK5rxSFbY/hxzhC60Fwa/7UeYTQ5SU1+1/9OxLY1KdZXst3xgK7tJLXcnlC5ARle9P4gff6Nrm8T4TaWgwpC0WE5z0REw/AXrIq6XmMZE+9IM64qW/rFfivpnNUos8WG+NJ2uCaT4qAvf2Z7uIMRKBzmyiL1/AHe8AaENhKpOfLdvB4iGKTdAL0ENuW/MXI/Vetj1q/GY54vjZAtEYZu7LFB4U1xfOPoK1Gi6/6gur83dZ+w+NzsB8jdUCdLyqj4ocTtKdUrik32lk9tvHB2x+eY+/YG9gn/G0h2LQBN6vlhIUU4Bsrmt69E8tTZMBe/M6RVzywZBjY0V6RcSmD5yAS7cFP922Y4sNk+40jLoqToc2udIQwM2J8xlYsWrsLIxlFP4U+UYNSid0+yr13+qY=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+x-microsoft-antispam-message-info: oTXgBicIZ94R/iTjDxO1O7Kj2ljkhr986YoI8g3n7fTEIYH+harRf6F6pzsVb2L2jpLTZ8CwiT3MQcvVBYGgYE78DA0BvRN23m2BmdnyZhcXcf11aEQJCI4jwTd74Ps14UF92uchWLq7uFN0XNzcq38xyaU2+y7m/Fi9dDmNuPaTA0nIWJbqngUylzjCMVcY233Ahux8NpxNEU7P6d8qxmf3ouzuUiZGYUHuaR2YVCgOtJObrXWRf1zLZm5xBhsXJjqCts9EptIZTvtl94l3jZ2tCkqEzSnlst+OqMdnesGQ8mzMAfLv+mt6VAeKL71RvFkHnbl7D8hGsji3DdutAA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR2101MB1052.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(136003)(396003)(376002)(366004)(346002)(39860400002)(52536014)(55016002)(4326008)(8990500004)(6916009)(26005)(7696005)(316002)(8676002)(82960400001)(82950400001)(33656002)(71200400001)(2906002)(5660300002)(54906003)(83380400001)(66476007)(7416002)(66946007)(86362001)(66446008)(478600001)(76116006)(64756008)(10290500003)(66556008)(8936002)(6506007)(186003)(9686003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: VsR8cyTe97jrbHHRXn5g0yM6/cHwgllD+e8BoPZR9uONdIaiZ4f1GhFYLXdXtfTaWQGkKjVVm3Q2bgIGDS6MbAqAFfOvC2ck3TTZyoyD++3ZDVqnS2s8wFVrtCLxTDU3tLj5F1TL3aTG+4/iAC5GIzzwafm3M3FQh2wc3qOZDqoraPI31nPiO6LLMaHlw6Yl5ibIoKawI86K7M+T9rjqJuqPjZclOhRcYZrQjQWt9EA8vthDDpLoG60v2Ch/UkQM7QaAZAAWa4QM5B3xmSL7rDOq2puGDWU0tcyfj1zmzUCA0QpMWiSOGnwhPwdqdOhoY7VlHAhCAQNMY/vaer0tA4XqStU2gxnnv+sp3lrVQXQSABmC1uUtuW0KcomtlEdoE4lgWKEulJXO4EqiOZGX+vW+Zbq0kGOi8bzkU7JQjBzd9pRmZQW0Sk70KPDgNPrT3/1Rnaegy7qpnTMA5HUHfWqjDfCNy9AJ1/xr+FsqchI1k2cTfvj9SxndyPEoUI74
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: diasemi.com
+X-OriginatorOrg: microsoft.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 713a70f6-1f14-4fae-5637-08d82eaf6344
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jul 2020 02:23:29.1513
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR2101MB1052.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e49563da-fb26-4f14-d46f-08d82eafbd45
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jul 2020 02:26:00.1670
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: J1W+2Ch25RXGgSWm5tcqRm6pcUpluif7tUPGPqkEXb7/cYNZvz/EsxC+jdc9pclZiLnl9VGpsSJOvavBt5Ej2w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR1001MB1238
+X-MS-Exchange-CrossTenant-userprincipalname: vpo05cCp30sqa5uUAM3aj9Z21OCEoo6IbxIQPSnl03N8vhPOKJ3TS9Jnts1G7UqSYISpwDJQ0T1H/bChHxbvLPm8AcE/Om7VPtCeCCbvZb8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR21MB0752
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-T24gVGh1cnNkYXksIEp1bHkgMjMsIDIwMjAgMTI6MjQgQU0sIEplcyBTb3JlbnNlbiB3cm90ZToN
-Cj4gT24gNy85LzIwIDM6MjcgQU0sIFJveSBJbSB3cm90ZToNCj4gPiBBZGRzIHN1cHBvcnQgZm9y
-IHRoZSBEaWFsb2cgREE3MjgwIExSQS9FUk0gSGFwdGljIERyaXZlciB3aXRoIG11bHRpcGxlDQo+
-ID4gbW9kZSBhbmQgaW50ZWdyYXRlZCB3YXZlZm9ybSBtZW1vcnkgYW5kIHdpZGViYW5kIHN1cHBv
-cnQuDQo+ID4gSXQgY29tbXVuaWNhdGVzIHZpYSBhbiBJMkMgYnVzIHRvIHRoZSBkZXZpY2UuDQo+
-ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBSb3kgSW0gPHJveS5pbS5vcGVuc291cmNlQGRpYXNlbWku
-Y29tPg0KPiA+IC0tLQ0KPiA+IHYxNjoNCj4gPiAJLSBDb3JyZWN0ZWQgc29tZSBjb2RlIGFuZCB1
-cGRhdGVkIGRlc2NyaXB0aW9uIGluIEtjb25maWcuDQo+ID4gdjE1Og0KPiA+IAktIFJlbW92ZWQg
-c29tZSBkZWZpbmVzIGFuZCB1cGRhdGVkIHNvbWUgY29tbWVudHMuDQo+ID4gdjE0Og0KPiA+IAkt
-IFVwZGF0ZWQgcHdtIHJlbGF0ZWQgY29kZSwgYWxpZ25tZW50cyBhbmQgY29tbWVudHMuDQo+ID4g
-djEzOg0KPiA+IAktIFVwZGF0ZWQgc29tZSBjb25kaXRpb25zIGluIHB3bSBmdW5jdGlvbiBhbmQg
-YWxpZ25tZW50cy4NCj4gPiB2MTI6IE5vIGNoYW5nZXMuDQo+ID4gdjExOg0KPiA+IAktIFVwZGF0
-ZWQgdGhlIHB3bSByZWxhdGVkIGNvZGUsIGNvbW1lbnRzIGFuZCB0eXBvLg0KPiA+IHYxMDoNCj4g
-PiAJLSBVcGRhdGVkIHRoZSBwd20gcmVsYXRlZCBmdW5jdGlvbiBhbmQgYWRkZWQgc29tZSBjb21t
-ZW50cy4NCj4gPiB2OToNCj4gPiAJLSBSZW1vdmVkIHRoZSBoZWFkZXIgZmlsZSBhbmQgcHV0IHRo
-ZSBkZWZpbml0aW9ucyBpbnRvIHRoZSBjIGZpbGUuDQo+ID4gCS0gVXBkYXRlZCB0aGUgcHdtIGNv
-ZGUgYW5kIGVycm9yIGxvZ3Mgd2l0aCAlcEUNCj4gPiB2ODoNCj4gPiAJLSBBZGRlZCBjaGFuZ2Vz
-IHRvIHN1cHBvcnQgRkZfUEVSSU9ESUMvRkZfQ1VTVE9NIGFuZCBGRl9DT05TVEFOVC4NCj4gPiAJ
-LSBVcGRhdGVkIHRoZSBkdC1yZWxhdGVkIGNvZGUuDQo+ID4gCS0gUmVtb3ZlZCBtZW1sZXNzIHJl
-bGF0ZWQgZnVuY3Rpb25zLg0KPiA+IHY3Og0KPiA+IAktIEFkZGVkIG1vcmUgYXR0cmlidXRlcyB0
-byBoYW5kbGUgb25lIHZhbHVlIHBlciBmaWxlLg0KPiA+IAktIFJlcGxhY2VkIGFuZCB1cGRhdGVk
-IHRoZSBkdC1yZWxhdGVkIGNvZGUgYW5kIGZ1bmN0aW9ucyBjYWxsZWQuDQo+ID4gCS0gRml4ZWQg
-ZXJyb3IvZnVuY3Rpb25zLg0KPiA+IHY2OiBObyBjaGFuZ2VzLg0KPiA+IHY1OiBGaXhlZCBlcnJv
-cnMgaW4gS2NvbmZpZyBmaWxlLg0KPiA+IHY0OiBVcGRhdGVkIGNvZGUgYXMgZHQtYmluZGluZ3Mg
-YXJlIGNoYW5nZWQuDQo+ID4gdjM6IE5vIGNoYW5nZXMuDQo+ID4gdjI6IEZpeGVkIGtidWlsZCBl
-cnJvci93YXJuaW5nDQo+ID4NCj4gPg0KPiA+ICBkcml2ZXJzL2lucHV0L21pc2MvS2NvbmZpZyAg
-fCAgIDEzICsNCj4gPiAgZHJpdmVycy9pbnB1dC9taXNjL01ha2VmaWxlIHwgICAgMSArDQo+ID4g
-IGRyaXZlcnMvaW5wdXQvbWlzYy9kYTcyODAuYyB8IDE4NDANCj4gPiArKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+ID4gIDMgZmlsZXMgY2hhbmdlZCwgMTg1NCBp
-bnNlcnRpb25zKCspDQo+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2lucHV0L21pc2Mv
-ZGE3MjgwLmMNCj4gDQo+IEhpIFJveSwNCj4gDQo+IE92ZXJhbGwgdGhlIGRyaXZlciBsb29rcyBw
-cmV0dHkgZ29vZCBub3cuIEkgZGlkIGZpbmQgb25lIGlzc3VlLCBzZWUgYmVsb3cuIElmIHlvdSBm
-aXggdGhhdCBJIGFtIGhhcHB5IHRvIGFkZCBhIFJldmlld2VkLWJ5IGxpbmUuDQo+IA0KPiBSZXZp
-ZXdlZC1CeTogSmVzIFNvcmVuc2VuIDxKZXMuU29yZW5zZW5AZ21haWwuY29tPg0KDQpUaGFua3Mg
-YSBsb3QgYW5kIEkgd2lsbCBmaXggYXMgeW91IGFkdmlzZWQgYmVsb3csIHRoZW4gSSB3aWxsIGFk
-ZCBhIFJldmlld2VkLWxpbmUgaW4gdGhlIG5leHQgcGF0Y2guDQoNCj4gDQo+ID4gZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvaW5wdXQvbWlzYy9kYTcyODAuYyBiL2RyaXZlcnMvaW5wdXQvbWlzYy9kYTcy
-ODAuYw0KPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0IGluZGV4IDAwMDAwMDAuLmM4YzQyYWMNCj4g
-PiAtLS0gL2Rldi9udWxsDQo+ID4gKysrIGIvZHJpdmVycy9pbnB1dC9taXNjL2RhNzI4MC5jDQo+
-IA0KPiBbc25pcF0NCj4gDQo+ID4gK3N0YXRpYyBpbnQgZGE3MjgwX2hhcHRpY19zZXRfcHdtKHN0
-cnVjdCBkYTcyODBfaGFwdGljICpoYXB0aWNzLCBib29sIGVuYWJsZWQpDQo+ID4gK3sNCj4gPiAr
-CXN0cnVjdCBwd21fc3RhdGUgc3RhdGU7DQo+ID4gKwl1NjQgcGVyaW9kX21hZ19tdWx0aTsNCj4g
-PiArCWludCBlcnJvcjsNCj4gPiArDQo+ID4gKwlpZiAoIWhhcHRpY3MtPmdhaW4gJiYgZW5hYmxl
-ZCkgew0KPiA+ICsJCWRldl9lcnIoaGFwdGljcy0+ZGV2LA0KPiA+ICsJCQkiUGxlYXNlIHNldCB0
-aGUgZ2FpbiBmaXJzdCBmb3IgdGhlIHB3bSBtb2RlXG4iKTsNCj4gPiArCQlyZXR1cm4gLUVJTlZB
-TDsNCj4gPiArCX0NCj4gPiArDQo+ID4gKwlwd21fZ2V0X3N0YXRlKGhhcHRpY3MtPnB3bV9kZXYs
-ICZzdGF0ZSk7DQo+ID4gKwlzdGF0ZS5lbmFibGVkID0gZW5hYmxlZDsNCj4gPiArCWlmIChlbmFi
-bGVkKSB7DQo+ID4gKwkJcGVyaW9kX21hZ19tdWx0aSA9IHN0YXRlLnBlcmlvZCAqIGhhcHRpY3Mt
-PmdhaW47DQo+IA0KPiBZb3UgYXJlIG11bHRpcGx5aW5nIGFuIHVuc2lnbmVkIGludCB0byBhIHUx
-NiBhbmQgc3RvcmluZyBpdCBpbiBhIHU2NC4NCj4gSG93ZXZlciwgQyBkb2Vzbid0IHByb21vdGUg
-dGhlIHR5cGVzLCBzbyB5b3UnbGwgZW5kIHVwIHdpdGggYW4NCj4gdW5leHBlY3RlZCByZXN1bHQg
-aGVyZS4gWW91IGNhbiBmaXggaXQgYnkgcHJvbW90aW5nIHN0YXRlLnBlcmlvZCB0byB1NjQsIGll
-Og0KPiANCj4gCQlwZXJpb2RfbWFnZV9tdWx0aSA9ICh1NjQpc3RhdGUucGVyaW9kICogaGFwdGlj
-cy0+Z2FpbjsNCj4gDQo+IFNlZSB0aGUgZm9sbG93aW5nIGV4YW1wbGUgY29kZSB3aGljaCBkZW1v
-bnN0cmF0ZXMgdGhlIHByb2JsZW0uDQo+IA0KPiAjaW5jbHVkZSA8c3RkaW8uaD4NCj4gI2luY2x1
-ZGUgPHN0ZGludC5oPg0KPiANCj4gdWludDY0X3QgZm9vKHVuc2lnbmVkIGludCBhLCB1aW50MTZf
-dCBiKQ0KPiB7DQo+IAl1aW50NjRfdCB0bXAgPSBhICogYjsNCj4gCXJldHVybiB0bXA7DQo+IH0N
-Cj4gDQo+IHVpbnQ2NF90IGJhcih1bnNpZ25lZCBpbnQgYSwgdWludDE2X3QgYikNCj4gew0KPiAJ
-dWludDY0X3QgdG1wID0gKHVpbnQ2NF90KWEgKiBiOw0KPiAJcmV0dXJuIHRtcDsNCj4gfQ0KPiAN
-Cj4gaW50IG1haW4oKQ0KPiB7DQo+IAl1aW50NjRfdCB2YWw7DQo+IAl1bnNpZ25lZCBpbnQgYSA9
-IDB4ZmYwMGZmMDA7DQo+IAl1aW50MTZfdCBiID0gMHgyMDA7DQo+IA0KPiAJdmFsID0gZm9vKGEs
-IGIpOw0KPiAJcHJpbnRmKCJyZXN1bHQoJTB4LCAlMHgpID0gJTBsbHhcbiIsIGEsIGIsIHZhbCk7
-DQo+IA0KPiAJdmFsID0gYmFyKGEsIGIpOw0KPiAJcHJpbnRmKCJyZXN1bHQoJTB4LCAlMHgpID0g
-JTBsbHhcbiIsIGEsIGIsIHZhbCk7DQo+IH0NCj4gDQo+IENoZWVycywNCj4gSmVzDQoNClllcywg
-eW91IGFyZSByaWdodCwgSSBzZWUgdGhlIGRpZmZlcmVudCByZXN1bHQsIEkgd2lsbCBmaXggdGhp
-cy4NCg0KS2luZCByZWdhcmRzLA0KUm95DQoNCg==
+From: boqun.feng@gmail.com <boqun.feng@gmail.com> Sent: Wednesday, July 22,=
+ 2020 6:52 PM
+>=20
+> On Thu, Jul 23, 2020 at 12:13:07AM +0000, Michael Kelley wrote:
+> > From: Boqun Feng <boqun.feng@gmail.com> Sent: Monday, July 20, 2020 6:4=
+2 PM
+> > >
+> > > Hyper-V always use 4k page size (HV_HYP_PAGE_SIZE), so when
+> > > communicating with Hyper-V, a guest should always use HV_HYP_PAGE_SIZ=
+E
+> > > as the unit for page related data. For storvsc, the data is
+> > > vmbus_packet_mpb_array. And since in scsi_cmnd, sglist of pages (in u=
+nit
+> > > of PAGE_SIZE) is used, we need convert pages in the sglist of scsi_cm=
+nd
+> > > into Hyper-V pages in vmbus_packet_mpb_array.
+> > >
+> > > This patch does the conversion by dividing pages in sglist into Hyper=
+-V
+> > > pages, offset and indexes in vmbus_packet_mpb_array are recalculated
+> > > accordingly.
+> > >
+> > > Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+> > > ---
+> > >  drivers/scsi/storvsc_drv.c | 27 +++++++++++++++++++++------
+> > >  1 file changed, 21 insertions(+), 6 deletions(-)
+> > >
+> > > diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c
+> > > index fb41636519ee..c54d25f279bc 100644
+> > > --- a/drivers/scsi/storvsc_drv.c
+> > > +++ b/drivers/scsi/storvsc_drv.c
+> > > @@ -1561,7 +1561,7 @@ static int storvsc_queuecommand(struct Scsi_Hos=
+t *host,
+> struct
+> > > scsi_cmnd *scmnd)
+> > >  	struct hv_host_device *host_dev =3D shost_priv(host);
+> > >  	struct hv_device *dev =3D host_dev->dev;
+> > >  	struct storvsc_cmd_request *cmd_request =3D scsi_cmd_priv(scmnd);
+> > > -	int i;
+> > > +	int i, j, k;
+> > >  	struct scatterlist *sgl;
+> > >  	unsigned int sg_count =3D 0;
+> > >  	struct vmscsi_request *vm_srb;
+> > > @@ -1569,6 +1569,8 @@ static int storvsc_queuecommand(struct Scsi_Hos=
+t *host,
+> struct
+> > > scsi_cmnd *scmnd)
+> > >  	struct vmbus_packet_mpb_array  *payload;
+> > >  	u32 payload_sz;
+> > >  	u32 length;
+> > > +	int subpage_idx =3D 0;
+> > > +	unsigned int hvpg_count =3D 0;
+> > >
+> > >  	if (vmstor_proto_version <=3D VMSTOR_PROTO_VERSION_WIN8) {
+> > >  		/*
+> > > @@ -1643,23 +1645,36 @@ static int storvsc_queuecommand(struct Scsi_H=
+ost *host,
+> struct
+> > > scsi_cmnd *scmnd)
+> > >  	payload_sz =3D sizeof(cmd_request->mpb);
+> > >
+> > >  	if (sg_count) {
+> > > -		if (sg_count > MAX_PAGE_BUFFER_COUNT) {
+> > > +		hvpg_count =3D sg_count * (PAGE_SIZE / HV_HYP_PAGE_SIZE);
+> >
+> > The above calculation doesn't take into account the offset in the
+> > first sglist or the overall length of the transfer, so the value of hvp=
+g_count
+> > could be quite a bit bigger than it needs to be.  For example, with a 6=
+4K
+> > page size and an 8 Kbyte transfer size that starts at offset 60K in the
+> > first page, hvpg_count will be 32 when it really only needs to be 2.
+> >
+> > The nested loops below that populate the pfn_array take the
+> > offset into account when starting, so that's good.  But it will potenti=
+ally
+> > leave allocated entries unused.  Furthermore, the nested loops could
+> > terminate early when enough Hyper-V size pages are mapped to PFNs
+> > based on the length of the transfer, even if all of the last guest size
+> > page has not been mapped to PFNs.  Like the offset at the beginning of
+> > first guest size page in the sglist, there's potentially an unused port=
+ion
+> > at the end of the last guest size page in the sglist.
+> >
+>=20
+> Good point. I think we could calculate the exact hvpg_count as follow:
+>=20
+> 	hvpg_count =3D 0;
+> 	cur_sgl =3D sgl;
+>=20
+> 	for (i =3D 0; i < sg_count; i++) {
+> 		hvpg_count +=3D HVPFN_UP(cur_sg->length)
+> 		cur_sgl =3D sg_next(cur_sgl);
+> 	}
+>=20
+
+The downside would be going around that loop a lot of times when
+the page size is 4K bytes and the I/O transfer size is something like
+256K bytes.  I think this gives the right result in constant time:  the
+starting offset within a Hyper-V page, plus the transfer length,
+rounded up to a Hyper-V page size, and divided by the Hyper-V
+page size.
+
+
+> > > +		if (hvpg_count > MAX_PAGE_BUFFER_COUNT) {
+> > >
+> > > -			payload_sz =3D (sg_count * sizeof(u64) +
+> > > +			payload_sz =3D (hvpg_count * sizeof(u64) +
+> > >  				      sizeof(struct vmbus_packet_mpb_array));
+> > >  			payload =3D kzalloc(payload_sz, GFP_ATOMIC);
+> > >  			if (!payload)
+> > >  				return SCSI_MLQUEUE_DEVICE_BUSY;
+> > >  		}
+> > >
+> > > +		/*
+> > > +		 * sgl is a list of PAGEs, and payload->range.pfn_array
+> > > +		 * expects the page number in the unit of HV_HYP_PAGE_SIZE (the
+> > > +		 * page size that Hyper-V uses, so here we need to divide PAGEs
+> > > +		 * into HV_HYP_PAGE in case that PAGE_SIZE > HV_HYP_PAGE_SIZE.
+> > > +		 */
+> > >  		payload->range.len =3D length;
+> > > -		payload->range.offset =3D sgl[0].offset;
+> > > +		payload->range.offset =3D sgl[0].offset & ~HV_HYP_PAGE_MASK;
+> > > +		subpage_idx =3D sgl[0].offset >> HV_HYP_PAGE_SHIFT;
+> > >
+> > >  		cur_sgl =3D sgl;
+> > > +		k =3D 0;
+> > >  		for (i =3D 0; i < sg_count; i++) {
+> > > -			payload->range.pfn_array[i] =3D
+> > > -				page_to_pfn(sg_page((cur_sgl)));
+> > > +			for (j =3D subpage_idx; j < (PAGE_SIZE / HV_HYP_PAGE_SIZE); j++) =
+{
+> >
+> > In the case where PAGE_SIZE =3D=3D HV_HYP_PAGE_SIZE, would it help the =
+compiler
+> > eliminate the loop if local variable j is declared as unsigned?  In tha=
+t case the test in the
+> > for statement will always be false.
+> >
+>=20
+> Good point! I did the following test:
+>=20
+> test.c:
+>=20
+> 	int func(unsigned int input, int *arr)
+> 	{
+> 		unsigned int i;
+> 		int result =3D 0;
+>=20
+> 		for (i =3D input; i < 1; i++)
+> 			result +=3D arr[i];
+>=20
+> 		return result;
+> 	}
+>=20
+> if I define i as "int", I got:
+>=20
+> 	0000000000000000 <func>:
+> 	   0:	85 ff                	test   %edi,%edi
+> 	   2:	7f 2c                	jg     30 <func+0x30>
+> 	   4:	48 63 d7             	movslq %edi,%rdx
+> 	   7:	f7 df                	neg    %edi
+> 	   9:	45 31 c0             	xor    %r8d,%r8d
+> 	   c:	89 ff                	mov    %edi,%edi
+> 	   e:	48 8d 04 96          	lea    (%rsi,%rdx,4),%rax
+> 	  12:	48 01 d7             	add    %rdx,%rdi
+> 	  15:	48 8d 54 be 04       	lea    0x4(%rsi,%rdi,4),%rdx
+> 	  1a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+> 	  20:	44 03 00             	add    (%rax),%r8d
+> 	  23:	48 83 c0 04          	add    $0x4,%rax
+> 	  27:	48 39 d0             	cmp    %rdx,%rax
+> 	  2a:	75 f4                	jne    20 <func+0x20>
+> 	  2c:	44 89 c0             	mov    %r8d,%eax
+> 	  2f:	c3                   	retq
+> 	  30:	45 31 c0             	xor    %r8d,%r8d
+> 	  33:	44 89 c0             	mov    %r8d,%eax
+> 	  36:	c3                   	retq
+>=20
+> and when I define i as "unsigned int", I got:
+>=20
+> 	0000000000000000 <func>:
+> 	   0:	85 ff                	test   %edi,%edi
+> 	   2:	75 03                	jne    7 <func+0x7>
+> 	   4:	8b 06                	mov    (%rsi),%eax
+> 	   6:	c3                   	retq
+> 	   7:	31 c0                	xor    %eax,%eax
+> 	   9:	c3                   	retq
+>=20
+> So clearly it helps, I will change this in the next version.
+
+Wow!  The compiler is good ....
+
+>=20
+> Regards,
+> Boqun
+>=20
+> > > +				payload->range.pfn_array[k] =3D
+> > > +					page_to_hvpfn(sg_page((cur_sgl))) + j;
+> > > +				k++;
+> > > +			}
+> > >  			cur_sgl =3D sg_next(cur_sgl);
+> > > +			subpage_idx =3D 0;
+> > >  		}
+> > >  	}
+> > >
+> > > --
+> > > 2.27.0
+> >
