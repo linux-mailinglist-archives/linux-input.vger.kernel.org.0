@@ -2,117 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E282C22E2D8
-	for <lists+linux-input@lfdr.de>; Sun, 26 Jul 2020 23:57:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C82C22E2DD
+	for <lists+linux-input@lfdr.de>; Mon, 27 Jul 2020 00:01:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726636AbgGZV5d (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 26 Jul 2020 17:57:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54378 "EHLO
+        id S1726522AbgGZWBG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 26 Jul 2020 18:01:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726522AbgGZV5c (ORCPT
+        with ESMTP id S1726253AbgGZWBF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 26 Jul 2020 17:57:32 -0400
-Received: from gnutoo.cyberdimension.org (cyberdimension.org [IPv6:2001:910:1314:ffff::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BE49C0619D2
-        for <linux-input@vger.kernel.org>; Sun, 26 Jul 2020 14:57:32 -0700 (PDT)
-Received: from gnutoo.cyberdimension.org (localhost [127.0.0.1])
-        by cyberdimension.org (OpenSMTPD) with ESMTP id 31e918f4;
-        Sun, 26 Jul 2020 21:46:50 +0000 (UTC)
-Received: from primarylaptop.localdomain (localhost.localdomain [::1])
-        by gnutoo.cyberdimension.org (OpenSMTPD) with ESMTP id 495b607e;
-        Sun, 26 Jul 2020 21:46:50 +0000 (UTC)
-Date:   Sun, 26 Jul 2020 23:42:29 +0200
-From:   Denis 'GNUtoo' Carikli <GNUtoo@cyberdimension.org>
-To:     Peter Hutterer <peter.hutterer@who-t.net>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Andi Shyti <andi@etezian.org>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        linux-input@vger.kernel.org, Javi Ferrer <javi.f.o@gmail.com>
-Subject: Re: [PATCH] Input: mms114: don't report 0 pressure while still
- tracking contact(s)
-Message-ID: <20200726234229.4edf73b4@primarylaptop.localdomain>
-In-Reply-To: <20200626000439.GA108136@koala>
-References: <20200606035017.7271-1-GNUtoo@cyberdimension.org>
- <20200606181806.GR89269@dtor-ws>
- <20200612194619.0ac97cf2@primarylaptop.localdomain>
- <20200614235735.GA11069@koala>
- <20200623182540.0ed5de81@primarylaptop.localdomain>
- <20200626000439.GA108136@koala>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; i686-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/u0Q5Tr6rYq.bmm9sWIf+Owq";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+        Sun, 26 Jul 2020 18:01:05 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 084FCC0619D2;
+        Sun, 26 Jul 2020 15:01:05 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id s26so8006226pfm.4;
+        Sun, 26 Jul 2020 15:01:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id;
+        bh=IH0/M9cS+3g6rCHfpAc3E+ozfsl0ujXw3IEZMoSmSuc=;
+        b=fv/jVEkqGug6NcQ26s5BuYgfJXu+99POQrTnOfq7QLG6YYH0CR6uNsSo3l4Fu/d3UW
+         HDxgYovtHTZ46Bi1UPELjqKA8KJRmpG7xgQSde+QFzae8yw3QfdPY+Bo+pUD+QfSptVO
+         pl96OVY0UiTQeoCecQa80CtzNmEo+Me9eCQFpvzbGqKUii+qLcSW/sAFuQqDvyNV5Itc
+         3hAjPD0NcYoX/DqrO/vx33EKHA33cMBGlw+wZ6sgJRRnHsnyMYzhjQwgIKt3Utyi6LpF
+         8GtmGDdWxjuse30s/KZou2XFRQ/OPGb3Vo3WVmG8oxPx4fplBllkEaDdq9OLuN3D6hhU
+         VAgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+        bh=IH0/M9cS+3g6rCHfpAc3E+ozfsl0ujXw3IEZMoSmSuc=;
+        b=kCmbdjHFO3XEqrTM9vLVlm2Q23LhyJF1VtM07HThKqUtMgwwWoFXz1JDwCDs/4JawV
+         fejK0P22k1M90COZw6yJU5q1i6SnD79flQVcDw+fW9BVTeW6TpL56kA57T8iaLZ9AQzK
+         RaelwQiMRRvNpdBsAHoCfaKQK/7R7uQZ6VA8l34DVy4m99dWZ48suo/JR1xFpxV68wTm
+         ka9luWchYTKuDA81sMgpr+MuapDNGA1q1DDYEpRy4BcenEyvLnz+xb71dBx82BZxEaGA
+         IB5OnqZkmQl03YknZNXGrmAugz9i6QxNGyI8weuKurYSky67x8wIuwoZZy2CGnc7sCEE
+         BQGw==
+X-Gm-Message-State: AOAM531M+7lI/p6CfFvPSfvCo/UmGq0iAIJNXw+vd2s2E7A2EhkK6Qqu
+        6vb9vcJSRqoBdAJ9IlGsw8Y=
+X-Google-Smtp-Source: ABdhPJxK+KLnxE1VXpQBalut239v/Xr/XnBEZtTrYOvBZFFDLBJsO1U5ZU73IJb3vmKjVwSkWOfZ/g==
+X-Received: by 2002:a65:6786:: with SMTP id e6mr16518480pgr.395.1595800863683;
+        Sun, 26 Jul 2020 15:01:03 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id 7sm12171373pgw.85.2020.07.26.15.01.02
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 26 Jul 2020 15:01:02 -0700 (PDT)
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Brian Norris <briannorris@chromium.org>,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-pwm@vger.kernel.org
+Subject: [PATCH v3 0/6] platform/chrome: cros_ec_proto: Convert EC error codes to Linux error codes
+Date:   Sun, 26 Jul 2020 15:00:55 -0700
+Message-Id: <20200726220101.29059-1-linux@roeck-us.net>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
---Sig_/u0Q5Tr6rYq.bmm9sWIf+Owq
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+The EC reports a variety of error codes. Most of those, with the exception
+of EC_RES_INVALID_VERSION, are converted to -EPROTO. As result, the actual
+error code gets lost. In cros_ec_cmd_xfer_status(), convert all EC errors
+to Linux error codes to report a more meaningful error to the caller to aid
+debugging.
 
-On Fri, 26 Jun 2020 10:04:39 +1000
-Peter Hutterer <peter.hutterer@who-t.net> wrote:
+To prepare for this change, handle error codes other than -EPROTO for all
+callers of cros_ec_cmd_xfer_status(). Specifically, no longer assume that
+-EPROTO reflects an error from the EC and all other error codes reflect a
+transfer error.
 
-> thanks for the log. Basically - the problem is that
-> ABS_MT_TOUCH_MAJOR and ABS_PRESSURE are completely unrelated on the
-> device and the latter has apparently random values. 1585880999.248531
-> is an event where you go from almost max pressure to 0 without
-> changing touch major.
-I also tried not to touch the screen too hard, so it's normal to have
-some pressure variation as well.
+v2: Add patches 1/4 to 3/4 to handle callers of cros_ec_cmd_xfer_status()
+v3: Add patches 4/6 and 5/6 to handle additional callers of
+	cros_ec_cmd_xfer_status()
+    Use -ENOPROTOOPT for EC_RES_INVALID_VERSION
+    Implement function to convert error codes
 
-> Since pressure is more common, you'll have to expect that userspace
-> may ignore major/minor and handle pressure instead where available.
-> Doubly so since historically the major/minor value range has been
-> completely random while pressure was at least somewhat predictable.
-> In this sequence, your touch major ranges from 4-14 despite the axis
-> range being 0-255.
->=20
-> Historically, pressure has also been used as equivalent to touch
-> size, so decoupling touch size and pressure is tricky anyway.
-> Speaking from libinput's POV I would disable ABS_(MT_)PRESSURE in
-> this device since it's not reliable to detect a touch. But then we'd
-> still need a quirk in place to tell us what the possible touch major
-> range could be to make sense of that number.
-I didn't understood if I needed to do something about that patch or
-not.
+----------------------------------------------------------------
+Guenter Roeck (6):
+      iio: cros_ec: Accept -EOPNOTSUPP as 'not supported' error code
+      cros_ec_lightbar: Accept more error codes from cros_ec_cmd_xfer_status
+      platform/chrome: cros_ec_sysfs: Report range of error codes from EC
+      pwm: cros-ec: Accept more error codes from cros_ec_cmd_xfer_status
+      platform/input: cros_ec: Replace -ENOTSUPP with -ENOPROTOOPT
+      platform/chrome: cros_ec_proto: Convert EC error codes to Linux error codes
 
-Here I'm mostly interested in fixing that issue for future kernels
-and/or userspace input stack releases.
-
-Am I supposed to fix the issue in userspace? Or is the advise on
-libinput a way to deal with older kernel versions? Is the quirk
-meant to be in Linux or in libinput?
-
-I'm currently testing with GNU/Linux as it's faster, but eventually I'm
-also interested in running Android with a Linux kernel that is as much
-upstream as possible, so I also need to understand the API here: Is it
-up to userspace to interpret if the values are somewhat valid, or is it
-up to the kernel to return valid values?
-
-Denis.
-
---Sig_/u0Q5Tr6rYq.bmm9sWIf+Owq
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeC+d2+Nrp/PU3kkGX138wUF34mMFAl8d+MUACgkQX138wUF3
-4mOobhAAmmEf4yFI6XsEqYdOKH4rfDgfNxRx0oJEIdjgPnO+aVl+2TMj5HUvvuvY
-Rc0ZPP9209TFugwe/khIsCfvUTdcDBnzbGJZKDxQZ0Nv+bUSMvaBUlQggMl+jcxQ
-BzxSMpRWECdTCdM5heIrTFrjWELstePGSn/X8P1i/rQitxBZ5Lq7Ksg1w2CGzV1t
-ntZiyg8w4kFb4pkeZjHGl24Au34f6gMK5vLdQfO8fELtZMEnrC/gt+YNUE7YOlOC
-62N/fYhpHRxY2zReR3u93kIIU2KoIwu9gPBuU/vzSz5eCA50fAdku1+Q+Z7iKUqV
-wlKCsXlrkVgihh0BGGWRUoCNRaIl6zoxT7+//CCKoOMn6+LEvK3h5zYtVJY5+XCY
-X+o32QVCJoN//QTBi7klfn0n5LNHuLA9HB8CrhLlP8hzb+6L+vcPP/yyoJ/OcbQF
-J7AsLW3AbXExsL2C/xM9BWl2sxZ5mR1nHCi6Wa9ygw7Hki7l6oNXojuOrCAgRmVT
-QvwitcSCrZ9mS0V8tnl1GuzL1t1gO+EY7rMk0SOvhXXtpBkzsyukIe9W3aswwP8n
-DOY2IwMSG/Q314D+Yb3qTDM6bsW1/wCJIJh+Bs5+mEsASZWyWatz0kGgf7aqmo1c
-Pyqr2Dyifrr2i1ZY8hr+x/7DUvR3bQBJo5h00ZDatgohaXqI6JY=
-=oCwu
------END PGP SIGNATURE-----
-
---Sig_/u0Q5Tr6rYq.bmm9sWIf+Owq--
+ .../iio/common/cros_ec_sensors/cros_ec_sensors.c   |  2 +-
+ drivers/input/keyboard/cros_ec_keyb.c              |  2 +-
+ drivers/platform/chrome/cros_ec_lightbar.c         | 10 ++---
+ drivers/platform/chrome/cros_ec_proto.c            | 52 +++++++++++++++++-----
+ drivers/platform/chrome/cros_ec_sysfs.c            | 24 ++++------
+ drivers/pwm/pwm-cros-ec.c                          | 21 ++++++---
+ 6 files changed, 71 insertions(+), 40 deletions(-)
