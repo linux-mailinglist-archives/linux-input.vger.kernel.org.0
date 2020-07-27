@@ -2,178 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECCC922E2E8
-	for <lists+linux-input@lfdr.de>; Mon, 27 Jul 2020 00:01:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1698C22E38C
+	for <lists+linux-input@lfdr.de>; Mon, 27 Jul 2020 02:51:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727876AbgGZWBR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 26 Jul 2020 18:01:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54966 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727863AbgGZWBQ (ORCPT
+        id S1726689AbgG0AvA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 26 Jul 2020 20:51:00 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:44805 "EHLO
+        wnew1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726636AbgG0Au7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 26 Jul 2020 18:01:16 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FFE9C0619D2;
-        Sun, 26 Jul 2020 15:01:16 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id o1so7049251plk.1;
-        Sun, 26 Jul 2020 15:01:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=bjVnORhi6K4tnpvsHMJkLOHEhfuhVXgBDoQvEx+EDo0=;
-        b=Bdb9ucGbVvdpZsbF7eqQyUw+F7iyLGKDr2atvdQhjJdRa+vSDcKNojEcsyxhC7JGWe
-         7Q3d/4dUNj5HSMDxGouL0EP4vN7KES5w4LOMGmt8jyEOCjPNiQfAUWx1ZjWbEvOomp2O
-         /glux9ODX7jgDUnM1+TSjpQkf6cOeit/oCyJtXb8HJ4+iQM65VERrBoda+Dheju21WwK
-         DgADP/4kJ4TEwZww9UbyQQJgJvF1fX9l/jBxYtfLObiaZYDAlkq02yAUfLpFuosWRmFJ
-         N8vHN0RK2UGzU2M3RyWHJrFO8VtHdc5co1xPa2OXSLdi6Gc/enPllnqK9Rk3n/SyQAXz
-         4oow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :in-reply-to:references;
-        bh=bjVnORhi6K4tnpvsHMJkLOHEhfuhVXgBDoQvEx+EDo0=;
-        b=PdDDStOziPXhVIqp0Ckl43dLIEo3OvJIWLU3ZBerQAS47x/RpQYePpXAIpGSdmF2mJ
-         bMq8+vsPma/J/elrh5LylV60g8lng2tYUgdOIMJNo9NmfJBQF9LEWu+yHwyfRU2+/Ws0
-         h72g4jNFGIWKi36tZVJ7SW3xAi4IXSlvGVOxpK9fwFTJQbcu76pf0nEsrGJlGF1oh6ZA
-         eOdVLrkH0h9Gjzu/+crmLhimxsualBM9zmLvDDfqlz5JlRXkzCCF1invFTUaeBiEIgEi
-         y5y6pHGXg3lUNisfF3s3f6PkVcAmhZUhnF5miRwIGwMGx3uqbGxif+Mt0e3LKRAt3ory
-         UCRw==
-X-Gm-Message-State: AOAM530tIbvWfwoBKNTNK4pZhvjUNkFk19Rhd2g80QQKuH7Hr9PkX9+H
-        wRGYzxjFedy4npnRqFFU1WU=
-X-Google-Smtp-Source: ABdhPJwdn5BnDPDjUrPx0M+up64335H8qXNoJ+C7xz1PePlwnuIT4pqNYfYj9LJOk1i20KDeGZxHkA==
-X-Received: by 2002:a17:90a:14a5:: with SMTP id k34mr16307487pja.37.1595800875961;
-        Sun, 26 Jul 2020 15:01:15 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id lr1sm14455501pjb.27.2020.07.26.15.01.15
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 26 Jul 2020 15:01:15 -0700 (PDT)
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
+        Sun, 26 Jul 2020 20:50:59 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+        by mailnew.west.internal (Postfix) with ESMTP id B47175A4;
+        Sun, 26 Jul 2020 20:50:57 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute7.internal (MEProxy); Sun, 26 Jul 2020 20:50:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hmh.eng.br; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=ZtQn8yLFnvpuWiPUdYB8nDbJbBW
+        6fIQDoysVL7HWuWk=; b=QhUErVKMpv+jPIdqIi9/vX5k1/mcrPCw7u8m3H7W5Uk
+        mTJHe9PqHtlx4amUHi97vzhdKS0CZVX3jxnp+tyjwn24IvwuPxs78v4y9p0fZS1T
+        MBDXJOMGXioKUntI1UtfrAclWszzMqZa6IJUmQMgUbtANjZq1LI7dw+2Mw9B75Ue
+        h/8Sai9uR9ibYEVKV6a7ZVUY0X2SUW7WE6OTvRqT0AhXBROySmpNshTSdxZYCrf2
+        l+WQ+DrfUZouiNjI+6xgfh3CHTcIoiPKKPtTAaoCtUn8e2OrN2CivO8ty0O3uKYL
+        +TOTo7JuOf0ajezvthWKyMTA+Fy3cOFG4DDnZAGB8Ug==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ZtQn8y
+        LFnvpuWiPUdYB8nDbJbBW6fIQDoysVL7HWuWk=; b=U8e0cz/s8FOaKCC/9QxYXm
+        5logn0z4mUtRSC6Oax1aysgVyRdQPSSRDvhfdKV4rNqjyn0Clg+GKbVlNjOabx4p
+        Mctv399SPloF4L/QG0PqnrwWwN13hQjV/DQdaf1mZoQzgx/F4N/9oMmzwC3QuoRK
+        xsAPWN2zhqhJGrjD3O9Sc/YEP1el6h2trdOkctycN1qLI4R5IpRlDPKOZ1A+/plp
+        pK66T9PIWEcExViRPvpGb7xrU7yMmSBCkO2kIlfTxj63ADZ9Jn/KWPJcH16/erX+
+        LNmwQvg+76TemvtvLcqOyxp+HIE11P5V5EtUv4NpIJvlbWwckLxXUiocBRm44aHA
+        ==
+X-ME-Sender: <xms:7SQeX1WZuFZXT7JEs7j6vqKoo0UEpE7t9Uq8_n2eRc9hweR9n-ie9A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrheekgdegtdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujggfsehttddttddtredvnecuhfhrohhmpefjvghnrhhi
+    qhhuvgcuuggvucfoohhrrggvshcujfholhhstghhuhhhuceohhhmhheshhhmhhdrvghngh
+    drsghrqeenucggtffrrghtthgvrhhnpeevudetjeegiedufeeugfeiheeljeekfeduhfej
+    feegkeehkedvvdehheelgeevieenucfkphepudejjedrudelgedrjedrfedvnecuvehluh
+    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhephhhmhheshhhmhhdr
+    vghnghdrsghr
+X-ME-Proxy: <xmx:7SQeX1nDrR44ulqPqGEU_8ppahj9l2A55-PBU127zsY0Sk3EC6Wfog>
+    <xmx:7SQeXxZ76mhRCULo9phroZa1EGRTxJwGRxbh4HARuVIjDAaNeRe53A>
+    <xmx:7SQeX4WYlydY5OgvaCNO4L4ao-lEijIa8aXEklcozxu0tLdQC1BvyA>
+    <xmx:8SQeX9XVYvzRlKKlvu_5EhIqaKNeM08xsie9-3t5y-zg7nQzFKcaeZKetMg>
+Received: from khazad-dum.debian.net (unknown [177.194.7.32])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 6B3E0328005A;
+        Sun, 26 Jul 2020 20:50:53 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by localhost.khazad-dum.debian.net (Postfix) with ESMTP id D1679340016B;
+        Sun, 26 Jul 2020 21:50:51 -0300 (-03)
+X-Virus-Scanned: Debian amavisd-new at khazad-dum.debian.net
+Received: from khazad-dum.debian.net ([127.0.0.1])
+        by localhost (khazad-dum2.khazad-dum.debian.net [127.0.0.1]) (amavisd-new, port 10024)
+        with LMTP id WS3yir_GiUqn; Sun, 26 Jul 2020 21:50:50 -0300 (-03)
+Received: by khazad-dum.debian.net (Postfix, from userid 1000)
+        id 0325B3400169; Sun, 26 Jul 2020 21:50:49 -0300 (-03)
+Date:   Sun, 26 Jul 2020 21:50:49 -0300
+From:   Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Darren Hart <dvhart@infradead.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Brian Norris <briannorris@chromium.org>,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
-        Guenter Roeck <linux@roeck-us.net>,
-        Yu-Hsuan Hsu <yuhsuan@chromium.org>,
-        Prashant Malani <pmalani@chromium.org>
-Subject: [PATCH v3 6/6] platform/chrome: cros_ec_proto: Convert EC error codes to Linux error codes
-Date:   Sun, 26 Jul 2020 15:01:01 -0700
-Message-Id: <20200726220101.29059-7-linux@roeck-us.net>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200726220101.29059-1-linux@roeck-us.net>
-References: <20200726220101.29059-1-linux@roeck-us.net>
+        Andy Shevchenko <andy@infradead.org>,
+        linux-input@vger.kernel.org,
+        Marco Trevisan <marco.trevisan@canonical.com>,
+        Mark Pearson <mpearson@lenovo.com>,
+        Christian Kellner <ckellner@redhat.com>,
+        Benjamin Berg <bberg@redhat.com>,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] Add 3 new keycodes and use them for 3 new hotkeys on
+ new Lenovo Thinkpads
+Message-ID: <20200727005049.GA10254@khazad-dum.debian.net>
+References: <20200717114155.56222-1-hdegoede@redhat.com>
+ <20200719225649.GA4341@khazad-dum.debian.net>
+ <20200722054144.GQ1665100@dtor-ws>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200722054144.GQ1665100@dtor-ws>
+X-GPG-Fingerprint1: 4096R/0x0BD9E81139CB4807: C467 A717 507B BAFE D3C1  6092
+ 0BD9 E811 39CB 4807
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The EC reports a variety of error codes. Most of those, with the exception
-of EC_RES_INVALID_VERSION, are converted to -EPROTO. As result, the actual
-EC error code gets lost. Introduce cros_ec_map_error() to map EC error
-codes to Linux error codes, and use it in cros_ec_cmd_xfer_status() to
-report more meaningful errors to the caller. With this change, callers of
-cros_ec_cmd_xfer_status() can implement a more distinguished action without
-having to rely on the EC error code. At the same time, debugging is improved
-in situations where the Linux error code is reported to userspace and/or in
-the kernel log.
+On Tue, 21 Jul 2020, Dmitry Torokhov wrote:
+> On Sun, Jul 19, 2020 at 07:56:49PM -0300, Henrique de Moraes Holschuh wrote:
+> > On Fri, 17 Jul 2020, Hans de Goede wrote:
+> > > This is a simple patch-series adding support for 3 new hotkeys found
+> > > on various new Lenovo Thinkpad models.
+> > 
+> > For all three patches, pending an ack for the new keycodes by the input
+> > maintainers:
+> > 
+> > Acked-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+> 
+> Do you want me to merge all 3 through input tree?
 
-Cc: Gwendal Grignou <gwendal@chromium.org>
-Cc: Yu-Hsuan Hsu <yuhsuan@chromium.org>
-Cc: Prashant Malani <pmalani@chromium.org>
-Cc: Brian Norris <briannorris@chromium.org>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
----
-v3: Use -ENOPROTOOPT for EC_RES_INVALID_VERSION
-    Implement function to convert error codes
-v2: No change
+Hans, Daren, Andy, what do you prefer?
 
- drivers/platform/chrome/cros_ec_proto.c | 52 ++++++++++++++++++++-----
- 1 file changed, 42 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-index e5bbec979a2a..a081b8245682 100644
---- a/drivers/platform/chrome/cros_ec_proto.c
-+++ b/drivers/platform/chrome/cros_ec_proto.c
-@@ -15,6 +15,43 @@
- 
- #define EC_COMMAND_RETRIES	50
- 
-+static const int cros_ec_error_map[] = {
-+	[EC_RES_INVALID_COMMAND] = -EOPNOTSUPP,
-+	[EC_RES_ERROR] = -EIO,
-+	[EC_RES_INVALID_PARAM] = -EINVAL,
-+	[EC_RES_ACCESS_DENIED] = -EACCES,
-+	[EC_RES_INVALID_RESPONSE] = -EPROTO,
-+	[EC_RES_INVALID_VERSION] = -ENOPROTOOPT,
-+	[EC_RES_INVALID_CHECKSUM] = -EBADMSG,
-+	[EC_RES_IN_PROGRESS] = -EINPROGRESS,
-+	[EC_RES_UNAVAILABLE] = -ENODATA,
-+	[EC_RES_TIMEOUT] = -ETIMEDOUT,
-+	[EC_RES_OVERFLOW] = -EOVERFLOW,
-+	[EC_RES_INVALID_HEADER] = -EBADR,
-+	[EC_RES_REQUEST_TRUNCATED] = -EBADR,
-+	[EC_RES_RESPONSE_TOO_BIG] = -EFBIG,
-+	[EC_RES_BUS_ERROR] = -EFAULT,
-+	[EC_RES_BUSY] = -EBUSY,
-+	[EC_RES_INVALID_HEADER_VERSION] = -EBADMSG,
-+	[EC_RES_INVALID_HEADER_CRC] = -EBADMSG,
-+	[EC_RES_INVALID_DATA_CRC] = -EBADMSG,
-+	[EC_RES_DUP_UNAVAILABLE] = -ENODATA,
-+};
-+
-+static int cros_ec_map_error(uint32_t result)
-+{
-+	int ret = 0;
-+
-+	if (result != EC_RES_SUCCESS) {
-+		if (result < ARRAY_SIZE(cros_ec_error_map) && cros_ec_error_map[result])
-+			ret = cros_ec_error_map[result];
-+		else
-+			ret = -EPROTO;
-+	}
-+
-+	return ret;
-+}
-+
- static int prepare_packet(struct cros_ec_device *ec_dev,
- 			  struct cros_ec_command *msg)
- {
-@@ -555,8 +592,7 @@ EXPORT_SYMBOL(cros_ec_cmd_xfer);
-  *
-  * Return:
-  * >=0 - The number of bytes transferred
-- * -ENOPROTOOPT - Operation not supported
-- * -EPROTO - Protocol error
-+ * <0 - Linux error code
-  */
- int cros_ec_cmd_xfer_status(struct cros_ec_device *ec_dev,
- 			    struct cros_ec_command *msg)
-@@ -566,15 +602,11 @@ int cros_ec_cmd_xfer_status(struct cros_ec_device *ec_dev,
- 	ret = cros_ec_cmd_xfer(ec_dev, msg);
- 	if (ret < 0) {
- 		dev_err(ec_dev->dev, "Command xfer error (err:%d)\n", ret);
--	} else if (msg->result == EC_RES_INVALID_VERSION) {
--		dev_dbg(ec_dev->dev, "Command invalid version (err:%d)\n",
--			msg->result);
--		return -ENOPROTOOPT;
--	} else if (msg->result != EC_RES_SUCCESS) {
--		dev_dbg(ec_dev->dev, "Command result (err: %d)\n", msg->result);
--		return -EPROTO;
-+	} else {
-+		ret = cros_ec_map_error(msg->result);
-+		if (ret)
-+			dev_dbg(ec_dev->dev, "Command result (err: %d [%d])\n", msg->result, ret);
- 	}
--
- 	return ret;
- }
- EXPORT_SYMBOL(cros_ec_cmd_xfer_status);
 -- 
-2.17.1
-
+  Henrique Holschuh
