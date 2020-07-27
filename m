@@ -2,109 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B3AF22E9F7
-	for <lists+linux-input@lfdr.de>; Mon, 27 Jul 2020 12:25:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82BB122EB70
+	for <lists+linux-input@lfdr.de>; Mon, 27 Jul 2020 13:47:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727990AbgG0KZL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 27 Jul 2020 06:25:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56496 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726268AbgG0KZL (ORCPT
+        id S1728170AbgG0Lrh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 Jul 2020 07:47:37 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:48328 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727770AbgG0Lrg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 27 Jul 2020 06:25:11 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14E78C061794;
-        Mon, 27 Jul 2020 03:25:10 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id d4so9248632pgk.4;
-        Mon, 27 Jul 2020 03:25:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=r6P0NW/NQ7oCqQTy1c6MyZkcBa+F52tox9mNpJ0I9/Y=;
-        b=YGhQg2cgSfeKYXJ0iXoUi0yrHvu6HEOUJPpfU5AJ8M5oQPVfZ/j528gsyZCqt/RIaH
-         HiMwN6G5OpkC9kmXdNN5K4yC5Rd4ZIhEAwcewzcC59Mbe1DQJ2gWRFj94iwxO70Hgypj
-         qiM3LIGRjvDXDu+ToTSCTUXMfiKygZUQy0olshTpYVA/DKLnBcy78pv5fFMQnh+PmbAp
-         j/+nFRGindy55o8bTIQ5xqu9UUrWkQMLKA9tdnuEtdZiYl9CVyBpBtwmd9yCNO4l2fuN
-         6n7wPOVfkzCJi0SRvIMkf+6vJvghdFOEPpZJooT+Tejc+S7U0IpqzJSAAPRKnEsgD7bL
-         2A7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=r6P0NW/NQ7oCqQTy1c6MyZkcBa+F52tox9mNpJ0I9/Y=;
-        b=M8tbk6WzZDeFU5I4qTWQ2moCuhEbX1nWIpPISMnetM8eTX//lZ2QJV8g864eH0U/yz
-         SXzeUYMu+eFly8KCKMZ2N3CCqeUcOT6t+rYk0SugWU2LbG48RyYFEllJQNU8dOcRClgM
-         71/VeEg8aS/awtsY0BN1AJEM5JARsR+uVkP59oo+c/0wHLcwR/Bo/IHAIs15basR+Zt8
-         ZWB9xUhGaeFaWQGN9f8YKHHKv57QPA+pK7TQlmOpIUBOzFCDNzfsSdhvuLErJwBqFv02
-         PLA1zg1uKFjZs0VIKsYxfNbOC4f3cEvsBy0XQ92qbqmPPwNOain9AjXbm+TiPk6cC2kG
-         VaQA==
-X-Gm-Message-State: AOAM533JNVeanCpBUt3xnTGPkUkUAmGwcmQLL6any5SbgjIcoSOd0DJ3
-        CZZL+ayHW9c/FisTyBohZFZaqo5FaE3Evt7WxhEhQW55
-X-Google-Smtp-Source: ABdhPJw5Q3FsSC0MI9/UyJUYP8cXE1w0ledJ1kmEd+1mEmUhKoLmjxcDuXj17SkYLlChMWYEfk08tQR479WIqfhaLcI=
-X-Received: by 2002:a63:924b:: with SMTP id s11mr18613983pgn.74.1595845509654;
- Mon, 27 Jul 2020 03:25:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200717114155.56222-1-hdegoede@redhat.com> <20200719225649.GA4341@khazad-dum.debian.net>
- <20200722054144.GQ1665100@dtor-ws> <20200727005049.GA10254@khazad-dum.debian.net>
- <f67ede61-c9d4-6abc-9b59-a5b2b615d1b6@redhat.com> <CAHp75VdvhC5HJ-BjqjDxU_Z_7_i8MV5UDN4FgWHvZfSD5=smqg@mail.gmail.com>
-In-Reply-To: <CAHp75VdvhC5HJ-BjqjDxU_Z_7_i8MV5UDN4FgWHvZfSD5=smqg@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 27 Jul 2020 13:24:54 +0300
-Message-ID: <CAHp75VfCqHdZBTe8HB2C0whONCS2HgVgPPZNGRgypMiSwm0+DQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Add 3 new keycodes and use them for 3 new hotkeys on
- new Lenovo Thinkpads
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-        Darren Hart <dvhart@infradead.org>,
+        Mon, 27 Jul 2020 07:47:36 -0400
+X-UUID: 499e236331c842dabcc22b3ee8a2bd46-20200727
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=b3By9T3GQYDCgOA6dniEjcfbP4km3HT3VtwE/lnbgzY=;
+        b=T8VTSUU6J604Uv1hpMXXoaJuRU1BV/pgZcdiFWwsmJ7xOWdbFwZbjdDyiEIt3AupKh+9HkHn7TaeVi8+TZjhQnHXi/N+zFloLJM47bLAEfTzTnw7jJaixxOz9s9NL7G08mEw0GZpA1qLNRFkY8bG6KjS/FlJo0h8fevoFfBsAl0=;
+X-UUID: 499e236331c842dabcc22b3ee8a2bd46-20200727
+Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by mailgw02.mediatek.com
+        (envelope-from <fengping.yu@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 798339912; Mon, 27 Jul 2020 19:47:31 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs02n2.mediatek.inc (172.21.101.101) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 27 Jul 2020 19:47:26 +0800
+Received: from localhost.localdomain (10.15.20.246) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 27 Jul 2020 19:47:25 +0800
+From:   Fengping Yu <fengping.yu@mediatek.com>
+To:     Yingjoe Chen <yingjoe.chen@mediatek.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Marco Trevisan <marco.trevisan@canonical.com>,
-        Mark Pearson <mpearson@lenovo.com>,
-        Christian Kellner <ckellner@redhat.com>,
-        Benjamin Berg <bberg@redhat.com>,
-        Thinkpad-acpi devel ML <ibm-acpi-devel@lists.sourceforge.net>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mattijs Korpershoek <mkorpershoek@baylibre.com>
+CC:     <linux-input@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
+Subject: [PATCH v16] Add matrix keypad driver support for Mediatek SoCs 
+Date:   Mon, 27 Jul 2020 19:45:01 +0800
+Message-ID: <20200727114504.28536-1-fengping.yu@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+MIME-Version: 1.0
+Content-Type: text/plain
+X-TM-SNTS-SMTP: FE8F0DE6355989A622C88EB60EFD84C13347A735279417E4D9EFD82E64A156EB2000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jul 27, 2020 at 10:49 AM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Mon, Jul 27, 2020 at 10:45 AM Hans de Goede <hdegoede@redhat.com> wrote:
-> >
-> > Hi,
-> >
-> > On 7/27/20 2:50 AM, Henrique de Moraes Holschuh wrote:
-> > > On Tue, 21 Jul 2020, Dmitry Torokhov wrote:
-> > >> On Sun, Jul 19, 2020 at 07:56:49PM -0300, Henrique de Moraes Holschuh wrote:
-> > >>> On Fri, 17 Jul 2020, Hans de Goede wrote:
-> > >>>> This is a simple patch-series adding support for 3 new hotkeys found
-> > >>>> on various new Lenovo Thinkpad models.
-> > >>>
-> > >>> For all three patches, pending an ack for the new keycodes by the input
-> > >>> maintainers:
-> > >>>
-> > >>> Acked-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-> > >>
-> > >> Do you want me to merge all 3 through input tree?
-> > >
-> > > Hans, Daren, Andy, what do you prefer?
-> >
-> > Taking all this upstream through Dmitry's input tree is fine with
-> > me, but this really is up to Andy and/or Daren.
->
-> Fine with me.
+DQpDaGFuZ2Ugc2luY2UgdjE1Og0KLSBtb2RpZnkgcmVnbWFwX3Jhd19yZWFkIHRvIHJlZ21hcF9i
+dWxrX3JlYWQNCi0gbW9kaWZ5IHJlZ21hcCBvdXRwdXQgc3BlY2lmaWVyIHRvICVwZQ0KDQpmZW5n
+cGluZy55dSAoMyk6DQogIGR0LWJpbmRpbmdzOiBBZGQga2V5cGFkIGRldmljZXRyZWUgZG9jdW1l
+bnRhdGlvbg0KICBkcml2ZXJzOiBpbnB1dDoga2V5Ym9hcmQ6IEFkZCBtdGsga2V5cGFkIGRyaXZl
+cg0KICBjb25maWdzOiBkZWZjb25maWc6IEFkZCBDT05GSUdfS0VZQk9BUkRfTVRLX0tQRD1tDQoN
+CiAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy9pbnB1dC9tdGsta3BkLnlhbWwgICAgfCAgOTYgKysr
+KysrKysNCiBhcmNoL2FybTY0L2NvbmZpZ3MvZGVmY29uZmlnICAgICAgICAgICAgICAgICAgfCAg
+IDEgKw0KIGRyaXZlcnMvaW5wdXQva2V5Ym9hcmQvS2NvbmZpZyAgICAgICAgICAgICAgICB8ICAx
+MSArDQogZHJpdmVycy9pbnB1dC9rZXlib2FyZC9NYWtlZmlsZSAgICAgICAgICAgICAgIHwgICAx
+ICsNCiBkcml2ZXJzL2lucHV0L2tleWJvYXJkL210ay1rcGQuYyAgICAgICAgICAgICAgfCAyMDkg
+KysrKysrKysrKysrKysrKysrDQogNSBmaWxlcyBjaGFuZ2VkLCAzMTggaW5zZXJ0aW9ucygrKQ0K
+IGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvaW5w
+dXQvbXRrLWtwZC55YW1sDQogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvaW5wdXQva2V5Ym9h
+cmQvbXRrLWtwZC5jDQoNCi0tDQoyLjE4LjANCg0K
 
-To be clear, I assume it will go thru input tree.
-If my formal tag needed, use
-Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-
--- 
-With Best Regards,
-Andy Shevchenko
