@@ -2,70 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1698C22E38C
-	for <lists+linux-input@lfdr.de>; Mon, 27 Jul 2020 02:51:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9297422E6DE
+	for <lists+linux-input@lfdr.de>; Mon, 27 Jul 2020 09:45:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726689AbgG0AvA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 26 Jul 2020 20:51:00 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:44805 "EHLO
-        wnew1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726636AbgG0Au7 (ORCPT
+        id S1726982AbgG0Hpg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 27 Jul 2020 03:45:36 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35956 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726451AbgG0Hpf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 26 Jul 2020 20:50:59 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-        by mailnew.west.internal (Postfix) with ESMTP id B47175A4;
-        Sun, 26 Jul 2020 20:50:57 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute7.internal (MEProxy); Sun, 26 Jul 2020 20:50:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hmh.eng.br; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=ZtQn8yLFnvpuWiPUdYB8nDbJbBW
-        6fIQDoysVL7HWuWk=; b=QhUErVKMpv+jPIdqIi9/vX5k1/mcrPCw7u8m3H7W5Uk
-        mTJHe9PqHtlx4amUHi97vzhdKS0CZVX3jxnp+tyjwn24IvwuPxs78v4y9p0fZS1T
-        MBDXJOMGXioKUntI1UtfrAclWszzMqZa6IJUmQMgUbtANjZq1LI7dw+2Mw9B75Ue
-        h/8Sai9uR9ibYEVKV6a7ZVUY0X2SUW7WE6OTvRqT0AhXBROySmpNshTSdxZYCrf2
-        l+WQ+DrfUZouiNjI+6xgfh3CHTcIoiPKKPtTAaoCtUn8e2OrN2CivO8ty0O3uKYL
-        +TOTo7JuOf0ajezvthWKyMTA+Fy3cOFG4DDnZAGB8Ug==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ZtQn8y
-        LFnvpuWiPUdYB8nDbJbBW6fIQDoysVL7HWuWk=; b=U8e0cz/s8FOaKCC/9QxYXm
-        5logn0z4mUtRSC6Oax1aysgVyRdQPSSRDvhfdKV4rNqjyn0Clg+GKbVlNjOabx4p
-        Mctv399SPloF4L/QG0PqnrwWwN13hQjV/DQdaf1mZoQzgx/F4N/9oMmzwC3QuoRK
-        xsAPWN2zhqhJGrjD3O9Sc/YEP1el6h2trdOkctycN1qLI4R5IpRlDPKOZ1A+/plp
-        pK66T9PIWEcExViRPvpGb7xrU7yMmSBCkO2kIlfTxj63ADZ9Jn/KWPJcH16/erX+
-        LNmwQvg+76TemvtvLcqOyxp+HIE11P5V5EtUv4NpIJvlbWwckLxXUiocBRm44aHA
-        ==
-X-ME-Sender: <xms:7SQeX1WZuFZXT7JEs7j6vqKoo0UEpE7t9Uq8_n2eRc9hweR9n-ie9A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrheekgdegtdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujggfsehttddttddtredvnecuhfhrohhmpefjvghnrhhi
-    qhhuvgcuuggvucfoohhrrggvshcujfholhhstghhuhhhuceohhhmhheshhhmhhdrvghngh
-    drsghrqeenucggtffrrghtthgvrhhnpeevudetjeegiedufeeugfeiheeljeekfeduhfej
-    feegkeehkedvvdehheelgeevieenucfkphepudejjedrudelgedrjedrfedvnecuvehluh
-    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhephhhmhheshhhmhhdr
-    vghnghdrsghr
-X-ME-Proxy: <xmx:7SQeX1nDrR44ulqPqGEU_8ppahj9l2A55-PBU127zsY0Sk3EC6Wfog>
-    <xmx:7SQeXxZ76mhRCULo9phroZa1EGRTxJwGRxbh4HARuVIjDAaNeRe53A>
-    <xmx:7SQeX4WYlydY5OgvaCNO4L4ao-lEijIa8aXEklcozxu0tLdQC1BvyA>
-    <xmx:8SQeX9XVYvzRlKKlvu_5EhIqaKNeM08xsie9-3t5y-zg7nQzFKcaeZKetMg>
-Received: from khazad-dum.debian.net (unknown [177.194.7.32])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 6B3E0328005A;
-        Sun, 26 Jul 2020 20:50:53 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by localhost.khazad-dum.debian.net (Postfix) with ESMTP id D1679340016B;
-        Sun, 26 Jul 2020 21:50:51 -0300 (-03)
-X-Virus-Scanned: Debian amavisd-new at khazad-dum.debian.net
-Received: from khazad-dum.debian.net ([127.0.0.1])
-        by localhost (khazad-dum2.khazad-dum.debian.net [127.0.0.1]) (amavisd-new, port 10024)
-        with LMTP id WS3yir_GiUqn; Sun, 26 Jul 2020 21:50:50 -0300 (-03)
-Received: by khazad-dum.debian.net (Postfix, from userid 1000)
-        id 0325B3400169; Sun, 26 Jul 2020 21:50:49 -0300 (-03)
-Date:   Sun, 26 Jul 2020 21:50:49 -0300
-From:   Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-To:     Hans de Goede <hdegoede@redhat.com>
+        Mon, 27 Jul 2020 03:45:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1595835934;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=oMBVeCMrmTVhEtBWGjsG1unFoTQ5DrgjjzDJ6NMzZfs=;
+        b=NcBw8XlUZ5Cm435c7oC2aPpbyvaDE5705DciVpP6XPz/UkpRwmBOen3ixcP1zz4k0TRwmI
+        xpV2STdRyYnaAZQSK8RlqogxwxxWcLhTMhok4TgcCHHng5QBynPI5npJca8dYfKNfnsSNR
+        TNxKEZUTTRdkkhvoh/81Y6fpIAeWm9o=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-436-rZMfBWQMOtOuhCTCdxB3hg-1; Mon, 27 Jul 2020 03:45:32 -0400
+X-MC-Unique: rZMfBWQMOtOuhCTCdxB3hg-1
+Received: by mail-ej1-f71.google.com with SMTP id gv21so5682155ejb.8
+        for <linux-input@vger.kernel.org>; Mon, 27 Jul 2020 00:45:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=oMBVeCMrmTVhEtBWGjsG1unFoTQ5DrgjjzDJ6NMzZfs=;
+        b=YjZsM7qNve/UvqKiJv/siMyIhahHknRAKWTnYBXIVa2XC+nR81VK1zQ7oKGRXWbVsT
+         0Vn7hyVspgdrCdPc5WRCUoYLFZ78StkWarR0qpHFFTUWrZWev/D6FUbeBluNYTgGPrln
+         g/M1X35zhuCICTWVcJ8jVR1M4I78cSqLBMVvCV43B4kebXjbYqs8llfjnXofRALmS+Mq
+         puBD7m0/KOe1/R3fbLL0DlvXeCQ/DYyL4VxpuoCDsTDSAzyhJRKEfrDAB6f3KUw7/Tcf
+         UmjAI1gKgfik0XVG/+KJjNCSDi2WQGWfbdqUXho4yLUSdR6Ej238O8y9McQr94RDdHcP
+         iQ6Q==
+X-Gm-Message-State: AOAM532OEc0NQNYuyFUAb5V6EMcoH9V6C/YR3S//8NitrzY5HsxX7/tn
+        At6KzTErr6i2hTGQWI4ZgfnSbG3qVomWIOP8pilrrjK5bekzWWcmusLRust85qAgXnJ07pkkel0
+        yfrP9TEjeP2AXVxGswJIf3ys=
+X-Received: by 2002:a17:906:b294:: with SMTP id q20mr2115102ejz.223.1595835931531;
+        Mon, 27 Jul 2020 00:45:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxfnpzm5w2mw/jNUlDtxiqUY/d9iJ0u0qln5b8dW/aH3LeubhQN1b6Sy5Yno4zk+7u2dQ26dw==
+X-Received: by 2002:a17:906:b294:: with SMTP id q20mr2115093ejz.223.1595835931381;
+        Mon, 27 Jul 2020 00:45:31 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id r25sm5659889edy.93.2020.07.27.00.45.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Jul 2020 00:45:30 -0700 (PDT)
+Subject: Re: [PATCH 0/3] Add 3 new keycodes and use them for 3 new hotkeys on
+ new Lenovo Thinkpads
+To:     Henrique de Moraes Holschuh <hmh@hmh.eng.br>
 Cc:     Darren Hart <dvhart@infradead.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Andy Shevchenko <andy@infradead.org>,
@@ -76,38 +65,47 @@ Cc:     Darren Hart <dvhart@infradead.org>,
         Benjamin Berg <bberg@redhat.com>,
         ibm-acpi-devel@lists.sourceforge.net,
         platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] Add 3 new keycodes and use them for 3 new hotkeys on
- new Lenovo Thinkpads
-Message-ID: <20200727005049.GA10254@khazad-dum.debian.net>
 References: <20200717114155.56222-1-hdegoede@redhat.com>
  <20200719225649.GA4341@khazad-dum.debian.net>
  <20200722054144.GQ1665100@dtor-ws>
+ <20200727005049.GA10254@khazad-dum.debian.net>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <f67ede61-c9d4-6abc-9b59-a5b2b615d1b6@redhat.com>
+Date:   Mon, 27 Jul 2020 09:45:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200722054144.GQ1665100@dtor-ws>
-X-GPG-Fingerprint1: 4096R/0x0BD9E81139CB4807: C467 A717 507B BAFE D3C1  6092
- 0BD9 E811 39CB 4807
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200727005049.GA10254@khazad-dum.debian.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 21 Jul 2020, Dmitry Torokhov wrote:
-> On Sun, Jul 19, 2020 at 07:56:49PM -0300, Henrique de Moraes Holschuh wrote:
-> > On Fri, 17 Jul 2020, Hans de Goede wrote:
-> > > This is a simple patch-series adding support for 3 new hotkeys found
-> > > on various new Lenovo Thinkpad models.
-> > 
-> > For all three patches, pending an ack for the new keycodes by the input
-> > maintainers:
-> > 
-> > Acked-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+Hi,
+
+On 7/27/20 2:50 AM, Henrique de Moraes Holschuh wrote:
+> On Tue, 21 Jul 2020, Dmitry Torokhov wrote:
+>> On Sun, Jul 19, 2020 at 07:56:49PM -0300, Henrique de Moraes Holschuh wrote:
+>>> On Fri, 17 Jul 2020, Hans de Goede wrote:
+>>>> This is a simple patch-series adding support for 3 new hotkeys found
+>>>> on various new Lenovo Thinkpad models.
+>>>
+>>> For all three patches, pending an ack for the new keycodes by the input
+>>> maintainers:
+>>>
+>>> Acked-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+>>
+>> Do you want me to merge all 3 through input tree?
 > 
-> Do you want me to merge all 3 through input tree?
+> Hans, Daren, Andy, what do you prefer?
 
-Hans, Daren, Andy, what do you prefer?
+Taking all this upstream through Dmitry's input tree is fine with
+me, but this really is up to Andy and/or Daren.
 
--- 
-  Henrique Holschuh
+Regards,
+
+Hans
+
