@@ -2,87 +2,150 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8084A231AA4
-	for <lists+linux-input@lfdr.de>; Wed, 29 Jul 2020 09:55:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BB00231C0A
+	for <lists+linux-input@lfdr.de>; Wed, 29 Jul 2020 11:23:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727006AbgG2HzW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 29 Jul 2020 03:55:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55590 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726290AbgG2HzW (ORCPT
+        id S1726710AbgG2JW6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 29 Jul 2020 05:22:58 -0400
+Received: from esa4.mentor.iphmx.com ([68.232.137.252]:29404 "EHLO
+        esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726548AbgG2JW6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 29 Jul 2020 03:55:22 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9834C061794
-        for <linux-input@vger.kernel.org>; Wed, 29 Jul 2020 00:55:21 -0700 (PDT)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1k0gvj-0007OG-1C; Wed, 29 Jul 2020 09:55:15 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1k0gvh-00055i-Ur; Wed, 29 Jul 2020 09:55:13 +0200
-Date:   Wed, 29 Jul 2020 09:55:13 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>
-Cc:     Herbert Xu <herbert@gondor.apana.org.au>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        =?iso-8859-1?Q?Andr=E9?= Draszik <git@andred.net>,
-        Robin Gong <yibin.gong@nxp.com>,
-        Anson Huang <anson.huang@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Aymen Sghaier <aymen.sghaier@nxp.com>,
-        Adam Ford <aford173@gmail.com>, linux-input@vger.kernel.org,
-        linux-crypto@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, NXP Linux Team <linux-imx@nxp.com>
-Subject: Re: [PATCH v3 3/3] Input: snvs_pwrkey - only IRQ_HANDLED for our own
- events
-Message-ID: <20200729075513.ckjnhfv3dxuesvsi@pengutronix.de>
-References: <20200723074314.3304-1-horia.geanta@nxp.com>
- <20200723074314.3304-4-horia.geanta@nxp.com>
+        Wed, 29 Jul 2020 05:22:58 -0400
+IronPort-SDR: DQW/OrdW6y9aBLoNFuSz+u29IKhdkeiJEMYOnKHmwZCke314r3qFaWu2LoMyZln1Ubkeo+dxxe
+ sfhGgL3GE6q8X5wxkOXV1MpZnf9SFftdKFh3kMLOQrgOi5LUXHtl5IJOIJt5P2fOUtUitT/mT7
+ m3kh53kXwjSHYwnQRUtpAC5tMUJZePAPRSQkGZopHslU6QqaGbGznrIa+hZ5CNfsu4i8jNwt9N
+ vF6CYb8WUyfCuExGJpQ4/WOovghTT6HM1IB3hrB8Ypwz0CtJJqg5UkBdcibSC2GvMsMn2QAIkT
+ LOA=
+X-IronPort-AV: E=Sophos;i="5.75,409,1589270400"; 
+   d="scan'208";a="51525656"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+  by esa4.mentor.iphmx.com with ESMTP; 29 Jul 2020 01:22:57 -0800
+IronPort-SDR: F3bDoXGx/6X38yatA2Y/3REPwZxCD7Tk6gQCa4cYBJ89X0DQObeKnNzW8JP3aeYLx6AYRP+Goz
+ DZqDPN48xwG/a+74hFJSwJhKvXa4wyNpGX/Jvu3hfev/0yvO2DJ7KG2sAlZvbjaA5PqIo245f8
+ RdGTZtFxQ3lmUcQgIPxBPsRahAv84S5KtB8T9FdP66IugJuO6VCoWsG7+76I/RG2ApMbghMqyV
+ EY+n7iRXo/wSFyu2KZVD0bG68n26oLDAEqkh78fbhggL2zmgT2zUSWML7ksbhxnMrW4WD7OJXm
+ gks=
+From:   Jiada Wang <jiada_wang@mentor.com>
+To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>
+CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
+        <digetx@gmail.com>, <jiada_wang@mentor.com>
+Subject: [PATCH 1/1] Input: atmel_mxt_ts: split large i2c transfers into blocks
+Date:   Wed, 29 Jul 2020 18:22:52 +0900
+Message-ID: <20200729092252.6394-1-jiada_wang@mentor.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200723074314.3304-4-horia.geanta@nxp.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 09:41:32 up 256 days, 23:00, 248 users,  load average: 0.19, 0.11,
- 0.09
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+Content-Type: text/plain
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+From: Jiada wang <jiada_wang@mentor.com>
 
-On 20-07-23 10:43, Horia Geantă wrote:
-> From: André Draszik <git@andred.net>
-> 
-> The snvs_pwrkey shares the SNVS LPSR status register with the snvs_rtc.
-> 
-> This driver here should only return IRQ_HANDLED if the status register
-> indicates that the event we're handling in the irq handler was genuinely
-> intended for this driver. Otheriwse the interrupt subsystem will
-> assume the interrupt was handled successfully even though it wasn't
-> at all.
+Some I2C controllers constrain maximum transferred data in an I2C
+transaction by set max_[read|write]_len of i2c_adapter_quirk.
+Large i2c transfer transaction beyond this limitation may fail to complete,
+cause I2C controller driver aborts the transaction and returns failure.
 
-After checking the RM and the imx6qdl.dtsi I'm not very sure that this
-is right since the snvs-powerkey has a seperate irq-line. So we can be
-sure that this irq is for us. If this is the case we don't need to check
-the SNVS_LPSR_REG instead we only need to clear it.
+Therefore this patch was created to split large i2c transaction into
+smaller chunks which can complete within max_[read|write]_len defined
+by I2C controller driver.
 
-Regards,
-  Marco
+CC: Dmitry Osipenko <digetx@gmail.com>
+Signed-off-by: Jiada wang <jiada_wang@mentor.com>
+---
+ drivers/input/touchscreen/atmel_mxt_ts.c | 60 ++++++++++++++++++++++--
+ 1 file changed, 55 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index a2189739e30f..d7c3c24aa663 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -620,8 +620,8 @@ static int mxt_send_bootloader_cmd(struct mxt_data *data, bool unlock)
+ 	return 0;
+ }
+ 
+-static int __mxt_read_reg(struct i2c_client *client,
+-			       u16 reg, u16 len, void *val)
++static int __mxt_read_chunk(struct i2c_client *client,
++			    u16 reg, u16 len, void *val)
+ {
+ 	struct i2c_msg xfer[2];
+ 	u8 buf[2];
+@@ -655,8 +655,33 @@ static int __mxt_read_reg(struct i2c_client *client,
+ 	return ret;
+ }
+ 
+-static int __mxt_write_reg(struct i2c_client *client, u16 reg, u16 len,
+-			   const void *val)
++static int __mxt_read_reg(struct i2c_client *client,
++			  u16 reg, u16 len, void *buf)
++{
++	const struct i2c_adapter_quirks *quirks = client->adapter->quirks;
++	u16 size, offset = 0, max_read_len = len;
++	int ret;
++
++	if (quirks && quirks->max_read_len)
++		max_read_len = quirks->max_read_len;
++
++	while (offset < len) {
++		size = min_t(u16, max_read_len, len - offset);
++
++		ret = __mxt_read_chunk(client,
++				       reg + offset,
++				       size, buf + offset);
++		if (ret)
++			return ret;
++
++		offset += size;
++	}
++
++	return 0;
++}
++
++static int __mxt_write_chunk(struct i2c_client *client, u16 reg, u16 len,
++			     const void *val)
+ {
+ 	u8 *buf;
+ 	size_t count;
+@@ -685,9 +710,34 @@ static int __mxt_write_reg(struct i2c_client *client, u16 reg, u16 len,
+ 	return ret;
+ }
+ 
++static int __mxt_write_reg(struct i2c_client *client, u16 reg, u16 len,
++			   const void *val)
++{
++	const struct i2c_adapter_quirks *quirks = client->adapter->quirks;
++	u16 size, offset = 0, max_write_len = len;
++	int ret;
++
++	if (quirks && quirks->max_write_len)
++		max_write_len = quirks->max_write_len;
++
++	while (offset < len) {
++		size = min_t(u16, max_write_len, len - offset);
++
++		ret = __mxt_write_chunk(client,
++					reg + offset,
++					size, val + offset);
++		if (ret)
++			return ret;
++
++		offset += size;
++	}
++
++	return 0;
++}
++
+ static int mxt_write_reg(struct i2c_client *client, u16 reg, u8 val)
+ {
+-	return __mxt_write_reg(client, reg, 1, &val);
++	return __mxt_write_chunk(client, reg, 1, &val);
+ }
+ 
+ static struct mxt_object *
+-- 
+2.17.1
+
