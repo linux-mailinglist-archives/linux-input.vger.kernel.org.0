@@ -2,218 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0C85231FF4
-	for <lists+linux-input@lfdr.de>; Wed, 29 Jul 2020 16:10:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16DE62320B5
+	for <lists+linux-input@lfdr.de>; Wed, 29 Jul 2020 16:35:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726790AbgG2OJz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 29 Jul 2020 10:09:55 -0400
-Received: from mail-vi1eur05on2055.outbound.protection.outlook.com ([40.107.21.55]:26464
-        "EHLO EUR05-VI1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726353AbgG2OJy (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 29 Jul 2020 10:09:54 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iqLlknl7Qwv01G4+i0+cBlgp5H7Oya6LTSNd6gYCwPvO6LO17bTGh/rSLaK27q22iQyXbYOjdYLA3uaRvKPoaDBPDGD/b+aZdehzykf7OhrD3s4iR/syBIMNyTIR76Orc/YsvzvuEnyiNr2qB0ken12OQWBtLG0D3J8SH7FW82TsCs0iRTbPm7iakUvgmgXUdpGjP5mI2yOr2CTKi02edW21VGyc3GjQU6JOCKpqlRtCEc2JSDonO7s7W4/4QkvgWpv12+vNQsDyekKESn05HDjMnVFeZx2DVdSLrsukOvmI10RKQhFWzaJNIlImesCYQytklWrSfislmb8IBPYmxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G65j+EBYQCCzqyYl7kO4Np4SGW4aogHYXQXPd3ks1bU=;
- b=BbZbk5KPsd0CXW2vE+BUkjJl1FYCMGXh5zSMFE7fmTblXU65Ip/nS1q9Lc89c7tkXrb9Jd0hqppzT4X8lTMQLV3/ab4O7EqjYjNF4ZvZ1ZQj/2lqBbcvKvjrU+kMGyre9lRmNoPOVKXXwsahfBhYi39Q29hu6rYuKibCWwx3XeA4R9f4183kSFCfkhDTjEkZgHKAbXOIs2xJgMHbbF+kMRsx2tVTih64Qeuk4fFeEqSrzsKWVLWJQjgLG+g7ml77Fj6yh6czCqL1gua2oVia0ipFjniu5e1ymfE/pzZ+pQc0snKr7Zr044hSqNGG+Dc9sjvXD1zBKgSncdUZ2SSBBw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=diasemi.com; dmarc=pass action=none header.from=diasemi.com;
- dkim=pass header.d=diasemi.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dialogsemiconductor.onmicrosoft.com;
- s=selector1-dialogsemiconductor-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G65j+EBYQCCzqyYl7kO4Np4SGW4aogHYXQXPd3ks1bU=;
- b=RiKXtwmdFPwIBu8ZNAZbmhUvKFRO2cMTXe6Bepix0lApJrvS6A0pmCrF757eEYPLd+fAYydb8F0xZ5ucGbeUcysGvfCjlBEMUixRj7PS63j5jxNOdryoBSaxdZ8vKyiFvov5ijotqFPgXtQEn1UvK8gbPLGOhIuwKwACBHYY+ik=
-Received: from DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:e9::10)
- by DB6PR10MB1558.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:6:38::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3216.22; Wed, 29 Jul
- 2020 14:09:48 +0000
-Received: from DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::9913:d1be:cd0f:a620]) by DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::9913:d1be:cd0f:a620%6]) with mapi id 15.20.3216.034; Wed, 29 Jul 2020
- 14:09:48 +0000
-From:   Roy Im <roy.im.opensource@diasemi.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Uwe Kleine-Koenig <u.kleine-koenig@pengutronix.de>
-CC:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Brian Masney <masneyb@onstation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Pascal PAILLET-LME <p.paillet@st.com>,
-        Rob Herring <robh@kernel.org>,
-        Samuel Ortiz <sameo@linux.intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Support Opensource <Support.Opensource@diasemi.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        Roy Im <roy.im.opensource@diasemi.com>
-Subject: RE: [PATCH v18 3/3] Input: new da7280 haptic driver
-Thread-Topic: [PATCH v18 3/3] Input: new da7280 haptic driver
-Thread-Index: AQHWZVgP/N9464pJ20GmrAtQIjgduqkeGogAgAAEX3A=
-Date:   Wed, 29 Jul 2020 14:09:48 +0000
-Message-ID: <DB8PR10MB3436EF37E1F1581BDB7996C785700@DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM>
-References: <cover.1595991580.git.Roy.Im@diasemi.com>
- <23b3470401ec5cf525add8e1227cb67586b9f294.1595991580.git.Roy.Im@diasemi.com>
- <20200729063638.GY1665100@dtor-ws>
-In-Reply-To: <20200729063638.GY1665100@dtor-ws>
-Accept-Language: ko-KR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=diasemi.com;
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [1.234.57.56]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 1d85adb6-389b-431d-3800-08d833c90e05
-x-ms-traffictypediagnostic: DB6PR10MB1558:
-x-ms-exchange-sharedmailbox-routingagent-processed: True
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB6PR10MB1558F5B3D30EDF1314FD913AA2700@DB6PR10MB1558.EURPRD10.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: I8Ev1Kf30HT20qWPgLCnRF+/zLxi63Q4oFLZQbaUSyS3G4sEf2ch+yWEAOCDMJUyQv73XlXaktTiMRzUrm372Wr+7e6+Nn4Vnsf6EQ4y11lE3NyRBHDi5PgjL/qQd47EM8wyLK4Ne6fAdM5onXfIb1Hy+n8xwvxpa3VubvIGe4FVH6yhT7F1fnXmLofe/W/qHRlsp9gdsISdSRF3o3A4bxBGhwxeXRP4TFRYrEbfeHH4Mq5wc3ccIJxL6yyKNAp97xpArjl+Zbph6dqgfekHAQzrJOAcFACIViULWIfgqvUQ3tXdoErPyDh6SzQTdNjn
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(366004)(346002)(39860400002)(396003)(376002)(136003)(66946007)(66556008)(66446008)(64756008)(66476007)(5660300002)(478600001)(8676002)(52536014)(9686003)(86362001)(76116006)(55016002)(6506007)(107886003)(7696005)(110136005)(316002)(54906003)(4326008)(8936002)(26005)(71200400001)(83380400001)(2906002)(33656002)(7416002)(186003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: YPoQe8R+wkUfK76nAGObbFKOWqGrqIqh9sZ4Xlcq49LT55d/Ct/d4immJtQRWt7RvX2vMR145+E8a7bxibHgVB5BhP/I37jBMqevZ0FrMEmNJEUcOlAeDf5+ElYYBFXKIfn8AV4gKb8ai3nikQykH+A02KZIJXkyC8hsLuHQ5DBHuY2LU58LtxOgdayHMb4wed8XJ9Ytk+7aJ5VfD3VjvENxDJDf37LyVt+eZc8Un4Tv1q/TThsilKVEn8DnyLYqHZqFVhi+7n8kigxk4DEX5tZ+I3VOxBjwwgsAvvo3w/72AAv4QjCG2+rUX07wUYWPUgFWWwhin2/maX+UoaajJVvCkChKQi6PVoXcLuQ8AQIAr0JaAiOJTnhwRCvGDq4sSFyH6inJi499xYVyvx8nK4VD2lF8ru+bXANlK6TazEN9Xt+6uFkd/lY3aphNgx41R8beLqiGFXuYGqpLp7lFmpJtyOA2Oe7AvUFbsUzHP3U=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1726710AbgG2Ofl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 29 Jul 2020 10:35:41 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:58274 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726709AbgG2Ofl (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 29 Jul 2020 10:35:41 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06TEVfEO135564;
+        Wed, 29 Jul 2020 14:35:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=rO/cn8lSL/k1UwcwgfqEWwmSiV10mpaOIq5H049wwYI=;
+ b=gG3zm+JfQzzuSKqgJ0l4/XFKicqJn0T2rdEKZEjmkrGBNGhMvqhdHRRrp5L0pi4HQsou
+ /NiqhMNr3n9TXDPZZfROzPE+r0UM5gJWmggouQ8vAeCyfZaMYtHyFD0E7ekT0u2UeCOG
+ Ywt/e9q78IVgEeSPVq0+ARrdgBMHH/eHl0hMdxDFdJJY3pqEKNzRkgw0oEXqrXVE6AYI
+ 0TPC/A2fhj2RQSV2S1HUxFy4bN57+y35UNxMJDrIb/YJ4cPCm6lIKlcN4wB6UndlMXfo
+ /j9yspUzhBHf+xIW5CpYiE3AeP2RZcN7f+MMsqm8jkLT0r6ad5YL/fJVyKYJeCFgVwd3 kw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by aserp2120.oracle.com with ESMTP id 32hu1jdyug-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 29 Jul 2020 14:35:33 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 06TESkit099523;
+        Wed, 29 Jul 2020 14:35:33 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3030.oracle.com with ESMTP id 32hu5vuqet-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 29 Jul 2020 14:35:33 +0000
+Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 06TEZWcc017066;
+        Wed, 29 Jul 2020 14:35:32 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 29 Jul 2020 07:35:31 -0700
+Date:   Wed, 29 Jul 2020 17:35:22 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Peilin Ye <yepeilin.cs@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        syzkaller-bugs@googlegroups.com,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [Linux-kernel-mentees] [PATCH v2 RESEND] usbhid: Fix
+ slab-out-of-bounds write in hiddev_ioctl_usage()
+Message-ID: <20200729143522.GB5493@kadam>
+References: <20200718231218.170730-1-yepeilin.cs@gmail.com>
+ <20200729113712.8097-1-yepeilin.cs@gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: diasemi.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d85adb6-389b-431d-3800-08d833c90e05
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Jul 2020 14:09:48.8501
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: qu5Qw5UpKNEXPYFqBRcuhIs12Fzsz3eh52bkbQBv/Uj0tQbUitMC+BQZLYUPpMT5Hg9oOfrI2fdiV1UbdIdEwg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR10MB1558
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200729113712.8097-1-yepeilin.cs@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9696 signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ mlxscore=0 adultscore=0 spamscore=0 phishscore=0 mlxlogscore=999
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2007290098
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9696 signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 bulkscore=0 mlxlogscore=999
+ lowpriorityscore=0 malwarescore=0 clxscore=1015 mlxscore=0 impostorscore=0
+ phishscore=0 adultscore=0 suspectscore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2007290098
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello Dmitry and Uwe,
+On Wed, Jul 29, 2020 at 07:37:12AM -0400, Peilin Ye wrote:
+> `uref->usage_index` is not always being properly checked, causing
+> hiddev_ioctl_usage() to go out of bounds under some cases. Fix it.
+> 
+> Reported-by: syzbot+34ee1b45d88571c2fa8b@syzkaller.appspotmail.com
+> Link: https://syzkaller.appspot.com/bug?id=f2aebe90b8c56806b050a20b36f51ed6acabe802
+> Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+> ---
+> Change in v2:
+>     - Add the same check for the `HIDIOCGUSAGE` case. (Suggested by
+>       Dan Carpenter <dan.carpenter@oracle.com>)
 
-Wednesday, July 29, 2020 3:37 PM, Dmitry Torokhov wrote:=20
+Why are you resending this?
 
-> On Wed, Jul 29, 2020 at 11:59:40AM +0900, Roy Im wrote:
-> > Adds support for the Dialog DA7280 LRA/ERM Haptic Driver with multiple
-> > mode and integrated waveform memory and wideband support.
-> > It communicates via an I2C bus to the device.
->=20
-> A few questions/suggestions...
->=20
-> >
-> > Reviewed-by: Jes Sorensen <Jes.Sorensen@gmail.com>.
-> >
-> > Signed-off-by: Roy Im <roy.im.opensource@diasemi.com>
-> >
-> > ---
-> > v18:
-> > 	- Corrected comments in Kconfig
-> > 	- Updated to preferred style for multi line comments in c file.
-> > v17:
-> > 	- fixed an issue.
-> > v16:
-> > 	- Corrected some code and updated description in Kconfig.
-> > v15:
-> > 	- Removed some defines and updated some comments.
-> > v14:
-> > 	- Updated pwm related code, alignments and comments.
-> > v13:
-> > 	- Updated some conditions in pwm function and alignments.
-> > v12: No changes.
-> > v11:
-> > 	- Updated the pwm related code, comments and typo.
-> > v10:
-> > 	- Updated the pwm related function and added some comments.
-> > v9:
-> > 	- Removed the header file and put the definitions into the c file.
-> > 	- Updated the pwm code and error logs with %pE
->=20
-> I believe the %pE is to format an escaped buffer, you probably want to %p=
-e (lowercase) to print errors. I am also not quite sure
-> if we want to use it in cases when we have non-pointer error, or we shoul=
-d stick with %d as most of the kernel does.
+regards,
+dan carpenter
 
-Right, it should be %pe as you and Uwe said, Uwe suggested %pe to understan=
-d easier.. do you still prefer to stick with %d?
-
->=20
-> ...
-> > +
-> > +/* DA7280_ACTUATOR3 (Address 0x0e) */
-> > +#define DA7280_IMAX_MASK			(31 << 0)
->=20
-> We have GENMASK(h,l) macro in include/linux/bits.h that could be used her=
-e and in other mask definitions.
-
-I will do.
-
->=20
-> > +
-> > +	bool legacy;
-> > +	struct delayed_work work_duration;
-> > +	struct work_struct work_playback;
-> > +	struct work_struct work_setgain;
->=20
-> How do we ensure that all these works do not clash with each other?
-> As far as I can see we could have the "duration" work executing simultane=
-ously with playback...
-
-You are right, I will use use cancel_delayed_work_sync()/duration and cance=
-l_work_sync()/playback before scheduling playback work. And same as for the=
- work_setgain. For setgain, there is no problem to run this regardless the =
-playback.
-
->=20
-> > +static int da7280_haptics_playback(struct input_dev *dev,
-> > +				   int effect_id, int val)
-> > +{
-> > +	struct da7280_haptic *haptics =3D input_get_drvdata(dev);
-> > +
-> > +	if (!haptics->op_mode) {
-> > +		dev_warn(haptics->dev,
-> > +			 "Any effects are not uploaded yet\n");
->=20
-> "No effects have been uploaded"?
-
-Ok, let me update so.
-
->=20
-> > +		return -EPERM;
->=20
-> I'd say EINVAL.
-
-OK
-
->=20
-> > +static DEVICE_ATTR_RW(ps_seq_id);
-> > +static DEVICE_ATTR_RW(ps_seq_loop);
-> > +static DEVICE_ATTR_RW(gpi_seq_id0);
-> > +static DEVICE_ATTR_RW(gpi_seq_id1);
-> > +static DEVICE_ATTR_RW(gpi_seq_id2);
-> > +static DEVICE_ATTR_WO(patterns);
->=20
-> Should this be a binary attribute instead of having string parsing in the=
- kernel?
-
-I have carefully reviewed my driver again with your comments, now the uploa=
-d effect covers this attributes, so I would like to remove them and add som=
-e code more for gpi_seq_idx update.
-
-Thanks for your comments.
-
-Kinds regards,
-Roy
