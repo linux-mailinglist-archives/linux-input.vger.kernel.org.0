@@ -2,101 +2,168 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0772723193D
-	for <lists+linux-input@lfdr.de>; Wed, 29 Jul 2020 07:54:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 666B12319A4
+	for <lists+linux-input@lfdr.de>; Wed, 29 Jul 2020 08:36:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726286AbgG2Fyy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 29 Jul 2020 01:54:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37112 "EHLO
+        id S1726336AbgG2Ggo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 29 Jul 2020 02:36:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725986AbgG2Fyy (ORCPT
+        with ESMTP id S1726290AbgG2Ggo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 29 Jul 2020 01:54:54 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FC8EC061794;
-        Tue, 28 Jul 2020 22:54:53 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id o1so11330076plk.1;
-        Tue, 28 Jul 2020 22:54:53 -0700 (PDT)
+        Wed, 29 Jul 2020 02:36:44 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39780C061794;
+        Tue, 28 Jul 2020 23:36:43 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id p3so13727425pgh.3;
+        Tue, 28 Jul 2020 23:36:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=sH+GHVWLvfht7WtdnqRlJ01jONTC3ep9dhfQ3fA/ITw=;
-        b=CKtATOm1ER44jJMAwxmv2/wsUTC7/3uSmo7SKzpKox4wN25lYUusukDbQTTz5zQFjZ
-         ++2QM7aiEzKBod32RD919SnQP0Ynzf1ShirQcm5lS8KovRIAsPew/s6gMh/PjRyv6Gu2
-         qWt4pk3kRYccSjK6pW1oQ6W1RQDolDNXb4raWvGkEl2pNkAPbfi0eWpnBACO3FEZjC+X
-         HStZ/Mtvgk0Qfxtw5TFOFb3G5eS1gs6vbOGhFqNtAdubFUNXAr8SRM7nMRrVJhaEZW0Z
-         fxhNkp8Jcd+8SaiHWEsIpczFz1XnsY9PZaoMUE0ty2lpaP0fj5nHElMxfc2/jpE0+v51
-         NLcg==
+        bh=IsasfM56692RUOErbgn2ABZzJ6c631XfiLeQVHWEUsI=;
+        b=eFhHBUQj6ipfDY5v+hKk8aL0YcnAalVllbCOZzgH++rlzaJSlNhw7c4eAcRiAVPB5i
+         iNYjMfATnkf88ldCnPAx+oG14Jl86MX6aZB07gcYeDON1lhf0bHbgYUcoNtfheqk5Aqv
+         AyA9x8JmA04+sJL6ChCmRJb4j0d7YgmUV5eqG4JgpbmvLeU3bdpe3+IQUvCqMwMwYtLR
+         h6evFRiHi1yCCMkp1+SJbOl8nC2OOQPgiRds9csNGeXqwdeV0pGPeYB1FpXk6+g6InuN
+         HS6xzNni5MbR7u/TS5YRQLYH2Ab8VfxaUbZlU6xF5c9iSdws7+EPPpQExE9u6tBWqfRN
+         tplA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=sH+GHVWLvfht7WtdnqRlJ01jONTC3ep9dhfQ3fA/ITw=;
-        b=QP2h1dVMJwLw7wD/cDU2JbYF0tF5na57bMp2f5DEuk/tgmWxpMHgcKG/r64e9oYhqA
-         xlOjWecfxh94/Gv/8hwCkmhM3cKa6zpDPBCZ04ebpkhACwGMeax8J4BRGGv2FIOzJ+Zr
-         zcSZhPGC/MnpufUcU5CVH5rExD/a6c9TKb+RNgErtDsRTBvTieuYvBCGK8VnwL1Qx17h
-         WQmenexhA9FiaXthTC+NK64DNYbi22M81bGvBQZY8qFDc9j/VumwcIZPas50PGxVwQRK
-         hCiWKZzSatU4kmuKLiXyCznFkmsQGhzGKTu6CUJpWT3o35IC78NM16r2XqQTHsjztOeP
-         8ZFw==
-X-Gm-Message-State: AOAM532dK8TfWDbaN3buc1FQzb6FClQgqUOHmspYBdKUjrKhaWJxy4Dz
-        MJkaEFMNFajDe57YDBLw7eJq+csrgY0=
-X-Google-Smtp-Source: ABdhPJx0LXlZvOoeVmeVgQdLoFwG954NdXlzQn9VfJkdLJ5LL2NAF0LsEz4kuEdDPylFBLBcZIznwg==
-X-Received: by 2002:a17:902:b705:: with SMTP id d5mr25889621pls.118.1596002092367;
-        Tue, 28 Jul 2020 22:54:52 -0700 (PDT)
+        bh=IsasfM56692RUOErbgn2ABZzJ6c631XfiLeQVHWEUsI=;
+        b=IC8veYICTIQMD3GBEjrybjV/rRq/6e+ErTTkjECHs33zBQsCgDNohTcP8FWyDtmA7W
+         +Cr0tZJNdMOR9AjEsZjdSk1eTa3FYz1jP6lSuUHdRxyFeI0kMaODTkGL5D+WRE5pObU4
+         hdzGrvGdmaawjmH/553fJPnWSM3oMWk8fEANLoAQslyVa2O5V6OfMUA3xygNwWPRmUhr
+         /La4GftOmACizbsVIpQ4j6Adr+PWYfWKWQ2XwvVA8gloTx5D46mPyayX2dMd4wt/a7jl
+         oDKUHp3/D14Dx+5OqFzPHyeSdlnnyv5v38Feifi9RPPOrocGwpJBnfUHHFNsLL8enLqf
+         Br4g==
+X-Gm-Message-State: AOAM530WNv0KfxHSzSkQUUgxQcype39ukBZgSpnVBDqgip+S84low030
+        mwL9/VxNS9LSRcMcwK3wnf8=
+X-Google-Smtp-Source: ABdhPJzDxjQQTnVon7UXunhTQddxypSgdNT5v7VIizUudg7wcWuNzDnq1EeBjQdkGAoL/GmxLh1RgQ==
+X-Received: by 2002:a63:5b55:: with SMTP id l21mr28743015pgm.348.1596004602248;
+        Tue, 28 Jul 2020 23:36:42 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id d37sm916197pgd.18.2020.07.28.22.54.51
+        by smtp.gmail.com with ESMTPSA id y6sm1053424pfr.61.2020.07.28.23.36.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2020 22:54:51 -0700 (PDT)
-Date:   Tue, 28 Jul 2020 22:54:49 -0700
+        Tue, 28 Jul 2020 23:36:41 -0700 (PDT)
+Date:   Tue, 28 Jul 2020 23:36:38 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jiada Wang <jiada_wang@mentor.com>
-Cc:     nick@shmanahar.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, erosca@de.adit-jv.com,
-        Andrew_Gabbasov@mentor.com, digetx@gmail.com
-Subject: Re: [PATCH v2 1/1] Input: atmel_mxt_ts - only read messages in
- mxt_acquire_irq() when necessary
-Message-ID: <20200729055449.GX1665100@dtor-ws>
-References: <20200727151637.23810-1-jiada_wang@mentor.com>
+To:     Roy Im <roy.im.opensource@diasemi.com>
+Cc:     Uwe Kleine-Koenig <u.kleine-koenig@pengutronix.de>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Brian Masney <masneyb@onstation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Pascal PAILLET-LME <p.paillet@st.com>,
+        Rob Herring <robh@kernel.org>,
+        Samuel Ortiz <sameo@linux.intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Support Opensource <support.opensource@diasemi.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v18 3/3] Input: new da7280 haptic driver
+Message-ID: <20200729063638.GY1665100@dtor-ws>
+References: <cover.1595991580.git.Roy.Im@diasemi.com>
+ <23b3470401ec5cf525add8e1227cb67586b9f294.1595991580.git.Roy.Im@diasemi.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200727151637.23810-1-jiada_wang@mentor.com>
+In-Reply-To: <23b3470401ec5cf525add8e1227cb67586b9f294.1595991580.git.Roy.Im@diasemi.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jul 28, 2020 at 12:16:37AM +0900, Jiada Wang wrote:
-> From: Nick Dyer <nick.dyer@itdev.co.uk>
-> 
-> The workaround of reading all messages until an invalid is received is a
-> way of forcing the CHG line high, which means that when using
-> edge-triggered interrupts the interrupt can be acquired.
-> 
-> With level-triggered interrupts the workaround is unnecessary.
-> 
-> Also, most recent maXTouch chips have a feature called RETRIGEN which, when
-> enabled, reasserts the interrupt line every cycle if there are messages
-> waiting. This also makes the workaround unnecessary.
-> 
-> Note: the RETRIGEN feature is only in some firmware versions/chips, it's
-> not valid simply to enable the bit.
-> 
-> Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
-> Acked-by: Benson Leung <bleung@chromium.org>
-> Acked-by: Yufeng Shen <miletus@chromium.org>
-> (cherry picked from ndyer/linux/for-upstream commit 1ae4e8281e491b22442cd5acdfca1862555f8ecb)
-> [gdavis: Fix conflicts due to v4.6-rc7 commit eb43335c4095 ("Input:
-> 	 atmel_mxt_ts - use mxt_acquire_irq in mxt_soft_reset").]
-> Signed-off-by: George G. Davis <george_davis@mentor.com>
-> [jiada: reset use_retrigen_workaround at beginning of mxt_check_retrigen()
-> 	call mxt_check_retrigen() after mxt_acquire_irq() in mxt_initialize()
-> 	replace white-spaces with tab for MXT_COMMS_RETRIGEN
-> 	Changed to check if IRQ is level type]
-> Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
+Hi Roy,
 
-Applied, thank you.
+On Wed, Jul 29, 2020 at 11:59:40AM +0900, Roy Im wrote:
+> Adds support for the Dialog DA7280 LRA/ERM Haptic Driver with
+> multiple mode and integrated waveform memory and wideband support.
+> It communicates via an I2C bus to the device.
+
+A few questions/suggestions...
+
+> 
+> Reviewed-by: Jes Sorensen <Jes.Sorensen@gmail.com>.
+> 
+> Signed-off-by: Roy Im <roy.im.opensource@diasemi.com>
+> 
+> ---
+> v18:
+> 	- Corrected comments in Kconfig
+> 	- Updated to preferred style for multi line comments in c file.
+> v17:
+> 	- fixed an issue.
+> v16:
+> 	- Corrected some code and updated description in Kconfig.
+> v15:
+> 	- Removed some defines and updated some comments.
+> v14:
+> 	- Updated pwm related code, alignments and comments.
+> v13:
+> 	- Updated some conditions in pwm function and alignments.
+> v12: No changes.
+> v11: 
+> 	- Updated the pwm related code, comments and typo.
+> v10: 
+> 	- Updated the pwm related function and added some comments.
+> v9: 
+> 	- Removed the header file and put the definitions into the c file.
+> 	- Updated the pwm code and error logs with %pE
+
+I believe the %pE is to format an escaped buffer, you probably want to
+%pe (lowercase) to print errors. I am also not quite sure if we want to
+use it in cases when we have non-pointer error, or we should stick with
+%d as most of the kernel does.
+
+...
+> +
+> +/* DA7280_ACTUATOR3 (Address 0x0e) */
+> +#define DA7280_IMAX_MASK			(31 << 0)
+
+We have GENMASK(h,l) macro in include/linux/bits.h that could be used
+here and in other mask definitions.
+
+> +
+> +	bool legacy;
+> +	struct delayed_work work_duration;
+> +	struct work_struct work_playback;
+> +	struct work_struct work_setgain;
+
+How do we ensure that all these works do not clash with each other?
+As far as I can see we could have the "duration" work executing
+simultaneously with playback...
+
+> +static int da7280_haptics_playback(struct input_dev *dev,
+> +				   int effect_id, int val)
+> +{
+> +	struct da7280_haptic *haptics = input_get_drvdata(dev);
+> +
+> +	if (!haptics->op_mode) {
+> +		dev_warn(haptics->dev,
+> +			 "Any effects are not uploaded yet\n");
+
+"No effects have been uploaded"?
+
+> +		return -EPERM;
+
+I'd say EINVAL.
+
+> +static DEVICE_ATTR_RW(ps_seq_id);
+> +static DEVICE_ATTR_RW(ps_seq_loop);
+> +static DEVICE_ATTR_RW(gpi_seq_id0);
+> +static DEVICE_ATTR_RW(gpi_seq_id1);
+> +static DEVICE_ATTR_RW(gpi_seq_id2);
+> +static DEVICE_ATTR_WO(patterns);
+
+Should this be a binary attribute instead of having string parsing in
+the kernel?
+
+Thanks.
 
 -- 
 Dmitry
