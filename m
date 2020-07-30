@@ -2,211 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 636B323379C
-	for <lists+linux-input@lfdr.de>; Thu, 30 Jul 2020 19:23:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E17F233839
+	for <lists+linux-input@lfdr.de>; Thu, 30 Jul 2020 20:15:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728452AbgG3RXq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 30 Jul 2020 13:23:46 -0400
-Received: from mail.astralinux.ru ([217.74.38.120]:60648 "EHLO astralinux.ru"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726353AbgG3RXq (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 30 Jul 2020 13:23:46 -0400
-X-Greylist: delayed 3601 seconds by postgrey-1.27 at vger.kernel.org; Thu, 30 Jul 2020 13:23:44 EDT
-Received: from [46.148.196.138] (account dmastykin@astralinux.ru HELO [192.168.32.67])
-  by astralinux.ru (CommuniGate Pro SMTP 6.2.7)
-  with ESMTPSA id 2154501; Thu, 30 Jul 2020 19:20:52 +0300
-From:   Dmitry Mastykin <dmastykin@astralinux.ru>
-Subject: hid-multitouch: goodix: hovering works as touch
-To:     linux-input@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>
-Message-ID: <8a538cad-c3f2-6172-1d6e-a18c89b51337@astralinux.ru>
-Date:   Thu, 30 Jul 2020 19:23:40 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1730126AbgG3SOz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 30 Jul 2020 14:14:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33520 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726495AbgG3SOx (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 30 Jul 2020 14:14:53 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC4EAC06174A
+        for <linux-input@vger.kernel.org>; Thu, 30 Jul 2020 11:14:53 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id r4so4260167pls.2
+        for <linux-input@vger.kernel.org>; Thu, 30 Jul 2020 11:14:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=R3XH19x0j9mpAwBbmALhrl+K1g6ws6AmAQc8yDsKxwc=;
+        b=Rd+sngN9fVYhzl82nqy0DTTR682+o7qxhCC/+ghYliHvyO1hzJDTm0Q4K9N2e2sjvd
+         N6jmVrVP1K+zH7o8lQSP7igJY1O84vbHMVMFz6s9vC7DFwyG9aRzqW/9TFWhy9bGwJDD
+         8rWbAMt/fh9RSp/q+tWRyrXHkaKeB34igvVHo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=R3XH19x0j9mpAwBbmALhrl+K1g6ws6AmAQc8yDsKxwc=;
+        b=J3a8p1MOs3Q8TbE0G/e7hHMyNZ+4/YB5DAfYbtObFfArw4lQnoPFJLOc8C0YIbpUrm
+         hLT+4w1ObIOjGpyHj1vzOkJZLec+rYL5XrSY++adk5bEyJ1PPOapKAu6v5vfWdh5eNVF
+         nbJ5xXU4zqsBbocLnE6vvl/R/umgj3KldSuHyRrOBRwCQcgT4xQ74ESNikTbTvHAc1nc
+         NlvaaEVdMpBRogv2SfT510c8/oDF14qwuP0rDDgjFT+rno8+UCHjZo2OGJpIfTrvT2O6
+         /I8OF09szS9FSYs23lYpKaSmOesvECuE4kIYZ/ucbrx+z7tTGPKGXjBjzfI1doCRK6Zw
+         rhYA==
+X-Gm-Message-State: AOAM533XN8BvJsnHsSvdThuT3MV44Q77Zz5ToUdwf3s0Zge1nR+gmtW+
+        BLqFkzH26zoedsFVVJDyPTH/4w==
+X-Google-Smtp-Source: ABdhPJxh4YSRJo64KtvfOflwHcynTg8W1GmMjR98OKYM43hau9SWD31eOcjpDevGju3jfuntinpu7g==
+X-Received: by 2002:a17:90a:884:: with SMTP id v4mr318901pjc.27.1596132893170;
+        Thu, 30 Jul 2020 11:14:53 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id b63sm7067818pfg.43.2020.07.30.11.14.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jul 2020 11:14:52 -0700 (PDT)
+Date:   Thu, 30 Jul 2020 11:14:50 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Allen Pais <allen.lkml@gmail.com>,
+        Oscar Carter <oscar.carter@gmx.com>,
+        Romain Perier <romain.perier@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-s390@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-usb@vger.kernel.org, kgdb-bugreport@lists.sourceforge.net,
+        alsa-devel@alsa-project.org, kernel-hardening@lists.openwall.com
+Subject: Re: [PATCH 0/3] Modernize tasklet callback API
+Message-ID: <202007301113.45D24C9D@keescook>
+References: <20200716030847.1564131-1-keescook@chromium.org>
+ <87h7tpa3hg.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="------------1DAB20090E2F8721320A19AC"
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87h7tpa3hg.fsf@nanos.tec.linutronix.de>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------1DAB20090E2F8721320A19AC
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+[heavily trimmed CC list because I think lkml is ignoring this
+thread...]
 
-Hello all,
+On Thu, Jul 30, 2020 at 09:03:55AM +0200, Thomas Gleixner wrote:
+> Kees,
+> 
+> Kees Cook <keescook@chromium.org> writes:
+> > This is the infrastructure changes to prepare the tasklet API for
+> > conversion to passing the tasklet struct as the callback argument instead
+> > of an arbitrary unsigned long. The first patch details why this is useful
+> > (it's the same rationale as the timer_struct changes from a bit ago:
+> > less abuse during memory corruption attacks, more in line with existing
+> > ways of doing things in the kernel, save a little space in struct,
+> > etc). Notably, the existing tasklet API use is much less messy, so there
+> > is less to clean up.
+> >
+> > It's not clear to me which tree this should go through... Greg since it
+> > starts with a USB clean-up, -tip for timer or interrupt, or if I should
+> > just carry it. I'm open to suggestions, but if I don't hear otherwise,
+> > I'll just carry it.
+> >
+> > My goal is to have this merged for v5.9-rc1 so that during the v5.10
+> > development cycle the new API will be available. The entire tree of
+> > changes is here[1] currently, but to split it up by maintainer the
+> > infrastructure changes need to be landed first.
+> >
+> > Review and Acks appreciated! :)
+> 
+> I'd rather see tasklets vanish from the planet completely, but that's
+> going to be a daring feat. So, grudgingly:
 
-I'm using a notebook with Goodix gt7385p touchscreen controller in HID 
-Protocol Device (I2C bus) mode.
+Understood! I will update the comments near the tasklet API.
 
-hid-multitouch driver is servicing this device. I added this to be sure 
-the quirks set:
-	{ .driver_data = MT_CLS_WIN_8_DUAL,
-		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
-			I2C_VENDOR_ID_GOODIX,
-			I2C_DEVICE_ID_GOODIX_0113) },
+> Acked-by: Thomas Gleixner <tglx@linutronix.de>
 
-The problem is that hovering works as touch, and UI menus and buttons 
-are activated before I touch the panel with stylus. I attach evtest 
-output of touching panel be stylus and removing stylus away.
+Thanks!
 
-Trying a wacom pen tablet, borrowed from my daughter, I see that they 
-use such a sequence:
-EV_KEY BTN_TOOL_PEN 1 - start hovering here
-EV_KEY BTN_TOUCH 1 - start touching
-EV_KEY BTN_TOUCH 0 - stop touching
-EV_KEY BTN_TOOL_PEN 0 - stop hovering
-
-Just to make the touchscreen working I tried to add BTN_TOUCH reports to 
-hid-multitouch for my device. But as soon as I add 
-input_set_capability(hi->input, EV_KEY, BTN_TOUCH), I see BTN_TOUCH 0 / 
-BTN_TOUCH 1 pair in every report.
-
-So 2 questions that I have:
-1) is the sequence in evtest.txt correct?
-2) who may report BTN_TOUCH 0/1 pairs when BTN_TOUCH capability is 
-added? I tried to search with debug messages in hid-input.c and 
-hid-multitouch.c but without success.
-
-Thank you in advance!
-Dmitry Mastykin
-
-Here is the citation from dmesg:
-----------------------------------------------------------------------
-[    5.032956] i2c_hid i2c-GXTP7380:00: i2c-GXTP7380:00 supply vdd not 
-found, using dummy regulator
-[    5.032979] i2c_hid i2c-GXTP7380:00: i2c-GXTP7380:00 supply vddl not 
-found, using dummy regulator                [    5.088245] input: 
-GXTP7380:00 27C6:0113 Touchscreen as 
-/devices/pci0000:00/0000:00:17.0/i2c_designware.4/i2c-9/i
-2c-GXTP7380:00/0018:27C6:0113.0001/input/input14 
-                                            [    5.109607] input: 
-GXTP7380:00 27C6:0113 as 
-/devices/pci0000:00/0000:00:17.0/i2c_designware.4/i2c-9/i2c-GXTP7380:
-00/0018:27C6:0113.0001/input/input15 
-                                            [    5.112486] input: 
-GXTP7380:00 27C6:0113 as 
-/devices/pci0000:00/0000:00:17.0/i2c_designware.4/i2c-9/i2c-GXTP7380:
-00/0018:27C6:0113.0001/input/input16 
-                                            [    5.112561] hid-generic 
-0018:27C6:0113.0001: input,hidraw0: I2C HID v1.00 Device [GXTP7380:00 
-27C6:0113] on i2c-G
-XTP7380:00 
-                                            [    6.417241] input: 
-GXTP7380:00 27C6:0113 as 
-/devices/pci0000:00/0000:00:17.0/i2c_designware.4/i2c-9/i2c-GXTP7380:
-00/0018:27C6:0113.0001/input/input20 
-                                            [    6.417833] input: 
-GXTP7380:00 27C6:0113 Stylus as 
-/devices/pci0000:00/0000:00:17.0/i2c_designware.4/i2c-9/i2c-GX
-TP7380:00/0018:27C6:0113.0001/input/input21 
-                                            [    6.417902] input: 
-GXTP7380:00 27C6:0113 UNKNOWN as 
-/devices/pci0000:00/0000:00:17.0/i2c_designware.4/i2c-9/i2c-G
-XTP7380:00/0018:27C6:0113.0001/input/input22 
-                                            [    6.417973] 
-hid-multitouch 0018:27C6:0113.0001: input,hidraw0: I2C HID v1.00 Device 
-[GXTP7380:00 27C6:0113] on i2
-c-GXTP7380:00
-
---------------1DAB20090E2F8721320A19AC
-Content-Type: text/plain; charset=UTF-8;
- name="evtest.txt"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="evtest.txt"
-
-SW5wdXQgZHJpdmVyIHZlcnNpb24gaXMgMS4wLjEKSW5wdXQgZGV2aWNlIElEOiBidXMgMHgx
-OCB2ZW5kb3IgMHgyN2M2IHByb2R1Y3QgMHgxMTMgdmVyc2lvbiAweDEwMApJbnB1dCBkZXZp
-Y2UgbmFtZTogIkdYVFA3MzgwOjAwIDI3QzY6MDExMyBTdHlsdXMiClN1cHBvcnRlZCBldmVu
-dHM6CiAgRXZlbnQgdHlwZSAwIChFVl9TWU4pCiAgRXZlbnQgdHlwZSAxIChFVl9LRVkpCiAg
-RXZlbnQgdHlwZSAzIChFVl9BQlMpCiAgICBFdmVudCBjb2RlIDQ3IChBQlNfTVRfU0xPVCkK
-ICAgICAgVmFsdWUgICAgICAwCiAgICAgIE1pbiAgICAgICAgMAogICAgICBNYXggICAgICAg
-IDkKICAgIEV2ZW50IGNvZGUgNTMgKEFCU19NVF9QT1NJVElPTl9YKQogICAgICBWYWx1ZSAg
-ICAgIDAKICAgICAgTWluICAgICAgICAwCiAgICAgIE1heCAgICAgIDk2MAogICAgICBSZXNv
-bHV0aW9uICAgICAgIDQKICAgIEV2ZW50IGNvZGUgNTQgKEFCU19NVF9QT1NJVElPTl9ZKQog
-ICAgICBWYWx1ZSAgICAgIDAKICAgICAgTWluICAgICAgICAwCiAgICAgIE1heCAgICAgIDU0
-MAogICAgICBSZXNvbHV0aW9uICAgICAgIDMKICAgIEV2ZW50IGNvZGUgNTcgKEFCU19NVF9U
-UkFDS0lOR19JRCkKICAgICAgVmFsdWUgICAgICAwCiAgICAgIE1pbiAgICAgICAgMAogICAg
-ICBNYXggICAgNjU1MzUKICAgIEV2ZW50IGNvZGUgNTggKEFCU19NVF9QUkVTU1VSRSkKICAg
-ICAgVmFsdWUgICAgICAwCiAgICAgIE1pbiAgICAgICAgMAogICAgICBNYXggICAgIDEwMjMK
-ICAgIEV2ZW50IGNvZGUgNTkgKEFCU19NVF9ESVNUQU5DRSkKICAgICAgVmFsdWUgICAgICAw
-CiAgICAgIE1pbiAgICAgICAgMAogICAgICBNYXggICAgICAgIDEKUHJvcGVydGllczoKICBQ
-cm9wZXJ0eSB0eXBlIDEgKElOUFVUX1BST1BfRElSRUNUKQpUZXN0aW5nIC4uLiAoaW50ZXJy
-dXB0IHRvIGV4aXQpCkV2ZW50OiB0aW1lIDE1OTYxMjQyNDkuMDg3OTQzLCB0eXBlIDMgKEVW
-X0FCUyksIGNvZGUgNTcgKEFCU19NVF9UUkFDS0lOR19JRCksIHZhbHVlIDAKRXZlbnQ6IHRp
-bWUgMTU5NjEyNDI0OS4wODc5NDMsIHR5cGUgMyAoRVZfQUJTKSwgY29kZSA1MyAoQUJTX01U
-X1BPU0lUSU9OX1gpLCB2YWx1ZSA1OTkKRXZlbnQ6IHRpbWUgMTU5NjEyNDI0OS4wODc5NDMs
-IHR5cGUgMyAoRVZfQUJTKSwgY29kZSA1NCAoQUJTX01UX1BPU0lUSU9OX1kpLCB2YWx1ZSAz
-NDAKRXZlbnQ6IHRpbWUgMTU5NjEyNDI0OS4wODc5NDMsIHR5cGUgMyAoRVZfQUJTKSwgY29k
-ZSA1OSAoQUJTX01UX0RJU1RBTkNFKSwgdmFsdWUgMQpFdmVudDogdGltZSAxNTk2MTI0MjQ5
-LjA4Nzk0MywgdHlwZSAzIChFVl9BQlMpLCBjb2RlIDU4IChBQlNfTVRfUFJFU1NVUkUpLCB2
-YWx1ZSAxMzkKRXZlbnQ6IHRpbWUgMTU5NjEyNDI0OS4wODc5NDMsIC0tLS0tLS0tLS0tLS0t
-IFNZTl9SRVBPUlQgLS0tLS0tLS0tLS0tCkV2ZW50OiB0aW1lIDE1OTYxMjQyNDkuMDk3MjM0
-LCB0eXBlIDMgKEVWX0FCUyksIGNvZGUgNTkgKEFCU19NVF9ESVNUQU5DRSksIHZhbHVlIDAK
-RXZlbnQ6IHRpbWUgMTU5NjEyNDI0OS4wOTcyMzQsIHR5cGUgMyAoRVZfQUJTKSwgY29kZSA1
-OCAoQUJTX01UX1BSRVNTVVJFKSwgdmFsdWUgMjAxCkV2ZW50OiB0aW1lIDE1OTYxMjQyNDku
-MDk3MjM0LCAtLS0tLS0tLS0tLS0tLSBTWU5fUkVQT1JUIC0tLS0tLS0tLS0tLQpFdmVudDog
-dGltZSAxNTk2MTI0MjQ5LjEwMTgwMywgdHlwZSAzIChFVl9BQlMpLCBjb2RlIDU4IChBQlNf
-TVRfUFJFU1NVUkUpLCB2YWx1ZSAyNjAKRXZlbnQ6IHRpbWUgMTU5NjEyNDI0OS4xMDE4MDMs
-IC0tLS0tLS0tLS0tLS0tIFNZTl9SRVBPUlQgLS0tLS0tLS0tLS0tCkV2ZW50OiB0aW1lIDE1
-OTYxMjQyNDkuMTEyMjY3LCB0eXBlIDMgKEVWX0FCUyksIGNvZGUgNTggKEFCU19NVF9QUkVT
-U1VSRSksIHZhbHVlIDI4OQpFdmVudDogdGltZSAxNTk2MTI0MjQ5LjExMjI2NywgLS0tLS0t
-LS0tLS0tLS0gU1lOX1JFUE9SVCAtLS0tLS0tLS0tLS0KRXZlbnQ6IHRpbWUgMTU5NjEyNDI0
-OS4xMTY2NzQsIHR5cGUgMyAoRVZfQUJTKSwgY29kZSA1OCAoQUJTX01UX1BSRVNTVVJFKSwg
-dmFsdWUgMjY2CkV2ZW50OiB0aW1lIDE1OTYxMjQyNDkuMTE2Njc0LCAtLS0tLS0tLS0tLS0t
-LSBTWU5fUkVQT1JUIC0tLS0tLS0tLS0tLQpFdmVudDogdGltZSAxNTk2MTI0MjQ5LjEyNzI0
-OSwgdHlwZSAzIChFVl9BQlMpLCBjb2RlIDUzIChBQlNfTVRfUE9TSVRJT05fWCksIHZhbHVl
-IDU5OApFdmVudDogdGltZSAxNTk2MTI0MjQ5LjEyNzI0OSwgdHlwZSAzIChFVl9BQlMpLCBj
-b2RlIDU4IChBQlNfTVRfUFJFU1NVUkUpLCB2YWx1ZSAyMjMKRXZlbnQ6IHRpbWUgMTU5NjEy
-NDI0OS4xMjcyNDksIC0tLS0tLS0tLS0tLS0tIFNZTl9SRVBPUlQgLS0tLS0tLS0tLS0tCkV2
-ZW50OiB0aW1lIDE1OTYxMjQyNDkuMTMxNzQ1LCB0eXBlIDMgKEVWX0FCUyksIGNvZGUgNTQg
-KEFCU19NVF9QT1NJVElPTl9ZKSwgdmFsdWUgMzM5CkV2ZW50OiB0aW1lIDE1OTYxMjQyNDku
-MTMxNzQ1LCB0eXBlIDMgKEVWX0FCUyksIGNvZGUgNTggKEFCU19NVF9QUkVTU1VSRSksIHZh
-bHVlIDE4MQpFdmVudDogdGltZSAxNTk2MTI0MjQ5LjEzMTc0NSwgLS0tLS0tLS0tLS0tLS0g
-U1lOX1JFUE9SVCAtLS0tLS0tLS0tLS0KRXZlbnQ6IHRpbWUgMTU5NjEyNDI0OS4xNDIyNTYs
-IHR5cGUgMyAoRVZfQUJTKSwgY29kZSA1MyAoQUJTX01UX1BPU0lUSU9OX1gpLCB2YWx1ZSA1
-OTcKRXZlbnQ6IHRpbWUgMTU5NjEyNDI0OS4xNDIyNTYsIHR5cGUgMyAoRVZfQUJTKSwgY29k
-ZSA1NCAoQUJTX01UX1BPU0lUSU9OX1kpLCB2YWx1ZSAzMzgKRXZlbnQ6IHRpbWUgMTU5NjEy
-NDI0OS4xNDIyNTYsIHR5cGUgMyAoRVZfQUJTKSwgY29kZSA1OCAoQUJTX01UX1BSRVNTVVJF
-KSwgdmFsdWUgMTYxCkV2ZW50OiB0aW1lIDE1OTYxMjQyNDkuMTQyMjU2LCAtLS0tLS0tLS0t
-LS0tLSBTWU5fUkVQT1JUIC0tLS0tLS0tLS0tLQpFdmVudDogdGltZSAxNTk2MTI0MjQ5LjE0
-NjYwMywgdHlwZSAzIChFVl9BQlMpLCBjb2RlIDUzIChBQlNfTVRfUE9TSVRJT05fWCksIHZh
-bHVlIDU5NgpFdmVudDogdGltZSAxNTk2MTI0MjQ5LjE0NjYwMywgdHlwZSAzIChFVl9BQlMp
-LCBjb2RlIDU0IChBQlNfTVRfUE9TSVRJT05fWSksIHZhbHVlIDMzNwpFdmVudDogdGltZSAx
-NTk2MTI0MjQ5LjE0NjYwMywgdHlwZSAzIChFVl9BQlMpLCBjb2RlIDU5IChBQlNfTVRfRElT
-VEFOQ0UpLCB2YWx1ZSAxCkV2ZW50OiB0aW1lIDE1OTYxMjQyNDkuMTQ2NjAzLCB0eXBlIDMg
-KEVWX0FCUyksIGNvZGUgNTggKEFCU19NVF9QUkVTU1VSRSksIHZhbHVlIDAKRXZlbnQ6IHRp
-bWUgMTU5NjEyNDI0OS4xNDY2MDMsIC0tLS0tLS0tLS0tLS0tIFNZTl9SRVBPUlQgLS0tLS0t
-LS0tLS0tCkV2ZW50OiB0aW1lIDE1OTYxMjQyNDkuMTcyMDYwLCB0eXBlIDMgKEVWX0FCUyks
-IGNvZGUgNTQgKEFCU19NVF9QT1NJVElPTl9ZKSwgdmFsdWUgMzM2CkV2ZW50OiB0aW1lIDE1
-OTYxMjQyNDkuMTcyMDYwLCAtLS0tLS0tLS0tLS0tLSBTWU5fUkVQT1JUIC0tLS0tLS0tLS0t
-LQpFdmVudDogdGltZSAxNTk2MTI0MjQ5LjIwMjI3MywgdHlwZSAzIChFVl9BQlMpLCBjb2Rl
-IDUzIChBQlNfTVRfUE9TSVRJT05fWCksIHZhbHVlIDU5NQpFdmVudDogdGltZSAxNTk2MTI0
-MjQ5LjIwMjI3MywgdHlwZSAzIChFVl9BQlMpLCBjb2RlIDU0IChBQlNfTVRfUE9TSVRJT05f
-WSksIHZhbHVlIDMzNQpFdmVudDogdGltZSAxNTk2MTI0MjQ5LjIwMjI3MywgLS0tLS0tLS0t
-LS0tLS0gU1lOX1JFUE9SVCAtLS0tLS0tLS0tLS0KRXZlbnQ6IHRpbWUgMTU5NjEyNDI0OS4y
-MDY2OTUsIHR5cGUgMyAoRVZfQUJTKSwgY29kZSA1NCAoQUJTX01UX1BPU0lUSU9OX1kpLCB2
-YWx1ZSAzMzQKRXZlbnQ6IHRpbWUgMTU5NjEyNDI0OS4yMDY2OTUsIC0tLS0tLS0tLS0tLS0t
-IFNZTl9SRVBPUlQgLS0tLS0tLS0tLS0tCkV2ZW50OiB0aW1lIDE1OTYxMjQyNDkuMjE3MDg4
-LCB0eXBlIDMgKEVWX0FCUyksIGNvZGUgNTQgKEFCU19NVF9QT1NJVElPTl9ZKSwgdmFsdWUg
-MzMzCkV2ZW50OiB0aW1lIDE1OTYxMjQyNDkuMjE3MDg4LCAtLS0tLS0tLS0tLS0tLSBTWU5f
-UkVQT1JUIC0tLS0tLS0tLS0tLQpFdmVudDogdGltZSAxNTk2MTI0MjQ5LjIzMjA5NiwgdHlw
-ZSAzIChFVl9BQlMpLCBjb2RlIDU0IChBQlNfTVRfUE9TSVRJT05fWSksIHZhbHVlIDMzMQpF
-dmVudDogdGltZSAxNTk2MTI0MjQ5LjIzMjA5NiwgLS0tLS0tLS0tLS0tLS0gU1lOX1JFUE9S
-VCAtLS0tLS0tLS0tLS0KRXZlbnQ6IHRpbWUgMTU5NjEyNDI0OS4yMzY3NjgsIHR5cGUgMyAo
-RVZfQUJTKSwgY29kZSA1NCAoQUJTX01UX1BPU0lUSU9OX1kpLCB2YWx1ZSAzMzAKRXZlbnQ6
-IHRpbWUgMTU5NjEyNDI0OS4yMzY3NjgsIC0tLS0tLS0tLS0tLS0tIFNZTl9SRVBPUlQgLS0t
-LS0tLS0tLS0tCkV2ZW50OiB0aW1lIDE1OTYxMjQyNDkuMjQ3MTUwLCB0eXBlIDMgKEVWX0FC
-UyksIGNvZGUgNTQgKEFCU19NVF9QT1NJVElPTl9ZKSwgdmFsdWUgMzI5CkV2ZW50OiB0aW1l
-IDE1OTYxMjQyNDkuMjQ3MTUwLCAtLS0tLS0tLS0tLS0tLSBTWU5fUkVQT1JUIC0tLS0tLS0t
-LS0tLQpFdmVudDogdGltZSAxNTk2MTI0MjQ5LjI1MTg3MSwgdHlwZSAzIChFVl9BQlMpLCBj
-b2RlIDU0IChBQlNfTVRfUE9TSVRJT05fWSksIHZhbHVlIDMyOApFdmVudDogdGltZSAxNTk2
-MTI0MjQ5LjI1MTg3MSwgLS0tLS0tLS0tLS0tLS0gU1lOX1JFUE9SVCAtLS0tLS0tLS0tLS0K
-RXZlbnQ6IHRpbWUgMTU5NjEyNDI0OS4yNjIyODgsIHR5cGUgMyAoRVZfQUJTKSwgY29kZSA1
-NyAoQUJTX01UX1RSQUNLSU5HX0lEKSwgdmFsdWUgLTEKRXZlbnQ6IHRpbWUgMTU5NjEyNDI0
-OS4yNjIyODgsIC0tLS0tLS0tLS0tLS0tIFNZTl9SRVBPUlQgLS0tLS0tLS0tLS0tCg==
---------------1DAB20090E2F8721320A19AC--
+-- 
+Kees Cook
