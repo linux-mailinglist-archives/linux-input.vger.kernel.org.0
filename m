@@ -2,136 +2,142 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A4503232AC2
-	for <lists+linux-input@lfdr.de>; Thu, 30 Jul 2020 06:18:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43211232B13
+	for <lists+linux-input@lfdr.de>; Thu, 30 Jul 2020 06:53:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728070AbgG3ERy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 30 Jul 2020 00:17:54 -0400
-Received: from esa2.mentor.iphmx.com ([68.232.141.98]:17855 "EHLO
-        esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726519AbgG3ERy (ORCPT
+        id S1725974AbgG3Exg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 30 Jul 2020 00:53:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51372 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725892AbgG3Exg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 30 Jul 2020 00:17:54 -0400
-X-Greylist: delayed 427 seconds by postgrey-1.27 at vger.kernel.org; Thu, 30 Jul 2020 00:17:51 EDT
-IronPort-SDR: 9RkskvAB+kmOMTzUUrB64G94GReK7PVV/xTEmOO9zTNZlEqjwzEq0SxaOO1XPrtiy7NG3oxFp0
- gh/nopnq5JsZA+8WhLQdrP2r23TOeEWRvnnOR0k8IfgxmXmYVbHJmTAuy3QwOib7iXUrkkHu7x
- z1gZjMM63+ppga4PGoac5V8swoCyWv9Rk+twgbE3II2eQtbpZiJGPAqNU+k84tGRlwcov0URqz
- dVnQulXmfYELIc/pqAmLD9UnrUd8f1BLO9LTfTw8xlXqARTL7aX1BC27IoJ0jg891AGsh/L3cw
- ieU=
-X-IronPort-AV: E=Sophos;i="5.75,413,1589270400"; 
-   d="scan'208";a="51442063"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa2.mentor.iphmx.com with ESMTP; 29 Jul 2020 20:10:47 -0800
-IronPort-SDR: bn2vMB281lyjinmdybJm5jGUzYfE01QrphUEyh+X1wmn8Sdo/v2NHC3LYdOcCBoMjeJOhYYC8a
- 6HyWqFJbrbbgDMvWbO5Jds4vz5Rqi10etKx15xuoMMqOMrFbxm30qOtazB77iuHQFV9lKSbixP
- R6vV+hIj8zviIjeR9OCbZ/G54ruOJw5mG4Ch3ld8KSyp69Hgqb2dqOflGg27D5sGYqK58QkRiL
- 1mUQjNJ3F04BcOt7gq3DQbfe6RnE2X65qYt4NiIRDv4zoTS9qXmJxKjgdXY2N35KXRNvDySYeZ
- ROE=
-From:   Jiada Wang <jiada_wang@mentor.com>
-To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
-        <digetx@gmail.com>, <jiada_wang@mentor.com>
-Subject: [PATCH 2/2] Input: atmel_mxt_ts - output status from T42 Touch Suppression
-Date:   Thu, 30 Jul 2020 13:10:39 +0900
-Message-ID: <20200730041039.7646-2-jiada_wang@mentor.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200730041039.7646-1-jiada_wang@mentor.com>
-References: <20200730041039.7646-1-jiada_wang@mentor.com>
+        Thu, 30 Jul 2020 00:53:36 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 258DBC061794;
+        Wed, 29 Jul 2020 21:53:36 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id il6so3535625pjb.0;
+        Wed, 29 Jul 2020 21:53:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Sf5Dq5tsi5GV2zUB8sUssWfaU5oAjGutIobOkx+ddxs=;
+        b=fT84vDGewy62CPWJO8RNzhXwSqb2uURyGMVCA5/4eFEHblytjNmxbBOwqrvXLi3wT8
+         RN3BDKK9hXYlaZgVu8tWiP5dPOvhPyywb7y7szUMdwqpxEGGP7a9iGtRUMK1ahgWy9tX
+         Wn6GyeBg7HMWkmZ8XuepNvHEUbW/J2wRetdLuw5jAUkPrbOVsqh0cAMpGHFOy5taph7K
+         sOi8+q4S1NcRLRzJ5/35kJ/HthOVHIKr2YroY+bv0/OjvaT3kPJ/859lGKTJMqK1oV6U
+         K/i7WJ8oGJBpQwwHd2cbn0ktZWeL7VwDcW9DYOTHTR1uIdIj5RX980aHmit47iFb4JDj
+         0G6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Sf5Dq5tsi5GV2zUB8sUssWfaU5oAjGutIobOkx+ddxs=;
+        b=glH2H7c1aqrKLgUVPh700UypLCJLckDwjNTD72mvybtPJYMROrcAKA7Ox1r+inFjMJ
+         lsYfJSlbSxQZG18xGuG0D85HUKsE+iGWvW6jsLt7JMqEmA+j3MGIgbnK9L+SdKXRwakm
+         wRU1uLz1bpecmc4ScrqufRjO5G4+vcozt+WYjUSFAMxSFWF+f5jEKsfksdI8ioKXYaoC
+         qI16RgB025To4T+LRAZHxMmhogf6mDwtuMD6oFAYbWxlELELRRztkPs1P2NBZT7rl4Ul
+         TvrAkyd2LBSj615CWwSJob8BDM6y6kCmFgFPMNevMlArZjZt+GBrRzlfbg3yPZU0zzoY
+         +Odw==
+X-Gm-Message-State: AOAM531Bv09KmC5iVlFArTBtD+uYXQ0kf1K3hTyoeZBRc383XRrWhQE3
+        H9y2A7p8pr+stSZ/oQGUDDk=
+X-Google-Smtp-Source: ABdhPJxd/Z+ESFlHNiITeMXZvNhjBIXKlhGnqJR0Lyip4hDtKOzh9XFFP3EB72xaU/13gYCw78e07A==
+X-Received: by 2002:a17:90a:fa8c:: with SMTP id cu12mr13731416pjb.229.1596084815427;
+        Wed, 29 Jul 2020 21:53:35 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id 17sm4289523pfv.16.2020.07.29.21.53.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jul 2020 21:53:34 -0700 (PDT)
+Date:   Wed, 29 Jul 2020 21:53:31 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Brian Norris <briannorris@chromium.org>,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
+        Yu-Hsuan Hsu <yuhsuan@chromium.org>,
+        Prashant Malani <pmalani@chromium.org>
+Subject: Re: [PATCH v3 5/6] platform/input: cros_ec: Replace -ENOTSUPP with
+ -ENOPROTOOPT
+Message-ID: <20200730045331.GZ1665100@dtor-ws>
+References: <20200726220101.29059-1-linux@roeck-us.net>
+ <20200726220101.29059-6-linux@roeck-us.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200726220101.29059-6-linux@roeck-us.net>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Nick Dyer <nick.dyer@itdev.co.uk>
+On Sun, Jul 26, 2020 at 03:01:00PM -0700, Guenter Roeck wrote:
+> -ENOTSUPP is not a SUSV4 error code and should not be used. Use
+> -ENOPROTOOPT instead to report EC_RES_INVALID_VERSION responses
+> from the EC. This matches match the NFS response for unsupported
+> protocol versions.
+> 
+> Cc: Gwendal Grignou <gwendal@chromium.org>
+> Cc: Yu-Hsuan Hsu <yuhsuan@chromium.org>
+> Cc: Prashant Malani <pmalani@chromium.org>
+> Cc: Brian Norris <briannorris@chromium.org>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 
-This patch outputs status from T42 touch suppression
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
-Acked-by: Benson Leung <bleung@chromium.org>
-Acked-by: Yufeng Shen <miletus@chromium.org>
-(cherry picked from ndyer/linux/for-upstream commit ab95b5a309999d2c098daaa9f88d9fcfae7eb516)
-Signed-off-by: George G. Davis <george_davis@mentor.com>
-[jiada: Replace dev_info() with dev_dbg(),
-	Move logical continuation to previous line to address checkpatch CHECK]
-Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
----
- drivers/input/touchscreen/atmel_mxt_ts.c | 25 ++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+for the input bit.
 
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 729c8dcb9cd1..b260f8c70c11 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -160,6 +160,9 @@ struct t37_debug {
- #define MXT_T48_MSG_NOISESUP_STATCHG	BIT(4)
- #define MXT_T48_MSG_NOISESUP_NLVLCHG	BIT(5)
- 
-+/* Define for MXT_PROCI_TOUCHSUPPRESSION_T42 */
-+#define MXT_T42_MSG_TCHSUP	BIT(0)
-+
- /* T100 Multiple Touch Touchscreen */
- #define MXT_T100_CTRL		0
- #define MXT_T100_CFG1		1
-@@ -326,6 +329,8 @@ struct mxt_data {
- 	u8 T9_reportid_min;
- 	u8 T9_reportid_max;
- 	u8 T19_reportid;
-+	u8 T42_reportid_min;
-+	u8 T42_reportid_max;
- 	u16 T44_address;
- 	u8 T48_reportid;
- 	u8 T100_reportid_min;
-@@ -960,6 +965,17 @@ static void mxt_proc_t100_message(struct mxt_data *data, u8 *message)
- 	data->update_input = true;
- }
- 
-+static void mxt_proc_t42_messages(struct mxt_data *data, u8 *msg)
-+{
-+	struct device *dev = &data->client->dev;
-+	u8 status = msg[1];
-+
-+	if (status & MXT_T42_MSG_TCHSUP)
-+		dev_dbg(dev, "T42 suppress\n");
-+	else
-+		dev_dbg(dev, "T42 normal\n");
-+}
-+
- static int mxt_proc_t48_messages(struct mxt_data *data, u8 *msg)
- {
- 	struct device *dev = &data->client->dev;
-@@ -987,6 +1003,9 @@ static int mxt_proc_message(struct mxt_data *data, u8 *message)
- 
- 	if (report_id == data->T6_reportid) {
- 		mxt_proc_t6_messages(data, message);
-+	} else if (report_id >= data->T42_reportid_min &&
-+		   report_id <= data->T42_reportid_max) {
-+		mxt_proc_t42_messages(data, message);
- 	} else if (report_id == data->T48_reportid) {
- 		mxt_proc_t48_messages(data, message);
- 	} else if (!data->input_dev) {
-@@ -1633,6 +1652,8 @@ static void mxt_free_object_table(struct mxt_data *data)
- 	data->T9_reportid_min = 0;
- 	data->T9_reportid_max = 0;
- 	data->T19_reportid = 0;
-+	data->T42_reportid_min = 0;
-+	data->T42_reportid_max = 0;
- 	data->T44_address = 0;
- 	data->T48_reportid = 0;
- 	data->T100_reportid_min = 0;
-@@ -1707,6 +1728,10 @@ static int mxt_parse_object_table(struct mxt_data *data,
- 						object->num_report_ids - 1;
- 			data->num_touchids = object->num_report_ids;
- 			break;
-+		case MXT_PROCI_TOUCHSUPPRESSION_T42:
-+			data->T42_reportid_min = min_id;
-+			data->T42_reportid_max = max_id;
-+			break;
- 		case MXT_SPT_MESSAGECOUNT_T44:
- 			data->T44_address = object->start_address;
- 			break;
+> ---
+> v3: Added patch
+> 
+>  drivers/input/keyboard/cros_ec_keyb.c   | 2 +-
+>  drivers/platform/chrome/cros_ec_proto.c | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
+> index fc1793ca2f17..15d17c717081 100644
+> --- a/drivers/input/keyboard/cros_ec_keyb.c
+> +++ b/drivers/input/keyboard/cros_ec_keyb.c
+> @@ -348,7 +348,7 @@ static int cros_ec_keyb_info(struct cros_ec_device *ec_dev,
+>  	params->event_type = event_type;
+>  
+>  	ret = cros_ec_cmd_xfer_status(ec_dev, msg);
+> -	if (ret == -ENOTSUPP) {
+> +	if (ret == -ENOPROTOOPT) {
+>  		/* With older ECs we just return 0 for everything */
+>  		memset(result, 0, result_size);
+>  		ret = 0;
+> diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
+> index 3e745e0fe092..e5bbec979a2a 100644
+> --- a/drivers/platform/chrome/cros_ec_proto.c
+> +++ b/drivers/platform/chrome/cros_ec_proto.c
+> @@ -555,7 +555,7 @@ EXPORT_SYMBOL(cros_ec_cmd_xfer);
+>   *
+>   * Return:
+>   * >=0 - The number of bytes transferred
+> - * -ENOTSUPP - Operation not supported
+> + * -ENOPROTOOPT - Operation not supported
+>   * -EPROTO - Protocol error
+>   */
+>  int cros_ec_cmd_xfer_status(struct cros_ec_device *ec_dev,
+> @@ -569,7 +569,7 @@ int cros_ec_cmd_xfer_status(struct cros_ec_device *ec_dev,
+>  	} else if (msg->result == EC_RES_INVALID_VERSION) {
+>  		dev_dbg(ec_dev->dev, "Command invalid version (err:%d)\n",
+>  			msg->result);
+> -		return -ENOTSUPP;
+> +		return -ENOPROTOOPT;
+>  	} else if (msg->result != EC_RES_SUCCESS) {
+>  		dev_dbg(ec_dev->dev, "Command result (err: %d)\n", msg->result);
+>  		return -EPROTO;
+> -- 
+> 2.17.1
+> 
+
 -- 
-2.17.1
-
+Dmitry
