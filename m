@@ -2,105 +2,145 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E57E2232F08
-	for <lists+linux-input@lfdr.de>; Thu, 30 Jul 2020 10:59:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6188C232F60
+	for <lists+linux-input@lfdr.de>; Thu, 30 Jul 2020 11:18:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728904AbgG3I7f (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 30 Jul 2020 04:59:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60772 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726287AbgG3I7e (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 30 Jul 2020 04:59:34 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90F71C061794
-        for <linux-input@vger.kernel.org>; Thu, 30 Jul 2020 01:59:34 -0700 (PDT)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1k14PQ-0002tp-I6; Thu, 30 Jul 2020 10:59:28 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1k14PQ-0003bj-0G; Thu, 30 Jul 2020 10:59:28 +0200
-Date:   Thu, 30 Jul 2020 10:59:27 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
+        id S1728825AbgG3JSQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 30 Jul 2020 05:18:16 -0400
+Received: from vps.xff.cz ([195.181.215.36]:51866 "EHLO vps.xff.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726819AbgG3JSQ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 30 Jul 2020 05:18:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
+        t=1596100692; bh=HOOQYK09295xgAy28jQQY6G9ActTahF44D4teInPcZc=;
+        h=Date:From:To:Cc:Subject:References:X-My-GPG-KeyId:From;
+        b=AL5BskQRTKQ2jtUjuXN5AlYRTEEoD9Yu79BpEqCpouulQKMRA9mLiMf2M11wyBQHx
+         VO2AnkKvpaCVGtLMT5+sLy0cxbcQPLXiMwuT00skkrIJ8UGZ9Ig02gK+stqpF4/ZYK
+         fxWKL7fR7MlXKcjEwTLEFa155Ph5W4PSBUtOQQDE=
+Date:   Thu, 30 Jul 2020 11:18:12 +0200
+From:   =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        =?iso-8859-1?Q?Andr=E9?= Draszik <git@andred.net>,
-        Robin Gong <yibin.gong@nxp.com>,
-        Anson Huang <anson.huang@nxp.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Aymen Sghaier <aymen.sghaier@nxp.com>,
-        Adam Ford <aford173@gmail.com>, linux-input@vger.kernel.org,
-        linux-crypto@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, NXP Linux Team <linux-imx@nxp.com>
-Subject: Re: [PATCH v3 3/3] Input: snvs_pwrkey - only IRQ_HANDLED for our own
- events
-Message-ID: <20200730085927.ro3c2ptiixi2ikyf@pengutronix.de>
-References: <20200723074314.3304-1-horia.geanta@nxp.com>
- <20200723074314.3304-4-horia.geanta@nxp.com>
- <20200729075513.ckjnhfv3dxuesvsi@pengutronix.de>
- <20200730060601.GE1665100@dtor-ws>
+Cc:     linux-sunxi@googlegroups.com, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>, Luca Weiss <luca@z3ntu.xyz>,
+        Tomas Novotny <tomas@novotny.cz>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 2/4] input: gpio-vibra: Allow to use vcc-supply alone
+ to control the vibrator
+Message-ID: <20200730091812.7sia7w3waz2jj62a@core.my.home>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-sunxi@googlegroups.com, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Luca Weiss <luca@z3ntu.xyz>, Tomas Novotny <tomas@novotny.cz>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20200714102303.3007896-1-megous@megous.com>
+ <20200714102303.3007896-3-megous@megous.com>
+ <20200730061939.GF1665100@dtor-ws>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200730060601.GE1665100@dtor-ws>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 10:56:41 up 258 days, 15 min, 251 users,  load average: 0.05, 0.08,
- 0.08
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+In-Reply-To: <20200730061939.GF1665100@dtor-ws>
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+Hello Dmitry,
 
-On 20-07-29 23:06, Dmitry Torokhov wrote:
-> Hi Marco,
+thanks for looking into the patch. :)
+
+On Wed, Jul 29, 2020 at 11:19:39PM -0700, Dmitry Torokhov wrote:
+> Hi Ondrej,
 > 
-> On Wed, Jul 29, 2020 at 09:55:13AM +0200, Marco Felsch wrote:
-> > Hi,
+> On Tue, Jul 14, 2020 at 12:23:01PM +0200, Ondrej Jirman wrote:
+> > Make enable-gpio optional to allow using this driver with boards that
+> > have vibrator connected to a power supply without intermediate gpio
+> > based enable circuitry.
 > > 
-> > On 20-07-23 10:43, Horia Geantă wrote:
-> > > From: André Draszik <git@andred.net>
-> > > 
-> > > The snvs_pwrkey shares the SNVS LPSR status register with the snvs_rtc.
-> > > 
-> > > This driver here should only return IRQ_HANDLED if the status register
-> > > indicates that the event we're handling in the irq handler was genuinely
-> > > intended for this driver. Otheriwse the interrupt subsystem will
-> > > assume the interrupt was handled successfully even though it wasn't
-> > > at all.
+> > Also avoid a case where neither regulator nor enable gpio is specified,
+> > and bail out in probe in such a case.
 > > 
-> > After checking the RM and the imx6qdl.dtsi I'm not very sure that this
-> > is right since the snvs-powerkey has a seperate irq-line. So we can be
-> > sure that this irq is for us. If this is the case we don't need to check
-> > the SNVS_LPSR_REG instead we only need to clear it.
+> > Signed-off-by: Ondrej Jirman <megous@megous.com>
+> > ---
+> >  drivers/input/misc/gpio-vibra.c | 14 ++++++++++----
+> >  1 file changed, 10 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/input/misc/gpio-vibra.c b/drivers/input/misc/gpio-vibra.c
+> > index f79f75595dd7..b3bb7e61ed1d 100644
+> > --- a/drivers/input/misc/gpio-vibra.c
+> > +++ b/drivers/input/misc/gpio-vibra.c
+> > @@ -39,7 +39,7 @@ static int gpio_vibrator_start(struct gpio_vibrator *vibrator)
+> >  	struct device *pdev = vibrator->input->dev.parent;
+> >  	int err;
+> >  
+> > -	if (!vibrator->vcc_on) {
+> > +	if (vibrator->vcc && !vibrator->vcc_on) {
+> >  		err = regulator_enable(vibrator->vcc);
+> >  		if (err) {
+> >  			dev_err(pdev, "failed to enable regulator: %d\n", err);
+> > @@ -57,7 +57,7 @@ static void gpio_vibrator_stop(struct gpio_vibrator *vibrator)
+> >  {
+> >  	gpiod_set_value_cansleep(vibrator->gpio, 0);
+> >  
+> > -	if (vibrator->vcc_on) {
+> > +	if (vibrator->vcc && vibrator->vcc_on) {
+> >  		regulator_disable(vibrator->vcc);
+> >  		vibrator->vcc_on = false;
+> >  	}
+> > @@ -112,7 +112,7 @@ static int gpio_vibrator_probe(struct platform_device *pdev)
+> >  	if (!vibrator->input)
+> >  		return -ENOMEM;
+> >  
+> > -	vibrator->vcc = devm_regulator_get(&pdev->dev, "vcc");
+> > +	vibrator->vcc = devm_regulator_get_optional(&pdev->dev, "vcc");
 > 
-> Wouldn't we want to know if for some reason we get spurious interrupts?
+> I know it is very surprising, but regulator_get_optional does not return
+> NULL when regulator is not present, but rather ERR_PTR(-ENODEV). You
+> need to replace it with NULL in the branch below, or change conditions
+> to !IS_ERR(virbrator->vcc) (and still handle -ENODEV in the branch
+> below).
 
-We could check the bit at the very begin of the IRQ and return early but
-according the RM this should never happen. Anyway you're right HW is
-never bug free.
+Oops, I'll fix that in the next revision.
 
-Regards,
-  Marco
+regards,
+	o.
 
+> >  	err = PTR_ERR_OR_ZERO(vibrator->vcc);
+> >  	if (err) {
+> >  		if (err != -EPROBE_DEFER)
+> > @@ -121,7 +121,8 @@ static int gpio_vibrator_probe(struct platform_device *pdev)
+> >  		return err;
+> >  	}
+> >  
+> > -	vibrator->gpio = devm_gpiod_get(&pdev->dev, "enable", GPIOD_OUT_LOW);
+> > +	vibrator->gpio = devm_gpiod_get_optional(&pdev->dev, "enable",
+> > +						 GPIOD_OUT_LOW);
+> >  	err = PTR_ERR_OR_ZERO(vibrator->gpio);
+> >  	if (err) {
+> >  		if (err != -EPROBE_DEFER)
+> > @@ -130,6 +131,11 @@ static int gpio_vibrator_probe(struct platform_device *pdev)
+> >  		return err;
+> >  	}
+> >  
+> > +	if (!vibrator->vcc && !vibrator->gpio) {
+> > +		dev_err(&pdev->dev, "Neither gpio nor regulator provided\n");
+> > +		return -EINVAL;
+> > +	}
+> > +
+> >  	INIT_WORK(&vibrator->play_work, gpio_vibrator_play_work);
+> >  
+> >  	vibrator->input->name = "gpio-vibrator";
+> > -- 
+> > 2.27.0
+> > 
+> 
 > Thanks.
 > 
 > -- 
