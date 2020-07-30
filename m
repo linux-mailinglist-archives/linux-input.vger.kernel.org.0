@@ -2,142 +2,352 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43211232B13
-	for <lists+linux-input@lfdr.de>; Thu, 30 Jul 2020 06:53:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86929232B1A
+	for <lists+linux-input@lfdr.de>; Thu, 30 Jul 2020 07:00:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725974AbgG3Exg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 30 Jul 2020 00:53:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51372 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725892AbgG3Exg (ORCPT
+        id S1725892AbgG3FAB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 30 Jul 2020 01:00:01 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:38249 "EHLO
+        out4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726133AbgG3FAA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 30 Jul 2020 00:53:36 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 258DBC061794;
-        Wed, 29 Jul 2020 21:53:36 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id il6so3535625pjb.0;
-        Wed, 29 Jul 2020 21:53:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Sf5Dq5tsi5GV2zUB8sUssWfaU5oAjGutIobOkx+ddxs=;
-        b=fT84vDGewy62CPWJO8RNzhXwSqb2uURyGMVCA5/4eFEHblytjNmxbBOwqrvXLi3wT8
-         RN3BDKK9hXYlaZgVu8tWiP5dPOvhPyywb7y7szUMdwqpxEGGP7a9iGtRUMK1ahgWy9tX
-         Wn6GyeBg7HMWkmZ8XuepNvHEUbW/J2wRetdLuw5jAUkPrbOVsqh0cAMpGHFOy5taph7K
-         sOi8+q4S1NcRLRzJ5/35kJ/HthOVHIKr2YroY+bv0/OjvaT3kPJ/859lGKTJMqK1oV6U
-         K/i7WJ8oGJBpQwwHd2cbn0ktZWeL7VwDcW9DYOTHTR1uIdIj5RX980aHmit47iFb4JDj
-         0G6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Sf5Dq5tsi5GV2zUB8sUssWfaU5oAjGutIobOkx+ddxs=;
-        b=glH2H7c1aqrKLgUVPh700UypLCJLckDwjNTD72mvybtPJYMROrcAKA7Ox1r+inFjMJ
-         lsYfJSlbSxQZG18xGuG0D85HUKsE+iGWvW6jsLt7JMqEmA+j3MGIgbnK9L+SdKXRwakm
-         wRU1uLz1bpecmc4ScrqufRjO5G4+vcozt+WYjUSFAMxSFWF+f5jEKsfksdI8ioKXYaoC
-         qI16RgB025To4T+LRAZHxMmhogf6mDwtuMD6oFAYbWxlELELRRztkPs1P2NBZT7rl4Ul
-         TvrAkyd2LBSj615CWwSJob8BDM6y6kCmFgFPMNevMlArZjZt+GBrRzlfbg3yPZU0zzoY
-         +Odw==
-X-Gm-Message-State: AOAM531Bv09KmC5iVlFArTBtD+uYXQ0kf1K3hTyoeZBRc383XRrWhQE3
-        H9y2A7p8pr+stSZ/oQGUDDk=
-X-Google-Smtp-Source: ABdhPJxd/Z+ESFlHNiITeMXZvNhjBIXKlhGnqJR0Lyip4hDtKOzh9XFFP3EB72xaU/13gYCw78e07A==
-X-Received: by 2002:a17:90a:fa8c:: with SMTP id cu12mr13731416pjb.229.1596084815427;
-        Wed, 29 Jul 2020 21:53:35 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id 17sm4289523pfv.16.2020.07.29.21.53.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jul 2020 21:53:34 -0700 (PDT)
-Date:   Wed, 29 Jul 2020 21:53:31 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Brian Norris <briannorris@chromium.org>,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
-        Yu-Hsuan Hsu <yuhsuan@chromium.org>,
-        Prashant Malani <pmalani@chromium.org>
-Subject: Re: [PATCH v3 5/6] platform/input: cros_ec: Replace -ENOTSUPP with
- -ENOPROTOOPT
-Message-ID: <20200730045331.GZ1665100@dtor-ws>
-References: <20200726220101.29059-1-linux@roeck-us.net>
- <20200726220101.29059-6-linux@roeck-us.net>
+        Thu, 30 Jul 2020 01:00:00 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id 0E2F55C0131;
+        Thu, 30 Jul 2020 00:59:59 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute7.internal (MEProxy); Thu, 30 Jul 2020 00:59:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:message-id
+        :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
+        :x-me-sender:x-sasl-enc; s=fm3; bh=OyGNdsaKJXkFcKJ97jKM+aOLOGEXc
+        8ZbZxQlXdKP6S0=; b=effKgfHaaeh7ZF2sGwPlw/17Ne5xmG9WtP7RWP+E7aIj0
+        U2XYVKzdGLaBMRpMfIl2JGYwDfFyfIArL5XaiZ1ZXBYjauPkFXC87iQwWvXV1gPv
+        I0yFU3/QlVJhIxkE36OSEP8bZFs2q/BKvcD6fjZZ5t7V4sVw7y8pDQhogAPU1tGl
+        N3rxnnzwVgF2kpsWDYz8HDG0pPoL4a031nO+g/qZGzMvKqbw3uTRJYpTv667C79y
+        iCtkegPKwlwjmPIKCpCl0GtCnQPsWhJUL/m9pgjcRIOgdE5zcXYeNt2QGE0wc0B+
+        3qNHpYTeAXB5ZjcX/o2DnjimH6eWTvAAdYquFgCIg==
+X-ME-Sender: <xms:zlMiX1L6JBXO06NQ6JbuNTQbzh67s6wzpPqGwdbr38P3IdhVli2tkQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrieehgdejiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecunecujfgurhepfffhuffvkffogggtsehttdertdertd
+    dvnecuhfhrohhmpefnuhhkvgculfhonhgvshcuoehluhhkvgeslhhjohhnvghsrdguvghv
+    qeenucggtffrrghtthgvrhhnpeeghedtjeejtefgveffffffieffleekhfduleffgfefgf
+    egieetuefhteejteekjeenucfkphepvddtfedruddugedrudeguddrudeinecuvehluhhs
+    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheplhhukhgvsehljhhonh
+    gvshdruggvvh
+X-ME-Proxy: <xmx:zlMiXxJdMmEg4lwVq6n50zANh9x-5r1436FLQTKYJj2UJH4DHcnzjg>
+    <xmx:zlMiX9skCAIXonlv-N5miCrd2KhR-xFNCyr-Rieil1lyXrAB-8sm1w>
+    <xmx:zlMiX2bfW1cOshJBcaNv98j09niZdxJO6_WqwvRcoGuJxPBKQ2-eDw>
+    <xmx:z1MiXy1gquAMipnGaRi7HPmNKtUnlcC6Ugk064yo3-biXrBeqnWohQ>
+Received: from [192.168.20.21] (203-114-141-16.sta.inspire.net.nz [203.114.141.16])
+        by mail.messagingengine.com (Postfix) with ESMTPA id D933D328005D;
+        Thu, 30 Jul 2020 00:59:55 -0400 (EDT)
+Date:   Thu, 30 Jul 2020 16:59:42 +1200
+From:   Luke Jones <luke@ljones.dev>
+Subject: [PATCH] HID: asus: Add support for N-Key keyboard 0x1866
+To:     linux-input@vger.kernel.org
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com, luke@ljones.dev
+Message-Id: <I7N9EQ.8IGH4DTLLTFG1@ljones.dev>
+X-Mailer: geary/3.36.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200726220101.29059-6-linux@roeck-us.net>
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Jul 26, 2020 at 03:01:00PM -0700, Guenter Roeck wrote:
-> -ENOTSUPP is not a SUSV4 error code and should not be used. Use
-> -ENOPROTOOPT instead to report EC_RES_INVALID_VERSION responses
-> from the EC. This matches match the NFS response for unsupported
-> protocol versions.
-> 
-> Cc: Gwendal Grignou <gwendal@chromium.org>
-> Cc: Yu-Hsuan Hsu <yuhsuan@chromium.org>
-> Cc: Prashant Malani <pmalani@chromium.org>
-> Cc: Brian Norris <briannorris@chromium.org>
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Enable missing functionality of the keyboard found in many ASUS
+Zephyrus laptops: Fn key combos and hotkeys, keyboard backlight
+brightness control. Two input event codes are added for keyboard
+LED mode switching prev/next.
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+The keyboard has many of the same key outputs as the existing G752
+keyboard including a few extras, and varies a little between laptop
+models.
 
-for the input bit.
+Additionally the keyboard requires the LED interface to be
+intitialised before such things as keyboard backlight control work.
 
-> ---
-> v3: Added patch
-> 
->  drivers/input/keyboard/cros_ec_keyb.c   | 2 +-
->  drivers/platform/chrome/cros_ec_proto.c | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-> index fc1793ca2f17..15d17c717081 100644
-> --- a/drivers/input/keyboard/cros_ec_keyb.c
-> +++ b/drivers/input/keyboard/cros_ec_keyb.c
-> @@ -348,7 +348,7 @@ static int cros_ec_keyb_info(struct cros_ec_device *ec_dev,
->  	params->event_type = event_type;
->  
->  	ret = cros_ec_cmd_xfer_status(ec_dev, msg);
-> -	if (ret == -ENOTSUPP) {
-> +	if (ret == -ENOPROTOOPT) {
->  		/* With older ECs we just return 0 for everything */
->  		memset(result, 0, result_size);
->  		ret = 0;
-> diff --git a/drivers/platform/chrome/cros_ec_proto.c b/drivers/platform/chrome/cros_ec_proto.c
-> index 3e745e0fe092..e5bbec979a2a 100644
-> --- a/drivers/platform/chrome/cros_ec_proto.c
-> +++ b/drivers/platform/chrome/cros_ec_proto.c
-> @@ -555,7 +555,7 @@ EXPORT_SYMBOL(cros_ec_cmd_xfer);
->   *
->   * Return:
->   * >=0 - The number of bytes transferred
-> - * -ENOTSUPP - Operation not supported
-> + * -ENOPROTOOPT - Operation not supported
->   * -EPROTO - Protocol error
->   */
->  int cros_ec_cmd_xfer_status(struct cros_ec_device *ec_dev,
-> @@ -569,7 +569,7 @@ int cros_ec_cmd_xfer_status(struct cros_ec_device *ec_dev,
->  	} else if (msg->result == EC_RES_INVALID_VERSION) {
->  		dev_dbg(ec_dev->dev, "Command invalid version (err:%d)\n",
->  			msg->result);
-> -		return -ENOTSUPP;
-> +		return -ENOPROTOOPT;
->  	} else if (msg->result != EC_RES_SUCCESS) {
->  		dev_dbg(ec_dev->dev, "Command result (err: %d)\n", msg->result);
->  		return -EPROTO;
-> -- 
-> 2.17.1
-> 
+Misc changes in scope: update some hardcoded comparisons to use an
+available define, change "Mic Toggle" to use a keycode that works.
 
+Signed-off-by: Luke D Jones <luke@ljones.dev>
+---
+ drivers/hid/hid-asus.c | 140 +++++++++++++++++++++----
+ drivers/hid/hid-ids.h | 1 +
+ include/uapi/linux/input-event-codes.h | 7 ++
+ 3 files changed, 125 insertions(+), 23 deletions(-)
+
+diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+index c183caf89d49..822c3bc1eb08 100644
+--- a/drivers/hid/hid-asus.c
++++ b/drivers/hid/hid-asus.c
+@@ -48,6 +48,8 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
+ #define INPUT_REPORT_ID 0x5d
+ #define FEATURE_KBD_REPORT_ID 0x5a
+ #define FEATURE_KBD_REPORT_SIZE 16
++#define FEATURE_KBD_LED_REPORT_ID1 0x5d
++#define FEATURE_KBD_LED_REPORT_ID2 0x5e
+
+ #define SUPPORT_KBD_BACKLIGHT BIT(0)
+
+@@ -80,6 +82,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
+ #define QUIRK_T101HA_DOCK BIT(9)
+ #define QUIRK_T90CHI BIT(10)
+ #define QUIRK_MEDION_E1239T BIT(11)
++#define QUIRK_ROG_NKEY_KEYBOARD BIT(12)
+
+ #define I2C_KEYBOARD_QUIRKS (QUIRK_FIX_NOTEBOOK_REPORT | \
+        QUIRK_NO_INIT_REPORTS | \
+@@ -308,7 +311,7 @@ static int asus_e1239t_event(struct asus_drvdata 
+*drvdat, u8 *data, int size)
+ static int asus_event(struct hid_device *hdev, struct hid_field *field,
+         struct hid_usage *usage, __s32 value)
+ {
+- if ((usage->hid & HID_USAGE_PAGE) == 0xff310000 &&
++ if ((usage->hid & HID_USAGE_PAGE) == HID_UP_ASUSVENDOR &&
+      (usage->hid & HID_USAGE) != 0x00 &&
+      (usage->hid & HID_USAGE) != 0xff && !usage->type) {
+   hid_warn(hdev, "Unmapped Asus vendor usagepage code 0x%02x\n",
+@@ -332,6 +335,16 @@ static int asus_raw_event(struct hid_device *hdev,
+  if (drvdata->quirks & QUIRK_MEDION_E1239T)
+   return asus_e1239t_event(drvdata, data, size);
+
++ /*
++ * Skip these report ID, the device emits a continuous stream 
+associated
++ * with the AURA mode it is in
++ */
++ if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD &&
++ (report->id == FEATURE_KBD_LED_REPORT_ID1 ||
++ report->id == FEATURE_KBD_LED_REPORT_ID2)) {
++ return -1;
++ }
++
+  return 0;
+ }
+
+@@ -344,7 +357,9 @@ static int asus_kbd_set_report(struct hid_device 
+*hdev, u8 *buf, size_t buf_size
+  if (!dmabuf)
+   return -ENOMEM;
+
+- ret = hid_hw_raw_request(hdev, FEATURE_KBD_REPORT_ID, dmabuf,
++ // The report ID should be set from the incoming buffer due to LED 
+and key
++ // interfaces having different pages
++ ret = hid_hw_raw_request(hdev, buf[0], dmabuf,
+      buf_size, HID_FEATURE_REPORT,
+      HID_REQ_SET_REPORT);
+  kfree(dmabuf);
+@@ -397,6 +412,44 @@ static int asus_kbd_get_functions(struct 
+hid_device *hdev,
+  return ret;
+ }
+
++static int asus_kbd_led_init(struct hid_device *hdev)
++{
++ u8 buf_init_start[] = { FEATURE_KBD_LED_REPORT_ID1, 0xB9 };
++ u8 buf_init2[] = { FEATURE_KBD_LED_REPORT_ID1, 0x41, 0x53, 0x55, 
+0x53, 0x20,
++ 0x54, 0x65, 0x63, 0x68, 0x2e, 0x49, 0x6e, 0x63, 0x2e, 0x00 };
++ u8 buf_init3[] = { FEATURE_KBD_LED_REPORT_ID1,
++ 0x05, 0x20, 0x31, 0x00, 0x08 };
++ int ret;
++
++ hid_warn(hdev, "Asus initialise N-KEY Device");
++ /* The first message is an init start */
++ ret = asus_kbd_set_report(hdev, buf_init_start, 
+sizeof(buf_init_start));
++ if (ret < 0)
++ hid_err(hdev, "Asus failed to send init start command: %d\n", ret);
++ /* Followed by a string */
++ ret = asus_kbd_set_report(hdev, buf_init2, sizeof(buf_init2));
++ if (ret < 0)
++ hid_err(hdev, "Asus failed to send init command 1.0: %d\n", ret);
++ /* Followed by a string */
++ ret = asus_kbd_set_report(hdev, buf_init3, sizeof(buf_init3));
++ if (ret < 0)
++ hid_err(hdev, "Asus failed to send init command 1.1: %d\n", ret);
++
++ /* begin second report ID with same data */
++ buf_init2[0] = FEATURE_KBD_LED_REPORT_ID2;
++ buf_init3[0] = FEATURE_KBD_LED_REPORT_ID2;
++
++ ret = asus_kbd_set_report(hdev, buf_init2, sizeof(buf_init2));
++ if (ret < 0)
++ hid_err(hdev, "Asus failed to send init command 2.0: %d\n", ret);
++
++ ret = asus_kbd_set_report(hdev, buf_init3, sizeof(buf_init3));
++ if (ret < 0)
++ hid_err(hdev, "Asus failed to send init command 2.1: %d\n", ret);
++
++ return ret;
++}
++
+ static void asus_kbd_backlight_set(struct led_classdev *led_cdev,
+        enum led_brightness brightness)
+ {
+@@ -460,19 +513,28 @@ static int asus_kbd_register_leds(struct 
+hid_device *hdev)
+  unsigned char kbd_func;
+  int ret;
+
+- /* Initialize keyboard */
+- ret = asus_kbd_init(hdev);
+- if (ret < 0)
+- return ret;
++ if (drvdata->quirks & QUIRK_G752_KEYBOARD) {
++ /* Initialize keyboard */
++ ret = asus_kbd_init(hdev);
++ if (ret < 0)
++ return ret;
+
+- /* Get keyboard functions */
+- ret = asus_kbd_get_functions(hdev, &kbd_func);
+- if (ret < 0)
+- return ret;
++ /* Get keyboard functions */
++ ret = asus_kbd_get_functions(hdev, &kbd_func);
++ if (ret < 0)
++ return ret;
+
+- /* Check for backlight support */
+- if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
+- return -ENODEV;
++ /* Check for backlight support */
++ if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
++ return -ENODEV;
++ }
++
++ if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
++ /* Initialize keyboard LED interface and Vendor keys on 0x1866 */
++ ret = asus_kbd_led_init(hdev);
++ if (ret < 0)
++ return ret;
++ }
+
+  drvdata->kbd_backlight = devm_kzalloc(&hdev->dev,
+            sizeof(struct asus_kbd_leds),
+@@ -751,14 +813,14 @@ static int asus_input_mapping(struct hid_device 
+*hdev,
+       usage->hid == (HID_UP_GENDEVCTRLS | 0x0026)))
+   return -1;
+
+- /* ASUS-specific keyboard hotkeys */
+- if ((usage->hid & HID_USAGE_PAGE) == 0xff310000) {
++ /* ASUS-specific keyboard hotkeys and led backlight */
++ if ((usage->hid & HID_USAGE_PAGE) == HID_UP_ASUSVENDOR) {
+   switch (usage->hid & HID_USAGE) {
+   case 0x10: asus_map_key_clear(KEY_BRIGHTNESSDOWN); break;
+   case 0x20: asus_map_key_clear(KEY_BRIGHTNESSUP); break;
+   case 0x35: asus_map_key_clear(KEY_DISPLAY_OFF); break;
+   case 0x6c: asus_map_key_clear(KEY_SLEEP); break;
+- case 0x7c: asus_map_key_clear(KEY_MICMUTE); break;
++ case 0x7c: asus_map_key_clear(KEY_F20); break;
+   case 0x82: asus_map_key_clear(KEY_CAMERA); break;
+   case 0x88: asus_map_key_clear(KEY_RFKILL); break;
+   case 0xb5: asus_map_key_clear(KEY_CALC); break;
+@@ -771,16 +833,45 @@ static int asus_input_mapping(struct hid_device 
+*hdev,
+   /* ROG key */
+   case 0x38: asus_map_key_clear(KEY_PROG1); break;
+
+- /* Fn+C ASUS Splendid */
+- case 0xba: asus_map_key_clear(KEY_PROG2); break;
++ default:
++ if (drvdata->quirks & QUIRK_G752_KEYBOARD) {
++ switch (usage->hid & HID_USAGE) {
++ /* Fn+C ASUS Splendid */
++ case 0xba: asus_map_key_clear(KEY_PROG2); break;
+
+- /* Fn+Space Power4Gear Hybrid */
+- case 0x5c: asus_map_key_clear(KEY_PROG3); break;
++ /* Fn+Space Power4Gear Hybrid */
++ case 0x5c: asus_map_key_clear(KEY_PROG3); break;
+
+- /* Fn+F5 "fan" symbol on FX503VD */
+- case 0x99: asus_map_key_clear(KEY_PROG4); break;
++ /* Fn+F5 "fan" symbol on FX503VD */
++ case 0x99: asus_map_key_clear(KEY_PROG4); break;
++
++ default:
++ return -1;
++ }
++ break;
++ }
++
++ /* device 0x1866, N-KEY Device specific */
++ if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
++ switch (usage->hid & HID_USAGE) {
++ /* Fn+F5 "fan" symbol on device 0x1866, N-KEY Device */
++ case 0xae: asus_map_key_clear(KEY_PROG4); break;
++
++ /* Fn+Ret "Calc" symbol on device 0x1866, N-KEY Device */
++ case 0x92: asus_map_key_clear(KEY_CALC); break;
++
++ /* Fn+Left Aura mode previous */
++ case 0xb2: asus_map_key_clear(KEY_KBDILLUM_MODE_PREV); break;
++
++ /* Fn+Right Aura mode next */
++ case 0xb3: asus_map_key_clear(KEY_KBDILLUM_MODE_NEXT); break;
++
++ default:
++ return -1;
++ }
++ break;
++ }
+
+- default:
+    /* ASUS lazily declares 256 usages, ignore the rest,
+     * as some make the keyboard appear as a pointer device. */
+    return -1;
+@@ -1126,6 +1217,9 @@ static const struct hid_device_id asus_devices[] 
+= {
+  { HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
+   USB_DEVICE_ID_ASUSTEK_FX503VD_KEYBOARD),
+    QUIRK_USE_KBD_BACKLIGHT },
++ { HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
++ USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD),
++ QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
+  { HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
+   USB_DEVICE_ID_ASUSTEK_T100TA_KEYBOARD),
+    QUIRK_T100_KEYBOARD | QUIRK_NO_CONSUMER_USAGES },
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 6f370e020feb..c9f930ddcfd7 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -190,6 +190,7 @@
+ #define USB_DEVICE_ID_ASUSTEK_ROG_KEYBOARD1 0x1854
+ #define USB_DEVICE_ID_ASUSTEK_ROG_KEYBOARD2 0x1837
+ #define USB_DEVICE_ID_ASUSTEK_ROG_KEYBOARD3 0x1822
++#define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD 0x1866
+ #define USB_DEVICE_ID_ASUSTEK_FX503VD_KEYBOARD 0x1869
+
+ #define USB_VENDOR_ID_ATEN 0x0557
+diff --git a/include/uapi/linux/input-event-codes.h 
+b/include/uapi/linux/input-event-codes.h
+index 0c2e27d28e0a..ca59f7d7a25e 100644
+--- a/include/uapi/linux/input-event-codes.h
++++ b/include/uapi/linux/input-event-codes.h
+@@ -772,6 +772,13 @@
+ #define BTN_TRIGGER_HAPPY39 0x2e6
+ #define BTN_TRIGGER_HAPPY40 0x2e7
+
++/*
++ * Some keyboards have function keys associated with
++ * changing the keyboard backlight modes, e.g, RGB patterns
++ */
++#define KEY_KBDILLUM_MODE_PREV 0x2ea
++#define KEY_KBDILLUM_MODE_NEXT 0x2eb
++
+ /* We avoid low common keys in module aliases so they don't get huge. 
+*/
+ #define KEY_MIN_INTERESTING KEY_MUTE
+ #define KEY_MAX 0x2ff
 -- 
-Dmitry
+2.26.2
+
+
+
