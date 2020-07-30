@@ -2,352 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 86929232B1A
-	for <lists+linux-input@lfdr.de>; Thu, 30 Jul 2020 07:00:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12289232B25
+	for <lists+linux-input@lfdr.de>; Thu, 30 Jul 2020 07:06:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725892AbgG3FAB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 30 Jul 2020 01:00:01 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:38249 "EHLO
-        out4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726133AbgG3FAA (ORCPT
+        id S1726267AbgG3FG6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 30 Jul 2020 01:06:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53406 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725892AbgG3FG5 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 30 Jul 2020 01:00:00 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-        by mailout.nyi.internal (Postfix) with ESMTP id 0E2F55C0131;
-        Thu, 30 Jul 2020 00:59:59 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute7.internal (MEProxy); Thu, 30 Jul 2020 00:59:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:message-id
-        :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
-        :x-me-sender:x-sasl-enc; s=fm3; bh=OyGNdsaKJXkFcKJ97jKM+aOLOGEXc
-        8ZbZxQlXdKP6S0=; b=effKgfHaaeh7ZF2sGwPlw/17Ne5xmG9WtP7RWP+E7aIj0
-        U2XYVKzdGLaBMRpMfIl2JGYwDfFyfIArL5XaiZ1ZXBYjauPkFXC87iQwWvXV1gPv
-        I0yFU3/QlVJhIxkE36OSEP8bZFs2q/BKvcD6fjZZ5t7V4sVw7y8pDQhogAPU1tGl
-        N3rxnnzwVgF2kpsWDYz8HDG0pPoL4a031nO+g/qZGzMvKqbw3uTRJYpTv667C79y
-        iCtkegPKwlwjmPIKCpCl0GtCnQPsWhJUL/m9pgjcRIOgdE5zcXYeNt2QGE0wc0B+
-        3qNHpYTeAXB5ZjcX/o2DnjimH6eWTvAAdYquFgCIg==
-X-ME-Sender: <xms:zlMiX1L6JBXO06NQ6JbuNTQbzh67s6wzpPqGwdbr38P3IdhVli2tkQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrieehgdejiecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhepfffhuffvkffogggtsehttdertdertd
-    dvnecuhfhrohhmpefnuhhkvgculfhonhgvshcuoehluhhkvgeslhhjohhnvghsrdguvghv
-    qeenucggtffrrghtthgvrhhnpeeghedtjeejtefgveffffffieffleekhfduleffgfefgf
-    egieetuefhteejteekjeenucfkphepvddtfedruddugedrudeguddrudeinecuvehluhhs
-    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheplhhukhgvsehljhhonh
-    gvshdruggvvh
-X-ME-Proxy: <xmx:zlMiXxJdMmEg4lwVq6n50zANh9x-5r1436FLQTKYJj2UJH4DHcnzjg>
-    <xmx:zlMiX9skCAIXonlv-N5miCrd2KhR-xFNCyr-Rieil1lyXrAB-8sm1w>
-    <xmx:zlMiX2bfW1cOshJBcaNv98j09niZdxJO6_WqwvRcoGuJxPBKQ2-eDw>
-    <xmx:z1MiXy1gquAMipnGaRi7HPmNKtUnlcC6Ugk064yo3-biXrBeqnWohQ>
-Received: from [192.168.20.21] (203-114-141-16.sta.inspire.net.nz [203.114.141.16])
-        by mail.messagingengine.com (Postfix) with ESMTPA id D933D328005D;
-        Thu, 30 Jul 2020 00:59:55 -0400 (EDT)
-Date:   Thu, 30 Jul 2020 16:59:42 +1200
-From:   Luke Jones <luke@ljones.dev>
-Subject: [PATCH] HID: asus: Add support for N-Key keyboard 0x1866
-To:     linux-input@vger.kernel.org
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com, luke@ljones.dev
-Message-Id: <I7N9EQ.8IGH4DTLLTFG1@ljones.dev>
-X-Mailer: geary/3.36.2
+        Thu, 30 Jul 2020 01:06:57 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F890C061794;
+        Wed, 29 Jul 2020 22:06:57 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id r11so6451388pfl.11;
+        Wed, 29 Jul 2020 22:06:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=csGDARq6b67KYWYmxqYqD/AZkqsPXyTKLHgn7KZ5CSU=;
+        b=iFZtHijepeHiW8lpFoesuBmCw5FvhFeSGueyq1aO25HAlASZeMFfhT9IxLfbynqj8+
+         LRIxPKrEe0vuzKMj4pBqW+AJTo05X/keELVZwGNFnltqY6BBcN+6F9B3P9c3729Bwfrc
+         p6ldZ3N6ZL/b2CyYJDgnoYii8IG2Ze2RWo4AU6IQBSxAX81uwp5Alo2cFCLtvwQHku4x
+         g9Aln+1K79p186bdkzWNhYX1o53cft7uNtrSjHdSHSf32g6CbQh5PCmJ6HBz2OBgsCOG
+         CS7tRQ0+TnnfIp3e16q0Gr57qqHM43sW/tyOgItSCCxjSbjxyoU1logX7PDDEgCAPZc1
+         cqCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=csGDARq6b67KYWYmxqYqD/AZkqsPXyTKLHgn7KZ5CSU=;
+        b=D29WZPghAJe0JBUj9D9w+564agA3++kf9eouWB8IoiUlzuP3x6zd/4MHeH/Hv1IQS9
+         JsN2qcJAkrThRo1icuyqhDDwYrAbVyv/ly2lYh96X7Z/+Mv05teveXnn5uQwXqpYG/lB
+         vzc1759ezTYXiLplKqI/7OVTGP24jTInAmnCM7TqshZbPmaDYRoxu5/9IZz8oVijcctu
+         SipVVjiVBbgsTZoORkdPm3IV+CtMptOsMvKm5CDNuJ36gxDyVx0SaGBfnslILdKFDvyA
+         Ap1b/0ZUlpgVyrPosRtV3Tdl9LzH2mYjeaiIfsNPk4eL/el78+NosyGAKg1JfF85AVFN
+         a9BA==
+X-Gm-Message-State: AOAM530GqYomprH+76QYFTBZCfsBK37f8606WNxpyRfyVGSuHIh8icEu
+        hgWzrBB5yQrEbrSNHl+m3/c=
+X-Google-Smtp-Source: ABdhPJz7X/HOx1YGwe094F980kEM3sIFfOs1hxNLhNinFp4BaaRxlhFKsMt9SI28JMZdWR+buRh7Lg==
+X-Received: by 2002:a65:6384:: with SMTP id h4mr32525387pgv.196.1596085616645;
+        Wed, 29 Jul 2020 22:06:56 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id k29sm4369451pfp.142.2020.07.29.22.06.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jul 2020 22:06:56 -0700 (PDT)
+Date:   Wed, 29 Jul 2020 22:06:53 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Roy Im <roy.im.opensource@diasemi.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Brian Masney <masneyb@onstation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Pascal PAILLET-LME <p.paillet@st.com>,
+        Rob Herring <robh@kernel.org>,
+        Samuel Ortiz <sameo@linux.intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Support Opensource <support.opensource@diasemi.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v18 3/3] Input: new da7280 haptic driver
+Message-ID: <20200730050653.GA1665100@dtor-ws>
+References: <cover.1595991580.git.Roy.Im@diasemi.com>
+ <23b3470401ec5cf525add8e1227cb67586b9f294.1595991580.git.Roy.Im@diasemi.com>
+ <20200729063638.GY1665100@dtor-ws>
+ <20200729072145.ifzoe656sjpxdior@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200729072145.ifzoe656sjpxdior@pengutronix.de>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Enable missing functionality of the keyboard found in many ASUS
-Zephyrus laptops: Fn key combos and hotkeys, keyboard backlight
-brightness control. Two input event codes are added for keyboard
-LED mode switching prev/next.
+Hi Uwe,
 
-The keyboard has many of the same key outputs as the existing G752
-keyboard including a few extras, and varies a little between laptop
-models.
+On Wed, Jul 29, 2020 at 09:21:45AM +0200, Uwe Kleine-König wrote:
+> Hello,
+> 
+> On Tue, Jul 28, 2020 at 11:36:38PM -0700, Dmitry Torokhov wrote:
+> > > v9: 
+> > > 	- Removed the header file and put the definitions into the c file.
+> > > 	- Updated the pwm code and error logs with %pE
+> > 
+> > I believe the %pE is to format an escaped buffer, you probably want to
+> > %pe (lowercase) to print errors. I am also not quite sure if we want to
+> > use it in cases when we have non-pointer error, or we should stick with
+> > %d as most of the kernel does.
+> 
+> compared with %d %pe is easier to understand as it emits "-ETIMEOUT"
+> instead of "-110". And yes, %pE is wrong.
 
-Additionally the keyboard requires the LED interface to be
-intitialised before such things as keyboard backlight control work.
+While I can see that symbolic name instead of a numeric constant might
+be appealing, I do not believe that we want fragments like this with
+endless conversions between integer and pointer errors:
 
-Misc changes in scope: update some hardcoded comparisons to use an
-available define, change "Mic Toggle" to use a keycode that works.
+	if (haptics->const_op_mode == DA7280_PWM_MODE) {
+		haptics->pwm_dev = devm_pwm_get(dev, NULL);
+		if (IS_ERR(haptics->pwm_dev)) {
+			error = PTR_ERR(haptics->pwm_dev);
+			if (error != -EPROBE_DEFER)
+				dev_err(dev, "unable to request PWM: %pE\n",
+					ERR_PTR(error));
+			return error;
+		}
 
-Signed-off-by: Luke D Jones <luke@ljones.dev>
----
- drivers/hid/hid-asus.c | 140 +++++++++++++++++++++----
- drivers/hid/hid-ids.h | 1 +
- include/uapi/linux/input-event-codes.h | 7 ++
- 3 files changed, 125 insertions(+), 23 deletions(-)
+Maybe we should introduce something like '%de' for the integer error
+case? In the meantime I would prefer using %d when we have integer
+error. We should not see these error messages anyway ;)
 
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index c183caf89d49..822c3bc1eb08 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -48,6 +48,8 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
- #define INPUT_REPORT_ID 0x5d
- #define FEATURE_KBD_REPORT_ID 0x5a
- #define FEATURE_KBD_REPORT_SIZE 16
-+#define FEATURE_KBD_LED_REPORT_ID1 0x5d
-+#define FEATURE_KBD_LED_REPORT_ID2 0x5e
+Thanks.
 
- #define SUPPORT_KBD_BACKLIGHT BIT(0)
-
-@@ -80,6 +82,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
- #define QUIRK_T101HA_DOCK BIT(9)
- #define QUIRK_T90CHI BIT(10)
- #define QUIRK_MEDION_E1239T BIT(11)
-+#define QUIRK_ROG_NKEY_KEYBOARD BIT(12)
-
- #define I2C_KEYBOARD_QUIRKS (QUIRK_FIX_NOTEBOOK_REPORT | \
-        QUIRK_NO_INIT_REPORTS | \
-@@ -308,7 +311,7 @@ static int asus_e1239t_event(struct asus_drvdata 
-*drvdat, u8 *data, int size)
- static int asus_event(struct hid_device *hdev, struct hid_field *field,
-         struct hid_usage *usage, __s32 value)
- {
-- if ((usage->hid & HID_USAGE_PAGE) == 0xff310000 &&
-+ if ((usage->hid & HID_USAGE_PAGE) == HID_UP_ASUSVENDOR &&
-      (usage->hid & HID_USAGE) != 0x00 &&
-      (usage->hid & HID_USAGE) != 0xff && !usage->type) {
-   hid_warn(hdev, "Unmapped Asus vendor usagepage code 0x%02x\n",
-@@ -332,6 +335,16 @@ static int asus_raw_event(struct hid_device *hdev,
-  if (drvdata->quirks & QUIRK_MEDION_E1239T)
-   return asus_e1239t_event(drvdata, data, size);
-
-+ /*
-+ * Skip these report ID, the device emits a continuous stream 
-associated
-+ * with the AURA mode it is in
-+ */
-+ if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD &&
-+ (report->id == FEATURE_KBD_LED_REPORT_ID1 ||
-+ report->id == FEATURE_KBD_LED_REPORT_ID2)) {
-+ return -1;
-+ }
-+
-  return 0;
- }
-
-@@ -344,7 +357,9 @@ static int asus_kbd_set_report(struct hid_device 
-*hdev, u8 *buf, size_t buf_size
-  if (!dmabuf)
-   return -ENOMEM;
-
-- ret = hid_hw_raw_request(hdev, FEATURE_KBD_REPORT_ID, dmabuf,
-+ // The report ID should be set from the incoming buffer due to LED 
-and key
-+ // interfaces having different pages
-+ ret = hid_hw_raw_request(hdev, buf[0], dmabuf,
-      buf_size, HID_FEATURE_REPORT,
-      HID_REQ_SET_REPORT);
-  kfree(dmabuf);
-@@ -397,6 +412,44 @@ static int asus_kbd_get_functions(struct 
-hid_device *hdev,
-  return ret;
- }
-
-+static int asus_kbd_led_init(struct hid_device *hdev)
-+{
-+ u8 buf_init_start[] = { FEATURE_KBD_LED_REPORT_ID1, 0xB9 };
-+ u8 buf_init2[] = { FEATURE_KBD_LED_REPORT_ID1, 0x41, 0x53, 0x55, 
-0x53, 0x20,
-+ 0x54, 0x65, 0x63, 0x68, 0x2e, 0x49, 0x6e, 0x63, 0x2e, 0x00 };
-+ u8 buf_init3[] = { FEATURE_KBD_LED_REPORT_ID1,
-+ 0x05, 0x20, 0x31, 0x00, 0x08 };
-+ int ret;
-+
-+ hid_warn(hdev, "Asus initialise N-KEY Device");
-+ /* The first message is an init start */
-+ ret = asus_kbd_set_report(hdev, buf_init_start, 
-sizeof(buf_init_start));
-+ if (ret < 0)
-+ hid_err(hdev, "Asus failed to send init start command: %d\n", ret);
-+ /* Followed by a string */
-+ ret = asus_kbd_set_report(hdev, buf_init2, sizeof(buf_init2));
-+ if (ret < 0)
-+ hid_err(hdev, "Asus failed to send init command 1.0: %d\n", ret);
-+ /* Followed by a string */
-+ ret = asus_kbd_set_report(hdev, buf_init3, sizeof(buf_init3));
-+ if (ret < 0)
-+ hid_err(hdev, "Asus failed to send init command 1.1: %d\n", ret);
-+
-+ /* begin second report ID with same data */
-+ buf_init2[0] = FEATURE_KBD_LED_REPORT_ID2;
-+ buf_init3[0] = FEATURE_KBD_LED_REPORT_ID2;
-+
-+ ret = asus_kbd_set_report(hdev, buf_init2, sizeof(buf_init2));
-+ if (ret < 0)
-+ hid_err(hdev, "Asus failed to send init command 2.0: %d\n", ret);
-+
-+ ret = asus_kbd_set_report(hdev, buf_init3, sizeof(buf_init3));
-+ if (ret < 0)
-+ hid_err(hdev, "Asus failed to send init command 2.1: %d\n", ret);
-+
-+ return ret;
-+}
-+
- static void asus_kbd_backlight_set(struct led_classdev *led_cdev,
-        enum led_brightness brightness)
- {
-@@ -460,19 +513,28 @@ static int asus_kbd_register_leds(struct 
-hid_device *hdev)
-  unsigned char kbd_func;
-  int ret;
-
-- /* Initialize keyboard */
-- ret = asus_kbd_init(hdev);
-- if (ret < 0)
-- return ret;
-+ if (drvdata->quirks & QUIRK_G752_KEYBOARD) {
-+ /* Initialize keyboard */
-+ ret = asus_kbd_init(hdev);
-+ if (ret < 0)
-+ return ret;
-
-- /* Get keyboard functions */
-- ret = asus_kbd_get_functions(hdev, &kbd_func);
-- if (ret < 0)
-- return ret;
-+ /* Get keyboard functions */
-+ ret = asus_kbd_get_functions(hdev, &kbd_func);
-+ if (ret < 0)
-+ return ret;
-
-- /* Check for backlight support */
-- if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
-- return -ENODEV;
-+ /* Check for backlight support */
-+ if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
-+ return -ENODEV;
-+ }
-+
-+ if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
-+ /* Initialize keyboard LED interface and Vendor keys on 0x1866 */
-+ ret = asus_kbd_led_init(hdev);
-+ if (ret < 0)
-+ return ret;
-+ }
-
-  drvdata->kbd_backlight = devm_kzalloc(&hdev->dev,
-            sizeof(struct asus_kbd_leds),
-@@ -751,14 +813,14 @@ static int asus_input_mapping(struct hid_device 
-*hdev,
-       usage->hid == (HID_UP_GENDEVCTRLS | 0x0026)))
-   return -1;
-
-- /* ASUS-specific keyboard hotkeys */
-- if ((usage->hid & HID_USAGE_PAGE) == 0xff310000) {
-+ /* ASUS-specific keyboard hotkeys and led backlight */
-+ if ((usage->hid & HID_USAGE_PAGE) == HID_UP_ASUSVENDOR) {
-   switch (usage->hid & HID_USAGE) {
-   case 0x10: asus_map_key_clear(KEY_BRIGHTNESSDOWN); break;
-   case 0x20: asus_map_key_clear(KEY_BRIGHTNESSUP); break;
-   case 0x35: asus_map_key_clear(KEY_DISPLAY_OFF); break;
-   case 0x6c: asus_map_key_clear(KEY_SLEEP); break;
-- case 0x7c: asus_map_key_clear(KEY_MICMUTE); break;
-+ case 0x7c: asus_map_key_clear(KEY_F20); break;
-   case 0x82: asus_map_key_clear(KEY_CAMERA); break;
-   case 0x88: asus_map_key_clear(KEY_RFKILL); break;
-   case 0xb5: asus_map_key_clear(KEY_CALC); break;
-@@ -771,16 +833,45 @@ static int asus_input_mapping(struct hid_device 
-*hdev,
-   /* ROG key */
-   case 0x38: asus_map_key_clear(KEY_PROG1); break;
-
-- /* Fn+C ASUS Splendid */
-- case 0xba: asus_map_key_clear(KEY_PROG2); break;
-+ default:
-+ if (drvdata->quirks & QUIRK_G752_KEYBOARD) {
-+ switch (usage->hid & HID_USAGE) {
-+ /* Fn+C ASUS Splendid */
-+ case 0xba: asus_map_key_clear(KEY_PROG2); break;
-
-- /* Fn+Space Power4Gear Hybrid */
-- case 0x5c: asus_map_key_clear(KEY_PROG3); break;
-+ /* Fn+Space Power4Gear Hybrid */
-+ case 0x5c: asus_map_key_clear(KEY_PROG3); break;
-
-- /* Fn+F5 "fan" symbol on FX503VD */
-- case 0x99: asus_map_key_clear(KEY_PROG4); break;
-+ /* Fn+F5 "fan" symbol on FX503VD */
-+ case 0x99: asus_map_key_clear(KEY_PROG4); break;
-+
-+ default:
-+ return -1;
-+ }
-+ break;
-+ }
-+
-+ /* device 0x1866, N-KEY Device specific */
-+ if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
-+ switch (usage->hid & HID_USAGE) {
-+ /* Fn+F5 "fan" symbol on device 0x1866, N-KEY Device */
-+ case 0xae: asus_map_key_clear(KEY_PROG4); break;
-+
-+ /* Fn+Ret "Calc" symbol on device 0x1866, N-KEY Device */
-+ case 0x92: asus_map_key_clear(KEY_CALC); break;
-+
-+ /* Fn+Left Aura mode previous */
-+ case 0xb2: asus_map_key_clear(KEY_KBDILLUM_MODE_PREV); break;
-+
-+ /* Fn+Right Aura mode next */
-+ case 0xb3: asus_map_key_clear(KEY_KBDILLUM_MODE_NEXT); break;
-+
-+ default:
-+ return -1;
-+ }
-+ break;
-+ }
-
-- default:
-    /* ASUS lazily declares 256 usages, ignore the rest,
-     * as some make the keyboard appear as a pointer device. */
-    return -1;
-@@ -1126,6 +1217,9 @@ static const struct hid_device_id asus_devices[] 
-= {
-  { HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
-   USB_DEVICE_ID_ASUSTEK_FX503VD_KEYBOARD),
-    QUIRK_USE_KBD_BACKLIGHT },
-+ { HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
-+ USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD),
-+ QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
-  { HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
-   USB_DEVICE_ID_ASUSTEK_T100TA_KEYBOARD),
-    QUIRK_T100_KEYBOARD | QUIRK_NO_CONSUMER_USAGES },
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 6f370e020feb..c9f930ddcfd7 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -190,6 +190,7 @@
- #define USB_DEVICE_ID_ASUSTEK_ROG_KEYBOARD1 0x1854
- #define USB_DEVICE_ID_ASUSTEK_ROG_KEYBOARD2 0x1837
- #define USB_DEVICE_ID_ASUSTEK_ROG_KEYBOARD3 0x1822
-+#define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD 0x1866
- #define USB_DEVICE_ID_ASUSTEK_FX503VD_KEYBOARD 0x1869
-
- #define USB_VENDOR_ID_ATEN 0x0557
-diff --git a/include/uapi/linux/input-event-codes.h 
-b/include/uapi/linux/input-event-codes.h
-index 0c2e27d28e0a..ca59f7d7a25e 100644
---- a/include/uapi/linux/input-event-codes.h
-+++ b/include/uapi/linux/input-event-codes.h
-@@ -772,6 +772,13 @@
- #define BTN_TRIGGER_HAPPY39 0x2e6
- #define BTN_TRIGGER_HAPPY40 0x2e7
-
-+/*
-+ * Some keyboards have function keys associated with
-+ * changing the keyboard backlight modes, e.g, RGB patterns
-+ */
-+#define KEY_KBDILLUM_MODE_PREV 0x2ea
-+#define KEY_KBDILLUM_MODE_NEXT 0x2eb
-+
- /* We avoid low common keys in module aliases so they don't get huge. 
-*/
- #define KEY_MIN_INTERESTING KEY_MUTE
- #define KEY_MAX 0x2ff
 -- 
-2.26.2
-
-
-
+Dmitry
