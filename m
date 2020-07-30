@@ -2,68 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FBEC232BAA
-	for <lists+linux-input@lfdr.de>; Thu, 30 Jul 2020 08:05:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16709232BAE
+	for <lists+linux-input@lfdr.de>; Thu, 30 Jul 2020 08:06:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725892AbgG3GFg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 30 Jul 2020 02:05:36 -0400
-Received: from emcscan.emc.com.tw ([192.72.220.5]:8771 "EHLO
-        emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728646AbgG3GFg (ORCPT
+        id S1726287AbgG3GGG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 30 Jul 2020 02:06:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34144 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726261AbgG3GGG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 30 Jul 2020 02:05:36 -0400
-X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
-   d="scan'208";a="36653723"
-Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
-  by emcscan.emc.com.tw with ESMTP; 30 Jul 2020 14:05:32 +0800
-Received: from 192.168.10.23
-        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(82070:0:AUTH_RELAY)
-        (envelope-from <jingle.wu@emc.com.tw>); Thu, 30 Jul 2020 14:05:30 +0800 (CST)
-Received: from 49.216.132.207
-        by webmail.emc.com.tw with Mail2000 ESMTPA Server V7.00(2485:0:AUTH_LOGIN)
-        (envelope-from <jingle.wu@emc.com.tw>); Thu, 30 Jul 2020 14:05:30 +0800 (CST)
-From:   Jingle Wu <jingle.wu@emc.com.tw>
-To:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        dmitry.torokhov@gmail.com
-Cc:     phoenix@emc.com.tw, josh.chen@emc.com.tw, dave.wang@emc.com.tw,
-        kai.heng.feng@canonical.com, Jingle Wu <jingle.wu@emc.com.tw>
-Subject: [PATCH] Input: elan_i2c - Add ic type 0x15.
-Date:   Thu, 30 Jul 2020 02:05:26 -0400
-Message-Id: <20200730060526.12439-1-jingle.wu@emc.com.tw>
-X-Mailer: git-send-email 2.17.1
+        Thu, 30 Jul 2020 02:06:06 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0203DC061794;
+        Wed, 29 Jul 2020 23:06:06 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id d188so8368775pfd.2;
+        Wed, 29 Jul 2020 23:06:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=FaJEFEelYrJSReV7cGpaC8DcaS6bvQpHJ9kF+pWSQi0=;
+        b=PN/WQ+nnGUctp0OFQylI5UunOgmc+MkXU8PIheUfmAg4EqLc9dl95Aab+Wjvr+TS8/
+         ZDENTHneGbDBaO+VBRrGcUzXI52O+zdVBquAlMyC6ASkvX4jRMGS5xosOknX/jz9Jqx9
+         3WTeAUBRnBrbFAOZPUvFDEDlsxWAMoO8EfopzEzJe2ZyBaF6XR4ThxXgYHG81oRCkPk0
+         2xDxr7O9T7Cid8pcCLq/uen+v8kr7PQjayeexUp8z1zoYC7q2RLV9zuEFCa30EEMK+iu
+         UpI+DfbBYsEpWnqhxc/auost160A+G4VVWXPJg9lMoxsGmWnU9RnT3LpbvPW1vHTF9sh
+         FeUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=FaJEFEelYrJSReV7cGpaC8DcaS6bvQpHJ9kF+pWSQi0=;
+        b=cxyo6gnSflIVn21FbTHAK3Ks6Aoa41PS86AgPwil0tHURaNI/0j123hBiFkpLfqsGz
+         JpcxVRP8mSegRE8D4xa2Q1WmEw0duhAgyYczsT+cVQT5B2hTwKjX6BkY+ZKBGMEoDs5x
+         9dhKXLZB1QEJlNLY5aWLUFRyrGoCBsHcwkHi3QlOnJUgiBHFaCiE4CHda1/Gf5Ifdox2
+         T14WSpsNs31mfwTyTHBmzhXBTughup1QWaWH8ra4cKUpo3JKDxmfpqmtXkA0tOmAmnf3
+         phP3t+KPnfkCh2Oz6r4Y3aUhuOhNFDseB8/2s6Jx+ih3yNhv1OzxMZfwqID9tt3jF6pu
+         Nt+g==
+X-Gm-Message-State: AOAM5317nnDHTHZ1wDysrIu13XQ92H/gYMhjn5Hn64UJp5/AQ5SBQPf+
+        9/M6vUb7Ju5XqpLy0oJTd3w=
+X-Google-Smtp-Source: ABdhPJy9L+ZvNhtXvmpzaiU3k7r+UDFDMJguFZV3kAjHpgbPyHHyw5I//L2uzuxJu7pDQ9APA8BYIA==
+X-Received: by 2002:a63:69ca:: with SMTP id e193mr32541471pgc.148.1596089165250;
+        Wed, 29 Jul 2020 23:06:05 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id q13sm4775816pjc.21.2020.07.29.23.06.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jul 2020 23:06:04 -0700 (PDT)
+Date:   Wed, 29 Jul 2020 23:06:01 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        =?iso-8859-1?Q?Andr=E9?= Draszik <git@andred.net>,
+        Robin Gong <yibin.gong@nxp.com>,
+        Anson Huang <anson.huang@nxp.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Aymen Sghaier <aymen.sghaier@nxp.com>,
+        Adam Ford <aford173@gmail.com>, linux-input@vger.kernel.org,
+        linux-crypto@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, NXP Linux Team <linux-imx@nxp.com>
+Subject: Re: [PATCH v3 3/3] Input: snvs_pwrkey - only IRQ_HANDLED for our own
+ events
+Message-ID: <20200730060601.GE1665100@dtor-ws>
+References: <20200723074314.3304-1-horia.geanta@nxp.com>
+ <20200723074314.3304-4-horia.geanta@nxp.com>
+ <20200729075513.ckjnhfv3dxuesvsi@pengutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200729075513.ckjnhfv3dxuesvsi@pengutronix.de>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The update firmware flow of ic type 0x15 is same with ic type 0x14.
+Hi Marco,
 
-Signed-off-by: Jingle Wu <jingle.wu@emc.com.tw>
----
- drivers/input/mouse/elan_i2c_core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On Wed, Jul 29, 2020 at 09:55:13AM +0200, Marco Felsch wrote:
+> Hi,
+> 
+> On 20-07-23 10:43, Horia Geantă wrote:
+> > From: André Draszik <git@andred.net>
+> > 
+> > The snvs_pwrkey shares the SNVS LPSR status register with the snvs_rtc.
+> > 
+> > This driver here should only return IRQ_HANDLED if the status register
+> > indicates that the event we're handling in the irq handler was genuinely
+> > intended for this driver. Otheriwse the interrupt subsystem will
+> > assume the interrupt was handled successfully even though it wasn't
+> > at all.
+> 
+> After checking the RM and the imx6qdl.dtsi I'm not very sure that this
+> is right since the snvs-powerkey has a seperate irq-line. So we can be
+> sure that this irq is for us. If this is the case we don't need to check
+> the SNVS_LPSR_REG instead we only need to clear it.
 
-diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
-index 8a0f224da423..c599e21a8478 100644
---- a/drivers/input/mouse/elan_i2c_core.c
-+++ b/drivers/input/mouse/elan_i2c_core.c
-@@ -138,6 +138,7 @@ static int elan_get_fwinfo(u16 ic_type, u8 iap_version, u16 *validpage_count,
- 		*validpage_count = 2048;
- 		break;
- 	case 0x14:
-+	case 0x15:
- 		*validpage_count = 1024;
- 		break;
- 	default:
-@@ -151,7 +152,7 @@ static int elan_get_fwinfo(u16 ic_type, u8 iap_version, u16 *validpage_count,
- 	*signature_address =
- 		(*validpage_count * ETP_FW_PAGE_SIZE) - ETP_FW_SIGNATURE_SIZE;
- 
--	if (ic_type == 0x14 && iap_version >= 2) {
-+	if ((ic_type == 0x14 || ic_type == 0x15) && iap_version >= 2) {
- 		*validpage_count /= 8;
- 		*page_size = ETP_FW_PAGE_SIZE_512;
- 	} else if (ic_type >= 0x0D && iap_version >= 1) {
+Wouldn't we want to know if for some reason we get spurious interrupts?
+
+Thanks.
+
 -- 
-2.17.1
-
+Dmitry
