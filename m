@@ -2,123 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8113B2335D1
-	for <lists+linux-input@lfdr.de>; Thu, 30 Jul 2020 17:44:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E9D5233699
+	for <lists+linux-input@lfdr.de>; Thu, 30 Jul 2020 18:22:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729459AbgG3Pov (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 30 Jul 2020 11:44:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38604 "EHLO
+        id S1728534AbgG3QWE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 30 Jul 2020 12:22:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728412AbgG3Pou (ORCPT
+        with ESMTP id S1728452AbgG3QWC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 30 Jul 2020 11:44:50 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9207C061574
-        for <linux-input@vger.kernel.org>; Thu, 30 Jul 2020 08:44:49 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id b6so25342903wrs.11
-        for <linux-input@vger.kernel.org>; Thu, 30 Jul 2020 08:44:49 -0700 (PDT)
+        Thu, 30 Jul 2020 12:22:02 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C08D6C061574;
+        Thu, 30 Jul 2020 09:22:01 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id o1so14620726plk.1;
+        Thu, 30 Jul 2020 09:22:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:subject:to:cc:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=wzYqFtqKjg8PRXgfibVwrHndFM+p4gHeofCPD8HlVYM=;
-        b=VrGqHT5q+Z52x6+oL92dn2whiNxSn/ANDbQMK42UAw1yKx+Kc81CGW4h49/Nh+5nKV
-         G1LYvCzPSbpvYTNwfS0GmkaBf8fbEcUA53S66sB7PQ88wc2zB+X8lHn78RvJuoiOM/00
-         CpJDo7OGKEW9nZhyxTJSt+Wy2P45oJnd7s4iU0TsxkDWdfqaLB/BPcFjGDkGunBs/89t
-         BJw2y8cz1MYWu40AfquTqgv5x12DPO9+LoWq1ZmW6oER9kjojqRDYSu6M7U3vbkfSAFT
-         5EpRe2qB4KZFQEifqXZgxHCSqAke5qrHQ8mU2qrlxvrW6UdlXVSsEWoEs36HdXjxKBfY
-         CK7A==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=aX2Eg5Gk0V/jRI/X4rim3dxz+h5U/hgYWDFRrQixu1U=;
+        b=kH+mNkGKtbV/we4VOn77a1cfLYJbSy7IRU65jsULUtkVMY7LlT5ldcjVPsnDU57jx4
+         D1oYQDmo3t5hfCS8dbeE2W/3H3oDbI+aIg9EM9F0ByrcB/SEA7NKaVT41yywWG70SfGS
+         jwS2O/TqFGvMTeNI72GmWKgIj3vl9IAAxbhQLOzX3p9RZ14hRNe5g76KZ+gCNsyiDPsH
+         /qcHXigYTba+XBCscKt1v9tr7V9Lgq4swhdNqaTSos8l7xEXJ+yNDxtxMNu5CFCFK7TK
+         j68MhNBxGwfgGkuwesvt/BKxUZkHN4VcXQc1yDt4Kl6s+9VvdUkgeyCuqHUmWX7huZpj
+         wroA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=wzYqFtqKjg8PRXgfibVwrHndFM+p4gHeofCPD8HlVYM=;
-        b=CfEERLVu6y4O1jM+4fb3JrVeJbYSgVWDyqGHIT1uZjggpvGZhWdgm8kfqSMMYZ3a+B
-         4uz42J7utysCOiPfebEWR02J7b3ty0JWfbQf2LHtr+zC22Ens1C8xUux3mfBLzOHEH+y
-         tkD1D5KzMY4ZLbdVIIqiaWEv/mhN1JUusRjv1UdCcj1gGSVEuIRK/0JqMoRo2xLgeloH
-         ZMDp+KjSXMqDS4L42XR34TelSpArZsarqOGplRcePYsadOzRW/8YlmHGQbUarHaQIsUT
-         lvXtn0X+cYGe1RSuX9ogHciWRLGUTBAYEnqFV/5qFDlhPqw7ge0EnKAPXHuMQDvxIYUh
-         YDsA==
-X-Gm-Message-State: AOAM5319t44Ygyg/2cg9e7OqOOPVOmn1Jw1B8yAEQuw6mjhazk2pwFZl
-        Y101pI1wkx+zXpxpMP8ART8=
-X-Google-Smtp-Source: ABdhPJzhuoIizndqwgJC8sKDwOvsZJgH018P4OBpgCBozD7l1pRymOfBFt7oo5dAM0AA6YqMNgiQ5g==
-X-Received: by 2002:adf:92a1:: with SMTP id 30mr3600271wrn.56.1596123888509;
-        Thu, 30 Jul 2020 08:44:48 -0700 (PDT)
-Received: from 168.52.45.77 (201.ip-51-68-45.eu. [51.68.45.201])
-        by smtp.gmail.com with ESMTPSA id j5sm9944418wmb.15.2020.07.30.08.44.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jul 2020 08:44:48 -0700 (PDT)
-From:   Ismael Ferreras Morezuelas <swyterzone@gmail.com>
-Subject: [PATCH] Input: xpad: Remove a conflicting Razer Sabertooth using the
- VID/PID for the Razer DeathAdder 2013 mouse
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org,
-        Benjamin Valentin <benpicco@zedat.fu-berlin.de>
-Message-ID: <b9e7cb27-1866-83bb-b453-ae265ab6bde6@gmail.com>
-Date:   Thu, 30 Jul 2020 17:44:46 +0200
-User-Agent: nano 6.4
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=aX2Eg5Gk0V/jRI/X4rim3dxz+h5U/hgYWDFRrQixu1U=;
+        b=Vee8uAZFEjvShJ4V72QiT0asLtgY2qxHCesdwezsTgbz6MH1SdlN7/gFMIyh/k2lE0
+         pEB5NcuY8b9/rbVnClw0v3s+3L1zeFldzu2wqByoSvXnGXp6qsXV878jIdIyVeHMwvTR
+         qTULNqAAPemgTFvQmCm0uEqKzk3xlciNg+qxYbmz3RomLjChULqA6QKqhdaQcXurk0gX
+         pz9tVONclnWnPdAhSX+200VJxB95MRYUmXX0LQ3bzHEoDXF61qo1Z8qeAkki3ifPGHud
+         YNlyays5cXeTWD1+60tN6uJ7E9FoCQTcMP3UpfAkQvCmHqeWeher6PmgZus9ro01Rr3A
+         ugVw==
+X-Gm-Message-State: AOAM533t2GpEuyXxR6XTqSQqPt+vbRs53quEkSdYhBmudogX9EMcaxGV
+        xM6+exmlwHSq0Cw/u/JBlMQ=
+X-Google-Smtp-Source: ABdhPJxsbtys0VGyQSLoeP/4r5EtvTBYw9ZHBb7MqZSwGRi95+8bm14rpD50tN+X5FlubnPm8tBVTA==
+X-Received: by 2002:a63:475c:: with SMTP id w28mr36536961pgk.222.1596126121197;
+        Thu, 30 Jul 2020 09:22:01 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id s8sm6548365pfc.122.2020.07.30.09.21.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jul 2020 09:22:00 -0700 (PDT)
+Date:   Thu, 30 Jul 2020 09:21:57 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Roy Im <roy.im.opensource@diasemi.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Brian Masney <masneyb@onstation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Pascal PAILLET-LME <p.paillet@st.com>,
+        Rob Herring <robh@kernel.org>,
+        Samuel Ortiz <sameo@linux.intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Support Opensource <support.opensource@diasemi.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Subject: Re: [PATCH v18 3/3] Input: new da7280 haptic driver
+Message-ID: <20200730162157.GI1665100@dtor-ws>
+References: <cover.1595991580.git.Roy.Im@diasemi.com>
+ <23b3470401ec5cf525add8e1227cb67586b9f294.1595991580.git.Roy.Im@diasemi.com>
+ <20200729063638.GY1665100@dtor-ws>
+ <20200729072145.ifzoe656sjpxdior@pengutronix.de>
+ <20200730050653.GA1665100@dtor-ws>
+ <20200730061631.y4r4s6v3xepktj54@pengutronix.de>
+ <20200730083058.GC3703480@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200730083058.GC3703480@smile.fi.intel.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-While doing my research to improve the xpad device names I also noticed
-that the 1532:0037 VID/PID seems to be used by the DeathAdder 2013,
-so that Razer Sabertooth instance looked wrong and very suspect to
-me. I didn't see any mention in the official drivers, either.
+On Thu, Jul 30, 2020 at 11:30:58AM +0300, Andy Shevchenko wrote:
+> On Thu, Jul 30, 2020 at 08:16:31AM +0200, Uwe Kleine-König wrote:
+> > On Wed, Jul 29, 2020 at 10:06:53PM -0700, Dmitry Torokhov wrote:
+> > > On Wed, Jul 29, 2020 at 09:21:45AM +0200, Uwe Kleine-König wrote:
+> > > > On Tue, Jul 28, 2020 at 11:36:38PM -0700, Dmitry Torokhov wrote:
+> 
+> ...
+> 
+> > > Maybe we should introduce something like '%de' for the integer error
+> > > case?
+> > 
+> > I suggested that some time ago with limited success, see
+> > https://lore.kernel.org/lkml/20200129115516.zsvxu56e6h7gheiw@pathway.suse.cz/
+> 
+> Oh, please, no need for that really. We have now dev_err_probe() on its way to
+> upstream (now in Greg's tree) which hides all this behind.
+> 
+> Just switch to dev_err_probe() and forget about what is under the hood.
 
-After doing more research, it turns out that the xpad list
-is used by many other projects (like Steam) as-is, this
-issue was reported and Valve/Sam Lantinga fixed it:
+Awesome, we just need to make sure there is never an error condition
+outside of probe path, and we will be set ;) Easy peasy ;)
 
-https://steamcommunity.com/app/353380/discussions/0/1743392486228754770/
+Thanks.
 
-(With multiple Internet users reporting similar issues, not linked here)
-
-After not being able to find the correct VID/PID combination anywhere
-on the Internet and not receiving any reply from Razer support I did
-some additional detective work, it seems like it presents itself as
-"Razer Sabertooth Gaming Controller (XBOX360)", code 1689:FE00.
-
-Leaving us with this:
- * Razer Sabertooth (1689:fe00)
- * Razer Sabertooth Elite (24c6:5d04)
- * Razer DeathAdder 2013 (1532:0037) [note: not a gamepad]
-
-So, to sum things up; remove this conflicting/duplicate entry:
-
-{ 0x1532, 0x0037, "Razer Sabertooth", 0, XTYPE_XBOX360 },
-
-As the real/correct one is already present there, even if
-the Internet as a whole insists on presenting it as the
-Razer Sabertooth Elite, which (by all accounts) is not:
-
-{ 0x1689, 0xfe00, "Razer Sabertooth", 0, XTYPE_XBOX360 },
-
-That's it. No other functional changes intended.
-
-Fixes: f554f619b70 ("Input: xpad - sync device IDs with xboxdrv")
-Signed-off-by: Ismael Ferreras Morezuelas <swyterzone@gmail.com>
----
- drivers/input/joystick/xpad.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index c77cdb3b62b5..1510438c5578 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -249,7 +249,6 @@ static const struct xpad_device {
- 	{ 0x1430, 0x8888, "TX6500+ Dance Pad (first generation)", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX },
- 	{ 0x1430, 0xf801, "RedOctane Controller", 0, XTYPE_XBOX360 },
- 	{ 0x146b, 0x0601, "BigBen Interactive XBOX 360 Controller", 0, XTYPE_XBOX360 },
--	{ 0x1532, 0x0037, "Razer Sabertooth", 0, XTYPE_XBOX360 },
- 	{ 0x1532, 0x0a00, "Razer Atrox Arcade Stick", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
- 	{ 0x1532, 0x0a03, "Razer Wildcat", 0, XTYPE_XBOXONE },
- 	{ 0x15e4, 0x3f00, "Power A Mini Pro Elite", 0, XTYPE_XBOX360 },
 -- 
-2.22.0
-
+Dmitry
