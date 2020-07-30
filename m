@@ -2,132 +2,141 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4D63232A2E
-	for <lists+linux-input@lfdr.de>; Thu, 30 Jul 2020 04:56:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9F98232AC0
+	for <lists+linux-input@lfdr.de>; Thu, 30 Jul 2020 06:17:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728343AbgG3C4Y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 29 Jul 2020 22:56:24 -0400
-Received: from mailgw02.mediatek.com ([1.203.163.81]:43701 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726774AbgG3C4X (ORCPT
+        id S1727838AbgG3ERv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 30 Jul 2020 00:17:51 -0400
+Received: from esa2.mentor.iphmx.com ([68.232.141.98]:17855 "EHLO
+        esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727100AbgG3ERv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 29 Jul 2020 22:56:23 -0400
-X-UUID: e98c061da58f451d9abf26f70a8de1b2-20200730
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=i0bupk3lA9+XOW/dVZ3V8pmhPwEwozZV30mSX3eVTBE=;
-        b=gus/bIxR97sic2KSYq4C211n4bNFr6LC/1SOT3AFItXePExvS5Ua+mZte16FsNfodUt297N+21hHzmx48+IkZ5SJkorBDkHMM23ffU4jO14fry9grdLBrXm4WXhJyW7IpOF6odwOWeVVsdJwR4kq8oZUmvX2lxkNAWShuYZD4Qs=;
-X-UUID: e98c061da58f451d9abf26f70a8de1b2-20200730
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
-        (envelope-from <yingjoe.chen@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 1447122656; Thu, 30 Jul 2020 10:56:13 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- MTKMBS32DR.mediatek.inc (172.27.6.104) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 30 Jul 2020 10:56:10 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 30 Jul 2020 10:56:08 +0800
-Message-ID: <1596077771.11024.18.camel@mtksdaap41>
-Subject: Re: [PATCH v16 1/3] dt-bindings: Add keypad devicetree documentation
-From:   Yingjoe Chen <yingjoe.chen@mediatek.com>
-To:     Fengping Yu <fengping.yu@mediatek.com>
-CC:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        "Mattijs Korpershoek" <mkorpershoek@baylibre.com>,
-        <linux-input@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
-Date:   Thu, 30 Jul 2020 10:56:11 +0800
-In-Reply-To: <20200727114504.28536-2-fengping.yu@mediatek.com>
-References: <20200727114504.28536-1-fengping.yu@mediatek.com>
-         <20200727114504.28536-2-fengping.yu@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+        Thu, 30 Jul 2020 00:17:51 -0400
+X-Greylist: delayed 427 seconds by postgrey-1.27 at vger.kernel.org; Thu, 30 Jul 2020 00:17:51 EDT
+IronPort-SDR: s3AX8Xk+eP4GHWh71n0r4MF5XfR0UP2wz5nOlHz/UqJR3tI8qt2wOQJrh72GTDOfAq5T6Tj9y5
+ MYsk0fjBKdQj8efmD/6mkXMHYexEinv9t6zqIpMygV4dC9hXYenoKJ4NrbSZipMYMZAO1lSlox
+ wpJChq22ZDeGyj+Ugxgj/BnJqNJd1t3CfzCih2oWQBo6e+lX6wwPkZ8G7i3K5J7rZayKZxUKhU
+ n1BNdJL5mHmdoUOmDeSwT9NvYnOS7XHItLiJ9EdZq7zhjCUHwP0qjMjtwJRY1Af6OYOMVjjMhd
+ tEU=
+X-IronPort-AV: E=Sophos;i="5.75,413,1589270400"; 
+   d="scan'208";a="51442062"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+  by esa2.mentor.iphmx.com with ESMTP; 29 Jul 2020 20:10:44 -0800
+IronPort-SDR: DAHYhYVGJhfbYMeBtKq/QfJdpkuqJbWTf4IlI/h71X/sHN0fueVfCLAoLD1BqbiaR8yBlcqjQo
+ /Ue9tcfc9qpBnG/bJxxTLs6Jk9PWhGI9PN2lXPXMMQZ0A0VUQk++C34UotMVFKhm/PF1yjmcCD
+ ERnuyqvj5/eXLsqmwFbPLWd7k7IhlnCzi2tuzFSK73QHKh96u41KPMEt06kx5wLDiM1qZdnQQm
+ 6JT929Uz/vI0gXewEm58a7l4CVVT0EFJIgrangY81L5IqTwqXXmJc5XC5brRJgxZ+0ThffaPNT
+ QTc=
+From:   Jiada Wang <jiada_wang@mentor.com>
+To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>
+CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
+        <digetx@gmail.com>, <jiada_wang@mentor.com>
+Subject: [PATCH 1/2] Input: atmel_mxt_ts - output status from T48 Noise Suppression
+Date:   Thu, 30 Jul 2020 13:10:38 +0900
+Message-ID: <20200730041039.7646-1-jiada_wang@mentor.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: B5B7D66D4661DBC9931269635E8730C67D7D08F06E0F3BA34AF7139FCD2B3F232000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: text/plain
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-SGksDQoNClN1bW1hcnkgc2hvdWxkIHNwZWNpZmllZCB0aGlzIHBhdGNoIGlzIGZvciBNZWRpYVRl
-azoNCg0KZHQtYmluZGluZ3M6IGFkZCBNZWRpYVRlayBrZXlwYWQgZGV2aWNldHJlZSBkb2N1bWVu
-dGF0aW9uDQoNCg0KT24gTW9uLCAyMDIwLTA3LTI3IGF0IDE5OjQ1ICswODAwLCBGZW5ncGluZyBZ
-dSB3cm90ZToNCj4gRnJvbTogImZlbmdwaW5nLnl1IiA8ZmVuZ3BpbmcueXVAbWVkaWF0ZWsuY29t
-Pg0KDQo+IEFkZCBNZWRpYXRlayBtYXRyaXgga2V5cGFkIGR0LWJpbmRpbmdzIGRvYyBhcyB5YW1s
-IHNjaGVtYS4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IGZlbmdwaW5nLnl1IDxmZW5ncGluZy55dUBt
-ZWRpYXRlay5jb20+DQo+IC0tLQ0KPiAgLi4uL2RldmljZXRyZWUvYmluZGluZ3MvaW5wdXQvbXRr
-LWtwZC55YW1sICAgIHwgOTYgKysrKysrKysrKysrKysrKysrKw0KPiAgMSBmaWxlIGNoYW5nZWQs
-IDk2IGluc2VydGlvbnMoKykNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2Rl
-dmljZXRyZWUvYmluZGluZ3MvaW5wdXQvbXRrLWtwZC55YW1sDQo+IA0KPiBkaWZmIC0tZ2l0IGEv
-RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2lucHV0L210ay1rcGQueWFtbCBiL0Rv
-Y3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9pbnB1dC9tdGsta3BkLnlhbWwNCj4gbmV3
-IGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggMDAwMDAwMDAwMDAwLi4zYmYwOWU3Mzk1ZDANCj4g
-LS0tIC9kZXYvbnVsbA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
-aW5wdXQvbXRrLWtwZC55YW1sDQo+IEBAIC0wLDAgKzEsOTYgQEANCj4gKyMgU1BEWC1MaWNlbnNl
-LUlkZW50aWZpZXI6IEdQTC0yLjANCj4gKyVZQU1MIDEuMg0KPiArLS0tDQo+ICt2ZXJzaW9uOiAx
-DQo+ICsNCj4gKyRpZDogaHR0cDovL2RldmljZXRyZWUub3JnL3NjaGVtYXMvaW5wdXQvbXRrLWtl
-eXBhZC55YW1sIw0KPiArJHNjaGVtYTogaHR0cDovL2RldmljZXRyZWUub3JnL21ldGEtc2NoZW1h
-cy9jb3JlLnlhbWwjDQo+ICsNCj4gK3RpdGxlOiBNZWRpYXRlaydzIEtleXBhZCBDb250cm9sbGVy
-IGRldmljZSB0cmVlIGJpbmRpbmdzDQo+ICsNCj4gK21haW50YWluZXI6DQo+ICsgIC0gRmVuZ3Bp
-bmcgWXUgPGZlbmdwaW5nLnl1QG1lZGlhdGVrLmNvbT4NCj4gKw0KPiArZGVzY3JpcHRpb246IHwN
-Cj4gKyAgTWVkaWF0ZWsncyBLZXlwYWQgY29udHJvbGxlciBpcyB1c2VkIHRvIGludGVyZmFjZSBh
-IFNvQyB3aXRoIGEgbWF0cml4LXR5cGUNCj4gKyAga2V5cGFkIGRldmljZS4gVGhlIGtleXBhZCBj
-b250cm9sbGVyIHN1cHBvcnRzIG11bHRpcGxlIHJvdyBhbmQgY29sdW1uIGxpbmVzLg0KPiArICBB
-IGtleSBjYW4gYmUgcGxhY2VkIGF0IGVhY2ggaW50ZXJzZWN0aW9uIG9mIGEgdW5pcXVlIHJvdyBh
-bmQgYSB1bmlxdWUgY29sdW1uLg0KPiArICBUaGUga2V5cGFkIGNvbnRyb2xsZXIgY2FuIHNlbnNl
-IGEga2V5LXByZXNzIGFuZCBrZXktcmVsZWFzZSBhbmQgcmVwb3J0IHRoZQ0KPiArICBldmVudCB1
-c2luZyBhIGludGVycnVwdCB0byB0aGUgY3B1Lg0KPiArDQo+ICtwcm9wZXJ0aWVzOg0KPiArICBj
-b21wYXRpYmxlOg0KPiArICAgIG9uZU9mOg0KPiArICAgICAgLSBjb25zdDogIm1lZGlhdGVrLG10
-Njc3OS1rZXlwYWQiDQo+ICsgICAgICAtIGNvbnN0OiAibWVkaWF0ZWssbXQ2ODczLWtleXBhZCIN
-Cj4gKw0KPiArICBjbG9jay1uYW1lczoNCj4gKyAgICBkZXNjcmlwdGlvbjogTmFtZXMgb2YgdGhl
-IGNsb2NrcyBsaXN0ZWQgaW4gY2xvY2tzIHByb3BlcnR5IGluIHRoZSBzYW1lIG9yZGVyDQo+ICsg
-ICAgbWF4SXRlbXM6IDENCg0KUGxlYXNlIGxpc3QgdGhlIGNsb2NrLW5hbWVzIHJlcXVpcmVkLiBJ
-biB0aGlzIGNhc2UsICdrcGQnDQoNCg0KPiArDQo+ICsgIGNsb2NrczoNCj4gKyAgICBkZXNjcmlw
-dGlvbjogTXVzdCBjb250YWluIG9uZSBlbnRyeSwgZm9yIHRoZSBtb2R1bGUgY2xvY2sNCj4gKyAg
-ICByZWZzOiBkZXZpY2V0cmVlL2JpbmRpbmdzL2Nsb2Nrcy9jbG9jay1iaW5kaW5ncy50eHQgZm9y
-IGRldGFpbHMuDQo+ICsNCj4gKyAgaW50ZXJydXB0czoNCj4gKyAgICBkZXNjcmlwdGlvbjogQSBz
-aW5nbGUgaW50ZXJydXB0IHNwZWNpZmllcg0KPiArICAgIG1heEl0ZW1zOiAxDQo+ICsNCj4gKyAg
-bGludXgsa2V5bWFwOg0KPiArICAgIGRlc2NyaXB0aW9uOiBUaGUga2V5bWFwIGZvciBrZXlzIGFz
-IGRlc2NyaWJlZCBpbiB0aGUgYmluZGluZyBkb2N1bWVudA0KPiArICAgIHJlZnM6IGRldmljZXRy
-ZWUvYmluZGluZ3MvaW5wdXQvbWF0cml4LWtleW1hcC50eHQNCj4gKyAgICBtaW5JdGVtczogMQ0K
-PiArICAgIG1heEl0ZW1zOiAxNg0KDQpXaHkgaXMgdGhpcyBtYXggYXQgMTY/DQoNCg0KPiArDQo+
-ICsgIHBpbmN0cmwtMDoNCj4gKyAgICBkZXNjcmlwdGlvbjogU3BlY2lmeSBwaW4gY29udHJvbCBn
-cm91cHMgdXNlZCBmb3IgdGhpcyBjb250cm9sbGVyDQo+ICsgICAgcmVmczogZGV2aWNldHJlZS9i
-aW5kaW5ncy9waW5jdHJsL3BpbmN0cmwtYmluZGluZ3MudHh0DQo+ICsNCj4gKyAgcGluY3RybC1u
-YW1lczoNCj4gKyAgICBkZXNjcmlwdGlvbjogTmFtZXMgZm9yIG9wdGlvbmFsIHBpbiBtb2Rlcw0K
-PiArICAgIG1heEl0ZW1zOiAxDQoNCkknbSBub3Qgc3VyZSB3ZSBzaG91bGQgbGlzdCBwaW5jdHJs
-IGhlcmUuIA0KDQoNCj4gKw0KPiArICByZWc6DQo+ICsgICAgZGVzY3JpcHRpb246IFRoZSBiYXNl
-IGFkZHJlc3Mgb2YgdGhlIEtleXBhZCByZWdpc3RlciBiYW5rDQo+ICsgICAgbWF4SXRlbXM6IDEN
-Cj4gKw0KPiArICB3YWtldXAtc291cmNlOg0KPiArICAgIGRlc2NyaXB0aW9uOiB1c2UgYW55IGV2
-ZW50IG9uIGtleXBhZCBhcyB3YWtldXAgZXZlbnQNCj4gKyAgICB0eXBlOiBib29sZWFuDQo+ICsN
-Cj4gKyAga2V5cGFkLG51bS1jb2x1bW5zOg0KPiArICAgIGRlc2NyaXB0aW9uOiBOdW1iZXIgb2Yg
-Y29sdW1uIGxpbmVzIGNvbm5lY3RlZCB0byB0aGUga2V5cGFkIGNvbnRyb2xsZXIsDQo+ICsgICAg
-aXQgaXMgbm90IGVxdWFsIHRvIFBDQiBjb2x1bW5zIG51bWJlciwgaW5zdGVhZCB5b3Ugc2hvdWxk
-IGFkZCByZXF1aXJlZCB2YWx1ZQ0KPiArICAgIGZvciBlYWNoIElDDQo+ICsNCj4gKyAga2V5cGFk
-LG51bS1yb3dzOg0KPiArICAgIGRlc2NyaXB0aW9uOiBOdW1iZXIgb2Ygcm93IGxpbmVzIGNvbm5l
-Y3RlZCB0byB0aGUga2V5cGFkIGNvbnRyb2xsZXIsIGl0IGlzDQo+ICsgICAgbm90IGVxdWFsIHRv
-IFBDQiByb3dzIG51bWJlciwgaW5zdGVhZCB5b3Ugc2hvdWxkIGFkZCByZXF1aXJlZCB2YWx1ZSBm
-b3IgZWFjaCBJQw0KDQpTbyB0aGUgdmFsdWVzIGRlcGVuZCBvbiBJQyBIVy4gVGhlc2UgYXJlIG5v
-dCBsaXN0ZWQgYXMgcmVxdWlyZWQuIENhbg0KeW91ciBkcml2ZXIgd29ya3Mgd2l0aG91dCB0aGVt
-PyBEZWZhdWx0IHZhbHVlPw0KDQo+ICsNCj4gKyAgbWVkaWF0ZWssZGVib3VuY2UtdXM6DQo+ICsg
-ICAgZGVzY3JpcHRpb246IERlYm91bmNlIGludGVydmFsIGluIG1pY3Jvc2Vjb25kcywgaWYgbm90
-IHNwZWNpZmllZCwgdGhlIGRlZmF1bHQNCj4gKyAgICB2YWx1ZSBpcyAxNjAwMA0KPiArICAgIG1h
-eGltdW06IDI1NjAwMA0KPiArDQo+ICtyZXF1aXJlZDoNCj4gKyAgLSBjb21wYXRpYmxlDQo+ICsg
-IC0gcmVnDQo+ICsgIC0gaW50ZXJydXB0cw0KPiArICAtIGxpbnV4LGtleW1hcA0KPiArICAtIHBp
-bmN0cmwNCj4gKyAgLSBjbG9ja3MNCj4gKyAgLSBjbG9jay1uYW1lcw0KPiArDQo+ICtleGFtcGxl
-czoNCj4gKyAgLSB8DQo+ICsNCj4gKyAga2V5cGFkOiBrcEAxMDAxMDAwMCB7DQoNClRoaXMgc2hv
-dWxkIGJlICdrZXlwYWQnIG9yIGluc3RlYWQgb2Yga3AuDQoNCkpvZS5DDQoNCj4gKyAgICBjb21w
-YXRpYmxlID0gIm1lZGlhdGVrLG10Njc3OS1rZXlwYWQiOw0KPiArICAgIHJlZyA9IDwwIDB4MTAw
-MTAwMDAgMCAweDEwMDA+Ow0KPiArICAgIGxpbnV4LGtleW1hcCA9IDwgTUFUUklYX0tFWSgweDAw
-LCAweDAwLCBLRVlfVk9MVU1FRE9XTikgPjsNCj4gKyAgICBpbnRlcnJ1cHRzID0gPEdJQ19TUEkg
-NzUgSVJRX1RZUEVfRURHRV9GQUxMSU5HPjsNCj4gKyAgICBjbG9ja3MgPSA8JmNsazI2bT47DQo+
-ICsgICAgY2xvY2stbmFtZXMgPSAia3BkIjsNCj4gKyAgICBwaW5jdHJsLW5hbWVzID0gImRlZmF1
-bHQiOw0KPiArICAgIHBpbmN0cmwtMCA9IDwma3BkX2dwaW9zX2RlZl9jZmc+Ow0KPiArICB9Ow0K
-DQo=
+From: Nick Dyer <nick.dyer@itdev.co.uk>
+
+This patch outputs status from T48 Noise Suppression
+
+Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
+Acked-by: Benson Leung <bleung@chromium.org>
+Acked-by: Yufeng Shen <miletus@chromium.org>
+(cherry picked from ndyer/linux/for-upstream commit 2895a6ff150a49f27a02938f8d262be238b296d8)
+Signed-off-by: George G. Davis <george_davis@mentor.com>
+[jiada: Replace bits with symbolic names,
+	Fixed typo in commit title & message]
+Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
+---
+ drivers/input/touchscreen/atmel_mxt_ts.c | 32 ++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index a2189739e30f..729c8dcb9cd1 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -153,6 +153,13 @@ struct t37_debug {
+ #define MXT_RESET_VALUE		0x01
+ #define MXT_BACKUP_VALUE	0x55
+ 
++/* Define for MXT_PROCG_NOISESUPPRESSION_T48 */
++#define MXT_T48_MSG_NOISESUP_FREQCHG	BIT(0)
++#define MXT_T48_MSG_NOISESUP_APXCHG	BIT(1)
++#define MXT_T48_MSG_NOISESUP_ALGOERR	BIT(2)
++#define MXT_T48_MSG_NOISESUP_STATCHG	BIT(4)
++#define MXT_T48_MSG_NOISESUP_NLVLCHG	BIT(5)
++
+ /* T100 Multiple Touch Touchscreen */
+ #define MXT_T100_CTRL		0
+ #define MXT_T100_CFG1		1
+@@ -320,6 +327,7 @@ struct mxt_data {
+ 	u8 T9_reportid_max;
+ 	u8 T19_reportid;
+ 	u16 T44_address;
++	u8 T48_reportid;
+ 	u8 T100_reportid_min;
+ 	u8 T100_reportid_max;
+ 
+@@ -952,6 +960,24 @@ static void mxt_proc_t100_message(struct mxt_data *data, u8 *message)
+ 	data->update_input = true;
+ }
+ 
++static int mxt_proc_t48_messages(struct mxt_data *data, u8 *msg)
++{
++	struct device *dev = &data->client->dev;
++	u8 status, state;
++
++	status = msg[1];
++	state  = msg[4];
++
++	dev_dbg(dev, "T48 state %d status %02X %s%s%s%s%s\n", state, status,
++		status & MXT_T48_MSG_NOISESUP_FREQCHG ? "FREQCHG " : "",
++		status & MXT_T48_MSG_NOISESUP_APXCHG ? "APXCHG " : "",
++		status & MXT_T48_MSG_NOISESUP_ALGOERR ? "ALGOERR " : "",
++		status & MXT_T48_MSG_NOISESUP_STATCHG ? "STATCHG " : "",
++		status & MXT_T48_MSG_NOISESUP_NLVLCHG ? "NLVLCHG " : "");
++
++	return 0;
++}
++
+ static int mxt_proc_message(struct mxt_data *data, u8 *message)
+ {
+ 	u8 report_id = message[0];
+@@ -961,6 +987,8 @@ static int mxt_proc_message(struct mxt_data *data, u8 *message)
+ 
+ 	if (report_id == data->T6_reportid) {
+ 		mxt_proc_t6_messages(data, message);
++	} else if (report_id == data->T48_reportid) {
++		mxt_proc_t48_messages(data, message);
+ 	} else if (!data->input_dev) {
+ 		/*
+ 		 * Do not report events if input device
+@@ -1606,6 +1634,7 @@ static void mxt_free_object_table(struct mxt_data *data)
+ 	data->T9_reportid_max = 0;
+ 	data->T19_reportid = 0;
+ 	data->T44_address = 0;
++	data->T48_reportid = 0;
+ 	data->T100_reportid_min = 0;
+ 	data->T100_reportid_max = 0;
+ 	data->max_reportid = 0;
+@@ -1684,6 +1713,9 @@ static int mxt_parse_object_table(struct mxt_data *data,
+ 		case MXT_SPT_GPIOPWM_T19:
+ 			data->T19_reportid = min_id;
+ 			break;
++		case MXT_PROCG_NOISESUPPRESSION_T48:
++			data->T48_reportid = min_id;
++			break;
+ 		case MXT_TOUCH_MULTITOUCHSCREEN_T100:
+ 			data->multitouch = MXT_TOUCH_MULTITOUCHSCREEN_T100;
+ 			data->T100_reportid_min = min_id;
+-- 
+2.17.1
 
