@@ -2,148 +2,156 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BDAC2232BD3
-	for <lists+linux-input@lfdr.de>; Thu, 30 Jul 2020 08:16:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99631232BDE
+	for <lists+linux-input@lfdr.de>; Thu, 30 Jul 2020 08:19:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728548AbgG3GQp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 30 Jul 2020 02:16:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35780 "EHLO
+        id S1726899AbgG3GTo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 30 Jul 2020 02:19:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726287AbgG3GQp (ORCPT
+        with ESMTP id S1726261AbgG3GTn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 30 Jul 2020 02:16:45 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CE55C061794
-        for <linux-input@vger.kernel.org>; Wed, 29 Jul 2020 23:16:45 -0700 (PDT)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1k11ro-00032m-Hv; Thu, 30 Jul 2020 08:16:36 +0200
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1k11rj-0006Ev-DC; Thu, 30 Jul 2020 08:16:31 +0200
-Date:   Thu, 30 Jul 2020 08:16:31 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Roy Im <roy.im.opensource@diasemi.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Brian Masney <masneyb@onstation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Pascal PAILLET-LME <p.paillet@st.com>,
-        Rob Herring <robh@kernel.org>,
-        Samuel Ortiz <sameo@linux.intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Support Opensource <support.opensource@diasemi.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: Re: [PATCH v18 3/3] Input: new da7280 haptic driver
-Message-ID: <20200730061631.y4r4s6v3xepktj54@pengutronix.de>
-References: <cover.1595991580.git.Roy.Im@diasemi.com>
- <23b3470401ec5cf525add8e1227cb67586b9f294.1595991580.git.Roy.Im@diasemi.com>
- <20200729063638.GY1665100@dtor-ws>
- <20200729072145.ifzoe656sjpxdior@pengutronix.de>
- <20200730050653.GA1665100@dtor-ws>
+        Thu, 30 Jul 2020 02:19:43 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABDF2C061794;
+        Wed, 29 Jul 2020 23:19:43 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id e4so113518pjd.0;
+        Wed, 29 Jul 2020 23:19:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=7sLH0f+gva54AANCFXOi4hfUciaEwWDTPWFMS6fyuNQ=;
+        b=gxENsRRjmRt4hYykIkMYfhy7oEjiNxJMHjQJ2hpjtanoK/gTdGAYgVMW9/pfAGsXIm
+         7ywfiC4aIQA9HS6p+4y1zst7Gcp6rC7bufK0aNja47Gbk2yO9iSxn0WdaumvbDJYeeKW
+         m764Hmz3bwEdrXUXk7ZmbWH2CcoF4zlCeAWvt+mk0DEnz67AXBHAFkEojdvOriBnXzZH
+         oB93FEKJ2dzP+9WTPHnl6H/mrvH2KgSjLWAvFFaJaKAzk1e/y1BEsgeDiOb7UkbV1OBD
+         U1YRCKP1byhPkOruzCTBSo7EK75Mfa0atDXjOiJ5LAt652wOGgGZAUp+lg0ux2DCCNMH
+         Rz8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=7sLH0f+gva54AANCFXOi4hfUciaEwWDTPWFMS6fyuNQ=;
+        b=K7OGbFhCGppkcKhHD5rM7f6a++lQvn0JcXYE/ytJt4OSXMYpNrTYTlV87DLFgP2xcF
+         S3a6GVvqDhYvDUct1y2/8R4mxo4QmNg7r9ATFC6VIs6OIY+hoDRDnqxBHkwwIJSJ3rn2
+         9sg6Wogciqc370499ojnBHdE4x70czUi3FIxd0ATO77ue866WbqRdhdr1pPjQdoq/JNJ
+         tmA925sMGZqFdF79tvFD/tLOUa8qf1I77wk61Rz/TUvyCIjsuBH9d96kHReqMN8f/z4B
+         guBgdTjkETvE7qgbqXgLVEsIJ58WP106vpUERyf9XLWZHTJrdBeCwcKEqEbaxizqqf9X
+         AgqQ==
+X-Gm-Message-State: AOAM530FoJ1nFJ3D/8OmlMjq11JT4fZjFqL2vv7JWH67yXIwHXph/6r5
+        /wztuDcsIPUvMF6TcShafws=
+X-Google-Smtp-Source: ABdhPJwGcoK2hmjgbxI7ge21+8vA+2hytsqnAprehXpM2qsg8Hsp+TRZ7lIZ9ggp8fv0ddu5Fv2XWg==
+X-Received: by 2002:a17:90a:bc45:: with SMTP id t5mr4706364pjv.139.1596089983001;
+        Wed, 29 Jul 2020 23:19:43 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id q6sm4540275pfg.76.2020.07.29.23.19.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jul 2020 23:19:42 -0700 (PDT)
+Date:   Wed, 29 Jul 2020 23:19:39 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Ondrej Jirman <megous@megous.com>
+Cc:     linux-sunxi@googlegroups.com, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>, Luca Weiss <luca@z3ntu.xyz>,
+        Tomas Novotny <tomas@novotny.cz>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 2/4] input: gpio-vibra: Allow to use vcc-supply alone
+ to control the vibrator
+Message-ID: <20200730061939.GF1665100@dtor-ws>
+References: <20200714102303.3007896-1-megous@megous.com>
+ <20200714102303.3007896-3-megous@megous.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="fz3lejizyldfimsi"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200730050653.GA1665100@dtor-ws>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+In-Reply-To: <20200714102303.3007896-3-megous@megous.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi Ondrej,
 
---fz3lejizyldfimsi
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, Jul 14, 2020 at 12:23:01PM +0200, Ondrej Jirman wrote:
+> Make enable-gpio optional to allow using this driver with boards that
+> have vibrator connected to a power supply without intermediate gpio
+> based enable circuitry.
+> 
+> Also avoid a case where neither regulator nor enable gpio is specified,
+> and bail out in probe in such a case.
+> 
+> Signed-off-by: Ondrej Jirman <megous@megous.com>
+> ---
+>  drivers/input/misc/gpio-vibra.c | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/input/misc/gpio-vibra.c b/drivers/input/misc/gpio-vibra.c
+> index f79f75595dd7..b3bb7e61ed1d 100644
+> --- a/drivers/input/misc/gpio-vibra.c
+> +++ b/drivers/input/misc/gpio-vibra.c
+> @@ -39,7 +39,7 @@ static int gpio_vibrator_start(struct gpio_vibrator *vibrator)
+>  	struct device *pdev = vibrator->input->dev.parent;
+>  	int err;
+>  
+> -	if (!vibrator->vcc_on) {
+> +	if (vibrator->vcc && !vibrator->vcc_on) {
+>  		err = regulator_enable(vibrator->vcc);
+>  		if (err) {
+>  			dev_err(pdev, "failed to enable regulator: %d\n", err);
+> @@ -57,7 +57,7 @@ static void gpio_vibrator_stop(struct gpio_vibrator *vibrator)
+>  {
+>  	gpiod_set_value_cansleep(vibrator->gpio, 0);
+>  
+> -	if (vibrator->vcc_on) {
+> +	if (vibrator->vcc && vibrator->vcc_on) {
+>  		regulator_disable(vibrator->vcc);
+>  		vibrator->vcc_on = false;
+>  	}
+> @@ -112,7 +112,7 @@ static int gpio_vibrator_probe(struct platform_device *pdev)
+>  	if (!vibrator->input)
+>  		return -ENOMEM;
+>  
+> -	vibrator->vcc = devm_regulator_get(&pdev->dev, "vcc");
+> +	vibrator->vcc = devm_regulator_get_optional(&pdev->dev, "vcc");
 
-[Adding vsprintf maintainers to Cc:]
+I know it is very surprising, but regulator_get_optional does not return
+NULL when regulator is not present, but rather ERR_PTR(-ENODEV). You
+need to replace it with NULL in the branch below, or change conditions
+to !IS_ERR(virbrator->vcc) (and still handle -ENODEV in the branch
+below).
 
-Hello,
+>  	err = PTR_ERR_OR_ZERO(vibrator->vcc);
+>  	if (err) {
+>  		if (err != -EPROBE_DEFER)
+> @@ -121,7 +121,8 @@ static int gpio_vibrator_probe(struct platform_device *pdev)
+>  		return err;
+>  	}
+>  
+> -	vibrator->gpio = devm_gpiod_get(&pdev->dev, "enable", GPIOD_OUT_LOW);
+> +	vibrator->gpio = devm_gpiod_get_optional(&pdev->dev, "enable",
+> +						 GPIOD_OUT_LOW);
+>  	err = PTR_ERR_OR_ZERO(vibrator->gpio);
+>  	if (err) {
+>  		if (err != -EPROBE_DEFER)
+> @@ -130,6 +131,11 @@ static int gpio_vibrator_probe(struct platform_device *pdev)
+>  		return err;
+>  	}
+>  
+> +	if (!vibrator->vcc && !vibrator->gpio) {
+> +		dev_err(&pdev->dev, "Neither gpio nor regulator provided\n");
+> +		return -EINVAL;
+> +	}
+> +
+>  	INIT_WORK(&vibrator->play_work, gpio_vibrator_play_work);
+>  
+>  	vibrator->input->name = "gpio-vibrator";
+> -- 
+> 2.27.0
+> 
 
-On Wed, Jul 29, 2020 at 10:06:53PM -0700, Dmitry Torokhov wrote:
-> On Wed, Jul 29, 2020 at 09:21:45AM +0200, Uwe Kleine-K=F6nig wrote:
-> > Hello,
-> >=20
-> > On Tue, Jul 28, 2020 at 11:36:38PM -0700, Dmitry Torokhov wrote:
-> > > > v9:=20
-> > > > 	- Removed the header file and put the definitions into the c file.
-> > > > 	- Updated the pwm code and error logs with %pE
-> > >=20
-> > > I believe the %pE is to format an escaped buffer, you probably want to
-> > > %pe (lowercase) to print errors. I am also not quite sure if we want =
-to
-> > > use it in cases when we have non-pointer error, or we should stick wi=
-th
-> > > %d as most of the kernel does.
-> >=20
-> > compared with %d %pe is easier to understand as it emits "-ETIMEOUT"
-> > instead of "-110". And yes, %pE is wrong.
->=20
-> While I can see that symbolic name instead of a numeric constant might
-> be appealing, I do not believe that we want fragments like this with
-> endless conversions between integer and pointer errors:
->=20
-> 	if (haptics->const_op_mode =3D=3D DA7280_PWM_MODE) {
-> 		haptics->pwm_dev =3D devm_pwm_get(dev, NULL);
-> 		if (IS_ERR(haptics->pwm_dev)) {
-> 			error =3D PTR_ERR(haptics->pwm_dev);
-> 			if (error !=3D -EPROBE_DEFER)
-> 				dev_err(dev, "unable to request PWM: %pE\n",
-> 					ERR_PTR(error));
-> 			return error;
-> 		}
->=20
-> Maybe we should introduce something like '%de' for the integer error
-> case?
+Thanks.
 
-I suggested that some time ago with limited success, see
-https://lore.kernel.org/lkml/20200129115516.zsvxu56e6h7gheiw@pathway.suse.c=
-z/
-=2E
-
-> In the meantime I would prefer using %d when we have integer
-> error. We should not see these error messages anyway ;)
-
-I don't agree. Error messages are supposed to be helpful and I prefer
-some casting between error pointer and error int over emitting bare
-numbers to the kernel log. (And additionally the uglyness might help to
-convince the vsprintf guys that %de might be a good idea after all :-)
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---fz3lejizyldfimsi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl8iZbwACgkQwfwUeK3K
-7Alqgwf/QhPTWri/aJ6aKC1Qf4GZICrCZy5Xn1coDwtnUcU/daCkeA6gtX4fGffV
-pAVA/5PJ/H2T0urdRlwPynwLunhL0FVKOlFB3ta+Ir7aiI8r8V7joD0Eqbb56gCh
-yJCowGmV4Pz1BmkjlZqo9c2BFAxqLMOePENs85PfgMrcayhsuG55kNtFb7ZyXzvW
-QMJ5tuaOeesM/5iAjUKSGQneGXYvJPOLGkwmPxER+ACeWIqCWaXSeNIeU/d22wCT
-a2csqlFa6SG3J8D8lcWa+9xH80VmvF60ROr5BjQWah5ccbO7zwH9nc9hY5rdg+Ub
-tFmojQ9HJW32hSFz2olina/eIgV39g==
-=9HiY
------END PGP SIGNATURE-----
-
---fz3lejizyldfimsi--
+-- 
+Dmitry
