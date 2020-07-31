@@ -2,128 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DBB6233BF2
-	for <lists+linux-input@lfdr.de>; Fri, 31 Jul 2020 01:12:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4CC9233EB7
+	for <lists+linux-input@lfdr.de>; Fri, 31 Jul 2020 07:42:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729995AbgG3XMd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 30 Jul 2020 19:12:33 -0400
-Received: from mga04.intel.com ([192.55.52.120]:26996 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729896AbgG3XMd (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 30 Jul 2020 19:12:33 -0400
-IronPort-SDR: 7Kje3oQwI8noHo51lny6KsxxRRw5ipDoaDgsnuBgtjUH+ZbjcbeCQ3fVOEJFb/4JkF50pByGRu
- s6lJxqs3g5Jg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9698"; a="149172331"
-X-IronPort-AV: E=Sophos;i="5.75,415,1589266800"; 
-   d="scan'208";a="149172331"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2020 16:12:32 -0700
-IronPort-SDR: LzNS4SeSmmKPv0DqZJEeQidZFSA+fBXtkfk0FBCDs376Q+FzwUaHd0uze6HthMOHqPzR+d0s2c
- o6+n3cq8luZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,415,1589266800"; 
-   d="scan'208";a="287011650"
-Received: from lkp-server02.sh.intel.com (HELO d4d86dd808e0) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 30 Jul 2020 16:12:30 -0700
-Received: from kbuild by d4d86dd808e0 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1k1Hiw-0000Ib-2R; Thu, 30 Jul 2020 23:12:30 +0000
-Date:   Fri, 31 Jul 2020 07:12:00 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [input:master] BUILD SUCCESS
- 873a3a14a47e819bb2d1e3cf4dc8c59c200ec32b
-Message-ID: <5f2353c0.MphD+RjF72fdq9oI%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1730173AbgGaFmB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 31 Jul 2020 01:42:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54298 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730170AbgGaFmB (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 31 Jul 2020 01:42:01 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 958D7C061574
+        for <linux-input@vger.kernel.org>; Thu, 30 Jul 2020 22:42:00 -0700 (PDT)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1k1Nnj-0005xl-HN; Fri, 31 Jul 2020 07:41:51 +0200
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1k1Nne-0002Rb-PM; Fri, 31 Jul 2020 07:41:46 +0200
+Date:   Fri, 31 Jul 2020 07:41:46 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Ondrej Jirman <megous@megous.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>, Luca Weiss <luca@z3ntu.xyz>,
+        Tomas Novotny <tomas@novotny.cz>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v5 3/4] ARM: dts: sun8i-a83t-tbs-a711: Add support for
+ the vibrator motor
+Message-ID: <20200731054146.3d64tchfvbb6gfwj@pengutronix.de>
+References: <20200730132446.3139980-1-megous@megous.com>
+ <20200730132446.3139980-4-megous@megous.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20200730132446.3139980-4-megous@megous.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 07:40:39 up 258 days, 20:59, 248 users,  load average: 0.14, 0.11,
+ 0.08
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git  master
-branch HEAD: 873a3a14a47e819bb2d1e3cf4dc8c59c200ec32b  Input: elan_i2c - add ic type 0x15
+Hi Ondrej,
 
-elapsed time: 725m
+On 20-07-30 15:24, Ondrej Jirman wrote:
+> The board has a vibrator motor. Hook it to the input subsystem.
+> 
+> According to the PMIC specification, LDO needs to be enabled (value 0b11)
+> to achieve the specified max driving current of 150mA. We can't drive
+> the motor with just GPIO mode.
+> 
+> In GPIO mode the chip is probably just using the regular CMOS logic
+> output circuitry (typically limited to around 20-35mA, but not specified
+> in this datasheet).
+> 
+> Signed-off-by: Ondrej Jirman <megous@megous.com>
+> ---
+>  arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts b/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts
+> index bfc9bb277a49..a278a1e33930 100644
+> --- a/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts
+> +++ b/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts
+> @@ -99,6 +99,11 @@ panel_input: endpoint {
+>  		};
+>  	};
+>  
+> +	vibrator {
+> +		compatible = "gpio-vibrator";
+> +		vcc-supply = <&reg_ldo_io1>;
+> +	};
 
-configs tested: 66
-configs skipped: 1
+Please keep the alphabetical order. I also would merge patch 3 and 4
+into one since they are realted changes.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Regards,
+  Marco
 
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                           allnoconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                             defconfig
-x86_64               randconfig-a001-20200730
-x86_64               randconfig-a004-20200730
-x86_64               randconfig-a002-20200730
-x86_64               randconfig-a006-20200730
-x86_64               randconfig-a003-20200730
-x86_64               randconfig-a005-20200730
-i386                 randconfig-a005-20200730
-i386                 randconfig-a004-20200730
-i386                 randconfig-a006-20200730
-i386                 randconfig-a002-20200730
-i386                 randconfig-a001-20200730
-i386                 randconfig-a003-20200730
-i386                 randconfig-a016-20200730
-i386                 randconfig-a012-20200730
-i386                 randconfig-a014-20200730
-i386                 randconfig-a015-20200730
-i386                 randconfig-a011-20200730
-i386                 randconfig-a013-20200730
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> +
+>  	reg_gps: reg-gps {
+>  		compatible = "regulator-fixed";
+>  		regulator-name = "gps";
