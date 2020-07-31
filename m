@@ -2,135 +2,154 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DCCB233F79
-	for <lists+linux-input@lfdr.de>; Fri, 31 Jul 2020 08:55:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7460234099
+	for <lists+linux-input@lfdr.de>; Fri, 31 Jul 2020 09:57:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731511AbgGaGyu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 31 Jul 2020 02:54:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37174 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731508AbgGaGyu (ORCPT
+        id S1731743AbgGaH5V (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 31 Jul 2020 03:57:21 -0400
+Received: from esa3.mentor.iphmx.com ([68.232.137.180]:59791 "EHLO
+        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731684AbgGaH5V (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 31 Jul 2020 02:54:50 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2D77C061574;
-        Thu, 30 Jul 2020 23:54:49 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id a5so17003099wrm.6;
-        Thu, 30 Jul 2020 23:54:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=M3aBvvjjOLOv02wO8Xb9L+hWYarDkMBk5vQeoGNmsHM=;
-        b=ncYKtddyFt7IVn56KlD4tfeVlsyTMOlg2zAvrwf8bkeX4hcmzyguK96neeQ5CsTtnu
-         WdXbfMYxnXk8dJwcZcAdicFiQOVdwfSrqVPqAYGdfWvn7njgb6GGSkPucnNcCO2D66Um
-         2hE/BdAYwgQ5jFOYsddIg+NvbRj5/UqfV0qJTEx8WbFcfiRzWzNUMov9n9EnQOepPaIp
-         KeUi/rRkI5OPG5fr7LRtzg9bW7ODSj4LUSEQdgklzBYyMSCbE6SYqSqtWr68WkyHXNf1
-         nIyV7t2ZGSrGPueaHNon9JLBZRtLgLUDI4yqjgaGorQ6Yj2Xq/oq3CXd3smo/KJBCbbJ
-         U7ZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=M3aBvvjjOLOv02wO8Xb9L+hWYarDkMBk5vQeoGNmsHM=;
-        b=lY2fptZM8uhHsrSq+13+q3qLd3/+LSiyLuIb2exGgq6ZszwrUHah74pYyM5H0BeY8l
-         8PJAafsDm4zA8x4e67SLq4SAC6aH6NiWKvhSRbNDISAmkD54QuRX/X5hKgs/kztNSffl
-         QEz32IMn13Gp5V+h4JOgREiOL/KXY67PellCNKODTVHSQrAMO0K7oU/eFtRy155x/KaG
-         WxqpX6kWxfb0zH8bnwOk01ztUF25F2aKQn3/hvuaDiNLMVU4cm0wZC8sAx2BrwjLGYeK
-         2xVYoC/GY4EoKU7YD90KVa7txfgyI5IfBGZr1CxnIM0NeuQ8lli02e2Ja5q2WNDiS/Pr
-         AP3A==
-X-Gm-Message-State: AOAM5318FIgi2nWSCq3o+g9DqZVzwqtZBp/Ex1SXItyh/HZXDGdK/BVR
-        dr0gmcm8rIduN4o3J9EG3fpjW14iSVo=
-X-Google-Smtp-Source: ABdhPJyr9eQTTWxaZAxAiyBiMSV7HAyXhwoOulgmIZlNjzHY30G+fjo0x1DPhe63msW+6i/eMp/OEQ==
-X-Received: by 2002:a05:6000:8b:: with SMTP id m11mr2066400wrx.245.1596178488379;
-        Thu, 30 Jul 2020 23:54:48 -0700 (PDT)
-Received: from 168.52.45.77 (201.ip-51-68-45.eu. [51.68.45.201])
-        by smtp.gmail.com with ESMTPSA id b142sm9007791wmd.19.2020.07.30.23.54.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jul 2020 23:54:47 -0700 (PDT)
-Subject: Re: [PATCH] Input: xpad: Spelling fixes for "Xbox", improve and
- proofread the listed xpad device names
-To:     Cameron Gutman <aicommander@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-References: <e864b39b-27e0-c6f2-76e8-db465916f310@gmail.com>
- <60d8977a-159f-f2c5-e0c1-7691fb5b2571@gmail.com>
-From:   Swyter <swyterzone@gmail.com>
-Message-ID: <407164a2-0762-8b27-065b-27378f881327@gmail.com>
-Date:   Fri, 31 Jul 2020 08:54:44 +0200
-User-Agent: nano 6.4
+        Fri, 31 Jul 2020 03:57:21 -0400
+IronPort-SDR: GK+vBg4ZI7qWnzKcRf3NEiX6vUd6G/cOpL5QUUea99f5NtosAnT43AsmF6zSkbAiRjzzZ8iZ2M
+ YL0hXTlLR9hBXLPC10eJERgNtJxs6vqzWiOxMOxZn0HxapUDar0+/DgbXR/P8PZ8qmlcFiQjaR
+ 5PBJimv+/Rp13Jlsr+AKOwLZRZ30HzzPsVCwIRROIbJZKqg7Yk4M7fQzCjPeMOmkHJ65VY8/Pp
+ uxkW0URbSYWAzHXiQOWZvACBarVXuXc0ryugml7uagXVOAvTEMcS0oOAPem70HmDY6qu7etoOj
+ Vc4=
+X-IronPort-AV: E=Sophos;i="5.75,417,1589270400"; 
+   d="scan'208";a="51482398"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa3.mentor.iphmx.com with ESMTP; 30 Jul 2020 23:57:19 -0800
+IronPort-SDR: dDXKd3F96M8sx13RuJ7m0jMJryFRja+bpgEwDdqApgG/bToWc/p4qhkt1TnAFLPu1YBOLgvRhz
+ yYexX8qDAK1xZj623OsoU+J5wNdEWzswIsAgp3TSlllzuwxyc1IyVet/8a5+pvR6ZE1xwlYtfe
+ c4IL6dX2bo+l7H/37LXN0AuxTXLZHHjqHIuT4QNLB11UGnapp8O4VcJtvgK7shaPOiatpNK+wB
+ QcVQFGCh6F7UqOYQMh75D4wOa3qAkl95KF2jgM9HWuoRd4Ou89OFEk1Gm9nS6pogJLaftsW3Dt
+ 7LI=
+From:   Jiada Wang <jiada_wang@mentor.com>
+To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>
+CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
+        <digetx@gmail.com>, <jiada_wang@mentor.com>
+Subject: [PATCH 1/1] Input: atmel_mxt_ts - allow specification of firmware file name
+Date:   Fri, 31 Jul 2020 16:57:14 +0900
+Message-ID: <20200731075714.10608-1-jiada_wang@mentor.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <60d8977a-159f-f2c5-e0c1-7691fb5b2571@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 31/07/2020 8:33, Cameron Gutman wrote:
->> While doing my research I also noticed that the 1532:0037 VID/PID seems to
->> be used by the DeathAdder 2013, so that Razer Sabertooth instance looks
->> wrong and very suspect to me, I created a separate patch for that.
-> 
-> The above sentence probably doesn't belong in the commit message.
-> 
+From: Nick Dyer <nick.dyer@itdev.co.uk>
 
-Fair enough, I should probably turn that into "reviewer" notes.
-I think I mentioned it because I didn't update that bad entry.
+On platforms which have multiple device instances using this driver, the
+firmware may be different on each device. This patch makes the user give
+the name of the firmware file when flashing.
 
-Thinking it would be deleted soon. But good point.
+This also prevents accidental triggering of the firmware load process.
 
+Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
+Acked-by: Benson Leung <bleung@chromium.org>
+Acked-by: Yufeng Shen <miletus@chromium.org>
+(cherry picked from ndyer/linux/for-upstream commit 76ebb7cee971cb42dfb0a3a9224403b8b09abcf1)
+[gdavis: Forward port and fix conflicts.]
+Signed-off-by: George G. Davis <george_davis@mentor.com>
+Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
+---
+ drivers/input/touchscreen/atmel_mxt_ts.c | 42 ++++++++++++++++++++----
+ 1 file changed, 36 insertions(+), 6 deletions(-)
 
-> The docs and comment changes look fine to me.
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index a2189739e30f..024dee7a3571 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -30,8 +30,6 @@
+ #include <media/videobuf2-v4l2.h>
+ #include <media/videobuf2-vmalloc.h>
+ 
+-/* Firmware files */
+-#define MXT_FW_NAME		"maxtouch.fw"
+ #define MXT_CFG_NAME		"maxtouch.cfg"
+ #define MXT_CFG_MAGIC		"OBP_RAW V1"
+ 
+@@ -308,6 +306,7 @@ struct mxt_data {
+ 	struct t7_config t7_cfg;
+ 	struct mxt_dbg dbg;
+ 	struct gpio_desc *reset_gpio;
++	char *fw_name;
+ 
+ 	/* Cached parameters from object table */
+ 	u16 T5_address;
+@@ -2766,7 +2765,7 @@ static int mxt_check_firmware_format(struct device *dev,
+ 	return -EINVAL;
+ }
+ 
+-static int mxt_load_fw(struct device *dev, const char *fn)
++static int mxt_load_fw(struct device *dev)
+ {
+ 	struct mxt_data *data = dev_get_drvdata(dev);
+ 	const struct firmware *fw = NULL;
+@@ -2776,9 +2775,9 @@ static int mxt_load_fw(struct device *dev, const char *fn)
+ 	unsigned int frame = 0;
+ 	int ret;
+ 
+-	ret = request_firmware(&fw, fn, dev);
++	ret = request_firmware(&fw, data->fw_name, dev);
+ 	if (ret) {
+-		dev_err(dev, "Unable to open firmware %s\n", fn);
++		dev_err(dev, "Unable to open firmware %s\n", data->fw_name);
+ 		return ret;
+ 	}
+ 
+@@ -2887,6 +2886,33 @@ static int mxt_load_fw(struct device *dev, const char *fn)
+ 	return ret;
+ }
+ 
++static int mxt_update_file_name(struct device *dev, char **file_name,
++				const char *buf, size_t count)
++{
++	char *file_name_tmp;
++
++	/* Simple sanity check */
++	if (count > 64) {
++		dev_warn(dev, "File name too long\n");
++		return -EINVAL;
++	}
++
++	file_name_tmp = krealloc(*file_name, count + 1, GFP_KERNEL);
++	if (!file_name_tmp)
++		return -ENOMEM;
++
++	*file_name = file_name_tmp;
++	memcpy(*file_name, buf, count);
++
++	/* Echo into the sysfs entry may append newline at the end of buf */
++	if (buf[count - 1] == '\n')
++		(*file_name)[count - 1] = '\0';
++	else
++		(*file_name)[count] = '\0';
++
++	return 0;
++}
++
+ static ssize_t mxt_update_fw_store(struct device *dev,
+ 					struct device_attribute *attr,
+ 					const char *buf, size_t count)
+@@ -2894,7 +2920,11 @@ static ssize_t mxt_update_fw_store(struct device *dev,
+ 	struct mxt_data *data = dev_get_drvdata(dev);
+ 	int error;
+ 
+-	error = mxt_load_fw(dev, MXT_FW_NAME);
++	error = mxt_update_file_name(dev, &data->fw_name, buf, count);
++	if (error)
++		return error;
++
++	error = mxt_load_fw(dev);
+ 	if (error) {
+ 		dev_err(dev, "The firmware update failed(%d)\n", error);
+ 		count = error;
+-- 
+2.17.1
 
-Great, I was a bit wary about this.
-
-
-> I'm somewhat concerned about the possibility of breaking userspace by changing
-> names. Some programs' gamepad mappings may be dependent on matching the device
-> names, rather than the VID+PID.
-> 
-> For example, Android did not expose the VID and PID for input devices until
-> Android 4.4. The device name was the only available attribute for matching
-> gamepads from Android 2.3 to 4.3. While these ancient Android version will
-> almost certainly never run a kernel with this patch, I worry about the
-> possibility of apps that haven't moved to VID+PID matching (and not just for
-> Android; I don't know if other libraries or frameworks have/had similar
-> limitations).
-> 
-> Perhaps my concerns are overblown, but If we aren't worried about changing
-> names, I'd really prefer to just drop the hardcoded names entirely and use the
-> manufacturer and product strings provided in the USB string descriptors. The
-> device list would turn into a quirk list where only device entries with a
-> special mapping flag like MAP_DPAD_TO_BUTTONS or MAP_TRIGGERS_TO_BUTTONS would
-> remain, and the device name strings would just become comments on each quirk
-> entry.
-> 
-> Thoughts?
-> 
-> 
-> 
-> 
-> Regards,
-> Cameron
-> 
-
-I don't doubt that changing some names will break some basic rule matching.
-
-But given that the kernel nomenclature is so inconsistent, I think anyone searching
-for "X-Box" and five other variants will also have to search for the actual "Xbox",
-or at least I hope so. Keep in mind that I have tried to make each overhauled entry
-*more* detailed when possible. So now each model has extra information (mainly
-manufacturer and button-layout type) instead only some vague/informal model name.
-
-SDL2 and Unity abstract these things a bit. I actually implement similar strings
-checks in my own game/engine as fallback and it's exactly what I ended up doing.
-
-I generally don't trust device strings, they'll be less detailed than these.
-A good bunch of those are unlicensed, so they'll be wrong or missing.
-
-Let me know what you think.
