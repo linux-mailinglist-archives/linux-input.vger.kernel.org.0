@@ -2,102 +2,146 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4CC9233EB7
-	for <lists+linux-input@lfdr.de>; Fri, 31 Jul 2020 07:42:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49B42233ED9
+	for <lists+linux-input@lfdr.de>; Fri, 31 Jul 2020 07:55:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730173AbgGaFmB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 31 Jul 2020 01:42:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54298 "EHLO
+        id S1731396AbgGaFy7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 31 Jul 2020 01:54:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730170AbgGaFmB (ORCPT
+        with ESMTP id S1731235AbgGaFy6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 31 Jul 2020 01:42:01 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 958D7C061574
-        for <linux-input@vger.kernel.org>; Thu, 30 Jul 2020 22:42:00 -0700 (PDT)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1k1Nnj-0005xl-HN; Fri, 31 Jul 2020 07:41:51 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1k1Nne-0002Rb-PM; Fri, 31 Jul 2020 07:41:46 +0200
-Date:   Fri, 31 Jul 2020 07:41:46 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Ondrej Jirman <megous@megous.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>, Luca Weiss <luca@z3ntu.xyz>,
-        Tomas Novotny <tomas@novotny.cz>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v5 3/4] ARM: dts: sun8i-a83t-tbs-a711: Add support for
- the vibrator motor
-Message-ID: <20200731054146.3d64tchfvbb6gfwj@pengutronix.de>
-References: <20200730132446.3139980-1-megous@megous.com>
- <20200730132446.3139980-4-megous@megous.com>
+        Fri, 31 Jul 2020 01:54:58 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6FE4C061574
+        for <linux-input@vger.kernel.org>; Thu, 30 Jul 2020 22:54:58 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id o1so16417500plk.1
+        for <linux-input@vger.kernel.org>; Thu, 30 Jul 2020 22:54:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=L45JyfB4WBiaEgI6mJel51FketlP3JwE+VVu5/DReqk=;
+        b=UuArT4XRYgXZpaOi8i8UP8++ykp/2PBe4llUpKnStgUCJKwafEpNBlN7nFrTNAzwWp
+         dg+DtK9kqf1xoNStgDUPvfciBsiDjDCzK/NPYMUaufrszQM2LMl5MigSVLd+kZi31oHE
+         XGxkZ66EHWeKVogzuhzj4LZ0rgjUmeC2GI4p9hxgZljaWKrdqn7Td9vfgvV1ApbGJW4R
+         ubWYN6iIU4aBPKh9NmvymRLrcJMTfwd9vO4QochJkV0vk3l9Wjih9LzsTujxEL/weCgO
+         b2KYx1fYf4lCua82bcBxjTpI3sqWkE8vgJ+aIRM+1tWnkETGSn4PTcVliLe+HNyHZJKi
+         6r1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=L45JyfB4WBiaEgI6mJel51FketlP3JwE+VVu5/DReqk=;
+        b=tzs6Uri8BbhExP1zqm+2WRGx6MQr4GMH0Pon80SDZW+lfsC2CJL4SIdJoMcn+yNQ1P
+         bNxCapPc9lFl74RlogweS5mALeY5nF+zGCdc+42mAsUVQvztbWgr05DN9BlGwvRYoEQn
+         MZE0z9GQHFQLYf7asfJQBRCeedVgHA7Qopss2AQrjv0ehTPjlUeoEib/zfCts9qn8n5o
+         oIz2nNuIGfE3zEL3Hb2e9nQcN0yOBws1q/ONnY80vLMmgYVzgSMnCaqY+hQDyCnlqu8O
+         g52QAP/jEouqJX6HGC532mc9qQstym0B7qjMo0N0a4aFSpu5ejfp9+WjRxMrCUZd5bhz
+         hDlA==
+X-Gm-Message-State: AOAM533yOEwQasb0tpAEFc2R5wtgsa3PCa+RfnYGAbWmgT0T7uFsb8mY
+        84gmj4HsljO4fNBkWsVCwzVZO78f2MU=
+X-Google-Smtp-Source: ABdhPJwGJiaKnRh6JMfWuu7+q/FG1yG/qRMaGSUrkyRluRTYItsNfM+v+Wppg1wEnG3PTTkyOJLcTw==
+X-Received: by 2002:a17:90b:2083:: with SMTP id hb3mr2535537pjb.234.1596174898114;
+        Thu, 30 Jul 2020 22:54:58 -0700 (PDT)
+Received: from ?IPv6:2604:4080:1012:8d30:d41e:852f:649b:7856? ([2604:4080:1012:8d30:d41e:852f:649b:7856])
+        by smtp.gmail.com with ESMTPSA id u21sm7650189pjn.27.2020.07.30.22.54.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Jul 2020 22:54:57 -0700 (PDT)
+Subject: Re: [PATCH] Input: xpad: Remove a conflicting Razer Sabertooth using
+ the VID/PID for the Razer DeathAdder 2013 mouse
+To:     Ismael Ferreras Morezuelas <swyterzone@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org,
+        Benjamin Valentin <benpicco@zedat.fu-berlin.de>
+References: <b9e7cb27-1866-83bb-b453-ae265ab6bde6@gmail.com>
+From:   Cameron Gutman <aicommander@gmail.com>
+Message-ID: <a66472a1-b07a-169c-20dc-6d5e51d4d3bc@gmail.com>
+Date:   Thu, 30 Jul 2020 22:54:56 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200730132446.3139980-4-megous@megous.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 07:40:39 up 258 days, 20:59, 248 users,  load average: 0.14, 0.11,
- 0.08
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+In-Reply-To: <b9e7cb27-1866-83bb-b453-ae265ab6bde6@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Ondrej,
-
-On 20-07-30 15:24, Ondrej Jirman wrote:
-> The board has a vibrator motor. Hook it to the input subsystem.
+On 7/30/20 8:44 AM, Ismael Ferreras Morezuelas wrote:
+> While doing my research to improve the xpad device names I also noticed
+> that the 1532:0037 VID/PID seems to be used by the DeathAdder 2013,
+> so that Razer Sabertooth instance looked wrong and very suspect to
+> me. I didn't see any mention in the official drivers, either.
 > 
-> According to the PMIC specification, LDO needs to be enabled (value 0b11)
-> to achieve the specified max driving current of 150mA. We can't drive
-> the motor with just GPIO mode.
+> After doing more research, it turns out that the xpad list
+> is used by many other projects (like Steam) as-is, this
+> issue was reported and Valve/Sam Lantinga fixed it:
 > 
-> In GPIO mode the chip is probably just using the regular CMOS logic
-> output circuitry (typically limited to around 20-35mA, but not specified
-> in this datasheet).
+> https://steamcommunity.com/app/353380/discussions/0/1743392486228754770/
 > 
-> Signed-off-by: Ondrej Jirman <megous@megous.com>
+> (With multiple Internet users reporting similar issues, not linked here)
+> 
+> After not being able to find the correct VID/PID combination anywhere
+> on the Internet and not receiving any reply from Razer support I did
+> some additional detective work, it seems like it presents itself as
+> "Razer Sabertooth Gaming Controller (XBOX360)", code 1689:FE00.
+> 
+> Leaving us with this:
+>  * Razer Sabertooth (1689:fe00)
+>  * Razer Sabertooth Elite (24c6:5d04)
+>  * Razer DeathAdder 2013 (1532:0037) [note: not a gamepad]
+> 
+> So, to sum things up; remove this conflicting/duplicate entry:
+> 
+> { 0x1532, 0x0037, "Razer Sabertooth", 0, XTYPE_XBOX360 },
+> 
+> As the real/correct one is already present there, even if
+> the Internet as a whole insists on presenting it as the
+> Razer Sabertooth Elite, which (by all accounts) is not:
+> 
+> { 0x1689, 0xfe00, "Razer Sabertooth", 0, XTYPE_XBOX360 },
+> 
+> That's it. No other functional changes intended.
+> 
+> Fixes: f554f619b70 ("Input: xpad - sync device IDs with xboxdrv")
+> Signed-off-by: Ismael Ferreras Morezuelas <swyterzone@gmail.com>
 > ---
->  arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts | 5 +++++
->  1 file changed, 5 insertions(+)
+>  drivers/input/joystick/xpad.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts b/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts
-> index bfc9bb277a49..a278a1e33930 100644
-> --- a/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts
-> +++ b/arch/arm/boot/dts/sun8i-a83t-tbs-a711.dts
-> @@ -99,6 +99,11 @@ panel_input: endpoint {
->  		};
->  	};
->  
-> +	vibrator {
-> +		compatible = "gpio-vibrator";
-> +		vcc-supply = <&reg_ldo_io1>;
-> +	};
+> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+> index c77cdb3b62b5..1510438c5578 100644
+> --- a/drivers/input/joystick/xpad.c
+> +++ b/drivers/input/joystick/xpad.c
+> @@ -249,7 +249,6 @@ static const struct xpad_device {
+>  	{ 0x1430, 0x8888, "TX6500+ Dance Pad (first generation)", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX },
+>  	{ 0x1430, 0xf801, "RedOctane Controller", 0, XTYPE_XBOX360 },
+>  	{ 0x146b, 0x0601, "BigBen Interactive XBOX 360 Controller", 0, XTYPE_XBOX360 },
+> -	{ 0x1532, 0x0037, "Razer Sabertooth", 0, XTYPE_XBOX360 },
+>  	{ 0x1532, 0x0a00, "Razer Atrox Arcade Stick", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOXONE },
+>  	{ 0x1532, 0x0a03, "Razer Wildcat", 0, XTYPE_XBOXONE },
+>  	{ 0x15e4, 0x3f00, "Power A Mini Pro Elite", 0, XTYPE_XBOX360 },
+> 
 
-Please keep the alphabetical order. I also would merge patch 3 and 4
-into one since they are realted changes.
+The list here doesn't actually affect which devices that xpad will attach to.
+xpad_table[] is what determines the devices that xpad's probe() will be
+called for. It does this using the VID + vendor-defined interface subclass
+and interface number, not the VID+PID combos. xpad_device[] just provides a
+friendly name and quirk flags for some supported gamepads. Gamepads that
+aren't in the list will just show up as "Generic X-Box pad" with no quirk
+flags applied.
+
+If 1532:0037 is actually a mouse, it's unlikely we'd even reach the probe()
+in the first place. The device would lack the expected vendor-defined Xbox
+interface that is required for xpad to attach to the device.
+
+All that said, I'm definitely not opposed to removing the entry if it isn't
+a real gamepad. Given the difficulty you had finding information about this
+device, I take it you don't have any 'lsusb -v' output for this device, right?
 
 Regards,
-  Marco
-
-> +
->  	reg_gps: reg-gps {
->  		compatible = "regulator-fixed";
->  		regulator-name = "gps";
+Cameron
