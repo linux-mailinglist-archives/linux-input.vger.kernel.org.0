@@ -2,254 +2,142 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03CCD234692
-	for <lists+linux-input@lfdr.de>; Fri, 31 Jul 2020 15:07:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C23C2346D5
+	for <lists+linux-input@lfdr.de>; Fri, 31 Jul 2020 15:26:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728379AbgGaNHc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 31 Jul 2020 09:07:32 -0400
-Received: from mail.astralinux.ru ([217.74.38.120]:52526 "EHLO astralinux.ru"
+        id S1730217AbgGaN01 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 31 Jul 2020 09:26:27 -0400
+Received: from mail-am6eur05on2068.outbound.protection.outlook.com ([40.107.22.68]:7520
+        "EHLO EUR05-AM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726306AbgGaNHc (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 31 Jul 2020 09:07:32 -0400
-Received: from [46.148.196.138] (account dmastykin@astralinux.ru HELO [192.168.32.67])
-  by astralinux.ru (CommuniGate Pro SMTP 6.2.7)
-  with ESMTPSA id 2157173; Fri, 31 Jul 2020 16:04:39 +0300
-Subject: UPD: hid-multitouch: goodix: hovering works as touch
-From:   Dmitry Mastykin <dmastykin@astralinux.ru>
-To:     linux-input@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>, benjamin.tissoires@redhat.com
-References: <8a538cad-c3f2-6172-1d6e-a18c89b51337@astralinux.ru>
-Message-ID: <a2d4bd70-04e7-032d-9e93-b05bb5e9bf2e@astralinux.ru>
-Date:   Fri, 31 Jul 2020 16:07:29 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <8a538cad-c3f2-6172-1d6e-a18c89b51337@astralinux.ru>
-Content-Type: text/plain; charset=utf-8; format=flowed
+        id S1728252AbgGaN00 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 31 Jul 2020 09:26:26 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Fvl3IfAIhTuNZskvahn7ezKRobI3hYNIEatSasMOikx/xPGs/fkVgjiUK0pVUEzhdTw/cxgLp0s6LJ/CAc8wtMf5jHu6igUptN64k2coRqxPwa/I813If5oTEjGUucA5OOMuRHjUNT5w2Pye57yjUeJxWHoSdeYHKmdsrk6bnoqGDnUAaAn1PrlH8fov9uMQZTExAznr83lE3/8KH4bwBY/CMpv5E1yan/vtnDZ8rRwPndksdXPPunsPZJkj5hueJKQ8we3aUiBRxCwIEPX060EyZKubUBWo4DBCxPKsFh+ZHgX5HlUAWRZ9u1OGTB0ALgLqvUI1bXcfIo3D8HwzHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=27CDr72NqOLE3fWrVG23iLfVAXz3w/9hVHD3Na3G6rY=;
+ b=kNEZmz8BV8+fWYLA4egi90AEJDHkGum5nA6jiFzZVolQ39Tk5lFZo26wKhuPZf7h6MWbLAirQv51YjTDhfDRyI4Cy/PxMykaPLAj/F/2ep6wUQSgO4pQZwwvRbPcbF7pb9heGz6seSdlcqu2qtpNIOUktGEUoty0K7xSv4xUf/BEyNLc/GuefRyG2rPbqHsMM7nGRrXPytJkbk9dJ2v7dHLKC1UVsdPYXiVmU61JSdAypG0TIQu+0iHxYwgyQ3t6j1ZUe8aUrsAtZTBb872s4z4EFBy00JhGte8CG+4gpBZWVvPD+i81HN+zbUUSizRIBKBSITUiQTWzX24ckXvJaw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=diasemi.com; dmarc=pass action=none header.from=diasemi.com;
+ dkim=pass header.d=diasemi.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dialogsemiconductor.onmicrosoft.com;
+ s=selector1-dialogsemiconductor-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=27CDr72NqOLE3fWrVG23iLfVAXz3w/9hVHD3Na3G6rY=;
+ b=tUZQrB59tdfl7c+f+INCfEJv6ofv/8fIi1YyPydbMazwnRu+TRQ+NeZ32YSDmGwfEWt/jysloTPp/cFRqyJ9zoLDdVlB2SsR+VFmPo+o9N6RQ/EBbTNbEe0r9hpSeYz0+U4pITBf1g5t7RLkA1Uy5GEkxSQT3qukFyqwQLwyqNI=
+Received: from DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:e9::10)
+ by DBAPR10MB4185.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:1c4::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.20; Fri, 31 Jul
+ 2020 13:26:23 +0000
+Received: from DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::9913:d1be:cd0f:a620]) by DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::9913:d1be:cd0f:a620%6]) with mapi id 15.20.3239.020; Fri, 31 Jul 2020
+ 13:26:22 +0000
+From:   Roy Im <roy.im.opensource@diasemi.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Roy Im <roy.im.opensource@diasemi.com>
+CC:     Uwe Kleine-Koenig <u.kleine-koenig@pengutronix.de>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Brian Masney <masneyb@onstation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Pascal PAILLET-LME <p.paillet@st.com>,
+        Rob Herring <robh@kernel.org>,
+        Samuel Ortiz <sameo@linux.intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Support Opensource <Support.Opensource@diasemi.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>
+Subject: RE: [PATCH v18 3/3] Input: new da7280 haptic driver
+Thread-Topic: [PATCH v18 3/3] Input: new da7280 haptic driver
+Thread-Index: AQHWZVgP/N9464pJ20GmrAtQIjgduqkeGogAgAB+nQCAAPuTgIACGZZA
+Date:   Fri, 31 Jul 2020 13:26:22 +0000
+Message-ID: <DB8PR10MB3436DCEFD5A4FDF66B9839EE854E0@DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM>
+References: <cover.1595991580.git.Roy.Im@diasemi.com>
+ <23b3470401ec5cf525add8e1227cb67586b9f294.1595991580.git.Roy.Im@diasemi.com>
+ <20200729063638.GY1665100@dtor-ws>
+ <DB8PR10MB3436EF37E1F1581BDB7996C785700@DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM>
+ <20200730051013.GB1665100@dtor-ws>
+In-Reply-To: <20200730051013.GB1665100@dtor-ws>
+Accept-Language: ko-KR, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=diasemi.com;
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [1.234.57.56]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 4af37b7f-ced9-42b1-113e-08d835555186
+x-ms-traffictypediagnostic: DBAPR10MB4185:
+x-ms-exchange-sharedmailbox-routingagent-processed: True
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DBAPR10MB41859E2FD48B6CDAFF8E7A97A24E0@DBAPR10MB4185.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: uyjEt1guyDH8ygl9oHOtHp1c6a7wGhXQQBFgnWrHmCECFW3LOVy+/084VOac1ZM2X5zSe+pnBPtSHzaPJUERvbeSGo5AS6tH/ptURBuEMvSIynGeIjiDjYRyNcmZncvmz9Wh4dNT2KxlrEBmSDHUN0cwGMsIQ9HO0oeueb9RqxJxhqD4k9cso8DHHbDsZtam8zfBA6U6uApcKIBjzPbNiXHoPNsJv9hIfDx1TsV9SpHG52nzKZBs0d/zeHPj5K14pwL5j31CkcjysiB2qNCXCNoObX28jPnrjeVeQfhDvKT8sQX7iF4b37/8fSHppJijBscCipaL6Knp6H92OdTktQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(396003)(136003)(366004)(376002)(39860400002)(346002)(55016002)(8936002)(7416002)(316002)(110136005)(186003)(54906003)(52536014)(6506007)(26005)(86362001)(9686003)(71200400001)(2906002)(8676002)(7696005)(5660300002)(33656002)(83380400001)(76116006)(66946007)(66446008)(64756008)(66556008)(66476007)(4326008)(478600001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: NcTOEZUbPpIMd3wtRVsifphlUaYxJqbntSWj2TtzZ37paxYzZqD5cW+LNT5QqPaKGDvKI4/NzsXxs+R88UAdKIa4PuJi6WTUY1O7m6BOMPGu9/F5BEtQYktz9cl8KfGjT3xJjiJK8PYlwgZdddj0olJUnsLrcVklYFf7uitwoj8UKOW0uZSBjbA35GigSYdZoSCVvZvSYWJGzVsF5GzMCst7OHA7eT4oc6UfdcVnnwsZrB3w8SEFMGQRx1nfu8PPnsEfQ0yIeR/63iFT6HmjG6h9Brl8z3jzCPMrGSN2tJbUDauruprkiE4P0s7w/Q6f7x81yVeHWutLLnag+bzSFRpTjUQAlHWajeF2jNBFwiiV+wR6WlA4SiL3Z56Rl8AYn+p5BvSf2FFLpe78z/H+f9CXzCZx1Fgwkvdw7TZYgdKhr/mBsI6ao3T4TZIOTIwkm5C0a1euBx8ogmAnUzmQhg/10dBihL5NDv+RR/yAJEBq8qhxNE3gBYXJQEKiH0rOHS66+OaME9z7x2KckPnYDNKk9Ikhk7qHTcrBPwtpllc0X3Jl9wXeO36n5COc81J1nC5EvIQ044izrCz0uJ0BE4IFR2glakpY5yFJuNYxdOlNs16c/hBwbxNG/Mur1yXypXpMO0oGyvfs5NbnzWrNOQ==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: diasemi.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4af37b7f-ced9-42b1-113e-08d835555186
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Jul 2020 13:26:22.8038
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: b61pf1YwTISkytQ++w3NXXFJ0VUU+NBtMiP178Bh3XNniFnIsxpTYzq4k1CbxWkT7jrKS8OmeUgKJY44tCG8kw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR10MB4185
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
-I tried touchscreen with kernel 4.15 (ubuntu) and hid-multitouch gives 
-me BTN_TOOL_PEN and BTN_TOUCH events, so both hovering and touching work.
-Back to kernel 5.4 I noticed that I don't see BTN_TOUCH among supported 
-events, despite of this (hid-multitouch/mt_touch_input_mapping):
 
-case HID_DG_TIPSWITCH:
-	if (field->application != HID_GD_SYSTEM_MULTIAXIS) {
-		input_set_capability(hi->input, EV_KEY, BTN_TOUCH);
-	}
-	MT_STORE_FIELD(tip_state);
-	return 1;
+On Thu, July 30, 2020 2:10 PM, Dmitry Torokhov
+> On Wed, Jul 29, 2020 at 02:09:48PM +0000, Roy Im wrote:
+> > Wednesday, July 29, 2020 3:37 PM, Dmitry Torokhov wrote:
+> > > On Wed, Jul 29, 2020 at 11:59:40AM +0900, Roy Im wrote:
+> > > > v11:
+> > > > 	- Updated the pwm related code, comments and typo.
+> > > > v10:
+> > > > 	- Updated the pwm related function and added some comments.
+> > > > v9:
+> > > > 	- Removed the header file and put the definitions into the c file.
+> > > > 	- Updated the pwm code and error logs with %pE
+> > >
+> > > I believe the %pE is to format an escaped buffer, you probably want
+> > > to %pe (lowercase) to print errors. I am also not quite sure if we wa=
+nt to use it in cases when we have non-pointer error, or
+> we should stick with %d as most of the kernel does.
+> >
+> > Right, it should be %pe as you and Uwe said, Uwe suggested %pe to under=
+stand easier.. do you still prefer to stick with %d?
+>=20
+> Depends on the situation. If you already have ERR_PTR-encoded error there=
+ is no reason for not using %pe, but if you have
+> integer error, or you have already converted pointer to integer I'd prefe=
+r we stick with %d.
+>=20
+> As I mentioned in another message maybe we should consider adding '%de'
+> or similar for formatting integer errors.
 
-But after I added:
-case HID_DG_ERASER: // comes from my device
-	return -1;
+I have seen the discussion messages in another email, then I am not still q=
+uite sure what could be good for now.
+Do you still prefer to be with %d if I have already converted pointer to in=
+teger and with %pe for something that I already have ERR_PTR-encoded error?
 
-BTN_TOUCH appeared again in supported events, and I see it appearing in 
-evtest output in the moments of start/stop hovering. I would like to see 
-BTN_TOOL_PEN instead...
-
-Please, could you suggest, where could be a problem?
-Thank you very much!
-Dmitry Mastykin
-
-
-On 7/30/20 7:23 PM, Dmitry Mastykin wrote:
-> Hello all,
-> 
-> I'm using a notebook with Goodix gt7385p touchscreen controller in HID 
-> Protocol Device (I2C bus) mode.
-> 
-> hid-multitouch driver is servicing this device. I added this to be sure 
-> the quirks set:
->      { .driver_data = MT_CLS_WIN_8_DUAL,
->          HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
->              I2C_VENDOR_ID_GOODIX,
->              I2C_DEVICE_ID_GOODIX_0113) },
-> 
-> The problem is that hovering works as touch, and UI menus and buttons 
-> are activated before I touch the panel with stylus. I attach evtest 
-> output of touching panel be stylus and removing stylus away.
-> 
-> Trying a wacom pen tablet, borrowed from my daughter, I see that they 
-> use such a sequence:
-> EV_KEY BTN_TOOL_PEN 1 - start hovering here
-> EV_KEY BTN_TOUCH 1 - start touching
-> EV_KEY BTN_TOUCH 0 - stop touching
-> EV_KEY BTN_TOOL_PEN 0 - stop hovering
-> 
-> Just to make the touchscreen working I tried to add BTN_TOUCH reports to 
-> hid-multitouch for my device. But as soon as I add 
-> input_set_capability(hi->input, EV_KEY, BTN_TOUCH), I see BTN_TOUCH 0 / 
-> BTN_TOUCH 1 pair in every report.
-> 
-> So 2 questions that I have:
-> 1) is the sequence in evtest.txt correct?
-> 2) who may report BTN_TOUCH 0/1 pairs when BTN_TOUCH capability is 
-> added? I tried to search with debug messages in hid-input.c and 
-> hid-multitouch.c but without success.
-> 
-> Thank you in advance!
-> Dmitry Mastykin
-> 
-> Here is the citation from dmesg:
-> ----------------------------------------------------------------------
-> [    5.032956] i2c_hid i2c-GXTP7380:00: i2c-GXTP7380:00 supply vdd not 
-> found, using dummy regulator
-> [    5.032979] i2c_hid i2c-GXTP7380:00: i2c-GXTP7380:00 supply vddl not 
-> found, using dummy regulator                [    5.088245] input: 
-> GXTP7380:00 27C6:0113 Touchscreen as 
-> /devices/pci0000:00/0000:00:17.0/i2c_designware.4/i2c-9/i
-> 2c-GXTP7380:00/0018:27C6:0113.0001/input/input14 
->                                             [    5.109607] input: 
-> GXTP7380:00 27C6:0113 as 
-> /devices/pci0000:00/0000:00:17.0/i2c_designware.4/i2c-9/i2c-GXTP7380:
-> 00/0018:27C6:0113.0001/input/input15 
->                                             [    5.112486] input: 
-> GXTP7380:00 27C6:0113 as 
-> /devices/pci0000:00/0000:00:17.0/i2c_designware.4/i2c-9/i2c-GXTP7380:
-> 00/0018:27C6:0113.0001/input/input16 
->                                             [    5.112561] hid-generic 
-> 0018:27C6:0113.0001: input,hidraw0: I2C HID v1.00 Device [GXTP7380:00 
-> 27C6:0113] on i2c-G
-> XTP7380:00                                            [    6.417241] 
-> input: GXTP7380:00 27C6:0113 as 
-> /devices/pci0000:00/0000:00:17.0/i2c_designware.4/i2c-9/i2c-GXTP7380:
-> 00/0018:27C6:0113.0001/input/input20 
->                                             [    6.417833] input: 
-> GXTP7380:00 27C6:0113 Stylus as 
-> /devices/pci0000:00/0000:00:17.0/i2c_designware.4/i2c-9/i2c-GX
-> TP7380:00/0018:27C6:0113.0001/input/input21 
->                                             [    6.417902] input: 
-> GXTP7380:00 27C6:0113 UNKNOWN as 
-> /devices/pci0000:00/0000:00:17.0/i2c_designware.4/i2c-9/i2c-G
-> XTP7380:00/0018:27C6:0113.0001/input/input22 
->                                             [    6.417973] 
-> hid-multitouch 0018:27C6:0113.0001: input,hidraw0: I2C HID v1.00 Device 
-> [GXTP7380:00 27C6:0113] on i2
-> c-GXTP7380:00
-
-
-evtest.txt
-Input driver version is 1.0.1
-Input device ID: bus 0x18 vendor 0x27c6 product 0x113 version 0x100
-Input device name: "GXTP7380:00 27C6:0113 Stylus"
-Supported events:
-   Event type 0 (EV_SYN)
-   Event type 1 (EV_KEY)
-   Event type 3 (EV_ABS)
-     Event code 47 (ABS_MT_SLOT)
-       Value      0
-       Min        0
-       Max        9
-     Event code 53 (ABS_MT_POSITION_X)
-       Value      0
-       Min        0
-       Max      960
-       Resolution       4
-     Event code 54 (ABS_MT_POSITION_Y)
-       Value      0
-       Min        0
-       Max      540
-       Resolution       3
-     Event code 57 (ABS_MT_TRACKING_ID)
-       Value      0
-       Min        0
-       Max    65535
-     Event code 58 (ABS_MT_PRESSURE)
-       Value      0
-       Min        0
-       Max     1023
-     Event code 59 (ABS_MT_DISTANCE)
-       Value      0
-       Min        0
-       Max        1
-Properties:
-   Property type 1 (INPUT_PROP_DIRECT)
-Testing ... (interrupt to exit)
-Event: time 1596124249.087943, type 3 (EV_ABS), code 57 
-(ABS_MT_TRACKING_ID), value 0
-Event: time 1596124249.087943, type 3 (EV_ABS), code 53 
-(ABS_MT_POSITION_X), value 599
-Event: time 1596124249.087943, type 3 (EV_ABS), code 54 
-(ABS_MT_POSITION_Y), value 340
-Event: time 1596124249.087943, type 3 (EV_ABS), code 59 
-(ABS_MT_DISTANCE), value 1
-Event: time 1596124249.087943, type 3 (EV_ABS), code 58 
-(ABS_MT_PRESSURE), value 139
-Event: time 1596124249.087943, -------------- SYN_REPORT ------------
-Event: time 1596124249.097234, type 3 (EV_ABS), code 59 
-(ABS_MT_DISTANCE), value 0
-Event: time 1596124249.097234, type 3 (EV_ABS), code 58 
-(ABS_MT_PRESSURE), value 201
-Event: time 1596124249.097234, -------------- SYN_REPORT ------------
-Event: time 1596124249.101803, type 3 (EV_ABS), code 58 
-(ABS_MT_PRESSURE), value 260
-Event: time 1596124249.101803, -------------- SYN_REPORT ------------
-Event: time 1596124249.112267, type 3 (EV_ABS), code 58 
-(ABS_MT_PRESSURE), value 289
-Event: time 1596124249.112267, -------------- SYN_REPORT ------------
-Event: time 1596124249.116674, type 3 (EV_ABS), code 58 
-(ABS_MT_PRESSURE), value 266
-Event: time 1596124249.116674, -------------- SYN_REPORT ------------
-Event: time 1596124249.127249, type 3 (EV_ABS), code 53 
-(ABS_MT_POSITION_X), value 598
-Event: time 1596124249.127249, type 3 (EV_ABS), code 58 
-(ABS_MT_PRESSURE), value 223
-Event: time 1596124249.127249, -------------- SYN_REPORT ------------
-Event: time 1596124249.131745, type 3 (EV_ABS), code 54 
-(ABS_MT_POSITION_Y), value 339
-Event: time 1596124249.131745, type 3 (EV_ABS), code 58 
-(ABS_MT_PRESSURE), value 181
-Event: time 1596124249.131745, -------------- SYN_REPORT ------------
-Event: time 1596124249.142256, type 3 (EV_ABS), code 53 
-(ABS_MT_POSITION_X), value 597
-Event: time 1596124249.142256, type 3 (EV_ABS), code 54 
-(ABS_MT_POSITION_Y), value 338
-Event: time 1596124249.142256, type 3 (EV_ABS), code 58 
-(ABS_MT_PRESSURE), value 161
-Event: time 1596124249.142256, -------------- SYN_REPORT ------------
-Event: time 1596124249.146603, type 3 (EV_ABS), code 53 
-(ABS_MT_POSITION_X), value 596
-Event: time 1596124249.146603, type 3 (EV_ABS), code 54 
-(ABS_MT_POSITION_Y), value 337
-Event: time 1596124249.146603, type 3 (EV_ABS), code 59 
-(ABS_MT_DISTANCE), value 1
-Event: time 1596124249.146603, type 3 (EV_ABS), code 58 
-(ABS_MT_PRESSURE), value 0
-Event: time 1596124249.146603, -------------- SYN_REPORT ------------
-Event: time 1596124249.172060, type 3 (EV_ABS), code 54 
-(ABS_MT_POSITION_Y), value 336
-Event: time 1596124249.172060, -------------- SYN_REPORT ------------
-Event: time 1596124249.202273, type 3 (EV_ABS), code 53 
-(ABS_MT_POSITION_X), value 595
-Event: time 1596124249.202273, type 3 (EV_ABS), code 54 
-(ABS_MT_POSITION_Y), value 335
-Event: time 1596124249.202273, -------------- SYN_REPORT ------------
-Event: time 1596124249.206695, type 3 (EV_ABS), code 54 
-(ABS_MT_POSITION_Y), value 334
-Event: time 1596124249.206695, -------------- SYN_REPORT ------------
-Event: time 1596124249.217088, type 3 (EV_ABS), code 54 
-(ABS_MT_POSITION_Y), value 333
-Event: time 1596124249.217088, -------------- SYN_REPORT ------------
-Event: time 1596124249.232096, type 3 (EV_ABS), code 54 
-(ABS_MT_POSITION_Y), value 331
-Event: time 1596124249.232096, -------------- SYN_REPORT ------------
-Event: time 1596124249.236768, type 3 (EV_ABS), code 54 
-(ABS_MT_POSITION_Y), value 330
-Event: time 1596124249.236768, -------------- SYN_REPORT ------------
-Event: time 1596124249.247150, type 3 (EV_ABS), code 54 
-(ABS_MT_POSITION_Y), value 329
-Event: time 1596124249.247150, -------------- SYN_REPORT ------------
-Event: time 1596124249.251871, type 3 (EV_ABS), code 54 
-(ABS_MT_POSITION_Y), value 328
-Event: time 1596124249.251871, -------------- SYN_REPORT ------------
-Event: time 1596124249.262288, type 3 (EV_ABS), code 57 
-(ABS_MT_TRACKING_ID), value -1
-Event: time 1596124249.262288, -------------- SYN_REPORT ------------
-
+Kind regards,
+Roy
