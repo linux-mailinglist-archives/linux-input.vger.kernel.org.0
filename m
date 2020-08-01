@@ -2,159 +2,127 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AE51235101
-	for <lists+linux-input@lfdr.de>; Sat,  1 Aug 2020 09:21:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C308B2351BC
+	for <lists+linux-input@lfdr.de>; Sat,  1 Aug 2020 12:42:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725283AbgHAHVl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 1 Aug 2020 03:21:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36336 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725876AbgHAHVk (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 1 Aug 2020 03:21:40 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26DB3C06174A
-        for <linux-input@vger.kernel.org>; Sat,  1 Aug 2020 00:21:40 -0700 (PDT)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1k1lpj-0005h2-W5; Sat, 01 Aug 2020 09:21:32 +0200
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1k1lpi-0001it-Gr; Sat, 01 Aug 2020 09:21:30 +0200
-Date:   Sat, 1 Aug 2020 09:21:30 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Brian Norris <briannorris@chromium.org>,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-pwm@vger.kernel.org,
-        Yu-Hsuan Hsu <yuhsuan@chromium.org>,
-        Prashant Malani <pmalani@chromium.org>
-Subject: Re: [PATCH v3 4/6] pwm: cros-ec: Accept more error codes from
- cros_ec_cmd_xfer_status
-Message-ID: <20200801072130.tmm7b4vtizshmmyo@pengutronix.de>
-References: <20200726220101.29059-1-linux@roeck-us.net>
- <20200726220101.29059-5-linux@roeck-us.net>
+        id S1727984AbgHAKmw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 1 Aug 2020 06:42:52 -0400
+Received: from smtpo31.poczta.onet.pl ([213.180.142.162]:54424 "EHLO
+        smtpo31.poczta.onet.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725931AbgHAKmw (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 1 Aug 2020 06:42:52 -0400
+X-Greylist: delayed 522 seconds by postgrey-1.27 at vger.kernel.org; Sat, 01 Aug 2020 06:42:50 EDT
+Received: from [192.168.5.106] (89-67-8-76.dynamic.chello.pl [89.67.8.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dragonn@op.pl)
+        by smtp.poczta.onet.pl (Onet) with ESMTPSA id 4BJgVf38XXz1XQCMG
+        for <linux-input@vger.kernel.org>; Sat,  1 Aug 2020 12:34:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=op.pl; s=2011;
+        t=1596278042; bh=KeFrB4aKWFka5VY0UgH63uL2C8TPvumeiAOzUV5IN2Y=;
+        h=To:From:Subject:Date:From;
+        b=jCDJDdDSrsyvevhWJ++EVO4iDY6zgKSdUuhKMldyxTtDQtIphEbaiCYZ1Zq8YK3xN
+         NL8EmJguvJsmP7xQ4OJ/IpJpIwNfSyuWY83JVriuY+rny78S0gTvJnw5dwiGt8QNuB
+         +n6BLnKHsanFDoJjVrgbJ4oa1umuDJkJoRVvMAN8=
+To:     linux-input@vger.kernel.org
+From:   Mateusz Schyboll <dragonn@op.pl>
+Subject: [PATCH] i8042: asus: ignore PNP detection on lates ROG G14/15 laptops
+Message-ID: <defa4aa9-1134-e936-1438-d3c925286ffe@op.pl>
+Date:   Sat, 1 Aug 2020 12:33:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="3weddawyjtsgyw2o"
-Content-Disposition: inline
-In-Reply-To: <20200726220101.29059-5-linux@roeck-us.net>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ONET_PL-MDA-SEGREGATION: 0
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Recent ASUS laptops (G14 and G15) don't have a PS/2 PNP devices.
+Because of that the i8042 module refuses to load when it is build
+as external module (for example this is the cause on Arch).
+But the module is needed to get asus_nb_wmi loaded, without i8042
+it will not load due missing symbols. This is only due a legacy
+device Q500 using some i8042 filters in the asus_nb_wmi module.
 
---3weddawyjtsgyw2o
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+asus_nb_wmi is need on that devices to get basic fan control
+via throttle_thermal_policy.
 
-On Sun, Jul 26, 2020 at 03:00:59PM -0700, Guenter Roeck wrote:
-> Since commit c5cd2b47b203 ("platform/chrome: cros_ec_proto: Report command
-> not supported") we can no longer assume that cros_ec_cmd_xfer_status()
-> reports -EPROTO for all errors returned by the EC itself. A follow-up
-> patch will change cros_ec_cmd_xfer_status() to report additional errors
-> reported by the EC as distinguished Linux error codes.
->=20
-> Handle this change by no longer assuming that only -EPROTO is used
-> to report all errors returned by the EC itself. Instead, support both
-> the old and the new error codes.
->=20
-> Cc: Gwendal Grignou <gwendal@chromium.org>
-> Cc: Yu-Hsuan Hsu <yuhsuan@chromium.org>
-> Cc: Prashant Malani <pmalani@chromium.org>
-> Cc: Brian Norris <briannorris@chromium.org>
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> ---
-> v3: Added patch
->=20
->  drivers/pwm/pwm-cros-ec.c | 21 ++++++++++++++-------
->  1 file changed, 14 insertions(+), 7 deletions(-)
->=20
-> diff --git a/drivers/pwm/pwm-cros-ec.c b/drivers/pwm/pwm-cros-ec.c
-> index 09c08dee099e..ef05fba1bd37 100644
-> --- a/drivers/pwm/pwm-cros-ec.c
-> +++ b/drivers/pwm/pwm-cros-ec.c
-> @@ -213,20 +213,27 @@ static int cros_ec_num_pwms(struct cros_ec_device *=
-ec)
->  		u32 result =3D 0;
-> =20
->  		ret =3D __cros_ec_pwm_get_duty(ec, i, &result);
-> -		/* We want to parse EC protocol errors */
-> -		if (ret < 0 && !(ret =3D=3D -EPROTO && result))
-> -			return ret;
-> -
->  		/*
->  		 * We look for SUCCESS, INVALID_COMMAND, or INVALID_PARAM
->  		 * responses; everything else is treated as an error.
->  		 */
+This patch adds all dmi board name to the i8042_dmi_nopnp_table.
+So their users don't have to boot with kernel parameter i8042.nopnp
+and have a better out-of-box experience on Linux with listed devices.
 
-This comment is at least misleading now.
+Signed-off-by: Mateusz Schyboll <dragonn@op.pl>
+---
+  drivers/input/serio/i8042-x86ia64io.h | 49 +++++++++++++++++++++++++++
+  1 file changed, 49 insertions(+)
 
-> -		if (result =3D=3D EC_RES_INVALID_COMMAND)
-> +		switch (ret) {
-> +		case -EOPNOTSUPP:	/* invalid command */
->  			return -ENODEV;
+diff --git a/drivers/input/serio/i8042-x86ia64io.h 
+b/drivers/input/serio/i8042-x86ia64io.h
+index 7d7f73702726..55db7e96488d 100644
+--- a/drivers/input/serio/i8042-x86ia64io.h
++++ b/drivers/input/serio/i8042-x86ia64io.h
+@@ -705,6 +705,55 @@ static const struct dmi_system_id __initconst 
+i8042_dmi_nopnp_table[] = {
+              DMI_MATCH(DMI_BOARD_VENDOR, "MICRO-STAR INTERNATIONAL CO., 
+LTD"),
+          },
+      },
++    {
++        /* ASUS ROG Zephyreus G14 GA401IH */
++        .matches = {
++            DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++            DMI_MATCH(DMI_PRODUCT_NAME, "GA401IH"),
++        },
++    },
++    {
++        /* ASUS ROG Zephyreus G14 GA401II */
++        .matches = {
++            DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++            DMI_MATCH(DMI_PRODUCT_NAME, "GA401II"),
++        },
++    },
++    {
++        /* ASUS ROG Zephyreus G14 GA401IU */
++        .matches = {
++            DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++            DMI_MATCH(DMI_PRODUCT_NAME, "GA401IU"),
++        },
++    },
++    {
++        /* ASUS ROG Zephyreus G14 GA401IV */
++        .matches = {
++            DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++            DMI_MATCH(DMI_PRODUCT_NAME, "GA401IV"),
++        },
++    },
++    {
++        /* ASUS ROG Zephyreus G15 GA502II */
++        .matches = {
++            DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++            DMI_MATCH(DMI_PRODUCT_NAME, "GA502II"),
++        },
++    },
++    {
++        /* ASUS ROG Zephyreus G15 GA502IU */
++        .matches = {
++            DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++            DMI_MATCH(DMI_PRODUCT_NAME, "GA502IU"),
++        },
++    },
++    {
++        /* ASUS ROG Zephyreus G15 GA502IV */
++        .matches = {
++            DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER INC."),
++            DMI_MATCH(DMI_PRODUCT_NAME, "GA502IV"),
++        },
++    },
+      { }
+  };
 
-My first reaction here was to wonder why -EOPNOTSUPP isn't passed to the
-upper layer. OK, this is a loop to test the number of available devices.
+-- 
+2.28.0
 
-> -		else if (result =3D=3D EC_RES_INVALID_PARAM)
-> +		case -EINVAL:		/* invalid parameter */
->  			return i;
-> -		else if (result)
-> +		case -EPROTO:
-> +			/* Old or new error return code: Handle both */
-> +			if (result =3D=3D EC_RES_INVALID_COMMAND)
-> +				return -ENODEV;
-> +			else if (result =3D=3D EC_RES_INVALID_PARAM)
-> +				return i;
-
-If I understand correctly this surprising calling convention (output
-parameter is filled even though the function returned an error) is the
-old one that is to be fixed.
-
->  			return -EPROTO;
-> +		default:
-> +			if (ret < 0)
-> +				return ret;
-> +			break;
-> +		}
->  	}
-> =20
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---3weddawyjtsgyw2o
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl8lF/cACgkQwfwUeK3K
-7Aljxwf8CdiR6S9sD/CztU399KIbaE0uKqUCKCvY1/0R0KU7g8DOkHY3cQiONyZa
-FxSU5PoBJygDvyyIxIH/IMJ1EM1LIQICzLEg+M+13vlIo8uJFLqZo2CmjjDGhRfw
-svh2w9hQvw/g2nXiNm5AlAvmWfKdmd5Z0ltOpefhPmJxGFe8wqgpkN4bYmbA4VcD
-MEQz4A6+67fqrbEpIXlGSN7wflWFqkYFyG1dfPnBuP0CLxt8jrwCO2w79ljqEggE
-b0Y7FEXtgp9vVOodHFrmq4+MWvdhneoBk3xz2FTjON3UzZs2UfmGI5QwIIipkcvs
-1TZNyp5DFlpOciTzPyZCccXgP70jMg==
-=226A
------END PGP SIGNATURE-----
-
---3weddawyjtsgyw2o--
