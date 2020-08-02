@@ -2,68 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CDE25239CE2
-	for <lists+linux-input@lfdr.de>; Mon,  3 Aug 2020 00:50:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76465239CFE
+	for <lists+linux-input@lfdr.de>; Mon,  3 Aug 2020 01:41:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726968AbgHBWuW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 2 Aug 2020 18:50:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58056 "EHLO
+        id S1726963AbgHBXli (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 2 Aug 2020 19:41:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726841AbgHBWuW (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 2 Aug 2020 18:50:22 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E598C06174A
-        for <linux-input@vger.kernel.org>; Sun,  2 Aug 2020 15:50:22 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id ep8so1068743pjb.3
-        for <linux-input@vger.kernel.org>; Sun, 02 Aug 2020 15:50:22 -0700 (PDT)
+        with ESMTP id S1726797AbgHBXli (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 2 Aug 2020 19:41:38 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06137C06174A;
+        Sun,  2 Aug 2020 16:41:37 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id w19so6861104plq.3;
+        Sun, 02 Aug 2020 16:41:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=cHkqUZy+yIt7raPhCf2fIfBGLjBJ16Jc00rQTBopIug=;
-        b=mvmeZjb39vX+cZkTM+ZqWGaClCmIwmLjZOlUK1wJXHIyTt5fWLSjXMYLMrV+4VKlpa
-         dGS58+zpLfR/Hf6YUVO3C+DRYlYghFO1gni+VcI6CmdR7BEGGf9KrvJ/lrynBJAaBd5Y
-         UZB/pf3H0MAcs2XLQLEAqRQ+BWotdYvQPfprQeIyVMChSaLZUXL7vHkNwy4Sq6+7c3Ya
-         Zy7vCIyjVkDHQZFtRvdYwO61BRLmABooK+2CPCxtIGW8K75MUMXUihxTGve1QdMMMFOe
-         T6kZNsOGEY5VukdkczBhnyS+eyanM0IigqkpT1QW76aak5e6ZkXTj/vBY9TJ8NgC6mAw
-         /WlQ==
+        bh=jGI41XB81DAOy+x4mHr8zcuL2LpI3mspZKnBVCKoWZg=;
+        b=lWLGTETZwJK1Wi3nJpuD5Vzlpd5UZvtLDpZW2wHZ/bagPG2bup2srOV740P4mv0zyQ
+         2YflFr7Y/TfDItVILZJEcyTSrb6OmD8Fwo5JgBXk2WJAovL5PfhKyzJ5HoG87ohJKJWo
+         KCqPEaJBcKZTCj6Cb1r8ZXUNixfwVoIOzkJ+0zmiZ+5CZrVIaP0DMMgFpEe4UtrMzsbo
+         8BU1qZH4KMv3gIK8apuoMutZs4HzzN4f1ChGaN06wTDUpTvz6qwDJZchN3Xhy3iPyCut
+         DOwAAhCyJilDbnlOviJiCNAFdcxAB9VikfFExDYR2PzRd8fkUyehS06ri1fk7t0zeUTJ
+         PQaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=cHkqUZy+yIt7raPhCf2fIfBGLjBJ16Jc00rQTBopIug=;
-        b=pybOdk1RYyDMjwTNmxGMa0h6CmSUzmgK6thVJ4o5HpWdYPTAYmCV/DeU+r7yTLgk8t
-         XQ0GuOMUDNW2kxQcfYiQQgl/m+jtPtpxCW5wtNhk8PaX2PhDk6Z80HxvBmM1QunqqNOD
-         M0QKMXMCCy35ckml3xHROBHMkMdCKChtJMSSZT9FXmEWRzXK57RbCKa6R+UvgiQ1rjzB
-         JkqWOGgAbeN/Ael1K3v+bA/5V7cjL3kpSHwwvH4Yw4AmOETp5g5dC2M90MTAOf1I5TDc
-         qUD+tyqPxO8J3zpaCv3Mdlgo4eeiaZ+WeWH/eoT2BVoBKU29KoZrXYLFla5TJ/dKEgUQ
-         hhQw==
-X-Gm-Message-State: AOAM533W1jV9lZBj9dul/X0KJ4dhR3vw6ow/fQVn8YczRMUBWmTE9hKX
-        +85BUMJIN2uGys0QDCXOPOg=
-X-Google-Smtp-Source: ABdhPJxfdkN1DdAhkFWOK6C1d0Em7a7a7GV7XLgXFaiCH0s1dCkRnAMbzpw85Nv1NI1vcYweXA5tuw==
-X-Received: by 2002:a17:902:aa84:: with SMTP id d4mr12207505plr.208.1596408621517;
-        Sun, 02 Aug 2020 15:50:21 -0700 (PDT)
+        bh=jGI41XB81DAOy+x4mHr8zcuL2LpI3mspZKnBVCKoWZg=;
+        b=IIp0BdfAudMqTU0xiZVsBd0MT6EcL7Y222HQFs+cvy037xr44o3b/pvXUGJPzEAwlY
+         hfrWDr9RTFfQZGZGbpgK77xI/RJIbYqUKSubRGAXgn4uXyuhrw3rIQ/e3C/Jbyrw4NXu
+         eJmDo9DS1Ga0fE4Y41BnenhAZzYxsHiF4/9yP0vsfP+62LwD6dWajpoUUFy/phyCXj3c
+         mFR7ccRdsJgRNGZNyifGJ9VhdlKHYlmvO4oY0PbVShH3BBwjBl1tUK5mJam1gZUoKGA8
+         03mTJnc1qLkt5VPenyt6iS8tlSXozlvxvl17SH3PABzb4uLvXYpjFWsHeThy9RzYvSw5
+         sH7A==
+X-Gm-Message-State: AOAM5330si7VWNVjUnv9z3OUDS3n9U58JSscAQb2VfCr2znlYScF3XyG
+        gRUWlr9Q042CrPALnRyYSHjXJHVrcnHPfA==
+X-Google-Smtp-Source: ABdhPJwajcpCi15Y3pT3yEzW0qcT4bbh5tIoONKxIGx0jY3xuZWnPC1wVvjNT4nFG9p5LmhexCpcmg==
+X-Received: by 2002:a17:902:2:: with SMTP id 2mr12672438pla.288.1596411696894;
+        Sun, 02 Aug 2020 16:41:36 -0700 (PDT)
 Received: from ?IPv6:2604:4080:1012:8d30:d41e:852f:649b:7856? ([2604:4080:1012:8d30:d41e:852f:649b:7856])
-        by smtp.gmail.com with ESMTPSA id t10sm14724236pga.73.2020.08.02.15.50.20
+        by smtp.gmail.com with ESMTPSA id c17sm13023940pfp.214.2020.08.02.16.41.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 02 Aug 2020 15:50:20 -0700 (PDT)
-Subject: Re: [PATCH] Input: xpad: Remove a conflicting Razer Sabertooth using
- the VID/PID for the Razer DeathAdder 2013 mouse
+        Sun, 02 Aug 2020 16:41:36 -0700 (PDT)
+Subject: Re: [PATCH] Input: xpad: Spelling fixes for "Xbox", improve and
+ proofread the listed xpad device names
 To:     Swyter <swyterzone@gmail.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org,
-        Benjamin Valentin <benpicco@zedat.fu-berlin.de>
-References: <b9e7cb27-1866-83bb-b453-ae265ab6bde6@gmail.com>
- <a66472a1-b07a-169c-20dc-6d5e51d4d3bc@gmail.com>
- <a6fd180e-a915-1eef-5d8d-8e260cb3c709@gmail.com>
+Cc:     linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+References: <e864b39b-27e0-c6f2-76e8-db465916f310@gmail.com>
+ <60d8977a-159f-f2c5-e0c1-7691fb5b2571@gmail.com>
+ <407164a2-0762-8b27-065b-27378f881327@gmail.com>
 From:   Cameron Gutman <aicommander@gmail.com>
-Message-ID: <f4f0fa65-3950-249e-c183-4dd632326c91@gmail.com>
-Date:   Sun, 2 Aug 2020 15:50:20 -0700
+Message-ID: <d6cf6ad7-ef97-baf2-6326-cd022a695e95@gmail.com>
+Date:   Sun, 2 Aug 2020 16:41:35 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <a6fd180e-a915-1eef-5d8d-8e260cb3c709@gmail.com>
+In-Reply-To: <407164a2-0762-8b27-065b-27378f881327@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -72,68 +72,86 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 7/30/20 11:14 PM, Swyter wrote:
-> On 31/07/2020 7:54, Cameron Gutman wrote:
->> On 7/30/20 8:44 AM, Ismael Ferreras Morezuelas wrote:
->>> -	{ 0x1532, 0x0037, "Razer Sabertooth", 0, XTYPE_XBOX360 },
->>>
+On 7/30/20 11:54 PM, Swyter wrote:
+> On 31/07/2020 8:33, Cameron Gutman wrote:
+>>> While doing my research I also noticed that the 1532:0037 VID/PID seems to
+>>> be used by the DeathAdder 2013, so that Razer Sabertooth instance looks
+>>> wrong and very suspect to me, I created a separate patch for that.
 >>
->> The list here doesn't actually affect which devices that xpad will attach to.
->> xpad_table[] is what determines the devices that xpad's probe() will be
->> called for. It does this using the VID + vendor-defined interface subclass
->> and interface number, not the VID+PID combos. xpad_device[] just provides a
->> friendly name and quirk flags for some supported gamepads. Gamepads that
->> aren't in the list will just show up as "Generic X-Box pad" with no quirk
->> flags applied.
+>> The above sentence probably doesn't belong in the commit message.
 >>
->> If 1532:0037 is actually a mouse, it's unlikely we'd even reach the probe()
->> in the first place. The device would lack the expected vendor-defined Xbox
->> interface that is required for xpad to attach to the device.
+> 
+> Fair enough, I should probably turn that into "reviewer" notes.
+> I think I mentioned it because I didn't update that bad entry.
+> 
+> Thinking it would be deleted soon. But good point.
+> 
+> 
+>> The docs and comment changes look fine to me.
+> 
+> Great, I was a bit wary about this.
+> 
+> 
+>> I'm somewhat concerned about the possibility of breaking userspace by changing
+>> names. Some programs' gamepad mappings may be dependent on matching the device
+>> names, rather than the VID+PID.
 >>
->> All that said, I'm definitely not opposed to removing the entry if it isn't
->> a real gamepad. Given the difficulty you had finding information about this
->> device, I take it you don't have any 'lsusb -v' output for this device, right?
+>> For example, Android did not expose the VID and PID for input devices until
+>> Android 4.4. The device name was the only available attribute for matching
+>> gamepads from Android 2.3 to 4.3. While these ancient Android version will
+>> almost certainly never run a kernel with this patch, I worry about the
+>> possibility of apps that haven't moved to VID+PID matching (and not just for
+>> Android; I don't know if other libraries or frameworks have/had similar
+>> limitations).
+>>
+>> Perhaps my concerns are overblown, but If we aren't worried about changing
+>> names, I'd really prefer to just drop the hardcoded names entirely and use the
+>> manufacturer and product strings provided in the USB string descriptors. The
+>> device list would turn into a quirk list where only device entries with a
+>> special mapping flag like MAP_DPAD_TO_BUTTONS or MAP_TRIGGERS_TO_BUTTONS would
+>> remain, and the device name strings would just become comments on each quirk
+>> entry.
+>>
+>> Thoughts?
+>>
+>>
+>>
 >>
 >> Regards,
 >> Cameron
 >>
 > 
-> Hi, Cameron. Yeah, the main idea is to clean the list, even if as you say it hasn't
-> caused mouse issues and that's why probably nobody has noticed it before.
+> I don't doubt that changing some names will break some basic rule matching.
 > 
-> Because, for some reason, everyone assumes some kind of correctness even when most of
-> these are community-sourced and self-reported, everyone copies these lists from
-> somewhere else. Hopefully the fixes will trickle downstream.
+> But given that the kernel nomenclature is so inconsistent, I think anyone searching
+> for "X-Box" and five other variants will also have to search for the actual "Xbox",
+> or at least I hope so. Keep in mind that I have tried to make each overhauled entry
+> *more* detailed when possible. So now each model has extra information (mainly
+> manufacturer and button-layout type) instead only some vague/informal model name.
 > 
-> So yeah, I know for sure that (for example) the internal list Valve uses comes right from here:
-> https://hg.libsdl.org/SDL/file/7d94464f10f7/src/joystick/controller_type.h#l246
+> SDL2 and Unity abstract these things a bit. I actually implement similar strings
+> checks in my own game/engine as fallback and it's exactly what I ended up doing.
 > 
-> (It's commented out)
+> I generally don't trust device strings, they'll be less detailed than these.
+> A good bunch of those are unlicensed, so they'll be wrong or missing.
 > 
-> Actual change referencing this kernel issue:
-> https://hg.libsdl.org/SDL/rev/29809f6f0271
-> 
-> For more information of the device, take a look here:
-> https://github.com/xboxdrv/xboxdrv/pull/59
-> 
-> You can see a lsusb dump here: https://github.com/xboxdrv/xboxdrv/files/76581/Qa6dBcrv.txt
-> 
-> So yeah, let me know what you guys think. This has been a weird tangent for me. :)
+> Let me know what you think.
 > 
 
-Yep, that device definitely isn't an Xbox controller. That's for sure.
+I agree that the changes look like an improvement. I also doubt that we'll ever
+be able to prove definitively that there aren't programs out that taking a
+dependency on the exact names of the gamepads in the list.
 
-We wouldn't reach xpad_probe(), but it's a good idea to get rid of it anyway
-to ensure that other projects using the our list won't be misled like SDL was.
+I guess one could also make the argument that adding a gamepad to this list
+would have the same effect of possibly breaking userspace programs that used to
+identify it via the "Generic X-box Pad" string. Those programs would need to
+have the flexibility to handle receiving the generic name or a specific name
+from our list, so maybe they're already robust enough to handle not matching on
+one of the names they're expecting.
 
-On the off chance Razer did release an Xbox gamepad with that VID/PID, we'll
-still enumerate it properly in xpad using the generic controller codepath.
-
-So this patch looks good to me.
-
-Reviewed-by: Cameron Gutman <aicommander@gmail.com>
+Dmitry, what are your thoughts about possible userspace breakage from updating
+input device names? Has a similar change been done successfully before?
 
 
 Regards,
 Cameron
-
