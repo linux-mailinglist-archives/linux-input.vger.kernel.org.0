@@ -2,136 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06271239D2A
-	for <lists+linux-input@lfdr.de>; Mon,  3 Aug 2020 03:13:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD55623A140
+	for <lists+linux-input@lfdr.de>; Mon,  3 Aug 2020 10:46:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726725AbgHCBNs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 2 Aug 2020 21:13:48 -0400
-Received: from mail-db8eur05on2072.outbound.protection.outlook.com ([40.107.20.72]:32557
-        "EHLO EUR05-DB8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725820AbgHCBNs (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 2 Aug 2020 21:13:48 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Qhkun7bJ8M2Zc8YtHy7SueZW83LWjAYXuPykIU+zg/LmFexkYQDxBDG2SxkH5ZL7pZq6gjd7+NzPmvtx3adrajswqVu5Wxj5QvCZgThcF2dp2hfGi3Uz9UJbOyBAU6NKDAWPpIx3mh4u8DVhJNHEc+F/3foV51dDPF8Lfcx+yth5d30a4VZyHJpSQ6dxk0V7syRjJxzAySIwfTYZhAyOqSqFAB25Vi3p9v+rusiBxxPUM4rYXOGDq/VH21OBXBpTwnwihw+3kL/nXwthTOGxRPNxw1sUgBlMT8fXl9Buo/b+4cldSDwccpKmazWezmiRz4sTAh/0NaQuURw3zEmTOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0yy2poEazCjryjAHlqIjqlio6QfnzU/zy9L82bZ+cUg=;
- b=g8hu4T9oQOR+ovJ8vIOtjwslb2ermRssa2pVy8J+YBm8H0wnrMgMgohIPsPk5JDyJFsRgORmjFmGiYYPWKtwkPOVI/Qw53XTUFEPiuyMa2gzzTCefaWi5IfZDqFwlagNzolQFq/ifrQXLQpQh37FEGHKp/r8w0H4A2KTtFYH0zHQhaYyfKyyICvHCMDdBPMua+0Ylirnhf2PtY2XqYfJrBZTy88XGKAHnmmKOysD6QJ7ano7QXFu8blIc+a9mTB8ZeiwbF6OB8CQl1NW5tuRmMkOg8AOtovMq4VwW3jU+YcSGW2BQuJiwA6Cxl4/2NUBofdpg7kTmIzRv/pHuK2TLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=diasemi.com; dmarc=pass action=none header.from=diasemi.com;
- dkim=pass header.d=diasemi.com; arc=none
+        id S1726350AbgHCIqb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 3 Aug 2020 04:46:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36534 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725806AbgHCIqa (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Aug 2020 04:46:30 -0400
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC555C06174A;
+        Mon,  3 Aug 2020 01:46:30 -0700 (PDT)
+Received: by mail-ot1-x344.google.com with SMTP id r21so16816173ota.10;
+        Mon, 03 Aug 2020 01:46:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dialogsemiconductor.onmicrosoft.com;
- s=selector1-dialogsemiconductor-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0yy2poEazCjryjAHlqIjqlio6QfnzU/zy9L82bZ+cUg=;
- b=Q83aewR7gQbqs0wXAteEIz6a7Ef29AxtrxcFI1plHHKVQdgZNmhgTfNw0GCvkbyDkwcoKSg/kQ4+fU19Zp5yjBYQWxcahhvrUZOdFBlB/x9zpGdJfQLHvNqCjrJEaH4r25K/ja99ZArT2SRe1EDM3da3m+p3Dgn1n8CEWYqWHag=
-Received: from DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:e9::10)
- by DB6PR10MB1589.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:6:37::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3239.16; Mon, 3 Aug
- 2020 01:13:44 +0000
-Received: from DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::9913:d1be:cd0f:a620]) by DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::9913:d1be:cd0f:a620%6]) with mapi id 15.20.3239.021; Mon, 3 Aug 2020
- 01:13:43 +0000
-From:   Roy Im <roy.im.opensource@diasemi.com>
-To:     Pavel Machek <pavel@ucw.cz>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC:     Roy Im <roy.im.opensource@diasemi.com>,
-        Uwe Kleine-Koenig <u.kleine-koenig@pengutronix.de>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Brian Masney <masneyb@onstation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Pascal PAILLET-LME <p.paillet@st.com>,
-        Rob Herring <robh@kernel.org>,
-        Samuel Ortiz <sameo@linux.intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Support Opensource <Support.Opensource@diasemi.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>
-Subject: RE: [PATCH v18 3/3] Input: new da7280 haptic driver
-Thread-Topic: [PATCH v18 3/3] Input: new da7280 haptic driver
-Thread-Index: AQHWZVgP/N9464pJ20GmrAtQIjgduqkeGogAgAaiGgCAANhxoA==
-Date:   Mon, 3 Aug 2020 01:13:43 +0000
-Message-ID: <DB8PR10MB34367DC3A171A65766056495854D0@DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM>
-References: <cover.1595991580.git.Roy.Im@diasemi.com>
- <23b3470401ec5cf525add8e1227cb67586b9f294.1595991580.git.Roy.Im@diasemi.com>
- <20200729063638.GY1665100@dtor-ws> <20200802115422.GB1090@bug>
-In-Reply-To: <20200802115422.GB1090@bug>
-Accept-Language: ko-KR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: ucw.cz; dkim=none (message not signed)
- header.d=none;ucw.cz; dmarc=none action=none header.from=diasemi.com;
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [1.234.57.56]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b6b79a5a-0407-4878-afc5-08d8374a7731
-x-ms-traffictypediagnostic: DB6PR10MB1589:
-x-ms-exchange-sharedmailbox-routingagent-processed: True
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DB6PR10MB1589E837785B041B82C5D34CA24D0@DB6PR10MB1589.EURPRD10.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: OyNPtoPcPRQ30SfzgI1x3EPnnxqybsH5s76MUsDjl2IWuTU+pGt+315hsHPtsBBlVhVkZVJHb+M5ZNEySZslaD3Plm2VtSikGifgmXd1qyzmBXunCJurdZr6i92D3noLBPQdekeWWhtJJK3WlNmuaRd7b/aAOmvXHwckgWgd7mFRT/BwsKxHYpaWvZulsyERH3O3N/yrLWDCZ4d3CPausbjMEnnRiZ8yfuoCxXMUGNB3nYp9jPwyRFqD+u9wq6A1P+RlVuxA43/46zi6AA/+MDt+Vrto/qEKQVO6NZL/qfLLVh15q69eG7c4USCBTsky1UAjJFpna4DPEFI988NH1cVP4rGlxf3zxggcLFkocNNN1VZFxAfkJgfTUduxeD+U5pekifRI2Taa+Uavfuv6TQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(376002)(136003)(366004)(346002)(39850400004)(396003)(5660300002)(52536014)(55016002)(66946007)(9686003)(66476007)(66446008)(76116006)(64756008)(66556008)(86362001)(54906003)(33656002)(7416002)(2906002)(53546011)(316002)(110136005)(8936002)(71200400001)(478600001)(8676002)(26005)(4326008)(7696005)(186003)(966005)(6506007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 8XQ2uql5cje3dryHWOeRy0GS+SmDkRBOuiUDkiso5FIOXXaXw9gsVyF1X4zak7PdVbJQ0POHlb6WDUEBoFJCXF1J/0XC2YLgTin5q6oUH/W32E3deThbHU7Q2QijbFYRn9OaKINzUltEMtlAnr5vh/fN1yl4FyuXWvqdDby7Sgz3eKNAwfnYq/OvwcEIL+7vky0SetzwWuRiwg1BcQQnl1lFNiVa1mINoLt69hmZ2rA/RRJrjGRy5c8bSOpI2ALouydOh9qnaQYksNDe1nuHgtVJkkJjQj1lpGpYhgjrp4xCArKsuzo88lWu2jVd3TspjVBIS7KSvFgTmRoHUQPjs4oWxPsesD5r//do/PMYMFuDAhIqSkWWuJra2m9tNbGFPBrp2xB28Eoom6iLcATEx5HFTcfpkbNa38MELoYJQ6nl4BnaO7bwo/YsIVsSihhuUfoFTrFK2DwuPNT9XGPgF+2jMfR2PehxLFjxYTbXzCuNvTSt2xxzFYYQ+S65V0ovVKDzL6Yu1V6S/DJhr7+0lAP0QUClcDHps8ec+B81JU3LKD6ZDg1IDWCJIUsr88lNwWP0VPWLBzZXG/Thgen+v8SHYn4rBuVSZJ64F7j+mICoYcD+thdi7a3eg+9PtRiBuJNzogOvvpjI6DKChrqtqg==
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Ldpq9lUOsWhKwe/FZyOZtBINOPkrHNfkHnfcPwlRPCU=;
+        b=WpMWmZ08n26KnNJ8Kee1MYAG1Jm/zPcTsurcm70Oz6QCv5oFfJJeXvq3VcoC9Bqmp3
+         ZwUe+YLsT+FIs/9kGKQtxteKlRXHSSQ+XStDVRPK0FJ9rDWqULujkoduvfNvMAyy0GOg
+         NoXxh8OaGSL/tRiXvcDRUH0pjdIKGIrcWXdgMqadI1W4uKjz2xIadtm/umq1TPcJ2dwv
+         x921GXZ22H8R3fB7B0gACzntSyHHPZ4Uep08cGKEx1pE00WBaNIlW5skBV0VR9xSPFsw
+         +/MQUrW8/mEWr+pwjxhIKc3bVJJhFwBIXZ+8+jfHudxJdG2f4k8YUNGYS662utnJkUBW
+         AW1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ldpq9lUOsWhKwe/FZyOZtBINOPkrHNfkHnfcPwlRPCU=;
+        b=S2i4w17TkTjow/DAUUwUt4cLc0WVNL7DWcViXbTgk/rSb1TPPaqZMWb7GQhnyX/Rvc
+         w6YtVicIwgXzpsOGro85vUhiGOcW6kcrr8IQ2o8JMpj8+2zzGjnYtVby1Bwq7OY4Etjw
+         Qxz9Efp1zP4sU3G2sR/n0mGpiUplXkc9VmqOkb84Htje6dEgzLx+O1auCVIgZaA2YMxe
+         LHPkiQzg6cBO9mWOEQSmo5SJK1VBx43iWtJ7OOwjkUonc/lFa+kEZD+7PDwuEC619K5v
+         lm+twLIweE0UMxn9uhrGX2v+atdECWUQ7HMyoGsuk4G/iomj8mgum+X5xRnpi5Z+oWcN
+         u/ng==
+X-Gm-Message-State: AOAM533mbgZKP9u3qlrG77656FGd2AxYLyIEBX809A1GJteplh9KTB4u
+        q5oaQzRXBTfzRJkdD3sQHb5Yb8HNREpFZ3ae6Io=
+X-Google-Smtp-Source: ABdhPJywEIvpuyitAoDTtD0/wC6yQxi+TGZF6FmBDXPPZy9GwNZrNEeGyjiIoXvh3WcLO7UKIwA2uajhqG5WgWac/6c=
+X-Received: by 2002:a05:6830:1c65:: with SMTP id s5mr12486238otg.264.1596444390081;
+ Mon, 03 Aug 2020 01:46:30 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: diasemi.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3436.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: b6b79a5a-0407-4878-afc5-08d8374a7731
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Aug 2020 01:13:43.8768
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: i4RMAHbT/Rd31HmB6Ssdr6x3hUMGaUPAPmFQxQjygnM2wAg6x7V1B8qzNii3tZ9ker9ja6Q1KlPhjqt59c+pbA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR10MB1589
+References: <20200716030847.1564131-1-keescook@chromium.org>
+ <87h7tpa3hg.fsf@nanos.tec.linutronix.de> <202007301113.45D24C9D@keescook>
+In-Reply-To: <202007301113.45D24C9D@keescook>
+From:   Allen <allen.lkml@gmail.com>
+Date:   Mon, 3 Aug 2020 14:16:15 +0530
+Message-ID: <CAOMdWSJQKHAWY1P297b9koOLd8sVtezEYEyWGtymN1YeY27M6A@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Modernize tasklet callback API
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Oscar Carter <oscar.carter@gmx.com>,
+        Romain Perier <romain.perier@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-s390@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-usb@vger.kernel.org, kgdb-bugreport@lists.sourceforge.net,
+        alsa-devel@alsa-project.org,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, August 2, 2020 8:54 PM, Pavel Machek wrote:=20
-> Hi!
->=20
-> > > +static DEVICE_ATTR_RW(ps_seq_id);
-> > > +static DEVICE_ATTR_RW(ps_seq_loop); static
-> > > +DEVICE_ATTR_RW(gpi_seq_id0); static DEVICE_ATTR_RW(gpi_seq_id1);
-> > > +static DEVICE_ATTR_RW(gpi_seq_id2); static
-> > > +DEVICE_ATTR_WO(patterns);
+Kees,
+
+>
+> [heavily trimmed CC list because I think lkml is ignoring this
+> thread...]
+>
+> On Thu, Jul 30, 2020 at 09:03:55AM +0200, Thomas Gleixner wrote:
+> > Kees,
 > >
-> > Should this be a binary attribute instead of having string parsing in
-> > the kernel?
->=20
-> Plus... is this suitable userland interface? Should it be documetned?
+> > Kees Cook <keescook@chromium.org> writes:
+> > > This is the infrastructure changes to prepare the tasklet API for
+> > > conversion to passing the tasklet struct as the callback argument instead
+> > > of an arbitrary unsigned long. The first patch details why this is useful
+> > > (it's the same rationale as the timer_struct changes from a bit ago:
+> > > less abuse during memory corruption attacks, more in line with existing
+> > > ways of doing things in the kernel, save a little space in struct,
+> > > etc). Notably, the existing tasklet API use is much less messy, so there
+> > > is less to clean up.
+> > >
+> > > It's not clear to me which tree this should go through... Greg since it
+> > > starts with a USB clean-up, -tip for timer or interrupt, or if I should
+> > > just carry it. I'm open to suggestions, but if I don't hear otherwise,
+> > > I'll just carry it.
+> > >
+> > > My goal is to have this merged for v5.9-rc1 so that during the v5.10
+> > > development cycle the new API will be available. The entire tree of
+> > > changes is here[1] currently, but to split it up by maintainer the
+> > > infrastructure changes need to be landed first.
+> > >
+> > > Review and Acks appreciated! :)
+> >
+> > I'd rather see tasklets vanish from the planet completely, but that's
+> > going to be a daring feat. So, grudgingly:
+>
+> Understood! I will update the comments near the tasklet API.
+>
+> > Acked-by: Thomas Gleixner <tglx@linutronix.de>
+>
 
-It could be used by sysfs interface and string parsing, and I added some ex=
-amples ahead of id and loop attributes, but for the patterns yes, it should=
- be. As I have already added some comment before for the first comment from=
- Dmitry, now the upload effect covers this attributes, so I would like to r=
-emove them and I have added some code a little bit more in the upload effec=
-t function in the next patch.
+Here's the series re-based on top of 5.8
+https://github.com/allenpais/tasklets/tree/V3
 
-Thanks for your comments.
+Let me know how you would want these to be reviewed.
 
->=20
-> --
-> (english) http://www.livejournal.com/~pavelmachek
-> (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/b=
-log.html
+Also, I was thinking if removing tasklets completely could be a task
+on KSPP wiki. If yes, I did like to take ownership of that task. I have a
+couple of ideas in mind, which could be discussed in a separate email.
 
-Kind regards
-Roy
+Thanks.
+
+-- 
+       - Allen
