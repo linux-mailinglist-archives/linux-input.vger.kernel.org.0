@@ -2,118 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3751323A7E4
-	for <lists+linux-input@lfdr.de>; Mon,  3 Aug 2020 15:48:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB1CD23A8A8
+	for <lists+linux-input@lfdr.de>; Mon,  3 Aug 2020 16:41:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727933AbgHCNsn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 3 Aug 2020 09:48:43 -0400
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:43931 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726579AbgHCNsm (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 3 Aug 2020 09:48:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1596462521;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc; bh=SMxVmqh9+IpJqntX4TYmN4Y+TTmVHJNY5eblJs9DUyI=;
-        b=Um/nxUAC1qB4cQfQL5bK5OEqDTuEpy/BmMl/5LKCPgISS75heJhk+3aQJIygDm+6Ao6nt9
-        iKyNSp+ExCi1QiRJUzG7ttgID9ZRAXys4cXNaxt55YOxhRh3HjIJRkLKhvyHCQjgbCIGqr
-        xA96mNggB5/kMX0nCD1voEdARP6foms=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-245-FzrubfngOTao59S9twjAdw-1; Mon, 03 Aug 2020 09:48:39 -0400
-X-MC-Unique: FzrubfngOTao59S9twjAdw-1
-Received: by mail-qv1-f72.google.com with SMTP id d9so16860484qvl.10
-        for <linux-input@vger.kernel.org>; Mon, 03 Aug 2020 06:48:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=SMxVmqh9+IpJqntX4TYmN4Y+TTmVHJNY5eblJs9DUyI=;
-        b=azeiDE8Th4lwhL4jwp6fRc8y6+wEUCDFqyNjgQHhIjs78I88PSKQYah9yVejPXWlCg
-         6WWBuQhAmWYO68tZhpPlRunq1SHgThjnwHEMIaxEf2JEca051wyGaU0K81MphYDAwbkh
-         2mWuOgLeh1PmMvECl1MUG/5J7gd9mVOivalZ9TDvqOS6lzGUuXtJL3SVyrDktA+/lKoS
-         DQJsQ9qeEpgRhLEyz2j/nu86PY5pwmz84xrW2KOw5rbLbiCwESVi2B0uB5Z0LbYn5waY
-         WEFnzCUSZuThTJdC3e8hiKf3jAofbNEkLUxgY0vAspjDQUkdTJlZ+SNaeffMazssSXHR
-         WXcQ==
-X-Gm-Message-State: AOAM531jAS7nqJH/MwxXAgSOUfHGzPHNb1H79pZn9zQMC8X2n4OCRWuf
-        r/2UCpfLWFgVveBQnjkLzupFgw6MSHrSZyrcF1ZRUKEYwMyiS6ZQ9LwdQ71PZFaCf5JzcwYGM0h
-        FMRFQSc5gF1wuKOwXw2y6oro=
-X-Received: by 2002:a37:90e:: with SMTP id 14mr16647328qkj.102.1596462519484;
-        Mon, 03 Aug 2020 06:48:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz0Q9H9YNB/cgP7w/wWSAvOIBiIgVexrNtMfORoaMNYcUfqssZruqZR5pgv924elJAriQdwDA==
-X-Received: by 2002:a37:90e:: with SMTP id 14mr16647309qkj.102.1596462519240;
-        Mon, 03 Aug 2020 06:48:39 -0700 (PDT)
-Received: from trix.remote.csb (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id d46sm22820662qtk.37.2020.08.03.06.48.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2020 06:48:38 -0700 (PDT)
-From:   trix@redhat.com
-To:     nick@shmanahar.org, dmitry.torokhov@gmail.com,
-        ezequiel@collabora.com, bleung@chromium.org
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tom Rix <trix@redhat.com>
-Subject: [PATCH] input: atmel_mxt_ts: fix double free
-Date:   Mon,  3 Aug 2020 06:48:32 -0700
-Message-Id: <20200803134832.6290-1-trix@redhat.com>
-X-Mailer: git-send-email 2.18.1
+        id S1726757AbgHCOlF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 3 Aug 2020 10:41:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34812 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726358AbgHCOlE (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 3 Aug 2020 10:41:04 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94B21C06174A;
+        Mon,  3 Aug 2020 07:41:04 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id 6EA3629A06E
+Subject: Re: [PATCH v4 0/7] Support inhibiting input devices
+To:     Hans de Goede <hdegoede@redhat.com>, linux-pm@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-tegra@vger.kernel.org, patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Ferruh Yigit <fery@cypress.com>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Peter Hutterer <peter.hutterer@redhat.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        kernel@collabora.com
+References: <2336e15d-ff4b-bbb6-c701-dbf3aa110fcd@redhat.com>
+ <20200608112211.12125-1-andrzej.p@collabora.com>
+ <1821a5b7-cbf3-a739-2203-a93b06f0c6f2@redhat.com>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <8fc3a97d-94b7-e073-3981-2f146f5f209e@collabora.com>
+Date:   Mon, 3 Aug 2020 16:40:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <1821a5b7-cbf3-a739-2203-a93b06f0c6f2@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Tom Rix <trix@redhat.com>
+Hi Dmitry,
 
-Clang static analysis reports this error
+W dniu 12.06.2020 o 10:17, Hans de Goede pisze:
+> Hi,
+> 
+> On 6/8/20 1:22 PM, Andrzej Pietrasiewicz wrote:
+>> This is a quick respin of v3, with just two small changes, please see
+>> the changelog below.
+>>
+>> Userspace might want to implement a policy to temporarily disregard input
+>> from certain devices.
+>>
 
-atmel_mxt_ts.c:1850:2: warning: Attempt to free released memory
-        kfree(id_buf);
-        ^~~~~~~~~~~~~
+<snip>
 
-The problem is with this code block
+>> v3..v4:
+>> - updated the comment in input_open_device() (Hans)
+>> - used more straightforward locking pattern in adc/exynos (Michał)
+>>
+>> v2..v3:
+>> - ignored autorepeat events in input_get_disposition() if a key is not
+>> pressed (Hans)
+>> - dropped inhibit()/uninhibit() driver callbacks (Hans)
+>> - split ACPI button patch into taking the lock and using the helper (Rafael)
+>> - dropped the elan_i2c conversion
+>> - fixed typos in exynos adc
+>>
+>> v1..v2:
+>> - added input_device_enabled() helper and used it in drivers (Dmitry)
+>> - the fact of open() and close() being called in inhibit/uninhibit paths has
+>> been emphasized in the commit message of PATCH 6/7 (Dmitry)
 
-data->raw_info_block = id_buf;
-...
-error = mxt_parse_object_table(data, id_buf + MXT_OBJECT_START);
-if (error) {
-	dev_err(&client->dev, "Error %d parsing object table\n", error);
-	mxt_free_object_table(data);
-	goto err_free_mem;
-}
+<snip>
 
-mxt_free_object_table() frees id_buf
+> 
+> The entire series looks good to me:
+> 
+> Acked-by: Hans de Goede <hdegoede@redhat.com>
 
-kfree(data->raw_info_block);
+What are the prospects of this series being merged?
 
-So skip over the second free
+Regards,
 
-Fixes: 068bdb67ef74 ("Input: atmel_mxt_ts - fix the firmware update")
-
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/input/touchscreen/atmel_mxt_ts.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 6b71b0aff115..1cc0f492f4f4 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -1839,7 +1839,7 @@ static int mxt_read_info_block(struct mxt_data *data)
- 	if (error) {
- 		dev_err(&client->dev, "Error %d parsing object table\n", error);
- 		mxt_free_object_table(data);
--		goto err_free_mem;
-+		goto err_free_mem1;
- 	}
- 
- 	data->object_table = (struct mxt_object *)(id_buf + MXT_OBJECT_START);
-@@ -1848,6 +1848,7 @@ static int mxt_read_info_block(struct mxt_data *data)
- 
- err_free_mem:
- 	kfree(id_buf);
-+err_free_mem1:
- 	return error;
- }
- 
--- 
-2.18.1
-
+Andrzej
