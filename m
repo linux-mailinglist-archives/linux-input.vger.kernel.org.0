@@ -2,21 +2,18 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA04123BE12
-	for <lists+linux-input@lfdr.de>; Tue,  4 Aug 2020 18:24:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8F3723BE14
+	for <lists+linux-input@lfdr.de>; Tue,  4 Aug 2020 18:24:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729664AbgHDQYO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 4 Aug 2020 12:24:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46828 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729889AbgHDQYN (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Aug 2020 12:24:13 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BA27C06174A;
-        Tue,  4 Aug 2020 09:24:11 -0700 (PDT)
+        id S1729898AbgHDQYY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 4 Aug 2020 12:24:24 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:34188 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729884AbgHDQYL (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Aug 2020 12:24:11 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: andrzej.p)
-        with ESMTPSA id EFC502950FC
+        with ESMTPSA id 51D2C2950FD
 From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -24,9 +21,9 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
         linux-input@vger.kernel.org, kernel@collabora.com
-Subject: [PATCH 1/2] tty/sysrq: Extend the sysrq_key_table to cover capital letters
-Date:   Tue,  4 Aug 2020 18:24:01 +0200
-Message-Id: <20200804162402.2087-2-andrzej.p@collabora.com>
+Subject: [PATCH 2/2] tty/sysrq: Add configurable handler to execute a compound action
+Date:   Tue,  4 Aug 2020 18:24:02 +0200
+Message-Id: <20200804162402.2087-3-andrzej.p@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200804162402.2087-1-andrzej.p@collabora.com>
 References: <20200804162402.2087-1-andrzej.p@collabora.com>
@@ -35,132 +32,196 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-All slots in sysrq_key_table[] are either used, reserved or at least
-commented with their intended use. This patch adds capital letter versions
-available, which means adding 26 more entries.
+Userland might want to execute e.g. 'w' (show blocked tasks), followed
+by 's' (sync), followed by 1000 ms delay and then followed by 'c' (crash)
+upon a single magic SysRq. Or one might want to execute the famous "Raising
+Elephants Is So Utterly Boring" action. This patch adds a configurable
+handler, triggered with 'C', for this exact purpose. The user specifies the
+composition of the compound action using syntax similar to getopt, where
+each letter corresponds to an individual action and a colon followed by a
+number corresponds to a delay of that many milliseconds, e.g.:
 
-For already existing SysRq operations the user presses Alt-SysRq-<key>, and
-for the newly added ones Alt-Shift-SysRq-<key>.
+ws:1000c
+
+or
+
+r:100eis:1000ub
 
 Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 ---
- Documentation/admin-guide/sysrq.rst |  2 ++
- drivers/tty/sysrq.c                 | 49 +++++++++++++++++++++++++++--
- 2 files changed, 49 insertions(+), 2 deletions(-)
+ Documentation/admin-guide/sysrq.rst |  9 ++++
+ drivers/tty/sysrq.c                 | 81 ++++++++++++++++++++++++++++-
+ include/linux/sysrq.h               |  1 +
+ 3 files changed, 90 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/admin-guide/sysrq.rst b/Documentation/admin-guide/sysrq.rst
-index e6424d8c5846..67dfa4c29093 100644
+index 67dfa4c29093..80bdd8bf9636 100644
 --- a/Documentation/admin-guide/sysrq.rst
 +++ b/Documentation/admin-guide/sysrq.rst
-@@ -79,6 +79,8 @@ On all
+@@ -32,6 +32,7 @@ to 1. Here is the list of possible values in /proc/sys/kernel/sysrq:
+          64 =  0x40 - enable signalling of processes (term, kill, oom-kill)
+         128 =  0x80 - allow reboot/poweroff
+         256 = 0x100 - allow nicing of all RT tasks
++        512 = 0x200 - allow compound action
  
- 		echo t > /proc/sysrq-trigger
+ You can set the value in the file by the following command::
  
-+The :kbd:`<command key>` is case sensitive.
+@@ -148,6 +149,14 @@ Command	    Function
+ 
+ ``z``	    Dump the ftrace buffer
+ 
++``C``	    Execute a predefined, compound action. The action is defined with
++	    sysrq.sysrq_compound_action module parameter, whose value contains known
++	    command keys (except ``C`` to prevent recursion). The command keys can
++	    be optionally followed by a colon and a number of milliseconds to wait
++	    after executing the last action. For example:
 +
- What are the 'command' keys?
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
++	    sysrq.sysrq_compound_action=r:100eis:1000ub
++
+ ``0``-``9`` Sets the console log level, controlling which kernel messages
+             will be printed to your console. (``0``, for example would make
+             it so that only emergency messages like PANICs or OOPSes would
 diff --git a/drivers/tty/sysrq.c b/drivers/tty/sysrq.c
-index 7c95afa905a0..52e344bfe8c0 100644
+index 52e344bfe8c0..ffcda1316675 100644
 --- a/drivers/tty/sysrq.c
 +++ b/drivers/tty/sysrq.c
-@@ -442,7 +442,7 @@ static const struct sysrq_key_op sysrq_unrt_op = {
+@@ -19,6 +19,7 @@
+ #include <linux/sched/rt.h>
+ #include <linux/sched/debug.h>
+ #include <linux/sched/task.h>
++#include <linux/delay.h>
+ #include <linux/interrupt.h>
+ #include <linux/mm.h>
+ #include <linux/fs.h>
+@@ -439,6 +440,15 @@ static const struct sysrq_key_op sysrq_unrt_op = {
+ 	.enable_mask	= SYSRQ_ENABLE_RTNICE,
+ };
+ 
++static void sysrq_action_compound(int key);
++
++static struct sysrq_key_op sysrq_action_compound_op = {
++	.handler	= sysrq_action_compound,
++	.help_msg	= "execute-compound-action(C)",
++	.action_msg	= "Execute compound action",
++	.enable_mask	= SYSRQ_ENABLE_COMPOUND,
++};
++
  /* Key Operations table and lock */
  static DEFINE_SPINLOCK(sysrq_key_table_lock);
  
--static const struct sysrq_key_op *sysrq_key_table[36] = {
-+static const struct sysrq_key_op *sysrq_key_table[62] = {
- 	&sysrq_loglevel_op,		/* 0 */
- 	&sysrq_loglevel_op,		/* 1 */
- 	&sysrq_loglevel_op,		/* 2 */
-@@ -499,6 +499,32 @@ static const struct sysrq_key_op *sysrq_key_table[36] = {
- 	/* y: May be registered on sparc64 for global register dump */
- 	NULL,				/* y */
+@@ -501,7 +511,7 @@ static const struct sysrq_key_op *sysrq_key_table[62] = {
  	&sysrq_ftrace_dump_op,		/* z */
-+	NULL,				/* A */
-+	NULL,				/* B */
-+	NULL,				/* C */
-+	NULL,				/* D */
-+	NULL,				/* E */
-+	NULL,				/* F */
-+	NULL,				/* G */
-+	NULL,				/* H */
-+	NULL,				/* I */
-+	NULL,				/* J */
-+	NULL,				/* K */
-+	NULL,				/* L */
-+	NULL,				/* M */
-+	NULL,				/* N */
-+	NULL,				/* O */
-+	NULL,				/* P */
-+	NULL,				/* Q */
-+	NULL,				/* R */
-+	NULL,				/* S */
-+	NULL,				/* T */
-+	NULL,				/* U */
-+	NULL,				/* V */
-+	NULL,				/* W */
-+	NULL,				/* X */
-+	NULL,				/* Y */
-+	NULL,				/* Z */
- };
+ 	NULL,				/* A */
+ 	NULL,				/* B */
+-	NULL,				/* C */
++	&sysrq_action_compound_op,	/* C */
+ 	NULL,				/* D */
+ 	NULL,				/* E */
+ 	NULL,				/* F */
+@@ -634,6 +644,7 @@ EXPORT_SYMBOL(handle_sysrq);
  
- /* key2index calculation, -1 on invalid index */
-@@ -510,6 +536,8 @@ static int sysrq_key_table_key2index(int key)
- 		retval = key - '0';
- 	else if ((key >= 'a') && (key <= 'z'))
- 		retval = key + 10 - 'a';
-+	else if ((key >= 'A') && (key <= 'Z'))
-+		retval = key + 36 - 'A';
- 	else
- 		retval = -1;
- 	return retval;
-@@ -623,6 +651,8 @@ struct sysrq_state {
- 	unsigned long key_down[BITS_TO_LONGS(KEY_CNT)];
- 	unsigned int alt;
- 	unsigned int alt_use;
-+	unsigned int shift;
-+	unsigned int shift_use;
- 	bool active;
- 	bool need_reinject;
- 	bool reinjecting;
-@@ -807,10 +837,20 @@ static bool sysrq_handle_keypress(struct sysrq_state *sysrq,
- 		}
- 		break;
+ #ifdef CONFIG_INPUT
+ static int sysrq_reset_downtime_ms;
++static char *sysrq_compound_action;
  
-+	case KEY_LEFTSHIFT:
-+	case KEY_RIGHTSHIFT:
-+		if (!value)
-+			sysrq->shift = KEY_RESERVED;
-+		else if (value != 2)
-+			sysrq->shift = code;
-+		break;
+ /* Simple translation table for the SysRq keys */
+ static const unsigned char sysrq_xlate[KEY_CNT] =
+@@ -787,6 +798,61 @@ static void sysrq_of_get_keyreset_config(void)
+ {
+ }
+ #endif
++#define SYSRQ_COMPOUND_ACTION_VALIDATE	0
++#define SYSRQ_COMPOUND_ACTION_RUN	1
 +
- 	case KEY_SYSRQ:
- 		if (value == 1 && sysrq->alt != KEY_RESERVED) {
- 			sysrq->active = true;
- 			sysrq->alt_use = sysrq->alt;
-+			/* either RESERVED (for released) or actual code */
-+			sysrq->shift_use = sysrq->shift;
- 			/*
- 			 * If nothing else will be pressed we'll need
- 			 * to re-inject Alt-SysRq keysroke.
-@@ -833,8 +873,13 @@ static bool sysrq_handle_keypress(struct sysrq_state *sysrq,
- 
- 	default:
- 		if (sysrq->active && value && value != 2) {
-+			unsigned char c = sysrq_xlate[code];
++static int sysrq_process_compound_action(int pass)
++{
++	const char *action = sysrq_compound_action;
++	const struct sysrq_key_op *op_p;
++	int ret, delay;
 +
- 			sysrq->need_reinject = false;
--			__handle_sysrq(sysrq_xlate[code], true);
-+			if (sysrq->shift_use != KEY_RESERVED)
-+				if (c >= 'a' && c <= 'z')
-+					c &= ~(1 << 5); /* to uppercase */
-+			__handle_sysrq(c, true);
- 		}
- 		break;
- 	}
++	while (*action) {
++		op_p = __sysrq_get_key_op(*action);
++		if (!op_p)
++			return -EINVAL;
++
++		/* Don't allow calling ourselves recursively */
++		if (op_p == &sysrq_action_compound_op)
++			return -EINVAL;
++
++		if (pass == SYSRQ_COMPOUND_ACTION_RUN)
++			__handle_sysrq(*action, false);
++
++		if (*++action == ':') {
++			ret = sscanf(action++, ":%d", &delay);
++			if (ret < 1) /* we want at least ":[0-9]" => 1 item */
++				return -EINVAL;
++
++			while (*action >= '0' && *action <= '9')
++				++action;
++			if (pass == SYSRQ_COMPOUND_ACTION_RUN)
++				mdelay(delay);
++		}
++	}
++
++	return 0;
++}
++
++static void sysrq_action_compound(int key)
++{
++	if (!sysrq_compound_action) {
++		pr_err("Unconfigured compound action for %s",
++		       sysrq_action_compound_op.help_msg);
++
++		return;
++	}
++
++	if (sysrq_process_compound_action(SYSRQ_COMPOUND_ACTION_VALIDATE)) {
++		pr_err("Incorrect compound action %s for %s",
++		       sysrq_compound_action,
++		       sysrq_action_compound_op.help_msg);
++
++		return;
++	}
++
++	sysrq_process_compound_action(SYSRQ_COMPOUND_ACTION_RUN);
++}
+ 
+ static void sysrq_reinject_alt_sysrq(struct work_struct *work)
+ {
+@@ -1079,8 +1145,21 @@ module_param_array_named(reset_seq, sysrq_reset_seq, sysrq_reset_seq,
+ 
+ module_param_named(sysrq_downtime_ms, sysrq_reset_downtime_ms, int, 0644);
+ 
++module_param(sysrq_compound_action, charp, 0644);
++MODULE_PARM_DESC(sysrq_compound_action,
++	"Compound sysrq action to be executed on Alt-Shift-SysRq-C\n"
++	"The compound action definition consists of known SysRq action letters except 'C',\n"
++	"each letter can be optionally followed by a colon and a number of milliseconds to wait\n"
++	"after executing the last action.\n"
++	"Example:\n"
++	"To unRaw, wait 100ms, tErminate, kIll, Sync, wait 1000ms, Unmount, Boot\n"
++	"sysrq.sysrq_compound_action=r:100eis:1000ub");
+ #else
+ 
++{
++}
++
++static void sysrq_action_compound(int key)
+ static inline void sysrq_register_handler(void)
+ {
+ }
+diff --git a/include/linux/sysrq.h b/include/linux/sysrq.h
+index 3a582ec7a2f1..6df4442f12a9 100644
+--- a/include/linux/sysrq.h
++++ b/include/linux/sysrq.h
+@@ -28,6 +28,7 @@
+ #define SYSRQ_ENABLE_SIGNAL	0x0040
+ #define SYSRQ_ENABLE_BOOT	0x0080
+ #define SYSRQ_ENABLE_RTNICE	0x0100
++#define SYSRQ_ENABLE_COMPOUND	0x0200
+ 
+ struct sysrq_key_op {
+ 	void (* const handler)(int);
 -- 
 2.17.1
 
