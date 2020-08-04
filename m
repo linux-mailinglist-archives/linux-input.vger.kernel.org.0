@@ -2,226 +2,137 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8F3723BE14
-	for <lists+linux-input@lfdr.de>; Tue,  4 Aug 2020 18:24:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 628A423BF5F
+	for <lists+linux-input@lfdr.de>; Tue,  4 Aug 2020 20:30:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729898AbgHDQYY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 4 Aug 2020 12:24:24 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:34188 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729884AbgHDQYL (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Aug 2020 12:24:11 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id 51D2C2950FD
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-input@vger.kernel.org, kernel@collabora.com
-Subject: [PATCH 2/2] tty/sysrq: Add configurable handler to execute a compound action
-Date:   Tue,  4 Aug 2020 18:24:02 +0200
-Message-Id: <20200804162402.2087-3-andrzej.p@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200804162402.2087-1-andrzej.p@collabora.com>
-References: <20200804162402.2087-1-andrzej.p@collabora.com>
+        id S1726230AbgHDSaU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 4 Aug 2020 14:30:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37976 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726101AbgHDSaT (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Aug 2020 14:30:19 -0400
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A1B5C06174A;
+        Tue,  4 Aug 2020 11:30:19 -0700 (PDT)
+Received: by mail-io1-xd42.google.com with SMTP id q75so35108557iod.1;
+        Tue, 04 Aug 2020 11:30:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zjB/bse/AIG3ec5CH7lkmfaqywcsn17p5QYWsN0kQJw=;
+        b=dCRcZcl935xER4Rf59nQmFnexVv4UViEqV9aZJ2xyWAs38weoDxfzlosh8SsGr6mdj
+         C9sCDBRY8EonQdh2gB6H1Qj1P3z4Gzlgc9FqJ+eDebeKm2rVWZ3hXYgTdhuoIqJR6g2h
+         bfFEvVxD/8SfvyLR2rIPctE+rtmHIuPZT5yJn8xCNA12o9lIdt38gJa8L/OQdNaE4GB+
+         v+NtRGPuTApH/UazFOWT5Dzywn4pGjihzeJv/7jclqR4hpQ3fOTBHIvgt5riFIHZIFB4
+         UCPJsRDcFeymaJKBwDTrFmKmMPsg7U5lGqRAawt6R2zTNNgvgTbJ+mtRMb5dCwON/yKf
+         2Pqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zjB/bse/AIG3ec5CH7lkmfaqywcsn17p5QYWsN0kQJw=;
+        b=iMAQxeJc1JgxqQ488UkURkovBb+OqH6Q648VUzbEasa6N3l6Vsj+Uqgj51PLi8TCzD
+         ypWVP7egJPyRyOZaia6OiZQP+qIcFivLbZVmCYMj6JJuO8tMTv8EU5nIEOMFemhMq4SN
+         uLNkZ7QimTj2j4dvYJ7V4ygElgE45suOwhHlFJ2wf4oGfwFvqpwIQbNDE+hA8CvslK9Y
+         0g1Y41X1QZuuQ3GbFcHIqK/+rxgzwGqMFQWNQBp3oRudBTe1G8JpBleMA61Jsl0n83k8
+         kvra7B/yXZI03Ez3wdK0edLUAsgiMWxrqFJVbrl/T4G7Gsa5gV9wLtxLKebtIV/IfAYb
+         LCeQ==
+X-Gm-Message-State: AOAM532LgNZXo+1Q5Q9dc7AjAsIdPtWXlaW1OFD4Bp17yymEpaMPsXDc
+        LBRoSs6KSq3Tbv/2BzlDhz2OMrnz/d8=
+X-Google-Smtp-Source: ABdhPJxE48uCTrCDf4/g2gDlwTt02WrWwBMyxZk4Wkht9gX32sBeqmTHI3Q1i0yO2RLnxyv6ErMfCA==
+X-Received: by 2002:a6b:15c2:: with SMTP id 185mr6327964iov.207.1596565818447;
+        Tue, 04 Aug 2020 11:30:18 -0700 (PDT)
+Received: from aford-IdeaCentre-A730.lan (c-73-37-219-234.hsd1.mn.comcast.net. [73.37.219.234])
+        by smtp.gmail.com with ESMTPSA id q70sm13399267ili.49.2020.08.04.11.30.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Aug 2020 11:30:17 -0700 (PDT)
+From:   Adam Ford <aford173@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     dmitry.torokhov@gmail.com, linux-kernel@vger.kernel.org,
+        Adam Ford <aford173@gmail.com>
+Subject: [PATCH] Input: ili210x: Fix potential memory leaks
+Date:   Tue,  4 Aug 2020 13:30:07 -0500
+Message-Id: <20200804183007.117125-1-aford173@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Userland might want to execute e.g. 'w' (show blocked tasks), followed
-by 's' (sync), followed by 1000 ms delay and then followed by 'c' (crash)
-upon a single magic SysRq. Or one might want to execute the famous "Raising
-Elephants Is So Utterly Boring" action. This patch adds a configurable
-handler, triggered with 'C', for this exact purpose. The user specifies the
-composition of the compound action using syntax similar to getopt, where
-each letter corresponds to an individual action and a colon followed by a
-number corresponds to a delay of that many milliseconds, e.g.:
+This driver requests, memory twice and requests a threaded irq, but
+it doesn't free any of them if something fails.
 
-ws:1000c
+This patch attempts to identify areas where a return was issued
+without freeing allocated memory or IRQ's.
 
-or
+Signed-off-by: Adam Ford <aford173@gmail.com>
 
-r:100eis:1000ub
-
-Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
----
- Documentation/admin-guide/sysrq.rst |  9 ++++
- drivers/tty/sysrq.c                 | 81 ++++++++++++++++++++++++++++-
- include/linux/sysrq.h               |  1 +
- 3 files changed, 90 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/sysrq.rst b/Documentation/admin-guide/sysrq.rst
-index 67dfa4c29093..80bdd8bf9636 100644
---- a/Documentation/admin-guide/sysrq.rst
-+++ b/Documentation/admin-guide/sysrq.rst
-@@ -32,6 +32,7 @@ to 1. Here is the list of possible values in /proc/sys/kernel/sysrq:
-          64 =  0x40 - enable signalling of processes (term, kill, oom-kill)
-         128 =  0x80 - allow reboot/poweroff
-         256 = 0x100 - allow nicing of all RT tasks
-+        512 = 0x200 - allow compound action
+diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
+index 199cf3daec10..967329fbdde3 100644
+--- a/drivers/input/touchscreen/ili210x.c
++++ b/drivers/input/touchscreen/ili210x.c
+@@ -421,7 +421,7 @@ static int ili210x_i2c_probe(struct i2c_client *client,
  
- You can set the value in the file by the following command::
+ 	input = devm_input_allocate_device(dev);
+ 	if (!input)
+-		return -ENOMEM;
++		goto free_priv;
  
-@@ -148,6 +149,14 @@ Command	    Function
+ 	priv->client = client;
+ 	priv->input = input;
+@@ -443,7 +443,7 @@ static int ili210x_i2c_probe(struct i2c_client *client,
+ 				    INPUT_MT_DIRECT);
+ 	if (error) {
+ 		dev_err(dev, "Unable to set up slots, err: %d\n", error);
+-		return error;
++		goto free_input;
+ 	}
  
- ``z``	    Dump the ftrace buffer
+ 	error = devm_request_threaded_irq(dev, client->irq, NULL, ili210x_irq,
+@@ -451,27 +451,36 @@ static int ili210x_i2c_probe(struct i2c_client *client,
+ 	if (error) {
+ 		dev_err(dev, "Unable to request touchscreen IRQ, err: %d\n",
+ 			error);
+-		return error;
++		goto free_input;
+ 	}
  
-+``C``	    Execute a predefined, compound action. The action is defined with
-+	    sysrq.sysrq_compound_action module parameter, whose value contains known
-+	    command keys (except ``C`` to prevent recursion). The command keys can
-+	    be optionally followed by a colon and a number of milliseconds to wait
-+	    after executing the last action. For example:
+ 	error = devm_add_action_or_reset(dev, ili210x_stop, priv);
+ 	if (error)
+-		return error;
++		goto free_irq;
+ 
+ 	error = devm_device_add_group(dev, &ili210x_attr_group);
+ 	if (error) {
+ 		dev_err(dev, "Unable to create sysfs attributes, err: %d\n",
+ 			error);
+-		return error;
++		goto free_irq;
+ 	}
+ 
+ 	error = input_register_device(priv->input);
+ 	if (error) {
+ 		dev_err(dev, "Cannot register input device, err: %d\n", error);
+-		return error;
++		goto free_irq;
+ 	}
+ 
+ 	return 0;
 +
-+	    sysrq.sysrq_compound_action=r:100eis:1000ub
++free_irq:
++	free_irq(client->irq, client);
++free_input:
++	input_free_device(input);
++free_priv:
++	kfree(priv);
 +
- ``0``-``9`` Sets the console log level, controlling which kernel messages
-             will be printed to your console. (``0``, for example would make
-             it so that only emergency messages like PANICs or OOPSes would
-diff --git a/drivers/tty/sysrq.c b/drivers/tty/sysrq.c
-index 52e344bfe8c0..ffcda1316675 100644
---- a/drivers/tty/sysrq.c
-+++ b/drivers/tty/sysrq.c
-@@ -19,6 +19,7 @@
- #include <linux/sched/rt.h>
- #include <linux/sched/debug.h>
- #include <linux/sched/task.h>
-+#include <linux/delay.h>
- #include <linux/interrupt.h>
- #include <linux/mm.h>
- #include <linux/fs.h>
-@@ -439,6 +440,15 @@ static const struct sysrq_key_op sysrq_unrt_op = {
- 	.enable_mask	= SYSRQ_ENABLE_RTNICE,
- };
- 
-+static void sysrq_action_compound(int key);
-+
-+static struct sysrq_key_op sysrq_action_compound_op = {
-+	.handler	= sysrq_action_compound,
-+	.help_msg	= "execute-compound-action(C)",
-+	.action_msg	= "Execute compound action",
-+	.enable_mask	= SYSRQ_ENABLE_COMPOUND,
-+};
-+
- /* Key Operations table and lock */
- static DEFINE_SPINLOCK(sysrq_key_table_lock);
- 
-@@ -501,7 +511,7 @@ static const struct sysrq_key_op *sysrq_key_table[62] = {
- 	&sysrq_ftrace_dump_op,		/* z */
- 	NULL,				/* A */
- 	NULL,				/* B */
--	NULL,				/* C */
-+	&sysrq_action_compound_op,	/* C */
- 	NULL,				/* D */
- 	NULL,				/* E */
- 	NULL,				/* F */
-@@ -634,6 +644,7 @@ EXPORT_SYMBOL(handle_sysrq);
- 
- #ifdef CONFIG_INPUT
- static int sysrq_reset_downtime_ms;
-+static char *sysrq_compound_action;
- 
- /* Simple translation table for the SysRq keys */
- static const unsigned char sysrq_xlate[KEY_CNT] =
-@@ -787,6 +798,61 @@ static void sysrq_of_get_keyreset_config(void)
- {
++	return error;
  }
- #endif
-+#define SYSRQ_COMPOUND_ACTION_VALIDATE	0
-+#define SYSRQ_COMPOUND_ACTION_RUN	1
-+
-+static int sysrq_process_compound_action(int pass)
-+{
-+	const char *action = sysrq_compound_action;
-+	const struct sysrq_key_op *op_p;
-+	int ret, delay;
-+
-+	while (*action) {
-+		op_p = __sysrq_get_key_op(*action);
-+		if (!op_p)
-+			return -EINVAL;
-+
-+		/* Don't allow calling ourselves recursively */
-+		if (op_p == &sysrq_action_compound_op)
-+			return -EINVAL;
-+
-+		if (pass == SYSRQ_COMPOUND_ACTION_RUN)
-+			__handle_sysrq(*action, false);
-+
-+		if (*++action == ':') {
-+			ret = sscanf(action++, ":%d", &delay);
-+			if (ret < 1) /* we want at least ":[0-9]" => 1 item */
-+				return -EINVAL;
-+
-+			while (*action >= '0' && *action <= '9')
-+				++action;
-+			if (pass == SYSRQ_COMPOUND_ACTION_RUN)
-+				mdelay(delay);
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static void sysrq_action_compound(int key)
-+{
-+	if (!sysrq_compound_action) {
-+		pr_err("Unconfigured compound action for %s",
-+		       sysrq_action_compound_op.help_msg);
-+
-+		return;
-+	}
-+
-+	if (sysrq_process_compound_action(SYSRQ_COMPOUND_ACTION_VALIDATE)) {
-+		pr_err("Incorrect compound action %s for %s",
-+		       sysrq_compound_action,
-+		       sysrq_action_compound_op.help_msg);
-+
-+		return;
-+	}
-+
-+	sysrq_process_compound_action(SYSRQ_COMPOUND_ACTION_RUN);
-+}
  
- static void sysrq_reinject_alt_sysrq(struct work_struct *work)
- {
-@@ -1079,8 +1145,21 @@ module_param_array_named(reset_seq, sysrq_reset_seq, sysrq_reset_seq,
- 
- module_param_named(sysrq_downtime_ms, sysrq_reset_downtime_ms, int, 0644);
- 
-+module_param(sysrq_compound_action, charp, 0644);
-+MODULE_PARM_DESC(sysrq_compound_action,
-+	"Compound sysrq action to be executed on Alt-Shift-SysRq-C\n"
-+	"The compound action definition consists of known SysRq action letters except 'C',\n"
-+	"each letter can be optionally followed by a colon and a number of milliseconds to wait\n"
-+	"after executing the last action.\n"
-+	"Example:\n"
-+	"To unRaw, wait 100ms, tErminate, kIll, Sync, wait 1000ms, Unmount, Boot\n"
-+	"sysrq.sysrq_compound_action=r:100eis:1000ub");
- #else
- 
-+{
-+}
-+
-+static void sysrq_action_compound(int key)
- static inline void sysrq_register_handler(void)
- {
- }
-diff --git a/include/linux/sysrq.h b/include/linux/sysrq.h
-index 3a582ec7a2f1..6df4442f12a9 100644
---- a/include/linux/sysrq.h
-+++ b/include/linux/sysrq.h
-@@ -28,6 +28,7 @@
- #define SYSRQ_ENABLE_SIGNAL	0x0040
- #define SYSRQ_ENABLE_BOOT	0x0080
- #define SYSRQ_ENABLE_RTNICE	0x0100
-+#define SYSRQ_ENABLE_COMPOUND	0x0200
- 
- struct sysrq_key_op {
- 	void (* const handler)(int);
+ static const struct i2c_device_id ili210x_i2c_id[] = {
 -- 
-2.17.1
+2.25.1
 
