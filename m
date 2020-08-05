@@ -2,66 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07B7423C251
-	for <lists+linux-input@lfdr.de>; Wed,  5 Aug 2020 01:52:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78B3623C72D
+	for <lists+linux-input@lfdr.de>; Wed,  5 Aug 2020 09:50:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727867AbgHDXwa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 4 Aug 2020 19:52:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59272 "EHLO
+        id S1727006AbgHEHun (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 Aug 2020 03:50:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726011AbgHDXw2 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 4 Aug 2020 19:52:28 -0400
-X-Greylist: delayed 86248 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 04 Aug 2020 16:52:27 PDT
-Received: from dockerbox (unknown [IPv6:2001:4800:7817:101:be76:4eff:fe04:a215])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BC72FC061756;
-        Tue,  4 Aug 2020 16:52:27 -0700 (PDT)
-Received: from 127.0.0.1 (localhost [127.0.0.1])
-        by dockerbox (Postfix) with SMTP id 6F4DA5EC5A;
-        Mon,  7 Oct 2019 19:30:12 -0500 (CDT)
-Received: from [32.188.209.113] by 127.0.0.1 with SMTP; Mon, 07 Oct 2019 18:22:17 -0600
-Message-ID: <80v-q$4-o4pqyq0@6eeih174.p55>
-From:   "Mr Barrister Hans Erich" <dave@dbsoundfactory.com>
-Reply-To: "Mr Barrister Hans Erich" <dave@dbsoundfactory.com>
-To:     linkos@binet.lv
-Subject: RE:PERSONAL LETTER FROM MRS RASHIA AMIRA
-Date:   Mon, 07 Oct 19 18:22:17 GMT
-X-Mailer: Microsoft Outlook Express 5.00.2615.200
+        with ESMTP id S1725920AbgHEHun (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Aug 2020 03:50:43 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C24BC06174A
+        for <linux-input@vger.kernel.org>; Wed,  5 Aug 2020 00:50:42 -0700 (PDT)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1k3EC7-0003wV-G7; Wed, 05 Aug 2020 09:50:39 +0200
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1k3EC7-0007Z0-5j; Wed, 05 Aug 2020 09:50:39 +0200
+Date:   Wed, 5 Aug 2020 09:50:39 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Adam Ford <aford173@gmail.com>
+Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: ili210x: Fix potential memory leaks
+Message-ID: <20200805075039.jptytefw3mm2d4nq@pengutronix.de>
+References: <20200804183007.117125-1-aford173@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-        boundary="_.A4476ECDD73A3"
-X-Priority: 3
-X-MSMail-Priority: Normal
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200804183007.117125-1-aford173@gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 09:48:37 up 263 days, 23:07, 241 users,  load average: 0.14, 0.10,
+ 0.05
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi Adam,
 
---_.A4476ECDD73A3
-Content-Type: text/plain;
-Content-Transfer-Encoding: quoted-printable
+On 20-08-04 13:30, Adam Ford wrote:
+> This driver requests, memory twice and requests a threaded irq, but
+> it doesn't free any of them if something fails.
 
-Greetings
+Free'ing is done automatically because the driver uses devres
+(identified by devm_ prepfix) functions.
 
-My name is Barrister Hans Erich.
-
-I have a client who is interested to invest in your country, she is a well=
- known politician in her country and deserve a lucrative investment partne=
-rship with you outside her country without any delay   Please can you mana=
-ge such investment please Kindly reply for further details.
-
-Your full names --------
-
-
-Your urgent response will be appreciated
-
-Thank you and God bless you.
-
-Barrister Hans Erich
-
-Yours sincerely,
-Barrister Hans Erich
-CONTACT: hanserich9helmut@gmail.com
-
---_.A4476ECDD73A3--
-
+Regards,
+  Marco
