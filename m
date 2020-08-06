@@ -2,307 +2,280 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17C3E23D2AC
-	for <lists+linux-input@lfdr.de>; Wed,  5 Aug 2020 22:15:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A24D23DBA0
+	for <lists+linux-input@lfdr.de>; Thu,  6 Aug 2020 18:27:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729872AbgHEUOo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 Aug 2020 16:14:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42498 "EHLO
+        id S1727045AbgHFQ1e (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 6 Aug 2020 12:27:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726664AbgHEQXZ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 5 Aug 2020 12:23:25 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B03C0C001FDA;
-        Wed,  5 Aug 2020 09:10:29 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: sre)
-        with ESMTPSA id 7C7E3299005
-Received: by jupiter.universe (Postfix, from userid 1000)
-        id 437F548011C; Wed,  5 Aug 2020 18:05:21 +0200 (CEST)
-From:   Sebastian Reichel <sebastian.reichel@collabora.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Ahmet Inan <inan@distec.de>,
-        Martin Fuzzey <martin.fuzzey@flowbird.group>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel@collabora.com,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Subject: [PATCHv4 4/4] Input: EXC3000: Add support to query model and fw_version
-Date:   Wed,  5 Aug 2020 18:05:20 +0200
-Message-Id: <20200805160520.456570-5-sebastian.reichel@collabora.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200805160520.456570-1-sebastian.reichel@collabora.com>
-References: <20200805160520.456570-1-sebastian.reichel@collabora.com>
+        with ESMTP id S1727884AbgHFQSr (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Aug 2020 12:18:47 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A63CC0086A9
+        for <linux-input@vger.kernel.org>; Thu,  6 Aug 2020 08:28:56 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id a26so24982909ejc.2
+        for <linux-input@vger.kernel.org>; Thu, 06 Aug 2020 08:28:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=8dJRX0Igl8Nzz5CO3GKFYKT9330jHgO3CL9EwFxbfPY=;
+        b=Et4UyxEhb4ruYaDwnjt8+KPZrq/MFw2cICGFKe8rbg1pXlR+HHtzHMoSEgtnFbWhyU
+         oO7c1P0pwaTs0mUWogLImAdsgBwbePBedWGjXHb+kEIBlevGB2o01x2tle+6oNN7Ne3z
+         X0kABG46i+CXilTn3kpGonGXNkRilg4VYfJkMq3i+HF0v/LWF+HZYzq78yQo4Lx9fgav
+         qIMFgp1Cg2K7vBH2DRyFdZcFa2RvxJG+yfVJPpCcdMlqezRcrf1A1cdSVpAKI13eHGUs
+         hTsvrcBK4klJThdTnXVOA/yZE02qyEgx57ygmx0QqxEo7BPljTAUffEXUcGLohS1rrXa
+         nSVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=8dJRX0Igl8Nzz5CO3GKFYKT9330jHgO3CL9EwFxbfPY=;
+        b=VHvPDSjOazXSNcxpfaD9/BmzQCG1kkeu2Ab7n5CcCAtHMjS7AJ1QEAdlv3b8YG2/8J
+         kT4T6fNUcZhpDpNK0jT1BE1JUaHpTiLmU6+b/YAf8PTsnW+6JEPZshR9m9M8gTUcpsg6
+         MmqWTpAS9Cf7j0DW5UeIRPyo5OFgBEYjxEYrT4u63iAzE89p3cK5zgyqAUPZjsjFfAiB
+         ceXFOsjS8lET+seNV+QDQ5XsFLh5yLfrgBfMylJxlZclRnSegudk0pf1kt3O2/2wp9j9
+         MqRniqZyJIHrGv45ySrKJpSrRziFG5Z1mIEHdEfqa7dUmsqADE2FkCVaqAlLlznv45/a
+         Bi3g==
+X-Gm-Message-State: AOAM533Rq1vQw6AnksCUzG+LqKEENP7IRMXHKKoq34le7iJI9SPO9Sl8
+        kll8ty5XDntDercGJMYP3bhGJu+sNzyFOuHxR1vVFiu/+xI=
+X-Google-Smtp-Source: ABdhPJyJ6LKnK4sE4FKAWZMO5lrML4pA9T6kL3O1Se2tGp1Pmv8J4aqcA9YOHsfaPuOVZxolrRJlCDcA5wi4VNs9FzU=
+X-Received: by 2002:a17:906:7fc9:: with SMTP id r9mr4742298ejs.407.1596727732562;
+ Thu, 06 Aug 2020 08:28:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From:   Raul Rangel <rrangel@google.com>
+Date:   Thu, 6 Aug 2020 09:28:41 -0600
+Message-ID: <CAHQZ30ANTeM-pgdYZ4AbgxsnevBJnJgKZ1Kg+Uy8oSXZUvz=og@mail.gmail.com>
+Subject: PS/2 + i8042 intermixing commands
+To:     linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
+        "S, Shirish" <Shirish.S@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Expose model and fw_version via sysfs. Also query the model
-in probe to make sure, that the I2C communication with the
-device works before successfully probing the driver.
+I'm debugging a resume issue on one of our devices using the v5.4
+kernel. The device has a PS/2 atkbd and a PS/2 touchpad. It looks like
+PS/2 commands are getting intermingled with i8042 commands. This
+results in our keyboard controller thinking it got some invalid data.
+This usually happens 1 out of 1500 resumes.
 
-This is a bit complicated, since EETI devices do not have
-a sync interface. Sending the commands and directly reading
-does not work. Sending the command and waiting for some time
-is also not an option, since there might be touch events in
-the mean time.
+Here is the log from my keyboard controller on a good resume.
 
-Last but not least we do not cache the results, since this
-interface can be used to check the I2C communication is still
-working as expected.
+I've added some comments to make it easier to follow:
+> <-- i8042_controller_resume
+> [KB recv cmd: 0xaa] # CMD #1
+>
+> [KB recv cmd: 0x60] # CMD #2
+> [ACPI kblight 0]
+> [KB recv data: 0x70]
+> [KB eaten by STATE_WRITE_CMD_BYTE: 0x70]
+> [KB set CTR_RAM(0x00)=0x70 (old:0x70)]
+>
+> <- i8042_enable_aux_port
+> [KB recv cmd: 0x60] # CMD #3
+> [KB recv data: 0x52]
+> [KB eaten by STATE_WRITE_CMD_BYTE: 0x52]
+> [KB set CTR_RAM(0x00)=0x52 (old:0x70)]
+> [AUX IRQ enable]
+> [AUX enabled]
+>
+> <- i8042_enable_kbd_port
+> [KB recv cmd: 0x60] # CMD #4
+> [KB recv data: 0x43]
+> [KB eaten by STATE_WRITE_CMD_BYTE: 0x43]
+> [KB set CTR_RAM(0x00)=0x43 (old:0x52)]
+> [KB IRQ enable]
+> [KB enable]
+>
+> <- atkbd_reconnect->atkbd_probe
+> [KB recv data: 0xf2] <- ATKBD_CMD_GETID # CMD #5
+> <- atkbd_deactivate
+> [KB recv data: 0xf5] <- ATKBD_CMD_RESET_DIS # CMD #6
+> [KS disable]
+> [KB Clear Buffer]
+>
+> <- atkbd_reconnect->atkbd_set_leds
+> [KB recv data: 0xed] # CMD #7
+> [KB recv data: 0x00]
+> [KB eaten by STATE_SETLEDS]
+>
+> <- atkbd_reconnect->atkbd_set_repeat_rate
+> [KB recv data: 0xf3] # CMD #8
+> [KB recv data: 0x00]
+> [KB eaten by STATE_SETREP: 0x00]
+>
+> <- atkbd_reconnect->atkbd_activate
+> [KB recv data: 0xf4] <- ATKBD_CMD_ENABLE # CMD #9
+> [KS enable]
+> [KB Clear Buffer]
+>
+> <- atkbd_event_work->atkbd_set_leds
+> [KB recv data: 0xed] # CMD #10
+> [KB recv data: 0x00]
+> [KB eaten by STATE_SETLEDS]
+>
+> <- atkbd_event_work->atkbd_set_repeat_rate
+> [KB recv data: 0xf3] # CMD #11
+> [KB recv data: 0x00]
+> [KB eaten by STATE_SETREP: 0x00]
+>
+> <-- trackpoint_reconnect->trackpoint_start_protocol
+> [KB recv cmd: 0xd4] <- I8042_CMD_AUX_SEND # CMD #12
+> [KB recv data: 0xe1] <- TP_READ_ID
+> [STATE_SEND_TO_MOUSE: 0xe1]
+>
+> <- Is this i8042_port_close?
+> [KB recv cmd: 0x60] # CMD #13
+> [KB recv data: 0x41]
+> [KB eaten by STATE_WRITE_CMD_BYTE: 0x41]
+> [KB set CTR_RAM(0x00)=0x41 (old:0x43)]
+> [AUX IRQ disable]
+> [KB recv cmd: 0x60] # CMD #14
+> [KB recv data: 0x43]
+> [KB eaten by STATE_WRITE_CMD_BYTE: 0x43]
+> [KB set CTR_RAM(0x00)=0x43 (old:0x41)]
+> [AUX IRQ enable]
+>
+> [KB recv cmd: 0xd4] # CMD #15
+> [KB recv data: 0xf2]
+> [STATE_SEND_TO_MOUSE: 0xf2]
 
-Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
----
- .../ABI/testing/sysfs-driver-input-exc3000    |  15 ++
- drivers/input/touchscreen/exc3000.c           | 154 +++++++++++++++++-
- 2 files changed, 168 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/ABI/testing/sysfs-driver-input-exc3000
 
-diff --git a/Documentation/ABI/testing/sysfs-driver-input-exc3000 b/Documentation/ABI/testing/sysfs-driver-input-exc3000
-new file mode 100644
-index 000000000000..3d316d54f81c
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-driver-input-exc3000
-@@ -0,0 +1,15 @@
-+What:		/sys/bus/i2c/devices/xxx/fw_version
-+Date:		Aug 2020
-+Contact:	linux-input@vger.kernel.org
-+Description:    Reports the firmware version provided by the touchscreen, for example "00_T6" on a EXC80H60
-+
-+		Access: Read
-+		Valid values: Represented as string
-+
-+What:		/sys/bus/i2c/devices/xxx/model
-+Date:		Aug 2020
-+Contact:	linux-input@vger.kernel.org
-+Description:    Reports the model identification provided by the touchscreen, for example "Orion_1320" on a EXC80H60
-+
-+		Access: Read
-+		Valid values: Represented as string
-diff --git a/drivers/input/touchscreen/exc3000.c b/drivers/input/touchscreen/exc3000.c
-index 203f50acaab7..2e5fdbc9878a 100644
---- a/drivers/input/touchscreen/exc3000.c
-+++ b/drivers/input/touchscreen/exc3000.c
-@@ -27,6 +27,9 @@
- #define EXC3000_LEN_FRAME		66
- #define EXC3000_LEN_POINT		10
- 
-+#define EXC3000_LEN_MODEL_NAME		16
-+#define EXC3000_LEN_FW_VERSION		16
-+
- #define EXC3000_MT1_EVENT		0x06
- #define EXC3000_MT2_EVENT		0x18
- 
-@@ -71,6 +74,11 @@ struct exc3000_data {
- 	struct gpio_desc *reset;
- 	struct timer_list timer;
- 	u8 buf[2 * EXC3000_LEN_FRAME];
-+	struct completion wait_event;
-+	struct mutex query_lock;
-+	int query_result;
-+	char model[EXC3000_LEN_MODEL_NAME];
-+	char fw_version[EXC3000_LEN_FW_VERSION];
- };
- 
- static void exc3000_report_slots(struct input_dev *input,
-@@ -156,6 +164,28 @@ static int exc3000_read_data(struct exc3000_data *data,
- 	return 0;
- }
- 
-+static int exc3000_query_interrupt(struct exc3000_data *data)
-+{
-+	u8 *buf = data->buf;
-+	int err;
-+
-+	err = i2c_master_recv(data->client, buf, EXC3000_LEN_FRAME);
-+	if (err < 0)
-+		return err;
-+
-+	if (buf[0] != 0x42)
-+		return -EPROTO;
-+
-+	if (buf[4] == 'E')
-+		strlcpy(data->model, buf+5, sizeof(data->model));
-+	else if (buf[4] == 'D')
-+		strlcpy(data->fw_version, buf+5, sizeof(data->fw_version));
-+	else
-+		return -EPROTO;
-+
-+	return 0;
-+}
-+
- static irqreturn_t exc3000_interrupt(int irq, void *dev_id)
- {
- 	struct exc3000_data *data = dev_id;
-@@ -164,6 +194,12 @@ static irqreturn_t exc3000_interrupt(int irq, void *dev_id)
- 	int slots, total_slots;
- 	int error;
- 
-+	if (mutex_is_locked(&data->query_lock)) {
-+		data->query_result = exc3000_query_interrupt(data);
-+		complete(&data->wait_event);
-+		goto out;
-+	}
-+
- 	error = exc3000_read_data(data, buf, &total_slots);
- 	if (error) {
- 		/* Schedule a timer to release "stuck" contacts */
-@@ -191,11 +227,95 @@ static irqreturn_t exc3000_interrupt(int irq, void *dev_id)
- 	return IRQ_HANDLED;
- }
- 
-+static ssize_t fw_version_show(struct device *dev,
-+			       struct device_attribute *attr, char *buf)
-+{
-+	struct exc3000_data *data = dev_get_drvdata(dev);
-+	static const u8 request[68] = {
-+		0x67, 0x00, 0x42, 0x00, 0x03, 0x01, 'D', 0x00
-+	};
-+	struct i2c_client *client = data->client;
-+	int err;
-+
-+	mutex_lock(&data->query_lock);
-+
-+	data->query_result = -ETIMEDOUT;
-+	reinit_completion(&data->wait_event);
-+
-+	err = i2c_master_send(client, request, sizeof(request));
-+	if (err < 0) {
-+		mutex_unlock(&data->query_lock);
-+		return err;
-+	}
-+
-+	wait_for_completion_interruptible_timeout(&data->wait_event, 1*HZ);
-+	mutex_unlock(&data->query_lock);
-+
-+	if (data->query_result < 0)
-+		return data->query_result;
-+
-+	return sprintf(buf, "%s\n", data->fw_version);
-+}
-+static DEVICE_ATTR_RO(fw_version);
-+
-+static ssize_t exc3000_get_model(struct exc3000_data *data)
-+{
-+	static const u8 request[68] = {
-+		0x67, 0x00, 0x42, 0x00, 0x03, 0x01, 'E', 0x00
-+	};
-+	struct i2c_client *client = data->client;
-+	int err;
-+
-+	mutex_lock(&data->query_lock);
-+	data->query_result = -ETIMEDOUT;
-+	reinit_completion(&data->wait_event);
-+
-+	err = i2c_master_send(client, request, sizeof(request));
-+	if (err < 0) {
-+		mutex_unlock(&data->query_lock);
-+		return err;
-+	}
-+
-+	wait_for_completion_interruptible_timeout(&data->wait_event, 1 * HZ);
-+	mutex_unlock(&data->query_lock);
-+
-+	return data->query_result;
-+}
-+
-+static ssize_t model_show(struct device *dev,
-+			  struct device_attribute *attr, char *buf)
-+{
-+	struct exc3000_data *data = dev_get_drvdata(dev);
-+	int err = exc3000_get_model(data);
-+
-+	if (err < 0)
-+		return err;
-+
-+	return sprintf(buf, "%s\n", data->model);
-+}
-+static DEVICE_ATTR_RO(model);
-+
-+static struct attribute *sysfs_attrs[] = {
-+	&dev_attr_fw_version.attr,
-+	&dev_attr_model.attr,
-+	NULL
-+};
-+
-+static struct attribute_group exc3000_attribute_group = {
-+	.attrs = sysfs_attrs
-+};
-+
-+static void exc3000_unregister_sysfs(void *_dev)
-+{
-+	struct device *dev = _dev;
-+	sysfs_remove_group(&dev->kobj, &exc3000_attribute_group);
-+}
-+
- static int exc3000_probe(struct i2c_client *client)
- {
- 	struct exc3000_data *data;
- 	struct input_dev *input;
--	int error, max_xy;
-+	int error, max_xy, retry;
- 
- 	data = devm_kzalloc(&client->dev, sizeof(*data), GFP_KERNEL);
- 	if (!data)
-@@ -209,6 +329,8 @@ static int exc3000_probe(struct i2c_client *client)
- 		data->info = &exc3000_info[eeti_dev_id];
- 	}
- 	timer_setup(&data->timer, exc3000_timer, 0);
-+	init_completion(&data->wait_event);
-+	mutex_init(&data->query_lock);
- 
- 	data->reset = devm_gpiod_get_optional(&client->dev, "reset",
- 					      GPIOD_OUT_HIGH);
-@@ -226,6 +348,7 @@ static int exc3000_probe(struct i2c_client *client)
- 		return -ENOMEM;
- 
- 	data->input = input;
-+	input_set_drvdata(input, data);
- 
- 	input->name = data->info->name;
- 	input->id.bustype = BUS_I2C;
-@@ -251,6 +374,35 @@ static int exc3000_probe(struct i2c_client *client)
- 	if (error)
- 		return error;
- 
-+	/*
-+	 * I²C does not have built-in recovery, so retry on failure. This ensures,
-+	 * that the device probe will not fail for temporary issues on the bus.
-+	 * This is not needed for the sysfs calls (userspace will receive the error
-+	 * code and can start another query) and cannot be done for touch events
-+	 * (but that only means loosing one or two touch events anyways).
-+	 */
-+	for (retry = 0; retry < 3; ++retry) {
-+		error = exc3000_get_model(data);
-+		if (!error)
-+			break;
-+		dev_warn(&client->dev, "Retry %d get EETI EXC3000 model: %d\n",
-+			 retry + 1, error);
-+	}
-+
-+	if (error)
-+		return error;
-+
-+	dev_dbg(&client->dev, "TS Model: %s", data->model);
-+
-+	i2c_set_clientdata(client, data);
-+	error = sysfs_create_group(&client->dev.kobj, &exc3000_attribute_group);
-+	if (error)
-+		return error;
-+
-+	error = devm_add_action_or_reset(&client->dev, exc3000_unregister_sysfs, &client->dev);
-+	if (error)
-+		return error;
-+
- 	return 0;
- }
- 
--- 
-2.27.0
+Here is the log on the bad resume:
 
+> <-- i8042_controller_resume
+> [KB recv cmd: 0xaa] # CMD #1
+>
+> [KB recv cmd: 0x60] # CMD #2
+> [ACPI kblight 0]
+> [KB recv data: 0x70]
+> [KB eaten by STATE_WRITE_CMD_BYTE: 0x70]
+> [KB set CTR_RAM(0x00)=0x70 (old:0x70)]
+>
+> <- i8042_enable_aux_port
+> [KB recv cmd: 0x60] # CMD #3
+> [KB recv data: 0x52]
+> [KB eaten by STATE_WRITE_CMD_BYTE: 0x52]
+> [KB set CTR_RAM(0x00)=0x52 (old:0x70)]
+> [AUX IRQ enable]
+> [AUX enabled]
+>
+> <- i8042_enable_kbd_port
+> [KB recv cmd: 0x60] # CMD #4
+> [KB recv data: 0x43]
+> [KB eaten by STATE_WRITE_CMD_BYTE: 0x43]
+> [KB set CTR_RAM(0x00)=0x43 (old:0x52)]
+> [KB IRQ enable]
+> [KB enable]
+>
+> <- atkbd_reconnect->atkbd_probe
+> [KB recv data: 0xf2] <- ATKBD_CMD_GETID # CMD #5
+> <- atkbd_deactivate
+> [KB recv data: 0xf5] <- ATKBD_CMD_RESET_DIS # CMD #6
+> [KS disable]
+> [KB Clear Buffer]
+>
+> <- atkbd_reconnect->atkbd_set_leds
+> [KB recv data: 0xed] # CMD #7
+> [KB recv data: 0x00]
+> [KB eaten by STATE_SETLEDS]
+>
+> <- atkbd_reconnect->atkbd_set_repeat_rate
+> [KB recv data: 0xf3] # CMD #8
+> [KB recv data: 0x00]
+> [KB eaten by STATE_SETREP: 0x00]
+>
+> <- atkbd_reconnect->atkbd_activate
+> [KB recv data: 0xf4] <- ATKBD_CMD_ENABLE # CMD #9
+> [KS enable]
+> [KB Clear Buffer]
+>
+> <-- trackpoint_reconnect->trackpoint_start_protocol
+> [KB recv cmd: 0xd4] <- I8042_CMD_AUX_SEND # CMD #12
+> [KB recv data: 0xe1] <- TP_READ_ID
+> [STATE_SEND_TO_MOUSE: 0xe1]
+>
+> <- Is this i8042_port_close?
+> [KB recv cmd: 0x60] # CMD #13
+> [KB recv data: 0x41]
+> [KB eaten by STATE_WRITE_CMD_BYTE: 0x41]
+> [KB set CTR_RAM(0x00)=0x41 (old:0x43)]
+> [AUX IRQ disable]
+>
+> <- atkbd_event_work->atkbd_set_leds
+> [KB recv data: 0xed] # CMD 10
+> <- Wait, where is the data?
+>
+> <- Continuation of i8042_port_close?
+> [KB recv cmd: 0x60] # CMD #14
+> [KB recv data: 0x43]
+> [KB eaten by STATE_WRITE_CMD_BYTE: 0x43]
+> [KB set CTR_RAM(0x00)=0x43 (old:0x41)]
+> [AUX IRQ enable]
+>
+> <- Here is the data!
+> [KB recv data: 0x00] # CMD 10 (data)
+> [KB Unsupported i8042 data 0x00]
+> [KB recv data: 0x00] <- Did the host retry?
+> [KB Unsupported i8042 data 0x00]
+>
+> <- atkbd_event_work->atkbd_set_repeat_rate
+> [KB recv data: 0xf3] # CMD #11
+> [KB recv data: 0x00]
+> [KB eaten by STATE_SETREP: 0x00]
+>
+> [KB recv cmd: 0xd4] # CMD #15
+> [KB recv data: 0xf2]
+> [STATE_SEND_TO_MOUSE: 0xf2]
+
+As you can see CMD #10 starts between #13 and #14, and then completes
+after #14. Is this expected behavior?
+
+I'm not quite sure if #13 and #14 are coming from i8042_port_close. I
+don't have a function trace available, but it seems to fit.
+
+I found this comment:
+/*
+ * Writers to AUX and KBD ports as well as users issuing i8042_command
+ * directly should acquire i8042_mutex (by means of calling
+ * i8042_lock_chip() and i8042_unlock_ship() helpers) to ensure that
+ * they do not disturb each other (unfortunately in many i8042
+ * implementations write to one of the ports will immediately abort
+ * command that is being processed by another port).
+ */
+static DEFINE_MUTEX(i8042_mutex);
+
+Does that not mean that i8042_port_close, i8042_enable_kbd_port,
+i8042_enable_aux_port, + any other function that calls i8042_command
+should be taking the lock before calling i8042_command?
+
+Imagine this scenario:
+1) atkbd_set_leds->ps2_command: locks i8042_mutex
+2) __ps2_command->ps2_do_sendbyte->i8042_kbd_write
+2a) locks i8042_lock
+2b) Sends the kbd command
+2c) unlocks i8042_lock
+3) i8042_port_close/i8042_enable_aux_port/etc gets called and then
+calls i8042_command
+3a) locks i8042_lock
+3b) sends 8042 CMD
+3c) sends 8042 DATA
+3d) unlocks i8042_lock
+3e) i8042_command returns
+4)  ps2_do_sendbyte continues sending the kb param via i8042_kbd_write
+4a) locks i8042_lock
+4b) Sends the kbd data <- Original data got stomped on because of the
+8042 CMD in between
+4c) unlocks i8042_lock
+4c) ps2_command unlocks i8042_mutex
+
+Is this an invalid sequence or is our keyboard controller at fault
+because it doesn't support intermingled commands?
+
+Thanks,
+Raul
+
+p.s, sorry for sending twice. I forgot to set the original as plain text :)
