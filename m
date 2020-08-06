@@ -2,110 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D215E23E0BA
-	for <lists+linux-input@lfdr.de>; Thu,  6 Aug 2020 20:39:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 295E123E38A
+	for <lists+linux-input@lfdr.de>; Thu,  6 Aug 2020 23:34:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729722AbgHFShy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 6 Aug 2020 14:37:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59606 "EHLO
+        id S1726232AbgHFVeR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 6 Aug 2020 17:34:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726965AbgHFSfj (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Aug 2020 14:35:39 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2F28C061290
-        for <linux-input@vger.kernel.org>; Thu,  6 Aug 2020 11:35:22 -0700 (PDT)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1k3kjS-0004BS-94; Thu, 06 Aug 2020 20:35:14 +0200
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1k3kjR-0007aU-Sj; Thu, 06 Aug 2020 20:35:13 +0200
-Date:   Thu, 6 Aug 2020 20:35:13 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+        with ESMTP id S1726226AbgHFVeQ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 6 Aug 2020 17:34:16 -0400
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78F71C061575
+        for <linux-input@vger.kernel.org>; Thu,  6 Aug 2020 14:34:16 -0700 (PDT)
+Received: by mail-qv1-xf42.google.com with SMTP id a19so17208027qvy.3
+        for <linux-input@vger.kernel.org>; Thu, 06 Aug 2020 14:34:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=d+76LXO14aNsx8i1gnsECIsp+iH10M2aik6HmT5GQNM=;
+        b=mWogffXazu8aVcQxrtz2BpdyrkCKOBfTzr9EAQaCeetZCb3M0J/y901nI1OnHvRvzS
+         Ban/20sVtB3RPaygay2NwTeW7yzd2JJwp4ETi01vtqE5Z7ZS5pxr/9pe8h+n0g2hqiSQ
+         6FVcv1v5O9PkmJizhozW8gSa0sSBZH1cuPWzw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=d+76LXO14aNsx8i1gnsECIsp+iH10M2aik6HmT5GQNM=;
+        b=ROzfVkSABNirm9Fvl8AdzKSgPfWSt2aD3y3WBWixcFcw1iDmn6dRznoxuhiBuFZQsL
+         /21pYfslbMtw1ZV9WBOjxKghsgIwNviyhc0/SVomCHwdToNLQ9RpEX+Kkns6g1x4+Jal
+         OwZMKQ0q63WyzdY8VQuWNxjNqcnh3fN9VBMJ+YX4emlxAyTcv+hSSm6JkNtynxo9TH/z
+         XdNuyNGMumPUrGz03ZC81z82b60aaTx2W5C9LWIDcMqRV7RqgYgKZtoO09JB8FX8lPPn
+         ZlFezzVxChpz9ULhURYQJkCARLrmuFezDE9Eqif9hHrJyZVV6uYVxV6Dtzo9zyGEv5fv
+         hW8g==
+X-Gm-Message-State: AOAM531F2lk+c6hKAbOqbPScAE095jue61tMSF2eHgK1W761c8mCFg0G
+        F2AmGpTYe403Pj/SmYrxseBPRKAKhyY=
+X-Google-Smtp-Source: ABdhPJzQTXIoJ2fwhrP/A9gZ9es46zs/BG6JBC0JcN4vAnSqj/DVZNy2M0DUsJljJL+NfhVL5asLbw==
+X-Received: by 2002:ad4:560f:: with SMTP id ca15mr6235744qvb.144.1596749654853;
+        Thu, 06 Aug 2020 14:34:14 -0700 (PDT)
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com. [209.85.222.172])
+        by smtp.gmail.com with ESMTPSA id o21sm4970732qkk.94.2020.08.06.14.34.11
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Aug 2020 14:34:12 -0700 (PDT)
+Received: by mail-qk1-f172.google.com with SMTP id p25so5900503qkp.2
+        for <linux-input@vger.kernel.org>; Thu, 06 Aug 2020 14:34:11 -0700 (PDT)
+X-Received: by 2002:a05:620a:1424:: with SMTP id k4mr10651380qkj.2.1596749651000;
+ Thu, 06 Aug 2020 14:34:11 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200806153308.204605-1-linux@roeck-us.net> <20200806153308.204605-8-linux@roeck-us.net>
+In-Reply-To: <20200806153308.204605-8-linux@roeck-us.net>
+From:   Brian Norris <briannorris@chromium.org>
+Date:   Thu, 6 Aug 2020 14:33:58 -0700
+X-Gmail-Original-Message-ID: <CA+ASDXPkQKfXGzP3kr150VKDE0eGc+2CALEvbU+LGv3zwGyWLQ@mail.gmail.com>
+Message-ID: <CA+ASDXPkQKfXGzP3kr150VKDE0eGc+2CALEvbU+LGv3zwGyWLQ@mail.gmail.com>
+Subject: Re: [PATCH v4 7/7] pwm: cros-ec: Simplify EC error handling
 To:     Guenter Roeck <linux@roeck-us.net>
 Cc:     Enric Balletbo i Serra <enric.balletbo@collabora.com>,
         Jonathan Cameron <jic23@kernel.org>,
         Benson Leung <bleung@chromium.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
         Gwendal Grignou <gwendal@chromium.org>,
-        Brian Norris <briannorris@chromium.org>,
         Yu-Hsuan Hsu <yuhsuan@chromium.org>,
         Prashant Malani <pmalani@chromium.org>,
         linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 4/7] pwm: cros-ec: Accept more error codes from
- cros_ec_cmd_xfer_status
-Message-ID: <20200806183513.nbaeonm5sevjvxkb@pengutronix.de>
-References: <20200806153308.204605-1-linux@roeck-us.net>
- <20200806153308.204605-5-linux@roeck-us.net>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="prp6ta2dfdqjn5v6"
-Content-Disposition: inline
-In-Reply-To: <20200806153308.204605-5-linux@roeck-us.net>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+        linux-pwm <linux-pwm@vger.kernel.org>,
+        Linux Kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-
---prp6ta2dfdqjn5v6
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hello,
-
-On Thu, Aug 06, 2020 at 08:33:05AM -0700, Guenter Roeck wrote:
-> Since commit c5cd2b47b203 ("platform/chrome: cros_ec_proto: Report command
-> not supported") we can no longer assume that cros_ec_cmd_xfer_status()
-> reports -EPROTO for all errors returned by the EC itself. A follow-up
-> patch will change cros_ec_cmd_xfer_status() to report additional errors
-> reported by the EC as distinguished Linux error codes.
->=20
-> Handle this change by no longer assuming that only -EPROTO is used
-> to report all errors returned by the EC itself. Instead, support both
-> the old and the new error codes.
->=20
-> Add a comment describing cros_ec_num_pwms() to explain its functionality.
->=20
-> Cc: Gwendal Grignou <gwendal@chromium.org>
-> Cc: Yu-Hsuan Hsu <yuhsuan@chromium.org>
-> Cc: Prashant Malani <pmalani@chromium.org>
-> Cc: Brian Norris <briannorris@chromium.org>
-> Acked-by: Thierry Reding <thierry.reding@gmail.com>
+On Thu, Aug 6, 2020 at 8:33 AM Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> With enhanced error reporting from cros_ec_cmd_xfer_status() in place,
+> we can fully use it and no longer rely on EC error codes.
+>
 > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 
-Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---prp6ta2dfdqjn5v6
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl8sTV4ACgkQwfwUeK3K
-7Ak7Xwf/bIpQ0ms3aJzAL2lKasQAGjulu7pJpdL40M8US0eyiWsAEWMEbxFoO7Ha
-W2ICAFrAFn6KUTuSPzSOIWOxqcxKE4uDxXKTvh98I9FkFXAY7VKFn32Dbshh+hhZ
-7NxJfdO7YM1evP67JxWrADaNlKbRij0KSGRPFnJ3mzt4XaiDCdUJX3opo9cyDglP
-rX8m/vpdUF8GDgCyh9YjskLqEV56kEzb0WNEVc9jqwkuMEQ6g2silpvtmFnbPpa3
-ZmCPcH2eOqz61dAOdjPdCGAeQmTY7zrXBkw2I4zXWButDK4/9q7yelYOISMMkrO1
-qohHip3HBU5CTDOp52IMtEWlkZauTw==
-=x1Y7
------END PGP SIGNATURE-----
-
---prp6ta2dfdqjn5v6--
+Reviewed-by: Brian Norris <briannorris@chromium.org>
