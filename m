@@ -2,196 +2,218 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0392B23FFF1
-	for <lists+linux-input@lfdr.de>; Sun,  9 Aug 2020 22:11:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8735A240606
+	for <lists+linux-input@lfdr.de>; Mon, 10 Aug 2020 14:40:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726296AbgHIULU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 9 Aug 2020 16:11:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57450 "EHLO
+        id S1726587AbgHJMkd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 Aug 2020 08:40:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726293AbgHIULT (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 9 Aug 2020 16:11:19 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E3CBC061756;
-        Sun,  9 Aug 2020 13:11:19 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id h19so7371113ljg.13;
-        Sun, 09 Aug 2020 13:11:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Qdk2RBcRV1AcLrtgQBGgSeMKBvtdSYjO6UI780gQr+w=;
-        b=AAAEv1KOWusJ2rNlPGig+v0GdI8PRyDWXlkfaSLvJ1RPKgQtlHCl7FIYXgzqwmyta8
-         Egbm3kYi8GbJcm7ZVMry3S1INt64hjASDbhDd2LRnJEK4jWwBPusmrusdfvNWzUxIY6s
-         UuY48kya9wsv4te86eZc/Oeqmzbi+mP8JCO7reRobtMKZ3sNMPlglOLmZ6ZLFWLj1nJ3
-         z8LB/VtDPtQ9GtVkOXZlRxZYzSXNBHjzizj/KLCNwA9L7ec9E39jzYEB08WAyJmgO6ez
-         GIyw4fVGIlmNK4MyoXjpy9WF8yK/r4eIfo29JNiAL4VW0HAzOxGq/AuUOIyLdzkgdYvF
-         r9Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Qdk2RBcRV1AcLrtgQBGgSeMKBvtdSYjO6UI780gQr+w=;
-        b=gJl/nD/yI+y1QH4pfCpo4albtzU1vrp0cU4oKReNQdQ2TBu+RxsUEA8Djo4QSNT8Hd
-         m6XpPq8jSgQ52ZKvLkj5yDX4wdXs+1kTXT9hqPPXMcKk0x2Adyt4S8/Wt7gkndQah9pf
-         qwoBNJZCpU1Y/Xw6IRc2dUDVrR03N5MgOXYfGFcZ1lA+pIKLvxRpLnFBtR6qx6dhGZWq
-         XB1dxOF2G6ptHUg0RZSm40URS+fYfNaH4LGZVo8K/BWfcCvtvQy8MUUtcXlUgBRAXOI4
-         +N7FfRBuLRqPJibtox3bVN+1zLGCVbkxxrG8Szlw7718ku0kgBpv698j1k5ER9ybPan3
-         TXHA==
-X-Gm-Message-State: AOAM533kFNfqbDLg5396qoh9TELY1/+9VSHTPWYa6ZhD0MMx4qrLyjhJ
-        4Fta32w6UnvgjvWM+S0HXQs=
-X-Google-Smtp-Source: ABdhPJybImQmxU+VCQfBpswnANI58xc5V4jCtffX6NDNng0/VTF8Tf5MqD1sKz5cljSbi76v9MWfpw==
-X-Received: by 2002:a05:651c:3cc:: with SMTP id f12mr9836366ljp.335.1597003877497;
-        Sun, 09 Aug 2020 13:11:17 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.googlemail.com with ESMTPSA id t27sm8157962ljd.101.2020.08.09.13.11.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 09 Aug 2020 13:11:16 -0700 (PDT)
-Subject: Re: [PATCH 1/1] Input: atmel_mxt_ts - allow specification of firmware
- file name
-To:     Jiada Wang <jiada_wang@mentor.com>, nick@shmanahar.org,
-        dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        erosca@de.adit-jv.com, Andrew_Gabbasov@mentor.com
-References: <20200731075714.10608-1-jiada_wang@mentor.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <e5da9e03-8156-39f6-c78b-0226c95690c6@gmail.com>
-Date:   Sun, 9 Aug 2020 23:11:16 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        with ESMTP id S1726536AbgHJMkd (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 10 Aug 2020 08:40:33 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96794C061756
+        for <linux-input@vger.kernel.org>; Mon, 10 Aug 2020 05:40:32 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1k576M-0005aP-S5; Mon, 10 Aug 2020 14:40:30 +0200
+Message-ID: <218ee65d70261a766b8ae490a64f60dabe2eca47.camel@pengutronix.de>
+Subject: Re: [PATCH v2 1/4] Input: exc3000: split MT event handling from IRQ
+ handler
+From:   Lucas Stach <l.stach@pengutronix.de>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, kernel@pengutronix.de,
+        patchwork-lst@pengutronix.de
+Date:   Mon, 10 Aug 2020 14:40:30 +0200
+In-Reply-To: <c0bc260d70b5506da2c4e2dc64176d45e1888a25.camel@pengutronix.de>
+References: <20200313143345.28565-1-l.stach@pengutronix.de>
+         <c0bc260d70b5506da2c4e2dc64176d45e1888a25.camel@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
 MIME-Version: 1.0
-In-Reply-To: <20200731075714.10608-1-jiada_wang@mentor.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-31.07.2020 10:57, Jiada Wang пишет:
-> From: Nick Dyer <nick.dyer@itdev.co.uk>
+Hi Dmitry,
+
+Am Montag, den 18.05.2020, 15:24 +0200 schrieb Lucas Stach:
+> Hi Dmitry,
 > 
-> On platforms which have multiple device instances using this driver, the
-> firmware may be different on each device. This patch makes the user give
-> the name of the firmware file when flashing.
+> any chance you could take a look at this series?
+
+Are you able to find some time to look at this series? Should I resend
+the series?
+
+Regards,
+Lucas
+
+> Am Freitag, den 13.03.2020, 15:33 +0100 schrieb Lucas Stach:
+> > Split out the multitouch event handling into it's own function to
+> > allow other
+> > events to be handled in the IRQ handler without disturbing the MT
+> > handling.
+> > 
+> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> > ---
+> >  drivers/input/touchscreen/exc3000.c | 92 +++++++++++++++++------
+> > ------
+> >  1 file changed, 54 insertions(+), 38 deletions(-)
+> > 
+> > diff --git a/drivers/input/touchscreen/exc3000.c
+> > b/drivers/input/touchscreen/exc3000.c
+> > index e007e2e8f626..3458d02310dd 100644
+> > --- a/drivers/input/touchscreen/exc3000.c
+> > +++ b/drivers/input/touchscreen/exc3000.c
+> > @@ -58,6 +58,11 @@ static void exc3000_timer(struct timer_list *t)
+> >  	input_sync(data->input);
+> >  }
+> >  
+> > +static inline void exc3000_schedule_timer(struct exc3000_data
+> > *data)
+> > +{
+> > +	mod_timer(&data->timer, jiffies +
+> > msecs_to_jiffies(EXC3000_TIMEOUT_MS));
+> > +}
+> > +
+> >  static int exc3000_read_frame(struct i2c_client *client, u8 *buf)
+> >  {
+> >  	int ret;
+> > @@ -76,54 +81,35 @@ static int exc3000_read_frame(struct i2c_client
+> > *client, u8 *buf)
+> >  	if (ret != EXC3000_LEN_FRAME)
+> >  		return -EIO;
+> >  
+> > -	if (get_unaligned_le16(buf) != EXC3000_LEN_FRAME ||
+> > -			buf[2] != EXC3000_MT_EVENT)
+> > +	if (get_unaligned_le16(buf) != EXC3000_LEN_FRAME)
+> >  		return -EINVAL;
+> >  
+> >  	return 0;
+> >  }
+> >  
+> > -static int exc3000_read_data(struct i2c_client *client,
+> > -			     u8 *buf, int *n_slots)
+> > +static int exc3000_handle_mt_event(struct exc3000_data *data)
+> >  {
+> > -	int error;
+> > -
+> > -	error = exc3000_read_frame(client, buf);
+> > -	if (error)
+> > -		return error;
+> > +	struct input_dev *input = data->input;
+> > +	int ret, total_slots;
+> > +	u8 *buf = data->buf;
+> >  
+> > -	*n_slots = buf[3];
+> > -	if (!*n_slots || *n_slots > EXC3000_NUM_SLOTS)
+> > -		return -EINVAL;
+> > +	total_slots = buf[3];
+> > +	if (!total_slots || total_slots > EXC3000_NUM_SLOTS) {
+> > +		ret = -EINVAL;
+> > +		goto out_fail;
+> > +	}
+> >  
+> > -	if (*n_slots > EXC3000_SLOTS_PER_FRAME) {
+> > +	if (total_slots > EXC3000_SLOTS_PER_FRAME) {
+> >  		/* Read 2nd frame to get the rest of the contacts. */
+> > -		error = exc3000_read_frame(client, buf +
+> > EXC3000_LEN_FRAME);
+> > -		if (error)
+> > -			return error;
+> > +		ret = exc3000_read_frame(data->client, buf +
+> > EXC3000_LEN_FRAME);
+> > +		if (ret)
+> > +			goto out_fail;
+> >  
+> >  		/* 2nd chunk must have number of contacts set to 0. */
+> > -		if (buf[EXC3000_LEN_FRAME + 3] != 0)
+> > -			return -EINVAL;
+> > -	}
+> > -
+> > -	return 0;
+> > -}
+> > -
+> > -static irqreturn_t exc3000_interrupt(int irq, void *dev_id)
+> > -{
+> > -	struct exc3000_data *data = dev_id;
+> > -	struct input_dev *input = data->input;
+> > -	u8 *buf = data->buf;
+> > -	int slots, total_slots;
+> > -	int error;
+> > -
+> > -	error = exc3000_read_data(data->client, buf, &total_slots);
+> > -	if (error) {
+> > -		/* Schedule a timer to release "stuck" contacts */
+> > -		mod_timer(&data->timer,
+> > -			  jiffies +
+> > msecs_to_jiffies(EXC3000_TIMEOUT_MS));
+> > -		goto out;
+> > +		if (buf[EXC3000_LEN_FRAME + 3] != 0) {
+> > +			ret = -EINVAL;
+> > +			goto out_fail;
+> > +		}
+> >  	}
+> >  
+> >  	/*
+> > @@ -132,7 +118,7 @@ static irqreturn_t exc3000_interrupt(int irq,
+> > void *dev_id)
+> >  	del_timer_sync(&data->timer);
+> >  
+> >  	while (total_slots > 0) {
+> > -		slots = min(total_slots, EXC3000_SLOTS_PER_FRAME);
+> > +		int slots = min(total_slots, EXC3000_SLOTS_PER_FRAME);
+> >  		exc3000_report_slots(input, &data->prop, buf + 4,
+> > slots);
+> >  		total_slots -= slots;
+> >  		buf += EXC3000_LEN_FRAME;
+> > @@ -141,6 +127,36 @@ static irqreturn_t exc3000_interrupt(int irq,
+> > void *dev_id)
+> >  	input_mt_sync_frame(input);
+> >  	input_sync(input);
+> >  
+> > +	return 0;
+> > +
+> > +out_fail:
+> > +	/* Schedule a timer to release "stuck" contacts */
+> > +	exc3000_schedule_timer(data);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static irqreturn_t exc3000_interrupt(int irq, void *dev_id)
+> > +{
+> > +	struct exc3000_data *data = dev_id;
+> > +	u8 *buf = data->buf;
+> > +	int ret;
+> > +
+> > +	ret = exc3000_read_frame(data->client, buf);
+> > +	if (ret) {
+> > +		/* Schedule a timer to release "stuck" contacts */
+> > +		exc3000_schedule_timer(data);
+> > +		goto out;
+> > +	}
+> > +
+> > +	switch (buf[2]) {
+> > +		case EXC3000_MT_EVENT:
+> > +			exc3000_handle_mt_event(data);
+> > +			break;
+> > +		default:
+> > +			break;
+> > +	}
+> > +
+> >  out:
+> >  	return IRQ_HANDLED;
+> >  }
 > 
-> This also prevents accidental triggering of the firmware load process.
-> 
-> Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
-> Acked-by: Benson Leung <bleung@chromium.org>
-> Acked-by: Yufeng Shen <miletus@chromium.org>
-> (cherry picked from ndyer/linux/for-upstream commit 76ebb7cee971cb42dfb0a3a9224403b8b09abcf1)
-> [gdavis: Forward port and fix conflicts.]
-> Signed-off-by: George G. Davis <george_davis@mentor.com>
-> Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
-> ---
->  drivers/input/touchscreen/atmel_mxt_ts.c | 42 ++++++++++++++++++++----
->  1 file changed, 36 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-> index a2189739e30f..024dee7a3571 100644
-> --- a/drivers/input/touchscreen/atmel_mxt_ts.c
-> +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-> @@ -30,8 +30,6 @@
->  #include <media/videobuf2-v4l2.h>
->  #include <media/videobuf2-vmalloc.h>
->  
-> -/* Firmware files */
-> -#define MXT_FW_NAME		"maxtouch.fw"
->  #define MXT_CFG_NAME		"maxtouch.cfg"
->  #define MXT_CFG_MAGIC		"OBP_RAW V1"
->  
-> @@ -308,6 +306,7 @@ struct mxt_data {
->  	struct t7_config t7_cfg;
->  	struct mxt_dbg dbg;
->  	struct gpio_desc *reset_gpio;
-> +	char *fw_name;
-
-Hello, Jiada!
-
-Have you decided to abandon the patch which allowed to specify firmware
-name in a device tree?
-
->  	/* Cached parameters from object table */
->  	u16 T5_address;
-> @@ -2766,7 +2765,7 @@ static int mxt_check_firmware_format(struct device *dev,
->  	return -EINVAL;
->  }
->  
-> -static int mxt_load_fw(struct device *dev, const char *fn)
-> +static int mxt_load_fw(struct device *dev)
->  {
->  	struct mxt_data *data = dev_get_drvdata(dev);
->  	const struct firmware *fw = NULL;
-> @@ -2776,9 +2775,9 @@ static int mxt_load_fw(struct device *dev, const char *fn)
->  	unsigned int frame = 0;
->  	int ret;
->  
-> -	ret = request_firmware(&fw, fn, dev);
-> +	ret = request_firmware(&fw, data->fw_name, dev);
->  	if (ret) {
-> -		dev_err(dev, "Unable to open firmware %s\n", fn);
-> +		dev_err(dev, "Unable to open firmware %s\n", data->fw_name);
->  		return ret;
->  	}
->  
-> @@ -2887,6 +2886,33 @@ static int mxt_load_fw(struct device *dev, const char *fn)
->  	return ret;
->  }
->  
-> +static int mxt_update_file_name(struct device *dev, char **file_name,
-> +				const char *buf, size_t count)
-> +{
-> +	char *file_name_tmp;
-> +
-> +	/* Simple sanity check */
-> +	if (count > 64) {
-> +		dev_warn(dev, "File name too long\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	file_name_tmp = krealloc(*file_name, count + 1, GFP_KERNEL);
-> +	if (!file_name_tmp)
-> +		return -ENOMEM;
-
-The allocated string is never release, this is not good.
-
-Wouldn't it be nicer to make data->fw_name a fixed-size string?
-
-> +	*file_name = file_name_tmp;
-> +	memcpy(*file_name, buf, count);
-> +
-> +	/* Echo into the sysfs entry may append newline at the end of buf */
-> +	if (buf[count - 1] == '\n')
-> +		(*file_name)[count - 1] = '\0';
-> +	else
-> +		(*file_name)[count] = '\0';
-
-What about to use strscpy?
-
-> +	return 0;
-> +}
-> +
->  static ssize_t mxt_update_fw_store(struct device *dev,
->  					struct device_attribute *attr,
->  					const char *buf, size_t count)
-> @@ -2894,7 +2920,11 @@ static ssize_t mxt_update_fw_store(struct device *dev,
->  	struct mxt_data *data = dev_get_drvdata(dev);
->  	int error;
->  
-> -	error = mxt_load_fw(dev, MXT_FW_NAME);
-> +	error = mxt_update_file_name(dev, &data->fw_name, buf, count);
-> +	if (error)
-> +		return error;
-
-This change breaks old behavior, I'm not sure that it's acceptable. The
-default name should remain to be "maxtouch.fw", IMO.
-
-> +	error = mxt_load_fw(dev);
->  	if (error) {
->  		dev_err(dev, "The firmware update failed(%d)\n", error);
->  		count = error;
 > 
 
