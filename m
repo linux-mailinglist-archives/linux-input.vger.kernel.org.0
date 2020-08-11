@@ -2,102 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CF432419F8
-	for <lists+linux-input@lfdr.de>; Tue, 11 Aug 2020 12:53:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD96A241ADB
+	for <lists+linux-input@lfdr.de>; Tue, 11 Aug 2020 14:17:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728525AbgHKKxy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Aug 2020 06:53:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45872 "EHLO
+        id S1728526AbgHKMRB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Aug 2020 08:17:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728523AbgHKKxx (ORCPT
+        with ESMTP id S1728556AbgHKMQm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Aug 2020 06:53:53 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DC91C06174A
-        for <linux-input@vger.kernel.org>; Tue, 11 Aug 2020 03:53:53 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id c15so6411810lfi.3
-        for <linux-input@vger.kernel.org>; Tue, 11 Aug 2020 03:53:53 -0700 (PDT)
+        Tue, 11 Aug 2020 08:16:42 -0400
+Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com [IPv6:2607:f8b0:4864:20::c43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0F7EC06174A;
+        Tue, 11 Aug 2020 05:16:41 -0700 (PDT)
+Received: by mail-oo1-xc43.google.com with SMTP id y30so2579022ooj.3;
+        Tue, 11 Aug 2020 05:16:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:from:to:subject:date:message-id:mime-version;
-        bh=E/KooAQ65hs98T+3xI5X13bqIjJN8Y8JKuP0CmFdqcA=;
-        b=rvYc8kvFD+APDn/BD7rSrsay68l2UDP04HmB/H57kphkKZTBOQAD4bE9PafGuH/iD3
-         tT9Wy/YCsJ1uKxLuzBHuUxjtQBPDLi7luRzYLpoIRJT4g11mp2QgM78cISWoUF83ZrPI
-         /lUCCSfqB1ByzoRRnMaB1cH4Jn/wfEJgrDf9+eVshHsOKDjXP2Q+/k8u7hRzvUbDUa3s
-         /IvTi4LtpCaCW5fLT/4wWGpfOgafBqtc+YiN/WvLRFi86AkdDGdA/k/OWQ6/gPOgYntb
-         THuPta0ZpXBKYUve7RED+EdUEbRbfn9QUPZaFMDhEqdbJzN95lA7Uen8UVAONfrIF7sw
-         gojw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BfaOWSVdZQ07T1WYL8SAoDKGztX/6CbsXqzUzK0St8s=;
+        b=SUZSVEhCg6bsE5g5AFV3Nu7ILrIBK14FCJeQTRW4bRuMioqVg6Xp+cvlp3Yg1AIoqp
+         +KJKITEVIQCC1qHMKKl6em+lfdg+/slX9FriU4yJcV/PdONBjp+w5Vg7c5lA5H/B30xo
+         kbK88mNEzpr+gxCHW2krRACRsrCFrXErLis+oz+OGxiTog21ZC3h/ORMHGljsYc9qYWV
+         ZeSRskj+HxmoIBBv6sNByjudCtnXj72+c/p3RBZs0DnyCBEZoD1zrdj3FaN1e60XJNeh
+         zDBtXC4LSVsOIfENZwvo9yqNGeotY1MPPOUoEKYypDhOkuCUPSA4AiGeNj248+s7ZXKA
+         jOMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:subject:date:message-id
-         :mime-version;
-        bh=E/KooAQ65hs98T+3xI5X13bqIjJN8Y8JKuP0CmFdqcA=;
-        b=JHx4Px6IeZxKNcQ1k52kO93xbwrWjnh5R/ruEi7qKKmL2z7S9kRzwcudDyzxeqphfz
-         i4SfPKn6rHkm6gDclyT/QwyHZ3HkKZYAiHNOUUs/XG0xtdFDR36sXLHW6qjzW/7+/GIp
-         A4tk6vtaVKZEWIzXPJQQZR0+DHl3/J4FyP/wyrMXsBkfIIwuZayQHJ0yg6K+V1+ugKGs
-         Z0mAez+2akwQx0iYPqJci4vXp8x+wwIqppUsxOeUmGKAv8pl/tQVzR59KrMpgpbRlmiE
-         8t5DpjTiSfhQUvpTsi0gtC5IwrsfluuKTa7gTcfEV0a2SiIemfdgePhrYcsHYNs8NwrD
-         aMtw==
-X-Gm-Message-State: AOAM533M9iqfbXKwIryUGhI/fKoe8AoZZl8jibqOrmOUIuVjREnaWm6w
-        23rnyWi53wWtz2P6Qol0MG7q5VHj8Yw=
-X-Google-Smtp-Source: ABdhPJzICKgL9MvUzSmP6lbmODpljuldFwEtJQIJEzPsIbBSM7AITFme0G3NqEm3ceZWgXYQRUeinA==
-X-Received: by 2002:a19:cc9:: with SMTP id 192mr2968823lfm.61.1597143231871;
-        Tue, 11 Aug 2020 03:53:51 -0700 (PDT)
-Received: from saruman ([194.34.132.58])
-        by smtp.gmail.com with ESMTPSA id p11sm10051938ljg.17.2020.08.11.03.53.51
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 11 Aug 2020 03:53:51 -0700 (PDT)
-From:   Felipe Balbi <balbi@kernel.org>
-To:     linux-input@vger.kernel.org
-Subject: RFC: Adding support for other usages
-Date:   Tue, 11 Aug 2020 13:53:47 +0300
-Message-ID: <87y2mlo3lw.fsf@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BfaOWSVdZQ07T1WYL8SAoDKGztX/6CbsXqzUzK0St8s=;
+        b=dehgjnTXRiHNOkGlKjcTrGnd1GhBC0cslb6IMQqDgBQHpcX53uvuOqLGIbMv5B6odm
+         0isrv9qbXuDuRI8ZNgL55slnmpgjnHDUvOvrLTEdBQvHK84dAcLc2uyN0GqXEIZbYElR
+         iVyPe5Eh9a3IXX+II7b+vyBFCPHSJS6jTSfhm8ZrLRcOfI+7N4eUBqHl+l7iEY1l0VHE
+         /EzUBD1SO3SwJ8+oRxshr0emmx//cKsGRFaljsbSXOIiaOPEOapzqJ0lwWqR/xd/r+yU
+         8Wh4PKgstJZWYdK/RT7/HMR8RWzPd63v8c8cx9nFFBY8Mr/uNsrCa6PAj2OqhYxBlwaa
+         9F2g==
+X-Gm-Message-State: AOAM5321oNah6qdtpwjFo0Bkdy+lwc74yeF3o/LcS2BZjmVsdPM28NMI
+        Pu4eIYcW91tjxbj0mD8HpTfGSY9YPQ3GL/Bna9E=
+X-Google-Smtp-Source: ABdhPJzSaTIBww3RVWzclOnCFAapTOONrFiRaRjDySuKQvXkeW9wMlyEhPPRLW4/2hyPS3tLM0iChxXJ4fWU8jt/XPY=
+X-Received: by 2002:a4a:2c83:: with SMTP id o125mr823335ooo.84.1597148201081;
+ Tue, 11 Aug 2020 05:16:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+References: <20200716030847.1564131-1-keescook@chromium.org>
+ <87h7tpa3hg.fsf@nanos.tec.linutronix.de> <202007301113.45D24C9D@keescook> <CAOMdWSJQKHAWY1P297b9koOLd8sVtezEYEyWGtymN1YeY27M6A@mail.gmail.com>
+In-Reply-To: <CAOMdWSJQKHAWY1P297b9koOLd8sVtezEYEyWGtymN1YeY27M6A@mail.gmail.com>
+From:   Allen <allen.lkml@gmail.com>
+Date:   Tue, 11 Aug 2020 17:46:29 +0530
+Message-ID: <CAOMdWSLef4Vy=k-Kfp8RJ++=SsMwCQTU4+hEueK_APDGvJ-PaA@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Modernize tasklet callback API
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Oscar Carter <oscar.carter@gmx.com>,
+        Romain Perier <romain.perier@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-s390@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-usb@vger.kernel.org, kgdb-bugreport@lists.sourceforge.net,
+        alsa-devel@alsa-project.org,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Kees,
 
+> >
+>
+> Here's the series re-based on top of 5.8
+> https://github.com/allenpais/tasklets/tree/V3
+>
+> Let me know how you would want these to be reviewed.
+>
 
-Hi,
+  I see the first set of infrastructure patches for tasklets have
+landed in Linus's tree. Good time to send out the ~200 patches?
 
-I noticed that HID Usage And Descriptions specifications contains many
-more usages than currently supported by the kernel. At the moment I'm
-concerned exclusively about digitizers.
-
-Taking as an example usage 0x0f (Capacitive Heat Map Digitizer), should
-support for that be added to hid-multitouch.c or should we have a new
-hid-heat-map.c driver? Any suggestions?
-
-Best regards
-
-=2D-=20
-balbi
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl8yeLsACgkQzL64meEa
-mQZV0RAArd1yhrlFPpDy3Om2q1Eeonof27sFAd/XX2jjuyPQD2QF3zgsUM8t2IES
-IcQfezpUFMcPp7Qt28sYx9sCtF4Zzf3A+P+Fj0BClSLtaMEpt/XS7f90VuVamhOK
-2CFPuUjbBVTwYNc6s/dt0xog+xy00eKeMxHUlAwR6lmjhl4GZNSiChhZkejnrxT1
-WSBHJvhfgkOX1F05P16PnyVbIuUQ0n9gdmKEaMHk8SCW83PhBOnKdZUZ8hOIkmcz
-fwI2pB90pdeBESnTyX8BZLtb5Lmq/ifMyxHto9ZwTonILLlRdffh4ctnbfdkYJhk
-xd572ZeIAXq1qu20hPtKuWevtSV7iyDHw9j8KV4/PFobUK3eU8TdFc1p+TArY7y6
-QgCi1JOXo3k/xgl3wCdQJch46KtbNNcpwgqpRLDB3YrZ7MG7oZO16E56XB7g7RtB
-ZnKLuTmKW0QI1QCMhsDZzYnzvFlC5/aEOHasJRNM1mjoS4Ew5xm4IIhvL2Amnzu/
-K3aSXr9/zHw4miVhDUA/jgCPXvDCIlE/HliMgQDC4AKTC1GDa2dGBwBf/R6xo6xh
-CL71XNKY6E2tUCbAytCK3RROcNfTIE6nYAIOwz3iR3reEcbvBTgmGe2LMjn/lHUf
-brUmZSnAcMroMnoXqVfwGgkVdrqRckafG8gvShNJkRxe5VMCoVA=
-=h4DE
------END PGP SIGNATURE-----
---=-=-=--
+- Allen
