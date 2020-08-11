@@ -2,107 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 547F72418BF
-	for <lists+linux-input@lfdr.de>; Tue, 11 Aug 2020 11:14:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CF432419F8
+	for <lists+linux-input@lfdr.de>; Tue, 11 Aug 2020 12:53:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728372AbgHKJOy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Aug 2020 05:14:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58918 "EHLO
+        id S1728525AbgHKKxy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Aug 2020 06:53:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728358AbgHKJOy (ORCPT
+        with ESMTP id S1728523AbgHKKxx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Aug 2020 05:14:54 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53C30C06174A
-        for <linux-input@vger.kernel.org>; Tue, 11 Aug 2020 02:14:54 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id r11so7265268pfl.11
-        for <linux-input@vger.kernel.org>; Tue, 11 Aug 2020 02:14:54 -0700 (PDT)
+        Tue, 11 Aug 2020 06:53:53 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DC91C06174A
+        for <linux-input@vger.kernel.org>; Tue, 11 Aug 2020 03:53:53 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id c15so6411810lfi.3
+        for <linux-input@vger.kernel.org>; Tue, 11 Aug 2020 03:53:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=Q9F9+Rb1CaCq0SUanAE3bPlZu5UOFvtgn0DMfNsZSWA=;
-        b=ox3gkoZtIzuaSEHMjt6KTlmULdhixFh9jG32MGrz1ypheXywLl16Bv3LhSF9vkqKa2
-         1bzQgx4AIwCWRPvoAYJlZbbi9inLnJqAe6aNipqHzGqbczzIrq8e1LvmEOJiqZLmT3Bd
-         GHCH/GUyV4/DT7HBsOc7MAUGwAlW/NQBtqQ0xXt5jvi6LmenYCsnCEXkI1UYWnZdR4KG
-         h5bT7Vy3pKE+sqAMfIwT7BgmtH8F6NJ28HWePVKqcbAhyPB8tGhwXOuQ7RoT4E8AOKl+
-         aM/btmnr3ZCKGoAzE5+tKOCCnWTKxOpV4sMQ/KkQ1FODvQk180WnX1iGbEkojtRNN8Ra
-         7XqA==
+        h=sender:from:to:subject:date:message-id:mime-version;
+        bh=E/KooAQ65hs98T+3xI5X13bqIjJN8Y8JKuP0CmFdqcA=;
+        b=rvYc8kvFD+APDn/BD7rSrsay68l2UDP04HmB/H57kphkKZTBOQAD4bE9PafGuH/iD3
+         tT9Wy/YCsJ1uKxLuzBHuUxjtQBPDLi7luRzYLpoIRJT4g11mp2QgM78cISWoUF83ZrPI
+         /lUCCSfqB1ByzoRRnMaB1cH4Jn/wfEJgrDf9+eVshHsOKDjXP2Q+/k8u7hRzvUbDUa3s
+         /IvTi4LtpCaCW5fLT/4wWGpfOgafBqtc+YiN/WvLRFi86AkdDGdA/k/OWQ6/gPOgYntb
+         THuPta0ZpXBKYUve7RED+EdUEbRbfn9QUPZaFMDhEqdbJzN95lA7Uen8UVAONfrIF7sw
+         gojw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=Q9F9+Rb1CaCq0SUanAE3bPlZu5UOFvtgn0DMfNsZSWA=;
-        b=n1MDMFkh8SbGFRMmXl3zXYXl+kDSPGdNKT2yYvSgTskshDNlr3gBoyaze849RJvIdN
-         nXws5QXsPmwilzfdTiQsc5Qgp1ZfGDwrtc97gSVh7GSgctVe6AFUsco4XlwqUPn7C47b
-         zsgxoMJn7Bu2pydGdu4PGzz8KppYCJVqSi/KGHOGAJt1uBKsKjfa9yA+hL1RmXsPVUyR
-         Leez0BYc13KU425fGUZzErPnkjJMwdnw6E9PKbq/Jn+Ih9LmokHfHfkYD5Byjxy5Mx/k
-         jd0rFiH4qdgvrpGqWnpJ+10pOAi1SYq0VU+PqvWnmuoR4E2Y8Gg2XFzZFLeRqmKJ23wm
-         DUVQ==
-X-Gm-Message-State: AOAM531yi+8d41KunaPrQNtvsyK77LNbMWX62WKn47g1loBkyb11aA0s
-        EcicdMf5mYtwADl4etj7MnDZCNC154YajA==
-X-Google-Smtp-Source: ABdhPJwfu6T8OJjO5efjguESbBGEqhczsOHXcDkrpKMwge0Ozv65vI1sgHYrAxaB8YicOrTbfwlRsg==
-X-Received: by 2002:a63:220a:: with SMTP id i10mr82838pgi.88.1597137293410;
-        Tue, 11 Aug 2020 02:14:53 -0700 (PDT)
-Received: from localhost ([2001:e42:102:1532:160:16:113:140])
-        by smtp.gmail.com with ESMTPSA id d81sm25096483pfd.174.2020.08.11.02.14.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Aug 2020 02:14:52 -0700 (PDT)
-From:   Coiby Xu <coiby.xu@gmail.com>
-X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
-Date:   Tue, 11 Aug 2020 17:14:45 +0800
+        h=x-gm-message-state:sender:from:to:subject:date:message-id
+         :mime-version;
+        bh=E/KooAQ65hs98T+3xI5X13bqIjJN8Y8JKuP0CmFdqcA=;
+        b=JHx4Px6IeZxKNcQ1k52kO93xbwrWjnh5R/ruEi7qKKmL2z7S9kRzwcudDyzxeqphfz
+         i4SfPKn6rHkm6gDclyT/QwyHZ3HkKZYAiHNOUUs/XG0xtdFDR36sXLHW6qjzW/7+/GIp
+         A4tk6vtaVKZEWIzXPJQQZR0+DHl3/J4FyP/wyrMXsBkfIIwuZayQHJ0yg6K+V1+ugKGs
+         Z0mAez+2akwQx0iYPqJci4vXp8x+wwIqppUsxOeUmGKAv8pl/tQVzR59KrMpgpbRlmiE
+         8t5DpjTiSfhQUvpTsi0gtC5IwrsfluuKTa7gTcfEV0a2SiIemfdgePhrYcsHYNs8NwrD
+         aMtw==
+X-Gm-Message-State: AOAM533M9iqfbXKwIryUGhI/fKoe8AoZZl8jibqOrmOUIuVjREnaWm6w
+        23rnyWi53wWtz2P6Qol0MG7q5VHj8Yw=
+X-Google-Smtp-Source: ABdhPJzICKgL9MvUzSmP6lbmODpljuldFwEtJQIJEzPsIbBSM7AITFme0G3NqEm3ceZWgXYQRUeinA==
+X-Received: by 2002:a19:cc9:: with SMTP id 192mr2968823lfm.61.1597143231871;
+        Tue, 11 Aug 2020 03:53:51 -0700 (PDT)
+Received: from saruman ([194.34.132.58])
+        by smtp.gmail.com with ESMTPSA id p11sm10051938ljg.17.2020.08.11.03.53.51
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 11 Aug 2020 03:53:51 -0700 (PDT)
+From:   Felipe Balbi <balbi@kernel.org>
 To:     linux-input@vger.kernel.org
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Advice on fixing the bug of MSFT0001:00 04F3:Touchpad being handled
- by hid_multitouch by mistake
-Message-ID: <20200811091445.erp2b23xmx3ceyzp@Rk>
+Subject: RFC: Adding support for other usages
+Date:   Tue, 11 Aug 2020 13:53:47 +0300
+Message-ID: <87y2mlo3lw.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+
+
 Hi,
 
-I'm working on a touchpad device issue as reported on
-https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1887190.
+I noticed that HID Usage And Descriptions specifications contains many
+more usages than currently supported by the kernel. At the moment I'm
+concerned exclusively about digitizers.
 
-This touchpad device MSFT0001:00 04F3:Touchpad should be handled by
-hid_rmi. But currently hid-core.c chooses hid_multitouch by mistake,
+Taking as an example usage 0x0f (Capacitive Heat Map Digitizer), should
+support for that be added to hid-multitouch.c or should we have a new
+hid-heat-map.c driver? Any suggestions?
 
-     1. When scanning this device's report descriptor, HID_DG_CONTACTID
-        usage is found. Thus group HID_GROUP_MULTITOUCH is assigned to
-        the device.
-     2. The flag HID_SCAN_FLAG_MT_WIN_8 is also found. Thus group
-        HID_GROUP_MULTITOUCH_WIN_8 is assigned to the device.
-     3. hid-multitouch.c claims handling devices with the group of
-        HID_GROUP_MULTITOUCH_WIN_8
+Best regards
 
-         static const struct hid_device_id mt_devices[] = {
-	        /* Generic MT device */
-	        { HID_DEVICE(HID_BUS_ANY, HID_GROUP_MULTITOUCH, HID_ANY_ID, HID_ANY_ID) },
+=2D-=20
+balbi
 
-	        /* Generic Win 8 certified MT device */
-	        {  .driver_data = MT_CLS_WIN_8,
-		        HID_DEVICE(HID_BUS_ANY, HID_GROUP_MULTITOUCH_WIN_8,
-			        HID_ANY_ID, HID_ANY_ID) },
-	        { }
-         };
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
-There are several potential solutions,
-     - Let the device vendor fix this problem since this device's report
-       descriptor shouldn't have the HID_DG_CONTACTID usage.
-     - Make it a special case by setting the device's group to
-       HID_GROUP_RMI in hid_scan_report when vendor id and product ID
-       are matched.
-     - hid-quirks.c seems to be designed to handle special cases, is it
-       suitable for this case?
+-----BEGIN PGP SIGNATURE-----
 
-Can anyone give an advice on which direction I should take? Thank you!
-
---
-Best regards,
-Coiby
+iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl8yeLsACgkQzL64meEa
+mQZV0RAArd1yhrlFPpDy3Om2q1Eeonof27sFAd/XX2jjuyPQD2QF3zgsUM8t2IES
+IcQfezpUFMcPp7Qt28sYx9sCtF4Zzf3A+P+Fj0BClSLtaMEpt/XS7f90VuVamhOK
+2CFPuUjbBVTwYNc6s/dt0xog+xy00eKeMxHUlAwR6lmjhl4GZNSiChhZkejnrxT1
+WSBHJvhfgkOX1F05P16PnyVbIuUQ0n9gdmKEaMHk8SCW83PhBOnKdZUZ8hOIkmcz
+fwI2pB90pdeBESnTyX8BZLtb5Lmq/ifMyxHto9ZwTonILLlRdffh4ctnbfdkYJhk
+xd572ZeIAXq1qu20hPtKuWevtSV7iyDHw9j8KV4/PFobUK3eU8TdFc1p+TArY7y6
+QgCi1JOXo3k/xgl3wCdQJch46KtbNNcpwgqpRLDB3YrZ7MG7oZO16E56XB7g7RtB
+ZnKLuTmKW0QI1QCMhsDZzYnzvFlC5/aEOHasJRNM1mjoS4Ew5xm4IIhvL2Amnzu/
+K3aSXr9/zHw4miVhDUA/jgCPXvDCIlE/HliMgQDC4AKTC1GDa2dGBwBf/R6xo6xh
+CL71XNKY6E2tUCbAytCK3RROcNfTIE6nYAIOwz3iR3reEcbvBTgmGe2LMjn/lHUf
+brUmZSnAcMroMnoXqVfwGgkVdrqRckafG8gvShNJkRxe5VMCoVA=
+=h4DE
+-----END PGP SIGNATURE-----
+--=-=-=--
