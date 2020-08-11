@@ -2,198 +2,111 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82524241EE7
-	for <lists+linux-input@lfdr.de>; Tue, 11 Aug 2020 19:07:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BEE4D242201
+	for <lists+linux-input@lfdr.de>; Tue, 11 Aug 2020 23:33:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729163AbgHKRGk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Aug 2020 13:06:40 -0400
-Received: from mail-io1-f70.google.com ([209.85.166.70]:47362 "EHLO
-        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729148AbgHKRGT (ORCPT
+        id S1726164AbgHKVdR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Aug 2020 17:33:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59820 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726420AbgHKVdQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Aug 2020 13:06:19 -0400
-Received: by mail-io1-f70.google.com with SMTP id 18so10199772ioo.14
-        for <linux-input@vger.kernel.org>; Tue, 11 Aug 2020 10:06:18 -0700 (PDT)
+        Tue, 11 Aug 2020 17:33:16 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F16FAC06178A
+        for <linux-input@vger.kernel.org>; Tue, 11 Aug 2020 14:33:15 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id i92so2022009pje.0
+        for <linux-input@vger.kernel.org>; Tue, 11 Aug 2020 14:33:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=1XmU1UxtFoX+JxWRWBVQUmWx0SHpCQU0BLn06Acf+NU=;
+        b=nO3gYAQ3UHUw7olEjw932d3zFLqOCCUdnacl9cVKrUgmFx2PGjAFNp8CQwEB7V4Hmy
+         FGOy733ZHh3A1xH6oKC3op8DvO/HEaTRYWhxchiQa9h8rnO5vamgJzN81P21hsQ5n8I3
+         t7TvIriH92cU2JNs0mnOTN8SDZ89gDDMfKKUs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=G++ky09F079bG+vggjBA6cynULCbu9QPjUKnei+ThwM=;
-        b=aUuhaNHU0ct0Z4oXsiP5UpQSKbHTpbQThP9Yjx27NVmKOkzFEKd1A7s9jrNPZH20ZO
-         ElP+YI4exPKfvb3sBDvicKeRd8ID5TkE9AVyEuQ5CKyee9RBmfI0pGPTYgcE2382wJ20
-         5y6fDYCfNl2oIM2G1hWerITdIV0pqnpkt1jimTyrt1Y9GMXy+weQs+z/cJlSEhaCvnoo
-         w3LU/JpQOwkjUht7plKC93U5wrA0H/TGyxtSA69Z9vnJhOh7Pan1FvJ7tOObs3qRxCr7
-         zGR9+LTrXTHc8a11VCGSDkQ9HkQdK9CKOeH36UsSn/5OM1uvR6HMExU90RKi1RDsNmgH
-         QZiQ==
-X-Gm-Message-State: AOAM530qGP1zxkUWlLVhBcwZR9DQFfb2MTITEzJZjg9i8AojOLP5SX3e
-        rmKDshN2N9V14qPRuv70rJrPwtMFiBhn290OlwqpkO0VxccL
-X-Google-Smtp-Source: ABdhPJzWBiD1vV1YIUh0HYvGBuu3An+mPYfzSYNhPPiYSJfIV8BjkblrqGdLukLkNfo6FlbhlL9D4pK1povrcfZt6+rGgzCBvUSm
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=1XmU1UxtFoX+JxWRWBVQUmWx0SHpCQU0BLn06Acf+NU=;
+        b=Qf0hEbGo06963c+9GawCyAX3HCHCR2Kr2Hx1WgkvwK01kv04TdxoJ2E0ns6iKQ3w8L
+         HNYhfZSNM4c1d5iii0LiQ8L2ofB9Tou7ECFB+YSIS705tG81be4LfxTCJQdgYzZIMrqV
+         HOpwG3vJo0p5uhzkE8MZGKPdyFb/4rRMEX611SF/wqFc4Ilw466MQtIfEfuUnfFh9wh5
+         liOfRAdVkYTi5EXxpuRMJPaG113p/et97/9gKdRkvUO25O00f+bXndYywqKan8vmmirz
+         B64dJ2xnSwfAC2jE/eXU9dK/mTmLDYdW55v60dksuBukBka0Y4NSrzW/gw9bgKG39b+1
+         /pUQ==
+X-Gm-Message-State: AOAM533w5gP3Qlp2kZBrPd3YhWCjGbCpxto6rTZBoiCHBGlie1oiLhOv
+        uMJ+mqBCVRfD3X9Iem1nJFSn/w==
+X-Google-Smtp-Source: ABdhPJzVUgwczR2LI6waXoChEBBAZmQiyV+rznpXD/j383hrrCcUrIvWs+lVRQIEgQVz81ia6sNYwg==
+X-Received: by 2002:a17:90a:ccd:: with SMTP id 13mr2785480pjt.123.1597181595355;
+        Tue, 11 Aug 2020 14:33:15 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id k12sm3694242pjp.38.2020.08.11.14.33.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Aug 2020 14:33:14 -0700 (PDT)
+Date:   Tue, 11 Aug 2020 14:33:13 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Allen <allen.lkml@gmail.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Oscar Carter <oscar.carter@gmx.com>,
+        Romain Perier <romain.perier@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-s390@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-usb@vger.kernel.org, kgdb-bugreport@lists.sourceforge.net,
+        alsa-devel@alsa-project.org,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>
+Subject: Re: [PATCH 0/3] Modernize tasklet callback API
+Message-ID: <202008111427.D00FCCF@keescook>
+References: <20200716030847.1564131-1-keescook@chromium.org>
+ <87h7tpa3hg.fsf@nanos.tec.linutronix.de>
+ <202007301113.45D24C9D@keescook>
+ <CAOMdWSJQKHAWY1P297b9koOLd8sVtezEYEyWGtymN1YeY27M6A@mail.gmail.com>
 MIME-Version: 1.0
-X-Received: by 2002:a02:29ca:: with SMTP id p193mr27622294jap.131.1597165577931;
- Tue, 11 Aug 2020 10:06:17 -0700 (PDT)
-Date:   Tue, 11 Aug 2020 10:06:17 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000eb931405ac9d164f@google.com>
-Subject: KMSAN: uninit-value in joydev_connect
-From:   syzbot <syzbot+6a1bb5a33a0b128085bc@syzkaller.appspotmail.com>
-To:     dmitry.torokhov@gmail.com, glider@google.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOMdWSJQKHAWY1P297b9koOLd8sVtezEYEyWGtymN1YeY27M6A@mail.gmail.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+On Mon, Aug 03, 2020 at 02:16:15PM +0530, Allen wrote:
+> Here's the series re-based on top of 5.8
+> https://github.com/allenpais/tasklets/tree/V3
 
-syzbot found the following issue on:
+Great!
 
-HEAD commit:    ce8056d1 wip: changed copy_from_user where instrumented
-git tree:       https://github.com/google/kmsan.git master
-console output: https://syzkaller.appspot.com/x/log.txt?x=14b5da2c900000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3afe005fb99591f
-dashboard link: https://syzkaller.appspot.com/bug?extid=6a1bb5a33a0b128085bc
-compiler:       clang version 10.0.0 (https://github.com/llvm/llvm-project/ c2443155a0fb245c8f17f2c1c72b6ea391e86e81)
-userspace arch: i386
+> Let me know how you would want these to be reviewed.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+Was a Coccinelle script used for any of these conversions? I wonder if
+it'd be easier to do a single treewide patch for the more mechanical
+changes.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+6a1bb5a33a0b128085bc@syzkaller.appspotmail.com
+And, actually, I still think the "prepare" patches should just be
+collapsed into the actual "covert" patches -- there are only a few.
 
-gtco 4-1:0.219: Collection level already at zero
-gtco 4-1:0.219: Not enough data (need 130, have 129)
-input: GTCO_CalComp as /devices/platform/dummy_hcd.3/usb4/4-1/4-1:0.219/input/input5
-=====================================================
-BUG: KMSAN: uninit-value in joydev_connect+0x10c0/0x1920 drivers/input/joydev.c:958
-CPU: 1 PID: 8715 Comm: kworker/1:3 Not tainted 5.8.0-rc5-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0x21c/0x280 lib/dump_stack.c:118
- kmsan_report+0xf7/0x1e0 mm/kmsan/kmsan_report.c:121
- __msan_warning+0x58/0xa0 mm/kmsan/kmsan_instr.c:215
- joydev_connect+0x10c0/0x1920 drivers/input/joydev.c:958
- input_attach_handler drivers/input/input.c:1031 [inline]
- input_register_device+0x1d7b/0x21c0 drivers/input/input.c:2229
- gtco_probe+0x32ce/0x39b0 drivers/input/tablet/gtco.c:990
- usb_probe_interface+0xece/0x1550 drivers/usb/core/driver.c:374
- really_probe+0xf20/0x20b0 drivers/base/dd.c:529
- driver_probe_device+0x293/0x390 drivers/base/dd.c:701
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:807
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x4e2/0x7f0 drivers/base/dd.c:873
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:920
- bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
- device_add+0x3b0e/0x40d0 drivers/base/core.c:2680
- usb_set_configuration+0x380f/0x3f10 drivers/usb/core/message.c:2032
- usb_generic_driver_probe+0x138/0x300 drivers/usb/core/generic.c:241
- usb_probe_device+0x311/0x490 drivers/usb/core/driver.c:272
- really_probe+0xf20/0x20b0 drivers/base/dd.c:529
- driver_probe_device+0x293/0x390 drivers/base/dd.c:701
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:807
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x4e2/0x7f0 drivers/base/dd.c:873
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:920
- bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
- device_add+0x3b0e/0x40d0 drivers/base/core.c:2680
- usb_new_device+0x1bd4/0x2a30 drivers/usb/core/hub.c:2554
- hub_port_connect drivers/usb/core/hub.c:5208 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5348 [inline]
- port_event drivers/usb/core/hub.c:5494 [inline]
- hub_event+0x5e7b/0x8a70 drivers/usb/core/hub.c:5576
- process_one_work+0x1688/0x2140 kernel/workqueue.c:2269
- worker_thread+0x10bc/0x2730 kernel/workqueue.c:2415
- kthread+0x551/0x590 kernel/kthread.c:292
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:293
+After those, yeah, I think getting these sent to their respective
+maintainers is the next step.
 
-Uninit was stored to memory at:
- kmsan_save_stack_with_flags mm/kmsan/kmsan.c:144 [inline]
- kmsan_internal_chain_origin+0xad/0x130 mm/kmsan/kmsan.c:310
- __msan_chain_origin+0x50/0x90 mm/kmsan/kmsan_instr.c:165
- input_set_abs_params+0x331/0x540 drivers/input/input.c:514
- gtco_setup_caps drivers/input/tablet/gtco.c:598 [inline]
- gtco_probe+0x2800/0x39b0 drivers/input/tablet/gtco.c:966
- usb_probe_interface+0xece/0x1550 drivers/usb/core/driver.c:374
- really_probe+0xf20/0x20b0 drivers/base/dd.c:529
- driver_probe_device+0x293/0x390 drivers/base/dd.c:701
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:807
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x4e2/0x7f0 drivers/base/dd.c:873
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:920
- bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
- device_add+0x3b0e/0x40d0 drivers/base/core.c:2680
- usb_set_configuration+0x380f/0x3f10 drivers/usb/core/message.c:2032
- usb_generic_driver_probe+0x138/0x300 drivers/usb/core/generic.c:241
- usb_probe_device+0x311/0x490 drivers/usb/core/driver.c:272
- really_probe+0xf20/0x20b0 drivers/base/dd.c:529
- driver_probe_device+0x293/0x390 drivers/base/dd.c:701
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:807
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x4e2/0x7f0 drivers/base/dd.c:873
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:920
- bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
- device_add+0x3b0e/0x40d0 drivers/base/core.c:2680
- usb_new_device+0x1bd4/0x2a30 drivers/usb/core/hub.c:2554
- hub_port_connect drivers/usb/core/hub.c:5208 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5348 [inline]
- port_event drivers/usb/core/hub.c:5494 [inline]
- hub_event+0x5e7b/0x8a70 drivers/usb/core/hub.c:5576
- process_one_work+0x1688/0x2140 kernel/workqueue.c:2269
- worker_thread+0x10bc/0x2730 kernel/workqueue.c:2415
- kthread+0x551/0x590 kernel/kthread.c:292
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:293
+> Also, I was thinking if removing tasklets completely could be a task
+> on KSPP wiki. If yes, I did like to take ownership of that task. I have a
+> couple of ideas in mind, which could be discussed in a separate email.
 
-Uninit was stored to memory at:
- kmsan_save_stack_with_flags mm/kmsan/kmsan.c:144 [inline]
- kmsan_internal_chain_origin+0xad/0x130 mm/kmsan/kmsan.c:310
- __msan_chain_origin+0x50/0x90 mm/kmsan/kmsan_instr.c:165
- parse_hid_report_descriptor drivers/input/tablet/gtco.c:330 [inline]
- gtco_probe+0x1e56/0x39b0 drivers/input/tablet/gtco.c:935
- usb_probe_interface+0xece/0x1550 drivers/usb/core/driver.c:374
- really_probe+0xf20/0x20b0 drivers/base/dd.c:529
- driver_probe_device+0x293/0x390 drivers/base/dd.c:701
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:807
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x4e2/0x7f0 drivers/base/dd.c:873
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:920
- bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
- device_add+0x3b0e/0x40d0 drivers/base/core.c:2680
- usb_set_configuration+0x380f/0x3f10 drivers/usb/core/message.c:2032
- usb_generic_driver_probe+0x138/0x300 drivers/usb/core/generic.c:241
- usb_probe_device+0x311/0x490 drivers/usb/core/driver.c:272
- really_probe+0xf20/0x20b0 drivers/base/dd.c:529
- driver_probe_device+0x293/0x390 drivers/base/dd.c:701
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:807
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x4e2/0x7f0 drivers/base/dd.c:873
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:920
- bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
- device_add+0x3b0e/0x40d0 drivers/base/core.c:2680
- usb_new_device+0x1bd4/0x2a30 drivers/usb/core/hub.c:2554
- hub_port_connect drivers/usb/core/hub.c:5208 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5348 [inline]
- port_event drivers/usb/core/hub.c:5494 [inline]
- hub_event+0x5e7b/0x8a70 drivers/usb/core/hub.c:5576
- process_one_work+0x1688/0x2140 kernel/workqueue.c:2269
- worker_thread+0x10bc/0x2730 kernel/workqueue.c:2415
- kthread+0x551/0x590 kernel/kthread.c:292
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:293
+Sure! I will add it to the tracker. Here's for the refactoring:
+https://github.com/KSPP/linux/issues/30
 
-Local variable ----globalval.i@gtco_probe created at:
- parse_hid_report_descriptor drivers/input/tablet/gtco.c:221 [inline]
- gtco_probe+0xda0/0x39b0 drivers/input/tablet/gtco.c:935
- parse_hid_report_descriptor drivers/input/tablet/gtco.c:221 [inline]
- gtco_probe+0xda0/0x39b0 drivers/input/tablet/gtco.c:935
-=====================================================
+and here's for the removal:
+https://github.com/KSPP/linux/issues/94
 
+if you can added details/examples of how they should be removed, that'd
+help other folks too, if they wanted to jump in. :)
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+-Kees
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+-- 
+Kees Cook
