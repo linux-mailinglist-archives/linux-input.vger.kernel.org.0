@@ -2,147 +2,448 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74791241BA6
-	for <lists+linux-input@lfdr.de>; Tue, 11 Aug 2020 15:40:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 500CB241BD6
+	for <lists+linux-input@lfdr.de>; Tue, 11 Aug 2020 15:55:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728668AbgHKNkT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Aug 2020 09:40:19 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:52540 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728619AbgHKNkH (ORCPT
+        id S1728709AbgHKNzM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Aug 2020 09:55:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45488 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728668AbgHKNzB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Aug 2020 09:40:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1597153206;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=E8n/H5ukzPBGKyBzlxE1D27AGIMHtnnlzxgHO35N858=;
-        b=dIiohJ7r4qyUPL51JUWHpzUQOFuKHMo24WH+wCO0zWNQeXsJI93KAR8ckHM3EYZRplOGo4
-        ndcGcjvfRAW779FtQTf0S4FbaTX82bwW1ENAoieYXio3jJPFiDFplrmxycGv2Lc0FSQN9R
-        jgbZlPxxSKz6w71/w4fWUIQx+uRzye4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-56-eYzw0miMMbW-PVQVFaaw_Q-1; Tue, 11 Aug 2020 09:40:04 -0400
-X-MC-Unique: eYzw0miMMbW-PVQVFaaw_Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EBD0080048A;
-        Tue, 11 Aug 2020 13:40:02 +0000 (UTC)
-Received: from x1.localdomain (ovpn-114-214.ams2.redhat.com [10.36.114.214])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 149BB7C0E5;
-        Tue, 11 Aug 2020 13:39:57 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        linux-input@vger.kernel.org, stable@vger.kernel.org,
-        Andrea Borgia <andrea@borgia.bo.it>
-Subject: [PATCH v3] HID: i2c-hid: Always sleep 60ms after I2C_HID_PWR_ON commands
-Date:   Tue, 11 Aug 2020 15:39:58 +0200
-Message-Id: <20200811133958.355760-1-hdegoede@redhat.com>
+        Tue, 11 Aug 2020 09:55:01 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF972C061787
+        for <linux-input@vger.kernel.org>; Tue, 11 Aug 2020 06:55:00 -0700 (PDT)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1k5Ujt-0007X5-5j; Tue, 11 Aug 2020 15:54:53 +0200
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1k5Ujr-0000Ll-Cv; Tue, 11 Aug 2020 15:54:51 +0200
+Date:   Tue, 11 Aug 2020 15:54:51 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Sandeep Singh <Sandeep.Singh@amd.com>
+Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        srinivas.pandruvada@linux.intel.com, jic23@kernel.org,
+        linux-iio@vger.kernel.org, hdegoede@redhat.com,
+        Nehal-bakulchandra.Shah@amd.com, andy.shevchenko@gmail.com,
+        mail@richard-neumann.de, rdunlap@infradead.org,
+        Shyam-sundar.S-k@amd.com
+Subject: Re: [PATCH v7 2/4] SFH: PCIe driver to add support of AMD sensor
+ fusion hub
+Message-ID: <20200811135451.atfcymsorrkh4xva@pengutronix.de>
+References: <20200810213055.103962-1-Sandeep.Singh@amd.com>
+ <20200810213055.103962-3-Sandeep.Singh@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20200810213055.103962-3-Sandeep.Singh@amd.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 14:43:21 up 270 days,  4:01, 258 users,  load average: 0.02, 0.04,
+ 0.06
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Before this commit i2c_hid_parse() consists of the following steps:
+Hi Sandeep,
 
-1. Send power on cmd
-2. usleep_range(1000, 5000)
-3. Send reset cmd
-4. Wait for reset to complete (device interrupt, or msleep(100))
-5. Send power on cmd
-6. Try to read HID descriptor
+On 20-08-10 21:30, Sandeep Singh wrote:
+> From: Sandeep Singh <sandeep.singh@amd.com>
+> 
+> AMD SFH uses HID over PCIe bus.SFH fw is part of MP2 processor
+> (MP2 which is an ARM® Cortex-M4 core based co-processor to x86) and
+> it runs on MP2 where in driver resides on X86. This part of module
+> will communicate with MP2 Firmware and provide that data into DRAM
 
-Notice how there is an usleep_range(1000, 5000) after the first power-on
-command, but not after the second power-on command.
+IMO we should reword the commit message since it is a bit odd.
 
-Testing has shown that at least on the BMAX Y13 laptop's i2c-hid touchpad,
-not having a delay after the second power-on command causes the HID
-descriptor to read as all zeros.
+> diff --git a/drivers/hid/amd-sfh-hid/Makefile b/drivers/hid/amd-sfh-hid/Makefile
+> new file mode 100644
+> index 000000000000..a163c7f62b32
+> --- /dev/null
+> +++ b/drivers/hid/amd-sfh-hid/Makefile
+> @@ -0,0 +1,15 @@
+> +# SPDX-License-Identifier: GPL-2.0-or-later
+> +#
+> +# Makefile - AMD SFH HID drivers
+> +# Copyright (c) 2019-2020, Advanced Micro Devices, Inc.
+> +#
+> +#
+> +
+> +ccflags-m := -Werror
 
-In case we hit this on other devices too, the descriptor being all zeros
-can be recognized by the following message being logged many, many times:
+Hm.. is this really needed? Don't get me wrong I'm a fan of no-warnings
+but only a few drivers set this flag.
 
-hid-generic 0018:0911:5288.0002: unknown main item tag 0x0
+> +   obj-$(CONFIG_AMD_SFH_HID) +=amd-sfhtp-hid.o
+> +   amd-sfhtp-hid-objs := amdsfh_hid.o
+> +   amd-sfhtp-hid-objs+= amdsfh_hid_client.o
+> +   amd-sfhtp-hid-objs+= amd_mp2_pcie.o
+> +   amd-sfhtp-hid-objs+= hid_descriptor/amd_sfh_hid_descriptor.o
 
-At the same time as the BMAX Y13's touchpad issue was debugged,
-Kai-Heng was working on debugging some issues with Goodix i2c-hid
-touchpads. It turns out that these need a delay after a PWR_ON command
-too, otherwise they stop working after a suspend/resume cycle.
-According to Goodix a delay of minimal 60ms is needed.
+IMHO a patch should be self-contained. By that I mean that if uspstream
+apply just that patch it won't break things. This isn't the case here
+since you already added the support the other driver parts.
 
-Having multiple cases where we need a delay after sending the power-on
-command, seems to indicate that we should always sleep after the power-on
-command.
+Also please check indentation and whitespaces.
 
-This commit fixes the mentioned issues by moving the existing 1ms sleep to
-the i2c_hid_set_power() function and changing it to a 60ms sleep.
+> +
+> +ccflags-y += -I$(srctree)/$(src)/
+> diff --git a/drivers/hid/amd-sfh-hid/amd_mp2_pcie.c b/drivers/hid/amd-sfh-hid/amd_mp2_pcie.c
+> new file mode 100644
+> index 000000000000..898157f4240b
+> --- /dev/null
+> +++ b/drivers/hid/amd-sfh-hid/amd_mp2_pcie.c
+> @@ -0,0 +1,164 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * AMD MP2 PCIe communication driver
+> + * Copyright 2020 Advanced Micro Devices, Inc.
+> + *
+> + * Authors: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> + *	    Sandeep Singh <Sandeep.singh@amd.com>
+> + */
+> +
+> +#include <linux/bitops.h>
+> +#include <linux/delay.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/io-64-nonatomic-lo-hi.h>
+> +#include <linux/module.h>
+> +#include <linux/pci.h>
+> +#include <linux/slab.h>
+> +#include <linux/delay.h>
+> +#include <linux/types.h>
+> +#include "amd_mp2_pcie.h"
+> +
+> +#define DRIVER_NAME	"pcie_mp2_amd"
+> +#define DRIVER_DESC	"AMD(R) PCIe MP2 Communication Driver"
+> +
+> +#define ACEL_EN		BIT(accel_idx)
+> +#define GYRO_EN		BIT(gyro_idx)
+> +#define MAGNO_EN	BIT(mag_idx)
+> +#define ALS_EN		BIT(als_idx)
+> +
+> +void amd_start_sensor(struct amd_mp2_dev *privdata, struct amd_mp2_sensor_info info)
+> +{
+> +	union sfh_cmd_param cmd_param;
+> +	union sfh_cmd_base cmd_base;
+> +
+> +	/* fill up command register */
+> +	cmd_base.ul = 0;
 
-Cc: stable@vger.kernel.org
-BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=208247
-Reported-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Reported-and-tested-by: Andrea Borgia <andrea@borgia.bo.it>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Changes in v3:
-- Fix Subject to say 60ms instead of 1ms
+Why not memset()? Please see my below comments on the header.
 
-Changes in v2:
-- Add Kai-Heng's case, with Goodix touchpads needing a delay after PWR_ON too,
-  to the commit message
-- Add a Reported-by tag for Kai-Heng
-- Increase the delay to 60ms
----
- drivers/hid/i2c-hid/i2c-hid-core.c | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+> +	cmd_base.s.cmd_id = enable_sensor;
+> +	cmd_base.s.period = info.period;
+> +	cmd_base.s.sensor_id = info.sensor_idx;
+> +
+> +	/* fill up command param register */
+> +	cmd_param.ul = 0;
+> +	cmd_param.s.buf_layout = 1;
+> +	cmd_param.s.buf_length = 16;
+> +
+> +	writeq(info.phys_address, privdata->mmio + AMD_C2P_MSG2);
+> +	writel(cmd_param.ul, privdata->mmio + AMD_C2P_MSG1);
+> +	writel(cmd_base.ul, privdata->mmio + AMD_C2P_MSG0);
+> +}
+> +
+> +void amd_stop_sensor(struct amd_mp2_dev *privdata, u16 sensor_idx)
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 294c84e136d7..dbd04492825d 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -420,6 +420,19 @@ static int i2c_hid_set_power(struct i2c_client *client, int power_state)
- 		dev_err(&client->dev, "failed to change power setting.\n");
- 
- set_pwr_exit:
-+
-+	/*
-+	 * The HID over I2C specification states that if a DEVICE needs time
-+	 * after the PWR_ON request, it should utilise CLOCK stretching.
-+	 * However, it has been observered that the Windows driver provides a
-+	 * 1ms sleep between the PWR_ON and RESET requests.
-+	 * According to Goodix Windows even waits 60 ms after (other?)
-+	 * PWR_ON requests. Testing has confirmed that several devices
-+	 * will not work properly without a delay after a PWR_ON request.
-+	 */
-+	if (!ret && power_state == I2C_HID_PWR_ON)
-+		msleep(60);
-+
- 	return ret;
- }
- 
-@@ -441,15 +454,6 @@ static int i2c_hid_hwreset(struct i2c_client *client)
- 	if (ret)
- 		goto out_unlock;
- 
--	/*
--	 * The HID over I2C specification states that if a DEVICE needs time
--	 * after the PWR_ON request, it should utilise CLOCK stretching.
--	 * However, it has been observered that the Windows driver provides a
--	 * 1ms sleep between the PWR_ON and RESET requests and that some devices
--	 * rely on this.
--	 */
--	usleep_range(1000, 5000);
--
- 	i2c_hid_dbg(ihid, "resetting...\n");
- 
- 	ret = i2c_hid_command(client, &hid_reset_cmd, NULL, 0);
--- 
-2.28.0
+Why has amd_stop_sensor() a complete different API than
+amd_start_sensor(). IMHO I would keep it in sync. Also u16 sensor_idx is
+to large. Just use the struct amd_mp2_sensor_info.
 
+> +{
+> +	union sfh_cmd_base cmd_base;
+> +
+> +	/* fill up command register */
+> +	cmd_base.ul = 0;
+> +	cmd_base.s.cmd_id = disable_sensor;
+> +	cmd_base.s.period = 0;
+> +	cmd_base.s.sensor_id = sensor_idx;
+> +
+> +	writeq(0x0, privdata->mmio + AMD_C2P_MSG2);
+> +	writel(cmd_base.ul, privdata->mmio + AMD_C2P_MSG0);
+> +}
+> +
+> +void amd_stop_all_sensors(struct amd_mp2_dev *privdata)
+> +{
+> +	union sfh_cmd_base cmd_base;
+> +
+> +	/* fill up command register */
+> +	cmd_base.ul = 0;
+> +	cmd_base.s.cmd_id = stop_all_sensors;
+> +	cmd_base.s.period = 0;
+> +	cmd_base.s.sensor_id = 0;
+> +
+> +	writel(cmd_base.ul, privdata->mmio + AMD_C2P_MSG0);
+> +}
+> +
+> +int amd_mp2_get_sensor_num(struct amd_mp2_dev *privdata, u8 *sensor_id)
+> +{
+
+Nit: Why not amd_get_sensor_num() to keep naming scheme? Also I would
+keep the API and make use of 'struct amd_mp2_sensor_info'.
+
+> +	int activestatus, num_of_sensors = 0;
+> +
+> +	if (!sensor_id)
+> +		return -EINVAL;
+> +
+> +	privdata->activecontrolstatus = readl(privdata->mmio + AMD_P2C_MSG3);
+> +	activestatus = privdata->activecontrolstatus >> 4;
+
+Magical shift here? Please make use of FIELD_GET().
+
+> +	if (ACEL_EN  & activestatus)
+> +		sensor_id[num_of_sensors++] = accel_idx;
+> +
+> +	if (GYRO_EN & activestatus)
+> +		sensor_id[num_of_sensors++] = gyro_idx;
+> +
+> +	if (MAGNO_EN & activestatus)
+> +		sensor_id[num_of_sensors++] = mag_idx;
+> +
+> +	if (ALS_EN & activestatus)
+> +		sensor_id[num_of_sensors++] = als_idx;
+> +
+> +	return num_of_sensors;
+> +}
+> +
+> +static int amd_mp2_pci_init(struct amd_mp2_dev *privdata, struct pci_dev *pdev)
+> +{
+> +	int rc;
+> +
+> +	pci_set_drvdata(pdev, privdata);
+> +	rc = pcim_enable_device(pdev);
+> +	if (rc)
+> +		return rc;
+> +	pcim_iomap_regions(pdev, BIT(2), DRIVER_NAME);
+> +
+> +	privdata->mmio = pcim_iomap_table(pdev)[2];
+> +	pci_set_master(pdev);
+> +
+> +	rc = pci_set_dma_mask(pdev, DMA_BIT_MASK(64));
+> +	if (rc)
+> +		rc = pci_set_dma_mask(pdev, DMA_BIT_MASK(32));
+> +	return rc;
+> +}
+> +
+> +static int amd_mp2_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+> +{
+> +	struct amd_mp2_dev *privdata;
+> +	int rc;
+> +
+> +	privdata = devm_kzalloc(&pdev->dev, sizeof(*privdata), GFP_KERNEL);
+> +	if (!privdata)
+> +		return -ENOMEM;
+> +	privdata->pdev = pdev;
+
+You don't need the pdev in this driver, why do you store it?
+
+> +	rc = amd_mp2_pci_init(privdata, pdev);
+> +	if (rc)
+> +		return rc;
+> +	rc = amd_sfh_hid_client_init(privdata);
+
+As I said, this is not self-contained.
+
+> +	if (rc)
+> +		return rc;
+> +	return 0;
+> +}
+> +
+> +static void amd_mp2_pci_remove(struct pci_dev *pdev)
+> +{
+> +	struct amd_mp2_dev *privdata = pci_get_drvdata(pdev);
+> +
+> +	amd_sfh_hid_client_deinit(privdata);
+> +	amd_stop_all_sensors(privdata);
+
+This actions can be done in a devm_add_action_or_reset() and avoids
+the remove() callback.
+
+> +}
+> +
+> +static const struct pci_device_id amd_mp2_pci_tbl[] = {
+> +	{ PCI_VDEVICE(AMD, PCI_DEVICE_ID_AMD_MP2) },
+> +	{},
+
+Missing whitespace:
+        { },
+> +};
+> +MODULE_DEVICE_TABLE(pci, amd_mp2_pci_tbl);
+> +
+> +static struct pci_driver amd_mp2_pci_driver = {
+> +	.name		= DRIVER_NAME,
+> +	.id_table	= amd_mp2_pci_tbl,
+> +	.probe		= amd_mp2_pci_probe,
+> +	.remove		= amd_mp2_pci_remove,
+> +};
+> +module_pci_driver(amd_mp2_pci_driver);
+> +
+> +MODULE_DESCRIPTION(DRIVER_DESC);
+> +MODULE_LICENSE("Dual BSD/GPL");
+> +MODULE_AUTHOR("Shyam Sundar S K <Shyam-sundar.S-k@amd.com>");
+> +MODULE_AUTHOR("Sandeep Singh <Sandeep.singh@amd.com>");
+> diff --git a/drivers/hid/amd-sfh-hid/amd_mp2_pcie.h b/drivers/hid/amd-sfh-hid/amd_mp2_pcie.h
+> new file mode 100644
+> index 000000000000..a4ef604c4fe8
+> --- /dev/null
+> +++ b/drivers/hid/amd-sfh-hid/amd_mp2_pcie.h
+> @@ -0,0 +1,83 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * AMD MP2 PCIe communication driver
+> + * Copyright 2020 Advanced Micro Devices, Inc.
+> + * Authors: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> + *	    Sandeep Singh <Sandeep.singh@amd.com>
+> + */
+> +
+> +#ifndef PCIE_MP2_AMD_H
+> +#define PCIE_MP2_AMD_H
+> +
+> +#include <linux/pci.h>
+> +#include <linux/types.h>
+> +
+> +#define PCI_DEVICE_ID_AMD_MP2	0x15E4
+> +
+> +/* MP2 C2P Message Registers */
+> +#define AMD_C2P_MSG0	0x10500
+> +#define AMD_C2P_MSG1	0x10504
+> +#define AMD_C2P_MSG2	0x10508
+> +
+> +/* MP2 P2C Message Registers */
+> +#define AMD_P2C_MSG3	0x1068C /* Supported Sensors info */
+> +
+> +/* SFH Command register */
+> +union sfh_cmd_base {
+> +	u32 ul;
+> +	struct {
+> +		u32 cmd_id : 8;
+> +		u32 sensor_id : 8;
+> +		u32 period : 16;
+> +	} s;
+> +};
+
+Why not just:
+struct sfh_cmd_base {
+	u8 cmd_id;
+	u8 sensor_id;
+	u16 period;
+};
+
+Please use the native data types. Furthermore the code in this driver
+assumes that the host(x86) and client(ARM) are using the same
+byte-order. I know that ARM is LE too but maybe this changes on newer
+ZEN-CPU's.
+
+> +union sfh_cmd_param {
+> +	u32 ul;
+> +	struct {
+> +		u32 buf_layout : 2;
+> +		u32 buf_length : 6;
+> +		u32 rsvd : 24;
+> +	} s;
+> +};
+
+This union is only used by amd_start_sensor() and the below struct which
+is used nowhere. I would rather drop this here and prepare the
+buf_layout and buf_length by FIELD_PREP().
+
+> +struct sfh_cmd_reg {
+> +	union sfh_cmd_base cmd_base;
+> +	union sfh_cmd_param cmd_param;
+> +	phys_addr_t phys_addr;
+> +};
+
+This struct is gets never used here.
+
+> +
+> +enum command_id {
+> +	enable_sensor = 1,
+> +	disable_sensor = 2,
+> +	stop_all_sensors = 8,
+> +	invalid_cmd = 0xf
+> +};
+
+Please use CAPITAL_NAMES, e.g.:
+
+enum command_id {
+	AMD_MP2_SENSOR_ENABLE = 1,
+	AMD_MP2_SENSOR_DISABLE = 2,
+	AMD_MP2_SENSOR_STOP_ALL = 8,
+}
+
+or use #define.
+
+> +
+> +enum sensor_idx {
+> +	accel_idx = 0,
+> +	gyro_idx = 1,
+> +	mag_idx = 2,
+> +	als_idx = 19
+> +};
+
+Same here.
+
+> +
+> +struct amd_mp2_dev {
+> +	struct pci_dev *pdev;
+
+pdev is never used.
+
+> +	struct amdtp_cl_data *cl_data;
+
+cl_data gets never set -> useless?
+
+> +	void __iomem *mmio;
+> +	u32 activecontrolstatus;
+
+The activecontrolstatus member is also never used.
+> +};
+> +
+> +struct amd_mp2_sensor_info {
+> +	u8 sensor_idx;
+> +	u32 period;
+
+The sfh_cmd_base defines it as u16.
+
+> +	phys_addr_t phys_address;
+> +};
+> +
+> +void amd_start_sensor(struct amd_mp2_dev *privdata, struct amd_mp2_sensor_info info);
+> +void amd_stop_sensor(struct amd_mp2_dev *privdata, u16 sensor_idx);
+> +void amd_stop_all_sensors(struct amd_mp2_dev *privdata);
+
+> +int amd_mp2_get_sensor_num(struct amd_mp2_dev *privdata, u8 *sensor_id);
+
+I would add this 
+
+> +int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata);
+> +int amd_sfh_hid_client_deinit(struct amd_mp2_dev *privdata);
+
+Why are those functions included here?
+
+Regards,
+  Marco
+
+> +#endif
+> -- 
+> 2.25.1
