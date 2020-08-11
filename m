@@ -2,448 +2,198 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 500CB241BD6
-	for <lists+linux-input@lfdr.de>; Tue, 11 Aug 2020 15:55:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82524241EE7
+	for <lists+linux-input@lfdr.de>; Tue, 11 Aug 2020 19:07:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728709AbgHKNzM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 Aug 2020 09:55:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45488 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728668AbgHKNzB (ORCPT
+        id S1729163AbgHKRGk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 Aug 2020 13:06:40 -0400
+Received: from mail-io1-f70.google.com ([209.85.166.70]:47362 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729148AbgHKRGT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 Aug 2020 09:55:01 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF972C061787
-        for <linux-input@vger.kernel.org>; Tue, 11 Aug 2020 06:55:00 -0700 (PDT)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1k5Ujt-0007X5-5j; Tue, 11 Aug 2020 15:54:53 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1k5Ujr-0000Ll-Cv; Tue, 11 Aug 2020 15:54:51 +0200
-Date:   Tue, 11 Aug 2020 15:54:51 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Sandeep Singh <Sandeep.Singh@amd.com>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        srinivas.pandruvada@linux.intel.com, jic23@kernel.org,
-        linux-iio@vger.kernel.org, hdegoede@redhat.com,
-        Nehal-bakulchandra.Shah@amd.com, andy.shevchenko@gmail.com,
-        mail@richard-neumann.de, rdunlap@infradead.org,
-        Shyam-sundar.S-k@amd.com
-Subject: Re: [PATCH v7 2/4] SFH: PCIe driver to add support of AMD sensor
- fusion hub
-Message-ID: <20200811135451.atfcymsorrkh4xva@pengutronix.de>
-References: <20200810213055.103962-1-Sandeep.Singh@amd.com>
- <20200810213055.103962-3-Sandeep.Singh@amd.com>
+        Tue, 11 Aug 2020 13:06:19 -0400
+Received: by mail-io1-f70.google.com with SMTP id 18so10199772ioo.14
+        for <linux-input@vger.kernel.org>; Tue, 11 Aug 2020 10:06:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=G++ky09F079bG+vggjBA6cynULCbu9QPjUKnei+ThwM=;
+        b=aUuhaNHU0ct0Z4oXsiP5UpQSKbHTpbQThP9Yjx27NVmKOkzFEKd1A7s9jrNPZH20ZO
+         ElP+YI4exPKfvb3sBDvicKeRd8ID5TkE9AVyEuQ5CKyee9RBmfI0pGPTYgcE2382wJ20
+         5y6fDYCfNl2oIM2G1hWerITdIV0pqnpkt1jimTyrt1Y9GMXy+weQs+z/cJlSEhaCvnoo
+         w3LU/JpQOwkjUht7plKC93U5wrA0H/TGyxtSA69Z9vnJhOh7Pan1FvJ7tOObs3qRxCr7
+         zGR9+LTrXTHc8a11VCGSDkQ9HkQdK9CKOeH36UsSn/5OM1uvR6HMExU90RKi1RDsNmgH
+         QZiQ==
+X-Gm-Message-State: AOAM530qGP1zxkUWlLVhBcwZR9DQFfb2MTITEzJZjg9i8AojOLP5SX3e
+        rmKDshN2N9V14qPRuv70rJrPwtMFiBhn290OlwqpkO0VxccL
+X-Google-Smtp-Source: ABdhPJzWBiD1vV1YIUh0HYvGBuu3An+mPYfzSYNhPPiYSJfIV8BjkblrqGdLukLkNfo6FlbhlL9D4pK1povrcfZt6+rGgzCBvUSm
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200810213055.103962-3-Sandeep.Singh@amd.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 14:43:21 up 270 days,  4:01, 258 users,  load average: 0.02, 0.04,
- 0.06
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+X-Received: by 2002:a02:29ca:: with SMTP id p193mr27622294jap.131.1597165577931;
+ Tue, 11 Aug 2020 10:06:17 -0700 (PDT)
+Date:   Tue, 11 Aug 2020 10:06:17 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000eb931405ac9d164f@google.com>
+Subject: KMSAN: uninit-value in joydev_connect
+From:   syzbot <syzbot+6a1bb5a33a0b128085bc@syzkaller.appspotmail.com>
+To:     dmitry.torokhov@gmail.com, glider@google.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Sandeep,
+Hello,
 
-On 20-08-10 21:30, Sandeep Singh wrote:
-> From: Sandeep Singh <sandeep.singh@amd.com>
-> 
-> AMD SFH uses HID over PCIe bus.SFH fw is part of MP2 processor
-> (MP2 which is an ARM® Cortex-M4 core based co-processor to x86) and
-> it runs on MP2 where in driver resides on X86. This part of module
-> will communicate with MP2 Firmware and provide that data into DRAM
+syzbot found the following issue on:
 
-IMO we should reword the commit message since it is a bit odd.
+HEAD commit:    ce8056d1 wip: changed copy_from_user where instrumented
+git tree:       https://github.com/google/kmsan.git master
+console output: https://syzkaller.appspot.com/x/log.txt?x=14b5da2c900000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3afe005fb99591f
+dashboard link: https://syzkaller.appspot.com/bug?extid=6a1bb5a33a0b128085bc
+compiler:       clang version 10.0.0 (https://github.com/llvm/llvm-project/ c2443155a0fb245c8f17f2c1c72b6ea391e86e81)
+userspace arch: i386
 
-> diff --git a/drivers/hid/amd-sfh-hid/Makefile b/drivers/hid/amd-sfh-hid/Makefile
-> new file mode 100644
-> index 000000000000..a163c7f62b32
-> --- /dev/null
-> +++ b/drivers/hid/amd-sfh-hid/Makefile
-> @@ -0,0 +1,15 @@
-> +# SPDX-License-Identifier: GPL-2.0-or-later
-> +#
-> +# Makefile - AMD SFH HID drivers
-> +# Copyright (c) 2019-2020, Advanced Micro Devices, Inc.
-> +#
-> +#
-> +
-> +ccflags-m := -Werror
+Unfortunately, I don't have any reproducer for this issue yet.
 
-Hm.. is this really needed? Don't get me wrong I'm a fan of no-warnings
-but only a few drivers set this flag.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+6a1bb5a33a0b128085bc@syzkaller.appspotmail.com
 
-> +   obj-$(CONFIG_AMD_SFH_HID) +=amd-sfhtp-hid.o
-> +   amd-sfhtp-hid-objs := amdsfh_hid.o
-> +   amd-sfhtp-hid-objs+= amdsfh_hid_client.o
-> +   amd-sfhtp-hid-objs+= amd_mp2_pcie.o
-> +   amd-sfhtp-hid-objs+= hid_descriptor/amd_sfh_hid_descriptor.o
+gtco 4-1:0.219: Collection level already at zero
+gtco 4-1:0.219: Not enough data (need 130, have 129)
+input: GTCO_CalComp as /devices/platform/dummy_hcd.3/usb4/4-1/4-1:0.219/input/input5
+=====================================================
+BUG: KMSAN: uninit-value in joydev_connect+0x10c0/0x1920 drivers/input/joydev.c:958
+CPU: 1 PID: 8715 Comm: kworker/1:3 Not tainted 5.8.0-rc5-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0x21c/0x280 lib/dump_stack.c:118
+ kmsan_report+0xf7/0x1e0 mm/kmsan/kmsan_report.c:121
+ __msan_warning+0x58/0xa0 mm/kmsan/kmsan_instr.c:215
+ joydev_connect+0x10c0/0x1920 drivers/input/joydev.c:958
+ input_attach_handler drivers/input/input.c:1031 [inline]
+ input_register_device+0x1d7b/0x21c0 drivers/input/input.c:2229
+ gtco_probe+0x32ce/0x39b0 drivers/input/tablet/gtco.c:990
+ usb_probe_interface+0xece/0x1550 drivers/usb/core/driver.c:374
+ really_probe+0xf20/0x20b0 drivers/base/dd.c:529
+ driver_probe_device+0x293/0x390 drivers/base/dd.c:701
+ __device_attach_driver+0x63f/0x830 drivers/base/dd.c:807
+ bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
+ __device_attach+0x4e2/0x7f0 drivers/base/dd.c:873
+ device_initial_probe+0x4a/0x60 drivers/base/dd.c:920
+ bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
+ device_add+0x3b0e/0x40d0 drivers/base/core.c:2680
+ usb_set_configuration+0x380f/0x3f10 drivers/usb/core/message.c:2032
+ usb_generic_driver_probe+0x138/0x300 drivers/usb/core/generic.c:241
+ usb_probe_device+0x311/0x490 drivers/usb/core/driver.c:272
+ really_probe+0xf20/0x20b0 drivers/base/dd.c:529
+ driver_probe_device+0x293/0x390 drivers/base/dd.c:701
+ __device_attach_driver+0x63f/0x830 drivers/base/dd.c:807
+ bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
+ __device_attach+0x4e2/0x7f0 drivers/base/dd.c:873
+ device_initial_probe+0x4a/0x60 drivers/base/dd.c:920
+ bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
+ device_add+0x3b0e/0x40d0 drivers/base/core.c:2680
+ usb_new_device+0x1bd4/0x2a30 drivers/usb/core/hub.c:2554
+ hub_port_connect drivers/usb/core/hub.c:5208 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5348 [inline]
+ port_event drivers/usb/core/hub.c:5494 [inline]
+ hub_event+0x5e7b/0x8a70 drivers/usb/core/hub.c:5576
+ process_one_work+0x1688/0x2140 kernel/workqueue.c:2269
+ worker_thread+0x10bc/0x2730 kernel/workqueue.c:2415
+ kthread+0x551/0x590 kernel/kthread.c:292
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:293
 
-IMHO a patch should be self-contained. By that I mean that if uspstream
-apply just that patch it won't break things. This isn't the case here
-since you already added the support the other driver parts.
+Uninit was stored to memory at:
+ kmsan_save_stack_with_flags mm/kmsan/kmsan.c:144 [inline]
+ kmsan_internal_chain_origin+0xad/0x130 mm/kmsan/kmsan.c:310
+ __msan_chain_origin+0x50/0x90 mm/kmsan/kmsan_instr.c:165
+ input_set_abs_params+0x331/0x540 drivers/input/input.c:514
+ gtco_setup_caps drivers/input/tablet/gtco.c:598 [inline]
+ gtco_probe+0x2800/0x39b0 drivers/input/tablet/gtco.c:966
+ usb_probe_interface+0xece/0x1550 drivers/usb/core/driver.c:374
+ really_probe+0xf20/0x20b0 drivers/base/dd.c:529
+ driver_probe_device+0x293/0x390 drivers/base/dd.c:701
+ __device_attach_driver+0x63f/0x830 drivers/base/dd.c:807
+ bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
+ __device_attach+0x4e2/0x7f0 drivers/base/dd.c:873
+ device_initial_probe+0x4a/0x60 drivers/base/dd.c:920
+ bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
+ device_add+0x3b0e/0x40d0 drivers/base/core.c:2680
+ usb_set_configuration+0x380f/0x3f10 drivers/usb/core/message.c:2032
+ usb_generic_driver_probe+0x138/0x300 drivers/usb/core/generic.c:241
+ usb_probe_device+0x311/0x490 drivers/usb/core/driver.c:272
+ really_probe+0xf20/0x20b0 drivers/base/dd.c:529
+ driver_probe_device+0x293/0x390 drivers/base/dd.c:701
+ __device_attach_driver+0x63f/0x830 drivers/base/dd.c:807
+ bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
+ __device_attach+0x4e2/0x7f0 drivers/base/dd.c:873
+ device_initial_probe+0x4a/0x60 drivers/base/dd.c:920
+ bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
+ device_add+0x3b0e/0x40d0 drivers/base/core.c:2680
+ usb_new_device+0x1bd4/0x2a30 drivers/usb/core/hub.c:2554
+ hub_port_connect drivers/usb/core/hub.c:5208 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5348 [inline]
+ port_event drivers/usb/core/hub.c:5494 [inline]
+ hub_event+0x5e7b/0x8a70 drivers/usb/core/hub.c:5576
+ process_one_work+0x1688/0x2140 kernel/workqueue.c:2269
+ worker_thread+0x10bc/0x2730 kernel/workqueue.c:2415
+ kthread+0x551/0x590 kernel/kthread.c:292
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:293
 
-Also please check indentation and whitespaces.
+Uninit was stored to memory at:
+ kmsan_save_stack_with_flags mm/kmsan/kmsan.c:144 [inline]
+ kmsan_internal_chain_origin+0xad/0x130 mm/kmsan/kmsan.c:310
+ __msan_chain_origin+0x50/0x90 mm/kmsan/kmsan_instr.c:165
+ parse_hid_report_descriptor drivers/input/tablet/gtco.c:330 [inline]
+ gtco_probe+0x1e56/0x39b0 drivers/input/tablet/gtco.c:935
+ usb_probe_interface+0xece/0x1550 drivers/usb/core/driver.c:374
+ really_probe+0xf20/0x20b0 drivers/base/dd.c:529
+ driver_probe_device+0x293/0x390 drivers/base/dd.c:701
+ __device_attach_driver+0x63f/0x830 drivers/base/dd.c:807
+ bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
+ __device_attach+0x4e2/0x7f0 drivers/base/dd.c:873
+ device_initial_probe+0x4a/0x60 drivers/base/dd.c:920
+ bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
+ device_add+0x3b0e/0x40d0 drivers/base/core.c:2680
+ usb_set_configuration+0x380f/0x3f10 drivers/usb/core/message.c:2032
+ usb_generic_driver_probe+0x138/0x300 drivers/usb/core/generic.c:241
+ usb_probe_device+0x311/0x490 drivers/usb/core/driver.c:272
+ really_probe+0xf20/0x20b0 drivers/base/dd.c:529
+ driver_probe_device+0x293/0x390 drivers/base/dd.c:701
+ __device_attach_driver+0x63f/0x830 drivers/base/dd.c:807
+ bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
+ __device_attach+0x4e2/0x7f0 drivers/base/dd.c:873
+ device_initial_probe+0x4a/0x60 drivers/base/dd.c:920
+ bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
+ device_add+0x3b0e/0x40d0 drivers/base/core.c:2680
+ usb_new_device+0x1bd4/0x2a30 drivers/usb/core/hub.c:2554
+ hub_port_connect drivers/usb/core/hub.c:5208 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5348 [inline]
+ port_event drivers/usb/core/hub.c:5494 [inline]
+ hub_event+0x5e7b/0x8a70 drivers/usb/core/hub.c:5576
+ process_one_work+0x1688/0x2140 kernel/workqueue.c:2269
+ worker_thread+0x10bc/0x2730 kernel/workqueue.c:2415
+ kthread+0x551/0x590 kernel/kthread.c:292
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:293
 
-> +
-> +ccflags-y += -I$(srctree)/$(src)/
-> diff --git a/drivers/hid/amd-sfh-hid/amd_mp2_pcie.c b/drivers/hid/amd-sfh-hid/amd_mp2_pcie.c
-> new file mode 100644
-> index 000000000000..898157f4240b
-> --- /dev/null
-> +++ b/drivers/hid/amd-sfh-hid/amd_mp2_pcie.c
-> @@ -0,0 +1,164 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * AMD MP2 PCIe communication driver
-> + * Copyright 2020 Advanced Micro Devices, Inc.
-> + *
-> + * Authors: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> + *	    Sandeep Singh <Sandeep.singh@amd.com>
-> + */
-> +
-> +#include <linux/bitops.h>
-> +#include <linux/delay.h>
-> +#include <linux/dma-mapping.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/io-64-nonatomic-lo-hi.h>
-> +#include <linux/module.h>
-> +#include <linux/pci.h>
-> +#include <linux/slab.h>
-> +#include <linux/delay.h>
-> +#include <linux/types.h>
-> +#include "amd_mp2_pcie.h"
-> +
-> +#define DRIVER_NAME	"pcie_mp2_amd"
-> +#define DRIVER_DESC	"AMD(R) PCIe MP2 Communication Driver"
-> +
-> +#define ACEL_EN		BIT(accel_idx)
-> +#define GYRO_EN		BIT(gyro_idx)
-> +#define MAGNO_EN	BIT(mag_idx)
-> +#define ALS_EN		BIT(als_idx)
-> +
-> +void amd_start_sensor(struct amd_mp2_dev *privdata, struct amd_mp2_sensor_info info)
-> +{
-> +	union sfh_cmd_param cmd_param;
-> +	union sfh_cmd_base cmd_base;
-> +
-> +	/* fill up command register */
-> +	cmd_base.ul = 0;
+Local variable ----globalval.i@gtco_probe created at:
+ parse_hid_report_descriptor drivers/input/tablet/gtco.c:221 [inline]
+ gtco_probe+0xda0/0x39b0 drivers/input/tablet/gtco.c:935
+ parse_hid_report_descriptor drivers/input/tablet/gtco.c:221 [inline]
+ gtco_probe+0xda0/0x39b0 drivers/input/tablet/gtco.c:935
+=====================================================
 
-Why not memset()? Please see my below comments on the header.
 
-> +	cmd_base.s.cmd_id = enable_sensor;
-> +	cmd_base.s.period = info.period;
-> +	cmd_base.s.sensor_id = info.sensor_idx;
-> +
-> +	/* fill up command param register */
-> +	cmd_param.ul = 0;
-> +	cmd_param.s.buf_layout = 1;
-> +	cmd_param.s.buf_length = 16;
-> +
-> +	writeq(info.phys_address, privdata->mmio + AMD_C2P_MSG2);
-> +	writel(cmd_param.ul, privdata->mmio + AMD_C2P_MSG1);
-> +	writel(cmd_base.ul, privdata->mmio + AMD_C2P_MSG0);
-> +}
-> +
-> +void amd_stop_sensor(struct amd_mp2_dev *privdata, u16 sensor_idx)
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Why has amd_stop_sensor() a complete different API than
-amd_start_sensor(). IMHO I would keep it in sync. Also u16 sensor_idx is
-to large. Just use the struct amd_mp2_sensor_info.
-
-> +{
-> +	union sfh_cmd_base cmd_base;
-> +
-> +	/* fill up command register */
-> +	cmd_base.ul = 0;
-> +	cmd_base.s.cmd_id = disable_sensor;
-> +	cmd_base.s.period = 0;
-> +	cmd_base.s.sensor_id = sensor_idx;
-> +
-> +	writeq(0x0, privdata->mmio + AMD_C2P_MSG2);
-> +	writel(cmd_base.ul, privdata->mmio + AMD_C2P_MSG0);
-> +}
-> +
-> +void amd_stop_all_sensors(struct amd_mp2_dev *privdata)
-> +{
-> +	union sfh_cmd_base cmd_base;
-> +
-> +	/* fill up command register */
-> +	cmd_base.ul = 0;
-> +	cmd_base.s.cmd_id = stop_all_sensors;
-> +	cmd_base.s.period = 0;
-> +	cmd_base.s.sensor_id = 0;
-> +
-> +	writel(cmd_base.ul, privdata->mmio + AMD_C2P_MSG0);
-> +}
-> +
-> +int amd_mp2_get_sensor_num(struct amd_mp2_dev *privdata, u8 *sensor_id)
-> +{
-
-Nit: Why not amd_get_sensor_num() to keep naming scheme? Also I would
-keep the API and make use of 'struct amd_mp2_sensor_info'.
-
-> +	int activestatus, num_of_sensors = 0;
-> +
-> +	if (!sensor_id)
-> +		return -EINVAL;
-> +
-> +	privdata->activecontrolstatus = readl(privdata->mmio + AMD_P2C_MSG3);
-> +	activestatus = privdata->activecontrolstatus >> 4;
-
-Magical shift here? Please make use of FIELD_GET().
-
-> +	if (ACEL_EN  & activestatus)
-> +		sensor_id[num_of_sensors++] = accel_idx;
-> +
-> +	if (GYRO_EN & activestatus)
-> +		sensor_id[num_of_sensors++] = gyro_idx;
-> +
-> +	if (MAGNO_EN & activestatus)
-> +		sensor_id[num_of_sensors++] = mag_idx;
-> +
-> +	if (ALS_EN & activestatus)
-> +		sensor_id[num_of_sensors++] = als_idx;
-> +
-> +	return num_of_sensors;
-> +}
-> +
-> +static int amd_mp2_pci_init(struct amd_mp2_dev *privdata, struct pci_dev *pdev)
-> +{
-> +	int rc;
-> +
-> +	pci_set_drvdata(pdev, privdata);
-> +	rc = pcim_enable_device(pdev);
-> +	if (rc)
-> +		return rc;
-> +	pcim_iomap_regions(pdev, BIT(2), DRIVER_NAME);
-> +
-> +	privdata->mmio = pcim_iomap_table(pdev)[2];
-> +	pci_set_master(pdev);
-> +
-> +	rc = pci_set_dma_mask(pdev, DMA_BIT_MASK(64));
-> +	if (rc)
-> +		rc = pci_set_dma_mask(pdev, DMA_BIT_MASK(32));
-> +	return rc;
-> +}
-> +
-> +static int amd_mp2_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-> +{
-> +	struct amd_mp2_dev *privdata;
-> +	int rc;
-> +
-> +	privdata = devm_kzalloc(&pdev->dev, sizeof(*privdata), GFP_KERNEL);
-> +	if (!privdata)
-> +		return -ENOMEM;
-> +	privdata->pdev = pdev;
-
-You don't need the pdev in this driver, why do you store it?
-
-> +	rc = amd_mp2_pci_init(privdata, pdev);
-> +	if (rc)
-> +		return rc;
-> +	rc = amd_sfh_hid_client_init(privdata);
-
-As I said, this is not self-contained.
-
-> +	if (rc)
-> +		return rc;
-> +	return 0;
-> +}
-> +
-> +static void amd_mp2_pci_remove(struct pci_dev *pdev)
-> +{
-> +	struct amd_mp2_dev *privdata = pci_get_drvdata(pdev);
-> +
-> +	amd_sfh_hid_client_deinit(privdata);
-> +	amd_stop_all_sensors(privdata);
-
-This actions can be done in a devm_add_action_or_reset() and avoids
-the remove() callback.
-
-> +}
-> +
-> +static const struct pci_device_id amd_mp2_pci_tbl[] = {
-> +	{ PCI_VDEVICE(AMD, PCI_DEVICE_ID_AMD_MP2) },
-> +	{},
-
-Missing whitespace:
-        { },
-> +};
-> +MODULE_DEVICE_TABLE(pci, amd_mp2_pci_tbl);
-> +
-> +static struct pci_driver amd_mp2_pci_driver = {
-> +	.name		= DRIVER_NAME,
-> +	.id_table	= amd_mp2_pci_tbl,
-> +	.probe		= amd_mp2_pci_probe,
-> +	.remove		= amd_mp2_pci_remove,
-> +};
-> +module_pci_driver(amd_mp2_pci_driver);
-> +
-> +MODULE_DESCRIPTION(DRIVER_DESC);
-> +MODULE_LICENSE("Dual BSD/GPL");
-> +MODULE_AUTHOR("Shyam Sundar S K <Shyam-sundar.S-k@amd.com>");
-> +MODULE_AUTHOR("Sandeep Singh <Sandeep.singh@amd.com>");
-> diff --git a/drivers/hid/amd-sfh-hid/amd_mp2_pcie.h b/drivers/hid/amd-sfh-hid/amd_mp2_pcie.h
-> new file mode 100644
-> index 000000000000..a4ef604c4fe8
-> --- /dev/null
-> +++ b/drivers/hid/amd-sfh-hid/amd_mp2_pcie.h
-> @@ -0,0 +1,83 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * AMD MP2 PCIe communication driver
-> + * Copyright 2020 Advanced Micro Devices, Inc.
-> + * Authors: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> + *	    Sandeep Singh <Sandeep.singh@amd.com>
-> + */
-> +
-> +#ifndef PCIE_MP2_AMD_H
-> +#define PCIE_MP2_AMD_H
-> +
-> +#include <linux/pci.h>
-> +#include <linux/types.h>
-> +
-> +#define PCI_DEVICE_ID_AMD_MP2	0x15E4
-> +
-> +/* MP2 C2P Message Registers */
-> +#define AMD_C2P_MSG0	0x10500
-> +#define AMD_C2P_MSG1	0x10504
-> +#define AMD_C2P_MSG2	0x10508
-> +
-> +/* MP2 P2C Message Registers */
-> +#define AMD_P2C_MSG3	0x1068C /* Supported Sensors info */
-> +
-> +/* SFH Command register */
-> +union sfh_cmd_base {
-> +	u32 ul;
-> +	struct {
-> +		u32 cmd_id : 8;
-> +		u32 sensor_id : 8;
-> +		u32 period : 16;
-> +	} s;
-> +};
-
-Why not just:
-struct sfh_cmd_base {
-	u8 cmd_id;
-	u8 sensor_id;
-	u16 period;
-};
-
-Please use the native data types. Furthermore the code in this driver
-assumes that the host(x86) and client(ARM) are using the same
-byte-order. I know that ARM is LE too but maybe this changes on newer
-ZEN-CPU's.
-
-> +union sfh_cmd_param {
-> +	u32 ul;
-> +	struct {
-> +		u32 buf_layout : 2;
-> +		u32 buf_length : 6;
-> +		u32 rsvd : 24;
-> +	} s;
-> +};
-
-This union is only used by amd_start_sensor() and the below struct which
-is used nowhere. I would rather drop this here and prepare the
-buf_layout and buf_length by FIELD_PREP().
-
-> +struct sfh_cmd_reg {
-> +	union sfh_cmd_base cmd_base;
-> +	union sfh_cmd_param cmd_param;
-> +	phys_addr_t phys_addr;
-> +};
-
-This struct is gets never used here.
-
-> +
-> +enum command_id {
-> +	enable_sensor = 1,
-> +	disable_sensor = 2,
-> +	stop_all_sensors = 8,
-> +	invalid_cmd = 0xf
-> +};
-
-Please use CAPITAL_NAMES, e.g.:
-
-enum command_id {
-	AMD_MP2_SENSOR_ENABLE = 1,
-	AMD_MP2_SENSOR_DISABLE = 2,
-	AMD_MP2_SENSOR_STOP_ALL = 8,
-}
-
-or use #define.
-
-> +
-> +enum sensor_idx {
-> +	accel_idx = 0,
-> +	gyro_idx = 1,
-> +	mag_idx = 2,
-> +	als_idx = 19
-> +};
-
-Same here.
-
-> +
-> +struct amd_mp2_dev {
-> +	struct pci_dev *pdev;
-
-pdev is never used.
-
-> +	struct amdtp_cl_data *cl_data;
-
-cl_data gets never set -> useless?
-
-> +	void __iomem *mmio;
-> +	u32 activecontrolstatus;
-
-The activecontrolstatus member is also never used.
-> +};
-> +
-> +struct amd_mp2_sensor_info {
-> +	u8 sensor_idx;
-> +	u32 period;
-
-The sfh_cmd_base defines it as u16.
-
-> +	phys_addr_t phys_address;
-> +};
-> +
-> +void amd_start_sensor(struct amd_mp2_dev *privdata, struct amd_mp2_sensor_info info);
-> +void amd_stop_sensor(struct amd_mp2_dev *privdata, u16 sensor_idx);
-> +void amd_stop_all_sensors(struct amd_mp2_dev *privdata);
-
-> +int amd_mp2_get_sensor_num(struct amd_mp2_dev *privdata, u8 *sensor_id);
-
-I would add this 
-
-> +int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata);
-> +int amd_sfh_hid_client_deinit(struct amd_mp2_dev *privdata);
-
-Why are those functions included here?
-
-Regards,
-  Marco
-
-> +#endif
-> -- 
-> 2.25.1
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
