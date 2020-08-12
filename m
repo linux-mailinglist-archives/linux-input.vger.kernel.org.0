@@ -2,123 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B9EE2430B0
-	for <lists+linux-input@lfdr.de>; Thu, 13 Aug 2020 00:14:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91FB42430E1
+	for <lists+linux-input@lfdr.de>; Thu, 13 Aug 2020 00:38:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726605AbgHLWOC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Aug 2020 18:14:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33186 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725815AbgHLWOB (ORCPT
+        id S1726485AbgHLWic (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Aug 2020 18:38:32 -0400
+Received: from smtprelay0014.hostedemail.com ([216.40.44.14]:41580 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726456AbgHLWic (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Aug 2020 18:14:01 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1D0EC061383;
-        Wed, 12 Aug 2020 15:14:01 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id p37so1756942pgl.3;
-        Wed, 12 Aug 2020 15:14:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=lW7/4eKV/BIv6DOQAynrxiasqUawM2e6k23o2vSUtRg=;
-        b=vB/mP0Nsnkr6cRD7/pR4Cz9oQ3xTivBb8JU/zagbvd3bAkgkx0xOy3XIdZXG1nnTPd
-         byRxNsMP1miGLAcBNyEgQGtQV6e4G963v8jG2ihlzbKYjujy4E2DEk1Ag+TNZXKeJ6Uv
-         Z3/aQc2CFYLFBVKxLRlb/5kSSvzzJiME3hgk0DMuwNH9XJc9oqp1lmxgc43DGK4Mzs+L
-         K5AgbrC5KZAzjIXDWmdiawfuxysWR+U8/xK/oQgkU2FHf2STI9AQBdt9PbHy9RIdlrNV
-         GJe4xOnig387XFN8v+7AGgFyUcptGoYATA9GlqmPLbxSwx9SbCKhlgKYytX+x6W5e/0P
-         UTgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=lW7/4eKV/BIv6DOQAynrxiasqUawM2e6k23o2vSUtRg=;
-        b=WhSAjZUsowPKWCg8Dhz0QNOKGQONQedMFbeKam/jo+SE38MehBSh4lsmt8vzhu3jx4
-         7USBKgor8pzmDSKVuSHdEmOURpWSYsdIUJyyYfMSmqAfxAHFaZG3fKMfowoIzCjI2JaM
-         TFkHPw4/am89ldJcvWFN4S/oOopdYL7D6ZU23NHsPtXqw8WNZRI+f7jodN7TaqjB7Md7
-         eOcMB/XlAC1zgC1GQ5pvQB80eCwV99S+YNYNIm3x83b1i78kiJnm9vCwgNRQTMahmST8
-         68xtsnw0h3dXF6+QuQPHqKWNDm9nN8tcjD+Mdz0V+kVefB9OE1X3QDd1evM+V90Bnnrv
-         Owbg==
-X-Gm-Message-State: AOAM531NfaHVPKwWG3u7yR/P5J1d+bzVqsPH/uL1pQqPtHQ2Y7pWd1BK
-        hOFuDf7hxZOjhUzsODatQEw=
-X-Google-Smtp-Source: ABdhPJxXev+6QoPGs9bZPI7LelcdOihL8c1PxoXHznyZAiNi1UYiit1+dSyyAauBMLff8UdiLX2Otg==
-X-Received: by 2002:a63:e20:: with SMTP id d32mr1079233pgl.53.1597270440514;
-        Wed, 12 Aug 2020 15:14:00 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id d80sm3428651pfd.22.2020.08.12.15.13.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2020 15:13:59 -0700 (PDT)
-Date:   Wed, 12 Aug 2020 15:13:57 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Yingjoe Chen <yingjoe.chen@mediatek.com>
-Cc:     Fengping Yu <fengping.yu@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v17 1/3] dt-bindings: Add bindings for Mediatek matrix
- keypad
-Message-ID: <20200812221357.GS1665100@dtor-ws>
-References: <20200810064058.6467-1-fengping.yu@mediatek.com>
- <20200810064058.6467-2-fengping.yu@mediatek.com>
- <1597110443.22273.5.camel@mtksdaap41>
+        Wed, 12 Aug 2020 18:38:32 -0400
+X-Greylist: delayed 354 seconds by postgrey-1.27 at vger.kernel.org; Wed, 12 Aug 2020 18:38:31 EDT
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
+        by smtpgrave03.hostedemail.com (Postfix) with ESMTP id 6409E181CBC1C;
+        Wed, 12 Aug 2020 22:32:39 +0000 (UTC)
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay01.hostedemail.com (Postfix) with ESMTP id C315D100E7B65;
+        Wed, 12 Aug 2020 22:32:36 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:1801:2393:2559:2562:2828:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3868:3870:3871:3872:4321:4605:5007:6742:6743:7875:9010:10004:10400:10848:11232:11233:11657:11658:11914:12043:12109:12297:12555:12740:12760:12895:12986:13069:13311:13357:13439:14096:14097:14181:14581:14659:14721:21080:21121:21627:30054:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:5,LUA_SUMMARY:none
+X-HE-Tag: board29_4d052b526fef
+X-Filterd-Recvd-Size: 2655
+Received: from XPS-9350.home (unknown [47.151.133.149])
+        (Authenticated sender: joe@perches.com)
+        by omf16.hostedemail.com (Postfix) with ESMTPA;
+        Wed, 12 Aug 2020 22:32:33 +0000 (UTC)
+Message-ID: <f5dedf2d8d8057de3eaa2f9126f44cebb0653b09.camel@perches.com>
+Subject: Re: [PATCH] dt-bindings: Whitespace clean-ups in schema files
+From:   Joe Perches <joe@perches.com>
+To:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-spi@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-mmc@vger.kernel.org,
+        linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Date:   Wed, 12 Aug 2020 15:32:32 -0700
+In-Reply-To: <20200812203618.2656699-1-robh@kernel.org>
+References: <20200812203618.2656699-1-robh@kernel.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1597110443.22273.5.camel@mtksdaap41>
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On Wed, 2020-08-12 at 14:36 -0600, Rob Herring wrote:
+> Clean-up incorrect indentation, extra spaces, long lines, and missing
+> EOF newline in schema files. Most of the clean-ups are for list
+> indentation which should always be 2 spaces more than the preceding
+                                     ^
+> keyword.
+[]
+> diff --git a/Documentation/devicetree/bindings/arm/arm,integrator.yaml b/Documentation/devicetree/bindings/arm/arm,integrator.yaml
+> index 192ded470e32..f0daf990e077 100644
+> --- a/Documentation/devicetree/bindings/arm/arm,integrator.yaml
+> +++ b/Documentation/devicetree/bindings/arm/arm,integrator.yaml
+> @@ -67,9 +67,9 @@ patternProperties:
+>        compatible:
+>          items:
+>            - enum:
+> -            - arm,integrator-ap-syscon
+> -            - arm,integrator-cp-syscon
+> -            - arm,integrator-sp-syscon
+> +              - arm,integrator-ap-syscon
+> +              - arm,integrator-cp-syscon
+> +              - arm,integrator-sp-syscon
 
-On Tue, Aug 11, 2020 at 09:47:23AM +0800, Yingjoe Chen wrote:
-> Hi,
-> 
-> 
-> On Mon, 2020-08-10 at 14:40 +0800, Fengping Yu wrote:
-> > From: "fengping.yu" <fengping.yu@mediatek.com>
-> > 
-> > This patch add devicetree bindings for Mediatek matrix keypad driver.
-> > 
-> > Signed-off-by: fengping.yu <fengping.yu@mediatek.com>
-> > ---
-> >  .../devicetree/bindings/input/mtk-kpd.yaml    | 87 +++++++++++++++++++
-> >  1 file changed, 87 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/input/mtk-kpd.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/input/mtk-kpd.yaml b/Documentation/devicetree/bindings/input/mtk-kpd.yaml
-> > new file mode 100644
-> > index 000000000000..d74dd8a6fbde
-> 
-> <...>
-> 
-> 
-> > +  keypad,num-columns:
-> > +    description: Number of column lines connected to the keypad controller,
-> > +    it is not equal to PCB columns number, instead you should add required value
-> > +    for each IC. If not specified, the default value is 1.
-> > +
-> > +  keypad,num-rows:
-> > +    description: Number of row lines connected to the keypad controller, it is
-> > +    not equal to PCB rows number, instead you should add required value for each IC.
-> > +    If not specified, the default value is 1.
-> 
-> Your source code can't really handle dts without rows/columns
-> properties. Also, the default value doesn't make any sense. No IC will
-> have rows or columns set to 1.
-> 
-> Since these are IC specified, not board specified, I think you should
-> just have the correct numbers in driver.
+Confused a bit here.
+          - enum:
+	10 spaces to dash
+old line:
+            - arm,integrator-ap-syscon
+	12 spaces to dash
+new line:
+              - arm,integrator-ap-syscon
+	14 spaces to dash
 
-It is actually property of board to decide how many keys it wants to
-wire up. In extreme case it will be a single key, i.e. number of rows
-and columns will indeed be 1.
+Is it supposed to be 2 spaces more than the preceding line
+or 4 more?
 
-Thanks.
 
--- 
-Dmitry
