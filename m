@@ -2,91 +2,193 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 91FB42430E1
-	for <lists+linux-input@lfdr.de>; Thu, 13 Aug 2020 00:38:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1492C2430EA
+	for <lists+linux-input@lfdr.de>; Thu, 13 Aug 2020 00:39:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726485AbgHLWic (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Aug 2020 18:38:32 -0400
-Received: from smtprelay0014.hostedemail.com ([216.40.44.14]:41580 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726456AbgHLWic (ORCPT
+        id S1726554AbgHLWjs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Aug 2020 18:39:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37134 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726456AbgHLWjs (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Aug 2020 18:38:32 -0400
-X-Greylist: delayed 354 seconds by postgrey-1.27 at vger.kernel.org; Wed, 12 Aug 2020 18:38:31 EDT
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-        by smtpgrave03.hostedemail.com (Postfix) with ESMTP id 6409E181CBC1C;
-        Wed, 12 Aug 2020 22:32:39 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay01.hostedemail.com (Postfix) with ESMTP id C315D100E7B65;
-        Wed, 12 Aug 2020 22:32:36 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:1801:2393:2559:2562:2828:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3868:3870:3871:3872:4321:4605:5007:6742:6743:7875:9010:10004:10400:10848:11232:11233:11657:11658:11914:12043:12109:12297:12555:12740:12760:12895:12986:13069:13311:13357:13439:14096:14097:14181:14581:14659:14721:21080:21121:21627:30054:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:5,LUA_SUMMARY:none
-X-HE-Tag: board29_4d052b526fef
-X-Filterd-Recvd-Size: 2655
-Received: from XPS-9350.home (unknown [47.151.133.149])
-        (Authenticated sender: joe@perches.com)
-        by omf16.hostedemail.com (Postfix) with ESMTPA;
-        Wed, 12 Aug 2020 22:32:33 +0000 (UTC)
-Message-ID: <f5dedf2d8d8057de3eaa2f9126f44cebb0653b09.camel@perches.com>
-Subject: Re: [PATCH] dt-bindings: Whitespace clean-ups in schema files
-From:   Joe Perches <joe@perches.com>
-To:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-spi@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-mmc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Date:   Wed, 12 Aug 2020 15:32:32 -0700
-In-Reply-To: <20200812203618.2656699-1-robh@kernel.org>
-References: <20200812203618.2656699-1-robh@kernel.org>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        Wed, 12 Aug 2020 18:39:48 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD2BAC061383;
+        Wed, 12 Aug 2020 15:37:14 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id x25so1755754pff.4;
+        Wed, 12 Aug 2020 15:37:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=M0mzyOw7T8Q1fOZrcOZc/fxVuVoJEqZckDUmqWvlGa0=;
+        b=TZbiQ0EQZICBMmk6NGhb7VxPKZRs3HtXD+j4Ubk5CWG1QmywURlI+Wzc9vaTGIhB/M
+         HIJnXe+HmLEUw3FMSzEJJp1YPass1Rf5lN4/yrguecl/epXEqF9xkgHOWbV7UBVIX8pC
+         OX86kiv+kNHVhdNC3teOoGXnm0bRGlviA+VQqE6BU+x7QoomUPGP9T6LCWFU20MmLnRf
+         pxfdUDuYnhKADovbKSp/LzgL4ruSl9j0WQvoFigxbcU6OsdqK4uP8Kt0ud7RHajmYvYZ
+         0GTxHcNpSF9euS59CcHVdhNv+v/xcOElOtgGpS3AYEwy2RTeQHpBV0VXRsLzvdW9At/G
+         r5xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=M0mzyOw7T8Q1fOZrcOZc/fxVuVoJEqZckDUmqWvlGa0=;
+        b=f0xMpcMmzW0MWNte5EwV6Jv8ayU5o662qWYz2+oT9MjtpdPNe6f2IVYmKu+Xxpw/17
+         FVyMaiIdcgDnp16mvYc8sp2YqI6Mcvkrtpg+eIqZKcXBZHcRAITbx7p2Q4HQwqzVkdg3
+         T0bNocH2vSmQ3TiOmtWf7yOfwTQHN+HARRzhd0yVMjdXgrOk+4vgZQkVLy1hPQNBtIWf
+         uly1nwCecxtzKGIYrspOy0E+hndQ3r8QrxgKfEHsqvdau80u9aexWFXSdYEv1yzsMTlQ
+         Dz0w+FdLWSSqAMiaRErCOtHuyT1i/S4S6Vzud9LJSQkHW7oMUclUVVJ0K85xQu/hLzVL
+         gH0Q==
+X-Gm-Message-State: AOAM533Qn1jnl65zbu0avLEVoqbZvH3ygVM4G1rmD4qAQZCHOdas9BKK
+        e3WWEnc8arkqIZUYDTrJrGE=
+X-Google-Smtp-Source: ABdhPJy0Qr3vqJ++ena8fqbf5oBYsMHzL5MsqDW2HMeKTs13ehBPvCjo/9PjLs8r0sTBQMThjU8GnQ==
+X-Received: by 2002:aa7:9f1b:: with SMTP id g27mr1548294pfr.215.1597271833977;
+        Wed, 12 Aug 2020 15:37:13 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id s6sm3361321pfb.50.2020.08.12.15.37.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Aug 2020 15:37:13 -0700 (PDT)
+Date:   Wed, 12 Aug 2020 15:37:11 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Fengping Yu <fengping.yu@mediatek.com>
+Cc:     Yingjoe Chen <yingjoe.chen@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v17 1/3] dt-bindings: Add bindings for Mediatek matrix
+ keypad
+Message-ID: <20200812223711.GT1665100@dtor-ws>
+References: <20200810064058.6467-1-fengping.yu@mediatek.com>
+ <20200810064058.6467-2-fengping.yu@mediatek.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200810064058.6467-2-fengping.yu@mediatek.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 2020-08-12 at 14:36 -0600, Rob Herring wrote:
-> Clean-up incorrect indentation, extra spaces, long lines, and missing
-> EOF newline in schema files. Most of the clean-ups are for list
-> indentation which should always be 2 spaces more than the preceding
-                                     ^
-> keyword.
-[]
-> diff --git a/Documentation/devicetree/bindings/arm/arm,integrator.yaml b/Documentation/devicetree/bindings/arm/arm,integrator.yaml
-> index 192ded470e32..f0daf990e077 100644
-> --- a/Documentation/devicetree/bindings/arm/arm,integrator.yaml
-> +++ b/Documentation/devicetree/bindings/arm/arm,integrator.yaml
-> @@ -67,9 +67,9 @@ patternProperties:
->        compatible:
->          items:
->            - enum:
-> -            - arm,integrator-ap-syscon
-> -            - arm,integrator-cp-syscon
-> -            - arm,integrator-sp-syscon
-> +              - arm,integrator-ap-syscon
-> +              - arm,integrator-cp-syscon
-> +              - arm,integrator-sp-syscon
+Hi,
 
-Confused a bit here.
-          - enum:
-	10 spaces to dash
-old line:
-            - arm,integrator-ap-syscon
-	12 spaces to dash
-new line:
-              - arm,integrator-ap-syscon
-	14 spaces to dash
+On Mon, Aug 10, 2020 at 02:40:57PM +0800, Fengping Yu wrote:
+> From: "fengping.yu" <fengping.yu@mediatek.com>
+> 
+> This patch add devicetree bindings for Mediatek matrix keypad driver.
+> 
+> Signed-off-by: fengping.yu <fengping.yu@mediatek.com>
+> ---
+>  .../devicetree/bindings/input/mtk-kpd.yaml    | 87 +++++++++++++++++++
+>  1 file changed, 87 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/mtk-kpd.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/input/mtk-kpd.yaml b/Documentation/devicetree/bindings/input/mtk-kpd.yaml
+> new file mode 100644
+> index 000000000000..d74dd8a6fbde
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/mtk-kpd.yaml
+> @@ -0,0 +1,87 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +version: 1
+> +
+> +$id: http://devicetree.org/schemas/input/mtk-keypad.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Mediatek's Keypad Controller device tree bindings
+> +
+> +maintainer:
+> +  - Fengping Yu <fengping.yu@mediatek.com>
+> +
+> +description: |
+> +  Mediatek's Keypad controller is used to interface a SoC with a matrix-type
+> +  keypad device. The keypad controller supports multiple row and column lines.
+> +  A key can be placed at each intersection of a unique row and a unique column.
+> +  The keypad controller can sense a key-press and key-release and report the
+> +  event using a interrupt to the cpu.
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - const: "mediatek,mt6779-keypad"
+> +      - const: "mediatek,mt6873-keypad"
+> +
+> +  clock-names:
+> +    description: Names of the clocks listed in clocks property in the same order
+> +    maxItems: 1
+> +    items:
+> +    	- const: kpd
+> +
+> +  clocks:
+> +    description: Must contain one entry, for the module clock
+> +    refs: devicetree/bindings/clocks/clock-bindings.txt for details.
+> +
+> +  interrupts:
+> +    description: A single interrupt specifier
+> +    maxItems: 1
+> +
+> +  linux,keymap:
+> +    description: The keymap for keys as described in the binding document
+> +    refs: devicetree/bindings/input/matrix-keymap.txt
+> +    minItems: 1
+> +
+> +  reg:
+> +    description: The base address of the Keypad register bank
+> +    maxItems: 1
+> +
+> +  wakeup-source:
+> +    description: use any event on keypad as wakeup event
+> +    type: boolean
+> +
+> +  keypad,num-columns:
+> +    description: Number of column lines connected to the keypad controller,
+> +    it is not equal to PCB columns number, instead you should add required value
+> +    for each IC. If not specified, the default value is 1.
 
-Is it supposed to be 2 spaces more than the preceding line
-or 4 more?
+What sets the default? matrix_keymap_parse_properties() will error out
+if either property is not present....
 
+> +
+> +  keypad,num-rows:
+> +    description: Number of row lines connected to the keypad controller, it is
+> +    not equal to PCB rows number, instead you should add required value for each IC.
+> +    If not specified, the default value is 1.
+> +
+> +  mediatek,debounce-us:
+> +    description: Debounce interval in microseconds, if not specified, the default
+> +    value is 16000
+> +    maximum: 256000
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - linux,keymap
+> +  - clocks
+> +  - clock-names
+> +
+> +examples:
+> +  - |
+> +
+> +  kp@10010000 {
+> +    compatible = "mediatek,mt6779-keypad";
 
+Should we call the driver mt6779-keypad ?
+
+> +    reg = <0 0x10010000 0 0x1000>;
+> +    linux,keymap = < MATRIX_KEY(0x00, 0x00, KEY_VOLUMEDOWN) >;
+> +    interrupts = <GIC_SPI 75 IRQ_TYPE_EDGE_FALLING>;
+> +    clocks = <&clk26m>;
+> +    clock-names = "kpd";
+> +  };
+> -- 
+> 2.18.0
+
+Thanks.
+
+-- 
+Dmitry
