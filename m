@@ -2,249 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8142B2428DF
-	for <lists+linux-input@lfdr.de>; Wed, 12 Aug 2020 13:45:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59413242955
+	for <lists+linux-input@lfdr.de>; Wed, 12 Aug 2020 14:32:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726804AbgHLLpt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Aug 2020 07:45:49 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:45944 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726404AbgHLLps (ORCPT
+        id S1727858AbgHLMcJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Aug 2020 08:32:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56574 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726846AbgHLMcJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Aug 2020 07:45:48 -0400
-Received: by mail-ed1-f66.google.com with SMTP id di22so1258527edb.12;
-        Wed, 12 Aug 2020 04:45:46 -0700 (PDT)
+        Wed, 12 Aug 2020 08:32:09 -0400
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18BF6C06174A;
+        Wed, 12 Aug 2020 05:32:09 -0700 (PDT)
+Received: by mail-oi1-x242.google.com with SMTP id l204so1651127oib.3;
+        Wed, 12 Aug 2020 05:32:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rVoACvL3vbhn7Hy+rg7NvJC/rRz4OGAEG/IOuYVfJLk=;
+        b=YkqGfxOvN96eGolDSvt0iCWOvbZZeKLlCAGi8BAH/XmoiSQNEa5synSoNNTH3X5sLJ
+         J0XSC09qP/ds7a/R4Q0SSHomSPcp0o15AVV2+lMvLnTd0vBV6RrhGJjKX/x/0SkqiKwV
+         0A06fOqNelj9etWPOTYb+YgdV2enu7Fu10STP5iSBmXYnoCAcjjN9WoirJjjmeTuYc3n
+         nbzkPOmaEZpF2jhtGMP8FxV8952FOiOMh2n1AUuK375GNKqppbaAbdxZ1DWWt48ETdQL
+         u7QVCoEWkBLGQ3/N4TpSYorKV9FXu36SK0GdrESPraE01ZXd8Fjq2XFQXHvDOrZrjyq5
+         8LeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=iTU/Dy21v99MwSHqqPqln63atgzchISHbIicoIdY0tk=;
-        b=iaxO3rPceLJ+Qj2uASzUgbrOtFJMqrYlolbtJTfxSaw6H/M4hNRFEWoZ6SH99xtlf7
-         gTR1szVb+3W6EY0xgMYBNVHMB8nYQ8zYT6PRCn5khbBV70oGSmXSkeQW1ipzWaomNsb6
-         qXLG0/kRmyyLIG3H9u5x0kbPYoH/wfgznYuVsJMd347nFU+qzjPKumqTaFVekTyTsqyx
-         /4KW0MHJUSyjoh31UVBE6fz4wRKi+kqIdUbTDobVuie3smYJVpVZNSe59NQGVKtd0/eN
-         M6WZNWvnBmCpaaQazG3g2OfAyzw62N1uKRGiT+qpsGZvBPc5fSptp7v1d9gFauEOUuif
-         sqew==
-X-Gm-Message-State: AOAM532aBH+u4OoMDofunyGYNGx5pDMCL1TBtCOL6MEjykzo0SZUG707
-        CKErMcGLBg4XA+/6ypcDxobP0lOR
-X-Google-Smtp-Source: ABdhPJyQYKB9lc6XsHvt9BA0UwESU/c4LN6Y2ZfWc0iT1x0hR74d4+JSLFM8jMPq4vnjCzXWoSGHtQ==
-X-Received: by 2002:a50:f288:: with SMTP id f8mr30925078edm.247.1597232746140;
-        Wed, 12 Aug 2020 04:45:46 -0700 (PDT)
-Received: from ?IPv6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
-        by smtp.gmail.com with ESMTPSA id d9sm755726edt.20.2020.08.12.04.45.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Aug 2020 04:45:45 -0700 (PDT)
-Subject: Re: [PATCH 2/2] tty/sysrq: Add configurable handler to execute a
- compound action
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, kernel@collabora.com
-References: <20200804162402.2087-1-andrzej.p@collabora.com>
- <20200804162402.2087-3-andrzej.p@collabora.com>
-From:   Jiri Slaby <jirislaby@kernel.org>
-Message-ID: <0280e30a-2e70-7d21-68a9-5a2c22d7f316@kernel.org>
-Date:   Wed, 12 Aug 2020 13:45:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rVoACvL3vbhn7Hy+rg7NvJC/rRz4OGAEG/IOuYVfJLk=;
+        b=r/p3muA5t+/bqbt39pc1i2xMmpB+2ZkGjm6DzvOlcULL6KPh71FB78Twv/A3aEvKle
+         hL4Nok67+mMGFIHa11ltVOJTQOTla3agqr4J9x5RVRJfTQb/YKQukP1fzJvsFEfu+en1
+         60o6jLStDdbPAID/QP77KBRsqNkh8l3ZBzrfKDWkwI43SQOtywolwSHFuc5rNgKKIX0e
+         T5T0/IJuT8MVZo/s98wWkwLBTBn8soCkLvsvQF/Y3IX3Pa/sU0u8LCp7b2ZbLKCOFJ8L
+         AKqUfAHQAYRSuE9ySCEMxHA6Wlvf8B31m8rOEFIWbmIxcM6jFvVXBts17XRSvdSBl3ZR
+         u1bw==
+X-Gm-Message-State: AOAM533xH2bhmtYBpb8l5r3722b0g1SrE+UjyWwY4TSAN4gCBK4yPIxs
+        nuQUN98cak95E2ZNNjctFf1pd545WjuAVCGO5Aw=
+X-Google-Smtp-Source: ABdhPJypHP+8lAnojHqsj+HMjv2Kx5qQD1vR1U48FukFJAYIMQIqPx17kRoJyhSS4FcPT0MB5slRlnJYgqYSUKBAAmw=
+X-Received: by 2002:a05:6808:4c5:: with SMTP id a5mr7370620oie.175.1597235526662;
+ Wed, 12 Aug 2020 05:32:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200804162402.2087-3-andrzej.p@collabora.com>
-Content-Type: text/plain; charset=iso-8859-2
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200716030847.1564131-1-keescook@chromium.org>
+ <87h7tpa3hg.fsf@nanos.tec.linutronix.de> <202007301113.45D24C9D@keescook>
+ <CAOMdWSJQKHAWY1P297b9koOLd8sVtezEYEyWGtymN1YeY27M6A@mail.gmail.com> <202008111427.D00FCCF@keescook>
+In-Reply-To: <202008111427.D00FCCF@keescook>
+From:   Allen <allen.lkml@gmail.com>
+Date:   Wed, 12 Aug 2020 18:01:55 +0530
+Message-ID: <CAOMdWS+nJr+g1c0Kb99Z=HwQjHtH_-NCC9hW-o6xFs4huGKsqQ@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Modernize tasklet callback API
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Oscar Carter <oscar.carter@gmx.com>,
+        Romain Perier <romain.perier@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-s390@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-usb@vger.kernel.org, kgdb-bugreport@lists.sourceforge.net,
+        alsa-devel@alsa-project.org,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 04. 08. 20, 18:24, Andrzej Pietrasiewicz wrote:
-> Userland might want to execute e.g. 'w' (show blocked tasks), followed
-> by 's' (sync), followed by 1000 ms delay and then followed by 'c' (crash)
-> upon a single magic SysRq. Or one might want to execute the famous "Raising
-> Elephants Is So Utterly Boring" action. This patch adds a configurable
-> handler, triggered with 'C', for this exact purpose. The user specifies the
-> composition of the compound action using syntax similar to getopt, where
-> each letter corresponds to an individual action and a colon followed by a
-> number corresponds to a delay of that many milliseconds, e.g.:
-> 
-> ws:1000c
-> 
-> or
-> 
-> r:100eis:1000ub
+Kees,
 
-I think I miss what's that good for, given I can do it one-by-one
-without setting such strings anywhere (I usually want to do different
-things on different kinds of crashes)?
+> Was a Coccinelle script used for any of these conversions? I wonder if
+> it'd be easier to do a single treewide patch for the more mechanical
+> changes.
 
-> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-> ---
->  Documentation/admin-guide/sysrq.rst |  9 ++++
->  drivers/tty/sysrq.c                 | 81 ++++++++++++++++++++++++++++-
->  include/linux/sysrq.h               |  1 +
->  3 files changed, 90 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/sysrq.rst b/Documentation/admin-guide/sysrq.rst
-> index 67dfa4c29093..80bdd8bf9636 100644
-> --- a/Documentation/admin-guide/sysrq.rst
-> +++ b/Documentation/admin-guide/sysrq.rst
-> @@ -32,6 +32,7 @@ to 1. Here is the list of possible values in /proc/sys/kernel/sysrq:
->           64 =  0x40 - enable signalling of processes (term, kill, oom-kill)
->          128 =  0x80 - allow reboot/poweroff
->          256 = 0x100 - allow nicing of all RT tasks
-> +        512 = 0x200 - allow compound action
->  
->  You can set the value in the file by the following command::
->  
-> @@ -148,6 +149,14 @@ Command	    Function
->  
->  ``z``	    Dump the ftrace buffer
->  
-> +``C``	    Execute a predefined, compound action. The action is defined with
-> +	    sysrq.sysrq_compound_action module parameter, whose value contains known
-> +	    command keys (except ``C`` to prevent recursion). The command keys can
-> +	    be optionally followed by a colon and a number of milliseconds to wait
-> +	    after executing the last action. For example:
-> +
-> +	    sysrq.sysrq_compound_action=r:100eis:1000ub
-> +
->  ``0``-``9`` Sets the console log level, controlling which kernel messages
->              will be printed to your console. (``0``, for example would make
->              it so that only emergency messages like PANICs or OOPSes would
-> diff --git a/drivers/tty/sysrq.c b/drivers/tty/sysrq.c
-> index 52e344bfe8c0..ffcda1316675 100644
-> --- a/drivers/tty/sysrq.c
-> +++ b/drivers/tty/sysrq.c
-> @@ -19,6 +19,7 @@
->  #include <linux/sched/rt.h>
->  #include <linux/sched/debug.h>
->  #include <linux/sched/task.h>
-> +#include <linux/delay.h>
->  #include <linux/interrupt.h>
->  #include <linux/mm.h>
->  #include <linux/fs.h>
-> @@ -439,6 +440,15 @@ static const struct sysrq_key_op sysrq_unrt_op = {
->  	.enable_mask	= SYSRQ_ENABLE_RTNICE,
->  };
->  
-> +static void sysrq_action_compound(int key);
-> +
-> +static struct sysrq_key_op sysrq_action_compound_op = {
-> +	.handler	= sysrq_action_compound,
-> +	.help_msg	= "execute-compound-action(C)",
-> +	.action_msg	= "Execute compound action",
-> +	.enable_mask	= SYSRQ_ENABLE_COMPOUND,
-> +};
-> +
->  /* Key Operations table and lock */
->  static DEFINE_SPINLOCK(sysrq_key_table_lock);
->  
-> @@ -501,7 +511,7 @@ static const struct sysrq_key_op *sysrq_key_table[62] = {
->  	&sysrq_ftrace_dump_op,		/* z */
->  	NULL,				/* A */
->  	NULL,				/* B */
-> -	NULL,				/* C */
-> +	&sysrq_action_compound_op,	/* C */
->  	NULL,				/* D */
->  	NULL,				/* E */
->  	NULL,				/* F */
-> @@ -634,6 +644,7 @@ EXPORT_SYMBOL(handle_sysrq);
->  
->  #ifdef CONFIG_INPUT
->  static int sysrq_reset_downtime_ms;
-> +static char *sysrq_compound_action;
->  
->  /* Simple translation table for the SysRq keys */
->  static const unsigned char sysrq_xlate[KEY_CNT] =
-> @@ -787,6 +798,61 @@ static void sysrq_of_get_keyreset_config(void)
->  {
->  }
->  #endif
-> +#define SYSRQ_COMPOUND_ACTION_VALIDATE	0
-> +#define SYSRQ_COMPOUND_ACTION_RUN	1
-> +
-> +static int sysrq_process_compound_action(int pass)
-> +{
-> +	const char *action = sysrq_compound_action;
-> +	const struct sysrq_key_op *op_p;
-> +	int ret, delay;
-> +
-> +	while (*action) {
-> +		op_p = __sysrq_get_key_op(*action);
-> +		if (!op_p)
-> +			return -EINVAL;
-> +
-> +		/* Don't allow calling ourselves recursively */
-> +		if (op_p == &sysrq_action_compound_op)
-> +			return -EINVAL;
-> +
-> +		if (pass == SYSRQ_COMPOUND_ACTION_RUN)
-> +			__handle_sysrq(*action, false);
-> +
-> +		if (*++action == ':') {
-> +			ret = sscanf(action++, ":%d", &delay);
+No, I should have written one. Will do it.
 
-You likely want %u and unsigned int. No negative delays.
+> And, actually, I still think the "prepare" patches should just be
+> collapsed into the actual "covert" patches -- there are only a few.
 
-> +			if (ret < 1) /* we want at least ":[0-9]" => 1 item */
-> +				return -EINVAL;
-> +
-> +			while (*action >= '0' && *action <= '9')
-> +				++action;
-> +			if (pass == SYSRQ_COMPOUND_ACTION_RUN)
-> +				mdelay(delay);
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void sysrq_action_compound(int key)
-> +{
-> +	if (!sysrq_compound_action) {
-> +		pr_err("Unconfigured compound action for %s",
-> +		       sysrq_action_compound_op.help_msg);
+Okay. It's been done and pushed to:
+https://github.com/allenpais/tasklets/tree/V4
 
-Missing \n.
+> After those, yeah, I think getting these sent to their respective
+> maintainers is the next step.
 
-> +		return;
-> +	}
-> +
-> +	if (sysrq_process_compound_action(SYSRQ_COMPOUND_ACTION_VALIDATE)) {
-> +		pr_err("Incorrect compound action %s for %s",
+ Please look at the above branch, if it looks fine, let me know
+if I can add your ACK on the patches.
+>
+> Sure! I will add it to the tracker. Here's for the refactoring:
+> https://github.com/KSPP/linux/issues/30
+>
+> and here's for the removal:
+> https://github.com/KSPP/linux/issues/94
+>
+> if you can added details/examples of how they should be removed, that'd
+> help other folks too, if they wanted to jump in. :)
 
-The same.
+Sure, Thank you.
 
-> +		       sysrq_compound_action,
-> +		       sysrq_action_compound_op.help_msg);
-> +
-> +		return;
-> +	}
-> +
-> +	sysrq_process_compound_action(SYSRQ_COMPOUND_ACTION_RUN);
-> +}
->  
->  static void sysrq_reinject_alt_sysrq(struct work_struct *work)
->  {
-> @@ -1079,8 +1145,21 @@ module_param_array_named(reset_seq, sysrq_reset_seq, sysrq_reset_seq,
->  
->  module_param_named(sysrq_downtime_ms, sysrq_reset_downtime_ms, int, 0644);
->  
-> +module_param(sysrq_compound_action, charp, 0644);
-> +MODULE_PARM_DESC(sysrq_compound_action,
-> +	"Compound sysrq action to be executed on Alt-Shift-SysRq-C\n"
-> +	"The compound action definition consists of known SysRq action letters except 'C',\n"
-> +	"each letter can be optionally followed by a colon and a number of milliseconds to wait\n"
-> +	"after executing the last action.\n"
-> +	"Example:\n"
-> +	"To unRaw, wait 100ms, tErminate, kIll, Sync, wait 1000ms, Unmount, Boot\n"
-> +	"sysrq.sysrq_compound_action=r:100eis:1000ub");
-
-This looks bad in the output, use at least one \t at the start of a new
-line inside the string.
-
--- 
-js
-suse labs
+- Allen
