@@ -2,139 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BE0A243893
-	for <lists+linux-input@lfdr.de>; Thu, 13 Aug 2020 12:31:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE4292439B7
+	for <lists+linux-input@lfdr.de>; Thu, 13 Aug 2020 14:21:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726531AbgHMKbg convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Thu, 13 Aug 2020 06:31:36 -0400
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:35289 "EHLO
-        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726048AbgHMKbf (ORCPT
+        id S1726131AbgHMMVD convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Thu, 13 Aug 2020 08:21:03 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:58628 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726053AbgHMMVC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 13 Aug 2020 06:31:35 -0400
-Received: from [37.161.87.136] (port=46755 helo=[192.168.42.162])
-        by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <luca@lucaceresoli.net>)
-        id 1k6AW9-000FlW-5k; Thu, 13 Aug 2020 12:31:29 +0200
-Subject: Re: [PATCH] dt-bindings: Whitespace clean-ups in schema files
-To:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-spi@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-mmc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, netdev@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-usb@vger.kernel.org
-References: <20200812203618.2656699-1-robh@kernel.org>
-From:   Luca Ceresoli <luca@lucaceresoli.net>
-Message-ID: <d5808e9c-07fe-1c28-b9a6-a16abe9df458@lucaceresoli.net>
-Date:   Thu, 13 Aug 2020 12:31:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Thu, 13 Aug 2020 08:21:02 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: sre)
+        with ESMTPSA id 1197F299E38
+Received: by earth.universe (Postfix, from userid 1000)
+        id 42CA73C0C80; Thu, 13 Aug 2020 14:20:59 +0200 (CEST)
+Date:   Thu, 13 Aug 2020 14:20:59 +0200
+From:   Sebastian Reichel <sebastian.reichel@collabora.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Ahmet Inan <inan@distec.de>,
+        Martin Fuzzey <martin.fuzzey@flowbird.group>,
+        Rob Herring <robh+dt@kernel.org>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel@collabora.com,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Subject: Re: [PATCHv4 4/4] Input: EXC3000: Add support to query model and
+ fw_version
+Message-ID: <20200813122059.hhf5qjnbwiyh2exg@earth.universe>
+References: <20200805160520.456570-1-sebastian.reichel@collabora.com>
+ <20200805160520.456570-5-sebastian.reichel@collabora.com>
+ <20200807003901.GQ1665100@dtor-ws>
 MIME-Version: 1.0
-In-Reply-To: <20200812203618.2656699-1-robh@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: 8BIT
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+In-Reply-To: <20200807003901.GQ1665100@dtor-ws>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Rob,
+Hi Dmitry,
 
-On 12/08/20 22:36, Rob Herring wrote:
-> Clean-up incorrect indentation, extra spaces, long lines, and missing
-> EOF newline in schema files. Most of the clean-ups are for list
-> indentation which should always be 2 spaces more than the preceding
-> keyword.
+On Thu, Aug 06, 2020 at 05:39:01PM -0700, Dmitry Torokhov wrote:
+> Hi Sebastian,
 > 
-> Found with yamllint (which I plan to integrate into the checks).
-
-[...]
-
-> diff --git a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-> index 3d4e1685cc55..28c6461b9a9a 100644
-> --- a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-> +++ b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-> @@ -95,10 +95,10 @@ allOf:
->        # Devices without builtin crystal
->        properties:
->          clock-names:
-> -            minItems: 1
-> -            maxItems: 2
-> -            items:
-> -              enum: [ xin, clkin ]
-> +          minItems: 1
-> +          maxItems: 2
-> +          items:
-> +            enum: [ xin, clkin ]
->          clocks:
->            minItems: 1
->            maxItems: 2
-
-Thanks for noticing, LGTM.
-
-[...]
-
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
-> index d7dac16a3960..36dc7b56a453 100644
-> --- a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
-> @@ -33,8 +33,8 @@ properties:
->      $ref: /schemas/types.yaml#/definitions/uint32
->  
->    touchscreen-min-pressure:
-> -    description: minimum pressure on the touchscreen to be achieved in order for the
-> -                 touchscreen driver to report a touch event.
-> +    description: minimum pressure on the touchscreen to be achieved in order
-> +      for the touchscreen driver to report a touch event.
-
-Out of personal taste, I find the original layout more pleasant and
-readable. This third option is also good, especially for long descriptions:
-
-  description:
-    minimum pressure on the touchscreen to be achieved in order for the
-    touchscreen driver to report a touch event.
-
-At first glance yamllint seems to support exactly these two by default:
-
-> With indentation: {spaces: 4, check-multi-line-strings: true}
+> On Wed, Aug 05, 2020 at 06:05:20PM +0200, Sebastian Reichel wrote:
+> >  
+> > +static int exc3000_query_interrupt(struct exc3000_data *data)
+> > +{
+> > +	u8 *buf = data->buf;
+> > +	int err;
+> > +
+> > +	err = i2c_master_recv(data->client, buf, EXC3000_LEN_FRAME);
+> > +	if (err < 0)
+> > +		return err;
+> > +
+> > +	if (buf[0] != 0x42)
 > 
-> the following code snippet would PASS:
-> 
-> Blaise Pascal:
->     Je vous écris une longue lettre parce que
->     je n'ai pas le temps d'en écrire une courte.
-> 
-> the following code snippet would PASS:
-> 
-> Blaise Pascal: Je vous écris une longue lettre parce que
->                je n'ai pas le temps d'en écrire une courte.
-> 
-> the following code snippet would FAIL:
-> 
-> Blaise Pascal: Je vous écris une longue lettre parce que
->   je n'ai pas le temps d'en écrire une courte.
-> 
-(https://yamllint.readthedocs.io/en/stable/rules.html#module-yamllint.rules.indentation)
+> I changed this to 'B' to match the rest of the function.
 
+OK. I assumed this to be a easter egg reference to the Answer to
+the Ultimate Question of Life, the Universe, and Everything from
+the Hitchhiker's Guide, so I left it as a number. I might be totally
+wrong on that one, so fine with me.
 
--- 
-Luca
+> > +		return -EPROTO;
+> > +
+> > +	if (buf[4] == 'E')
+> > +		strlcpy(data->model, buf+5, sizeof(data->model));
+> > +	else if (buf[4] == 'D')
+> > +		strlcpy(data->fw_version, buf+5, sizeof(data->fw_version));
+> > +	else
+> > +		return -EPROTO;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +	error = sysfs_create_group(&client->dev.kobj, &exc3000_attribute_group);
+> > +	if (error)
+> > +		return error;
+> > +
+> > +	error = devm_add_action_or_reset(&client->dev, exc3000_unregister_sysfs, &client->dev);
+> > +	if (error)
+> > +		return error;
+> 
+> Replaced 2 calls with devm_device_add_group().
 
+ah, I missed that because it does not have sysfs in its name and its
+not in the <linux/sysfs.h>.
+
+> Please yell if I managed to break it...
+
+The touchscreen works as expected, sysfs files are created and
+removed correctly and also work as expected. All looks good.
+
+-- Sebastian
