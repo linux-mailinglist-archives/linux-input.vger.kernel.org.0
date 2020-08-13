@@ -2,35 +2,35 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DBA042431D6
-	for <lists+linux-input@lfdr.de>; Thu, 13 Aug 2020 02:57:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DEF12431E0
+	for <lists+linux-input@lfdr.de>; Thu, 13 Aug 2020 02:57:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726526AbgHMA5I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 Aug 2020 20:57:08 -0400
+        id S1726615AbgHMA52 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 Aug 2020 20:57:28 -0400
 Received: from mga06.intel.com ([134.134.136.31]:34243 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726621AbgHMA5I (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 Aug 2020 20:57:08 -0400
-IronPort-SDR: AclPTNtRwn5q46e+gDK8gLo5fJyA6pdGL4lw/OPJD/3oHK6l6j7X+V5+twTzTU3u8HZkQLxrCG
- Ti1ezcFRTU3A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9711"; a="215661599"
+        id S1726600AbgHMA5H (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 12 Aug 2020 20:57:07 -0400
+IronPort-SDR: XGhaCRP7vGB5RMZaJzEsK5Hz0SnP2vcnZzK1Tl7/pJ2gPxoJNAyAIDnbMrW+Rjlhu0EpPWOKH9
+ SBu7MzNO6YHw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9711"; a="215661597"
 X-IronPort-AV: E=Sophos;i="5.76,306,1592895600"; 
-   d="scan'208";a="215661599"
+   d="scan'208";a="215661597"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
   by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Aug 2020 17:57:06 -0700
-IronPort-SDR: u7Aiy1qwlsy2QF30pNizvz440Xfnah0SQY5g4acYiprToEF+0UObe4x1XOGh2N+4vA5ioml2Vf
- lofwPm6ei25g==
+IronPort-SDR: Ww6phYdl4DavHzAKYO4oZabFzTFLKHea7RXU+8CsXAprC67xJYkKo8yxineIQoY2YwGas5Jr6n
+ iBMPV+dbFGHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.76,306,1592895600"; 
-   d="scan'208";a="470030390"
+   d="scan'208";a="327404805"
 Received: from lkp-server01.sh.intel.com (HELO 7f1ebb311643) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 12 Aug 2020 17:57:04 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 12 Aug 2020 17:57:04 -0700
 Received: from kbuild by 7f1ebb311643 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1k61YF-0000Lh-IF; Thu, 13 Aug 2020 00:57:03 +0000
-Date:   Thu, 13 Aug 2020 08:56:12 +0800
+        id 1k61YF-0000Lj-Ig; Thu, 13 Aug 2020 00:57:03 +0000
+Date:   Thu, 13 Aug 2020 08:56:13 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Denis Efremov <efremov@linux.com>
 Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
@@ -40,7 +40,7 @@ Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Message-ID: <20200813005612.GA85308@8851f5375e5a>
+Message-ID: <20200813005613.GA85395@8851f5375e5a>
 References: <202008130840.TWLDLwLA%lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -55,11 +55,9 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/hid/hid-roccat-kovaplus.c:330:8-16: WARNING: use scnprintf or sprintf
-drivers/hid/hid-roccat-kovaplus.c:277:8-16: WARNING: use scnprintf or sprintf
-drivers/hid/hid-roccat-kovaplus.c:339:8-16: WARNING: use scnprintf or sprintf
-drivers/hid/hid-roccat-kovaplus.c:349:8-16: WARNING: use scnprintf or sprintf
-drivers/hid/hid-roccat-kovaplus.c:370:8-16: WARNING: use scnprintf or sprintf
+drivers/hid/hid-roccat-pyra.c:289:8-16: WARNING: use scnprintf or sprintf
+drivers/hid/hid-roccat-pyra.c:306:8-16: WARNING: use scnprintf or sprintf
+drivers/hid/hid-roccat-pyra.c:327:8-16: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -81,53 +79,35 @@ commit: abfc19ff202d287742483e15fd478ddd6ada2187 coccinelle: api: add device_att
 
 Please take the patch only if it's a positive warning. Thanks!
 
- hid-roccat-kovaplus.c |   10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ hid-roccat-pyra.c |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
---- a/drivers/hid/hid-roccat-kovaplus.c
-+++ b/drivers/hid/hid-roccat-kovaplus.c
-@@ -274,7 +274,7 @@ static ssize_t kovaplus_sysfs_show_actua
+--- a/drivers/hid/hid-roccat-pyra.c
++++ b/drivers/hid/hid-roccat-pyra.c
+@@ -286,7 +286,7 @@ static ssize_t pyra_sysfs_show_actual_cp
  {
- 	struct kovaplus_device *kovaplus =
+ 	struct pyra_device *pyra =
  			hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
--	return snprintf(buf, PAGE_SIZE, "%d\n", kovaplus->actual_profile);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", kovaplus->actual_profile);
+-	return snprintf(buf, PAGE_SIZE, "%d\n", pyra->actual_cpi);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", pyra->actual_cpi);
  }
+ static DEVICE_ATTR(actual_cpi, 0440, pyra_sysfs_show_actual_cpi, NULL);
  
- static ssize_t kovaplus_sysfs_set_actual_profile(struct device *dev,
-@@ -327,7 +327,7 @@ static ssize_t kovaplus_sysfs_show_actua
- {
- 	struct kovaplus_device *kovaplus =
- 			hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
--	return snprintf(buf, PAGE_SIZE, "%d\n", kovaplus->actual_cpi);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", kovaplus->actual_cpi);
- }
- static DEVICE_ATTR(actual_cpi, 0440, kovaplus_sysfs_show_actual_cpi, NULL);
+@@ -303,7 +303,7 @@ static ssize_t pyra_sysfs_show_actual_pr
+ 			&settings, PYRA_SIZE_SETTINGS);
+ 	mutex_unlock(&pyra->pyra_lock);
  
-@@ -336,7 +336,7 @@ static ssize_t kovaplus_sysfs_show_actua
- {
- 	struct kovaplus_device *kovaplus =
- 			hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
--	return snprintf(buf, PAGE_SIZE, "%d\n", kovaplus->actual_x_sensitivity);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", kovaplus->actual_x_sensitivity);
+-	return snprintf(buf, PAGE_SIZE, "%d\n", settings.startup_profile);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", settings.startup_profile);
  }
- static DEVICE_ATTR(actual_sensitivity_x, 0440,
- 		   kovaplus_sysfs_show_actual_sensitivity_x, NULL);
-@@ -346,7 +346,7 @@ static ssize_t kovaplus_sysfs_show_actua
- {
- 	struct kovaplus_device *kovaplus =
- 			hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
--	return snprintf(buf, PAGE_SIZE, "%d\n", kovaplus->actual_y_sensitivity);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", kovaplus->actual_y_sensitivity);
- }
- static DEVICE_ATTR(actual_sensitivity_y, 0440,
- 		   kovaplus_sysfs_show_actual_sensitivity_y, NULL);
-@@ -367,7 +367,7 @@ static ssize_t kovaplus_sysfs_show_firmw
- 			&info, KOVAPLUS_SIZE_INFO);
- 	mutex_unlock(&kovaplus->kovaplus_lock);
+ static DEVICE_ATTR(actual_profile, 0440, pyra_sysfs_show_actual_profile, NULL);
+ static DEVICE_ATTR(startup_profile, 0440, pyra_sysfs_show_actual_profile, NULL);
+@@ -324,7 +324,7 @@ static ssize_t pyra_sysfs_show_firmware_
+ 			&info, PYRA_SIZE_INFO);
+ 	mutex_unlock(&pyra->pyra_lock);
  
 -	return snprintf(buf, PAGE_SIZE, "%d\n", info.firmware_version);
 +	return scnprintf(buf, PAGE_SIZE, "%d\n", info.firmware_version);
  }
- static DEVICE_ATTR(firmware_version, 0440,
- 		   kovaplus_sysfs_show_firmware_version, NULL);
+ static DEVICE_ATTR(firmware_version, 0440, pyra_sysfs_show_firmware_version,
+ 		   NULL);
