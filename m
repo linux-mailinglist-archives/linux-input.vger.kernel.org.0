@@ -2,90 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3039124331C
-	for <lists+linux-input@lfdr.de>; Thu, 13 Aug 2020 06:12:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30C4C243377
+	for <lists+linux-input@lfdr.de>; Thu, 13 Aug 2020 07:02:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725794AbgHMEMR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 13 Aug 2020 00:12:17 -0400
-Received: from mail-il1-f197.google.com ([209.85.166.197]:47704 "EHLO
-        mail-il1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725446AbgHMEMR (ORCPT
+        id S1726043AbgHMFCh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 13 Aug 2020 01:02:37 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:3853 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725829AbgHMFCh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 13 Aug 2020 00:12:17 -0400
-Received: by mail-il1-f197.google.com with SMTP id e12so3449435ile.14
-        for <linux-input@vger.kernel.org>; Wed, 12 Aug 2020 21:12:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=fLaCGHGgT3wqRkpWLRL3dQ2c0G5xWbLrSnsnvPdBuKY=;
-        b=aevrOmETsSjjGc1ILX6JlD0t04ckH6cXZAkT6vBMTTC/uNyd/3WLyZeXRF5Baandg8
-         wJO+9TByffFoZvGkOfeJHRKmv+CKiGT4BJpVaMG1HelaCESpIKRRf9D2uIIGz4HcsJp6
-         TrHbpQ/ZsRqi1JStyTZAxcS4wXoKjsD65W0BJuiEceWozbIZzeTphtCh4aScV94hjbD9
-         dhmQ2tcBm7Zygc5BS0zpl1zwMYXAMEa1qje+HQbgDCDcWDHVZvq13Q/sY2hiiDFmtBM4
-         7pjsPtgrbEXgBougw7lyeBP7TUrjOhUucUiIbFQVaQbBpDDN3jz31BYu54lpAR7AkoXP
-         GzHQ==
-X-Gm-Message-State: AOAM533t49MWe4taZ7rW3/F5kRE0sQ00jZbxX11gV9tzODg+9xSoLqX1
-        snR7ksKHdvK5Q08ffZoC3lmohY2bNO/dhZC9jfI/c75ANfxW
-X-Google-Smtp-Source: ABdhPJxrZ/akRosvNiyLsSh0xjc7hpy58bbdmFwt0MLxpTnT6JmfrK4nwTqpsl/wwi/bao4wDkugmY7vjJcoL/UofK6+g02jAtCe
-MIME-Version: 1.0
-X-Received: by 2002:a92:ba17:: with SMTP id o23mr2957896ili.198.1597291936463;
- Wed, 12 Aug 2020 21:12:16 -0700 (PDT)
-Date:   Wed, 12 Aug 2020 21:12:16 -0700
-In-Reply-To: <000000000000eb931405ac9d164f@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000079c37a05acba82d0@google.com>
-Subject: Re: KMSAN: uninit-value in joydev_connect
-From:   syzbot <syzbot+6a1bb5a33a0b128085bc@syzkaller.appspotmail.com>
-To:     dmitry.torokhov@gmail.com, glider@google.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
+        Thu, 13 Aug 2020 01:02:37 -0400
+X-UUID: 6e10a722735d46e29184642ae826d270-20200813
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=vc0/8bE6UotQMHbyr5S0xQjHvklXp5WypDibcqFMXHo=;
+        b=nQIRT8+HQ0fCRyWTUobaV1i5dmltDjpkPegt6WMx47+4xcaROz9Qo0leU+Fk6FsLqoMObf8bnARUmtk2XFN8XM4XYnxmQ+o7NF5Yn8ndkmV1wz7x2rjSGn6iASl6RvwLWIPfsKjWQbhGQzmzM0Ls5aMmAoriPP+oci/VCMAI7qY=;
+X-UUID: 6e10a722735d46e29184642ae826d270-20200813
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <yingjoe.chen@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 1345128821; Thu, 13 Aug 2020 13:02:27 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ MTKMBS32DR.mediatek.inc (172.27.6.104) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 13 Aug 2020 13:02:21 +0800
+Received: from [172.21.77.4] (172.21.77.4) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 13 Aug 2020 13:02:24 +0800
+Message-ID: <1597294944.31472.2.camel@mtksdaap41>
+Subject: Re: [PATCH v17 1/3] dt-bindings: Add bindings for Mediatek matrix
+ keypad
+From:   Yingjoe Chen <yingjoe.chen@mediatek.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC:     Fengping Yu <fengping.yu@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        <linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>
+Date:   Thu, 13 Aug 2020 13:02:24 +0800
+In-Reply-To: <20200812221357.GS1665100@dtor-ws>
+References: <20200810064058.6467-1-fengping.yu@mediatek.com>
+         <20200810064058.6467-2-fengping.yu@mediatek.com>
+         <1597110443.22273.5.camel@mtksdaap41> <20200812221357.GS1665100@dtor-ws>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+MIME-Version: 1.0
+X-TM-SNTS-SMTP: BA401CDDF3393E80B94BDC4FC2C3180630F59DD1B08243174249AEA12A760DA12000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-syzbot has found a reproducer for the following issue on:
-
-HEAD commit:    ce8056d1 wip: changed copy_from_user where instrumented
-git tree:       https://github.com/google/kmsan.git master
-console output: https://syzkaller.appspot.com/x/log.txt?x=127b9fba900000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3afe005fb99591f
-dashboard link: https://syzkaller.appspot.com/bug?extid=6a1bb5a33a0b128085bc
-compiler:       clang version 10.0.0 (https://github.com/llvm/llvm-project/ c2443155a0fb245c8f17f2c1c72b6ea391e86e81)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1472674e900000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15a1339a900000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+6a1bb5a33a0b128085bc@syzkaller.appspotmail.com
-
-usb 1-1: config 0 interface 219 altsetting 0 endpoint 0xA has invalid wMaxPacketSize 0
-usb 1-1: New USB device found, idVendor=078c, idProduct=1002, bcdDevice=e6.47
-usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-usb 1-1: config 0 descriptor??
-gtco 1-1:0.219: Collection level already at zero
-input: GTCO_CalComp as /devices/platform/dummy_hcd.0/usb1/1-1/1-1:0.219/input/input5
-=====================================================
-BUG: KMSAN: uninit-value in joydev_connect+0x10c0/0x1920 drivers/input/joydev.c:958
-CPU: 1 PID: 27 Comm: kworker/1:1 Not tainted 5.8.0-rc5-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0x21c/0x280 lib/dump_stack.c:118
- kmsan_report+0xf7/0x1e0 mm/kmsan/kmsan_report.c:121
- __msan_warning+0x58/0xa0 mm/kmsan/kmsan_instr.c:215
- joydev_connect+0x10c0/0x1920 drivers/input/joydev.c:958
- input_attach_handler drivers/input/input.c:1031 [inline]
- input_register_device+0x1d7b/0x21c0 drivers/input/input.c:2229
- gtco_probe+0x32ce/0x39b0 drivers/input/tablet/gtco.c:990
- usb_probe_interface+0xece/0x1550 drivers/usb/core/driver.c:374
- really_probe+0xf20/0x20b0 drivers/base/dd.c:529
- driver_probe_device+0x293/0x390 drivers/base/dd.c:701
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:807
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x4e2/0x7f0 drivers/base/dd.c:873
- devic
+T24gV2VkLCAyMDIwLTA4LTEyIGF0IDE1OjEzIC0wNzAwLCBEbWl0cnkgVG9yb2tob3Ygd3JvdGU6
+DQo+IEhpLA0KPiANCj4gT24gVHVlLCBBdWcgMTEsIDIwMjAgYXQgMDk6NDc6MjNBTSArMDgwMCwg
+WWluZ2pvZSBDaGVuIHdyb3RlOg0KPiA+IEhpLA0KPiA+IA0KPiA+IA0KPiA+IE9uIE1vbiwgMjAy
+MC0wOC0xMCBhdCAxNDo0MCArMDgwMCwgRmVuZ3BpbmcgWXUgd3JvdGU6DQo+ID4gPiBGcm9tOiAi
+ZmVuZ3BpbmcueXUiIDxmZW5ncGluZy55dUBtZWRpYXRlay5jb20+DQo+ID4gPiANCj4gPiA+IFRo
+aXMgcGF0Y2ggYWRkIGRldmljZXRyZWUgYmluZGluZ3MgZm9yIE1lZGlhdGVrIG1hdHJpeCBrZXlw
+YWQgZHJpdmVyLg0KPiA+ID4gDQo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBmZW5ncGluZy55dSA8ZmVu
+Z3BpbmcueXVAbWVkaWF0ZWsuY29tPg0KPiA+ID4gLS0tDQo+ID4gPiAgLi4uL2RldmljZXRyZWUv
+YmluZGluZ3MvaW5wdXQvbXRrLWtwZC55YW1sICAgIHwgODcgKysrKysrKysrKysrKysrKysrKw0K
+PiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCA4NyBpbnNlcnRpb25zKCspDQo+ID4gPiAgY3JlYXRlIG1v
+ZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9pbnB1dC9tdGsta3Bk
+LnlhbWwNCj4gPiA+IA0KPiA+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJl
+ZS9iaW5kaW5ncy9pbnB1dC9tdGsta3BkLnlhbWwgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
+YmluZGluZ3MvaW5wdXQvbXRrLWtwZC55YW1sDQo+ID4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0K
+PiA+ID4gaW5kZXggMDAwMDAwMDAwMDAwLi5kNzRkZDhhNmZiZGUNCj4gPiANCj4gPiA8Li4uPg0K
+PiA+IA0KPiA+IA0KPiA+ID4gKyAga2V5cGFkLG51bS1jb2x1bW5zOg0KPiA+ID4gKyAgICBkZXNj
+cmlwdGlvbjogTnVtYmVyIG9mIGNvbHVtbiBsaW5lcyBjb25uZWN0ZWQgdG8gdGhlIGtleXBhZCBj
+b250cm9sbGVyLA0KPiA+ID4gKyAgICBpdCBpcyBub3QgZXF1YWwgdG8gUENCIGNvbHVtbnMgbnVt
+YmVyLCBpbnN0ZWFkIHlvdSBzaG91bGQgYWRkIHJlcXVpcmVkIHZhbHVlDQo+ID4gPiArICAgIGZv
+ciBlYWNoIElDLiBJZiBub3Qgc3BlY2lmaWVkLCB0aGUgZGVmYXVsdCB2YWx1ZSBpcyAxLg0KPiA+
+ID4gKw0KPiA+ID4gKyAga2V5cGFkLG51bS1yb3dzOg0KPiA+ID4gKyAgICBkZXNjcmlwdGlvbjog
+TnVtYmVyIG9mIHJvdyBsaW5lcyBjb25uZWN0ZWQgdG8gdGhlIGtleXBhZCBjb250cm9sbGVyLCBp
+dCBpcw0KPiA+ID4gKyAgICBub3QgZXF1YWwgdG8gUENCIHJvd3MgbnVtYmVyLCBpbnN0ZWFkIHlv
+dSBzaG91bGQgYWRkIHJlcXVpcmVkIHZhbHVlIGZvciBlYWNoIElDLg0KPiA+ID4gKyAgICBJZiBu
+b3Qgc3BlY2lmaWVkLCB0aGUgZGVmYXVsdCB2YWx1ZSBpcyAxLg0KPiA+IA0KPiA+IFlvdXIgc291
+cmNlIGNvZGUgY2FuJ3QgcmVhbGx5IGhhbmRsZSBkdHMgd2l0aG91dCByb3dzL2NvbHVtbnMNCj4g
+PiBwcm9wZXJ0aWVzLiBBbHNvLCB0aGUgZGVmYXVsdCB2YWx1ZSBkb2Vzbid0IG1ha2UgYW55IHNl
+bnNlLiBObyBJQyB3aWxsDQo+ID4gaGF2ZSByb3dzIG9yIGNvbHVtbnMgc2V0IHRvIDEuDQo+ID4g
+DQo+ID4gU2luY2UgdGhlc2UgYXJlIElDIHNwZWNpZmllZCwgbm90IGJvYXJkIHNwZWNpZmllZCwg
+SSB0aGluayB5b3Ugc2hvdWxkDQo+ID4ganVzdCBoYXZlIHRoZSBjb3JyZWN0IG51bWJlcnMgaW4g
+ZHJpdmVyLg0KPiANCj4gSXQgaXMgYWN0dWFsbHkgcHJvcGVydHkgb2YgYm9hcmQgdG8gZGVjaWRl
+IGhvdyBtYW55IGtleXMgaXQgd2FudHMgdG8NCj4gd2lyZSB1cC4gSW4gZXh0cmVtZSBjYXNlIGl0
+IHdpbGwgYmUgYSBzaW5nbGUga2V5LCBpLmUuIG51bWJlciBvZiByb3dzDQo+IGFuZCBjb2x1bW5z
+IHdpbGwgaW5kZWVkIGJlIDEuDQo+IA0KPiBUaGFua3MuDQo+IA0KDQpGcm9tIHRoZSBiaW5kaW5n
+ICJpdCBpcyBub3QgZXF1YWwgdG8gUENCIGNvbHVtbnMgbnVtYmVyLCBpbnN0ZWFkIHlvdQ0Kc2hv
+dWxkIGFkZCByZXF1aXJlZCB2YWx1ZSBmb3IgZWFjaCBJQy4iDQpEcml2ZXIgY29kZSB1c2UgdGhp
+cyB0byBjYWxjdWxhdGUgYml0IHBvc2l0aW9uIGluIHJlZ2lzdGVyLCB3aGljaCBpcyBJQw0KZGVw
+ZW5kZW50Lg0KDQpKb2UuQw0KDQo=
 
