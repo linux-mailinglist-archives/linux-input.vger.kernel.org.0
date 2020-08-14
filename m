@@ -2,155 +2,125 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ED71C244CAD
-	for <lists+linux-input@lfdr.de>; Fri, 14 Aug 2020 18:30:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BECFD244ECC
+	for <lists+linux-input@lfdr.de>; Fri, 14 Aug 2020 21:22:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728380AbgHNQa2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 Aug 2020 12:30:28 -0400
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:58597 "EHLO
-        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728099AbgHNQa1 (ORCPT
+        id S1728162AbgHNTWv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 Aug 2020 15:22:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55166 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728137AbgHNTWu (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 Aug 2020 12:30:27 -0400
-Received: from [37.160.38.175] (port=40734 helo=[192.168.42.162])
-        by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <luca@lucaceresoli.net>)
-        id 1k6cay-0001mB-F9; Fri, 14 Aug 2020 18:30:20 +0200
-Subject: Re: [PATCH] dt-bindings: Whitespace clean-ups in schema files
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:REMOTE PROCESSOR (REMOTEPROC) SUBSYSTEM" 
-        <linux-remoteproc@vger.kernel.org>,
-        Linux HWMON List <linux-hwmon@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-        "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
-        Linux Input <linux-input@vger.kernel.org>,
-        "open list:THERMAL" <linux-pm@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-ALSA <alsa-devel@alsa-project.org>,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        MTD Maling List <linux-mtd@lists.infradead.org>,
-        netdev <netdev@vger.kernel.org>,
-        "open list:REAL TIME CLOCK (RTC) SUBSYSTEM" 
-        <linux-rtc@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux USB List <linux-usb@vger.kernel.org>
-References: <20200812203618.2656699-1-robh@kernel.org>
- <d5808e9c-07fe-1c28-b9a6-a16abe9df458@lucaceresoli.net>
- <CAL_JsqKekx0VO4NROwLrgrU8+L584HaLHM9i3kCZvU+g5myeGw@mail.gmail.com>
-From:   Luca Ceresoli <luca@lucaceresoli.net>
-Message-ID: <f1963eb9-283f-e903-2a3a-4f324d71d418@lucaceresoli.net>
-Date:   Fri, 14 Aug 2020 18:30:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Fri, 14 Aug 2020 15:22:50 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EA10C061386
+        for <linux-input@vger.kernel.org>; Fri, 14 Aug 2020 12:22:50 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id o23so11078045ejr.1
+        for <linux-input@vger.kernel.org>; Fri, 14 Aug 2020 12:22:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Gh/neF9ziJj56PStHE/QUZcQmekSoXrkmgunMbnXSWg=;
+        b=nsEdusixWGWlqqcRwywxuEcnS0tRoDLUZ5AHp1gy4TV6NF4nPagOWT2h656wgfLODg
+         duAPjQ237NbgC/fxEmuEbnPx2xPn/BpCCaKavmn0akmuPquJgdZvYiyrua4MY+g3eQW9
+         TgsTdAyoD3Ifs0tuNk8n6z0uL+4msbqxuTVzCABiJfXTLm0IWrK7qzfln3p0iz3rL97V
+         L71AVTtHP8h6QhfIaYwh/6WSvmA8szEmbdFBnVykMukugE7Rop7nMJqLeEtjiG52MRh5
+         gY64O7S08lc/qMuIYBW/j79Fj52HP/BSAroHBmF2cUR95qpT8pOMrrSYigygRC8CTKgo
+         bmUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Gh/neF9ziJj56PStHE/QUZcQmekSoXrkmgunMbnXSWg=;
+        b=TMPkxAyW9hRfJSqCLuQQByBG32Bo3plKJ38GCHDtxN1r9Q82OjMQ8d6cNDii3Xop4M
+         m4YPJfUb7rRDYUKU3MmRFaLPp7JI7U4vHeIeec9HDQR/JFGOVyA6X/Z9DCA3xm7O6V9Y
+         AJhoj2pR0dzNpUo0V5BtSDofiN6DST36KBSOAu3rIoSqAOZWBMdIxfTMyiBlRHOOW7Pr
+         m5bWTtI1XVB2L4ygtEoS7SlDzi/R1J/g7C1NtX/lujkDT95BfW8e18Fn1DwhCD7gyjh7
+         NoWS16bGlNOn1mhEcgRUNK+BdXYplyBbBKxARm8FUK1lQdijWC/0OfyGX4TfEnkzykid
+         Bgwg==
+X-Gm-Message-State: AOAM532d63S2fHWJrZ6EDkFI7fNqLR3NgL2GFtHqF4jft75tGRIw/tT6
+        vYTXqHj6nJnaw6LsV0xG/GUEBO6J0dehkOuBEGFsuXrcfljLpBne
+X-Google-Smtp-Source: ABdhPJw7uK+zbS7upvoYuMM2rqJ8bAKQKnzwdI8tLocljcFEMVvlLLlyo7HoKL67aDpo1nVSQ/nJ72jMN6nXFZS8UEI=
+X-Received: by 2002:a17:906:4994:: with SMTP id p20mr3575441eju.299.1597432968735;
+ Fri, 14 Aug 2020 12:22:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqKekx0VO4NROwLrgrU8+L584HaLHM9i3kCZvU+g5myeGw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+References: <CAHQZ30ANTeM-pgdYZ4AbgxsnevBJnJgKZ1Kg+Uy8oSXZUvz=og@mail.gmail.com>
+ <20200813012125.GV1665100@dtor-ws>
+In-Reply-To: <20200813012125.GV1665100@dtor-ws>
+From:   Raul Rangel <rrangel@google.com>
+Date:   Fri, 14 Aug 2020 13:22:37 -0600
+Message-ID: <CAHQZ30D5irdR+cSiksXAtDDi58-qCpHSv=-OXyPqOydH8mgpeQ@mail.gmail.com>
+Subject: Re: PS/2 + i8042 intermixing commands
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "S, Shirish" <Shirish.S@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Thanks for clarifying Dmitry. I'll get a patch pushed up next week.
 
-On 14/08/20 16:51, Rob Herring wrote:
-> On Thu, Aug 13, 2020 at 4:31 AM Luca Ceresoli <luca@lucaceresoli.net> wrote:
->>
->> Hi Rob,
->>
->> On 12/08/20 22:36, Rob Herring wrote:
->>> Clean-up incorrect indentation, extra spaces, long lines, and missing
->>> EOF newline in schema files. Most of the clean-ups are for list
->>> indentation which should always be 2 spaces more than the preceding
->>> keyword.
->>>
->>> Found with yamllint (which I plan to integrate into the checks).
->>
->> [...]
->>
->>> diff --git a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
->>> index 3d4e1685cc55..28c6461b9a9a 100644
->>> --- a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
->>> +++ b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
->>> @@ -95,10 +95,10 @@ allOf:
->>>        # Devices without builtin crystal
->>>        properties:
->>>          clock-names:
->>> -            minItems: 1
->>> -            maxItems: 2
->>> -            items:
->>> -              enum: [ xin, clkin ]
->>> +          minItems: 1
->>> +          maxItems: 2
->>> +          items:
->>> +            enum: [ xin, clkin ]
->>>          clocks:
->>>            minItems: 1
->>>            maxItems: 2
->>
->> Thanks for noticing, LGTM.
->>
->> [...]
->>
->>> diff --git a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
->>> index d7dac16a3960..36dc7b56a453 100644
->>> --- a/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
->>> +++ b/Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
->>> @@ -33,8 +33,8 @@ properties:
->>>      $ref: /schemas/types.yaml#/definitions/uint32
->>>
->>>    touchscreen-min-pressure:
->>> -    description: minimum pressure on the touchscreen to be achieved in order for the
->>> -                 touchscreen driver to report a touch event.
->>> +    description: minimum pressure on the touchscreen to be achieved in order
->>> +      for the touchscreen driver to report a touch event.
->>
->> Out of personal taste, I find the original layout more pleasant and
->> readable. This third option is also good, especially for long descriptions:
->>
->>   description:
->>     minimum pressure on the touchscreen to be achieved in order for the
->>     touchscreen driver to report a touch event.
->>
->> At first glance yamllint seems to support exactly these two by default:
->>
->>> With indentation: {spaces: 4, check-multi-line-strings: true}
-> 
-> Turning on check-multi-line-strings results in 10K+ warnings, so no.
-> 
-> The other issue is the style ruamel.yaml wants to write out is as the
-> patch does above. This matters when doing some scripted
-> transformations where we read in the files and write them back out. I
-> can somewhat work around that by first doing a pass with no changes
-> and then another pass with the actual changes, but that's completely
-> scriptable. Hopefully, ruamel learns to preserve the style better.
-
-Kind of sad, but I understand the reason as far as my understanding of
-the yaml world allows. Thanks for the explanation.
-
-[For idt,versaclock5.yaml, plus an overview of whole patch]
-Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
-
--- 
-Luca
+On Wed, Aug 12, 2020 at 7:21 PM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> On Thu, Aug 06, 2020 at 09:28:41AM -0600, Raul Rangel wrote:
+> > >
+> > > <- atkbd_event_work->atkbd_set_leds
+> > > [KB recv data: 0xed] # CMD 10
+> > > <- Wait, where is the data?
+> > >
+> > > <- Continuation of i8042_port_close?
+> > > [KB recv cmd: 0x60] # CMD #14
+> > > [KB recv data: 0x43]
+> > > [KB eaten by STATE_WRITE_CMD_BYTE: 0x43]
+> > > [KB set CTR_RAM(0x00)=0x43 (old:0x41)]
+> > > [AUX IRQ enable]
+> > >
+> > > <- Here is the data!
+> > > [KB recv data: 0x00] # CMD 10 (data)
+> > > [KB Unsupported i8042 data 0x00]
+> > > [KB recv data: 0x00] <- Did the host retry?
+> > > [KB Unsupported i8042 data 0x00]
+> > >
+> > > <- atkbd_event_work->atkbd_set_repeat_rate
+> > > [KB recv data: 0xf3] # CMD #11
+> > > [KB recv data: 0x00]
+> > > [KB eaten by STATE_SETREP: 0x00]
+> > >
+> > > [KB recv cmd: 0xd4] # CMD #15
+> > > [KB recv data: 0xf2]
+> > > [STATE_SEND_TO_MOUSE: 0xf2]
+> >
+> > As you can see CMD #10 starts between #13 and #14, and then completes
+> > after #14. Is this expected behavior?
+> >
+> > I'm not quite sure if #13 and #14 are coming from i8042_port_close. I
+> > don't have a function trace available, but it seems to fit.
+> >
+> > I found this comment:
+> > /*
+> >  * Writers to AUX and KBD ports as well as users issuing i8042_command
+> >  * directly should acquire i8042_mutex (by means of calling
+> >  * i8042_lock_chip() and i8042_unlock_ship() helpers) to ensure that
+> >  * they do not disturb each other (unfortunately in many i8042
+> >  * implementations write to one of the ports will immediately abort
+> >  * command that is being processed by another port).
+> >  */
+> > static DEFINE_MUTEX(i8042_mutex);
+> >
+> > Does that not mean that i8042_port_close, i8042_enable_kbd_port,
+> > i8042_enable_aux_port, + any other function that calls i8042_command
+> > should be taking the lock before calling i8042_command?
+>
+> Yeah, I think this is right. When I added the mutex it was because 2
+> deices were clashing with each other and I did not consider that closing
+> port in the i8042 driver itself may also disturb in-flight command.
+>
+> Thanks.
+>
+> --
+> Dmitry
