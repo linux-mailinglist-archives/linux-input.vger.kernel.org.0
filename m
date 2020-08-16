@@ -2,118 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D850D245980
-	for <lists+linux-input@lfdr.de>; Sun, 16 Aug 2020 22:42:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBAD02459A0
+	for <lists+linux-input@lfdr.de>; Sun, 16 Aug 2020 23:15:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726480AbgHPUmO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 16 Aug 2020 16:42:14 -0400
-Received: from mail-bn7nam10on2042.outbound.protection.outlook.com ([40.107.92.42]:18400
-        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
+        id S1728704AbgHPVO7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 16 Aug 2020 17:14:59 -0400
+Received: from mail-dm6nam10on2074.outbound.protection.outlook.com ([40.107.93.74]:37217
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726314AbgHPUmN (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 16 Aug 2020 16:42:13 -0400
+        id S1726331AbgHPVO6 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 16 Aug 2020 17:14:58 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Pu3nfW/5cLydUA+lSgxvojUU0sAOEXilz+ljNjrT90GepZGlZ9c38sRHkCtqUeQ55uZYI783cvNDi9Q/mYUQdsePObYvdyvAUcZu2n5jthjjxBi4WndMwpBavyzKyxi43YXvuhQA0zSc831QnCjwbxWeVpEXtCD7UGbf08wOqaD/ExMdI4nUoTI4dkZZNwIAuKGuqEPGHr7iuxUgE12U7JJXG0FkH/thHB+2Ibk1VO9w8koUwvcH+9b3OqPGNnQ7GBiUb8u64aMXEmjVb1p0Icf++nEIL3M4aHkDvqKJfkqT5bUU/XGXUotug7iVtvlVATSROmr+rSjYyVq+ZoJNJg==
+ b=JxHUB6lhlIA36i0cZ/hBevppwl7lV7+lvNhOT9eOdhAKXScEKdvk5B8g06BTx4eCUVJzkeVIPvVwCCKPnWQM6JH5oFUHoLPLyP6NPEsTXjqqV+knJPL9BzUpuq9PBgZMOFi/HzV7tWEhLUYN95Q3yt+AV3XwADBlkuXg0g6eCK/ZQMHNEzIhy1AhuMGnI38BoJq84nQvSY6vSC9rq79UEVqV3Qb9vpTC3alM7W5UsHVn5XOwZy2cE53FSvIDQfyEQD5l7z0scx9+Nm+VVgiO+Zo+O7rjdPBLu7TpGo77anrJYTLtrZ9XnpCbZfKNIRhfUZpAPyntAg/69X9IPj+g5A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q9/eTZBlaPJEzAej8lbwEHc61Kn6Pi6rN+lShHZFG6I=;
- b=BVqyrmhwRJiDxxp0kkvb8gC+AKUn8CKqYG5Zuri2h0Ed6fMvxFn9S6lisp/sArO2J8KFBWdp22UC08gn3qubfxxd1XmLmp4UYoymXN5llqqx5JB6arxD/TqJp8wXaPbCOKYJ8g4g9wSBSEDaWTWDTYPzqAGjPZUAHvxnXEuOD9jISb2sSDP5gbH5oX89V56kUNANBjfXFQn9KZ++UtvJ4tuURf8y1EsfCMAqVddFDI+/TofuZ8O93uEWSy6sdv6ZUX4ixQaaFm00QiqjOVdgUT8WsfnVVbV9rvvAyRY/gly/3pRG+Zso8PtWlBkBvY7vlv3Bo8zCyPjENakNHqDRlA==
+ bh=K/vz/Alr+ZDKpwRJ0sr++56ei3Rn585imsA5zLpU+HM=;
+ b=PC9ku/YwtC/A3DucOAjRYkp1nINbX+lgpWyICqlxbRHrRs8xKnH/oPbcZK8KgovsRlR5MyX8zZ2XS/3UafVdAkQUpI3Nyn8XDotG4SJRSolwYiuD9plkXn8kvRCRaRBK3eWJGHhl6eWVr1h3AfNSEtQ5tHAhvNpYX/fYZAXUSYqGVJGgFQJv062alrKkz5tPV8DgJihlFmhf0Ma3dlt4s2W2ycDwJdqQ/kXvS/zitr/TwIBkasxEtMUJCwJwx7eBPmp2RhYa6qkvo5ol4x+UTJlVlbUlWFaPNkrCEFslW2BP4U44KudfJ0JKyuw5BHV+VM5g+JZpjkYJWHD3t7TbNw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
  dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q9/eTZBlaPJEzAej8lbwEHc61Kn6Pi6rN+lShHZFG6I=;
- b=xl2r7kcxFsQbBfXZH6wRjBgofnOawi+V3FZtLrPNL+JGABbtKaOmaz16Q/l6jCEhmf4YTuDIJI7gO+sluHbrUUJ/ea2dDgcsc+GwTE+6vnPUTxoxof1wqteOdy2LtEt7VQU1E4EEqik/r5peGbWX9oOlfGxmu0JW0vEcOd4eJOg=
+ bh=K/vz/Alr+ZDKpwRJ0sr++56ei3Rn585imsA5zLpU+HM=;
+ b=QjOmdQLt4IhGsDcz88iObXHkYkb8/RE7Jk67+h/D9RCBUQJJRb5CPoWOdlH3BdYnNa00Rdf5NDanrqAuc4LasE5iCOsQPmAjPaD6E6dwzLXiK+zvCQekwoBgsa3XvopZzK0znPTttQkx92by3/+EQorkO1yn5CODEXdzluroOkU=
 Authentication-Results: gmail.com; dkim=none (message not signed)
  header.d=none;gmail.com; dmarc=none action=none header.from=labundy.com;
 Received: from SN6PR08MB5517.namprd08.prod.outlook.com (2603:10b6:805:fb::32)
- by SN4PR0801MB3824.namprd08.prod.outlook.com (2603:10b6:803:4a::23) with
+ by SN6PR08MB5631.namprd08.prod.outlook.com (2603:10b6:805:fb::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.23; Sun, 16 Aug
- 2020 20:42:10 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.20; Sun, 16 Aug
+ 2020 21:14:54 +0000
 Received: from SN6PR08MB5517.namprd08.prod.outlook.com
  ([fe80::2ca3:f294:d154:6875]) by SN6PR08MB5517.namprd08.prod.outlook.com
  ([fe80::2ca3:f294:d154:6875%6]) with mapi id 15.20.3283.027; Sun, 16 Aug 2020
- 20:42:10 +0000
+ 21:14:54 +0000
 From:   Jeff LaBundy <jeff@labundy.com>
-To:     dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, Jeff LaBundy <jeff@labundy.com>
-Subject: [PATCH] input: iqs62x-keys: Remove superfluous function parameter
-Date:   Sun, 16 Aug 2020 15:41:46 -0500
-Message-Id: <1597610506-6003-1-git-send-email-jeff@labundy.com>
+To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        Jeff LaBundy <jeff@labundy.com>
+Subject: [PATCH 0/6] Add support for slider gestures and OTP variants
+Date:   Sun, 16 Aug 2020 16:14:21 -0500
+Message-Id: <1597612467-15093-1-git-send-email-jeff@labundy.com>
 X-Mailer: git-send-email 2.7.4
 Content-Type: text/plain
-X-ClientProxiedBy: DM5PR15CA0053.namprd15.prod.outlook.com
- (2603:10b6:3:ae::15) To SN6PR08MB5517.namprd08.prod.outlook.com
+X-ClientProxiedBy: SA9PR03CA0006.namprd03.prod.outlook.com
+ (2603:10b6:806:20::11) To SN6PR08MB5517.namprd08.prod.outlook.com
  (2603:10b6:805:fb::32)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (136.49.227.119) by DM5PR15CA0053.namprd15.prod.outlook.com (2603:10b6:3:ae::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3283.16 via Frontend Transport; Sun, 16 Aug 2020 20:42:10 +0000
+Received: from localhost.localdomain (136.49.227.119) by SA9PR03CA0006.namprd03.prod.outlook.com (2603:10b6:806:20::11) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3283.27 via Frontend Transport; Sun, 16 Aug 2020 21:14:54 +0000
 X-Mailer: git-send-email 2.7.4
 X-Originating-IP: [136.49.227.119]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b781534a-27d7-4b03-c48d-08d84224d95d
-X-MS-TrafficTypeDiagnostic: SN4PR0801MB3824:
+X-MS-Office365-Filtering-Correlation-Id: 2492d52c-15fb-4708-aafe-08d842296bba
+X-MS-TrafficTypeDiagnostic: SN6PR08MB5631:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN4PR0801MB382478514FFBDAA3FE1546B7D35E0@SN4PR0801MB3824.namprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:551;
+X-Microsoft-Antispam-PRVS: <SN6PR08MB5631B7880D69F2C44A116B48D35E0@SN6PR08MB5631.namprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RRa5bf4A9N8JNPEWIv7m3tj07if3+36Yr4rxZSYr3UlOoGV1wvBurDtohkoEpqgcFStfD8ujkN+YJ6Slg1y1DMgBpFHSj5iryWEGW9Cw1Iusjfb+fWPsPeEvBezHPvGIBFpBPxCvWSOSMM7B66IykXSJ/OQvp9x3d9FvrWwRJlmeVUGSzapyp1lTqkh1nVNwMBVwp9FmrwPKpUedwCk+3mD/hoTdulbT8tnpLkh6KwskkyCqxy/ZJfd47urzCydaNqHihI/MEGyt/tJ+MGveZzNNT4KqAXEN9zWzywvqoByRcdV9TvI7OWkRuXSef9hfgmpMrC64tGdigMatNWhXMdXRRWMAybvIAiZ/sRQ1joN1B39dKMcA/+siVVy7JGIV
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR08MB5517.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(136003)(346002)(376002)(39830400003)(396003)(2906002)(8676002)(69590400007)(956004)(107886003)(66556008)(8936002)(66946007)(66476007)(6512007)(6666004)(5660300002)(2616005)(36756003)(4326008)(6486002)(6916009)(86362001)(26005)(83380400001)(6506007)(316002)(186003)(52116002)(478600001)(16526019);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 28V6+/ncMTltB8cdqDw1kP5/jQzvfg8NqEeuWg168os5VWzQzIqrHaEsy1agCbgkhtHmoF8/T7RyI5+FDYzgxCpVuXRfkC9x9iDG0BllSVt4J9mh8piSznFeEqh7Cv+3etF+RTMpVFJWDRUoX20Rc0Vamr13zsVzLgaGKC5x5dFe6R5RIqFlfVnHZY9IY1mZnYRndDDBfqbgKg/eMj/NfizZxLlryNDJWvBfiqGWHTNFvHkAS/qMIqUpiANHjV8dWpZgtzT+spyJ3dv7H23rUSqHzhYY3IF8/bgRBy07cz17l+eWwvCWaWPL2bb5WYaRkyhgOn2qIrineopCQH+icL2KIaWOn7H6gW/Y51Al7XIkPEcZcXxI5k6BHwxqjdbfc/coWMI284VLEPITT/LxhOXBDakDk+eTbwqoJPgFBGYHqBvNyYTv2VqRXOHVvpFqmcRfmgRNJgUdZjR0Kk3vNl7RgW+RGr7qa8ecHPuayxBjmv4kmX+WZNcAhQUSinPdQ7y6iB4PbBQpymiBBNK5OcTgd0Sn7CDs4aYSVkXkblthcMUEos1mq0QZ0U4uJ/IjH5yDKJ1SwOd+KoBpSr7FLVtIek4imMs17lZmIyPgeaP4jq06GQpjwH/JU1Kay1XdkQVqbKkDFRG3L68yApqN4g==
+X-Microsoft-Antispam-Message-Info: xJoGOIvF886TFZ49cUmznZv0QRfun6YHthYep7wAHso/WHNzMF4YvLGA1bcI6oLMiKA4pUtgiye+IXtNVrTk6PM50qIzN1Gjnc+qw0iKEMEO/b0iEMVnCtKOY7SP0aXuAU77KnmyhTm+FKqMvdfKR5hxngn7Gjsw0Wzoo3JizFYa3C7KA5AqCMUyi+0VY0sISLhxcKPRwpAWK1qQXnq8AsDFZnvbSs8sktFG8GgVqajttuJnGJ9fElQ3XxKomKiRlze7ii9Uo0agsoCPrOP9hpJxuxgsqFOmHksxLTB4gVNQs0FPL6HkTThmqANLnsUfkBzWepwwpfsT4Ptse3wR12Gvc1Er8nybz+yfySMS1i4gkwHyX5UyjxcrKBvugQ9As1pi1cWetZm9ybd3SBMmRqxiMhz8M2c9y7e34dSgprLcRlX9Y/zULzBEvckHBeo+l5OSv+t1IhAwqwVr3qyF7A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR08MB5517.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(346002)(66476007)(6666004)(66556008)(69590400007)(36756003)(4326008)(86362001)(107886003)(2616005)(956004)(316002)(16526019)(8676002)(83380400001)(6506007)(8936002)(52116002)(6512007)(2906002)(478600001)(966005)(5660300002)(66946007)(26005)(186003)(6486002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: sdApREHvtoxL1JHzqL2OVTL2KVwS6keN7Em6BFAKYSEYbDbyJf0iM60EZSVnoWEelTB+D8Hkv8eNhH85VYcUsrJ776iXJMia8a3NmcggOSlRZjY/ZS2eIF3A7OGToq6uOwaH/KPoS0FqAg3o2pmlC4IJw5r+ROsb+z1Wb9F7rJvU1ZiXb1BAQmo/5mIBSganlfJMADxENSUaQx0pfg/XjHuins/9UiTP/j9SYBSK8hiBbEoFbRKdXCHiVb0krkuWGaRa4uslqos7XOVpVQimdxb7NdGH6ThNavo0Afm/0Rji2kwmYPwzJKLwRyf87coriKzcv2Ia1METto+0dwXJq5GuYuWbTbHvE+gd4G1KBpcdrmv1hLDiIkC6FPZmL5J+iP0uXbV+gYHN7s/kgpb6uO4Oor/MSLdm2Hw8zeK1RQMlB3Dc9xis5EuRBDWv4IO0VG/WJmm78Uq174Gr08rQtjsiOSArfS1Fj2SnYQm7Y365OObWjnNgjTyoEY8BWUmPmFqF0s8ECkuTKW1OBplbtFahWWUFyM5+uhykPZqACjiE9O1O7MPyijiNLYFAsMT5V496ABj7enzO6Gq2n3jq5YEVbxjz0WLprh9LnN78u4SL8K2RneyND0s8L/rNfOQuva5Bm67HGNjq/UDY0LjNKw==
 X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b781534a-27d7-4b03-c48d-08d84224d95d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2492d52c-15fb-4708-aafe-08d842296bba
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR08MB5517.namprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2020 20:42:10.7861
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2020 21:14:54.2752
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Q8mOHXwmL0CiA0h2OujZpbZKLXaW9ufiHHihtvcueY4xAFqfikigvOvN3Vj9JlhQTr/XsmhXI1Taux7H1IcPrg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR0801MB3824
+X-MS-Exchange-CrossTenant-UserPrincipalName: m60W2t40gz+QRFIEReQJcJfJxcl5UAOKpimAINKk4RLy96QaACDhtVY6nBvZCEYg1PBns8NYzEEIVETVO392gQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR08MB5631
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-It is not necessary to pass iqs62x_keys to iqs62x_keys_parse_prop,
-because it can already be derived from the platform_device cookie.
+This series introduces support for some additional features offered by the
+Azoteq IQS269A capacitive touch controller.
 
-Signed-off-by: Jeff LaBundy <jeff@labundy.com>
----
- drivers/input/keyboard/iqs62x-keys.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Patches 1 and 2 add support for slider gestures (e.g. tap or swipe). Gestures
+are recognized by the hardware itself based on touch activity across the chan-
+nels associated with the slider. This feature is useful for lightweight systems
+that do not post-process absolute coordinates to determine gestures expressed
+by the user.
 
-diff --git a/drivers/input/keyboard/iqs62x-keys.c b/drivers/input/keyboard/iqs62x-keys.c
-index 93446b2..e2a2b38 100644
---- a/drivers/input/keyboard/iqs62x-keys.c
-+++ b/drivers/input/keyboard/iqs62x-keys.c
-@@ -42,9 +42,9 @@ struct iqs62x_keys_private {
- 	u8 interval;
- };
- 
--static int iqs62x_keys_parse_prop(struct platform_device *pdev,
--				  struct iqs62x_keys_private *iqs62x_keys)
-+static int iqs62x_keys_parse_prop(struct platform_device *pdev)
- {
-+	struct iqs62x_keys_private *iqs62x_keys = platform_get_drvdata(pdev);
- 	struct fwnode_handle *child;
- 	unsigned int val;
- 	int ret, i;
-@@ -258,7 +258,7 @@ static int iqs62x_keys_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, iqs62x_keys);
- 
--	ret = iqs62x_keys_parse_prop(pdev, iqs62x_keys);
-+	ret = iqs62x_keys_parse_prop(pdev);
- 	if (ret)
- 		return ret;
- 
--- 
+Gestures are presented to user space as keycodes. An example use-case is an
+array of multimedia keys as seen in the following demo:
+
+https://youtu.be/k_vMRQiHLgA
+
+Patches 3 and 4 add support for the device's available OTP variants, which
+trade features or exhibit errata that require workarounds. Patches 5 and 6
+comprise minor fixes and are included in the series because they require
+patches 2 and 4 (respectively) in order to apply cleanly.
+
+Note that this series is based on mainline as the binding patches require
+086e9074f52f ("dt-bindings: Remove more cases of 'allOf' containing a '$ref'")
+in order to apply cleanly.
+
+Jeff LaBundy (6):
+  dt-bindings: input: iqs269a: Add bindings for slider gestures
+  input: iqs269a: Add support for slider gestures
+  dt-bindings: input: iqs269a: Add bindings for OTP variants
+  input: iqs269a: Add support for OTP variants
+  input: iqs269a: Make sliders two-dimensional
+  input: iqs269a: Disable channels before configuring them
+
+ .../devicetree/bindings/input/iqs269a.yaml         |  95 +++++-
+ drivers/input/misc/iqs269a.c                       | 325 +++++++++++++++++++--
+ 2 files changed, 387 insertions(+), 33 deletions(-)
+
+--
 2.7.4
 
