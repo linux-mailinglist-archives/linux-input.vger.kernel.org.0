@@ -2,49 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C19E2459A7
+	by mail.lfdr.de (Postfix) with ESMTP id B27032459A8
 	for <lists+linux-input@lfdr.de>; Sun, 16 Aug 2020 23:15:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729117AbgHPVPT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 16 Aug 2020 17:15:19 -0400
+        id S1729121AbgHPVPY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 16 Aug 2020 17:15:24 -0400
 Received: from mail-dm6nam10on2076.outbound.protection.outlook.com ([40.107.93.76]:55009
         "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729072AbgHPVPS (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 16 Aug 2020 17:15:18 -0400
+        id S1726331AbgHPVPW (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 16 Aug 2020 17:15:22 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=L9GLX41exIZ8P3B5n/hbQKqWES18KMLuSaSSL0ptm8rCuy1f33OstT9qqiwYvuXdaURiCHLDarHx4RsRnSH0mVOfdD5Cnm7jPOUlrJWw422A+tzSWfHijH1layYBYy3x3F89xd78mdTqRnF7rU3jwvBIhcE1OT3pfbgB8Ercb9oeNUCQTJhhqEZtXJLZujXAW0KIqP7WKa48Y6NADCWI0uGLIqxq88VT/WBkuWm98d23BlfwAvz/tajJLCQi60QTPIobpWAYtd801vDHRcrVSqRywAT6kDv8Zi2fBdiW35BcKatX4zlHrhIwyAEM6XLQ0Id6SsniYLDZSfVPpEbasQ==
+ b=a8/X5pZbz6SWIX5JoN1ejJTQl0ChaA4TGsSxiTYoNh8iWOWOjo56FjIYSi5fxVlJ2bt70SPWtDfklDvZzkCfjxfBirNEsMjfKCU6hES3rfRSuPMGxnRAxWxERd59KVFWRcCm/D8upCBvFlttnLECow/hy9kYMMKKfULhJhkyEHwW7TYddyyZsOrGwtTr5fzTugbxZ75tPcQEQz1URoXb8yAMg0NE/4uoi60beShIN1OpSZGuMlEyHV6shR0JWWc6MShi1bbEax7hCbFUiiWi0zJBeOcUkqik5ZoQ02VJY00ezCwZkQUYo0qcTLRP6z7/mPiuOUYy22udPLFWf5BHNw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qs/YKVRBtzFOL/l2mOlWeUZkN1r6qiWQgA8WjHabqes=;
- b=gS4CIZAPVFgcYTrpQzNF+VbZYvQ3TlXsXetv6hGBI5NbwHcLeBVQt7t82S/L5gm+hOe5NE4RMdGPUGOfNaWHCBo/rboJSYfIhJYJ3f4sqUhCBcuv8/D1+HQ5yuxAe4wccG/NSMe4B8X1a/+k3bOIqcc+g9vHuLTJhljPigYEzkjaqNSW1YyWI0SmgLYtIQCiKbcYMU8Pd4HdgmER5lSFE57jEvX48f0uxRIyzpgZAKDYFE1tj46lmC9IJL/gSMDtyvKPW762fGdot3VfUAblEJL2U9+Q/T0u6uC8PnwyrzFmobe92OvSjDTpZ8OPMseauLbjBvnd/oeA5jBuOAxnhQ==
+ bh=lPfxuwLTmK+GkStKq+86hSwgk8J+FX39rElhUysleFA=;
+ b=HkTCrk1hb+bDD23HkHBqao51ZscLbsnULI13w1VrQUgy793wI0I3DoEfrufFb1VxlfvkUvbzz24AGf9PnXJwYYedO/XcmKFy7R4sbCBRtnv6iJy611ZZb5wrF9We76NsuD1YN6ACpuRMJEK8P4RiT+SLWuX5yAA1kMzMfhmx8lADCEkqYz7VTfrliUwaiPHxsp2+QMGa/NmxauWZERaBFlkvNpzG69UhxOa7GWV9QBocpqD8tHqf1rs0D4arJA5Df2+ElKLymi1/S9DL54HR8vlnsad0cjHf7VVh4HJVrHPwqS2EkExA2r/He1S1z98edH1aWv5emdJ1chL8uRllJg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
  dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qs/YKVRBtzFOL/l2mOlWeUZkN1r6qiWQgA8WjHabqes=;
- b=f+q6nGEo8QtKYpqnSHlutVhXksnIKgV3sexLMtF/JIQPQMUyZp+GajGQBZN1BulFVKa+jzDA9tw/SfBMDYimg0NjgP+PXSXSSNzGwapGhL+gisCRQzeDyK0WNmWuUvqxnbERgaPJbrVTlNTJ9jq5fzcblVX5WOogWINx24O6iyU=
+ bh=lPfxuwLTmK+GkStKq+86hSwgk8J+FX39rElhUysleFA=;
+ b=jlqzPD16o02S+VGYXtYR4bpgJzFVlqLceOq8mXRPiGOk+UN/DPRLblgefnY9uaezbG8+2F81K46zqd2n+Zosjzw6Zd6KBSlZFyg6XBic/kDgJhkcXdSt34g/SCzAuUxuKMbZmN4gcHzjhVfvo5VvmkIx84kn/doSwmUZ2SCBm5E=
 Authentication-Results: gmail.com; dkim=none (message not signed)
  header.d=none;gmail.com; dmarc=none action=none header.from=labundy.com;
 Received: from SN6PR08MB5517.namprd08.prod.outlook.com (2603:10b6:805:fb::32)
  by SN6PR08MB5631.namprd08.prod.outlook.com (2603:10b6:805:fb::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.20; Sun, 16 Aug
- 2020 21:15:09 +0000
+ 2020 21:15:12 +0000
 Received: from SN6PR08MB5517.namprd08.prod.outlook.com
  ([fe80::2ca3:f294:d154:6875]) by SN6PR08MB5517.namprd08.prod.outlook.com
  ([fe80::2ca3:f294:d154:6875%6]) with mapi id 15.20.3283.027; Sun, 16 Aug 2020
- 21:15:09 +0000
+ 21:15:12 +0000
 From:   Jeff LaBundy <jeff@labundy.com>
 To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org
 Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         Jeff LaBundy <jeff@labundy.com>
-Subject: [PATCH 3/6] dt-bindings: input: iqs269a: Add bindings for OTP variants
-Date:   Sun, 16 Aug 2020 16:14:24 -0500
-Message-Id: <1597612467-15093-4-git-send-email-jeff@labundy.com>
+Subject: [PATCH 4/6] input: iqs269a: Add support for OTP variants
+Date:   Sun, 16 Aug 2020 16:14:25 -0500
+Message-Id: <1597612467-15093-5-git-send-email-jeff@labundy.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1597612467-15093-1-git-send-email-jeff@labundy.com>
 References: <1597612467-15093-1-git-send-email-jeff@labundy.com>
@@ -54,103 +54,217 @@ X-ClientProxiedBy: SA9PR03CA0006.namprd03.prod.outlook.com
  (2603:10b6:805:fb::32)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (136.49.227.119) by SA9PR03CA0006.namprd03.prod.outlook.com (2603:10b6:806:20::11) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3283.27 via Frontend Transport; Sun, 16 Aug 2020 21:15:09 +0000
+Received: from localhost.localdomain (136.49.227.119) by SA9PR03CA0006.namprd03.prod.outlook.com (2603:10b6:806:20::11) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3283.27 via Frontend Transport; Sun, 16 Aug 2020 21:15:12 +0000
 X-Mailer: git-send-email 2.7.4
 X-Originating-IP: [136.49.227.119]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ecf66025-e5a2-491d-2c13-08d842297500
+X-MS-Office365-Filtering-Correlation-Id: 49469f8d-fee2-429c-64c8-08d8422976a3
 X-MS-TrafficTypeDiagnostic: SN6PR08MB5631:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR08MB56310B39F954E57FB81D7A67D35E0@SN6PR08MB5631.namprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-Microsoft-Antispam-PRVS: <SN6PR08MB56318C6FA836E633D85BC621D35E0@SN6PR08MB5631.namprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Jrj8oJ8MGhMvW5nCBO9wDjSuzuBm8kltvPw71LAZ2X93E3v6brRn71aOp6Vc2c+dLWy4J+R7bgqqBfxiXR8STRAxMYV+NO1webLV3LTTbSh26ye+Aw+8IlON1G2ZaraBqpABehNbShVZ06iRiA8T428oRgpYt3ICEQgesZlYrLW/sX71g2EDwTRQ5KhPCTz/wgFF/unNSTDA4TuMdnMFsIqH/5vOm+1s5YW+TyEGSwpT2jeU/2+/IklhFtSxllxGI5SJWgTGeXXdLjxPolCjB4pSRFwuvk2FPPoPzg0f3mPwYF4UutqOQDzXbXyJC8E8g5OpoEaIPUehJcm36L4Fgg8NVvLR3bzibvxSazTXBWd2jScA1jfib3mIRK0+HdHM
+X-Microsoft-Antispam-Message-Info: Gu4xswXGVRvAVvlnTBnoA2RZfA/XJFKoz2GtpRltqk/lz8KQuVnOya1DUHLT1s8De/9/CtjPyZ8CXWb98q4Af4GC6TVqY/Aksihf++0ET878UGxGWNUURGuzO4RI0lnsBixGV/g5B7o70s7+QgfYWPAvnd7l1xkUqtwV8r9AD52VSXK/nepSaaELN6u2iyru9KU4TIVj471/ct4MhNPCiL4oPPHjbqZiHss90sBm+bp6Ja3MHywDcQ2OkJTdJpQjWmaQ1HNRWThR2ZHvvEcnGKAkMUXorsxp+GMAASQiaKKSXIcONOQymeLD4XY6GrStjXy5wg/HEi+g0weEGrItvqq6qRG+/xoU1ubQ5T6M6whM8YcDd9/D0TtmXdgIrxLz
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR08MB5517.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(39830400003)(136003)(366004)(396003)(376002)(346002)(66476007)(6666004)(66556008)(69590400007)(36756003)(4326008)(86362001)(107886003)(2616005)(956004)(316002)(16526019)(8676002)(83380400001)(6506007)(8936002)(52116002)(6512007)(2906002)(478600001)(5660300002)(66946007)(26005)(186003)(6486002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: gtd6tR0b/8tpyGYkWPIK3rO1zW0O+fw3zitSlOrqpOGOx8X5HOJt6o0kfgIm+TJHMLWRMWI+dls96K2gI5mtHlNv6nBQlvYENPFNEWctaIDNxMl3HPr3xRazfVu6sdm3Bgd/C9Mdp5wuDJ+wWoWeVUluJzsRFUbzCN51GewPlfgmsyJg959JYvRl0q+5Z1COa3OfSK8e2j2/o004Wrml4Ep005+9MhpMJCPc1gWwlzCmykKrsdXqo7MlJ6GFd/N0yNvadwUMWCoy3BVsQC4GebkJva/8tYKFY5kwffTJ0YY1d0E7mKH/QymnxV5+iuQvbgfhTha0k2vs4v8pKok+GQwDlnqz7bsR2/M1d4u7vAyUu6CrKinoPvKgU+rrw9vrNEQeHcgoFEyQcBRy3UUbL3S6L4Sx1XJEumxB8elf99mwuANE5pnU8uCUAK/LNulqeQrIernyFGFxm675RP8p80IR8LdzoSboPu8TT0FsJTNJx8FCyWkzoj7dlNasfYJ68pf6QRz10pcUPJ/rBLfbR7zi3CIl4LxGcVQcLMrhKpOUMOJZlILtwvFTPcMPg5DWouTGH7e6owLiaG+AL05RyDkLW7CHEJ1DHuT6Bqa3K9RxZ5N+tOzk9/tnLteVuT4MweeKUP/AE/pEqD9nkahyJg==
+X-MS-Exchange-AntiSpam-MessageData: SaITfDwijlFJEJE+4tI3Zb8veBTSsYNz1Cd+501HdjgPkvb1UrZ6PII3gS68gEWAH6QUnr0jPc5hp6i/JqvmgoJG/cOzol0amR2Qu5sw7M8JGTtM7S1cICbZD1ZDOb7yPu4z6BC0T2fhm0fs77RT/C3b31aF0ffr80vELJ53/k2DIQNskBUBcUqC8F5lrL9AOq64bTUh1q8Kvd4vigKB4DpVLZpVL+FF8L7aJudQ9hZn+0jVaXD6WVUqwTPznQHQ63FAdKa8V4AwZpAwJebIyFNGefYfWbZYeQA7mzAsj2IJ9QdUuYdlM/7PmUk97PSfQczoaV2nwom/PqmyhPiKE3WzDz5gud0HmeBKsPCkpLOZ3iV+/fswFf5zCPNHZpVZE/7zppPioU7JDB3n++5Ts+ivegE8cbL9FSvvXstRSq2cJcre/DMi4bFrbZszzA/JBC0jMngBiIh63PAxsyvLRyHZ4z9TaFMtn+hHcrLSddzKf/DTuFZzMFxqrTCECIk0cBOAXLIMI9pq3fi53d1QP1FFKz5hZh78OvWlZL3eFnU4Fh9jaUvZiXasqrR4rCmd7hBFuj4VmaDYvsCR6wokXypP/9gcvJnIcr9QNiggdk/lEoXgU8BFwyLekunbbCweV/r+0Kj6qb6te4ilfBOSyQ==
 X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ecf66025-e5a2-491d-2c13-08d842297500
+X-MS-Exchange-CrossTenant-Network-Message-Id: 49469f8d-fee2-429c-64c8-08d8422976a3
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR08MB5517.namprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2020 21:15:09.8392
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Aug 2020 21:15:12.5936
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JNVVi40FGGlwJcMr1wgWvMGQ/laHK31mgI/+lvHe/t99F4f1ecqGgNF6a7qc01kXfWuTqUGCWH6+qWhaDuZpNg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Rp0cZKMtRI4LmEk9rn9tnVfxaVzj+RqOnvy0mMHgGerJk7/gxj4SETZeVbPUjeRBq7dMl+iKccdckKn4e3rxlQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR08MB5631
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch adds bindings for the D0 order code of the device. This
-order code represents an OTP variant that enables a touch-and-hold
-function in place of slider 1.
+This patch adds support for each available OTP variant of the device.
+The OTP configuration cannot be read over I2C, so it is derived from
+a compatible string instead.
 
-Also included is the ability to specify the 00 order code (default
-option with no OTP customization) explicitly.
+Early revisions of the D0 order code require their OTP-enabled func-
+tionality to be manually restored following a soft reset; this patch
+works around this erratum as well.
 
 Signed-off-by: Jeff LaBundy <jeff@labundy.com>
 ---
- .../devicetree/bindings/input/iqs269a.yaml         | 30 +++++++++++++++++++++-
- 1 file changed, 29 insertions(+), 1 deletion(-)
+ drivers/input/misc/iqs269a.c | 94 ++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 91 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/input/iqs269a.yaml b/Documentation/devicetree/bindings/input/iqs269a.yaml
-index e13812d..56a628e 100644
---- a/Documentation/devicetree/bindings/input/iqs269a.yaml
-+++ b/Documentation/devicetree/bindings/input/iqs269a.yaml
-@@ -17,7 +17,10 @@ description: |
+diff --git a/drivers/input/misc/iqs269a.c b/drivers/input/misc/iqs269a.c
+index 095e5d5..04947f1 100644
+--- a/drivers/input/misc/iqs269a.c
++++ b/drivers/input/misc/iqs269a.c
+@@ -100,6 +100,11 @@
+ #define IQS269_MISC_B_TRACKING_UI_ENABLE	BIT(4)
+ #define IQS269_MISC_B_FILT_STR_SLIDER		GENMASK(1, 0)
  
- properties:
-   compatible:
--    const: azoteq,iqs269a
-+    enum:
-+      - azoteq,iqs269a
-+      - azoteq,iqs269a-00
-+      - azoteq,iqs269a-d0
- 
-   reg:
-     maxItems: 1
-@@ -210,6 +213,16 @@ properties:
-     default: 1
-     description: Specifies the slider coordinate filter strength.
- 
-+  azoteq,touch-hold-ms:
-+    multipleOf: 256
-+    minimum: 256
-+    maximum: 65280
-+    default: 5120
-+    description:
-+      Specifies the length of time (in ms) for which the channel selected by
-+      'azoteq,gpio3-select' must be held in a state of touch in order for an
-+      approximately 60-ms pulse to be asserted on the GPIO4 pin.
++#define IQS269_TOUCH_HOLD_SLIDER_SEL		0x89
++#define IQS269_TOUCH_HOLD_DEFAULT		0x14
++#define IQS269_TOUCH_HOLD_MS_MIN		256
++#define IQS269_TOUCH_HOLD_MS_MAX		65280
 +
-   linux,keycodes:
-     $ref: /schemas/types.yaml#/definitions/uint32-array
-     minItems: 1
-@@ -514,6 +527,21 @@ patternProperties:
+ #define IQS269_TIMEOUT_TAP_MS_MAX		4080
+ #define IQS269_TIMEOUT_SWIPE_MS_MAX		4080
+ #define IQS269_THRESH_SWIPE_MAX			255
+@@ -142,6 +147,10 @@
+ #define IQS269_CHx_HALL_INACTIVE		6
+ #define IQS269_CHx_HALL_ACTIVE			7
  
-     additionalProperties: false
- 
-+if:
-+  properties:
-+    compatible:
-+      contains:
-+        enum:
-+          - azoteq,iqs269a-d0
-+then:
-+  patternProperties:
-+    "^channel@[0-7]$":
-+      properties:
-+        azoteq,slider1-select: false
-+else:
-+  properties:
-+    azoteq,touch-hold-ms: false
++#define IQS269_OTP_OPTION_DEFAULT		0x00
++#define IQS269_OTP_OPTION_TWS			0xD0
++#define IQS269_OTP_OPTION_HOLD			BIT(7)
 +
- required:
-   - compatible
-   - reg
+ #define IQS269_HALL_PAD_R			BIT(0)
+ #define IQS269_HALL_PAD_L			BIT(1)
+ #define IQS269_HALL_PAD_INV			BIT(6)
+@@ -322,6 +331,7 @@ struct iqs269_private {
+ 	unsigned int keycode[ARRAY_SIZE(iqs269_events) * IQS269_NUM_CH];
+ 	unsigned int gs_code[IQS269_NUM_SL][IQS269_NUM_GESTURES];
+ 	unsigned int suspend_mode;
++	unsigned int otp_option;
+ 	unsigned int delay_mult;
+ 	unsigned int ch_num;
+ 	bool hall_enable;
+@@ -333,6 +343,14 @@ static enum iqs269_slider_id iqs269_slider_type(struct iqs269_private *iqs269,
+ {
+ 	int i;
+ 
++	/*
++	 * Slider 1 is unavailable if the touch-and-hold option is enabled via
++	 * OTP. In that case, the channel selection register is repurposed for
++	 * the touch-and-hold timer ceiling.
++	 */
++	if (slider_num && (iqs269->otp_option & IQS269_OTP_OPTION_HOLD))
++		return IQS269_SLIDER_NONE;
++
+ 	if (!iqs269->sys_reg.slider_select[slider_num])
+ 		return IQS269_SLIDER_NONE;
+ 
+@@ -567,7 +585,8 @@ static int iqs269_parse_chan(struct iqs269_private *iqs269,
+ 	if (fwnode_property_present(ch_node, "azoteq,slider0-select"))
+ 		iqs269->sys_reg.slider_select[0] |= BIT(reg);
+ 
+-	if (fwnode_property_present(ch_node, "azoteq,slider1-select"))
++	if (fwnode_property_present(ch_node, "azoteq,slider1-select") &&
++	    !(iqs269->otp_option & IQS269_OTP_OPTION_HOLD))
+ 		iqs269->sys_reg.slider_select[1] |= BIT(reg);
+ 
+ 	ch_reg = &iqs269->ch_reg[reg];
+@@ -999,7 +1018,43 @@ static int iqs269_parse_prop(struct iqs269_private *iqs269)
+ 	sys_reg->blocking = 0;
+ 
+ 	sys_reg->slider_select[0] = 0;
+-	sys_reg->slider_select[1] = 0;
++
++	/*
++	 * If configured via OTP to do so, the device asserts a pulse on the
++	 * GPIO4 pin for approximately 60 ms once a selected channel is held
++	 * in a state of touch for a configurable length of time.
++	 *
++	 * In that case, the register used for slider 1 channel selection is
++	 * repurposed for the touch-and-hold timer ceiling.
++	 */
++	if (iqs269->otp_option & IQS269_OTP_OPTION_HOLD) {
++		if (!device_property_read_u32(&client->dev,
++					      "azoteq,touch-hold-ms", &val)) {
++			if (val < IQS269_TOUCH_HOLD_MS_MIN ||
++			    val > IQS269_TOUCH_HOLD_MS_MAX) {
++				dev_err(&client->dev,
++					"Invalid touch-and-hold ceiling: %u\n",
++					val);
++				return -EINVAL;
++			}
++
++			sys_reg->slider_select[1] = val / 256;
++		} else if (iqs269->ver_info.fw_num < IQS269_VER_INFO_FW_NUM_3) {
++			/*
++			 * The default touch-and-hold timer ceiling initially
++			 * read from early revisions of silicon is invalid if
++			 * the device experienced a soft reset between power-
++			 * on and the read operation.
++			 *
++			 * To protect against this case, explicitly cache the
++			 * default value so that it is restored each time the
++			 * device is re-initialized.
++			 */
++			sys_reg->slider_select[1] = IQS269_TOUCH_HOLD_DEFAULT;
++		}
++	} else {
++		sys_reg->slider_select[1] = 0;
++	}
+ 
+ 	sys_reg->event_mask = ~((u8)IQS269_EVENT_MASK_SYS);
+ 
+@@ -1140,6 +1195,12 @@ static int iqs269_parse_prop(struct iqs269_private *iqs269)
+ 	return 0;
+ }
+ 
++static const struct reg_sequence iqs269_tws_init[] = {
++	{ IQS269_TOUCH_HOLD_SLIDER_SEL, IQS269_TOUCH_HOLD_DEFAULT },
++	{ 0xF0, 0x580F },
++	{ 0xF0, 0x59EF },
++};
++
+ static int iqs269_dev_init(struct iqs269_private *iqs269)
+ {
+ 	struct iqs269_sys_reg *sys_reg = &iqs269->sys_reg;
+@@ -1149,6 +1210,18 @@ static int iqs269_dev_init(struct iqs269_private *iqs269)
+ 
+ 	mutex_lock(&iqs269->lock);
+ 
++	/*
++	 * Early revisions of silicon require the following workaround in order
++	 * to restore any OTP-enabled functionality after a soft reset.
++	 */
++	if (iqs269->otp_option == IQS269_OTP_OPTION_TWS &&
++	    iqs269->ver_info.fw_num < IQS269_VER_INFO_FW_NUM_3) {
++		error = regmap_multi_reg_write(iqs269->regmap, iqs269_tws_init,
++					       ARRAY_SIZE(iqs269_tws_init));
++		if (error)
++			goto err_mutex;
++	}
++
+ 	error = regmap_update_bits(iqs269->regmap, IQS269_HALL_UI,
+ 				   IQS269_HALL_UI_ENABLE,
+ 				   iqs269->hall_enable ? ~0 : 0);
+@@ -1807,6 +1880,10 @@ static int iqs269_probe(struct i2c_client *client)
+ 	i2c_set_clientdata(client, iqs269);
+ 	iqs269->client = client;
+ 
++	if (client->dev.of_node)
++		iqs269->otp_option = (uintptr_t)
++				     of_device_get_match_data(&client->dev);
++
+ 	iqs269->regmap = devm_regmap_init_i2c(client, &iqs269_regmap_config);
+ 	if (IS_ERR(iqs269->regmap)) {
+ 		error = PTR_ERR(iqs269->regmap);
+@@ -1967,7 +2044,18 @@ static int __maybe_unused iqs269_resume(struct device *dev)
+ static SIMPLE_DEV_PM_OPS(iqs269_pm, iqs269_suspend, iqs269_resume);
+ 
+ static const struct of_device_id iqs269_of_match[] = {
+-	{ .compatible = "azoteq,iqs269a" },
++	{
++		.compatible = "azoteq,iqs269a",
++		.data = (void *)IQS269_OTP_OPTION_DEFAULT,
++	},
++	{
++		.compatible = "azoteq,iqs269a-00",
++		.data = (void *)IQS269_OTP_OPTION_DEFAULT,
++	},
++	{
++		.compatible = "azoteq,iqs269a-d0",
++		.data = (void *)IQS269_OTP_OPTION_TWS,
++	},
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(of, iqs269_of_match);
 -- 
 2.7.4
 
