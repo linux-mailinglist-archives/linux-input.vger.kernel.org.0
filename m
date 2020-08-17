@@ -2,52 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA760247770
-	for <lists+linux-input@lfdr.de>; Mon, 17 Aug 2020 21:49:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75A4C2477E4
+	for <lists+linux-input@lfdr.de>; Mon, 17 Aug 2020 22:03:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732765AbgHQTtC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 17 Aug 2020 15:49:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46156 "EHLO
+        id S1729507AbgHQUDD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 17 Aug 2020 16:03:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732762AbgHQTsh (ORCPT
+        with ESMTP id S1729350AbgHQUCr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 17 Aug 2020 15:48:37 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C2D0C061344
-        for <linux-input@vger.kernel.org>; Mon, 17 Aug 2020 12:48:36 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id u10so8059321plr.7
-        for <linux-input@vger.kernel.org>; Mon, 17 Aug 2020 12:48:36 -0700 (PDT)
+        Mon, 17 Aug 2020 16:02:47 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49901C061346
+        for <linux-input@vger.kernel.org>; Mon, 17 Aug 2020 13:02:22 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id j21so8615494pgi.9
+        for <linux-input@vger.kernel.org>; Mon, 17 Aug 2020 13:02:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=W/QCwiSnTEO13wgX75lDPlG5RmKP/R2S9uafXZLpRO0=;
-        b=UZMS8z7lBaBA4LaD7Ohc3gxbh3X0rGAieTpTrrDzaTy+L/gk/lug1xgLnT6Smuoqgy
-         CHwvwC1+iVsaCi7JVANoAoODFUU1FJ8zXIuuSAZC1c3zP9Ppej9evmz4cKmc9teJMKuJ
-         YXU186IAT+sMfmef2ecFE4SzXZGPKU6LCfYIk=
+        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=97DJCt1f0pZE/lulXm7MIIWiJdssbmLKs4FWP+jsWew=;
+        b=aSZhdkNSZ87cEFa5bVOxaRgbLX85Ac+f9y0d86ayXObRrHbI44P6QsGc3j0vxCaOtG
+         T2k2WOgfibXFL7wthStQUZ2a3THDVNOGIm8YJURtA34YheOr2MAVAuh07KvbwkyanYJS
+         0EG510E/ggHXtfUb6SqMiyn275eeX4FnCQjVBA0Ynkest98IGBIFATGO7FCiNvsrRbkh
+         fmWOvmbqhkjk1q/XQS+NvaPIgrNKptwTVoidsz8P1vd8W5lrCq8X1NqQRsc/NszaPSZV
+         B+EkeoLweuq1QOusC/DDv9aQ54VFoeSpo/Y8VIPH3trT8rbQk4iBVBt328RQJCy4a+pu
+         mrUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=W/QCwiSnTEO13wgX75lDPlG5RmKP/R2S9uafXZLpRO0=;
-        b=gbdvUU6lS9DmjOhXj8K1oXtJqUFBtBz5Tsqnw10Fzdl6sGnqTlRsLEt7QQGw4SmE77
-         mtm17ICC4Uy7lhbsGnZ8cUjHkgEgJv4waA2PeUkFJ7MVOydnOmgsW96c50E84B6b8a/B
-         0MIyZyFnhqYJhkSfkRwOrec8CKSsqixTxKcm0udAfxYhFpd7/QVpHXIg55sNjKNLrMBS
-         kBvvMRSZ74R0Bqss+iCO78gSH5uqbec5kgKGlhgGNZa0beZUngQuhQ9aX7NCZFM76NsX
-         HWJBaKZZ7dyWhCGVhavcwdac3OadBa/P3xq5yfojbBceCCe6VFyUk1KIFB22fHRwyz5n
-         mjvg==
-X-Gm-Message-State: AOAM530GKa+IoVax4bFHKNU8S5WcGy4X3481EWbnbLWg2Brn6zkSvidx
-        iMWTAPKZ+GMURhUFLUMfK5N5CA==
-X-Google-Smtp-Source: ABdhPJwZjwvbowwXe6l+/LTbIcm9qla8iNV/iD/KGyHP8Hful5P2qYDZAoSGXyDA4rfCIhlfdBeTKA==
-X-Received: by 2002:a17:902:246:: with SMTP id 64mr12417474plc.70.1597693716088;
-        Mon, 17 Aug 2020 12:48:36 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id s8sm21663342pfc.122.2020.08.17.12.48.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2020 12:48:35 -0700 (PDT)
-Date:   Mon, 17 Aug 2020 12:48:34 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Jens Axboe <axboe@kernel.dk>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=97DJCt1f0pZE/lulXm7MIIWiJdssbmLKs4FWP+jsWew=;
+        b=NGeJeh80iFDE5G/YWN0awn52IRvxXp3lov+8/PtsMDyH1b0Rzy0DAZFmlltxrn2feJ
+         1h5a7S0q4y4QUu34sxF4/rxwBNw/UWz84BO3MNYu2iVonIq9IzIcyBymVwHqGJnyYwCj
+         rI6rtTluCGR476wzWb+l/rhhFTLnRaSc5M5uWF4awsvjjmij5HnTbXf+YUXUHcJsKDex
+         2LKC/2FpDRHrQ0mdMA26INkjbfbGrb8m0cWYQ80bQkke71gXvYx9oVFW4TeZXK/oorKV
+         /MgUHFiJ0HNqT6JK0uGg5gyAqDYIrPQW4n0bY+IYCpDwy2cEjZYoBr3bP20wgkKhDWPR
+         ZRJQ==
+X-Gm-Message-State: AOAM5326pdQPd9puC/T3tMDERBLv4puZIo78QYr70oy8eGvtyKrZa8hD
+        95SKdejkQFP+4oZguqzI8/rgZg==
+X-Google-Smtp-Source: ABdhPJx6fgKnzdqFet7WfKg8Bw76iQ/G91m6PuMxHTNY08ReQtFVhesqdO2JpfqR2BskRMIqTcZ09Q==
+X-Received: by 2002:a63:d143:: with SMTP id c3mr10873272pgj.306.1597694541448;
+        Mon, 17 Aug 2020 13:02:21 -0700 (PDT)
+Received: from ?IPv6:2605:e000:100e:8c61:bd62:5cef:d7f8:5bff? ([2605:e000:100e:8c61:bd62:5cef:d7f8:5bff])
+        by smtp.gmail.com with ESMTPSA id c27sm18199498pgn.86.2020.08.17.13.02.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Aug 2020 13:02:20 -0700 (PDT)
+Subject: Re: [PATCH] block: convert tasklets to use new tasklet_setup() API
+To:     Kees Cook <keescook@chromium.org>
 Cc:     Allen Pais <allen.cryptic@gmail.com>, jdike@addtoit.com,
         richard@nod.at, anton.ivanov@cambridgegreys.com, 3chas3@gmail.com,
         stefanr@s5r6.in-berlin.de, airlied@linux.ie, daniel@ffwll.ch,
@@ -71,54 +74,69 @@ Cc:     Allen Pais <allen.cryptic@gmail.com>, jdike@addtoit.com,
         linux-spi@vger.kernel.org, devel@driverdev.osuosl.org,
         Allen Pais <allen.lkml@gmail.com>,
         Romain Perier <romain.perier@gmail.com>
-Subject: Re: [PATCH] block: convert tasklets to use new tasklet_setup() API
-Message-ID: <202008171246.80287CDCA@keescook>
 References: <20200817091617.28119-1-allen.cryptic@gmail.com>
  <20200817091617.28119-2-allen.cryptic@gmail.com>
  <b5508ca4-0641-7265-2939-5f03cbfab2e2@kernel.dk>
  <202008171228.29E6B3BB@keescook>
  <161b75f1-4e88-dcdf-42e8-b22504d7525c@kernel.dk>
+ <202008171246.80287CDCA@keescook>
+From:   Jens Axboe <axboe@kernel.dk>
+Message-ID: <df645c06-c30b-eafa-4d23-826b84f2ff48@kernel.dk>
+Date:   Mon, 17 Aug 2020 13:02:17 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <161b75f1-4e88-dcdf-42e8-b22504d7525c@kernel.dk>
+In-Reply-To: <202008171246.80287CDCA@keescook>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Aug 17, 2020 at 12:44:34PM -0700, Jens Axboe wrote:
-> On 8/17/20 12:29 PM, Kees Cook wrote:
-> > On Mon, Aug 17, 2020 at 06:56:47AM -0700, Jens Axboe wrote:
-> >> On 8/17/20 2:15 AM, Allen Pais wrote:
-> >>> From: Allen Pais <allen.lkml@gmail.com>
-> >>>
-> >>> In preparation for unconditionally passing the
-> >>> struct tasklet_struct pointer to all tasklet
-> >>> callbacks, switch to using the new tasklet_setup()
-> >>> and from_tasklet() to pass the tasklet pointer explicitly.
-> >>
-> >> Who came up with the idea to add a macro 'from_tasklet' that is just
-> >> container_of? container_of in the code would be _much_ more readable,
-> >> and not leave anyone guessing wtf from_tasklet is doing.
-> >>
-> >> I'd fix that up now before everything else goes in...
-> > 
-> > As I mentioned in the other thread, I think this makes things much more
-> > readable. It's the same thing that the timer_struct conversion did
-> > (added a container_of wrapper) to avoid the ever-repeating use of
-> > typeof(), long lines, etc.
+On 8/17/20 12:48 PM, Kees Cook wrote:
+> On Mon, Aug 17, 2020 at 12:44:34PM -0700, Jens Axboe wrote:
+>> On 8/17/20 12:29 PM, Kees Cook wrote:
+>>> On Mon, Aug 17, 2020 at 06:56:47AM -0700, Jens Axboe wrote:
+>>>> On 8/17/20 2:15 AM, Allen Pais wrote:
+>>>>> From: Allen Pais <allen.lkml@gmail.com>
+>>>>>
+>>>>> In preparation for unconditionally passing the
+>>>>> struct tasklet_struct pointer to all tasklet
+>>>>> callbacks, switch to using the new tasklet_setup()
+>>>>> and from_tasklet() to pass the tasklet pointer explicitly.
+>>>>
+>>>> Who came up with the idea to add a macro 'from_tasklet' that is just
+>>>> container_of? container_of in the code would be _much_ more readable,
+>>>> and not leave anyone guessing wtf from_tasklet is doing.
+>>>>
+>>>> I'd fix that up now before everything else goes in...
+>>>
+>>> As I mentioned in the other thread, I think this makes things much more
+>>> readable. It's the same thing that the timer_struct conversion did
+>>> (added a container_of wrapper) to avoid the ever-repeating use of
+>>> typeof(), long lines, etc.
+>>
+>> But then it should use a generic name, instead of each sub-system using
+>> some random name that makes people look up exactly what it does. I'm not
+>> huge fan of the container_of() redundancy, but adding private variants
+>> of this doesn't seem like the best way forward. Let's have a generic
+>> helper that does this, and use it everywhere.
 > 
-> But then it should use a generic name, instead of each sub-system using
-> some random name that makes people look up exactly what it does. I'm not
-> huge fan of the container_of() redundancy, but adding private variants
-> of this doesn't seem like the best way forward. Let's have a generic
-> helper that does this, and use it everywhere.
+> I'm open to suggestions, but as things stand, these kinds of treewide
 
-I'm open to suggestions, but as things stand, these kinds of treewide
-changes end up getting whole-release delays because of the need to have
-the API in place for everyone before patches to do the changes can be
-sent to multiple maintainers, etc.
+On naming? Implementation is just as it stands, from_tasklet() is
+totally generic which is why I objected to it. from_member()? Not great
+with naming... But I can see this going further and then we'll suddenly
+have tons of these. It's not good for readability.
+
+> changes end up getting whole-release delays because of the need to have
+> the API in place for everyone before patches to do the changes can be
+> sent to multiple maintainers, etc.
+
+Sure, that's always true of treewide changes like that.
 
 -- 
-Kees Cook
+Jens Axboe
+
