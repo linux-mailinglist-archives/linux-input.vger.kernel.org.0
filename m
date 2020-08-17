@@ -2,117 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF371246063
-	for <lists+linux-input@lfdr.de>; Mon, 17 Aug 2020 10:37:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8B7624624E
+	for <lists+linux-input@lfdr.de>; Mon, 17 Aug 2020 11:16:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726361AbgHQIhO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 17 Aug 2020 04:37:14 -0400
-Received: from mout.gmx.net ([212.227.15.19]:56953 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726385AbgHQIhK (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 17 Aug 2020 04:37:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1597653424;
-        bh=EpluQfC1jJer9O26mx9jJK22gZCAA6SzOPMybTShMi8=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=dz1927svERMq97Fda3A7xxjOcxZW+HBAoYCD8zBpilIiO6VZYrxOdXIQcB54w2xmt
-         DzSTPeGlQe/6pHG9MG5aGI/zIU/CqgtxVJi3sbvqk5UgfYCU+lz3n5jmRjw47yWBwz
-         FGOerTgY8yluPM96SngGknsLmsXkt35svBLoYCHI=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([95.91.214.168]) by mail.gmx.com
- (mrgmx005 [212.227.17.190]) with ESMTPSA (Nemesis) id
- 1N4zAs-1kqnIK2LyO-010vt6; Mon, 17 Aug 2020 10:37:04 +0200
-From:   Sebastian Parschauer <s.parschauer@gmx.de>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org,
-        Sebastian Parschauer <s.parschauer@gmx.de>
-Subject: [PATCH] HID: quirks: Always poll three more Lenovo PixArt mice
-Date:   Mon, 17 Aug 2020 10:36:28 +0200
-Message-Id: <20200817083628.21075-1-s.parschauer@gmx.de>
-X-Mailer: git-send-email 2.26.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:vGMmbxhyA0R+Xxl0q0/qU9tBY1wy1bCS+W5Wz59paAnzFgWHbyr
- afxyK/ZQjkpZDmjD26ElWwEr3kEQBO3ZshTH3QOMPrQqcBxhwl9ZXCbv04hmN+7c54XZk8F
- ExrZkjF7/cGVGcqEC4Y2j2N9A+IaJXiljCPITW2XIjs5AevKFGoDfugFGuJjxDC1y0gyHX/
- otFe+9bhG9OrXG0gFrioA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:trvI5EiIhV4=:zT4jBL9VJExmra6q5SxbyQ
- HSHGLlg5n6oA5Eg65DDaqNDKY7mH6LNjMpcoFDMZju88nUpnfeep4XD0CkHbD7TtOLU74JRhy
- Kmdb+vEDJoi9sUuzA25zUeDk0ZBs4GkIUBHhL32lj+T2yDGf8AqERqJf4nIFEHPXKIqBJsobs
- iGOCxwDO9iy3UocvIz8kXsJe2zvVV2XuVXcpUZdgV8vIL+a+uJaG1dZrMgwokYUfeYY6pY+qM
- jJoWLFQhn9JsKEN5KOaNp7gkT7mr0AAbkn84GcjnID8M5Oey1+O6bnwuDqGMXuXniOUeq8Dob
- Z5i/O5PQTLXPNEyhXJJ35iZBuyuoegLxD26TOD7IOCYItV14E11U1DHqsLsV23zBGET2BEMTS
- JUF2qp2vZHDSzRyUYV6jknBiqWbo1jbLjxfE2jy0mfHMLUuzjAgmSKuSvcDRT3q2i8g/IT0ja
- +B+8cCvqKjigHzetS1kbwKb3Ni+DqBh9gPnK+fqNoRxYNt+EYqATQSp8BTez6yY0BFq1izHW6
- 7lAgCtXcz/kCK5kU97Zq6lSmIppshtmAyqFR8j8hIR/BZcps5P60LLGUip+x9fYQbf5QGjSPC
- SC/UWbRurHlXA7fix2Mn88cEEz4T3lO1Ixfsa0a25qnUZQmgCBIEWoogwRNpkTOXTioFzwqot
- eoFB9eZed9MDXDXVhN033ckTqMGYY7uLIvbLMhzI1OKiTBBN8yikr8D1VgB3P34d902u3OLV/
- f8u3+wskCM8DmA2uhURXeIkhaPELvB8xBygRrmexGnt0YIs35ob5q/BX5LX4E+1Uym0N/i2HT
- IiDSZR8PAKmSa3fkplhv7mAAsLsyLRwl103nbSBi3w9QzuV7es33uWwYse67kUFTjLwyimidr
- stRDYNe8aJtlEWfdx9m9cqIq4ejD1iTs88ZJUh3Cro9roqXDtlrt42tw0WpCg7D2wuLAD3lpP
- KbrTGF8SBNT7h+BZt4EFq7Tp/Hhs70flaAknYxJoV+PSMGGDZ0zPKaa/BCLsmfISJrzh+ujcj
- 9PUuNz3F1n9KsI389WjfmeEH39jnn4RK3nwc6CiXhBK1Qc+T73gDfb0mwgr4RahFmoACE6e/K
- XBv1NIsCM8LEPFkyLqb5AxcJo17am6dSwUuJMlK+9K+3yJHkfmCbUEPi/g6CpSiJ85yesSbUt
- Gn8A7R0ZDkCFD+n/hREAWgZLpgS6ot0ArarP9JqUp60ao0lN8x8l9qfm8mQNN68IS/NgkWvHa
- nxzKcgH0FtH3M8j728vW/4rcafTw5UUl9mqiiUQ==
+        id S1726617AbgHQJQn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 17 Aug 2020 05:16:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60788 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726297AbgHQJQl (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 17 Aug 2020 05:16:41 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31D7BC061389;
+        Mon, 17 Aug 2020 02:16:41 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id bh1so7184409plb.12;
+        Mon, 17 Aug 2020 02:16:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=nYi1qCRVXukm3Vys4Ax0zzpvhrxgpQ9/OWRIEzi7jMM=;
+        b=mxWi/elPlQYhLXMLOAt36tJYQ+Hp1VAtd/uz+Kc8cIdiewSdg8n95X+KYxSdWGZJ1y
+         /1rHnM4HvYeEmKOOLXL2wTqM2vSxMsb9VJZkfdrjZ8c8pWQ4rrQImtoKQ977EHgQ+THx
+         Aa919IaWGz3+LC2CnAhGPcCnKZKjEcT2ftL3tbor1l7DdNN51bTmd6wf3G7Uglbn9gd3
+         IvO4ciTbor+qNIHbn5ZnArhfiWQHMjs284hcUdKxz9v7/11dHOTVFY1ki+iFopZAQ166
+         233J/wFqybY2SkuhDb0GHf7Xk3e7tw+qSNZabUjFckMBu8dhIwFr7uUw3BLLKtx0v0Fq
+         3HVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=nYi1qCRVXukm3Vys4Ax0zzpvhrxgpQ9/OWRIEzi7jMM=;
+        b=lrj+uJxdJpEIamwguU3hYqchl9pkUjOg1PwRFi/AX1gdgtnw6PlM/vtlnggvEKimYP
+         lJ+XZ3HSJghOSF5qDeN4B1ACqkEV5jMuhtK/mHWqv4P6mgHfX9DBGjLhpGTteNmGmqFI
+         LHNBD1g8VEsV0vSuz+t7SP73tlHY5zi3X0ddCrPuznKrAKxqpNCKkM1XUxyYV2SUJMfq
+         DXVn4hZCcHO0WOOKf/P46zAgxhEDWHUrIWpEqIbGF9c7U+fVv6v2YYAuNlQvXzZyfkoY
+         4Hurr4n7e/GkpPMPAKiyC72AYOfJ9OPxOAYLnHRS4qHCo2L2wrDsIlmAcPvxWiipKjkb
+         hCGQ==
+X-Gm-Message-State: AOAM531LIru3JgBdpugP33/3Phz8shnEq+JkBrHNCNfS7ygLLjVNKQtv
+        68OA9EMiliiZpLF+p4nKUlo=
+X-Google-Smtp-Source: ABdhPJx+wEvCOSvKZxezpdY6lLs7UvfZeX3QH5NUsgJeM5vKZGxtJnJRJpZ8+dEdqnJdMBLPa9KLfg==
+X-Received: by 2002:a17:902:8495:: with SMTP id c21mr10840498plo.82.1597655800670;
+        Mon, 17 Aug 2020 02:16:40 -0700 (PDT)
+Received: from localhost.localdomain ([49.207.202.98])
+        by smtp.gmail.com with ESMTPSA id r25sm15971028pgv.88.2020.08.17.02.16.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Aug 2020 02:16:39 -0700 (PDT)
+From:   Allen Pais <allen.cryptic@gmail.com>
+To:     jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
+        3chas3@gmail.com, axboe@kernel.dk, stefanr@s5r6.in-berlin.de,
+        airlied@linux.ie, daniel@ffwll.ch, sre@kernel.org,
+        James.Bottomley@HansenPartnership.com, kys@microsoft.com,
+        deller@gmx.de, dmitry.torokhov@gmail.com, jassisinghbrar@gmail.com,
+        shawnguo@kernel.org, s.hauer@pengutronix.de,
+        maximlevitsky@gmail.com, oakad@yahoo.com, ulf.hansson@linaro.org,
+        mporter@kernel.crashing.org, alex.bou9@gmail.com,
+        broonie@kernel.org, martyn@welchs.me.uk, manohar.vanga@gmail.com,
+        mitch@sfgoth.com, davem@davemloft.net, kuba@kernel.org
+Cc:     keescook@chromium.org, linux-um@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux1394-devel@lists.sourceforge.net,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-hyperv@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-ntb@googlegroups.com, linux-s390@vger.kernel.org,
+        linux-spi@vger.kernel.org, devel@driverdev.osuosl.org,
+        Allen Pais <allen.lkml@gmail.com>,
+        Romain Perier <romain.perier@gmail.com>
+Subject: [PATCH] arch: um: convert tasklets to use new tasklet_setup() API
+Date:   Mon, 17 Aug 2020 14:45:55 +0530
+Message-Id: <20200817091617.28119-1-allen.cryptic@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The PixArt OEM mice are known for disconnecting every minute in
-runlevel 1 or 3 if they are not always polled. One Lenovo PixArt
-mouse is already fixed. Got two references for 17ef:602e and three
-references for 17ef:6019 misbehaving like this. Got one direct bug
-report for 17ef:6093 from Wyatt Ward (wyatt8740). So add
-HID_QUIRK_ALWAYS_POLL for all of them.
+From: Allen Pais <allen.lkml@gmail.com>
 
-Link: https://github.com/sriemer/fix-linux-mouse issue 22
-Signed-off-by: Sebastian Parschauer <s.parschauer@gmx.de>
-=2D--
- drivers/hid/hid-ids.h    | 3 +++
- drivers/hid/hid-quirks.c | 3 +++
- 2 files changed, 6 insertions(+)
+In preparation for unconditionally passing the
+struct tasklet_struct pointer to all tasklet
+callbacks, switch to using the new tasklet_setup()
+and from_tasklet() to pass the tasklet pointer explicitly.
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 6221888aae99..a8e3b2796be8 100644
-=2D-- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -728,6 +728,9 @@
- #define USB_DEVICE_ID_LENOVO_TPPRODOCK	0x6067
- #define USB_DEVICE_ID_LENOVO_X1_COVER	0x6085
- #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_608D	0x608d
-+#define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6019	0x6019
-+#define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_602E	0x602e
-+#define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6093	0x6093
+Signed-off-by: Romain Perier <romain.perier@gmail.com>
+Signed-off-by: Allen Pais <allen.lkml@gmail.com>
+---
+ arch/um/drivers/vector_kern.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
- #define USB_VENDOR_ID_LG		0x1fd2
- #define USB_DEVICE_ID_LG_MULTITOUCH	0x0064
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index c242150d35a3..a65aef6a322f 100644
-=2D-- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -105,6 +105,9 @@ static const struct hid_device_id hid_quirks[] =3D {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M406XE), H=
-ID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_PIXART_USB_OPTICAL_MOU=
-SE_ID2), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_M=
-OUSE_608D), HID_QUIRK_ALWAYS_POLL },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_M=
-OUSE_6019), HID_QUIRK_ALWAYS_POLL },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_M=
-OUSE_602E), HID_QUIRK_ALWAYS_POLL },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_M=
-OUSE_6093), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_C007), H=
-ID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_C077), H=
-ID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_KEYBOARD=
-_G710_PLUS), HID_QUIRK_NOGET },
-=2D-
-2.26.2
+diff --git a/arch/um/drivers/vector_kern.c b/arch/um/drivers/vector_kern.c
+index 8735c468230a..06980870ae23 100644
+--- a/arch/um/drivers/vector_kern.c
++++ b/arch/um/drivers/vector_kern.c
+@@ -1196,9 +1196,9 @@ static int vector_net_close(struct net_device *dev)
+ 
+ /* TX tasklet */
+ 
+-static void vector_tx_poll(unsigned long data)
++static void vector_tx_poll(struct tasklet_struct *t)
+ {
+-	struct vector_private *vp = (struct vector_private *)data;
++	struct vector_private *vp = from_tasklet(vp, t, tx_poll);
+ 
+ 	vp->estats.tx_kicks++;
+ 	vector_send(vp->tx_queue);
+@@ -1629,7 +1629,7 @@ static void vector_eth_configure(
+ 	});
+ 
+ 	dev->features = dev->hw_features = (NETIF_F_SG | NETIF_F_FRAGLIST);
+-	tasklet_init(&vp->tx_poll, vector_tx_poll, (unsigned long)vp);
++	tasklet_setup(&vp->tx_poll, vector_tx_poll);
+ 	INIT_WORK(&vp->reset_tx, vector_reset_tx);
+ 
+ 	timer_setup(&vp->tl, vector_timer_expire, 0);
+-- 
+2.17.1
 
