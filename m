@@ -2,237 +2,182 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E9FF2483F6
-	for <lists+linux-input@lfdr.de>; Tue, 18 Aug 2020 13:36:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 062C42483EB
+	for <lists+linux-input@lfdr.de>; Tue, 18 Aug 2020 13:33:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726590AbgHRLf4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 18 Aug 2020 07:35:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52538 "EHLO
+        id S1726819AbgHRLcd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 18 Aug 2020 07:32:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726466AbgHRLfy (ORCPT
+        with ESMTP id S1726786AbgHRLcV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 18 Aug 2020 07:35:54 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27E98C061343;
-        Tue, 18 Aug 2020 04:28:34 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id BB68D29817E
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-input@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kernel@collabora.com
-Subject: [PATCH v3 2/2] tty/sysrq: Add configurable handler to execute a compound action
-Date:   Tue, 18 Aug 2020 13:28:25 +0200
-Message-Id: <20200818112825.6445-3-andrzej.p@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200818112825.6445-1-andrzej.p@collabora.com>
-References: <20200818112825.6445-1-andrzej.p@collabora.com>
+        Tue, 18 Aug 2020 07:32:21 -0400
+Received: from mail-oo1-xc41.google.com (mail-oo1-xc41.google.com [IPv6:2607:f8b0:4864:20::c41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB99FC061342;
+        Tue, 18 Aug 2020 04:32:20 -0700 (PDT)
+Received: by mail-oo1-xc41.google.com with SMTP id y30so4072423ooj.3;
+        Tue, 18 Aug 2020 04:32:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:reply-to:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ExSCm02y3qpUSj/p3vHeizuT1G9r/WCp9sMwgc77Xhw=;
+        b=lpcmiZRC0Itwnv8XEX0Gt0g4YzYZoFD+0cQTl/lgDNgLVzRe6IuCkiyAsMKmXxtzyS
+         DF5PMESVBKjCzoZjEI411d9Iw1L3XxuPkPVdy8WD0iLU9FEOhQt0C+gxLXxG9FwuHlLM
+         rhDESa4KirIUUOyZAMa3fGnotL1y1ZAkDn7wOqcdEugoXuPZ7SjANkcHlMg4NvyiNbht
+         ty6pszTzwEC7d8yfKI/mGHwXfZomUw3KmQy9Bjfu0tTtXYliq18/FxRxu1WvUqVtTDdI
+         K3vNrDjnKkdMwRXJXjv0FWKEbAC/2OegAiVjrrRDrIlbVqKEFhwQhGoW00TK4+pX8gAo
+         GGSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :reply-to:references:mime-version:content-disposition:in-reply-to
+         :user-agent;
+        bh=ExSCm02y3qpUSj/p3vHeizuT1G9r/WCp9sMwgc77Xhw=;
+        b=p0El+5oHOMmKmJczNTb3dMky9nFr5uMOoMs0POP74oey22EApUumHYTaL2oRazGoB/
+         MjCGKLVKfc71tEqS+ogdXUFK5vuC0DevJWejKQgz04YIDJU1NlUETxMpLJdIRj2OkZhV
+         L60QWwyO21LiNJCiq5pLmb405ibHA8+/h+/SyMTkHIdkP1dJ/KfrgRMccu8ew921kT59
+         cjLTsw2NimglvldCUau9X23RTY5ixerpBi3uFZ5PAaslw93pHkLh9roM+rUCuRVhWukR
+         6EukWQ4GBLWkYy4Znwi58XAQaPPrOe2MsBI6BZ9RC/FDkM2zW475Jeoqb9mGg5c9bgoa
+         nfpA==
+X-Gm-Message-State: AOAM533oxYlrnM51caMj7uyFiSwWM2s3vfm4KGY8nQVTN4TAq4IADE9/
+        Nvjc2eI+v9PG2DSuX10kSw==
+X-Google-Smtp-Source: ABdhPJywdLvN8lVgc2yDfHhvIZ4/3whUvULM6gOBhid0aKLlGB5miCWrsMhpAucNStAL2zXitNZckQ==
+X-Received: by 2002:a4a:7241:: with SMTP id r1mr14426630ooe.48.1597750340029;
+        Tue, 18 Aug 2020 04:32:20 -0700 (PDT)
+Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
+        by smtp.gmail.com with ESMTPSA id v35sm3862490otb.32.2020.08.18.04.32.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Aug 2020 04:32:18 -0700 (PDT)
+Received: from minyard.net (unknown [IPv6:2001:470:b8f6:1b:8b39:c3f3:f502:5c4e])
+        by serve.minyard.net (Postfix) with ESMTPSA id 4AF641800D4;
+        Tue, 18 Aug 2020 11:32:17 +0000 (UTC)
+Date:   Tue, 18 Aug 2020 06:32:16 -0500
+From:   Corey Minyard <minyard@acm.org>
+To:     Allen <allen.lkml@gmail.com>
+Cc:     Allen Pais <allen.cryptic@gmail.com>, jdike@addtoit.com,
+        richard@nod.at, anton.ivanov@cambridgegreys.com, 3chas3@gmail.com,
+        axboe@kernel.dk, stefanr@s5r6.in-berlin.de, airlied@linux.ie,
+        daniel@ffwll.ch, sre@kernel.org,
+        James.Bottomley@hansenpartnership.com, kys@microsoft.com,
+        deller@gmx.de, dmitry.torokhov@gmail.com, jassisinghbrar@gmail.com,
+        shawnguo@kernel.org, s.hauer@pengutronix.de,
+        maximlevitsky@gmail.com, oakad@yahoo.com,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        mporter@kernel.crashing.org, alex.bou9@gmail.com,
+        broonie@kernel.org, martyn@welchs.me.uk, manohar.vanga@gmail.com,
+        mitch@sfgoth.com, David Miller <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        linux-um@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux1394-devel@lists.sourceforge.net,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-hyperv@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-ntb@googlegroups.com, linux-s390@vger.kernel.org,
+        linux-spi@vger.kernel.org, devel@driverdev.osuosl.org,
+        Romain Perier <romain.perier@gmail.com>
+Subject: Re: [PATCH] char: ipmi: convert tasklets to use new tasklet_setup()
+ API
+Message-ID: <20200818113216.GD2842@minyard.net>
+Reply-To: minyard@acm.org
+References: <20200817091617.28119-1-allen.cryptic@gmail.com>
+ <20200817091617.28119-3-allen.cryptic@gmail.com>
+ <20200817121514.GE2865@minyard.net>
+ <CAOMdWSJXCn5KYHen4kynH1A5Oixo+yPzs3oathsfa8gtKZGkjg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOMdWSJXCn5KYHen4kynH1A5Oixo+yPzs3oathsfa8gtKZGkjg@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Userland might want to execute e.g. 'w' (show blocked tasks), followed
-by 's' (sync), followed by 1000 ms delay and then followed by 'c' (crash)
-upon a single magic SysRq. Or one might want to execute the famous "Raising
-Elephants Is So Utterly Boring" action. This patch adds a configurable
-handler, triggered with 'C', for this exact purpose. The user specifies the
-composition of the compound action using syntax similar to getopt, where
-each letter corresponds to an individual action and a colon followed by a
-number corresponds to a delay of that many milliseconds, e.g.:
+On Tue, Aug 18, 2020 at 02:46:23PM +0530, Allen wrote:
+> > >
+> > > Signed-off-by: Romain Perier <romain.perier@gmail.com>
+> > > Signed-off-by: Allen Pais <allen.lkml@gmail.com>
+> >
+> > This looks good to me.
+> >
+> > Reviewed-by: Corey Minyard <cminyard@mvista.com>
+> >
+> > Are you planning to push this, or do you want me to take it?  If you
+> > want me to take it, what is the urgency?
+> 
+>  Thanks. Well, not hurry, as long as it goes into 5.9 with all other
+> changes.
 
-ws:1000c
+Ok, this is queued in my for-next branch.
 
-or
+-corey
 
-r:100eis:1000ub
-
-Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
----
- Documentation/admin-guide/sysrq.rst |  9 ++++
- drivers/tty/sysrq.c                 | 82 ++++++++++++++++++++++++++++-
- include/linux/sysrq.h               |  1 +
- 3 files changed, 91 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/sysrq.rst b/Documentation/admin-guide/sysrq.rst
-index 67dfa4c29093..80bdd8bf9636 100644
---- a/Documentation/admin-guide/sysrq.rst
-+++ b/Documentation/admin-guide/sysrq.rst
-@@ -32,6 +32,7 @@ to 1. Here is the list of possible values in /proc/sys/kernel/sysrq:
-          64 =  0x40 - enable signalling of processes (term, kill, oom-kill)
-         128 =  0x80 - allow reboot/poweroff
-         256 = 0x100 - allow nicing of all RT tasks
-+        512 = 0x200 - allow compound action
- 
- You can set the value in the file by the following command::
- 
-@@ -148,6 +149,14 @@ Command	    Function
- 
- ``z``	    Dump the ftrace buffer
- 
-+``C``	    Execute a predefined, compound action. The action is defined with
-+	    sysrq.sysrq_compound_action module parameter, whose value contains known
-+	    command keys (except ``C`` to prevent recursion). The command keys can
-+	    be optionally followed by a colon and a number of milliseconds to wait
-+	    after executing the last action. For example:
-+
-+	    sysrq.sysrq_compound_action=r:100eis:1000ub
-+
- ``0``-``9`` Sets the console log level, controlling which kernel messages
-             will be printed to your console. (``0``, for example would make
-             it so that only emergency messages like PANICs or OOPSes would
-diff --git a/drivers/tty/sysrq.c b/drivers/tty/sysrq.c
-index 959f9e121cc6..e4ddea87c6db 100644
---- a/drivers/tty/sysrq.c
-+++ b/drivers/tty/sysrq.c
-@@ -20,6 +20,7 @@
- #include <linux/sched/debug.h>
- #include <linux/sched/task.h>
- #include <linux/ctype.h>
-+#include <linux/delay.h>
- #include <linux/interrupt.h>
- #include <linux/mm.h>
- #include <linux/fs.h>
-@@ -438,6 +439,15 @@ static const struct sysrq_key_op sysrq_unrt_op = {
- 	.enable_mask	= SYSRQ_ENABLE_RTNICE,
- };
- 
-+static void sysrq_action_compound(int key);
-+
-+static struct sysrq_key_op sysrq_action_compound_op = {
-+	.handler	= sysrq_action_compound,
-+	.help_msg	= "execute-compound-action(C)",
-+	.action_msg	= "Execute compound action",
-+	.enable_mask	= SYSRQ_ENABLE_COMPOUND,
-+};
-+
- /* Key Operations table and lock */
- static DEFINE_SPINLOCK(sysrq_key_table_lock);
- 
-@@ -500,7 +510,7 @@ static const struct sysrq_key_op *sysrq_key_table[62] = {
- 	&sysrq_ftrace_dump_op,		/* z */
- 	NULL,				/* A */
- 	NULL,				/* B */
--	NULL,				/* C */
-+	&sysrq_action_compound_op,	/* C */
- 	NULL,				/* D */
- 	NULL,				/* E */
- 	NULL,				/* F */
-@@ -633,6 +643,7 @@ EXPORT_SYMBOL(handle_sysrq);
- 
- #ifdef CONFIG_INPUT
- static int sysrq_reset_downtime_ms;
-+static char *sysrq_compound_action;
- 
- /* Simple translation table for the SysRq keys */
- static const unsigned char sysrq_xlate[KEY_CNT] =
-@@ -786,6 +797,62 @@ static void sysrq_of_get_keyreset_config(void)
- {
- }
- #endif
-+#define SYSRQ_COMPOUND_ACTION_VALIDATE	0
-+#define SYSRQ_COMPOUND_ACTION_RUN	1
-+
-+static int sysrq_process_compound_action(int pass)
-+{
-+	const char *action = sysrq_compound_action;
-+	const struct sysrq_key_op *op_p;
-+	int ret;
-+	unsigned int delay;
-+
-+	while (*action) {
-+		op_p = __sysrq_get_key_op(*action);
-+		if (!op_p)
-+			return -EINVAL;
-+
-+		/* Don't allow calling ourselves recursively */
-+		if (op_p == &sysrq_action_compound_op)
-+			return -EINVAL;
-+
-+		if (pass == SYSRQ_COMPOUND_ACTION_RUN)
-+			__handle_sysrq(*action, false);
-+
-+		if (*++action == ':') {
-+			ret = sscanf(action++, ":%u", &delay);
-+			if (ret < 1) /* we want at least ":[0-9]" => 1 item */
-+				return -EINVAL;
-+
-+			while (*action >= '0' && *action <= '9')
-+				++action;
-+			if (pass == SYSRQ_COMPOUND_ACTION_RUN)
-+				mdelay(delay);
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static void sysrq_action_compound(int key)
-+{
-+	if (!sysrq_compound_action) {
-+		pr_err("Unconfigured compound action for %s\n",
-+		       sysrq_action_compound_op.help_msg);
-+
-+		return;
-+	}
-+
-+	if (sysrq_process_compound_action(SYSRQ_COMPOUND_ACTION_VALIDATE)) {
-+		pr_err("Incorrect compound action %s for %s\n",
-+		       sysrq_compound_action,
-+		       sysrq_action_compound_op.help_msg);
-+
-+		return;
-+	}
-+
-+	sysrq_process_compound_action(SYSRQ_COMPOUND_ACTION_RUN);
-+}
- 
- static void sysrq_reinject_alt_sysrq(struct work_struct *work)
- {
-@@ -1077,8 +1144,21 @@ module_param_array_named(reset_seq, sysrq_reset_seq, sysrq_reset_seq,
- 
- module_param_named(sysrq_downtime_ms, sysrq_reset_downtime_ms, int, 0644);
- 
-+module_param(sysrq_compound_action, charp, 0644);
-+MODULE_PARM_DESC(sysrq_compound_action,
-+	"\tCompound sysrq action to be executed on Alt-Shift-SysRq-C\n"
-+	"\tThe compound action definition consists of known SysRq action letters except 'C',\n"
-+	"\teach letter can be optionally followed by a colon and a number of milliseconds to wait\n"
-+	"\tafter executing the last action.\n"
-+	"\tExample:\n"
-+	"\tTo unRaw, wait 100ms, tErminate, kIll, Sync, wait 1000ms, Unmount, Boot\n"
-+	"\tsysrq.sysrq_compound_action=r:100eis:1000ub");
- #else
- 
-+static void sysrq_action_compound(int key)
-+{
-+}
-+
- static inline void sysrq_register_handler(void)
- {
- }
-diff --git a/include/linux/sysrq.h b/include/linux/sysrq.h
-index 3a582ec7a2f1..6df4442f12a9 100644
---- a/include/linux/sysrq.h
-+++ b/include/linux/sysrq.h
-@@ -28,6 +28,7 @@
- #define SYSRQ_ENABLE_SIGNAL	0x0040
- #define SYSRQ_ENABLE_BOOT	0x0080
- #define SYSRQ_ENABLE_RTNICE	0x0100
-+#define SYSRQ_ENABLE_COMPOUND	0x0200
- 
- struct sysrq_key_op {
- 	void (* const handler)(int);
--- 
-2.17.1
-
+> 
+> 
+> >
+> > -corey
+> >
+> > > ---
+> > >  drivers/char/ipmi/ipmi_msghandler.c | 13 ++++++-------
+> > >  1 file changed, 6 insertions(+), 7 deletions(-)
+> > >
+> > > diff --git a/drivers/char/ipmi/ipmi_msghandler.c b/drivers/char/ipmi/ipmi_msghandler.c
+> > > index 737c0b6b24ea..e1814b6a1225 100644
+> > > --- a/drivers/char/ipmi/ipmi_msghandler.c
+> > > +++ b/drivers/char/ipmi/ipmi_msghandler.c
+> > > @@ -39,7 +39,7 @@
+> > >
+> > >  static struct ipmi_recv_msg *ipmi_alloc_recv_msg(void);
+> > >  static int ipmi_init_msghandler(void);
+> > > -static void smi_recv_tasklet(unsigned long);
+> > > +static void smi_recv_tasklet(struct tasklet_struct *t);
+> > >  static void handle_new_recv_msgs(struct ipmi_smi *intf);
+> > >  static void need_waiter(struct ipmi_smi *intf);
+> > >  static int handle_one_recv_msg(struct ipmi_smi *intf,
+> > > @@ -3430,9 +3430,8 @@ int ipmi_add_smi(struct module         *owner,
+> > >       intf->curr_seq = 0;
+> > >       spin_lock_init(&intf->waiting_rcv_msgs_lock);
+> > >       INIT_LIST_HEAD(&intf->waiting_rcv_msgs);
+> > > -     tasklet_init(&intf->recv_tasklet,
+> > > -                  smi_recv_tasklet,
+> > > -                  (unsigned long) intf);
+> > > +     tasklet_setup(&intf->recv_tasklet,
+> > > +                  smi_recv_tasklet);
+> > >       atomic_set(&intf->watchdog_pretimeouts_to_deliver, 0);
+> > >       spin_lock_init(&intf->xmit_msgs_lock);
+> > >       INIT_LIST_HEAD(&intf->xmit_msgs);
+> > > @@ -4467,10 +4466,10 @@ static void handle_new_recv_msgs(struct ipmi_smi *intf)
+> > >       }
+> > >  }
+> > >
+> > > -static void smi_recv_tasklet(unsigned long val)
+> > > +static void smi_recv_tasklet(struct tasklet_struct *t)
+> > >  {
+> > >       unsigned long flags = 0; /* keep us warning-free. */
+> > > -     struct ipmi_smi *intf = (struct ipmi_smi *) val;
+> > > +     struct ipmi_smi *intf = from_tasklet(intf, t, recv_tasklet);
+> > >       int run_to_completion = intf->run_to_completion;
+> > >       struct ipmi_smi_msg *newmsg = NULL;
+> > >
+> > > @@ -4542,7 +4541,7 @@ void ipmi_smi_msg_received(struct ipmi_smi *intf,
+> > >               spin_unlock_irqrestore(&intf->xmit_msgs_lock, flags);
+> > >
+> > >       if (run_to_completion)
+> > > -             smi_recv_tasklet((unsigned long) intf);
+> > > +             smi_recv_tasklet(&intf->recv_tasklet);
+> > >       else
+> > >               tasklet_schedule(&intf->recv_tasklet);
+> > >  }
+> > > --
+> > > 2.17.1
+> > >
+> 
+> 
+> 
+> -- 
+>        - Allen
