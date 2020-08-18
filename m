@@ -2,100 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 50AE62485B6
-	for <lists+linux-input@lfdr.de>; Tue, 18 Aug 2020 15:12:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 968E42485CD
+	for <lists+linux-input@lfdr.de>; Tue, 18 Aug 2020 15:14:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726353AbgHRNM2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 18 Aug 2020 09:12:28 -0400
-Received: from ms-10.1blu.de ([178.254.4.101]:59348 "EHLO ms-10.1blu.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726145AbgHRNM1 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 18 Aug 2020 09:12:27 -0400
-Received: from [78.43.71.214] (helo=marius.localnet)
-        by ms-10.1blu.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <mail@mariuszachmann.de>)
-        id 1k81Pb-00086x-EN; Tue, 18 Aug 2020 15:12:23 +0200
-From:   Marius Zachmann <mail@mariuszachmann.de>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        id S1726951AbgHRNN5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 18 Aug 2020 09:13:57 -0400
+Received: from mx3.molgen.mpg.de ([141.14.17.11]:49717 "EHLO mx1.molgen.mpg.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726829AbgHRNNv (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 18 Aug 2020 09:13:51 -0400
+Received: from [141.14.220.45] (g45.guest.molgen.mpg.de [141.14.220.45])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: pmenzel)
+        by mx.molgen.mpg.de (Postfix) with ESMTPSA id D045420225BDA;
+        Tue, 18 Aug 2020 15:13:45 +0200 (CEST)
+Subject: Re: No pinch events with Dell laptops and Alps
+To:     Peter Hutterer <peter.hutterer@who-t.net>
+Cc:     =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
         linux-input@vger.kernel.org
-Subject: Re: [PATCH v2] hwmon: corsair-cpro: fix ccp_probe, add delay [HID related]
-Date:   Tue, 18 Aug 2020 15:12:22 +0200
-Message-ID: <79890342.HV0Al07Iil@marius>
-In-Reply-To: <20200817153533.GA243558@roeck-us.net>
-References: <20200817070040.7952-1-mail@mariuszachmann.de> <20200817153533.GA243558@roeck-us.net>
+References: <8b4907c5-4af8-2a2c-bbe1-46b2be2980be@molgen.mpg.de>
+ <20200716232223.GA527251@koala>
+From:   Paul Menzel <pmenzel@molgen.mpg.de>
+Message-ID: <e2bcaf1e-2fa0-0d6e-0b51-646f1de2d206@molgen.mpg.de>
+Date:   Tue, 18 Aug 2020 15:13:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Con-Id: 241080
-X-Con-U: 0-linux
-X-Originating-IP: 78.43.71.214
+In-Reply-To: <20200716232223.GA527251@koala>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 18.08.20 at 17:35:33 CEST, Guenter Roeck wrote
-> On Mon, Aug 17, 2020 at 09:00:40AM +0200, Marius Zachmann wrote:
-> > Possibly because of the changes in usbhid/hid-core.c the first
-> > raw input report is not received during ccp_probe function and it will
-> > timeout. I am not sure, whether this behaviour is expected after
-> > hid_device_io_start or if I am missing something.
-> > As a solution this adds msleep(50) to ccp_probe so that all initial
-> > input reports can be received.
-> > 
-> > Signed-off-by: Marius Zachmann <mail@mariuszachmann.de>
+Dear Peter,
+
+
+Am 17.07.20 um 01:22 schrieb Peter Hutterer:
+> On Thu, Jul 16, 2020 at 03:19:32PM +0200, Paul Menzel wrote:
+
+>> On the Dell Latitude E7250 and Dell Precision 3340 I fail to get three
+>> finger pinch events generated needed for GNOME Shell gestures [1].
+>>
+>> Debian Sid/unstable with Linux 5.7.6 is running on these systems.
+>>
+>>      [    1.602394] input: AlpsPS/2 ALPS GlidePoint as
+>> /devices/platform/i8042/serio1/input/input2
+>>
+>> I am only able to create swipe events. (Four finger swipe works to switch
+>> workspaces.)
+>>
+>> ```
+>> $ sudo libinput debug-events
+>> […]
+>> -event1   DEVICE_ADDED     AlpsPS/2 ALPS GlidePoint          seat0 default
+>> group10 cap:pg  size 98x51mm tap(dl off) left scroll-nat scroll-2fg-edge
+>> dwt-on
+>> -event2   DEVICE_ADDED     DELL Wireless hotkeys             seat0 default
+>> group11 cap:k
+>> event1  - AlpsPS/2 ALPS GlidePoint: kernel bug: Wrong slot count (4),
+>> reducing to 2
+>> -event1   GESTURE_SWIPE_BEGIN +1.549s	3
+>>   event1   GESTURE_SWIPE_UPDATE +1.549s	3 -0.36/ 0.26 (-2.59/ 1.85
+>> unaccelerated)
+>> […]
+>> ```
+>>
+>> Does the hardware and driver support that?
 > 
-> Let's just ask the HID maintainers. Is this expected, and the correct fix ?
-> 
-> Thanks,
-> Guenter
-> 
+> The device is an Alps GlidePoint which are usually INPUT_PROP_SEMI_MT. On
+> those devices, we don't support 3fg pinch gestures because we don't get
+> enough data to make the gestures reliable. There is no specific quirk for
+> your device otherwise, afaict.
 
-This seems to be a problem with "HID: usbhid: do not sleep when opening
-device". There is a bug report with some Logitech devices at the correct
-thread. These drivers also use hid_device_io_start and fail. Seems to me,
-this is the same problem and I retract this (not so beautiful) fix until
-this is sorted out.
+Thank you for your reply, and the explanation.
 
-Thanks,
-Marius
+Four finger gestures seem to work. At least in GNOME Shell workspaces 
+can be switched with that.
 
-> > ---
-> > v2:
-> > - fix accidentally deleted comment
-> > 
-> > ---
-> >  drivers/hwmon/corsair-cpro.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/hwmon/corsair-cpro.c b/drivers/hwmon/corsair-cpro.c
-> > index 591929ec217a..c04fac1d820f 100644
-> > --- a/drivers/hwmon/corsair-cpro.c
-> > +++ b/drivers/hwmon/corsair-cpro.c
-> > @@ -10,6 +10,7 @@
-> > 
-> >  #include <linux/bitops.h>
-> >  #include <linux/completion.h>
-> > +#include <linux/delay.h>
-> >  #include <linux/hid.h>
-> >  #include <linux/hwmon.h>
-> >  #include <linux/kernel.h>
-> > @@ -513,6 +514,7 @@ static int ccp_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> >  	init_completion(&ccp->wait_input_report);
-> > 
-> >  	hid_device_io_start(hdev);
-> > +	msleep(50); /* wait before events can be received */
-> > 
-> >  	/* temp and fan connection status only updates when device is powered on */
-> >  	ret = get_temp_cnct(ccp);
-> > --
-> > 2.28.0
-> 
+> If it's not semi-mt then it's too hard to say without more data, I'll need
+> at least the output from libinput record to figure out why (that recording
+> will contain the libinput version which also matters).
+
+Sorry for omitting that. It’s 1.16.1 now. I uploaded the logs [2].
 
 
+Kind regards,
+
+Paul
 
 
+[2]: 
+https://owww.molgen.mpg.de/~pmenzel/20200818-libinput-record-linux-5.7.10.txt
