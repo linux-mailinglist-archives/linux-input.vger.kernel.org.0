@@ -2,136 +2,229 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6320A249081
-	for <lists+linux-input@lfdr.de>; Wed, 19 Aug 2020 00:00:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48800249184
+	for <lists+linux-input@lfdr.de>; Wed, 19 Aug 2020 01:42:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726810AbgHRWAB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 18 Aug 2020 18:00:01 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:38557 "EHLO
-        wout5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726747AbgHRWAA (ORCPT
+        id S1726956AbgHRXm3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 18 Aug 2020 19:42:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53894 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726939AbgHRXm0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 18 Aug 2020 18:00:00 -0400
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id BD760B28;
-        Tue, 18 Aug 2020 17:59:58 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute7.internal (MEProxy); Tue, 18 Aug 2020 17:59:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=y
-        8z9GNr7VQO3QRqfT8wps+3wEn3hyMIuEcl+UY7cPjg=; b=MrkSXM4fhtYJwT/zQ
-        soB7M3W3Iq0NcVzYNG9LL1xPcefpC8RhGwH15zVbehk73xPVFCM6ct3xcki+iwxA
-        WXk9iuCSB/MR0DtXnZCw8e7lB9aZUfml6TZMTPmLMlQXsIWOAao7KlRTK+al05fw
-        A8usf+X4KhG7jXVd5GyxVNaSQ43vJoac+nZX8viwNXXnzUI8lpTBRbWrKQ+MknA+
-        9VgfkogLga0kFwcEFkkYjROkcCufv8aZ1IH6S28CT5etaq6YkXccBls4zXTSjpDy
-        ZE3WXpA0ZHCeCqZdAUrD9Grg8SchbxYPE6NSZedI5WyH98QN+DnTB+jAvSvKfHLs
-        RB4jw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; bh=y8z9GNr7VQO3QRqfT8wps+3wEn3hyMIuEcl+UY7cP
-        jg=; b=I7BQsp4jZhs6N0boN2GDVD00Pjm9YKEufViM8U0WuzMh/y5Oq81edMDLV
-        vOAu9xuKYck62PEieLxXoUzn3jnEQ1WmKemKVWtv6F1VVXUKyS/lRBrQrY0NjLox
-        W0zBml7FRxUqjKCWJqb1CSsXTCEypch+yYV3lS3d9RAsol0UZ50RB+RNoGMuYqPw
-        foz/TKpA4D5Dh9qwzP7zhBBNxSuRHWQfAgu3bzzXARHOKjtdbnP6mc0v2wMbGlW4
-        N8ngsLBtoEAYNzjcqbghkrquQNUbcsuhO10JWSrxVUMD5m6MldwQ/wCePMi1zjlc
-        P8ix2BC1vnyV+Qe9OiQXkW+3lDeWw==
-X-ME-Sender: <xms:XU88X26HxqUv-opd7LS8p7RZQhl_0fnAwS-XMqPFbPAx5y9frH7lXQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedruddtjedgtdeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheprfgvthgv
-    rhcujfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvg
-    htqeenucggtffrrghtthgvrhhnpeeljefhvdekhedvieekheefkeekhfelfeduleeiudeg
-    hffgieduudevhefggefhgfenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrgh
-    enucfkphepuddujedrvddtrdejuddrjeefnecuvehluhhsthgvrhfuihiivgeptdenucfr
-    rghrrghmpehmrghilhhfrhhomhepphgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrd
-    hnvght
-X-ME-Proxy: <xmx:XU88X_6ZknhaMz2xsoi-orNgyGMDu5xQUwHFNJOgwkyM_7uELH_lFw>
-    <xmx:XU88X1cdTj6Mwx3kf28e31440_E2cQ7SKcxuhiVR7RSQ1jqIwooi8g>
-    <xmx:XU88XzIUtnj6RDKVvxWrrHWrbs66mTArVBMGo8qy7EDSjw2kt-cQjw>
-    <xmx:Xk88X5nOBAzYSKxq8och77GumZnXQvM-pCXWXtBBPYFOq5aOFMFeUQ>
-Received: from koala (117-20-71-73.751447.bne.nbn.aussiebb.net [117.20.71.73])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 3AE09328005A;
-        Tue, 18 Aug 2020 17:59:55 -0400 (EDT)
-Date:   Wed, 19 Aug 2020 07:59:51 +1000
-From:   Peter Hutterer <peter.hutterer@who-t.net>
-To:     Paul Menzel <pmenzel@molgen.mpg.de>
-Cc:     Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
-        linux-input@vger.kernel.org
-Subject: Re: No pinch events with Dell laptops and Alps
-Message-ID: <20200818215951.GA2732983@koala>
-References: <8b4907c5-4af8-2a2c-bbe1-46b2be2980be@molgen.mpg.de>
- <20200716232223.GA527251@koala>
- <e2bcaf1e-2fa0-0d6e-0b51-646f1de2d206@molgen.mpg.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e2bcaf1e-2fa0-0d6e-0b51-646f1de2d206@molgen.mpg.de>
+        Tue, 18 Aug 2020 19:42:26 -0400
+Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EA4DC061342
+        for <linux-input@vger.kernel.org>; Tue, 18 Aug 2020 16:42:25 -0700 (PDT)
+Received: by mail-pl1-x64a.google.com with SMTP id t19so7394584plr.19
+        for <linux-input@vger.kernel.org>; Tue, 18 Aug 2020 16:42:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=yY1Ai/jNTj6Vw5Dv9pvJHsoPjxTtiZAJ3yPRfLnZnrc=;
+        b=BiqhlME8QDUTtH9S02XVPgc4aXak9Kd/BXz9C+GzU5fz+YaKUzRGt4T+zTOjhbzG6F
+         iHOZtKeSpy5XZtjN7Kye/cUmNGcsKrGxr0oKJ6ZR+FPZs4S4pFNz8SZcCKB1dFMnCHdQ
+         LDCLxiJapOpKg4rEEzAbVBVaXnUBFKUdCA2hmdrzs9ah+Nn4pJWAEhAZVZZaCTDbpL/v
+         M36UD9V9+fHghXl2jQ2HIH1A4Ae4gMpDO6jNE1L/C7eG4RNbOILHW6zDTX4oBGVObM+l
+         g8ib6spUc7x39PVOc1F09DLuM5VWf+3OdkmiW2cbIA6IN2bDvwCau7AaXc1HY9xPf895
+         yOVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=yY1Ai/jNTj6Vw5Dv9pvJHsoPjxTtiZAJ3yPRfLnZnrc=;
+        b=uoHNa/gxs3htrPGZg9wxBjJrHVRNjWVH6oVnLj87rs6oiDYrn3/VPJgvdERHySGmSY
+         PHPevbZKRapGvYEKeuU4JshwbH8OV7AP8LOgiqyBuynqs4YQApdstXbTQdxRaL/QTNsx
+         lLB1g4oN4OxYIZ5SElL5gwQWkd6ApQ0VoDSLS85ziqSOm37c2QufIUQxTF5iDPvVUqus
+         sE4zyjU5TFs7g9l8ADztA+8/Cf+lEZnoSDfE6rZFFDYSq+cX7Vqp9pIGOltf0lB8ku6t
+         LB+5yfgG34MJ7LYG7MaXugy/Br6iMzbNREO147GTTZbWML8rsHGVpEQzyFL7i2ro+0im
+         xNuw==
+X-Gm-Message-State: AOAM533ug+pk1lMz5J7yp8OkVsw6hBjPahax84P/OZdCJiJfEqPLyyNn
+        62LoPkBQfeIBZvSEd2HY3zvRgBroR1wp
+X-Google-Smtp-Source: ABdhPJwthDZoNP1DxXeGiF0NGBrbyivJjDqG4TqsNlTSVgOqpPIggITb8N6ZBA3M0jfzkUY61z3YXRlQMBHT
+X-Received: from furquan.mtv.corp.google.com ([2620:15c:202:1:7220:84ff:fe09:13a4])
+ (user=furquan job=sendgmr) by 2002:a17:90a:bc41:: with SMTP id
+ t1mr1735763pjv.181.1597794144834; Tue, 18 Aug 2020 16:42:24 -0700 (PDT)
+Date:   Tue, 18 Aug 2020 16:42:15 -0700
+Message-Id: <20200818234215.2255611-1-furquan@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.28.0.220.ged08abb693-goog
+Subject: [PATCH] drivers: input: Use single i2c_transfer transaction when
+ using RM_CMD_BANK_SWITCH
+From:   Furquan Shaikh <furquan@google.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        adurbin@google.com, Furquan Shaikh <furquan@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Aug 18, 2020 at 03:13:45PM +0200, Paul Menzel wrote:
-> Dear Peter,
-> 
-> 
-> Am 17.07.20 um 01:22 schrieb Peter Hutterer:
-> > On Thu, Jul 16, 2020 at 03:19:32PM +0200, Paul Menzel wrote:
-> 
-> > > On the Dell Latitude E7250 and Dell Precision 3340 I fail to get three
-> > > finger pinch events generated needed for GNOME Shell gestures [1].
-> > > 
-> > > Debian Sid/unstable with Linux 5.7.6 is running on these systems.
-> > > 
-> > >      [    1.602394] input: AlpsPS/2 ALPS GlidePoint as
-> > > /devices/platform/i8042/serio1/input/input2
-> > > 
-> > > I am only able to create swipe events. (Four finger swipe works to switch
-> > > workspaces.)
-> > > 
-> > > ```
-> > > $ sudo libinput debug-events
-> > > […]
-> > > -event1   DEVICE_ADDED     AlpsPS/2 ALPS GlidePoint          seat0 default
-> > > group10 cap:pg  size 98x51mm tap(dl off) left scroll-nat scroll-2fg-edge
-> > > dwt-on
-> > > -event2   DEVICE_ADDED     DELL Wireless hotkeys             seat0 default
-> > > group11 cap:k
-> > > event1  - AlpsPS/2 ALPS GlidePoint: kernel bug: Wrong slot count (4),
-> > > reducing to 2
-> > > -event1   GESTURE_SWIPE_BEGIN +1.549s	3
-> > >   event1   GESTURE_SWIPE_UPDATE +1.549s	3 -0.36/ 0.26 (-2.59/ 1.85
-> > > unaccelerated)
-> > > […]
-> > > ```
-> > > 
-> > > Does the hardware and driver support that?
-> > 
-> > The device is an Alps GlidePoint which are usually INPUT_PROP_SEMI_MT. On
-> > those devices, we don't support 3fg pinch gestures because we don't get
-> > enough data to make the gestures reliable. There is no specific quirk for
-> > your device otherwise, afaict.
-> 
-> Thank you for your reply, and the explanation.
-> 
-> Four finger gestures seem to work. At least in GNOME Shell workspaces can be
-> switched with that.
-> 
-> > If it's not semi-mt then it's too hard to say without more data, I'll need
-> > at least the output from libinput record to figure out why (that recording
-> > will contain the libinput version which also matters).
-> 
-> Sorry for omitting that. It’s 1.16.1 now. I uploaded the logs [2].
+On an AMD chromebook, where the same I2C bus is shared by both Raydium
+touchscreen and a trackpad device, it is observed that interleaving of
+I2C messages when raydium_i2c_read_message() is called leads to the
+Raydium touch IC reporting incorrect information. This is the sequence
+that was observed to result in the above issue:
 
-thanks. based on the log, it's not a semi-mt touchpad and has 5 slots. So gestures
-should work in theory, let's move this to a libinput bug please and continue
-there: https://gitlab.freedesktop.org/libinput/libinput/issues
+* I2C write to Raydium device for RM_CMD_BANK_SWITCH
+* I2C write to trackpad device
+* I2C read from trackpad device
+* I2C write to Raydium device for setting address
+* I2C read from Raydium device >>>> This provides incorrect
+  information
 
-Cheers,
-   Peter
+This change updates raydium_i2c_read_message and
+raydium_i2c_send_message to perform all the I2C transfers in the
+function as part of a single i2c_transfer transaction. This ensures
+that no transactions are initiated to any other device on the same bus
+in between and hence the information obtained from the touchscreen
+device is correct. Verified with the patch across multiple
+reboots (>100) that the information reported by the Raydium
+touchscreen device during probe is correct.
+
+Signed-off-by: Furquan Shaikh <furquan@google.com>
+---
+ drivers/input/touchscreen/raydium_i2c_ts.c | 102 ++++++++++++++++-----
+ 1 file changed, 80 insertions(+), 22 deletions(-)
+
+diff --git a/drivers/input/touchscreen/raydium_i2c_ts.c b/drivers/input/touchscreen/raydium_i2c_ts.c
+index fe245439adee..11c00d341eb1 100644
+--- a/drivers/input/touchscreen/raydium_i2c_ts.c
++++ b/drivers/input/touchscreen/raydium_i2c_ts.c
+@@ -111,6 +111,15 @@ struct raydium_info {
+ 	u8 y_res;		/* units/mm */
+ };
+ 
++/*
++ * Header to be sent for RM_CMD_BANK_SWITCH command. This is used by
++ * raydium_i2c_{read|send}_message below.
++ */
++struct __packed raydium_bank_switch_header {
++	u8 cmd;
++	__be32 be_addr;
++};
++
+ /* struct raydium_data - represents state of Raydium touchscreen device */
+ struct raydium_data {
+ 	struct i2c_client *client;
+@@ -198,22 +207,44 @@ static int raydium_i2c_read(struct i2c_client *client,
+ static int raydium_i2c_read_message(struct i2c_client *client,
+ 				    u32 addr, void *data, size_t len)
+ {
+-	__be32 be_addr;
+-	size_t xfer_len;
+-	int error;
++	int ret;
+ 
+ 	while (len) {
+-		xfer_len = min_t(size_t, len, RM_MAX_READ_SIZE);
+-
+-		be_addr = cpu_to_be32(addr);
++		u8 read_addr = addr & 0xff;
++		struct raydium_bank_switch_header header = {
++			.cmd = RM_CMD_BANK_SWITCH,
++			.be_addr = cpu_to_be32(addr),
++		};
++		size_t xfer_len = min_t(size_t, len, RM_MAX_READ_SIZE);
++		/*
++		 * Perform as a single i2c_transfer transaction to ensure that
++		 * no other I2C transactions are initiated on the bus to any
++		 * other device in between. Initiating transacations to other
++		 * devices after RM_CMD_BANK_SWITCH is sent is known to cause
++		 * read issues.
++		 */
++		struct i2c_msg xfer[] = {
++			{
++				.addr = client->addr,
++				.len = sizeof(header),
++				.buf = (u8 *)&header,
++			},
++			{
++				.addr = client->addr,
++				.len = 1,
++				.buf = &read_addr,
++			},
++			{
++				.addr = client->addr,
++				.flags = I2C_M_RD,
++				.len = xfer_len,
++				.buf = data,
++			}
++		};
+ 
+-		error = raydium_i2c_send(client, RM_CMD_BANK_SWITCH,
+-					 &be_addr, sizeof(be_addr));
+-		if (!error)
+-			error = raydium_i2c_read(client, addr & 0xff,
+-						 data, xfer_len);
+-		if (error)
+-			return error;
++		ret = i2c_transfer(client->adapter, xfer, ARRAY_SIZE(xfer));
++		if (ret != ARRAY_SIZE(xfer))
++			return ret < 0 ? ret : -EIO;
+ 
+ 		len -= xfer_len;
+ 		data += xfer_len;
+@@ -224,22 +255,49 @@ static int raydium_i2c_read_message(struct i2c_client *client,
+ }
+ 
+ static int raydium_i2c_send_message(struct i2c_client *client,
+-				    u32 addr, const void *data, size_t len)
++				    u32 addr, void *data, size_t len)
+ {
+-	__be32 be_addr = cpu_to_be32(addr);
+-	int error;
++	int tries = 0;
+ 
+-	error = raydium_i2c_send(client, RM_CMD_BANK_SWITCH,
+-				 &be_addr, sizeof(be_addr));
+-	if (!error)
+-		error = raydium_i2c_send(client, addr & 0xff, data, len);
++	do {
++		int ret;
++		u8 write_addr = addr & 0xff;
++		struct raydium_bank_switch_header header = {
++			.cmd = RM_CMD_BANK_SWITCH,
++			.be_addr = cpu_to_be32(addr),
++		};
++
++		struct i2c_msg xfer[] = {
++			{
++				.addr = client->addr,
++				.len = sizeof(header),
++				.buf = (u8 *)&header,
++			},
++			{
++				.addr = client->addr,
++				.len = 1,
++				.buf = &write_addr,
++			},
++			{
++				.addr = client->addr,
++				.len = len,
++				.buf = data,
++			}
++		};
+ 
+-	return error;
++		ret = i2c_transfer(client->adapter, xfer, ARRAY_SIZE(xfer));
++		if (likely(ret == ARRAY_SIZE(xfer)))
++			return 0;
++
++		msleep(20);
++	} while (++tries < RM_MAX_RETRIES);
++
++	return -EIO;
+ }
+ 
+ static int raydium_i2c_sw_reset(struct i2c_client *client)
+ {
+-	const u8 soft_rst_cmd = 0x01;
++	u8 soft_rst_cmd = 0x01;
+ 	int error;
+ 
+ 	error = raydium_i2c_send_message(client, RM_RESET_MSG_ADDR,
+-- 
+2.28.0.220.ged08abb693-goog
 
