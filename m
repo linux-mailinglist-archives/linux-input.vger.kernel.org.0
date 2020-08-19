@@ -2,225 +2,139 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89D63249A95
-	for <lists+linux-input@lfdr.de>; Wed, 19 Aug 2020 12:40:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 456DF249AD3
+	for <lists+linux-input@lfdr.de>; Wed, 19 Aug 2020 12:48:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726987AbgHSKkt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 19 Aug 2020 06:40:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43028 "EHLO
+        id S1728056AbgHSKse (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 19 Aug 2020 06:48:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726710AbgHSKks (ORCPT
+        with ESMTP id S1728013AbgHSKs3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 19 Aug 2020 06:40:48 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A800EC061757;
-        Wed, 19 Aug 2020 03:40:48 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id 74so11449353pfx.13;
-        Wed, 19 Aug 2020 03:40:48 -0700 (PDT)
+        Wed, 19 Aug 2020 06:48:29 -0400
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 910FCC061757;
+        Wed, 19 Aug 2020 03:48:28 -0700 (PDT)
+Received: by mail-ot1-x342.google.com with SMTP id h22so18666179otq.11;
+        Wed, 19 Aug 2020 03:48:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=3/taaSSwO43T3oc5wD34j8cRbsw4iP1ZjgRFOGtK5pY=;
-        b=qBYVASY5hfdMO/SvJVzfxLQw1/Q6gXb23BAjAmEMUtyiwEnzzIdAmQg7ciEpAwbhif
-         Pb6IBmQbBH109u1U1FPnmF37a3O5/gIAjr/m7Unb2NWH+HtLDjlM/M0TTPxGDOgzRokD
-         uz5VgzedAV2Nws9yOhJNUhPoU7W+Cp1uxjIHhUYenufBQ1D7iv2FCPssKcO3VchdfhyU
-         C/xInnCMLKRXSDVifWvLb8XaKVC6nTXTX6YilTZY4KdCJGlurdZESdHoH1aR1DNn60LA
-         CaNb0a9iJJ9opCES3dvNrbXKuQI4A54zsusdBX3iWYcrygReI093bAOD//NXnHYHNA+x
-         BUfA==
+         :cc;
+        bh=JFCS1wWCaky01GdCrS5KhBNLCXiKvx8eu/9Q1CWY57o=;
+        b=SAlnLFGsaJJ2xUQvXdp6/REunLAQzaLpmNpCPkhdMyKVNOL4zXoJc+uTpvFb1PLXQe
+         nN8aQpwx9KlR0QpjA0U0Eq9qCAcvJ1BkG1Pmvfae+wF16AUCkU8W0GDQheD/o4B1VrUX
+         PelVL5WwDQloIppGpod8O4LcRauK/SLT0vBKv+BhPM4L1DU+6rZBrJ0Dt0oV8Ce4u200
+         wfYajuI8k/buRZ/KOQgJS9xFj6qU+vsS6Mi/Pic5cr7hyqCbNaPaM64dCQ32B92C7zpm
+         twdkgIcY8FJxVqqD5N4bDX/Yu8aavznJiTYE5JD98MkyaozlEe8FkOVjNVcv9NBfu1pV
+         5Fgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=3/taaSSwO43T3oc5wD34j8cRbsw4iP1ZjgRFOGtK5pY=;
-        b=oTXEj9hRCM+Jok6fqa2unJMRehkSQJtEiH4u5RE29AVzAXNdSwFoLv0VCGWEy0Z/K4
-         pe+htHworPAaEQeqyECNcWu15UBORt+6AnLnNoYRrAJjHV0QkGNhWRx49gQ2W5Wx9qm4
-         bY/RQbVg1IdFypNqCZBapaDtsSLqAsBzQc/ZkWjdrg+y1gnnEPgTpHf89Pis0aJV+PjZ
-         t9MLhQTjxAVEBVHYo5dzGp7JOxkJ6FBprqm3/0o2gIODrP7FwRT6QRVkZdBbzZfNElOK
-         VHxsWl7MsooZ3PoXELcLTJdD8fm690pXru5k1AwLmeIwr32nxxXvlKZ6+I9e9+y8uWTO
-         hCgw==
-X-Gm-Message-State: AOAM533pzHQXrdLAETM6zb4VybUeczgGBH47XzX3YwFQCrwEsEK92uMm
-        qx1DQvsZTPi0N7zLIuuXSF0+SDHl992ImZqKZmI=
-X-Google-Smtp-Source: ABdhPJyANAvip0iOJNMTBHtRuxrCZ86Aso3zZki/CssCkxnZIjEtqv2jPKc1r7ECvitN+Fm7bv0h2kXjteCtz/pXE1w=
-X-Received: by 2002:a63:f24a:: with SMTP id d10mr16243315pgk.4.1597833643342;
- Wed, 19 Aug 2020 03:40:43 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=JFCS1wWCaky01GdCrS5KhBNLCXiKvx8eu/9Q1CWY57o=;
+        b=uV1mk1B8VaF8tL03zX+JPDnTfyoDnCNxK3gH+iz+/rwHDaDH4hm566X1iC7oIitBQH
+         76P+QolpXTnIPEpqoQakVKdpGCMLf9musvyF1ESa7fTgxLvxsLlpc9mPgIglJ6Kdla24
+         N8C0ll+EATzolfkBKVJR3Th4rTUbCZNC/XglL/+byfkSD3y7hRaxWENgiDBdmfdfIh7U
+         Y8u1VPbZ6UuIL0gQsEiUx/i0BCYo7UPKLblql0q/72bOZsBHTbT7d2E3QZ0r9u5OlQ0m
+         V+td2rohBLQWIW0bo8naZ0z3+W9oIiIEvVpYQg8JLKwoORrOSoCIb7L0Ar3cWHzKVTZN
+         wXTA==
+X-Gm-Message-State: AOAM532ZQXvxDI/UlAajImfHfGl6AguDlbcNSDwj79tVy7i26jUl5ncm
+        IzmhgbQKiBsqdofNGeV5Bj3KUQ6wrj+EC22/IMQ=
+X-Google-Smtp-Source: ABdhPJwYTK+IRxToH0hqhLtJ7NIIqDs8lKmtEJkzNzElCKB5MQaF3rOwIOaAYWCB8rMlfnOVuvrNcqGFlbqr+yW4gKM=
+X-Received: by 2002:a9d:128c:: with SMTP id g12mr17527086otg.242.1597834108000;
+ Wed, 19 Aug 2020 03:48:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200809102511.2657644-1-Sandeep.Singh@amd.com> <20200809102511.2657644-3-Sandeep.Singh@amd.com>
-In-Reply-To: <20200809102511.2657644-3-Sandeep.Singh@amd.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 19 Aug 2020 13:40:27 +0300
-Message-ID: <CAHp75VcOVHspaUYTGHHx++1qsWZ0NL=7qhh3avd+cK2sqoj8Ew@mail.gmail.com>
-Subject: Re: [PATCH v6 2/4] SFH: PCIe driver to add support of AMD sensor fusion
-To:     Sandeep Singh <Sandeep.Singh@amd.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "Shah, Nehal-bakulchandra" <Nehal-bakulchandra.Shah@amd.com>,
-        Richard Neumann <mail@richard-neumann.de>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Shyam-sundar.S-k@amd.com
+References: <20200817091617.28119-1-allen.cryptic@gmail.com>
+ <20200817091617.28119-2-allen.cryptic@gmail.com> <b5508ca4-0641-7265-2939-5f03cbfab2e2@kernel.dk>
+ <202008171228.29E6B3BB@keescook> <161b75f1-4e88-dcdf-42e8-b22504d7525c@kernel.dk>
+ <202008171246.80287CDCA@keescook> <df645c06-c30b-eafa-4d23-826b84f2ff48@kernel.dk>
+ <1597780833.3978.3.camel@HansenPartnership.com> <202008181309.FD3940A2D5@keescook>
+In-Reply-To: <202008181309.FD3940A2D5@keescook>
+From:   Allen <allen.lkml@gmail.com>
+Date:   Wed, 19 Aug 2020 16:18:16 +0530
+Message-ID: <CAOMdWSLi-aUeKDN8Xn-X2uW_LmWsp2n=NL3dPGiUbQKm_MxcAg@mail.gmail.com>
+Subject: Re: [PATCH] block: convert tasklets to use new tasklet_setup() API
+To:     Kees Cook <keescook@chromium.org>
+Cc:     James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Jens Axboe <axboe@kernel.dk>,
+        Allen Pais <allen.cryptic@gmail.com>, jdike@addtoit.com,
+        richard@nod.at, anton.ivanov@cambridgegreys.com, 3chas3@gmail.com,
+        stefanr@s5r6.in-berlin.de, airlied@linux.ie, daniel@ffwll.ch,
+        sre@kernel.org, kys@microsoft.com, deller@gmx.de,
+        dmitry.torokhov@gmail.com, jassisinghbrar@gmail.com,
+        shawnguo@kernel.org, s.hauer@pengutronix.de,
+        maximlevitsky@gmail.com, oakad@yahoo.com,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        mporter@kernel.crashing.org, alex.bou9@gmail.com,
+        broonie@kernel.org, martyn@welchs.me.uk, manohar.vanga@gmail.com,
+        mitch@sfgoth.com, David Miller <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, linux-um@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux1394-devel@lists.sourceforge.net,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-hyperv@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-ntb@googlegroups.com, linux-s390@vger.kernel.org,
+        linux-spi@vger.kernel.org, devel@driverdev.osuosl.org,
+        Romain Perier <romain.perier@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Aug 9, 2020 at 1:25 PM Sandeep Singh <Sandeep.Singh@amd.com> wrote:
+> > > > > > > >
+> > > > > > > > In preparation for unconditionally passing the
+> > > > > > > > struct tasklet_struct pointer to all tasklet
+> > > > > > > > callbacks, switch to using the new tasklet_setup()
+> > > > > > > > and from_tasklet() to pass the tasklet pointer explicitly.
+> > > > > > >
+> > > > > > > Who came up with the idea to add a macro 'from_tasklet' that
+> > > > > > > is just container_of? container_of in the code would be
+> > > > > > > _much_ more readable, and not leave anyone guessing wtf
+> > > > > > > from_tasklet is doing.
+> > > > > > >
+> > > > > > > I'd fix that up now before everything else goes in...
+> > > > > >
+> > > > > > As I mentioned in the other thread, I think this makes things
+> > > > > > much more readable. It's the same thing that the timer_struct
+> > > > > > conversion did (added a container_of wrapper) to avoid the
+> > > > > > ever-repeating use of typeof(), long lines, etc.
+> > > > >
+> > > > > But then it should use a generic name, instead of each sub-system
+> > > > > using some random name that makes people look up exactly what it
+> > > > > does. I'm not huge fan of the container_of() redundancy, but
+> > > > > adding private variants of this doesn't seem like the best way
+> > > > > forward. Let's have a generic helper that does this, and use it
+> > > > > everywhere.
+> > > >
+> > > > I'm open to suggestions, but as things stand, these kinds of
+> > > > treewide
+> > >
+> > > On naming? Implementation is just as it stands, from_tasklet() is
+> > > totally generic which is why I objected to it. from_member()? Not
+> > > great with naming... But I can see this going further and then we'll
+> > > suddenly have tons of these. It's not good for readability.
+> >
+> > Since both threads seem to have petered out, let me suggest in
+> > kernel.h:
+> >
+> > #define cast_out(ptr, container, member) \
+> >       container_of(ptr, typeof(*container), member)
+> >
+> > It does what you want, the argument order is the same as container_of
+> > with the only difference being you name the containing structure
+> > instead of having to specify its type.
+>
+> I like this! Shall I send this to Linus to see if this can land in -rc2
+> for use going forward?
+>
 
-> AMD SFH uses HID over PCIe bus.SFH fw is part of MP2 processor
-> (MP2 which is an ARM=C2=AE Cortex-M4 core based co-processor to x86) and
-> it runs on MP2 where in driver resides on X86. This part of module
+Cool, I shall wait for it to be accepted and then spin out V2 with cast_out()
 
-where the driver
-
-> will communicate with MP2 FW and provide that data into DRAM
-
-...
-
-> +#
-> +#
-
-One is enough.
-
-...
-
-> +#define ACEL_EN                BIT(accel_idx)
-> +#define GYRO_EN                BIT(gyro_idx)
-> +#define MAGNO_EN       BIT(mag_idx)
-> +#define ALS_EN         BIT(als_idx)
-
-What is this?
-
-...
-
-> +int amd_mp2_get_sensor_num(struct amd_mp2_dev *privdata, u8 *sensor_id)
-> +{
-> +       int activestatus, num_of_sensors =3D 0;
-> +
-
-> +       if (!sensor_id)
-> +               return -EINVAL;
-
-Is it possible?
-
-> +       privdata->activecontrolstatus =3D readl(privdata->mmio + AMD_P2C_=
-MSG3);
-> +       activestatus =3D privdata->activecontrolstatus >> 4;
-> +       if (ACEL_EN  & activestatus)
-> +               sensor_id[num_of_sensors++] =3D accel_idx;
-> +
-> +       if (GYRO_EN & activestatus)
-> +               sensor_id[num_of_sensors++] =3D gyro_idx;
-> +
-> +       if (MAGNO_EN & activestatus)
-> +               sensor_id[num_of_sensors++] =3D mag_idx;
-> +
-> +       if (ALS_EN & activestatus)
-> +               sensor_id[num_of_sensors++] =3D als_idx;
-> +
-> +       return num_of_sensors;
-> +}
-
-...
-
-> +static int amd_mp2_pci_init(struct amd_mp2_dev *privdata, struct pci_dev=
- *pdev)
-> +{
-> +       int rc;
-> +
-
-> +       pci_set_drvdata(pdev, privdata);
-
-This is better to have after initial resources were retrieved.
-
-> +       pcim_enable_device(pdev);
-
-> +       pcim_iomap_regions(pdev, BIT(2), DRIVER_NAME);
-
-Where is the error check?
-
-> +       privdata->mmio =3D pcim_iomap_table(pdev)[2];
-> +       pci_set_master(pdev);
-> +
-> +       rc =3D pci_set_dma_mask(pdev, DMA_BIT_MASK(64));
-> +       if (rc)
-> +               rc =3D pci_set_dma_mask(pdev, DMA_BIT_MASK(32));
-> +       return rc;
-> +}
-
-What is the point to have this function separated from ->probe()?
-
-...
-
-> +       rc =3D amd_sfh_hid_client_init(privdata);
-> +       if (rc)
-> +               return rc;
-> +       return 0;
-
-return amd_...(...);
-
-...
-
-> +static const struct pci_device_id amd_mp2_pci_tbl[] =3D {
-> +       { PCI_VDEVICE(AMD, PCI_DEVICE_ID_AMD_MP2) },
-
-> +       {},
-
-No comma.
-
-> +};
-
-...
-
-> +#include <linux/pci.h>
-
-I don't see any users of it in the file.
-Use forward declaration instead.
-
-> +#include <linux/types.h>
-
-...
-
-> +enum command_id {
-> +       enable_sensor =3D 1,
-> +       disable_sensor =3D 2,
-> +       stop_all_sensors =3D 8,
-
-> +       invalid_cmd =3D 0xf
-
-GENMASK()?
-(Will require bits.h)
-
-> +};
-> +
-> +enum sensor_idx {
-> +       accel_idx =3D 0,
-> +       gyro_idx =3D 1,
-> +       mag_idx =3D 2,
-> +       als_idx =3D 19
-
-+ comma.
-
-> +};
-> +
-> +struct amd_mp2_dev {
-> +       struct pci_dev *pdev;
-> +       struct amdtp_cl_data *cl_data;
-
-> +       void __iomem *mmio;
-
-Is __iomem provided by linux/types.h? Otherwise include corresponding heade=
-r.
-
-> +       u32 activecontrolstatus;
-> +};
-
---=20
-With Best Regards,
-Andy Shevchenko
+-- 
+       - Allen
