@@ -2,38 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 91E9124AAF2
-	for <lists+linux-input@lfdr.de>; Thu, 20 Aug 2020 02:07:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4109924AAE6
+	for <lists+linux-input@lfdr.de>; Thu, 20 Aug 2020 02:06:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728324AbgHTADj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 19 Aug 2020 20:03:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33430 "EHLO mail.kernel.org"
+        id S1727125AbgHTAGJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 19 Aug 2020 20:06:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33984 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728307AbgHTADg (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 19 Aug 2020 20:03:36 -0400
+        id S1728380AbgHTADz (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 19 Aug 2020 20:03:55 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4C132221E2;
-        Thu, 20 Aug 2020 00:03:35 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7EDEF21775;
+        Thu, 20 Aug 2020 00:03:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597881816;
-        bh=Rb8dpyBVkPJBOLdqZaBKluQsV2XUws3PR6snB0G3e5M=;
+        s=default; t=1597881835;
+        bh=lw1yL5+D0GFS7k/22hM9f0lnHRnDEgM0C2akrp065PU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=O+ekG0+Bq2PN2gBn2GYKHJdbqnw4EMgKcmkUuPmA9znAOAL01k0nu2AEfQkxK3JoR
-         c3t4UUPvkgOS+Qwq6klZXBLC4h+ok7p6RbEKFwpRfv3PTnQlsy+sdo7XEl7skvLVRI
-         nxoG7x1djKfMCbZC5yiD2MBGmT/q6QXl6KRN3B3k=
+        b=nYZJtHWHi3a3qGb8bI0ETDleH/SxRcQOjc8EMfVx+2hCp8QeL6Xmhxc317FTriLms
+         wZCvtluoCMZhSxnmeo0XbdFkOgpkI9/T8vOFkn0ot//GspC72eWR146lXSnaNMFLpt
+         GijgnQINZGPN+eYtvyQiEQ5aoDqD6YwkK3h+NfTM=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Xiongfeng Wang <wangxiongfeng2@huawei.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 05/13] Input: psmouse - add a newline when printing 'proto' by sysfs
-Date:   Wed, 19 Aug 2020 20:03:20 -0400
-Message-Id: <20200820000328.215755-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 04/11] Input: psmouse - add a newline when printing 'proto' by sysfs
+Date:   Wed, 19 Aug 2020 20:03:41 -0400
+Message-Id: <20200820000348.215911-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200820000328.215755-1-sashal@kernel.org>
-References: <20200820000328.215755-1-sashal@kernel.org>
+In-Reply-To: <20200820000348.215911-1-sashal@kernel.org>
+References: <20200820000348.215911-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -62,10 +62,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/input/mouse/psmouse-base.c b/drivers/input/mouse/psmouse-base.c
-index 8ac9e03c05b45..ca8f726dab2e7 100644
+index 5cbf17aa84439..597ecae02c405 100644
 --- a/drivers/input/mouse/psmouse-base.c
 +++ b/drivers/input/mouse/psmouse-base.c
-@@ -2012,7 +2012,7 @@ static int psmouse_get_maxproto(char *buffer, const struct kernel_param *kp)
+@@ -1909,7 +1909,7 @@ static int psmouse_get_maxproto(char *buffer, const struct kernel_param *kp)
  {
  	int type = *((unsigned int *)kp->arg);
  
