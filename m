@@ -2,78 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D26624AAC0
-	for <lists+linux-input@lfdr.de>; Thu, 20 Aug 2020 02:05:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 060B124C31E
+	for <lists+linux-input@lfdr.de>; Thu, 20 Aug 2020 18:13:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728502AbgHTAEo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 19 Aug 2020 20:04:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34470 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728420AbgHTAEM (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 19 Aug 2020 20:04:12 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 71B4C2184D;
-        Thu, 20 Aug 2020 00:04:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1597881851;
-        bh=zzPswJhfQd/4W/b2P8W2qrcTfu+qr2gLdqmk0us4tzs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=vWPLof0mUWqoTxzuNl6xTMUK/S5QAutenDfK5ZaVwPK5hBLJ1EsyP0xJ76LweuhCz
-         DFDudgq9ci2qNXri36R4FFvWkGprguHlwdCZ3Kg8UNWE99rRLB4v/vNPyO+2Sw1NJ3
-         eLziqsYClIypTpT+bKzDaO5V17dqLCQjbLn0rb0o=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Xiongfeng Wang <wangxiongfeng2@huawei.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 03/10] Input: psmouse - add a newline when printing 'proto' by sysfs
-Date:   Wed, 19 Aug 2020 20:03:59 -0400
-Message-Id: <20200820000406.216050-3-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200820000406.216050-1-sashal@kernel.org>
-References: <20200820000406.216050-1-sashal@kernel.org>
+        id S1729836AbgHTQNL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 20 Aug 2020 12:13:11 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:27756 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729474AbgHTQMJ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 20 Aug 2020 12:12:09 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 07KG14bW119116;
+        Thu, 20 Aug 2020 12:11:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=B/woJmbaBhftP0bFrk9uDS8GLJjz5yJGm5+afF2Vppo=;
+ b=eo2PKQWLHbsSf32pn/d1DXhxM1lL9aB7XWwtC62V9FzeEJn8c/Z/Djs7OsZaEBMJTNQQ
+ cxDiHBK3+kv8qLUqxDKJzutvP3v8hegLpbE3LzBLQN+9sXlmY8+a2RNkY3BePVV5kNZC
+ b2eDrDaW3pTU6bnBR8xw87v9819P23fUSbx2wVCnPA0AoQP3l2xtgaGvlebRtSrT3zeZ
+ eDLnJkXaWmV5sZjDJ26KbvZtV1lauuTLX3imTA3uSSIJJZzO7nXyI6djPzGb5vVOBXAI
+ F1v2P09FpvGjvsLXt5ibImNj+hPS2YTaLhgi6mLpY/qU4r5/X+wORVsrBnhkDAjt3t5f 7Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 331tkwmhqk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 20 Aug 2020 12:11:55 -0400
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 07KG15Xx119151;
+        Thu, 20 Aug 2020 12:11:55 -0400
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com [169.47.144.26])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 331tkwmhq2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 20 Aug 2020 12:11:55 -0400
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+        by ppma04wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 07KGAhX3019319;
+        Thu, 20 Aug 2020 16:11:54 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com [9.57.198.28])
+        by ppma04wdc.us.ibm.com with ESMTP id 3304uewejr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 20 Aug 2020 16:11:54 +0000
+Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com [9.57.199.109])
+        by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 07KGBsb955509490
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 20 Aug 2020 16:11:54 GMT
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id F2920112062;
+        Thu, 20 Aug 2020 16:11:53 +0000 (GMT)
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id B9E09112061;
+        Thu, 20 Aug 2020 16:11:52 +0000 (GMT)
+Received: from SHADE6A.ibmuc.com (unknown [9.163.70.74])
+        by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
+        Thu, 20 Aug 2020 16:11:52 +0000 (GMT)
+From:   Eddie James <eajames@linux.ibm.com>
+To:     linux-input@vger.kernel.org
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-aspeed@lists.ozlabs.org, linux-i2c@vger.kernel.org,
+        joel@jms.id.au, andrew@aj.id.au, benh@kernel.crashing.org,
+        brendanhiggins@google.com, dmitry.torokhov@gmail.com,
+        robh+dt@kernel.org, eajames@linux.ibm.com
+Subject: [PATCH 0/5] input: misc: Add IBM Operation Panel driver
+Date:   Thu, 20 Aug 2020 11:11:47 -0500
+Message-Id: <20200820161152.22751-1-eajames@linux.ibm.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-08-20_03:2020-08-19,2020-08-20 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
+ lowpriorityscore=0 mlxlogscore=999 suspectscore=1 priorityscore=1501
+ mlxscore=0 spamscore=0 impostorscore=0 clxscore=1011 bulkscore=0
+ phishscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2006250000 definitions=main-2008200127
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Xiongfeng Wang <wangxiongfeng2@huawei.com>
+This series adds support for input from the IBM Operation Panel, which is
+a simple controller with three buttons and an LCD display meant for
+interacting with a server. It's connected over I2C. This series only
+supports the input from the panel, in which the panel masters the I2C bus
+and sends data to the host system when someone presses a button on the
+controller.
 
-[ Upstream commit 4aec14de3a15cf9789a0e19c847f164776f49473 ]
+Eddie James (5):
+  dt-bindings: input: Add documentation for IBM Operation Panel
+  input: misc: Add IBM Operation Panel driver
+  i2c: aspeed: Mask IRQ status to relevant bits
+  ARM: dts: Aspeed: Tacoma: Add IBM Operation Panel I2C device
+  ARM: dts: Aspeed: Rainier: Add IBM Operation Panel I2C device
 
-When I cat parameter 'proto' by sysfs, it displays as follows. It's
-better to add a newline for easy reading.
+ .../bindings/input/ibm,op-panel.yaml          |  38 ++++
+ MAINTAINERS                                   |   7 +
+ arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts  |   6 +
+ arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts   |   6 +
+ drivers/i2c/busses/i2c-aspeed.c               |   1 +
+ drivers/input/misc/Kconfig                    |  10 +
+ drivers/input/misc/Makefile                   |   1 +
+ drivers/input/misc/ibm-panel.c                | 186 ++++++++++++++++++
+ 8 files changed, 255 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/ibm,op-panel.yaml
+ create mode 100644 drivers/input/misc/ibm-panel.c
 
-root@syzkaller:~# cat /sys/module/psmouse/parameters/proto
-autoroot@syzkaller:~#
-
-Signed-off-by: Xiongfeng Wang <wangxiongfeng2@huawei.com>
-Link: https://lore.kernel.org/r/20200720073846.120724-1-wangxiongfeng2@huawei.com
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/input/mouse/psmouse-base.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/input/mouse/psmouse-base.c b/drivers/input/mouse/psmouse-base.c
-index ad18dab0ac476..5bd9633541b07 100644
---- a/drivers/input/mouse/psmouse-base.c
-+++ b/drivers/input/mouse/psmouse-base.c
-@@ -1911,7 +1911,7 @@ static int psmouse_get_maxproto(char *buffer, const struct kernel_param *kp)
- {
- 	int type = *((unsigned int *)kp->arg);
- 
--	return sprintf(buffer, "%s", psmouse_protocol_by_type(type)->name);
-+	return sprintf(buffer, "%s\n", psmouse_protocol_by_type(type)->name);
- }
- 
- static int __init psmouse_init(void)
 -- 
-2.25.1
+2.26.2
 
