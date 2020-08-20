@@ -2,128 +2,184 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5879224C53B
-	for <lists+linux-input@lfdr.de>; Thu, 20 Aug 2020 20:23:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D0ED24C7E3
+	for <lists+linux-input@lfdr.de>; Fri, 21 Aug 2020 00:45:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727000AbgHTSXG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 20 Aug 2020 14:23:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54810 "EHLO
+        id S1728368AbgHTWp5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 20 Aug 2020 18:45:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726980AbgHTSXF (ORCPT
+        with ESMTP id S1728268AbgHTWp4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 20 Aug 2020 14:23:05 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F35FC061385
-        for <linux-input@vger.kernel.org>; Thu, 20 Aug 2020 11:23:05 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id v16so1429978plo.1
-        for <linux-input@vger.kernel.org>; Thu, 20 Aug 2020 11:23:05 -0700 (PDT)
+        Thu, 20 Aug 2020 18:45:56 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AA49C061385;
+        Thu, 20 Aug 2020 15:45:55 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id mt12so84225pjb.4;
+        Thu, 20 Aug 2020 15:45:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=kbszBGgjsbitgBGgnejD2ZVR4Pkz4+YIZ1Q0UhyD9w0=;
-        b=clIbmqGrdZLBksucSVrBJ9g4Q9EZ15QvHVvSesghyh7kNN4uHzZCfN0NUO/X6RqxB9
-         Cl7zdDUuzSvM0WpZdx7wFmlTdC8sfuGXqDMrP1cydImqRmjzZZurafR6r4+OY+HYZJIR
-         tm4g3srlap5XDKZtupOcSkHHpzSffwPWpToz+1WxA/8OLTfQBIa4WfgVhUWWtF+OaMum
-         qreFkLPZ9V/pbGdSsDAk2cyTst2mFvljaCdrJAxQ3XGvD57Nkkm3rSdLCJyXpjk+XdrH
-         CytbIMF46OpWO239MR3+GiQP+PhrzGWvE8dgKhRGKzrRvMAR322PWO4ewZpAG253LhGP
-         dfIQ==
+         :content-disposition:in-reply-to;
+        bh=vv2JBZBzbyS5oyQ6tWaHzLVDVGLLdMyl4CPDOQIBTk0=;
+        b=f57WA+Di9w9m8gTLKX8nnMEXtaJgKWJhoyZ34CF6T9axYgkjDWzUSjTqE6QODQv/kW
+         oTCRKD+WZenW1kyzY67ehADNCkdwxOXipQnYrYg9X1pjMp6YcFA3A7QXtxCNdHpXJWjq
+         207lDuYDk3DjYSD13iDYXP3v4KAVslQKDYLdpLsFHhJy9y5M5wg4+HekN0JwTh6nY0rg
+         PGJRL51NdJAZHJvqlDPguu5o5Ob+fkdkEZcO6T6mBainj9+8Ikn1eeFGcK6aJKnMlsWR
+         stmh7R96QnZXk252iCyd6++FSAkiDA6lj+J0zoNWRGP/+tKeLttm2G4I1rQdzNNr2gAj
+         Idgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=kbszBGgjsbitgBGgnejD2ZVR4Pkz4+YIZ1Q0UhyD9w0=;
-        b=kN9B2TPYgdDdxjlvDMxhVfy0JoNYSU7Ykc/ooyTn/fU5KLKl5VV2e64xS0lsVb5Fst
-         PXVNlwcxaDJLEVIt+CruLPMA1xEVnhG31qGoQ7pyGyd4L1SBZTzQ89d4kLJat8+1WmH1
-         1wr97xT2fUt1t1CkwgbpzzNe1zjDghjViyiy/v0CnZGp2p2C2N/4UHUK9xK2sEcR/hwi
-         5ZZzVawVoNLUOS3yNzfaACeEz3pCih3/Mp3PEoSgbX4cAwnayJBKBZdRUVign2QrrAAd
-         VYKY9DJMRw53+FjoMixNmplwbaCymTPUyvvSzJX3UHm4e4h4NnwogS5EErODkrsSEtCe
-         disg==
-X-Gm-Message-State: AOAM530KS7SXveHORzwLKJfbrOX6PcphLZ2RupypsumQ4dcT7zSHYldZ
-        j/wPHSWt/XJ3zMt7KJUMF9k=
-X-Google-Smtp-Source: ABdhPJwCGxV9PRm1fAFYiWqLYpFR4/ZCoO7wgtCM1b/gGr7PitJDkqhZqCigahIRHw9Mr8shLIa2og==
-X-Received: by 2002:a17:902:ff0d:: with SMTP id f13mr74318plj.145.1597947784697;
-        Thu, 20 Aug 2020 11:23:04 -0700 (PDT)
-Received: from frank-MS-7C02 ([211.245.188.120])
-        by smtp.gmail.com with ESMTPSA id y128sm3475008pfy.74.2020.08.20.11.23.03
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 20 Aug 2020 11:23:04 -0700 (PDT)
-Date:   Fri, 21 Aug 2020 03:23:01 +0900
-From:   Frank Yang <puilp0502@gmail.com>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     linux-input@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH] HID: Support Varmilo Keyboards' media hotkeys
-Message-ID: <20200820182301.GA23223@frank-MS-7C02>
-References: <20200729135341.16799-1-puilp0502@gmail.com>
- <nycvar.YFH.7.76.2008171202130.27422@cbobk.fhfr.pm>
+         :mime-version:content-disposition:in-reply-to;
+        bh=vv2JBZBzbyS5oyQ6tWaHzLVDVGLLdMyl4CPDOQIBTk0=;
+        b=g+UeW6F/dCNaKAKX333U3//f4bXaDyuYA4mBrZNgRDPSqI0fBtdLb0uTso0NPWXZGz
+         S1OM58hJQhnS5fnT3fBkRfdgbSsniYCYmbC5qD8GMB/k75t/rRt5rxFIdLeDOr71X3O3
+         ZiKMtOGX6SmiISPinOpkAJx077XWXXpu4OaVyIStH2LNctQZW9JvLAyCfD5iJhGMWikY
+         faUbmcWhBv+uN9+3G6B75dqqmyE9agzgjF/1yhlA9fba4LUhlPETE9KKiecukvxngasn
+         dJg2oCjNQMk0c9skdhy+0Z8JR4NZ/KIaLzQ/6US5iZqeZYIQRppnUyzFc29CN7BCL22f
+         01qw==
+X-Gm-Message-State: AOAM5329iFPR+Mp/Ol/dzqDkoMaW6ZqyjnY48OGmElvhx7ksq8XbQi/k
+        bTau8mSlDH+kK+DU25pozwE=
+X-Google-Smtp-Source: ABdhPJxqMHsYAJSwsyvLQM5pRnXiVHCtX9mKqHRg3De3OQdBFA2DPtvByVzDIYZdfjB+KpOCK4yo/w==
+X-Received: by 2002:a17:90b:2083:: with SMTP id hb3mr4673pjb.234.1597963554729;
+        Thu, 20 Aug 2020 15:45:54 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id x28sm108995pfj.73.2020.08.20.15.45.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Aug 2020 15:45:53 -0700 (PDT)
+Date:   Thu, 20 Aug 2020 15:45:51 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Furquan Shaikh <furquan@google.com>
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        adurbin@google.com
+Subject: Re: [PATCH] drivers: input: Use single i2c_transfer transaction when
+ using RM_CMD_BANK_SWITCH
+Message-ID: <20200820224551.GX1665100@dtor-ws>
+References: <20200818234215.2255611-1-furquan@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <nycvar.YFH.7.76.2008171202130.27422@cbobk.fhfr.pm>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20200818234215.2255611-1-furquan@google.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Aug 17, 2020 at 12:03:26PM +0200, Jiri Kosina wrote:
-> On Wed, 29 Jul 2020, Frank Yang wrote:
-> 
-> > The Varmilo VA104M Keyboard (04b4:07b1, reported as Varmilo Z104M)
-> > exposes media control hotkeys as a USB HID consumer control device,
-> > but these keys do not work in the current (5.8-rc1) kernel due to
-> > the incorrect HID report descriptor. Fix the problem by modifying
-> > the internal HID report descriptor.
-> > 
-> > More specifically, the keyboard report descriptor specifies the
-> > logical boundary as 572~10754 (0x023c ~ 0x2a02) while the usage
-> > boundary is specified as 0~10754 (0x00 ~ 0x2a02). This results in an
-> > incorrect interpretation of input reports, causing inputs to be ignored.
-> > By setting the Logical Minimum to zero, we align the logical boundary
-> > with the Usage ID boundary.
-> > 
-> > Some notes:
-> > 
-> > * There seem to be multiple variants of the VA104M keyboard. This
-> >   patch specifically targets 04b4:07b1 variant.
-> > 
-> > * The device works out-of-the-box on Windows platform with the generic
-> >   consumer control device driver (hidserv.inf). This suggests that
-> >   Windows either ignores the Logical Minimum/Logical Maximum or
-> >   interprets the Usage ID assignment differently from the linux
-> >   implementation; Maybe there are other devices out there that only
-> >   works on Windows due to this problem?
-> > 
-> > Signed-off-by: Frank Yang <puilp0502@gmail.com>
-> > ---
-> >  drivers/hid/Kconfig       |  6 ++++
-> >  drivers/hid/Makefile      |  1 +
-> >  drivers/hid/hid-ids.h     |  2 ++
-> >  drivers/hid/hid-varmilo.c | 58 +++++++++++++++++++++++++++++++++++++++
-> 
-> Hi Frank,
-> 
-> thanks for the patch.
-> 
-> Given the fact that the device presents itself with CYPRESS VID (0x04b4, 
-> 'officially' assigned to cypress), can we avoid creating extra driver, and 
-> rather extend hid-cypress.c with this quirk, please?
-> 
-> Thanks,
-> 
-> -- 
-> Jiri Kosina
-> SUSE Labs
-> 
-Hi Jiri,
+Hi Furquan,
 
-thanks for your comment.
+On Tue, Aug 18, 2020 at 04:42:15PM -0700, Furquan Shaikh wrote:
+> On an AMD chromebook, where the same I2C bus is shared by both Raydium
+> touchscreen and a trackpad device, it is observed that interleaving of
+> I2C messages when raydium_i2c_read_message() is called leads to the
+> Raydium touch IC reporting incorrect information. This is the sequence
+> that was observed to result in the above issue:
+> 
+> * I2C write to Raydium device for RM_CMD_BANK_SWITCH
+> * I2C write to trackpad device
+> * I2C read from trackpad device
+> * I2C write to Raydium device for setting address
+> * I2C read from Raydium device >>>> This provides incorrect
+>   information
+> 
+> This change updates raydium_i2c_read_message and
+> raydium_i2c_send_message to perform all the I2C transfers in the
+> function as part of a single i2c_transfer transaction. This ensures
+> that no transactions are initiated to any other device on the same bus
+> in between and hence the information obtained from the touchscreen
+> device is correct. Verified with the patch across multiple
+> reboots (>100) that the information reported by the Raydium
+> touchscreen device during probe is correct.
+> 
+> Signed-off-by: Furquan Shaikh <furquan@google.com>
+> ---
+>  drivers/input/touchscreen/raydium_i2c_ts.c | 102 ++++++++++++++++-----
+>  1 file changed, 80 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/input/touchscreen/raydium_i2c_ts.c b/drivers/input/touchscreen/raydium_i2c_ts.c
+> index fe245439adee..11c00d341eb1 100644
+> --- a/drivers/input/touchscreen/raydium_i2c_ts.c
+> +++ b/drivers/input/touchscreen/raydium_i2c_ts.c
+> @@ -111,6 +111,15 @@ struct raydium_info {
+>  	u8 y_res;		/* units/mm */
+>  };
+>  
+> +/*
+> + * Header to be sent for RM_CMD_BANK_SWITCH command. This is used by
+> + * raydium_i2c_{read|send}_message below.
+> + */
+> +struct __packed raydium_bank_switch_header {
+> +	u8 cmd;
+> +	__be32 be_addr;
+> +};
 
-As you stated, I have sent the updated patch which extends hid-cypress.c 
-instead of creating new driver.
+I believe the preferred placement of __packed attribute is after the
+definition:
 
-Thanks,
+dtor@dtor-ws:~/kernel/work $ git grep "struct __packed" | wc -l
+210
+dtor@dtor-ws:~/kernel/work $ git grep "} __packed" | wc -l
+8718
 
-Frank
+> +
+>  /* struct raydium_data - represents state of Raydium touchscreen device */
+>  struct raydium_data {
+>  	struct i2c_client *client;
+> @@ -198,22 +207,44 @@ static int raydium_i2c_read(struct i2c_client *client,
+>  static int raydium_i2c_read_message(struct i2c_client *client,
+>  				    u32 addr, void *data, size_t len)
+>  {
+> -	__be32 be_addr;
+> -	size_t xfer_len;
+> -	int error;
+> +	int ret;
+>  
+>  	while (len) {
+> -		xfer_len = min_t(size_t, len, RM_MAX_READ_SIZE);
+> -
+> -		be_addr = cpu_to_be32(addr);
+> +		u8 read_addr = addr & 0xff;
+> +		struct raydium_bank_switch_header header = {
+> +			.cmd = RM_CMD_BANK_SWITCH,
+> +			.be_addr = cpu_to_be32(addr),
+> +		};
+> +		size_t xfer_len = min_t(size_t, len, RM_MAX_READ_SIZE);
+> +		/*
+> +		 * Perform as a single i2c_transfer transaction to ensure that
+> +		 * no other I2C transactions are initiated on the bus to any
+> +		 * other device in between. Initiating transacations to other
+> +		 * devices after RM_CMD_BANK_SWITCH is sent is known to cause
+> +		 * read issues.
+> +		 */
+> +		struct i2c_msg xfer[] = {
+> +			{
+> +				.addr = client->addr,
+> +				.len = sizeof(header),
+> +				.buf = (u8 *)&header,
+> +			},
+> +			{
+> +				.addr = client->addr,
+> +				.len = 1,
+> +				.buf = &read_addr,
+> +			},
+> +			{
+> +				.addr = client->addr,
+> +				.flags = I2C_M_RD,
+> +				.len = xfer_len,
+> +				.buf = data,
+> +			}
+> +		};
 
+I think this can be moved out of while loop.
+
+I also wonder if this can be actually combined with raydium_i2c_read().
+As far as I understand read/writes to register above 255 require
+page select write, so we can always prepare the header and then submit
+either 3 or 2 messages in the transfer depending on the register we are
+dealing with. Or maybe convert to regmap?
+
+Thanks.
+
+-- 
+Dmitry
