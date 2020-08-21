@@ -2,132 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 196EC24D000
-	for <lists+linux-input@lfdr.de>; Fri, 21 Aug 2020 09:54:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D69D24D076
+	for <lists+linux-input@lfdr.de>; Fri, 21 Aug 2020 10:21:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726864AbgHUHyP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Aug 2020 03:54:15 -0400
-Received: from esa1.mentor.iphmx.com ([68.232.129.153]:13624 "EHLO
-        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726332AbgHUHyP (ORCPT
+        id S1726661AbgHUIVe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Aug 2020 04:21:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43636 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725965AbgHUIVd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Aug 2020 03:54:15 -0400
-IronPort-SDR: yzNhsuSSV0B8OK3RkOANU3f40vNgU8caL20gxHd8zoP74ZxDMMwefx1f/r56fkHdpfCrb7PI3z
- wXuPnbYDKg2+ri603NXYKyfK1DHl7ovURSMfefdg5KkamWofq3rwRTmjssPmvnkQNGgiyIjCwl
- HVcMK3cJLzRYcUAZxHqH78an5I1Rl3ZPzi4LK3YlWNnfPQVytZjV1Qo4/VSGrzU/8JJ3ZCH9f0
- kxPtE0u/1vTZKWKlcoruMXnxhF53kQ0z+fIkxcthWlET2eDY47bfuUoy0it8PtfcfXAAoXF9W/
- scI=
-X-IronPort-AV: E=Sophos;i="5.76,335,1592899200"; 
-   d="scan'208";a="54312160"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa1.mentor.iphmx.com with ESMTP; 20 Aug 2020 23:54:14 -0800
-IronPort-SDR: qaDJMqQQKyTH7cROx7wpVxlJglhg+ml5ejMoE4dTm1nAzm8/Yoqbfzlj8wSmDQaaNvvQlWR1O3
- tHiz4GED1XbgeL9yOv+HSJnfeerUzz4j65jReP5xqp58WUvGpayErabGAz+3HRTytwVbiW9vBp
- qaOGSm5TuSpqnhFYCQoPGKOciiS6KPXEL93sHeCPxVwSjOyVrJgnWlrtZATztgCLL9fyVoKL2f
- umjndRe5N0szpDanBKFC4Tq+IdWEOeaqqcsnFwLG0MLqpKGGglRduBsfsPN/GBI9L997onXN9s
- uKI=
-From:   Jiada Wang <jiada_wang@mentor.com>
-To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
-        <digetx@gmail.com>, <jiada_wang@mentor.com>
-Subject: [PATCH v2 1/1] Input: atmel_mxt_ts - allow specification of firmware file name
-Date:   Fri, 21 Aug 2020 16:54:10 +0900
-Message-ID: <20200821075410.8250-1-jiada_wang@mentor.com>
-X-Mailer: git-send-email 2.17.1
+        Fri, 21 Aug 2020 04:21:33 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C218C061385;
+        Fri, 21 Aug 2020 01:21:33 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: eballetbo)
+        with ESMTPSA id 5BC6E29AED4
+Subject: Re: [PATCH v4 0/7] platform/chrome: cros_ec_proto: Convert EC error
+ codes to Linux error codes
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Lee Jones <lee.jones@linaro.org>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Brian Norris <briannorris@chromium.org>,
+        Yu-Hsuan Hsu <yuhsuan@chromium.org>,
+        Prashant Malani <pmalani@chromium.org>,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200806153308.204605-1-linux@roeck-us.net>
+From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <0dfbce79-0413-de27-a2cb-a687ab2fd9d8@collabora.com>
+Date:   Fri, 21 Aug 2020 10:21:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20200806153308.204605-1-linux@roeck-us.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Nick Dyer <nick.dyer@itdev.co.uk>
+Hi Guenter et all,
 
-On platforms which have multiple device instances using this driver, the
-firmware may be different on each device. This patch makes the user give
-the name of the firmware file when flashing.
+On 6/8/20 17:33, Guenter Roeck wrote:
+> The EC reports a variety of error codes. Most of those, with the exception
+> of EC_RES_INVALID_VERSION, are converted to -EPROTO. As result, the actual
+> error code gets lost. In cros_ec_cmd_xfer_status(), convert all EC errors
+> to Linux error codes to report a more meaningful error to the caller to aid
+> debugging.
+> 
+> To prepare for this change, handle error codes other than -EPROTO for all
+> callers of cros_ec_cmd_xfer_status(). Specifically, no longer assume that
+> -EPROTO reflects an error from the EC and all other error codes reflect a
+> transfer error.
+> 
+> v2: Add patches 1/4 to 3/4 to handle callers of cros_ec_cmd_xfer_status()
+> v3: Add patches 4/6 and 5/6 to handle additional callers of
+> 	cros_ec_cmd_xfer_status()
+>     Use -ENOPROTOOPT for EC_RES_INVALID_VERSION
+>     Implement function to convert error codes
+> v4: Add coments describing the functionality of cros_ec_num_pwms().
+>     Add patch 7/7 to clean up cros_ec_num_pwms() after the new error code
+>     support has been implemented.
+>     Rebased series to v5.8.
+> 
+> ----------------------------------------------------------------
+> Guenter Roeck (7):
+>       iio: cros_ec: Accept -EOPNOTSUPP as 'not supported' error code
+>       cros_ec_lightbar: Accept more error codes from cros_ec_cmd_xfer_status
+>       platform/chrome: cros_ec_sysfs: Report range of error codes from EC
+>       pwm: cros-ec: Accept more error codes from cros_ec_cmd_xfer_status
+>       platform/input: cros_ec: Replace -ENOTSUPP with -ENOPROTOOPT
+>       platform/chrome: cros_ec_proto: Convert EC error codes to Linux error codes
+>       pwm: cros-ec: Simplify EC error handling
+> 
+>  .../iio/common/cros_ec_sensors/cros_ec_sensors.c   |  2 +-
+>  drivers/input/keyboard/cros_ec_keyb.c              |  2 +-
+>  drivers/platform/chrome/cros_ec_lightbar.c         | 10 ++---
+>  drivers/platform/chrome/cros_ec_proto.c            | 52 +++++++++++++++++-----
+>  drivers/platform/chrome/cros_ec_sysfs.c            | 24 ++++------
+>  drivers/pwm/pwm-cros-ec.c                          | 37 +++++++--------
+>  6 files changed, 74 insertions(+), 53 deletions(-)
+> 
 
-If user specified firmware file can't be found, then driver will try to
-flash default firmware "maxtouch.fw".
+The patches LGTM, and if the other maintainers are fine, I'd like to queue all
+these through the chrome-platform tree.
 
-Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
-Acked-by: Benson Leung <bleung@chromium.org>
-Acked-by: Yufeng Shen <miletus@chromium.org>
-(cherry picked from ndyer/linux/for-upstream commit 76ebb7cee971cb42dfb0a3a9224403b8b09abcf1)
-[gdavis: Forward port and fix conflicts.]
-Signed-off-by: George G. Davis <george_davis@mentor.com>
-[jiada: change to flash default firmware file, when user specified firmware can't be found]
-Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
----
- drivers/input/touchscreen/atmel_mxt_ts.c | 33 +++++++++++++++++++++++-
- 1 file changed, 32 insertions(+), 1 deletion(-)
+I noticed, thought, that KernelCI reported a regression on Kevin that I'll try
+to debug at the beginning of next week.
 
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index a2189739e30f..a20bc1bf8d52 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -34,6 +34,7 @@
- #define MXT_FW_NAME		"maxtouch.fw"
- #define MXT_CFG_NAME		"maxtouch.cfg"
- #define MXT_CFG_MAGIC		"OBP_RAW V1"
-+#define MAX_FILENAME_SIZE	64
- 
- /* Registers */
- #define MXT_OBJECT_START	0x07
-@@ -308,6 +309,7 @@ struct mxt_data {
- 	struct t7_config t7_cfg;
- 	struct mxt_dbg dbg;
- 	struct gpio_desc *reset_gpio;
-+	char fw_name[MAX_FILENAME_SIZE];
- 
- 	/* Cached parameters from object table */
- 	u16 T5_address;
-@@ -2887,6 +2889,26 @@ static int mxt_load_fw(struct device *dev, const char *fn)
- 	return ret;
- }
- 
-+static int mxt_update_file_name(struct device *dev, char *file_name,
-+				const char *buf, size_t count)
-+{
-+	size_t len = count;
-+
-+	/* Echo into the sysfs entry may append newline at the end of buf */
-+	if (buf[count - 1] == '\n')
-+		len = count - 1;
-+
-+	/* Simple sanity check */
-+	if (len > MAX_FILENAME_SIZE - 1) {
-+		dev_warn(dev, "File name too long\n");
-+		return -EINVAL;
-+	}
-+
-+	strscpy(file_name, buf, len + 1);
-+
-+	return 0;
-+}
-+
- static ssize_t mxt_update_fw_store(struct device *dev,
- 					struct device_attribute *attr,
- 					const char *buf, size_t count)
-@@ -2894,7 +2916,16 @@ static ssize_t mxt_update_fw_store(struct device *dev,
- 	struct mxt_data *data = dev_get_drvdata(dev);
- 	int error;
- 
--	error = mxt_load_fw(dev, MXT_FW_NAME);
-+	error = mxt_update_file_name(dev, data->fw_name, buf, count);
-+	if (error)
-+		return error;
-+
-+	error = mxt_load_fw(dev, data->fw_name);
-+	if (error) {
-+		dev_warn(dev, "try %s instead\n", MXT_FW_NAME);
-+		error = mxt_load_fw(dev, MXT_FW_NAME);
-+	}
-+
- 	if (error) {
- 		dev_err(dev, "The firmware update failed(%d)\n", error);
- 		count = error;
--- 
-2.17.1
+[    3.821203] cros-ec-spi spi2.0: Wrong size 1/3: 0 != 4
+[    3.827320] cros-ec-keyb ff200000.spi:ec@0:keyboard-controller: cannot
+register non-matrix inputs: -71
+[    3.838506] cros-ec-keyb: probe of ff200000.spi:ec@0:keyboard-controller
+failed with error -71
+[    3.853492] cros-ec-spi spi2.0: Chrome EC device registered
 
+Thanks,
+ Enric
