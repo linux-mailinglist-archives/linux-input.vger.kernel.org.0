@@ -2,150 +2,196 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2C5D24D07A
-	for <lists+linux-input@lfdr.de>; Fri, 21 Aug 2020 10:23:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AB1D24D238
+	for <lists+linux-input@lfdr.de>; Fri, 21 Aug 2020 12:24:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726433AbgHUIXB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Aug 2020 04:23:01 -0400
-Received: from esa3.mentor.iphmx.com ([68.232.137.180]:39326 "EHLO
-        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725965AbgHUIXA (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Aug 2020 04:23:00 -0400
-IronPort-SDR: Sy5QkxelKPra9kgqZ6XyrSLWNWtERVhivdWM6P4neqKCf8S2SRGamuHainYqf1ULdFYLCidyue
- QJqrl4IC+9PDqn43v9azRtH2BwBstXqHryHvT81zoqNcD1ELPIlWhnrn9+8RgTf41cdSAoeUDU
- UdH5YiO9oWpoUl4L8319jzPwfigSIaAamLSysZdy/l/Y4mRGzqNYbCf0g6V8twMjoIpR56nZZG
- 02E5xwBmvj16kmWcIk67BC42X4nFgZp5sonF9q23xWivurxKuqdml5XwjhpVMN79wOPz5vzAsr
- X84=
-X-IronPort-AV: E=Sophos;i="5.76,335,1592899200"; 
-   d="scan'208";a="52116004"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa3.mentor.iphmx.com with ESMTP; 21 Aug 2020 00:22:59 -0800
-IronPort-SDR: mOYjkXWjHE3zR6aa97XmiX6DyhHEDhZ0360Yp/5HdCctKOsktkOSLw+c7FiUhmJwF2rHrOt8wL
- UWz6yJX11cUgvVZVkCaHcpeIsu12SVN85bXB5eGRSJvKR9pnxc9U4ZvQL4IO55C+08/kmAUvqb
- kWHi19Muxp7nGJAekQ2YrtFVVH2tx7YKlEaWY9Xb1Unk3bsfdcepw4ifgrJxE82ENd0eTV6WUX
- 841K3nfXNVd9zDEFyttQ6i5nLIyFyV3bDSWcc3hVQZqWdA+PlYzFSEA1vRYPBGr1XPqHRT8pn9
- GKY=
-From:   Jiada Wang <jiada_wang@mentor.com>
-To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>,
-        <digetx@gmail.com>, <jiada_wang@mentor.com>
-Subject: [PATCH 1/1] Input: atmel_mxt_ts - implement I2C retries
-Date:   Fri, 21 Aug 2020 17:22:54 +0900
-Message-ID: <20200821082254.16661-1-jiada_wang@mentor.com>
-X-Mailer: git-send-email 2.17.1
+        id S1728462AbgHUKYp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Aug 2020 06:24:45 -0400
+Received: from mail.astralinux.ru ([217.74.38.120]:53899 "EHLO astralinux.ru"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728149AbgHUKYo (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 21 Aug 2020 06:24:44 -0400
+Received: from [46.148.196.138] (account dmastykin@astralinux.ru HELO [192.168.32.67])
+  by astralinux.ru (CommuniGate Pro SMTP 6.2.7)
+  with ESMTPSA id 2215021 for linux-input@vger.kernel.org; Fri, 21 Aug 2020 13:21:04 +0300
+From:   Dmitry Mastykin <dmastykin@astralinux.ru>
+Subject: hid-multitouch: is pen hovering ever possible?
+To:     linux-input@vger.kernel.org
+Message-ID: <0322c725-9eea-2947-bcf1-89958d91db92@astralinux.ru>
+Date:   Fri, 21 Aug 2020 13:24:40 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/mixed;
+ boundary="------------FA4AB9D46A41A5DB9709763C"
+Content-Language: en-US
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Nick Dyer <nick.dyer@itdev.co.uk>
+This is a multi-part message in MIME format.
+--------------FA4AB9D46A41A5DB9709763C
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Some maXTouch chips (eg mXT1386) will not respond on the first I2C request
-when they are in a sleep state. It must be retried after a delay for the
-chip to wake up.
+Hello guys,
+thanks to all of you for your great work!
 
-Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
-Acked-by: Yufeng Shen <miletus@chromium.org>
-(cherry picked from ndyer/linux/for-upstream commit 63fd7a2cd03c3a572a5db39c52f4856819e1835d)
-[gdavis: Forward port and fix conflicts.]
-Signed-off-by: George G. Davis <george_davis@mentor.com>
-Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
----
- drivers/input/touchscreen/atmel_mxt_ts.c | 45 ++++++++++++++++--------
- 1 file changed, 30 insertions(+), 15 deletions(-)
+Please, answer, is pen hovering ever possible using hid-multitouch driver?
+If I remove hid-multitouch - hovering works well with hid-generic.
+I can't unbind from hid-multitouch and bind to hid-generic: bind fails 
+with "No such device".
+I tried to modify hid-multitouch, but was not able to get hovering work 
+using multitouch reports.
+Then I noticed, that wacom uses non-multitouch reports for their pen 
+devices, and added a quirk to hid-multitouch that changes pen's behavior 
+to non-multitouch (patch attached). It works, but the way must be wrong(
+How should one proceed in right way?
 
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index a2189739e30f..e93eda1f3d59 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -196,6 +196,7 @@ enum t100_type {
- #define MXT_CRC_TIMEOUT		1000	/* msec */
- #define MXT_FW_RESET_TIME	3000	/* msec */
- #define MXT_FW_CHG_TIMEOUT	300	/* msec */
-+#define MXT_WAKEUP_TIME		25	/* msec */
- 
- /* Command to unlock bootloader */
- #define MXT_UNLOCK_CMD_MSB	0xaa
-@@ -626,6 +627,7 @@ static int __mxt_read_reg(struct i2c_client *client,
- 	struct i2c_msg xfer[2];
- 	u8 buf[2];
- 	int ret;
-+	bool retry = false;
- 
- 	buf[0] = reg & 0xff;
- 	buf[1] = (reg >> 8) & 0xff;
-@@ -642,17 +644,22 @@ static int __mxt_read_reg(struct i2c_client *client,
- 	xfer[1].len = len;
- 	xfer[1].buf = val;
- 
--	ret = i2c_transfer(client->adapter, xfer, 2);
--	if (ret == 2) {
--		ret = 0;
--	} else {
--		if (ret >= 0)
--			ret = -EIO;
--		dev_err(&client->dev, "%s: i2c transfer failed (%d)\n",
--			__func__, ret);
-+retry_read:
-+	ret = i2c_transfer(client->adapter, xfer, ARRAY_SIZE(xfer));
-+	if (ret != ARRAY_SIZE(xfer)) {
-+		if (!retry) {
-+			dev_dbg(&client->dev, "%s: i2c retry\n", __func__);
-+			msleep(MXT_WAKEUP_TIME);
-+			retry = true;
-+			goto retry_read;
-+		} else {
-+			dev_err(&client->dev, "%s: i2c transfer failed (%d)\n",
-+				__func__, ret);
-+			return -EIO;
-+		}
- 	}
- 
--	return ret;
-+	return 0;
- }
- 
- static int __mxt_write_reg(struct i2c_client *client, u16 reg, u16 len,
-@@ -661,6 +668,7 @@ static int __mxt_write_reg(struct i2c_client *client, u16 reg, u16 len,
- 	u8 *buf;
- 	size_t count;
- 	int ret;
-+	bool retry = false;
- 
- 	count = len + 2;
- 	buf = kmalloc(count, GFP_KERNEL);
-@@ -671,14 +679,21 @@ static int __mxt_write_reg(struct i2c_client *client, u16 reg, u16 len,
- 	buf[1] = (reg >> 8) & 0xff;
- 	memcpy(&buf[2], val, len);
- 
-+retry_write:
- 	ret = i2c_master_send(client, buf, count);
--	if (ret == count) {
--		ret = 0;
--	} else {
--		if (ret >= 0)
-+	if (ret != count) {
-+		if (!retry) {
-+			dev_dbg(&client->dev, "%s: i2c retry\n", __func__);
-+			msleep(MXT_WAKEUP_TIME);
-+			retry = true;
-+			goto retry_write;
-+		} else {
-+			dev_err(&client->dev, "%s: i2c send failed (%d)\n",
-+				__func__, ret);
- 			ret = -EIO;
--		dev_err(&client->dev, "%s: i2c send failed (%d)\n",
--			__func__, ret);
-+		}
-+	} else {
-+		ret = 0;
- 	}
- 
- 	kfree(buf);
--- 
-2.17.1
+Thank you very much!
+Dmitry Mastykin
 
+--------------FA4AB9D46A41A5DB9709763C
+Content-Type: text/plain; charset=UTF-8;
+ name="commit-2ae5139"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="commit-2ae5139"
+
+RnJvbSAyYWU1MTM5ZTA2NTk3NWQyOWJhYjc2OGNlODdmYzkxNmQzNTE5YjQ4IE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBEbWl0cnkgTWFzdHlraW4gPGRtYXN0eWtpbkBhc3Ry
+YWxpbnV4LnJ1PgpEYXRlOiBGcmksIDIxIEF1ZyAyMDIwIDExOjQ1OjUyICswMzAwClN1Ympl
+Y3Q6IHRlbXAKCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9oaWQvaGlkLW11bHRpdG91Y2guYyBi
+L2RyaXZlcnMvaGlkL2hpZC1tdWx0aXRvdWNoLmMKaW5kZXggMzYyODA1ZGRmMzc3Li5iNmM1
+OTNlODhmYzQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvaGlkL2hpZC1tdWx0aXRvdWNoLmMKKysr
+IGIvZHJpdmVycy9oaWQvaGlkLW11bHRpdG91Y2guYwpAQCAtNDgsNiArNDgsOSBAQCBNT0RV
+TEVfTElDRU5TRSgiR1BMIik7CiAKICNpbmNsdWRlICJoaWQtaWRzLmgiCiAKKyNkZWZpbmUg
+TVkoZm10LGFyZy4uLikgcHJpbnRrKEtFUk5fSU5GTyAiJXM6ICIgZm10ICJcbiIsIF9fZnVu
+Y19fLCAjI2FyZykKKy8vICNkZWZpbmUgTVkoZm10LGFyZy4uLikKKwogLyogcXVpcmtzIHRv
+IGNvbnRyb2wgdGhlIGRldmljZSAqLwogI2RlZmluZSBNVF9RVUlSS19OT1RfU0VFTl9NRUFO
+U19VUAlCSVQoMCkKICNkZWZpbmUgTVRfUVVJUktfU0xPVF9JU19DT05UQUNUSUQJQklUKDEp
+CkBAIC02OSw2ICs3Miw3IEBAIE1PRFVMRV9MSUNFTlNFKCJHUEwiKTsKICNkZWZpbmUgTVRf
+UVVJUktfQVNVU19DVVNUT01fVVAJCUJJVCgxNykKICNkZWZpbmUgTVRfUVVJUktfV0lOOF9Q
+VFBfQlVUVE9OUwlCSVQoMTgpCiAjZGVmaW5lIE1UX1FVSVJLX1NFUEFSQVRFX0FQUF9SRVBP
+UlQJQklUKDE5KQorI2RlZmluZSBNVF9RVUlSS19OT05fTVRfUEVOCQlCSVQoMjApCiAKICNk
+ZWZpbmUgTVRfSU5QVVRNT0RFX1RPVUNIU0NSRUVOCTB4MDIKICNkZWZpbmUgTVRfSU5QVVRN
+T0RFX1RPVUNIUEFECQkweDAzCkBAIC05OSw2ICsxMDMsOSBAQCBzdHJ1Y3QgbXRfdXNhZ2Vz
+IHsKIAlib29sICp0aXBfc3RhdGU7CS8qIGlzIHRoZSB0b3VjaCB2YWxpZD8gKi8KIAlib29s
+ICppbnJhbmdlX3N0YXRlOwkvKiBpcyB0aGUgZmluZ2VyIGluIHByb3hpbWl0eSBvZiB0aGUg
+c2Vuc29yPyAqLwogCWJvb2wgKmNvbmZpZGVuY2Vfc3RhdGU7CS8qIGlzIHRoZSB0b3VjaCBt
+YWRlIGJ5IGEgZmluZ2VyPyAqLworCWJvb2wgKmJhcnJlbF9zdGF0ZTsKKwlib29sICppbnZl
+cnRfc3RhdGU7CisJYm9vbCAqZXJhc2VyX3N0YXRlOwogfTsKIAogc3RydWN0IG10X2FwcGxp
+Y2F0aW9uIHsKQEAgLTE1Miw2ICsxNTksNyBAQCBzdHJ1Y3QgbXRfcmVwb3J0X2RhdGEgewog
+CXN0cnVjdCBoaWRfcmVwb3J0ICpyZXBvcnQ7CiAJc3RydWN0IG10X2FwcGxpY2F0aW9uICph
+cHBsaWNhdGlvbjsKIAlib29sIGlzX210X2NvbGxlY3Rpb247CisJYm9vbCBub25fbXRfcGVu
+OwogfTsKIAogc3RydWN0IG10X2RldmljZSB7CkBAIC0yMDYsNiArMjE0LDcgQEAgc3RhdGlj
+IHZvaWQgbXRfcG9zdF9wYXJzZShzdHJ1Y3QgbXRfZGV2aWNlICp0ZCwgc3RydWN0IG10X2Fw
+cGxpY2F0aW9uICphcHApOwogI2RlZmluZSBNVF9DTFNfR09PR0xFCQkJCTB4MDExMQogI2Rl
+ZmluZSBNVF9DTFNfUkFaRVJfQkxBREVfU1RFQUxUSAkJMHgwMTEyCiAjZGVmaW5lIE1UX0NM
+U19TTUFSVF9URUNICQkJMHgwMTEzCisjZGVmaW5lIE1UX0NMU19OT05fTVRfUEVOCQkJMHgw
+MTE0CiAKICNkZWZpbmUgTVRfREVGQVVMVF9NQVhDT05UQUNUCTEwCiAjZGVmaW5lIE1UX01B
+WF9NQVhDT05UQUNUCTI1MApAQCAtMzYzLDYgKzM3Miw5IEBAIHN0YXRpYyBjb25zdCBzdHJ1
+Y3QgbXRfY2xhc3MgbXRfY2xhc3Nlc1tdID0gewogCQkJTVRfUVVJUktfQ09OVEFDVF9DTlRf
+QUNDVVJBVEUgfAogCQkJTVRfUVVJUktfU0VQQVJBVEVfQVBQX1JFUE9SVCwKIAl9LAorCXsg
+Lm5hbWUgPSBNVF9DTFNfTk9OX01UX1BFTiwKKwkJLnF1aXJrcyA9IE1UX1FVSVJLX05PTl9N
+VF9QRU4sCisJfSwKIAl7IH0KIH07CiAKQEAgLTUxMiw2ICs1MjQsOSBAQCBzdGF0aWMgc3Ry
+dWN0IG10X3VzYWdlcyAqbXRfYWxsb2NhdGVfdXNhZ2Uoc3RydWN0IGhpZF9kZXZpY2UgKmhk
+ZXYsCiAJdXNhZ2UtPnRpcF9zdGF0ZSA9IERFRkFVTFRfRkFMU0U7CiAJdXNhZ2UtPmlucmFu
+Z2Vfc3RhdGUgPSBERUZBVUxUX0ZBTFNFOwogCXVzYWdlLT5jb25maWRlbmNlX3N0YXRlID0g
+REVGQVVMVF9UUlVFOworCXVzYWdlLT5iYXJyZWxfc3RhdGUgPSBERUZBVUxUX0ZBTFNFOwor
+CXVzYWdlLT5pbnZlcnRfc3RhdGUgPSBERUZBVUxUX0ZBTFNFOworCXVzYWdlLT5lcmFzZXJf
+c3RhdGUgPSBERUZBVUxUX0ZBTFNFOwogCiAJbGlzdF9hZGRfdGFpbCgmdXNhZ2UtPmxpc3Qs
+ICZhcHBsaWNhdGlvbi0+bXRfdXNhZ2VzKTsKIApAQCAtODY0LDYgKzg3OSw2NyBAQCBzdGF0
+aWMgaW50IG10X3RvdWNoX2lucHV0X21hcHBpbmcoc3RydWN0IGhpZF9kZXZpY2UgKmhkZXYs
+IHN0cnVjdCBoaWRfaW5wdXQgKmhpLAogCXJldHVybiAwOwogfQogCitzdGF0aWMgaW50IG10
+X3Blbl9pbnB1dF9tYXBwaW5nKHN0cnVjdCBoaWRfZGV2aWNlICpoZGV2LCBzdHJ1Y3QgaGlk
+X2lucHV0ICpoaSwKKwkJc3RydWN0IGhpZF9maWVsZCAqZmllbGQsIHN0cnVjdCBoaWRfdXNh
+Z2UgKnVzYWdlLAorCQl1bnNpZ25lZCBsb25nICoqYml0LCBpbnQgKm1heCwgc3RydWN0IG10
+X2FwcGxpY2F0aW9uICphcHApCit7CisJc3RydWN0IG10X2RldmljZSAqdGQgPSBoaWRfZ2V0
+X2RydmRhdGEoaGRldik7CisJc3RydWN0IG10X2NsYXNzICpjbHMgPSAmdGQtPm10Y2xhc3M7
+CisKKwlNWSgiYXBwbGljYXRpb246JXM6JXg6JXgiLCBoZGV2LT5uYW1lLCBmaWVsZC0+YXBw
+bGljYXRpb24sIHVzYWdlLT5oaWQpOworCisJc3dpdGNoICh1c2FnZS0+aGlkICYgSElEX1VT
+QUdFX1BBR0UpIHsKKwljYXNlIEhJRF9VUF9HRU5ERVNLOgorCQlzd2l0Y2ggKHVzYWdlLT5o
+aWQpIHsKKwkJY2FzZSBISURfR0RfWDoKKwkJCV9fc2V0X2JpdChJTlBVVF9QUk9QX0RJUkVD
+VCwgaGktPmlucHV0LT5wcm9wYml0KTsKKwkJCXNldF9hYnMoaGktPmlucHV0LCBBQlNfWCwg
+ZmllbGQsIGNscy0+c25fbW92ZSk7CisJCQlNVF9TVE9SRV9GSUVMRCh4KTsKKwkJCXJldHVy
+biAxOworCQljYXNlIEhJRF9HRF9ZOgorCQkJc2V0X2FicyhoaS0+aW5wdXQsIEFCU19ZLCBm
+aWVsZCwgY2xzLT5zbl9tb3ZlKTsKKwkJCU1UX1NUT1JFX0ZJRUxEKHkpOworCQkJcmV0dXJu
+IDE7CisJCX0KKwkJcmV0dXJuIC0xOworCisJY2FzZSBISURfVVBfRElHSVRJWkVSOgorCQlz
+d2l0Y2ggKHVzYWdlLT5oaWQpIHsKKwkJY2FzZSBISURfREdfSU5SQU5HRToKKwkJCWlucHV0
+X3NldF9jYXBhYmlsaXR5KGhpLT5pbnB1dCwKKwkJCQkJICAgICBFVl9LRVksIEJUTl9UT09M
+X1BFTik7CisJCQlpbnB1dF9zZXRfYWJzX3BhcmFtcyhoaS0+aW5wdXQsCisJCQkJCSAgICAg
+QUJTX0RJU1RBTkNFLCAwLCAxLCAwLCAwKTsKKwkJCU1UX1NUT1JFX0ZJRUxEKGlucmFuZ2Vf
+c3RhdGUpOworCQkJcmV0dXJuIDE7CisJCWNhc2UgSElEX0RHX1RJUFNXSVRDSDoKKwkJCWlu
+cHV0X3NldF9jYXBhYmlsaXR5KGhpLT5pbnB1dCwKKwkJCQkJICAgICBFVl9LRVksIEJUTl9U
+T1VDSCk7CisJCQlNVF9TVE9SRV9GSUVMRCh0aXBfc3RhdGUpOworCQkJcmV0dXJuIDE7CisJ
+CWNhc2UgSElEX0RHX0JBUlJFTFNXSVRDSDoKKwkJCWlucHV0X3NldF9jYXBhYmlsaXR5KGhp
+LT5pbnB1dCwKKwkJCQkJICAgICBFVl9LRVksIEJUTl9TVFlMVVMyKTsKKwkJCU1UX1NUT1JF
+X0ZJRUxEKGJhcnJlbF9zdGF0ZSk7CisJCQlyZXR1cm4gMTsKKwkJY2FzZSBISURfREdfSU5W
+RVJUOgorCQkJTVRfU1RPUkVfRklFTEQoaW52ZXJ0X3N0YXRlKTsKKwkJCXJldHVybiAxOwor
+CQljYXNlIEhJRF9ER19FUkFTRVI6CisJCQlNVF9TVE9SRV9GSUVMRChlcmFzZXJfc3RhdGUp
+OworCQkJcmV0dXJuIDE7CisJCWNhc2UgSElEX0RHX1RJUFBSRVNTVVJFOgorCQkJc2V0X2Fi
+cyhoaS0+aW5wdXQsIEFCU19QUkVTU1VSRSwgZmllbGQsCisJCQkJY2xzLT5zbl9wcmVzc3Vy
+ZSk7CisJCQlNVF9TVE9SRV9GSUVMRChwKTsKKwkJCXJldHVybiAxOworCQl9CisJCXJldHVy
+biAtMTsKKwl9CisKKwlyZXR1cm4gMDsKK30KKwogc3RhdGljIGludCBtdF9jb21wdXRlX3Ns
+b3Qoc3RydWN0IG10X2RldmljZSAqdGQsIHN0cnVjdCBtdF9hcHBsaWNhdGlvbiAqYXBwLAog
+CQkJICAgc3RydWN0IG10X3VzYWdlcyAqc2xvdCwKIAkJCSAgIHN0cnVjdCBpbnB1dF9kZXYg
+KmlucHV0KQpAQCAtMTIyOSw2ICsxMzA1LDQzIEBAIHN0YXRpYyB2b2lkIG10X3RvdWNoX3Jl
+cG9ydChzdHJ1Y3QgaGlkX2RldmljZSAqaGlkLAogCWNsZWFyX2JpdChNVF9JT19GTEFHU19S
+VU5OSU5HLCAmdGQtPm10X2lvX2ZsYWdzKTsKIH0KIAorc3RhdGljIHZvaWQgbXRfcGVuX3Jl
+cG9ydChzdHJ1Y3QgaGlkX2RldmljZSAqaGlkLAorCQkgICAgICAgc3RydWN0IG10X3JlcG9y
+dF9kYXRhICpyZGF0YSkKK3sKKwlzdHJ1Y3QgbXRfYXBwbGljYXRpb24gKmFwcCA9IHJkYXRh
+LT5hcHBsaWNhdGlvbjsKKwlzdHJ1Y3QgbXRfdXNhZ2VzICp1c2FnZTsKKwlzdHJ1Y3QgaW5w
+dXRfZGV2ICppbnB1dCA9IHJkYXRhLT5yZXBvcnQtPmZpZWxkWzBdLT5oaWRpbnB1dC0+aW5w
+dXQ7CisJYm9vbCB0aXBfc3RhdGU7CisJaW50IHA7CisKKwlpZiAoISh1c2FnZSA9IGxpc3Rf
+Zmlyc3RfZW50cnlfb3JfbnVsbCgmYXBwLT5tdF91c2FnZXMsCisJCQkJCSAgICAgICBzdHJ1
+Y3QgbXRfdXNhZ2VzLCBsaXN0KSkpCisJCXJldHVybjsKKworCisJdGlwX3N0YXRlID0gKnVz
+YWdlLT50aXBfc3RhdGU7CisJcCA9ICp1c2FnZS0+cDsKKwkvLyB0aXBfc3RhdGUgPSB0aXBf
+c3RhdGUgJiYgcCA+IDEwMDsKKwkvLyBpZiAoIXRpcF9zdGF0ZSkKKwkvLyAJcCA9IDA7CisK
+KwlNWSgiaW5yOnRpcDp0aXA6YmFyOmludjplcmEgJWQ6JWQ6JWQ6JWQ6JWQ6JWQiLAorCQkq
+dXNhZ2UtPmlucmFuZ2Vfc3RhdGUsCisJCSp1c2FnZS0+dGlwX3N0YXRlLAorCQl0aXBfc3Rh
+dGUsCisJCSp1c2FnZS0+YmFycmVsX3N0YXRlLAorCQkqdXNhZ2UtPmludmVydF9zdGF0ZSwK
+KwkJKnVzYWdlLT5lcmFzZXJfc3RhdGUKKwkpOworCWlucHV0X3JlcG9ydF9rZXkoaW5wdXQs
+IEJUTl9UT09MX1BFTiwgKnVzYWdlLT5pbnJhbmdlX3N0YXRlKTsKKwlpbnB1dF9yZXBvcnRf
+a2V5KGlucHV0LCBCVE5fVE9VQ0gsIHRpcF9zdGF0ZSk7CisJaW5wdXRfcmVwb3J0X2tleShp
+bnB1dCwgQlROX1NUWUxVUzIsICp1c2FnZS0+YmFycmVsX3N0YXRlKTsKKwlpbnB1dF9ldmVu
+dChpbnB1dCwgRVZfQUJTLCBBQlNfWCwgKnVzYWdlLT54KTsKKwlpbnB1dF9ldmVudChpbnB1
+dCwgRVZfQUJTLCBBQlNfWSwgKnVzYWdlLT55KTsKKwlpbnB1dF9ldmVudChpbnB1dCwgRVZf
+QUJTLCBBQlNfUFJFU1NVUkUsIHApOworCWlucHV0X2V2ZW50KGlucHV0LCBFVl9BQlMsIEFC
+U19ESVNUQU5DRSwgIXRpcF9zdGF0ZSk7Cit9CisKIHN0YXRpYyBpbnQgbXRfdG91Y2hfaW5w
+dXRfY29uZmlndXJlZChzdHJ1Y3QgaGlkX2RldmljZSAqaGRldiwKIAkJCQkgICAgIHN0cnVj
+dCBoaWRfaW5wdXQgKmhpLAogCQkJCSAgICAgc3RydWN0IG10X2FwcGxpY2F0aW9uICphcHAp
+CkBAIC0xMzM0LDYgKzE0NDcsMTQgQEAgc3RhdGljIGludCBtdF9pbnB1dF9tYXBwaW5nKHN0
+cnVjdCBoaWRfZGV2aWNlICpoZGV2LCBzdHJ1Y3QgaGlkX2lucHV0ICpoaSwKIAkJcmV0dXJu
+IDE7CiAJfQogCisJaWYgKGZpZWxkLT5hcHBsaWNhdGlvbiA9PSBISURfREdfUEVOICYmCisJ
+ICAgIGFwcGxpY2F0aW9uLT5xdWlya3MgJiBNVF9RVUlSS19OT05fTVRfUEVOKSB7CisJCXJk
+YXRhLT5pc19tdF9jb2xsZWN0aW9uID0gZmFsc2U7CisJCXJkYXRhLT5ub25fbXRfcGVuID0g
+dHJ1ZTsKKwkJcmV0dXJuIG10X3Blbl9pbnB1dF9tYXBwaW5nKGhkZXYsIGhpLCBmaWVsZCwg
+dXNhZ2UsIGJpdCwgbWF4LAorCQkJCQkgICAgYXBwbGljYXRpb24pOworCX0KKwogCWlmIChy
+ZGF0YS0+aXNfbXRfY29sbGVjdGlvbikKIAkJcmV0dXJuIG10X3RvdWNoX2lucHV0X21hcHBp
+bmcoaGRldiwgaGksIGZpZWxkLCB1c2FnZSwgYml0LCBtYXgsCiAJCQkJCSAgICAgIGFwcGxp
+Y2F0aW9uKTsKQEAgLTEzNTcsNyArMTQ3OCw3IEBAIHN0YXRpYyBpbnQgbXRfaW5wdXRfbWFw
+cGVkKHN0cnVjdCBoaWRfZGV2aWNlICpoZGV2LCBzdHJ1Y3QgaGlkX2lucHV0ICpoaSwKIAlz
+dHJ1Y3QgbXRfcmVwb3J0X2RhdGEgKnJkYXRhOwogCiAJcmRhdGEgPSBtdF9maW5kX3JlcG9y
+dF9kYXRhKHRkLCBmaWVsZC0+cmVwb3J0KTsKLQlpZiAocmRhdGEgJiYgcmRhdGEtPmlzX210
+X2NvbGxlY3Rpb24pIHsKKwlpZiAocmRhdGEgJiYgKHJkYXRhLT5pc19tdF9jb2xsZWN0aW9u
+IHx8IHJkYXRhLT5ub25fbXRfcGVuKSkgewogCQkvKiBXZSBvd24gdGhlc2UgbWFwcGluZ3Ms
+IHRlbGwgaGlkLWlucHV0IHRvIGlnbm9yZSB0aGVtICovCiAJCXJldHVybiAtMTsKIAl9CkBA
+IC0xMzkxLDYgKzE1MTIsOCBAQCBzdGF0aWMgdm9pZCBtdF9yZXBvcnQoc3RydWN0IGhpZF9k
+ZXZpY2UgKmhpZCwgc3RydWN0IGhpZF9yZXBvcnQgKnJlcG9ydCkKIAlyZGF0YSA9IG10X2Zp
+bmRfcmVwb3J0X2RhdGEodGQsIHJlcG9ydCk7CiAJaWYgKHJkYXRhICYmIHJkYXRhLT5pc19t
+dF9jb2xsZWN0aW9uKQogCQlyZXR1cm4gbXRfdG91Y2hfcmVwb3J0KGhpZCwgcmRhdGEpOwor
+CWlmIChyZGF0YSAmJiByZGF0YS0+bm9uX210X3BlbikKKwkJbXRfcGVuX3JlcG9ydChoaWQs
+IHJkYXRhKTsKIAogCWlmIChmaWVsZCAmJiBmaWVsZC0+aGlkaW5wdXQgJiYgZmllbGQtPmhp
+ZGlucHV0LT5pbnB1dCkKIAkJaW5wdXRfc3luYyhmaWVsZC0+aGlkaW5wdXQtPmlucHV0KTsK
+QEAgLTIxMjAsNiArMjI0MywxMSBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGhpZF9kZXZpY2Vf
+aWQgbXRfZGV2aWNlc1tdID0gewogCQlISURfREVWSUNFKEhJRF9CVVNfQU5ZLCBISURfR1JP
+VVBfQU5ZLCBVU0JfVkVORE9SX0lEX0dPT0dMRSwKIAkJCVVTQl9ERVZJQ0VfSURfR09PR0xF
+X1RPVUNIX1JPU0UpIH0sCiAKKwl7IC5kcml2ZXJfZGF0YSA9IE1UX0NMU19OT05fTVRfUEVO
+LAorCQlISURfREVWSUNFKEJVU19JMkMsIEhJRF9HUk9VUF9NVUxUSVRPVUNIX1dJTl84LAor
+CQkJSTJDX1ZFTkRPUl9JRF9HT09ESVgsCisJCQlJMkNfREVWSUNFX0lEX0dPT0RJWF8wMTEz
+KSB9LAorCiAJLyogR2VuZXJpYyBNVCBkZXZpY2UgKi8KIAl7IEhJRF9ERVZJQ0UoSElEX0JV
+U19BTlksIEhJRF9HUk9VUF9NVUxUSVRPVUNILCBISURfQU5ZX0lELCBISURfQU5ZX0lEKSB9
+LAogCg==
+--------------FA4AB9D46A41A5DB9709763C--
