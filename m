@@ -2,37 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6DBC24DC2C
-	for <lists+linux-input@lfdr.de>; Fri, 21 Aug 2020 18:57:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8B2024DDFC
+	for <lists+linux-input@lfdr.de>; Fri, 21 Aug 2020 19:25:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728146AbgHUQ4j (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Aug 2020 12:56:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49910 "EHLO mail.kernel.org"
+        id S1726971AbgHURZW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Aug 2020 13:25:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48014 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728290AbgHUQTb (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Aug 2020 12:19:31 -0400
+        id S1727901AbgHUQPX (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 21 Aug 2020 12:15:23 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3918F22D0B;
-        Fri, 21 Aug 2020 16:18:43 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4DA1522B47;
+        Fri, 21 Aug 2020 16:15:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598026723;
-        bh=Bzvll3pCe1AMYSUjL6S0uyx9RSHYFXoynJQi99sQQyc=;
+        s=default; t=1598026523;
+        bh=3aEdmM77SGyBfskiqRaEc/vEs5I+jwxpTPr1Qlw1VPM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OtT9/L3A9WXmC+eFn9UiBCuWzAaeyaOtKrjmAY0pbcXf+Bnf3acMgcstkbSwNeYEU
-         5GE/72pqaJPgLbuniZpA/DWhPn6v49+wJK/lih60xnwtiT24zmgn82oaiwy4gV0fhc
-         VkLhDmHv4o7h5XBnBITDc2GXgfeqiSIr04Z7C3Y8=
+        b=Ds/rF5g7ZzWmSFMcDaFreDhyt8P2u1he4Y52r+CYo4yu8qOlQ1QI0yzz9GaAQpq5l
+         qwiMsixILK5RcwLbtLN85Fr2wAzSkqUUAAlPApqAXNG8twUVcWvpHDHE0P1KNsrHXi
+         aeTmoBL1NXWOPc+CzcjERIc4tw4NSRwsKABoYUp4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Ikjoon Jang <ikjn@chromium.org>, Jiri Kosina <jkosina@suse.cz>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 28/38] HID: quirks: add NOGET quirk for Logitech GROUP
-Date:   Fri, 21 Aug 2020 12:17:57 -0400
-Message-Id: <20200821161807.348600-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.8 46/62] HID: quirks: add NOGET quirk for Logitech GROUP
+Date:   Fri, 21 Aug 2020 12:14:07 -0400
+Message-Id: <20200821161423.347071-46-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200821161807.348600-1-sashal@kernel.org>
-References: <20200821161807.348600-1-sashal@kernel.org>
+In-Reply-To: <20200821161423.347071-1-sashal@kernel.org>
+References: <20200821161423.347071-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -63,10 +63,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 2 insertions(+)
 
 diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 20530d8adfbb8..2c100b73d3fc1 100644
+index 6f370e020feb3..7cfa9785bfbb0 100644
 --- a/drivers/hid/hid-ids.h
 +++ b/drivers/hid/hid-ids.h
-@@ -756,6 +756,7 @@
+@@ -773,6 +773,7 @@
  #define USB_DEVICE_ID_LOGITECH_G27_WHEEL	0xc29b
  #define USB_DEVICE_ID_LOGITECH_WII_WHEEL	0xc29c
  #define USB_DEVICE_ID_LOGITECH_ELITE_KBD	0xc30a
@@ -75,7 +75,7 @@ index 20530d8adfbb8..2c100b73d3fc1 100644
  #define USB_DEVICE_ID_S510_RECEIVER_2	0xc517
  #define USB_DEVICE_ID_LOGITECH_CORDLESS_DESKTOP_LX500	0xc512
 diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index bdde16395b2ce..62f87f8bd9720 100644
+index 934fc0a798d4d..c242150d35a3a 100644
 --- a/drivers/hid/hid-quirks.c
 +++ b/drivers/hid/hid-quirks.c
 @@ -179,6 +179,7 @@ static const struct hid_device_id hid_quirks[] = {
