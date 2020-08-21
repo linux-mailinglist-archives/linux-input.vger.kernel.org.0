@@ -2,90 +2,143 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D05AE24DCC3
-	for <lists+linux-input@lfdr.de>; Fri, 21 Aug 2020 19:08:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32A1E24E331
+	for <lists+linux-input@lfdr.de>; Sat, 22 Aug 2020 00:20:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728254AbgHURHh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Aug 2020 13:07:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50096 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728211AbgHUQSD (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Aug 2020 12:18:03 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8EA9122B49;
-        Fri, 21 Aug 2020 16:17:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598026668;
-        bh=SzdQ5UM/VjXFBBCT5u3KqWdfzCRrN+x5JpHCAPpSp2g=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=IGw+rhUqvqYXRYAuS0MsqWJ4HVInupRhp5Q4hUsIUic77VuxAGn39O3HoErfShfrQ
-         gxuJNrZ2rSOasyz/MMmn9HOkERyd9Zo2rT/ORFnAjmpJ4AXOqZfajGkEixA9R6pdqA
-         d+fyJXx9Kkus4ZnKDhvr5R+VQtQ6Wllk/LxEIPwc=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Ikjoon Jang <ikjn@chromium.org>, Jiri Kosina <jkosina@suse.cz>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 34/48] HID: quirks: add NOGET quirk for Logitech GROUP
-Date:   Fri, 21 Aug 2020 12:16:50 -0400
-Message-Id: <20200821161704.348164-34-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200821161704.348164-1-sashal@kernel.org>
-References: <20200821161704.348164-1-sashal@kernel.org>
+        id S1726766AbgHUWT7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 Aug 2020 18:19:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60964 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726747AbgHUWT5 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 21 Aug 2020 18:19:57 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42756C061573;
+        Fri, 21 Aug 2020 15:19:56 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id si26so4268232ejb.12;
+        Fri, 21 Aug 2020 15:19:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7Euhqf0kKa8bJk8hY6VIiEQD27H+m7/Zjj9fyz771ww=;
+        b=W7e8QLL/UILxZwiAdklCeQIidO1LLzLv/jj477YznHokzrs/jwc4XDHBocvHEKRcS7
+         C4k4OTeS2MJBKjJp2p1+UZRWaoGFznWR4y2r15ULdQud9LkesE/Og1hyjN+N5ddNKj54
+         eR0xfYGRlGOzsoLkDrFOgS2PPL/E80Ybd1I9Bs5NePnuitGku4JdnUlGtNqomoUsCBx7
+         rUwvGwZVmjc/ayRjLa84HTtY9OYDVx7nMKIJBlMluEpZ0KBxS4pEg5jg3djiJI3oVfx4
+         AUrJtyP2Zh187WNwWe5fKJ4mnNymXPMpe9PSM757wZuI53P/EuXETwae+Uj9pTbhcknV
+         hTlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7Euhqf0kKa8bJk8hY6VIiEQD27H+m7/Zjj9fyz771ww=;
+        b=qcb+n+aoy9P+/d8VPKzsgMm3vBvDlZz7hGpIaUBvs+FgWM/dwaAioz8XZX8zpQeiJZ
+         GZQL/r8BVFuIKJTp6Dt9Qdpc/G7wRrjBn06xHbZ8GVVBxlosGGwqaI4xqbE43/rwBOEq
+         gelRw3ke4wU43jz7VBGNu1vzZi826IqkMPBuRgCSFAQpXAs/siww3Ks0CzecnXNnI1BC
+         em9AUN2DIHfWXDdukjEsco3V2onjkqnKPtuhOCG9bI2BH8HI8AD8eE3Yehjd1hMRafGj
+         wy4wYDNRho4jbyHhEaqJ0tkA5z4SPxXyHsi89IuMbz0ocpRDO/O5h2YvpnPpsgL96QA0
+         ehdw==
+X-Gm-Message-State: AOAM533UA5vXULaFwEmzbf8I4IOEs/YDrg7c6bOrHdv3ua617DD4uAsm
+        VUD6hVOlxoVKOv1G6DZv14I=
+X-Google-Smtp-Source: ABdhPJytrtdq9zPLl7O5jmDFGa+bREqtkDfuGd6hS1X1/YZJjB0xIhkRKGNYMWTMKR6aiTXJBfI1eQ==
+X-Received: by 2002:a17:906:d971:: with SMTP id rp17mr3788200ejb.31.1598048394799;
+        Fri, 21 Aug 2020 15:19:54 -0700 (PDT)
+Received: from localhost.localdomain ([188.24.159.61])
+        by smtp.gmail.com with ESMTPSA id p23sm1780147edm.31.2020.08.21.15.19.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Aug 2020 15:19:54 -0700 (PDT)
+From:   Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
+To:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>
+Cc:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        =?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
+        linux-actions@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: [PATCH v2 0/6] Add initial support for ATC260x PMICs
+Date:   Sat, 22 Aug 2020 01:19:46 +0300
+Message-Id: <cover.1598043782.git.cristian.ciocaltea@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Ikjoon Jang <ikjn@chromium.org>
+This is re-spin of the patch series submitted some time ago by Mani,
+who added initial support (MFD core and regulators) for the Actions
+Semi ATC260x PMICs:
+https://lore.kernel.org/lkml/20190617155011.15376-1-manivannan.sadhasivam@linaro.org/
 
-[ Upstream commit 68f775ddd2a6f513e225f9a565b054ab48fef142 ]
+The ATC260x family of PMICs integrates Audio Codec, Power management,
+Clock generation and GPIO controller blocks. There are currently 3
+variants: ATC2603A, ATC2603C and ATC2609A.
 
-Add HID_QUIRK_NOGET for Logitech GROUP device.
+In addition to the ATC2609A regulator functionality provided that time,
+this patchset adds support for the ATC2603C variant, together with some
+new functionalities for both chips: power controller and onkey input.
+The ATC2603A variant remains unsupported for the moment.
 
-Logitech GROUP is a compound with camera and audio.
-When the HID interface in an audio device is requested to get
-specific report id, all following control transfers are stalled
-and never be restored back.
+This has been tested on RoseapplePi, a SBC based on the Action Semi S500
+SoC, which integrates ATC2603C PMIC. An initial support for this board
+has been already submitted:
+https://lore.kernel.org/lkml/cover.1592123160.git.cristian.ciocaltea@gmail.com/
 
-BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=203419
-Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/hid/hid-ids.h    | 1 +
- drivers/hid/hid-quirks.c | 1 +
- 2 files changed, 2 insertions(+)
+Please note that enabling the ATC260x PMICs on the compatible Actions
+Semi Owl SoC based boards depends on the following:
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 73e4590ea9c94..09df5ecc2c79b 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -771,6 +771,7 @@
- #define USB_DEVICE_ID_LOGITECH_G27_WHEEL	0xc29b
- #define USB_DEVICE_ID_LOGITECH_WII_WHEEL	0xc29c
- #define USB_DEVICE_ID_LOGITECH_ELITE_KBD	0xc30a
-+#define USB_DEVICE_ID_LOGITECH_GROUP_AUDIO	0x0882
- #define USB_DEVICE_ID_S510_RECEIVER	0xc50c
- #define USB_DEVICE_ID_S510_RECEIVER_2	0xc517
- #define USB_DEVICE_ID_LOGITECH_CORDLESS_DESKTOP_LX500	0xc512
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index a49fa2b047cba..b3dd60897ffda 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -179,6 +179,7 @@ static const struct hid_device_id hid_quirks[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_WISEGROUP_LTD2, USB_DEVICE_ID_SMARTJOY_DUAL_PLUS), HID_QUIRK_NOGET | HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_WISEGROUP, USB_DEVICE_ID_QUAD_USB_JOYPAD), HID_QUIRK_NOGET | HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_XIN_MO, USB_DEVICE_ID_XIN_MO_DUAL_ARCADE), HID_QUIRK_MULTI_INPUT },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_GROUP_AUDIO), HID_QUIRK_NOGET },
- 
- 	{ 0 }
- };
+* Actions Semi SIRQ driver (for PMIC DTS setup):
+  https://lore.kernel.org/lkml/cover.1597852360.git.cristian.ciocaltea@gmail.com/
+
+* I2C Atomic transfers in Actions Semi Owl driver (for proper operation
+  of the power controller driver):
+  https://lore.kernel.org/lkml/b086ef6d355d9730c839359e15eb06175283e323.1596485741.git.cristian.ciocaltea@gmail.com/
+  
+Thanks,
+Cristi
+
+Cristian Ciocaltea (6):
+  dt-bindings: mfd: Add Actions Semi ATC260x PMIC binding
+  mfd: Add MFD driver for ATC260x PMICs
+  regulator: Add regulator driver for ATC260x PMICs
+  power: reset: Add poweroff driver for ATC260x PMICs
+  input: atc260x: Add onkey driver for ATC260x PMICs
+  MAINTAINERS: Add entry for ATC260x PMIC
+
+ .../bindings/mfd/actions,atc260x.yaml         | 221 ++++++++
+ MAINTAINERS                                   |  12 +
+ drivers/input/misc/Kconfig                    |  11 +
+ drivers/input/misc/Makefile                   |   2 +-
+ drivers/input/misc/atc260x-onkey.c            | 304 +++++++++++
+ drivers/mfd/Kconfig                           |  18 +
+ drivers/mfd/Makefile                          |   3 +
+ drivers/mfd/atc260x-core.c                    | 290 ++++++++++
+ drivers/mfd/atc260x-i2c.c                     |  73 +++
+ drivers/power/reset/Kconfig                   |   8 +-
+ drivers/power/reset/Makefile                  |   1 +
+ drivers/power/reset/atc260x-poweroff.c        | 274 ++++++++++
+ drivers/regulator/Kconfig                     |   8 +
+ drivers/regulator/Makefile                    |   1 +
+ drivers/regulator/atc260x-regulator.c         | 511 ++++++++++++++++++
+ include/linux/mfd/atc260x/atc2603c.h          | 281 ++++++++++
+ include/linux/mfd/atc260x/atc2609a.h          | 308 +++++++++++
+ include/linux/mfd/atc260x/core.h              |  86 +++
+ 18 files changed, 2410 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/mfd/actions,atc260x.yaml
+ create mode 100644 drivers/input/misc/atc260x-onkey.c
+ create mode 100644 drivers/mfd/atc260x-core.c
+ create mode 100644 drivers/mfd/atc260x-i2c.c
+ create mode 100644 drivers/power/reset/atc260x-poweroff.c
+ create mode 100644 drivers/regulator/atc260x-regulator.c
+ create mode 100644 include/linux/mfd/atc260x/atc2603c.h
+ create mode 100644 include/linux/mfd/atc260x/atc2609a.h
+ create mode 100644 include/linux/mfd/atc260x/core.h
+
 -- 
-2.25.1
+2.28.0
 
