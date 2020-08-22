@@ -2,186 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3AB624E795
-	for <lists+linux-input@lfdr.de>; Sat, 22 Aug 2020 15:13:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B8F924E831
+	for <lists+linux-input@lfdr.de>; Sat, 22 Aug 2020 17:09:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728085AbgHVNN6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 22 Aug 2020 09:13:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57028 "EHLO
+        id S1728020AbgHVPJE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 22 Aug 2020 11:09:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727827AbgHVNN5 (ORCPT
+        with ESMTP id S1726728AbgHVPJD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 22 Aug 2020 09:13:57 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC373C061573
-        for <linux-input@vger.kernel.org>; Sat, 22 Aug 2020 06:13:56 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id r11so2425452pfl.11
-        for <linux-input@vger.kernel.org>; Sat, 22 Aug 2020 06:13:56 -0700 (PDT)
+        Sat, 22 Aug 2020 11:09:03 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD59AC061573;
+        Sat, 22 Aug 2020 08:09:03 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id d19so2386404pgl.10;
+        Sat, 22 Aug 2020 08:09:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=xQFZ3Sv5y18I7wZ9EvV1kNK7LL9SLdrdcRtoUoCFnvA=;
-        b=C4Y072XUAIYZyfmRrshf5l95PKNCWRwbELitDleGUvIdERcUpFcVgCGYWWXxXo3+vG
-         8BPaFHw/m1aeMNF8psDMprEv/tZXx39vj8amuMaLWdebvAPjysgxNmt9sgLSGkgHWp3B
-         jAxXX1Y8EbBER6csHNYJU8QIxOfMbOMxBINcNC+g+re1je9Nf3dv3BOl7mseXgz0Hjnu
-         uSyzMi3CyCgojgN13U2OTkpESZnzjTZHY+oZpPCO3Vjw2KnMMb7QaRtY2DmA2zTyxVFy
-         y3bYbFtml8cHTQYaSw+yThBfrEO0DpO9OZMCcddOhggEtsLenCi93krz/vdgD6d5nbsP
-         3+sQ==
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id;
+        bh=IsBEuRUo1D1VfOkGVFKpLZwxuOQKB6UbMiR6vQ0NAHA=;
+        b=HT23YsV+CAfOx1K5NfvNUiykOrJzwSCssXaK+JzFaFRGSAFpEgyS3j23xhlOVPQgOy
+         r3+PL5XOf/2NefvsCLnDpsChzlmthPtlVERSn4RsX12Mdprr2aLCUSYrR9ZiFjT+IKKM
+         nYXw9Q+2zlpWLkFNKEglf2LBs/HB87ADSdlPbzTjOYZwAwd+3NZoWE1iQ1umQaqkGQV2
+         CNAYrOBPcVBMObzNvrox6ChtLC4Cl90L03xHHUN/w9+MlRSl52vzPtsa0ifusOjLKAL3
+         3MUi3UyYig1Z4TE2oy6fLQsUoID+Z8sFsIEzP2tojUOt1jI85z94V9J5O4KdQ/Ev4KCa
+         YepA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=xQFZ3Sv5y18I7wZ9EvV1kNK7LL9SLdrdcRtoUoCFnvA=;
-        b=fKv+lTZhoB7F1+BAfVtzZvIO1plEadvlJbf/xxrLuIlgebqc5IqBF4abmjwxU0YKDp
-         pJk7MYBq/Pf0jjjWC7y5/EaiPQV+CSuPx8Ci3D5Xkt5VcxsiwQ40h5ImhCfUFLQfWwW1
-         o8cADUDxruJGZyowasY+MhCiugG6iXQUg81nC/1KM0jqT5KMSaboAs2sWM5jD3bDvZGe
-         k0fI+avno4rRpfChQs3cVodvWA8efnqGRqYKZLUUkQIxDn/85VFm/X7xzlQwojSvCY32
-         d9AW4SAvdBBYZy7F8/ydZo5fxlJv5eoW8GGR7E968BNUEcbW8jVDo2QmcIAbctv8Af1v
-         eXzQ==
-X-Gm-Message-State: AOAM531S375tPYMizH/M4o3GwZQkhlFg9yUZ3qXShjtye/yz3npPCg9v
-        YSJLmD4m5GN2Zy8MJTgB4OHT
-X-Google-Smtp-Source: ABdhPJyRlCojM5NMEXP9w3XIS/sCcanKf8LrNsIJpeQOfBQ0femryhqcgTQIORPf0+wab+FZ1K3W0A==
-X-Received: by 2002:aa7:8a0d:: with SMTP id m13mr6118466pfa.13.1598102035821;
-        Sat, 22 Aug 2020 06:13:55 -0700 (PDT)
-Received: from Mani-XPS-13-9360 ([2409:4072:6d94:5e90:8021:8773:d646:5b0b])
-        by smtp.gmail.com with ESMTPSA id ha17sm580529pjb.6.2020.08.22.06.13.46
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+        bh=IsBEuRUo1D1VfOkGVFKpLZwxuOQKB6UbMiR6vQ0NAHA=;
+        b=BtnQI5S/Y5qvQs7bdnddy28XPoeKgLgnJfvF23UquP/ona2QeeYmY+3befGWP+0JfR
+         UhTHFpFuLhR3MrUhb99uIjZ5noWfaWeXtxiXc8LhYCLpC/HltBPUGcGg/KzlAgQF5CEr
+         9y8//BUxIAQ0k9uTd8e12Ws4YnJKdeNn+zfyZRjf3HFGdEgBaMqMDXEE5J64x8EsUUly
+         A6yK0EcdN1lgQhbU8hLJUwW3iVGUp8RkPslHrp/016Q+PB5w/imwArJWYdhjEKn3k+RR
+         2N73L9J4fLhxKUhB7gci6x5CdnwjfMRR6LfCUSzswetJ4c1A0nL58Jjnb476cYOqRlc2
+         q59g==
+X-Gm-Message-State: AOAM533KaHuuWBI+Zy0jFFhiwMhe14vK3lVAQJPu/Vzlol7Qef0jRwLJ
+        n1aIn7pU+KDv/visshLc16Y=
+X-Google-Smtp-Source: ABdhPJwal4bcpoUHI1whCOze0UQwSQw22dAbS+E1xlIAHuM8DTfvBqvZzBuAXUnVLB2RqPipTnRaug==
+X-Received: by 2002:a62:18ce:: with SMTP id 197mr6325913pfy.85.1598108942306;
+        Sat, 22 Aug 2020 08:09:02 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id s1sm5491316pgh.47.2020.08.22.08.09.01
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sat, 22 Aug 2020 06:13:54 -0700 (PDT)
-Date:   Sat, 22 Aug 2020 18:43:43 +0530
-From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To:     Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
-Cc:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        Sat, 22 Aug 2020 08:09:01 -0700 (PDT)
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-        linux-actions@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] Add initial support for ATC260x PMICs
-Message-ID: <20200822131343.GA5954@Mani-XPS-13-9360>
-References: <cover.1598043782.git.cristian.ciocaltea@gmail.com>
- <20200821222653.GA2255465@BV030612LT>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200821222653.GA2255465@BV030612LT>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Lee Jones <lee.jones@linaro.org>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Yu-Hsuan Hsu <yuhsuan@chromium.org>,
+        Prashant Malani <pmalani@chromium.org>,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Guenter Roeck <linux@roeck-us.net>
+Subject: [PATCH v5 0/7] platform/chrome: cros_ec_proto: Convert EC error codes to Linux error codes
+Date:   Sat, 22 Aug 2020 08:08:50 -0700
+Message-Id: <20200822150857.205775-1-linux@roeck-us.net>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Cristi,
+The EC reports a variety of error codes. Most of those, with the exception
+of EC_RES_INVALID_VERSION, are converted to -EPROTO. As result, the actual
+error code gets lost. In cros_ec_cmd_xfer_status(), convert all EC errors
+to Linux error codes to report a more meaningful error to the caller to aid
+debugging.
 
-Thanks for the series! I'll take a look soon but there is a quick comment
-below.
+To prepare for this change, handle error codes other than -EPROTO for all
+callers of cros_ec_cmd_xfer_status(). Specifically, no longer assume that
+-EPROTO reflects an error from the EC and all other error codes reflect a
+transfer error.
 
-On Sat, Aug 22, 2020 at 01:26:53AM +0300, Cristian Ciocaltea wrote:
-> I have just realized I had omitted the changelog - sorry:
-> 
-> Changes in v2:
-> - Reworked MFD core & I2C driver
->   * Integrated Lee's feedback
->   * Added support for using the regmap within atomic contexts
->   * Added support for ATC2603C chip variant
->   * Reorganized KConfig entries
-> - Improved regulator driver
->   * Added support for ATC2603C variant
->   * Used helper macros for more compact specification of regulator_desc items
->   * Added more regulator capabilities
-> - Added power controller driver
->   * Provides system poweroff/reboot functionalities
->   * Requires support for I2C Atomic transfers in the Owl driver (already submitted)
-> - Added onkey driver: exposes the power button as an input device
-> - Added yaml binding doc
-> - Rebased patchset on kernel v5.9-rc1
-> 
-> Kind regards,
-> Cristi
-> 
-> On Sat, Aug 22, 2020 at 01:19:46AM +0300, Cristian Ciocaltea wrote:
-> > This is re-spin of the patch series submitted some time ago by Mani,
-> > who added initial support (MFD core and regulators) for the Actions
-> > Semi ATC260x PMICs:
-> > https://lore.kernel.org/lkml/20190617155011.15376-1-manivannan.sadhasivam@linaro.org/
-> > 
-> > The ATC260x family of PMICs integrates Audio Codec, Power management,
-> > Clock generation and GPIO controller blocks. There are currently 3
-> > variants: ATC2603A, ATC2603C and ATC2609A.
-> > 
-> > In addition to the ATC2609A regulator functionality provided that time,
-> > this patchset adds support for the ATC2603C variant, together with some
-> > new functionalities for both chips: power controller and onkey input.
-> > The ATC2603A variant remains unsupported for the moment.
-> > 
-> > This has been tested on RoseapplePi, a SBC based on the Action Semi S500
-> > SoC, which integrates ATC2603C PMIC. An initial support for this board
-> > has been already submitted:
-> > https://lore.kernel.org/lkml/cover.1592123160.git.cristian.ciocaltea@gmail.com/
-> > 
-> > Please note that enabling the ATC260x PMICs on the compatible Actions
-> > Semi Owl SoC based boards depends on the following:
-> > 
-> > * Actions Semi SIRQ driver (for PMIC DTS setup):
-> >   https://lore.kernel.org/lkml/cover.1597852360.git.cristian.ciocaltea@gmail.com/
-> > 
-> > * I2C Atomic transfers in Actions Semi Owl driver (for proper operation
-> >   of the power controller driver):
-> >   https://lore.kernel.org/lkml/b086ef6d355d9730c839359e15eb06175283e323.1596485741.git.cristian.ciocaltea@gmail.com/
-> >   
-> > Thanks,
-> > Cristi
-> > 
-> > Cristian Ciocaltea (6):
-> >   dt-bindings: mfd: Add Actions Semi ATC260x PMIC binding
-> >   mfd: Add MFD driver for ATC260x PMICs
-> >   regulator: Add regulator driver for ATC260x PMICs
+v2: Add patches 1/4 to 3/4 to handle callers of cros_ec_cmd_xfer_status()
+v3: Add patches 4/6 and 5/6 to handle additional callers of
+	cros_ec_cmd_xfer_status()
+    Use -ENOPROTOOPT for EC_RES_INVALID_VERSION
+    Implement function to convert error codes
+v4: Add coments describing the functionality of cros_ec_num_pwms().
+    Add patch 7/7 to clean up cros_ec_num_pwms() after the new error code
+    support has been implemented.
+    Rebased series to v5.8.
+v5: If there is no error, cros_ec_cmd_xfer_status() needs to return the
+    number of received bytes, not 0. While fixing that (in patch 6/7),
+    rearranged the function to reduce its indentation.
+    Rebased series to v5.9-rc1
 
-You need to preserve my authorship for above two patches. Adding the signed-off-by
-is not enough.
+----------------------------------------------------------------
+Guenter Roeck (7):
+      iio: cros_ec: Accept -EOPNOTSUPP as 'not supported' error code
+      cros_ec_lightbar: Accept more error codes from cros_ec_cmd_xfer_status
+      platform/chrome: cros_ec_sysfs: Report range of error codes from EC
+      pwm: cros-ec: Accept more error codes from cros_ec_cmd_xfer_status
+      platform/input: cros_ec: Replace -ENOTSUPP with -ENOPROTOOPT
+      platform/chrome: cros_ec_proto: Convert EC error codes to Linux error codes
+      pwm: cros-ec: Simplify EC error handling
 
-> >   power: reset: Add poweroff driver for ATC260x PMICs
-> >   input: atc260x: Add onkey driver for ATC260x PMICs
-> >   MAINTAINERS: Add entry for ATC260x PMIC
-
-I think this one too.
-
-Thanks,
-Mani
-
-> > 
-> >  .../bindings/mfd/actions,atc260x.yaml         | 221 ++++++++
-> >  MAINTAINERS                                   |  12 +
-> >  drivers/input/misc/Kconfig                    |  11 +
-> >  drivers/input/misc/Makefile                   |   2 +-
-> >  drivers/input/misc/atc260x-onkey.c            | 304 +++++++++++
-> >  drivers/mfd/Kconfig                           |  18 +
-> >  drivers/mfd/Makefile                          |   3 +
-> >  drivers/mfd/atc260x-core.c                    | 290 ++++++++++
-> >  drivers/mfd/atc260x-i2c.c                     |  73 +++
-> >  drivers/power/reset/Kconfig                   |   8 +-
-> >  drivers/power/reset/Makefile                  |   1 +
-> >  drivers/power/reset/atc260x-poweroff.c        | 274 ++++++++++
-> >  drivers/regulator/Kconfig                     |   8 +
-> >  drivers/regulator/Makefile                    |   1 +
-> >  drivers/regulator/atc260x-regulator.c         | 511 ++++++++++++++++++
-> >  include/linux/mfd/atc260x/atc2603c.h          | 281 ++++++++++
-> >  include/linux/mfd/atc260x/atc2609a.h          | 308 +++++++++++
-> >  include/linux/mfd/atc260x/core.h              |  86 +++
-> >  18 files changed, 2410 insertions(+), 2 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/mfd/actions,atc260x.yaml
-> >  create mode 100644 drivers/input/misc/atc260x-onkey.c
-> >  create mode 100644 drivers/mfd/atc260x-core.c
-> >  create mode 100644 drivers/mfd/atc260x-i2c.c
-> >  create mode 100644 drivers/power/reset/atc260x-poweroff.c
-> >  create mode 100644 drivers/regulator/atc260x-regulator.c
-> >  create mode 100644 include/linux/mfd/atc260x/atc2603c.h
-> >  create mode 100644 include/linux/mfd/atc260x/atc2609a.h
-> >  create mode 100644 include/linux/mfd/atc260x/core.h
-> > 
-> > -- 
-> > 2.28.0
-> > 
+ .../iio/common/cros_ec_sensors/cros_ec_sensors.c   |  2 +-
+ drivers/input/keyboard/cros_ec_keyb.c              |  2 +-
+ drivers/platform/chrome/cros_ec_lightbar.c         | 10 ++--
+ drivers/platform/chrome/cros_ec_proto.c            | 57 +++++++++++++++++-----
+ drivers/platform/chrome/cros_ec_sysfs.c            | 24 ++++-----
+ drivers/pwm/pwm-cros-ec.c                          | 37 +++++++-------
+ 6 files changed, 78 insertions(+), 54 deletions(-)
