@@ -2,168 +2,184 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5177424E34E
-	for <lists+linux-input@lfdr.de>; Sat, 22 Aug 2020 00:27:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F89824E6F8
+	for <lists+linux-input@lfdr.de>; Sat, 22 Aug 2020 12:52:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727075AbgHUW1A (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 Aug 2020 18:27:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33806 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726761AbgHUW06 (ORCPT
+        id S1727087AbgHVKwK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 22 Aug 2020 06:52:10 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:27181 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726222AbgHVKwH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 Aug 2020 18:26:58 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D50CEC061573;
-        Fri, 21 Aug 2020 15:26:57 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id l23so2843764edv.11;
-        Fri, 21 Aug 2020 15:26:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=2xVtjZRNRS3E8MVTp7lHDkvpy13Q1fp6Wa/UA+c8+FM=;
-        b=Bxa+FV2CpjigcBwmlJ0mAZ6CFy5eNN8qLauJWLCHmjyOrmPjCKQX+oKc18WbH/dX96
-         lQtBKJRd9iNGtLhKGRWVePgG+4jOgBBsRYArMhBWZTvPRueWGD9ko+My68SQN5wGQ6wN
-         VLKk6MMJ8BfmYZDprO6rX9nxtc2GlFJ1nGKYgOgBm7og9JbzxZMrPuTPN+aQY0j1Mij2
-         fXDi4vBb3kClkMtAtzx9z6UfZE95+mrx4bApQtyDd+5GUJ7isAJpriROBxvYzmXfAhvh
-         xa6LxLtqBDrGn6/lGLt4IzpFLqpvfrKGjVDaN3pTa8dOvkP7mGkcUGRgplgLJ9cX6XEE
-         pSyw==
+        Sat, 22 Aug 2020 06:52:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1598093524;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=+SEG/nulwT6tfpZWDppSVAvKYND4GxX6OsIBaI8DJPU=;
+        b=bwYRFLKB1e+3i3X0J2BWm1X41I2qB0vkX/JqSdX8yzURCfuXZOriEeLJ2lYMCikh3d9bIH
+        /u0SBS2Cpayyk5xxItf62ZZrVbIpMYVwO5nYVpYD8PdntimgUPlcvEe4JDjM0xUNul6yDI
+        a9AJMWNALc1MbGD+DnQkmcgbvmAwhvA=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-173-sNSmZF2CPDS6lwYVQyJRSQ-1; Sat, 22 Aug 2020 06:52:03 -0400
+X-MC-Unique: sNSmZF2CPDS6lwYVQyJRSQ-1
+Received: by mail-ed1-f72.google.com with SMTP id d19so1559468eds.4
+        for <linux-input@vger.kernel.org>; Sat, 22 Aug 2020 03:52:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=2xVtjZRNRS3E8MVTp7lHDkvpy13Q1fp6Wa/UA+c8+FM=;
-        b=OA2DJFdejpEQmcNzP15Y87NQzFjYEWHXQsEd9cqK9O5fbWrsPc5Al7MAoecWOAA36c
-         gFTqxj/8IgyZW/BkNeqsW+uCK5zYcAh1m2zU2nVSXZNUf4YI7qiGjxivvgLnIfnSxsf7
-         XLJIhr6PRMvg8wMYZhb+pzbjdfd/LKt3Lfyn273iZzXS71qArL1IEu9v/vfTggX42FjV
-         czqOfhH654OhZUpWJD9kIlmGjun/hxrA4lWSNkhxoXphqUvh1dttQm6rlkWsOX0L7TL2
-         3jERgnAFDWxGLc/s1IxopWj5Kw5DtuDzrzQONG96e1oWpI3AO9RVi1vPp1FXTXQ8g8vB
-         WPVA==
-X-Gm-Message-State: AOAM531axZ7Iod8BX+DaJdtXY4gR1l5cOpVSDA4xD7sEYlhyJjDdVzpw
-        LeH79yrESPF63QmgCZ8tCvw=
-X-Google-Smtp-Source: ABdhPJxLrBiXYSrNYXMVCMuh+sIT//JDR2ezQOjASjRkpp2BLAQVyiAzZ32tZvDhOURB2PDhXBmssQ==
-X-Received: by 2002:a05:6402:6da:: with SMTP id n26mr5103065edy.262.1598048816550;
-        Fri, 21 Aug 2020 15:26:56 -0700 (PDT)
-Received: from BV030612LT ([188.24.159.61])
-        by smtp.gmail.com with ESMTPSA id bx22sm2057801ejc.18.2020.08.21.15.26.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2020 15:26:56 -0700 (PDT)
-Date:   Sat, 22 Aug 2020 01:26:53 +0300
-From:   Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
-To:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>
-Cc:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-        linux-actions@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] Add initial support for ATC260x PMICs
-Message-ID: <20200821222653.GA2255465@BV030612LT>
-References: <cover.1598043782.git.cristian.ciocaltea@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=+SEG/nulwT6tfpZWDppSVAvKYND4GxX6OsIBaI8DJPU=;
+        b=h/DZMOvAkcMD4kswhPUc6vkFTRBH+P6Dmq2edzPDaBDDBrCuIkOjpDSsVcwmtJ6sDf
+         hJUrik/1n1Cp90a97W7j7dItmU6gu+dHSR6QWn20QjMXHoxQmRFZiNmJyRYNQ/uvmWdT
+         LWUsQ6DmLHEfFG+8PHmQfxxsYMAyYRyHWcBLfTMx+nGyAHWgC6/5rB31B9FoBDdrPLnc
+         mENVEOGEeDowkjX5Of/AALQCXv0P9Fq7WNY1rZXBPD2LM5cdTzUn7OKGv27pWuT9GvZ7
+         rD/eKt2zl8NmvA0M8YNF8tIIaNYngkaUFJHg10h3KwsmyDFK2XVheNA/pO0VqSAaOId1
+         Ci8Q==
+X-Gm-Message-State: AOAM532Ry7/Q3DX7w0AwXWCQDaj6ZicYtEDzbavebfnnOqR/25ldjhzy
+        tP98aL6fYhu5qONgLhJzQHPDidgn25+VMguyWcbMuSN9bPSWPRoRCWOKfu34NherOMuNAKKLizw
+        yG1q3Jl+gclRO+OpqA+EqEik=
+X-Received: by 2002:a17:906:3ac4:: with SMTP id z4mr6485477ejd.65.1598093521686;
+        Sat, 22 Aug 2020 03:52:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzVMoKl7WHwrsY4Xy+YSzBoqJ79v6cjutqV3wiSqUpSMcjRH05MwAeosLbY+6k7NBgRsUybZw==
+X-Received: by 2002:a17:906:3ac4:: with SMTP id z4mr6485463ejd.65.1598093521454;
+        Sat, 22 Aug 2020 03:52:01 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id g11sm2776212edt.88.2020.08.22.03.52.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 22 Aug 2020 03:52:00 -0700 (PDT)
+Subject: Re: Goodix: Obviously wrong reset logic
+To:     Marco Felsch <m.felsch@pengutronix.de>, octavian.purdila@intel.com,
+        irina.tirdea@intel.com, hadess@hadess.net, mamlinav@gmail.com,
+        dmitry.torokhov@gmail.com, yannick.fertre@st.com
+Cc:     kernel@pengutronix.de, linux-input@vger.kernel.org
+References: <20200819094350.h7sz7uvgnp6btxxj@pengutronix.de>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <57d15b78-5638-9f37-d3d8-533fad5ccb83@redhat.com>
+Date:   Sat, 22 Aug 2020 12:52:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1598043782.git.cristian.ciocaltea@gmail.com>
+In-Reply-To: <20200819094350.h7sz7uvgnp6btxxj@pengutronix.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-I have just realized I had omitted the changelog - sorry:
+Hi,
 
-Changes in v2:
-- Reworked MFD core & I2C driver
-  * Integrated Lee's feedback
-  * Added support for using the regmap within atomic contexts
-  * Added support for ATC2603C chip variant
-  * Reorganized KConfig entries
-- Improved regulator driver
-  * Added support for ATC2603C variant
-  * Used helper macros for more compact specification of regulator_desc items
-  * Added more regulator capabilities
-- Added power controller driver
-  * Provides system poweroff/reboot functionalities
-  * Requires support for I2C Atomic transfers in the Owl driver (already submitted)
-- Added onkey driver: exposes the power button as an input device
-- Added yaml binding doc
-- Rebased patchset on kernel v5.9-rc1
+On 8/19/20 11:43 AM, Marco Felsch wrote:
+> Hi all,
+> 
+> since linux v4.5 the goodix touch driver support the reset by commit
+> ec6e1b4082d9 ("Input: goodix - reset device at init"). I was a bit
+> confused while I read the goodix_reset() function:
+> 8<----------------------------------------------------------------------
+> static int goodix_reset(struct goodix_ts_data *ts)
+> {
+> 	int error;
+> 
+> 	/* begin select I2C slave addr */
+> 	error = gpiod_direction_output(ts->gpiod_rst, 0);
+> 	if (error)
+> 		return error;
+> 
+> 	msleep(20);				/* T2: > 10ms */
+> 
+> 	/* HIGH: 0x28/0x29, LOW: 0xBA/0xBB */
+> 	error = goodix_irq_direction_output(ts, ts->client->addr == 0x14);
+> 	(error)
+> 		return error;
+> 
+> 	usleep_range(100, 2000);		/* T3: > 100us */
+> 
+> 	error = gpiod_direction_output(ts->gpiod_rst, 1);
+> 	if (error)
+> 		return error;
+> 	
+> 	...
+> }
+> 8<----------------------------------------------------------------------
+> because the gpiod_direction_output() takes the logical level and and not
+> the physical level. Also it is not intuitive to read. Releasing the reset
+> line first and set it after?
+> 
+> As pointed out by the commit message, the reset logic is based on the
+> datasheet GT911 [1] and GT9271[2]. Those datasheets says that the reset
+> pin is active low. Setting this in my DT-based board will break
+> everything. I checked the DT's already using a goodix device and all of
+> them are specifying the pin as active-high. IMHO this is wrong.
+> 
+> Now the question is: Does the ACPI tables specify it as active high too
+> and was this the reason to miss-use the gpiod_ API? If this is the case
+> fixing the driver would break everything and in that case we should at
+> least mention it within the driver and within the DT-Bindings.
 
-Kind regards,
-Cristi
+Until recently the goodix code did not use the GPIOs in the ACPI case at
+all.
 
-On Sat, Aug 22, 2020 at 01:19:46AM +0300, Cristian Ciocaltea wrote:
-> This is re-spin of the patch series submitted some time ago by Mani,
-> who added initial support (MFD core and regulators) for the Actions
-> Semi ATC260x PMICs:
-> https://lore.kernel.org/lkml/20190617155011.15376-1-manivannan.sadhasivam@linaro.org/
-> 
-> The ATC260x family of PMICs integrates Audio Codec, Power management,
-> Clock generation and GPIO controller blocks. There are currently 3
-> variants: ATC2603A, ATC2603C and ATC2609A.
-> 
-> In addition to the ATC2609A regulator functionality provided that time,
-> this patchset adds support for the ATC2603C variant, together with some
-> new functionalities for both chips: power controller and onkey input.
-> The ATC2603A variant remains unsupported for the moment.
-> 
-> This has been tested on RoseapplePi, a SBC based on the Action Semi S500
-> SoC, which integrates ATC2603C PMIC. An initial support for this board
-> has been already submitted:
-> https://lore.kernel.org/lkml/cover.1592123160.git.cristian.ciocaltea@gmail.com/
-> 
-> Please note that enabling the ATC260x PMICs on the compatible Actions
-> Semi Owl SoC based boards depends on the following:
-> 
-> * Actions Semi SIRQ driver (for PMIC DTS setup):
->   https://lore.kernel.org/lkml/cover.1597852360.git.cristian.ciocaltea@gmail.com/
-> 
-> * I2C Atomic transfers in Actions Semi Owl driver (for proper operation
->   of the power controller driver):
->   https://lore.kernel.org/lkml/b086ef6d355d9730c839359e15eb06175283e323.1596485741.git.cristian.ciocaltea@gmail.com/
->   
-> Thanks,
-> Cristi
-> 
-> Cristian Ciocaltea (6):
->   dt-bindings: mfd: Add Actions Semi ATC260x PMIC binding
->   mfd: Add MFD driver for ATC260x PMICs
->   regulator: Add regulator driver for ATC260x PMICs
->   power: reset: Add poweroff driver for ATC260x PMICs
->   input: atc260x: Add onkey driver for ATC260x PMICs
->   MAINTAINERS: Add entry for ATC260x PMIC
-> 
->  .../bindings/mfd/actions,atc260x.yaml         | 221 ++++++++
->  MAINTAINERS                                   |  12 +
->  drivers/input/misc/Kconfig                    |  11 +
->  drivers/input/misc/Makefile                   |   2 +-
->  drivers/input/misc/atc260x-onkey.c            | 304 +++++++++++
->  drivers/mfd/Kconfig                           |  18 +
->  drivers/mfd/Makefile                          |   3 +
->  drivers/mfd/atc260x-core.c                    | 290 ++++++++++
->  drivers/mfd/atc260x-i2c.c                     |  73 +++
->  drivers/power/reset/Kconfig                   |   8 +-
->  drivers/power/reset/Makefile                  |   1 +
->  drivers/power/reset/atc260x-poweroff.c        | 274 ++++++++++
->  drivers/regulator/Kconfig                     |   8 +
->  drivers/regulator/Makefile                    |   1 +
->  drivers/regulator/atc260x-regulator.c         | 511 ++++++++++++++++++
->  include/linux/mfd/atc260x/atc2603c.h          | 281 ++++++++++
->  include/linux/mfd/atc260x/atc2609a.h          | 308 +++++++++++
->  include/linux/mfd/atc260x/core.h              |  86 +++
->  18 files changed, 2410 insertions(+), 2 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/mfd/actions,atc260x.yaml
->  create mode 100644 drivers/input/misc/atc260x-onkey.c
->  create mode 100644 drivers/mfd/atc260x-core.c
->  create mode 100644 drivers/mfd/atc260x-i2c.c
->  create mode 100644 drivers/power/reset/atc260x-poweroff.c
->  create mode 100644 drivers/regulator/atc260x-regulator.c
->  create mode 100644 include/linux/mfd/atc260x/atc2603c.h
->  create mode 100644 include/linux/mfd/atc260x/atc2609a.h
->  create mode 100644 include/linux/mfd/atc260x/core.h
-> 
-> -- 
-> 2.28.0
-> 
+I've recently fixed this and now there is a helper for setting the
+direction + output value of the GPIO. This is done though a helper
+since on some ACPI platforms the IRQ is modeled as a "direct" IRQ not a
+GpioInt, with ACPI methods for setting the direction + value.
+
+This new helper looks like this:
+
+static int goodix_irq_direction_output(struct goodix_ts_data *ts, int value)
+{
+         switch (ts->irq_pin_access_method) {
+         case IRQ_PIN_ACCESS_NONE:
+                 dev_err(&ts->client->dev,
+                         "%s called without an irq_pin_access_method set\n",
+                         __func__);
+                 return -EINVAL;
+         case IRQ_PIN_ACCESS_GPIO:
+                 return gpiod_direction_output(ts->gpiod_int, value);
+         case IRQ_PIN_ACCESS_ACPI_GPIO:
+                 /*
+                  * The IRQ pin triggers on a falling edge, so its gets marked
+                  * as active-low, use output_raw to avoid the value inversion.
+                  */
+                 return gpiod_direction_output_raw(ts->gpiod_int, value);
+         case IRQ_PIN_ACCESS_ACPI_METHOD:
+                 return goodix_pin_acpi_output_method(ts, value);
+         }
+
+         return -EINVAL; /* Never reached */
+}
+
+Note how in the ACPI case gpiod_direction_output_raw is used to avoid the
+problem you mention. The ACPI table correctly marks the GpioInt (in case
+where a GpioInt resource is used) as active low, so I made
+goodix_irq_direction_output() use gpiod_direction_output_raw() when the GPIOs
+come from ACPI to avoid the exact problem you describe.
+
+If all current DTS users wrongly specify the pin as active-high, as the code
+expects, then indeed if you mark it active-low then things will break.
+
+The problem is you cannot just change this, as that will break existing
+dts/dtb files some of which may not be part of the kernel...
+
+I guess one option would be to do the same thing as I'm doing in the
+devicetree case, and use gpiod_direction_output_raw() ignoring the
+active high/low specified in dt/acpi. I'm not sure if that is a good idea
+but it is an option.
+
+FWIW I very carefully modeled my patch-series for adding support for the
+GPIOs under ACPI to not make any functional changes to the DT case to
+avoid regressions. It might be best for you to also play it safe here
+and just make the pin active-high in the dts file, maybe with a comment
+that that is wrong but it is what the driver expects. Then you don't
+run the risk of breaking other peoples working setups.
+
+Regards,
+
+Hans
+
