@@ -2,196 +2,236 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B95024EA71
-	for <lists+linux-input@lfdr.de>; Sun, 23 Aug 2020 01:24:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71A3424EB5B
+	for <lists+linux-input@lfdr.de>; Sun, 23 Aug 2020 06:42:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728453AbgHVXYN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 22 Aug 2020 19:24:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39008 "EHLO
+        id S1725830AbgHWEmU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 23 Aug 2020 00:42:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728019AbgHVXYL (ORCPT
+        with ESMTP id S1725139AbgHWEmT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 22 Aug 2020 19:24:11 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64F6AC061573;
-        Sat, 22 Aug 2020 16:24:09 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id di22so4980170edb.12;
-        Sat, 22 Aug 2020 16:24:09 -0700 (PDT)
+        Sun, 23 Aug 2020 00:42:19 -0400
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7673CC061573
+        for <linux-input@vger.kernel.org>; Sat, 22 Aug 2020 21:42:19 -0700 (PDT)
+Received: by mail-ot1-x344.google.com with SMTP id a65so4713725otc.8
+        for <linux-input@vger.kernel.org>; Sat, 22 Aug 2020 21:42:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=/Y7f9Xm7v0nGDpdXPmRW8vOuI1YSbNsKgcTvjCP8tEM=;
-        b=mh5dbrQUG/l3CZ6OUbTiw9PTjkn0qWtJDHWBegMmFjIY4jZNgDxAi8yQA3rPug4OiB
-         zy2MCNHhdjBTCQIxN8Qfk6yybwXNnjKICphLXpv/V/yMcdUaCCYTvY9i/8rBQ1k6ofcG
-         MkIyJi3e1GIOHaKhZhYyEak5VEzvK1A3jAsjPPc+K6HgjfjUFG5bh5t9sqXHyM27i4Vy
-         jPufr2UnVxxNuXa20KQV8/EAZjrty6zLvyeeEFbxvhh5TtRe8WSAZxti6pbqA9atHqmM
-         EQFybR6TH/XH++l6dTTHL9UfJV11eAsfiQCXoYqEV1Tdf/V2JxPczJg7MxcEVpu7UbpL
-         +/pQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kCEJaM8BGRI3ZAoE7T4YkedhWORh54v4DZnBdiXF9YQ=;
+        b=MJd4bPanYtEivuijEaeLu06IGeOx1c9LuT/f85xyDmhU6g+HW9oHq84nVaIt5VI4Oh
+         H/saRk2B/Xsa0J0Jp5qawFHicYmTx/JP+iFwPFmj9LIj9aY6jp6EjiCmJ8CxZ0WxyS6D
+         CJtiJDpHzbAderAHUDpl+kE/gl8VoVcTB5HxHz3aYJIha/EPpDtNcR/YVZsnOQutpyv0
+         /yAUicI1xC69ZkgUxahBy2U5QuxWvwX+oyS5B0K5/lTeWvQZRMA7CZk7lDKe4WJYAGt1
+         RbrVNz/XklhDSlsGYgnngfWPJghjXTnISzag6a+3UBSXGWBXhQ3dba2NVht/tQtFYAOV
+         8RGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=/Y7f9Xm7v0nGDpdXPmRW8vOuI1YSbNsKgcTvjCP8tEM=;
-        b=Jwqmafgbn/xHO866A2KKPGvDr4b4KPd8jrf1lXPPPZLFX2Dl6PfSvol5BnxfTSExuE
-         PGmPsBP8j0idHUWtkhm2rpw2oMxen+PhzzOSPqfvzo8eq3Ac3ME627qE16AzJZLrAv0c
-         P92geOX0AKHDu830de429THA6qzjfpSFwaUeSQvtwrwgXoff2vK45V80UE8T72G/lmxD
-         kudqFh/iv15/qA7q5sPIkKBrqbkeAvicDJnhe8Zi1fEJQ6vt16TqMeehYxTXRsLQvWbq
-         OygZgXcIPtSDxFXUSQjlcvy/ilivbx1WQqtq0zv9PgurTnceTaWTwRFp+H91Xps1GPjT
-         bBdw==
-X-Gm-Message-State: AOAM532WialMHilLfs/QZtS4C/RpH5GaPDOuIP+CULbeQdz9G1WJQsoL
-        9qXzcf8RLGK5FMiraDFzBSI=
-X-Google-Smtp-Source: ABdhPJx8dvKf7ZC5W+KduDx+/c1sFm5WWOWbntchk1xRMi5Sr8P6+Tu2VlVxDyE4m1YjQ/xfzFRxaw==
-X-Received: by 2002:a05:6402:3193:: with SMTP id di19mr9110918edb.224.1598138648402;
-        Sat, 22 Aug 2020 16:24:08 -0700 (PDT)
-Received: from BV030612LT ([188.24.159.61])
-        by smtp.gmail.com with ESMTPSA id dr21sm4518213ejc.112.2020.08.22.16.24.07
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kCEJaM8BGRI3ZAoE7T4YkedhWORh54v4DZnBdiXF9YQ=;
+        b=YuVyuUlh5xsSUN1H1YDdeNzEaEs6seoornh/azr31EteCv+cFzg9NkOvYpAC8fWryq
+         o51wI2UQNz3VwTjA8J1Rbw/WHJqTsPBqw7E7lNe2w9vywhOfSefmNWP6pm2BTZmzbAGu
+         K3loSTjhR0skhVnTB81FACZfFsQoGjzsiftY16dqS7+/7/jxcqJuKuRcB45lO6wibZEU
+         xc3yPU1373Xh1QPwgm19ed/0Zj92Q5sKD7vNL50daHVmuZXs6hNkQhyFjztPHHy5o8WJ
+         kgf79x95t76mzBxxIQHSzc5KdvwFUODS+WmXNdVyAiby8pM+6T9oqd9Twzi5RBST5TUu
+         dd6A==
+X-Gm-Message-State: AOAM530lJ8m5GRq9ZbizQCBsrTagkHAuo+CsSlCCIKVt9x2SKiEcKZ38
+        JxF1yEABtPORBAq2L/7Re+JpG5eF9IYrYQ==
+X-Google-Smtp-Source: ABdhPJz43Bxf1v571krLKnpMbNVKXNgirnqsJfVNZuApwz4F6F0dSCJipIjxr5SJEPpnTnLqiD3x8g==
+X-Received: by 2002:a9d:2782:: with SMTP id c2mr256896otb.217.1598157737763;
+        Sat, 22 Aug 2020 21:42:17 -0700 (PDT)
+Received: from Arrakis.djogorchock.com ([136.33.205.58])
+        by smtp.gmail.com with ESMTPSA id z10sm1308572otk.6.2020.08.22.21.42.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Aug 2020 16:24:07 -0700 (PDT)
-Date:   Sun, 23 Aug 2020 02:24:05 +0300
-From:   Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
-To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-        linux-actions@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] Add initial support for ATC260x PMICs
-Message-ID: <20200822232405.GA2261833@BV030612LT>
-References: <cover.1598043782.git.cristian.ciocaltea@gmail.com>
- <20200821222653.GA2255465@BV030612LT>
- <20200822131343.GA5954@Mani-XPS-13-9360>
+        Sat, 22 Aug 2020 21:42:16 -0700 (PDT)
+From:   "Daniel J. Ogorchock" <djogorchock@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     thunderbird2k@gmail.com, blaws05@gmail.com,
+        benjamin.tissoires@redhat.com, jikos@kernel.org,
+        Roderick.Colenbrander@sony.com, svv@google.com, s.jegen@gmail.com,
+        carmueller@gmail.com, pgriffais@valvesoftware.com,
+        hadess@hadess.net, "Daniel J. Ogorchock" <djogorchock@gmail.com>
+Subject: [PATCH v12 00/14] HID: nintendo
+Date:   Sat, 22 Aug 2020 23:41:43 -0500
+Message-Id: <20200823044157.339677-1-djogorchock@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200822131343.GA5954@Mani-XPS-13-9360>
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Mani,
+I've included round 2 for the IMU support patch. The documentation is
+improved and the precision increased for the gyroscope values reported
+to userspace.
 
-On Sat, Aug 22, 2020 at 06:43:43PM +0530, Manivannan Sadhasivam wrote:
-> Hi Cristi,
-> 
-> Thanks for the series! I'll take a look soon but there is a quick comment
-> below.
-> 
-> On Sat, Aug 22, 2020 at 01:26:53AM +0300, Cristian Ciocaltea wrote:
-> > I have just realized I had omitted the changelog - sorry:
-> > 
-> > Changes in v2:
-> > - Reworked MFD core & I2C driver
-> >   * Integrated Lee's feedback
-> >   * Added support for using the regmap within atomic contexts
-> >   * Added support for ATC2603C chip variant
-> >   * Reorganized KConfig entries
-> > - Improved regulator driver
-> >   * Added support for ATC2603C variant
-> >   * Used helper macros for more compact specification of regulator_desc items
-> >   * Added more regulator capabilities
-> > - Added power controller driver
-> >   * Provides system poweroff/reboot functionalities
-> >   * Requires support for I2C Atomic transfers in the Owl driver (already submitted)
-> > - Added onkey driver: exposes the power button as an input device
-> > - Added yaml binding doc
-> > - Rebased patchset on kernel v5.9-rc1
-> > 
-> > Kind regards,
-> > Cristi
-> > 
-> > On Sat, Aug 22, 2020 at 01:19:46AM +0300, Cristian Ciocaltea wrote:
-> > > This is re-spin of the patch series submitted some time ago by Mani,
-> > > who added initial support (MFD core and regulators) for the Actions
-> > > Semi ATC260x PMICs:
-> > > https://lore.kernel.org/lkml/20190617155011.15376-1-manivannan.sadhasivam@linaro.org/
-> > > 
-> > > The ATC260x family of PMICs integrates Audio Codec, Power management,
-> > > Clock generation and GPIO controller blocks. There are currently 3
-> > > variants: ATC2603A, ATC2603C and ATC2609A.
-> > > 
-> > > In addition to the ATC2609A regulator functionality provided that time,
-> > > this patchset adds support for the ATC2603C variant, together with some
-> > > new functionalities for both chips: power controller and onkey input.
-> > > The ATC2603A variant remains unsupported for the moment.
-> > > 
-> > > This has been tested on RoseapplePi, a SBC based on the Action Semi S500
-> > > SoC, which integrates ATC2603C PMIC. An initial support for this board
-> > > has been already submitted:
-> > > https://lore.kernel.org/lkml/cover.1592123160.git.cristian.ciocaltea@gmail.com/
-> > > 
-> > > Please note that enabling the ATC260x PMICs on the compatible Actions
-> > > Semi Owl SoC based boards depends on the following:
-> > > 
-> > > * Actions Semi SIRQ driver (for PMIC DTS setup):
-> > >   https://lore.kernel.org/lkml/cover.1597852360.git.cristian.ciocaltea@gmail.com/
-> > > 
-> > > * I2C Atomic transfers in Actions Semi Owl driver (for proper operation
-> > >   of the power controller driver):
-> > >   https://lore.kernel.org/lkml/b086ef6d355d9730c839359e15eb06175283e323.1596485741.git.cristian.ciocaltea@gmail.com/
-> > >   
-> > > Thanks,
-> > > Cristi
-> > > 
-> > > Cristian Ciocaltea (6):
-> > >   dt-bindings: mfd: Add Actions Semi ATC260x PMIC binding
-> > >   mfd: Add MFD driver for ATC260x PMICs
-> > >   regulator: Add regulator driver for ATC260x PMICs
-> 
-> You need to preserve my authorship for above two patches. Adding the signed-off-by
-> is not enough.
+There is still the important question of how to deal with userspace
+implementing custom drivers using hidraw (i.e. Steam). I am resistant to
+having hid-nintendo completely yield when userspace uses hidraw, since
+that would prevent other applications from receiving the events from the
+controllers (like maybe someone configures a voip client to use one of
+the triggers as push-to-talk).
 
-I'm very sorry for the mistake, I was not aware of the correct reposting
-procedure. Should I resend the series now or could we handle a first round
-of review before?
+In my personal testing with steam, I don't see much issue since I
+introduced the patch to not send rumble subcommands when no effect is
+playing. Steam/hid-nintendo seem to fight when hid-nintendo is sending
+lots of subcommands (e.g. rumble, setting LEDs). Others have reported
+though that hid-nintendo/Steam are still fighting even with that patch.
 
-Thanks,
-Cristi
+I guess there's not much that can be done though to guarantee a
+userspace and kernel driver coexisting at the same time, since one of
+them could completely reconfigure the controller's reporting mode, IMU
+resolution, etc.
 
-> > >   power: reset: Add poweroff driver for ATC260x PMICs
-> > >   input: atc260x: Add onkey driver for ATC260x PMICs
-> > >   MAINTAINERS: Add entry for ATC260x PMIC
-> 
-> I think this one too.
-> 
-> Thanks,
-> Mani
-> 
-> > > 
-> > >  .../bindings/mfd/actions,atc260x.yaml         | 221 ++++++++
-> > >  MAINTAINERS                                   |  12 +
-> > >  drivers/input/misc/Kconfig                    |  11 +
-> > >  drivers/input/misc/Makefile                   |   2 +-
-> > >  drivers/input/misc/atc260x-onkey.c            | 304 +++++++++++
-> > >  drivers/mfd/Kconfig                           |  18 +
-> > >  drivers/mfd/Makefile                          |   3 +
-> > >  drivers/mfd/atc260x-core.c                    | 290 ++++++++++
-> > >  drivers/mfd/atc260x-i2c.c                     |  73 +++
-> > >  drivers/power/reset/Kconfig                   |   8 +-
-> > >  drivers/power/reset/Makefile                  |   1 +
-> > >  drivers/power/reset/atc260x-poweroff.c        | 274 ++++++++++
-> > >  drivers/regulator/Kconfig                     |   8 +
-> > >  drivers/regulator/Makefile                    |   1 +
-> > >  drivers/regulator/atc260x-regulator.c         | 511 ++++++++++++++++++
-> > >  include/linux/mfd/atc260x/atc2603c.h          | 281 ++++++++++
-> > >  include/linux/mfd/atc260x/atc2609a.h          | 308 +++++++++++
-> > >  include/linux/mfd/atc260x/core.h              |  86 +++
-> > >  18 files changed, 2410 insertions(+), 2 deletions(-)
-> > >  create mode 100644 Documentation/devicetree/bindings/mfd/actions,atc260x.yaml
-> > >  create mode 100644 drivers/input/misc/atc260x-onkey.c
-> > >  create mode 100644 drivers/mfd/atc260x-core.c
-> > >  create mode 100644 drivers/mfd/atc260x-i2c.c
-> > >  create mode 100644 drivers/power/reset/atc260x-poweroff.c
-> > >  create mode 100644 drivers/regulator/atc260x-regulator.c
-> > >  create mode 100644 include/linux/mfd/atc260x/atc2603c.h
-> > >  create mode 100644 include/linux/mfd/atc260x/atc2609a.h
-> > >  create mode 100644 include/linux/mfd/atc260x/core.h
-> > > 
-> > > -- 
-> > > 2.28.0
-> > > 
+The two extremes seem to be either having the hid drivers yield to
+userspace completely when hidraw is in use (e.g. hid-steam with its
+virtual hidraw dev) or mask out exposing the hidraw device when a kernel
+hid driver is being used. It feels wrong to have things in the current
+state where the HIDRAW device is being exposed, but it's not actually
+supported.
+
+Version 12 changes:
+  - Added support for reading user calibration from the controller's
+    SPI flash (written when someone calibrates the controller on the
+    Nintendo switch).
+  - Added patch to prevent sending rumble subcommands when no effect
+    is being played. This turned out to drastically improve bluetooth
+    connection reliability.
+  - Set the battery description to POWER_SUPPLY_TYPE_BATTERY (was
+    missing in previous revisions due to oversight). This fixes problems
+    with desktop environments not handling the controller batteries
+    properly.
+  - Reintroduced IMU patch with improvements to documentation, packet
+    drop handling, and increased precision for gyro readings. Also
+    now blacklists the IMU input dev from joydev like hid-sony.
+
+Version 11 changes:
+  - Removed IMU patch for now, since it has some issues to work out.
+  - Fixed bug introduced in v10 which led to the joy-cons' S-triggers
+    not being configured as an input.
+  - Changed the pro controller's d-pad input from buttons to a hat to be
+    more in line with other controller drivers.
+
+Version 10 changes:
+  - Removed duplicate reporting of one of the triggers that Billy noticed
+  - The joy-cons now only report having the buttons they actually have
+    (they used to register the input devices with the buttons of the
+    other joy-con as well).
+  - The input device is now created after the LEDs/power supply.
+  - The removed state handling bool has been removed, instead opting to
+    add a new controller state (removed).
+  - Eliminated a 1 second delay when probing a USB controller.
+  - Added support for the IMU. This mostly consisted of merging in some
+    work provided by Carl. I'm not incredibly familiar with proper
+    gyro/accelerometer handling in linux, so this might need some
+    tweaking. Preliminary tests in evtest show the gyro/accel values
+    being reported.
+  - Added support for the joy-con USB charging grip.
+
+Version 9 changes:
+  - Fixed compiler errors on gcc versions older than 8.2
+  - Set input device's uniq value to the controller's MAC address
+
+Version 8 changes:
+  - Corrected the handshaking protocol with USB pro controllers. A
+    handshake now occurs both prior and after the baudrate set. This
+    doesn't appear to have a noticeable difference, but it more
+    accurately follows documentation found online.
+  - Fixed potential race condition which could lead to a slightly longer
+    delay sending subcommands in rare circumstances.
+  - Moved the rumble worker to its own workqueue, since it can block.
+    This prevents it from having a negative impact on the default kernel
+    workqueue. It also prevents dropped subcommands due to something
+    else blocking the kernel workqueue. The benefit is most obvious when
+    using multiple controllers at once, since the controller subcommand
+    timings are very picky.
+  - Added a patch to set the most significant bit of the hid hw version.
+    Roderick had mentioned needing to probably do this awhile ago, but I
+    had forgotten about it until now. This is the same thing hid-sony
+    does. It allows SDL2 to have different mappings for the hid-nintendo
+    driver vs the default hid mappings.
+
+Version 7 changes:
+  - Changed name to hid-nintendo to fit modern naming conventions
+  - Removed joycon_ctlr_destroy(), since it wasn't needed an could
+    potentially invalidate a mutex while it could be in use on other
+    threads
+  - Implemented minor code improvements suggested by Silvan
+  - The driver now waits to send subcommands until after receiving an
+    input report. This significantly reduces dropped subcommands.
+  - Reduced the number of error messages when disconnecting a
+    controller.
+
+Version 6 changes:
+  - Improved subcommand sending reliabilty
+  - Decreased rumble period to 50ms
+  - Added rumble queue to avoid missing ff_effects if sent too quickly
+  - Code cleanup and minor refactoring
+  - Added default analog stick calibration
+
+Version 5 changes:
+  - Removed sysfs interface to control motor frequencies.
+  - Improved rumble reliability by using subcommands to set it.
+  - Changed mapping of the SL/SR triggers on the joy-cons to map to
+    whichever triggers they lack (e.g. a left joycon's sl/sr map to
+    TR and TR2). This allows userspace to distinguish between the
+    normal and S triggers.
+  - Minor refactors
+
+Version 4 changes:
+  - Added support for the Home button LED for the pro controller and
+    right joy-con
+  - Changed name from hid-switchcon to hid-joycon
+  - Added rumble support
+  - Removed ctlr->type and use hdev->product instead
+  - Use POWER_SUPPLY_CAPACITY_LEVEL enum instead of manually translating
+    to capacity percentages
+  - Misc. minor refactors based on v3 feedback
+
+Version 3 changes:
+  - Added led_classdev support for the 4 player LEDs
+  - Added power_supply support for the controller's battery
+  - Made the controller number mutex static
+  - Minor refactoring/style fixes based on Roderick's feedback from v2
+
+Version 2 changes:
+  - Switched to using a synchronous method for configuring the
+        controller.
+  - Removed any pairing/orientation logic in the driver. Every
+    controller now corresponds to its own input device.
+  - Store controller button data as a single u32.
+  - Style corrections
+
+Daniel J. Ogorchock (14):
+  HID: nintendo: add nintendo switch controller driver
+  HID: nintendo: add player led support
+  HID: nintendo: add power supply support
+  HID: nintendo: add home led support
+  HID: nintendo: add rumble support
+  HID: nintendo: improve subcommand reliability
+  HID: nintendo: send subcommands after receiving input report
+  HID: nintendo: reduce device removal subcommand errors
+  HID: nintendo: patch hw version for userspace HID mappings
+  HID: nintendo: set controller uniq to MAC
+  HID: nintendo: add support for charging grip
+  HID: nintendo: add support for reading user calibration
+  HID: nintendo: prevent needless queueing of the rumble worker
+  HID: nintendo: add IMU support
+
+ MAINTAINERS                |    6 +
+ drivers/hid/Kconfig        |   24 +
+ drivers/hid/Makefile       |    1 +
+ drivers/hid/hid-ids.h      |    4 +
+ drivers/hid/hid-nintendo.c | 2240 ++++++++++++++++++++++++++++++++++++
+ drivers/input/joydev.c     |   10 +
+ 6 files changed, 2285 insertions(+)
+ create mode 100644 drivers/hid/hid-nintendo.c
+
+-- 
+2.28.0
+
