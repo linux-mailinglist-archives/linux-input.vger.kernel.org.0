@@ -2,204 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E43C250152
-	for <lists+linux-input@lfdr.de>; Mon, 24 Aug 2020 17:43:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECDAC25099F
+	for <lists+linux-input@lfdr.de>; Mon, 24 Aug 2020 21:51:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727116AbgHXPn3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 Aug 2020 11:43:29 -0400
-Received: from mx01-sz.bfs.de ([194.94.69.67]:56880 "EHLO mx01-sz.bfs.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726473AbgHXPnR (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 Aug 2020 11:43:17 -0400
-X-Greylist: delayed 465 seconds by postgrey-1.27 at vger.kernel.org; Mon, 24 Aug 2020 11:43:08 EDT
-Received: from SRVEX01-SZ.bfs.intern (exchange-sz.bfs.de [10.129.90.31])
-        by mx01-sz.bfs.de (Postfix) with ESMTPS id 3A1CF20443;
-        Mon, 24 Aug 2020 17:35:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bfs.de; s=dkim201901;
-        t=1598283317;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=eRzgFGh9/BntiqGMWEsiZTSABhsVMBDixd2/cOXtNic=;
-        b=W883IKrtXCl6w24SgX1GtliiAQSPPfxD61Ue1YMCpYT7W9I2Ep5YG1gAV+J1xnilaIf2Ar
-        XJjsMTikvD/ac7kWw89AyKu9Ihm6UNS3gMi6M0Pv1vnd+s552ytTNSzlH16TxEzn2s6gdD
-        z6sXmOhy3LJmpYtIXC55Swei+FHkDkYvv9sODLyj/Ym29ZWRsHla7AXz2Fn2iQ+pvM3etF
-        dHb/QF9G7N983wJcDFtF2EJ4eV0A8ApeoMA58t0nhGfWkLaenozj0wWugs+Hwl6xPzTpsw
-        5yg83Bwcwn8KjZu09fUVTLZ/AYE2tz8UKOEjq5q3985B91cgYqBIADtpemd8iA==
-Received: from SRVEX01-SZ.bfs.intern (10.129.90.31) by SRVEX01-SZ.bfs.intern
- (10.129.90.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2044.4; Mon, 24 Aug
- 2020 17:35:16 +0200
-Received: from SRVEX01-SZ.bfs.intern ([fe80::7d2d:f9cb:2761:d24a]) by
- SRVEX01-SZ.bfs.intern ([fe80::7d2d:f9cb:2761:d24a%6]) with mapi id
- 15.01.2044.004; Mon, 24 Aug 2020 17:35:16 +0200
-From:   Walter Harms <wharms@bfs.de>
-To:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Stefan Achatz <erazor_de@users.sourceforge.net>
-CC:     Jiri Kosina <jikos@kernel.org>,
+        id S1726119AbgHXTvH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Aug 2020 15:51:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55988 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725904AbgHXTvG (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 24 Aug 2020 15:51:06 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2352C061573;
+        Mon, 24 Aug 2020 12:51:06 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id d22so5451042pfn.5;
+        Mon, 24 Aug 2020 12:51:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=pMt84YGzICTARUZR9PJn3ICYFMjPcvy8tYTWPRp5eqQ=;
+        b=LZnzFdyNQHSqko5TMMWql+JMJhA4flrNBTV6I5qPn4mijQ2aj6v8+u1dmVHhSLZ7Ci
+         H3F4yAD63lhfOAIL3tY+yJS08/Ds0CbyUcNWXnwdOrSxxn7J4C4dEPzHBdfcbr+d2o/1
+         OOFdJgvRm4kBqytmxRHOywJscsajhZ6cJU4V72EBe0LX8khBz2MfijBFidOD0/s7bvBw
+         noWDQaxUTNLOQopw/ScVW0ES0B/5mVWNfIrWfJ2fyREMvfjOHjvCchbEB9gpZcpd9PQo
+         OhqpvxkbXJ3dSzwik5TifYUtnyvWfM4yal1fRdxb2RXV4O11XlkDkilvbGX53qSsjwU0
+         lzCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=pMt84YGzICTARUZR9PJn3ICYFMjPcvy8tYTWPRp5eqQ=;
+        b=l+ecS56h5lRVCgJJeNK4+ZE2lJiDDb3QRnuFVkJQAPVkBgSJIjQ+gYKt46wMSTO3mL
+         jh47Qc+hq9QyOdpoSqn503GoYJp8KeyLkTC0TKNQplxtgaTgQ0kz7pgrLsx7XBR2oAz7
+         dPAA6o0xN9CsDpZU/C6LtLUPWKJfXoMmhvJay3FRTqG+NjP/LbWUCGJ2NCSCCH1XXG+p
+         gnTgF7uCRMDCRsVIk2BvFlGol7YZc3Dk6guIE2qxvJPpf61uwuXjEAO95PROnM+a75X3
+         9SoyeuEu7qeJNlAvDDrPJm/10PlcCFSvuxeopu+BBCdB8PLJ5LxI8Q50Yn7JBgQul54k
+         vuag==
+X-Gm-Message-State: AOAM533ROLpbRlVh+hY6bEiRrrLGmHGlTU0I1h3xna3zrtYPzdnPURx1
+        4LGf/Kpypf9Zbf2Ii5TFO4s=
+X-Google-Smtp-Source: ABdhPJxPQCgnZtd8bvEz8oEO37Vr++HTJ9bYWNVt/AJP8KChWeuI146XIDBgm1CIgDflLeAsJ6EqxQ==
+X-Received: by 2002:a17:902:7293:: with SMTP id d19mr4986961pll.303.1598298665991;
+        Mon, 24 Aug 2020 12:51:05 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id f77sm12906118pfa.216.2020.08.24.12.51.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Aug 2020 12:51:04 -0700 (PDT)
+Date:   Mon, 24 Aug 2020 12:51:02 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>
-Subject: AW: [PATCH v2] HID: roccat: add bounds checking in
- kone_sysfs_write_settings()
-Thread-Topic: [PATCH v2] HID: roccat: add bounds checking in
- kone_sysfs_write_settings()
-Thread-Index: AQHWefToEl9avbae1kGQ4FmFDoAFsalHYb09
-Date:   Mon, 24 Aug 2020 15:35:16 +0000
-Message-ID: <ab4625b2b2ea41dd83ff9e192a027f41@bfs.de>
-References: <1597819984.4101.16.camel@web.de>,<20200824085735.GA208317@mwanda>
-In-Reply-To: <20200824085735.GA208317@mwanda>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.137.16.40]
-x-tm-as-product-ver: SMEX-14.0.0.3031-8.6.1012-25624.000
-x-tm-as-result: No-10--8.314400-5.000000
-x-tmase-matchedrid: 7icOwTYiHK3RubRCcrbc5pzEHTUOuMX33dCmvEa6IiG4eDpiBrUciGr4
-        /y/RCSUy0Hoi1fEaP4qN5vNGwyZ1KF1McTGy89+ei82UiskMqcwwQTzTIFJCzoxRWJphhsrcQT3
-        oROdvH1vQftcvF9LRG8ZHJ++jFzpIIjM2rMmDTQPHsv3gEadaxCHxHXwnWAXc13GjbR1NJrEmgo
-        5BSqf/niJoNo9EQ2Zq4zBrQSJZSTkfKML5AJtfLQLiZxZUfodHp2Uv2mII684IFWSswluXgnWCd
-        6QvVzbex2BEc3TqpBiIZm0VEEWEK3J+EgEMl5xOKSfEqVU/Tv8GchEhVwJY30oPLn6eZ90+i836
-        2cmVmYBGjk/QOKmZVVvy4imyA8gdbu8QqMQjwvLC0TXpqtexIkq4gufanRIyzKXGJgSfagbQGFl
-        KOB0iJEqna2uFlro8j0IvV7jlqDhyPzMTUSO1JIph1hAtvKZN7VGXkoWCELlzORjGZHjERrZUKC
-        nFEZZuZx0Cdo1A6e9ftuJwrFEhTY2j49Ftap9EOwBXM346/+wf23iD7YgwEwwq4Etiqzo8+GDOl
-        f6Gop5k2MZOGWKdRA3k+0LX9UYI
-x-tm-as-user-approved-sender: No
-x-tm-as-user-blocked-sender: No
-x-tmase-result: 10--8.314400-5.000000
-x-tmase-version: SMEX-14.0.0.3031-8.6.1012-25624.000
-x-tm-snts-smtp: 2D30FE7C49BE24CBF31F0FC3A7CCC177A453A6351CC867F95BC01E273150AA3A2000:9
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] Input; Sanitize event code before modifying bitmaps
+Message-ID: <20200824195102.GY1665100@dtor-ws>
+References: <20200817112700.468743-1-maz@kernel.org>
+ <20200817112700.468743-2-maz@kernel.org>
 MIME-Version: 1.0
-X-Spam-Status: No, score=-0.00
-Authentication-Results: mx01-sz.bfs.de;
-        none
-X-Spamd-Result: default: False [-0.00 / 7.00];
-         ARC_NA(0.00)[];
-         TO_DN_EQ_ADDR_SOME(0.00)[];
-         HAS_XOIP(0.00)[];
-         FROM_HAS_DN(0.00)[];
-         TO_DN_SOME(0.00)[];
-         TO_MATCH_ENVRCPT_ALL(0.00)[];
-         MIME_GOOD(-0.10)[text/plain];
-         DKIM_SIGNED(0.00)[];
-         RCPT_COUNT_SEVEN(0.00)[7];
-         NEURAL_HAM(-0.00)[-1.033];
-         RCVD_NO_TLS_LAST(0.10)[];
-         FROM_EQ_ENVFROM(0.00)[];
-         MIME_TRACE(0.00)[0:+];
-         RCVD_COUNT_TWO(0.00)[2];
-         MID_RHS_MATCH_FROM(0.00)[];
-         BAYES_HAM(-0.00)[19.08%]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200817112700.468743-2-maz@kernel.org>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-hello Dan,=20
+Hi Marc,
 
-i notice that you can shorten the line to:
-(line above checks for count=3D=3Dsizeof(struct kone_settings))
+On Mon, Aug 17, 2020 at 12:26:59PM +0100, Marc Zyngier wrote:
+> When calling into input_set_capability(), the passed event code is
+> blindly used to set a bit in a number of bitmaps, without checking
+> whether this actually fits the expected size of the bitmap.
+> 
+> This event code can come from a variety of sources, including devices
+> masquerading as input devices, only a bit more "programmable".
+> 
+> Instead of taking the raw event code, sanitize it to the actual bitmap
+> size and output a warning to let the user know.
+> 
+> These checks are, at least in spirit, in keeping with cb222aed03d7
+> ("Input: add safety guards to input_set_keycode()").
+> 
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Marc Zyngier <maz@kernel.org>
+> ---
+>  drivers/input/input.c | 16 +++++++++++++++-
+>  1 file changed, 15 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/input/input.c b/drivers/input/input.c
+> index 3cfd2c18eebd..1e77cf47aa44 100644
+> --- a/drivers/input/input.c
+> +++ b/drivers/input/input.c
+> @@ -1974,14 +1974,18 @@ EXPORT_SYMBOL(input_get_timestamp);
+>   * In addition to setting up corresponding bit in appropriate capability
+>   * bitmap the function also adjusts dev->evbit.
+>   */
+> -void input_set_capability(struct input_dev *dev, unsigned int type, unsigned int code)
+> +void input_set_capability(struct input_dev *dev, unsigned int type, unsigned int raw_code)
+>  {
+> +	unsigned int code = raw_code;
+> +
+>  	switch (type) {
+>  	case EV_KEY:
+> +		code &= KEY_MAX;
+>  		__set_bit(code, dev->keybit);
 
-difference =3D memcmp(settings, &kone->settings, count);
 
-nothing special just to shorten the line and make use of count.
+I would much rather prefer we did not simply set some random bits in
+this case, but instead complained loudly and refused to alter anything.
 
-and just to save one indent level and because its  readabel nicely:
-    if ( ! difference )=20
-          goto unlock;
+The function is not exported directly to userspace, so we expect callers
+to give us sane inputs, and I believe WARN() splash in case of bad
+inputs would be the best solution here.
 
-hope that helps
+Thanks.
 
-re,
- wh
-________________________________________
-Von: kernel-janitors-owner@vger.kernel.org [kernel-janitors-owner@vger.kern=
-el.org] im Auftrag von Dan Carpenter [dan.carpenter@oracle.com]
-Gesendet: Montag, 24. August 2020 10:57
-An: Stefan Achatz
-Cc: Jiri Kosina; Benjamin Tissoires; linux-input@vger.kernel.org; linux-ker=
-nel@vger.kernel.org; kernel-janitors@vger.kernel.org
-Betreff: [PATCH v2] HID: roccat: add bounds checking in kone_sysfs_write_se=
-ttings()
-
-This code doesn't check if "settings->startup_profile" is within bounds
-and that could result in an out of bounds array access.  What the code
-does do is it checks if the settings can be written to the firmware, so
-it's possible that the firmware has a bounds check?  It's safer and
-easier to verify when the bounds checking is done in the kernel.
-
-Fixes: 14bf62cde794 ("HID: add driver for Roccat Kone gaming mouse")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
-v2:  In the v1 patch I added a check against settings->size but that's
-potentially too strict so it was removed.
-
- drivers/hid/hid-roccat-kone.c | 23 ++++++++++++++++-------
- 1 file changed, 16 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/hid/hid-roccat-kone.c b/drivers/hid/hid-roccat-kone.c
-index 2ff4c8e366ff..1ca64481145e 100644
---- a/drivers/hid/hid-roccat-kone.c
-+++ b/drivers/hid/hid-roccat-kone.c
-@@ -294,31 +294,40 @@ static ssize_t kone_sysfs_write_settings(struct file =
-*fp, struct kobject *kobj,
-        struct kone_device *kone =3D hid_get_drvdata(dev_get_drvdata(dev));
-        struct usb_device *usb_dev =3D interface_to_usbdev(to_usb_interface=
-(dev));
-        int retval =3D 0, difference, old_profile;
-+       struct kone_settings *settings =3D (struct kone_settings *)buf;
-
-        /* I need to get my data in one piece */
-        if (off !=3D 0 || count !=3D sizeof(struct kone_settings))
-                return -EINVAL;
-
-        mutex_lock(&kone->kone_lock);
--       difference =3D memcmp(buf, &kone->settings, sizeof(struct kone_sett=
-ings));
-+       difference =3D memcmp(settings, &kone->settings,
-+                           sizeof(struct kone_settings));
-        if (difference) {
--               retval =3D kone_set_settings(usb_dev,
--                               (struct kone_settings const *)buf);
--               if (retval) {
--                       mutex_unlock(&kone->kone_lock);
--                       return retval;
-+               if (settings->startup_profile < 1 ||
-+                   settings->startup_profile > 5) {
-+                       retval =3D -EINVAL;
-+                       goto unlock;
-                }
-
-+               retval =3D kone_set_settings(usb_dev, settings);
-+               if (retval)
-+                       goto unlock;
-+
-                old_profile =3D kone->settings.startup_profile;
--               memcpy(&kone->settings, buf, sizeof(struct kone_settings));
-+               memcpy(&kone->settings, settings, sizeof(struct kone_settin=
-gs));
-
-                kone_profile_activated(kone, kone->settings.startup_profile=
-);
-
-                if (kone->settings.startup_profile !=3D old_profile)
-                        kone_profile_report(kone, kone->settings.startup_pr=
-ofile);
-        }
-+unlock:
-        mutex_unlock(&kone->kone_lock);
-
-+       if (retval)
-+               return retval;
-+
-        return sizeof(struct kone_settings);
- }
- static BIN_ATTR(settings, 0660, kone_sysfs_read_settings,
---
-2.28.0
-
+-- 
+Dmitry
