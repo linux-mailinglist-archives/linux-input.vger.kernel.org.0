@@ -2,71 +2,238 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C98A1250EF5
-	for <lists+linux-input@lfdr.de>; Tue, 25 Aug 2020 04:24:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 188E5251011
+	for <lists+linux-input@lfdr.de>; Tue, 25 Aug 2020 05:48:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726532AbgHYCYz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 Aug 2020 22:24:55 -0400
-Received: from mail-il1-f195.google.com ([209.85.166.195]:35734 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726365AbgHYCYz (ORCPT
+        id S1728393AbgHYDsy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 Aug 2020 23:48:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45632 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728105AbgHYDsx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 Aug 2020 22:24:55 -0400
-Received: by mail-il1-f195.google.com with SMTP id q14so9139705ilm.2;
-        Mon, 24 Aug 2020 19:24:54 -0700 (PDT)
+        Mon, 24 Aug 2020 23:48:53 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7EB4C061795
+        for <linux-input@vger.kernel.org>; Mon, 24 Aug 2020 20:48:52 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id l191so3755042pgd.5
+        for <linux-input@vger.kernel.org>; Mon, 24 Aug 2020 20:48:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:user-agent:in-reply-to:references:mime-version
+         :content-transfer-encoding:subject:to:cc:from:message-id;
+        bh=aYCn5QzgD8cBzr9wMS/HNmt2b1qxEaqPTWvWzDbRA+8=;
+        b=Fn1R1h9NXvFEDBjED+T+U09XJsCGUH7Qru9WsZ+Dcjw4lo7YD8BSz5I5y42FVIxwkR
+         8wvJTZuv+uphBrJhVqBLcvT4K0lUymIVcQ3ZEwHAAfjbVaN/HAH/x/QXk0GUNWs0nUr0
+         8SH+lobmWvB3XaJJwxp0yYdqBRMQIL8MeCm3VHXjbpIsTVm4UVVlsxaLfZ5VstjMDg0R
+         JEKDRN1E7s3GTvcAh8ANZRjbKZW2q+8ujSADRB++jPThc9wZswv0+wzXhlBVlMfrTMlH
+         WZBdrcrGSVvnBD6bO710fnzKcbh3lWEFYHUp06juJUn0pmlmBAoXZ1k1AEmdlsQZ3dwO
+         NJlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=cnGNl3PoVaj60h5F2GDcq1Io9++p+vzr9OQfXOLKtr0=;
-        b=BJA7EoRWlFR1IPigQuBkai6SVUEMcCyfz2JMY9EFdYtmheG1+bkF1QRr957an2/Fa9
-         3rIIDioF8/B4pwF27TU1cw4fuFaDoSJqB5ShaKPaJTZb75XMdGxiiVvgWFInWIciCiRo
-         74x3JKetF3yJWq/l06aOqqK0RezUSbp2KMbKMe9oobaEvfiOOg0Sus5MGuHiNvEiV6PO
-         EKfdDO8ljs8Tu5vLvRjLROo/CxyVkJFti/GR3Gat/F+GZGwp6+h7diHlGjaceKN6kAPU
-         ClM+AkZh91d74Wq780E/3fNhtUdcgl1I+GlKmX5+/z5pJo8CKdHFLvh+4omMfduueRTz
-         QyXw==
-X-Gm-Message-State: AOAM5300AG8VGzdnTKWHxqTJbHugBOpA+zpDyUseQxm8NX93fBDyBe9h
-        qh6leAb7n5DmsVBEs/hzew==
-X-Google-Smtp-Source: ABdhPJxxMXAYunE5D/8szs4hodew5EZxrd5G982SUEy99gWp7s5jgl8d0JotwLRtLgn9+B8qf5zINw==
-X-Received: by 2002:a92:8556:: with SMTP id f83mr7326180ilh.135.1598322294415;
-        Mon, 24 Aug 2020 19:24:54 -0700 (PDT)
-Received: from xps15 ([64.188.179.249])
-        by smtp.gmail.com with ESMTPSA id a11sm8200512ilh.74.2020.08.24.19.24.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2020 19:24:53 -0700 (PDT)
-Received: (nullmailer pid 3814348 invoked by uid 1000);
-        Tue, 25 Aug 2020 02:24:51 -0000
-Date:   Mon, 24 Aug 2020 20:24:51 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        robh+dt@kernel.org, dmitry.torokhov@gmail.com
-Subject: Re: [PATCH 3/6] dt-bindings: input: iqs269a: Add bindings for OTP
- variants
-Message-ID: <20200825022451.GA3814295@bogus>
-References: <1597612467-15093-1-git-send-email-jeff@labundy.com>
- <1597612467-15093-4-git-send-email-jeff@labundy.com>
+        h=x-gm-message-state:date:user-agent:in-reply-to:references
+         :mime-version:content-transfer-encoding:subject:to:cc:from
+         :message-id;
+        bh=aYCn5QzgD8cBzr9wMS/HNmt2b1qxEaqPTWvWzDbRA+8=;
+        b=LmZlrHjU+u4GMcUOXfx0Q0B6v3OlrNRI0954frnmvxxqKhQAOuDc315N6gnu93rYG3
+         qVVA3w6ckCVJKl8T+IycmirXD2yFnxSRS6XDKSE6xu3wndzMhcRxidzhS/u/50qXNVWu
+         sQ8Z2KD/FhGsOLmct4XH2cfpjPiVwQer2QvPnsOCKlt7Nqy/OH8+d2nHYL925aD/Xtby
+         X/IYinAzghZVngdnY01JcSK2KHGhL7dOEwxq5gOcZ7rxR4AENEPWM5OgQhu45wL2Pwcm
+         N2SMWEamSn1tJzePlVUBKXHGdEVvlswwK4+hgLW3hQBmlV4NVx1kCqHxqg0dytXHExyg
+         n+iw==
+X-Gm-Message-State: AOAM531XauqEddxLKzOEmyKQxpzKmml3VTk55mjs4Km2+sr/ppfdKPiJ
+        lU/00PVmXdk6Pp0SohpC/XHM
+X-Google-Smtp-Source: ABdhPJxPZ3y+C1GEKw/JDVnyXmX1Cpe0y/2M+T6mT6GubLJdX6NbiXts0PgV5/WPV1WZ9E5aKMtNfA==
+X-Received: by 2002:a17:902:aa89:: with SMTP id d9mr5032347plr.192.1598327331970;
+        Mon, 24 Aug 2020 20:48:51 -0700 (PDT)
+Received: from ?IPv6:2409:4072:514:1a63:11c2:1447:3b94:7811? ([2409:4072:514:1a63:11c2:1447:3b94:7811])
+        by smtp.gmail.com with ESMTPSA id ce8sm951978pjb.24.2020.08.24.20.48.50
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 24 Aug 2020 20:48:51 -0700 (PDT)
+Date:   Tue, 25 Aug 2020 09:18:43 +0530
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20200822232405.GA2261833@BV030612LT>
+References: <cover.1598043782.git.cristian.ciocaltea@gmail.com> <20200821222653.GA2255465@BV030612LT> <20200822131343.GA5954@Mani-XPS-13-9360> <20200822232405.GA2261833@BV030612LT>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1597612467-15093-4-git-send-email-jeff@labundy.com>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 0/6] Add initial support for ATC260x PMICs
+To:     Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
+CC:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        =?ISO-8859-1?Q?Andreas_F=E4rber?= <afaerber@suse.de>,
+        linux-actions@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-pm@vger.kernel.org
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Message-ID: <0AD08A2D-9058-4CEF-ACE0-7E8DB1015400@linaro.org>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 16 Aug 2020 16:14:24 -0500, Jeff LaBundy wrote:
-> This patch adds bindings for the D0 order code of the device. This
-> order code represents an OTP variant that enables a touch-and-hold
-> function in place of slider 1.
-> 
-> Also included is the ability to specify the 00 order code (default
-> option with no OTP customization) explicitly.
-> 
-> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
-> ---
->  .../devicetree/bindings/input/iqs269a.yaml         | 30 +++++++++++++++++++++-
->  1 file changed, 29 insertions(+), 1 deletion(-)
-> 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+
+On 23 August 2020 4:54:05 AM IST, Cristian Ciocaltea <cristian=2Eciocaltea=
+@gmail=2Ecom> wrote:
+>Hi Mani,
+>
+>On Sat, Aug 22, 2020 at 06:43:43PM +0530, Manivannan Sadhasivam wrote:
+>> Hi Cristi,
+>>=20
+>> Thanks for the series! I'll take a look soon but there is a quick
+>comment
+>> below=2E
+>>=20
+>> On Sat, Aug 22, 2020 at 01:26:53AM +0300, Cristian Ciocaltea wrote:
+>> > I have just realized I had omitted the changelog - sorry:
+>> >=20
+>> > Changes in v2:
+>> > - Reworked MFD core & I2C driver
+>> >   * Integrated Lee's feedback
+>> >   * Added support for using the regmap within atomic contexts
+>> >   * Added support for ATC2603C chip variant
+>> >   * Reorganized KConfig entries
+>> > - Improved regulator driver
+>> >   * Added support for ATC2603C variant
+>> >   * Used helper macros for more compact specification of
+>regulator_desc items
+>> >   * Added more regulator capabilities
+>> > - Added power controller driver
+>> >   * Provides system poweroff/reboot functionalities
+>> >   * Requires support for I2C Atomic transfers in the Owl driver
+>(already submitted)
+>> > - Added onkey driver: exposes the power button as an input device
+>> > - Added yaml binding doc
+>> > - Rebased patchset on kernel v5=2E9-rc1
+>> >=20
+>> > Kind regards,
+>> > Cristi
+>> >=20
+>> > On Sat, Aug 22, 2020 at 01:19:46AM +0300, Cristian Ciocaltea wrote:
+>> > > This is re-spin of the patch series submitted some time ago by
+>Mani,
+>> > > who added initial support (MFD core and regulators) for the
+>Actions
+>> > > Semi ATC260x PMICs:
+>> > >
+>https://lore=2Ekernel=2Eorg/lkml/20190617155011=2E15376-1-manivannan=2Esa=
+dhasivam@linaro=2Eorg/
+>> > >=20
+>> > > The ATC260x family of PMICs integrates Audio Codec, Power
+>management,
+>> > > Clock generation and GPIO controller blocks=2E There are currently
+>3
+>> > > variants: ATC2603A, ATC2603C and ATC2609A=2E
+>> > >=20
+>> > > In addition to the ATC2609A regulator functionality provided that
+>time,
+>> > > this patchset adds support for the ATC2603C variant, together
+>with some
+>> > > new functionalities for both chips: power controller and onkey
+>input=2E
+>> > > The ATC2603A variant remains unsupported for the moment=2E
+>> > >=20
+>> > > This has been tested on RoseapplePi, a SBC based on the Action
+>Semi S500
+>> > > SoC, which integrates ATC2603C PMIC=2E An initial support for this
+>board
+>> > > has been already submitted:
+>> > >
+>https://lore=2Ekernel=2Eorg/lkml/cover=2E1592123160=2Egit=2Ecristian=2Eci=
+ocaltea@gmail=2Ecom/
+>> > >=20
+>> > > Please note that enabling the ATC260x PMICs on the compatible
+>Actions
+>> > > Semi Owl SoC based boards depends on the following:
+>> > >=20
+>> > > * Actions Semi SIRQ driver (for PMIC DTS setup):
+>> > > =20
+>https://lore=2Ekernel=2Eorg/lkml/cover=2E1597852360=2Egit=2Ecristian=2Eci=
+ocaltea@gmail=2Ecom/
+>> > >=20
+>> > > * I2C Atomic transfers in Actions Semi Owl driver (for proper
+>operation
+>> > >   of the power controller driver):
+>> > > =20
+>https://lore=2Ekernel=2Eorg/lkml/b086ef6d355d9730c839359e15eb06175283e323=
+=2E1596485741=2Egit=2Ecristian=2Eciocaltea@gmail=2Ecom/
+>> > >  =20
+>> > > Thanks,
+>> > > Cristi
+>> > >=20
+>> > > Cristian Ciocaltea (6):
+>> > >   dt-bindings: mfd: Add Actions Semi ATC260x PMIC binding
+>> > >   mfd: Add MFD driver for ATC260x PMICs
+>> > >   regulator: Add regulator driver for ATC260x PMICs
+>>=20
+>> You need to preserve my authorship for above two patches=2E Adding the
+>signed-off-by
+>> is not enough=2E
+>
+>I'm very sorry for the mistake, I was not aware of the correct
+>reposting
+>procedure=2E Should I resend the series now or could we handle a first
+>round
+>of review before?
+>
+
+You can wait to get review comments=2E=20
+
+Thanks,=20
+Mani=20
+
+>Thanks,
+>Cristi
+>
+>> > >   power: reset: Add poweroff driver for ATC260x PMICs
+>> > >   input: atc260x: Add onkey driver for ATC260x PMICs
+>> > >   MAINTAINERS: Add entry for ATC260x PMIC
+>>=20
+>> I think this one too=2E
+>>=20
+>> Thanks,
+>> Mani
+>>=20
+>> > >=20
+>> > >  =2E=2E=2E/bindings/mfd/actions,atc260x=2Eyaml         | 221 ++++++=
+++
+>> > >  MAINTAINERS                                   |  12 +
+>> > >  drivers/input/misc/Kconfig                    |  11 +
+>> > >  drivers/input/misc/Makefile                   |   2 +-
+>> > >  drivers/input/misc/atc260x-onkey=2Ec            | 304 +++++++++++
+>> > >  drivers/mfd/Kconfig                           |  18 +
+>> > >  drivers/mfd/Makefile                          |   3 +
+>> > >  drivers/mfd/atc260x-core=2Ec                    | 290 ++++++++++
+>> > >  drivers/mfd/atc260x-i2c=2Ec                     |  73 +++
+>> > >  drivers/power/reset/Kconfig                   |   8 +-
+>> > >  drivers/power/reset/Makefile                  |   1 +
+>> > >  drivers/power/reset/atc260x-poweroff=2Ec        | 274 ++++++++++
+>> > >  drivers/regulator/Kconfig                     |   8 +
+>> > >  drivers/regulator/Makefile                    |   1 +
+>> > >  drivers/regulator/atc260x-regulator=2Ec         | 511
+>++++++++++++++++++
+>> > >  include/linux/mfd/atc260x/atc2603c=2Eh          | 281 ++++++++++
+>> > >  include/linux/mfd/atc260x/atc2609a=2Eh          | 308 +++++++++++
+>> > >  include/linux/mfd/atc260x/core=2Eh              |  86 +++
+>> > >  18 files changed, 2410 insertions(+), 2 deletions(-)
+>> > >  create mode 100644
+>Documentation/devicetree/bindings/mfd/actions,atc260x=2Eyaml
+>> > >  create mode 100644 drivers/input/misc/atc260x-onkey=2Ec
+>> > >  create mode 100644 drivers/mfd/atc260x-core=2Ec
+>> > >  create mode 100644 drivers/mfd/atc260x-i2c=2Ec
+>> > >  create mode 100644 drivers/power/reset/atc260x-poweroff=2Ec
+>> > >  create mode 100644 drivers/regulator/atc260x-regulator=2Ec
+>> > >  create mode 100644 include/linux/mfd/atc260x/atc2603c=2Eh
+>> > >  create mode 100644 include/linux/mfd/atc260x/atc2609a=2Eh
+>> > >  create mode 100644 include/linux/mfd/atc260x/core=2Eh
+>> > >=20
+>> > > --=20
+>> > > 2=2E28=2E0
+>> > >=20
+
+--=20
+Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
