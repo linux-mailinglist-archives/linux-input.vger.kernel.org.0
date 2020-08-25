@@ -2,101 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA7B8251336
-	for <lists+linux-input@lfdr.de>; Tue, 25 Aug 2020 09:31:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA9AD2516EE
+	for <lists+linux-input@lfdr.de>; Tue, 25 Aug 2020 12:55:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729398AbgHYHbt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 25 Aug 2020 03:31:49 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:47530 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729194AbgHYHbt (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 Aug 2020 03:31:49 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07P7U0dS011173;
-        Tue, 25 Aug 2020 07:31:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=PvR618y3occtMaXXpEZj9xY/6rI5rWksmpkzYbPEAEA=;
- b=uExF6f5h2WYO9UTcuF07I5vPP2YUprSKE87WzWl38QJ9qBBILqjzRgQCOu4vY+030tcQ
- f6l6I4KTBSVHVl53SwCoVSCU7bdRB8MD05Dw+L2+57orqkKmzkaC2V4r/QRqHhX8v1E3
- x9KeKsHIw9MjXD2AMaQzAMS/6yZBiXkzjaSJLPOqertrjKIOpTc29uvrf63jlLNP4QjR
- 76vTg7yBCHoQ5E3ZoKYy1SNkvibBcOG/2prxYCn4a6JUY0NugAlHdGZHWTCcaJbopfLu
- aUmrR80J+/h/JJqciYFGUuQ2D6AgsAOiOHGyFwsFDwj3RKq8mLALYsjCsZX9PzqECOUe aw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2120.oracle.com with ESMTP id 333dbrrr4h-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 25 Aug 2020 07:31:15 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07P7QArF030239;
-        Tue, 25 Aug 2020 07:29:15 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by aserp3020.oracle.com with ESMTP id 333ru6u2mg-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 25 Aug 2020 07:29:14 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 07P7TASV013136;
-        Tue, 25 Aug 2020 07:29:11 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 25 Aug 2020 00:29:10 -0700
-Date:   Tue, 25 Aug 2020 10:29:03 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Walter Harms <wharms@bfs.de>
-Cc:     Stefan Achatz <erazor_de@users.sourceforge.net>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>
-Subject: Re: [PATCH v2] HID: roccat: add bounds checking in
- kone_sysfs_write_settings()
-Message-ID: <20200825072903.GQ1793@kadam>
-References: <1597819984.4101.16.camel@web.de>
- <20200824085735.GA208317@mwanda>
- <ab4625b2b2ea41dd83ff9e192a027f41@bfs.de>
+        id S1729882AbgHYKzu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 25 Aug 2020 06:55:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53696 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728117AbgHYKzu (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 25 Aug 2020 06:55:50 -0400
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F25FC2068E;
+        Tue, 25 Aug 2020 10:55:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598352949;
+        bh=sG5sWRvSzPP9GgzIjue9lvipcy0Ffb/6EEMGfIMIqX4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=H+2d6Bz0nXKJEoMURRW/D9yY4cAw4E5liHVuWIok6ae6LlFvqCwamFk+XOnGZc1Eb
+         fQyA+rdOd7ivu99Y98A6pxrI+7+RO8V8xQZ4H6DclFp2cTZJzv0E2EmwvUyQXWQaAd
+         WAl0JrY4s8JyiL4+qhz27TsGJNjmBEXxAMEvaOyw=
+Date:   Tue, 25 Aug 2020 11:55:13 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
+Cc:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+        linux-actions@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: Re: [PATCH v2 3/6] regulator: Add regulator driver for ATC260x PMICs
+Message-ID: <20200825105513.GE5379@sirena.org.uk>
+References: <cover.1598043782.git.cristian.ciocaltea@gmail.com>
+ <8da70f0b19de17fb8edead7ff06461ae2451b0e9.1598043782.git.cristian.ciocaltea@gmail.com>
+ <20200824110045.GA4676@sirena.org.uk>
+ <20200824232310.GA2301286@BV030612LT>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="J4XPiPrVK1ev6Sgr"
 Content-Disposition: inline
-In-Reply-To: <ab4625b2b2ea41dd83ff9e192a027f41@bfs.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9723 signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 phishscore=0
- bulkscore=0 suspectscore=0 spamscore=0 mlxscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2008250055
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9723 signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 clxscore=1015
- priorityscore=1501 impostorscore=0 phishscore=0 malwarescore=0
- mlxlogscore=999 spamscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2008250056
+In-Reply-To: <20200824232310.GA2301286@BV030612LT>
+X-Cookie: Don't get to bragging.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Aug 24, 2020 at 03:35:16PM +0000, Walter Harms wrote:
-> hello Dan, 
-> 
-> i notice that you can shorten the line to:
-> (line above checks for count==sizeof(struct kone_settings))
-> 
-> difference = memcmp(settings, &kone->settings, count);
-> 
-> nothing special just to shorten the line and make use of count.
-> 
-> and just to save one indent level and because its  readabel nicely:
->     if ( ! difference ) 
->           goto unlock;
-> 
-> hope that helps
 
-Yeah.  I wrote that version and I wanted to send it, but then I decided
-not to change the style too much.  I definitely agree with you, but I
-figured I would keep the patch less intrusive.
+--J4XPiPrVK1ev6Sgr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-regards,
-dan carpenter
+On Tue, Aug 25, 2020 at 02:23:10AM +0300, Cristian Ciocaltea wrote:
+> On Mon, Aug 24, 2020 at 12:00:45PM +0100, Mark Brown wrote:
 
+> > Please write normal conditional statements to make things easier to
+> > read.  It also looks like this would be more robustly written by just
+> > having separate ops for DCDCs and LDOs, this could easily break if
+> > another device is supported in the driver.
+
+> Sure, I can provide separate ops, but in this case we duplicate almost
+> all of them. If this is not acceptable, then I will just rewrite the
+> conditional statement.
+
+That's fine, it's just a fairly small struct that's being duplicated not
+code.
+
+--J4XPiPrVK1ev6Sgr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl9E7hEACgkQJNaLcl1U
+h9Df2wgAhaKs443tKsiDZZ8WadCi+JBgtmmpe6/05aaejbq3Nn4RXhrEDvX/T65I
+SNnwAjQuMoWveIJyW/e/Cw5/M9E+0pE55HJ6XG8yXvSs6nnd8XNgNwqQNIz7EC5s
+qRMoneTdQLpF1ehrgf8zzuvEtwTK9nQ0EfGam7Hy0kLjJgTU+cRziiXnj8sWN8Hm
+t6DbJYJwoS5fP1dBZ6OHeaPVW4ke8ioc5KFXkJasHPdyuMuwzsOHQ79zA4DqT9tz
+tBlPp+S74k8jiPPO88gr88Zyfy2THWdJgzzaJtgM4Qxne8XKlFrADDzLOohfsi7i
+7MQ6Z6DdX9PLBC3CA7miaoTjus/FFQ==
+=ZIz+
+-----END PGP SIGNATURE-----
+
+--J4XPiPrVK1ev6Sgr--
