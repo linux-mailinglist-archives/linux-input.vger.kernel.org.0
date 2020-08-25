@@ -2,75 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C0D0251124
-	for <lists+linux-input@lfdr.de>; Tue, 25 Aug 2020 06:59:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 076F2251226
+	for <lists+linux-input@lfdr.de>; Tue, 25 Aug 2020 08:38:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728804AbgHYE5L (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 25 Aug 2020 00:57:11 -0400
-Received: from smtprelay0183.hostedemail.com ([216.40.44.183]:45624 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728691AbgHYE5F (ORCPT
+        id S1729114AbgHYGiZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 25 Aug 2020 02:38:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43700 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729068AbgHYGiY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 Aug 2020 00:57:05 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay03.hostedemail.com (Postfix) with ESMTP id D3900837F24C;
-        Tue, 25 Aug 2020 04:57:04 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:541:800:960:973:988:989:1260:1311:1314:1345:1359:1515:1534:1539:1711:1714:1730:1747:1777:1792:2393:2559:2562:3138:3139:3140:3141:3142:3350:3868:5007:6261:7901:7904:10004:10848:11658:11914:12297:12555:12895:13069:13311:13357:13894:14096:14181:14384:14394:14721:21080:21627:30054,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
-X-HE-Tag: waste57_250ae2b27059
-X-Filterd-Recvd-Size: 1609
-Received: from joe-laptop.perches.com (unknown [47.151.133.149])
-        (Authenticated sender: joe@perches.com)
-        by omf08.hostedemail.com (Postfix) with ESMTPA;
-        Tue, 25 Aug 2020 04:57:03 +0000 (UTC)
-From:   Joe Perches <joe@perches.com>
-To:     Jiri Kosina <trivial@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 12/29] Input: MT - Avoid comma separated statements
-Date:   Mon, 24 Aug 2020 21:56:09 -0700
-Message-Id: <02cb394f8c305473c1a783a5ea8425de79fe0ec1.1598331149.git.joe@perches.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <cover.1598331148.git.joe@perches.com>
-References: <cover.1598331148.git.joe@perches.com>
+        Tue, 25 Aug 2020 02:38:24 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A11D4C061574;
+        Mon, 24 Aug 2020 23:38:24 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id o18so15023714eje.7;
+        Mon, 24 Aug 2020 23:38:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jms.id.au; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1Q9k3xF6hWPOQM3uFwSy2qlWDQ5BGn+QdqRbPCM8EhM=;
+        b=d318I0JDAY3KO2OfweXvemxDvpcgVxD/poXqH0o44y89iIIdQ2tKqg8axqlHdT8Acl
+         ZwraWTH8Be+wNIdnhcriuFkqqu+TMMH0QJZ/TUNOpruZNRxE9CT0VlMX/CzWe+IZ+AKh
+         1i6LQwYPsKVqW8t3f2z5GeVPSUXLalcko0o7M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1Q9k3xF6hWPOQM3uFwSy2qlWDQ5BGn+QdqRbPCM8EhM=;
+        b=AuRsY8/wXh5c6AUTfKei83ZPPLzod9pc+bVP4uAjLRjKsa9+A2UYrbbWStFClXP2nB
+         Rnat2K6phw+OBLcRqDObIKQ9eE/tLRSmitQJyIN2WHOT+9CTzr7CNNp55rMsegDv7c/M
+         FUKrh5x34dkUWmf/PPhJ7xgsCE8YjyYczkSWwPIEcog+qQoQrCGLWZvktTzaq26pgtSY
+         tk4QzY9ghDtUJ2NzuE6KxNBy39Xx9Q/aEPL8ixXeSyLc3ZHmjL9oSbbOfosd0WeIav80
+         a0YLBsRKze74hckUkkUYAP88RbIwJ1U1PXKUAGLe0VnoW00A0tsCEUr3bZJnT9Op6Pjr
+         Ls4g==
+X-Gm-Message-State: AOAM533W/91YS/kuRs22kAMSivCsyTmUBV4YCNTze+xnwjDuby7ydhHR
+        rfiXYe3kxDM6PsyDo4jV36RnxHtpUrtMpTjMC6KFnVVk4Ro=
+X-Google-Smtp-Source: ABdhPJweMgK6I5TgV9Ly2uJzqR7Tgq7Qn1uQsVbMr86HbZ6rf4REgHoJ8D+2tbHNLahHnsDFOhsp3YQTaEez+w4QafM=
+X-Received: by 2002:a17:906:4ec3:: with SMTP id i3mr8802552ejv.215.1598337503276;
+ Mon, 24 Aug 2020 23:38:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200820161152.22751-1-eajames@linux.ibm.com> <20200820161152.22751-4-eajames@linux.ibm.com>
+In-Reply-To: <20200820161152.22751-4-eajames@linux.ibm.com>
+From:   Joel Stanley <joel@jms.id.au>
+Date:   Tue, 25 Aug 2020 06:38:10 +0000
+Message-ID: <CACPK8XdG1+3eQPQ71fZYZdHwcn8WNLQKF=5iKrOvGhLwispSQA@mail.gmail.com>
+Subject: Re: [PATCH 3/5] i2c: aspeed: Mask IRQ status to relevant bits
+To:     Eddie James <eajames@linux.ibm.com>
+Cc:     linux-input@vger.kernel.org,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+        linux-i2c@vger.kernel.org, Andrew Jeffery <andrew@aj.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        dmitry.torokhov@gmail.com, Rob Herring <robh+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Use semicolons and braces.
+On Thu, 20 Aug 2020 at 16:12, Eddie James <eajames@linux.ibm.com> wrote:
+>
+> Mask the IRQ status to only the bits that the driver checks. This
+> prevents excessive driver warnings when operating in slave mode
+> when additional bits are set that the driver doesn't handle.
+>
+> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> ---
+>  drivers/i2c/busses/i2c-aspeed.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
+> index 31268074c422..abf40f2af8b4 100644
+> --- a/drivers/i2c/busses/i2c-aspeed.c
+> +++ b/drivers/i2c/busses/i2c-aspeed.c
+> @@ -604,6 +604,7 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
+>         writel(irq_received & ~ASPEED_I2CD_INTR_RX_DONE,
+>                bus->base + ASPEED_I2C_INTR_STS_REG);
+>         readl(bus->base + ASPEED_I2C_INTR_STS_REG);
+> +       irq_received &= 0xf000ffff;
+>         irq_remaining = irq_received;
 
-Signed-off-by: Joe Perches <joe@perches.com>
----
- drivers/input/input-mt.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+This would defeat the check for irq_remaining. I don't think we want to do this.
 
-diff --git a/drivers/input/input-mt.c b/drivers/input/input-mt.c
-index f699538bdac4..44fe6f2f063c 100644
---- a/drivers/input/input-mt.c
-+++ b/drivers/input/input-mt.c
-@@ -323,11 +323,14 @@ static int adjust_dual(int *begin, int step, int *end, int eq, int mu)
- 	p = begin + step;
- 	s = p == end ? f + 1 : *p;
- 
--	for (; p != end; p += step)
--		if (*p < f)
--			s = f, f = *p;
--		else if (*p < s)
-+	for (; p != end; p += step) {
-+		if (*p < f) {
-+			s = f;
-+			f = *p;
-+		} else if (*p < s) {
- 			s = *p;
-+		}
-+	}
- 
- 	c = (f + s + 1) / 2;
- 	if (c == 0 || (c > mu && (!eq || mu > 0)))
--- 
-2.26.0
-
+Can you explain why these bits are being set in slave mode?
