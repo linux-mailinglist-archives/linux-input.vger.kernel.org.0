@@ -2,77 +2,131 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 14699251DD0
-	for <lists+linux-input@lfdr.de>; Tue, 25 Aug 2020 19:07:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 581CD2520ED
+	for <lists+linux-input@lfdr.de>; Tue, 25 Aug 2020 21:48:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726104AbgHYRH2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 25 Aug 2020 13:07:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58142 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726090AbgHYRH1 (ORCPT
+        id S1726580AbgHYTsH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 25 Aug 2020 15:48:07 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:18846 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726149AbgHYTsH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 Aug 2020 13:07:27 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40B79C061574;
-        Tue, 25 Aug 2020 10:07:26 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id z18so1580284pjr.2;
-        Tue, 25 Aug 2020 10:07:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=mRjZvPEzTfbfzrXjGveM7zQ3xu+YHRq2yS8IAEamwSE=;
-        b=otzCWeByV0AuhXYZqgJ3P2yJaWWLdWjAt4j1h3rf3XFl+Fgiz/+F+7Z2dVlI3XeLRN
-         +wrBl2o069yyTLJIMPEalo9TxE1IMFeORtLwwA98kW5NvD2r90P12VXlQiqJiz308zc0
-         FAsyFDyCHfzNoYXje7rOuuiqtRydzoke1iiXxZWe7n7/T2sp2WSqjV7jWGXKR7zXz5eq
-         Wqik3Of0DPia3a/pI+peNbVA1j+evyyZJyka0NW/DfNVFgCnj/Mqf+WWtive3u7ZhwoL
-         9BGJFYDryUsTOfYZwX+QzqBiBXcJUPFcXGdFHXJYZFGv/pO5NIFaSEiSSTcSQ+MNgylE
-         Jk9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=mRjZvPEzTfbfzrXjGveM7zQ3xu+YHRq2yS8IAEamwSE=;
-        b=lZAcXl781XL7fcSfMbPXog38zw4TrCcgyU3G6oJ+ugZVfwyi3G0YJEcAxulWRsP7ZU
-         tgCswEEcDAS96nK50v8udUQagJChiyjJ68+FU6Jjk62/5adQPsmIWsOBV5iyWNBBENcA
-         pDraV9/a3OAbL5HjrW3JZYCoDgQX9s045Kh/240BkJMbh2HYWHau1tBjcVaTyOlyITQK
-         sPJMQLYmJ1H5DR8o1OGBnIevT4uK6b0qIi8gRyTQ32pit7vo4eIsfzFx0Xl4NaZFiNCv
-         WW8EAaPx0SR6AotuhMBSD7asYXGOVO4vXlQtkUqUjJbKjIgkE8AkdpQccX4JJIOyCiyJ
-         aIEQ==
-X-Gm-Message-State: AOAM533x2B5x0I6UchY1ulmQz1n8sWIrzw05cSAR4qGdYBvxxRlaEyL1
-        h92JV8qbQu97/U0RCkaWq5rKoXpLnfY=
-X-Google-Smtp-Source: ABdhPJyl+ifCcH+O3xpNTGY/GJQsxcDP1uTn2BjMwkU5tyxV0wvYZIa6RZmNlx/VtGqOHr+9v7oZJA==
-X-Received: by 2002:a17:90a:c781:: with SMTP id gn1mr2332600pjb.151.1598375246221;
-        Tue, 25 Aug 2020 10:07:26 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id mw8sm3113769pjb.47.2020.08.25.10.07.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2020 10:07:25 -0700 (PDT)
-Date:   Tue, 25 Aug 2020 10:07:23 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Joe Perches <joe@perches.com>
-Cc:     Jiri Kosina <trivial@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 12/29] Input: MT - Avoid comma separated statements
-Message-ID: <20200825170723.GZ1665100@dtor-ws>
-References: <cover.1598331148.git.joe@perches.com>
- <02cb394f8c305473c1a783a5ea8425de79fe0ec1.1598331149.git.joe@perches.com>
+        Tue, 25 Aug 2020 15:48:07 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 07PJVxDs006515;
+        Tue, 25 Aug 2020 15:47:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=7Rl2UklbYVkVJfBrMuiwtrmhml+iZDfjKAcAFsLmd3w=;
+ b=IJO6wug5RqiSOpBic/JM2E7zcG24hhtuSpdf7fsjlf13Y0352A1nu+kKrvvp2FSFh/Zr
+ YYT3cViGFZF4kSEiAwTfvT8w9RSHuv0swMNpR7FYX36wrzELn3nUa1fTCsdtMI7SaZDs
+ cVFE9Fbp3ubrpuKKMAMRPXK3xmkPiaScjEAUncQbEIOfDnIu5r/gw2PIa/PqboRwdtEg
+ +ZpaJXgWP5JC2D998EK/gnlk6HFPJfuhcrgMR709RgDnOV07PwcMjERlCpHThLI39aFf
+ FmssUYM3Vrfw3tJ7hk1NnO9OUHHn5Rs+yCBgWX2oQtc4TGkP6GJgeUtSxHSZh8wpngY3 +Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3358kn0tpu-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 25 Aug 2020 15:47:55 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 07PJWGuu007381;
+        Tue, 25 Aug 2020 15:47:55 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 3358kn0tpd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 25 Aug 2020 15:47:55 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+        by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 07PJl7xm014803;
+        Tue, 25 Aug 2020 19:47:54 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com [9.57.198.26])
+        by ppma01dal.us.ibm.com with ESMTP id 332uttb3mf-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 25 Aug 2020 19:47:54 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com [9.57.199.111])
+        by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 07PJlrQs16253940
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 25 Aug 2020 19:47:53 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 688C7AC05E;
+        Tue, 25 Aug 2020 19:47:53 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 5A8F2AC059;
+        Tue, 25 Aug 2020 19:47:52 +0000 (GMT)
+Received: from [9.211.52.131] (unknown [9.211.52.131])
+        by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+        Tue, 25 Aug 2020 19:47:52 +0000 (GMT)
+Subject: Re: [PATCH 3/5] i2c: aspeed: Mask IRQ status to relevant bits
+To:     Joel Stanley <joel@jms.id.au>
+Cc:     linux-input@vger.kernel.org,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+        linux-i2c@vger.kernel.org, Andrew Jeffery <andrew@aj.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        dmitry.torokhov@gmail.com, Rob Herring <robh+dt@kernel.org>
+References: <20200820161152.22751-1-eajames@linux.ibm.com>
+ <20200820161152.22751-4-eajames@linux.ibm.com>
+ <CACPK8XdG1+3eQPQ71fZYZdHwcn8WNLQKF=5iKrOvGhLwispSQA@mail.gmail.com>
+From:   Eddie James <eajames@linux.ibm.com>
+Message-ID: <8fc365dd-8a89-9e5c-ed70-093ef2bf7265@linux.ibm.com>
+Date:   Tue, 25 Aug 2020 14:47:51 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <02cb394f8c305473c1a783a5ea8425de79fe0ec1.1598331149.git.joe@perches.com>
+In-Reply-To: <CACPK8XdG1+3eQPQ71fZYZdHwcn8WNLQKF=5iKrOvGhLwispSQA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-08-25_08:2020-08-25,2020-08-25 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
+ adultscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0 mlxscore=0
+ mlxlogscore=861 clxscore=1015 priorityscore=1501 suspectscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2008250143
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Aug 24, 2020 at 09:56:09PM -0700, Joe Perches wrote:
-> Use semicolons and braces.
-> 
-> Signed-off-by: Joe Perches <joe@perches.com>
 
-Applied, thank you.
+On 8/25/20 1:38 AM, Joel Stanley wrote:
+> On Thu, 20 Aug 2020 at 16:12, Eddie James <eajames@linux.ibm.com> wrote:
+>> Mask the IRQ status to only the bits that the driver checks. This
+>> prevents excessive driver warnings when operating in slave mode
+>> when additional bits are set that the driver doesn't handle.
+>>
+>> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+>> ---
+>>   drivers/i2c/busses/i2c-aspeed.c | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
+>> index 31268074c422..abf40f2af8b4 100644
+>> --- a/drivers/i2c/busses/i2c-aspeed.c
+>> +++ b/drivers/i2c/busses/i2c-aspeed.c
+>> @@ -604,6 +604,7 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
+>>          writel(irq_received & ~ASPEED_I2CD_INTR_RX_DONE,
+>>                 bus->base + ASPEED_I2C_INTR_STS_REG);
+>>          readl(bus->base + ASPEED_I2C_INTR_STS_REG);
+>> +       irq_received &= 0xf000ffff;
+>>          irq_remaining = irq_received;
+> This would defeat the check for irq_remaining. I don't think we want to do this.
+>
+> Can you explain why these bits are being set in slave mode?
 
--- 
-Dmitry
+
+No, I don't have any documentation for the bits that are masked off 
+here, so I don't know why they would get set.
+
+The check for irq_remaining is still useful for detecting that the 
+driver state machine might be out of sync with what the master is doing.
+
+
+Thanks,
+
+Eddie
+
+
