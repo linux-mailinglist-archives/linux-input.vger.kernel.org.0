@@ -2,110 +2,170 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BAA1E253316
-	for <lists+linux-input@lfdr.de>; Wed, 26 Aug 2020 17:12:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CC96253328
+	for <lists+linux-input@lfdr.de>; Wed, 26 Aug 2020 17:13:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727124AbgHZPMV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 Aug 2020 11:12:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50264 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727042AbgHZPMU (ORCPT
+        id S1728077AbgHZPNh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 Aug 2020 11:13:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37250 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728000AbgHZPNd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 Aug 2020 11:12:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1598454739;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=RXqh9vDKtsqu0uMtgz4E47GKyNBkVyPjz1iexD+khD8=;
-        b=OpefgXOsw+z/FvPA+OVBwdDfVaVEF3hBO1lbepEa0/S8W6uDu4POkUrLtEy8uWu/6Q7tg1
-        8MDliR1Hu5hfnlRzGgI3edrqZ9kNBAP0mcxwVPd+g6i0kZe6jW8QGobzFkb57ghyMoBz3m
-        /Nlnn9wPXRbv6JdpQ0GTQqerGWM9t4U=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-458-hvE5RTNZNyu1YEwEd-7N2Q-1; Wed, 26 Aug 2020 11:12:16 -0400
-X-MC-Unique: hvE5RTNZNyu1YEwEd-7N2Q-1
-Received: by mail-ed1-f70.google.com with SMTP id v11so796658edr.13
-        for <linux-input@vger.kernel.org>; Wed, 26 Aug 2020 08:12:15 -0700 (PDT)
+        Wed, 26 Aug 2020 11:13:33 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2265C061756
+        for <linux-input@vger.kernel.org>; Wed, 26 Aug 2020 08:13:32 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id g1so1163393pgm.9
+        for <linux-input@vger.kernel.org>; Wed, 26 Aug 2020 08:13:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=CmlsOBKmXTTcSfq5zGubBNNUb0gupInXkPP8EnZ3d+A=;
+        b=ZqQGx8lCIpp9MgN3WVINar6Fy8irHzrpJRsjxGoHQTeWbqHYD6il/g9q7DvpK/dmQm
+         0qW7aVa3Tr+PGt5edZDuPZxHNjlNPlIhusw3juLIWAAlHZXHD4KNjNATv1u3ZoCJvNEC
+         S2smx23jdqkXqQh3IP6NS4LTsP6Gm53DxBdKk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=RXqh9vDKtsqu0uMtgz4E47GKyNBkVyPjz1iexD+khD8=;
-        b=N2are+cyLuWTWAu2GFbxm231fu8hqoh2+skTZvG5qnzuO2+1t1Zp/kXeu1Y/Z6w3Nu
-         gsczgHEBihRP3kPs/kCSBnLEQfeheVxtqNcbG529OlWHEk3T2lkCWxmx7NuU2/R9F5CW
-         thGpkWSeHUAXIBO2MCBG/ebN172iLEQ6+dcnfkQe/VzddZ4QPrAAA5EXw/ai5zz6l9hT
-         ATBSSQa+pt0If78reIX+KQ5pXv6uS429PPtTq+HDMAjXAd6d9zXYgGGMhcwHr/85m1Ca
-         b5mWcC7aHTZ5Ew5KzBGUDaz9WN9sE5Qa7SMuaa2qKDXEeUhuOrccQ/EqfcsiI1uWl4vd
-         El6g==
-X-Gm-Message-State: AOAM533HoP7Dhl0YnlAajcZ32dY0Y4t2uAaGBhkCUjka7oiGPLP1CVDE
-        rcUro4n4bjquKUsYKd8MfmVluf6jV71qkV7lU2ozIPM0ucRvJe3fxidlhEM7Les6ecdKWQxnqgQ
-        XJm07OSgK6ghLb0RFW+dyqo8=
-X-Received: by 2002:aa7:ce15:: with SMTP id d21mr15171105edv.55.1598454734921;
-        Wed, 26 Aug 2020 08:12:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzZxU1frY0JaTpG9m3IBN2zGr2l9QVoi8/sXv8kJCax1c1y8cZtHEgZdzWOSoBUISm94BHThg==
-X-Received: by 2002:aa7:ce15:: with SMTP id d21mr15171076edv.55.1598454734731;
-        Wed, 26 Aug 2020 08:12:14 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id t23sm2241356eds.50.2020.08.26.08.12.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Aug 2020 08:12:13 -0700 (PDT)
-Subject: Re: [PATCH 0/3] Add 3 new keycodes and use them for 3 new hotkeys on
- new Lenovo Thinkpads
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-Cc:     Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        linux-input@vger.kernel.org,
-        Marco Trevisan <marco.trevisan@canonical.com>,
-        Mark Pearson <mpearson@lenovo.com>,
-        Christian Kellner <ckellner@redhat.com>,
-        Benjamin Berg <bberg@redhat.com>,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200717114155.56222-1-hdegoede@redhat.com>
- <20200719225649.GA4341@khazad-dum.debian.net>
- <20200722054144.GQ1665100@dtor-ws>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <7726b68c-4b84-4acc-d08c-59f746a75000@redhat.com>
-Date:   Wed, 26 Aug 2020 17:12:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=CmlsOBKmXTTcSfq5zGubBNNUb0gupInXkPP8EnZ3d+A=;
+        b=rjhOK67nzat3qrboxKo1wLUPgb6suTMXT2yJD/uHqRVsHHUEu3xbB47DaiVKgwhJFF
+         ABEs7KVWejmlqFv/ZF6kBSacCV8XNHYOA8Ct1G5wpBTcUF0gGUGCK2Xb5fEzJmMk0JlE
+         KJ5E+un6Xy9NNiTTnmqlIbpuRWYil+ZTUF4bjZcHJ70rNDnYCi6j2C8xDAuCY9L00GUG
+         8LMudL61Cy2xwHaYaAxpCK//c1aDLcobq5g/iTeca03MnLwYyfuteMhqzXha7eVQGmYv
+         jRh16GrV93hiawV7KckG0xmvHxMxKZG0zHVCMGp9hAZTavjIT6ndlSOmgXnnMJUjDLIZ
+         HyRg==
+X-Gm-Message-State: AOAM530hz4y1w3OE61ULMP/hGXT9VvsaoHV5Yx60L7X2Ip0mSEH2I7n7
+        OMqQA2suoePsiul3mYfqYnPxDg==
+X-Google-Smtp-Source: ABdhPJz9xFq7qO/RuT9QubtB+V2mx2933Vq5WDSuN5fCly0WI0GYA2lIh7xhcXijBK2JnQjkWRm3gA==
+X-Received: by 2002:a63:f909:: with SMTP id h9mr10562477pgi.250.1598454811989;
+        Wed, 26 Aug 2020 08:13:31 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id d127sm3380122pfc.175.2020.08.26.08.13.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Aug 2020 08:13:30 -0700 (PDT)
+Date:   Wed, 26 Aug 2020 08:13:29 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Allen Pais <allen.cryptic@gmail.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-atm-general@lists.sourceforge.net, manohar.vanga@gmail.com,
+        airlied@linux.ie, linux-hyperv@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, sre@kernel.org,
+        anton.ivanov@cambridgegreys.com, devel@driverdev.osuosl.org,
+        linux-s390@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        maximlevitsky@gmail.com, richard@nod.at, deller@gmx.de,
+        jassisinghbrar@gmail.com, linux-spi@vger.kernel.org,
+        3chas3@gmail.com, intel-gfx@lists.freedesktop.org,
+        Jakub Kicinski <kuba@kernel.org>, mporter@kernel.crashing.org,
+        jdike@addtoit.com, oakad@yahoo.com, s.hauer@pengutronix.de,
+        linux-input@vger.kernel.org, linux-um@lists.infradead.org,
+        linux-block@vger.kernel.org, broonie@kernel.org,
+        openipmi-developer@lists.sourceforge.net, mitch@sfgoth.com,
+        linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
+        linux-parisc@vger.kernel.org, netdev@vger.kernel.org,
+        martyn@welchs.me.uk, dmitry.torokhov@gmail.com,
+        linux-mmc@vger.kernel.org, Allen <allen.lkml@gmail.com>,
+        linux-kernel@vger.kernel.org, alex.bou9@gmail.com,
+        stefanr@s5r6.in-berlin.de, Daniel Vetter <daniel@ffwll.ch>,
+        linux-ntb@googlegroups.com,
+        Romain Perier <romain.perier@gmail.com>, shawnguo@kernel.org,
+        David Miller <davem@davemloft.net>
+Subject: Re: [PATCH] block: convert tasklets to use new tasklet_setup() API
+Message-ID: <202008260811.1CE425B5C2@keescook>
+References: <161b75f1-4e88-dcdf-42e8-b22504d7525c@kernel.dk>
+ <202008171246.80287CDCA@keescook>
+ <df645c06-c30b-eafa-4d23-826b84f2ff48@kernel.dk>
+ <1597780833.3978.3.camel@HansenPartnership.com>
+ <f3312928-430c-25f3-7112-76f2754df080@kernel.dk>
+ <1597849185.3875.7.camel@HansenPartnership.com>
+ <CAOMdWSJRR0BhjJK1FxD7UKxNd5sk4ycmEX6TYtJjRNR6UFAj6Q@mail.gmail.com>
+ <1597873172.4030.2.camel@HansenPartnership.com>
+ <CAEogwTCH8qqjAnSpT0GDn+NuAps8dNbfcPVQ9h8kfOWNbzrD0w@mail.gmail.com>
+ <20200826095528.GX1793@kadam>
 MIME-Version: 1.0
-In-Reply-To: <20200722054144.GQ1665100@dtor-ws>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200826095528.GX1793@kadam>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
-
-On 7/22/20 7:41 AM, Dmitry Torokhov wrote:
-> On Sun, Jul 19, 2020 at 07:56:49PM -0300, Henrique de Moraes Holschuh wrote:
->> On Fri, 17 Jul 2020, Hans de Goede wrote:
->>> This is a simple patch-series adding support for 3 new hotkeys found
->>> on various new Lenovo Thinkpad models.
->>
->> For all three patches, pending an ack for the new keycodes by the input
->> maintainers:
->>
->> Acked-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
+On Wed, Aug 26, 2020 at 12:55:28PM +0300, Dan Carpenter wrote:
+> On Wed, Aug 26, 2020 at 07:21:35AM +0530, Allen Pais wrote:
+> > On Thu, Aug 20, 2020 at 3:09 AM James Bottomley
+> > <James.Bottomley@hansenpartnership.com> wrote:
+> > >
+> > > On Wed, 2020-08-19 at 21:54 +0530, Allen wrote:
+> > > > > [...]
+> > > > > > > Since both threads seem to have petered out, let me suggest in
+> > > > > > > kernel.h:
+> > > > > > >
+> > > > > > > #define cast_out(ptr, container, member) \
+> > > > > > >     container_of(ptr, typeof(*container), member)
+> > > > > > >
+> > > > > > > It does what you want, the argument order is the same as
+> > > > > > > container_of with the only difference being you name the
+> > > > > > > containing structure instead of having to specify its type.
+> > > > > >
+> > > > > > Not to incessantly bike shed on the naming, but I don't like
+> > > > > > cast_out, it's not very descriptive. And it has connotations of
+> > > > > > getting rid of something, which isn't really true.
+> > > > >
+> > > > > Um, I thought it was exactly descriptive: you're casting to the
+> > > > > outer container.  I thought about following the C++ dynamic casting
+> > > > > style, so out_cast(), but that seemed a bit pejorative.  What about
+> > > > > outer_cast()?
+> > > > >
+> > > > > > FWIW, I like the from_ part of the original naming, as it has
+> > > > > > some clues as to what is being done here. Why not just
+> > > > > > from_container()? That should immediately tell people what it
+> > > > > > does without having to look up the implementation, even before
+> > > > > > this becomes a part of the accepted coding norm.
+> > > > >
+> > > > > I'm not opposed to container_from() but it seems a little less
+> > > > > descriptive than outer_cast() but I don't really care.  I always
+> > > > > have to look up container_of() when I'm using it so this would just
+> > > > > be another macro of that type ...
+> > > > >
+> > > >
+> > > >  So far we have a few which have been suggested as replacement
+> > > > for from_tasklet()
+> > > >
+> > > > - out_cast() or outer_cast()
+> > > > - from_member().
+> > > > - container_from() or from_container()
+> > > >
+> > > > from_container() sounds fine, would trimming it a bit work? like
+> > > > from_cont().
+> > >
+> > > I'm fine with container_from().  It's the same form as container_of()
+> > > and I think we need urgent agreement to not stall everything else so
+> > > the most innocuous name is likely to get the widest acceptance.
+> > 
+> > Kees,
+> > 
+> >   Will you be  sending the newly proposed API to Linus? I have V2
+> > which uses container_from()
+> > ready to be sent out.
 > 
-> Do you want me to merge all 3 through input tree?
+> I liked that James swapped the first two arguments so that it matches
+> container_of().  Plus it's nice that when you have:
+> 
+> 	struct whatever *foo = container_from(ptr, foo, member);
+> 
+> Then it means that "ptr == &foo->member".
 
-Despite Andy's acked-by:
+I'm a bit stalled right now -- the merge window was keeping me busy, and
+this week is the Linux Plumbers Conference. This is on my list, but I
+haven't gotten back around to it. If you want, feel free to send the
+container_from() patch; you might be able to unblock this faster than me
+right now. :)
 
-Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+-Kees
 
-For merging these through the input tree I'm not seeing these in 5.9-rc2 ?
-
-Regards,
-
-Hans
-
+-- 
+Kees Cook
