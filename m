@@ -2,27 +2,27 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D52B825366A
-	for <lists+linux-input@lfdr.de>; Wed, 26 Aug 2020 20:17:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A28A62536A9
+	for <lists+linux-input@lfdr.de>; Wed, 26 Aug 2020 20:20:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726940AbgHZSRb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 Aug 2020 14:17:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39832 "EHLO mail.kernel.org"
+        id S1726953AbgHZSRf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 Aug 2020 14:17:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39978 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726880AbgHZSR1 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 Aug 2020 14:17:27 -0400
+        id S1726947AbgHZSRc (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 26 Aug 2020 14:17:32 -0400
 Received: from kozik-lap.mshome.net (unknown [194.230.155.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7A164208E4;
-        Wed, 26 Aug 2020 18:17:21 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 359A020737;
+        Wed, 26 Aug 2020 18:17:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598465847;
-        bh=TiIrBmN1ONi32fa4mRcnLGuieT5Nl7bSCxSC4PoSTzk=;
+        s=default; t=1598465852;
+        bh=R/wON7Dd1kYOf9N5F6c4o26RPuVpWmsv1WDvdKWb24A=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZZO5SlWvjTrCiD6iyjn4f+q3YCxVbTXwCS87P9oriwT8n5rVtd0bNP9Jg3CMmH+C9
-         urThHpiJAUtBGrV3yMy26stL6qsNaSFnFQzKomWLHhNyhxG1FvuRDHuJsHy0IUkFXC
-         /03lSd0CFt6070MWGRfWEB7BXOJ0//sJGpEkuscQ=
+        b=kurPqRyWew4kwvgkIRJu5txJPZdqjY6ppdsSeovEc+/Oqllkxg8lZxG1k2gxFX5SH
+         1O3ROXotMDmNy76N8wzyEcPSOJEWeyiT+B/K6M30RRsq4mLB45AcKR2GDGvKXMi9Zk
+         4Pa287LfJy6LjPXa2VYux/jxgJ25qVTlGyd8mldg=
 From:   Krzysztof Kozlowski <krzk@kernel.org>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -35,9 +35,9 @@ To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         platform-driver-x86@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH 03/24] Input: gpio_keys_polled - Simplify with dev_err_probe()
-Date:   Wed, 26 Aug 2020 20:16:45 +0200
-Message-Id: <20200826181706.11098-3-krzk@kernel.org>
+Subject: [PATCH 04/24] Input: gpio-vibra - Simplify with dev_err_probe()
+Date:   Wed, 26 Aug 2020 20:16:46 +0200
+Message-Id: <20200826181706.11098-4-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200826181706.11098-1-krzk@kernel.org>
 References: <20200826181706.11098-1-krzk@kernel.org>
@@ -51,29 +51,39 @@ dev_err_probe().  Less code and also it prints the error value.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- drivers/input/keyboard/gpio_keys_polled.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/input/misc/gpio-vibra.c | 16 ++++------------
+ 1 file changed, 4 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/input/keyboard/gpio_keys_polled.c b/drivers/input/keyboard/gpio_keys_polled.c
-index c3937d2fc744..ba00ecfbd343 100644
---- a/drivers/input/keyboard/gpio_keys_polled.c
-+++ b/drivers/input/keyboard/gpio_keys_polled.c
-@@ -299,13 +299,9 @@ static int gpio_keys_polled_probe(struct platform_device *pdev)
- 							     NULL, GPIOD_IN,
- 							     button->desc);
- 			if (IS_ERR(bdata->gpiod)) {
--				error = PTR_ERR(bdata->gpiod);
--				if (error != -EPROBE_DEFER)
--					dev_err(dev,
--						"failed to get gpio: %d\n",
--						error);
- 				fwnode_handle_put(child);
--				return error;
-+				return dev_err_probe(dev, PTR_ERR(bdata->gpiod),
-+						     "failed to get gpio\n");
- 			}
- 		} else if (gpio_is_valid(button->gpio)) {
- 			/*
+diff --git a/drivers/input/misc/gpio-vibra.c b/drivers/input/misc/gpio-vibra.c
+index f79f75595dd7..53042e0ba9ee 100644
+--- a/drivers/input/misc/gpio-vibra.c
++++ b/drivers/input/misc/gpio-vibra.c
+@@ -114,21 +114,13 @@ static int gpio_vibrator_probe(struct platform_device *pdev)
+ 
+ 	vibrator->vcc = devm_regulator_get(&pdev->dev, "vcc");
+ 	err = PTR_ERR_OR_ZERO(vibrator->vcc);
+-	if (err) {
+-		if (err != -EPROBE_DEFER)
+-			dev_err(&pdev->dev, "Failed to request regulator: %d\n",
+-				err);
+-		return err;
+-	}
++	if (err)
++		return dev_err_probe(&pdev->dev, err, "Failed to request regulator\n");
+ 
+ 	vibrator->gpio = devm_gpiod_get(&pdev->dev, "enable", GPIOD_OUT_LOW);
+ 	err = PTR_ERR_OR_ZERO(vibrator->gpio);
+-	if (err) {
+-		if (err != -EPROBE_DEFER)
+-			dev_err(&pdev->dev, "Failed to request main gpio: %d\n",
+-				err);
+-		return err;
+-	}
++	if (err)
++		return dev_err_probe(&pdev->dev, err, "Failed to request main gpio\n");
+ 
+ 	INIT_WORK(&vibrator->play_work, gpio_vibrator_play_work);
+ 
 -- 
 2.17.1
 
