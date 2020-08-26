@@ -2,27 +2,27 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C7262536A1
-	for <lists+linux-input@lfdr.de>; Wed, 26 Aug 2020 20:19:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 966B8253699
+	for <lists+linux-input@lfdr.de>; Wed, 26 Aug 2020 20:19:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728019AbgHZSTw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 Aug 2020 14:19:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42706 "EHLO mail.kernel.org"
+        id S1727875AbgHZSSn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 Aug 2020 14:18:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42808 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727851AbgHZSSj (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 Aug 2020 14:18:39 -0400
+        id S1727863AbgHZSSm (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 26 Aug 2020 14:18:42 -0400
 Received: from kozik-lap.mshome.net (unknown [194.230.155.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 667C6214F1;
-        Wed, 26 Aug 2020 18:18:35 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1D3D02083B;
+        Wed, 26 Aug 2020 18:18:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598465918;
-        bh=T6TFZj9w5aHZrZ0f+bpIypxGUI4p0QxsrYCpZFKfb40=;
+        s=default; t=1598465921;
+        bh=0n3TKILnSeWeNht9U3KmADSMA4OlGLCD53W9Sw4h45w=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=S2sOiki0erxXIKebMT9vaLIM1HaCpXOZodBCFrPik4ObNJ5Ihc4DrlCSJjoyVuosm
-         r+5TsVXSi+c5G8vebrYpklPjH5CDbF4tibmDzE8Yh6VW2ddg/hCKV6Nkh4BmqTS4KC
-         gHOEFnUmeG8/vI1Bixqs8ALZTojw9r4IXyT5/OaE=
+        b=EcsOzYDJUI4mXTjgNjWb2iyY8AqXk4a1CAcaOY9Ou7SHlrTdCY7dMpwi3BgQEgqtW
+         P4z1Wlf7rgYnF2dwq/GGVSLWjB40Is5jRgoB225/XXcDz7zeyTsBFAGuuVJuTk9hiD
+         uSFkXjJzADQX3QymjmvX1fIxZHVyhCyLssES+STQ=
 From:   Krzysztof Kozlowski <krzk@kernel.org>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -35,9 +35,9 @@ To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         platform-driver-x86@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH 18/24] Input: pixcir_i2c_ts - Simplify with dev_err_probe()
-Date:   Wed, 26 Aug 2020 20:17:00 +0200
-Message-Id: <20200826181706.11098-18-krzk@kernel.org>
+Subject: [PATCH 19/24] Input: raydium_i2c_ts - Simplify with dev_err_probe()
+Date:   Wed, 26 Aug 2020 20:17:01 +0200
+Message-Id: <20200826181706.11098-19-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200826181706.11098-1-krzk@kernel.org>
 References: <20200826181706.11098-1-krzk@kernel.org>
@@ -51,67 +51,55 @@ dev_err_probe().  Less code and also it prints the error value.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- drivers/input/touchscreen/pixcir_i2c_ts.c | 38 +++++++----------------
- 1 file changed, 12 insertions(+), 26 deletions(-)
+ drivers/input/touchscreen/raydium_i2c_ts.c | 30 +++++++---------------
+ 1 file changed, 9 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/input/touchscreen/pixcir_i2c_ts.c b/drivers/input/touchscreen/pixcir_i2c_ts.c
-index 9aa098577350..fb37567e2d7e 100644
---- a/drivers/input/touchscreen/pixcir_i2c_ts.c
-+++ b/drivers/input/touchscreen/pixcir_i2c_ts.c
-@@ -515,41 +515,27 @@ static int pixcir_i2c_ts_probe(struct i2c_client *client,
- 	input_set_drvdata(input, tsdata);
+diff --git a/drivers/input/touchscreen/raydium_i2c_ts.c b/drivers/input/touchscreen/raydium_i2c_ts.c
+index fe245439adee..4017775f6466 100644
+--- a/drivers/input/touchscreen/raydium_i2c_ts.c
++++ b/drivers/input/touchscreen/raydium_i2c_ts.c
+@@ -1015,32 +1015,20 @@ static int raydium_i2c_probe(struct i2c_client *client,
+ 	i2c_set_clientdata(client, ts);
  
- 	tsdata->gpio_attb = devm_gpiod_get(dev, "attb", GPIOD_IN);
--	if (IS_ERR(tsdata->gpio_attb)) {
--		error = PTR_ERR(tsdata->gpio_attb);
+ 	ts->avdd = devm_regulator_get(&client->dev, "avdd");
+-	if (IS_ERR(ts->avdd)) {
+-		error = PTR_ERR(ts->avdd);
 -		if (error != -EPROBE_DEFER)
--			dev_err(dev, "Failed to request ATTB gpio: %d\n",
--				error);
+-			dev_err(&client->dev,
+-				"Failed to get 'avdd' regulator: %d\n", error);
 -		return error;
 -	}
-+	if (IS_ERR(tsdata->gpio_attb))
-+		return dev_err_probe(dev, PTR_ERR(tsdata->gpio_attb),
-+				     "Failed to request ATTB gpio\n");
++	if (IS_ERR(ts->avdd))
++		return dev_err_probe(&client->dev, PTR_ERR(ts->avdd),
++				     "Failed to get 'avdd' regulator\n");
  
- 	tsdata->gpio_reset = devm_gpiod_get_optional(dev, "reset",
- 						     GPIOD_OUT_LOW);
--	if (IS_ERR(tsdata->gpio_reset)) {
--		error = PTR_ERR(tsdata->gpio_reset);
+ 	ts->vccio = devm_regulator_get(&client->dev, "vccio");
+-	if (IS_ERR(ts->vccio)) {
+-		error = PTR_ERR(ts->vccio);
 -		if (error != -EPROBE_DEFER)
--			dev_err(dev, "Failed to request RESET gpio: %d\n",
--				error);
+-			dev_err(&client->dev,
+-				"Failed to get 'vccio' regulator: %d\n", error);
 -		return error;
 -	}
-+	if (IS_ERR(tsdata->gpio_reset))
-+		return dev_err_probe(dev, PTR_ERR(tsdata->gpio_reset),
-+				     "Failed to request RESET gpio\n");
++	if (IS_ERR(ts->vccio))
++		return dev_err_probe(&client->dev, PTR_ERR(ts->vccio),
++				     "Failed to get 'vccio' regulator\n");
  
- 	tsdata->gpio_wake = devm_gpiod_get_optional(dev, "wake",
- 						    GPIOD_OUT_HIGH);
--	if (IS_ERR(tsdata->gpio_wake)) {
--		error = PTR_ERR(tsdata->gpio_wake);
+ 	ts->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset",
+ 						 GPIOD_OUT_LOW);
+-	if (IS_ERR(ts->reset_gpio)) {
+-		error = PTR_ERR(ts->reset_gpio);
 -		if (error != -EPROBE_DEFER)
--			dev_err(dev, "Failed to get wake gpio: %d\n", error);
+-			dev_err(&client->dev,
+-				"failed to get reset gpio: %d\n", error);
 -		return error;
 -	}
-+	if (IS_ERR(tsdata->gpio_wake))
-+		return dev_err_probe(dev, PTR_ERR(tsdata->gpio_wake),
-+				     "Failed to get wake gpio\n");
++	if (IS_ERR(ts->reset_gpio))
++		return dev_err_probe(&client->dev, PTR_ERR(ts->reset_gpio),
++				     "Failed to get reset gpio\n");
  
- 	tsdata->gpio_enable = devm_gpiod_get_optional(dev, "enable",
- 						      GPIOD_OUT_HIGH);
--	if (IS_ERR(tsdata->gpio_enable)) {
--		error = PTR_ERR(tsdata->gpio_enable);
--		if (error != -EPROBE_DEFER)
--			dev_err(dev, "Failed to get enable gpio: %d\n", error);
--		return error;
--	}
-+	if (IS_ERR(tsdata->gpio_enable))
-+		return dev_err_probe(dev, PTR_ERR(tsdata->gpio_enable),
-+				     "Failed to get enable gpio\n");
- 
- 	if (tsdata->gpio_enable)
- 		msleep(100);
+ 	error = raydium_i2c_power_on(ts);
+ 	if (error)
 -- 
 2.17.1
 
