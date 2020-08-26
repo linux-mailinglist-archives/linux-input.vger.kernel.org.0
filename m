@@ -2,27 +2,27 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8482D25367E
-	for <lists+linux-input@lfdr.de>; Wed, 26 Aug 2020 20:18:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8256D2536A5
+	for <lists+linux-input@lfdr.de>; Wed, 26 Aug 2020 20:20:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727786AbgHZSSS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 Aug 2020 14:18:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41704 "EHLO mail.kernel.org"
+        id S1727851AbgHZST6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 Aug 2020 14:19:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41926 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727772AbgHZSSQ (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 Aug 2020 14:18:16 -0400
+        id S1727794AbgHZSSV (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 26 Aug 2020 14:18:21 -0400
 Received: from kozik-lap.mshome.net (unknown [194.230.155.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5EA76207BC;
-        Wed, 26 Aug 2020 18:18:12 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EE49C2083B;
+        Wed, 26 Aug 2020 18:18:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598465896;
-        bh=aDmvqHlQZkrMxJWIZ3K/qfQvR2zitB02kM6hwU97zPg=;
+        s=default; t=1598465901;
+        bh=/MVD81Dk9a9N8i8v4eBsnioXxC7T8r+SLsxSVtXZhEA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=xsiumwCLu2SlMtdlk+MK3PTQ2NzSAgquDGVZLE1MAaGAIz0G3kswIPur0kr7hpe1T
-         X1dsyEb0pmVZAmL2HFrv7oAE4BR53+PwzLSs7f7KdhWfz6yh2og9PJNOVUbR8GYBy7
-         bydwX79WwjbYLTQyZZg1JiVrcAKd4wr/0pOho1uc=
+        b=a5whlNufmpP7lRPlL+rG4uzwsAtu9iYP3on3k/DYmbaOa9YW3+AFwZq7f+T/8luiA
+         hHsJ1uIQ81vCNO8Q/rgvmt5cf3vY13wrCqoUPOrcYhWsrOKNqIBcZgYw57qoubbZcU
+         BreZZCgcxExZXnCjzjBGvs/iP4Rf9JAqMHaUDO8w=
 From:   Krzysztof Kozlowski <krzk@kernel.org>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -35,9 +35,9 @@ To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         platform-driver-x86@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH 12/24] Input: cy8ctma140 - Simplify with dev_err_probe()
-Date:   Wed, 26 Aug 2020 20:16:54 +0200
-Message-Id: <20200826181706.11098-12-krzk@kernel.org>
+Subject: [PATCH 13/24] Input: edf-ft5x06 - Simplify with dev_err_probe()
+Date:   Wed, 26 Aug 2020 20:16:55 +0200
+Message-Id: <20200826181706.11098-13-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200826181706.11098-1-krzk@kernel.org>
 References: <20200826181706.11098-1-krzk@kernel.org>
@@ -51,28 +51,30 @@ dev_err_probe().  Less code and also it prints the error value.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- drivers/input/touchscreen/cy8ctma140.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/input/touchscreen/edt-ft5x06.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/input/touchscreen/cy8ctma140.c b/drivers/input/touchscreen/cy8ctma140.c
-index a9be29139cbf..23da5bb00ead 100644
---- a/drivers/input/touchscreen/cy8ctma140.c
-+++ b/drivers/input/touchscreen/cy8ctma140.c
-@@ -259,12 +259,8 @@ static int cy8ctma140_probe(struct i2c_client *client,
- 	ts->regulators[1].supply = "vdd";
- 	error = devm_regulator_bulk_get(dev, ARRAY_SIZE(ts->regulators),
- 				      ts->regulators);
--	if (error) {
+diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
+index 6ff81d48da86..d4827ac963b0 100644
+--- a/drivers/input/touchscreen/edt-ft5x06.c
++++ b/drivers/input/touchscreen/edt-ft5x06.c
+@@ -1098,13 +1098,9 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
+ 	tsdata->max_support_points = chip_data->max_support_points;
+ 
+ 	tsdata->vcc = devm_regulator_get(&client->dev, "vcc");
+-	if (IS_ERR(tsdata->vcc)) {
+-		error = PTR_ERR(tsdata->vcc);
 -		if (error != -EPROBE_DEFER)
--			dev_err(dev, "Failed to get regulators %d\n",
--				error);
+-			dev_err(&client->dev,
+-				"failed to request regulator: %d\n", error);
 -		return error;
 -	}
-+	if (error)
-+		return dev_err_probe(dev, error, "Failed to get regulators\n");
++	if (IS_ERR(tsdata->vcc))
++		return dev_err_probe(&client->dev, PTR_ERR(tsdata->vcc),
++				     "failed to request regulator\n");
  
- 	error = cy8ctma140_power_up(ts);
- 	if (error)
+ 	error = regulator_enable(tsdata->vcc);
+ 	if (error < 0) {
 -- 
 2.17.1
 
