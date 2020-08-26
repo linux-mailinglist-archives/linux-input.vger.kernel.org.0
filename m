@@ -2,127 +2,170 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B7FF252571
-	for <lists+linux-input@lfdr.de>; Wed, 26 Aug 2020 04:16:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FF37252B0A
+	for <lists+linux-input@lfdr.de>; Wed, 26 Aug 2020 12:01:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726697AbgHZCQb convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Tue, 25 Aug 2020 22:16:31 -0400
-Received: from twspam01.aspeedtech.com ([211.20.114.71]:18964 "EHLO
-        twspam01.aspeedtech.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726672AbgHZCQ1 (ORCPT
+        id S1728497AbgHZKB2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 Aug 2020 06:01:28 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:33948 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728165AbgHZKBY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 Aug 2020 22:16:27 -0400
-X-Greylist: delayed 1004 seconds by postgrey-1.27 at vger.kernel.org; Tue, 25 Aug 2020 22:16:25 EDT
-Received: from twspam01.aspeedtech.com (localhost [127.0.0.2] (may be forged))
-        by twspam01.aspeedtech.com with ESMTP id 07Q1gVEQ015657;
-        Wed, 26 Aug 2020 09:42:31 +0800 (GMT-8)
-        (envelope-from ryan_chen@aspeedtech.com)
-Received: from mail.aspeedtech.com ([192.168.0.24])
-        by twspam01.aspeedtech.com with ESMTP id 07Q1fxVs015567;
-        Wed, 26 Aug 2020 09:41:59 +0800 (GMT-8)
-        (envelope-from ryan_chen@aspeedtech.com)
-Received: from TWMBX02.aspeed.com (192.168.0.24) by TWMBX02.aspeed.com
- (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.620.29; Wed, 26 Aug
- 2020 09:59:11 +0800
-Received: from TWMBX02.aspeed.com ([fe80::997d:c0a7:f01f:e1a7]) by
- TWMBX02.aspeed.com ([fe80::997d:c0a7:f01f:e1a7%12]) with mapi id
- 15.00.0620.020; Wed, 26 Aug 2020 09:59:11 +0800
-From:   Ryan Chen <ryan_chen@aspeedtech.com>
-To:     Tao Ren <rentao.bupt@gmail.com>,
-        Eddie James <eajames@linux.ibm.com>
-CC:     Joel Stanley <joel@jms.id.au>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
-        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: RE: [PATCH 3/5] i2c: aspeed: Mask IRQ status to relevant bits
-Thread-Topic: [PATCH 3/5] i2c: aspeed: Mask IRQ status to relevant bits
-Thread-Index: AQHWdwzk/wcXUhvRB0iNVkduNVuxEqlH4GIAgADco4CAAATnAIAA6Fog
-Date:   Wed, 26 Aug 2020 01:59:11 +0000
-Message-ID: <f84a5ad1064142b78b3fc5eeb4659627@TWMBX02.aspeed.com>
-References: <20200820161152.22751-1-eajames@linux.ibm.com>
- <20200820161152.22751-4-eajames@linux.ibm.com>
- <CACPK8XdG1+3eQPQ71fZYZdHwcn8WNLQKF=5iKrOvGhLwispSQA@mail.gmail.com>
- <8fc365dd-8a89-9e5c-ed70-093ef2bf7265@linux.ibm.com>
- <20200825200523.GA22083@taoren-ubuntu-R90MNF91>
-In-Reply-To: <20200825200523.GA22083@taoren-ubuntu-R90MNF91>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.2.87]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        Wed, 26 Aug 2020 06:01:24 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07Q9rmML110211;
+        Wed, 26 Aug 2020 09:58:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=99lx5iUfIkT1H9yGqvvBxJOhPDkHKQlkIHLEmQ8PDXw=;
+ b=pHUo6T87aN4HkyoolW4yELYhdaG6ZvSavIkxfBgUOj0Org1O9z1r+ZQOuET12WJ7H5Pc
+ xnVCQfyl6qFGmQNX19oW+/bFETNvgM6pF7csHfuvBHB3cwqfsUd0O1/rGIc/5OQTnnFB
+ MEojeNBzUtEmGEuqP0gM6P7/G+Nn01P+JHgzxPDBnzH/evLKYOeuFaI9EUmCauKOO4Dv
+ zZppw57NrWnHoxtj9wH99M6dzm4GlspA3OSB7TYDhwfTGMPmrp1Qrwutr2AFfwHTZX4W
+ mmUMO7IJxJ3uJAsWGpM1c6assMY729yLXVkHlFuUfSzlq1xzAsoVwPIWis3T8JNJMC4u Ng== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2120.oracle.com with ESMTP id 333dbryf24-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 26 Aug 2020 09:58:06 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 07Q9odrR139540;
+        Wed, 26 Aug 2020 09:56:05 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3020.oracle.com with ESMTP id 333rtywr8n-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 26 Aug 2020 09:56:05 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 07Q9tlAJ026067;
+        Wed, 26 Aug 2020 09:55:47 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 26 Aug 2020 02:55:46 -0700
+Date:   Wed, 26 Aug 2020 12:55:28 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Allen Pais <allen.cryptic@gmail.com>
+Cc:     James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-atm-general@lists.sourceforge.net, manohar.vanga@gmail.com,
+        airlied@linux.ie, linux-hyperv@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, sre@kernel.org,
+        anton.ivanov@cambridgegreys.com, devel@driverdev.osuosl.org,
+        linux-s390@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        maximlevitsky@gmail.com, richard@nod.at, deller@gmx.de,
+        jassisinghbrar@gmail.com, linux-spi@vger.kernel.org,
+        3chas3@gmail.com, intel-gfx@lists.freedesktop.org,
+        Jakub Kicinski <kuba@kernel.org>, mporter@kernel.crashing.org,
+        jdike@addtoit.com, Kees Cook <keescook@chromium.org>,
+        oakad@yahoo.com, s.hauer@pengutronix.de,
+        linux-input@vger.kernel.org, linux-um@lists.infradead.org,
+        linux-block@vger.kernel.org, broonie@kernel.org,
+        openipmi-developer@lists.sourceforge.net, mitch@sfgoth.com,
+        linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
+        linux-parisc@vger.kernel.org, netdev@vger.kernel.org,
+        martyn@welchs.me.uk, dmitry.torokhov@gmail.com,
+        linux-mmc@vger.kernel.org, Allen <allen.lkml@gmail.com>,
+        linux-kernel@vger.kernel.org, alex.bou9@gmail.com,
+        stefanr@s5r6.in-berlin.de, Daniel Vetter <daniel@ffwll.ch>,
+        linux-ntb@googlegroups.com,
+        Romain Perier <romain.perier@gmail.com>, shawnguo@kernel.org,
+        David Miller <davem@davemloft.net>
+Subject: Re: [PATCH] block: convert tasklets to use new tasklet_setup() API
+Message-ID: <20200826095528.GX1793@kadam>
+References: <202008171228.29E6B3BB@keescook>
+ <161b75f1-4e88-dcdf-42e8-b22504d7525c@kernel.dk>
+ <202008171246.80287CDCA@keescook>
+ <df645c06-c30b-eafa-4d23-826b84f2ff48@kernel.dk>
+ <1597780833.3978.3.camel@HansenPartnership.com>
+ <f3312928-430c-25f3-7112-76f2754df080@kernel.dk>
+ <1597849185.3875.7.camel@HansenPartnership.com>
+ <CAOMdWSJRR0BhjJK1FxD7UKxNd5sk4ycmEX6TYtJjRNR6UFAj6Q@mail.gmail.com>
+ <1597873172.4030.2.camel@HansenPartnership.com>
+ <CAEogwTCH8qqjAnSpT0GDn+NuAps8dNbfcPVQ9h8kfOWNbzrD0w@mail.gmail.com>
 MIME-Version: 1.0
-X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 07Q1fxVs015567
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAEogwTCH8qqjAnSpT0GDn+NuAps8dNbfcPVQ9h8kfOWNbzrD0w@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9724 signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 adultscore=0
+ phishscore=0 spamscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2008260078
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9724 signatures=668679
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 clxscore=1011
+ priorityscore=1501 impostorscore=0 phishscore=0 malwarescore=0
+ mlxlogscore=999 spamscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2008260079
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-> -----Original Message-----
-> From: Tao Ren [mailto:rentao.bupt@gmail.com]
-> Sent: Wednesday, August 26, 2020 4:05 AM
-> To: Eddie James <eajames@linux.ibm.com>
-> Cc: Joel Stanley <joel@jms.id.au>; devicetree <devicetree@vger.kernel.org>;
-> linux-aspeed <linux-aspeed@lists.ozlabs.org>; dmitry.torokhov@gmail.com;
-> Brendan Higgins <brendanhiggins@google.com>; Linux Kernel Mailing List
-> <linux-kernel@vger.kernel.org>; Rob Herring <robh+dt@kernel.org>;
-> linux-i2c@vger.kernel.org; linux-input@vger.kernel.org; Ryan Chen
-> <ryan_chen@aspeedtech.com>
-> Subject: Re: [PATCH 3/5] i2c: aspeed: Mask IRQ status to relevant bits
-> 
-> On Tue, Aug 25, 2020 at 02:47:51PM -0500, Eddie James wrote:
+On Wed, Aug 26, 2020 at 07:21:35AM +0530, Allen Pais wrote:
+> On Thu, Aug 20, 2020 at 3:09 AM James Bottomley
+> <James.Bottomley@hansenpartnership.com> wrote:
 > >
-> > On 8/25/20 1:38 AM, Joel Stanley wrote:
-> > > On Thu, 20 Aug 2020 at 16:12, Eddie James <eajames@linux.ibm.com>
-> wrote:
-> > > > Mask the IRQ status to only the bits that the driver checks. This
-> > > > prevents excessive driver warnings when operating in slave mode
-> > > > when additional bits are set that the driver doesn't handle.
+> > On Wed, 2020-08-19 at 21:54 +0530, Allen wrote:
+> > > > [...]
+> > > > > > Since both threads seem to have petered out, let me suggest in
+> > > > > > kernel.h:
+> > > > > >
+> > > > > > #define cast_out(ptr, container, member) \
+> > > > > >     container_of(ptr, typeof(*container), member)
+> > > > > >
+> > > > > > It does what you want, the argument order is the same as
+> > > > > > container_of with the only difference being you name the
+> > > > > > containing structure instead of having to specify its type.
+> > > > >
+> > > > > Not to incessantly bike shed on the naming, but I don't like
+> > > > > cast_out, it's not very descriptive. And it has connotations of
+> > > > > getting rid of something, which isn't really true.
 > > > >
-> > > > Signed-off-by: Eddie James <eajames@linux.ibm.com>
-> > > > ---
-> > > >   drivers/i2c/busses/i2c-aspeed.c | 1 +
-> > > >   1 file changed, 1 insertion(+)
+> > > > Um, I thought it was exactly descriptive: you're casting to the
+> > > > outer container.  I thought about following the C++ dynamic casting
+> > > > style, so out_cast(), but that seemed a bit pejorative.  What about
+> > > > outer_cast()?
 > > > >
-> > > > diff --git a/drivers/i2c/busses/i2c-aspeed.c
-> > > > b/drivers/i2c/busses/i2c-aspeed.c index 31268074c422..abf40f2af8b4
-> > > > 100644
-> > > > --- a/drivers/i2c/busses/i2c-aspeed.c
-> > > > +++ b/drivers/i2c/busses/i2c-aspeed.c
-> > > > @@ -604,6 +604,7 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq,
-> void *dev_id)
-> > > >          writel(irq_received & ~ASPEED_I2CD_INTR_RX_DONE,
-> > > >                 bus->base + ASPEED_I2C_INTR_STS_REG);
-> > > >          readl(bus->base + ASPEED_I2C_INTR_STS_REG);
-> > > > +       irq_received &= 0xf000ffff;
-> > > >          irq_remaining = irq_received;
-> > > This would defeat the check for irq_remaining. I don't think we want to do
-> this.
+> > > > > FWIW, I like the from_ part of the original naming, as it has
+> > > > > some clues as to what is being done here. Why not just
+> > > > > from_container()? That should immediately tell people what it
+> > > > > does without having to look up the implementation, even before
+> > > > > this becomes a part of the accepted coding norm.
+> > > >
+> > > > I'm not opposed to container_from() but it seems a little less
+> > > > descriptive than outer_cast() but I don't really care.  I always
+> > > > have to look up container_of() when I'm using it so this would just
+> > > > be another macro of that type ...
+> > > >
 > > >
-> > > Can you explain why these bits are being set in slave mode?
+> > >  So far we have a few which have been suggested as replacement
+> > > for from_tasklet()
+> > >
+> > > - out_cast() or outer_cast()
+> > > - from_member().
+> > > - container_from() or from_container()
+> > >
+> > > from_container() sounds fine, would trimming it a bit work? like
+> > > from_cont().
 > >
-> >
-> > No, I don't have any documentation for the bits that are masked off
-> > here, so I don't know why they would get set.
-> >
-> > The check for irq_remaining is still useful for detecting that the
-> > driver state machine might be out of sync with what the master is doing.
+> > I'm fine with container_from().  It's the same form as container_of()
+> > and I think we need urgent agreement to not stall everything else so
+> > the most innocuous name is likely to get the widest acceptance.
 > 
-> I have a similar patch in my local tree, and the reason being: AST2600 I2C
-> Controller may set I2CD10[25:24] to report Current Slave Parking Status
-> (defined in new register I2CS24) even though the new register mode is off. The
-> 2 bits can be ignored in legacy mode, and Ryan from ASPEED could confirm it.
-Yes, in AST2600 i2cd10[25:24] will be the same with new mode register i2cs24[25:24]
-Thanks Tao.
+> Kees,
 > 
-> 
-> Cheers,
-> 
-> Tao
+>   Will you be  sending the newly proposed API to Linus? I have V2
+> which uses container_from()
+> ready to be sent out.
+
+I liked that James swapped the first two arguments so that it matches
+container_of().  Plus it's nice that when you have:
+
+	struct whatever *foo = container_from(ptr, foo, member);
+
+Then it means that "ptr == &foo->member".
+
+regards,
+dan carpenter
+
