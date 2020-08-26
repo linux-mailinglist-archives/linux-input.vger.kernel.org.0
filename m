@@ -2,27 +2,27 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 55F8625369C
-	for <lists+linux-input@lfdr.de>; Wed, 26 Aug 2020 20:19:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16A14253694
+	for <lists+linux-input@lfdr.de>; Wed, 26 Aug 2020 20:19:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726820AbgHZSTq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 Aug 2020 14:19:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43038 "EHLO mail.kernel.org"
+        id S1727931AbgHZSS5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 Aug 2020 14:18:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43220 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727895AbgHZSSs (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 Aug 2020 14:18:48 -0400
+        id S1727912AbgHZSSv (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 26 Aug 2020 14:18:51 -0400
 Received: from kozik-lap.mshome.net (unknown [194.230.155.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 57F63214F1;
-        Wed, 26 Aug 2020 18:18:45 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6B779208E4;
+        Wed, 26 Aug 2020 18:18:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598465927;
-        bh=CLfWoFp2UP/nAPTpoINiSe8V0C6mLS0vbNu1/NHgdu0=;
+        s=default; t=1598465930;
+        bh=UtLy7AgPaFb//7CHgB1vkCVLxxP0PzgmjazwcTLjaos=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=0PDQ8A945uJE1QgzcP+uuzJe6cY7+kwGjxOg7+vUjjvwhzCBdGObO7FgNEkoJY1Oy
-         CzEsew420WVyGFe4gpVQckl2Byh52HJWr1g/CfgaeeUiwqFPvA8HMv3/di/xK27VLO
-         xPkUSUeBd0EEw7LqI3MtZB+rlBYrsFfqe8Obdbr4=
+        b=AqY4f3f4lrGjeD5KfEVTdteWCTy/0gr+i38zARP6gRc+JWPHtJbB/RdX6NRmNurdh
+         SY8tze/unZTbbyjZHr6cdNDJT05Je9fhV0Es+gmssnNsVFYY8Uy9rscuAIbiuFpUvV
+         uRYjdLOpaFHXmfeB0KSBY190NzbB3FGo81z2wMNI=
 From:   Krzysztof Kozlowski <krzk@kernel.org>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -35,9 +35,9 @@ To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         platform-driver-x86@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH 21/24] Input: silead - Simplify with dev_err_probe()
-Date:   Wed, 26 Aug 2020 20:17:03 +0200
-Message-Id: <20200826181706.11098-21-krzk@kernel.org>
+Subject: [PATCH 22/24] Input: sis_i2c - Simplify with dev_err_probe()
+Date:   Wed, 26 Aug 2020 20:17:04 +0200
+Message-Id: <20200826181706.11098-22-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200826181706.11098-1-krzk@kernel.org>
 References: <20200826181706.11098-1-krzk@kernel.org>
@@ -51,28 +51,43 @@ dev_err_probe().  Less code and also it prints the error value.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- drivers/input/touchscreen/silead.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/input/touchscreen/sis_i2c.c | 20 ++++++--------------
+ 1 file changed, 6 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/input/touchscreen/silead.c b/drivers/input/touchscreen/silead.c
-index 8fa2f3b7cfd8..754debb4b2c4 100644
---- a/drivers/input/touchscreen/silead.c
-+++ b/drivers/input/touchscreen/silead.c
-@@ -512,11 +512,9 @@ static int silead_ts_probe(struct i2c_client *client,
+diff --git a/drivers/input/touchscreen/sis_i2c.c b/drivers/input/touchscreen/sis_i2c.c
+index 6274555f1673..348a2ba9b7c9 100644
+--- a/drivers/input/touchscreen/sis_i2c.c
++++ b/drivers/input/touchscreen/sis_i2c.c
+@@ -311,23 +311,15 @@ static int sis_ts_probe(struct i2c_client *client,
  
- 	/* Power GPIO pin */
- 	data->gpio_power = devm_gpiod_get_optional(dev, "power", GPIOD_OUT_LOW);
--	if (IS_ERR(data->gpio_power)) {
--		if (PTR_ERR(data->gpio_power) != -EPROBE_DEFER)
--			dev_err(dev, "Shutdown GPIO request failed\n");
--		return PTR_ERR(data->gpio_power);
+ 	ts->attn_gpio = devm_gpiod_get_optional(&client->dev,
+ 						"attn", GPIOD_IN);
+-	if (IS_ERR(ts->attn_gpio)) {
+-		error = PTR_ERR(ts->attn_gpio);
+-		if (error != -EPROBE_DEFER)
+-			dev_err(&client->dev,
+-				"Failed to get attention GPIO: %d\n", error);
+-		return error;
 -	}
-+	if (IS_ERR(data->gpio_power))
-+		return dev_err_probe(dev, PTR_ERR(data->gpio_power),
-+				     "Shutdown GPIO request failed\n");
++	if (IS_ERR(ts->attn_gpio))
++		return dev_err_probe(&client->dev, PTR_ERR(ts->attn_gpio),
++				     "Failed to get attention GPIO\n");
  
- 	error = silead_ts_setup(client);
- 	if (error)
+ 	ts->reset_gpio = devm_gpiod_get_optional(&client->dev,
+ 						 "reset", GPIOD_OUT_LOW);
+-	if (IS_ERR(ts->reset_gpio)) {
+-		error = PTR_ERR(ts->reset_gpio);
+-		if (error != -EPROBE_DEFER)
+-			dev_err(&client->dev,
+-				"Failed to get reset GPIO: %d\n", error);
+-		return error;
+-	}
++	if (IS_ERR(ts->reset_gpio))
++		return dev_err_probe(&client->dev, PTR_ERR(ts->reset_gpio),
++				     "Failed to get reset GPIO\n");
+ 
+ 	sis_ts_reset(ts);
+ 
 -- 
 2.17.1
 
