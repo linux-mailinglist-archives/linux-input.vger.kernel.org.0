@@ -2,27 +2,27 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 966B8253699
-	for <lists+linux-input@lfdr.de>; Wed, 26 Aug 2020 20:19:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E894253686
+	for <lists+linux-input@lfdr.de>; Wed, 26 Aug 2020 20:18:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727875AbgHZSSn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 Aug 2020 14:18:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42808 "EHLO mail.kernel.org"
+        id S1726858AbgHZSSt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 Aug 2020 14:18:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42916 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727863AbgHZSSm (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 Aug 2020 14:18:42 -0400
+        id S1727881AbgHZSSp (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 26 Aug 2020 14:18:45 -0400
 Received: from kozik-lap.mshome.net (unknown [194.230.155.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1D3D02083B;
-        Wed, 26 Aug 2020 18:18:38 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2237320737;
+        Wed, 26 Aug 2020 18:18:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598465921;
-        bh=0n3TKILnSeWeNht9U3KmADSMA4OlGLCD53W9Sw4h45w=;
+        s=default; t=1598465924;
+        bh=DAJ4IK0T3bYzcNbVBNiI+Vu9Q4UxL1+YwJDRQtT/cUQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=EcsOzYDJUI4mXTjgNjWb2iyY8AqXk4a1CAcaOY9Ou7SHlrTdCY7dMpwi3BgQEgqtW
-         P4z1Wlf7rgYnF2dwq/GGVSLWjB40Is5jRgoB225/XXcDz7zeyTsBFAGuuVJuTk9hiD
-         uSFkXjJzADQX3QymjmvX1fIxZHVyhCyLssES+STQ=
+        b=Xi7x5aqOUP5FpsDQ38MnGbVt+nIQx7FmM4kLD0OEKTs+oY0REYpQ1krT3q5OgonML
+         4YTzELWJpn5wldO2Q93XCvCJjGFWkqPymXeVXuyeSpK/TmATtoGHfpLuScbizBmGyh
+         a84AEQBcmfVgZ6LkVKAXN8WNRLhUYIC6X6TzrdTo=
 From:   Krzysztof Kozlowski <krzk@kernel.org>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -35,9 +35,9 @@ To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         platform-driver-x86@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH 19/24] Input: raydium_i2c_ts - Simplify with dev_err_probe()
-Date:   Wed, 26 Aug 2020 20:17:01 +0200
-Message-Id: <20200826181706.11098-19-krzk@kernel.org>
+Subject: [PATCH 20/24] Input: resistive-adc-touch - Simplify with dev_err_probe()
+Date:   Wed, 26 Aug 2020 20:17:02 +0200
+Message-Id: <20200826181706.11098-20-krzk@kernel.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200826181706.11098-1-krzk@kernel.org>
 References: <20200826181706.11098-1-krzk@kernel.org>
@@ -51,55 +51,28 @@ dev_err_probe().  Less code and also it prints the error value.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- drivers/input/touchscreen/raydium_i2c_ts.c | 30 +++++++---------------
- 1 file changed, 9 insertions(+), 21 deletions(-)
+ drivers/input/touchscreen/resistive-adc-touch.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/input/touchscreen/raydium_i2c_ts.c b/drivers/input/touchscreen/raydium_i2c_ts.c
-index fe245439adee..4017775f6466 100644
---- a/drivers/input/touchscreen/raydium_i2c_ts.c
-+++ b/drivers/input/touchscreen/raydium_i2c_ts.c
-@@ -1015,32 +1015,20 @@ static int raydium_i2c_probe(struct i2c_client *client,
- 	i2c_set_clientdata(client, ts);
+diff --git a/drivers/input/touchscreen/resistive-adc-touch.c b/drivers/input/touchscreen/resistive-adc-touch.c
+index cfc8bb4553f7..46b5a6caef84 100644
+--- a/drivers/input/touchscreen/resistive-adc-touch.c
++++ b/drivers/input/touchscreen/resistive-adc-touch.c
+@@ -108,12 +108,8 @@ static int grts_probe(struct platform_device *pdev)
  
- 	ts->avdd = devm_regulator_get(&client->dev, "avdd");
--	if (IS_ERR(ts->avdd)) {
--		error = PTR_ERR(ts->avdd);
+ 	/* get the channels from IIO device */
+ 	st->iio_chans = devm_iio_channel_get_all(dev);
+-	if (IS_ERR(st->iio_chans)) {
+-		error = PTR_ERR(st->iio_chans);
 -		if (error != -EPROBE_DEFER)
--			dev_err(&client->dev,
--				"Failed to get 'avdd' regulator: %d\n", error);
+-			dev_err(dev, "can't get iio channels.\n");
 -		return error;
 -	}
-+	if (IS_ERR(ts->avdd))
-+		return dev_err_probe(&client->dev, PTR_ERR(ts->avdd),
-+				     "Failed to get 'avdd' regulator\n");
++	if (IS_ERR(st->iio_chans))
++		return dev_err_probe(dev, PTR_ERR(st->iio_chans), "can't get iio channels\n");
  
- 	ts->vccio = devm_regulator_get(&client->dev, "vccio");
--	if (IS_ERR(ts->vccio)) {
--		error = PTR_ERR(ts->vccio);
--		if (error != -EPROBE_DEFER)
--			dev_err(&client->dev,
--				"Failed to get 'vccio' regulator: %d\n", error);
--		return error;
--	}
-+	if (IS_ERR(ts->vccio))
-+		return dev_err_probe(&client->dev, PTR_ERR(ts->vccio),
-+				     "Failed to get 'vccio' regulator\n");
- 
- 	ts->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset",
- 						 GPIOD_OUT_LOW);
--	if (IS_ERR(ts->reset_gpio)) {
--		error = PTR_ERR(ts->reset_gpio);
--		if (error != -EPROBE_DEFER)
--			dev_err(&client->dev,
--				"failed to get reset gpio: %d\n", error);
--		return error;
--	}
-+	if (IS_ERR(ts->reset_gpio))
-+		return dev_err_probe(&client->dev, PTR_ERR(ts->reset_gpio),
-+				     "Failed to get reset gpio\n");
- 
- 	error = raydium_i2c_power_on(ts);
- 	if (error)
+ 	chan = &st->iio_chans[0];
+ 	st->pressure = false;
 -- 
 2.17.1
 
