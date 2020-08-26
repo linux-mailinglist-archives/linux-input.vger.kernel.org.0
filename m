@@ -2,66 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 14A95252C49
-	for <lists+linux-input@lfdr.de>; Wed, 26 Aug 2020 13:14:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48C09252F89
+	for <lists+linux-input@lfdr.de>; Wed, 26 Aug 2020 15:21:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728712AbgHZLOa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 Aug 2020 07:14:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57426 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726948AbgHZLO2 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 Aug 2020 07:14:28 -0400
-Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 623B02080C;
-        Wed, 26 Aug 2020 11:14:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598440468;
-        bh=dW+XxAJpHFDjfaJ4wYtnP+dey0mXAR+H3ngD3LKAmuo=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=1yIPNP/7AHbxNWQ1HaDcLefPIcVjeGNsUFaos+hIWvoiz/esGedsdqPCJ1GMyr/aP
-         XarLaoP5WJvhx+Qc+M2zykBddRvkv5BzJsBiQD8q7Q8t+vVIW07emqzXwvt1dH+BBI
-         nNWHLi+dLOKjh1FiKx4FMaJxNNM6wMQAbpsffeW4=
-Date:   Wed, 26 Aug 2020 13:14:25 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Sean O'Brien <seobrien@chromium.org>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Wei-Ning Huang <wnhuang@google.com>
-Subject: Re: [PATCH v2] HID: google: add google vivaldi HID driver
-In-Reply-To: <20200825085044.1.I170489c0c2ac1538b3890abb5a92b95ad4f04d01@changeid>
-Message-ID: <nycvar.YFH.7.76.2008261311550.27422@cbobk.fhfr.pm>
-References: <20200825085044.1.I170489c0c2ac1538b3890abb5a92b95ad4f04d01@changeid>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S1730241AbgHZNUa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 Aug 2020 09:20:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47682 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730234AbgHZNU1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 26 Aug 2020 09:20:27 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7A01C061574
+        for <linux-input@vger.kernel.org>; Wed, 26 Aug 2020 06:20:26 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id d2so975068lfj.1
+        for <linux-input@vger.kernel.org>; Wed, 26 Aug 2020 06:20:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xJaGDmLdJPKjfGDHcMr3rAoHEtfMcI6VkY/+OxwCTgU=;
+        b=s4+NeaHWp0oVp3osI2v8nKxJ4O782LZXreBuPNIXh29TnbrWrfzF4jTHIakForMeWe
+         5/Y/g28qM5Y4iobiJF8QzZNTWviNL3Y8QFVBpUdXdIVTNELNvJ8PjQ7vacQMKf4MSomp
+         +ODKJbfbO84yR0MWbK6RzktW/33Je6aG45+f3HR6fgN8BxieYs+C6yr3bzsCzodBpHDO
+         hFPgQ80uSkBmfrTeTo7G+hO6W90QLTMxN7izEsIMZ2nYZZI1Rk8eqkP8wls13q5rhqS8
+         BDNKD1K6BcLtso8PycdAr4GBd0kzK22Ns+BQzmOSx1zSHGj9CSpeSfxQG0RwU+hUwgjS
+         LRkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xJaGDmLdJPKjfGDHcMr3rAoHEtfMcI6VkY/+OxwCTgU=;
+        b=fv7Q2ALtsxdvhhO+9lrTA3L/WA5Zn67Rnwx4cmyE0uKVEAZqTooo5tF63xL2754qjH
+         9+lITcHUgdEhZTg+mn9HgM54k7pwaQIj//N5IIOZuYEIJbEGPMqxfKkAJTfQZ65QPMJu
+         U/mG9kN/st4U7cJQsrudyb1cc5gob+J1BYMsm8RU2dYFtm9zf55xkqB588oGwsCiT1dC
+         sJxMOf67H7q0xhm4ZmD0yW1jD8L2p5h24hUFTYBjTrOk43miUTxlFeFRWrqgoEu4FeX0
+         8/T2Zd7bCWidDD5tPv0AtraRzdhIua5MDMOMVCcu/y6g/TTlEiifiX+c42F4zQ1Wd6jQ
+         C+Ew==
+X-Gm-Message-State: AOAM530HWWeUA0VuLTziBEDBJ52j51D+YLnu1TIWlDjF6iDBX269o4tc
+        MX5f/4dh5Uo1qch29en39dQLT0F0w4jJAaMbmyLAww==
+X-Google-Smtp-Source: ABdhPJwcxRypNe38mdDqDyeXgPOKYKdbtPZNViVMl/pVUiJT/Ls+QrrC85z1HrEyQe7k8mgLyqmgY0bt6tFsP40+YKQ=
+X-Received: by 2002:a05:6512:1044:: with SMTP id c4mr7342603lfb.77.1598448025255;
+ Wed, 26 Aug 2020 06:20:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <20171124093045.5961-1-linus.walleij@linaro.org> <20171125233324.afdt4netamvkrkm2@dtor-ws>
+In-Reply-To: <20171125233324.afdt4netamvkrkm2@dtor-ws>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 26 Aug 2020 15:20:14 +0200
+Message-ID: <CACRpkdb6kt8Bb0FnPoixw97R9oktK9h3uTS7JfdxoCKfLo4yhA@mail.gmail.com>
+Subject: Re: [PATCH 0/5] Make gpio_keys accept board descriptors
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Linux Input <linux-input@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 25 Aug 2020, Sean O'Brien wrote:
+Hi Dmitry,
 
-> Add Google vivaldi HID driver. This driver allows us to read and report
-> the top row layout of keyboards which provide a vendor-defined HID
-> usage.
+On Sun, Nov 26, 2017 at 12:33 AM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+> On Fri, Nov 24, 2017 at 10:30:40AM +0100, Linus Walleij wrote:
 
-Thanks for the driver.
+> > The goal I'm working toward is to rid the kernel of the global
+> > GPIO numberspace.
+> >
+> > This means GPIO lines should be references by the local offset
+> > on the GPIO chip.
+> >
+> > This patch set starts to move gpio_keys toward using GPIO
+> > look-up tables instead of global GPIO numbers to find their
+> > GPIOs.
+> >
+> > As an example I did (I think) the necessary patches to
+> > convert DaVinci and i.MX to use this. There are several users
+> > also x86 platform devices.
+(...)
+> I think this is a worthy goal, but I wonder if we could get static GPIO
+> descriptors work with fwnode_get_named_gpiod() so we could retire the
+> platform data parsing altogether. We'd need to extend static device
+> properties to have notion of children though.
 
-I actually believe we should follow the standard convention here, and have 
-just one hid-<vendor> driver for all google products. Currently we have 
-hid-google-hammer, and this would add hid-google-vivaldi. Would you (or 
-Wei-Ning, CCing here) object on merging these two together?
+Do we have this now? I've looked at Heikki's et al work
+on software nodes but I cannot see whether we are there now.
 
-It's of course possible to still have hid-google-vivaldi.c and 
-hid-google-hammer.c, but then have only one CONFIG_HID_GOOGLE option 
-that'd link these two (and pontentially any future ones) into one single 
-hid-google.ko.
+We have fwnode_create_software_node() and friends, but
+I haven't seen if this can be used with input and GPIO descriptors
+are still a bit on the side. I can create a lot of properties but
+not really add a descriptor table as a software node as far as
+I can tell. I'm also a bit lost on whether it will be possible
+to get there sadly :/
 
-Thanks,
-
--- 
-Jiri Kosina
-SUSE Labs
-
+Yours,
+Linus Walleij
