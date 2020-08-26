@@ -2,98 +2,57 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CB31253170
-	for <lists+linux-input@lfdr.de>; Wed, 26 Aug 2020 16:36:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 876752532D1
+	for <lists+linux-input@lfdr.de>; Wed, 26 Aug 2020 17:06:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726514AbgHZOgI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 Aug 2020 10:36:08 -0400
-Received: from mga09.intel.com ([134.134.136.24]:23263 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726125AbgHZOfr (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 Aug 2020 10:35:47 -0400
-IronPort-SDR: MN/NY1PSzHT0FMSWfpX14wA3epohMBYxMcbCNudZZhLK+VFeAvlqA0WJK67J4IfrTujnZgryL6
- 8NB34j9E72ww==
-X-IronPort-AV: E=McAfee;i="6000,8403,9725"; a="157334197"
-X-IronPort-AV: E=Sophos;i="5.76,355,1592895600"; 
-   d="scan'208";a="157334197"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2020 07:35:46 -0700
-IronPort-SDR: ERO3Vp223nHcwzMdJu2q8LBV95WtT65p2adjpKW7iXxrfjdtOKBAMMu135xURYqyiifn+VXH4+
- HA9aIRmjQBmA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,355,1592895600"; 
-   d="scan'208";a="403080252"
-Received: from kuha.fi.intel.com ([10.237.72.162])
-  by fmsmga001.fm.intel.com with SMTP; 26 Aug 2020 07:35:44 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 26 Aug 2020 17:35:43 +0300
-Date:   Wed, 26 Aug 2020 17:35:43 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Linux Input <linux-input@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH 0/5] Make gpio_keys accept board descriptors
-Message-ID: <20200826143543.GC813478@kuha.fi.intel.com>
-References: <20171124093045.5961-1-linus.walleij@linaro.org>
- <20171125233324.afdt4netamvkrkm2@dtor-ws>
- <CACRpkdb6kt8Bb0FnPoixw97R9oktK9h3uTS7JfdxoCKfLo4yhA@mail.gmail.com>
+        id S1727768AbgHZPGK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 Aug 2020 11:06:10 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36549 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727814AbgHZPGJ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 26 Aug 2020 11:06:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1598454368;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=lrQCEL26mHebZ7nMphXoFoDvyCZ92/KWVGn7KWl6q9I=;
+        b=VqtOMpsj7+tIkUlcTVFVm9Sc3PvO2M0OqD73ZK4Wl3nd1zZYgnjHACmbkdxosKIJyuZyrI
+        w1iuLL83jeAfgAeXv5CQEINoAb9XYedc0kO2+Uk86IP+pc1dAtD4kpd9c2MUB/RShGya39
+        Ihaw9WWrmT/ZNwnu6b4c4VQOw7HW6lY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-544-racxGtH4PTyreUSzOlOc1Q-1; Wed, 26 Aug 2020 11:06:04 -0400
+X-MC-Unique: racxGtH4PTyreUSzOlOc1Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A984610A5D80;
+        Wed, 26 Aug 2020 15:06:03 +0000 (UTC)
+Received: from x1.localdomain (ovpn-112-219.ams2.redhat.com [10.36.112.219])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id DE97760CC0;
+        Wed, 26 Aug 2020 15:06:02 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org
+Subject: [PATCH resend 0/2] Input: soc_button_array - Add support for INT33D3 ACPI tablet-switch device
+Date:   Wed, 26 Aug 2020 17:05:59 +0200
+Message-Id: <20200826150601.12137-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACRpkdb6kt8Bb0FnPoixw97R9oktK9h3uTS7JfdxoCKfLo4yhA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Aug 26, 2020 at 03:20:14PM +0200, Linus Walleij wrote:
-> Hi Dmitry,
-> 
-> On Sun, Nov 26, 2017 at 12:33 AM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> > On Fri, Nov 24, 2017 at 10:30:40AM +0100, Linus Walleij wrote:
-> 
-> > > The goal I'm working toward is to rid the kernel of the global
-> > > GPIO numberspace.
-> > >
-> > > This means GPIO lines should be references by the local offset
-> > > on the GPIO chip.
-> > >
-> > > This patch set starts to move gpio_keys toward using GPIO
-> > > look-up tables instead of global GPIO numbers to find their
-> > > GPIOs.
-> > >
-> > > As an example I did (I think) the necessary patches to
-> > > convert DaVinci and i.MX to use this. There are several users
-> > > also x86 platform devices.
-> (...)
-> > I think this is a worthy goal, but I wonder if we could get static GPIO
-> > descriptors work with fwnode_get_named_gpiod() so we could retire the
-> > platform data parsing altogether. We'd need to extend static device
-> > properties to have notion of children though.
-> 
-> Do we have this now? I've looked at Heikki's et al work
-> on software nodes but I cannot see whether we are there now.
-> 
-> We have fwnode_create_software_node() and friends, but
-> I haven't seen if this can be used with input and GPIO descriptors
-> are still a bit on the side. I can create a lot of properties but
-> not really add a descriptor table as a software node as far as
-> I can tell. I'm also a bit lost on whether it will be possible
-> to get there sadly :/
+Hi Dmitry,
 
-I'm sorry but I'm not completely sure what is this about? Are software
-nodes still missing something that would prevent us from for example
-using them to describe the GPIO information exactly the same way it is
-described in DT? I don't know if that is what we want, but I'm just
-trying to understand what is still missing? Dmitry?
+These 2 patches seem to have fallen through the cracks again, hence
+this resend.
 
-If there is still something missing, then let's fix that.
+Regards,
 
+Hans
 
-thanks,
-
--- 
-heikki
