@@ -2,55 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 318252541BF
-	for <lists+linux-input@lfdr.de>; Thu, 27 Aug 2020 11:16:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7F962541C7
+	for <lists+linux-input@lfdr.de>; Thu, 27 Aug 2020 11:17:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727030AbgH0JQj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Aug 2020 05:16:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37156 "EHLO
+        id S1728030AbgH0JR2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Aug 2020 05:17:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726157AbgH0JQj (ORCPT
+        with ESMTP id S1726938AbgH0JR2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Aug 2020 05:16:39 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADC8DC061264;
-        Thu, 27 Aug 2020 02:16:38 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id w186so2913801pgb.8;
-        Thu, 27 Aug 2020 02:16:38 -0700 (PDT)
+        Thu, 27 Aug 2020 05:17:28 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9E0AC061264;
+        Thu, 27 Aug 2020 02:17:27 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id k15so3009964pfc.12;
+        Thu, 27 Aug 2020 02:17:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=JwFCkkz5VX1KhqOgC/A46pRkPoJXqCrnvRq7RlXV44Y=;
-        b=MZqck0sjY5yqBsyyGG7EL6lGiDj5SzDST8SkhvPk6A1/uGj63z5+m3kax8UWb6wtcZ
-         /+wIvoK8uNNiBrHTehpEZk9B2aYVYUl6tHqSB0usNtbD87t8wGL8ucl23F63dFKwZALB
-         ST78rU4PyEbOQZjWZSyDn3gib2fkrZUo9D4kJ5d8zN3jkAPe3y+hc/2mkaFM3W6ZFJ/M
-         JqOqLahlrmpW9XkphCj3Ki04lEIchqBV8pt0WCxge9KSey6dHNej3fHlo6UWE9eXiZZ8
-         PbEUpZmiIfcOA9y7rxhZXADI68yRpC67VkeiYSyx7nSzyY3xBskNWNAl4N4NyhJHxVxj
-         s9tg==
+        bh=LhS9tD7SvsG3f30qBsS7AzNDrX3/gQHRk3YrLNvlZOA=;
+        b=DwfwxD6EugJWTcUqCG1123+gjK6WKsUjmHOC4I+QKwyKFWthlTCKriJ4sPL1Wxu48e
+         u2Av6K+jbl76B89VNKBA+ZQVrr1vjZ7jayzV/10saxuY9Dxvy7ZPe9SY2iiHt7QMX8Q0
+         4meUwX0OKdjssMluZq2ZnD4vG3MeoMpmx6E7hbBd0OxbUWuJkJ0/gOAnwGOajJ8JglWW
+         AChiACHQ0bKB9AHCasVdZvMsJXmXJyx9SJmSLgsWc9Ya49QyS7qDkzcPOMd8+p9Xa8CK
+         f8yJF/+JDOX7xA/4Nq5BAzUEz1ZrIUx6CQRvDZ2Gy/t0IZKxoG3lTX41Q6G1lQIl3rjl
+         LoHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=JwFCkkz5VX1KhqOgC/A46pRkPoJXqCrnvRq7RlXV44Y=;
-        b=pXPptWXf4GMM591e3XhX2QJjq9tIB8LGlR5wSBQ/8zw/uOesLeYHKgZ7F4gujcnUhO
-         pSJ56ugcS8rYY96eUTZ2ZBUulqgYFGpDKG5DFZBlkO4zHSZzIV461FSfFIe/2jfK7x1s
-         7rELn7/eGhDnwiz2BpnCZkBZv9EmlEPPQtfZCaCSK4UulgfbSPrYihc7FHNilRIbog6K
-         R46PhdW3lH9hJxAFKsB5sHRz2mWKbpEG5GOmNRqLgVUajLw727+hxPv5BFYGacQrZSGM
-         BQ0I6OHSUgj1ODhP+mb+/ZhmPAy4eSnO5H/X0SWretGrDFh+b1AkH2LopOC+9B/gpCZ3
-         akZA==
-X-Gm-Message-State: AOAM533qtLosVA/ckE8OuFXvtjY7zGu7X1MnKOU1WNZWaqrYSi8n+D8a
-        JFr656OTkqe+E2gSjhQJhx2/SqVWSDIo6heozlk=
-X-Google-Smtp-Source: ABdhPJzmUAdRt6wwEF23BJ0BUUKEohQ229uHbHaYH/ixziT5WHv8yFE7nk7RmU1uwWmU5O6dqSJ+sP0+jStaqcQKeZE=
-X-Received: by 2002:a17:902:8208:: with SMTP id x8mr4121547pln.65.1598519798257;
- Thu, 27 Aug 2020 02:16:38 -0700 (PDT)
+        bh=LhS9tD7SvsG3f30qBsS7AzNDrX3/gQHRk3YrLNvlZOA=;
+        b=h0QELOfJz1HqC0pMQLY4VKf/+Cbnb7iifOi9ALFtNxWpFBT3vPQJJD2ewcCfDYf3dm
+         TeHfu1+5SiXW1RpJiu2w95rtoXM9YhW43093dx04BI1yGDkSs2jlpzPEFMte6d4UGL1Y
+         PP1OGUQPORiOmAV5V6VBy0S0iaBYbyAtwCjGSrd5uc+QFvFb90u0xXcFyTSBp6UXk867
+         Ub8hWDqymtWWL2wHI4PxOWETAyIH2NT/NG5GNz2/znn6rO0fdyKYKmClKz7u3eB9coNE
+         XrAGUJNjISgx13FLIQSiyQ5gBqE0dl9078SHwMGhh7osEzZISyPZwcKJMNoWLhP+vto4
+         uuPQ==
+X-Gm-Message-State: AOAM530iHbn6ZILpwbQVFIJisHcPquz9mTR2n1PcwEM7fCxEHPwlkaQu
+        q4GOtKXXCJWA2QaF7YDlIUd3Mt6lZUHvm57+1mQ=
+X-Google-Smtp-Source: ABdhPJx790xAH1rBOESsyw6YMCOPQAeo4g+Z4lZL05LND9tv5WIYhOnO1Y0bAo5lSHAAxsKY81MMaMLnZ4X3BK74/2I=
+X-Received: by 2002:a17:902:407:: with SMTP id 7mr15480051ple.167.1598519847448;
+ Thu, 27 Aug 2020 02:17:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200826181706.11098-1-krzk@kernel.org> <20200826181706.11098-19-krzk@kernel.org>
-In-Reply-To: <20200826181706.11098-19-krzk@kernel.org>
+References: <20200826181706.11098-1-krzk@kernel.org> <20200826181706.11098-20-krzk@kernel.org>
+In-Reply-To: <20200826181706.11098-20-krzk@kernel.org>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 27 Aug 2020 12:16:22 +0300
-Message-ID: <CAHp75VezmFsK0eiEk-4ZzcSfnHP4y6N4Qfds4paBJhkHYL85Bw@mail.gmail.com>
-Subject: Re: [PATCH 19/24] Input: raydium_i2c_ts - Simplify with dev_err_probe()
+Date:   Thu, 27 Aug 2020 12:17:10 +0300
+Message-ID: <CAHp75VdMqB2-TrNPvqp+gMbyY39ytJ9O8ZM5cY1r2kVdi4DbzA@mail.gmail.com>
+Subject: Re: [PATCH 20/24] Input: resistive-adc-touch - Simplify with dev_err_probe()
 To:     Krzysztof Kozlowski <krzk@kernel.org>
 Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -69,7 +69,7 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Aug 26, 2020 at 9:20 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+On Wed, Aug 26, 2020 at 9:21 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
 >
 > Common pattern of handling deferred probe can be simplified with
 > dev_err_probe().  Less code and also it prints the error value.
@@ -78,55 +78,28 @@ Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
 > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 > ---
->  drivers/input/touchscreen/raydium_i2c_ts.c | 30 +++++++---------------
->  1 file changed, 9 insertions(+), 21 deletions(-)
+>  drivers/input/touchscreen/resistive-adc-touch.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
 >
-> diff --git a/drivers/input/touchscreen/raydium_i2c_ts.c b/drivers/input/touchscreen/raydium_i2c_ts.c
-> index fe245439adee..4017775f6466 100644
-> --- a/drivers/input/touchscreen/raydium_i2c_ts.c
-> +++ b/drivers/input/touchscreen/raydium_i2c_ts.c
-> @@ -1015,32 +1015,20 @@ static int raydium_i2c_probe(struct i2c_client *client,
->         i2c_set_clientdata(client, ts);
+> diff --git a/drivers/input/touchscreen/resistive-adc-touch.c b/drivers/input/touchscreen/resistive-adc-touch.c
+> index cfc8bb4553f7..46b5a6caef84 100644
+> --- a/drivers/input/touchscreen/resistive-adc-touch.c
+> +++ b/drivers/input/touchscreen/resistive-adc-touch.c
+> @@ -108,12 +108,8 @@ static int grts_probe(struct platform_device *pdev)
 >
->         ts->avdd = devm_regulator_get(&client->dev, "avdd");
-> -       if (IS_ERR(ts->avdd)) {
-> -               error = PTR_ERR(ts->avdd);
+>         /* get the channels from IIO device */
+>         st->iio_chans = devm_iio_channel_get_all(dev);
+> -       if (IS_ERR(st->iio_chans)) {
+> -               error = PTR_ERR(st->iio_chans);
 > -               if (error != -EPROBE_DEFER)
-> -                       dev_err(&client->dev,
-> -                               "Failed to get 'avdd' regulator: %d\n", error);
+> -                       dev_err(dev, "can't get iio channels.\n");
 > -               return error;
 > -       }
-> +       if (IS_ERR(ts->avdd))
-> +               return dev_err_probe(&client->dev, PTR_ERR(ts->avdd),
-> +                                    "Failed to get 'avdd' regulator\n");
+> +       if (IS_ERR(st->iio_chans))
+> +               return dev_err_probe(dev, PTR_ERR(st->iio_chans), "can't get iio channels\n");
 >
->         ts->vccio = devm_regulator_get(&client->dev, "vccio");
-> -       if (IS_ERR(ts->vccio)) {
-> -               error = PTR_ERR(ts->vccio);
-> -               if (error != -EPROBE_DEFER)
-> -                       dev_err(&client->dev,
-> -                               "Failed to get 'vccio' regulator: %d\n", error);
-> -               return error;
-> -       }
-> +       if (IS_ERR(ts->vccio))
-> +               return dev_err_probe(&client->dev, PTR_ERR(ts->vccio),
-> +                                    "Failed to get 'vccio' regulator\n");
->
->         ts->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset",
->                                                  GPIOD_OUT_LOW);
-> -       if (IS_ERR(ts->reset_gpio)) {
-> -               error = PTR_ERR(ts->reset_gpio);
-> -               if (error != -EPROBE_DEFER)
-> -                       dev_err(&client->dev,
-> -                               "failed to get reset gpio: %d\n", error);
-> -               return error;
-> -       }
-> +       if (IS_ERR(ts->reset_gpio))
-> +               return dev_err_probe(&client->dev, PTR_ERR(ts->reset_gpio),
-> +                                    "Failed to get reset gpio\n");
->
->         error = raydium_i2c_power_on(ts);
->         if (error)
+>         chan = &st->iio_chans[0];
+>         st->pressure = false;
 > --
 > 2.17.1
 >
