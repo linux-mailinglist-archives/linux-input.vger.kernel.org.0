@@ -2,106 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B647725416D
-	for <lists+linux-input@lfdr.de>; Thu, 27 Aug 2020 11:04:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14BB7254170
+	for <lists+linux-input@lfdr.de>; Thu, 27 Aug 2020 11:05:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727030AbgH0JEN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Aug 2020 05:04:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35188 "EHLO
+        id S1726882AbgH0JFE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Aug 2020 05:05:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726266AbgH0JEJ (ORCPT
+        with ESMTP id S1726266AbgH0JFE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Aug 2020 05:04:09 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D934C061264;
-        Thu, 27 Aug 2020 02:04:09 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id kx11so2260483pjb.5;
-        Thu, 27 Aug 2020 02:04:09 -0700 (PDT)
+        Thu, 27 Aug 2020 05:05:04 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAA41C061264;
+        Thu, 27 Aug 2020 02:05:03 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id g6so2269902pjl.0;
+        Thu, 27 Aug 2020 02:05:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=kQIjPvNcruWdrhRT1Dcg3GsN3olXB1w8GX5PGyVfAGc=;
-        b=X0CERTCNwahFGetwbkDcwpbax7bi81njvVK3YhQeTYQ1Ox53DBa53nrSRR+ByOe2NM
-         SMfng7Z/7T9BiCJxPniaMBgWWOb4dQ4S4IRpAlqiG1KFHrLDD+pR0lZaPPTYxtyGSWeg
-         6Y1Xe9/UwWF4h+HNraqFnKzlj+oUpgdgvjXGyuyMUk7+TwqaeCwcHj9ESNWxHctbn2xA
-         LQ20v5Z8m06CxmD1UTZ6fywFBA/HMn+6Drre2hNAbVAINqjZzM79jkBoeUuac7mbXW3M
-         GYoxD1LMQ/2Ib2zeTl45sjnHVOvbW5SlxWIxXRJpbpCqfJhN2Dj9CYJVlxFf5lm37T7l
-         g7GA==
+        bh=iIfA+GxX85Gj1bAthAYHRSrfcGnp/xsOEmEp4XdH5vQ=;
+        b=KBzSALV+r2YBd2X6uAAyss5KHRarOMMBJP6PQJ88ZfaEXcd9Gt5amK2GVADUp6QizT
+         4OVUoGNTNLlnUb5qWT/cJZAhkiLQA9b5tobHoV/YDGm7z/r7ZNBst5vDyP4l1b+ijN9C
+         GoQJ0Dvu5XK4lakc8cqjppWnCuKp5eQsoIyrYKBp4ifVPDCLn4hv+6wWEEpubjGFrZFF
+         4uzJoikFD9V0oP4bKIaEAdgimo7/5PXGAy34tqBj4NVChbt/NC8aR2fKtjRAwWEhO3z/
+         +bFfp/VlnkVZc/Lv4Cbr5gPVV06zjHAqQeZOp4nzZQDZ2iuNGHpohzjQjtjWUsBR/zXo
+         qZpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=kQIjPvNcruWdrhRT1Dcg3GsN3olXB1w8GX5PGyVfAGc=;
-        b=CEaAni0QkIZM5quqXQ4GFYXSaWhKLMF21biv/ZwRmUcoTTPgG87iT2u18qSRUI1/kj
-         Enh0xjIJfRAcqCiwH+YBrEJ6pMMfFqnqKOHbnCq4uOJ7FrCJTleb/zhUk30kGQdvMJSF
-         sAtU8mUza7pN3cClJJU+HmnWmgLI0ZTzBtJE5zTkaB2GSDaB92yy60iNvKx/VCgYdpUm
-         Ww+mLEgvkTqbmA8UGa7HA0A9Ix3pzgrMfedzXLi5IzLtH4x3dUVRNTQF9TyKkMwhhRdo
-         CTsCfqBcB6vx6aKbu6nxxyioOEClpCQ250BMcEHMWk4rdqZsKbQ3inREkOFWcvQ1K8jn
-         47wQ==
-X-Gm-Message-State: AOAM530SMJU2Ckh6uOYvId8XzPswicr6QjHRumUnBD/ISVh1Is0ikF+K
-        oCspt4UFt/i60cVVNcGLBIavxIM9KjBoI0xLDO4=
-X-Google-Smtp-Source: ABdhPJxtLGlvQf+9FVDIBVpN/W71XHXcPr5afe3Yg/33ozosb9y2WQz05PzzZ19bvqEjU98ctWB3AaL+/KljE7z035c=
-X-Received: by 2002:a17:90b:509:: with SMTP id r9mr10132669pjz.228.1598519048706;
- Thu, 27 Aug 2020 02:04:08 -0700 (PDT)
+        bh=iIfA+GxX85Gj1bAthAYHRSrfcGnp/xsOEmEp4XdH5vQ=;
+        b=WHbq9ofOOpX/a+moRfIfRGrmupfZh4qpQL0ECPnEuwqDwqhEHOEj/DUKtIkGb2yEpz
+         KvI0WbaDnXBMM65Fri35p65JFMToZ3VlbuRormwM7q7Iy1saZ4gztfsJhkonMcxD5keS
+         ftmGeyb85XJlelG34HZvYzb7kWdRs/gKMDjtIv7rK0SA7U1bI8fKoFqlfFWyNpFzEU+H
+         pno6JdNUC25513J/ptBC/b/cCYqKsyULFG+6sPGggLLhMxDNw8s43b4HU4D9XjOQX7Fk
+         I1XPba9OFwr+1e4LLLlXxm8gX0hlQDsm6fwmO+wolLTD5cdsii+OnVCYAt4xWjgutYnf
+         2t5g==
+X-Gm-Message-State: AOAM531nusTcneoA4qlBzBfE5FpHnT7FhEnWbz5qPUQ3tHv6hgAb2dXA
+        jD9s8UlYGpVFfZ1tVdUgGd16hGUr4th6pF2atYE=
+X-Google-Smtp-Source: ABdhPJzK4F9OP6UMhidZCUw2HZmdMf40lwQnnwq7CEnjTbjuSqpz4kbhu2/VzgAPsosWljnBiOaml/sj/xc9dWPOosA=
+X-Received: by 2002:a17:90a:e7cb:: with SMTP id kb11mr9427386pjb.181.1598519103400;
+ Thu, 27 Aug 2020 02:05:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200826181706.11098-1-krzk@kernel.org> <20200826181706.11098-4-krzk@kernel.org>
-In-Reply-To: <20200826181706.11098-4-krzk@kernel.org>
+References: <20200826200436.30669-1-krzk@kernel.org>
+In-Reply-To: <20200826200436.30669-1-krzk@kernel.org>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 27 Aug 2020 12:03:52 +0300
-Message-ID: <CAHp75Vey_w7m4TZM9+=df-FMO6YW5DiSMQsupZsMb92Awg_x1Q@mail.gmail.com>
-Subject: Re: [PATCH 04/24] Input: gpio-vibra - Simplify with dev_err_probe()
+Date:   Thu, 27 Aug 2020 12:04:47 +0300
+Message-ID: <CAHp75VdRXnuiZiZt+pjiZybwT9jYbym0Uw69R5w2r=TdH=ixgA@mail.gmail.com>
+Subject: Re: [PATCH v2] Input: bcm-keypad - Simplify with dev_err_probe()
 To:     Krzysztof Kozlowski <krzk@kernel.org>
 Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         linux-input <linux-input@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Aug 26, 2020 at 9:20 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+On Wed, Aug 26, 2020 at 11:04 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
 >
 > Common pattern of handling deferred probe can be simplified with
-> dev_err_probe().  Less code and also it prints the error value.
+> dev_err_probe() and devm_clk_get_optional().  Less code and the error
+> value gets printed.
 
->         vibrator->vcc = devm_regulator_get(&pdev->dev, "vcc");
->         err = PTR_ERR_OR_ZERO(vibrator->vcc);
-> -       if (err) {
-> -               if (err != -EPROBE_DEFER)
-> -                       dev_err(&pdev->dev, "Failed to request regulator: %d\n",
-> -                               err);
-> -               return err;
-> -       }
-> +       if (err)
-> +               return dev_err_probe(&pdev->dev, err, "Failed to request regulator\n");
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-Can it be rather
-  if (IS_ERR())
-    return dev_err_probe(dev, PTR_ERR());
-w/o err be involved?
-
->         vibrator->gpio = devm_gpiod_get(&pdev->dev, "enable", GPIOD_OUT_LOW);
->         err = PTR_ERR_OR_ZERO(vibrator->gpio);
-> -       if (err) {
-> -               if (err != -EPROBE_DEFER)
-> -                       dev_err(&pdev->dev, "Failed to request main gpio: %d\n",
-> -                               err);
-> -               return err;
-> -       }
-> +       if (err)
-> +               return dev_err_probe(&pdev->dev, err, "Failed to request main gpio\n");
-
-Ditto.
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+>
+> ---
+>
+> Changes since v1:
+> 1. Use also devm_clk_get_optional()
+> ---
+>  drivers/input/keyboard/bcm-keypad.c | 14 ++++----------
+>  1 file changed, 4 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/input/keyboard/bcm-keypad.c b/drivers/input/keyboard/bcm-keypad.c
+> index 2b771c3a5578..23e11b4efd13 100644
+> --- a/drivers/input/keyboard/bcm-keypad.c
+> +++ b/drivers/input/keyboard/bcm-keypad.c
+> @@ -376,17 +376,11 @@ static int bcm_kp_probe(struct platform_device *pdev)
+>                 return PTR_ERR(kp->base);
+>
+>         /* Enable clock */
+> -       kp->clk = devm_clk_get(&pdev->dev, "peri_clk");
+> +       kp->clk = devm_clk_get_optional(&pdev->dev, "peri_clk");
+>         if (IS_ERR(kp->clk)) {
+> -               error = PTR_ERR(kp->clk);
+> -               if (error != -ENOENT) {
+> -                       if (error != -EPROBE_DEFER)
+> -                               dev_err(&pdev->dev, "Failed to get clock\n");
+> -                       return error;
+> -               }
+> -               dev_dbg(&pdev->dev,
+> -                       "No clock specified. Assuming it's enabled\n");
+> -               kp->clk = NULL;
+> +               return dev_err_probe(&pdev->dev, error, "Failed to get clock\n");
+> +       } else if (!kp->clk) {
+> +               dev_dbg(&pdev->dev, "No clock specified. Assuming it's enabled\n");
+>         } else {
+>                 unsigned int desired_rate;
+>                 long actual_rate;
+> --
+> 2.17.1
+>
 
 
 -- 
