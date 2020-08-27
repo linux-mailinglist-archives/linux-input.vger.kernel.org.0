@@ -2,55 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A51C92541CE
-	for <lists+linux-input@lfdr.de>; Thu, 27 Aug 2020 11:18:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2839C2541D5
+	for <lists+linux-input@lfdr.de>; Thu, 27 Aug 2020 11:19:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728307AbgH0JSZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Aug 2020 05:18:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37430 "EHLO
+        id S1728001AbgH0JTD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Aug 2020 05:19:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728001AbgH0JSZ (ORCPT
+        with ESMTP id S1727897AbgH0JTC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Aug 2020 05:18:25 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CB98C061264;
-        Thu, 27 Aug 2020 02:18:23 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id z18so2310270pjr.2;
-        Thu, 27 Aug 2020 02:18:23 -0700 (PDT)
+        Thu, 27 Aug 2020 05:19:02 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4093C061264;
+        Thu, 27 Aug 2020 02:19:02 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id y206so3014880pfb.10;
+        Thu, 27 Aug 2020 02:19:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=h7+8HLI9zKQR9DySug9QefBQRiFvqULBiV9jhwrlBeg=;
-        b=KenVDEFvugPYVDiW0qfljf3gFBe4kQ2kxAnyruOIRojcZpLhDMo/C2BG9iD5iUWbpC
-         /+8ZZEgP5bywxngLHe58nD9tJiAWlCLwV/+VM5e4MhJjrQ0U+IvERA2H3MY1mvaj9ijQ
-         Y/UmjbajiJV2hX+9IryhGcQwHSsYNNtM6op2onr0fktryw+4Pe/u31tO0cSbYf+UBfZx
-         dy3alMk2qAm57/oVVWMNSB35tiF939XU5l0zNPovVjnmnmpR72kJ0GBVwKX8yKeRsNre
-         VyVMfOjbcAx8a3iMLIllKrnuHgoGqDFRaY+RyX2zM+39LCcEI1bfLNvAXOvqJ1p50zQJ
-         iT2Q==
+        bh=VgFZ3oc2fxtal1v8qY7ILD3Hbp8X8hErMNMpovFOacY=;
+        b=CxWG48zpulIoeeq4DDcQ2DoH/7wm4cQm+Pj/r8BEZ6iyyW6Ib0Kc5jYbCyKqmWsynR
+         D92g1UgE5FRMcGm9T1RA696WTtsk9alwjRfwS3P9R41UmTmNkVzLT6S+3iYVtmh6W7zf
+         bH0UbQTeOH/bfOp+75Og0cffB8MayR3NU30CIWEgYBqDjYESVMPEzBOInc/A+GVS1H5M
+         +HdLV5FObiPvtHL6X3W+dKYaJacFoPdDAQez42wmzladeuJqfB1vTCvRUMiAfbYAyeaH
+         t0/ouM+Q3G6x0RyAHZPwRUbruCLmcfLFFCAi6SduqDpl/KiFG2u6W8QPFNQV4jcR0zNF
+         9dcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=h7+8HLI9zKQR9DySug9QefBQRiFvqULBiV9jhwrlBeg=;
-        b=UQ45T0eVHUHI5xc1a3POWSX5NnkMGrdmsiEyI5i0YjYeTkaDyV4SMgQZgsr4zLW+3g
-         jTIReN+Go6d6xNmY3eC8IOQLjoq7JvwY33YNhxcS1wZP1PfyvIhyW/oQNZlgWaGP/3nw
-         rN5fMaimzXzaBVgPa6wPQ8TfsSP3lZkLRjLmGsbFnZRtjWIcSnpBIZTCieTUks/tvEen
-         MnKsBgXVT43kHkOBB9oAR5Y98Mn4BxdcqvrwZTJh/BRcPFc7GH3HWgu1gL3cU+R8CAsB
-         K8UFeR7VcEIT8tf2+wWyAd6NOoZc7KqbHBde5fK/uf//WNTr4wBqAVLyMlFAswGBSQFD
-         fy3A==
-X-Gm-Message-State: AOAM530Qdq8pep1viAROY949TQnofzZ7iN8gAxy5txPh9ipaupioGfcc
-        6i2kcBnbxdK2uSznX0myoyj4cP306RPuWBJF0Zk=
-X-Google-Smtp-Source: ABdhPJw4ckKkt/hDHVTDDwSkKKrQodyA6470M4C7i0Y+T+CQF0FSSC88NaLbGEGsn5fVLR3+vQEciaK5QvtyPcp4QLU=
-X-Received: by 2002:a17:90b:509:: with SMTP id r9mr10179422pjz.228.1598519902569;
- Thu, 27 Aug 2020 02:18:22 -0700 (PDT)
+        bh=VgFZ3oc2fxtal1v8qY7ILD3Hbp8X8hErMNMpovFOacY=;
+        b=YReUTxTFhEFhhneajqkno3kKB3n4e0Ba0+TBB7IEtkVkIUwHm+LkzQXIPK9wnyxNdG
+         azx93/dqwz3TKia4d5BW73ncYgjzYZInqp2wOiE+NkKRMewNvNjMEbWL0W+WuC264/Zw
+         IFZtDwDdDslyI/FdZjWttUj1GhaXJKToaQlEQQDNcdbIiKV483e5JvRbI21Wubk5I+1y
+         sPAcvuDOHaZ3kdUp7kvbe5GQctZvuKss9bRMhJPkUj5mRpoALPiw8QNJ5tK6JqAf/SAE
+         Pn1xnYmS/QCn5FHK44LP15JMPWIHntdS4yvefaOXYRX1GCMY9MZRaXVjNMAtjANajpIq
+         JrJw==
+X-Gm-Message-State: AOAM532CCakWHC7I3d0gZnvfv1rHkudxrYcNgT1cbtq8M02Z1spFRXCU
+        O2XdR5gE3kB+aPSa6W1cglipKPCt/fuyCxnml38=
+X-Google-Smtp-Source: ABdhPJy2sx0lGOZtzgnh0B94nDuzu7sanQKqJ7UK1Q4rptGZJnV9/hL7Za1e1VRKnFZKTXqmiZmX63dTU7SojC/8zTg=
+X-Received: by 2002:a62:9215:: with SMTP id o21mr4726022pfd.268.1598519942162;
+ Thu, 27 Aug 2020 02:19:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200826181706.11098-1-krzk@kernel.org> <20200826181706.11098-22-krzk@kernel.org>
-In-Reply-To: <20200826181706.11098-22-krzk@kernel.org>
+References: <20200826181706.11098-1-krzk@kernel.org> <20200826181706.11098-23-krzk@kernel.org>
+In-Reply-To: <20200826181706.11098-23-krzk@kernel.org>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 27 Aug 2020 12:18:06 +0300
-Message-ID: <CAHp75Vex+1nx5ue+mYSwRTzjMOJPeghqLfg2csk3XfvhUr4avA@mail.gmail.com>
-Subject: Re: [PATCH 22/24] Input: sis_i2c - Simplify with dev_err_probe()
+Date:   Thu, 27 Aug 2020 12:18:46 +0300
+Message-ID: <CAHp75VdKxibhohQEEbtF4Er=OYLVqFc-7-GoAZ+O2mL3Vi4s3w@mail.gmail.com>
+Subject: Re: [PATCH 23/24] Input: surface3_spi - Simplify with dev_err_probe()
 To:     Krzysztof Kozlowski <krzk@kernel.org>
 Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -69,7 +69,7 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Aug 26, 2020 at 9:20 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+On Wed, Aug 26, 2020 at 9:22 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
 >
 > Common pattern of handling deferred probe can be simplified with
 > dev_err_probe().  Less code and also it prints the error value.
@@ -78,43 +78,40 @@ Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
 > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 > ---
->  drivers/input/touchscreen/sis_i2c.c | 20 ++++++--------------
->  1 file changed, 6 insertions(+), 14 deletions(-)
+>  drivers/input/touchscreen/surface3_spi.c | 13 +++----------
+>  1 file changed, 3 insertions(+), 10 deletions(-)
 >
-> diff --git a/drivers/input/touchscreen/sis_i2c.c b/drivers/input/touchscreen/sis_i2c.c
-> index 6274555f1673..348a2ba9b7c9 100644
-> --- a/drivers/input/touchscreen/sis_i2c.c
-> +++ b/drivers/input/touchscreen/sis_i2c.c
-> @@ -311,23 +311,15 @@ static int sis_ts_probe(struct i2c_client *client,
+> diff --git a/drivers/input/touchscreen/surface3_spi.c b/drivers/input/touchscreen/surface3_spi.c
+> index ce4828b1415a..25bb77ddf2ef 100644
+> --- a/drivers/input/touchscreen/surface3_spi.c
+> +++ b/drivers/input/touchscreen/surface3_spi.c
+> @@ -223,7 +223,6 @@ static void surface3_spi_power(struct surface3_ts_data *data, bool on)
+>   */
+>  static int surface3_spi_get_gpio_config(struct surface3_ts_data *data)
+>  {
+> -       int error;
+>         struct device *dev;
+>         struct gpio_desc *gpiod;
+>         int i;
+> @@ -233,15 +232,9 @@ static int surface3_spi_get_gpio_config(struct surface3_ts_data *data)
+>         /* Get the reset lines GPIO pin number */
+>         for (i = 0; i < 2; i++) {
+>                 gpiod = devm_gpiod_get_index(dev, NULL, i, GPIOD_OUT_LOW);
+> -               if (IS_ERR(gpiod)) {
+> -                       error = PTR_ERR(gpiod);
+> -                       if (error != -EPROBE_DEFER)
+> -                               dev_err(dev,
+> -                                       "Failed to get power GPIO %d: %d\n",
+> -                                       i,
+> -                                       error);
+> -                       return error;
+> -               }
+> +               if (IS_ERR(gpiod))
+> +                       return dev_err_probe(dev, PTR_ERR(gpiod),
+> +                                            "Failed to get power GPIO %d\n", i);
 >
->         ts->attn_gpio = devm_gpiod_get_optional(&client->dev,
->                                                 "attn", GPIOD_IN);
-> -       if (IS_ERR(ts->attn_gpio)) {
-> -               error = PTR_ERR(ts->attn_gpio);
-> -               if (error != -EPROBE_DEFER)
-> -                       dev_err(&client->dev,
-> -                               "Failed to get attention GPIO: %d\n", error);
-> -               return error;
-> -       }
-> +       if (IS_ERR(ts->attn_gpio))
-> +               return dev_err_probe(&client->dev, PTR_ERR(ts->attn_gpio),
-> +                                    "Failed to get attention GPIO\n");
->
->         ts->reset_gpio = devm_gpiod_get_optional(&client->dev,
->                                                  "reset", GPIOD_OUT_LOW);
-> -       if (IS_ERR(ts->reset_gpio)) {
-> -               error = PTR_ERR(ts->reset_gpio);
-> -               if (error != -EPROBE_DEFER)
-> -                       dev_err(&client->dev,
-> -                               "Failed to get reset GPIO: %d\n", error);
-> -               return error;
-> -       }
-> +       if (IS_ERR(ts->reset_gpio))
-> +               return dev_err_probe(&client->dev, PTR_ERR(ts->reset_gpio),
-> +                                    "Failed to get reset GPIO\n");
->
->         sis_ts_reset(ts);
->
+>                 data->gpiod_rst[i] = gpiod;
+>         }
 > --
 > 2.17.1
 >
