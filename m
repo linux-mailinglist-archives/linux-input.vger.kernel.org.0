@@ -2,55 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A8882541A7
-	for <lists+linux-input@lfdr.de>; Thu, 27 Aug 2020 11:13:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F2E32541AE
+	for <lists+linux-input@lfdr.de>; Thu, 27 Aug 2020 11:13:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727814AbgH0JNG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Aug 2020 05:13:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36596 "EHLO
+        id S1728358AbgH0JN1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Aug 2020 05:13:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36648 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726266AbgH0JNG (ORCPT
+        with ESMTP id S1726266AbgH0JN1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Aug 2020 05:13:06 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A123C061264;
-        Thu, 27 Aug 2020 02:13:06 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id mt12so2295152pjb.4;
-        Thu, 27 Aug 2020 02:13:06 -0700 (PDT)
+        Thu, 27 Aug 2020 05:13:27 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAA3AC061264;
+        Thu, 27 Aug 2020 02:13:26 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id kx11so2272433pjb.5;
+        Thu, 27 Aug 2020 02:13:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Z0H+L9UPSd/5Nu2wIneYTHQhHhgEl54jJSjInRrKpcg=;
-        b=ZwwRrgcx0BCZjQmIMWLsESg08YIGYglCC8a1OtDOVI2JFGl93NfDumD2LZfcXl/W6f
-         In0XzWihsI2Q+7BNKeCBULtVamXhWfLRfWzM9G/f4LmwlwoTDBrXWyxGxRj036uP1wkv
-         V7sD2rE9CmsrL8LjUAuN+RfLp18eqKDVuKT9khk4MIvjGLks3US8agjk5W/zoha+IExh
-         eA7FMb7GFqKO4UGCyivZCQZCNZBQWjkPJTBV8wYF5pm7U1WsGli7IDN6jWqEGBu6yAG0
-         CIUjnJv0hvIxwjZNoixU9c4Ii5K/MskOkBjshCoDRn7Hdx3HC6F/WncO2m7khkUBsQ6z
-         kI4w==
+        bh=XXHXhpBAgNDDc+VXuNGIg5n4cnOPdCwxQ4cIoKblPCA=;
+        b=F9IbqEsDjQtkoHhwFuwj9yOAvQN450AiQ9aP0i81Q2tkrR+acBSZSV6d83xqhmFeCr
+         aXiT49+rrw5qdUAAcMffg5iBuMhYdAdOMUINZa2xc7AB4RyB24I1CD1gEYK5WmOBnT6N
+         692qZguEo309RgeDrcQkABcnMN2Y9WXrIANCcni0xdrAgmWOW7O14T5Cos4UOOLHYU5R
+         5Utjyxnjj8o4gqjXy6gA7vpVoq+Rn1U4BS+kje9kMrK6oaWtTEeVZKw+l5OdLJ5XsnpO
+         pPGC/LgMCN5vED0LfDwEbIbuolCo86mC2+n/5oEKif5hHi4uHW+NMWNfKI0s3HEEsrG4
+         mW3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Z0H+L9UPSd/5Nu2wIneYTHQhHhgEl54jJSjInRrKpcg=;
-        b=nTbtdIw9cHc8S0rDLS5AoWCDchEKgaXa4DsSuDUSIoWTAsC+/cOUwofxV5skWo9tc0
-         9479BOT6hata4Qm0mmk6NVukqiRqsxpcVFV88Y3k8iGccyTpqMk69V/GV0XdQ3MrhybO
-         6Iqrawee3w+rQ/h+/ciVjt9r0AY51YcGxuWdtjjY3SlSB85sRfHZAN82bHNMEAjJayVL
-         4IHTD8ItJmIQCO4XLj81h6Nevg6j8itp6Px3U8nc0ppMkhRBagYg4R66auzvblvxv99N
-         wHKBNUQhGE31Ksgaqo6WhgZtaJ6ZXoWSndMtHjfhGrDYnCqtbJwhS+GaDRAOgWksTprB
-         kk7A==
-X-Gm-Message-State: AOAM531edoBa/SHfNjNFYGtd2YHoNfBtuI5Ur1cON8k+bpOw07NfpFyL
-        f7wjVF+T5BKU7lhneSiENGdGLf9MCMUQ4hIXLa4=
-X-Google-Smtp-Source: ABdhPJwxcCaatopEQ9znxqP8R7e1+a0UiPdVoUvjwTFkdz/8fLS8TblEgK+YVFqejRWQEQ7wtfHtNSvrgch3VD6FbKA=
-X-Received: by 2002:a17:90a:e7cb:: with SMTP id kb11mr9451816pjb.181.1598519585863;
- Thu, 27 Aug 2020 02:13:05 -0700 (PDT)
+        bh=XXHXhpBAgNDDc+VXuNGIg5n4cnOPdCwxQ4cIoKblPCA=;
+        b=WBw+zUzr1Q8GBvr3H12UZf9jBimzVxfZ8o5Gm/STFvMla+Acb6+dh/lRi1SVyG8VLK
+         GuEw+2Z15kkwTB8P2WkrdL4tGi6X66yPtXJjX3Js3s8p3JnQv3ZfKvcz7Gbpg/+o5LOF
+         akVTc5J5rR+lRNvQ7d3bXb3AGaFTT4HFb/6z3DGtqoF4jc1Tjk6drVt7CrymSG818DL4
+         Q9bpAEMRIkHl1c7lQoiSOpsR66ku77JqF0Twc5CjEmFPhqHxqzOy8fVZ/aRm1qC1agS4
+         czMe5tjrxQm1ni2Tu7pU0amG1dy8sJQ6p9RElGe9drDHjvwjQwcn9KSBi145bddOOr9c
+         QXhQ==
+X-Gm-Message-State: AOAM531bUb3hwnJxgk9P38Pks9F+MsyLhzipbcksPGx7PvtNHtI6qbqb
+        l2B5QEeopbaaIieZ6oWp8CSpg9RsFYcOCZiz7XjLDXjbcc1/eMcX
+X-Google-Smtp-Source: ABdhPJzmwYnqVXuyvxbV/uRaX68QFTVLR+JvoCqtQ7m9YSoAvIUo0xVLN+o8m/6YMTkqTTOsf7IaLz06obiCkNmCc3A=
+X-Received: by 2002:a17:90b:509:: with SMTP id r9mr10163144pjz.228.1598519606355;
+ Thu, 27 Aug 2020 02:13:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200826181706.11098-1-krzk@kernel.org> <20200826181706.11098-14-krzk@kernel.org>
-In-Reply-To: <20200826181706.11098-14-krzk@kernel.org>
+References: <20200826181706.11098-1-krzk@kernel.org> <20200826181706.11098-15-krzk@kernel.org>
+In-Reply-To: <20200826181706.11098-15-krzk@kernel.org>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 27 Aug 2020 12:12:49 +0300
-Message-ID: <CAHp75Vf2=qM4nvYMRQccJgHhZytXt9GU4KCBv8HwHnW+EcPvnw@mail.gmail.com>
-Subject: Re: [PATCH 14/24] Input: ektf2127 - Simplify with dev_err_probe()
+Date:   Thu, 27 Aug 2020 12:13:09 +0300
+Message-ID: <CAHp75Vef81HYbXdi=KYUM+9c-g9XoQ4tXjQ_VLr_1t9QWL2Vtw@mail.gmail.com>
+Subject: Re: [PATCH 15/24] Input: elants_i2c - Simplify with dev_err_probe()
 To:     Krzysztof Kozlowski <krzk@kernel.org>
 Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -78,28 +78,44 @@ Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
 > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 > ---
->  drivers/input/touchscreen/ektf2127.c | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
+>  drivers/input/touchscreen/elants_i2c.c | 22 ++++++----------------
+>  1 file changed, 6 insertions(+), 16 deletions(-)
 >
-> diff --git a/drivers/input/touchscreen/ektf2127.c b/drivers/input/touchscreen/ektf2127.c
-> index eadd389cf81f..cd41483cfae5 100644
-> --- a/drivers/input/touchscreen/ektf2127.c
-> +++ b/drivers/input/touchscreen/ektf2127.c
-> @@ -237,12 +237,8 @@ static int ektf2127_probe(struct i2c_client *client,
+> diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
+> index b0bd5bb079be..ad299eb333f1 100644
+> --- a/drivers/input/touchscreen/elants_i2c.c
+> +++ b/drivers/input/touchscreen/elants_i2c.c
+> @@ -1245,24 +1245,14 @@ static int elants_i2c_probe(struct i2c_client *client,
+>         i2c_set_clientdata(client, ts);
 >
->         /* This requests the gpio *and* turns on the touchscreen controller */
->         ts->power_gpios = devm_gpiod_get(dev, "power", GPIOD_OUT_HIGH);
-> -       if (IS_ERR(ts->power_gpios)) {
-> -               error = PTR_ERR(ts->power_gpios);
+>         ts->vcc33 = devm_regulator_get(&client->dev, "vcc33");
+> -       if (IS_ERR(ts->vcc33)) {
+> -               error = PTR_ERR(ts->vcc33);
 > -               if (error != -EPROBE_DEFER)
-> -                       dev_err(dev, "Error getting power gpio: %d\n", error);
+> -                       dev_err(&client->dev,
+> -                               "Failed to get 'vcc33' regulator: %d\n",
+> -                               error);
 > -               return error;
 > -       }
-> +       if (IS_ERR(ts->power_gpios))
-> +               return dev_err_probe(dev, PTR_ERR(ts->power_gpios), "Error getting power gpio\n");
+> +       if (IS_ERR(ts->vcc33))
+> +               return dev_err_probe(&client->dev, PTR_ERR(ts->vcc33),
+> +                                    "Failed to get 'vcc33' regulator\n");
 >
->         input = devm_input_allocate_device(dev);
->         if (!input)
+>         ts->vccio = devm_regulator_get(&client->dev, "vccio");
+> -       if (IS_ERR(ts->vccio)) {
+> -               error = PTR_ERR(ts->vccio);
+> -               if (error != -EPROBE_DEFER)
+> -                       dev_err(&client->dev,
+> -                               "Failed to get 'vccio' regulator: %d\n",
+> -                               error);
+> -               return error;
+> -       }
+> +       if (IS_ERR(ts->vccio))
+> +               return dev_err_probe(&client->dev, PTR_ERR(ts->vccio),
+> +                                    "Failed to get 'vccio' regulator\n");
+>
+>         ts->reset_gpio = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_LOW);
+>         if (IS_ERR(ts->reset_gpio)) {
 > --
 > 2.17.1
 >
