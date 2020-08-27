@@ -2,169 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FC1B253B83
-	for <lists+linux-input@lfdr.de>; Thu, 27 Aug 2020 03:38:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A493B253B91
+	for <lists+linux-input@lfdr.de>; Thu, 27 Aug 2020 03:44:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727000AbgH0BiD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 Aug 2020 21:38:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49800 "EHLO
+        id S1726790AbgH0BoU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 Aug 2020 21:44:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726784AbgH0BiA (ORCPT
+        with ESMTP id S1726788AbgH0BoT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 Aug 2020 21:38:00 -0400
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDE32C0617BD;
-        Wed, 26 Aug 2020 18:37:59 -0700 (PDT)
-Received: by mail-oi1-x242.google.com with SMTP id j18so3306654oig.5;
-        Wed, 26 Aug 2020 18:37:59 -0700 (PDT)
+        Wed, 26 Aug 2020 21:44:19 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 314F9C06138E;
+        Wed, 26 Aug 2020 18:44:19 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id x143so2226487pfc.4;
+        Wed, 26 Aug 2020 18:44:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Rsb5LLd+wEYl5+11BE05ItDTZCXQhjeMW019xM5KW9w=;
-        b=I80xaBRJ50n8a6fI5zGd+zDFXBJzdkM/CYwdFxWUUjYU3c+2p64n4BZ92Q57vwyNvT
-         WA9AXEE5mkmSWs9RicapGSPmYl7SBg2jYYPKSa/nI/+15pdR7K1Y4Cu0DHfnjPwN8yXR
-         icr8tNGeIcQL3s2nHPbJyB6yfauHJDS+gWazTyaRFZfsu6K/xYzwtyDy670Ye8cnRtyg
-         TR/hJM9qLFyVWX5fPwsxGxi/JNo/PLB2M5jflTu50Xv+DnpTnsNDIefohCCH/iR6ipaV
-         nyjrEne62FM9W1doljqrO4mZtREkO1PUraYtOXDLLpGubpcLL1+FWyQrEJDylKkUrU3D
-         wKgA==
+        h=from:to:cc:subject:date:message-id;
+        bh=28q+FTG5opePGVSIsaIYRmsu38zCqcpXVW1uX+shyDY=;
+        b=UCMAE4A6F8nWN3GQ+EJ7w7NwkF+QwWwrcJXypnO2izF/1cw2HlTGp/P5LuuZ39OMkY
+         DrzQrgtJY2/fTO3hZGQxByqnkGy7V64joUs3nRbsxzagjV31gkJDnETCIpVuncIZ/PGd
+         PiMkTGGkjj7Qiiu35syni2S0EX+A+C3UEQzv7enBR9q3Iz76B+LiH4WSepTapuYzPgnp
+         T4ej50f60XDN4sBQfYuHCFPLWrAl31GxDCTEy4zCS5a2n5Wk7sVYbgvAiaF+D//vy5kV
+         NrE0dF50Nyt6R896IPjX7VDLCrZQMngkHTV0rZphjlLsvXzbTb4IsVNqNxH9EwALHUF8
+         1D/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Rsb5LLd+wEYl5+11BE05ItDTZCXQhjeMW019xM5KW9w=;
-        b=qMrmCoI84efbjfMD7KDJeqH7ZE33nfwRRNOEBDAFYAmZ64MsLb0ZHHlmeiS88hcBs/
-         ePZRVD7kvVwt0V3JIeUZNVchFLfCE4W71m3YT4aLSd3nmkquG7Do6CZLFNsoeiMvq/8m
-         7eBMWCRGCjwEEg3kdEiLW7PkKj9deR3HKx29fxqjfr1l6DrDV3B3pcu8x5vRoCQxHULk
-         uKYTS7xg/Ij+dqdeKmaM5a4d1FaO6SFQCwd0X8+YwKI2CMLZKtd68GsCfPuiJgvwKDSr
-         SdQUDJfjvavMsEQhNwg4twUVJjEuCnTOmUfz2lCrFGoLqVcNIFth6Rfm5ezVKMBd8lYx
-         KLeg==
-X-Gm-Message-State: AOAM530nhtFrgOEAHBAa60mRHRHzv4Y1VRGh2sOmswDl1vRN71bxp2Te
-        +GqlxbfzB4/4540wWxRq/8ANkCdXo7Dbv53ePZk=
-X-Google-Smtp-Source: ABdhPJwhCHTUyQeL6NO7VZ9TErlPHSPJaUSJlRG8on4DJcl3XVowSsSaDNvfXk39W2OiRUOfnXZzLQickeYXItlZbbE=
-X-Received: by 2002:aca:ec95:: with SMTP id k143mr5299041oih.76.1598492278869;
- Wed, 26 Aug 2020 18:37:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <161b75f1-4e88-dcdf-42e8-b22504d7525c@kernel.dk>
- <202008171246.80287CDCA@keescook> <df645c06-c30b-eafa-4d23-826b84f2ff48@kernel.dk>
- <1597780833.3978.3.camel@HansenPartnership.com> <f3312928-430c-25f3-7112-76f2754df080@kernel.dk>
- <1597849185.3875.7.camel@HansenPartnership.com> <CAOMdWSJRR0BhjJK1FxD7UKxNd5sk4ycmEX6TYtJjRNR6UFAj6Q@mail.gmail.com>
- <1597873172.4030.2.camel@HansenPartnership.com> <CAEogwTCH8qqjAnSpT0GDn+NuAps8dNbfcPVQ9h8kfOWNbzrD0w@mail.gmail.com>
- <20200826095528.GX1793@kadam> <202008260811.1CE425B5C2@keescook>
-In-Reply-To: <202008260811.1CE425B5C2@keescook>
-From:   Allen <allen.lkml@gmail.com>
-Date:   Thu, 27 Aug 2020 07:07:47 +0530
-Message-ID: <CAOMdWSLyacdeoqnZBuLu6z1B6cY-WbtUJQm6+8=WHyE49tVaEg@mail.gmail.com>
-Subject: Re: [PATCH] block: convert tasklets to use new tasklet_setup() API
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Allen Pais <allen.cryptic@gmail.com>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        linux-atm-general@lists.sourceforge.net, manohar.vanga@gmail.com,
-        airlied@linux.ie, linux-hyperv@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, sre@kernel.org,
-        anton.ivanov@cambridgegreys.com, devel@driverdev.osuosl.org,
-        linux-s390@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-        maximlevitsky@gmail.com, richard@nod.at, deller@gmx.de,
-        jassisinghbrar@gmail.com, linux-spi@vger.kernel.org,
-        3chas3@gmail.com, intel-gfx@lists.freedesktop.org,
-        Jakub Kicinski <kuba@kernel.org>, mporter@kernel.crashing.org,
-        jdike@addtoit.com, oakad@yahoo.com, s.hauer@pengutronix.de,
-        linux-input@vger.kernel.org, linux-um@lists.infradead.org,
-        linux-block@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-        openipmi-developer@lists.sourceforge.net, mitch@sfgoth.com,
-        linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
-        linux-parisc@vger.kernel.org, netdev@vger.kernel.org,
-        martyn@welchs.me.uk, dmitry.torokhov@gmail.com,
-        linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        alex.bou9@gmail.com, stefanr@s5r6.in-berlin.de,
-        Daniel Vetter <daniel@ffwll.ch>, linux-ntb@googlegroups.com,
-        Romain Perier <romain.perier@gmail.com>, shawnguo@kernel.org,
-        David Miller <davem@davemloft.net>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=28q+FTG5opePGVSIsaIYRmsu38zCqcpXVW1uX+shyDY=;
+        b=RCxfvVuvN+OFyD3P/rhhxlQDufJ8PqU4pYRZFNGmR3sTykRotoCf8G2Wxg3lF5/5vg
+         7Xfe/Na7xP4J+mGPN8MfNF9YUDD+Erck+K/VdTw77HAvImOuoJ+9/PDwMLJ2oBuYBDPN
+         1QL+Q8tDcyOVgj7fNrYhyBTf37V4CEqqX6w6Qy7BMMiwyTZemhMUUdIdxt2K7qk3iiBQ
+         j46+DmvT5pIjtthwp7awubk/aNiAlgGMyhuqq1gkOwfVn7nLvYXXKaFeBYioVf8jEApC
+         ES92ixaJHIbRvzNs7ivCk8aOmv4tP0Y270TW7VFzI2Gvrq1NqotqqePf0ZGCPhHr/vXV
+         VD2g==
+X-Gm-Message-State: AOAM533zO/85nbC1lBj+l0VyAvxw788Ihu6qGto2WzS4oUYP7+Vuri/w
+        ruhCIMV8J2T57gLYysGkf629RrP71yoXHg==
+X-Google-Smtp-Source: ABdhPJzhA7Iw8NMu79kV0Gp7/hURXXIDMaCMf6jy4uUJyT8HHfVjURroX52uQY8zP0HGIjvboD3EnA==
+X-Received: by 2002:a62:1cca:: with SMTP id c193mr7752598pfc.3.1598492658721;
+        Wed, 26 Aug 2020 18:44:18 -0700 (PDT)
+Received: from localhost.localdomain ([2401:e180:8891:f88d:4578:9e9b:6ebc:aff1])
+        by smtp.gmail.com with ESMTPSA id q2sm281821pgs.90.2020.08.26.18.44.13
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 26 Aug 2020 18:44:18 -0700 (PDT)
+From:   Johnny Chuang <johnny.chuang.emc@gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Harry Cutts <hcutts@chromium.org>,
+        Johnny Chuang <johnny.chuang@emc.com.tw>
+Cc:     James Chen <james.chen@emc.com.tw>,
+        Jennifer Tsai <jennifer.tsai@emc.com.tw>,
+        Paul Liang <paul.liang@emc.com.tw>,
+        Jeff Chuang <jeff.chuang@emc.com.tw>
+Subject: [PATCH v2] Input: elants_i2c - Report resolution of ABS_MT_TOUCH_MAJOR by FW information.
+Date:   Thu, 27 Aug 2020 09:44:11 +0800
+Message-Id: <1598492651-9072-1-git-send-email-johnny.chuang.emc@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Aug 26, 2020 at 8:43 PM Kees Cook <keescook@chromium.org> wrote:
->
-> On Wed, Aug 26, 2020 at 12:55:28PM +0300, Dan Carpenter wrote:
-> > On Wed, Aug 26, 2020 at 07:21:35AM +0530, Allen Pais wrote:
-> > > On Thu, Aug 20, 2020 at 3:09 AM James Bottomley
-> > > <James.Bottomley@hansenpartnership.com> wrote:
-> > > >
-> > > > On Wed, 2020-08-19 at 21:54 +0530, Allen wrote:
-> > > > > > [...]
-> > > > > > > > Since both threads seem to have petered out, let me suggest in
-> > > > > > > > kernel.h:
-> > > > > > > >
-> > > > > > > > #define cast_out(ptr, container, member) \
-> > > > > > > >     container_of(ptr, typeof(*container), member)
-> > > > > > > >
-> > > > > > > > It does what you want, the argument order is the same as
-> > > > > > > > container_of with the only difference being you name the
-> > > > > > > > containing structure instead of having to specify its type.
-> > > > > > >
-> > > > > > > Not to incessantly bike shed on the naming, but I don't like
-> > > > > > > cast_out, it's not very descriptive. And it has connotations of
-> > > > > > > getting rid of something, which isn't really true.
-> > > > > >
-> > > > > > Um, I thought it was exactly descriptive: you're casting to the
-> > > > > > outer container.  I thought about following the C++ dynamic casting
-> > > > > > style, so out_cast(), but that seemed a bit pejorative.  What about
-> > > > > > outer_cast()?
-> > > > > >
-> > > > > > > FWIW, I like the from_ part of the original naming, as it has
-> > > > > > > some clues as to what is being done here. Why not just
-> > > > > > > from_container()? That should immediately tell people what it
-> > > > > > > does without having to look up the implementation, even before
-> > > > > > > this becomes a part of the accepted coding norm.
-> > > > > >
-> > > > > > I'm not opposed to container_from() but it seems a little less
-> > > > > > descriptive than outer_cast() but I don't really care.  I always
-> > > > > > have to look up container_of() when I'm using it so this would just
-> > > > > > be another macro of that type ...
-> > > > > >
-> > > > >
-> > > > >  So far we have a few which have been suggested as replacement
-> > > > > for from_tasklet()
-> > > > >
-> > > > > - out_cast() or outer_cast()
-> > > > > - from_member().
-> > > > > - container_from() or from_container()
-> > > > >
-> > > > > from_container() sounds fine, would trimming it a bit work? like
-> > > > > from_cont().
-> > > >
-> > > > I'm fine with container_from().  It's the same form as container_of()
-> > > > and I think we need urgent agreement to not stall everything else so
-> > > > the most innocuous name is likely to get the widest acceptance.
-> > >
-> > > Kees,
-> > >
-> > >   Will you be  sending the newly proposed API to Linus? I have V2
-> > > which uses container_from()
-> > > ready to be sent out.
-> >
-> > I liked that James swapped the first two arguments so that it matches
-> > container_of().  Plus it's nice that when you have:
-> >
-> >       struct whatever *foo = container_from(ptr, foo, member);
-> >
-> > Then it means that "ptr == &foo->member".
->
-> I'm a bit stalled right now -- the merge window was keeping me busy, and
-> this week is the Linux Plumbers Conference. This is on my list, but I
-> haven't gotten back around to it. If you want, feel free to send the
-> container_from() patch; you might be able to unblock this faster than me
-> right now. :)
->
+This patch adds a new behavior to report touch major resolution
+based on information provided by firmware.
 
-Sure, Thanks.
+In initial process, driver acquires touch information from touch ic.
+This information contains of one flag about reporting resolution of
+ABS_MT_TOUCH_MAJOR is needed, or not.
+Touch driver will report touch major resolution after geting this flag.
 
+Signed-off-by: Johnny Chuang <johnny.chuang.emc@gmail.com>
+---
+Changes in v2:
+  - register real resolution instead of true/false.
+---
+ drivers/input/touchscreen/elants_i2c.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-
+diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
+index b0bd5bb..dc7f4a5 100644
+--- a/drivers/input/touchscreen/elants_i2c.c
++++ b/drivers/input/touchscreen/elants_i2c.c
+@@ -151,6 +151,7 @@ struct elants_data {
+ 
+ 	bool wake_irq_enabled;
+ 	bool keep_power_in_suspend;
++	u8 report_major_resolution;
+ 
+ 	/* Must be last to be used for DMA operations */
+ 	u8 buf[MAX_PACKET_SIZE] ____cacheline_aligned;
+@@ -459,6 +460,9 @@ static int elants_i2c_query_ts_info(struct elants_data *ts)
+ 	rows = resp[2] + resp[6] + resp[10];
+ 	cols = resp[3] + resp[7] + resp[11];
+ 
++	/* Decide if report resolution of ABS_MT_TOUCH_MAJOR */
++	ts->report_major_resolution = resp[16];
++
+ 	/* Process mm_to_pixel information */
+ 	error = elants_i2c_execute_command(client,
+ 					   get_osr_cmd, sizeof(get_osr_cmd),
+@@ -1325,6 +1329,8 @@ static int elants_i2c_probe(struct i2c_client *client,
+ 			     0, MT_TOOL_PALM, 0, 0);
+ 	input_abs_set_res(ts->input, ABS_MT_POSITION_X, ts->x_res);
+ 	input_abs_set_res(ts->input, ABS_MT_POSITION_Y, ts->y_res);
++	if (ts->report_major_resolution > 0)
++		input_abs_set_res(ts->input, ABS_MT_TOUCH_MAJOR, ts->report_major_resolution);
+ 
+ 	touchscreen_parse_properties(ts->input, true, &ts->prop);
+ 
 -- 
-       - Allen
+2.7.4
+
