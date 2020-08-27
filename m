@@ -2,85 +2,119 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32488254D3A
-	for <lists+linux-input@lfdr.de>; Thu, 27 Aug 2020 20:41:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 992D7254D59
+	for <lists+linux-input@lfdr.de>; Thu, 27 Aug 2020 20:58:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727046AbgH0Slo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Aug 2020 14:41:44 -0400
-Received: from mail-ej1-f66.google.com ([209.85.218.66]:43082 "EHLO
-        mail-ej1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726009AbgH0Slo (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Aug 2020 14:41:44 -0400
-Received: by mail-ej1-f66.google.com with SMTP id m22so8993770eje.10;
-        Thu, 27 Aug 2020 11:41:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Ax6LGCiUmSw6MKcxCSVlqCa9MowaOxKPyFGXWHlS6hM=;
-        b=rgsta2SdiAZ3Udxv6ulDO3o19cHY4Fu/EWczPVCToJUxNIBXqn6/irl0zjE+/gJPq+
-         Nj0Eq9Qu2w6V3bkkvc0ynZjaQuwsOp4OjYHg4J16rW0XLZbLtoX6J3RpyB0AqlcpDXag
-         fXKJsMYeEt8Db/RVV01IMkuTplv1lOd3fm0bv2igMaXMLs45kzn0R/bqOwhzIG6NomoA
-         RJPiWIr9mbYeiRS8i+YHh8vyZEgpJ88xWHa/wYXRvJn4ry8RT/OuV6XqI/d1R8gGgbO7
-         gC8uxjGIzx37D6pw82/b+M27jy642QOlbgssExh1uY60C8UTAF22zsPxJcC5sx/iyE5Y
-         wzUA==
-X-Gm-Message-State: AOAM533BeaTSQVSrp5hdfp5rsupPvWlU7J5I+1TfZjLfTQ2v0MYdakEa
-        9HRmNX6FK8M2IpkhN+9Aavw=
-X-Google-Smtp-Source: ABdhPJxi9owINqZhQhD/JlP4gUZYT7WL7sqV3wP9DCcgCXLMxmSr6ptNGSi/qDxN4Re/s+iJUaT2jQ==
-X-Received: by 2002:a17:906:b2c3:: with SMTP id cf3mr23389786ejb.387.1598553702433;
-        Thu, 27 Aug 2020 11:41:42 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.216])
-        by smtp.googlemail.com with ESMTPSA id j10sm2263699ejf.116.2020.08.27.11.41.41
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 27 Aug 2020 11:41:41 -0700 (PDT)
-Date:   Thu, 27 Aug 2020 20:41:39 +0200
+        id S1726262AbgH0S6n (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Aug 2020 14:58:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48494 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726250AbgH0S6n (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 27 Aug 2020 14:58:43 -0400
+Received: from localhost.localdomain (unknown [194.230.155.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0AD122087E;
+        Thu, 27 Aug 2020 18:58:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598554722;
+        bh=LFqs81pjV2AB3heJBIp/bGnwvU4OW/BsN3exXdyoSeM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=HW69DhahnMu9OGAvNDhOxukWgSSVgLl/Myb1Jn+vEEYvdZD0VqFSJOhCKtOkiYkkm
+         tekKhLyHLEkQ433QJNohEYs3MafMf1pgdGhWoZBwvxVqFAi9CnLp0SCgkR94M1uNEY
+         iiFpoaQ4URBW7Gc3THkloyK9RSGmORNSvrzFRJOA=
 From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
         Bastien Nocera <hadess@hadess.net>,
         Sangwon Jee <jeesw@melfas.com>,
         Eugen Hristev <eugen.hristev@microchip.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Subject: Re: [PATCH 09/24] Input: bu21013_ts - Simplify with dev_err_probe()
-Message-ID: <20200827184139.GC6196@kozik-lap>
-References: <20200826181706.11098-1-krzk@kernel.org>
- <20200826181706.11098-9-krzk@kernel.org>
- <CAHp75VevroOYYYBnCAHUqhkkeYcAHLrSwnT3wnxj1Mc4k8sfng@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAHp75VevroOYYYBnCAHUqhkkeYcAHLrSwnT3wnxj1Mc4k8sfng@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        clang-built-linux@googlegroups.com
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH v3 01/27] Input: Simplify with dev_err_probe()
+Date:   Thu, 27 Aug 2020 20:58:02 +0200
+Message-Id: <20200827185829.30096-1-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Aug 27, 2020 at 12:10:38PM +0300, Andy Shevchenko wrote:
-> On Wed, Aug 26, 2020 at 9:19 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> >
-> > Common pattern of handling deferred probe can be simplified with
-> > dev_err_probe().  Less code and also it prints the error value.
-> 
-> >         ts->cs_gpiod = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
-> >         error = PTR_ERR_OR_ZERO(ts->cs_gpiod);
-> 
-> > +       if (error)
-> > +               return dev_err_probe(&client->dev, error, "failed to get CS GPIO\n");
-> > +
-> 
-> if (IS_ERR())
->  return ... PTR_ERR()...
+Hi,
 
-Indeed.
+Changes since v2:
+1. Add review tags,
+2. Fixes after review (see individual patches).
+3. Two new patches - 26 and 27.
+
 
 Best regards,
 Krzysztof
+
+
+
+Krzysztof Kozlowski (27):
+  Input: gpio_keys_polled - Simplify with dev_err_probe()
+  Input: gpio-vibra - Simplify with dev_err_probe()
+  Input: pwm-beeper - Simplify with dev_err_probe()
+  Input: pwm-vibra - Simplify with dev_err_probe()
+  Input: rotary_encoder - Simplify with dev_err_probe()
+  Input: elan_i2c - Simplify with dev_err_probe()
+  Input: bu21013_ts - Simplify with dev_err_probe()
+  Input: bu21029_ts - Simplify with dev_err_probe()
+  Input: chipone_icn8318 - Simplify with dev_err_probe()
+  Input: cy8ctma140 - Simplify with dev_err_probe()
+  Input: edf-ft5x06 - Simplify with dev_err_probe()
+  Input: ektf2127 - Simplify with dev_err_probe()
+  Input: elants_i2c - Simplify with dev_err_probe()
+  Input: goodix - Simplify with dev_err_probe()
+  Input: melfas_mip4 - Simplify with dev_err_probe()
+  Input: pixcir_i2c_ts - Simplify with dev_err_probe()
+  Input: raydium_i2c_ts - Simplify with dev_err_probe()
+  Input: resistive-adc-touch - Simplify with dev_err_probe()
+  Input: silead - Simplify with dev_err_probe()
+  Input: sis_i2c - Simplify with dev_err_probe()
+  Input: surface3_spi - Simplify with dev_err_probe()
+  Input: sx8643 - Simplify with dev_err_probe()
+  Input: bcm-keypad - Simplify with dev_err_probe()
+  gpio: Add devm_fwnode_gpiod_get_optional() helpers
+  Input: gpio_keys - Simplify with dev_err_probe()
+  Input: bu21013_ts - Use local 'client->dev' variable in probe()
+  Input: bu21029_ts - Use local 'client->dev' variable in probe()
+
+ drivers/gpio/gpiolib-devres.c                 | 71 ++++++++++++++++++
+ drivers/input/keyboard/bcm-keypad.c           | 14 ++--
+ drivers/input/keyboard/gpio_keys.c            | 25 +++----
+ drivers/input/keyboard/gpio_keys_polled.c     |  8 +--
+ drivers/input/misc/gpio-vibra.c               | 20 ++----
+ drivers/input/misc/pwm-beeper.c               | 19 ++---
+ drivers/input/misc/pwm-vibra.c                | 20 ++----
+ drivers/input/misc/rotary_encoder.c           |  8 +--
+ drivers/input/mouse/elan_i2c_core.c           |  9 +--
+ drivers/input/touchscreen/bu21013_ts.c        | 72 ++++++++-----------
+ drivers/input/touchscreen/bu21029_ts.c        | 53 ++++++--------
+ drivers/input/touchscreen/chipone_icn8318.c   |  8 +--
+ drivers/input/touchscreen/cy8ctma140.c        |  8 +--
+ drivers/input/touchscreen/edt-ft5x06.c        | 10 +--
+ drivers/input/touchscreen/ektf2127.c          |  8 +--
+ drivers/input/touchscreen/elants_i2c.c        | 22 ++----
+ drivers/input/touchscreen/goodix.c            | 40 +++--------
+ drivers/input/touchscreen/melfas_mip4.c       |  9 +--
+ drivers/input/touchscreen/pixcir_i2c_ts.c     | 38 ++++------
+ drivers/input/touchscreen/raydium_i2c_ts.c    | 30 +++-----
+ .../input/touchscreen/resistive-adc-touch.c   |  8 +--
+ drivers/input/touchscreen/silead.c            |  8 +--
+ drivers/input/touchscreen/sis_i2c.c           | 20 ++----
+ drivers/input/touchscreen/surface3_spi.c      | 13 +---
+ drivers/input/touchscreen/sx8654.c            | 10 +--
+ include/linux/gpio/consumer.h                 | 30 ++++++++
+ 26 files changed, 253 insertions(+), 328 deletions(-)
+
+-- 
+2.17.1
 
