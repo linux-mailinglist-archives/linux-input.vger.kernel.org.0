@@ -2,55 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 80747254197
-	for <lists+linux-input@lfdr.de>; Thu, 27 Aug 2020 11:11:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7588225419B
+	for <lists+linux-input@lfdr.de>; Thu, 27 Aug 2020 11:12:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727772AbgH0JLm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Aug 2020 05:11:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36370 "EHLO
+        id S1727903AbgH0JMK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Aug 2020 05:12:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726851AbgH0JLl (ORCPT
+        with ESMTP id S1726157AbgH0JMJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Aug 2020 05:11:41 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27A18C061264;
-        Thu, 27 Aug 2020 02:11:41 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id m8so3018327pfh.3;
-        Thu, 27 Aug 2020 02:11:41 -0700 (PDT)
+        Thu, 27 Aug 2020 05:12:09 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54B8DC061264;
+        Thu, 27 Aug 2020 02:12:09 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id g33so2913944pgb.4;
+        Thu, 27 Aug 2020 02:12:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=BuiVfTq3IfThnZibxEf8JBC6q+Vpo5jgMTkU2+Pr85M=;
-        b=V9BJVT07xp6Gmu5+mqHb4O/RM/gxTW3BydgKJ+r2tZYTZrCOB0i2nzjinT7vl5aEZb
-         1J8JYqVZP3HmennvqbJjWTCjl0CS/mgumazEUVF3BLkjnDf1rr0dBsWhlFCVIidJepzv
-         q6Zfwk+bSPWPSCOdir5N9Lo4q1mHCmJ/R6dCJ0ty/WERf2d5d+tkWex4Nke4yT6wqJ2f
-         jLTx5rPmTMghqGuftL7YIdS7xR2qUFOdYBcbRgJ4Y7uMU3CAtQNEuIJH1/CJ5sPYkj/8
-         4QBoeHHFViryu75eEh3g0+jN/cvRIXgr5rGM7SFCCTm4YZj6YnxQ8gNHOqGx1FHJm9yu
-         77Ow==
+        bh=15VQltvXzcU3c96FMvPFXAk5p+iP3sUmrV+0jxuOSgw=;
+        b=DV0DF3U9sbStBKdimmEdltukG+JzCuNafqquKEKZf+DfOxN0ZXwaoznJhWM9ah0ljC
+         vqPDxuruj+PrEcCQx/k3M1Kzi/GCegHCyjlRqk6ifUkKOvYGIiaurLf9w6NvAagai+3s
+         l3Ppt8rkvzVkNu3WN1g84v4ocmWukrJUaKdRh1XfpeaN6rf7lQgGJXLiW57R5fZ66Cf5
+         +XVwA0AM1b6brMEhx3YiO9IdjxHobc6RKp5l1o40D6WBv+Vhc7QS8MJorLzU7skjEULS
+         IZ2PBV9WngsAt68ztfNYWU3+gQeb4J8dgERD0NDKP0wPtxk6ryCJ/v06CX2vo1qJGDDa
+         4szw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=BuiVfTq3IfThnZibxEf8JBC6q+Vpo5jgMTkU2+Pr85M=;
-        b=oX/bA0NTOpmP44ru9zA4Z1hHGM4inWvWYPeyd8InsNFSjYMrBSB2DjXF8eH1Eb9RoD
-         jJA7NeE9idY55tKFjPDFSlAcCqAjG7LvgiGKYRjiUudUZ2UUd4si+JVIr3aBAgluxopE
-         vLYq7SSoFca55ZnxnT4BYGSAS+xxyTvKO4Np+z7si9uxuzQO28LIcC2BXwL9omjoKxz5
-         Ucbjttae+O/+y++HpLU2R9PQcAkhkCMtr0jomHP5GAE8TPzY7cJlmE4ug6Av52UOn6XI
-         YYaGS/LxquZiqtp6c7+jVAORLgbx7DnDJdofnDoPjVlRT2I4+iG3SoF+wd4Y9wkPF1LD
-         Cd9w==
-X-Gm-Message-State: AOAM530lYqaewMlNKFhVz7x3C01M8KughlpBWHKdq+th2290taRXv5JB
-        y3oL3djCQqblWg6QEAi5KHU8m0BJT/38+lUwQq0=
-X-Google-Smtp-Source: ABdhPJy/+Aijofaf3nU+44vgNBy+yMm6FeOnIycBKjl82KQ2ebb/ReECHqjpQxWYcyvyiqoTHO+ukGGM8JUShdwYdNw=
-X-Received: by 2002:a63:f24a:: with SMTP id d10mr13747502pgk.4.1598519500755;
- Thu, 27 Aug 2020 02:11:40 -0700 (PDT)
+        bh=15VQltvXzcU3c96FMvPFXAk5p+iP3sUmrV+0jxuOSgw=;
+        b=aDjL5oiZfHMaMJG2DgrssnVGVgWecealTF+8qK+zIp2/kjovEuMEZBZ9OXowV5/a2e
+         VZDVb5sUAMSxvAuomGHf1a31u10YIiiu9AvsRHME7tBE3H6SAUa1R31VaNtRG5Kb06op
+         SqGxbmuPvAsxKad3CxhJf0E3WT1DOnP0i0VAl+FRFsJwhRDsyVHHEO2ghiQElVWMStGr
+         GfaEf/Hgf8DXG+gt2tCwemXrOgEmtBT4uXlyaYSzabIyIJLhygEkkdBy6rvQbSHvu3Pi
+         GuBp6S2HW0bHBBHbpItnOk832C9r4ZfVctdYF2+CsTwyj/RMWgPIpUeecNAPkOkyzsAw
+         lO3Q==
+X-Gm-Message-State: AOAM532PhuWzlVe8zIi0W76HGvYLKTK7udzPEVK7wNu6VUIMkIMLYevG
+        1khhLhGKsZX/Y5li7RiJwRIiF+MIwqww3njmXXY5HbVlLD8Tl5vd
+X-Google-Smtp-Source: ABdhPJyI1SrDxICKC6ryCuXLWo/Mrs/JyP5zfOshVRvkmZXscs0JHef+FLATA+t+OMYqRpW6FM7D0WJmXt1oPMKIkrU=
+X-Received: by 2002:a17:902:8208:: with SMTP id x8mr4107603pln.65.1598519528910;
+ Thu, 27 Aug 2020 02:12:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200826181706.11098-1-krzk@kernel.org> <20200826181706.11098-11-krzk@kernel.org>
-In-Reply-To: <20200826181706.11098-11-krzk@kernel.org>
+References: <20200826181706.11098-1-krzk@kernel.org> <20200826181706.11098-12-krzk@kernel.org>
+In-Reply-To: <20200826181706.11098-12-krzk@kernel.org>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 27 Aug 2020 12:11:24 +0300
-Message-ID: <CAHp75VdUf84UwreCeZzUwgv88-rtNH88WTGTsK3ixV-1Fnckvg@mail.gmail.com>
-Subject: Re: [PATCH 11/24] Input: chipone_icn8318 - Simplify with dev_err_probe()
+Date:   Thu, 27 Aug 2020 12:11:52 +0300
+Message-ID: <CAHp75VeRGTp+SW9jYM5_gVdc5EXzb8Y1Ba1czhMiS3WZ78idCg@mail.gmail.com>
+Subject: Re: [PATCH 12/24] Input: cy8ctma140 - Simplify with dev_err_probe()
 To:     Krzysztof Kozlowski <krzk@kernel.org>
 Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -69,7 +69,7 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Aug 26, 2020 at 9:21 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+On Wed, Aug 26, 2020 at 9:19 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
 >
 > Common pattern of handling deferred probe can be simplified with
 > dev_err_probe().  Less code and also it prints the error value.
@@ -78,28 +78,28 @@ Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
 > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 > ---
->  drivers/input/touchscreen/chipone_icn8318.c | 8 ++------
+>  drivers/input/touchscreen/cy8ctma140.c | 8 ++------
 >  1 file changed, 2 insertions(+), 6 deletions(-)
 >
-> diff --git a/drivers/input/touchscreen/chipone_icn8318.c b/drivers/input/touchscreen/chipone_icn8318.c
-> index d91d2fd78649..5bee007184c4 100644
-> --- a/drivers/input/touchscreen/chipone_icn8318.c
-> +++ b/drivers/input/touchscreen/chipone_icn8318.c
-> @@ -194,12 +194,8 @@ static int icn8318_probe(struct i2c_client *client,
->                 return -ENOMEM;
->
->         data->wake_gpio = devm_gpiod_get(dev, "wake", GPIOD_OUT_LOW);
-> -       if (IS_ERR(data->wake_gpio)) {
-> -               error = PTR_ERR(data->wake_gpio);
+> diff --git a/drivers/input/touchscreen/cy8ctma140.c b/drivers/input/touchscreen/cy8ctma140.c
+> index a9be29139cbf..23da5bb00ead 100644
+> --- a/drivers/input/touchscreen/cy8ctma140.c
+> +++ b/drivers/input/touchscreen/cy8ctma140.c
+> @@ -259,12 +259,8 @@ static int cy8ctma140_probe(struct i2c_client *client,
+>         ts->regulators[1].supply = "vdd";
+>         error = devm_regulator_bulk_get(dev, ARRAY_SIZE(ts->regulators),
+>                                       ts->regulators);
+> -       if (error) {
 > -               if (error != -EPROBE_DEFER)
-> -                       dev_err(dev, "Error getting wake gpio: %d\n", error);
+> -                       dev_err(dev, "Failed to get regulators %d\n",
+> -                               error);
 > -               return error;
 > -       }
-> +       if (IS_ERR(data->wake_gpio))
-> +               return dev_err_probe(dev, PTR_ERR(data->wake_gpio), "Error getting wake gpio\n");
+> +       if (error)
+> +               return dev_err_probe(dev, error, "Failed to get regulators\n");
 >
->         input = devm_input_allocate_device(dev);
->         if (!input)
+>         error = cy8ctma140_power_up(ts);
+>         if (error)
 > --
 > 2.17.1
 >
