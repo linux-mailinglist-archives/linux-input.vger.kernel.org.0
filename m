@@ -2,233 +2,262 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21390254F1E
-	for <lists+linux-input@lfdr.de>; Thu, 27 Aug 2020 21:48:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E17F3254F64
+	for <lists+linux-input@lfdr.de>; Thu, 27 Aug 2020 21:52:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726236AbgH0TsK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Aug 2020 15:48:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42020 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726147AbgH0TsJ (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Aug 2020 15:48:09 -0400
-Received: from localhost.localdomain (unknown [194.230.155.216])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2FD1A207DF;
-        Thu, 27 Aug 2020 19:48:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598557688;
-        bh=S7+ytNvy4Ms5HI/eVO4FDsU8aXgDwpeOVIrlQEqYQZI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hxfcnR1bLSaTFTPs0qXEnwKXtAxe0Som9YeDELU9IFUddMrykmithPUghN7+mCpgm
-         EWy8/WYWGiYxCB0bNS1UIP2Pp/xi3DMhXawyn+74GswLeSyCPBKEDZm9+7whwUpbJ2
-         N9mfe01B6lf5jKtp7DPgah+V787G3cIyxoDhED5A=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Bastien Nocera <hadess@hadess.net>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        clang-built-linux@googlegroups.com
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v3.1] Input: bu21013_ts - Use local 'client->dev' variable in probe()
-Date:   Thu, 27 Aug 2020 21:47:45 +0200
-Message-Id: <20200827194745.10721-1-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200827185829.30096-27-krzk@kernel.org>
-References: <20200827185829.30096-27-krzk@kernel.org>
+        id S1727000AbgH0Twt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Aug 2020 15:52:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52284 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727794AbgH0Tws (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 27 Aug 2020 15:52:48 -0400
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03F82C061232
+        for <linux-input@vger.kernel.org>; Thu, 27 Aug 2020 12:52:47 -0700 (PDT)
+Received: by mail-io1-xd42.google.com with SMTP id w20so7168712iom.1
+        for <linux-input@vger.kernel.org>; Thu, 27 Aug 2020 12:52:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=q0WhZouPxdjBeMn9cOMGc/oviRw39ohzYxmzF+C0NwU=;
+        b=h6KWwkxPlwBK4h7b7HqbG3b5fEkTxuKNqI0GpTCxCozsrKoF4/t0e/K3To4U9HVUBU
+         2IN3B07JvfH5poIPywwuXVexJeJma9l0Oby5c1Yhwg6m/Z7FzseKd+rkiQk3VmWIJ0GR
+         uvz5HGhAYP1RdqrW1/22HIyzxtVTyn6zsF+sw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=q0WhZouPxdjBeMn9cOMGc/oviRw39ohzYxmzF+C0NwU=;
+        b=ptaoSyKTmMiPwJFss3I9yr+yKO6PwpyEuTZv/f3ebxfWgO8ClAtRN6bTqP8bCIBWs1
+         cnPIzP2JHdpfAfk21I4VfhfxDZX9+vepXG+Iu6HegNpfe351D8pqX2xMA/h7yiwvvckf
+         2AHUTosa/3Yh7CWrr0u0yE2nu3mZQZmncQ965VpeJyv722VRkLRzwCcvS8MWZTNGwSN/
+         q9lQ2ivQ5uvY9p5NMzmvxWvyGQAbOW7/gbVEa8+wc+wuhqcQjM/n8lPrEaUk6W4HyAyL
+         PX7/kOelXatQk971+cudveWibTlLbTqCySVohKAKSNcjxQSRrHsDShAGfnd0w5fthkPv
+         1Sdg==
+X-Gm-Message-State: AOAM5306WLHlPniVm9MizjPbsAVYbbiCZCzSfmYcBt/+c3/IAvBkd8J8
+        x3353mRnEOibNgY+sVa9Njt9P8dmMKQxByHQ
+X-Google-Smtp-Source: ABdhPJwHitgH1o5QcDfe5KVSSK78tz1srdPlHOWaobSgLbMA3g5GVCvAS1wn2r0+wGMAZm8oxUEHkw==
+X-Received: by 2002:a02:840f:: with SMTP id k15mr21153082jah.100.1598557966378;
+        Thu, 27 Aug 2020 12:52:46 -0700 (PDT)
+Received: from rrangel920.bld.corp.google.com (h184-60-195-141.arvdco.broadband.dynamic.tds.net. [184.60.195.141])
+        by smtp.gmail.com with ESMTPSA id t90sm1664808ill.50.2020.08.27.12.52.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Aug 2020 12:52:45 -0700 (PDT)
+From:   Raul E Rangel <rrangel@chromium.org>
+To:     linux-input@vger.kernel.org
+Cc:     dmitry.torokhov@gmail.com, Shirish.S@amd.com,
+        Raul E Rangel <rrangel@chromium.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        Dan Murphy <dmurphy@ti.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        "Lee, Chun-Yi" <jlee@suse.com>, Pavel Machek <pavel@ucw.cz>,
+        Rajat Jain <rajatja@google.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH 1/2] Input: i8042 - Prevent intermixing i8042 commands
+Date:   Thu, 27 Aug 2020 13:52:22 -0600
+Message-Id: <20200827135205.1.I6981f9a9f0c12e60f8038f3b574184f8ffc1b9b5@changeid>
+X-Mailer: git-send-email 2.28.0.297.g1956fa8f8d-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-'dev' is shorter and simpler than '&client->dev' and in few cases it
-allows to skip line wrapping. Probe function uses '&client->dev' a lot,
-so this improves readability slightly.
+The i8042_mutex must be held by writers of the AUX and KBD ports, as
+well as users of i8042_command. There were a lot of users of
+i8042_command that were not calling i8042_lock_chip/i8042_unlock_chip.
+This resulted in i8042_commands being issues in between PS/2
+transactions.
 
-Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+This change moves the mutex lock into i8042_command and removes the
+burden of locking the mutex from the callers.
 
+It is expected that the i8042_mutex is locked before calling
+i8042_aux_write or i8042_kbd_write. This is currently done by the PS/2
+layer via ps2_begin_command and ps2_end_command. Other modules
+(serio_raw) do not currently lock the mutex, so there is still a
+possibility for intermixed commands.
+
+Signed-off-by: Raul E Rangel <rrangel@chromium.org>
 ---
 
-Changes since v3:
-1. Correct suggested-by tag,
-2. Add Reviewed-by tag.
+ drivers/input/serio/i8042.c         | 29 ++++++++++++++---------------
+ drivers/leds/leds-clevo-mail.c      |  9 ---------
+ drivers/platform/x86/acer-wmi.c     |  2 --
+ drivers/platform/x86/amilo-rfkill.c |  2 --
+ include/linux/i8042.h               | 10 ----------
+ 5 files changed, 14 insertions(+), 38 deletions(-)
 
-Changes since v2:
-1. New patch
----
- drivers/input/touchscreen/bu21013_ts.c | 61 ++++++++++++--------------
- 1 file changed, 28 insertions(+), 33 deletions(-)
-
-diff --git a/drivers/input/touchscreen/bu21013_ts.c b/drivers/input/touchscreen/bu21013_ts.c
-index 86bd38243d6c..f09204091ba5 100644
---- a/drivers/input/touchscreen/bu21013_ts.c
-+++ b/drivers/input/touchscreen/bu21013_ts.c
-@@ -411,31 +411,32 @@ static int bu21013_probe(struct i2c_client *client,
- 	struct input_dev *in_dev;
- 	struct input_absinfo *info;
- 	u32 max_x = 0, max_y = 0;
-+	struct device *dev = &client->dev;
- 	int error;
+diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
+index 0dddf273afd94..8590e51bcc087 100644
+--- a/drivers/input/serio/i8042.c
++++ b/drivers/input/serio/i8042.c
+@@ -137,8 +137,7 @@ static DEFINE_SPINLOCK(i8042_lock);
  
- 	if (!i2c_check_functionality(client->adapter,
- 				     I2C_FUNC_SMBUS_BYTE_DATA)) {
--		dev_err(&client->dev, "i2c smbus byte data not supported\n");
-+		dev_err(dev, "i2c smbus byte data not supported\n");
- 		return -EIO;
+ /*
+  * Writers to AUX and KBD ports as well as users issuing i8042_command
+- * directly should acquire i8042_mutex (by means of calling
+- * i8042_lock_chip() and i8042_unlock_ship() helpers) to ensure that
++ * directly should acquire i8042_mutex to ensure that
+  * they do not disturb each other (unfortunately in many i8042
+  * implementations write to one of the ports will immediately abort
+  * command that is being processed by another port).
+@@ -173,18 +172,6 @@ static irqreturn_t i8042_interrupt(int irq, void *dev_id);
+ static bool (*i8042_platform_filter)(unsigned char data, unsigned char str,
+ 				     struct serio *serio);
+ 
+-void i8042_lock_chip(void)
+-{
+-	mutex_lock(&i8042_mutex);
+-}
+-EXPORT_SYMBOL(i8042_lock_chip);
+-
+-void i8042_unlock_chip(void)
+-{
+-	mutex_unlock(&i8042_mutex);
+-}
+-EXPORT_SYMBOL(i8042_unlock_chip);
+-
+ int i8042_install_filter(bool (*filter)(unsigned char data, unsigned char str,
+ 					struct serio *serio))
+ {
+@@ -343,10 +330,14 @@ int i8042_command(unsigned char *param, int command)
+ 	unsigned long flags;
+ 	int retval;
+ 
++	mutex_lock(&i8042_mutex);
++
+ 	spin_lock_irqsave(&i8042_lock, flags);
+ 	retval = __i8042_command(param, command);
+ 	spin_unlock_irqrestore(&i8042_lock, flags);
+ 
++	 mutex_unlock(&i8042_mutex);
++
+ 	return retval;
+ }
+ EXPORT_SYMBOL(i8042_command);
+@@ -379,10 +370,18 @@ static int i8042_kbd_write(struct serio *port, unsigned char c)
+ static int i8042_aux_write(struct serio *serio, unsigned char c)
+ {
+ 	struct i8042_port *port = serio->port_data;
++	unsigned long flags;
++	int retval = 0;
++
++	spin_lock_irqsave(&i8042_lock, flags);
+ 
+-	return i8042_command(&c, port->mux == -1 ?
++	retval = __i8042_command(&c, port->mux == -1 ?
+ 					I8042_CMD_AUX_SEND :
+ 					I8042_CMD_MUX_SEND + port->mux);
++
++	spin_unlock_irqrestore(&i8042_lock, flags);
++
++	return retval;
+ }
+ 
+ 
+diff --git a/drivers/leds/leds-clevo-mail.c b/drivers/leds/leds-clevo-mail.c
+index f512e99b976b1..6c3d7e54f95cf 100644
+--- a/drivers/leds/leds-clevo-mail.c
++++ b/drivers/leds/leds-clevo-mail.c
+@@ -95,17 +95,12 @@ MODULE_DEVICE_TABLE(dmi, clevo_mail_led_dmi_table);
+ static void clevo_mail_led_set(struct led_classdev *led_cdev,
+ 				enum led_brightness value)
+ {
+-	i8042_lock_chip();
+-
+ 	if (value == LED_OFF)
+ 		i8042_command(NULL, CLEVO_MAIL_LED_OFF);
+ 	else if (value <= LED_HALF)
+ 		i8042_command(NULL, CLEVO_MAIL_LED_BLINK_0_5HZ);
+ 	else
+ 		i8042_command(NULL, CLEVO_MAIL_LED_BLINK_1HZ);
+-
+-	i8042_unlock_chip();
+-
+ }
+ 
+ static int clevo_mail_led_blink(struct led_classdev *led_cdev,
+@@ -114,8 +109,6 @@ static int clevo_mail_led_blink(struct led_classdev *led_cdev,
+ {
+ 	int status = -EINVAL;
+ 
+-	i8042_lock_chip();
+-
+ 	if (*delay_on == 0 /* ms */ && *delay_off == 0 /* ms */) {
+ 		/* Special case: the leds subsystem requested us to
+ 		 * chose one user friendly blinking of the LED, and
+@@ -142,8 +135,6 @@ static int clevo_mail_led_blink(struct led_classdev *led_cdev,
+ 		       *delay_on, *delay_off);
  	}
  
- 	if (!client->irq) {
--		dev_err(&client->dev, "No IRQ set up\n");
-+		dev_err(dev, "No IRQ set up\n");
- 		return -EINVAL;
- 	}
+-	i8042_unlock_chip();
+-
+ 	return status;
+ }
  
--	ts = devm_kzalloc(&client->dev, sizeof(*ts), GFP_KERNEL);
-+	ts = devm_kzalloc(dev, sizeof(*ts), GFP_KERNEL);
- 	if (!ts)
- 		return -ENOMEM;
+diff --git a/drivers/platform/x86/acer-wmi.c b/drivers/platform/x86/acer-wmi.c
+index 60c18f21588dd..6cb6f800503b2 100644
+--- a/drivers/platform/x86/acer-wmi.c
++++ b/drivers/platform/x86/acer-wmi.c
+@@ -1044,9 +1044,7 @@ static acpi_status WMID_set_u32(u32 value, u32 cap)
+ 			return AE_BAD_PARAMETER;
+ 		if (quirks->mailled == 1) {
+ 			param = value ? 0x92 : 0x93;
+-			i8042_lock_chip();
+ 			i8042_command(&param, 0x1059);
+-			i8042_unlock_chip();
+ 			return 0;
+ 		}
+ 		break;
+diff --git a/drivers/platform/x86/amilo-rfkill.c b/drivers/platform/x86/amilo-rfkill.c
+index 493e169c8f615..ce68d0c9ac29f 100644
+--- a/drivers/platform/x86/amilo-rfkill.c
++++ b/drivers/platform/x86/amilo-rfkill.c
+@@ -30,9 +30,7 @@ static int amilo_a1655_rfkill_set_block(void *data, bool blocked)
+ 	u8 param = blocked ? A1655_WIFI_OFF : A1655_WIFI_ON;
+ 	int rc;
  
- 	ts->client = client;
+-	i8042_lock_chip();
+ 	rc = i8042_command(&param, A1655_WIFI_COMMAND);
+-	i8042_unlock_chip();
+ 	return rc;
+ }
  
--	ts->x_flip = device_property_read_bool(&client->dev, "rohm,flip-x");
--	ts->y_flip = device_property_read_bool(&client->dev, "rohm,flip-y");
-+	ts->x_flip = device_property_read_bool(dev, "rohm,flip-x");
-+	ts->y_flip = device_property_read_bool(dev, "rohm,flip-y");
+diff --git a/include/linux/i8042.h b/include/linux/i8042.h
+index 0261e2fb36364..1c081081c161d 100644
+--- a/include/linux/i8042.h
++++ b/include/linux/i8042.h
+@@ -55,8 +55,6 @@ struct serio;
  
--	in_dev = devm_input_allocate_device(&client->dev);
-+	in_dev = devm_input_allocate_device(dev);
- 	if (!in_dev) {
--		dev_err(&client->dev, "device memory alloc failed\n");
-+		dev_err(dev, "device memory alloc failed\n");
- 		return -ENOMEM;
- 	}
- 	ts->in_dev = in_dev;
-@@ -445,8 +446,8 @@ static int bu21013_probe(struct i2c_client *client,
- 	in_dev->name = DRIVER_TP;
- 	in_dev->id.bustype = BUS_I2C;
+ #if defined(CONFIG_SERIO_I8042) || defined(CONFIG_SERIO_I8042_MODULE)
  
--	device_property_read_u32(&client->dev, "rohm,touch-max-x", &max_x);
--	device_property_read_u32(&client->dev, "rohm,touch-max-y", &max_y);
-+	device_property_read_u32(dev, "rohm,touch-max-x", &max_x);
-+	device_property_read_u32(dev, "rohm,touch-max-y", &max_y);
+-void i8042_lock_chip(void);
+-void i8042_unlock_chip(void);
+ int i8042_command(unsigned char *param, int command);
+ int i8042_install_filter(bool (*filter)(unsigned char data, unsigned char str,
+ 					struct serio *serio));
+@@ -65,14 +63,6 @@ int i8042_remove_filter(bool (*filter)(unsigned char data, unsigned char str,
  
- 	input_set_abs_params(in_dev, ABS_MT_POSITION_X, 0, max_x, 0, 0);
- 	input_set_abs_params(in_dev, ABS_MT_POSITION_Y, 0, max_y, 0, 0);
-@@ -455,14 +456,14 @@ static int bu21013_probe(struct i2c_client *client,
+ #else
  
- 	/* Adjust for the legacy "flip" properties, if present */
- 	if (!ts->props.invert_x &&
--	    device_property_read_bool(&client->dev, "rohm,flip-x")) {
-+	    device_property_read_bool(dev, "rohm,flip-x")) {
- 		info = &in_dev->absinfo[ABS_MT_POSITION_X];
- 		info->maximum -= info->minimum;
- 		info->minimum = 0;
- 	}
- 
- 	if (!ts->props.invert_y &&
--	    device_property_read_bool(&client->dev, "rohm,flip-y")) {
-+	    device_property_read_bool(dev, "rohm,flip-y")) {
- 		info = &in_dev->absinfo[ABS_MT_POSITION_Y];
- 		info->maximum -= info->minimum;
- 		info->minimum = 0;
-@@ -472,50 +473,46 @@ static int bu21013_probe(struct i2c_client *client,
- 				    INPUT_MT_DIRECT | INPUT_MT_TRACK |
- 					INPUT_MT_DROP_UNUSED);
- 	if (error) {
--		dev_err(&client->dev, "failed to initialize MT slots");
-+		dev_err(dev, "failed to initialize MT slots");
- 		return error;
- 	}
- 
--	ts->regulator = devm_regulator_get(&client->dev, "avdd");
-+	ts->regulator = devm_regulator_get(dev, "avdd");
- 	if (IS_ERR(ts->regulator)) {
--		dev_err(&client->dev, "regulator_get failed\n");
-+		dev_err(dev, "regulator_get failed\n");
- 		return PTR_ERR(ts->regulator);
- 	}
- 
- 	error = regulator_enable(ts->regulator);
- 	if (error) {
--		dev_err(&client->dev, "regulator enable failed\n");
-+		dev_err(dev, "regulator enable failed\n");
- 		return error;
- 	}
- 
--	error = devm_add_action_or_reset(&client->dev, bu21013_power_off, ts);
-+	error = devm_add_action_or_reset(dev, bu21013_power_off, ts);
- 	if (error) {
--		dev_err(&client->dev, "failed to install power off handler\n");
-+		dev_err(dev, "failed to install power off handler\n");
- 		return error;
- 	}
- 
- 	/* Named "CS" on the chip, DT binding is "reset" */
--	ts->cs_gpiod = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
-+	ts->cs_gpiod = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
- 	if (IS_ERR(ts->cs_gpiod))
--		return dev_err_probe(&client->dev, PTR_ERR(ts->cs_gpiod),
--				     "failed to get CS GPIO\n");
-+		return dev_err_probe(dev, PTR_ERR(ts->cs_gpiod), "failed to get CS GPIO\n");
- 
- 	gpiod_set_consumer_name(ts->cs_gpiod, "BU21013 CS");
- 
--	error = devm_add_action_or_reset(&client->dev,
--					 bu21013_disable_chip, ts);
-+	error = devm_add_action_or_reset(dev, bu21013_disable_chip, ts);
- 	if (error) {
--		dev_err(&client->dev,
--			"failed to install chip disable handler\n");
-+		dev_err(dev, "failed to install chip disable handler\n");
- 		return error;
- 	}
- 
- 	/* Named "INT" on the chip, DT binding is "touch" */
--	ts->int_gpiod = devm_gpiod_get_optional(&client->dev,
--						"touch", GPIOD_IN);
-+	ts->int_gpiod = devm_gpiod_get_optional(dev, "touch", GPIOD_IN);
- 	error = PTR_ERR_OR_ZERO(ts->int_gpiod);
- 	if (error)
--		return dev_err_probe(&client->dev, error, "failed to get INT GPIO\n");
-+		return dev_err_probe(dev, error, "failed to get INT GPIO\n");
- 
- 	if (ts->int_gpiod)
- 		gpiod_set_consumer_name(ts->int_gpiod, "BU21013 INT");
-@@ -523,22 +520,20 @@ static int bu21013_probe(struct i2c_client *client,
- 	/* configure the touch panel controller */
- 	error = bu21013_init_chip(ts);
- 	if (error) {
--		dev_err(&client->dev, "error in bu21013 config\n");
-+		dev_err(dev, "error in bu21013 config\n");
- 		return error;
- 	}
- 
--	error = devm_request_threaded_irq(&client->dev, client->irq,
--					  NULL, bu21013_gpio_irq,
-+	error = devm_request_threaded_irq(dev, client->irq, NULL, bu21013_gpio_irq,
- 					  IRQF_ONESHOT, DRIVER_TP, ts);
- 	if (error) {
--		dev_err(&client->dev, "request irq %d failed\n",
--			client->irq);
-+		dev_err(dev, "request irq %d failed\n", client->irq);
- 		return error;
- 	}
- 
- 	error = input_register_device(in_dev);
- 	if (error) {
--		dev_err(&client->dev, "failed to register input device\n");
-+		dev_err(dev, "failed to register input device\n");
- 		return error;
- 	}
- 
+-static inline void i8042_lock_chip(void)
+-{
+-}
+-
+-static inline void i8042_unlock_chip(void)
+-{
+-}
+-
+ static inline int i8042_command(unsigned char *param, int command)
+ {
+ 	return -ENODEV;
 -- 
-2.17.1
+2.28.0.297.g1956fa8f8d-goog
 
