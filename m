@@ -2,136 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B036254C7D
-	for <lists+linux-input@lfdr.de>; Thu, 27 Aug 2020 19:56:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7F48254D31
+	for <lists+linux-input@lfdr.de>; Thu, 27 Aug 2020 20:40:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726820AbgH0R4g (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Aug 2020 13:56:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34140 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726250AbgH0R4f (ORCPT
+        id S1726147AbgH0Skm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Aug 2020 14:40:42 -0400
+Received: from mail-ej1-f67.google.com ([209.85.218.67]:44793 "EHLO
+        mail-ej1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726009AbgH0Skj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Aug 2020 13:56:35 -0400
-Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com [IPv6:2607:f8b0:4864:20::e41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12E50C06121B
-        for <linux-input@vger.kernel.org>; Thu, 27 Aug 2020 10:56:35 -0700 (PDT)
-Received: by mail-vs1-xe41.google.com with SMTP id j188so3279391vsd.2
-        for <linux-input@vger.kernel.org>; Thu, 27 Aug 2020 10:56:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=f3B/Q02yvB9Yb/6f99Yh5bgWBIK4FmspfwcBGWYIhaQ=;
-        b=gtp1cONNLRdqCbirQgaQZFoJMnU2+Pp93TVFD9+9a7EbozuUQabLEhaFWeodWKi/6A
-         5yFTsxABrmxVdN5KKreOg0m5oB7Ffh7B4tvpdaZLlNPDvCQ2GiUUl3ne4fQ1a5jzMeZq
-         gnsk8wIUwedu254Lobh9MlJxfV9jnafA5uwds=
+        Thu, 27 Aug 2020 14:40:39 -0400
+Received: by mail-ej1-f67.google.com with SMTP id bo3so8996454ejb.11;
+        Thu, 27 Aug 2020 11:40:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=f3B/Q02yvB9Yb/6f99Yh5bgWBIK4FmspfwcBGWYIhaQ=;
-        b=N4nrYjv+C4oOkzDJ6+wtEVUMVZbQhGVFfq1D9EIZzd7FxtSNgZzVka42geiIYVgPzf
-         FTX7RTM3OVxwciR9Y/ee0UobxT3jE9XRpvd9u7INkL8njBwS8WThhMAbzhr65lFb9BTp
-         coEr8OHAy1oqeo2hvdwNi7ac10iKQlfdTVDSFsxLT8EM/hx8LO8/q9uyc1c2DxnNG5gP
-         CfWIs7GIpz7bCq2t5U/vouuoEO21MpV59qs3JiK0wrVLgs5YgoOvTfeBnmUObrb2mVoz
-         Ci/5unMzlAAogMqFuvKP/o64X8mHobELIUSI8WYw0t7AgO9IQOaqKRgtWmHRRV4UTE8z
-         F17g==
-X-Gm-Message-State: AOAM533kHcmc2jlyf6N2+jRWziYI4iZuG1XIi9iU7X7GHlYwZj+hjnQp
-        D3Qk77aCUCSuBBwJRnqGfjPy/hmUZcCx0Ojt
-X-Google-Smtp-Source: ABdhPJzSLmErzFMIE1yaypmOg2/EeTQDfMY+S8DwNKLzjL+voynz1sm5oe/sa25j6l+zFYKXqOjJkg==
-X-Received: by 2002:a05:6102:242c:: with SMTP id l12mr13138142vsi.21.1598550993433;
-        Thu, 27 Aug 2020 10:56:33 -0700 (PDT)
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com. [209.85.217.53])
-        by smtp.gmail.com with ESMTPSA id g138sm520365vke.21.2020.08.27.10.56.32
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Aug 2020 10:56:32 -0700 (PDT)
-Received: by mail-vs1-f53.google.com with SMTP id y3so2632128vsn.1
-        for <linux-input@vger.kernel.org>; Thu, 27 Aug 2020 10:56:32 -0700 (PDT)
-X-Received: by 2002:a67:facb:: with SMTP id g11mr2701403vsq.56.1598550991774;
- Thu, 27 Aug 2020 10:56:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <1598492651-9072-1-git-send-email-johnny.chuang.emc@gmail.com>
-In-Reply-To: <1598492651-9072-1-git-send-email-johnny.chuang.emc@gmail.com>
-From:   Harry Cutts <hcutts@chromium.org>
-Date:   Thu, 27 Aug 2020 10:56:20 -0700
-X-Gmail-Original-Message-ID: <CA+jURctrQcKsGwxZriX8bD3AQr-yh_J_Z7kkP+6HtD72Gt5DUw@mail.gmail.com>
-Message-ID: <CA+jURctrQcKsGwxZriX8bD3AQr-yh_J_Z7kkP+6HtD72Gt5DUw@mail.gmail.com>
-Subject: Re: [PATCH v2] Input: elants_i2c - Report resolution of
- ABS_MT_TOUCH_MAJOR by FW information.
-To:     Johnny Chuang <johnny.chuang.emc@gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=oDVzVcv1GncA1A9GcBvmV28MulHRr/qR43lfCwrJOTA=;
+        b=M6z8y26Nrts5BQkTq1yXho7eO88kxt2CmOnsnGfCnXW5zJ7dVDwUQxoa7h8Bq1VgH4
+         QW/vIgWiR5yWlElzh1IJsS+dnnHm4RKn6EnmGHeBSfIk5m4tAAG2k1sb8b+HcjERXdc0
+         CQN1Y7x/spgc5YW39lGWPYKxJ/fx3dp6NXBZcsmmMQlD3Kkm7CptSoqScYbYNDnx7bAP
+         sDBPjAq3zhNFnpYml29u1XGc8cm3GUnXV0sG8aaYePJmB/n+G+1Mx2eKCDpj3GM+JKGg
+         cIEUmfK0hBPE21Sit7lx7VkNHeMUQmJCx2BIzb6TwD/82xjnwle8YWo3PkmdtADRZEoK
+         hLvA==
+X-Gm-Message-State: AOAM531YZJdbcnOvKefqKv8iCxAYDqKcbq1Q4CTEc/Qvp88u2skOeyan
+        Ngan8bIW5N8iilqQ+KZ3ToqSx8i8WZvkwQfD
+X-Google-Smtp-Source: ABdhPJzQQrQizKXpDDhYdOaCPsxpZIWrNGdEeJeRidRKKnvdNVG6McNFLXQexn76rx0LV0wDSyWK6A==
+X-Received: by 2002:a17:906:1351:: with SMTP id x17mr21236951ejb.528.1598553636707;
+        Thu, 27 Aug 2020 11:40:36 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.216])
+        by smtp.googlemail.com with ESMTPSA id m4sm2609458ejn.31.2020.08.27.11.40.35
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 27 Aug 2020 11:40:36 -0700 (PDT)
+Date:   Thu, 27 Aug 2020 20:40:33 +0200
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        lkml <linux-kernel@vger.kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bastien Nocera <hadess@hadess.net>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         linux-input <linux-input@vger.kernel.org>,
-        Johnny Chuang <johnny.chuang@emc.com.tw>,
-        James Chen <james.chen@emc.com.tw>,
-        Jennifer Tsai <jennifer.tsai@emc.com.tw>,
-        Paul Liang <paul.liang@emc.com.tw>,
-        Jeff Chuang <jeff.chuang@emc.com.tw>
-Content-Type: text/plain; charset="UTF-8"
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>
+Subject: Re: [PATCH 04/24] Input: gpio-vibra - Simplify with dev_err_probe()
+Message-ID: <20200827184033.GA6196@kozik-lap>
+References: <20200826181706.11098-1-krzk@kernel.org>
+ <20200826181706.11098-4-krzk@kernel.org>
+ <CAHp75Vey_w7m4TZM9+=df-FMO6YW5DiSMQsupZsMb92Awg_x1Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAHp75Vey_w7m4TZM9+=df-FMO6YW5DiSMQsupZsMb92Awg_x1Q@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 26 Aug 2020 at 18:44, Johnny Chuang <johnny.chuang.emc@gmail.com> wrote:
->
-> This patch adds a new behavior to report touch major resolution
-> based on information provided by firmware.
->
-> In initial process, driver acquires touch information from touch ic.
-> This information contains of one flag about reporting resolution of
-> ABS_MT_TOUCH_MAJOR is needed, or not.
-> Touch driver will report touch major resolution after geting this flag.
+On Thu, Aug 27, 2020 at 12:03:52PM +0300, Andy Shevchenko wrote:
+> On Wed, Aug 26, 2020 at 9:20 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> >
+> > Common pattern of handling deferred probe can be simplified with
+> > dev_err_probe().  Less code and also it prints the error value.
+> 
+> >         vibrator->vcc = devm_regulator_get(&pdev->dev, "vcc");
+> >         err = PTR_ERR_OR_ZERO(vibrator->vcc);
+> > -       if (err) {
+> > -               if (err != -EPROBE_DEFER)
+> > -                       dev_err(&pdev->dev, "Failed to request regulator: %d\n",
+> > -                               err);
+> > -               return err;
+> > -       }
+> > +       if (err)
+> > +               return dev_err_probe(&pdev->dev, err, "Failed to request regulator\n");
+> 
+> Can it be rather
+>   if (IS_ERR())
+>     return dev_err_probe(dev, PTR_ERR());
+> w/o err be involved?
 
-I think this paragraph needs updating now that the firmware's
-reporting the actual resolution instead of a flag.
+Good point.
 
->
-> Signed-off-by: Johnny Chuang <johnny.chuang.emc@gmail.com>
-> ---
-> Changes in v2:
->   - register real resolution instead of true/false.
-> ---
->  drivers/input/touchscreen/elants_i2c.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
-> index b0bd5bb..dc7f4a5 100644
-> --- a/drivers/input/touchscreen/elants_i2c.c
-> +++ b/drivers/input/touchscreen/elants_i2c.c
-> @@ -151,6 +151,7 @@ struct elants_data {
->
->         bool wake_irq_enabled;
->         bool keep_power_in_suspend;
-> +       u8 report_major_resolution;
->
->         /* Must be last to be used for DMA operations */
->         u8 buf[MAX_PACKET_SIZE] ____cacheline_aligned;
-> @@ -459,6 +460,9 @@ static int elants_i2c_query_ts_info(struct elants_data *ts)
->         rows = resp[2] + resp[6] + resp[10];
->         cols = resp[3] + resp[7] + resp[11];
->
-> +       /* Decide if report resolution of ABS_MT_TOUCH_MAJOR */
-> +       ts->report_major_resolution = resp[16];
-> +
->         /* Process mm_to_pixel information */
->         error = elants_i2c_execute_command(client,
->                                            get_osr_cmd, sizeof(get_osr_cmd),
-> @@ -1325,6 +1329,8 @@ static int elants_i2c_probe(struct i2c_client *client,
->                              0, MT_TOOL_PALM, 0, 0);
->         input_abs_set_res(ts->input, ABS_MT_POSITION_X, ts->x_res);
->         input_abs_set_res(ts->input, ABS_MT_POSITION_Y, ts->y_res);
-> +       if (ts->report_major_resolution > 0)
-> +               input_abs_set_res(ts->input, ABS_MT_TOUCH_MAJOR, ts->report_major_resolution);
->
->         touchscreen_parse_properties(ts->input, true, &ts->prop);
->
-> --
-> 2.7.4
->
-
-Harry Cutts
-Chrome OS Touch/Input team
+Best regards,
+Krzysztof
