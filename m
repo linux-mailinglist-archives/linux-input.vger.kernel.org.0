@@ -2,116 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1270E2541DE
-	for <lists+linux-input@lfdr.de>; Thu, 27 Aug 2020 11:20:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4658F2541E7
+	for <lists+linux-input@lfdr.de>; Thu, 27 Aug 2020 11:22:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726882AbgH0JUU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 Aug 2020 05:20:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37750 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726266AbgH0JUS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 Aug 2020 05:20:18 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C22D9C061264;
-        Thu, 27 Aug 2020 02:20:16 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id 17so3025297pfw.9;
-        Thu, 27 Aug 2020 02:20:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NHovxXj8kNl+bO/iYwws9eniGeyDYn/VL5TU+ffgVe8=;
-        b=gcovqugjmSAGtw1SadGUSYghzOegMGsxuFFYTfl1i1TQhmAUH6wYXgJf7oDOSnUiYo
-         2yK4hr+IonNH5Z4kS3bkZcB88gD+xw0D6GNM6JUhyWRNmy6MI1i9wwYK4XaTB4Akm4r2
-         J6MwACe7X9ZN1B3YkRf/ZoOc+gQ8RcuO5ykz5nxUqZEdYDq4LorwFP8/tJCrOBQI5hj2
-         R5Xspmoa60AUW0Wiv4zZXY758AhK/RnvcF4AYPOgUHrjr82+/2ol7b/YWwMvLwKp5UNo
-         CNkKggy9+VmOWdL7LdYqeEjDNe8GO21LhokpW8WeEIsQAst4GEgETw4DS+N39sBYcsI5
-         dPZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NHovxXj8kNl+bO/iYwws9eniGeyDYn/VL5TU+ffgVe8=;
-        b=PbBtLHgOx4DtoVBrAhx5UMoPzHIsiXSjwbFg72i4OVYggKN5QfbdhLjJjmHByvkA3w
-         gjEVN5UWUXG1g5PKePxKihy+qX4MmQR/2BoyVaZxmOn2ZFFvJLqFI0ou0Yk6cCdyqHwb
-         GRtYMzfB837yy94/8Zz1K+5Bp8QfGo9oM5+oWy5cJnyd6pm1mIxLEZplYqlziYNpoIsW
-         z9CHvMLE5P/zBQ6GRzGl5c515mmfRQzzDACqndmKQAzD40xBy8rydsJ9NSL54WdMhKh3
-         GkWjBwhxF82loJCGw1arbU+DnpsaHC26pGcqYmIJBveXpdngnV3Hk6ctzCMGDvJXByFI
-         wDJQ==
-X-Gm-Message-State: AOAM530UNccRgCioGGCjRa0vYyy9f2L7hhDtjXWqOk9AXdpzNF6RqBwX
-        rZamouAe5+ymw8HqnvyBXdpQ2dQq9jVz64MC52M=
-X-Google-Smtp-Source: ABdhPJwe0B4oPJaBrE/zcyPdEd/iXNQmz7ydwrDHQeDooT4rtlP2BEsxoIKXfXOd3ZfQIEmpnRfN8FY78P1J1rOzibo=
-X-Received: by 2002:a63:ec18:: with SMTP id j24mr13402591pgh.74.1598520016226;
- Thu, 27 Aug 2020 02:20:16 -0700 (PDT)
+        id S1726266AbgH0JWW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 Aug 2020 05:22:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34882 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726157AbgH0JWV (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 27 Aug 2020 05:22:21 -0400
+Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3B35A2177B;
+        Thu, 27 Aug 2020 09:22:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598520141;
+        bh=kp+w8wlR74uDGEU6rRV8q7FJGgU/z3GY5h4GZ1a/azg=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=ostF27jTWJYjqigVBG3QN8I8QjC2/pAR7PhgYkoFPVHpiNDMK4s1LVVH8VCdGoFsE
+         LizldPeaLNxTXqnShIAIk3Vf6FHsWD8OauygsdJAgAJs8X93+9+jHQMjPN+oNOkIor
+         274D4REoBDZ52Oj/pSXci8sSqkEdwk98BfV83uew=
+Date:   Thu, 27 Aug 2020 11:22:17 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     "Daniel J. Ogorchock" <djogorchock@gmail.com>
+cc:     linux-input@vger.kernel.org, thunderbird2k@gmail.com,
+        blaws05@gmail.com, benjamin.tissoires@redhat.com,
+        Roderick.Colenbrander@sony.com, svv@google.com, s.jegen@gmail.com,
+        carmueller@gmail.com, pgriffais@valvesoftware.com,
+        hadess@hadess.net
+Subject: Re: [PATCH v12 00/14] HID: nintendo
+In-Reply-To: <20200823044157.339677-1-djogorchock@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2008271121150.27422@cbobk.fhfr.pm>
+References: <20200823044157.339677-1-djogorchock@gmail.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-References: <20200826181706.11098-1-krzk@kernel.org> <20200826181706.11098-24-krzk@kernel.org>
-In-Reply-To: <20200826181706.11098-24-krzk@kernel.org>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 27 Aug 2020 12:20:00 +0300
-Message-ID: <CAHp75VdygxySau_Ma5YqARgR92BNM+AK3yn2rThYxFEmzdYSLg@mail.gmail.com>
-Subject: Re: [PATCH 24/24] Input: sx8643 - Simplify with dev_err_probe()
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bastien Nocera <hadess@hadess.net>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Aug 26, 2020 at 9:21 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->
-> Common pattern of handling deferred probe can be simplified with
-> dev_err_probe().  Less code and also it prints the error value.
+On Sat, 22 Aug 2020, Daniel J. Ogorchock wrote:
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> I've included round 2 for the IMU support patch. The documentation is
+> improved and the precision increased for the gyroscope values reported
+> to userspace.
+> 
+> There is still the important question of how to deal with userspace
+> implementing custom drivers using hidraw (i.e. Steam). I am resistant to
+> having hid-nintendo completely yield when userspace uses hidraw, since
+> that would prevent other applications from receiving the events from the
+> controllers (like maybe someone configures a voip client to use one of
+> the triggers as push-to-talk).
+> 
+> In my personal testing with steam, I don't see much issue since I
+> introduced the patch to not send rumble subcommands when no effect is
+> playing. Steam/hid-nintendo seem to fight when hid-nintendo is sending
+> lots of subcommands (e.g. rumble, setting LEDs). Others have reported
+> though that hid-nintendo/Steam are still fighting even with that patch.
+> 
+> I guess there's not much that can be done though to guarantee a
+> userspace and kernel driver coexisting at the same time, since one of
+> them could completely reconfigure the controller's reporting mode, IMU
+> resolution, etc.
+> 
+> The two extremes seem to be either having the hid drivers yield to
+> userspace completely when hidraw is in use (e.g. hid-steam with its
+> virtual hidraw dev) or mask out exposing the hidraw device when a kernel
+> hid driver is being used. It feels wrong to have things in the current
+> state where the HIDRAW device is being exposed, but it's not actually
+> supported.
 
-Just in case if you want to save more LOCs, you may in some drivers
-introduce temporary variable for device pointer, like
+Could you please elaborate a little bit better about this conflict? 
+hid-steam and hid-nintendo seem to be supporting different VID/PID 
+combinations, so that's not the conflict I guess.
 
-struct device *dev = &client->dev;
+Is Steam implementing some (proprietary?) userspace driver for conflicting 
+VID/PID with hid-nintendo, using hidraw?
 
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> ---
->  drivers/input/touchscreen/sx8654.c | 10 +++-------
->  1 file changed, 3 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/input/touchscreen/sx8654.c b/drivers/input/touchscreen/sx8654.c
-> index de85e57b2486..d2ed9be64c3a 100644
-> --- a/drivers/input/touchscreen/sx8654.c
-> +++ b/drivers/input/touchscreen/sx8654.c
-> @@ -323,13 +323,9 @@ static int sx8654_probe(struct i2c_client *client,
->
->         sx8654->gpio_reset = devm_gpiod_get_optional(&client->dev, "reset",
->                                                      GPIOD_OUT_HIGH);
-> -       if (IS_ERR(sx8654->gpio_reset)) {
-> -               error = PTR_ERR(sx8654->gpio_reset);
-> -               if (error != -EPROBE_DEFER)
-> -                       dev_err(&client->dev, "unable to get reset-gpio: %d\n",
-> -                               error);
-> -               return error;
-> -       }
-> +       if (IS_ERR(sx8654->gpio_reset))
-> +               return dev_err_probe(&client->dev, PTR_ERR(sx8654->gpio_reset),
-> +                                    "unable to get reset-gpio\n");
->         dev_dbg(&client->dev, "got GPIO reset pin\n");
->
->         sx8654->data = device_get_match_data(&client->dev);
-> --
-> 2.17.1
->
-
+Thanks,
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Jiri Kosina
+SUSE Labs
+
