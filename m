@@ -2,67 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 891F02555F6
-	for <lists+linux-input@lfdr.de>; Fri, 28 Aug 2020 10:08:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EE10255643
+	for <lists+linux-input@lfdr.de>; Fri, 28 Aug 2020 10:19:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728455AbgH1IIZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 28 Aug 2020 04:08:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53036 "EHLO
+        id S1728663AbgH1ITz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 28 Aug 2020 04:19:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727911AbgH1IIS (ORCPT
+        with ESMTP id S1726834AbgH1ITw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 28 Aug 2020 04:08:18 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43879C061264;
-        Fri, 28 Aug 2020 01:08:17 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id f26so311532ljc.8;
-        Fri, 28 Aug 2020 01:08:17 -0700 (PDT)
+        Fri, 28 Aug 2020 04:19:52 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A2D3C061264;
+        Fri, 28 Aug 2020 01:19:52 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id y2so371934ljc.1;
+        Fri, 28 Aug 2020 01:19:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=g96tIDvgXJwPKOOA7+dvNjyN4dZbplzDaIkRNTr7fA8=;
-        b=OIyLwi3Vr5KWpQPEDlhBsXpg/0S4rnyQymPOqu1yKAIwoMPbUTHVXdAMh+1nVxeqw+
-         +RXtkoQIUQWC+DpfY+fW4qXGBgOfXzpjrJBQ7mZTtsK9+i7uPSYwwFDafP+zgFt6BkH4
-         AHSV2gmRA55eQ6IPxvdYIWrkB4dVDk0dY6OqRRifGMNsd0gXZk5MyMgVxL7/jHa9Be0A
-         ZsAq0kTkAk3NDfQOFaG2E7cbKz2+pGobSGLJCEQleR8L6AQQ4NyYArQh/XfvkLd9EwOE
-         7euZli3irUtQnZ3yaWVy0UVHWWdFs/lQ2YilW0VaFnAp7yRJQC9d+c+g9hCkCTKnDJ41
-         n8dA==
+        bh=emgRC1O/XN0oKlbZwUrLkuHyx1g+CfGZ4VZjo4v2TFA=;
+        b=a6JKM/XmL6dUFdomj9HWPyx+/NYG5Kv95t0T/VyRByN0rjTLkCnaICTaipLziHlU0M
+         PUD+nYM3vIfGxUu6NSKbl/edJRMCWvlAIYLBAmYGhipTS64wK0bJiotq+uXf/2oYgbC+
+         HHnyDCCeiUPDviJBfdYGWYx1QnKJ0lrgnw06L/NOjqSCmbJrBzFz3Kuxogfwq00aQKcR
+         6HVjK8stQUZussRhe859K0Vns9cS7XKYs4fH/kXEHZc28G2GECrLIiAMBHt8soZFDmCv
+         g/4n0l4CFxzqZ+aardNjeNjF6utmkrfs4p8rK6tUNaEPME8NzDLMNPnMPMH/5MAxixmn
+         0ttQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=g96tIDvgXJwPKOOA7+dvNjyN4dZbplzDaIkRNTr7fA8=;
-        b=F0WBz9mWx7y+yloysECzd/IvZ4TAvvmAktEpOhjsm4+cdJADtYaWX2nApWRU4SxjIG
-         YqCSQMm8clt0FzF7/xUdMrMvwUFFNw+oqfl7huVV7b3dlPegvufxZWfndvCK/wV3Bqy4
-         g0i4VILL3qt4YP54z9Kfu1GDRQtL5ugCaDkbPmaUJFTQMyHa6L+MazVcaDQRKZ3MlwAM
-         XH4FykBA0QJNg5sBh6wJckoGh/28z0hAXp586ADNFp6hEGbNp6WaLJK2PlPJTHJ2jOqs
-         3STmhW9HzhMs8+m+CSY+AFC0f4ATduWsbHejZUewFsrtQkjlwKH+XhtmepFnVIXGIZIJ
-         deKQ==
-X-Gm-Message-State: AOAM532QJXnt0yOICzDX/Bl0HrIJnOnZpSPGZa9Uh35jYq1462Ku94uo
-        DOO9fY/1UcT2sfXOAFIjV/k=
-X-Google-Smtp-Source: ABdhPJyu8QkdtOQ5d0gDqWk3Z8P06H3SGbpZ1bKzRyPqQwAQ2k0JdyGShskPUlc7V9A+tZXc+qDtEw==
-X-Received: by 2002:a2e:b0db:: with SMTP id g27mr339392ljl.69.1598602095628;
-        Fri, 28 Aug 2020 01:08:15 -0700 (PDT)
+        bh=emgRC1O/XN0oKlbZwUrLkuHyx1g+CfGZ4VZjo4v2TFA=;
+        b=EX7XTQn5+P9fNHlA26MFte3YfmKRERVWiKJmWDM6+uHnSO1YtfwhUqoHJY5KyyXT86
+         lNKTgdMNWBbZbnoZ+EcEpyCFm3TRejmhdWaV/0m8F2+g0lV5FJGyhHQ+Opsv/Q0qb3h5
+         UMM7dcCmixUQic3CPn+l6Hk9Rb6KXQoBkBYhTZmQ9NWJb0grMeYOQVUVeN1m4y/DbAot
+         6kNlLKbyQYj84lnXtxnsexjyA+Rr43pPbimM9+Q6sb6ssxPO39tFXwZ8p3+tOsBrh6Cd
+         R+XI8HDK9Sc4zDW7jL6WAV/11FC8AwK9ULEdp8HW8RiBCt68aD36mkhEqCZGS81oQXgm
+         34Ig==
+X-Gm-Message-State: AOAM533fD3yVYA6/dMfdy6ponoXjndWSun1NzvLk+EUZKjH16HoFxeFu
+        +M/Yiu5QmC/QF7SIj2Je/vE=
+X-Google-Smtp-Source: ABdhPJxBUb9N2Xb7+glQjbEtPMZvmtyLEX7hqiRDBygO++6TxNhy0tIcsWdaBlkP0J5pHn8Y1YNl2Q==
+X-Received: by 2002:a05:651c:23a:: with SMTP id z26mr323559ljn.257.1598602790712;
+        Fri, 28 Aug 2020 01:19:50 -0700 (PDT)
 Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.googlemail.com with ESMTPSA id a4sm124716lfr.2.2020.08.28.01.08.14
+        by smtp.googlemail.com with ESMTPSA id a2sm56719ljp.26.2020.08.28.01.19.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Aug 2020 01:08:15 -0700 (PDT)
-Subject: Re: [PATCH v2 1/1] Input: atmel_mxt_ts - allow specification of
- firmware file name
+        Fri, 28 Aug 2020 01:19:50 -0700 (PDT)
+Subject: Re: [PATCH 1/1] Input: atmel_mxt_ts - implement I2C retries
 To:     Jiada Wang <jiada_wang@mentor.com>, nick@shmanahar.org,
         dmitry.torokhov@gmail.com
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         erosca@de.adit-jv.com, Andrew_Gabbasov@mentor.com
-References: <20200821075410.8250-1-jiada_wang@mentor.com>
+References: <20200821082254.16661-1-jiada_wang@mentor.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <081a63b6-b34e-1e52-50ac-b44255c8ed40@gmail.com>
-Date:   Fri, 28 Aug 2020 11:08:14 +0300
+Message-ID: <64c77ff9-6d20-abcf-f549-7d5c85fba28d@gmail.com>
+Date:   Fri, 28 Aug 2020 11:19:49 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200821075410.8250-1-jiada_wang@mentor.com>
+In-Reply-To: <20200821082254.16661-1-jiada_wang@mentor.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -71,103 +70,70 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-21.08.2020 10:54, Jiada Wang пишет:
+21.08.2020 11:22, Jiada Wang пишет:
 > From: Nick Dyer <nick.dyer@itdev.co.uk>
 > 
-> On platforms which have multiple device instances using this driver, the
-> firmware may be different on each device. This patch makes the user give
-> the name of the firmware file when flashing.
-> 
-> If user specified firmware file can't be found, then driver will try to
-> flash default firmware "maxtouch.fw".
+> Some maXTouch chips (eg mXT1386) will not respond on the first I2C request
+> when they are in a sleep state. It must be retried after a delay for the
+> chip to wake up.
 > 
 > Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
-> Acked-by: Benson Leung <bleung@chromium.org>
 > Acked-by: Yufeng Shen <miletus@chromium.org>
-> (cherry picked from ndyer/linux/for-upstream commit 76ebb7cee971cb42dfb0a3a9224403b8b09abcf1)
+> (cherry picked from ndyer/linux/for-upstream commit 63fd7a2cd03c3a572a5db39c52f4856819e1835d)
 > [gdavis: Forward port and fix conflicts.]
 > Signed-off-by: George G. Davis <george_davis@mentor.com>
-> [jiada: change to flash default firmware file, when user specified firmware can't be found]
 > Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 > ---
->  drivers/input/touchscreen/atmel_mxt_ts.c | 33 +++++++++++++++++++++++-
->  1 file changed, 32 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-> index a2189739e30f..a20bc1bf8d52 100644
-> --- a/drivers/input/touchscreen/atmel_mxt_ts.c
-> +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-> @@ -34,6 +34,7 @@
->  #define MXT_FW_NAME		"maxtouch.fw"
->  #define MXT_CFG_NAME		"maxtouch.cfg"
->  #define MXT_CFG_MAGIC		"OBP_RAW V1"
-> +#define MAX_FILENAME_SIZE	64
->  
->  /* Registers */
->  #define MXT_OBJECT_START	0x07
-> @@ -308,6 +309,7 @@ struct mxt_data {
->  	struct t7_config t7_cfg;
->  	struct mxt_dbg dbg;
->  	struct gpio_desc *reset_gpio;
-> +	char fw_name[MAX_FILENAME_SIZE];
->  
->  	/* Cached parameters from object table */
->  	u16 T5_address;
-> @@ -2887,6 +2889,26 @@ static int mxt_load_fw(struct device *dev, const char *fn)
->  	return ret;
->  }
->  
-> +static int mxt_update_file_name(struct device *dev, char *file_name,
-> +				const char *buf, size_t count)
-> +{
-> +	size_t len = count;
-> +
-> +	/* Echo into the sysfs entry may append newline at the end of buf */
-> +	if (buf[count - 1] == '\n')
-> +		len = count - 1;
-> +
-> +	/* Simple sanity check */
-> +	if (len > MAX_FILENAME_SIZE - 1) {
-> +		dev_warn(dev, "File name too long\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	strscpy(file_name, buf, len + 1);
-> +
-> +	return 0;
-> +}
-> +
->  static ssize_t mxt_update_fw_store(struct device *dev,
->  					struct device_attribute *attr,
->  					const char *buf, size_t count)
-> @@ -2894,7 +2916,16 @@ static ssize_t mxt_update_fw_store(struct device *dev,
->  	struct mxt_data *data = dev_get_drvdata(dev);
->  	int error;
->  
-> -	error = mxt_load_fw(dev, MXT_FW_NAME);
-> +	error = mxt_update_file_name(dev, data->fw_name, buf, count);
-> +	if (error)
-> +		return error;
-> +
-> +	error = mxt_load_fw(dev, data->fw_name);
-> +	if (error) {
-> +		dev_warn(dev, "try %s instead\n", MXT_FW_NAME);
+>  drivers/input/touchscreen/atmel_mxt_ts.c | 45 ++++++++++++++++--------
+>  1 file changed, 30 insertions(+), 15 deletions(-)
 
 Hello, Jiada!
 
-Will this message be printed even if fw_name is an empty string or
-whatever string that is already used by existing userspace for writing
-to update_fw?
+I tested this patch on Acer A500 that has mXT1386 controller which
+requires the I2C retrying and everything working good, no problems
+spotted! Touchscreen doesn't work without this patch!
 
-Maybe it actually should be better to add a new device attribute that
-will take the fw_name? Then the old attribute will continue to work like
-it worked before.
+Tested-by: Dmitry Osipenko <digetx@gmail.com>
 
-> +		error = mxt_load_fw(dev, MXT_FW_NAME);
-> +	}
-> +
->  	if (error) {
->  		dev_err(dev, "The firmware update failed(%d)\n", error);
->  		count = error;
-> 
+I have one minor comment, please see it below!
 
+> diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+> index a2189739e30f..e93eda1f3d59 100644
+> --- a/drivers/input/touchscreen/atmel_mxt_ts.c
+> +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+> @@ -196,6 +196,7 @@ enum t100_type {
+>  #define MXT_CRC_TIMEOUT		1000	/* msec */
+>  #define MXT_FW_RESET_TIME	3000	/* msec */
+>  #define MXT_FW_CHG_TIMEOUT	300	/* msec */
+> +#define MXT_WAKEUP_TIME		25	/* msec */
+>  
+>  /* Command to unlock bootloader */
+>  #define MXT_UNLOCK_CMD_MSB	0xaa
+> @@ -626,6 +627,7 @@ static int __mxt_read_reg(struct i2c_client *client,
+>  	struct i2c_msg xfer[2];
+>  	u8 buf[2];
+>  	int ret;
+> +	bool retry = false;
+>  
+>  	buf[0] = reg & 0xff;
+>  	buf[1] = (reg >> 8) & 0xff;
+> @@ -642,17 +644,22 @@ static int __mxt_read_reg(struct i2c_client *client,
+>  	xfer[1].len = len;
+>  	xfer[1].buf = val;
+>  
+> -	ret = i2c_transfer(client->adapter, xfer, 2);
+> -	if (ret == 2) {
+> -		ret = 0;
+> -	} else {
+> -		if (ret >= 0)
+> -			ret = -EIO;
+> -		dev_err(&client->dev, "%s: i2c transfer failed (%d)\n",
+> -			__func__, ret);
+> +retry_read:
+> +	ret = i2c_transfer(client->adapter, xfer, ARRAY_SIZE(xfer));
+> +	if (ret != ARRAY_SIZE(xfer)) {
+
+Is it really possible to get a positive ret != 2 from i2c_transfer()?
+
+Maybe it's better to keep the old code behaviour by returning the "ret"
+value directly if it's not equal to ARRAY_SIZE(xfer)?
