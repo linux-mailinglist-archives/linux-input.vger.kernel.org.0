@@ -2,57 +2,44 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F9AE255C89
-	for <lists+linux-input@lfdr.de>; Fri, 28 Aug 2020 16:32:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4DD0255CEB
+	for <lists+linux-input@lfdr.de>; Fri, 28 Aug 2020 16:45:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726563AbgH1OcU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 28 Aug 2020 10:32:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56272 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726762AbgH1OcP (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 28 Aug 2020 10:32:15 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8186EC061264
-        for <linux-input@vger.kernel.org>; Fri, 28 Aug 2020 07:32:15 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id i10so1569857ljn.2
-        for <linux-input@vger.kernel.org>; Fri, 28 Aug 2020 07:32:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wVomXPK0U4YnUe61pOa0mrtN3m3F0A/CetmINqj4FvQ=;
-        b=IXeEjsjDMU8OHqYlJ0p8rDf4WgvfOfbeZYG1fmksYO7VBPareOmDTBDBpJfLu2f4Mo
-         oc5Qx/kRjst3CdFtvOjdIsdvwAPlR01NAKq2ZLg9Cf9Jcr/yk4fT6QHA2POLXvJjElqK
-         4rlzpaVgAadANBaLSYZqeuj1JdC/A2vnjVb+5nOK8cQN0Sptd2OUBdZK8CHIYtGh+PWj
-         aWYjoQQuUTLUwr2wTHzH8etMU6LEC6XUu414lYInENZPAWDAWJtSMHLUvvwCiBxYDI5L
-         +mJHbZIhZBpuwqrxyq0MBlWEdp+B+UtBmlAR7AAdUpkOXyQTTgO5odt6FNXZhOLQMs1A
-         +Xzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wVomXPK0U4YnUe61pOa0mrtN3m3F0A/CetmINqj4FvQ=;
-        b=II0YGiBfXdNNuAxTtGq2NNtXTntdMSmtvfnXnq+PA6aldsppptT5hPKp4GZ1R2O1jM
-         GN2dQR+dMGa+gLVN64kpepeYSh5yh818pQf4JO+7VT7N7bnm/2gWW2LLi2/IgfEBFMCN
-         zUor1WXosJoDLibMoDNb/1XRiBUM4lYMFBHkhf+rswSOAJETTWJpwQ1fu9tfF8E7UW+2
-         bjf5BWFam30fZyYRgehB+QXZ+MqOHz+cXVt/7VDqrsDHDE0CHrkUHCKsQm0EtWAu40bL
-         sDprwcSHV2hmboxZ4Bec+G2OeuES+VoNB1q+yYzeQAnrdZPT94pKhU4UbGfJDR7dUZ1G
-         gdzQ==
-X-Gm-Message-State: AOAM532C2xA5oM5vLtIQv9KZUT+iafudyd/2Vb+mGRt3rciRF9DlA/RB
-        PkeWYUMMm1R5FCGomCqgVR6ZN9QVmrL/f/c5lE56YQ==
-X-Google-Smtp-Source: ABdhPJxyQbKAxlRRRvc2vRtyWbyMbMoH5z28IQ9c6tGUgZBDV3PTLB/tba5Nu2XqbmrEWhyYyf5fprRmxxYMiT4YEWI=
-X-Received: by 2002:a2e:4e09:: with SMTP id c9mr1062954ljb.283.1598625133997;
- Fri, 28 Aug 2020 07:32:13 -0700 (PDT)
+        id S1727939AbgH1Opj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 28 Aug 2020 10:45:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50242 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726563AbgH1Opi (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 28 Aug 2020 10:45:38 -0400
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9EB282098B;
+        Fri, 28 Aug 2020 14:45:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598625937;
+        bh=yowQq2NG4nJh8fvUPdSabbCLjACL84gdik/XV+FQwks=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=Y0cWCO8ge9hfLF02ZtxEvxosDjutOC87NZ17e7tvvKiu7xWdHLHApsWBZL7yMny06
+         Z0U8NNv6izVo4IiNZpxRhsu7q1m2OwD2+oqig0Drvk4P6psQpZTzTqAXLAQW1F8p8v
+         ahnq83/17+Di0LDUha0RQcU824hIGR3VJe2Sq9RQ=
+Received: by mail-ej1-f44.google.com with SMTP id b17so1836896ejq.8;
+        Fri, 28 Aug 2020 07:45:37 -0700 (PDT)
+X-Gm-Message-State: AOAM533a9xXzjUWUQePDmWt0CXSEGNMECSSnLShxbJF6eXr1g4eDQWp1
+        h/nQAD1mRZq/BJ5IGaFi0hMJ4qLpvWXc9MQt7NM=
+X-Google-Smtp-Source: ABdhPJyT5wwhhF+qi42/UWTQ0IlzMYCJlb70Us/PK8hLjWA6/O+xiz2nwy7hIm9a46c4eumxWu9wAFKPHgG/7RBuIZ0=
+X-Received: by 2002:a17:906:4e03:: with SMTP id z3mr2118388eju.503.1598625936107;
+ Fri, 28 Aug 2020 07:45:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200827185829.30096-1-krzk@kernel.org> <20200827185829.30096-27-krzk@kernel.org>
-In-Reply-To: <20200827185829.30096-27-krzk@kernel.org>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 28 Aug 2020 16:32:03 +0200
-Message-ID: <CACRpkdZQZ+ANpMmwFUbTxQ9=EZEXZkr7Z3DLbica=Q09bmntBQ@mail.gmail.com>
-Subject: Re: [PATCH v3 26/27] Input: bu21013_ts - Use local 'client->dev'
- variable in probe()
-To:     Krzysztof Kozlowski <krzk@kernel.org>
+References: <20200827185829.30096-1-krzk@kernel.org> <20200827185829.30096-25-krzk@kernel.org>
+ <CACRpkdZNS6TTpUDEiezORKXu-h0Sdz_dPcCxmR+UbT_Rc+oMpw@mail.gmail.com>
+In-Reply-To: <CACRpkdZNS6TTpUDEiezORKXu-h0Sdz_dPcCxmR+UbT_Rc+oMpw@mail.gmail.com>
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+Date:   Fri, 28 Aug 2020 16:45:24 +0200
+X-Gmail-Original-Message-ID: <CAJKOXPej87cqgPtt4it66fp2CgjcyAQULG2260UH60hsnOZu7Q@mail.gmail.com>
+Message-ID: <CAJKOXPej87cqgPtt4it66fp2CgjcyAQULG2260UH60hsnOZu7Q@mail.gmail.com>
+Subject: Re: [PATCH v3 24/27] gpio: Add devm_fwnode_gpiod_get_optional() helpers
+To:     Linus Walleij <linus.walleij@linaro.org>
 Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -71,16 +58,24 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Aug 27, 2020 at 9:00 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-
-> 'dev' is shorter and simpler than '&client->dev' and in few cases it
-> allows to skip line wrapping. Probe function uses '&client->dev' a lot,
-> so this improves readability slightly.
+On Fri, 28 Aug 2020 at 16:31, Linus Walleij <linus.walleij@linaro.org> wrote:
 >
-> Andy Shevchenko <andy.shevchenko@gmail.com>
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> On Thu, Aug 27, 2020 at 9:00 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>
+> > Add devm_fwnode_gpiod_get_optional() and
+> > devm_fwnode_gpiod_get_index_optional() helpers, similar to regular
+> > devm_gpiod optional versions.  Drivers getting GPIOs from a firmware
+> > node might use it to remove some boilerplate code.
+> >
+> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> > Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+>
+> OK then, I suppose this gets merged with the rest?
+>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+That's the easiest unless you expect some conflicts. Only one next
+patch depends on this so worst case it could wait one cycle.
 
-Yours,
-Linus Walleij
+Best regards,
+Krzysztof
