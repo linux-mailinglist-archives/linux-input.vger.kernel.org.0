@@ -2,80 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4DD0255CEB
-	for <lists+linux-input@lfdr.de>; Fri, 28 Aug 2020 16:45:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 629AD255D2F
+	for <lists+linux-input@lfdr.de>; Fri, 28 Aug 2020 16:57:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727939AbgH1Opj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 28 Aug 2020 10:45:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50242 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726563AbgH1Opi (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 28 Aug 2020 10:45:38 -0400
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9EB282098B;
-        Fri, 28 Aug 2020 14:45:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598625937;
-        bh=yowQq2NG4nJh8fvUPdSabbCLjACL84gdik/XV+FQwks=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Y0cWCO8ge9hfLF02ZtxEvxosDjutOC87NZ17e7tvvKiu7xWdHLHApsWBZL7yMny06
-         Z0U8NNv6izVo4IiNZpxRhsu7q1m2OwD2+oqig0Drvk4P6psQpZTzTqAXLAQW1F8p8v
-         ahnq83/17+Di0LDUha0RQcU824hIGR3VJe2Sq9RQ=
-Received: by mail-ej1-f44.google.com with SMTP id b17so1836896ejq.8;
-        Fri, 28 Aug 2020 07:45:37 -0700 (PDT)
-X-Gm-Message-State: AOAM533a9xXzjUWUQePDmWt0CXSEGNMECSSnLShxbJF6eXr1g4eDQWp1
-        h/nQAD1mRZq/BJ5IGaFi0hMJ4qLpvWXc9MQt7NM=
-X-Google-Smtp-Source: ABdhPJyT5wwhhF+qi42/UWTQ0IlzMYCJlb70Us/PK8hLjWA6/O+xiz2nwy7hIm9a46c4eumxWu9wAFKPHgG/7RBuIZ0=
-X-Received: by 2002:a17:906:4e03:: with SMTP id z3mr2118388eju.503.1598625936107;
- Fri, 28 Aug 2020 07:45:36 -0700 (PDT)
+        id S1726550AbgH1O5C (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 28 Aug 2020 10:57:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60154 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726400AbgH1O5A (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 28 Aug 2020 10:57:00 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C53B9C061264;
+        Fri, 28 Aug 2020 07:57:00 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id t11so580609plr.5;
+        Fri, 28 Aug 2020 07:57:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nRvu+qRJqDJhNa3gYpoNc/gx5D78M+eCbN8D4GvM74w=;
+        b=o7kSzWU8Z9uef/5hTVmhxLBrUMmZ95TP0woeDAYb5WDxIuLxIFHhAbQeuPEjRwp5xm
+         3dGtIGGEZ3UQsDbr6eUXebjQ9LFCNPOCLCHtV6kA9FuOq8jaM+GrZOKllRDmngnwDNhm
+         H64VzfWfcAOInnLFQfHIAfwEEo4Ne+KnCnA8nBSErANT/s8bislIijA2I11G/nV9zk10
+         s/Px8/usAsA7bwixahN6gMXHIEE3HpPyVxwPABIi6UFGbLYPMYPerLmFxChaIiwVEhqM
+         FZ2+Y+WtVR3u+zTdP5HJBTnhWQYI637rInWB5gEZORRfFt7O7E2eH5UZZXj1SgaI7pd4
+         xZWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nRvu+qRJqDJhNa3gYpoNc/gx5D78M+eCbN8D4GvM74w=;
+        b=sUPUz05oA0d4ng5AmsXtut0G0Eo0WgcLTUYfLuiin/keBU0FOB4TXvQnB5VzdHud2n
+         3iLJPD3uWEWZF8E5dN3e916TR1re5VMn0CSuKE2+cQ184tKxyJcOAG+M83UxAE4qFdqc
+         phUg4ZdvtPg+F0pdJECvFsUosfMsN/BYhQkZzk42hu5Fmg4ox52CA+tgeXGbTP+fH8C1
+         DSEQNM9rZqEnvawgEliUpNr0bQlbMXrE5oShLbAZT7vUK9xnfOeC1yb7T1H2ejrTiL6D
+         ypQ8IOsTAxvUxOHQPgvt9xEf/FO627c6vAxn4RP4lX9T29i7f/YVszXu3lGWACi/h6Xp
+         gTtA==
+X-Gm-Message-State: AOAM5332/MXWwz/ndAiwwe6kEhz1wcSJpu6pKODfAwDKWvCA7dZx4Ldo
+        yIektiXwublb3BLkbCkOzn5hfplNOxJ4fY/4Czk=
+X-Google-Smtp-Source: ABdhPJx0f6thqge+C12HNjJ5r8B71prxz9VZvcsd3hChezg6qVLZ3el+cfR0Db/qvKvqj7o1RZJ/nW0h7z6v6iaT/0E=
+X-Received: by 2002:a17:902:b194:: with SMTP id s20mr1572889plr.321.1598626620299;
+ Fri, 28 Aug 2020 07:57:00 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200827185829.30096-1-krzk@kernel.org> <20200827185829.30096-25-krzk@kernel.org>
- <CACRpkdZNS6TTpUDEiezORKXu-h0Sdz_dPcCxmR+UbT_Rc+oMpw@mail.gmail.com>
-In-Reply-To: <CACRpkdZNS6TTpUDEiezORKXu-h0Sdz_dPcCxmR+UbT_Rc+oMpw@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-Date:   Fri, 28 Aug 2020 16:45:24 +0200
-X-Gmail-Original-Message-ID: <CAJKOXPej87cqgPtt4it66fp2CgjcyAQULG2260UH60hsnOZu7Q@mail.gmail.com>
-Message-ID: <CAJKOXPej87cqgPtt4it66fp2CgjcyAQULG2260UH60hsnOZu7Q@mail.gmail.com>
+ <CACRpkdZNS6TTpUDEiezORKXu-h0Sdz_dPcCxmR+UbT_Rc+oMpw@mail.gmail.com> <CAJKOXPej87cqgPtt4it66fp2CgjcyAQULG2260UH60hsnOZu7Q@mail.gmail.com>
+In-Reply-To: <CAJKOXPej87cqgPtt4it66fp2CgjcyAQULG2260UH60hsnOZu7Q@mail.gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 28 Aug 2020 17:56:43 +0300
+Message-ID: <CAHp75VfOSqxs5mw7jK0Xp2H2xFFLbb3i=ARxiuViOEniafCp7g@mail.gmail.com>
 Subject: Re: [PATCH v3 24/27] gpio: Add devm_fwnode_gpiod_get_optional() helpers
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Hans de Goede <hdegoede@redhat.com>,
         Bastien Nocera <hadess@hadess.net>,
         Sangwon Jee <jeesw@melfas.com>,
         Eugen Hristev <eugen.hristev@microchip.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Linux Input <linux-input@vger.kernel.org>,
         platform-driver-x86 <platform-driver-x86@vger.kernel.org>,
-        clang-built-linux@googlegroups.com
+        clang-built-linux <clang-built-linux@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 28 Aug 2020 at 16:31, Linus Walleij <linus.walleij@linaro.org> wrote:
->
-> On Thu, Aug 27, 2020 at 9:00 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->
-> > Add devm_fwnode_gpiod_get_optional() and
-> > devm_fwnode_gpiod_get_index_optional() helpers, similar to regular
-> > devm_gpiod optional versions.  Drivers getting GPIOs from a firmware
-> > node might use it to remove some boilerplate code.
+On Fri, Aug 28, 2020 at 5:45 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> On Fri, 28 Aug 2020 at 16:31, Linus Walleij <linus.walleij@linaro.org> wrote:
+> > On Thu, Aug 27, 2020 at 9:00 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
 > >
-> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> > Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> > > Add devm_fwnode_gpiod_get_optional() and
+> > > devm_fwnode_gpiod_get_index_optional() helpers, similar to regular
+> > > devm_gpiod optional versions.  Drivers getting GPIOs from a firmware
+> > > node might use it to remove some boilerplate code.
+> > >
+> > > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> > > Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> >
+> > OK then, I suppose this gets merged with the rest?
+> >
+> > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 >
-> OK then, I suppose this gets merged with the rest?
->
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> That's the easiest unless you expect some conflicts. Only one next
+> patch depends on this so worst case it could wait one cycle.
 
-That's the easiest unless you expect some conflicts. Only one next
-patch depends on this so worst case it could wait one cycle.
+I believe Dmitry and Linus are familiar with the concept of immutable
+branches, so it won't be a problem to create one and share.
 
-Best regards,
-Krzysztof
+-- 
+With Best Regards,
+Andy Shevchenko
