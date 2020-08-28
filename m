@@ -2,97 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 629AD255D2F
-	for <lists+linux-input@lfdr.de>; Fri, 28 Aug 2020 16:57:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4299F255D31
+	for <lists+linux-input@lfdr.de>; Fri, 28 Aug 2020 16:57:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726550AbgH1O5C (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 28 Aug 2020 10:57:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60154 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726400AbgH1O5A (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 28 Aug 2020 10:57:00 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C53B9C061264;
-        Fri, 28 Aug 2020 07:57:00 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id t11so580609plr.5;
-        Fri, 28 Aug 2020 07:57:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nRvu+qRJqDJhNa3gYpoNc/gx5D78M+eCbN8D4GvM74w=;
-        b=o7kSzWU8Z9uef/5hTVmhxLBrUMmZ95TP0woeDAYb5WDxIuLxIFHhAbQeuPEjRwp5xm
-         3dGtIGGEZ3UQsDbr6eUXebjQ9LFCNPOCLCHtV6kA9FuOq8jaM+GrZOKllRDmngnwDNhm
-         H64VzfWfcAOInnLFQfHIAfwEEo4Ne+KnCnA8nBSErANT/s8bislIijA2I11G/nV9zk10
-         s/Px8/usAsA7bwixahN6gMXHIEE3HpPyVxwPABIi6UFGbLYPMYPerLmFxChaIiwVEhqM
-         FZ2+Y+WtVR3u+zTdP5HJBTnhWQYI637rInWB5gEZORRfFt7O7E2eH5UZZXj1SgaI7pd4
-         xZWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nRvu+qRJqDJhNa3gYpoNc/gx5D78M+eCbN8D4GvM74w=;
-        b=sUPUz05oA0d4ng5AmsXtut0G0Eo0WgcLTUYfLuiin/keBU0FOB4TXvQnB5VzdHud2n
-         3iLJPD3uWEWZF8E5dN3e916TR1re5VMn0CSuKE2+cQ184tKxyJcOAG+M83UxAE4qFdqc
-         phUg4ZdvtPg+F0pdJECvFsUosfMsN/BYhQkZzk42hu5Fmg4ox52CA+tgeXGbTP+fH8C1
-         DSEQNM9rZqEnvawgEliUpNr0bQlbMXrE5oShLbAZT7vUK9xnfOeC1yb7T1H2ejrTiL6D
-         ypQ8IOsTAxvUxOHQPgvt9xEf/FO627c6vAxn4RP4lX9T29i7f/YVszXu3lGWACi/h6Xp
-         gTtA==
-X-Gm-Message-State: AOAM5332/MXWwz/ndAiwwe6kEhz1wcSJpu6pKODfAwDKWvCA7dZx4Ldo
-        yIektiXwublb3BLkbCkOzn5hfplNOxJ4fY/4Czk=
-X-Google-Smtp-Source: ABdhPJx0f6thqge+C12HNjJ5r8B71prxz9VZvcsd3hChezg6qVLZ3el+cfR0Db/qvKvqj7o1RZJ/nW0h7z6v6iaT/0E=
-X-Received: by 2002:a17:902:b194:: with SMTP id s20mr1572889plr.321.1598626620299;
- Fri, 28 Aug 2020 07:57:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200827185829.30096-1-krzk@kernel.org> <20200827185829.30096-25-krzk@kernel.org>
- <CACRpkdZNS6TTpUDEiezORKXu-h0Sdz_dPcCxmR+UbT_Rc+oMpw@mail.gmail.com> <CAJKOXPej87cqgPtt4it66fp2CgjcyAQULG2260UH60hsnOZu7Q@mail.gmail.com>
-In-Reply-To: <CAJKOXPej87cqgPtt4it66fp2CgjcyAQULG2260UH60hsnOZu7Q@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 28 Aug 2020 17:56:43 +0300
-Message-ID: <CAHp75VfOSqxs5mw7jK0Xp2H2xFFLbb3i=ARxiuViOEniafCp7g@mail.gmail.com>
-Subject: Re: [PATCH v3 24/27] gpio: Add devm_fwnode_gpiod_get_optional() helpers
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Bastien Nocera <hadess@hadess.net>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Eugen Hristev <eugen.hristev@microchip.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux Input <linux-input@vger.kernel.org>,
-        platform-driver-x86 <platform-driver-x86@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726400AbgH1O5z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 28 Aug 2020 10:57:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54632 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726322AbgH1O5x (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 28 Aug 2020 10:57:53 -0400
+Received: from kozik-lap.mshome.net (unknown [194.230.155.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D921320665;
+        Fri, 28 Aug 2020 14:57:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598626673;
+        bh=KYG3iaeJzQP1RJ6YodGmBJnOc9QTOtwrvTEilsPrB1g=;
+        h=From:To:Subject:Date:From;
+        b=PeeEPWhmB2qE/0PFrPQ33ve/EDVABitCyqACXjRUNYzaYYBHxWbl3wFbHllwD3X26
+         QZCnS5RCSjk8XNW5H3bgGDKA0rjjHzG4BapDKkcVR62sKRCy2+DIJUR80FJtxE/h1Y
+         KREqg/JVIcScMshYurIOJjYEgz+eqMRZxldiRI60=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 1/4] Input: ep93xx_keypad - Fix handling of platform_get_irq() error
+Date:   Fri, 28 Aug 2020 16:57:41 +0200
+Message-Id: <20200828145744.3636-1-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Aug 28, 2020 at 5:45 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> On Fri, 28 Aug 2020 at 16:31, Linus Walleij <linus.walleij@linaro.org> wrote:
-> > On Thu, Aug 27, 2020 at 9:00 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> >
-> > > Add devm_fwnode_gpiod_get_optional() and
-> > > devm_fwnode_gpiod_get_index_optional() helpers, similar to regular
-> > > devm_gpiod optional versions.  Drivers getting GPIOs from a firmware
-> > > node might use it to remove some boilerplate code.
-> > >
-> > > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> > > Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> >
-> > OK then, I suppose this gets merged with the rest?
-> >
-> > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
->
-> That's the easiest unless you expect some conflicts. Only one next
-> patch depends on this so worst case it could wait one cycle.
+platform_get_irq() returns -ERRNO on error.  In such case comparison
+to 0 would pass the check.
 
-I believe Dmitry and Linus are familiar with the concept of immutable
-branches, so it won't be a problem to create one and share.
+Fixes: 60214f058f44 ("Input: ep93xx_keypad - update driver to new core support")
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
+---
+
+Changes since v1:
+1. None
+---
+ drivers/input/keyboard/ep93xx_keypad.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/input/keyboard/ep93xx_keypad.c b/drivers/input/keyboard/ep93xx_keypad.c
+index 7c70492d9d6b..f831f01501d5 100644
+--- a/drivers/input/keyboard/ep93xx_keypad.c
++++ b/drivers/input/keyboard/ep93xx_keypad.c
+@@ -250,8 +250,8 @@ static int ep93xx_keypad_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	keypad->irq = platform_get_irq(pdev, 0);
+-	if (!keypad->irq) {
+-		err = -ENXIO;
++	if (keypad->irq < 0) {
++		err = keypad->irq;
+ 		goto failed_free;
+ 	}
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.17.1
+
