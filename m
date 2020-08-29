@@ -2,111 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 11945256492
-	for <lists+linux-input@lfdr.de>; Sat, 29 Aug 2020 06:14:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77F0E2565AB
+	for <lists+linux-input@lfdr.de>; Sat, 29 Aug 2020 09:48:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725822AbgH2EOj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 29 Aug 2020 00:14:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42570 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725813AbgH2EOe (ORCPT
+        id S1726170AbgH2HsD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 29 Aug 2020 03:48:03 -0400
+Received: from jabberwock.ucw.cz ([46.255.230.98]:54852 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726056AbgH2HsC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 29 Aug 2020 00:14:34 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38370C061264
-        for <linux-input@vger.kernel.org>; Fri, 28 Aug 2020 21:14:32 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id h2so579036plr.0
-        for <linux-input@vger.kernel.org>; Fri, 28 Aug 2020 21:14:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=to:from:subject:cc:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=Dn1HrW2Yd7UbmAKqU7+KrKOaj/zvpyp7jYDa/ue4xlU=;
-        b=OsF8laYrHQIqwCszlnrO5Vk2qT8gRadbVy6f6g6ujXO6jBZ0Lbp+TI/HzEPevC5vmw
-         wM5Q0GfHPUDCPtXPCchl/p/WD/Z0JORiCzJ+Ed3vw/XJsqzLp/KqH8zQpVHW4/EL99U7
-         tu3zsmniwHJfeDoKg0BwHqCUO8Rt8ycuP3BliEXnn22+x1u9DMb1DkR7lCtB1xdH5fZX
-         hE7wX69hR+UdruBXxa/ERN5iExm7Pps2O/cVsrfUVNk+ZHtOMdgv/a0zo7GMagu3Jyfi
-         LpaGeaTJMAcTcEsRnDXhqRQ1fXUXBYqLJpZ+U7a6j+jdy7wAW/qdEBM3BgvS2Z4UjVdV
-         JRTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:from:subject:cc:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=Dn1HrW2Yd7UbmAKqU7+KrKOaj/zvpyp7jYDa/ue4xlU=;
-        b=UV2qEZ/yS0z/6crKvwF6cgBcfTMCxOoQtqJGQ78JmMPhj5nuR7ldTAXkjFr0RlN7H3
-         6y31iL9o5mXvZaFdZhQnkhZn6bSPTkYTy/46iZLgb1tPo4ynHAKiFAd3yVyMIypi9vXu
-         ee6PjI1rhVw8bbCCenKB/b1rMdjiCrvT+D9lSPTDY6iQtu4A8Y28rURR9onEko+r03lS
-         1vxMy05ItM3gbMgMxi0r4udvA/3i/JVrtgkA5nF5XjkGMdzSvP42tf3lqol0cRWIErQS
-         YyVlg6UG1QP/cv8cikQPVUBBUkNyPFwYVbup0/ifCbRvBkdynaShwY6VavL+AUumcaqd
-         1wjQ==
-X-Gm-Message-State: AOAM532bq4P5njZiuHvQT2srxZnGoE+8VkBHaVlbFySTUacVPdWvZi4o
-        Qssdcei+mjXQ31Fijjkl3s0=
-X-Google-Smtp-Source: ABdhPJzBmL3hz+73c9bXUB5Oiziib/uMGMroAO3u36iqIcoWnI8wi9pIze1Y+sOpkEyFFBlFjKNqPw==
-X-Received: by 2002:a17:902:fe8e:: with SMTP id x14mr1579173plm.85.1598674472091;
-        Fri, 28 Aug 2020 21:14:32 -0700 (PDT)
-Received: from ?IPv6:2601:601:1401:3540:7705:2d1f:7496:570? ([2601:601:1401:3540:7705:2d1f:7496:570])
-        by smtp.googlemail.com with ESMTPSA id my8sm702132pjb.11.2020.08.28.21.14.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Aug 2020 21:14:30 -0700 (PDT)
-To:     linux-input@vger.kernel.org
-From:   Nicholas Miell <nmiell@gmail.com>
-Subject: [PATCH] HID: microsoft: Add rumble support for the 8bitdo SN30 Pro+
- controller
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        dmitry.torokhov@gmail.com, pgriffais@valvesoftware.com,
-        andrew.smirnov@gmail.com
-Message-ID: <3289459a-915f-5f39-f1c0-0d2ee3adeebd@gmail.com>
-Date:   Fri, 28 Aug 2020 21:14:29 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        Sat, 29 Aug 2020 03:48:02 -0400
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id C36621C0B80; Sat, 29 Aug 2020 09:47:59 +0200 (CEST)
+Date:   Sat, 29 Aug 2020 09:47:58 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Raul E Rangel <rrangel@chromium.org>
+Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com,
+        Shirish.S@amd.com, Andy Shevchenko <andy@infradead.org>,
+        Dan Murphy <dmurphy@ti.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        "Lee, Chun-Yi" <jlee@suse.com>, Rajat Jain <rajatja@google.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 1/2] Input: i8042 - Prevent intermixing i8042 commands
+Message-ID: <20200829074758.GA16838@amd>
+References: <20200827135205.1.I6981f9a9f0c12e60f8038f3b574184f8ffc1b9b5@changeid>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="BXVAT5kNtrzKuDFl"
+Content-Disposition: inline
+In-Reply-To: <20200827135205.1.I6981f9a9f0c12e60f8038f3b574184f8ffc1b9b5@changeid>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-When operating in XInput mode, the 8bitdo SN30 Pro+ requires the same
-quirk as the official Xbox One Bluetooth controllers for rumble to
-function.
 
-Other controllers like the N30 Pro 2, SF30 Pro, SN30 Pro, etc. probably
-also need this quirk, but I do not have the hardware to test. (To test
-your Bluetooth XInput controller, try echo "0x5 $vendor $product 0x80" >
-/sys/bus/hid/drivers/microsoft/new_id)
+--BXVAT5kNtrzKuDFl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Nicholas Miell <nmiell@gmail.com>
----
- drivers/hid/hid-ids.h       | 1 +
- drivers/hid/hid-microsoft.c | 2 ++
- 2 files changed, 3 insertions(+)
+On Thu 2020-08-27 13:52:22, Raul E Rangel wrote:
+> The i8042_mutex must be held by writers of the AUX and KBD ports, as
+> well as users of i8042_command. There were a lot of users of
+> i8042_command that were not calling i8042_lock_chip/i8042_unlock_chip.
+> This resulted in i8042_commands being issues in between PS/2
+> transactions.
+>=20
+> This change moves the mutex lock into i8042_command and removes the
+> burden of locking the mutex from the callers.
+>=20
+> It is expected that the i8042_mutex is locked before calling
+> i8042_aux_write or i8042_kbd_write. This is currently done by the PS/2
+> layer via ps2_begin_command and ps2_end_command. Other modules
+> (serio_raw) do not currently lock the mutex, so there is still a
+> possibility for intermixed commands.
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 6f370e020feb3..bfefb0f8ae330 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -845,6 +845,7 @@
- #define USB_DEVICE_ID_MS_POWER_COVER     0x07da
- #define USB_DEVICE_ID_MS_XBOX_ONE_S_CONTROLLER	0x02fd
- #define USB_DEVICE_ID_MS_PIXART_MOUSE    0x00cb
-+#define USB_DEVICE_ID_8BITDO_SN30_PRO_PLUS      0x02e0
- 
- #define USB_VENDOR_ID_MOJO		0x8282
- #define USB_DEVICE_ID_RETRO_ADAPTER	0x3201
-diff --git a/drivers/hid/hid-microsoft.c b/drivers/hid/hid-microsoft.c
-index 2d8b589201a4e..8cb1ca1936e42 100644
---- a/drivers/hid/hid-microsoft.c
-+++ b/drivers/hid/hid-microsoft.c
-@@ -451,6 +451,8 @@ static const struct hid_device_id ms_devices[] = {
- 		.driver_data = MS_SURFACE_DIAL },
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_XBOX_ONE_S_CONTROLLER),
- 		.driver_data = MS_QUIRK_FF },
-+	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_8BITDO_SN30_PRO_PLUS),
-+		.driver_data = MS_QUIRK_FF },
- 	{ }
- };
- MODULE_DEVICE_TABLE(hid, ms_devices);
--- 
-2.26.2
+
+> @@ -343,10 +330,14 @@ int i8042_command(unsigned char *param, int command)
+>  	unsigned long flags;
+>  	int retval;
+> =20
+> +	mutex_lock(&i8042_mutex);
+> +
+>  	spin_lock_irqsave(&i8042_lock, flags);
+>  	retval =3D __i8042_command(param, command);
+>  	spin_unlock_irqrestore(&i8042_lock, flags);
+> =20
+> +	 mutex_unlock(&i8042_mutex);
+> +
+>  	return retval;
+
+There's something wrong with whitespace here. Checkpatch?
+									Pavel
+								=09
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--BXVAT5kNtrzKuDFl
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl9KCC4ACgkQMOfwapXb+vLRLQCZAVRSNB7AWmLMpShfbIqQb9g7
+e2kAn0k5vjeRzWluElrV5q2QcU+nhqJy
+=TVRR
+-----END PGP SIGNATURE-----
+
+--BXVAT5kNtrzKuDFl--
