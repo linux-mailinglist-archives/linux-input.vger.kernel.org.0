@@ -2,65 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5EA2256656
-	for <lists+linux-input@lfdr.de>; Sat, 29 Aug 2020 11:22:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C98F3256726
+	for <lists+linux-input@lfdr.de>; Sat, 29 Aug 2020 13:37:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726562AbgH2JWF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 29 Aug 2020 05:22:05 -0400
-Received: from sonic303-29.consmr.mail.bf2.yahoo.com ([74.6.131.228]:33053
-        "EHLO sonic303-29.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726464AbgH2JWE (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sat, 29 Aug 2020 05:22:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1598692923; bh=GR4TRCXK6wRteJXXqtI/y/2pwYNeSYeNMXUPo1+ojQ4=; h=Date:From:Reply-To:Subject:References:From:Subject; b=evSTgHcOHW3JuKQ2Pgkawc7pKaIh7ZIqlsqPzAL8CT6q4CtsZ27hoQJ0zcq7gi45+BIEHxzZPLPsEcxAueJidOWmukEaN1C0sL03cN2Y7rDPXoHOAGSKpli4p6zOfwK0dfe3XOO9Cq8glxXQY9+Jyv3VdQSUt6DOfcJZGKYLFYpeB1J1Ajocv3Dea9Y3fODeSInyiidpoa01qOUorib1lf4K9PG+jjbjy7oD9kzkAxfxcAiRE64wbux7rF9MnE29dRMIWpuLuwuonjARE89ggQBB5Mrh6BVDC+gtcj2+n0CkgncEY199GPOmpYe1mEKXTZkOecY+KXZy7n8Fugiucw==
-X-YMail-OSG: N_6BpMEVRDvd.miR6A7lED5GPdAEx7ojsA--
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic303.consmr.mail.bf2.yahoo.com with HTTP; Sat, 29 Aug 2020 09:22:03 +0000
-Date:   Sat, 29 Aug 2020 09:20:02 +0000 (UTC)
-From:   Jak Abdullah mishail <abdullahmishail698@gmail.com>
-Reply-To: mishailjakabdullah@gmail.com
-Message-ID: <1743792093.76184.1598692802784@mail.yahoo.com>
-Subject: I WILL BE WAITING FOR YOUR RESPOND.
+        id S1727075AbgH2Lgt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 29 Aug 2020 07:36:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49864 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728035AbgH2LgG (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 29 Aug 2020 07:36:06 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D427F214DB;
+        Sat, 29 Aug 2020 11:26:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598700369;
+        bh=B9VCR1gc3mVExEe2V499pC1prwSxp/+jhKu43FvTLNU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=zYwTfmnLzGYjYC7cBwL7UWSG8ImGKC3qfcDFucsRDuTTUP+MyQbSwuPojkS94jtBk
+         mQsz9/czKDf45ZLMs/uyQ42zTe3k7muKVy41rHIhwzRi3k+fA6irRUjjL6fJKHwhLH
+         v2NToLsTGTK2FN1AB+sRkSDYJA/BnetkQhQIJRPc=
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.lan)
+        by disco-boy.misterjones.org with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <maz@kernel.org>)
+        id 1kByzm-007dRY-Ra; Sat, 29 Aug 2020 12:26:07 +0100
+From:   Marc Zyngier <maz@kernel.org>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org, kernel-team@android.com
+Subject: [PATCH] HID: core: Correctly handle ReportSize being zero
+Date:   Sat, 29 Aug 2020 12:26:01 +0100
+Message-Id: <20200829112601.1060527-1-maz@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-References: <1743792093.76184.1598692802784.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.16565 YMailNodin Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: jikos@kernel.org, benjamin.tissoires@redhat.com, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org, kernel-team@android.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Greeting,
+It appears that a ReportSize value of zero is legal, even if a bit
+non-sensical. Most of the HID code seems to handle that gracefully,
+except when computing the total size in bytes. When fed as input to
+memset, this leads to some funky outcomes.
 
-My Name is Mr.Jak Abdullah mishail from Damascus Syria, and I am now resign=
-ed from the government. I am a member of an opposition party government in =
-Syria and a business man also,
+Detect the corner case and correctly compute the size.
 
-I need a foreign partner to enable me transport my investment capital and t=
-hen Relocate with my family, honestly I wish I will discuss more and get al=
-ong I need a partner because my investment capital is in my international a=
-ccount. Am interested in buying Properties, houses, building real estates a=
-nd some tourist places, my capital for investment is ($16.5 million USD) Me=
-anwhile if there is any profitable investment that you have so much experie=
-nce on it then we can join together as partners since I=E2=80=99m a foreign=
-er.
+Cc: stable@vger.kernel.org
+Signed-off-by: Marc Zyngier <maz@kernel.org>
+---
+ drivers/hid/hid-core.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-I came across your e-mail contact through private search while in need of y=
-our assistance and I decided to contact you directly to ask you if you know=
- any Lucrative Business Investment in your Country I can invest my Money si=
-nce my Country Syria Security and Economic Independent has lost to the Grea=
-test Lower level, and our Culture has lost forever including our happiness =
-has been taken away from us. Our Country has been on fire for many years no=
-w.
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index 359616e3efbb..d2ecc9c45255 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -1597,6 +1597,17 @@ static void hid_output_field(const struct hid_device *hid,
+ 	}
+ }
+ 
++/*
++ * Compute the size of a report.
++ */
++static size_t hid_compute_report_size(struct hid_report *report)
++{
++	if (report->size)
++		return ((report->size - 1) >> 3) + 1;
++
++	return 0;
++}
++
+ /*
+  * Create a report. 'data' has to be allocated using
+  * hid_alloc_report_buf() so that it has proper size.
+@@ -1609,7 +1620,7 @@ void hid_output_report(struct hid_report *report, __u8 *data)
+ 	if (report->id > 0)
+ 		*data++ = report->id;
+ 
+-	memset(data, 0, ((report->size - 1) >> 3) + 1);
++	memset(data, 0, hid_compute_report_size(report));
+ 	for (n = 0; n < report->maxfield; n++)
+ 		hid_output_field(report->device, report->field[n], data);
+ }
+@@ -1739,7 +1750,7 @@ int hid_report_raw_event(struct hid_device *hid, int type, u8 *data, u32 size,
+ 		csize--;
+ 	}
+ 
+-	rsize = ((report->size - 1) >> 3) + 1;
++	rsize = hid_compute_report_size(report);
+ 
+ 	if (report_enum->numbered && rsize >= HID_MAX_BUFFER_SIZE)
+ 		rsize = HID_MAX_BUFFER_SIZE - 1;
+-- 
+2.27.0
 
-If you are capable of handling this business Contact me for more details i =
-will appreciate it if you can contact me immediately.
-You may as well tell me little more about yourself. Contact me urgently to =
-enable us proceed with the business.
-
-I will be waiting for your respond.
-
-Sincerely Yours,
-
-Jak Abdullah mishail
