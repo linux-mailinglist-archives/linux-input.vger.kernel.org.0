@@ -2,120 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 787C5256CC1
-	for <lists+linux-input@lfdr.de>; Sun, 30 Aug 2020 10:11:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 670D5256FB7
+	for <lists+linux-input@lfdr.de>; Sun, 30 Aug 2020 20:35:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728685AbgH3ILH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 30 Aug 2020 04:11:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46542 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728621AbgH3IKd (ORCPT
+        id S1726150AbgH3SfH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 30 Aug 2020 14:35:07 -0400
+Received: from sonic315-53.consmr.mail.ne1.yahoo.com ([66.163.190.179]:34147
+        "EHLO sonic315-53.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726380AbgH3SfF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 30 Aug 2020 04:10:33 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F7CDC061573
-        for <linux-input@vger.kernel.org>; Sun, 30 Aug 2020 01:10:25 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id e17so2555061wme.0
-        for <linux-input@vger.kernel.org>; Sun, 30 Aug 2020 01:10:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:cc:date:user-agent:mime-version
-         :content-transfer-encoding;
-        bh=IViE7P9mSzzTYC1GDCHXSUNnU7l4L1m8MMr/le26oqQ=;
-        b=Zi2+8CdF13maAIsEhQNpPOiMSqOV9rsiWcTew7+Qdm5Qh6l8tVgCKfT+RQFT33n8tA
-         nybH3WwxG6Hkxd9+3B7N3Aiw6HT5mW5PX3JNSq6Q/dFauz6D8IO6fitHzzKSsZ92K+if
-         4784pxC54t1mlOR+v6cxKCIBRboZeZ8U0EadUACmEuoLWrs+8ZossoHj7i5SREYOR11T
-         16zWyUv13qHtKgKWAit2+KPv0vOsNmYDCZnKOH0Y3i/tC2xs8X1mRm+5rDPNz8kOf0fi
-         BW+l59XvKtACnrBull2efv7RLWvuwCqx26wbU8cCD1Fr94emPy8N9hkgaAOVdjFaQv/l
-         IYpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=IViE7P9mSzzTYC1GDCHXSUNnU7l4L1m8MMr/le26oqQ=;
-        b=RPcak5V1CoCz91gynWd8DD6kONq/XG0vPwnuBmwNLZONSlj8J5q1bkV9u93eRUtaO3
-         /2GhMQNARY10hIXpS4QlBmIqCpgLljIA13CSDmUs4+CYHLvBgD5H4PjaodCvK0r0SSGp
-         ISIid52aFjbcrvAAcZ559floYJDfoO3uUdKwzK+j6TLQsUBjboB3fg3bx11LnmQF2CB9
-         uLZ3HTLevuEdpc3s+c6ANAg/o6KT1LtzVdGJtbaUuf+9pUOUHq3NRCpwtV54XavasNir
-         XtjBLNiSKVOf4M2p/S47XLaIhLltZ4kkWCdpto3wlEl8EQpNH75MEC6O7StghTKp+6cT
-         Fgcw==
-X-Gm-Message-State: AOAM530macInbDE94qHQNz1Wh+8/5oDo44aQzFSYhWduuzJwlk6aOxDR
-        c4FoTkAU0EqwothwdkvzPJzJLrHIupnrqw==
-X-Google-Smtp-Source: ABdhPJxp1kgEs5jctWMg+a7qUE6FRYaloD+bu6pT4JFTGpS/xJ7JArGbESi5T5ejp6Yt/y1p5DdF5g==
-X-Received: by 2002:a1c:dd87:: with SMTP id u129mr6079185wmg.172.1598775022148;
-        Sun, 30 Aug 2020 01:10:22 -0700 (PDT)
-Received: from [192.168.1.113] ([83.240.60.89])
-        by smtp.gmail.com with ESMTPSA id q6sm5993598wmq.19.2020.08.30.01.10.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Aug 2020 01:10:21 -0700 (PDT)
-Message-ID: <1e4e728832dc53439e95753e2ae101526084b3e9.camel@gmail.com>
-Subject: logitech-hidpp-device 0003:046D:406F.0006: item fetching failed at
- offset 0/0
-From:   Igor Raits <igor.raits@gmail.com>
-To:     linux-input@vger.kernel.org
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Sun, 30 Aug 2020 10:10:20 +0200
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.37.90 (3.37.90-1.fc33) 
+        Sun, 30 Aug 2020 14:35:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1598812505; bh=aQBm+9Bca4ejs9ftzYnk89bfX4ekoPZ6NeQWeQKD++E=; h=Date:From:Reply-To:Subject:References:From:Subject; b=BMb0j55LIHIvp1+uvosuVf0TENrrhYDnskEgdxbee9TlmgXxvStk++XmwRpLQhP7frPXH3N8GwGLz6zNErDshbWYe3++NOYwNrtOCxy0pRFfQVZweGAmKLj1bMh893V+b1X619IDHKLbxiZZs8fx6wy6LXu6hwoR0RiVyWwZaa/36Md3A9ZSOQSkg0JaJlKKR6CmypTlszR76yMqTfMK+PSSGVnXoQFmYiG6oIOY+udbbTCKf46aMuY0nmLZmTJEXHAcnjb/fqRSe9aYL6wxn7cYVHlUf7UkDWyCvualiaHUfJ486uDRQ0qBL0qU8KelI665ZYNG2TxuQ3Hs9Lh4IA==
+X-YMail-OSG: uASsZksVM1kZW9Q5V7j_bho6O5S7h3jiiesHdgX7L9b1O62.J8YJOwa.aQYaCmB
+ 1TfOSGO4h3pQCGd3CMlgZUGOONd2A1297oF91_g2XH7Fgi6OcrmW_8e1tQMRH_X4GCCvMZDH1VbX
+ ogyW8G3q2VPsActWyoqKhLlsxrE4XVsc1_A2e_WggxJ5CALyUkoTZ9I7LBEEQUihiMVASJxmse_S
+ 9mZnpSw1UNgY2wmFwSCHgy5ri_QrYuV66Vd3jIbYnZunUKS81OHI2gCudrUOTWmEg3r8O1gGynbj
+ PWcayjeENB_dirfnXj_mfRLtXDACbLhX8Ju2lUB0Kdkw65Q9hISgwsoUxPKdpM3T1C94ejsIQllH
+ kh6Ym9ioq1paUJqUoX1R.vppg6kTKFXNiZNxOe4nU7ejLz4UcR3x0C6SYHEklyXp.G_Lnxfu8aDf
+ TQfgxsdYz5Spx4vZagW_ksqV6uG1uhBgpWXoMy4d3ihGXCkMrdvnV3joFZ5g2UyPSKiGFIgRTmYk
+ tJXwF_iu6Dmp8IwMCzKaxJBqIBh1h62gxvhg5cRzH0oEFGVpdzCn3sI0S.zjXo7EwdI5qEXe2Znt
+ tstZCJ6Mt4tbPaWswz3hP6YV3zcRUCsz8wQsoGAO6rNx4uReseFHZYnw7yPUdz.SCBXXlDoBsfW8
+ kL2huUg5iwx3mms1nT4PCFO24QCtuLqgW7Mjd4kMkUF9dTgV9w_pll4GL87bRonqRUSKiaJV_7Ku
+ prLe9azmMeHd3ohGIFsS1y_4rw4o4EzKqMAQECiUsXd106IuzIzNERNsHxgZXZMJFltP1j2nm8Su
+ 8YnsD5dfM.FI8PXtL2oe3Y26umMVrMOBydG27leFDqrLx1mrH6o.5sz7H3b55b.HNXOD91heT8yX
+ RHrLt_tXWQZ5Tawagjnz.Ywt6tJ13c6RXfTQsR4byT5KVMe_2zEbvKdaofOZd.hddpNc.cqrGR34
+ l6BdieuKpo689ALrFGWC1qtxEc51wnboRU31ZSFlNO_KPm5Sa.5q2yt6YVMPvAyfYelRebqYRUcH
+ Zdzz5MzIWbx8jWRRbNFeQP5PmqVMcyWRJSgB46GMnx7j8UZgLCcutirt6f9fk9iO5GYXubGdc0rc
+ 8Qa5M68rtJkUAi6SRLBrmY13NtmDOdIAAON4omcKsKOcUYIqyOTtF7JDeFJy19rnVRKotIfIZD0Z
+ MioRdVWdfl4AOfadVGKLJn5CkT6eLqAtrMsZScpDXTFGSvpqTwXEa.GqDV6canl1H7apEv1BgiP9
+ phQGR.99rxc9ofXU8QWuGm8bEsmILHP2tlIjShSdJVa2GJCce6TWx4RjlEUoCCThgnT_InnnfQtg
+ 6KBcDb4CaonGqPR9HmIuawLIRKW_DU6oQs6tSpzJ4tbtBTMc5Ii3iYg5Sl_Sc6QQc.CEA1iVdapZ
+ K4kcQ5aaGf7TF17.NwnKh.O2rAd9rNq0OvadYs8iUjrAvF1ZB.fdRaBmcMZafwed1XjCSMGcWG4h
+ 1hVdz5Qlm9tU-
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic315.consmr.mail.ne1.yahoo.com with HTTP; Sun, 30 Aug 2020 18:35:05 +0000
+Date:   Sun, 30 Aug 2020 18:33:04 +0000 (UTC)
+From:   "Mrs. Maureen Hinckley" <mau42@gcfta.in>
+Reply-To: maurhinck5@gmail.com
+Message-ID: <1647871249.505332.1598812384477@mail.yahoo.com>
+Subject: RE
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+References: <1647871249.505332.1598812384477.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.16565 YMailNodin Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA512
 
-Hello,
 
-I've hit some weird issue when upgrading from 5.8 to 5.9-rc2 in Fedora.
-My Logitech MX Ergo is not working anymore after update. Moving trackball does not move cursor.
+I am Maureen Hinckley and my foundation is donating (Five hundred and fifty=
+ thousand USD) to you. Contact us via my email at (maurhinck5@gmail.com) fo=
+r further details.
 
-In the logs I see following:
-
-Aug 30 09:44:51 kernel: logitech-hidpp-device: probe of 0003:046D:406F.0006 failed with error -22
-Aug 30 09:44:51 kernel: logitech-hidpp-device 0003:046D:406F.0006: hidpp_probe:parse failed
-Aug 30 09:44:51 kernel: logitech-hidpp-device 0003:046D:406F.0006: item fetching failed at offset 0/0
-Aug 30 09:44:51 kernel: hid-generic: probe of 0003:046D:406F.0006 failed with error -22
-Aug 30 09:44:51 kernel: hid-generic 0003:046D:406F.0006: item fetching failed at offset 0/0
-Aug 30 09:44:41 kernel: apple 0003:05AC:024F.0005: input,hiddev97,hidraw2: USB HID v1.11 Keyboard [Keytron Keychron K2] on usb-0000:3c:00.0-1.4/input1
-Aug 30 09:44:41 kernel: apple 0003:05AC:024F.0004: input,hidraw1: USB HID v1.11 Keyboard [Keytron Keychron K2] on usb-0000:3c:00.0-1.4/input0
-Aug 30 09:44:40 kernel: logitech-djreceiver 0003:046D:C52B.0003: hiddev96,hidraw0: USB HID v1.11 Device [Logitech USB Receiver] on usb-0000:3c:00.0-1.1/input2
-Aug 30 09:44:39 kernel: hid-generic 0003:046D:C52B.0003: hiddev97,hidraw2: USB HID v1.11 Device [Logitech USB Receiver] on usb-0000:3c:00.0-1.1/input2
-Aug 30 09:44:39 kernel: hid-generic 0003:046D:C52B.0002: input,hiddev96,hidraw1: USB HID v1.11 Mouse [Logitech USB Receiver] on usb-0000:3c:00.0-1.1/input1
-Aug 30 09:44:39 kernel: hid-generic 0003:046D:C52B.0001: input,hidraw0: USB HID v1.11 Keyboard [Logitech USB Receiver] on usb-0000:3c:00.0-1.1/input0
-
-Looking into the git-log does not show anything suspicious on a first glance in the drivers/hid/. On the working kernel I see:
-
-Aug 30 09:46:08 kernel: apple 0003:05AC:024F.0006: input,hiddev97,hidraw3: USB HID v1.11 Keyboard [Keytron Keychron K2] on usb-0000:3c:00.0-1.4/input1
-Aug 30 09:46:08 kernel: apple 0003:05AC:024F.0005: input,hidraw2: USB HID v1.11 Keyboard [Keytron Keychron K2] on usb-0000:3c:00.0-1.4/input0
-Aug 30 09:46:08 kernel: logitech-hidpp-device 0003:046D:406F.0004: input,hidraw1: USB HID v1.11 Keyboard [Logitech MX Ergo] on usb-0000:3c:00.0-1.1/input2:1
-Aug 30 09:46:07 kernel: logitech-hidpp-device 0003:046D:406F.0004: HID++ 4.5 device connected.
-Aug 30 09:46:07 kernel: hid-generic 0003:046D:406F.0004: input,hidraw1: USB HID v1.11 Keyboard [Logitech Wireless Device PID:406f] on usb-0000:3c:00.0-1.1/input2:1
-Aug 30 09:46:07 kernel: logitech-djreceiver 0003:046D:C52B.0003: hiddev96,hidraw0: USB HID v1.11 Device [Logitech USB Receiver] on usb-0000:3c:00.0-1.1/input2
-Aug 30 09:46:07 kernel: hid-generic 0003:046D:C52B.0003: hiddev97,hidraw2: USB HID v1.11 Device [Logitech USB Receiver] on usb-0000:3c:00.0-1.1/input2
-Aug 30 09:46:07 kernel: hid-generic 0003:046D:C52B.0002: input,hiddev96,hidraw1: USB HID v1.11 Mouse [Logitech USB Receiver] on usb-0000:3c:00.0-1.1/input1
-Aug 30 09:46:07 kernel: hid-generic 0003:046D:C52B.0001: input,hidraw0: USB HID v1.11 Keyboard [Logitech USB Receiver] on usb-0000:3c:00.0-1.1/input0
-
-Anybody knows what might be the problem? I'll try to revert commits 1 by 1 to see which one could help.
-- -- 
-Igor Raits <igor.raits@gmail.com>
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEcwgJ58gsbV5f5dMcEV1auJxcHh4FAl9LXuwACgkQEV1auJxc
-Hh5XRg/+J9Pn5ZagpBeryDxQUF10+Mf/j0iTmfyDtDcL3upKhWA8HFKsL2ueJpjv
-ztp6BT6qFE2aiA5yyH4RL02VnPYdVip3FjesOv+4wp0m6IfDRc60qc4gDo3FxhaV
-Dd2YgxrkU7XkoFxNFYIQ1MKI9P04+p9yXtfF/sbjlok705vNDMEYpLOVTZuyljeB
-PjoxxBN6mwl/csTr3sDJFvk8oIhMdS2pvw1GSQ+09a6VvxFuDrfEbXxM6TMFUCgY
-m5Gi3pCm/R+6cx+OKx9NA+VQPc5MH+wQL7qvwi9FfxIg+oPNdy8NsldGi2F2qGZZ
-8bylgWa80Df53UBb1twu/yqf4UY7tfup0C7z+CEIBeRNK4iTuhH1STihe5vNvn0P
-yasI+0T7RPTudek8SHpLb9it1grNcUdmkaP7w4tkTNOhkbWdjS5+SOc8Xe2QWiBg
-+54pGkdh4eG2+L00WWKx3iQv2ngp78G8y4owdsH//PECU4HW0Xp/9VxzfSW8tFsp
-wYStpXM7iJwx9oDGmla/Rk6RN1cPUMTImqbV4RrQPSdxr5TqZiYN/QnI9Pa2yNks
-adiIgME2V4PYwJXpGvun/XEX/9fV7QayvxCsflru4oQkrrz3i/SZ+RSxc73y9kxO
-MmjV+QYtWOXk/+hoznPLvDREhLNWi0QbQ0rnKxDMp3sPFhEc5zI=
-=QyvR
------END PGP SIGNATURE-----
-
+Best Regards,
+Mrs. Maureen Hinckley,
+Copyright =C2=A92020 The Maureen Hinckley Foundation All Rights Reserved.
