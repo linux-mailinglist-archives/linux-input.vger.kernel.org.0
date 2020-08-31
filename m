@@ -2,85 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FCCD2575F7
-	for <lists+linux-input@lfdr.de>; Mon, 31 Aug 2020 11:07:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B4EE257A48
+	for <lists+linux-input@lfdr.de>; Mon, 31 Aug 2020 15:22:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728103AbgHaJG6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 31 Aug 2020 05:06:58 -0400
-Received: from spam.zju.edu.cn ([61.164.42.155]:27918 "EHLO zju.edu.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725829AbgHaJG5 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 31 Aug 2020 05:06:57 -0400
-Received: from localhost.localdomain (unknown [10.192.85.18])
-        by mail-app3 (Coremail) with SMTP id cC_KCgBHYt6kvUxfhYZ9Aw--.31096S4;
-        Mon, 31 Aug 2020 17:06:47 +0800 (CST)
-From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
-To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] [v2] HID: elan: Fix memleak in elan_input_configured
-Date:   Mon, 31 Aug 2020 17:06:43 +0800
-Message-Id: <20200831090643.32489-1-dinghao.liu@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cC_KCgBHYt6kvUxfhYZ9Aw--.31096S4
-X-Coremail-Antispam: 1UD129KBjvdXoW7XryxXr1rZFWUuFyfWrW8tFb_yoWktFg_W3
-        409wnrWF1DtFsYkrnrKrWfZryDZr4vvFyfXF1vqF1fJry7X3yDu3y3ZFn7Ga4Ygw47u3W0
-        9a4DWr4IyrsIkjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUb2kFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
-        wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
-        vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26rxl6s0DM28EF7xvwVC2z280
-        aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07
-        x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18
-        McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr4
-        1lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIE
-        Y20_GFWkJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI
-        8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41l
-        IxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIx
-        AIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2
-        z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgUJBlZdtPuUJQAAs9
+        id S1726204AbgHaNWr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 31 Aug 2020 09:22:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35336 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726144AbgHaNWq (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 31 Aug 2020 09:22:46 -0400
+X-Greylist: delayed 622 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 31 Aug 2020 06:22:46 PDT
+Received: from mail.bugwerft.de (mail.bugwerft.de [IPv6:2a03:6000:1011::59])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8557BC061573
+        for <linux-input@vger.kernel.org>; Mon, 31 Aug 2020 06:22:46 -0700 (PDT)
+Received: from [192.168.178.183] (pd95ef01a.dip0.t-ipconnect.de [217.94.240.26])
+        by mail.bugwerft.de (Postfix) with ESMTPSA id BD5B245793B;
+        Mon, 31 Aug 2020 13:12:11 +0000 (UTC)
+Subject: Re: [PATCH v4 0/3] Input: ads7846: pdata cleanups and devm init
+To:     linux-input@vger.kernel.org
+Cc:     dmitry.torokhov@gmail.com, m.felsch@pengutronix.de
+References: <20200519182540.219027-1-daniel@zonque.org>
+From:   Daniel Mack <daniel@zonque.org>
+Message-ID: <484c21b1-592e-c71c-cf36-84af2afa0f53@zonque.org>
+Date:   Mon, 31 Aug 2020 15:12:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
+MIME-Version: 1.0
+In-Reply-To: <20200519182540.219027-1-daniel@zonque.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-When input_mt_init_slots() fails, input should be freed
-to prevent memleak. When input_register_device() fails,
-we should call input_mt_destroy_slots() to free memory
-allocated by input_mt_init_slots().
+Hi,
 
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
----
+This series never got merged, but it still applies cleanly on top v5.8.
 
-Changelog:
+Should I resend it once more?
 
-v2: - Add input_mt_destroy_slots() on failure of
-      input_register_device().
----
- drivers/hid/hid-elan.c | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/hid/hid-elan.c b/drivers/hid/hid-elan.c
-index 45c4f888b7c4..dae193749d44 100644
---- a/drivers/hid/hid-elan.c
-+++ b/drivers/hid/hid-elan.c
-@@ -188,6 +188,7 @@ static int elan_input_configured(struct hid_device *hdev, struct hid_input *hi)
- 	ret = input_mt_init_slots(input, ELAN_MAX_FINGERS, INPUT_MT_POINTER);
- 	if (ret) {
- 		hid_err(hdev, "Failed to init elan MT slots: %d\n", ret);
-+		input_free_device(input);
- 		return ret;
- 	}
- 
-@@ -198,6 +199,7 @@ static int elan_input_configured(struct hid_device *hdev, struct hid_input *hi)
- 	if (ret) {
- 		hid_err(hdev, "Failed to register elan input device: %d\n",
- 			ret);
-+		input_mt_destroy_slots(input);
- 		input_free_device(input);
- 		return ret;
- 	}
--- 
-2.17.1
+Thanks,
+Daniel
+
+
+On 5/19/20 8:25 PM, Daniel Mack wrote:
+> Hi,
+> 
+> This is v4 of the patches to bring devm initialization to the ads7846
+> driver. I left the gpiod conversion patch out for now as it needs more
+> work, and it's also independent of the other changes.
+> 
+> v3:
+> 
+> * Added a patch to remove custom filter handling from pdata
+> * Added devm_add_action_or_reset() for regulator state maintaining
+> * Addressed minor nits pointed out by Marco Felsch
+> 
+> v4:
+> 
+> * Call ads7846_stop() rather than ads7846_disable() in the unbind
+>   path to avoid regulator refcount confusion, Thanks to Marco Felsch.
+> 
+> Daniel Mack (3):
+>   Input: ads7846: Add short-hand for spi->dev in probe() function
+>   Input: ads7846: Remove custom filter handling functions from pdata
+>   Input: ads7846: Switch to devm initialization
+> 
+>  drivers/input/touchscreen/ads7846.c | 187 +++++++++++-----------------
+>  include/linux/spi/ads7846.h         |  15 ---
+>  2 files changed, 73 insertions(+), 129 deletions(-)
+> 
 
