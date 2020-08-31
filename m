@@ -2,61 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 670D5256FB7
-	for <lists+linux-input@lfdr.de>; Sun, 30 Aug 2020 20:35:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2B94257149
+	for <lists+linux-input@lfdr.de>; Mon, 31 Aug 2020 02:49:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726150AbgH3SfH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 30 Aug 2020 14:35:07 -0400
-Received: from sonic315-53.consmr.mail.ne1.yahoo.com ([66.163.190.179]:34147
-        "EHLO sonic315-53.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726380AbgH3SfF (ORCPT
+        id S1726388AbgHaAtM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 30 Aug 2020 20:49:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59488 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726179AbgHaAtL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 30 Aug 2020 14:35:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1598812505; bh=aQBm+9Bca4ejs9ftzYnk89bfX4ekoPZ6NeQWeQKD++E=; h=Date:From:Reply-To:Subject:References:From:Subject; b=BMb0j55LIHIvp1+uvosuVf0TENrrhYDnskEgdxbee9TlmgXxvStk++XmwRpLQhP7frPXH3N8GwGLz6zNErDshbWYe3++NOYwNrtOCxy0pRFfQVZweGAmKLj1bMh893V+b1X619IDHKLbxiZZs8fx6wy6LXu6hwoR0RiVyWwZaa/36Md3A9ZSOQSkg0JaJlKKR6CmypTlszR76yMqTfMK+PSSGVnXoQFmYiG6oIOY+udbbTCKf46aMuY0nmLZmTJEXHAcnjb/fqRSe9aYL6wxn7cYVHlUf7UkDWyCvualiaHUfJ486uDRQ0qBL0qU8KelI665ZYNG2TxuQ3Hs9Lh4IA==
-X-YMail-OSG: uASsZksVM1kZW9Q5V7j_bho6O5S7h3jiiesHdgX7L9b1O62.J8YJOwa.aQYaCmB
- 1TfOSGO4h3pQCGd3CMlgZUGOONd2A1297oF91_g2XH7Fgi6OcrmW_8e1tQMRH_X4GCCvMZDH1VbX
- ogyW8G3q2VPsActWyoqKhLlsxrE4XVsc1_A2e_WggxJ5CALyUkoTZ9I7LBEEQUihiMVASJxmse_S
- 9mZnpSw1UNgY2wmFwSCHgy5ri_QrYuV66Vd3jIbYnZunUKS81OHI2gCudrUOTWmEg3r8O1gGynbj
- PWcayjeENB_dirfnXj_mfRLtXDACbLhX8Ju2lUB0Kdkw65Q9hISgwsoUxPKdpM3T1C94ejsIQllH
- kh6Ym9ioq1paUJqUoX1R.vppg6kTKFXNiZNxOe4nU7ejLz4UcR3x0C6SYHEklyXp.G_Lnxfu8aDf
- TQfgxsdYz5Spx4vZagW_ksqV6uG1uhBgpWXoMy4d3ihGXCkMrdvnV3joFZ5g2UyPSKiGFIgRTmYk
- tJXwF_iu6Dmp8IwMCzKaxJBqIBh1h62gxvhg5cRzH0oEFGVpdzCn3sI0S.zjXo7EwdI5qEXe2Znt
- tstZCJ6Mt4tbPaWswz3hP6YV3zcRUCsz8wQsoGAO6rNx4uReseFHZYnw7yPUdz.SCBXXlDoBsfW8
- kL2huUg5iwx3mms1nT4PCFO24QCtuLqgW7Mjd4kMkUF9dTgV9w_pll4GL87bRonqRUSKiaJV_7Ku
- prLe9azmMeHd3ohGIFsS1y_4rw4o4EzKqMAQECiUsXd106IuzIzNERNsHxgZXZMJFltP1j2nm8Su
- 8YnsD5dfM.FI8PXtL2oe3Y26umMVrMOBydG27leFDqrLx1mrH6o.5sz7H3b55b.HNXOD91heT8yX
- RHrLt_tXWQZ5Tawagjnz.Ywt6tJ13c6RXfTQsR4byT5KVMe_2zEbvKdaofOZd.hddpNc.cqrGR34
- l6BdieuKpo689ALrFGWC1qtxEc51wnboRU31ZSFlNO_KPm5Sa.5q2yt6YVMPvAyfYelRebqYRUcH
- Zdzz5MzIWbx8jWRRbNFeQP5PmqVMcyWRJSgB46GMnx7j8UZgLCcutirt6f9fk9iO5GYXubGdc0rc
- 8Qa5M68rtJkUAi6SRLBrmY13NtmDOdIAAON4omcKsKOcUYIqyOTtF7JDeFJy19rnVRKotIfIZD0Z
- MioRdVWdfl4AOfadVGKLJn5CkT6eLqAtrMsZScpDXTFGSvpqTwXEa.GqDV6canl1H7apEv1BgiP9
- phQGR.99rxc9ofXU8QWuGm8bEsmILHP2tlIjShSdJVa2GJCce6TWx4RjlEUoCCThgnT_InnnfQtg
- 6KBcDb4CaonGqPR9HmIuawLIRKW_DU6oQs6tSpzJ4tbtBTMc5Ii3iYg5Sl_Sc6QQc.CEA1iVdapZ
- K4kcQ5aaGf7TF17.NwnKh.O2rAd9rNq0OvadYs8iUjrAvF1ZB.fdRaBmcMZafwed1XjCSMGcWG4h
- 1hVdz5Qlm9tU-
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic315.consmr.mail.ne1.yahoo.com with HTTP; Sun, 30 Aug 2020 18:35:05 +0000
-Date:   Sun, 30 Aug 2020 18:33:04 +0000 (UTC)
-From:   "Mrs. Maureen Hinckley" <mau42@gcfta.in>
-Reply-To: maurhinck5@gmail.com
-Message-ID: <1647871249.505332.1598812384477@mail.yahoo.com>
-Subject: RE
+        Sun, 30 Aug 2020 20:49:11 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83709C061573;
+        Sun, 30 Aug 2020 17:49:11 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id kx11so2106138pjb.5;
+        Sun, 30 Aug 2020 17:49:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zM8H7Z3glzIjzn0hJ89OOErP7vLMcgPSqm3FjbGvbrI=;
+        b=ZhqAeCdVUnD0ML+YwAxTvkFvSaRbQBtI1pMbOjfF5NylLNwVE8D0VitYmmxjVD9Nrj
+         IF2/iDQeKs8qzzfHxTlMpGpDYYaMpZv9nxzoB6ioBvgOGuGBTwb0Ne44k/O0qtsHbfcH
+         udgoyru4QB4Vswkn09celQ129hl1z7r9KImmUem9hDjRwVHY1a5JUyn/186ttc6XTA5T
+         /SE4bSTTSDTUlb3R9BK+MFh24a21BjZP3BIibYGrPn2gqgJftH2z/XtWIS4KJnt9ncld
+         vOBzDblHlo7HmU28927VgBZr49xKx0qKrYzzwONOibQWxysLUQs0ENwmJZvHiwLV6f/U
+         gFFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zM8H7Z3glzIjzn0hJ89OOErP7vLMcgPSqm3FjbGvbrI=;
+        b=hoAXE5/R6Ue/vR6kDF60Zwmj8abTALizrI9xMOuu9nIKZoHsXWcTgVaCVYBJRUuzqJ
+         THBzk/yOPTxZoB/HlbZ2PbtEURlUSwpzQWtdjhO/rCy5+e6rWirgeJlyJbxErMdIqi/t
+         cxUATKds89WkLy3XBjoVRxroy9ib3O6xb/tpzL5axVpMCt8gC2TiznLQUnwN1JXKd+UR
+         Skv/RKc+FXARQvxv4qG81XJh2Tcmp5rlXYVyp2V6xndbKQd/eTbZTV7LmoE26SumiOmU
+         092rJb7AaV5oMMIO96ZEQbprT3G0/939i6YY9ZqvkazfFM+CumBF3vSrh0u2dDdK5rtK
+         omBA==
+X-Gm-Message-State: AOAM533CS6kyXZgvaPhKPXqunZ/mV/CwjU+3aGVQeXKAaJvcmSHIpm/9
+        6BSOCLtskqxAcUci8BMliwB+wKwWcpO+6g==
+X-Google-Smtp-Source: ABdhPJz0G3t8ycKIW+omakebqNhiudvuczNPaHQsjyduCMIwMzzZetqL5/TdibpANI5UszzfAmOZ7Q==
+X-Received: by 2002:a17:902:8bc1:: with SMTP id r1mr6863999plo.328.1598834951040;
+        Sun, 30 Aug 2020 17:49:11 -0700 (PDT)
+Received: from billa.force10networks.com (c-73-231-197-145.hsd1.ca.comcast.net. [73.231.197.145])
+        by smtp.gmail.com with ESMTPSA id u2sm5161140pjj.57.2020.08.30.17.49.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Aug 2020 17:49:10 -0700 (PDT)
+From:   Nirenjan Krishnan <nirenjan@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH resend v1] HID: quirks: Set INCREMENT_USAGE_ON_DUPLICATE for all Saitek X52 devices
+Date:   Sun, 30 Aug 2020 17:48:58 -0700
+Message-Id: <20200831004859.493827-1-nirenjan@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-References: <1647871249.505332.1598812384477.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.16565 YMailNodin Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+This patch seems to have fallen through the cracks. Sending it again for
+review.
+
+Thanks and regards,
+Nirenjan Krishnan
 
 
-I am Maureen Hinckley and my foundation is donating (Five hundred and fifty=
- thousand USD) to you. Contact us via my email at (maurhinck5@gmail.com) fo=
-r further details.
-
-Best Regards,
-Mrs. Maureen Hinckley,
-Copyright =C2=A92020 The Maureen Hinckley Foundation All Rights Reserved.
