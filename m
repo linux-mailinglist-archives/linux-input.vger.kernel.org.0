@@ -2,117 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 531F4257A9E
-	for <lists+linux-input@lfdr.de>; Mon, 31 Aug 2020 15:40:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DEA1257C53
+	for <lists+linux-input@lfdr.de>; Mon, 31 Aug 2020 17:29:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726714AbgHaNkG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 31 Aug 2020 09:40:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38076 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726489AbgHaNkC (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 31 Aug 2020 09:40:02 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0C78C061575
-        for <linux-input@vger.kernel.org>; Mon, 31 Aug 2020 06:40:01 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id o18so8538958eje.7
-        for <linux-input@vger.kernel.org>; Mon, 31 Aug 2020 06:40:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lddw3bdok3hAy1F/tQ2gv6hGO+6x8VFGDH1TfahaMjg=;
-        b=gBplDfQqLrkZ52/3bG7dQRrqKdekFZEh45gXZ5MsUHY486B3HK7oI65JYt4l0R3ldF
-         GNHW/tXR1MVsKES6Wqf1COb7UnAT3ZaQw63tIRNa5/T4qs0h8OMmXCsfgazVyJK79l8t
-         jn385EO8CLCYrRbQ23bb6Sth0ZtPsuO6k4k7A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lddw3bdok3hAy1F/tQ2gv6hGO+6x8VFGDH1TfahaMjg=;
-        b=Rqo1zJNujhYt4rnErke1WfuJwvbejTguIeV6mOhQF8VF9trFAHUFsRkkB/a/ChGZ0n
-         9a/hqFmWm3nWaSyaDyXB0+xgtjufT7rPNjpODwSrrN57R8auGAAY4fFJWlxaer9lBLN/
-         nXjGgAr3AL7iUS/Cd7HSAFLBkhKzU1XXR+TSnRG+d0r6QlGtxzveMvCjzzDD6pGcYlFR
-         eFCjoLSdz+cfAvA4WFZ/5XGTmzZSJHya/NV2CWstAbgfwJru8XsaFNUHuj0Tu17yX1uU
-         6nWE1eLnYc2cV4wQTp4MKFPwdpn4vS5+Yom0jCw8vlBzPzjH4PeDcR8ML6XA0nNu1GII
-         hcaQ==
-X-Gm-Message-State: AOAM533oAbLYw/c8jOCGi02rL7FwCfDRjjBkz+F0GQGAVPXBElMDk9m+
-        6JDUjtjs04b6Uz49Q0ccsGzmdNZBVHsYeA==
-X-Google-Smtp-Source: ABdhPJyI9vCR2pKLez5+UodPWfz9DjMJn60kKFFyi3YZUXD+JJiGz3ZsB4NszZDELW9m/U7pICe+BQ==
-X-Received: by 2002:a17:906:fb84:: with SMTP id lr4mr1309509ejb.282.1598881200094;
-        Mon, 31 Aug 2020 06:40:00 -0700 (PDT)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com. [209.85.218.45])
-        by smtp.gmail.com with ESMTPSA id oz4sm8096238ejb.106.2020.08.31.06.39.56
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Aug 2020 06:39:58 -0700 (PDT)
-Received: by mail-ej1-f45.google.com with SMTP id bo3so8518253ejb.11
-        for <linux-input@vger.kernel.org>; Mon, 31 Aug 2020 06:39:56 -0700 (PDT)
-X-Received: by 2002:a17:907:7292:: with SMTP id dt18mr1291762ejc.512.1598881195924;
- Mon, 31 Aug 2020 06:39:55 -0700 (PDT)
+        id S1728361AbgHaP3l (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 31 Aug 2020 11:29:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38172 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726755AbgHaP3j (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 31 Aug 2020 11:29:39 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 884C02083E;
+        Mon, 31 Aug 2020 15:29:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598887778;
+        bh=heEBb8MpOxbMsYU7JsQ/L2aJhoEd8G5kwJWv4Ec04jY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=F6ZmBeHLBgQ0r/1TLiXD2NtwSZXx6yA6Gh/kfd47EvCin6ootJL29qcN2KTcvAguV
+         hps+xToWeKYl/cy97JkEuLjbU9YGYGETkMCJe37x6JEa5rhUkkV0d9SdHuBZFLf4UG
+         JxAgOZfe3IyxOoKsrB+14VpIPDAjEC55k88oD8L4=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Sebastian Parschauer <s.parschauer@gmx.de>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.8 02/42] HID: quirks: Always poll three more Lenovo PixArt mice
+Date:   Mon, 31 Aug 2020 11:28:54 -0400
+Message-Id: <20200831152934.1023912-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200831152934.1023912-1-sashal@kernel.org>
+References: <20200831152934.1023912-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20200827135205.1.I6981f9a9f0c12e60f8038f3b574184f8ffc1b9b5@changeid>
- <20200829074758.GA16838@amd>
-In-Reply-To: <20200829074758.GA16838@amd>
-From:   Raul Rangel <rrangel@chromium.org>
-Date:   Mon, 31 Aug 2020 07:39:44 -0600
-X-Gmail-Original-Message-ID: <CAHQZ30CuWSzaMNYSfh6Zr12Q1=GA_Yqpg0jaePDkFQjgsDDBPg@mail.gmail.com>
-Message-ID: <CAHQZ30CuWSzaMNYSfh6Zr12Q1=GA_Yqpg0jaePDkFQjgsDDBPg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Input: i8042 - Prevent intermixing i8042 commands
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     linux-input <linux-input@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "S, Shirish" <Shirish.S@amd.com>,
-        Andy Shevchenko <andy@infradead.org>,
-        Dan Murphy <dmurphy@ti.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        "Lee, Chun-Yi" <jlee@suse.com>, Rajat Jain <rajatja@google.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux LED Subsystem <linux-leds@vger.kernel.org>,
-        Platform Driver <platform-driver-x86@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Aug 29, 2020 at 1:48 AM Pavel Machek <pavel@ucw.cz> wrote:
->
-> On Thu 2020-08-27 13:52:22, Raul E Rangel wrote:
-> > The i8042_mutex must be held by writers of the AUX and KBD ports, as
-> > well as users of i8042_command. There were a lot of users of
-> > i8042_command that were not calling i8042_lock_chip/i8042_unlock_chip.
-> > This resulted in i8042_commands being issues in between PS/2
-> > transactions.
-> >
-> > This change moves the mutex lock into i8042_command and removes the
-> > burden of locking the mutex from the callers.
-> >
-> > It is expected that the i8042_mutex is locked before calling
-> > i8042_aux_write or i8042_kbd_write. This is currently done by the PS/2
-> > layer via ps2_begin_command and ps2_end_command. Other modules
-> > (serio_raw) do not currently lock the mutex, so there is still a
-> > possibility for intermixed commands.
->
->
-> > @@ -343,10 +330,14 @@ int i8042_command(unsigned char *param, int command)
-> >       unsigned long flags;
-> >       int retval;
-> >
-> > +     mutex_lock(&i8042_mutex);
-> > +
-> >       spin_lock_irqsave(&i8042_lock, flags);
-> >       retval = __i8042_command(param, command);
-> >       spin_unlock_irqrestore(&i8042_lock, flags);
-> >
-> > +      mutex_unlock(&i8042_mutex);
-> > +
-> >       return retval;
->
-> There's something wrong with whitespace here. Checkpatch?
->                                                                         Pavel
-It's fixed in the v2 patch: https://patchwork.kernel.org/patch/11741855/
+From: Sebastian Parschauer <s.parschauer@gmx.de>
 
-Thanks
+[ Upstream commit 627a49975bdc3220f360a8237603a6344ee6a588 ]
+
+The PixArt OEM mice are known for disconnecting every minute in
+runlevel 1 or 3 if they are not always polled. One Lenovo PixArt
+mouse is already fixed. Got two references for 17ef:602e and three
+references for 17ef:6019 misbehaving like this. Got one direct bug
+report for 17ef:6093 from Wyatt Ward (wyatt8740). So add
+HID_QUIRK_ALWAYS_POLL for all of them.
+
+Link: https://github.com/sriemer/fix-linux-mouse issue 22
+Signed-off-by: Sebastian Parschauer <s.parschauer@gmx.de>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/hid/hid-ids.h    | 3 +++
+ drivers/hid/hid-quirks.c | 3 +++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 6f370e020feb3..1f42318a137fb 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -727,6 +727,9 @@
+ #define USB_DEVICE_ID_LENOVO_TPPRODOCK	0x6067
+ #define USB_DEVICE_ID_LENOVO_X1_COVER	0x6085
+ #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_608D	0x608d
++#define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6019	0x6019
++#define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_602E	0x602e
++#define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6093	0x6093
+ 
+ #define USB_VENDOR_ID_LG		0x1fd2
+ #define USB_DEVICE_ID_LG_MULTITOUCH	0x0064
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index 934fc0a798d4d..87b57514b92e1 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -105,6 +105,9 @@ static const struct hid_device_id hid_quirks[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M406XE), HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_PIXART_USB_OPTICAL_MOUSE_ID2), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_608D), HID_QUIRK_ALWAYS_POLL },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6019), HID_QUIRK_ALWAYS_POLL },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_602E), HID_QUIRK_ALWAYS_POLL },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6093), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_C007), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_C077), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH, USB_DEVICE_ID_LOGITECH_KEYBOARD_G710_PLUS), HID_QUIRK_NOGET },
+-- 
+2.25.1
+
