@@ -2,27 +2,27 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D9053257CD3
-	for <lists+linux-input@lfdr.de>; Mon, 31 Aug 2020 17:35:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0062D257CE5
+	for <lists+linux-input@lfdr.de>; Mon, 31 Aug 2020 17:35:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728955AbgHaPbj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 31 Aug 2020 11:31:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42712 "EHLO mail.kernel.org"
+        id S1729014AbgHaPbz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 31 Aug 2020 11:31:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43134 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728941AbgHaPbi (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 31 Aug 2020 11:31:38 -0400
+        id S1729007AbgHaPbx (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 31 Aug 2020 11:31:53 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 62DD1214D8;
-        Mon, 31 Aug 2020 15:31:37 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9217721556;
+        Mon, 31 Aug 2020 15:31:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598887898;
-        bh=21dXZEn0O1G96r2416vRzRVa6C2P3RoJxIOadJDE+Tc=;
+        s=default; t=1598887913;
+        bh=r5LdmNC2g7FIRe6CwrmHuVuU4fXEV1nY9Ab8Ln9jqTU=;
         h=From:To:Cc:Subject:Date:From;
-        b=Jz2YNJ2Uu9QmDShASf17E/4JUGi0I54FYimTjzm4xzJpW0ukTxH2PK3FD7yjnUx9Z
-         V/5LT4FpCEZ8fxe53kAzWSQR79kUP9lMN2shuL5oXBvmtTMtfM0zAYPaSK6dg5PXzt
-         xwHExx9O/pNnUFe0rvS/nLKv70CvyVAqdzV9QA2k=
+        b=YzDN2y9VVlKHBL+T8cE6N+Sg/zXX7+5Mujc4hmC0uT2QDulYyWHWr4BUBC3jDnJYE
+         gq7Kdenyf5thSEQl/Wc66Gd6yYPLVYnG4vvywJjIHb4xl2VrxjnrL2WjUN0+eg+yZM
+         DEukMLFpVFMJjSrmw3e9VwWIkA0XQeWCA+bNaH4A=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Peilin Ye <yepeilin.cs@gmail.com>,
@@ -30,9 +30,9 @@ Cc:     Peilin Ye <yepeilin.cs@gmail.com>,
         Dan Carpenter <dan.carpenter@oracle.com>,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         linux-usb@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 1/9] HID: hiddev: Fix slab-out-of-bounds write in hiddev_ioctl_usage()
-Date:   Mon, 31 Aug 2020 11:31:28 -0400
-Message-Id: <20200831153136.1024676-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 1/6] HID: hiddev: Fix slab-out-of-bounds write in hiddev_ioctl_usage()
+Date:   Mon, 31 Aug 2020 11:31:44 -0400
+Message-Id: <20200831153150.1024799-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 X-stable: review
@@ -61,10 +61,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+)
 
 diff --git a/drivers/hid/usbhid/hiddev.c b/drivers/hid/usbhid/hiddev.c
-index d9602f3a359e1..5f56feb468c15 100644
+index dbdd265075daf..7bce23a43907e 100644
 --- a/drivers/hid/usbhid/hiddev.c
 +++ b/drivers/hid/usbhid/hiddev.c
-@@ -532,12 +532,16 @@ static noinline int hiddev_ioctl_usage(struct hiddev *hiddev, unsigned int cmd,
+@@ -554,12 +554,16 @@ static noinline int hiddev_ioctl_usage(struct hiddev *hiddev, unsigned int cmd,
  
  		switch (cmd) {
  		case HIDIOCGUSAGE:
