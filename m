@@ -2,94 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 132452587E2
-	for <lists+linux-input@lfdr.de>; Tue,  1 Sep 2020 08:11:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EAC42588D4
+	for <lists+linux-input@lfdr.de>; Tue,  1 Sep 2020 09:13:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726269AbgIAGLn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 1 Sep 2020 02:11:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55002 "EHLO mail.kernel.org"
+        id S1726044AbgIAHNc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Sep 2020 03:13:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42798 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726006AbgIAGLm (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 1 Sep 2020 02:11:42 -0400
-Received: from localhost (p5486cc57.dip0.t-ipconnect.de [84.134.204.87])
+        id S1726006AbgIAHNb (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 1 Sep 2020 03:13:31 -0400
+Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9197D208DB;
-        Tue,  1 Sep 2020 06:11:41 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5A228206CD;
+        Tue,  1 Sep 2020 07:13:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598940702;
-        bh=BHZMoFSFNu3DyLSpLY+JH8Sz4p7412tz3v9BMUhS3BI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kZnQ6m+Je8wGHdDBeGbBhIuQep+eKm6/I45edosXa2K7pibgqyzwvdOOvRT3YOdUT
-         18HsirJD7LMOOFBcIsPgxHedxBGLITAINDlGvIFhftdlW5NjdO3luEx7pZ/rB0BbPx
-         RIbKopTH4EG+cO6xSo2Sy1u8iXItmwfl86jVV0hg=
-Date:   Tue, 1 Sep 2020 08:11:39 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Joel Stanley <joel@jms.id.au>
-Cc:     Eddie James <eajames@linux.ibm.com>, linux-input@vger.kernel.org,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
-        linux-i2c@vger.kernel.org, Andrew Jeffery <andrew@aj.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        dmitry.torokhov@gmail.com, Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH 4/5] ARM: dts: Aspeed: Tacoma: Add IBM Operation Panel
- I2C device
-Message-ID: <20200901061139.GC1148@ninjato>
-References: <20200820161152.22751-1-eajames@linux.ibm.com>
- <20200820161152.22751-5-eajames@linux.ibm.com>
- <CACPK8XfeKiee-LAQZXs6jygr1Bj7pqGTGLUnTV1mzO5FBZ-XZQ@mail.gmail.com>
+        s=default; t=1598944411;
+        bh=9O42hg17SuhF0BA74D2gd0OrA7+tgQO7iOSZlGi0Jgo=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=05j3NqRurkkw1YWXGGdmETvF9tEC4MnXqbtDsFcAscRt8gP6FqIrxI1+bNx4cATIk
+         VDlJH6jr/SCrptpmsAMsIGGsw/NXrET3UjF7QzihwDUGkR16stF2yx2yv4va+hJ5W3
+         v/x/OUHWno0xYJiv6V2bkmaDwbA+9t/uTrz6otQI=
+Date:   Tue, 1 Sep 2020 09:13:20 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Dinghao Liu <dinghao.liu@zju.edu.cn>
+cc:     kjlu@umn.edu, Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] [v2] HID: elan: Fix memleak in elan_input_configured
+In-Reply-To: <20200831090643.32489-1-dinghao.liu@zju.edu.cn>
+Message-ID: <nycvar.YFH.7.76.2009010913050.4671@cbobk.fhfr.pm>
+References: <20200831090643.32489-1-dinghao.liu@zju.edu.cn>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ABTtc+pdwF7KHXCz"
-Content-Disposition: inline
-In-Reply-To: <CACPK8XfeKiee-LAQZXs6jygr1Bj7pqGTGLUnTV1mzO5FBZ-XZQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Mon, 31 Aug 2020, Dinghao Liu wrote:
 
---ABTtc+pdwF7KHXCz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> When input_mt_init_slots() fails, input should be freed
+> to prevent memleak. When input_register_device() fails,
+> we should call input_mt_destroy_slots() to free memory
+> allocated by input_mt_init_slots().
+> 
+> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+> ---
+> 
+> Changelog:
+> 
+> v2: - Add input_mt_destroy_slots() on failure of
+>       input_register_device().
 
+Thanks, applied.
 
-> > +       ibm-panel@62 {
-> > +               compatible =3D "ibm,op-panel";
-> > +               reg =3D <0x40000062>; /* I2C_OWN_SLAVE_ADDRESS */
->=20
-> Other users of SLAVE_ADDRESS have included <dt-bindings/i2c/i2c.h> and
-> written the reg as follows:
->=20
-> reg =3D <(I2C_OWN_SLAVE_ADDRESS | 0x62)>
->=20
-> Which obviously has the same result. I'll leave it up to you.
+-- 
+Jiri Kosina
+SUSE Labs
 
-The latter, please.
-
-
---ABTtc+pdwF7KHXCz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl9N5hsACgkQFA3kzBSg
-KbaeUg/+IPF4+oUGVypAsLvYprQ0+ZG1JBvtHljVB9iKBaHZqMvhVHeQtSLbdYaQ
-jDARAKbg0MG2YDPbzycsWxuvfDvfADKLHmcfGHINUegeOOdL8ECDivbhwGbcp/9n
-Lse+AEuEInVhGc/i3R/OL9juyOEa9r+V66GCa2EjzIeaUMQXtRmYC23Laax1h8JI
-vwjlAGu46hfyn4/XYKldvn4T72jM4fKtsPoVXlWPjMIh31aj0hgxbJXz79lRELZp
-veqwFPOC962XwV7K4pqXZR9lL9YxmxRANk6ycJML+sK/68kWV514MVBGp0Od3cut
-5uxLHcYP/afMbn+JRvmfo2QtsPxBfLUqSAJ3e5oiePbQPGuC+T//wFiHzQNm+8J9
-9CKHiQbrBK6VmTdEQMMtTVs02lvy/Kwp00yqnPzvZ/xiNtNoF0vLplWxo+uV4KPn
-9/3raJctzCFXkWYRAsm52t47MZ6Wmk/IYqZ6kwWMrijA5lVToAJK6RmjtuLsMi+6
-21vo7Er+0cDnj2UdSUdqr7MMQrRbs/qg81icmcq/qT/Y2Xmn0GAeMmGqzlPcP4to
-PLuIbKSWGcpZIbq4kc7XWRc5xCQt9pMR9hBLr9Gz5uxwI/JnBhf/BoPkVLskiB7+
-KwkYK6aacPe7A09JTgpYARDIO2I6p8Rt3JNLIrjhgCitBfjgtyc=
-=YXCg
------END PGP SIGNATURE-----
-
---ABTtc+pdwF7KHXCz--
