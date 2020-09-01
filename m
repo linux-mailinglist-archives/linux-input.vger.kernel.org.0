@@ -2,97 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22218258B12
-	for <lists+linux-input@lfdr.de>; Tue,  1 Sep 2020 11:10:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78063258BB1
+	for <lists+linux-input@lfdr.de>; Tue,  1 Sep 2020 11:34:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726105AbgIAJKM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 1 Sep 2020 05:10:12 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:52458 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726064AbgIAJKL (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Sep 2020 05:10:11 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: eballetbo)
-        with ESMTPSA id 50D5F28C318
-Subject: Re: [PATCH v5 0/7] platform/chrome: cros_ec_proto: Convert EC error
- codes to Linux error codes
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Lee Jones <lee.jones@linaro.org>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Yu-Hsuan Hsu <yuhsuan@chromium.org>,
-        Prashant Malani <pmalani@chromium.org>,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200822150857.205775-1-linux@roeck-us.net>
-From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <5fe68c6d-ae3d-e756-ca5d-873f3ca1cc45@collabora.com>
-Date:   Tue, 1 Sep 2020 11:10:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+        id S1726526AbgIAJey (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Sep 2020 05:34:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29377 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726105AbgIAJew (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 1 Sep 2020 05:34:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1598952891;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=o5Y78x1ZbIMZDcyiKJ8JiDFugDPHcPR0uo/OCjQ9IBA=;
+        b=I8R7EcxOU0XtL+pSEfK5zUjs+J42RTLpdjNvPLzd6qe7g86xvZNzRuiL7ZtlctWiry3QDt
+        9U6d1zXO9kfVNikqkEQ7baOT7CFS7tPKD6vnstHE0QYniKR2kASntVIQEQijO9e+OsC/WM
+        Q+7d/Nnu99ZGsRhhIjqLw9iEq/MDYsg=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-538-Y4JDxNnHM9a1Uf0IOdVXZQ-1; Tue, 01 Sep 2020 05:34:50 -0400
+X-MC-Unique: Y4JDxNnHM9a1Uf0IOdVXZQ-1
+Received: by mail-pj1-f70.google.com with SMTP id n19so252944pjt.1
+        for <linux-input@vger.kernel.org>; Tue, 01 Sep 2020 02:34:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=o5Y78x1ZbIMZDcyiKJ8JiDFugDPHcPR0uo/OCjQ9IBA=;
+        b=At1BSNghGP0fKE1CIyF0dmf1n2ocbpbM+wl+2oYv0xU6rkpziXqphxgaUhQdDbnEdb
+         oX2nl9YfmUQJAjv3JI0DWQBn8eUok69p6FMG19QMGJungzfr7MQRx/mqqcUleqWkYeUX
+         ESCJxn5tcnk7/np93cVeo98bOvb+Z9g6AC65HPT0Up4+jyiV+gBkrDNHwdIioU7uq1wh
+         /UwW9InlZhUa0i+FT8rs71vxA1cFlnOACrQyorZHf90lt6ICHpQy1WQl0EKINGnveQQA
+         k+Fpx9Tq97C4lGjnYimVua3ZWQhrlrTzBSqoI0Fj1x9FsPOTZcqkf3TkT2JbTwk02wgR
+         hang==
+X-Gm-Message-State: AOAM533UH3k/BPiuy/mTqm3dV4VJ/xvYqf1Yx16I3x10ikdFOBxiH04a
+        /eoqfY85RlOjxHp9U6bkNEnR6v4pmx1Ph2+WinH3c1oyPsCAxYvek3y1T7bb4fz94tJIiOO1cpM
+        9+oD/C+FOpZ5/EoHpRNyAQtE/eTUgnwyo+fi/YCk=
+X-Received: by 2002:a63:6e01:: with SMTP id j1mr743713pgc.147.1598952888717;
+        Tue, 01 Sep 2020 02:34:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyWGx5gRzrr+E1Ah23gCssdxWPYkby9RSfbimJo07tkodnjtRxFh3BSEUXgTJbgP/qmIUT/Y2585CMTPSDc8ZE=
+X-Received: by 2002:a63:6e01:: with SMTP id j1mr743688pgc.147.1598952888314;
+ Tue, 01 Sep 2020 02:34:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200822150857.205775-1-linux@roeck-us.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200829112601.1060527-1-maz@kernel.org> <nycvar.YFH.7.76.2009011013400.4671@cbobk.fhfr.pm>
+In-Reply-To: <nycvar.YFH.7.76.2009011013400.4671@cbobk.fhfr.pm>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 1 Sep 2020 11:34:37 +0200
+Message-ID: <CAO-hwJKa9QWxEo7PvCEjoEG3YZLS+1EKvaC8C3pga7R9Yc5_tw@mail.gmail.com>
+Subject: Re: [PATCH] HID: core: Correctly handle ReportSize being zero
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Marc Zyngier <maz@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "3.8+" <stable@vger.kernel.org>, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear all,
+On Tue, Sep 1, 2020 at 10:14 AM Jiri Kosina <jikos@kernel.org> wrote:
+>
+> On Sat, 29 Aug 2020, Marc Zyngier wrote:
+>
+> > It appears that a ReportSize value of zero is legal, even if a bit
+> > non-sensical. Most of the HID code seems to handle that gracefully,
+> > except when computing the total size in bytes. When fed as input to
+> > memset, this leads to some funky outcomes.
+> >
+> > Detect the corner case and correctly compute the size.
+> >
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Marc Zyngier <maz@kernel.org>
+>
+> Thanks Marc; Benjamin will be pushing this patch through his regression
+> testing machinery, and if all is good, I'll push it for 5.9-rc still.
 
-On 22/8/20 17:08, Guenter Roeck wrote:
-> The EC reports a variety of error codes. Most of those, with the exception
-> of EC_RES_INVALID_VERSION, are converted to -EPROTO. As result, the actual
-> error code gets lost. In cros_ec_cmd_xfer_status(), convert all EC errors
-> to Linux error codes to report a more meaningful error to the caller to aid
-> debugging.
-> 
-> To prepare for this change, handle error codes other than -EPROTO for all
-> callers of cros_ec_cmd_xfer_status(). Specifically, no longer assume that
-> -EPROTO reflects an error from the EC and all other error codes reflect a
-> transfer error.
-> 
-> v2: Add patches 1/4 to 3/4 to handle callers of cros_ec_cmd_xfer_status()
-> v3: Add patches 4/6 and 5/6 to handle additional callers of
-> 	cros_ec_cmd_xfer_status()
->     Use -ENOPROTOOPT for EC_RES_INVALID_VERSION
->     Implement function to convert error codes
-> v4: Add coments describing the functionality of cros_ec_num_pwms().
->     Add patch 7/7 to clean up cros_ec_num_pwms() after the new error code
->     support has been implemented.
->     Rebased series to v5.8.
-> v5: If there is no error, cros_ec_cmd_xfer_status() needs to return the
->     number of received bytes, not 0. While fixing that (in patch 6/7),
->     rearranged the function to reduce its indentation.
->     Rebased series to v5.9-rc1
-> 
-> ----------------------------------------------------------------
-> Guenter Roeck (7):
->       iio: cros_ec: Accept -EOPNOTSUPP as 'not supported' error code
->       cros_ec_lightbar: Accept more error codes from cros_ec_cmd_xfer_status
->       platform/chrome: cros_ec_sysfs: Report range of error codes from EC
->       pwm: cros-ec: Accept more error codes from cros_ec_cmd_xfer_status
->       platform/input: cros_ec: Replace -ENOTSUPP with -ENOPROTOOPT
->       platform/chrome: cros_ec_proto: Convert EC error codes to Linux error codes
->       pwm: cros-ec: Simplify EC error handling
-> 
->  .../iio/common/cros_ec_sensors/cros_ec_sensors.c   |  2 +-
->  drivers/input/keyboard/cros_ec_keyb.c              |  2 +-
->  drivers/platform/chrome/cros_ec_lightbar.c         | 10 ++--
->  drivers/platform/chrome/cros_ec_proto.c            | 57 +++++++++++++++++-----
->  drivers/platform/chrome/cros_ec_sysfs.c            | 24 ++++-----
->  drivers/pwm/pwm-cros-ec.c                          | 37 +++++++-------
->  6 files changed, 78 insertions(+), 54 deletions(-)
-> 
+Test results were good. I have now pushed this patch to for-5.9/upstream-fixes
 
-I applied all the patches and queued for 5.10 in the chrome-platform tree. If at
-some point we need to create an immutable branch I can provide it.
+Cheers,
+Benjamin
 
-Thanks,
- Enric
+>
+> --
+> Jiri Kosina
+> SUSE Labs
+>
+
