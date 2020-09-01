@@ -2,85 +2,119 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4F32257D04
-	for <lists+linux-input@lfdr.de>; Mon, 31 Aug 2020 17:35:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B0DA2587AF
+	for <lists+linux-input@lfdr.de>; Tue,  1 Sep 2020 07:58:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728653AbgHaPdH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 31 Aug 2020 11:33:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43470 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729041AbgHaPcD (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 31 Aug 2020 11:32:03 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0AFD121582;
-        Mon, 31 Aug 2020 15:32:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1598887923;
-        bh=r5LdmNC2g7FIRe6CwrmHuVuU4fXEV1nY9Ab8Ln9jqTU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=lAMslzJcr1hvkxQr37o8z/VLtHWvIcV6NmL0P/Imj0oOjvASOtk3kQcf2yZFPxKid
-         bv8SxDPx5+XBFSrBwttDijXTYD9ODWMQiUbbod7FyUUqiCB60+snPdHrE5Y8UJuTcb
-         MTGDBha3vwxratoDbNXDrOFlZa8akKXIGIgwLLMQ=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Peilin Ye <yepeilin.cs@gmail.com>,
-        syzbot+34ee1b45d88571c2fa8b@syzkaller.appspotmail.com,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        linux-usb@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 1/5] HID: hiddev: Fix slab-out-of-bounds write in hiddev_ioctl_usage()
-Date:   Mon, 31 Aug 2020 11:31:56 -0400
-Message-Id: <20200831153200.1024898-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.25.1
+        id S1726020AbgIAF61 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Sep 2020 01:58:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50608 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725987AbgIAF61 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Sep 2020 01:58:27 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D515CC0612A3;
+        Mon, 31 Aug 2020 22:58:26 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id c10so240243edk.6;
+        Mon, 31 Aug 2020 22:58:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jms.id.au; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zXS7+3EgnC5I92ixxRxNaCdg1MKz+VkNDCcOltlFbJA=;
+        b=cTMpbC4o8DudpdOFlrGnTxYKJhR5TLl9BTn35t1Vg80O5o366+KbhUnyM7rEN5o1cj
+         gLVgVdvfRy2k8csl7iDtnYcWyRBV54dXE4hV+jPTK7+YPFFOVNaJ6hiNjWPJfKqj3mE+
+         TlMOCmQ8kMybmwAZ2PzJZbHgzB3c8HMJrduJY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zXS7+3EgnC5I92ixxRxNaCdg1MKz+VkNDCcOltlFbJA=;
+        b=T+kwbbFnWw7qI+igVtvJAma6EGaVDPmC++wlW/Yc/tYTsU8f9YsiNYcuCaDdCZYNz+
+         qVqq7xGiHdQo209WUz/uNU8kWTuXOMymVLnkCAu31hTesSETGWJmoEY/p2KiRdYly+VS
+         6Bbq/01EtFsprdSDsn51P0SJJKt5u/2WzLCNS2un0ipc3NPZIC1DpCYkb+m4anwFUDlK
+         PWt3mYWvxpZ6I8bffyUD/V8BJsaRc+Pr/SOArXJX69rAhec1vzBtauAnBIk33rslXxOV
+         r2iCOzVWbPmrvc/ATKsBppBM2TWQ2hDkDh87jlaGE/HmYcowbQm8YiwnLsdnqBUE+aX1
+         nf7A==
+X-Gm-Message-State: AOAM530ecWBM/ahaRoPOj7B/KRpq0TrLAC7FAW2jh1/gXKhyz1ylfLET
+        wcv/yA4wMLt8iAgXvulgthOmYNvuoeYnDj3tRxo=
+X-Google-Smtp-Source: ABdhPJzPz7FKzhyE9tVkVgSodtZ62x5Kp312jVoxK4YoGK8nlMeYcU3Y4PKQ1ykmm4tDi9GtbIpQnd5EMQO2LKaGHEc=
+X-Received: by 2002:a50:f403:: with SMTP id r3mr342011edm.260.1598939905467;
+ Mon, 31 Aug 2020 22:58:25 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+References: <20200820161152.22751-1-eajames@linux.ibm.com> <20200820161152.22751-3-eajames@linux.ibm.com>
+In-Reply-To: <20200820161152.22751-3-eajames@linux.ibm.com>
+From:   Joel Stanley <joel@jms.id.au>
+Date:   Tue, 1 Sep 2020 05:58:12 +0000
+Message-ID: <CACPK8XdMqZv5f0X1-G2WPrYSpYMpMjJC4WxNsiKSxqtWb0M1jw@mail.gmail.com>
+Subject: Re: [PATCH 2/5] input: misc: Add IBM Operation Panel driver
+To:     Eddie James <eajames@linux.ibm.com>
+Cc:     linux-input@vger.kernel.org,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+        linux-i2c@vger.kernel.org, Andrew Jeffery <andrew@aj.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        dmitry.torokhov@gmail.com, Rob Herring <robh+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Peilin Ye <yepeilin.cs@gmail.com>
+On Thu, 20 Aug 2020 at 16:12, Eddie James <eajames@linux.ibm.com> wrote:
+>
+> Add a driver to get the button events from the panel and provide
+> them to userspace with the input subsystem. The panel is
+> connected with I2C and controls the bus, so the driver registers
+> as an I2C slave device.
+>
+> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> ---
+>  MAINTAINERS                    |   1 +
+>  drivers/input/misc/Kconfig     |  10 ++
+>  drivers/input/misc/Makefile    |   1 +
+>  drivers/input/misc/ibm-panel.c | 186 +++++++++++++++++++++++++++++++++
+>  4 files changed, 198 insertions(+)
+>  create mode 100644 drivers/input/misc/ibm-panel.c
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index a9fd08e9cd54..077cc79ad7fd 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8283,6 +8283,7 @@ M:        Eddie James <eajames@linux.ibm.com>
+>  L:     linux-input@vger.kernel.org
+>  S:     Maintained
+>  F:     Documentation/devicetree/bindings/input/ibm,op-panel.yaml
+> +F:     drivers/input/misc/ibm-panel.c
+>
+>  IBM Power 842 compression accelerator
+>  M:     Haren Myneni <haren@us.ibm.com>
+> diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+> index 362e8a01980c..88fb465a18b8 100644
+> --- a/drivers/input/misc/Kconfig
+> +++ b/drivers/input/misc/Kconfig
+> @@ -708,6 +708,16 @@ config INPUT_ADXL34X_SPI
+>           To compile this driver as a module, choose M here: the
+>           module will be called adxl34x-spi.
+>
+> +config INPUT_IBM_PANEL
+> +       tristate "IBM Operation Panel driver"
+> +       depends on I2C_SLAVE || COMPILE_TEST
+> +       help
+> +         Supports the IBM Operation Panel as an input device. The panel is a
+> +         controller attached to the system with some buttons and an LCD display
+> +         that allows someone with physical access to the system to perform
+> +         various administrative tasks. This driver only supports the part of
+> +         the controller that sends commands to the system.
 
-[ Upstream commit 25a097f5204675550afb879ee18238ca917cba7a ]
+Is this always attached via a service processor/bmc? If so, mention it
+here so people know there's no point enabling it on a host/distro
+kernel.
 
-`uref->usage_index` is not always being properly checked, causing
-hiddev_ioctl_usage() to go out of bounds under some cases. Fix it.
+I assume you're implementing the protocol correctly.  If you have a
+link to a specification then include that in the file.
 
-Reported-by: syzbot+34ee1b45d88571c2fa8b@syzkaller.appspotmail.com
-Link: https://syzkaller.appspot.com/bug?id=f2aebe90b8c56806b050a20b36f51ed6acabe802
-Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/hid/usbhid/hiddev.c | 4 ++++
- 1 file changed, 4 insertions(+)
+The code looks okay to me.
 
-diff --git a/drivers/hid/usbhid/hiddev.c b/drivers/hid/usbhid/hiddev.c
-index dbdd265075daf..7bce23a43907e 100644
---- a/drivers/hid/usbhid/hiddev.c
-+++ b/drivers/hid/usbhid/hiddev.c
-@@ -554,12 +554,16 @@ static noinline int hiddev_ioctl_usage(struct hiddev *hiddev, unsigned int cmd,
- 
- 		switch (cmd) {
- 		case HIDIOCGUSAGE:
-+			if (uref->usage_index >= field->report_count)
-+				goto inval;
- 			uref->value = field->value[uref->usage_index];
- 			if (copy_to_user(user_arg, uref, sizeof(*uref)))
- 				goto fault;
- 			goto goodreturn;
- 
- 		case HIDIOCSUSAGE:
-+			if (uref->usage_index >= field->report_count)
-+				goto inval;
- 			field->value[uref->usage_index] = uref->value;
- 			goto goodreturn;
- 
--- 
-2.25.1
-
+Reviewed-by: Joel Stanley <joel@jms.id.au>
