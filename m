@@ -2,98 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 657112589DC
-	for <lists+linux-input@lfdr.de>; Tue,  1 Sep 2020 09:57:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0315C258A23
+	for <lists+linux-input@lfdr.de>; Tue,  1 Sep 2020 10:14:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728092AbgIAH4x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 1 Sep 2020 03:56:53 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:24239 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726044AbgIAH4v (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Sep 2020 03:56:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1598947010;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=bLnuRbbYsf4fHQLytzm5gCMW5oqEUC+3d/3gRJCAdOg=;
-        b=Wjk63R6AC221zYdSO8ZmbToGsPQksg9jJwbWjuVobhX2gebd+ls5AcE30W0sm4GOI+fDmh
-        W58wu2gO/5qDwGtKgSBcd54TLCLGndQfEYbCWTSstOXzwnTE4DRIp+fiwlwLwwIONH36Hu
-        ZBR5SDEDkqmg3J13z0CJ1uo5p7f7fvo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-392-xJDD3KEIOqai0shdKO3seQ-1; Tue, 01 Sep 2020 03:56:48 -0400
-X-MC-Unique: xJDD3KEIOqai0shdKO3seQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1725993AbgIAIOT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Sep 2020 04:14:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33820 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725848AbgIAIOS (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 1 Sep 2020 04:14:18 -0400
+Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C0961888A29;
-        Tue,  1 Sep 2020 07:56:47 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-114-149.ams2.redhat.com [10.36.114.149])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1741161177;
-        Tue,  1 Sep 2020 07:56:42 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org
-Subject: [PATCH] HID: ite: Add USB id match for Acer One S1003 keyboard dock
-Date:   Tue,  1 Sep 2020 09:56:42 +0200
-Message-Id: <20200901075642.4648-1-hdegoede@redhat.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id 051B6206CD;
+        Tue,  1 Sep 2020 08:14:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1598948058;
+        bh=cvvx6pMHEUqt1jAoCrPznLjt+GLoFLr866bA7ElvqFc=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=yGEv2I3JcTia1x43JmcS0QzPA7kfpoZYSu/R3oNmscAtk8LUkB6uouZC8neuN7z7A
+         nl20gA5HnBru5GzCZTz6Re0CLOkIKiXqEPcnfU7RJ4LnPPVOwzCQM+Es/B96ANKeon
+         +QWtzqJb8Q98YlC4A28q5ZWPxNawXKjf2UtLrCcs=
+Date:   Tue, 1 Sep 2020 10:14:15 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Marc Zyngier <maz@kernel.org>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org, kernel-team@android.com
+Subject: Re: [PATCH] HID: core: Correctly handle ReportSize being zero
+In-Reply-To: <20200829112601.1060527-1-maz@kernel.org>
+Message-ID: <nycvar.YFH.7.76.2009011013400.4671@cbobk.fhfr.pm>
+References: <20200829112601.1060527-1-maz@kernel.org>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The Acer One S1003 2-in-1 keyboard dock uses a Synaptics S910xx touchpad
-which is connected to an ITE 8910 USB keyboard controller chip.
+On Sat, 29 Aug 2020, Marc Zyngier wrote:
 
-This keyboard has the same quirk for its rfkill / airplane mode hotkey as
-other keyboards with ITE keyboard chips, it only sends a single release
-event when pressed and released, it never sends a press event.
+> It appears that a ReportSize value of zero is legal, even if a bit
+> non-sensical. Most of the HID code seems to handle that gracefully,
+> except when computing the total size in bytes. When fed as input to
+> memset, this leads to some funky outcomes.
+> 
+> Detect the corner case and correctly compute the size.
+> 
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Marc Zyngier <maz@kernel.org>
 
-This commit adds this keyboards USB id to the hid-ite id-table, fixing
-the rfkill key not working on this keyboard. Note that like for the
-Acer Aspire Switch 10 (SW5-012) the id-table entry matches on the
-HID_GROUP_GENERIC generic group so that hid-ite only binds to the
-keyboard interface and the mouse/touchpad interface is left untouched
-so that hid-multitouch can bind to it.
+Thanks Marc; Benjamin will be pushing this patch through his regression 
+testing machinery, and if all is good, I'll push it for 5.9-rc still.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/hid/hid-ids.h | 1 +
- drivers/hid/hid-ite.c | 4 ++++
- 2 files changed, 5 insertions(+)
-
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index a8e3b2796be8..798d173d2f35 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -1120,6 +1120,7 @@
- #define USB_DEVICE_ID_SYNAPTICS_DELL_K12A	0x2819
- #define USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5_012	0x2968
- #define USB_DEVICE_ID_SYNAPTICS_TP_V103	0x5710
-+#define USB_DEVICE_ID_SYNAPTICS_ACER_ONE_S1003	0x73f5
- #define USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5	0x81a7
- 
- #define USB_VENDOR_ID_TEXAS_INSTRUMENTS	0x2047
-diff --git a/drivers/hid/hid-ite.c b/drivers/hid/hid-ite.c
-index 6c55682c5974..044a93f3c117 100644
---- a/drivers/hid/hid-ite.c
-+++ b/drivers/hid/hid-ite.c
-@@ -44,6 +44,10 @@ static const struct hid_device_id ite_devices[] = {
- 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
- 		     USB_VENDOR_ID_SYNAPTICS,
- 		     USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5_012) },
-+	/* ITE8910 USB kbd ctlr, with Synaptics touchpad connected to it. */
-+	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
-+		     USB_VENDOR_ID_SYNAPTICS,
-+		     USB_DEVICE_ID_SYNAPTICS_ACER_ONE_S1003) },
- 	{ }
- };
- MODULE_DEVICE_TABLE(hid, ite_devices);
 -- 
-2.28.0
+Jiri Kosina
+SUSE Labs
 
