@@ -2,218 +2,205 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F139258CD4
-	for <lists+linux-input@lfdr.de>; Tue,  1 Sep 2020 12:32:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30FA325A3BA
+	for <lists+linux-input@lfdr.de>; Wed,  2 Sep 2020 05:03:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726139AbgIAKcR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 1 Sep 2020 06:32:17 -0400
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:35523 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726078AbgIAKcK (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 1 Sep 2020 06:32:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1598956328;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=orjqWGMPGIbjs2BtW1dTTBT2WpkyFXIf8RMOJhYRAHc=;
-        b=QkJFG6pKAdn4uxyipDElOg31+cVJecZs4VrczWrtuCysQihsfDGGznb6wFqnNOuSciX6nA
-        dFCkCTO32teaH9TwzfHp5v+YTquT29piBtShq/pWAsQXTL/Dm71BPhe2TkDN2UY1OsbFBR
-        7OvxHxGE5q6U6/fhi9fLOhryEe1X3Vk=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-nUzkfxCLMxCb7KyhfZXA0g-1; Tue, 01 Sep 2020 06:32:06 -0400
-X-MC-Unique: nUzkfxCLMxCb7KyhfZXA0g-1
-Received: by mail-pj1-f69.google.com with SMTP id a20so308352pjo.4
-        for <linux-input@vger.kernel.org>; Tue, 01 Sep 2020 03:32:06 -0700 (PDT)
+        id S1726140AbgIBDDX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Sep 2020 23:03:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48090 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726946AbgIBDB0 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Sep 2020 23:01:26 -0400
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4B65C061244;
+        Tue,  1 Sep 2020 20:01:25 -0700 (PDT)
+Received: by mail-qk1-x741.google.com with SMTP id f2so3104060qkh.3;
+        Tue, 01 Sep 2020 20:01:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LIr+ANeLBExruIfTKVDhNkpaHup9XlWFL3tko87CC+0=;
+        b=jXI4jbtiUHhUW0HhdwwXNFbOfYaxnVRAvPr0bA6hsPwwTRUUcqaMhyklihFT4804D+
+         OGY3jV/PrqYUp6gAT0VQC04GbSw3aO5WDNeWP+HK1pDhzMy1QGpTSWRTjxTQXVsB8UQO
+         8yGTqB6qDa/wQvH7SMQuOB0EB0f5sI+kSBBUcre3UMOt1r4ZOSxgAQhpr+VjUb0nrT++
+         oA5zsa/gbepveEQeBSb1cDKrCaRYxePeI+8OuqsvWdqEzCKqWaKNIbdli1kzgv9ts9nB
+         a5nuHVIVVY9jnXaddKC3BC965OJXpfhzF75rzCyJBf0Kb7NBT+Ej63tVYCYCcHQXEWdq
+         qhxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=orjqWGMPGIbjs2BtW1dTTBT2WpkyFXIf8RMOJhYRAHc=;
-        b=eWQnDhoiwwuoeTy6foVtXH+Gg/ldkeK/cd4sO0N8oDEr82l3wfjaPmxLj69oIgcNz3
-         hAayidEg0R6Qf5CYj0bIOzNGyDb2TEVtpq7axwkEISDlADgxVR0oHbTjuv3cSHrmSO/4
-         41H0lt+DtEUnkSDXFgkY+G4nAft1Q5iWOI7km/GgSwAOtIQKW1nGF0eADkIZzo5kTB8W
-         ySuSpJuX3yebM+pJO34g1b4SUI/Yiw91N66jej3LMpdDqUkr3FkOr0h8qNbvtQxmOKg5
-         J7ZKrpuZawmjh/4/xkVbzjBbSb9KGJzGiO0//cawbktu4xQVZaa2nVC2FVcIX0/reG9f
-         npvQ==
-X-Gm-Message-State: AOAM532fFB+KP5tZhsnwifNzMDDlZZqXh62Qpaal+dCu4RJnuAcuK8VO
-        cR0LU3ugVPWVTdhiSd8HUwnDBEHg5KIvw2HV1oeOVCvEltrsV9ifQMQAz3uinnbqHBc9ue5yUJC
-        sBu+0wxaPsC9DAf5/LTUMR4Ce0Xb8F4tPe3sHKr8=
-X-Received: by 2002:a63:df13:: with SMTP id u19mr922835pgg.275.1598956325498;
-        Tue, 01 Sep 2020 03:32:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxVwFAW9GZ1QG4XY5sg1uzFq7QM+YlerG0MXjXNQpchgXwjU1ooxwkmQFnZFwmnjAmHFtXFzORi6Wi9FOJZcGg=
-X-Received: by 2002:a63:df13:: with SMTP id u19mr922814pgg.275.1598956325157;
- Tue, 01 Sep 2020 03:32:05 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LIr+ANeLBExruIfTKVDhNkpaHup9XlWFL3tko87CC+0=;
+        b=U9F+/tLJe1316z77mQVZerjMMkLjjj3Q3qJt3YQOE91rowi/0A3hT8WGoOKXOSSgBC
+         iTD1RR470fj4bDTJuxSx+Ypg7QnOFAv3kq2xZamRP9/NqUQt7eQOKr1qic+6bMfmwGqG
+         vfSeJ/rj/hu0/SIbtEABP2r4vN+/QuCfgPPvDlt3MJDr/WHQtDev+PCMIP4AFM9KzRhh
+         L8vSVcHH5PJG1Z0ICSO0UpMXmDJoEVTmiWZMRas9xE2XZTqSW4jL6V+VtM6Ex/drP359
+         tIY6l880tbLcDssgFJPzM06qzMwaWOmB8rxa7LCca758mMS6aDhNPWOa2k62Q4ZXwPuC
+         hQ4g==
+X-Gm-Message-State: AOAM531rA1FrMylCOfxjuQVg3bQJNjAS3fWqnZ62AbiXONn5XHiMB2qU
+        nPqJQxjn+2tUwSZ45ISTp10=
+X-Google-Smtp-Source: ABdhPJxJaYITPRJeX91aHajdZ9SMJLWv8zfnKBTUxgtxM0L7A6vkyvBks9HJRCMos9oKejrf0h5i6A==
+X-Received: by 2002:a37:7785:: with SMTP id s127mr46946qkc.386.1599015682842;
+        Tue, 01 Sep 2020 20:01:22 -0700 (PDT)
+Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
+        by smtp.gmail.com with ESMTPSA id w36sm3903462qtc.48.2020.09.01.20.01.20
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 01 Sep 2020 20:01:21 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailauth.nyi.internal (Postfix) with ESMTP id BB6E027C005A;
+        Tue,  1 Sep 2020 23:01:18 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Tue, 01 Sep 2020 23:01:18 -0400
+X-ME-Sender: <xms:_QpPXzVOEb6i-mwbsBV2NpE16lwK5HbXPFIu6EFeTuToMSdUoexabA>
+    <xme:_QpPX7kGdNBWKFLFXwVx1bdgoG-EjLf8An32oEV0CF2FJsuKlSaH-P4wLmf4hYPTG
+    ZKxbK7h-fT6E642kg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudefkedgieeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    goufhorhhtvggutfgvtghiphdvucdlgedtmdenucfjughrpefhvffufffkofgggfestdek
+    redtredttdenucfhrhhomhepuehoqhhunhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgse
+    hgmhgrihhlrdgtohhmqeenucggtffrrghtthgvrhhnpeeiueevjeelheduteefveeflefg
+    jeetfeehvdekudekgfegudeghfduhfetveejudenucffohhmrghinhepkhgvrhhnvghlrd
+    horhhgnecukfhppeehvddrudehhedrudduuddrjedunecuvehluhhsthgvrhfuihiivgep
+    tdenucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhph
+    gvrhhsohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdr
+    fhgvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgv
+X-ME-Proxy: <xmx:_QpPX_ZqXZdXzss4cOxCiH9_jHNfRwPE4l9LAGzjrzYzUIcOKA7poQ>
+    <xmx:_QpPX-X6ipQNaBaVDewLjWxdx81M1qdIiSEDFQt_jXccQPhpwXQs4A>
+    <xmx:_QpPX9lV9jkJBELBNT0UOE9qhV0-lk7O96AySeBBTIu_2jbxr3J3kg>
+    <xmx:_gpPX9nObenYbRosadInpc-tLw8vLUWXaMK43PcAycPTfqfuJviss10uoZI>
+Received: from localhost (unknown [52.155.111.71])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 6A92330600A6;
+        Tue,  1 Sep 2020 23:01:17 -0400 (EDT)
+From:   Boqun Feng <boqun.feng@gmail.com>
+To:     linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-scsi@vger.kernel.org
+Cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Michael Kelley <mikelley@microsoft.com>,
+        Boqun Feng <boqun.feng@gmail.com>
+Subject: [RFC v2 00/11] Hyper-V: Support PAGE_SIZE larger than 4K
+Date:   Wed,  2 Sep 2020 11:00:56 +0800
+Message-Id: <20200902030107.33380-1-boqun.feng@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20200901095233.1069194-1-maz@kernel.org>
-In-Reply-To: <20200901095233.1069194-1-maz@kernel.org>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 1 Sep 2020 12:31:53 +0200
-Message-ID: <CAO-hwJ+L5HyamPm4DGfzJx9iUyvHJTAks8KA5bmu-Fgq2ABFHQ@mail.gmail.com>
-Subject: Re: [PATCH v4] HID: core: Sanitize event code and type when mapping input
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "3.8+" <stable@vger.kernel.org>, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Sep 1, 2020 at 11:52 AM Marc Zyngier <maz@kernel.org> wrote:
->
-> When calling into hid_map_usage(), the passed event code is
-> blindly stored as is, even if it doesn't fit in the associated bitmap.
->
-> This event code can come from a variety of sources, including devices
-> masquerading as input devices, only a bit more "programmable".
->
-> Instead of taking the event code at face value, check that it actually
-> fits the corresponding bitmap, and if it doesn't:
-> - spit out a warning so that we know which device is acting up
-> - NULLify the bitmap pointer so that we catch unexpected uses
->
-> Code paths that can make use of untrusted inputs can now check
-> that the mapping was indeed correct and bail out if not.
->
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Marc Zyngier <maz@kernel.org>
-> ---
+This patchset add the necessary changes to support guests whose page
+size is larger than 4K.
 
-Pushed to for-5.9/upstream-fixes
+Previous version:
+v1: https://lore.kernel.org/lkml/20200721014135.84140-1-boqun.feng@gmail.com/
 
-Cheers,
-Benjamin
+Changes since v1:
 
-> * From v3:
->   - Drop totally unrelated mfd/syscon change from the patch
->
-> * From v2:
->   - Don't prematurely narrow the event code so that hid_map_usage()
->     catches illegal values beyond the 16bit limit.
->
-> * From v1:
->   - Dropped the input.c changes, and turned hid_map_usage() into
->     the validation primitive.
->   - Handle mapping failures in hidinput_configure_usage() and
->     mt_touch_input_mapping() (on top of hid_map_usage_clear() which
->     was already handled)
->
->  drivers/hid/hid-input.c      |  4 ++++
->  drivers/hid/hid-multitouch.c |  2 ++
->  include/linux/hid.h          | 42 +++++++++++++++++++++++++-----------
->  3 files changed, 35 insertions(+), 13 deletions(-)
->
-> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> index b8eabf206e74..88e19996427e 100644
-> --- a/drivers/hid/hid-input.c
-> +++ b/drivers/hid/hid-input.c
-> @@ -1132,6 +1132,10 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
->         }
->
->  mapped:
-> +       /* Mapping failed, bail out */
-> +       if (!bit)
-> +               return;
-> +
->         if (device->driver->input_mapped &&
->             device->driver->input_mapped(device, hidinput, field, usage,
->                                          &bit, &max) < 0) {
-> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-> index 3f94b4954225..e3152155c4b8 100644
-> --- a/drivers/hid/hid-multitouch.c
-> +++ b/drivers/hid/hid-multitouch.c
-> @@ -856,6 +856,8 @@ static int mt_touch_input_mapping(struct hid_device *hdev, struct hid_input *hi,
->                         code = BTN_0  + ((usage->hid - 1) & HID_USAGE);
->
->                 hid_map_usage(hi, usage, bit, max, EV_KEY, code);
-> +               if (!*bit)
-> +                       return -1;
->                 input_set_capability(hi->input, EV_KEY, code);
->                 return 1;
->
-> diff --git a/include/linux/hid.h b/include/linux/hid.h
-> index 875f71132b14..c7044a14200e 100644
-> --- a/include/linux/hid.h
-> +++ b/include/linux/hid.h
-> @@ -959,34 +959,49 @@ static inline void hid_device_io_stop(struct hid_device *hid) {
->   * @max: maximal valid usage->code to consider later (out parameter)
->   * @type: input event type (EV_KEY, EV_REL, ...)
->   * @c: code which corresponds to this usage and type
-> + *
-> + * The value pointed to by @bit will be set to NULL if either @type is
-> + * an unhandled event type, or if @c is out of range for @type. This
-> + * can be used as an error condition.
->   */
->  static inline void hid_map_usage(struct hid_input *hidinput,
->                 struct hid_usage *usage, unsigned long **bit, int *max,
-> -               __u8 type, __u16 c)
-> +               __u8 type, unsigned int c)
->  {
->         struct input_dev *input = hidinput->input;
-> -
-> -       usage->type = type;
-> -       usage->code = c;
-> +       unsigned long *bmap = NULL;
-> +       unsigned int limit = 0;
->
->         switch (type) {
->         case EV_ABS:
-> -               *bit = input->absbit;
-> -               *max = ABS_MAX;
-> +               bmap = input->absbit;
-> +               limit = ABS_MAX;
->                 break;
->         case EV_REL:
-> -               *bit = input->relbit;
-> -               *max = REL_MAX;
-> +               bmap = input->relbit;
-> +               limit = REL_MAX;
->                 break;
->         case EV_KEY:
-> -               *bit = input->keybit;
-> -               *max = KEY_MAX;
-> +               bmap = input->keybit;
-> +               limit = KEY_MAX;
->                 break;
->         case EV_LED:
-> -               *bit = input->ledbit;
-> -               *max = LED_MAX;
-> +               bmap = input->ledbit;
-> +               limit = LED_MAX;
->                 break;
->         }
-> +
-> +       if (unlikely(c > limit || !bmap)) {
-> +               pr_warn_ratelimited("%s: Invalid code %d type %d\n",
-> +                                   input->name, c, type);
-> +               *bit = NULL;
-> +               return;
-> +       }
-> +
-> +       usage->type = type;
-> +       usage->code = c;
-> +       *max = limit;
-> +       *bit = bmap;
->  }
->
->  /**
-> @@ -1000,7 +1015,8 @@ static inline void hid_map_usage_clear(struct hid_input *hidinput,
->                 __u8 type, __u16 c)
->  {
->         hid_map_usage(hidinput, usage, bit, max, type, c);
-> -       clear_bit(c, *bit);
-> +       if (*bit)
-> +               clear_bit(usage->code, *bit);
->  }
->
->  /**
-> --
-> 2.27.0
->
+*	Introduce a hv_ring_gpadl_send_offset() to improve the
+	readability as per suggestion from Michael.
+
+*	Use max(..., 2 * PAGE_SIZE) instead of hard-coding size for
+	inputvsc ringbuffer to align with other ringbuffer settinngs
+
+*	Calculate the exact size of storvsc payload (other than a
+	maximum size) to save memory in storvsc_queuecommand() as per
+	suggestion from Michael.
+
+*	Use "unsigned int" for loop index inside a page, so that we can
+	have the compiler's help for optimization in PAGE_SIZE ==
+	HV_HYP_PAGE_SIZE case as per suggestion from Michael.
+
+*	Rebase on to v5.9-rc2 with Michael's latest core support
+	patchset[1]
+
+
+Hyper-V always uses 4K as the page size and expects the same page size
+when communicating with guests. That is, all the "pfn"s in the
+hypervisor-guest communication protocol are the page numbers in the unit
+of HV_HYP_PAGE_SIZE rather than PAGE_SIZE. To support guests with larger
+page size, we need to convert between these two page sizes correctly in
+the hypervisor-guest communication, which is basically what this
+patchset does.
+
+In this conversion, one challenge is how to handle the ringbuffer. A
+ringbuffer has two parts: a header and a data part, both of which want
+to be PAGE_SIZE aligned in the guest, because we use the "double
+mapping" trick to map the data part twice in the guest virtual address
+space for faster wrap-around and ease to process data in place. However,
+the Hyper-V hypervisor always treats the ringbuffer headers as 4k pages.
+To overcome this gap, we enlarge the hv_ring_buffer structure to be
+always PAGE_SIZE aligned, and introduce the gpadl type concept to allow
+vmbus_establish_gpadl() to handle ringbuffer cases specially. Note that
+gpadl type is only meaningful to the guest, there is no such concept in
+Hyper-V hypervisor.
+
+This patchset consists of 11 patches:
+
+Patch 1~4: Introduce the types of gpadl, so that we can handle
+	   ringbuffer when PAGE_SIZE != HV_HYP_PAGE_SIZE, and also fix
+	   a few places where we should use HV_HYP_PAGE_SIZE other than
+	   PAGE_SIZE.
+
+Patch 5~6: Add a few helper functions to help calculate the hvpfn (page
+	   number in the unit of HV_HYP_PAGE_SIZE) and other related
+	   data. So that we can use them in the code of drivers.
+
+Patch 7~11: Use the helpers and change the driver code accordingly to
+	    make net/input/util/storage driver work with PAGE_SIZE !=
+	    HV_HYP_PAGE_SIZE
+
+I've done some tests with PAGE_SIZE=64k and PAGE_SIZE=16k configurations
+on ARM64 guests (with Michael's patchset[1] for ARM64 Hyper-V guest
+support), nothing major breaks yet ;-) (I could observe an error caused
+by unaligned firmware data, but it's better to have it fixed in the
+Hyper-V). I also have done a build and boot test on x86, everything
+worked well.
+
+Looking forwards to comments and suggestions!
+
+Regards,
+Boqun
+
+[1]: https://lore.kernel.org/lkml/1598287583-71762-1-git-send-email-mikelley@microsoft.com/
+
+
+Boqun Feng (11):
+  Drivers: hv: vmbus: Always use HV_HYP_PAGE_SIZE for gpadl
+  Drivers: hv: vmbus: Move __vmbus_open()
+  Drivers: hv: vmbus: Introduce types of GPADL
+  Drivers: hv: Use HV_HYP_PAGE in hv_synic_enable_regs()
+  Drivers: hv: vmbus: Move virt_to_hvpfn() to hyperv header
+  hv: hyperv.h: Introduce some hvpfn helper functions
+  hv_netvsc: Use HV_HYP_PAGE_SIZE for Hyper-V communication
+  Input: hyperv-keyboard: Make ringbuffer at least take two pages
+  HID: hyperv: Make ringbuffer at least take two pages
+  Driver: hv: util: Make ringbuffer at least take two pages
+  scsi: storvsc: Support PAGE_SIZE larger than 4K
+
+ drivers/hid/hid-hyperv.c              |   4 +-
+ drivers/hv/channel.c                  | 462 ++++++++++++++++----------
+ drivers/hv/hv.c                       |   4 +-
+ drivers/hv/hv_util.c                  |  16 +-
+ drivers/input/serio/hyperv-keyboard.c |   4 +-
+ drivers/net/hyperv/netvsc.c           |   2 +-
+ drivers/net/hyperv/netvsc_drv.c       |  46 +--
+ drivers/net/hyperv/rndis_filter.c     |  12 +-
+ drivers/scsi/storvsc_drv.c            |  60 +++-
+ include/linux/hyperv.h                |  63 +++-
+ 10 files changed, 447 insertions(+), 226 deletions(-)
+
+-- 
+2.28.0
 
