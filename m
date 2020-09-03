@@ -2,120 +2,150 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A920F25C527
-	for <lists+linux-input@lfdr.de>; Thu,  3 Sep 2020 17:23:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7ECC325C5FC
+	for <lists+linux-input@lfdr.de>; Thu,  3 Sep 2020 17:59:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728382AbgICPXg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 3 Sep 2020 11:23:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44320 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728830AbgICPWd (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Sep 2020 11:22:33 -0400
-Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com [IPv6:2607:f8b0:4864:20::e41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 524EDC061246
-        for <linux-input@vger.kernel.org>; Thu,  3 Sep 2020 08:22:33 -0700 (PDT)
-Received: by mail-vs1-xe41.google.com with SMTP id x203so1925238vsc.11
-        for <linux-input@vger.kernel.org>; Thu, 03 Sep 2020 08:22:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VL9yT/iQU/7WYSyaJd+H27DFdWliWvUjL54Y+NsxJ+I=;
-        b=FjlHG+KAVM2HrA8dEJu+O7Fkw4M+FfssWQuHmE6z4ZrrUMP9sA+t5IctdZ2OkMUI6D
-         WsFfqHLiJNO/AOLF0E3cImHv/LaKx8pb1XiftmKfE/+2tByodNa6zbBzDL0AG/Rxc311
-         71Yv/0SFAwnh8tV1CPA72wjy114HMo1VfEwjc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VL9yT/iQU/7WYSyaJd+H27DFdWliWvUjL54Y+NsxJ+I=;
-        b=CHldrnvhCc4al//UYLNGT4VNKoEpWEtTUvKfem4UCG0Peyf/PNxdgsu0YrQ0JaKZiQ
-         2sRVi9+ARgQX0UWEOOHe3+Y1iDqX4W8A2rZV5dItyFjdEhlmYilVZHHrrE8FWCljWPJx
-         fAJ4UWxlHOiFLjoDxRhutXECt1W01wO7qXAHNZ3hKCSn/c6ubU1DbUwCPf2jH/LVDdv+
-         EzzgjnFoPRJ/Y41cfI1RPskB/g1ez7FFPgyUTyd2rSFeTm/xf6HmzeXPAbm/2pdRdLG+
-         0P0nahOs8EzuzhAK3yeGnB1uT0k4ykJ8LdahcEamjOLyT6VdzxT9XRjpYXNB3nVK1eW4
-         HvRA==
-X-Gm-Message-State: AOAM533qMSA6rFCRnqLYqrGqri/fIwCZyxYmOjoZrg8KSIPY8C97+clA
-        QW+Muu3zUViL0RKiHN18CWHhORb48zRqxQ==
-X-Google-Smtp-Source: ABdhPJwh62J/in9idzqY9gbmNOsZTbwpfLYUQCbFn6FUdPnZ5qTSrV98r2iwhqTWXb7MVt7MNrqP/g==
-X-Received: by 2002:a67:8713:: with SMTP id j19mr2329036vsd.161.1599146551952;
-        Thu, 03 Sep 2020 08:22:31 -0700 (PDT)
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
-        by smtp.gmail.com with ESMTPSA id m139sm536389vke.28.2020.09.03.08.22.30
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Sep 2020 08:22:30 -0700 (PDT)
-Received: by mail-vs1-f50.google.com with SMTP id y194so1956759vsc.4
-        for <linux-input@vger.kernel.org>; Thu, 03 Sep 2020 08:22:30 -0700 (PDT)
-X-Received: by 2002:a05:6102:3031:: with SMTP id v17mr883797vsa.10.1599146550147;
- Thu, 03 Sep 2020 08:22:30 -0700 (PDT)
+        id S1728566AbgICP7J (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 3 Sep 2020 11:59:09 -0400
+Received: from esa1.mentor.iphmx.com ([68.232.129.153]:32257 "EHLO
+        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728210AbgICP7I (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Sep 2020 11:59:08 -0400
+IronPort-SDR: sQuBkVyHqn/Ig2AcWPmZw4NPMF5YIpMiFd9eh+DCF5gSxavyUk7Ij8sQRm8JabM9oD+n2iPbus
+ Va2nNkmWngDJLytdKZonUWsUTAaYSDYmp1YuElkiaAY5ITFB0dy6CESo1aMZl0dS737tUimu4b
+ 4s5d9CT8U7MLWPkCNMl6nOqBdohDsaBEbi93ADVO0pa5URhbcKaZC8oBSjeTxoCVv87F/kUf/h
+ aisqRvz57yMWtHT47KHJY6ZSC1NBL/1F2vyTka8gbWwZXsKa7tolnoWk93As7d2u0nTM+7mOWT
+ ypk=
+X-IronPort-AV: E=Sophos;i="5.76,387,1592899200"; 
+   d="scan'208";a="54733292"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa1.mentor.iphmx.com with ESMTP; 03 Sep 2020 07:59:07 -0800
+IronPort-SDR: tmMqlO4tN+aNPQnDfhjouRSCXhR9zxcoA5+Cd7M7kEk8lv7ZoHl5jjrxtWO8u0ZE9xGAyt5K+I
+ bEEk2UzTNOMIzw23ULrJDgjZIKn6pPP2/0pVkbIRqgRzBFBYUlQ5T0JExpSt9X5s6Yv9WlalVz
+ /FJa2B9Qyv4++JqDNI/xnxGddm4ybkPr7zhEXxsPenCE0glOo1ipsTAKvnQMf1KYTwu8ViMaQF
+ llfotMJLS9BDBmFRe6wU+48deTY3yqeHu+ygbD+MMsDE6Ocp/7Kqer6H4JdsBPjf2x9u/zhj5G
+ 18I=
+From:   Jiada Wang <jiada_wang@mentor.com>
+To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>
+CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <Andrew_Gabbasov@mentor.com>, <erosca@de.adit-jv.com>,
+        <digetx@gmail.com>, <jiada_wang@mentor.com>
+Subject: [PATCH v2 1/1] Input: atmel_mxt_ts - implement I2C retries
+Date:   Fri, 4 Sep 2020 00:59:04 +0900
+Message-ID: <20200903155904.17454-1-jiada_wang@mentor.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20200902214250.1.I63d3f1c93f88cb0cda5161c42e97decb4a63a571@changeid>
-In-Reply-To: <20200902214250.1.I63d3f1c93f88cb0cda5161c42e97decb4a63a571@changeid>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Thu, 3 Sep 2020 08:22:18 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=W9H4-VD04AA7xEM-YuvXVjuOxtczkLhvQfDC5M9KR4Lw@mail.gmail.com>
-Message-ID: <CAD=FV=W9H4-VD04AA7xEM-YuvXVjuOxtczkLhvQfDC5M9KR4Lw@mail.gmail.com>
-Subject: Re: [PATCH] HID: i2c-hid: Prefer asynchronous probe
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Andrea Borgia <andrea@borgia.bo.it>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Aaron Ma <aaron.ma@canonical.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Daniel Playfair Cal <daniel.playfair.cal@gmail.com>,
-        Pavel Balan <admin@kryma.net>,
-        You-Sheng Yang <vicamo.yang@canonical.com>,
-        linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+From: Nick Dyer <nick.dyer@itdev.co.uk>
 
-On Wed, Sep 2, 2020 at 9:43 PM Douglas Anderson <dianders@chromium.org> wrote:
->
-> Adding printouts to the i2c_hid_probe() function shows that it takes
-> quite some time.  It used to take about 70 ms, but after commit
-> eef4016243e9 ("HID: i2c-hid: Always sleep 60ms after I2C_HID_PWR_ON
-> commands") it takes about 190 ms.  This is not tons of time but it's
-> not trivial.  Because we haven't yet specified that we'd prefer
-> asynchronous probe for this driver then, if the driver is builtin to
-> the kernel, we'll wait for this driver to finish before we start
-> probes for more drivers.  Let's set the flag to enable asynchronous
-> for this driver so that other drivers aren't blocked from probing
-> until we finish.
->
-> Since this driver can be configured as a module and modules are
-> always asynchronously probed this is quite a safe change and will
-> benefit anyone who has a reason to build this driver into the kernel
-> instead of using it as a module.
->
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
->
->  drivers/hid/i2c-hid/i2c-hid-core.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-> index 87ff93bf76ba..c898bd8617f9 100644
-> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
-> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-> @@ -1280,8 +1280,10 @@ static struct i2c_driver i2c_hid_driver = {
->         .driver = {
->                 .name   = "i2c_hid",
->                 .pm     = &i2c_hid_pm,
-> +               .probe_type = PROBE_PREFER_ASYNCHRONOUS,
->                 .acpi_match_table = ACPI_PTR(i2c_hid_acpi_match),
->                 .of_match_table = of_match_ptr(i2c_hid_of_match),
-> +
+Some maXTouch chips (eg mXT1386) will not respond on the first I2C request
+when they are in a sleep state. It must be retried after a delay for the
+chip to wake up.
 
-Boy, I'm not sure how I managed to introduce this extra whitespace
-without noticing.  Sorry!  :(  If the patch looks good I'm happy to
-re-post or I'm happy if a maintainer wants to fix my mistake when
-applying.
+Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
+Acked-by: Yufeng Shen <miletus@chromium.org>
+(cherry picked from ndyer/linux/for-upstream commit 63fd7a2cd03c3a572a5db39c52f4856819e1835d)
+[gdavis: Forward port and fix conflicts.]
+Signed-off-by: George G. Davis <george_davis@mentor.com>
+[jiada: return exact errno when i2c_transfer & i2c_master_send fails]
+Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
+---
+ drivers/input/touchscreen/atmel_mxt_ts.c | 45 ++++++++++++++++--------
+ 1 file changed, 30 insertions(+), 15 deletions(-)
 
--Doug
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index a2189739e30f..5d4cb15d21dc 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -196,6 +196,7 @@ enum t100_type {
+ #define MXT_CRC_TIMEOUT		1000	/* msec */
+ #define MXT_FW_RESET_TIME	3000	/* msec */
+ #define MXT_FW_CHG_TIMEOUT	300	/* msec */
++#define MXT_WAKEUP_TIME		25	/* msec */
+ 
+ /* Command to unlock bootloader */
+ #define MXT_UNLOCK_CMD_MSB	0xaa
+@@ -626,6 +627,7 @@ static int __mxt_read_reg(struct i2c_client *client,
+ 	struct i2c_msg xfer[2];
+ 	u8 buf[2];
+ 	int ret;
++	bool retry = false;
+ 
+ 	buf[0] = reg & 0xff;
+ 	buf[1] = (reg >> 8) & 0xff;
+@@ -642,17 +644,22 @@ static int __mxt_read_reg(struct i2c_client *client,
+ 	xfer[1].len = len;
+ 	xfer[1].buf = val;
+ 
+-	ret = i2c_transfer(client->adapter, xfer, 2);
+-	if (ret == 2) {
+-		ret = 0;
+-	} else {
+-		if (ret >= 0)
+-			ret = -EIO;
+-		dev_err(&client->dev, "%s: i2c transfer failed (%d)\n",
+-			__func__, ret);
++retry_read:
++	ret = i2c_transfer(client->adapter, xfer, ARRAY_SIZE(xfer));
++	if (ret != ARRAY_SIZE(xfer)) {
++		if (!retry) {
++			dev_dbg(&client->dev, "%s: i2c retry\n", __func__);
++			msleep(MXT_WAKEUP_TIME);
++			retry = true;
++			goto retry_read;
++		} else {
++			dev_err(&client->dev, "%s: i2c transfer failed (%d)\n",
++				__func__, ret);
++			return ret < 0 ? ret : -EIO;
++		}
+ 	}
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static int __mxt_write_reg(struct i2c_client *client, u16 reg, u16 len,
+@@ -661,6 +668,7 @@ static int __mxt_write_reg(struct i2c_client *client, u16 reg, u16 len,
+ 	u8 *buf;
+ 	size_t count;
+ 	int ret;
++	bool retry = false;
+ 
+ 	count = len + 2;
+ 	buf = kmalloc(count, GFP_KERNEL);
+@@ -671,14 +679,21 @@ static int __mxt_write_reg(struct i2c_client *client, u16 reg, u16 len,
+ 	buf[1] = (reg >> 8) & 0xff;
+ 	memcpy(&buf[2], val, len);
+ 
++retry_write:
+ 	ret = i2c_master_send(client, buf, count);
+-	if (ret == count) {
+-		ret = 0;
++	if (ret != count) {
++		if (!retry) {
++			dev_dbg(&client->dev, "%s: i2c retry\n", __func__);
++			msleep(MXT_WAKEUP_TIME);
++			retry = true;
++			goto retry_write;
++		} else {
++			dev_err(&client->dev, "%s: i2c send failed (%d)\n",
++				__func__, ret);
++			ret = ret < 0 ? ret : -EIO;
++		}
+ 	} else {
+-		if (ret >= 0)
+-			ret = -EIO;
+-		dev_err(&client->dev, "%s: i2c send failed (%d)\n",
+-			__func__, ret);
++		ret = 0;
+ 	}
+ 
+ 	kfree(buf);
+-- 
+2.17.1
+
