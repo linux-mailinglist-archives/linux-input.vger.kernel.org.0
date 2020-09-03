@@ -2,98 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 48BD125C436
-	for <lists+linux-input@lfdr.de>; Thu,  3 Sep 2020 17:06:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A920F25C527
+	for <lists+linux-input@lfdr.de>; Thu,  3 Sep 2020 17:23:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729095AbgICPGa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 3 Sep 2020 11:06:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41794 "EHLO
+        id S1728382AbgICPXg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 3 Sep 2020 11:23:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729094AbgICPGT (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Sep 2020 11:06:19 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55E5AC061244;
-        Thu,  3 Sep 2020 08:06:19 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id w14so4149180ljj.4;
-        Thu, 03 Sep 2020 08:06:19 -0700 (PDT)
+        with ESMTP id S1728830AbgICPWd (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Sep 2020 11:22:33 -0400
+Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com [IPv6:2607:f8b0:4864:20::e41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 524EDC061246
+        for <linux-input@vger.kernel.org>; Thu,  3 Sep 2020 08:22:33 -0700 (PDT)
+Received: by mail-vs1-xe41.google.com with SMTP id x203so1925238vsc.11
+        for <linux-input@vger.kernel.org>; Thu, 03 Sep 2020 08:22:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Ra46f3mjSl5aJ0IfpF0sXUWJeJAxdmPhF+0FxDGLqmo=;
-        b=JgDxjdYApcLJWqazHlUGz+EpauRHBZ0jshOn/kECows36v5jEW/iBJPF4MTSMgEexF
-         5QQ/kig+hhhkJVQfsyRWPPhABnV5uPRosBXdyOB1mmZoWj6WjBuSUoOzo3FJ0PSCvQ1h
-         RfdSyPWUfFpkG4C7n9lhE9eGuWKqlR3TbttEo0jZ2kPw8PESHvpbKvKhzwRdK4Qu71uB
-         Vy/ff+yqoGCYU9GWp+6UYxCrEb7j60Q8JVrUf1yMW26YIX2Hkxo01GSJQ279hNMjdDtC
-         xFLaeUij+hJ4JQ3nZehjBtZN6v34GqQcfSUweDsFuP7fBvI734O01nX7sO7kL9L6uZo2
-         M9OA==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VL9yT/iQU/7WYSyaJd+H27DFdWliWvUjL54Y+NsxJ+I=;
+        b=FjlHG+KAVM2HrA8dEJu+O7Fkw4M+FfssWQuHmE6z4ZrrUMP9sA+t5IctdZ2OkMUI6D
+         WsFfqHLiJNO/AOLF0E3cImHv/LaKx8pb1XiftmKfE/+2tByodNa6zbBzDL0AG/Rxc311
+         71Yv/0SFAwnh8tV1CPA72wjy114HMo1VfEwjc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Ra46f3mjSl5aJ0IfpF0sXUWJeJAxdmPhF+0FxDGLqmo=;
-        b=SOTKNUrcHDCHrE2vXdGVlJkN6EctXBS2lN4iH3lWkHly36CIO9SDBXDg1ITp2p0rpF
-         +0tzETeYj5Flf51NIAIIQkssZeBMYmgyFxgo6DvzFU4/H1nzc7bQvCItjfHDOaJKE7Dk
-         avdEERrc4FQBEQFecDt7LNkg8HKU0XIBj4oNvBeSBX3m1L7PhL6++1J6qZB6KHPjANn3
-         WIml6ElIgTQrskVc5cQ81KeGT+4T+JcfTW3UNgRNoymk/WE6BPcA7/uVf6syBYYBK/cx
-         XA4skGmslxQgFsXsy/49iEeY4Py4KbWeWFqTtP96WJBpUlJ6wmsF1Ct4ypirgNE78F/X
-         Za+g==
-X-Gm-Message-State: AOAM533S0kwaednXLlYBam3IIluts6z7GA5WpT7AVdUwPU3Utmztu8TA
-        A5Zk0ik0FNBTPHofRGz9cPNyUA9UDCU=
-X-Google-Smtp-Source: ABdhPJzI5LSSLk1Pv2eMlX+j0sGBm/W8MgGYJs0VcInu7QGObglymUk7enJUnJzPeWRtjh7Z1rN7mQ==
-X-Received: by 2002:a2e:a54f:: with SMTP id e15mr1417051ljn.115.1599145575811;
-        Thu, 03 Sep 2020 08:06:15 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.googlemail.com with ESMTPSA id z12sm641253lfj.78.2020.09.03.08.06.14
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VL9yT/iQU/7WYSyaJd+H27DFdWliWvUjL54Y+NsxJ+I=;
+        b=CHldrnvhCc4al//UYLNGT4VNKoEpWEtTUvKfem4UCG0Peyf/PNxdgsu0YrQ0JaKZiQ
+         2sRVi9+ARgQX0UWEOOHe3+Y1iDqX4W8A2rZV5dItyFjdEhlmYilVZHHrrE8FWCljWPJx
+         fAJ4UWxlHOiFLjoDxRhutXECt1W01wO7qXAHNZ3hKCSn/c6ubU1DbUwCPf2jH/LVDdv+
+         EzzgjnFoPRJ/Y41cfI1RPskB/g1ez7FFPgyUTyd2rSFeTm/xf6HmzeXPAbm/2pdRdLG+
+         0P0nahOs8EzuzhAK3yeGnB1uT0k4ykJ8LdahcEamjOLyT6VdzxT9XRjpYXNB3nVK1eW4
+         HvRA==
+X-Gm-Message-State: AOAM533qMSA6rFCRnqLYqrGqri/fIwCZyxYmOjoZrg8KSIPY8C97+clA
+        QW+Muu3zUViL0RKiHN18CWHhORb48zRqxQ==
+X-Google-Smtp-Source: ABdhPJwh62J/in9idzqY9gbmNOsZTbwpfLYUQCbFn6FUdPnZ5qTSrV98r2iwhqTWXb7MVt7MNrqP/g==
+X-Received: by 2002:a67:8713:: with SMTP id j19mr2329036vsd.161.1599146551952;
+        Thu, 03 Sep 2020 08:22:31 -0700 (PDT)
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
+        by smtp.gmail.com with ESMTPSA id m139sm536389vke.28.2020.09.03.08.22.30
+        for <linux-input@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Sep 2020 08:06:15 -0700 (PDT)
-Subject: Re: [PATCH 1/1] Input: atmel_mxt_ts - implement I2C retries
-To:     "Wang, Jiada" <jiada_wang@mentor.com>, nick@shmanahar.org,
-        dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        erosca@de.adit-jv.com, Andrew_Gabbasov@mentor.com
-References: <20200821082254.16661-1-jiada_wang@mentor.com>
- <64c77ff9-6d20-abcf-f549-7d5c85fba28d@gmail.com>
- <2c8ed5c8-f95b-dce4-f964-ac16f12c3f20@mentor.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <8a287e4b-6ed4-dfae-fedb-da343ee40126@gmail.com>
-Date:   Thu, 3 Sep 2020 18:06:14 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Thu, 03 Sep 2020 08:22:30 -0700 (PDT)
+Received: by mail-vs1-f50.google.com with SMTP id y194so1956759vsc.4
+        for <linux-input@vger.kernel.org>; Thu, 03 Sep 2020 08:22:30 -0700 (PDT)
+X-Received: by 2002:a05:6102:3031:: with SMTP id v17mr883797vsa.10.1599146550147;
+ Thu, 03 Sep 2020 08:22:30 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <2c8ed5c8-f95b-dce4-f964-ac16f12c3f20@mentor.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200902214250.1.I63d3f1c93f88cb0cda5161c42e97decb4a63a571@changeid>
+In-Reply-To: <20200902214250.1.I63d3f1c93f88cb0cda5161c42e97decb4a63a571@changeid>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Thu, 3 Sep 2020 08:22:18 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=W9H4-VD04AA7xEM-YuvXVjuOxtczkLhvQfDC5M9KR4Lw@mail.gmail.com>
+Message-ID: <CAD=FV=W9H4-VD04AA7xEM-YuvXVjuOxtczkLhvQfDC5M9KR4Lw@mail.gmail.com>
+Subject: Re: [PATCH] HID: i2c-hid: Prefer asynchronous probe
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Andrea Borgia <andrea@borgia.bo.it>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Aaron Ma <aaron.ma@canonical.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Daniel Playfair Cal <daniel.playfair.cal@gmail.com>,
+        Pavel Balan <admin@kryma.net>,
+        You-Sheng Yang <vicamo.yang@canonical.com>,
+        linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-03.09.2020 17:44, Wang, Jiada пишет:
-> Hi Dmitry
-> 
-...
->> Is it really possible to get a positive ret != 2 from i2c_transfer()?
->>
->> Maybe it's better to keep the old code behaviour by returning the "ret"
->> value directly if it's not equal to ARRAY_SIZE(xfer)?
->>
-> I think, theoretically i2c_transfer() may return positive value but !=
-> number to transfer,
-> original behavior is,
-> when ret >= 0, it returns -EIO, when ret < 0, it just returns ret,
-> 
-> current behavior is, when ret != 2, it returns -EIO, after retry.
-> 
-> I am OK to change the behavior exactly as same original one.
+Hi,
 
-The comment to i2c_transfer() says that it either returns a error code
-or number of executed messages. But it's not clear to me what I2C driver
-could return 0 or 1 here and why.
+On Wed, Sep 2, 2020 at 9:43 PM Douglas Anderson <dianders@chromium.org> wrote:
+>
+> Adding printouts to the i2c_hid_probe() function shows that it takes
+> quite some time.  It used to take about 70 ms, but after commit
+> eef4016243e9 ("HID: i2c-hid: Always sleep 60ms after I2C_HID_PWR_ON
+> commands") it takes about 190 ms.  This is not tons of time but it's
+> not trivial.  Because we haven't yet specified that we'd prefer
+> asynchronous probe for this driver then, if the driver is builtin to
+> the kernel, we'll wait for this driver to finish before we start
+> probes for more drivers.  Let's set the flag to enable asynchronous
+> for this driver so that other drivers aren't blocked from probing
+> until we finish.
+>
+> Since this driver can be configured as a module and modules are
+> always asynchronously probed this is quite a safe change and will
+> benefit anyone who has a reason to build this driver into the kernel
+> instead of using it as a module.
+>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+>
+>  drivers/hid/i2c-hid/i2c-hid-core.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+> index 87ff93bf76ba..c898bd8617f9 100644
+> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
+> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+> @@ -1280,8 +1280,10 @@ static struct i2c_driver i2c_hid_driver = {
+>         .driver = {
+>                 .name   = "i2c_hid",
+>                 .pm     = &i2c_hid_pm,
+> +               .probe_type = PROBE_PREFER_ASYNCHRONOUS,
+>                 .acpi_match_table = ACPI_PTR(i2c_hid_acpi_match),
+>                 .of_match_table = of_match_ptr(i2c_hid_of_match),
+> +
 
-I think it indeed should be better to keep the original behaviour by
-propagating the actual error code whenever possible. It's probably not
-critical for this particular case, but in general it's always better to
-preserve the original error code.
+Boy, I'm not sure how I managed to introduce this extra whitespace
+without noticing.  Sorry!  :(  If the patch looks good I'm happy to
+re-post or I'm happy if a maintainer wants to fix my mistake when
+applying.
+
+-Doug
