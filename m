@@ -2,94 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6595E25D234
-	for <lists+linux-input@lfdr.de>; Fri,  4 Sep 2020 09:14:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79CAA25D355
+	for <lists+linux-input@lfdr.de>; Fri,  4 Sep 2020 10:17:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726811AbgIDHOj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Sep 2020 03:14:39 -0400
-Received: from gateway20.websitewelcome.com ([192.185.50.28]:31534 "EHLO
-        gateway20.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726089AbgIDHOi (ORCPT
+        id S1728112AbgIDIRH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Sep 2020 04:17:07 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:22753 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726811AbgIDIRG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 4 Sep 2020 03:14:38 -0400
-X-Greylist: delayed 1262 seconds by postgrey-1.27 at vger.kernel.org; Fri, 04 Sep 2020 03:14:37 EDT
-Received: from cm13.websitewelcome.com (cm13.websitewelcome.com [100.42.49.6])
-        by gateway20.websitewelcome.com (Postfix) with ESMTP id 8679E400C2F45
-        for <linux-input@vger.kernel.org>; Fri,  4 Sep 2020 00:29:25 -0500 (CDT)
-Received: from gator3293.hostgator.com ([192.254.250.18])
-        by cmsmtp with SMTP
-        id E5bJkHCmhXp2AE5bJkRfHo; Fri, 04 Sep 2020 01:53:33 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=thejerseyguylocker.com; s=default; h=Content-Transfer-Encoding:Content-Type
-        :Message-ID:Reply-To:Subject:To:From:Date:MIME-Version:Sender:Cc:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=0Dl87autFXdSPowIHPNYNML71jGoNbRMYVXlo2jD2kM=; b=kp9l0kSKDkRL3hvslYVt6OgFp3
-        JNwyhkHo+Rr+T9WkTJSqIoCIxBpRn1HG1MsYagL04lkel9QgEt/nodPHNL5JZNrF9fppsrbYUpmSR
-        qJpB8l5UVoX/FRwlXbDOOfLnaWREm9pBoE+e9ME6qb0nl8fZKJR0froZhKJITmPTOfzG8RC8UlsZg
-        HAdVPxqChrQn2VZ2zPQeu4obnciZF3iT2dSTW7v2rReYZ4vTedhHMjdyye7hwfHf94NYMHSv6/5VQ
-        x6Be7ZnthdYyBsGfsi4EBXKKPmcfVIzMELwTMDadXg69J3yqWMaw2zsgIordniE3H8devyLRaYzlN
-        P9dCa3Qw==;
-Received: from gator3293.hostgator.com ([192.254.250.18]:56446)
-        by gator3293.hostgator.com with esmtpa (Exim 4.93)
-        (envelope-from <sales2@thejerseyguylocker.com>)
-        id 1kE5bF-0020DJ-8o; Fri, 04 Sep 2020 01:53:29 -0500
+        Fri, 4 Sep 2020 04:17:06 -0400
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-350-O3Lo5IiGN6eUvf7BVTU4LA-1; Fri, 04 Sep 2020 04:17:03 -0400
+X-MC-Unique: O3Lo5IiGN6eUvf7BVTU4LA-1
+Received: by mail-pl1-f199.google.com with SMTP id x11so770421pll.0
+        for <linux-input@vger.kernel.org>; Fri, 04 Sep 2020 01:17:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=A7PJpPwsMtzBefMR1CLruzb/xgu5bpsDYQYJhcYPypU=;
+        b=HsfuhqLjNsOoZS0Oajg5LGNSQFrbhNJshaLdWFVw+71+LNytKvWekJT4BNT1SugE+c
+         UIlRwaVXwyV9AVIpEcjACD3gV3XBTjwT/1VscZ1bBK+FhjjC6jxG1GnfXFUJIcXrUsbj
+         0Jxnyb8/AkItVTDp1TnyY/ema0ryNIC6ugP49xhy3Ros11hUo11IuM8aX/dymyIEF03I
+         KaAYPib1Ea6z0DXqdFr5F4KdKOmwRdUUd7PrZ52ACMCz+2iuYuXFzcOvAuXY1IQhvck7
+         1h8B1cGNXw0/hV7zt1iw1dlXyFWv48Nv6neZ7VQardHWiABU/G0jk7Gclrzvi2hCrz3n
+         5THQ==
+X-Gm-Message-State: AOAM530NVzi+6OViO41PwSHThQbwq7jjR88blitmyHAef6+fVL9Y9Qmk
+        1ZxFzLQZZw5jIdiial4zYM8rdPAEGfI2xhgQHaozbZaxRqf6uvjpQgidWMAmDt9UWMeh6bQ5klB
+        V6xyGRiZzXtZU0VUn7HV79Tva45Exj4WMBJVJdgw=
+X-Received: by 2002:a62:d456:0:b029:13c:1611:66c2 with SMTP id u22-20020a62d4560000b029013c161166c2mr5630513pfl.13.1599207422483;
+        Fri, 04 Sep 2020 01:17:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyPSOGzY4hDYW8kAPmNPd3DYQ6NQ29GYTwuJV+5YB+XTVEKct/9nkHpz7EwlAGV00TYhYyFXjmr21j/frdgRcY=
+X-Received: by 2002:a62:d456:0:b029:13c:1611:66c2 with SMTP id
+ u22-20020a62d4560000b029013c161166c2mr5630491pfl.13.1599207422196; Fri, 04
+ Sep 2020 01:17:02 -0700 (PDT)
 MIME-Version: 1.0
-Date:   Fri, 04 Sep 2020 01:53:29 -0500
-From:   "Adv. Hermann Djogbe Law Firm" <sales2@thejerseyguylocker.com>
-To:     undisclosed-recipients:;
-Subject: Pozdrav tebi
-Reply-To: advocatehermannd.esq@gmail.com
-Mail-Reply-To: advocatehermannd.esq@gmail.com
-Message-ID: <1a191e5b47e169c8dac923f25cfbeeab@thejerseyguylocker.com>
-X-Sender: sales2@thejerseyguylocker.com
-User-Agent: Roundcube Webmail/1.3.13
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator3293.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - thejerseyguylocker.com
-X-BWhitelist: no
-X-Source-IP: 192.254.250.18
-X-Source-L: Yes
-X-Exim-ID: 1kE5bF-0020DJ-8o
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: gator3293.hostgator.com [192.254.250.18]:56446
-X-Source-Auth: sales2@thejerseyguylocker.com
-X-Email-Count: 24
-X-Source-Cap: dGhlamVyc2V5Z3V5O3RoZWplcnNleWd1eTtnYXRvcjMyOTMuaG9zdGdhdG9yLmNvbQ==
-X-Local-Domain: yes
+References: <20200811091445.erp2b23xmx3ceyzp@Rk>
+In-Reply-To: <20200811091445.erp2b23xmx3ceyzp@Rk>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Fri, 4 Sep 2020 10:16:51 +0200
+Message-ID: <CAO-hwJ+3LTUviWxDGQoXaBO-USwP4n6LRscJEzHJShqBEJ3oBg@mail.gmail.com>
+Subject: Re: Advice on fixing the bug of MSFT0001:00 04F3:Touchpad being
+ handled by hid_multitouch by mistake
+To:     Coiby Xu <coiby.xu@gmail.com>
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Topli pozdravi!
+Hi,
 
-Već sam vam pisao, ali žalosno je što vam moji mailovi nisu dostavljeni; 
-Ipak, šaljem vam ga još jednom u nastavku.
+On Tue, Aug 11, 2020 at 11:15 AM Coiby Xu <coiby.xu@gmail.com> wrote:
+>
+> Hi,
+>
+> I'm working on a touchpad device issue as reported on
+> https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1887190.
+>
+> This touchpad device MSFT0001:00 04F3:Touchpad should be handled by
+> hid_rmi. But currently hid-core.c chooses hid_multitouch by mistake,
+>
+>      1. When scanning this device's report descriptor, HID_DG_CONTACTID
+>         usage is found. Thus group HID_GROUP_MULTITOUCH is assigned to
+>         the device.
+>      2. The flag HID_SCAN_FLAG_MT_WIN_8 is also found. Thus group
+>         HID_GROUP_MULTITOUCH_WIN_8 is assigned to the device.
+>      3. hid-multitouch.c claims handling devices with the group of
+>         HID_GROUP_MULTITOUCH_WIN_8
+>
+>          static const struct hid_device_id mt_devices[] = {
+>                 /* Generic MT device */
+>                 { HID_DEVICE(HID_BUS_ANY, HID_GROUP_MULTITOUCH, HID_ANY_ID, HID_ANY_ID) },
+>
+>                 /* Generic Win 8 certified MT device */
+>                 {  .driver_data = MT_CLS_WIN_8,
+>                         HID_DEVICE(HID_BUS_ANY, HID_GROUP_MULTITOUCH_WIN_8,
+>                                 HID_ANY_ID, HID_ANY_ID) },
+>                 { }
+>          };
+>
+> There are several potential solutions,
+>      - Let the device vendor fix this problem since this device's report
+>        descriptor shouldn't have the HID_DG_CONTACTID usage.
+>      - Make it a special case by setting the device's group to
+>        HID_GROUP_RMI in hid_scan_report when vendor id and product ID
+>        are matched.
+>      - hid-quirks.c seems to be designed to handle special cases, is it
+>        suitable for this case?
 
-Ja sam barrister Hermann Djogbe Esq; i pravnik sam i glavni odvjetnik 
-koji radi u područjima nadležnosti obiteljskog suda. Tražim vaš 
-pristanak da vas predstavim kao rođaka mog pokojnog preminulog klijenta, 
-rodom iz vaše zemlje kojemu sam pomogao u ulaganju pologa u vrijednosti 
-od (10.316.000,03 USD) deset milijuna, tristo šesnaest tisuća američkih 
-dolara u financijsko poduzeće.
+AFAIU, the touchpad doesn't work at all with hid-multitouch. So I
+guess the best is to add the VID/PID to hid-quirks.c in
+hid_have_special_driver[], and add it to the hid-rmi driver too.
+This way, you will ensure hid-rmi will pick up the device all the time.
 
-Dobio sam mandat od njegove banke da osiguram njegovu najbližu rodbinu, 
-jer u njegovom dosjeu računa nema registriranog imena, zbog čega sam vas 
-kontaktirao u vezi s tim zbog istog prezimena s mojim pokojnim 
-klijentom. Javite mi se za više detalja i pojašnjenja u vezi s ovom 
-tvrdnjom, a također budite mirni da je sve legalno i bez rizika.
+Cheers,
+Benjamin
 
-Čekam da vas čujem!
+>
+> Can anyone give an advice on which direction I should take? Thank you!
+>
+> --
+> Best regards,
+> Coiby
+>
 
-Lijepi Pozdrav.
-Barr. Hermann Djogbe Esq.
