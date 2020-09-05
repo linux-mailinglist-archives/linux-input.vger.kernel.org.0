@@ -2,127 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3D2225E791
-	for <lists+linux-input@lfdr.de>; Sat,  5 Sep 2020 14:50:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C1CC25E847
+	for <lists+linux-input@lfdr.de>; Sat,  5 Sep 2020 16:07:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728360AbgIEMuD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 5 Sep 2020 08:50:03 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:36782 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726261AbgIEMuC (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Sep 2020 08:50:02 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 085CinPR029792;
-        Sat, 5 Sep 2020 12:49:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=J//7oqhzlnDBqx5sX7/wIJk0ZSYIJqBRX3XGHsdreb4=;
- b=bmG8Npcp4snf6tZC1txDc7GaID4uvLK6WdjTJBRuebb0KA7hP7raw+M5li9bBSaxDtnE
- FisYBQ6hxZ3scAWoI+DZdvwO9YrbkXB/Ti9hQYXkoGBoODKeq3wN5Rl7z3F7qq4/aMWJ
- 8UphnTAq/kgsqJkQC2BgFfPgN3fFjyA+vVuioFCpu5X3Y22h9qD2Gg3VodMvO2sRe5rr
- usB+0OKXIVBDsSHnrDkg+m17PmUqozpVkDhwjt+B1WiW6iUSTGVR0PahnWJIVdtCfIpX
- Ox43t12fyfAU8HlkxzQPhZVbolWsEsy4sgCqHFjU4cUbsWIiZG7UeSMtp/W0SRqE58XT 3A== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by aserp2120.oracle.com with ESMTP id 33c2mkh57q-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Sat, 05 Sep 2020 12:49:51 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 085CjNRf167809;
-        Sat, 5 Sep 2020 12:49:50 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by aserp3030.oracle.com with ESMTP id 33c0q919kb-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sat, 05 Sep 2020 12:49:50 +0000
-Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 085CnnQo000918;
-        Sat, 5 Sep 2020 12:49:49 GMT
-Received: from mwanda (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Sat, 05 Sep 2020 05:49:48 -0700
-Date:   Sat, 5 Sep 2020 15:49:42 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] Input: imx6ul_tsc - clean up some errors in
- imx6ul_tsc_resume()
-Message-ID: <20200905124942.GC183976@mwanda>
+        id S1728314AbgIEOHJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 5 Sep 2020 10:07:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51402 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728646AbgIEOHE (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Sep 2020 10:07:04 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 597D3C061244;
+        Sat,  5 Sep 2020 07:07:01 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id c2so11091502ljj.12;
+        Sat, 05 Sep 2020 07:07:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=UsMH9oFKoKw5wtKE8tTX6u0+nR0l/m8vLr2EslovcJM=;
+        b=GFsIMyvudYBts5WQ+GafkjGrp1luzKtgFZANgm9aV3Vig+TLrMecdD731YjR+3ji3u
+         j4PqZMWyFoAmnKtrLvqXxeQJqSIbHIFZ+RVsK0+A/RXffKGP7OKtUp+7aR6rjkL7VqRH
+         htsca8scN5B7lrpi+2QRHRrwCaaBRzm6j0Q40CkTYXNpixZe9qSO1VmEn4ESV4H3M+ej
+         w82vDvIbhQRvj8DnrLiAgGI3CEc+gA0zLdbdOYXwkUVh8/vxq7jJhqwOvVfiz11cyhno
+         Yih+To6KsxRB7OxS2q9hUpBNXKEhTvzX6/I7u6gzL/x9PI8g4JQbhm6oP3Fthj0G22Uc
+         G6dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=UsMH9oFKoKw5wtKE8tTX6u0+nR0l/m8vLr2EslovcJM=;
+        b=ZDo3BPUt99XaCxwkfgjZpnusbxk++YQQJSuaz2VhVqV9yuTq7zH+LUjD+HaUhFsys4
+         /O4qE+DaNnOdn+UqZQlHNd9tbD64kY8zUtKYBh7y/6ZcoAIMWOX7bicoEtvEdJuRTElP
+         bRuyREGPeP+5Nf1vX/j0x456FJvTbXAaVGOuw9j6fOBsNwBuOqQW8nZzKEUT9c2Gue6S
+         ZslHMJIP/XhT5HIp7txkPdo/Z/t1n58eAynu9Hqz1ciAC1MYBR0U9kMk6BcQw9gViP5i
+         ffUVVacgknJwQQ3Fwb8WNgP1q7eC1c3w/F/vz6Yn5hffYeFZ4+vmbl0nSQtr2vJtE03M
+         5zcA==
+X-Gm-Message-State: AOAM530V8MF7HZ3F38MvPx2uZXM4+/gfXpNoYEhO2TcLz7wweNw0rnHJ
+        95pooS/RbIp+QbfRJQxZFys=
+X-Google-Smtp-Source: ABdhPJwg0eDa1hWo4UPV9eOVCjj/uh3hI1onyI6LNncAurDcSTNdZW1EZv+ZOvUh9KplPjrqolD+VA==
+X-Received: by 2002:a2e:9e98:: with SMTP id f24mr6085749ljk.204.1599314819310;
+        Sat, 05 Sep 2020 07:06:59 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
+        by smtp.googlemail.com with ESMTPSA id 68sm2163082ljj.135.2020.09.05.07.06.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 05 Sep 2020 07:06:58 -0700 (PDT)
+Subject: Re: [PATCH v2 1/1] Input: atmel_mxt_ts - implement I2C retries
+To:     Jiada Wang <jiada_wang@mentor.com>, nick@shmanahar.org,
+        dmitry.torokhov@gmail.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Andrew_Gabbasov@mentor.com, erosca@de.adit-jv.com
+References: <20200903155904.17454-1-jiada_wang@mentor.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <88f1aa79-56e1-d41a-a29d-0f7c5d9bd990@gmail.com>
+Date:   Sat, 5 Sep 2020 17:06:57 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9734 signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 spamscore=0
- adultscore=0 bulkscore=0 mlxscore=0 phishscore=0 suspectscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009050122
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9734 signatures=668679
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 priorityscore=1501
- phishscore=0 adultscore=0 bulkscore=0 clxscore=1011 mlxlogscore=999
- malwarescore=0 suspectscore=0 lowpriorityscore=0 spamscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2006250000 definitions=main-2009050122
+In-Reply-To: <20200903155904.17454-1-jiada_wang@mentor.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-If imx6ul_tsc_init() fails then we need to clean up the clocks.
+03.09.2020 18:59, Jiada Wang пишет:
+> From: Nick Dyer <nick.dyer@itdev.co.uk>
+> 
+> Some maXTouch chips (eg mXT1386) will not respond on the first I2C request
+> when they are in a sleep state. It must be retried after a delay for the
+> chip to wake up.
+> 
+> Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
+> Acked-by: Yufeng Shen <miletus@chromium.org>
+> (cherry picked from ndyer/linux/for-upstream commit 63fd7a2cd03c3a572a5db39c52f4856819e1835d)
+> [gdavis: Forward port and fix conflicts.]
+> Signed-off-by: George G. Davis <george_davis@mentor.com>
+> [jiada: return exact errno when i2c_transfer & i2c_master_send fails]
+> Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
+> ---
+>  drivers/input/touchscreen/atmel_mxt_ts.c | 45 ++++++++++++++++--------
+>  1 file changed, 30 insertions(+), 15 deletions(-)
 
-I reversed the "if (input_dev->users) {" condition to make the code a
-bit simpler.
+Hello, Jiada!
 
-Fixes: 6cc527b05847 ("Input: imx6ul_tsc - propagate the errors")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/input/touchscreen/imx6ul_tsc.c | 27 +++++++++++++++-----------
- 1 file changed, 16 insertions(+), 11 deletions(-)
+Everything works well on Acer A500 tablet device that uses mXT1386 for
+the touchscreen controller! Thank you very much!
 
-diff --git a/drivers/input/touchscreen/imx6ul_tsc.c b/drivers/input/touchscreen/imx6ul_tsc.c
-index 9ed258854349..5e6ba5c4eca2 100644
---- a/drivers/input/touchscreen/imx6ul_tsc.c
-+++ b/drivers/input/touchscreen/imx6ul_tsc.c
-@@ -530,20 +530,25 @@ static int __maybe_unused imx6ul_tsc_resume(struct device *dev)
- 
- 	mutex_lock(&input_dev->mutex);
- 
--	if (input_dev->users) {
--		retval = clk_prepare_enable(tsc->adc_clk);
--		if (retval)
--			goto out;
--
--		retval = clk_prepare_enable(tsc->tsc_clk);
--		if (retval) {
--			clk_disable_unprepare(tsc->adc_clk);
--			goto out;
--		}
-+	if (!input_dev->users)
-+		goto out;
- 
--		retval = imx6ul_tsc_init(tsc);
-+	retval = clk_prepare_enable(tsc->adc_clk);
-+	if (retval)
-+		goto out;
-+
-+	retval = clk_prepare_enable(tsc->tsc_clk);
-+	if (retval) {
-+		clk_disable_unprepare(tsc->adc_clk);
-+		goto out;
- 	}
- 
-+	retval = imx6ul_tsc_init(tsc);
-+	if (retval) {
-+		clk_disable_unprepare(tsc->tsc_clk);
-+		clk_disable_unprepare(tsc->adc_clk);
-+		goto out;
-+	}
- out:
- 	mutex_unlock(&input_dev->mutex);
- 	return retval;
--- 
-2.28.0
-
+Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+Tested-by: Dmitry Osipenko <digetx@gmail.com>
