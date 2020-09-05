@@ -2,178 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 13D7F25E025
-	for <lists+linux-input@lfdr.de>; Fri,  4 Sep 2020 18:48:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0884325E47A
+	for <lists+linux-input@lfdr.de>; Sat,  5 Sep 2020 02:04:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726133AbgIDQr6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Sep 2020 12:47:58 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:26233 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726063AbgIDQr6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Sep 2020 12:47:58 -0400
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-533-Wn3UREnhP3iwMn0GxuRIPA-1; Fri, 04 Sep 2020 12:47:55 -0400
-X-MC-Unique: Wn3UREnhP3iwMn0GxuRIPA-1
-Received: by mail-pl1-f199.google.com with SMTP id bd4so1276915plb.17
-        for <linux-input@vger.kernel.org>; Fri, 04 Sep 2020 09:47:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PJ4hSEKWKSTrxjSP7x9HCXuDYemLPEO7rW3O3QQ6gNo=;
-        b=TyMR1EYC/hFKo0Op4P+K3ByLoWpWuOko2qPIUiKgs1aSVDDR/fK5mYrEQ5Z8tqI/OO
-         H+r6NEXX7TtC6oAXMcf3SGYgIRffu2/bCwq7lN0KeqNvre4wGR3spOQKF7Sf+GJ5aMzo
-         2TwYFDVIdwBFnLYp1HSs3ipHbbok14vkMz6YklpeCG5cSaKi8qv3EQYnsNbtdUzfoNQF
-         gwHANkb5ZlTVZQyzGRbmE2u+ui179V13fHYdsRMsm4awxkBhVAfMaDEcKM9npavWczTr
-         vhpCqhYRggB7LEFhRYgSapAbcFyXlUIzfZqkd6Ya9psSnvESorJBR/gDHyq01CtKC++G
-         fhQg==
-X-Gm-Message-State: AOAM532SXnuYSqKvbOvUjNflzcwZtPp/lBXHIxRRCzMQaPbnVtPgb5/+
-        Tl3IoJv1dAo3+0EbMktHlq+mauDVX5NGhJP8yvxAx/9jQQzy15sE/phUUTNnDAyXYECXVw/Vx06
-        qIDCu+ydJlhNou4eoZ8MH3p3TNJSbXbQu720XOKI=
-X-Received: by 2002:a63:42:: with SMTP id 63mr1715317pga.419.1599238073672;
-        Fri, 04 Sep 2020 09:47:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxZx7/tsrodaThOaKdQwDjWvk+9amCWwGSoO/9TeDKrT3cHH1VCT4WCkdP9A6+QouFvnfW+rldoDYFQSc3b8Hg=
-X-Received: by 2002:a63:42:: with SMTP id 63mr1715295pga.419.1599238073319;
- Fri, 04 Sep 2020 09:47:53 -0700 (PDT)
+        id S1726441AbgIEAEL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Sep 2020 20:04:11 -0400
+Received: from mail-dm6nam12on2100.outbound.protection.outlook.com ([40.107.243.100]:38241
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726208AbgIEAEI (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 4 Sep 2020 20:04:08 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XRJhuqviCu2R+f3fxqx4TxdSEtqUqOsMTRa3ll0pHs4U10tE1+yCIZHv/4TyFMxfCbJbViqWY9DbjSesH9/pFxrLdBlsz+mHZirVuz9i9Zrz9d6RlFniMbgaDjGmVO/EXR4aoeksXPYWm69zrcfEL6YftRh/2CHqDpXJ7VUu+ybQX/fzMM3PwcOfFYRiGkdMUa+pwnb4iUeIpL63BsD26w/jei/xI6dL0CL+FlptMQOq3FppHJkf5OC3ZVF2ZdGqhZyNj09N1Ok0/AOWI0RZqYIlbusNbgFwykizeqgzv039O7XmDbhw0GmLGSTS4pNQ9/nsukTn5ldjCS9nmipLcw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d/GTUNhF+3l7jIns/O6WJeB6YCP3DvPeDifTuLalKIo=;
+ b=YxWnBd0JzLITGYsy9yItMIxAsFDOGPSs7fbeBWZaoWIOlpLljf6EumJosTpkKIto7ooiqfm9++8lWgbVsHKPDlQBXpoHRtGnl96hK/BWmqVqAfYHDk/O4EvZJ8KC14cevNCUfdhGcwiSn8HdPrShDtqFsTS5Y+Csx2kQLJafB239JuakGHXUQhYyPRgYzyJC8GGsSZcPJz+xFeozyWgQpVm21oxlkC5z+Hm4THnW9Q3X/ZtJw1ezRc79NWDZlYlywdF9O254aj91QV4825ypfXJVtW4+v+WDdSFtoqv5SiP/x5S/ne6kbSwSJ9MUlV0vn0rKf59KAqXu64MwO3Ntdg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d/GTUNhF+3l7jIns/O6WJeB6YCP3DvPeDifTuLalKIo=;
+ b=gsRhDIrLWzxUMOJCy3QWHnVOcdN+O8uLzxyWNhjeGQ3CA0RWXostqi7kFw331Omd8zXWISdE1SbPuF/9SPsm21fPvAbCWiOTjQk7NXSaZ4xCdwSAYWAdf41G8pjJbhFeQcOQADeWGESbyfMWLYO9N6Y8UwJNfYRAUCGBCelesEM=
+Received: from MW2PR2101MB1052.namprd21.prod.outlook.com (2603:10b6:302:a::16)
+ by MW2PR2101MB1833.namprd21.prod.outlook.com (2603:10b6:302:8::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.9; Sat, 5 Sep
+ 2020 00:04:05 +0000
+Received: from MW2PR2101MB1052.namprd21.prod.outlook.com
+ ([fe80::d00b:3909:23b:83f1]) by MW2PR2101MB1052.namprd21.prod.outlook.com
+ ([fe80::d00b:3909:23b:83f1%5]) with mapi id 15.20.3370.008; Sat, 5 Sep 2020
+ 00:04:05 +0000
+From:   Michael Kelley <mikelley@microsoft.com>
+To:     Boqun Feng <boqun.feng@gmail.com>,
+        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>
+CC:     KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>
+Subject: RE: [RFC v2 02/11] Drivers: hv: vmbus: Move __vmbus_open()
+Thread-Topic: [RFC v2 02/11] Drivers: hv: vmbus: Move __vmbus_open()
+Thread-Index: AQHWgNVZDXo9hepsQkKExJs/TAQfsalZLXSg
+Date:   Sat, 5 Sep 2020 00:04:05 +0000
+Message-ID: <MW2PR2101MB1052EBD269206836141C9377D72A0@MW2PR2101MB1052.namprd21.prod.outlook.com>
+References: <20200902030107.33380-1-boqun.feng@gmail.com>
+ <20200902030107.33380-3-boqun.feng@gmail.com>
+In-Reply-To: <20200902030107.33380-3-boqun.feng@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2020-09-05T00:04:04Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=f076ea63-6053-43d1-af76-e2d7a80a4ff0;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=microsoft.com;
+x-originating-ip: [24.22.167.197]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: f9b8269a-9711-4995-0b28-08d8512f346a
+x-ms-traffictypediagnostic: MW2PR2101MB1833:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MW2PR2101MB1833B73ACD7BFF4631FDDA12D72A0@MW2PR2101MB1833.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: QaptI0zyZzZIZB9o7O8jA1NYc9p8ZzuIaWXl9rf+wfQR+cfyDXa6SzVZtSvxzAKdWyDgxodZjTQ0G0J7xHDK0OuLiZMrSTyA65ddNyiGyoYa86HzgjNKd2MFSO4p/dkkxW7FJBZq3Yk7/GIlku3FVBwBl3PyGOGZKjhNtHOhCEi04froLSeF90WAsoFX6t9zM0Xz2mYMzbGOmzi084MT0qEozbeUJtQ43U+Qdy3DN07N5fO+B1HzyBoG5dqiWvJYuU3JSRyB5qBS77pSzbV4bRwOOyaVYcFL6iR0f811YT6ca+OqLA/u0onEiGfVAiLI5d+IqktiEGBAtzXcjW7mEuYLgrAGfa+iGiBLQD/6u9k71GW5YaVvPZP9HxBR6ZbL
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR2101MB1052.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(39860400002)(376002)(136003)(396003)(366004)(7696005)(478600001)(7416002)(55016002)(66556008)(8936002)(26005)(33656002)(66446008)(316002)(9686003)(8676002)(64756008)(66476007)(5660300002)(6506007)(86362001)(8990500004)(186003)(52536014)(76116006)(54906003)(66946007)(10290500003)(82950400001)(4326008)(82960400001)(2906002)(4744005)(110136005)(71200400001)(83380400001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: MBAYL3jrYp72fV4m7AqiHR5qRhJvfLU01ytUtmiyCn5I4ZFPwSJ5ygqZhdlV8Eu+bh+QN/EFucMGUH9uZirdiXjYZkuhpwEirRCVoGpWGS6+ndvL1IQ55nFGgo4xKbxktzfcXX0ai2r30gteN7fCm9kzFH/3VbwdCZnVgS5p+f/XL+kBBVCjjCoPSK7ndPaavuDxmlDh01gg4nxB0zQvXQSBCgq+1XGju38Gi3Oj1YTVWtoifZbkyLcIZmB5LvHV1f02n4n/lHPOVHaPNsgD+yEzu6pUF3Aw0zx3YvYJNhSP9V4sGJVPyF78fwl7D5BwWKrxDut0LBS9JKInBtEXVxsV9VWf6MzaChNGygColTlcSt423XFaTHdkiRtUh8oY29/M9ZMZC9tKEpe5HQRc9OR1PeU1IeyCjrNYCKX515orCgMF1ElZUTizfTnBgzNnBBw969Ga9wXrQwEez6Dok6vJGU9iY5grqMRHauVD1Mk5AWN/zGxAxu08J7GpflXkxptwI6+NM1RYz51pGicF77y0aR1wCNy/ouCdLS1KSTJU/4baJRu5SZN61+gH4pX2aVexQb5XHExaNh5BPcajqynYBtLo1/k6a7tijhezOzGMnCIaNsNWMzV6u7/5+jPFGLnyFYrmHAO2DNIwVHTmCw==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20200811091445.erp2b23xmx3ceyzp@Rk> <CAO-hwJ+3LTUviWxDGQoXaBO-USwP4n6LRscJEzHJShqBEJ3oBg@mail.gmail.com>
- <20200904145916.nighviqyrvbm2ybx@Rk>
-In-Reply-To: <20200904145916.nighviqyrvbm2ybx@Rk>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 4 Sep 2020 18:47:42 +0200
-Message-ID: <CAO-hwJJAOGNVnu1_dwXTMUyoSsNQifGFDUV6e9g96wHKmaZqSA@mail.gmail.com>
-Subject: Re: Advice on fixing the bug of MSFT0001:00 04F3:Touchpad being
- handled by hid_multitouch by mistake
-To:     Coiby Xu <coiby.xu@gmail.com>
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR2101MB1052.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9b8269a-9711-4995-0b28-08d8512f346a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Sep 2020 00:04:05.6493
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Xkb2IXo+wEzccPXi7XLHNOyo/AMAh8/FSQhdLIQ9y1Ls+e7vnDmNNWSlg/C3c/OGpXvfQ/rE/AzslvCSjAPT5G6/EHmWQ7uu/tlhjavL85o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR2101MB1833
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Sep 4, 2020 at 4:59 PM Coiby Xu <coiby.xu@gmail.com> wrote:
->
-> On Fri, Sep 04, 2020 at 10:16:51AM +0200, Benjamin Tissoires wrote:
-> >Hi,
-> >
-> >On Tue, Aug 11, 2020 at 11:15 AM Coiby Xu <coiby.xu@gmail.com> wrote:
-> >>
-> >> Hi,
-> >>
-> >> I'm working on a touchpad device issue as reported on
-> >> https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1887190.
-> >>
-> >> This touchpad device MSFT0001:00 04F3:Touchpad should be handled by
-> >> hid_rmi. But currently hid-core.c chooses hid_multitouch by mistake,
-> >>
-> >>      1. When scanning this device's report descriptor, HID_DG_CONTACTID
-> >>         usage is found. Thus group HID_GROUP_MULTITOUCH is assigned to
-> >>         the device.
-> >>      2. The flag HID_SCAN_FLAG_MT_WIN_8 is also found. Thus group
-> >>         HID_GROUP_MULTITOUCH_WIN_8 is assigned to the device.
-> >>      3. hid-multitouch.c claims handling devices with the group of
-> >>         HID_GROUP_MULTITOUCH_WIN_8
-> >>
-> >>          static const struct hid_device_id mt_devices[] = {
-> >>                 /* Generic MT device */
-> >>                 { HID_DEVICE(HID_BUS_ANY, HID_GROUP_MULTITOUCH, HID_ANY_ID, HID_ANY_ID) },
-> >>
-> >>                 /* Generic Win 8 certified MT device */
-> >>                 {  .driver_data = MT_CLS_WIN_8,
-> >>                         HID_DEVICE(HID_BUS_ANY, HID_GROUP_MULTITOUCH_WIN_8,
-> >>                                 HID_ANY_ID, HID_ANY_ID) },
-> >>                 { }
-> >>          };
-> >>
-> >> There are several potential solutions,
-> >>      - Let the device vendor fix this problem since this device's report
-> >>        descriptor shouldn't have the HID_DG_CONTACTID usage.
-> >>      - Make it a special case by setting the device's group to
-> >>        HID_GROUP_RMI in hid_scan_report when vendor id and product ID
-> >>        are matched.
-> >>      - hid-quirks.c seems to be designed to handle special cases, is it
-> >>        suitable for this case?
-> >
-> >AFAIU, the touchpad doesn't work at all with hid-multitouch. So I
-> >guess the best is to add the VID/PID to hid-quirks.c in
-> >hid_have_special_driver[], and add it to the hid-rmi driver too.
-> >This way, you will ensure hid-rmi will pick up the device all the time.
-> >
-> >Cheers,
-> >Benjamin
->
-> Thank you for the advice! I have exactly adopted this approach by looking
-> at commit e9287099ba6539bccb20cd791269186f3ae28b85
-> ("HID: rmi: Add support for the touchpad in the Razer Blade 14 laptop")
-> as an example.
->
-> My previous email is a bit misleading because 0x04F3 is the vendor code
-> of ELAN while hid-rmi is for the Synaptics touchpad. And actually this
-> laptop model of Lenovo Legion-5 15ARH05 is shipped with both kinds of
-> touchpads,
->
-> - for the Synaptics touchpad, hid-rmi could almost handle it perfectly
->    except the clicking is not sensitive enough. I need to let my finger
->    linger on the touchpad for a while. I notice when I click on the touchpad,
->    an HID report would be received by hid-recorder. But evtest couldn't receive
->    any EV_ event. If hid-multitouch is handling the device, the cursor
->    won't move but 2-4 finger touching events could still be received by
->    evtest.
->
-> - for the ELAN touchpad, only HID reporters can be read and parsed by
->    hid-core then two input devices (mouse and touchpad) could created by
->    hid-multitouch as seen from /proc/bus/input/devices. But hid-recorder
->    could never get any HID report.
+From: Boqun Feng <boqun.feng@gmail.com> Sent: Tuesday, September 1, 2020 8:=
+01 PM
+>=20
+> Pure function movement, no functional changes. The move is made, because
+> in a later change, __vmbus_open() will rely on some static functions
+> afterwards, so we sperate the move and the modification of
 
-huh. So in both cases you have a buggy touchpad with hid-multitouch :(
+s/sperate/separate/
 
-Do both touchpads share the same VID/PID? If so, this is going to be
-interesting to decide how any of those touchpad should be handled.
-
->
-> AFAIU, isn't hid-multitouch supposed to be the implementation of Windows
-> Precision Touchpad?
-
-yes, it works for most of those. The only ones that are not working
-are usually because OEM or device makers tend to do "fun" things.
-
->  And since Precision touchpad is mandatory for
-> Windows 10 notebooks and this laptop model of Lenovo Legion-5 15ARH05
-> seem to have been certificated by Windows 10, does it mean by theory
-> hid-multiouch could handle these two touchpad devices?
-
-Well, it should, yes, but it clearly can not. You can try to give a
-try at hid-recorder from
-https://gitlab.freedesktop.org/libevdev/hid-tools. This will show what
-is actually exported by the hardware before any processing by the
-kernel. Maybe there is a new simple thing to do in hid-multitouch to
-handle those devices.
-
-Also, last time I heard, Synaptics dropped the use of hid-rmi in favor
-of hid-multitouch. Any hid-rmi touchpad should be able to use
-hid-multitouch, as this is the preferred way on Windows. But sometimes
-the various teams decide to change the rules.
-
->
-> Anyway, it seems I need to install Windows Driver Kit to capture&analyze
-> HID reports to see what's happening. Or do you have any suggestion?
-
-Unless it changed recently (I think I have seen something like that
-recently), I had to write a I2C man-in-the-middle to dump the logs
-from Windows. Project is at
-https://github.com/bentiss/SimplePeripheralBusProbe and requires a
-little bit of manual work to be able to start capturing data :(
-
-Cheers,
-Benjamin
-
->
-> --
-> Best regards,
-> Coiby
->
-
+> __vmbus_open() in two patches to make it easy to review.
+>=20
+> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+> Reviewed-by: Wei Liu <wei.liu@kernel.org>
+> ---
+>  drivers/hv/channel.c | 309 ++++++++++++++++++++++---------------------
+>  1 file changed, 155 insertions(+), 154 deletions(-)
+>=20
