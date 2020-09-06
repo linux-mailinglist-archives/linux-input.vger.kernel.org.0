@@ -2,100 +2,154 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3BFA25E9C6
-	for <lists+linux-input@lfdr.de>; Sat,  5 Sep 2020 20:57:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFF5825ECEF
+	for <lists+linux-input@lfdr.de>; Sun,  6 Sep 2020 06:51:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728423AbgIES5O (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 5 Sep 2020 14:57:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39438 "EHLO
+        id S1725816AbgIFEvP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 6 Sep 2020 00:51:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728397AbgIES5N (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Sep 2020 14:57:13 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EE3EC061244;
-        Sat,  5 Sep 2020 11:57:12 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id b12so5537096lfp.9;
-        Sat, 05 Sep 2020 11:57:12 -0700 (PDT)
+        with ESMTP id S1725280AbgIFEvN (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 6 Sep 2020 00:51:13 -0400
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 226E1C061573;
+        Sat,  5 Sep 2020 21:51:13 -0700 (PDT)
+Received: by mail-qv1-xf36.google.com with SMTP id f11so5060801qvw.3;
+        Sat, 05 Sep 2020 21:51:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=JFaZX1yPOD5YrQmNNicSv1U0vDJOVK3tkWFEsyFX4y4=;
-        b=B1RmBQpdyLlyQgJYVUrPN9Cvl8GQ++LbY4Lt3/r+6FNcLlrHHi3xyKUU1hvbb49LE0
-         BJzRGQkIs2RhGGcCcu6TopgxIhQBi47AN2TmI0fy9Uk8Ua07PkPE2HWrdCGdPXAhaLoG
-         VR9VnG3UNvHjD8wP+wQVG5IRplNurGSyNUlo0XvgyoirnVoYDnDNnyaDqf7V8JR37wVq
-         nDc9wddtckAigqQC96qxoAaMXiwCfNe5F+MfiJacds0S9DSkwWNsq5MUDYMH1WjnOFsn
-         pY2uvrdUOXMVhBf4sUZwUjC1KIFkeL9z5wY0idygzWZJbZ5sNAr5Wu6bfIW2Y7BBI8Gm
-         Vn6w==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=S+yc3P3tKNdaheR8C4irj9BMqK6L98Ju22GvQsWWgBE=;
+        b=ZUaxledhueBq9Vc/H2dDgnA1nhPm5u4mA3aJpU6quYyT010mOj6IayBu2fo6lOaUvO
+         buxgjg4D4rAffbOdzZn0SYc+G7ERV9xRSEHoHmfXNnG7VPKmeoqJCH1nRE44UjAAwMRH
+         XIpRhRbZH29KaiPD5Y/bJnpuDntLmacwNwJU3ys4Q8tN2pabrReEAivvZlGpNK1vfhuB
+         UBOozC4hO7gD7tuR7kJMe0lFXHIzzAAVZCWKVvY4Sg1kcbA8UQR2JXYTnOY+58w6qfXX
+         bksjIUq8CUyRnd1H23HqHMeAuZyvxoPcxb1DvGRuKndyCoRGyCm+J0AHoKanXF4CK3LE
+         u3gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=JFaZX1yPOD5YrQmNNicSv1U0vDJOVK3tkWFEsyFX4y4=;
-        b=qqKf44pRn3yvBdTNT/UrKnreaWQctPGUSuVsstGA1CJ3+88SkyBAA6u7dKApE7Vrf3
-         i44IQzXWvQQie9RBJ0heMzBArPVl8rtdsdzZmIkPg6YZaNH6g+o4yl7K4xsR2ANWnmeZ
-         l1DrndKIBp5a8aNwVORRGXDdIRgacrbqnySQEZwIHR03kU5z7cDDHBsyICi0qfTlStpZ
-         nnOoWaxZTBwt8aJ5PAyJW0Gyp8NOUKTigu1Gvox95IO62oulOcaY4o6r5KoI8f/HnQ5M
-         qsDZgMpRzrGIFw8MsiKiQhF/Uk86ed1kR5dcHd9+iTQr91k/X6Kgq6B16u7acIAVEKBJ
-         YWpQ==
-X-Gm-Message-State: AOAM53102AFyn+Hka1WlQHj2tCzajDoLNBSAJg24/EuFq+HIidnLqrjU
-        0QY4LvifXxpEskozhTluCo0=
-X-Google-Smtp-Source: ABdhPJxhBO9puaUXmB4DBnS0NwVqnuYWcXfGNDEU/UyZMtvQEza5s0m079mZOr7saQ6QL9Ja8TMTzA==
-X-Received: by 2002:ac2:5547:: with SMTP id l7mr6639332lfk.153.1599332230136;
-        Sat, 05 Sep 2020 11:57:10 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.googlemail.com with ESMTPSA id q7sm2742041lfr.16.2020.09.05.11.57.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Sep 2020 11:57:09 -0700 (PDT)
-Subject: Re: [PATCH v2 1/1] Input: atmel_mxt_ts - implement I2C retries
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Jiada Wang <jiada_wang@mentor.com>
-Cc:     "nick@shmanahar.org" <nick@shmanahar.org>,
-        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=S+yc3P3tKNdaheR8C4irj9BMqK6L98Ju22GvQsWWgBE=;
+        b=kzgCS7QJ85/AXb0R27urd2k8GpcjSHaVSI1yl7TJHuP0dnNk0agrHk79W+ynJ3HM/b
+         vpd1RNGYQs+DDNm2cNsEj4B/Lz2ZSwQPYva+UWojLiJ8vKEDtDa5NhN8K9BQ2rDH5Qyj
+         Q4O1WIT2wwji4/kNamOafUGxhyYula2loDO6sZeUe2oyB50zA/921a93wCrfDfiPrARn
+         13cRaW/afICi0DgNWtGvyQmFlAC3XW/DMHZFo5mlWz8xHdKEuaOphnTlkmeA1Pmy2BDF
+         cZkDbkxwU0AsURKWitFZXZreq2h2WhxWqJySERTS13UCDm/u4II51hGQBQykFEEnc+re
+         Nu0Q==
+X-Gm-Message-State: AOAM531jhTtZlHMsowwRTdM7DVGg0y+85cuABfEnvupEqOB0WlG8NRut
+        Z/l5+sqhfFs8TYNKdcczuqM=
+X-Google-Smtp-Source: ABdhPJwKhFcCv07nv/3Y6M8uL9V109sfu5OYjJg3KXakjofYEfAXOLshmMpH+JCDwfK7uU1SXrSR+A==
+X-Received: by 2002:a0c:e989:: with SMTP id z9mr14715798qvn.81.1599367870118;
+        Sat, 05 Sep 2020 21:51:10 -0700 (PDT)
+Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
+        by smtp.gmail.com with ESMTPSA id f8sm4584295qtx.81.2020.09.05.21.51.08
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 05 Sep 2020 21:51:09 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailauth.nyi.internal (Postfix) with ESMTP id 3F4E927C0054;
+        Sun,  6 Sep 2020 00:51:08 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Sun, 06 Sep 2020 00:51:08 -0400
+X-ME-Sender: <xms:u2pUX1eiWo1nY4nzQanEa7Jwlj-heG1LV_JUZpnLEEcajp61zadSZg>
+    <xme:u2pUXzNlm__kfWD8uD59qu_9aCZFKaJ9kXs0guPAHmKsPbGDjwZ5fD6qvC3ivOZGa
+    4Su548MZErRSCNQXQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudegiedgkeejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeeuohhquhhn
+    ucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrfgrth
+    htvghrnhepvdelieegudfggeevjefhjeevueevieetjeeikedvgfejfeduheefhffggedv
+    geejnecukfhppeehvddrudehhedrudduuddrjedunecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgv
+    rhhsohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfh
+    gvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgv
+X-ME-Proxy: <xmx:u2pUX-hAeu5Md4hciO5-OHgDSWHKWz4nyDaRK2xLIiP-E2uR9cRmAA>
+    <xmx:u2pUX-9-IavrJS6qrIsE34_JGX33g7gOvh35zQ2f9pYR1hx6PUukXg>
+    <xmx:u2pUXxuK5XdMKRm91YsrmUijAm8GeeCSU6HEt7bRFOg2WaBUJJp1dQ>
+    <xmx:vGpUXxMlvS1HryUnhHQ842KlMvAuuEjtvsYeEQ957BCPeXFAXvCv-LWjI14>
+Received: from localhost (unknown [52.155.111.71])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 0641F3280059;
+        Sun,  6 Sep 2020 00:51:06 -0400 (EDT)
+Date:   Sun, 6 Sep 2020 12:51:05 +0800
+From:   Boqun Feng <boqun.feng@gmail.com>
+To:     Michael Kelley <mikelley@microsoft.com>
+Cc:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
         "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Andrew_Gabbasov@mentor.com" <Andrew_Gabbasov@mentor.com>,
-        "erosca@de.adit-jv.com" <erosca@de.adit-jv.com>
-References: <20200903155904.17454-1-jiada_wang@mentor.com>
- <CAHp75Vfw1bJ+0pRJKVJ=nCJ-5rVzYLjkP4iWPqiG-it0qp5GFg@mail.gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <610b2513-7d62-386d-ed2a-54e1bea4df43@gmail.com>
-Date:   Sat, 5 Sep 2020 21:57:08 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>
+Subject: Re: [RFC v2 03/11] Drivers: hv: vmbus: Introduce types of GPADL
+Message-ID: <20200906045105.GE7503@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+References: <20200902030107.33380-1-boqun.feng@gmail.com>
+ <20200902030107.33380-4-boqun.feng@gmail.com>
+ <MW2PR2101MB105294660A73A7C69273AB9ED72A0@MW2PR2101MB1052.namprd21.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <CAHp75Vfw1bJ+0pRJKVJ=nCJ-5rVzYLjkP4iWPqiG-it0qp5GFg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <MW2PR2101MB105294660A73A7C69273AB9ED72A0@MW2PR2101MB1052.namprd21.prod.outlook.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-05.09.2020 21:02, Andy Shevchenko пишет:
-...
->      #define MXT_CRC_TIMEOUT                1000    /* msec */
->      #define MXT_FW_RESET_TIME      3000    /* msec */
->      #define MXT_FW_CHG_TIMEOUT     300     /* msec */
->     +#define MXT_WAKEUP_TIME                25      /* msec */
+On Sat, Sep 05, 2020 at 12:19:08AM +0000, Michael Kelley wrote:
+[...]
+> > 
+> > @@ -462,7 +576,13 @@ static int __vmbus_open(struct vmbus_channel *newchannel,
+> >  	open_msg->openid = newchannel->offermsg.child_relid;
+> >  	open_msg->child_relid = newchannel->offermsg.child_relid;
+> >  	open_msg->ringbuffer_gpadlhandle = newchannel->ringbuffer_gpadlhandle;
+> > -	open_msg->downstream_ringbuffer_pageoffset = newchannel-
+> > >ringbuffer_send_offset;
+> > +	/*
+> > +	 * The unit of ->downstream_ringbuffer_pageoffset is HV_HYP_PAGE and
+> > +	 * the unit of ->ringbuffer_send_offset is PAGE, so here we first
+> > +	 * calculate it into bytes and then convert into HV_HYP_PAGE.
+> > +	 */
+> > +	open_msg->downstream_ringbuffer_pageoffset =
+> > +		hv_ring_gpadl_send_offset(newchannel->ringbuffer_send_offset << PAGE_SHIFT) >> HV_HYP_PAGE_SHIFT;
 > 
+> Line length?
 > 
-> Can we simple add _MS unit suffix to the definition?
 
-I'd expect this
+Thanks for the review! I've resolved all your comments on wording for
+patch #2 and #4 in my local branch. For this line length issue, I fix it
+with two changes:
 
->      /* Command to unlock bootloader */
->      #define MXT_UNLOCK_CMD_MSB     0xaa
->     @@ -626,6 +627,7 @@ static int __mxt_read_reg(struct i2c_client *client,
->             struct i2c_msg xfer[2];
->             u8 buf[2];
->             int ret;
->     +       bool retry = false;
-> 
-> 
-> Keep this ordered by length.
+1)	both the callsite of hv_ring_gpadl_send_offset() use ">> ..."
+	to calculate the index in HV_HYP_PAGE, so I change the function
+	to return offset in unit of HV_HYP_PAGE instead of bytes, and
+	that can save us the ">> ..." here.
 
-and this to be separate patches that are cleaning whole driver code,
-otherwise there are no much benefits.
+2)	newchannel->ringbuffer_send_offset is read in the previous code
+	of the function into local variable "send_pages", so I use it
+	to replace the "newchannel->ringbuffer_send_offset" here.
+
+now the code is:
+
+	open_msg->downstream_ringbuffer_pageoffset =
+		hv_ring_gpadl_send_hvpgoffset(send_pages << PAGE_SHIFT);
+
+Regards,
+Boqun
+
+
+> >  	open_msg->target_vp = hv_cpu_number_to_vp_number(newchannel->target_cpu);
+> > 
+> >  	if (userdatalen)
+> > @@ -556,7 +676,6 @@ int vmbus_open(struct vmbus_channel *newchannel,
+> >  }
+> >  EXPORT_SYMBOL_GPL(vmbus_open);
+> > 
