@@ -2,203 +2,148 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CBC725EDC1
-	for <lists+linux-input@lfdr.de>; Sun,  6 Sep 2020 14:20:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64DC725F120
+	for <lists+linux-input@lfdr.de>; Mon,  7 Sep 2020 02:09:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728828AbgIFMUs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 6 Sep 2020 08:20:48 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:51888 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728829AbgIFMUm (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sun, 6 Sep 2020 08:20:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1599394823;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=MCobL86FrEBavZygF1BSCZSOLRdneG+Jlnh8qtrQAF8=;
-        b=UJC4DA8aF6NzDxqmPsAxbx3grfyjToi3G8q/j5irKVEsMwJvODDDr8pdDCbgJMsqxVCiD7
-        hknqpSaMTkec7P/0JSrw4HpCD1UC9eVUxVimmIAvSd3acrH73PQ5c1evh2LUAHK4Hpe0/J
-        tm8nxnAvbIY9KdURRcNrrLgT9dxW4bQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-560-Yg52OZkJP4SDFLSciZpGNQ-1; Sun, 06 Sep 2020 08:20:22 -0400
-X-MC-Unique: Yg52OZkJP4SDFLSciZpGNQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DECBC1005E6E;
-        Sun,  6 Sep 2020 12:20:20 +0000 (UTC)
-Received: from x1.localdomain (ovpn-112-17.ams2.redhat.com [10.36.112.17])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8327A5D9CC;
-        Sun,  6 Sep 2020 12:20:19 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        linux-input@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-acpi@vger.kernel.org
-Subject: [PATCH] Input: soc_button_array - Work around DSDTs which modify the irqflags
-Date:   Sun,  6 Sep 2020 14:20:16 +0200
-Message-Id: <20200906122016.4628-2-hdegoede@redhat.com>
-In-Reply-To: <20200906122016.4628-1-hdegoede@redhat.com>
-References: <20200906122016.4628-1-hdegoede@redhat.com>
+        id S1726882AbgIGAJX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 6 Sep 2020 20:09:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52342 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726721AbgIGAJW (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 6 Sep 2020 20:09:22 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64589C061573;
+        Sun,  6 Sep 2020 17:09:21 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id j11so15941850ejk.0;
+        Sun, 06 Sep 2020 17:09:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=93zhO48suX6QzkH46mTIlpJ2YtXViw8tf8wpAARIdJo=;
+        b=MAuaXP8/gHKbbROVChKdLmxdhfQd+YgsNtrxAvoddxd9pYs810z7VxMVh0OBByd7px
+         nVdkeSTav3p4ro8baI9CauV5NjiyqZBLetZZFJ8eG8VFhl7BxAqhKljKEckKlFaRTuxr
+         ravHJ8/n9UHWAgbc/H/IV4s0AoTmNJLPi5CFc1fFh9z/ky9VzAYgH4QHRdZqU+yw8FYd
+         f4p+5Ucox12O9dnEfMPgdDwp4lQ0LuPhw53bYc+Ta9XxQlV0i5UjUkWQrMT8yehspxaP
+         VCwPMV0lCDqoVo6AcdHxX0A/a0xmUEhjmvBgU0u9QHU0X+RzKge5ohQ67iVT4Qsjiz7C
+         LsTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=93zhO48suX6QzkH46mTIlpJ2YtXViw8tf8wpAARIdJo=;
+        b=lV3S7ptPloZRGrzMFVO1rNskQxzJ4HN1HlxrwgEiwLWbVhdDWZ24gC9eSlmmrIT766
+         wBYWLnVZMHMrgj6IGYpXr62aGQPb20BLvO+9xo2IrNysufVgXyAKFqXpSgCCYISxjhO3
+         L7X47b4StnsVZUMrQkD0wGgqteo1gtub3a7+e7e/3D+z+/K2DV2vEic6Y5L9JgQ215jA
+         6xTFFqSbjxRlbl9nbXYXIHmhqHRFe49BqNAbEvGORaY+R+H7PCuOX5HdjR+rKKerewja
+         VD1fc3mgsxe7bgqSTQPtUrNdj2QjFPka8pLWX975uqw4mOAFnIKxo2oydkTKUfFqxehO
+         yrUA==
+X-Gm-Message-State: AOAM531Tp+2ozN6VlHOVszhjFdt++3WttRCgR5D+Pekwz/iUrvsrIxYr
+        jjEbF9MABAfbU0DmAovMdjs=
+X-Google-Smtp-Source: ABdhPJweeQ4NuQTd29lGUGxEe+zjVwQETK+Z2icG9hinmHOQfqVfRyzOItom1EPmdDSFHaBaDqtSvg==
+X-Received: by 2002:a17:906:a0c2:: with SMTP id bh2mr19227646ejb.493.1599437359957;
+        Sun, 06 Sep 2020 17:09:19 -0700 (PDT)
+Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
+        by smtp.gmail.com with ESMTPSA id sd17sm13977062ejb.93.2020.09.06.17.09.16
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 06 Sep 2020 17:09:18 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailauth.nyi.internal (Postfix) with ESMTP id DE62827C0054;
+        Sun,  6 Sep 2020 20:09:15 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Sun, 06 Sep 2020 20:09:15 -0400
+X-ME-Sender: <xms:KnpVX_Ch3CwVUK0KmW_gD3CLFPUiK-_U3jGIt7G5xFPQQCkvrJRRcA>
+    <xme:KnpVX1ivpASud1s-3tVmIZdTT7SRzcHgHnG5_ox9zhyaSG6DVIXiG9tY6jQwfSpa0
+    -p5tbG7XSADzE7xRA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudegkedgvdekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeeuohhquhhn
+    ucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrfgrth
+    htvghrnhepvdelieegudfggeevjefhjeevueevieetjeeikedvgfejfeduheefhffggedv
+    geejnecukfhppeehvddrudehhedrudduuddrjedunecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgv
+    rhhsohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfh
+    gvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgv
+X-ME-Proxy: <xmx:KnpVX6kQKNwQPvrDp_3a-lIFvB20SRN_E3ZHCmpb1OlaGsvpzeHO2Q>
+    <xmx:KnpVXxxatupxLX5GJq5ves9wfrvpo0InsWQa73s6d0T2z5zoyH5-1A>
+    <xmx:KnpVX0RKrVoYlcSYg7qJJhpM1W1TLfR3TV4CtjBAfzxfUnTVyYpjnw>
+    <xmx:K3pVXxiqzy9rzAbNzKVEXt2fWFsQvcG5GZG5SOVZ7pt33Ftx7seM32rQPBI>
+Received: from localhost (unknown [52.155.111.71])
+        by mail.messagingengine.com (Postfix) with ESMTPA id F393B328005D;
+        Sun,  6 Sep 2020 20:09:13 -0400 (EDT)
+Date:   Mon, 7 Sep 2020 08:09:12 +0800
+From:   Boqun Feng <boqun.feng@gmail.com>
+To:     Michael Kelley <mikelley@microsoft.com>
+Cc:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+        KY Srinivasan <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>
+Subject: Re: [RFC v2 07/11] hv_netvsc: Use HV_HYP_PAGE_SIZE for Hyper-V
+ communication
+Message-ID: <20200907000912.GF7503@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+References: <20200902030107.33380-1-boqun.feng@gmail.com>
+ <20200902030107.33380-8-boqun.feng@gmail.com>
+ <MW2PR2101MB10521041242835B2D6E3EA0AD72A0@MW2PR2101MB1052.namprd21.prod.outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <MW2PR2101MB10521041242835B2D6E3EA0AD72A0@MW2PR2101MB1052.namprd21.prod.outlook.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Some 2-in-1s which use the soc_button_array driver have this ugly issue in
-their DSDT where the _LID method modifies the irq-type settings of the
-GPIOs used for the power and home buttons. The intend of this AML code is
-to disable these buttons when the lid is closed.
+On Sat, Sep 05, 2020 at 12:30:48AM +0000, Michael Kelley wrote:
+> From: Boqun Feng <boqun.feng@gmail.com> Sent: Tuesday, September 1, 2020 8:01 PM
+[...]
+> >  struct rndis_request {
+> >  	struct list_head list_ent;
+> >  	struct completion  wait_event;
+> > @@ -215,18 +215,18 @@ static int rndis_filter_send_request(struct rndis_device *dev,
+> >  	packet->page_buf_cnt = 1;
+> > 
+> >  	pb[0].pfn = virt_to_phys(&req->request_msg) >>
+> > -					PAGE_SHIFT;
+> > +					HV_HYP_PAGE_SHIFT;
+> >  	pb[0].len = req->request_msg.msg_len;
+> >  	pb[0].offset =
+> > -		(unsigned long)&req->request_msg & (PAGE_SIZE - 1);
+> > +		(unsigned long)&req->request_msg & (HV_HYP_PAGE_SIZE - 1);
+> 
+> Use offset_in_hvpage() as defined in patch 6 of the series?
+> 
 
-The AML does this by directly poking the GPIO controllers registers. This
-is problematic because when re-enabling the irq, which happens whenever
-_LID gets called with the lid open (e.g. on boot and on resume), it sets
-the irq-type to IRQ_TYPE_LEVEL_LOW. Where as the gpio-keys driver programs
-the type to, and expects it to be, IRQ_TYPE_EDGE_BOTH.
+Fair enough, I will use offset_in_hvpage() in the next version
 
-This commit adds a workaround for this which (on affected devices) does
-not set gpio_keys_button.gpio on these 2-in-1s, instead it gets the irq for
-the GPIO, configures it as IRQ_TYPE_LEVEL_LOW (to match how the _LID AML
-code configures it) and passes the irq in gpio_keys_button.irq.
+Regards,
+Boqun
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/input/misc/soc_button_array.c | 69 +++++++++++++++++++++++----
- 1 file changed, 60 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
-index 837c787e9c4b..cae1a3fae83a 100644
---- a/drivers/input/misc/soc_button_array.c
-+++ b/drivers/input/misc/soc_button_array.c
-@@ -11,6 +11,7 @@
- #include <linux/init.h>
- #include <linux/kernel.h>
- #include <linux/acpi.h>
-+#include <linux/dmi.h>
- #include <linux/gpio/consumer.h>
- #include <linux/gpio_keys.h>
- #include <linux/gpio.h>
-@@ -42,23 +43,66 @@ struct soc_button_data {
- 	struct platform_device *children[BUTTON_TYPES];
- };
- 
-+/*
-+ * Some 2-in-1s which use the soc_button_array driver have this ugly issue in
-+ * their DSDT where the _LID method modifies the irq-type settings of the GPIOs
-+ * used for the power and home buttons. The intend of this AML code is to
-+ * disable these buttons when the lid is closed.
-+ * The AML does this by directly poking the GPIO controllers registers. This is
-+ * problematic because when re-enabling the irq, which happens whenever _LID
-+ * gets called with the lid open (e.g. on boot and on resume), it sets the
-+ * irq-type to IRQ_TYPE_LEVEL_LOW. Where as the gpio-keys driver programs the
-+ * type to, and expects it to be, IRQ_TYPE_EDGE_BOTH.
-+ * To work around this we don't set gpio_keys_button.gpio on these 2-in-1s,
-+ * instead we get the irq for the GPIO ourselves, configure it as
-+ * IRQ_TYPE_LEVEL_LOW (to match how the _LID AML code configures it) and pass
-+ * the irq in gpio_keys_button.irq. Below is a list of affected devices.
-+ */
-+static const struct dmi_system_id dmi_use_low_level_irq[] = {
-+	{
-+		/*
-+		 * Acer Switch 10 SW5-012. _LID method messes with home- and
-+		 * power-button GPIO IRQ settings. When (re-)enabling the irq
-+		 * it ors in its own flags without clearing the previous set
-+		 * ones, leading to an irq-type of IRQ_TYPE_LEVEL_LOW |
-+		 * IRQ_TYPE_LEVEL_HIGH causing a continuous interrupt storm.
-+		 */
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Aspire SW5-012"),
-+		},
-+	},
-+	{
-+		/*
-+		 * Acer One S1003. _LID method messes with power-button GPIO
-+		 * IRQ settings, leading to a non working power-button.
-+		 */
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "One S1003"),
-+		},
-+	},
-+	{} /* Terminating entry */
-+};
-+
- /*
-  * Get the Nth GPIO number from the ACPI object.
-  */
--static int soc_button_lookup_gpio(struct device *dev, int acpi_index)
-+static int soc_button_lookup_gpio(struct device *dev, int acpi_index,
-+				  int *gpio_ret, int *irq_ret)
- {
- 	struct gpio_desc *desc;
--	int gpio;
- 
- 	desc = gpiod_get_index(dev, NULL, acpi_index, GPIOD_ASIS);
- 	if (IS_ERR(desc))
- 		return PTR_ERR(desc);
- 
--	gpio = desc_to_gpio(desc);
-+	*gpio_ret = desc_to_gpio(desc);
-+	*irq_ret = gpiod_to_irq(desc);
- 
- 	gpiod_put(desc);
- 
--	return gpio;
-+	return 0;
- }
- 
- static struct platform_device *
-@@ -70,9 +114,8 @@ soc_button_device_create(struct platform_device *pdev,
- 	struct platform_device *pd;
- 	struct gpio_keys_button *gpio_keys;
- 	struct gpio_keys_platform_data *gpio_keys_pdata;
-+	int error, gpio, irq;
- 	int n_buttons = 0;
--	int gpio;
--	int error;
- 
- 	for (info = button_info; info->name; info++)
- 		if (info->autorepeat == autorepeat)
-@@ -92,8 +135,8 @@ soc_button_device_create(struct platform_device *pdev,
- 		if (info->autorepeat != autorepeat)
- 			continue;
- 
--		gpio = soc_button_lookup_gpio(&pdev->dev, info->acpi_index);
--		if (!gpio_is_valid(gpio)) {
-+		error = soc_button_lookup_gpio(&pdev->dev, info->acpi_index, &gpio, &irq);
-+		if (error || irq < 0) {
- 			/*
- 			 * Skip GPIO if not present. Note we deliberately
- 			 * ignore -EPROBE_DEFER errors here. On some devices
-@@ -108,9 +151,17 @@ soc_button_device_create(struct platform_device *pdev,
- 			continue;
- 		}
- 
-+		/* See dmi_use_low_level_irq[] comment */
-+		if (!autorepeat && dmi_check_system(dmi_use_low_level_irq)) {
-+			irq_set_irq_type(irq, IRQ_TYPE_LEVEL_LOW);
-+			gpio_keys[n_buttons].irq = irq;
-+			gpio_keys[n_buttons].gpio = -ENOENT;
-+		} else {
-+			gpio_keys[n_buttons].gpio = gpio;
-+		}
-+
- 		gpio_keys[n_buttons].type = info->event_type;
- 		gpio_keys[n_buttons].code = info->event_code;
--		gpio_keys[n_buttons].gpio = gpio;
- 		gpio_keys[n_buttons].active_low = info->active_low;
- 		gpio_keys[n_buttons].desc = info->name;
- 		gpio_keys[n_buttons].wakeup = info->wakeup;
--- 
-2.28.0
-
+> > 
+> >  	/* Add one page_buf when request_msg crossing page boundary */
+> > -	if (pb[0].offset + pb[0].len > PAGE_SIZE) {
+> > +	if (pb[0].offset + pb[0].len > HV_HYP_PAGE_SIZE) {
+> >  		packet->page_buf_cnt++;
+> > -		pb[0].len = PAGE_SIZE -
+> > +		pb[0].len = HV_HYP_PAGE_SIZE -
+> >  			pb[0].offset;
+> >  		pb[1].pfn = virt_to_phys((void *)&req->request_msg
+> > -			+ pb[0].len) >> PAGE_SHIFT;
+> > +			+ pb[0].len) >> HV_HYP_PAGE_SHIFT;
+> >  		pb[1].offset = 0;
+> >  		pb[1].len = req->request_msg.msg_len -
+> >  			pb[0].len;
+> > --
+> > 2.28.0
+> 
