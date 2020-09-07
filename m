@@ -2,94 +2,118 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF53425F6EF
-	for <lists+linux-input@lfdr.de>; Mon,  7 Sep 2020 11:57:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18E8B25F87D
+	for <lists+linux-input@lfdr.de>; Mon,  7 Sep 2020 12:34:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728331AbgIGJ5E (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 7 Sep 2020 05:57:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33749 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728233AbgIGJ5D (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 7 Sep 2020 05:57:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1599472621;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=7VKI/dNTQnSRkTSLyHu8zqh4c7pDnjdk9VxUVzqLgFQ=;
-        b=J7cHpwxqFg1UMcVqwJ4ukqATxpe8gW7yiecaQkYWOKzF1/vT4Zd/hEQZhnkUb+yDWY11xF
-        dkkne+TXfySVds1TBFdn1DoJNKX8lIZyUH9hb8oudrInuZ/egba0+HC+AE2d6OpP0DHiYB
-        hmW19mg6GsLeBDixG2zAHZ6f4B0OZpk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-137-VyeMWvWtOJCriOYZsBOqQQ-1; Mon, 07 Sep 2020 05:56:59 -0400
-X-MC-Unique: VyeMWvWtOJCriOYZsBOqQQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D01D418B6491;
-        Mon,  7 Sep 2020 09:56:58 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-115-65.ams2.redhat.com [10.36.115.65])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C58F4805F0;
-        Mon,  7 Sep 2020 09:56:57 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org
-Subject: [PATCH] Input: i8042 - add Entroware Proteus EL07R4 to nomux and reset lists
-Date:   Mon,  7 Sep 2020 11:56:56 +0200
-Message-Id: <20200907095656.13155-1-hdegoede@redhat.com>
+        id S1728907AbgIGKeU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 7 Sep 2020 06:34:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34912 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728644AbgIGKdW (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Sep 2020 06:33:22 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DC0FC061573
+        for <linux-input@vger.kernel.org>; Mon,  7 Sep 2020 03:33:20 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id y15so1074981wmi.0
+        for <linux-input@vger.kernel.org>; Mon, 07 Sep 2020 03:33:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zDegqVmimS9dIJwNDMtty6LSuyVmgMvA+oa1ZvHmVIY=;
+        b=gdjLbdpOV3gN6yZT5yR6EraPQlcFbNhhBhstzpB/HgTvOuSG9WyZjmNruLe4HpYA9e
+         edlT0TL47uetSEnv9IJ154SPP1ssMzk3ow7nILL3yxn7K5loUHfAm6umGcLDOnseHI5M
+         fH1Qlt3eKv19wdRfn6a9BgfVUj69P/VgMkW718b9aWdPkevXrl2ZHZxKfCWZFGd1t4fr
+         hQg86QKqz6nQ0DdoYmuT3PEBzw1kthhlKrWGc/fzAZehYPMJF0/EDWdX1QlqAMVIKsHR
+         yGBN93/uJuBddwRyC5Hj76ehMUXFzYCRX+HuFc3fqu1/vZSl235e7nOdyY2if9Tock/h
+         Qgqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zDegqVmimS9dIJwNDMtty6LSuyVmgMvA+oa1ZvHmVIY=;
+        b=cXTy8ptGbIR6+6KPH7nhB0q4vb5c5PYMOe6j20yBUIfH7oFcBLA/uA9y3KJiVMtC//
+         Yb3rPyYJsaF4+sFvm2vTBVBDzKP3o7Zi3Lo3ES0ZZtDG8I8yiE4rXMG1SrdctVLISzvk
+         u8xa2K/XNic+5rsPl7brPMcTkN8bzp/zANETY0EUj5n1cXYg2/mGxm4UikkjljrXRCj8
+         HJkPxodrpHT4JpMR74A10UKci0Vzy5Kpth7I2BvZFkqoHwtjcTWLw/mOAWIcEX0bDGRc
+         6izQxu/2EBVcGdiI4B6HkAaC/B5+IK08b/SJHbBFcyenCWv02Sc7ejDO9bjGkbm0ZqGC
+         AKJw==
+X-Gm-Message-State: AOAM533Zx7laWwLkz30esl4/PEIWNMlRJl5cxwjO2koSEyZtQ2ndO2Fd
+        pUTBPdaGB8zGMt7kHqOfxRBFjg==
+X-Google-Smtp-Source: ABdhPJwmKB1R49xT+gzxzJMk8hfpF7xfzlN8Z3JZRv87J9pj6lSBqqi2dBpFwiLaZ9qbxtlErOlEOg==
+X-Received: by 2002:a7b:cbd4:: with SMTP id n20mr21202627wmi.105.1599474798946;
+        Mon, 07 Sep 2020 03:33:18 -0700 (PDT)
+Received: from localhost.localdomain (122.105.23.93.rev.sfr.net. [93.23.105.122])
+        by smtp.gmail.com with ESMTPSA id i1sm32395936wrc.49.2020.09.07.03.33.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Sep 2020 03:33:18 -0700 (PDT)
+From:   Fabien Parent <fparent@baylibre.com>
+To:     linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org
+Cc:     hsin-hsiung.wang@mediatek.com, lee.jones@linaro.org,
+        matthias.bgg@gmail.com, robh+dt@kernel.org,
+        dmitry.torokhov@gmail.com, Fabien Parent <fparent@baylibre.com>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v5 1/3] dt-bindings: mfd: mt6397: Add bindings for MT6392 PMIC
+Date:   Mon,  7 Sep 2020 12:33:09 +0200
+Message-Id: <20200907103311.1601907-1-fparent@baylibre.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The keyboard drops keypresses early during boot unless both the nomux
-and reset quirks are set. Add DMI table entries for this.
+Add the currently supported bindings for the MT6392 PMIC.
 
-BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1806085
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Fabien Parent <fparent@baylibre.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Acked-for-mfd-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/input/serio/i8042-x86ia64io.h | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
 
-diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
-index 7d7f73702726..37fb9aa88f9c 100644
---- a/drivers/input/serio/i8042-x86ia64io.h
-+++ b/drivers/input/serio/i8042-x86ia64io.h
-@@ -548,6 +548,14 @@ static const struct dmi_system_id __initconst i8042_dmi_nomux_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Aspire 5738"),
- 		},
- 	},
-+	{
-+		/* Entroware Proteus */
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Entroware"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Proteus"),
-+			DMI_MATCH(DMI_PRODUCT_VERSION, "EL07R4"),
-+		},
-+	},
- 	{ }
- };
+V5:
+	* Rebased, removed regulator documentation because it will be send later
+	on in another patch series
+
+V4:
+	* No change
+
+V3:
+	* No change
+
+V2:
+	* New patch
+
+---
+ Documentation/devicetree/bindings/mfd/mt6397.txt | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/mfd/mt6397.txt b/Documentation/devicetree/bindings/mfd/mt6397.txt
+index 2661775a3825..f051a951ba72 100644
+--- a/Documentation/devicetree/bindings/mfd/mt6397.txt
++++ b/Documentation/devicetree/bindings/mfd/mt6397.txt
+@@ -21,6 +21,7 @@ Required properties:
+ compatible:
+ 	"mediatek,mt6323" for PMIC MT6323
+ 	"mediatek,mt6358" for PMIC MT6358
++	"mediatek,mt6392" for PMIC MT6392
+ 	"mediatek,mt6397" for PMIC MT6397
  
-@@ -676,6 +684,14 @@ static const struct dmi_system_id __initconst i8042_dmi_reset_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "33474HU"),
- 		},
- 	},
-+	{
-+		/* Entroware Proteus */
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Entroware"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Proteus"),
-+			DMI_MATCH(DMI_PRODUCT_VERSION, "EL07R4"),
-+		},
-+	},
- 	{ }
- };
+ Optional subnodes:
+@@ -52,7 +53,10 @@ Optional subnodes:
  
+ - keys
+ 	Required properties:
+-		- compatible: "mediatek,mt6397-keys" or "mediatek,mt6323-keys"
++		- compatible:
++			- "mediatek,mt6323-keys"
++			- "mediatek,mt6392-keys", "mediatek,mt6397-keys"
++			- "mediatek,mt6397-keys"
+ 	see ../input/mtk-pmic-keys.txt
+ 
+ - power-controller
 -- 
 2.28.0
 
