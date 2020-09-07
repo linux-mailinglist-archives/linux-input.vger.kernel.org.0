@@ -2,148 +2,148 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64DC725F120
-	for <lists+linux-input@lfdr.de>; Mon,  7 Sep 2020 02:09:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E43F25F1F3
+	for <lists+linux-input@lfdr.de>; Mon,  7 Sep 2020 05:06:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726882AbgIGAJX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 6 Sep 2020 20:09:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52342 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726721AbgIGAJW (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 6 Sep 2020 20:09:22 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64589C061573;
-        Sun,  6 Sep 2020 17:09:21 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id j11so15941850ejk.0;
-        Sun, 06 Sep 2020 17:09:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=93zhO48suX6QzkH46mTIlpJ2YtXViw8tf8wpAARIdJo=;
-        b=MAuaXP8/gHKbbROVChKdLmxdhfQd+YgsNtrxAvoddxd9pYs810z7VxMVh0OBByd7px
-         nVdkeSTav3p4ro8baI9CauV5NjiyqZBLetZZFJ8eG8VFhl7BxAqhKljKEckKlFaRTuxr
-         ravHJ8/n9UHWAgbc/H/IV4s0AoTmNJLPi5CFc1fFh9z/ky9VzAYgH4QHRdZqU+yw8FYd
-         f4p+5Ucox12O9dnEfMPgdDwp4lQ0LuPhw53bYc+Ta9XxQlV0i5UjUkWQrMT8yehspxaP
-         VCwPMV0lCDqoVo6AcdHxX0A/a0xmUEhjmvBgU0u9QHU0X+RzKge5ohQ67iVT4Qsjiz7C
-         LsTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=93zhO48suX6QzkH46mTIlpJ2YtXViw8tf8wpAARIdJo=;
-        b=lV3S7ptPloZRGrzMFVO1rNskQxzJ4HN1HlxrwgEiwLWbVhdDWZ24gC9eSlmmrIT766
-         wBYWLnVZMHMrgj6IGYpXr62aGQPb20BLvO+9xo2IrNysufVgXyAKFqXpSgCCYISxjhO3
-         L7X47b4StnsVZUMrQkD0wGgqteo1gtub3a7+e7e/3D+z+/K2DV2vEic6Y5L9JgQ215jA
-         6xTFFqSbjxRlbl9nbXYXIHmhqHRFe49BqNAbEvGORaY+R+H7PCuOX5HdjR+rKKerewja
-         VD1fc3mgsxe7bgqSTQPtUrNdj2QjFPka8pLWX975uqw4mOAFnIKxo2oydkTKUfFqxehO
-         yrUA==
-X-Gm-Message-State: AOAM531Tp+2ozN6VlHOVszhjFdt++3WttRCgR5D+Pekwz/iUrvsrIxYr
-        jjEbF9MABAfbU0DmAovMdjs=
-X-Google-Smtp-Source: ABdhPJweeQ4NuQTd29lGUGxEe+zjVwQETK+Z2icG9hinmHOQfqVfRyzOItom1EPmdDSFHaBaDqtSvg==
-X-Received: by 2002:a17:906:a0c2:: with SMTP id bh2mr19227646ejb.493.1599437359957;
-        Sun, 06 Sep 2020 17:09:19 -0700 (PDT)
-Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
-        by smtp.gmail.com with ESMTPSA id sd17sm13977062ejb.93.2020.09.06.17.09.16
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 06 Sep 2020 17:09:18 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailauth.nyi.internal (Postfix) with ESMTP id DE62827C0054;
-        Sun,  6 Sep 2020 20:09:15 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Sun, 06 Sep 2020 20:09:15 -0400
-X-ME-Sender: <xms:KnpVX_Ch3CwVUK0KmW_gD3CLFPUiK-_U3jGIt7G5xFPQQCkvrJRRcA>
-    <xme:KnpVX1ivpASud1s-3tVmIZdTT7SRzcHgHnG5_ox9zhyaSG6DVIXiG9tY6jQwfSpa0
-    -p5tbG7XSADzE7xRA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudegkedgvdekucetufdoteggodetrfdotf
+        id S1726259AbgIGDGE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 6 Sep 2020 23:06:04 -0400
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:54919 "EHLO
+        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726341AbgIGDGD (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sun, 6 Sep 2020 23:06:03 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id 606755C0094;
+        Sun,  6 Sep 2020 23:06:01 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute7.internal (MEProxy); Sun, 06 Sep 2020 23:06:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=WuFqT77QlCSP+p4RVXQkunGg3RX
+        ROrmMgDNlCMmcxr8=; b=DsdrCggv2/nheHOaM/G2/iL8pLVqzfpw4EEz8q08tpa
+        RzdFZqZX7V/Lr160i10gMX1/EKfT18H7KlgJuPkUFeR8Guf2jtIM2CtITfD9ythA
+        vrGmG3V+EGGelz8G8y/cGBxhnzzt+16d/+uldzULTc0xqMXAi9vP1jAN6jl0/ZIJ
+        RkJVlJOAJYZE7uz8SZGzDwZfi5IfeWR8xcHp4R+g4l64qTBKIWLbTbBi/wYQIkZF
+        LnPJXZZw9SM+asXVVfdP6yqjA7F3Eb8kGuEKxnzUv39xkZjT25W0IOH/ICKBn7gV
+        VTVA3qRQM1JQ3VvZLKsEm8GjjxrkMHsf+morEnpxSUQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=WuFqT7
+        7QlCSP+p4RVXQkunGg3RXROrmMgDNlCMmcxr8=; b=BDFyPTlegNBiMQmTa+knQ7
+        HTMlHUEWso1PzS8yoM5BUD3gWaH5wGAh0MZ+hnaXSsFZCum/K0BQg2qnpB41eUNC
+        6V5eM/yP3l6NR+qgrgevjM7sYwys2MNbhXWtKBG/vsRWgsyzOYbjNCikLaHmMyvE
+        EEkUAFPn8m8z1OQrS7RMrkw6HgS91XG8bU4PkCnBEeQ6brSRiuVjddYWEs3N8nyd
+        lXPx/IU1oESrrtW3Vi1VdsE7pvZsQSRpMQaq1Bu9vHihSZ+DWtUhA+RchLtQKWJS
+        J1uDwPusOF4c+BQpKoJRMC5BY9I9I3YCggAEZNogGa9xveFFNjk5QS7fLEn8ROkQ
+        ==
+X-ME-Sender: <xms:mKNVX8zMqXVP4b8YrLuKbr4wO2QWJ1-WGbL2jygUON0JaMyBx_4_6w>
+    <xme:mKNVXwSXUaOTB2XC6zFmqq-oHOhGCneBEh5bnXLsw2x9vii887xMgMZ8Fvs9UuHL4
+    K7EoV8SNqfEFawodlg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudegledgudefucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeeuohhquhhn
-    ucfhvghnghcuoegsohhquhhnrdhfvghnghesghhmrghilhdrtghomheqnecuggftrfgrth
-    htvghrnhepvdelieegudfggeevjefhjeevueevieetjeeikedvgfejfeduheefhffggedv
-    geejnecukfhppeehvddrudehhedrudduuddrjedunecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghuthhhphgv
-    rhhsohhnrghlihhthidqieelvdeghedtieegqddujeejkeehheehvddqsghoqhhunhdrfh
-    gvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgrmhgv
-X-ME-Proxy: <xmx:KnpVX6kQKNwQPvrDp_3a-lIFvB20SRN_E3ZHCmpb1OlaGsvpzeHO2Q>
-    <xmx:KnpVXxxatupxLX5GJq5ves9wfrvpo0InsWQa73s6d0T2z5zoyH5-1A>
-    <xmx:KnpVX0RKrVoYlcSYg7qJJhpM1W1TLfR3TV4CtjBAfzxfUnTVyYpjnw>
-    <xmx:K3pVXxiqzy9rzAbNzKVEXt2fWFsQvcG5GZG5SOVZ7pt33Ftx7seM32rQPBI>
-Received: from localhost (unknown [52.155.111.71])
-        by mail.messagingengine.com (Postfix) with ESMTPA id F393B328005D;
-        Sun,  6 Sep 2020 20:09:13 -0400 (EDT)
-Date:   Mon, 7 Sep 2020 08:09:12 +0800
-From:   Boqun Feng <boqun.feng@gmail.com>
-To:     Michael Kelley <mikelley@microsoft.com>
-Cc:     "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-        KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>
-Subject: Re: [RFC v2 07/11] hv_netvsc: Use HV_HYP_PAGE_SIZE for Hyper-V
- communication
-Message-ID: <20200907000912.GF7503@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
-References: <20200902030107.33380-1-boqun.feng@gmail.com>
- <20200902030107.33380-8-boqun.feng@gmail.com>
- <MW2PR2101MB10521041242835B2D6E3EA0AD72A0@MW2PR2101MB1052.namprd21.prod.outlook.com>
+    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefrvghtvghr
+    ucfjuhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
+    eqnecuggftrfgrthhtvghrnhephefhheffgfehleegueduleehgfdvfeevkeduveejveej
+    veevgfeggfduudefueevnecukfhppeduudejrddvtddrjedurdejfeenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrrdhhuhhtthgv
+    rhgvrhesfihhohdqthdrnhgvth
+X-ME-Proxy: <xmx:mKNVX-U8e34Ud2oW-vPDJu9W-Rn8ssdNqcLNimpYRd2n2-wTvu42nQ>
+    <xmx:mKNVX6gXLpFpEFL4Wf-jbq_B05Ktdkfz0pwPolbwdQuDVUlAlSB5kw>
+    <xmx:mKNVX-DGBPXOk1s8I6-3zxXi5NyN6QQCkCFb9GmYx-MMoOSa_Ft9BA>
+    <xmx:maNVXx8nK5lNNKIMwtfqx1VJ431Q6uclH22B3IczhndnZYzWG_EF3g>
+Received: from jelly (117-20-71-73.751447.bne.nbn.aussiebb.net [117.20.71.73])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 33620306467E;
+        Sun,  6 Sep 2020 23:05:57 -0400 (EDT)
+Date:   Mon, 7 Sep 2020 13:06:34 +1000
+From:   Peter Hutterer <peter.hutterer@who-t.net>
+To:     Denis 'GNUtoo' Carikli <GNUtoo@cyberdimension.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Andi Shyti <andi@etezian.org>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        linux-input@vger.kernel.org, Javi Ferrer <javi.f.o@gmail.com>
+Subject: Re: [PATCH] Input: mms114: don't report 0 pressure while still
+ tracking contact(s)
+Message-ID: <20200907030634.GA13082@jelly>
+References: <20200606035017.7271-1-GNUtoo@cyberdimension.org>
+ <20200606181806.GR89269@dtor-ws>
+ <20200612194619.0ac97cf2@primarylaptop.localdomain>
+ <20200614235735.GA11069@koala>
+ <20200623182540.0ed5de81@primarylaptop.localdomain>
+ <20200626000439.GA108136@koala>
+ <20200726234229.4edf73b4@primarylaptop.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <MW2PR2101MB10521041242835B2D6E3EA0AD72A0@MW2PR2101MB1052.namprd21.prod.outlook.com>
+In-Reply-To: <20200726234229.4edf73b4@primarylaptop.localdomain>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Sep 05, 2020 at 12:30:48AM +0000, Michael Kelley wrote:
-> From: Boqun Feng <boqun.feng@gmail.com> Sent: Tuesday, September 1, 2020 8:01 PM
-[...]
-> >  struct rndis_request {
-> >  	struct list_head list_ent;
-> >  	struct completion  wait_event;
-> > @@ -215,18 +215,18 @@ static int rndis_filter_send_request(struct rndis_device *dev,
-> >  	packet->page_buf_cnt = 1;
+apparently I never replied to this, apologies.
+
+On Sun, Jul 26, 2020 at 11:42:29PM +0200, Denis 'GNUtoo' Carikli wrote:
+> On Fri, 26 Jun 2020 10:04:39 +1000
+> Peter Hutterer <peter.hutterer@who-t.net> wrote:
+> 
+> > thanks for the log. Basically - the problem is that
+> > ABS_MT_TOUCH_MAJOR and ABS_PRESSURE are completely unrelated on the
+> > device and the latter has apparently random values. 1585880999.248531
+> > is an event where you go from almost max pressure to 0 without
+> > changing touch major.
+> I also tried not to touch the screen too hard, so it's normal to have
+> some pressure variation as well.
+
+some pressure variation is fine, but having major unchanged while pressure
+changes significantly is a problem. Especially with a human finger the touch
+size would uusally change as you increase or decrease pressure simply
+because the finger gets squished.
+
+> > Since pressure is more common, you'll have to expect that userspace
+> > may ignore major/minor and handle pressure instead where available.
+> > Doubly so since historically the major/minor value range has been
+> > completely random while pressure was at least somewhat predictable.
+> > In this sequence, your touch major ranges from 4-14 despite the axis
+> > range being 0-255.
 > > 
-> >  	pb[0].pfn = virt_to_phys(&req->request_msg) >>
-> > -					PAGE_SHIFT;
-> > +					HV_HYP_PAGE_SHIFT;
-> >  	pb[0].len = req->request_msg.msg_len;
-> >  	pb[0].offset =
-> > -		(unsigned long)&req->request_msg & (PAGE_SIZE - 1);
-> > +		(unsigned long)&req->request_msg & (HV_HYP_PAGE_SIZE - 1);
+> > Historically, pressure has also been used as equivalent to touch
+> > size, so decoupling touch size and pressure is tricky anyway.
+> > Speaking from libinput's POV I would disable ABS_(MT_)PRESSURE in
+> > this device since it's not reliable to detect a touch. But then we'd
+> > still need a quirk in place to tell us what the possible touch major
+> > range could be to make sense of that number.
+>
+> I didn't understood if I needed to do something about that patch or
+> not.
 > 
-> Use offset_in_hvpage() as defined in patch 6 of the series?
+> Here I'm mostly interested in fixing that issue for future kernels
+> and/or userspace input stack releases.
 > 
+> Am I supposed to fix the issue in userspace? Or is the advise on
+> libinput a way to deal with older kernel versions? Is the quirk
+> meant to be in Linux or in libinput?
 
-Fair enough, I will use offset_in_hvpage() in the next version
+libinput uses ABS_MT_PRESSURE with some defaults based on the pressure range
+unless a (libinput) quirk tells it to use the ABS_MT_TOUCH_MAJOR axis
+ranges. git grep for the AttrTouchSizeRange, AttrThumbSizeThreshold and
+AttrPalmSizeThreshold and that'll get you there.
 
-Regards,
-Boqun
+Given the recording, i'm assuming pressure is not reliable on this device so
+you will have to add the quirk.
 
-> > 
-> >  	/* Add one page_buf when request_msg crossing page boundary */
-> > -	if (pb[0].offset + pb[0].len > PAGE_SIZE) {
-> > +	if (pb[0].offset + pb[0].len > HV_HYP_PAGE_SIZE) {
-> >  		packet->page_buf_cnt++;
-> > -		pb[0].len = PAGE_SIZE -
-> > +		pb[0].len = HV_HYP_PAGE_SIZE -
-> >  			pb[0].offset;
-> >  		pb[1].pfn = virt_to_phys((void *)&req->request_msg
-> > -			+ pb[0].len) >> PAGE_SHIFT;
-> > +			+ pb[0].len) >> HV_HYP_PAGE_SHIFT;
-> >  		pb[1].offset = 0;
-> >  		pb[1].len = req->request_msg.msg_len -
-> >  			pb[0].len;
-> > --
-> > 2.28.0
-> 
+> I'm currently testing with GNU/Linux as it's faster, but eventually I'm
+> also interested in running Android with a Linux kernel that is as much
+> upstream as possible, so I also need to understand the API here: Is it
+> up to userspace to interpret if the values are somewhat valid, or is it
+> up to the kernel to return valid values?
+
+yes, it's up to userspace. there's some documentation in the kernel
+regarding the major/minor axis ranges but not a lot of devices use it that
+way. Hence libinput requiring a quirk for this. Not 100% what other input
+stacks do though.
+
+Cheers,
+   Peter
