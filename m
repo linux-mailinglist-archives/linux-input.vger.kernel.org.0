@@ -2,151 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D3B4261F8A
-	for <lists+linux-input@lfdr.de>; Tue,  8 Sep 2020 22:05:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25DB3261F47
+	for <lists+linux-input@lfdr.de>; Tue,  8 Sep 2020 22:02:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730403AbgIHUEn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 8 Sep 2020 16:04:43 -0400
-Received: from esa1.mentor.iphmx.com ([68.232.129.153]:33732 "EHLO
-        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730394AbgIHPXq (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Sep 2020 11:23:46 -0400
-IronPort-SDR: A73xvdNyxsY1l7xwjxJRzrRhOuzXupkcYc7ZnS9I/MNbCnhE9r2NMD/gVfWfXdzVty37py88yS
- NsXtFfY/Muyg63BxZjpYbBXfRFG04MmYT57C+RXVz3+GCiQompLecUbPTf3XMslGO9QxZutYcm
- up9zpP34cHyNIjuEQb4bmnArGmKRsAqVQJeEEjoI6qmG7OD/+5r+/46QfuanAknkowz+r4WEmX
- IZEhD2jPoyRil9+uKahwsYvK6FCYApCTsqvO7emc+uIJe8z/xQdKmOenGmv46BKG+QbiRE3Vrk
- YjI=
-X-IronPort-AV: E=Sophos;i="5.76,406,1592899200"; 
-   d="scan'208";a="54874117"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa1.mentor.iphmx.com with ESMTP; 08 Sep 2020 07:16:21 -0800
-IronPort-SDR: znhbrejcoFm31kQaQGxCn2w+iduSV/IKA2TT4r1XS0EBSjw2Pr5fv1wQumrikkaJ1hSuarFb4s
- GV3qBM/i3FpkYx6cmzVbLKW8qjXfCZ8k6zSdKu0b+ABC5WveJ1o2d4k8gvxQ8QXOtB/wbotcBs
- TW68eAoAHaXsXVvjJ5x/aQYwqluOE83Bsgh0GFK6EXUY8UrxELnM5osWO7dmkESPBhEN7a/eXg
- uKiZ33eIxolrJL0wGX6LZatW/wPKcNJABrnVbCSAQZ3EMQr24R8ZRk+x0sKCoQbgj/DHNUh1oV
- Hsk=
-From:   Jiada Wang <jiada_wang@mentor.com>
-To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>
-CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <Andrew_Gabbasov@mentor.com>, <erosca@de.adit-jv.com>,
-        <digetx@gmail.com>, <jiada_wang@mentor.com>
-Subject: [PATCH v3 1/1] Input: atmel_mxt_ts - implement I2C retries
-Date:   Wed, 9 Sep 2020 00:16:17 +0900
-Message-ID: <20200908151617.12199-1-jiada_wang@mentor.com>
-X-Mailer: git-send-email 2.17.1
+        id S1732276AbgIHUB3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 8 Sep 2020 16:01:29 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:27316 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1731677AbgIHUBZ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 8 Sep 2020 16:01:25 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 088JopEo010906;
+        Tue, 8 Sep 2020 16:01:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=xn6nJGYqn/typqBsa9jcxXMbsjRVqECLKkhpsnYOQRU=;
+ b=JXEjim+dFUxGFgaqD5ICzxeME9JGXWTwsI5IsNZxvcGCJvKUiQW/+ee/UUt8caNsuqKg
+ PfTne/4oIgP77mHLbgN38GXu/TjzK075bDWJLLDM1Q+XXE73GBsq0kZAnnUEnTKEByI7
+ Sr+P3VcB8EnVCbnydUbpqFVX+zgoLs4A1xCAvCxKgRaanjOUsoPPj6wMFi5F3lA2Zv9u
+ B0GkR3y9A8iGUxoR2jYmbnrZMLDWi4fE6ILb0VDKGpk39Gekhd1oFtYWC2Z/sOT4SfdE
+ 8C5R2K8R+Y5Cy9QZAkJL9L/cC43NGWDbaCLLT/wkPsd1XxFpGIkZC+EZ6gM8i2xRy38E AQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 33egfm06ye-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 08 Sep 2020 16:01:05 -0400
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 088JpLC6012539;
+        Tue, 8 Sep 2020 16:01:04 -0400
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com [169.55.85.253])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 33egfm06y1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 08 Sep 2020 16:01:04 -0400
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+        by ppma01wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 088Jvbgb002969;
+        Tue, 8 Sep 2020 20:01:04 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+        by ppma01wdc.us.ibm.com with ESMTP id 33c2a8svvr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 08 Sep 2020 20:01:04 +0000
+Received: from b03ledav003.gho.boulder.ibm.com (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+        by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 088K0x3C49480070
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 8 Sep 2020 20:00:59 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 1A3C16A05D;
+        Tue,  8 Sep 2020 20:01:03 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 67E936A047;
+        Tue,  8 Sep 2020 20:01:02 +0000 (GMT)
+Received: from SHADE6A.ibmuc.com (unknown [9.163.24.203])
+        by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Tue,  8 Sep 2020 20:01:02 +0000 (GMT)
+From:   Eddie James <eajames@linux.ibm.com>
+To:     linux-input@vger.kernel.org
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-aspeed@lists.ozlabs.org, linux-i2c@vger.kernel.org,
+        joel@jms.id.au, andrew@aj.id.au, benh@kernel.crashing.org,
+        brendanhiggins@google.com, dmitry.torokhov@gmail.com,
+        robh+dt@kernel.org, wsa@kernel.org, rentao.bupt@gmail.com,
+        ryan_chen@aspeedtech.com
+Subject: [PATCH v2 0/5] input: misc: Add IBM Operation Panel driver
+Date:   Tue,  8 Sep 2020 15:00:56 -0500
+Message-Id: <20200908200101.64974-1-eajames@linux.ibm.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-09-08_09:2020-09-08,2020-09-08 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ phishscore=0 adultscore=0 spamscore=0 impostorscore=0 bulkscore=0
+ priorityscore=1501 mlxscore=0 suspectscore=1 clxscore=1011 mlxlogscore=999
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009080179
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Nick Dyer <nick.dyer@itdev.co.uk>
+This series adds support for input from the IBM Operation Panel, which is
+a simple controller with three buttons and an LCD display meant for
+interacting with a server. It's connected over I2C, typically to a service
+processor. This series only supports the input from the panel, in which the
+panel masters the I2C bus and sends data to the host system when someone
+presses a button on the controller.
 
-Some maXTouch chips (eg mXT1386) will not respond on the first I2C request
-when they are in a sleep state. It must be retried after a delay for the
-chip to wake up.
+Changes since v1:
+ - Redo DTS documentation example to use I2C_OWN_SLAVE_ADDRESS
+ - Reject commands received in the input driver that are too long
+ - Add a definition for the interrupt status mask in the Aspeed I2C driver
+ - Use I2C_OWN_SLAVE_ADDRESS for both dts additions
 
-Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
-Acked-by: Yufeng Shen <miletus@chromium.org>
-(cherry picked from ndyer/linux/for-upstream commit 63fd7a2cd03c3a572a5db39c52f4856819e1835d)
-[gdavis: Forward port and fix conflicts.]
-Signed-off-by: George G. Davis <george_davis@mentor.com>
-[jiada: return exact errno when i2c_transfer & i2c_master_send fails,
-	add "_MS" suffix MXT_WAKEUP_TIME]
-Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
----
- drivers/input/touchscreen/atmel_mxt_ts.c | 45 ++++++++++++++++--------
- 1 file changed, 30 insertions(+), 15 deletions(-)
+Eddie James (5):
+  dt-bindings: input: Add documentation for IBM Operation Panel
+  input: misc: Add IBM Operation Panel driver
+  i2c: aspeed: Mask IRQ status to relevant bits
+  ARM: dts: Aspeed: Tacoma: Add IBM Operation Panel I2C device
+  ARM: dts: Aspeed: Rainier: Add IBM Operation Panel I2C device
 
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index a2189739e30f..145780f78122 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -196,6 +196,7 @@ enum t100_type {
- #define MXT_CRC_TIMEOUT		1000	/* msec */
- #define MXT_FW_RESET_TIME	3000	/* msec */
- #define MXT_FW_CHG_TIMEOUT	300	/* msec */
-+#define MXT_WAKEUP_TIME_MS	25	/* msec */
- 
- /* Command to unlock bootloader */
- #define MXT_UNLOCK_CMD_MSB	0xaa
-@@ -626,6 +627,7 @@ static int __mxt_read_reg(struct i2c_client *client,
- 	struct i2c_msg xfer[2];
- 	u8 buf[2];
- 	int ret;
-+	bool retry = false;
- 
- 	buf[0] = reg & 0xff;
- 	buf[1] = (reg >> 8) & 0xff;
-@@ -642,17 +644,22 @@ static int __mxt_read_reg(struct i2c_client *client,
- 	xfer[1].len = len;
- 	xfer[1].buf = val;
- 
--	ret = i2c_transfer(client->adapter, xfer, 2);
--	if (ret == 2) {
--		ret = 0;
--	} else {
--		if (ret >= 0)
--			ret = -EIO;
--		dev_err(&client->dev, "%s: i2c transfer failed (%d)\n",
--			__func__, ret);
-+retry_read:
-+	ret = i2c_transfer(client->adapter, xfer, ARRAY_SIZE(xfer));
-+	if (ret != ARRAY_SIZE(xfer)) {
-+		if (!retry) {
-+			dev_dbg(&client->dev, "%s: i2c retry\n", __func__);
-+			msleep(MXT_WAKEUP_TIME_MS);
-+			retry = true;
-+			goto retry_read;
-+		} else {
-+			dev_err(&client->dev, "%s: i2c transfer failed (%d)\n",
-+				__func__, ret);
-+			return ret < 0 ? ret : -EIO;
-+		}
- 	}
- 
--	return ret;
-+	return 0;
- }
- 
- static int __mxt_write_reg(struct i2c_client *client, u16 reg, u16 len,
-@@ -661,6 +668,7 @@ static int __mxt_write_reg(struct i2c_client *client, u16 reg, u16 len,
- 	u8 *buf;
- 	size_t count;
- 	int ret;
-+	bool retry = false;
- 
- 	count = len + 2;
- 	buf = kmalloc(count, GFP_KERNEL);
-@@ -671,14 +679,21 @@ static int __mxt_write_reg(struct i2c_client *client, u16 reg, u16 len,
- 	buf[1] = (reg >> 8) & 0xff;
- 	memcpy(&buf[2], val, len);
- 
-+retry_write:
- 	ret = i2c_master_send(client, buf, count);
--	if (ret == count) {
--		ret = 0;
-+	if (ret != count) {
-+		if (!retry) {
-+			dev_dbg(&client->dev, "%s: i2c retry\n", __func__);
-+			msleep(MXT_WAKEUP_TIME_MS);
-+			retry = true;
-+			goto retry_write;
-+		} else {
-+			dev_err(&client->dev, "%s: i2c send failed (%d)\n",
-+				__func__, ret);
-+			ret = ret < 0 ? ret : -EIO;
-+		}
- 	} else {
--		if (ret >= 0)
--			ret = -EIO;
--		dev_err(&client->dev, "%s: i2c send failed (%d)\n",
--			__func__, ret);
-+		ret = 0;
- 	}
- 
- 	kfree(buf);
+ .../bindings/input/ibm,op-panel.yaml          |  39 ++++
+ MAINTAINERS                                   |   7 +
+ arch/arm/boot/dts/aspeed-bmc-ibm-rainier.dts  |   7 +
+ arch/arm/boot/dts/aspeed-bmc-opp-tacoma.dts   |   7 +
+ drivers/i2c/busses/i2c-aspeed.c               |   2 +
+ drivers/input/misc/Kconfig                    |  18 ++
+ drivers/input/misc/Makefile                   |   1 +
+ drivers/input/misc/ibm-panel.c                | 192 ++++++++++++++++++
+ 8 files changed, 273 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/ibm,op-panel.yaml
+ create mode 100644 drivers/input/misc/ibm-panel.c
+
 -- 
-2.17.1
+2.26.2
 
