@@ -2,123 +2,151 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2E00261C16
-	for <lists+linux-input@lfdr.de>; Tue,  8 Sep 2020 21:14:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D3B4261F8A
+	for <lists+linux-input@lfdr.de>; Tue,  8 Sep 2020 22:05:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731277AbgIHTOj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 8 Sep 2020 15:14:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60482 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731190AbgIHQEv (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 8 Sep 2020 12:04:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1599581086;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=DQErEVpu4UJOznG1YWtaIGHIF5xOzLeZwIotf5rYavI=;
-        b=c7atnnJ14SIenlYUklZUvpRc8VWHmvRRmSuEaZuV92HrQdPFqxrMuxLhpu2Z2AtOPE1/99
-        jqI+sSX4lSXO6U4+NIRoAmF0Xdqe8SByTQjEyxUi9unsSfq0gydGI8pwVTQ2bEg42TmNrg
-        zzOmnnsTQm/uhBcZ4cOz9crX681xskU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-110-Bra26V38P2On8YcFvIc7Ig-1; Tue, 08 Sep 2020 09:52:02 -0400
-X-MC-Unique: Bra26V38P2On8YcFvIc7Ig-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55265425CD;
-        Tue,  8 Sep 2020 13:51:59 +0000 (UTC)
-Received: from x1.localdomain (ovpn-114-188.ams2.redhat.com [10.36.114.188])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 73FAE28564;
-        Tue,  8 Sep 2020 13:51:57 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
-        Mark Pearson <mpearson@lenovo.com>,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org,
-        Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-Subject: [PATCH v2 3/4] platform/x86: thinkpad_acpi: Add support for new hotkeys found on X1C8 / T14
-Date:   Tue,  8 Sep 2020 15:51:46 +0200
-Message-Id: <20200908135147.4044-4-hdegoede@redhat.com>
-In-Reply-To: <20200908135147.4044-1-hdegoede@redhat.com>
-References: <20200908135147.4044-1-hdegoede@redhat.com>
+        id S1730403AbgIHUEn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 8 Sep 2020 16:04:43 -0400
+Received: from esa1.mentor.iphmx.com ([68.232.129.153]:33732 "EHLO
+        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730394AbgIHPXq (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 8 Sep 2020 11:23:46 -0400
+IronPort-SDR: A73xvdNyxsY1l7xwjxJRzrRhOuzXupkcYc7ZnS9I/MNbCnhE9r2NMD/gVfWfXdzVty37py88yS
+ NsXtFfY/Muyg63BxZjpYbBXfRFG04MmYT57C+RXVz3+GCiQompLecUbPTf3XMslGO9QxZutYcm
+ up9zpP34cHyNIjuEQb4bmnArGmKRsAqVQJeEEjoI6qmG7OD/+5r+/46QfuanAknkowz+r4WEmX
+ IZEhD2jPoyRil9+uKahwsYvK6FCYApCTsqvO7emc+uIJe8z/xQdKmOenGmv46BKG+QbiRE3Vrk
+ YjI=
+X-IronPort-AV: E=Sophos;i="5.76,406,1592899200"; 
+   d="scan'208";a="54874117"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa1.mentor.iphmx.com with ESMTP; 08 Sep 2020 07:16:21 -0800
+IronPort-SDR: znhbrejcoFm31kQaQGxCn2w+iduSV/IKA2TT4r1XS0EBSjw2Pr5fv1wQumrikkaJ1hSuarFb4s
+ GV3qBM/i3FpkYx6cmzVbLKW8qjXfCZ8k6zSdKu0b+ABC5WveJ1o2d4k8gvxQ8QXOtB/wbotcBs
+ TW68eAoAHaXsXVvjJ5x/aQYwqluOE83Bsgh0GFK6EXUY8UrxELnM5osWO7dmkESPBhEN7a/eXg
+ uKiZ33eIxolrJL0wGX6LZatW/wPKcNJABrnVbCSAQZ3EMQr24R8ZRk+x0sKCoQbgj/DHNUh1oV
+ Hsk=
+From:   Jiada Wang <jiada_wang@mentor.com>
+To:     <nick@shmanahar.org>, <dmitry.torokhov@gmail.com>
+CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <Andrew_Gabbasov@mentor.com>, <erosca@de.adit-jv.com>,
+        <digetx@gmail.com>, <jiada_wang@mentor.com>
+Subject: [PATCH v3 1/1] Input: atmel_mxt_ts - implement I2C retries
+Date:   Wed, 9 Sep 2020 00:16:17 +0900
+Message-ID: <20200908151617.12199-1-jiada_wang@mentor.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-New Lenovo Thinkpad models, e.g. the X1 Carbon 8th gen and the new T14 gen1
-models have 3 new symbols / shortcuts on their F9-F11 keys (and the
-thinkpad_acpi driver receives 3 new hkey events for these):
+From: Nick Dyer <nick.dyer@itdev.co.uk>
 
-F9:  Has a symbol resembling a rectangular speech balloon, the manual says
-     the hotkey functions shows or hides the notification center
-F10: Has a symbol of a telephone horn which has been picked up from the
-     receiver, the manual says: "Answer incoming calls"
-F11: Has a symbol of a telephone horn which is resting on the receiver,
-     the manual says: "Decline incoming calls"
+Some maXTouch chips (eg mXT1386) will not respond on the first I2C request
+when they are in a sleep state. It must be retried after a delay for the
+chip to wake up.
 
-And these Thinkpad models also send a new 0x1316 hkey events when the
-Fn + right Shift key-combo is pressed.
-
-This commit adds support for these 4 new hkey events.
-
-Acked-by: Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Nick Dyer <nick.dyer@itdev.co.uk>
+Acked-by: Yufeng Shen <miletus@chromium.org>
+(cherry picked from ndyer/linux/for-upstream commit 63fd7a2cd03c3a572a5db39c52f4856819e1835d)
+[gdavis: Forward port and fix conflicts.]
+Signed-off-by: George G. Davis <george_davis@mentor.com>
+[jiada: return exact errno when i2c_transfer & i2c_master_send fails,
+	add "_MS" suffix MXT_WAKEUP_TIME]
+Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 ---
-Changes in v2:
-- Map 0x1316 to KEY_FN_RIGHT_SHIFT instead of to KEY_UNKNOWN (now that we
-  know what it does)
----
- drivers/platform/x86/thinkpad_acpi.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 45 ++++++++++++++++--------
+ 1 file changed, 30 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 9c4df41687a3..4b701e9a0392 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -1913,6 +1913,10 @@ enum {	/* hot key scan codes (derived from ACPI DSDT) */
- 	TP_ACPI_HOTKEYSCAN_CALCULATOR,
- 	TP_ACPI_HOTKEYSCAN_BLUETOOTH,
- 	TP_ACPI_HOTKEYSCAN_KEYBOARD,
-+	TP_ACPI_HOTKEYSCAN_FN_RIGHT_SHIFT, /* Used by "Lenovo Quick Clean" */
-+	TP_ACPI_HOTKEYSCAN_NOTIFICATION_CENTER,
-+	TP_ACPI_HOTKEYSCAN_PICKUP_PHONE,
-+	TP_ACPI_HOTKEYSCAN_HANGUP_PHONE,
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index a2189739e30f..145780f78122 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -196,6 +196,7 @@ enum t100_type {
+ #define MXT_CRC_TIMEOUT		1000	/* msec */
+ #define MXT_FW_RESET_TIME	3000	/* msec */
+ #define MXT_FW_CHG_TIMEOUT	300	/* msec */
++#define MXT_WAKEUP_TIME_MS	25	/* msec */
  
- 	/* Hotkey keymap size */
- 	TPACPI_HOTKEY_MAP_LEN
-@@ -3429,11 +3433,15 @@ static int __init hotkey_init(struct ibm_init_struct *iibm)
- 		KEY_UNKNOWN, KEY_UNKNOWN, KEY_UNKNOWN, KEY_UNKNOWN,
- 		KEY_UNKNOWN,
+ /* Command to unlock bootloader */
+ #define MXT_UNLOCK_CMD_MSB	0xaa
+@@ -626,6 +627,7 @@ static int __mxt_read_reg(struct i2c_client *client,
+ 	struct i2c_msg xfer[2];
+ 	u8 buf[2];
+ 	int ret;
++	bool retry = false;
  
--		KEY_BOOKMARKS,       /* Favorite app, 0x311 */
--		KEY_RESERVED,        /* Clipping tool */
--		KEY_CALC,            /* Calculator (above numpad, P52) */
--		KEY_BLUETOOTH,       /* Bluetooth */
--		KEY_KEYBOARD         /* Keyboard, 0x315 */
-+		KEY_BOOKMARKS,			/* Favorite app, 0x311 */
-+		KEY_RESERVED,			/* Clipping tool */
-+		KEY_CALC,			/* Calculator (above numpad, P52) */
-+		KEY_BLUETOOTH,			/* Bluetooth */
-+		KEY_KEYBOARD,			/* Keyboard, 0x315 */
-+		KEY_FN_RIGHT_SHIFT,		/* Fn + right Shift */
-+		KEY_NOTIFICATION_CENTER,	/* Notification Center */
-+		KEY_PICKUP_PHONE,		/* Answer incoming call */
-+		KEY_HANGUP_PHONE,		/* Decline incoming call */
- 		},
- 	};
+ 	buf[0] = reg & 0xff;
+ 	buf[1] = (reg >> 8) & 0xff;
+@@ -642,17 +644,22 @@ static int __mxt_read_reg(struct i2c_client *client,
+ 	xfer[1].len = len;
+ 	xfer[1].buf = val;
  
+-	ret = i2c_transfer(client->adapter, xfer, 2);
+-	if (ret == 2) {
+-		ret = 0;
+-	} else {
+-		if (ret >= 0)
+-			ret = -EIO;
+-		dev_err(&client->dev, "%s: i2c transfer failed (%d)\n",
+-			__func__, ret);
++retry_read:
++	ret = i2c_transfer(client->adapter, xfer, ARRAY_SIZE(xfer));
++	if (ret != ARRAY_SIZE(xfer)) {
++		if (!retry) {
++			dev_dbg(&client->dev, "%s: i2c retry\n", __func__);
++			msleep(MXT_WAKEUP_TIME_MS);
++			retry = true;
++			goto retry_read;
++		} else {
++			dev_err(&client->dev, "%s: i2c transfer failed (%d)\n",
++				__func__, ret);
++			return ret < 0 ? ret : -EIO;
++		}
+ 	}
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static int __mxt_write_reg(struct i2c_client *client, u16 reg, u16 len,
+@@ -661,6 +668,7 @@ static int __mxt_write_reg(struct i2c_client *client, u16 reg, u16 len,
+ 	u8 *buf;
+ 	size_t count;
+ 	int ret;
++	bool retry = false;
+ 
+ 	count = len + 2;
+ 	buf = kmalloc(count, GFP_KERNEL);
+@@ -671,14 +679,21 @@ static int __mxt_write_reg(struct i2c_client *client, u16 reg, u16 len,
+ 	buf[1] = (reg >> 8) & 0xff;
+ 	memcpy(&buf[2], val, len);
+ 
++retry_write:
+ 	ret = i2c_master_send(client, buf, count);
+-	if (ret == count) {
+-		ret = 0;
++	if (ret != count) {
++		if (!retry) {
++			dev_dbg(&client->dev, "%s: i2c retry\n", __func__);
++			msleep(MXT_WAKEUP_TIME_MS);
++			retry = true;
++			goto retry_write;
++		} else {
++			dev_err(&client->dev, "%s: i2c send failed (%d)\n",
++				__func__, ret);
++			ret = ret < 0 ? ret : -EIO;
++		}
+ 	} else {
+-		if (ret >= 0)
+-			ret = -EIO;
+-		dev_err(&client->dev, "%s: i2c send failed (%d)\n",
+-			__func__, ret);
++		ret = 0;
+ 	}
+ 
+ 	kfree(buf);
 -- 
-2.28.0
+2.17.1
 
