@@ -2,374 +2,149 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 80638264AB8
-	for <lists+linux-input@lfdr.de>; Thu, 10 Sep 2020 19:09:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BF4126504C
+	for <lists+linux-input@lfdr.de>; Thu, 10 Sep 2020 22:10:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727025AbgIJRJI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Sep 2020 13:09:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47814 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726675AbgIJQh5 (ORCPT
+        id S1726812AbgIJUKk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Sep 2020 16:10:40 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57032 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731029AbgIJPAm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Sep 2020 12:37:57 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7895C0617B1
-        for <linux-input@vger.kernel.org>; Thu, 10 Sep 2020 09:37:35 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id v196so5073404pfc.1
-        for <linux-input@vger.kernel.org>; Thu, 10 Sep 2020 09:37:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=cxFsB6OrTL+TS3E0TX0SwaN1OqJE9VKpfhJ5yvEzblA=;
-        b=hHtb8DlOiWXAqDUlIBCxnl/5irYkudM9nCoc7SyZhO1x/FBvXGd+v/LsAJRNNlVcMM
-         N85XBybcYRV6Gn1H0GP8aURa3174Yt/tSyFq/E1IKEW7hZRSoAGA9VLdrva+9lgyNSiU
-         EyHuTzpS6xdpe6cg3PpnUgXwnPB6aUK/zRpxLY+F6pn4HI/WMICaoJtypFJr0g6oa20y
-         1WORoEKE+I2dqzE4ROQ0AVOwLEVU+A0L5BeB1x//vpfB39Gr7yT8YHREOPP4lSE/A6ZE
-         HYoJjOLemqkXA8rLpc3T2M/J8HAqNlrUYhd2krcRlI9bF3nx+GSrbIpyvVPeQEbypiry
-         Mwrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=cxFsB6OrTL+TS3E0TX0SwaN1OqJE9VKpfhJ5yvEzblA=;
-        b=PeD6D6yf2Nw25lcQ9NbfMHJGK9aeIcNc7BeAOZhCf7BN8jhUh9bG0lKMZB9ycbBFAa
-         hH8ZtC18Nm0vAuOsExhvmjxX87X9OB2WkfsS/YIkg8R7k0MQ2JG70krRruGass3uvoAJ
-         3uLckwQHEC8HAF+qmIqrkxoSKRkb0wCPBnjWLo7p3KWkD5TBrFdWn1jU4xuNcUTrKdR2
-         KgpKpcFuT6zxL43yoGeiTAkI3IvM0MyRAxOtvGIF15GV9j88oiX+X3YtLMd8E/AhoOQ3
-         61Ld0bP/WpQKCVQyPwk4Y75vXxWolFXMaczcL3T7HVPlOmkbcVcdmwdE0TfaWmSpUe9e
-         vC0Q==
-X-Gm-Message-State: AOAM533lMVAElqy3HUfmMMGEmuKCKSvPeyyWHKmV+gmjc0TgDXAvS5WX
-        djIqyFRrdcutLPOVUvQR9Ts=
-X-Google-Smtp-Source: ABdhPJxThm9AzoxDVR+lA8YzUQ0Nzz0B8Tu8URFEMD0nKX5CxXGMA2XkYfU1WzPpoZdjj8mrXZuLXw==
-X-Received: by 2002:a63:64c2:: with SMTP id y185mr5194527pgb.125.1599755855145;
-        Thu, 10 Sep 2020 09:37:35 -0700 (PDT)
-Received: from localhost ([2001:e42:102:1532:160:16:113:140])
-        by smtp.gmail.com with ESMTPSA id ev19sm2379774pjb.42.2020.09.10.09.37.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2020 09:37:34 -0700 (PDT)
-From:   Coiby Xu <coiby.xu@gmail.com>
-X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
-Date:   Fri, 11 Sep 2020 00:37:29 +0800
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: Advice on fixing the bug of MSFT0001:00 04F3:Touchpad being
- handled by hid_multitouch by mistake
-Message-ID: <20200910163729.z6gmpeg7x2ocjvpt@Rk>
-References: <20200811091445.erp2b23xmx3ceyzp@Rk>
- <CAO-hwJ+3LTUviWxDGQoXaBO-USwP4n6LRscJEzHJShqBEJ3oBg@mail.gmail.com>
- <20200904145916.nighviqyrvbm2ybx@Rk>
- <CAO-hwJJAOGNVnu1_dwXTMUyoSsNQifGFDUV6e9g96wHKmaZqSA@mail.gmail.com>
+        Thu, 10 Sep 2020 11:00:42 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 08ADVwbj156061;
+        Thu, 10 Sep 2020 09:55:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=uAJ358VnHFKZvUebteG+ZwkjrTg7lzgNh1aBoFkoHpk=;
+ b=GZ2G1BNy+s9Zu39AdCM8v721KGKk26Vt/6LGxwvE4CfsTkJyANcLma4ZKsQYFkae9NfG
+ s25+sWBk3wJF9/nJBeFH27CoQh17AO4byjDzUHqfe0nWMrHgtM5hyfk41xyirKwL3mBG
+ w4/6kQRbpkG+sqS1w2BP0ihz2ZqUIRDt+tJ0mMDXCjV1MIxNKnkcZQg7fnG1RoBFNICY
+ 9QsdVhNGSbMnZqU6YstDD1xlgdiajDyFjNSNubeglI6AtVJlasZvMrQe7vBhJCEtwz66
+ 9XHHW8ONZZO0BNMIsODWT42eV6X/yMj4x5I27JO++Zb6W1s/FCaUB8xku+jURKNhwWHT QA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 33fn1x0xd2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 10 Sep 2020 09:55:42 -0400
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08ADWGVT157762;
+        Thu, 10 Sep 2020 09:55:42 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com [169.53.41.122])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 33fn1x0xcm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 10 Sep 2020 09:55:42 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+        by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08ADqBZ1008486;
+        Thu, 10 Sep 2020 13:55:41 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+        by ppma04dal.us.ibm.com with ESMTP id 33c2a9snn8-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 10 Sep 2020 13:55:41 +0000
+Received: from b03ledav006.gho.boulder.ibm.com (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+        by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 08ADtaZ823200424
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 10 Sep 2020 13:55:36 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id D4943C6062;
+        Thu, 10 Sep 2020 13:55:39 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 470DDC605D;
+        Thu, 10 Sep 2020 13:55:39 +0000 (GMT)
+Received: from [9.211.140.115] (unknown [9.211.140.115])
+        by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Thu, 10 Sep 2020 13:55:39 +0000 (GMT)
+Subject: Re: [PATCH v3 3/5] i2c: aspeed: Mask IRQ status to relevant bits
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     linux-input@vger.kernel.org,
+        devicetree <devicetree@vger.kernel.org>,
+        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+        linux-i2c@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        wsa@kernel.org, rentao.bupt@gmail.com,
+        Ryan Chen <ryan_chen@aspeedtech.com>
+References: <20200909203059.23427-1-eajames@linux.ibm.com>
+ <20200909203059.23427-4-eajames@linux.ibm.com>
+ <CAFd5g46ghV7ArmM8LnMkGa-Nip_fT934+3cPOkVxS-b5odZXYw@mail.gmail.com>
+From:   Eddie James <eajames@linux.ibm.com>
+Message-ID: <b092f884-9aa9-5d0b-1a90-36af558e43a8@linux.ibm.com>
+Date:   Thu, 10 Sep 2020 08:55:38 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAO-hwJJAOGNVnu1_dwXTMUyoSsNQifGFDUV6e9g96wHKmaZqSA@mail.gmail.com>
+In-Reply-To: <CAFd5g46ghV7ArmM8LnMkGa-Nip_fT934+3cPOkVxS-b5odZXYw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-09-10_03:2020-09-10,2020-09-10 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ impostorscore=0 spamscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0
+ clxscore=1015 suspectscore=0 bulkscore=0 phishscore=0 mlxlogscore=999
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009100120
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Sep 04, 2020 at 06:47:42PM +0200, Benjamin Tissoires wrote:
->On Fri, Sep 4, 2020 at 4:59 PM Coiby Xu <coiby.xu@gmail.com> wrote:
->>
->> On Fri, Sep 04, 2020 at 10:16:51AM +0200, Benjamin Tissoires wrote:
->> >Hi,
->> >
->> >On Tue, Aug 11, 2020 at 11:15 AM Coiby Xu <coiby.xu@gmail.com> wrote:
->> >>
->> >> Hi,
->> >>
->> >> I'm working on a touchpad device issue as reported on
->> >> https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1887190.
->> >>
->> >> This touchpad device MSFT0001:00 04F3:Touchpad should be handled by
->> >> hid_rmi. But currently hid-core.c chooses hid_multitouch by mistake,
->> >>
->> >>      1. When scanning this device's report descriptor, HID_DG_CONTACTID
->> >>         usage is found. Thus group HID_GROUP_MULTITOUCH is assigned to
->> >>         the device.
->> >>      2. The flag HID_SCAN_FLAG_MT_WIN_8 is also found. Thus group
->> >>         HID_GROUP_MULTITOUCH_WIN_8 is assigned to the device.
->> >>      3. hid-multitouch.c claims handling devices with the group of
->> >>         HID_GROUP_MULTITOUCH_WIN_8
->> >>
->> >>          static const struct hid_device_id mt_devices[] = {
->> >>                 /* Generic MT device */
->> >>                 { HID_DEVICE(HID_BUS_ANY, HID_GROUP_MULTITOUCH, HID_ANY_ID, HID_ANY_ID) },
->> >>
->> >>                 /* Generic Win 8 certified MT device */
->> >>                 {  .driver_data = MT_CLS_WIN_8,
->> >>                         HID_DEVICE(HID_BUS_ANY, HID_GROUP_MULTITOUCH_WIN_8,
->> >>                                 HID_ANY_ID, HID_ANY_ID) },
->> >>                 { }
->> >>          };
->> >>
->> >> There are several potential solutions,
->> >>      - Let the device vendor fix this problem since this device's report
->> >>        descriptor shouldn't have the HID_DG_CONTACTID usage.
->> >>      - Make it a special case by setting the device's group to
->> >>        HID_GROUP_RMI in hid_scan_report when vendor id and product ID
->> >>        are matched.
->> >>      - hid-quirks.c seems to be designed to handle special cases, is it
->> >>        suitable for this case?
->> >
->> >AFAIU, the touchpad doesn't work at all with hid-multitouch. So I
->> >guess the best is to add the VID/PID to hid-quirks.c in
->> >hid_have_special_driver[], and add it to the hid-rmi driver too.
->> >This way, you will ensure hid-rmi will pick up the device all the time.
->> >
->> >Cheers,
->> >Benjamin
->>
->> Thank you for the advice! I have exactly adopted this approach by looking
->> at commit e9287099ba6539bccb20cd791269186f3ae28b85
->> ("HID: rmi: Add support for the touchpad in the Razer Blade 14 laptop")
->> as an example.
->>
->> My previous email is a bit misleading because 0x04F3 is the vendor code
->> of ELAN while hid-rmi is for the Synaptics touchpad. And actually this
->> laptop model of Lenovo Legion-5 15ARH05 is shipped with both kinds of
->> touchpads,
->>
->> - for the Synaptics touchpad, hid-rmi could almost handle it perfectly
->>    except the clicking is not sensitive enough. I need to let my finger
->>    linger on the touchpad for a while. I notice when I click on the touchpad,
->>    an HID report would be received by hid-recorder. But evtest couldn't receive
->>    any EV_ event. If hid-multitouch is handling the device, the cursor
->>    won't move but 2-4 finger touching events could still be received by
->>    evtest.
->>
->> - for the ELAN touchpad, only HID reporters can be read and parsed by
->>    hid-core then two input devices (mouse and touchpad) could created by
->>    hid-multitouch as seen from /proc/bus/input/devices. But hid-recorder
->>    could never get any HID report.
->
->huh. So in both cases you have a buggy touchpad with hid-multitouch :(
->
->Do both touchpads share the same VID/PID? If so, this is going to be
->interesting to decide how any of those touchpad should be handled.
 
-No, they have different VID/PIDs,
-  - 04F3:3140 (Elan)
-  - 06CB:7F28 (Synaptics)
+On 9/10/20 4:00 AM, Brendan Higgins wrote:
+> On Wed, Sep 9, 2020 at 1:31 PM Eddie James <eajames@linux.ibm.com> wrote:
+>> Mask the IRQ status to only the bits that the driver checks. This
+>> prevents excessive driver warnings when operating in slave mode
+>> when additional bits are set that the driver doesn't handle.
+>>
+>> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+>> Reviewed-by: Tao Ren <rentao.bupt@gmail.com>
+> Sorry, looks like I didn't get my comment in in time.
+>
+> Looks good in principle. One minor comment below:
+>
+>> ---
+>>   drivers/i2c/busses/i2c-aspeed.c | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
+>> index 31268074c422..724bf30600d6 100644
+>> --- a/drivers/i2c/busses/i2c-aspeed.c
+>> +++ b/drivers/i2c/busses/i2c-aspeed.c
+>> @@ -69,6 +69,7 @@
+>>    * These share bit definitions, so use the same values for the enable &
+>>    * status bits.
+>>    */
+>> +#define ASPEED_I2CD_INTR_RECV_MASK                     0xf000ffff
+> Could we define ASPEED_I2CD_INTR_RECV_MASK to be ASPEED_I2CD_INTR_ALL ?
+
+
+That was my original thought... there is another define for that already 
+a few lines down though.
+
+
+Thanks,
+
+Eddie
+
 
 >
+>>   #define ASPEED_I2CD_INTR_SDA_DL_TIMEOUT                        BIT(14)
+>>   #define ASPEED_I2CD_INTR_BUS_RECOVER_DONE              BIT(13)
+>>   #define ASPEED_I2CD_INTR_SLAVE_MATCH                   BIT(7)
+>> @@ -604,6 +605,7 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
+>>          writel(irq_received & ~ASPEED_I2CD_INTR_RX_DONE,
+>>                 bus->base + ASPEED_I2C_INTR_STS_REG);
+>>          readl(bus->base + ASPEED_I2C_INTR_STS_REG);
+>> +       irq_received &= ASPEED_I2CD_INTR_RECV_MASK;
+>>          irq_remaining = irq_received;
 >>
->> AFAIU, isn't hid-multitouch supposed to be the implementation of Windows
->> Precision Touchpad?
->
->yes, it works for most of those. The only ones that are not working
->are usually because OEM or device makers tend to do "fun" things.
->
->>  And since Precision touchpad is mandatory for
->> Windows 10 notebooks and this laptop model of Lenovo Legion-5 15ARH05
->> seem to have been certificated by Windows 10, does it mean by theory
->> hid-multiouch could handle these two touchpad devices?
->
->Well, it should, yes, but it clearly can not. You can try to give a
->try at hid-recorder from
->https://gitlab.freedesktop.org/libevdev/hid-tools. This will show what
->is actually exported by the hardware before any processing by the
->kernel. Maybe there is a new simple thing to do in hid-multitouch to
->handle those devices.
->
->Also, last time I heard, Synaptics dropped the use of hid-rmi in favor
->of hid-multitouch. Any hid-rmi touchpad should be able to use
->hid-multitouch, as this is the preferred way on Windows. But sometimes
->the various teams decide to change the rules.
->
->>
->> Anyway, it seems I need to install Windows Driver Kit to capture&analyze
->> HID reports to see what's happening. Or do you have any suggestion?
->
->Unless it changed recently (I think I have seen something like that
->recently), I had to write a I2C man-in-the-middle to dump the logs
->from Windows. Project is at
->https://github.com/bentiss/SimplePeripheralBusProbe and requires a
->little bit of manual work to be able to start capturing data :(
->
->Cheers,
->Benjamin
->
->>
+>>   #if IS_ENABLED(CONFIG_I2C_SLAVE)
 >> --
->> Best regards,
->> Coiby
+>> 2.26.2
 >>
->
-
-Thank you for developing hid-tools and SimplePeripheralBusProbe!
-
-The problem with the Synaptics touchpad when it's handled by hid-multiouch
-is the pointer won't move. A few days ago, I took another look at the
-results produced by hid-recorder and evtest and noticed something abnormal
-for the Synaptics touchpad. For a straight continuous motion of one finger,
-the value of ABS_MT_TRACKING_ID kept changing,
-
-$ sudo evtest
-...
-Event: time 1599651409.969002, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value 68
-Event: time 1599651409.969002, type 3 (EV_ABS), code 53 (ABS_MT_POSITION_X), value 401
-Event: time 1599651409.969002, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y), value 201
-Event: time 1599651409.969002, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 1
-Event: time 1599651409.969002, type 1 (EV_KEY), code 325 (BTN_TOOL_FINGER), value 1
-Event: time 1599651409.969002, type 3 (EV_ABS), code 0 (ABS_X), value 401
-Event: time 1599651409.969002, type 3 (EV_ABS), code 1 (ABS_Y), value 201
-Event: time 1599651409.969002, type 4 (EV_MSC), code 5 (MSC_TIMESTAMP), value 0
-Event: time 1599651409.969002, -------------- SYN_REPORT ------------
-Event: time 1599651410.070105, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value -1
-Event: time 1599651410.070105, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 0
-Event: time 1599651410.070105, type 1 (EV_KEY), code 325 (BTN_TOOL_FINGER), value 0
-Event: time 1599651410.070105, -------------- SYN_REPORT ------------
-Event: time 1599651410.093740, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value 69
-Event: time 1599651410.093740, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 1
-Event: time 1599651410.093740, type 1 (EV_KEY), code 325 (BTN_TOOL_FINGER), value 1
-Event: time 1599651410.093740, type 4 (EV_MSC), code 5 (MSC_TIMESTAMP), value 7200
-Event: time 1599651410.093740, -------------- SYN_REPORT ------------
-Event: time 1599651410.196576, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value -1
-Event: time 1599651410.196576, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 0
-Event: time 1599651410.196576, type 1 (EV_KEY), code 325 (BTN_TOOL_FINGER), value 0
-Event: time 1599651410.196576, -------------- SYN_REPORT ------------
-Event: time 1599651410.219020, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value 70
-Event: time 1599651410.219020, type 3 (EV_ABS), code 53 (ABS_MT_POSITION_X), value 406
-Event: time 1599651410.219020, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y), value 204
-Event: time 1599651410.219020, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 1
-Event: time 1599651410.219020, type 1 (EV_KEY), code 325 (BTN_TOOL_FINGER), value 1
-Event: time 1599651410.219020, type 3 (EV_ABS), code 0 (ABS_X), value 406
-Event: time 1599651410.219020, type 3 (EV_ABS), code 1 (ABS_Y), value 204
-Event: time 1599651410.219020, type 4 (EV_MSC), code 5 (MSC_TIMESTAMP), value 129000
-Event: time 1599651410.219020, -------------- SYN_REPORT ------------
-Event: time 1599651410.320097, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value -1
-Event: time 1599651410.320097, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 0
-Event: time 1599651410.320097, type 1 (EV_KEY), code 325 (BTN_TOOL_FINGER), value 0
-Event: time 1599651410.320097, -------------- SYN_REPORT ------------
-Event: time 1599651410.343867, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value 71
-Event: time 1599651410.343867, type 3 (EV_ABS), code 53 (ABS_MT_POSITION_X), value 424
-Event: time 1599651410.343867, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y), value 218
-Event: time 1599651410.343867, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 1
-Event: time 1599651410.343867, type 1 (EV_KEY), code 325 (BTN_TOOL_FINGER), value 1
-Event: time 1599651410.343867, type 3 (EV_ABS), code 0 (ABS_X), value 424
-Event: time 1599651410.343867, type 3 (EV_ABS), code 1 (ABS_Y), value 218
-Event: time 1599651410.343867, type 4 (EV_MSC), code 5 (MSC_TIMESTAMP), value 250900
-...
-
-while hid-recorder showed "Tip Switch" remained 1 and the "contact Id"
-remained 0 for this set of reports,
-
-$ sudo hid-recorder
-
-# ReportID: 3 / Confidence: 1 | Tip Switch: 1 | Contact Id:  0 | # | X:    401 | Y:    201
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0 | Scan Time:  14579 | Contact Count:    1 | Button: 0 | #
-E: 000000.000000 30 03 03 91 01 c9 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f3 38 01 00
-# ReportID: 3 / Confidence: 1 | Tip Switch: 1 | Contact Id:  0 | # | X:    401 | Y:    201
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0 | Scan Time:  14651 | Contact Count:    1 | Button: 0 | #
-E: 000000.124738 30 03 03 91 01 c9 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 3b 39 01 00
-# ReportID: 3 / Confidence: 1 | Tip Switch: 1 | Contact Id:  0 | # | X:    406 | Y:    204
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0 | Scan Time:  15869 | Contact Count:    1 | Button: 0 | #
-E: 000000.249932 30 03 03 96 01 cc 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 fd 3d 01 00
-# ReportID: 3 / Confidence: 1 | Tip Switch: 1 | Contact Id:  0 | # | X:    424 | Y:    218
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0 | Scan Time:  17088 | Contact Count:    1 | Button: 0 | #
-E: 000000.374781 30 03 03 a8 01 da 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 c0 42 01 00
-# ReportID: 3 / Confidence: 1 | Tip Switch: 1 | Contact Id:  0 | # | X:    449 | Y:    251
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0 | Scan Time:  18379 | Contact Count:    1 | Button: 0 | #
-E: 000000.499704 30 03 03 c1 01 fb 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 cb 47 01 00
-# ReportID: 3 / Confidence: 1 | Tip Switch: 1 | Contact Id:  0 | # | X:    475 | Y:    281
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
-#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0 | Scan Time:  19598 | Contact Count:    1 | Button: 0 | #
-
-
-I managed to let hid-multitouch to send the set of input events with the
-same ABS_MT_TRACKING_ID by disabling the release_timer via commenting out
-the following code,
-
-// drivers/hid/hid-multitouch.c
-static void mt_touch_report(struct hid_device *hid,
-			    struct mt_report_data *rdata)
-{
-     ...
-	 * Windows 8 specs says 2 things:
-	 * - once a contact has been reported, it has to be reported in each
-	 *   subsequent report
-	 * - the report rate when fingers are present has to be at least
-	 *   the refresh rate of the screen, 60 or 120 Hz
-	 *
-	 * I interprete this that the specification forces a report rate of
-	 * at least 60 Hz for a touchscreen to be certified.
-	 * Which means that if we do not get a report whithin 16 ms, either
-	 * something wrong happens, either the touchscreen forgets to send
-	 * a release. Taking a reasonable margin allows to remove issues
-	 * with USB communication or the load of the machine.
-	 *
-	 * Given that Win 8 devices are forced to send a release, this will
-	 * only affect laggish machines and the ones that have a firmware
-	 * defect.
-	 */
-	/* if (app->quirks & MT_QUIRK_STICKY_FINGERS) {
-		if (test_bit(MT_IO_FLAGS_PENDING_SLOTS, &td->mt_io_flags))
-			mod_timer(&td->release_timer,
-				  jiffies + msecs_to_jiffies(100));
-		else
-			del_timer(&td->release_timer);
-	} */
-     ...
-}
-
-Now the pointer can move but there is a noticeable lag as I move my
-finger. evhz shows the report rate is only ~7Hz. While under Windows,
-SimplePeripheralBusProbe shows there are 25+ reports for one finger
-sliding event. This also explains why under Linux release_timer keeping
-inactivating report slots.
-
-
-Comparing the hid commands sent between Windows and Linux, they are
-almost identical. SimplePeripheralBusProbe doesn't record hid commands
-like fetching HID descriptor, report descriptor, resetting the device.
-I haven't yet found a clue about why this Synaptics touchpad operates
-with such a report rate under Linux.
-
-Under Linux, the follow hid commands are sent to the touchpad device.
-
-Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=20 00
-Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 00 08
-Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 00 01
-Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 00 08
-Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=21 00
-Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 38 02 23 00
-Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 38 02 23 00
-Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 37 02 23 00
-Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 3d 03 23 00 04 00 0d 00
-Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 34 03 23 00 04 00 04 03
-Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 36 03 23 00 04 00 06 03
-
-whereas under Windows,
-
-[0]0000.0000::09/09/2020-14:41:47.732 [SimplePeripheralBusProbe]device   1: ##00 write    6 -  0000: 22 00 38 02 23 00
-[0]0000.0000::09/09/2020-14:41:47.740 [SimplePeripheralBusProbe]device   1: ##00 write    6 -  0000: 22 00 37 02 23 00
-[0]0000.0000::09/09/2020-14:41:47.741 [SimplePeripheralBusProbe]device   1: ##00 write   10 -  0000: 22 00 34 03 23 00 04 00 04 03
-[0]0000.0000::09/09/2020-14:41:47.742 [SimplePeripheralBusProbe]device   1: ##00 write   10 -  0000: 22 00 36 03 23 00 04 00 06 03
-[0]0000.0000::09/09/2020-14:41:47.742 [SimplePeripheralBusProbe]device   1: ##00 write   10 -  0000: 22 00 34 03 23 00 04 00 04 03
-[0]0000.0000::09/09/2020-14:41:47.742 [SimplePeripheralBusProbe]device   1: ##00 write   10 -  0000: 22 00 3d 03 23 00 04 00 0d 00
-[0]1AB4.3074::09/09/2020-14:41:47.743 [SimplePeripheralBusProbe]device   1: ##00 write   10 -  0000: 22 00 36 03 23 00 04 00 06 03
-
---
-Best regards,
-Coiby
