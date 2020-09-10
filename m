@@ -2,114 +2,163 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B2362640D3
-	for <lists+linux-input@lfdr.de>; Thu, 10 Sep 2020 11:01:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63175264179
+	for <lists+linux-input@lfdr.de>; Thu, 10 Sep 2020 11:19:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727820AbgIJJBS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Sep 2020 05:01:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32914 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728405AbgIJJBF (ORCPT
+        id S1730224AbgIJJT3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Sep 2020 05:19:29 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34946 "EHLO
+        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730093AbgIJJTZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Sep 2020 05:01:05 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D230C061573
-        for <linux-input@vger.kernel.org>; Thu, 10 Sep 2020 02:01:05 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id v196so4383751pfc.1
-        for <linux-input@vger.kernel.org>; Thu, 10 Sep 2020 02:01:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ikzS6RYjoj2agknRb+4ptOX5afJxX0ugn9/c1CJ7PGY=;
-        b=susunWFFKwqMfxgI6ByE2bxzf0efOUepi18FJy0I3JaGM6PyRxlr5pWK3ZQrDC2hnN
-         ReIMsZIjJ33de7BpVFfN6XqNS2jyfb9GZ4K4h/I+P+A/84lrh4EPnpGm+66JuThreZhq
-         iAMtKUT4cO0Ytr/lL4S5Sgtjvq1DbmwGLc9mWMpW0LEU+uV0uBZdkKDexwQrIXp5JxOQ
-         RA7+krRJzRP7PBsEmcwR2pTSvNWBUhC9PH7lfT+vnhnZJ2EJ/bJDi6mlKCS+wRvd9Aam
-         hrjVglwXEJHhNVjheCVAFPlrQygD9qBLmsofYecD5zPuBl8kXkIXPqbFzTT4CDb1bFpn
-         vioA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ikzS6RYjoj2agknRb+4ptOX5afJxX0ugn9/c1CJ7PGY=;
-        b=Bg30IQAkYfcjkULVEA/ieMgu0h9X27kuvat8fRymmMozVy3+3x1BKLaCk+3yn95+Pt
-         HOkRZdNLXHZ9YQ7oojRWIdwxyfOA3YeNBziPrkwIaDpKz/A1ccvzp9q747PT1gL897/l
-         tLffuqd+vfyhljOwX3ZY25vSc5WKis3L8zFqZ9hJ+uIzKxSH6MkSPbMysebicZ8vf36v
-         4bnscjP9B91g86VPUdvR5hlMmsmmVv5NKsLjoOGvcZS78Nbav9R99V94gfWvZI2oXAhy
-         f/24qBBY+mqiOjAy4q4N7B7cf2DDV3ob4LHS93EdeY2p3cK7QlrWHPBXxsiyXqSURpDV
-         g3QQ==
-X-Gm-Message-State: AOAM533Cio0jfoKxb+rAQJdjP8sh0ufDj1PkAJjK4RD9tBiwsWsg4C58
-        3zwFdzJQ5CMbseAuim/oKBsLOp3KyFBfzp4WPHCMm2flvNuAtg==
-X-Google-Smtp-Source: ABdhPJyz+lxVXWAN3RjhjfBgNFqBMssrHGsYLq26O3vVlwR5Eg9ERiehVAHVqUqpwEj5gFDwZOX+ebtv3+a8IJuSeMA=
-X-Received: by 2002:a63:fd03:: with SMTP id d3mr3605973pgh.201.1599728464251;
- Thu, 10 Sep 2020 02:01:04 -0700 (PDT)
+        Thu, 10 Sep 2020 05:19:25 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 08A92VZj043273;
+        Thu, 10 Sep 2020 05:18:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : subject : to : cc
+ : references : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=lbijph5Taiyv+LvsJ/sM7F9hRJYgXJ1/OeIBGv1V4zI=;
+ b=m+S0uISl4zEUpQGOdqBmign+zGpGsKWZr0M8gyz4QB85tpAWWy9P9TsdEALPMOQc3bzS
+ HTmLUO+a8FzA6nkFFUM33SJxJVALimBUdqlyOa2QZAPtF+c5k3tdLE9Ja5lY/NITAiC6
+ 7HCRwKAifhDAW7efbtBkvvOJ9noreWSpBIsRvblR2Hd6QlL3Ql+0LiOJ/5ZV1/0dyGOl
+ ERG9aDbHT//+EVNVz7T31D+HrD6qNbB+7sB3Bj+uKnN/s2x03LNnlPZVOOElWWQIxfaC
+ VUv4NZ3PEML96IaUY9CGtxDOOL3o1HTtA4I8YY6eO/McXjX1bfFSSUd+pDdF2Re/VmW7 tg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 33fh5s0eur-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 10 Sep 2020 05:18:39 -0400
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 08A92b39043665;
+        Thu, 10 Sep 2020 05:18:37 -0400
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 33fh5s0etk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 10 Sep 2020 05:18:37 -0400
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+        by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 08A9DDHx028675;
+        Thu, 10 Sep 2020 09:18:34 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+        by ppma03fra.de.ibm.com with ESMTP id 33c2a8bckn-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 10 Sep 2020 09:18:34 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 08A9GxlP65470906
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 10 Sep 2020 09:16:59 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6C217AE055;
+        Thu, 10 Sep 2020 09:18:32 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 299C6AE04D;
+        Thu, 10 Sep 2020 09:18:30 +0000 (GMT)
+Received: from oc4120165700.ibm.com (unknown [9.145.14.177])
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Thu, 10 Sep 2020 09:18:30 +0000 (GMT)
+From:   Steffen Maier <maier@linux.ibm.com>
+Subject: Re: [trivial PATCH] treewide: Convert switch/case fallthrough; to
+ break;
+To:     Joe Perches <joe@perches.com>, LKML <linux-kernel@vger.kernel.org>,
+        Jiri Kosina <trivial@kernel.org>,
+        Benjamin Block <bblock@linux.ibm.com>
+Cc:     Kees Cook <kees.cook@canonical.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
+        linux-mips@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-input@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-rdma@vger.kernel.org,
+        iommu@lists.linux-foundation.org, dm-devel@redhat.com,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-mtd@lists.infradead.org, intel-wired-lan@lists.osuosl.org,
+        oss-drivers@netronome.com, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-nvme@lists.infradead.org, linux-pm@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org,
+        storagedev@microchip.com, sparclinux@vger.kernel.org,
+        linux-serial@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-parisc@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-afs@lists.infradead.org, ceph-devel@vger.kernel.org,
+        linux-nfs@vger.kernel.org, bpf@vger.kernel.org,
+        dccp@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        coreteam@netfilter.org, linux-sctp@vger.kernel.org,
+        alsa-devel <alsa-devel@alsa-project.org>
+References: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
+Message-ID: <0c66fbe5-c48b-7dc1-f7fe-1498da9cc1a3@linux.ibm.com>
+Date:   Thu, 10 Sep 2020 11:18:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-References: <20200909203059.23427-1-eajames@linux.ibm.com> <20200909203059.23427-4-eajames@linux.ibm.com>
-In-Reply-To: <20200909203059.23427-4-eajames@linux.ibm.com>
-From:   Brendan Higgins <brendanhiggins@google.com>
-Date:   Thu, 10 Sep 2020 02:00:53 -0700
-Message-ID: <CAFd5g46ghV7ArmM8LnMkGa-Nip_fT934+3cPOkVxS-b5odZXYw@mail.gmail.com>
-Subject: Re: [PATCH v3 3/5] i2c: aspeed: Mask IRQ status to relevant bits
-To:     Eddie James <eajames@linux.ibm.com>
-Cc:     linux-input@vger.kernel.org,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-aspeed <linux-aspeed@lists.ozlabs.org>,
-        linux-i2c@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        wsa@kernel.org, rentao.bupt@gmail.com,
-        Ryan Chen <ryan_chen@aspeedtech.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-09-10_01:2020-09-10,2020-09-10 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ phishscore=0 suspectscore=0 impostorscore=0 priorityscore=1501 spamscore=0
+ mlxlogscore=940 adultscore=0 bulkscore=0 clxscore=1011 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2006250000 definitions=main-2009100080
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Sep 9, 2020 at 1:31 PM Eddie James <eajames@linux.ibm.com> wrote:
->
-> Mask the IRQ status to only the bits that the driver checks. This
-> prevents excessive driver warnings when operating in slave mode
-> when additional bits are set that the driver doesn't handle.
->
-> Signed-off-by: Eddie James <eajames@linux.ibm.com>
-> Reviewed-by: Tao Ren <rentao.bupt@gmail.com>
-
-Sorry, looks like I didn't get my comment in in time.
-
-Looks good in principle. One minor comment below:
-
+On 9/9/20 10:06 PM, Joe Perches wrote:
+> fallthrough to a separate case/default label break; isn't very readable.
+> 
+> Convert pseudo-keyword fallthrough; statements to a simple break; when
+> the next label is case or default and the only statement in the next
+> label block is break;
+> 
+> Found using:
+> 
+> $ grep-2.5.4 -rP --include=*.[ch] -n "fallthrough;(\s*(case\s+\w+|default)\s*:\s*){1,7}break;" *
+> 
+> Miscellanea:
+> 
+> o Move or coalesce a couple label blocks above a default: block.
+> 
+> Signed-off-by: Joe Perches <joe@perches.com>
 > ---
->  drivers/i2c/busses/i2c-aspeed.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/i2c/busses/i2c-aspeed.c b/drivers/i2c/busses/i2c-aspeed.c
-> index 31268074c422..724bf30600d6 100644
-> --- a/drivers/i2c/busses/i2c-aspeed.c
-> +++ b/drivers/i2c/busses/i2c-aspeed.c
-> @@ -69,6 +69,7 @@
->   * These share bit definitions, so use the same values for the enable &
->   * status bits.
->   */
-> +#define ASPEED_I2CD_INTR_RECV_MASK                     0xf000ffff
+> 
+> Compiled allyesconfig x86-64 only.
+> A few files for other arches were not compiled.
 
-Could we define ASPEED_I2CD_INTR_RECV_MASK to be ASPEED_I2CD_INTR_ALL ?
+>   drivers/s390/scsi/zfcp_fsf.c                              |  2 +-
 
->  #define ASPEED_I2CD_INTR_SDA_DL_TIMEOUT                        BIT(14)
->  #define ASPEED_I2CD_INTR_BUS_RECOVER_DONE              BIT(13)
->  #define ASPEED_I2CD_INTR_SLAVE_MATCH                   BIT(7)
-> @@ -604,6 +605,7 @@ static irqreturn_t aspeed_i2c_bus_irq(int irq, void *dev_id)
->         writel(irq_received & ~ASPEED_I2CD_INTR_RX_DONE,
->                bus->base + ASPEED_I2C_INTR_STS_REG);
->         readl(bus->base + ASPEED_I2C_INTR_STS_REG);
-> +       irq_received &= ASPEED_I2CD_INTR_RECV_MASK;
->         irq_remaining = irq_received;
->
->  #if IS_ENABLED(CONFIG_I2C_SLAVE)
-> --
-> 2.26.2
->
+>   82 files changed, 109 insertions(+), 112 deletions(-)
+
+> diff --git a/drivers/s390/scsi/zfcp_fsf.c b/drivers/s390/scsi/zfcp_fsf.c
+> index 140186fe1d1e..2741a07df692 100644
+> --- a/drivers/s390/scsi/zfcp_fsf.c
+> +++ b/drivers/s390/scsi/zfcp_fsf.c
+> @@ -2105,7 +2105,7 @@ static void zfcp_fsf_open_lun_handler(struct zfcp_fsf_req *req)
+>   
+>   	case FSF_PORT_HANDLE_NOT_VALID:
+>   		zfcp_erp_adapter_reopen(adapter, 0, "fsouh_1");
+> -		fallthrough;
+> +		break;
+>   	case FSF_LUN_ALREADY_OPEN:
+>   		break;
+>   	case FSF_PORT_BOXED:
+
+Acked-by: Steffen Maier <maier@linux.ibm.com> # for zfcp
+
+
+-- 
+Mit freundlichen Gruessen / Kind regards
+Steffen Maier
+
+Linux on IBM Z Development
+
+https://www.ibm.com/privacy/us/en/
+IBM Deutschland Research & Development GmbH
+Vorsitzender des Aufsichtsrats: Matthias Hartmann
+Geschaeftsfuehrung: Dirk Wittkopp
+Sitz der Gesellschaft: Boeblingen
+Registergericht: Amtsgericht Stuttgart, HRB 243294
