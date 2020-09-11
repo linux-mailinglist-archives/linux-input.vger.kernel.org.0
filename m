@@ -2,200 +2,128 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 392E72651F9
-	for <lists+linux-input@lfdr.de>; Thu, 10 Sep 2020 23:06:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51C99265814
+	for <lists+linux-input@lfdr.de>; Fri, 11 Sep 2020 06:20:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727962AbgIJVEp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Sep 2020 17:04:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57128 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731167AbgIJOhX (ORCPT
+        id S1725809AbgIKETs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Sep 2020 00:19:48 -0400
+Received: from smtprelay0064.hostedemail.com ([216.40.44.64]:51536 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725283AbgIKETs (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Sep 2020 10:37:23 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93810C0617AB;
-        Thu, 10 Sep 2020 07:35:28 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id q13so9040781ejo.9;
-        Thu, 10 Sep 2020 07:35:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=T3i3qXMnhJ5Pfez9h/HWjHE3nazk6XcC2fJXvr78eKk=;
-        b=XE1hxXcFnJJOnwWXrIxwiW2HrxFHccyG+wLSuBNlS110t5JdPOcFyuEcDzcAwGqwsf
-         kg30G7OmWlEzmZGb5s4ub+rjsJNugFWL3WYd9CXPjwnwWVOpB9+Uz5IFkGPFqQGGQ6yS
-         O2jVO3oEye1D8vvqdHXK9lNam/rw4NQeUQilGtWUQ4zBd6whelBB4rgUSQym+GsqQnf4
-         WWsg/8mRRUxrQ9qn1KaKR1Ida8UPPRVpl/5iqiafbFQXAADPWkd4xDaSPbRyeOhh4CIQ
-         modZoQeFhDCNMbyuMcrOza3HAH2wMa/dU5qq3FuaDuvbuM21pP75apRskyKwjhgiMcYz
-         HuRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=T3i3qXMnhJ5Pfez9h/HWjHE3nazk6XcC2fJXvr78eKk=;
-        b=TbaK9FbHvYVtzoS3fXCwQ0jiAG4j8MsWeiCnNiDZDuHahghfzqe+b1KqKu9F9UNSCL
-         CWa9eG5f5t81kCK2SH3DOBIkn/kY2zL9XkABE1F/HLtjpBSZHxI13Ddhezri8otTIhXJ
-         RNn825P9RhUxrCPrM2WebZvyrZi3uwAZA3nMPyxWT8DCSVhZZjUfaRG9NTRKEDvE6WiH
-         MR5fSi915PtclTWaaEha3GPzQHwMSTmAj5r62ua3l7NU9sTxoh+KtJacqJ9Uta3xDcnG
-         U3yIBntPRQiA8SFL3SpPozXcb8ctubhhWf8PLHmPciIEDrueBJkGw0HjyIRkDyqKUEX4
-         //Gw==
-X-Gm-Message-State: AOAM5331f9Fo8zqXD3zfU5Jh39iC2gCtBRdjcqakj2V9RI1r5Ry5Fp+K
-        uTvgSJw5wGOtnbQvmBZ9JEs=
-X-Google-Smtp-Source: ABdhPJzK8qE8+S3d6bWZO57JfOB2xqDtq4ntdMlxomIVjovtPXSzMq9l3+nxOhieFaaCFSpmkfiFnw==
-X-Received: by 2002:a17:906:24d6:: with SMTP id f22mr8828364ejb.85.1599748526997;
-        Thu, 10 Sep 2020 07:35:26 -0700 (PDT)
-Received: from auth2-smtp.messagingengine.com (auth2-smtp.messagingengine.com. [66.111.4.228])
-        by smtp.gmail.com with ESMTPSA id l10sm7466796edr.12.2020.09.10.07.35.23
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 10 Sep 2020 07:35:26 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 3A4A827C00A1;
-        Thu, 10 Sep 2020 10:35:23 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Thu, 10 Sep 2020 10:35:23 -0400
-X-ME-Sender: <xms:qzlaX2QvWxEkTCC2tui21cV517yBUkBYIcAPqkac3WkIKTRr8Dt3kg>
-    <xme:qzlaX7whjQAkRTdLrm400vh4FhUPYaV9uGsu_zBg67Lg3aSxdgGxaIo_lyU0nJvdb
-    N9nKNQNc_sYDLZs2w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudehjedgjedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    goufhorhhtvggutfgvtghiphdvucdlgedtmdenucfjughrpefhvffufffkofgjfhgggfes
-    tdekredtredttdenucfhrhhomhepuehoqhhunhcuhfgvnhhguceosghoqhhunhdrfhgvnh
-    hgsehgmhgrihhlrdgtohhmqeenucggtffrrghtthgvrhhnpeehvdevteefgfeiudettdef
-    vedvvdelkeejueffffelgeeuhffhjeetkeeiueeuleenucfkphephedvrdduheehrdduud
-    durdejudenucevlhhushhtvghrufhiiigvpeeknecurfgrrhgrmhepmhgrihhlfhhrohhm
-    pegsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtd
-    eigedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehf
-    ihigmhgvrdhnrghmvg
-X-ME-Proxy: <xmx:qzlaXz2dFiF-XVT6Xa7SerHC87GJdLPpdDRIYF8NLMWx-iSTJz5tVw>
-    <xmx:qzlaXyAtBYeQvz735bPXqVmK7YFKVgtpxcGb2UmF2eBaQdU1K40CPQ>
-    <xmx:qzlaX_i6grllRqMzAioAYnIzJQgvUh7L_TS4jFr1qCBLBr0_8JjQxQ>
-    <xmx:qzlaX6TLLzI22LvgOTgTc5C9eSB2SCYOLJpbj9kGY48iNyMhY4jsla5LFiM>
-Received: from localhost (unknown [52.155.111.71])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 779C03280065;
-        Thu, 10 Sep 2020 10:35:22 -0400 (EDT)
-From:   Boqun Feng <boqun.feng@gmail.com>
-To:     linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Michael Kelley <mikelley@microsoft.com>, will@kernel.org,
-        ardb@kernel.org, arnd@arndb.de, catalin.marinas@arm.com,
-        mark.rutland@arm.com, maz@kernel.org,
-        Boqun Feng <boqun.feng@gmail.com>
-Subject: [PATCH v3 11/11] scsi: storvsc: Support PAGE_SIZE larger than 4K
-Date:   Thu, 10 Sep 2020 22:34:55 +0800
-Message-Id: <20200910143455.109293-12-boqun.feng@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200910143455.109293-1-boqun.feng@gmail.com>
-References: <20200910143455.109293-1-boqun.feng@gmail.com>
+        Fri, 11 Sep 2020 00:19:48 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay03.hostedemail.com (Postfix) with ESMTP id 12942837F24A;
+        Fri, 11 Sep 2020 04:19:43 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:800:960:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1542:1593:1594:1711:1730:1747:1777:1792:2198:2199:2393:2559:2562:2828:3138:3139:3140:3141:3142:3354:3622:3865:3866:3867:3868:3870:3871:3872:3874:4321:5007:6742:6743:10004:10400:10848:11026:11232:11473:11657:11658:11914:12043:12297:12438:12555:12740:12760:12895:13153:13161:13228:13229:13439:14096:14097:14181:14659:14721:21080:21433:21627:30054:30070:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
+X-HE-Tag: seat91_4d0f80d270eb
+X-Filterd-Recvd-Size: 4376
+Received: from XPS-9350.home (unknown [47.151.133.149])
+        (Authenticated sender: joe@perches.com)
+        by omf19.hostedemail.com (Postfix) with ESMTPA;
+        Fri, 11 Sep 2020 04:19:36 +0000 (UTC)
+Message-ID: <f4ad706519917d493a0af32ea2da8565227cc74a.camel@perches.com>
+Subject: Re: [trivial PATCH] treewide: Convert switch/case fallthrough; to
+ break;
+From:   Joe Perches <joe@perches.com>
+To:     Robin Murphy <robin.murphy@arm.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jiri Kosina <trivial@kernel.org>
+Cc:     linux-wireless@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        oss-drivers@netronome.com, nouveau@lists.freedesktop.org,
+        alsa-devel <alsa-devel@alsa-project.org>,
+        dri-devel@lists.freedesktop.org, linux-ide@vger.kernel.org,
+        dm-devel@redhat.com, linux-mtd@lists.infradead.org,
+        linux-i2c@vger.kernel.org, sparclinux@vger.kernel.org,
+        kvmarm@lists.cs.columbia.edu, linux-rtc@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
+        dccp@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net,
+        linux-afs@lists.infradead.org, coreteam@netfilter.org,
+        intel-wired-lan@lists.osuosl.org, linux-serial@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-mmc@vger.kernel.org,
+        Kees Cook <kees.cook@canonical.com>,
+        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, linux-sctp@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-nvme@lists.infradead.org,
+        storagedev@microchip.com, ceph-devel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-nfs@vger.kernel.org,
+        linux-parisc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-mips@vger.kernel.org, iommu@lists.linux-foundation.org,
+        netfilter-devel@vger.kernel.org, linux-crypto@vger.kernel.org,
+        bpf@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        Will Deacon <will@kernel.org>
+Date:   Thu, 10 Sep 2020 21:19:35 -0700
+In-Reply-To: <9372456a-8dcf-2735-57a4-e126aa5df3a6@arm.com>
+References: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
+         <9372456a-8dcf-2735-57a4-e126aa5df3a6@arm.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hyper-V always use 4k page size (HV_HYP_PAGE_SIZE), so when
-communicating with Hyper-V, a guest should always use HV_HYP_PAGE_SIZE
-as the unit for page related data. For storvsc, the data is
-vmbus_packet_mpb_array. And since in scsi_cmnd, sglist of pages (in unit
-of PAGE_SIZE) is used, we need convert pages in the sglist of scsi_cmnd
-into Hyper-V pages in vmbus_packet_mpb_array.
+On Thu, 2020-09-10 at 15:21 +0100, Robin Murphy wrote:
+> On 2020-09-09 21:06, Joe Perches wrote:
+> > fallthrough to a separate case/default label break; isn't very readable.
+> > 
+> > Convert pseudo-keyword fallthrough; statements to a simple break; when
+> > the next label is case or default and the only statement in the next
+> > label block is break;
+> > 
+> > Found using:
+> > 
+> > $ grep-2.5.4 -rP --include=*.[ch] -n "fallthrough;(\s*(case\s+\w+|default)\s*:\s*){1,7}break;" *
+> > 
+> > Miscellanea:
+> > 
+> > o Move or coalesce a couple label blocks above a default: block.
+> > 
+> > Signed-off-by: Joe Perches <joe@perches.com>
+> > ---
+> > 
+> > Compiled allyesconfig x86-64 only.
+> > A few files for other arches were not compiled.
+> > 
+> 
+> [...]
+> > diff --git a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> > index c192544e874b..743db1abec40 100644
+> > --- a/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> > +++ b/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
+> > @@ -3777,7 +3777,7 @@ static int arm_smmu_device_hw_probe(struct arm_smmu_device *smmu)
+> >   	switch (FIELD_GET(IDR0_TTF, reg)) {
+> >   	case IDR0_TTF_AARCH32_64:
+> >   		smmu->ias = 40;
+> > -		fallthrough;
+> > +		break;
+> >   	case IDR0_TTF_AARCH64:
+> >   		break;
+> >   	default:
+> 
+> I have to say I don't really agree with the readability argument for 
+> this one - a fallthrough is semantically correct here, since the first 
+> case is a superset of the second. It just happens that anything we would 
+> do for the common subset is implicitly assumed (there are other 
+> potential cases we simply haven't added support for at the moment), thus 
+> the second case is currently empty.
+> This change actively obfuscates that distinction.
 
-This patch does the conversion by dividing pages in sglist into Hyper-V
-pages, offset and indexes in vmbus_packet_mpb_array are recalculated
-accordingly.
+Then perhaps comments should be added to usefully
+describe the mechanisms.
 
-Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
----
- drivers/scsi/storvsc_drv.c | 54 +++++++++++++++++++++++++++++++++-----
- 1 file changed, 47 insertions(+), 7 deletions(-)
+	case IDR0_TTF_AARCH32_64:
+		smmu->ias = 40;
+		fallthrough;	/* and still do the 64 bit processing */
+	case IDR0_TTF_AARCH64:
+		/* Nothing specific yet */
+		break;
 
-diff --git a/drivers/scsi/storvsc_drv.c b/drivers/scsi/storvsc_drv.c
-index 8f5f5dc863a4..119b76ca24a1 100644
---- a/drivers/scsi/storvsc_drv.c
-+++ b/drivers/scsi/storvsc_drv.c
-@@ -1739,23 +1739,63 @@ static int storvsc_queuecommand(struct Scsi_Host *host, struct scsi_cmnd *scmnd)
- 	payload_sz = sizeof(cmd_request->mpb);
- 
- 	if (sg_count) {
--		if (sg_count > MAX_PAGE_BUFFER_COUNT) {
-+		unsigned int hvpgoff = 0;
-+		unsigned long hvpg_offset = sgl->offset & ~HV_HYP_PAGE_MASK;
-+		unsigned int hvpg_count = HVPFN_UP(hvpg_offset + length);
-+		u64 hvpfn;
- 
--			payload_sz = (sg_count * sizeof(u64) +
-+		if (hvpg_count > MAX_PAGE_BUFFER_COUNT) {
-+
-+			payload_sz = (hvpg_count * sizeof(u64) +
- 				      sizeof(struct vmbus_packet_mpb_array));
- 			payload = kzalloc(payload_sz, GFP_ATOMIC);
- 			if (!payload)
- 				return SCSI_MLQUEUE_DEVICE_BUSY;
- 		}
- 
-+		/*
-+		 * sgl is a list of PAGEs, and payload->range.pfn_array
-+		 * expects the page number in the unit of HV_HYP_PAGE_SIZE (the
-+		 * page size that Hyper-V uses, so here we need to divide PAGEs
-+		 * into HV_HYP_PAGE in case that PAGE_SIZE > HV_HYP_PAGE_SIZE.
-+		 */
- 		payload->range.len = length;
--		payload->range.offset = sgl[0].offset;
-+		payload->range.offset = sgl[0].offset & ~HV_HYP_PAGE_MASK;
-+		hvpgoff = sgl[0].offset >> HV_HYP_PAGE_SHIFT;
- 
- 		cur_sgl = sgl;
--		for (i = 0; i < sg_count; i++) {
--			payload->range.pfn_array[i] =
--				page_to_pfn(sg_page((cur_sgl)));
--			cur_sgl = sg_next(cur_sgl);
-+		for (i = 0; i < hvpg_count; i++) {
-+			/*
-+			 * 'i' is the index of hv pages in the payload and
-+			 * 'hvpgoff' is the offset (in hv pages) of the first
-+			 * hv page in the the first page. The relationship
-+			 * between the sum of 'i' and 'hvpgoff' and the offset
-+			 * (in hv pages) in a payload page ('hvpgoff_in_page')
-+			 * is as follow:
-+			 *
-+			 * |------------------ PAGE -------------------|
-+			 * |   NR_HV_HYP_PAGES_IN_PAGE hvpgs in total  |
-+			 * |hvpg|hvpg| ...              |hvpg|... |hvpg|
-+			 * ^         ^                                 ^                 ^
-+			 * +-hvpgoff-+                                 +-hvpgoff_in_page-+
-+			 *           ^                                                   |
-+			 *           +--------------------- i ---------------------------+
-+			 */
-+			unsigned int hvpgoff_in_page =
-+				(i + hvpgoff) % NR_HV_HYP_PAGES_IN_PAGE;
-+
-+			/*
-+			 * Two cases that we need to fetch a page:
-+			 * 1) i == 0, the first step or
-+			 * 2) hvpgoff_in_page == 0, when we reach the boundary
-+			 *    of a page.
-+			 */
-+			if (hvpgoff_in_page == 0 || i == 0) {
-+				hvpfn = page_to_hvpfn(sg_page(cur_sgl));
-+				cur_sgl = sg_next(cur_sgl);
-+			}
-+
-+			payload->range.pfn_array[i] = hvpfn + hvpgoff_in_page;
- 		}
- 	}
- 
--- 
-2.28.0
+> Robin.
 
