@@ -2,151 +2,141 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2438268CEA
-	for <lists+linux-input@lfdr.de>; Mon, 14 Sep 2020 16:08:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F14A6268FDB
+	for <lists+linux-input@lfdr.de>; Mon, 14 Sep 2020 17:28:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726776AbgINOId (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Sep 2020 10:08:33 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:45566 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725979AbgINOIY (ORCPT
+        id S1726055AbgINP05 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Sep 2020 11:26:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46828 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725976AbgINP0f (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Sep 2020 10:08:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1600092502;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=k0dgbRo+RDvZ3UA4+CQF8a3dBnr9tvYgpawTPvfNleQ=;
-        b=GsXPKXrCIto3rDM7DDioGAg2E7jYXPPlPfAOiWbx/Ohab6FQu7TkrPvgMtsdBVU0UGIEfE
-        apyouhMDGzl2HoMMxWJxtIMeGhC6aTQUPwlKLmAh3/w50HHjQshL4u3cZssN4wLXxtWGSE
-        lZkbt95JH7ledWprZgQWK4m+namn8Oc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-HBmmfDHEMrSHfyWoBxqcjw-1; Mon, 14 Sep 2020 10:08:11 -0400
-X-MC-Unique: HBmmfDHEMrSHfyWoBxqcjw-1
-Received: by mail-wm1-f71.google.com with SMTP id y18so45707wma.4
-        for <linux-input@vger.kernel.org>; Mon, 14 Sep 2020 07:08:11 -0700 (PDT)
+        Mon, 14 Sep 2020 11:26:35 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F922C061788;
+        Mon, 14 Sep 2020 08:26:28 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id z19so13897293lfr.4;
+        Mon, 14 Sep 2020 08:26:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=VTPsLW0+iZl+i1mp/rzyEpz05jiz9NlTzkY82SUke6I=;
+        b=Bc4H4IN163/VqP3IR0+XQoY77UvNMwR3H4gdXPUTefa4oZ2ALD3VRwXfxTpn64AiBB
+         00U8431esUNOE6sWmyDVS9Ur66r9kj7aLx7zL9z1maTm5FouMFnyU5sM6CuW7yLKZtmV
+         vn1rXutOZ+iM7e5t3AX+l1McxD57m5V+J4VNhhbeL+gI9H/C34HA9LrRKAw3a7khq75x
+         JVincmGoevQImC3c2zGS/SHYeHmVQp7H/TnTrt1kFAKsdhRhZbXXwHuNGvH71u3NB+KX
+         D3gRrUbiSKGCw6dslTmut+Zz2R9hvERGIhMuM/s73f4Qwpo7C48cFwKYTkwvEs7Wn1Cl
+         ON1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=k0dgbRo+RDvZ3UA4+CQF8a3dBnr9tvYgpawTPvfNleQ=;
-        b=QPZZ6c+Fw0jWc/Mltl9TMeD59gAgS7b9TXPGn86xzi8/CHbbWStABER87uIirt6VlC
-         osi4/XrCDFX6MT9oDz/DaVwJIAIArS2Gfo17uizScqkuu2kQMNfdV31lyIDIHebL8LWI
-         iwmoqz6fPV1jiKXbphGp5v+5+P5+8lf9C+5M4hYVHY0kQjaGeAtbKWZdf+cG+ecEzy3N
-         rT67+h2zVcT2XKO7yiyvQz6SgMa9VEBuO2xtRUyB2/+5rIG/kLf2fiWHUzggrIpE1F1F
-         bcesjV3a8wvN0nMaNKchqnIfWCZQPADB4GFTLlf6fN3CoFnNC8af35g2dL1Nc2guhlI6
-         RkOw==
-X-Gm-Message-State: AOAM5305TWlJKOdo3qLHsGr1MCIj2WE00iFYiA16QdhpKH9Rd68BG05J
-        UyBa6VUfz3XAoAaau3nQzoIyN9cLAqbOIJKNCgeZH4mb5ofwpd10zrti/f4zM8RqLOrHLGLyYY5
-        6nxLQYt7WyjNOauOL3iIcCzk=
-X-Received: by 2002:a1c:9d07:: with SMTP id g7mr16116162wme.144.1600092490360;
-        Mon, 14 Sep 2020 07:08:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzZ27kSa58tJiiyuMmAIiHYwij6veZwR4h++7Q0qwgfWPIXQ2wHhOeRx22P6H/r1LA7F616zw==
-X-Received: by 2002:a1c:9d07:: with SMTP id g7mr16116137wme.144.1600092490142;
-        Mon, 14 Sep 2020 07:08:10 -0700 (PDT)
-Received: from x1.localdomain ([78.108.130.193])
-        by smtp.gmail.com with ESMTPSA id i6sm22688978wra.1.2020.09.14.07.08.09
+        bh=VTPsLW0+iZl+i1mp/rzyEpz05jiz9NlTzkY82SUke6I=;
+        b=M4hgHWYFM89L86V8KTDNCw5ONjrSfxX1BF+7RzxmpZSGJQFxtYDvs936bqpXUICMus
+         4kFfQ0NnN2tNPpMXyZCM38wd7ArpoKq2QQznmfFAnrDwuQOaO1qyl1egVhzHogbkb5pz
+         /8y804AnKWuSCN2Mw1bIzaYo2GoHtP87ZhJmWMqWizI8yu45PdhAHISCe1MVx/EoUB9o
+         6akWtdDKsVp1AUB30+geS0dPqKvA3HJMTKz/CEhdSPt+43fF2prgMhDk/DKpF/VaUA0n
+         AUoiaPu2Ztv18wDrlJx+4p/hRVuHgI2WDedh0sq3/LLNqTlK+JynlTW4xB0bKu6PISgE
+         1fsQ==
+X-Gm-Message-State: AOAM533ENB1/MOLEh1JdX4uaKPUr6IvO2Q3kokVHkKWPRqC33SST1uxr
+        vHEXvZ+xfQ8vo1KzXsJVvtc=
+X-Google-Smtp-Source: ABdhPJzVTQ/QrzbOX/Qk7OQuyVj/r7/vkJQLRUbCZlGbJxq3UgxnVdinFjXQMeNxAWeXe4GUJjHF4Q==
+X-Received: by 2002:a19:b97:: with SMTP id 145mr4883827lfl.269.1600097186798;
+        Mon, 14 Sep 2020 08:26:26 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
+        by smtp.googlemail.com with ESMTPSA id z7sm3423208lfb.221.2020.09.14.08.26.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Sep 2020 07:08:09 -0700 (PDT)
-Subject: Re: [PATCH 0/1] Input: soc_button_array - Work around DSDTs which
- modify the irqflags
-From:   Hans de Goede <hdegoede@redhat.com>
+        Mon, 14 Sep 2020 08:26:26 -0700 (PDT)
+Subject: Re: [PATCH v4 1/1] Input: atmel_mxt_ts - implement I2C retries
 To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
+Cc:     Jiada Wang <jiada_wang@mentor.com>, nick@shmanahar.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input <linux-input@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>
-References: <20200906122016.4628-1-hdegoede@redhat.com>
- <20200914061246.GO1665100@dtor-ws>
- <61dfb476-2d55-116c-21d6-bf5972929cd3@redhat.com>
- <CAHp75VemDbswE9+yXMut1vbYvWwcTAd+b_Ry05_0QWbfnCSv9g@mail.gmail.com>
- <897df830-4806-0118-6a27-0025268da1f5@redhat.com>
-Message-ID: <ead6b6f3-5fb7-d986-1bba-4f4a9350a369@redhat.com>
-Date:   Mon, 14 Sep 2020 16:08:09 +0200
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Andrew_Gabbasov@mentor.com
+References: <20200912005521.26319-1-jiada_wang@mentor.com>
+ <CAHp75Vc5YCb-6oRRfVOE5bL_Dmzy0LwDpetxqD-G+E9M=EwA=w@mail.gmail.com>
+ <bd668b99-5b14-f54d-101d-7d56e0c8c4c0@gmail.com>
+ <CAHp75VdTv-uCQue3VU=czZJd4iTG+XBVe2kFtnP+fZ1XQuFbzA@mail.gmail.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <137be969-f99a-66e0-ebe4-b86f4be2b5d3@gmail.com>
+Date:   Mon, 14 Sep 2020 18:26:25 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <897df830-4806-0118-6a27-0025268da1f5@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAHp75VdTv-uCQue3VU=czZJd4iTG+XBVe2kFtnP+fZ1XQuFbzA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
-
-On 9/14/20 3:52 PM, Hans de Goede wrote:
-> Hi,
-> 
-> On 9/14/20 10:00 AM, Andy Shevchenko wrote:
->> On Mon, Sep 14, 2020 at 10:45 AM Hans de Goede <hdegoede@redhat.com> wrote:
->>> On 9/14/20 8:12 AM, Dmitry Torokhov wrote:
->>>> On Sun, Sep 06, 2020 at 02:20:15PM +0200, Hans de Goede wrote:
+14.09.2020 16:49, Andy Shevchenko пишет:
+> On Sun, Sep 13, 2020 at 3:57 PM Dmitry Osipenko <digetx@gmail.com> wrote:
 >>
->> ...
->>
->>>>> The soc_button_array code really is x86 specific glue code to translate
->>>>> various incarnations of gpio-keys in ACPI tables to gpio_keys_platform_data.
->>>>> As such I wonder if it would not be better to move this driver to
->>>>> drivers/platform/x86?
->>
->> AFAIU the above is a justification why PDx86 suits better to host it.
-> 
-> Correct.
-> 
->>>>> I seem to be doing most if not all of the recent work on soc_button_array,
->>>>> and soon I will be a co-maintainer of drivers/platform/x86. So having it
->>>>> there and adding me in MAINTAINERS as maintaining it seems to be best?
->>>>>
->>>>> If you want I can do a patch moving soc_button_array to drivers/platform/x86
->>>>> and then add the other 3 patches on top and then we can merge all of this
->>>>> through drivers/platform/x86?
->>>>
->>>> Sorry, misread this first time through, so already merged the 3 patches,
->>>> but I to not mind at all moving the driver to platform tree. If you send
->>>> me such a patch I will apply it.
+>> 13.09.2020 11:43, Andy Shevchenko пишет:
+>>> ...
 >>>
->>> Ok.
->>>
->>> Andy are you ok with moving the driver to the pdx86 tree too?
+>>>> +       bool retried = false;
 >>
->> Taking into consideration the above, if I read it correctly, I agree.
->> Feel free to add my Ack.
+>>> I thought Dmitry wants that to be retry
+>>
+>> In the comment to v2 you suggested to negate the condition,
 > 
-> Ok, since Dmitry's tree currently has some changes to soc_button_array.c,
-> the plan is to merge the patch through Dmitry's tree.
+> Where? I just checked a few messages before and I found that I asked
+> the same question: why is negative conditional used instead of
+> positive.
+
+I'm reading this as imperative "make it positive", and thus, assumed
+that you asked to do so because the "retry" implies a positive
+condition, while "retried" implies the negative.
+
+If you've added "Could you please explain why", then I'd read it as a
+question.
+
+>> hence I
+>> thought it's YOU who wants it to be retried.
 > 
-> I will prepare a patch with your Acked-by and submit it.
+> I see. Let's see how it goes with positive conditionals first.
+> 
+> 
+>> The "retried" is a very common form among kernel drivers, so it's good
+>> to me.
+>>
+>>>>         u8 buf[2];
+>>>>         int ret;
+>>>
+>>>> -       ret = i2c_transfer(client->adapter, xfer, 2);
+>>>> -       if (ret == 2) {
+>>>> -               ret = 0;
+>>>> -       } else {
+>>>> -               if (ret >= 0)
+>>>> -                       ret = -EIO;
+>>>> +retry_read:
+>>>
+>>>> +       ret = i2c_transfer(client->adapter, xfer, ARRAY_SIZE(xfer));
+>>>> +       if (ret != ARRAY_SIZE(xfer)) {
+>> ...> Also why switch from positive to negative conditional?
+>>
+>> This will make code less readable because of the goto, and thus, there
+>> will be two branches for handling of the returned value instead of one +
+>> goto. Hence this part is good to me as-is.
+> 
+> But it's not the purpose of this patch, right?
+> Style changes should be really separated from the fix.
 
-So to make sure that there won't be any merge issues,
-I was comparing bases for
-{drivers/input/misc,drivers/platform/x86}/{Makefile,Kconfig}
-looking at the versions in:
-https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git/log/?h=next
-http://git.infradead.org/linux-platform-drivers-x86.git/shortlog/refs/heads/for-next (which atm is just 5.9-rc1)
+This should be up to a particular maintainer to decide. Usually nobody
+requires patches to be overly pedantic, this may turn away contributors
+because it feels like an unnecessary bikeshedding. It's more preferred
+to accept patch as-is if it does right thing and then maintainer could
+modify the patch, making cosmetic changes.
 
-And the latter has a couple of commits to
-drivers/platform/x86/Kconfig which the input tree is missing;
-and these commits touch part of the file which moving the driver
-over will also be touching.
+> And since it's a fix it should have a Fixes tag.
 
-Dmitry, it seems that your for next-tree is based on 5.7 + 2
-large merges and as such does not have all the commits from
-5.9-rc1 ?
-
-Anyways this is not urgent, given the conflict I think it
-might be best if I send out the patch after 5.10-rc1, using
-5.10-rc1 as a base for it.
-
-Regards,
-
-Hans
-
+It shouldn't be a fix, but a new feature because apparently the 1386
+controller wasn't ever intended to be properly supported before this patch.
