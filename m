@@ -2,84 +2,45 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28153268773
-	for <lists+linux-input@lfdr.de>; Mon, 14 Sep 2020 10:46:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4EAA268861
+	for <lists+linux-input@lfdr.de>; Mon, 14 Sep 2020 11:30:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726149AbgINIqM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Sep 2020 04:46:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41030 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726078AbgINIqL (ORCPT
+        id S1726374AbgINJaX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Sep 2020 05:30:23 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:38662 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726286AbgINJaV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Sep 2020 04:46:11 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75C2FC06174A;
-        Mon, 14 Sep 2020 01:46:10 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id g4so16751747edk.0;
-        Mon, 14 Sep 2020 01:46:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=XuGmVWQ/C1VQzn4NF907Rd7tGA3RzQj75SvBymACUwY=;
-        b=KAuZQWGnWOXAmoIJ5RdYKX9qoFTKc0Gcvcq8zH+aq2w+X3GwZ73Oa2h/MdKH/g9IPu
-         W0N7nAjtS9/XVhZjl6FB7tDoHdpmsKUVcwFdfCVB9lLE1OGIREhBvPZ08timIm12KiyJ
-         0J5oE4+as6cuGA50OvJV2j5KrvDcM+fLZRaKPjoA4MAhx66D79/A2DVGEz1/NSu7lxAj
-         JN+dUtBCntrGR3q0x8xqkxIM8p6XY7hXSUzJHwmKNyVWiMZt6YQg4iDiLtlzf5yKa5Bo
-         YIchxne8SZJqBrGQQXayKoq5qbcbf++luzrFUzN8cPKLWOIn19EGYuygx2zNGbGrBudZ
-         Vb5Q==
+        Mon, 14 Sep 2020 05:30:21 -0400
+Received: by mail-wm1-f67.google.com with SMTP id l9so10496257wme.3;
+        Mon, 14 Sep 2020 02:30:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=XuGmVWQ/C1VQzn4NF907Rd7tGA3RzQj75SvBymACUwY=;
-        b=e4H+kOpGp01+T5WRQ8yU7DDCA/wibU1BxCJ6OHz/oJbO+mkVSoOk2nekDJrs5f3Rp3
-         0l2fHEkQMixN3XCdBSOzAN3Zt7i1u18MKWVKuzLb4liX6G4NU7h+cJN/363JU1vgj0jf
-         KGkvPkQ2Y4u+qF5yo87gUjd6JhIueFtBwAE7utxaa9hj8R65RS7ZnhuAiErb8gHvwDLB
-         BMw8WcCjUVKVZJHUpEL3Y0OFUU7o5qGdVD3NS1+Z4/6VDhD/uXwAWOC1f/iYuHL3515e
-         bOkJOiUJGBMYOtnguap8a+4WU/pDjtY7X+vLcqZfpsocI7wXrMnb9863NewBQbTraDQ9
-         V59Q==
-X-Gm-Message-State: AOAM5316hhMT5g6M/O5QCseRy5jeAZ4GAj/5Jmiq7ZcZDZbw1QfcYKSU
-        8W4XbZkVWAIe2Z59/jN9plY=
-X-Google-Smtp-Source: ABdhPJzEsKFuXqBrpFADuhzDzq7+l8150SWf9Q+c3B5bBRXqBwwccQdGwdJQXfE/OUgwIXZ37Q6rQg==
-X-Received: by 2002:aa7:d059:: with SMTP id n25mr16026892edo.270.1600073169140;
-        Mon, 14 Sep 2020 01:46:09 -0700 (PDT)
-Received: from auth1-smtp.messagingengine.com (auth1-smtp.messagingengine.com. [66.111.4.227])
-        by smtp.gmail.com with ESMTPSA id bz5sm7156811ejc.83.2020.09.14.01.46.05
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 14 Sep 2020 01:46:08 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailauth.nyi.internal (Postfix) with ESMTP id 4F55527C0054;
-        Mon, 14 Sep 2020 04:46:04 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Mon, 14 Sep 2020 04:46:04 -0400
-X-ME-Sender: <xms:yi1fX7cJdjPxAbgq6OtpkW20p1EEwwA5oOPDcucjS6H_STSteqW0Vg>
-    <xme:yi1fXxOppuRZANpu32LzJXvEsnjYlJ8Xy18zvXascEVOW2X4JAFYQwnDzXa6hMzew
-    T-2ERBIGpb9TI7jlw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduiedrudeiiedgtdejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    goufhorhhtvggutfgvtghiphdvucdlgedtmdenucfjughrpeffhffvuffkfhggtggujges
-    thdtredttddtvdenucfhrhhomhepuehoqhhunhcuhfgvnhhguceosghoqhhunhdrfhgvnh
-    hgsehgmhgrihhlrdgtohhmqeenucggtffrrghtthgvrhhnpedvleeigedugfegveejhfej
-    veeuveeiteejieekvdfgjeefudehfefhgfegvdegjeenucfkphephedvrdduheehrdduud
-    durdejudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
-    pegsohhquhhnodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdeiledvgeehtd
-    eigedqudejjeekheehhedvqdgsohhquhhnrdhfvghngheppehgmhgrihhlrdgtohhmsehf
-    ihigmhgvrdhnrghmvg
-X-ME-Proxy: <xmx:yi1fX0hnwWWjBhv_AMzWu1kBSFd25-1FpdweIkTWDQAaQr-UieaQ_Q>
-    <xmx:yi1fX88VZwE7ao4zxSnWzGhEwJ_r-tIdsvh4ttcJW0mK6ohVHxYjhg>
-    <xmx:yi1fX3sHlA8luMPiQxVkqGe7gB3fCYiIn7rL9dsUXa4FJ8CXz-iVpQ>
-    <xmx:zC1fX3dLnRdBGH9yqfr9D3wNHYf_o7tV8I8UQCmEkwcfhVCYhYyXLnXzZiw>
-Received: from localhost (unknown [52.155.111.71])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 8D6FC306467D;
-        Mon, 14 Sep 2020 04:46:01 -0400 (EDT)
-Date:   Mon, 14 Sep 2020 16:46:00 +0800
-From:   Boqun Feng <boqun.feng@gmail.com>
-To:     linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=pZLqqybXXQgA/IZC4tJFYXMy5fXU6skvhtRUlKnQzKw=;
+        b=Qs653CAq8kBIy4n9EnBci2wA52LsG89rVNHYyO/vwdF/3ybOJF9+B6ehZLik5n24aq
+         Ext9LBc1+KIfdiVwE6z2StB3jBRGvbQUQazdtVdlF2K3UXi/mzgNoE/G935A8RYxH6S6
+         vOkdcDMSUqEAZzDLanUPb+6DH1GrCTxPgFRw5fnn+TSz0w7CpSbeDTZ7cm495Abc3kKs
+         Oc2mGXM0+5D5UVdW6uLU9wujwtVc+Wg1+TXAND64+oxirBzc51MAOvXTFBkal5X5y4jT
+         L1Fgj2S116J0ATpP3l5C93JLd4xhnmyif/5Bn1UYwl0akFtr+/CY+ney/T0tkW7LPOf1
+         R5Pw==
+X-Gm-Message-State: AOAM533Entn7xCaKjDj5A/4xPDBsVa5ZfQ8X+0MbPVyvKyrhhYAFOv6J
+        KmeNhhAqVbD97Ovmw7zds20=
+X-Google-Smtp-Source: ABdhPJwHIBCL7ODGI6zpiUTSttE5rh5EQeZYIwYnSf7V/9lo2HMb3CSQThgbfvgxOyQabcDR9C08UA==
+X-Received: by 2002:a7b:c1c3:: with SMTP id a3mr15248600wmj.68.1600075818330;
+        Mon, 14 Sep 2020 02:30:18 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id 185sm19690077wma.18.2020.09.14.02.30.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2020 02:30:17 -0700 (PDT)
+Date:   Mon, 14 Sep 2020 09:30:16 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Boqun Feng <boqun.feng@gmail.com>
+Cc:     linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
+        linux-scsi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
         Haiyang Zhang <haiyangz@microsoft.com>,
         Stephen Hemminger <sthemmin@microsoft.com>,
         Wei Liu <wei.liu@kernel.org>, Jiri Kosina <jikos@kernel.org>,
@@ -94,69 +55,77 @@ Cc:     "K. Y. Srinivasan" <kys@microsoft.com>,
         mark.rutland@arm.com, maz@kernel.org
 Subject: Re: [PATCH v3 08/11] Input: hyperv-keyboard: Make ringbuffer at
  least take two pages
-Message-ID: <20200914084600.GA45838@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+Message-ID: <20200914093016.lsfrfk4c7kyj6tn3@liuwe-devbox-debian-v2>
 References: <20200910143455.109293-1-boqun.feng@gmail.com>
  <20200910143455.109293-9-boqun.feng@gmail.com>
+ <20200914084600.GA45838@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200910143455.109293-9-boqun.feng@gmail.com>
+In-Reply-To: <20200914084600.GA45838@debian-boqun.qqnc3lrjykvubdpftowmye0fmh.lx.internal.cloudapp.net>
+User-Agent: NeoMutt/20180716
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Sep 10, 2020 at 10:34:52PM +0800, Boqun Feng wrote:
-> When PAGE_SIZE > HV_HYP_PAGE_SIZE, we need the ringbuffer size to be at
-> least 2 * PAGE_SIZE: one page for the header and at least one page of
-> the data part (because of the alignment requirement for double mapping).
+On Mon, Sep 14, 2020 at 04:46:00PM +0800, Boqun Feng wrote:
+> On Thu, Sep 10, 2020 at 10:34:52PM +0800, Boqun Feng wrote:
+> > When PAGE_SIZE > HV_HYP_PAGE_SIZE, we need the ringbuffer size to be at
+> > least 2 * PAGE_SIZE: one page for the header and at least one page of
+> > the data part (because of the alignment requirement for double mapping).
+> > 
+> > So make sure the ringbuffer sizes to be at least 2 * PAGE_SIZE when
+> > using vmbus_open() to establish the vmbus connection.
+> > 
+> > Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+> > ---
+> >  drivers/input/serio/hyperv-keyboard.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/input/serio/hyperv-keyboard.c b/drivers/input/serio/hyperv-keyboard.c
+> > index df4e9f6f4529..6ebc61e2db3f 100644
+> > --- a/drivers/input/serio/hyperv-keyboard.c
+> > +++ b/drivers/input/serio/hyperv-keyboard.c
+> > @@ -75,8 +75,8 @@ struct synth_kbd_keystroke {
+> >  
+> >  #define HK_MAXIMUM_MESSAGE_SIZE 256
+> >  
+> > -#define KBD_VSC_SEND_RING_BUFFER_SIZE		(40 * 1024)
+> > -#define KBD_VSC_RECV_RING_BUFFER_SIZE		(40 * 1024)
+> > +#define KBD_VSC_SEND_RING_BUFFER_SIZE	max(40 * 1024, (int)(2 * PAGE_SIZE))
+> > +#define KBD_VSC_RECV_RING_BUFFER_SIZE	max(40 * 1024, (int)(2 * PAGE_SIZE))
+> >  
 > 
-> So make sure the ringbuffer sizes to be at least 2 * PAGE_SIZE when
-> using vmbus_open() to establish the vmbus connection.
+> Hmm.. just realized there is a problem here, if PAGE_SIZE = 16k, then
+> 40 * 1024 > 2 * PAGE_SIZE, however in the ring buffer size should also
+> be page aligned, otherwise vmbus_open() will fail.
 > 
-> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
-> ---
->  drivers/input/serio/hyperv-keyboard.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> I plan to modify this as
 > 
-> diff --git a/drivers/input/serio/hyperv-keyboard.c b/drivers/input/serio/hyperv-keyboard.c
-> index df4e9f6f4529..6ebc61e2db3f 100644
-> --- a/drivers/input/serio/hyperv-keyboard.c
-> +++ b/drivers/input/serio/hyperv-keyboard.c
-> @@ -75,8 +75,8 @@ struct synth_kbd_keystroke {
->  
->  #define HK_MAXIMUM_MESSAGE_SIZE 256
->  
-> -#define KBD_VSC_SEND_RING_BUFFER_SIZE		(40 * 1024)
-> -#define KBD_VSC_RECV_RING_BUFFER_SIZE		(40 * 1024)
-> +#define KBD_VSC_SEND_RING_BUFFER_SIZE	max(40 * 1024, (int)(2 * PAGE_SIZE))
-> +#define KBD_VSC_RECV_RING_BUFFER_SIZE	max(40 * 1024, (int)(2 * PAGE_SIZE))
->  
-
-Hmm.. just realized there is a problem here, if PAGE_SIZE = 16k, then
-40 * 1024 > 2 * PAGE_SIZE, however in the ring buffer size should also
-be page aligned, otherwise vmbus_open() will fail.
-
-I plan to modify this as
-
-in linux/hyperv.h:
-
-#define VMBUS_RING_SIZE(payload_sz) PAGE_ALIGN(sizeof(struct hv_ring_buffer) + (playload_sz))
-
-and here:
-
-#define KBD_VSC_SEND_RING_BUFFER_SIZE VMBUS_RING_SIZE(36 * 1024)
-#define KBD_VSC_RECV_RING_BUFFER_SIZE VMBUS_RING_SIZE(36 * 1024)
-
-and the similar change for patch #9.
-
-Thoughts?
-
-Regards,
-Boqun
-
->  #define XTKBD_EMUL0     0xe0
->  #define XTKBD_EMUL1     0xe1
-> -- 
-> 2.28.0
+> in linux/hyperv.h:
 > 
+> #define VMBUS_RING_SIZE(payload_sz) PAGE_ALIGN(sizeof(struct hv_ring_buffer) + (playload_sz))
+> 
+> and here:
+> 
+> #define KBD_VSC_SEND_RING_BUFFER_SIZE VMBUS_RING_SIZE(36 * 1024)
+> #define KBD_VSC_RECV_RING_BUFFER_SIZE VMBUS_RING_SIZE(36 * 1024)
+> 
+> and the similar change for patch #9.
+
+OOI why do you reduce the size by 4k here?
+
+Wei.
+
+> 
+> Thoughts?
+> 
+> Regards,
+> Boqun
+> 
+> >  #define XTKBD_EMUL0     0xe0
+> >  #define XTKBD_EMUL1     0xe1
+> > -- 
+> > 2.28.0
+> > 
