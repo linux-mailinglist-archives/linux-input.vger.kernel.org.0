@@ -2,93 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7C99268473
-	for <lists+linux-input@lfdr.de>; Mon, 14 Sep 2020 08:09:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A553268478
+	for <lists+linux-input@lfdr.de>; Mon, 14 Sep 2020 08:10:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726208AbgINGJy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Sep 2020 02:09:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45216 "EHLO
+        id S1726214AbgINGKD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Sep 2020 02:10:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726204AbgINGJu (ORCPT
+        with ESMTP id S1726080AbgINGJ7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Sep 2020 02:09:50 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10334C06174A
-        for <linux-input@vger.kernel.org>; Sun, 13 Sep 2020 23:09:50 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id d6so11697473pfn.9
-        for <linux-input@vger.kernel.org>; Sun, 13 Sep 2020 23:09:50 -0700 (PDT)
+        Mon, 14 Sep 2020 02:09:59 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D910C06174A;
+        Sun, 13 Sep 2020 23:09:59 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id j34so10672426pgi.7;
+        Sun, 13 Sep 2020 23:09:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=1ABMc75YjWKsVtFv8SIjf3kyAwZ4Ud1IQ/XDxaPYCaY=;
-        b=FBGEz7mJ7cyWfVWwqlAkA3yHIC4K8NN38xPZ92LhWuvj9P+/o/vxA9Frf95VGLVw/6
-         hOm2MWWImR+p5nyPPl5F3XwtcAbdU+p8qdi/3gMZ06RIasoOAgZM6jqVCmugTlZLgDM7
-         jOlmnJwhyXqO7nnkJ7qOf39gwhh1Aey3ihv8/9KJcdk4KF+F18yPbyQ/VwJY2kFPDlnW
-         WUNilo4LG+aEmJa+kpoxbNIWXvwGKwUD7fn4LXagigeHDaYTWDz4jBx0oppdNplnYaOd
-         zbSwk8Rb6Qzf3Je55kUGLzrkeUNU+I+iBE7SS3QmKjDz/6cLQvvzpbiDxpdlpwjtNuba
-         W2Cg==
+         :content-disposition:in-reply-to;
+        bh=7vc2Xuz/xnpKNW4iK8EMpd8c+mevxs6dRK7EymBsDeg=;
+        b=ACRDT6zkaFoSMO+7GjohbJlTcQ1IxOfJSEHKxDHFONmN3FE6LMSJFYjh5xkCQ4EoE/
+         QYddZZaTM3V8hDYv51qMRuVePoMUSsGK7Ec9ezrYT8iPALuuruAXhP02HHZt0O/erQgn
+         J58vj5hGrCImYjI/uwGAM0E2eHoW7Cak06t16Wu5XHSnLzcolGC2BA8kZVb0+hs0QHTA
+         A3MeuZ6EvU7BitGh1Nj7K2QVpbMYYENpRqvTeSS27jXgZnDzlfbP6eG5heRoDzoOHBiV
+         EPH2EUMAg303iJqrEyxjNGtjWtJqj3nZ8aguutVOCKzs0bp7Vyd4e+prQ1jixT0T2YNt
+         u6rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=1ABMc75YjWKsVtFv8SIjf3kyAwZ4Ud1IQ/XDxaPYCaY=;
-        b=rdjP8mROwppj/i9qjym9G23vR+3YAGeaa4duojrFX1naqOO8uVT/TRZRJxSrMoHCMd
-         GRI6ZhJ+PUejEtHRX0nX8+tA5sUDo1nab3z8wwsrNZsWVE8x31Uyg0yjGbUNu8Ci/AWa
-         m8DKumFa5qK0r3iOQXX9QonjYLZWztieLx6SQea7YxWXWSwZbROGW7QnI1burdbqdLDc
-         PJ3BYJCTt0LnX2qUHX7+2QcFb303IUc01ljdWsCdqp4ZHf8q6PZ4rWUt9YQOUtVLIY5N
-         DAAeUrldzvcuvMN4xj/2aWBNJHXW2D1HD6XyD3T+EcQYnKmZaWp4/5vWvb/Jz5xqp3V1
-         rIRw==
-X-Gm-Message-State: AOAM532PLxupgGOnhLzacZVD+Q+4BfasUgPYD1T6vNizzqJbeeZ4bghF
-        P6fU8EQNoH7sxgNM1rWLIH0=
-X-Google-Smtp-Source: ABdhPJzIhzoTcQZfNR3a3+k/2ceDad0LDaWrBUYuN4YuC3ZrLAKq7QGj1q02/c8ZMRp2zXX/+618WA==
-X-Received: by 2002:a17:902:d909:b029:d0:cbe1:e716 with SMTP id c9-20020a170902d909b02900d0cbe1e716mr13052707plz.36.1600063789484;
-        Sun, 13 Sep 2020 23:09:49 -0700 (PDT)
+         :mime-version:content-disposition:in-reply-to;
+        bh=7vc2Xuz/xnpKNW4iK8EMpd8c+mevxs6dRK7EymBsDeg=;
+        b=qeTcdard0A3AH6mqbgs3yULZsoHsxBBdBaduMR6njwZVHLRrZ1QH9ltJGaJe0JgyTU
+         N1ZAP/Etzd8rolIFqvcderGBTGSL4McGLp65HlN/cxS/gymA3yZDcdeJ3c37sRTHnseE
+         dBRCXDgmJjh6jllT2i92sVzq1p8UhvqXR2K11qG/DuCDqrR1OJbIb7jphIc25Lr8F3Jy
+         9CMq91xqJABzTFSNhJeS5URwqy3SYe7kQGOm+Hci7JdF2GsyO5F5akhDgY/0RFXAK1Jz
+         BOF5Nlp5Rbhkvlnm0Ww1oR4TGndeNyUJCyzmIX/Us6IDjgAFFhOC34VAD/5aYhRFtL1c
+         3fzw==
+X-Gm-Message-State: AOAM53146esXFY9F5oU7/6CtGK60XnWLTQhldzGl1lNMV5+GLUWyUwtf
+        6ZPcN9O4Snle/ZZiXlCdlus=
+X-Google-Smtp-Source: ABdhPJyrUB638HtfVTguOqRhU3+BefLJgUk2JM8FRPUZCu5TjMIA6jdeg8fkio5DCvdWxxnZXWAlMg==
+X-Received: by 2002:a63:5420:: with SMTP id i32mr10044004pgb.149.1600063799017;
+        Sun, 13 Sep 2020 23:09:59 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id s20sm8889493pfu.112.2020.09.13.23.09.48
+        by smtp.gmail.com with ESMTPSA id e17sm8677219pff.6.2020.09.13.23.09.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Sep 2020 23:09:48 -0700 (PDT)
-Date:   Sun, 13 Sep 2020 23:09:47 -0700
+        Sun, 13 Sep 2020 23:09:58 -0700 (PDT)
+Date:   Sun, 13 Sep 2020 23:09:56 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     linux-input@vger.kernel.org
-Subject: Re: [PATCH resend 2/2] Input: soc_button_array - Add support for
- INT33D3 tablet-mode switch devices
-Message-ID: <20200914060947.GM1665100@dtor-ws>
-References: <20200826150601.12137-1-hdegoede@redhat.com>
- <20200826150601.12137-3-hdegoede@redhat.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        linux-input@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-acpi@vger.kernel.org
+Subject: Re: [PATCH] Input: soc_button_array - Work around DSDTs which modify
+ the irqflags
+Message-ID: <20200914060956.GN1665100@dtor-ws>
+References: <20200906122016.4628-1-hdegoede@redhat.com>
+ <20200906122016.4628-2-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200826150601.12137-3-hdegoede@redhat.com>
+In-Reply-To: <20200906122016.4628-2-hdegoede@redhat.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Aug 26, 2020 at 05:06:01PM +0200, Hans de Goede wrote:
-> According to the Microsoft documentation for Windows 8 convertible
-> devices, these devices should implement a PNP0C60 "laptop/slate mode state
-> indicator" ACPI device.
+On Sun, Sep 06, 2020 at 02:20:16PM +0200, Hans de Goede wrote:
+> Some 2-in-1s which use the soc_button_array driver have this ugly issue in
+> their DSDT where the _LID method modifies the irq-type settings of the
+> GPIOs used for the power and home buttons. The intend of this AML code is
+> to disable these buttons when the lid is closed.
 > 
-> This device can work in 2 ways, if there is a GPIO which directly
-> indicates the device is in tablet-mode or not then the direct-gpio mode
-> should be used. If there is no such GPIO, but instead the events are
-> coming from e.g. the embedded-controller, then there should still be
-> a PNP0C60 ACPI device and event-injection should be used to send the
-> events. The drivers/platform/x86/intel-vbtn.c code is an example from
-> a standardized manner of doing the latter.
+> The AML does this by directly poking the GPIO controllers registers. This
+> is problematic because when re-enabling the irq, which happens whenever
+> _LID gets called with the lid open (e.g. on boot and on resume), it sets
+> the irq-type to IRQ_TYPE_LEVEL_LOW. Where as the gpio-keys driver programs
+> the type to, and expects it to be, IRQ_TYPE_EDGE_BOTH.
 > 
-> On various 2-in-1s with either a detachable keyboard, or with 360°
-> hinges, the direct GPIO mode is indicated by an ACPI device with a
-> HID of INT33D3, which contains a single GpioInt in its ACPI resource
-> table, which directly indicates if the device is in tablet-mode or not.
-> 
-> This commit adds support for this to the soc_button_array code, as
-> well as for the alternative ID9001 HID which some devices use
-> instead of the INT33D3 HID.
+> This commit adds a workaround for this which (on affected devices) does
+> not set gpio_keys_button.gpio on these 2-in-1s, instead it gets the irq for
+> the GPIO, configures it as IRQ_TYPE_LEVEL_LOW (to match how the _LID AML
+> code configures it) and passes the irq in gpio_keys_button.irq.
 > 
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
