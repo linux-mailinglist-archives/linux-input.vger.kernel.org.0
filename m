@@ -2,115 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B3D3269360
-	for <lists+linux-input@lfdr.de>; Mon, 14 Sep 2020 19:31:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B4EC26940B
+	for <lists+linux-input@lfdr.de>; Mon, 14 Sep 2020 19:50:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726381AbgINRaj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Sep 2020 13:30:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37764 "EHLO
+        id S1726081AbgINRuO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Sep 2020 13:50:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726044AbgINR35 (ORCPT
+        with ESMTP id S1726100AbgINRtz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Sep 2020 13:29:57 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3398DC061788;
-        Mon, 14 Sep 2020 10:29:48 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id z17so93365lfi.12;
-        Mon, 14 Sep 2020 10:29:48 -0700 (PDT)
+        Mon, 14 Sep 2020 13:49:55 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8380EC061788;
+        Mon, 14 Sep 2020 10:49:55 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id t14so372418pgl.10;
+        Mon, 14 Sep 2020 10:49:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=EKbzfMJfGCgIRkk76i7u9y9y0/BR+pdaYaK3YA3wFGw=;
-        b=gXRE07fjrWsB6CkTnWojLHMhBBDt8A4XCBh3YGVwf85zau7/BPgqSVnoxf/8plgz7U
-         gqWBwMSw2+kya3rigz1mEIyeIZ8pOY/p1K3pgDlTE7vIRrhQ01TFZ9oVahwnioTbW5Th
-         PG+hohW4QcLjdNFIrsXWPTr8Y+2RVBh59vrwv13ID2RLJvpHw46Qz0ueFT60pBzhz15V
-         Zi1OqUFU90J1BREajLDeL6adFwpQUvCcfshUewbq8+fqJ+feLeRw/pFOfREvXZp0TgUW
-         moDVvVy8LuLyWIBrbCs0OkARb7ecgk12ktITYIFbKF64AYA7NKj6dFAozeLfi/iLphll
-         bfsg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Map+hm2luK4joxy1or88ltvi/Ll/0Bex60j+geeyBLM=;
+        b=rAL60idqBmAdAU5u8tD/4tuKn2B3trS7TGM6fT2VpIlmDWRfm9Icp5CBSRyaRVSvVt
+         WZN7bldIbq+pgMAY02dYPUvY/ZGrFVjrEz3jFFevhjExL/Eeg3Gw/I2mSUmGbVwKvZZM
+         G5bNhIolqCa+UKKWKY9Di6Zv3TVrVBGtTLhli471I2OjFuIYjQknA9297F3BvgQ1gQHx
+         YSDCtkJCGijtp6mH/fNQs2G0cRxCa8x0D83dhnadcl0X5fSssmhVGZGFpQqMdkrHEHqW
+         N62dlG/uzbqEqoECzJ7HfUFykB/sRHhonE5xs1xcLWaI5wm7cWoqojXnu6SpcP4Ir1Zf
+         yG2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=EKbzfMJfGCgIRkk76i7u9y9y0/BR+pdaYaK3YA3wFGw=;
-        b=mLb6PnDE4ikF+HEW6EytU7+n+jH/iQH54VOjwB2m9kHscOxO/FNPtAtIMB8DCe5C8I
-         T0pFZXemKTTpYkVv+SiTD6jt1Qcd5TXuLdygBIO+nSkxDnmCD4JdiApdfKzKWTc2XiCz
-         ldXF/96Kyc9cWXJhyiab1d3dF9mJBHVYaSQw9b+69PorNZ8oV+7FopdLfhDMvqBT2s/T
-         7TQZo+DDyrAzEr5dZEWGSKIopMv32h64KAxdwV83L0ryk16lZI9W+arWO7cNpWXN9i65
-         EpdK/fWNVtPzB0+WrDI7ACycdx45gOSyETOtWzo6yTWwwdQBEgUsPhQrkzECaICz9gsh
-         b7+w==
-X-Gm-Message-State: AOAM530SJv+f/E/yLTYnAALExyVq3tdbbZB5DHE8el2nwkvcsPvcrT/B
-        2SH2Ll3psGR6Ms5XTdq23jY=
-X-Google-Smtp-Source: ABdhPJwOtzmuoclCXzOdGVeUYKK5zCeOqRZ7mh1JEanKuR/HRBUUktwZzciFvDnNhrBK/YVjyzGWGQ==
-X-Received: by 2002:a19:ca1e:: with SMTP id a30mr4449320lfg.575.1600104586681;
-        Mon, 14 Sep 2020 10:29:46 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.googlemail.com with ESMTPSA id 138sm3513821lfl.241.2020.09.14.10.29.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Sep 2020 10:29:45 -0700 (PDT)
-Subject: Re: [PATCH v4 1/1] Input: atmel_mxt_ts - implement I2C retries
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jiada Wang <jiada_wang@mentor.com>
-Cc:     nick@shmanahar.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, andy.shevchenko@gmail.com,
-        erosca@de.adit-jv.com, Andrew_Gabbasov@mentor.com
-References: <20200912005521.26319-1-jiada_wang@mentor.com>
- <20200913165644.GF1665100@dtor-ws>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <65d1b9f2-a8e3-6398-712d-41d8067d06a1@gmail.com>
-Date:   Mon, 14 Sep 2020 20:29:44 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Map+hm2luK4joxy1or88ltvi/Ll/0Bex60j+geeyBLM=;
+        b=ZKrK6nlPVgZpiTHDs8Wg1BIttuLt6wiEs2NuDLVTFHLOuHj4byEzyolU7hRCaxckpU
+         NU9jfh71Lz0WOlTZjBw2I2ruJeyhNAcHQkQg7vn57sN92+ivg0IZtpG3KaS+A8pHSq0Y
+         RqSkshizpBUO4ZmrMRYrIS7A0BTp2Fp9EXZHSYpJNeGEOH/wwvQg6Bpytkkt+PV5LCyz
+         /znpyb7LWJfSdUKiVXqdJveW3Ikenim78k8Xb4tyYDVLCZw/q7jcMzV8m/aeKA+m6fib
+         4EPMq8UusmJErOunyOjdylT/8NqAYQJqTa0Kb+CryvPCWRmXZBILHWoR66QX+I4d188k
+         PEaA==
+X-Gm-Message-State: AOAM530JA00sJ0YrWJUsWluewqGqup/cmIp+VKJrmuX4ikcrC8TE1AlX
+        4ofnKdBazQ6lRlEyyCs1FNc=
+X-Google-Smtp-Source: ABdhPJyaSVBbXWUkEKOBMcqJRJ3PpFBWtpe9G2HDyRT0YjNatLpEx9rszU23NeAN/Nl5i6v1lrCLqg==
+X-Received: by 2002:a17:902:8548:b029:d0:cbe1:e70b with SMTP id d8-20020a1709028548b02900d0cbe1e70bmr15473944plo.25.1600105795009;
+        Mon, 14 Sep 2020 10:49:55 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id c1sm4855788pfj.219.2020.09.14.10.49.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2020 10:49:54 -0700 (PDT)
+Date:   Mon, 14 Sep 2020 10:49:52 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] Input: imx6ul_tsc - clean up some errors in
+ imx6ul_tsc_resume()
+Message-ID: <20200914174952.GS1665100@dtor-ws>
+References: <20200905124942.GC183976@mwanda>
 MIME-Version: 1.0
-In-Reply-To: <20200913165644.GF1665100@dtor-ws>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200905124942.GC183976@mwanda>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-13.09.2020 19:56, Dmitry Torokhov пишет:
-> Hi Jiada,
+On Sat, Sep 05, 2020 at 03:49:42PM +0300, Dan Carpenter wrote:
+> If imx6ul_tsc_init() fails then we need to clean up the clocks.
 > 
-> On Sat, Sep 12, 2020 at 09:55:21AM +0900, Jiada Wang wrote:
->> From: Nick Dyer <nick.dyer@itdev.co.uk>
->>
->> Some maXTouch chips (eg mXT1386) will not respond on the first I2C request
->> when they are in a sleep state. It must be retried after a delay for the
->> chip to wake up.
+> I reversed the "if (input_dev->users) {" condition to make the code a
+> bit simpler.
 > 
-> Do we know when the chip is in sleep state? Can we do a quick I2C
-> transaction in this case instead of adding retry logic to everything? Or
-> there is another benefit for having such retry logic?
+> Fixes: 6cc527b05847 ("Input: imx6ul_tsc - propagate the errors")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-Hello!
+Applied, thank you.
 
-Please take a look at page 29 of:
+There is also an opportunity to factor out some common code from
+open/close and suspend/resume, I'll send out a patch in a moment.
 
-https://ww1.microchip.com/downloads/en/DeviceDoc/mXT1386_1vx_Datasheet_LX.pdf
+Thanks.
 
-It says that the retry is needed after waking up from a deep-sleep mode.
-
-There are at least two examples when it's needed:
-
-1. Driver probe. Controller could be in a deep-sleep mode at the probe
-time, and then first __mxt_read_reg() returns I2C NACK on reading out TS
-hardware info.
-
-2. Touchscreen input device is opened. The touchscreen is in a
-deep-sleep mode at the time when input device is opened, hence first
-__mxt_write_reg() invoked from mxt_start() returns I2C NACK.
-
-I think placing the retries within __mxt_read() / write_reg() should be
-the most universal option.
-
-Perhaps it should be possible to add mxt_wake() that will read out some
-generic register and then this helper should be invoked after HW
-resetting (before mxt_read_info_block()) and from mxt_start() (before
-mxt_set_t7_power_cfg()). But this approach feels a bit fragile to me.
-
-AFAIK, there shouldn't be any extra benefits from the retrying other
-than to handle the deep-sleep of mxt1386.
+-- 
+Dmitry
