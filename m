@@ -2,164 +2,177 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 882E726A92C
-	for <lists+linux-input@lfdr.de>; Tue, 15 Sep 2020 17:56:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3897A26AB17
+	for <lists+linux-input@lfdr.de>; Tue, 15 Sep 2020 19:49:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727531AbgIOP4I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Sep 2020 11:56:08 -0400
-Received: from esa4.mentor.iphmx.com ([68.232.137.252]:27871 "EHLO
-        esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727522AbgIOPzo (ORCPT
+        id S1727934AbgIORtI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Sep 2020 13:49:08 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:43163 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727982AbgIORsz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Sep 2020 11:55:44 -0400
-IronPort-SDR: aWuggq7saDB4dCzxTdl7hIeZ3CS9cmzAmx3PKznMhJmrXga5wo+OBdvgEqI69mtKBdtiDzub1R
- 5Pvie2Do6SGiBBMYu2DjHhm9jONaZRDAZM5YlHROYquEJ7UIN/PmTtFxpEq8SPxA3ifMB610af
- oGeevpcmJ2bdLGSqNE1EK3nb/PVjJbigC6lh4IGllmW+ET7mWbDNs3ZI6wR0eRNxzKooJIQrUB
- Wk8hqxiIquqG4Wz+ebih5qbsbl/vBoIQgcMp55uOtooLXUQHsDT8BfkhFv7kxd95c5FyCcXRhq
- dsk=
-X-IronPort-AV: E=Sophos;i="5.76,430,1592899200"; 
-   d="scan'208";a="53045835"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa4.mentor.iphmx.com with ESMTP; 15 Sep 2020 07:55:19 -0800
-IronPort-SDR: VbsX45tek/EebeSfqEIQRCpew1b8Md1SID/+lcBER4COCcOHwtwwiVx2onegCEuobLbrMVhngb
- 24L1W8PwykVrvuEeZXngBQDfqiP1+5+T3F02JCFnFNwc13UC5EfNA5kl4O52VfWl7Ms9jtthSF
- /5bgjXYKTuaLbsg+F+tD0AQcJpsvINcBrkvIoweaCKKKw+f05WQFLDeLnbiHNVpE3uf5s6OeoP
- rCQrBYFO6BgkCfg2C7QdmLTtfKZy9ss2r5R2Tzbn2FTdwmzPTQR/36lecYmYa1KIpIo2q8lYn7
- /WA=
-Subject: Re: [PATCH v4 1/1] Input: atmel_mxt_ts - implement I2C retries
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC:     <nick@shmanahar.org>, <linux-input@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <andy.shevchenko@gmail.com>,
-        <erosca@de.adit-jv.com>, <Andrew_Gabbasov@mentor.com>
-References: <20200912005521.26319-1-jiada_wang@mentor.com>
- <20200913165644.GF1665100@dtor-ws>
- <65d1b9f2-a8e3-6398-712d-41d8067d06a1@gmail.com>
- <20200914193340.GV1665100@dtor-ws> <20200914193603.GW1665100@dtor-ws>
- <e3dca702-7489-be94-9eee-46024f988372@gmail.com>
-From:   "Wang, Jiada" <jiada_wang@mentor.com>
-Message-ID: <b451e91a-ed9f-51cb-1765-e68867e0a86f@mentor.com>
-Date:   Wed, 16 Sep 2020 00:55:13 +0900
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Tue, 15 Sep 2020 13:48:55 -0400
+Received: by mail-pg1-f195.google.com with SMTP id t14so2353689pgl.10;
+        Tue, 15 Sep 2020 10:48:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=GJrc7L7xARd/cJ7B9yfEoRZLcez5mWpcMvPXZidt6iA=;
+        b=s65f5R5D6oK5jK3wNnIGS8HxEY4gvSLTGUYUf5MHntFN8OmRPtMUxZ3OpQZtf42ZvZ
+         CnSN+Lmz4RCf64qBezeluntYJyvWR2VMM+Ub6JByz9uxZOCg9tAnnYwWyACiRar+Fduq
+         7NNNcyTfAmVTfyT6g5G8pbzq1qM9KW83Q+kJvBgvq95TEiP3zME9lYkzcDWDZr/Dwlv/
+         iugYgxSFrMCAm1sAhAmKO8fJIxo+xJYFACXlL/0UQP/uuHvHR8wtZ5Pp4vFXsI+IsIgA
+         ZG8r/qCuyAZv366Ftx8HFJlR2LQ03ZSmw7hdXXgaJRoV1VCz/pCvlr5LoVh21+D+YcLR
+         PSfg==
+X-Gm-Message-State: AOAM531lRhtWQ4kKW1lt5Tv8G3iH4KVSN/B+JjI8JXm8DiUIVdEvziRq
+        C0V6JPO6VmmgbNYMz9wkQo4=
+X-Google-Smtp-Source: ABdhPJw9WGc1oMLtS3osJmujvSGkASamKyr07Nky9A099oUnOhXcHEUdpeT6YtaegTT2qflCJ3WasA==
+X-Received: by 2002:a62:14d2:0:b029:142:2501:39f2 with SMTP id 201-20020a6214d20000b0290142250139f2mr3014851pfu.65.1600192127276;
+        Tue, 15 Sep 2020 10:48:47 -0700 (PDT)
+Received: from sultan-box.localdomain ([104.200.129.212])
+        by smtp.gmail.com with ESMTPSA id il14sm143693pjb.54.2020.09.15.10.48.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Sep 2020 10:48:46 -0700 (PDT)
+Date:   Tue, 15 Sep 2020 10:48:44 -0700
+From:   Sultan Alsawaf <sultan@kerneltoast.com>
+To:     Jarkko Nikula <jarkko.nikula@linux.intel.com>
+Cc:     aaron.ma@canonical.com, admin@kryma.net,
+        andriy.shevchenko@linux.intel.com, benjamin.tissoires@redhat.com,
+        hdegoede@redhat.com, hn.chen@weidahitech.com, jikos@kernel.org,
+        kai.heng.feng@canonical.com, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mika.westerberg@linux.intel.com, vicamo.yang@canonical.com,
+        wsa@kernel.org
+Subject: Re: [PATCH v3] i2c: Squash of SMBus block read patchset to save power
+Message-ID: <20200915174844.GA16807@sultan-box.localdomain>
+References: <b3b751fc-668d-91e2-220b-0d7edd231e01@linux.intel.com>
+ <20200914001523.3878-1-sultan@kerneltoast.com>
+ <bcf9cd02-13d1-8f87-8ef9-2f05f0b54808@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <e3dca702-7489-be94-9eee-46024f988372@gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: svr-orw-mbx-08.mgc.mentorg.com (147.34.90.208) To
- svr-orw-mbx-01.mgc.mentorg.com (147.34.90.201)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bcf9cd02-13d1-8f87-8ef9-2f05f0b54808@linux.intel.com>
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry
+On Tue, Sep 15, 2020 at 02:55:48PM +0300, Jarkko Nikula wrote:
+> Hi
+> 
+> On 9/14/20 3:15 AM, Sultan Alsawaf wrote:
+> > From: Sultan Alsawaf <sultan@kerneltoast.com>
+> > 
+> > This is a squash of the following:
+> > 
+> > i2c: designware: Fix transfer failures for invalid SMBus block reads
+> > 
+> > SMBus block reads can be broken because the read function will just skip
+> > over bytes it doesn't like until reaching a byte that conforms to the
+> > length restrictions for block reads. This is problematic when it isn't
+> > known if the incoming payload is indeed a conforming block read.
+> > 
+> > According to the SMBus specification, block reads will only send the
+> > payload length in the first byte, so we can fix this by only considering
+> > the first byte in a sequence for block read length purposes.
+> > 
+> > In addition, when the length byte is invalid, the original transfer
+> > length still needs to be adjusted to avoid a controller timeout.
+> > 
+> > Fixes: c3ae106050b9 ("i2c: designware: Implement support for SMBus block read and write")
+> > Signed-off-by: Sultan Alsawaf <sultan@kerneltoast.com>
+> > 
+> > i2c: designware: Ensure tx_buf_len is nonzero for SMBus block reads
+> > 
+> > The point of adding a byte to len in i2c_dw_recv_len() is to make sure
+> > that tx_buf_len is nonzero, so that i2c_dw_xfer_msg() can let the i2c
+> > controller know that the i2c transaction can end. Otherwise, the i2c
+> > controller will think that the transaction can never end for block
+> > reads, which results in the stop-detection bit never being set and thus
+> > the transaction timing out.
+> > 
+> > Adding a byte to len is not a reliable way to do this though; sometimes
+> > it lets tx_buf_len become zero, which results in the scenario described
+> > above. Therefore, just directly ensure tx_buf_len cannot be zero to fix
+> > the issue.
+> > 
+> > Fixes: c3ae106050b9 ("i2c: designware: Implement support for SMBus block read and write")
+> > Signed-off-by: Sultan Alsawaf <sultan@kerneltoast.com>
+> > 
+> > i2c: designware: Allow SMBus block reads up to 255 bytes in length
+> > 
+> > According to the SMBus 3.0 protocol specification, block transfer limits
+> > were increased from 32 bytes to 255 bytes. Remove the obsolete 32-byte
+> > limitation.
+> > 
+> > Signed-off-by: Sultan Alsawaf <sultan@kerneltoast.com>
+> > 
+> > HID: i2c-hid: Use block reads when possible to save power
+> > 
+> > We have no way of knowing how large an incoming payload is going to be,
+> > so the only strategy available up until now has been to always retrieve
+> > the maximum possible report length over i2c, which can be quite
+> > inefficient. For devices that send reports in block read format, the i2c
+> > controller driver can read the payload length on the fly and terminate
+> > the i2c transaction early, resulting in considerable power savings.
+> > 
+> > On a Dell Precision 15 5540 with an i9-9880H, resting my finger on the
+> > touchpad causes psys power readings to go up by about 4W and hover there
+> > until I remove my finger. With this patch, my psys readings go from 4.7W
+> > down to 3.1W, yielding about 1.6W in savings. This is because my
+> > touchpad's max report length is 60 bytes, but all of the regular reports
+> > it sends for touch events are only 32 bytes, so the i2c transfer is
+> > roughly halved for the common case.
+> > 
+> > Signed-off-by: Sultan Alsawaf <sultan@kerneltoast.com>
+> > ---
+> > Hi Jarkko,
+> > 
+> > Sorry for the delayed response. Life gets in the way of the things that really
+> > matter, like kernel hacking ;)
+> > 
+> > I fixed the issue with the i2c block reads on 5.8. I've squashed all 4 of my i2c
+> > commits into this email for simplicity; please apply this patch on either 5.8 or
+> > 5.9 (it applies cleanly to both) and let me know if it works with your i2c-hid
+> > touchscreen. If all is well, I will resubmit these patches individually in one
+> > patchset, in a new thread.
+> > 
+> I tested this on top of fc4f28bb3daf ("Merge tag 'for-5.9-rc5-tag' of
+> git://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux") and seems to be
+> working fine. What was the key change compared to previous version that was
+> regressing for me?
 
-On 2020/09/15 6:33, Dmitry Osipenko wrote:
-> 14.09.2020 22:36, Dmitry Torokhov пишет:
->> On Mon, Sep 14, 2020 at 12:33:40PM -0700, Dmitry Torokhov wrote:
->>> On Mon, Sep 14, 2020 at 08:29:44PM +0300, Dmitry Osipenko wrote:
->>>> 13.09.2020 19:56, Dmitry Torokhov пишет:
->>>>> Hi Jiada,
->>>>>
->>>>> On Sat, Sep 12, 2020 at 09:55:21AM +0900, Jiada Wang wrote:
->>>>>> From: Nick Dyer <nick.dyer@itdev.co.uk>
->>>>>>
->>>>>> Some maXTouch chips (eg mXT1386) will not respond on the first I2C request
->>>>>> when they are in a sleep state. It must be retried after a delay for the
->>>>>> chip to wake up.
->>>>>
->>>>> Do we know when the chip is in sleep state? Can we do a quick I2C
->>>>> transaction in this case instead of adding retry logic to everything? Or
->>>>> there is another benefit for having such retry logic?
->>>>
->>>> Hello!
->>>>
->>>> Please take a look at page 29 of:
->>>>
->>>> https://ww1.microchip.com/downloads/en/DeviceDoc/mXT1386_1vx_Datasheet_LX.pdf
->>>>
->>>> It says that the retry is needed after waking up from a deep-sleep mode.
->>>>
->>>> There are at least two examples when it's needed:
->>>>
->>>> 1. Driver probe. Controller could be in a deep-sleep mode at the probe
->>>> time, and then first __mxt_read_reg() returns I2C NACK on reading out TS
->>>> hardware info.
->>>>
->>>> 2. Touchscreen input device is opened. The touchscreen is in a
->>>> deep-sleep mode at the time when input device is opened, hence first
->>>> __mxt_write_reg() invoked from mxt_start() returns I2C NACK.
->>>>
->>>> I think placing the retries within __mxt_read() / write_reg() should be
->>>> the most universal option.
->>>>
->>>> Perhaps it should be possible to add mxt_wake() that will read out some
->>>> generic register
->>>
->>> I do not think we need to read a particular register, just doing a quick
->>> read:
->>>
->>> 	i2c_smbus_xfer(client->adapter, client->addr,
->>> 			0, I2C_SMBUS_READ, 0, I2C_SMBUS_BYTE, &dummy)
->>>
->>> should suffice.
->>>
->>>> and then this helper should be invoked after HW
->>>> resetting (before mxt_read_info_block()) and from mxt_start() (before
->>>> mxt_set_t7_power_cfg()). But this approach feels a bit fragile to me.
->>>>
->>>
->>> Actually, reading the spec, it all depends on how the WAKE pin is wired
->>> up on a given board. In certain setups retrying transaction is the right
->>> approach, while in others explicit control is needed. So indeed, we need
->>> a "wake" helper that we should call in probe and resume paths.
-> 
-> The WAKE-GPIO was never supported and I'm not sure whether anyone
-> actually needs it. I think we could ignore this case until anyone would
-> really need and could test it.
-> 
->> By the way, I would like to avoid the unnecessary retries in probe paths
->> if possible. I.e. on Chrome OS we really keep an eye on boot times and
->> in case of multi-sourced touchscreens we may legitimately not have
->> device at given address.
-> 
-> We could add a new MXT1386 DT compatible and then do:
-> 
-> static void mxt_wake(struct mxt_data *data)
-> {
-> 	struct i2c_client *client = data->client;
-> 	struct device *dev = &data->client->dev;
-> 	union i2c_smbus_data dummy;
-> 
-> 	if (!of_device_is_compatible(dev, "atmel,mXT1386"))
-> 		return;
-> 
-> 	/* TODO: add WAKE-GPIO support */
-> 
-> 	i2c_smbus_xfer(client->adapter, client->addr,
-> 			0, I2C_SMBUS_READ, 0, I2C_SMBUS_BYTE,
-> 			&dummy);
-> 
-> 	msleep(MXT_WAKEUP_TIME);
-> }
-> 
-> Jiada, will you be able to re-work this patch? Please note that the new
-> "atmel,mXT1386" DT compatible needs to be added into the
-> atmel,maxtouch.txt binding.
+This change fixed your issue (and my issue with 5.8):
+--- a/drivers/i2c/busses/i2c-designware-master.c
++++ b/drivers/i2c/busses/i2c-designware-master.c
+@@ -395,8 +395,9 @@ i2c_dw_recv_len(struct dw_i2c_dev *dev, u8 len)
+ 	 * Adjust the buffer length and mask the flag
+ 	 * after receiving the first byte.
+ 	 */
+-	len += (flags & I2C_CLIENT_PEC) ? 2 : 1;
+-	dev->tx_buf_len = len - min_t(u8, len, dev->rx_outstanding);
++	if (flags & I2C_CLIENT_PEC)
++		len++;
++	dev->tx_buf_len = len - min_t(u8, len - 1, dev->rx_outstanding);
+ 	msgs[dev->msg_read_idx].len = len;
+ 	msgs[dev->msg_read_idx].flags &= ~I2C_M_RECV_LEN;
 
-Yes, I can re-work this patch, and add one more change to dts-binding.
+I've attributed this change with the following commit message:
+"i2c: designware: Ensure tx_buf_len is nonzero for SMBus block reads
 
-to summarize long discussion in this thread,
-I think what I need to do are:
-1) since the change will be different from current one, I will need to 
-start a new patch
-2) call mxt_wake() in mxt_probe() and mxt_resume()
-3) update atmel,maxtouch.txt binding
+The point of adding a byte to len in i2c_dw_recv_len() is to make sure
+that tx_buf_len is nonzero, so that i2c_dw_xfer_msg() can let the i2c
+controller know that the i2c transaction can end. Otherwise, the i2c
+controller will think that the transaction can never end for block
+reads, which results in the stop-detection bit never being set and thus
+the transaction timing out.
 
-please correct me if I am wrong.
+Adding a byte to len is not a reliable way to do this though; sometimes
+it lets tx_buf_len become zero, which results in the scenario described
+above. Therefore, just directly ensure tx_buf_len cannot be zero to fix
+the issue."
 
-Thanks,
-Jiada
-> 
+Does the patch series look good to submit?
+
+Sultan
