@@ -2,153 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0EAC26CA8E
-	for <lists+linux-input@lfdr.de>; Wed, 16 Sep 2020 22:08:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C45E26CD42
+	for <lists+linux-input@lfdr.de>; Wed, 16 Sep 2020 22:57:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728061AbgIPUIC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 16 Sep 2020 16:08:02 -0400
-Received: from mail-dm6nam12on2082.outbound.protection.outlook.com ([40.107.243.82]:24801
-        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727217AbgIPUHw (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 16 Sep 2020 16:07:52 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V6RMvajsExL4vn7RQFhXSPRebuMyB/09fvBWSzI7y5u1QwKv2qzwWUkv0NO5Ep4nKkGrOGsgW82W0134tu0HkGN8evGWkZlfZT+uFyUsBSSR5Cceq+IuhusrTnorszvdPOQ6Dj9/pKM1e+oedrAWjeS3Z8sQLdmK2DMuGKud6WrB6LDP3hwCCn7D7Z/ZRxG54H5RysuUOGka2NltIgv4I+kwTo++E3EDfqif5pMywL1HAkOP3i9sYeCd3hHxM4qi9qPNbsNCwtdkoc0jUBJgJuC+QWbA6X5+WVRQA2WSV3Cy8A6rK4sIeGlczqg/A4iUVGmOd2XkOFhZjBG+Hv7nwA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=63Es/DO8g0FjxwMzBiBZrkY5duzaygXLtW9VY6FXI3U=;
- b=newZxsuuZzowZu5ze2k8aei/j0/qgmQGkBIOtdGiTZcbObhaFx1jTjoY4toxWiW8MtXTeFiK+HL4SmRY5dU/eXjucKE8GJPa5yARphc8S9LotYszjUBFzvoa7MGnU3agC5MzpvOv+eTRCp9gqw+YdSlCiKkvHX+o/la0MWj9vABSg61FHPkxT80YQ+Ie8r840WtoY3/eFsSBqOpmQAX3xsHNzU9sI3iNWzjZ/1MErCvWadRsMWiV+nRVHoB0F6nPLaJvMiiaEljcHLcThUS/YvQQ/4YU3Wxirl/vDsCXo7T6YHJ8JEiVfqrBhEV3m0mMScKr36IIyvBInBIMSymVcQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=63Es/DO8g0FjxwMzBiBZrkY5duzaygXLtW9VY6FXI3U=;
- b=y1aruoDC9WrB8WwTcqVzWSzBIRNQ7r1Qng7r5EwUnuXhlqS1HYlOSBXxF6kdxXxGmZYsMab0n3dLxQgA2vsiiXJzbkm6nobD9TyEvMWnGEqVPOr0OCt6mRbChYu6Hey6RxnmFZIg1xxHU4ovk3FoSug0hcTfICPRGh5vtXkLxhs=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=labundy.com;
-Received: from SN6PR08MB5517.namprd08.prod.outlook.com (2603:10b6:805:fb::32)
- by SN6PR08MB5216.namprd08.prod.outlook.com (2603:10b6:805:77::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Wed, 16 Sep
- 2020 20:07:47 +0000
-Received: from SN6PR08MB5517.namprd08.prod.outlook.com
- ([fe80::d19a:589c:d9e8:b5e2]) by SN6PR08MB5517.namprd08.prod.outlook.com
- ([fe80::d19a:589c:d9e8:b5e2%7]) with mapi id 15.20.3391.014; Wed, 16 Sep 2020
- 20:07:47 +0000
-Date:   Wed, 16 Sep 2020 15:07:40 -0500
-From:   Jeff LaBundy <jeff@labundy.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: Re: [RESEND] input: iqs62x-keys: Remove superfluous function
- parameter
-Message-ID: <20200916200724.GA23074@labundy.com>
-References: <1600276053-3336-1-git-send-email-jeff@labundy.com>
- <20200916172559.GJ1681290@dtor-ws>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200916172559.GJ1681290@dtor-ws>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-ClientProxiedBy: SN4PR0701CA0042.namprd07.prod.outlook.com
- (2603:10b6:803:2d::16) To SN6PR08MB5517.namprd08.prod.outlook.com
- (2603:10b6:805:fb::32)
+        id S1728515AbgIPU5C (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 16 Sep 2020 16:57:02 -0400
+Received: from mga09.intel.com ([134.134.136.24]:3712 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726293AbgIPQwh (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 16 Sep 2020 12:52:37 -0400
+IronPort-SDR: gJC9KQrGz7PNLfiRC6j6+O5xRPn2eAsOz2+Ubns7jvVjezTjWDXLx4gYMVSKDI6BDw+u3be1Vj
+ FxG6LtUuZoGQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9745"; a="160395369"
+X-IronPort-AV: E=Sophos;i="5.76,433,1592895600"; 
+   d="scan'208";a="160395369"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2020 07:09:23 -0700
+IronPort-SDR: f6lEK6rr61QfJLrKixbHM2tY184hPKA3gqXtKYIaZE5f5CnutmwPYL/Q6k3e7bQNOdG3KM3B+e
+ IkN1W1Swyaug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.76,433,1592895600"; 
+   d="scan'208";a="331700580"
+Received: from mylly.fi.intel.com (HELO [10.237.72.153]) ([10.237.72.153])
+  by fmsmga004.fm.intel.com with ESMTP; 16 Sep 2020 07:09:19 -0700
+Subject: Re: [PATCH v3] i2c: Squash of SMBus block read patchset to save power
+To:     Sultan Alsawaf <sultan@kerneltoast.com>
+Cc:     aaron.ma@canonical.com, admin@kryma.net,
+        andriy.shevchenko@linux.intel.com, benjamin.tissoires@redhat.com,
+        hdegoede@redhat.com, hn.chen@weidahitech.com, jikos@kernel.org,
+        kai.heng.feng@canonical.com, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mika.westerberg@linux.intel.com, vicamo.yang@canonical.com,
+        wsa@kernel.org
+References: <b3b751fc-668d-91e2-220b-0d7edd231e01@linux.intel.com>
+ <20200914001523.3878-1-sultan@kerneltoast.com>
+ <bcf9cd02-13d1-8f87-8ef9-2f05f0b54808@linux.intel.com>
+ <20200915174844.GA16807@sultan-box.localdomain>
+From:   Jarkko Nikula <jarkko.nikula@linux.intel.com>
+Message-ID: <796a23d2-cb98-c431-3494-b59044189468@linux.intel.com>
+Date:   Wed, 16 Sep 2020 17:09:18 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from labundy.com (136.49.227.119) by SN4PR0701CA0042.namprd07.prod.outlook.com (2603:10b6:803:2d::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3391.14 via Frontend Transport; Wed, 16 Sep 2020 20:07:46 +0000
-X-Originating-IP: [136.49.227.119]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 21095f86-7a4c-4ba2-f6a0-08d85a7c2df5
-X-MS-TrafficTypeDiagnostic: SN6PR08MB5216:
-X-Microsoft-Antispam-PRVS: <SN6PR08MB521601EA658698ECF5690CF3D3210@SN6PR08MB5216.namprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UD9xhRT+IA0LFD1p+EkjPcSGMUVW7uECTnyrZYmnMT+8inbzKqi9EChRO12tPo/vN4yl+7WpV9vvFaTBlt+iJFa9OfO7bzBXZvG+sb7r+xHUrMSvh4niux+g18Ae4S/6DJJHG1j1yTdB0EPaxsNXFSgJywNcUW5FZwKz8Kw2TKWjZMC6sIXo+SEVxhBJQNxxCXBKgy9NeFkKjGiTR0QzS4avZGj4KNwovmPyBH90c/TH2iFE9yB7v6Vhl9gTsNMOzRvxV3jVR440sNvlegCxhA1RVinQyisk2XJuqjqz1cptf5r67mf135W4zd1vQOt3quvmohCL05wa38NI4BZIEA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR08MB5517.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(396003)(39830400003)(346002)(136003)(366004)(6916009)(8936002)(36756003)(5660300002)(956004)(55016002)(8886007)(2616005)(66556008)(16526019)(66476007)(66946007)(2906002)(8676002)(33656002)(478600001)(316002)(26005)(6666004)(4326008)(186003)(86362001)(83380400001)(52116002)(7696005)(1076003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: ejkZA3BKufb4HenczQqZFC+cRK2OgK4JWz22Tg18kIyJR6cHBmR2Dovn6L5DCOvIKWRIYZ9GUNjFbs3Eaur+AzP2JnJ6Du6oDdpWCz8LlvN2WnZQQDfkoWfn/AjZz6pl9R6WvWdSkWVTDyHsUEXax+FB7X1NN82id0D1BQ1BTmPFWR52hA0wu9aUnSY0OcYvorD9+9pGXu7UgxA4QsQPdFZXPmzrri2FBZTIny/D90M+ZEhSHo1DIAm3NloCmW/1xHg2TYS7O+msMok5N8ik1zXb9ow3AKgqZ+FEmOu6BUwgLmFMkOGr1abXDIhmKu4fZxIiaaBVnXqbzs2KaSaDtXXMgXHYN3adkT+JBsR1AgtJ2AiZLueTtarqu3aPCAWfyTmnThwEcntYmyoZDWxvR594/Lq8+jUCVbRC9rgCUHbw7HTUDbuPI7mnRrNxYYbgkK3Rk4dNSoEjJk2arBDhF5R9d1RA3VXGnLNd44xKNqRXCQi3EBjOmNzsoQ/POOVwy9BIEMJpcaLXbYJ3DYwKVTjfAduTdyEZKsfLpfr4y+pjvwqWwdpNinR9P+ojCl/LOsC/F05zdZKz+15gbEWiclHgOgPgHRByKJy4CqP5kV6RTRHl4knsVfAY/VorV+iVUVwnNrEPR/dzYOCk5fNMqQ==
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21095f86-7a4c-4ba2-f6a0-08d85a7c2df5
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR08MB5517.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2020 20:07:47.0101
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JLOH1ZHFENqt2BjLfXP3qGIMTwFsyLqKCmlFWj3xfkV/s7aOYo/GfTLcTfeIW+kC/Qx7pZG6/sBDQCfjYx94hw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR08MB5216
+In-Reply-To: <20200915174844.GA16807@sultan-box.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
-
-Thanks for taking a look.
-
-On Wed, Sep 16, 2020 at 10:25:59AM -0700, Dmitry Torokhov wrote:
-> Hi Jeff,
+On 9/15/20 8:48 PM, Sultan Alsawaf wrote:
+> On Tue, Sep 15, 2020 at 02:55:48PM +0300, Jarkko Nikula wrote:
+>> I tested this on top of fc4f28bb3daf ("Merge tag 'for-5.9-rc5-tag' of
+>> git://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux") and seems to be
+>> working fine. What was the key change compared to previous version that was
+>> regressing for me?
 > 
-> On Wed, Sep 16, 2020 at 12:07:33PM -0500, Jeff LaBundy wrote:
-> > It is not necessary to pass iqs62x_keys to iqs62x_keys_parse_prop,
-> > because it can already be derived from the platform_device cookie.
+> This change fixed your issue (and my issue with 5.8):
+> --- a/drivers/i2c/busses/i2c-designware-master.c
+> +++ b/drivers/i2c/busses/i2c-designware-master.c
+> @@ -395,8 +395,9 @@ i2c_dw_recv_len(struct dw_i2c_dev *dev, u8 len)
+>   	 * Adjust the buffer length and mask the flag
+>   	 * after receiving the first byte.
+>   	 */
+> -	len += (flags & I2C_CLIENT_PEC) ? 2 : 1;
+> -	dev->tx_buf_len = len - min_t(u8, len, dev->rx_outstanding);
+> +	if (flags & I2C_CLIENT_PEC)
+> +		len++;
+> +	dev->tx_buf_len = len - min_t(u8, len - 1, dev->rx_outstanding);
+>   	msgs[dev->msg_read_idx].len = len;
+>   	msgs[dev->msg_read_idx].flags &= ~I2C_M_RECV_LEN;
 > 
-> Yes, it can be derived, but why is better to have it derived rather than
-> passed in? Is the code smaller this way?
+> I've attributed this change with the following commit message:
+> "i2c: designware: Ensure tx_buf_len is nonzero for SMBus block reads
 > 
-
-I think it is better practice to limit the function's parameters to only
-those that are minimally necessary. In this particular case we only want
-to populate data in the same iqs62x_keys struct that was allocated using
-the original pdev->dev instance, so it seems safer to enforce this by
-only offering a single parameter instead of allowing them to be separate.
-
-That's all but guaranteed not to be a problem in this driver; it simply
-caught my attention while re-using this code in another project. I would
-be happy to add more details in the commit message, but it is also fine
-for this patch to be dropped if you prefer.
-
-> > 
-> > Signed-off-by: Jeff LaBundy <jeff@labundy.com>
-> > ---
-> >  drivers/input/keyboard/iqs62x-keys.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/input/keyboard/iqs62x-keys.c b/drivers/input/keyboard/iqs62x-keys.c
-> > index 93446b2..e2a2b38 100644
-> > --- a/drivers/input/keyboard/iqs62x-keys.c
-> > +++ b/drivers/input/keyboard/iqs62x-keys.c
-> > @@ -42,9 +42,9 @@ struct iqs62x_keys_private {
-> >  	u8 interval;
-> >  };
-> >  
-> > -static int iqs62x_keys_parse_prop(struct platform_device *pdev,
-> > -				  struct iqs62x_keys_private *iqs62x_keys)
-> > +static int iqs62x_keys_parse_prop(struct platform_device *pdev)
-> >  {
-> > +	struct iqs62x_keys_private *iqs62x_keys = platform_get_drvdata(pdev);
-> >  	struct fwnode_handle *child;
-> >  	unsigned int val;
-> >  	int ret, i;
-> > @@ -258,7 +258,7 @@ static int iqs62x_keys_probe(struct platform_device *pdev)
-> >  
-> >  	platform_set_drvdata(pdev, iqs62x_keys);
-> >  
-> > -	ret = iqs62x_keys_parse_prop(pdev, iqs62x_keys);
-> > +	ret = iqs62x_keys_parse_prop(pdev);
-> >  	if (ret)
-> >  		return ret;
-> >  
-> > -- 
-> > 2.7.4
-> > 
+> The point of adding a byte to len in i2c_dw_recv_len() is to make sure
+> that tx_buf_len is nonzero, so that i2c_dw_xfer_msg() can let the i2c
+> controller know that the i2c transaction can end. Otherwise, the i2c
+> controller will think that the transaction can never end for block
+> reads, which results in the stop-detection bit never being set and thus
+> the transaction timing out.
 > 
-> Thanks.
+> Adding a byte to len is not a reliable way to do this though; sometimes
+> it lets tx_buf_len become zero, which results in the scenario described
+> above. Therefore, just directly ensure tx_buf_len cannot be zero to fix
+> the issue."
 > 
-> -- 
-> Dmitry
+Ok, nice that you found it.
 
-Kind regards,
-Jeff LaBundy
+> Does the patch series look good to submit?
+> 
+Yes, go ahead.
+
+Jarkko
