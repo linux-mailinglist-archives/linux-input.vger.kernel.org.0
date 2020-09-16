@@ -2,109 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A650C26BCFA
-	for <lists+linux-input@lfdr.de>; Wed, 16 Sep 2020 08:26:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C15C026BD7D
+	for <lists+linux-input@lfdr.de>; Wed, 16 Sep 2020 08:46:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726392AbgIPG0N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 16 Sep 2020 02:26:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41942 "EHLO
+        id S1726267AbgIPGqf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 16 Sep 2020 02:46:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726180AbgIPG0G (ORCPT
+        with ESMTP id S1726161AbgIPGqf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 16 Sep 2020 02:26:06 -0400
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 794BBC06174A;
-        Tue, 15 Sep 2020 23:26:04 -0700 (PDT)
-Received: by mail-io1-xd43.google.com with SMTP id y13so7058402iow.4;
-        Tue, 15 Sep 2020 23:26:04 -0700 (PDT)
+        Wed, 16 Sep 2020 02:46:35 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B63AC06174A;
+        Tue, 15 Sep 2020 23:46:35 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id c3so2666391plz.5;
+        Tue, 15 Sep 2020 23:46:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=inU9HQxGgn9zMEqLIuw+Xknjlb1mjmi6s0LN1hojltI=;
-        b=bWvDmp+AJNGzNJaYEjPYF6o1W6LB3wQct3PVhNkwW+pe5NusnpquwAOG0HNpcRLqWB
-         DSPgxmxdoGl1ezpiy8JKKnn4V7K/bq5iwfic6q9zG2DgCvFW9OEWtlIOlb769xLG/EAJ
-         VsN0zYQzxygIAla/JB6RIe8Desom6XNEbshvpGXDMkJzdaBJ6MzKIReL72MsswoLZXQG
-         3xCwbQ4R3PPgXvxyqUvGwJPtQ1GSuqgA6aKvjUWT4gDRiofIdSeXr7cZ7ewh62CjQoDx
-         2fvTKAFi2cL3WMkgFARRL+hUuE+cRoqe6zz/ukHP3ZaXmrM7sc/BlejdFRHC+Xt9qOos
-         hu7w==
+        h=from:to:cc:subject:date:message-id;
+        bh=Kpj/DuG1KHwygxJGjUrwyfiegl4CyDbC8dhUBmKLyWE=;
+        b=NehCZBbtir+YIepkr+PfL6RfJe8nJcnVt1oiVhrW6HDjkXbhuwSWTPlqggxyXwbf7W
+         mqSsqS9JqUOMwLz2XEx4EWrawn43r9oHSYfW0tkTJ053lyBaRXPVeIH+5tSW6Hqq2xwO
+         /LuSTdjeL9DsnVFE8FqJdvt4urZxAyKMVYzuL3ssH+WRIlTpUtnIOhPnJyovIe3iLYD7
+         iTArwmMqlqMuRHDdq8vnnVXezLrICGKM5Ve8lm97ARs0UZaZO9kwkcqpH0PSHXdt6lu9
+         zSPoTuuc/NeMTRNo0y58L54p8GMNjZwF5ChH97jK8jGN4WqEcn9RtAWztVV0+2aC4vNB
+         5pfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=inU9HQxGgn9zMEqLIuw+Xknjlb1mjmi6s0LN1hojltI=;
-        b=pwCD97Gvpzh0wu9BbCLfrXMY/LkSIaH2ZBBGDw1OleS+Rd3SfEEXX5Y6NvWkRtLsOb
-         +shxVaPmCeU0dArT3BfNTq//Q0/uKcOkaAa8UzPtAbJfrDr85KoVgfYBkRD2BibcWBVS
-         FQYQ4p0N2QyZKuHAqRPLqqGp5pE272r+mCRVmGiDn/Fnns/l/cZOlIuFm6aSMxciUWfI
-         OFMedEnMGFwvAI4DfhOXrHv9GQTHUH24NaqAaL7yceTsJmPS3G69IxAjHMrJx+XtBt9m
-         qQPmbBPIJKKivXUUJdRenNA/bHHZYHOk5LNpOr4hZF4GOdwvNAYuTAXzUJrQodg+zLPA
-         QFhQ==
-X-Gm-Message-State: AOAM533aYZiBiLBuM91s0aTbzW87UljvAKZUA5V7RkYLFP43CRb0ogEO
-        VD1VgwL+Dgitp11mBjFGDDjKp+Gi1aQPC/VOLw0=
-X-Google-Smtp-Source: ABdhPJxwlGyDvwij8LhFbiMQh+vooT4nocCqV4pMQ/4rkk73jny7kCtzqYteC36nwmwwY3rkfqIbS/mna/Sf2oJIcDI=
-X-Received: by 2002:a02:734f:: with SMTP id a15mr21539888jae.120.1600237563687;
- Tue, 15 Sep 2020 23:26:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200828145744.3636-1-krzk@kernel.org> <20200828145744.3636-2-krzk@kernel.org>
- <20200916005359.GE1681290@dtor-ws> <CAJKOXPf5kjJitS=7_9wTWMmM4L1TwSnpdhspR9dQXpY2LH1y=g@mail.gmail.com>
-In-Reply-To: <CAJKOXPf5kjJitS=7_9wTWMmM4L1TwSnpdhspR9dQXpY2LH1y=g@mail.gmail.com>
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Date:   Tue, 15 Sep 2020 23:25:52 -0700
-Message-ID: <CAKdAkRQeh7R-AeiPS3C3JmYaK2MSAvtgg=0YxBj9id1otjAGig@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] Input: omap4-keypad - Fix handling of
- platform_get_irq() error
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=Kpj/DuG1KHwygxJGjUrwyfiegl4CyDbC8dhUBmKLyWE=;
+        b=B4giqm5D1QyzeRQXQo8E2Iny2IbVWeMZHdYsEfwbPEaYtK1b8YEKW2VEkf9nFtInwN
+         jQ9vvQSXtlXAaJSm5y5sGMU6G1qGI2xhum5pEcEu5qVeRmAfSZY1GR8lnCaIpmjoZvwA
+         4wBoSDFF9XjNHMBNUmpVuOy6pSHCgSuvfzPgnWHfoqJpnzzsiZASEiGuvDA8+eaRLzg4
+         LCtqajxQNnGSkep5v0DtWWdDK2VUIqwH18rqByK5PKAN/IHnVXcyXDgadxCFZIlRyXeJ
+         DtUaveOXyVaYnAZb7XhJlco0GD3spmQwGnsrp7eVNhWPteO3Tl9TOzjHQuLFUA8v1e03
+         M8Aw==
+X-Gm-Message-State: AOAM530vw6EAjl31Dw/dtsMn1dw0Ile013lwRELCRdGcp1lo77rWXait
+        7fNdWv5cGohyG+jverfZaTA=
+X-Google-Smtp-Source: ABdhPJxojof20813U9ri871jpwnbm+kbCs3WMT93ZYuWo8xgF8zWPNfbv4qbPYAVuzeXrSBa28rRQA==
+X-Received: by 2002:a17:90a:4ec4:: with SMTP id v4mr2664986pjl.62.1600238794702;
+        Tue, 15 Sep 2020 23:46:34 -0700 (PDT)
+Received: from localhost.localdomain ([2401:e180:88a2:147c:4578:9e9b:6ebc:aff1])
+        by smtp.gmail.com with ESMTPSA id w203sm15502566pfc.97.2020.09.15.23.46.31
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 15 Sep 2020 23:46:34 -0700 (PDT)
+From:   Johnny Chuang <johnny.chuang.emc@gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Harry Cutts <hcutts@chromium.org>,
+        Johnny Chuang <johnny.chuang@emc.com.tw>
+Cc:     James Chen <james.chen@emc.com.tw>,
+        Jennifer Tsai <jennifer.tsai@emc.com.tw>,
+        Paul Liang <paul.liang@emc.com.tw>,
+        Jeff Chuang <jeff.chuang@emc.com.tw>
+Subject: [PATCH] Input: elants_i2c - fix typo for an attribute to show calibration count
+Date:   Wed, 16 Sep 2020 14:46:23 +0800
+Message-Id: <1600238783-32303-1-git-send-email-johnny.chuang.emc@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-input-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Sep 15, 2020 at 11:06 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->
-> On Wed, 16 Sep 2020 at 02:54, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
-> >
-> > On Fri, Aug 28, 2020 at 04:57:42PM +0200, Krzysztof Kozlowski wrote:
-> > > platform_get_irq() returns -ERRNO on error.  In such case comparison
-> > > to 0 would pass the check.
-> > >
-> > > Fixes: f3a1ba60dbdb ("Input: omap4-keypad - use platform device helpers")
-> > > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> > >
-> > > ---
-> > >
-> > > Changes since v1:
-> > > 1. None
-> > > ---
-> > >  drivers/input/keyboard/omap4-keypad.c | 6 ++----
-> > >  1 file changed, 2 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/drivers/input/keyboard/omap4-keypad.c b/drivers/input/keyboard/omap4-keypad.c
-> > > index 94c94d7f5155..b075f1af0305 100644
-> > > --- a/drivers/input/keyboard/omap4-keypad.c
-> > > +++ b/drivers/input/keyboard/omap4-keypad.c
-> > > @@ -240,10 +240,8 @@ static int omap4_keypad_probe(struct platform_device *pdev)
-> > >       }
-> > >
-> > >       irq = platform_get_irq(pdev, 0);
-> > > -     if (!irq) {
-> > > -             dev_err(&pdev->dev, "no keyboard irq assigned\n");
-> > > -             return -EINVAL;
-> > > -     }
-> > > +     if (irq < 0)
-> > > +             return -irq;
-> >
-> > You must have meant just "irq", right?
->
-> Damn it, of course. I'll send a v2 for this.
+Fixed typo for command from 0xE0 to 0xD0.
 
-It's fine, I can fix it up locally.
+commit cf520c643012 ("Input: elants_i2c - provide an attribute
+to show calibration count")
 
-Thanks.
+There is an non-touch case by non-calibration after update firmware.
+Elan could know calibrate or not by calibration count.
+The value of '0xffff' means we didn't calibrate after update firmware.
+If calibrate success, it will plus one and change to '0x0000'.
 
+Signed-off-by: Johnny Chuang <johnny.chuang.emc@gmail.com>
+---
+ drivers/input/touchscreen/elants_i2c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
+index c8d7bdd..50c3482 100644
+--- a/drivers/input/touchscreen/elants_i2c.c
++++ b/drivers/input/touchscreen/elants_i2c.c
+@@ -90,7 +90,7 @@
+ /* FW read command, 0x53 0x?? 0x0, 0x01 */
+ #define E_ELAN_INFO_FW_VER	0x00
+ #define E_ELAN_INFO_BC_VER	0x10
+-#define E_ELAN_INFO_REK		0xE0
++#define E_ELAN_INFO_REK		0xD0
+ #define E_ELAN_INFO_TEST_VER	0xE0
+ #define E_ELAN_INFO_FW_ID	0xF0
+ #define E_INFO_OSR		0xD6
 -- 
-Dmitry
+2.7.4
+
