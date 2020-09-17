@@ -2,60 +2,58 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DD5C26DC28
-	for <lists+linux-input@lfdr.de>; Thu, 17 Sep 2020 14:56:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6C7426DD5D
+	for <lists+linux-input@lfdr.de>; Thu, 17 Sep 2020 16:00:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727184AbgIQM4U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 17 Sep 2020 08:56:20 -0400
-Received: from mga03.intel.com ([134.134.136.65]:6354 "EHLO mga03.intel.com"
+        id S1727274AbgIQOAK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 17 Sep 2020 10:00:10 -0400
+Received: from mga01.intel.com ([192.55.52.88]:29235 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727179AbgIQM4T (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 17 Sep 2020 08:56:19 -0400
-X-Greylist: delayed 517 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 08:56:18 EDT
-IronPort-SDR: ENU+rvd2fj0D+le23FdZuw9xJFhRzvQBYAxdC6ep4G3FKKvboan0mpd1kFCzziBYCNHKH5Rkfp
- 22jgyhB+3ARQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9746"; a="159738927"
-X-IronPort-AV: E=Sophos;i="5.76,436,1592895600"; 
-   d="scan'208";a="159738927"
+        id S1727183AbgIQN7w (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 17 Sep 2020 09:59:52 -0400
+X-Greylist: delayed 556 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 09:59:33 EDT
+IronPort-SDR: aoQ2yfbA+VB18GNHhXTVEkHpmlrsMj1gABpColDFG0Vd/DN59+uIPHBuXISNoiAd7380gQjLc3
+ HAEN8KT8WNmw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9746"; a="177791956"
+X-IronPort-AV: E=Sophos;i="5.76,437,1592895600"; 
+   d="scan'208";a="177791956"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2020 05:47:37 -0700
-IronPort-SDR: UZvmrhAvKT85vhrcQe42e72CtXVDWzwCMm5Z5JIyJnyyTwPdR87fq+D/dfl+/fD/a//Nli247W
- rvFMUbUJ+OnA==
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2020 06:46:22 -0700
+IronPort-SDR: zT5iIOf4unlK1SgFAVXPYQucFc18m7rBc3aM8BzyqSheN9QbAo/2NDoF1iqeRll4O/PJAXdUZE
+ 76KarLVxtjvw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.76,436,1592895600"; 
-   d="scan'208";a="336400715"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga008.jf.intel.com with ESMTP; 17 Sep 2020 05:47:34 -0700
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1kItJy-00HKDV-It; Thu, 17 Sep 2020 15:47:30 +0300
-Date:   Thu, 17 Sep 2020 15:47:30 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Sultan Alsawaf <sultan@kerneltoast.com>
-Cc:     linux-i2c@vger.kernel.org, jikos@kernel.org,
-        aaron.ma@canonical.com, admin@kryma.net,
-        benjamin.tissoires@redhat.com, hdegoede@redhat.com,
-        hn.chen@weidahitech.com, jarkko.nikula@linux.intel.com,
+X-IronPort-AV: E=Sophos;i="5.76,437,1592895600"; 
+   d="scan'208";a="307471975"
+Received: from mylly.fi.intel.com (HELO [10.237.72.153]) ([10.237.72.153])
+  by orsmga006.jf.intel.com with ESMTP; 17 Sep 2020 06:46:18 -0700
+Subject: Re: [PATCH v2 2/4] i2c: designware: Ensure tx_buf_len is nonzero for
+ SMBus block reads
+To:     Sultan Alsawaf <sultan@kerneltoast.com>, linux-i2c@vger.kernel.org
+Cc:     jikos@kernel.org, aaron.ma@canonical.com, admin@kryma.net,
+        andriy.shevchenko@linux.intel.com, benjamin.tissoires@redhat.com,
+        hdegoede@redhat.com, hn.chen@weidahitech.com,
         kai.heng.feng@canonical.com, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org, mika.westerberg@linux.intel.com,
         vicamo.yang@canonical.com, wsa@kernel.org
-Subject: Re: [PATCH v2 2/4] i2c: designware: Ensure tx_buf_len is nonzero for
- SMBus block reads
-Message-ID: <20200917124730.GL3956970@smile.fi.intel.com>
 References: <20200917052256.5770-1-sultan@kerneltoast.com>
  <20200917052256.5770-3-sultan@kerneltoast.com>
+From:   Jarkko Nikula <jarkko.nikula@linux.intel.com>
+Message-ID: <4698b23c-7af6-3f44-975d-b1f692ae3f00@linux.intel.com>
+Date:   Thu, 17 Sep 2020 16:44:18 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 In-Reply-To: <20200917052256.5770-3-sultan@kerneltoast.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Sep 16, 2020 at 10:22:54PM -0700, Sultan Alsawaf wrote:
+On 9/17/20 8:22 AM, Sultan Alsawaf wrote:
 > From: Sultan Alsawaf <sultan@kerneltoast.com>
 > 
 > The point of adding a byte to len in i2c_dw_recv_len() is to make sure
@@ -69,11 +67,13 @@ On Wed, Sep 16, 2020 at 10:22:54PM -0700, Sultan Alsawaf wrote:
 > it lets tx_buf_len become zero, which results in the scenario described
 > above. Therefore, just directly ensure tx_buf_len cannot be zero to fix
 > the issue.
+> 
+> Fixes: c3ae106050b9 ("i2c: designware: Implement support for SMBus block read and write")
+> Signed-off-by: Sultan Alsawaf <sultan@kerneltoast.com>
+> ---
+>   drivers/i2c/busses/i2c-designware-master.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+Were other patches in series dropped somewhere? I received only this.
 
-I got only patch 2/4, where the other 3 along with cover letter?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Jarkko
