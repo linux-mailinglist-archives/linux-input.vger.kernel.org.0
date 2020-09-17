@@ -2,89 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45F6226E5C4
-	for <lists+linux-input@lfdr.de>; Thu, 17 Sep 2020 21:57:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDE5726E632
+	for <lists+linux-input@lfdr.de>; Thu, 17 Sep 2020 22:05:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726810AbgIQT4P (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 17 Sep 2020 15:56:15 -0400
-Received: from mga02.intel.com ([134.134.136.20]:10770 "EHLO mga02.intel.com"
+        id S1726551AbgIQUFe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 17 Sep 2020 16:05:34 -0400
+Received: from mga06.intel.com ([134.134.136.31]:35244 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727487AbgIQOqS (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 17 Sep 2020 10:46:18 -0400
-X-Greylist: delayed 7082 seconds by postgrey-1.27 at vger.kernel.org; Thu, 17 Sep 2020 10:45:51 EDT
-IronPort-SDR: B+ZFbACdWBlZuVV/TCXBd/VpeYAwOaT1O3QOIQXzLiAOomkKv7NeGj4fVD89HoGtESO38iiWVl
- /8TCPP9R/LUw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="147398662"
-X-IronPort-AV: E=Sophos;i="5.77,437,1596524400"; 
-   d="scan'208";a="147398662"
+        id S1726438AbgIQUFc (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 17 Sep 2020 16:05:32 -0400
+IronPort-SDR: 1EqDDV9SWySMMXQjgrHW1/Tq43ZTXe22s50bgNybd15hjg4bWdlaVn0ZUNNKZFGLILKPh0ZVw+
+ 9up+rZjLo4DQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="221336979"
+X-IronPort-AV: E=Sophos;i="5.77,271,1596524400"; 
+   d="scan'208";a="221336979"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2020 07:45:39 -0700
-IronPort-SDR: wUnwzzA+zhduLkhwDoEyFcAwETHWsz3DLEWqMEamXY2uxGQu14k40LWrcdYwWVuDWxO8Ua2Xjs
- XKWyDyW06dPw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,437,1596524400"; 
-   d="scan'208";a="336440069"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga008.jf.intel.com with ESMTP; 17 Sep 2020 07:45:35 -0700
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1kIvAC-00HLjp-9b; Thu, 17 Sep 2020 17:45:32 +0300
-Date:   Thu, 17 Sep 2020 17:45:32 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Jarkko Nikula <jarkko.nikula@linux.intel.com>
-Cc:     Sultan Alsawaf <sultan@kerneltoast.com>, linux-i2c@vger.kernel.org,
-        jikos@kernel.org, aaron.ma@canonical.com, admin@kryma.net,
-        benjamin.tissoires@redhat.com, hdegoede@redhat.com,
-        hn.chen@weidahitech.com, kai.heng.feng@canonical.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mika.westerberg@linux.intel.com, vicamo.yang@canonical.com,
-        wsa@kernel.org
-Subject: Re: [PATCH v2 2/4] i2c: designware: Ensure tx_buf_len is nonzero for
- SMBus block reads
-Message-ID: <20200917144532.GO3956970@smile.fi.intel.com>
-References: <20200917052256.5770-1-sultan@kerneltoast.com>
- <20200917052256.5770-3-sultan@kerneltoast.com>
- <4698b23c-7af6-3f44-975d-b1f692ae3f00@linux.intel.com>
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2020 12:40:16 -0700
+IronPort-SDR: OJtaUmUU2VRk9KtKnU2JOdZ0Wx6lNOu+0+CFBjlBeB4odozE5Gxp9wTpGmmaUJi2k6Nfsj2iiR
+ 1ryN5FpIrCvQ==
+X-IronPort-AV: E=Sophos;i="5.77,271,1596524400"; 
+   d="scan'208";a="483882946"
+Received: from jekeller-mobl1.amr.corp.intel.com (HELO [10.212.151.155]) ([10.212.151.155])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2020 12:40:13 -0700
+Subject: Re: [trivial PATCH] treewide: Convert switch/case fallthrough; to
+ break;
+To:     Keith Busch <kbusch@kernel.org>, Joe Perches <joe@perches.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Jiri Kosina <trivial@kernel.org>,
+        Kees Cook <kees.cook@canonical.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
+        linux-mips@vger.kernel.org, linux-s390@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, linux-input@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-rdma@vger.kernel.org,
+        iommu@lists.linux-foundation.org, dm-devel@redhat.com,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-mtd@lists.infradead.org, intel-wired-lan@lists.osuosl.org,
+        oss-drivers@netronome.com, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-nvme@lists.infradead.org, linux-pm@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org,
+        storagedev@microchip.com, sparclinux@vger.kernel.org,
+        linux-serial@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-parisc@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-afs@lists.infradead.org, ceph-devel@vger.kernel.org,
+        linux-nfs@vger.kernel.org, bpf@vger.kernel.org,
+        dccp@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        coreteam@netfilter.org, linux-sctp@vger.kernel.org,
+        alsa-devel <alsa-devel@alsa-project.org>
+References: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
+ <20200909205558.GA3384631@dhcp-10-100-145-180.wdl.wdc.com>
+From:   Jacob Keller <jacob.e.keller@intel.com>
+Organization: Intel Corporation
+Message-ID: <321069c8-a4c1-56ff-49fb-4c2bce1e6352@intel.com>
+Date:   Thu, 17 Sep 2020 12:40:13 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4698b23c-7af6-3f44-975d-b1f692ae3f00@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20200909205558.GA3384631@dhcp-10-100-145-180.wdl.wdc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Sep 17, 2020 at 04:44:18PM +0300, Jarkko Nikula wrote:
-> On 9/17/20 8:22 AM, Sultan Alsawaf wrote:
-> > From: Sultan Alsawaf <sultan@kerneltoast.com>
-> > 
-> > The point of adding a byte to len in i2c_dw_recv_len() is to make sure
-> > that tx_buf_len is nonzero, so that i2c_dw_xfer_msg() can let the i2c
-> > controller know that the i2c transaction can end. Otherwise, the i2c
-> > controller will think that the transaction can never end for block
-> > reads, which results in the stop-detection bit never being set and thus
-> > the transaction timing out.
-> > 
-> > Adding a byte to len is not a reliable way to do this though; sometimes
-> > it lets tx_buf_len become zero, which results in the scenario described
-> > above. Therefore, just directly ensure tx_buf_len cannot be zero to fix
-> > the issue.
-> > 
-> > Fixes: c3ae106050b9 ("i2c: designware: Implement support for SMBus block read and write")
-> > Signed-off-by: Sultan Alsawaf <sultan@kerneltoast.com>
-> > ---
-> >   drivers/i2c/busses/i2c-designware-master.c | 5 +++--
-> >   1 file changed, 3 insertions(+), 2 deletions(-)
-> > 
-> Were other patches in series dropped somewhere? I received only this.
-
-@linux.intel.com has some issues in delivery (accepting) messages. You may
-download thru lore.kernel.org entire series and reply.
-
--- 
-With Best Regards,
-Andy Shevchenko
 
 
+On 9/9/2020 1:55 PM, Keith Busch wrote:
+> On Wed, Sep 09, 2020 at 01:06:39PM -0700, Joe Perches wrote:
+>> diff --git a/crypto/tcrypt.c b/crypto/tcrypt.c
+>> index eea0f453cfb6..8aac5bc60f4c 100644
+>> --- a/crypto/tcrypt.c
+>> +++ b/crypto/tcrypt.c
+>> @@ -2464,7 +2464,7 @@ static int do_test(const char *alg, u32 type, u32 mask, int m, u32 num_mb)
+>>  		test_hash_speed("streebog512", sec,
+>>  				generic_hash_speed_template);
+>>  		if (mode > 300 && mode < 400) break;
+>> -		fallthrough;
+>> +		break;
+>>  	case 399:
+>>  		break;
+> 
+> Just imho, this change makes the preceding 'if' look even more
+> pointless. Maybe the fallthrough was a deliberate choice? Not that my
+> opinion matters here as I don't know this module, but it looked a bit
+> odd to me.
+> 
+
+Yea this does look very odd..
