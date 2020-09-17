@@ -2,97 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DDE5726E632
-	for <lists+linux-input@lfdr.de>; Thu, 17 Sep 2020 22:05:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B40226E6F9
+	for <lists+linux-input@lfdr.de>; Thu, 17 Sep 2020 22:57:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726551AbgIQUFe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 17 Sep 2020 16:05:34 -0400
-Received: from mga06.intel.com ([134.134.136.31]:35244 "EHLO mga06.intel.com"
+        id S1726347AbgIQU5I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 17 Sep 2020 16:57:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43578 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726438AbgIQUFc (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 17 Sep 2020 16:05:32 -0400
-IronPort-SDR: 1EqDDV9SWySMMXQjgrHW1/Tq43ZTXe22s50bgNybd15hjg4bWdlaVn0ZUNNKZFGLILKPh0ZVw+
- 9up+rZjLo4DQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9747"; a="221336979"
-X-IronPort-AV: E=Sophos;i="5.77,271,1596524400"; 
-   d="scan'208";a="221336979"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2020 12:40:16 -0700
-IronPort-SDR: OJtaUmUU2VRk9KtKnU2JOdZ0Wx6lNOu+0+CFBjlBeB4odozE5Gxp9wTpGmmaUJi2k6Nfsj2iiR
- 1ryN5FpIrCvQ==
-X-IronPort-AV: E=Sophos;i="5.77,271,1596524400"; 
-   d="scan'208";a="483882946"
-Received: from jekeller-mobl1.amr.corp.intel.com (HELO [10.212.151.155]) ([10.212.151.155])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2020 12:40:13 -0700
-Subject: Re: [trivial PATCH] treewide: Convert switch/case fallthrough; to
- break;
-To:     Keith Busch <kbusch@kernel.org>, Joe Perches <joe@perches.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Jiri Kosina <trivial@kernel.org>,
-        Kees Cook <kees.cook@canonical.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-arm-kernel@lists.infradead.org, kvmarm@lists.cs.columbia.edu,
-        linux-mips@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-ide@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, linux-input@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-rdma@vger.kernel.org,
-        iommu@lists.linux-foundation.org, dm-devel@redhat.com,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, intel-wired-lan@lists.osuosl.org,
-        oss-drivers@netronome.com, linux-usb@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-nvme@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org,
-        storagedev@microchip.com, sparclinux@vger.kernel.org,
-        linux-serial@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-parisc@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-afs@lists.infradead.org, ceph-devel@vger.kernel.org,
-        linux-nfs@vger.kernel.org, bpf@vger.kernel.org,
-        dccp@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        coreteam@netfilter.org, linux-sctp@vger.kernel.org,
-        alsa-devel <alsa-devel@alsa-project.org>
-References: <e6387578c75736d61b2fe70d9783d91329a97eb4.camel@perches.com>
- <20200909205558.GA3384631@dhcp-10-100-145-180.wdl.wdc.com>
-From:   Jacob Keller <jacob.e.keller@intel.com>
-Organization: Intel Corporation
-Message-ID: <321069c8-a4c1-56ff-49fb-4c2bce1e6352@intel.com>
-Date:   Thu, 17 Sep 2020 12:40:13 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.2
+        id S1726180AbgIQU5I (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 17 Sep 2020 16:57:08 -0400
+Received: from localhost (router.4pisysteme.de [80.79.225.122])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4F5A520874;
+        Thu, 17 Sep 2020 20:57:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600376228;
+        bh=yioVQ2V47I4LfYvG7JgQOgciS8kwofLhOenDKNaa3XQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=QM28TeKuU/FZvrhw0wWzwLsDqf2A6RT82P5IJYWJo17ZTE51enNCflKAXRRtaKwdO
+         B8dHOKgWsAG1ppdT8v/LmtqC+78QGUZ3+VXom4JrK2Vl/Mg6aMU+QpoSiB8ntzNMqM
+         YKDgjrvVISeTCzynyfXXJaZUMyD6wMkFJEQ+M3i0=
+Date:   Thu, 17 Sep 2020 22:57:04 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Sultan Alsawaf <sultan@kerneltoast.com>
+Cc:     linux-i2c@vger.kernel.org, jikos@kernel.org,
+        aaron.ma@canonical.com, admin@kryma.net,
+        andriy.shevchenko@linux.intel.com, benjamin.tissoires@redhat.com,
+        hdegoede@redhat.com, hn.chen@weidahitech.com,
+        jarkko.nikula@linux.intel.com, kai.heng.feng@canonical.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mika.westerberg@linux.intel.com, vicamo.yang@canonical.com
+Subject: Re: [PATCH v2 3/4] i2c: designware: Allow SMBus block reads up to
+ 255 bytes in length
+Message-ID: <20200917205704.GA18027@kunai>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
+        Sultan Alsawaf <sultan@kerneltoast.com>, linux-i2c@vger.kernel.org,
+        jikos@kernel.org, aaron.ma@canonical.com, admin@kryma.net,
+        andriy.shevchenko@linux.intel.com, benjamin.tissoires@redhat.com,
+        hdegoede@redhat.com, hn.chen@weidahitech.com,
+        jarkko.nikula@linux.intel.com, kai.heng.feng@canonical.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mika.westerberg@linux.intel.com, vicamo.yang@canonical.com
+References: <20200917052256.5770-1-sultan@kerneltoast.com>
+ <20200917052256.5770-4-sultan@kerneltoast.com>
 MIME-Version: 1.0
-In-Reply-To: <20200909205558.GA3384631@dhcp-10-100-145-180.wdl.wdc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="yrj/dFKFPuw6o+aM"
+Content-Disposition: inline
+In-Reply-To: <20200917052256.5770-4-sultan@kerneltoast.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 
+--yrj/dFKFPuw6o+aM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 9/9/2020 1:55 PM, Keith Busch wrote:
-> On Wed, Sep 09, 2020 at 01:06:39PM -0700, Joe Perches wrote:
->> diff --git a/crypto/tcrypt.c b/crypto/tcrypt.c
->> index eea0f453cfb6..8aac5bc60f4c 100644
->> --- a/crypto/tcrypt.c
->> +++ b/crypto/tcrypt.c
->> @@ -2464,7 +2464,7 @@ static int do_test(const char *alg, u32 type, u32 mask, int m, u32 num_mb)
->>  		test_hash_speed("streebog512", sec,
->>  				generic_hash_speed_template);
->>  		if (mode > 300 && mode < 400) break;
->> -		fallthrough;
->> +		break;
->>  	case 399:
->>  		break;
-> 
-> Just imho, this change makes the preceding 'if' look even more
-> pointless. Maybe the fallthrough was a deliberate choice? Not that my
-> opinion matters here as I don't know this module, but it looked a bit
-> odd to me.
-> 
+On Wed, Sep 16, 2020 at 10:22:55PM -0700, Sultan Alsawaf wrote:
+> From: Sultan Alsawaf <sultan@kerneltoast.com>
+>=20
+> According to the SMBus 3.0 protocol specification, block transfer limits
+> were increased from 32 bytes to 255 bytes. Remove the obsolete 32-byte
+> limitation.
 
-Yea this does look very odd..
+Sadly, it is not that easy. We are trying to extend BLOCK_MAX to 255
+(SMBus 3 specs) but there are various things to be considered,
+especially with buffers and when passing it to userspace. Check here for
+the discussion (and you are welcome to join, of course):
+
+http://patchwork.ozlabs.org/project/linux-i2c/list/?submitter=3D79741&state=
+=3D*
+
+>=20
+> Signed-off-by: Sultan Alsawaf <sultan@kerneltoast.com>
+> ---
+>  drivers/i2c/busses/i2c-designware-master.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/i2c/busses/i2c-designware-master.c b/drivers/i2c/bus=
+ses/i2c-designware-master.c
+> index 22f28516bca7..5bd64bd17d94 100644
+> --- a/drivers/i2c/busses/i2c-designware-master.c
+> +++ b/drivers/i2c/busses/i2c-designware-master.c
+> @@ -433,7 +433,7 @@ i2c_dw_read(struct dw_i2c_dev *dev)
+>  			regmap_read(dev->map, DW_IC_DATA_CMD, &tmp);
+>  			if (flags & I2C_M_RECV_LEN) {
+>  				/* Ensure length byte is a valid value */
+> -				if (tmp <=3D I2C_SMBUS_BLOCK_MAX && tmp > 0)
+> +				if (tmp > 0)
+>  					len =3D i2c_dw_recv_len(dev, tmp);
+>  				else
+>  					len =3D i2c_dw_recv_len(dev, len);
+> --=20
+> 2.28.0
+>=20
+
+--yrj/dFKFPuw6o+aM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl9jzZwACgkQFA3kzBSg
+KbbyuxAAtVvk4z2xbQhHrVRJqygO8JzmyOFWL1J8QCn7/cwZ+Kf1OhainyVtGkuq
+t36/lVl69MNwe7DNumQg3UdxpmSHdGTwd0QYkVRrHkQIEuCZEsvys7cWXcddvB/E
+v/rSyY4XQsJBK1+NKQxEBe0CdZ3geZoIMcBYNP67DF5qTH41G7Hgo/PIoBAfXyL8
+xqfpnr1zydL7ZtF4tRQ28moIbtuXO7sCxac8OpiDSFgJrLOby2eyw24nchu6aZL7
+ZVhCb71CeAmVrnRWHoma0HplPvxBGjR97qPfb7Bpsl42A1F4bk/didb3xIRzQvtt
+v6S1xQy6voytuBYzy/d1y6yss0aPeF7MZ4/W/953hspriVcd+D0kvHP8JyzG0AYo
+tMmIUdDV18k/v/21IFynhvxXcoSu3+BF2tAcbE3tkSCu5YSfH31EnJESVKAszlxW
+yCRgjpwN6cgcvlun4OHrRU+E2gnYVbY//Byt6zWUIEBt3QWhWALPhIHuHrLep4EZ
+gnBIadvjYZ5zL5lyUo+tQd+QLBtvkUV14WdxQXfGFbqokmZXjGlrH7+YTjuZm/2p
+U3Tft0oXVoT2ZSICejyCHEk/eYP1r4cEH5xupU/LPmnkIcxlQevQDbjek9+c23BU
+FRGQMvoYApPk2xcrfBau9ailDzUedB9gw7otHdP5+pCz599a3iI=
+=GStr
+-----END PGP SIGNATURE-----
+
+--yrj/dFKFPuw6o+aM--
