@@ -2,102 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD16126CFD6
-	for <lists+linux-input@lfdr.de>; Thu, 17 Sep 2020 02:13:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6860F26D305
+	for <lists+linux-input@lfdr.de>; Thu, 17 Sep 2020 07:23:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726064AbgIQAM7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 16 Sep 2020 20:12:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39136 "EHLO
+        id S1726149AbgIQFXB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 17 Sep 2020 01:23:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726009AbgIQAM7 (ORCPT
+        with ESMTP id S1726112AbgIQFXA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 16 Sep 2020 20:12:59 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA5AEC06178C;
-        Wed, 16 Sep 2020 17:03:34 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id w7so68795pfi.4;
-        Wed, 16 Sep 2020 17:03:34 -0700 (PDT)
+        Thu, 17 Sep 2020 01:23:00 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95930C06174A;
+        Wed, 16 Sep 2020 22:22:59 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id v196so496097pfc.1;
+        Wed, 16 Sep 2020 22:22:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=WDzQsVS9IxLNF3a+IIFjupoxMQ40am4ig/tBs3wzfu4=;
-        b=kEwlFG2m5pCDaYGbbtTtnYIyYqO1ztsPI09BZ1U5X1UfrDPbOeQrg0TXNGP4/LsuMM
-         imdSTTSQ7Ec7QkJm8tFV3FAmroMAZD5axt4FpFTv0ZXo3MgD1H4x6cYm1lW/t1o6V88X
-         qOVn5izr6Ro566Mzpcg80cJguAXEINXS3fF/rB9xKCzyUvKsTxAHTZUd6Dht15a9fIQ2
-         xQjLwmP9bWijjMJrUl37qOccxiR44ODLbsN4vaDiZFzWy4Pp2k+jann0ZL4SceqaLtsm
-         8x3PIVXo42qniJJqUrdQKk+zas5DuGgyR6x1sTC++3bVhv8QX8e/dv8fu/tfpArKP718
-         Mkhg==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DuzvDrmcmFUROMahjXsaIv677k9LWQoyjXqdmtsaBMI=;
+        b=bxnFO5n3SkFWMS85cU1DAcdMSzGE74ZVXiqLcUxw0HX/4GRXpamomB+nOSVo9HrVZO
+         VCCGSiJaDrANpunvM0OnKdpJdrG/hO0wacQLUJld32pbqlO/1I/ZwxrdMvL78U+DYG4a
+         JOI3KN1qvSsDPTz0RAmAChw9LLzUmEiX29wwz3X4W1BsnuWpQgqVHNLfkQnoFADtfgcZ
+         Q9tcmR8UmiJxOY/VaGHd+TnpVje0AF0gBc9/R9YJHfevBxXVE+LSijTnI4N1TrnRW5hK
+         s6m7oXrx8FECohNau2O8zzXk4NeN9AUueXOo1ksvIvN5VozIEp8puXbi2AuxLFjA/kF7
+         Fz1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=WDzQsVS9IxLNF3a+IIFjupoxMQ40am4ig/tBs3wzfu4=;
-        b=G/mFzpbURKWJi02b1Kx7srD3Msv2BF3UPMFlwdWzlzZfxFTFJKM0yN8jeIOOibfu4A
-         Ry7RRZYCQNuR4fwGsvoaDZGc67EL1HPq5GBM8Mt81h6KXP+S0Ltxj7nlG463rKpyVf8C
-         aw7qVOtN38Td11Gdiba6tvFlFbU5wm4YLennM92PAAr2dU+2Q4oyHm8l4Y6XpEr7/c0T
-         0glkn2QtZ3K/SHPtcfhzlrx1sJIjOhJRuerC7wNzpRQkCetgmUIi4RgJOJ6k2LJQfiLF
-         T8KyRLTgmhVDs9wStZEP9heFz49pMNLaMh1YPpvmQQoOGDeBSYoqPWAStRWZODaL+k7a
-         dVag==
-X-Gm-Message-State: AOAM533Y+vgHBKVJzpAvxpnN/gNwM5wydUMgdhDNtooGZqIKZJZtRMQz
-        cs286oBFMsgAzr+whfK/wd4=
-X-Google-Smtp-Source: ABdhPJxepajcywx1ktmFwK416v92g15gvuSqTod09R8Me1XPElkUaNL/SnecEbQpdetmhlVCNNZAIw==
-X-Received: by 2002:a63:fd03:: with SMTP id d3mr19647881pgh.201.1600301014308;
-        Wed, 16 Sep 2020 17:03:34 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id s22sm19372865pfd.90.2020.09.16.17.03.31
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=DuzvDrmcmFUROMahjXsaIv677k9LWQoyjXqdmtsaBMI=;
+        b=Xm0R924xKsFYZ8nhiRWzulaekhcM4Jt4t+w4q+H7wGi7q8puDnHv+9gJtIFzmh46kl
+         vq+u62zjb7V8v3rt8FkTupevyDsCnC8gKgFnHH7Aq63ytz7itcDVgIA6ufsn0UMP4tYx
+         N9wCsAfgIZXX6sN/ZFMW1MF+IhELyGKgSHvqv7ELeO60LQhJJcnz6VkG/2CqizgxnmZJ
+         dyLVY7uo2sSbG0HYO8RPaaE992bvYji91ua8b8YUiZJT80d5Fdv4IQbgrYMJJPA5jhh4
+         VVpHKCJ/UrRragzjYbga878DSSXrBZvJNk8HjRHQ2T6TAp1nICByqe82Vkc3pQRFcnS1
+         xo7A==
+X-Gm-Message-State: AOAM533WPrrJqdKahWA5Gw0aMe5I6RrWzDbm2WbjPghRnIHFlmsQGUDV
+        IqmDAKqJhq1FItk0Iw8pEf8nE7PGQblTLg==
+X-Google-Smtp-Source: ABdhPJw7MI5v8hAUH6Yv8ZDHRjeZDtK2cRkFfnZbkBrXlzKA87WIhoC1VJMzv7dTLP1azOz3LGE4VA==
+X-Received: by 2002:a62:545:0:b029:142:2501:35db with SMTP id 66-20020a6205450000b0290142250135dbmr9550209pff.59.1600320178779;
+        Wed, 16 Sep 2020 22:22:58 -0700 (PDT)
+Received: from sultan-book.localdomain ([104.200.129.212])
+        by smtp.gmail.com with ESMTPSA id i62sm18705619pfe.140.2020.09.16.22.22.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2020 17:03:32 -0700 (PDT)
-Date:   Wed, 16 Sep 2020 17:03:29 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     robh+dt@kernel.org, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [RESEND 5/5] input: iqs269a: Make sliders two-dimensional
-Message-ID: <20200917000329.GM1681290@dtor-ws>
-References: <1600289400-27632-1-git-send-email-jeff@labundy.com>
- <1600289400-27632-6-git-send-email-jeff@labundy.com>
+        Wed, 16 Sep 2020 22:22:58 -0700 (PDT)
+From:   Sultan Alsawaf <sultan@kerneltoast.com>
+X-Google-Original-From: Sultan Alsawaf
+To:     linux-i2c@vger.kernel.org
+Cc:     jikos@kernel.org, aaron.ma@canonical.com, admin@kryma.net,
+        andriy.shevchenko@linux.intel.com, benjamin.tissoires@redhat.com,
+        hdegoede@redhat.com, hn.chen@weidahitech.com,
+        jarkko.nikula@linux.intel.com, kai.heng.feng@canonical.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mika.westerberg@linux.intel.com, vicamo.yang@canonical.com,
+        wsa@kernel.org, Sultan Alsawaf <sultan@kerneltoast.com>
+Subject: [PATCH v2 0/4] i2c-hid: Save power by reducing i2c xfers with block reads
+Date:   Wed, 16 Sep 2020 22:22:52 -0700
+Message-Id: <20200917052256.5770-1-sultan@kerneltoast.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1600289400-27632-6-git-send-email-jeff@labundy.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Sep 16, 2020 at 03:50:00PM -0500, Jeff LaBundy wrote:
-> libinput rejects devices that define one axis without the orthogonal
-> axis, as well as devices for which either axis's resolution is zero.
-> 
-> To solve this problem, present a thin y-axis with a resolution equal
-> to one.
+From: Sultan Alsawaf <sultan@kerneltoast.com>
 
-No, let's fix this in libinput please.
+This is a fixed resubmission of "[PATCH 0/2] i2c-hid: Save power by reducing i2c
+xfers with block reads". That original patchset did not have enough fixes for
+the designware i2c adapter's I2C_M_RECV_LEN feature, which is documented
+extensively in the original email thread.
 
-> 
-> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
-> ---
->  drivers/input/misc/iqs269a.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/input/misc/iqs269a.c b/drivers/input/misc/iqs269a.c
-> index 04947f1..4a0e4ec 100644
-> --- a/drivers/input/misc/iqs269a.c
-> +++ b/drivers/input/misc/iqs269a.c
-> @@ -1377,6 +1377,8 @@ static int iqs269_input_init(struct iqs269_private *iqs269)
->  					     EV_KEY, BTN_TOUCH);
->  			input_set_abs_params(iqs269->slider[i],
->  					     ABS_X, 0, 255, 0, 0);
-> +			input_set_abs_params(iqs269->slider[i],
-> +					     ABS_Y, 0, 1, 0, 0);
->  		}
->  
->  		error = input_register_device(iqs269->slider[i]);
-> -- 
-> 2.7.4
-> 
+Here is the original cover letter, which still applies:
+"I noticed on my Dell Precision 15 5540 with an i9-9880H that simply putting my
+finger on the touchpad would increase my system's power consumption by 4W, which
+is quite considerable. Resting my finger on the touchpad would generate roughly
+4000 i2c irqs per second, or roughly 20 i2c irqs per touchpad irq.
 
-Thanks.
+Upon closer inspection, I noticed that the i2c-hid driver would always transfer
+the maximum report size over i2c (which is 60 bytes for my touchpad), but all of
+my touchpad's normal touch events are only 32 bytes long according to the length
+byte contained in the buffer sequence.
+
+Therefore, I was able to save about 2W of power by passing the I2C_M_RECV_LEN
+flag in i2c-hid, which says to look for the payload length in the first byte of
+the transfer buffer and adjust the i2c transaction accordingly. The only problem
+though is that my i2c controller's driver allows bytes other than the first one
+to be used to retrieve the payload length, which is incorrect according to the
+SMBus spec, and would break my i2c-hid change since not *all* of the reports
+from my touchpad are conforming SMBus block reads.
+
+This patchset fixes the I2C_M_RECV_LEN behavior in the designware i2c driver and
+modifies i2c-hid to use I2C_M_RECV_LEN to save quite a bit of power. Even if the
+peripheral controlled by i2c-hid doesn't support block reads, the i2c controller
+drivers should cope with this and proceed with the i2c transfer using the
+original requested length."
+
+Sultan
+
+Sultan Alsawaf (4):
+  i2c: designware: Fix transfer failures for invalid SMBus block reads
+  i2c: designware: Ensure tx_buf_len is nonzero for SMBus block reads
+  i2c: designware: Allow SMBus block reads up to 255 bytes in length
+  HID: i2c-hid: Use block reads when possible to save power
+
+ drivers/hid/i2c-hid/i2c-hid-core.c         |  5 ++++-
+ drivers/i2c/busses/i2c-designware-master.c | 15 +++++++++------
+ 2 files changed, 13 insertions(+), 7 deletions(-)
 
 -- 
-Dmitry
+2.28.0
+
