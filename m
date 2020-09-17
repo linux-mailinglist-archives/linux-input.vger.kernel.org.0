@@ -2,112 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7947D26CCF8
-	for <lists+linux-input@lfdr.de>; Wed, 16 Sep 2020 22:52:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD16126CFD6
+	for <lists+linux-input@lfdr.de>; Thu, 17 Sep 2020 02:13:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726646AbgIPUwK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 16 Sep 2020 16:52:10 -0400
-Received: from mail-bn8nam11on2081.outbound.protection.outlook.com ([40.107.236.81]:43233
-        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728589AbgIPUvw (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 16 Sep 2020 16:51:52 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DTNREUrf/94e6nQbIbWhTVZray83thTgbsnKePmhEsHQsEztHNAHkl+pLSQej16cR3aWwzvBlU//+Nr1jR5sPoKt/ttBhA/HhQC/ybDr3CFqa8Kdgw0r+TCqL+TnVRp4Q3d0jB9taPunOMEUHoJ5zY5ILBtIYjobLRlaxwYZBsAfj3WzQwjPnmivw3F1B59YCvp6KLRzv+rHQUkW4a+N3DETpz1xZ9mApuOpe8na6+RwXVkMZ70wYwrp22VWaWqX1q/PeJ8NA9CsPR9+n5op7GyDYYli79d0KQ5sRFiJHSDh48g5GwEqNKGqu+F72aJ00NMmV1dEIN0ose6lc8ykkg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eZOS9QNE92oxGWSPhUfAu6jraI0qXSySjYhObHDbUcA=;
- b=Qfssxm3fLMg7b/TG5JxEiOWDP5QPH2iAzK3v/g2ybJcBB8+Wda7GmweT9R33UFDvPttZaN1BcQRrckyckul5CG2jUhXY8+C4sToHzenzxE9rFEMUCyfnHj0WX2XR6OTOptn4j7YkWNBXirvc2x+91dVFrr/axfI8UYJBAUh/xkQeCKmkF19wIjG8J+ggxJ4E0O0jcITid8UO3tgIBeY+5dkawD/53F8BGbUzVWqBsgVqjRefZwGMpE1ybMjB4dLcgNToUXCLcjpWIxaOxkpZtqTFZkMWTRAwwQtyGTsr9qYxMjCofyEnikTFk/NX+NH1CoIvHmYbkbLhEVmal5LzTw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
+        id S1726064AbgIQAM7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 16 Sep 2020 20:12:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39136 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726009AbgIQAM7 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 16 Sep 2020 20:12:59 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA5AEC06178C;
+        Wed, 16 Sep 2020 17:03:34 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id w7so68795pfi.4;
+        Wed, 16 Sep 2020 17:03:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eZOS9QNE92oxGWSPhUfAu6jraI0qXSySjYhObHDbUcA=;
- b=RkCWY+gvsPeOvXXPTjmdzd4BiroLT3/mDuae7oTHKXEYUhpI8s4qYesZOUfOAfqcM6o04oC1Hf/uBrc7lKNed8HZ5v7ZNh9Jw/ZJ0puKbodrpIQhGfe6Nva1qO8ySMXBD+CW7sZit0ghiDOn6InzbFQSlR6jA2O/ykZq4AD+4VM=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=labundy.com;
-Received: from SN6PR08MB5517.namprd08.prod.outlook.com (2603:10b6:805:fb::32)
- by SN6PR08MB4094.namprd08.prod.outlook.com (2603:10b6:805:1c::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3370.16; Wed, 16 Sep
- 2020 20:51:16 +0000
-Received: from SN6PR08MB5517.namprd08.prod.outlook.com
- ([fe80::d19a:589c:d9e8:b5e2]) by SN6PR08MB5517.namprd08.prod.outlook.com
- ([fe80::d19a:589c:d9e8:b5e2%7]) with mapi id 15.20.3391.014; Wed, 16 Sep 2020
- 20:51:16 +0000
-From:   Jeff LaBundy <jeff@labundy.com>
-To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        Jeff LaBundy <jeff@labundy.com>
-Subject: [RESEND 5/5] input: iqs269a: Make sliders two-dimensional
-Date:   Wed, 16 Sep 2020 15:50:00 -0500
-Message-Id: <1600289400-27632-6-git-send-email-jeff@labundy.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1600289400-27632-1-git-send-email-jeff@labundy.com>
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=WDzQsVS9IxLNF3a+IIFjupoxMQ40am4ig/tBs3wzfu4=;
+        b=kEwlFG2m5pCDaYGbbtTtnYIyYqO1ztsPI09BZ1U5X1UfrDPbOeQrg0TXNGP4/LsuMM
+         imdSTTSQ7Ec7QkJm8tFV3FAmroMAZD5axt4FpFTv0ZXo3MgD1H4x6cYm1lW/t1o6V88X
+         qOVn5izr6Ro566Mzpcg80cJguAXEINXS3fF/rB9xKCzyUvKsTxAHTZUd6Dht15a9fIQ2
+         xQjLwmP9bWijjMJrUl37qOccxiR44ODLbsN4vaDiZFzWy4Pp2k+jann0ZL4SceqaLtsm
+         8x3PIVXo42qniJJqUrdQKk+zas5DuGgyR6x1sTC++3bVhv8QX8e/dv8fu/tfpArKP718
+         Mkhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=WDzQsVS9IxLNF3a+IIFjupoxMQ40am4ig/tBs3wzfu4=;
+        b=G/mFzpbURKWJi02b1Kx7srD3Msv2BF3UPMFlwdWzlzZfxFTFJKM0yN8jeIOOibfu4A
+         Ry7RRZYCQNuR4fwGsvoaDZGc67EL1HPq5GBM8Mt81h6KXP+S0Ltxj7nlG463rKpyVf8C
+         aw7qVOtN38Td11Gdiba6tvFlFbU5wm4YLennM92PAAr2dU+2Q4oyHm8l4Y6XpEr7/c0T
+         0glkn2QtZ3K/SHPtcfhzlrx1sJIjOhJRuerC7wNzpRQkCetgmUIi4RgJOJ6k2LJQfiLF
+         T8KyRLTgmhVDs9wStZEP9heFz49pMNLaMh1YPpvmQQoOGDeBSYoqPWAStRWZODaL+k7a
+         dVag==
+X-Gm-Message-State: AOAM533Y+vgHBKVJzpAvxpnN/gNwM5wydUMgdhDNtooGZqIKZJZtRMQz
+        cs286oBFMsgAzr+whfK/wd4=
+X-Google-Smtp-Source: ABdhPJxepajcywx1ktmFwK416v92g15gvuSqTod09R8Me1XPElkUaNL/SnecEbQpdetmhlVCNNZAIw==
+X-Received: by 2002:a63:fd03:: with SMTP id d3mr19647881pgh.201.1600301014308;
+        Wed, 16 Sep 2020 17:03:34 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id s22sm19372865pfd.90.2020.09.16.17.03.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2020 17:03:32 -0700 (PDT)
+Date:   Wed, 16 Sep 2020 17:03:29 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     robh+dt@kernel.org, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [RESEND 5/5] input: iqs269a: Make sliders two-dimensional
+Message-ID: <20200917000329.GM1681290@dtor-ws>
 References: <1600289400-27632-1-git-send-email-jeff@labundy.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SN6PR16CA0057.namprd16.prod.outlook.com
- (2603:10b6:805:ca::34) To SN6PR08MB5517.namprd08.prod.outlook.com
- (2603:10b6:805:fb::32)
+ <1600289400-27632-6-git-send-email-jeff@labundy.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (136.49.227.119) by SN6PR16CA0057.namprd16.prod.outlook.com (2603:10b6:805:ca::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3391.11 via Frontend Transport; Wed, 16 Sep 2020 20:51:15 +0000
-X-Mailer: git-send-email 2.7.4
-X-Originating-IP: [136.49.227.119]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 406f8ed7-0a46-4d9f-d2d3-08d85a82411b
-X-MS-TrafficTypeDiagnostic: SN6PR08MB4094:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR08MB4094B546780882B342245E12D3210@SN6PR08MB4094.namprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qDIj55veNCcyD4RtE2moWbF5iMUFKMo9hZhiBvDQ0RHnEfqXzwxT8LuxCXFVMTqrSrE44BRIWbOs9KIekMc4szPDewBWCtXIjve1G9PLzcvRPk7CA8IdDRB4O3QOMhiSpE0pu65Tp2Hn789L+sxcZWE9FRdD7r4rorQHzj3C7CeIcSvPe3g43Psfk8aSxgP60IXbOfBppwI7duE83bYz09vEKEOmVRxP3ZNaxRWGmq0/7pAcggpiCm7DeAl4mZIjJhvsG46dEkBAAjZ7zziW5QY0ATISM1ejR/Rfq8zPVd85FNCTl6O8YEInSKS+ZzeSyE/MexkrsgXyls3d9EMCzyeM9qQxrh3a+0otsw3zhE6CTlCg2wyaJ4rjadmcndQ7
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR08MB5517.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(39830400003)(136003)(346002)(396003)(376002)(366004)(16526019)(8676002)(4326008)(956004)(6486002)(107886003)(186003)(69590400008)(4744005)(52116002)(478600001)(36756003)(6512007)(66556008)(66476007)(6506007)(316002)(2906002)(26005)(66946007)(6666004)(5660300002)(2616005)(86362001)(8936002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: dumf+idUBYKAMpXPA+FQMMNv6drGC6HNBrwxRcNKD+1VTGhWXHv5uWfqwiOJSrOlDnI1Ud5KN4BCTTfVEO5LDzr2KHLaLJyr+nDNijWARdJDCsINLx6pe5coYeMh0pt07xAcvn/nIFvaYbAo+05aVNv5+wx3AGG5wmgcztUE3hxqYSjtaizxcl06yLErlTP7028+PobX0SFfeuYQNh3LWnWQzoxb6X1yNkJ1zn1696KreR1FlzjcGHrU+bTxfTIJrxWLTUm2frQJKKElu+0ag6P9Zs05HNdP7bqG/F54rFSUaKglVguK21t6RleH8JNMIWTPUAiyNvwfh8ysOzqcd+k2CNxK2J+NCQtg2UUNElAnU2zWr661Y5IGkCNLrMSM4dZrd4/8PP5+wuKybI5oQgx+xCLkAKrg8Ub0zjORwfWWNjm8shfruvACkCztyKawXD2znzfIN0gofSo8bwdZuU0Z0JYDnHOvQytin8CQKwsNP0U7iQ+DvdDMsWtokq0PyxFnv81OycmzyCz3zk7w/pKzeQsJ3Va6j9xd89CNMQvdigcTQUPQHVpXIc3yazE4t525KES5+vXjKLF03pVgI4rkeAv1IKls5BXs3ojKwX8UNbCrlAA9BLwsQ4S+VHufNEJ8m3w1s9Qk11rdqKFrtg==
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 406f8ed7-0a46-4d9f-d2d3-08d85a82411b
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR08MB5517.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2020 20:51:15.9754
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wL3UgXclz+I1fgyh1D/fqU5SeT4bGM7Lf86GY3hb+S0EpvxgTq+Cw7h8TcmOM+ewsIZoVQFTNutnJ0yJsIpXFA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR08MB4094
-Sender: linux-input-owner@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1600289400-27632-6-git-send-email-jeff@labundy.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-libinput rejects devices that define one axis without the orthogonal
-axis, as well as devices for which either axis's resolution is zero.
+On Wed, Sep 16, 2020 at 03:50:00PM -0500, Jeff LaBundy wrote:
+> libinput rejects devices that define one axis without the orthogonal
+> axis, as well as devices for which either axis's resolution is zero.
+> 
+> To solve this problem, present a thin y-axis with a resolution equal
+> to one.
 
-To solve this problem, present a thin y-axis with a resolution equal
-to one.
+No, let's fix this in libinput please.
 
-Signed-off-by: Jeff LaBundy <jeff@labundy.com>
----
- drivers/input/misc/iqs269a.c | 2 ++
- 1 file changed, 2 insertions(+)
+> 
+> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> ---
+>  drivers/input/misc/iqs269a.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/input/misc/iqs269a.c b/drivers/input/misc/iqs269a.c
+> index 04947f1..4a0e4ec 100644
+> --- a/drivers/input/misc/iqs269a.c
+> +++ b/drivers/input/misc/iqs269a.c
+> @@ -1377,6 +1377,8 @@ static int iqs269_input_init(struct iqs269_private *iqs269)
+>  					     EV_KEY, BTN_TOUCH);
+>  			input_set_abs_params(iqs269->slider[i],
+>  					     ABS_X, 0, 255, 0, 0);
+> +			input_set_abs_params(iqs269->slider[i],
+> +					     ABS_Y, 0, 1, 0, 0);
+>  		}
+>  
+>  		error = input_register_device(iqs269->slider[i]);
+> -- 
+> 2.7.4
+> 
 
-diff --git a/drivers/input/misc/iqs269a.c b/drivers/input/misc/iqs269a.c
-index 04947f1..4a0e4ec 100644
---- a/drivers/input/misc/iqs269a.c
-+++ b/drivers/input/misc/iqs269a.c
-@@ -1377,6 +1377,8 @@ static int iqs269_input_init(struct iqs269_private *iqs269)
- 					     EV_KEY, BTN_TOUCH);
- 			input_set_abs_params(iqs269->slider[i],
- 					     ABS_X, 0, 255, 0, 0);
-+			input_set_abs_params(iqs269->slider[i],
-+					     ABS_Y, 0, 1, 0, 0);
- 		}
- 
- 		error = input_register_device(iqs269->slider[i]);
+Thanks.
+
 -- 
-2.7.4
-
+Dmitry
