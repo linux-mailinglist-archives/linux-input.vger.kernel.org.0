@@ -2,106 +2,139 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B1C53270ED8
-	for <lists+linux-input@lfdr.de>; Sat, 19 Sep 2020 17:17:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20DF227105C
+	for <lists+linux-input@lfdr.de>; Sat, 19 Sep 2020 21:49:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726589AbgISPRk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 19 Sep 2020 11:17:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60094 "EHLO
+        id S1726642AbgISTtK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 19 Sep 2020 15:49:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726458AbgISPRk (ORCPT
+        with ESMTP id S1726511AbgISTtK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 19 Sep 2020 11:17:40 -0400
+        Sat, 19 Sep 2020 15:49:10 -0400
 Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29791C0613CE
-        for <linux-input@vger.kernel.org>; Sat, 19 Sep 2020 08:17:40 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id b12so9321120lfp.9
-        for <linux-input@vger.kernel.org>; Sat, 19 Sep 2020 08:17:40 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EC86C0613CE;
+        Sat, 19 Sep 2020 12:49:10 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id x69so9806401lff.3;
+        Sat, 19 Sep 2020 12:49:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=q0+1rITu9zGQ5V58k1klugk4ipvhjZZlAIk1eT/nOkM=;
-        b=jlypQ5acNaNT5R3S5pdgWVB0Vi/rYiYlvPPivmOO0iXhrfHD1rxF+Uqt8DVQZgvYMb
-         ZbEUWPdUUbK3N6aqOOh1j8DJU2RLu7MSPk/Rl6muWuMm12QvakTY2nwjACarsCQR5rVS
-         SGTJiErEGHmxqZPagTdm4HcK4mAecov4n6DeaTqKUjHcXVP9yQUE34ysWCCS03IsTQdh
-         kl/qkYJf9z5+qS5Lp+H/VVFffpFFKYr6/9dmDJGWSoXB/M7/xgCShWMTwoDpnCf267D/
-         j8fJLGUfGWzQl0w1xhg8q7GMZqQ3d39s10QPacBN7SlGDUhjtwvaSqgYbwnJQwKg+nvQ
-         X0iA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=iRl4Hsy9O4I7BJY7bZPGaXxXlud7f1VtwGO5tvJEaiY=;
+        b=RdH6omBgja3rfceBY7qOmD636Q7XMpZvGIhI3u8nrebDoTQEnoyiTO1VtKKt99o3db
+         USbWuOuclM1b8Xfy2iJEo0CdwYru2VkdOwmVPNY9AoTADrZ2AQbgeQqGBW4tAiiYep/X
+         SJw4EbIa/F0vgLk8pZsbIxEldYcZYlEoUhdIcF7Kc5pOrpfKUvL+tTN8gEkQwHkw154Z
+         iIqEbPHr8+ODlUI5Y3Ax3yn7Lz+qe/fvlwj8jFL28Fyqed59BFxLQBclERxP0yb+GK8Y
+         0eqHPL8OoajZ/LXPuaDyC/xvlf0BkEw6/GLE47pQKknPwQIBIn9pJojROwYEYmulY7QE
+         tMNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=q0+1rITu9zGQ5V58k1klugk4ipvhjZZlAIk1eT/nOkM=;
-        b=JYjL5lsBxAjwLWxpSQiUBgLK8r6O5v/c4ASNNxkLjscE5uOSsqA3p0AJVN+QhBu7bJ
-         wDDsxMo1jO7mZ+DTePfkcBjBSYfe87Yjm5+1Xsh2brw7me6/txzc4EdZl7q2RWVWZR8w
-         I1EKHyElHBO85X6CA8nfoBFo9KqGDppU+LFkTk6kMr3P2w0e7it4UpHtTtwywDsijlSe
-         9lT4KQ8J2XU3ZBrs6jctxh1+tN4kOnNW1nDXmNQYl2MZb/loHp7X/CcAWHv7J56/IHVB
-         tN+he7YEKNtJhkvLmXd9XkmMqr0YBtPBpIEJD99Ypyh3OrSPFdGpxUwA/Me9h/+e33PG
-         iPFw==
-X-Gm-Message-State: AOAM533Q7BvdTAu0WI0Upbjur8KULSjWpZyoNyzTlarluuZbxffvwNNN
-        PkmgLxvvQgp3e7lZ8WKY+AblQDJXk6WL8RAsmX4=
-X-Google-Smtp-Source: ABdhPJzRxQXMQal5cM2KA8gj3HIjd9ffoqd6+E2q7pTn8UAGkH3YDJEsW8fBVC+6c0obtp0swSzdI9NH1rOwITvR8gE=
-X-Received: by 2002:a05:6512:512:: with SMTP id o18mr12048009lfb.98.1600528658613;
- Sat, 19 Sep 2020 08:17:38 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=iRl4Hsy9O4I7BJY7bZPGaXxXlud7f1VtwGO5tvJEaiY=;
+        b=L6+j1mCKaPw3lh6XMFydqzkU8wtbrtMLIm6N5ayd/PS5bwRE2Mbw21gcCwDifhbSHn
+         Ds7I44EbYGXp2jF1wC25VCUPYF0/S/BP2OebyAJq4Fci0UtKwke6x8AgCoBwM7F3Edze
+         OyVcG2+3DS7gUrLM/2sKTbGuScxX0szer5xtT/Y+jdK6efcPMIDyF7yrvbQqBpoPo5Nb
+         N6dZVC5+z9drPpvZFFyvB+29OIplT+NZTQoejxHT8+cjvtIwfa7KbJhf3Kgc1O2t2nVL
+         5JUM2faJE//EKSqpmlOTniUNwF2UjKjxSrbSeQq3Tx0W2E5fcIZ0/0r39B5OybolL28O
+         soVg==
+X-Gm-Message-State: AOAM531eO1kOWWmkZWEatQxIxJ5/5FEsUxW+LaSv98+5rD410XWtL8vR
+        zOYYOFtTTonJpj9cRjfE7pY=
+X-Google-Smtp-Source: ABdhPJxBMkzal6gO9zQwDPFK2Tws6+5zrCr7dpCEzLYOtsdbMhcv0vAI9Wkj7q/XJHissYC63bM6Ng==
+X-Received: by 2002:a19:4e:: with SMTP id 75mr12378023lfa.159.1600544948772;
+        Sat, 19 Sep 2020 12:49:08 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
+        by smtp.googlemail.com with ESMTPSA id n2sm1416147lji.97.2020.09.19.12.49.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 19 Sep 2020 12:49:08 -0700 (PDT)
+Subject: Re: [PATCH v2 2/2] Input: atmel_mxt_ts - wake mXT1386 from deep-sleep
+ mode
+To:     "Wang, Jiada" <jiada_wang@mentor.com>, nick@shmanahar.org,
+        dmitry.torokhov@gmail.com, robh+dt@kernel.org
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        andy.shevchenko@gmail.com, erosca@de.adit-jv.com,
+        Andrew_Gabbasov@mentor.com
+References: <20200918125601.8210-1-jiada_wang@mentor.com>
+ <20200918125601.8210-2-jiada_wang@mentor.com>
+ <2c3e093a-dc75-d315-519d-9b8fbab9b41b@gmail.com>
+ <d0d8dffe-be52-992e-af2b-020d4b159747@mentor.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <11e0052b-ae7a-71bc-1b28-9d5b42acfd11@gmail.com>
+Date:   Sat, 19 Sep 2020 22:49:07 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Received: by 2002:ab3:6e58:0:0:0:0:0 with HTTP; Sat, 19 Sep 2020 08:17:38
- -0700 (PDT)
-Reply-To: kkoduah.sarpong@outlook.com
-From:   Kofi Koduah Sarpong <kofikoduahsarpong68@gmail.com>
-Date:   Sat, 19 Sep 2020 08:17:38 -0700
-Message-ID: <CAGyyCaswJDtv6YEsYa0YRTX9iQo6MMCz8sQQ_ZuWQUX5BF-1xA@mail.gmail.com>
-Subject: Re: investment interest from Engr: Kofi Sarpong Please go through and
- get back to me.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <d0d8dffe-be52-992e-af2b-020d4b159747@mentor.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Lukoil Overseas Gh. Ltd.
-Oil & Gas Extraction Companies
-No. 68 Mankralo Street
-East Cantonments
-Accra Ghana.
+18.09.2020 18:55, Wang, Jiada пишет:
+...
+>>>   +static void mxt_wake(struct mxt_data *data)
+>>> +{
+>>> +    struct i2c_client *client = data->client;
+>>> +    struct device *dev = &data->client->dev;
+>>> +    struct device_node *np = dev->of_node;
+>>> +    union i2c_smbus_data dummy;
+>>> +
+>>> +    if (!of_device_is_compatible(np, "atmel,mXT1386"))
+>>> +        return;
+>> I'm not sure whether you misses the previous answers from Dmitry
+>> Torokhov and Rob Herring, but they suggested to add a new device-tree
+>> property which should specify the atmel,wakeup-method.
+>>
+> I think Rob Herring prefers for the compatible solution than property.
 
-Dear: Sir
+Actually, seems you're right. But I'm not sure now whether he just made
+a typo, because it's actually a board-specific option.
 
-My name is Engr: Kofi Koduah Sarpong.
-I am the Chief Executive Officer of Lukoil Overseas Gh. Ltd Ghana.
-I will be retiring from my work by June next year. I write to inform
-you of my intention to invest in a Hotel business or any other forms
-of business in your country and i request you assists me in carrying
-out the feasibility studies on location and likely cost implication,
-type and estimation on how much it will cost to establish a three star
-hotel, either by outright purchase of already existing one or a
-dilapidated one that we can renovate or setting up a new one entirely.
+It could be more preferred to skip the i2c_smbus_xfer() for the NONE
+variant, but it also should be harmless in practice. I guess we indeed
+could keep the current variant of yours patch and then add a clarifying
+comment to the commit message and to the code, telling that
+i2c_smbus_xfer() is harmless in a case of the hardwired WAKE-LINE.
 
-If you sincerely carry out this survey, and give me feedback as fast
-as possible, I will give you the power of attorney to build & manage
-the hotel for me, pending my retirement next year as I said.
+>> There are 3 possible variants:
+>>
+>>    - NONE
+>>    - GPIO
+>>    - I2C-SCL
+>>
+>> Hence we should bail out from mxt_wake() if method is set to NONE or
+>> GPIO.
+>>
+> for "GPIO", we still need 25 ms sleep. but rather than a dummy read,
+> WAKE line need to be asserted before sleep.
 
-Sir, i have the sum of (US$85 million USD) that I deposited in a
-Finance company outside my country for this project.
+Correct, I just meant to bail out because GPIO is currently unsupported.
 
-Please don=E2=80=99t disregard this message I am very sincere in what am
-telling you the documents for the deposit I will send them to you for
-your confirmation as soon as we proceed.
+...
+>>>   static int mxt_initialize(struct mxt_data *data)
+>>>   {
+>>>       struct i2c_client *client = data->client;
+>>>       int recovery_attempts = 0;
+>>>       int error;
+>>>   +    mxt_wake(data);
+>>> +
+>>>       while (1) {
+>>
+>> I assume the mxt_wake() should be placed here, since there is a 3
+>> seconds timeout in the end of the while-loop, meaning that device may
+>> get back into deep-sleep on a retry.
+>>
+> Can you elaborate a little more why exit from bootload mode after sleep
+> for 3 second could enter deep-sleep mode.
 
-I have very little issue with health right now as a result of age but
-I have been assured by my doctor that I will be fine and get back to
-work soon presently i am in the neighboring country for medical
-reason.
+The loop attempts to exit from bootload mode and then I suppose
+mxt_read_info_block() may fail if I2C "accidentally" fails, hence the
+deep-sleep mode still will be enabled on a retry.
 
-Please do let me know if you are capable, and can handling such
-business. Feed me back with your details, and your area of
-specialization should be indicated as well. I will be expecting your
-reply as soon as possible.
-
-Please send your telephone number to me i will call you for more details.
-
-
-Regards
-Engr: Kofi Koduah Sarpong
-Chief Executive Officer
+The datasheet says that there are 2 seconds since the time of the last
+I2C access before TS is put back into auto-sleep if deep-sleep mode is
+enabled. The wait-loop has msleep(3000).
