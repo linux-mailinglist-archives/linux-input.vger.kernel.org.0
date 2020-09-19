@@ -2,139 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 20DF227105C
-	for <lists+linux-input@lfdr.de>; Sat, 19 Sep 2020 21:49:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92E23271069
+	for <lists+linux-input@lfdr.de>; Sat, 19 Sep 2020 22:05:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726642AbgISTtK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 19 Sep 2020 15:49:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45394 "EHLO
+        id S1726575AbgISUE5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 19 Sep 2020 16:04:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726511AbgISTtK (ORCPT
+        with ESMTP id S1726511AbgISUE5 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 19 Sep 2020 15:49:10 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EC86C0613CE;
-        Sat, 19 Sep 2020 12:49:10 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id x69so9806401lff.3;
-        Sat, 19 Sep 2020 12:49:10 -0700 (PDT)
+        Sat, 19 Sep 2020 16:04:57 -0400
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C554C0613CE;
+        Sat, 19 Sep 2020 13:04:57 -0700 (PDT)
+Received: by mail-ed1-x542.google.com with SMTP id n22so9264024edt.4;
+        Sat, 19 Sep 2020 13:04:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=iRl4Hsy9O4I7BJY7bZPGaXxXlud7f1VtwGO5tvJEaiY=;
-        b=RdH6omBgja3rfceBY7qOmD636Q7XMpZvGIhI3u8nrebDoTQEnoyiTO1VtKKt99o3db
-         USbWuOuclM1b8Xfy2iJEo0CdwYru2VkdOwmVPNY9AoTADrZ2AQbgeQqGBW4tAiiYep/X
-         SJw4EbIa/F0vgLk8pZsbIxEldYcZYlEoUhdIcF7Kc5pOrpfKUvL+tTN8gEkQwHkw154Z
-         iIqEbPHr8+ODlUI5Y3Ax3yn7Lz+qe/fvlwj8jFL28Fyqed59BFxLQBclERxP0yb+GK8Y
-         0eqHPL8OoajZ/LXPuaDyC/xvlf0BkEw6/GLE47pQKknPwQIBIn9pJojROwYEYmulY7QE
-         tMNQ==
+        h=mime-version:from:date:message-id:subject:to:cc
+         :content-transfer-encoding;
+        bh=VNdVm0qjWANV+k8o/qFZrx8yrtDDDYIfNRixrZTkFtI=;
+        b=kskcrheTxsjTIrQVeP6MdQi4U5gZ/ntOTUiAAnZlvSwJADnMKFK4DlxPR1Xhyy+Zu+
+         PMQgTNzkZBRJ9+T4tIfQ8WNrAdJrjZ+zfC4lvEjZmSW/Fn0vy0Kn9NBTSLCVpVbLlC25
+         pkLT21r2ucwZsAiAsl11SZpR6ygnqgWwWc04fqtRT8fyK9XdpPkp9L5fv9kEF9j5ZD83
+         pMtMFva23ct8DQGw2o1fKLuIpLYj4DpjBJtXutr+2CsZpqVkuQuM8uGty4A823sGV1Nr
+         VGolbaVRUYi145kKu8Y+HzWvsUzxyUzD0esZot13I5bw9SxFpJjHykcvMGf4LL+ayDn4
+         xNug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
          :content-transfer-encoding;
-        bh=iRl4Hsy9O4I7BJY7bZPGaXxXlud7f1VtwGO5tvJEaiY=;
-        b=L6+j1mCKaPw3lh6XMFydqzkU8wtbrtMLIm6N5ayd/PS5bwRE2Mbw21gcCwDifhbSHn
-         Ds7I44EbYGXp2jF1wC25VCUPYF0/S/BP2OebyAJq4Fci0UtKwke6x8AgCoBwM7F3Edze
-         OyVcG2+3DS7gUrLM/2sKTbGuScxX0szer5xtT/Y+jdK6efcPMIDyF7yrvbQqBpoPo5Nb
-         N6dZVC5+z9drPpvZFFyvB+29OIplT+NZTQoejxHT8+cjvtIwfa7KbJhf3Kgc1O2t2nVL
-         5JUM2faJE//EKSqpmlOTniUNwF2UjKjxSrbSeQq3Tx0W2E5fcIZ0/0r39B5OybolL28O
-         soVg==
-X-Gm-Message-State: AOAM531eO1kOWWmkZWEatQxIxJ5/5FEsUxW+LaSv98+5rD410XWtL8vR
-        zOYYOFtTTonJpj9cRjfE7pY=
-X-Google-Smtp-Source: ABdhPJxBMkzal6gO9zQwDPFK2Tws6+5zrCr7dpCEzLYOtsdbMhcv0vAI9Wkj7q/XJHissYC63bM6Ng==
-X-Received: by 2002:a19:4e:: with SMTP id 75mr12378023lfa.159.1600544948772;
-        Sat, 19 Sep 2020 12:49:08 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.googlemail.com with ESMTPSA id n2sm1416147lji.97.2020.09.19.12.49.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 19 Sep 2020 12:49:08 -0700 (PDT)
-Subject: Re: [PATCH v2 2/2] Input: atmel_mxt_ts - wake mXT1386 from deep-sleep
- mode
-To:     "Wang, Jiada" <jiada_wang@mentor.com>, nick@shmanahar.org,
-        dmitry.torokhov@gmail.com, robh+dt@kernel.org
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        andy.shevchenko@gmail.com, erosca@de.adit-jv.com,
-        Andrew_Gabbasov@mentor.com
-References: <20200918125601.8210-1-jiada_wang@mentor.com>
- <20200918125601.8210-2-jiada_wang@mentor.com>
- <2c3e093a-dc75-d315-519d-9b8fbab9b41b@gmail.com>
- <d0d8dffe-be52-992e-af2b-020d4b159747@mentor.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <11e0052b-ae7a-71bc-1b28-9d5b42acfd11@gmail.com>
-Date:   Sat, 19 Sep 2020 22:49:07 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        bh=VNdVm0qjWANV+k8o/qFZrx8yrtDDDYIfNRixrZTkFtI=;
+        b=DK0AOe/ugO7Oxc+Jy3+Z3RkxoR3BRZ2CT37KBYsbfbanwKm4MJxNECVMt/kGX3c61F
+         fNlX6XhcODQlxhHOQQpcShy/g+M0VNlQrXMoJ48gNXoo+V26HH77/M2EurPljXP6liaI
+         Hn+a6H2/BqZW9SApRfrBE//nN8eccIBs89hL7G/wbtahpDuDlDmf5Tg1dyx1shgQL+6K
+         SYFYEhqTT2bh1a6MZESbVzg1bvlVScUZ6lAa2G9RTwJ29KldDmk1BPG94Q4xjPBAnuIC
+         eS31oYvIARqhDriWLxw5gEA2J0uXJnwaCYVLTS7tdTSvj7l8ThkpExc/Vywzu6CIg7ON
+         8VLA==
+X-Gm-Message-State: AOAM532dyKz60RxLoNFTnVQV5h2m6oV+ZPQEKgu6oSEQIdlwGOp4+SIj
+        htfxmDARIgtcVG/YYlQ+s4uXYImWUNJ3Pqdv4dPT1yRQW+i9Iw==
+X-Google-Smtp-Source: ABdhPJzHKwVw+CxCv0ZligwmUeji7ZCv31u0VbhT9/h/+ebgnwuR0WCpOqOdSOlIQSTIOmt3TeykAg2ugseJGbyoEiA=
+X-Received: by 2002:aa7:cad3:: with SMTP id l19mr43047942edt.352.1600545895900;
+ Sat, 19 Sep 2020 13:04:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <d0d8dffe-be52-992e-af2b-020d4b159747@mentor.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+From:   =?UTF-8?Q?Mikael_Wikstr=C3=B6m?= <leakim.wikstrom@gmail.com>
+Date:   Sat, 19 Sep 2020 22:04:45 +0200
+Message-ID: <CADGsf-Gs9EM770jTVX=yABBLAT1rdfBYb5jam720yqez=D3VHg@mail.gmail.com>
+Subject: [PATCH] HID: multitouch: Lenovo X1 Tablet Gen3 trackpoint and buttons
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-18.09.2020 18:55, Wang, Jiada пишет:
-...
->>>   +static void mxt_wake(struct mxt_data *data)
->>> +{
->>> +    struct i2c_client *client = data->client;
->>> +    struct device *dev = &data->client->dev;
->>> +    struct device_node *np = dev->of_node;
->>> +    union i2c_smbus_data dummy;
->>> +
->>> +    if (!of_device_is_compatible(np, "atmel,mXT1386"))
->>> +        return;
->> I'm not sure whether you misses the previous answers from Dmitry
->> Torokhov and Rob Herring, but they suggested to add a new device-tree
->> property which should specify the atmel,wakeup-method.
->>
-> I think Rob Herring prefers for the compatible solution than property.
+One more device that needs 40d5bb87 to resolve regression for the trackpoin=
+t
+and three mouse buttons on the type cover of the Lenovo X1 Tablet Gen3.
 
-Actually, seems you're right. But I'm not sure now whether he just made
-a typo, because it's actually a board-specific option.
+It is probably also needed for the Lenovo X1 Tablet Gen2 with PID 0x60a3
 
-It could be more preferred to skip the i2c_smbus_xfer() for the NONE
-variant, but it also should be harmless in practice. I guess we indeed
-could keep the current variant of yours patch and then add a clarifying
-comment to the commit message and to the code, telling that
-i2c_smbus_xfer() is harmless in a case of the hardwired WAKE-LINE.
+Signed-off-by: Mikael Wikstr=C3=B6m <leakim.wikstrom@gmail.com>
+---
+ drivers/hid/hid-ids.h        | 1 +
+ drivers/hid/hid-multitouch.c | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
->> There are 3 possible variants:
->>
->>    - NONE
->>    - GPIO
->>    - I2C-SCL
->>
->> Hence we should bail out from mxt_wake() if method is set to NONE or
->> GPIO.
->>
-> for "GPIO", we still need 25 ms sleep. but rather than a dummy read,
-> WAKE line need to be asserted before sleep.
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 74fc1df6e3c2..6a6e2c1b6090 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -727,6 +727,7 @@
+ #define USB_DEVICE_ID_LENOVO_TP10UBKBD 0x6062
+ #define USB_DEVICE_ID_LENOVO_TPPRODOCK 0x6067
+ #define USB_DEVICE_ID_LENOVO_X1_COVER 0x6085
++#define USB_DEVICE_ID_LENOVO_X1_TAB3 0x60b5
+ #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_608D 0x608d
+ #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6019 0x6019
+ #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_602E 0x602e
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index e3152155c4b8..99f041afd5c0 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -1973,6 +1973,12 @@ static const struct hid_device_id mt_devices[] =3D {
+  HID_DEVICE(BUS_I2C, HID_GROUP_GENERIC,
+  USB_VENDOR_ID_LG, I2C_DEVICE_ID_LG_7010) },
 
-Correct, I just meant to bail out because GPIO is currently unsupported.
-
-...
->>>   static int mxt_initialize(struct mxt_data *data)
->>>   {
->>>       struct i2c_client *client = data->client;
->>>       int recovery_attempts = 0;
->>>       int error;
->>>   +    mxt_wake(data);
->>> +
->>>       while (1) {
->>
->> I assume the mxt_wake() should be placed here, since there is a 3
->> seconds timeout in the end of the while-loop, meaning that device may
->> get back into deep-sleep on a retry.
->>
-> Can you elaborate a little more why exit from bootload mode after sleep
-> for 3 second could enter deep-sleep mode.
-
-The loop attempts to exit from bootload mode and then I suppose
-mxt_read_info_block() may fail if I2C "accidentally" fails, hence the
-deep-sleep mode still will be enabled on a retry.
-
-The datasheet says that there are 2 seconds since the time of the last
-I2C access before TS is put back into auto-sleep if deep-sleep mode is
-enabled. The wait-loop has msleep(3000).
++ /* Lenovo X1 TAB Gen 3 */
++ { .driver_data =3D MT_CLS_WIN_8_FORCE_MULTI_INPUT,
++ HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8,
++    USB_VENDOR_ID_LENOVO,
++    USB_DEVICE_ID_LENOVO_X1_TAB3) },
++
+  /* MosArt panels */
+  { .driver_data =3D MT_CLS_CONFIDENCE_MINUS_ONE,
+  MT_USB_DEVICE(USB_VENDOR_ID_ASUS,
+--=20
+2.26.2
