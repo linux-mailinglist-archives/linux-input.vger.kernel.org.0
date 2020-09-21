@@ -2,51 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 36CC7271677
-	for <lists+linux-input@lfdr.de>; Sun, 20 Sep 2020 20:00:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EA30271D08
+	for <lists+linux-input@lfdr.de>; Mon, 21 Sep 2020 10:04:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726126AbgITSAQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 20 Sep 2020 14:00:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38410 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726109AbgITSAP (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 20 Sep 2020 14:00:15 -0400
-Subject: Re: [git pull] Input updates for v5.9-rc5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600624815;
-        bh=hqLet5dBu1k/82ZcUt7LhNqgfBFdFv46I5+DydmkHV0=;
-        h=From:In-Reply-To:References:Date:To:Cc:From;
-        b=iJqKqDiDjF7oBRLvBnZMVAKf5v+XLWOYQZEqzxCyl1fZz5KDQWiTrQW1/jbgR+CHE
-         kSpFCIyj0jKy77Pji7kEiZ78402PMZNvS9MVCXRD4g588rFcnA/FdSHZcLo2H7AS/F
-         B1VwabdrXGKHeShNDhaIgawIzlp1wNbnRGqB11xo=
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <20200920040959.GA5175@dtor-ws>
-References: <20200920040959.GA5175@dtor-ws>
-X-PR-Tracked-List-Id: <linux-input.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20200920040959.GA5175@dtor-ws>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-X-PR-Tracked-Commit-Id: 6c77545af100a72bf5e28142b510ba042a17648d
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 376566ca87257b9116ac5205f0efaa3c0f29103b
-Message-Id: <160062481559.2021.9110404576738163090.pr-tracker-bot@kernel.org>
-Date:   Sun, 20 Sep 2020 18:00:15 +0000
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+        id S1726641AbgIUID6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Sep 2020 04:03:58 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:35140 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726566AbgIUICT (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 21 Sep 2020 04:02:19 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 24E51D5E5C3142B64F1A;
+        Mon, 21 Sep 2020 16:02:17 +0800 (CST)
+Received: from huawei.com (10.175.113.32) by DGGEMS413-HUB.china.huawei.com
+ (10.3.19.213) with Microsoft SMTP Server id 14.3.487.0; Mon, 21 Sep 2020
+ 16:02:10 +0800
+From:   Liu Shixin <liushixin2@huawei.com>
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Liu Shixin <liushixin2@huawei.com>
+Subject: [PATCH -next] HID: intel-ish-hid: simplify the return expression of ishtp_hid_parse
+Date:   Mon, 21 Sep 2020 16:24:34 +0800
+Message-ID: <20200921082434.2591357-1-liushixin2@huawei.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.113.32]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The pull request you sent on Sat, 19 Sep 2020 21:09:59 -0700:
+Simplify the return expression.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+Signed-off-by: Liu Shixin <liushixin2@huawei.com>
+---
+ drivers/hid/intel-ish-hid/ishtp-hid.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/376566ca87257b9116ac5205f0efaa3c0f29103b
-
-Thank you!
-
+diff --git a/drivers/hid/intel-ish-hid/ishtp-hid.c b/drivers/hid/intel-ish-hid/ishtp-hid.c
+index b8aae69ad15d..edf5ae942508 100644
+--- a/drivers/hid/intel-ish-hid/ishtp-hid.c
++++ b/drivers/hid/intel-ish-hid/ishtp-hid.c
+@@ -22,14 +22,9 @@ static int ishtp_hid_parse(struct hid_device *hid)
+ {
+ 	struct ishtp_hid_data *hid_data =  hid->driver_data;
+ 	struct ishtp_cl_data *client_data = hid_data->client_data;
+-	int rv;
+-
+-	rv = hid_parse_report(hid, client_data->report_descr[hid_data->index],
+-			      client_data->report_descr_size[hid_data->index]);
+-	if (rv)
+-		return	rv;
+ 
+-	return 0;
++	return hid_parse_report(hid, client_data->report_descr[hid_data->index],
++				client_data->report_descr_size[hid_data->index]);
+ }
+ 
+ /* Empty callbacks with success return code */
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.25.1
+
