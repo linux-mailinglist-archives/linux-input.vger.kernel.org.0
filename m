@@ -2,30 +2,29 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 823BE272504
-	for <lists+linux-input@lfdr.de>; Mon, 21 Sep 2020 15:13:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 943A0272502
+	for <lists+linux-input@lfdr.de>; Mon, 21 Sep 2020 15:13:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727299AbgIUNKU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Sep 2020 09:10:20 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:42694 "EHLO huawei.com"
+        id S1727316AbgIUNKZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Sep 2020 09:10:25 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:13759 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727295AbgIUNKU (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Sep 2020 09:10:20 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id E839D3FFEA6E6DE235F6;
-        Mon, 21 Sep 2020 21:10:17 +0800 (CST)
+        id S1726501AbgIUNKY (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 21 Sep 2020 09:10:24 -0400
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 851822338D8AA5C9C5D5;
+        Mon, 21 Sep 2020 21:10:21 +0800 (CST)
 Received: from localhost.localdomain.localdomain (10.175.113.25) by
- DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 21 Sep 2020 21:10:09 +0800
+ DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 21 Sep 2020 21:10:11 +0800
 From:   Qinglang Miao <miaoqinglang@huawei.com>
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To:     Nick Dyer <nick@shmanahar.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
 CC:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         "Qinglang Miao" <miaoqinglang@huawei.com>
-Subject: [PATCH -next] HID: intel-ish-hid: simplify the return expression of ishtp_bus_remove_device()
-Date:   Mon, 21 Sep 2020 21:10:33 +0800
-Message-ID: <20200921131033.92017-1-miaoqinglang@huawei.com>
+Subject: [PATCH -next] Input: atmel_mxt_ts - simplify the return expression of mxt_send_bootloader_cmd
+Date:   Mon, 21 Sep 2020 21:10:35 +0800
+Message-ID: <20200921131035.92113-1-miaoqinglang@huawei.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
@@ -40,35 +39,34 @@ Simplify the return expression.
 
 Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
 ---
- drivers/hid/intel-ish-hid/ishtp/bus.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ drivers/input/touchscreen/atmel_mxt_ts.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/hid/intel-ish-hid/ishtp/bus.c b/drivers/hid/intel-ish-hid/ishtp/bus.c
-index c47c3328a..bba29cd36 100644
---- a/drivers/hid/intel-ish-hid/ishtp/bus.c
-+++ b/drivers/hid/intel-ish-hid/ishtp/bus.c
-@@ -502,8 +502,6 @@ static void ishtp_bus_remove_device(struct ishtp_cl_device *device)
- int ishtp_cl_driver_register(struct ishtp_cl_driver *driver,
- 			     struct module *owner)
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index 98f17fa3a..b9aa2c912 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -606,7 +606,6 @@ static int mxt_check_bootloader(struct mxt_data *data, unsigned int state,
+ 
+ static int mxt_send_bootloader_cmd(struct mxt_data *data, bool unlock)
  {
--	int err;
--
- 	if (!ishtp_device_ready)
- 		return -ENODEV;
+-	int ret;
+ 	u8 buf[2];
  
-@@ -511,11 +509,7 @@ int ishtp_cl_driver_register(struct ishtp_cl_driver *driver,
- 	driver->driver.owner = owner;
- 	driver->driver.bus = &ishtp_cl_bus_type;
+ 	if (unlock) {
+@@ -617,11 +616,7 @@ static int mxt_send_bootloader_cmd(struct mxt_data *data, bool unlock)
+ 		buf[1] = 0x01;
+ 	}
  
--	err = driver_register(&driver->driver);
--	if (err)
--		return err;
+-	ret = mxt_bootloader_write(data, buf, 2);
+-	if (ret)
+-		return ret;
 -
 -	return 0;
-+	return driver_register(&driver->driver);
++	return mxt_bootloader_write(data, buf, 2);
  }
- EXPORT_SYMBOL(ishtp_cl_driver_register);
  
+ static int __mxt_read_reg(struct i2c_client *client,
 -- 
 2.23.0
 
