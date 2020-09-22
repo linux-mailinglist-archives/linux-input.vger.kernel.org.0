@@ -2,118 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 179EA273EF9
-	for <lists+linux-input@lfdr.de>; Tue, 22 Sep 2020 11:54:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1F4C273ECF
+	for <lists+linux-input@lfdr.de>; Tue, 22 Sep 2020 11:48:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726513AbgIVJyW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Sep 2020 05:54:22 -0400
-Received: from mickerik.phytec.de ([195.145.39.210]:47164 "EHLO
-        mickerik.phytec.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726353AbgIVJyW (ORCPT
+        id S1726419AbgIVJsV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Sep 2020 05:48:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50862 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726341AbgIVJsV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Sep 2020 05:54:22 -0400
-X-Greylist: delayed 915 seconds by postgrey-1.27 at vger.kernel.org; Tue, 22 Sep 2020 05:54:21 EDT
-DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a1; c=relaxed/simple;
-        q=dns/txt; i=@phytec.de; t=1600767544; x=1603359544;
-        h=From:Sender:Reply-To:Subject:Date:Message-Id:To:Cc:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=gBdQ4nNU4LkVwgCAoPqPWR+JZVeyyiWG4BrFHfAS0SQ=;
-        b=BiycNBTrW1uKR/TUyxJXEkO1sKjodzuyxmEFOu/aGWNLOH5WAroQO7a73kPgbq1P
-        HTEIhZfxN2GPQXRGuaUkU6J4GpARd832eZMCX5bS15rJXfWl4aPU4kwvrX8vGvCy
-        HzZd4Qvyx/T7O+HyXq55I45OR94E33v3CPMSB7zBQRM=;
-X-AuditID: c39127d2-253ff70000001c25-d1-5f69c638ed81
-Received: from idefix.phytec.de (Unknown_Domain [172.16.0.10])
-        by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id AD.07.07205.836C96F5; Tue, 22 Sep 2020 11:39:04 +0200 (CEST)
-Received: from lws-riedmueller.phytec.de ([172.16.23.108])
-          by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-          with ESMTP id 2020092211390466-474099 ;
-          Tue, 22 Sep 2020 11:39:04 +0200 
-From:   Stefan Riedmueller <s.riedmueller@phytec.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Lee Jones <lee.jones@linaro.org>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Stefan Riedmueller <s.riedmueller@phytec.de>
-Subject: [PATCH] Input: stmpe: Add axis inversion and swapping capability
-Date:   Tue, 22 Sep 2020 11:39:03 +0200
-Message-Id: <20200922093903.157232-1-s.riedmueller@phytec.de>
+        Tue, 22 Sep 2020 05:48:21 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A17FDC061755;
+        Tue, 22 Sep 2020 02:48:20 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id r24so13584181ljm.3;
+        Tue, 22 Sep 2020 02:48:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BUG1AkXVLi/EB3zDpgh2q5YX6SiXzdzs/YFnBtCctl8=;
+        b=Z2QqPHDaaaWDthdvW6GpnyGgX6MstMlIsfGwkBDkXgumtgBy18vvmAc3+VRZQxgRhH
+         crc6Ngg+uohhiWRVzzoRxZ0MvJjTbBHMIKrMqIpAxlEhmHR+2cxb0ID2fIheBCYJtOUw
+         gQi6f0EM66BDdl68WNCvEKZ/w9cUmNick1hlVhnc6Yl7GUdvk4bJqGb6BdRuzhLyQ4xw
+         GBZ5+LPuGKrIbDBVdbjkUn6YJZrfUiqXXozuQaoOYAONxABgCzg4dUJe7+y9+Tl9SNMh
+         lDlkCcU69Xgpso03mPolhLvJy52NA1UPWNh6sg1WBCDp5jiMOvd2ytgO8A7VTLBnUupJ
+         Pifg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BUG1AkXVLi/EB3zDpgh2q5YX6SiXzdzs/YFnBtCctl8=;
+        b=mQGZKZp2xdv1dBMSP3OMROLWiqK6+rOw9C43lY4+slV7Iln/O6EbdzheXUnt4a3SkJ
+         eiCsQLLWPsXb9Lfw9Z3rxtHnGnX8E/ip74dY17GRWm60FoGQDSknc+hV8lcGnOhFnbjp
+         dWDBfPND2aDQbvB+ASrnW59yf9k624y7c2Pg1x+Lb4VzJaOCBFzgXd5dUgIe+lAYYFVF
+         cZvURghCCgtVs9ahVzfHI18dwgGVAnJu2uWe+AxaJDme7N+NZt+ZPKmJ8CFw+mLcQTxW
+         96K2sGLSgDDMuYdtyFNd3Q1kiYkHrUbkw780ssG5KzJREIT6VMyN5pWeFrXIlALy6B5R
+         NUUA==
+X-Gm-Message-State: AOAM533jNgm+RWrxBEqXQSpl4Z+OVYgpsuV6dYI4WrotJ6UuDHnrM8wo
+        ICo4fVH1Ov2MjiNL04Qhebg=
+X-Google-Smtp-Source: ABdhPJxczWsDqrlHRjwoW4Zw8wGakjZs2/7+pchjW0iAV52h7bPQHvDODucviFt58OXRu/1e2LAmfw==
+X-Received: by 2002:a2e:9655:: with SMTP id z21mr1218017ljh.410.1600768099049;
+        Tue, 22 Sep 2020 02:48:19 -0700 (PDT)
+Received: from localhost.localdomain (c80-217-156-226.bredband.comhem.se. [80.217.156.226])
+        by smtp.gmail.com with ESMTPSA id v25sm3582777ljh.102.2020.09.22.02.48.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2020 02:48:18 -0700 (PDT)
+From:   =?UTF-8?q?Mikael=20Wikstr=C3=B6m?= <leakim.wikstrom@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Mikael=20Wikstr=C3=B6m?= <leakim.wikstrom@gmail.com>
+Subject: [PATCH 1/2] HID: multitouch: Lenovo X1 Tablet Gen3 trackpoint and buttons
+Date:   Tue, 22 Sep 2020 11:48:10 +0200
+Message-Id: <20200922094810.3669-1-leakim.wikstrom@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
- 22.09.2020 11:39:04,
-        Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
- 22.09.2020 11:39:04
-X-TNEFEvaluated: 1
-Content-Transfer-Encoding: quoted-printable
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprOLMWRmVeSWpSXmKPExsWyRoCBS9fiWGa8wc2/+haHF71gtLj/9Sij
-        xabH11gtbn76xmpxedccNgdWj52z7rJ73Lm2h81j85J6j8+b5AJYorhsUlJzMstSi/TtErgy
-        jszYxl6wg7/i2OcW9gbGmbxdjBwcEgImEj3dPl2MXBxCAtsYJSa/XcYO4VxjlDjT/5epi5GT
-        g03ASGLBtEYwW0RAX2L77F+MIEXMApsZJX60vWAGSQgLeEps/bKWFcRmEVCV+Nu3jw1kA6+A
-        rcTWNhOQsISAvMTMS9/ZQWxeAUGJkzOfsIDMkRC4wijR/2AdI0SRkMTpxWfBZjILaEssW/ia
-        eQIj3ywkPbOQpBYwMq1iFMrNTM5OLcrM1ivIqCxJTdZLSd3ECAy8wxPVL+1g7JvjcYiRiYPx
-        EKMEB7OSCK+aUXq8EG9KYmVValF+fFFpTmrxIUZpDhYlcd4NvCVhQgLpiSWp2ampBalFMFkm
-        Dk6pBsalK5of7D129nTXT37HC9mXFxrHZ9611ZZ5kp7t+ESI08zH75fQi0j5+VkXaza7aecf
-        vXNXX2TJq7b3aR0qBVPqPa4tOKHSo8CZ6sgdbCrHdFgwMSNWVSFrNddL81LDzOtLVp8WZ5W/
-        /+rK+yQzxz2KvZoLi+7WN6+N3KkZsv9msGfalrtH/iqxFGckGmoxFxUnAgDQlXCtKgIAAA==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Make use of generic touchscreen=5Fproperties structure to add axis
-inversion and swapping capabilities. It's configurable via devicetree
-properties:
-  touchscreen-inverted-x
-  touchscreen-inverted-y
-  touchscreen-swapped-x-y
+One more device that needs 40d5bb87 to resolve regression for the trackpoint
+and three mouse buttons on the type cover of the Lenovo X1 Tablet Gen3.
 
-Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
+It is probably also needed for the Lenovo X1 Tablet Gen2 with PID 0x60a3
+
+Signed-off-by: Mikael Wikström <leakim.wikstrom@gmail.com>
 ---
- drivers/input/touchscreen/stmpe-ts.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/hid/hid-ids.h        | 1 +
+ drivers/hid/hid-multitouch.c | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/drivers/input/touchscreen/stmpe-ts.c b/drivers/input/touchscre=
-en/stmpe-ts.c
-index 7e16fcfe3b95..cd747725589b 100644
---- a/drivers/input/touchscreen/stmpe-ts.c
-+++ b/drivers/input/touchscreen/stmpe-ts.c
-@@ -14,6 +14,7 @@
- #include <linux/of.h>
- #include <linux/platform=5Fdevice.h>
- #include <linux/input.h>
-+#include <linux/input/touchscreen.h>
- #include <linux/slab.h>
- #include <linux/delay.h>
- #include <linux/i2c.h>
-@@ -72,6 +73,7 @@ struct stmpe=5Ftouch {
- 	struct input=5Fdev *idev;
- 	struct delayed=5Fwork work;
- 	struct device *dev;
-+	struct touchscreen=5Fproperties prop;
- 	u8 ave=5Fctrl;
- 	u8 touch=5Fdet=5Fdelay;
- 	u8 settling;
-@@ -150,8 +152,7 @@ static irqreturn=5Ft stmpe=5Fts=5Fhandler(int irq, void=
- *data)
- 	y =3D ((data=5Fset[1] & 0xf) << 8) | data=5Fset[2];
- 	z =3D data=5Fset[3];
-=20
--	input=5Freport=5Fabs(ts->idev, ABS=5FX, x);
--	input=5Freport=5Fabs(ts->idev, ABS=5FY, y);
-+	touchscreen=5Freport=5Fpos(ts->idev, &ts->prop, x, y, false);
- 	input=5Freport=5Fabs(ts->idev, ABS=5FPRESSURE, z);
- 	input=5Freport=5Fkey(ts->idev, BTN=5FTOUCH, 1);
- 	input=5Fsync(ts->idev);
-@@ -337,6 +338,8 @@ static int stmpe=5Finput=5Fprobe(struct platform=5Fdevi=
-ce *pdev)
- 	input=5Fset=5Fabs=5Fparams(idev, ABS=5FY, 0, XY=5FMASK, 0, 0);
- 	input=5Fset=5Fabs=5Fparams(idev, ABS=5FPRESSURE, 0x0, 0xff, 0, 0);
-=20
-+	touchscreen=5Fparse=5Fproperties(idev, false, &ts->prop);
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 74fc1df6e3c2..6a6e2c1b6090 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -727,6 +727,7 @@
+ #define USB_DEVICE_ID_LENOVO_TP10UBKBD	0x6062
+ #define USB_DEVICE_ID_LENOVO_TPPRODOCK	0x6067
+ #define USB_DEVICE_ID_LENOVO_X1_COVER	0x6085
++#define USB_DEVICE_ID_LENOVO_X1_TAB3	0x60b5
+ #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_608D	0x608d
+ #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6019	0x6019
+ #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_602E	0x602e
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index e3152155c4b8..99f041afd5c0 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -1973,6 +1973,12 @@ static const struct hid_device_id mt_devices[] = {
+ 		HID_DEVICE(BUS_I2C, HID_GROUP_GENERIC,
+ 			USB_VENDOR_ID_LG, I2C_DEVICE_ID_LG_7010) },
+ 
++	/* Lenovo X1 TAB Gen 3 */
++	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
++		HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8,
++			   USB_VENDOR_ID_LENOVO,
++			   USB_DEVICE_ID_LENOVO_X1_TAB3) },
 +
- 	error =3D input=5Fregister=5Fdevice(idev);
- 	if (error) {
- 		dev=5Ferr(&pdev->dev, "Could not register input device\n");
---=20
+ 	/* MosArt panels */
+ 	{ .driver_data = MT_CLS_CONFIDENCE_MINUS_ONE,
+ 		MT_USB_DEVICE(USB_VENDOR_ID_ASUS,
+-- 
 2.25.1
 
