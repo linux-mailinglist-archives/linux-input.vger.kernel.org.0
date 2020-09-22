@@ -2,91 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AD6E274103
-	for <lists+linux-input@lfdr.de>; Tue, 22 Sep 2020 13:37:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A67FD2741B5
+	for <lists+linux-input@lfdr.de>; Tue, 22 Sep 2020 14:01:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726703AbgIVLg7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Sep 2020 07:36:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46778 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726522AbgIVLgv (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Sep 2020 07:36:51 -0400
-Received: from localhost (p54b332c9.dip0.t-ipconnect.de [84.179.50.201])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9165D22574;
-        Tue, 22 Sep 2020 11:36:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600774610;
-        bh=DMjnXJT5pUIL2x6gmtXF97o0/LW9XS6SHEJq5VqC4Uo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hZZGrBvmKd5K8YqDxKwLig70vjELHxzmw+Zz6/rNGfYMRlH5huKEiiNe9fCgDtAz7
-         0l2yaTtWlLp7VmiXLvPGrQIKVG1sbXHpoKB/VrYEMWBJMlhX46AzK4tqVTfeQAEcyP
-         sXSaUgN5keWS8MPDjAOqVzaC5ITyBYxjzfNLDEIo=
-Date:   Tue, 22 Sep 2020 13:36:47 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Sultan Alsawaf <sultan@kerneltoast.com>, linux-i2c@vger.kernel.org,
-        aaron.ma@canonical.com, admin@kryma.net,
-        andriy.shevchenko@linux.intel.com, benjamin.tissoires@redhat.com,
-        hdegoede@redhat.com, hn.chen@weidahitech.com,
-        jarkko.nikula@linux.intel.com, kai.heng.feng@canonical.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mika.westerberg@linux.intel.com, vicamo.yang@canonical.com
-Subject: Re: [PATCH v2 0/4] i2c-hid: Save power by reducing i2c xfers with
- block reads
-Message-ID: <20200922113646.GA6731@ninjato>
-References: <20200917052256.5770-1-sultan@kerneltoast.com>
- <nycvar.YFH.7.76.2009221118150.3336@cbobk.fhfr.pm>
+        id S1726554AbgIVMBm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Sep 2020 08:01:42 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:14211 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726543AbgIVMBl (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 22 Sep 2020 08:01:41 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id B35FCAF25208706C1759;
+        Tue, 22 Sep 2020 20:01:39 +0800 (CST)
+Received: from localhost.localdomain (10.67.165.24) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.487.0; Tue, 22 Sep 2020 20:01:33 +0800
+From:   Xiaofei Tan <tanxiaofei@huawei.com>
+To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
+        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     <linuxarm@huawei.com>, Xiaofei Tan <tanxiaofei@huawei.com>
+Subject: [PATCH] HID: core: fix some doc warnings in hid-core.c
+Date:   Tue, 22 Sep 2020 20:00:12 +0800
+Message-ID: <1600776012-7663-1-git-send-email-tanxiaofei@huawei.com>
+X-Mailer: git-send-email 2.8.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="7JfCtLOvnd9MIVvH"
-Content-Disposition: inline
-In-Reply-To: <nycvar.YFH.7.76.2009221118150.3336@cbobk.fhfr.pm>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+X-Originating-IP: [10.67.165.24]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Fix following warnings caused by mismatch bewteen function parameters
+and comments.
+drivers/hid/hid-core.c:931: warning: Function parameter or member 'hid' not described in 'hid_parse_report'
+drivers/hid/hid-core.c:931: warning: Excess function parameter 'device' description in 'hid_parse_report'
+drivers/hid/hid-core.c:961: warning: Function parameter or member 'hid' not described in 'hid_validate_values'
+drivers/hid/hid-core.c:961: warning: Excess function parameter 'device' description in 'hid_validate_values'
+drivers/hid/hid-core.c:1452: warning: Function parameter or member 'report' not described in 'hid_match_report'
+drivers/hid/hid-core.c:1452: warning: Excess function parameter 'report_type' description in 'hid_match_report'
+drivers/hid/hid-core.c:2132: warning: Function parameter or member 'drv' not described in 'new_id_store'
+drivers/hid/hid-core.c:2132: warning: Excess function parameter 'driver' description in 'new_id_store'
 
---7JfCtLOvnd9MIVvH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Xiaofei Tan <tanxiaofei@huawei.com>
+---
+ drivers/hid/hid-core.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index d2ecc9c..727d042 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -920,7 +920,7 @@ static int hid_scan_report(struct hid_device *hid)
+ /**
+  * hid_parse_report - parse device report
+  *
+- * @device: hid device
++ * @hid: hid device
+  * @start: report start
+  * @size: report size
+  *
+@@ -945,7 +945,7 @@ static const char * const hid_report_names[] = {
+ /**
+  * hid_validate_values - validate existing device report's value indexes
+  *
+- * @device: hid device
++ * @hid: hid device
+  * @type: which report type to examine
+  * @id: which report ID to examine (0 for first)
+  * @field_index: which report field to examine
+@@ -1444,7 +1444,7 @@ static int search(__s32 *array, __s32 value, unsigned n)
+  * hid_match_report - check if driver's raw_event should be called
+  *
+  * @hid: hid device
+- * @report_type: type to match against
++ * @report: hid report to match against
+  *
+  * compare hid->driver->report_table->report_type to report->type
+  */
+@@ -2120,7 +2120,7 @@ struct hid_dynid {
+ 
+ /**
+  * store_new_id - add a new HID device ID to this driver and re-probe devices
+- * @driver: target device driver
++ * @drv: target device driver
+  * @buf: buffer for scanning device ID data
+  * @count: input size
+  *
+-- 
+2.8.1
 
-> Hans, Benjamin, could you please give this patchset some smoke-testing? I=
-t=20
-> looks good to me, but I'd like it to get some testing from your testing=
-=20
-> machinery before merging.
-
-Please give me some more days. I am not fully convinced yet that this
-use of I2C_M_RECV_LEN is not broken on some controllers.
-
-Plus, I'd favor if this could go via I2C tree. It is within I2C where
-the non-trivial changes are. The HID part is just the final bit. Can we
-agree on that?
-
-
---7JfCtLOvnd9MIVvH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl9p4csACgkQFA3kzBSg
-Kbb4Fw/+JxENn5QNY+ByGfl2QuhEVSUt9E2ZnVcISGm9WVX09c9+Xa13sRL9uw4A
-UPVDQOIj7iDNfGw3c8oIXEk8r72pJqxUVeAp61P3xVlui4TzQiESHospv+Ib/ohz
-Tf491w51UbWfOiHFvye88nLJrmOYv/1t+3jLKuO35IKxV1LGxAioBW9t2JisF5rN
-PcDWDsfxy8YhM/S5+QHe8PIg2OycDcoEi+U3nyJwFa4lKIlAkPQ60T8ZXKl+D8y4
-Y57k7lwSqe49aPvFbZLTV99aDvdTTQwWkSNFqf+4ajXy3Chbthqj/ghDUoTKn7/M
-TbgFh7C7YrgQknfyIjfNne5oAjQDXhSCPmNnFlH7QXIh04/mZxWP5hfkYdvkMgfb
-2G63XrJmMhCtHQ1jBfUh0/hwsNre3r55tI/3xYu3EpHlP3V/Zb1r3qNWXVwZwfig
-MCHc9fHOLtA/HJQLFKWD3uIZs4Z4O3Fs9pvxe1cWGjDhXWS5MvxuTN+GjSEe2lDk
-qTrWTMaSNBzM4xCFLmEzuk/ID0ThwHChRYLOTwFR/jMPS4lCLHjOAgXIgRZaSr7B
-AYm0SD5FU737N2ZXesCVOuEyWeb065Q9Dmc0a9ONlZm/qhJwegXaZFCZr/tN+jgp
-r5IIpdgbVbhL/FDtrFwpHUrfrAouT71TPbV96DOf+S8mn0YGX6Q=
-=zhtE
------END PGP SIGNATURE-----
-
---7JfCtLOvnd9MIVvH--
