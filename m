@@ -2,63 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B8BB2741D1
-	for <lists+linux-input@lfdr.de>; Tue, 22 Sep 2020 14:09:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BB642749AE
+	for <lists+linux-input@lfdr.de>; Tue, 22 Sep 2020 21:59:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726589AbgIVMJe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Sep 2020 08:09:34 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:51470 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726543AbgIVMJe (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Sep 2020 08:09:34 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 601AE1EE3159026A3696;
-        Tue, 22 Sep 2020 20:09:31 +0800 (CST)
-Received: from localhost.localdomain (10.67.165.24) by
- DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 22 Sep 2020 20:09:24 +0800
-From:   Xiaofei Tan <tanxiaofei@huawei.com>
-To:     <jikos@kernel.org>, <benjamin.tissoires@redhat.com>,
-        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <hdegoede@redhat.com>, <kai.heng.feng@canonical.com>,
-        <vicamo.yang@canonical.com>, <daniel.playfair.cal@gmail.com>,
-        <admin@kryma.net>
-CC:     <linuxarm@huawei.com>, Xiaofei Tan <tanxiaofei@huawei.com>
-Subject: [PATCH] HID: i2c-hid: fix some doc warnings in i2c-hid-core.c
-Date:   Tue, 22 Sep 2020 20:08:04 +0800
-Message-ID: <1600776484-31742-1-git-send-email-tanxiaofei@huawei.com>
-X-Mailer: git-send-email 2.8.1
+        id S1726608AbgIVT7u (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Sep 2020 15:59:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57072 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726563AbgIVT7u (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 22 Sep 2020 15:59:50 -0400
+Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 250D6221E8;
+        Tue, 22 Sep 2020 19:59:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600804789;
+        bh=9hKEx0c62BVTx8Jprj2kG0CvGf0oLBx3Vphp8tDxFl0=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=a0glveV8KOjNjV0gaRkagn2eu7ChZfJlNYdVLkddjH+t6O6yA9Sj3IK+vPhaxyXfx
+         w0y2RXJCrjT7wYe4K4TS2tN0rFgCUg5iDT0kS914KNrN84y91MnEWUX3yy1jLIoQpZ
+         EM3hlqy9uWQ5BYIrzJFWlxRNPQGLkeYJ7GOQW/pM=
+Date:   Tue, 22 Sep 2020 21:59:44 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Wolfram Sang <wsa@kernel.org>
+cc:     Sultan Alsawaf <sultan@kerneltoast.com>, linux-i2c@vger.kernel.org,
+        aaron.ma@canonical.com, admin@kryma.net,
+        andriy.shevchenko@linux.intel.com, benjamin.tissoires@redhat.com,
+        hdegoede@redhat.com, hn.chen@weidahitech.com,
+        jarkko.nikula@linux.intel.com, kai.heng.feng@canonical.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mika.westerberg@linux.intel.com, vicamo.yang@canonical.com
+Subject: Re: [PATCH v2 0/4] i2c-hid: Save power by reducing i2c xfers with
+ block reads
+In-Reply-To: <20200922113646.GA6731@ninjato>
+Message-ID: <nycvar.YFH.7.76.2009222159170.3336@cbobk.fhfr.pm>
+References: <20200917052256.5770-1-sultan@kerneltoast.com> <nycvar.YFH.7.76.2009221118150.3336@cbobk.fhfr.pm> <20200922113646.GA6731@ninjato>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.165.24]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Fix following warnings caused by mismatch bewteen function parameters
-and comments.
-drivers/hid/i2c-hid/i2c-hid-core.c:331: warning: Function parameter or member 'data_len' not described in 'i2c_hid_set_or_send_report'
-drivers/hid/i2c-hid/i2c-hid-core.c:331: warning: Excess function parameter 'len' description in 'i2c_hid_set_or_send_report'
+On Tue, 22 Sep 2020, Wolfram Sang wrote:
 
-Signed-off-by: Xiaofei Tan <tanxiaofei@huawei.com>
----
- drivers/hid/i2c-hid/i2c-hid-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> > Hans, Benjamin, could you please give this patchset some smoke-testing? It 
+> > looks good to me, but I'd like it to get some testing from your testing 
+> > machinery before merging.
+> 
+> Please give me some more days. I am not fully convinced yet that this
+> use of I2C_M_RECV_LEN is not broken on some controllers.
+> 
+> Plus, I'd favor if this could go via I2C tree. It is within I2C where
+> the non-trivial changes are. The HID part is just the final bit. Can we
+> agree on that?
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index dbd0449..01e9b36 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -323,7 +323,7 @@ static int i2c_hid_get_report(struct i2c_client *client, u8 reportType,
-  * @reportType: 0x03 for HID_FEATURE_REPORT ; 0x02 for HID_OUTPUT_REPORT
-  * @reportID: the report ID
-  * @buf: the actual data to transfer, without the report ID
-- * @len: size of buf
-+ * @data_len: size of buf
-  * @use_data: true: use SET_REPORT HID command, false: send plain OUTPUT report
-  */
- static int i2c_hid_set_or_send_report(struct i2c_client *client, u8 reportType,
+Absolutely no problem with that. But I'd like to have this ran through 
+Benjamin/Hans first too.
+
+Thanks,
+
 -- 
-2.8.1
+Jiri Kosina
+SUSE Labs
 
