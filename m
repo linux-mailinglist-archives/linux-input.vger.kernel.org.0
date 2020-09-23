@@ -2,72 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 703AF2756E2
-	for <lists+linux-input@lfdr.de>; Wed, 23 Sep 2020 13:11:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F5B027593F
+	for <lists+linux-input@lfdr.de>; Wed, 23 Sep 2020 15:59:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726581AbgIWLLe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 23 Sep 2020 07:11:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38794 "EHLO mail.kernel.org"
+        id S1726518AbgIWN73 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 23 Sep 2020 09:59:29 -0400
+Received: from mga09.intel.com ([134.134.136.24]:22474 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726332AbgIWLLe (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 23 Sep 2020 07:11:34 -0400
-Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 266DB20725;
-        Wed, 23 Sep 2020 11:11:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1600859493;
-        bh=AV+Yf2q5dyoAG5bJrrOAANelhJ0YfF4MoDKAXbUfBxU=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=J7lRRUEfNhB6i8sdTvarp874oGdC1dbNyGz4ATtzSXTCQkPv1Evo/ukVstjQa+CcU
-         7OM61FiN+mLGsQU59XjfHmSJMBH8oeddUIjz+NPc+kDKLZ12lzddgtuFvXJIGFbPIc
-         1sYsTolchvEFDaGuGugPR3lX3HuAq4E1/1mB5aVI=
-Date:   Wed, 23 Sep 2020 13:11:30 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Xiaofei Tan <tanxiaofei@huawei.com>
-cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, hdegoede@redhat.com,
-        kai.heng.feng@canonical.com, vicamo.yang@canonical.com,
-        daniel.playfair.cal@gmail.com, admin@kryma.net, linuxarm@huawei.com
-Subject: Re: [PATCH] HID: i2c-hid: fix some doc warnings in i2c-hid-core.c
-In-Reply-To: <1600776484-31742-1-git-send-email-tanxiaofei@huawei.com>
-Message-ID: <nycvar.YFH.7.76.2009231311250.3336@cbobk.fhfr.pm>
-References: <1600776484-31742-1-git-send-email-tanxiaofei@huawei.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S1726460AbgIWN73 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 23 Sep 2020 09:59:29 -0400
+IronPort-SDR: HSDgW3bp6augOKhIPrnwomHK7A7XxZWUW8jUGxAtXSoOd3946P1/fOVbPpG6uqmzmbziAyPWg8
+ FhSxkgvxJnzw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9752"; a="161826177"
+X-IronPort-AV: E=Sophos;i="5.77,293,1596524400"; 
+   d="scan'208";a="161826177"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2020 06:59:28 -0700
+IronPort-SDR: 8Oy5AgqLUvn41mrOnHSUoULieLzrAnjuAay2f7s2JTlXC+LLeuNY+bsqH3+VOnac40F8u7XiWx
+ I1CPmyJ3ogDA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,293,1596524400"; 
+   d="scan'208";a="309916738"
+Received: from mylly.fi.intel.com (HELO [10.237.72.56]) ([10.237.72.56])
+  by orsmga006.jf.intel.com with ESMTP; 23 Sep 2020 06:59:25 -0700
+Subject: Re: [PATCH v2 0/4] i2c-hid: Save power by reducing i2c xfers with
+ block reads
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Sultan Alsawaf <sultan@kerneltoast.com>
+Cc:     linux-i2c <linux-i2c@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Aaron Ma <aaron.ma@canonical.com>,
+        Pavel Balan <admin@kryma.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        HungNien Chen <hn.chen@weidahitech.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        You-Sheng Yang <vicamo.yang@canonical.com>,
+        Wolfram Sang <wsa@kernel.org>
+References: <20200917052256.5770-1-sultan@kerneltoast.com>
+ <CAHp75Vea8=WchmWVOGndgarjehv+sYQh7CNUrQYqmG8hGJCzHA@mail.gmail.com>
+From:   Jarkko Nikula <jarkko.nikula@linux.intel.com>
+Message-ID: <86cbe3f2-30c9-615e-6d29-c94c98d6be53@linux.intel.com>
+Date:   Wed, 23 Sep 2020 16:59:24 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <CAHp75Vea8=WchmWVOGndgarjehv+sYQh7CNUrQYqmG8hGJCzHA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 22 Sep 2020, Xiaofei Tan wrote:
-
-> Fix following warnings caused by mismatch bewteen function parameters
-> and comments.
-> drivers/hid/i2c-hid/i2c-hid-core.c:331: warning: Function parameter or member 'data_len' not described in 'i2c_hid_set_or_send_report'
-> drivers/hid/i2c-hid/i2c-hid-core.c:331: warning: Excess function parameter 'len' description in 'i2c_hid_set_or_send_report'
+On 9/17/20 5:02 PM, Andy Shevchenko wrote:
+> On Thu, Sep 17, 2020 at 8:26 AM Sultan Alsawaf <sultan@kerneltoast.com> wrote:
+>>
+>> From: Sultan Alsawaf <sultan@kerneltoast.com>
+>>
+>> This is a fixed resubmission of "[PATCH 0/2] i2c-hid: Save power by reducing i2c
+>> xfers with block reads". That original patchset did not have enough fixes for
+>> the designware i2c adapter's I2C_M_RECV_LEN feature, which is documented
+>> extensively in the original email thread.
+>>
+>> Here is the original cover letter, which still applies:
+>> "I noticed on my Dell Precision 15 5540 with an i9-9880H that simply putting my
+>> finger on the touchpad would increase my system's power consumption by 4W, which
+>> is quite considerable. Resting my finger on the touchpad would generate roughly
+>> 4000 i2c irqs per second, or roughly 20 i2c irqs per touchpad irq.
+>>
+>> Upon closer inspection, I noticed that the i2c-hid driver would always transfer
+>> the maximum report size over i2c (which is 60 bytes for my touchpad), but all of
+>> my touchpad's normal touch events are only 32 bytes long according to the length
+>> byte contained in the buffer sequence.
+>>
+>> Therefore, I was able to save about 2W of power by passing the I2C_M_RECV_LEN
+>> flag in i2c-hid, which says to look for the payload length in the first byte of
+>> the transfer buffer and adjust the i2c transaction accordingly. The only problem
+>> though is that my i2c controller's driver allows bytes other than the first one
+>> to be used to retrieve the payload length, which is incorrect according to the
+>> SMBus spec, and would break my i2c-hid change since not *all* of the reports
+>> from my touchpad are conforming SMBus block reads.
+>>
+>> This patchset fixes the I2C_M_RECV_LEN behavior in the designware i2c driver and
+>> modifies i2c-hid to use I2C_M_RECV_LEN to save quite a bit of power. Even if the
+>> peripheral controlled by i2c-hid doesn't support block reads, the i2c controller
+>> drivers should cope with this and proceed with the i2c transfer using the
+>> original requested length."
 > 
-> Signed-off-by: Xiaofei Tan <tanxiaofei@huawei.com>
-> ---
->  drivers/hid/i2c-hid/i2c-hid-core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> for I²C DesignWare patches.
 > 
-> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-> index dbd0449..01e9b36 100644
-> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
-> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-> @@ -323,7 +323,7 @@ static int i2c_hid_get_report(struct i2c_client *client, u8 reportType,
->   * @reportType: 0x03 for HID_FEATURE_REPORT ; 0x02 for HID_OUTPUT_REPORT
->   * @reportID: the report ID
->   * @buf: the actual data to transfer, without the report ID
-> - * @len: size of buf
-> + * @data_len: size of buf
->   * @use_data: true: use SET_REPORT HID command, false: send plain OUTPUT report
+Also for i2c-designware
 
-Applied.
-
--- 
-Jiri Kosina
-SUSE Labs
-
+Acked-by: Jarkko Nikula <jarkko.nikula@linux.intel.com>
