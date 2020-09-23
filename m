@@ -2,72 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8FC82753EF
-	for <lists+linux-input@lfdr.de>; Wed, 23 Sep 2020 11:03:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BE3D2756E0
+	for <lists+linux-input@lfdr.de>; Wed, 23 Sep 2020 13:11:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726389AbgIWJD5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 23 Sep 2020 05:03:57 -0400
-Received: from hermes.cta.br ([161.24.235.5]:36670 "EHLO hermes.cta.br"
+        id S1726472AbgIWLLY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 23 Sep 2020 07:11:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38670 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726178AbgIWJD5 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 23 Sep 2020 05:03:57 -0400
-X-Greylist: delayed 10046 seconds by postgrey-1.27 at vger.kernel.org; Wed, 23 Sep 2020 05:03:56 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by hermes.cta.br (Postfix) with ESMTP id 7BCFC1700566;
-        Wed, 23 Sep 2020 02:11:17 -0300 (-03)
-Received: from hermes.cta.br ([127.0.0.1])
-        by localhost (hermes.cta.br [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id epQTKJ0izION; Wed, 23 Sep 2020 02:11:16 -0300 (-03)
-Received: from localhost (localhost [127.0.0.1])
-        by hermes.cta.br (Postfix) with ESMTP id 67D331549BEF;
-        Wed, 23 Sep 2020 01:32:43 -0300 (-03)
-DKIM-Filter: OpenDKIM Filter v2.10.3 hermes.cta.br 67D331549BEF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cta.br;
-        s=50824260-A46F-11E8-B5E3-16F5207DEC71; t=1600835563;
-        bh=PEgy+RpcsckcVXxslQn6d+tc//P81+6V7lvSU9dRFp0=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=t1kMgwtsLBqJKpxjA6jSQ4Sfj/j0prsNIkVtz+Gg0xZ6bH/jixmbd0OlNLdzas8a8
-         MoxejpH+AL9N3JT+q9yyyOK9XrLRrrwr44FZKJtK2xYGU3nzx5nNVPIFchUKaVWe1O
-         ZtcWYOC4i6firFf/vIU3kHP2MqNhdJagWEyGujWEhLbzDRd0gI4ppAnQocwU0qXiwR
-         NsYh1nml5wxwqtAM7k6cv17c1Zy/gjO9mJYycbEMEHmFE2eeOKz4EmQj0BkAacPFfd
-         j9jsK1NnYk0TrYkHsJrRg/VU25okJ/SeTuIQqgbNPm+vz+cqZjbCPbzDOmwEy9+1bX
-         SYhxlPQxI+I7Q==
-X-Virus-Scanned: amavisd-new at cta.br
-Received: from hermes.cta.br ([127.0.0.1])
-        by localhost (hermes.cta.br [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id tXRcUC2MYcxW; Wed, 23 Sep 2020 01:32:43 -0300 (-03)
-Received: from [10.120.212.214] (unknown [105.12.3.179])
-        by hermes.cta.br (Postfix) with ESMTPSA id 42B7A16E7CD1;
-        Wed, 23 Sep 2020 01:16:43 -0300 (-03)
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1726332AbgIWLLX (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 23 Sep 2020 07:11:23 -0400
+Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 83DDD2145D;
+        Wed, 23 Sep 2020 11:11:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1600859483;
+        bh=hkQAUNzoIZDlIOnSqsIjT4FANxzRdAr5tRKOTda18yA=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=SlZuamR/U7BgydtmHUtuaSPvgzv+Od8Q6GLABJnNb6z3l7R3XiZ4E0+/wm3IO2NCc
+         XEOBK0eIVR123zmzN3Rn4Wv4iOsPD8gS9bcyatjpxmo28bdwu8NOM1ND3aBIQ+EJCc
+         U5+5H1vU1LxZ+b4kn6p70XXEL86k4/dDJqKwcPM8=
+Date:   Wed, 23 Sep 2020 13:11:20 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Xiaofei Tan <tanxiaofei@huawei.com>
+cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linuxarm@huawei.com
+Subject: Re: [PATCH] HID: core: fix some doc warnings in hid-core.c
+In-Reply-To: <1600776012-7663-1-git-send-email-tanxiaofei@huawei.com>
+Message-ID: <nycvar.YFH.7.76.2009231311110.3336@cbobk.fhfr.pm>
+References: <1600776012-7663-1-git-send-email-tanxiaofei@huawei.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: spende von 2,000,000 euro
-To:     Recipients <scco@cta.br>
-From:   ''Tayeb souami'' <scco@cta.br>
-Date:   Wed, 23 Sep 2020 06:19:03 +0200
-Reply-To: Tayebsouam.spende@gmail.com
-Message-Id: <20200923041644.42B7A16E7CD1@hermes.cta.br>
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hallo mein lieber Freund
-                                  Mein Name ist Tayeb Souami aus New Jersey=
- in Amerika und ich habe den America Lottery Jackpot von 315 Millionen Euro=
- gewonnen. Ich habe mich entschlossen, die Summe von 2.000.000 Euro an f=FC=
-nf gl=FCckliche Personen zu spenden, und Sie wurden als einer der Beg=FCnst=
-igten ausgew=E4hlt. Bitte klicken Sie auf diesen Link, um mehr =FCber meine=
-n Gewinn zu erfahren.
+On Tue, 22 Sep 2020, Xiaofei Tan wrote:
 
+> Fix following warnings caused by mismatch bewteen function parameters
+> and comments.
+> drivers/hid/hid-core.c:931: warning: Function parameter or member 'hid' not described in 'hid_parse_report'
+> drivers/hid/hid-core.c:931: warning: Excess function parameter 'device' description in 'hid_parse_report'
+> drivers/hid/hid-core.c:961: warning: Function parameter or member 'hid' not described in 'hid_validate_values'
+> drivers/hid/hid-core.c:961: warning: Excess function parameter 'device' description in 'hid_validate_values'
+> drivers/hid/hid-core.c:1452: warning: Function parameter or member 'report' not described in 'hid_match_report'
+> drivers/hid/hid-core.c:1452: warning: Excess function parameter 'report_type' description in 'hid_match_report'
+> drivers/hid/hid-core.c:2132: warning: Function parameter or member 'drv' not described in 'new_id_store'
+> drivers/hid/hid-core.c:2132: warning: Excess function parameter 'driver' description in 'new_id_store'
+> 
+> Signed-off-by: Xiaofei Tan <tanxiaofei@huawei.com>
 
-UHR MICH HIER: https://www.youtube.com/watch?v=3DZ6ui8ZDQ6Ks
+Applied, thanks.
 
-Bitte kontaktieren Sie mich =FCber diese E-Mail: Tayebsouam.spende@gmail.com
+-- 
+Jiri Kosina
+SUSE Labs
 
-
-Ich hoffe, Sie und Ihre Familie gl=FCcklich zu machen.
-
-Gr=FC=DFe
-Herr Tayeb Souami
