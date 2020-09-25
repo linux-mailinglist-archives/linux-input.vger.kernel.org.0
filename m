@@ -2,97 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A00272792DE
-	for <lists+linux-input@lfdr.de>; Fri, 25 Sep 2020 23:02:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A5EC2793A9
+	for <lists+linux-input@lfdr.de>; Fri, 25 Sep 2020 23:38:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728779AbgIYVCK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 25 Sep 2020 17:02:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58424 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726576AbgIYVCK (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 25 Sep 2020 17:02:10 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C58D4C0613CE;
-        Fri, 25 Sep 2020 14:02:09 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id z17so4246662lfi.12;
-        Fri, 25 Sep 2020 14:02:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=k1LCKeXRxN/+JcNtQjihLS6rqftynWEhdCaK6WypRnU=;
-        b=LK9ZC7teMcyPSnG/s7L9ew252xF+hS29QvkBWer4miEN0cx+zeSiSpaTpHCgTurR7H
-         vWBBotNYWzjPwK/BoxXkeBw0gChmgequzj/InKGaYltjc46ZdoZygwtIt94bWQ5xzt2K
-         SOAE+hcZ35D0wR39q9os+vy/FPwJAFJ+TIxQM6KmdqA3+L2zZuCDSa/Lbh8treM//4Wv
-         2b9bN2PU6Hre5LY179eVwsopAUpJgmODAdq8C7fPugEUBvL+i2sdTGs+JLt/zS5yuMfa
-         NamdyOaRgnXmQIdpPvFoVH/cc1aHWJ98jitkgg3YUbO5gm1DWPEppnREKhpCN67W8Y4m
-         rX+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=k1LCKeXRxN/+JcNtQjihLS6rqftynWEhdCaK6WypRnU=;
-        b=LWzr/vPYuNN2uKKflU1asnzP2uMhkwpw/vjjwVT683uBzxKStB0gvEwdHsc5ISHC+h
-         uLbJMUMSFKibPwiO9HXkT0Gg+fpK7OZbv7Oh9x3vy0Uh5SKh0XoVSUe4ym8Z1gZd/7xq
-         araC9RZ1o6c/fcuvjLhQ3CIyxx/boJ/i+ULXv4Dh2JvYNJ5vbhlKSAXI4SBkAxLtYJQe
-         Ru3uT6bQoKUFijQ4mdL0fjRQ3x3h9nkctzazc8n3srGVF22tBqBWW4+/PA0kcPbC8AH8
-         DoNVioeuGhVoYEJp5gkYG3ynzsUSKoKyWA3qu9CvRCIC5q0lqpRwwg0d1H232XI4vhEM
-         2PNw==
-X-Gm-Message-State: AOAM532u0QynPwAX+68GN3vWum3BnhGrG4PhB6ajExrUZs+isf885QRz
-        gMhiYF2w5AGXm7ohWTJ/Hb8=
-X-Google-Smtp-Source: ABdhPJxwJGsW5AMwcvHSbpE7F0UzfOw+jYGHNQdauxch0hlQ2OOfjID1uY9+z8RwdfbvJoa+FIaAgw==
-X-Received: by 2002:a19:610a:: with SMTP id v10mr236702lfb.414.1601067728217;
-        Fri, 25 Sep 2020 14:02:08 -0700 (PDT)
-Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
-        by smtp.googlemail.com with ESMTPSA id w4sm178305lff.231.2020.09.25.14.02.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Sep 2020 14:02:07 -0700 (PDT)
-Subject: Re: [PATCH v2 3/3] ARM: tegra: add mXT1386 compatible
-To:     Jiada Wang <jiada_wang@mentor.com>, dmitry.torokhov@gmail.com,
-        robh+dt@kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com
-Cc:     nick@shmanahar.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-        erosca@de.adit-jv.com, andrew_gabbasov@mentor.com
-References: <20200925135257.21138-1-jiada_wang@mentor.com>
- <20200925135257.21138-4-jiada_wang@mentor.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <60afbb5b-0890-a0b0-2682-d5302e8e9130@gmail.com>
-Date:   Sat, 26 Sep 2020 00:02:06 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1727183AbgIYViy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 25 Sep 2020 17:38:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39820 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726576AbgIYViy (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 25 Sep 2020 17:38:54 -0400
+Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CDB18204FD;
+        Fri, 25 Sep 2020 21:38:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601069933;
+        bh=FyKBAoQFGudp/myg2vZj+c/OVN2nCyAVsiWapu9YpX8=;
+        h=Date:From:To:cc:Subject:From;
+        b=IoXuvK1QW5bZFmtkZL7B4CLSO0j8Hk/5++70qogHWOyqWiBolIhJGmnFucVmF3ClB
+         wqCm2IPuQMVyGiKYWEt9R38E5f1V7lYe674P8BzjmOFB+Rw99ovGLHd8Yena1bC2Vp
+         p/ie4DLiMTn3ngnzlMSL+F3n+XaC6e+4FKsAiaPw=
+Date:   Fri, 25 Sep 2020 23:38:50 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?ISO-8859-15?Q?Andr=E9s_Barrantes_Silman?= 
+        <andresbs2000@protonmail.com>
+Subject: [PATCH] Input: Add nopnp quirk for Acer Aspire 5 A515
+Message-ID: <nycvar.YFH.7.76.2009252337340.3336@cbobk.fhfr.pm>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-In-Reply-To: <20200925135257.21138-4-jiada_wang@mentor.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-25.09.2020 16:52, Jiada Wang пишет:
-> Add mXT1386 compatible for "touchscreen@4c".
-> 
-> Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
-> ---
->  arch/arm/boot/dts/tegra20-acer-a500-picasso.dts | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-> index 2d683c9a1a5d..7915b6e9190e 100644
-> --- a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-> +++ b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-> @@ -428,7 +428,7 @@
->  		};
->  
->  		touchscreen@4c {
-> -			compatible = "atmel,maxtouch";
-> +			compatible = "atmel,mXT1386", "atmel,maxtouch";
->  			reg = <0x4c>;
->  
->  			atmel,cfg_name = "maxtouch-acer-iconia-tab-a500.cfg";
-> 
+From: Jiri Kosina <jkosina@suse.cz>
 
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
-Tested-by: Dmitry Osipenko <digetx@gmail.com>
+Touchpad on this laptop is not detected properly during boot, as PNP 
+enumerates (wrongly) AUX port as disabled on this machine.
+
+Fix that by adding this board (with admittedly quite funny DMI 
+identifiers) to nopnp quirk list.
+
+Reported-by: Andr�s Barrantes Silman <andresbs2000@protonmail.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+---
+ drivers/input/serio/i8042-x86ia64io.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
+index 7d7f73702726..2527e19c95b4 100644
+--- a/drivers/input/serio/i8042-x86ia64io.h
++++ b/drivers/input/serio/i8042-x86ia64io.h
+@@ -705,6 +705,13 @@ static const struct dmi_system_id __initconst i8042_dmi_nopnp_table[] = {
+ 			DMI_MATCH(DMI_BOARD_VENDOR, "MICRO-STAR INTERNATIONAL CO., LTD"),
+ 		},
+ 	},
++	{
++		/* Acer Aspire 5 A515 */
++		.matches = {
++			DMI_MATCH(DMI_BOARD_NAME, "Grumpy_PK"),
++			DMI_MATCH(DMI_BOARD_VENDOR, "PK"),
++		},
++	},
+ 	{ }
+ };
+ 
+-- 
+Jiri Kosina
+SUSE Labs
