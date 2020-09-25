@@ -2,137 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C13B32792A0
-	for <lists+linux-input@lfdr.de>; Fri, 25 Sep 2020 22:48:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 620712792D4
+	for <lists+linux-input@lfdr.de>; Fri, 25 Sep 2020 23:01:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726316AbgIYUsf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 25 Sep 2020 16:48:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56320 "EHLO
+        id S1727324AbgIYVBa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 25 Sep 2020 17:01:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727961AbgIYUsf (ORCPT
+        with ESMTP id S1726743AbgIYVB3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 25 Sep 2020 16:48:35 -0400
-Received: from mxa1.seznam.cz (mxa1.seznam.cz [IPv6:2a02:598:a::78:90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED309C0613A8;
-        Fri, 25 Sep 2020 12:29:01 -0700 (PDT)
-Received: from email.seznam.cz
-        by email-smtpc5a.ko.seznam.cz (email-smtpc5a.ko.seznam.cz [10.53.10.135])
-        id 2433966a7f3dc203259a5a34;
-        Fri, 25 Sep 2020 21:28:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seznam.cz; s=beta;
-        t=1601062136; bh=l93/D6Gdiay39pYtBCQRrfnfEuM4nPGLzsoyq5BS9Yg=;
-        h=Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:
-         References:MIME-Version:Content-Transfer-Encoding;
-        b=O9ebucLD48hc+lPhGLcEwLyA/YoOS3weE1cKPULYEVkidoU7EbLEQIz51L2U1LLSr
-         4oGYNJYK1WnofKV2ogyNZKt7pfeEfEXbPDBkB9CJQMMKtGiSrij3llCnPtkKNlxzhB
-         iILOFCbIFHNLiE1Cx8dpH/shFKOALg4avZGT4aN4=
-Received: from localhost.localdomain (ip-228-128.dynamic.ccinternet.cz [212.69.128.228])
-        by email-relay7.ko.seznam.cz (Seznam SMTPD 1.3.120) with ESMTP;
-        Fri, 25 Sep 2020 21:24:38 +0200 (CEST)  
-From:   michael.srba@seznam.cz
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        Paul Burton <paulburton@kernel.org>,
-        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht,
-        Michael Srba <Michael.Srba@seznam.cz>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v4 2/2] dt-bindings: input/touchscreen: add bindings for zinitix
-Date:   Fri, 25 Sep 2020 21:22:04 +0200
-Message-Id: <20200925192204.12631-2-michael.srba@seznam.cz>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20200925192204.12631-1-michael.srba@seznam.cz>
-References: <20200925192204.12631-1-michael.srba@seznam.cz>
+        Fri, 25 Sep 2020 17:01:29 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B4B2C0613CE;
+        Fri, 25 Sep 2020 14:01:29 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id y17so4264045lfa.8;
+        Fri, 25 Sep 2020 14:01:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=BQyjYQtCtuhPAPId7Dby+jJP67H0xH2ESF6/ISlNnrw=;
+        b=Q5iekE0AKzfUpBVn2rJiiGCVa7/I+zPMJYdiL0rhnMo3rBpek/0PCeD/xBHtnfaUlw
+         x7AKwYb8bREktorxywDmtUm1AJh4qfj3qYYxyOMI+cxc42t0vnLxBeBtxfHRidHWMrFf
+         OpDdoFl/WoH9ihHFd7slMMTbZENaShBKKdOOMZNEk2Rrev4Q1/pqr3SkxMWLX5PytUDW
+         XnPlLXJ38Rudc5FldX8L3eIalEIkI8zach+ps/PO2YmHuaPnN29P1qZnJihk8R9MVVwW
+         kg0yLe3rFO0TEZ3FTlplzxeuFlDCQJczmWMyPgnaKNqp5b0B/G+SX8ci32ccFMkJR/LM
+         sTHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=BQyjYQtCtuhPAPId7Dby+jJP67H0xH2ESF6/ISlNnrw=;
+        b=UfAhEsvvDacY4wT2MtswgbTNjjTR6VQqtmr78EiNRoGgDIazlWdbz+bDu7tC8qjgvf
+         vhiFtfB+fwj3DICul7l92gisCYav8qDmBJ0NfxuU6rC4iOeizzNC+7dRyjKKWLz8LS5m
+         iJp3kV2Xe1fWHdntdI8T/yRfhjQuEzoEbEIiJ2LJ3D7enAsMOyCHP3Vsma7Qju29HBEC
+         NLo0/3k8y1C90/d9OcYlEKy8G4HlwGmhHfBkqLMzAFE2zqMYe7aBlr4cNaTjL6s+aown
+         MANe2tVt9Nxc1R80VUASAvUFV6USNhdIdiEkKPASr6Yj4vtWV91Kiz6Lus/XvyAlyKxV
+         1yEQ==
+X-Gm-Message-State: AOAM533Zyc+/rzJplO3AGHgFVv2sBvPDgz2XsULHygwIGeRcyYip+Dw0
+        T3zDIIGhPHAD2J3490nXEdE=
+X-Google-Smtp-Source: ABdhPJwUPO/Vngdisdk70i0bnv2Bd1fzwhekUzf6tGl3zNph4reGBpo3XbOqN6ZIz78woCcxgrhAOQ==
+X-Received: by 2002:a05:6512:34d3:: with SMTP id w19mr114456lfr.418.1601067687468;
+        Fri, 25 Sep 2020 14:01:27 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-170-211.dynamic.spd-mgts.ru. [109.252.170.211])
+        by smtp.googlemail.com with ESMTPSA id 80sm180958lff.61.2020.09.25.14.01.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Sep 2020 14:01:26 -0700 (PDT)
+Subject: Re: [PATCH v2 2/3] Input: atmel_mxt_ts - implement I2C retries for
+ mXT1368
+To:     Jiada Wang <jiada_wang@mentor.com>, dmitry.torokhov@gmail.com,
+        robh+dt@kernel.org, thierry.reding@gmail.com, jonathanh@nvidia.com
+Cc:     nick@shmanahar.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        erosca@de.adit-jv.com, andrew_gabbasov@mentor.com
+References: <20200925135257.21138-1-jiada_wang@mentor.com>
+ <20200925135257.21138-3-jiada_wang@mentor.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <285f5b25-820c-4402-0ebf-5bac87c95d84@gmail.com>
+Date:   Sat, 26 Sep 2020 00:01:25 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20200925135257.21138-3-jiada_wang@mentor.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Michael Srba <Michael.Srba@seznam.cz>
+25.09.2020 16:52, Jiada Wang пишет:
+> According to datasheet, mXT1386 chip has a WAKE line, it is used
+> to wake the chip up from deep sleep mode before communicating with
+> it via the I2C-compatible interface.
+> 
+> if the WAKE line is connected to a GPIO line, the line must be
+> asserted 25 ms before the host attempts to communicate with the mXT1386.
+> If the WAKE line is connected to the SCL pin, the mXT1386 will send a
+> NACK on the first attempt to address it, the host must then retry 25 ms
+> later.
+> 
+> This patch adds compatible string "atmel,mXT1386" for mXT1386 controller,
+> when I2C transfer on mXT1386 fails, retry the transfer once after a 25 ms
+> sleep.
+> 
+> Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
+> ---
+>  drivers/input/touchscreen/atmel_mxt_ts.c | 62 +++++++++++++++++++-----
+>  1 file changed, 50 insertions(+), 12 deletions(-)
 
-This patch adds dts bindings for the zinitix bt541 touchscreen.
+Hello, Jiada! Thank you very much!
 
-Signed-off-by: Michael Srba <Michael.Srba@seznam.cz>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
- changes in v2: none
- changes in v3: document zinitix,mode property
- changes in v4: none
+Will be nice if this patch could land to v5.10 :)
 
-
- .../bindings/input/touchscreen/zinitix.txt    | 40 +++++++++++++++++++
- .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
- 2 files changed, 42 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/input/touchscreen/zinitix.txt
-
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/zinitix.txt b/Documentation/devicetree/bindings/input/touchscreen/zinitix.txt
-new file mode 100644
-index 000000000000..446efb9f5f55
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/touchscreen/zinitix.txt
-@@ -0,0 +1,40 @@
-+Device tree bindings for Zinitx BT541 touchscreen controller
-+
-+Required properties:
-+
-+ - compatible		: Should be "zinitix,bt541"
-+ - reg			: I2C address of the chip. Should be 0x20
-+ - interrupts		: Interrupt to which the chip is connected
-+
-+Optional properties:
-+
-+ - vdd-supply		: Analog power supply regulator on VCCA pin
-+ - vddo-supply		: Digital power supply regulator on VDD pin
-+ - zinitix,mode		: Mode of reporting touch points. Some modes may not work
-+			  with a particular ts firmware for unknown reasons. Available
-+			  modes are 1 and 2. Mode 2 is the default and preferred.
-+
-+The touchscreen-* properties are documented in touchscreen.txt in this
-+directory.
-+
-+Example:
-+
-+	i2c@00000000 {
-+		/* ... */
-+
-+		bt541@20 {
-+			compatible = "zinitix,bt541";
-+			reg = <0x20>;
-+			interrupt-parent = <&msmgpio>;
-+			interrupts = <13 IRQ_TYPE_EDGE_FALLING>;
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&tsp_default>;
-+			vdd-supply = <&reg_vdd_tsp>;
-+			vddo-supply = <&pm8916_l6>;
-+			touchscreen-size-x = <540>;
-+			touchscreen-size-y = <960>;
-+			zinitix,mode = <2>;
-+		};
-+
-+		/* ... */
-+	};
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 967e78c5ec0a..1b0b5e23267d 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -1066,6 +1066,8 @@ patternProperties:
-     description: Shenzhen Zidoo Technology Co., Ltd.
-   "^zii,.*":
-     description: Zodiac Inflight Innovations
-+  "^zinitix,.*":
-+    description: Zinitix Co., Ltd
-   "^zte,.*":
-     description: ZTE Corp.
-   "^zyxel,.*":
--- 
-2.24.0
+Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+Tested-by: Dmitry Osipenko <digetx@gmail.com>
