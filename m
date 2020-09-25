@@ -2,88 +2,57 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB51F278598
-	for <lists+linux-input@lfdr.de>; Fri, 25 Sep 2020 13:15:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 689CD278659
+	for <lists+linux-input@lfdr.de>; Fri, 25 Sep 2020 13:55:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727733AbgIYLPQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 25 Sep 2020 07:15:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35974 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727132AbgIYLPQ (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 25 Sep 2020 07:15:16 -0400
-Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 02CEF221E5;
-        Fri, 25 Sep 2020 11:15:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601032515;
-        bh=pJom88A0bi1RdO+KCgx4Zz7zv2oiMPcqlDl14hZcJTc=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=ZRFi3B3peB0lwaeLfeYuy8+6ToP0Xp1TV4/k6i8uICo2upYIGmp4lN/s8/VLRFQgr
-         6oG6E8kMg1LWujltFG9o3SuOS3RtRRTYhffd/S7BnE7Fp2iV2ggXngK7uERN+YSeKj
-         n+OteMPYYjpgZArK0bfh7o2KNyqiQnT5CFY+2LRc=
-Date:   Fri, 25 Sep 2020 13:15:10 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     "Gerecke, Jason" <killertofu@gmail.com>
-cc:     linux-input@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>,
-        stable@vger.kernel.org, Ping Cheng <ping.cheng@wacom.com>
-Subject: Re: [PATCH] HID: wacom: Avoid entering wacom_wac_pen_report for pad
- / battery
-In-Reply-To: <20200923201456.25912-1-jason.gerecke@wacom.com>
-Message-ID: <nycvar.YFH.7.76.2009251314520.3336@cbobk.fhfr.pm>
-References: <20200923201456.25912-1-jason.gerecke@wacom.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S1727720AbgIYLzu convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Fri, 25 Sep 2020 07:55:50 -0400
+Received: from mail.hlgd.gob.ec ([181.112.154.212]:59576 "EHLO
+        mail.hlgd.gob.ec" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727521AbgIYLzu (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 25 Sep 2020 07:55:50 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.hlgd.gob.ec (Postfix) with ESMTP id 9895E34A349C;
+        Thu, 24 Sep 2020 22:00:27 -0500 (-05)
+Received: from mail.hlgd.gob.ec ([127.0.0.1])
+        by localhost (mail.hlgd.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id bnyzIN46e7gG; Thu, 24 Sep 2020 22:00:27 -0500 (-05)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.hlgd.gob.ec (Postfix) with ESMTP id 2782434A5F6A;
+        Thu, 24 Sep 2020 22:00:27 -0500 (-05)
+X-Virus-Scanned: amavisd-new at hlgd.gob.ec
+Received: from mail.hlgd.gob.ec ([127.0.0.1])
+        by localhost (mail.hlgd.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id gSCQg3adThbv; Thu, 24 Sep 2020 22:00:27 -0500 (-05)
+Received: from [10.123.39.92] (unknown [105.12.6.205])
+        by mail.hlgd.gob.ec (Postfix) with ESMTPSA id 866DA34A5C80;
+        Thu, 24 Sep 2020 22:00:16 -0500 (-05)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: spende von 2,000,000 euro
+To:     Recipients <vanessa.ramirez@hlgd.gob.ec>
+From:   ''Tayeb souami'' <vanessa.ramirez@hlgd.gob.ec>
+Date:   Fri, 25 Sep 2020 05:00:06 +0200
+Reply-To: Tayebsouam.spende@gmail.com
+Message-Id: <20200925030016.866DA34A5C80@mail.hlgd.gob.ec>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 23 Sep 2020, Gerecke, Jason wrote:
 
-> From: Jason Gerecke <jason.gerecke@wacom.com>
-> 
-> It has recently been reported that the "heartbeat" report from devices
-> like the 2nd-gen Intuos Pro (PTH-460, PTH-660, PTH-860) or the 2nd-gen
-> Bluetooth-enabled Intuos tablets (CTL-4100WL, CTL-6100WL) can cause the
-> driver to send a spurious BTN_TOUCH=0 once per second in the middle of
-> drawing. This can result in broken lines while drawing on Chrome OS.
-> 
-> The source of the issue has been traced back to a change which modified
-> the driver to only call `wacom_wac_pad_report()` once per report instead
-> of once per collection. As part of this change, pad-handling code was
-> removed from `wacom_wac_collection()` under the assumption that the
-> `WACOM_PEN_FIELD` and `WACOM_TOUCH_FIELD` checks would not be satisfied
-> when a pad or battery collection was being processed.
-> 
-> To be clear, the macros `WACOM_PAD_FIELD` and `WACOM_PEN_FIELD` do not
-> currently check exclusive conditions. In fact, most "pad" fields will
-> also appear to be "pen" fields simply due to their presence inside of
-> a Digitizer application collection. Because of this, the removal of
-> the check from `wacom_wac_collection()` just causes pad / battery
-> collections to instead trigger a call to `wacom_wac_pen_report()`
-> instead. The pen report function in turn resets the tip switch state
-> just prior to exiting, resulting in the observed BTN_TOUCH=0 symptom.
-> 
-> To correct this, we restore a version of the `WACOM_PAD_FIELD` check
-> in `wacom_wac_collection()` and return early. This effectively prevents
-> pad / battery collections from being reported until the very end of the
-> report as originally intended.
-> 
-> Fixes: d4b8efeb46d9 ("HID: wacom: generic: Correct pad syncing")
-> Cc: stable@vger.kernel.org # v4.17+
-> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
-> Reviewed-by: Ping Cheng <ping.cheng@wacom.com>
-> Tested-by: Ping Cheng <ping.cheng@wacom.com>
+Hallo mein lieber Freund
+Mein Name ist Tayeb Souami aus New Jersey in Amerika und ich habe den America Lottery Jackpot von 315 Millionen Euro gewonnen. Ich habe mich entschlossen, die Summe von 2.000.000 Euro an fünf glückliche Personen zu spenden, und Sie wurden als einer der Begünstigten ausgewählt. Bitte klicken Sie auf diesen Link, um mehr über meinen Gewinn zu erfahren.
 
-Applied.
 
--- 
-Jiri Kosina
-SUSE Labs
+UHR MICH HIER: https://www.youtube.com/watch?v=Z6ui8ZDQ6Ks
 
+Bitte kontaktieren Sie mich über diese E-Mail: Tayebsouam.spende@gmail.com
+
+
+Ich hoffe, Sie und Ihre Familie glücklich zu machen.
+
+Grüße
+Herr Tayeb Souami
