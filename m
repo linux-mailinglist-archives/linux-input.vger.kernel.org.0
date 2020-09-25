@@ -2,57 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 689CD278659
-	for <lists+linux-input@lfdr.de>; Fri, 25 Sep 2020 13:55:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3FF72789FF
+	for <lists+linux-input@lfdr.de>; Fri, 25 Sep 2020 15:53:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727720AbgIYLzu convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Fri, 25 Sep 2020 07:55:50 -0400
-Received: from mail.hlgd.gob.ec ([181.112.154.212]:59576 "EHLO
-        mail.hlgd.gob.ec" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727521AbgIYLzu (ORCPT
+        id S1728775AbgIYNxD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 25 Sep 2020 09:53:03 -0400
+Received: from esa2.mentor.iphmx.com ([68.232.141.98]:19050 "EHLO
+        esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727290AbgIYNxD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 25 Sep 2020 07:55:50 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.hlgd.gob.ec (Postfix) with ESMTP id 9895E34A349C;
-        Thu, 24 Sep 2020 22:00:27 -0500 (-05)
-Received: from mail.hlgd.gob.ec ([127.0.0.1])
-        by localhost (mail.hlgd.gob.ec [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id bnyzIN46e7gG; Thu, 24 Sep 2020 22:00:27 -0500 (-05)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.hlgd.gob.ec (Postfix) with ESMTP id 2782434A5F6A;
-        Thu, 24 Sep 2020 22:00:27 -0500 (-05)
-X-Virus-Scanned: amavisd-new at hlgd.gob.ec
-Received: from mail.hlgd.gob.ec ([127.0.0.1])
-        by localhost (mail.hlgd.gob.ec [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id gSCQg3adThbv; Thu, 24 Sep 2020 22:00:27 -0500 (-05)
-Received: from [10.123.39.92] (unknown [105.12.6.205])
-        by mail.hlgd.gob.ec (Postfix) with ESMTPSA id 866DA34A5C80;
-        Thu, 24 Sep 2020 22:00:16 -0500 (-05)
-Content-Type: text/plain; charset="iso-8859-1"
+        Fri, 25 Sep 2020 09:53:03 -0400
+IronPort-SDR: c8wUFhdR6K6QGNG3SREYP8N0uOorI4VcCH0yVQrUMdbbqdDOcYoR+h4YMjqcTtMBcCmsvVsQDp
+ UyJP5jVfbH8ZqnrAg4QwqxMmzEFeL2mA7P+dS/7nA8nkaeGcJnyNQJ2Ou/bj4FgMlAIu4Js5yD
+ OW18WqJsaO0sGUDT7GcLINU45+0oI71yxWOmJcXk17MbN7xAs7nNMqPRUCI9C6DCTTcV8QfWBp
+ D/IxTCtPSt2Yk6HJuqrmgJPJXpsnDA13gXZNzxskIaCNkLBowmCNI19BZ0lQH3zLvaNBAZdJ2F
+ xSI=
+X-IronPort-AV: E=Sophos;i="5.77,302,1596528000"; 
+   d="scan'208";a="53316549"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa2.mentor.iphmx.com with ESMTP; 25 Sep 2020 05:53:02 -0800
+IronPort-SDR: rdOEOuP9sZLVfj/gP4M2edaea4IT4kA/lU7bg7nEzuxt8UG6F/rnwDx4BOrYk84A8bzqUys1g7
+ x3yexRdtFo/W/eXzwA8zAhWrgEw/sY4MMTBfuLvoUXnOL/4ONQN2Tgy3bzQN3RWMHxOskva6Jq
+ Jcq2gcixwfIBRYQnDqD9HsYexlgPWp3gfuc/10rWT5OjkaXLN0f29oewY1DFSsOFDfciNvBgmX
+ G1rnT5yVWB7xUR7J9c1xbng3Eo7SSoQIztzVujCVdX7oPGlLLaW5FwdPHX5rXILlsxXKCubLO7
+ SB8=
+From:   Jiada Wang <jiada_wang@mentor.com>
+To:     <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
+        <thierry.reding@gmail.com>, <digetx@gmail.com>,
+        <jonathanh@nvidia.com>
+CC:     <nick@shmanahar.org>, <linux-input@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <erosca@de.adit-jv.com>, <andrew_gabbasov@mentor.com>,
+        <jiada_wang@mentor.com>
+Subject: [PATCH v2 0/3] implement I2C retries for mXT1368
+Date:   Fri, 25 Sep 2020 22:52:54 +0900
+Message-ID: <20200925135257.21138-1-jiada_wang@mentor.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: spende von 2,000,000 euro
-To:     Recipients <vanessa.ramirez@hlgd.gob.ec>
-From:   ''Tayeb souami'' <vanessa.ramirez@hlgd.gob.ec>
-Date:   Fri, 25 Sep 2020 05:00:06 +0200
-Reply-To: Tayebsouam.spende@gmail.com
-Message-Id: <20200925030016.866DA34A5C80@mail.hlgd.gob.ec>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+According to datasheet, mXT1386 chip has a WAKE line, it is used
+to wake the chip up from deep sleep mode before communicating with
+it via the I2C-compatible interface.
+    
+if the WAKE line is connected to a GPIO line, the line must be
+asserted 25 ms before the host attempts to communicate with the
+mXT1386.
+If the WAKE line is connected to the SCL pin, the mXT1386 will send
+a NACK on the first attempt to address it, the host must then retry
+25 ms later.
+    
+This patch adds compatible string "atmel,mXT1386" for mXT1386 controller,
+when I2C transfer on mXT1386 fails, retry the transfer once after a
+25 ms sleep.
 
-Hallo mein lieber Freund
-Mein Name ist Tayeb Souami aus New Jersey in Amerika und ich habe den America Lottery Jackpot von 315 Millionen Euro gewonnen. Ich habe mich entschlossen, die Summe von 2.000.000 Euro an fünf glückliche Personen zu spenden, und Sie wurden als einer der Begünstigten ausgewählt. Bitte klicken Sie auf diesen Link, um mehr über meinen Gewinn zu erfahren.
 
+Jiada Wang (3):
+  dt-bindings: input: atmel: add compatible for mXT1386
+  Input: atmel_mxt_ts - implement I2C retries for mXT1368
+  ARM: tegra: add mXT1386 compatible
 
-UHR MICH HIER: https://www.youtube.com/watch?v=Z6ui8ZDQ6Ks
+---
+v2:
+add bool retry_i2c_transfers to struct mxt_data,
+to indicate whether retry is needed when i2c transfer fails
 
-Bitte kontaktieren Sie mich über diese E-Mail: Tayebsouam.spende@gmail.com
+v1: initial version
+---
+ .../bindings/input/atmel,maxtouch.txt         |  1 +
+ .../boot/dts/tegra20-acer-a500-picasso.dts    |  2 +-
+ drivers/input/touchscreen/atmel_mxt_ts.c      | 62 +++++++++++++++----
+ 3 files changed, 52 insertions(+), 13 deletions(-)
 
+-- 
+2.17.1
 
-Ich hoffe, Sie und Ihre Familie glücklich zu machen.
-
-Grüße
-Herr Tayeb Souami
