@@ -2,70 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B5006278A06
-	for <lists+linux-input@lfdr.de>; Fri, 25 Sep 2020 15:53:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 272A1278CF4
+	for <lists+linux-input@lfdr.de>; Fri, 25 Sep 2020 17:39:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728923AbgIYNxP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 25 Sep 2020 09:53:15 -0400
-Received: from esa4.mentor.iphmx.com ([68.232.137.252]:49986 "EHLO
-        esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727290AbgIYNxP (ORCPT
+        id S1728678AbgIYPjZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 25 Sep 2020 11:39:25 -0400
+Received: from [46.166.185.98] ([46.166.185.98]:44958 "EHLO
+        host.imperialcapgroup.com" rhost-flags-FAIL-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728612AbgIYPjY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 25 Sep 2020 09:53:15 -0400
-IronPort-SDR: 1zxjR6aU1wqtqEwNnpmfjB+oQLcpJDywk6i6B+ySeqaiCKiFdJlnarnMX4vi7mPyry8IBMd4Wz
- uKf//bOd4VMzZYBVYLSmz9s2U/+cHo1xmSnJc27NkD7GB8n7k6qw2vR1Ts3Tt/bh53AnLV41li
- YBR0cJSzXVPY0C/rmvWSGmKW88JA29fv3m8Wee+ukC1deIJMutPGF9KinkI6w05jLzhi/c9kye
- umATEOSbECvxjuFm7rhvxQ8wc39hAVSFoI9vZylOYdXhOEfNJu5nyzuXhwiuysZ5o3jH7N+6Bs
- 1lE=
-X-IronPort-AV: E=Sophos;i="5.77,302,1596528000"; 
-   d="scan'208";a="53408342"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa4.mentor.iphmx.com with ESMTP; 25 Sep 2020 05:53:14 -0800
-IronPort-SDR: ygjXhL6+8NCxDqJN7Trb7w5lzg/qqcxjRCz9zJhBrUYbFR6wbZt+4zNgqpzCgPAmz6ToKJiHVJ
- uN3MxhJjOusAHY0KfvKvmiDlXlHkPblLnPyddI0r/te0po+kV85NtD+IOCWNUb21IwBDcr24F5
- hBai9T6jv1RqaVMbTOngupggUAltyeTmqQYpbXBPGDdyO5p6+TOHb4YdgaxoSbovFl1hw9DkGp
- UbVG4/Bvp9AdDOzINi/Gs7ig+AF1w2jPb32098JN3fuyp/RswmeHJp3+hJL/96HpZ4YbZl4q9k
- TRk=
-From:   Jiada Wang <jiada_wang@mentor.com>
-To:     <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
-        <thierry.reding@gmail.com>, <digetx@gmail.com>,
-        <jonathanh@nvidia.com>
-CC:     <nick@shmanahar.org>, <linux-input@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <erosca@de.adit-jv.com>, <andrew_gabbasov@mentor.com>,
-        <jiada_wang@mentor.com>
-Subject: [PATCH v2 3/3] ARM: tegra: add mXT1386 compatible
-Date:   Fri, 25 Sep 2020 22:52:57 +0900
-Message-ID: <20200925135257.21138-4-jiada_wang@mentor.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200925135257.21138-1-jiada_wang@mentor.com>
-References: <20200925135257.21138-1-jiada_wang@mentor.com>
-MIME-Version: 1.0
-Content-Type: text/plain
+        Fri, 25 Sep 2020 11:39:24 -0400
+X-Greylist: delayed 37317 seconds by postgrey-1.27 at vger.kernel.org; Fri, 25 Sep 2020 11:39:24 EDT
+Received: from imperialcapgroup.com (unknown [185.236.203.204])
+        by host.imperialcapgroup.com (Postfix) with ESMTPA id D2083BDDD4
+        for <linux-input@vger.kernel.org>; Fri, 25 Sep 2020 05:13:31 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 host.imperialcapgroup.com D2083BDDD4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=imperialcapgroup.com; s=default; t=1601003612;
+        bh=6CXuz3tZVwV0sLbV3HksYvK1Xzbh6nLYCrrWqAmLkHM=;
+        h=Reply-To:From:To:Subject:Date:From;
+        b=Xkm6had0MAtOJ+1Ad6gBa+3fK5rLya5cP1zB/F9SHTewRLdvryhVAguOKtdlqSYI/
+         LMqYH0LIAKrBnioslm0LzXvfB9mbV5c54fxE2UtYAXAEUN+Ekxc5pN4yEkVcylLOFM
+         XFbTLD2vBOIOO2E5LNTaec+GTudfP/keWlgXna9c=
+DKIM-Filter: OpenDKIM Filter v2.11.0 host.imperialcapgroup.com D2083BDDD4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=imperialcapgroup.com; s=default; t=1601003612;
+        bh=6CXuz3tZVwV0sLbV3HksYvK1Xzbh6nLYCrrWqAmLkHM=;
+        h=Reply-To:From:To:Subject:Date:From;
+        b=Xkm6had0MAtOJ+1Ad6gBa+3fK5rLya5cP1zB/F9SHTewRLdvryhVAguOKtdlqSYI/
+         LMqYH0LIAKrBnioslm0LzXvfB9mbV5c54fxE2UtYAXAEUN+Ekxc5pN4yEkVcylLOFM
+         XFbTLD2vBOIOO2E5LNTaec+GTudfP/keWlgXna9c=
+Reply-To: laghoulli22@secsuremail.com
+From:   L A <laghoulli299@imperialcapgroup.com>
+To:     linux-input@vger.kernel.org
+Subject: Co-Operation Required
+Date:   24 Sep 2020 20:13:33 -0700
+Message-ID: <20200924201333.368402C831E91A3A@imperialcapgroup.com>
+Mime-Version: 1.0
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add mXT1386 compatible for "touchscreen@4c".
+Hello there,
 
-Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
----
- arch/arm/boot/dts/tegra20-acer-a500-picasso.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I am Laghouili Abdellatif. I am contacting you because I have a=20
+proposal that I think may be interested in. I represent the=20
+interest of my brother in-law who was a minister in the Syrian=20
+Government. As you probably know, there is a lot of crisis going=20
+on currently in Syria and my brother in-law has fallen out with=20
+the ruling Junta and the president because of his foreign=20
+policies and the senseless war and killings that has been going=20
+on for a while. Everybody in Syria is fed up and want a change=20
+but the president is too powerfull and he simply kills anyone=20
+that tries to oppose him. My brother in-law belives that he is at=20
+risk and he is now very scared for the safety of his family=20
+especially his kids. In order to ensure that his family is taken=20
+care of and protected incase anything happens to him, he has=20
+asked me to help him find a foreign investor who can help him=20
+accommodate and invest 100 MUSD privately that he has secured in=20
+Europe. He wants these funds safely invested so that the future=20
+and safety of his family can be secured.
 
-diff --git a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-index 2d683c9a1a5d..7915b6e9190e 100644
---- a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-+++ b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-@@ -428,7 +428,7 @@
- 		};
- 
- 		touchscreen@4c {
--			compatible = "atmel,maxtouch";
-+			compatible = "atmel,mXT1386", "atmel,maxtouch";
- 			reg = <0x4c>;
- 
- 			atmel,cfg_name = "maxtouch-acer-iconia-tab-a500.cfg";
--- 
-2.17.1
+I am contacting you with the hope that you will be interested in=20
+helping us. We need your help to accommodate the funds in the=20
+banking system in your country and also invest it in lucrative=20
+projects that will yeild good profits. We will handle all the=20
+logistics involved in the movement of the funds to you. The funds=20
+is already in Europe so you have nothing to worry about because=20
+this transaction will be executed in a legal way. My brother in-=20
+law has also promised to compensate you for your help. He wants=20
+this to be done discretely so I will be acting as his eyes and=20
+ears during the course of this transaction.
 
+If this proposal interests you, please kindly respond so that I=20
+can give you more details.
+
+Regards,
+
+Laghouili.
