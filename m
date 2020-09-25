@@ -2,75 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A5EC2793A9
-	for <lists+linux-input@lfdr.de>; Fri, 25 Sep 2020 23:38:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 086C227945A
+	for <lists+linux-input@lfdr.de>; Sat, 26 Sep 2020 00:51:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727183AbgIYViy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 25 Sep 2020 17:38:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39820 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726576AbgIYViy (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 25 Sep 2020 17:38:54 -0400
-Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CDB18204FD;
-        Fri, 25 Sep 2020 21:38:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601069933;
-        bh=FyKBAoQFGudp/myg2vZj+c/OVN2nCyAVsiWapu9YpX8=;
-        h=Date:From:To:cc:Subject:From;
-        b=IoXuvK1QW5bZFmtkZL7B4CLSO0j8Hk/5++70qogHWOyqWiBolIhJGmnFucVmF3ClB
-         wqCm2IPuQMVyGiKYWEt9R38E5f1V7lYe674P8BzjmOFB+Rw99ovGLHd8Yena1bC2Vp
-         p/ie4DLiMTn3ngnzlMSL+F3n+XaC6e+4FKsAiaPw=
-Date:   Fri, 25 Sep 2020 23:38:50 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?ISO-8859-15?Q?Andr=E9s_Barrantes_Silman?= 
-        <andresbs2000@protonmail.com>
-Subject: [PATCH] Input: Add nopnp quirk for Acer Aspire 5 A515
-Message-ID: <nycvar.YFH.7.76.2009252337340.3336@cbobk.fhfr.pm>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S1726807AbgIYWvI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 25 Sep 2020 18:51:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47278 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726064AbgIYWvI (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 25 Sep 2020 18:51:08 -0400
+Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com [IPv6:2607:f8b0:4864:20::e43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B286C0613CE
+        for <linux-input@vger.kernel.org>; Fri, 25 Sep 2020 15:51:08 -0700 (PDT)
+Received: by mail-vs1-xe43.google.com with SMTP id 7so2334532vsp.6
+        for <linux-input@vger.kernel.org>; Fri, 25 Sep 2020 15:51:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=xnWM62JYvqicPiQzA7Sj/RrocMZqiUgEBu2ZXBloQSU=;
+        b=mBY99Lr7jdzwueBXLBYANDXf1aDIOTuJecRm8dExmwO4KuWTDF5exJhMM8Wc2XSPU2
+         Zk0U64SM2LnUFr0xO03VFMIrvDmnSySSVOLyv3380L1uZHIXLrDDbVAxU7A5ihshU2dZ
+         SEEEqQQdP6WB59ijiXN3baL6a6qiqT8acKg6bl6+fk+FPvEU/KPyiptocwFYzkQSs4uf
+         7GW/bBNyMVh+QQvFLWYwsKMwAzx8kxyjjfSQhF0+MFWMQVBkaqwEhk8GD/+A09ZGeZSo
+         HKlfJiMfG2lliKIsKhYyczdOcOVZUT64QMSyq/7VLbYwM2dIP+8kWu1Vy5zyhpjE5YRh
+         TiKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=xnWM62JYvqicPiQzA7Sj/RrocMZqiUgEBu2ZXBloQSU=;
+        b=eKsFnfaqUbcF7TXrRonHfVbAyBKDxJwJqshT0pd5bm55q1B9LiiqhFsMh6hZXZJBbv
+         3Qd08DaZYufX4mnwa/B1ecWYiB4vzo7wf0m2r7HUSOScvjdgPQPkgzm1Yf+4wXjVV2lD
+         DTQ+QuGtVK/Y96DseyCN22c80kpakGB6V6/MXXG5AKZLdLpAcJeIMLHgV9eieTyhgJOM
+         c8ISkKEn01CNhTOunL9TJFRzI8wYERwjJadtNegGaCjBFpWf6vb5OUrvFofq6Sqzyl+Y
+         B57D78b4X1E2OBdZc8sjSyEe5i2ZEkZOONyxhxn7r3d/vI28pkp7ocVaABGeoQ3V/scr
+         VGVA==
+X-Gm-Message-State: AOAM532bD56FGFs5yoTh3w2DPOzz85NHk+UG+60769z63D32OkdPdmTy
+        xtywd4cmlMuOi8VFTWhH78xQ+J3ADxjvjwCqGjE=
+X-Google-Smtp-Source: ABdhPJwmjdKMX2oRACS9WutOEhPpCzBeEx2Ke7CgyWeKPDwANmGjF3mQo39uDYpFbAcMxh7qi6p43prFILK/5Fi+Ygw=
+X-Received: by 2002:a67:d00a:: with SMTP id r10mr579529vsi.12.1601074267789;
+ Fri, 25 Sep 2020 15:51:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-15
-Content-Transfer-Encoding: 8BIT
+Received: by 2002:ab0:5a41:0:0:0:0:0 with HTTP; Fri, 25 Sep 2020 15:51:07
+ -0700 (PDT)
+Reply-To: iincc200@gmail.com
+From:   "Mrs.Heba Ibrahim" <emailinffo@gmail.com>
+Date:   Fri, 25 Sep 2020 15:51:07 -0700
+Message-ID: <CACh-=JwmKseeMbOVe7wCkM5xZeTRFrKGBdCkdbP3ZR4ixpDrrQ@mail.gmail.com>
+Subject: YOUR VISA CARD SUM OF US$1.200,000.00
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Jiri Kosina <jkosina@suse.cz>
+--=20
+Attention:Beneficiary
 
-Touchpad on this laptop is not detected properly during boot, as PNP 
-enumerates (wrongly) AUX port as disabled on this machine.
+This is to official inform you that we have been having a meeting for
+the past Seven month which ended Two days ago with Dr. Robert B.
+Rollick the World Bank President and Hon. Mrs. Christine Laggard (IMF)
+Director General, in the meeting we treated on Scam victim problems.
 
-Fix that by adding this board (with admittedly quite funny DMI 
-identifiers) to nopnp quirk list.
+United Nation have agreed to compensate you with the sum of One
+million two Hundred  Thousand Dollars (USD$1.200,000.00) this also
+includes international businesses that failed due to Government
+problems etc?. We have arranged your payment through Master Card ATM
+which is the latest instruction from World Bank Group.
 
-Reported-by: Andrés Barrantes Silman <andresbs2000@protonmail.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
----
- drivers/input/serio/i8042-x86ia64io.h | 7 +++++++
- 1 file changed, 7 insertions(+)
+For the collection of your Master Card ATM contact our representative
+Dr.Usman Mohammed and forward the following details to him.
 
-diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
-index 7d7f73702726..2527e19c95b4 100644
---- a/drivers/input/serio/i8042-x86ia64io.h
-+++ b/drivers/input/serio/i8042-x86ia64io.h
-@@ -705,6 +705,13 @@ static const struct dmi_system_id __initconst i8042_dmi_nopnp_table[] = {
- 			DMI_MATCH(DMI_BOARD_VENDOR, "MICRO-STAR INTERNATIONAL CO., LTD"),
- 		},
- 	},
-+	{
-+		/* Acer Aspire 5 A515 */
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_NAME, "Grumpy_PK"),
-+			DMI_MATCH(DMI_BOARD_VENDOR, "PK"),
-+		},
-+	},
- 	{ }
- };
- 
--- 
-Jiri Kosina
-SUSE Labs
+1. Full Name:.........
+2. Country:........
+3. Delivery Address:..........
+4. Telephone:..............& Occupation.......
+5. Your Age...... /Sex..........
+
+Contact Dr.USMAN MOHAMMED with below email and phone number and
+forward all your details to him.
+
+Email:(  inforemitunitinfo@qq.com  )
+
+Telephone +226  61 10 85 06
+
+Note: for the immediate collection of your Master Card ATM contact our
+representative Agent. Usman Mohammed to enable you confirm your
+payment without further delay and note any other contact you made out
+side his office is at of your own risk.
+
+Thanks
+Mrs Mariam Mohammed.
+
+CC: Hon. Mrs. Christine Lagarde
+CC: World Bank Group
+CC: Mr. Ant=C3=B3nio Guterres Secretary-General
