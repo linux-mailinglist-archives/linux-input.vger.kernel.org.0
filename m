@@ -2,84 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 272A1278CF4
-	for <lists+linux-input@lfdr.de>; Fri, 25 Sep 2020 17:39:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA906278EE8
+	for <lists+linux-input@lfdr.de>; Fri, 25 Sep 2020 18:42:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728678AbgIYPjZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 25 Sep 2020 11:39:25 -0400
-Received: from [46.166.185.98] ([46.166.185.98]:44958 "EHLO
-        host.imperialcapgroup.com" rhost-flags-FAIL-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728612AbgIYPjY (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 25 Sep 2020 11:39:24 -0400
-X-Greylist: delayed 37317 seconds by postgrey-1.27 at vger.kernel.org; Fri, 25 Sep 2020 11:39:24 EDT
-Received: from imperialcapgroup.com (unknown [185.236.203.204])
-        by host.imperialcapgroup.com (Postfix) with ESMTPA id D2083BDDD4
-        for <linux-input@vger.kernel.org>; Fri, 25 Sep 2020 05:13:31 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 host.imperialcapgroup.com D2083BDDD4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=imperialcapgroup.com; s=default; t=1601003612;
-        bh=6CXuz3tZVwV0sLbV3HksYvK1Xzbh6nLYCrrWqAmLkHM=;
-        h=Reply-To:From:To:Subject:Date:From;
-        b=Xkm6had0MAtOJ+1Ad6gBa+3fK5rLya5cP1zB/F9SHTewRLdvryhVAguOKtdlqSYI/
-         LMqYH0LIAKrBnioslm0LzXvfB9mbV5c54fxE2UtYAXAEUN+Ekxc5pN4yEkVcylLOFM
-         XFbTLD2vBOIOO2E5LNTaec+GTudfP/keWlgXna9c=
-DKIM-Filter: OpenDKIM Filter v2.11.0 host.imperialcapgroup.com D2083BDDD4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=imperialcapgroup.com; s=default; t=1601003612;
-        bh=6CXuz3tZVwV0sLbV3HksYvK1Xzbh6nLYCrrWqAmLkHM=;
-        h=Reply-To:From:To:Subject:Date:From;
-        b=Xkm6had0MAtOJ+1Ad6gBa+3fK5rLya5cP1zB/F9SHTewRLdvryhVAguOKtdlqSYI/
-         LMqYH0LIAKrBnioslm0LzXvfB9mbV5c54fxE2UtYAXAEUN+Ekxc5pN4yEkVcylLOFM
-         XFbTLD2vBOIOO2E5LNTaec+GTudfP/keWlgXna9c=
-Reply-To: laghoulli22@secsuremail.com
-From:   L A <laghoulli299@imperialcapgroup.com>
+        id S1727402AbgIYQmx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 25 Sep 2020 12:42:53 -0400
+Received: from mail.zx2c4.com ([192.95.5.64]:45231 "EHLO mail.zx2c4.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727324AbgIYQmx (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 25 Sep 2020 12:42:53 -0400
+X-Greylist: delayed 399 seconds by postgrey-1.27 at vger.kernel.org; Fri, 25 Sep 2020 12:42:52 EDT
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTP id 9e5dd1a0;
+        Fri, 25 Sep 2020 16:05:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=zx2c4.com; h=from:to:cc
+        :subject:date:message-id:mime-version:content-transfer-encoding;
+         s=mail; bh=JWMY4uyRC4SFiDM35+MshVIEj8U=; b=cmU/JifrnG2NmOSf9tu/
+        Kr2F3+3xB8yKlCcsVeU24BLNyC0rL37ho0i2XstujCLtGXoPGl9wrKA43eNVn0xY
+        2eL3oOSVAGcO/QYV3GgI79q20DcoWdQk9mpvz9eR7pYGXbD4B58NmJiht/fZoTYs
+        /k1DGWjkJJZ0ic3BA+9X0Bsld0cVlerwqMuDC6WcznoIIvM6g3BLMLCYDDhg8Fgf
+        60gHZTdjNJfTOXhWL8hBV44W157Orp6K3n9bFOoXsw+iKl5W4K32/3ffD1jBUOuh
+        A6p1v3f+nMCQNzaBWMS56iIj5AGNS9ZTDERn9EQ/oxs+RVWNakP9Sbf13YgdMEV7
+        /g==
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id eb7d8412 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
+        Fri, 25 Sep 2020 16:05:06 +0000 (UTC)
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
 To:     linux-input@vger.kernel.org
-Subject: Co-Operation Required
-Date:   24 Sep 2020 20:13:33 -0700
-Message-ID: <20200924201333.368402C831E91A3A@imperialcapgroup.com>
-Mime-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Lyude Paul <lyude@redhat.com>,
+        Vincent Huang <vincent.huang@tw.synaptics.com>
+Subject: [PATCH] Input: synaptics - enable InterTouch for ThinkPad X1E/P1 2nd gen
+Date:   Fri, 25 Sep 2020 18:36:02 +0200
+Message-Id: <20200925163602.204047-1-Jason@zx2c4.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello there,
+With the new RMI4 F3A support posted yesterday, this appears to maybe
+work, with a bootloader warning in dmesg:
 
-I am Laghouili Abdellatif. I am contacting you because I have a=20
-proposal that I think may be interested in. I represent the=20
-interest of my brother in-law who was a minister in the Syrian=20
-Government. As you probably know, there is a lot of crisis going=20
-on currently in Syria and my brother in-law has fallen out with=20
-the ruling Junta and the president because of his foreign=20
-policies and the senseless war and killings that has been going=20
-on for a while. Everybody in Syria is fed up and want a change=20
-but the president is too powerfull and he simply kills anyone=20
-that tries to oppose him. My brother in-law belives that he is at=20
-risk and he is now very scared for the safety of his family=20
-especially his kids. In order to ensure that his family is taken=20
-care of and protected incase anything happens to him, he has=20
-asked me to help him find a foreign investor who can help him=20
-accommodate and invest 100 MUSD privately that he has secured in=20
-Europe. He wants these funds safely invested so that the future=20
-and safety of his family can be secured.
+    psmouse serio1: synaptics: queried max coordinates: x [..5678], y [..4690]
+    psmouse serio1: synaptics: queried min coordinates: x [1266..], y [1160..]
+    psmouse serio1: synaptics: Trying to set up SMBus access
+    rmi4_smbus 0-002c: registering SMbus-connected sensor
+--> rmi4_f34 rmi4-00.fn34: rmi_f34v7_probe: Unrecognized bootloader version
+--> rmi4_f34: probe of rmi4-00.fn34 failed with error -22
+    rmi4_f01 rmi4-00.fn01: found RMI device, manufacturer: Synaptics, product: TM3512-010, fw id: 2956703
+    input: Synaptics TM3512-010 as /devices/rmi4-00/input/input91
+    serio: RMI4 PS/2 pass-through port at rmi4-00.fn03
+    psmouse serio4: trackpoint: Elan TrackPoint firmware: 0x11, buttons: 3/3
+    input: TPPS/2 Elan TrackPoint as /devices/rmi4-00/rmi4-00.fn03/serio4/input/input92
 
-I am contacting you with the hope that you will be interested in=20
-helping us. We need your help to accommodate the funds in the=20
-banking system in your country and also invest it in lucrative=20
-projects that will yeild good profits. We will handle all the=20
-logistics involved in the movement of the funds to you. The funds=20
-is already in Europe so you have nothing to worry about because=20
-this transaction will be executed in a legal way. My brother in-=20
-law has also promised to compensate you for your help. He wants=20
-this to be done discretely so I will be acting as his eyes and=20
-ears during the course of this transaction.
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Vincent Huang <vincent.huang@tw.synaptics.com>
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+---
+ drivers/input/mouse/synaptics.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-If this proposal interests you, please kindly respond so that I=20
-can give you more details.
+diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
+index 8a54efd6eb95..9d6fec84047b 100644
+--- a/drivers/input/mouse/synaptics.c
++++ b/drivers/input/mouse/synaptics.c
+@@ -180,6 +180,7 @@ static const char * const smbus_pnp_ids[] = {
+ 	"LEN0096", /* X280 */
+ 	"LEN0097", /* X280 -> ALPS trackpoint */
+ 	"LEN0099", /* X1 Extreme 1st */
++	"LEN0402", /* X1 Extreme 2nd */
+ 	"LEN009b", /* T580 */
+ 	"LEN200f", /* T450s */
+ 	"LEN2044", /* L470  */
+-- 
+2.28.0
 
-Regards,
-
-Laghouili.
