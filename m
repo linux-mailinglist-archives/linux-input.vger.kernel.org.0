@@ -2,89 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01595277A67
-	for <lists+linux-input@lfdr.de>; Thu, 24 Sep 2020 22:30:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB51F278598
+	for <lists+linux-input@lfdr.de>; Fri, 25 Sep 2020 13:15:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726650AbgIXUaD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 24 Sep 2020 16:30:03 -0400
-Received: from [125.140.134.231] ([125.140.134.231]:59260 "EHLO
-        WIN-DAONO245HJF" rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726606AbgIXUaA (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 24 Sep 2020 16:30:00 -0400
-Received: from User ([185.191.231.247]) by WIN-DAONO245HJF with Microsoft SMTPSVC(8.5.9600.16384);
-         Fri, 25 Sep 2020 05:26:36 +0900
-Reply-To: <samthong5555@yahoo.com>
-From:   "SAM THONG" <samthong5555@gmail.com>
-Subject: Business Acquisition 1
-Date:   Thu, 24 Sep 2020 13:26:36 -0700
+        id S1727733AbgIYLPQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 25 Sep 2020 07:15:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35974 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727132AbgIYLPQ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 25 Sep 2020 07:15:16 -0400
+Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 02CEF221E5;
+        Fri, 25 Sep 2020 11:15:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601032515;
+        bh=pJom88A0bi1RdO+KCgx4Zz7zv2oiMPcqlDl14hZcJTc=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=ZRFi3B3peB0lwaeLfeYuy8+6ToP0Xp1TV4/k6i8uICo2upYIGmp4lN/s8/VLRFQgr
+         6oG6E8kMg1LWujltFG9o3SuOS3RtRRTYhffd/S7BnE7Fp2iV2ggXngK7uERN+YSeKj
+         n+OteMPYYjpgZArK0bfh7o2KNyqiQnT5CFY+2LRc=
+Date:   Fri, 25 Sep 2020 13:15:10 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     "Gerecke, Jason" <killertofu@gmail.com>
+cc:     linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Ping Cheng <pinglinux@gmail.com>,
+        Aaron Armstrong Skomra <skomra@gmail.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>,
+        stable@vger.kernel.org, Ping Cheng <ping.cheng@wacom.com>
+Subject: Re: [PATCH] HID: wacom: Avoid entering wacom_wac_pen_report for pad
+ / battery
+In-Reply-To: <20200923201456.25912-1-jason.gerecke@wacom.com>
+Message-ID: <nycvar.YFH.7.76.2009251314520.3336@cbobk.fhfr.pm>
+References: <20200923201456.25912-1-jason.gerecke@wacom.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-ID: <WIN-DAONO245HJFR4fa00e70a06@WIN-DAONO245HJF>
-X-OriginalArrivalTime: 24 Sep 2020 20:26:36.0694 (UTC) FILETIME=[005C8B60:01D692B1]
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Wed, 23 Sep 2020, Gerecke, Jason wrote:
 
+> From: Jason Gerecke <jason.gerecke@wacom.com>
+> 
+> It has recently been reported that the "heartbeat" report from devices
+> like the 2nd-gen Intuos Pro (PTH-460, PTH-660, PTH-860) or the 2nd-gen
+> Bluetooth-enabled Intuos tablets (CTL-4100WL, CTL-6100WL) can cause the
+> driver to send a spurious BTN_TOUCH=0 once per second in the middle of
+> drawing. This can result in broken lines while drawing on Chrome OS.
+> 
+> The source of the issue has been traced back to a change which modified
+> the driver to only call `wacom_wac_pad_report()` once per report instead
+> of once per collection. As part of this change, pad-handling code was
+> removed from `wacom_wac_collection()` under the assumption that the
+> `WACOM_PEN_FIELD` and `WACOM_TOUCH_FIELD` checks would not be satisfied
+> when a pad or battery collection was being processed.
+> 
+> To be clear, the macros `WACOM_PAD_FIELD` and `WACOM_PEN_FIELD` do not
+> currently check exclusive conditions. In fact, most "pad" fields will
+> also appear to be "pen" fields simply due to their presence inside of
+> a Digitizer application collection. Because of this, the removal of
+> the check from `wacom_wac_collection()` just causes pad / battery
+> collections to instead trigger a call to `wacom_wac_pen_report()`
+> instead. The pen report function in turn resets the tip switch state
+> just prior to exiting, resulting in the observed BTN_TOUCH=0 symptom.
+> 
+> To correct this, we restore a version of the `WACOM_PAD_FIELD` check
+> in `wacom_wac_collection()` and return early. This effectively prevents
+> pad / battery collections from being reported until the very end of the
+> report as originally intended.
+> 
+> Fixes: d4b8efeb46d9 ("HID: wacom: generic: Correct pad syncing")
+> Cc: stable@vger.kernel.org # v4.17+
+> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+> Reviewed-by: Ping Cheng <ping.cheng@wacom.com>
+> Tested-by: Ping Cheng <ping.cheng@wacom.com>
 
-Dear sir
+Applied.
 
-Our underwriter company is seeking the attention of genuine and reliable persons, companies
-
-who are indeed in need of funds as investment capital or business expansion in form of a
-
-direct loan to partner with us and benefit in our new Loan and Project funding programs.
-
-
-
-We offer flexible loans and funding for various projects at very affordable low interest
-
-rate of 3% annually for a period of 1-15 years on Non collateral loan/funding . We offer
-
-loan/funding from a minimum of Euro ? / USD$ 1 Million to Euro ? / USD$ 1 Billion. Max,
-
-depending on the nature of business/project.
-
-We are currently funding for:-
-
-
-
-* Starting up a Franchise
-
-* Business Acquisition
-
-* Business Expansion
-
-* Commercial Real Estate purchase
-
-* Consultancy and Contract Execution, Marine , ETC.
-
-
-
-Kindly get in touch for further details and procedure. samthong5555@yahoo.com 
-
-
-
-Respectfully,
-
-
-SAM THONG
-
-
-
-
-
-
-
-	
-
-
+-- 
+Jiri Kosina
+SUSE Labs
 
