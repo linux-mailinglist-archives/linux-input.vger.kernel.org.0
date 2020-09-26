@@ -2,61 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C77262798F2
-	for <lists+linux-input@lfdr.de>; Sat, 26 Sep 2020 14:48:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA5612798F4
+	for <lists+linux-input@lfdr.de>; Sat, 26 Sep 2020 14:48:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726316AbgIZMsA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 26 Sep 2020 08:48:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34494 "EHLO
+        id S1726305AbgIZMsC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 26 Sep 2020 08:48:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726183AbgIZMsA (ORCPT
+        with ESMTP id S1726183AbgIZMsB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 26 Sep 2020 08:48:00 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39BB1C0613CE;
-        Sat, 26 Sep 2020 05:48:00 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id j2so6836494wrx.7;
-        Sat, 26 Sep 2020 05:48:00 -0700 (PDT)
+        Sat, 26 Sep 2020 08:48:01 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14426C0613CE;
+        Sat, 26 Sep 2020 05:48:01 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id q9so1930402wmj.2;
+        Sat, 26 Sep 2020 05:48:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=J5iK8RTd/hZzrA+71AIsly33K52cZ+ekEJK/vPtSCPI=;
-        b=mhaRNiCnuAPccKzv172Ime5NOJez0GvNvUIPJTGsUcWUMzktTmhEBBj0W5uHNAJHja
-         gI8JvRXb062R+JeyfctHxBcUNQSJqsR1sFkdhrB9n5LUvdsiP6tAvKHJ5wRdHbApuqVL
-         m3qWVE9TxcfznXibvvkT8WzJDcnc6UObGqnScfs2OTWBR6tqx3XPxf50XzD4r7V/9/d/
-         ZisUPhgIal9FPlS+p+aLwPXpLcakSIKJgfpGdSAAfArmCfbgYLOXfmVxVBqrEMULHwD0
-         Gh+9aruCQ1WHm/e6hJLojDMFWroioIqKpTTo/SSjeIcv2T6eLjsJatiS4CO41vH1dQF/
-         cG0g==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=cGK0y4DdjN+ht1VXSEDsJItbDCIWKoPEWxNpiJk8/U4=;
+        b=SEWL1LcYCe8q8flYFLaJm70M8HbFHHuKVK0NntGKnhzIvoU3lv/AZZmoqPsQxwiGHU
+         UefCHqduXCx5CZuBzIkL6lgj7pd4efRy+87f+dGYS5Dy6AmYk/yMjUXWeP6GK75xgbdr
+         N44oeZR8hnZgZ1OT4+wIWLnlM26vJCb9Iq5ULoxe85UoSY7fchcYaUqDiqr3+xZhtsBi
+         xk3Cl9ZYToCQI5RglTk34aHtVAbNa0ytH25Q3vfq7wu7F2IjG/4yCfXQXFC4CZsvzYzh
+         ny6K0HSkwU0yeh2dHnhBrw2bRHeQEBOMy0kG0rAbUFBf1NaQN4XDe5I5y0IGh15JVWMH
+         5SGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=J5iK8RTd/hZzrA+71AIsly33K52cZ+ekEJK/vPtSCPI=;
-        b=GC9sWbwvVLIfs8Kk22evY1G2n0I/uLty8mgLhfA3HkxOIbwOyUnRXMYpdjpqKJcXgf
-         Vl0Cw9UijwhUAGNTfE2N0+drKVxk/YGjmrERLIb8oIPYzJA4/3I/iMPKlyJZmWyo1SLt
-         eV3tcrO/A8p6TOJsTCxHIT/07EendVkXT/l45VMfky+5abrRyOolfLYu6LBdKdg3idmo
-         a6HR5KdDaLInOccLQZNJrieLdSL/Pdr4pSNlq8z0kP0XMZKK4/swToqsTvrauhCucXgG
-         5QUqRa1TyYe3PQu/JWWcqt1vy9hoLyeSR6iqKxno7qnqjbAgA6FBRXWIFXbGosP9VNdf
-         t11g==
-X-Gm-Message-State: AOAM532XBcogkwKBhP6gjJQeKYNZLaw7KTytmG7PnKzYmmSZUeUpoyBl
-        TsGuZ7ygGqXX8XMlZ5zVPFU=
-X-Google-Smtp-Source: ABdhPJwPcw05RM4NWxOXiyvYH/v7tutGpGWSIdz6+/p3AN+5Lng+64UIyYWYj9VmUctx7ZfKKP1w5g==
-X-Received: by 2002:a5d:43cf:: with SMTP id v15mr9579562wrr.269.1601124478834;
-        Sat, 26 Sep 2020 05:47:58 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=cGK0y4DdjN+ht1VXSEDsJItbDCIWKoPEWxNpiJk8/U4=;
+        b=n7zVj1Jvt1HkThjzYDGwUsKuOGnoP4SC8uLX6x9NLgk8KLd9E/IMMldP6jXoMAmTmL
+         i66eFbeIatE3pB146vOdhkMLt4wbqPpv958g4o4695+mIYO8sZZFhAQqEqr0c/PZ/viw
+         nDNqWNh5Pq6ljfBQF0ts07ZP6ft3l80MoxFwxGXwYclYkWfCahebtx0A1kvpqg070ZlG
+         Tk3e+veaLScmhMXIlKMCx4BXpKNdI4Nw4GYQKwm/7MH4TRph8gvfoJvMLVU1VoAOGL2m
+         BqXEIeqypakU9mTImhqW4Pjg9Qw89NdAe7410MEF6NQzSM/XpGhnFiydJ8Lb4WGeHoRI
+         Xpug==
+X-Gm-Message-State: AOAM533A72h+Hzs5xaYZvXA7OzfmPBBQjuOrabRzq6Z1sRQJIIy4osI6
+        /DrDgD4pqgGDYwHaIsDimCk=
+X-Google-Smtp-Source: ABdhPJxo37uourJ46XRWLvxmZzM8+oOEG7q8GHJAx2zSAKfOVrTpEIs05YzhAsOIuwAEwxFZhjdvKA==
+X-Received: by 2002:a1c:bcd4:: with SMTP id m203mr2499914wmf.70.1601124479728;
+        Sat, 26 Sep 2020 05:47:59 -0700 (PDT)
 Received: from IcarusMOD.eternityproject.eu ([2.237.20.237])
-        by smtp.gmail.com with ESMTPSA id i15sm6909901wrb.91.2020.09.26.05.47.57
+        by smtp.gmail.com with ESMTPSA id i15sm6909901wrb.91.2020.09.26.05.47.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2020 05:47:58 -0700 (PDT)
+        Sat, 26 Sep 2020 05:47:59 -0700 (PDT)
 From:   kholk11@gmail.com
 To:     dmitry.torokhov@gmail.com
 Cc:     robh+dt@kernel.org, rydberg@bitmath.org, priv.luk@gmail.com,
         linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         AngeloGioacchino Del Regno <kholk11@gmail.com>
-Subject: [PATCH 0/3] Add Novatek NT36xxx touchscreen driver
-Date:   Sat, 26 Sep 2020 14:47:44 +0200
-Message-Id: <20200926124747.12465-1-kholk11@gmail.com>
+Subject: [PATCH 1/3] dt-bindings: Add vendor prefix for Novatek Microelectronics Corp.
+Date:   Sat, 26 Sep 2020 14:47:45 +0200
+Message-Id: <20200926124747.12465-2-kholk11@gmail.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20200926124747.12465-1-kholk11@gmail.com>
+References: <20200926124747.12465-1-kholk11@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -65,30 +67,26 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: AngeloGioacchino Del Regno <kholk11@gmail.com>
 
-This patch series adds support for the Novatek NT36xxx Series' In-Cell
-touchscreen (integrated into the DriverIC).
+Add prefix for Novatek Microelectronics Corp.
 
-This patch series has been tested against the following devices:
- - Sony Xperia 10        (SDM630 Ganges Kirin)
- - Sony Xperia 10 Plus   (SDM636 Ganges Mermaid)
+Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-AngeloGioacchino Del Regno (3):
-  dt-bindings: Add vendor prefix for Novatek Microelectronics Corp.
-  Input: Add Novatek NT36xxx touchscreen driver
-  dt-bindings: touchscreen: Add binding for Novatek NT36xxx series
-    driver
-
- .../input/touchscreen/novatek,nt36xxx.yaml    |  56 ++
- .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
- drivers/input/touchscreen/Kconfig             |  12 +
- drivers/input/touchscreen/Makefile            |   1 +
- drivers/input/touchscreen/nt36xxx.c           | 741 ++++++++++++++++++
- drivers/input/touchscreen/nt36xxx.h           | 122 +++
- 6 files changed, 934 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/input/touchscreen/novatek,nt36xxx.yaml
- create mode 100644 drivers/input/touchscreen/nt36xxx.c
- create mode 100644 drivers/input/touchscreen/nt36xxx.h
-
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 66e45112a8d7..f98ea0af487d 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -740,6 +740,8 @@ patternProperties:
+     description: Nokia
+   "^nordic,.*":
+     description: Nordic Semiconductor
++  "^novatek,.*":
++    description: Novatek Microelectronics Corp.
+   "^novtech,.*":
+     description: NovTech, Inc.
+   "^nutsboard,.*":
 -- 
 2.28.0
 
