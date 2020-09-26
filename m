@@ -2,115 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6903D2795B5
-	for <lists+linux-input@lfdr.de>; Sat, 26 Sep 2020 02:56:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C77262798F2
+	for <lists+linux-input@lfdr.de>; Sat, 26 Sep 2020 14:48:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729843AbgIZA4U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 25 Sep 2020 20:56:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38404 "EHLO
+        id S1726316AbgIZMsA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 26 Sep 2020 08:48:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729842AbgIZA4T (ORCPT
+        with ESMTP id S1726183AbgIZMsA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 25 Sep 2020 20:56:19 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4AAEC0613D3
-        for <linux-input@vger.kernel.org>; Fri, 25 Sep 2020 17:56:17 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id b124so4823772pfg.13
-        for <linux-input@vger.kernel.org>; Fri, 25 Sep 2020 17:56:17 -0700 (PDT)
+        Sat, 26 Sep 2020 08:48:00 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39BB1C0613CE;
+        Sat, 26 Sep 2020 05:48:00 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id j2so6836494wrx.7;
+        Sat, 26 Sep 2020 05:48:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CkABhTM4+gjBXbsGX0LKRrzMtJbpdlgplZ12ZAe2qrc=;
-        b=DVs4M+SVZf3NvmzPd0twXi8GkXf0+XVQGkPJ2D5CbIsOtbNbqrwJ2VVhFgG/rPZSqB
-         I+Yp6uBnQrGo21fG/nSKSViim0KzpxCSnQF25GAa8WkdW6DOraFnT+6SH6rf1QgQOg1b
-         lNbBhEa3rddjvkKJGLOR3cSiWpXS5bMM1B7Qn36rQOZuirHL1lPJmHPvS9sV2/3PDIGO
-         xxMU2vUq2REiFopho9DeLWl6VIsO+4XVfHVBLC6rQDQLqhd7F826uPNDL0Z9BPU64kON
-         PYLczhyUVg1pXKKiZmTR+nuNLFXfvFNg5GCEXZ6l2Dki04r93ZghdDNepAn5tuAriGLI
-         B0wQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=J5iK8RTd/hZzrA+71AIsly33K52cZ+ekEJK/vPtSCPI=;
+        b=mhaRNiCnuAPccKzv172Ime5NOJez0GvNvUIPJTGsUcWUMzktTmhEBBj0W5uHNAJHja
+         gI8JvRXb062R+JeyfctHxBcUNQSJqsR1sFkdhrB9n5LUvdsiP6tAvKHJ5wRdHbApuqVL
+         m3qWVE9TxcfznXibvvkT8WzJDcnc6UObGqnScfs2OTWBR6tqx3XPxf50XzD4r7V/9/d/
+         ZisUPhgIal9FPlS+p+aLwPXpLcakSIKJgfpGdSAAfArmCfbgYLOXfmVxVBqrEMULHwD0
+         Gh+9aruCQ1WHm/e6hJLojDMFWroioIqKpTTo/SSjeIcv2T6eLjsJatiS4CO41vH1dQF/
+         cG0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CkABhTM4+gjBXbsGX0LKRrzMtJbpdlgplZ12ZAe2qrc=;
-        b=QfJDnI2vxg8p2YJvw2tV0cqHM8VWjepCXNVyQJpv4TmmSszhKK9B231IG8WRl4oyt4
-         Yb8/7u6Uja6edgLoUak2L3GzrkRvlGkVQN+prItG5npOjFirz4Jy5nwME/FA30XzO3HP
-         2VaxxesadUmpMbgA80AVQZQ5BGvvIhVsuaQyyvg65+4Y3k25asleQ9eB/haXDSXxthhp
-         WWeU5kSWyKMQM+Gl1JK/E0o5SYQZv+88sevtQrd0QLOV9d0QWaj/k/kh0K0eaFJvodR6
-         QOzWgeOjq5pKyaw5OnuraW119YN28pprU4M+G5sqMkAnaUft5XyLPZk1fYKNfW0ZYP7u
-         Wz5Q==
-X-Gm-Message-State: AOAM5310t5e/bqPUghFOVLGpLcyPAZaZ8cwSRm1uvDa8Bqh4phis0RFR
-        kgBUgvk/EuK6PEKUx8xJ8DR87pPU3Qzifp9k/gdHdZ5Bmq90wQ==
-X-Google-Smtp-Source: ABdhPJx8y4D99gbo4fzAmw2sgsfjzir8Myjf2rJn647+B5G232Sfyky5gCDStSbt/YC5fFqEgZfvaAxvInPmtYPnvWc=
-X-Received: by 2002:a63:36cc:: with SMTP id d195mr1221093pga.426.1601081777097;
- Fri, 25 Sep 2020 17:56:17 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=J5iK8RTd/hZzrA+71AIsly33K52cZ+ekEJK/vPtSCPI=;
+        b=GC9sWbwvVLIfs8Kk22evY1G2n0I/uLty8mgLhfA3HkxOIbwOyUnRXMYpdjpqKJcXgf
+         Vl0Cw9UijwhUAGNTfE2N0+drKVxk/YGjmrERLIb8oIPYzJA4/3I/iMPKlyJZmWyo1SLt
+         eV3tcrO/A8p6TOJsTCxHIT/07EendVkXT/l45VMfky+5abrRyOolfLYu6LBdKdg3idmo
+         a6HR5KdDaLInOccLQZNJrieLdSL/Pdr4pSNlq8z0kP0XMZKK4/swToqsTvrauhCucXgG
+         5QUqRa1TyYe3PQu/JWWcqt1vy9hoLyeSR6iqKxno7qnqjbAgA6FBRXWIFXbGosP9VNdf
+         t11g==
+X-Gm-Message-State: AOAM532XBcogkwKBhP6gjJQeKYNZLaw7KTytmG7PnKzYmmSZUeUpoyBl
+        TsGuZ7ygGqXX8XMlZ5zVPFU=
+X-Google-Smtp-Source: ABdhPJwPcw05RM4NWxOXiyvYH/v7tutGpGWSIdz6+/p3AN+5Lng+64UIyYWYj9VmUctx7ZfKKP1w5g==
+X-Received: by 2002:a5d:43cf:: with SMTP id v15mr9579562wrr.269.1601124478834;
+        Sat, 26 Sep 2020 05:47:58 -0700 (PDT)
+Received: from IcarusMOD.eternityproject.eu ([2.237.20.237])
+        by smtp.gmail.com with ESMTPSA id i15sm6909901wrb.91.2020.09.26.05.47.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Sep 2020 05:47:58 -0700 (PDT)
+From:   kholk11@gmail.com
+To:     dmitry.torokhov@gmail.com
+Cc:     robh+dt@kernel.org, rydberg@bitmath.org, priv.luk@gmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        AngeloGioacchino Del Regno <kholk11@gmail.com>
+Subject: [PATCH 0/3] Add Novatek NT36xxx touchscreen driver
+Date:   Sat, 26 Sep 2020 14:47:44 +0200
+Message-Id: <20200926124747.12465-1-kholk11@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20200925233552.GA4022480@dtor-ws>
-In-Reply-To: <20200925233552.GA4022480@dtor-ws>
-From:   Kenneth Albanowski <kenalba@google.com>
-Date:   Fri, 25 Sep 2020 17:56:06 -0700
-Message-ID: <CALvoSf7mjHwUhfnW_nHbsJk5=ZFVCNR5Ae1fXmhDf8PM68Oe2Q@mail.gmail.com>
-Subject: Re: [PATCH] HID: hid-input: fix stylus battery reporting
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-[Re-send to appease the mail daemons]
+From: AngeloGioacchino Del Regno <kholk11@gmail.com>
 
-Confirmed, I've validated this on a 4.19 derivative, this fixes the
-problem and battery strength gets reported again.
+This patch series adds support for the Novatek NT36xxx Series' In-Cell
+touchscreen (integrated into the DriverIC).
 
-- Kenneth Albanowski
+This patch series has been tested against the following devices:
+ - Sony Xperia 10        (SDM630 Ganges Kirin)
+ - Sony Xperia 10 Plus   (SDM636 Ganges Mermaid)
 
+AngeloGioacchino Del Regno (3):
+  dt-bindings: Add vendor prefix for Novatek Microelectronics Corp.
+  Input: Add Novatek NT36xxx touchscreen driver
+  dt-bindings: touchscreen: Add binding for Novatek NT36xxx series
+    driver
 
-On Fri, Sep 25, 2020 at 4:35 PM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> With commit 4f3882177240 hid-input started clearing of "ignored" usages
-> to avoid using garbage that might have been left in them. However
-> "battery strength" usages should not be ignored, as we do want to
-> use them.
->
-> Fixes: 4f3882177240 ("HID: hid-input: clear unmapped usages")
-> Reported-by: Kenneth Albanowski <kenalba@google.com>
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> ---
->
-> Kenneth, can you please try this one and see if it fixes your issue?
->
->  drivers/hid/hid-input.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> index dea9cc65bf80..5da631d2ec9b 100644
-> --- a/drivers/hid/hid-input.c
-> +++ b/drivers/hid/hid-input.c
-> @@ -797,7 +797,7 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
->                 case 0x3b: /* Battery Strength */
->                         hidinput_setup_battery(device, HID_INPUT_REPORT, field);
->                         usage->type = EV_PWR;
-> -                       goto ignore;
-> +                       return;
->
->                 case 0x3c: /* Invert */
->                         map_key_clear(BTN_TOOL_RUBBER);
-> @@ -1059,7 +1059,7 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
->                 case HID_DC_BATTERYSTRENGTH:
->                         hidinput_setup_battery(device, HID_INPUT_REPORT, field);
->                         usage->type = EV_PWR;
-> -                       goto ignore;
-> +                       return;
->                 }
->                 goto unknown;
->
-> --
-> 2.28.0.681.g6f77f65b4e-goog
->
->
-> --
-> Dmitry
+ .../input/touchscreen/novatek,nt36xxx.yaml    |  56 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ drivers/input/touchscreen/Kconfig             |  12 +
+ drivers/input/touchscreen/Makefile            |   1 +
+ drivers/input/touchscreen/nt36xxx.c           | 741 ++++++++++++++++++
+ drivers/input/touchscreen/nt36xxx.h           | 122 +++
+ 6 files changed, 934 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/novatek,nt36xxx.yaml
+ create mode 100644 drivers/input/touchscreen/nt36xxx.c
+ create mode 100644 drivers/input/touchscreen/nt36xxx.h
+
+-- 
+2.28.0
+
