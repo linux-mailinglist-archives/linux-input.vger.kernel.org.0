@@ -2,120 +2,187 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D9F227A095
-	for <lists+linux-input@lfdr.de>; Sun, 27 Sep 2020 13:12:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2328A27A0EF
+	for <lists+linux-input@lfdr.de>; Sun, 27 Sep 2020 14:33:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726358AbgI0LMy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 27 Sep 2020 07:12:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37847 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726265AbgI0LMy (ORCPT
+        id S1726583AbgI0Mdq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 27 Sep 2020 08:33:46 -0400
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:56438 "EHLO
+        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726578AbgI0Mdp (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 27 Sep 2020 07:12:54 -0400
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1601205172;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=grNRHn8J14/DqTRAmM7aKq7BCmqssKY/pLOK1/sHVHE=;
-        b=Ih/e+5ZWPLEbiPD71rtoKQ9WnwTv9lUYYdZf0KPjlqjPC10XFMArxmWhuZy6ThWrO8MaFD
-        ClF0UaoKrvmCUDmbn34HDKqVb2NJyuKZrQz+qE7SaV5+cUv4VYHavmbVt3FR/vLTOpecXa
-        WlUV118gbeE17QpQSO3IyM0FU6VZPwU=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-101-OgQfDBPCOECoVI9fwpj32Q-1; Sun, 27 Sep 2020 07:12:50 -0400
-X-MC-Unique: OgQfDBPCOECoVI9fwpj32Q-1
-Received: by mail-ed1-f69.google.com with SMTP id c3so3138136eds.6
-        for <linux-input@vger.kernel.org>; Sun, 27 Sep 2020 04:12:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=grNRHn8J14/DqTRAmM7aKq7BCmqssKY/pLOK1/sHVHE=;
-        b=gDb6M7hbc4eFEd8mzA/kQ+/KUPg72lJ97VOkCEkw4VevXloYtfP5oZ1ed90s8dXKpZ
-         OeIyTp4iOMrgzfHNDQFnuU2nrrBkoG4nP9iiM8ub8kMR1ulThfeXBIn5eor3nSAS3jVA
-         sLZ8kzx3z8XeizOJgeD54qGPvEt4/BGiLARL6dsVggFj2CAsDrIwO733dUzw9hb8wK+4
-         Hh9aiXD/VLVDCGfLflvsWaDKqSbzFhlN6xu+0kDPRMtlMKE90v9NHO+/QlkcHcTBCIQT
-         ufu7bJsbLKaoB5L/NB//MeK9uxpECv57BUdqVL/efq+V25iQmGB3EFuazPwlMajHq1CA
-         SFmA==
-X-Gm-Message-State: AOAM532mS1nrTEiGPmx25/qXvWB+YEnThSfep/O4Lnm6H45NG8kM0MKH
-        RLDVKraovq15RSftjDviWIdLs4a4rOEau+EEsnFX8nO8Qq4UDbG0nFurwqPzWvESQG1qqgRylsf
-        Ek3rMtOj1NFnK2u4sAKEwFpg=
-X-Received: by 2002:a05:6402:16c9:: with SMTP id r9mr10449394edx.27.1601205168821;
-        Sun, 27 Sep 2020 04:12:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJySeeuO8FyXe7xU8cNB6VWElLHoV4AEfMELKyWrzNGbfZTKaQiaMrJTknuPLGC/Z7v59DDJxA==
-X-Received: by 2002:a05:6402:16c9:: with SMTP id r9mr10449380edx.27.1601205168602;
-        Sun, 27 Sep 2020 04:12:48 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id q13sm6920852edr.27.2020.09.27.04.12.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 27 Sep 2020 04:12:47 -0700 (PDT)
-Subject: Re: [PATCH 0/3] Add support for F3A
-To:     Vincent Huang <vincent.huang@tw.synaptics.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Andrew Duggan <aduggan@synaptics.com>,
-        Benjamin Tissoires <btissoir@redhat.com>,
-        Lyude Paul <lyude@redhat.com>,
-        Chris Heiny <chris.heiny@synaptics.com>
-References: <20200924094628.1085000-1-vincent.huang@tw.synaptics.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <05140fb1-19a5-d740-2c57-e39e450142ec@redhat.com>
-Date:   Sun, 27 Sep 2020 13:12:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Sun, 27 Sep 2020 08:33:45 -0400
+Received: from relay12.mail.gandi.net (unknown [217.70.178.232])
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id AE09D3A4B50
+        for <linux-input@vger.kernel.org>; Sun, 27 Sep 2020 12:33:43 +0000 (UTC)
+Received: from pc.localdomain (unknown [195.189.32.242])
+        (Authenticated sender: contact@artur-rojek.eu)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 6725C200007;
+        Sun, 27 Sep 2020 12:33:18 +0000 (UTC)
+From:   Artur Rojek <contact@artur-rojek.eu>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Heiko Stuebner <heiko@sntech.de>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Artur Rojek <contact@artur-rojek.eu>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v10 1/2] dt-bindings: input: Add docs for ADC driven joystick.
+Date:   Sun, 27 Sep 2020 14:33:01 +0200
+Message-Id: <20200927123302.31062-1-contact@artur-rojek.eu>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20200924094628.1085000-1-vincent.huang@tw.synaptics.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Add documentation for the adc-joystick driver, used to provide support
+for joysticks connected over ADC.
 
-On 9/24/20 11:46 AM, Vincent Huang wrote:
-> RMI4 F3A supports the touchpad GPIO function, it's designed to support
-> more GPIOs and used on newer touchpads. The patches add support of
-> touchpad buttons and rename f30_data to avoid confusion.
+Signed-off-by: Artur Rojek <contact@artur-rojek.eu>
+Tested-by: Paul Cercueil <paul@crapouillou.net>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
 
-Thank you for the patch. So as already mentioned patches 1 and 2
-need to be combined into a single patch.
+Changes:
+    v6-v10: no change
 
-Otherwise the patches look good to me and I can confirm that
-they fix clickpad clicks not registering when using rmi4 for the touchpad
-on the Lenovo T14 gen 1.
+ .../bindings/input/adc-joystick.yaml          | 121 ++++++++++++++++++
+ 1 file changed, 121 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/adc-joystick.yaml
 
-So for version 2 (with patches 1 and 2 combined into a single patch)
-you may add my:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Tested-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
-> 
-> Vincent Huang (3):
->    Input: synaptics-rmi4 - rename f30_data to gpio_data
->    HID: rmi - rename f30_data to gpio_data
->    Input: synaptics-rmi4 - add support for F3A
-> 
->   drivers/hid/hid-rmi.c           |   2 +-
->   drivers/input/mouse/synaptics.c |   2 +-
->   drivers/input/rmi4/Kconfig      |   8 ++
->   drivers/input/rmi4/Makefile     |   1 +
->   drivers/input/rmi4/rmi_bus.c    |   3 +
->   drivers/input/rmi4/rmi_driver.h |   1 +
->   drivers/input/rmi4/rmi_f30.c    |  14 +-
->   drivers/input/rmi4/rmi_f3a.c    | 241 ++++++++++++++++++++++++++++++++
->   include/linux/rmi.h             |  11 +-
->   9 files changed, 269 insertions(+), 14 deletions(-)
->   create mode 100644 drivers/input/rmi4/rmi_f3a.c
-> 
+diff --git a/Documentation/devicetree/bindings/input/adc-joystick.yaml b/Documentation/devicetree/bindings/input/adc-joystick.yaml
+new file mode 100644
+index 000000000000..054406bbd22b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/adc-joystick.yaml
+@@ -0,0 +1,121 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++# Copyright 2019-2020 Artur Rojek
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/input/adc-joystick.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++
++title: ADC attached joystick
++
++maintainers:
++  - Artur Rojek <contact@artur-rojek.eu>
++
++description: >
++  Bindings for joystick devices connected to ADC controllers supporting
++  the Industrial I/O subsystem.
++
++properties:
++  compatible:
++    const: adc-joystick
++
++  io-channels:
++    minItems: 1
++    maxItems: 1024
++    description: >
++      List of phandle and IIO specifier pairs.
++      Each pair defines one ADC channel to which a joystick axis is connected.
++      See Documentation/devicetree/bindings/iio/iio-bindings.txt for details.
++
++  '#address-cells':
++    const: 1
++
++  '#size-cells':
++    const: 0
++
++required:
++  - compatible
++  - io-channels
++  - '#address-cells'
++  - '#size-cells'
++
++additionalProperties: false
++
++patternProperties:
++  "^axis@[0-9a-f]+$":
++    type: object
++    description: >
++      Represents a joystick axis bound to the given ADC channel.
++      For each entry in the io-channels list, one axis subnode with a matching
++      reg property must be specified.
++
++    properties:
++      reg:
++        minimum: 0
++        maximum: 1023
++        description: Index of an io-channels list entry bound to this axis.
++
++      linux,code:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        description: EV_ABS specific event code generated by the axis.
++
++      abs-range:
++        allOf:
++          - $ref: /schemas/types.yaml#/definitions/uint32-array
++          - items:
++              - description: minimum value
++              - description: maximum value
++        description: >
++          Minimum and maximum values produced by the axis.
++          For an ABS_X axis this will be the left-most and right-most
++          inclination of the joystick. If min > max, it is left to userspace to
++          treat the axis as inverted.
++          This property is interpreted as two signed 32 bit values.
++
++      abs-fuzz:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        description: >
++          Amount of noise in the input value.
++          Omitting this property indicates the axis is precise.
++
++      abs-flat:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        description: >
++          Axial "deadzone", or area around the center position, where the axis
++          is considered to be at rest.
++          Omitting this property indicates the axis always returns to exactly
++          the center position.
++
++    required:
++      - reg
++      - linux,code
++      - abs-range
++
++    additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/iio/adc/ingenic,adc.h>
++    #include <dt-bindings/input/input.h>
++
++    joystick: adc-joystick {
++      compatible = "adc-joystick";
++      io-channels = <&adc INGENIC_ADC_TOUCH_XP>,
++                    <&adc INGENIC_ADC_TOUCH_YP>;
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      axis@0 {
++              reg = <0>;
++              linux,code = <ABS_X>;
++              abs-range = <3300 0>;
++              abs-fuzz = <4>;
++              abs-flat = <200>;
++      };
++      axis@1 {
++              reg = <1>;
++              linux,code = <ABS_Y>;
++              abs-range = <0 3300>;
++              abs-fuzz = <4>;
++              abs-flat = <200>;
++      };
++    };
+-- 
+2.28.0
 
