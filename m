@@ -2,193 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 94C79279D1A
-	for <lists+linux-input@lfdr.de>; Sun, 27 Sep 2020 02:12:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D9F227A095
+	for <lists+linux-input@lfdr.de>; Sun, 27 Sep 2020 13:12:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727364AbgI0AMY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 26 Sep 2020 20:12:24 -0400
-Received: from mail-eopbgr750124.outbound.protection.outlook.com ([40.107.75.124]:30389
-        "EHLO NAM02-BL2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726382AbgI0AMY (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 26 Sep 2020 20:12:24 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Iuo66aruBha1msLCDAF684WCXT7luZXUxB03fBxO19HE9JesRwDz+7h8IVdyll6ubrh7na6o6aq1mdApjrfDf3jHrbFL3WpBJuNGGpdR3T2eRF+u4uLyjLK/89VZpBzmODhyBLQpJLa1UZhfm/FDr7jUCdhzltXJF0Mox9ibzUKwnEr6IJhD6GUm1eyu6LAYtKcmZe4gdT4i9+OjWSvCQUK8oT+qOH8N05MKqMjBdGIwthGIuVg521s9Y8el+z/YXCKaXokHFGSA6i6J7e2R8m+LllFOGdKOkn0SQzvl6ZgpATXh5riCy5I2sOoTdNzJgmEnQSg32NZH+s11B+FvJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e05lc9B2A3dgCiVkkc2qaYZ0PtxigCWjYD19XM4LA4s=;
- b=ie4nyXgMqFBb+JEnFKTkWbYDOwRfsDaP0g/rCEqollyyLBdt826TDoTW5HifIanr22CzbGisDcOvUxggdu0a+QVJsWuRCr16jxQuVdwcDvWesMYXqLQscyXfXo82GsfC6+AtM3PW5JW4daEO0L+o+xYEasaRqa+iJjenoavvwxUQvT7u/YhaWbWjwcsJqz9cgm+g1xj7ux7CluxJlXMknymcfubtLb0lwCEZCMI6DffKaFgFDMZ2HOOuoDesha0/SyucQic35Gc4taCMgSmxKe8Ho59I2/K+ILmWpLVaNI2Xo7cTqlE/PhhGxMTXQRczlqs4oYYyu4q58xVShOvEkg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e05lc9B2A3dgCiVkkc2qaYZ0PtxigCWjYD19XM4LA4s=;
- b=EquGInRT2w2Rid+q6EoeWYJAO/CAwtHppIfhmhrpmwGJ3Fp0pE3lUvjB4wOc94Kuw8EuY6pLuLsLumS7XpCEGBVBABESvkibk1C/m2NAzcxvJFTXiRVcJyMZEeOGn4itOz2PuldDBiyg+d7EPDbdLrbdq0HHtYhNP4849MMSfsw=
-Received: from MW2PR2101MB1052.namprd21.prod.outlook.com (2603:10b6:302:a::16)
- by MW2PR2101MB0892.namprd21.prod.outlook.com (2603:10b6:302:10::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.7; Sun, 27 Sep
- 2020 00:12:20 +0000
-Received: from MW2PR2101MB1052.namprd21.prod.outlook.com
- ([fe80::d00b:3909:23b:83f1]) by MW2PR2101MB1052.namprd21.prod.outlook.com
- ([fe80::d00b:3909:23b:83f1%4]) with mapi id 15.20.3412.028; Sun, 27 Sep 2020
- 00:12:20 +0000
-From:   Michael Kelley <mikelley@microsoft.com>
-To:     Boqun Feng <boqun.feng@gmail.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-CC:     KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Wei Liu <wei.liu@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        "will@kernel.org" <will@kernel.org>,
-        "ardb@kernel.org" <ardb@kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-        "Mark.Rutland@arm.com" <Mark.Rutland@arm.com>,
-        "maz@kernel.org" <maz@kernel.org>
-Subject: RE: [PATCH v4 10/11] Driver: hv: util: Use VMBUS_RING_SIZE() for
- ringbuffer sizes
-Thread-Topic: [PATCH v4 10/11] Driver: hv: util: Use VMBUS_RING_SIZE() for
- ringbuffer sizes
-Thread-Index: AQHWi9xHczzmm0pDnU+OThnPDZZK4ql7rdeA
-Date:   Sun, 27 Sep 2020 00:12:20 +0000
-Message-ID: <MW2PR2101MB1052E8E344B482AB0A0DD193D7340@MW2PR2101MB1052.namprd21.prod.outlook.com>
-References: <20200916034817.30282-1-boqun.feng@gmail.com>
- <20200916034817.30282-11-boqun.feng@gmail.com>
-In-Reply-To: <20200916034817.30282-11-boqun.feng@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2020-09-27T00:12:18Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=b28a0bef-45ee-4824-bd9f-b8c1aac2b206;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=microsoft.com;
-x-originating-ip: [24.22.167.197]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: c528a9aa-08b4-4d7b-ff21-08d8627a003a
-x-ms-traffictypediagnostic: MW2PR2101MB0892:
-x-ms-exchange-transport-forked: True
-x-ld-processed: 72f988bf-86f1-41af-91ab-2d7cd011db47,ExtAddr
-x-microsoft-antispam-prvs: <MW2PR2101MB08920E01292829912D07F7A8D7340@MW2PR2101MB0892.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: DuD/mTOL7pdhLsQKdbrjmMkxezNKslNWl2WH89hrVlP+OiLAi5uz8kCWczHKwcLVrMIZbC7yXIh4Cw+CoJpQX/9DHUemi7Dje+mRLUcd5VUuxi7TwzMPkaVF9U5/LRd2XCrbi7k3C/NxeegEKqsGfQ5GARGLAv6tfaTAH+zZ/ZcfOspy9bZ8Wj3n39wmP9b32eP1oQr9DHp9c96zOvI5REJaPUjDJZMslkh5g9fdkpW5FWrlYjXL06XCV38zsDWwnYNAk0Jct0Rkm5pfVLwZ4Y1E/0OOMPM8UaucTe5ZdVWBxSkXnT35W97/T6GuM1y5LOK14RzNqd2LR+oebwfFfg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR2101MB1052.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(39860400002)(136003)(366004)(376002)(346002)(5660300002)(316002)(4326008)(66446008)(52536014)(86362001)(64756008)(66476007)(66946007)(71200400001)(76116006)(82960400001)(83380400001)(66556008)(33656002)(8676002)(54906003)(82950400001)(186003)(7416002)(110136005)(7696005)(6506007)(8936002)(478600001)(26005)(10290500003)(2906002)(55016002)(9686003)(8990500004);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: Am8aTWHSdCRzLTeAbh+sS14fcgC5HuPfMqOULZGeBHEHED4mCMVjkbWw82nMosSQX7zlbE8sUYKk4Uy3CM1i5yJueGXxiYBVZwbRTpj1/WY8SB2Ix9rmzqqkBMvW9gwLGJ58gmLv2ZBd2GKaGATxvpOe5Y/mnza5kiClK4JOKrSdD0TdLorxlZRJLudO11B72uUgmaAHLmcrM/MTlK9QHKH2XA1ly1emwtSl1k/OqLu35JiX/yXQnTi6PFvAVC6ZH36+4PO0LfwAtFG19N/N/VGzZzFGgIgDlfzhvtyoW0+X0rnQZLnL7CIU8gmRDkIDOsbqnWJU/yEQNbFndajwPSYNmYzcxuproDpNmCriQDFJ3IX2cGvU1OAJYAl6HAIZo95sRj1VaAkZ9YO8V/Du860hPSxx+ar2WNpV4BKoqDtQWvjwjj1GOIMn6BduQSeawUmCzlC9QuLu51v6LERKVbR/IoCRmI5sSLHqvg4VCZ9CUWtyw2IaJVOhdtjZ80Rvs1TsSKSHMfk/qOR1uF4mFQ+3402XKNkhrzzlDqRyMcvb1O1LCaedZ+8FrgXW+Qe1Iwx5LaG/snFJ4I6YXvNSnl8HHm1G/Nx0gIIbEK8edmgeaQi12mFrE4GGfLYK0JIykt8nlxFnfR5r6XZSDohM7w==
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1726358AbgI0LMy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 27 Sep 2020 07:12:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37847 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726265AbgI0LMy (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sun, 27 Sep 2020 07:12:54 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1601205172;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=grNRHn8J14/DqTRAmM7aKq7BCmqssKY/pLOK1/sHVHE=;
+        b=Ih/e+5ZWPLEbiPD71rtoKQ9WnwTv9lUYYdZf0KPjlqjPC10XFMArxmWhuZy6ThWrO8MaFD
+        ClF0UaoKrvmCUDmbn34HDKqVb2NJyuKZrQz+qE7SaV5+cUv4VYHavmbVt3FR/vLTOpecXa
+        WlUV118gbeE17QpQSO3IyM0FU6VZPwU=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-101-OgQfDBPCOECoVI9fwpj32Q-1; Sun, 27 Sep 2020 07:12:50 -0400
+X-MC-Unique: OgQfDBPCOECoVI9fwpj32Q-1
+Received: by mail-ed1-f69.google.com with SMTP id c3so3138136eds.6
+        for <linux-input@vger.kernel.org>; Sun, 27 Sep 2020 04:12:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=grNRHn8J14/DqTRAmM7aKq7BCmqssKY/pLOK1/sHVHE=;
+        b=gDb6M7hbc4eFEd8mzA/kQ+/KUPg72lJ97VOkCEkw4VevXloYtfP5oZ1ed90s8dXKpZ
+         OeIyTp4iOMrgzfHNDQFnuU2nrrBkoG4nP9iiM8ub8kMR1ulThfeXBIn5eor3nSAS3jVA
+         sLZ8kzx3z8XeizOJgeD54qGPvEt4/BGiLARL6dsVggFj2CAsDrIwO733dUzw9hb8wK+4
+         Hh9aiXD/VLVDCGfLflvsWaDKqSbzFhlN6xu+0kDPRMtlMKE90v9NHO+/QlkcHcTBCIQT
+         ufu7bJsbLKaoB5L/NB//MeK9uxpECv57BUdqVL/efq+V25iQmGB3EFuazPwlMajHq1CA
+         SFmA==
+X-Gm-Message-State: AOAM532mS1nrTEiGPmx25/qXvWB+YEnThSfep/O4Lnm6H45NG8kM0MKH
+        RLDVKraovq15RSftjDviWIdLs4a4rOEau+EEsnFX8nO8Qq4UDbG0nFurwqPzWvESQG1qqgRylsf
+        Ek3rMtOj1NFnK2u4sAKEwFpg=
+X-Received: by 2002:a05:6402:16c9:: with SMTP id r9mr10449394edx.27.1601205168821;
+        Sun, 27 Sep 2020 04:12:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJySeeuO8FyXe7xU8cNB6VWElLHoV4AEfMELKyWrzNGbfZTKaQiaMrJTknuPLGC/Z7v59DDJxA==
+X-Received: by 2002:a05:6402:16c9:: with SMTP id r9mr10449380edx.27.1601205168602;
+        Sun, 27 Sep 2020 04:12:48 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id q13sm6920852edr.27.2020.09.27.04.12.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 27 Sep 2020 04:12:47 -0700 (PDT)
+Subject: Re: [PATCH 0/3] Add support for F3A
+To:     Vincent Huang <vincent.huang@tw.synaptics.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Andrew Duggan <aduggan@synaptics.com>,
+        Benjamin Tissoires <btissoir@redhat.com>,
+        Lyude Paul <lyude@redhat.com>,
+        Chris Heiny <chris.heiny@synaptics.com>
+References: <20200924094628.1085000-1-vincent.huang@tw.synaptics.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <05140fb1-19a5-d740-2c57-e39e450142ec@redhat.com>
+Date:   Sun, 27 Sep 2020 13:12:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR2101MB1052.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c528a9aa-08b4-4d7b-ff21-08d8627a003a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Sep 2020 00:12:20.1874
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6pwSwY5+Ryv/MCdAc27waJds5Ws6dtH44oNsVOj+n0xIrDRaSbf43/AJCYOiDtmitJS7CN5FXd8s0qN/kHtnvbwGmLzYZj63bRO1KlUPnuE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR2101MB0892
+In-Reply-To: <20200924094628.1085000-1-vincent.huang@tw.synaptics.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Boqun Feng <boqun.feng@gmail.com> Sent: Tuesday, September 15, 2020 8=
-:48 PM
->=20
-> For a Hyper-V vmbus, the size of the ringbuffer has two requirements:
->=20
-> 1)	it has to take one PAGE_SIZE for the header
->=20
-> 2)	it has to be PAGE_SIZE aligned so that double-mapping can work
->=20
-> VMBUS_RING_SIZE() could calculate a correct ringbuffer size which
-> fulfills both requirements, therefore use it to make sure vmbus work
-> when PAGE_SIZE !=3D HV_HYP_PAGE_SIZE (4K).
->=20
-> Note that since the argument for VMBUS_RING_SIZE() is the size of
-> payload (data part), so it will be minus 4k (the size of header when
-> PAGE_SIZE =3D 4k) than the original value to keep the ringbuffer total
-> size unchanged when PAGE_SIZE =3D 4k.
->=20
-> Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
-> Cc: Michael Kelley <mikelley@microsoft.com>
->=20
-> ---
-> Michael,
->=20
-> I drop your Reviewed-by tag because of the page align issue. Could you
-> review this updated version? Thanks!
->=20
-> Regards,
-> Boqun
->=20
->=20
->  drivers/hv/hv_util.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/hv/hv_util.c b/drivers/hv/hv_util.c
-> index a4e8d96513c2..05566ecdbe4b 100644
-> --- a/drivers/hv/hv_util.c
-> +++ b/drivers/hv/hv_util.c
-> @@ -500,6 +500,9 @@ static void heartbeat_onchannelcallback(void *context=
-)
->  	}
->  }
->=20
-> +#define HV_UTIL_RING_SEND_SIZE VMBUS_RING_SIZE(3 * HV_HYP_PAGE_SIZE)
-> +#define HV_UTIL_RING_RECV_SIZE VMBUS_RING_SIZE(3 * HV_HYP_PAGE_SIZE)
-> +
->  static int util_probe(struct hv_device *dev,
->  			const struct hv_vmbus_device_id *dev_id)
->  {
-> @@ -530,8 +533,8 @@ static int util_probe(struct hv_device *dev,
->=20
->  	hv_set_drvdata(dev, srv);
->=20
-> -	ret =3D vmbus_open(dev->channel, 4 * HV_HYP_PAGE_SIZE,
-> -			 4 * HV_HYP_PAGE_SIZE, NULL, 0, srv->util_cb,
-> +	ret =3D vmbus_open(dev->channel, HV_UTIL_RING_SEND_SIZE,
-> +			 HV_UTIL_RING_RECV_SIZE, NULL, 0, srv->util_cb,
->  			 dev->channel);
->  	if (ret)
->  		goto error;
-> @@ -590,8 +593,8 @@ static int util_resume(struct hv_device *dev)
->  			return ret;
->  	}
->=20
-> -	ret =3D vmbus_open(dev->channel, 4 * HV_HYP_PAGE_SIZE,
-> -			 4 * HV_HYP_PAGE_SIZE, NULL, 0, srv->util_cb,
-> +	ret =3D vmbus_open(dev->channel, HV_UTIL_RING_SEND_SIZE,
-> +			 HV_UTIL_RING_RECV_SIZE, NULL, 0, srv->util_cb,
->  			 dev->channel);
->  	return ret;
->  }
-> --
-> 2.28.0
+Hi,
 
-Reviewed-by:  Michael Kelley <mikelley@microsoft.com>
+On 9/24/20 11:46 AM, Vincent Huang wrote:
+> RMI4 F3A supports the touchpad GPIO function, it's designed to support
+> more GPIOs and used on newer touchpads. The patches add support of
+> touchpad buttons and rename f30_data to avoid confusion.
+
+Thank you for the patch. So as already mentioned patches 1 and 2
+need to be combined into a single patch.
+
+Otherwise the patches look good to me and I can confirm that
+they fix clickpad clicks not registering when using rmi4 for the touchpad
+on the Lenovo T14 gen 1.
+
+So for version 2 (with patches 1 and 2 combined into a single patch)
+you may add my:
+
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Tested-by: Hans de Goede <hdegoede@redhat.com>
+
+Regards,
+
+Hans
+
+> 
+> Vincent Huang (3):
+>    Input: synaptics-rmi4 - rename f30_data to gpio_data
+>    HID: rmi - rename f30_data to gpio_data
+>    Input: synaptics-rmi4 - add support for F3A
+> 
+>   drivers/hid/hid-rmi.c           |   2 +-
+>   drivers/input/mouse/synaptics.c |   2 +-
+>   drivers/input/rmi4/Kconfig      |   8 ++
+>   drivers/input/rmi4/Makefile     |   1 +
+>   drivers/input/rmi4/rmi_bus.c    |   3 +
+>   drivers/input/rmi4/rmi_driver.h |   1 +
+>   drivers/input/rmi4/rmi_f30.c    |  14 +-
+>   drivers/input/rmi4/rmi_f3a.c    | 241 ++++++++++++++++++++++++++++++++
+>   include/linux/rmi.h             |  11 +-
+>   9 files changed, 269 insertions(+), 14 deletions(-)
+>   create mode 100644 drivers/input/rmi4/rmi_f3a.c
+> 
 
