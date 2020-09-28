@@ -2,816 +2,433 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A66227B6E7
-	for <lists+linux-input@lfdr.de>; Mon, 28 Sep 2020 23:17:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4209327B7CE
+	for <lists+linux-input@lfdr.de>; Tue, 29 Sep 2020 01:18:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726656AbgI1VRA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 28 Sep 2020 17:17:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46558 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726565AbgI1VQ7 (ORCPT
+        id S1726064AbgI1XSM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 28 Sep 2020 19:18:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24822 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726396AbgI1XSL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 28 Sep 2020 17:16:59 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98DEAC061755;
-        Mon, 28 Sep 2020 14:16:59 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id m34so2009243pgl.9;
-        Mon, 28 Sep 2020 14:16:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=PdbpncyktU6K6oHnZmiPdcutOfwe/EwVczfOz/cZmB8=;
-        b=VQT+ilBAk76c5pyk47P1Nqsy/gI0UwDAycvPL4dhv3iyO47/EQYsA4NhRiLL1f2xh2
-         2QX5WsCmVIAlTKbfXQSuBftOydavcVxzLrC5tPc4ok89f3Fs1ofk7bhUnXItkD5oD9Wy
-         CZaW41LpnR/6Ex+BOTbIahXPsU7t3HoDrd87ES6pvraA0BDHxR102p3w3uPNW36zwfLk
-         3PA+DF3Anit5xdKPb8VDOygIBOoV9rWq4ydPZMizbhiu8FiP6LJJvy3shgerrL7ZU6JX
-         +wFcY9tzTfpaN5W6feIb2GcZIxZ0UwgVfQ3Rfz4Ptm7QRXrO8VRDu5YM4hNt78KKVO2j
-         O6LA==
+        Mon, 28 Sep 2020 19:18:11 -0400
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1601335090;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=pPF61MtrKBILYlE03wvnTeFym1uLDInt0W29/MUZ1fw=;
+        b=S6ljlYkaw797H7hcLAjkT9fXZKBzoKPhpbVWkGfXMKmhlwYKWMeZ77LKqt/CpoxbVZ7b6B
+        6+rqQngvg5xHo5Sf52JIWY85U+iRD5K/YykdrCH0PKF7WzwtUaCOUfaepFSJRH7LL1usgw
+        NTa2MXGLIbYFh3AqTSkOIHS/e1Xxz0Q=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-436-fDEUoRhuMomyBpmgZmRecg-1; Mon, 28 Sep 2020 19:02:07 -0400
+X-MC-Unique: fDEUoRhuMomyBpmgZmRecg-1
+Received: by mail-qt1-f198.google.com with SMTP id u6so1717333qte.8
+        for <linux-input@vger.kernel.org>; Mon, 28 Sep 2020 16:02:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=PdbpncyktU6K6oHnZmiPdcutOfwe/EwVczfOz/cZmB8=;
-        b=UX/eES/zzo/wTeI4XGsGljNirvPbI1P06OSLo0FQIsep528j/tFSIvoSGwVdwC0Hd6
-         557K8FNQKrC722LyGicNV3Vou39hNlLWm9LkERApZMPESTcZOdPe84byq5//p1Mzkr6v
-         RPpju/YZIiEgOfxvPMWSSKOwH+j8iu/IPelvHUatgijTW+3fgdON5tgD/EPZnLaWGHzZ
-         iq4mTPaCZG/UuEgQo4iHpjk8lTfock7kxRnx6Op4cDPPAbqJey5hzzP8e81ith6jfjx4
-         3bWWW4t0NJMP57KOC33p7vQblU3VtrDbMhNOTvAVo7uYPF+F6rSg7bTK2LNC8+oXNpAn
-         Pc3A==
-X-Gm-Message-State: AOAM531BLjYfIi7p1plxcvA0Yyl7gL7G/fdy9MZRIsAyApUczFqmV81N
-        XOExe61Bxbcsfh9dFvPcwhw=
-X-Google-Smtp-Source: ABdhPJzFDDM9LSQJuclTg7Ntd17lLVJksjSa3T+roEy+PatJKty6Y6snboe/FdmcAmPgFs+KKjfDiQ==
-X-Received: by 2002:a63:e709:: with SMTP id b9mr695072pgi.425.1601327818636;
-        Mon, 28 Sep 2020 14:16:58 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id hg16sm2174310pjb.37.2020.09.28.14.16.57
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:organization:user-agent:mime-version
+         :content-transfer-encoding;
+        bh=pPF61MtrKBILYlE03wvnTeFym1uLDInt0W29/MUZ1fw=;
+        b=ICu5RwXK+KTsB6yOF3RrL+iYMEi7FpJ3zY2Kw+0Bdc640b6IJWtZAamesogi2F70D2
+         UVXKwkML6avIk+EgccZDGi1v9CbAZjcIyPns8BCQpm8GeJjFJ52bbUpaIlPUHQYyWG24
+         90aAaoC/+z8Wy4iR5Gv+/Xcxkx6lvEIZuP59AJsmgl6k7SF2lXy4TG6PFQPNHsHYz4+r
+         6Z7Mn2nGrUPpZlc1RZmJdp5pXp/IrCRGqyLjr+xf12DFpH8S2ccooHOR9ibivK1nUzw2
+         23eO4aHL5hZAlW1/28p76ft+gI7qnWwDWt8jYQRyqSaOqD8qM5C+bTSP/8FjAIRbWK9o
+         +BwA==
+X-Gm-Message-State: AOAM532jBbfaAGVF8x7CsT1TqwO1qCXjNTIZ5IJwwSmAkxNIX9tPQicN
+        mmOb3R8OdBNbPdTweAUEQErGkzjk3FSjf9AQR39hE0bCGka/494HS2E651fyWURrdJtdlsC0c8j
+        rrc2dCsj6z9kJfmotj9nlsHk=
+X-Received: by 2002:a05:620a:15a6:: with SMTP id f6mr1755956qkk.418.1601334126527;
+        Mon, 28 Sep 2020 16:02:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzJGaRl+9A2B1kT7qa9iBVmcbWVSYbXNNwRSLYd69mNHn7G8Q9uzVJ4KnKmrdyGFQjRYuVl9g==
+X-Received: by 2002:a05:620a:15a6:: with SMTP id f6mr1755931qkk.418.1601334126059;
+        Mon, 28 Sep 2020 16:02:06 -0700 (PDT)
+Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
+        by smtp.gmail.com with ESMTPSA id y22sm2557559qki.33.2020.09.28.16.02.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2020 14:16:57 -0700 (PDT)
-Date:   Mon, 28 Sep 2020 14:16:55 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     michael.srba@seznam.cz
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        Paul Burton <paulburton@kernel.org>,
-        Heiko Stuebner <heiko.stuebner@theobroma-systems.com>,
-        Lubomir Rintel <lkundrak@v3.sk>,
-        Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH v5 1/2] Input: add zinitix touchscreen driver
-Message-ID: <20200928211655.GO1681290@dtor-ws>
-References: <20200928091017.6614-1-michael.srba@seznam.cz>
+        Mon, 28 Sep 2020 16:02:05 -0700 (PDT)
+Message-ID: <2aae2b906e250b9023f149cf2abf7cb9eac81055.camel@redhat.com>
+Subject: Re: [PATCH v2 2/2] Input: synaptics-rmi4 - add support for F3A
+From:   Lyude Paul <lyude@redhat.com>
+To:     Vincent Huang <vincent.huang@tw.synaptics.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Andrew Duggan <aduggan@synaptics.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Benjamin Tissoires <btissoir@redhat.com>,
+        Chris Heiny <chris.heiny@synaptics.com>
+Date:   Mon, 28 Sep 2020 19:02:04 -0400
+In-Reply-To: <20200928052008.279274-3-vincent.huang@tw.synaptics.com>
+References: <20200928052008.279274-1-vincent.huang@tw.synaptics.com>
+         <20200928052008.279274-3-vincent.huang@tw.synaptics.com>
+Organization: Red Hat
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200928091017.6614-1-michael.srba@seznam.cz>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Michael,
-
-On Mon, Sep 28, 2020 at 11:10:16AM +0200, michael.srba@seznam.cz wrote:
-> From: Michael Srba <Michael.Srba@seznam.cz>
+On Mon, 2020-09-28 at 13:20 +0800, Vincent Huang wrote:
+> RMI4 F3A supports the touchpad GPIO function, it's designed to
+> support more GPIOs and used on newer touchpads. This patch adds
+> support of the touchpad buttons.
 > 
-> Add support for the bt541 touchscreen IC from zinitix, loosely based on
-> downstream driver. The driver currently supports multitouch (5 touch points).
-> The bt541 seems to support touch keys, but the support was not added because
-> that functionality is not being utilized by the touchscreen used for testing.
-> Based on the similartities between downstream drivers, it seems likely that
-> other similar touchscreen ICs can be supported with this driver in the future.
-> 
-> Signed-off-by: Michael Srba <Michael.Srba@seznam.cz>
+> Signed-off-by: Vincent Huang <vincent.huang@tw.synaptics.com>
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+> Tested-by: Hans de Goede <hdegoede@redhat.com>
 > ---
->  changes in v2: applied fixes per recommendation, added support for suspend/resume handling
->  changes in v3: added support for working in different touch point report modes 
->  		(modes 1 and 2 are now supported). mode 2 seems to work just fine
->  		on Samsung Galaxy A3 (2015), and also works on Samsung Galaxy S4 
->  		Mini Value Edition (where mode 1 doesn't seem to work because 
->  		of different firmware version). It is expected that other fw 
->  		versions, and models other than bt541, may have either mode broken
->  		(vendor doesn't use it -> they don't care) .
->  changes in v4: - removed mode 1 for now to simplify the code and improve it's chances 
->  		to get accepted.
->  		- added runtime pm to save power while not using the ts
->  		- refactored i2c helper functions
-> 		-  
->  changes in v5: - send the actual intended V4 (sorry)
+>  drivers/input/rmi4/Kconfig      |   8 ++
+>  drivers/input/rmi4/Makefile     |   1 +
+>  drivers/input/rmi4/rmi_bus.c    |   3 +
+>  drivers/input/rmi4/rmi_driver.h |   1 +
+>  drivers/input/rmi4/rmi_f3a.c    | 241 ++++++++++++++++++++++++++++++++
+>  5 files changed, 254 insertions(+)
+>  create mode 100644 drivers/input/rmi4/rmi_f3a.c
 > 
->  bt541 is used in the Samsung Galaxy A3 (2015) that has recently gained 
->  mainline support [1].
-> 
->  The downstream driver this is loosely based on: 
->  https://github.com/msm8916-mainline/android_kernel_qcom_msm8916/tree/SM-A300FU/drivers/input/touchscreen/zinitix
-> 
->  [1]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1329c1ab0730b521e6cd3051c56a2ff3d55f21e6
-> 
->  drivers/input/touchscreen/Kconfig   |  12 +
->  drivers/input/touchscreen/Makefile  |   1 +
->  drivers/input/touchscreen/zinitix.c | 589 ++++++++++++++++++++++++++++
->  3 files changed, 602 insertions(+)
->  create mode 100644 drivers/input/touchscreen/zinitix.c
-> 
-> diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-> index 35c867b2d9a7..f012fe746df0 100644
-> --- a/drivers/input/touchscreen/Kconfig
-> +++ b/drivers/input/touchscreen/Kconfig
-> @@ -1322,4 +1322,16 @@ config TOUCHSCREEN_IQS5XX
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called iqs5xx.
+> diff --git a/drivers/input/rmi4/Kconfig b/drivers/input/rmi4/Kconfig
+> index a212ff706f74..16119f760d11 100644
+> --- a/drivers/input/rmi4/Kconfig
+> +++ b/drivers/input/rmi4/Kconfig
+> @@ -100,6 +100,14 @@ config RMI4_F34
+>  	  device via the firmware loader interface. This is triggered using a
+>  	  sysfs attribute.
 >  
-> +config TOUCHSCREEN_ZINITIX
-> +	tristate "Zinitix touchscreen support"
-> +	depends on I2C
+> +config RMI4_F3A
+> +	bool "RMI4 Function 3A (GPIO)"
 > +	help
-> +	  Say Y here if you have a touchscreen using Zinitix bt541,
-> +	  or something similar enough.
+> +	  Say Y here if you want to add support for RMI4 function 3A.
 > +
-> +	  If unsure, say N.
+> +	  Function 3A provides GPIO support for RMI4 devices. This includes
+> +	  support for buttons on TouchPads and ClickPads.
 > +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called zinitix.
-> +
->  endif
-> diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
-> index 30d1e1b42492..6233541e9173 100644
-> --- a/drivers/input/touchscreen/Makefile
-> +++ b/drivers/input/touchscreen/Makefile
-> @@ -111,3 +111,4 @@ obj-$(CONFIG_TOUCHSCREEN_COLIBRI_VF50)	+= colibri-vf50-ts.o
->  obj-$(CONFIG_TOUCHSCREEN_ROHM_BU21023)	+= rohm_bu21023.o
->  obj-$(CONFIG_TOUCHSCREEN_RASPBERRYPI_FW)	+= raspberrypi-ts.o
->  obj-$(CONFIG_TOUCHSCREEN_IQS5XX)	+= iqs5xx.o
-> +obj-$(CONFIG_TOUCHSCREEN_ZINITIX)	+= zinitix.o
-> diff --git a/drivers/input/touchscreen/zinitix.c b/drivers/input/touchscreen/zinitix.c
+>  config RMI4_F54
+>  	bool "RMI4 Function 54 (Analog diagnostics)"
+>  	depends on VIDEO_V4L2=y || (RMI4_CORE=m && VIDEO_V4L2=m)
+> diff --git a/drivers/input/rmi4/Makefile b/drivers/input/rmi4/Makefile
+> index f17631656987..02f14c846861 100644
+> --- a/drivers/input/rmi4/Makefile
+> +++ b/drivers/input/rmi4/Makefile
+> @@ -10,6 +10,7 @@ rmi_core-$(CONFIG_RMI4_F11) += rmi_f11.o
+>  rmi_core-$(CONFIG_RMI4_F12) += rmi_f12.o
+>  rmi_core-$(CONFIG_RMI4_F30) += rmi_f30.o
+>  rmi_core-$(CONFIG_RMI4_F34) += rmi_f34.o rmi_f34v7.o
+> +rmi_core-$(CONFIG_RMI4_F3A) += rmi_f3a.o
+>  rmi_core-$(CONFIG_RMI4_F54) += rmi_f54.o
+>  rmi_core-$(CONFIG_RMI4_F55) += rmi_f55.o
+>  
+> diff --git a/drivers/input/rmi4/rmi_bus.c b/drivers/input/rmi4/rmi_bus.c
+> index af706a583656..47d1b97ed6cf 100644
+> --- a/drivers/input/rmi4/rmi_bus.c
+> +++ b/drivers/input/rmi4/rmi_bus.c
+> @@ -365,6 +365,9 @@ static struct rmi_function_handler *fn_handlers[] = {
+>  #ifdef CONFIG_RMI4_F34
+>  	&rmi_f34_handler,
+>  #endif
+> +#ifdef CONFIG_RMI4_F3A
+> +	&rmi_f3a_handler,
+> +#endif
+>  #ifdef CONFIG_RMI4_F54
+>  	&rmi_f54_handler,
+>  #endif
+> diff --git a/drivers/input/rmi4/rmi_driver.h
+> b/drivers/input/rmi4/rmi_driver.h
+> index 65bfaa95e193..1c6c6086c0e5 100644
+> --- a/drivers/input/rmi4/rmi_driver.h
+> +++ b/drivers/input/rmi4/rmi_driver.h
+> @@ -135,6 +135,7 @@ extern struct rmi_function_handler rmi_f11_handler;
+>  extern struct rmi_function_handler rmi_f12_handler;
+>  extern struct rmi_function_handler rmi_f30_handler;
+>  extern struct rmi_function_handler rmi_f34_handler;
+> +extern struct rmi_function_handler rmi_f3a_handler;
+>  extern struct rmi_function_handler rmi_f54_handler;
+>  extern struct rmi_function_handler rmi_f55_handler;
+>  #endif
+> diff --git a/drivers/input/rmi4/rmi_f3a.c b/drivers/input/rmi4/rmi_f3a.c
 > new file mode 100644
-> index 000000000000..650d7e8c4255
+> index 000000000000..be3c1ecc1181
 > --- /dev/null
-> +++ b/drivers/input/touchscreen/zinitix.c
-> @@ -0,0 +1,589 @@
+> +++ b/drivers/input/rmi4/rmi_f3a.c
+> @@ -0,0 +1,241 @@
 > +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2012-2020 Synaptics Incorporated
+> + */
 > +
 > +#include <linux/kernel.h>
-> +#include <linux/i2c.h>
+> +#include <linux/rmi.h>
 > +#include <linux/input.h>
-> +#include <linux/input/mt.h>
-> +#include <linux/input/touchscreen.h>
-> +#include <linux/module.h>
-> +#include <linux/delay.h>
-> +#include <linux/irq.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/regulator/consumer.h>
 > +#include <linux/slab.h>
-> +#include <linux/of.h>
-> +#include <asm/unaligned.h>
-
-What is using this?
-
+> +#include "rmi_driver.h"
 > +
-> +/* Register Map */
+> +#define RMI_F3A_MAX_GPIO_COUNT		128
+> +#define RMI_F3A_MAX_REG_SIZE		DIV_ROUND_UP(RMI_F3A_MAX_GPIO_COUNT,
+> 8)
 > +
-> +#define BT541_SWRESET_CMD			0x0000
-> +#define BT541_WAKEUP_CMD			0x0001
+> +/* Defs for Query 0 */
+> +#define RMI_F3A_GPIO_COUNT		0x7F
 > +
-> +#define BT541_IDLE_CMD				0x0004
-> +#define BT541_SLEEP_CMD				0x0005
+> +#define RMI_F3A_DATA_REGS_MAX_SIZE	RMI_F3A_MAX_REG_SIZE
 > +
-> +#define BT541_CLEAR_INT_STATUS_CMD		0x0003
-> +#define BT541_CALIBRATE_CMD			0x0006
-> +#define BT541_SAVE_STATUS_CMD			0x0007
-> +#define BT541_SAVE_CALIBRATION_CMD		0x0008
-> +#define BT541_RECALL_FACTORY_CMD		0x000f
+> +#define TRACKSTICK_RANGE_START		3
+> +#define TRACKSTICK_RANGE_END		6
 > +
-> +#define BT541_THRESHOLD				0x0020
+> +struct f3a_data {
+> +	/* Query Data */
+> +	u8 gpio_count;
 > +
-> +#define BT541_LARGE_PALM_REJECT_AREA_TH		0x003F
+> +	u8 register_count;
 > +
-> +#define BT541_DEBUG_REG				0x0115 /* 0~7 */
+> +	u8 data_regs[RMI_F3A_DATA_REGS_MAX_SIZE];
+> +	u16 *gpio_key_map;
 > +
-> +#define BT541_TOUCH_MODE			0x0010
-> +#define BT541_CHIP_REVISION			0x0011
-> +#define BT541_FIRMWARE_VERSION			0x0012
+> +	struct input_dev *input;
 > +
-> +#define ZINITIX_USB_DETECT			0x116
-
-What does this do?
-
-> +
-> +#define BT541_MINOR_FW_VERSION			0x0121
-> +
-> +#define BT541_VENDOR_ID				0x001C
-> +#define BT541_HW_ID				0x0014
-> +
-> +#define BT541_DATA_VERSION_REG			0x0013
-> +#define BT541_SUPPORTED_FINGER_NUM		0x0015
-> +#define BT541_EEPROM_INFO			0x0018
-> +#define BT541_INITIAL_TOUCH_MODE		0x0019
-> +
-> +#define BT541_TOTAL_NUMBER_OF_X			0x0060
-> +#define BT541_TOTAL_NUMBER_OF_Y			0x0061
-> +
-> +#define BT541_DELAY_RAW_FOR_HOST		0x007f
-> +
-> +#define BT541_BUTTON_SUPPORTED_NUM		0x00B0
-> +#define BT541_BUTTON_SENSITIVITY		0x00B2
-> +#define BT541_DUMMY_BUTTON_SENSITIVITY		0X00C8
-> +
-> +#define BT541_X_RESOLUTION			0x00C0
-> +#define BT541_Y_RESOLUTION			0x00C1
-> +
-> +#define BT541_POINT_STATUS_REG			0x0080
-> +#define BT541_ICON_STATUS_REG			0x00AA
-> +
-> +#define BT541_POINT_COORD_REG			(BT541_POINT_STATUS_REG + 2)
-> +
-> +#define BT541_AFE_FREQUENCY			0x0100
-> +#define BT541_DND_N_COUNT			0x0122
-> +#define BT541_DND_U_COUNT			0x0135
-> +
-> +#define BT541_RAWDATA_REG			0x0200
-> +
-> +#define BT541_EEPROM_INFO_REG			0x0018
-> +
-> +#define BT541_INT_ENABLE_FLAG			0x00f0
-> +#define BT541_PERIODICAL_INTERRUPT_INTERVAL	0x00f1
-> +
-> +#define BT541_BTN_WIDTH				0x016d
-> +
-> +#define BT541_CHECKSUM_RESULT			0x012c
-> +
-> +#define BT541_INIT_FLASH			0x01d0
-> +#define BT541_WRITE_FLASH			0x01d1
-> +#define BT541_READ_FLASH			0x01d2
-> +
-> +#define ZINITIX_INTERNAL_FLAG_02		0x011e
-> +#define ZINITIX_INTERNAL_FLAG_03		0x011f
-> +
-> +#define ZINITIX_I2C_CHECKSUM_WCNT		0x016a
-> +#define ZINITIX_I2C_CHECKSUM_RESULT		0x016c
-> +
-> +/* Interrupt & status register flags */
-> +
-> +#define BIT_PT_CNT_CHANGE	BIT(0)
-> +#define BIT_DOWN		BIT(1)
-> +#define BIT_MOVE		BIT(2)
-> +#define BIT_UP			BIT(3)
-> +#define BIT_PALM		BIT(4)
-> +#define BIT_PALM_REJECT		BIT(5)
-> +#define BIT_RESERVED_0		BIT(6)
-> +#define BIT_RESERVED_1		BIT(7)
-> +#define BIT_WEIGHT_CHANGE	BIT(8)
-> +#define BIT_PT_NO_CHANGE	BIT(9)
-> +#define BIT_REJECT		BIT(10)
-> +#define BIT_PT_EXIST		BIT(11)
-> +#define BIT_RESERVED_2		BIT(12)
-> +#define BIT_ERROR		BIT(13)
-> +#define BIT_DEBUG		BIT(14)
-> +#define BIT_ICON_EVENT		BIT(15)
-> +
-> +#define SUB_BIT_EXIST		BIT(0)
-> +#define SUB_BIT_DOWN		BIT(1)
-> +#define SUB_BIT_MOVE		BIT(2)
-> +#define SUB_BIT_UP		BIT(3)
-> +#define SUB_BIT_UPDATE		BIT(4)
-> +#define SUB_BIT_WAIT		BIT(5)
-> +
-> +#define DEFAULT_TOUCH_POINT_MODE	2
-> +#define MAX_SUPPORTED_FINGER_NUM	5
-> +
-> +#define CHIP_ON_DELAY		15 // ms
-> +#define FIRMWARE_ON_DELAY	40 // ms
-> +
-> +struct point_coord {
-> +	__le16	x;
-> +	__le16	y;
-> +	u8	width;
-> +	u8	sub_status;
-> +	// currently unused, but needed as padding:
-> +	u8	minor_width;
-> +	u8	angle;
+> +	struct rmi_function *f03;
+> +	bool trackstick_buttons;
 > +};
 > +
-> +struct touch_event {
-> +	__le16	status;
-> +	u8	finger_cnt;
-> +	u8	time_stamp;
-> +	struct point_coord point_coord[MAX_SUPPORTED_FINGER_NUM];
-> +};
-> +
-> +struct bt541_ts_data {
-> +	struct i2c_client *client;
-> +	struct input_dev *input_dev;
-> +	struct touchscreen_properties prop;
-> +	struct regulator_bulk_data supplies[2];
-> +	u32 zinitix_mode;
-> +};
-> +
-> +static int zinitix_read_data(struct i2c_client *client, u16 reg, u8 *values, size_t length)
+> +static void rmi_f3a_report_button(struct rmi_function *fn,
+> +				  struct f3a_data *f3a, unsigned int button)
 > +{
-> +	int error;
-> +	__le16 reg_le = cpu_to_le16(reg);
+> +	u16 key_code = f3a->gpio_key_map[button];
+> +	bool key_down = !(f3a->data_regs[0] & BIT(button));
 > +
-> +	error = i2c_master_send(client, (u8 *)&reg_le, sizeof(reg_le));
-> +	if (error < 0)
-> +		return error;
-> +
-> +	error = i2c_master_recv(client, values, length);
-> +	if (error != length)
-> +		return error;
-
-Can this be a single i2c_transfer() with 2 messages?
-
-> +
-> +	return 0;
+> +	if (f3a->trackstick_buttons &&
+> +	    button >= TRACKSTICK_RANGE_START &&
+> +	    button <= TRACKSTICK_RANGE_END) {
+> +		rmi_f03_overwrite_button(f3a->f03, key_code, key_down);
+> +	} else {
+> +		rmi_dbg(RMI_DEBUG_FN, &fn->dev,
+> +			"%s: call input report key (0x%04x) value (0x%02x)",
+> +			__func__, key_code, key_down);
+> +		input_report_key(f3a->input, key_code, key_down);
+> +	}
 > +}
 > +
-> +static int zinitix_write_u16(struct i2c_client *client, u16 reg, u16 value)
+> +static irqreturn_t rmi_f3a_attention(int irq, void *ctx)
 > +{
+> +	struct rmi_function *fn = ctx;
+> +	struct f3a_data *f3a = dev_get_drvdata(&fn->dev);
+> +	struct rmi_driver_data *drvdata = dev_get_drvdata(&fn->rmi_dev->dev);
 > +	int error;
-> +	__le16 packet[2] = {cpu_to_le16(reg), cpu_to_le16(value)};
-> +
-> +	error = i2c_master_send(client, (u8 *)packet, sizeof(packet));
-> +	if (error < 0)
-> +		return error;
-
-	if (ret != sizeof(packet))
-		return ret < 0 ? ret : -EIO;
-
-> +
-> +	return 0;
-> +}
-> +
-> +static int zinitix_write_cmd(struct i2c_client *client, u16 reg)
-> +{
-> +	int error;
-> +	__le16 reg_le = cpu_to_le16(reg);
-> +
-> +	error = i2c_master_send(client, (u8 *)&reg_le, sizeof(reg_le));
-> +	if (error < 0)
-> +		return error;
-
-	if (ret != sizeof(packet))
-		return ret < 0 ? ret : -EIO;
-
-> +
-> +	return 0;
-> +}
-> +
-> +static bool zinitix_init_touch(struct bt541_ts_data *bt541)
-> +{
-> +	struct i2c_client *client = bt541->client;
 > +	int i;
-> +	int error;
 > +
-> +	error = zinitix_write_cmd(client, BT541_SWRESET_CMD);
-> +	if (error) {
-> +		dev_err(&client->dev, "Failed to write reset command\n");
-> +		return error;
-> +	}
-> +
-> +	error = zinitix_write_u16(client, BT541_INT_ENABLE_FLAG, 0x0);
-> +	if (error) {
-> +		dev_err(&client->dev, "Failed to reset interrupt enable flag\n");
-> +		return error;
-> +	}
-> +
-> +	/* initialize */
-> +	error = zinitix_write_u16(client, BT541_X_RESOLUTION, (u16)bt541->prop.max_x);
-> +	if (error)
-> +		return error;
-> +
-> +	error = zinitix_write_u16(client, BT541_Y_RESOLUTION, (u16)bt541->prop.max_y);
-> +	if (error)
-> +		return error;
-> +
-> +	error = zinitix_write_u16(client, BT541_SUPPORTED_FINGER_NUM,
-> +				  (u16)MAX_SUPPORTED_FINGER_NUM);
-> +	if (error)
-> +		return error;
-> +
-> +	error = zinitix_write_u16(client, BT541_INITIAL_TOUCH_MODE, bt541->zinitix_mode);
-> +	if (error)
-> +		return error;
-> +
-> +	error = zinitix_write_u16(client, BT541_TOUCH_MODE, bt541->zinitix_mode);
-> +	if (error)
-> +		return error;
-> +
-> +	error = zinitix_write_u16(client, BT541_INT_ENABLE_FLAG,
-> +				  BIT_PT_CNT_CHANGE | BIT_DOWN | BIT_MOVE | BIT_UP);
-> +	if (error)
-> +		return error;
-> +
-> +	/* clear queue */
-> +	for (i = 0; i < 10; i++) {
-> +		zinitix_write_cmd(client, BT541_CLEAR_INT_STATUS_CMD);
-> +		udelay(10);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int zinitix_init_regulators(struct bt541_ts_data *bt541)
-> +{
-> +	struct i2c_client *client = bt541->client;
-> +	int error;
-> +
-> +	bt541->supplies[0].supply = "vdd";
-> +	bt541->supplies[1].supply = "vddo";
-> +	error = devm_regulator_bulk_get(&client->dev, ARRAY_SIZE(bt541->supplies),
-> +					bt541->supplies);
-> +	if (error < 0) {
-> +		dev_err(&client->dev, "Failed to get regulators: %d\n", error);
-> +		return error;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int zinitix_send_power_on_sequence(struct bt541_ts_data *bt541)
-> +{
-> +	int error;
-> +	struct i2c_client *client = bt541->client;
-> +
-> +	error = zinitix_write_u16(client, 0xc000, 0x0001);
-> +	if (error) {
-> +		dev_err(&client->dev, "Failed to send power sequence(vendor cmd enable)\n");
-> +		return error;
-> +	}
-> +	udelay(10);
-> +
-> +	error = zinitix_write_cmd(client, 0xc004);
-> +	if (error) {
-> +		dev_err(&client->dev, "Failed to send power sequence(intn clear)\n");
-> +		return error;
-> +	}
-> +	udelay(10);
-> +
-> +	error = zinitix_write_u16(client, 0xc002, 0x0001);
-> +	if (error) {
-> +		dev_err(&client->dev, "Failed to send power sequence(nvm init)\n");
-> +		return error;
-> +	}
-> +	mdelay(2);
-> +
-> +	error = zinitix_write_u16(client, 0xc001, 0x0001);
-> +	if (error) {
-> +		dev_err(&client->dev, "Failed to send power sequence(program start)\n");
-> +		return error;
-> +	}
-> +	msleep(FIRMWARE_ON_DELAY);
-> +
-> +	return 0;
-> +}
-> +
-> +static irqreturn_t zinitix_ts_irq_handler(int irq, void *bt541_handler)
-> +{
-> +	struct bt541_ts_data *bt541 = (struct bt541_ts_data *)bt541_handler;
-> +	struct i2c_client *client = bt541->client;
-> +	struct input_dev *input_dev = bt541->input_dev;
-> +	int i;
-> +	int error;
-> +	struct touch_event touch_event;
-> +
-> +	mutex_lock(&input_dev->mutex);
-> +	if (!input_dev->users) {
-> +		mutex_unlock(&input_dev->mutex);
-> +		return IRQ_HANDLED;
-> +	}
-> +	mutex_unlock(&input_dev->mutex);
+> +	if (drvdata->attn_data.data) {
+> +		if (drvdata->attn_data.size < f3a->register_count) {
+> +			dev_warn(&fn->dev,
+> +				 "F3A interrupted, but data is missing\n");
+> +			return IRQ_HANDLED;
+> +		}
+> +		memcpy(f3a->data_regs, drvdata->attn_data.data,
+> +			f3a->register_count);
+> +		drvdata->attn_data.data += f3a->register_count;
+> +		drvdata->attn_data.size -= f3a->register_count;
+> +	} else {
+> +		error = rmi_read_block(fn->rmi_dev, fn->fd.data_base_addr,
+> +				f3a->data_regs, f3a->register_count);
 
-This is not needed as you use disable_irq_sync() in close(), so when
-it returns interrupt will be done processing.
+Should probably fix the indenting here
 
-> +
-> +	memset(&touch_event, 0, sizeof(struct touch_event));
-> +
-> +	error = zinitix_read_data(bt541->client, BT541_POINT_STATUS_REG,
-> +				  (u8 *)&touch_event, sizeof(struct touch_event));
-> +	if (error) {
-> +		dev_err(&client->dev, "Failed to read in touchpoint struct\n");
-
-		goto out;
-
-> +
-> +		zinitix_write_cmd(bt541->client, BT541_CLEAR_INT_STATUS_CMD);
-> +		return IRQ_HANDLED;
+> +		if (error) {
+> +			dev_err(&fn->dev,
+> +				"%s: Failed to read F3a data registers: %d\n",
+> +				__func__, error);
+> +			return IRQ_RETVAL(error);
+> +		}
 > +	}
 > +
-> +	for (i = 0; i < MAX_SUPPORTED_FINGER_NUM; i++) {
-> +		if (!(touch_event.point_coord[i].sub_status & SUB_BIT_EXIST))
-> +			continue;
-> +
-> +		input_mt_slot(bt541->input_dev, i);
-> +		input_mt_report_slot_state(bt541->input_dev, MT_TOOL_FINGER, true);
-> +		touchscreen_report_pos(bt541->input_dev, &bt541->prop,
-> +				       le16_to_cpu(touch_event.point_coord[i].x),
-> +				       le16_to_cpu(touch_event.point_coord[i].y), true);
-> +		input_report_abs(bt541->input_dev, ABS_MT_TOUCH_MAJOR,
-> +				 touch_event.point_coord[i].width);
-> +	}
-> +
-> +	input_mt_sync_frame(bt541->input_dev);
-> +	input_sync(bt541->input_dev);
 > +
 
-out:
+Also get rid of the double whitespace here
 
-> +	zinitix_write_cmd(bt541->client, BT541_CLEAR_INT_STATUS_CMD);
+> +	for (i = 0; i < f3a->gpio_count; i++)
+> +		if (f3a->gpio_key_map[i] != KEY_RESERVED)
+> +			rmi_f3a_report_button(fn, f3a, i);
+> +	if (f3a->trackstick_buttons)
+> +		rmi_f03_commit_buttons(f3a->f03);
 > +
 > +	return IRQ_HANDLED;
 > +}
 > +
-> +static int zinitix_start(struct bt541_ts_data *bt541)
+> +static int rmi_f3a_config(struct rmi_function *fn)
 > +{
-> +	int error;
+> +	struct f3a_data *f3a = dev_get_drvdata(&fn->dev);
+> +	struct rmi_driver *drv = fn->rmi_dev->driver;
+> +	const struct rmi_device_platform_data *pdata =
+> +				rmi_get_platform_data(fn->rmi_dev);
+
+Also fix the indenting here
+
 > +
-> +	error = regulator_bulk_enable(ARRAY_SIZE(bt541->supplies), bt541->supplies);
-> +	if (error < 0) {
-> +		dev_err(&bt541->client->dev, "Failed to enable regulators: %d\n", error);
-> +		return error;
+> +	if (!f3a)
+> +		return 0;
+> +
+> +	if (pdata->gpio_data.trackstick_buttons) {
+> +		/* Try [re-]establish link to F03. */
+> +		f3a->f03 = rmi_find_function(fn->rmi_dev, 0x03);
+> +		f3a->trackstick_buttons = f3a->f03 != NULL;
 > +	}
 > +
-> +	msleep(CHIP_ON_DELAY);
-> +
-> +	error = zinitix_send_power_on_sequence(bt541);
-> +	if (error) {
-> +		dev_err(&bt541->client->dev, "Error while sending power-on sequence: %d\n", error);
-> +		return error;
-> +	}
-> +
-> +	error = zinitix_init_touch(bt541);
-> +	if (error) {
-> +		dev_err(&bt541->client->dev, "Error while configuring touch IC\n");
-> +		return error;
-> +	}
-> +
-> +	enable_irq(bt541->client->irq);
+> +	drv->set_irq_bits(fn->rmi_dev, fn->irq_mask);
 > +
 > +	return 0;
 > +}
 > +
-> +static int zinitix_stop(struct bt541_ts_data *bt541)
+> +static bool rmi_f3a_is_valid_button(int button, struct f3a_data *f3a,
+> +				u8 *query1_regs, u8 *ctrl1_regs)
+
+And here
+
 > +{
-> +	int error;
-> +
-> +	disable_irq(bt541->client->irq);
-> +
-> +	error = regulator_bulk_disable(ARRAY_SIZE(bt541->supplies), bt541->supplies);
-> +	if (error) {
-> +		dev_err(&bt541->client->dev, "Failed to disable regulators: %d\n", error);
-> +		return error;
-> +	}
-> +
-> +	return 0;
+> +	/* gpio exist && direction input */
+> +	return (query1_regs[0] & BIT(button)) && !(ctrl1_regs[0] &
+> BIT(button));
 > +}
 > +
-> +static void zinitix_graceful_shutdown(void *arg)
+> +static int rmi_f3a_map_gpios(struct rmi_function *fn, struct f3a_data *f3a,
+> +				u8 *query1_regs, u8 *ctrl1_regs)
 > +{
-> +	struct bt541_ts_data *bt541 = arg;
+> +	const struct rmi_device_platform_data *pdata =
+> +					rmi_get_platform_data(fn->rmi_dev);
+
+And here
+
+> +	struct input_dev *input = f3a->input;
+> +	unsigned int button = BTN_LEFT;
+> +	unsigned int trackstick_button = BTN_LEFT;
+> +	bool button_mapped = false;
+> +	int i;
+> +	int button_count = min_t(u8, f3a->gpio_count, TRACKSTICK_RANGE_END);
 > +
-> +	zinitix_stop(bt541);
-> +}
-> +
-> +static int zinitix_input_open(struct input_dev *dev)
-> +{
-> +	struct bt541_ts_data *bt541 = input_get_drvdata(dev);
-> +
-> +	return zinitix_start(bt541);
-> +}
-> +
-> +static void zinitix_input_close(struct input_dev *dev)
-> +{
-> +	struct bt541_ts_data *bt541 = input_get_drvdata(dev);
-> +
-> +	zinitix_stop(bt541);
-> +}
-> +
-> +static int zinitix_init_input_dev(struct bt541_ts_data *bt541)
-> +{
-> +	int error;
-> +
-> +	bt541->input_dev = devm_input_allocate_device(&bt541->client->dev);
-> +	if (!bt541->input_dev) {
-> +		dev_err(&bt541->client->dev, "Failed to allocate input device.");
+> +	f3a->gpio_key_map = devm_kcalloc(&fn->dev,
+> +					    button_count,
+> +					    sizeof(f3a->gpio_key_map[0]),
+> +					    GFP_KERNEL);
+
+And here
+
+> +	if (!f3a->gpio_key_map) {
+> +		dev_err(&fn->dev, "Failed to allocate gpio map memory.\n");
 > +		return -ENOMEM;
 > +	}
 > +
-> +	bt541->input_dev->name = "Zinitix Capacitive TouchScreen";
-> +	bt541->input_dev->phys = "input/ts";
-> +	bt541->input_dev->id.bustype = BUS_I2C;
-> +	bt541->input_dev->open = zinitix_input_open;
-> +	bt541->input_dev->close = zinitix_input_close;
+> +	for (i = 0; i < button_count; i++) {
 > +
-> +	input_set_capability(bt541->input_dev, EV_ABS, ABS_MT_POSITION_X);
-> +	input_set_capability(bt541->input_dev, EV_ABS, ABS_MT_POSITION_Y);
-> +	input_set_abs_params(bt541->input_dev, ABS_MT_WIDTH_MAJOR, 0, 255, 0, 0);
-> +	input_set_abs_params(bt541->input_dev, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
+
+Also remove the extra whitespace here
+
+Other then that, everything looks good to me :)
+
+Reviewed-by: Lyude Paul <lyude@redhat.com>
+
+> +		if (!rmi_f3a_is_valid_button(i, f3a, query1_regs, ctrl1_regs))
+> +			continue;
 > +
-> +	touchscreen_parse_properties(bt541->input_dev, true, &bt541->prop);
-> +
-> +	if (!bt541->prop.max_x || !bt541->prop.max_y) {
-> +		dev_err(&bt541->client->dev,
-> +			"Touchscreen-size-x and/or touchscreen-size-y not set in dts\n");
-> +		return -EINVAL;
+> +		if (pdata->gpio_data.trackstick_buttons &&
+> +		    i >= TRACKSTICK_RANGE_START && i < TRACKSTICK_RANGE_END) {
+> +			f3a->gpio_key_map[i] = trackstick_button++;
+> +		} else if (!pdata->gpio_data.buttonpad || !button_mapped) {
+> +			f3a->gpio_key_map[i] = button;
+> +			input_set_capability(input, EV_KEY, button++);
+> +			button_mapped = true;
+> +		}
 > +	}
+> +	input->keycode = f3a->gpio_key_map;
+> +	input->keycodesize = sizeof(f3a->gpio_key_map[0]);
+> +	input->keycodemax = f3a->gpio_count;
 > +
-> +	error = input_mt_init_slots(bt541->input_dev, MAX_SUPPORTED_FINGER_NUM,
-> +				    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
-> +	if (error) {
-> +		dev_err(&bt541->client->dev,
-> +			"Failed to initialize MT slots: %d", error);
-> +		return error;
-> +	}
-> +
-> +	error = input_register_device(bt541->input_dev);
-> +	if (error) {
-> +		dev_err(&bt541->client->dev,
-> +			"Failed to register input device: %d", error);
-> +		return error;
-> +	}
-> +
-> +	input_set_drvdata(bt541->input_dev, bt541);
+> +	if (pdata->gpio_data.buttonpad || (button - BTN_LEFT == 1))
+> +		__set_bit(INPUT_PROP_BUTTONPAD, input->propbit);
 > +
 > +	return 0;
 > +}
 > +
-> +static int zinitix_ts_probe(struct i2c_client *client, const struct i2c_device_id *id)
+> +static int rmi_f3a_initialize(struct rmi_function *fn, struct f3a_data
+> *f3a)
 > +{
-> +	struct bt541_ts_data *bt541;
+> +	u8 query1[RMI_F3A_MAX_REG_SIZE];
+> +	u8 ctrl1[RMI_F3A_MAX_REG_SIZE];
+> +	u8 buf;
 > +	int error;
 > +
-> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-> +		dev_err(&client->dev, "Failed to assert adapter's support for plain I2C.\n");
+> +	error = rmi_read(fn->rmi_dev, fn->fd.query_base_addr, &buf);
+> +	if (error < 0) {
+> +		dev_err(&fn->dev, "Failed to read general info register:
+> %d\n",
+> +			error);
+> +		return -ENODEV;
+> +	}
+> +
+> +	f3a->gpio_count = buf & RMI_F3A_GPIO_COUNT;
+> +	f3a->register_count = DIV_ROUND_UP(f3a->gpio_count, 8);
+> +
+> +	/* Query1 -> gpio exist */
+> +	error = rmi_read_block(fn->rmi_dev, fn->fd.query_base_addr + 1,
+> +			       query1, f3a->register_count);
+> +	if (error) {
+> +		dev_err(&fn->dev, "Failed to read query1 register\n");
+> +		return error;
+> +	}
+> +
+> +	/* Ctrl1 -> gpio direction */
+> +	error = rmi_read_block(fn->rmi_dev, fn->fd.control_base_addr + 1,
+> +			       ctrl1, f3a->register_count);
+> +	if (error) {
+> +		dev_err(&fn->dev, "Failed to read control1 register\n");
+> +		return error;
+> +	}
+> +
+> +	error = rmi_f3a_map_gpios(fn, f3a, query1, ctrl1);
+> +	if (error)
+> +		return error;
+> +	return 0;
+> +}
+> +
+> +static int rmi_f3a_probe(struct rmi_function *fn)
+> +{
+> +	struct rmi_device *rmi_dev = fn->rmi_dev;
+> +	struct rmi_driver_data *drv_data = dev_get_drvdata(&rmi_dev->dev);
+> +	struct f3a_data *f3a;
+> +	int error;
+> +
+> +	if (!drv_data->input) {
+> +		dev_info(&fn->dev, "F3A: no input device found, ignoring\n");
 > +		return -ENXIO;
 > +	}
 > +
-> +	bt541 = devm_kzalloc(&client->dev, sizeof(*bt541), GFP_KERNEL);
-> +	if (!bt541)
+> +	f3a = devm_kzalloc(&fn->dev, sizeof(*f3a), GFP_KERNEL);
+> +	if (!f3a)
 > +		return -ENOMEM;
 > +
-> +	bt541->client = client;
-> +	i2c_set_clientdata(client, bt541);
+> +	f3a->input = drv_data->input;
 > +
-> +	error = zinitix_init_regulators(bt541);
-> +	if (error) {
-> +		dev_err(&client->dev, "Failed to initialize regulators: %d\n", error);
+> +	error = rmi_f3a_initialize(fn, f3a);
+> +	if (error)
 > +		return error;
-> +	}
 > +
-> +	error = zinitix_init_input_dev(bt541);
-> +	if (error) {
-> +		dev_err(&client->dev, "Failed to initialize input device: %d\n", error);
-> +		return error;
-> +	}
-> +
-> +	error = device_property_read_u32(&client->dev, "zinitix,mode", &bt541->zinitix_mode);
-> +	if (error < 0) {
-> +		// fall back to mode 2
-> +		bt541->zinitix_mode = DEFAULT_TOUCH_POINT_MODE;
-> +	}
-> +
-> +	if (bt541->zinitix_mode != 2) {
-> +		// if devices are found which don't support mode 2, support for other modes (0, 1)
-> +		// may be needed.
-> +		dev_err(&client->dev, "Malformed zinitix,mode property, must be 2 (supplied: %d)\n",
-> +			bt541->zinitix_mode);
-> +		return -EINVAL;
-> +	}
-> +
-> +	error = devm_add_action_or_reset(&client->dev,
-> +					 zinitix_graceful_shutdown, bt541);
-> +	if (error) {
-> +		dev_err(&client->dev, "Failed to install poweroff handler: %d\n", error);
-> +		return error;
-> +	}
-
-I do not think you need this. You will gracefully shut down the
-controller in close(), which is only called if open) was called earlier.
-Otherwise the regulators are disabled anyways.
-
-
-> +
-> +	error = devm_request_threaded_irq(&bt541->client->dev, bt541->client->irq,
-> +					  NULL, zinitix_ts_irq_handler,
-> +					  IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-
-Let's rely on DTS to configure trigger properly. Also instead of
-disable_irq() below maybe use
-
-	irq_set_status_flags(client->irq, IRQ_NOAUTOEN);
-
-before calling into devm_request_threaded_irq()?
-
-> +					  bt541->client->name, bt541);
-> +	if (error) {
-> +		dev_err(&client->dev, "Failed to request IRQ: %d\n", error);
-> +		return error;
-> +	}
-> +
-> +	disable_irq(client->irq); // disable the irq until userspace actually tries to use the TS
-> +
-> +	dev_info(&client->dev, "Initialized a zinitix touchscreen\n");
-
-Please drop.
-
-> +
+> +	dev_set_drvdata(&fn->dev, f3a);
 > +	return 0;
 > +}
 > +
-> +static int __maybe_unused zinitix_suspend(struct device *dev)
-> +{
-> +	struct i2c_client *client = to_i2c_client(dev);
-> +	struct bt541_ts_data *bt541 = i2c_get_clientdata(client);
-> +
-> +	/* Release all fingers */
-> +	input_mt_sync_frame(bt541->input_dev);
-> +	input_sync(bt541->input_dev);
-
-Is this really needed? if we need to drop contacts, then it should be
-done in input core, but userspace should be already frozen at this
-point, so release events will reach userspace only after resume and I
-think userspace knows how to discard events older than X anyways.
-
-> +
-> +	mutex_lock(&bt541->input_dev->mutex);
-> +
-> +	if (bt541->input_dev->users)
-> +		zinitix_stop(bt541);
-> +
-> +	mutex_unlock(&bt541->input_dev->mutex);
-> +
-> +	return 0;
-> +}
-> +
-> +static int __maybe_unused zinitix_resume(struct device *dev)
-> +{
-> +	struct i2c_client *client = to_i2c_client(dev);
-> +	struct bt541_ts_data *bt541 = i2c_get_clientdata(client);
-> +	int error;
-> +
-> +	mutex_lock(&bt541->input_dev->mutex);
-> +
-> +	if (bt541->input_dev->users) {
-> +		error = zinitix_start(bt541);
-> +		if (error) {
-> +			mutex_unlock(&bt541->input_dev->mutex);
-> +			return error;
-
-Use single mutex_unlock() please. so:
-
-	int retval = 0;
-
-	mutex_lock(...);
-
-	if (bt541->input_dev->users)
-		retval = zinitix_start(bt541);
-
-	mutex_unlock(...);
-	return retval;
-
-
-> +		}
-> +	}
-> +
-> +	mutex_unlock(&bt541->input_dev->mutex);
-> +
-> +	return 0;
-> +}
-> +
-> +static SIMPLE_DEV_PM_OPS(zinitix_pm_ops, zinitix_suspend, zinitix_resume);
-> +
-> +#ifdef CONFIG_OF
-> +static const struct of_device_id zinitix_of_match[] = {
-> +	{ .compatible = "zinitix,bt541" },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, zinitix_of_match);
-> +#endif
-> +
-> +static struct i2c_driver zinitix_ts_driver = {
-> +	.probe = zinitix_ts_probe,
+> +struct rmi_function_handler rmi_f3a_handler = {
 > +	.driver = {
-> +		.name = "Zinitix-TS",
-> +		.pm = &zinitix_pm_ops,
-> +		.of_match_table = of_match_ptr(zinitix_of_match),
+> +		.name = "rmi4_f3a",
 > +	},
+> +	.func = 0x3a,
+> +	.probe = rmi_f3a_probe,
+> +	.config = rmi_f3a_config,
+> +	.attention = rmi_f3a_attention,
 > +};
-> +module_i2c_driver(zinitix_ts_driver);
-> +
-> +MODULE_AUTHOR("Michael Srba <Michael.Srba@seznam.cz>");
-> +MODULE_DESCRIPTION("Zinitix touchscreen driver");
-> +MODULE_LICENSE("GPL v2");
-> -- 
-> 2.28.0
-> 
-
-Thanks.
-
 -- 
-Dmitry
+Cheers,
+	Lyude Paul (she/her)
+	Software Engineer at Red Hat
+
