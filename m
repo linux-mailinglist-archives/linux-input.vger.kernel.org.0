@@ -2,122 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ACED27A7FA
-	for <lists+linux-input@lfdr.de>; Mon, 28 Sep 2020 08:59:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1C0027AA1C
+	for <lists+linux-input@lfdr.de>; Mon, 28 Sep 2020 11:00:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726500AbgI1G7N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 28 Sep 2020 02:59:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54972 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725290AbgI1G7N (ORCPT
+        id S1726566AbgI1I75 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 28 Sep 2020 04:59:57 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:50929 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726461AbgI1I75 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 28 Sep 2020 02:59:13 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3DCBC0613CE;
-        Sun, 27 Sep 2020 23:59:12 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id q9so5596118wmj.2;
-        Sun, 27 Sep 2020 23:59:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=HAcKz0ZkWckShHlODCCEHfQsuhZwtsoiUi0+f1UriJM=;
-        b=EdsFLCC3PzYwwJYiBVpAUtUDt+MB/f+9BjWy9+9rKM5pdtBZiw1UBflUsh97OfB3Kx
-         Nfxy0TXGOeEpDpNIpy3V+dWS0fCwNlJlgSJ/4I6fB9DZQKotlogNMzwzFiUlO0TyCadu
-         9CdEEhlOLySxAL3njhRJ6Kfz9xp19U5QrgxT6wxackywHxxZqHNx/wMiInpPhAd8oh8c
-         VPVPy6HgTGwOMXs+8xHmw5kpIG/pIC2QVlRBGxwuSo9JhGTmvnOh395sTgtL1Nntmir8
-         zS5QjiNYUJrThQWcRvVp+8pOMQ38f/lr3wMpd6AvXjASD1kxHJLlUFOVLuq7IiUPAz19
-         4oYg==
+        Mon, 28 Sep 2020 04:59:57 -0400
+Received: by mail-wm1-f67.google.com with SMTP id e17so255581wme.0;
+        Mon, 28 Sep 2020 01:59:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=HAcKz0ZkWckShHlODCCEHfQsuhZwtsoiUi0+f1UriJM=;
-        b=U+0nTTv5vkGkgquRkaHIslf/MY7AMKryPcu+BKDDboT3yaiW4knH54JBRfSosTur0Q
-         fvrOfRoNu0JxIOULil+/AyVP9xhZ4SCV9KRaqpxm0e2uJuF7Q4h7N0wsKiC2qfBzVeLI
-         dn6B8gZVGrtpRY/Xv9P6Nbuvfy7dIqZwQTbrejC+br9bAqnqihl1mAd1jrX6fGwRR1sq
-         zYkxp6Uxtj+8x6aJc3j9pgM4JSHttpqS+KjGnVkNzgNS13nOlErYeSnGjWdQwwAvsI+A
-         5dNUN5YStR024MZpIxJ8rxBuf6R/PGwbl5vjnhnOc+9K2LgSZyq5nzYXCNes/vLn8oW0
-         t/tA==
-X-Gm-Message-State: AOAM532yYNTQ9dZnTomktMxIe9BHge1s4cyl7Sym7S7htapw2Kw0F+d7
-        914km2SuvGMVKVRDMCUCCSQ=
-X-Google-Smtp-Source: ABdhPJxMwzqXEi96CPX5Vd5urp1B8ZXJY4e1ADyljyqs2dRpwLKYu5wseZVqSFOTTTbcoxdG3+VOIg==
-X-Received: by 2002:a7b:c255:: with SMTP id b21mr13754wmj.17.1601276351650;
-        Sun, 27 Sep 2020 23:59:11 -0700 (PDT)
-Received: from localhost ([217.111.27.204])
-        by smtp.gmail.com with ESMTPSA id d23sm7832796wmb.6.2020.09.27.23.59.10
+        bh=Z1pXiZu8/lbpcC5OOR1HHt+WJc9Zi03GtYctvtdplD4=;
+        b=QtJN08lBetwcbva9VVuCfbu/bYexVNzn/WRCo/mDHqd/XFSGOh/vFGwOB+aNSKW98q
+         uAHe6hqAfbgXL2UzxNc++8KQdBFzMrsl1FPmCZ9exIoHyyRvwwTAHeXhw/QzkoPzXcE5
+         l7cK+9kX5DMup3/SBTby2HuKPm6qji0Q+NAwKCPhyNefi1Vm7HI5y2d3Zp0H3d3O5d58
+         iqMXpbLN0ZQjHrpdhRY+o1TP4xGrqVEGtkOU3AY/iNne0wVWH+J4pPI+G7zsSNzjfL20
+         B+w6QBy9O6z/pf7HlRjD8t+ZTRK4Suwis9iZTwHG4WaKLlP4kinhMBCvzCJ4LVfdeOFz
+         I8Jw==
+X-Gm-Message-State: AOAM532o6whpm+lqnLPdqZe8ILKqe2o1IvGCekdIlq7Gscf7GSN6FuHq
+        J314nIfhVL4DRhAZQAzJe7o=
+X-Google-Smtp-Source: ABdhPJwTUznMg4qU1PpK1jW4iQ8NBXUE7lDRIOJNIqN9idOI7XE143sfOo/KuA6ckcfJJXr8isESDg==
+X-Received: by 2002:a1c:7e15:: with SMTP id z21mr528843wmc.21.1601283594850;
+        Mon, 28 Sep 2020 01:59:54 -0700 (PDT)
+Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
+        by smtp.gmail.com with ESMTPSA id i3sm548308wrs.4.2020.09.28.01.59.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2020 23:59:10 -0700 (PDT)
-Date:   Mon, 28 Sep 2020 08:59:09 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Jiada Wang <jiada_wang@mentor.com>
-Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org, digetx@gmail.com,
-        jonathanh@nvidia.com, nick@shmanahar.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org, erosca@de.adit-jv.com,
-        andrew_gabbasov@mentor.com
-Subject: Re: [PATCH v2 1/3] dt-bindings: input: atmel: add compatible for
- mXT1386
-Message-ID: <20200928065909.GC2837573@ulmo>
-References: <20200925135257.21138-1-jiada_wang@mentor.com>
- <20200925135257.21138-2-jiada_wang@mentor.com>
+        Mon, 28 Sep 2020 01:59:54 -0700 (PDT)
+Date:   Mon, 28 Sep 2020 08:59:52 +0000
+From:   Wei Liu <wei.liu@kernel.org>
+To:     Boqun Feng <boqun.feng@gmail.com>
+Cc:     linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        "K. Y. Srinivasan" <kys@microsoft.com>,
+        Haiyang Zhang <haiyangz@microsoft.com>,
+        Stephen Hemminger <sthemmin@microsoft.com>,
+        Wei Liu <wei.liu@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Michael Kelley <mikelley@microsoft.com>, will@kernel.org,
+        ardb@kernel.org, arnd@arndb.de, catalin.marinas@arm.com,
+        mark.rutland@arm.com, maz@kernel.org
+Subject: Re: [PATCH v4 00/11] Hyper-V: Support PAGE_SIZE larger than 4K
+Message-ID: <20200928085952.t5ji5rjl3h6g7zks@liuwe-devbox-debian-v2>
+References: <20200916034817.30282-1-boqun.feng@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="+nBD6E3TurpgldQp"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200925135257.21138-2-jiada_wang@mentor.com>
-User-Agent: Mutt/1.14.7 (2020-08-29)
+In-Reply-To: <20200916034817.30282-1-boqun.feng@gmail.com>
+User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Wed, Sep 16, 2020 at 11:48:06AM +0800, Boqun Feng wrote:
+> This patchset add the necessary changes to support guests whose page
+> size is larger than 4K. And the main architecture which we develop this
+> for is ARM64 (also it's the architecture that I use to test this
+> feature).
+> 
+> Previous version:
+> v1: https://lore.kernel.org/lkml/20200721014135.84140-1-boqun.feng@gmail.com/
+> v2: https://lore.kernel.org/lkml/20200902030107.33380-1-boqun.feng@gmail.com
+> v3: https://lore.kernel.org/lkml/20200910143455.109293-1-boqun.feng@gmail.com/
+> 
+> Changes since v3:
+> 
+> *	Fix a bug that ringbuffer sizes are not page-aligned when
+> 	PAGE_SIZE = 16k. Drop the Acked-by and Reviewed-by tags for
+> 	those patches accordingly.
+> 
+> *	Code improvement as per suggestion from Michael Kelley.
+> 
+> I've done some tests with PAGE_SIZE=64k and PAGE_SIZE=16k configurations
+> on ARM64 guests (with Michael's patchset[1] for ARM64 Hyper-V guest
+> support), everything worked fine ;-)
+> 
+> Looking forwards to comments and suggestions!
+> 
+> Regards,
+> Boqun
+> 
+> [1]: https://lore.kernel.org/lkml/1598287583-71762-1-git-send-email-mikelley@microsoft.com/
+> 
+> Boqun Feng (11):
+>   Drivers: hv: vmbus: Always use HV_HYP_PAGE_SIZE for gpadl
+>   Drivers: hv: vmbus: Move __vmbus_open()
+>   Drivers: hv: vmbus: Introduce types of GPADL
+>   Drivers: hv: Use HV_HYP_PAGE in hv_synic_enable_regs()
+>   Drivers: hv: vmbus: Move virt_to_hvpfn() to hyperv header
+>   hv: hyperv.h: Introduce some hvpfn helper functions
+>   hv_netvsc: Use HV_HYP_PAGE_SIZE for Hyper-V communication
+>   Input: hyperv-keyboard: Use VMBUS_RING_SIZE() for ringbuffer sizes
+>   HID: hyperv: Use VMBUS_RING_SIZE() for ringbuffer sizes
+>   Driver: hv: util: Use VMBUS_RING_SIZE() for ringbuffer sizes
+>   scsi: storvsc: Support PAGE_SIZE larger than 4K
 
---+nBD6E3TurpgldQp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Series applied to hyperv-next.
 
-On Fri, Sep 25, 2020 at 10:52:55PM +0900, Jiada Wang wrote:
-> Document the mXT1386 compatible string.
->=20
-> Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
-> ---
->  Documentation/devicetree/bindings/input/atmel,maxtouch.txt | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt b=
-/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-> index c88919480d37..c13fc0f3f00b 100644
-> --- a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-> +++ b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-> @@ -3,6 +3,7 @@ Atmel maXTouch touchscreen/touchpad
->  Required properties:
->  - compatible:
->      atmel,maxtouch
-> +    atmel,mXT1386
+I also replaced the tabs with spaces in the commit messages of patch 8
+through patch 10.
 
-Compatible strings are preferred to be all lowercase.
-
-Thierry
-
---+nBD6E3TurpgldQp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl9xibwACgkQ3SOs138+
-s6HkyhAAo0eI2n8ZwD9jwmAxzQX/tfPLmJTjLr9OD0J+r0OHOf/fiMWkoZMIes84
-MsCyadQ8az8zFqJO5g8LBU7i2TSjSd5N8JylYgPvamMWYyP9R84yPnkiAbfRksjk
-vP1XOQAZ2dZBFcJsjIg3xR9OBoJgNT4BdYwY3/3KqhiAsF1XUQ4MjGssDhYwJO8F
-4YbpTk4gCF8DO7GAkNjjd0zpHcyYN27uL79KTQaZUcUPQww3Q9WXgHl6cqYCy2PB
-HmWCNBT6cjRN8tEqQsY2alEhmuSmvj4U36PywBgmYc23mPk5qzKI+W/M3V5s7xCu
-M9R7Wx6vAavYyvuo5+d1h8RDqjBlnPyFRRrxDp+xbAzYojFOP7NqpkbjCQAlsmo2
-lNiS6/tnyPGQXh+ZfRATCDODARV2TmTPSw3FaukEUt73ss4cb3N+FLV+tjJYVVhU
-9KhBnIV7XtpMkB2UwG3MXz/VxkvTAPh33W4e7cf5eRvKxjAk87LgYp/wtsUn/gPs
-xehD8442UXZtYQlSism0zULnRbj4Ydgv49KrHMCjYcuNq00kkYEBPwcbgwZU0V/q
-RXXnyDg66ABT/e9Ad9OA658vij0aqYRIytA/c8e/TJt1AjeFLMJ4jy35vIKwDyBI
-eYV2rwz3T9wv37cTq7VciyVes50gmE43PZ8G8x/PovjynBHRXu0=
-=71/K
------END PGP SIGNATURE-----
-
---+nBD6E3TurpgldQp--
+Wei.
