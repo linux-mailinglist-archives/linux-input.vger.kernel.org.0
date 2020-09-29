@@ -2,393 +2,495 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E644127D6AD
-	for <lists+linux-input@lfdr.de>; Tue, 29 Sep 2020 21:18:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7351527D8EC
+	for <lists+linux-input@lfdr.de>; Tue, 29 Sep 2020 22:39:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727758AbgI2TSB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 29 Sep 2020 15:18:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51528 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725554AbgI2TSA (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 29 Sep 2020 15:18:00 -0400
-Received: from localhost (52.sub-72-107-123.myvzw.com [72.107.123.52])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D2E6B20774;
-        Tue, 29 Sep 2020 19:17:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601407079;
-        bh=PLMuI+7JwmyKjVAkvcqBqwoVrHNBT4ni6xGWmeifoYY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=X0kP0I0BynDjfCk7pnD/tkidsBXkZug2YUb36AOE3pMrxRUrnQeoMu28d9yC2YW7b
-         xhNo+fDttkvJ2uV8DOsz2byVe2ZzCs+Blv2WUFOOByPSCY8BC+VkwdyPOmHQ0PRnf6
-         93MxDNHiXdqXbQ8Zi77eHo+5P63M5CAziPA50g+I=
-Date:   Tue, 29 Sep 2020 14:17:56 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <len.brown@intel.com>, Pavel Machek <pavel@ucw.cz>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Mirko Lindner <mlindner@marvell.com>,
-        Stephen Hemminger <stephen@networkplumber.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>, x86@kernel.org,
-        linux-pm@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, netdev@vger.kernel.org,
-        devel@driverdev.osuosl.org
-Subject: Re: [PATCH] PCI: Rename d3_delay in the pci_dev struct to align with
- PCI specification
-Message-ID: <20200929191756.GA2562898@bjorn-Precision-5520>
+        id S1729706AbgI2Ujo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 29 Sep 2020 16:39:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37236 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729422AbgI2Uf6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 29 Sep 2020 16:35:58 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F775C061755;
+        Tue, 29 Sep 2020 13:35:58 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id m34so4836890pgl.9;
+        Tue, 29 Sep 2020 13:35:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=7esz1zpt/WRpXyKl5QBUf62b8nnV+Gd47cnXXKzqgyU=;
+        b=b4kMDljIAeqLuKRJnctW240uQGdoGfQAkLo3ph8CZgwpWg48QQnbi/R+5Z4VyMM1CS
+         Ph5SAa+9fED864kN9iNXHJiyPNNqRZIkSw4YgzjGEhT0OKMG1ipbCXsPiriv/u05Nul5
+         ejIck+eDbFmjyi4iLXiqwLBC6wCEjxBDw0pDZ2cmE/S65AmDYyUVjYzc9/V+CqTkZazj
+         9piNsKFUAWBabBMEKlJrcAi2LQ0ExDLrKS5k3vzLOioIJjCjjHW5zwKOLZuqSGmeA9kO
+         nh1dQYljG5WuUFkw5264yKnZK8ucI2n2hmUdIqBjh4gHzjNp8RxkApUpW5bQX8ZVc1z/
+         vIcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=7esz1zpt/WRpXyKl5QBUf62b8nnV+Gd47cnXXKzqgyU=;
+        b=iUAxBUHHxY7zKq6w6ADhHcvg4CcMTaHImjmJFEPMTImn33olc8Xou6jqc3D6UHZkcC
+         vYPfESGXBYwNDoMcQ+Cv/rfLkr/J4MK+3x8wBxkphusvQomplFH5wyEGxCzUwxT0C1f2
+         SvhOlhanO9mJJl/OBN/QGl7asCCeEl77PJVRZj1fBzZp/HTREoOzZ/BwxpKLZMcbS9Kf
+         8O6BfT+P/nx/vidWinfdvcVBQDJXdBUh3z4iMObmh3KnlP0+AepqcKSMNAFGcK6sHF/S
+         bB1haRQavWu/KaGEuBWB2fiKeB99WJuhifMjLOW0cyr7NhXzIvJOHMLjIRRCXFbrdHRL
+         2xLw==
+X-Gm-Message-State: AOAM530dehJQBmnrHNpJZ4yUyQYg31lw0KNyVcFit8S/40Wz8Emw4XYw
+        tv46K2xkPC/qeiNgrBrKZVQ=
+X-Google-Smtp-Source: ABdhPJyS3CEUv2UhlHUk/i0VyYBwQvljBMHHfzucFaHTqjc9SI+um/lHZzdn7uQ2Dsi5s3jJdDTMyw==
+X-Received: by 2002:a17:902:ee02:b029:d1:8c50:aa73 with SMTP id z2-20020a170902ee02b02900d18c50aa73mr6692510plb.42.1601411757287;
+        Tue, 29 Sep 2020 13:35:57 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id in10sm5418946pjb.11.2020.09.29.13.35.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Sep 2020 13:35:56 -0700 (PDT)
+Date:   Tue, 29 Sep 2020 13:35:54 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
+Cc:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+        linux-actions@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: Re: [PATCH v2 5/6] input: atc260x: Add onkey driver for ATC260x PMICs
+Message-ID: <20200929203554.GA3313608@dtor-ws>
+References: <cover.1598043782.git.cristian.ciocaltea@gmail.com>
+ <aec6ea5cfc9bf820cb4bb4a92297d2eecf6d285d.1598043782.git.cristian.ciocaltea@gmail.com>
+ <20200914210941.GC1681290@dtor-ws>
+ <20200918103503.GA27182@BV030612LT>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200730210848.1578826-1-kw@linux.com>
+In-Reply-To: <20200918103503.GA27182@BV030612LT>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jul 30, 2020 at 09:08:48PM +0000, Krzysztof Wilczyński wrote:
-> Rename PCI-related variable "d3_delay" to "d3hot_delay" in the pci_dev
-> struct to better align with the PCI Firmware specification (see PCI
-> Firmware Specification, Revision 3.2, Section 4.6.9, p. 73).
-> 
-> The pci_dev struct already contains variable "d3cold_delay", thus
-> renaming "d3_delay" to "d3hot_delay" reduces ambiguity as PCI devices
-> support two variants of the D3 power state: D3hot and D3cold.
-> 
-> Also, rename other constants and variables, and updates code comments
-> and documentation to ensure alignment with the PCI specification.
-> 
-> There is no change to the functionality.
-> 
-> Signed-off-by: Krzysztof Wilczyński <kw@linux.com>
+Hi Cristian,
 
-Applied to pci/pm for v5.10, thanks!
+On Fri, Sep 18, 2020 at 01:35:03PM +0300, Cristian Ciocaltea wrote:
+> Hi Dmitry,
+> 
+> Thanks for the review!
+> 
+> On Mon, Sep 14, 2020 at 02:09:41PM -0700, Dmitry Torokhov wrote:
+> > Hi Cristian,
+> > 
+> > On Sat, Aug 22, 2020 at 01:19:51AM +0300, Cristian Ciocaltea wrote:
+> > > The Actions Semi ATC260x PMICs are able to manage an onkey button.
+> > > This driver exposes the ATC260x onkey as an input device. It can also
+> > > be configured to force a system reset on a long key-press with an
+> > > adjustable duration.
+> > > 
+> > > The currently supported chip variants are ATC2603C and ATC2609A.
+> > > 
+> > > Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
+> > > ---
+> > >  drivers/input/misc/Kconfig         |  11 ++
+> > >  drivers/input/misc/Makefile        |   2 +-
+> > >  drivers/input/misc/atc260x-onkey.c | 304 +++++++++++++++++++++++++++++
+> > >  3 files changed, 316 insertions(+), 1 deletion(-)
+> > >  create mode 100644 drivers/input/misc/atc260x-onkey.c
+> > > 
+> > > diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+> > > index 362e8a01980c..9e297ebdea57 100644
+> > > --- a/drivers/input/misc/Kconfig
+> > > +++ b/drivers/input/misc/Kconfig
+> > > @@ -83,6 +83,17 @@ config INPUT_ARIZONA_HAPTICS
+> > >  	  To compile this driver as a module, choose M here: the
+> > >  	  module will be called arizona-haptics.
+> > >  
+> > > +config INPUT_ATC260X_ONKEY
+> > > +	tristate "Actions Semi ATC260x PMIC ONKEY"
+> > > +	depends on MFD_ATC260X
+> > > +	help
+> > > +	  Support the ONKEY of ATC260x PMICs as an input device reporting
+> > > +	  power button status. ONKEY can be used to wakeup from low power
+> > > +	  modes and force a reset on long press.
+> > > +
+> > > +	  To compile this driver as a module, choose M here: the
+> > > +	  module will be called atc260x-onkey.
+> > > +
+> > >  config INPUT_ATMEL_CAPTOUCH
+> > >  	tristate "Atmel Capacitive Touch Button Driver"
+> > >  	depends on OF || COMPILE_TEST
+> > > diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
+> > > index a48e5f2d859d..7f854c6ecefa 100644
+> > > --- a/drivers/input/misc/Makefile
+> > > +++ b/drivers/input/misc/Makefile
+> > > @@ -16,6 +16,7 @@ obj-$(CONFIG_INPUT_ADXL34X_I2C)		+= adxl34x-i2c.o
+> > >  obj-$(CONFIG_INPUT_ADXL34X_SPI)		+= adxl34x-spi.o
+> > >  obj-$(CONFIG_INPUT_APANEL)		+= apanel.o
+> > >  obj-$(CONFIG_INPUT_ARIZONA_HAPTICS)	+= arizona-haptics.o
+> > > +obj-$(CONFIG_INPUT_ATC260X_ONKEY)	+= atc260x-onkey.o
+> > >  obj-$(CONFIG_INPUT_ATI_REMOTE2)		+= ati_remote2.o
+> > >  obj-$(CONFIG_INPUT_ATLAS_BTNS)		+= atlas_btns.o
+> > >  obj-$(CONFIG_INPUT_ATMEL_CAPTOUCH)	+= atmel_captouch.o
+> > > @@ -84,4 +85,3 @@ obj-$(CONFIG_INPUT_WM831X_ON)		+= wm831x-on.o
+> > >  obj-$(CONFIG_INPUT_XEN_KBDDEV_FRONTEND)	+= xen-kbdfront.o
+> > >  obj-$(CONFIG_INPUT_YEALINK)		+= yealink.o
+> > >  obj-$(CONFIG_INPUT_IDEAPAD_SLIDEBAR)	+= ideapad_slidebar.o
+> > > -
+> > > diff --git a/drivers/input/misc/atc260x-onkey.c b/drivers/input/misc/atc260x-onkey.c
+> > > new file mode 100644
+> > > index 000000000000..7caec7d6f9ac
+> > > --- /dev/null
+> > > +++ b/drivers/input/misc/atc260x-onkey.c
+> > > @@ -0,0 +1,304 @@
+> > > +// SPDX-License-Identifier: GPL-2.0+
+> > > +/*
+> > > + * Onkey driver for Actions Semi ATC260x PMICs.
+> > > + *
+> > > + * Copyright (c) 2020 Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
+> > > + */
+> > > +
+> > > +#include <linux/bitfield.h>
+> > > +#include <linux/input.h>
+> > > +#include <linux/interrupt.h>
+> > > +#include <linux/mfd/atc260x/core.h>
+> > > +#include <linux/module.h>
+> > > +#include <linux/of.h>
+> > > +#include <linux/platform_device.h>
+> > > +#include <linux/regmap.h>
+> > > +
+> > > +/* <2s for short press, >2s for long press */
+> > > +#define KEY_PRESS_TIME_SEC	2
+> > > +
+> > > +/* Driver internals */
+> > > +enum atc260x_onkey_reset_status {
+> > > +	KEY_RESET_HW_DEFAULT,
+> > > +	KEY_RESET_DISABLED,
+> > > +	KEY_RESET_USER_SEL,
+> > > +};
+> > > +
+> > > +struct atc260x_onkey_params {
+> > > +	u32 reg_int_ctl;
+> > > +	u32 kdwn_state_bm;
+> > > +	u32 long_int_pnd_bm;
+> > > +	u32 short_int_pnd_bm;
+> > > +	u32 kdwn_int_pnd_bm;
+> > > +	u32 press_int_en_bm;
+> > > +	u32 kdwn_int_en_bm;
+> > > +	u32 press_time_bm;
+> > > +	u32 reset_en_bm;
+> > > +	u32 reset_time_bm;
+> > > +};
+> > > +
+> > > +struct atc260x_onkey {
+> > > +	struct atc260x *atc260x;
+> > > +	const struct atc260x_onkey_params *params;
+> > > +	struct input_dev *input_dev;
+> > > +	struct delayed_work work;
+> > > +};
+> > > +
+> > > +static const struct atc260x_onkey_params atc2603c_onkey_params = {
+> > > +	.reg_int_ctl		= ATC2603C_PMU_SYS_CTL2,
+> > > +	.long_int_pnd_bm	= ATC2603C_PMU_SYS_CTL2_ONOFF_LONG_PRESS,
+> > > +	.short_int_pnd_bm	= ATC2603C_PMU_SYS_CTL2_ONOFF_SHORT_PRESS,
+> > > +	.kdwn_int_pnd_bm	= ATC2603C_PMU_SYS_CTL2_ONOFF_PRESS_PD,
+> > > +	.press_int_en_bm	= ATC2603C_PMU_SYS_CTL2_ONOFF_INT_EN,
+> > > +	.kdwn_int_en_bm		= ATC2603C_PMU_SYS_CTL2_ONOFF_PRESS_INT_EN,
+> > > +	.kdwn_state_bm		= ATC2603C_PMU_SYS_CTL2_ONOFF_PRESS,
+> > > +	.press_time_bm		= ATC2603C_PMU_SYS_CTL2_ONOFF_PRESS_TIME,
+> > > +	.reset_en_bm		= ATC2603C_PMU_SYS_CTL2_ONOFF_PRESS_RESET_EN,
+> > > +	.reset_time_bm		= ATC2603C_PMU_SYS_CTL2_ONOFF_RESET_TIME_SEL,
+> > > +};
+> > > +
+> > > +static const struct atc260x_onkey_params atc2609a_onkey_params = {
+> > > +	.reg_int_ctl		= ATC2609A_PMU_SYS_CTL2,
+> > > +	.long_int_pnd_bm	= ATC2609A_PMU_SYS_CTL2_ONOFF_LONG_PRESS,
+> > > +	.short_int_pnd_bm	= ATC2609A_PMU_SYS_CTL2_ONOFF_SHORT_PRESS,
+> > > +	.kdwn_int_pnd_bm	= ATC2609A_PMU_SYS_CTL2_ONOFF_PRESS_PD,
+> > > +	.press_int_en_bm	= ATC2609A_PMU_SYS_CTL2_ONOFF_LSP_INT_EN,
+> > > +	.kdwn_int_en_bm		= ATC2609A_PMU_SYS_CTL2_ONOFF_PRESS_INT_EN,
+> > > +	.kdwn_state_bm		= ATC2609A_PMU_SYS_CTL2_ONOFF_PRESS,
+> > > +	.press_time_bm		= ATC2609A_PMU_SYS_CTL2_ONOFF_PRESS_TIME,
+> > > +	.reset_en_bm		= ATC2609A_PMU_SYS_CTL2_ONOFF_RESET_EN,
+> > > +	.reset_time_bm		= ATC2609A_PMU_SYS_CTL2_ONOFF_RESET_TIME_SEL,
+> > > +};
+> > > +
+> > > +static int atc2603x_onkey_hw_init(struct atc260x_onkey *onkey,
+> > > +				  enum atc260x_onkey_reset_status reset_status,
+> > > +				  u32 reset_time, u32 press_time)
+> > > +{
+> > > +	u32 reg_bm, reg_val;
+> > > +
+> > > +	reg_bm = onkey->params->long_int_pnd_bm |
+> > > +		 onkey->params->short_int_pnd_bm |
+> > > +		 onkey->params->kdwn_int_pnd_bm |
+> > > +		 onkey->params->press_int_en_bm |
+> > > +		 onkey->params->kdwn_int_en_bm;
+> > > +
+> > > +	reg_val = reg_bm | press_time;
+> > > +	reg_bm |= onkey->params->press_time_bm;
+> > > +
+> > > +	if (reset_status == KEY_RESET_DISABLED) {
+> > > +		reg_bm |= onkey->params->reset_en_bm;
+> > > +	} else if (reset_status == KEY_RESET_USER_SEL) {
+> > > +		reg_bm |= onkey->params->reset_en_bm |
+> > > +			  onkey->params->reset_time_bm;
+> > > +		reg_val |= onkey->params->reset_en_bm | reset_time;
+> > > +	}
+> > > +
+> > > +	return regmap_update_bits(onkey->atc260x->regmap,
+> > > +				  onkey->params->reg_int_ctl, reg_bm, reg_val);
+> > > +}
+> > > +
+> > > +static void atc260x_onkey_query(struct atc260x_onkey *onkey)
+> > > +{
+> > > +	u32 reg_bits;
+> > > +	int ret, key_down;
+> > > +
+> > > +	ret = regmap_read(onkey->atc260x->regmap,
+> > > +			  onkey->params->reg_int_ctl, &key_down);
+> > > +	if (ret) {
+> > > +		key_down = 1;
+> > > +		dev_err(onkey->atc260x->dev,
+> > > +			"Failed to read onkey status: %d\n", ret);
+> > > +	} else {
+> > > +		key_down &= onkey->params->kdwn_state_bm;
+> > > +	}
+> > > +
+> > > +	/*
+> > > +	 * The hardware generates interrupt only when the onkey pin is
+> > > +	 * asserted. Hence, the deassertion of the pin is simulated through
+> > > +	 * work queue.
+> > > +	 */
+> > > +	if (key_down) {
+> > > +		schedule_delayed_work(&onkey->work, msecs_to_jiffies(200));
+> > > +		return;
+> > > +	}
+> > > +
+> > > +	/*
+> > > +	 * The key-down status bit is cleared when the On/Off button
+> > > +	 * is released.
+> > > +	 */
+> > > +	input_report_key(onkey->input_dev, KEY_POWER, 0);
+> > > +	input_sync(onkey->input_dev);
+> > > +
+> > > +	reg_bits = onkey->params->long_int_pnd_bm |
+> > > +		   onkey->params->short_int_pnd_bm |
+> > > +		   onkey->params->kdwn_int_pnd_bm |
+> > > +		   onkey->params->press_int_en_bm |
+> > > +		   onkey->params->kdwn_int_en_bm;
+> > > +
+> > > +	/* Clear key press pending events and enable key press interrupts. */
+> > > +	regmap_update_bits(onkey->atc260x->regmap, onkey->params->reg_int_ctl,
+> > > +			   reg_bits, reg_bits);
+> > > +}
+> > > +
+> > > +static void atc260x_onkey_work(struct work_struct *work)
+> > > +{
+> > > +	struct atc260x_onkey *onkey = container_of(work, struct atc260x_onkey,
+> > > +						   work.work);
+> > > +	atc260x_onkey_query(onkey);
+> > > +}
+> > > +
+> > > +static irqreturn_t atc260x_onkey_irq(int irq, void *data)
+> > > +{
+> > > +	struct atc260x_onkey *onkey = data;
+> > > +	int ret;
+> > > +
+> > > +	/* Disable key press interrupts. */
+> > > +	ret = regmap_update_bits(onkey->atc260x->regmap,
+> > > +				 onkey->params->reg_int_ctl,
+> > > +				 onkey->params->press_int_en_bm |
+> > > +				 onkey->params->kdwn_int_en_bm, 0);
+> > > +	if (ret)
+> > > +		dev_err(onkey->atc260x->dev,
+> > > +			"Failed to disable interrupts: %d\n", ret);
+> > > +
+> > > +	input_report_key(onkey->input_dev, KEY_POWER, 1);
+> > > +	input_sync(onkey->input_dev);
+> > > +
+> > > +	atc260x_onkey_query(onkey);
+> > > +
+> > > +	return IRQ_HANDLED;
+> > > +}
+> > > +
+> > > +static int atc260x_onkey_probe(struct platform_device *pdev)
+> > > +{
+> > > +	struct atc260x *atc260x = dev_get_drvdata(pdev->dev.parent);
+> > > +	struct atc260x_onkey *onkey;
+> > > +	struct input_dev *input_dev;
+> > > +	enum atc260x_onkey_reset_status reset_status;
+> > > +	u32 press_time = KEY_PRESS_TIME_SEC, reset_time = 0;
+> > > +	int val, irq, ret;
+> > > +
+> > > +	if (!pdev->dev.of_node)
+> > > +		return -ENXIO;
+> > 
+> > Why is this needed?
+> 
+> The idea was to allow the user enable/disable the ONKEY functionality
+> of the MFD device via the 'onkey' DTS node. So if this node is not
+> present, the driver will not be loaded.
+> 
+> Is there a better/recommended way to handle this scenario?
 
-> ---
->  Documentation/power/pci.rst                   |  2 +-
->  arch/x86/pci/fixup.c                          |  2 +-
->  arch/x86/pci/intel_mid_pci.c                  |  2 +-
->  drivers/hid/intel-ish-hid/ipc/ipc.c           |  2 +-
->  drivers/net/ethernet/marvell/sky2.c           |  2 +-
->  drivers/pci/pci-acpi.c                        |  6 +-
->  drivers/pci/pci.c                             | 14 ++--
->  drivers/pci/pci.h                             |  4 +-
->  drivers/pci/quirks.c                          | 68 +++++++++----------
->  .../staging/media/atomisp/pci/atomisp_v4l2.c  |  2 +-
->  include/linux/pci.h                           |  2 +-
->  include/uapi/linux/pci_regs.h                 |  2 +-
->  12 files changed, 54 insertions(+), 54 deletions(-)
+I believe the best way is not to create correspnding platform device if
+functionality is disabled. So the logic shoudl go into MFD piece.
+
 > 
-> diff --git a/Documentation/power/pci.rst b/Documentation/power/pci.rst
-> index 1831e431f725..b04fb18cc4e2 100644
-> --- a/Documentation/power/pci.rst
-> +++ b/Documentation/power/pci.rst
-> @@ -320,7 +320,7 @@ that these callbacks operate on::
->  	unsigned int	d2_support:1;	/* Low power state D2 is supported */
->  	unsigned int	no_d1d2:1;	/* D1 and D2 are forbidden */
->  	unsigned int	wakeup_prepared:1;  /* Device prepared for wake up */
-> -	unsigned int	d3_delay;	/* D3->D0 transition time in ms */
-> +	unsigned int	d3hot_delay;	/* D3hot->D0 transition time in ms */
->  	...
->    };
->  
-> diff --git a/arch/x86/pci/fixup.c b/arch/x86/pci/fixup.c
-> index 0c67a5a94de3..9e3d9cc6afc4 100644
-> --- a/arch/x86/pci/fixup.c
-> +++ b/arch/x86/pci/fixup.c
-> @@ -587,7 +587,7 @@ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_INTEL, 0xa26d, pci_invalid_bar);
->  static void pci_fixup_amd_ehci_pme(struct pci_dev *dev)
->  {
->  	dev_info(&dev->dev, "PME# does not work under D3, disabling it\n");
-> -	dev->pme_support &= ~((PCI_PM_CAP_PME_D3 | PCI_PM_CAP_PME_D3cold)
-> +	dev->pme_support &= ~((PCI_PM_CAP_PME_D3hot | PCI_PM_CAP_PME_D3cold)
->  		>> PCI_PM_CAP_PME_SHIFT);
->  }
->  DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_AMD, 0x7808, pci_fixup_amd_ehci_pme);
-> diff --git a/arch/x86/pci/intel_mid_pci.c b/arch/x86/pci/intel_mid_pci.c
-> index 00c62115f39c..979f310b67d4 100644
-> --- a/arch/x86/pci/intel_mid_pci.c
-> +++ b/arch/x86/pci/intel_mid_pci.c
-> @@ -322,7 +322,7 @@ static void pci_d3delay_fixup(struct pci_dev *dev)
->  	 */
->  	if (type1_access_ok(dev->bus->number, dev->devfn, PCI_DEVICE_ID))
->  		return;
-> -	dev->d3_delay = 0;
-> +	dev->d3hot_delay = 0;
->  }
->  DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, PCI_ANY_ID, pci_d3delay_fixup);
->  
-> diff --git a/drivers/hid/intel-ish-hid/ipc/ipc.c b/drivers/hid/intel-ish-hid/ipc/ipc.c
-> index 8f8dfdf64833..a45ac7fa417b 100644
-> --- a/drivers/hid/intel-ish-hid/ipc/ipc.c
-> +++ b/drivers/hid/intel-ish-hid/ipc/ipc.c
-> @@ -755,7 +755,7 @@ static int _ish_hw_reset(struct ishtp_device *dev)
->  	csr |= PCI_D3hot;
->  	pci_write_config_word(pdev, pdev->pm_cap + PCI_PM_CTRL, csr);
->  
-> -	mdelay(pdev->d3_delay);
-> +	mdelay(pdev->d3hot_delay);
->  
->  	csr &= ~PCI_PM_CTRL_STATE_MASK;
->  	csr |= PCI_D0;
-> diff --git a/drivers/net/ethernet/marvell/sky2.c b/drivers/net/ethernet/marvell/sky2.c
-> index fe54764caea9..ce7a94060a96 100644
-> --- a/drivers/net/ethernet/marvell/sky2.c
-> +++ b/drivers/net/ethernet/marvell/sky2.c
-> @@ -5104,7 +5104,7 @@ static int sky2_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->  	INIT_WORK(&hw->restart_work, sky2_restart);
->  
->  	pci_set_drvdata(pdev, hw);
-> -	pdev->d3_delay = 300;
-> +	pdev->d3hot_delay = 300;
->  
->  	return 0;
->  
-> diff --git a/drivers/pci/pci-acpi.c b/drivers/pci/pci-acpi.c
-> index 7224b1e5f2a8..c54588ad2d9c 100644
-> --- a/drivers/pci/pci-acpi.c
-> +++ b/drivers/pci/pci-acpi.c
-> @@ -1167,7 +1167,7 @@ static struct acpi_device *acpi_pci_find_companion(struct device *dev)
->   * @pdev: the PCI device whose delay is to be updated
->   * @handle: ACPI handle of this device
->   *
-> - * Update the d3_delay and d3cold_delay of a PCI device from the ACPI _DSM
-> + * Update the d3hot_delay and d3cold_delay of a PCI device from the ACPI _DSM
->   * control method of either the device itself or the PCI host bridge.
->   *
->   * Function 8, "Reset Delay," applies to the entire hierarchy below a PCI
-> @@ -1206,8 +1206,8 @@ static void pci_acpi_optimize_delay(struct pci_dev *pdev,
->  		}
->  		if (elements[3].type == ACPI_TYPE_INTEGER) {
->  			value = (int)elements[3].integer.value / 1000;
-> -			if (value < PCI_PM_D3_WAIT)
-> -				pdev->d3_delay = value;
-> +			if (value < PCI_PM_D3HOT_WAIT)
-> +				pdev->d3hot_delay = value;
->  		}
->  	}
->  	ACPI_FREE(obj);
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index c9338f914a0e..5e5d15a96fe1 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -49,7 +49,7 @@ EXPORT_SYMBOL(isa_dma_bridge_buggy);
->  int pci_pci_problems;
->  EXPORT_SYMBOL(pci_pci_problems);
->  
-> -unsigned int pci_pm_d3_delay;
-> +unsigned int pci_pm_d3hot_delay;
->  
->  static void pci_pme_list_scan(struct work_struct *work);
->  
-> @@ -66,10 +66,10 @@ struct pci_pme_device {
->  
->  static void pci_dev_d3_sleep(struct pci_dev *dev)
->  {
-> -	unsigned int delay = dev->d3_delay;
-> +	unsigned int delay = dev->d3hot_delay;
->  
-> -	if (delay < pci_pm_d3_delay)
-> -		delay = pci_pm_d3_delay;
-> +	if (delay < pci_pm_d3hot_delay)
-> +		delay = pci_pm_d3hot_delay;
->  
->  	if (delay)
->  		msleep(delay);
-> @@ -2878,7 +2878,7 @@ void pci_pm_init(struct pci_dev *dev)
->  	}
->  
->  	dev->pm_cap = pm;
-> -	dev->d3_delay = PCI_PM_D3_WAIT;
-> +	dev->d3hot_delay = PCI_PM_D3HOT_WAIT;
->  	dev->d3cold_delay = PCI_PM_D3COLD_WAIT;
->  	dev->bridge_d3 = pci_bridge_d3_possible(dev);
->  	dev->d3cold_allowed = true;
-> @@ -2903,7 +2903,7 @@ void pci_pm_init(struct pci_dev *dev)
->  			 (pmc & PCI_PM_CAP_PME_D0) ? " D0" : "",
->  			 (pmc & PCI_PM_CAP_PME_D1) ? " D1" : "",
->  			 (pmc & PCI_PM_CAP_PME_D2) ? " D2" : "",
-> -			 (pmc & PCI_PM_CAP_PME_D3) ? " D3hot" : "",
-> +			 (pmc & PCI_PM_CAP_PME_D3hot) ? " D3hot" : "",
->  			 (pmc & PCI_PM_CAP_PME_D3cold) ? " D3cold" : "");
->  		dev->pme_support = pmc >> PCI_PM_CAP_PME_SHIFT;
->  		dev->pme_poll = true;
-> @@ -4601,7 +4601,7 @@ static int pci_af_flr(struct pci_dev *dev, int probe)
->   *
->   * NOTE: This causes the caller to sleep for twice the device power transition
->   * cooldown period, which for the D0->D3hot and D3hot->D0 transitions is 10 ms
-> - * by default (i.e. unless the @dev's d3_delay field has a different value).
-> + * by default (i.e. unless the @dev's d3hot_delay field has a different value).
->   * Moreover, only devices in D0 can be reset by this function.
->   */
->  static int pci_pm_reset(struct pci_dev *dev, int probe)
-> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-> index 6d3f75867106..70e699e2e264 100644
-> --- a/drivers/pci/pci.h
-> +++ b/drivers/pci/pci.h
-> @@ -44,7 +44,7 @@ int pci_bridge_secondary_bus_reset(struct pci_dev *dev);
->  int pci_bus_error_reset(struct pci_dev *dev);
->  
->  #define PCI_PM_D2_DELAY         200
-> -#define PCI_PM_D3_WAIT          10
-> +#define PCI_PM_D3HOT_WAIT       10
->  #define PCI_PM_D3COLD_WAIT      100
->  #define PCI_PM_BUS_WAIT         50
->  
-> @@ -177,7 +177,7 @@ extern struct mutex pci_slot_mutex;
->  
->  extern raw_spinlock_t pci_lock;
->  
-> -extern unsigned int pci_pm_d3_delay;
-> +extern unsigned int pci_pm_d3hot_delay;
->  
->  #ifdef CONFIG_PCI_MSI
->  void pci_no_msi(void);
-> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-> index 812bfc32ecb8..b09215b75b10 100644
-> --- a/drivers/pci/quirks.c
-> +++ b/drivers/pci/quirks.c
-> @@ -1846,7 +1846,7 @@ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_INTEL,	PCI_DEVICE_ID_INTEL_PXHV,	quirk_pci
->   */
->  static void quirk_intel_pcie_pm(struct pci_dev *dev)
->  {
-> -	pci_pm_d3_delay = 120;
-> +	pci_pm_d3hot_delay = 120;
->  	dev->no_d1d2 = 1;
->  }
->  DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL,	0x25e2, quirk_intel_pcie_pm);
-> @@ -1873,12 +1873,12 @@ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL,	0x260b, quirk_intel_pcie_pm);
->  
->  static void quirk_d3hot_delay(struct pci_dev *dev, unsigned int delay)
->  {
-> -	if (dev->d3_delay >= delay)
-> +	if (dev->d3hot_delay >= delay)
->  		return;
->  
-> -	dev->d3_delay = delay;
-> +	dev->d3hot_delay = delay;
->  	pci_info(dev, "extending delay after power-on from D3hot to %d msec\n",
-> -		 dev->d3_delay);
-> +		 dev->d3hot_delay);
->  }
->  
->  static void quirk_radeon_pm(struct pci_dev *dev)
-> @@ -3374,36 +3374,36 @@ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x0152, disable_igfx_irq);
->   * PCI devices which are on Intel chips can skip the 10ms delay
->   * before entering D3 mode.
->   */
-> -static void quirk_remove_d3_delay(struct pci_dev *dev)
-> -{
-> -	dev->d3_delay = 0;
-> -}
-> -/* C600 Series devices do not need 10ms d3_delay */
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x0412, quirk_remove_d3_delay);
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x0c00, quirk_remove_d3_delay);
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x0c0c, quirk_remove_d3_delay);
-> -/* Lynxpoint-H PCH devices do not need 10ms d3_delay */
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c02, quirk_remove_d3_delay);
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c18, quirk_remove_d3_delay);
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c1c, quirk_remove_d3_delay);
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c20, quirk_remove_d3_delay);
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c22, quirk_remove_d3_delay);
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c26, quirk_remove_d3_delay);
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c2d, quirk_remove_d3_delay);
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c31, quirk_remove_d3_delay);
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c3a, quirk_remove_d3_delay);
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c3d, quirk_remove_d3_delay);
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c4e, quirk_remove_d3_delay);
-> -/* Intel Cherrytrail devices do not need 10ms d3_delay */
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x2280, quirk_remove_d3_delay);
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x2298, quirk_remove_d3_delay);
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x229c, quirk_remove_d3_delay);
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22b0, quirk_remove_d3_delay);
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22b5, quirk_remove_d3_delay);
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22b7, quirk_remove_d3_delay);
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22b8, quirk_remove_d3_delay);
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22d8, quirk_remove_d3_delay);
-> -DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22dc, quirk_remove_d3_delay);
-> +static void quirk_remove_d3hot_delay(struct pci_dev *dev)
-> +{
-> +	dev->d3hot_delay = 0;
-> +}
-> +/* C600 Series devices do not need 10ms d3hot_delay */
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x0412, quirk_remove_d3hot_delay);
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x0c00, quirk_remove_d3hot_delay);
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x0c0c, quirk_remove_d3hot_delay);
-> +/* Lynxpoint-H PCH devices do not need 10ms d3hot_delay */
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c02, quirk_remove_d3hot_delay);
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c18, quirk_remove_d3hot_delay);
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c1c, quirk_remove_d3hot_delay);
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c20, quirk_remove_d3hot_delay);
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c22, quirk_remove_d3hot_delay);
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c26, quirk_remove_d3hot_delay);
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c2d, quirk_remove_d3hot_delay);
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c31, quirk_remove_d3hot_delay);
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c3a, quirk_remove_d3hot_delay);
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c3d, quirk_remove_d3hot_delay);
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x8c4e, quirk_remove_d3hot_delay);
-> +/* Intel Cherrytrail devices do not need 10ms d3hot_delay */
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x2280, quirk_remove_d3hot_delay);
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x2298, quirk_remove_d3hot_delay);
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x229c, quirk_remove_d3hot_delay);
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22b0, quirk_remove_d3hot_delay);
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22b5, quirk_remove_d3hot_delay);
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22b7, quirk_remove_d3hot_delay);
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22b8, quirk_remove_d3hot_delay);
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22d8, quirk_remove_d3hot_delay);
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_INTEL, 0x22dc, quirk_remove_d3hot_delay);
->  
->  /*
->   * Some devices may pass our check in pci_intx_mask_supported() if
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> index a000a1e316f7..beba430a197e 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-> @@ -1573,7 +1573,7 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
->  	spin_lock_init(&isp->lock);
->  
->  	/* This is not a true PCI device on SoC, so the delay is not needed. */
-> -	pdev->d3_delay = 0;
-> +	pdev->d3hot_delay = 0;
->  
->  	pci_set_drvdata(pdev, isp);
->  
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index 34c1c4f45288..cd9abbbc55e3 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -373,7 +373,7 @@ struct pci_dev {
->  						      user sysfs */
->  	unsigned int	clear_retrain_link:1;	/* Need to clear Retrain Link
->  						   bit manually */
-> -	unsigned int	d3_delay;	/* D3->D0 transition time in ms */
-> +	unsigned int	d3hot_delay;	/* D3hot->D0 transition time in ms */
->  	unsigned int	d3cold_delay;	/* D3cold->D0 transition time in ms */
->  
->  #ifdef CONFIG_PCIEASPM
-> diff --git a/include/uapi/linux/pci_regs.h b/include/uapi/linux/pci_regs.h
-> index f9701410d3b5..49f15c37e771 100644
-> --- a/include/uapi/linux/pci_regs.h
-> +++ b/include/uapi/linux/pci_regs.h
-> @@ -246,7 +246,7 @@
->  #define  PCI_PM_CAP_PME_D0	0x0800	/* PME# from D0 */
->  #define  PCI_PM_CAP_PME_D1	0x1000	/* PME# from D1 */
->  #define  PCI_PM_CAP_PME_D2	0x2000	/* PME# from D2 */
-> -#define  PCI_PM_CAP_PME_D3	0x4000	/* PME# from D3 (hot) */
-> +#define  PCI_PM_CAP_PME_D3hot	0x4000	/* PME# from D3 (hot) */
->  #define  PCI_PM_CAP_PME_D3cold	0x8000	/* PME# from D3 (cold) */
->  #define  PCI_PM_CAP_PME_SHIFT	11	/* Start of the PME Mask in PMC */
->  #define PCI_PM_CTRL		4	/* PM control and status register */
-> -- 
-> 2.27.0
+> > > +
+> > > +	onkey = devm_kzalloc(&pdev->dev, sizeof(*onkey), GFP_KERNEL);
+> > > +	if (!onkey)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	ret = device_property_read_u32(&pdev->dev,
+> > > +				       "actions,reset-time-sec", &val);
+> > 
+> > Call this "error" please.
 > 
+> Would something like bellow suffice?
+> 
+> 	if (ret) {
+> 		dev_err(&pdev->dev, "Failed to read actions,reset-time-sec\n");
+> 		return ret;
+> 	}
+
+
+I meant
+
+	error = device_property_read_u32(&pdev->dev,
+					 "actions,reset-time-sec", &val);
+	if (error) {
+		reset_status = KEY_RESET_HW_DEFAULT;
+	}
+
+
+> 
+> > > +	if (ret) {
+> > > +		reset_status = KEY_RESET_HW_DEFAULT;
+> > > +	} else if (val) {
+> > > +		if (val < 6 || val > 12) {
+> > > +			dev_err(&pdev->dev, "actions,reset-time-sec out of range\n");
+> > > +			return -EINVAL;
+> > > +		}
+> > > +
+> > > +		reset_status = KEY_RESET_USER_SEL;
+> > > +		reset_time = (val - 6) / 2;
+> > > +	} else {
+> > > +		reset_status = KEY_RESET_DISABLED;
+> > > +		dev_info(&pdev->dev, "Disabled reset on long-press\n");
+
+dev_dbg();
+
+> > > +	}
+> > > +
+> > > +	switch (atc260x->ic_type) {
+> > > +	case ATC2603C:
+> > > +		onkey->params = &atc2603c_onkey_params;
+> > > +		press_time = FIELD_PREP(ATC2603C_PMU_SYS_CTL2_ONOFF_PRESS_TIME,
+> > > +					press_time);
+> > > +		reset_time = FIELD_PREP(ATC2603C_PMU_SYS_CTL2_ONOFF_RESET_TIME_SEL,
+> > > +					reset_time);
+> > > +		break;
+> > > +	case ATC2609A:
+> > > +		onkey->params = &atc2609a_onkey_params;
+> > > +		press_time = FIELD_PREP(ATC2609A_PMU_SYS_CTL2_ONOFF_PRESS_TIME,
+> > > +					press_time);
+> > > +		reset_time = FIELD_PREP(ATC2609A_PMU_SYS_CTL2_ONOFF_RESET_TIME_SEL,
+> > > +					reset_time);
+> > > +		break;
+> > > +	default:
+> > > +		dev_err(&pdev->dev,
+> > > +			"OnKey not supported for ATC260x PMIC type: %u\n",
+> > > +			atc260x->ic_type);
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > +	input_dev = devm_input_allocate_device(&pdev->dev);
+> > > +	if (!input_dev) {
+> > > +		dev_err(&pdev->dev, "Failed to allocate input device\n");
+> > > +		return -ENOMEM;
+> > > +	}
+> > > +
+> > > +	onkey->input_dev = input_dev;
+> > > +	onkey->atc260x = atc260x;
+> > > +
+> > > +	input_dev->name = "atc260x-onkey";
+> > > +	input_dev->phys = "atc260x-onkey/input0";
+> > > +	input_dev->evbit[0] = BIT_MASK(EV_KEY);
+> > 
+> > Not needed.
+> 
+> Done.
+> 
+> > > +	input_set_capability(input_dev, EV_KEY, KEY_POWER);
+> > > +
+> > > +	INIT_DELAYED_WORK(&onkey->work, atc260x_onkey_work);
+> > > +
+> > > +	irq = platform_get_irq(pdev, 0);
+> > > +	if (irq < 0)
+> > > +		return irq;
+> > > +
+> > > +	ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
+> > > +					atc260x_onkey_irq,
+> > > +					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
+> > 
+> > Do we need to force the trigger type? Can we rely on the parent to
+> > configure it as needed?
+> 
+> Done, I removed the trigger type enforcement.
+> 
+> > > +					dev_name(&pdev->dev), onkey);
+> > > +	if (ret) {
+> > > +		dev_err(&pdev->dev,
+> > > +			"Failed to register IRQ %d: %d\n", irq, ret);
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	ret = input_register_device(input_dev);
+> > > +	if (ret) {
+> > > +		dev_err(&pdev->dev,
+> > > +			"Failed to register input device: %d\n", ret);
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	ret = atc2603x_onkey_hw_init(onkey, reset_status,
+> > > +				     reset_time, press_time);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	platform_set_drvdata(pdev, onkey);
+> > > +	device_init_wakeup(&pdev->dev, true);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int atc260x_onkey_remove(struct platform_device *pdev)
+> > > +{
+> > > +	struct atc260x_onkey *onkey = platform_get_drvdata(pdev);
+> > > +
+> > > +	cancel_delayed_work_sync(&onkey->work);
+> > 
+> > This is racy. Past this point the interrupts are not disabled, so if key
+> > happens to be pressed you will re-schedule the work and it will go BOOM.
+> > 
+> > You are using threaded interrupt. Maybe consider sleeping and
+> > re-checking the key status right there.
+> 
+> I've seen this approach in a few drivers: da9055_onkey.c,
+> palmas-pwrbutton.c, wm831x-on.c
+> 
+> I noticed they also call 'free_irq()' right before
+> 'cancel_delayed_work_sync()'. Would this help mitigate the racing issue?
+
+Yes, but this messes up with devm releasing resources.
+
+Another option is to implement open/close and call enable_irq() in open
+and disable_irq/cancel_work_sync in close.
+
+Thanks.
+
+-- 
+Dmitry
