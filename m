@@ -2,93 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A0DD27E797
-	for <lists+linux-input@lfdr.de>; Wed, 30 Sep 2020 13:24:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D2FA27EAD2
+	for <lists+linux-input@lfdr.de>; Wed, 30 Sep 2020 16:22:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725872AbgI3LYz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 30 Sep 2020 07:24:55 -0400
-Received: from mail.zx2c4.com ([192.95.5.64]:53263 "EHLO mail.zx2c4.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725776AbgI3LYz (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 30 Sep 2020 07:24:55 -0400
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTP id 0a12748f;
-        Wed, 30 Sep 2020 10:53:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=zx2c4.com; h=from:to:cc
-        :subject:date:message-id:in-reply-to:references:mime-version
-        :content-transfer-encoding; s=mail; bh=erWTKugYs2nRKi1F84yhcavVh
-        i0=; b=fqNhjUANTUyiv47D1yKmQgo5uQdCnY9iTgjXGf8UOs/OCMrHQ3wS9pjcV
-        2Pxdl7l719aXkufCPBYWk4b758oPVVgtKfWMe7G1lCf70+uzahAKYmssJuxTC528
-        KNJzYR8p+TqFLMbs9WHT31hQAHw/Le4EiyMVrlaUCiqOirjbXo3d88AIUugoenfS
-        KJgrRJn2Y1XRxvEDHl5gOHmQNxEQPXqnCDM7dRH3VQesz4Jht/D8UN4gQUGaTdns
-        LdKkov/pkLLuzNw68ktCvD33a1bmMIuDdVddSjWiO8AqBWkcZZP9pWkcmtcmoP7n
-        LlK6DRGhMnv6q75KGfSAczhCywRSw==
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 0e7119de (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO);
-        Wed, 30 Sep 2020 10:53:09 +0000 (UTC)
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     linux-input@vger.kernel.org,
-        Vincent Huang <vincent.huang@tw.synaptics.com>,
-        Lyude Paul <lyude@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Andrew Duggan <aduggan@synaptics.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Benjamin Tissoires <btissoir@redhat.com>,
-        Chris Heiny <chris.heiny@synaptics.com>
-Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: [PATCH v2] Input: synaptics - enable InterTouch for ThinkPad X1E/P1 2nd gen
-Date:   Wed, 30 Sep 2020 13:24:37 +0200
-Message-Id: <20200930112437.13705-1-Jason@zx2c4.com>
-In-Reply-To: <CAHmME9pqrEW5CQbdSm6ckvB0b81ZBZ77CJC45BOqpiuZcgRnXQ@mail.gmail.com>
-References: <CAHmME9pqrEW5CQbdSm6ckvB0b81ZBZ77CJC45BOqpiuZcgRnXQ@mail.gmail.com>
+        id S1730195AbgI3OWa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 30 Sep 2020 10:22:30 -0400
+Received: from esa3.mentor.iphmx.com ([68.232.137.180]:31144 "EHLO
+        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726680AbgI3OW2 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 30 Sep 2020 10:22:28 -0400
+IronPort-SDR: Afrq/gzrfOjT+dMh3NfKC6+dYWsC1Fb2ocxiGTquYDdlTVp70yH8b2f+NALq9oE4CMUBhSDLvN
+ YPewrZoX1tYb7S2uAnnjaD8+m2ijhxIWZchwTzEA1h/gZ34z0heoNee0feKyG/HGKHjzOouI3p
+ fpADusCMZkeFKYq4g10099bltWyZEfp6FIUEcjimvQG2JGqWxFV8Kw/kMeMnevEOs6nFaczbcQ
+ wrPhlA3k1s0sVwNh/TtYirqT7aN0wCo0LEyuqXv8V09NBXfqrtfd4y4OHwSxDeRn7wliY+eGY3
+ zOc=
+X-IronPort-AV: E=Sophos;i="5.77,322,1596528000"; 
+   d="scan'208";a="53417079"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+  by esa3.mentor.iphmx.com with ESMTP; 30 Sep 2020 06:22:27 -0800
+IronPort-SDR: y9+A998YjR6q49z2cDHsIN872VKx6hZNMQKQ6zyksUxgYG4UVvDDEnwiLr+SVwNP0biouD9Nj1
+ b8ufBFqM08oBmnYSzD4cT93yVWxPe+RTSGeUyDrfO9V5kqKdjzTueFwLCRF9slUJ/x7cKxup/d
+ T23Ha1pnuc2ZA1PNRlqzyo4Gv7jMkKx4yiQuI70+SPhzXoXQSY9zrAqA6KvLXyI+schb+hOKZO
+ D6c67r4quUt6oXpmzAnLeMx44vrPB3EbyXPM83aIblDexJZHGRNs8azTi0if80FNE84/vF9pwR
+ V5s=
+Subject: Re: [PATCH v2 1/3] dt-bindings: input: atmel: add compatible for
+ mXT1386
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
+        <digetx@gmail.com>, <jonathanh@nvidia.com>, <nick@shmanahar.org>,
+        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <erosca@de.adit-jv.com>,
+        <andrew_gabbasov@mentor.com>
+References: <20200925135257.21138-1-jiada_wang@mentor.com>
+ <20200925135257.21138-2-jiada_wang@mentor.com>
+ <20200928065909.GC2837573@ulmo>
+From:   "Wang, Jiada" <jiada_wang@mentor.com>
+Message-ID: <81e78fe0-7f9a-e477-fcd0-db05b27dccbf@mentor.com>
+Date:   Wed, 30 Sep 2020 23:22:22 +0900
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200928065909.GC2837573@ulmo>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SVR-ORW-MBX-09.mgc.mentorg.com (147.34.90.209) To
+ svr-orw-mbx-01.mgc.mentorg.com (147.34.90.201)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-With the new RMI4 F3A support posted yesterday, this appears to maybe
-work, but requires us to add support for the newer bootloader, which
-this commit does.
+Hi Thierry
 
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Vincent Huang <vincent.huang@tw.synaptics.com>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- drivers/input/mouse/synaptics.c | 1 +
- drivers/input/rmi4/rmi_f34v7.c  | 7 +++++--
- 2 files changed, 6 insertions(+), 2 deletions(-)
+Thanks for your comment
 
-diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
-index 8a54efd6eb95..9d6fec84047b 100644
---- a/drivers/input/mouse/synaptics.c
-+++ b/drivers/input/mouse/synaptics.c
-@@ -180,6 +180,7 @@ static const char * const smbus_pnp_ids[] = {
- 	"LEN0096", /* X280 */
- 	"LEN0097", /* X280 -> ALPS trackpoint */
- 	"LEN0099", /* X1 Extreme 1st */
-+	"LEN0402", /* X1 Extreme 2nd */
- 	"LEN009b", /* T580 */
- 	"LEN200f", /* T450s */
- 	"LEN2044", /* L470  */
-diff --git a/drivers/input/rmi4/rmi_f34v7.c b/drivers/input/rmi4/rmi_f34v7.c
-index 74f7c6f214ff..8cfaa2f19ed5 100644
---- a/drivers/input/rmi4/rmi_f34v7.c
-+++ b/drivers/input/rmi4/rmi_f34v7.c
-@@ -1364,9 +1364,12 @@ int rmi_f34v7_probe(struct f34_data *f34)
- 		f34->bl_version = 6;
- 	} else if (f34->bootloader_id[1] == 7) {
- 		f34->bl_version = 7;
-+	} else if (f34->bootloader_id[1] == 8) {
-+		f34->bl_version = 8;
- 	} else {
--		dev_err(&f34->fn->dev, "%s: Unrecognized bootloader version\n",
--				__func__);
-+		dev_err(&f34->fn->dev, "%s: Unrecognized bootloader version: %d (%c) %d (%c)\n",
-+				__func__, f34->bootloader_id[0], f34->bootloader_id[0],
-+				f34->bootloader_id[1], f34->bootloader_id[1]);
- 		return -EINVAL;
- 	}
- 
--- 
-2.28.0
+On 2020/09/28 15:59, Thierry Reding wrote:
+> On Fri, Sep 25, 2020 at 10:52:55PM +0900, Jiada Wang wrote:
+>> Document the mXT1386 compatible string.
+>>
+>> Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
+>> ---
+>>   Documentation/devicetree/bindings/input/atmel,maxtouch.txt | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
+>> index c88919480d37..c13fc0f3f00b 100644
+>> --- a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
+>> +++ b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
+>> @@ -3,6 +3,7 @@ Atmel maXTouch touchscreen/touchpad
+>>   Required properties:
+>>   - compatible:
+>>       atmel,maxtouch
+>> +    atmel,mXT1386
+> 
+> Compatible strings are preferred to be all lowercase.
 
+I will update to use lowercase
+
+Thanks,
+Jiada
+> 
+> Thierry
+> 
