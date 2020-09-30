@@ -2,70 +2,142 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27D1527EC08
-	for <lists+linux-input@lfdr.de>; Wed, 30 Sep 2020 17:13:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6758327EE3A
+	for <lists+linux-input@lfdr.de>; Wed, 30 Sep 2020 18:05:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728076AbgI3PNf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 30 Sep 2020 11:13:35 -0400
-Received: from esa2.mentor.iphmx.com ([68.232.141.98]:9476 "EHLO
-        esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728663AbgI3PNS (ORCPT
+        id S1725799AbgI3QFc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 30 Sep 2020 12:05:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32200 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725893AbgI3QFc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 30 Sep 2020 11:13:18 -0400
-IronPort-SDR: nSLQ961igttQQFDXguzwLhOQoqV+OJ5/NRMVroTHD56kizVKBIwc+0oNmhIPNQ7mW+MVfcf2t8
- WxdYs3LjqCQtwOSv6urZPipKWzS4gY17MNrim2daIZghZ/O9narY7GoH73mbsFHgrk8SBC7vhl
- o5IYmM4M+fud6s+lD4eJm7WwCMXOH2TpGouXvMf9IEMRi7j+lv8ezbHSIva8sLIWe3KWiAx/KF
- yi5BOyvZFW8qoTX4cn/lmqGfwiCdghoO1trO9rxWiEgPRr0xBcV7UPSshp5i2sNjaxx/tBfwO7
- ENQ=
-X-IronPort-AV: E=Sophos;i="5.77,322,1596528000"; 
-   d="scan'208";a="53484685"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa2.mentor.iphmx.com with ESMTP; 30 Sep 2020 07:13:16 -0800
-IronPort-SDR: AhD9Pi2PvHyXGBdiXvnDQJCnZU0KZeP70Ol0MF3R+NbwGTd4NGhvoTiCkEETjpslS11JaScN5l
- d8qGYNkmdEsw/Z7Hu3ii5bJK6FNdHq1oz5I0NZHrkKOBqMVb1WWvVTaWUtDZcsd63bMdkDxfN9
- rmvBDbowvTb7IsP3UO/kG6Ue97WMoaKDblImtA9qHJS1FRtnbidWAz2ykAb01irAKznV596fUC
- KZRypC5kGLkjOpMJ6mS9dy+rF56GFt0nGk+jqM6oMaLQhvlLvksajJ13dzdA5pO384zezuhvSJ
- Yos=
-From:   Jiada Wang <jiada_wang@mentor.com>
-To:     <dmitry.torokhov@gmail.com>, <robh+dt@kernel.org>,
-        <thierry.reding@gmail.com>, <digetx@gmail.com>,
-        <jonathanh@nvidia.com>
-CC:     <nick@shmanahar.org>, <linux-input@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <erosca@de.adit-jv.com>, <andrew_gabbasov@mentor.com>,
-        <jiada_wang@mentor.com>
-Subject: [PATCH v3 3/3] ARM: tegra: add mXT1386 compatible
-Date:   Thu, 1 Oct 2020 00:12:59 +0900
-Message-ID: <20200930151259.18119-4-jiada_wang@mentor.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200930151259.18119-1-jiada_wang@mentor.com>
-References: <20200930151259.18119-1-jiada_wang@mentor.com>
+        Wed, 30 Sep 2020 12:05:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1601481930;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=NfBU6j8IEojpJBd5+sqw+eCL/YeG6g7omaok5w3RhSg=;
+        b=N6oigUm92kkaY1J2qCWyqwWSK5s5RrTtTmMXxCkZzKgVkOxDNb0CHDRntnX2ye1fdAqj2T
+        EJYZT6OstcKBUWLMkgI+W3UWukyhavkH5EkVE4dc9zvpSsJsZjexJhGOKvqD4h3A5HWJLb
+        KXPOBAQ3OtGtHnZ1DX4PL2LQjXAHwKo=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-27-P2VSOCBuMdmvu7-oEhVsCQ-1; Wed, 30 Sep 2020 12:05:29 -0400
+X-MC-Unique: P2VSOCBuMdmvu7-oEhVsCQ-1
+Received: by mail-qv1-f70.google.com with SMTP id o14so1298100qve.7
+        for <linux-input@vger.kernel.org>; Wed, 30 Sep 2020 09:05:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:organization:user-agent:mime-version
+         :content-transfer-encoding;
+        bh=NfBU6j8IEojpJBd5+sqw+eCL/YeG6g7omaok5w3RhSg=;
+        b=iGpvDlv0dvMzvk/mqhrBU5O3rFvZWUDC3Z/mvLj+6LWKPb2PJeLVY26mrl87RdL5M1
+         HgeMH0xdKe8fN57Sq4+WR70wizAFO3+dmzg0b9oXO04n3EB5SlnK3Hzoc+CvwtKyFZHz
+         HKI+t58dN7CK0ef99A9nHDuHvXdiz2gJ530kE/dMSgnmnVtGBfBlsZgvG0C0yWTjuJ8p
+         sSdeiqVxyT/43OhrCC/dqd9cvzn97AnraodHX8epuPkyjYpmuZfopqNNdC4CFNKuMqhh
+         PhfD7w0gI4Gm/4Vyzx4Y6h5/l/g6xonULpA6ALo0RdNotAvnDYfiT9eF0ay1zUdt8Mwp
+         wfGw==
+X-Gm-Message-State: AOAM530w3WJpC8EfwFVowwmU5OMGJvOgx3qTBbzoPMeijm/W6AWdRTHy
+        hGUopsHus3V5y4Sf5w4/fNrmN5OO5DOrJIuQABd51L7pR3R4V8prr5LQFxKbVUxbjbeQZUo5Ush
+        qeztlabaeZLNlXjjd/C8Aoy4=
+X-Received: by 2002:ac8:1ab3:: with SMTP id x48mr2924874qtj.153.1601481927591;
+        Wed, 30 Sep 2020 09:05:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJycnvjhbY+bDcP08koSkowZT8GcY1IRVGUibZXDluJX0XH0bj9/o2ftRDD2wo2mjCIzeBP9KQ==
+X-Received: by 2002:ac8:1ab3:: with SMTP id x48mr2924736qtj.153.1601481925864;
+        Wed, 30 Sep 2020 09:05:25 -0700 (PDT)
+Received: from Ruby.lyude.net (pool-108-49-102-102.bstnma.fios.verizon.net. [108.49.102.102])
+        by smtp.gmail.com with ESMTPSA id z131sm2648312qkb.59.2020.09.30.09.05.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2020 09:05:25 -0700 (PDT)
+Message-ID: <5bd2bb9d925cfc81392bd9bf93b31ce4fd81e107.camel@redhat.com>
+Subject: Re: [PATCH v2] Input: synaptics - enable InterTouch for ThinkPad
+ X1E/P1 2nd gen
+From:   Lyude Paul <lyude@redhat.com>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        linux-input@vger.kernel.org,
+        Vincent Huang <vincent.huang@tw.synaptics.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Andrew Duggan <aduggan@synaptics.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Benjamin Tissoires <btissoir@redhat.com>,
+        Chris Heiny <chris.heiny@synaptics.com>
+Date:   Wed, 30 Sep 2020 12:05:22 -0400
+In-Reply-To: <20200930112437.13705-1-Jason@zx2c4.com>
+References: <CAHmME9pqrEW5CQbdSm6ckvB0b81ZBZ77CJC45BOqpiuZcgRnXQ@mail.gmail.com>
+         <20200930112437.13705-1-Jason@zx2c4.com>
+Organization: Red Hat
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add mXT1386 compatible for "touchscreen@4c".
+Maybe correct the comment in smbus_pnp_ids to reflect this handles both the X1
+Extreme and P2 2nd Gen. Then I'd probably split the bootloader change into a
+commit that comes before adding the new PnP IDs.
 
-Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
----
- arch/arm/boot/dts/tegra20-acer-a500-picasso.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Otherwise though:
 
-diff --git a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-index 2d683c9a1a5d..a9eed5f6973b 100644
---- a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-+++ b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-@@ -428,7 +428,7 @@
- 		};
- 
- 		touchscreen@4c {
--			compatible = "atmel,maxtouch";
-+			compatible = "atmel,mxt1386", "atmel,maxtouch";
- 			reg = <0x4c>;
- 
- 			atmel,cfg_name = "maxtouch-acer-iconia-tab-a500.cfg";
+Acked-by: Lyude Paul <lyude@redhat.com>
+
+Let's see what the folks from synaptics say
+
+On Wed, 2020-09-30 at 13:24 +0200, Jason A. Donenfeld wrote:
+> With the new RMI4 F3A support posted yesterday, this appears to maybe
+> work, but requires us to add support for the newer bootloader, which
+> this commit does.
+> 
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Vincent Huang <vincent.huang@tw.synaptics.com>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> ---
+>  drivers/input/mouse/synaptics.c | 1 +
+>  drivers/input/rmi4/rmi_f34v7.c  | 7 +++++--
+>  2 files changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/input/mouse/synaptics.c
+> b/drivers/input/mouse/synaptics.c
+> index 8a54efd6eb95..9d6fec84047b 100644
+> --- a/drivers/input/mouse/synaptics.c
+> +++ b/drivers/input/mouse/synaptics.c
+> @@ -180,6 +180,7 @@ static const char * const smbus_pnp_ids[] = {
+>  	"LEN0096", /* X280 */
+>  	"LEN0097", /* X280 -> ALPS trackpoint */
+>  	"LEN0099", /* X1 Extreme 1st */
+> +	"LEN0402", /* X1 Extreme 2nd */
+>  	"LEN009b", /* T580 */
+>  	"LEN200f", /* T450s */
+>  	"LEN2044", /* L470  */
+> diff --git a/drivers/input/rmi4/rmi_f34v7.c b/drivers/input/rmi4/rmi_f34v7.c
+> index 74f7c6f214ff..8cfaa2f19ed5 100644
+> --- a/drivers/input/rmi4/rmi_f34v7.c
+> +++ b/drivers/input/rmi4/rmi_f34v7.c
+> @@ -1364,9 +1364,12 @@ int rmi_f34v7_probe(struct f34_data *f34)
+>  		f34->bl_version = 6;
+>  	} else if (f34->bootloader_id[1] == 7) {
+>  		f34->bl_version = 7;
+> +	} else if (f34->bootloader_id[1] == 8) {
+> +		f34->bl_version = 8;
+>  	} else {
+> -		dev_err(&f34->fn->dev, "%s: Unrecognized bootloader
+> version\n",
+> -				__func__);
+> +		dev_err(&f34->fn->dev, "%s: Unrecognized bootloader version:
+> %d (%c) %d (%c)\n",
+> +				__func__, f34->bootloader_id[0], f34-
+> >bootloader_id[0],
+> +				f34->bootloader_id[1], f34->bootloader_id[1]);
+>  		return -EINVAL;
+>  	}
+>  
 -- 
-2.17.1
+Cheers,
+	Lyude Paul (she/her)
+	Software Engineer at Red Hat
 
