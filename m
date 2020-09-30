@@ -2,413 +2,207 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 62D8927E56F
-	for <lists+linux-input@lfdr.de>; Wed, 30 Sep 2020 11:43:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB98727E770
+	for <lists+linux-input@lfdr.de>; Wed, 30 Sep 2020 13:08:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729086AbgI3JnI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 30 Sep 2020 05:43:08 -0400
-Received: from mail-dm6nam12on2052.outbound.protection.outlook.com ([40.107.243.52]:50523
-        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728169AbgI3JnH (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 30 Sep 2020 05:43:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Fc67J5uGOW9EHxo+F6/Oi1kJV6SQiiRHOtaj5lece57dSnVwPNWVNMd3Qt51Sk4HM+1P8rmXKALqDBeu3yloO0vFJEq/nD7y9+Bi8O6YCYNwgsiPn4OtoSSEENtBjy8R6wexHHEEAOJaMsxezyVfxExeGpkJgE4rCDBo+HdN6diwS2W7H2kzf4GA/OcvaHy38SFXqP1RCX5mj95UNVMA+yY0uMOJl5fgAZm48kx+5K+/BbWW/Eh3gkrvqpeDSIh+DXuIkvKT+nqjq3LoppxHsWZBz7CIo9UlHMW91iRNgZ+9GQ7EOjaN3fm7xvzZjVcjKzA/isf3R8nFr5a+JEnjDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tFCoaI0CFcn5OgiL6CGBza0lUp08pN+W7AIcy1w2QPA=;
- b=PUSoU6m5u/LL6viyVW9QXjttpYU/EquFRCZK/BrSH1GCSnhavluNOZiRFVZQSzUuEjtsityIlDQSF5EtdbWEWiTHiJif6f98a1xIeHPRT3QCPLBYlprvBB6/7bC/HL8daTPRzF+HR9rHYmKFfhFOyX8z8ophpNZ+Ti8wO3C4ANkCmapPnpDG0OWMtVlnaC6cZ/6n/HD8C/hTxUpV3jNjQHEbHnCFp0cvGjJfiTFNtVyoWuZ8uCkBuSZ2i3CG3H52hpoy5X7KXc9dUuFrL78TS9YC7zZWo/PlEGlN3MKCVaV71fe1V0njStuVDTKPzRFHVSczV9+RBHpXY+2/dQZQsQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=tw.synaptics.com; dmarc=pass action=none
- header.from=tw.synaptics.com; dkim=pass header.d=tw.synaptics.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Synaptics.onmicrosoft.com; s=selector2-Synaptics-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tFCoaI0CFcn5OgiL6CGBza0lUp08pN+W7AIcy1w2QPA=;
- b=Xi6idKU6o9J4B/tb2Cr19FnczCfd+x60t3i9/YwOHi+nCYVEU0I3cJPf4LwtmBKtF4Qj4oSdPke2ofQqL1DBOzttWFRKylhU+xVczrKQWeF6qSalfu0KssD4t+rU8JzzEvcLYGMO9yAYk9JIrZC6pomyhpmWmSDQHgXnPw0VYqQ=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none
- header.from=tw.synaptics.com;
-Received: from SN6PR03MB3952.namprd03.prod.outlook.com (2603:10b6:805:75::26)
- by SN6PR03MB3821.namprd03.prod.outlook.com (2603:10b6:805:6a::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.28; Wed, 30 Sep
- 2020 09:43:04 +0000
-Received: from SN6PR03MB3952.namprd03.prod.outlook.com
- ([fe80::3c54:f5cf:3148:407e]) by SN6PR03MB3952.namprd03.prod.outlook.com
- ([fe80::3c54:f5cf:3148:407e%7]) with mapi id 15.20.3433.035; Wed, 30 Sep 2020
- 09:43:04 +0000
-From:   Vincent Huang <vincent.huang@tw.synaptics.com>
-To:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Vincent Huang <vincent.huang@tw.synaptics.com>,
+        id S1728430AbgI3LIS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 30 Sep 2020 07:08:18 -0400
+Received: from mail.zx2c4.com ([192.95.5.64]:42187 "EHLO mail.zx2c4.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725779AbgI3LIJ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 30 Sep 2020 07:08:09 -0400
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTP id fe4c1769
+        for <linux-input@vger.kernel.org>;
+        Wed, 30 Sep 2020 10:36:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=zx2c4.com; h=mime-version
+        :references:in-reply-to:from:date:message-id:subject:to:cc
+        :content-type; s=mail; bh=erMBzehXuC+SfnHlrylUjqx4fTE=; b=29NiO5
+        PCSuIyx1lixLnDdtwqNRJ6mCXis+TWJSJm3oH0SXlr6xdNmkNC1aXilccCLqtEmn
+        sIxzhIxnginmTZ2CaZ0Kn7rsF0xsEwocAh8oR0GLm9bVgUwdOm2WyOLR0gub5TBG
+        3gjYwGJh8zM9Aqdqr2amRdFPFRaSpXHjJ5xXPcw38rCeY33XTBQH9OYgwM/WJnWU
+        JFyuOC/JQUX1eAUM9TutUrdx0sXWq7+97KY3jsxkDX9U5IX1VJhsLM33AypL79Sl
+        awSXI1orDhevFCzjZarPsAcjYWbHe/pOKdS6uNv1sH5YtTSUt55ZIrQ2nGMNFpyG
+        zMNWsHr9GgCPMRXg==
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id a0845658 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO)
+        for <linux-input@vger.kernel.org>;
+        Wed, 30 Sep 2020 10:36:23 +0000 (UTC)
+Received: by mail-il1-f180.google.com with SMTP id c5so1181529ilk.11
+        for <linux-input@vger.kernel.org>; Wed, 30 Sep 2020 04:08:06 -0700 (PDT)
+X-Gm-Message-State: AOAM532SXPHFpg3ICTT1TJgvyNDunOmcdSiA3oXpvLe1ksAO2+SjKboG
+        rxHuuLAkyaMz/iRvIahJz4SzCf4Mz/HSHKKz558=
+X-Google-Smtp-Source: ABdhPJxFxnmJXigOuzphr8R0GBCfFp46O7fuKTDANV/7PM79NGZaUDtWtnOlDpFYcKEE9YRh958rau5ZLSiO5ec6yZU=
+X-Received: by 2002:a92:d905:: with SMTP id s5mr1586131iln.224.1601464085224;
+ Wed, 30 Sep 2020 04:08:05 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200925163602.204047-1-Jason@zx2c4.com>
+In-Reply-To: <20200925163602.204047-1-Jason@zx2c4.com>
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date:   Wed, 30 Sep 2020 13:07:54 +0200
+X-Gmail-Original-Message-ID: <CAHmME9pqrEW5CQbdSm6ckvB0b81ZBZ77CJC45BOqpiuZcgRnXQ@mail.gmail.com>
+Message-ID: <CAHmME9pqrEW5CQbdSm6ckvB0b81ZBZ77CJC45BOqpiuZcgRnXQ@mail.gmail.com>
+Subject: Re: [PATCH] Input: synaptics - enable InterTouch for ThinkPad X1E/P1
+ 2nd gen
+To:     linux-input@vger.kernel.org,
+        Vincent Huang <vincent.huang@tw.synaptics.com>
+Cc:     Lyude Paul <lyude@redhat.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Jiri Kosina <jikos@kernel.org>,
         Andrew Duggan <aduggan@synaptics.com>,
         Hans de Goede <hdegoede@redhat.com>,
         Benjamin Tissoires <btissoir@redhat.com>,
-        Lyude Paul <lyude@redhat.com>,
         Chris Heiny <chris.heiny@synaptics.com>
-Subject: [PATCH v3 2/2] Input: synaptics-rmi4 - add support for F3A
-Date:   Wed, 30 Sep 2020 17:41:47 +0800
-Message-Id: <20200930094147.635556-3-vincent.huang@tw.synaptics.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200930094147.635556-1-vincent.huang@tw.synaptics.com>
-References: <20200930094147.635556-1-vincent.huang@tw.synaptics.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [60.250.40.146]
-X-ClientProxiedBy: HK2PR06CA0020.apcprd06.prod.outlook.com
- (2603:1096:202:2e::32) To SN6PR03MB3952.namprd03.prod.outlook.com
- (2603:10b6:805:75::26)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from test-ThinkPad.synaptics-inc.local (60.250.40.146) by HK2PR06CA0020.apcprd06.prod.outlook.com (2603:1096:202:2e::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.32 via Frontend Transport; Wed, 30 Sep 2020 09:43:01 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0c610880-bdd4-41d2-5dfa-08d865253a56
-X-MS-TrafficTypeDiagnostic: SN6PR03MB3821:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR03MB382181BB76775389DAE3899CD6330@SN6PR03MB3821.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:26;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HDvT6bS5aSMXaN7D8/7JgR0Ffm0AvI3NU6N71DH/dIwUoTnvfYxRxJgoLoDNApjP2HmztYWHM298BQKzDo+UiuAKjP7rYn068pXgs1TYoS7jKLNLIUdUdmUDdGbszkCIn9cBqX8KD1bHjybCliT2hY0X9AW5eOYGIY9jEy+LntHMJ6rtUVEE+HPKyjr3BbV4L9ht/d3/vzVJxCXlG7Kc/QzXNJ6uKCwlu6QeQarLilcCvEO7qwt07u2rd/6yMqbXUDvukaVt4GLCNiZ/BsxL9m0dzrRUgRu1NTKn/FhOFkAaGb2wIvF+VN3Egzglze8Do44l9Ipv8/omiSPyeFXVsY0ysoDKfdzEs6llYT2lkUs3v0AQCGQdbIuo31YbJzZT
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR03MB3952.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(396003)(366004)(376002)(39860400002)(136003)(346002)(6486002)(66946007)(478600001)(6666004)(5660300002)(107886003)(83380400001)(66476007)(956004)(2616005)(66556008)(8936002)(186003)(16526019)(52116002)(26005)(4326008)(8676002)(316002)(44832011)(86362001)(6512007)(54906003)(1076003)(6506007)(2906002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: pV1brrRN1QO/v+LvHDaGp7wkzW8gOk6U3FKFIjABfSkFzgX+tmAaZQ+WN1Fgz4P6eOAZrrN2bXydfKMpMOHX2EAxhYywAHzu5Ubg0OmkM6GG4wG9tX7hWX8vGX0EE42uSESjBxWJf3Bqwe40+FL3DHnRb2SxupGktI8lF7FhU7aCuSM16Br2dPy4N4mFfl6ujlCidKGUTc6jZRnZ4EVWJ2ej9btIZPaWJVhuMyZBzGr9AhsLixOgb2Gb/Ftr+WsBXdnL6YHVUE6Kdcc4gX1hIz2jxB8ZQthH3YG2Wdy1E6tulvTq+u9+TIcK3eF5zVJmeaEWMt/JTPu33AS7+I9vkpzB8V5YNSVGG3zgHV4r4HKN957XddgmyX0GY4E/xCXmeGaQiK6rbWaj0swlamDvClT4T3cQUX2h34Dqv0NUfuW+/vaxI7PnxStp+jX6lBH939HhzM/15gAbbQvrRH/m/fCVv8e6BFdKZCzyewpxgDwq/1KR4pi+3lILjM7Yd4xJ4YMADyaZ64Fi6a1BMQTxnxjBEaAmk5OEGMCb+OUUTU2blNuTOos8wSA8Le4tszTlfhI8HiXY5j08uTl9Bw6GW+AxgK3WP8o9riHX3WqWDyhytuarsGydlFrXMCDqy/HmLKSI/A27u9fgqOfPVXBS9Q==
-X-OriginatorOrg: tw.synaptics.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c610880-bdd4-41d2-5dfa-08d865253a56
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3952.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2020 09:43:04.2447
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 335d1fbc-2124-4173-9863-17e7051a2a0e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TKnR/vAIS3nHdy2o/e2APKpXbLJCwWDEnH6OBLedx6iKVeIdne68UWOIw81Zt2t0ZFtrKSv9jTLPtuPKwMV/Iw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3821
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-RMI4 F3A supports the touchpad GPIO function, it's designed to
-support more GPIOs and used on newer touchpads. This patch adds
-support of the touchpad buttons.
+In addition to the dmesg warnings in the commit, I'm also getting this
+null ptr dereference, presumably when dereferencing f34->, which is
+NULL. Stack trace follows below, but it's pretty straightforward
+what's happening. Seems like Vincent's recent patchset might need some
+more work in being wired up with the f34 driver?
 
-Signed-off-by: Vincent Huang <vincent.huang@tw.synaptics.com>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Tested-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/input/rmi4/Kconfig      |   8 ++
- drivers/input/rmi4/Makefile     |   1 +
- drivers/input/rmi4/rmi_bus.c    |   3 +
- drivers/input/rmi4/rmi_driver.h |   1 +
- drivers/input/rmi4/rmi_f3a.c    | 240 ++++++++++++++++++++++++++++++++
- 5 files changed, 253 insertions(+)
- create mode 100644 drivers/input/rmi4/rmi_f3a.c
+thinkpad /sys/devices/rmi4-00 # cat bootloader_id
+Killed
+thinkpad /sys/devices/rmi4-00 # cat configuration_id
+(efault)
 
-diff --git a/drivers/input/rmi4/Kconfig b/drivers/input/rmi4/Kconfig
-index a212ff706f74..16119f760d11 100644
---- a/drivers/input/rmi4/Kconfig
-+++ b/drivers/input/rmi4/Kconfig
-@@ -100,6 +100,14 @@ config RMI4_F34
- 	  device via the firmware loader interface. This is triggered using a
- 	  sysfs attribute.
- 
-+config RMI4_F3A
-+	bool "RMI4 Function 3A (GPIO)"
-+	help
-+	  Say Y here if you want to add support for RMI4 function 3A.
-+
-+	  Function 3A provides GPIO support for RMI4 devices. This includes
-+	  support for buttons on TouchPads and ClickPads.
-+
- config RMI4_F54
- 	bool "RMI4 Function 54 (Analog diagnostics)"
- 	depends on VIDEO_V4L2=y || (RMI4_CORE=m && VIDEO_V4L2=m)
-diff --git a/drivers/input/rmi4/Makefile b/drivers/input/rmi4/Makefile
-index f17631656987..02f14c846861 100644
---- a/drivers/input/rmi4/Makefile
-+++ b/drivers/input/rmi4/Makefile
-@@ -10,6 +10,7 @@ rmi_core-$(CONFIG_RMI4_F11) += rmi_f11.o
- rmi_core-$(CONFIG_RMI4_F12) += rmi_f12.o
- rmi_core-$(CONFIG_RMI4_F30) += rmi_f30.o
- rmi_core-$(CONFIG_RMI4_F34) += rmi_f34.o rmi_f34v7.o
-+rmi_core-$(CONFIG_RMI4_F3A) += rmi_f3a.o
- rmi_core-$(CONFIG_RMI4_F54) += rmi_f54.o
- rmi_core-$(CONFIG_RMI4_F55) += rmi_f55.o
- 
-diff --git a/drivers/input/rmi4/rmi_bus.c b/drivers/input/rmi4/rmi_bus.c
-index af706a583656..47d1b97ed6cf 100644
---- a/drivers/input/rmi4/rmi_bus.c
-+++ b/drivers/input/rmi4/rmi_bus.c
-@@ -365,6 +365,9 @@ static struct rmi_function_handler *fn_handlers[] = {
- #ifdef CONFIG_RMI4_F34
- 	&rmi_f34_handler,
- #endif
-+#ifdef CONFIG_RMI4_F3A
-+	&rmi_f3a_handler,
-+#endif
- #ifdef CONFIG_RMI4_F54
- 	&rmi_f54_handler,
- #endif
-diff --git a/drivers/input/rmi4/rmi_driver.h b/drivers/input/rmi4/rmi_driver.h
-index 65bfaa95e193..1c6c6086c0e5 100644
---- a/drivers/input/rmi4/rmi_driver.h
-+++ b/drivers/input/rmi4/rmi_driver.h
-@@ -135,6 +135,7 @@ extern struct rmi_function_handler rmi_f11_handler;
- extern struct rmi_function_handler rmi_f12_handler;
- extern struct rmi_function_handler rmi_f30_handler;
- extern struct rmi_function_handler rmi_f34_handler;
-+extern struct rmi_function_handler rmi_f3a_handler;
- extern struct rmi_function_handler rmi_f54_handler;
- extern struct rmi_function_handler rmi_f55_handler;
- #endif
-diff --git a/drivers/input/rmi4/rmi_f3a.c b/drivers/input/rmi4/rmi_f3a.c
-new file mode 100644
-index 000000000000..11ff35f811b0
---- /dev/null
-+++ b/drivers/input/rmi4/rmi_f3a.c
-@@ -0,0 +1,240 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2012-2020 Synaptics Incorporated
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/rmi.h>
-+#include <linux/input.h>
-+#include <linux/slab.h>
-+#include "rmi_driver.h"
-+
-+#define RMI_F3A_MAX_GPIO_COUNT		128
-+#define RMI_F3A_MAX_REG_SIZE		DIV_ROUND_UP(RMI_F3A_MAX_GPIO_COUNT, 8)
-+
-+/* Defs for Query 0 */
-+#define RMI_F3A_GPIO_COUNT		0x7F
-+
-+#define RMI_F3A_DATA_REGS_MAX_SIZE	RMI_F3A_MAX_REG_SIZE
-+
-+#define TRACKSTICK_RANGE_START		3
-+#define TRACKSTICK_RANGE_END		6
-+
-+struct f3a_data {
-+	/* Query Data */
-+	u8 gpio_count;
-+
-+	u8 register_count;
-+
-+	u8 data_regs[RMI_F3A_DATA_REGS_MAX_SIZE];
-+	u16 *gpio_key_map;
-+
-+	struct input_dev *input;
-+
-+	struct rmi_function *f03;
-+	bool trackstick_buttons;
-+};
-+
-+static void rmi_f3a_report_button(struct rmi_function *fn,
-+				  struct f3a_data *f3a, unsigned int button)
-+{
-+	u16 key_code = f3a->gpio_key_map[button];
-+	bool key_down = !(f3a->data_regs[0] & BIT(button));
-+
-+	if (f3a->trackstick_buttons &&
-+		button >= TRACKSTICK_RANGE_START &&
-+		button <= TRACKSTICK_RANGE_END) {
-+		rmi_f03_overwrite_button(f3a->f03, key_code, key_down);
-+	} else {
-+		rmi_dbg(RMI_DEBUG_FN, &fn->dev,
-+			"%s: call input report key (0x%04x) value (0x%02x)",
-+			__func__, key_code, key_down);
-+		input_report_key(f3a->input, key_code, key_down);
-+	}
-+}
-+
-+static irqreturn_t rmi_f3a_attention(int irq, void *ctx)
-+{
-+	struct rmi_function *fn = ctx;
-+	struct f3a_data *f3a = dev_get_drvdata(&fn->dev);
-+	struct rmi_driver_data *drvdata = dev_get_drvdata(&fn->rmi_dev->dev);
-+	int error;
-+	int i;
-+
-+	if (drvdata->attn_data.data) {
-+		if (drvdata->attn_data.size < f3a->register_count) {
-+			dev_warn(&fn->dev,
-+				 "F3A interrupted, but data is missing\n");
-+			return IRQ_HANDLED;
-+		}
-+		memcpy(f3a->data_regs, drvdata->attn_data.data,
-+			f3a->register_count);
-+		drvdata->attn_data.data += f3a->register_count;
-+		drvdata->attn_data.size -= f3a->register_count;
-+	} else {
-+		error = rmi_read_block(fn->rmi_dev, fn->fd.data_base_addr,
-+					f3a->data_regs, f3a->register_count);
-+		if (error) {
-+			dev_err(&fn->dev,
-+				"%s: Failed to read F3a data registers: %d\n",
-+				__func__, error);
-+			return IRQ_RETVAL(error);
-+		}
-+	}
-+
-+	for (i = 0; i < f3a->gpio_count; i++)
-+		if (f3a->gpio_key_map[i] != KEY_RESERVED)
-+			rmi_f3a_report_button(fn, f3a, i);
-+	if (f3a->trackstick_buttons)
-+		rmi_f03_commit_buttons(f3a->f03);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int rmi_f3a_config(struct rmi_function *fn)
-+{
-+	struct f3a_data *f3a = dev_get_drvdata(&fn->dev);
-+	struct rmi_driver *drv = fn->rmi_dev->driver;
-+	const struct rmi_device_platform_data *pdata =
-+			rmi_get_platform_data(fn->rmi_dev);
-+
-+	if (!f3a)
-+		return 0;
-+
-+	if (pdata->gpio_data.trackstick_buttons) {
-+		/* Try [re-]establish link to F03. */
-+		f3a->f03 = rmi_find_function(fn->rmi_dev, 0x03);
-+		f3a->trackstick_buttons = f3a->f03 != NULL;
-+	}
-+
-+	drv->set_irq_bits(fn->rmi_dev, fn->irq_mask);
-+
-+	return 0;
-+}
-+
-+static bool rmi_f3a_is_valid_button(int button, struct f3a_data *f3a,
-+					u8 *query1_regs, u8 *ctrl1_regs)
-+{
-+	/* gpio exist && direction input */
-+	return (query1_regs[0] & BIT(button)) && !(ctrl1_regs[0] & BIT(button));
-+}
-+
-+static int rmi_f3a_map_gpios(struct rmi_function *fn, struct f3a_data *f3a,
-+				u8 *query1_regs, u8 *ctrl1_regs)
-+{
-+	const struct rmi_device_platform_data *pdata =
-+			rmi_get_platform_data(fn->rmi_dev);
-+	struct input_dev *input = f3a->input;
-+	unsigned int button = BTN_LEFT;
-+	unsigned int trackstick_button = BTN_LEFT;
-+	bool button_mapped = false;
-+	int i;
-+	int button_count = min_t(u8, f3a->gpio_count, TRACKSTICK_RANGE_END);
-+
-+	f3a->gpio_key_map = devm_kcalloc(&fn->dev,
-+						button_count,
-+						sizeof(f3a->gpio_key_map[0]),
-+						GFP_KERNEL);
-+	if (!f3a->gpio_key_map) {
-+		dev_err(&fn->dev, "Failed to allocate gpio map memory.\n");
-+		return -ENOMEM;
-+	}
-+
-+	for (i = 0; i < button_count; i++) {
-+		if (!rmi_f3a_is_valid_button(i, f3a, query1_regs, ctrl1_regs))
-+			continue;
-+
-+		if (pdata->gpio_data.trackstick_buttons &&
-+			i >= TRACKSTICK_RANGE_START &&
-+			i < TRACKSTICK_RANGE_END) {
-+			f3a->gpio_key_map[i] = trackstick_button++;
-+		} else if (!pdata->gpio_data.buttonpad || !button_mapped) {
-+			f3a->gpio_key_map[i] = button;
-+			input_set_capability(input, EV_KEY, button++);
-+			button_mapped = true;
-+		}
-+	}
-+	input->keycode = f3a->gpio_key_map;
-+	input->keycodesize = sizeof(f3a->gpio_key_map[0]);
-+	input->keycodemax = f3a->gpio_count;
-+
-+	if (pdata->gpio_data.buttonpad || (button - BTN_LEFT == 1))
-+		__set_bit(INPUT_PROP_BUTTONPAD, input->propbit);
-+
-+	return 0;
-+}
-+
-+static int rmi_f3a_initialize(struct rmi_function *fn, struct f3a_data *f3a)
-+{
-+	u8 query1[RMI_F3A_MAX_REG_SIZE];
-+	u8 ctrl1[RMI_F3A_MAX_REG_SIZE];
-+	u8 buf;
-+	int error;
-+
-+	error = rmi_read(fn->rmi_dev, fn->fd.query_base_addr, &buf);
-+	if (error < 0) {
-+		dev_err(&fn->dev, "Failed to read general info register: %d\n",
-+			error);
-+		return -ENODEV;
-+	}
-+
-+	f3a->gpio_count = buf & RMI_F3A_GPIO_COUNT;
-+	f3a->register_count = DIV_ROUND_UP(f3a->gpio_count, 8);
-+
-+	/* Query1 -> gpio exist */
-+	error = rmi_read_block(fn->rmi_dev, fn->fd.query_base_addr + 1,
-+				query1, f3a->register_count);
-+	if (error) {
-+		dev_err(&fn->dev, "Failed to read query1 register\n");
-+		return error;
-+	}
-+
-+	/* Ctrl1 -> gpio direction */
-+	error = rmi_read_block(fn->rmi_dev, fn->fd.control_base_addr + 1,
-+				ctrl1, f3a->register_count);
-+	if (error) {
-+		dev_err(&fn->dev, "Failed to read control1 register\n");
-+		return error;
-+	}
-+
-+	error = rmi_f3a_map_gpios(fn, f3a, query1, ctrl1);
-+	if (error)
-+		return error;
-+	return 0;
-+}
-+
-+static int rmi_f3a_probe(struct rmi_function *fn)
-+{
-+	struct rmi_device *rmi_dev = fn->rmi_dev;
-+	struct rmi_driver_data *drv_data = dev_get_drvdata(&rmi_dev->dev);
-+	struct f3a_data *f3a;
-+	int error;
-+
-+	if (!drv_data->input) {
-+		dev_info(&fn->dev, "F3A: no input device found, ignoring\n");
-+		return -ENXIO;
-+	}
-+
-+	f3a = devm_kzalloc(&fn->dev, sizeof(*f3a), GFP_KERNEL);
-+	if (!f3a)
-+		return -ENOMEM;
-+
-+	f3a->input = drv_data->input;
-+
-+	error = rmi_f3a_initialize(fn, f3a);
-+	if (error)
-+		return error;
-+
-+	dev_set_drvdata(&fn->dev, f3a);
-+	return 0;
-+}
-+
-+struct rmi_function_handler rmi_f3a_handler = {
-+	.driver = {
-+		.name = "rmi4_f3a",
-+	},
-+	.func = 0x3a,
-+	.probe = rmi_f3a_probe,
-+	.config = rmi_f3a_config,
-+	.attention = rmi_f3a_attention,
-+};
--- 
-2.25.1
+static ssize_t rmi_driver_bootloader_id_show(struct device *dev,
+                                             struct device_attribute *dattr,
+                                             char *buf)
+{
+        struct rmi_driver_data *data = dev_get_drvdata(dev);
+        struct rmi_function *fn = data->f34_container;
+        struct f34_data *f34;
 
+        if (fn) {
+                f34 = dev_get_drvdata(&fn->dev);
+
+                if (f34->bl_version == 5)
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ f34-> dereferences
+
+And then:
+
+static ssize_t rmi_driver_configuration_id_show(struct device *dev,
+                                               struct device_attribute *dattr,
+                                               char *buf)
+{
+       struct rmi_driver_data *data = dev_get_drvdata(dev);
+       struct rmi_function *fn = data->f34_container;
+       struct f34_data *f34;
+
+       if (fn) {
+               f34 = dev_get_drvdata(&fn->dev);
+
+               return scnprintf(buf, PAGE_SIZE, "%s\n", f34->configuration_id);
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ f34-> dereferences
+
+Same thing here, except scnprintf smartly just prints "(efault)".
+
+
+[29815.060755] BUG: kernel NULL pointer dereference, address: 0000000000000008
+[29815.060759] #PF: supervisor read access in kernel mode
+[29815.060761] #PF: error_code(0x0000) - not-present page
+[29815.060763] PGD 0 P4D 0
+[29815.060768] Oops: 0000 [#1] SMP
+[29815.060773] CPU: 8 PID: 399580 Comm: cat Tainted: P S   U  W  O
+ 5.9.0-rc7+ #143
+[29815.060775] Hardware name: LENOVO 20QTCTO1WW/20QTCTO1WW, BIOS
+N2OET47W (1.34 ) 08/06/2020
+[29815.060789] RIP: 0010:rmi_driver_bootloader_id_show+0x1c/0x60 [rmi_core]
+[29815.060793] Code: 48 98 c3 66 66 2e 0f 1f 84 00 00 00 00 00 49 89
+f8 49 8b 40 78 48 89 d7 48 8b 50 20 31 c0 48 85 d2 74 2c 48 8b 82 90
+00 00 00 <80> 78 08 05 44 0f b6 48 09 0f b6 48 0a 74 17 45 89 c8 48 c7
+c2 8a
+[29815.060796] RSP: 0018:ffff88888a2c3e38 EFLAGS: 00010286
+[29815.060799] RAX: 0000000000000000 RBX: ffffffffa0405960 RCX: 0000000000000000
+[29815.060801] RDX: ffff888fc51cb400 RSI: ffffffffa0405960 RDI: ffff8888b4366000
+[29815.060803] RBP: 0000000000001000 R08: ffff888fc51cac00 R09: ffff8888b4366000
+[29815.060805] R10: 000000000000eba8 R11: 0000000000001008 R12: ffffffff81c7bed0
+[29815.060807] R13: ffff888fc51cac00 R14: ffff888dea8e2e40 R15: ffff888ff0bdb470
+[29815.060810] FS:  00007f09168155c0(0000) GS:ffff888ffc400000(0000)
+knlGS:0000000000000000
+[29815.060813] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[29815.060815] CR2: 0000000000000008 CR3: 0000000dffa43001 CR4: 00000000003706e0
+[29815.060817] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[29815.060819] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[29815.060820] Call Trace:
+[29815.060831]  dev_attr_show+0x11/0x30
+[29815.060837]  sysfs_kf_seq_show+0x8f/0xd0
+[29815.060843]  seq_read+0xa3/0x400
+[29815.060850]  vfs_read+0x94/0x180
+[29815.060855]  ksys_read+0x4a/0xc0
+[29815.060861]  do_syscall_64+0x2d/0x40
+[29815.060866]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[29815.060869] RIP: 0033:0x7f091674145e
+[29815.060873] Code: c0 e9 b6 fe ff ff 50 48 8d 3d be e0 09 00 e8 f9
+e4 01 00 66 0f 1f 84 00 00 00 00 00 64 8b 04 25 18 00 00 00 85 c0 75
+14 0f 05 <48> 3d 00 f0 ff ff 77 5a c3 66 0f 1f 84 00 00 00 00 00 48 83
+ec 28
+[29815.060875] RSP: 002b:00007ffffed954d8 EFLAGS: 00000246 ORIG_RAX:
+0000000000000000
+[29815.060879] RAX: ffffffffffffffda RBX: 0000000000020000 RCX: 00007f091674145e
+[29815.060881] RDX: 0000000000020000 RSI: 00007f0916823000 RDI: 0000000000000003
+[29815.060882] RBP: 00007f0916823000 R08: 00007f0916822010 R09: 0000000000000000
+[29815.060884] R10: fffffffffffffbcf R11: 0000000000000246 R12: 0000000000000000
+[29815.060886] R13: 0000000000000003 R14: 0000000000000000 R15: 0000000000020000
+[29815.060968] CR2: 0000000000000008
+[29815.060973] ---[ end trace ab9fd5f66457177d ]---
+[29815.205960] RIP: 0010:rmi_driver_bootloader_id_show+0x1c/0x60 [rmi_core]
+[29815.205965] Code: 48 98 c3 66 66 2e 0f 1f 84 00 00 00 00 00 49 89
+f8 49 8b 40 78 48 89 d7 48 8b 50 20 31 c0 48 85 d2 74 2c 48 8b 82 90
+00 00 00 <80> 78 08 05 44 0f b6 48 09 0f b6 48 0a 74 17 45 89 c8 48 c7
+c2 8a
+[29815.205965] RSP: 0018:ffff88888a2c3e38 EFLAGS: 00010286
+[29815.205967] RAX: 0000000000000000 RBX: ffffffffa0405960 RCX: 0000000000000000
+[29815.205967] RDX: ffff888fc51cb400 RSI: ffffffffa0405960 RDI: ffff8888b4366000
+[29815.205968] RBP: 0000000000001000 R08: ffff888fc51cac00 R09: ffff8888b4366000
+[29815.205968] R10: 000000000000eba8 R11: 0000000000001008 R12: ffffffff81c7bed0
+[29815.205969] R13: ffff888fc51cac00 R14: ffff888dea8e2e40 R15: ffff888ff0bdb470
+[29815.205970] FS:  00007f09168155c0(0000) GS:ffff888ffc400000(0000)
+knlGS:0000000000000000
+[29815.205971] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[29815.205971] CR2: 0000000000000008 CR3: 0000000dffa43001 CR4: 00000000003706e0
+[29815.205972] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[29815.205972] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+
+On Fri, Sep 25, 2020 at 6:36 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+>
+> With the new RMI4 F3A support posted yesterday, this appears to maybe
+> work, with a bootloader warning in dmesg:
+>
+>     psmouse serio1: synaptics: queried max coordinates: x [..5678], y [..4690]
+>     psmouse serio1: synaptics: queried min coordinates: x [1266..], y [1160..]
+>     psmouse serio1: synaptics: Trying to set up SMBus access
+>     rmi4_smbus 0-002c: registering SMbus-connected sensor
+> --> rmi4_f34 rmi4-00.fn34: rmi_f34v7_probe: Unrecognized bootloader version
+> --> rmi4_f34: probe of rmi4-00.fn34 failed with error -22
+>     rmi4_f01 rmi4-00.fn01: found RMI device, manufacturer: Synaptics, product: TM3512-010, fw id: 2956703
+>     input: Synaptics TM3512-010 as /devices/rmi4-00/input/input91
+>     serio: RMI4 PS/2 pass-through port at rmi4-00.fn03
+>     psmouse serio4: trackpoint: Elan TrackPoint firmware: 0x11, buttons: 3/3
+>     input: TPPS/2 Elan TrackPoint as /devices/rmi4-00/rmi4-00.fn03/serio4/input/input92
+>
+> Cc: Lyude Paul <lyude@redhat.com>
+> Cc: Vincent Huang <vincent.huang@tw.synaptics.com>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> ---
+>  drivers/input/mouse/synaptics.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
+> index 8a54efd6eb95..9d6fec84047b 100644
+> --- a/drivers/input/mouse/synaptics.c
+> +++ b/drivers/input/mouse/synaptics.c
+> @@ -180,6 +180,7 @@ static const char * const smbus_pnp_ids[] = {
+>         "LEN0096", /* X280 */
+>         "LEN0097", /* X280 -> ALPS trackpoint */
+>         "LEN0099", /* X1 Extreme 1st */
+> +       "LEN0402", /* X1 Extreme 2nd */
+>         "LEN009b", /* T580 */
+>         "LEN200f", /* T450s */
+>         "LEN2044", /* L470  */
+> --
+> 2.28.0
