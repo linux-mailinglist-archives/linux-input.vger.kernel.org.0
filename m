@@ -2,177 +2,229 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D1FE327F590
-	for <lists+linux-input@lfdr.de>; Thu,  1 Oct 2020 00:56:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEE8827F790
+	for <lists+linux-input@lfdr.de>; Thu,  1 Oct 2020 03:43:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731870AbgI3W4L (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 30 Sep 2020 18:56:11 -0400
-Received: from mail.zx2c4.com ([192.95.5.64]:56121 "EHLO mail.zx2c4.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731925AbgI3W4K (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 30 Sep 2020 18:56:10 -0400
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTP id 8aa5cbe1
-        for <linux-input@vger.kernel.org>;
-        Wed, 30 Sep 2020 22:24:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=zx2c4.com; h=mime-version
-        :references:in-reply-to:from:date:message-id:subject:to:cc
-        :content-type; s=mail; bh=NaQIiOhcJeyaTv29bE4+TAtG/Zs=; b=s+Tz4l
-        POXPa2okYYZv6G/uffGZuUnmVAzkX6llYwZfnmyxGgMHq60gTJWkfVxp5CtZge2B
-        gYUNyr1JNGPyM2HOW/3dJbI67cUnP5B0YgiQZRvV72jwjZAMV68M5NeXw4WZQTQl
-        ZL/QpBkBMzZDuXatLNbQbRhCZEVm8I8yzPA2gPDMLanpKU+ybYOyHRTnE6zTUar7
-        UIpErkTyj+E3LMIerWXvXnNJsapJWwiGYEuPYJrdaJ4cU9rBVC0mwvVQ2HKgABdw
-        7r0VDeyglj9/OK4Do3Jp5LuRS3Uozcwmjk9ZUCsILbRl030jx/uZ1sENg0KhbLGJ
-        xx2T200LyBwcvZhA==
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id bb33c388 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO)
-        for <linux-input@vger.kernel.org>;
-        Wed, 30 Sep 2020 22:24:22 +0000 (UTC)
-Received: by mail-il1-f172.google.com with SMTP id e5so4089253ils.10
-        for <linux-input@vger.kernel.org>; Wed, 30 Sep 2020 15:56:09 -0700 (PDT)
-X-Gm-Message-State: AOAM53033T/8eUqClpPfWj+podqMHah6tZqGITjle/RGCWZoB1VHyZ0D
-        XBDkK+r/TJXmt0wy6wa/06iPUc1g2Gfn4DTsPEI=
-X-Google-Smtp-Source: ABdhPJwCw1D2QqzZmqb8SNlMTwOpm5YxVan6UEd8rp9wlhend3YZ00JiFENuaHuQ+xGE2R09jgbBEMPEIxgQX9H1H3U=
-X-Received: by 2002:a92:3408:: with SMTP id b8mr139625ila.231.1601506568720;
- Wed, 30 Sep 2020 15:56:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAHmME9pqrEW5CQbdSm6ckvB0b81ZBZ77CJC45BOqpiuZcgRnXQ@mail.gmail.com>
- <20200930112437.13705-1-Jason@zx2c4.com> <5bd2bb9d925cfc81392bd9bf93b31ce4fd81e107.camel@redhat.com>
- <CAHmME9rY6RkJ7JHN=-=e=QaN=FZtqbhMJ8NqTwBtwDCw7K1bEA@mail.gmail.com> <1f233aeab705d9dae33c0d3fc910a94420ddb5a7.camel@redhat.com>
-In-Reply-To: <1f233aeab705d9dae33c0d3fc910a94420ddb5a7.camel@redhat.com>
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date:   Thu, 1 Oct 2020 00:55:57 +0200
-X-Gmail-Original-Message-ID: <CAHmME9qAjoavbwtqOxmJ=QWqt6+jufUsoikMnWwWpppzMXASyg@mail.gmail.com>
-Message-ID: <CAHmME9qAjoavbwtqOxmJ=QWqt6+jufUsoikMnWwWpppzMXASyg@mail.gmail.com>
-Subject: Re: [PATCH v2] Input: synaptics - enable InterTouch for ThinkPad
- X1E/P1 2nd gen
-To:     Lyude Paul <lyude@redhat.com>
-Cc:     linux-input@vger.kernel.org,
-        Vincent Huang <vincent.huang@tw.synaptics.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Andrew Duggan <aduggan@synaptics.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Benjamin Tissoires <btissoir@redhat.com>,
-        Chris Heiny <chris.heiny@synaptics.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726992AbgJABnv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 30 Sep 2020 21:43:51 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:47543 "EHLO
+        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725800AbgJABnv (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 30 Sep 2020 21:43:51 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+        by mailout.nyi.internal (Postfix) with ESMTP id A4BB55C0262;
+        Wed, 30 Sep 2020 21:43:49 -0400 (EDT)
+Received: from imap4 ([10.202.2.54])
+  by compute2.internal (MEProxy); Wed, 30 Sep 2020 21:43:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=duggan.us; h=
+        mime-version:message-id:in-reply-to:references:date:from:to:cc
+        :subject:content-type; s=fm1; bh=N5xYIHNsQj6YcLP2u7bpecTn7CyjbfD
+        /aVUxvvuMkDY=; b=EAHXRTFCPKtzDcPZQ31Tr62i6gweFh4/VsShVPcJw9hVD5H
+        i5VRO7n5k3/+26s6x7OgHKI5aRC8rLN+PT/698Mh28CTd6zXZI7sVIiKaN5Z3QDc
+        ukWfg+6OyJCAcqqU0A0YTyTxZNxEQY1a2KNoj04liORjmAUXm0THxL7oNgqknAuy
+        YLWHeCNvXEbxRT3ZrdyA5of99z9CnZ2cmUrUZMBbp2MOfRMmjMp5FokZL9CfxJAr
+        9EBvp3tavaBFA7U3jlGsUH6dCe2AjSHeXJ0sw6BEbIQjlQO3PC7ykoxZKxfPVwr9
+        geCi0AP+Dr3vAk2sHvEDxOO6b3knNmbNUrN5yqw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=N5xYIH
+        NsQj6YcLP2u7bpecTn7CyjbfD/aVUxvvuMkDY=; b=AHFoXn1hq2ZSlJ47TUq69+
+        eda6b8knnzuXPo2w6IU3wshKjUbxANgMyxhlqjPfJlpfuRnD+83CrmjTdhOhMMv6
+        L9AC50hNeamGYoHKE0WFgIKLr6mleQvthsuIcrXChMK6HXnA4DixPhHbafXQp8Vv
+        07d+fAdpyx4EAk+6OmNcaty/1scagWEVMxNaCSEf6i3AWaw6gijfIbXgBVlcgF6P
+        8j0kMqjyEkNRtjB05y+wtwyaL3ZiXb5me3wjss+2hnSAC3mbQXFr7RXnI2Y4/Q3g
+        tZpllQmmbciufYGTMN4ugvYJ/ep6dBieQS/MFvGKfCtlukvsg9gNvh6l46irDxAg
+        ==
+X-ME-Sender: <xms:VTR1X4HUQKo25Y0GMiuiy-p0e4u487aD95_V2t5F7Olfxu2zxEBJTA>
+    <xme:VTR1XxV9aMncB8G_aORNp05ZTZsUkGw9xrJGR2IgsvSezS4FcJ_5-WkxxLRAZGYeW
+    egQeBpwGP1WjGAaig>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrfeefgdehudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehnughr
+    vgifucffuhhgghgrnhdfuceorghnughrvgifseguuhhgghgrnhdruhhsqeenucggtffrrg
+    htthgvrhhnpedvgfeuvefgffelvefgieeujeeuueekiedtvedtleehuefgvedtgedtudeu
+    ieelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grnhgurhgvfiesughughhgrghnrdhush
+X-ME-Proxy: <xmx:VTR1XyJ4mh7zy86UjTGt_CqrHpcHJKKKIj9e_4v8obRH3y9_JbRFIw>
+    <xmx:VTR1X6Ee70_znYDeBNTWORRjIAJSeyKQsJpY6zwrfUayJx7F1Icm0Q>
+    <xmx:VTR1X-V0BPV_mecCj3JT_yFQGD_UJGTldcOjDLGGD5Fp9uZ5wIkL8A>
+    <xmx:VTR1X5F2b3QKSjvu2kr7np2YWffo8jUl-4o8ST1OKvrf2IUVq4MELw>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 320643C0411; Wed, 30 Sep 2020 21:43:49 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.3.0-382-ge235179-fm-20200928.002-ge2351794
+Mime-Version: 1.0
+Message-Id: <28c71947-0cab-443f-b405-33cf3ab7ecaf@www.fastmail.com>
+In-Reply-To: <20200930094147.635556-2-vincent.huang@tw.synaptics.com>
+References: <20200930094147.635556-1-vincent.huang@tw.synaptics.com>
+ <20200930094147.635556-2-vincent.huang@tw.synaptics.com>
+Date:   Wed, 30 Sep 2020 18:43:06 -0700
+From:   "Andrew Duggan" <andrew@duggan.us>
+To:     "Vincent Huang" <vincent.huang@tw.synaptics.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+        "Jiri Kosina" <jikos@kernel.org>,
+        "Andrew Duggan" <aduggan@synaptics.com>,
+        "Hans de Goede" <hdegoede@redhat.com>,
+        "Benjamin Tissoires" <btissoir@redhat.com>,
+        "Lyude Paul" <lyude@redhat.com>,
+        "Chris Heiny" <chris.heiny@synaptics.com>
+Subject: =?UTF-8?Q?Re:_[PATCH_v3_1/2]_Input:_synaptics-rmi4_-_rename_f30=5Fdata_t?=
+ =?UTF-8?Q?o_gpio=5Fdata?=
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Sep 30, 2020 at 9:55 PM Lyude Paul <lyude@redhat.com> wrote:
+
+
+On Wed, Sep 30, 2020, at 2:41 AM, Vincent Huang wrote:
+> f30_data in rmi_device_platform_data could be also referenced by RMI
+> function 3A, so rename it and the structure name to avoid confusion.
+> 
+> Signed-off-by: Vincent Huang <vincent.huang@tw.synaptics.com>
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+> Tested-by: Hans de Goede <hdegoede@redhat.com>
+
+Reviewed-by: Andrew Duggan <aduggan@synaptics.com>
+
+> ---
+>  drivers/hid/hid-rmi.c           |  2 +-
+>  drivers/input/mouse/synaptics.c |  2 +-
+>  drivers/input/rmi4/rmi_f30.c    | 14 +++++++-------
+>  include/linux/rmi.h             | 11 ++++++-----
+>  4 files changed, 15 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/hid/hid-rmi.c b/drivers/hid/hid-rmi.c
+> index 9ce22acdfaca..62315e31d520 100644
+> --- a/drivers/hid/hid-rmi.c
+> +++ b/drivers/hid/hid-rmi.c
+> @@ -722,7 +722,7 @@ static int rmi_probe(struct hid_device *hdev, const 
+> struct hid_device_id *id)
+>  	}
+>  
+>  	if (data->device_flags & RMI_DEVICE_HAS_PHYS_BUTTONS)
+> -		rmi_hid_pdata.f30_data.disable = true;
+> +		rmi_hid_pdata.gpio_data.disable = true;
+>  
+>  	data->xport.dev = hdev->dev.parent;
+>  	data->xport.pdata = rmi_hid_pdata;
+> diff --git a/drivers/input/mouse/synaptics.c 
+> b/drivers/input/mouse/synaptics.c
+> index 4b81b2d0fe06..8a54efd6eb95 100644
+> --- a/drivers/input/mouse/synaptics.c
+> +++ b/drivers/input/mouse/synaptics.c
+> @@ -1752,7 +1752,7 @@ static int synaptics_create_intertouch(struct 
+> psmouse *psmouse,
+>  			.kernel_tracking = false,
+>  			.topbuttonpad = topbuttonpad,
+>  		},
+> -		.f30_data = {
+> +		.gpio_data = {
+>  			.buttonpad = SYN_CAP_CLICKPAD(info->ext_cap_0c),
+>  			.trackstick_buttons =
+>  				!!SYN_CAP_EXT_BUTTONS_STICK(info->ext_cap_10),
+> diff --git a/drivers/input/rmi4/rmi_f30.c b/drivers/input/rmi4/rmi_f30.c
+> index a90dad1d9ac7..35045f161dc2 100644
+> --- a/drivers/input/rmi4/rmi_f30.c
+> +++ b/drivers/input/rmi4/rmi_f30.c
+> @@ -168,17 +168,17 @@ static int rmi_f30_config(struct rmi_function *fn)
+>  				rmi_get_platform_data(fn->rmi_dev);
+>  	int error;
+>  
+> -	/* can happen if f30_data.disable is set */
+> +	/* can happen if gpio_data.disable is set */
+>  	if (!f30)
+>  		return 0;
+>  
+> -	if (pdata->f30_data.trackstick_buttons) {
+> +	if (pdata->gpio_data.trackstick_buttons) {
+>  		/* Try [re-]establish link to F03. */
+>  		f30->f03 = rmi_find_function(fn->rmi_dev, 0x03);
+>  		f30->trackstick_buttons = f30->f03 != NULL;
+>  	}
+>  
+> -	if (pdata->f30_data.disable) {
+> +	if (pdata->gpio_data.disable) {
+>  		drv->clear_irq_bits(fn->rmi_dev, fn->irq_mask);
+>  	} else {
+>  		/* Write Control Register values back to device */
+> @@ -245,10 +245,10 @@ static int rmi_f30_map_gpios(struct rmi_function *fn,
+>  		if (!rmi_f30_is_valid_button(i, f30->ctrl))
+>  			continue;
+>  
+> -		if (pdata->f30_data.trackstick_buttons &&
+> +		if (pdata->gpio_data.trackstick_buttons &&
+>  		    i >= TRACKSTICK_RANGE_START && i < TRACKSTICK_RANGE_END) {
+>  			f30->gpioled_key_map[i] = trackstick_button++;
+> -		} else if (!pdata->f30_data.buttonpad || !button_mapped) {
+> +		} else if (!pdata->gpio_data.buttonpad || !button_mapped) {
+>  			f30->gpioled_key_map[i] = button;
+>  			input_set_capability(input, EV_KEY, button++);
+>  			button_mapped = true;
+> @@ -264,7 +264,7 @@ static int rmi_f30_map_gpios(struct rmi_function *fn,
+>  	 * but I am not sure, so use only the pdata info and the number of
+>  	 * mapped buttons.
+>  	 */
+> -	if (pdata->f30_data.buttonpad || (button - BTN_LEFT == 1))
+> +	if (pdata->gpio_data.buttonpad || (button - BTN_LEFT == 1))
+>  		__set_bit(INPUT_PROP_BUTTONPAD, input->propbit);
+>  
+>  	return 0;
+> @@ -372,7 +372,7 @@ static int rmi_f30_probe(struct rmi_function *fn)
+>  	struct f30_data *f30;
+>  	int error;
+>  
+> -	if (pdata->f30_data.disable)
+> +	if (pdata->gpio_data.disable)
+>  		return 0;
+>  
+>  	if (!drv_data->input) {
+> diff --git a/include/linux/rmi.h b/include/linux/rmi.h
+> index 7b22366d0065..00dda5381bf8 100644
+> --- a/include/linux/rmi.h
+> +++ b/include/linux/rmi.h
+> @@ -102,15 +102,16 @@ struct rmi_2d_sensor_platform_data {
+>  };
+>  
+>  /**
+> - * struct rmi_f30_data - overrides defaults for a single F30 GPIOs/LED 
+> chip.
+> + * struct rmi_gpio_data - overrides defaults for a single F30/F3A 
+> GPIOs/LED
+> + * chip.
+>   * @buttonpad - the touchpad is a buttonpad, so enable only the first 
+> actual
+>   * button that is found.
+> - * @trackstick_buttons - Set when the function 30 is handling the 
+> physical
+> + * @trackstick_buttons - Set when the function 30 or 3a is handling 
+> the physical
+>   * buttons of the trackstick (as a PS/2 passthrough device).
+> - * @disable - the touchpad incorrectly reports F30 and it should be 
+> ignored.
+> + * @disable - the touchpad incorrectly reports F30/F3A and it should 
+> be ignored.
+>   * This is a special case which is due to misconfigured firmware.
+>   */
+> -struct rmi_f30_data {
+> +struct rmi_gpio_data {
+>  	bool buttonpad;
+>  	bool trackstick_buttons;
+>  	bool disable;
+> @@ -218,7 +219,7 @@ struct rmi_device_platform_data {
+>  	/* function handler pdata */
+>  	struct rmi_2d_sensor_platform_data sensor_pdata;
+>  	struct rmi_f01_power_management power_management;
+> -	struct rmi_f30_data f30_data;
+> +	struct rmi_gpio_data gpio_data;
+>  };
+>  
+>  /**
+> -- 
+> 2.25.1
+> 
 >
-> On Wed, 2020-09-30 at 18:18 +0200, Jason A. Donenfeld wrote:
-> > On Wed, Sep 30, 2020 at 6:05 PM Lyude Paul <lyude@redhat.com> wrote:
-> > > Maybe correct the comment in smbus_pnp_ids to reflect this handles both the
-> > > X1
-> > > Extreme and P2 2nd Gen. Then I'd probably split the bootloader change into a
-> > > commit that comes before adding the new PnP IDs.
-> >
-> > Okay, I'll submit a v3.
-> >
-> > One thing I should note is that the sensitivity sysfs entry doesn't
-> > seem to do anything at all. push_to_click works, but not sensitivity.
-> > I don't know if this has bitrotted over the years and I shouldn't
-> > expect it to work, as it rarely does or something, but thought I
-> > should mention this.
->
-> Interesting-it's entirely possible that maybe the firmware on this trackpoint is
-> different from the previous ones (only mention this possibility since it looks
-> like at some point in time they switched over from using the legitimate IBM
-> trackpoint modules to getting other manufacturers to make them).
-
-Yea, a bummer. The P1 gen 2 has an ELAN. Far cry from all the nice
-features supported by the IBM ones.
-
-> I know the
-> sensitivity setting works on my laptop with PS/2 through RMI4 though.
-
-Right. My prior P50 worked fine with it.
-
-
->
-> Could you maybe enable rmi4 debugging by passing rmi_core.debug_flags=0xff when
-> you boot your machine and get me the dmesg output from that after you've tried
-> changing the sensitivity value? Not sure I could fix it, but it'd be interesting
-> to see what's happening on the ps/2 side here
-
-Sure. Writing 200 into sensitivity gives:
-
-[28653.834012] rmi4_f03 rmi4-00.fn03: rmi_f03_pt_write: Wrote f5 to
-PS/2 passthrough address
-[28653.834989] rmi4_smbus 0-002c: wrote 1 bytes at 0x02: 0 (f5)
-[28653.848217] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received fa
-from PS2 guest T: N P: N
-[28653.848301] rmi4_f03 rmi4-00.fn03: rmi_f03_pt_write: Wrote e2 to
-PS/2 passthrough address
-[28653.849079] rmi4_smbus 0-002c: wrote 1 bytes at 0x02: 0 (e2)
-[28653.857787] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received fa
-from PS2 guest T: N P: N
-[28653.857868] rmi4_f03 rmi4-00.fn03: rmi_f03_pt_write: Wrote 81 to
-PS/2 passthrough address
-[28653.858643] rmi4_smbus 0-002c: wrote 1 bytes at 0x02: 0 (81)
-[28653.865220] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received fa
-from PS2 guest T: N P: N
-[28653.865285] rmi4_f03 rmi4-00.fn03: rmi_f03_pt_write: Wrote 4a to
-PS/2 passthrough address
-[28653.866053] rmi4_smbus 0-002c: wrote 1 bytes at 0x02: 0 (4a)
-[28653.872889] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received fa
-from PS2 guest T: N P: N
-[28653.872952] rmi4_f03 rmi4-00.fn03: rmi_f03_pt_write: Wrote c8 to
-PS/2 passthrough address
-[28653.873927] rmi4_smbus 0-002c: wrote 1 bytes at 0x02: 0 (c8)
-[28653.880331] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received fa
-from PS2 guest T: N P: N
-[28653.880397] rmi4_f03 rmi4-00.fn03: rmi_f03_pt_write: Wrote f4 to
-PS/2 passthrough address
-[28653.881156] rmi4_smbus 0-002c: wrote 1 bytes at 0x02: 0 (f4)
-[28653.888285] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received fa
-from PS2 guest T: N P: N
-
-Subsequently, moving the trackpoint around gives the usual output:
-
-[28765.017676] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received 05
-from PS2 guest T: N P: N
-[28765.017677] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received ff
-from PS2 guest T: N P: N
-[28765.025214] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received 28
-from PS2 guest T: N P: N
-[28765.025216] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received 06
-from PS2 guest T: N P: N
-[28765.025216] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received ff
-from PS2 guest T: N P: N
-[28765.050927] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received 28
-from PS2 guest T: N P: N
-[28765.050929] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received 05
-from PS2 guest T: N P: N
-[28765.050951] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received ff
-from PS2 guest T: N P: N
-[28765.050958] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received 08
-from PS2 guest T: N P: N
-[28765.050959] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received 04
-from PS2 guest T: N P: N
-[28765.050959] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received 00
-from PS2 guest T: N P: N
-[28765.099642] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received 18
-from PS2 guest T: N P: N
-[28765.099644] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received ff
-from PS2 guest T: N P: N
-[28765.099644] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received 00
-from PS2 guest T: N P: N
-[28765.099651] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received 18
-from PS2 guest T: N P: N
-[28765.099652] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received ff
-from PS2 guest T: N P: N
-[28765.099652] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received 00
-from PS2 guest T: N P: N
-[28765.230269] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received 08
-from PS2 guest T: N P: N
-[28765.230276] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received 00
-from PS2 guest T: N P: N
-[28765.230279] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received 01
-from PS2 guest T: N P: N
-[28765.270171] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received 08
-from PS2 guest T: N P: N
-[28765.270178] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received 00
-from PS2 guest T: N P: N
-[28765.270181] rmi4_f03 rmi4-00.fn03: rmi_f03_attention: Received 01
-from PS2 guest T: N P: N
