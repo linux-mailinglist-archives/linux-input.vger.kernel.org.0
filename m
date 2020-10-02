@@ -2,119 +2,142 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F77C281610
-	for <lists+linux-input@lfdr.de>; Fri,  2 Oct 2020 17:07:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ADA482817D2
+	for <lists+linux-input@lfdr.de>; Fri,  2 Oct 2020 18:24:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388176AbgJBPHE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 2 Oct 2020 11:07:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60294 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388165AbgJBPG6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 2 Oct 2020 11:06:58 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EF15C0613D0;
-        Fri,  2 Oct 2020 08:06:58 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: andrzej.p)
-        with ESMTPSA id B58B429A1AF
-Subject: Re: [PATCH v3 2/2] tty/sysrq: Add configurable handler to execute a
- compound action
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>, Jiri Slaby <jslaby@suse.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        kernel@collabora.com
-References: <20200818112825.6445-1-andrzej.p@collabora.com>
- <20200818112825.6445-3-andrzej.p@collabora.com>
- <20201002125429.GA3350322@kroah.com>
- <db7fe4ed-19a4-3303-a544-eb789badb8a1@collabora.com>
- <20201002140233.GB3475053@kroah.com>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <2031d74a-41df-d556-d5de-37f4b63ee30f@collabora.com>
-Date:   Fri, 2 Oct 2020 17:06:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S2387789AbgJBQYA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 2 Oct 2020 12:24:00 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:43485 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726017AbgJBQYA (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 2 Oct 2020 12:24:00 -0400
+Received: by mail-ed1-f66.google.com with SMTP id dn5so2244793edb.10;
+        Fri, 02 Oct 2020 09:23:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=+MzJdC7AJYBNKP850flRQBqAg39526c7mEcoDXa1vc8=;
+        b=W6AYcQXSj6ucI27Iry7nUl8m0KcdwMhvYJ3h3OtGNItARH9rlTLv2szvaLrDzvQISu
+         O10V0pJNX5pcLteJqlLURROHmMrLQQbiXoLvaXKBRfeNr2RXdo6rT/hFNarMEjrgIXlD
+         dGUHGkeulcE+y698KGQsa9ZsTtgB/YiHUAicDbPqv0kMm+xSofeE+iF/VLJ/LHOtg22y
+         Ys/FkIj0RXlnV+/Ikwa3dkbt4vVNPhsOQMSBSUfnAjW2Dflj8cXxsKmJi7cKGVtOz/Jp
+         34HoRDbzmQrTHGVPH76D4T7qsx84zhyqpmD1BybxzRK2HmA3xZb1znsAjq87hmii9oe0
+         /oCg==
+X-Gm-Message-State: AOAM532Aqnd+tKaCxWlsyVLIQb613WpO6ANOhksefNlMAng6fmyYJLTv
+        2QOYhdtv95N4owtmVQyJp8w=
+X-Google-Smtp-Source: ABdhPJwX7D85xx3iEoq/pMeJv9+pxrsyzjqmdtd89l7+FvbLqYa2SJikvg/hGqBR4vKxrCoYrmqIbg==
+X-Received: by 2002:aa7:d15a:: with SMTP id r26mr3222326edo.181.1601655837011;
+        Fri, 02 Oct 2020 09:23:57 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.194])
+        by smtp.googlemail.com with ESMTPSA id i7sm1604495ejo.22.2020.10.02.09.23.55
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 02 Oct 2020 09:23:56 -0700 (PDT)
+Date:   Fri, 2 Oct 2020 18:23:53 +0200
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Bastien Nocera <hadess@hadess.net>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Eugen Hristev <eugen.hristev@microchip.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        clang-built-linux@googlegroups.com
+Subject: Re: [PATCH v3 01/27] Input: Simplify with dev_err_probe()
+Message-ID: <20201002162353.GA5870@kozik-lap>
+References: <20200827185829.30096-1-krzk@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20201002140233.GB3475053@kroah.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200827185829.30096-1-krzk@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
-
-W dniu 02.10.2020 o 16:02, Greg Kroah-Hartman pisze:
-> On Fri, Oct 02, 2020 at 03:42:52PM +0200, Andrzej Pietrasiewicz wrote:
->> Hi,
->>
->> W dniu 02.10.2020 o 14:54, Greg Kroah-Hartman pisze:
->>> On Tue, Aug 18, 2020 at 01:28:25PM +0200, Andrzej Pietrasiewicz wrote:
->>>> Userland might want to execute e.g. 'w' (show blocked tasks), followed
->>>> by 's' (sync), followed by 1000 ms delay and then followed by 'c' (crash)
->>>> upon a single magic SysRq. Or one might want to execute the famous "Raising
->>>> Elephants Is So Utterly Boring" action. This patch adds a configurable
->>>> handler, triggered with 'C', for this exact purpose. The user specifies the
->>>> composition of the compound action using syntax similar to getopt, where
->>>> each letter corresponds to an individual action and a colon followed by a
->>>> number corresponds to a delay of that many milliseconds, e.g.:
->>>>
->>>> ws:1000c
->>>>
->>>> or
->>>>
->>>> r:100eis:1000ub
->>>
->>> A macro language for sysrq commands, who would have thought...
->>>
->>> Anyway, _why_ would userland want to do something so crazy as this?
->>> What is the use-case here?
->>>
->>
->> A use-case is Chromebooks which do want to execute 'w', 's',
->> wait 1000ms and then 'c' under one key combination. Having that supported
->> upstream brings us one little step closer to those machines running
->> upstream kernel.
+On Thu, Aug 27, 2020 at 08:58:02PM +0200, Krzysztof Kozlowski wrote:
+> Hi,
 > 
-> Who is causing that to "execute"?  Some daemon/program?
-
-No, as far as I know they patch the kernel to change the behavior
-of Sysrq-x combination, so the "execution" is triggered by the user.
-
+> Changes since v2:
+> 1. Add review tags,
+> 2. Fixes after review (see individual patches).
+> 3. Two new patches - 26 and 27.
 > 
->> Another argument for such a "macro language" is when a machine's system
->> keeps degrading over time, possibly degrading (relatively) fast.
->> "Raising Elephants Is So Utterly Boring" consists of 6 actions, each
->> of which requires pressing several keys. The user might be unable
->> to complete all the 6 steps, while a "macro" requires user's involvement
->> for carrying out just one step.
-> 
-> So you want to "preload" some commands ahead of time, for when you get
-> in trouble
-It can be said this way, yes.
-
-> 
-> These should just be debugging / last resort types of things, how
-> regular are they being used in your systems?
 > 
 
-The "REISUB" itself is a kind of a last resort thing.
+Hi Dmitry,
 
-It is true that it's not a very frequent situation, but does its being rare
-preclude having such a function in the kernel?
+Any comments here? Some of these nicely simplify the code or remove some
+lines.
 
-While preparing this patch I wanted it to be flexible, but perhaps it is
-too flexible for some reason? If the permissions of the module_param's
-sysfs entry were changed to 0444 would it be better? Then the compound
-action would still be configurable but only at boot time rather than at
-boot time _and_ runtime.
+Best regards,
+Krzysztof
 
-Regards,
-
-Andrzej
+> Best regards,
+> Krzysztof
+> 
+> 
+> 
+> Krzysztof Kozlowski (27):
+>   Input: gpio_keys_polled - Simplify with dev_err_probe()
+>   Input: gpio-vibra - Simplify with dev_err_probe()
+>   Input: pwm-beeper - Simplify with dev_err_probe()
+>   Input: pwm-vibra - Simplify with dev_err_probe()
+>   Input: rotary_encoder - Simplify with dev_err_probe()
+>   Input: elan_i2c - Simplify with dev_err_probe()
+>   Input: bu21013_ts - Simplify with dev_err_probe()
+>   Input: bu21029_ts - Simplify with dev_err_probe()
+>   Input: chipone_icn8318 - Simplify with dev_err_probe()
+>   Input: cy8ctma140 - Simplify with dev_err_probe()
+>   Input: edf-ft5x06 - Simplify with dev_err_probe()
+>   Input: ektf2127 - Simplify with dev_err_probe()
+>   Input: elants_i2c - Simplify with dev_err_probe()
+>   Input: goodix - Simplify with dev_err_probe()
+>   Input: melfas_mip4 - Simplify with dev_err_probe()
+>   Input: pixcir_i2c_ts - Simplify with dev_err_probe()
+>   Input: raydium_i2c_ts - Simplify with dev_err_probe()
+>   Input: resistive-adc-touch - Simplify with dev_err_probe()
+>   Input: silead - Simplify with dev_err_probe()
+>   Input: sis_i2c - Simplify with dev_err_probe()
+>   Input: surface3_spi - Simplify with dev_err_probe()
+>   Input: sx8643 - Simplify with dev_err_probe()
+>   Input: bcm-keypad - Simplify with dev_err_probe()
+>   gpio: Add devm_fwnode_gpiod_get_optional() helpers
+>   Input: gpio_keys - Simplify with dev_err_probe()
+>   Input: bu21013_ts - Use local 'client->dev' variable in probe()
+>   Input: bu21029_ts - Use local 'client->dev' variable in probe()
+> 
+>  drivers/gpio/gpiolib-devres.c                 | 71 ++++++++++++++++++
+>  drivers/input/keyboard/bcm-keypad.c           | 14 ++--
+>  drivers/input/keyboard/gpio_keys.c            | 25 +++----
+>  drivers/input/keyboard/gpio_keys_polled.c     |  8 +--
+>  drivers/input/misc/gpio-vibra.c               | 20 ++----
+>  drivers/input/misc/pwm-beeper.c               | 19 ++---
+>  drivers/input/misc/pwm-vibra.c                | 20 ++----
+>  drivers/input/misc/rotary_encoder.c           |  8 +--
+>  drivers/input/mouse/elan_i2c_core.c           |  9 +--
+>  drivers/input/touchscreen/bu21013_ts.c        | 72 ++++++++-----------
+>  drivers/input/touchscreen/bu21029_ts.c        | 53 ++++++--------
+>  drivers/input/touchscreen/chipone_icn8318.c   |  8 +--
+>  drivers/input/touchscreen/cy8ctma140.c        |  8 +--
+>  drivers/input/touchscreen/edt-ft5x06.c        | 10 +--
+>  drivers/input/touchscreen/ektf2127.c          |  8 +--
+>  drivers/input/touchscreen/elants_i2c.c        | 22 ++----
+>  drivers/input/touchscreen/goodix.c            | 40 +++--------
+>  drivers/input/touchscreen/melfas_mip4.c       |  9 +--
+>  drivers/input/touchscreen/pixcir_i2c_ts.c     | 38 ++++------
+>  drivers/input/touchscreen/raydium_i2c_ts.c    | 30 +++-----
+>  .../input/touchscreen/resistive-adc-touch.c   |  8 +--
+>  drivers/input/touchscreen/silead.c            |  8 +--
+>  drivers/input/touchscreen/sis_i2c.c           | 20 ++----
+>  drivers/input/touchscreen/surface3_spi.c      | 13 +---
+>  drivers/input/touchscreen/sx8654.c            | 10 +--
+>  include/linux/gpio/consumer.h                 | 30 ++++++++
+>  26 files changed, 253 insertions(+), 328 deletions(-)
+> 
+> -- 
+> 2.17.1
+> 
