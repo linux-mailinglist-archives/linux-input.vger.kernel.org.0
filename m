@@ -2,60 +2,51 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75EE02826E2
-	for <lists+linux-input@lfdr.de>; Sat,  3 Oct 2020 23:38:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A468B28267A
+	for <lists+linux-input@lfdr.de>; Sat,  3 Oct 2020 21:58:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725967AbgJCViY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 3 Oct 2020 17:38:24 -0400
-Received: from 70-252-206-104.staticrdns.eonix.net ([104.206.252.70]:45360
-        "EHLO 70-252-206-104.staticrdns.eonix.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725913AbgJCViX (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sat, 3 Oct 2020 17:38:23 -0400
-X-Greylist: delayed 26623 seconds by postgrey-1.27 at vger.kernel.org; Sat, 03 Oct 2020 17:38:22 EDT
-Received: from User (localhost [IPv6:::1])
-        by 70-252-206-104.staticrdns.eonix.net (Postfix) with SMTP id 5F6B155CEB9;
-        Sat,  3 Oct 2020 06:49:37 -0400 (EDT)
-Reply-To: <stewart.macdonald58@rockhopperexplorationplc.co.uk>
-From:   "MacDonald" <stewart.macdonald58@rockhopperexplorationplc.co.uk>
-Subject: Please Check this out and reply urgently
-Date:   Sat, 3 Oct 2020 03:49:41 -0700
-MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-Id: <20201003104937.5F6B155CEB9@70-252-206-104.staticrdns.eonix.net>
-To:     unlisted-recipients:; (no To-header on input)
+        id S1725905AbgJCT6T (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 3 Oct 2020 15:58:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40626 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725807AbgJCT6T (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 3 Oct 2020 15:58:19 -0400
+Subject: Re: [git pull] Input updates for v5.9-rc7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601755098;
+        bh=zvawnXGMy+1m8Gt+Jw6q0TEIecCQtYmRsFgeL+Lap3Y=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=rE+Yyy0bhA18JzHUE/hXLv+2/wajTvkJGadLmDfDkWiHICWwKyQAN325hpAghwrds
+         uSdLx47b8N0oUGLho0WQ9zHSxSnCuImuTFTLYg8nCH3nFRybWAGWAxLWlasQa3Jyqw
+         qE0iEtvlZ3eKIGxkotL0FT49eXqZeTuKhW2nk2QU=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20201003045003.GA1936980@dtor-ws>
+References: <20201003045003.GA1936980@dtor-ws>
+X-PR-Tracked-List-Id: <linux-input.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20201003045003.GA1936980@dtor-ws>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+X-PR-Tracked-Commit-Id: 5fc27b098dafb8e30794a9db0705074c7d766179
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 72af7b411d50eddcfed7611c4510a62dfac3fcb9
+Message-Id: <160175509888.27812.7528091599666931958.pr-tracker-bot@kernel.org>
+Date:   Sat, 03 Oct 2020 19:58:18 +0000
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Attention please!
+The pull request you sent on Fri, 2 Oct 2020 21:50:03 -0700:
 
-I am the Chief Financial Officer of Rockhopper and Gas company London UK, and by the virtue, as the Chief Financial Officer. I got your contact through a directory search and decided to propose this business. I am seeking your assistance in remitting of some funds,  Ninety five million  to your account for private investment purpose, hence my request for your assistance.
- 
-  
- SOURCE OF THE FUND:
+> git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
 
-The fund to be transferred into your account is accrued from an over-invoiced contract amount awarded for the completion of the last phase of our refinery, valves and depot for storage of product all over our branches here in the UK which include laying of  distribution pipelines. The contract which was originally valued for One Hundred and Twenty Seven Million was manipulated to read, Two Hundred and Twenty Two Million.  The extra, Ninety Five Million, is what I want to move to your account, the original contractors who executed the job has been paid all their contract bills remaining this Ninety Five Million.
-  
- DISBURSEMENT:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/72af7b411d50eddcfed7611c4510a62dfac3fcb9
 
-I have resolved that you take Forty percent  of the total amount for your assistance. that is, fronting you as a sub contractor to claim the remaining balance of Ninety Five Million  which is left now in our bank from the over invoice contract because it is impossible for me to claim the over invoiced amount without your assistance as a Foreign Contractor. In addition Ten percent has been mapped out for any miscellaneous expenses that   might be incurred by both of us during this business while Fifty percent  will be my own share.
+Thank you!
 
-SECURITY:
-
-All modalities to effect the payment and subsequent transfer of this money has been worked out, so this transaction is Hundred percent risk free, though you are required to treat it with strictest confidence, on our acceptance please send to me your personal details and your direct mobile phone number for speedy correspondence.
-  
-I am looking forward to doing business with you. Your prompt reply will be highly appreciated. Do kindly furnish me with your contact details if you are interested in partnering with me on this transaction.
- 
-  
-Yours Faithfully,
-
-Stewart MacDonald
-Chief Financial Officer
-Rockhopper Exploration PLC
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
