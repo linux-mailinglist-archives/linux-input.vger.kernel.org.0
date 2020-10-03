@@ -2,64 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A98F281B81
-	for <lists+linux-input@lfdr.de>; Fri,  2 Oct 2020 21:21:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2949282155
+	for <lists+linux-input@lfdr.de>; Sat,  3 Oct 2020 06:50:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388054AbgJBTVv convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Fri, 2 Oct 2020 15:21:51 -0400
-Received: from mx.metalurgs.lv ([81.198.125.103]:64928 "EHLO mx.metalurgs.lv"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388174AbgJBTVv (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 2 Oct 2020 15:21:51 -0400
-X-Greylist: delayed 307 seconds by postgrey-1.27 at vger.kernel.org; Fri, 02 Oct 2020 15:21:48 EDT
-Received: from mx.metalurgs.lv (localhost [127.0.0.1])
-        by mx.metalurgs.lv (Postfix) with ESMTP id 072BB61CA6
-        for <linux-input@vger.kernel.org>; Fri,  2 Oct 2020 22:14:34 +0300 (EEST)
-Received: from kas30pipe.localhost (localhost [127.0.0.1])
-        by mx.metalurgs.lv (Postfix) with ESMTP id CFBBB62061
-        for <linux-input@vger.kernel.org>; Fri,  2 Oct 2020 22:14:33 +0300 (EEST)
-Received: by mx.metalurgs.lv (Postfix, from userid 1005)
-        id DEB4461D99; Fri,  2 Oct 2020 22:14:32 +0300 (EEST)
-Received: from [100.64.1.74] (unknown [190.15.125.50])
-        (Authenticated sender: admin)
-        by mx.metalurgs.lv (Postfix) with ESMTPA id 7CF645F3EE;
-        Fri,  2 Oct 2020 22:14:26 +0300 (EEST)
+        id S1725730AbgJCEuI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 3 Oct 2020 00:50:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46260 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725446AbgJCEuI (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 3 Oct 2020 00:50:08 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 197E1C0613D0;
+        Fri,  2 Oct 2020 21:50:07 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id a17so1653225pju.1;
+        Fri, 02 Oct 2020 21:50:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=t+PhgsvGg4+eGtz8ppoYHcz9iOGtIlfGmF8+vfAfWhk=;
+        b=LmViDQ7k96u7nnq88vyleok9WPVdzIcLou+cT7jiZy7B9QtN9DkFOCnGYudULe9DDe
+         BYhacgfAj2a5/Yq7boNTEAhBGgbx8T9bMhmb/RY9AJFtfdib4WxwYHoAm4mdyZEz0m3V
+         yVFWqpGYyBNMc5ZwQIyyMgTcbXngbrmc31YbGfjkWW7wPuu/O9oMD3yXI6JOt//o/3dL
+         CsPJnIGrgC3w71fZLE7AQfxtaCPV64Rp/UlVMTb+mBLJiMq/K2/MlYZKina3skGZqUTi
+         fhyLJwQOofkFKXTqfj1e7/b3MH5BlZoi7b5IrnPYx0GNo8ziJk7MzBSRBpYFXeu4KqQ/
+         Db9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=t+PhgsvGg4+eGtz8ppoYHcz9iOGtIlfGmF8+vfAfWhk=;
+        b=UAly52H+jef/lQBb99NJGkMlWLdTG2KqR7cYVz/L8HuTFRH54Mq9MJVoRde80eW6mO
+         8kRk/TWeMK7geMM5n9fT8K1Umf1EI/sMAgOG8wEIIu8MoRn4OVvx4+SOazrMPH1Vwfzz
+         ASrbtPCG31wnRuUaal/cRj9Z30fkHJTtPjzc2yns1gEOWwACp+weHOtztE29rh/+OcAw
+         6gED6rKuYLJxlj5lSvU5Ly6BCZ2pWSYga+XuvpNMm93rKdiz0ktq0JghYs+RkDKtEc2p
+         aQAQVIo57odWitpSuOzMJ8avE19Z7Cb7PF0dABlarpz5xVeDmNtxhUc6z5jokXokNED3
+         R6mw==
+X-Gm-Message-State: AOAM532VaCsnF4NC8y9ajMuF3BmtFaUp7kyF4bg6ioZmL8ahqTAQ5GR1
+        6H/cMUduTtAa4crJ90mni6s=
+X-Google-Smtp-Source: ABdhPJzG0d3Qchzmosi9U2bv65KusHBBBAm7hmXpdnWgafi8FvK72zLbzP19WwP5fJyH9W4hEjpqmQ==
+X-Received: by 2002:a17:90a:ed8e:: with SMTP id k14mr6205846pjy.178.1601700606579;
+        Fri, 02 Oct 2020 21:50:06 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id ih12sm3136795pjb.24.2020.10.02.21.50.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Oct 2020 21:50:05 -0700 (PDT)
+Date:   Fri, 2 Oct 2020 21:50:03 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [git pull] Input updates for v5.9-rc7
+Message-ID: <20201003045003.GA1936980@dtor-ws>
 MIME-Version: 1.0
-Content-Description: Mail message body
-To:     Recipients <financialcapability6@gmail.com>
-From:   "Mr. Hashim Bin" <financialcapability6@gmail.com>
-Date:   Fri, 02 Oct 2020 16:14:19 -0300
-Reply-To: binmurrah@gmail.com
-X-SpamTest-Envelope-From: financialcapability6@gmail.com
-X-SpamTest-Group-ID: 00000000
-X-SpamTest-Info: Profiles 71303 [Jan 01 2015]
-X-SpamTest-Info: {TO: forged address, i.e. recipient, investors, public, etc.}
-X-SpamTest-Info: {DATE: unreal year}
-X-SpamTest-Method: none
-X-SpamTest-Rate: 55
-X-SpamTest-Status: Not detected
-X-SpamTest-Status-Extended: not_detected
-X-SpamTest-Version: SMTP-Filter Version 3.0.0 [0284], KAS30/Release
-Message-ID: <20201002191432.DEB4461D99@mx.metalurgs.lv>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: 8BIT
-Subject: Low Rate Loan.
-X-Anti-Virus: Kaspersky Anti-Virus for Linux Mail Server 5.6.39/RELEASE,
-         bases: 20140401 #7726142, check: 20201002 notchecked
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello Dear,
+Hi Linus,
 
-We are Investment Company offering Corporate and Personal
-Loan at 3% Interest Rate for a duration of 10Years.
+Please pull from:
 
-We also pay 1% commission to brokers, who introduce project
-owners for finance or other opportunities.
+	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
 
-Please get back to me if you are interested for more
-details.
+to receive updates for the input subsystem. A couple more drover quirks,
+now enabling newer trackpoints from Synaptics for real.
 
-Yours faithfully,
-Hashim Bin 
+Changelog:
+---------
+
+Jiri Kosina (1):
+      Input: i8042 - add nopnp quirk for Acer Aspire 5 A515
+
+Vincent Huang (1):
+      Input: trackpoint - enable Synaptics trackpoints
+
+Diffstat:
+--------
+
+ drivers/input/mouse/trackpoint.c      | 2 ++
+ drivers/input/serio/i8042-x86ia64io.h | 7 +++++++
+ 2 files changed, 9 insertions(+)
+
+Thanks.
+
+
+-- 
+Dmitry
