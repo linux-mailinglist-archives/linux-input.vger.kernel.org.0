@@ -2,81 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 164EF282EF0
-	for <lists+linux-input@lfdr.de>; Mon,  5 Oct 2020 04:46:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDE5B282EF2
+	for <lists+linux-input@lfdr.de>; Mon,  5 Oct 2020 04:50:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725852AbgJECqC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 4 Oct 2020 22:46:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43842 "EHLO
+        id S1725845AbgJECue (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 4 Oct 2020 22:50:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725841AbgJECqB (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 4 Oct 2020 22:46:01 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44351C0613CE;
-        Sun,  4 Oct 2020 19:46:00 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id y14so2567836pfp.13;
-        Sun, 04 Oct 2020 19:46:00 -0700 (PDT)
+        with ESMTP id S1725841AbgJECue (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 4 Oct 2020 22:50:34 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D840C0613CE
+        for <linux-input@vger.kernel.org>; Sun,  4 Oct 2020 19:50:32 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id az3so1407518pjb.4
+        for <linux-input@vger.kernel.org>; Sun, 04 Oct 2020 19:50:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=45rSB5Z8oeWjII+fTO3+QvTrq+fKqwrfIH6YR1Gnk4I=;
-        b=qrOXDOJjnr+IXlBqE9LMdTnkTlrTteqMLpsvCMUJRZHl0ukAAH0NGjS7RlVFMJCpB2
-         n5QKRDyCAxXuGV+vHv2aNigC+o7d5gEc6Sp2SASORz/UfB5kHA4v8811asOYmXPTR3Se
-         2dcy0Q5nDuKG8hz/PO7k0MHDYvQ8wt4/FeNTLmneDriWONUbEnV4jjMITI+iY9n4+HKZ
-         aIr3sAB1N+uZ1Krq5Wgvk3MCADpXAuBANedRCEw7LLDEwHhPbufMPiKWH57IPoGDKwKs
-         WMga0SVyx9/nJFr3+Pf2GZi1g6Dol/LqqD5n5ok+IKXIn2TXstQejLQbE1ncY1r1ady8
-         WHyw==
+        bh=8F+GD5DAbFuzwe2JGAFNHFHZTFKAdUWRIvZ2Fe471cA=;
+        b=mZEj8g+7qjCIoDx9HyLdDtyvRCEvn2nZHR2pVpufIq/xa4lubaFNAR86Rzwh/iWuAM
+         ZazieFnuWMzX9yR/pC8PJJr7VfThJ6DRQujLk/7cRDJuIpI+Z0Irula2EyNzvT3B77Gn
+         dD+5lEmYRGfvcrXCpyJxUK7qPLaxNz/UBEvObc5vE/nkmUwNeqAWkpPVAo2Osci2/RKv
+         EqEqRWRZ3VXSRn8jR9KbOFmo+pEAEl0pzSNgWPaIqcPoZsrbM4vLlxYfHK5yJOi8jQtG
+         quspz2eAnxS5IfGSrspRXd5gJ48iJ9Q2Ds19k38QA8kDAPvF/wGH8z73/9fOI4CyPJZ3
+         KeNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=45rSB5Z8oeWjII+fTO3+QvTrq+fKqwrfIH6YR1Gnk4I=;
-        b=AXQVu6YI8beKuH9eQVq29HCHIAfOBaYrvM3lekKffN8xD1ESeWsuJhTaPsVNu4vQeZ
-         d7eB7tqQZzCc50w5Zbh3w4qMsD0l8SfuBnN2OfsSsg6OBvLHDgyfONcArLGmb0prDkmE
-         91PAFVVa+GJcRU0bcrb5hcIbjI7VfF1eB+2ubS+HQhK4gUfMYLsIokn/9NdlWZfEvnet
-         YvNS/IB/Yuhp30ifpp1O8Xta5fkLxK3LzA++IWW/9A1x+u6akhUySpTH6Fyonw/5Kjun
-         ElbXK8YxcjO2W8bFdjxNxoOyPgV49Bak3kSOKhfqaoGa/SpczUIdRq4TGarBf8d8WWqx
-         82Kg==
-X-Gm-Message-State: AOAM530c/ykJIQnHq4nZhXt9ibbmQvJbabV0bxjg4Gf2gUG9kpMiNheN
-        bu8/Du/QpehyJBXaKzfl944=
-X-Google-Smtp-Source: ABdhPJxi801oUAWVGLACEvWpBY1Aof0e+xmL50LPEB6BiKoB45KDL5fLtcuRT7X5XfJpO/UXLXQyTA==
-X-Received: by 2002:a62:7d91:0:b029:13e:d13d:a061 with SMTP id y139-20020a627d910000b029013ed13da061mr10255223pfc.39.1601865959780;
-        Sun, 04 Oct 2020 19:45:59 -0700 (PDT)
+        bh=8F+GD5DAbFuzwe2JGAFNHFHZTFKAdUWRIvZ2Fe471cA=;
+        b=IMhGd0Z6sP/F571kKyMmL7umQYaECQxpSmTxDE7HtG4TIhjVHZgkrhlMx9rXhhZbeX
+         U0EupYhg6fMknsze6FOdz/tXO1pBEELdz6h6Wtr/OVa/Ml91GFw8XSLu9+WLKj/pG/lp
+         Gdjf1SXdJnuOTp5PeXyYIJm2bCuzbr3UA02O/H1G/8tkCm1S8jyhW1BHZDraL3UsRWRb
+         G2/buqNm9cSIV6u0gcd/gWnZAn3BztFLz7C8hKQyNZlTGdxTK6GI5WHrsaFM3pcKD5W5
+         odc7nlOiDVmJrcSzbuawrZGqTC5QLXjytcHVjkjQqL9py9rZXQiljW3rrNvouhPhFNIL
+         NUHQ==
+X-Gm-Message-State: AOAM5303fBfs5ol6aYQSDkPF96eCgKI+aOLZD8XsREUyBpFdUjVvBCBK
+        v8ldu2w6DyvJCBSgHogvtp8=
+X-Google-Smtp-Source: ABdhPJxxr0wBNxYbfYvFIa1WokZ+V/St8sQpPbu34zemDvDTnk6yIGpELOSQssmBBjF0IkFxEkR5CQ==
+X-Received: by 2002:a17:90a:9912:: with SMTP id b18mr15320882pjp.192.1601866231769;
+        Sun, 04 Oct 2020 19:50:31 -0700 (PDT)
 Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id k6sm10073973pfh.92.2020.10.04.19.45.58
+        by smtp.gmail.com with ESMTPSA id 36sm9120213pgl.72.2020.10.04.19.50.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Oct 2020 19:45:59 -0700 (PDT)
-Date:   Sun, 4 Oct 2020 19:45:57 -0700
+        Sun, 04 Oct 2020 19:50:31 -0700 (PDT)
+Date:   Sun, 4 Oct 2020 19:50:29 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Vincent Huang <vincent.huang@tw.synaptics.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jiri Kosina <jikos@kernel.org>,
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     linux-input@vger.kernel.org,
+        Vincent Huang <vincent.huang@tw.synaptics.com>,
+        Lyude Paul <lyude@redhat.com>, Jiri Kosina <jikos@kernel.org>,
         Andrew Duggan <aduggan@synaptics.com>,
         Hans de Goede <hdegoede@redhat.com>,
         Benjamin Tissoires <btissoir@redhat.com>,
-        Lyude Paul <lyude@redhat.com>,
         Chris Heiny <chris.heiny@synaptics.com>
-Subject: Re: [PATCH v3 2/2] Input: synaptics-rmi4 - add support for F3A
-Message-ID: <20201005024557.GC1009802@dtor-ws>
-References: <20200930094147.635556-1-vincent.huang@tw.synaptics.com>
- <20200930094147.635556-3-vincent.huang@tw.synaptics.com>
+Subject: Re: [PATCH v3 1/2] Input: synaptics-rmi4 - support bootloader v8 in
+ f34v7
+Message-ID: <20201005025029.GD1009802@dtor-ws>
+References: <5bd2bb9d925cfc81392bd9bf93b31ce4fd81e107.camel@redhat.com>
+ <20200930225046.173190-1-Jason@zx2c4.com>
+ <20200930225046.173190-2-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200930094147.635556-3-vincent.huang@tw.synaptics.com>
+In-Reply-To: <20200930225046.173190-2-Jason@zx2c4.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Sep 30, 2020 at 05:41:47PM +0800, Vincent Huang wrote:
-> RMI4 F3A supports the touchpad GPIO function, it's designed to
-> support more GPIOs and used on newer touchpads. This patch adds
-> support of the touchpad buttons.
+On Thu, Oct 01, 2020 at 12:50:45AM +0200, Jason A. Donenfeld wrote:
+> With the recent addition of the F3A support, we can now accept
+> bootloader v8, which will help support recent Thinkpads.
 > 
-> Signed-off-by: Vincent Huang <vincent.huang@tw.synaptics.com>
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-> Tested-by: Hans de Goede <hdegoede@redhat.com>
+> Acked-by: Lyude Paul <lyude@redhat.com>
+> Cc: Vincent Huang <vincent.huang@tw.synaptics.com>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 
 Applied, thank you.
 
