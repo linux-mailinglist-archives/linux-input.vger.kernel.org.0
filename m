@@ -2,150 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D9CD28492B
-	for <lists+linux-input@lfdr.de>; Tue,  6 Oct 2020 11:13:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0C14284947
+	for <lists+linux-input@lfdr.de>; Tue,  6 Oct 2020 11:23:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726396AbgJFJNe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Oct 2020 05:13:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43464 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726299AbgJFJNd (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Oct 2020 05:13:33 -0400
-Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com [IPv6:2607:f8b0:4864:20::e41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A562C0613D6
-        for <linux-input@vger.kernel.org>; Tue,  6 Oct 2020 02:13:33 -0700 (PDT)
-Received: by mail-vs1-xe41.google.com with SMTP id 5so5725798vsu.5
-        for <linux-input@vger.kernel.org>; Tue, 06 Oct 2020 02:13:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9zZ3JqKuAucMkJsBK3uQ6oqn08Q8o246NeeOkBUzIpE=;
-        b=sl5DvJTU8XoKckrDy72v6SE14TnVpy4Bt91zBzW0shyY1MAQ6mAh44/03XDifpnVyT
-         4w+72PUsHJIIJhKHPRrCT8pTCi2CZ3lYrznO931Zy9GGzbJgV3AbLMDW/WTkvZw1ySi0
-         xZ8mKac9WB616FWJmzh+4pR4DO2W+qMrWvhETvIhmdmS6svN/TirR+Lk59vHi5nED0Fw
-         UNsL0wfC4tJEer6UJgLfY8iJyldfPPnH6zruIDXY8NS9LaxnxiZNZZ15iF6VLc8jtGT7
-         kw77Swrlk5F0D0JlHVpGszmJH8RyljctW41ctPimXYx2UDZ6rbS2tZM9fINpQJUVuEtk
-         CGiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9zZ3JqKuAucMkJsBK3uQ6oqn08Q8o246NeeOkBUzIpE=;
-        b=B8VUSFBgvMPwGaUaqy1f7i+/tTVdTJC9ADBAwv9FQkloctP6o7G4ds+FPlg53eYxFg
-         y+OCPLOsZNd9S/a/cbQaj/fvsI9vZJFCTo07Tlf1G8kHtgEVq0owVc6n2O00ztKOSMcf
-         A36c0xSN9QyOoGdQTm/FklcdrGXrV2Tju93VcpaDazMIRnCQY0fUCGQ3Avd25gQVTbTq
-         SJ0ygWYrh129YH1Cnp5WZ+a0YZ80H7TP35zNkRcJp3mkBRB2PThNSYLdK6hrTrBsu7cm
-         ZFy8YfbywWH4fq+MBZDvbWCA8lcy30IJweiGZ2NSzrb6VyLLDLjNK0Jv9PRdQ9tRA+cp
-         9I0A==
-X-Gm-Message-State: AOAM533g/gDlj6UNqA7vh2yqyPIrJxJDPtKWV2jGmRWA5VuyfjX/moRF
-        mkDHHYz4ZoSeKsSofVJiOrDOVcxnqUoHh6Xl1yovGg==
-X-Google-Smtp-Source: ABdhPJw+U5yOHue/Ytd8RPqMjT92IYE0mZoO7yO1YIY/4s+p2JNLru501tVYMlY3tURTLHPZrBHXQO8va9HmuomgCis=
-X-Received: by 2002:a67:6b07:: with SMTP id g7mr2713184vsc.48.1601975612161;
- Tue, 06 Oct 2020 02:13:32 -0700 (PDT)
+        id S1725972AbgJFJXF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Oct 2020 05:23:05 -0400
+Received: from out0.migadu.com ([94.23.1.103]:51102 "EHLO out0.migadu.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725891AbgJFJXF (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 6 Oct 2020 05:23:05 -0400
+X-Greylist: delayed 449 seconds by postgrey-1.27 at vger.kernel.org; Tue, 06 Oct 2020 05:23:04 EDT
 MIME-Version: 1.0
-References: <20201005183830.486085-1-robh@kernel.org> <20201005183830.486085-5-robh@kernel.org>
-In-Reply-To: <20201005183830.486085-5-robh@kernel.org>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Tue, 6 Oct 2020 11:12:55 +0200
-Message-ID: <CAPDyKFoxg_i8tcRjV_htv9s1Z=gxYzJtxPAnCqRR9gzR2hkG0w@mail.gmail.com>
-Subject: Re: [PATCH 4/4] dt-bindings: Explicitly allow additional properties
- in common schemas
-To:     Rob Herring <robh@kernel.org>
-Cc:     DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>, dmaengine@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Jens Axboe <axboe@kernel.dk>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Marc Zyngier <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Richard Weinberger <richard@nod.at>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-can@vger.kernel.org, linux-clk <linux-clk@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-ide@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-mips@vger.kernel.org,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        linux-mtd@lists.infradead.org,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>, linux-pwm@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-rtc@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        linux-watchdog@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kl.wtf; s=default;
+        t=1601975732;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=pww05EjAV6MyxTDZwHMDdd8qQrr1mUuW9T8/XU436Mg=;
+        b=Ki7MQ/bg2Q670JriEUpTA1C18i1KHoxsjwWIuIem9hT2AlrAvmsIIYMQtGfdFdHVEt2/Xv
+        ug43g439gCfv18OZFq6niy0Wb7BNNKgN40JH+qqIOLZe45OxGqLE7wq3PuvHdZkM2oIEyw
+        7zf2wHdqnlUJrnItsDo+OOqZ5saP2Qk=
+Date:   Tue, 06 Oct 2020 09:15:32 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   kl@kl.wtf
+Message-ID: <0ec848359962ebce267168618b816bb4@kl.wtf>
+Subject: Re: [PATCH] Input: evdev - per-client waitgroups
+To:     dmitry.torokhov@gmail.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20201005233500.GM1009802@dtor-ws>
+References: <20201005233500.GM1009802@dtor-ws>
+ <20200429184126.2155-1-kl@kl.wtf>
+X-Spam-Score: -2.87
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 5 Oct 2020 at 20:38, Rob Herring <robh@kernel.org> wrote:
->
-> In order to add meta-schema checks for additional/unevaluatedProperties
-> being present, all schema need to make this explicit. As common/shared
-> schema are included by other schemas, they should always allow for
-> additionalProperties.
->
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-
-[...]
-
->  Documentation/devicetree/bindings/mmc/mmc-controller.yaml    | 2 ++
->  .../devicetree/bindings/mmc/synopsys-dw-mshc-common.yaml     | 2 ++
->  Documentation/devicetree/bindings/mtd/nand-controller.yaml   | 2 ++
-
-[...]
-
->  Documentation/devicetree/bindings/power/power-domain.yaml    | 2 ++
-
-For mmc and power-domain:
-
-Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
-
-[...]
-
-Kind regards
-Uffe
+October 6, 2020 1:35 AM, dmitry.torokhov@gmail.com wrote:=0A=0A> On Wed, =
+Apr 29, 2020 at 08:41:26PM +0200, Kenny Levinsen wrote:=0A> =0A>> All evd=
+ev clients share a common waitgroup. On new input events, this=0A>> waitg=
+roup is woken once for every client that did not filter the events,=0A> =
+=0A> I am having trouble parsing the changelog (I think I agree with the=
+=0A> change itself). Did you mean to say "this waitqueue wakes up every=
+=0A> client, even ones that requested to filter out events that are being=
+=0A> delivered, leading to duplicated and unwanted wakeups"?=0A=0AAh, I s=
+uppose my original wording was a bit convoluted. Perhaps the following=0A=
+is clearer:=0A=0A	All evdev clients share a common waitgroup. On new inpu=
+t events, all=0A	clients waiting on this waitgroup are woken up, even tho=
+se filtering=0A	out the events, possibly more than once per event. This l=
+eads to=0A	duplicated and unwanted wakeups.=0A=0AWhat I tried to say is t=
+hat not only do all clients polling the device/blocked=0Aon read end up w=
+oken up, instead of being woken just once, they are woken once=0Afor ever=
+y client that was interested in the event.=0A=0ASo, if you have two clien=
+ts interested and one uninterested, then the shared=0Awaitgroup that all =
+three clients are waiting on is woken up twice in a row.=0A=0AShould I se=
+nd an updated patch with the new wording? I'm also fine with your=0Asugge=
+sted wording if you prefer that.=0A=0ABest regards,=0AKenny Levinsen
