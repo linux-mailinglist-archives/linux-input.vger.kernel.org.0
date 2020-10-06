@@ -2,69 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87FC928451E
-	for <lists+linux-input@lfdr.de>; Tue,  6 Oct 2020 06:54:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8112528454F
+	for <lists+linux-input@lfdr.de>; Tue,  6 Oct 2020 07:29:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726680AbgJFEyK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Oct 2020 00:54:10 -0400
-Received: from mail-il1-f207.google.com ([209.85.166.207]:37807 "EHLO
-        mail-il1-f207.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725922AbgJFEyH (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Oct 2020 00:54:07 -0400
-Received: by mail-il1-f207.google.com with SMTP id c66so9136808ilf.4
-        for <linux-input@vger.kernel.org>; Mon, 05 Oct 2020 21:54:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=vbGvYHn+W+IaG2xSdpQ2NL9k7oeMNtTHRnseDsfQub8=;
-        b=Utqr6FBJLhkE1MrKAlMlt0WLX1hooeY+kChIBSqBPiPC75YlkgOkdQ9uUSvV8HdgKl
-         ImwNMO19AQdXlYWNivnY1FvYbso5MFsxpSaLazF2tQcxO+lphjwu6SBlSry0+vffc49w
-         edDuuJHk4ZcCrJsJYFdJyeFEkadnoLKd7CF8HKmPcPw1UG13SPMpsiioZsuIKiWieKhs
-         8HdjnuXAehP79pb4IOyXuUGrcyshbsoVlIQdvCa8RKOvVUbhVjx71vfM28wKNaXVJEwF
-         G9SM0uE4+685w2Q2CO4Vn6Y7xt5/Dcd/RifUZHNcEuFtJyRIP1Z0fvu5whEy0Zs6AYPY
-         Vbag==
-X-Gm-Message-State: AOAM53201GK8Dq85bml83iKAoYMfFQUSA6tlbfabmWdYw0jn+ocT/9G2
-        xa7YUUDSXPswIZQMBjXaobFsQi2ygiiX9NvJgmTYCKupTBgB
-X-Google-Smtp-Source: ABdhPJyE8Iq2isWFmFTh8P9W0W6jrxjBi3DqXEcgnkgexuwpGIwXcLMRIJj5V3OQuJTBceUV8hAxFrb3GFVoXhtt8mqf10W+pd0/
+        id S1726904AbgJFF3s (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Oct 2020 01:29:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50050 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725912AbgJFF3q (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 6 Oct 2020 01:29:46 -0400
+Received: from localhost (unknown [122.167.144.92])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1C34120870;
+        Tue,  6 Oct 2020 05:29:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601962185;
+        bh=IqVDArZkdO/B6tbx3G9IqtpqMW94z4IPv/01HlGFHyY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XJYtCNTyvx3ozaL1aRMYZGV+bTbvDa3P+1vHmIpIZkmMpy/W3RdFSo1VlEtqd2ZwS
+         VXm0e3hsDFIgJyUblJEaSpP3cJaPtrtrYpgunMrPuk68lEyTmKEkfZetm3/aycx6/+
+         f5jbT6MC2Pw1++qOdAXkqzyJva8aLdhWHo97xSwA=
+Date:   Tue, 6 Oct 2020 10:59:40 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>, dmaengine@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        dri-devel@lists.freedesktop.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Jens Axboe <axboe@kernel.dk>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Marc Zyngier <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Richard Weinberger <richard@nod.at>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-can@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-ide@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH 1/4] dt-bindings: Add missing 'unevaluatedProperties'
+Message-ID: <20201006052940.GO2968@vkoul-mobl>
+References: <20201005183830.486085-1-robh@kernel.org>
+ <20201005183830.486085-2-robh@kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a92:c50d:: with SMTP id r13mr2291142ilg.264.1601960045445;
- Mon, 05 Oct 2020 21:54:05 -0700 (PDT)
-Date:   Mon, 05 Oct 2020 21:54:05 -0700
-In-Reply-To: <00000000000054c0d105a0328487@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000074076405b0f9632a@google.com>
-Subject: Re: INFO: trying to register non-static key in uhid_dev_destroy
-From:   syzbot <syzbot+0c601d7fbb8122d39093@syzkaller.appspotmail.com>
-To:     benjamin.tissoires@gmail.com, benjamin.tissoires@redhat.com,
-        brookebasile@gmail.com, dh.herrmann@googlemail.com,
-        jikos@kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, maz@kernel.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201005183830.486085-2-robh@kernel.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-syzbot suspects this issue was fixed by commit:
+On 05-10-20, 13:38, Rob Herring wrote:
+> This doesn't yet do anything in the tools, but make it explicit so we can
+> check either 'unevaluatedProperties' or 'additionalProperties' is present
+> in schemas.
+> 
+> 'unevaluatedProperties' is appropriate when including another schema (via
+> '$ref') and all possible properties and/or child nodes are not
+> explicitly listed in the schema with the '$ref'.
+> 
+> This is in preparation to add a meta-schema to check for missing
+> 'unevaluatedProperties' or 'additionalProperties'. This has been a
+> constant source of review issues.
 
-commit bce1305c0ece3dc549663605e567655dd701752c
-Author: Marc Zyngier <maz@kernel.org>
-Date:   Sat Aug 29 11:26:01 2020 +0000
+Acked-By: Vinod Koul <vkoul@kernel.org>
 
-    HID: core: Correctly handle ReportSize being zero
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=10b82f50500000
-start commit:   152036d1 Merge tag 'nfsd-5.7-rc-2' of git://git.linux-nfs...
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=efdde85c3af536b5
-dashboard link: https://syzkaller.appspot.com/bug?extid=0c601d7fbb8122d39093
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10ebad0c100000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14d6c21c100000
-
-If the result looks correct, please mark the issue as fixed by replying with:
-
-#syz fix: HID: core: Correctly handle ReportSize being zero
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+-- 
+~Vinod
