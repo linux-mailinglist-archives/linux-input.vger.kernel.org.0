@@ -2,119 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 59491284A02
-	for <lists+linux-input@lfdr.de>; Tue,  6 Oct 2020 12:02:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17D96284C2D
+	for <lists+linux-input@lfdr.de>; Tue,  6 Oct 2020 15:04:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726171AbgJFKCa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Oct 2020 06:02:30 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2959 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725939AbgJFKC3 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 6 Oct 2020 06:02:29 -0400
-Received: from lhreml710-chm.china.huawei.com (unknown [172.18.7.106])
-        by Forcepoint Email with ESMTP id 339F145D8CC503B2B5EB;
-        Tue,  6 Oct 2020 11:02:25 +0100 (IST)
-Received: from localhost (10.52.123.13) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Tue, 6 Oct 2020
- 11:02:22 +0100
-Date:   Tue, 6 Oct 2020 11:00:36 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        "Andrew Lunn" <andrew@lunn.ch>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        <dmaengine@vger.kernel.org>,
-        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
-        <dri-devel@lists.freedesktop.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Jens Axboe <axboe@kernel.dk>,
+        id S1726143AbgJFNEe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Oct 2020 09:04:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50830 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725891AbgJFNEd (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Oct 2020 09:04:33 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A849C061755;
+        Tue,  6 Oct 2020 06:04:33 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id 7ECB0299E5B
+Subject: Re: [PATCH v4 7/7] Input: Add "inhibited" property
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-tegra@vger.kernel.org, patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
         Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kukjin Kim <kgene@kernel.org>,
         Krzysztof Kozlowski <krzk@kernel.org>,
-        "Lars-Peter Clausen" <lars@metafoo.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        "Marc Zyngier" <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
-        "Mathieu Poirier" <mathieu.poirier@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        "MyungJoo Ham" <myungjoo.ham@samsung.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        "Peter Meerwald-Stadler" <pmeerw@pmeerw.net>,
-        Richard Weinberger <richard@nod.at>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Stephen Boyd <sboyd@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
         Thierry Reding <thierry.reding@gmail.com>,
-        "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        "Vignesh Raghavendra" <vigneshr@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        "Wim Van Sebroeck" <wim@linux-watchdog.org>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-can@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, <linux-hwmon@vger.kernel.org>,
-        <linux-i2c@vger.kernel.org>, <linux-ide@vger.kernel.org>,
-        <linux-iio@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-leds@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-mips@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
-        <linux-mtd@lists.infradead.org>, <linux-pci@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>, <linux-rtc@vger.kernel.org>,
-        <linux-serial@vger.kernel.org>, <linux-spi@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-watchdog@vger.kernel.org>
-Subject: Re: [PATCH 4/4] dt-bindings: Explicitly allow additional properties
- in common schemas
-Message-ID: <20201006100036.00007ec7@Huawei.com>
-In-Reply-To: <20201005183830.486085-5-robh@kernel.org>
-References: <20201005183830.486085-1-robh@kernel.org>
-        <20201005183830.486085-5-robh@kernel.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Ferruh Yigit <fery@cypress.com>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Peter Hutterer <peter.hutterer@redhat.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        kernel@collabora.com, Patrik Fimml <patrikf@chromium.org>
+References: <2336e15d-ff4b-bbb6-c701-dbf3aa110fcd@redhat.com>
+ <20200608112211.12125-1-andrzej.p@collabora.com>
+ <20200608112211.12125-8-andrzej.p@collabora.com>
+ <20201005181014.GL1009802@dtor-ws>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <ac4eeab7-8333-b96b-707b-eb2d6d0d8139@collabora.com>
+Date:   Tue, 6 Oct 2020 15:04:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.52.123.13]
-X-ClientProxiedBy: lhreml716-chm.china.huawei.com (10.201.108.67) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+In-Reply-To: <20201005181014.GL1009802@dtor-ws>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 5 Oct 2020 13:38:30 -0500
-Rob Herring <robh@kernel.org> wrote:
+Hi Dmitry,
 
-> In order to add meta-schema checks for additional/unevaluatedProperties
-> being present, all schema need to make this explicit. As common/shared
-> schema are included by other schemas, they should always allow for
-> additionalProperties.
+W dniu 05.10.2020 o 20:10, Dmitry Torokhov pisze:
+> Hi Andrzej,
 > 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> On Mon, Jun 08, 2020 at 01:22:11PM +0200, Andrzej Pietrasiewicz wrote:
+>> @@ -284,8 +284,11 @@ static int input_get_disposition(struct input_dev *dev,
+>>   	case EV_KEY:
+>>   		if (is_event_supported(code, dev->keybit, KEY_MAX)) {
+>>   
+>> -			/* auto-repeat bypasses state updates */
+>> -			if (value == 2) {
+>> +			/*
+>> +			 * auto-repeat bypasses state updates but repeat
+>> +			 * events are ignored if the key is not pressed
+>> +			 */
+>> +			if (value == 2 && test_bit(code, dev->key)) {
+>>   				disposition = INPUT_PASS_TO_HANDLERS;
+>>   				break;
+>>   			}
+> 
+> Is this chunk really part of inhibit support? I'd think we cancel
+> autorepeat timer when we are releasing a key, no?
+> 
 
->  Documentation/devicetree/bindings/iio/common.yaml            | 2 ++
-For IIO
+When I look at it now it seems to me the chunk might be redundant.
+But let me explain what I had in mind when adding it.
 
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->  ...
+It is a matter of what we do with input events generated while a
+device is inhibited. If ->open()/->close() are not provided by the
+driver then inhibiting amounts to merely ignoring input events from
+a device while it remains active. What else can you do if the driver
+does not provide a method to prepare the device for generating events/
+to stop generating events?
 
+In this special case a user might trigger a repeated event while the
+device is inhibited, then the user keeps holding the key down and the
+device is uninhibited. Do we pass anything to handlers then?
 
+In my opinion we should not. Such an event is "illegal" in a sense that it
+was generated at a time when nobody wanted any events from the device.
+Hence the test to let only those auto-repeat events through for which
+a key is actually pressed.
+
+However, what I see now is that if a device is inhibited, no key
+will ever reach neither the "1" nor "2" state because of the "if"
+in the very beginning of input_handle_event().
+
+Regards,
+
+Andrzej
