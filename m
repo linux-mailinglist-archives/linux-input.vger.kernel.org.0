@@ -2,137 +2,118 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B978286AAF
-	for <lists+linux-input@lfdr.de>; Thu,  8 Oct 2020 00:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F59F286AC2
+	for <lists+linux-input@lfdr.de>; Thu,  8 Oct 2020 00:16:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728782AbgJGWFZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Oct 2020 18:05:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46282 "EHLO
+        id S1728339AbgJGWQc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 7 Oct 2020 18:16:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728742AbgJGWFZ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Oct 2020 18:05:25 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 875BFC061755
-        for <linux-input@vger.kernel.org>; Wed,  7 Oct 2020 15:05:25 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id x5so1733335plo.6
-        for <linux-input@vger.kernel.org>; Wed, 07 Oct 2020 15:05:25 -0700 (PDT)
+        with ESMTP id S1728275AbgJGWQc (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Oct 2020 18:16:32 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87BA6C061755;
+        Wed,  7 Oct 2020 15:16:32 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id y14so2266956pfp.13;
+        Wed, 07 Oct 2020 15:16:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fSYsj6mV/2hof1Y9IifCB12SVNQ9qz/EQty0NqwX0zk=;
-        b=ILDxAOelBelvs7g20qG7MC+dmJ3xyFIgq5l6SJYZQsTkq7H80lLQdV0l+5Zd6iIosv
-         ed/4LYkg72cY6hYd035HF0RbavXmLPBQnMeXrQgctxSFoXcoZKv0iDemwqiT0HNVpCAK
-         tkWRYUxj9oAvH0SXh1KYLIrOBmEyPHtUeNQjuQt8kTibpALZeXN/7e6yYHFDIklk7OYY
-         0XSutCsq5P84Oo2V6OMKMfZvMzXR3uGt5XhXC6/DavpBTYNVF7fd9gCQwVKLxhfQqIHV
-         wdgV7CnvSEi6cXMib77CLnsAENb4NSYiqhsOF1RlMsnpRfBFldlutl1ds+PRb4epkonc
-         AtNg==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=QtVnrXLAAH7oCE78KJDpWaV9NyOvGGEZhYYFdZ6NUIw=;
+        b=OvbSYbdrpg0i8Fe39nza95r2B/Du5vnhot6TGh2lyYMkRh5k/ticHcS4FVi5km8twG
+         jHfrtgCRqKFLuyVwZGtMWm2BKuPBjYiWB9eI0YsdqS1AlcaW4LU0K+T89XCLUtt57bSY
+         lQ+siJppBUgc3WrtS9o4Rij5yLVu8JVXIe0+iZ/zAN3jSOAbdU2MOwVTfFWtdEOwTwVD
+         zgw8IaCaaWjqkmDT2DezJz4KFYgfUjnmOtZ54P8NqyxiO1SpkvR/pEtLkaMawW+N4BlU
+         0/bN7JjKg0Ulks3Q35+cHcf2ZfFMSKMBpUzEWYxOXoBVg/AwUacZ+IrusTVuMPeajmbt
+         0qOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fSYsj6mV/2hof1Y9IifCB12SVNQ9qz/EQty0NqwX0zk=;
-        b=TfMndNZsR+6tONhwlPpaCnvkF2bXahL8ey0Dlq/cGKmuFZXVXboklOQuC9Qtg33BCG
-         w6nvACRFmYXbw6zUz/Zg4hx3PiB2f0nHnf0EsdJA4gFlzdPqR1rQzambAcs+CRJO4qnu
-         WmWz3HcLBmUHQadLMnJ61M96yE97U6WISd/Cm4GVMn2Ujyg//QaDiruVTlR+4dvO2oca
-         FeWcFPIvIEQ0ALWBBfMnKj8i8jBBdcSyQPuD0E8b5xGCYFPAmcDxcTLlLZHdR1WsREWP
-         FLvwH8/eoD/9VR/2UIT8q2h3Gq0U55dljKq8oLubMjxfYAT1TQZpNYPm2g3U0S2UqfBi
-         NRvQ==
-X-Gm-Message-State: AOAM532Xz+xnHoOOq3iIMKg/XnZwIps3h/4Gllv3TijvycBm0In3TQDY
-        sFiZy/kpvimUThl1Dh/u/JrBxQt/c+EXv1HKP95K/w==
-X-Google-Smtp-Source: ABdhPJwhF/pjXLK1p084lcXI4Vm5jUtYkqoDtDRPdQPfneHESm87BSGqZiVYzhU8rzIlVAMzvANl3HZ+t4RJSNcA/Lk=
-X-Received: by 2002:a17:902:d888:b029:d0:cb2d:f274 with SMTP id
- b8-20020a170902d888b02900d0cb2df274mr4555810plz.13.1602108324895; Wed, 07 Oct
- 2020 15:05:24 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=QtVnrXLAAH7oCE78KJDpWaV9NyOvGGEZhYYFdZ6NUIw=;
+        b=OSRkOW3Jvca2c43HrsYsnuewV6xe9oDV2zRpf8br6qIuzIRZrTuIpr4uSh8d9JVxup
+         J0xQIJzDQNWfp8iX12qrEQ6Y3Iw4c7O9pYarPqB72LcxUiOCy/C5I3KeuGOvpt2UoOmQ
+         GJ67w2FaLERFAqLNdMGpaPN53oN5c0Th+m3AJmKHRxJImAcrUZvT2QYP4/+ot/ub7aMe
+         lErgXE0DH+p/w3CYJHH7yNe8wdMMOnA/ILDy6VzTOK4XruMThkotXaKawF5ziDGnIk8f
+         9tFNkva3tlX9P2hWufq0m1/s2jcL5cr0P5F/EodC1GJHT2MdQi74pT50uJwqJ8w2FC+t
+         RCHg==
+X-Gm-Message-State: AOAM5302KBsiVPCU4HdxyS4tt0sgJzWnB7nyg3gVInGhjQvntPOk8o34
+        igrEGOfzRKcqM+Jku0/GWchshJPWUyAslg==
+X-Google-Smtp-Source: ABdhPJxpYAV+HWz057DoJXXituAe8MP1nGEpnL4PstlChwxUUMpZYsz8Q5Xpy5y68IQ3qnHS7WqtZA==
+X-Received: by 2002:a63:3e06:: with SMTP id l6mr4619335pga.179.1602108991912;
+        Wed, 07 Oct 2020 15:16:31 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id h9sm4194896pfc.28.2020.10.07.15.16.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Oct 2020 15:16:31 -0700 (PDT)
+Date:   Wed, 7 Oct 2020 15:16:28 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Paul Menzel <pmenzel@molgen.mpg.de>
+Cc:     linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: i8042_init: PS/2 mouse not detected with ACPIPnP/PnPBIOS
+Message-ID: <20201007221628.GW1009802@dtor-ws>
+References: <1a69c5bc-ccc4-68db-7871-af05a70052c9@molgen.mpg.de>
 MIME-Version: 1.0
-References: <20200930224713.GA88246@dtor-ws>
-In-Reply-To: <20200930224713.GA88246@dtor-ws>
-From:   Kenneth Albanowski <kenalba@google.com>
-Date:   Wed, 7 Oct 2020 15:05:13 -0700
-Message-ID: <CALvoSf7kZEhrZZEZmzpAkEMbd+TQbNTCOmjvjX6RfxeWiQZz2g@mail.gmail.com>
-Subject: Re: [PATCH] HID: hid-input: occasionally report stylus battery even
- if not changed
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>, Sebastian Reichel <sre@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Johan Korsnes <jkorsnes@cisco.com>, linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1a69c5bc-ccc4-68db-7871-af05a70052c9@molgen.mpg.de>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-I've tested this locally backported to a 4.19 variant; it does work,
-and provides the expected additional CHANGE events while safely
-limiting the rate.
+Hi Paul,
 
-This seems like a reasonable minimum improvement, just ensuring
-information already being pushed by HID reports can be utilized.
+On Wed, Oct 07, 2020 at 11:18:41PM +0200, Paul Menzel wrote:
+> Dear Linux folks,
+> 
+> 
+> On the Asus F2A85-M PRO Linux 5.9-rc8 (and previous versions) does not
+> recognize a plugged in PS/2 mouse using the Plug & Play method. The PS/2
+> keyboard is detected fine, and using `i8042.nopnp`, the PS/2 mouse also
+> works.
+> 
+> > [    1.035915] calling  i8042_init+0x0/0x42d @ 1
+> > [    1.035947] i8042: PNP: PS/2 Controller [PNP0303:PS2K] at 0x60,0x64 irq 1
+> > [    1.035948] i8042: PNP: PS/2 appears to have AUX port disabled, if this is incorrect please boot with i8042.nopnp
+> > [    1.036589] serio: i8042 KBD port at 0x60,0x64 irq 1
+> > [    1.036621] initcall i8042_init+0x0/0x42d returned 0 after 687 usecs
+> 
+> But, the DSDT includes the “mouse device”. From
+> 
+>     acpidump > dump.bin; acpixtract dump.bin; iasl -d *dat; more dsdt.dsl
+> 
+> we get
+> 
+>                 Device (PS2M)
+>                 {
+>                     Name (_HID, EisaId ("PNP0F03") /* Microsoft PS/2-style
+> Mouse */)  // _HID: Hardware ID
+>                     Name (_CID, EisaId ("PNP0F13") /* PS/2 Mouse */) //
+> _CID: Compatible ID
+>                     Method (_STA, 0, NotSerialized)  // _STA: Status
+>                     {
+>                         If ((IOST & 0x4000))
+>                         {
+>                             Return (0x0F)
+>                         }
+>                         Else
+>                         {
+>                             Return (Zero)
+>                         }
+>                     }
+> 
+> and the identifiers PNP0F03 and PNP0F13 are both listed in the array
+> `pnp_aux_devids[]`. But adding print statements to `i8042_pnp_aux_probe()`,
+> I do not see them, so the function does not seem to be called.
 
-I'm unsure about mapping Digitizers.InRange to power_supply 'present',
-in the abstract. It seems there could be a device where
-Digitizers.BatteryStrength is sent, despite Digitizers.InRange=0, and
-the HID Usage Tables don't quite seem to rule this out (depending on
-how battery status collection interacts with 'the region where
-digitizing is possible', section 16.3.1.).
+My guess is that _STA returns 0 indicating that the device is not
+present. I would try tracking where IOST is being set and figuring out
+why it does not have mouse bit enabled.
 
-As-is, this is useful and sufficient to get more timely reports up to userspace.
+Thanks.
 
-- Kenneth Albanowski
-
-
-On Wed, Sep 30, 2020 at 3:47 PM <dmitry.torokhov@gmail.com> wrote:
->
-> There are styluses that only report their battery status when they are
-> touching the touchscreen; additionally we currently suppress battery
-> reports if capacity has not changed. To help userspace recognize how long
-> ago the device reported battery status, let's send the change event through
-> if either capacity has changed, or at least 30 seconds have passed since
-> last report we've let through.
->
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> ---
->
-> This is a bit of RFC. Another option would be to mark the power supply
-> as either offline or not present when stylus leaves the surface instead
-> of saying it is online... Sebastian, any ideas/suggestions?
->
->  drivers/hid/hid-input.c | 5 ++++-
->  include/linux/hid.h     | 1 +
->  2 files changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> index 5da631d2ec9b..92b4c9bb6619 100644
-> --- a/drivers/hid/hid-input.c
-> +++ b/drivers/hid/hid-input.c
-> @@ -534,9 +534,12 @@ static void hidinput_update_battery(struct hid_device *dev, int value)
->         capacity = hidinput_scale_battery_capacity(dev, value);
->
->         if (dev->battery_status != HID_BATTERY_REPORTED ||
-> -           capacity != dev->battery_capacity) {
-> +           capacity != dev->battery_capacity ||
-> +           ktime_after(ktime_get_coarse(), dev->battery_ratelimit_time)) {
->                 dev->battery_capacity = capacity;
->                 dev->battery_status = HID_BATTERY_REPORTED;
-> +               dev->battery_ratelimit_time =
-> +                       ktime_add_ms(ktime_get_coarse(), 30 * 1000);
->                 power_supply_changed(dev->battery);
->         }
->  }
-> diff --git a/include/linux/hid.h b/include/linux/hid.h
-> index 875f71132b14..c76a18f88262 100644
-> --- a/include/linux/hid.h
-> +++ b/include/linux/hid.h
-> @@ -583,6 +583,7 @@ struct hid_device {                                                 /* device report descriptor */
->         __s32 battery_report_id;
->         enum hid_battery_status battery_status;
->         bool battery_avoid_query;
-> +       ktime_t battery_ratelimit_time;
->  #endif
->
->         unsigned long status;                                           /* see STAT flags above */
-> --
-> 2.28.0.709.gb0816b6eb0-goog
->
->
-> --
-> Dmitry
+-- 
+Dmitry
