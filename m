@@ -2,238 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 05BA8285C1B
-	for <lists+linux-input@lfdr.de>; Wed,  7 Oct 2020 11:51:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4944285D42
+	for <lists+linux-input@lfdr.de>; Wed,  7 Oct 2020 12:49:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727434AbgJGJvN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Oct 2020 05:51:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29299 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727068AbgJGJvN (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 7 Oct 2020 05:51:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1602064270;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=m958hudxx49m0O7P9c8/mOazvI4QqEIilIX/pUlyaVg=;
-        b=FKreiwKCzrmFn763RL9UR9ejq+MhqJymPXzzQv10tct3ZXK6frCJJ14yfi04IP6fVadm3j
-        b9ejzWAvwRXLlL43sSpNrKoDlqipbxJXBQmQvHKXnhi8B5BBT4TxfOzcWrhsEhf5NTp45X
-        YpReJl47trY6F2CHXPjWgR5KcBQH1JU=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-305-jF6jBratMzKEPNgnDZOWhg-1; Wed, 07 Oct 2020 05:51:08 -0400
-X-MC-Unique: jF6jBratMzKEPNgnDZOWhg-1
-Received: by mail-ed1-f69.google.com with SMTP id n19so671165eds.8
-        for <linux-input@vger.kernel.org>; Wed, 07 Oct 2020 02:51:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=m958hudxx49m0O7P9c8/mOazvI4QqEIilIX/pUlyaVg=;
-        b=uFwNauzRIsZcXgrziUZqKy5FHjcNwbREGclMcVLu+LUOKMJi4Gm1e+nRRT+2K8iLK+
-         Ggv5I+B3zdJMYo34xE/HzaYq5I5GBeG/6Z1Gulwt4/u2n4ooW7PTspQREaTISpH0A24s
-         wv15hFEJe98yJV5uTdIwa0uuYiRx8ceph+Ht3DtQFsqNdNV5r6XoFCJmeHO5iglNcqeV
-         9wfaJkobTpK//mVJOvhkxsM9ifTDMITZzbWxzYW1EDDJ6NLxIZU+KduHSMIb6xgxZrL2
-         We796/gv6tz4ztD+VKcu5am70qbrhjZwoGY5bEBQt8tgwK+TB9vyuXtaH1Hh/vMCOc8a
-         YWJg==
-X-Gm-Message-State: AOAM532rZ2X0mWwoOmtV/8Hk50+cigCbK4S0TC8/lGguZtZGTrA13YBH
-        Ral+ActEpxgPku5aez3cowN3Bksrxd8PWhdTGbWKfadLJgHmVGJDLECttC4J9hkiZ1ApQAECIB/
-        jGVlV/DgY7FtuC4YjkqywVhg=
-X-Received: by 2002:a05:6402:5:: with SMTP id d5mr2582002edu.376.1602064267522;
-        Wed, 07 Oct 2020 02:51:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy9NJlEjarv3RRToDiEiyDmwC3/G6oLV+2ggZZc1Xjx2AMv4YfFGhdXAM+MslCGsi6SS3OVGg==
-X-Received: by 2002:a05:6402:5:: with SMTP id d5mr2581988edu.376.1602064267235;
-        Wed, 07 Oct 2020 02:51:07 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id m19sm1122931ejj.91.2020.10.07.02.51.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Oct 2020 02:51:06 -0700 (PDT)
-Subject: Re: [External] Using IIO to export laptop palm-sensor and lap-mode
- info to userspace?
-To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
-        Mark Pearson <markpearson@lenovo.com>
-Cc:     linux-iio@vger.kernel.org, Bastien Nocera <hadess@hadess.net>,
-        Nitin Joshi1 <njoshi1@lenovo.com>, linux-input@vger.kernel.org,
-        dmitry.torokhov@gmail.com
-References: <9f9b0ff6-3bf1-63c4-eb36-901cecd7c4d9@redhat.com>
- <5a646527-7a1f-2fb9-7c09-8becdbff417b@lenovo.com>
- <20201007083602.00006b7e@Huawei.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <218be284-4a37-e9f9-749d-c126ef1d098b@redhat.com>
-Date:   Wed, 7 Oct 2020 11:51:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1728192AbgJGKtk convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Wed, 7 Oct 2020 06:49:40 -0400
+Received: from mx.metalurgs.lv ([81.198.125.103]:55631 "EHLO mx.metalurgs.lv"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728204AbgJGKtj (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 7 Oct 2020 06:49:39 -0400
+Received: from mx.metalurgs.lv (localhost [127.0.0.1])
+        by mx.metalurgs.lv (Postfix) with ESMTP id 8480E6693A
+        for <linux-input@vger.kernel.org>; Wed,  7 Oct 2020 13:49:30 +0300 (EEST)
+Received: from kas30pipe.localhost (localhost [127.0.0.1])
+        by mx.metalurgs.lv (Postfix) with ESMTP id 5E38B66906
+        for <linux-input@vger.kernel.org>; Wed,  7 Oct 2020 13:49:30 +0300 (EEST)
+Received: by mx.metalurgs.lv (Postfix, from userid 1005)
+        id 5896D66919; Wed,  7 Oct 2020 13:49:29 +0300 (EEST)
+Received: from [100.64.1.74] (unknown [190.15.125.55])
+        (Authenticated sender: admin)
+        by mx.metalurgs.lv (Postfix) with ESMTPA id 29FE56658C;
+        Wed,  7 Oct 2020 13:49:22 +0300 (EEST)
 MIME-Version: 1.0
-In-Reply-To: <20201007083602.00006b7e@Huawei.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Description: Mail message body
+To:     Recipients <financialcapability6@gmail.com>
+From:   "Mr. Hashim Bin" <financialcapability6@gmail.com>
+Date:   Wed, 07 Oct 2020 07:49:16 -0300
+Reply-To: hmurrah39@gmail.com
+X-SpamTest-Envelope-From: financialcapability6@gmail.com
+X-SpamTest-Group-ID: 00000000
+X-SpamTest-Info: Profiles 71303 [Jan 01 2015]
+X-SpamTest-Info: {TO: forged address, i.e. recipient, investors, public, etc.}
+X-SpamTest-Info: {DATE: unreal year}
+X-SpamTest-Method: none
+X-SpamTest-Rate: 55
+X-SpamTest-Status: Not detected
+X-SpamTest-Status-Extended: not_detected
+X-SpamTest-Version: SMTP-Filter Version 3.0.0 [0284], KAS30/Release
+Message-ID: <20201007104929.5896D66919@mx.metalurgs.lv>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8BIT
+Subject: Low Rate Loan./mmm,
+X-Anti-Virus: Kaspersky Anti-Virus for Linux Mail Server 5.6.39/RELEASE,
+         bases: 20140401 #7726142, check: 20201007 notchecked
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
-
-On 10/7/20 10:36 AM, Jonathan Cameron wrote:
-> On Mon, 5 Oct 2020 22:04:27 -0400
-> Mark Pearson <markpearson@lenovo.com> wrote:
-> 
->> Adding Nitin, lead for this feature, to the thread
-> 
-> +CC linux-input and Dmitry for reasons that will become clear below.
->>
->> On 2020-10-03 10:02 a.m., Hans de Goede wrote:
->>> Hi All,
->>>
->>> Modern laptops can have various sensors which are kinda
->>> like proximity sensors, but not really (they are more
->>> specific in which part of the laptop the user is
->>> proximate to).
->>>
->>> Specifically modern Thinkpad's have 2 readings which we
->>> want to export to userspace, and I'm wondering if we
->>> could use the IIO framework for this since these readings
->>> are in essence sensor readings:
->>>
->>> 1. These laptops have a sensor in the palm-rests to
->>> check if a user is physically proximate to the device's
->>> palm-rests. This info will be used by userspace for WWAN
->>> functionality to control the transmission level safely.
->>>
->>> A patch adding a thinkpad_acpi specific sysfs API for this
->>> is currently pending:
->>> https://patchwork.kernel.org/patch/11722127/
->>>
->>> But I'm wondering if it would not be better to use
->>> IIO to export this info.
-> 
-> My first thought on this is it sounds more like a key than a sensor
-> (simple proximity sensors fall into this category as well.)
-
-That is an interesting suggestion. Using the input/evdev API
-would have some advantages such as being able to have a single
-event node for all the proximity switches and then being able
-to pass a fd to that from a privileged process to a non
-privileged one, something which userspace already has
-various infrastructure for.
-
-So yes this might indeed be better. Dmitry any thoughts on
-this / objections against using the input/evdev API for this?
-
-Note: s/key/switch/ in "sounds more like a key" above I guess.
-
-> Dmitry, any existing stuff like this in input?
-
-There already is a SW_FRONT_PROXIMITY defined in
-input-event-codes.h, which I guess means detection if
-someone is sitting in front of the screen. So we could add:
-
-SW_LAP_PROXIMITY
-SW_PALMREST_PROXIMITY,
-
-And then we have a pretty decent API for this I think.
-
-> If it does make sense to put it in IIO then rest of the questions
-> obviously relevant.
-
-Ack, thank you for your input.
-
-Regards,
-
-Hans
+Hello Dear,
 
 
+We are Base Investment Company offering Corporate and Personal Loan at 3% Interest Rate for a duration of 10Years.
 
 
+We also pay 1% commission to brokers, who introduce project owners for finance or other opportunities.
 
->>> 2. These laptops have something called lap-mode, which
->>> determines if the laptop's firmware thinks that it is on
->>> a users lap, or sitting on a table. This influences the
->>> max. allowed skin-temperature of the bottom of the laptop
->>> and thus influences thermal management.  Like the palm-rest
->>> snesors, this reading will likely also be used for
->>> controlling wireless transmission levels in the future.
->>>
->>> Note that AFAIK the lap_mode reading is not a single sensor
->>> reading, it is a value derived from a bunch of sensor readings,
->>> the raw values of which may or may not be available
->>> separately.
->>>
->>> So looking at existing IIO userspace API docs, focussing on
->>> proximity sensors I see:
->>>
->>> Documentation/ABI/testing/sysfs-bus-iio
->>> Documentation/ABI/testing/sysfs-bus-iio-proximity-as3935
->>>
->>> Where the latter seems to not really be relevant.
-> 
-> Indeed, that one is a very odd beast :) (lightning sensor)
-> 
->>>
->>>   From the generic IO API doc, this bit is the most
->>> interesting:
->>>
->>> What:           /sys/.../iio:deviceX/in_proximity_raw
->>> What:           /sys/.../iio:deviceX/in_proximity_input
->>> What:           /sys/.../iio:deviceX/in_proximityY_raw
->>> KernelVersion:  3.4
->>> Contact:        linux-iio@vger.kernel.org
->>> Description:
->>>                   Proximity measurement indicating that some
->>>                   object is near the sensor, usually by observing
->>>                   reflectivity of infrared or ultrasound emitted.
->>>                   Often these sensors are unit less and as such conversion
->>>                   to SI units is not possible. Higher proximity measurements
->>>                   indicate closer objects, and vice versa. Units after
->>>                   application of scale and offset are meters.
->>>
->>> This seems to be a reasonable match for the Thinkpad sensors
->>> we are discussing here, although those report a simple
->>> 0/1 value.
-> 
-> Given this is a bit of computed estimate rather than a true reading, I wonder
-> a bit if we should treat it as closer to an 'activity classification sensor'.
-> 
-> For those we use a percentage value to represent the output of some probabilistic
-> classifier.  In reality all the versions we've had so far aren't that clever though
-> so they only output 0 or 100%.  See in_activity_walking_input in the docs for
-> example.
-> 
->>>
->>> What is missing for the ThinkPad case is something like this:
->>>
->>> What:        /sys/.../iio:deviceX/proximity_sensor_location
->>> KernelVersion:  5.11
->>> Contact:        linux-iio@vger.kernel.org
->>> Description:
->>>           Specifies the location of the proximity sensor /
->>>           specifies proximity to what the sensor is measuring.
->>>           Reading this file returns a string describing this, valid values
->>>           for this string are: "screen", "lap", "palmrest"
->>>           Note the list of valid values may be extended in the
->>>           future.
->>>
->>> So what do you (IIO devs) think about this?
->>>
->>> Would adding a proximity_sensor_location attribute be a reasonable
->>> thing to do for this; and do you think that this would be a good idea ?
-> 
-> Absolutely fine.  There is precedence in cros_ec which has a generic
-> location sysfs attribute (not associated with a particular channel though
-> it is fine to do that as well). See Documentation/ABI/testing/sysfs-bus-iio-cros_ec
-> We haven't moved it to the general docs because there is only one device
-> providing it so far.  Hence we would move it with the introduction of
-> this second device.
-> 
->>>
->>> Regards,
->>>
->>> Hans
->>>    
-> 
-> 
 
+Please get back to me if you are interested for more
+
+details.
+
+
+Yours faithfully,
+
+Hashim Murrah
