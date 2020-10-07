@@ -2,79 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6459E2863C2
-	for <lists+linux-input@lfdr.de>; Wed,  7 Oct 2020 18:23:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 067CF28655D
+	for <lists+linux-input@lfdr.de>; Wed,  7 Oct 2020 19:01:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727550AbgJGQXj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Oct 2020 12:23:39 -0400
-Received: from sonic310-14.consmr.mail.bf2.yahoo.com ([74.6.135.124]:33480
-        "EHLO sonic310-14.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727307AbgJGQXi (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 7 Oct 2020 12:23:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1602087817; bh=PxMwWzXvs+dqOoH0/FHvFmQpYH2JguaCUHYAVLLmaiw=; h=Date:From:Reply-To:Subject:References:From:Subject; b=iyHh32KfjAJRkDgtWEMYdZbzDRdPmJsHWjQYnzBgGUHQRmwMzuSi1lWoZERqqt/Xr7gtws2c4dT2b6OzhNlyq71Fm+wFnP5k0sDI8gb3d3yILXHzBmCCYc3cXN5d9DADigBIqK3k8rQE4YgB5DyXYCFT1LgPc6EeRTk2E52fkySrRbm3rwtrGaTizVTm6TkZwDWgfxJWhghKTEH8RFPvzdWry4FAHuah59qstVJoF5DuNZ8YhCfsV4w8VIyHye1SRocUH7QW3ZMBgugTOwIOxZ63Jh+YtsCovQ8E8Incbv6F9272sWHDVHq0IgYtTVuCIABEpD/mMNmNjg1WG+pE7Q==
-X-YMail-OSG: oGBTPJIVM1nXME4J1qBs7NEu4WNVukER48JrZ44T7RYxvkXivqDuzDQRkYFtCk_
- mtsZ60XDwOJ7weApr2sf6RZRfbegYKS6MuNt2X63kNUvVXjN0nYTbXY8wqCFJu5Rfe0nTqncZurU
- TtBHrv4MOgmf6_MKqVyiPfwO8aGuphnRSFBzdrtft53Ygk8eMP.ikXSGbW541WzzdVnJymHA8tSQ
- 06nTtmAZN4U1n9yKyTUv7Z.BFx2zg7.JrJ5DsWOUhD7aHL27qeDIhvnO3jICrJ15kWfOMJZT18jm
- 6tN00LK3cP.1hgK_uvHT6WbxOvNpj.K2120sEpvwWkvBvC.LFT7eluWTYOK3P8jAgOv9qd1Ssbmx
- p1j2c785OYQ5MRjxm3PCmidg6NcrfmQVorxWe9f0JLb8WCaTooRHA4cXiS14mJAKEoP_LtN04PNj
- _MbH9wrvgqaiTnnPHE.xeEUxLJwJ7PSo_dEdr0veSEPTD2W8nT31VAxh8N2q7yeUn_WnJBINz6su
- 0S3CkbBpBQmyCCDBF5k4XWfH6WX9eefekUvpmOjFu1MLlTz5aD.eG2VFX5aespZeTtDvZ9NMBUX8
- v.bWd2HghSoVAc5XDO5H6ms2rHr5XUqVt.r5N7iM.C.L3AgOtPlfDZlxcStutp6WXBpo4kj0aRfG
- NSAdVjz5incojksqfe2xZcCOitJcOCrCRMZ52CE17C6iYEsT.vwU16lw_Bv8D.TKVnyI6PHW8fjt
- EXtdkFWWkjUEEnvvaFFi7VbdZQoTk3MjQtj1KQRBGzbA8vdOteuYv6.T1igzmlp7zGMnrQed.nhv
- .RLdYBf4cFHuBGJJKW95OXJbYDQrRd_lqkO.NytW66X_JZkLxdi76RZUY5XxnXtDH4dIPWBRsl1p
- Z8v2Y9TGvcAVySXYPYrwIlPz39oa68AHlthzlgDIDUinxJyx8_ywqSsbJ9lNjZ9tUJvmO9.3BVCD
- xhOatjXtH0Ix77J.Jgaa.oglBRfmBR6JmWH5CV5vWaagsqZXbyq0IV8kxxeiPkywYvMf5TN_JieN
- i9zSE.bPPwFsrroqIRBPX.tx4z9ThaxGXFAaZgQ3_fGxwnwH4hF9MSy7HUuD1ZvrgbAZouhj9rbo
- lpMM4.U2i62OGBfwB9g658mnqQY0E2u1Sbd3_b5RAZuSOlpqoAUmmwu8WecGNDUxlSX3FaH0Abqe
- xR.9R2rigya0.DDkKKDvyVfXb7T3GP9OB.YNjacUiN51xGZ4LrsRLZ4WICpQWh3w6WoFFy4MYhlb
- nFzj3kBZmY1zoV9c2dr2EmuYIlfNuzU5xg3xRqxu.2DKwpngjYJtPEzkq3FxnYoaphUvyIwfp2td
- u5XMLAtPsXbMvXwMxH7SSzrVrqOQAV60CPxRqzc4xZ32Y0d4B0Cg6F5v246UiBj_ChQj67tIsLwl
- YSJsisitdL_8foP8mSoP69G.sAdc2AAO5tVK8tHe6z8jNIw--
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.bf2.yahoo.com with HTTP; Wed, 7 Oct 2020 16:23:37 +0000
-Date:   Wed, 7 Oct 2020 16:23:36 +0000 (UTC)
-From:   Marilyn Robert <fredodinga22@gmail.com>
-Reply-To: marilyobert@gmail.com
-Message-ID: <430277861.150035.1602087816871@mail.yahoo.com>
-Subject: =?UTF-8?B?0J3QsNGY0LzQuNC70LAg0LrQsNGYINCz0L7RgdC/0L7QtNCw0YDQvtGC?=
+        id S1727862AbgJGRBP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 7 Oct 2020 13:01:15 -0400
+Received: from mail-io1-f80.google.com ([209.85.166.80]:39894 "EHLO
+        mail-io1-f80.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726138AbgJGRBK (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 7 Oct 2020 13:01:10 -0400
+Received: by mail-io1-f80.google.com with SMTP id s135so1902413ios.6
+        for <linux-input@vger.kernel.org>; Wed, 07 Oct 2020 10:01:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=+o4BZuu/0OdIHH6om63thYUeqrY8yyf+OMPBpQX6xY4=;
+        b=XG9Mi/g7areY2QdRay502VxP+4SwYQmgSs96kGjJR4CzTt8/DEBKQzOhmEkcS82aKG
+         XnKf/SHyBws5Q3PUj/M5ORTbOyrrKI2vRIf8c606VDOftPp/teaPbE9VERE6jnrzrQ88
+         8ZF0SOxizFZcWKQ5gX4MY71KQJ7BLjqFEYShtrFSZQ30ylz1JJpaoqym0Eh/6e2gIi3V
+         rV0UthClpPUkneFbuJmNbNtVgRCLQO6Il05q43ZT5iS6GqO9okD9cxDn424VyVtE3+3Y
+         slWvmTI+M8X2My0XlVK2AC31xIuvsPl6ngZRx1IcfjwcdpcCGtmU0TVfDItP0tYkpjmr
+         X5TQ==
+X-Gm-Message-State: AOAM531Z1ATO37vbNQODxNShOaK4PTDO2XG+L+kgGmI8PpccOHflUO3X
+        khAjTImRJ5SBHq96b69/MofwSrE4bdhxLbvF8cZo5v2bym1m
+X-Google-Smtp-Source: ABdhPJyoIOJDTcvlbIzi1zdUoLG+t6AoTPXU1AL58wlSRpAKdpWohslxu5jIIwXR2ywYUB1QrvwAApjesJPBI94hpaq3jvanJVxB
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-References: <430277861.150035.1602087816871.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.16795 YMailNodin Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36
-To:     unlisted-recipients:; (no To-header on input)
+X-Received: by 2002:a92:c0cf:: with SMTP id t15mr3403899ilf.216.1602090068238;
+ Wed, 07 Oct 2020 10:01:08 -0700 (PDT)
+Date:   Wed, 07 Oct 2020 10:01:08 -0700
+In-Reply-To: <000000000000ce8d2305a03b0988@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000006a67f005b117a94a@google.com>
+Subject: Re: INFO: trying to register non-static key in uhid_char_release
+From:   syzbot <syzbot+8357fbef0d7bb602de45@syzkaller.appspotmail.com>
+To:     benjamin.tissoires@gmail.com, benjamin.tissoires@redhat.com,
+        brookebasile@gmail.com, david.rheinsberg@gmail.com,
+        dh.herrmann@googlemail.com, ebiggers@kernel.org, hdanton@sina.com,
+        jikos@kernel.org, jkorsnes@cisco.com, jkosina@suse.cz,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        maz@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-DQoNCtCd0LDRmNC80LjQu9CwINC60LDRmCDQs9C+0YHQv9C+0LTQsNGA0L7Rgg0KDQrQiNCw0YEg
-0YHRg9C8IDY4LdCz0L7QtNC40YjQvdCwINC20LXQvdCwLCDQutC+0ZjQsCDRgdGC0YDQsNC00LAg
-0L7QtCDQv9GA0L7QtNC+0LvQttC10L0g0LrQsNGA0YbQuNC90L7QvCDQvdCwINC00L7RmNC60LAs
-INC+0LQg0YHQuNGC0LUg0LzQtdC00LjRhtC40L3RgdC60Lgg0LjQvdC00LjQutCw0YbQuNC4LCDQ
-vNC+0ZjQsNGC0LAg0YHQvtGB0YLQvtGY0LHQsCDQvdCw0LLQuNGB0YLQuNC90LAg0YHQtSDQstC7
-0L7RiNC4INC4INC+0YfQuNCz0LvQtdC00L3QviDQtSDQtNC10LrQsCDQvNC+0LbQtdCx0Lgg0L3Q
-tdC80LAg0LTQsCDQttC40LLQtdCw0Lwg0L/QvtCy0LXRnNC1INC+0LQg0YjQtdGB0YIg0LzQtdGB
-0LXRhtC4INC60LDQutC+INGA0LXQt9GD0LvRgtCw0YIg0L3QsCDQsdGA0LfQuNC+0YIg0YDQsNGB
-0YIg0Lgg0LHQvtC70LrQsNGC0LAg0YjRgtC+INGB0LUg0ZjQsNCy0YPQstCwINC60LDRmCDQvdC1
-0LAuINCc0L7RmNC+0YIg0YHQvtC/0YDRg9CzINC/0L7Rh9C40L3QsCDQvdC10LrQvtC70LrRgyDQ
-s9C+0LTQuNC90Lgg0L3QsNC90LDQt9Cw0LQg0Lgg0L3QsNGI0LjRgtC1INC00L7Qu9Cz0Lgg0LPQ
-vtC00LjQvdC4INCx0YDQsNC6INC90LUg0LHQtdCwINCx0LvQsNCz0L7RgdC70L7QstC10L3QuCDR
-gdC+INC90LjRgtGDINC10LTQvdC+INC00LXRgtC1LCDQv9C+INC90LXQs9C+0LLQsNGC0LAg0YHQ
-vNGA0YIg0LPQviDQvdCw0YHQu9C10LTQuNCyINGG0LXQu9C+0YLQviDQvdC10LPQvtCy0L4g0LHQ
-vtCz0LDRgtGB0YLQstC+Lg0KDQrQlNC+0LDRk9Cw0Lwg0LrQsNGYINCy0LDRgSDQvtGC0LrQsNC6
-0L4g0YHQtSDQv9C+0LzQvtC70LjQsiDQt9CwINGC0L7QsCwg0L/QvtC00LPQvtGC0LLQtdC9INGB
-0YPQvCDQtNCwINC00L7QvdC40YDQsNC8INGB0YPQvNCwINC+0LQgMiwgMzAwLCAwMDAg0LXQstGA
-0LAg0LfQsCDQv9C+0LzQvtGIINC90LAg0YHQuNGA0L7QvNCw0YjQvdC40YLQtSwg0YHQuNGA0L7Q
-vNCw0YjQvdC40YLQtSDQuCDQv9C+0LzQsNC70LrRgyDQv9GA0LjQstC40LvQtdCz0LjRgNCw0L3Q
-uNGC0LUg0LzQtdGT0YMg0LLQsNGI0LjRgtC1INGB0L7QsdGA0LDQvdC40ZjQsCAvINC+0L/RiNGC
-0LXRgdGC0LLQvi4g0JfQsNCx0LXQu9C10LbQtdGC0LUg0LTQtdC60LAg0L7QstC+0Zgg0YTQvtC9
-0LQg0LUg0LTQtdC/0L7QvdC40YDQsNC9INCy0L4g0LHQsNC90LrQsCDQutCw0LTQtSDRiNGC0L4g
-0YDQsNCx0L7RgtC10YjQtSDQvNC+0ZjQvtGCINGB0L7Qv9GA0YPQsy4gQXBwcmVjaWF0ZdC1INGG
-0LXQvdCw0Lwg0LDQutC+INC+0LHRgNC90LXRgtC1INCy0L3QuNC80LDQvdC40LUg0L3QsCDQvNC+
-0LXRgtC+INCx0LDRgNCw0ZrQtSDQt9CwINC/0YDQvtC/0LDQs9C40YDQsNGa0LUg0L3QsCDQvNCw
-0YHQsNC20LDRgtCwINC90LAg0LrRgNCw0LvRgdGC0LLQvtGC0L4sINGc0LUg0LLQuCDQtNCw0LTQ
-sNC8INC/0L7QstC10ZzQtSDQtNC10YLQsNC70Lgg0LfQsCDRgtC+0LAg0LrQsNC60L4g0LTQsCDQ
-v9C+0YHRgtCw0L/QuNGC0LUuDQoNCtCR0LvQsNCz0L7QtNCw0YDQsNC8DQrQky3Rk9CwINCc0LXR
-gNC40LvQuNC9INCg0L7QsdC10YDRgg==
+syzbot suspects this issue was fixed by commit:
+
+commit bce1305c0ece3dc549663605e567655dd701752c
+Author: Marc Zyngier <maz@kernel.org>
+Date:   Sat Aug 29 11:26:01 2020 +0000
+
+    HID: core: Correctly handle ReportSize being zero
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12d19370500000
+start commit:   1127b219 Merge tag 'fallthrough-fixes-5.9-rc3' of git://gi..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=891ca5711a9f1650
+dashboard link: https://syzkaller.appspot.com/bug?extid=8357fbef0d7bb602de45
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=102c472e900000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13081056900000
+
+If the result looks correct, please mark the issue as fixed by replying with:
+
+#syz fix: HID: core: Correctly handle ReportSize being zero
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
