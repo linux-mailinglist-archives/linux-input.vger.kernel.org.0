@@ -2,137 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E928C286033
-	for <lists+linux-input@lfdr.de>; Wed,  7 Oct 2020 15:32:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E9402862AE
+	for <lists+linux-input@lfdr.de>; Wed,  7 Oct 2020 17:55:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728380AbgJGNcO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Oct 2020 09:32:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34657 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728448AbgJGNcO (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 7 Oct 2020 09:32:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1602077532;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=YYlyurNQSHJF3Pms/tfP+frOIv3X9rPgbfgurA+BpZ0=;
-        b=hf+k2XwYW797dCO782do3TKAJ+IjS0kGBEXlUxKatC6EysOPBBFY/3kkrmvlrRAoTy7eAO
-        ZGApHYfSg9YfODz7xLq3tJGNZm8zy7EojK7XvshX3z/+xNBsBniG+Vo4QMpNW4TPgO51sD
-        5PIMFzBFHS6AHnet0TyAXjK98Pdaz2g=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-56-lYKJZzWkORaF1uEaNzK_0A-1; Wed, 07 Oct 2020 09:32:10 -0400
-X-MC-Unique: lYKJZzWkORaF1uEaNzK_0A-1
-Received: by mail-ed1-f70.google.com with SMTP id m10so903918edj.3
-        for <linux-input@vger.kernel.org>; Wed, 07 Oct 2020 06:32:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=YYlyurNQSHJF3Pms/tfP+frOIv3X9rPgbfgurA+BpZ0=;
-        b=q4BAh+UMBmZFYRhEvtXipW1h6SMR/Qr4QFMwIMdo03n0Q0LBFmUOmGhZdafU2DBHx6
-         euW5cUhS5xqCqWFjB1itVIZGyV6V5sgAtIb97KRa9w0tkxhkumBK0D2M9V6rMKcJ5UxS
-         5/fDDtBFa1x9kuNRl5bGDG15YHipKXPDQDDPKM3ALesglF8IwCXa4JM59s71h/eHzKqs
-         pJrMrwWrhhZ8dP1tDm8Nz64XjDIJM7RCc0IQ8UwUebdILVFNIum2gGUNfEYoczwq9FiI
-         lM5fEw+zP8R19dMU2pQo6dxRcRC5McCJwajcJ+HVlrmZ3wU9hg+42tDnXs/supGHS8MY
-         CdUg==
-X-Gm-Message-State: AOAM533NvWStnZZwybjXRj94+Dc20DtosLY5m628anwR8FR+1w+HdI6A
-        Rk9N7OJvzGm/m6ipKJPlElGv5GvuCC0WIQyFGOSuQpQhxIwwCD0PS/h2g3Y9jDtPShyUwCMHXVS
-        4SDpf079e7cerVpJcSlDWld8=
-X-Received: by 2002:a17:906:1b11:: with SMTP id o17mr3538528ejg.67.1602077529506;
-        Wed, 07 Oct 2020 06:32:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzCyl/J4gCgm/20kLnlnmCddUMnHRyY0e/1DSIC+6hWfoNEpVlpvdKrLYeHsA7q9/eIJQhrmA==
-X-Received: by 2002:a17:906:1b11:: with SMTP id o17mr3538508ejg.67.1602077529287;
-        Wed, 07 Oct 2020 06:32:09 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id v23sm1493773edq.86.2020.10.07.06.32.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Oct 2020 06:32:08 -0700 (PDT)
-Subject: Re: [External] Using IIO to export laptop palm-sensor and lap-mode
- info to userspace?
-To:     Bastien Nocera <hadess@hadess.net>,
-        Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
-        Mark Pearson <markpearson@lenovo.com>
-Cc:     linux-iio@vger.kernel.org, Nitin Joshi1 <njoshi1@lenovo.com>,
-        linux-input@vger.kernel.org, dmitry.torokhov@gmail.com
-References: <9f9b0ff6-3bf1-63c4-eb36-901cecd7c4d9@redhat.com>
- <5a646527-7a1f-2fb9-7c09-8becdbff417b@lenovo.com>
- <20201007083602.00006b7e@Huawei.com>
- <218be284-4a37-e9f9-749d-c126ef1d098b@redhat.com>
- <b400b6956270a2433373dd6cbdae3332aa683f4f.camel@hadess.net>
- <cadabe4d-7cce-281e-75fe-fcc2099848da@redhat.com>
- <5273a1de9db682cd41e58553fe57707c492a53b7.camel@hadess.net>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <272074b5-b28e-1b74-8574-3dc2d614269a@redhat.com>
-Date:   Wed, 7 Oct 2020 15:32:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1728222AbgJGPzS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 7 Oct 2020 11:55:18 -0400
+Received: from mail.zx2c4.com ([192.95.5.64]:32799 "EHLO mail.zx2c4.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726129AbgJGPzS (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 7 Oct 2020 11:55:18 -0400
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTP id 20c8e6c1
+        for <linux-input@vger.kernel.org>;
+        Wed, 7 Oct 2020 15:22:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=zx2c4.com; h=mime-version
+        :references:in-reply-to:from:date:message-id:subject:to
+        :content-type; s=mail; bh=IzkKBgkAYb2SjNahiWJ7BabZwlg=; b=CQwQZK
+        znfgG+lLHfROf0qBtaZVjm3u6X+jRcZsO1MVz50QaYJDFMdIo0liy7shw8Ex+ID/
+        bszSsAGG9PkC4XbajgEQtfpN+LPzUsELfJBLpuCQdsb0MtLOISG3ELh2rTDNilKX
+        eVYeSBtVD4D7JQye0g2X5pi/d9Ld1aO2a53SSUIyBuwNY9AqXVmY/KkHltGodqnI
+        cqqD4DnHBOncu5WZU79TbILa2kBYAymFn4GYDjTCsRXOylqkbhB3/e3YXLQw7UO5
+        fkTyDxdJVbhrHzD4ueniS643/0LfmEwox3A5Kqr7Ai9pj2IBhHa+GwWUPeuOnLU8
+        fmB4LD0e56y7CaHw==
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 3ab80e33 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO)
+        for <linux-input@vger.kernel.org>;
+        Wed, 7 Oct 2020 15:22:36 +0000 (UTC)
+Received: by mail-io1-f43.google.com with SMTP id n6so2828199ioc.12
+        for <linux-input@vger.kernel.org>; Wed, 07 Oct 2020 08:55:15 -0700 (PDT)
+X-Gm-Message-State: AOAM530ItwJh5eGWwMMe9ZRlyDeiyiSkCljWFNn+eURjASZXmywqowHS
+        YO6+aEyCDVXdloGYGUKoR2ZxSNVVlROxdSo/wIA=
+X-Google-Smtp-Source: ABdhPJzBTQC9Ja1J0AfMdiYWxLJlnNn5p9MR4dmSFwd4hQQJhKfzCk2xre4E91IFXuIVNRBlM/iSgsDtmJfWs62Nx2A=
+X-Received: by 2002:a5d:8787:: with SMTP id f7mr2807973ion.79.1602086114464;
+ Wed, 07 Oct 2020 08:55:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <5273a1de9db682cd41e58553fe57707c492a53b7.camel@hadess.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <5bd2bb9d925cfc81392bd9bf93b31ce4fd81e107.camel@redhat.com>
+ <20200930225046.173190-1-Jason@zx2c4.com> <20200930225046.173190-3-Jason@zx2c4.com>
+In-Reply-To: <20200930225046.173190-3-Jason@zx2c4.com>
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date:   Wed, 7 Oct 2020 17:55:03 +0200
+X-Gmail-Original-Message-ID: <CAHmME9rAu0nVTGaQK84MxODuR9Ym3Q1FTyw_sVStmUTs9kmifQ@mail.gmail.com>
+Message-ID: <CAHmME9rAu0nVTGaQK84MxODuR9Ym3Q1FTyw_sVStmUTs9kmifQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] Input: synaptics - enable InterTouch for ThinkPad
+ P1/X1E gen 2
+To:     linux-input@vger.kernel.org,
+        Vincent Huang <vincent.huang@tw.synaptics.com>,
+        Lyude Paul <lyude@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Andrew Duggan <aduggan@synaptics.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Benjamin Tissoires <btissoir@redhat.com>,
+        Chris Heiny <chris.heiny@synaptics.com>,
+        Sultan Alsawaf <sultan@kerneltoast.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Oddly, CPU usage seems exceedingly high when using the trackpoint, in
+the rmi4 irq handler. Running perf-top indicates a hotspot in
+i801_access calling "in     (%dx),%al", which makes sense. I wonder:
+is this a culprit of expensive accesses in general, which Sultan
+(CC'd) has been working on? Or are we hitting something different
+here? Improper IRQ masking in the i801 code?
 
-On 10/7/20 3:29 PM, Bastien Nocera wrote:
-> On Wed, 2020-10-07 at 15:08 +0200, Hans de Goede wrote:
->> Hi,
->>
->> On 10/7/20 1:35 PM, Bastien Nocera wrote:
->>> On Wed, 2020-10-07 at 11:51 +0200, Hans de Goede wrote:
->>>> <snip>
->>>>> Dmitry, any existing stuff like this in input?
->>>>
->>>> There already is a SW_FRONT_PROXIMITY defined in
->>>> input-event-codes.h, which I guess means detection if
->>>> someone is sitting in front of the screen. So we could add:
->>>>
->>>> SW_LAP_PROXIMITY
->>>> SW_PALMREST_PROXIMITY,
->>>>
->>>> And then we have a pretty decent API for this I think.
->>>
->>>   From the point of view of writing the consumer code for this API,
->>> it's
->>> rather a lot of pain to open the device node (hoping that it's the
->>> right one for what we need), getting the initial state, setting up
->>> masks to avoid being woken up for every little event, and parsing
->>> those
->>> events.
->>
->> There is not much difference with the iio sysfs API though, you would
->> also need to iterate over all the iio devices and test if they
->> are a proximity sensor (and read the new location sysfs file
->> discussed).
->>
->>> Where would the necessary bits of metadata for daemons to be able
->>> to
->>> find that those switches need to get added?
->>
->> evdev files export info on which events they can report. Not only
->> the types of events (EV_SW in this case) but also a bitmask for
->> which event-codes they can report within that type.
-> 
-> I know that, I've written enough of that type of code ;)
-> 
-> I meant a way to avoid having to go open each evdev, read its
-> capabilities, and close them when it doesn't, and re-do that every time
-> a new event device appears. In other words, can you please make sure
-> there will be a udev property that we can use to enumerate and filter
-> devices with those capabilities?
-
-Ah I see, yes that should not be a problem since we already run
-a helper on all new evdev-s anyways (assuming we go this route).
-
-Regards,
-
-Hans
-
+Jason
