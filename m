@@ -2,133 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB274287481
-	for <lists+linux-input@lfdr.de>; Thu,  8 Oct 2020 14:47:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EF61287649
+	for <lists+linux-input@lfdr.de>; Thu,  8 Oct 2020 16:42:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730056AbgJHMrY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Oct 2020 08:47:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33260 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729869AbgJHMrY (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 8 Oct 2020 08:47:24 -0400
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EA69B2083B;
-        Thu,  8 Oct 2020 12:47:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602161243;
-        bh=euznez8g2lNiMUcU12nOD+uysphnv3GB3UYCsmyBzZQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=n5HWs/s6pr4pqch41EhZWUfgPYhpDt7iH/f65wToyLVwvcRc0AXlh4kycBYakzZ2D
-         MyL2+dPvzYhLbQPu2DOira0y9fZR4Ot+EkoIj0SYNRfxpEF63uyY4VOI8UWVVsZrC6
-         muovn52cLMI8CqdagV5fAlngz3Ep4U2jMNS06lWc=
-Received: by mail-oi1-f170.google.com with SMTP id c13so6125991oiy.6;
-        Thu, 08 Oct 2020 05:47:22 -0700 (PDT)
-X-Gm-Message-State: AOAM533JRSb2BRgwjOhQVPDbbaC+CZzzwli5h/1DidrPVAqhGFXQAWWd
-        6M+bo5kCMyV1ZFcw+cTmTpV1+7l48F6Y8ZDOLw==
-X-Google-Smtp-Source: ABdhPJz9uUArDgzQ0KTvCl2mNkGHA+ISn1qwzawVRqnnT3olrVHCvXxi/3AC66jaHc5LwP1s2uxVSvpQOd4ntUNIhHg=
-X-Received: by 2002:a54:4f89:: with SMTP id g9mr5030077oiy.106.1602161242218;
- Thu, 08 Oct 2020 05:47:22 -0700 (PDT)
+        id S1730511AbgJHOmY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Oct 2020 10:42:24 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:37659 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1729992AbgJHOmY (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Oct 2020 10:42:24 -0400
+X-Greylist: delayed 402 seconds by postgrey-1.27 at vger.kernel.org; Thu, 08 Oct 2020 10:42:24 EDT
+Received: (qmail 497089 invoked by uid 1000); 8 Oct 2020 10:35:42 -0400
+Date:   Thu, 8 Oct 2020 10:35:42 -0400
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-usb@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [Bug 209137] USB is not working since update from 5.0 to
+ 5.3.0-26. And with 5.4 still not working.
+Message-ID: <20201008143542.GC495091@rowland.harvard.edu>
+References: <bug-209137-208809@https.bugzilla.kernel.org/>
+ <bug-209137-208809-GmYB1n8NUL@https.bugzilla.kernel.org/>
 MIME-Version: 1.0
-References: <20201007180540.322257-1-kholk11@gmail.com> <20201007180540.322257-4-kholk11@gmail.com>
-In-Reply-To: <20201007180540.322257-4-kholk11@gmail.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Thu, 8 Oct 2020 07:47:11 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqLwWPqyd74bkD2-dG9oKh8AQVD3UB1Wm7SeRvqygCsp9w@mail.gmail.com>
-Message-ID: <CAL_JsqLwWPqyd74bkD2-dG9oKh8AQVD3UB1Wm7SeRvqygCsp9w@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] dt-bindings: touchscreen: Add binding for Novatek
- NT36xxx series driver
-To:     AngeloGioacchino Del Regno <kholk11@gmail.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>, priv.luk@gmail.com,
-        Linux Input <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        marijns95@gmail.com, Konrad Dybcio <konradybcio@gmail.com>,
-        Martin Botka <martin.botka1@gmail.com>,
-        phone-devel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bug-209137-208809-GmYB1n8NUL@https.bugzilla.kernel.org/>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Oct 7, 2020 at 1:05 PM <kholk11@gmail.com> wrote:
->
-> From: AngeloGioacchino Del Regno <kholk11@gmail.com>
+Jiri and Benjamin:
 
-Please send to DT list so checks run and it's in my review queue.
+Please look at Bugzilla # 209137:
 
->
-> Add binding for the Novatek NT36xxx series touchscreen driver.
->
-> Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
-> ---
->  .../input/touchscreen/novatek,nt36xxx.yaml    | 56 +++++++++++++++++++
->  1 file changed, 56 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/novatek,nt36xxx.yaml
->
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/novatek,nt36xxx.yaml b/Documentation/devicetree/bindings/input/touchscreen/novatek,nt36xxx.yaml
-> new file mode 100644
-> index 000000000000..9f350f4e6d6a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/novatek,nt36xxx.yaml
-> @@ -0,0 +1,56 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/touchscreen/novatek,nt36xxx.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Novatek NT36xxx series touchscreen controller Bindings
-> +
-> +maintainers:
-> +  - TBD
-> +
-> +allOf:
-> +  - $ref: touchscreen.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - novatek,nt36xxx
-> +
-> +  reg:
-> +    enum: [ 0x62 ]
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  reset-gpio:
-> +    maxItems: 1
-> +
-> +  vdd-supply:
-> +    description: Power supply regulator for VDD pin
-> +
-> +  vio-reg-name:
-> +    description: Power supply regulator on VDD-IO pin
-> +
-> +additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +      nt36xxx@62 {
-> +        compatible = "novatek,nt36xxx";
-> +        reg = <0x62>;
-> +        interrupt-parent = <&tlmm>;
-> +        interrupts = <45 IRQ_TYPE_EDGE_RISING>;
-> +        reset-gpio = <&tlmm 102 GPIO_ACTIVE_HIGH>;
-> +      };
-> +    };
-> +
-> +...
-> --
-> 2.28.0
->
+	https://bugzilla.kernel.org/show_bug.cgi?id=209137
+
+Somewhere between 5.0 and 5.4, the logitech-djreceiver driver stopped 
+binding to the user's Logitech wireless device.  Here are relevant parts 
+of the kernel logs.  From 5.0 (working):
+
+[    2.857770] logitech-djreceiver 0003:046D:C52B.0003: hiddev0,hidraw0: USB HID v1.11 Device [Logitech USB Receiver] on usb-0000:00:14.0-4/input2
+[    2.985339] input: Logitech Unifying Device. Wireless PID:1024 Mouse as /devices/pci0000:00/0000:00:14.0/usb3/3-4/3-4:1.2/0003:046D:C52B.0003/0003:046D:1024.0004/input/input13
+[    2.985410] hid-generic 0003:046D:1024.0004: input,hidraw1: USB HID v1.11 Mouse [Logitech Unifying Device. Wireless PID:1024] on usb-0000:00:14.0-4:1
+[    2.995266] input: Logitech K520 as /devices/pci0000:00/0000:00:14.0/usb3/3-4/3-4:1.2/0003:046D:C52B.0003/0003:046D:2011.0005/input/input17
+[    3.026985] logitech-hidpp-device 0003:046D:2011.0005: input,hidraw1: USB HID v1.11 Keyboard [Logitech K520] on usb-0000:00:14.0-4:2
+[    3.033173] input: Logitech M310 as /devices/pci0000:00/0000:00:14.0/usb3/3-4/3-4:1.2/0003:046D:C52B.0003/0003:046D:1024.0004/input/input18
+[    3.033358] logitech-hidpp-device 0003:046D:1024.0004: input,hidraw2: USB HID v1.11 Mouse [Logitech M310] on usb-0000:00:14.0-4:1
+
+From 5.4 (non-working):
+
+[    2.908901] hid-generic 0003:046D:C52B.0001: input,hidraw0: USB HID v1.11 Keyboard [Logitech USB Receiver] on usb-0000:00:14.0-4/input0
+[    2.909003] hid-generic 0003:046D:C52B.0002: unknown main item tag 0x0
+[    2.909016] hid-generic 0003:046D:C52B.0002: unknown main item tag 0x0
+[    2.909019] hid-generic 0003:046D:C52B.0002: unknown main item tag 0x0
+[    2.909023] hid-generic 0003:046D:C52B.0002: unknown main item tag 0x0
+[    2.909030] hid-generic 0003:046D:C52B.0002: unexpected long global item
+[    2.909038] hid-generic: probe of 0003:046D:C52B.0002 failed with error -22
+[    2.909196] hid-generic 0003:046D:C52B.0003: hiddev0,hidraw1: USB HID v1.11 Device [Logitech USB Receiver] on usb-0000:00:14.0-4/input2
+[    2.910586] logitech-djreceiver 0003:046D:C52B.0002: unknown main item tag 0x0
+[    2.910601] logitech-djreceiver 0003:046D:C52B.0002: unknown main item tag 0x0
+[    2.910605] logitech-djreceiver 0003:046D:C52B.0002: unknown main item tag 0x0
+[    2.910609] logitech-djreceiver 0003:046D:C52B.0002: unknown main item tag 0x0
+[    2.910616] logitech-djreceiver 0003:046D:C52B.0002: unexpected long global item
+[    2.910620] logitech-djreceiver 0003:046D:C52B.0002: logi_dj_probe: parse failed
+[    2.910623] logitech-djreceiver: probe of 0003:046D:C52B.0002 failed with error -22
+
+FYI, intf 0 is a boot-interface keyboard, intf 1 is a boot-interface 
+mouse, and intf 2 is the wireless HID interface.
+
+It's not immediately obvious to me where the problem lies.
+
+Thanks,
+
+Alan Stern
