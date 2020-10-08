@@ -2,136 +2,133 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8BB8287352
-	for <lists+linux-input@lfdr.de>; Thu,  8 Oct 2020 13:26:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB274287481
+	for <lists+linux-input@lfdr.de>; Thu,  8 Oct 2020 14:47:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726517AbgJHL0g (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Oct 2020 07:26:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58773 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726065AbgJHL0g (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 8 Oct 2020 07:26:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1602156394;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=4tIWuRI0CI9BjMSRluT5gYGTUqtjzTGhEGG4awnur2Q=;
-        b=W90r+KaRZuPyxmX1itn+mcxJxDHEcT2vyMHwEIUUE8OT2kXZllY5sUaWIsX4TicVCpE1pQ
-        2IfDsvGcSy7NdUdbzSb+b9XMddMYBDTLSPOhrFesZdXYV7qzCDmUcWFmylgX9/L7vZ2TdS
-        VXV9ewDw/4zOrsv3AbyCkC7tOPo3PMQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-93-doVACijGMgebMbPYhYI6cQ-1; Thu, 08 Oct 2020 07:26:33 -0400
-X-MC-Unique: doVACijGMgebMbPYhYI6cQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1730056AbgJHMrY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Oct 2020 08:47:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33260 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729869AbgJHMrY (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 8 Oct 2020 08:47:24 -0400
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FEA287950C;
-        Thu,  8 Oct 2020 11:26:31 +0000 (UTC)
-Received: from x1.localdomain (ovpn-112-134.ams2.redhat.com [10.36.112.134])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 75F2C5C1C4;
-        Thu,  8 Oct 2020 11:26:30 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
-        Marius Iacob <themariusus@gmail.com>
-Subject: [PATCH resend] Input: i8042 - Allow insmod to succeed on devices without an i8042 controller
-Date:   Thu,  8 Oct 2020 13:26:28 +0200
-Message-Id: <20201008112628.3979-2-hdegoede@redhat.com>
-In-Reply-To: <20201008112628.3979-1-hdegoede@redhat.com>
-References: <20201008112628.3979-1-hdegoede@redhat.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id EA69B2083B;
+        Thu,  8 Oct 2020 12:47:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602161243;
+        bh=euznez8g2lNiMUcU12nOD+uysphnv3GB3UYCsmyBzZQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=n5HWs/s6pr4pqch41EhZWUfgPYhpDt7iH/f65wToyLVwvcRc0AXlh4kycBYakzZ2D
+         MyL2+dPvzYhLbQPu2DOira0y9fZR4Ot+EkoIj0SYNRfxpEF63uyY4VOI8UWVVsZrC6
+         muovn52cLMI8CqdagV5fAlngz3Ep4U2jMNS06lWc=
+Received: by mail-oi1-f170.google.com with SMTP id c13so6125991oiy.6;
+        Thu, 08 Oct 2020 05:47:22 -0700 (PDT)
+X-Gm-Message-State: AOAM533JRSb2BRgwjOhQVPDbbaC+CZzzwli5h/1DidrPVAqhGFXQAWWd
+        6M+bo5kCMyV1ZFcw+cTmTpV1+7l48F6Y8ZDOLw==
+X-Google-Smtp-Source: ABdhPJz9uUArDgzQ0KTvCl2mNkGHA+ISn1qwzawVRqnnT3olrVHCvXxi/3AC66jaHc5LwP1s2uxVSvpQOd4ntUNIhHg=
+X-Received: by 2002:a54:4f89:: with SMTP id g9mr5030077oiy.106.1602161242218;
+ Thu, 08 Oct 2020 05:47:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+References: <20201007180540.322257-1-kholk11@gmail.com> <20201007180540.322257-4-kholk11@gmail.com>
+In-Reply-To: <20201007180540.322257-4-kholk11@gmail.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Thu, 8 Oct 2020 07:47:11 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLwWPqyd74bkD2-dG9oKh8AQVD3UB1Wm7SeRvqygCsp9w@mail.gmail.com>
+Message-ID: <CAL_JsqLwWPqyd74bkD2-dG9oKh8AQVD3UB1Wm7SeRvqygCsp9w@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] dt-bindings: touchscreen: Add binding for Novatek
+ NT36xxx series driver
+To:     AngeloGioacchino Del Regno <kholk11@gmail.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Henrik Rydberg <rydberg@bitmath.org>, priv.luk@gmail.com,
+        Linux Input <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        marijns95@gmail.com, Konrad Dybcio <konradybcio@gmail.com>,
+        Martin Botka <martin.botka1@gmail.com>,
+        phone-devel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The i8042 module exports several symbols which may be used by other
-modules.
+On Wed, Oct 7, 2020 at 1:05 PM <kholk11@gmail.com> wrote:
+>
+> From: AngeloGioacchino Del Regno <kholk11@gmail.com>
 
-Before this commit it would refuse to load (when built as a module itself)
-on systems without an i8042 controller.
+Please send to DT list so checks run and it's in my review queue.
 
-This is a problem specifically for the asus-nb-wmi module. Many Asus
-laptops support the Asus WMI interface. Some of them have an i8042
-controller and need to use i8042_install_filter() to filter some kbd
-events. Other models do not have an i8042 controller (e.g. they use an
-USB attached kbd).
-
-Before this commit the asus-nb-wmi driver could not be loaded on Asus
-models without an i8042 controller, when the i8042 code was built as
-a module (as Arch Linux does) because the module_init function of the
-i8042 module would fail with -ENODEV and thus the i8042_install_filter
-symbol could not be loaded.
-
-This commit fixes this by exiting from module_init with a return code
-of 0 if no controller is found.  It also adds a i8042_present bool to
-make the module_exit function a no-op in this case and also adds a
-check for i8042_present to the exported i8042_command function.
-
-The latter i8042_present check should not really be necessary because
-when builtin that function can already be used on systems without
-an i8042 controller, but better safe then sorry.
-
-Reported-and-tested-by: Marius Iacob <themariusus@gmail.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/input/serio/i8042.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
-index d3eda48032e3..944cbb519c6d 100644
---- a/drivers/input/serio/i8042.c
-+++ b/drivers/input/serio/i8042.c
-@@ -122,6 +122,7 @@ module_param_named(unmask_kbd_data, i8042_unmask_kbd_data, bool, 0600);
- MODULE_PARM_DESC(unmask_kbd_data, "Unconditional enable (may reveal sensitive data) of normally sanitize-filtered kbd data traffic debug log [pre-condition: i8042.debug=1 enabled]");
- #endif
- 
-+static bool i8042_present;
- static bool i8042_bypass_aux_irq_test;
- static char i8042_kbd_firmware_id[128];
- static char i8042_aux_firmware_id[128];
-@@ -343,6 +344,9 @@ int i8042_command(unsigned char *param, int command)
- 	unsigned long flags;
- 	int retval;
- 
-+	if (!i8042_present)
-+		return -1;
-+
- 	spin_lock_irqsave(&i8042_lock, flags);
- 	retval = __i8042_command(param, command);
- 	spin_unlock_irqrestore(&i8042_lock, flags);
-@@ -1612,12 +1616,15 @@ static int __init i8042_init(void)
- 
- 	err = i8042_platform_init();
- 	if (err)
--		return err;
-+		return (err == -ENODEV) ? 0 : err;
- 
- 	err = i8042_controller_check();
- 	if (err)
- 		goto err_platform_exit;
- 
-+	/* Set this before creating the dev to allow i8042_command to work right away */
-+	i8042_present = true;
-+
- 	pdev = platform_create_bundle(&i8042_driver, i8042_probe, NULL, 0, NULL, 0);
- 	if (IS_ERR(pdev)) {
- 		err = PTR_ERR(pdev);
-@@ -1636,6 +1643,9 @@ static int __init i8042_init(void)
- 
- static void __exit i8042_exit(void)
- {
-+	if (!i8042_present)
-+		return;
-+
- 	platform_device_unregister(i8042_platform_device);
- 	platform_driver_unregister(&i8042_driver);
- 	i8042_platform_exit();
--- 
-2.28.0
-
+>
+> Add binding for the Novatek NT36xxx series touchscreen driver.
+>
+> Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
+> ---
+>  .../input/touchscreen/novatek,nt36xxx.yaml    | 56 +++++++++++++++++++
+>  1 file changed, 56 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/novatek,nt36xxx.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/novatek,nt36xxx.yaml b/Documentation/devicetree/bindings/input/touchscreen/novatek,nt36xxx.yaml
+> new file mode 100644
+> index 000000000000..9f350f4e6d6a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/novatek,nt36xxx.yaml
+> @@ -0,0 +1,56 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/novatek,nt36xxx.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Novatek NT36xxx series touchscreen controller Bindings
+> +
+> +maintainers:
+> +  - TBD
+> +
+> +allOf:
+> +  - $ref: touchscreen.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - novatek,nt36xxx
+> +
+> +  reg:
+> +    enum: [ 0x62 ]
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  reset-gpio:
+> +    maxItems: 1
+> +
+> +  vdd-supply:
+> +    description: Power supply regulator for VDD pin
+> +
+> +  vio-reg-name:
+> +    description: Power supply regulator on VDD-IO pin
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +      nt36xxx@62 {
+> +        compatible = "novatek,nt36xxx";
+> +        reg = <0x62>;
+> +        interrupt-parent = <&tlmm>;
+> +        interrupts = <45 IRQ_TYPE_EDGE_RISING>;
+> +        reset-gpio = <&tlmm 102 GPIO_ACTIVE_HIGH>;
+> +      };
+> +    };
+> +
+> +...
+> --
+> 2.28.0
+>
