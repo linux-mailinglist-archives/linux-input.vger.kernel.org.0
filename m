@@ -2,140 +2,148 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B42B3286EDE
-	for <lists+linux-input@lfdr.de>; Thu,  8 Oct 2020 08:54:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82E04286F04
+	for <lists+linux-input@lfdr.de>; Thu,  8 Oct 2020 09:10:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726216AbgJHGyk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Oct 2020 02:54:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54544 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726013AbgJHGyk (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 8 Oct 2020 02:54:40 -0400
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 98AD22168B;
-        Thu,  8 Oct 2020 06:54:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602140079;
-        bh=xets6aocGoBonJWZWZR/AqSEf1Th8uPkmzNNEDt6KFE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=i+OlTFuEwT0wNF5dNY+Nzl3gOhkaJuibi5BepaLzFGvx5DXa78zYIvpWM0kiEYORz
-         PvmM8m0qQtj15D+PuMK+zXFVXicCZU9w2FQtaF/DeFl70rD/UB9IY7YFmzII//Rh1v
-         GFhzzj9yKyGwVzc3iVHM6EWIPCVYJ2RWCEPheOmk=
-Received: by mail-ed1-f46.google.com with SMTP id l24so4690306edj.8;
-        Wed, 07 Oct 2020 23:54:39 -0700 (PDT)
-X-Gm-Message-State: AOAM531GtgvLd0ViYeChmmjbtrWWZ6Rw4maOm0nU7tcOp70SIG9aI23p
-        g9yrXo8zxRvNfXTMokwmCf5pJJN217cAUL/neAs=
-X-Google-Smtp-Source: ABdhPJy+9gE89PnSy3HmXagIvjctuY9MSJe7IsZxoIYvJsTYc0E89DdzYTlR+ULlO53SZOEjz53Yn+Jdef1VUgHPX+E=
-X-Received: by 2002:a50:cc8d:: with SMTP id q13mr7286456edi.298.1602140078091;
- Wed, 07 Oct 2020 23:54:38 -0700 (PDT)
+        id S1725907AbgJHHKZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Oct 2020 03:10:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24999 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725852AbgJHHKZ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 8 Oct 2020 03:10:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1602141024;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=SX5UG7zGIzMe4tA1Jccg+gS8miA3mGapOr9ZUMpfB14=;
+        b=fvNlf6JZ9fbdOW/3oQ2jwI9Rq75UB/cFjhDzZvsIoEwLO2WvQ/TLV6keZLEghOK6l+wqgO
+        MrylnP+oIA9Xn8cCYIABcz82lJ4pj68/Z4LeauR9xu18MelBVCrRjjomHWAdMP1UjR1gUF
+        FCcSrr5PKjDjctocawueZKEjQ59uMAE=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-374-UK6mCn0dMQK2fmiOi7ubMg-1; Thu, 08 Oct 2020 03:10:22 -0400
+X-MC-Unique: UK6mCn0dMQK2fmiOi7ubMg-1
+Received: by mail-ed1-f70.google.com with SMTP id w15so1586720eds.0
+        for <linux-input@vger.kernel.org>; Thu, 08 Oct 2020 00:10:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=SX5UG7zGIzMe4tA1Jccg+gS8miA3mGapOr9ZUMpfB14=;
+        b=K/rNBEKInXXJAg3+kcVKLsUg4AkZGAiO9gRkfT0NLitXCxwc1PdQ85nw/61mrADhX4
+         Rfa8oWAXC/FuV527mHU6hEAK/GY3+jQDQ4NoRJ5wdNk1nf2dN/a+/3Be+b8Wd0WxP2bF
+         3kyki2dtzIndqyMwyr5ezjt6ogdGCeeAPJjVE1d6lf0WxgJXkLk/RWl6iYGRhAwJBg3K
+         ig0DzV5lUN59I+grGtNI+gQvexr4GpVrfGllmY/fNb81BNXRYtrSsMiPOEianUHZOpl4
+         5CCRNTmbfb6ZAxrUW/rC/Hhhl2aLEc0QzQQ37TZmrkBd/d7pJe+2l2SpOnwcIsjLqdmc
+         J0nw==
+X-Gm-Message-State: AOAM530QfNrznTXkmeUDcXhNaBvLOjCkE5hNrFH3KvqDMBQ08S9RRvkV
+        NKyd5TcROeOSpYxWVvWjbw6aCBAIcIi6sDiDC5BKZY2u+EP6DLJkBfJPit/1pNDAJ3P0l8XPQX8
+        gEZ8x4Qzv2pIR+RakG82tfSc=
+X-Received: by 2002:a50:ef0e:: with SMTP id m14mr7503792eds.5.1602141020921;
+        Thu, 08 Oct 2020 00:10:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyB1klR20qsslQUJLaw02T0uqMrQljFTB8RV/i3/781a1Zl05V3aSnIYJy01X6wjkNQy5qm2w==
+X-Received: by 2002:a50:ef0e:: with SMTP id m14mr7503779eds.5.1602141020689;
+        Thu, 08 Oct 2020 00:10:20 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id i14sm3385412ejp.2.2020.10.08.00.10.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Oct 2020 00:10:20 -0700 (PDT)
+Subject: Re: [External] Using IIO to export laptop palm-sensor and lap-mode
+ info to userspace?
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     Bastien Nocera <hadess@hadess.net>,
+        Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        linux-iio@vger.kernel.org, Nitin Joshi1 <njoshi1@lenovo.com>,
+        linux-input@vger.kernel.org, dmitry.torokhov@gmail.com
+References: <9f9b0ff6-3bf1-63c4-eb36-901cecd7c4d9@redhat.com>
+ <5a646527-7a1f-2fb9-7c09-8becdbff417b@lenovo.com>
+ <20201007083602.00006b7e@Huawei.com>
+ <218be284-4a37-e9f9-749d-c126ef1d098b@redhat.com>
+ <b400b6956270a2433373dd6cbdae3332aa683f4f.camel@hadess.net>
+ <cadabe4d-7cce-281e-75fe-fcc2099848da@redhat.com>
+ <5273a1de9db682cd41e58553fe57707c492a53b7.camel@hadess.net>
+ <272074b5-b28e-1b74-8574-3dc2d614269a@redhat.com>
+ <20201008001424.GA3713@labundy.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <9893a32c-02c8-f00c-7f00-6287d55043ab@redhat.com>
+Date:   Thu, 8 Oct 2020 09:10:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201007180540.322257-1-kholk11@gmail.com> <20201007180540.322257-4-kholk11@gmail.com>
-In-Reply-To: <20201007180540.322257-4-kholk11@gmail.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-Date:   Thu, 8 Oct 2020 08:54:26 +0200
-X-Gmail-Original-Message-ID: <CAJKOXPcKPXFehzoa65YxjY8+qs-8JxAzj-ER58Y2V43RMD1qYQ@mail.gmail.com>
-Message-ID: <CAJKOXPcKPXFehzoa65YxjY8+qs-8JxAzj-ER58Y2V43RMD1qYQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] dt-bindings: touchscreen: Add binding for Novatek
- NT36xxx series driver
-To:     kholk11@gmail.com
-Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org, rydberg@bitmath.org,
-        priv.luk@gmail.com, linux-input@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        marijns95@gmail.com, konradybcio@gmail.com,
-        martin.botka1@gmail.com, phone-devel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20201008001424.GA3713@labundy.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 7 Oct 2020 at 20:22, <kholk11@gmail.com> wrote:
->
-> From: AngeloGioacchino Del Regno <kholk11@gmail.com>
->
-> Add binding for the Novatek NT36xxx series touchscreen driver.
->
-> Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
-> ---
->  .../input/touchscreen/novatek,nt36xxx.yaml    | 56 +++++++++++++++++++
->  1 file changed, 56 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/novatek,nt36xxx.yaml
->
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/novatek,nt36xxx.yaml b/Documentation/devicetree/bindings/input/touchscreen/novatek,nt36xxx.yaml
-> new file mode 100644
-> index 000000000000..9f350f4e6d6a
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/novatek,nt36xxx.yaml
-> @@ -0,0 +1,56 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/touchscreen/novatek,nt36xxx.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Novatek NT36xxx series touchscreen controller Bindings
-> +
-> +maintainers:
-> +  - TBD
-
 Hi,
 
-It is surprising that this is your v3 and you put here TBD. In such
-case, add here subsystem maintainer:
-Dmitry Torokhov <dmitry.torokhov@gmail.com>
+On 10/8/20 2:14 AM, Jeff LaBundy wrote:
+> Hi all,
+> 
+> On Wed, Oct 07, 2020 at 03:32:07PM +0200, Hans de Goede wrote:
+>> Hi,
+>>
+>> On 10/7/20 3:29 PM, Bastien Nocera wrote:
+>>> On Wed, 2020-10-07 at 15:08 +0200, Hans de Goede wrote:
+>>>> Hi,
+>>>>
+>>>> On 10/7/20 1:35 PM, Bastien Nocera wrote:
+>>>>> On Wed, 2020-10-07 at 11:51 +0200, Hans de Goede wrote:
+>>>>>> <snip>
+>>>>>>> Dmitry, any existing stuff like this in input?
+> 
+> It seems we are talking about "specific absorption rate" (SAR) type
+> devices that signal the WLAN controller to reduce transmitted power
+> while a user is nearby.
 
+Yes and no. At least the lap-mode detection (laptop on someones
+lap rather then sitting on a table) is currently used by the
+embedded-controller for thermal management decisions, basically
+when on someones lap the configurable TPD of the CPU is set lower
+to keep the laptop's bottom skin temperate < 45 degrees Celsius
+(I think it is 45 but the exact number does not matter).
 
-> +
-> +allOf:
-> +  - $ref: touchscreen.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - novatek,nt36xxx
+The lap-mode info is currently exported with a thinkpad_acpi specific
+sysfs attribute with the idea that userspace could potentially use
+this to indicate to the user that turbo clocks will be lower
+because of this.
 
-This is not an enum, but one const.
+With upcoming WLAN cards with configurable transmit power,
+this will also be used as what you call a SAR device.
 
-> +
-> +  reg:
-> +    enum: [ 0x62 ]
+AFAIK the palmrest case is mostly a SAR device.
 
-Usually addresses are fixed in schema, because they could change (e.g.
-by some pin configuration). Just use maxItems: 1.
+Note I'm explaining the alternative lap-mode use-case to make
+sure everyone is on the same page. I completely agree with the
+gist of your email :)
 
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  reset-gpio:
-> +    maxItems: 1
-> +
-> +  vdd-supply:
-> +    description: Power supply regulator for VDD pin
-> +
-> +  vio-reg-name:
-> +    description: Power supply regulator on VDD-IO pin
+> I just wanted to chime in and confirm that we do have at least one
+> precedent for these being in input (keyboard/iqs62x-keys) and not
+> iio so I agree with Jonathan here. My argument is that we want to
+> signal binary events (user grabbed onto or let go of the handset)
+> rather than deliver continuous data.
 
-What is this for? Is it a supply for the device or the device is a
-regulator provider?
+I was curious what keycode you are using for this, but I see
+that the keycodes come from devicetree, so I guess I should
+just ask: what keycode are you using for this ?
 
-> +
-> +additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +      nt36xxx@62 {
+> The example I've shown reports events as keycodes since some of the
+> events it can express represent momentary conditions. In hindsight,
+> however, an argument can be made to express some of this information
+> as a switch (user is or is not near the device) and the new event
+> codes proposed here seem like a step in the right direction.
 
-Incorrect node name - should be touchscreen.
+I'm glad that you like the new proposed switch event-codes.
 
-Best regards,
-Krzysztof
+Regards,
+
+Hans
+
