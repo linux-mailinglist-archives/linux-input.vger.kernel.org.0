@@ -2,46 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FA9B288059
-	for <lists+linux-input@lfdr.de>; Fri,  9 Oct 2020 04:28:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 244482884F1
+	for <lists+linux-input@lfdr.de>; Fri,  9 Oct 2020 10:11:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731210AbgJIC2Z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Oct 2020 22:28:25 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:38285 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729724AbgJIC2Z (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Oct 2020 22:28:25 -0400
-Received: by mail-qt1-f196.google.com with SMTP id q26so6874802qtb.5;
-        Thu, 08 Oct 2020 19:28:24 -0700 (PDT)
+        id S1732451AbgJIILL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 9 Oct 2020 04:11:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51350 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732337AbgJIILK (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 9 Oct 2020 04:11:10 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2555BC0613D2;
+        Fri,  9 Oct 2020 01:11:09 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id d6so4079459plo.13;
+        Fri, 09 Oct 2020 01:11:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vkCv+bp/FrfI2HKWKx1Tww6cQhDH3EWEn1gwkV8Cg1I=;
+        b=T2V/ftxCmwcqj8mOsikkMgN9z4zZoUidPnfRwe42UDq05MXXofRSl69ii78YryxkaI
+         NFe5rzQuamr1/PPX/MXet7xMS8iWJYfr8CtLsIdL0XEgltd7fVr5ndUI32Dr/hgqrylV
+         SgnISJqsGeYp1i4A8rUxITf/UkCkM+lRuWfsU4ea04l9fzN5jN4MLU/N8XRJ575ufNgI
+         pcFf/7KxTjn7PfpGZtQupy65qIGbXKvB19BSGSijSAiEsxnfXSqs85eDdN0bqtP+vILs
+         ZWe2/NeYs6ICotIvHJoh4a44bFy4tQxvOUy94dkT0xBhU+Un4Xzwym6i44a7207ubhRo
+         ROIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=m93jwKh8C2NEfHByLajq1wyssq+xUmEKljAW0LMm/sc=;
-        b=d3zxpqLKP3giov1FlPGGl2hk7t0PB+vu1myTXohzRt7M/C9yidWNV49RhEcG0eG/AN
-         /1D6bzoVe6tBc0rStouB755oRlL7ZGjvoR17CcPENIA1M4e+81KdQiWhXXk4lSK1RiCE
-         +KwyTQNrP1R3tL8ZbZnjD4U6u+qiif3b3ss4io1zAVxTA7C8/G/EAPu/XoZUq5AkZ6j5
-         Hwo8NdKjfKfErS9hsUypiRQpN3hXhiijp7bt5H/3son4oXj47ibNmiw7k+75a3aIdccq
-         Jbqr7+aq9S2DocIPieNjuReWrT0eVtvOkAp1t3HFhIp699btb10H7pQD8Qjn2ExONMGj
-         aAIQ==
-X-Gm-Message-State: AOAM5334AoSX6okXF4Kx/1KhAqWHCGCDuJUfcwherz0tMziTqX94JWt9
-        VKB2cIYJ/6a/23zo0hF/Sttuny8VZSFGhA==
-X-Google-Smtp-Source: ABdhPJzB77fj+3PXYe+G02R/1RduQI+t7slI9ktEzD9H7dD63qYyvgRdZ2tED7MryvKQgwxkHRXqlQ==
-X-Received: by 2002:ac8:3385:: with SMTP id c5mr11476692qtb.46.1602210503473;
-        Thu, 08 Oct 2020 19:28:23 -0700 (PDT)
-Received: from localhost.localdomain ([104.221.112.78])
-        by smtp.gmail.com with ESMTPSA id 90sm5103708qtb.6.2020.10.08.19.28.22
+        bh=vkCv+bp/FrfI2HKWKx1Tww6cQhDH3EWEn1gwkV8Cg1I=;
+        b=J0DIH+oPsJXkQEGT0LuGD4fBK5eDEqDvjtgOHpHdJKnzz4Ykn/Jhm7QJw2XDeoEBQg
+         bGaQixxweSxTVRO4TUPIiFZNbATDHO3FzcSOht9tE4tHBkimLUwNuWu8PyHbFpFoF4I4
+         fh6PcPGoKJFxv8k3i97LSm2Szu7OYlopXzY7WjI3w+a9O1TDoy2iHw+0Gw6TBhZ8By7s
+         TUiC+FvGO3jb5fhj9iRheJvOEQSasj8atk3jYHTkvpM0REPuOMnuKOBKqxi8adBqVQZc
+         1tEP6sgtIrAm14DZ/yVNpys6coktGpB3rM6Di0cO1NbCfls8rwgBjGjE/AeXEqjVe+MD
+         8Z0g==
+X-Gm-Message-State: AOAM531zVyrE0nSNt8m2cSIHOsdFQuicViTZAi+O1ocSwBjzTgpmJuYw
+        RxN6d73XuXykmVL+syqbqi7PnpTf1l5WN2i/
+X-Google-Smtp-Source: ABdhPJxvIIE97qi/nL7QdFuS79SJh9C4Jdjr4dbIHvuca7vf0rsfz7InDmd7Iw+PDMRiulJevRqLzA==
+X-Received: by 2002:a17:902:bf4b:b029:d1:e5e7:bddd with SMTP id u11-20020a170902bf4bb02900d1e5e7bdddmr10979173pls.61.1602231068306;
+        Fri, 09 Oct 2020 01:11:08 -0700 (PDT)
+Received: from localhost ([2001:e42:102:1532:160:16:113:140])
+        by smtp.gmail.com with ESMTPSA id c9sm9531637pgl.92.2020.10.09.01.11.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2020 19:28:22 -0700 (PDT)
-From:   Pascal Giard <pascal.giard@etsmtl.ca>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sanjay Govind <sanjay.govind9@gmail.com>,
-        Pascal Giard <pascal.giard@etsmtl.ca>
-Subject: [PATCH] HID: ghlive: support for ghlive ps3/wii u dongles
-Date:   Thu,  8 Oct 2020 22:27:22 -0400
-Message-Id: <20201009022722.123943-1-pascal.giard@etsmtl.ca>
+        Fri, 09 Oct 2020 01:11:07 -0700 (PDT)
+From:   Coiby Xu <coiby.xu@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] HID: i2c-hid: add polling mode based on connected GPIO chip's pin status
+Date:   Fri,  9 Oct 2020 16:11:00 +0800
+Message-Id: <20201009081100.3154-1-coiby.xu@gmail.com>
 X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -49,299 +62,244 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This commit introduces the Guitar Hero Live driver which adds support
-for the PS3 and Wii U dongles.
+For a broken touchpad, it may take several months or longer to be fixed.
+Polling mode could be a fallback solution for enthusiastic Linux users
+when they have a new laptop. It also acts like a debugging feature. If
+polling mode works for a broken touchpad, we can almost be certain
+the root cause is related to the interrupt.
 
-These dongles require a "magic" USB control message [1] to be sent
-approximately every 10 seconds otherwise the dongle will not report
-events where the strumbar is hit while a fret is being held.
+Two module parameters are added to i2c-hid,
+    - polling_mode: by default set to 0, i.e., polling is disabled
+    - polling_interval (ms): user can change this runtime parameter by
+      writing to /sys/module/i2c_hid/parameters/polling_interval
 
-Also, inspired by a patch sent on linux-input by Sanjay Govind [2], the
-accelerometer is mapped to ABS_RY for tilt.
-
-Interestingly, the Wii U and PS3 dongles share the same VID and PID.
-
-[1] https://github.com/ghlre/GHLtarUtility/
-[2] https://marc.info/?l=linux-input&m=157242835928542&w=2
-
-Signed-off-by: Pascal Giard <pascal.giard@etsmtl.ca>
+Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
 ---
- drivers/hid/Kconfig      |   6 ++
- drivers/hid/Makefile     |   1 +
- drivers/hid/hid-ghlive.c | 220 +++++++++++++++++++++++++++++++++++++++
- drivers/hid/hid-ids.h    |   3 +
- 4 files changed, 230 insertions(+)
- create mode 100644 drivers/hid/hid-ghlive.c
+ drivers/hid/i2c-hid/i2c-hid-core.c | 127 +++++++++++++++++++++++++++--
+ 1 file changed, 119 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 34f07371716d..0bf8dd1629f7 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -362,6 +362,12 @@ config HID_GFRM
- 	---help---
- 	Support for Google Fiber TV Box remote controls
- 
-+config HID_GHLIVE
-+	tristate "Guitar Hero Live PS3/Wii U support"
-+	depends on HID
-+	help
-+	  Support for the Guitar Hero Live PS3 and Wii U guitar devices.
+diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+index dbd04492825d..c7af127959f6 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-core.c
++++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+@@ -36,6 +36,8 @@
+ #include <linux/hid.h>
+ #include <linux/mutex.h>
+ #include <linux/acpi.h>
++#include <linux/kthread.h>
++#include <linux/gpio/driver.h>
+ #include <linux/of.h>
+ #include <linux/regulator/consumer.h>
+
+@@ -60,6 +62,18 @@
+ #define I2C_HID_PWR_ON		0x00
+ #define I2C_HID_PWR_SLEEP	0x01
+
++/* polling mode */
++#define I2C_POLLING_DISABLED 0
++#define I2C_POLLING_GPIO_PIN 1
++#define POLLING_INTERVAL 10
 +
- config HID_GLORIOUS
- 	tristate "Glorious PC Gaming Race mice"
- 	depends on HID
-diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-index d8ea4b8c95af..6394f5bbf8a5 100644
---- a/drivers/hid/Makefile
-+++ b/drivers/hid/Makefile
-@@ -48,6 +48,7 @@ obj-$(CONFIG_HID_ELO)		+= hid-elo.o
- obj-$(CONFIG_HID_EZKEY)		+= hid-ezkey.o
- obj-$(CONFIG_HID_GEMBIRD)	+= hid-gembird.o
- obj-$(CONFIG_HID_GFRM)		+= hid-gfrm.o
-+obj-$(CONFIG_HID_GHLIVE)	+= hid-ghlive.o
- obj-$(CONFIG_HID_GLORIOUS)  += hid-glorious.o
- obj-$(CONFIG_HID_GOOGLE_HAMMER)	+= hid-google-hammer.o
- obj-$(CONFIG_HID_GT683R)	+= hid-gt683r.o
-diff --git a/drivers/hid/hid-ghlive.c b/drivers/hid/hid-ghlive.c
-new file mode 100644
-index 000000000000..db5814aff17f
---- /dev/null
-+++ b/drivers/hid/hid-ghlive.c
-@@ -0,0 +1,220 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ *	HID driver for Guitar Hero Live PS3 and Wii U Guitar devices.
-+ *
-+ *	Copyright (c) 2020 Pascal Giard <pascal.giard@etsmtl.ca>
-+ */
++static u8 polling_mode;
++module_param(polling_mode, byte, 0444);
++MODULE_PARM_DESC(polling_mode, "How to poll - 0 disabled; 1 based on GPIO pin's status");
 +
-+#include <linux/hid.h>
-+#include <linux/usb.h>
-+#include <linux/timer.h>
-+#include <linux/module.h>
++static unsigned int polling_interval = 10;
++module_param(polling_interval, uint, 0644);
++MODULE_PARM_DESC(polling_interval, "Poll every {polling_interval} ms. Default to 10 ms");
+ /* debug option */
+ static bool debug;
+ module_param(debug, bool, 0444);
+@@ -158,6 +172,8 @@ struct i2c_hid {
+
+ 	struct i2c_hid_platform_data pdata;
+
++	struct task_struct *polling_thread;
 +
-+#include "hid-ids.h"
+ 	bool			irq_wake_enabled;
+ 	struct mutex		reset_lock;
+ };
+@@ -772,7 +788,9 @@ static int i2c_hid_start(struct hid_device *hid)
+ 		i2c_hid_free_buffers(ihid);
+
+ 		ret = i2c_hid_alloc_buffers(ihid, bufsize);
+-		enable_irq(client->irq);
 +
-+MODULE_AUTHOR("Pascal Giard <pascal.giard@etsmtl.ca>");
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("HID driver for Activision GH Live PS3 and Wii U Guitar devices");
-+
-+#define GHL_GUITAR_PS3WIIU	 BIT(2)
-+#define GHL_GUITAR_CONTROLLER	 BIT(1)
-+
-+#define GHL_GUITAR_POKE_INTERVAL 10 /* In seconds */
-+
-+#define GHL_GUITAR_TILT_USAGE 44
-+
-+/* Magic value and data taken from GHLtarUtility:
-+ * https://github.com/ghlre/GHLtarUtility/blob/master/PS3Guitar.cs
-+ * Note: The Wii U and PS3 dongles happen to share the same!
-+ */
-+static const u16 ghl_ps3wiiu_magic_value = 0x201;
-+static const char ghl_ps3wiiu_magic_data[] = {
-+	0x02, 0x08, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00
-+};
-+
-+struct ghlive_sc {
-+	struct hid_device *hdev;
-+	struct usb_device *usbdev;
-+	unsigned long quirks;
-+	int device_id;
-+	unsigned int poke_current;
-+	struct timer_list poke_timer;
-+};
-+
-+static void ghl_magic_poke_cb(struct urb *urb)
++		if (polling_mode == I2C_POLLING_DISABLED)
++			enable_irq(client->irq);
+
+ 		if (ret)
+ 			return ret;
+@@ -814,6 +832,83 @@ struct hid_ll_driver i2c_hid_ll_driver = {
+ };
+ EXPORT_SYMBOL_GPL(i2c_hid_ll_driver);
+
++static int get_gpio_pin_state(struct irq_desc *irq_desc)
 +{
-+	if (urb) {
-+		/* Free cr and databuf allocated in ghl_magic_poke() */
-+		kfree(urb->setup_packet);
-+		kfree(urb->transfer_buffer);
-+	}
++	struct gpio_chip *gc = irq_data_get_irq_chip_data(&irq_desc->irq_data);
++
++	return gc->get(gc, irq_desc->irq_data.hwirq);
 +}
 +
-+static void ghl_magic_poke(struct timer_list *t)
++static bool interrupt_line_active(struct i2c_client *client)
 +{
-+	struct ghlive_sc *sc = from_timer(sc, t, poke_timer);
++	unsigned long trigger_type = irq_get_trigger_type(client->irq);
++	struct irq_desc *irq_desc = irq_to_desc(client->irq);
 +
-+	int ret;
-+	unsigned int pipe;
-+	struct urb *urb;
-+	struct usb_ctrlrequest *cr;
-+	const u16 poke_size =
-+		ARRAY_SIZE(ghl_ps3wiiu_magic_data);
-+	u8 *databuf;
++	/*
++	 * According to Windows Precsiontion Touchpad's specs
++	 * https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/windows-precision-touchpad-device-bus-connectivity,
++	 * GPIO Interrupt Assertion Leve could be either ActiveLow or
++	 * ActiveHigh.
++	 */
++	if (trigger_type & IRQF_TRIGGER_LOW)
++		return !get_gpio_pin_state(irq_desc);
 +
-+	pipe = usb_sndctrlpipe(sc->usbdev, 0);
-+
-+	cr = kzalloc(sizeof(*cr), GFP_ATOMIC);
-+	if (!cr)
-+		goto resched;
-+
-+	databuf = kzalloc(poke_size, GFP_ATOMIC);
-+	if (!databuf) {
-+		kfree(cr);
-+		goto resched;
-+	}
-+
-+	urb = usb_alloc_urb(0, GFP_ATOMIC);
-+	if (!urb) {
-+		kfree(databuf);
-+		kfree(cr);
-+		goto resched;
-+	}
-+
-+	if (sc->quirks & (GHL_GUITAR_CONTROLLER | GHL_GUITAR_PS3WIIU)) {
-+		cr->bRequestType =
-+			USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_OUT;
-+		cr->bRequest = USB_REQ_SET_CONFIGURATION;
-+		cr->wValue = cpu_to_le16(ghl_ps3wiiu_magic_value);
-+		cr->wIndex = 0;
-+		cr->wLength = cpu_to_le16(poke_size);
-+		memcpy(databuf, ghl_ps3wiiu_magic_data, poke_size);
-+
-+		usb_fill_control_urb(
-+			urb, sc->usbdev, pipe,
-+			(unsigned char *) cr, databuf, poke_size,
-+			ghl_magic_poke_cb, NULL);
-+		ret = usb_submit_urb(urb, GFP_ATOMIC);
-+		if (ret < 0) {
-+			kfree(databuf);
-+			kfree(cr);
-+		}
-+	}
-+	usb_free_urb(urb);
-+
-+resched:
-+	/* Reschedule for next time */
-+	mod_timer(&sc->poke_timer, jiffies + GHL_GUITAR_POKE_INTERVAL*HZ);
++	return get_gpio_pin_state(irq_desc);
 +}
 +
-+static int guitar_mapping(struct hid_device *hdev, struct hid_input *hi,
-+			  struct hid_field *field, struct hid_usage *usage,
-+			  unsigned long **bit, int *max)
++static int i2c_hid_polling_thread(void *i2c_hid)
 +{
-+	if ((usage->hid & HID_USAGE_PAGE) == HID_UP_MSVENDOR) {
-+		unsigned int abs = usage->hid & HID_USAGE;
++	struct i2c_hid *ihid = i2c_hid;
++	struct i2c_client *client = ihid->client;
++	unsigned int polling_interval_ms;
 +
-+		if (abs == GHL_GUITAR_TILT_USAGE) {
-+			hid_map_usage_clear(hi, usage, bit, max, EV_ABS, ABS_RY);
-+			return 1;
++	while (1) {
++		polling_interval_ms = polling_interval*1000;
++		if (test_bit(I2C_HID_READ_PENDING, &ihid->flags))
++			usleep_range(50000, 100000);
++
++		if (kthread_should_stop())
++			break;
++
++		while (interrupt_line_active(client)) {
++			i2c_hid_get_input(ihid);
++			/*
++			 * keeping polling for new data at a rate of ~200Hz
++			 * until the interrupt line becomes inactive
++			 */
++			usleep_range(4000, 6000);
 +		}
++
++		usleep_range(polling_interval_ms, polling_interval_ms);
 +	}
++
++	do_exit(0);
 +	return 0;
 +}
 +
-+static int ghlive_mapping(struct hid_device *hdev, struct hid_input *hi,
-+			      struct hid_field *field, struct hid_usage *usage,
-+			      unsigned long **bit, int *max)
++static int i2c_hid_init_polling(struct i2c_hid *ihid)
 +{
-+	struct ghlive_sc *sc = hid_get_drvdata(hdev);
++	struct i2c_client *client = ihid->client;
 +
-+	if (sc->quirks & GHL_GUITAR_CONTROLLER)
-+		return guitar_mapping(hdev, hi, field, usage, bit, max);
-+
-+	/* Let hid-core decide for the others */
-+	return 0;
-+}
-+
-+static int ghlive_probe(struct hid_device *hdev,
-+			    const struct hid_device_id *id)
-+{
-+	int ret;
-+	unsigned long quirks = id->driver_data;
-+	struct ghlive_sc *sc;
-+	unsigned int connect_mask = HID_CONNECT_DEFAULT;
-+
-+	sc = devm_kzalloc(&hdev->dev, sizeof(*sc), GFP_KERNEL);
-+	if (sc == NULL)
-+		return -ENOMEM;
-+
-+	sc->quirks = quirks;
-+	hid_set_drvdata(hdev, sc);
-+	sc->hdev = hdev;
-+
-+	ret = hid_parse(hdev);
-+	if (ret) {
-+		hid_err(hdev, "parse failed\n");
-+		return ret;
++	if (!irq_get_trigger_type(client->irq)) {
++		dev_warn(&client->dev,
++			 "Failed to get GPIO Interrupt Assertion Level, could not enable polling mode for %s",
++			 client->name);
++		return -1;
 +	}
 +
-+	ret = hid_hw_start(hdev, connect_mask);
-+	if (ret) {
-+		hid_err(hdev, "hw start failed\n");
-+		return ret;
++	ihid->polling_thread = kthread_create(i2c_hid_polling_thread, ihid,
++					      "I2C HID polling thread");
++
++	if (ihid->polling_thread) {
++		pr_info("I2C HID polling thread");
++		wake_up_process(ihid->polling_thread);
++		return 0;
 +	}
 +
-+	if (!(hdev->claimed & HID_CLAIMED_INPUT)) {
-+		hid_err(hdev, "failed to claim input\n");
-+		hid_hw_stop(hdev);
-+		return -ENODEV;
-+	}
-+
-+	if (sc->quirks & GHL_GUITAR_CONTROLLER) {
-+		sc->usbdev = to_usb_device(hdev->dev.parent->parent);
-+		sc->poke_current = 0;
-+		timer_setup(&sc->poke_timer, ghl_magic_poke, 0);
-+		mod_timer(&sc->poke_timer,
-+			  jiffies + GHL_GUITAR_POKE_INTERVAL*HZ);
-+	}
-+
-+	return ret;
++	return -1;
 +}
 +
-+static void ghlive_remove(struct hid_device *hdev)
+ static int i2c_hid_init_irq(struct i2c_client *client)
+ {
+ 	struct i2c_hid *ihid = i2c_get_clientdata(client);
+@@ -997,6 +1092,16 @@ static void i2c_hid_fwnode_probe(struct i2c_client *client,
+ 		pdata->post_power_delay_ms = val;
+ }
+
++static void free_irq_or_stop_polling(struct i2c_client *client,
++				     struct i2c_hid *ihid)
 +{
-+	struct ghlive_sc *sc = hid_get_drvdata(hdev);
 +
-+	del_timer_sync(&sc->poke_timer);
-+	hid_hw_close(hdev);
-+	hid_hw_stop(hdev);
++	if (polling_mode != I2C_POLLING_DISABLED)
++		kthread_stop(ihid->polling_thread);
++	else
++		free_irq(client->irq, ihid);
 +}
 +
-+static const struct hid_device_id ghlive_devices[] = {
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY_GHLIVE, USB_DEVICE_ID_SONY_PS3WIIU_GHLIVE_DONGLE),
-+		.driver_data = GHL_GUITAR_CONTROLLER | GHL_GUITAR_PS3WIIU},
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(hid, ghlive_devices);
+ static int i2c_hid_probe(struct i2c_client *client,
+ 			 const struct i2c_device_id *dev_id)
+ {
+@@ -1090,7 +1195,11 @@ static int i2c_hid_probe(struct i2c_client *client,
+ 	if (ret < 0)
+ 		goto err_regulator;
+
+-	ret = i2c_hid_init_irq(client);
++	if (polling_mode != I2C_POLLING_DISABLED)
++		ret = i2c_hid_init_polling(ihid);
++	else
++		ret = i2c_hid_init_irq(client);
 +
-+static struct hid_driver ghlive_driver = {
-+	.name		= "ghlive",
-+	.id_table	= ghlive_devices,
-+	.input_mapping	= ghlive_mapping,
-+	.probe		= ghlive_probe,
-+	.remove	= ghlive_remove,
-+};
-+
-+static int __init ghlive_init(void)
-+{
-+	dbg_hid("GHLive:%s\n", __func__);
-+	return hid_register_driver(&ghlive_driver);
-+}
-+
-+static void __exit ghlive_exit(void)
-+{
-+	dbg_hid("GHLive:%s\n", __func__);
-+
-+	hid_unregister_driver(&ghlive_driver);
-+}
-+module_init(ghlive_init);
-+module_exit(ghlive_exit);
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 1c71a1aa76b2..e3a3942079cf 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -1060,6 +1060,9 @@
- #define USB_DEVICE_ID_SONY_BUZZ_CONTROLLER		0x0002
- #define USB_DEVICE_ID_SONY_WIRELESS_BUZZ_CONTROLLER	0x1000
- 
-+#define USB_VENDOR_ID_SONY_GHLIVE			0x12ba
-+#define USB_DEVICE_ID_SONY_PS3WIIU_GHLIVE_DONGLE	0x074b
-+
- #define USB_VENDOR_ID_SINO_LITE			0x1345
- #define USB_DEVICE_ID_SINO_LITE_CONTROLLER	0x3008
- 
--- 
+ 	if (ret < 0)
+ 		goto err_regulator;
+
+@@ -1129,7 +1238,7 @@ static int i2c_hid_probe(struct i2c_client *client,
+ 	hid_destroy_device(hid);
+
+ err_irq:
+-	free_irq(client->irq, ihid);
++	free_irq_or_stop_polling(client, ihid);
+
+ err_regulator:
+ 	regulator_bulk_disable(ARRAY_SIZE(ihid->pdata.supplies),
+@@ -1146,7 +1255,7 @@ static int i2c_hid_remove(struct i2c_client *client)
+ 	hid = ihid->hid;
+ 	hid_destroy_device(hid);
+
+-	free_irq(client->irq, ihid);
++	free_irq_or_stop_polling(client, ihid);
+
+ 	if (ihid->bufsize)
+ 		i2c_hid_free_buffers(ihid);
+@@ -1162,7 +1271,7 @@ static void i2c_hid_shutdown(struct i2c_client *client)
+ 	struct i2c_hid *ihid = i2c_get_clientdata(client);
+
+ 	i2c_hid_set_power(client, I2C_HID_PWR_SLEEP);
+-	free_irq(client->irq, ihid);
++	free_irq_or_stop_polling(client, ihid);
+ }
+
+ #ifdef CONFIG_PM_SLEEP
+@@ -1183,7 +1292,8 @@ static int i2c_hid_suspend(struct device *dev)
+ 	/* Save some power */
+ 	i2c_hid_set_power(client, I2C_HID_PWR_SLEEP);
+
+-	disable_irq(client->irq);
++	if (polling_mode == I2C_POLLING_DISABLED)
++		disable_irq(client->irq);
+
+ 	if (device_may_wakeup(&client->dev)) {
+ 		wake_status = enable_irq_wake(client->irq);
+@@ -1216,7 +1326,7 @@ static int i2c_hid_resume(struct device *dev)
+
+ 		if (ihid->pdata.post_power_delay_ms)
+ 			msleep(ihid->pdata.post_power_delay_ms);
+-	} else if (ihid->irq_wake_enabled) {
++	} else if (ihid->irq_wake_enabled && polling_mode != I2C_POLLING_DISABLED) {
+ 		wake_status = disable_irq_wake(client->irq);
+ 		if (!wake_status)
+ 			ihid->irq_wake_enabled = false;
+@@ -1225,7 +1335,8 @@ static int i2c_hid_resume(struct device *dev)
+ 				wake_status);
+ 	}
+
+-	enable_irq(client->irq);
++	if (polling_mode != I2C_POLLING_DISABLED)
++		enable_irq(client->irq);
+
+ 	/* Instead of resetting device, simply powers the device on. This
+ 	 * solves "incomplete reports" on Raydium devices 2386:3118 and
+--
 2.28.0
 
