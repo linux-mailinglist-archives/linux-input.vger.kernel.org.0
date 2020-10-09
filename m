@@ -2,192 +2,346 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 57BF028804F
-	for <lists+linux-input@lfdr.de>; Fri,  9 Oct 2020 04:20:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FA9B288059
+	for <lists+linux-input@lfdr.de>; Fri,  9 Oct 2020 04:28:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731028AbgJICUD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Oct 2020 22:20:03 -0400
-Received: from mail-bn7nam10on2040.outbound.protection.outlook.com ([40.107.92.40]:32353
-        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729724AbgJICUD (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 8 Oct 2020 22:20:03 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I3+aDCSIGNCmZrBcacVF2ZySAhChZoMrK1E7dULH3Ah/AcdaEfYUy5dYaUN2J49PTc42TrJGi/+iCqU1cHZbpK7eXjGfsvBH0jcLmE8TkTN02WaPyLv4dPn/0FtMZR8zdlWI1z0zPC7aFOL9nNLF91jb1EjyaP17jrSP36dBXAixBVRFxReLYw3oBAkMejmbCXSepYDlN2Vm7phVLuEFlHd2LUvjfWdQZJ00GJ7SRh34ysHwagh2jKkc8MSobBxB35+FofB5tEK1zZAEARcqAgcJToxJftrFkhg8W6ns15N5xhZN+c3y2sxpqDDKzSmZQs2vVV5XyVPYGF/+2RciRA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OGe+8mHcdliqYDwZgNmE6dpk7Zyk46XmpWzWoorGPak=;
- b=AsePBgDH/ZVFUfgVPrgyKTpW8VFTeVDvytKAB7DzgE01TQ5mIpKmhiSLnv2LZ7n+fcwF+UAUdrrRzeuKG2kDjJPEnZLUNde+T0SRYS/1hm+R5PQGPHNKwMy0fJ9mEM6gD77u1AhasO/Mkfg5ItIWoG/Ta5YotcrIYPcFbXo5HGYG5XuRJT9viTelHpR9w7jX7i87YjDZJsWWEiS/oTTKeTM/XBOdO7XPhq2OACXAVNY/YfCZY2tOQwpr9a5o1OBD87bwd1Z05gae/Nd4QOGzT1zXJ7QKf4XPD3cAq23OPeJR1iNY6AuyMDpvSEN2M0dQdqwSF9XDjHXJQb1S70ORMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OGe+8mHcdliqYDwZgNmE6dpk7Zyk46XmpWzWoorGPak=;
- b=NrsTz6nWPVk7nlA9sJMQM8h4N8vbgjzDGjJg4LCwVoPXK/f8Qq2vKhH/lTGLZpIJu2hruZsl9oGCea4xgBoXmMysoCUKh5S9hgBAQq0fvSqNrdxQ/otIWiPtnS5pUzxvvOX+6dGgAXE+l06CPkuxQeCB34hTD/tnorJ3hUFer94=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=labundy.com;
-Received: from SN6PR08MB5517.namprd08.prod.outlook.com (2603:10b6:805:fb::32)
- by SN6PR08MB4031.namprd08.prod.outlook.com (2603:10b6:805:20::31) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.24; Fri, 9 Oct
- 2020 02:19:59 +0000
-Received: from SN6PR08MB5517.namprd08.prod.outlook.com
- ([fe80::c989:9cea:baa6:8254]) by SN6PR08MB5517.namprd08.prod.outlook.com
- ([fe80::c989:9cea:baa6:8254%7]) with mapi id 15.20.3433.046; Fri, 9 Oct 2020
- 02:19:58 +0000
-Date:   Thu, 8 Oct 2020 21:19:49 -0500
-From:   Jeff LaBundy <jeff@labundy.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Bastien Nocera <hadess@hadess.net>,
-        Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        linux-iio@vger.kernel.org, Nitin Joshi1 <njoshi1@lenovo.com>,
-        linux-input@vger.kernel.org, dmitry.torokhov@gmail.com
-Subject: Re: [External] Using IIO to export laptop palm-sensor and lap-mode
- info to userspace?
-Message-ID: <20201009021949.GA3629@labundy.com>
-References: <9f9b0ff6-3bf1-63c4-eb36-901cecd7c4d9@redhat.com>
- <5a646527-7a1f-2fb9-7c09-8becdbff417b@lenovo.com>
- <20201007083602.00006b7e@Huawei.com>
- <218be284-4a37-e9f9-749d-c126ef1d098b@redhat.com>
- <b400b6956270a2433373dd6cbdae3332aa683f4f.camel@hadess.net>
- <cadabe4d-7cce-281e-75fe-fcc2099848da@redhat.com>
- <5273a1de9db682cd41e58553fe57707c492a53b7.camel@hadess.net>
- <272074b5-b28e-1b74-8574-3dc2d614269a@redhat.com>
- <20201008001424.GA3713@labundy.com>
- <9893a32c-02c8-f00c-7f00-6287d55043ab@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9893a32c-02c8-f00c-7f00-6287d55043ab@redhat.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [136.49.227.119]
-X-ClientProxiedBy: DM5PR17CA0062.namprd17.prod.outlook.com
- (2603:10b6:3:13f::24) To SN6PR08MB5517.namprd08.prod.outlook.com
- (2603:10b6:805:fb::32)
+        id S1731210AbgJIC2Z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Oct 2020 22:28:25 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:38285 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729724AbgJIC2Z (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Oct 2020 22:28:25 -0400
+Received: by mail-qt1-f196.google.com with SMTP id q26so6874802qtb.5;
+        Thu, 08 Oct 2020 19:28:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=m93jwKh8C2NEfHByLajq1wyssq+xUmEKljAW0LMm/sc=;
+        b=d3zxpqLKP3giov1FlPGGl2hk7t0PB+vu1myTXohzRt7M/C9yidWNV49RhEcG0eG/AN
+         /1D6bzoVe6tBc0rStouB755oRlL7ZGjvoR17CcPENIA1M4e+81KdQiWhXXk4lSK1RiCE
+         +KwyTQNrP1R3tL8ZbZnjD4U6u+qiif3b3ss4io1zAVxTA7C8/G/EAPu/XoZUq5AkZ6j5
+         Hwo8NdKjfKfErS9hsUypiRQpN3hXhiijp7bt5H/3son4oXj47ibNmiw7k+75a3aIdccq
+         Jbqr7+aq9S2DocIPieNjuReWrT0eVtvOkAp1t3HFhIp699btb10H7pQD8Qjn2ExONMGj
+         aAIQ==
+X-Gm-Message-State: AOAM5334AoSX6okXF4Kx/1KhAqWHCGCDuJUfcwherz0tMziTqX94JWt9
+        VKB2cIYJ/6a/23zo0hF/Sttuny8VZSFGhA==
+X-Google-Smtp-Source: ABdhPJzB77fj+3PXYe+G02R/1RduQI+t7slI9ktEzD9H7dD63qYyvgRdZ2tED7MryvKQgwxkHRXqlQ==
+X-Received: by 2002:ac8:3385:: with SMTP id c5mr11476692qtb.46.1602210503473;
+        Thu, 08 Oct 2020 19:28:23 -0700 (PDT)
+Received: from localhost.localdomain ([104.221.112.78])
+        by smtp.gmail.com with ESMTPSA id 90sm5103708qtb.6.2020.10.08.19.28.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Oct 2020 19:28:22 -0700 (PDT)
+From:   Pascal Giard <pascal.giard@etsmtl.ca>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sanjay Govind <sanjay.govind9@gmail.com>,
+        Pascal Giard <pascal.giard@etsmtl.ca>
+Subject: [PATCH] HID: ghlive: support for ghlive ps3/wii u dongles
+Date:   Thu,  8 Oct 2020 22:27:22 -0400
+Message-Id: <20201009022722.123943-1-pascal.giard@etsmtl.ca>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from labundy.com (136.49.227.119) by DM5PR17CA0062.namprd17.prod.outlook.com (2603:10b6:3:13f::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.23 via Frontend Transport; Fri, 9 Oct 2020 02:19:57 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4e95a79f-56a3-42a2-ff1a-08d86bf9d1bf
-X-MS-TrafficTypeDiagnostic: SN6PR08MB4031:
-X-Microsoft-Antispam-PRVS: <SN6PR08MB40312D281C69051978EF22C5D3080@SN6PR08MB4031.namprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: u53eoY4+Tsi0oesCCdzD8ndUwIL5IK+LTBnMVlni2XeKKYx1x77RZ42AmruBG7TBxKbad3gkBLV8gbNxahL643R+f6NT3To1dqcla0Qkmknlj4J7zLcxPqDLQf0XD/SNXvf37KXdwuhIveHuPeruDDdTgfpymvhuOafQNyzF00n8E8YE7I2XZnFCmNwkicR9pqmSrpj8KdzLPHy75KpNFGrLElekmxfRzcJEU3F9kZToG1KaLqL/YnKRo9s+hNCKQt4pcZOZoI9zgL3hE5u9mPLf3srPRNLL5ieUJYirsBQ3ZWSWbxI8zzh1PnYUwDwznpJrZyCfzdjTu1mUi0839w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR08MB5517.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(396003)(39830400003)(136003)(376002)(346002)(2906002)(54906003)(33656002)(1076003)(316002)(5660300002)(478600001)(55016002)(66556008)(66476007)(52116002)(6916009)(53546011)(8936002)(2616005)(83380400001)(7696005)(6666004)(8886007)(36756003)(8676002)(86362001)(26005)(66946007)(186003)(16526019)(4326008)(956004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: wV3iG8MVhcb6jxs67pPLfOOx+Bek7OKQBVSKZXjk/UT6eZiGdIpCurJgsDmPR9CpbZEQg9tlndUsnHP05p8nDdGhigQ7cpEhb0F0qPEqkru0rijBBGhGA2pvMr0+DpYqS7ACR2R22w6L/k+3gQDAenVm8cpt6t540HWx5l+zY4ahoK6ZV4mW3hmDHrE0vjaYb35PKJpt0srb5V/UGI8AjuPdlazSnMMFiqv8tcKrFtZTZ3s7sl5pZSI5CTYY3AMfSFiLC6cXxX3m83acsX3Ptm05L2VLaupoPxRsy+H+861psBN9rKGpbSpPFOC0CX4mTp6xfeN0ZmtdDLPpV7yrieLSoNM4XDH+p2XAWjrf3Q2yZIL1ecKgB7Afm57ZvzI0XeI+l4XMJJ20rZTOorrRGat6AEg+bu/pPk6daLm09OeYDoVoNc4EMzrOFPLBfYgPiRN2g4x+AU5DLLtFC6RK8a7YRSbUKaPu+hK/u0iMUMOxOl/dbcuNA8UIYfCExwoSNSRNC3eyhtVjhY49/5PYLFxwXUOrnz+KVdQWJIvPPGcSzuzdtkOLmLhKuf7/psMWSVp0w97f5qExj+z0P1zDNsFXpuU9eX7sVbOl5IjPdVkbXBcD4QO/QM3+im4uBGx9rDGplW1i3vDjmVLnAJ3doQ==
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e95a79f-56a3-42a2-ff1a-08d86bf9d1bf
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR08MB5517.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2020 02:19:58.6532
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: URZaKcnXwWHzUJsNZ0j9X2ujiA4R1gs8Gvq7NdDh5/thIUU0ZI6pgf0AWddfCO1liJVklSFCHCca/0pT5Uv2bA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR08MB4031
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Hans,
+This commit introduces the Guitar Hero Live driver which adds support
+for the PS3 and Wii U dongles.
 
-On Thu, Oct 08, 2020 at 09:10:19AM +0200, Hans de Goede wrote:
-> Hi,
-> 
-> On 10/8/20 2:14 AM, Jeff LaBundy wrote:
-> >Hi all,
-> >
-> >On Wed, Oct 07, 2020 at 03:32:07PM +0200, Hans de Goede wrote:
-> >>Hi,
-> >>
-> >>On 10/7/20 3:29 PM, Bastien Nocera wrote:
-> >>>On Wed, 2020-10-07 at 15:08 +0200, Hans de Goede wrote:
-> >>>>Hi,
-> >>>>
-> >>>>On 10/7/20 1:35 PM, Bastien Nocera wrote:
-> >>>>>On Wed, 2020-10-07 at 11:51 +0200, Hans de Goede wrote:
-> >>>>>><snip>
-> >>>>>>>Dmitry, any existing stuff like this in input?
-> >
-> >It seems we are talking about "specific absorption rate" (SAR) type
-> >devices that signal the WLAN controller to reduce transmitted power
-> >while a user is nearby.
-> 
-> Yes and no. At least the lap-mode detection (laptop on someones
-> lap rather then sitting on a table) is currently used by the
-> embedded-controller for thermal management decisions, basically
-> when on someones lap the configurable TPD of the CPU is set lower
-> to keep the laptop's bottom skin temperate < 45 degrees Celsius
-> (I think it is 45 but the exact number does not matter).
+These dongles require a "magic" USB control message [1] to be sent
+approximately every 10 seconds otherwise the dongle will not report
+events where the strumbar is hit while a fret is being held.
 
-This is a much-appreciated feature. :)
+Also, inspired by a patch sent on linux-input by Sanjay Govind [2], the
+accelerometer is mapped to ABS_RY for tilt.
 
-> 
-> The lap-mode info is currently exported with a thinkpad_acpi specific
-> sysfs attribute with the idea that userspace could potentially use
-> this to indicate to the user that turbo clocks will be lower
-> because of this.
-> 
-> With upcoming WLAN cards with configurable transmit power,
-> this will also be used as what you call a SAR device.
-> 
-> AFAIK the palmrest case is mostly a SAR device.
-> 
-> Note I'm explaining the alternative lap-mode use-case to make
-> sure everyone is on the same page. I completely agree with the
-> gist of your email :)
+Interestingly, the Wii U and PS3 dongles share the same VID and PID.
 
-Acknowledged on all counts; thank you for this additional background
-information.
+[1] https://github.com/ghlre/GHLtarUtility/
+[2] https://marc.info/?l=linux-input&m=157242835928542&w=2
 
-> 
-> >I just wanted to chime in and confirm that we do have at least one
-> >precedent for these being in input (keyboard/iqs62x-keys) and not
-> >iio so I agree with Jonathan here. My argument is that we want to
-> >signal binary events (user grabbed onto or let go of the handset)
-> >rather than deliver continuous data.
-> 
-> I was curious what keycode you are using for this, but I see
-> that the keycodes come from devicetree, so I guess I should
-> just ask: what keycode are you using for this ?
+Signed-off-by: Pascal Giard <pascal.giard@etsmtl.ca>
+---
+ drivers/hid/Kconfig      |   6 ++
+ drivers/hid/Makefile     |   1 +
+ drivers/hid/hid-ghlive.c | 220 +++++++++++++++++++++++++++++++++++++++
+ drivers/hid/hid-ids.h    |   3 +
+ 4 files changed, 230 insertions(+)
+ create mode 100644 drivers/hid/hid-ghlive.c
 
-The idea here was that a vendor might implement their own daemon
-that interprets any keycode of their choice, hence leaving the
-keycodes assignable via devicetree.
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 34f07371716d..0bf8dd1629f7 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -362,6 +362,12 @@ config HID_GFRM
+ 	---help---
+ 	Support for Google Fiber TV Box remote controls
+ 
++config HID_GHLIVE
++	tristate "Guitar Hero Live PS3/Wii U support"
++	depends on HID
++	help
++	  Support for the Guitar Hero Live PS3 and Wii U guitar devices.
++
+ config HID_GLORIOUS
+ 	tristate "Glorious PC Gaming Race mice"
+ 	depends on HID
+diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+index d8ea4b8c95af..6394f5bbf8a5 100644
+--- a/drivers/hid/Makefile
++++ b/drivers/hid/Makefile
+@@ -48,6 +48,7 @@ obj-$(CONFIG_HID_ELO)		+= hid-elo.o
+ obj-$(CONFIG_HID_EZKEY)		+= hid-ezkey.o
+ obj-$(CONFIG_HID_GEMBIRD)	+= hid-gembird.o
+ obj-$(CONFIG_HID_GFRM)		+= hid-gfrm.o
++obj-$(CONFIG_HID_GHLIVE)	+= hid-ghlive.o
+ obj-$(CONFIG_HID_GLORIOUS)  += hid-glorious.o
+ obj-$(CONFIG_HID_GOOGLE_HAMMER)	+= hid-google-hammer.o
+ obj-$(CONFIG_HID_GT683R)	+= hid-gt683r.o
+diff --git a/drivers/hid/hid-ghlive.c b/drivers/hid/hid-ghlive.c
+new file mode 100644
+index 000000000000..db5814aff17f
+--- /dev/null
++++ b/drivers/hid/hid-ghlive.c
+@@ -0,0 +1,220 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ *	HID driver for Guitar Hero Live PS3 and Wii U Guitar devices.
++ *
++ *	Copyright (c) 2020 Pascal Giard <pascal.giard@etsmtl.ca>
++ */
++
++#include <linux/hid.h>
++#include <linux/usb.h>
++#include <linux/timer.h>
++#include <linux/module.h>
++
++#include "hid-ids.h"
++
++MODULE_AUTHOR("Pascal Giard <pascal.giard@etsmtl.ca>");
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("HID driver for Activision GH Live PS3 and Wii U Guitar devices");
++
++#define GHL_GUITAR_PS3WIIU	 BIT(2)
++#define GHL_GUITAR_CONTROLLER	 BIT(1)
++
++#define GHL_GUITAR_POKE_INTERVAL 10 /* In seconds */
++
++#define GHL_GUITAR_TILT_USAGE 44
++
++/* Magic value and data taken from GHLtarUtility:
++ * https://github.com/ghlre/GHLtarUtility/blob/master/PS3Guitar.cs
++ * Note: The Wii U and PS3 dongles happen to share the same!
++ */
++static const u16 ghl_ps3wiiu_magic_value = 0x201;
++static const char ghl_ps3wiiu_magic_data[] = {
++	0x02, 0x08, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00
++};
++
++struct ghlive_sc {
++	struct hid_device *hdev;
++	struct usb_device *usbdev;
++	unsigned long quirks;
++	int device_id;
++	unsigned int poke_current;
++	struct timer_list poke_timer;
++};
++
++static void ghl_magic_poke_cb(struct urb *urb)
++{
++	if (urb) {
++		/* Free cr and databuf allocated in ghl_magic_poke() */
++		kfree(urb->setup_packet);
++		kfree(urb->transfer_buffer);
++	}
++}
++
++static void ghl_magic_poke(struct timer_list *t)
++{
++	struct ghlive_sc *sc = from_timer(sc, t, poke_timer);
++
++	int ret;
++	unsigned int pipe;
++	struct urb *urb;
++	struct usb_ctrlrequest *cr;
++	const u16 poke_size =
++		ARRAY_SIZE(ghl_ps3wiiu_magic_data);
++	u8 *databuf;
++
++	pipe = usb_sndctrlpipe(sc->usbdev, 0);
++
++	cr = kzalloc(sizeof(*cr), GFP_ATOMIC);
++	if (!cr)
++		goto resched;
++
++	databuf = kzalloc(poke_size, GFP_ATOMIC);
++	if (!databuf) {
++		kfree(cr);
++		goto resched;
++	}
++
++	urb = usb_alloc_urb(0, GFP_ATOMIC);
++	if (!urb) {
++		kfree(databuf);
++		kfree(cr);
++		goto resched;
++	}
++
++	if (sc->quirks & (GHL_GUITAR_CONTROLLER | GHL_GUITAR_PS3WIIU)) {
++		cr->bRequestType =
++			USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_OUT;
++		cr->bRequest = USB_REQ_SET_CONFIGURATION;
++		cr->wValue = cpu_to_le16(ghl_ps3wiiu_magic_value);
++		cr->wIndex = 0;
++		cr->wLength = cpu_to_le16(poke_size);
++		memcpy(databuf, ghl_ps3wiiu_magic_data, poke_size);
++
++		usb_fill_control_urb(
++			urb, sc->usbdev, pipe,
++			(unsigned char *) cr, databuf, poke_size,
++			ghl_magic_poke_cb, NULL);
++		ret = usb_submit_urb(urb, GFP_ATOMIC);
++		if (ret < 0) {
++			kfree(databuf);
++			kfree(cr);
++		}
++	}
++	usb_free_urb(urb);
++
++resched:
++	/* Reschedule for next time */
++	mod_timer(&sc->poke_timer, jiffies + GHL_GUITAR_POKE_INTERVAL*HZ);
++}
++
++static int guitar_mapping(struct hid_device *hdev, struct hid_input *hi,
++			  struct hid_field *field, struct hid_usage *usage,
++			  unsigned long **bit, int *max)
++{
++	if ((usage->hid & HID_USAGE_PAGE) == HID_UP_MSVENDOR) {
++		unsigned int abs = usage->hid & HID_USAGE;
++
++		if (abs == GHL_GUITAR_TILT_USAGE) {
++			hid_map_usage_clear(hi, usage, bit, max, EV_ABS, ABS_RY);
++			return 1;
++		}
++	}
++	return 0;
++}
++
++static int ghlive_mapping(struct hid_device *hdev, struct hid_input *hi,
++			      struct hid_field *field, struct hid_usage *usage,
++			      unsigned long **bit, int *max)
++{
++	struct ghlive_sc *sc = hid_get_drvdata(hdev);
++
++	if (sc->quirks & GHL_GUITAR_CONTROLLER)
++		return guitar_mapping(hdev, hi, field, usage, bit, max);
++
++	/* Let hid-core decide for the others */
++	return 0;
++}
++
++static int ghlive_probe(struct hid_device *hdev,
++			    const struct hid_device_id *id)
++{
++	int ret;
++	unsigned long quirks = id->driver_data;
++	struct ghlive_sc *sc;
++	unsigned int connect_mask = HID_CONNECT_DEFAULT;
++
++	sc = devm_kzalloc(&hdev->dev, sizeof(*sc), GFP_KERNEL);
++	if (sc == NULL)
++		return -ENOMEM;
++
++	sc->quirks = quirks;
++	hid_set_drvdata(hdev, sc);
++	sc->hdev = hdev;
++
++	ret = hid_parse(hdev);
++	if (ret) {
++		hid_err(hdev, "parse failed\n");
++		return ret;
++	}
++
++	ret = hid_hw_start(hdev, connect_mask);
++	if (ret) {
++		hid_err(hdev, "hw start failed\n");
++		return ret;
++	}
++
++	if (!(hdev->claimed & HID_CLAIMED_INPUT)) {
++		hid_err(hdev, "failed to claim input\n");
++		hid_hw_stop(hdev);
++		return -ENODEV;
++	}
++
++	if (sc->quirks & GHL_GUITAR_CONTROLLER) {
++		sc->usbdev = to_usb_device(hdev->dev.parent->parent);
++		sc->poke_current = 0;
++		timer_setup(&sc->poke_timer, ghl_magic_poke, 0);
++		mod_timer(&sc->poke_timer,
++			  jiffies + GHL_GUITAR_POKE_INTERVAL*HZ);
++	}
++
++	return ret;
++}
++
++static void ghlive_remove(struct hid_device *hdev)
++{
++	struct ghlive_sc *sc = hid_get_drvdata(hdev);
++
++	del_timer_sync(&sc->poke_timer);
++	hid_hw_close(hdev);
++	hid_hw_stop(hdev);
++}
++
++static const struct hid_device_id ghlive_devices[] = {
++	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY_GHLIVE, USB_DEVICE_ID_SONY_PS3WIIU_GHLIVE_DONGLE),
++		.driver_data = GHL_GUITAR_CONTROLLER | GHL_GUITAR_PS3WIIU},
++	{ }
++};
++MODULE_DEVICE_TABLE(hid, ghlive_devices);
++
++static struct hid_driver ghlive_driver = {
++	.name		= "ghlive",
++	.id_table	= ghlive_devices,
++	.input_mapping	= ghlive_mapping,
++	.probe		= ghlive_probe,
++	.remove	= ghlive_remove,
++};
++
++static int __init ghlive_init(void)
++{
++	dbg_hid("GHLive:%s\n", __func__);
++	return hid_register_driver(&ghlive_driver);
++}
++
++static void __exit ghlive_exit(void)
++{
++	dbg_hid("GHLive:%s\n", __func__);
++
++	hid_unregister_driver(&ghlive_driver);
++}
++module_init(ghlive_init);
++module_exit(ghlive_exit);
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 1c71a1aa76b2..e3a3942079cf 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -1060,6 +1060,9 @@
+ #define USB_DEVICE_ID_SONY_BUZZ_CONTROLLER		0x0002
+ #define USB_DEVICE_ID_SONY_WIRELESS_BUZZ_CONTROLLER	0x1000
+ 
++#define USB_VENDOR_ID_SONY_GHLIVE			0x12ba
++#define USB_DEVICE_ID_SONY_PS3WIIU_GHLIVE_DONGLE	0x074b
++
+ #define USB_VENDOR_ID_SINO_LITE			0x1345
+ #define USB_DEVICE_ID_SINO_LITE_CONTROLLER	0x3008
+ 
+-- 
+2.28.0
 
-This particular device also acts as a capacitive/inductive button
-sensor, and these applications were the primary motivation for it
-landing in input with its status bits mapped to keycodes.
-
-I don't think there are any keycodes that exist today that would
-universally work for this application. The couple that seem most
-closely related (e.g. KEY_WLAN or KEY_RFKILL) are typically used
-for disabling the adapter entirely or for airplane mode (please
-correct me if I'm wrong).
-
-To that end, I'm keen to see how this interface unfolds because
-SAR detection tends to be an available mode of operation for
-several of the capacitive touch devices I've been working with.
-
-> 
-> >The example I've shown reports events as keycodes since some of the
-> >events it can express represent momentary conditions. In hindsight,
-> >however, an argument can be made to express some of this information
-> >as a switch (user is or is not near the device) and the new event
-> >codes proposed here seem like a step in the right direction.
-> 
-> I'm glad that you like the new proposed switch event-codes.
-> 
-> Regards,
-> 
-> Hans
-> 
-
-Kind regards,
-Jeff LaBundy
