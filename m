@@ -2,121 +2,134 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D24628B4B9
-	for <lists+linux-input@lfdr.de>; Mon, 12 Oct 2020 14:37:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E8A228BE75
+	for <lists+linux-input@lfdr.de>; Mon, 12 Oct 2020 18:52:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729580AbgJLMhM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 12 Oct 2020 08:37:12 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:38701 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726348AbgJLMhM (ORCPT
+        id S2403845AbgJLQwO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 12 Oct 2020 12:52:14 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:35752 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390683AbgJLQwO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 12 Oct 2020 08:37:12 -0400
-Received: from [192.168.1.155] ([77.2.5.48]) by mrelayeu.kundenserver.de
- (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MQeDw-1knLXr1BDC-00Nkxk; Mon, 12 Oct 2020 14:36:57 +0200
-Subject: Re: [External] Using IIO to export laptop palm-sensor and lap-mode
- info to userspace?
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Jeff LaBundy <jeff@labundy.com>
-Cc:     Bastien Nocera <hadess@hadess.net>,
-        Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        linux-iio@vger.kernel.org, Nitin Joshi1 <njoshi1@lenovo.com>,
-        linux-input@vger.kernel.org, dmitry.torokhov@gmail.com
-References: <9f9b0ff6-3bf1-63c4-eb36-901cecd7c4d9@redhat.com>
- <5a646527-7a1f-2fb9-7c09-8becdbff417b@lenovo.com>
- <20201007083602.00006b7e@Huawei.com>
- <218be284-4a37-e9f9-749d-c126ef1d098b@redhat.com>
- <b400b6956270a2433373dd6cbdae3332aa683f4f.camel@hadess.net>
- <cadabe4d-7cce-281e-75fe-fcc2099848da@redhat.com>
- <5273a1de9db682cd41e58553fe57707c492a53b7.camel@hadess.net>
- <272074b5-b28e-1b74-8574-3dc2d614269a@redhat.com>
- <20201008001424.GA3713@labundy.com>
- <9893a32c-02c8-f00c-7f00-6287d55043ab@redhat.com>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Message-ID: <f4f00263-3beb-d941-eb3a-2be95684db66@metux.net>
-Date:   Mon, 12 Oct 2020 14:36:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Mon, 12 Oct 2020 12:52:14 -0400
+Received: by mail-ed1-f66.google.com with SMTP id cq12so17746914edb.2;
+        Mon, 12 Oct 2020 09:52:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=3mboFW4RncTKtOa1W24m1Ae7YyE66jcNb5+APhjiUo8=;
+        b=TrFiW84TQByeVqD+r/u6Dikvtsw+SSUrb3fD1oAMSmQLye5TpAMe0S328tHQZHkKZu
+         62w8UyLsbmLCo+g9Xm9MD4hzVoTfuej4AclSEYbme/86OcLxhQ+gtQsFkh33kAxbrB3R
+         WkU6plJRoyc9szXsj96GBPNlfBfwWjeUD+cbc0iGfr/rNacd69LJXogZvoz+je28VKWL
+         8iOFVEowAGFfK4KXXb1fGLHGEI/TnXol9ZCe0OZa7Q9BquLdUYTKCGW5HuxzNzXRlBNu
+         RAFPxx5nZPJ4CEp4lpXuRonql3vSVsMkfHeMdY6Ny+1tR+tfA/D8CbWY3K4u+sp6JXP1
+         lu0Q==
+X-Gm-Message-State: AOAM532VXj1t5abkHx/Rpjp/wcfyqavBcx2nhtnIZ6/BRzk+T3x3aeyV
+        42V4pCoJnTlqW80f8cAIfmA=
+X-Google-Smtp-Source: ABdhPJwHfSMlR1K1xguOC5H0QrsWlq5j9g7EhtvzQgZS6un/QQ7FKO5pQ+6qmTh33FDIeD4VYJr+Hw==
+X-Received: by 2002:aa7:dc16:: with SMTP id b22mr15155239edu.252.1602521532271;
+        Mon, 12 Oct 2020 09:52:12 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.215])
+        by smtp.googlemail.com with ESMTPSA id j24sm10475455edq.29.2020.10.12.09.52.09
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 12 Oct 2020 09:52:10 -0700 (PDT)
+Date:   Mon, 12 Oct 2020 18:52:08 +0200
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     AngeloGioacchino Del Regno <kholk11@gmail.com>
+Cc:     dmitry.torokhov@gmail.com, Rob Herring <robh+dt@kernel.org>,
+        rydberg@bitmath.org, priv.luk@gmail.com,
+        linux-input@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        marijns95@gmail.com, konradybcio@gmail.com,
+        martin.botka1@gmail.com, phone-devel@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 3/3] dt-bindings: touchscreen: Add binding for Novatek
+ NT36xxx series driver
+Message-ID: <20201012165208.GA3706@kozik-lap>
+References: <20201008181514.668548-1-kholk11@gmail.com>
+ <20201008181514.668548-4-kholk11@gmail.com>
+ <CAJKOXPdZ_zo0bPwQd=_dKHhA2KWHgsH4KTH=+cX8hNxSVrqrig@mail.gmail.com>
+ <CAK7fi1ZJN=AbkusWqDEbAkZ=AgKEPCvWH43hBpX0-EUDJWOC5g@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <9893a32c-02c8-f00c-7f00-6287d55043ab@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: tl
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:KKEN+bpXP3GjqbgoxOI5iqP+fmHqm71tJmcYNRCQwbw4f/08NMW
- UtyszG01BZOfsd/9PGpiPLqN1q2HV5uX//nuDqdW2trUw53m5sC6R6RniUaqHUpvlVarl9j
- i3FaOcCgSlMc2599iNvjlHhBZGAA8PxUpVQNMDQhLBZ9Qniv+luemOTeoxYWx/7Vbt0TEuZ
- R04JXXd0GZ6NeRUBl2QPg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:1NsqBuDAYmc=:eRXIdSKXL/WiFL5JPyRwqD
- /LYUa/bZ1S/KrYnvTA6EVpgtW1gvIkTbKTtgXXcNNfQu/Z7fOTlZFHEW4X7VSE6f6QDeIPReB
- Y+cvPhCzvqhMNiuxZV+HHxTTQKZotS/Jl52yMRGRRJZN3ChT+8jJWu3iyQTQ0B+9ZjfwDwDPU
- 2YsFuX0R/X5ovB70lZM/PLrRT9Cc1qHSsQQyXcQVi7zHlbDWcutyX0rovM98LkLQpzl6BKLw/
- DztNNp8s0D/8PSqd6QachvQI5JY57MIGXKmV8qLnQ4Q4OKwgQolkQaMCJV9fVwB4uBm3YbApx
- G253QD8Fw365zDHC5MPSF8wY2gLJv0rlEEvu1Wh3ePQh9/cEVgX/HF3/gthuLAAIOoksGJGPw
- g0PqJyw4NniH2tqMkgtz4mskiVHY+WL5vT1u/dnW3GW4eva6CljjV2Fhrp+VlYkLJFOgU+l0j
- PvxcaWwsMXMZ95ZQSAV60mebxnGUL3Ht2P8EXUGXsovNVqKULmIHu9fJBz5wzFkwEP4Tn81Mb
- BCnEaauHJ7kU8iEI125xke5mGf3QyvMYgYqInRFToltOPongmUXiQFu9OvKUqmdcZFecoY3Kq
- YhIb+DSck41r8R0bqSKLqCJXvIPQNMtVssd3DeYokmmipRfhF7Z1Z6qcpklcDZ7L9EHv5Ofh4
- 11/QlnR1JKNkxqehHI5xZ9ItkyCIy9fWLTiYRRfUX0ppOwybL3lBK2jdzTm+uRr5yRQZLhQtt
- oXDWJj7at3mekmOSuA0frFTdEw2K82IX0LhIcGDrqN2iDGlbxyaMtJFo4oQ6ucisFc3WUqmW1
- 910OfdPAkjrFci584Qh2KV0nCJjJ5tIUOZs7p0l8+EkJSaVVaJrOKQTI5GN1zIDKdxX1Etd
+Content-Disposition: inline
+In-Reply-To: <CAK7fi1ZJN=AbkusWqDEbAkZ=AgKEPCvWH43hBpX0-EUDJWOC5g@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 08.10.20 09:10, Hans de Goede wrote:
+On Thu, Oct 08, 2020 at 10:30:35PM +0200, AngeloGioacchino Del Regno wrote:
+> Il giorno gio 8 ott 2020 alle ore 20:21 Krzysztof Kozlowski
+> <krzk@kernel.org> ha scritto:
+> >
+> > On Thu, 8 Oct 2020 at 20:15, <kholk11@gmail.com> wrote:
+> > >
+> > > From: AngeloGioacchino Del Regno <kholk11@gmail.com>
+> > >
+> > > Add binding for the Novatek NT36xxx series touchscreen driver.
+> > >
+> > > Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
+> > > ---
+> > >  .../input/touchscreen/novatek,nt36xxx.yaml    | 59 +++++++++++++++++++
+> > >  1 file changed, 59 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/novatek,nt36xxx.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/input/touchscreen/novatek,nt36xxx.yaml b/Documentation/devicetree/bindings/input/touchscreen/novatek,nt36xxx.yaml
+> > > new file mode 100644
+> > > index 000000000000..e747cacae036
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/input/touchscreen/novatek,nt36xxx.yaml
+> > > @@ -0,0 +1,59 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/input/touchscreen/novatek,nt36xxx.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Novatek NT36xxx series touchscreen controller Bindings
+> > > +
+> > > +maintainers:
+> > > +  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > > +
+> > > +allOf:
+> > > +  - $ref: touchscreen.yaml#
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: novatek,nt36xxx
+> >
+> > Thanks for the changes, they look good except this part here which I
+> > missed before. The compatible should not contain wildcards. If all
+> > devices are really compatible, just add here one const, e.g. "const:
+> > novatek,nt36525". If they are different, you could add multiple
+> > compatibles in enum.
+> >
+> > Best regards,
+> > Krzysztof
+> 
+> They are all managed the same way, but the page addresses are
+> changing between all of them... the driver is reading the chip ID
+> while the TS MCU is in "boot mode", then checking in a ID table
+> if the chip is supported and finally assigning a page address table.
+> This is done for the entire NT36*** series.
+> 
+> If wildcards are not permitted, perhaps I can change it to something
+> like "novatek,nt36" or "novatek,nt36-ts"... as then specifying the
+> specific IC model into the DT means that I would have to logically
+> change the driver itself to also crosscheck a DT-specified model
+> with whatever gets recognized by reading the chip (which then would
+> be a triple check of what's going on, imo overcomplicating the logic).
+> 
+> What would you propose, at this point?
 
-Hi folks,
+If you want the autodetection based on chip ID, then use the
+oldest/earliest device as compatible, so "novatek,nt36525" and keep
+everything else as is. In your case the HW description for all devices
+is the same, thus one compatible is enough.  This way if in future you
+need to bring a difference for a new HW (let's say some imaginary
+NT36999), you can simply add a new compatible.
 
-> Yes and no. At least the lap-mode detection (laptop on someones
-> lap rather then sitting on a table) is currently used by the
-> embedded-controller for thermal management decisions, basically
-> when on someones lap the configurable TPD of the CPU is set lower
-> to keep the laptop's bottom skin temperate < 45 degrees Celsius
-> (I think it is 45 but the exact number does not matter).
-
-Am I the only one who thinks the whole concept is a pretty weird
-idea ?
-
-IIRC the machine becomes slower when it *thinks* its on my lap,
-but runs faster - and becomes hotter - when it's laying around
-somewhere, eg. ontop of some papers ?
-
-Where can I get the drugs that these guys took ? :o
-
-> With upcoming WLAN cards with configurable transmit power,
-> this will also be used as what you call a SAR device.
-
-Same fun. Once a person comes near, the signal gets weaker and
-potentially connection breaks. Great fun for debugging.
-
-Back to the technical side: IMHO we should first work out what the
-actual purpose of these sensors could be - are they useful for
-anything else than just these specific cases ? If not, I'm not
-sure whether it makes sense to put them into IIO at all, but using
-a specific board driver instead.
-
-Okay, maybe we find these sensors somewhere else (maybe some embedded
-stuff), for completely different purpose - in that case having one
-standard driver (for the sensor itself) could make sense.
-
-But that leads me to bigger topic: we've got several cases of some
-sensors/chips used in different subsystems, eg. simple one-shot
-ADCs, eeprom's, etc. ... maybe we should move them to separate
-subsystems, which then can be wired to other (more specific) ones
-in a very generic way ? ... just some quick+dirty thoughs,
-
-
---mtx
-
--- 
----
-Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
-werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
-GPG/PGP-Schlüssel zu.
----
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+Best regards,
+Krzysztof
