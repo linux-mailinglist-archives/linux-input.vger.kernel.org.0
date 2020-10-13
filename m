@@ -2,182 +2,245 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C83B28C6A8
-	for <lists+linux-input@lfdr.de>; Tue, 13 Oct 2020 03:13:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0CCC28CA19
+	for <lists+linux-input@lfdr.de>; Tue, 13 Oct 2020 10:21:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728038AbgJMBNP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 12 Oct 2020 21:13:15 -0400
-Received: from mail1.bemta23.messagelabs.com ([67.219.246.2]:16434 "EHLO
-        mail1.bemta23.messagelabs.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727950AbgJMBNP (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 12 Oct 2020 21:13:15 -0400
-Received: from [100.112.1.102] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-        by server-2.bemta.az-b.us-east-1.aws.symcld.net id 9E/D7-19530-82FF48F5; Tue, 13 Oct 2020 01:13:12 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprLKsWRWlGSWpSXmKPExsWSLveKTVfjf0u
-  8wfLVyhaHF71gtPj67Ta7xZvj05ksztxeyGSxauE1Not5R96xWNz89I3VYu/i7ewOHB47Z91l
-  9/i1bQ2LR8uRt6weyw9OY/KY8OEtm8f7fVfZPD5vkgtgj2LNzEvKr0hgzZj1cwtrwS35iu57v
-  WwNjDsluxi5OIQE/jNKfDy2mLGLkRPIec4osWCqVBcjB4ewQLzEkidaIGERgTqJrsU3WUDqmQ
-  WuMkp8ufKODaJ5M4vEnanP2ECq2AS0JbZs+QVm8wrYSqx4foIJxGYRUJXYfridBcQWFQiX6Li
-  xgwmiRlDi5MwnYHFOkPoLx8B6mQUsJGbOP88IYYtL3HoynwnClpfY/nYOM4gtAWSfW3CQEcJO
-  kFj28g7zBEbBWUjGzkIyahaSUbOQjFrAyLKK0TSpKDM9oyQ3MTNH19DAQNfQ0EjXWNfURC+xS
-  jdJr7RYNzWxuETXUC+xvFivuDI3OSdFLy+1ZBMjMNZSCpjNdjD+fP1B7xCjJAeTkihv/p+WeC
-  G+pPyUyozE4oz4otKc1OJDjDIcHEoSvC5/gXKCRanpqRVpmTnAuIdJS3DwKInwOvwDSvMWFyT
-  mFmemQ6ROMSpKifNqgiQEQBIZpXlwbbBUc4lRVkqYl5GBgUGIpyC1KDezBFX+FaM4B6OSMK8n
-  yHaezLwSuOmvgBYzAS22XwK2uCQRISXVwLTBgqM+Y1pki9sJRfFJ75Yqak905lvxpFNP+rCqf
-  8PqW3vXvVS8nCnzQvecl8gyk+mRO6o6f3mXr158iePI5BMnu5/r+Zc7+PQusjo+Z8ZNo1aviM
-  UiyaF9Hjry3DUTd5zSOMRySiB622L7Dxs9Y1+YWvqXXZtveHMbX9vVlWa5ioZuN48eMErZvke
-  v8TCv4Ys9mVJxKkl5iSxpSpqCnJ+uVBmu6469PevB+TdLS3+abOcVlw0+4LDrELej8qFaOdP0
-  pn0K7HOPrlc5cnXi5yf+/nmCp+KWz9i/7nBJ6vWtz65FXK5yEr8SlO8y6byMbu5HVs3Nk84nn
-  AnOvbL7+I1tq9cFSM2tUy57dXeT0XElluKMREMt5qLiRABwNFBVsAMAAA==
-X-Env-Sender: markpearson@lenovo.com
-X-Msg-Ref: server-16.tower-386.messagelabs.com!1602551590!1614275!1
-X-Originating-IP: [103.30.234.6]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.60.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 16806 invoked from network); 13 Oct 2020 01:13:12 -0000
-Received: from unknown (HELO lenovo.com) (103.30.234.6)
-  by server-16.tower-386.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 13 Oct 2020 01:13:12 -0000
-Received: from reswpmail04.lenovo.com (unknown [10.62.32.23])
-        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by Forcepoint Email with ESMTPS id 7F0379B7ADDE8C829FCA;
-        Tue, 13 Oct 2020 09:13:08 +0800 (CST)
-Received: from localhost.localdomain (10.46.56.85) by reswpmail04.lenovo.com
- (10.62.32.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2044.4; Mon, 12 Oct
- 2020 18:13:05 -0700
-Subject: Re: [External] Using IIO to export laptop palm-sensor and lap-mode
- info to userspace?
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Jeff LaBundy <jeff@labundy.com>
-CC:     Bastien Nocera <hadess@hadess.net>,
-        Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
-        <linux-iio@vger.kernel.org>, Nitin Joshi1 <njoshi1@lenovo.com>,
-        <linux-input@vger.kernel.org>, <dmitry.torokhov@gmail.com>
-References: <9f9b0ff6-3bf1-63c4-eb36-901cecd7c4d9@redhat.com>
- <5a646527-7a1f-2fb9-7c09-8becdbff417b@lenovo.com>
- <20201007083602.00006b7e@Huawei.com>
- <218be284-4a37-e9f9-749d-c126ef1d098b@redhat.com>
- <b400b6956270a2433373dd6cbdae3332aa683f4f.camel@hadess.net>
- <cadabe4d-7cce-281e-75fe-fcc2099848da@redhat.com>
- <5273a1de9db682cd41e58553fe57707c492a53b7.camel@hadess.net>
- <272074b5-b28e-1b74-8574-3dc2d614269a@redhat.com>
- <20201008001424.GA3713@labundy.com>
- <9893a32c-02c8-f00c-7f00-6287d55043ab@redhat.com>
- <f4f00263-3beb-d941-eb3a-2be95684db66@metux.net>
-From:   Mark Pearson <markpearson@lenovo.com>
-Message-ID: <f296f7e3-4571-f18a-51c5-4006196d2fa3@lenovo.com>
-Date:   Mon, 12 Oct 2020 21:12:58 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+        id S2391392AbgJMIVR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 13 Oct 2020 04:21:17 -0400
+Received: from mail-am6eur05on2053.outbound.protection.outlook.com ([40.107.22.53]:54688
+        "EHLO EUR05-AM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2391338AbgJMIVP (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 13 Oct 2020 04:21:15 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cNmJA9+2uL15N+eIIQux3wuYXECrsQiMMKStAw444FsPrF8RjidkeiB3qYK4RhPmmT0jh+zPknuVIrpEGbUXt5tsvhtPokJANFkZIRI1pd7eiZVNUYU2L+r7lZ1ZhKrL9nkw6jLyOAVSNGNqiX7ER0YgrQEfrMmU/LC3+rTz+LXfsfHJh+Uz2mVs/DzCWPXeqkn9ATE66FH35ExczgidZ29EyjlxCYY/g/JvMQlm6ElGhyEugAhVW5Qh04Z5cVtKJgmF2fyuQWry3PtYS2bDYotOdUwA+UD0Jw6HUCuO4GLrdql9f4gw8i1aiko0OdAA9Ujz0b2GTTEoLUMxavNEqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rHlDjeBzSz1S4o356F60vA+dQ9mVIaNIxDz+nHJW0Cc=;
+ b=SD8qFiuNxFa78pjH2pXVPJuFmomGAI5YpGETYDWGV7fRWnV99uR8N7UkVjUSVkdI2N1QinGMkw16gEr9SQS6CZ3wajXT+IGeXuS9W2I1nnwO2LQ5ZLRX9EpCnZhmYELTqe7fxHBklW0vGyNI8Wjs/t3SSkZZMVgzGxSyIYheYBv1K8pLNk0iECTpJ6595X5OgFrZ2++IRDrXy1KQSf6rvD95IzeFqkvl0VovrGEsQrFSkTxgYhTVYN+/LWTxDmcR2l70gRu75+gVP1N7MGl/+piTPN4acu05ew8aHjyN/sDVZ6N5HfxYJPM0aLlXWJFlJU6jERCE1SMKjvKyXB5g3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
+ is 193.240.239.45) smtp.rcpttodomain=vger.kernel.org
+ smtp.mailfrom=diasemi.com; dmarc=fail (p=none sp=none pct=100) action=none
+ header.from=diasemi.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dialogsemiconductor.onmicrosoft.com;
+ s=selector1-dialogsemiconductor-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rHlDjeBzSz1S4o356F60vA+dQ9mVIaNIxDz+nHJW0Cc=;
+ b=K4NaLm+CshFXIXZFHRBqheJ7O6G9pzm93KoFI8kmdOO5bcx6s5ABIxL2/rwr9TGJ6T8IF22K7jrj/CChe6C8rRhLBsG6TfOHD8lPZPdgLLMYEpDO65kEfr3gmqceS7Mo6TnV53KhVXHK07GYwSSQ2Su3EI36TTfbeb9tgqACFNI=
+Received: from AM7PR03CA0027.eurprd03.prod.outlook.com (2603:10a6:20b:130::37)
+ by HE1PR1001MB1370.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:3:e8::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.22; Tue, 13 Oct
+ 2020 08:21:10 +0000
+Received: from HE1EUR02FT012.eop-EUR02.prod.protection.outlook.com
+ (2603:10a6:20b:130:cafe::b2) by AM7PR03CA0027.outlook.office365.com
+ (2603:10a6:20b:130::37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.21 via Frontend
+ Transport; Tue, 13 Oct 2020 08:21:09 +0000
+X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
+ 193.240.239.45) smtp.mailfrom=diasemi.com; vger.kernel.org; dkim=none
+ (message not signed) header.d=none;vger.kernel.org; dmarc=fail action=none
+ header.from=diasemi.com;
+Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
+ diasemi.com discourages use of 193.240.239.45 as permitted sender)
+Received: from mailrelay1.diasemi.com (193.240.239.45) by
+ HE1EUR02FT012.mail.protection.outlook.com (10.152.10.75) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.3455.23 via Frontend Transport; Tue, 13 Oct 2020 08:21:09 +0000
+Received: from krsrvapps-03.diasemi.com (10.93.17.2) by
+ NB-EX-CASHUB01.diasemi.com (10.1.16.140) with Microsoft SMTP Server id
+ 14.3.468.0; Tue, 13 Oct 2020 10:21:03 +0200
+Received: by krsrvapps-03.diasemi.com (Postfix, from userid 22266)      id
+ DDD1A13F673; Tue, 13 Oct 2020 17:21:01 +0900 (KST)
+Message-ID: <162dee5096f78599441177c6bea7e616b3aeb491.1602570380.git.Roy.Im@diasemi.com>
+In-Reply-To: <cover.1602570380.git.Roy.Im@diasemi.com>
+References: <cover.1602570380.git.Roy.Im@diasemi.com>
+From:   Roy Im <roy.im.opensource@diasemi.com>
+Date:   Tue, 13 Oct 2020 15:26:19 +0900
+Subject: [RESEND PATCH v20 2/3] dt-bindings: input: Add document bindings for
+ DA7280
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Rob Herring <robh+dt@kernel.org>
+CC:     Support Opensource <support.opensource@diasemi.com>,
+        <devicetree@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <f4f00263-3beb-d941-eb3a-2be95684db66@metux.net>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.46.56.85]
-X-ClientProxiedBy: reswpmail04.lenovo.com (10.62.32.23) To
- reswpmail04.lenovo.com (10.62.32.23)
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5ee1e2e8-5af5-4d2b-91bb-08d86f50f08c
+X-MS-TrafficTypeDiagnostic: HE1PR1001MB1370:
+X-Microsoft-Antispam-PRVS: <HE1PR1001MB1370A048693A283607990E6FA2040@HE1PR1001MB1370.EURPRD10.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: E+3PMLHqjg/QiAUTR0RtK+/vnp30R0TvsfemSMClpz977Ym/F2jtwcHVCs1SRn4GkbbBpvg5XFDXoLFJRXeo6BrNoq6+HhhUePHQTESvoNdoDRsJG8fg7/M2afd9cWi/oWnqdKtg9oF5Q/JQzsAmY8NQcDwRsIo+dZQ0OrIHoukZOE9UIv7bjxe4tfP1yy40XNhsOzlJxb0/CLKWh9MAY7KN1ratRaLLAB8l+JNeR8hopESEk6f+1KVaO+3yKRqtsU9eoCNPALND67F0VYVW2wXmeJle5jCAX+3pOJqw+9tpNJfjocLAZASiT6PFuM+THc3u3/IrnlTr1KsMXL+EO4dgdF5iv4dQ6OdJSlT6cj8gTVNqmoG4eoLYNquy4hEwwzWpgTulKCxC/NmYshBD30d654DTJfg8ry0rG7LhOLUuTSg3ggLjtDcJEdONoU6q
+X-Forefront-Antispam-Report: CIP:193.240.239.45;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mailrelay1.diasemi.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(4636009)(376002)(396003)(136003)(39850400004)(346002)(46966005)(356005)(33310700002)(110136005)(81166007)(54906003)(36756003)(47076004)(82740400003)(2906002)(4326008)(2616005)(426003)(8676002)(186003)(478600001)(70206006)(36906005)(42186006)(70586007)(82310400003)(336012)(6266002)(316002)(8936002)(6666004)(5660300002)(83380400001)(86362001)(26005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: diasemi.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2020 08:21:09.6066
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ee1e2e8-5af5-4d2b-91bb-08d86f50f08c
+X-MS-Exchange-CrossTenant-Id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=511e3c0e-ee96-486e-a2ec-e272ffa37b7c;Ip=[193.240.239.45];Helo=[mailrelay1.diasemi.com]
+X-MS-Exchange-CrossTenant-AuthSource: HE1EUR02FT012.eop-EUR02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR1001MB1370
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Add device tree binding information for DA7280 haptic driver.
+Example bindings for DA7280 are added.
 
-On 2020-10-12 8:36 a.m., Enrico Weigelt, metux IT consult wrote:
-> On 08.10.20 09:10, Hans de Goede wrote:
-> 
-> Hi folks,
-> 
->> Yes and no. At least the lap-mode detection (laptop on someones
->> lap rather then sitting on a table) is currently used by the
->> embedded-controller for thermal management decisions, basically
->> when on someones lap the configurable TPD of the CPU is set lower
->> to keep the laptop's bottom skin temperate < 45 degrees Celsius
->> (I think it is 45 but the exact number does not matter).
-> 
-> Am I the only one who thinks the whole concept is a pretty weird
-> idea ?
-> 
-> IIRC the machine becomes slower when it *thinks* its on my lap,
-> but runs faster - and becomes hotter - when it's laying around
-> somewhere, eg. ontop of some papers ?
-> 
-> Where can I get the drugs that these guys took ? :o
-This made me smile :) But I think it's safe to so no dubious substances 
-were involved and it's really not that weird. We try very hard to not 
-burn our customers, many of them appreciate that. We haven't yet 
-implemented a paper sensor so that feature isn't available yet.
+Reviewed-by: Rob Herring <robh@kernel.org>.
 
-A lot of Linux users, quite reasonably, want to be able to access the 
-maximum power available from their unit and so the logical conclusion is 
-you can have max power (and therefore temperatures) when it's not on 
-your lap, but in the interest of making the device safe and comfortable 
-when it's on your lap the power rating drops.
-I think this implementation is pretty common across all vendors these 
-days - we're just exposing the lapmode sensor to user space to make it 
-more obvious to users *why* the power dropped. We will also use both the 
-lapmode and palm sensor for WWAN.
+Signed-off-by: Roy Im <roy.im.opensource@diasemi.com>
 
-> 
->> With upcoming WLAN cards with configurable transmit power,
->> this will also be used as what you call a SAR device.
-Minor correction - we're using this for WWAN
+---
+v20: No changes.
+v19: No changes.
+v18: No changes.
+v17: No changes.
+v16: No changes.
+v15: No changes.
+v14: No changes.
+v13: No changes.
+v12: No changes.
+v11: No changes.
+v10: No changes.
+v9: No changes.
+v8: Updated descriptions for new properties.
+v7: No changes.
+v6: No changes.
+v5: Updated descriptions and fixed errors.
+v4: Fixed commit message, properties.
+v3: Fixed subject format.
+v2: No changes
 
-> 
-> Same fun. Once a person comes near, the signal gets weaker and
-> potentially connection breaks. Great fun for debugging.
 
-My understanding is it's the way it's done on Windows and it is a FCC 
-legal requirement so we can't get away from it. We could do what I think 
-most vendors do and only provide the low power mode, but we're trying to 
-give full and equivalent support to Linux users, so they can have full 
-power when possible, and that means these proximity sensors being 
-available to user space.
+ .../devicetree/bindings/input/dlg,da7280.txt       | 109 +++++++++++++++++++++
+ 1 file changed, 109 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/dlg,da7280.txt
 
-I hear you on the debugging but Windows seems to have managed OK.
+diff --git a/Documentation/devicetree/bindings/input/dlg,da7280.txt b/Documentation/devicetree/bindings/input/dlg,da7280.txt
+new file mode 100644
+index 0000000..e6b719d
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/dlg,da7280.txt
+@@ -0,0 +1,109 @@
++Dialog Semiconductor DA7280 Haptics bindings
++
++Required properties:
++- compatible: Should be "dlg,da7280".
++- reg: Specifies the I2C slave address.
++
++- interrupt-parent : Specifies the phandle of the interrupt controller to
++  which the IRQs from DA7280 are delivered to.
++
++- dlg,actuator-type: Set Actuator type. it should be one of:
++  "LRA" - Linear Resonance Actuator type.
++  "ERM-bar" - Bar type Eccentric Rotating Mass.
++  "ERM-coin" - Coin type Eccentric Rotating Mass.
++
++- dlg,const-op-mode: Haptic operation mode for FF_CONSTANT.
++  Possible values:
++	1 - Direct register override(DRO) mode triggered by i2c(default),
++	2 - PWM data source mode controlled by PWM duty,
++- dlg,periodic-op-mode: Haptic operation mode for FF_PERIODIC.
++  Possible values:
++	1 - Register triggered waveform memory(RTWM) mode, the pattern
++	    assigned to the PS_SEQ_ID played as much times as PS_SEQ_LOOP,
++	2 - Edge triggered waveform memory(ETWM) mode, external GPI(N)
++	    control are required to enable/disable and it needs to keep
++	    device enabled by sending magnitude (X > 0),
++	    the pattern is assigned to the GPI(N)_SEQUENCE_ID below.
++	The default value is 1 for both of the operation modes.
++	For more details, please see the datasheet.
++
++- dlg,nom-microvolt: Nominal actuator voltage rating.
++  Valid values: 0 - 6000000.
++- dlg,abs-max-microvolt: Absolute actuator maximum voltage rating.
++  Valid values: 0 - 6000000.
++- dlg,imax-microamp: Actuator max current rating.
++  Valid values: 0 - 252000.
++  Default: 130000.
++- dlg,impd-micro-ohms: the impedance of the actuator in micro ohms.
++  Valid values: 0 - 1500000000.
++
++Optional properties:
++- pwms : phandle to the physical PWM(Pulse Width Modulation) device.
++  PWM properties should be named "pwms". And number of cell is different
++  for each pwm device.
++  (See Documentation/devicetree/bindings/pwm/pwm.txt
++   for further information relating to pwm properties)
++
++- dlg,ps-seq-id: the PS_SEQ_ID(pattern ID in waveform memory inside chip)
++  to play back when RTWM-MODE is enabled.
++  Valid range: 0 - 15.
++- dlg,ps-seq-loop: the PS_SEQ_LOOP, Number of times the pre-stored sequence
++  pointed to by PS_SEQ_ID or GPI(N)_SEQUENCE_ID is repeated.
++  Valid range: 0 - 15.
++- dlg,gpiN-seq-id: the GPI(N)_SEQUENCE_ID, pattern to play
++  when gpi0 is triggered, 'N' must be 0 - 2.
++  Valid range: 0 - 15.
++- dlg,gpiN-mode: the pattern mode which can select either
++  "Single-pattern" or "Multi-pattern", 'N' must be 0 - 2.
++- dlg,gpiN-polarity: gpiN polarity which can be chosen among
++  "Rising-edge", "Falling-edge" and "Both-edge",
++  'N' must be 0 - 2
++  Haptic will work by this edge option in case of ETWM mode.
++
++- dlg,resonant-freq-hz: use in case of LRA.
++  the frequency range: 50 - 300.
++  Default: 205.
++
++- dlg,bemf-sens-enable: Enable for internal loop computations.
++- dlg,freq-track-enable: Enable for resonant frequency tracking.
++- dlg,acc-enable: Enable for active acceleration.
++- dlg,rapid-stop-enable: Enable for rapid stop.
++- dlg,amp-pid-enable: Enable for the amplitude PID.
++- dlg,mem-array: Customized waveform memory(patterns) data downloaded to
++  the device during initialization. This is an array of 100 values(u8).
++
++For further information, see device datasheet.
++
++======
++
++Example:
++
++	haptics: da7280-haptics@4a {
++		compatible = "dlg,da7280";
++		reg = <0x4a>;
++		interrupt-parent = <&gpio6>;
++		interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
++		dlg,actuator-type = "LRA";
++		dlg,dlg,const-op-mode = <1>;
++		dlg,dlg,periodic-op-mode = <1>;
++		dlg,nom-microvolt = <2000000>;
++		dlg,abs-max-microvolt = <2000000>;
++		dlg,imax-microamp = <170000>;
++		dlg,resonant-freq-hz = <180>;
++		dlg,impd-micro-ohms = <10500000>;
++		dlg,freq-track-enable;
++		dlg,rapid-stop-enable;
++		dlg,mem-array = <
++ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
++ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
++ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
++ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
++ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
++ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
++ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
++ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
++ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
++ 		  0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
++		>;
++
++	};
+-- 
+end-of-patch for RESEND PATCH v20
 
-> 
-> Back to the technical side: IMHO we should first work out what the
-> actual purpose of these sensors could be - are they useful for
-> anything else than just these specific cases ? If not, I'm not
-> sure whether it makes sense to put them into IIO at all, but using
-> a specific board driver instead.
-
-Hopefully the above helps explain the purpose of them a bit.
-
- From my point of view, I'm pretty new to the kernel contribution side 
-of things so want to do whatever is recommended from the kernel 
-community but gets these sensor states to user space so we can give 
-Linux users a better experience on Lenovo platforms.
-
-I think we've settled on using the input system instead of iio so maybe 
-this thread is moot - but I wanted to respond in case details were 
-useful or interesting.
-
-> 
-> Okay, maybe we find these sensors somewhere else (maybe some embedded
-> stuff), for completely different purpose - in that case having one
-> standard driver (for the sensor itself) could make sense.
-
-It's hard to comment here as I only know about Lenovo implementations, 
-but I wouldn't be hugely surprised if other vendors wanted to do 
-similar. For now, to my knowledge, it is just a Lenovo implementation 
-and the user-space consumer is a Lenovo application.
-
-> 
-> But that leads me to bigger topic: we've got several cases of some
-> sensors/chips used in different subsystems, eg. simple one-shot
-> ADCs, eeprom's, etc. ... maybe we should move them to separate
-> subsystems, which then can be wired to other (more specific) ones
-> in a very generic way ? ... just some quick+dirty thoughs,
-> 
-> 
-> --mtx
-> 
-
-Mark
