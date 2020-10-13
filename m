@@ -2,147 +2,138 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B6C328D098
-	for <lists+linux-input@lfdr.de>; Tue, 13 Oct 2020 16:46:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60B6028D0C6
+	for <lists+linux-input@lfdr.de>; Tue, 13 Oct 2020 17:00:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389127AbgJMOqA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 13 Oct 2020 10:46:00 -0400
-Received: from mail-oo1-f67.google.com ([209.85.161.67]:32825 "EHLO
-        mail-oo1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389034AbgJMOpz (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 13 Oct 2020 10:45:55 -0400
-Received: by mail-oo1-f67.google.com with SMTP id r7so3773029ool.0;
-        Tue, 13 Oct 2020 07:45:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=NW3Dp8tSp1XFOQyuV/GinrTN5xWOBlun1+/qXZiv0S0=;
-        b=LNtpsXUDE41oF2E66/XC7EDcG6nR9WZVjnVVQqgPJ1y9qFKIOq33ENvkjgKvrZ6I/u
-         Z5CVG8z8aCIvzofzhSL1ObRSMAwtW6iZfCVkP4SyCmP+XU++UjfA/wtlpNBm8nRkECiI
-         khD9cQy82PbKmSFI3UXAkgpBmYLDHdB0nCDmalbB9viy0n3gzL/ERzDTHXEyJA/D1fRq
-         b2T11eVZ92P6WfFvX0GKhIpbnS8jz3FW5yJsFrj5SQXsQRIF8777deZZq3IyrgXACyLx
-         IU6ZmHD2wiSqnwN6tHmiaI31ni7s7vsMvEaYZe55hR7V1EpSWCiCx5IiX3E7L/3sHmiM
-         qU6A==
-X-Gm-Message-State: AOAM5327G6LWFhbQVem2CIb0SHiRxDSwCyqmBNE1CcIjaZOTqvF1EPD6
-        We1fcg1XEv0lf66XsHYCAQ==
-X-Google-Smtp-Source: ABdhPJzNduhs8XWiKMxvXTbQVUIfF4BuJBAEJr7VR4OowQhrZRIayCNtSFAwWKYLQjs8KUXqPOhwOA==
-X-Received: by 2002:a4a:e544:: with SMTP id s4mr22349438oot.74.1602600354126;
-        Tue, 13 Oct 2020 07:45:54 -0700 (PDT)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id l138sm11111798oih.32.2020.10.13.07.45.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2020 07:45:53 -0700 (PDT)
-Received: (nullmailer pid 3483418 invoked by uid 1000);
-        Tue, 13 Oct 2020 14:45:52 -0000
-Date:   Tue, 13 Oct 2020 09:45:52 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     kholk11@gmail.com
-Cc:     dmitry.torokhov@gmail.com, rydberg@bitmath.org, priv.luk@gmail.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        marijns95@gmail.com, konradybcio@gmail.com,
-        martin.botka1@gmail.com, phone-devel@vger.kernel.org,
-        devicetree@vger.kernel.org, krzk@kernel.org
-Subject: Re: [PATCH v4 3/3] dt-bindings: touchscreen: Add binding for Novatek
- NT36xxx series driver
-Message-ID: <20201013144552.GA3477694@bogus>
-References: <20201008181514.668548-1-kholk11@gmail.com>
- <20201008181514.668548-4-kholk11@gmail.com>
+        id S2388986AbgJMPAl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 13 Oct 2020 11:00:41 -0400
+Received: from mx3.molgen.mpg.de ([141.14.17.11]:43963 "EHLO mx1.molgen.mpg.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2388871AbgJMPAk (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 13 Oct 2020 11:00:40 -0400
+Received: from [141.14.220.45] (g45.guest.molgen.mpg.de [141.14.220.45])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: pmenzel)
+        by mx.molgen.mpg.de (Postfix) with ESMTPSA id 2FC6920647116;
+        Tue, 13 Oct 2020 17:00:37 +0200 (CEST)
+Subject: Re: i8042_init: PS/2 mouse not detected with ACPIPnP/PnPBIOS
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Len Brown <lenb@kernel.org>, linux-input@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>
+References: <1a69c5bc-ccc4-68db-7871-af05a70052c9@molgen.mpg.de>
+ <20201007221628.GW1009802@dtor-ws>
+ <bbb70981-1242-0aea-01c9-f9507f8eae3b@molgen.mpg.de>
+ <CAJZ5v0hKmESo0-kfN1+vK7to05GpVV3d7ZnO3XEsQ2jKKhvkJQ@mail.gmail.com>
+ <7921b792-c99a-659c-730f-ecb25cb7f04b@molgen.mpg.de>
+ <CAJZ5v0iim_XvBcjSZevEmbQb6F8bCb2jP14Ptnqd_7qfuuUHpw@mail.gmail.com>
+From:   Paul Menzel <pmenzel@molgen.mpg.de>
+Message-ID: <082dfba3-6187-7081-6a8c-8c38a3a95b19@molgen.mpg.de>
+Date:   Tue, 13 Oct 2020 17:00:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201008181514.668548-4-kholk11@gmail.com>
+In-Reply-To: <CAJZ5v0iim_XvBcjSZevEmbQb6F8bCb2jP14Ptnqd_7qfuuUHpw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Oct 08, 2020 at 08:15:14PM +0200, kholk11@gmail.com wrote:
-> From: AngeloGioacchino Del Regno <kholk11@gmail.com>
+Dear Rafael, dear Dmitry,
+
+
+Am 12.10.20 um 13:00 schrieb Rafael J. Wysocki:
+> On Mon, Oct 12, 2020 at 12:50 PM Paul Menzel wrote:
+
+>> Am 12.10.20 um 12:39 schrieb Rafael J. Wysocki:
+>>> On Sun, Oct 11, 2020 at 1:08 AM Paul Menzel wrote:
+
+>>>> Am 08.10.20 um 00:16 schrieb Dmitry Torokhov:
+>>>>
+>>>>> On Wed, Oct 07, 2020 at 11:18:41PM +0200, Paul Menzel wrote:
+>>>>
+>>>>>> On the Asus F2A85-M PRO Linux 5.9-rc8 (and previous versions) does not
+>>>>>> recognize a plugged in PS/2 mouse using the Plug & Play method. The PS/2
+>>>>>> keyboard is detected fine, and using `i8042.nopnp`, the PS/2 mouse also
+>>>>>> works.
+>>>>>>
+>>>>>>> [    1.035915] calling  i8042_init+0x0/0x42d @ 1
+>>>>>>> [    1.035947] i8042: PNP: PS/2 Controller [PNP0303:PS2K] at 0x60,0x64 irq 1
+>>>>>>> [    1.035948] i8042: PNP: PS/2 appears to have AUX port disabled, if this is incorrect please boot with i8042.nopnp
+>>>>>>> [    1.036589] serio: i8042 KBD port at 0x60,0x64 irq 1
+>>>>>>> [    1.036621] initcall i8042_init+0x0/0x42d returned 0 after 687 usecs
+>>>>>>
+>>>>>> But, the DSDT includes the “mouse device”. From
+>>>>>>
+>>>>>>        acpidump > dump.bin; acpixtract dump.bin; iasl -d *dat; more dsdt.dsl
+>>>>>>
+>>>>>> we get
+>>>>>>
+>>>>>>                    Device (PS2M)
+>>>>>>                    {
+>>>>>>                        Name (_HID, EisaId ("PNP0F03") /* Microsoft PS/2-style Mouse */)  // _HID: Hardware ID
+>>>>>>                        Name (_CID, EisaId ("PNP0F13") /* PS/2 Mouse */) // _CID: Compatible ID
+>>>>>>                        Method (_STA, 0, NotSerialized)  // _STA: Status
+>>>>>>                        {
+>>>>>>                            If ((IOST & 0x4000))
+>>>>>>                            {
+>>>>>>                                Return (0x0F)
+>>>>>>                            }
+>>>>>>                            Else
+>>>>>>                            {
+>>>>>>                                Return (Zero)
+>>>>>>                            }
+>>>>>>                        }
+>>>>>>
+>>>>>> and the identifiers PNP0F03 and PNP0F13 are both listed in the array
+>>>>>> `pnp_aux_devids[]`. But adding print statements to `i8042_pnp_aux_probe()`,
+>>>>>> I do not see them, so the function does not seem to be called.
+>>>>>
+>>>>> My guess is that _STA returns 0 indicating that the device is not
+>>>>> present. I would try tracking where IOST is being set and figuring out
+>>>>> why it does not have mouse bit enabled.
+>>>>
+>>>> Does the ACPI subsystem allow to track, how ACPI variables(?) like IOST
+>>>> are read and set?
+>>>
+>>> My guess would be that IOST is a field in an operation region which
+>>> would indicate that it is initialized by the bootstrap part of the
+>>> BIOS.
+>>
+>> Thank you for your answer. But how can I verify that?
 > 
-> Add binding for the Novatek NT36xxx series touchscreen driver.
+> Inspecting the ACPI tables from the system in question could help you
+> to find out whether or not IOST really is a field in an operation
+> region, but its initial value may not be possible to determine this
+> way.
 > 
-> Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
-> ---
->  .../input/touchscreen/novatek,nt36xxx.yaml    | 59 +++++++++++++++++++
->  1 file changed, 59 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/novatek,nt36xxx.yaml
+>> Is there a Linux kernel parameter, that would print it?
 > 
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/novatek,nt36xxx.yaml b/Documentation/devicetree/bindings/input/touchscreen/novatek,nt36xxx.yaml
-> new file mode 100644
-> index 000000000000..e747cacae036
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/novatek,nt36xxx.yaml
-> @@ -0,0 +1,59 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/touchscreen/novatek,nt36xxx.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Novatek NT36xxx series touchscreen controller Bindings
-> +
-> +maintainers:
-> +  - Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Not that I know of.
 
-This should be an owner for this device, not subsystem maintainers.
+I created an issue in the Linux kernel bugtracker [1] and attached the 
+output of `acpidump` there.
 
-> +
-> +allOf:
-> +  - $ref: touchscreen.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: novatek,nt36xxx
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  reset-gpio:
+Could
 
-reset-gpios
+     If ((IOST & 0x4000))
 
-> +    maxItems: 1
-> +
-> +  vdd-supply:
-> +    description: Power supply regulator for VDD pin
-> +
-> +  vio-supply:
-> +    description: Power supply regulator on VDD-IO pin
-> +
-> +additionalProperties: false
+versus
 
-This won't work with the ref to touchscreen.yaml. Use 
-'unevaluatedProperties: false' instead.
+     If ((IOST & 0x0400))
 
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      touchscreen@62 {
-> +        compatible = "novatek,nt36xxx";
-> +        reg = <0x62>;
-> +        interrupt-parent = <&tlmm>;
-> +        interrupts = <45 IRQ_TYPE_EDGE_RISING>;
-> +        reset-gpio = <&tlmm 102 GPIO_ACTIVE_HIGH>;
-> +      };
-> +    };
-> +
-> +...
-> -- 
-> 2.28.0
-> 
+be a typo?
+
+
+Kind regards,
+
+Paul
+
+
+[1]: https://bugzilla.kernel.org/show_bug.cgi?id=209657
