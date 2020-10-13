@@ -2,56 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BA7A28C96D
-	for <lists+linux-input@lfdr.de>; Tue, 13 Oct 2020 09:32:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C621C28C978
+	for <lists+linux-input@lfdr.de>; Tue, 13 Oct 2020 09:35:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390260AbgJMHcW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 13 Oct 2020 03:32:22 -0400
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:58921 "EHLO
+        id S2390237AbgJMHfe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 13 Oct 2020 03:35:34 -0400
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:39051 "EHLO
         wout4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2390018AbgJMHcV (ORCPT
+        by vger.kernel.org with ESMTP id S2390183AbgJMHfe (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 13 Oct 2020 03:32:21 -0400
+        Tue, 13 Oct 2020 03:35:34 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.west.internal (Postfix) with ESMTP id 76DB9760;
-        Tue, 13 Oct 2020 03:32:20 -0400 (EDT)
+        by mailout.west.internal (Postfix) with ESMTP id 4D6D6611;
+        Tue, 13 Oct 2020 03:35:33 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Tue, 13 Oct 2020 03:32:20 -0400
+  by compute4.internal (MEProxy); Tue, 13 Oct 2020 03:35:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
         :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=OEiCorPEsacvk944V
-        J16bLdPicV9i0Ibum0EJZXSoNA=; b=BbNIVi6NA0AS30ZSnmBg52gzLj3Lh5s+j
-        L2IedXtaLFRSWH8X5OeNG6MDOOUvZJngtgZotVxQxT3LF9X5n8TbMzXdKaQ2yNJ2
-        lhVrCGHpnEiPUA81IKGn6yzr9UeFwBd++f+ocwR02wfy2EvwTJ5eNCnfVheTOCc4
-        FM78Z5iJ8UIklngLoJCzusajYU26D4qL+ckrSVgSv0E4BHw4tE7qNt1v0p5yBKtc
-        xl8xWDI05s9MsqUY4NulaxZLBMj2MCh26fPCFQv6oNQ+rCOVfTiSiNq/KiiHBY/9
-        6jRy7nVSOqRhXTBKoX02oZ6LPJqVTZxlJNy2VaIVUYKWIcTrF93zg==
-X-ME-Sender: <xms:A1iFX-J2QxBeXRZOAMQrFhkQrGySxWUWIUlVA4ot-vFmVry7wunpFw>
-    <xme:A1iFX2LG1mX72v2TDLhhBovbdDmtWV0yVMaR7f1aomPEqTk1uASZ919gSS4JFLBJZ
-    XNTfyrtVuRailgc7U0>
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=1vs3frV5Vr5h3P/gY
+        S9/oVN9sQDsv6nMjUAy8HC21EU=; b=YGHAjk6YfbKonV/bcdsWDZCUkxfAwpI5q
+        /oKiJ9uJsozmdR9e00oeP5onvyCSPPiHGDhqJMYMFPAPFAaThwwvNUGW060BC4xb
+        vCoQ7DcINLljRCu0l6B0Nr6mNkwwfdDVZUx4+is3FkHt4TTdoU5OlYj1armj4vOn
+        vHd8FKvvcSxHKM3CrOpUYjWnzwKt2w9rYNrDdLJiPDCIjYChI+Zxt2I+yeV9+wtt
+        e6Vvy+7GnJbF2BK3DR0KtdJSMOa8WLJdRuOf7rApT+DCUnxpPh4LoL2+oR4gR2ED
+        cOwsyipMwv8uPK5ay2UHHjvr1rHXVInrTW9Bx3wnAniDKxbLnrYhA==
+X-ME-Sender: <xms:xFiFX4_Nq_jTTztDFuvMrsok9TmE6bKKyZHiAMenhUNTUAUgcpGS0A>
+    <xme:xFiFXwscnwW9_SkFfLdlqUNeupTzz2Vi0Bv8tksxht6TJK9Hed0j5OSdKjFldclTS
+    y7N9C-9xSpSiPuQl3c>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrheekgdduvdefucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
     dttdenucfhrhhomhepnfhukhgvucffucflohhnvghsuceolhhukhgvsehljhhonhgvshdr
     uggvvheqnecuggftrfgrthhtvghrnhepfffghfehheekgfdttdeihfdugeetkeduiefhvd
     dujeduiefgtdehieejtedvjedvnecukfhppedvtdefrdduudegrddugedurdduieenucev
-    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehluhhkvgeslh
+    lhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehluhhkvgeslh
     hjohhnvghsrdguvghv
-X-ME-Proxy: <xmx:A1iFX-vbZiiwlScW_MpuFl8BwhKUGbS1PBYdd4ag4A_AQIT7Fi4XCQ>
-    <xmx:A1iFXzYx6GjkQH-ccY5mInlGcyeAKSruiIJIVR1wgq6xakiiYpBMoQ>
-    <xmx:A1iFX1Y8H7UK7aGODZ26k8B30-lNSWkU5yZuutvqfZIfhdg3kS7Yeg>
-    <xmx:BFiFX0k-uZ5yl9H89ugxavbXS43QW4khdFRdza_NxiWyzHg-_PTqmQ>
+X-ME-Proxy: <xmx:xFiFX-AqdbNpVfM4Ay6rBEx55E8VbWYsjJHYlpY-X2tkm-4Z140muA>
+    <xmx:xFiFX4fty7gHJuWykM8ZX3o0EznCAfitl2IetDdbMZG5CQyZKvLnCQ>
+    <xmx:xFiFX9Mw8yzGEOcVPEKStIVmeXtmjdfT2RCb8Y2gjJPYtQecnfGQIw>
+    <xmx:xFiFX2Zl9q59meKpPfHOdIktf4vUtthRPsz8cJ2OPefvjfwzCW-zqg>
 Received: from localhost.localdomain (203-114-141-16.sta.inspire.net.nz [203.114.141.16])
-        by mail.messagingengine.com (Postfix) with ESMTPA id DC5BD3280059;
-        Tue, 13 Oct 2020 03:32:16 -0400 (EDT)
+        by mail.messagingengine.com (Postfix) with ESMTPA id 7C2D93280063;
+        Tue, 13 Oct 2020 03:35:30 -0400 (EDT)
 From:   Luke D Jones <luke@ljones.dev>
 To:     linux-input@vger.kernel.org
 Cc:     hdegoede@redhat.com, jikos@kernel.org, andy@infradead.org,
         benjamin.tissoires@redhat.com, Luke D Jones <luke@ljones.dev>
-Subject: [PATCH V7] HID: ASUS: Add support for ASUS N-Key keyboard
-Date:   Tue, 13 Oct 2020 20:31:34 +1300
-Message-Id: <20201013073133.9932-1-luke@ljones.dev>
+Subject: [PATCH V8] HID: ASUS: Add support for ASUS N-Key keyboard
+Date:   Tue, 13 Oct 2020 20:35:09 +1300
+Message-Id: <20201013073508.10476-1-luke@ljones.dev>
 X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -67,10 +67,6 @@ brightness control, and notify asus-wmi to toggle "fan-mode".
 The keyboard has many of the same key outputs as the existing ASUS
 keyboard including a few extras, and varies a little between laptop
 models.
-
-An existing key event used across some keyboards for "Mic Toggle"
-has been changed to emit "F20" as this is what all the main
-desktop environments are using.
 
 Additionally this keyboard requires the LED interface to be
 intitialised before such things as keyboard backlight control work.
