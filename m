@@ -2,251 +2,1336 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BFCE28E221
-	for <lists+linux-input@lfdr.de>; Wed, 14 Oct 2020 16:26:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9B0328EA7A
+	for <lists+linux-input@lfdr.de>; Thu, 15 Oct 2020 03:49:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726702AbgJNO0Q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 14 Oct 2020 10:26:16 -0400
-Received: from mail1.bemta23.messagelabs.com ([67.219.246.113]:55262 "EHLO
-        mail1.bemta23.messagelabs.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725874AbgJNO0Q (ORCPT
+        id S1732376AbgJOBti (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 14 Oct 2020 21:49:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52316 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728240AbgJOBth (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 14 Oct 2020 10:26:16 -0400
-Received: from [100.112.7.7] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-        by server-2.bemta.az-c.us-east-1.aws.symcld.net id 41/6D-48531-58A078F5; Wed, 14 Oct 2020 14:26:13 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrIKsWRWlGSWpSXmKPExsWSLveKXbeFqz3
-  e4MwNI4vDi14wWnz9dpvd4s3x6UwWZ24vZLJYtfAam8XNT99YHdg8ds66y+7xa9saFo+WI29Z
-  PZYfnMbk8X7fVTaPz5vkAtiiWDPzkvIrElgzzl57xVKwzazi2MMO9gbG/7pdjFwcQgL/GSXWr
-  vvACuE8Z5R4u/86WxcjB4ewQLzEkidaXYycHCICHhJ3Fu5nAalhFtjOKLFm+nmohv2sErMXLW
-  ECqWIT0JbYsuUXG4jNK2Ar8a3zGSuIzSKgKvF0zlewGlGBcImOGzuYIGoEJU7OfMICsoxTwE7
-  iyg9nkDCzgIXEzPnnGSFscYlbT+YzQdjyEs1bZzOD2BJA9raGlWwQdoLEspd3mCcwCs5CMnUW
-  klGzkIyahWTUAkaWVYxmSUWZ6RkluYmZObqGBga6hoZGuia6RoZmeolVusl6pcW6qYnFJbqGe
-  onlxXrFlbnJOSl6eaklmxiB8ZRSwHJjB+O91x/0DjFKcjApifKyXG2LF+JLyk+pzEgszogvKs
-  1JLT7EKMPBoSTB+5ijPV5IsCg1PbUiLTMHGNswaQkOHiURXh5gfAvxFhck5hZnpkOkTjEac5x
-  ctWQRM8fmuUsXMQux5OXnpUqJ834HmSQAUppRmgc3CJZyLjHKSgnzMjIwMAjxFKQW5WaWoMq/
-  YhTnYFQS5g3iBJrCk5lXArfvFdApTECn2C9pATmlJBEhJdXAJGsjKOUlrLfJsaRpxpb3L4r6P
-  X86XHk16/zfuXG7rWe4Xvvr1NhS+Fk1g19NfuLJeLML+mzZU05ms3BFXG6eXFXywWruMruGs1
-  8e129sPuQS1c5VvEy23+CuzumtSv6P1uzTako2vXh/27N/mvulD29cYPTkbL8i3/R2YY31L/N
-  V1DOmV7ec9M/U2S+8W/SFk4ro1ZdnDL4rLZ032fiwndojv228hxf8Ln55xTdS5EvB7I3meR35
-  kjP6T6hHbU5dy3UxTy4mbruaScWSHdfK0ufF+TTdk7qVq7egdK3E9/x59lueiHxfoL3t0e91S
-  lrnberY7z/IEoyryV7PsVni8802rz+V2/mceN58tDa+oMRSnJFoqMVcVJwIALbMvJ20AwAA
-X-Env-Sender: markpearson@lenovo.com
-X-Msg-Ref: server-11.tower-406.messagelabs.com!1602685570!114715!1
-X-Originating-IP: [103.30.234.7]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.60.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 23274 invoked from network); 14 Oct 2020 14:26:12 -0000
-Received: from unknown (HELO lenovo.com) (103.30.234.7)
-  by server-11.tower-406.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 14 Oct 2020 14:26:12 -0000
-Received: from reswpmail04.lenovo.com (unknown [10.62.32.23])
-        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by Forcepoint Email with ESMTPS id 7DA56888562526F1A1F3;
-        Wed, 14 Oct 2020 22:26:08 +0800 (CST)
-Received: from localhost.localdomain (10.46.55.84) by reswpmail04.lenovo.com
- (10.62.32.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2044.4; Wed, 14 Oct
- 2020 07:26:05 -0700
-Subject: Re: [External] Using IIO to export laptop palm-sensor and lap-mode
- info to userspace?
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Jeff LaBundy <jeff@labundy.com>
-CC:     Bastien Nocera <hadess@hadess.net>,
-        Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
-        Nitin Joshi1 <njoshi1@lenovo.com>,
-        <linux-input@vger.kernel.org>, <dmitry.torokhov@gmail.com>
-References: <9f9b0ff6-3bf1-63c4-eb36-901cecd7c4d9@redhat.com>
- <5a646527-7a1f-2fb9-7c09-8becdbff417b@lenovo.com>
- <20201007083602.00006b7e@Huawei.com>
- <218be284-4a37-e9f9-749d-c126ef1d098b@redhat.com>
- <b400b6956270a2433373dd6cbdae3332aa683f4f.camel@hadess.net>
- <cadabe4d-7cce-281e-75fe-fcc2099848da@redhat.com>
- <5273a1de9db682cd41e58553fe57707c492a53b7.camel@hadess.net>
- <272074b5-b28e-1b74-8574-3dc2d614269a@redhat.com>
- <20201008001424.GA3713@labundy.com>
- <9893a32c-02c8-f00c-7f00-6287d55043ab@redhat.com>
- <20201009021949.GA3629@labundy.com>
- <961aeee6-22e9-75dc-9fcf-45cee00ab62c@redhat.com>
- <075a5f57-3330-78fe-669b-01570d43d9c0@lenovo.com>
- <a7ba6f8b-a321-013b-b4e5-c9e270eb3df5@redhat.com>
-From:   Mark Pearson <markpearson@lenovo.com>
-Message-ID: <f4ea406b-ba7d-2ab3-ac3c-9fa0ce40f445@lenovo.com>
-Date:   Wed, 14 Oct 2020 10:26:03 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+        Wed, 14 Oct 2020 21:49:37 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2704C0F26E8
+        for <linux-input@vger.kernel.org>; Wed, 14 Oct 2020 17:33:21 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id f5so737709pgb.1
+        for <linux-input@vger.kernel.org>; Wed, 14 Oct 2020 17:33:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=vlg7IWhFphvTIWRD0ift0vKndATnch7ye6OLC5z+ad4=;
+        b=TJ1YTcF7Fk0JSJQOX95qODv/MKfPNN2wx575+ftAqO+6Mu/6h0XweyJLhCSi2lptEG
+         8m2BZYSAtWSzBHQPQC6mXIh7LX4bxoiEntUTb5jhOpy9P5oMfCkGk0SV0yvTkNbtrmXe
+         S7JhO53zPF6rYughA+/6YCHLJqix9JEa4ZcbR9ECBp9F1xVSVynef6AYfuhIJ38Msez0
+         lDJu9A+e2Y+VWBP7vH3WTwyuf2AugSgbPq3RDUiRhpM7H7zuUn42BMELI3K4YWVY9vm9
+         I135OW62Ciof9EOM8RKMdru8YlUduCXQD3AWIJt3lU4BoBpfDdFYWh8w/eeAwnR31VCc
+         IdFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=vlg7IWhFphvTIWRD0ift0vKndATnch7ye6OLC5z+ad4=;
+        b=YSMCetwfOSRXaQyKGsEM4mNSLTs3Jv6hpDmI4Wa9EkYOiru0iCRnZ1lO8LiQF8JrxZ
+         D8DZdztmBXRTBaqHwY6MAQgLHHOUsxVPFn4uzI0AZI5kPO9gweJWl3i3t+PXu4o2S9s8
+         ny629HwWjN2S0EXxTRez659zlwdCD/Ui0TB9l0HZUXQ/5X1tUat3dQg+yYbCtuh7OL01
+         5fNcMkGAq5x/OoLT6piIQxuaAFhzgJciO9fACyREOnItIhJsO2Rem38Zop6N2009/kBF
+         A3kGrRHNuQF1lTz6DF//QwKZIkqo3x44KjOCqx9DqRjl72Q5WN1nqLzfAi4aELip/uBx
+         4Ofg==
+X-Gm-Message-State: AOAM530wWFqEXh9y8CEbQVFM0x3qOvPBcDp+MxirV/o1SQVX7PYVCfVR
+        SZhwWmtKoKSVFBms1DH6xwI=
+X-Google-Smtp-Source: ABdhPJy468QpE/5GFFhoOstSE2rRqM9Sf24bxjWFjDNMYc9tAn9mjvM0YBJ+CVpjwOG5SmE5puZE1Q==
+X-Received: by 2002:aa7:9f88:0:b029:152:80df:4c52 with SMTP id z8-20020aa79f880000b029015280df4c52mr1698459pfr.54.1602722000667;
+        Wed, 14 Oct 2020 17:33:20 -0700 (PDT)
+Received: from localhost ([2001:e42:102:1532:160:16:113:140])
+        by smtp.gmail.com with ESMTPSA id f15sm890095pfk.21.2020.10.14.17.33.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2020 17:33:20 -0700 (PDT)
+From:   Coiby Xu <coiby.xu@gmail.com>
+X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
+Date:   Thu, 15 Oct 2020 06:09:16 +0800
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: Advice on fixing the bug of MSFT0001:00 04F3:Touchpad being
+ handled by hid_multitouch by mistake
+Message-ID: <20201014220916.zpkdcgwcauyzyttg@Rk>
+References: <20200811091445.erp2b23xmx3ceyzp@Rk>
+ <CAO-hwJ+3LTUviWxDGQoXaBO-USwP4n6LRscJEzHJShqBEJ3oBg@mail.gmail.com>
+ <20200904145916.nighviqyrvbm2ybx@Rk>
+ <CAO-hwJJAOGNVnu1_dwXTMUyoSsNQifGFDUV6e9g96wHKmaZqSA@mail.gmail.com>
+ <20200910163729.z6gmpeg7x2ocjvpt@Rk>
+ <CAO-hwJ+P3iU87Ra=3bzJ2f53hPPxGKb+v1+kPSNj5TJVy+NqGA@mail.gmail.com>
+ <20200915101451.hrqs4aobnwtmo3sm@Rk>
+ <20200924071725.63xe6hpcopz732rs@Rk>
+ <20201009082651.jlftytspkviv7us7@Rk>
+ <CAO-hwJKbqXf+5xfUT-X4ZHUvb1ZUi8bN-B+t0a2RGbuNCkL1fg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <a7ba6f8b-a321-013b-b4e5-c9e270eb3df5@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.46.55.84]
-X-ClientProxiedBy: reswpmail04.lenovo.com (10.62.32.23) To
- reswpmail04.lenovo.com (10.62.32.23)
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CAO-hwJKbqXf+5xfUT-X4ZHUvb1ZUi8bN-B+t0a2RGbuNCkL1fg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Fri, Oct 09, 2020 at 10:55:25AM +0200, Benjamin Tissoires wrote:
+>HI Coiby,
+>
+>On Fri, Oct 9, 2020 at 10:27 AM Coiby Xu <coiby.xu@gmail.com> wrote:
+>>
+>> Hi Benjamin,
+>>
+>> I'm writing this email to let you know the root cause has been found.
+>> The glitch filter is enabled for level activelow irq in
+>> drivers/pinctrl/pinctrl-amd.c so it will take >120ms for GPIO
+>> controller to consider an input to be valid. For more details, please
+>> refer to https://www.spinics.net/lists/linux-gpio/msg53623.html.
+>
+>\o/ glad you found out the root cause.
+>
+>
+>>
+>> I'm curious if you know similar bug reports. Because this bug is supposed
+>> affect all touchpads requesting "Level, ActiveLow" pin configuration from
+>> AMDI0030/AMD0030 GPIO chip.
+>
+>As a rule of thumb, i2c_hid + AMD chip is... not really stable/working :)
+>
+>But hopefully with this patch, it'll help many users.
+>
+It seems there are lots of bugs to be fixed. I find two other touchpads
+using the same AMD GPIO chip. But one doesn't seem to be affected [1]
+and the other one seems to be affected [2]. I'm still trying to figure
+out why.
+
+Btw, if I remember correctly, I read somewhere that someone collected
+100+ or 200+ ACPI DSDT tables but I couldn't find the source of this
+info now. I need these DSDT tables for reference to make sure I'll not
+break other touchpads when modifying drivers/pinctrl/pinctrl-amd.c. Do
+you know where can I find these 100+ or 200+ DSDT tables?
 
 
-On 2020-10-14 4:16 a.m., Hans de Goede wrote:
-> Hi Mark,
-> 
-> On 10/13/20 11:59 PM, Mark Pearson wrote:
->> Hi
->>
->> On 2020-10-12 8:13 a.m., Hans de Goede wrote:
->>> Hi,
->>>
->>> On 10/9/20 4:19 AM, Jeff LaBundy wrote:
->>>> Hi Hans,
->>>>
->> <snip>
->>>>>
->>>>>> I just wanted to chime in and confirm that we do have at least one
->>>>>> precedent for these being in input (keyboard/iqs62x-keys) and not
->>>>>> iio so I agree with Jonathan here. My argument is that we want to
->>>>>> signal binary events (user grabbed onto or let go of the handset)
->>>>>> rather than deliver continuous data.
->>>>>
->>>>> I was curious what keycode you are using for this, but I see
->>>>> that the keycodes come from devicetree, so I guess I should
->>>>> just ask: what keycode are you using for this ?
->>>>
->>>> The idea here was that a vendor might implement their own daemon
->>>> that interprets any keycode of their choice, hence leaving the
->>>> keycodes assignable via devicetree.
->>>>
->>>> This particular device also acts as a capacitive/inductive button
->>>> sensor, and these applications were the primary motivation for it
->>>> landing in input with its status bits mapped to keycodes.
->>>>
->>>> I don't think there are any keycodes that exist today that would
->>>> universally work for this application. The couple that seem most
->>>> closely related (e.g. KEY_WLAN or KEY_RFKILL) are typically used
->>>> for disabling the adapter entirely or for airplane mode (please
->>>> correct me if I'm wrong).
->>>
->>> You're right (aka not wrong), KEY_WLAN and KEY_RFKILL are used to
->>> toggle wireless radios on/off and re-using them for some SAR
->>> purpose would lead to nothing but confusion. We really need to
->>> define some standard *new* event-codes for this, such as e.g.
->>> the proposed SW_LAP_PROXIMITY and SW_PALMREST_PROXIMITY.
->>>
->>>> To that end, I'm keen to see how this interface unfolds because
->>>> SAR detection tends to be an available mode of operation for
->>>> several of the capacitive touch devices I've been working with.
->>>
->>> I guess that for touchscreens at least (which are on the front),
->>> using the existing SW_FRONT_PROXIMITY would make the most sense.
->>>
->>
->> I've been looking at implementing this and I'm missing something - and 
->> I think it's probably something obvious so hoping someone can short 
->> cut me to the answer. Hope it's OK to do that in this thread (I 
->> removed the linux-iio list as I'm assuming they won't be interested)
->>
->> I've added the new event codes to input-event-codes.h and updated 
->> mode_devicetable.h
->>
->> In the thinkpad_acpi.c driver I initialise the device:
->>
->>     tpacpi_sw_dev = input_allocate_device();
->>     if (!tpacpi_sw_dev)
->>             return -ENOMEM;
->>     tpacpi_sw_dev->name = "Thinkpad proximity switches";
->>     tpacpi_sw_dev->phys = TPACPI_DRVR_NAME "/input1";
->>     tpacpi_sw_dev->id.bustype = BUS_HOST;
->>     tpacpi_sw_dev->id.vendor = thinkpad_id.vendor;
->>     tpacpi_sw_dev->id.product = TPACPI_HKEY_INPUT_PRODUCT;
->>     tpacpi_sw_dev->id.version = TPACPI_HKEY_INPUT_VERSION;
->>     tpacpi_sw_dev->dev.parent = &tpacpi_pdev->dev;
->>
->>     if (has_palmsensor) {
->>        input_set_capability(tpacpi_sw_dev, EV_SW, SW_PALMREST_PROXIMITY);
->>        input_report_switch(tpacpi_sw_dev,SW_PALMREST_PROXIMITY, 
->> palmsensor_state);
->>     }
->>
->>     if (has_lapsensor) {
->>          input_set_capability(tpacpi_sw_dev, EV_SW, SW_LAP_PROXIMITY);
->>          input_report_switch(tpacpi_sw_dev, SW_LAP_PROXIMITY, 
->> lapsensor_state);
->>     }
->>     err = input_register_device(tpacpi_sw_dev);
->>
->> If the sensor triggers I update the inputdevice with:
->>     input_report_switch(tpacpi_sw_dev, SW_PALMREST_PROXIMITY, new_state);
->>     input_sync(tpacpi_sw_dev);
->> <similar for lapmode>
->>
->> However I'm not seeing the change when I look under evtest, though I 
->> do see the new sensors show up:
->>
->>     [banther@localhost linux]$ sudo evtest
->>     No device specified, trying to scan all of /dev/input/event*
->>     Available devices:
->>     /dev/input/event0:    Sleep Button
->>     /dev/input/event1:    Lid Switch
->>     /dev/input/event2:    Power Button
->>     /dev/input/event3:    AT Translated Set 2 keyboard
->>     /dev/input/event4:    TPPS/2 Elan TrackPoint
->>     /dev/input/event5:    SYNA8004:00 06CB:CD8B Mouse
->>     /dev/input/event6:    SYNA8004:00 06CB:CD8B Touchpad
->>     /dev/input/event7:    Video Bus
->>     /dev/input/event8:    Thinkpad proximity switches
->>     /dev/input/event9:    PC Speaker
->>     /dev/input/event10:    Integrated Camera: Integrated C
->>     /dev/input/event11:    sof-hda-dsp Headset Jack
->>     /dev/input/event12:    sof-hda-dsp Mic
->>     /dev/input/event13:    sof-hda-dsp Headphone
->>     /dev/input/event14:    sof-hda-dsp HDMI/DP,pcm=3
->>     /dev/input/event15:    sof-hda-dsp HDMI/DP,pcm=4
->>     /dev/input/event16:    sof-hda-dsp HDMI/DP,pcm=5
->>     /dev/input/event17:    ThinkPad Extra Buttons
->>     Select the device event number [0-17]: 8
->>     Input driver version is 1.0.1
->>     Input device ID: bus 0x19 vendor 0x17aa product 0x5054 version 0x4101
->>     Input device name: "Thinkpad proximity switches"
->>     Supported events:
->>       Event type 0 (EV_SYN)
->>       Event type 5 (EV_SW)
->>         Event code 17 (?) state 0
->>         Event code 18 (?) state 0
->>     Properties:
->>     Testing ... (interrupt to exit)
->>
->> The state for both sensors is supposed to be 1.
->> I did download and rebuild evtest and fixed the (?), but haven't 
->> figured out why the state is wrong. It seemed related to the number of 
->> keys which I found odd.
->>
->> Any suggestions from what I'm missing, or have done wrong, or where I 
->> should dig next? What's the recommended way of testing my implementation?
-> 
-> A couple suggestions:
-> 
-> 1. What Jeff said, add a printf to make sure that the 
-> input_report_switch + sync actually get called.
-> 2. Did you rebuild your entire kernel after adding the new SW_ 
-> definitions to input-event-codes.h ?  The core may very well be using a 
-> check for SW_MAX / SW_CNT
-> 3. Did you rebuild the evtest tool against the latest headers, including 
-> an updated SW_MAX / SW_CNT.
-> 
-> To rule out issues with evtest still using an old SW_MAX somewhere you 
-> could (as a hack) replace the 2 new SW_... codes with 2 existing ones 
-> and see if that makes things work.
-> 
+[1] https://github.com/Syniurge/i2c-amd-mp2/issues/11#issuecomment-707427095
+[2] https://forum.manjaro.org/t/random-short-touchpad-freezes/30832
 
-Looks like rebuilding the entire kernel did the trick - guess I needed 
-to update the input driver (which now I write that does seem 
-obvious....sigh)
+>Cheers,
+>Benjamin
+>
+>>
+>>      GpioInt (Level, ActiveLow, ExclusiveAndWake, PullUp, 0x0000,
+>>          "\\_SB.GPIO", 0x00, ResourceConsumer, ,
+>>
+>> On Thu, Sep 24, 2020 at 03:17:25PM +0800, Coiby Xu wrote:
+>> >Hi Benjamin,
+>> >
+>> >I think I've found the decisive evidence showing that there's
+>> >something wrong with the GPIO chip's interrupt setting of this laptop
+>> >model of Lenovo Legion-5 15ARH05 but there's nothing wrong with the
+>> >touchpad like scanning frequency, report rate, etc.
+>> >
+>> >This GPIO interrupt controller has been assigned with IRQ#7 and
+>> >the touchpad's interrupt line is connected to the GPIO chip's
+>> >pin#130.
+>> >
+>> >        Device (GPIO)
+>> >        {
+>> >            Name (_HID, "AMDI0030")  // _HID: Hardware ID
+>> >            Name (_CID, "AMDI0030")  // _CID: Compatible ID
+>> >            Name (_UID, Zero)  // _UID: Unique ID
+>> >            Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
+>> >            {
+>> >                Name (RBUF, ResourceTemplate ()
+>> >                {
+>> >                    Interrupt (ResourceConsumer, Level, ActiveLow, Shared, ,, )
+>> >                    {
+>> >                        0x00000007,
+>> >                    }
+>> >                })
+>> >                Return (RBUF) /* \_SB_.GPIO._CRS.RBUF */
+>> >            }
+>> >
+>> >        }
+>> >
+>> > Scope (_SB.I2CD)
+>> >    {
+>> >        Device (TPDD)
+>> >        {
+>> >            Name (_HID, "XXXX0000")  // _HID: Hardware ID
+>> >            Name (_CID, "PNP0C50" /* HID Protocol Device (I2C bus) */)  // _CID: Compatible ID
+>> >            Name (_SUB, "XXXX0000")  // _SUB: Subsystem ID
+>> >            Method (_INI, 0, NotSerialized)  // _INI: Initialize
+>> >            {
+>> >                If ((TPTY == One))
+>> >                {
+>> >                    _HID = "MSFT0001"
+>> >                    _SUB = "ELAN0001"
+>> >                }
+>> >
+>> >                If ((TPTY == 0x02))
+>> >                {
+>> >                    _HID = "MSFT0001"
+>> >                    _SUB = "SYNA0001"
+>> >                }
+>> >
+>> >                Return (Zero)
+>> >            }
+>> >
+>> >            Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
+>> >            {
+>> >                If ((TPTY == One))
+>> >                {
+>> >                    Name (SBFB, ResourceTemplate ()
+>> >                    {
+>> >                        I2cSerialBusV2 (0x0015, ControllerInitiated, 0x00061A80,
+>> >                            AddressingMode7Bit, "\\_SB.I2CD",
+>> >                            0x00, ResourceConsumer, , Exclusive,
+>> >                            )
+>> >                    })
+>> >                }
+>> >
+>> >                If ((TPTY == 0x02))
+>> >                {
+>> >                    Name (SBFS, ResourceTemplate ()
+>> >                    {
+>> >                        I2cSerialBusV2 (0x002C, ControllerInitiated, 0x00061A80,
+>> >                            AddressingMode7Bit, "\\_SB.I2CD",
+>> >                            0x00, ResourceConsumer, , Exclusive,
+>> >                            )
+>> >                    })
+>> >                }
+>> >                Name (SBFI, ResourceTemplate ()
+>> >                {
+>> >                    GpioInt (Level, ActiveLow, ExclusiveAndWake, PullUp, 0x0000,
+>> >                        "\\_SB.GPIO", 0x00, ResourceConsumer, ,
+>> >                        )
+>> >                        {   // Pin list
+>> >                            0x0082
+>> >                        }
+>> >
+>> >When there's new data from the touchpad, IRQ#7 will be activated. The
+>> >handler amd_gpio_irq_handler will iterate over the pins and find
+>> >pin#130 is the source of the interrupt. Then i2c_hid_irq will be
+>> >woken up to read HID reports. Here's the code execution path,
+>> >
+>> ><IRQ>
+>> >dump_stack+0x64/0x88
+>> >__irq_wake_thread.cold+0x9/0x12
+>> >__handle_irq_event_percpu+0x80/0x1c0
+>> >handle_irq_event+0x58/0xb0
+>> >handle_level_irq+0xb7/0x1a0
+>> >generic_handle_irq+0x4a/0x60
+>> >amd_gpio_irq_handler+0x15f/0x1b0 [pinctrl_amd]
+>> >__handle_irq_event_percpu+0x45/0x1c0
+>> >handle_irq_event+0x58/0xb0
+>> >handle_fasteoi_irq+0xa2/0x210
+>> >do_IRQ+0x70/0x120
+>> >common_interrupt+0xf/0xf
+>> ></IRQ>
+>> >
+>> >So I add some debugging code to track when each IRQ#7 will be handled
+>> >and what's the status of pin#130 as I move my finger on the surface of
+>> >the touchpad for about 0.5s. It turns out i2c_hid_irq can handle ~500
+>> >interrupts per second but IRQ#7 is only fired ~7 times per second.
+>> >During the time of I move the finger, pin#130 has the input of low
+>> >("active low", meaning touchpad has asserted its interrupt line to
+>> >indicate new data) most of the time. So my next step is to find out
+>> >why IRQ#7 fails to fire when the touchpad has received new data.
+>> >
+>> >Please check the attachments for the details,
+>> > - handler_irq72: timing of hanlder of IRQ#7
+>> > - touchpad_interrupt: the status of touchpad interrupt line
+>> > - handler_irq7_touchpad_interrupt.pdf: the plotting
+>> >
+>> >Btw, I've added a polling mode for rivers/hid/i2c-hid/i2c-hid-core.c
+>> >when trying to fix the touchpad issue. With the polling mode, the
+>> >cursor is able to follow the movement of my finger.
+>> >
+>> >
+>> >Patches of debugging code
+>> >========================#
+>> >
+>> >When the kernel receives IRQ#7
+>> >
+>> >$ diff kernel/irq/chip.{ori,c} -u
+>> >--- kernel/irq/chip.ori 2020-09-22 22:56:33.684265452 +0800
+>> >+++ kernel/irq/chip.c   2020-09-22 23:25:40.435297613 +0800
+>> >@@ -699,6 +699,12 @@
+>> > void handle_fasteoi_irq(struct irq_desc *desc)
+>> > {
+>> >        struct irq_chip *chip = desc->irq_data.chip;
+>> >+    struct timespec64 ts1, ts2;
+>> >+    unsigned int irq = irq_desc_get_irq(desc);
+>> >+
+>> >+    if (irq == 7) {
+>> >+        ktime_get_ts64(&ts1);
+>> >+    }
+>> >
+>> >        raw_spin_lock(&desc->lock);
+>> >
+>> >@@ -727,6 +733,11 @@
+>> >        cond_unmask_eoi_irq(desc, chip);
+>> >
+>> >        raw_spin_unlock(&desc->lock);
+>> >+    if (irq == 7) {
+>> >+        ktime_get_ts64(&ts2);
+>> >+        pr_alert("handle_fasteoi_irq: %d, %llu %llu, %llu %llu", irq,  ts1.tv_sec, ts1.tv_nsec, ts2.tv_sec-ts1.tv_sec, ts2.tv_nsec-ts1.tv_nsec);
+>> >+        dump_stack();
+>> >+    }
+>> >        return;
+>> > out:
+>> >        if (!(chip->flags & IRQCHIP_EOI_IF_HANDLED))
+>> >
+>> >When the kernel finished processing IRQ#7
+>> >
+>> >$ diff drivers/pinctrl/pinctrl-amd.{c,ori} -u -p
+>> >--- drivers/pinctrl/pinctrl-amd.c       2020-09-24 14:51:50.815843952 +0800
+>> >+++ drivers/pinctrl/pinctrl-amd.ori     2020-09-20 11:57:40.867390865 +0800
+>> >@@ -389,7 +389,6 @@ static void amd_gpio_irq_unmask(struct i
+>> > {
+>> >        u32 pin_reg;
+>> >        unsigned long flags;
+>> >-    struct timespec64 ts1;
+>> >        struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
+>> >        struct amd_gpio *gpio_dev = gpiochip_get_data(gc);
+>> >
+>> >@@ -397,8 +396,6 @@ static void amd_gpio_irq_unmask(struct i
+>> >        pin_reg = readl(gpio_dev->base + (d->hwirq)*4);
+>> >        pin_reg |= BIT(INTERRUPT_MASK_OFF);
+>> >        writel(pin_reg, gpio_dev->base + (d->hwirq)*4);
+>> >-    ktime_get_ts64(&ts1);
+>> >-    pr_alert("gpio_unmask %u: %llu %llu", d->hwirq, ts1.tv_sec, ts1.tv_nsec);
+>> >        raw_spin_unlock_irqrestore(&gpio_dev->lock, flags);
+>> > }
+>> >
+>> >
+>> >Polling the status of pin#130 every 1ms for 1 second
+>> >
+>> >$ diff drivers/hid/i2c-hid/i2c-hid-core.{ori,c} -u -p
+>> >--- drivers/hid/i2c-hid/i2c-hid-core.ori        2020-09-10 12:35:36.160989731 +0800
+>> >+++ drivers/hid/i2c-hid/i2c-hid-core.c  2020-09-24 14:54:17.481705797 +0800
+>> >@@ -522,10 +522,54 @@ static void i2c_hid_get_input(struct i2c
+>> >        return;
+>> > }
+>> >
+>> >+static struct task_struct *thread_hid;
+>> >+
+>> >+#include <linux/gpio/driver.h>
+>> >+#include <linux/kthread.h>
+>> >+#define times 1000
+>> >+int get_pin_state_thread(void *irq_d)
+>> >+{
+>> >+    struct irq_desc *irq_desc = irq_d;
+>> >+       struct gpio_chip *gc = irq_data_get_irq_chip_data(&irq_desc->irq_data);
+>> >+    int i;
+>> >+    int *stat;
+>> >+    struct timespec64 *ts;
+>> >+
+>> >+    stat = kmalloc(sizeof(int) * times, GFP_KERNEL);
+>> >+    ts = kmalloc(sizeof(struct timespec64) * times, GFP_KERNEL);
+>> >+
+>> >+    for (i = 0; i < times; i++) {
+>> >+        usleep_range(1000, 1000);
+>> >+        stat[i] = gc->get(gc, 130);
+>> >+        ktime_get_ts64(&ts[i]);
+>> >+    }
+>> >+
+>> >+    for (i = 0; i < times; i++) {
+>> >+        pr_alert("pin130_state: %d %lld %ld %d", i, ts[i].tv_sec, ts[i].tv_nsec, stat[i]);
+>> >+    }
+>> >+    kfree(stat);
+>> >+    kfree(ts);
+>> >+    thread_hid = NULL;
+>> >+    do_exit(0);
+>> >+    return 0;
+>> >+       /** struct amd_gpio *gpio_dev = gpiochip_get_data(gc); */
+>> >+
+>> >+}
+>> >+
+>> > static irqreturn_t i2c_hid_irq(int irq, void *dev_id)
+>> > {
+>> >        struct i2c_hid *ihid = dev_id;
+>> >+    struct irq_desc *irq_desc;
+>> >
+>> >+    irq_desc = irq_to_desc(irq);
+>> >+    if (!thread_hid) {
+>> >+        thread_hid = kthread_create(get_pin_state_thread, irq_desc, "mythread_ihid");
+>> >+        if (thread_hid) {
+>> >+            ktime_get_ts64(&ts1);
+>> >+            pr_alert("hid_thread created: %lld %ld", ts1.tv_sec, ts1.tv_nsec);
+>> >+            wake_up_process(thread_hid);
+>> >+        }
+>> >+    }
+>> >        if (test_bit(I2C_HID_READ_PENDING, &ihid->flags))
+>> >                return IRQ_HANDLED;
+>> >
+>> >On Tue, Sep 15, 2020 at 06:14:51PM +0800, Coiby Xu wrote:
+>> >>On Fri, Sep 11, 2020 at 02:29:03PM +0200, Benjamin Tissoires wrote:
+>> >>>Hi,
+>> >>>
+>> >>>On Thu, Sep 10, 2020 at 6:37 PM Coiby Xu <coiby.xu@gmail.com> wrote:
+>> >>>>
+>> >>>>On Fri, Sep 04, 2020 at 06:47:42PM +0200, Benjamin Tissoires wrote:
+>> >>>>>On Fri, Sep 4, 2020 at 4:59 PM Coiby Xu <coiby.xu@gmail.com> wrote:
+>> >>>>>>
+>> >>>>>>On Fri, Sep 04, 2020 at 10:16:51AM +0200, Benjamin Tissoires wrote:
+>> >>>>>>>Hi,
+>> >>>>>>>
+>> >>>>>>>On Tue, Aug 11, 2020 at 11:15 AM Coiby Xu <coiby.xu@gmail.com> wrote:
+>> >>>>>>>>
+>> >>>>>>>> Hi,
+>> >>>>>>>>
+>> >>>>>>>> I'm working on a touchpad device issue as reported on
+>> >>>>>>>> https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1887190.
+>> >>>>>>>>
+>> >>>>>>>> This touchpad device MSFT0001:00 04F3:Touchpad should be handled by
+>> >>>>>>>> hid_rmi. But currently hid-core.c chooses hid_multitouch by mistake,
+>> >>>>>>>>
+>> >>>>>>>>      1. When scanning this device's report descriptor, HID_DG_CONTACTID
+>> >>>>>>>>         usage is found. Thus group HID_GROUP_MULTITOUCH is assigned to
+>> >>>>>>>>         the device.
+>> >>>>>>>>      2. The flag HID_SCAN_FLAG_MT_WIN_8 is also found. Thus group
+>> >>>>>>>>         HID_GROUP_MULTITOUCH_WIN_8 is assigned to the device.
+>> >>>>>>>>      3. hid-multitouch.c claims handling devices with the group of
+>> >>>>>>>>         HID_GROUP_MULTITOUCH_WIN_8
+>> >>>>>>>>
+>> >>>>>>>>          static const struct hid_device_id mt_devices[] = {
+>> >>>>>>>>                 /* Generic MT device */
+>> >>>>>>>>                 { HID_DEVICE(HID_BUS_ANY, HID_GROUP_MULTITOUCH, HID_ANY_ID, HID_ANY_ID) },
+>> >>>>>>>>
+>> >>>>>>>>                 /* Generic Win 8 certified MT device */
+>> >>>>>>>>                 {  .driver_data = MT_CLS_WIN_8,
+>> >>>>>>>>                         HID_DEVICE(HID_BUS_ANY, HID_GROUP_MULTITOUCH_WIN_8,
+>> >>>>>>>>                                 HID_ANY_ID, HID_ANY_ID) },
+>> >>>>>>>>                 { }
+>> >>>>>>>>          };
+>> >>>>>>>>
+>> >>>>>>>> There are several potential solutions,
+>> >>>>>>>>      - Let the device vendor fix this problem since this device's report
+>> >>>>>>>>        descriptor shouldn't have the HID_DG_CONTACTID usage.
+>> >>>>>>>>      - Make it a special case by setting the device's group to
+>> >>>>>>>>        HID_GROUP_RMI in hid_scan_report when vendor id and product ID
+>> >>>>>>>>        are matched.
+>> >>>>>>>>      - hid-quirks.c seems to be designed to handle special cases, is it
+>> >>>>>>>>        suitable for this case?
+>> >>>>>>>
+>> >>>>>>>AFAIU, the touchpad doesn't work at all with hid-multitouch. So I
+>> >>>>>>>guess the best is to add the VID/PID to hid-quirks.c in
+>> >>>>>>>hid_have_special_driver[], and add it to the hid-rmi driver too.
+>> >>>>>>>This way, you will ensure hid-rmi will pick up the device all the time.
+>> >>>>>>>
+>> >>>>>>>Cheers,
+>> >>>>>>>Benjamin
+>> >>>>>>
+>> >>>>>>Thank you for the advice! I have exactly adopted this approach by looking
+>> >>>>>>at commit e9287099ba6539bccb20cd791269186f3ae28b85
+>> >>>>>>("HID: rmi: Add support for the touchpad in the Razer Blade 14 laptop")
+>> >>>>>>as an example.
+>> >>>>>>
+>> >>>>>>My previous email is a bit misleading because 0x04F3 is the vendor code
+>> >>>>>>of ELAN while hid-rmi is for the Synaptics touchpad. And actually this
+>> >>>>>>laptop model of Lenovo Legion-5 15ARH05 is shipped with both kinds of
+>> >>>>>>touchpads,
+>> >>>>>>
+>> >>>>>>- for the Synaptics touchpad, hid-rmi could almost handle it perfectly
+>> >>>>>>   except the clicking is not sensitive enough. I need to let my finger
+>> >>>>>>   linger on the touchpad for a while. I notice when I click on the touchpad,
+>> >>>>>>   an HID report would be received by hid-recorder. But evtest couldn't receive
+>> >>>>>>   any EV_ event. If hid-multitouch is handling the device, the cursor
+>> >>>>>>   won't move but 2-4 finger touching events could still be received by
+>> >>>>>>   evtest.
+>> >>>>>>
+>> >>>>>>- for the ELAN touchpad, only HID reporters can be read and parsed by
+>> >>>>>>   hid-core then two input devices (mouse and touchpad) could created by
+>> >>>>>>   hid-multitouch as seen from /proc/bus/input/devices. But hid-recorder
+>> >>>>>>   could never get any HID report.
+>> >>>>>
+>> >>>>>huh. So in both cases you have a buggy touchpad with hid-multitouch :(
+>> >>>>>
+>> >>>>>Do both touchpads share the same VID/PID? If so, this is going to be
+>> >>>>>interesting to decide how any of those touchpad should be handled.
+>> >>>>
+>> >>>>No, they have different VID/PIDs,
+>> >>>> - 04F3:3140 (Elan)
+>> >>>> - 06CB:7F28 (Synaptics)
+>> >>>
+>> >>>That's good to know :)
+>> >>>
+>> >>>>
+>> >>>>>
+>> >>>>>>
+>> >>>>>>AFAIU, isn't hid-multitouch supposed to be the implementation of Windows
+>> >>>>>>Precision Touchpad?
+>> >>>>>
+>> >>>>>yes, it works for most of those. The only ones that are not working
+>> >>>>>are usually because OEM or device makers tend to do "fun" things.
+>> >>>>>
+>> >>>>>> And since Precision touchpad is mandatory for
+>> >>>>>>Windows 10 notebooks and this laptop model of Lenovo Legion-5 15ARH05
+>> >>>>>>seem to have been certificated by Windows 10, does it mean by theory
+>> >>>>>>hid-multiouch could handle these two touchpad devices?
+>> >>>>>
+>> >>>>>Well, it should, yes, but it clearly can not. You can try to give a
+>> >>>>>try at hid-recorder from
+>> >>>>>https://gitlab.freedesktop.org/libevdev/hid-tools. This will show what
+>> >>>>>is actually exported by the hardware before any processing by the
+>> >>>>>kernel. Maybe there is a new simple thing to do in hid-multitouch to
+>> >>>>>handle those devices.
+>> >>>>>
+>> >>>>>Also, last time I heard, Synaptics dropped the use of hid-rmi in favor
+>> >>>>>of hid-multitouch. Any hid-rmi touchpad should be able to use
+>> >>>>>hid-multitouch, as this is the preferred way on Windows. But sometimes
+>> >>>>>the various teams decide to change the rules.
+>> >>>>>
+>> >>>>>>
+>> >>>>>>Anyway, it seems I need to install Windows Driver Kit to capture&analyze
+>> >>>>>>HID reports to see what's happening. Or do you have any suggestion?
+>> >>>>>
+>> >>>>>Unless it changed recently (I think I have seen something like that
+>> >>>>>recently), I had to write a I2C man-in-the-middle to dump the logs
+>> >>>>>from Windows. Project is at
+>> >>>>>https://github.com/bentiss/SimplePeripheralBusProbe and requires a
+>> >>>>>little bit of manual work to be able to start capturing data :(
+>> >>>>>
+>> >>>>>Cheers,
+>> >>>>>Benjamin
+>> >>>>>
+>> >>>>>>
+>> >>>>>>--
+>> >>>>>>Best regards,
+>> >>>>>>Coiby
+>> >>>>>>
+>> >>>>>
+>> >>>>
+>> >>>>Thank you for developing hid-tools and SimplePeripheralBusProbe!
+>> >>>
+>> >>>No worries.
+>> >>>
+>> >>>Wow, I am really impressed in how quickly you managed to get all that
+>> >>>data. I think it's the first time I ever point somebody at
+>> >>>SimplePeripheralBusProbe, and I don't have to do anything to get this
+>> >>>up and running, and analyzed :)
+>> >>
+>> >>Thank you! The instructions of setting up SimplePeripheralBusProbe
+>> >>are well-documented so it's quite a straightforward process:)
+>> >>
+>> >>>
+>> >>>>
+>> >>>>The problem with the Synaptics touchpad when it's handled by hid-multiouch
+>> >>>>is the pointer won't move. A few days ago, I took another look at the
+>> >>>>results produced by hid-recorder and evtest and noticed something abnormal
+>> >>>>for the Synaptics touchpad. For a straight continuous motion of one finger,
+>> >>>>the value of ABS_MT_TRACKING_ID kept changing,
+>> >>>>
+>> >>>>$ sudo evtest
+>> >>>>...
+>> >>>>Event: time 1599651409.969002, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value 68
+>> >>>>Event: time 1599651409.969002, type 3 (EV_ABS), code 53 (ABS_MT_POSITION_X), value 401
+>> >>>>Event: time 1599651409.969002, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y), value 201
+>> >>>>Event: time 1599651409.969002, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 1
+>> >>>>Event: time 1599651409.969002, type 1 (EV_KEY), code 325 (BTN_TOOL_FINGER), value 1
+>> >>>>Event: time 1599651409.969002, type 3 (EV_ABS), code 0 (ABS_X), value 401
+>> >>>>Event: time 1599651409.969002, type 3 (EV_ABS), code 1 (ABS_Y), value 201
+>> >>>>Event: time 1599651409.969002, type 4 (EV_MSC), code 5 (MSC_TIMESTAMP), value 0
+>> >>>>Event: time 1599651409.969002, -------------- SYN_REPORT ------------
+>> >>>>Event: time 1599651410.070105, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value -1
+>> >>>>Event: time 1599651410.070105, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 0
+>> >>>>Event: time 1599651410.070105, type 1 (EV_KEY), code 325 (BTN_TOOL_FINGER), value 0
+>> >>>>Event: time 1599651410.070105, -------------- SYN_REPORT ------------
+>> >>>>Event: time 1599651410.093740, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value 69
+>> >>>>Event: time 1599651410.093740, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 1
+>> >>>>Event: time 1599651410.093740, type 1 (EV_KEY), code 325 (BTN_TOOL_FINGER), value 1
+>> >>>>Event: time 1599651410.093740, type 4 (EV_MSC), code 5 (MSC_TIMESTAMP), value 7200
+>> >>>>Event: time 1599651410.093740, -------------- SYN_REPORT ------------
+>> >>>>Event: time 1599651410.196576, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value -1
+>> >>>>Event: time 1599651410.196576, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 0
+>> >>>>Event: time 1599651410.196576, type 1 (EV_KEY), code 325 (BTN_TOOL_FINGER), value 0
+>> >>>>Event: time 1599651410.196576, -------------- SYN_REPORT ------------
+>> >>>>Event: time 1599651410.219020, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value 70
+>> >>>>Event: time 1599651410.219020, type 3 (EV_ABS), code 53 (ABS_MT_POSITION_X), value 406
+>> >>>>Event: time 1599651410.219020, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y), value 204
+>> >>>>Event: time 1599651410.219020, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 1
+>> >>>>Event: time 1599651410.219020, type 1 (EV_KEY), code 325 (BTN_TOOL_FINGER), value 1
+>> >>>>Event: time 1599651410.219020, type 3 (EV_ABS), code 0 (ABS_X), value 406
+>> >>>>Event: time 1599651410.219020, type 3 (EV_ABS), code 1 (ABS_Y), value 204
+>> >>>>Event: time 1599651410.219020, type 4 (EV_MSC), code 5 (MSC_TIMESTAMP), value 129000
+>> >>>>Event: time 1599651410.219020, -------------- SYN_REPORT ------------
+>> >>>>Event: time 1599651410.320097, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value -1
+>> >>>>Event: time 1599651410.320097, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 0
+>> >>>>Event: time 1599651410.320097, type 1 (EV_KEY), code 325 (BTN_TOOL_FINGER), value 0
+>> >>>>Event: time 1599651410.320097, -------------- SYN_REPORT ------------
+>> >>>>Event: time 1599651410.343867, type 3 (EV_ABS), code 57 (ABS_MT_TRACKING_ID), value 71
+>> >>>>Event: time 1599651410.343867, type 3 (EV_ABS), code 53 (ABS_MT_POSITION_X), value 424
+>> >>>>Event: time 1599651410.343867, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y), value 218
+>> >>>>Event: time 1599651410.343867, type 1 (EV_KEY), code 330 (BTN_TOUCH), value 1
+>> >>>>Event: time 1599651410.343867, type 1 (EV_KEY), code 325 (BTN_TOOL_FINGER), value 1
+>> >>>>Event: time 1599651410.343867, type 3 (EV_ABS), code 0 (ABS_X), value 424
+>> >>>>Event: time 1599651410.343867, type 3 (EV_ABS), code 1 (ABS_Y), value 218
+>> >>>>Event: time 1599651410.343867, type 4 (EV_MSC), code 5 (MSC_TIMESTAMP), value 250900
+>> >>>>...
+>> >>>>
+>> >>>>while hid-recorder showed "Tip Switch" remained 1 and the "contact Id"
+>> >>>>remained 0 for this set of reports,
+>> >>>>
+>> >>>>$ sudo hid-recorder
+>> >>>>
+>> >>>># ReportID: 3 / Confidence: 1 | Tip Switch: 1 | Contact Id:  0 | # | X:    401 | Y:    201
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0 | Scan Time:  14579 | Contact Count:    1 | Button: 0 | #
+>> >>>>E: 000000.000000 30 03 03 91 01 c9 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f3 38 01 00
+>> >>>># ReportID: 3 / Confidence: 1 | Tip Switch: 1 | Contact Id:  0 | # | X:    401 | Y:    201
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0 | Scan Time:  14651 | Contact Count:    1 | Button: 0 | #
+>> >>>>E: 000000.124738 30 03 03 91 01 c9 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 3b 39 01 00
+>> >>>># ReportID: 3 / Confidence: 1 | Tip Switch: 1 | Contact Id:  0 | # | X:    406 | Y:    204
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0 | Scan Time:  15869 | Contact Count:    1 | Button: 0 | #
+>> >>>>E: 000000.249932 30 03 03 96 01 cc 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 fd 3d 01 00
+>> >>>># ReportID: 3 / Confidence: 1 | Tip Switch: 1 | Contact Id:  0 | # | X:    424 | Y:    218
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0 | Scan Time:  17088 | Contact Count:    1 | Button: 0 | #
+>> >>>>E: 000000.374781 30 03 03 a8 01 da 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 c0 42 01 00
+>> >>>># ReportID: 3 / Confidence: 1 | Tip Switch: 1 | Contact Id:  0 | # | X:    449 | Y:    251
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0 | Scan Time:  18379 | Contact Count:    1 | Button: 0 | #
+>> >>>>E: 000000.499704 30 03 03 c1 01 fb 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 cb 47 01 00
+>> >>>># ReportID: 3 / Confidence: 1 | Tip Switch: 1 | Contact Id:  0 | # | X:    475 | Y:    281
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0
+>> >>>>#             | Confidence: 0 | Tip Switch: 0 | Contact Id:  0 | # | X:      0 | Y:      0 | Scan Time:  19598 | Contact Count:    1 | Button: 0 | #
+>> >>>>
+>> >>>>
+>> >>>>I managed to let hid-multitouch to send the set of input events with the
+>> >>>>same ABS_MT_TRACKING_ID by disabling the release_timer via commenting out
+>> >>>>the following code,
+>> >>>>
+>> >>>>// drivers/hid/hid-multitouch.c
+>> >>>>static void mt_touch_report(struct hid_device *hid,
+>> >>>>                           struct mt_report_data *rdata)
+>> >>>>{
+>> >>>>    ...
+>> >>>>        * Windows 8 specs says 2 things:
+>> >>>>        * - once a contact has been reported, it has to be reported in each
+>> >>>>        *   subsequent report
+>> >>>>        * - the report rate when fingers are present has to be at least
+>> >>>>        *   the refresh rate of the screen, 60 or 120 Hz
+>> >>>>        *
+>> >>>>        * I interprete this that the specification forces a report rate of
+>> >>>>        * at least 60 Hz for a touchscreen to be certified.
+>> >>>>        * Which means that if we do not get a report whithin 16 ms, either
+>> >>>>        * something wrong happens, either the touchscreen forgets to send
+>> >>>>        * a release. Taking a reasonable margin allows to remove issues
+>> >>>>        * with USB communication or the load of the machine.
+>> >>>>        *
+>> >>>>        * Given that Win 8 devices are forced to send a release, this will
+>> >>>>        * only affect laggish machines and the ones that have a firmware
+>> >>>>        * defect.
+>> >>>>        */
+>> >>>>       /* if (app->quirks & MT_QUIRK_STICKY_FINGERS) {
+>> >>>>               if (test_bit(MT_IO_FLAGS_PENDING_SLOTS, &td->mt_io_flags))
+>> >>>>                       mod_timer(&td->release_timer,
+>> >>>>                                 jiffies + msecs_to_jiffies(100));
+>> >>>>               else
+>> >>>>                       del_timer(&td->release_timer);
+>> >>>>       } */
+>> >>>>    ...
+>> >>>>}
+>> >>>>
+>> >>>>Now the pointer can move but there is a noticeable lag as I move my
+>> >>>>finger. evhz shows the report rate is only ~7Hz. While under Windows,
+>> >>>>SimplePeripheralBusProbe shows there are 25+ reports for one finger
+>> >>>>sliding event. This also explains why under Linux release_timer keeping
+>> >>>>inactivating report slots.
+>> >>>
+>> >>>Yep, you found the root cause. We don't have enough reports to ensure
+>> >>>a proper reporting mechanism.
+>> >>>
+>> >>>>
+>> >>>>
+>> >>>>Comparing the hid commands sent between Windows and Linux, they are
+>> >>>>almost identical. SimplePeripheralBusProbe doesn't record hid commands
+>> >>>>like fetching HID descriptor, report descriptor, resetting the device.
+>> >>>>I haven't yet found a clue about why this Synaptics touchpad operates
+>> >>>>with such a report rate under Linux.
+>> >>>>
+>> >>>>Under Linux, the follow hid commands are sent to the touchpad device.
+>> >>>>
+>> >>>>Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=20 00
+>> >>>>Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 00 08
+>> >>>>Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 00 01
+>> >>>>Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 00 08
+>> >>>>Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=21 00
+>> >>>>Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 38 02 23 00
+>> >>>>Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 38 02 23 00
+>> >>>>Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 37 02 23 00
+>> >>>>Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 3d 03 23 00 04 00 0d 00
+>> >>>>Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 34 03 23 00 04 00 04 03
+>> >>>>Sep 10 06:54:13 Rk kernel: __i2c_hid_command: cmd=22 00 36 03 23 00 04 00 06 03
+>> >>>>
+>> >>>>whereas under Windows,
+>> >>>>
+>> >>>>[0]0000.0000::09/09/2020-14:41:47.732 [SimplePeripheralBusProbe]device   1: ##00 write    6 -  0000: 22 00 38 02 23 00
+>> >>>>[0]0000.0000::09/09/2020-14:41:47.740 [SimplePeripheralBusProbe]device   1: ##00 write    6 -  0000: 22 00 37 02 23 00
+>> >>>>[0]0000.0000::09/09/2020-14:41:47.741 [SimplePeripheralBusProbe]device   1: ##00 write   10 -  0000: 22 00 34 03 23 00 04 00 04 03
+>> >>>>[0]0000.0000::09/09/2020-14:41:47.742 [SimplePeripheralBusProbe]device   1: ##00 write   10 -  0000: 22 00 36 03 23 00 04 00 06 03
+>> >>>>[0]0000.0000::09/09/2020-14:41:47.742 [SimplePeripheralBusProbe]device   1: ##00 write   10 -  0000: 22 00 34 03 23 00 04 00 04 03
+>> >>>>[0]0000.0000::09/09/2020-14:41:47.742 [SimplePeripheralBusProbe]device   1: ##00 write   10 -  0000: 22 00 3d 03 23 00 04 00 0d 00
+>> >>>>[0]1AB4.3074::09/09/2020-14:41:47.743 [SimplePeripheralBusProbe]device   1: ##00 write   10 -  0000: 22 00 36 03 23 00 04 00 06 03
+>> >>>>
+>> >>>
+>> >>>Thanks for comparing the 2. As you noticed, there doesn't seem to be
+>> >>>any differences.
+>> >>>My initial thoughts were that we were wrongly setting the "Latency
+>> >>>mode" [0]. But this should have been shown in the differences. I
+>> >>>*think* we set it in hid-multitouch, but it can't hurt to do a couple
+>> >>>of additional tests on this side.
+>> >>
+>> >>I think "latency mode" has been correctly set based on the following
+>> >>tests,
+>> >>
+>> >>- When HID_LATENCY_NORMAL is replaced with HID_LATENCY_HIGH when calling
+>> >> mt_set_modes, the cursor would never move even with release_timer
+>> >> disabled.
+>> >>
+>> >>- hid-generic could take over this device if hid-multitouch is
+>> >> blacklisted. evhz shows the report rate is still only ~7Hz.
+>> >>
+>> >>- hid-rmi could also handle the device and the report rate is also
+>> >> ~7Hz. According to "Synaptics RMI4 Specification", the control
+>> >> registers has the ReportRate (F01_RMI_Ctrl0, bit 6),
+>> >> > This field sets the report rate for the device. It applies in common to all functions on the
+>> >>  device that have a natural report rate.
+>> >>
+>> >> When this bit is set, there is no change observed.
+>> >>
+>> >>I also did some tests on power setting because according to
+>> >>"HID Over I2C Protocol Specification" [1], the device's sensing
+>> >>frequency could drop to 10Hz in sleep mode,
+>> >>>DEVICE reduces its sensing frequency: The DEVICE reduces the frequency
+>> >>>at which it scans for data (e.g. if the digitizer does not sense a human
+>> >>>finger is present, it samples at 10Hz as compared to 100Hz. However once
+>> >>>user interaction is detected, it increases its sensing interval).
+>> >>
+>> >>- Not power managing the device doesn't work when hid-multitouch
+>> >> handles the device,
+>> >> $ echo "on" | sudo tee /sys/bus/i2c/devices/i2c-MSFT0001:00/power/control
+>> >>
+>> >>- Set NoSleep (F01_RMI_Ctrl0, bit 2) when hid-rmi handles this device
+>> >>
+>> >>Unfortunately the above changes didn't bring any improvement. The report rate stays at
+>> >>~7Hz.
+>> >>
+>> >>>
+>> >>>The other thing that might explain the difference, is at the I2C
+>> >>>level. I see on the dmesg that the touchpad is attached to
+>> >>>AMDI0010:03. I wonder if there is not a misconfiguration on the AMD
+>> >>>I2C adapter driver that prevents the touchpad from using the correct
+>> >>>report rate.
+>> >>>
+>> >>>Unfortunately, I don't know much about this driver, but maybe given
+>> >>>all you showed to me you could have a look too? :)
+>> >>>
+>> >>>Cheers,
+>> >>>Benjamin
+>> >>>
+>> >>>[0] https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/windows-precision-touchpad-required-hid-top-level-collections#latency-mode-feature-report
+>> >>>
+>> >>
+>> >>Thank you for pointing me to another direction!
+>> >>
+>> >>AMDI0010 is handled by i2c-designware (drivers/i2c/busses/i2c-designware-platdrv.c),
+>> >>
+>> >>   $ sudo i2cdetect -l
+>> >>   i2c-0   i2c             Synopsys DesignWare I2C adapter         I2C adapter
+>> >>
+>> >>The crucial set parameters when configuring the I2C adapter seems to
+>> >>be the I2C related timing parameters. Firmware doesn't provide the
+>> >>values (i2c_parse_fw_timings doesn't find any device properties). The
+>> >>I2C adapter uses the following set of values,
+>> >>
+>> >>   clock-frequency: 400000
+>> >>   i2c-scl-rising-time-ns: 0
+>> >>   i2c-scl-falling-time-ns: 0
+>> >>   i2c-scl-internal-delay-ns: 0
+>> >>   i2c-sda-falling-time-ns: 0
+>> >>   i2c-sda-hold-time-ns: 0
+>> >>   i2c-digital-filter-width-ns: 0
+>> >>   i2c-analog-filter-cutoff-frequency: 0
+>> >>
+>> >>For now I don't have sufficent knowledge to tell what may be wrong.
+>> >>So I studied several cases of I2C adapter configuration causing touchpad
+>> >>issues,
+>> >>- i2c: designware: Do not use parameters from ACPI on Dell Inspiron 7348 - Patchwork [2]
+>> >>- [BUG] i2c-hid: ELAN Touchpad does not work on ASUS X580GD - Patchwork [3]
+>> >>- LKML: Chris Chiu: Tweak I2C SDA hold time on GemniLake to make touchpad work
+>> >>
+>> >>But I couldn't find a similar case to touchpad having low report rate
+>> >>due to a misconfiguration of I2C adapter.
+>> >>
+>> >>Some unsuccessful attempts are
+>> >>- Set acpi_osi to Windows like "Windows 2015"
+>> >>- Set I2C bus speed to the standard mode (clock-frequency: 100000)
+>> >>  doesn't change anything and set it to high speed mode make cause
+>> >>  touchpad to be not recognized.
+>> >>
+>> >>I'll try another expedient way of finding out what are the values of
+>> >>I2C related timing parameters under Windows and setting the same values
+>> >>under Linux. If this fails, it seems I need to try the hard way to
+>> >>understand how I2C bus work by reading materials like NXP
+>> >>Semiconductors's I2C manual.
+>> >>
+>> >>I'm not sure if it's worth looking at yet another direction, i.e., to check
+>> >>if there's something wrong with the touchpad device's interrupt setting
+>> >>up. Here's the ACPI dump of the I2C controller and the touchpad device,
+>> >>
+>> >>       Device (I2CD)
+>> >>       {
+>> >>           Name (_HID, "AMDI0010")  // _HID: Hardware ID
+>> >>           Name (_UID, 0x03)  // _UID: Unique ID
+>> >>           Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
+>> >>           {
+>> >>               IRQ (Edge, ActiveHigh, Exclusive, )
+>> >>                   {6}
+>> >>               Memory32Fixed (ReadWrite,
+>> >>                   0xFEDC5000,         // Address Base
+>> >>                   0x00001000,         // Address Length
+>> >>                   )
+>> >>           })
+>> >>
+>> >>       }
+>> >>
+>> >>   Scope (_SB.I2CD)
+>> >>   {
+>> >>       Device (TPDD)
+>> >>       {
+>> >>           Name (_HID, "XXXX0000")  // _HID: Hardware ID
+>> >>           Name (_CID, "PNP0C50" /* HID Protocol Device (I2C bus) */)  // _CID: Compatible ID
+>> >>           Name (_SUB, "XXXX0000")  // _SUB: Subsystem ID
+>> >>           Method (_INI, 0, NotSerialized)  // _INI: Initialize
+>> >>           {
+>> >>               If ((TPTY == One))
+>> >>               {
+>> >>                   _HID = "MSFT0001"
+>> >>                   _SUB = "ELAN0001"
+>> >>               }
+>> >>
+>> >>               If ((TPTY == 0x02))
+>> >>               {
+>> >>                   _HID = "MSFT0001"
+>> >>                   _SUB = "SYNA0001"
+>> >>               }
+>> >>
+>> >>               Return (Zero)
+>> >>           }
+>> >>
+>> >>           Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
+>> >>           {
+>> >>               If ((TPTY == One))
+>> >>               {
+>> >>                   Name (SBFB, ResourceTemplate ()
+>> >>                   {
+>> >>                       I2cSerialBusV2 (0x0015, ControllerInitiated, 0x00061A80,
+>> >>                           AddressingMode7Bit, "\\_SB.I2CD",
+>> >>                           0x00, ResourceConsumer, , Exclusive,
+>> >>                           )
+>> >>                   })
+>> >>               }
+>> >>
+>> >>               If ((TPTY == 0x02))
+>> >>               {
+>> >>                   Name (SBFS, ResourceTemplate ()
+>> >>                   {
+>> >>                       I2cSerialBusV2 (0x002C, ControllerInitiated, 0x00061A80,
+>> >>                           AddressingMode7Bit, "\\_SB.I2CD",
+>> >>                           0x00, ResourceConsumer, , Exclusive,
+>> >>                           )
+>> >>                   })
+>> >>               }
+>> >>
+>> >>               Name (SBFI, ResourceTemplate ()
+>> >>               {
+>> >>                   GpioInt (Level, ActiveLow, ExclusiveAndWake, PullUp, 0x0000,
+>> >>                       "\\_SB.GPIO", 0x00, ResourceConsumer, ,
+>> >>                       )
+>> >>                       {   // Pin list
+>> >>                           0x0082
+>> >>                       }
+>> >>               })
+>> >>               If ((TPTY == One))
+>> >>               {
+>> >>                   Return (ConcatenateResTemplate (SBFB, SBFI))
+>> >>               }
+>> >>
+>> >>               If ((TPTY == 0x02))
+>> >>               {
+>> >>                   Return (ConcatenateResTemplate (SBFS, SBFI))
+>> >>               }
+>> >>           }
+>> >>
+>> >>       }
+>> >>   }
+>> >>
+>> >>
+>> >>Best regards,
+>> >>Coiby
+>> >>
+>> >>[1] https://docs.microsoft.com/en-us/previous-versions/windows/hardware/design/dn642101(v=vs.85)?redirectedfrom=MSDN
+>> >>[2] https://lore.kernel.org/patchwork/patch/601043/
+>> >>[3] https://lore.kernel.org/patchwork/patch/903152/
+>> >>[4] https://lkml.org/lkml/2019/9/3/191
+>> >
+>> >--
+>> >Best regards,
+>> >Coiby
+>>
+>>
+>> >76230065 1 78376776 1
+>> >201043147 1 203136221 1
+>> >326345258 1 328457259 1
+>> >451046175 1 453267896 1
+>>
+>> >10499 0
+>> >927527 0
+>> >944417 0
+>> >962423 0
+>> >975820 0
+>> >994176 0
+>> >011135 0
+>> >028513 0
+>> >046240 0
+>> >0063199 0
+>> >1080926 0
+>> >2097955 0
+>> >3157657 0
+>> >4172730 0
+>> >5192413 0
+>> >6209721 0
+>> >7222420 0
+>> >8236236 0
+>> >9253684 0
+>> >0270573 0
+>> >1289348 0
+>> >2306796 0
+>> >3323685 0
+>> >4341482 0
+>> >5358161 0
+>> >6587577 0
+>> >7606771 0
+>> >8950937 0
+>> >0221629 0
+>> >1240055 0
+>> >2257922 0
+>> >3630862 0
+>> >4649636 0
+>> >5666945 0
+>> >6896640 0
+>> >7915974 0
+>> >8933142 0
+>> >9950101 0
+>> >0967549 0
+>> >2198502 0
+>> >3436788 0
+>> >4455143 0
+>> >5472591 0
+>> >6821925 0
+>> >7840281 0
+>> >8858287 0
+>> >0213208 0
+>> >1231704 0
+>> >2249291 0
+>> >3659038 0
+>> >4678790 0
+>> >5695749 0
+>> >7048645 0
+>> >58068537 0
+>> >59085845 0
+>> >60102804 0
+>> >61120252 0
+>> >62136582 0
+>> >63359154 0
+>> >64377929 0
+>> >65395167 0
+>> >66744641 0
+>> >67762438 0
+>> >69108978 0
+>> >70384908 0
+>> >71403334 0
+>> >72420712 0
+>> >73437531 0
+>> >74456026 0
+>> >75472636 0
+>> >76535341 0
+>> >77550275 1
+>> >78565278 0
+>> >79583704 0
+>> >80600034 0
+>> >81613571 0
+>> >82632276 0
+>> >83650213 0
+>> >84668080 0
+>> >85681546 0
+>> >86694175 0
+>> >87740188 0
+>> >88759871 0
+>> >89776551 0
+>> >90793998 0
+>> >91825694 0
+>> >92840208 0
+>> >93852977 0
+>> >94986990 0
+>> >96013517 0
+>> >97030895 0
+>> >98044990 0
+>> >99064184 0
+>> >100081073 0
+>> >101099429 0
+>> >102111779 0
+>> >103337842 0
+>> >104360947 0
+>> >105378814 0
+>> >106395843 0
+>> >107410218 0
+>> >108424733 0
+>> >109441761 0
+>> >110639190 0
+>> >111661387 0
+>> >112678835 0
+>> >113695864 0
+>> >114711636 0
+>> >115729433 0
+>> >116747369 0
+>> >117761185 0
+>> >118778284 0
+>> >119795034 0
+>> >120814367 0
+>> >121832234 0
+>> >122848704 0
+>> >124012400 0
+>> >125252152 0
+>> >126505035 0
+>> >127522972 0
+>> >128881664 0
+>> >130117017 0
+>> >131137328 0
+>> >132154217 0
+>> >133504110 0
+>> >134521907 0
+>> >135539215 0
+>> >136891552 0
+>> >137909279 0
+>> >138926238 0
+>> >140275781 0
+>> >141295603 0
+>> >142313051 0
+>> >143654912 0
+>> >144673058 0
+>> >145690925 0
+>> >146707675 0
+>> >147725541 0
+>> >148742500 0
+>> >149759459 0
+>> >150777187 0
+>> >151794215 0
+>> >153024260 0
+>> >154048762 0
+>> >155066559 0
+>> >156416521 0
+>> >157435715 0
+>> >158894211 0
+>> >160134941 0
+>> >161152878 0
+>> >162500535 0
+>> >163826472 0
+>> >165066714 0
+>> >166302625 0
+>> >167378390 0
+>> >168600613 0
+>> >169957839 0
+>> >170975775 0
+>> >172321826 0
+>> >173589585 0
+>> >174607871 0
+>> >175624900 0
+>> >176970462 0
+>> >177988748 0
+>> >179006336 0
+>> >180360069 0
+>> >181378565 0
+>> >182397829 0
+>> >183414648 0
+>> >184432445 0
+>> >185448915 0
+>> >186674490 0
+>> >187692916 0
+>> >188709944 0
+>> >190066192 0
+>> >191083989 0
+>> >192425291 0
+>> >193680269 0
+>> >194698695 0
+>> >195716073 0
+>> >196732892 0
+>> >197749991 0
+>> >198766950 0
+>> >199998252 0
+>> >201016468 0
+>> >202067719 1
+>> >203081814 0
+>> >204111554 0
+>> >205140107 0
+>> >206192755 0
+>> >207206920 0
+>> >208226742 0
+>> >209269822 0
+>> >210289086 0
+>> >211307930 0
+>> >212325797 0
+>> >213339125 0
+>> >214359506 0
+>> >215377303 0
+>> >216394122 0
+>> >217408776 0
+>> >218456116 0
+>> >219477755 0
+>> >220492269 0
+>> >221510765 0
+>> >222556358 0
+>> >223582816 0
+>> >224600613 0
+>> >225613172 0
+>> >226631458 0
+>> >227648417 0
+>> >228665725 0
+>> >229679122 0
+>> >230691402 0
+>> >231705916 0
+>> >232718894 0
+>> >233735853 0
+>> >234752812 0
+>> >235770330 0
+>> >236786870 0
+>> >237807111 0
+>> >238824000 0
+>> >239840959 0
+>> >240859245 0
+>> >242145791 0
+>> >243385335 0
+>> >244404040 0
+>> >245421418 0
+>> >246779970 0
+>> >247797697 0
+>> >249022504 0
+>> >250324555 0
+>> >251342701 0
+>> >252360638 0
+>> >253377178 0
+>> >254395045 0
+>> >255412283 0
+>> >256651547 0
+>> >257669344 0
+>> >259155637 0
+>> >260394481 0
+>> >261414234 0
+>> >262432240 0
+>> >263449339 0
+>> >264464273 0
+>> >265481092 0
+>> >266718051 0
+>> >267735848 0
+>> >268752947 0
+>> >270315925 0
+>> >271333862 0
+>> >272351309 0
+>> >273723621 0
+>> >274744281 0
+>> >275761590 0
+>> >276778548 0
+>> >277796904 0
+>> >278814003 0
+>> >280039438 0
+>> >281057864 0
+>> >282075242 0
+>> >283428417 0
+>> >284447261 0
+>> >285790030 0
+>> >287017979 0
+>> >288036405 0
+>> >289054831 0
+>> >290071650 0
+>> >291088958 0
+>> >292105917 0
+>> >293336241 0
+>> >294354737 0
+>> >295372045 0
+>> >296722216 0
+>> >297740014 0
+>> >298960630 0
+>> >300320160 0
+>> >301337957 0
+>> >302355265 0
+>> >303705228 0
+>> >304723444 0
+>> >305740473 0
+>> >306757711 0
+>> >307775648 0
+>> >308793445 0
+>> >310091235 0
+>> >311109102 0
+>> >312126061 0
+>> >313477560 0
+>> >314496474 0
+>> >315514691 0
+>> >316863186 0
+>> >317881682 0
+>> >318899199 0
+>> >320406025 0
+>> >321423892 0
+>> >322441340 0
+>> >323460115 0
+>> >324478191 0
+>> >325495220 0
+>> >326564560 0
+>> >327611620 1
+>> >328632700 0
+>> >329653849 0
+>> >330668853 0
+>> >331682459 0
+>> >332700745 0
+>> >333718263 0
+>> >334732428 0
+>> >335746105 0
+>> >336758175 0
+>> >337768429 0
+>> >338783502 0
+>> >339797877 0
+>> >340809109 0
+>> >341824322 0
+>> >342838208 0
+>> >343849440 0
+>> >344867307 0
+>> >345886082 0
+>> >346900317 0
+>> >347917765 0
+>> >348935212 0
+>> >349951752 0
+>> >350964661 0
+>> >352082191 0
+>> >353107182 0
+>> >354127912 0
+>> >355145360 0
+>> >356161062 0
+>> >357175227 0
+>> >358192535 0
+>> >359423767 0
+>> >360454485 0
+>> >361472352 0
+>> >362485050 0
+>> >363504454 0
+>> >364522321 0
+>> >365539769 0
+>> >366553305 0
+>> >367570614 0
+>> >368588061 0
+>> >369605858 0
+>> >370619465 0
+>> >371648297 0
+>> >372666094 0
+>> >373683332 0
+>> >374701199 0
+>> >375718647 0
+>> >376735257 0
+>> >377753054 0
+>> >378769873 0
+>> >379786762 0
+>> >380803721 0
+>> >381822077 0
+>> >383051982 0
+>> >384075157 0
+>> >385093094 0
+>> >386324815 0
+>> >387352739 0
+>> >388371513 0
+>> >389722384 0
+>> >390783692 0
+>> >392014016 0
+>> >393373407 0
+>> >394391902 0
+>> >395740887 0
+>> >397009344 0
+>> >398029097 0
+>> >399046964 0
+>> >400063922 0
+>> >401080742 0
+>> >402097631 0
+>> >403329212 0
+>> >404347568 0
+>> >405695016 0
+>> >406962286 0
+>> >407980642 0
+>> >408998020 0
+>> >410404623 0
+>> >411423957 0
+>> >412441265 0
+>> >413458154 0
+>> >414476300 0
+>> >415494237 0
+>> >416727704 0
+>> >417746479 0
+>> >418763927 0
+>> >420120664 0
+>> >421138949 0
+>> >422155978 0
+>> >423509502 0
+>> >424527649 0
+>> >425545166 0
+>> >426896316 0
+>> >427914742 0
+>> >428932189 0
+>> >430303174 0
+>> >431321879 0
+>> >432340165 0
+>> >433691524 0
+>> >434710718 0
+>> >435728096 0
+>> >436746032 0
+>> >437763899 0
+>> >438780998 0
+>> >440011671 0
+>> >441029608 0
+>> >442047056 0
+>> >443638878 0
+>> >444656745 0
+>> >445674682 0
+>> >447026809 0
+>> >448044746 0
+>> >449062473 0
+>> >450079502 0
+>> >451177267 0
+>> >452224887 1
+>> >453245547 1
+>> >454263833 1
+>> >455280652 1
+>> >456293840 1
+>>
+>>
+>> --
+>> Best regards,
+>> Coiby
+>>
+>
 
-I'm seeing the events show up in evtest which is very cool
-
-Thanks to all for the comments and help - much appreciated. I'll work on 
-getting a patch out for this soon for review
-
-Mark
+--
+Best regards,
+Coiby
