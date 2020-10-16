@@ -2,228 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 766E828F417
-	for <lists+linux-input@lfdr.de>; Thu, 15 Oct 2020 15:58:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0B7E290546
+	for <lists+linux-input@lfdr.de>; Fri, 16 Oct 2020 14:37:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730360AbgJON6H (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 15 Oct 2020 09:58:07 -0400
-Received: from mail1.bemta23.messagelabs.com ([67.219.246.116]:58952 "EHLO
-        mail1.bemta23.messagelabs.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730142AbgJON6G (ORCPT
+        id S2407603AbgJPMh1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Oct 2020 08:37:27 -0400
+Received: from cpanel.giganet.cl ([190.96.78.139]:39766 "EHLO
+        cpanel.giganet.cl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2407562AbgJPMhY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 15 Oct 2020 09:58:06 -0400
-Received: from [100.112.7.19] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-        by server-5.bemta.az-c.us-east-1.aws.symcld.net id 05/55-63275-C65588F5; Thu, 15 Oct 2020 13:58:04 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrFIsWRWlGSWpSXmKPExsWSLveKTTcntCP
-  e4ECPoMWhcweYLQ4vesFo8fXbbXaLN8enM1mcub2QyeLmp2+sFqv3vGB2YPeY1dDL5rFz1l12
-  j1/b1rB4LD84jcnj/b6rbB6fN8kFsEWxZuYl5VcksGZM3nuIreCcasWdyRsYGxivy3cxcnEIC
-  fxnlPhwayEzhPOaUaLh9FP2LkZODjYBbYktW36xdTFycIgIyEh8WOsJUsMscJtR4vmuBrC4sI
-  CZxMUb9SDlLAKqEv8ndIC18grYSLzZv5kFxJYQkJd42rucGcTmFLCVePfwOitIq5BAmMTrTek
-  Q5YISJ2c+AStnBipv3jqbGcKWkDj44gUzzJi/T56wQtgJEste3mGewCgwC0n7LCTts5C0L2Bk
-  XsVollSUmZ5RkpuYmaNraGCga2hopGuma2RgopdYpZusV1qsm5pYXKJrqJdYXqxXXJmbnJOil
-  5dasokRGCUpBWxndjBuf/NB7xCjJAeTkihvdFBHvBBfUn5KZUZicUZ8UWlOavEhRhkODiUJXv
-  FgoJxgUWp6akVaZg4wYmHSEhw8SiK8h0KA0rzFBYm5xZnpEKlTjIpS4ryzQBICIImM0jy4Nli
-  SuMQoKyXMy8jAwCDEU5BalJtZgir/ilGcg1FJmDcIZApPZl4J3PRXQIuZgBbbL2kBWVySiJCS
-  amBiuvJ/wsRDGllZb1f/max6gDln2ekP165NixPInFXfO00g2/yVg6SO24TDts77t3bEzj4Zm
-  3pT9cgE5XTjDypfhPxtvjfJxC4waHOvKLeZIvzn2apzVrrfjdiXMJx3e1g+a5/PbcVvvfNyH/
-  IZf/zSXSDw976c02NDg9fJKjtTS5+Fhz3cVnS0w/ffvCmSfQ8W3nwyoSGn4bdl3qEPrM93nyr
-  8e8Thvoplenr/zIsNEzIeLzteV2ry19vQumbx4bTfKmkJ/LbB3E8ezXkSbvXkubmD9qGWVTEH
-  Th99wu8s8sqolsnF2HXRfEv9y1P8q3XuT7GIP5/YfbP8+QOfhHsiH15m/djpIW67Nmv5jIvVS
-  izFGYmGWsxFxYkAgp2t0Y0DAAA=
-X-Env-Sender: markpearson@lenovo.com
-X-Msg-Ref: server-11.tower-415.messagelabs.com!1602770281!158452!1
-X-Originating-IP: [103.30.234.6]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.60.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 32675 invoked from network); 15 Oct 2020 13:58:04 -0000
-Received: from unknown (HELO lenovo.com) (103.30.234.6)
-  by server-11.tower-415.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 15 Oct 2020 13:58:04 -0000
-Received: from reswpmail04.lenovo.com (unknown [10.62.32.23])
-        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by Forcepoint Email with ESMTPS id A7B7E8A2CCC0E6A83FC8;
-        Thu, 15 Oct 2020 21:57:59 +0800 (CST)
-Received: from localhost.localdomain.com (10.64.83.59) by
- reswpmail04.lenovo.com (10.62.32.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2044.4; Thu, 15 Oct 2020 06:57:56 -0700
-From:   Mark Pearson <markpearson@lenovo.com>
-To:     <markpearson@lenovo.com>
-CC:     <njoshi1@lenovo.com>, <hdegoede@redhat.com>,
-        <dmitry.torokhov@gmail.com>, <platform-driver-x86@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <jeff@labundy.com>,
-        <anthony.wong@canonical.com>, <hadess@hadess.net>
-Subject: [PATCH 3/3] Add support for Lenovo lap sensor
-Date:   Thu, 15 Oct 2020 09:57:17 -0400
-Message-ID: <20201015135717.384610-4-markpearson@lenovo.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201015135717.384610-1-markpearson@lenovo.com>
-References: <markpearson@lenovo.com>
- <20201015135717.384610-1-markpearson@lenovo.com>
+        Fri, 16 Oct 2020 08:37:24 -0400
+X-Greylist: delayed 20782 seconds by postgrey-1.27 at vger.kernel.org; Fri, 16 Oct 2020 08:37:10 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=dplgrout.cl
+        ; s=default; h=Content-Transfer-Encoding:Content-Type:Message-ID:Reply-To:
+        Subject:To:From:Date:MIME-Version:Sender:Cc:Content-ID:Content-Description:
+        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=TrgUs68YRs3neP+PfrvGhLoeMXh3YzKv5z9oCWPJ0m4=; b=m/ABHCVvyLYD2QkkwOjuWUgGFG
+        i9BJXsIic9wHOFEzjhXFPbcsR2XTWptcrmKLSqDrJOV7hGJM6za5nSEFhd4CC/+eaHHsgS48/E2jM
+        qvMpEeazlOlIrwSs4xM+Zdf/REorOK5GVU6ZAJUjCzQuCMv9dTVBPKuexZxj1Qoi2hPLiQ576Ik0L
+        XzwzerIXphINfmlVQ0r0UMIuChB1Vcn201QVmD2skB/Nh9D/yp0E95Av9ZMQq7ln6H0uEUnu/2/5Y
+        /CHuMEs39xrrgaYDtG7jTh3PfukIIcCJEs3b52/mZokA1w+tDL1dp0MaV2Z+qYj+Bzs13o0ru0vv/
+        Mq733mMw==;
+Received: from [::1] (port=55048 helo=cpanel.giganet.cl)
+        by cpanel.giganet.cl with esmtpa (Exim 4.93)
+        (envelope-from <info@controlypotencia.com>)
+        id 1kTJ7f-0009vt-N3; Fri, 16 Oct 2020 03:21:51 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.64.83.59]
-X-ClientProxiedBy: reswpmail04.lenovo.com (10.62.32.23) To
- reswpmail04.lenovo.com (10.62.32.23)
+Date:   Fri, 16 Oct 2020 03:21:50 -0300
+From:   Ying Chongan <info@controlypotencia.com>
+To:     undisclosed-recipients:;
+Subject: Investment opportunity
+Reply-To: yingchongan@zohomail.com
+User-Agent: Roundcube Webmail/1.4.8
+Message-ID: <e70e5a6e462f92c7f06eea146a612430@controlypotencia.com>
+X-Sender: info@controlypotencia.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel.giganet.cl
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - controlypotencia.com
+X-Get-Message-Sender-Via: cpanel.giganet.cl: authenticated_id: mariapaz.lopez@dplgrout.cl
+X-Authenticated-Sender: cpanel.giganet.cl: mariapaz.lopez@dplgrout.cl
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This adds the Lenovo lap sensor to the input_sw_dev event sensor
-alongside the previously added palmsensor.
+Greetings,
 
-Signed-off-by: Nitin Joshi <njoshi1@lenovo.com>
-Signed-off-by: Mark Pearson <markpearson@lenovo.com>
----
- drivers/platform/x86/thinkpad_acpi.c | 75 ++++++++++++++++++++++------
- 1 file changed, 59 insertions(+), 16 deletions(-)
+This email is for an opportunity to invest in any lucrative business in 
+your country.
 
-diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 5ddf2775fb06..c20b9902270b 100644
---- a/drivers/platform/x86/thinkpad_acpi.c
-+++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -4013,7 +4013,7 @@ static bool hotkey_notify_usrevent(const u32 hkey,
- }
- 
- static void thermal_dump_all_sensors(void);
--static void proxsensor_refresh(void);
-+static void proxsensor_refresh(bool palm, bool lap);
- 
- static bool hotkey_notify_6xxx(const u32 hkey,
- 				 bool *send_acpi_ev,
-@@ -4081,7 +4081,7 @@ static bool hotkey_notify_6xxx(const u32 hkey,
- 	case TP_HKEY_EV_PALM_DETECTED:
- 	case TP_HKEY_EV_PALM_UNDETECTED:
- 		/* palm detected  - pass on to event handler */
--		proxsensor_refresh();
-+		proxsensor_refresh(true /* palm */, false /* lap */);
- 		return true;
- 
- 	default:
-@@ -9929,6 +9929,23 @@ static struct ibm_struct dytc_driver_data = {
- struct input_dev *tpacpi_sw_dev;
- bool has_palmsensor;
- bool palmsensor_state;
-+bool has_lapsensor;
-+bool lapsensor_state;
-+
-+static int lapsensor_get(bool *present, bool *state)
-+{
-+	acpi_handle dytc_handle;
-+	int output;
-+
-+	*present = false;
-+	if (ACPI_FAILURE(acpi_get_handle(hkey_handle, "DYTC", &dytc_handle)))
-+		return -ENODEV;
-+	if (!acpi_evalf(dytc_handle, &output, NULL, "dd", DYTC_CMD_GET))
-+		return -EIO;
-+	*present = true; /* If we get his far, we have lapmode support */
-+	*state = output & BIT(DYTC_GET_LAPMODE_BIT) ? true : false;
-+	return 0;
-+}
- 
- static int palmsensor_get(bool *present, bool *state)
- {
-@@ -9945,36 +9962,56 @@ static int palmsensor_get(bool *present, bool *state)
- 	return 0;
- }
- 
--static void proxsensor_refresh(void)
-+static void proxsensor_refresh(bool palm, bool lap)
- {
- 	bool new_state;
- 	int err;
- 
--	if (has_palmsensor) {
-+	if (palm && has_palmsensor) {
- 		err = palmsensor_get(&has_palmsensor, &new_state);
--		if (err)
--			return;
--		if (new_state != palmsensor_state) {
-+		if (!err && (new_state != palmsensor_state)) {
- 			input_report_switch(tpacpi_sw_dev, SW_PALMREST_PROXIMITY, new_state);
- 			input_sync(tpacpi_sw_dev);
- 			palmsensor_state = new_state;
- 		}
- 	}
-+
-+	if (lap && has_lapsensor) {
-+		err = lapsensor_get(&has_lapsensor, &new_state);
-+		if (!err && (new_state != lapsensor_state)) {
-+			input_report_switch(tpacpi_sw_dev, SW_LAP_PROXIMITY, new_state);
-+			input_sync(tpacpi_sw_dev);
-+			lapsensor_state = new_state;
-+		}
-+	}
- }
- 
- static int tpacpi_proxsensor_init(struct ibm_init_struct *iibm)
- {
--	int palm_err;
-+	int palm_err, lap_err, err;
- 
-+	/* Make sure globals are set to a sensible initial value */
-+	has_palmsensor = false;
-+	has_lapsensor = false;
- 	palm_err = palmsensor_get(&has_palmsensor, &palmsensor_state);
-+	lap_err = lapsensor_get(&has_lapsensor, &lapsensor_state);
-+
- 	/* If support isn't available (ENODEV) then don't return an error */
--	if (palm_err == -ENODEV)
-+	if ((palm_err == -ENODEV) && (lap_err == -ENODEV))
- 		return 0;
--	/* For all other errors we can flag the failure */
-+	/* If both sensors error out - return an error */
-+	if (palm_err && lap_err)
-+		return palm_err ? palm_err : lap_err;
-+	/*
-+	 * If just one sensor not available, we still want the input device,
-+	 * so just flag it and carry on
-+	 */
- 	if (palm_err)
--		return palm_err;
-+		pr_info("Palm sensor returned error %d", palm_err);
-+	if (lap_err)
-+		pr_info("Lap sensor returned error %d", lap_err);
- 
--	if (has_palmsensor) {
-+	if (has_palmsensor || has_lapsensor) {
- 		tpacpi_sw_dev = input_allocate_device();
- 		if (!tpacpi_sw_dev)
- 			return -ENOMEM;
-@@ -9990,10 +10027,14 @@ static int tpacpi_proxsensor_init(struct ibm_init_struct *iibm)
- 			input_set_capability(tpacpi_sw_dev, EV_SW, SW_PALMREST_PROXIMITY);
- 			input_report_switch(tpacpi_sw_dev, SW_PALMREST_PROXIMITY, palmsensor_state);
- 		}
--		palm_err = input_register_device(tpacpi_sw_dev);
--		if (palm_err) {
-+		if (has_lapsensor) {
-+			input_set_capability(tpacpi_sw_dev, EV_SW, SW_LAP_PROXIMITY);
-+			input_report_switch(tpacpi_sw_dev, SW_LAP_PROXIMITY, lapsensor_state);
-+		}
-+		err = input_register_device(tpacpi_sw_dev);
-+		if (err) {
- 			input_free_device(tpacpi_sw_dev);
--			return palm_err;
-+			return err;
- 		}
- 	}
- 	return 0;
-@@ -10057,8 +10098,10 @@ static void tpacpi_driver_event(const unsigned int hkey_event)
- 		mutex_unlock(&kbdlight_mutex);
- 	}
- 
--	if (hkey_event == TP_HKEY_EV_THM_CSM_COMPLETED)
-+	if (hkey_event == TP_HKEY_EV_THM_CSM_COMPLETED) {
- 		dytc_lapmode_refresh();
-+		proxsensor_refresh(false /* palm */, true /* lap */);
-+	}
- 
- }
- 
--- 
-2.28.0
+We offer a quick loan at low interest rate, if you are interested, 
+please reply to yingchongan@gmail.com for more details.
 
+Sincerely: Ying Chongan
