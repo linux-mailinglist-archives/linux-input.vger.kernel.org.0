@@ -2,117 +2,318 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D4D6290743
-	for <lists+linux-input@lfdr.de>; Fri, 16 Oct 2020 16:34:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CADF32907E4
+	for <lists+linux-input@lfdr.de>; Fri, 16 Oct 2020 17:01:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406507AbgJPOex (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Oct 2020 10:34:53 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:47896 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406402AbgJPOex (ORCPT
+        id S2409683AbgJPPBE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Oct 2020 11:01:04 -0400
+Received: from mail-40141.protonmail.ch ([185.70.40.141]:28727 "EHLO
+        mail-40141.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2409689AbgJPPBB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Oct 2020 10:34:53 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09GEYeZp102455;
-        Fri, 16 Oct 2020 14:34:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2020-01-29; bh=/n57+e1VdtbtTbhnDHEyTLAdam04u1YUaGW6EAKirgg=;
- b=MNmd+VfCvB0YyAnbVAqA18LOfnk81ygM3f/HIyyqaQ6/lVRYiB4bxHnqPe3BC/oMbEMO
- zyiUnvMtLGS79TnOy0SW2VDd7hhvDbmuirxsK+SOhqWeEBMTrlEUD2FSGCibub2y5jfl
- E5mEAlQF2lMTU98z7oUueTW8cmUros8iI568H80AI3F8LINTrq97vfRk+88H1+/htpnb
- Qd9ED0978wv3QG/n2nW286xoTft2D9FzxXoBlTEM1kekw+OV9Njk1rZzNC/a+o0xTPkT
- Cw1Q+10dDvUZDw1+y0JOk0J/kEmRsNmD0Ql9Nn4YIe77U69M4RHugceRGFk4R6kbiO3b 1g== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2130.oracle.com with ESMTP id 346g8gq8ap-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 16 Oct 2020 14:34:48 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09GEUh2I191755;
-        Fri, 16 Oct 2020 14:32:47 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userp3030.oracle.com with ESMTP id 343pw1ws6f-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 16 Oct 2020 14:32:47 +0000
-Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 09GEWkgN031574;
-        Fri, 16 Oct 2020 14:32:46 GMT
-Received: from disaster-area.hh.sledj.net (/81.187.26.238)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 16 Oct 2020 07:32:46 -0700
-Received: from localhost (disaster-area.hh.sledj.net [local])
-        by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id dc10a74e;
-        Fri, 16 Oct 2020 14:32:44 +0000 (UTC)
-From:   David Edmondson <david.edmondson@oracle.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+        Fri, 16 Oct 2020 11:01:01 -0400
+X-Greylist: delayed 102420 seconds by postgrey-1.27 at vger.kernel.org; Fri, 16 Oct 2020 11:00:59 EDT
+Date:   Fri, 16 Oct 2020 15:00:49 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail; t=1602860456;
+        bh=Oq0wpmvGRC9hGW185tYRKgXrLh7BTScF8zS8kr+piaA=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+        b=CVyTAib1rCG/mIIKq/4zeVAAEP/QCMcHgTxRr0lDGwuV3lFEcDxqhg5WnliVrlI4s
+         jbYPam7zi+csX2bGlcaZ1xDt3GkQtH8v2+lVcb4iYNhhEEZiGAuPx+eyu3WSOq6A0b
+         gpeiTgCiPupV+4CmKudaxFM8Gcg8YrT5lH5ssAtE=
+To:     Coiby Xu <coiby.xu@gmail.com>
+From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Helmut Stult <helmut.stult@schinfo.de>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        David Edmondson <david.edmondson@oracle.com>
-Subject: [PATCH] HID: multitouch: Re-enable trackpoint and buttons on Lenovo X1 Tab gen2
-Date:   Fri, 16 Oct 2020 15:32:44 +0100
-Message-Id: <20201016143244.1303262-1-david.edmondson@oracle.com>
-X-Mailer: git-send-email 2.28.0
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Subject: Re: [PATCH v2] HID: i2c-hid: add polling mode based on connected GPIO chip's pin status
+Message-ID: <T2SIcFVxZ81NUwKLDbSESA7Wpm7DYowEiii8ZaxTPtrdXZZeHLq5iZPkN5BLlp-9C6PLwUZOVwNpMdEdPSRZcAG4MmDt-tfyKZoQYJ0KHOA=@protonmail.com>
+In-Reply-To: <20201016131335.8121-1-coiby.xu@gmail.com>
+References: <20201016131335.8121-1-coiby.xu@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9775 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 adultscore=0
- bulkscore=0 mlxlogscore=999 suspectscore=1 malwarescore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010160110
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9775 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 suspectscore=1
- priorityscore=1501 phishscore=0 clxscore=1011 spamscore=0 adultscore=0
- mlxscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010160111
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
+        autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+        mailout.protonmail.ch
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Use the FORCE_MULTI_INPUT class and quirk added in
-commit 40d5bb87377a ("HID: multitouch: enable multi-input as a quirk
-for some devices")
-to enable event reporting from both the trackpad and the
-trackpoint/buttons in the Lenovo X1 Tab gen2.
+Hi,
 
-Signed-off-by: David Edmondson <david.edmondson@oracle.com>
----
-It seems likely that some other devices should be treated similarly
-(X1 Tab gen3, for example), but I don't have them available to test.
+I still think that `i2c_hid_resume()` and `i2c_hid_suspend()` are asymmetri=
+c and
+that might lead to issues.
 
- drivers/hid/hid-ids.h        | 1 +
- drivers/hid/hid-multitouch.c | 6 ++++++
- 2 files changed, 7 insertions(+)
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 74fc1df6e3c2..450ffb760aca 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -727,6 +727,7 @@
- #define USB_DEVICE_ID_LENOVO_TP10UBKBD	0x6062
- #define USB_DEVICE_ID_LENOVO_TPPRODOCK	0x6067
- #define USB_DEVICE_ID_LENOVO_X1_COVER	0x6085
-+#define USB_DEVICE_ID_LENOVO_X1_TAB	0x60a3
- #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_608D	0x608d
- #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6019	0x6019
- #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_602E	0x602e
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index e3152155c4b8..9e8251fc62b8 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -1965,6 +1965,12 @@ static const struct hid_device_id mt_devices[] = {
- 		MT_USB_DEVICE(USB_VENDOR_ID_ILITEK,
- 			USB_DEVICE_ID_ILITEK_MULTITOUCH) },
- 
-+	/* Lenovo X1 TAB Gen 2 */
-+	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
-+		HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8,
-+			USB_VENDOR_ID_LENOVO,
-+			USB_DEVICE_ID_LENOVO_X1_TAB) },
-+
- 	/* LG Melfas panel */
- 	{ .driver_data = MT_CLS_LG,
- 		HID_USB_DEVICE(USB_VENDOR_ID_LG,
--- 
-2.28.0
+> [...]
+> When polling mode is enabled, an I2C device can't wake up the suspended
+> system since enable/disable_irq_wake is invalid for polling mode.
+>
 
+Excuse my ignorance, but could you elaborate this because I am not sure I u=
+nderstand.
+Aren't the two things orthogonal (polling and waking up the system)?
+
+
+> [...]
+>  #define I2C_HID_PWR_ON=09=090x00
+>  #define I2C_HID_PWR_SLEEP=090x01
+>
+> +/* polling mode */
+> +#define I2C_POLLING_DISABLED 0
+> +#define I2C_POLLING_GPIO_PIN 1
+
+This is a very small detail, but I personally think that these defines shou=
+ld be
+called I2C_HID_.... since they are only used here.
+
+
+> +#define POLLING_INTERVAL 10
+> +
+> +static u8 polling_mode;
+> +module_param(polling_mode, byte, 0444);
+> +MODULE_PARM_DESC(polling_mode, "How to poll - 0 disabled; 1 based on GPI=
+O pin's status");
+> +
+> +static unsigned int polling_interval_active_us =3D 4000;
+> +module_param(polling_interval_active_us, uint, 0644);
+> +MODULE_PARM_DESC(polling_interval_active_us,
+> +=09=09 "Poll every {polling_interval_active_us} us when the touchpad is =
+active. Default to 4000 us");
+> +
+> +static unsigned int polling_interval_idle_ms =3D 10;
+
+There is a define for this value, I don't really see why you don't use it h=
+ere.
+And if there is a define for one value, I don't really see why there isn't =
+one
+for the other. (As far as I see `POLLING_INTERVAL` is not even used anywher=
+e.)
+
+
+> +module_param(polling_interval_idle_ms, uint, 0644);
+> +MODULE_PARM_DESC(polling_interval_ms,
+> +=09=09 "Poll every {polling_interval_idle_ms} ms when the touchpad is id=
+le. Default to 10 ms");
+>  /* debug option */
+>  static bool debug;
+>  module_param(debug, bool, 0444);
+> @@ -158,6 +178,8 @@ struct i2c_hid {
+>
+>  =09struct i2c_hid_platform_data pdata;
+>
+> +=09struct task_struct *polling_thread;
+> +
+>  =09bool=09=09=09irq_wake_enabled;
+>  =09struct mutex=09=09reset_lock;
+>  };
+> @@ -772,7 +794,9 @@ static int i2c_hid_start(struct hid_device *hid)
+>  =09=09i2c_hid_free_buffers(ihid);
+>
+>  =09=09ret =3D i2c_hid_alloc_buffers(ihid, bufsize);
+> -=09=09enable_irq(client->irq);
+> +
+> +=09=09if (polling_mode =3D=3D I2C_POLLING_DISABLED)
+> +=09=09=09enable_irq(client->irq);
+>
+>  =09=09if (ret)
+>  =09=09=09return ret;
+> @@ -814,6 +838,86 @@ struct hid_ll_driver i2c_hid_ll_driver =3D {
+>  };
+>  EXPORT_SYMBOL_GPL(i2c_hid_ll_driver);
+>
+> +static int get_gpio_pin_state(struct irq_desc *irq_desc)
+> +{
+> +=09struct gpio_chip *gc =3D irq_data_get_irq_chip_data(&irq_desc->irq_da=
+ta);
+> +
+> +=09return gc->get(gc, irq_desc->irq_data.hwirq);
+> +}
+> +
+> +static bool interrupt_line_active(struct i2c_client *client)
+> +{
+> +=09unsigned long trigger_type =3D irq_get_trigger_type(client->irq);
+> +=09struct irq_desc *irq_desc =3D irq_to_desc(client->irq);
+> +
+> +=09/*
+> +=09 * According to Windows Precsiontion Touchpad's specs
+> +=09 * https://docs.microsoft.com/en-us/windows-hardware/design/component=
+-guidelines/windows-precision-touchpad-device-bus-connectivity,
+> +=09 * GPIO Interrupt Assertion Leve could be either ActiveLow or
+> +=09 * ActiveHigh.
+> +=09 */
+> +=09if (trigger_type & IRQF_TRIGGER_LOW)
+> +=09=09return !get_gpio_pin_state(irq_desc);
+> +
+> +=09return get_gpio_pin_state(irq_desc);
+> +}
+
+Excuse my ignorance, but I think some kind of error handling regarding the =
+return
+value of `get_gpio_pin_state()` should be present here.
+
+
+> +
+> +static int i2c_hid_polling_thread(void *i2c_hid)
+> +{
+> +=09struct i2c_hid *ihid =3D i2c_hid;
+> +=09struct i2c_client *client =3D ihid->client;
+> +=09unsigned int polling_interval_idle;
+> +
+> +=09while (1) {
+> +=09=09/*
+> +=09=09 * re-calculate polling_interval_idle
+> +=09=09 * so the module parameters polling_interval_idle_ms can be
+> +=09=09 * changed dynamically through sysfs as polling_interval_active_us
+> +=09=09 */
+> +=09=09polling_interval_idle =3D polling_interval_idle_ms * 1000;
+> +=09=09if (test_bit(I2C_HID_READ_PENDING, &ihid->flags))
+> +=09=09=09usleep_range(50000, 100000);
+> +
+> +=09=09if (kthread_should_stop())
+> +=09=09=09break;
+> +
+> +=09=09while (interrupt_line_active(client)) {
+
+I realize it's quite unlikely, but can't this be a endless loop if data is =
+coming
+in at a high enough rate? Maybe the maximum number of iterations could be l=
+imited here?
+
+
+> +=09=09=09i2c_hid_get_input(ihid);
+> +=09=09=09usleep_range(polling_interval_active_us,
+> +=09=09=09=09     polling_interval_active_us + 100);
+> +=09=09}
+> +
+> +=09=09usleep_range(polling_interval_idle,
+> +=09=09=09     polling_interval_idle + 1000);
+> +=09}
+> +
+> +=09do_exit(0);
+> +=09return 0;
+> +}
+> +
+> +static int i2c_hid_init_polling(struct i2c_hid *ihid)
+> +{
+> +=09struct i2c_client *client =3D ihid->client;
+> +
+> +=09if (!irq_get_trigger_type(client->irq)) {
+> +=09=09dev_warn(&client->dev,
+> +=09=09=09 "Failed to get GPIO Interrupt Assertion Level, could not enabl=
+e polling mode for %s",
+> +=09=09=09 client->name);
+> +=09=09return -1;
+> +=09}
+> +
+> +=09ihid->polling_thread =3D kthread_create(i2c_hid_polling_thread, ihid,
+> +=09=09=09=09=09      "I2C HID polling thread");
+> +
+> +=09if (ihid->polling_thread) {
+
+`kthread_create()` returns an errno in a pointer, so this check is incorrec=
+t. It should be
+
+ if (!IS_ERR(ihid->polling_thread))
+
+I think it's a bit inconsistent that in this function you do:
+
+ if (err)
+   bail
+
+ if (!err)
+   return ok
+
+ return err
+
+moreover, I think the errno should be propagated, so use
+
+ return PTR_ERR(ihid->polling_thread);
+
+for example, when bailing out.
+
+
+> +=09=09pr_info("I2C HID polling thread");
+> +=09=09wake_up_process(ihid->polling_thread);
+> +=09=09return 0;
+> +=09}
+> +
+> +=09return -1;
+> +}
+> +
+> [...]
+>  #ifdef CONFIG_PM_SLEEP
+> @@ -1183,15 +1300,16 @@ static int i2c_hid_suspend(struct device *dev)
+>  =09/* Save some power */
+>  =09i2c_hid_set_power(client, I2C_HID_PWR_SLEEP);
+>
+> -=09disable_irq(client->irq);
+> -
+> -=09if (device_may_wakeup(&client->dev)) {
+> -=09=09wake_status =3D enable_irq_wake(client->irq);
+> -=09=09if (!wake_status)
+> -=09=09=09ihid->irq_wake_enabled =3D true;
+> -=09=09else
+> -=09=09=09hid_warn(hid, "Failed to enable irq wake: %d\n",
+> -=09=09=09=09wake_status);
+> +=09if (polling_mode =3D=3D I2C_POLLING_DISABLED) {
+> +=09=09disable_irq(client->irq);
+> +=09=09if (device_may_wakeup(&client->dev)) {
+> +=09=09=09wake_status =3D enable_irq_wake(client->irq);
+> +=09=09=09if (!wake_status)
+> +=09=09=09=09ihid->irq_wake_enabled =3D true;
+> +=09=09=09else
+> +=09=09=09=09hid_warn(hid, "Failed to enable irq wake: %d\n",
+> +=09=09=09=09=09 wake_status);
+> +=09=09}
+>  =09} else {
+>  =09=09regulator_bulk_disable(ARRAY_SIZE(ihid->pdata.supplies),
+>  =09=09=09=09       ihid->pdata.supplies);
+> @@ -1208,7 +1326,7 @@ static int i2c_hid_resume(struct device *dev)
+>  =09struct hid_device *hid =3D ihid->hid;
+>  =09int wake_status;
+>
+> -=09if (!device_may_wakeup(&client->dev)) {
+> +=09if (!device_may_wakeup(&client->dev) || polling_mode !=3D I2C_POLLING=
+_DISABLED) {
+>  =09=09ret =3D regulator_bulk_enable(ARRAY_SIZE(ihid->pdata.supplies),
+>  =09=09=09=09=09    ihid->pdata.supplies);
+>  =09=09if (ret)
+> @@ -1225,7 +1343,8 @@ static int i2c_hid_resume(struct device *dev)
+>  =09=09=09=09wake_status);
+>  =09}
+>
+> -=09enable_irq(client->irq);
+> +=09if (polling_mode =3D=3D I2C_POLLING_DISABLED)
+> +=09=09enable_irq(client->irq);
+> [...]
+
+Before this patch, if a device cannot wake up, then the regulators are disa=
+bled
+when suspending, after this patch, regulators are only disabled if polling =
+is
+used. But they are enabled if the device cannot wake up *or* polling is use=
+d.
+
+Excuse my ignorance, but I do not understand why the following two changes =
+are not enough:
+
+in `i2c_hid_suspend()`:
+ if (polling_mode =3D=3D I2C_POLLING_DISABLED)
+   disable_irq(client->irq);
+
+in `i2c_hid_resume()`:
+ if (polling_mode =3D=3D I2C_POLLING_DISABLED)
+   enable_irq(client->irq);
+
+
+Regards,
+Barnab=C3=A1s P=C5=91cze
