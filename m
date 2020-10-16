@@ -2,65 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E0B7E290546
-	for <lists+linux-input@lfdr.de>; Fri, 16 Oct 2020 14:37:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D956028FE73
+	for <lists+linux-input@lfdr.de>; Fri, 16 Oct 2020 08:44:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407603AbgJPMh1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Oct 2020 08:37:27 -0400
-Received: from cpanel.giganet.cl ([190.96.78.139]:39766 "EHLO
-        cpanel.giganet.cl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407562AbgJPMhY (ORCPT
+        id S2404222AbgJPGob (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Oct 2020 02:44:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38550 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404220AbgJPGob (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Oct 2020 08:37:24 -0400
-X-Greylist: delayed 20782 seconds by postgrey-1.27 at vger.kernel.org; Fri, 16 Oct 2020 08:37:10 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=dplgrout.cl
-        ; s=default; h=Content-Transfer-Encoding:Content-Type:Message-ID:Reply-To:
-        Subject:To:From:Date:MIME-Version:Sender:Cc:Content-ID:Content-Description:
-        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=TrgUs68YRs3neP+PfrvGhLoeMXh3YzKv5z9oCWPJ0m4=; b=m/ABHCVvyLYD2QkkwOjuWUgGFG
-        i9BJXsIic9wHOFEzjhXFPbcsR2XTWptcrmKLSqDrJOV7hGJM6za5nSEFhd4CC/+eaHHsgS48/E2jM
-        qvMpEeazlOlIrwSs4xM+Zdf/REorOK5GVU6ZAJUjCzQuCMv9dTVBPKuexZxj1Qoi2hPLiQ576Ik0L
-        XzwzerIXphINfmlVQ0r0UMIuChB1Vcn201QVmD2skB/Nh9D/yp0E95Av9ZMQq7ln6H0uEUnu/2/5Y
-        /CHuMEs39xrrgaYDtG7jTh3PfukIIcCJEs3b52/mZokA1w+tDL1dp0MaV2Z+qYj+Bzs13o0ru0vv/
-        Mq733mMw==;
-Received: from [::1] (port=55048 helo=cpanel.giganet.cl)
-        by cpanel.giganet.cl with esmtpa (Exim 4.93)
-        (envelope-from <info@controlypotencia.com>)
-        id 1kTJ7f-0009vt-N3; Fri, 16 Oct 2020 03:21:51 -0300
+        Fri, 16 Oct 2020 02:44:31 -0400
+X-Greylist: delayed 309 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 15 Oct 2020 23:44:30 PDT
+Received: from thuis.zeewinde.xyz (unknown [IPv6:2001:985:bd79:8:5054:ff:fe8a:e8ef])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BF1E0C061755;
+        Thu, 15 Oct 2020 23:44:30 -0700 (PDT)
+Received: from nas.zeewinde.xyz (nas.zeewinde.xyz [10.130.8.16])
+        by thuis.zeewinde.xyz (Postfix) with ESMTP id AC0EC20B;
+        Fri, 16 Oct 2020 08:39:18 +0200 (CEST)
+From:   Martijn van de Streek <martijn@zeewinde.xyz>
+Cc:     martijn@zeewinde.xyz, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: uclogic: Add ID for Trust Flex Design Tablet
+Date:   Fri, 16 Oct 2020 08:38:05 +0200
+Message-Id: <20201016063805.4059-1-martijn@zeewinde.xyz>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Date:   Fri, 16 Oct 2020 03:21:50 -0300
-From:   Ying Chongan <info@controlypotencia.com>
-To:     undisclosed-recipients:;
-Subject: Investment opportunity
-Reply-To: yingchongan@zohomail.com
-User-Agent: Roundcube Webmail/1.4.8
-Message-ID: <e70e5a6e462f92c7f06eea146a612430@controlypotencia.com>
-X-Sender: info@controlypotencia.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel.giganet.cl
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - controlypotencia.com
-X-Get-Message-Sender-Via: cpanel.giganet.cl: authenticated_id: mariapaz.lopez@dplgrout.cl
-X-Authenticated-Sender: cpanel.giganet.cl: mariapaz.lopez@dplgrout.cl
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Greetings,
+The Trust Flex Design Tablet has an UGTizer USB ID and requires the same
+initialization as the UGTizer GP0610 to be detected as a graphics tablet
+instead of a mouse.
 
-This email is for an opportunity to invest in any lucrative business in 
-your country.
+Signed-off-by: Martijn van de Streek <martijn@zeewinde.xyz>
+---
+ drivers/hid/hid-ids.h            | 1 +
+ drivers/hid/hid-uclogic-core.c   | 2 ++
+ drivers/hid/hid-uclogic-params.c | 2 ++
+ 3 files changed, 5 insertions(+)
 
-We offer a quick loan at low interest rate, if you are interested, 
-please reply to yingchongan@gmail.com for more details.
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 74fc1df6e3c2..b0056c1bba56 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -1295,6 +1295,7 @@
+ 
+ #define USB_VENDOR_ID_UGTIZER			0x2179
+ #define USB_DEVICE_ID_UGTIZER_TABLET_GP0610	0x0053
++#define USB_DEVICE_ID_UGTIZER_TABLET_GT5040	0x0077
+ 
+ #define USB_VENDOR_ID_VIEWSONIC			0x0543
+ #define USB_DEVICE_ID_VIEWSONIC_PD1011		0xe621
+diff --git a/drivers/hid/hid-uclogic-core.c b/drivers/hid/hid-uclogic-core.c
+index 86b568037cb8..8e9c9e646cb7 100644
+--- a/drivers/hid/hid-uclogic-core.c
++++ b/drivers/hid/hid-uclogic-core.c
+@@ -385,6 +385,8 @@ static const struct hid_device_id uclogic_devices[] = {
+ 				USB_DEVICE_ID_UCLOGIC_DRAWIMAGE_G3) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_UGTIZER,
+ 				USB_DEVICE_ID_UGTIZER_TABLET_GP0610) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_UGTIZER,
++				USB_DEVICE_ID_UGTIZER_TABLET_GT5040) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
+ 				USB_DEVICE_ID_UGEE_TABLET_G5) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
+diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
+index 7d20d1fcf8d2..d26d8cd98efc 100644
+--- a/drivers/hid/hid-uclogic-params.c
++++ b/drivers/hid/hid-uclogic-params.c
+@@ -997,6 +997,8 @@ int uclogic_params_init(struct uclogic_params *params,
+ 		break;
+ 	case VID_PID(USB_VENDOR_ID_UGTIZER,
+ 		     USB_DEVICE_ID_UGTIZER_TABLET_GP0610):
++	case VID_PID(USB_VENDOR_ID_UGTIZER,
++		     USB_DEVICE_ID_UGTIZER_TABLET_GT5040):
+ 	case VID_PID(USB_VENDOR_ID_UGEE,
+ 		     USB_DEVICE_ID_UGEE_XPPEN_TABLET_G540):
+ 	case VID_PID(USB_VENDOR_ID_UGEE,
 
-Sincerely: Ying Chongan
+base-commit: c48b75b7271db23c1b2d1204d6e8496d91f27711
+-- 
+2.20.1
+
