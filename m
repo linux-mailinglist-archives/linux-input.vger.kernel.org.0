@@ -2,215 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B5C0229128F
-	for <lists+linux-input@lfdr.de>; Sat, 17 Oct 2020 16:58:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3E9F2913E1
+	for <lists+linux-input@lfdr.de>; Sat, 17 Oct 2020 21:02:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438443AbgJQO6V (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 17 Oct 2020 10:58:21 -0400
-Received: from mail-03.mail-europe.com ([91.134.188.129]:44476 "EHLO
-        mail-03.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2438442AbgJQO6V (ORCPT
+        id S2439280AbgJQTB7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 17 Oct 2020 15:01:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35550 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2439107AbgJQTB6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 17 Oct 2020 10:58:21 -0400
-Date:   Sat, 17 Oct 2020 14:58:13 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1602946696;
-        bh=XX5l0JqA4j5ycEOGeKlfrui0wBpfH9SbVROZs+7Z7Wc=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=PJL30PpZJiencMSL9LL4zY+rl8xuKBmqTBfI655YK/cnjCPYOSgBDGhKFwBhhAHKR
-         Rx2+rFI2znTaVx8UDUdqhLguMjsBik5PL5zxIj9OHdMq8BHG0pEvv4u6/LAR31qHOA
-         Z3ao/8PK0KMqL9giEHYDYPUhnGcZlJJaAbtwkQqM=
-To:     Coiby Xu <coiby.xu@gmail.com>
-From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Helmut Stult <helmut.stult@schinfo.de>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Subject: Re: [PATCH v2] HID: i2c-hid: add polling mode based on connected GPIO chip's pin status
-Message-ID: <fRxQJHWq9ZL950ZPGFFm_LfSlMjsjrpG7Y63gd7V7iV647KR8WIfZ4-ljLeo0n4X3Gpu1KIEsMVLxQnzAtJdUdMydi_b0-vjIVb304Da1bQ=@protonmail.com>
-In-Reply-To: <20201017140541.fggujaz2klpv3cd5@Rk>
-References: <20201016131335.8121-1-coiby.xu@gmail.com> <T2SIcFVxZ81NUwKLDbSESA7Wpm7DYowEiii8ZaxTPtrdXZZeHLq5iZPkN5BLlp-9C6PLwUZOVwNpMdEdPSRZcAG4MmDt-tfyKZoQYJ0KHOA=@protonmail.com> <20201017004556.kuoxzmbvef4yr3kg@Rk> <FWsXxqGztJgszUpmNtKli8eOyeKP-lxFeTsjs2nQAxgYZBkT3JNTU3VdHF4GbQVS_PvKiqbfrZXI7vaUHA_lXTxjPX-WjkNEOdiMUetO8IQ=@protonmail.com> <20201017140541.fggujaz2klpv3cd5@Rk>
+        Sat, 17 Oct 2020 15:01:58 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9B62C061755;
+        Sat, 17 Oct 2020 12:01:57 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id h5so7057275wrv.7;
+        Sat, 17 Oct 2020 12:01:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lY0Wfs38gEkgLKJzwUz52SVqLerStrn00vSXYT6J3B4=;
+        b=ImdFVJYOwLhS29dOUWdNWY4ylN1Si0H/w+z0Z7a6VKytMje/ABpmIF0L+8tsVKzpO7
+         UPdIbxbEMYczxixZON+0e1wOiiR1utKotsbqzNPRlbj7TiQJo7c/j9EDc7oojB92eU4D
+         eE+KLbbTH30EJ6v2j8sWkY7uftxJBdlmlYEsuLzDHC72TrfmkNMzLBIXL94P4K2oxqRB
+         akmnFmSmWLOWdCEyemo4TrenIIuk1KDIZ2x2nkkJA4QhTUb87zim5E/jtMEkXqAaAMR6
+         sNu4o08YEzC6XF11lbLNchmKqRIs43gYWFrrXnkFvlm/jCduOGvMkGVn26aMNFG1rq1E
+         xliA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lY0Wfs38gEkgLKJzwUz52SVqLerStrn00vSXYT6J3B4=;
+        b=GnIKvLPtItHxUJKdHRzDwL+kSUWQFxijsmHvWU0HgXWeOof1CCRLal924hW92boCEf
+         qz9Zqa/Vq/m6+O3moIZsHIBpXJeofmBzN8bApRB0gIySzrmdiSrZJuYi1LZJWbSdrD4I
+         TqNj3BlmOgOr6DNvahDw8cUYR+5G5XXYtVCPjYFVaPcHGAlEKPYWfK5rfzNGFRPoqoZV
+         BnUtGoBAsYFcqtn77nR4VRjm2XWt23hNWg8aP+KCbF4vEZ2nyCZGXoPMCSnifPpzLFVN
+         rl7OAaAJ1kBXHBDWXgr/ZVarZ9pxSwLQcTp4qtSNLuYKbIcFPsm6iXebm/3rPfVw3S5u
+         kFVw==
+X-Gm-Message-State: AOAM530wYCjPrYi1DGs74L4dVuovAbjFTq1u66BJI9A3cZ3Pt+jETtKg
+        m/7R6TWx7laokLDVYSroQhw=
+X-Google-Smtp-Source: ABdhPJyxZJ4XPaF/RqIDKwNoghACi18nzMCr/aEnYXrVV+ZFeBnrhUKLfCYY13tvjuQ/ytZRwD9UHw==
+X-Received: by 2002:a5d:4ed2:: with SMTP id s18mr11204367wrv.36.1602961316487;
+        Sat, 17 Oct 2020 12:01:56 -0700 (PDT)
+Received: from IcarusMOD.eternityproject.eu ([2.237.20.237])
+        by smtp.gmail.com with ESMTPSA id a5sm9583793wrt.80.2020.10.17.12.01.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Oct 2020 12:01:55 -0700 (PDT)
+From:   kholk11@gmail.com
+To:     dmitry.torokhov@gmail.com
+Cc:     robh+dt@kernel.org, rydberg@bitmath.org, priv.luk@gmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kholk11@gmail.com, marijns95@gmail.com, konradybcio@gmail.com,
+        martin.botka1@gmail.com, phone-devel@vger.kernel.org,
+        devicetree@vger.kernel.org, krzk@kernel.org
+Subject: [PATCH v5 0/3] Add Novatek NT36xxx touchscreen driver
+Date:   Sat, 17 Oct 2020 21:01:49 +0200
+Message-Id: <20201017190152.12780-1-kholk11@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-> [...]
-> >> >> +static int get_gpio_pin_state(struct irq_desc *irq_desc)
-> >> >> +{
-> >> >> +=09struct gpio_chip *gc =3D irq_data_get_irq_chip_data(&irq_desc->=
-irq_data);
-> >> >> +
-> >> >> +=09return gc->get(gc, irq_desc->irq_data.hwirq);
-> >> >> +}
-> >> >> +
-> >> >> +static bool interrupt_line_active(struct i2c_client *client)
-> >> >> +{
-> >> >> +=09unsigned long trigger_type =3D irq_get_trigger_type(client->irq=
-);
-> >> >> +=09struct irq_desc *irq_desc =3D irq_to_desc(client->irq);
-> >> >> +
-> >> >> +=09/*
-> >> >> +=09 * According to Windows Precsiontion Touchpad's specs
-> >> >> +=09 * https://docs.microsoft.com/en-us/windows-hardware/design/com=
-ponent-guidelines/windows-precision-touchpad-device-bus-connectivity,
-> >> >> +=09 * GPIO Interrupt Assertion Leve could be either ActiveLow or
-> >> >> +=09 * ActiveHigh.
-> >> >> +=09 */
-> >> >> +=09if (trigger_type & IRQF_TRIGGER_LOW)
-> >> >> +=09=09return !get_gpio_pin_state(irq_desc);
-> >> >> +
-> >> >> +=09return get_gpio_pin_state(irq_desc);
-> >> >> +}
-> >> >
-> >> >Excuse my ignorance, but I think some kind of error handling regardin=
-g the return
-> >> >value of `get_gpio_pin_state()` should be present here.
-> >> >
-> >> What kind of errors would you expect? It seems (struct gpio_chip *)->g=
-et
-> >> only return 0 or 1.
-> >> >
-> >
-> >I read the code of a couple gpio chips and - I may be wrong, but - it se=
-ems they
-> >can return an arbitrary errno.
-> >
-> I thought all GPIO chip return 0 or 1 since !!val is returned. I find
-> an example which could return negative value,
->
+From: AngeloGioacchino Del Regno <kholk11@gmail.com>
 
-Yes, when a function returns `int`, there is a very high chance that the re=
-turn
-value may be an errno.
+This patch series adds support for the Novatek NT36xxx Series' In-Cell
+touchscreen (integrated into the DriverIC).
 
+This patch series has been tested against the following devices:
+ - Sony Xperia 10        (SDM630 Ganges Kirin)
+ - Sony Xperia 10 Plus   (SDM636 Ganges Mermaid)
 
-> >
-> >> >> +
-> >> >> +static int i2c_hid_polling_thread(void *i2c_hid)
-> >> >> +{
-> >> >> +=09struct i2c_hid *ihid =3D i2c_hid;
-> >> >> +=09struct i2c_client *client =3D ihid->client;
-> >> >> +=09unsigned int polling_interval_idle;
-> >> >> +
-> >> >> +=09while (1) {
-> >> >> +=09=09/*
-> >> >> +=09=09 * re-calculate polling_interval_idle
-> >> >> +=09=09 * so the module parameters polling_interval_idle_ms can be
-> >> >> +=09=09 * changed dynamically through sysfs as polling_interval_act=
-ive_us
-> >> >> +=09=09 */
-> >> >> +=09=09polling_interval_idle =3D polling_interval_idle_ms * 1000;
-> >> >> +=09=09if (test_bit(I2C_HID_READ_PENDING, &ihid->flags))
-> >> >> +=09=09=09usleep_range(50000, 100000);
-> >> >> +
-> >> >> +=09=09if (kthread_should_stop())
-> >> >> +=09=09=09break;
-> >> >> +
-> >> >> +=09=09while (interrupt_line_active(client)) {
-> >> >
-> >> >I realize it's quite unlikely, but can't this be a endless loop if da=
-ta is coming
-> >> >in at a high enough rate? Maybe the maximum number of iterations coul=
-d be limited here?
-> >> >
-> >> If we find HID reports are constantly read and send to front-end
-> >> application like libinput, won't it help expose the problem of the I2C
-> >> HiD device?
-> >> >
-> >
-> >I'm not sure I completely understand your point. The reason why I wrote =
-what I wrote
-> >is that this kthread could potentially could go on forever (since `kthre=
-ad_should_stop()`
-> >is not checked in the inner while loop) if the data is supplied at a hig=
-h enough rate.
-> >That's why I said, to avoid this problem, only allow a certain number of=
- iterations
-> >for the inner loop, to guarantee that the kthread can stop in any case.
-> >
-> I mean if "data is supplied at a high enough rate" does happen, this is
-> an abnormal case and indicates a bug. So we shouldn't cover it up. We
-> expect the user to report it to us.
-> >
+Changes in v2:
+- Fixed sparse warnings from lkp kernel test robot
 
-I agree in principle, but if this abnormal case ever occurs, that'll preven=
-t
-this module from being unloaded since `kthread_stop()` will hang because th=
-e
-thread is "stuck" in the inner loop, never checking `kthread_should_stop()`=
-.
-That's why I think it makes sense to only allow a certain number of operati=
-ons
-for the inner loop, and maybe show a warning if that's exceeded:
+Changes in v3 (as requested by Dmitry Torokhov):
+- Using shorthand u16/u32 (sorry for the overlook!)
+- Now using more input and touchscreen APIs
+- Fixed useless workqueue involvements
+- Removed useless locking
+- Switched reads and writes to use regmap
+- Moved header contents to nt36xxx.c
+- Fixed reset gpio handling
+- Other cleanups
+- P.S.: Thanks, Dmitry!
 
- for (i =3D 0; i < max_iter && interrupt_line_active(...); i++) {
-    ....
- }
+Changes in v4:
+- Fixed regmap read length for CRC_ERR_FLAG final check
+- Fixed YAML binding, as requested by Krzysztof Kozlowski
 
- WARN_ON[CE](i =3D=3D max_iter[, "data is coming in at an unreasonably high=
- rate"]);
+Changes in v5:
+- Replaced subsystem maintainer's name with .. mine,
+  usage of additionalProperties to unevaluatedProperties
+  and a typo fix for reset-gpios as per Rob Herring's review
+- Changed compatible string as per Krzysztof K. request
+- Renamed the novatek,nt36xxx.yaml file to just nt36xxx.yaml
+  in order to now reflect the driver name instead of the DT
+  compatible
+- Fixed blank line at EOF
 
-or something like this, where `max_iter` could possibly be some value depen=
-dent on
-`polling_interval_active_us`, or even just a constant.
+AngeloGioacchino Del Regno (3):
+  dt-bindings: Add vendor prefix for Novatek Microelectronics Corp.
+  Input: Add Novatek NT36xxx touchscreen driver
+  dt-bindings: touchscreen: Add binding for Novatek NT36xxx series
+    driver
 
+ .../bindings/input/touchscreen/nt36xxx.yaml   |  59 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ drivers/input/touchscreen/Kconfig             |  12 +
+ drivers/input/touchscreen/Makefile            |   1 +
+ drivers/input/touchscreen/nt36xxx.c           | 815 ++++++++++++++++++
+ 5 files changed, 889 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/nt36xxx.yaml
+ create mode 100644 drivers/input/touchscreen/nt36xxx.c
 
-> >> >> +=09=09=09i2c_hid_get_input(ihid);
-> >> >> +=09=09=09usleep_range(polling_interval_active_us,
-> >> >> +=09=09=09=09     polling_interval_active_us + 100);
-> >> >> +=09=09}
-> >> >> +
-> >> >> +=09=09usleep_range(polling_interval_idle,
-> >> >> +=09=09=09     polling_interval_idle + 1000);
-> >> >> +=09}
-> >> >> +
-> >> >> +=09do_exit(0);
-> >> >> +=09return 0;
-> >> >> +}
-> [...]
-> Thank you for offering your understandings on this patch. When I'm going
-> to submit next version, I will add a "Signed-off-by" tag with your name
-> and email, does it look good to you?
-> [...]
+-- 
+2.28.0
 
-I'm not sure if that follows proper procedures.
-
- "The sign-off is a simple line at the end of the explanation for the patch=
-, which
-  certifies that you wrote it or otherwise have the right to pass it on as =
-an
-  open-source patch."[1]
-
-I'm not the author, nor co-author, nor am I going to pass this patch on, so=
- I don't
-think that's appropriate.
-
-Furthermore, please note that
-
- "[...] you may optionally add a Cc: tag to the patch. **This is the only t=
-ag which
-  might be added without an explicit action by the person it names** - but =
-it should
-  indicate that this person was copied on the patch."[2]
-  (emphasis mine)
-
-
-Regards,
-Barnab=C3=A1s P=C5=91cze
-
-
-[1]: https://www.kernel.org/doc/html/latest/process/submitting-patches.html=
-#sign-your-work-the-developer-s-certificate-of-origin
-[2]: https://www.kernel.org/doc/html/latest/process/submitting-patches.html=
-#when-to-use-acked-by-cc-and-co-developed-by
