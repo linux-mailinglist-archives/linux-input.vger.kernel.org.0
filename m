@@ -2,380 +2,239 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CAAE1290F52
-	for <lists+linux-input@lfdr.de>; Sat, 17 Oct 2020 07:35:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABB192910E8
+	for <lists+linux-input@lfdr.de>; Sat, 17 Oct 2020 11:20:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2411757AbgJQFeo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 17 Oct 2020 01:34:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53064 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2411742AbgJQFem (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sat, 17 Oct 2020 01:34:42 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64E73C0613A6;
-        Fri, 16 Oct 2020 17:46:31 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id t18so2145437plo.1;
-        Fri, 16 Oct 2020 17:46:31 -0700 (PDT)
+        id S2437766AbgJQJU0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 17 Oct 2020 05:20:26 -0400
+Received: from mail-mw2nam12on2069.outbound.protection.outlook.com ([40.107.244.69]:51425
+        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2437764AbgJQJUZ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 17 Oct 2020 05:20:25 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QOEiSlS9hOxnrzPQOnwLJbStaSNhzgKkk9NW4CLKug5bVVpVnxwR+o9DTJoDCkeGSAQQkMEcurXA6PKDi7j0eSEkz9SrhnSywV0QJS6ve27oYJy50k0mp+4bh4RUeSFRGWVmud5WRvgPOBIOCYIu7ydZ1iNicskYnauBDj7eBfgRrOgcsA5YWa3/HcULzro++0aJAZDx31Mezh+InnZq73IIEnGGV97s5bFeb6oBtegKbbYz7NbqzXQmxGs9o5oBAChlRw7/O8XMKJ/hBCc8gtiis5vtUcBa1hV33zrOebG7O9tCMmO7eqNr2mdUXa6KLrLI33lFJRv8u55z29XJig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hkaHOMwy9Sgf5zSna1Gh+Ug6A47ltkgoGj4Q2vZ6e4I=;
+ b=WgJn4HatVFg58yk+Ui+Fwzquz3i7KqRmCGUUeocyN1lV+8ExUO7a5T/t3r6vD80wJDhGdKJ5Vnc9PjWI0UD4EceAB2X7pTNvwogSyyHdMYJzhklXj98NOD37LkrQiv9WNzwk2RXhuls6FV+IIIkXYF2rTcZxKCaXr0AVvQ2n7yqRssZ9UUkBsc/m55UXjAgzEeY7PuoDL781yuiwCZphvdMv2wXUXoyHA4YrqS02JhnKzR2X0uqm4M40RzqUklA7q6air8cgTXON+uc1inQHfhDjwNT5SGqsqw/yZQx19NWcKBxef1/dMcOM8sou/PDSZwvGch0hIezeG309MXwE/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=dn9cdPHWGuAfcbl3He2BFEACXq6BvONvKiWXbCjohRk=;
-        b=CIIZEr6gQxn5JEsE0dyJ3QU4JgFlq8/H1DJ32sNozMPqljGJtBUjIYdLDQJFd8B5h6
-         kHYftEVJgRQGebLEwwDWBiLaF9mIgLuy2OILeubg2YgandHJx079+cw4w9m9b2DEKNIx
-         Wuc2KSZlMOzFH6N6sFIkt0inqK6TRYgbiqAzx62isyUbwUeoB4M7SXQOEHVhqfwfZkM6
-         PHfdNGyLpwy8LzUkk30q9mGtx9FpzOH9ZXcja47jOhuxTRzUmApTGVEstqL67O4aKLU4
-         8dqe8StmOzOgeeolwuBkpPSzMwnVqmgDBWgXfo4RuO8x5BRAovIyPaxRJsLMwzi8E1AE
-         OB1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=dn9cdPHWGuAfcbl3He2BFEACXq6BvONvKiWXbCjohRk=;
-        b=gZAUwndG4iz5N5cJCr7KTjw8R95sLaJSG3pEMosso0/Y4XAow9Zr+mqm6f3MimKB4Q
-         h1yCFWVdiVNeE5bp1QrZQS8K5W0LhG52LeQhoN1vBYy36a18UlhjM23aA9fWgG7ZkwLj
-         cLFjqqoLuC9XMIUxDS4/3rCh2TB/Si7//yH/QvulfiVyDzzf+QSg2TCPqHgWwpVzi1sg
-         NYwRKQSwDy2jx3+VY6kOHOItcwMQtiRtn5WhSMXLRHgxjv7UETrrNdU6IYxr0/K6toCf
-         mAQp/iwahDj5H81AmbecLaWuAsQz2oZZzpzvq9VAGu7UkBsZHLc555lzAACBZxC53ZDq
-         fvhA==
-X-Gm-Message-State: AOAM5326x3M0LUEDPot6zZ66E+0+9LH/ReQvMCPJHIdcI7pTYZHuKMDM
-        THLu8/yh0mt5oYRhEmkjke4=
-X-Google-Smtp-Source: ABdhPJx0+GPjjDU4pEHz/lc2slf4aU35ky3MUeRVFEHRJPWqG4/iwOFHikynZEJaQx32WxMH/Jh6iw==
-X-Received: by 2002:a17:902:7c93:b029:d4:e1c3:bde0 with SMTP id y19-20020a1709027c93b02900d4e1c3bde0mr6425873pll.85.1602895590795;
-        Fri, 16 Oct 2020 17:46:30 -0700 (PDT)
-Received: from localhost ([2001:e42:102:1532:160:16:113:140])
-        by smtp.gmail.com with ESMTPSA id b142sm3892091pfb.186.2020.10.16.17.46.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2020 17:46:30 -0700 (PDT)
-From:   Coiby Xu <coiby.xu@gmail.com>
-X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
-Date:   Sat, 17 Oct 2020 08:45:56 +0800
-To:     =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Helmut Stult <helmut.stult@schinfo.de>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] HID: i2c-hid: add polling mode based on connected
- GPIO chip's pin status
-Message-ID: <20201017004556.kuoxzmbvef4yr3kg@Rk>
-References: <20201016131335.8121-1-coiby.xu@gmail.com>
- <T2SIcFVxZ81NUwKLDbSESA7Wpm7DYowEiii8ZaxTPtrdXZZeHLq5iZPkN5BLlp-9C6PLwUZOVwNpMdEdPSRZcAG4MmDt-tfyKZoQYJ0KHOA=@protonmail.com>
-MIME-Version: 1.0
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hkaHOMwy9Sgf5zSna1Gh+Ug6A47ltkgoGj4Q2vZ6e4I=;
+ b=UOXvWyVREcokzLWK7vlnUNZ5g0KD4J7jsWRgQizVeaVszkLC01lww8TtDcv40ppy7oqNKR6HD0n5HCXymaSLTavyJsq02wMhsUiFXcnLtKaf3hnVE7TyuTHSDEeC4J0Bdwth6mfORRRq5Jh7j6WkdG6D6x9j7xiHgcbr6NF2qbk=
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
+Received: from BY5PR12MB4098.namprd12.prod.outlook.com (2603:10b6:a03:205::8)
+ by BY5PR12MB4067.namprd12.prod.outlook.com (2603:10b6:a03:212::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20; Sat, 17 Oct
+ 2020 09:20:21 +0000
+Received: from BY5PR12MB4098.namprd12.prod.outlook.com
+ ([fe80::e1a3:69b7:a02d:a74d]) by BY5PR12MB4098.namprd12.prod.outlook.com
+ ([fe80::e1a3:69b7:a02d:a74d%5]) with mapi id 15.20.3477.027; Sat, 17 Oct 2020
+ 09:20:21 +0000
+Subject: Re: [PATCH v8 0/4] SFH: Add Support for AMD Sensor Fusion Hub
+To:     Sandeep Singh <Sandeep.Singh@amd.com>, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, srinivas.pandruvada@linux.intel.com,
+        jic23@kernel.org, linux-iio@vger.kernel.org, hdegoede@redhat.com,
+        Nehal-bakulchandra.Shah@amd.com, andy.shevchenko@gmail.com,
+        mail@richard-neumann.de, m.felsch@pengutronix.de,
+        rdunlap@infradead.org
+Cc:     Shyam-sundar.S-k@amd.com
+References: <20201009200138.1847317-1-Sandeep.Singh@amd.com>
+From:   "Singh, Sandeep" <ssingh1@amd.com>
+Message-ID: <c346c389-98d8-9a48-8029-98bea180eee1@amd.com>
+Date:   Sat, 17 Oct 2020 14:50:07 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
+In-Reply-To: <20201009200138.1847317-1-Sandeep.Singh@amd.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <T2SIcFVxZ81NUwKLDbSESA7Wpm7DYowEiii8ZaxTPtrdXZZeHLq5iZPkN5BLlp-9C6PLwUZOVwNpMdEdPSRZcAG4MmDt-tfyKZoQYJ0KHOA=@protonmail.com>
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [103.6.158.204]
+X-ClientProxiedBy: BMXPR01CA0038.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:c::24) To BY5PR12MB4098.namprd12.prod.outlook.com
+ (2603:10b6:a03:205::8)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.0.3] (103.6.158.204) by BMXPR01CA0038.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:c::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.21 via Frontend Transport; Sat, 17 Oct 2020 09:20:15 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 3b6141f8-f71b-4ba1-d13d-08d8727dde82
+X-MS-TrafficTypeDiagnostic: BY5PR12MB4067:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BY5PR12MB4067FC03FFF81C7F188195BAE0000@BY5PR12MB4067.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cSA/vrj5rg+eiBa7izHGFMuKE/WxQN6Tu/eWYOPm/xc/ly8MxxCU9OWQ3C7QReEEsMPG2pBoVeKL4QKjd5rlfi3dkDH9WEu5aPHAnxpDXpb5/Mmt+X4dYUPvloV0T5iGMTjge8Nnh9flfc9R9x+1msPNo/cySHFVF2RUVgfx4C8fhd04YceGmBcoJ8kuJOEaFAnTGd9Ef+6Njhy58Zg+lv/PHBdpbT8zdqzsrcaNKXv9QEaPkTQNwOoKngEcqQPpo6dqkhqrfceLJgr5S/2xqwVWunIcP+IRYu5mC4YtQUMHBVoEXIX1tLfB8Jkb/HVl+OlR4Yp8jhQ8EWQ9DVbwdR/58+xp0hG+/GPeF3Jbq0/It2lnIWDCVyKrE6ilYSDViHa6kFamiPWDscgQD0JzYKoDT5R90H3ftc1rniw/qVUZF8msV2FGdgXrjoFwvXMGvul1BWd8Gy8NyykVNs9D+vfOf7OwHysEQ3fbrellweY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB4098.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(346002)(39860400002)(366004)(136003)(396003)(36756003)(7416002)(966005)(8676002)(478600001)(4326008)(2906002)(31686004)(8936002)(66946007)(26005)(5660300002)(2616005)(956004)(16526019)(186003)(53546011)(55236004)(6666004)(1006002)(16576012)(66556008)(31696002)(83380400001)(66476007)(52116002)(316002)(6486002)(921003)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: gDQ43qy408j1ziaW7+ikcCEVsjYefYQNZI+4pI/tioBqbQhbeAexxJkmE4BczBYUCQF468+4L0Vic6S044roxM3/zD01R7gKwO8mTww4tA1mO7FbscexUbylGaD3qG5IYidLrWcDzjinVE5KhPy0ToN/0AahJiNC38Uh+QxK4Z6tdKyatdXQ3QRwz3kjMf+OyY8nmXKgQgIe1J0XM7xcaoJRFkylSRLC2D3IhLOFQR7kDR4Uv+BBRJewYdUA4oW04pF67LAo6dW88gDADcdtZBbmthmCwng7EM5bCHgZVrjcuuqS4sjsJdzeEpNUYhQq3ktHO9Gb3TmJ0xgj/nlnPtE/Fyx0sS+Kn1kamq6yfmjm8V8xhcodWmygt7kQa5CoP5XNG/RO5zGqVJQ2ya6IFcyrAmHz80MMr07y9yrFRQks6EHDpyZ5grW4HDv7H3ZXlvWDfajEV4xuRTPu4tZQgOfOYV+IhPnoMbUADpxZzvGbr03Q6sYZHlGgbkQIYyp+YiscuJbgHo5U2iiWiRIZ3rBtciXUC60WqEhbkD8SRIqwRES6JBLbppclnpsW1sp+5p3dWwccH7ZFp8iGxNFhZXs6fTGlzZ6OyBDr3Q2Qs/UDAG1OEkAPT/+CM4WhnfmWCs7fwmUFMBzihaHuLD/tXw==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3b6141f8-f71b-4ba1-d13d-08d8727dde82
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4098.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2020 09:20:20.9990
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: W280KTMszTLEqpqjwGhzgqHtZKYivbKUcBAI1wKVgkgeD4jQvCdcnsEw69pIkhJ+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4067
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi Folks,
 
-Thank you for examine this patch in such a careful way!
-
-On Fri, Oct 16, 2020 at 03:00:49PM +0000, Barnabás Pőcze wrote:
->Hi,
+On 10/10/2020 1:31 AM, Sandeep Singh wrote:
+> From: Sandeep Singh <sandeep.singh@amd.com>
 >
->I still think that `i2c_hid_resume()` and `i2c_hid_suspend()` are asymmetric and
->that might lead to issues.
+> AMD SFH(Sensor Fusion Hub) is HID based driver.SFH FW is part of MP2
+> processor (MP2 which is an ARM core connected to x86 for processing
+> sensor data) and it runs on MP2 where in the driver resides on X86.
+> The driver functionalities are divided into three parts:-
 >
-
-Do you think this commit message is relevant to your concern?
-
-$ git show d1c48038b849e9df0475621a52193a62424a4e87
-commit d1c48038b849e9df0475621a52193a62424a4e87
-     HID: i2c-hid: Only disable irq wake if it was successfully enabled during suspend
-
-     Enabling irq wake could potentially fail and calling disable_irq_wake
-     after a failed call to enable_irq_wake could result in an unbalanced irq
-     warning. This patch warns if enable_irq_wake fails and avoids other
-     potential issues caused by calling disable_irq_wake on resume after
-     enable_irq_wake failed during suspend.
-
-So I think all cases about irq have been handled. But for the regulator
-part, you are right. I made a mistake.
+> 1: amd-mp2-pcie:- This part of the module will communicate with MP2
+> 		  firmware. MP2 which is exposed as a PCI device to the
+> 		  X86, uses mailboxes to talk to MP2 firmware to
+> 		  send/receive commands.
+> 2: Client Layer:- This part of the driver will use DRAM  data and convert
+>                    the  data into HID format based on HID reports.
+> 3: Transport layer :- This part of the driver the will communicate with HID
+>                    core.Communication between devices and HID core is
+>                    mostly done via HID reports
 >
->> [...]
->> When polling mode is enabled, an I2C device can't wake up the suspended
->> system since enable/disable_irq_wake is invalid for polling mode.
->>
+> In terms of architecture, it resembles like ISH (Intel Integrated Sensor
+> Hub). However the major difference is all the hid reports are generated
+> as part of the kernel driver.
 >
->Excuse my ignorance, but could you elaborate this because I am not sure I understand.
->Aren't the two things orthogonal (polling and waking up the system)?
+> AMD SFH is integrated as a part of SoC, starting from 17h family of
+> processors. The solution is working well on several OEM products.
+> AMD SFH uses HID over PCIe bus.
 >
-Waking up the system depends on irq. Since we use polling, we don't set
-up irq.
+> Changes since v1:
+>          -> Fix auto build test warnings
+>          -> Fix smatch warnings "possible memory leak" -Reported by Dan
+> carpenter
 >
->> [...]
->>  #define I2C_HID_PWR_ON		0x00
->>  #define I2C_HID_PWR_SLEEP	0x01
->>
->> +/* polling mode */
->> +#define I2C_POLLING_DISABLED 0
->> +#define I2C_POLLING_GPIO_PIN 1
+> Links of the review comments for v1:
+>          [1] https://patchwork.kernel.org/patch/11325163/
+>          [2] https://patchwork.kernel.org/patch/11325167/
+>          [3] https://patchwork.kernel.org/patch/11325171/
+>          [4] https://patchwork.kernel.org/patch/11325187/
 >
->This is a very small detail, but I personally think that these defines should be
->called I2C_HID_.... since they are only used here.
+> Changes since v2:
+> 	-> Debugfs divided into another patch
+>          -> Fix some cosmetic changes
+>          -> Fix for review comments
+>             Reported and Suggested by:-  Srinivas Pandruvada
 >
-Thank you! This is absolutely a good suggestion.
+> Links of the review comments for v2:
+>          [1] https://patchwork.kernel.org/patch/11355491/
+>          [2] https://patchwork.kernel.org/patch/11355495/
+>          [3] https://patchwork.kernel.org/patch/11355499/
+>          [4] https://patchwork.kernel.org/patch/11355503/
 >
->> +#define POLLING_INTERVAL 10
->> +
->> +static u8 polling_mode;
->> +module_param(polling_mode, byte, 0444);
->> +MODULE_PARM_DESC(polling_mode, "How to poll - 0 disabled; 1 based on GPIO pin's status");
->> +
->> +static unsigned int polling_interval_active_us = 4000;
->> +module_param(polling_interval_active_us, uint, 0644);
->> +MODULE_PARM_DESC(polling_interval_active_us,
->> +		 "Poll every {polling_interval_active_us} us when the touchpad is active. Default to 4000 us");
->> +
->> +static unsigned int polling_interval_idle_ms = 10;
+> Changes since v3:
+>          -> Removed debugfs suggested by - Benjamin Tissoires
 >
->There is a define for this value, I don't really see why you don't use it here.
->And if there is a define for one value, I don't really see why there isn't one
->for the other. (As far as I see `POLLING_INTERVAL` is not even used anywhere.)
+> Links of the review comments for v3:
+>          [1] https://lkml.org/lkml/2020/2/11/1256
+>          [2] https://lkml.org/lkml/2020/2/11/1257
+>          [3] https://lkml.org/lkml/2020/2/11/1258
+>          [4] https://lkml.org/lkml/2020/2/11/1259
+>          [5] https://lkml.org/lkml/2020/2/11/1260
 >
-Thank you for spotting this leftover issue after introducing two
-parameters to control the polling interval.
-
-Another issue is "MODULE_PARM_DESC(polling_interval_ms" should be
-"MODULE_PARM_DESC(polling_interval_idle_ms" although this won't cause
-real problem.
+> Changes since v4:
+>          -> use PCI managed calls.
+>          -> use kernel APIs
 >
->> +module_param(polling_interval_idle_ms, uint, 0644);
->> +MODULE_PARM_DESC(polling_interval_ms,
->> +		 "Poll every {polling_interval_idle_ms} ms when the touchpad is idle. Default to 10 ms");
->>  /* debug option */
->>  static bool debug;
->>  module_param(debug, bool, 0444);
->> @@ -158,6 +178,8 @@ struct i2c_hid {
->>
->>  	struct i2c_hid_platform_data pdata;
->>
->> +	struct task_struct *polling_thread;
->> +
->>  	bool			irq_wake_enabled;
->>  	struct mutex		reset_lock;
->>  };
->> @@ -772,7 +794,9 @@ static int i2c_hid_start(struct hid_device *hid)
->>  		i2c_hid_free_buffers(ihid);
->>
->>  		ret = i2c_hid_alloc_buffers(ihid, bufsize);
->> -		enable_irq(client->irq);
->> +
->> +		if (polling_mode == I2C_POLLING_DISABLED)
->> +			enable_irq(client->irq);
->>
->>  		if (ret)
->>  			return ret;
->> @@ -814,6 +838,86 @@ struct hid_ll_driver i2c_hid_ll_driver = {
->>  };
->>  EXPORT_SYMBOL_GPL(i2c_hid_ll_driver);
->>
->> +static int get_gpio_pin_state(struct irq_desc *irq_desc)
->> +{
->> +	struct gpio_chip *gc = irq_data_get_irq_chip_data(&irq_desc->irq_data);
->> +
->> +	return gc->get(gc, irq_desc->irq_data.hwirq);
->> +}
->> +
->> +static bool interrupt_line_active(struct i2c_client *client)
->> +{
->> +	unsigned long trigger_type = irq_get_trigger_type(client->irq);
->> +	struct irq_desc *irq_desc = irq_to_desc(client->irq);
->> +
->> +	/*
->> +	 * According to Windows Precsiontion Touchpad's specs
->> +	 * https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/windows-precision-touchpad-device-bus-connectivity,
->> +	 * GPIO Interrupt Assertion Leve could be either ActiveLow or
->> +	 * ActiveHigh.
->> +	 */
->> +	if (trigger_type & IRQF_TRIGGER_LOW)
->> +		return !get_gpio_pin_state(irq_desc);
->> +
->> +	return get_gpio_pin_state(irq_desc);
->> +}
+> Links of the review comments for v4:
+>          [1] https://lkml.org/lkml/2020/2/26/1360
+>          [2] https://lkml.org/lkml/2020/2/26/1361
+>          [3] https://lkml.org/lkml/2020/2/26/1362
+>          [4] https://lkml.org/lkml/2020/2/26/1363
+>          [5] https://lkml.org/lkml/2020/2/27/1
+> Changes since v5
+>          -> Fix for review comments by: Andy Shevchenko
+>          -> Fix for indentations erros, NULL pointer,Redundant assignment
+>          -> Drop LOCs in many location
+>          -> Create as a single driver module instead of two modules.
 >
->Excuse my ignorance, but I think some kind of error handling regarding the return
->value of `get_gpio_pin_state()` should be present here.
+> Links of the review comments for v5:
+>          [1] https://lkml.org/lkml/2020/5/29/589
+>          [2] https://lkml.org/lkml/2020/5/29/590
+>          [3] https://lkml.org/lkml/2020/5/29/606
+>          [4] https://lkml.org/lkml/2020/5/29/632
+>          [5] https://lkml.org/lkml/2020/5/29/633
 >
-What kind of errors would you expect? It seems (struct gpio_chip *)->get
-only return 0 or 1.
+> Changes since v6
+>          -> fix Kbuild warning "warning: ignoring return value of
+> 	   'pcim_enable_device',
+>          -> Removed select HID and add depends on HID
 >
->> +
->> +static int i2c_hid_polling_thread(void *i2c_hid)
->> +{
->> +	struct i2c_hid *ihid = i2c_hid;
->> +	struct i2c_client *client = ihid->client;
->> +	unsigned int polling_interval_idle;
->> +
->> +	while (1) {
->> +		/*
->> +		 * re-calculate polling_interval_idle
->> +		 * so the module parameters polling_interval_idle_ms can be
->> +		 * changed dynamically through sysfs as polling_interval_active_us
->> +		 */
->> +		polling_interval_idle = polling_interval_idle_ms * 1000;
->> +		if (test_bit(I2C_HID_READ_PENDING, &ihid->flags))
->> +			usleep_range(50000, 100000);
->> +
->> +		if (kthread_should_stop())
->> +			break;
->> +
->> +		while (interrupt_line_active(client)) {
+> Links of the review comments for v6:
+>          [1] https://lkml.org/lkml/2020/8/9/58
+>          [2] https://lkml.org/lkml/2020/8/9/59
+>          [3] https://lkml.org/lkml/2020/8/9/125
+>          [4] https://lkml.org/lkml/2020/8/9/61
+>          [5] https://lkml.org/lkml/2020/8/9/91
 >
->I realize it's quite unlikely, but can't this be a endless loop if data is coming
->in at a high enough rate? Maybe the maximum number of iterations could be limited here?
+> Changes since v7
+>          -> Add Co-deveploed-by
+>          -> Build the Documentation
+>          -> Fix cosmatic changes
+>          -> Add init function inside probe function
+>          -> Use devm_add_action_or_reset() to avoids the remove()
+> 	   callback.
 >
-If we find HID reports are constantly read and send to front-end
-application like libinput, won't it help expose the problem of the I2C
-HiD device?
+> Links of the review comments for v7:
+>          [1] https://lkml.org/lkml/2020/8/10/1221
+>          [2] https://lkml.org/lkml/2020/8/10/1222
+>          [3] https://lkml.org/lkml/2020/8/10/1223
+>          [4] https://lkml.org/lkml/2020/8/10/1224
+>          [5] https://lkml.org/lkml/2020/8/10/1225
 >
->> +			i2c_hid_get_input(ihid);
->> +			usleep_range(polling_interval_active_us,
->> +				     polling_interval_active_us + 100);
->> +		}
->> +
->> +		usleep_range(polling_interval_idle,
->> +			     polling_interval_idle + 1000);
->> +	}
->> +
->> +	do_exit(0);
->> +	return 0;
->> +}
->> +
->> +static int i2c_hid_init_polling(struct i2c_hid *ihid)
->> +{
->> +	struct i2c_client *client = ihid->client;
->> +
->> +	if (!irq_get_trigger_type(client->irq)) {
->> +		dev_warn(&client->dev,
->> +			 "Failed to get GPIO Interrupt Assertion Level, could not enable polling mode for %s",
->> +			 client->name);
->> +		return -1;
->> +	}
->> +
->> +	ihid->polling_thread = kthread_create(i2c_hid_polling_thread, ihid,
->> +					      "I2C HID polling thread");
->> +
->> +	if (ihid->polling_thread) {
+> Sandeep Singh (4):
+>    SFH: Add maintainers and documentation for AMD SFH based on HID
+>      framework
+>    SFH: PCIe driver to add support of AMD sensor fusion hub
+>    SFH:Transport Driver to add support of AMD Sensor Fusion Hub (SFH)
+>    SFH: Create HID report to Enable support of AMD sensor fusion Hub
+>      (SFH)
 >
->`kthread_create()` returns an errno in a pointer, so this check is incorrect. It should be
->
-> if (!IS_ERR(ihid->polling_thread))
->
-Thank you for correcting my mistake!
-
->I think it's a bit inconsistent that in this function you do:
->
-> if (err)
->   bail
->
-> if (!err)
->   return ok
->
-> return err
->
-I'm not sure if I get you, but current pattern is
-
-if (err)
-   return err;
-
-if (!err)
-   return ok
-
-return err
-
->moreover, I think the errno should be propagated, so use
->
-> return PTR_ERR(ihid->polling_thread);
->
->for example, when bailing out.
->
-
-This a good advice! Thank you
->
->> +		pr_info("I2C HID polling thread");
->> +		wake_up_process(ihid->polling_thread);
->> +		return 0;
->> +	}
->> +
->> +	return -1;
->> +}
->> +
->> [...]
->>  #ifdef CONFIG_PM_SLEEP
->> @@ -1183,15 +1300,16 @@ static int i2c_hid_suspend(struct device *dev)
->>  	/* Save some power */
->>  	i2c_hid_set_power(client, I2C_HID_PWR_SLEEP);
->>
->> -	disable_irq(client->irq);
->> -
->> -	if (device_may_wakeup(&client->dev)) {
->> -		wake_status = enable_irq_wake(client->irq);
->> -		if (!wake_status)
->> -			ihid->irq_wake_enabled = true;
->> -		else
->> -			hid_warn(hid, "Failed to enable irq wake: %d\n",
->> -				wake_status);
->> +	if (polling_mode == I2C_POLLING_DISABLED) {
->> +		disable_irq(client->irq);
->> +		if (device_may_wakeup(&client->dev)) {
->> +			wake_status = enable_irq_wake(client->irq);
->> +			if (!wake_status)
->> +				ihid->irq_wake_enabled = true;
->> +			else
->> +				hid_warn(hid, "Failed to enable irq wake: %d\n",
->> +					 wake_status);
->> +		}
->>  	} else {
->>  		regulator_bulk_disable(ARRAY_SIZE(ihid->pdata.supplies),
->>  				       ihid->pdata.supplies);
->> @@ -1208,7 +1326,7 @@ static int i2c_hid_resume(struct device *dev)
->>  	struct hid_device *hid = ihid->hid;
->>  	int wake_status;
->>
->> -	if (!device_may_wakeup(&client->dev)) {
->> +	if (!device_may_wakeup(&client->dev) || polling_mode != I2C_POLLING_DISABLED) {
->>  		ret = regulator_bulk_enable(ARRAY_SIZE(ihid->pdata.supplies),
->>  					    ihid->pdata.supplies);
->>  		if (ret)
->> @@ -1225,7 +1343,8 @@ static int i2c_hid_resume(struct device *dev)
->>  				wake_status);
->>  	}
->>
->> -	enable_irq(client->irq);
->> +	if (polling_mode == I2C_POLLING_DISABLED)
->> +		enable_irq(client->irq);
->> [...]
->
->Before this patch, if a device cannot wake up, then the regulators are disabled
->when suspending, after this patch, regulators are only disabled if polling is
->used. But they are enabled if the device cannot wake up *or* polling is used.
->
-Thank for analyzing what's wrong for me!
-
->Excuse my ignorance, but I do not understand why the following two changes are not enough:
->
->in `i2c_hid_suspend()`:
-> if (polling_mode == I2C_POLLING_DISABLED)
->   disable_irq(client->irq);
->
->in `i2c_hid_resume()`:
-> if (polling_mode == I2C_POLLING_DISABLED)
->   enable_irq(client->irq);
->
-I think we shouldn't call enable/disable_irq_wake in polling mode
-where we don't set up irq.
->
->Regards,
->Barnabás Pőcze
-
---
-Best regards,
-Coiby
+>   Documentation/hid/amd-sfh-hid.rst             | 145 ++++
+>   Documentation/hid/index.rst                   |   1 +
+>   MAINTAINERS                                   |   8 +
+>   drivers/hid/Kconfig                           |   2 +
+>   drivers/hid/Makefile                          |   2 +
+>   drivers/hid/amd-sfh-hid/Kconfig               |  18 +
+>   drivers/hid/amd-sfh-hid/Makefile              |  13 +
+>   drivers/hid/amd-sfh-hid/amd_sfh_client.c      | 246 +++++++
+>   drivers/hid/amd-sfh-hid/amd_sfh_hid.c         | 174 +++++
+>   drivers/hid/amd-sfh-hid/amd_sfh_hid.h         |  67 ++
+>   drivers/hid/amd-sfh-hid/amd_sfh_pcie.c        | 152 +++++
+>   drivers/hid/amd-sfh-hid/amd_sfh_pcie.h        |  79 +++
+>   .../hid_descriptor/amd_sfh_hid_desc.c         | 224 ++++++
+>   .../hid_descriptor/amd_sfh_hid_desc.h         | 121 ++++
+>   .../hid_descriptor/amd_sfh_hid_report_desc.h  | 645 ++++++++++++++++++
+>   15 files changed, 1897 insertions(+)
+>   create mode 100644 Documentation/hid/amd-sfh-hid.rst
+>   create mode 100644 drivers/hid/amd-sfh-hid/Kconfig
+>   create mode 100644 drivers/hid/amd-sfh-hid/Makefile
+>   create mode 100644 drivers/hid/amd-sfh-hid/amd_sfh_client.c
+>   create mode 100644 drivers/hid/amd-sfh-hid/amd_sfh_hid.c
+>   create mode 100644 drivers/hid/amd-sfh-hid/amd_sfh_hid.h
+>   create mode 100644 drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+>   create mode 100644 drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
+>   create mode 100644 drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.c
+>   create mode 100644 drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h
+>   create mode 100644 drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_report_desc.h
+Any feedback on this patch series.?
