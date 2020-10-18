@@ -2,564 +2,465 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F81729155A
-	for <lists+linux-input@lfdr.de>; Sun, 18 Oct 2020 05:15:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CE5429167F
+	for <lists+linux-input@lfdr.de>; Sun, 18 Oct 2020 10:59:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726037AbgJRDPs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 17 Oct 2020 23:15:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54500 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725272AbgJRDPr (ORCPT
+        id S1725904AbgJRI7P (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 18 Oct 2020 04:59:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24048 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725877AbgJRI7O (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 17 Oct 2020 23:15:47 -0400
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 115C7C061755
-        for <linux-input@vger.kernel.org>; Sat, 17 Oct 2020 20:15:46 -0700 (PDT)
-Received: by mail-il1-x12a.google.com with SMTP id k1so6972859ilc.10
-        for <linux-input@vger.kernel.org>; Sat, 17 Oct 2020 20:15:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version;
-        bh=t+9zZoezTDYIeOtfQQrTPET5dRR3Ktnt9LHvhxoiLZs=;
-        b=lzR7yXRwXniu+GMEGq8dztf+bAX/q2Mbg+NXrsARdVVYu/OM6/wWEtsphlmfLxKQhF
-         +gAvEsuzTNMsrn8fDfKpC4MERER3ZRFv2XSdTb/96MyYCr64EiyL+w76UQIt9XSzdy7g
-         X2LDRae1BbcY7bZ9V2GqK3lyb3D+tutD048OB7K03dViXZq1/fVdJ9HY2CymAYTFxaI0
-         Eiix2BbuHhMShN+lShdRRCs2clAE7D1eHYaAbSZICXt8+aTjP8FQasBWt5B4+L/Jh79I
-         zMVRDyXT6C7VyhRQFFJbdIMHFBMfzInZhmmlimwG7r/Q0GdDi0hDTKkdCDPeVWfLfjp3
-         G+3g==
+        Sun, 18 Oct 2020 04:59:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1603011551;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=WHmxKecldlcMHp/JKmKmhF5oqajVr8pYHhUrtrIzJnI=;
+        b=B+rzTVOmX5xMvl0uIgdsd6WJIF+AXuG9B83lFCBAf/FGga7qJbcDMxxhHiPWGW+GefTifQ
+        UqYuH4d4jPfceyPs8nofrd1P7TMNGWoyTvXy3Uzrx/XPdJJxN6FL1/Q6V9FgjCcTsQz2VD
+        h8TlEAYAC0bqsUacv7bxmPKKRYXOass=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-547-UKO0-InYPuyj5xQdKqpZ2A-1; Sun, 18 Oct 2020 04:59:07 -0400
+X-MC-Unique: UKO0-InYPuyj5xQdKqpZ2A-1
+Received: by mail-ed1-f70.google.com with SMTP id o24so3487040edz.11
+        for <linux-input@vger.kernel.org>; Sun, 18 Oct 2020 01:59:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version;
-        bh=t+9zZoezTDYIeOtfQQrTPET5dRR3Ktnt9LHvhxoiLZs=;
-        b=qd4mbn/BbiGqsMGDI3mV30plK8csiKIwsOhKAO7VUjyFk6UkzWx5uwQmAetahi3zVi
-         jesaxhCaq286VrPMcNpAu3J5eNTXaiA2IIkpiKqBItJtZKDr/AfxCRrXREfE7RG/5KlY
-         7cjNl2vUIk1jDGlIJgdTqcNUbQA1Nrw+ZrXp9XkXa2z0mVNpWZfBZXOxlot/lcDvMaOM
-         e5+z6YOkYaWglVouGdcCSiNSOhkaTiqguko8zfWymK1IzXxzuK8QlguC2jiLO/aze7E1
-         SrptkfwOH+gj1ojIAm5tYoqKL2WIaADC9IbT12AIQ9pkBQVo3ixB19PnPUxOG3jpI1Ij
-         /4Kg==
-X-Gm-Message-State: AOAM531HUjK6TWUJBDB+4UdP4U5jeDLWa/ObTKdhDKyDLk5v6CrcXocB
-        t0e0fc+DvsfX2llzf6NyGrhHRZeitsT4Uw==
-X-Google-Smtp-Source: ABdhPJyQO2aoNGNtXR/QgYqVmAnIzeA2lDmgc5OIrkrREtCaptQ0uXgS8WPpF5QP1bN2FyBA44/1Xg==
-X-Received: by 2002:a92:c9cc:: with SMTP id k12mr7057609ilq.181.1602990945024;
-        Sat, 17 Oct 2020 20:15:45 -0700 (PDT)
-Received: from personal (c-73-119-27-70.hsd1.ma.comcast.net. [73.119.27.70])
-        by smtp.gmail.com with ESMTPSA id w23sm6349797iod.45.2020.10.17.20.15.43
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2020 20:15:44 -0700 (PDT)
-From:   Benjamin Moody <benjamin.moody@gmail.com>
-X-Google-Original-From: Benjamin Moody <benjaminmoody@gmail.com>
-To:     linux-input@vger.kernel.org
-Subject: SEMITEK / GK6X keyboards - working around buggy descriptor
-Date:   Sat, 17 Oct 2020 23:15:41 -0400
-Message-ID: <877drocjhe.fsf@disp4150>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=WHmxKecldlcMHp/JKmKmhF5oqajVr8pYHhUrtrIzJnI=;
+        b=SX0SyRF48U3v4maUeTdTByNhS/GQwErq/W00cnF58scC9YUGvKtCypCotCPtkUzDRj
+         7uWg+Sb5BfRg5WXQjxcK1ghB51Pgl+utqJssa+LAlxrTYi9jov7dLehHsLGtKX9lZGJh
+         V+2M3nPNuMHWz6O3E6lGBUzm77k6XqziwCyv6TMSiZl2joR2wvVuNBH0VuFVNCRTkQDi
+         fvBk/hqHOrSlg29UiqPNXYz4dsItCR7GYbTQzyt+/xgArUW/hl7TgguSurJ1N+pAJlC9
+         2OKPCFAUUCjZ3MZx8Are4jPkXn0jUDE+b3i4CsLLrbsYXseXf7a13drMe2+fpLY34B8h
+         yjjA==
+X-Gm-Message-State: AOAM5311vEEGkqFEWkBJztIeV1iENpjIiE/fuwQQdBEPX0yVtII19OFJ
+        b50/Gs8lejVX2d9AqR60h6oZn44Ang5mfxTSQcJ7hC9mYHygLmCnPocv6u/42QjHg9RL5BuqHNp
+        Ce1jrih7Unh7CsugeHpBDU9M=
+X-Received: by 2002:a17:906:e2d7:: with SMTP id gr23mr12319981ejb.360.1603011545500;
+        Sun, 18 Oct 2020 01:59:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzYIHHkuHn2UKS08CyWs3Xeqz6+aTOsoq/nwt+f/lFON5NkxQebiwe7aIkCJzuH2LjxbPUabA==
+X-Received: by 2002:a17:906:e2d7:: with SMTP id gr23mr12319964ejb.360.1603011544995;
+        Sun, 18 Oct 2020 01:59:04 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id w4sm6924984eds.83.2020.10.18.01.59.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 18 Oct 2020 01:59:04 -0700 (PDT)
+Subject: Re: [PATCH V8] HID: ASUS: Add support for ASUS N-Key keyboard
+To:     Luke Jones <luke@ljones.dev>
+Cc:     linux-input@vger.kernel.org, jikos@kernel.org, andy@infradead.org,
+        benjamin.tissoires@redhat.com
+References: <20201013073508.10476-1-luke@ljones.dev>
+ <b94065db-72f4-db9e-6f62-44e61b969846@redhat.com>
+ <8D9BIQ.2QQPHEMK2PQS@ljones.dev>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <97390989-c713-70ff-74a9-674f5296ed65@redhat.com>
+Date:   Sun, 18 Oct 2020 10:59:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <8D9BIQ.2QQPHEMK2PQS@ljones.dev>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear linux-input,
+Hi,
 
-The "GK6X" series is a series of USB keyboards that feature swappable
-key switches, programmable mappings, and LED effects.  There are many
-variants, sold by multiple manufacturers (see below).  I believe all
-of these keyboards use the same vendor ID (0x1EA7) and product ID
-(0x0907), and the same or closely related firmware.
+On 10/16/20 10:10 PM, Luke Jones wrote:
+> Hi Andy, Hans.
+> 
+> Great, thanks for the feedback, time and patience. Seems
+> there are a lot of little things for me to learn :)
+> 
+> I'll submit a hopefully final revision in the next day or so
+> with that one particular change mentioned broken out to
+> separate patch.
+> 
+> Andy:
+>> is -1 a good return code? (this Q for all cases)
+> Umm, I honestly don't know. Your guidance would be appreciated.
+> I mostly copied what seemed to be the general case in other
+> parts.
 
-The keyboard supports full N-key rollover, but in Linux, only the
-first six keypresses are recognized.  This appears to be caused by an
-erroneous report descriptor, which labels the input field as "array"
-when it should be "variable".
+Return codes should be in the form of -EFOO and the possible EFOO
+values are defined in:
 
-The report descriptor for interface 2 is:
+/usr/include/asm-generic/errno-base.h
 
-$ od -Ax -tx1 /sys/bus/hid/devices/0003:1EA7:0907.0005/report_descriptor
-000000 05 01 09 80 a1 01 85 01 19 81 29 83 15 00 25 01
-000010 95 03 75 01 81 02 95 01 75 05 81 01 c0 05 0c 09
-000020 01 a1 01 85 02 15 00 25 01 95 12 75 01 0a 83 01
-000030 0a 8a 01 0a 92 01 0a 94 01 09 cd 09 b7 09 b6 09
-000040 b5 09 e2 09 ea 09 e9 0a 21 02 0a 23 02 0a 24 02
-000050 0a 25 02 0a 26 02 0a 27 02 0a 2a 02 81 02 95 01
-000060 75 0e 81 01 c0 05 01 09 06 a1 01 85 04 05 07 95
-000070 01 75 08 81 03 95 e8 75 01 15 00 25 01 05 07 19
-000080 00 29 e7 81 00 c0 05 01 09 02 a1 01 85 05 09 01
-000090 a1 00 05 09 19 01 29 08 15 00 25 01 95 08 75 01
-0000a0 81 02 05 01 09 30 09 31 16 01 f8 26 ff 07 95 02
-0000b0 75 0c 81 06 09 38 15 81 25 7f 95 01 75 08 81 06
-0000c0 05 0c 0a 38 02 95 01 81 06 c0 c0
-0000cb
+And a set of more exotic ones in:
 
-At offset 0x83, "81 00" should apparently be "81 02" instead.
+/usr/include/asm-generic/errno.h
 
-It looks to me like it should be possible to work around this in Linux
-by patching the descriptor, as is done for several other HID devices.
-Would that be the best way to fix this?  What would need to be done to
-add such a driver?
+But usually you want to stick to the set found in errno-base.h
 
+So if you get an expected result from the hw, or an error
+communicating from the hardware you would use:
 
-List of known variants (from https://github.com/pixeltris/GK6X/blob/master/Build/Data/device/modellist.json):
+	return -EIO;
 
- Dierya DK61
- Dierya DK66
- GK21S-RGB
- GK61 RGB
- GK61-RGB-V2
- GK61S RGB
- GK61S RGB LED
- GK61X RGB
- GK61XS RGB
- GK64 RGB
- GK64 RGB V1
- GK64S
- GK64S RGB V2
- GK64X-RGB
- GK64XS-RGB
- GK68 RGB
- GK68X RGB
- GK68XS RGB
- GK73 RGB
- GK73S RGB
- GK84S RGB
- GK87 RGB
- GK87S RGB
- GK96L-X RGB
- GK96L-XS RGB
- GK96X-RGB
- GK96XS-RGB
- GK98 RGB
- GK99-RGB
- GS66 RGB LED
- GS66S RGB LED
- GX66 RGB
- GX66S RGB
- Knight 22Key RGB
- Knight 86Key RGB
- Nature 86Key RGB
- RANGER 87Key RGB
- RANGER 89Key RGB
- RANGERS 87Key RGB
- RANGERS 89Key RGB
- SK103 RGB
- SK103S RGB
- SK104 2RGB
- SK104 RGB
- SK61 RGB
- SK61-RGB
- SK61S RGB
- SK61S-RGB
- SK61X RGB
- SK61XS RGB
- SK64 RGB
- SK64-RGB
- SK64S RGB
- SK64S-RGB
- SK64X RGB
- SK64XS RGB
- SK64XS-2RGB
- SK66-2RGB
- SK66-RGB
- SK66S-2RGB
- SK66S-RGB
- SK68 RGB
- SK68S RGB
- SK70 RGB
- SK70S RGB
- SK71 RGB
- SK71S RGB
- SK73 RGB
- SK73S RGB
- SK84S-RGB
- SK87 RGB
- SK87-RGB
- SK87S RGB
- SK87S-2RGB
- SK96 RGB
- SK96S RGB
- TK09R-104 RGB-KR
- TK09R-104 RGB-RU
- TK09R-104 RGB-UK
- TK09R-104 RGB-US
- TK09R-104 RGBS-US
- TK09R-105 RGB-DE
- TK09R-105 RGB-EN
- TK09R-105 RGB-ES
- TK09R-105 RGB-FR
- TK09R-105 RGB-IT
- TK09R-G18-3330
- TK09R-LC-V3
- TK09R-MousePad
- Woo-dy 67Key RGB
+If you are dealing with user(space) input (which is not applicable
+here I think) and the input fails validation, you would return:
+
+	return -EINVAL;
+
+Those 2 are probably the most used ones in kernel drivers.
+
+Regards,
+
+Hans
 
 
-Full descriptor dump (lsusb -v):
+> On Fri, Oct 16, 2020 at 12:51, Hans de Goede <hdegoede@redhat.com> wrote:
+>> Hi,
+>>
+>> First 2 general remarks:
+>>
+>> 1. Please address the review comments from Andy's review
+>>    Note where Andy said to use dev_warn, please use hid_warn
+>>    for consistency with the other hid_foo logging calls
+>>    which you already add.
+>>
+>> 2. Existing empty lines (context) in the diff should start
+>>    with a single space (per the unified diff format) but
+>>    it seems that your email client has decided to treat this
+>>    as trailing whitespace and remove these spaces, which
+>>    means that the patch will not apply properly.
+>>
+>>    See: https://lore.kernel.org/linux-input/20201013073508.10476-1-luke@ljones.dev/raw
+>>    and look for example at line 200 of that file, there
+>>    should be a space there, but instead the line is empty.
+>>
+>>
+>> On 10/13/20 9:35 AM, Luke D Jones wrote:
+>>>  The ASUS N-Key keyboard uses the productId of 0x1866 and is used in
+>>>  almost all modern ASUS gaming laptops with slight changes to the
+>>>  firmware. This patch enables: Fn+key hotkeys, keyboard backlight
+>>>  brightness control, and notify asus-wmi to toggle "fan-mode".
+>>>
+>>>  The keyboard has many of the same key outputs as the existing ASUS
+>>>  keyboard including a few extras, and varies a little between laptop
+>>>  models.
+>>>
+>>>  Additionally this keyboard requires the LED interface to be
+>>>  intitialised before such things as keyboard backlight control work.
+>>>
+>>>  Misc changes in scope: update some hardcoded comparisons to use an
+>>>  available define.
+>>
+>> Usually if you need to add a comment like this to a commit message
+>> it is better to break the change out into a separate patch as
+>> Andy pointed out.
+>>
+>>>  Signed-off-by: Luke D Jones <luke@ljones.dev>
+>>>   drivers/hid/hid-asus.c                     | 148 ++++++++++++++++++---
+>> Normally you would insert the following directly
+>> after your S-o-b for non version 1 patches:
+>>
+>> ---
+>> Changes in v8:
+>> - Resend of v7 with fixed commit-message
+>>
+>> Changes in v7:
+>> - Changed foo
+>> - Add bar
+>> - Removed bla
+>>
+>> Notice the changelog gets preceded by a line with just '---'
+>> on it this "cut" line will cause git am to drop it when a
+>> kernel maintainer applies the commit to his tree, the changelog
+>> is mainly there to help reviewers.
+>>
+>> Otherwise I have no comments on top of Andy's comment, so one
+>> more revision I think and then this patch is ready to go
+>> I think.
+>>
+>> Regards,
+>>
+>> Hans
+>>
+>>
+>>>   drivers/hid/hid-ids.h                      |   1 +
+>>>   include/linux/platform_data/x86/asus-wmi.h |   1 +
+>>>   3 files changed, 135 insertions(+), 15 deletions(-)
+>>>
+>>>  diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+>>>  index c183caf89d49..a2f5469da0e6 100644
+>>>  --- a/drivers/hid/hid-asus.c
+>>>  +++ b/drivers/hid/hid-asus.c
+>>>  @@ -26,6 +26,8 @@
+>>>   #include <linux/dmi.h>
+>>>   #include <linux/hid.h>
+>>>   #include <linux/module.h>
+>>>  +
+>>>  +#include <linux/acpi.h>
+>>>   #include <linux/platform_data/x86/asus-wmi.h>
+>>>   #include <linux/input/mt.h>
+>>>   #include <linux/usb.h> /* For to_usb_interface for T100 touchpad intf check */
+>>>  @@ -48,6 +50,8 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
+>>>   #define INPUT_REPORT_ID 0x5d
+>>>   #define FEATURE_KBD_REPORT_ID 0x5a
+>>>   #define FEATURE_KBD_REPORT_SIZE 16
+>>>  +#define FEATURE_KBD_LED_REPORT_ID1 0x5d
+>>>  +#define FEATURE_KBD_LED_REPORT_ID2 0x5e
+>>>
+>>>   #define SUPPORT_KBD_BACKLIGHT BIT(0)
+>>>
+>>>  @@ -80,6 +84,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and TouchPad");
+>>>   #define QUIRK_T101HA_DOCK        BIT(9)
+>>>   #define QUIRK_T90CHI            BIT(10)
+>>>   #define QUIRK_MEDION_E1239T        BIT(11)
+>>>  +#define QUIRK_ROG_NKEY_KEYBOARD        BIT(12)
+>>>
+>>>   #define I2C_KEYBOARD_QUIRKS            (QUIRK_FIX_NOTEBOOK_REPORT | \
+>>>                            QUIRK_NO_INIT_REPORTS | \
+>>>  @@ -305,10 +310,33 @@ static int asus_e1239t_event(struct asus_drvdata *drvdat, u8 *data, int size)
+>>>       return 0;
+>>>   }
+>>>
+>>>  +/*
+>>>  + * This enables triggering events in asus-wmi
+>>>  + */
+>>>  +static int asus_wmi_send_event(struct asus_drvdata *drvdat, u8 code)
+>>>  +{
+>>>  +    int err;
+>>>  +    u32 retval;
+>>>  +
+>>>  +    err = asus_wmi_evaluate_method(ASUS_WMI_METHODID_DEVS,
+>>>  +        ASUS_WMI_DEVID_NOTIF, code, &retval);
+>>>  +    if (err) {
+>>>  +        pr_warn("Failed to notify asus-wmi: %d\n", err);
+>>>  +        return err;
+>>>  +    }
+>>>  +
+>>>  +    if (retval != 0) {
+>>>  +        pr_warn("Failed to notify asus-wmi (retval): 0x%x\n", retval);
+>>>  +        return -EIO;
+>>>  +    }
+>>>  +
+>>>  +    return 0;
+>>>  +}
+>>>  +
+>>>   static int asus_event(struct hid_device *hdev, struct hid_field *field,
+>>>                 struct hid_usage *usage, __s32 value)
+>>>   {
+>>>  -    if ((usage->hid & HID_USAGE_PAGE) == 0xff310000 &&
+>>>  +    if ((usage->hid & HID_USAGE_PAGE) == HID_UP_ASUSVENDOR &&
+>>>           (usage->hid & HID_USAGE) != 0x00 &&
+>>>           (usage->hid & HID_USAGE) != 0xff && !usage->type) {
+>>>           hid_warn(hdev, "Unmapped Asus vendor usagepage code 0x%02x\n",
+>>>  @@ -321,6 +349,7 @@ static int asus_event(struct hid_device *hdev, struct hid_field *field,
+>>>   static int asus_raw_event(struct hid_device *hdev,
+>>>           struct hid_report *report, u8 *data, int size)
+>>>   {
+>>>  +    int ret;
+>>>       struct asus_drvdata *drvdata = hid_get_drvdata(hdev);
+>>>
+>>>       if (drvdata->battery && data[0] == BATTERY_REPORT_ID)
+>>>  @@ -332,6 +361,35 @@ static int asus_raw_event(struct hid_device *hdev,
+>>>       if (drvdata->quirks & QUIRK_MEDION_E1239T)
+>>>           return asus_e1239t_event(drvdata, data, size);
+>>>
+>>>  +    if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
+>>>  +        /*
+>>>  +         * Skip these report ID, the device emits a continuous stream associated
+>>>  +         * with the AURA mode it is in which looks like an 'echo'
+>>>  +        */
+>>>  +        if (report->id == FEATURE_KBD_LED_REPORT_ID1 ||
+>>>  +                report->id == FEATURE_KBD_LED_REPORT_ID2) {
+>>>  +            return -1;
+>>>  +        /* Additional report filtering */
+>>>  +        } else if (report->id == FEATURE_KBD_REPORT_ID) {
+>>>  +            /* Fn+F5 "fan" symbol, trigger WMI event to toggle next mode */
+>>>  +            if (data[1] == 0xae) {
+>>>  +                ret = asus_wmi_send_event(drvdata, 0xae);
+>>>  +                if (ret < 0) {
+>>>  +                    hid_warn(hdev, "Asus failed to trigger fan control event");
+>>>  +                }
+>>>  +                return -1;
+>>>  +            /*
+>>>  +             * G14 and G15 send these codes on some keypresses with no
+>>>  +             * discernable reason for doing so. We'll filter them out to avoid
+>>>  +             * unmapped warning messages later
+>>>  +            */
+>>>  +            } else if (data[1] == 0xea || data[1] == 0xec || data[1] == 0x02 ||
+>>>  +                    data[1] == 0x8a || data[1] == 0x9e) {
+>>>  +                return -1;
+>>>  +            }
+>>>  +        }
+>>>  +    }
+>>>  +
+>>>       return 0;
+>>>   }
+>>>
+>>>  @@ -344,7 +402,11 @@ static int asus_kbd_set_report(struct hid_device *hdev, u8 *buf, size_t buf_size
+>>>       if (!dmabuf)
+>>>           return -ENOMEM;
+>>>
+>>>  -    ret = hid_hw_raw_request(hdev, FEATURE_KBD_REPORT_ID, dmabuf,
+>>>  +    /*
+>>>  +     * The report ID should be set from the incoming buffer due to LED and key
+>>>  +     * interfaces having different pages
+>>>  +    */
+>>>  +    ret = hid_hw_raw_request(hdev, buf[0], dmabuf,
+>>>                    buf_size, HID_FEATURE_REPORT,
+>>>                    HID_REQ_SET_REPORT);
+>>>       kfree(dmabuf);
+>>>  @@ -397,6 +459,44 @@ static int asus_kbd_get_functions(struct hid_device *hdev,
+>>>       return ret;
+>>>   }
+>>>
+>>>  +static int rog_nkey_led_init(struct hid_device *hdev)
+>>>  +{
+>>>  +    u8 buf_init_start[] = { FEATURE_KBD_LED_REPORT_ID1, 0xB9 };
+>>>  +    u8 buf_init2[] = { FEATURE_KBD_LED_REPORT_ID1, 0x41, 0x53, 0x55, 0x53, 0x20,
+>>>  +                0x54, 0x65, 0x63, 0x68, 0x2e, 0x49, 0x6e, 0x63, 0x2e, 0x00 };
+>>>  +    u8 buf_init3[] = { FEATURE_KBD_LED_REPORT_ID1,
+>>>  +                        0x05, 0x20, 0x31, 0x00, 0x08 };
+>>>  +    int ret;
+>>>  +
+>>>  +    hid_info(hdev, "Asus initialise N-KEY Device");
+>>>  +    /* The first message is an init start */
+>>>  +    ret = asus_kbd_set_report(hdev, buf_init_start, sizeof(buf_init_start));
+>>>  +    if (ret < 0)
+>>>  +        hid_err(hdev, "Asus failed to send init start command: %d\n", ret);
+>>>  +    /* Followed by a string */
+>>>  +    ret = asus_kbd_set_report(hdev, buf_init2, sizeof(buf_init2));
+>>>  +    if (ret < 0)
+>>>  +        hid_err(hdev, "Asus failed to send init command 1.0: %d\n", ret);
+>>>  +    /* Followed by a string */
+>>>  +    ret = asus_kbd_set_report(hdev, buf_init3, sizeof(buf_init3));
+>>>  +    if (ret < 0)
+>>>  +        hid_err(hdev, "Asus failed to send init command 1.1: %d\n", ret);
+>>>  +
+>>>  +    /* begin second report ID with same data */
+>>>  +    buf_init2[0] = FEATURE_KBD_LED_REPORT_ID2;
+>>>  +    buf_init3[0] = FEATURE_KBD_LED_REPORT_ID2;
+>>>  +
+>>>  +    ret = asus_kbd_set_report(hdev, buf_init2, sizeof(buf_init2));
+>>>  +    if (ret < 0)
+>>>  +        hid_err(hdev, "Asus failed to send init command 2.0: %d\n", ret);
+>>>  +
+>>>  +    ret = asus_kbd_set_report(hdev, buf_init3, sizeof(buf_init3));
+>>>  +    if (ret < 0)
+>>>  +        hid_err(hdev, "Asus failed to send init command 2.1: %d\n", ret);
+>>>  +
+>>>  +    return ret;
+>>>  +}
+>>>  +
+>>>   static void asus_kbd_backlight_set(struct led_classdev *led_cdev,
+>>>                      enum led_brightness brightness)
+>>>   {
+>>>  @@ -460,19 +560,25 @@ static int asus_kbd_register_leds(struct hid_device *hdev)
+>>>       unsigned char kbd_func;
+>>>       int ret;
+>>>
+>>>  -    /* Initialize keyboard */
+>>>  -    ret = asus_kbd_init(hdev);
+>>>  -    if (ret < 0)
+>>>  -        return ret;
+>>>  +    if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
+>>>  +        ret = rog_nkey_led_init(hdev);
+>>>  +        if (ret < 0)
+>>>  +            return ret;
+>>>  +    } else {
+>>>  +        /* Initialize keyboard */
+>>>  +        ret = asus_kbd_init(hdev);
+>>>  +        if (ret < 0)
+>>>  +            return ret;
+>>>
+>>>  -    /* Get keyboard functions */
+>>>  -    ret = asus_kbd_get_functions(hdev, &kbd_func);
+>>>  -    if (ret < 0)
+>>>  -        return ret;
+>>>  +        /* Get keyboard functions */
+>>>  +        ret = asus_kbd_get_functions(hdev, &kbd_func);
+>>>  +        if (ret < 0)
+>>>  +            return ret;
+>>>
+>>>  -    /* Check for backlight support */
+>>>  -    if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
+>>>  -        return -ENODEV;
+>>>  +        /* Check for backlight support */
+>>>  +        if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
+>>>  +            return -ENODEV;
+>>>  +    }
+>>>
+>>>       drvdata->kbd_backlight = devm_kzalloc(&hdev->dev,
+>>>                             sizeof(struct asus_kbd_leds),
+>>>  @@ -751,8 +857,8 @@ static int asus_input_mapping(struct hid_device *hdev,
+>>>            usage->hid == (HID_UP_GENDEVCTRLS | 0x0026)))
+>>>           return -1;
+>>>
+>>>  -    /* ASUS-specific keyboard hotkeys */
+>>>  -    if ((usage->hid & HID_USAGE_PAGE) == 0xff310000) {
+>>>  +    /* ASUS-specific keyboard hotkeys and led backlight */
+>>>  +    if ((usage->hid & HID_USAGE_PAGE) == HID_UP_ASUSVENDOR) {
+>>>           switch (usage->hid & HID_USAGE) {
+>>>           case 0x10: asus_map_key_clear(KEY_BRIGHTNESSDOWN);    break;
+>>>           case 0x20: asus_map_key_clear(KEY_BRIGHTNESSUP);        break;
+>>>  @@ -780,6 +886,15 @@ static int asus_input_mapping(struct hid_device *hdev,
+>>>           /* Fn+F5 "fan" symbol on FX503VD */
+>>>           case 0x99: asus_map_key_clear(KEY_PROG4);        break;
+>>>
+>>>  +        /* Fn+Ret "Calc" symbol on device 0x1866, N-KEY Device */
+>>>  +        case 0x92: asus_map_key_clear(KEY_CALC);        break;
+>>>  +
+>>>  +        /* Fn+Left Aura mode previous */
+>>>  +        case 0xb2: asus_map_key_clear(KEY_PROG2);        break;
+>>>  +
+>>>  +        /* Fn+Right Aura mode next */
+>>>  +        case 0xb3: asus_map_key_clear(KEY_PROG3);        break;
+>>>  +
+>>>           default:
+>>>               /* ASUS lazily declares 256 usages, ignore the rest,
+>>>                * as some make the keyboard appear as a pointer device. */
+>>>  @@ -1126,6 +1241,9 @@ static const struct hid_device_id asus_devices[] = {
+>>>       { HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
+>>>           USB_DEVICE_ID_ASUSTEK_FX503VD_KEYBOARD),
+>>>         QUIRK_USE_KBD_BACKLIGHT },
+>>>  +    { HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
+>>>  +        USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD),
+>>>  +      QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
+>>>       { HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
+>>>           USB_DEVICE_ID_ASUSTEK_T100TA_KEYBOARD),
+>>>         QUIRK_T100_KEYBOARD | QUIRK_NO_CONSUMER_USAGES },
+>>>  diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+>>>  index 6f370e020feb..c9f930ddcfd7 100644
+>>>  --- a/drivers/hid/hid-ids.h
+>>>  +++ b/drivers/hid/hid-ids.h
+>>>  @@ -190,6 +190,7 @@
+>>>   #define USB_DEVICE_ID_ASUSTEK_ROG_KEYBOARD1 0x1854
+>>>   #define USB_DEVICE_ID_ASUSTEK_ROG_KEYBOARD2 0x1837
+>>>   #define USB_DEVICE_ID_ASUSTEK_ROG_KEYBOARD3 0x1822
+>>>  +#define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD    0x1866
+>>>   #define USB_DEVICE_ID_ASUSTEK_FX503VD_KEYBOARD    0x1869
+>>>
+>>>   #define USB_VENDOR_ID_ATEN        0x0557
+>>>  diff --git a/include/linux/platform_data/x86/asus-wmi.h b/include/linux/platform_data/x86/asus-wmi.h
+>>>  index 897b8332a39f..ddf72cfe721a 100644
+>>>  --- a/include/linux/platform_data/x86/asus-wmi.h
+>>>  +++ b/include/linux/platform_data/x86/asus-wmi.h
+>>>  @@ -69,6 +69,7 @@
+>>>   /* Input */
+>>>   #define ASUS_WMI_DEVID_TOUCHPAD        0x00100011
+>>>   #define ASUS_WMI_DEVID_TOUCHPAD_LED    0x00100012
+>>>  +#define ASUS_WMI_DEVID_NOTIF        0x00100021 /* Emit keyboard event */
+>>>   #define ASUS_WMI_DEVID_FNLOCK        0x00100023
+>>>
+>>>   /* Fan, Thermal */
+>>>  --
+>>>  2.28.0
+>>>
+>>
+> 
+> 
 
-Bus 002 Device 006: ID 1ea7:0907 SHARKOON Technologies GmbH 
-Device Descriptor:
-  bLength                18
-  bDescriptorType         1
-  bcdUSB               1.10
-  bDeviceClass            0 
-  bDeviceSubClass         0 
-  bDeviceProtocol         0 
-  bMaxPacketSize0        64
-  idVendor           0x1ea7 SHARKOON Technologies GmbH
-  idProduct          0x0907 
-  bcdDevice            3.00
-  iManufacturer           1 SEMITEK
-  iProduct                2 USB-HID Gaming Keyboard
-  iSerial                 3 SN0000000001
-  bNumConfigurations      1
-  Configuration Descriptor:
-    bLength                 9
-    bDescriptorType         2
-    wTotalLength       0x005b
-    bNumInterfaces          3
-    bConfigurationValue     1
-    iConfiguration          0 
-    bmAttributes         0xa0
-      (Bus Powered)
-      Remote Wakeup
-    MaxPower              100mA
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        0
-      bAlternateSetting       0
-      bNumEndpoints           1
-      bInterfaceClass         3 Human Interface Device
-      bInterfaceSubClass      1 Boot Interface Subclass
-      bInterfaceProtocol      1 Keyboard
-      iInterface              0 
-        HID Device Descriptor:
-          bLength                 9
-          bDescriptorType        33
-          bcdHID               1.11
-          bCountryCode            0 Not supported
-          bNumDescriptors         1
-          bDescriptorType        34 Report
-          wDescriptorLength      64
-          Report Descriptor: (length is 64)
-            Item(Global): Usage Page, data= [ 0x01 ] 1
-                            Generic Desktop Controls
-            Item(Local ): Usage, data= [ 0x06 ] 6
-                            Keyboard
-            Item(Main  ): Collection, data= [ 0x01 ] 1
-                            Application
-            Item(Global): Usage Page, data= [ 0x07 ] 7
-                            Keyboard
-            Item(Local ): Usage Minimum, data= [ 0xe0 ] 224
-                            Control Left
-            Item(Local ): Usage Maximum, data= [ 0xe7 ] 231
-                            GUI Right
-            Item(Global): Logical Minimum, data= [ 0x00 ] 0
-            Item(Global): Logical Maximum, data= [ 0x01 ] 1
-            Item(Global): Report Size, data= [ 0x01 ] 1
-            Item(Global): Report Count, data= [ 0x08 ] 8
-            Item(Main  ): Input, data= [ 0x02 ] 2
-                            Data Variable Absolute No_Wrap Linear
-                            Preferred_State No_Null_Position Non_Volatile Bitfield
-            Item(Global): Report Count, data= [ 0x01 ] 1
-            Item(Global): Report Size, data= [ 0x08 ] 8
-            Item(Main  ): Input, data= [ 0x03 ] 3
-                            Constant Variable Absolute No_Wrap Linear
-                            Preferred_State No_Null_Position Non_Volatile Bitfield
-            Item(Global): Report Count, data= [ 0x03 ] 3
-            Item(Global): Report Size, data= [ 0x01 ] 1
-            Item(Global): Usage Page, data= [ 0x08 ] 8
-                            LEDs
-            Item(Local ): Usage Minimum, data= [ 0x01 ] 1
-                            NumLock
-            Item(Local ): Usage Maximum, data= [ 0x03 ] 3
-                            Scroll Lock
-            Item(Main  ): Output, data= [ 0x02 ] 2
-                            Data Variable Absolute No_Wrap Linear
-                            Preferred_State No_Null_Position Non_Volatile Bitfield
-            Item(Global): Report Count, data= [ 0x01 ] 1
-            Item(Global): Report Size, data= [ 0x05 ] 5
-            Item(Main  ): Output, data= [ 0x03 ] 3
-                            Constant Variable Absolute No_Wrap Linear
-                            Preferred_State No_Null_Position Non_Volatile Bitfield
-            Item(Global): Report Count, data= [ 0x06 ] 6
-            Item(Global): Report Size, data= [ 0x08 ] 8
-            Item(Global): Logical Minimum, data= [ 0x00 ] 0
-            Item(Global): Logical Maximum, data= [ 0xa4 0x00 ] 164
-            Item(Global): Usage Page, data= [ 0x07 ] 7
-                            Keyboard
-            Item(Local ): Usage Minimum, data= [ 0x00 ] 0
-                            No Event
-            Item(Local ): Usage Maximum, data= [ 0xa4 ] 164
-                            ExSel
-            Item(Main  ): Input, data= [ 0x00 ] 0
-                            Data Array Absolute No_Wrap Linear
-                            Preferred_State No_Null_Position Non_Volatile Bitfield
-            Item(Main  ): End Collection, data=none
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x81  EP 1 IN
-        bmAttributes            3
-          Transfer Type            Interrupt
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0008  1x 8 bytes
-        bInterval               1
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        1
-      bAlternateSetting       0
-      bNumEndpoints           2
-      bInterfaceClass         3 Human Interface Device
-      bInterfaceSubClass      0 
-      bInterfaceProtocol      0 
-      iInterface              0 
-        HID Device Descriptor:
-          bLength                 9
-          bDescriptorType        33
-          bcdHID               1.11
-          bCountryCode            0 Not supported
-          bNumDescriptors         1
-          bDescriptorType        34 Report
-          wDescriptorLength      34
-          Report Descriptor: (length is 34)
-            Item(Global): Usage Page, data= [ 0x00 0xff ] 65280
-                            (null)
-            Item(Local ): Usage, data= [ 0x50 ] 80
-                            (null)
-            Item(Main  ): Collection, data= [ 0x01 ] 1
-                            Application
-            Item(Local ): Usage, data= [ 0x02 ] 2
-                            (null)
-            Item(Global): Logical Minimum, data= [ 0x00 ] 0
-            Item(Global): Logical Maximum, data= [ 0xff 0x00 ] 255
-            Item(Global): Report Size, data= [ 0x08 ] 8
-            Item(Global): Report Count, data= [ 0x40 ] 64
-            Item(Main  ): Input, data= [ 0x02 ] 2
-                            Data Variable Absolute No_Wrap Linear
-                            Preferred_State No_Null_Position Non_Volatile Bitfield
-            Item(Local ): Usage, data= [ 0x03 ] 3
-                            (null)
-            Item(Global): Logical Minimum, data= [ 0x00 ] 0
-            Item(Global): Logical Maximum, data= [ 0xff 0x00 ] 255
-            Item(Global): Report Size, data= [ 0x08 ] 8
-            Item(Global): Report Count, data= [ 0x40 ] 64
-            Item(Main  ): Output, data= [ 0x02 ] 2
-                            Data Variable Absolute No_Wrap Linear
-                            Preferred_State No_Null_Position Non_Volatile Bitfield
-            Item(Main  ): End Collection, data=none
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x83  EP 3 IN
-        bmAttributes            3
-          Transfer Type            Interrupt
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0040  1x 64 bytes
-        bInterval               1
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x04  EP 4 OUT
-        bmAttributes            3
-          Transfer Type            Interrupt
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0040  1x 64 bytes
-        bInterval               1
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        2
-      bAlternateSetting       0
-      bNumEndpoints           1
-      bInterfaceClass         3 Human Interface Device
-      bInterfaceSubClass      0 
-      bInterfaceProtocol      0 
-      iInterface              0 
-        HID Device Descriptor:
-          bLength                 9
-          bDescriptorType        33
-          bcdHID               1.11
-          bCountryCode            0 Not supported
-          bNumDescriptors         1
-          bDescriptorType        34 Report
-          wDescriptorLength     203
-          Report Descriptor: (length is 203)
-            Item(Global): Usage Page, data= [ 0x01 ] 1
-                            Generic Desktop Controls
-            Item(Local ): Usage, data= [ 0x80 ] 128
-                            System Control
-            Item(Main  ): Collection, data= [ 0x01 ] 1
-                            Application
-            Item(Global): Report ID, data= [ 0x01 ] 1
-            Item(Local ): Usage Minimum, data= [ 0x81 ] 129
-                            System Power Down
-            Item(Local ): Usage Maximum, data= [ 0x83 ] 131
-                            System Wake Up
-            Item(Global): Logical Minimum, data= [ 0x00 ] 0
-            Item(Global): Logical Maximum, data= [ 0x01 ] 1
-            Item(Global): Report Count, data= [ 0x03 ] 3
-            Item(Global): Report Size, data= [ 0x01 ] 1
-            Item(Main  ): Input, data= [ 0x02 ] 2
-                            Data Variable Absolute No_Wrap Linear
-                            Preferred_State No_Null_Position Non_Volatile Bitfield
-            Item(Global): Report Count, data= [ 0x01 ] 1
-            Item(Global): Report Size, data= [ 0x05 ] 5
-            Item(Main  ): Input, data= [ 0x01 ] 1
-                            Constant Array Absolute No_Wrap Linear
-                            Preferred_State No_Null_Position Non_Volatile Bitfield
-            Item(Main  ): End Collection, data=none
-            Item(Global): Usage Page, data= [ 0x0c ] 12
-                            Consumer
-            Item(Local ): Usage, data= [ 0x01 ] 1
-                            Consumer Control
-            Item(Main  ): Collection, data= [ 0x01 ] 1
-                            Application
-            Item(Global): Report ID, data= [ 0x02 ] 2
-            Item(Global): Logical Minimum, data= [ 0x00 ] 0
-            Item(Global): Logical Maximum, data= [ 0x01 ] 1
-            Item(Global): Report Count, data= [ 0x12 ] 18
-            Item(Global): Report Size, data= [ 0x01 ] 1
-            Item(Local ): Usage, data= [ 0x83 0x01 ] 387
-                            AL Consumer Control Configuration
-            Item(Local ): Usage, data= [ 0x8a 0x01 ] 394
-                            AL Email Reader
-            Item(Local ): Usage, data= [ 0x92 0x01 ] 402
-                            AL Calculator
-            Item(Local ): Usage, data= [ 0x94 0x01 ] 404
-                            AL Local Machine Browser
-            Item(Local ): Usage, data= [ 0xcd ] 205
-                            Play/Pause
-            Item(Local ): Usage, data= [ 0xb7 ] 183
-                            Stop
-            Item(Local ): Usage, data= [ 0xb6 ] 182
-                            Scan Previous Track
-            Item(Local ): Usage, data= [ 0xb5 ] 181
-                            Scan Next Track
-            Item(Local ): Usage, data= [ 0xe2 ] 226
-                            Mute
-            Item(Local ): Usage, data= [ 0xea ] 234
-                            Volume Decrement
-            Item(Local ): Usage, data= [ 0xe9 ] 233
-                            Volume Increment
-            Item(Local ): Usage, data= [ 0x21 0x02 ] 545
-                            AC Search
-            Item(Local ): Usage, data= [ 0x23 0x02 ] 547
-                            AC Home
-            Item(Local ): Usage, data= [ 0x24 0x02 ] 548
-                            AC Back
-            Item(Local ): Usage, data= [ 0x25 0x02 ] 549
-                            AC Forward
-            Item(Local ): Usage, data= [ 0x26 0x02 ] 550
-                            AC Stop
-            Item(Local ): Usage, data= [ 0x27 0x02 ] 551
-                            AC Refresh
-            Item(Local ): Usage, data= [ 0x2a 0x02 ] 554
-                            (null)
-            Item(Main  ): Input, data= [ 0x02 ] 2
-                            Data Variable Absolute No_Wrap Linear
-                            Preferred_State No_Null_Position Non_Volatile Bitfield
-            Item(Global): Report Count, data= [ 0x01 ] 1
-            Item(Global): Report Size, data= [ 0x0e ] 14
-            Item(Main  ): Input, data= [ 0x01 ] 1
-                            Constant Array Absolute No_Wrap Linear
-                            Preferred_State No_Null_Position Non_Volatile Bitfield
-            Item(Main  ): End Collection, data=none
-            Item(Global): Usage Page, data= [ 0x01 ] 1
-                            Generic Desktop Controls
-            Item(Local ): Usage, data= [ 0x06 ] 6
-                            Keyboard
-            Item(Main  ): Collection, data= [ 0x01 ] 1
-                            Application
-            Item(Global): Report ID, data= [ 0x04 ] 4
-            Item(Global): Usage Page, data= [ 0x07 ] 7
-                            Keyboard
-            Item(Global): Report Count, data= [ 0x01 ] 1
-            Item(Global): Report Size, data= [ 0x08 ] 8
-            Item(Main  ): Input, data= [ 0x03 ] 3
-                            Constant Variable Absolute No_Wrap Linear
-                            Preferred_State No_Null_Position Non_Volatile Bitfield
-            Item(Global): Report Count, data= [ 0xe8 ] 232
-            Item(Global): Report Size, data= [ 0x01 ] 1
-            Item(Global): Logical Minimum, data= [ 0x00 ] 0
-            Item(Global): Logical Maximum, data= [ 0x01 ] 1
-            Item(Global): Usage Page, data= [ 0x07 ] 7
-                            Keyboard
-            Item(Local ): Usage Minimum, data= [ 0x00 ] 0
-                            No Event
-            Item(Local ): Usage Maximum, data= [ 0xe7 ] 231
-                            GUI Right
-            Item(Main  ): Input, data= [ 0x00 ] 0
-                            Data Array Absolute No_Wrap Linear
-                            Preferred_State No_Null_Position Non_Volatile Bitfield
-            Item(Main  ): End Collection, data=none
-            Item(Global): Usage Page, data= [ 0x01 ] 1
-                            Generic Desktop Controls
-            Item(Local ): Usage, data= [ 0x02 ] 2
-                            Mouse
-            Item(Main  ): Collection, data= [ 0x01 ] 1
-                            Application
-            Item(Global): Report ID, data= [ 0x05 ] 5
-            Item(Local ): Usage, data= [ 0x01 ] 1
-                            Pointer
-            Item(Main  ): Collection, data= [ 0x00 ] 0
-                            Physical
-            Item(Global): Usage Page, data= [ 0x09 ] 9
-                            Buttons
-            Item(Local ): Usage Minimum, data= [ 0x01 ] 1
-                            Button 1 (Primary)
-            Item(Local ): Usage Maximum, data= [ 0x08 ] 8
-                            (null)
-            Item(Global): Logical Minimum, data= [ 0x00 ] 0
-            Item(Global): Logical Maximum, data= [ 0x01 ] 1
-            Item(Global): Report Count, data= [ 0x08 ] 8
-            Item(Global): Report Size, data= [ 0x01 ] 1
-            Item(Main  ): Input, data= [ 0x02 ] 2
-                            Data Variable Absolute No_Wrap Linear
-                            Preferred_State No_Null_Position Non_Volatile Bitfield
-            Item(Global): Usage Page, data= [ 0x01 ] 1
-                            Generic Desktop Controls
-            Item(Local ): Usage, data= [ 0x30 ] 48
-                            Direction-X
-            Item(Local ): Usage, data= [ 0x31 ] 49
-                            Direction-Y
-            Item(Global): Logical Minimum, data= [ 0x01 0xf8 ] 63489
-            Item(Global): Logical Maximum, data= [ 0xff 0x07 ] 2047
-            Item(Global): Report Count, data= [ 0x02 ] 2
-            Item(Global): Report Size, data= [ 0x0c ] 12
-            Item(Main  ): Input, data= [ 0x06 ] 6
-                            Data Variable Relative No_Wrap Linear
-                            Preferred_State No_Null_Position Non_Volatile Bitfield
-            Item(Local ): Usage, data= [ 0x38 ] 56
-                            Wheel
-            Item(Global): Logical Minimum, data= [ 0x81 ] 129
-            Item(Global): Logical Maximum, data= [ 0x7f ] 127
-            Item(Global): Report Count, data= [ 0x01 ] 1
-            Item(Global): Report Size, data= [ 0x08 ] 8
-            Item(Main  ): Input, data= [ 0x06 ] 6
-                            Data Variable Relative No_Wrap Linear
-                            Preferred_State No_Null_Position Non_Volatile Bitfield
-            Item(Global): Usage Page, data= [ 0x0c ] 12
-                            Consumer
-            Item(Local ): Usage, data= [ 0x38 0x02 ] 568
-                            AC Pan
-            Item(Global): Report Count, data= [ 0x01 ] 1
-            Item(Main  ): Input, data= [ 0x06 ] 6
-                            Data Variable Relative No_Wrap Linear
-                            Preferred_State No_Null_Position Non_Volatile Bitfield
-            Item(Main  ): End Collection, data=none
-            Item(Main  ): End Collection, data=none
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x82  EP 2 IN
-        bmAttributes            3
-          Transfer Type            Interrupt
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0040  1x 64 bytes
-        bInterval               1
-Device Status:     0x0000
-  (Bus Powered)
