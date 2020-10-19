@@ -2,133 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FAED292B23
-	for <lists+linux-input@lfdr.de>; Mon, 19 Oct 2020 18:08:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58A14292DBF
+	for <lists+linux-input@lfdr.de>; Mon, 19 Oct 2020 20:49:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730549AbgJSQI0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 19 Oct 2020 12:08:26 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:41260 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730447AbgJSQI0 (ORCPT
+        id S1730917AbgJSSta (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 19 Oct 2020 14:49:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52044 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730915AbgJSSta (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 19 Oct 2020 12:08:26 -0400
-Received: by mail-wr1-f65.google.com with SMTP id s9so334628wro.8;
-        Mon, 19 Oct 2020 09:08:24 -0700 (PDT)
+        Mon, 19 Oct 2020 14:49:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1603133368;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=aikRecMjno+SH4aS4H+xMA1xt7wAVlYXO3z69lj41bc=;
+        b=GZ5761XQ9gk7VS/P31mfOGyMxDlnDWSj6bmpjEJgLUh60DhGFiIob2vEKs4++r2XaKofR9
+        mf/7alD4elA2axLJfg0WRW2p0eDTxGQ88mrG91w7ty/wwTjN3szS+NzfprqLzFFnRi55Eq
+        FrrA1N7WQLtrdNCV/6eM1qwUu/gHGXw=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-393-pxekjBMCMQqagzgT0SlHVw-1; Mon, 19 Oct 2020 14:49:26 -0400
+X-MC-Unique: pxekjBMCMQqagzgT0SlHVw-1
+Received: by mail-ed1-f69.google.com with SMTP id ay19so120275edb.23
+        for <linux-input@vger.kernel.org>; Mon, 19 Oct 2020 11:49:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=zoO2hDHZETk3IyeB0Cl94Uv+82asuWViFYsWJmUXsmY=;
-        b=M7s0WnuEMEbRcoFCLXp83U7kuz5sPJ8bGq4/OJMIO0F/KsQryhDvXoZHktR8j8fUe3
-         MQ941POGhRvUJ2cyzgHJ+x6NZGw6dh/s6E4uRY6lybJHSa6MQIiuK3OguB6nC3mjvT+V
-         RBbvfr6GQTjCrNRpXJ3jGNNEayHtCc6jOh30CHQ4ZQFGwR9RXlajbVX7RifbUtxh9P/R
-         +zUqJD/I8/kzZxplHEXYsWoDmDKfsFZakdqlLjj4n/RhR1OSzhLBWNFob/pX3jTkLI5S
-         2eYaE4ziVnYj3IgU7Y91rqsNRin/1RWTzZgOqJbH1r92C8D3vzczosk/L4Y3MP4xa9uY
-         CX1A==
-X-Gm-Message-State: AOAM532fso6b/S7HG7GMNbv2bO/ELHlYIPiO+2oGotFR9bn+rLTgWTVZ
-        kUNODkI3EoKqRt/pUehmZ68=
-X-Google-Smtp-Source: ABdhPJzn9211CyF1TlFXeRqXKkFp4steoLCXGDe3zss3JH2vfd8GJc4eMWny+D3BIHIjIfO5L0ip7A==
-X-Received: by 2002:adf:d84e:: with SMTP id k14mr266926wrl.251.1603123703705;
-        Mon, 19 Oct 2020 09:08:23 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.171])
-        by smtp.googlemail.com with ESMTPSA id f8sm201290wrw.85.2020.10.19.09.08.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2020 09:08:22 -0700 (PDT)
-Date:   Mon, 19 Oct 2020 18:08:20 +0200
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     kholk11@gmail.com
-Cc:     dmitry.torokhov@gmail.com, robh+dt@kernel.org, rydberg@bitmath.org,
-        priv.luk@gmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, marijns95@gmail.com,
-        konradybcio@gmail.com, martin.botka1@gmail.com,
-        phone-devel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 3/3] dt-bindings: touchscreen: Add binding for Novatek
- NT36xxx series driver
-Message-ID: <20201019160820.GB34785@kozik-lap>
-References: <20201017190152.12780-1-kholk11@gmail.com>
- <20201017190152.12780-4-kholk11@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=aikRecMjno+SH4aS4H+xMA1xt7wAVlYXO3z69lj41bc=;
+        b=eQLUslCk4EJ1jFF7KGqi9uKG/+6MUwB6/2W9ltleCwk3ba3qsBIn95IDF+W//Mu3X4
+         RgcYyEVilvDRyLOncozVeh5g5ao/ghDaCIctrN0jRfxuwih2+oOuE6cns+iVHeZ47mzk
+         68Rztc3aBwYAH1We7DzAFrtoCIxP2XFTo5db+ksNJHq1tWdnJne520XahR5IetnxZEUv
+         QsKj/xB9XiEYWVQdmlGUH7WisLwsUza80jtRaGlSAe9sWjUa8aQ40KI0b87BDgcjo2ix
+         tS3BYGLuOQQSUgJrbyVWhC1D2GzgK/5oaS/9M706rOj5ikAkM7fnVenbdOV42QQCbQCP
+         MFOw==
+X-Gm-Message-State: AOAM530fcZFFKvkdU4bv8MQHJNnX2szGqD8VxOKtPXUZFZGLvjWU++Gr
+        4HyPhgynp6uvmm/qfw4YSYnJYvAkPDcB8/8TcDGZUJOZb75PjCsvUYJ17S9UqEEoeCnYWfbTvPu
+        mcWfy7TKl84+Db/AyhdyDApU=
+X-Received: by 2002:a17:907:20b2:: with SMTP id pw18mr1244479ejb.159.1603133365653;
+        Mon, 19 Oct 2020 11:49:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxFgO6tUPVwAfBARdrrNZ9ZbfU7aCt3jkTj4EsVGIk37NiZco1+nnFfwV+Wd6psIr45bbfttA==
+X-Received: by 2002:a17:907:20b2:: with SMTP id pw18mr1244466ejb.159.1603133365418;
+        Mon, 19 Oct 2020 11:49:25 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id v6sm1021770ejx.101.2020.10.19.11.49.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Oct 2020 11:49:24 -0700 (PDT)
+Subject: Re: [PATCH 0/3] Lenovo lap and palm sensor support
+To:     Mark Pearson <markpearson@lenovo.com>
+Cc:     njoshi1@lenovo.com, dmitry.torokhov@gmail.com,
+        platform-driver-x86@vger.kernel.org, linux-input@vger.kernel.org,
+        jeff@labundy.com, anthony.wong@canonical.com, hadess@hadess.net
+References: <markpearson@lenovo.com>
+ <20201015135717.384610-1-markpearson@lenovo.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <c49d5d8a-4c20-f130-8218-1928beb3b565@redhat.com>
+Date:   Mon, 19 Oct 2020 20:49:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
+In-Reply-To: <20201015135717.384610-1-markpearson@lenovo.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201017190152.12780-4-kholk11@gmail.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Oct 17, 2020 at 09:01:52PM +0200, kholk11@gmail.com wrote:
-> From: AngeloGioacchino Del Regno <kholk11@gmail.com>
-> 
-> Add binding for the Novatek NT36xxx series touchscreen driver.
-> 
-> Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
-> ---
->  .../bindings/input/touchscreen/nt36xxx.yaml   | 59 +++++++++++++++++++
->  1 file changed, 59 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/nt36xxx.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/nt36xxx.yaml b/Documentation/devicetree/bindings/input/touchscreen/nt36xxx.yaml
-> new file mode 100644
-> index 000000000000..1486b20d6c49
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/nt36xxx.yaml
-> @@ -0,0 +1,59 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/touchscreen/nt36xxx.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Novatek NT36xxx series touchscreen controller Bindings
-> +
-> +maintainers:
-> +  - AngeloGioacchino Del Regno <kholk11@gmail.com>
-> +
-> +allOf:
-> +  - $ref: touchscreen.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: novatek,nt36525
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +
-> +  vdd-supply:
-> +    description: Power supply regulator for VDD pin
-> +
-> +  vio-supply:
-> +    description: Power supply regulator on VDD-IO pin
-> +
-> +unevaluatedProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      touchscreen@62 {
-> +        compatible = "novatek,nt36525";
-> +        reg = <0x62>;
-> +        interrupt-parent = <&tlmm>;
-> +        interrupts = <45 IRQ_TYPE_EDGE_RISING>;
-> +        reset-gpio = <&tlmm 102 GPIO_ACTIVE_HIGH>;
+Hi,
 
-reset-gpios
+On 10/15/20 3:57 PM, Mark Pearson wrote:
+> This patch series is to add support for the Lenovo lap and palm sensors. 
+> The original lap sensor implementation used a sysfs API but after
+> consultation with the kernel maintainers we agreed on using the input
+> subsystem instead.
+> The first patch just adds the new defines needed.
+> The second patch adds the implementation needed for the palm sensor.
+> The third patch adds the implementation needed for the lap sensor. 
+> 
+> This means currently thinkpad_acpi.c has both the sysfs and input dev
+> implementations. I will add a follow-on patch to remove the sysfs
+> interface once I've confirmed this is OK with the few people who are
+> using this in user space and given them some time to migrate to the
+> input dev implementation.
+> 
+> Mark Pearson (3):
+>   Adding event codes for Lenovo lap and palm sensors
+>   Add support for Lenovo palm sensor.
+>   Add support for Lenovo lap sensor
 
-Best regards,
-Krzysztof
+Not a full review, but one short remark, all your patch
+subjects e.g. "Adding event codes for Lenovo lap and palm sensors"
+are missing subsystem prefixes, if you do e.g.
+
+git log include/uapi/linux/input-event-codes.h
+
+You see subjects like "Input: allocate keycode for Fn + right shift",
+etc. and for the the thinkpad_acpi.c code you get:
+"platform/x86: thinkpad_acpi: Map Clipping tool hotkey to KEY_SELECTIVE_SCREENSHOT"
+
+So your patch subjects should look something like this:
+
+"Input: add event codes for lap and palmrest proximity switches"
+(note I fixed more here then just the missing prefix)
+
+"platform/x86: thinkpad_acpi: Add support for Lenovo palm sensor"
+(note no . at the end)
+
+"platform/x86: thinkpad_acpi: Add support for Lenovo lap sensor"
+
+If you can send out a v2 with this fixed, that might help to
+go Dmitry's attention for the first patch.
+
+Regards,
+
+Hans
+
