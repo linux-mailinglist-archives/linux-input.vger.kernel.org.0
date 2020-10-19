@@ -2,121 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2151292504
-	for <lists+linux-input@lfdr.de>; Mon, 19 Oct 2020 11:54:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9298292636
+	for <lists+linux-input@lfdr.de>; Mon, 19 Oct 2020 13:10:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727380AbgJSJyh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 19 Oct 2020 05:54:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55906 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727088AbgJSJyg (ORCPT
+        id S1727626AbgJSLKn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 19 Oct 2020 07:10:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38834 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725776AbgJSLKn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 19 Oct 2020 05:54:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1603101274;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=6iKrWxZFguKiC3/FAGY5esxaLrM4e5HmYodMvmzfCMU=;
-        b=M3oCgOl3iXjaRxrkXo9Cva/YoEHjUegWspQaHK1+EyY3PN6fcpktY8bDLN5k17FwJhJHN7
-        T/GcwqlYOZncRYg4nOFV7fhHwOcaSPwEIikKYjmxkh1M/YrWoJriWSg9/CaI1p5SoRYbAe
-        hH6bTY0Ar7NoY3ba4ZkkO08J0UIIJgc=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-puJBifkVNvSYlbtQE0-fOA-1; Mon, 19 Oct 2020 05:54:33 -0400
-X-MC-Unique: puJBifkVNvSYlbtQE0-fOA-1
-Received: by mail-ed1-f71.google.com with SMTP id dc23so4375338edb.13
-        for <linux-input@vger.kernel.org>; Mon, 19 Oct 2020 02:54:32 -0700 (PDT)
+        Mon, 19 Oct 2020 07:10:43 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92D32C0613CE
+        for <linux-input@vger.kernel.org>; Mon, 19 Oct 2020 04:10:43 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id n9so5816580pgf.9
+        for <linux-input@vger.kernel.org>; Mon, 19 Oct 2020 04:10:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jJe2L7D90dwZjIuN8weslTEdE7ipi7Ehuc5iiEXpPI0=;
+        b=gQNE5dtm6eL1kPLsXLMKoUN+N716yPVu1fpRhJLLB9cK3GIxgcY7kwqqFipvjC6lBT
+         P6fo+rKLU7liulkSd6uoKztFiJQ8yPs6gpJe2XemkHJmC3mXTpVwaxn00hobcgXqT+Xw
+         J1QpvMst35PYJgEI//gr+mnNOWrCI+489STP7/g6p0g8a36x2BkkcLH3KuVCxqXhN3ZY
+         x2AXqh/Kagk9VLdiXl4b+QRKq47ZTLK4tUj1zUX+Z8lM9PUb20mh24gmz+uRGt41E3Ev
+         QdatIW684v6Z914BZ8LJ8NRuocgg1tqKKi9IwDozX+mZU7H44sGsNnVgPveh4ib1Iei9
+         nGng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=6iKrWxZFguKiC3/FAGY5esxaLrM4e5HmYodMvmzfCMU=;
-        b=irhqM9xmKZTA6P4k+TTHL9rfBsGybqnvc2rLVMlIywo/Lq7Ft19l8+b/q/rMKiZU/E
-         fHIaTmu5SVtvDqWcfqTJt0xgrDbZ1khzobIuVgO6HwYatXiuZP/wWV1G7IRhfFJ+ie4D
-         i+fOuUPgWVOJmSz4unkd16a9oEKvKIp06iNIU1S8IpM1oNbQq0xOhX3DWIPFoS+DRh+9
-         aZPpeGIgZO9TWy5QiJUF8ff+y4F7Sj6FDsecwnGCGJgtWSgHg3ojELjvcY8Td09rrnJd
-         Om5mEMd1dOavt/jlEfGGDV92KK8f+TyV9S5//OSmOmiUsKRIoKSwI3ldmsO5oojJeokX
-         pRZQ==
-X-Gm-Message-State: AOAM533XEpxjLAGkMMfeV6WFScaDXxwVvDc2kZFFBj5xwRu0FCg8oyhe
-        OXE8hssLFwY4cwSKmN0ZHNH0od5BSrgTcI+zfb7Go7pjMqnk3mHl/JfkEjb10jU2qdu3YDrigoM
-        SeitZkHXcKgF3sWHo0Jh+Kns=
-X-Received: by 2002:aa7:d394:: with SMTP id x20mr17284562edq.14.1603101271809;
-        Mon, 19 Oct 2020 02:54:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwr9mpKi1NmMLNAQgXsoC3zDASSIZ4FzR/uvnykbi6jqtELuZQHtlvt8YdM6abje48UQka1MQ==
-X-Received: by 2002:aa7:d394:: with SMTP id x20mr17284550edq.14.1603101271636;
-        Mon, 19 Oct 2020 02:54:31 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id q10sm10158518ejb.117.2020.10.19.02.54.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Oct 2020 02:54:30 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jJe2L7D90dwZjIuN8weslTEdE7ipi7Ehuc5iiEXpPI0=;
+        b=rP9/GNUy1zobFwAeC1wf6QWOdYyIUmtHiUmzZa4hWulQ9vgYRE0WInxil58eLwTQGb
+         gu+HlfpObf1TnlpaqMMG88+C/I3mTAM24YaGEqSYSg2Ah5EMHhGpY9aycmg/jyuHmFar
+         x0Ih4wK+51ainau7HnzoNHn5ly0iiwybXTSdVgl1mlriyzbKQrzs7oomKO/Gtc3eFIvy
+         hb3WTMQTXCCmhciy0aLbP1/T2jwf3MJgP9TsCvgo0ua4a1FEHKwbQVYMih+iWi0KTCXU
+         E9cqSdHA2d9PwxF8xymzUXVH3I/JcHNy+jM0cmVyzUTC/BFsKKscRUNpLkw15dRqDGt5
+         JB7g==
+X-Gm-Message-State: AOAM532u7WQi+III9dCWB70VVx3jkFhkWJ0KPe6tU3fOeSyXWzQDFkDx
+        BbNs6IoyRYDmTlZZOmw9plIST1YqyHGN/dy9cCw=
+X-Google-Smtp-Source: ABdhPJyCvu81cqsE5RjBnf4+YCOwVUniAmxeoXuZIuXx26zUdehCszsKfu4vbqxfczvwIKvltYm7UC82TLSS7x6XatM=
+X-Received: by 2002:a63:f908:: with SMTP id h8mr6752731pgi.203.1603105842868;
+ Mon, 19 Oct 2020 04:10:42 -0700 (PDT)
+MIME-Version: 1.0
+References: <20201013073508.10476-1-luke@ljones.dev> <CAHp75VfOV2DvngsO87PLXwNKQtR-RaC4XzbBk_7wDVSEaBMrzw@mail.gmail.com>
+ <8P2FIQ.M2MLXE7M40153@ljones.dev> <b95839dc-82eb-7413-9000-17939f21b35b@redhat.com>
+In-Reply-To: <b95839dc-82eb-7413-9000-17939f21b35b@redhat.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 19 Oct 2020 14:11:32 +0300
+Message-ID: <CAHp75VdUipcuHaapttW05n+C5Txw0AS9xstoeLKbiqsKxx14Kg@mail.gmail.com>
 Subject: Re: [PATCH V8] HID: ASUS: Add support for ASUS N-Key keyboard
-To:     Luke Jones <luke@ljones.dev>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     linux-input <linux-input@vger.kernel.org>,
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Luke Jones <luke@ljones.dev>,
+        linux-input <linux-input@vger.kernel.org>,
         Jiri Kosina <jikos@kernel.org>,
         Andy Shevchenko <andy@infradead.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
-References: <20201013073508.10476-1-luke@ljones.dev>
- <CAHp75VfOV2DvngsO87PLXwNKQtR-RaC4XzbBk_7wDVSEaBMrzw@mail.gmail.com>
- <8P2FIQ.M2MLXE7M40153@ljones.dev>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <b95839dc-82eb-7413-9000-17939f21b35b@redhat.com>
-Date:   Mon, 19 Oct 2020 11:54:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
-MIME-Version: 1.0
-In-Reply-To: <8P2FIQ.M2MLXE7M40153@ljones.dev>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On Mon, Oct 19, 2020 at 12:54 PM Hans de Goede <hdegoede@redhat.com> wrote:
+> On 10/18/20 11:36 PM, Luke Jones wrote:
 
-On 10/18/20 11:36 PM, Luke Jones wrote:
-> 
-> 
->>>  +               */
->>>  +               if (report->id == FEATURE_KBD_LED_REPORT_ID1 ||
->>>  +                               report->id == FEATURE_KBD_LED_REPORT_ID2) {
->>
->>>  +                       return -1;
->>
->> is -1 a good return code? (this Q for all cases)
->>
->>>  +               /* Additional report filtering */
->>>  +               } else if (report->id == FEATURE_KBD_REPORT_ID) {
->>>  +                       /* Fn+F5 "fan" symbol, trigger WMI event to toggle next mode */
->>>  +                       if (data[1] == 0xae) {
->>>  +                               ret = asus_wmi_send_event(drvdata, 0xae);
->>>  +                               if (ret < 0) {
->>>  +                                       hid_warn(hdev, "Asus failed to trigger fan control event");
->>>  +                               }
->>
->>>  +                               return -1;
->>>
-> 
-> In the case of this block I really don't have any idea how
-> to handle it. I want to stop these particular keycodes from
-> being evaluated elsewhere. Returning -1 seemed to be the only
-> way to do this, unless my understanding is very incorrect.
-> 
-> Any help or guidance on how to handle this is definitely
-> appreciated.
+> >>>  +               if (report->id == FEATURE_KBD_LED_REPORT_ID1 ||
+> >>>  +                               report->id == FEATURE_KBD_LED_REPORT_ID2) {
+> >>
+> >>>  +                       return -1;
+> >>
+> >> is -1 a good return code? (this Q for all cases)
 
-Sorry, I missed that Andy's comment on this where for the raw-event handler,
-in this case -1 has the special meaning of don't process this event further,
-rather then being an error code.
+> >>>  +                               ret = asus_wmi_send_event(drvdata, 0xae);
+> >>>  +                               if (ret < 0) {
+> >>>  +                                       hid_warn(hdev, "Asus failed to trigger fan control event");
+> >>>  +                               }
+> >>
+> >>>  +                               return -1;
+> >
+> > In the case of this block I really don't have any idea how
+> > to handle it. I want to stop these particular keycodes from
+> > being evaluated elsewhere. Returning -1 seemed to be the only
+> > way to do this, unless my understanding is very incorrect.
+> >
+> > Any help or guidance on how to handle this is definitely
+> > appreciated.
+>
+> Sorry, I missed that Andy's comment on this where for the raw-event handler,
+> in this case -1 has the special meaning of don't process this event further,
+> rather then being an error code.
 
-So, since in this case -1 has a special meaning and it is NOT an error
-code, using -1 is fine. IOW you can keep this part as is.
+Good to know, thanks!
 
-Regards,
+> So, since in this case -1 has a special meaning and it is NOT an error
+> code, using -1 is fine. IOW you can keep this part as is.
 
-Hans
+I agree with Hans, you may ignore my question in those cases.
 
+-- 
+With Best Regards,
+Andy Shevchenko
