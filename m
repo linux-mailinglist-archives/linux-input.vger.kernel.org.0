@@ -2,111 +2,243 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B61529204D
-	for <lists+linux-input@lfdr.de>; Sun, 18 Oct 2020 23:50:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D51442920C0
+	for <lists+linux-input@lfdr.de>; Mon, 19 Oct 2020 02:55:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727771AbgJRVuP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 18 Oct 2020 17:50:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55738 "EHLO
+        id S1727173AbgJSAzP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 18 Oct 2020 20:55:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726249AbgJRVuO (ORCPT
+        with ESMTP id S1726698AbgJSAzO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 18 Oct 2020 17:50:14 -0400
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 797D3C061755;
-        Sun, 18 Oct 2020 14:50:14 -0700 (PDT)
-Received: by mail-qt1-x844.google.com with SMTP id m65so4983425qte.11;
-        Sun, 18 Oct 2020 14:50:14 -0700 (PDT)
+        Sun, 18 Oct 2020 20:55:14 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71E2EC061755;
+        Sun, 18 Oct 2020 17:55:13 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id w21so4992582pfc.7;
+        Sun, 18 Oct 2020 17:55:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LW7NtPMGJ2R8VOhKgzw6sjc10vh2YbY8kQEEkfju8fA=;
-        b=BT6sX70H+s8KhgIkqlKxOTyt7nLW9Zkkp/pWMqwoIwpRPwASphI99ISJJY/DrRq4YB
-         tuxxuQta89p2LltScao7kwUamcV10d6qq0/0GsMri9Y5uCbzF0DQIPVBZym6oh2w8IRp
-         jGv4FzahYM8UB3UvXODpIfq1ilK2uqq9Xd/9k1Vp0D25EYeZvsrsLMiSOVKbh0jHo8ly
-         ZwpyiDfjYzQI7omWM6lYTXWC4WxC4zXCwovEKbG2sVh0lXA3kgHlfvQ9kncK/jS7lzXB
-         WtZ4PQbPMGBo2Fvzsm14b4aTThFD0/Vsyl0CynTIq6qQwMl+W5yJA342KaaYBMt5xICG
-         NkkQ==
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=JHG5gkaTCfmlQwgu3xnC1XiFHki9A3JmHZQkuRih3Ao=;
+        b=ia1lb/riOd8HGHXvq3sX55y8nybmkwuSdL1i6HJjvuipZJC7fPQAVWbE2gWXH3cC/0
+         n5F5eG80N2ppcrKZcaQMY+uXlUVqtZ7my6jYKiPUSGciNJ+GJZHXDwigbG7197C60IJP
+         FMWfXPf8KkGJ08RQIJ8ck7QLdkmhHqPVKgbiyl2YLIEYyF0BmTVH27wJJeOhcXkICKiO
+         ZBH0QfTEhnar67ZRwPVDf0NWmCfTccQ2mIFoBOfR9kr4/Oq6T7pfWRljS8kZ8dw6gZg+
+         L0742g9phJq3UJjRD2zXAvnLusnWHUdQzFarbzZMNcTFNCPd5ItLILzIIAk4ooE2o0IT
+         fiIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LW7NtPMGJ2R8VOhKgzw6sjc10vh2YbY8kQEEkfju8fA=;
-        b=A54fIiuMEzcWU81kWizVMjWexILYSifLNSzkHPsvY2YrLg8OawjexicsjeQJnFnBDX
-         lFgMcBFXA82PdWXGIIPhsA9feRYqx1SsNLbcJ/ziaN4LYnD1cKUMCksOLHy3lFXz5KLL
-         mu9EmHYogFvkDCXUl8CHzXsYLO+k6XJR5vHxIizc57xHGVrJllBoAsjDznA1f3vEv4gq
-         7r/cDjJ56/USRGuhaG/HGaCbsUTFN5E6xSa5feLVxVzOgJvtHqkKZCTYXCcsqR5D9EDP
-         B2OZD0jdfFS8VVd8PckfIcCDEueSt7zf1C/eHHzfQ2kzEXzjmS452U49hb5WZ726v4sf
-         2NGA==
-X-Gm-Message-State: AOAM533U1Tx5J8OhD7nMqzqK4J++qB+CTP2+s6UHp1PSbvAYT+XXA4Gn
-        4VQzZkhSxbqT6YowujhmHWmAgdDYog4L64/VD5A=
-X-Google-Smtp-Source: ABdhPJw59Z9ZSI7YkUnrDX/NzYUwLZIQMERPV41io/elXdvNyA/Ph+eIMdFGNAEYy/TP8jUOuq9oIUb3paHWMlURueE=
-X-Received: by 2002:aed:2983:: with SMTP id o3mr12423656qtd.285.1603057812125;
- Sun, 18 Oct 2020 14:50:12 -0700 (PDT)
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=JHG5gkaTCfmlQwgu3xnC1XiFHki9A3JmHZQkuRih3Ao=;
+        b=sxZkWuKVyg1gWiq9a2PEn4QwtQ967GVSvg/UPCVjeOAiDZsmedFOwkHTB+QIXfQN4/
+         feSSjSnQgj9qDAbXdmMBfjBJmNcblHnVikAlO++BeDFFvdVDjRgnOw8RhSyVxF9MQsuC
+         4QmRgOXiiwX7kU7W8VC0IczjKHrpC9iiE3WV8wnXJI62CvwqCt3/srEPoTDf6JX/h548
+         aPt6CylHG7hLyPR3Mu/SkIJBy9Qjrys/Gp+obRYKxeCion9kuC5NT34NBGp5hKC14R8u
+         l2tNO9OemGFhOCjeif+ub96ji5oymX5VAxLILGhg4dPLmmh9QhsLDjpvTJ0rrDYzFEcZ
+         jhvQ==
+X-Gm-Message-State: AOAM532o55hBBgiq+y4G7wHfkZD1U5qGco7teAnoLKF2QUsndTC/b7Dj
+        cyGGwFXZi6Jp9FNPudnmWJs=
+X-Google-Smtp-Source: ABdhPJxctJEGi2HcUpdXJUQiwyFl6eE6rypnrHkdUrkQC8aeqGlKmizLevMbjCYScLEsXjC7beAvNg==
+X-Received: by 2002:a63:ff5b:: with SMTP id s27mr12342594pgk.383.1603068912816;
+        Sun, 18 Oct 2020 17:55:12 -0700 (PDT)
+Received: from localhost ([2001:e42:102:1532:160:16:113:140])
+        by smtp.gmail.com with ESMTPSA id l199sm9905982pfd.73.2020.10.18.17.55.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Oct 2020 17:55:12 -0700 (PDT)
+From:   Coiby Xu <coiby.xu@gmail.com>
+X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
+Date:   Mon, 19 Oct 2020 08:54:12 +0800
+To:     =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Helmut Stult <helmut.stult@schinfo.de>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] HID: i2c-hid: add polling mode based on connected
+ GPIO chip's pin status
+Message-ID: <20201019005412.rifxrvpdxu574jag@Rk>
+References: <20201016131335.8121-1-coiby.xu@gmail.com>
+ <T2SIcFVxZ81NUwKLDbSESA7Wpm7DYowEiii8ZaxTPtrdXZZeHLq5iZPkN5BLlp-9C6PLwUZOVwNpMdEdPSRZcAG4MmDt-tfyKZoQYJ0KHOA=@protonmail.com>
+ <20201017004556.kuoxzmbvef4yr3kg@Rk>
+ <FWsXxqGztJgszUpmNtKli8eOyeKP-lxFeTsjs2nQAxgYZBkT3JNTU3VdHF4GbQVS_PvKiqbfrZXI7vaUHA_lXTxjPX-WjkNEOdiMUetO8IQ=@protonmail.com>
+ <20201017140541.fggujaz2klpv3cd5@Rk>
+ <fRxQJHWq9ZL950ZPGFFm_LfSlMjsjrpG7Y63gd7V7iV647KR8WIfZ4-ljLeo0n4X3Gpu1KIEsMVLxQnzAtJdUdMydi_b0-vjIVb304Da1bQ=@protonmail.com>
 MIME-Version: 1.0
-References: <20200817091617.28119-1-allen.cryptic@gmail.com>
-In-Reply-To: <20200817091617.28119-1-allen.cryptic@gmail.com>
-From:   Richard Weinberger <richard.weinberger@gmail.com>
-Date:   Sun, 18 Oct 2020 23:50:00 +0200
-Message-ID: <CAFLxGvxsHD6zvTJSHeo2gaoRQfjUPZ6M=5BirOObHFjGqnzfew@mail.gmail.com>
-Subject: Re: [PATCH] arch: um: convert tasklets to use new tasklet_setup() API
-To:     Allen Pais <allen.cryptic@gmail.com>
-Cc:     Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        3chas3@gmail.com, Jens Axboe <axboe@kernel.dk>,
-        stefanr@s5r6.in-berlin.de, Dave Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sebastian Reichel <sre@kernel.org>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Helge Deller <deller@gmx.de>, dmitry.torokhov@gmail.com,
-        jassisinghbrar@gmail.com, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Maxim Levitsky <maximlevitsky@gmail.com>,
-        Alex Dubov <oakad@yahoo.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        mporter@kernel.crashing.org, alex.bou9@gmail.com,
-        Mark Brown <broonie@kernel.org>, martyn@welchs.me.uk,
-        manohar.vanga@gmail.com, mitch@sfgoth.com,
-        "David S. Miller" <davem@davemloft.net>, kuba@kernel.org,
-        Kees Cook <keescook@chromium.org>,
-        linux-um <linux-um@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux1394-devel@lists.sourceforge.net,
-        intel-gfx@lists.freedesktop.org,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        linux-hyperv@vger.kernel.org, linux-parisc@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-ntb@googlegroups.com, linux-s390@vger.kernel.org,
-        "open list:SPI SUBSYSTEM" <linux-spi@vger.kernel.org>,
-        devel@driverdev.osuosl.org, Allen Pais <allen.lkml@gmail.com>,
-        Romain Perier <romain.perier@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <fRxQJHWq9ZL950ZPGFFm_LfSlMjsjrpG7Y63gd7V7iV647KR8WIfZ4-ljLeo0n4X3Gpu1KIEsMVLxQnzAtJdUdMydi_b0-vjIVb304Da1bQ=@protonmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Aug 17, 2020 at 11:17 AM Allen Pais <allen.cryptic@gmail.com> wrote:
+On Sat, Oct 17, 2020 at 02:58:13PM +0000, Barnabás Pőcze wrote:
+>> [...]
+>> >> >> +static int get_gpio_pin_state(struct irq_desc *irq_desc)
+>> >> >> +{
+>> >> >> +	struct gpio_chip *gc = irq_data_get_irq_chip_data(&irq_desc->irq_data);
+>> >> >> +
+>> >> >> +	return gc->get(gc, irq_desc->irq_data.hwirq);
+>> >> >> +}
+>> >> >> +
+>> >> >> +static bool interrupt_line_active(struct i2c_client *client)
+>> >> >> +{
+>> >> >> +	unsigned long trigger_type = irq_get_trigger_type(client->irq);
+>> >> >> +	struct irq_desc *irq_desc = irq_to_desc(client->irq);
+>> >> >> +
+>> >> >> +	/*
+>> >> >> +	 * According to Windows Precsiontion Touchpad's specs
+>> >> >> +	 * https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/windows-precision-touchpad-device-bus-connectivity,
+>> >> >> +	 * GPIO Interrupt Assertion Leve could be either ActiveLow or
+>> >> >> +	 * ActiveHigh.
+>> >> >> +	 */
+>> >> >> +	if (trigger_type & IRQF_TRIGGER_LOW)
+>> >> >> +		return !get_gpio_pin_state(irq_desc);
+>> >> >> +
+>> >> >> +	return get_gpio_pin_state(irq_desc);
+>> >> >> +}
+>> >> >
+>> >> >Excuse my ignorance, but I think some kind of error handling regarding the return
+>> >> >value of `get_gpio_pin_state()` should be present here.
+>> >> >
+>> >> What kind of errors would you expect? It seems (struct gpio_chip *)->get
+>> >> only return 0 or 1.
+>> >> >
+>> >
+>> >I read the code of a couple gpio chips and - I may be wrong, but - it seems they
+>> >can return an arbitrary errno.
+>> >
+>> I thought all GPIO chip return 0 or 1 since !!val is returned. I find
+>> an example which could return negative value,
+>>
 >
-> From: Allen Pais <allen.lkml@gmail.com>
+>Yes, when a function returns `int`, there is a very high chance that the return
+>value may be an errno.
 >
-> In preparation for unconditionally passing the
-> struct tasklet_struct pointer to all tasklet
-> callbacks, switch to using the new tasklet_setup()
-> and from_tasklet() to pass the tasklet pointer explicitly.
 >
-> Signed-off-by: Romain Perier <romain.perier@gmail.com>
-> Signed-off-by: Allen Pais <allen.lkml@gmail.com>
-> ---
->  arch/um/drivers/vector_kern.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>> >
+>> >> >> +
+>> >> >> +static int i2c_hid_polling_thread(void *i2c_hid)
+>> >> >> +{
+>> >> >> +	struct i2c_hid *ihid = i2c_hid;
+>> >> >> +	struct i2c_client *client = ihid->client;
+>> >> >> +	unsigned int polling_interval_idle;
+>> >> >> +
+>> >> >> +	while (1) {
+>> >> >> +		/*
+>> >> >> +		 * re-calculate polling_interval_idle
+>> >> >> +		 * so the module parameters polling_interval_idle_ms can be
+>> >> >> +		 * changed dynamically through sysfs as polling_interval_active_us
+>> >> >> +		 */
+>> >> >> +		polling_interval_idle = polling_interval_idle_ms * 1000;
+>> >> >> +		if (test_bit(I2C_HID_READ_PENDING, &ihid->flags))
+>> >> >> +			usleep_range(50000, 100000);
+>> >> >> +
+>> >> >> +		if (kthread_should_stop())
+>> >> >> +			break;
+>> >> >> +
+>> >> >> +		while (interrupt_line_active(client)) {
+>> >> >
+>> >> >I realize it's quite unlikely, but can't this be a endless loop if data is coming
+>> >> >in at a high enough rate? Maybe the maximum number of iterations could be limited here?
+>> >> >
+>> >> If we find HID reports are constantly read and send to front-end
+>> >> application like libinput, won't it help expose the problem of the I2C
+>> >> HiD device?
+>> >> >
+>> >
+>> >I'm not sure I completely understand your point. The reason why I wrote what I wrote
+>> >is that this kthread could potentially could go on forever (since `kthread_should_stop()`
+>> >is not checked in the inner while loop) if the data is supplied at a high enough rate.
+>> >That's why I said, to avoid this problem, only allow a certain number of iterations
+>> >for the inner loop, to guarantee that the kthread can stop in any case.
+>> >
+>> I mean if "data is supplied at a high enough rate" does happen, this is
+>> an abnormal case and indicates a bug. So we shouldn't cover it up. We
+>> expect the user to report it to us.
+>> >
+>
+>I agree in principle, but if this abnormal case ever occurs, that'll prevent
+>this module from being unloaded since `kthread_stop()` will hang because the
+>thread is "stuck" in the inner loop, never checking `kthread_should_stop()`.
+>That's why I think it makes sense to only allow a certain number of operations
+>for the inner loop, and maybe show a warning if that's exceeded:
+>
+> for (i = 0; i < max_iter && interrupt_line_active(...); i++) {
+>    ....
+> }
+>
+> WARN_ON[CE](i == max_iter[, "data is coming in at an unreasonably high rate"]);
+>
+>or something like this, where `max_iter` could possibly be some value dependent on
+>`polling_interval_active_us`, or even just a constant.
+>
 
-Anton, can you please review this patch?
+Thank you for suggesting this approach! It seems it would add a bit of
+complexity to detect this situation which could introduce other bugs.
 
--- 
-Thanks,
-//richard
+I did a experiment of creating a kthread that will loop forever and found
+the rebooting process wasn't stalled. I don't expect user to load&unload
+this module. So the end user could not notice this problem so  my rationale
+is invalid.
+
+Thus I would be prefer to check `kthread_should_stop()` in the inner
+while loop instead.
+>
+>> >> >> +			i2c_hid_get_input(ihid);
+>> >> >> +			usleep_range(polling_interval_active_us,
+>> >> >> +				     polling_interval_active_us + 100);
+>> >> >> +		}
+>> >> >> +
+>> >> >> +		usleep_range(polling_interval_idle,
+>> >> >> +			     polling_interval_idle + 1000);
+>> >> >> +	}
+>> >> >> +
+>> >> >> +	do_exit(0);
+>> >> >> +	return 0;
+>> >> >> +}
+>> [...]
+>> Thank you for offering your understandings on this patch. When I'm going
+>> to submit next version, I will add a "Signed-off-by" tag with your name
+>> and email, does it look good to you?
+>> [...]
+>
+>I'm not sure if that follows proper procedures.
+>
+> "The sign-off is a simple line at the end of the explanation for the patch, which
+>  certifies that you wrote it or otherwise have the right to pass it on as an
+>  open-source patch."[1]
+>
+>I'm not the author, nor co-author, nor am I going to pass this patch on, so I don't
+>think that's appropriate.
+>
+>Furthermore, please note that
+>
+> "[...] you may optionally add a Cc: tag to the patch. **This is the only tag which
+>  might be added without an explicit action by the person it names** - but it should
+>  indicate that this person was copied on the patch."[2]
+>  (emphasis mine)
+>
+You have been directly contributing to this patch because several
+improvements of next version are from you. I experienced a similar
+situation when submitting patches for QEMU. The only difference is
+that the feedbacks on the QEMU patches were also given in the format
+of patch. Or do you think a reviewed-by tag from you after you think
+the next version is of production quality is a better way to credit
+you?
+>
+>Regards,
+>Barnabás Pőcze
+>
+>
+>[1]: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#sign-your-work-the-developer-s-certificate-of-origin
+>[2]: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#when-to-use-acked-by-cc-and-co-developed-by
+
+--
+Best regards,
+Coiby
