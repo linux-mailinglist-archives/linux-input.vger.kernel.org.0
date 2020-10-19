@@ -2,167 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D907292319
-	for <lists+linux-input@lfdr.de>; Mon, 19 Oct 2020 09:48:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2151292504
+	for <lists+linux-input@lfdr.de>; Mon, 19 Oct 2020 11:54:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727915AbgJSHsZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 19 Oct 2020 03:48:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24496 "EHLO
+        id S1727380AbgJSJyh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 19 Oct 2020 05:54:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55906 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727864AbgJSHsZ (ORCPT
+        by vger.kernel.org with ESMTP id S1727088AbgJSJyg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 19 Oct 2020 03:48:25 -0400
+        Mon, 19 Oct 2020 05:54:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1603093703;
+        s=mimecast20190719; t=1603101274;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=yLUl2UEG5uxm7VbNvyY/oa+0hPu9UGUuZW2RfTBx7Zw=;
-        b=NJW8PS30GsoVcfBiVSnjPDVLslo5dJSqQxn0uMRq4IXUGSDgMoWnapzStUQpJAmK12yXEx
-        stBqyIW1GDl3/mmu0xHXhaoBqG30TvMvdnIYKARKJ7dUUQmw20/LN6wDkfehIHEXaZMccK
-        /aMpe/U/BappzGocB2o9WeAuBphnGYg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-58-yUktvYwXNM2FnPuXfMbd5w-1; Mon, 19 Oct 2020 03:48:21 -0400
-X-MC-Unique: yUktvYwXNM2FnPuXfMbd5w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17C58835B49;
-        Mon, 19 Oct 2020 07:48:20 +0000 (UTC)
-Received: from x1.localdomain (ovpn-114-62.ams2.redhat.com [10.36.114.62])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3EC7261983;
-        Mon, 19 Oct 2020 07:48:15 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Jiri Kosina <jikos@kernel.org>,
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=6iKrWxZFguKiC3/FAGY5esxaLrM4e5HmYodMvmzfCMU=;
+        b=M3oCgOl3iXjaRxrkXo9Cva/YoEHjUegWspQaHK1+EyY3PN6fcpktY8bDLN5k17FwJhJHN7
+        T/GcwqlYOZncRYg4nOFV7fhHwOcaSPwEIikKYjmxkh1M/YrWoJriWSg9/CaI1p5SoRYbAe
+        hH6bTY0Ar7NoY3ba4ZkkO08J0UIIJgc=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-434-puJBifkVNvSYlbtQE0-fOA-1; Mon, 19 Oct 2020 05:54:33 -0400
+X-MC-Unique: puJBifkVNvSYlbtQE0-fOA-1
+Received: by mail-ed1-f71.google.com with SMTP id dc23so4375338edb.13
+        for <linux-input@vger.kernel.org>; Mon, 19 Oct 2020 02:54:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=6iKrWxZFguKiC3/FAGY5esxaLrM4e5HmYodMvmzfCMU=;
+        b=irhqM9xmKZTA6P4k+TTHL9rfBsGybqnvc2rLVMlIywo/Lq7Ft19l8+b/q/rMKiZU/E
+         fHIaTmu5SVtvDqWcfqTJt0xgrDbZ1khzobIuVgO6HwYatXiuZP/wWV1G7IRhfFJ+ie4D
+         i+fOuUPgWVOJmSz4unkd16a9oEKvKIp06iNIU1S8IpM1oNbQq0xOhX3DWIPFoS+DRh+9
+         aZPpeGIgZO9TWy5QiJUF8ff+y4F7Sj6FDsecwnGCGJgtWSgHg3ojELjvcY8Td09rrnJd
+         Om5mEMd1dOavt/jlEfGGDV92KK8f+TyV9S5//OSmOmiUsKRIoKSwI3ldmsO5oojJeokX
+         pRZQ==
+X-Gm-Message-State: AOAM533XEpxjLAGkMMfeV6WFScaDXxwVvDc2kZFFBj5xwRu0FCg8oyhe
+        OXE8hssLFwY4cwSKmN0ZHNH0od5BSrgTcI+zfb7Go7pjMqnk3mHl/JfkEjb10jU2qdu3YDrigoM
+        SeitZkHXcKgF3sWHo0Jh+Kns=
+X-Received: by 2002:aa7:d394:: with SMTP id x20mr17284562edq.14.1603101271809;
+        Mon, 19 Oct 2020 02:54:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwr9mpKi1NmMLNAQgXsoC3zDASSIZ4FzR/uvnykbi6jqtELuZQHtlvt8YdM6abje48UQka1MQ==
+X-Received: by 2002:aa7:d394:: with SMTP id x20mr17284550edq.14.1603101271636;
+        Mon, 19 Oct 2020 02:54:31 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id q10sm10158518ejb.117.2020.10.19.02.54.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Oct 2020 02:54:30 -0700 (PDT)
+Subject: Re: [PATCH V8] HID: ASUS: Add support for ASUS N-Key keyboard
+To:     Luke Jones <luke@ljones.dev>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     linux-input <linux-input@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Andy Shevchenko <andy@infradead.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org
-Subject: [PATCH] HID: ite: Replace ABS_MISC 120/121 events with touchpad on/off keypresses
-Date:   Mon, 19 Oct 2020 09:48:14 +0200
-Message-Id: <20201019074814.17722-1-hdegoede@redhat.com>
+References: <20201013073508.10476-1-luke@ljones.dev>
+ <CAHp75VfOV2DvngsO87PLXwNKQtR-RaC4XzbBk_7wDVSEaBMrzw@mail.gmail.com>
+ <8P2FIQ.M2MLXE7M40153@ljones.dev>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <b95839dc-82eb-7413-9000-17939f21b35b@redhat.com>
+Date:   Mon, 19 Oct 2020 11:54:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
+In-Reply-To: <8P2FIQ.M2MLXE7M40153@ljones.dev>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The usb-hid keyboard-dock for the Acer Switch 10 SW5-012 model declares
-an application and hid-usage page of 0x0088 for the INPUT(4) report which
-it sends. This reports contains 2 8-bit fields which are declared as
-HID_MAIN_ITEM_VARIABLE.
+Hi,
 
-The keyboard-touchpad combo never actually generates this report, except
-when the touchpad is toggled on/off with the Fn + F7 hotkey combo. The
-toggle on/off is handled inside the keyboard-dock, when the touchpad is
-toggled off it simply stops sending events.
+On 10/18/20 11:36 PM, Luke Jones wrote:
+> 
+> 
+>>>  +               */
+>>>  +               if (report->id == FEATURE_KBD_LED_REPORT_ID1 ||
+>>>  +                               report->id == FEATURE_KBD_LED_REPORT_ID2) {
+>>
+>>>  +                       return -1;
+>>
+>> is -1 a good return code? (this Q for all cases)
+>>
+>>>  +               /* Additional report filtering */
+>>>  +               } else if (report->id == FEATURE_KBD_REPORT_ID) {
+>>>  +                       /* Fn+F5 "fan" symbol, trigger WMI event to toggle next mode */
+>>>  +                       if (data[1] == 0xae) {
+>>>  +                               ret = asus_wmi_send_event(drvdata, 0xae);
+>>>  +                               if (ret < 0) {
+>>>  +                                       hid_warn(hdev, "Asus failed to trigger fan control event");
+>>>  +                               }
+>>
+>>>  +                               return -1;
+>>>
+> 
+> In the case of this block I really don't have any idea how
+> to handle it. I want to stop these particular keycodes from
+> being evaluated elsewhere. Returning -1 seemed to be the only
+> way to do this, unless my understanding is very incorrect.
+> 
+> Any help or guidance on how to handle this is definitely
+> appreciated.
 
-When the touchpad is toggled on/off an INPUT(4) report is generated with
-the first content byte set to 120/121, before this commit the kernel
-would report this as ABS_MISC 120/121 events.
+Sorry, I missed that Andy's comment on this where for the raw-event handler,
+in this case -1 has the special meaning of don't process this event further,
+rather then being an error code.
 
-Patch the descriptor to replace the HID_MAIN_ITEM_VARIABLE with
-HID_MAIN_ITEM_RELATIVE (because no key-presss release events are send)
-and add mappings for the 0x00880078 and 0x00880079 usages to generate
-touchpad on/off key events when the touchpad is toggled on/off.
+So, since in this case -1 has a special meaning and it is NOT an error
+code, using -1 is fine. IOW you can keep this part as is.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/hid/hid-ite.c | 61 ++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 60 insertions(+), 1 deletion(-)
+Regards,
 
-diff --git a/drivers/hid/hid-ite.c b/drivers/hid/hid-ite.c
-index 044a93f3c117..742c052b0110 100644
---- a/drivers/hid/hid-ite.c
-+++ b/drivers/hid/hid-ite.c
-@@ -11,6 +11,48 @@
- 
- #include "hid-ids.h"
- 
-+#define QUIRK_TOUCHPAD_ON_OFF_REPORT		BIT(0)
-+
-+static __u8 *ite_report_fixup(struct hid_device *hdev, __u8 *rdesc, unsigned int *rsize)
-+{
-+	unsigned long quirks = (unsigned long)hid_get_drvdata(hdev);
-+
-+	if (quirks & QUIRK_TOUCHPAD_ON_OFF_REPORT) {
-+		if (*rsize == 188 && rdesc[162] == 0x81 && rdesc[163] == 0x02) {
-+			hid_info(hdev, "Fixing up ITE keyboard report descriptor\n");
-+			rdesc[163] = HID_MAIN_ITEM_RELATIVE;
-+		}
-+	}
-+
-+	return rdesc;
-+}
-+
-+static int ite_input_mapping(struct hid_device *hdev,
-+		struct hid_input *hi, struct hid_field *field,
-+		struct hid_usage *usage, unsigned long **bit,
-+		int *max)
-+{
-+
-+	unsigned long quirks = (unsigned long)hid_get_drvdata(hdev);
-+
-+	if ((quirks & QUIRK_TOUCHPAD_ON_OFF_REPORT) &&
-+	    (usage->hid & HID_USAGE_PAGE) == 0x00880000) {
-+		if (usage->hid == 0x00880078) {
-+			/* Touchpad on, userspace expects F22 for this */
-+			hid_map_usage_clear(hi, usage, bit, max, EV_KEY, KEY_F22);
-+			return 1;
-+		}
-+		if (usage->hid == 0x00880079) {
-+			/* Touchpad off, userspace expects F23 for this */
-+			hid_map_usage_clear(hi, usage, bit, max, EV_KEY, KEY_F23);
-+			return 1;
-+		}
-+		return -1;
-+	}
-+
-+	return 0;
-+}
-+
- static int ite_event(struct hid_device *hdev, struct hid_field *field,
- 		     struct hid_usage *usage, __s32 value)
- {
-@@ -37,13 +79,27 @@ static int ite_event(struct hid_device *hdev, struct hid_field *field,
- 	return 0;
- }
- 
-+static int ite_probe(struct hid_device *hdev, const struct hid_device_id *id)
-+{
-+	int ret;
-+
-+	hid_set_drvdata(hdev, (void *)id->driver_data);
-+
-+	ret = hid_open_report(hdev);
-+	if (ret)
-+		return ret;
-+
-+	return hid_hw_start(hdev, HID_CONNECT_DEFAULT);
-+}
-+
- static const struct hid_device_id ite_devices[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ITE, USB_DEVICE_ID_ITE8595) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_258A, USB_DEVICE_ID_258A_6A88) },
- 	/* ITE8595 USB kbd ctlr, with Synaptics touchpad connected to it. */
- 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
- 		     USB_VENDOR_ID_SYNAPTICS,
--		     USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5_012) },
-+		     USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5_012),
-+	  .driver_data = QUIRK_TOUCHPAD_ON_OFF_REPORT },
- 	/* ITE8910 USB kbd ctlr, with Synaptics touchpad connected to it. */
- 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
- 		     USB_VENDOR_ID_SYNAPTICS,
-@@ -55,6 +111,9 @@ MODULE_DEVICE_TABLE(hid, ite_devices);
- static struct hid_driver ite_driver = {
- 	.name = "itetech",
- 	.id_table = ite_devices,
-+	.probe = ite_probe,
-+	.report_fixup = ite_report_fixup,
-+	.input_mapping = ite_input_mapping,
- 	.event = ite_event,
- };
- module_hid_driver(ite_driver);
--- 
-2.28.0
+Hans
 
