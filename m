@@ -2,89 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F9F3294E1E
-	for <lists+linux-input@lfdr.de>; Wed, 21 Oct 2020 15:57:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7F38294EB6
+	for <lists+linux-input@lfdr.de>; Wed, 21 Oct 2020 16:33:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2440284AbgJUN5M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Oct 2020 09:57:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60076 "EHLO
+        id S2410083AbgJUOdU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Oct 2020 10:33:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2411763AbgJUN5M (ORCPT
+        with ESMTP id S2410075AbgJUOdU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Oct 2020 09:57:12 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD5B6C0613CE
-        for <linux-input@vger.kernel.org>; Wed, 21 Oct 2020 06:57:12 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id f19so1513761pfj.11
-        for <linux-input@vger.kernel.org>; Wed, 21 Oct 2020 06:57:12 -0700 (PDT)
+        Wed, 21 Oct 2020 10:33:20 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88F51C0613CE;
+        Wed, 21 Oct 2020 07:33:20 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id t14so1599134pgg.1;
+        Wed, 21 Oct 2020 07:33:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Z1TFCsmXkqBmOtz+uaqdsKb+MHZorZoWKpRfZG7ZHGM=;
-        b=X08JwVL1cCeksgkrlhPS+uFit5zsmhWE6bFuGKC8PR4jIo2Ih18r1Ye4h077ZNFYvP
-         qn4Dz32MLoyTKUreATfqvBENShseRy/7OoBzYxQm+Y+XoUUa/ARHE8GGWHD0jYCQzvwU
-         EUFqb4xj5MVejfU3Wb00WIWIfe3PLewaAqfhw=
+        bh=zmZGMIPGGmtLtowrdMYO23WbB3s1asSBgU+m0EE+qT8=;
+        b=ATLgApS7Y80FNwvZ59Dzx4Y98S/P7jDo7kQJJJgQP3SLNhb61qwUzAke6Z4Us9MI+w
+         amFiRq8p/6tr3CPdWn/v5kf5ev+H2TBTcFiBg5/oLWrG4YzsSgicwBIhw3DYfaTJdRa9
+         EsA7RQbQ1NMsWLqWoydbuIuMu3sUV3Lz/rMbT7ulWLk0kGH4cNx15yinvtuXWwBHwvMj
+         rJoOiPdrOxs/mAZIs90I5BZZJlw4WyoumAjK5AAVoWOdUOjrL87jQG4McHNX+ei+saDn
+         RAIeG/e8G5EOKIifz8d0NF5cjN7sD5MXYIxmwnaUaDZeBGiBbEVw2hNeO4O9Pt70OVNU
+         2+Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Z1TFCsmXkqBmOtz+uaqdsKb+MHZorZoWKpRfZG7ZHGM=;
-        b=MdR8MVoXsMDk0sYEOGc7brRoW/MMwH0SA/KcXPxB8amXkmtloxS4jPsRgytjOO4B42
-         9Fzvd0eb7kODH2da5ayJTiIKGgFACOwBSOvpjUq6U1fiLglu++RQIkOLW+uA3H6fxV+U
-         lqO7AEn2vLHr7FKGhac/5LvrJRtvFk/6kmQeJwwvqG+xcDfcBJ0B7d1qjZ1m3Vkwg+Y3
-         8KMVY3VpNB1UzkN5Sqo1jyROcukAkqGpOi0RwBj0MmQ47wyTMWo2wnniB9GKIUutvHca
-         6Zv+8ROJegCV+GYa7xtBiFhCPWkOEZRhsalEYp36DPlQrwiBdUuZ3an3zzvoI8vo9Wtg
-         yE2w==
-X-Gm-Message-State: AOAM531zMW4M5BXMTJ3aeRNqu6YqYsXF+/EEVvvho6NPtkBVfiVC5NQz
-        A0V2q6dOyT7ecZ13s0nrewrCp4iv2LrIaBb9
-X-Google-Smtp-Source: ABdhPJz9a2D9o0OoDQ03Q6V0fqHnxXPLve39qPkepO1yaqCtP2+AE1AKwo6KADu1Oz0er7nGSTQYrQ==
-X-Received: by 2002:a63:e354:: with SMTP id o20mr3615284pgj.317.1603288632284;
-        Wed, 21 Oct 2020 06:57:12 -0700 (PDT)
-Received: from kolhar.mtv.corp.google.com ([2620:15c:202:201:7220:84ff:fe09:2d4e])
-        by smtp.gmail.com with ESMTPSA id z10sm2317808pjz.49.2020.10.21.06.57.10
+        bh=zmZGMIPGGmtLtowrdMYO23WbB3s1asSBgU+m0EE+qT8=;
+        b=Q8VhHMh90VyWHuRovZg1L6u1f460W8F98tIgVTKqgKJY69YtrC+Nxs8Ce2sOM3Ducg
+         Lk4uQ5jBh14xDrQTX4F1XUWBNx66ECWN2AZuSBCzIT0bU53FdaPMOop8g/m8479A8Y18
+         ig75NUDuAZYFMtbEbTUisqXum2tdpYpStH29R02jfUsXMRZ7rx0runKj5sx9HiXV7vgF
+         itaAS9Vg+rorXw1EbAxvXqVEZIsRZC/OsuI5I5uchUCTnxB5rEUKRvUeXvIpwfPgQFxy
+         fcQRvRyYGzrj0zW9Q8tx8nZUz5Xp0xl8/K/yCcQuNBIdgvN6nvyWynJBaef4k7QtEc1p
+         K0sg==
+X-Gm-Message-State: AOAM532mi9HUu3iLFrP2ISeRK2Te09b0ZP3B7SXUje1u/U9ZF72IXKD6
+        qZsh2BG1WzCQNSOCG0losFeJvE1sJ/Iy4A==
+X-Google-Smtp-Source: ABdhPJxgXiLfVVGS1CVUIv3UPK1Ykt7ymME4AIy868lfIv7CRi+oitwagPm+kMMymcxj7wHx2GyD0g==
+X-Received: by 2002:a63:3004:: with SMTP id w4mr3606200pgw.249.1603290799359;
+        Wed, 21 Oct 2020 07:33:19 -0700 (PDT)
+Received: from localhost ([2001:e42:102:1532:160:16:113:140])
+        by smtp.gmail.com with ESMTPSA id hi22sm2384987pjb.21.2020.10.21.07.33.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2020 06:57:11 -0700 (PDT)
-From:   Harry Cutts <hcutts@chromium.org>
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     Harry Cutts <hcutts@chromium.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Wed, 21 Oct 2020 07:33:18 -0700 (PDT)
+From:   Coiby Xu <coiby.xu@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     =?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>,
         Jiri Kosina <jikos@kernel.org>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        linux-input@vger.kernel.org
-Subject: [PATCH] HID: logitech-hidpp: Add PID for MX Anywhere 2
-Date:   Wed, 21 Oct 2020 06:56:12 -0700
-Message-Id: <20201021135612.258558-1-hcutts@chromium.org>
-X-Mailer: git-send-email 2.29.0.rc1.297.gfa9743e501-goog
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] HID: i2c-hid: show the error of failing to fetch the HID Descriptor
+Date:   Wed, 21 Oct 2020 22:33:05 +0800
+Message-Id: <20201021143305.475182-1-coiby.xu@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-It seems that the PID 0x4072 was missing from the list Logitech gave me
-for this mouse, as I found one with it in the wild (with which I tested
-this patch).
+i2c_hid_probe should notify the user of the error of failing to fetch
+the HID Descriptor instead of silently exiting.
 
-Fixes: 4435ff2f09a2 ("HID: logitech: Enable high-resolution scrolling on Logitech mice")
-Signed-off-by: Harry Cutts <hcutts@chromium.org>
+Link: https://forum.manjaro.org/t/elan-touchpad-working-in-live-but-not-in-native-os/31860/55
+Cc: Barnabás Pőcze <pobrn@protonmail.com>
+Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
 ---
+ drivers/hid/i2c-hid/i2c-hid-core.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
- drivers/hid/hid-logitech-hidpp.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index b8b53dc95e86b..730036650f7df 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -3947,6 +3947,7 @@ static const struct hid_device_id hidpp_devices[] = {
- 	  LDJ_DEVICE(0x405e), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
- 	{ /* Mouse Logitech MX Anywhere 2 */
- 	  LDJ_DEVICE(0x404a), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
-+	{ LDJ_DEVICE(0x4072), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
- 	{ LDJ_DEVICE(0xb013), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
- 	{ LDJ_DEVICE(0xb018), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
- 	{ LDJ_DEVICE(0xb01f), .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+index 786e3e9af1c9..577d324be16d 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-core.c
++++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+@@ -1099,8 +1099,11 @@ static int i2c_hid_probe(struct i2c_client *client,
+ 	}
+ 
+ 	ret = i2c_hid_fetch_hid_descriptor(ihid);
+-	if (ret < 0)
++	if (ret < 0) {
++		dev_err(&client->dev,
++			"Failed to fetch the HID Descriptor\n");
+ 		goto err_regulator;
++	}
+ 
+ 	ret = i2c_hid_init_irq(client);
+ 	if (ret < 0)
 -- 
-2.29.0.rc1.297.gfa9743e501-goog
+2.28.0
 
