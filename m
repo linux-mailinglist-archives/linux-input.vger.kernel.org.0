@@ -2,187 +2,341 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BF64294B8B
-	for <lists+linux-input@lfdr.de>; Wed, 21 Oct 2020 12:56:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D631294DF1
+	for <lists+linux-input@lfdr.de>; Wed, 21 Oct 2020 15:49:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2410452AbgJUK4V (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Oct 2020 06:56:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60470 "EHLO
+        id S2443090AbgJUNts (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Oct 2020 09:49:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2410402AbgJUK4U (ORCPT
+        with ESMTP id S2439619AbgJUNtr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Oct 2020 06:56:20 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C23BC0613CE
-        for <linux-input@vger.kernel.org>; Wed, 21 Oct 2020 03:56:20 -0700 (PDT)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1kVBmx-0000ty-9f; Wed, 21 Oct 2020 12:56:15 +0200
-Received: from ore by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ore@pengutronix.de>)
-        id 1kVBmw-0007ZX-5t; Wed, 21 Oct 2020 12:56:14 +0200
-Date:   Wed, 21 Oct 2020 12:56:14 +0200
-From:   Oleksij Rempel <o.rempel@pengutronix.de>
-To:     "Ardelean, Alexandru" <alexandru.Ardelean@analog.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        David Jander <david@protonic.nl>
-Subject: Re: [PATCH v1] Input: ads7846: do not overwrite spi->mode flags set
- by spi framework
-Message-ID: <20201021105614.tc3jnv5g62hvl5vg@pengutronix.de>
-References: <20201021090434.16387-1-o.rempel@pengutronix.de>
- <DM6PR03MB44110236C07B05C243009E4CF91C0@DM6PR03MB4411.namprd03.prod.outlook.com>
+        Wed, 21 Oct 2020 09:49:47 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B45C1C0613CE;
+        Wed, 21 Oct 2020 06:49:47 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id b19so1261134pld.0;
+        Wed, 21 Oct 2020 06:49:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zVrTZQ3G6uTKScVNQhhmJVPbctK32CmRiu3rVC+ChtI=;
+        b=ZRtxDexzbtJrgyhr/682KnNDoyjRKja050S44Bvdo3xw/F+XIuAMEE0GwDbprQe4z4
+         C7VajrC1noMwnt7jb6Ue0z04io4DPMQ8vdhL8FkF3Wpi09VRe+aJjt5QGR1A3r8MurPQ
+         xW4vM2zdOUy9ay3uAqodmjB15oz5pHv8qyTzWetRw8bbEGSWDJV5viMo9GR38LEK8OaA
+         3mJkideOGWlUMI1OMrasHSiPkZLTnKkOpZjCaVkQxbCHWcyiOugHWDy3nXB4zIvAd4id
+         ehwoW7XVfpNfsE8p5dM1r7hs5IzypiDmkKV7VbKLhUNeKGexrWh0StHSm1YdpY0/AVMM
+         9Z5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zVrTZQ3G6uTKScVNQhhmJVPbctK32CmRiu3rVC+ChtI=;
+        b=ak4h6F48XN2f7qBsrMX2U3aW+3Nu32uhMxNRymRMHkP7LhaRqp5prus4T6+3ZmIf2t
+         6M+mM+uYd89X1Wsxwh0aWv2j+8mItMxZw078FosYGOGiGWPIvBLeww419XjBrqcwmgvp
+         3z0T7FREhl9/UTaePCzidpHsDdEpATVq5Jh4pddp8HZZKmh3QQfRT0MLEChNoMYGuQCj
+         pJqlviPgv73KKjrC+hfJK6b+O//RdSOONEoROHShR6BfGCBZEDG0+Uer0lX2we3NqJgj
+         F+WEuqqguWehtTy/CMtmF01sVrpDJwzangA70LYuDX4dqW+B7iCqMcXZUkHdTkFp9rSG
+         YqUw==
+X-Gm-Message-State: AOAM533i7Xm+Ay+Sb54C/ffI5UyRHvtd2tq8y/08DydTq1rNG4WZ0393
+        EeBV33iVPGIKwk5266MVQYOrE2+OCcQNoQ==
+X-Google-Smtp-Source: ABdhPJydzMyQuSuKSbd5W2xeT2ChmT5WNH8SkMgGWnGj6eAEnGQ5b8hIoP1pyxxIpCX4EuuQyb9PfA==
+X-Received: by 2002:a17:90b:4a83:: with SMTP id lp3mr3548856pjb.107.1603288186824;
+        Wed, 21 Oct 2020 06:49:46 -0700 (PDT)
+Received: from localhost ([2001:e42:102:1532:160:16:113:140])
+        by smtp.gmail.com with ESMTPSA id y14sm2425475pfe.107.2020.10.21.06.49.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Oct 2020 06:49:46 -0700 (PDT)
+From:   Coiby Xu <coiby.xu@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     Helmut Stult <helmut.stult@schinfo.de>,
+        =?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>,
+        stable@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v3] HID: i2c-hid: add polling mode based on connected GPIO chip's pin status
+Date:   Wed, 21 Oct 2020 21:49:31 +0800
+Message-Id: <20201021134931.462560-1-coiby.xu@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <DM6PR03MB44110236C07B05C243009E4CF91C0@DM6PR03MB4411.namprd03.prod.outlook.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 11:34:48 up 341 days, 53 min, 372 users,  load average: 0.04, 0.06,
- 0.06
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Oct 21, 2020 at 09:29:35AM +0000, Ardelean, Alexandru wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: Oleksij Rempel <o.rempel@pengutronix.de>
-> > Sent: Wednesday, October 21, 2020 12:05 PM
-> > To: Dmitry Torokhov <dmitry.torokhov@gmail.com>; Ardelean, Alexandru
-> > <alexandru.Ardelean@analog.com>
-> > Cc: Oleksij Rempel <o.rempel@pengutronix.de>; kernel@pengutronix.de; linux-
-> > kernel@vger.kernel.org; linux-input@vger.kernel.org; David Jander
-> > <david@protonic.nl>
-> > Subject: [PATCH v1] Input: ads7846: do not overwrite spi->mode flags set by spi
-> > framework
-> > 
-> > [External]
-> > 
-> > Do not overwrite spi->mode flags set by spi framework, otherwise the chip
-> > select polarity will get lost.
-> > 
-> > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> > ---
-> >  drivers/input/touchscreen/ads7846.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/input/touchscreen/ads7846.c
-> > b/drivers/input/touchscreen/ads7846.c
-> > index 8fd7fc39c4fd..ea31956f3a90 100644
-> > --- a/drivers/input/touchscreen/ads7846.c
-> > +++ b/drivers/input/touchscreen/ads7846.c
-> > @@ -1288,7 +1288,7 @@ static int ads7846_probe(struct spi_device *spi)
-> >  	 * may not.  So we stick to very-portable 8 bit words, both RX and TX.
-> >  	 */
-> >  	spi->bits_per_word = 8;
-> > -	spi->mode = SPI_MODE_0;
-> 
-> I think the patch is incorrect.
-> The initial version is correct; assuming that the datasheet says that this driver operates in mode 0.
-> If the initial mode is incorrect, maybe we need to change that.
-> 
-> What is unfortunate, is that you cannot [yet] override the mode parameters [polarity & phase] from the device-tree, in case there are some things in-between the SPI controller & SPI chip [level inverters for example].
-> I was planning to do something for this.
+For a broken touchpad, it may take several months or longer to be fixed.
+Polling mode could be a fallback solution for enthusiastic Linux users
+when they have a new laptop. It also acts like a debugging feature. If
+polling mode works for a broken touchpad, we can almost be certain
+the root cause is related to the interrupt or power setting.
 
-Current kernel (v5.9) is doing following work:
+When polling mode is enabled, an I2C device can't wake up the suspended
+system since enable/disable_irq_wake is invalid for polling mode.
 
-  of_register_spi_device()
-    of_spi_parse_dt()
-      /* this will parse dt and set different flags in spi->mode
-       * all of this flags are dropped by this driver
-       */
+Three module parameters are added to i2c-hid,
+    - polling_mode: by default set to 0, i.e., polling is disabled
+    - polling_interval_idle_ms: the polling internal when the touchpad
+      is idle, default to 10ms
+    - polling_interval_active_us: the polling internal when the touchpad
+      is active, default to 4000us
 
-        ...... and here we parse gpio properties ......
+User can change the last two runtime polling parameter by writing to
+/sys/module/i2c_hid/parameters/polling_interval_{idle_ms,active_us}.
 
-	/*
-	 * For descriptors associated with the device, polarity inversion is
-	 * handled in the gpiolib, so all gpio chip selects are "active high"
-	 * in the logical sense, the gpiolib will invert the line if need be.
-	 */
-	if ((ctlr->use_gpio_descriptors) && ctlr->cs_gpiods &&
-	    ctlr->cs_gpiods[spi->chip_select])
-		spi->mode |= SPI_CS_HIGH;
-        -------->  ^^^^^^^^
-	as you can see, if we use gpio as chip select, then the SPI_CS_HIGH
-	flag is set. And gpiolib make all needed level conversation.
+Cc: <stable@vger.kernel.org>
+Link: https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1887190
+Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
+---
+ drivers/hid/i2c-hid/i2c-hid-core.c | 145 +++++++++++++++++++++++++++--
+ 1 file changed, 135 insertions(+), 10 deletions(-)
 
-Since this diver is removing SPI_CS_HIGH flag, we have fallowing call
-sequence:
+diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+index 786e3e9af1c9..e44237562068 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-core.c
++++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+@@ -36,6 +36,8 @@
+ #include <linux/hid.h>
+ #include <linux/mutex.h>
+ #include <linux/acpi.h>
++#include <linux/kthread.h>
++#include <linux/gpio/driver.h>
+ #include <linux/of.h>
+ #include <linux/regulator/consumer.h>
 
-spi_set_cs(, enable)                                        <---- 1
-  ....
-  if (spi->cs_gpiod || gpio_is_valid(spi->cs_gpio)) {
-     ....
-     gpiod_set_value_cansleep(, !enable);                   <---- 0
-       gpiod_set_value_nocheck()
-         if (test_bit(FLAG_ACTIVE_LOW, &desc->flags))
-	   value = !value;                                  <---- 1
+@@ -60,6 +62,25 @@
+ #define I2C_HID_PWR_ON		0x00
+ #define I2C_HID_PWR_SLEEP	0x01
 
++/* polling mode */
++#define I2C_HID_POLLING_DISABLED 0
++#define I2C_HID_POLLING_GPIO_PIN 1
++#define I2C_HID_POLLING_INTERVAL_ACTIVE_US 4000
++#define I2C_HID_POLLING_INTERVAL_IDLE_MS 10
++
++static u8 polling_mode;
++module_param(polling_mode, byte, 0444);
++MODULE_PARM_DESC(polling_mode, "How to poll - 0 disabled; 1 based on GPIO pin's status");
++
++static unsigned int polling_interval_active_us = I2C_HID_POLLING_INTERVAL_ACTIVE_US;
++module_param(polling_interval_active_us, uint, 0644);
++MODULE_PARM_DESC(polling_interval_active_us,
++		 "Poll every {polling_interval_active_us} us when the touchpad is active. Default to 4000 us");
++
++static unsigned int polling_interval_idle_ms = I2C_HID_POLLING_INTERVAL_IDLE_MS;
++module_param(polling_interval_idle_ms, uint, 0644);
++MODULE_PARM_DESC(polling_interval_idle_ms,
++		 "Poll every {polling_interval_idle_ms} ms when the touchpad is idle. Default to 10 ms");
+ /* debug option */
+ static bool debug;
+ module_param(debug, bool, 0444);
+@@ -158,6 +179,8 @@ struct i2c_hid {
 
-So, at the end, we set GPIO to 1, even if DTS configured it as ACTIVE_LOW.
-You may probably suggest to set gpio in DTS to active ACTIVE_HIGH. In
-this case we would run it to following snippet:
-of_get_named_gpiod_flags()
-  of_gpio_flags_quirks()
-    if (IS_ENABLED(CONFIG_SPI_MASTER) && !strcmp(propname, "cs-gpios")..
-	/*
-	 * SPI children have active low chip selects
-	 * by default. This can be specified negatively
-	 * by just omitting "spi-cs-high" in the
-	 * device node, or actively by tagging on
-	 * GPIO_ACTIVE_LOW as flag in the device
-	 * tree. If the line is simultaneously
-	 * tagged as active low in the device tree
-	 * and has the "spi-cs-high" set, we get a
-	 * conflict and the "spi-cs-high" flag will
-	 * take precedence.
-	 */
-	if (of_property_read_bool(child, "spi-cs-high")) {
-		if (*flags & OF_GPIO_ACTIVE_LOW) {
-			pr_warn("%s GPIO handle specifies active low - ignored\n",
-				of_node_full_name(child));
-			*flags &= ~OF_GPIO_ACTIVE_LOW;
-		}
-	} else {
-		if (!(*flags & OF_GPIO_ACTIVE_LOW))
-			pr_info("%s enforce active low on chipselect handle\n",
-				of_node_full_name(child));
-		*flags |= OF_GPIO_ACTIVE_LOW;
-	}
+ 	struct i2c_hid_platform_data pdata;
 
-As you can see, I would need to configure my dts with spi-cs-high flag,
-even if the hardware is actually ACTIVE_LOW. If I will go this way, I
-would risk a regression as soon as this issue is fixed.
++	struct task_struct *polling_thread;
++
+ 	bool			irq_wake_enabled;
+ 	struct mutex		reset_lock;
+ };
+@@ -772,7 +795,9 @@ static int i2c_hid_start(struct hid_device *hid)
+ 		i2c_hid_free_buffers(ihid);
 
-Since the spi framework is already parsing devicetree and set all needed
-flags, I assume it is wrong to blindly drop all this flags in the
-driver.
+ 		ret = i2c_hid_alloc_buffers(ihid, bufsize);
+-		enable_irq(client->irq);
++
++		if (polling_mode == I2C_HID_POLLING_DISABLED)
++			enable_irq(client->irq);
 
-> > +	spi->mode |= SPI_MODE_0;
-> >  	err = spi_setup(spi);
-> >  	if (err < 0)
-> >  		return err;
-> > --
-> > 2.28.0
+ 		if (ret)
+ 			return ret;
+@@ -814,6 +839,91 @@ struct hid_ll_driver i2c_hid_ll_driver = {
+ };
+ EXPORT_SYMBOL_GPL(i2c_hid_ll_driver);
 
-Regards,
-Oleksij
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
++static int get_gpio_pin_state(struct irq_desc *irq_desc)
++{
++	struct gpio_chip *gc = irq_data_get_irq_chip_data(&irq_desc->irq_data);
++
++	return gc->get(gc, irq_desc->irq_data.hwirq);
++}
++
++static bool interrupt_line_active(struct i2c_client *client)
++{
++	unsigned long trigger_type = irq_get_trigger_type(client->irq);
++	struct irq_desc *irq_desc = irq_to_desc(client->irq);
++	ssize_t	status = get_gpio_pin_state(irq_desc);
++
++	if (status < 0) {
++		dev_warn(&client->dev,
++			 "Failed to get GPIO Interrupt line status for %s",
++			 client->name);
++		return false;
++	}
++	/*
++	 * According to Windows Precsiontion Touchpad's specs
++	 * https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/windows-precision-touchpad-device-bus-connectivity,
++	 * GPIO Interrupt Assertion Leve could be either ActiveLow or
++	 * ActiveHigh.
++	 */
++	if (trigger_type & IRQF_TRIGGER_LOW)
++		return !status;
++
++	return status;
++}
++
++static int i2c_hid_polling_thread(void *i2c_hid)
++{
++	struct i2c_hid *ihid = i2c_hid;
++	struct i2c_client *client = ihid->client;
++	unsigned int polling_interval_idle;
++
++	while (1) {
++		if (kthread_should_stop())
++			break;
++
++		while (interrupt_line_active(client) &&
++		       !test_bit(I2C_HID_READ_PENDING, &ihid->flags) &&
++		       !kthread_should_stop()) {
++			i2c_hid_get_input(ihid);
++			usleep_range(polling_interval_active_us,
++				     polling_interval_active_us + 100);
++		}
++		/*
++		 * re-calculate polling_interval_idle
++		 * so the module parameters polling_interval_idle_ms can be
++		 * changed dynamically through sysfs as polling_interval_active_us
++		 */
++		polling_interval_idle = polling_interval_idle_ms * 1000;
++		usleep_range(polling_interval_idle,
++			     polling_interval_idle + 1000);
++	}
++
++	do_exit(0);
++	return 0;
++}
++
++static int i2c_hid_init_polling(struct i2c_hid *ihid)
++{
++	struct i2c_client *client = ihid->client;
++
++	if (!irq_get_trigger_type(client->irq)) {
++		dev_warn(&client->dev,
++			 "Failed to get GPIO Interrupt Assertion Level, could not enable polling mode for %s",
++			 client->name);
++		return -EINVAL;
++	}
++
++	ihid->polling_thread = kthread_create(i2c_hid_polling_thread, ihid,
++					      "I2C HID polling thread");
++
++	if (!IS_ERR(ihid->polling_thread)) {
++		pr_info("I2C HID polling thread created");
++		wake_up_process(ihid->polling_thread);
++		return 0;
++	}
++
++	return PTR_ERR(ihid->polling_thread);
++}
++
+ static int i2c_hid_init_irq(struct i2c_client *client)
+ {
+ 	struct i2c_hid *ihid = i2c_get_clientdata(client);
+@@ -1007,6 +1117,15 @@ static void i2c_hid_fwnode_probe(struct i2c_client *client,
+ 		pdata->post_power_delay_ms = val;
+ }
+
++static void free_irq_or_stop_polling(struct i2c_client *client,
++				     struct i2c_hid *ihid)
++{
++	if (polling_mode != I2C_HID_POLLING_DISABLED)
++		kthread_stop(ihid->polling_thread);
++	else
++		free_irq(client->irq, ihid);
++}
++
+ static int i2c_hid_probe(struct i2c_client *client,
+ 			 const struct i2c_device_id *dev_id)
+ {
+@@ -1102,7 +1221,11 @@ static int i2c_hid_probe(struct i2c_client *client,
+ 	if (ret < 0)
+ 		goto err_regulator;
+
+-	ret = i2c_hid_init_irq(client);
++	if (polling_mode != I2C_HID_POLLING_DISABLED)
++		ret = i2c_hid_init_polling(ihid);
++	else
++		ret = i2c_hid_init_irq(client);
++
+ 	if (ret < 0)
+ 		goto err_regulator;
+
+@@ -1141,7 +1264,7 @@ static int i2c_hid_probe(struct i2c_client *client,
+ 	hid_destroy_device(hid);
+
+ err_irq:
+-	free_irq(client->irq, ihid);
++	free_irq_or_stop_polling(client, ihid);
+
+ err_regulator:
+ 	regulator_bulk_disable(ARRAY_SIZE(ihid->pdata.supplies),
+@@ -1158,7 +1281,7 @@ static int i2c_hid_remove(struct i2c_client *client)
+ 	hid = ihid->hid;
+ 	hid_destroy_device(hid);
+
+-	free_irq(client->irq, ihid);
++	free_irq_or_stop_polling(client, ihid);
+
+ 	if (ihid->bufsize)
+ 		i2c_hid_free_buffers(ihid);
+@@ -1174,7 +1297,7 @@ static void i2c_hid_shutdown(struct i2c_client *client)
+ 	struct i2c_hid *ihid = i2c_get_clientdata(client);
+
+ 	i2c_hid_set_power(client, I2C_HID_PWR_SLEEP);
+-	free_irq(client->irq, ihid);
++	free_irq_or_stop_polling(client, ihid);
+ }
+
+ #ifdef CONFIG_PM_SLEEP
+@@ -1195,15 +1318,16 @@ static int i2c_hid_suspend(struct device *dev)
+ 	/* Save some power */
+ 	i2c_hid_set_power(client, I2C_HID_PWR_SLEEP);
+
+-	disable_irq(client->irq);
++	if (polling_mode == I2C_HID_POLLING_DISABLED)
++		disable_irq(client->irq);
+
+-	if (device_may_wakeup(&client->dev)) {
++	if (device_may_wakeup(&client->dev) && polling_mode == I2C_HID_POLLING_DISABLED) {
+ 		wake_status = enable_irq_wake(client->irq);
+ 		if (!wake_status)
+ 			ihid->irq_wake_enabled = true;
+ 		else
+ 			hid_warn(hid, "Failed to enable irq wake: %d\n",
+-				wake_status);
++				 wake_status);
+ 	} else {
+ 		regulator_bulk_disable(ARRAY_SIZE(ihid->pdata.supplies),
+ 				       ihid->pdata.supplies);
+@@ -1220,7 +1344,7 @@ static int i2c_hid_resume(struct device *dev)
+ 	struct hid_device *hid = ihid->hid;
+ 	int wake_status;
+
+-	if (!device_may_wakeup(&client->dev)) {
++	if (!device_may_wakeup(&client->dev) || polling_mode != I2C_HID_POLLING_DISABLED) {
+ 		ret = regulator_bulk_enable(ARRAY_SIZE(ihid->pdata.supplies),
+ 					    ihid->pdata.supplies);
+ 		if (ret)
+@@ -1237,7 +1361,8 @@ static int i2c_hid_resume(struct device *dev)
+ 				wake_status);
+ 	}
+
+-	enable_irq(client->irq);
++	if (polling_mode == I2C_HID_POLLING_DISABLED)
++		enable_irq(client->irq);
+
+ 	/* Instead of resetting device, simply powers the device on. This
+ 	 * solves "incomplete reports" on Raydium devices 2386:3118 and
+--
+2.28.0
+
