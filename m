@@ -2,92 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 51DCA2952C3
-	for <lists+linux-input@lfdr.de>; Wed, 21 Oct 2020 21:11:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9A732953FE
+	for <lists+linux-input@lfdr.de>; Wed, 21 Oct 2020 23:16:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438170AbgJUTLW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Oct 2020 15:11:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52504 "EHLO
+        id S2505968AbgJUVQw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Oct 2020 17:16:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2409009AbgJUTLW (ORCPT
+        with ESMTP id S2505965AbgJUVQw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Oct 2020 15:11:22 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF818C0613CE;
-        Wed, 21 Oct 2020 12:11:21 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id a7so4469944lfk.9;
-        Wed, 21 Oct 2020 12:11:21 -0700 (PDT)
+        Wed, 21 Oct 2020 17:16:52 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2676EC0613CE;
+        Wed, 21 Oct 2020 14:16:52 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id b26so2250340pff.3;
+        Wed, 21 Oct 2020 14:16:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RCshK3M4udSA0kpWWZPjCFazMoUFiZb71kFWv+5y9v8=;
-        b=ubX1axnYMdBQbOxOqFsPd4Ij95x5LYE09iUx3I/KyZjjJLGGgndmXabyt/7rvqdmiQ
-         dJb1V8skO+QLh7IAOWyI2XajqSsn36nBE1lxWGzcWM5zVx//cg+imwggm4baYKqUXjjn
-         pjlVltvfc2ud2jvFeo7VzdzA4d531saIqV9fbKz/h4D/UqWr3BhdDrHAy2ICC77SnWvd
-         5Y5A4Ped/zrRY1KQN+0iE7hJ1nlFxxhlglTDtbTHiEB3z0/o4NyFNMDME88reOuu+nz/
-         TZN4BX+EPQ4QxN/GyFokS1ClQNsqjdGPnUrvYSlxvrSCtVCoS2NuunkT5YqQYP2wqgEt
-         C/kQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=LjEMR+RvxUAU+81ZngdDVY7KFUetPWRBhlcZRlrbWTM=;
+        b=OtbvTaTjOhxeRj3LLmn0KyRuvranTgvXawtEOjZbnyotpxY/yFBKBDbhU6sQm9W8uo
+         P24+/ASmVuB5gdow7ePMK6A9yX2X1qxSk2zISwUb8c95FEEaQqpLfmtUQ5TCzKJX2gsA
+         PypaNLGZuELOxxK+ZZPpopI/C0H0tIvoB3Io9tinImcbXlh2+Z6HEs3pUGMcLFQtnbRY
+         hdfsm5Ur3YVJRk6aOXt3lkChUWbsCKVb9h73Wy9s1sqm77daomwV2dIThXhggmtPCT7f
+         4rFuvUEYn+VejbcKX8h21n5LdGGdwOIGQ2li02jMh6y1Z24iMOf3SeOHX7PPQM1+2hhi
+         ZwBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RCshK3M4udSA0kpWWZPjCFazMoUFiZb71kFWv+5y9v8=;
-        b=KCWsKXIKZuDGdI4JYOl160FL+LoDqfElcR3Qzf4JuK2c4jhaKWJMUfWxyzMzRAFfgU
-         gxq+Je9o5Bua6gzQMAsVwMM7F7muzSnxMpvnJVLacNwMW6LpWvnHnKkt+pimjqeR7hAx
-         q3f/3mey7z4rvUoQEg4SBFT6IuXCILF+AupT+jzP29X1q4w7dhvyjL0/hMv8zgoTX9qB
-         QHmZLjMjnz8Rkk5ZH4YbhA3Uu1kw4QClgQKrECMtWLxKZhjB7d23Sv9U2hhKiPqJ2ZR4
-         xsYZf31GO4Cy5K/ULuZAN2ZTNTuIDNqGvuI3ZDXKM/hPrRSRNbjCIM/k87JFAaCZc3Ac
-         xa5w==
-X-Gm-Message-State: AOAM53218dqiUON3rDauWH6VkihfuYfzGxAF0pwFWDAykmCTYwHFuXSC
-        qQ0+NS6ZlkN8uwSPZEQSkl1KIoLL6tYXDCIgLoI=
-X-Google-Smtp-Source: ABdhPJwJeuIx13ndXi6SItY4Tf2f4ob7L0nOMpL8/Dkwxx7ppk/31oDfLYa21E4D7Rtdez4WzQ3rBSgufTnUo1Me7kU=
-X-Received: by 2002:ac2:44a4:: with SMTP id c4mr1833700lfm.365.1603307480086;
- Wed, 21 Oct 2020 12:11:20 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=LjEMR+RvxUAU+81ZngdDVY7KFUetPWRBhlcZRlrbWTM=;
+        b=sXmx1PhzLKzlpcm7WhyVyMgFV5M6R1mRaFhIy7V06fhICMZ7RX4MRoVmGVrvH4de4q
+         u5FqDZhXhqDg3aLdIut0hl7EZ/tUF7V9tw4xXVfCAM/YeZ7DYSC0BZzy/FhpntLlBErc
+         F2ex7KMJnpeYwn029DRic2ZYy+McM2hEI9cN511kJ1IDS4Jz9SzvhDm18Z1391XP0cZP
+         IJXShAyQiEUzbvaMkyblUkhagEnREQkEe2Wfk/W22Q+DSYn6y2bsWFOFbZ8SV3b7dtoS
+         hgxORje5/0+mhfcRps34N4BUVJv+3P52jnC6CAPX2Dw0GzkHMtimW6VjM1DdN0n51ZSJ
+         AXEQ==
+X-Gm-Message-State: AOAM530UkjrRNSq2hHChwuD1OMN467JYVsIkdMKEx/fzQVK/LpxfeOaX
+        brVyOBBrTR8wm1+TKSAiE+k=
+X-Google-Smtp-Source: ABdhPJz/NqKws5TvHKaVDM4XPLrDvxcZl5xFUdIaq1uNYBQ5nklC6g8p6qIR/7jawo+ZMj/hDJJM+w==
+X-Received: by 2002:a62:1b02:0:b029:154:fdbe:4d2a with SMTP id b2-20020a621b020000b0290154fdbe4d2amr5382913pfb.27.1603315011599;
+        Wed, 21 Oct 2020 14:16:51 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id s20sm3189870pfc.201.2020.10.21.14.16.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Oct 2020 14:16:50 -0700 (PDT)
+Date:   Wed, 21 Oct 2020 14:16:48 -0700
+From:   dmitry.torokhov@gmail.com
+To:     kholk11@gmail.com
+Cc:     robh+dt@kernel.org, rydberg@bitmath.org, priv.luk@gmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        marijns95@gmail.com, konradybcio@gmail.com,
+        martin.botka1@gmail.com, phone-devel@vger.kernel.org,
+        devicetree@vger.kernel.org, krzk@kernel.org
+Subject: Re: [PATCH v5 2/3] Input: Add Novatek NT36xxx touchscreen driver
+Message-ID: <20201021211648.GE444962@dtor-ws>
+References: <20201017190152.12780-1-kholk11@gmail.com>
+ <20201017190152.12780-3-kholk11@gmail.com>
 MIME-Version: 1.0
-References: <20201019130532.19959-1-jandryuk@gmail.com>
-In-Reply-To: <20201019130532.19959-1-jandryuk@gmail.com>
-From:   Jason Andryuk <jandryuk@gmail.com>
-Date:   Wed, 21 Oct 2020 15:11:07 -0400
-Message-ID: <CAKf6xptMj9VdS8oo_pQcJT1zRPZ2fXJR7_ifiSXo=TqtBgnc2Q@mail.gmail.com>
-Subject: Re: [PATCH] hid-mt: Fix Cirque 121f touch release
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Henrik Rydberg <rydberg@bitmath.org>
-Cc:     stable@vger.kernel.org, linux-input@vger.kernel.org,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201017190152.12780-3-kholk11@gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Oct 19, 2020 at 9:05 AM Jason Andryuk <jandryuk@gmail.com> wrote:
->
-> We're seeing the touchpad not send all the touch release events.  This
-> can result in the cursor getting stuck generating scroll events instead
-> of cursor movement for single finger motion.  With the cursor not
-> moving, users think the trackpad is broken.  With libinput-record, you
-> can see that it doesn't always get to a neutral state when there are no
-> fingers on the touchpad.
->
-> MT_QUIRK_STICKY_FINGERS was insufficient alone.  The timer often didn't
-> fire to release all the contacts.  MT_QUIRK_NOT_SEEN_MEANS_UP seems to
-> help with tracking the touches, and allows the timer to fire properly
-> when needed.
->
-> You can reproduce by touching the trackpad with 4 fingers spread out,
-> then pulling them all together and removing from the track pad.
+Hi AngeloGioacchino,
 
-<snip>
+[obviously not a complete review, but wanted to call out regmap concern]
 
-> ---
-> This is developed and tested against 5.4 and forward ported to latest
-> upstream.
+On Sat, Oct 17, 2020 at 09:01:51PM +0200, kholk11@gmail.com wrote:
+> +static int nt36xxx_read_pid(struct nt36xxx_i2c *ts)
+> +{
+> +	u8 buf[2] = { 0 };
 
-I installed Fedora 32 with kernel 5.6.6 to test out some other stuff,
-and it is not reproducing with the steps above.  Is there some other
-change that may have fixed the release tracking?  I was definitely
-seeing it with 5.4.72.
+	__be16 pid;
 
-Regards,
-Jason
+> +	int ret = 0;
+> +
+> +	ret = nt36xxx_set_page(ts, ts->mmap->evtbuf_addr);
+> +	if (unlikely(ret < 0))
+> +		return ret;
+
+regmap is supposed to help with the paged registers, that is why I
+recommended using it.
+
+> +
+> +	ret = regmap_noinc_read(ts->fw_regmap, NT36XXX_EVT_PROJECTID,
+> +				buf, sizeof(buf));
+> +	if (unlikely(ret < 0))
+> +		return ret;
+> +
+> +	ts->fw_info.nvt_pid = (buf[1] << 8) + buf[0];
+
+	ts->fw_info.nvt_pid = be16_to_cpu(pid);
+
+Thanks.
+
+-- 
+Dmitry
