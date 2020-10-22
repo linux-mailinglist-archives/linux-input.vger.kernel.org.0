@@ -2,167 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D568F2964E1
-	for <lists+linux-input@lfdr.de>; Thu, 22 Oct 2020 20:52:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF63C296773
+	for <lists+linux-input@lfdr.de>; Fri, 23 Oct 2020 00:52:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S369765AbgJVSwr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Oct 2020 14:52:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46014 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S369695AbgJVSwr (ORCPT
+        id S373098AbgJVWwU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Oct 2020 18:52:20 -0400
+Received: from sonic312-26.consmr.mail.ir2.yahoo.com ([77.238.178.97]:33034
+        "EHLO sonic312-26.consmr.mail.ir2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S373094AbgJVWwU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Oct 2020 14:52:47 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12E27C0613CE;
-        Thu, 22 Oct 2020 11:52:47 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id 144so1732850pfb.4;
-        Thu, 22 Oct 2020 11:52:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UPboJfWy2G3Fl7hwjyzYX4I9qIst4Uk/OLfG5LU/e2E=;
-        b=VtKxX3880Ktn0xTFSYzIwEDHPTS945FNbgy5Gr9ePYlOcjKHowJfessighc9v6F0en
-         LuknoiQUlSBxsAQPLJLt/drziu0AAwrOEzyhUcwmwHsfzlAgokLQ53YfZOV0mJ1FzJeD
-         V/RcTixiSCbFKJCyLRQHl4yc2COxVriX0ZwYQmav4pYgvvT+EjnkpaVicrejbnDloVIk
-         X69NaHzfPbEZYDyIKTszJJWoesjJRt/Mfyo263Y91yBXzQopSm8wFrQjL6KANAn1UNJ9
-         np8MAbILaQqiWKg9w2R6c4aSkw1MLko9EBT4X7A/ELdcmFYyNndVmSZdwaD+9LAAHuWE
-         zOiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UPboJfWy2G3Fl7hwjyzYX4I9qIst4Uk/OLfG5LU/e2E=;
-        b=QCHyybLgWy+uSZjDMOQfwQ9xYEzADSD75z5wEMBomOjtmm9r/b+C26EwGLXP/wI7nO
-         xDgwK7OGpq9vOQlQr7+S5GEadS33taigGK9huM7HEN7ELvm+TH3kgMYhD+kfticC++I5
-         H9qN9tUCez4zfgZH1cuMQVrwRXsKbwlm883NMfJ9CjHG1FKmpW9qKzt88dreAFF1jVBd
-         YgNxDgUFGH8X0GvhsuQpDR1hui0XVKSir8rUuGIhl64hS6nhrm1HJwge+W+43yCZ6YuK
-         PlPT/KX+4/xzbChG4PWUHjxzpDfagGME5JoVbrvO5ubE+BdQ48DB5jd0K82jTtXcv5fV
-         SRyw==
-X-Gm-Message-State: AOAM533Ej2/Bk1d6zWrsO7HFpPnOcNpULMFogtjhxHSP6Vv39xp/8IEU
-        FOXukWDUmZQgpiyVz2ML4wJqXmPvMOF8ibruUUM=
-X-Google-Smtp-Source: ABdhPJxuxwguwZIz0oJ2B/3sUWcXzpnVtRm/MOSafV+Mdym/oG+j6niWLg7KAllKTq7L+Rkez2tw5MM5pbQzsafKqk0=
-X-Received: by 2002:a05:6a00:22c2:b029:156:543:7c1d with SMTP id
- f2-20020a056a0022c2b029015605437c1dmr3771716pfj.40.1603392766581; Thu, 22 Oct
- 2020 11:52:46 -0700 (PDT)
+        Thu, 22 Oct 2020 18:52:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1603407137; bh=k6qD474V9VtXKDobcCBmjOJywgarZvgPlTt0r+34qBY=; h=Date:From:Reply-To:Subject:References:From:Subject; b=f+J1Vpn4nNhoywsdolzXqQSerY/WecWc2WwY44CEVw59EHptyfk/44/HyhWpB2Ju3WZ3e0szVUCsJu09rdmJohgFITykhE4QIh/YKbQGG+bbLtdRhmXejU8+gZQGQSGCo95h2vHnldg+jtw9+evS+0vzcLzWxENKAy9e60E6CKFl41ll+o1+T3DoMWong3Aw1x0qw/Dzjwz8Di7RgLZ9BGbQR/TqFyk5r94Y+tMOQAmEz6051+AM+4zRQ1R/zY/eVuQnLWjiTp0TChJgHB5p/P6GmWjMF6LJmuo7KDxkXfv30L55DAv44avVmcj0oX7SNRYmhWF8yTXgdH//GB6c6A==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1603407137; bh=ZHF2W7tjuX5LhrFp5LNn8q25V53oM1MrKUBcjEs95yz=; h=Date:From:Subject; b=sp9S38slb02DzUgy/60zPpFHB3QKNWvW6A4C8zzDOUohYKaPa/GvBwHULNt+Z6aD46EtUU2OpeH207MnV/80qGOA34rrIuKISFEiJOABgD8OBWkw0Cfds7IG3pYcZdkI/zuDVlDR+uq5TiUknxwMrzUgZyJxG7iJKAlT8Kfj10GJD/fN1GlztvbxLPix2nmgWJzv/R3PSThjsa3G9BfqPgOGnFr2zsMlZqeNl/RtzOWd5NHpVFfAeGqfsP1s0T5IFH9Ql4E5U27Zqh59GZgvSLEh7nKJrc0Tm11JmZ0o2yvIegbQc/485/Rzc0JZnvoPV5YW5Q3DuAa+WJ7ST2fd7A==
+X-YMail-OSG: 0L1yc5wVM1kGCYRpR6lUW3cmtX61o2WPHXr_uogMhTkhqVF.YHX5F.Q8gV5acIs
+ Fwh9rjwCBTQmAOXSJR51sqwk6tXfoheZUXvkjfMYqqjBZyiLdKBlqSF0BqU1Wfow9lGtd_4MyjVF
+ UVQinuWlZfkrKxT.2CePqA7gfyBpS8YL8_mrcwKrTDCdJBkFcDL823M3Qr2LZW5z4ukuox5OoYXs
+ MpP5_rRscH_qHPAflkB3c193EqObG03xPyc4sENrdTOqeufb.xHDgLWy3r5oILbMsOvd7NQSyVgl
+ Y9RkfsFKHGivk0VjXtmSwP9_HzfYUfpnRTTMd56cCLi.7_GI2Um0Ani30rih.vvgIsFQr2iQyS9k
+ O1EQHbpkGv4cmoa6WiIJoW_vqpE3s_5677H5BBFMnKWk7J27pCzzZ6nXeme26a37Rej9cP0K9XUt
+ Pt81kLfZVudpXiqD4Wo_XoBv5Qsw9RKRuJCzvGEjjwTmenugXNTnyeUTZwu5TMOOjUYjtWu41f8o
+ Bel2Ds0Z7Fhn.Xd2U_gJVt0FngpFncWQW7fCbhB8QqKAmabaNrbNU1HBAYklM2El8q8mSLoRxmtY
+ RMbhDX4uoxr6ckfqUeh_BNVwmTJ7aaJbybM5m31l4RunGK.DotNbUc0CZJCTEYkNRop2nZjspJu7
+ wYmh1VUUomQOE_Na38x9eQsypv6ord12ml6IiCOCJPf23k1507KclNTbTYGqTS.H3roVsr7W3FQd
+ GAIN0uQ9GK2QYHPJ2efX2b8ddUAayxpbHh843_sthhXiJ8QKkTMTclWC342ojivJsZ633M11_qhh
+ 3GYCVp0SXRmsLVVrZK7wshqevkkzVFXAEtW.j6T5J9Y9214TRce4a0KWtJH0Qh3fqKvT_e03eAcp
+ bd473EVzYIZvag1IkpwHMH9fvdRI.1uQQ11dfodDKFT3HN_xu0eFAERs8BBoA6XF07R9Yxp7sIRP
+ aEnmJZeZRm2k4cu0o0uRhKsQbn4YG9XtqkJg5Bu7H8kIEkrGR6dTPZRsDymX8Jx.IqmUw_UIKeCo
+ heALmBtWoP75fWdGEkc3c4MCInhsriupQT2gqmRKcsWX4MEijI8cpVqZNZg4uPHEIPvzrjDKayFW
+ FDRwYC9N65kYpSg4rLueRfRkcgDBML4IDPu7SZegrHTh0t6hm8V4zIrCjKfyQ04VhETScewhbC6z
+ QRiz89tdFPpx9GEg13rMyW9GADgSHD5NirzpihEfBwobjmfjXblixMgl.hXlMG0qRTdPbp6VRc2E
+ LWScr8ZPqMGhqIXctL4t01NvOk0vv3mRgw7rYthUNYympWei.qhmCAENbEue.YCh_q8VWF_5JoS6
+ sWT2fzHffTqoQ6YNHOLP0QP2xNFPlynudwL4EAubM6WJZS4_VJUn5n2edsdN1zqBbSxFUdykGpaJ
+ C6T7EHalBonlCJZ7CdEZcOls2P6LiXSMGZuwaUPWZV9drvKmiQM5BLFqa67IGBJhlHhDUPLT8ily
+ GAAzpTCitO.ouvYbSeBvrQqArdNKN18bb1xd7yyw3XPRLiP__piaJ22WXD5YAViUja2i2GVRhTbd
+ r7vp4f3fKGv2znN1_vbM6hbcxuZBa6ROUeDkcybX7jbzYD7dSrq.K8IOC4WFX7S5sRIvclCATLiU
+ MGYew7mF2e1W_MKpYe0LHn47pn_xTOUiajaGZ_x6XNHLkm9siv4FrAonYOBMN8Ohrkmhb91fgEl9
+ oHL8wVQPskASWAAZWqTfFv.2Fm5zwI_kgl1tWHK9HImueOVyYWqwQcs06L1XPMaZUihuKl3ijn0z
+ VuCOxUIPqe4b1p9v3O3lSmo6Kf8Z4grXuyiHUp_jUtKTEqhiUEAFiPmaiLXCYvXDpg6PD68Vw_aT
+ RANQpTbVXnDupW_yRZFP.rCoJZdpnhCw1IFUDoJrqTCiXQR9GeNZQvfLijJp95caJObpg1AxrJPp
+ DDbZ3JvgVcy0yWhBNrQxB9TiZlBEdTZusV4I2KBVLXLlmavyUrs8T2Hmef5b5RnSiB3T4YUTHTuY
+ 7oJR681804Ag0.BgbPLsYCMwAe.67UcjAPknquJL7n1G..U6Jx8_4a21eW3Za_uHIRTuQ8SjypXd
+ mpzPfXXJTe7c9yw1BuRLgeDQ10vZpEIGh.tqoTlWMEa_nIKV6FHqfonGKC1BQNPubvVYYaews4Bs
+ M.YKR5ZEUWFMBnbcscdEqiXKgQkCe3otXmTD_aGT7w0qrySesCieJpoObn0Ts173HURlqaDz2wV2
+ hC9LSAP89NWEGn9KLp2eUX598Kl4ZWlums1_fOXQkA0iys5XYQfzrpKeS40NkiPG_AwlwEqyFq8a
+ pozLHqhDlp1y48lNCtY5TSGDTiQ4.UTipvpOLw9u_OCxDw2IURm30tCd22.I75i0mXt4zadcDube
+ iKoMUaFNJlaDhPOAN8uCbaiyX4DSwIkHyFN4fht5erChqlLadMm834q2jO2qFMB2Cb8NkvBTjf.R
+ OrR_SKw6REMaQn5yCwA72SJe_ASnnF2HMcbV2LT7Ygu8r6kNZmyBqP1p3VzfFg1DekfsP.q.MwoQ
+ _OfbFVxHOahQ9j5L8MdgyKAJmnnxT5WLQFLLmRnMkWmMbD2i2U45CHYtAhv88a6Wx7cYMvHGlpV5
+ LIE984au0BxalW.V1gkhQ1Ovjm_H56fna0k4wfH0Bght4QrTyYfL9noVF.mW2J95LeNFmVfcKeJl
+ 5x0cxUsBjGJMeqHQfDCQckDV54s3irQztcVhiM9p7DZksmb9L1LvWeVRFPOfzZ3M5jo464GvcO4I
+ Xtui7hPmZ90V0.HmVmy7G1WINBhsPslWwRBYj.qhj2mqja1.burEEfovhoEY_ILX9MKZoMtnY5Lw
+ HJPxgSyi79lb5gyLkJvIh0qC0.mLw71t2gbzMxYHjW1eR9Ut.d2OuCZgneRgbdsilqjUXqQa5lZl
+ GY_nGv6L56CPm1HHHbpT0hTYIVEjnv8SzkarEtUnyo4ov3HqNlBvtE1hNad40ByGdP7bONFptUsp
+ Kh88yWTYawVQRwQLFGlJJfLqvP52KQu5yiqpU_kmsCJHo.3IoV0lttjq.bPQJMCI1qajfHi.AyWh
+ 7OQ2_utYLkNqRg6zGg5vC8hbDLFqf2OkZ6qofVpSP6lUPX8Xai5I2MYMGJTJUnOuceaJY6J.Lw6Q
+ rOr_3St9_22DCO46rVrLa_6Mr_7H4X4DbCCystO7kYf8t6Od4lgdHNi9qO0YIRYQnCFrgugSEAix
+ yGGFZW8Z1tonx2qCN4XG14FcMi1qzEvBsTCf22f_E9xIudcD4T32RSADyKnXnJ4ptIG9lNvu2GHA
+ MPwL7chaoq3NeBLpQQ8v6d1p09gSvV1ozhBAwAXO.CbGquTzhsLJ3QfNp.y0A6k1UvZFdtqtzTYD
+ s6ORPlflJa66EcdzxhVA83B776nIjDhskTUdLZpPIt6ZbUL9Ku0H8AWtoltGHh8Tm3EsRvZVcSSq
+ ls5crf2AEcuQ1HhuPSk55mZznWPWYLAxaU_L.726RCtnoDUwX2psh_G68AvU0t48onevLGv5VORn
+ yVlQqSG4zeFX2AkYMK75NT2xdn4D7ATXyUJFStHufYd8Q80x_4XSsXS_xRegEQT_hdHSAln0XXIn
+ 3UT8WENCOsTQZOUU0IqL7tJw4Cd90uIDWep4h6bVXSWa6A7xCPC.Ec2lJLy7a0a7Fo6ymlmI65RH
+ 1C_4LQPv6Yi4onddqPdwglvUL9i1BN79a22ygZKltyV.EbG4vU5513aHqIR1eEmcWDKLBm9yPvPq
+ q75LCQOuEJ7FvCkBvwI2Nfgme6JgH1IrpZoMFcDzABsLl8EZduv2btTFuZEKtazfPz2SOF05kcon
+ SIAFrK533DLRNoTZGHhaK5bVEQBu9M7eL4EhvpLI0oF4gFshA.0yqlO7zQprX.5pHFH_5W9uptKO
+ 7Z.0k6a7JP47SQpLRIHEwhQdToxO1_WYodFlpMgtdnstGGckhHm2HPUr3i9G1CeZNaWqWHWGokMs
+ YxUBtjdmVGg_6wXTl5fttATcDyPlDRRfNJ.g48nv8Gk54AdrQ0IzowZ.IYvhriBw2hY.zs2t4fWR
+ atDW_UJbIO8QcJhVpqlesbZqnGFA72aoeSELQwcBzWfxChN1Cw7NV8lG6PdTiEJQnRf3SiI8sgV9
+ 5dMBep8FRq10nJf0uZrIiDlx4LTw6OWxr0zhkiD2hj5hlnmGKIg9B5H1HP7nbB_lD7PcpFETEAhH
+ Ojsfj9KdwxGCVQZ_tPBj4X5BCz3Ksz78Um9eaYtVtHyc59vi.i8Jx4vMpmhsDVW7DNRhC0.LnRiB
+ AUpDqLpevY2cuPMlU4yBmtlkoZEO_u0yfCS0_f2jiLKYrKQ.Mghr4Rkk3q1WfrFMmNnr9g6O54u.
+ yVsR60aqhGSdezPocUrLlEBgcCBjWzBjYMKEDeNng6R8tMN_ysBlogigp.ttMvrmfVjyXLhxZsb4
+ IobwN4GXRtnqiF_VWvi6lXNQWxNs.SEgQs5L3HPF2MZl3pMZoCY0Vx9ldqysaiFXBz1AZMfOFsug
+ 2CXpO4n9U7ZE5VU.4UI3fB9PQDbJlN2nQseEQedjgLV0jx41Ezlwcm9AkVo6s4l1I1fiKDBXDeVW
+ NN6p6f77LOAy4LaNYvexeGrdX9j1Ktdl8tbS6NaS7tT61D0fk160poRD0zODLS.OZyHmbmGzv2oc
+ 86yXHTjWmdJ_mDqXj5vKwcKkiX7CJmE.BUlzSAexwpYwY_kfwgKFeHra5R1Yrh_m2IpYIy.gxcUZ
+ e953ZLLGJdnLHmdSiT5EAUlbJfIhVMQCiI6Xr2rJ0ezw9sR.QMkuuTC4qbto95VQKarlc8Do8Eh9
+ 9OpB6x6hxyk8nLcNVahTvnuI4rEZZH66fte1ctHdAh3NedCSuB.21u7T9lCw0oQZMYo._DHyevUt
+ _frwK4Fsr2keuJOzB1Jc_PZAAZvXiN8kcSIbz6nC2Nk6XSYBw.ZgiHga4Ce0avDPYvdvrn7W3GpO
+ X5q8GLLndpHG2wLd6xMXpVYHL_vSKGeQiTVn1AgyUh.1Zp5Iay4nhebX5KgoCbs8zwPhiMRWqY2v
+ qtrO5qjQ3GD90ZEvQi7HBuApsvRTsvvbhI.zRDa4rmQuzRF3e0pn0kHfzEP7Tdeg-
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic312.consmr.mail.ir2.yahoo.com with HTTP; Thu, 22 Oct 2020 22:52:17 +0000
+Date:   Thu, 22 Oct 2020 22:52:12 +0000 (UTC)
+From:   MONICA BROWN <monicabrown4098@gmail.com>
+Reply-To: monicabrown4098@gmail.com
+Message-ID: <2114866181.3904310.1603407132703@mail.yahoo.com>
+Subject: FROM SERGEANT MONICA BROWN
 MIME-Version: 1.0
-References: <20201022155858.20867-1-nsaenzjulienne@suse.de> <20201022155858.20867-11-nsaenzjulienne@suse.de>
-In-Reply-To: <20201022155858.20867-11-nsaenzjulienne@suse.de>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 22 Oct 2020 21:53:35 +0300
-Message-ID: <CAHp75VcB5oxXs38UH5taVGj21wUi3sHYdRPOj3wxa3yXg0vmUA@mail.gmail.com>
-Subject: Re: [PATCH v2 10/10] pwm: Add Raspberry Pi Firmware based PWM bus
-To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Cc:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        linux-pwm@vger.kernel.org,
-        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Stefan Wahren <wahrenst@gmx.net>,
-        linux-input <linux-input@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-rpi-kernel <linux-rpi-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <2114866181.3904310.1603407132703.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.16868 YMailNodin Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Oct 22, 2020 at 9:05 PM Nicolas Saenz Julienne
-<nsaenzjulienne@suse.de> wrote:
->
-> Adds support to control the PWM bus available in official Raspberry Pi
-> PoE HAT. Only RPi's co-processor has access to it, so commands have to
-> be sent through RPi's firmware mailbox interface.
-
->  drivers/pwm/pwm-raspberrypi.c | 221 ++++++++++++++++++++++++++++++++++
-
-Name is completely confusing.
-Please, make it unique enough to understand that this is exactly the
-device it serves for.
-
-For example, pwm-rpi-poe is better.
-
-...
-
-> + *  - Only normal polarity
-
-Can't it be emulated? Isn't it 100% - duty cycle % ?
+I am Sergeant Monica Brown, originally from Lake Jackson Texas. I have 
+personally conducted a special research on the internet and came across 
+your information. I am writing you this mail from US Military Base Kabul 
+Afghanistan. I have a secured business proposal for you. If you are 
+interested in my private email (monicabrown4098@gmail.com), please contact me 
+immediately for more information.
+Thank you.
 
 
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pwm.h>
 
-...
 
-> +       ret = rpi_firmware_property(firmware, RPI_FIRMWARE_SET_POE_HAT_VAL,
-> +                                   &msg, sizeof(msg));
-> +       if (ret)
-> +               return ret;
 
-> +       else if (msg.ret)
 
-Redundant 'else'
 
-> +               return -EIO;
-
-...
-
-> +       ret = rpi_firmware_property(firmware, RPI_FIRMWARE_GET_POE_HAT_VAL,
-> +                                   &msg, sizeof(msg));
-> +       if (ret)
-> +               return ret;
-
-> +       else if (msg.ret)
-
-Ditto.
-
-> +               return -EIO;
-
-...
-
-> +       firmware_node = of_get_parent(dev->of_node);
-> +       if (!firmware_node) {
-> +               dev_err(dev, "Missing firmware node\n");
-> +               return -ENOENT;
-> +       }
-> +
-> +       firmware = rpi_firmware_get(firmware_node);
-> +       of_node_put(firmware_node);
-> +       if (!firmware)
-> +               return -EPROBE_DEFER;
-
-Looks like a hack.
-
-...
-
-> +       ret = pwmchip_remove(&rpipwm->chip);
-> +       if (!ret)
-> +               rpi_firmware_put(rpipwm->firmware);
-> +
-> +       return ret;
-
-Can't you use the usual pattern?
-
-  ret = ...
-  if (ret)
-    return ret;
-  ...
-  return 0;
-
--- 
-With Best Regards,
-Andy Shevchenko
