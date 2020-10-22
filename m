@@ -2,247 +2,130 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8195C2960D6
-	for <lists+linux-input@lfdr.de>; Thu, 22 Oct 2020 16:23:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8AF62961F9
+	for <lists+linux-input@lfdr.de>; Thu, 22 Oct 2020 17:59:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2900760AbgJVOXK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Oct 2020 10:23:10 -0400
-Received: from mail-02.mail-europe.com ([51.89.119.103]:42008 "EHLO
-        mail-02.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S368099AbgJVOXJ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Oct 2020 10:23:09 -0400
-Date:   Thu, 22 Oct 2020 14:22:51 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1603376582;
-        bh=J/71Z3KShQsRLO+e2JfhqSeVPNr+T3r6lOe+dGfMBC0=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=RDn5PrFQo11Lx5fA+oZ7ribs4ddjDMIb9hxYE8hUejC9BcmIXagNAi1PZKbbK4EJX
-         JuMLzlx+HyaFn9brV8VUwmUAlWjQt2gWk90CqizceA+8rWYVXEhCpcmRiSEEdvdjNd
-         cqdIz04lTntlNdNhVT+Rz0ZMn3mxrBoe7UsQgDNU=
-To:     Coiby Xu <coiby.xu@gmail.com>
-From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Helmut Stult <helmut.stult@schinfo.de>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Subject: Re: [PATCH v3] HID: i2c-hid: add polling mode based on connected GPIO chip's pin status
-Message-ID: <qo0Y8DqV6mbQsSFabOaqRoxYhKdYCZPjqYuF811CTdPXRFFXpx7sNXYcW9OGI5PMyclgsTjI7Xj3Du3v4hYQVBWGJl3t0t8XSbTKE9uOJ2E=@protonmail.com>
-In-Reply-To: <20201021134931.462560-1-coiby.xu@gmail.com>
-References: <20201021134931.462560-1-coiby.xu@gmail.com>
+        id S368856AbgJVP7I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Oct 2020 11:59:08 -0400
+Received: from mx2.suse.de ([195.135.220.15]:48442 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S368827AbgJVP7I (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 22 Oct 2020 11:59:08 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 89B97ADF5;
+        Thu, 22 Oct 2020 15:59:05 +0000 (UTC)
+From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To:     u.kleine-koenig@pengutronix.de, linux-kernel@vger.kernel.org
+Cc:     f.fainelli@gmail.com, linux-pwm@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        wahrenst@gmx.net, linux-input@vger.kernel.org,
+        dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org,
+        devel@driverdev.osuosl.org, p.zabel@pengutronix.de,
+        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
+        linux-clk@vger.kernel.org, sboyd@kernel.org,
+        linux-rpi-kernel@lists.infradead.org,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        Eric Anholt <eric@anholt.net>
+Subject: [PATCH v2 00/10] Raspberry Pi PoE HAT fan support
+Date:   Thu, 22 Oct 2020 17:58:47 +0200
+Message-Id: <20201022155858.20867-1-nsaenzjulienne@suse.de>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+The aim of this series is to add support to the fan found on RPi's PoE
+HAT. Some commentary on the design can be found below. But the imporant
+part to the people CC'd here not involved with PWM is that, in order to
+achieve this properly, we also have to fix the firmware interface the
+driver uses to communicate with the PWM bus (and many other low level
+functions). Specifically, we have to make sure the firmware interface
+isn't unbound while consumers are still up. So, patch #1 introduces
+reference counting in the firwmware interface driver and patches #2 to
+#7 update all firmware users. Patches #8 to #10 introduce the new PWM
+driver.
 
-I think this looks a lot better than the first version, the issues around
-suspend/resume are sorted out as far as I can see. However, I still have a =
-couple
-comments, mainly minor ones.
+I sent everything as a single series as the final version of the PWM
+drivers depends on the firwmare fixes, but I'll be happy to split this
+into two separate series if you think it's better.
 
+--- Original cover letter below ---
 
-> [...]
-> +/* polling mode */
-> +#define I2C_HID_POLLING_DISABLED 0
-> +#define I2C_HID_POLLING_GPIO_PIN 1
-> +#define I2C_HID_POLLING_INTERVAL_ACTIVE_US 4000
-> +#define I2C_HID_POLLING_INTERVAL_IDLE_MS 10
-> +
-> +static u8 polling_mode;
-> +module_param(polling_mode, byte, 0444);
-> +MODULE_PARM_DESC(polling_mode, "How to poll - 0 disabled; 1 based on GPI=
-O pin's status");
-> +
+This series aims at adding support to RPi's official PoE HAT fan[1].
 
-Minor thing, but maybe the default value should be documented in the parame=
-ter
-description?
+The HW setup is the following:
 
+| Raspberry Pi                               | PoE HAT                    |
+ arm core -> Mailbox -> RPi co-processor -> I2C -> Atmel MCU -> PWM -> FAN
 
-> +static unsigned int polling_interval_active_us =3D I2C_HID_POLLING_INTER=
-VAL_ACTIVE_US;
-> +module_param(polling_interval_active_us, uint, 0644);
-> +MODULE_PARM_DESC(polling_interval_active_us,
-> +=09=09 "Poll every {polling_interval_active_us} us when the touchpad is =
-active. Default to 4000 us");
-> +
-> +static unsigned int polling_interval_idle_ms =3D I2C_HID_POLLING_INTERVA=
-L_IDLE_MS;
+The arm cores have only access to the mailbox interface, as i2c0, even if
+physically accessible, is to be used solely by the co-processor
+(VideoCore 4/6).
 
-Since these two parameters are mostly read, I think the `__read_mostly`
-attribute (linux/cache.h) is justified here.
+This series implements a PWM bus, and has pwm-fan sitting on top of it as per
+this discussion: https://lkml.org/lkml/2018/9/2/486. Although this design has a
+series of shortcomings:
 
+- It depends on a DT binding: it's not flexible if a new hat shows up with new
+  functionality, we're not 100% sure we'll be able to expand it without
+  breaking backwards compatibility. But without it we can't make use of DT
+  thermal-zones, which IMO is overkill.
 
-> +module_param(polling_interval_idle_ms, uint, 0644);
-> +MODULE_PARM_DESC(polling_interval_idle_ms,
-> +=09=09 "Poll every {polling_interval_idle_ms} ms when the touchpad is id=
-le. Default to 10 ms");
+- We're using pwm-fan, writing a hwmon driver would, again, give us more
+  flexibility, but it's not really needed at the moment.
 
-This is minor stylistic thing; as far as I see, the prevalent pattern is to=
- put
-the default value at the end, in parenthesis:
-E.g. "some parameter description (default=3DX)" or "... (default: X)" or so=
-mething similar
+I personally think that it's not worth the effort, it's unlikely we'll get
+things right in advance. And ultimately, if the RPi people come up with
+something new, we can always write a new driver/bindings from scratch (as in
+not reusing previous code).
 
-Maybe __stringify() (linux/stringify.h) could be used here and for the prev=
-ious
-module parameter?
+That said, I'm more than happy to change things if there is a consensus that
+another design will do the trick.
 
-E.g. "... (default=3D" __stringify(I2C_HID_POLLING_INTERVAL_IDLE_MS) ")"
+[1] https://www.raspberrypi.org/blog/introducing-power-over-ethernet-poe-hat/
 
+---
 
-> [...]
-> +static int get_gpio_pin_state(struct irq_desc *irq_desc)
-> +{
-> +=09struct gpio_chip *gc =3D irq_data_get_irq_chip_data(&irq_desc->irq_da=
-ta);
-> +
-> +=09return gc->get(gc, irq_desc->irq_data.hwirq);
-> +}
-> +
-> +static bool interrupt_line_active(struct i2c_client *client)
-> +{
-> +=09unsigned long trigger_type =3D irq_get_trigger_type(client->irq);
+Changes since v1:
+ - Address PWM driver changes
+ - Fix binding, now with 2 cells
+ - Add reference count to rpi_firmware_get()
 
-Can the trigger type change? Because if not, then I think it'd be better to=
- store
-the value somewhere and not query it every time.
+Nicolas Saenz Julienne (10):
+  firmware: raspberrypi: Introduce rpi_firmware_put()
+  clk: bcm: rpi: Release firmware handle on unbind
+  gpio: raspberrypi-exp: Release firmware handle on unbind
+  reset: raspberrypi: Release firmware handle on unbind
+  soc: bcm: raspberrypi-power: Release firmware handle on unbind
+  staging: vchiq: Release firmware handle on unbind
+  input: raspberrypi-ts: Release firmware handle when not needed
+  dt-bindings: pwm: Add binding for RPi firmware PWM bus
+  DO NOT MERGE: ARM: dts: Add RPi's official PoE hat support
+  pwm: Add Raspberry Pi Firmware based PWM bus
 
+ .../arm/bcm/raspberrypi,bcm2835-firmware.yaml |  20 ++
+ arch/arm/boot/dts/bcm2711-rpi-4-b.dts         |  54 +++++
+ drivers/clk/bcm/clk-raspberrypi.c             |   1 +
+ drivers/firmware/raspberrypi.c                |  30 ++-
+ drivers/gpio/gpio-raspberrypi-exp.c           |  14 +-
+ drivers/input/touchscreen/raspberrypi-ts.c    |   1 +
+ drivers/pwm/Kconfig                           |   9 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-raspberrypi.c                 | 221 ++++++++++++++++++
+ drivers/reset/reset-raspberrypi.c             |  13 +-
+ drivers/soc/bcm/raspberrypi-power.c           |  15 ++
+ .../interface/vchiq_arm/vchiq_arm.c           |   3 +
+ .../pwm/raspberrypi,firmware-pwm.h            |  13 ++
+ include/soc/bcm2835/raspberrypi-firmware.h    |   3 +
+ 14 files changed, 395 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/pwm/pwm-raspberrypi.c
+ create mode 100644 include/dt-bindings/pwm/raspberrypi,firmware-pwm.h
 
-> +=09struct irq_desc *irq_desc =3D irq_to_desc(client->irq);
+-- 
+2.28.0
 
-Same here.
-
-
-> +=09ssize_t=09status =3D get_gpio_pin_state(irq_desc);
-
-`get_gpio_pin_state()` returns an `int`, so I am not sure why `ssize_t` is =
-used here.
-
-
-> +
-> +=09if (status < 0) {
-> +=09=09dev_warn(&client->dev,
-> +=09=09=09 "Failed to get GPIO Interrupt line status for %s",
-> +=09=09=09 client->name);
-
-I think it's possible that the kernel message buffer is flooded with these
-messages, which is not optimal in my opinion.
-
-
-> +=09=09return false;
-> +=09}
-> +=09/*
-> +=09 * According to Windows Precsiontion Touchpad's specs
-> +=09 * https://docs.microsoft.com/en-us/windows-hardware/design/component=
--guidelines/windows-precision-touchpad-device-bus-connectivity,
-> +=09 * GPIO Interrupt Assertion Leve could be either ActiveLow or
-> +=09 * ActiveHigh.
-> +=09 */
-> +=09if (trigger_type & IRQF_TRIGGER_LOW)
-> +=09=09return !status;
-> +
-> +=09return status;
-> +}
-> +
-> +static int i2c_hid_polling_thread(void *i2c_hid)
-> +{
-> +=09struct i2c_hid *ihid =3D i2c_hid;
-> +=09struct i2c_client *client =3D ihid->client;
-> +=09unsigned int polling_interval_idle;
-> +
-> +=09while (1) {
-> +=09=09if (kthread_should_stop())
-> +=09=09=09break;
-
-I think this should be `while (!kthread_should_stop())`.
-
-
-> +
-> +=09=09while (interrupt_line_active(client) &&
-> +=09=09       !test_bit(I2C_HID_READ_PENDING, &ihid->flags) &&
-> +=09=09       !kthread_should_stop()) {
-> +=09=09=09i2c_hid_get_input(ihid);
-> +=09=09=09usleep_range(polling_interval_active_us,
-> +=09=09=09=09     polling_interval_active_us + 100);
-> +=09=09}
-> +=09=09/*
-> +=09=09 * re-calculate polling_interval_idle
-> +=09=09 * so the module parameters polling_interval_idle_ms can be
-> +=09=09 * changed dynamically through sysfs as polling_interval_active_us
-> +=09=09 */
-> +=09=09polling_interval_idle =3D polling_interval_idle_ms * 1000;
-> +=09=09usleep_range(polling_interval_idle,
-> +=09=09=09     polling_interval_idle + 1000);
-
-I don't quite understand why you use an extra variable here. I'm assuming
-you want to "save" a multiplication? I believe the compiler will optimize i=
-t
-to a single read, and single multiplication regardless whether you use a "t=
-emporary"
-variable or not.
-
-
-> +=09}
-> +
-> +=09do_exit(0);
-
-Looking at other examples, I don't think `do_exit()` is necessary.
-
-
-> +=09return 0;
-> +}
-> +
-> +static int i2c_hid_init_polling(struct i2c_hid *ihid)
-> +{
-> +=09struct i2c_client *client =3D ihid->client;
-> +
-> +=09if (!irq_get_trigger_type(client->irq)) {
-> +=09=09dev_warn(&client->dev,
-> +=09=09=09 "Failed to get GPIO Interrupt Assertion Level, could not enabl=
-e polling mode for %s",
-> +=09=09=09 client->name);
-> +=09=09return -EINVAL;
-> +=09}
-> +
-> +=09ihid->polling_thread =3D kthread_create(i2c_hid_polling_thread, ihid,
-> +=09=09=09=09=09      "I2C HID polling thread");
-> +
-> +=09if (!IS_ERR(ihid->polling_thread)) {
-> +=09=09pr_info("I2C HID polling thread created");
-> +=09=09wake_up_process(ihid->polling_thread);
-> +=09=09return 0;
-> +=09}
-> +
-> +=09return PTR_ERR(ihid->polling_thread);
-
-I would personally rewrite this parts as
-
-```
-if (IS_ERR(...)) {
-  dev_err(...);
-  return PTR_ERR(...);
-}
-....
-return 0;
-```
-
-
-> +}
-> [...]
-
-
-Regards,
-Barnab=C3=A1s P=C5=91cze
