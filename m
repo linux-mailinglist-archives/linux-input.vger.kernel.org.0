@@ -2,151 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1328F296B9A
-	for <lists+linux-input@lfdr.de>; Fri, 23 Oct 2020 11:00:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B9EA296BB5
+	for <lists+linux-input@lfdr.de>; Fri, 23 Oct 2020 11:04:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S460812AbgJWJAX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 23 Oct 2020 05:00:23 -0400
-Received: from mail-mw2nam12on2087.outbound.protection.outlook.com ([40.107.244.87]:20416
-        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
+        id S461054AbgJWJD7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 23 Oct 2020 05:03:59 -0400
+Received: from mail-dm6nam12on2068.outbound.protection.outlook.com ([40.107.243.68]:60768
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S460791AbgJWJAW (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 23 Oct 2020 05:00:22 -0400
+        id S460998AbgJWJD6 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 23 Oct 2020 05:03:58 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F1JIRbFGKItHRaXuoMa83Ux7x//mc1FGAfdW8xdV2rxvdNBX9zz2NEHhyfuZhBqGTJGvDouPHnPcj1+3mBkgRy3JDYGiyRCkIYdwrn8BALk3xWEe0LW9oOVIqlHR+OmDtQwonsvcJB1eqFLDsD1vXwBVhcX7F4tM3LdoFK3AfE7bcxEOR+mKKsE7OTE64xybs+sicHqtXetWkc82ANHT20MhwlHvMeH5XIBMdKQ3UnWVy87WG3jZMFRj9NGyjiFZo7BOEHJLA7qYEonm4QCTOnyjdN934Y8ghFliZnAE+Z3vyq9KNjAcKrMfRPpSp1uIQSgTK4kFQjaMoMUuVRGJJA==
+ b=cu1RjGbEPEwP88eOPKTRNoSeFrpT4e/Z83Y3ZBcCfCNNfhLqMtCJ3+PbOfrogouPVP8rIxy22hp7sOEZ2Wn0L2Y3AcirL2oBUDbI/n2HM6y6HkXyQrlznpzWDKgHmgVqSXTiz3RCU5hi6uZug8sF27odeM1YoZ7ZRBh3N60Z5wg6qTfTo/EZo48L7GCK1WxaEWPykDzEnS18quFpdvP9dBkLB7uiBE1rggMz0Ln3dCnkpdOtFoF12GtY24qSVglUWWsGflaGUNn35cR3Wd6R+Jedeazz1ReaNuCNiQixdoiNsDkzX5LIzmVgOL5MNHu0s63xIxTd3ZKJ+RdVqq5ouQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Tbe6b4yArxPUiye+IBtPG1wM0EGlD9sThHPwl7dNVd8=;
- b=HghJiNNdHu1sXZQERTiSE1JPNZUTm76bCHCq4bn6jTxaAuUejukfhphW9FNllStpRaG9qAXxgBklYa+1naKY/dwpyitstQ7YgMQ7RFPXAmOm0A5nv734dK1FtW1y+SlP6opmEF3YcxVEC2pLi9PSNRuG62HW0WObZmRE+3BrqGawAsG9Jtuxf9/GK68crlQoO5G3WgLnHZIApAtZKLWAlqm3gFbQcrJEX2/Kx2Xx4VrCVR84E/2T9rg/ZO9iLPKpyoSLkHcKKk8QmJMKgk/DUmqCd2wbgFkyL+O3zMf8MJ6iRy0iqQiPx43242pfaRAUin0uAp5db6pd/lWr/1G/vw==
+ bh=DjyQ9znOlii07HPz9JzRGKhjvO56Q9XH8U3pIET2ZUA=;
+ b=D1c2qt94jeLRyOjpv0zwOmatxgdJwub3RQ0QkHiKChecLpHNHU+iOpa7Q/Nj+gqertuVuJekUUkRWfxlxsa9yCJt10QWw7/tTxQzRt69/vyvF00iRDFJd7GnUPn+IT1tCYrbHDz6fPgpc0sIgAu8qPvTSrpl0N1m09j018ms7nSHxyYoODqJb0FWEROwkZa/Hej1gKz9BrCBnP8K3zhgFIUtI6w5zaygnLydfj4t+c9nZwqEQxU+tOJ6efG3bYnJXjIpHzIYWAOJny8zdRTGKXgQlzLKI4R7KWS0h8RND+qT3GVgUA/CrCmqvh299TLXFpd+Nd2CmetJVueVeV8rXw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Tbe6b4yArxPUiye+IBtPG1wM0EGlD9sThHPwl7dNVd8=;
- b=M+OjETXZZPybH54UQdzse6GfAi6BTfVqZyfgRG2eNs1G5bo+8H34Z8+Ps5P1Rode1YGTZnwygH4yftyrGjZopuLL2Ax2SNkuDkjqzCD4jMtxzdkIue6fQsy1K5dZTU/aeeVIx7g40HA6tF8J0KrXk9b7deo67FvaZd3Ie3qeyMo=
-Authentication-Results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=amd.com;
+ bh=DjyQ9znOlii07HPz9JzRGKhjvO56Q9XH8U3pIET2ZUA=;
+ b=YmKzkba63Hqvnvg8x79HKKXUPD+UsTh24fBqKQCKlFW0rA2wi8LsybZ9UR5HUrOoM85Ee2TXy7eY4xaJetwz5gwHQnHrJE4gJZdohokBHgR9oLNFEeaLpNZ0fNVGCSeHKeOMy0JxQKEioD0DaCt7Oq9Zvt7Y/niPlb02FPPB0Tg=
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
 Received: from BY5PR12MB4098.namprd12.prod.outlook.com (2603:10b6:a03:205::8)
  by BYAPR12MB2902.namprd12.prod.outlook.com (2603:10b6:a03:12f::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Fri, 23 Oct
- 2020 09:00:18 +0000
+ 2020 09:03:56 +0000
 Received: from BY5PR12MB4098.namprd12.prod.outlook.com
  ([fe80::e1a3:69b7:a02d:a74d]) by BY5PR12MB4098.namprd12.prod.outlook.com
  ([fe80::e1a3:69b7:a02d:a74d%5]) with mapi id 15.20.3477.029; Fri, 23 Oct 2020
- 09:00:18 +0000
-From:   Sandeep Singh <Sandeep.Singh@amd.com>
-To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        jic23@kernel.org, Nehal-bakulchandra.Shah@amd.com
-Cc:     Shyam-sundar.S-k@amd.com, lipheng@hanmail.net,
-        Sandeep Singh <sandeep.singh@amd.com>
-Subject: [PATCH] AMD_SFH: Fix for incorrect Sensor index
-Date:   Fri, 23 Oct 2020 14:29:47 +0530
-Message-Id: <20201023085947.459045-1-Sandeep.Singh@amd.com>
-X-Mailer: git-send-email 2.25.1
+ 09:03:56 +0000
+Subject: Re: [PATCH v8 0/4] SFH: Add Support for AMD Sensor Fusion Hub
+To:     Jiri Kosina <jikos@kernel.org>,
+        Sandeep Singh <Sandeep.Singh@amd.com>
+Cc:     benjamin.tissoires@redhat.com, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, srinivas.pandruvada@linux.intel.com,
+        jic23@kernel.org, linux-iio@vger.kernel.org, hdegoede@redhat.com,
+        Nehal-bakulchandra.Shah@amd.com, andy.shevchenko@gmail.com,
+        mail@richard-neumann.de, m.felsch@pengutronix.de,
+        rdunlap@infradead.org, Shyam-sundar.S-k@amd.com
+References: <20201009200138.1847317-1-Sandeep.Singh@amd.com>
+ <nycvar.YFH.7.76.2010221205110.18859@cbobk.fhfr.pm>
+From:   "Singh, Sandeep" <ssingh1@amd.com>
+Message-ID: <13209fef-bdaf-92e4-371c-83da12c756e0@amd.com>
+Date:   Fri, 23 Oct 2020 14:33:42 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
+In-Reply-To: <nycvar.YFH.7.76.2010221205110.18859@cbobk.fhfr.pm>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [165.204.156.251]
-X-ClientProxiedBy: MA1PR0101CA0028.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a00:22::14) To BY5PR12MB4098.namprd12.prod.outlook.com
+Content-Language: en-US
+X-Originating-IP: [165.204.159.242]
+X-ClientProxiedBy: BM1PR0101CA0069.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:19::31) To BY5PR12MB4098.namprd12.prod.outlook.com
  (2603:10b6:a03:205::8)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from jatayu.amd.com (165.204.156.251) by MA1PR0101CA0028.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:22::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.19 via Frontend Transport; Fri, 23 Oct 2020 09:00:16 +0000
+Received: from [10.252.81.223] (165.204.159.242) by BM1PR0101CA0069.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:19::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.19 via Frontend Transport; Fri, 23 Oct 2020 09:03:51 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: f6c5a573-37d7-457b-c41f-08d8773210a5
+X-MS-Office365-Filtering-Correlation-Id: fe6189c4-4c39-4932-9fa3-08d877329237
 X-MS-TrafficTypeDiagnostic: BYAPR12MB2902:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR12MB2902F639C882AB83A193F606E01A0@BYAPR12MB2902.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
+X-Microsoft-Antispam-PRVS: <BYAPR12MB29021F10608472CA8B5E6338E01A0@BYAPR12MB2902.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: S//H0w2vWlVbPpD5wplIII7uDk2kZOFqH8PoO3aQB1KefRsozqMSz4fdVnU6pao3JqEw4o7XZx052jGoHrMdNwDnnZax9nSkB7nJu0ixJPnSXRNJJFDWStRX7zh6nt8S7GTrc3Ogxv8iE4LaVrU5bZLF+zNpd+GTSh0M9VKvLhfm79b+Bq4AGZ5E2lhl8ZEqUjCVedRLTlnfYBf2PWuG41e7fgSNkMrK1ew+yhGTWEUispHs9/UYMtFdMfVA4esHbi4VbTb2kHVgkvRoNPGbeJm8bYnufJ1aOc18jz3sJ2NNhOXxOlMvOnx/0vfhwmB0BJdza8H+V29A9xBip6l26w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB4098.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(396003)(346002)(366004)(39860400002)(136003)(6486002)(66946007)(316002)(86362001)(26005)(2616005)(478600001)(956004)(4326008)(16526019)(8936002)(186003)(6636002)(36756003)(8676002)(2906002)(66476007)(52116002)(7696005)(66556008)(5660300002)(1076003)(83380400001)(6666004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: kvsalSQ4tRKEmeGz6wAHsMIlUKRwt47Uc2CxrxmWNcbcBWvPDZQnpOuLCZI3bXH7IOYnxik2rD+kYhGRjwlLt5Dy6zLcfVTJA2CWzbxkKa0159OdzT10frjJcFEw3XlysMm6oD2u1q0hHKywgOey02EKP4j9DdvqIRu+6Gb+IfXSFCgDT6yzlV7Qcz41EaDkqRE3yrAAvVpQ8bQqnMbXBJWAyG4nMnfGfVsFrpF2yrpe7x9Vu19sMIx5v17scZ5dnyigqMnpLiILHZmz6g1/mjJ4OasKqaao7HMhrppKPXpE9FS1xGRPgzA5CJnz4CnZyK9unX4Tj53u21dYJP3S3mSV6Kktl6H/rsM7pSAYLwJdLDuuziwaHwgr8R7TXY2tEF9KH77vhMI6yU1KMb6capGuoyHQMbCiTx8Y5v35/tIFmifHBE8Eu6sdJ+oh+MOMRU67TGv0lOjxeDJlxHg8wermHo7GfuTc76SS1QK+oX5JhdtbnQc0/zgjbuWPffKewu/0rYVXsKCp9FSDCVRrvboC5AfgisJtMGY24MD6sIxvoStAlHcSLijpAqNV184JIGO7+o066DKkjhU6L0BniLii/hdf15pxVe0f0EvpyByWK79O0LLFcKtTEg88HUstZ/dzEQmh6uI/vItiyLFqqg==
+X-Microsoft-Antispam-Message-Info: /L8uOhVHUa5HGivOgkWEvrfWB+Fjf81jD+B02FtVVzpTD2KDSJIX7Pu9aaUAzSh17Ohju5IJWhWtCTlTcpgqMdKpM7SIaDqqSUivViFz4/a2miGhv+ztsQf898Gp5qIO/BEWu9IDWhaDqEUDbujI0ysl6zVEcO1Kp1GNAxXSclCeE+AK1xSK7JiWEbkjiSEzvZjbhECW74Iwe92XGWn6vFNoZVRpjxAmijuSN6UMpysfeMMCfbQI70JefOikyawag28hgZ/m19vv3+XGp/xt9u/vSj2SbkFaKnwVvNjJyF4oa5Ey7SL0/6F8IfoQLs93QUwj1RnYOgBzB3pjFfRWrd+o27fX9c9o9D47kmkHEzut4OKaNjhrvaGWzMA4Qil4
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB4098.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(396003)(346002)(366004)(39860400002)(136003)(110136005)(6486002)(16576012)(66946007)(316002)(53546011)(31686004)(26005)(2616005)(478600001)(956004)(4326008)(16526019)(8936002)(4744005)(31696002)(186003)(6636002)(7416002)(36756003)(8676002)(2906002)(66476007)(52116002)(66556008)(5660300002)(83380400001)(6666004)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 9orSOA9bIP61rX+IlCkY2RVn0K28mY00dMDx1d9iUIx4qkY9OAZF1PEGqX4J8meuryQ2+HqGaYi53ukFAlhXEUavbZcKMu4j0plZk619/aytSJPAroX+C6QlsWYpfTI5roC/eJ30z4J+ptVcenkOfBErcNRq2wvPeY/z3cu2ptPE8nwL2DyZgY0q/xPMO701EREspb3UM7VFXnSyXQ4g94u3DCMHwU0wNs41LFGbJ1SUUdPNStbbR7IL5YPHFjuawhSB+l7CSGHQFpcxJInR3AcbjyZVSKSHe/Iq69vbgnXSGpPnMi0XueNji4YUxIi+/15+Ut4CV/r+wLvScRn0YJq3XdaHNiZOTwVjC48ZhebIy29yiG4sA9O+MyQGtH10TeQyftLnlCxeqYh+xGdpF34HiUg4Q0NnGqgURoYykylUHuMJHQy1ob8G9CI88I5ZP3Zke0emr2pDIEaYVIrOKbBMxptOeL+2XEbmg2kKdGPH/aRLZejoGBCmiJ/NmMLuMvPSG9m1mljcnhfph1605cIjsUNF1R+n7qRYAyyBX5qWeN7RumhK3JUjUqK3+sJmo3uSNvDxJ1jAVzbdXnEMVvRiiF55qKmI+vuXwclnKc2QNowUdsW+6dL1DlCX5FPxFAbLZnYzJgjRtDc+6dYa7w==
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6c5a573-37d7-457b-c41f-08d8773210a5
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe6189c4-4c39-4932-9fa3-08d877329237
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4098.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2020 09:00:18.6335
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2020 09:03:55.9861
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gQkCdWaQg35OJ4xHoKAkkJT1NiEYsCHgU2K7UrjhcknSYhG6RTyXZnubce3x/aLU
+X-MS-Exchange-CrossTenant-UserPrincipalName: Lf3btd+zkYh4s4z4kDiBtqxEy0JSLwudxnQ2P/yuwfKBWyAu85B5WLL4Lni5t1+C
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2902
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Sandeep Singh <sandeep.singh@amd.com>
+On 10/22/2020 3:35 PM, Jiri Kosina wrote:
+> [snipped text]
 
-Add fix for incorrect sensor index and minor code clean-up.
+> I have now applied the series to hid.git#for-5.11/amd-sfh-hid. Thanks for
+> all the efforts in tidying this up,
 
-Reported-by: Mandoli <lipheng@hanmail.net>
-Signed-off-by: Sandeep Singh <sandeep.singh@amd.com>
-Fixes: SFH: PCIe driver to add support of AMD sensor fusion hub (4f567b9f8141)
----
-This patch can be applied on = for-5.11/amd-sfh-hid
+Thank you Jiri and all the community folks for improving this series 
+with your feedback. I have sent a  minor fix which was reported recently 
+on top of
 
- drivers/hid/amd-sfh-hid/amd_sfh_pcie.c             |  6 +++---
- .../amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h  | 14 --------------
- 2 files changed, 3 insertions(+), 17 deletions(-)
+your branch hid.git#for-5.11/amd-sfh-hid. Can you please review and 
+apply it?
 
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-index 9c5eb442e1a6..a51c7b76283b 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-@@ -20,9 +20,9 @@
- #define DRIVER_NAME	"pcie_mp2_amd"
- #define DRIVER_DESC	"AMD(R) PCIe MP2 Communication Driver"
- 
--#define ACEL_EN		BIT(1)
--#define GYRO_EN		BIT(2)
--#define MAGNO_EN	BIT(3)
-+#define ACEL_EN		BIT(0)
-+#define GYRO_EN		BIT(1)
-+#define MAGNO_EN		BIT(2)
- #define ALS_EN		BIT(19)
- 
- void amd_start_sensor(struct amd_mp2_dev *privdata, struct amd_mp2_sensor_info info)
-diff --git a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h
-index ac9a01cc1454..095c471d8fd6 100644
---- a/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h
-+++ b/drivers/hid/amd-sfh-hid/hid_descriptor/amd_sfh_hid_desc.h
-@@ -16,11 +16,6 @@ enum desc_type {
- 	feature_size,
- };
- 
--struct _hid_report_descriptor {
--	u8 bDescriptorType;
--	u8 wDescriptorLength;
--};
--
- struct common_feature_property {
- 	/* common properties */
- 	u8 report_id;
-@@ -38,15 +33,6 @@ struct common_input_property {
- 	u8 event_type;
- } __packed;
- 
--struct _hid_device_descriptor {
--	u8 bLength;
--	u8 bDescriptorType;
--	u8 bcdHID[2];
--	u8 bCountryCode;
--	u8 bNumDescriptors;
--	struct _hid_report_descriptor *reports;
--};
--
- struct accel3_feature_report {
- 	struct common_feature_property common_property;
- 	/* properties specific to this sensor */
--- 
-2.25.1
+>
+> --
+> Jiri Kosina
+> SUSE Labs
+
+Thanks
+
+Sandeep
 
