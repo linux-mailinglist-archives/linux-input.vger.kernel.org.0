@@ -2,113 +2,185 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF63C296773
-	for <lists+linux-input@lfdr.de>; Fri, 23 Oct 2020 00:52:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4815029693A
+	for <lists+linux-input@lfdr.de>; Fri, 23 Oct 2020 06:54:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S373098AbgJVWwU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Oct 2020 18:52:20 -0400
-Received: from sonic312-26.consmr.mail.ir2.yahoo.com ([77.238.178.97]:33034
-        "EHLO sonic312-26.consmr.mail.ir2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S373094AbgJVWwU (ORCPT
+        id S2896667AbgJWEyZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 23 Oct 2020 00:54:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53576 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2896662AbgJWEyZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Oct 2020 18:52:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1603407137; bh=k6qD474V9VtXKDobcCBmjOJywgarZvgPlTt0r+34qBY=; h=Date:From:Reply-To:Subject:References:From:Subject; b=f+J1Vpn4nNhoywsdolzXqQSerY/WecWc2WwY44CEVw59EHptyfk/44/HyhWpB2Ju3WZ3e0szVUCsJu09rdmJohgFITykhE4QIh/YKbQGG+bbLtdRhmXejU8+gZQGQSGCo95h2vHnldg+jtw9+evS+0vzcLzWxENKAy9e60E6CKFl41ll+o1+T3DoMWong3Aw1x0qw/Dzjwz8Di7RgLZ9BGbQR/TqFyk5r94Y+tMOQAmEz6051+AM+4zRQ1R/zY/eVuQnLWjiTp0TChJgHB5p/P6GmWjMF6LJmuo7KDxkXfv30L55DAv44avVmcj0oX7SNRYmhWF8yTXgdH//GB6c6A==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1603407137; bh=ZHF2W7tjuX5LhrFp5LNn8q25V53oM1MrKUBcjEs95yz=; h=Date:From:Subject; b=sp9S38slb02DzUgy/60zPpFHB3QKNWvW6A4C8zzDOUohYKaPa/GvBwHULNt+Z6aD46EtUU2OpeH207MnV/80qGOA34rrIuKISFEiJOABgD8OBWkw0Cfds7IG3pYcZdkI/zuDVlDR+uq5TiUknxwMrzUgZyJxG7iJKAlT8Kfj10GJD/fN1GlztvbxLPix2nmgWJzv/R3PSThjsa3G9BfqPgOGnFr2zsMlZqeNl/RtzOWd5NHpVFfAeGqfsP1s0T5IFH9Ql4E5U27Zqh59GZgvSLEh7nKJrc0Tm11JmZ0o2yvIegbQc/485/Rzc0JZnvoPV5YW5Q3DuAa+WJ7ST2fd7A==
-X-YMail-OSG: 0L1yc5wVM1kGCYRpR6lUW3cmtX61o2WPHXr_uogMhTkhqVF.YHX5F.Q8gV5acIs
- Fwh9rjwCBTQmAOXSJR51sqwk6tXfoheZUXvkjfMYqqjBZyiLdKBlqSF0BqU1Wfow9lGtd_4MyjVF
- UVQinuWlZfkrKxT.2CePqA7gfyBpS8YL8_mrcwKrTDCdJBkFcDL823M3Qr2LZW5z4ukuox5OoYXs
- MpP5_rRscH_qHPAflkB3c193EqObG03xPyc4sENrdTOqeufb.xHDgLWy3r5oILbMsOvd7NQSyVgl
- Y9RkfsFKHGivk0VjXtmSwP9_HzfYUfpnRTTMd56cCLi.7_GI2Um0Ani30rih.vvgIsFQr2iQyS9k
- O1EQHbpkGv4cmoa6WiIJoW_vqpE3s_5677H5BBFMnKWk7J27pCzzZ6nXeme26a37Rej9cP0K9XUt
- Pt81kLfZVudpXiqD4Wo_XoBv5Qsw9RKRuJCzvGEjjwTmenugXNTnyeUTZwu5TMOOjUYjtWu41f8o
- Bel2Ds0Z7Fhn.Xd2U_gJVt0FngpFncWQW7fCbhB8QqKAmabaNrbNU1HBAYklM2El8q8mSLoRxmtY
- RMbhDX4uoxr6ckfqUeh_BNVwmTJ7aaJbybM5m31l4RunGK.DotNbUc0CZJCTEYkNRop2nZjspJu7
- wYmh1VUUomQOE_Na38x9eQsypv6ord12ml6IiCOCJPf23k1507KclNTbTYGqTS.H3roVsr7W3FQd
- GAIN0uQ9GK2QYHPJ2efX2b8ddUAayxpbHh843_sthhXiJ8QKkTMTclWC342ojivJsZ633M11_qhh
- 3GYCVp0SXRmsLVVrZK7wshqevkkzVFXAEtW.j6T5J9Y9214TRce4a0KWtJH0Qh3fqKvT_e03eAcp
- bd473EVzYIZvag1IkpwHMH9fvdRI.1uQQ11dfodDKFT3HN_xu0eFAERs8BBoA6XF07R9Yxp7sIRP
- aEnmJZeZRm2k4cu0o0uRhKsQbn4YG9XtqkJg5Bu7H8kIEkrGR6dTPZRsDymX8Jx.IqmUw_UIKeCo
- heALmBtWoP75fWdGEkc3c4MCInhsriupQT2gqmRKcsWX4MEijI8cpVqZNZg4uPHEIPvzrjDKayFW
- FDRwYC9N65kYpSg4rLueRfRkcgDBML4IDPu7SZegrHTh0t6hm8V4zIrCjKfyQ04VhETScewhbC6z
- QRiz89tdFPpx9GEg13rMyW9GADgSHD5NirzpihEfBwobjmfjXblixMgl.hXlMG0qRTdPbp6VRc2E
- LWScr8ZPqMGhqIXctL4t01NvOk0vv3mRgw7rYthUNYympWei.qhmCAENbEue.YCh_q8VWF_5JoS6
- sWT2fzHffTqoQ6YNHOLP0QP2xNFPlynudwL4EAubM6WJZS4_VJUn5n2edsdN1zqBbSxFUdykGpaJ
- C6T7EHalBonlCJZ7CdEZcOls2P6LiXSMGZuwaUPWZV9drvKmiQM5BLFqa67IGBJhlHhDUPLT8ily
- GAAzpTCitO.ouvYbSeBvrQqArdNKN18bb1xd7yyw3XPRLiP__piaJ22WXD5YAViUja2i2GVRhTbd
- r7vp4f3fKGv2znN1_vbM6hbcxuZBa6ROUeDkcybX7jbzYD7dSrq.K8IOC4WFX7S5sRIvclCATLiU
- MGYew7mF2e1W_MKpYe0LHn47pn_xTOUiajaGZ_x6XNHLkm9siv4FrAonYOBMN8Ohrkmhb91fgEl9
- oHL8wVQPskASWAAZWqTfFv.2Fm5zwI_kgl1tWHK9HImueOVyYWqwQcs06L1XPMaZUihuKl3ijn0z
- VuCOxUIPqe4b1p9v3O3lSmo6Kf8Z4grXuyiHUp_jUtKTEqhiUEAFiPmaiLXCYvXDpg6PD68Vw_aT
- RANQpTbVXnDupW_yRZFP.rCoJZdpnhCw1IFUDoJrqTCiXQR9GeNZQvfLijJp95caJObpg1AxrJPp
- DDbZ3JvgVcy0yWhBNrQxB9TiZlBEdTZusV4I2KBVLXLlmavyUrs8T2Hmef5b5RnSiB3T4YUTHTuY
- 7oJR681804Ag0.BgbPLsYCMwAe.67UcjAPknquJL7n1G..U6Jx8_4a21eW3Za_uHIRTuQ8SjypXd
- mpzPfXXJTe7c9yw1BuRLgeDQ10vZpEIGh.tqoTlWMEa_nIKV6FHqfonGKC1BQNPubvVYYaews4Bs
- M.YKR5ZEUWFMBnbcscdEqiXKgQkCe3otXmTD_aGT7w0qrySesCieJpoObn0Ts173HURlqaDz2wV2
- hC9LSAP89NWEGn9KLp2eUX598Kl4ZWlums1_fOXQkA0iys5XYQfzrpKeS40NkiPG_AwlwEqyFq8a
- pozLHqhDlp1y48lNCtY5TSGDTiQ4.UTipvpOLw9u_OCxDw2IURm30tCd22.I75i0mXt4zadcDube
- iKoMUaFNJlaDhPOAN8uCbaiyX4DSwIkHyFN4fht5erChqlLadMm834q2jO2qFMB2Cb8NkvBTjf.R
- OrR_SKw6REMaQn5yCwA72SJe_ASnnF2HMcbV2LT7Ygu8r6kNZmyBqP1p3VzfFg1DekfsP.q.MwoQ
- _OfbFVxHOahQ9j5L8MdgyKAJmnnxT5WLQFLLmRnMkWmMbD2i2U45CHYtAhv88a6Wx7cYMvHGlpV5
- LIE984au0BxalW.V1gkhQ1Ovjm_H56fna0k4wfH0Bght4QrTyYfL9noVF.mW2J95LeNFmVfcKeJl
- 5x0cxUsBjGJMeqHQfDCQckDV54s3irQztcVhiM9p7DZksmb9L1LvWeVRFPOfzZ3M5jo464GvcO4I
- Xtui7hPmZ90V0.HmVmy7G1WINBhsPslWwRBYj.qhj2mqja1.burEEfovhoEY_ILX9MKZoMtnY5Lw
- HJPxgSyi79lb5gyLkJvIh0qC0.mLw71t2gbzMxYHjW1eR9Ut.d2OuCZgneRgbdsilqjUXqQa5lZl
- GY_nGv6L56CPm1HHHbpT0hTYIVEjnv8SzkarEtUnyo4ov3HqNlBvtE1hNad40ByGdP7bONFptUsp
- Kh88yWTYawVQRwQLFGlJJfLqvP52KQu5yiqpU_kmsCJHo.3IoV0lttjq.bPQJMCI1qajfHi.AyWh
- 7OQ2_utYLkNqRg6zGg5vC8hbDLFqf2OkZ6qofVpSP6lUPX8Xai5I2MYMGJTJUnOuceaJY6J.Lw6Q
- rOr_3St9_22DCO46rVrLa_6Mr_7H4X4DbCCystO7kYf8t6Od4lgdHNi9qO0YIRYQnCFrgugSEAix
- yGGFZW8Z1tonx2qCN4XG14FcMi1qzEvBsTCf22f_E9xIudcD4T32RSADyKnXnJ4ptIG9lNvu2GHA
- MPwL7chaoq3NeBLpQQ8v6d1p09gSvV1ozhBAwAXO.CbGquTzhsLJ3QfNp.y0A6k1UvZFdtqtzTYD
- s6ORPlflJa66EcdzxhVA83B776nIjDhskTUdLZpPIt6ZbUL9Ku0H8AWtoltGHh8Tm3EsRvZVcSSq
- ls5crf2AEcuQ1HhuPSk55mZznWPWYLAxaU_L.726RCtnoDUwX2psh_G68AvU0t48onevLGv5VORn
- yVlQqSG4zeFX2AkYMK75NT2xdn4D7ATXyUJFStHufYd8Q80x_4XSsXS_xRegEQT_hdHSAln0XXIn
- 3UT8WENCOsTQZOUU0IqL7tJw4Cd90uIDWep4h6bVXSWa6A7xCPC.Ec2lJLy7a0a7Fo6ymlmI65RH
- 1C_4LQPv6Yi4onddqPdwglvUL9i1BN79a22ygZKltyV.EbG4vU5513aHqIR1eEmcWDKLBm9yPvPq
- q75LCQOuEJ7FvCkBvwI2Nfgme6JgH1IrpZoMFcDzABsLl8EZduv2btTFuZEKtazfPz2SOF05kcon
- SIAFrK533DLRNoTZGHhaK5bVEQBu9M7eL4EhvpLI0oF4gFshA.0yqlO7zQprX.5pHFH_5W9uptKO
- 7Z.0k6a7JP47SQpLRIHEwhQdToxO1_WYodFlpMgtdnstGGckhHm2HPUr3i9G1CeZNaWqWHWGokMs
- YxUBtjdmVGg_6wXTl5fttATcDyPlDRRfNJ.g48nv8Gk54AdrQ0IzowZ.IYvhriBw2hY.zs2t4fWR
- atDW_UJbIO8QcJhVpqlesbZqnGFA72aoeSELQwcBzWfxChN1Cw7NV8lG6PdTiEJQnRf3SiI8sgV9
- 5dMBep8FRq10nJf0uZrIiDlx4LTw6OWxr0zhkiD2hj5hlnmGKIg9B5H1HP7nbB_lD7PcpFETEAhH
- Ojsfj9KdwxGCVQZ_tPBj4X5BCz3Ksz78Um9eaYtVtHyc59vi.i8Jx4vMpmhsDVW7DNRhC0.LnRiB
- AUpDqLpevY2cuPMlU4yBmtlkoZEO_u0yfCS0_f2jiLKYrKQ.Mghr4Rkk3q1WfrFMmNnr9g6O54u.
- yVsR60aqhGSdezPocUrLlEBgcCBjWzBjYMKEDeNng6R8tMN_ysBlogigp.ttMvrmfVjyXLhxZsb4
- IobwN4GXRtnqiF_VWvi6lXNQWxNs.SEgQs5L3HPF2MZl3pMZoCY0Vx9ldqysaiFXBz1AZMfOFsug
- 2CXpO4n9U7ZE5VU.4UI3fB9PQDbJlN2nQseEQedjgLV0jx41Ezlwcm9AkVo6s4l1I1fiKDBXDeVW
- NN6p6f77LOAy4LaNYvexeGrdX9j1Ktdl8tbS6NaS7tT61D0fk160poRD0zODLS.OZyHmbmGzv2oc
- 86yXHTjWmdJ_mDqXj5vKwcKkiX7CJmE.BUlzSAexwpYwY_kfwgKFeHra5R1Yrh_m2IpYIy.gxcUZ
- e953ZLLGJdnLHmdSiT5EAUlbJfIhVMQCiI6Xr2rJ0ezw9sR.QMkuuTC4qbto95VQKarlc8Do8Eh9
- 9OpB6x6hxyk8nLcNVahTvnuI4rEZZH66fte1ctHdAh3NedCSuB.21u7T9lCw0oQZMYo._DHyevUt
- _frwK4Fsr2keuJOzB1Jc_PZAAZvXiN8kcSIbz6nC2Nk6XSYBw.ZgiHga4Ce0avDPYvdvrn7W3GpO
- X5q8GLLndpHG2wLd6xMXpVYHL_vSKGeQiTVn1AgyUh.1Zp5Iay4nhebX5KgoCbs8zwPhiMRWqY2v
- qtrO5qjQ3GD90ZEvQi7HBuApsvRTsvvbhI.zRDa4rmQuzRF3e0pn0kHfzEP7Tdeg-
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic312.consmr.mail.ir2.yahoo.com with HTTP; Thu, 22 Oct 2020 22:52:17 +0000
-Date:   Thu, 22 Oct 2020 22:52:12 +0000 (UTC)
-From:   MONICA BROWN <monicabrown4098@gmail.com>
-Reply-To: monicabrown4098@gmail.com
-Message-ID: <2114866181.3904310.1603407132703@mail.yahoo.com>
-Subject: FROM SERGEANT MONICA BROWN
+        Fri, 23 Oct 2020 00:54:25 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 190A2C0613CE;
+        Thu, 22 Oct 2020 21:54:25 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id n9so255709pgt.8;
+        Thu, 22 Oct 2020 21:54:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :content-transfer-encoding;
+        bh=lsMim9fhx/TyK1uqD12rhdUeqHwdc89oDJ4SLQK8XTo=;
+        b=ci+XUqtt7/D+3YehXSxHeS1FbEqQdnjNh5F0slCdBHwu3ARWVSDINiN6zv6yWrdjv9
+         v9cPebqdONMGDANGucmxq+nUgYskiLgAg9HX+S4t2TkrrO1KtRA2vSSI+Ab21v3f4cv8
+         LRezbCwQQUDJFvWjAxjXjUj52viYR7OTKVA85R2+B4pZCHZ+jG1hj+c8FDxbs7xit4mI
+         QNzjREv8ejvCAOfrryIMNfpRdT1zZyFVY+mUjG15ilHynimMBUrOZOkgr0X/kTY8YXvq
+         wjQU6DsJZSw4fymv5K3vj8QhgCCMke9OBzkoeTRwtjyLA4CSCAEtIQXEykhrJJ0Y6Muc
+         DUWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:content-transfer-encoding;
+        bh=lsMim9fhx/TyK1uqD12rhdUeqHwdc89oDJ4SLQK8XTo=;
+        b=Luo097MXrfSlxl7rcnE0XdDfr6S7oFfE/adrMkzBeZoatLDDHRzaUtUPdJnq+MlrGM
+         HsTXFZcv+sZbA5cRBppwSOuYgBmsaEaVxhG9mvEi9sMuKFMHnmTI8xl4UqdfvXEvLJ6T
+         bGGBMxdsnD7qOrTdG2DoaEPDNdTdnUYy0b/szfP/I2e/pi5se3JJoCyYw7oJMpCd9UH8
+         WvFPh9v68xcbt7nTXEqZ3p2N0k7XNAisy87aK+T1q2RyLtMreRZLlnC/w83eTKXEBhTb
+         TF2bD/B4oMb3XhOXVcd4y+iOHa0Tx+tAOL+8GMwCIe1lE6ILDP3ia5xIvM9eCTA8IdbV
+         tP+A==
+X-Gm-Message-State: AOAM533uF6gXonkljTHx+w4WvMzvRIMBbSY0vpbjbBrCmvD4b06E0H6M
+        u581YF2oV6JlMEXHOQfeYQk=
+X-Google-Smtp-Source: ABdhPJyXgQS06ImeWOM4aCtlY+CgCGEAw1LdssRNzPw7wnD213f71eQqs4MrWFKcz0hqtDoESdp0Jg==
+X-Received: by 2002:a17:90a:e50e:: with SMTP id t14mr495028pjy.118.1603428864397;
+        Thu, 22 Oct 2020 21:54:24 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id kc21sm332267pjb.36.2020.10.22.21.54.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Oct 2020 21:54:23 -0700 (PDT)
+Date:   Thu, 22 Oct 2020 21:54:21 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [git pull] Input updates for v5.10-rc0
+Message-ID: <20201023045421.GA2205724@dtor-ws>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-References: <2114866181.3904310.1603407132703.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.16868 YMailNodin Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-I am Sergeant Monica Brown, originally from Lake Jackson Texas. I have 
-personally conducted a special research on the internet and came across 
-your information. I am writing you this mail from US Military Base Kabul 
-Afghanistan. I have a secured business proposal for you. If you are 
-interested in my private email (monicabrown4098@gmail.com), please contact me 
-immediately for more information.
-Thank you.
+Hi Linus,
+
+Please pull from:
+
+	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+
+to receive updates for the input subsystem. You will get:
+
+- a new driver for ADC driven joysticks
+- a new Zintix touchscreen driver
+- enhancements to Intel SoC button array driver
+- support for F3A "function" in Synaptics RMI4 driver
+- assorted driver fixups
+
+Changelog:
+---------
+
+Artur Rojek (2):
+      dt-bindings: input: Add docs for ADC driven joystick
+      Input: joystick - add ADC attached joystick driver.
+
+Dan Carpenter (1):
+      Input: imx6ul_tsc - clean up some errors in imx6ul_tsc_resume()
+
+Dmitry Torokhov (1):
+      Input: imx6ul_tsc - unify open/close and PM paths
+
+Furquan Shaikh (1):
+      Input: raydium_i2c_ts - use single i2c_transfer transaction when using RM_CMD_BANK_SWITCH
+
+Hans de Goede (8):
+      Input: allocate keycodes for notification-center, pickup-phone and hangup-phone
+      Input: allocate keycode for Fn + right shift
+      platform/x86: thinkpad_acpi: Add support for new hotkeys found on X1C8 / T14
+      platform/x86: thinkpad_acpi: Map Clipping tool hotkey to KEY_SELECTIVE_SCREENSHOT
+      Input: soc_button_array - add active_low setting to soc_button_info
+      Input: soc_button_array - add support for INT33D3 tablet-mode switch devices
+      Input: soc_button_array - work around DSDTs which modify the irqflags
+      Input: synaptics - enable InterTouch for ThinkPad T14 Gen 1
+
+Jason A. Donenfeld (2):
+      Input: synaptics-rmi4 - support bootloader v8 in f34v7
+      Input: synaptics - enable InterTouch for ThinkPad P1/X1E gen 2
+
+Joe Perches (1):
+      Input: MT - avoid comma separated statements
+
+Johnny Chuang (2):
+      Input: elants_i2c - report resolution of ABS_MT_TOUCH_MAJOR by FW information.
+      Input: elants_i2c - fix typo for an attribute to show calibration count
+
+Kenny Levinsen (1):
+      Input: evdev - per-client waitgroups
+
+Krzysztof Kozlowski (4):
+      Input: ep93xx_keypad - fix handling of platform_get_irq() error
+      Input: omap4-keypad - fix handling of platform_get_irq() error
+      Input: twl4030_keypad - fix handling of platform_get_irq() error
+      Input: sun4i-ps2 - fix handling of platform_get_irq() error
+
+Michael Srba (2):
+      dt-bindings: input/touchscreen: add bindings for zinitix
+      Input: add zinitix touchscreen driver
+
+Mika Penttilä (1):
+      Input: Add MAINTAINERS entry for SiS i2c touch input driver
+
+Vincent Huang (2):
+      Input: synaptics-rmi4 - rename f30_data to gpio_data
+      Input: synaptics-rmi4 - add support for F3A
+
+YueHaibing (1):
+      Input: stmfts - fix a & vs && typo
+
+Diffstat:
+--------
+
+ .../devicetree/bindings/input/adc-joystick.yaml    | 121 +++++
+ .../bindings/input/touchscreen/zinitix.txt         |  40 ++
+ .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
+ MAINTAINERS                                        |   7 +
+ drivers/hid/hid-rmi.c                              |   2 +-
+ drivers/input/evdev.c                              |  19 +-
+ drivers/input/input-mt.c                           |  11 +-
+ drivers/input/joystick/Kconfig                     |  10 +
+ drivers/input/joystick/Makefile                    |   1 +
+ drivers/input/joystick/adc-joystick.c              | 264 ++++++++++
+ drivers/input/keyboard/ep93xx_keypad.c             |   4 +-
+ drivers/input/keyboard/omap4-keypad.c              |   6 +-
+ drivers/input/keyboard/twl4030_keypad.c            |   8 +-
+ drivers/input/misc/soc_button_array.c              | 100 +++-
+ drivers/input/mouse/synaptics.c                    |   6 +-
+ drivers/input/rmi4/Kconfig                         |   8 +
+ drivers/input/rmi4/Makefile                        |   1 +
+ drivers/input/rmi4/rmi_bus.c                       |   3 +
+ drivers/input/rmi4/rmi_driver.h                    |   1 +
+ drivers/input/rmi4/rmi_f30.c                       |  14 +-
+ drivers/input/rmi4/rmi_f34v7.c                     |   9 +-
+ drivers/input/rmi4/rmi_f3a.c                       | 241 +++++++++
+ drivers/input/serio/sun4i-ps2.c                    |   9 +-
+ drivers/input/touchscreen/Kconfig                  |  12 +
+ drivers/input/touchscreen/Makefile                 |   1 +
+ drivers/input/touchscreen/elants_i2c.c             |   8 +-
+ drivers/input/touchscreen/imx6ul_tsc.c             |  47 +-
+ drivers/input/touchscreen/raydium_i2c_ts.c         | 131 ++---
+ drivers/input/touchscreen/stmfts.c                 |   2 +-
+ drivers/input/touchscreen/zinitix.c                | 581 +++++++++++++++++++++
+ drivers/platform/x86/thinkpad_acpi.c               |  18 +-
+ include/linux/rmi.h                                |  11 +-
+ include/uapi/linux/input-event-codes.h             |   4 +
+ 33 files changed, 1531 insertions(+), 171 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/adc-joystick.yaml
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/zinitix.txt
+ create mode 100644 drivers/input/joystick/adc-joystick.c
+ create mode 100644 drivers/input/rmi4/rmi_f3a.c
+ create mode 100644 drivers/input/touchscreen/zinitix.c
+
+Thanks.
 
 
-
-
-
-
-
+-- 
+Dmitry
