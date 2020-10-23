@@ -2,248 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 735E12979A2
-	for <lists+linux-input@lfdr.de>; Sat, 24 Oct 2020 01:24:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 981CD2979AF
+	for <lists+linux-input@lfdr.de>; Sat, 24 Oct 2020 01:30:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1758618AbgJWXXa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 23 Oct 2020 19:23:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56632 "EHLO
+        id S1758747AbgJWXa2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 23 Oct 2020 19:30:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1758556AbgJWXX3 (ORCPT
+        with ESMTP id S1754929AbgJWXa2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 23 Oct 2020 19:23:29 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAAE6C0613D2
-        for <linux-input@vger.kernel.org>; Fri, 23 Oct 2020 16:23:29 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id o1so63131pjt.2
-        for <linux-input@vger.kernel.org>; Fri, 23 Oct 2020 16:23:29 -0700 (PDT)
+        Fri, 23 Oct 2020 19:30:28 -0400
+Received: from mail-ua1-x941.google.com (mail-ua1-x941.google.com [IPv6:2607:f8b0:4864:20::941])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E231C0613CE
+        for <linux-input@vger.kernel.org>; Fri, 23 Oct 2020 16:30:27 -0700 (PDT)
+Received: by mail-ua1-x941.google.com with SMTP id x11so968822uav.1
+        for <linux-input@vger.kernel.org>; Fri, 23 Oct 2020 16:30:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=LqIgRaytoZbiT4gC6MyyI2BK4NdVuPOlLPLkmdt1eMA=;
-        b=gwjD4X8Mki63BN2D4Xi4bEL3G2Z3WH1tRFHUlg2WkNyo6JRvgInn4mgiTavn1Mq+bA
-         XP/D9Wk9BLwyZY3ht9VVe4X3B5P8OShzgBleJaurJfOIjTqBqQEDg9pfNUQiZtxDNV+C
-         td4dr+eedrB4uhJe5Atxl5vzUcIb39ZWphxNU=
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=f7t13KJFtLK85C1FR2S26/HGUVh7XtE1EASNOKN5/Sw=;
+        b=eTA546ceA0tx2anudpIlj8hWS6Zr4dDiqNUsxg0ECeHE9b4FVXomMA3NzZBODGaiS3
+         LcRcY0rThWckcVc3pVsVSSYkP+0iSM38PoEX4WaGWdU22yIadhkdDtKqzpxjq747+NC+
+         Jgu+VwsckF9NJTyrsyMYJ/N/2U7CQU1RHfh/8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=LqIgRaytoZbiT4gC6MyyI2BK4NdVuPOlLPLkmdt1eMA=;
-        b=nXFdMR/4k+y7JQjx7pYh1Za7MEvRFBhQZIauUlyaSYHDkzqK6SVJIur0igi+vYIzkX
-         a3GaajBxLwRK6D09pczZYz3F9NZunIZ8m6FWeyStbUdGCOF7qqNKcL8mxHSlOTdiEZ9n
-         ZlH8eQFGcPmEL9mgaX9x5rFJ1A/278qzM/ctabNYvDnAOd7bk57fq2dJREIPMLiR2liT
-         jExoOmvKvE80J5j3TjmsAlHuDiZX4+FCnFXX4SpFcD3HssrVPxJHLaosVN5hm6zaxUwN
-         iiwV5S6Oqep7O3UBOuIEVcuwlu6029cX3LlpxTopsi5elr984JK4ycNLMyaGEP2rrHun
-         hr6w==
-X-Gm-Message-State: AOAM532t/rOtyT2oud2GVzIP7cHBNGwX5gk/7a+l3E16wg+a8KVIc0Dz
-        ROADtJ59ZBMxW+2VBwo3pktCKg==
-X-Google-Smtp-Source: ABdhPJzIm383ptlg08roMSJ1XKjvtA0rR3QBqnlBzKw07+Yae7oVDxqyQsKCN/4QzSxp7+TudQT7WA==
-X-Received: by 2002:a17:90a:7f81:: with SMTP id m1mr5651943pjl.197.1603495409233;
-        Fri, 23 Oct 2020 16:23:29 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com ([2620:15c:202:1:42b0:34ff:fe3d:58e6])
-        by smtp.gmail.com with ESMTPSA id v17sm3789476pjy.40.2020.10.23.16.23.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2020 16:23:28 -0700 (PDT)
-From:   Douglas Anderson <dianders@chromium.org>
-To:     jkosina@suse.cz, benjamin.tissoires@redhat.com,
-        gregkh@linuxfoundation.org
-Cc:     andrea@borgia.bo.it, kai.heng.feng@canonical.com,
-        linux-input@vger.kernel.org, swboyd@chromium.org,
-        hdegoede@redhat.com, Douglas Anderson <dianders@chromium.org>,
-        Aaron Ma <aaron.ma@canonical.com>,
-        Daniel Playfair Cal <daniel.playfair.cal@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>, Pavel Balan <admin@kryma.net>,
-        Xiaofei Tan <tanxiaofei@huawei.com>,
-        You-Sheng Yang <vicamo.yang@canonical.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] HID: i2c-hid: Support the Goodix GT7375P touchscreen
-Date:   Fri, 23 Oct 2020 16:22:54 -0700
-Message-Id: <20201023162220.v2.3.Ied4ce10d229cd7c69abf13a0361ba0b8d82eb9c4@changeid>
-X-Mailer: git-send-email 2.29.0.rc1.297.gfa9743e501-goog
-In-Reply-To: <20201023162220.v2.1.I45b53fe84e2215946f900f5b28bab1aa9d029ac7@changeid>
-References: <20201023162220.v2.1.I45b53fe84e2215946f900f5b28bab1aa9d029ac7@changeid>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=f7t13KJFtLK85C1FR2S26/HGUVh7XtE1EASNOKN5/Sw=;
+        b=tx1DnSjb1zMEigcIZWk1IAcvQCIsoQFo1rPT6j29INF+yp8UmIePjmWOuWEzSO+aBu
+         urbrOutk7vIWqkdvj8QkoijJUCCqqjNE44nUriZXm7DsfznKwpmB85OtSpfQOYnTi6Jy
+         nebKmHeH3XUi4Nx42WNu58tPGl81dIfa48t50p4Mflpjy3a7qIIONq+xjCHmzlGxVYvL
+         Pm2KhMrfgmfbC5hwpDWeprP4QlZo7VlMV1CdE2SHnuj/cp8j/WPDCBDNuD5aODlf3unY
+         g4myyNd7ktw8COu/bfkavP4z7zSt2jkL8EyrdhDyiJuq6JF7fXYF61rDRHvFs8W2eE85
+         Rsjw==
+X-Gm-Message-State: AOAM530GBCUc6DSsKpljGkXMehdr1w8iBhzoRzp5IxGIca17tTaVq58Q
+        4wBTeXa/MiNw0lgX9cFrfuxzxDB5JfjSpw==
+X-Google-Smtp-Source: ABdhPJxVva2C/X8NiQiz4avirfQafwxxCIwHsEXWbvL4s/x492UEFEosRp4rZ30dSwR9EsM3Y/vrnA==
+X-Received: by 2002:a9f:35cb:: with SMTP id u11mr4314370uad.46.1603495822653;
+        Fri, 23 Oct 2020 16:30:22 -0700 (PDT)
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
+        by smtp.gmail.com with ESMTPSA id x186sm420120vke.32.2020.10.23.16.30.21
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 23 Oct 2020 16:30:21 -0700 (PDT)
+Received: by mail-ua1-f50.google.com with SMTP id 52so905980uaj.4
+        for <linux-input@vger.kernel.org>; Fri, 23 Oct 2020 16:30:21 -0700 (PDT)
+X-Received: by 2002:ab0:4923:: with SMTP id z32mr4192469uac.121.1603495820984;
+ Fri, 23 Oct 2020 16:30:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201023162220.v2.1.I45b53fe84e2215946f900f5b28bab1aa9d029ac7@changeid>
+ <20201023162220.v2.2.Ibb28033c81d87fcc13a6ba28c6ea7ac154d65f93@changeid>
+In-Reply-To: <20201023162220.v2.2.Ibb28033c81d87fcc13a6ba28c6ea7ac154d65f93@changeid>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Fri, 23 Oct 2020 16:30:09 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XnXCL0xrDoxpdaeQv5rut7Vpryor20KR4sHR_344_LcA@mail.gmail.com>
+Message-ID: <CAD=FV=XnXCL0xrDoxpdaeQv5rut7Vpryor20KR4sHR_344_LcA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] dt-bindings: HID: i2c-hid: Introduce bindings for
+ the Goodix GT7375P
+To:     Jiri Kosina <jkosina@suse.cz>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Andrea Borgia <andrea@borgia.bo.it>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        linux-input@vger.kernel.org, Stephen Boyd <swboyd@chromium.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The Goodix GT7375P touchscreen uses i2c-hid so we can support it with
-just a few changes to the i2c-hid driver.  Specifically this
-touchscreen needs to control a reset GPIO during its power sequencing.
+Hi,
 
-The Goodix timing diagram shows this:
+On Fri, Oct 23, 2020 at 4:23 PM Douglas Anderson <dianders@chromium.org> wrote:
+>
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/qcom,rpmh.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      ap_ts: touchscreen@5d {
+> +        compatible = "hid-over-i2c";
 
-         +----------------------------------
-         |
-AVDD ----+
-               +------------------------------
-         | (a) |
-RESET ---------+
-                     +-------------
-               | (b) |
-I2C comm OK ---------+
+You always find one more problem right after you hit send, don't you?
+Or is that just me?
 
-Where (a) is 10 ms and (b) is 120 ms.
+Obviously the above should say
 
-While we could just add some properties and specify this generically
-in the device tree, the guidance from the device tree maintainer is
-that it's better to list the specific model and infer everything from
-there.  Thus that's what this patch implements.
+compatible = "goodix,gt7375p";
 
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
+Luckily when I change that "dt_binding_check" still passes.  Whew!
 
-Changes in v2:
-- Use a separate compatible string for this new touchscreen.
-- Get timings based on the compatible string.
+I won't send a v3 yet and I'll wait for feedback.  On the off chance
+that there are no other problems with this binding and the maintainer
+wants to land this, I don't have any objections to the maintainer
+fixing this when the patch lands.
 
- drivers/hid/i2c-hid/i2c-hid-core.c    | 50 ++++++++++++++++++++++++++-
- include/linux/platform_data/i2c-hid.h |  5 +++
- 2 files changed, 54 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 786e3e9af1c9..0b2cd78b05e1 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -71,6 +71,12 @@ do {									  \
- 		dev_printk(KERN_DEBUG, &(ihid)->client->dev, fmt, ##arg); \
- } while (0)
- 
-+struct i2c_hid_match_data {
-+	u16 hid_descriptor_address;
-+	int post_power_delay_ms;
-+	int post_gpio_reset_delay_ms;
-+};
-+
- struct i2c_hid_desc {
- 	__le16 wHIDDescLength;
- 	__le16 bcdVersion;
-@@ -962,6 +968,21 @@ static inline void i2c_hid_acpi_enable_wakeup(struct device *dev) {}
- #endif
- 
- #ifdef CONFIG_OF
-+static bool i2c_hid_init_from_of_match(struct device *dev,
-+				       struct i2c_hid_platform_data *pdata)
-+{
-+	const struct i2c_hid_match_data *match_data = device_get_match_data(dev);
-+
-+	if (!match_data)
-+		return false;
-+
-+	pdata->hid_descriptor_address = match_data->hid_descriptor_address;
-+	pdata->post_power_delay_ms = match_data->post_power_delay_ms;
-+	pdata->post_gpio_reset_delay_ms = match_data->post_gpio_reset_delay_ms;
-+
-+	return true;
-+}
-+
- static int i2c_hid_of_probe(struct i2c_client *client,
- 		struct i2c_hid_platform_data *pdata)
- {
-@@ -969,6 +990,11 @@ static int i2c_hid_of_probe(struct i2c_client *client,
- 	u32 val;
- 	int ret;
- 
-+	/* Try getting everything based on the compatible string first */
-+	if (i2c_hid_init_from_of_match(&client->dev, pdata))
-+		return 0;
-+
-+	/* Fallback to getting hid-descr-addr from a property */
- 	ret = of_property_read_u32(dev->of_node, "hid-descr-addr", &val);
- 	if (ret) {
- 		dev_err(&client->dev, "HID register address not provided\n");
-@@ -984,8 +1010,15 @@ static int i2c_hid_of_probe(struct i2c_client *client,
- 	return 0;
- }
- 
-+static const struct i2c_hid_match_data goodix_gt7375p_match_data = {
-+	.hid_descriptor_address = 0x0001,
-+	.post_power_delay_ms = 10,
-+	.post_gpio_reset_delay_ms = 120,
-+};
-+
- static const struct of_device_id i2c_hid_of_match[] = {
--	{ .compatible = "hid-over-i2c" },
-+	{ .compatible = "goodix,gt7375p", .data = &goodix_gt7375p_match_data },
-+	{ .compatible = "hid-over-i2c" }, /* Deprecated */
- 	{},
- };
- MODULE_DEVICE_TABLE(of, i2c_hid_of_match);
-@@ -1053,6 +1086,12 @@ static int i2c_hid_probe(struct i2c_client *client,
- 	ihid->pdata.supplies[0].supply = "vdd";
- 	ihid->pdata.supplies[1].supply = "vddl";
- 
-+	/* Start out with reset asserted */
-+	ihid->pdata.reset_gpio =
-+		devm_gpiod_get_optional(&client->dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(ihid->pdata.reset_gpio))
-+		return PTR_ERR(ihid->pdata.reset_gpio);
-+
- 	ret = devm_regulator_bulk_get(&client->dev,
- 				      ARRAY_SIZE(ihid->pdata.supplies),
- 				      ihid->pdata.supplies);
-@@ -1067,6 +1106,10 @@ static int i2c_hid_probe(struct i2c_client *client,
- 	if (ihid->pdata.post_power_delay_ms)
- 		msleep(ihid->pdata.post_power_delay_ms);
- 
-+	gpiod_set_value_cansleep(ihid->pdata.reset_gpio, 0);
-+	if (ihid->pdata.post_gpio_reset_delay_ms)
-+		msleep(ihid->pdata.post_gpio_reset_delay_ms);
-+
- 	i2c_set_clientdata(client, ihid);
- 
- 	ihid->client = client;
-@@ -1163,6 +1206,7 @@ static int i2c_hid_remove(struct i2c_client *client)
- 	if (ihid->bufsize)
- 		i2c_hid_free_buffers(ihid);
- 
-+	gpiod_set_value_cansleep(ihid->pdata.reset_gpio, 1);
- 	regulator_bulk_disable(ARRAY_SIZE(ihid->pdata.supplies),
- 			       ihid->pdata.supplies);
- 
-@@ -1228,6 +1272,10 @@ static int i2c_hid_resume(struct device *dev)
- 
- 		if (ihid->pdata.post_power_delay_ms)
- 			msleep(ihid->pdata.post_power_delay_ms);
-+
-+		gpiod_set_value_cansleep(ihid->pdata.reset_gpio, 0);
-+		if (ihid->pdata.post_gpio_reset_delay_ms)
-+			msleep(ihid->pdata.post_gpio_reset_delay_ms);
- 	} else if (ihid->irq_wake_enabled) {
- 		wake_status = disable_irq_wake(client->irq);
- 		if (!wake_status)
-diff --git a/include/linux/platform_data/i2c-hid.h b/include/linux/platform_data/i2c-hid.h
-index c628bb5e1061..b2150223ffa6 100644
---- a/include/linux/platform_data/i2c-hid.h
-+++ b/include/linux/platform_data/i2c-hid.h
-@@ -12,6 +12,7 @@
- #ifndef __LINUX_I2C_HID_H
- #define __LINUX_I2C_HID_H
- 
-+#include <linux/gpio/consumer.h>
- #include <linux/regulator/consumer.h>
- #include <linux/types.h>
- 
-@@ -20,6 +21,8 @@
-  * @hid_descriptor_address: i2c register where the HID descriptor is stored.
-  * @supplies: regulators for powering on the device.
-  * @post_power_delay_ms: delay after powering on before device is usable.
-+ * @post_gpio_reset_delay_ms: delay after reset via GPIO.
-+ * @reset_gpio: optional gpio to de-assert after post_power_delay_ms.
-  *
-  * Note that it is the responsibility of the platform driver (or the acpi 5.0
-  * driver, or the flattened device tree) to setup the irq related to the gpio in
-@@ -36,6 +39,8 @@ struct i2c_hid_platform_data {
- 	u16 hid_descriptor_address;
- 	struct regulator_bulk_data supplies[2];
- 	int post_power_delay_ms;
-+	int post_gpio_reset_delay_ms;
-+	struct gpio_desc *reset_gpio;
- };
- 
- #endif /* __LINUX_I2C_HID_H */
--- 
-2.29.0.rc1.297.gfa9743e501-goog
-
+-Doug
