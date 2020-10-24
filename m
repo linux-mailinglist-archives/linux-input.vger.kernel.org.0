@@ -2,109 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4FE3297C74
-	for <lists+linux-input@lfdr.de>; Sat, 24 Oct 2020 14:47:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F11BB297C82
+	for <lists+linux-input@lfdr.de>; Sat, 24 Oct 2020 14:57:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1761506AbgJXMqp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 24 Oct 2020 08:46:45 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:27411 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1761491AbgJXMqn (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 24 Oct 2020 08:46:43 -0400
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 4CJLSx4XBXzJf;
-        Sat, 24 Oct 2020 14:46:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1603543601; bh=nLwavT2NA5+jIA2IuW6zD/l5oswZ/ngNahOWEbWGrOQ=;
-        h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
-        b=mN3JKBQgwYkkw7RtAVytbbnLQouuVsg8RyBQ4cV1GfmDB+hY697utmlJNAZaNBQK1
-         lMSea0EnnGRcBBDMNzURVB5kw6v9Oa7KQD56S6B2AFU9CjvTUuLvDakNU+gcom0436
-         4FiLuFwmh0e9L7WZB+ZtFyg3e354E/bUTWWyz3/ctcYpIPyxd3J4yuKX5uVqGWDb45
-         AkQmYpu1ZzIP9yK5TCzJkBQ3DRbLTyQ+/hI5xgXbUy5yYvHVSMJzpFWIxvcsqvDEKd
-         aLvk6q8UK0z3Pg/Jt3K0K3eQInGfgynvsao00D1PGvS6oU+tAKOOoNd68dcDXfhmoV
-         Ti9F/euk6CFbQ==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.4 at mail
-Date:   Sat, 24 Oct 2020 14:46:41 +0200
-Message-Id: <94eee607817c622c4fcb691a952ce8effe2456f8.1603543323.git.mirq-linux@rere.qmqm.pl>
-In-Reply-To: <cover.1603543323.git.mirq-linux@rere.qmqm.pl>
-References: <cover.1603543323.git.mirq-linux@rere.qmqm.pl>
-From:   =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Subject: [PATCH v8 4/4] input: elants: support 0x66 reply opcode for reporting
- touches
+        id S1761653AbgJXM5m (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 24 Oct 2020 08:57:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33976 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1761652AbgJXM53 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sat, 24 Oct 2020 08:57:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1603544247;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=gY6nxF6D69YYbbi8jJl1XX8/TD5XM0jzforV4QGjRvc=;
+        b=Ik50iFFiMzgKsPLxSC988WTbQ78rjTTkZ6r9jayegqWaCqyRAwLmZPTTCq8y/DdRs1/3Tc
+        5Ux1MjZnV8VXq9g9taMe31C6Wkvm54Ndo8+XDrY/PExysuelNgnooSH6UEU3M1d4MGyrkq
+        3DDfDu0QQENGF0eGtyVEQ+Pfn2Vo0iM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-308-V_v0JFzJOv2GoluPTgQuWw-1; Sat, 24 Oct 2020 08:57:22 -0400
+X-MC-Unique: V_v0JFzJOv2GoluPTgQuWw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27D5F1842175;
+        Sat, 24 Oct 2020 12:57:21 +0000 (UTC)
+Received: from x1.localdomain (ovpn-112-23.ams2.redhat.com [10.36.112.23])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id AED67277DA;
+        Sat, 24 Oct 2020 12:57:16 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        linux-input@vger.kernel.org
+Subject: [PATCH] HID: i2c-hid: Put ACPI enumerated devices in D3 on shutdown
+Date:   Sat, 24 Oct 2020 14:57:15 +0200
+Message-Id: <20201024125715.16683-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Johnny Chuang <johnny.chuang.emc@gmail.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Dmitry Osipenko <digetx@gmail.com>
+The i2c-hid driver would quietly fail to probe the i2c-hid sensor-hub
+with an ACPI device-id of SMO91D0 every other boot.
 
-eKTF3624 touchscreen firmware uses two variants of the reply opcodes for
-reporting touch events: one is 0x63 (used by older firmware) and other is
-0x66 (used by newer firmware). The 0x66 variant is equal to 0x63 of
-eKTH3500, while 0x63 needs small adjustment of the touch pressure value.
+Specifically, the i2c_smbus_read_byte() "Make sure there is something at
+this address" check would fail every other boot.
 
-Nexus 7 tablet device has eKTF3624 touchscreen and it uses 0x66 opcode for
-reporting touch events, let's support it now. Other devices, eg. ASUS TF300T,
-use 0x63.
+It seems that the BIOS does not properly reset/power-cycle the device
+leaving it in a confused state where it refuses to respond to i2c-xfers.
+On boots where probing the device failed, the driver-core puts the device
+in D3 after the probe-failure, which causes the probe to succeed the next
+boot.
 
-Note: CMD_HEADER_REK is used for replying to calibration requests, it has
-the same 0x66 opcode number which eKTF3624 uses for reporting touches.
-The calibration replies are handled separately from the the rest of the
-commands in the driver by entering into ELAN_WAIT_RECALIBRATION state
-and thus this change shouldn't change the old behavior.
+Putting the device in D3 from the shutdown-handler fixes the sensors not
+working every other boot.
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-Tested-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
-Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+This has been tested on both a Lenovo Miix 2-10 and a Dell Venue 8 Pro 5830
+both of which use an i2c-hid sensor-hub with an ACPI id of SMO91D0.
+
+Note that it is safe to call acpi_device_set_power() with a NULL pointer
+as first argument, so on none ACPI enumerated devices this change is a
+no-op.
+
+Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/input/touchscreen/elants_i2c.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/hid/i2c-hid/i2c-hid-core.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
-index c24d8cdc4251..1cbda6f20d07 100644
---- a/drivers/input/touchscreen/elants_i2c.c
-+++ b/drivers/input/touchscreen/elants_i2c.c
-@@ -61,6 +61,15 @@
- #define QUEUE_HEADER_NORMAL	0X63
- #define QUEUE_HEADER_WAIT	0x64
+diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+index dbd04492825d..b303a1dd0e3f 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-core.c
++++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+@@ -935,6 +935,11 @@ static void i2c_hid_acpi_fix_up_power(struct device *dev)
+ 		acpi_device_fix_up_power(adev);
+ }
  
-+/*
-+ * Depending on firmware version, eKTF3624 touchscreens may utilize one of
-+ * these opcodes for the touch events: 0x63 and 0x66. The 0x63 is used by
-+ * older firmware version and differs from 0x66 such that touch pressure
-+ * value needs to be adjusted. The 0x66 opcode of newer firmware is equal
-+ * to 0x63 of eKTH3500.
-+ */
-+#define QUEUE_HEADER_NORMAL2	0x66
++static void i2c_hid_acpi_shutdown(struct device *dev)
++{
++	acpi_device_set_power(ACPI_COMPANION(dev), ACPI_STATE_D3_COLD);
++}
 +
- /* Command header definition */
- #define CMD_HEADER_WRITE	0x54
- #define CMD_HEADER_READ		0x53
-@@ -1052,7 +1061,6 @@ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
- 		switch (ts->buf[FW_HDR_TYPE]) {
- 		case CMD_HEADER_HELLO:
- 		case CMD_HEADER_RESP:
--		case CMD_HEADER_REK:
- 			break;
+ static const struct acpi_device_id i2c_hid_acpi_match[] = {
+ 	{"ACPI0C50", 0 },
+ 	{"PNP0C50", 0 },
+@@ -949,6 +954,7 @@ static inline int i2c_hid_acpi_pdata(struct i2c_client *client,
+ }
  
- 		case QUEUE_HEADER_WAIT:
-@@ -1072,6 +1080,7 @@ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
- 			break;
+ static inline void i2c_hid_acpi_fix_up_power(struct device *dev) {}
++static inline void i2c_hid_acpi_shutdown(struct device *dev) {}
+ #endif
  
- 		case QUEUE_HEADER_NORMAL:
-+		case QUEUE_HEADER_NORMAL2:
- 			report_count = ts->buf[FW_HDR_COUNT];
- 			if (report_count == 0 || report_count > 3) {
- 				dev_err(&client->dev,
+ #ifdef CONFIG_OF
+@@ -1163,6 +1169,8 @@ static void i2c_hid_shutdown(struct i2c_client *client)
+ 
+ 	i2c_hid_set_power(client, I2C_HID_PWR_SLEEP);
+ 	free_irq(client->irq, ihid);
++
++	i2c_hid_acpi_shutdown(&client->dev);
+ }
+ 
+ #ifdef CONFIG_PM_SLEEP
 -- 
-2.20.1
+2.28.0
 
