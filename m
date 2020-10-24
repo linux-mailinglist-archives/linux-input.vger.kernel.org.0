@@ -2,33 +2,35 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8A96297C6C
-	for <lists+linux-input@lfdr.de>; Sat, 24 Oct 2020 14:46:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DF4F297C75
+	for <lists+linux-input@lfdr.de>; Sat, 24 Oct 2020 14:47:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1761493AbgJXMqm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 24 Oct 2020 08:46:42 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:46784 "EHLO rere.qmqm.pl"
+        id S1761535AbgJXMq6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 24 Oct 2020 08:46:58 -0400
+Received: from rere.qmqm.pl ([91.227.64.183]:29500 "EHLO rere.qmqm.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1761484AbgJXMqm (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        id S1761485AbgJXMqm (ORCPT <rfc822;linux-input@vger.kernel.org>);
         Sat, 24 Oct 2020 08:46:42 -0400
 Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 4CJLSv5Rg7z5H;
-        Sat, 24 Oct 2020 14:46:39 +0200 (CEST)
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 4CJLSw2kmYzFY;
+        Sat, 24 Oct 2020 14:46:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1603543600; bh=zm9GVLE1fSZCtFvipcUroOm/jMPtTgjksOYrVRgqJVQ=;
-        h=Date:From:Subject:To:Cc:From;
-        b=Fa8ioTpImEgVnyd63h4k4FchqNghaWEr+vHQf5Z6A8f0AJzzK1nZkmyAmOJlZAQBj
-         uVCr9FNWC24XHm2SCeae4t3KQx6zAajd+XIgpMhmUvwMNskX63a9TBv8DoL+1nBABv
-         oPwpt9C8yExecQ2QzOmJEcxbWfKQL+/mNK51HAdHmjl8CeTtygoN/LbZf7GEPHR/l5
-         rKbrdjNCfhkCmBtVXCn7bPT5wf5FGJWiFx+9cyy9IGmtor+2k9h/usQbImhiZiIC4j
-         9RA94NthNXYwC8Q+/laTzYQO5Ty+Ym26+RMlGsBxm7q4WEJ3ofduG12IWKoWTC5ZKI
-         8yeJ44n6LyMmQ==
+        t=1603543600; bh=3doK0FUutvkvWAsR9+JjynwPIbyNyVd+O7Di1WbQwyM=;
+        h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
+        b=LAv9rMRZezTUF3S7jbYtko9VUCFjEoDToryCItvKM4cNcdq+/5Dbdo57pIOU3eAaE
+         yII1VeMcpxL+mxrQM9NG5Ml2hAi3y8kfW8tIt4uiklk4f9u3Xg37wV1R7lzDx1g2Up
+         YL4JwpACqeEM4A4lJ0plFRN28efLXHG1/2vzfNmjfjR36TnB4F41iB3YuU6xRzTzQC
+         b9i+jD4v4dlPSwopEkIaiy51SZJ3N1JO6qzJCwkyAjCvI1eYnXjmHq7tA4tqv1Xon5
+         IQVNB7gzeeXCNCyZqHrRZUJ3BEZ0c/VsR3sQ9eklBTzfTnCW4E8SoYmQGi7MpVIDh8
+         3mYyCmZPN9fyg==
 X-Virus-Status: Clean
 X-Virus-Scanned: clamav-milter 0.102.4 at mail
-Date:   Sat, 24 Oct 2020 14:46:36 +0200
-Message-Id: <cover.1603543323.git.mirq-linux@rere.qmqm.pl>
+Date:   Sat, 24 Oct 2020 14:46:40 +0200
+Message-Id: <36596e65f85d3ee3ac5f35b108ab10dd462de097.1603543323.git.mirq-linux@rere.qmqm.pl>
+In-Reply-To: <cover.1603543323.git.mirq-linux@rere.qmqm.pl>
+References: <cover.1603543323.git.mirq-linux@rere.qmqm.pl>
 From:   =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Subject: [PATCH v8 0/4] input: elants: Support Asus TF300T and Nexus 7 touchscreens
+Subject: [PATCH v8 1/4] input: elants: document some registers and values
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -42,36 +44,73 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This series cleans up the driver a bit and implements changes needed to
-support EKTF3624-based touchscreen used in Asus TF300T, Google Nexus 7
-and similar Tegra3-based tablets.
+Add information found in downstream kernels, to make the code less
+magic.
 
+Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+Tested-by: Dmitry Osipenko <digetx@gmail.com>
 ---
-v2: extended with Dmitry's patches (replaced v1 patches 3 and 4)
-v3: rebased for v5.7-rc1
-v4: rebased onto v5.7-rc2+ (current Linus' master)
-    update "remove unused axes" and "refactor
-      elants_i2c_execute_command()" patches after review
-    add David's patch converting DT binding to YAML
-v5: rebased onto dtor/input/for-linus
-v6: rebased onto newer dtor/input/for-linus
-    remove yet unused constants from patch 1
-    added a new drive-by cleanup (last patch)
-v7: rebased onto current dtor/input/for-next
-v8: rebased onto current dtor/input/for-linus again
----
+ drivers/input/touchscreen/elants_i2c.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-Dmitry Osipenko (1):
-  input: elants: support 0x66 reply opcode for reporting touches
-
-Michał Mirosław (3):
-  input: elants: document some registers and values
-  input: elants: support old touch report format
-  input: elants: read touchscreen size for EKTF3624
-
- drivers/input/touchscreen/elants_i2c.c | 149 +++++++++++++++++++++----
- 1 file changed, 127 insertions(+), 22 deletions(-)
-
+diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
+index 50c348297e38..d51cb910fba1 100644
+--- a/drivers/input/touchscreen/elants_i2c.c
++++ b/drivers/input/touchscreen/elants_i2c.c
+@@ -82,7 +82,7 @@
+ 
+ #define HEADER_REPORT_10_FINGER	0x62
+ 
+-/* Header (4 bytes) plus 3 fill 10-finger packets */
++/* Header (4 bytes) plus 3 full 10-finger packets */
+ #define MAX_PACKET_SIZE		169
+ 
+ #define BOOT_TIME_DELAY_MS	50
+@@ -97,6 +97,10 @@
+ #define E_INFO_PHY_SCAN		0xD7
+ #define E_INFO_PHY_DRIVER	0xD8
+ 
++/* FW write command, 0x54 0x?? 0x0, 0x01 */
++#define E_POWER_STATE_SLEEP	0x50
++#define E_POWER_STATE_RESUME	0x58
++
+ #define MAX_RETRIES		3
+ #define MAX_FW_UPDATE_RETRIES	30
+ 
+@@ -269,8 +273,8 @@ static int elants_i2c_calibrate(struct elants_data *ts)
+ {
+ 	struct i2c_client *client = ts->client;
+ 	int ret, error;
+-	static const u8 w_flashkey[] = { 0x54, 0xC0, 0xE1, 0x5A };
+-	static const u8 rek[] = { 0x54, 0x29, 0x00, 0x01 };
++	static const u8 w_flashkey[] = { CMD_HEADER_WRITE, 0xC0, 0xE1, 0x5A };
++	static const u8 rek[] = { CMD_HEADER_WRITE, 0x29, 0x00, 0x01 };
+ 	static const u8 rek_resp[] = { CMD_HEADER_REK, 0x66, 0x66, 0x66 };
+ 
+ 	disable_irq(client->irq);
+@@ -1388,7 +1392,9 @@ static int __maybe_unused elants_i2c_suspend(struct device *dev)
+ {
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	struct elants_data *ts = i2c_get_clientdata(client);
+-	const u8 set_sleep_cmd[] = { 0x54, 0x50, 0x00, 0x01 };
++	const u8 set_sleep_cmd[] = {
++		CMD_HEADER_WRITE, E_POWER_STATE_SLEEP, 0x00, 0x01
++	};
+ 	int retry_cnt;
+ 	int error;
+ 
+@@ -1425,7 +1431,9 @@ static int __maybe_unused elants_i2c_resume(struct device *dev)
+ {
+ 	struct i2c_client *client = to_i2c_client(dev);
+ 	struct elants_data *ts = i2c_get_clientdata(client);
+-	const u8 set_active_cmd[] = { 0x54, 0x58, 0x00, 0x01 };
++	const u8 set_active_cmd[] = {
++		CMD_HEADER_WRITE, E_POWER_STATE_RESUME, 0x00, 0x01
++	};
+ 	int retry_cnt;
+ 	int error;
+ 
 -- 
 2.20.1
 
