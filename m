@@ -2,174 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 15B3829EDC0
-	for <lists+linux-input@lfdr.de>; Thu, 29 Oct 2020 14:59:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F308D29EE7C
+	for <lists+linux-input@lfdr.de>; Thu, 29 Oct 2020 15:39:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725710AbgJ2N6D (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 29 Oct 2020 09:58:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41268 "EHLO mail.kernel.org"
+        id S1726297AbgJ2OjY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 29 Oct 2020 10:39:24 -0400
+Received: from mga02.intel.com ([134.134.136.20]:59398 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727737AbgJ2N42 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 29 Oct 2020 09:56:28 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        id S1725940AbgJ2OjX (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 29 Oct 2020 10:39:23 -0400
+IronPort-SDR: lQgWhZF4XbgJyMMm+8ibkQLVQhnYdOeku13C0J4TlD31uZwsEXXA8pTUUl0UHXusO/k2Kz3w6Y
+ 5+XkGRPTbW8w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9788"; a="155412015"
+X-IronPort-AV: E=Sophos;i="5.77,430,1596524400"; 
+   d="scan'208";a="155412015"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2020 07:39:22 -0700
+IronPort-SDR: Hptkv6UPUiXzvYTL5f5nhw3TT+3RN9d0n4C1W1m25TIe8e4B9lm9KKlFLduzOzUU/7R0I24E1l
+ pxNofDI4E4Sg==
+X-IronPort-AV: E=Sophos;i="5.77,430,1596524400"; 
+   d="scan'208";a="526753052"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2020 07:39:21 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@intel.com>)
+        id 1kY96G-001JPJ-Oa; Thu, 29 Oct 2020 16:40:24 +0200
+X-Original-To: andriy.shevchenko@linux.intel.com
+Received: from linux.intel.com [10.54.29.200]
+        by smile.fi.intel.com with IMAP (fetchmail-6.4.12)
+        for <andy@localhost> (single-drop); Mon, 26 Oct 2020 19:45:07 +0200 (EET)
+Received: from fmsmga004.fm.intel.com (fmsmga004.fm.intel.com [10.253.24.48])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AA5452076A;
-        Thu, 29 Oct 2020 13:56:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603979787;
-        bh=+tQhmwxWMle16CxKrIdDRJWo3StoJ0VOhFS1q6E4UZI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZxMqmFLfVxR3i4yTu1s8/4ug5lYkmQvLIMib3tr2oU/kBQdGwZelO6HkTrHluR95o
-         pnNDl0c7sXvczWcpDncTk5KVc++gFp90oECeTYTi630ciEj/zYGKV9BTUoYIM9M35B
-         l1QN1/Y3Lyh49cXuZnNqt4pvKQ+txQR0Z5/DeHJQ=
-Date:   Thu, 29 Oct 2020 14:57:15 +0100
-From:   "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-To:     HyungJae Im <hj2.im@samsung.com>
-Cc:     "manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "rydberg@bitmath.org" <rydberg@bitmath.org>,
-        Jungrae Kim <jryu.kim@samsung.com>
-Subject: Re: [PATCH v2] input: add 2 kind of switch
-Message-ID: <20201029135715.GB3470996@kroah.com>
-References: <CGME20201029132747epcms1p8fae559dff47bf0eebdcc9f94efd9a1bf@epcms1p8>
- <20201029132747epcms1p8fae559dff47bf0eebdcc9f94efd9a1bf@epcms1p8>
+        by linux.intel.com (Postfix) with ESMTPS id 6DE81580100
+        for <andriy.shevchenko@linux.intel.com>; Mon, 26 Oct 2020 10:41:29 -0700 (PDT)
+IronPort-SDR: CbSfWwai0fuKIrXOOyqrHNIjPzZVRMMi48Og+QfDixNRENecZdbcQXozI3rhwVNRSTvy5VxP3X
+ j+YdqM1ZeYWQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,420,1596524400"; 
+   d="scan'208";a="350200903"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga004.fm.intel.com with ESMTP; 26 Oct 2020 10:41:28 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 68DE913C; Mon, 26 Oct 2020 19:41:27 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2] Input: edt-ft5x06 - use U16_MAX instead of -1
+Date:   Mon, 26 Oct 2020 19:41:26 +0200
+Message-Id: <20201026174126.19449-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201029132747epcms1p8fae559dff47bf0eebdcc9f94efd9a1bf@epcms1p8>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Oct 29, 2020 at 10:27:47PM +0900, HyungJae Im wrote:
-> From: "hj2.im" <hj2.im@samsung.com>
-> Date: Thu, 29 Oct 2020 22:11:24 +0900
-> Subject: [PATCH v2] input: add 2 kind of switch
+Explicitly show what the value we supply for the touchscreen resolution
+when it can't be detected. -1 is hard to compare with when unsigned short
+type is in use. The change will help to avoid signed vs. unsigned error
+prone comparisons.
 
-Why is this in the body of that patch?
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+v2: rebased on top of v5.10-rc1
+ drivers/input/touchscreen/edt-ft5x06.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-> 
-> We need support to various accessories on the device,
-> some switch does not exist in switch list.
-> So added switch for the following purpose.
-> 
-> SW_COVER_ATTACHED is for the checking the cover
-> attached or not on the device. SW_EXT_PEN_ATTACHED is for the
-> checking the external pen attached or not on the device
+diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
+index 6ff81d48da86..34e9cb9c0691 100644
+--- a/drivers/input/touchscreen/edt-ft5x06.c
++++ b/drivers/input/touchscreen/edt-ft5x06.c
+@@ -23,6 +23,7 @@
+ #include <linux/input/touchscreen.h>
+ #include <linux/irq.h>
+ #include <linux/kernel.h>
++#include <linux/limits.h>
+ #include <linux/module.h>
+ #include <linux/ratelimit.h>
+ #include <linux/regulator/consumer.h>
+@@ -1005,8 +1006,8 @@ edt_ft5x06_ts_get_parameters(struct edt_ft5x06_ts_data *tsdata)
+ 		tsdata->num_y = edt_ft5x06_register_read(tsdata,
+ 							 reg_addr->reg_num_y);
+ 	} else {
+-		tsdata->num_x = -1;
+-		tsdata->num_y = -1;
++		tsdata->num_x = U16_MAX;
++		tsdata->num_y = U16_MAX;
+ 	}
+ }
+ 
+-- 
+2.28.0
 
-You didn't answer the previous question as to why the existing values do
-not work for you instead of having to create new ones?
-
-
-> 
-> Signed-off-by: Hyungjae Im <hj2.im@samsung.com>
-> ---
->  drivers/input/Kconfig                  |  20 ++
->  drivers/input/Makefile                 |   3 +
->  drivers/input/cover_detect.c           | 242 ++++++++++++++++++++++++
->  drivers/input/ext_pen_detect.c         | 243 +++++++++++++++++++++++++
->  include/linux/mod_devicetable.h        |   2 +-
->  include/uapi/linux/input-event-codes.h |   4 +-
->  6 files changed, 512 insertions(+), 2 deletions(-)
->  create mode 100644 drivers/input/cover_detect.c
->  create mode 100644 drivers/input/ext_pen_detect.c
-
-If this is v2, what changed from v1?
-
-And this is 2 different drivers, it should be 2 different patches at the
-least, right?>
-
-> 
-> diff --git a/drivers/input/Kconfig b/drivers/input/Kconfig
-> index 1efd3154b68d..df902f4a549e 100644
-> --- a/drivers/input/Kconfig
-> +++ b/drivers/input/Kconfig
-> @@ -185,6 +185,26 @@ config INPUT_APMPOWER
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called apm-power.
->  
-> +config COVER_DETECT
-
-INPUT_COVER_DETECT?
-
-> +	tristate "Enable cover attach detection"
-> +	default n
-
-"default n" is always the default, no need for this here.
-
-> +	help
-> +	  Say Y here to enable cover attach detection
-> +	  and send a event when cover is attached/detached.
-> +	  Active gpio state is low and active event value is 0.
-> +
-> +	  If unsure, say N.
-
-What is the module name?
-
-> +
-> +config EXT_PEN_DETECT
-
-INPUT_EXT_PEN_DETECT?
-
-> +	tristate "Enable external pen attach detection"
-> +	default n
-
-No default n.
-
-> +	help
-> +	  Say Y here to enable external pen attach detection
-> +	  and send a event when external pen is attached/detached.
-> +	  Active gpio state is low and active event value is 0.
-> +
-> +	  If unsure, say N.
-
-What is the module name?
-
-> +
->  comment "Input Device Drivers"
->  
->  source "drivers/input/keyboard/Kconfig"
-> diff --git a/drivers/input/Makefile b/drivers/input/Makefile
-> index e35650930371..31ee1f2d2e21 100644
-> --- a/drivers/input/Makefile
-> +++ b/drivers/input/Makefile
-> @@ -29,3 +29,6 @@ obj-$(CONFIG_INPUT_MISC)	+= misc/
->  obj-$(CONFIG_INPUT_APMPOWER)	+= apm-power.o
->  
->  obj-$(CONFIG_RMI4_CORE)		+= rmi4/
-> +
-> +obj-$(CONFIG_COVER_DETECT)	+= cover_detect.o
-> +obj-$(CONFIG_EXT_PEN_DETECT)	+= ext_pen_detect.o
-> diff --git a/drivers/input/cover_detect.c b/drivers/input/cover_detect.c
-> new file mode 100644
-> index 000000000000..4d3d68c616ec
-> --- /dev/null
-> +++ b/drivers/input/cover_detect.c
-> @@ -0,0 +1,242 @@
-> +/*
-> + * Copyright (C) 2015 Samsung Electronics Co. Ltd. All Rights Reserved.
-
-Please use a SPDX line, and no need for this:
-
-> + *
-> + * This software is licensed under the terms of the GNU General Public
-> + * License version 2, as published by the Free Software Foundation, and
-> + * may be copied, distributed, and modified under those terms.
-> + *
-> + * This program is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + * GNU General Public License for more details.
-
-That can be removed.
-
-Also your copyright line is wrong, unless you really have not touched
-this file in 5 years.
-
-Same comments on the other file.
-
-thanks,
-
-greg k-h
