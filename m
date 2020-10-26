@@ -2,118 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6657D299160
-	for <lists+linux-input@lfdr.de>; Mon, 26 Oct 2020 16:46:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C6211299209
+	for <lists+linux-input@lfdr.de>; Mon, 26 Oct 2020 17:13:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1784387AbgJZPqS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 26 Oct 2020 11:46:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34707 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1784386AbgJZPqS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 26 Oct 2020 11:46:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1603727177;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=h+MN+S3y/X02EuGHRW8Xk0aI6rRHm+EdzE3SdDpAGt4=;
-        b=J5+3Iu5z+KDMlK8p+ubifZ3wqd9hCm5O3/j85KSMDsh1eMvg5kaOCF9KIs45wrjw27ygF2
-        fK2PDEB0imi0liRtddN/yp0D8+q5AcTIMERj7cz9m922zV5cd4pkOngqqEvVMcdEaAEM5J
-        hkx/mnXMg3dKFtzVaWpubN2CI9frv20=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-kEcCx6o7PRiXFZeUkn9ZXQ-1; Mon, 26 Oct 2020 11:46:13 -0400
-X-MC-Unique: kEcCx6o7PRiXFZeUkn9ZXQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1773772AbgJZQNj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 26 Oct 2020 12:13:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58372 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1772859AbgJZQNj (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 26 Oct 2020 12:13:39 -0400
+Received: from localhost.localdomain (unknown [192.30.34.233])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2305818B9F0B;
-        Mon, 26 Oct 2020 15:46:12 +0000 (UTC)
-Received: from x1.localdomain (ovpn-112-200.ams2.redhat.com [10.36.112.200])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 4FA6B5D9E4;
-        Mon, 26 Oct 2020 15:46:07 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        linux-input@vger.kernel.org
-Subject: [PATCH v2] HID: i2c-hid: Put ACPI enumerated devices in D3 on shutdown
-Date:   Mon, 26 Oct 2020 16:46:06 +0100
-Message-Id: <20201026154606.10409-1-hdegoede@redhat.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id 4B22E2085B;
+        Mon, 26 Oct 2020 16:13:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603728819;
+        bh=iknh9cCGY2ML3A0qcOQYSH5oxCx3Y8L3MKiYB+6/K5U=;
+        h=From:To:Cc:Subject:Date:From;
+        b=YqfIDtsh39FJdst7Z3w2y03TKBIHMlVkUyByJ2gfOVtnuCwU47TeU8Hpv4r02UKlQ
+         0T+GyYmOhx3m9MFH/V9zSV2pc/owbJOKo374ex8cCo2FCG1rvAyA1oXFOu4KSgzRo8
+         lo3itV20+3cbKQmOAihvpbzggsTaK0ybE0E1VtLA=
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Dudley Du <dudl@cypress.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] input: cyapa_gen6: fix out-of-bounds stack access
+Date:   Mon, 26 Oct 2020 17:13:29 +0100
+Message-Id: <20201026161332.3708389-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The i2c-hid driver would quietly fail to probe the i2c-hid sensor-hub
-with an ACPI device-id of SMO91D0 every other boot.
+From: Arnd Bergmann <arnd@arndb.de>
 
-Specifically, the i2c_smbus_read_byte() "Make sure there is something at
-this address" check would fail every other boot.
+gcc -Warray-bounds warns about a serious bug in
+cyapa_pip_retrieve_data_structure:
 
-It seems that the BIOS does not properly reset/power-cycle the device
-leaving it in a confused state where it refuses to respond to i2c-xfers.
-On boots where probing the device failed, the driver-core puts the device
-in D3 after the probe-failure, which causes the probe to succeed the next
-boot.
+drivers/input/mouse/cyapa_gen6.c: In function 'cyapa_pip_retrieve_data_structure.constprop':
+include/linux/unaligned/access_ok.h:40:17: warning: array subscript -1 is outside array bounds of 'struct retrieve_data_struct_cmd[1]' [-Warray-bounds]
+   40 |  *((__le16 *)p) = cpu_to_le16(val);
+drivers/input/mouse/cyapa_gen6.c:569:13: note: while referencing 'cmd'
+  569 |  } __packed cmd;
+      |             ^~~
 
-Putting the device in D3 from the shutdown-handler fixes the sensors not
-working every other boot.
+Apparently the '-2' was added to the pointer instead of the value,
+writing garbage into the stack next to this variable.
 
-This has been tested on both a Lenovo Miix 2-10 and a Dell Venue 8 Pro 5830
-both of which use an i2c-hid sensor-hub with an ACPI id of SMO91D0.
-
-Note that it is safe to call acpi_device_set_power() with a NULL pointer
-as first argument, so on none ACPI enumerated devices this change is a
-no-op.
-
-Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Fixes: c2c06c41f700 ("Input: cyapa - add gen6 device module support")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
-Changes in v2:
--Rebase on 5.10-rc1
----
- drivers/hid/i2c-hid/i2c-hid-core.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/input/mouse/cyapa_gen6.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 786e3e9af1c9..aeff1ffb0c8b 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -943,6 +943,11 @@ static void i2c_hid_acpi_enable_wakeup(struct device *dev)
- 	}
- }
+diff --git a/drivers/input/mouse/cyapa_gen6.c b/drivers/input/mouse/cyapa_gen6.c
+index 7eba66fbef58..812edfced86e 100644
+--- a/drivers/input/mouse/cyapa_gen6.c
++++ b/drivers/input/mouse/cyapa_gen6.c
+@@ -573,7 +573,7 @@ static int cyapa_pip_retrieve_data_structure(struct cyapa *cyapa,
  
-+static void i2c_hid_acpi_shutdown(struct device *dev)
-+{
-+	acpi_device_set_power(ACPI_COMPANION(dev), ACPI_STATE_D3_COLD);
-+}
-+
- static const struct acpi_device_id i2c_hid_acpi_match[] = {
- 	{"ACPI0C50", 0 },
- 	{"PNP0C50", 0 },
-@@ -959,6 +964,8 @@ static inline int i2c_hid_acpi_pdata(struct i2c_client *client,
- static inline void i2c_hid_acpi_fix_up_power(struct device *dev) {}
- 
- static inline void i2c_hid_acpi_enable_wakeup(struct device *dev) {}
-+
-+static inline void i2c_hid_acpi_shutdown(struct device *dev) {}
- #endif
- 
- #ifdef CONFIG_OF
-@@ -1175,6 +1182,8 @@ static void i2c_hid_shutdown(struct i2c_client *client)
- 
- 	i2c_hid_set_power(client, I2C_HID_PWR_SLEEP);
- 	free_irq(client->irq, ihid);
-+
-+	i2c_hid_acpi_shutdown(&client->dev);
- }
- 
- #ifdef CONFIG_PM_SLEEP
+ 	memset(&cmd, 0, sizeof(cmd));
+ 	put_unaligned_le16(PIP_OUTPUT_REPORT_ADDR, &cmd.head.addr);
+-	put_unaligned_le16(sizeof(cmd), &cmd.head.length - 2);
++	put_unaligned_le16(sizeof(cmd) - 2, &cmd.head.length);
+ 	cmd.head.report_id = PIP_APP_CMD_REPORT_ID;
+ 	cmd.head.cmd_code = PIP_RETRIEVE_DATA_STRUCTURE;
+ 	put_unaligned_le16(read_offset, &cmd.read_offset);
 -- 
-2.28.0
+2.27.0
 
