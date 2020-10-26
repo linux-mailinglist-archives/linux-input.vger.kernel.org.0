@@ -2,176 +2,348 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A3D5299532
-	for <lists+linux-input@lfdr.de>; Mon, 26 Oct 2020 19:24:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BFC429982A
+	for <lists+linux-input@lfdr.de>; Mon, 26 Oct 2020 21:46:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1784573AbgJZSYS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 26 Oct 2020 14:24:18 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:33245 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1784549AbgJZSYS (ORCPT
+        id S1727194AbgJZUqs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 26 Oct 2020 16:46:48 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:35373 "EHLO
+        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726900AbgJZUqr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 26 Oct 2020 14:24:18 -0400
-Received: by mail-wm1-f66.google.com with SMTP id l20so5752588wme.0;
-        Mon, 26 Oct 2020 11:24:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=etvGadW+3Q8LgTJlwqBN3viqL9TDU3OPQW5Mj92hM1M=;
-        b=qLXPG59Gsqt6ffBX+s9FGywFCFRT0zE8R13zd7HwUYgijswWoDpF1+vlhjm+1ugFy2
-         5L0d3I9u7f5H+lrBF/Sz6T3p+d210t/EerXOhoVshoDA0jSjvaJQxWxmHEAfknVJb52j
-         RKAssGt+lmq1obeLlddpx8KDPBf5eautdn5/iArOGB4vGZ9AN2zfn07tx+B5cKmRV1/U
-         QoQZtIl5lslAuBh9KcmEEGJOYNCej+AeOaePm5cTYTOLeL3BjTvnD1hsDSp152NyFVTz
-         /+7IULo/SGTFPcGJKvKdF/30yPY2wGJiV3wWU6q9EMzx0csN3wyJlrJVz57mHQUneXWl
-         9+tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=etvGadW+3Q8LgTJlwqBN3viqL9TDU3OPQW5Mj92hM1M=;
-        b=gPC5WRYKJo/2kZBGayPHYGUX2PQXR6VomQDKJOhFbJY815h9f/Utrluo48st8unUCH
-         lrynVP7C3f71ZM+e+Sc6j0dChxd/iUzKYbSWKtnaBd/P+HjdTCnCBWsPx3igGK+FZxw3
-         ARZ2J2sjQHJvaIMVTW47FZQQhIrpaixB9pplQoMuYO0tGhc1LSrZ89xiJ6bxdKARDuFz
-         7/Z3+6YymUF8sabizynNaUJsfO/oDLDaSoDLsHKGJV/XEZV3kKSpdWpVCX9wSuF5FJn/
-         3KhvCZj+JfL4WV28JWlEoKswJbMFlXX0F0H0HSTJa7OMP3mpn7mIYpb2vFBGIEQUgxh3
-         4tsg==
-X-Gm-Message-State: AOAM532wrHjNGM8tytXpU/5HromyxRMpltHQuvzRUIYfzJbvC209AO4V
-        o4nFDfSgEfCTclS9Qe7v6ex6lBrNBtLOnwdJT6M=
-X-Google-Smtp-Source: ABdhPJz4bV0JFM77SRaYXyikcLHwfMO2Klyg87DVyBh54afs+S1MvMFy+2Gf0p/1uh68laXhnC3XK5+CSuwk/4yMaks=
-X-Received: by 2002:a7b:c015:: with SMTP id c21mr17167222wmb.22.1603736655213;
- Mon, 26 Oct 2020 11:24:15 -0700 (PDT)
+        Mon, 26 Oct 2020 16:46:47 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id 1F1A75C00C5;
+        Mon, 26 Oct 2020 16:46:46 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Mon, 26 Oct 2020 16:46:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=mVw9AE
+        1TjBay7fidGuoni7RQodZ+dQY8mmqmlGtanbk=; b=bz0MAurFiZ8fQyLepHYpIR
+        ofUFq8r3EEnpMCqYTbejjAXKCemeEK+6kD1xYp3XZUUqP2T09ebZ+PsxdqXavlN6
+        sWRKZmxSWzM/eA93Yc+DkZdOUPl4Xf1f/kGsXjVyagpiLi/EeZD49sy7EC6iId4O
+        PATmxXIUbePZoVi7rtGqt0ZSTdbiN+xLNSL6KZwJ5V4GamQVuIkiYO3CUaj0nC2c
+        Plw/txslsDVPPtFL1681wpkFVqYg/XI6Ci6HR6cd1DoOD57IHfesATxIch5nKJK9
+        uKX/fYNFlmprz0bg/bJeCeXMoLxx3xFstahc6flef/dsAQflxVkAo/1uy8TrYkwA
+        ==
+X-ME-Sender: <xms:tTWXX0zc-aMaAhaAy66XvdF7kKUjQXNr0m-_vylxbfIpbkrmEOdqfA>
+    <xme:tTWXX4QwVZOkpOY532PmCIb8VL5VOrFjqyyiuk1m-ra_oREoRirZupbSyAwogA0Kd
+    D8wXsw_-YhZLlWrbo4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkeejgddutdeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhuffvkfgjfhfogggtsehttdertdertddvnecuhfhrohhmpefnuhhkvgcu
+    lfhonhgvshcuoehluhhkvgeslhhjohhnvghsrdguvghvqeenucggtffrrghtthgvrhhnpe
+    fgfeefudffhffgueehgeffffeggeevieefueethfeijefftedugfeuveethedtteenucfk
+    phepvddtfedruddugedrudeguddrudeinecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+    hrrghmpehmrghilhhfrhhomheplhhukhgvsehljhhonhgvshdruggvvh
+X-ME-Proxy: <xmx:tTWXX2WY7G3tiun7836u3ILph3XWuUvLKxMzmiVVZRkf6MfizQ0W9A>
+    <xmx:tTWXXygNp7ZySF-yWhBYU0BCh21dbYvpDhBcWuoU7b8M23R1VdEW3g>
+    <xmx:tTWXX2BOFuhKFyXGxtzUBxhklu5P8WbOCR1IAVvQo58aLbB5rPtt9w>
+    <xmx:tjWXX36V0yaaDupjxHOhOx0LIyHZRiHUmX0u-6MIwJr9vLlmdiFioQ>
+Received: from [192.168.20.20] (203-114-141-16.sta.inspire.net.nz [203.114.141.16])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 0F8CC3064684;
+        Mon, 26 Oct 2020 16:46:41 -0400 (EDT)
+Date:   Tue, 27 Oct 2020 09:46:28 +1300
+From:   Luke Jones <luke@ljones.dev>
+Subject: Re: [PATCH V9] HID: ASUS: Add support for ASUS N-Key keyboard
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     linux-input@vger.kernel.org, jikos@kernel.org, andy@infradead.org,
+        benjamin.tissoires@redhat.com
+Message-Id: <GPTTIQ.UYDTGI32JMY01@ljones.dev>
+In-Reply-To: <7a4dd27f-5080-b651-9d8e-7aa57a5b895b@redhat.com>
+References: <20201025005615.40615-1-luke@ljones.dev>
+        <7a4dd27f-5080-b651-9d8e-7aa57a5b895b@redhat.com>
+X-Mailer: geary/3.38.1
 MIME-Version: 1.0
-References: <20201024105111.15829-1-kholk11@gmail.com> <20201024105111.15829-3-kholk11@gmail.com>
-In-Reply-To: <20201024105111.15829-3-kholk11@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 26 Oct 2020 20:24:39 +0200
-Message-ID: <CAHp75VeRagDvpZBFZ4+T8JgsjOKxuZjxRHw_azXKQx5O3Cx5yw@mail.gmail.com>
-Subject: Re: [PATCH v7 2/3] Input: Add Novatek NT36xxx touchscreen driver
-To:     kholk11@gmail.com
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>, priv.luk@gmail.com,
-        linux-input <linux-input@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        marijns95@gmail.com, Konrad Dybcio <konradybcio@gmail.com>,
-        Martin Botka <martin.botka1@gmail.com>,
-        phone-devel@vger.kernel.org,
-        devicetree <devicetree@vger.kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Oct 24, 2020 at 1:51 PM <kholk11@gmail.com> wrote:
->
-> From: AngeloGioacchino Del Regno <kholk11@gmail.com>
->
-> This is a driver for the Novatek in-cell touch controller and
-> supports various chips from the NT36xxx family, currently
-> including NT36525, NT36672A, NT36676F, NT36772 and NT36870.
->
-> Functionality like wake gestures and firmware flashing is not
-> included: I am not aware of any of these DrIC+Touch combo
-> chips not including a non-volatile memory and it should be
-> highly unlikely to find one, since the touch firmware is
-> embedded into the DriverIC one, which is obviously necessary
-> to drive the display unit.
->
-> However, the necessary address for the firmware update
-> procedure was included into the address table in this driver
-> so, in the event that someone finds the need to implement it
-> for a reason or another, it will be pretty straightforward to.
->
-> This driver is lightly based on the downstream implementation [1].
-> [1] https://github.com/Rasenkai/caf-tsoft-Novatek-nt36xxx
 
-(From drafts, didn't have time to finish and see already v8, so please revisit)
+G'day Hans.
 
-...
+> Can you try using "git send-email" for the next version ?
 
-> +#include <asm/unaligned.h>
-> +#include <linux/delay.h>
-> +#include <linux/i2c.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/mod_devicetable.h>
-> +#include <linux/module.h>
-> +#include <linux/regmap.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/input/mt.h>
-> +#include <linux/input/touchscreen.h>
-> +#include <linux/regulator/consumer.h>
+I do. And I just figured out why this happens, I was editing the subject
+line in vim before sending, and I have a white-space removal thing
+happening on write :(
 
-Perhaps sorted? Also, asm/* usually go after linux/*.
+> initialized
 
-...
+Done
 
-> +#define TOUCH_MAX_PRESSURE      1000
+> Please for the next version put a changelog here.
 
-Any units?
+Darn... I did add a good changelog but it seems to have been cut.
 
-...
+> 
+>>   drivers/hid/hid-asus.c | 116 
+>> ++++++++++++++++++++++++++++++++++++-----
+>>   drivers/hid/hid-ids.h  |   1 +
+>>   2 files changed, 103 insertions(+), 14 deletions(-)
+>> 
+>>  diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+>>  index c183caf89d49..98b033b4951f 100644
+>>  --- a/drivers/hid/hid-asus.c
+>>  +++ b/drivers/hid/hid-asus.c
+>>  @@ -48,6 +48,8 @@ MODULE_DESCRIPTION("Asus HID Keyboard and 
+>> TouchPad");
+>>   #define INPUT_REPORT_ID 0x5d
+>>   #define FEATURE_KBD_REPORT_ID 0x5a
+>>   #define FEATURE_KBD_REPORT_SIZE 16
+>>  +#define FEATURE_KBD_LED_REPORT_ID1 0x5d
+>>  +#define FEATURE_KBD_LED_REPORT_ID2 0x5e
+>> 
+>>   #define SUPPORT_KBD_BACKLIGHT BIT(0)
+>> 
+>>  @@ -80,6 +82,7 @@ MODULE_DESCRIPTION("Asus HID Keyboard and 
+>> TouchPad");
+>>   #define QUIRK_T101HA_DOCK		BIT(9)
+>>   #define QUIRK_T90CHI			BIT(10)
+>>   #define QUIRK_MEDION_E1239T		BIT(11)
+>>  +#define QUIRK_ROG_NKEY_KEYBOARD		BIT(12)
+>> 
+>>   #define I2C_KEYBOARD_QUIRKS			(QUIRK_FIX_NOTEBOOK_REPORT | \
+>>   						 QUIRK_NO_INIT_REPORTS | \
+>>  @@ -332,6 +335,28 @@ static int asus_raw_event(struct hid_device 
+>> *hdev,
+>>   	if (drvdata->quirks & QUIRK_MEDION_E1239T)
+>>   		return asus_e1239t_event(drvdata, data, size);
+>> 
+>>  +	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
+>>  +		/*
+>>  +		 * Skip these report ID, the device emits a continuous stream 
+>> associated
+>>  +		 * with the AURA mode it is in which looks like an 'echo'.
+>>  +		*/
+>>  +		if (report->id == FEATURE_KBD_LED_REPORT_ID1 ||
+>>  +				report->id == FEATURE_KBD_LED_REPORT_ID2) {
+>>  +			return -1;
+>>  +		/* Additional report filtering */
+>>  +		} else if (report->id == FEATURE_KBD_REPORT_ID) {
+>>  +			/*
+>>  +			 * G14 and G15 send these codes on some keypresses with no
+>>  +			 * discernable reason for doing so. We'll filter them out to 
+>> avoid
+>>  +			 * unmapped warning messages later.
+>>  +			*/
+>>  +			if (data[1] == 0xea || data[1] == 0xec || data[1] == 0x02 ||
+>>  +					data[1] == 0x8a || data[1] == 0x9e) {
+>>  +				return -1;
+>>  +			}
+>>  +		}
+>>  +	}
+>>  +
+>>   	return 0;
+>>   }
+>> 
+>>  @@ -344,7 +369,11 @@ static int asus_kbd_set_report(struct 
+>> hid_device *hdev, u8 *buf, size_t buf_size
+>>   	if (!dmabuf)
+>>   		return -ENOMEM;
+>> 
+>>  -	ret = hid_hw_raw_request(hdev, FEATURE_KBD_REPORT_ID, dmabuf,
+>>  +	/*
+>>  +	 * The report ID should be set from the incoming buffer due to 
+>> LED and key
+>>  +	 * interfaces having different pages
+>>  +	*/
+>>  +	ret = hid_hw_raw_request(hdev, buf[0], dmabuf,
+>>   				 buf_size, HID_FEATURE_REPORT,
+>>   				 HID_REQ_SET_REPORT);
+>>   	kfree(dmabuf);
+>>  @@ -397,6 +426,44 @@ static int asus_kbd_get_functions(struct 
+>> hid_device *hdev,
+>>   	return ret;
+>>   }
+>> 
+>>  +static int rog_nkey_led_init(struct hid_device *hdev)
+>>  +{
+>>  +	u8 buf_init_start[] = { FEATURE_KBD_LED_REPORT_ID1, 0xB9 };
+>>  +	u8 buf_init2[] = { FEATURE_KBD_LED_REPORT_ID1, 0x41, 0x53, 0x55, 
+>> 0x53, 0x20,
+>>  +				0x54, 0x65, 0x63, 0x68, 0x2e, 0x49, 0x6e, 0x63, 0x2e, 0x00 };
+>>  +	u8 buf_init3[] = { FEATURE_KBD_LED_REPORT_ID1,
+>>  +						0x05, 0x20, 0x31, 0x00, 0x08 };
+>>  +	int ret;
+>>  +
+>>  +	hid_info(hdev, "Asus initialise N-KEY Device");
+>>  +	/* The first message is an init start */
+>>  +	ret = asus_kbd_set_report(hdev, buf_init_start, 
+>> sizeof(buf_init_start));
+>>  +	if (ret < 0)
+>>  +		hid_warn(hdev, "Asus failed to send init start command: %d\n", 
+>> ret);
+>>  +	/* Followed by a string */
+>>  +	ret = asus_kbd_set_report(hdev, buf_init2, sizeof(buf_init2));
+>>  +	if (ret < 0)
+>>  +		hid_warn(hdev, "Asus failed to send init command 1.0: %d\n", 
+>> ret);
+> 
+> Hmm, so this construction means that the final return value of this 
+> function
+> may be 0 even if some commands fail.
+> 
+> The actual led calls device registration will get skipped on a 
+> failure return;
+> and we probably should skip that registration on any errors, so how 
+> about:
+> 
+> 	ret = asus_kbd_set_report(hdev, buf_init_start, 
+> sizeof(buf_init_start));
+> 	if (ret < 0) {
+> 		hid_warn(hdev, "Asus failed to send init start command: %d\n", ret);
+> 		return ret;
+> 	}
+> 	/* Followed by a string */
+> 	ret = asus_kbd_set_report(hdev, buf_init2, sizeof(buf_init2));
+> 	if (ret < 0) {
+> 		hid_warn(hdev, "Asus failed to send init command 1.0: %d\n", ret);
+> 		return ret;
+> 	}
+> 
+> etc. ?  This (return on first error) is the normal way of dealing 
+> with things
+> like this in the kernel.
+> 
 
-> +       ts = devm_kzalloc(&hw_client->dev, sizeof(struct nt36xxx_i2c), GFP_KERNEL);
+Done. Thanks for the pointer here.
 
-sizeof(*ts) ?
+I'll submit a v10, with changes from v8-v10 in the changelog. Sorry 
+about that
+I'm really not sure at what stage the log got cut out.
 
-> +       if (!ts)
-> +               return -ENOMEM;
-> +
-> +       ts->supplies = devm_kcalloc(&hw_client->dev,
-> +                                   NT36XXX_NUM_SUPPLIES,
+> 
+> 
+> 
+> 
+> 
+>>  +	/* Followed by a string */
+>>  +	ret = asus_kbd_set_report(hdev, buf_init3, sizeof(buf_init3));
+>>  +	if (ret < 0)
+>>  +		hid_warn(hdev, "Asus failed to send init command 1.1: %d\n", 
+>> ret);
+>>  +
+>>  +	/* begin second report ID with same data */
+>>  +	buf_init2[0] = FEATURE_KBD_LED_REPORT_ID2;
+>>  +	buf_init3[0] = FEATURE_KBD_LED_REPORT_ID2;
+>>  +
+>>  +	ret = asus_kbd_set_report(hdev, buf_init2, sizeof(buf_init2));
+>>  +	if (ret < 0)
+>>  +		hid_warn(hdev, "Asus failed to send init command 2.0: %d\n", 
+>> ret);
+>>  +
+>>  +	ret = asus_kbd_set_report(hdev, buf_init3, sizeof(buf_init3));
+>>  +	if (ret < 0)
+>>  +		hid_warn(hdev, "Asus failed to send init command 2.1: %d\n", 
+>> ret);
+>>  +
+>>  +	return ret;
+>>  +}
+>>  +
+>>   static void asus_kbd_backlight_set(struct led_classdev *led_cdev,
+>>   				   enum led_brightness brightness)
+>>   {
+>>  @@ -460,19 +527,25 @@ static int asus_kbd_register_leds(struct 
+>> hid_device *hdev)
+>>   	unsigned char kbd_func;
+>>   	int ret;
+>> 
+>>  -	/* Initialize keyboard */
+>>  -	ret = asus_kbd_init(hdev);
+>>  -	if (ret < 0)
+>>  -		return ret;
+>>  +	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
+>>  +		ret = rog_nkey_led_init(hdev);
+>>  +		if (ret < 0)
+>>  +			return ret;
+>>  +	} else {
+>>  +		/* Initialize keyboard */
+>>  +		ret = asus_kbd_init(hdev);
+>>  +		if (ret < 0)
+>>  +			return ret;
+>> 
+>>  -	/* Get keyboard functions */
+>>  -	ret = asus_kbd_get_functions(hdev, &kbd_func);
+>>  -	if (ret < 0)
+>>  -		return ret;
+>>  +		/* Get keyboard functions */
+>>  +		ret = asus_kbd_get_functions(hdev, &kbd_func);
+>>  +		if (ret < 0)
+>>  +			return ret;
+>> 
+>>  -	/* Check for backlight support */
+>>  -	if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
+>>  -		return -ENODEV;
+>>  +		/* Check for backlight support */
+>>  +		if (!(kbd_func & SUPPORT_KBD_BACKLIGHT))
+>>  +			return -ENODEV;
+>>  +	}
+>> 
+>>   	drvdata->kbd_backlight = devm_kzalloc(&hdev->dev,
+>>   					      sizeof(struct asus_kbd_leds),
+>>  @@ -751,8 +824,8 @@ static int asus_input_mapping(struct hid_device 
+>> *hdev,
+>>   	     usage->hid == (HID_UP_GENDEVCTRLS | 0x0026)))
+>>   		return -1;
+>> 
+>>  -	/* ASUS-specific keyboard hotkeys */
+>>  -	if ((usage->hid & HID_USAGE_PAGE) == 0xff310000) {
+>>  +	/* ASUS-specific keyboard hotkeys and led backlight */
+>>  +	if ((usage->hid & HID_USAGE_PAGE) == HID_UP_ASUSVENDOR) {
+>>   		switch (usage->hid & HID_USAGE) {
+>>   		case 0x10: asus_map_key_clear(KEY_BRIGHTNESSDOWN);	break;
+>>   		case 0x20: asus_map_key_clear(KEY_BRIGHTNESSUP);		break;
+>>  @@ -780,6 +853,18 @@ static int asus_input_mapping(struct 
+>> hid_device *hdev,
+>>   		/* Fn+F5 "fan" symbol on FX503VD */
+>>   		case 0x99: asus_map_key_clear(KEY_PROG4);		break;
+>> 
+>>  +		/* Fn+F5 "fan" symbol on N-Key keyboard */
+>>  +		case 0xae: asus_map_key_clear(KEY_PROG4);		break;
+>>  +
+>>  +		/* Fn+Ret "Calc" symbol on N-Key keyboard */
+>>  +		case 0x92: asus_map_key_clear(KEY_CALC);		break;
+>>  +
+>>  +		/* Fn+Left Aura mode previous on N-Key keyboard */
+>>  +		case 0xb2: asus_map_key_clear(KEY_PROG2);		break;
+>>  +
+>>  +		/* Fn+Right Aura mode next on N-Key keyboard */
+>>  +		case 0xb3: asus_map_key_clear(KEY_PROG3);		break;
+>>  +
+>>   		default:
+>>   			/* ASUS lazily declares 256 usages, ignore the rest,
+>>   			 * as some make the keyboard appear as a pointer device. */
+>>  @@ -1126,6 +1211,9 @@ static const struct hid_device_id 
+>> asus_devices[] = {
+>>   	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
+>>   		USB_DEVICE_ID_ASUSTEK_FX503VD_KEYBOARD),
+>>   	  QUIRK_USE_KBD_BACKLIGHT },
+>>  +	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
+>>  +	    USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD),
+>>  +	  QUIRK_USE_KBD_BACKLIGHT | QUIRK_ROG_NKEY_KEYBOARD },
+>>   	{ HID_USB_DEVICE(USB_VENDOR_ID_ASUSTEK,
+>>   		USB_DEVICE_ID_ASUSTEK_T100TA_KEYBOARD),
+>>   	  QUIRK_T100_KEYBOARD | QUIRK_NO_CONSUMER_USAGES },
+>>  diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+>>  index 6f370e020feb..c9f930ddcfd7 100644
+>>  --- a/drivers/hid/hid-ids.h
+>>  +++ b/drivers/hid/hid-ids.h
+>>  @@ -190,6 +190,7 @@
+>>   #define USB_DEVICE_ID_ASUSTEK_ROG_KEYBOARD1 0x1854
+>>   #define USB_DEVICE_ID_ASUSTEK_ROG_KEYBOARD2 0x1837
+>>   #define USB_DEVICE_ID_ASUSTEK_ROG_KEYBOARD3 0x1822
+>>  +#define USB_DEVICE_ID_ASUSTEK_ROG_NKEY_KEYBOARD	0x1866
+>>   #define USB_DEVICE_ID_ASUSTEK_FX503VD_KEYBOARD	0x1869
+>> 
+>>   #define USB_VENDOR_ID_ATEN		0x0557
+>>  --
+>>  2.28.0
+>> 
+> 
 
-> +                                   sizeof(struct regulator_bulk_data),
 
-sizeof(*ts->supplies) ?
-
-> +                                   GFP_KERNEL);
-> +       if (!ts->supplies)
-> +               return -ENOMEM;
-
-...
-
-> +       ret = devm_regulator_bulk_get(&hw_client->dev,
-> +                                     NT36XXX_NUM_SUPPLIES,
-> +                                     ts->supplies);
-
-> +       if (ret != 0) {
-
-if (ret)
-
-> +               if (ret != -EPROBE_DEFER)
-> +                       dev_err(&hw_client->dev,
-> +                               "Cannot get supplies: %d\n", ret);
-> +               return ret;
-> +       }
-
-...
-
-> +       input->phys = devm_kasprintf(&hw_client->dev, GFP_KERNEL,
-> +                                    "%s/input0", dev_name(&hw_client->dev));
-
-NULL check?
-
-...
-
-> +       ret = devm_request_threaded_irq(&hw_client->dev, hw_client->irq, NULL,
-> +                                       nt36xxx_i2c_irq_handler, IRQF_ONESHOT,
-> +                                       hw_client->name, ts);
-> +       if (ret) {
-> +               dev_err(&hw_client->dev, "request irq failed: %d\n", ret);
-
-> +               return ret;
-> +       }
-> +
-> +       return 0;
-
-return ret; ?
-
-> +}
-
-
---
-With Best Regards,
-Andy Shevchenko
