@@ -2,145 +2,118 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D2D3129904D
-	for <lists+linux-input@lfdr.de>; Mon, 26 Oct 2020 15:58:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6657D299160
+	for <lists+linux-input@lfdr.de>; Mon, 26 Oct 2020 16:46:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1782626AbgJZO6B (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 26 Oct 2020 10:58:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55297 "EHLO
+        id S1784387AbgJZPqS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 26 Oct 2020 11:46:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34707 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1782368AbgJZO6A (ORCPT
+        by vger.kernel.org with ESMTP id S1784386AbgJZPqS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 26 Oct 2020 10:58:00 -0400
+        Mon, 26 Oct 2020 11:46:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1603724278;
+        s=mimecast20190719; t=1603727177;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ggR7nXs6vIGQ0hf64bcClqY2uGlUYrgDILb/HS3RbR0=;
-        b=ccDVJpdUEtOh8ZCkqjQHrz/zl/a76oJSNzEZAdPirXXss9g7sutgNnFjS0D3xfq6s+tuWh
-        tLIcSPj3MhUjl1KCaDY/oI8fBWQeljnabUmpbUqscTe5VO8GvC/QeKq3y+UQGVlW8PfKpn
-        UnwhBo1/MUven+oZp8ld6vrT0hUhTlQ=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-498-nxXtIxhBN22P3K0JtLDy1g-1; Mon, 26 Oct 2020 10:57:57 -0400
-X-MC-Unique: nxXtIxhBN22P3K0JtLDy1g-1
-Received: by mail-ed1-f69.google.com with SMTP id i9so4457649edx.10
-        for <linux-input@vger.kernel.org>; Mon, 26 Oct 2020 07:57:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ggR7nXs6vIGQ0hf64bcClqY2uGlUYrgDILb/HS3RbR0=;
-        b=dWqoph/yrLQ0ufsNu6ppDPOXgY4BB0amsX3VaTSqcW2ezZbu5RDtkc296oLCKgzSfc
-         bX3htDLovkSf9Rp47iLQdSDVkltnOw9asHcipyxi0PrXBFttBCkMQ38PRnJ/zPji04jE
-         got0cMJ2ttlBZkxHjcYNAnZSksqUtn+bYlg61QHs3dVKfUwnEAuGnNAHoqaW0UbqZ5/A
-         rl2U1TrHdfFtzp3jGdQfZdzrkkELd0JU5ZVEthrJX5o//iIcMkvb5rVrED4Aja0SIMij
-         hKv8LpX/ujP+5B86eVEulJJHlHueJqOMq26LDF3b+8eJfP/aFXD17knkfVPzMC1pFTDr
-         3elA==
-X-Gm-Message-State: AOAM531XfOC68ghdi5hkj3KkPFg+fqGuNLjK922EsUz3GKXTnb4VoR98
-        WdZ0UJ8N4RvCbSUn6344p8LpF+41QwYjbM/hO/RM8Ob3wDjDwax75H8ld7tBLXDQIKcm+DquH2H
-        SaockFZO0vtRRzvZYUUtxhM0=
-X-Received: by 2002:a17:906:4d03:: with SMTP id r3mr15004449eju.364.1603724275289;
-        Mon, 26 Oct 2020 07:57:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzODTXxY3/e+mQFlcVuOFI/H1Wxzk4Yk6iRiXII2XR3P5YMcpD2IUndHpp4JWdlTFYkUBDv9g==
-X-Received: by 2002:a17:906:4d03:: with SMTP id r3mr15004435eju.364.1603724275057;
-        Mon, 26 Oct 2020 07:57:55 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id v21sm5296124edt.80.2020.10.26.07.57.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Oct 2020 07:57:54 -0700 (PDT)
-Subject: Re: [PATCH v3 1/3] Input: add event codes for lap and palmreset
- proximity switches
-To:     Mark Pearson <markpearson@lenovo.com>
-Cc:     dmitry.torokhov@gmail.com, platform-driver-x86@vger.kernel.org,
-        linux-input@vger.kernel.org, jeff@labundy.com,
-        anthony.wong@canonical.com, hadess@hadess.net,
-        Nitin Joshi <njoshi1@lenovo.com>
-References: <markpearson@lenovo.com>
- <20201026144512.621479-1-markpearson@lenovo.com>
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=h+MN+S3y/X02EuGHRW8Xk0aI6rRHm+EdzE3SdDpAGt4=;
+        b=J5+3Iu5z+KDMlK8p+ubifZ3wqd9hCm5O3/j85KSMDsh1eMvg5kaOCF9KIs45wrjw27ygF2
+        fK2PDEB0imi0liRtddN/yp0D8+q5AcTIMERj7cz9m922zV5cd4pkOngqqEvVMcdEaAEM5J
+        hkx/mnXMg3dKFtzVaWpubN2CI9frv20=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-159-kEcCx6o7PRiXFZeUkn9ZXQ-1; Mon, 26 Oct 2020 11:46:13 -0400
+X-MC-Unique: kEcCx6o7PRiXFZeUkn9ZXQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2305818B9F0B;
+        Mon, 26 Oct 2020 15:46:12 +0000 (UTC)
+Received: from x1.localdomain (ovpn-112-200.ams2.redhat.com [10.36.112.200])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4FA6B5D9E4;
+        Mon, 26 Oct 2020 15:46:07 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <bc1f2cde-c50e-8704-2fa7-bb7f1b5d6405@redhat.com>
-Date:   Mon, 26 Oct 2020 15:57:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        linux-input@vger.kernel.org
+Subject: [PATCH v2] HID: i2c-hid: Put ACPI enumerated devices in D3 on shutdown
+Date:   Mon, 26 Oct 2020 16:46:06 +0100
+Message-Id: <20201026154606.10409-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201026144512.621479-1-markpearson@lenovo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+The i2c-hid driver would quietly fail to probe the i2c-hid sensor-hub
+with an ACPI device-id of SMO91D0 every other boot.
 
-On 10/26/20 3:45 PM, Mark Pearson wrote:
-> Add infrastructure needed to support lap and palmrest proximity sensors.
-> 
-> These sensors are used for identifying thermal mode changes and modifying
-> WWAN transmitter power.
-> 
-> Reviewed-by: Nitin Joshi <njoshi1@lenovo.com>
-> Signed-off-by: Mark Pearson <markpearson@lenovo.com>
+Specifically, the i2c_smbus_read_byte() "Make sure there is something at
+this address" check would fail every other boot.
 
-The entire series looks good to me and is:
+It seems that the BIOS does not properly reset/power-cycle the device
+leaving it in a confused state where it refuses to respond to i2c-xfers.
+On boots where probing the device failed, the driver-core puts the device
+in D3 after the probe-failure, which causes the probe to succeed the next
+boot.
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Putting the device in D3 from the shutdown-handler fixes the sensors not
+working every other boot.
 
-Dmitry: FYI I have take over drivers/platform/x86
-maintainership from Andy.
+This has been tested on both a Lenovo Miix 2-10 and a Dell Venue 8 Pro 5830
+both of which use an i2c-hid sensor-hub with an ACPI id of SMO91D0.
 
-Dmitry, since the first patch adds new evdev switch event-codes,
-it is probably best if you merge this entire series through
-the input tree. You hereby have my ack (as the new pdx86 maintainer)
-for doing this.
+Note that it is safe to call acpi_device_set_power() with a NULL pointer
+as first argument, so on none ACPI enumerated devices this change is a
+no-op.
 
-Regards,
+Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+Changes in v2:
+-Rebase on 5.10-rc1
+---
+ drivers/hid/i2c-hid/i2c-hid-core.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Hans
-
-
-
-> ---
-> Changes in v2:
->  - Update Input message
-> Changes in v3:
->  - Added missing patch history notes
-> 
->  include/linux/mod_devicetable.h        | 2 +-
->  include/uapi/linux/input-event-codes.h | 4 +++-
->  2 files changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
-> index 5b08a473cdba..897f5a3e7721 100644
-> --- a/include/linux/mod_devicetable.h
-> +++ b/include/linux/mod_devicetable.h
-> @@ -320,7 +320,7 @@ struct pcmcia_device_id {
->  #define INPUT_DEVICE_ID_LED_MAX		0x0f
->  #define INPUT_DEVICE_ID_SND_MAX		0x07
->  #define INPUT_DEVICE_ID_FF_MAX		0x7f
-> -#define INPUT_DEVICE_ID_SW_MAX		0x10
-> +#define INPUT_DEVICE_ID_SW_MAX		0x12
->  #define INPUT_DEVICE_ID_PROP_MAX	0x1f
->  
->  #define INPUT_DEVICE_ID_MATCH_BUS	1
-> diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-> index 0c2e27d28e0a..26f71a9a6936 100644
-> --- a/include/uapi/linux/input-event-codes.h
-> +++ b/include/uapi/linux/input-event-codes.h
-> @@ -889,7 +889,9 @@
->  #define SW_MUTE_DEVICE		0x0e  /* set = device disabled */
->  #define SW_PEN_INSERTED		0x0f  /* set = pen inserted */
->  #define SW_MACHINE_COVER	0x10  /* set = cover closed */
-> -#define SW_MAX			0x10
-> +#define SW_LAP_PROXIMITY        0x11  /* set = lap proximity sensor active */
-> +#define SW_PALMREST_PROXIMITY   0x12  /* set = palmrest proximity sensor active */
-> +#define SW_MAX			0x12
->  #define SW_CNT			(SW_MAX+1)
->  
->  /*
-> 
+diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+index 786e3e9af1c9..aeff1ffb0c8b 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-core.c
++++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+@@ -943,6 +943,11 @@ static void i2c_hid_acpi_enable_wakeup(struct device *dev)
+ 	}
+ }
+ 
++static void i2c_hid_acpi_shutdown(struct device *dev)
++{
++	acpi_device_set_power(ACPI_COMPANION(dev), ACPI_STATE_D3_COLD);
++}
++
+ static const struct acpi_device_id i2c_hid_acpi_match[] = {
+ 	{"ACPI0C50", 0 },
+ 	{"PNP0C50", 0 },
+@@ -959,6 +964,8 @@ static inline int i2c_hid_acpi_pdata(struct i2c_client *client,
+ static inline void i2c_hid_acpi_fix_up_power(struct device *dev) {}
+ 
+ static inline void i2c_hid_acpi_enable_wakeup(struct device *dev) {}
++
++static inline void i2c_hid_acpi_shutdown(struct device *dev) {}
+ #endif
+ 
+ #ifdef CONFIG_OF
+@@ -1175,6 +1182,8 @@ static void i2c_hid_shutdown(struct i2c_client *client)
+ 
+ 	i2c_hid_set_power(client, I2C_HID_PWR_SLEEP);
+ 	free_irq(client->irq, ihid);
++
++	i2c_hid_acpi_shutdown(&client->dev);
+ }
+ 
+ #ifdef CONFIG_PM_SLEEP
+-- 
+2.28.0
 
