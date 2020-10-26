@@ -2,134 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FA66298FA6
-	for <lists+linux-input@lfdr.de>; Mon, 26 Oct 2020 15:42:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1AD7298FDA
+	for <lists+linux-input@lfdr.de>; Mon, 26 Oct 2020 15:49:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1781827AbgJZOmL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 26 Oct 2020 10:42:11 -0400
-Received: from mx2.suse.de ([195.135.220.15]:36072 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1781658AbgJZOmK (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 26 Oct 2020 10:42:10 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 2EF1CB8E1;
-        Mon, 26 Oct 2020 14:42:08 +0000 (UTC)
-Message-ID: <700a149849222f3efbec73cb8a6be56b4b1c5bcb.camel@suse.de>
-Subject: Re: [PATCH v2 03/10] gpio: raspberrypi-exp: Release firmware handle
- on unbind
-From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc:     Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        linux-pwm@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
-        arm-soc <linux-arm-kernel@lists.infradead.org>,
-        linux-devicetree <devicetree@vger.kernel.org>, wahrenst@gmx.net,
-        Linux Input <linux-input@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        devel@driverdev.osuosl.org, Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-gpio <linux-gpio@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-rpi-kernel@lists.infradead.org
-Date:   Mon, 26 Oct 2020 15:42:06 +0100
-In-Reply-To: <CAMpxmJXw12hKYCuMDjG-Ns6n=mXmr4B2x3HJaAJ19wH_xDUMag@mail.gmail.com>
-References: <20201022155858.20867-1-nsaenzjulienne@suse.de>
-         <20201022155858.20867-4-nsaenzjulienne@suse.de>
-         <CAMpxmJXw12hKYCuMDjG-Ns6n=mXmr4B2x3HJaAJ19wH_xDUMag@mail.gmail.com>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-4RJXy1XArEUanWEz7Yut"
-User-Agent: Evolution 3.36.5 
+        id S1781974AbgJZOtp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 26 Oct 2020 10:49:45 -0400
+Received: from mail1.bemta24.messagelabs.com ([67.219.250.3]:61761 "EHLO
+        mail1.bemta24.messagelabs.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1782025AbgJZOto (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 26 Oct 2020 10:49:44 -0400
+Received: from [100.112.129.88] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+        by server-3.bemta.az-a.us-west-2.aws.symcld.net id 9E/8C-32453-502E69F5; Mon, 26 Oct 2020 14:49:41 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuplleJIrShJLcpLzFFi42LJePGQR5f10bR
+  4g82vGS0OnTvAbHF40QtGi6/fbrNbvDk+ncnizO2FTBY3P31jtVi95wWzA7vHrIZeNo+ds+6y
+  e/zatobFY/nBaUwe7/ddZfP4vEkugC2KNTMvKb8igTVj5c3CgkW8FWs+/mFqYNzC3cXIxSEk8
+  J9RYtaFu2wQzhtGiWmPJzN3MXJysAloS2zZ8gsowcEhIiAj8WGtJ0gNs8ArRokdL7+ygMSFBc
+  Ildtw1BSlnEVCV2PC2hwnE5hWwkZjcsYIRxJYQkJd42rscbCQnUM2ZrscsILaQgIrE/QdL2CD
+  qBSVOznwCFmcGqm/eOpsZwpaQOPjiBTPIKgkBBYkHV5ghRiZILHt5h3kCo8AsJN2zkHTPQtK9
+  gJF5FaNFUlFmekZJbmJmjq6hgYGuoaGRrqGxga6RoaVeYpVuol5psW55anGJrpFeYnmxXnFlb
+  nJOil5easkmRmCcpBQ03d7B+O/1B71DjJIcTEqivMf2TYsX4kvKT6nMSCzOiC8qzUktPsQow8
+  GhJMFb8gAoJ1iUmp5akZaZA4xZmLQEB4+SCO9qkDRvcUFibnFmOkTqFKMxx86j8xYxc2yeu3Q
+  RsxBLXn5eqpQ472mQUgGQ0ozSPLhBsFRyiVFWSpiXkYGBQYinILUoN7MEVf4VozgHo5Iw7y+Q
+  KTyZeSVw+4BRCPSFCG9bxRSQU0oSEVJSDUyWn5ZtvXxWw6CbJ+593ocTuq8Kt+zY9Y8/WOPrh
+  x8O7jqn9kSVRUQuzpL1PrT3zINgVh7VBRt8Hp5QEe5L/JddsetDZpTCy4aFv4sXsq+8+rSpU8
+  Z9T66NQI7togNd7YetN3/Jmekhqpilqrt//Rq5vIlJojuVMrq9gstf2r9/sNz9jdbtxJJ0g99
+  1scdvdL7hef3LMqOyzOMkp+18/S0sNhUKXlO8zi49I3SddWX/1+W+Qo63py7TkFnn9XLa4nWb
+  HqXfFmv3+JRuvThfLcFj25wI80VLfJddEtGXes1TF3Sqad8x1zqZSHYr32Nr19z+bvI+csq1Z
+  UsZ//49vHTLRx2vw68ZGuNC27a7yusosRRnJBpqMRcVJwIAUE7AY6ADAAA=
+X-Env-Sender: markpearson@lenovo.com
+X-Msg-Ref: server-24.tower-336.messagelabs.com!1603723779!1294!1
+X-Originating-IP: [104.232.225.12]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.60.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 3239 invoked from network); 26 Oct 2020 14:49:40 -0000
+Received: from unknown (HELO lenovo.com) (104.232.225.12)
+  by server-24.tower-336.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 26 Oct 2020 14:49:40 -0000
+Received: from reswpmail04.lenovo.com (unknown [10.62.32.23])
+        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by Forcepoint Email with ESMTPS id 91C0E5F3C616F138D18A;
+        Mon, 26 Oct 2020 10:49:39 -0400 (EDT)
+Received: from localhost.localdomain.com (10.64.83.193) by
+ reswpmail04.lenovo.com (10.62.32.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2044.4; Mon, 26 Oct 2020 07:49:36 -0700
+From:   Mark Pearson <markpearson@lenovo.com>
+To:     <markpearson@lenovo.com>
+CC:     <dmitry.torokhov@gmail.com>, <hdegoede@redhat.com>,
+        <platform-driver-x86@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <jeff@labundy.com>,
+        <anthony.wong@canonical.com>, <hadess@hadess.net>,
+        "Nitin Joshi" <njoshi1@lenovo.com>
+Subject: [PATCH v3 1/3] Input: add event codes for lap and palmreset proximity switches
+Date:   Mon, 26 Oct 2020 10:45:10 -0400
+Message-ID: <20201026144512.621479-1-markpearson@lenovo.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <markpearson@lenovo.com>
+References: <markpearson@lenovo.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.64.83.193]
+X-ClientProxiedBy: reswpmail04.lenovo.com (10.62.32.23) To
+ reswpmail04.lenovo.com (10.62.32.23)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Add infrastructure needed to support lap and palmrest proximity sensors.
 
---=-4RJXy1XArEUanWEz7Yut
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+These sensors are used for identifying thermal mode changes and modifying
+WWAN transmitter power.
 
-On Mon, 2020-10-26 at 15:40 +0100, Bartosz Golaszewski wrote:
-> On Thu, Oct 22, 2020 at 5:59 PM Nicolas Saenz Julienne
-> <nsaenzjulienne@suse.de> wrote:
-> > Upon unbinding the device make sure we release RPi's firmware interface=
-.
-> >=20
-> > Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-> > ---
-> >  drivers/gpio/gpio-raspberrypi-exp.c | 14 +++++++++++++-
-> >  1 file changed, 13 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/gpio/gpio-raspberrypi-exp.c b/drivers/gpio/gpio-ra=
-spberrypi-exp.c
-> > index bb100e0124e6..c008336e1131 100644
-> > --- a/drivers/gpio/gpio-raspberrypi-exp.c
-> > +++ b/drivers/gpio/gpio-raspberrypi-exp.c
-> > @@ -231,8 +231,19 @@ static int rpi_exp_gpio_probe(struct platform_devi=
-ce *pdev)
-> >         rpi_gpio->gc.get =3D rpi_exp_gpio_get;
-> >         rpi_gpio->gc.set =3D rpi_exp_gpio_set;
-> >         rpi_gpio->gc.can_sleep =3D true;
-> > +       platform_set_drvdata(pdev, rpi_gpio);
-> >=20
-> > -       return devm_gpiochip_add_data(dev, &rpi_gpio->gc, rpi_gpio);
-> > +       return gpiochip_add_data(&rpi_gpio->gc, rpi_gpio);
-> > +}
-> > +
-> > +static int rpi_exp_gpio_remove(struct platform_device *pdev)
-> > +{
-> > +       struct rpi_exp_gpio *rpi_gpio =3D platform_get_drvdata(pdev);
-> > +
-> > +       gpiochip_remove(&rpi_gpio->gc);
-> > +       rpi_firmware_put(rpi_gpio->fw);
-> > +
-> > +       return 0;
-> >  }
-> >=20
-> >  static const struct of_device_id rpi_exp_gpio_ids[] =3D {
-> > @@ -247,6 +258,7 @@ static struct platform_driver rpi_exp_gpio_driver =
-=3D {
-> >                 .of_match_table =3D of_match_ptr(rpi_exp_gpio_ids),
-> >         },
-> >         .probe  =3D rpi_exp_gpio_probe,
-> > +       .remove =3D rpi_exp_gpio_remove,
-> >  };
-> >  module_platform_driver(rpi_exp_gpio_driver);
-> >=20
-> > --
-> > 2.28.0
-> >=20
->=20
-> Why not introduce devm_rpi_firmware_get()? That would allow you to
-> keep the driver elegant without re-adding remove().
+Reviewed-by: Nitin Joshi <njoshi1@lenovo.com>
+Signed-off-by: Mark Pearson <markpearson@lenovo.com>
+---
+Changes in v2:
+ - Update Input message
+Changes in v3:
+ - Added missing patch history notes
 
-I like the idea, I'll look into it.
+ include/linux/mod_devicetable.h        | 2 +-
+ include/uapi/linux/input-event-codes.h | 4 +++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-Thanks,
-Nicolas
-
-
---=-4RJXy1XArEUanWEz7Yut
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl+W4D4ACgkQlfZmHno8
-x/4RVwf/UZbRYwQfpY+67Gru7U3IMExckiPcjOHqeN3IO1Aqys6hi0LcCgQmZoRS
-yDES/QK4HITWb2LEOikdeICzUhcAmHLuD6l9Si1lOw/g7RZAcNoB+gejoLIKsxsJ
-BvBSsCz+ARcANf68gksyv52nsVLhMNlvZpnoVV6p9VTzTb0q7+QOBy7KndC73pyM
-cLs3LcbX7jTY71QjVIAVJql7UiQmzjA9V08bxNan8AF/yttAj0PgtZga1WYXQHG/
-ipUuvMADCJYB9WrHAhtY8TV1G1pGs0b+OTU6cEZukdSAUaNXzL+DKDHm3nlMi887
-7aRyD6vm++8u7ecNrtj2/Iug3MLyQg==
-=FwXW
------END PGP SIGNATURE-----
-
---=-4RJXy1XArEUanWEz7Yut--
+diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+index 5b08a473cdba..897f5a3e7721 100644
+--- a/include/linux/mod_devicetable.h
++++ b/include/linux/mod_devicetable.h
+@@ -320,7 +320,7 @@ struct pcmcia_device_id {
+ #define INPUT_DEVICE_ID_LED_MAX		0x0f
+ #define INPUT_DEVICE_ID_SND_MAX		0x07
+ #define INPUT_DEVICE_ID_FF_MAX		0x7f
+-#define INPUT_DEVICE_ID_SW_MAX		0x10
++#define INPUT_DEVICE_ID_SW_MAX		0x12
+ #define INPUT_DEVICE_ID_PROP_MAX	0x1f
+ 
+ #define INPUT_DEVICE_ID_MATCH_BUS	1
+diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+index 0c2e27d28e0a..26f71a9a6936 100644
+--- a/include/uapi/linux/input-event-codes.h
++++ b/include/uapi/linux/input-event-codes.h
+@@ -889,7 +889,9 @@
+ #define SW_MUTE_DEVICE		0x0e  /* set = device disabled */
+ #define SW_PEN_INSERTED		0x0f  /* set = pen inserted */
+ #define SW_MACHINE_COVER	0x10  /* set = cover closed */
+-#define SW_MAX			0x10
++#define SW_LAP_PROXIMITY        0x11  /* set = lap proximity sensor active */
++#define SW_PALMREST_PROXIMITY   0x12  /* set = palmrest proximity sensor active */
++#define SW_MAX			0x12
+ #define SW_CNT			(SW_MAX+1)
+ 
+ /*
+-- 
+2.28.0
 
