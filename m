@@ -2,122 +2,74 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 50B8D29C609
-	for <lists+linux-input@lfdr.de>; Tue, 27 Oct 2020 19:26:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4167F29C864
+	for <lists+linux-input@lfdr.de>; Tue, 27 Oct 2020 20:11:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1825641AbgJ0SMN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 27 Oct 2020 14:12:13 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:43289 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1825631AbgJ0SMK (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 27 Oct 2020 14:12:10 -0400
-Received: by mail-wr1-f67.google.com with SMTP id g12so2951779wrp.10
-        for <linux-input@vger.kernel.org>; Tue, 27 Oct 2020 11:12:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=AizmEGLJWCh5e+BIl/5tzrCIJ5dIEIgB9BBqx3BLDyw=;
-        b=P2UTQj+r1SEKRJedJWTFLKzP8So657DIQN2igB9WKpnJ856BOvDDfhLzT9DqoAdWF2
-         kGplRYYu2HTJ/KE+eIhW6lNcI0+4I03RUL690XQRmlOGVhnMfC9z7AgiiKr43rrcu7Ck
-         48qsUdqDxpTL6c0x/WWSVXeMrpZ1T44svS/CO1rtcP6PIONfvEZ6w9Dm16JaqQQW+Fa5
-         N7dq/PTYCc6okwxpphEDjOj1VsK0sCgDoiH7qemoPGPyYaZ2o7NSEH1RSbUjqWVQuavW
-         4PQH5Tva2lt4aKmDZS5K36KPM79gR3Kz4coyHN2BcqYhepP+5Xb2e6QUlw9MpJjnOBun
-         vpnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=AizmEGLJWCh5e+BIl/5tzrCIJ5dIEIgB9BBqx3BLDyw=;
-        b=q9kWnXGB0bKEtWxXNJ5JqMNGuLVSR1QLe4sXcr3r42wMlgkDxk8sein6AK7CT/6gB0
-         Y/YmZzaO9WgJ4bPqD+6ir8paScy3GbhkT1rs9Ysi7ukKFk2x+1VAg5WMo08s0iRqTtuV
-         omtX8ewQqn51oSjU0nvhjKEFNBgm9RNqNVrBaZz7Rx6ZhKLY/P3/962UL5JyUzOUSnnZ
-         KnSyWui3G54ukcxQ0MVpKJgqj2UgPt6urH4hdE+7fAztoFdyMULAXst0Wrn0l6D6yiTU
-         sjamTRivZdmisnOCwMa9OihzG1Po4XK/OAuXpwGAMXc251WxfHhWiKG9rn4iFfQS2a+A
-         x78w==
-X-Gm-Message-State: AOAM530kprQ66a1eA/Mg0ktDmMbx/+nUcOOkrS1pNMsO/x2I/nGYkGxu
-        eZwIqMa/bIZI76KHz+p2KTGghA==
-X-Google-Smtp-Source: ABdhPJzW9nq4LkblMc0w9V7lubC2UdibGY38QsWzOP+oXqTs8LAZbRDjEIXechCCEn18xtlwRn4ufw==
-X-Received: by 2002:a5d:6052:: with SMTP id j18mr4408374wrt.306.1603822328165;
-        Tue, 27 Oct 2020 11:12:08 -0700 (PDT)
-Received: from localhost.localdomain (159.174.185.81.rev.sfr.net. [81.185.174.159])
-        by smtp.gmail.com with ESMTPSA id h206sm2801224wmf.47.2020.10.27.11.12.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2020 11:12:07 -0700 (PDT)
-From:   Fabien Parent <fparent@baylibre.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     Fabien Parent <fparent@baylibre.com>,
-        Rob Herring <robh@kernel.org>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 RESEND 2/3] dt-bindings: input: mtk-pmic-keys: add MT6392 binding definition
-Date:   Tue, 27 Oct 2020 19:11:55 +0100
-Message-Id: <20201027181157.862927-2-fparent@baylibre.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201027181157.862927-1-fparent@baylibre.com>
-References: <20201027181157.862927-1-fparent@baylibre.com>
+        id S371912AbgJ0TK7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 27 Oct 2020 15:10:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42854 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S371907AbgJ0TKv (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 27 Oct 2020 15:10:51 -0400
+Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 32F6020756;
+        Tue, 27 Oct 2020 19:10:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603825849;
+        bh=0LhJAkuDJj/WQXvv2wdSS/1W6NuneKemHgAE29jp9BU=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=1hpemIWHwCC0M2PrsvzXwI7hbqSd7DBSEJZd7OEVjp61IMLwx/2m4San5jsKZnOhg
+         dicsjWY4o8r8rIhgSrJ7FeQYeIOySEbyM+TL1p8NhRA9xuI4Zij8mbxoX5L4XYTNuy
+         YnGuoNpJ+q7yeyPu8c7s85C9+dGABlK8yjN8E+vU=
+Date:   Tue, 27 Oct 2020 20:10:46 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Pavel Machek <pavel@ucw.cz>
+cc:     dmitry.torokhov@gmail.com, vojtech@suse.cz,
+        linux-input@vger.kernel.org,
+        kernel list <linux-kernel@vger.kernel.org>
+Subject: Re: Proper support for Saitek X36F joystick
+In-Reply-To: <20201027124235.GA27148@duo.ucw.cz>
+Message-ID: <nycvar.YFH.7.76.2010272006490.18859@cbobk.fhfr.pm>
+References: <20201027124235.GA27148@duo.ucw.cz>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add the binding documentation of the mtk-pmic-keys for the MT6392 PMICs.
+On Tue, 27 Oct 2020, Pavel Machek wrote:
 
-Signed-off-by: Fabien Parent <fparent@baylibre.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
+> Hi!
+> 
+> This is from 4.19, but I doubt this changed recently.
+> 
+> Saitek X36F+X35T combination is detected like this... in short one
+> hat, no switches, and lot of buttons.
+> 
+> In reality, combination has 4 four-way switches (hats?), 2 slider
+> switches (three positions) and lot less buttons. Sliders and 3 of 4
+> hats are detected as groups of buttons. Last hat is strange, I can't
+> see anything that corresponds to it on evtest, and as long as it is
+> pushed in any direction, all the other events stop. (It is also one
+> I'd like to use).
+> 
+> What needs to be done to get more useful mapping for userspace?
 
-v6:
-	* No changes
+It wouldn't be the first device produced by Saitek that has completely 
+bogus report descriptor.
 
-v5:
-	* rebased
-	* Rename MT6397/MT6392/MT6323 into MT63XX to make it more readable when
-	the list of support PMIC increase
-	* Removed Reviewed-by from Rob Herring because of the new extra changes
-	made to this patch
-	* change the compatible for MT6392 to also contains MT6397 since MT6392 PMIC
-	key driver is compatible with mt6397.
+The most straightforward way would be to let hid-saitek module claim the 
+device, and fix the report descriptor (saitek_report_fixup()) before it's 
+passed to hid parser so that it actually describes the events produced.
 
-v4:
-	* Patch was previously sent separately but merge to this patch series
-	since there is a hard dependency on the MFD patch.
+You can either patch individual bytes (that's what saitek_report_fixup() 
+is currently doing for another device), or replace the whole descriptor 
+completely (see e.g. hid-kye for inspiration how this is done).
 
- .../devicetree/bindings/input/mtk-pmic-keys.txt     | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/input/mtk-pmic-keys.txt b/Documentation/devicetree/bindings/input/mtk-pmic-keys.txt
-index 535d92885372..71c82687ab92 100644
---- a/Documentation/devicetree/bindings/input/mtk-pmic-keys.txt
-+++ b/Documentation/devicetree/bindings/input/mtk-pmic-keys.txt
-@@ -1,15 +1,18 @@
--MediaTek MT6397/MT6323 PMIC Keys Device Driver
-+MediaTek MT63xx PMIC Keys Device Driver
- 
--There are two key functions provided by MT6397/MT6323 PMIC, pwrkey
-+There are two key functions provided by MT63xx PMIC, pwrkey
- and homekey. The key functions are defined as the subnode of the function
--node provided by MT6397/MT6323 PMIC that is being defined as one kind
-+node provided by MT63xx PMIC that is being defined as one kind
- of Muti-Function Device (MFD)
- 
--For MT6397/MT6323 MFD bindings see:
-+For MT63xx MFD bindings see:
- Documentation/devicetree/bindings/mfd/mt6397.txt
- 
- Required properties:
--- compatible: "mediatek,mt6397-keys" or "mediatek,mt6323-keys"
-+- compatible: Should be one of:
-+	- "mediatek,mt6323-keys" for MT6323 PMIC
-+	- "mediatek,mt6392-keys", "mediatek,mt6397-keys" for MT6392 PMIC
-+	- "mediatek,mt6397-keys" for MT6397 PMIC
- - linux,keycodes: See Documentation/devicetree/bindings/input/input.yaml
- 
- Optional Properties:
 -- 
-2.28.0
+Jiri Kosina
+SUSE Labs
 
