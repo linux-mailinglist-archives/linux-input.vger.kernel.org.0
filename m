@@ -2,245 +2,151 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 585D429DB99
-	for <lists+linux-input@lfdr.de>; Thu, 29 Oct 2020 01:06:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E2B229DF84
+	for <lists+linux-input@lfdr.de>; Thu, 29 Oct 2020 02:02:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389264AbgJ2AEQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 28 Oct 2020 20:04:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42684 "EHLO
+        id S1730999AbgJ2BCE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 28 Oct 2020 21:02:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389390AbgJ2ACd (ORCPT
+        with ESMTP id S1730946AbgJ1WNI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 28 Oct 2020 20:02:33 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC551C0613CF
-        for <linux-input@vger.kernel.org>; Wed, 28 Oct 2020 17:02:32 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id dn5so1278657edb.10
-        for <linux-input@vger.kernel.org>; Wed, 28 Oct 2020 17:02:32 -0700 (PDT)
+        Wed, 28 Oct 2020 18:13:08 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3625C0613CF;
+        Wed, 28 Oct 2020 15:13:07 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id g12so669762wrp.10;
+        Wed, 28 Oct 2020 15:13:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=6uS0r7y6biXYa9U4d4/PAE9n89ZvBxgMX312oRTh6lg=;
-        b=CCVxFxGmfy05Q68akXSjQsCJFHYqa+w34YILpnkF6uWLOR1JVX3zVzQAJ09p/D0SNU
-         yaRazFZb/HzW5pt2hhCSd9T9zrUglfJqPd/3iMBDS9/FTaCAp7pAAOZzE1wbX8irW3Bl
-         iHWBdBqdyMV/GAnLlNrq/8iIcWCTcRSpc1w6C/XPODtf0BkG48hyVb5ICDUEJPK5ZHY0
-         VD09tvGnmncQdfN4AJOFm5ll5Fl3tc5HIw8yZ18CpR+BLVSrjmldEids37qAg1Mjb3DV
-         N6clHFsGF0VuqcKva8oB+E2XWD6uEwdLcDAFDkt96dzJYWc9DhyeedHFlsZokT+NnilL
-         +7AQ==
+        bh=DT6U3Rrpw03NL9wb6+e07l8WiQkrdkKgWOSxMXogg6U=;
+        b=VSb7dfpw4irGstLagBSk6VtAJq3e8StKJ/EKo44Q0eHd+TYB/LWh2yU2pqTlCBmf3A
+         9iGN+2Be/Snri6YY9ZRj+/4xosGc6ESHVDf56SnrAPg+fEna/A01URaYdIY471NOKDO8
+         bTxfi4jRdF6iFIDvlPmi0dgN9JlutgOxM90nQ9oaATWal1ucddnI+R3q78QDATBjEF61
+         wj3NSovgfL4vrSl01Z8TE4SG8ro+6tUteKl6xqDKZNhW2qH+/ldEpeHePm74RXEldwSZ
+         1CsxzzxMle5WHlz29QZMfb3ShjSppnXrCFrAYMebdZJhur0ASoJ5FYg4VO0gDl085K3z
+         sA4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=6uS0r7y6biXYa9U4d4/PAE9n89ZvBxgMX312oRTh6lg=;
-        b=jlegUGwrha+7qPlOa2h2blWYY5DeU7WKVcwdkp5BAS3NYClx1eYs2NOoCAvYB1ohtP
-         8cNQjNwo5fsXEEwb2PrYhbRigqLiXJl0Yz6SKzvGQli55Gk+Z3U/+bDX5JZk6Q9e6TP/
-         THRxIhF4EJLEwxvgeKvMtunFL/TxpUA4mWTPdUve6uC+7Wbn4ub3Qm2r0ZNJdzrjjATi
-         e6HCI8eskFOXYDmiJWipzlaIEpYijONFCpSlc7sApA6cyzxvnjV9/vIpz5w3rn33HzHD
-         z18Aef7QDnTaD3Jzg8r2v8bmaPBY64g5NP07/mMUGdm1Ik9LaSdmqPCBdkZNR+lReJyX
-         Q9/Q==
-X-Gm-Message-State: AOAM532o29pdERuQreEocxvxLPzbV1E8wKCQfEsPQxfb2rPCTYdkojBM
-        yfKeWMvGii5groa4Ur7y6ys2q3meNNO0qMD2
-X-Google-Smtp-Source: ABdhPJwX9hHG1DBF/vrwPA04qfIX4Usd1mJ95bLF2KJvyhKPLYcFMFc73JombKwmPQcjeBlKxSuh6g==
-X-Received: by 2002:a2e:3c10:: with SMTP id j16mr558726lja.236.1603880237980;
-        Wed, 28 Oct 2020 03:17:17 -0700 (PDT)
-Received: from localhost.bredbandsbolaget (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
-        by smtp.gmail.com with ESMTPSA id b12sm478741lfo.177.2020.10.28.03.17.16
+        bh=DT6U3Rrpw03NL9wb6+e07l8WiQkrdkKgWOSxMXogg6U=;
+        b=dFqVSFA8B9GEjbvyzewO4QlJQXGa4W5Z/wKJPN+R22tZzvBhHyD+zi7ko9Qu2NsOqM
+         MQrVhJ7eRvWPTdafcSLc0W6UUVSiwbgnmtbVON2oLFFFpYHqrDBc+7DSMgWptYMWkuo8
+         7lsBlGmtebktdvASq9pckOwMJ2OVHZ+067xDzKTbVKWfMYy8MfjvqNoD1B9cD0hgsfMK
+         /SKPHU+xr0dKkgAiGyposEavyGGaOrTiki2T9A/I/KyFsbMN2yATFPchw3fQ62Li2H/f
+         U/sXtf7t+nspz7X0YDznPQxO3jRTylyCBKxYq5LvW4kZKl6wMj0Ztyk44nMzzSGmIa0q
+         orJw==
+X-Gm-Message-State: AOAM531QgxUI9Fbr6MSY84ZsV1aXfgOEeylgp0QKQ4u4CtT8E0qY/vm6
+        GDijsAPR90xC++TMNv5ynCw=
+X-Google-Smtp-Source: ABdhPJw2ck6qSNW3Dpk0b4qFpYtA9DOZDGAtqNDpTEFwJbNrpXE8Hb/+Cv07B6lJk8KqL6F4H7IByw==
+X-Received: by 2002:a5d:6652:: with SMTP id f18mr592183wrw.186.1603923186483;
+        Wed, 28 Oct 2020 15:13:06 -0700 (PDT)
+Received: from IcarusMOD.eternityproject.eu ([2.237.20.237])
+        by smtp.gmail.com with ESMTPSA id x1sm1318928wrl.41.2020.10.28.15.13.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2020 03:17:17 -0700 (PDT)
-From:   Linus Walleij <linus.walleij@linaro.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Nick Dyer <nick@shmanahar.org>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        devicetree@vger.kernel.org
-Subject: [PATCH 1/2] Input: atmel_mxt_ts: Convert bindings to YAML and extend
-Date:   Wed, 28 Oct 2020 11:17:10 +0100
-Message-Id: <20201028101711.696423-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.26.2
+        Wed, 28 Oct 2020 15:13:05 -0700 (PDT)
+From:   kholk11@gmail.com
+To:     dmitry.torokhov@gmail.com
+Cc:     robh+dt@kernel.org, rydberg@bitmath.org, priv.luk@gmail.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kholk11@gmail.com, marijns95@gmail.com, konradybcio@gmail.com,
+        martin.botka1@gmail.com, phone-devel@vger.kernel.org,
+        devicetree@vger.kernel.org, krzk@kernel.org,
+        andy.shevchenko@gmail.com
+Subject: [PATCH v9 0/3] Add Novatek NT36xxx touchscreen driver
+Date:   Wed, 28 Oct 2020 23:12:59 +0100
+Message-Id: <20201028221302.66583-1-kholk11@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This converts the Armel MXT touchscreen bindings to YAML
-format and extends them with the following two properties:
+From: AngeloGioacchino Del Regno <kholk11@gmail.com>
 
-- vdda-supply: the optional analog supply voltage
-- vdd-supply: the optional digital supply voltage
+This patch series adds support for the Novatek NT36xxx Series' In-Cell
+touchscreen (integrated into the DriverIC).
 
-I also explained about the reset-gpios property that this
-better be flagged as active high (0) despite actually
-being active low, because all current device trees and
-drivers assume that this is the case and will actively
-drive the line low to assert RESET.
+This patch series has been tested against the following devices:
+ - Sony Xperia 10        (SDM630 Ganges Kirin)
+ - Sony Xperia 10 Plus   (SDM636 Ganges Mermaid)
 
-Tested the schema with all in-tree users and they verify
-fine.
+Changes in v2:
+- Fixed sparse warnings from lkp kernel test robot
 
-Cc: Nick Dyer <nick@shmanahar.org>
-Cc: Stephan Gerhold <stephan@gerhold.net>
-Cc: devicetree@vger.kernel.org
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- .../bindings/input/atmel,maxtouch.txt         | 41 ---------
- .../bindings/input/atmel,maxtouch.yaml        | 83 +++++++++++++++++++
- MAINTAINERS                                   |  2 +-
- 3 files changed, 84 insertions(+), 42 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/atmel,maxtouch.txt
- create mode 100644 Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
+Changes in v3 (as requested by Dmitry Torokhov):
+- Using shorthand u16/u32 (sorry for the overlook!)
+- Now using more input and touchscreen APIs
+- Fixed useless workqueue involvements
+- Removed useless locking
+- Switched reads and writes to use regmap
+- Moved header contents to nt36xxx.c
+- Fixed reset gpio handling
+- Other cleanups
+- P.S.: Thanks, Dmitry!
 
-diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-deleted file mode 100644
-index c88919480d37..000000000000
---- a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-+++ /dev/null
-@@ -1,41 +0,0 @@
--Atmel maXTouch touchscreen/touchpad
--
--Required properties:
--- compatible:
--    atmel,maxtouch
--
--    The following compatibles have been used in various products but are
--    deprecated:
--	atmel,qt602240_ts
--	atmel,atmel_mxt_ts
--	atmel,atmel_mxt_tp
--	atmel,mXT224
--
--- reg: The I2C address of the device
--
--- interrupts: The sink for the touchpad's IRQ output
--    See ../interrupt-controller/interrupts.txt
--
--Optional properties for main touchpad device:
--
--- linux,gpio-keymap: When enabled, the SPT_GPIOPWN_T19 object sends messages
--    on GPIO bit changes. An array of up to 8 entries can be provided
--    indicating the Linux keycode mapped to each bit of the status byte,
--    starting at the LSB. Linux keycodes are defined in
--    <dt-bindings/input/input.h>.
--
--    Note: the numbering of the GPIOs and the bit they start at varies between
--    maXTouch devices. You must either refer to the documentation, or
--    experiment to determine which bit corresponds to which input. Use
--    KEY_RESERVED for unused padding values.
--
--- reset-gpios: GPIO specifier for the touchscreen's reset pin (active low)
--
--Example:
--
--	touch@4b {
--		compatible = "atmel,maxtouch";
--		reg = <0x4b>;
--		interrupt-parent = <&gpio>;
--		interrupts = <TEGRA_GPIO(W, 3) IRQ_TYPE_LEVEL_LOW>;
--	};
-diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml b/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
-new file mode 100644
-index 000000000000..6173562f328a
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
-@@ -0,0 +1,83 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/atmel,maxtouch.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Atmel maXTouch touchscreen/touchpad
-+
-+maintainers:
-+  - Nick Dyer <nick@shmanahar.org>
-+  - Linus Walleij <linus.walleij@linaro.org>
-+
-+description: |
-+  Atmel maXTouch touchscreen or touchpads such as the mXT244
-+  and similar devices.
-+
-+properties:
-+  compatible:
-+    const: atmel,maxtouch
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  vdda-supply:
-+    description:
-+      Optional regulator for the AVDD analog voltage.
-+
-+  vdd-supply:
-+    description:
-+      Optional regulator for the VDD digital voltage.
-+
-+  reset-gpios:
-+    maxItems: 1
-+    description:
-+      Optional GPIO specifier for the touchscreen's reset pin
-+      (active low). The operating system should actively drive
-+      the line low to assert reset, so the line must NOT be
-+      flagged with GPIO_ACTIVE_LOW, it should (counterintuitively)
-+      be set to GPIO_ACTIVE_HIGH.
-+
-+  linux,gpio-keymap:
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    description: |
-+      When enabled, the SPT_GPIOPWN_T19 object sends messages
-+      on GPIO bit changes. An array of up to 8 entries can be provided
-+      indicating the Linux keycode mapped to each bit of the status byte,
-+      starting at the LSB. Linux keycodes are defined in
-+      <dt-bindings/input/input.h>.
-+
-+      Note: the numbering of the GPIOs and the bit they start at varies
-+      between maXTouch devices. You must either refer to the documentation,
-+      or experiment to determine which bit corresponds to which input. Use
-+      KEY_RESERVED for unused padding values.
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/gpio/gpio.h>
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+      touchscreen@4a {
-+        compatible = "atmel,maxtouch";
-+        reg = <0x4a>;
-+        interrupt-parent = <&gpio>;
-+        interrupts = <26 IRQ_TYPE_EDGE_FALLING>;
-+        reset-gpios = <&gpio 27 GPIO_ACTIVE_HIGH>;
-+        vdda-supply = <&ab8500_ldo_aux2_reg>;
-+        vdd-supply = <&ab8500_ldo_aux5_reg>;
-+      };
-+    };
-+
-+...
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e73636b75f29..b4b46fcb82db 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2966,7 +2966,7 @@ ATMEL MAXTOUCH DRIVER
- M:	Nick Dyer <nick@shmanahar.org>
- S:	Maintained
- T:	git git://github.com/ndyer/linux.git
--F:	Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-+F:	Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
- F:	drivers/input/touchscreen/atmel_mxt_ts.c
- 
- ATMEL WIRELESS DRIVER
+Changes in v4:
+- Fixed regmap read length for CRC_ERR_FLAG final check
+- Fixed YAML binding, as requested by Krzysztof Kozlowski
+
+Changes in v5:
+- Replaced subsystem maintainer's name with .. mine,
+  usage of additionalProperties to unevaluatedProperties
+  and a typo fix for reset-gpios as per Rob Herring's review
+- Changed compatible string as per Krzysztof K. request
+- Renamed the novatek,nt36xxx.yaml file to just nt36xxx.yaml
+  in order to now reflect the driver name instead of the DT
+  compatible
+- Fixed blank line at EOF
+
+Changes in v6:
+- Removed include of_gpio.h, added mod_devicetable.h and
+  gpio/consumer.h
+- Added kerneldoc to relevant functions/enum
+- Used traditional patterns for error checking where possible
+- Documented calls to usleep/msleep
+- Using be16_to_cpu / get_unaligned_be16 where possible
+- Added helper for CRC error check on retrieved buffer
+- Decreased indentation in the CRC reboot recovery function
+- Removed instances of error code sum
+- Dropped all likely/unlikely optimization as per request
+- Removed redundant reset_gpio checks
+- Dropped of_match_ptr and ifdefs for CONFIG_OF
+
+Changes in v7:
+- Fixed typo in nt36xxx.c
+
+Changes in v8:
+- Fixed typo reset-gpio -> reset-gpios in dt-bindings
+
+Changes in v9:
+- Includes are now sorted
+- Used proposed sizeof variable instead of sizeof type
+- Fixed a return value check for common pattern
+- Added NULL check to devm_kasprintf call
+- Returning ret on probe function to be consistent
+
+AngeloGioacchino Del Regno (3):
+  dt-bindings: Add vendor prefix for Novatek Microelectronics Corp.
+  Input: Add Novatek NT36xxx touchscreen driver
+  dt-bindings: touchscreen: Add binding for Novatek NT36xxx series
+    driver
+
+ .../bindings/input/touchscreen/nt36xxx.yaml   |  59 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ drivers/input/touchscreen/Kconfig             |  12 +
+ drivers/input/touchscreen/Makefile            |   1 +
+ drivers/input/touchscreen/nt36xxx.c           | 894 ++++++++++++++++++
+ drivers/input/touchscreen/nt36xxx.h           | 122 +++
+ 6 files changed, 1090 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/nt36xxx.yaml
+ create mode 100644 drivers/input/touchscreen/nt36xxx.c
+ create mode 100644 drivers/input/touchscreen/nt36xxx.h
+
 -- 
-2.26.2
+2.28.0
 
