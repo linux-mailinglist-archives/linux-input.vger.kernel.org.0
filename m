@@ -2,93 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9363329EE66
-	for <lists+linux-input@lfdr.de>; Thu, 29 Oct 2020 15:37:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 17E8129EF31
+	for <lists+linux-input@lfdr.de>; Thu, 29 Oct 2020 16:07:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726521AbgJ2OhC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 29 Oct 2020 10:37:02 -0400
-Received: from mail-03.mail-europe.com ([91.134.188.129]:39864 "EHLO
-        mail-03.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726029AbgJ2OhB (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 29 Oct 2020 10:37:01 -0400
-Date:   Thu, 29 Oct 2020 14:36:51 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1603982218;
-        bh=kXRaeNvaCmQH2VeUBzDabkr/fRY1SIHCsnhlrezOIP4=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=xMcf3HkfGEjU8Xvf7JJCjEXO0w1zUcqbBYZRaJVfJn6oMKF4vUSUc6ldi50W4twFA
-         cjjIHv0FZApDZ2G/XZi2+/qfp3pESK89HwC6U13UwL3qTOCWy/FXk1QaqMSpfk8SXf
-         jBUk3injLDg4q0qLeoYQqucX8YkSKzUhDL/1xLyg=
-To:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Cc:     "hj2.im@samsung.com" <hj2.im@samsung.com>,
-        "manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "rydberg@bitmath.org" <rydberg@bitmath.org>,
-        Jungrae Kim <jryu.kim@samsung.com>
-Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Subject: Re: [PATCH v2] input: add 2 kind of switch
-Message-ID: <Y8lswhvitTRIuUmvccVHbI2zTCGbh44XnkszUcl2qG2mT93vWVcnovbN8UsBOnXkE-gnRB6jLLnOaNWLgf8B9Pn6R2uGgv7pV-vqj4RdiUk=@protonmail.com>
-In-Reply-To: <20201029135415.GA3470996@kroah.com>
-References: <CGME20201029132747epcms1p8fae559dff47bf0eebdcc9f94efd9a1bf@epcms1p8> <20201029132747epcms1p8fae559dff47bf0eebdcc9f94efd9a1bf@epcms1p8> <j4-zngLfuvM3x15SD8ezJ__FTdOdLCudaTGBvuotwzYwnYFusBe655vH3UahNgtBzB8n6VpfoV7iS1tPXvv-0R8T7-RsvMDxnTZ-Zo-xs4o=@protonmail.com> <20201029135415.GA3470996@kroah.com>
+        id S1727566AbgJ2PHY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 29 Oct 2020 11:07:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38306 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726375AbgJ2PHY (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 29 Oct 2020 11:07:24 -0400
+Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5ABA82072D;
+        Thu, 29 Oct 2020 15:00:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603983659;
+        bh=NJHQhpUrNoZf8PancW9t2WQ+0QXTxWc5qJVxwEWNpyg=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=FJmeoSHzQduSdGQjGJsOamKUKnXzIdx9clfp2JjKqIJAkkbzDKRmOI6kDQtOFV28K
+         ullFp64UwALP/jyLtRLiyCEBOGitVdkfMA5cVvtDgKDx9Sf3c07AwAfOhS6sAgKSSF
+         FwGuPD+heZCfSv6nyUKAKFwYKrS6WF6fm9pU7yLI=
+Date:   Thu, 29 Oct 2020 16:00:55 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+cc:     Luke D Jones <luke@ljones.dev>, linux-input@vger.kernel.org,
+        andy@infradead.org, benjamin.tissoires@redhat.com
+Subject: Re: [PATCH v10] HID: ASUS: Add support for ASUS N-Key keyboard
+In-Reply-To: <7b5dd95d-360f-5620-6bd9-3cc2c5d85ae3@redhat.com>
+Message-ID: <nycvar.YFH.7.76.2010291555020.18859@cbobk.fhfr.pm>
+References: <20201026210216.103501-1-luke@ljones.dev> <7b5dd95d-360f-5620-6bd9-3cc2c5d85ae3@redhat.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi
+On Tue, 27 Oct 2020, Hans de Goede wrote:
 
-> [...]
-> > > diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devi=
-cetable.h
-> > > index 5b08a473cdba..897f5a3e7721 100644
-> > > --- a/include/linux/mod_devicetable.h
-> > > +++ b/include/linux/mod_devicetable.h
-> > > @@ -320,7 +320,7 @@ struct pcmcia_device_id {
-> > >  #define INPUT_DEVICE_ID_LED_MAX=09=090x0f
-> > >  #define INPUT_DEVICE_ID_SND_MAX=09=090x07
-> > >  #define INPUT_DEVICE_ID_FF_MAX=09=090x7f
-> > > -#define INPUT_DEVICE_ID_SW_MAX=09=090x10
-> > > +#define INPUT_DEVICE_ID_SW_MAX=09=090x12
-> > >  #define INPUT_DEVICE_ID_PROP_MAX=090x1f
-> > >
-> > >  #define INPUT_DEVICE_ID_MATCH_BUS=091
-> > > diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/li=
-nux/input-event-codes.h
-> > > index 0c2e27d28e0a..8ca2acee1f92 100644
-> > > --- a/include/uapi/linux/input-event-codes.h
-> > > +++ b/include/uapi/linux/input-event-codes.h
-> > > @@ -889,7 +889,9 @@
-> > >  #define SW_MUTE_DEVICE=09=090x0e  /* set =3D device disabled */
-> > >  #define SW_PEN_INSERTED=09=090x0f  /* set =3D pen inserted */
-> > >  #define SW_MACHINE_COVER=090x10  /* set =3D cover closed */
-> > > -#define SW_MAX=09=09=090x10
-> > > +#define SW_COVER_ATTACHED=090x11  /* set =3D cover attached */
-> > > +#define SW_EXT_PEN_ATTACHED=090x12  /* set =3D external pen attached=
- */
-> > > +#define SW_MAX=09=09=090x12
-> > >  #define SW_CNT=09=09=09(SW_MAX+1)
-> > > [...]
-> >
-> > This part of the patch conflicts with another one:
-> > https://lore.kernel.org/linux-input/20201026144512.621479-1-markpearson=
-@lenovo.com/
->
-> Is that merged?  If not, it's fine as-is until then, and someone has to
-> pick to go first :)
+> > The ASUS N-Key keyboard uses the productId of 0x1866 and is used in
+> > almost all modern ASUS gaming laptops with slight changes to the
+> > firmware. This patch enables: Fn+key hotkeys, keyboard backlight
+> > brightness control.
+> > 
+> > Additionally this keyboard requires the LED interface to be
+> > initialized before such things as keyboard backlight control work.
+> > 
+> > Signed-off-by: Luke D Jones <luke@ljones.dev>
+> > 
+> > ---
+> > Changes v8-v10
+> > - Remove asus_wmi_send_event and change Fn+F5 to emit
+> >   KEY_PROG4. The ASUS G14-G15 laptops have a problem
+> >   with freezes if the user spams this key to trigger
+> >   asus_wmi_send_event(). It is better handled with a
+> >   key-bind and daemon.
+> > - Change cases of dev_warn to hid_warn.
+> > - Remove out-of-scope changes which are better suited
+> >   as separate patches.
+> 
+> This version looks good to me, and it applies without problems
+> (no more removed spaces):
+> 
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
 
-It is not, to my knowledge. Nonetheless I figured the information may be re=
-levant.
+Applied, thanks Luke for putting this all together, and thanks Hans for 
+such a detiled review.
 
+-- 
+Jiri Kosina
+SUSE Labs
 
-Regards,
-Barnab=C3=A1s P=C5=91cze
