@@ -2,107 +2,159 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2406729F3A3
-	for <lists+linux-input@lfdr.de>; Thu, 29 Oct 2020 18:53:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EA9129F447
+	for <lists+linux-input@lfdr.de>; Thu, 29 Oct 2020 19:50:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726090AbgJ2RxB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 29 Oct 2020 13:53:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40840 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725876AbgJ2RxA (ORCPT
+        id S1725941AbgJ2Su5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 29 Oct 2020 14:50:57 -0400
+Received: from antispam.etsmtl.ca ([208.72.177.108]:59880 "EHLO
+        antispam.etsmtl.ca" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725925AbgJ2Su4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 29 Oct 2020 13:53:00 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A2B8C0613CF;
-        Thu, 29 Oct 2020 10:53:00 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id g12so2963501pgm.8;
-        Thu, 29 Oct 2020 10:53:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=7zoU5cUE4YpN/HwZnaDsQKl1Im3HzToC2Y9JqAnH86I=;
-        b=eCsRrQC1KdcbB1iea3lgRshQ5gARYCmKP1i9kSZ9wGJZCEat/C2TfKNH5WEFxBZWvc
-         SpxsZxrUkChtqKiARch5VeXw6XCsd7MFztIQI/mjTx3TN0V8/oHMMjtv5VTTWYzcFkJ5
-         JV+K6S3B1QOy5e97XGjB6EMfzkvmUeHzh5/IaS+r/XnHniWFRqQeXWDzIeBlLIF3knZU
-         mGHj9RgmlrS3gjpiacnhR1NrKOEaz1H99ljtpxoeilihJF3udOn/GL50FqDj6yW2iJKN
-         SJHBlMEPau6+WNfyyGmL28T5IjKOyroIHOjLPaIqKDxbz/JYzEoL3rzxtbc0mTJ8Jmyz
-         khoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=7zoU5cUE4YpN/HwZnaDsQKl1Im3HzToC2Y9JqAnH86I=;
-        b=Mv34hvxQiDbT5AkBM6vyQvkxDiDCzcx6dKzDfsZymKjqflzhrhommV0m3CchDlq8ap
-         hxqAVYn4MOSURlk3WXWOBEk2wmiZ4c1scR/RxRdFkhbMtqSu4qF/N/uIzD3+qrWOyizm
-         kTDYCqfHQfLjkEp1xNR5cF6vvtwBKgRlwUemxvSEH5xRhrJ1p9FZM+4yJH304acL0ibY
-         N1Suregpb/oapyOZ/crNUAMQ74Ai8gf4TuhHR/utPuMRi8Vco9rW9Ry+GLwF5qB1+IwF
-         pgeb9P4RZKSwgOVXB/1X0fqjaNvl5nvcQM3GFxPWVQrKv1aZlzhR8xavm8UArc7xDG+A
-         Fsww==
-X-Gm-Message-State: AOAM532LIsNDdRbo+KcSpFmaM//DnZVcXOPIiE4jpjmCP8giyKPIYRtL
-        O9F6lFCnIQG3/Aw+CmC9SDo=
-X-Google-Smtp-Source: ABdhPJydK0HnwSa4MJ3KkR6A7sszg89jnvRWzJbNu4AnXv6Wnxu8Bs7nanBBvf8nW9GmEq4npY6dWQ==
-X-Received: by 2002:a65:6808:: with SMTP id l8mr4914707pgt.50.1603993979882;
-        Thu, 29 Oct 2020 10:52:59 -0700 (PDT)
-Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id l82sm3730669pfd.102.2020.10.29.10.52.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2020 10:52:59 -0700 (PDT)
-Date:   Thu, 29 Oct 2020 10:52:56 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Coiby Xu <coiby.xu@gmail.com>
-Cc:     "open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." 
-        <linux-input@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/3] Input: pmic8xxx-keypad: remove unnecessary
- CONFIG_PM_SLEEP
-Message-ID: <20201029175256.GD2547185@dtor-ws>
-References: <20201029075236.228335-1-coiby.xu@gmail.com>
+        Thu, 29 Oct 2020 14:50:56 -0400
+X-ASG-Debug-ID: 1603996547-1241596aa004470003-vblZzk
+Received: from relais.etsmtl.ca (relais.etsmtl.ca [142.137.1.25]) by antispam.etsmtl.ca with ESMTP id EQTtIKSM6rkNbPrs (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Thu, 29 Oct 2020 14:35:56 -0400 (EDT)
+X-Barracuda-Envelope-From: Pascal.Giard@etsmtl.ca
+X-Barracuda-Effective-Source-IP: relais.etsmtl.ca[142.137.1.25]
+X-Barracuda-Apparent-Source-IP: 142.137.1.25
+X-Gm-Message-State: AOAM530/FGn6LaxovhmnKKBBU5XtbI8jLTp6ntPRKxbXBtOU/gZ6775W
+        Cw3Xb/RRHxiHgVrskLrZ6yaid5Rw9K4QAaGCN7s=
+X-Google-Smtp-Source: ABdhPJwJ0HaSSS5Zj8Q3hIPin7+DS4vqj76gEmkcauU3lzqMME0xAKszLvhnZxHnJJ2rVR5cZ1W6oWuvFR8aeDYy/78=
+X-Received: by 2002:a67:8b84:: with SMTP id n126mr4777766vsd.45.1603996546297;
+ Thu, 29 Oct 2020 11:35:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201029075236.228335-1-coiby.xu@gmail.com>
+References: <20201009022722.123943-1-pascal.giard@etsmtl.ca> <nycvar.YFH.7.76.2010291622380.18859@cbobk.fhfr.pm>
+In-Reply-To: <nycvar.YFH.7.76.2010291622380.18859@cbobk.fhfr.pm>
+From:   Pascal Giard <pascal.giard@etsmtl.ca>
+Date:   Thu, 29 Oct 2020 14:35:35 -0400
+X-Gmail-Original-Message-ID: <CAJNNDmn1OBzRouNUcAmWSfj4piSHRFfc6V6gvb2D+2qYO1Ob7g@mail.gmail.com>
+Message-ID: <CAJNNDmn1OBzRouNUcAmWSfj4piSHRFfc6V6gvb2D+2qYO1Ob7g@mail.gmail.com>
+Subject: Re: [PATCH] HID: ghlive: support for ghlive ps3/wii u dongles
+To:     Jiri Kosina <jikos@kernel.org>
+X-ASG-Orig-Subj: Re: [PATCH] HID: ghlive: support for ghlive ps3/wii u dongles
+CC:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Sanjay Govind <sanjay.govind9@gmail.com>,
+        Pascal Giard <pascal.giard@etsmtl.ca>
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [142.137.250.50]
+X-ClientProxiedBy: FacteurA.ad.etsmtl.ca (10.162.28.14) To
+ FacteurB.ad.etsmtl.ca (10.162.28.15)
+X-Barracuda-Connect: relais.etsmtl.ca[142.137.1.25]
+X-Barracuda-Start-Time: 1603996554
+X-Barracuda-Encrypted: ECDHE-RSA-AES256-GCM-SHA384
+X-Barracuda-URL: https://antispam.etsmtl.ca:8100/cgi-mod/mark.cgi
+X-Virus-Scanned: by bsmtpd at etsmtl.ca
+X-Barracuda-Scan-Msg-Size: 3491
+X-Barracuda-BRTS-Status: 1
+X-Barracuda-Bayes: INNOCENT GLOBAL 0.2404 1.0000 -0.6219
+X-Barracuda-Spam-Score: -0.62
+X-Barracuda-Spam-Status: No, SCORE=-0.62 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=3.2 KILL_LEVEL=5.2 tests=INFO_TLD
+X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.85530
+        Rule breakdown below
+         pts rule name              description
+        ---- ---------------------- --------------------------------------------------
+        0.00 INFO_TLD               URI: Contains an URL in the INFO top-level domain
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Oct 29, 2020 at 03:52:34PM +0800, Coiby Xu wrote:
-> SIMPLE_DEV_PM_OPS has already took good care of CONFIG_PM_CONFIG.
+On Thu, Oct 29, 2020 at 11:26 AM Jiri Kosina <jikos@kernel.org> wrote:
+>
+> On Thu, 8 Oct 2020, Pascal Giard wrote:
+>
+> > This commit introduces the Guitar Hero Live driver which adds support
+> > for the PS3 and Wii U dongles.
+>
+> Pascal,
+>
+> thanks for the patch.
+>
 
-Doesn't it result in "defined but not used" warnings if you compile
-without CONFIG_PM? I believe if you are dropping #ifdef guards you need
-to add __maybe_unused annotations.
+Dear Jiri,
 
-> Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
-> ---
->  drivers/input/keyboard/pmic8xxx-keypad.c | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/drivers/input/keyboard/pmic8xxx-keypad.c b/drivers/input/keyboard/pmic8xxx-keypad.c
-> index 91d5811d6f0e..c04ab04331b2 100644
-> --- a/drivers/input/keyboard/pmic8xxx-keypad.c
-> +++ b/drivers/input/keyboard/pmic8xxx-keypad.c
-> @@ -621,7 +621,6 @@ static int pmic8xxx_kp_probe(struct platform_device *pdev)
->  	return 0;
->  }
->  
-> -#ifdef CONFIG_PM_SLEEP
->  static int pmic8xxx_kp_suspend(struct device *dev)
->  {
->  	struct platform_device *pdev = to_platform_device(dev);
-> @@ -661,7 +660,6 @@ static int pmic8xxx_kp_resume(struct device *dev)
->  
->  	return 0;
->  }
-> -#endif
->  
->  static SIMPLE_DEV_PM_OPS(pm8xxx_kp_pm_ops,
->  			 pmic8xxx_kp_suspend, pmic8xxx_kp_resume);
-> -- 
-> 2.28.0
-> 
+thank you for reviewing my patch.
 
-Thanks.
+> [ ... snip ... ]
+>
+> > ---
+> >  drivers/hid/Kconfig      |   6 ++
+> >  drivers/hid/Makefile     |   1 +
+> >  drivers/hid/hid-ghlive.c | 220 +++++++++++++++++++++++++++++++++++++++
+>
+> Would it make more sense (with respect to how we are structuring/naming
+> the hid drivers) to incorporate this into hid-sony (irrespective of
+> currently ongoing discussions about actually splitting that driver :) )?
+>
 
--- 
-Dmitry
+I think it would be most appropriate, yes.
+
+Note that there are 3 other dongles out there:
+- the xbox360 dongle does not need any special treatment, it just
+works with hid-generic;
+- the ps4 dongle obviously makes sense to go into hid-sony (although
+no one has reversed engineered that one (yet));
+- the xboxone dongle: that's an unknown one to me. I don't have any
+information about that one unfortunately and do not own one.
+
+I wrote this as a separate hid driver as I saw that email [1] from
+Roderick Colenbrander in which he expressed a preference for a
+seperate driver in cases where the device is not from Sony proper.
+
+> > +static void ghl_magic_poke(struct timer_list *t)
+> > +{
+> > +     struct ghlive_sc *sc = from_timer(sc, t, poke_timer);
+> > +
+> > +     int ret;
+> > +     unsigned int pipe;
+> > +     struct urb *urb;
+> > +     struct usb_ctrlrequest *cr;
+> > +     const u16 poke_size =
+> > +             ARRAY_SIZE(ghl_ps3wiiu_magic_data);
+> > +     u8 *databuf;
+> > +
+> > +     pipe = usb_sndctrlpipe(sc->usbdev, 0);
+> > +
+> > +     cr = kzalloc(sizeof(*cr), GFP_ATOMIC);
+> > +     if (!cr)
+> > +             goto resched;
+> > +
+> > +     databuf = kzalloc(poke_size, GFP_ATOMIC);
+> > +     if (!databuf) {
+> > +             kfree(cr);
+> > +             goto resched;
+> > +     }
+> > +
+> > +     urb = usb_alloc_urb(0, GFP_ATOMIC);
+> > +     if (!urb) {
+> > +             kfree(databuf);
+> > +             kfree(cr);
+> > +             goto resched;
+>
+>
+> So if one of the allocations above succeeds and a subsequent one fails,
+> you're going to try re-allocate all of them next time again, leaking the
+> ones that previously succeeded, right?
+>
+
+I attempted to avoid such a case. IIUC there are 4 possible scenarios
+tied to those 3 allocs (cr, databuf, and urb):
+1) alloc of cr fails. nothing to be freed, we reschedule;
+2) alloc of cr succeeds, alloc of databuf fails. we free cr and we reschedule;
+3) allocs of cr and databuf succeed, alloc of urb fails. we free cr
+and databuf, and we reschedule;
+4) all allocs succeed, we submit the urb, and free urb. once the
+control packet is sent, the callback is called and we free cr and
+databuf.
+
+Am I missing something? It's VERY possible that I am as this is my
+first patch and I wrote this by looking at other peoples' code. The
+only thing that comes to mind is if poke is called again before the
+control packet actually gets sent (and the callback called), in which
+case I'm not sure what would happen. But with a poke interval of 10
+seconds, is that probability close enough to 0 to be ignored?
+
+Thanks again for your valuable input, :-)
+
+-Pascal
+[1] https://marc.info/?l=linux-input&m=157273970001101&w=2
