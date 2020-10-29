@@ -2,95 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C36129F2FC
-	for <lists+linux-input@lfdr.de>; Thu, 29 Oct 2020 18:23:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0043529F38E
+	for <lists+linux-input@lfdr.de>; Thu, 29 Oct 2020 18:45:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726037AbgJ2RWu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 29 Oct 2020 13:22:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36032 "EHLO
+        id S1727697AbgJ2Rpa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 29 Oct 2020 13:45:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725730AbgJ2RWt (ORCPT
+        with ESMTP id S1725777AbgJ2Rpa (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 29 Oct 2020 13:22:49 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B8EDC0613CF;
-        Thu, 29 Oct 2020 10:22:49 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id a9so3614766wrg.12;
-        Thu, 29 Oct 2020 10:22:49 -0700 (PDT)
+        Thu, 29 Oct 2020 13:45:30 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAF36C0613CF;
+        Thu, 29 Oct 2020 10:45:28 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id i7so1021254pgh.6;
+        Thu, 29 Oct 2020 10:45:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=FgiZbK6pWCFNNx9QFeZngzu7fh5OqvaG7wkwgkOFjSU=;
-        b=cpKWHh/noLvJenv/13DypTzJLrHma44Acp5C9pOHg6D3H7IFNvJnp0zTiuqvH9C2QF
-         mz8XA29iaaASTJ2RMZR7Uy8GZ+Za9cW65iG7rVFQOl4n+jJ5oZTIyhCvYjttlx4YdtNF
-         mbVNpDTFS7Qy9/JQM2MaY5Mx1Cai/NXG2z1Ssg1kITEdnHUIYuN/9UXZa9rJHRwNKQpo
-         L7aIVN0lBeXhSaAww99pKrbIsEZxwmNT8+wUZ4mGiVj/7lXzKBv41/XMvRStA1Ts4IOT
-         1R59FKz1O9s+lrPtw3Od2T1sBWxxN5RVQAdsSpsOuABB+3M0+lkV6zekSTUkzp0/FsHM
-         JAAg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=5f7qhadfWduXYz6g9qMehuuDkBNh1i8FL4UUvnf55YI=;
+        b=keZVC2nCFfiWp+UAImpguKdH/WBVPGsrcpnD6Dh6qIcJ535Ze10ngriIhch0MFkPha
+         Op2tUVv112FypuPXjD9Wu7BMr3KrU0f7u2HgWnTvOd9WwfvRS4QGRnEOt6SHxbqN3+Z+
+         kYwitz5ypqB3FpanujsCutUeTwbwExBHbCCtZCP0Vsi//+X7H15gRQqEbMVX9blwDrwq
+         thlS/klE5vI7p5MHpkW5CtGX4cRCwJhU9cvx5QB0X2zETYiJXEaXjxdiFuWTlcv1OJZI
+         8NnXRqTynKh99K+SNpZB+tYhe6w7Vcr1du85COGdNyyHzYHP07bi3xeoVMjpxwQouCo2
+         j5hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FgiZbK6pWCFNNx9QFeZngzu7fh5OqvaG7wkwgkOFjSU=;
-        b=gwTzWkPNh9+XxEmNyrK3/eMkE+weUQZYI4cWM1XOlarSPNvEFST2G3lERcV/qlAtQ5
-         Wbf5Yjz3QzHO9G58LTxDv45XbPYECtqOvpx7o6fHSdNQ2WXT9x+g0XW57wfu/pKQLqJh
-         dyn0lNk2jmQ1mBu6LjrUFMussk+/5U15oXKDSS7//t6y030bdbYIeAcFBdMGrKS53zcZ
-         62WmO22ze1RV6av4udJ5QM84H4Sxoq/TM1nODdGfL6fmOyAJChkV5+l1TkvFNWqSCF8E
-         zj7cuMqs3n1y928pmhp4giQgskkf6xDHwynbMTTqU5WeKfwi6I/yCAtwBXQ4xPYb5WvT
-         qNfA==
-X-Gm-Message-State: AOAM532mIiMIAoA+dDvDcVgtlX5iieeqsSI0ulk0Ea1F6zsmZnBVgJsh
-        K8QaLWanjcHcI4a4YXZDb4MLZK5N5MEqkScy1Mfeoo7Rq6gqlg==
-X-Google-Smtp-Source: ABdhPJzQqF47WuTZrrAWUm6UKRHFxSNxk2UxPVzZmh961NjEWLxLE1pT8IuMdscuOyDzwnx3gGWJapGFwC0H5g6Eni8=
-X-Received: by 2002:adf:81e5:: with SMTP id 92mr6842917wra.411.1603992168004;
- Thu, 29 Oct 2020 10:22:48 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=5f7qhadfWduXYz6g9qMehuuDkBNh1i8FL4UUvnf55YI=;
+        b=FRe67+cmpYPNkFASuyqR6CQgOv6GC3jgtK6dbqOW/27KFgy5Uyifek9JYdEzE974dD
+         gkiij4rlplv9aaKBG3+tmwdQk8FhGLSpDRbXlSgAbdhq3KYf4c/fI5/McQdPiy7/il03
+         Udwa/ptLqHgL9j3NRe1nDtwyPgx6gNXJlfS8iuDzJ6p2Lx7qBTAN3q5io6XK0JTYCX0Y
+         7J6jY/Zeo7WJ1aTJ4ihfycNMr+7N4mjnBy3BgykIUKkf+oZSxr2Qi5d9rRTKJu3gfMtM
+         zvtbviziRKdQnbO3gEx6X6dzeVoPjQlmsv5YbaVMsvorX2XW0NdsMFRN420vtIfBe3Op
+         6r5g==
+X-Gm-Message-State: AOAM533BZx0vHAZs1iREuLIWEEg0jpxl5+BEFJce01a3zsx63mx6f6r3
+        t2k7Az0C8Lifhwd76j3hTd/56PalMOo=
+X-Google-Smtp-Source: ABdhPJx5CnzFgnh3jVSCvERAlDXMwpRX4IPdJZehJnsRFjWmI4GZt0EKtYCRUvxXLoF89xOxOLrryw==
+X-Received: by 2002:a63:1649:: with SMTP id 9mr4773894pgw.91.1603993528137;
+        Thu, 29 Oct 2020 10:45:28 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id y137sm3514219pfc.77.2020.10.29.10.45.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2020 10:45:27 -0700 (PDT)
+Date:   Thu, 29 Oct 2020 10:45:24 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+Cc:     HyungJae Im <hj2.im@samsung.com>,
+        "manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "rydberg@bitmath.org" <rydberg@bitmath.org>,
+        Jungrae Kim <jryu.kim@samsung.com>
+Subject: Re: [PATCH v2] input: add 2 kind of switch
+Message-ID: <20201029174524.GC2547185@dtor-ws>
+References: <CGME20201029132747epcms1p8fae559dff47bf0eebdcc9f94efd9a1bf@epcms1p8>
+ <20201029132747epcms1p8fae559dff47bf0eebdcc9f94efd9a1bf@epcms1p8>
+ <20201029135715.GB3470996@kroah.com>
 MIME-Version: 1.0
-References: <20201028221302.66583-1-kholk11@gmail.com> <20201028221302.66583-2-kholk11@gmail.com>
- <20201029155053.GA1936493@bogus>
-In-Reply-To: <20201029155053.GA1936493@bogus>
-From:   AngeloGioacchino Del Regno <kholk11@gmail.com>
-Date:   Thu, 29 Oct 2020 18:22:36 +0100
-Message-ID: <CAK7fi1aRTKkA2ouidjB4tyPoCyfTa2-POhUM_9Y2DNphL7=W2A@mail.gmail.com>
-Subject: Re: [PATCH v9 1/3] dt-bindings: Add vendor prefix for Novatek
- Microelectronics Corp.
-To:     Rob Herring <robh@kernel.org>
-Cc:     Rob Herring <robh+dt@kernel.org>, konradybcio@gmail.com,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        dmitry.torokhov@gmail.com, priv.luk@gmail.com, marijns95@gmail.com,
-        phone-devel@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, andy.shevchenko@gmail.com,
-        rydberg@bitmath.org, martin.botka1@gmail.com,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201029135715.GB3470996@kroah.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Il giorno gio 29 ott 2020 alle ore 16:50 Rob Herring <robh@kernel.org>
-ha scritto:
->
-> On Wed, 28 Oct 2020 23:13:00 +0100, kholk11@gmail.com wrote:
-> > From: AngeloGioacchino Del Regno <kholk11@gmail.com>
-> >
-> > Add prefix for Novatek Microelectronics Corp.
-> >
-> > Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
+On Thu, Oct 29, 2020 at 02:57:15PM +0100, gregkh@linuxfoundation.org wrote:
+> On Thu, Oct 29, 2020 at 10:27:47PM +0900, HyungJae Im wrote:
+> > From: "hj2.im" <hj2.im@samsung.com>
+> > Date: Thu, 29 Oct 2020 22:11:24 +0900
+> > Subject: [PATCH v2] input: add 2 kind of switch
+> 
+> Why is this in the body of that patch?
+> 
+> > 
+> > We need support to various accessories on the device,
+> > some switch does not exist in switch list.
+> > So added switch for the following purpose.
+> > 
+> > SW_COVER_ATTACHED is for the checking the cover
+> > attached or not on the device. SW_EXT_PEN_ATTACHED is for the
+> > checking the external pen attached or not on the device
+> 
+> You didn't answer the previous question as to why the existing values do
+> not work for you instead of having to create new ones?
+> 
+> 
+> > 
+> > Signed-off-by: Hyungjae Im <hj2.im@samsung.com>
 > > ---
-> >  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
->
->
-> Please add Acked-by/Reviewed-by tags when posting new versions. However,
-> there's no need to repost patches *only* to add the tags. The upstream
-> maintainer will do that for acks received on the version they apply.
->
-> If a tag was not added on purpose, please state why and what changed.
->
-The intention was to add the tag and I even recall adding it... probably
-my finger slipped and the changes didn't get saved, my bad disattention.
-I should probably stop developing when I'm overtired.
+> >  drivers/input/Kconfig                  |  20 ++
+> >  drivers/input/Makefile                 |   3 +
+> >  drivers/input/cover_detect.c           | 242 ++++++++++++++++++++++++
+> >  drivers/input/ext_pen_detect.c         | 243 +++++++++++++++++++++++++
+> >  include/linux/mod_devicetable.h        |   2 +-
+> >  include/uapi/linux/input-event-codes.h |   4 +-
+> >  6 files changed, 512 insertions(+), 2 deletions(-)
+> >  create mode 100644 drivers/input/cover_detect.c
+> >  create mode 100644 drivers/input/ext_pen_detect.c
+> 
+> If this is v2, what changed from v1?
+> 
+> And this is 2 different drivers, it should be 2 different patches at the
+> least, right?>
 
-I'm sorry for that.
+Actually the should simply use gpio-keys.c for this and dispense with
+the custom drivers.
+
+Thanks.
+
+-- 
+Dmitry
