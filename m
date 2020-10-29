@@ -2,106 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC56729F30A
-	for <lists+linux-input@lfdr.de>; Thu, 29 Oct 2020 18:24:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C36129F2FC
+	for <lists+linux-input@lfdr.de>; Thu, 29 Oct 2020 18:23:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726811AbgJ2RYz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 29 Oct 2020 13:24:55 -0400
-Received: from sender11-of-o52.zoho.eu ([31.186.226.238]:21355 "EHLO
-        sender11-of-o52.zoho.eu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727368AbgJ2RYz (ORCPT
+        id S1726037AbgJ2RWu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 29 Oct 2020 13:22:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36032 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725730AbgJ2RWt (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 29 Oct 2020 13:24:55 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1603991362; cv=none; 
-        d=zohomail.eu; s=zohoarc; 
-        b=B8Z0XYdSYl9TWLWxFpqfxqD7JRDj+4iQ+8sqZgwZrRar+6pjIce817o7sYgDq9kv4heTQbb9HLe+h6cECRyyZj+MJ+AUZupcVw5rCZwDetV/Mly2JjdoGarbJqQ7XDPZIMkr0K73dia0CO72E9ormwVFwaBGlg+Q4JgVLVDISDc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
-        t=1603991362; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
-        bh=9Tr2P9DR36UFNpHv3c8ZcdoeNbs4qYkslgkrMEyGCwU=; 
-        b=FtoVUAVoau79YXgLLDK/ZvHMx0DDlp81eqdNojW/Atr5tYT2AXWuZU4JZOZLFkcd/FpOQupEyewBdjeb3YTMuoeSLr7o1hRODDtryj4ZgGulgbI+mKpWqA/agO4J+EIy3gM3YnXuKeMjqHgP4woua51YjFCHdmPUL+yRGGEvudE=
-ARC-Authentication-Results: i=1; mx.zohomail.eu;
-        spf=pass  smtp.mailfrom=philipp@uvos.xyz;
-        dmarc=pass header.from=<philipp@uvos.xyz> header.from=<philipp@uvos.xyz>
-Received: from localhost.localdomain (ip-95-222-213-32.hsi15.unitymediagroup.de [95.222.213.32]) by mx.zoho.eu
-        with SMTPS id 1603991359354993.3246506194793; Thu, 29 Oct 2020 18:09:19 +0100 (CET)
-Date:   Thu, 29 Oct 2020 18:09:18 +0100
-From:   Carl Philipp Klemm <philipp@uvos.xyz>
-To:     tony@atomide.com
-Cc:     linux-omap@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH] documentation: dts documentation for touchscreen-buttons
-Message-Id: <20201029180918.4f0d8a256ce4fc2890def5ac@uvos.xyz>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-unknown-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+        Thu, 29 Oct 2020 13:22:49 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B8EDC0613CF;
+        Thu, 29 Oct 2020 10:22:49 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id a9so3614766wrg.12;
+        Thu, 29 Oct 2020 10:22:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FgiZbK6pWCFNNx9QFeZngzu7fh5OqvaG7wkwgkOFjSU=;
+        b=cpKWHh/noLvJenv/13DypTzJLrHma44Acp5C9pOHg6D3H7IFNvJnp0zTiuqvH9C2QF
+         mz8XA29iaaASTJ2RMZR7Uy8GZ+Za9cW65iG7rVFQOl4n+jJ5oZTIyhCvYjttlx4YdtNF
+         mbVNpDTFS7Qy9/JQM2MaY5Mx1Cai/NXG2z1Ssg1kITEdnHUIYuN/9UXZa9rJHRwNKQpo
+         L7aIVN0lBeXhSaAww99pKrbIsEZxwmNT8+wUZ4mGiVj/7lXzKBv41/XMvRStA1Ts4IOT
+         1R59FKz1O9s+lrPtw3Od2T1sBWxxN5RVQAdsSpsOuABB+3M0+lkV6zekSTUkzp0/FsHM
+         JAAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FgiZbK6pWCFNNx9QFeZngzu7fh5OqvaG7wkwgkOFjSU=;
+        b=gwTzWkPNh9+XxEmNyrK3/eMkE+weUQZYI4cWM1XOlarSPNvEFST2G3lERcV/qlAtQ5
+         Wbf5Yjz3QzHO9G58LTxDv45XbPYECtqOvpx7o6fHSdNQ2WXT9x+g0XW57wfu/pKQLqJh
+         dyn0lNk2jmQ1mBu6LjrUFMussk+/5U15oXKDSS7//t6y030bdbYIeAcFBdMGrKS53zcZ
+         62WmO22ze1RV6av4udJ5QM84H4Sxoq/TM1nODdGfL6fmOyAJChkV5+l1TkvFNWqSCF8E
+         zj7cuMqs3n1y928pmhp4giQgskkf6xDHwynbMTTqU5WeKfwi6I/yCAtwBXQ4xPYb5WvT
+         qNfA==
+X-Gm-Message-State: AOAM532mIiMIAoA+dDvDcVgtlX5iieeqsSI0ulk0Ea1F6zsmZnBVgJsh
+        K8QaLWanjcHcI4a4YXZDb4MLZK5N5MEqkScy1Mfeoo7Rq6gqlg==
+X-Google-Smtp-Source: ABdhPJzQqF47WuTZrrAWUm6UKRHFxSNxk2UxPVzZmh961NjEWLxLE1pT8IuMdscuOyDzwnx3gGWJapGFwC0H5g6Eni8=
+X-Received: by 2002:adf:81e5:: with SMTP id 92mr6842917wra.411.1603992168004;
+ Thu, 29 Oct 2020 10:22:48 -0700 (PDT)
+MIME-Version: 1.0
+References: <20201028221302.66583-1-kholk11@gmail.com> <20201028221302.66583-2-kholk11@gmail.com>
+ <20201029155053.GA1936493@bogus>
+In-Reply-To: <20201029155053.GA1936493@bogus>
+From:   AngeloGioacchino Del Regno <kholk11@gmail.com>
+Date:   Thu, 29 Oct 2020 18:22:36 +0100
+Message-ID: <CAK7fi1aRTKkA2ouidjB4tyPoCyfTa2-POhUM_9Y2DNphL7=W2A@mail.gmail.com>
+Subject: Re: [PATCH v9 1/3] dt-bindings: Add vendor prefix for Novatek
+ Microelectronics Corp.
+To:     Rob Herring <robh@kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>, konradybcio@gmail.com,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        dmitry.torokhov@gmail.com, priv.luk@gmail.com, marijns95@gmail.com,
+        phone-devel@vger.kernel.org,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, andy.shevchenko@gmail.com,
+        rydberg@bitmath.org, martin.botka1@gmail.com,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dts documentation for touchscreen-buttons
+Il giorno gio 29 ott 2020 alle ore 16:50 Rob Herring <robh@kernel.org>
+ha scritto:
+>
+> On Wed, 28 Oct 2020 23:13:00 +0100, kholk11@gmail.com wrote:
+> > From: AngeloGioacchino Del Regno <kholk11@gmail.com>
+> >
+> > Add prefix for Novatek Microelectronics Corp.
+> >
+> > Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
+> > ---
+> >  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+>
+>
+> Please add Acked-by/Reviewed-by tags when posting new versions. However,
+> there's no need to repost patches *only* to add the tags. The upstream
+> maintainer will do that for acks received on the version they apply.
+>
+> If a tag was not added on purpose, please state why and what changed.
+>
+The intention was to add the tag and I even recall adding it... probably
+my finger slipped and the changes didn't get saved, my bad disattention.
+I should probably stop developing when I'm overtired.
 
-Signed-off-by: Carl Philipp Klemm <carl@uvos.xyz>
-
----
-
-diff --git a/Documentation/devicetree/bindings/input/misc/touchscreen-buttons.txt b/Documentation/devicetree/bindings/input/misc/touchscreen-buttons.txt
-new file mode 100644
-index 000000000000..5ca2fdb73ebc
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/misc/touchscreen-buttons.txt
-@@ -0,0 +1,50 @@
-+Phyiscal buttons on touchscreen surfaces
-+
-+This module provides a driver for buttons with phyiscal labels on touchscreen surfaces.
-+
-+Required properties:
-+- compatible: should be one of the following
-+   - "touchscreen-buttons"
-+- touchscreen_phandle: a handle to the touschreen device where the buttons are located
-+- an arbitrary number of child_nodes containing:
-+   - x-position: position of the button on the x-axis in touchscreen coordinates
-+   - y-position: position of the button on the y-axis in touchscreen coordinates
-+   - x-size: size of the button in x-axis direction in touchscreen coordinates
-+   - y-size: size of the button in y-axis direction in touchscreen coordinates
-+   - keycode: the keycode to be activated when the button is pressed
-+
-+
-+Example:
-+
-+mapphone_touchscreen {
-+		compatible = "touchscreen-buttons";
-+		touchscreen_phandle = <&touchscreen>;
-+		menu {
-+			x-position = <0>;
-+			y-position = <959>;
-+			x-size = <256>;
-+			y-size = <65>;
-+			keycode = <KEY_F9>;
-+		};
-+		home {
-+			x-position = <256>;
-+			y-position = <959>;
-+			x-size = <256>;
-+			y-size = <65>;
-+			keycode = <KEY_F10>;
-+		};
-+		back {
-+			x-position = <512>;
-+			y-position = <959>;
-+			x-size = <256>;
-+			y-size = <65>;
-+			keycode = <KEY_F11>;
-+		};
-+		search {
-+			x-position = <768>;
-+			y-position = <959>;
-+			x-size = <256>;
-+			y-size = <65>;
-+			keycode = <KEY_SEARCH>;
-+		};
-+};
-
-
--- 
-Carl Philipp Klemm <philipp@uvos.xyz> <carl@uvos.xyz>
+I'm sorry for that.
