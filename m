@@ -2,180 +2,147 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 631992A017B
-	for <lists+linux-input@lfdr.de>; Fri, 30 Oct 2020 10:34:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 694662A01E6
+	for <lists+linux-input@lfdr.de>; Fri, 30 Oct 2020 10:56:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725946AbgJ3Jet (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 30 Oct 2020 05:34:49 -0400
-Received: from thoth.sbs.de ([192.35.17.2]:36025 "EHLO thoth.sbs.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725808AbgJ3Jet (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 30 Oct 2020 05:34:49 -0400
-Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
-        by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id 09U9YdAF017196
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 30 Oct 2020 10:34:39 +0100
-Received: from dev.vm7.ccp.siemens.com ([167.87.137.132])
-        by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id 09U9Ycou030519;
-        Fri, 30 Oct 2020 10:34:38 +0100
-Received: from mail1.siemens.de (localhost [127.0.0.1])
-        by dev.vm7.ccp.siemens.com (Postfix) with ESMTP id 252F070BAB5;
-        Fri, 30 Oct 2020 10:34:36 +0100 (CET)
-From:   Andrej Valek <andrej.valek@siemens.com>
-To:     chinyeow.sim.xt@renesas.com, martin.kepplinger@ginzinger.com,
-        dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        id S1726198AbgJ3J41 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 30 Oct 2020 05:56:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51866 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725355AbgJ3J41 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 30 Oct 2020 05:56:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1604051785;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=RinIyWxJBbmsSNFfcXQ/y1B1X9TvLTOrZQPxs5n5iMY=;
+        b=YTvFcygVnjdgFfJief7gBgNp7MlmIYDOHkQzb3rFKqjug/vpzkCbHiFowyvax/Okfv4GVd
+        eyndwXdwuFP2C3t39nZjVWyBw6GryIFXvULnSVmMsGpfmw8cixEptlpmE/79TEmDn8tUeu
+        bOMvdkAJU0m6NUWgjtAGFOabpLCil8g=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-210-D-JXyhskM0C5NjEfYbwjcg-1; Fri, 30 Oct 2020 05:56:23 -0400
+X-MC-Unique: D-JXyhskM0C5NjEfYbwjcg-1
+Received: by mail-ed1-f72.google.com with SMTP id y99so2109477ede.3
+        for <linux-input@vger.kernel.org>; Fri, 30 Oct 2020 02:56:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=RinIyWxJBbmsSNFfcXQ/y1B1X9TvLTOrZQPxs5n5iMY=;
+        b=dERwYBiwvYt9uDvKzPHCb9P1YOs0VfppCTOcQ9ARq9kTvaUrUfUhKHtnOiBZ8dasA3
+         dtgW3wx4JLYAyE/rIrvPIIscFEl5gLOKSqIIYR0r9U5mUl0KLWH77OCJH6D6c8mgztng
+         JnlrwXj2kPs3W3o+N3KPzqu+P0I8CotrqIqgHrY+mbgvc+z8sKEiNMcV8wqGqCf6rCBe
+         tnx0aa0UtcqiR6jqvMFoswpGXax0XEXlM3axfC7VyWVUnClMPmqwmHRw5sNsQgu9DQls
+         KeFx9yaLGrz4WA1+zD4t5y4QgDyXKX5Q9Mj8Z2KmBWsEdXky42yI0/lFE3qNU8jrXDAN
+         d+kQ==
+X-Gm-Message-State: AOAM532u3gqywsXkyzpvRXXyjG+eEI3ks6bisYwgW/slOyxBRlgO5raJ
+        P+xptsbWQzO5ggYREXZpT1+Uqc7Tzp8EKVSJ5ZI7kZxsTTr3jRfHzkA5Er1d5GIMz8b66HZvfly
+        9L0WKxezXaL+zRQp1o97t3/4=
+X-Received: by 2002:a17:906:3689:: with SMTP id a9mr1546510ejc.403.1604051781881;
+        Fri, 30 Oct 2020 02:56:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwk85LqSiQSvbeJC5mGEyPbxaBlbSfctyRwNx4tsW6atojGhk3NEbe4WQ2HDSLwJT9DVpW2Bw==
+X-Received: by 2002:a17:906:3689:: with SMTP id a9mr1546492ejc.403.1604051781718;
+        Fri, 30 Oct 2020 02:56:21 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-6c10-fbf3-14c4-884c.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:6c10:fbf3:14c4:884c])
+        by smtp.gmail.com with ESMTPSA id p16sm2822778edu.74.2020.10.30.02.56.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Oct 2020 02:56:21 -0700 (PDT)
+Subject: Re: [PATCH 1/3] Input: goodix - add option to disable firmware
+ loading
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Andrej Valek <andrej.valek@siemens.com>
-Subject: [PATCH] Input: st1232 - add support resolution reading
-Date:   Fri, 30 Oct 2020 10:33:57 +0100
-Message-Id: <20201030093357.850-1-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.20.1
+Cc:     nick@shmanahar.org, hadess@hadess.net, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20201029170313.25529-1-andrej.valek@siemens.com>
+ <20201029170313.25529-2-andrej.valek@siemens.com>
+ <20201029203608.GE2547185@dtor-ws>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <a5964429-a472-6b78-e53c-69b4cb115b94@redhat.com>
+Date:   Fri, 30 Oct 2020 10:56:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201029203608.GE2547185@dtor-ws>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hard-coding resolution for st1633 device was wrong. Some of LCDs like
-YTS700TLBC-02-100C has assembled Sitronix st1633 touchcontroller too. But
-the resolution is not 320x480 as was hard-coded.
-Add new function which reads correct resolution directly from register.
+Hi,
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
----
- drivers/input/touchscreen/st1232.c | 52 +++++++++++++++++++++---------
- 1 file changed, 36 insertions(+), 16 deletions(-)
+On 10/29/20 9:36 PM, Dmitry Torokhov wrote:
+> Hi Andrej,
+> 
+> On Thu, Oct 29, 2020 at 06:03:11PM +0100, Andrej Valek wrote:
+>> Firmware file loadind for GT911 controller takes too much time (~60s).
+>> There is no check that configuration is the same which is already present.
+>> This happens always during boot, which makes touchscreen unusable.
+>>
+>> Add there an option to prevent firmware file loading, but keep it enabled
+>> by default.
+> 
+> I thought that Goodix was losing firmware loading at poweroff. Is this
+> not the case with this model?
 
-diff --git a/drivers/input/touchscreen/st1232.c b/drivers/input/touchscreen/st1232.c
-index 63b29c7279e29..ea74c4ca7698b 100644
---- a/drivers/input/touchscreen/st1232.c
-+++ b/drivers/input/touchscreen/st1232.c
-@@ -26,15 +26,14 @@
- #define ST1232_TS_NAME	"st1232-ts"
- #define ST1633_TS_NAME	"st1633-ts"
- 
-+#define REG_XY_RESOLUTION	0x04
-+#define REG_XY_COORDINATES	0x12
- #define ST_TS_MAX_FINGERS	10
- 
- struct st_chip_info {
- 	bool	have_z;
--	u16	max_x;
--	u16	max_y;
- 	u16	max_area;
- 	u16	max_fingers;
--	u8	start_reg;
- };
- 
- struct st1232_ts_data {
-@@ -48,15 +47,14 @@ struct st1232_ts_data {
- 	u8 *read_buf;
- };
- 
--static int st1232_ts_read_data(struct st1232_ts_data *ts)
-+static int st1232_ts_read_data(struct st1232_ts_data *ts, u8 reg)
- {
- 	struct i2c_client *client = ts->client;
--	u8 start_reg = ts->chip_info->start_reg;
- 	struct i2c_msg msg[] = {
- 		{
- 			.addr	= client->addr,
--			.len	= sizeof(start_reg),
--			.buf	= &start_reg,
-+			.len	= sizeof(reg),
-+			.buf	= &reg,
- 		},
- 		{
- 			.addr	= client->addr,
-@@ -74,6 +72,25 @@ static int st1232_ts_read_data(struct st1232_ts_data *ts)
- 	return 0;
- }
- 
-+static int st1232_ts_read_resolution(struct st1232_ts_data *ts, u16 *max_x,
-+				     u16 *max_y)
-+{
-+	u8 *buf;
-+	int error;
-+
-+	/* select resolution register */
-+	error = st1232_ts_read_data(ts, REG_XY_RESOLUTION);
-+	if (error)
-+		return error;
-+
-+	 buf = ts->read_buf;
-+
-+	*max_x = ((buf[0] & 0x0070) << 4) | buf[1];
-+	*max_y = ((buf[0] & 0x0007) << 8) | buf[2];
-+
-+	return 0;
-+}
-+
- static int st1232_ts_parse_and_report(struct st1232_ts_data *ts)
- {
- 	struct input_dev *input = ts->input_dev;
-@@ -123,7 +140,7 @@ static irqreturn_t st1232_ts_irq_handler(int irq, void *dev_id)
- 	int count;
- 	int error;
- 
--	error = st1232_ts_read_data(ts);
-+	error = st1232_ts_read_data(ts, REG_XY_COORDINATES);
- 	if (error)
- 		goto out;
- 
-@@ -157,20 +174,14 @@ static void st1232_ts_power_off(void *data)
- 
- static const struct st_chip_info st1232_chip_info = {
- 	.have_z		= true,
--	.max_x		= 0x31f, /* 800 - 1 */
--	.max_y		= 0x1df, /* 480 -1 */
- 	.max_area	= 0xff,
- 	.max_fingers	= 2,
--	.start_reg	= 0x12,
- };
- 
- static const struct st_chip_info st1633_chip_info = {
- 	.have_z		= false,
--	.max_x		= 0x13f, /* 320 - 1 */
--	.max_y		= 0x1df, /* 480 -1 */
- 	.max_area	= 0x00,
- 	.max_fingers	= 5,
--	.start_reg	= 0x12,
- };
- 
- static int st1232_ts_probe(struct i2c_client *client,
-@@ -179,6 +190,7 @@ static int st1232_ts_probe(struct i2c_client *client,
- 	const struct st_chip_info *match;
- 	struct st1232_ts_data *ts;
- 	struct input_dev *input_dev;
-+	u16 max_x, max_y;
- 	int error;
- 
- 	match = device_get_match_data(&client->dev);
-@@ -239,14 +251,22 @@ static int st1232_ts_probe(struct i2c_client *client,
- 	input_dev->name = "st1232-touchscreen";
- 	input_dev->id.bustype = BUS_I2C;
- 
-+	/* read resolution from chip */
-+	error = st1232_ts_read_resolution(ts, &max_x, &max_y);
-+	if (error) {
-+		dev_err(&client->dev,
-+			"Failed to read resolution: %d\n", error);
-+		return error;
-+	}
-+
- 	if (ts->chip_info->have_z)
- 		input_set_abs_params(input_dev, ABS_MT_TOUCH_MAJOR, 0,
- 				     ts->chip_info->max_area, 0, 0);
- 
- 	input_set_abs_params(input_dev, ABS_MT_POSITION_X,
--			     0, ts->chip_info->max_x, 0, 0);
-+			     0, max_x, 0, 0);
- 	input_set_abs_params(input_dev, ABS_MT_POSITION_Y,
--			     0, ts->chip_info->max_y, 0, 0);
-+			     0, max_y, 0, 0);
- 
- 	touchscreen_parse_properties(input_dev, true, &ts->prop);
- 
--- 
-2.20.1
+So first of all there are 2 sorts of firmware involved with the
+Goodix touchscreen controllers, the actual firmware and a block
+of config data for that firmware which I presume adjusts it for
+the specific (model of) the digitizer which is attached.
+
+ATM the mainline Linux driver does not support models where
+the actual firmware itself needs to be loaded (because they
+only have RAM, so they come up without firmware).
+
+I do have one model tablet with a ROM-less goodix touchpad
+controller, so if I ever find the time I might add support
+for loading the actual firmware.
+
+So what we are talking about here is just loading the config
+data and I'm a bit surprised that this take so long.
+
+> Adding Hans as he was working with this driver/code.
+
+With all that said I have no objection to this change.
+
+Regards,
+
+Hans
+
+
+
+> 
+>>
+>> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+>> ---
+>>  drivers/input/touchscreen/goodix.c | 4 +++-
+>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
+>> index 02c75ea385e08..44336ecd2acdf 100644
+>> --- a/drivers/input/touchscreen/goodix.c
+>> +++ b/drivers/input/touchscreen/goodix.c
+>> @@ -941,7 +941,9 @@ static int goodix_get_gpio_config(struct goodix_ts_data *ts)
+>>  	default:
+>>  		if (ts->gpiod_int && ts->gpiod_rst) {
+>>  			ts->reset_controller_at_probe = true;
+>> -			ts->load_cfg_from_disk = true;
+>> +			/* Prevent cfg loading for each start */
+>> +			ts->load_cfg_from_disk = !device_property_read_bool(dev,
+>> +						 "touchscreen-do-not-load-fw");
+>>  			ts->irq_pin_access_method = IRQ_PIN_ACCESS_GPIO;
+>>  		}
+>>  	}
+>> -- 
+>> 2.20.1
+>>
+> 
+> Thanks.
+> 
 
