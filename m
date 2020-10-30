@@ -2,82 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA4A229FD8C
-	for <lists+linux-input@lfdr.de>; Fri, 30 Oct 2020 07:02:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B5AC529FDCA
+	for <lists+linux-input@lfdr.de>; Fri, 30 Oct 2020 07:27:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725779AbgJ3GCz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 30 Oct 2020 02:02:55 -0400
-Received: from mailout2.samsung.com ([203.254.224.25]:13569 "EHLO
-        mailout2.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725770AbgJ3GCy (ORCPT
+        id S1725780AbgJ3G1p (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 30 Oct 2020 02:27:45 -0400
+Received: from mailout3.samsung.com ([203.254.224.33]:40023 "EHLO
+        mailout3.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725355AbgJ3G1p (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 30 Oct 2020 02:02:54 -0400
-Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
-        by mailout2.samsung.com (KnoxPortal) with ESMTP id 20201030060206epoutp02a4245aa30acbfc00a8a6fdf9da84520e~Cr9BZK_fz3030430304epoutp021
-        for <linux-input@vger.kernel.org>; Fri, 30 Oct 2020 06:02:06 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20201030060206epoutp02a4245aa30acbfc00a8a6fdf9da84520e~Cr9BZK_fz3030430304epoutp021
+        Fri, 30 Oct 2020 02:27:45 -0400
+Received: from epcas1p1.samsung.com (unknown [182.195.41.45])
+        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20201030062742epoutp03a566442bc74f9bb7e0504d3de2da0180~CsTXzCxFR0475004750epoutp03y
+        for <linux-input@vger.kernel.org>; Fri, 30 Oct 2020 06:27:42 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20201030062742epoutp03a566442bc74f9bb7e0504d3de2da0180~CsTXzCxFR0475004750epoutp03y
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1604037726;
-        bh=sfnfDN9oHZvJZ8SpDyvhPxBdPi/Wk7JCNN5ZgJCkFIg=;
+        s=mail20170921; t=1604039262;
+        bh=wy+mweEvFF3VxmAY6EeQc5m5zCoxEggWPFod2Ta1xDc=;
         h=Subject:Reply-To:From:To:Date:References:From;
-        b=Ayqpp2ASuQYvdtrfSp1A4QHZw2KSRmH7fKCKKbeCvY7jXMI2kEvD2SzC14sBIFTRb
-         qiFJG0qNJTomy6QJpz74QmLHhbmp6NEW2O4I/wy1G/6l+DiaRWHHV33mYmowdtgSxh
-         NIZWeT9EyhnLYgw3/F2OTyg3u18Tkh6VOtn8Edzo=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-        epcas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20201030060206epcas1p24dce25766763646e6ba67a8d2a1a7c0d~Cr9A9HCIc1643316433epcas1p28;
-        Fri, 30 Oct 2020 06:02:06 +0000 (GMT)
-Received: from epsmges1p2.samsung.com (unknown [182.195.40.166]) by
-        epsnrtp4.localdomain (Postfix) with ESMTP id 4CMsCK1Ht1zMqYkn; Fri, 30 Oct
-        2020 06:02:05 +0000 (GMT)
-X-AuditID: b6c32a36-6dfff7000000f7e2-29-5f9bac5d8609
+        b=H/APMDC1Buq9w+qDwRr8CqfQpGQhS3HJu1yhKbw5kenkt6y70q+foR8IW5/a/SIIg
+         /kpxqL+4XO/dDyhUBvV8ZW4M0R+M1LuheDchJ3LeRkeqjcrKN1I8g/FRqYIQDK/qKt
+         KdThYKV+1g2JpiqM+OWQB2noiutl7BVIvY0ZMYb4=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+        epcas1p3.samsung.com (KnoxPortal) with ESMTP id
+        20201030062742epcas1p3d41af59e1336779c8294cf263dc6a69d~CsTXXhF7-0383403834epcas1p3u;
+        Fri, 30 Oct 2020 06:27:42 +0000 (GMT)
+Received: from epsmges1p4.samsung.com (unknown [182.195.40.160]) by
+        epsnrtp1.localdomain (Postfix) with ESMTP id 4CMsms1G5vzMqYm1; Fri, 30 Oct
+        2020 06:27:41 +0000 (GMT)
+X-AuditID: b6c32a38-f11ff700000028df-e2-5f9bb25d4a83
 Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
-        epsmges1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-        CD.8D.63458.D5CAB9F5; Fri, 30 Oct 2020 15:02:05 +0900 (KST)
+        epsmges1p4.samsung.com (Symantec Messaging Gateway) with SMTP id
+        71.F3.10463.D52BB9F5; Fri, 30 Oct 2020 15:27:41 +0900 (KST)
 Mime-Version: 1.0
-Subject: [PATCH] Input: add switch event(SW_COVER_ATTACHED)
+Subject: [PATCH] Input: add switch event(SW_EXT_PEN_ATTACHED)
 Reply-To: hj2.im@samsung.com
 Sender: HyungJae Im <hj2.im@samsung.com>
 From:   HyungJae Im <hj2.im@samsung.com>
 To:     HyungJae Im <hj2.im@samsung.com>,
-        "manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "rydberg@bitmath.org" <rydberg@bitmath.org>,
         "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "rydberg@bitmath.org" <rydberg@bitmath.org>
+        "manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
 X-Priority: 3
 X-Content-Kind-Code: NORMAL
 X-Drm-Type: N,general
 X-Msg-Generator: Mail
 X-Msg-Type: PERSONAL
 X-Reply-Demand: N
-Message-ID: <20201030060204epcms1p48c0c3d0b82d0304c6e1b296cb6ebc778@epcms1p4>
-Date:   Fri, 30 Oct 2020 15:02:04 +0900
-X-CMS-MailID: 20201030060204epcms1p48c0c3d0b82d0304c6e1b296cb6ebc778
+Message-ID: <20201030062740epcms1p614195fb639c807cd2db762d117cc69fc@epcms1p6>
+Date:   Fri, 30 Oct 2020 15:27:40 +0900
+X-CMS-MailID: 20201030062740epcms1p614195fb639c807cd2db762d117cc69fc
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: SVC_REQ_APPROVE
 CMS-TYPE: 101P
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrHKsWRmVeSWpSXmKPExsWy7bCmrm7smtnxBveOsFksmG5ncfPTN1aL
-        y7vmsFncbelktTjxbRqTA6vH51WvWD3uXNvD5tG3ZRWjx+dNcgEsUTk2GamJKalFCql5yfkp
-        mXnptkrewfHO8aZmBoa6hpYW5koKeYm5qbZKLj4Bum6ZOUBrlRTKEnNKgUIBicXFSvp2NkX5
-        pSWpChn5xSW2SqkFKTkFhgYFesWJucWleel6yfm5VoYGBkamQJUJORmrTs5kLZjnVnF55R72
-        BsZ5Vl2MHBwSAiYSd39mdTFycQgJ7GCUWLnmCRtInFdAUOLvDuEuRk4OYQFriTc7TjKDhIUE
-        ZCS69hhBhDUklrZ8ZgSx2QTUJH6v2cMGMkZEYBaTxNv5J8ASEgK8EjPan7JA2NIS25dvhYqL
-        Stxc/ZYdxn5/bD5UXESi9d5ZZghbUOLBz92MML1LryxmAlkgIdDOKHHx5i9WCKeFUWLB0sNs
-        EFX6Elf6ZzKB2LwCvhI/HpxiB7maRUBV4uQeaYh/XSTmzfMHqWAWkJfY/nYO2F/MApoS63fp
-        QwxRlNj5ey4jRAmfxLuvPawwr+yY94QJwlaQ2LjoE9RSMYlZ825Dvegh8e3tF7AaIYFAiW9L
-        77JNYJSbhQjQWUgWz0JYvICReRWjWGpBcW56arFhgRFyFG5iBCc0LbMdjJPeftA7xMjEwXiI
-        UYKDWUmE94XgzHgh3pTEyqrUovz4otKc1OJDjKZAD09klhJNzgem1LySeENTI2NjYwsTM3Mz
-        U2Mlcd4/2h3xQgLpiSWp2ampBalFMH1MHJxSDUx6ERKiZ05NzKwqZCrNVKv63Wlk1nr0/pI7
-        nuvuaOb++MAWs/Dx08TPfpZuU4QnaU5dHW7ZtK31VF8Tj7reNn91QffWuc/mHGhi/TT1WIe+
-        /6uZ9anuJV0bpt2U2LzDSG/yxB/nfBsstk04o3b43Pvj2jI1XCmn31ifr7FUTNrf+4ElRXvN
-        tMTYv7sOz85227CfOT3Z6XC8w/KvmXrfVp8TZb9uf2phwek6ke/N6mJ/ZZfNzgnafJo7Z9dc
-        Uf2U/Fld+85brN6+9dqvSewSyy+6GRknbtsgtPoSi8OGqcd7Kk/8alzQbmYQ9/Qpy7eViTlf
-        uuw5C1Ybt8RJ8VSUiV+7Wnhl7i2zT580z0dOL/unxFKckWioxVxUnAgAnuSDqvEDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrBKsWRmVeSWpSXmKPExsWy7bCmrm7sptnxBq3LWC2aF69ns1gw3c7i
+        5qdvrBaXd81hs7jb0slqceLbNCYHNo/Pq16xety5tofNY//cNewefVtWMXp83iQXwBqVY5OR
+        mpiSWqSQmpecn5KZl26r5B0c7xxvamZgqGtoaWGupJCXmJtqq+TiE6DrlpkDdICSQlliTilQ
+        KCCxuFhJ386mKL+0JFUhI7+4xFYptSAlp8DQoECvODG3uDQvXS85P9fK0MDAyBSoMiEn4/jR
+        28wF3R4VW/f4NDC22nQxcnJICJhING84xAxiCwnsYJS4fTWoi5GDg1dAUOLvDmGQsLCArcSj
+        d92MIGEhARmJrj1GEGENiaUtnxlBbDYBNYnfa/awdTFycYgIXGeS2LjkKAvEeF6JGe1PoWxp
+        ie3LtzJC2KISN1e/ZYex3x+bDxUXkWi9d5YZwhaUePBzNyNM79Iri5lAFkgItDNKXLz5ixXC
+        aWGUWLD0MBtElb7Elf6ZTBAP+Ep8v1kOEmYRUJWY8G8u1CAXiR1TX4HZzALyEtvfzmEGKWcW
+        0JRYv0sfokRRYufvuVAlfBLvvvawwvyyY94TJghbQWLjok9QW8UkZs27DfWjh8T2b5eYIMEZ
+        KPH3/WzWCYxysxAhOgvJ4lkIixcwMq9iFEstKM5NTy02LDBBjsJNjOAkp2Wxg3Hu2w96hxiZ
+        OBgPMUpwMCuJ8L4QnBkvxJuSWFmVWpQfX1Sak1p8iNEU6OWJzFKiyfnANJtXEm9oamRsbGxh
+        YmZuZmqsJM77R7sjXkggPbEkNTs1tSC1CKaPiYNTqoFJq9tMcObiaxm2lq7lX9vVA49YbJv9
+        Omr17qJdQtesNJ1TNzzptpznpd7wLbG4U5S/NefHyTvR+Ztt4qZ8ZXD5vMFp3eYjmdtP3W6b
+        cv5VE1P1g6TNsXec53L8F1nXeWCthFzl68+ulyU9vtSdsp/wPpv5Rd21J6mWttEpB5938lWo
+        JZssW/TmKA9jj1e+npx3qvet11YJSrKJ2h+1g0782pV2apo9p9ryla6SQpu47gbctO97YOLK
+        mSR5eflSpTXllS5X1yU1BqYebxLS0fS7o73RWdaR8V7FS1n9lZnzF/Hfa057qTmjIMhqnbR/
+        ZVy3qlEFi1DzTRZ5hr+3+Tnbtx+OfXPzpS9HSzCbthJLcUaioRZzUXEiAK5f/6f7AwAA
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20201030060204epcms1p48c0c3d0b82d0304c6e1b296cb6ebc778
-References: <CGME20201030060204epcms1p48c0c3d0b82d0304c6e1b296cb6ebc778@epcms1p4>
+X-CMS-RootMailID: 20201030062740epcms1p614195fb639c807cd2db762d117cc69fc
+References: <CGME20201030062740epcms1p614195fb639c807cd2db762d117cc69fc@epcms1p6>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
@@ -86,62 +87,61 @@ We need support to various accessories on the device,
 some requiring switch does not exist in switch list.
 So added switch for the following purpose.
 
-SW_COVER_ATTACHED is for the checking the cover
+SW_EXT_PEN_ATTACHED is for the checking the external pen
 attached or not on the device. We also added driver
 that uses such event.
 
 Signed-off-by: Hyungjae Im <hj2.im@samsung.com>
 ---
  drivers/input/Kconfig                  |  12 ++
- drivers/input/Makefile                 |   2 +
- drivers/input/cover_detect.c           | 236 +++++++++++++++++++++++++
+ drivers/input/Makefile                 |   1 +
+ drivers/input/ext_pen_detect.c         | 237 +++++++++++++++++++++++++
  include/linux/mod_devicetable.h        |   2 +-
  include/uapi/linux/input-event-codes.h |   3 +-
  5 files changed, 253 insertions(+), 2 deletions(-)
- create mode 100644 drivers/input/cover_detect.c
+ create mode 100644 drivers/input/ext_pen_detect.c
 
 diff --git a/drivers/input/Kconfig b/drivers/input/Kconfig
-index 1efd3154b68d..ba5e7444c547 100644
+index ba5e7444c547..5d6d15c8f7e7 100644
 --- a/drivers/input/Kconfig
 +++ b/drivers/input/Kconfig
-@@ -185,6 +185,18 @@ config INPUT_APMPOWER
+@@ -197,6 +197,18 @@ config INPUT_COVER_DETECT
  	  To compile this driver as a module, choose M here: the
- 	  module will be called apm-power.
+ 	  module will be called cover_detect.
  
-+config INPUT_COVER_DETECT
-+	tristate "Enable cover attach detection"
++config INPUT_EXT_PEN_DETECT
++	tristate "Enable external pen attach detection"
 +	help
-+	  Say Y here to enable cover attach detection
-+	  and send a event when cover is attached/detached.
++	  Say Y here to enable external pen detection
++	  and send a event when external pen is attached/detached.
 +	  Active gpio state is low and active event value is 0.
 +
 +	  If unsure, say N.
 +
 +	  To compile this driver as a module, choose M here: the
-+	  module will be called cover_detect.
++	  module will be called ext_pen_detect.
 +
  comment "Input Device Drivers"
  
  source "drivers/input/keyboard/Kconfig"
 diff --git a/drivers/input/Makefile b/drivers/input/Makefile
-index e35650930371..fc8dd9091821 100644
+index fc8dd9091821..0ccf02e34557 100644
 --- a/drivers/input/Makefile
 +++ b/drivers/input/Makefile
-@@ -29,3 +29,5 @@ obj-$(CONFIG_INPUT_MISC)	+= misc/
- obj-$(CONFIG_INPUT_APMPOWER)	+= apm-power.o
- 
+@@ -31,3 +31,4 @@ obj-$(CONFIG_INPUT_APMPOWER)	+= apm-power.o
  obj-$(CONFIG_RMI4_CORE)		+= rmi4/
-+
-+obj-$(CONFIG_INPUT_COVER_DETECT)+= cover_detect.o
-diff --git a/drivers/input/cover_detect.c b/drivers/input/cover_detect.c
+ 
+ obj-$(CONFIG_INPUT_COVER_DETECT)+= cover_detect.o
++obj-$(CONFIG_INPUT_EXT_PEN_DETECT)+= ext_pen_detect.o
+diff --git a/drivers/input/ext_pen_detect.c b/drivers/input/ext_pen_detect.c
 new file mode 100644
-index 000000000000..4a5947356d50
+index 000000000000..9a0d106e49f8
 --- /dev/null
-+++ b/drivers/input/cover_detect.c
-@@ -0,0 +1,236 @@
++++ b/drivers/input/ext_pen_detect.c
+@@ -0,0 +1,237 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later
 +/*
-+ * Support detection for cover attachment
++ * Support detection pen attachment externally on device
 + *
 + * Copyright (C) 2020 Samsung Electronics Co. Ltd. All Rights Reserved.
 + *
@@ -157,118 +157,119 @@ index 000000000000..4a5947356d50
 +#include <linux/of_gpio.h>
 +#include <linux/wakelock.h>
 +
-+struct cover_detect_drvdata {
++struct ext_pen_detect_drvdata {
 +	struct input_dev *input;
-+	struct delayed_work cover_detect_dwork;
++	struct delayed_work ext_pen_detect_dwork;
 +	struct wakeup_source *ws;
-+	int gpio_cover_detect;
-+	int irq_cover_detect;
++	int gpio_ext_pen_detect;
++	int irq_ext_pen_detect;
 +};
 +
-+static void cover_detect_work(struct work_struct *work)
++static void ext_pen_detect_work(struct work_struct *work)
 +{
-+	struct cover_detect_drvdata *ddata =
-+		container_of(work, struct cover_detect_drvdata,
-+				cover_detect_dwork.work);
-+	bool cover_status;
++	struct ext_pen_detect_drvdata *ddata =
++		container_of(work, struct ext_pen_detect_drvdata,
++				ext_pen_detect_dwork.work);
++	bool ext_pen_status;
 +
-+	cover_status = gpio_get_value(ddata->gpio_cover_detect);
++	ext_pen_status = gpio_get_value(ddata->gpio_ext_pen_detect);
 +
 +	input_report_switch(ddata->input,
-+			SW_COVER_ATTACHED, cover_status);
++			SW_EXT_PEN_ATTACHED, ext_pen_status);
 +	input_sync(ddata->input);
 +}
 +
-+static void __cover_detect(struct cover_detect_drvdata *ddata,
-+				 bool cover_status)
++static void __ext_pen_detect(struct ext_pen_detect_drvdata *ddata,
++				bool ext_pen_status)
 +{
-+	cancel_delayed_work_sync(&ddata->cover_detect_dwork);
-+	if (cover_status) {
++	cancel_delayed_work_sync(&ddata->ext_pen_detect_dwork);
++	if (ext_pen_status) {
 +		__pm_wakeup_event(ddata->ws, jiffies_to_msecs(HZ / 20));
-+		schedule_delayed_work(&ddata->cover_detect_dwork, HZ * 1 / 100);
++		schedule_delayed_work(&ddata->ext_pen_detect_dwork,
++					HZ * 1 / 100);
 +	} else {
 +		__pm_relax(ddata->ws);
-+		schedule_delayed_work(&ddata->cover_detect_dwork, 0);
++		schedule_delayed_work(&ddata->ext_pen_detect_dwork, 0);
 +	}
 +}
 +
-+static irqreturn_t cover_detect_irq(int irq, void *dev_id)
++static irqreturn_t ext_pen_detect_irq(int irq, void *dev_id)
 +{
-+	bool cover_status;
-+	struct cover_detect_drvdata *ddata = dev_id;
++	bool ext_pen_status;
++	struct ext_pen_detect_drvdata *ddata = dev_id;
 +
-+	cover_status = gpio_get_value(ddata->gpio_cover_detect);
++	ext_pen_status = gpio_get_value(ddata->gpio_ext_pen_detect);
 +
-+	__cover_detect(ddata, cover_status);
++	__ext_pen_detect(ddata, ext_pen_status);
 +
 +	return IRQ_HANDLED;
 +}
 +
-+static int cover_detect_open(struct input_dev *input)
++static int ext_pen_detect_open(struct input_dev *input)
 +{
-+	struct cover_detect_drvdata *ddata = input_get_drvdata(input);
++	struct ext_pen_detect_drvdata *ddata = input_get_drvdata(input);
 +	/* update the current status */
-+	schedule_delayed_work(&ddata->cover_detect_dwork, HZ / 2);
++	schedule_delayed_work(&ddata->ext_pen_detect_dwork, HZ / 2);
 +	/* Report current state of buttons that are connected to GPIOs */
 +	input_sync(input);
 +
 +	return 0;
 +}
 +
-+static void cover_detect_close(struct input_dev *input)
++static void ext_pen_detect_close(struct input_dev *input)
 +{
 +}
 +
-+static void init_cover_detect_irq(struct input_dev *input)
++static void init_ext_pen_detect_irq(struct input_dev *input)
 +{
-+	struct cover_detect_drvdata *ddata = input_get_drvdata(input);
++	struct ext_pen_detect_drvdata *ddata = input_get_drvdata(input);
 +
 +	int ret = 0;
-+	int irq = ddata->irq_cover_detect;
++	int irq = ddata->irq_ext_pen_detect;
 +
 +	ret =	request_threaded_irq(
 +		irq, NULL,
-+		cover_detect_irq,
++		ext_pen_detect_irq,
 +		IRQF_TRIGGER_RISING |
 +		IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-+		"cover_detect", ddata);
++		"ext_pen_detect", ddata);
 +	if (ret < 0)
-+		pr_err("keys: failed to request cover detect irq %d gpio %d\n",
-+			irq, ddata->gpio_cover_detect);
++		pr_err("keys: failed to request ext_pen detect irq %d gpio %d\n",
++				irq, ddata->gpio_ext_pen_detect);
 +}
 +
 +#ifdef CONFIG_OF
-+static int of_cover_detect_data_parsing_dt(struct device *dev,
-+					struct cover_detect_drvdata *ddata)
++static int of_ext_pen_detect_data_parsing_dt(struct device *dev,
++					struct ext_pen_detect_drvdata *ddata)
 +{
 +	struct device_node *np = dev->of_node;
 +	int gpio;
 +	enum of_gpio_flags flags;
 +
-+	gpio = of_get_named_gpio_flags(np, "gpio_cover_detect", 0, &flags);
-+	ddata->gpio_cover_detect = gpio;
++	gpio = of_get_named_gpio_flags(np, "gpio_ext_pen_detect", 0, &flags);
++	ddata->gpio_ext_pen_detect = gpio;
 +
-+	ddata->irq_cover_detect = gpio_to_irq(gpio);
++	ddata->irq_ext_pen_detect = gpio_to_irq(gpio);
 +
 +	return 0;
 +}
 +#endif
 +
-+static int cover_detect_probe(struct platform_device *pdev)
++static int ext_pen_detect_probe(struct platform_device *pdev)
 +{
 +	struct device *dev = &pdev->dev;
-+	struct cover_detect_drvdata *ddata;
++	struct ext_pen_detect_drvdata *ddata;
 +	struct input_dev *input;
 +	int error;
 +	int wakeup = 0;
 +
-+	ddata = kzalloc(sizeof(struct cover_detect_drvdata), GFP_KERNEL);
++	ddata = kzalloc(sizeof(struct ext_pen_detect_drvdata), GFP_KERNEL);
 +	if (!ddata)
 +		return -ENOMEM;
 +
 +#ifdef CONFIG_OF
 +	if (dev->of_node) {
-+		error = of_cover_detect_data_parsing_dt(dev, ddata);
++		error = of_ext_pen_detect_data_parsing_dt(dev, ddata);
 +		if (error < 0) {
 +			dev_err(dev, "fail to get the devicetree, error: %d\n",
 +					error);
@@ -286,29 +287,29 @@ index 000000000000..4a5947356d50
 +
 +	ddata->input = input;
 +
-+	ddata->ws = wakeup_source_register(NULL, "cover_detect");
++	ddata->ws = wakeup_source_register(NULL, "ext_pen_detect");
 +
 +	platform_set_drvdata(pdev, ddata);
 +	input_set_drvdata(input, ddata);
 +
-+	input->name = "cover_detect";
-+	input->phys = "cover_detect";
++	input->name = "ext_pen_detect";
++	input->phys = "ext_pen_detect";
 +	input->dev.parent = &pdev->dev;
 +
 +	input->evbit[0] |= BIT_MASK(EV_SW);
-+	input_set_capability(input, EV_SW, SW_COVER_ATTACHED);
++	input_set_capability(input, EV_SW, SW_EXT_PEN_ATTACHED);
 +
-+	input->open = cover_detect_open;
-+	input->close = cover_detect_close;
++	input->open = ext_pen_detect_open;
++	input->close = ext_pen_detect_close;
 +
 +	/* Enable auto repeat feature of Linux input subsystem */
 +	__set_bit(EV_REP, input->evbit);
 +
-+	INIT_DELAYED_WORK(&ddata->cover_detect_dwork, cover_detect_work);
++	INIT_DELAYED_WORK(&ddata->ext_pen_detect_dwork, ext_pen_detect_work);
 +
-+	init_cover_detect_irq(input);
++	init_ext_pen_detect_irq(input);
 +
-+	if (ddata->gpio_cover_detect != 0) {
++	if (ddata->gpio_ext_pen_detect != 0) {
 +		error = input_register_device(input);
 +		if (error) {
 +			dev_err(dev, "Unable to register input device, error: %d\n",
@@ -327,9 +328,9 @@ index 000000000000..4a5947356d50
 +	return error;
 +}
 +
-+static int cover_detect_remove(struct platform_device *pdev)
++static int ext_pen_detect_remove(struct platform_device *pdev)
 +{
-+	struct cover_detect_drvdata *ddata = platform_get_drvdata(pdev);
++	struct ext_pen_detect_drvdata *ddata = platform_get_drvdata(pdev);
 +	struct input_dev *input = ddata->input;
 +
 +	device_init_wakeup(&pdev->dev, 0);
@@ -344,61 +345,61 @@ index 000000000000..4a5947356d50
 +}
 +
 +#if defined(CONFIG_OF)
-+static const struct of_device_id cover_detect_dt_ids[] = {
-+	{ .compatible = "cover_detect" },
++static const struct of_device_id ext_pen_detect_dt_ids[] = {
++	{ .compatible = "ext_pen_detect" },
 +	{ },
 +};
-+MODULE_DEVICE_TABLE(of, cover_detect_dt_ids);
++MODULE_DEVICE_TABLE(of, ext_pen_detect_dt_ids);
 +#endif /* CONFIG_OF */
 +
-+static struct platform_driver cover_detect_device_driver = {
-+	.probe		= cover_detect_probe,
-+	.remove		= cover_detect_remove,
++static struct platform_driver ext_pen_detect_device_driver = {
++	.probe		= ext_pen_detect_probe,
++	.remove		= ext_pen_detect_remove,
 +	.driver		= {
-+		.name	= "cover_detect",
++		.name	= "ext_pen_detect",
 +		.owner	= THIS_MODULE,
 +#if defined(CONFIG_OF)
-+		.of_match_table	= cover_detect_dt_ids,
++		.of_match_table	= ext_pen_detect_dt_ids,
 +#endif /* CONFIG_OF */
 +	}
 +};
 +
-+static int __init cover_detect_init(void)
++static int __init ext_pen_detect_init(void)
 +{
-+	return platform_driver_register(&cover_detect_device_driver);
++	return platform_driver_register(&ext_pen_detect_device_driver);
 +}
 +
-+static void __exit cover_detect_exit(void)
++static void __exit ext_pen_detect_exit(void)
 +{
-+	platform_driver_unregister(&cover_detect_device_driver);
++	platform_driver_unregister(&ext_pen_detect_device_driver);
 +}
 +
-+module_init(cover_detect_init);
-+module_exit(cover_detect_exit);
++module_init(ext_pen_detect_init);
++module_exit(ext_pen_detect_exit);
 diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
-index 5b08a473cdba..2e6ae686555b 100644
+index 2e6ae686555b..897f5a3e7721 100644
 --- a/include/linux/mod_devicetable.h
 +++ b/include/linux/mod_devicetable.h
 @@ -320,7 +320,7 @@ struct pcmcia_device_id {
  #define INPUT_DEVICE_ID_LED_MAX		0x0f
  #define INPUT_DEVICE_ID_SND_MAX		0x07
  #define INPUT_DEVICE_ID_FF_MAX		0x7f
--#define INPUT_DEVICE_ID_SW_MAX		0x10
-+#define INPUT_DEVICE_ID_SW_MAX		0x11
+-#define INPUT_DEVICE_ID_SW_MAX		0x11
++#define INPUT_DEVICE_ID_SW_MAX		0x12
  #define INPUT_DEVICE_ID_PROP_MAX	0x1f
  
  #define INPUT_DEVICE_ID_MATCH_BUS	1
 diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index 0c2e27d28e0a..32e27732161c 100644
+index 32e27732161c..8ca2acee1f92 100644
 --- a/include/uapi/linux/input-event-codes.h
 +++ b/include/uapi/linux/input-event-codes.h
-@@ -889,7 +889,8 @@
- #define SW_MUTE_DEVICE		0x0e  /* set = device disabled */
+@@ -890,7 +890,8 @@
  #define SW_PEN_INSERTED		0x0f  /* set = pen inserted */
  #define SW_MACHINE_COVER	0x10  /* set = cover closed */
--#define SW_MAX			0x10
-+#define SW_COVER_ATTACHED	0x11  /* set = cover attached */
-+#define SW_MAX			0x11
+ #define SW_COVER_ATTACHED	0x11  /* set = cover attached */
+-#define SW_MAX			0x11
++#define SW_EXT_PEN_ATTACHED	0x12  /* set = external pen attached */
++#define SW_MAX			0x12
  #define SW_CNT			(SW_MAX+1)
  
  /*
