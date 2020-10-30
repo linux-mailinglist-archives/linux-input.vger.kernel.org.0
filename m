@@ -2,98 +2,160 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66FD82A031D
-	for <lists+linux-input@lfdr.de>; Fri, 30 Oct 2020 11:45:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F2F62A0351
+	for <lists+linux-input@lfdr.de>; Fri, 30 Oct 2020 11:53:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725801AbgJ3Kpm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 30 Oct 2020 06:45:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34660 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725948AbgJ3Kpl (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 30 Oct 2020 06:45:41 -0400
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 143B820720;
-        Fri, 30 Oct 2020 10:45:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604054740;
-        bh=pCZMS367mBBzkMxSGl3wcBU1XDLg7zL0+2tX4zU6st0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Y0hgzA+zOSaiFzV2TBFrX44whdyEbMiJJdwuWz+AwbjR22K1vWTX5OMkQ0cIB1k1/
-         pmjmruhHvMtqPs4Ihbu58/Vne5COBkEPojmna+l8GkOJmspC59Xs0xDlropinMjTdu
-         jZvn7VlKTakmzlPxuaW9IXrO6LIfrhDgfc+MEwUE=
-Date:   Fri, 30 Oct 2020 11:46:28 +0100
-From:   "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-To:     HyungJae Im <hj2.im@samsung.com>
-Cc:     "manivannan.sadhasivam@linaro.org" <manivannan.sadhasivam@linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "rydberg@bitmath.org" <rydberg@bitmath.org>,
-        Jungrae Kim <jryu.kim@samsung.com>
-Subject: Re: (2) [PATCH v2] input: add 2 kind of switch
-Message-ID: <20201030104628.GB2395528@kroah.com>
-References: <20201029135715.GB3470996@kroah.com>
- <20201029132747epcms1p8fae559dff47bf0eebdcc9f94efd9a1bf@epcms1p8>
- <CGME20201029132747epcms1p8fae559dff47bf0eebdcc9f94efd9a1bf@epcms1p3>
- <20201030043916epcms1p3b289ca5cd902883a97e7d13ceb5c1efb@epcms1p3>
+        id S1726430AbgJ3Kwy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 30 Oct 2020 06:52:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32085 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726199AbgJ3Kwx (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 30 Oct 2020 06:52:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1604055128;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Z1EL/9Be6tly17XVpcb5msTAyiBBVJln1M0uiO+xToM=;
+        b=DsuxCjZp88feQ3fzLFFEagswBtCbft7QSmKNHyEUd4Av8cUxahKiYn9cBH9g+Q6XDCtT5P
+        ZgcT20JJIDZel4ZtnkZ1udnrqjCke1l72h7pei9Mtd2VOeRTTd4HyDxWxxd6LQp70Hud2+
+        aGhk8GYOdLRpW/SzjW+PZXn9mdLyy5Q=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-64-FoxSuwBGOPWDOex14KSAYA-1; Fri, 30 Oct 2020 06:52:05 -0400
+X-MC-Unique: FoxSuwBGOPWDOex14KSAYA-1
+Received: by mail-pl1-f197.google.com with SMTP id 97so4232837plb.4
+        for <linux-input@vger.kernel.org>; Fri, 30 Oct 2020 03:52:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Z1EL/9Be6tly17XVpcb5msTAyiBBVJln1M0uiO+xToM=;
+        b=PFqjZN3Jr7WFIneiR9VefxB4dFZKQ+IJ7An9mLm/WimDFZ82SAqJQGzmFWZYpf3Y6b
+         08fJzoDaHS+5/wYgB5EP6QYkC3NK+wA+mZCbXtvFzLchC1EVlw3UEtKACTIo+N8ocV9+
+         mL598qsMNO8n2GDOftp0erk+UQQsfvtuQbCk1P3Sk56rssf59+DbS1ZeymTsrVF4+kjZ
+         r3qfbSTQnXhmk1sDWgT17DPUCfiRkah9OmqG/ZCYwpebC2+DixDFqMdn+Ws2AbQZ/H+E
+         UiJhgwLfbgJMVnEjFUuema0P4wAzCUqX+Q5iOBzFc5m+dxYBjqP+eHt2ckOHl8Fnvx84
+         uHoA==
+X-Gm-Message-State: AOAM531ZjwWj95Wh+3yy3PlpUkBTjkWp4LUzaOeY5DxoqKHIKmCTk7TE
+        wHAPg08TgE+axYSV2uF0lUmZsb8FJK/zKZF64SiGL0Fw1FmN5eKVcnpvR8z8jW+V0Eb0qkHhZ9S
+        4PDa30cgMmGqCk6XGjOTDPV7sGO/P3qIQZmWyIls=
+X-Received: by 2002:a17:90a:3d0f:: with SMTP id h15mr2123544pjc.234.1604055124705;
+        Fri, 30 Oct 2020 03:52:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyZm8Jjrt7RwQSmEXD6n0EGanX49bnWzOOT4SJxESfA9P6Q0Zin/X974quyCTlaFgiQZ0aiYXBGx0kCgB58FOk=
+X-Received: by 2002:a17:90a:3d0f:: with SMTP id h15mr2123522pjc.234.1604055124441;
+ Fri, 30 Oct 2020 03:52:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201030043916epcms1p3b289ca5cd902883a97e7d13ceb5c1efb@epcms1p3>
+References: <20201023162220.v2.1.I45b53fe84e2215946f900f5b28bab1aa9d029ac7@changeid>
+In-Reply-To: <20201023162220.v2.1.I45b53fe84e2215946f900f5b28bab1aa9d029ac7@changeid>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Fri, 30 Oct 2020 11:51:53 +0100
+Message-ID: <CAO-hwJLn5XKV+cp+fCRY395uBWuX=JrxgiGSHUnJXFpTzFWu4w@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] dt-bindings: HID: i2c-hid: Label this binding as deprecated
+To:     Douglas Anderson <dianders@chromium.org>
+Cc:     Jiri Kosina <jkosina@suse.cz>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        andrea@borgia.bo.it, Kai Heng Feng <kai.heng.feng@canonical.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Hans De Goede <hdegoede@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        DTML <devicetree@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Oct 30, 2020 at 01:39:16PM +0900, HyungJae Im wrote:
-> Hello, This is Hyungjae Im from Samsung Electronics.
-> Let me answer your questions inline.
-> 
-> >On Thu, Oct 29, 2020 at 10:27:47PM +0900, HyungJae Im wrote:
-> >> From: "hj2.im" <hj2.im@samsung.com>
-> >> Date: Thu, 29 Oct 2020 22:11:24 +0900
-> >> Subject: [PATCH v2] input: add 2 kind of switch
-> > 
-> >Why is this in the body of that patch?
-> 
-> I read "how to send your first kernel patch", but still making so many mistakes.
-> I will be cautious with this.
->  
-> >> 
-> >> We need support to various accessories on the device,
-> >> some switch does not exist in switch list.
-> >> So added switch for the following purpose.
-> >> 
-> >> SW_COVER_ATTACHED is for the checking the cover
-> >> attached or not on the device. SW_EXT_PEN_ATTACHED is for the
-> >> checking the external pen attached or not on the device
-> > 
-> >You didn't answer the previous question as to why the existing values do
-> >not work for you instead of having to create new ones?
-> 
->  I think I should clarify this part the most for this review.
->  As you know, new added events both has similar existing events,
->  but it has to operate separately.
-> 
->  First, SW_COVER_ATTACHED is similar with SW_MACHINE_COVER.
->  We need two events for our cover interaction.
->  One is to detect if flip cover is open/closed(covers screen or not),
->  and one is for detecting if cover is attached(detect if device is put into cover).
->  With the second event, we send event for attachment and start authentication
->  distinguishing if it was Samsung made cover.
-> 
->  Second, SW_EXT_PEN_ATTACHED detects if pen is attached externally on tablet models.
->  It is different with SW_PEN_INSERTED since this is detecting pens like our NOTE series.
->  SW_EXT_PEN_ATTACHED has an unique role to set wacom tuning table differently
->  while pen is attached/detached.
+Hi Doug,
 
-All of that needs to go in the changelog text for the individual patches
-when you submit them.
+Foreword: I was about to say "yeah, whatever" to please Rob for once.
+But after re-reading this and more specifically patch 3 of the series,
+that won't do. More comments inlined.
 
-But as Dmitry pointed out, it doesn't look like either of these drivers
-are needed at all, just use the gpio-keys driver instead.
+On Sat, Oct 24, 2020 at 1:23 AM Douglas Anderson <dianders@chromium.org> wrote:
+>
+> As pointed out by Rob Herring [1], we should have a device-specific
+> compatible string.  This means people shouldn't be using the
+> "i2c-over-hid" compatible string anymore, or at least not without a
+> more specific compatible string before it.  Specifically:
+>
+> 1. For newly added devices we should just have the device-specific
+>    device string (no "hid-over-i2c" fallback) and infer the timings
+>    and hid-descr-addr from there.
 
-thanks,
+And that's a big NACK from a maintainer point of view. I know in the
+device tree world these strings are important so that people can just
+say "I have a device compatible with X", and go on, but in the HID
+world that means we will have to implement one compatible struct per
+vendor/device, which is not something I want to do.
 
-greg k-h
+You can think of it as if you are suddenly saying that because it
+would be easier for a few particular USB devices that need a quirk,
+you "just" need to add the list of *all* USB HID devices that are
+around. i2c-hid should be a driver that doesn't change unless 2 things
+happen:
+- there is a change in the spec
+- there is a specific quirk required for a device that doesn't follow the spec.
+
+So if having device tree support for these means we suddenly need to
+add every single device around in the compatible table, I would be
+tempted to just drop the support for those new devices.
+
+Again, you (or anyone else) have to understand that the descriptor
+address is just a parameter which is known at the manufacturing time,
+but that can vary with different vendors and or products. In the ACPI
+world, this parameter is provided in the DSDT, and there is no reason
+for it to not be provided in the DT.
+
+The last thing I want to see is people using device tree having to
+recompile i2c-hid to register their own device.
+
+If this part of the Device Tree binding is so important for the DT
+world, then we should split up the DT bindings from i2c-hid, and have
+some platform driver that would handle a conversion between devicetree
+and platform data. But this driver won't be maintained by me.
+
+I agree adding the various sleep parameters in the platform data is
+not good, but I prefer that over having to maintain an endless table
+of parameters for every single i2c-hid device out there.
+
+Cheers,
+Benjamin
+
+
+>
+> 2. If there's a need for a device tree to be backward compatible, we
+>    should list the device-specific compatible string and add the
+>    "hid-over-i2c" fallback and the various timings.
+>
+> [1] https://lore.kernel.org/r/20201019211036.GA3595039@bogus
+>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+>
+> Changes in v2:
+> - ("dt-bindings: HID: i2c-hid: Label this binding as deprecated") new in v2.
+>
+>  Documentation/devicetree/bindings/input/hid-over-i2c.txt | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/input/hid-over-i2c.txt b/Documentation/devicetree/bindings/input/hid-over-i2c.txt
+> index c76bafaf98d2..733a5f053280 100644
+> --- a/Documentation/devicetree/bindings/input/hid-over-i2c.txt
+> +++ b/Documentation/devicetree/bindings/input/hid-over-i2c.txt
+> @@ -1,5 +1,8 @@
+>  * HID over I2C Device-Tree bindings
+>
+> +WARNING: this binding is deprecated.  Instead of using this, create specific
+> +bindings for each hid-over-i2c device.
+> +
+>  HID over I2C provides support for various Human Interface Devices over the
+>  I2C bus. These devices can be for example touchpads, keyboards, touch screens
+>  or sensors.
+> --
+> 2.29.0.rc1.297.gfa9743e501-goog
+>
+
