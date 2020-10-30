@@ -2,83 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C5772A08F7
-	for <lists+linux-input@lfdr.de>; Fri, 30 Oct 2020 16:01:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C3A882A090B
+	for <lists+linux-input@lfdr.de>; Fri, 30 Oct 2020 16:03:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726853AbgJ3PAa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 30 Oct 2020 11:00:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39366 "EHLO
+        id S1726691AbgJ3PD0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 30 Oct 2020 11:03:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726772AbgJ3PAa (ORCPT
+        with ESMTP id S1726650AbgJ3PD0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 30 Oct 2020 11:00:30 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B507CC0613D9
-        for <linux-input@vger.kernel.org>; Fri, 30 Oct 2020 07:59:35 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id v4so7015632edi.0
-        for <linux-input@vger.kernel.org>; Fri, 30 Oct 2020 07:59:35 -0700 (PDT)
+        Fri, 30 Oct 2020 11:03:26 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14F16C0613CF;
+        Fri, 30 Oct 2020 08:03:26 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id a200so5528005pfa.10;
+        Fri, 30 Oct 2020 08:03:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=9fkQXWnoPSypfyxvIrXWSyd1r4Ua0eeDJczOBpIf/BU=;
-        b=TjZDjTDUyG5IOPAjtKhDz6bJNm6DqwPh3GYjQnJOtk58Qe+VS+LrjG9D+UJTL89L5a
-         hPszd6YttBU2gVDN4Hgd0nVvKmUsgBGa0RfR9y4dU1VG6wqrOSeXXlqa/jT4b2a91QjD
-         sT+ma7QKBtdbME0ZKxl0kc6DEI2BSZsRxuMkNkQsvOWxO6URWAKkh65L3Tk879AJ4LqG
-         Bj9eXYFDUcjXqha9S32esb82rsLCjf9rEdFYrDoZfWxC18Um3HNxqbzetSufrWkdrmWB
-         Hgfuw2XlX0g8ZkLr3paRT5DvZbKL3ccSJq24BaLzNsiQWn1tArC4uUyPSHMQ3hVqPZo6
-         Sb9g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wPOAjVV4kiO3dWbN38ZM7t7PINpMC3qR5idiAzp0tGk=;
+        b=amrzcl738LajoCmFS/izY5kX4I851ieJc1z+K5NLuP7nuomseLM84xj4hw4foC4ErW
+         Ez2vfyd+LJoPiH5IezpktuHyraF3fWyh/Fp9VcxDFatYWqZ1SoiTrrbj8T/+t+EbRjTz
+         PWAkbFgrPa2IBpUKb+0nJ1ap4nL2s9fISA5Ps4FS5COYa3NZRMsvgSyX6oNIvLIVKaoS
+         7CyViu7AJzRhypaw30j36w+1Qzxr41P89gA3HgMoF0qBz8FcJzt//lVpXZTZCE1gAvY4
+         WjrgFb7UC1WbtXEDUs+mcWC/ZIGPQqM0gxjswpZR0j4Mty/x6OJdwYCvwVw+7qukP+K0
+         wVCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=9fkQXWnoPSypfyxvIrXWSyd1r4Ua0eeDJczOBpIf/BU=;
-        b=lhMoS+OA7Ad3UGxyT0Qm8p111jgyzXQHJiSwYFvH3V+3AQvkPg9ShISmz0SzxIvX46
-         JW5Z3V7rl6cOF9OUDxtNu2cjyHOm/lN9Jl0Rt6Ha5jngjQiHbPki4jgpoKxEN2+5/4g4
-         SIkGSOldrR3JSstvYpZsNMtJiaJxag2irb46MIGEnyXB4cm7THMuKhSnMr/VjQfAvzdZ
-         lrPOTMPqEpBFrB1Km+tSG8kUZEDNrJJKeeQx9pHHa8mbi+S09Utw8G9+wGUe4d0SA87x
-         5XcCliQkXhsKII9StQeZT+jg5ge0yGA0/UMCj0HqzWFbtn/u6CvH/6lWLaXH61bY+dum
-         N9SA==
-X-Gm-Message-State: AOAM531vvwviK1sCpHmloDa0YpAKyMrnm4GbD7pCpDlcjgypvASD3ufG
-        qEBejIwT7qqDorYkrV/fHXuctndTtqTF29xt2Q==
-X-Google-Smtp-Source: ABdhPJz0XXuJnPS5g3+lbBiW+XXmkDUqYoNBDu76t3os6QvlPQSI6Onyl30CWs+Md1o+E0r28qs03HXLpOQosKz8YWo=
-X-Received: by 2002:a50:f307:: with SMTP id p7mr2761574edm.235.1604069974505;
- Fri, 30 Oct 2020 07:59:34 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wPOAjVV4kiO3dWbN38ZM7t7PINpMC3qR5idiAzp0tGk=;
+        b=OaxbRrZVbQ+4d0nwoJq6RljlnqrnGOh1bn7WbnwEfBg4CHNWwQLfO0It4DMeuuaOfs
+         9zSl2frfw3V2XyDR/6S6lJc+uHWhIsDJBoRreKL6dot4a0qdcHZC/UHCylJK5THPTbiL
+         HYbWEgN01vTiuBB//4A6Cs9pVoYlmCVXrr5edHjEY9/UZmvYhSu0BFhGSX6KkB03dV4j
+         NFaPt3qol8hBT0COA3grtMOUB7kHVN8T3/hfyCTwdB2wsp1wBGMDPx9/ftU7VQ3kSPQS
+         eI0R0Oz7NypjkLsd4+bk44jXFCgaU5AHGtK52R+sOkVLmkeukEv8+EZdD68xboEq50zF
+         +2Rw==
+X-Gm-Message-State: AOAM533wJz+dxxTWhe8J1WYsEDu6wbbMQjtVKGFfvdsi5YYE65zZ2VK3
+        UAjloplS/LY9FyqPaIqGtfk=
+X-Google-Smtp-Source: ABdhPJyAGGbq4tjzeFzGIbuJu2koitBl4Uj1p6728dAosxhDBoQN3lLorfjSzbzJoXv9fbP54H8oMQ==
+X-Received: by 2002:a17:90a:7e4:: with SMTP id m91mr3624326pjm.47.1604070205685;
+        Fri, 30 Oct 2020 08:03:25 -0700 (PDT)
+Received: from localhost.localdomain ([112.10.75.149])
+        by smtp.gmail.com with ESMTPSA id kr14sm4039318pjb.26.2020.10.30.08.03.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2020 08:03:24 -0700 (PDT)
+From:   Zhaoyu Liu <zackary.liu.pro@gmail.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Zhaoyu Liu <zackary.liu.pro@gmail.com>
+Subject: [PATCH] hidraw: Remove the redundent spaces
+Date:   Fri, 30 Oct 2020 23:02:52 +0800
+Message-Id: <20201030150252.701-1-zackary.liu.pro@gmail.com>
+X-Mailer: git-send-email 2.28.0.windows.1
 MIME-Version: 1.0
-Received: by 2002:a50:f14c:0:0:0:0:0 with HTTP; Fri, 30 Oct 2020 07:59:34
- -0700 (PDT)
-Reply-To: li.anable85@gmail.com
-From:   Liliane Abel <k.griest04@gmail.com>
-Date:   Fri, 30 Oct 2020 15:59:34 +0100
-Message-ID: <CABAZL7=b-NWks3DKb=fdDjnu_xt_-CcJCqf-F5s0yQCFVH73-A@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dearest
+Remove spaces to align code.
 
-Greeting my dear, I am Liliane Abel by name, The only daughter of late
-Mr.Benson Abel. My father is one of the top Politician in our country
-and my mother is a farmers and cocoa merchant when they were both
-alive. After the death of my mother, long ago, my father was
-controlling their business until he was poisoned by his business
-associates which he suffered and died.
+Signed-off-by: Zhaoyu Liu <zackary.liu.pro@gmail.com>
+---
+ drivers/hid/hidraw.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Before the death of my father, He told me about (two million five
-hundred thousand united states dollars) which he deposited in the bank
-in Lome-Togo, It was the money he intended to transfer overseas for
-investment before he was poisoned. He also instructed me that I should
-seek for foreign partners in any country of my choice who will assist
-me transfer this money in overseas account where the money will be
-wisely invested.
-I am seeking for your kind assistance in the following ways:  (1) to
-provide a safe bank account into where the money will be transferred
-for investment. (2) To serve as a guardian of this fund since I am a
-girl of 19 years old. (3) To make arrangement for me to come over to
-your country to further my education. This is my reason for writing to
-you. Please if you are willing to assist me I will offer you 25% of
-the total money. Reply if  you are interested
-Best regards.
-Liliane Abel.
+diff --git a/drivers/hid/hidraw.c b/drivers/hid/hidraw.c
+index 2eee5e31c2b7..249666ea9a5a 100644
+--- a/drivers/hid/hidraw.c
++++ b/drivers/hid/hidraw.c
+@@ -600,7 +600,7 @@ int __init hidraw_init(void)
+ 		goto error_cdev;
+ 	}
+ 
+-        cdev_init(&hidraw_cdev, &hidraw_ops);
++	cdev_init(&hidraw_cdev, &hidraw_ops);
+ 	result = cdev_add(&hidraw_cdev, dev_id, HIDRAW_MAX_DEVICES);
+ 	if (result < 0)
+ 		goto error_class;
+-- 
+2.25.1
+
