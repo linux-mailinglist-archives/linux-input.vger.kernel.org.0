@@ -2,57 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F2F62A0351
-	for <lists+linux-input@lfdr.de>; Fri, 30 Oct 2020 11:53:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB53C2A034E
+	for <lists+linux-input@lfdr.de>; Fri, 30 Oct 2020 11:52:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726430AbgJ3Kwy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S1726236AbgJ3Kwy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Fri, 30 Oct 2020 06:52:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32085 "EHLO
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58763 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726199AbgJ3Kwx (ORCPT
+        by vger.kernel.org with ESMTP id S1726340AbgJ3Kwx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
         Fri, 30 Oct 2020 06:52:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1604055128;
+        s=mimecast20190719; t=1604055142;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=Z1EL/9Be6tly17XVpcb5msTAyiBBVJln1M0uiO+xToM=;
-        b=DsuxCjZp88feQ3fzLFFEagswBtCbft7QSmKNHyEUd4Av8cUxahKiYn9cBH9g+Q6XDCtT5P
-        ZgcT20JJIDZel4ZtnkZ1udnrqjCke1l72h7pei9Mtd2VOeRTTd4HyDxWxxd6LQp70Hud2+
-        aGhk8GYOdLRpW/SzjW+PZXn9mdLyy5Q=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-FoxSuwBGOPWDOex14KSAYA-1; Fri, 30 Oct 2020 06:52:05 -0400
-X-MC-Unique: FoxSuwBGOPWDOex14KSAYA-1
-Received: by mail-pl1-f197.google.com with SMTP id 97so4232837plb.4
-        for <linux-input@vger.kernel.org>; Fri, 30 Oct 2020 03:52:05 -0700 (PDT)
+        bh=/tnpVHIMYpFd1srPSH8uONR7RCWAfqrebxJ6st1yKpM=;
+        b=SmnG804RP01GsuMXRF44513H5A4jQtpBjQqcsNiPtA8zB3Uxvdy6TBkcqsXW0M1VqWUgZ1
+        Ov8Q5G3hca+SEG0VPb1dmScKFl0Vl/kSpPMb5PwvSlqkOVA0FL7u0ECyKKP4Ne2gA+llu1
+        +JVr66sla6Ay3H/ON4QKRvXsNPZUhog=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-520-Sgu1SBUrMfyFueVJ5cvwyg-1; Fri, 30 Oct 2020 06:52:19 -0400
+X-MC-Unique: Sgu1SBUrMfyFueVJ5cvwyg-1
+Received: by mail-pg1-f200.google.com with SMTP id 33so4364560pgt.9
+        for <linux-input@vger.kernel.org>; Fri, 30 Oct 2020 03:52:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Z1EL/9Be6tly17XVpcb5msTAyiBBVJln1M0uiO+xToM=;
-        b=PFqjZN3Jr7WFIneiR9VefxB4dFZKQ+IJ7An9mLm/WimDFZ82SAqJQGzmFWZYpf3Y6b
-         08fJzoDaHS+5/wYgB5EP6QYkC3NK+wA+mZCbXtvFzLchC1EVlw3UEtKACTIo+N8ocV9+
-         mL598qsMNO8n2GDOftp0erk+UQQsfvtuQbCk1P3Sk56rssf59+DbS1ZeymTsrVF4+kjZ
-         r3qfbSTQnXhmk1sDWgT17DPUCfiRkah9OmqG/ZCYwpebC2+DixDFqMdn+Ws2AbQZ/H+E
-         UiJhgwLfbgJMVnEjFUuema0P4wAzCUqX+Q5iOBzFc5m+dxYBjqP+eHt2ckOHl8Fnvx84
-         uHoA==
-X-Gm-Message-State: AOAM531ZjwWj95Wh+3yy3PlpUkBTjkWp4LUzaOeY5DxoqKHIKmCTk7TE
-        wHAPg08TgE+axYSV2uF0lUmZsb8FJK/zKZF64SiGL0Fw1FmN5eKVcnpvR8z8jW+V0Eb0qkHhZ9S
-        4PDa30cgMmGqCk6XGjOTDPV7sGO/P3qIQZmWyIls=
-X-Received: by 2002:a17:90a:3d0f:: with SMTP id h15mr2123544pjc.234.1604055124705;
-        Fri, 30 Oct 2020 03:52:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyZm8Jjrt7RwQSmEXD6n0EGanX49bnWzOOT4SJxESfA9P6Q0Zin/X974quyCTlaFgiQZ0aiYXBGx0kCgB58FOk=
-X-Received: by 2002:a17:90a:3d0f:: with SMTP id h15mr2123522pjc.234.1604055124441;
- Fri, 30 Oct 2020 03:52:04 -0700 (PDT)
+        bh=/tnpVHIMYpFd1srPSH8uONR7RCWAfqrebxJ6st1yKpM=;
+        b=kIjHIwmsqqDEG8xr6flOwk+wvYN0aJ90uUWpm3Oo1ax2FOMw7znyCsOMdGtymQhS2A
+         qaEFt0ljuDHuLN7imAxAjy0b5l8ApZGrVRad1ruJbox2ZNwoYXllSuHQrlTjum7NgJoX
+         CBWyrpqyA9igjPZlTJi7weZflzB6YIzbcABPeqnMAlJDX2SXtXeQjbynjh8wlGsxT8qE
+         /dY1RwEYjJs2pJVTcvX9+5DPL0BfWSRVM2iH/Y+KgQXcfSfFJRCOR5fcTvnDkdQ0Mj9N
+         12G0Dha0yexudBIHlxppVvACfhZFdQmfMgVKMjdLwj2VT8LC8Csksa11buq4Fr8zUtc+
+         IiMg==
+X-Gm-Message-State: AOAM530BHMGfpkYJJMYh4+d8tPHtEcp5l1RAcwhJZn9AM0Iu23y7yvpw
+        iMxJxN4eOfslBY+f3KPSAzOdXZpSduqKqv34fZ+j1P1lUl870jf9YeOp50qf/YAgN0OHhZt5voF
+        YRg55zAb0ous4FOuZN87StZ0tTamISR39MyFNbHA=
+X-Received: by 2002:a17:90a:d795:: with SMTP id z21mr2084273pju.56.1604055138433;
+        Fri, 30 Oct 2020 03:52:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwqfUY5TSSruhXVNF2Ob/Fv4sN9KGKR2ZqJAnxCFvwVKptzWk1DP09awzgBvZZwKt4ADZ5ClPghjTDQUQhfv2o=
+X-Received: by 2002:a17:90a:d795:: with SMTP id z21mr2084242pju.56.1604055138246;
+ Fri, 30 Oct 2020 03:52:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <20201023162220.v2.1.I45b53fe84e2215946f900f5b28bab1aa9d029ac7@changeid>
-In-Reply-To: <20201023162220.v2.1.I45b53fe84e2215946f900f5b28bab1aa9d029ac7@changeid>
+ <20201023162220.v2.2.Ibb28033c81d87fcc13a6ba28c6ea7ac154d65f93@changeid>
+In-Reply-To: <20201023162220.v2.2.Ibb28033c81d87fcc13a6ba28c6ea7ac154d65f93@changeid>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 30 Oct 2020 11:51:53 +0100
-Message-ID: <CAO-hwJLn5XKV+cp+fCRY395uBWuX=JrxgiGSHUnJXFpTzFWu4w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] dt-bindings: HID: i2c-hid: Label this binding as deprecated
+Date:   Fri, 30 Oct 2020 11:52:07 +0100
+Message-ID: <CAO-hwJ+PbcsGNojeJd89TCv-1GQ0fEqcezZ8pw6qA7jjvGo5-g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] dt-bindings: HID: i2c-hid: Introduce bindings for
+ the Goodix GT7375P
 To:     Douglas Anderson <dianders@chromium.org>
 Cc:     Jiri Kosina <jkosina@suse.cz>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -71,90 +73,104 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Hi Doug,
 
-Foreword: I was about to say "yeah, whatever" to please Rob for once.
-But after re-reading this and more specifically patch 3 of the series,
-that won't do. More comments inlined.
-
 On Sat, Oct 24, 2020 at 1:23 AM Douglas Anderson <dianders@chromium.org> wrote:
 >
-> As pointed out by Rob Herring [1], we should have a device-specific
-> compatible string.  This means people shouldn't be using the
-> "i2c-over-hid" compatible string anymore, or at least not without a
-> more specific compatible string before it.  Specifically:
+> This adds new bindings for the Goodix GT7375P touchscreen.  While this
+> touchscreen works with generic "i2c-over-hid", the current advice is
+> to give it its own compatible string.  The cleanest way to do this is
+> to give it its own bindings.
 >
-> 1. For newly added devices we should just have the device-specific
->    device string (no "hid-over-i2c" fallback) and infer the timings
->    and hid-descr-addr from there.
-
-And that's a big NACK from a maintainer point of view. I know in the
-device tree world these strings are important so that people can just
-say "I have a device compatible with X", and go on, but in the HID
-world that means we will have to implement one compatible struct per
-vendor/device, which is not something I want to do.
-
-You can think of it as if you are suddenly saying that because it
-would be easier for a few particular USB devices that need a quirk,
-you "just" need to add the list of *all* USB HID devices that are
-around. i2c-hid should be a driver that doesn't change unless 2 things
-happen:
-- there is a change in the spec
-- there is a specific quirk required for a device that doesn't follow the spec.
-
-So if having device tree support for these means we suddenly need to
-add every single device around in the compatible table, I would be
-tempted to just drop the support for those new devices.
-
-Again, you (or anyone else) have to understand that the descriptor
-address is just a parameter which is known at the manufacturing time,
-but that can vary with different vendors and or products. In the ACPI
-world, this parameter is provided in the DSDT, and there is no reason
-for it to not be provided in the DT.
-
-The last thing I want to see is people using device tree having to
-recompile i2c-hid to register their own device.
-
-If this part of the Device Tree binding is so important for the DT
-world, then we should split up the DT bindings from i2c-hid, and have
-some platform driver that would handle a conversion between devicetree
-and platform data. But this driver won't be maintained by me.
-
-I agree adding the various sleep parameters in the platform data is
-not good, but I prefer that over having to maintain an endless table
-of parameters for every single i2c-hid device out there.
-
-Cheers,
-Benjamin
-
-
->
-> 2. If there's a need for a device tree to be backward compatible, we
->    should list the device-specific compatible string and add the
->    "hid-over-i2c" fallback and the various timings.
->
-> [1] https://lore.kernel.org/r/20201019211036.GA3595039@bogus
+> Among other things, this has the advantage that we can list the two
+> possible i2c addresses for this device, which gives extra checking.
 >
 > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 > ---
 >
 > Changes in v2:
-> - ("dt-bindings: HID: i2c-hid: Label this binding as deprecated") new in v2.
+> - ("dt-bindings: HID: i2c-hid: Introduce bindings for the Goodix GT7375P") new in v2.
 >
->  Documentation/devicetree/bindings/input/hid-over-i2c.txt | 3 +++
->  1 file changed, 3 insertions(+)
+>  .../bindings/input/goodix,gt7375p.yaml        | 64 +++++++++++++++++++
+>  1 file changed, 64 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/goodix,gt7375p.yaml
 >
-> diff --git a/Documentation/devicetree/bindings/input/hid-over-i2c.txt b/Documentation/devicetree/bindings/input/hid-over-i2c.txt
-> index c76bafaf98d2..733a5f053280 100644
-> --- a/Documentation/devicetree/bindings/input/hid-over-i2c.txt
-> +++ b/Documentation/devicetree/bindings/input/hid-over-i2c.txt
-> @@ -1,5 +1,8 @@
->  * HID over I2C Device-Tree bindings
->
-> +WARNING: this binding is deprecated.  Instead of using this, create specific
-> +bindings for each hid-over-i2c device.
+> diff --git a/Documentation/devicetree/bindings/input/goodix,gt7375p.yaml b/Documentation/devicetree/bindings/input/goodix,gt7375p.yaml
+> new file mode 100644
+> index 000000000000..b5008f89e26c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/goodix,gt7375p.yaml
+> @@ -0,0 +1,64 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/goodix,gt7375p.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
->  HID over I2C provides support for various Human Interface Devices over the
->  I2C bus. These devices can be for example touchpads, keyboards, touch screens
->  or sensors.
+> +title: Goodix GT7375P touchscreen
+> +
+> +maintainers:
+> +  - Benjamin Tissoires <benjamin.tissoires@redhat.com>
+
+Given my answer in patch 1, I am not very happy being added as a
+maintainer here.
+
+Cheers,
+Benjamin
+
+
+> +  - Douglas Anderson <dianders@chromium.org>
+> +
+> +description:
+> +  Supports the Goodix GT7375P touchscreen.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: goodix,gt7375p
+> +
+> +  reg:
+> +    enum:
+> +      - 0x5d
+> +      - 0x14
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    true
+> +
+> +  vdd-supply:
+> +    description: The 3.3V supply to the touchscreen.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - reset-gpios
+> +  - vdd-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/qcom,rpmh.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      ap_ts: touchscreen@5d {
+> +        compatible = "hid-over-i2c";
+> +        reg = <0x5d>;
+> +
+> +        interrupt-parent = <&tlmm>;
+> +        interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
+> +
+> +        reset-gpios = <&tlmm 8 GPIO_ACTIVE_LOW>;
+> +        vdd-supply = <&pp3300_ts>;
+> +      };
+> +    };
 > --
 > 2.29.0.rc1.297.gfa9743e501-goog
 >
