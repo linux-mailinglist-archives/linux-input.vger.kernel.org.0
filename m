@@ -2,166 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B1F82A1DDC
-	for <lists+linux-input@lfdr.de>; Sun,  1 Nov 2020 13:28:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB3142A2122
+	for <lists+linux-input@lfdr.de>; Sun,  1 Nov 2020 20:35:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726549AbgKAM2o (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 1 Nov 2020 07:28:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35044 "EHLO
+        id S1727414AbgKATfA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 1 Nov 2020 14:35:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726529AbgKAM2n (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 1 Nov 2020 07:28:43 -0500
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7746C061A49
-        for <linux-input@vger.kernel.org>; Sun,  1 Nov 2020 04:28:42 -0800 (PST)
-Received: by mail-lf1-x142.google.com with SMTP id f9so13806209lfq.2
-        for <linux-input@vger.kernel.org>; Sun, 01 Nov 2020 04:28:42 -0800 (PST)
+        with ESMTP id S1727401AbgKATe7 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 1 Nov 2020 14:34:59 -0500
+Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADFA5C061A04
+        for <linux-input@vger.kernel.org>; Sun,  1 Nov 2020 11:34:57 -0800 (PST)
+Received: by mail-qv1-xf49.google.com with SMTP id k15so7090053qvx.4
+        for <linux-input@vger.kernel.org>; Sun, 01 Nov 2020 11:34:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=D//csSkef/q1fmS2JF6nZIsqRiFshRpn9N22nb8nS5E=;
-        b=kGIyGZKeEweHWzwL+H0LdhP4e14J8KJbxwtqgSIJIUOjduETuvRplH52h5hiVVZZ1q
-         7pprDNN9o2dzShN7Q+TWr95DB5630naYzfL4JXWNf5jNBo7+hfCxiHGJViTUNdHPyqss
-         +OU0FvSflg/RTZY0khH+ckx2gIh99keG4GYgipQB9wmEgOd/VOBOmyFWh28plZT5i0w8
-         bI3jrd1YVPjqYExRPvjhvcDYH8tK2UogQd5id5J16E7wjEafGkU+JOPMk4OmkKv4XXC+
-         wtJdjrWcOI+FLPy8uJ1feTc+9Ps92cvmC9XCMeQ2wpGfwC4wYN2NK3/FdFKAwh4HHTk/
-         WxwQ==
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=DM2UgOFHo//AreOdqVZsv1HPnyLVmD2DIdKtCbtXmYA=;
+        b=ZWlo6i8pByXuvu/W5xwIqRNrp02RjTcy6fs1WXz4lb088GeG5aAxmIF6HYpmSUeqUE
+         VYiWOgorbVJFuuUxFWSiffbM0uwP9ZlEN/7vTinE+KBZUzL43+a75+GbapbheZKLPTuV
+         aoQ0hl5v88dl8pJo4VOA16glqkFqC3jYH8K6tUnHzbpzLVa+gjIYGY43i3Vy8w+TH2Ac
+         q08snefMOKLzQBybL1/XyrzQX/T47YO6IeB3GP45N8jWmVjVJP1Is2fl+SstuyrcGYfq
+         ZvCPDXiiTvomnPHJyJTwz8WFhmeNM20Xg7p0ciVUKzW8tyGKPDR6RtC8KT4Sd0PTWh6U
+         tHLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=D//csSkef/q1fmS2JF6nZIsqRiFshRpn9N22nb8nS5E=;
-        b=sgstg3z9nvuhQhcwD3mk9fI/zRLVuES9eEr0qWqoHJCoZxEjIowNbAnKvUmzz0kI0C
-         e+ZWfvsbMiJ/MksnLSDFFZYicS641BXAacUpUwMCBB6VsED8Z/J3bdhpTgRE+2aiyKuF
-         /q46P8ZH7Rdz1kz3gYEvvErrvGxzVX/nlP8v5QNHw+PFUWQt4ebno/AfskJLhcR0557E
-         jJgxXGVj1WtWZlyGjUF54HQeqiAv6EFY9grExb//Td4mFFOMtwXBr20XeN7obtZy5t8O
-         X+rNrTGPVQcMtbsAp32heb4VPSwJQjwN63IngpTW9faN41Ln2IXErHyIxmj5khWuO364
-         d8sw==
-X-Gm-Message-State: AOAM531tz++RuLCngi88QByweBPCSa4Cjiu/VZtqlwIfVtkClynPgI/w
-        udxB+Hpc+BHcr1rqJTPHZuLMbOT3Dv/OPvw3
-X-Google-Smtp-Source: ABdhPJwhuNTY0jV6fjulkvIZnQ1RW5Oq8uFHGKx1pb6i8VdF0X7g3OKU7Xo4KnxH2y4uEhCAQ8uEkw==
-X-Received: by 2002:ac2:5c4c:: with SMTP id s12mr3756651lfp.174.1604233721157;
-        Sun, 01 Nov 2020 04:28:41 -0800 (PST)
-Received: from localhost.bredbandsbolaget (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
-        by smtp.gmail.com with ESMTPSA id 190sm1480655lfk.238.2020.11.01.04.28.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Nov 2020 04:28:40 -0800 (PST)
-From:   Linus Walleij <linus.walleij@linaro.org>
-To:     Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org
-Cc:     Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        linux-input@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH 3/3] iio: accel: bmc150-accel: Add rudimentary regulator support
-Date:   Sun,  1 Nov 2020 13:28:33 +0100
-Message-Id: <20201101122833.1111424-3-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201101122833.1111424-1-linus.walleij@linaro.org>
-References: <20201101122833.1111424-1-linus.walleij@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=DM2UgOFHo//AreOdqVZsv1HPnyLVmD2DIdKtCbtXmYA=;
+        b=FvzGUd0xBey70FkkCb4FhC/BxS7bIhOKmx7MuIoKQWFX4ZenSBLd8f/mqgIND0RUyB
+         CvvCmHp0e6vxSpJSBhcCO9A23ZutA+FbTGyeATj8SJc6C0Pi8/nMqUayd6JtknAYNJXn
+         ayNDAdJzJ3sHIKmyRCvMm2GzPpDj3rkDqT+dRK2lYpJilcxnEertHo/Ig8esGsp+S3G7
+         Fk2aMrAguhgDCE2eHA2136CujeOpT9gp1kFhF9X/mtodEZFnWX400tldMDQR7MsYCQOB
+         iZpB6KesZf3e0PxbpZ1d/8P5DB5iDKC2C7xtYKDRPjJoK7Rrq73jB+TAB+yuChDHwrs0
+         hFqg==
+X-Gm-Message-State: AOAM530PJzh8LyPCPf4iYgNQyMykWK52n5R5BJn5dHOnihRtzqsxbY8q
+        deGcyCarb36LJd98L/XM8Xa4XO2w
+X-Google-Smtp-Source: ABdhPJx+EM0OMqEKs/YANufilv5FfCCGwb5G5Irp+1EvX/6RxEykc8+GLVWJmxHwsxfmokGmcH+ld+QC
+Sender: "lzye via sendgmr" <lzye@chrisye.mtv.corp.google.com>
+X-Received: from chrisye.mtv.corp.google.com ([2620:15c:211:2:f693:9fff:fef4:4323])
+ (user=lzye job=sendgmr) by 2002:ad4:4142:: with SMTP id z2mr19470484qvp.20.1604259296760;
+ Sun, 01 Nov 2020 11:34:56 -0800 (PST)
+Date:   Sun,  1 Nov 2020 11:34:52 -0800
+Message-Id: <20201101193452.678628-1-lzye@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.29.1.341.ge80a0c044ae-goog
+Subject: [PATCH v2] Input: Add devices for HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE
+From:   Chris Ye <lzye@google.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, trivial@kernel.org,
+        linux-input@vger.kernel.org, linzhao.ye@gmail.com,
+        Chris Ye <lzye@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-These Bosch accelerometers have two supplies, VDD and VDDIO.
-Add some rudimentary support to obtain and enable these
-regulators during probe() and disable them during remove()
-or on the errorpath.
+Kernel 5.4 introduces HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE, devices
+need to be set explicitly with this flag.
 
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+Signed-off-by: Chris Ye <lzye@google.com>
 ---
- drivers/iio/accel/bmc150-accel-core.c | 37 +++++++++++++++++++++++++--
- 1 file changed, 35 insertions(+), 2 deletions(-)
+ drivers/hid/hid-ids.h    | 4 ++++
+ drivers/hid/hid-quirks.c | 4 ++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/drivers/iio/accel/bmc150-accel-core.c b/drivers/iio/accel/bmc150-accel-core.c
-index 0dafe4052856..a69a4f54d69a 100644
---- a/drivers/iio/accel/bmc150-accel-core.c
-+++ b/drivers/iio/accel/bmc150-accel-core.c
-@@ -28,6 +28,7 @@
- #include <linux/iio/trigger_consumer.h>
- #include <linux/iio/triggered_buffer.h>
- #include <linux/regmap.h>
-+#include <linux/regulator/consumer.h>
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 74be76e848bf..cf55dca494f3 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -449,6 +449,10 @@
+ #define USB_VENDOR_ID_FRUCTEL	0x25B6
+ #define USB_DEVICE_ID_GAMETEL_MT_MODE	0x0002
  
- #include "bmc150-accel.h"
- 
-@@ -184,6 +185,7 @@ enum bmc150_accel_trigger_id {
- 
- struct bmc150_accel_data {
- 	struct regmap *regmap;
-+	struct regulator_bulk_data regulators[2];
- 	int irq;
- 	struct bmc150_accel_interrupt interrupts[BMC150_ACCEL_INTERRUPTS];
- 	struct bmc150_accel_trigger triggers[BMC150_ACCEL_TRIGGERS];
-@@ -1593,10 +1595,35 @@ int bmc150_accel_core_probe(struct device *dev, struct regmap *regmap, int irq,
- 				     &data->orientation);
- 	if (ret)
- 		return ret;
-+	/*
-+	 * VDD   is the analog and digital domain voltage supply
-+	 * VDDIO is the digital I/O voltage supply
-+	 */
-+	data->regulators[0].supply = "vdd";
-+	data->regulators[1].supply = "vddio";
-+	ret = devm_regulator_bulk_get(dev,
-+				      ARRAY_SIZE(data->regulators),
-+				      data->regulators);
-+	if (ret) {
-+		if (ret != -EPROBE_DEFER)
-+			dev_err(dev, "Failed to get regulators %d\n", ret);
-+		return ret;
-+	}
-+	ret = regulator_bulk_enable(ARRAY_SIZE(data->regulators),
-+				    data->regulators);
-+	if (ret) {
-+		dev_err(dev, "failed to enable regulators: %d\n", ret);
-+		return ret;
-+	}
-+	/*
-+	 * 2ms or 3ms power-on time according to datasheets, let's better
-+	 * be safe than sorry and set this delay to 5ms.
-+	 */
-+	msleep(5);
- 
- 	ret = bmc150_accel_chip_init(data);
- 	if (ret < 0)
--		return ret;
-+		goto err_disable_regulators;
- 
- 	mutex_init(&data->mutex);
- 
-@@ -1613,7 +1640,7 @@ int bmc150_accel_core_probe(struct device *dev, struct regmap *regmap, int irq,
- 					 &bmc150_accel_buffer_ops);
- 	if (ret < 0) {
- 		dev_err(dev, "Failed: iio triggered buffer setup\n");
--		return ret;
-+		goto err_disable_regulators;
- 	}
- 
- 	if (data->irq > 0) {
-@@ -1674,6 +1701,9 @@ int bmc150_accel_core_probe(struct device *dev, struct regmap *regmap, int irq,
- 	bmc150_accel_unregister_triggers(data, BMC150_ACCEL_TRIGGERS - 1);
- err_buffer_cleanup:
- 	iio_triggered_buffer_cleanup(indio_dev);
-+err_disable_regulators:
-+	regulator_bulk_disable(ARRAY_SIZE(data->regulators),
-+			       data->regulators);
- 
- 	return ret;
- }
-@@ -1698,6 +1728,9 @@ int bmc150_accel_core_remove(struct device *dev)
- 	bmc150_accel_set_mode(data, BMC150_ACCEL_SLEEP_MODE_DEEP_SUSPEND, 0);
- 	mutex_unlock(&data->mutex);
- 
-+	regulator_bulk_disable(ARRAY_SIZE(data->regulators),
-+			       data->regulators);
++#define USB_VENDOR_ID_GAMEVICE	0x27F8
++#define USB_DEVICE_ID_GAMEVICE_GV186	0x0BBE
++#define USB_DEVICE_ID_GAMEVICE_KISHI	0x0BBF
 +
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(bmc150_accel_core_remove);
+ #define USB_VENDOR_ID_GAMERON		0x0810
+ #define USB_DEVICE_ID_GAMERON_DUAL_PSX_ADAPTOR	0x0001
+ #define USB_DEVICE_ID_GAMERON_DUAL_PCS_ADAPTOR	0x0002
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index 0440e2f6e8a3..36d94e3485e3 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -84,6 +84,10 @@ static const struct hid_device_id hid_quirks[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_FREESCALE, USB_DEVICE_ID_FREESCALE_MX28), HID_QUIRK_NOGET },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_FUTABA, USB_DEVICE_ID_LED_DISPLAY), HID_QUIRK_NO_INIT_REPORTS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_GREENASIA, USB_DEVICE_ID_GREENASIA_DUAL_USB_JOYPAD), HID_QUIRK_MULTI_INPUT },
++	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_GAMEVICE, USB_DEVICE_ID_GAMEVICE_GV186),
++		HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_GAMEVICE, USB_DEVICE_ID_GAMEVICE_KISHI),
++		HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_HAPP, USB_DEVICE_ID_UGCI_DRIVING), HID_QUIRK_BADPAD | HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_HAPP, USB_DEVICE_ID_UGCI_FIGHTING), HID_QUIRK_BADPAD | HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_HAPP, USB_DEVICE_ID_UGCI_FLYING), HID_QUIRK_BADPAD | HID_QUIRK_MULTI_INPUT },
 -- 
-2.26.2
+2.29.1.341.ge80a0c044ae-goog
 
