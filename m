@@ -2,77 +2,166 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D9C82A218F
-	for <lists+linux-input@lfdr.de>; Sun,  1 Nov 2020 21:35:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 26E672A2198
+	for <lists+linux-input@lfdr.de>; Sun,  1 Nov 2020 21:45:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726873AbgKAUfV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 1 Nov 2020 15:35:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52972 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726848AbgKAUfU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 1 Nov 2020 15:35:20 -0500
-Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD32FC0617A6;
-        Sun,  1 Nov 2020 12:35:20 -0800 (PST)
-Received: by mail-oi1-x230.google.com with SMTP id m13so3559539oih.8;
-        Sun, 01 Nov 2020 12:35:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=k/JgIluGw9/vnp3nF6qz9z+aAuXI1wiQifL465zBsr8=;
-        b=mkhc4yXnnoV1Cuyi+9uy40ld+eDSqzbQnDXFVs6WDGkgOXhNsLFJzsnU/BpXzMsHtU
-         m0d7v75JO7wYZVzx588DjcxIqa38U6dVzQMpgSHv1z3Uj4bvdyEiJv2CwfHpkGjyCWxV
-         hBgDbyrgQlPOGFcD6abMPp+ijgDZ7AuyaoThgVfy7KXB+jk7aJaP3VvsdM8driydprAe
-         aw9OgERGQpZTN4r1QyLUtaI72VAxz/wgFGL8wLVsfwQwPPOqaj/4mEquzSCUsHB7kIGS
-         oSMItUdXv4HQtcdRRcbSz0Grr7GiR5g/GOC+iksiqd5ou3y/Fh2gt8Miz8bGpf7QvDhz
-         6+aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=k/JgIluGw9/vnp3nF6qz9z+aAuXI1wiQifL465zBsr8=;
-        b=NZGHcrSOW9CUpeN83kq+9HaTVgAsPHnEfTeCRdPaLFcqNR6U7oFj63i5FJ0lAy6/N+
-         1bPmMc7GE8uG90yKwJPhEZ5EepRxfWsp+fWM4oW4ucjcyoF4pMs0PrN5tj/uMxyF/M8n
-         qeHR7CRTY28RlJnToACu+MEAZaJrw+PCP5kVAIlh/45R2uiTUQmM+SVm+oJFK1oOnn3p
-         h99ZzMdEY42QP/xOlQ53yIWhM4LtzkceY/3/0Jx9nNIXSxrzS35KPJVNnszt/pJRJHx7
-         hnfZNdzMf7L9Xh9lAZY/4ZDTGBshSrEX580D8E8MQ5GZoMqMLI/uwgWGcRF0ZHrdptp3
-         o1eg==
-X-Gm-Message-State: AOAM53376rOWdDqW8/X2lrXQ3hdhC9yrHZ5yDbIPrmPg6ZYNtcE0RbUU
-        OeRTUf/vEjmfRbNnkJ1nCB3vD9UZkR6k94df
-X-Google-Smtp-Source: ABdhPJxbAFq34ZR7gkTPTums+zhenLBeu9eSEayc97DN8dVNrASgRXy3UQsO9Pra0r+8GrXoKyo1Xg==
-X-Received: by 2002:aca:2111:: with SMTP id 17mr7865543oiz.139.1604262919903;
-        Sun, 01 Nov 2020 12:35:19 -0800 (PST)
-Received: from ?IPv6:2600:1700:4a30:eaf0::41? ([2600:1700:4a30:eaf0::41])
-        by smtp.gmail.com with ESMTPSA id g25sm3107500otr.35.2020.11.01.12.35.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 01 Nov 2020 12:35:19 -0800 (PST)
-Subject: Re: [PATCH] Add devices for HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Chris Ye <lzye@google.com>
-Cc:     Alexandru Ardelean <alexandru.ardelean@analog.com>,
-        Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org,
-        trivial@kernel.org, linux-input@vger.kernel.org
-References: <20201029194714.1613308-1-lzye@google.com>
- <20201029203954.GF2547185@dtor-ws>
-From:   Chris Ye <linzhao.ye@gmail.com>
-Message-ID: <1a7a70c1-cd8e-4ce4-78d2-2096ace34501@gmail.com>
-Date:   Sun, 1 Nov 2020 12:35:18 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+        id S1727009AbgKAUpC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 1 Nov 2020 15:45:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:32784 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726848AbgKAUpB (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 1 Nov 2020 15:45:01 -0500
+Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1D76E21527;
+        Sun,  1 Nov 2020 20:44:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604263501;
+        bh=nEih1mCwNFlDPl76RHfHvCLViE41MwlBps56T5vrzLk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=CDT5aPRgQsbSKwO/9ysEfeA05fSaETMDgHF72zD9LaEH8ooNdd1IqpsSpIv/Iotf3
+         xv5RTcFnN5SeBR9G4nnXA5jsobJXlGxiOb5NVlrPGj5jY51B1YdQ3ROFvj/UYmzf/8
+         xJNHUHGWZgPKDFaSfj8F4c9fGONjBwUYRafnW25M=
+Date:   Sun, 1 Nov 2020 20:44:56 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-iio@vger.kernel.org, Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/3] iio: accel: bmc150-accel: Add DT bindings
+Message-ID: <20201101204456.2f15616a@archlinux>
+In-Reply-To: <20201101122833.1111424-1-linus.walleij@linaro.org>
+References: <20201101122833.1111424-1-linus.walleij@linaro.org>
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20201029203954.GF2547185@dtor-ws>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Thanks Dmitry,  I just sent out the v2 version of patches, to 
-maintainers of HID core layer, Benjamin and Jiri.
+On Sun,  1 Nov 2020 13:28:31 +0100
+Linus Walleij <linus.walleij@linaro.org> wrote:
 
+> These accelerometers have bindings used in the kernel and
+> several device trees but no proper bindings documentation.
+> Add it.
+> 
+> Also add a compatible for the BMA222 that I am right now
+> adding support for in the driver.
+> 
+> Cc: devicetree@vger.kernel.org
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+Hi Linus,
 
-On 10/29/20 1:39 PM, Dmitry Torokhov wrote:
-> Jiri Kosina<jikos@kernel.org>
+A few minor things inline.
+
+Great to be plugging some of the holes in binding docs.
+Doing a complete check is on my todo list :)
+
+Jonathan
+
+> ---
+>  .../bindings/iio/accel/bosch,bmc-bmi-bma.yaml | 72 +++++++++++++++++++
+
+So far we only have a few bindings that aren't named after a supported part.
+Give we have other devices that match these letters, I don't think we want to
+do it here.  Just confused people!
+
+Pick a part and name it after that.
+
+>  1 file changed, 72 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/iio/accel/bosch,bmc-bmi-bma.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/iio/accel/bosch,bmc-bmi-bma.yaml b/Documentation/devicetree/bindings/iio/accel/bosch,bmc-bmi-bma.yaml
+> new file mode 100644
+> index 000000000000..11b8b68aaf3e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/accel/bosch,bmc-bmi-bma.yaml
+> @@ -0,0 +1,72 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iio/accel/bosch,bmc-bmi-bma.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Bosch BMCxxx, BMIxxx and BMAxxx Accelerometers
+
+Some of them...  see bma180.txt in the same directory.
+I'd go with bma255 and similar (chose your favourite part number)
+> +
+> +maintainers:
+> +  - Linus Walleij <linus.walleij@linaro.org>
+> +
+> +description:
+> +  3 axis accelerometers with varying range and I2C or SPI
+> +  3-wire interface.
+
+Looks like 4-wire to me.  CSB, SPI-CLK, SDO, SDI.
+
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - bosch,bmc150
+> +      - bosch,bmi055
+> +      - bosch,bma255
+> +      - bosch,bma250e
+> +      - bosch,bma222
+> +      - bosch,bma222e
+> +      - bosch,bma280
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  vdd-supply: true
+> +  vddio-supply: true
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  mount-matrix:
+> +    description: an optional 3x3 mounting rotation matrix.
+> +
+> +  spi-max-frequency: true
+
+Don't suppose these all share a common max?
+I looked at a few and 10MHz was the value for those.
+Always nice to pin things down a bit if we can!
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #include <dt-bindings/interrupt-controller/irq.h>
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        accelerometer@8 {
+> +            compatible = "bosch,bma222";
+> +            reg = <0x08>;
+> +            vddio-supply = <&vddio>;
+> +            vdd-supply = <&vdd>;
+> +            interrupts = <57 IRQ_TYPE_EDGE_FALLING>;
+> +        };
+> +    };
+> +  - |
+> +    # include <dt-bindings/interrupt-controller/irq.h>
+> +    spi {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        accel@0 {
+> +            compatible = "bosch,bma222";
+> +            reg = <0>;
+> +            spi-max-frequency = <10000000>;
+> +        };
+> +    };
+> +...
+
