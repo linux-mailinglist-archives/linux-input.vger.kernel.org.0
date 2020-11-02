@@ -2,185 +2,179 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A22B2A2BDC
-	for <lists+linux-input@lfdr.de>; Mon,  2 Nov 2020 14:44:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 768832A2C42
+	for <lists+linux-input@lfdr.de>; Mon,  2 Nov 2020 15:03:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725849AbgKBNoq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Nov 2020 08:44:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36714 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725789AbgKBNoq (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 2 Nov 2020 08:44:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1604324684;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=pxp2Nj1H/5tlJcYtXlgneoQlHOclOYbhbDQvMkea8qo=;
-        b=O810SnJso3/sMkbNvA6/TiTbFK+ufC9t6j6zvosaf6B7xmD5HwGZCS0zuMhi7sjV8ITJjH
-        nQwvBWqnnWyLbxSa3wZC9BWxMBD2mB8RWK4dFcL3Attu/aSIpgvitzqUlkeTMLerHAgNOh
-        hWyWiFxsaJrMPBQptI3QnoGWT9GfFyc=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-jMxxOns1PFSc0DIFlBduNQ-1; Mon, 02 Nov 2020 08:44:42 -0500
-X-MC-Unique: jMxxOns1PFSc0DIFlBduNQ-1
-Received: by mail-ed1-f70.google.com with SMTP id dm20so6203046edb.2
-        for <linux-input@vger.kernel.org>; Mon, 02 Nov 2020 05:44:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=pxp2Nj1H/5tlJcYtXlgneoQlHOclOYbhbDQvMkea8qo=;
-        b=O9aHfKw1N8z7TA3O5UWVeLsgR8OG2QQtv9LwT2MHuhgwq71wSS4H4423we0P+eXSfM
-         IFd0YlB3TCW9y1/rfjjrnzGgYO9/T5KbxlluWJRN0Z59DhYxZpiQ0n+UA+ImiN/wZ0xz
-         jdD1JmR0BmaQVWZ5AeL4PQoVwBV73UVsKqzPlpsGzCx+g13BbuWCdC6G/bzVrmr78TGb
-         kcEX74KsvzLh94gPj+1lQZWckHniAm9w+uZPP6a6ldRrWgIYy81DuUfQ9U4gCkFCVNju
-         I30FGVx8+TXsy8oNZGffIEhfLH+dhiuYj2VR4fZvr5ADSrBviUCe9uzd96Eu7yKV/XAH
-         88ww==
-X-Gm-Message-State: AOAM532JodZScPOwFLopn/wELq79nIic4bgiiMO1wMS6in3d18wdXRdL
-        A8d85PvbyTVNvAN9WuaE08Rx+G5R+4AIvj9/O9DfUB5s7v7eIBSsD8vyjS6NvXPpUPcevlYv6Tk
-        xNWBKvY1g3hu949vGjTQCSQA=
-X-Received: by 2002:a17:906:e24a:: with SMTP id gq10mr15113756ejb.552.1604324681374;
-        Mon, 02 Nov 2020 05:44:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwWvO2wOXIHG0WcqBr0VvVt9fW3W+FD7pcZxHVRYOLbpg31aIOWkejywOf8MCHBM6hkRjxM/g==
-X-Received: by 2002:a17:906:e24a:: with SMTP id gq10mr15113746ejb.552.1604324681151;
-        Mon, 02 Nov 2020 05:44:41 -0800 (PST)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-6c10-fbf3-14c4-884c.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:6c10:fbf3:14c4:884c])
-        by smtp.gmail.com with ESMTPSA id y12sm7314695ejj.95.2020.11.02.05.44.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Nov 2020 05:44:40 -0800 (PST)
-Subject: Re: [PATCH 1/3] HID: logitech-dj: Handle quad/bluetooth keyboards
- with a builtin trackpad
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org, stable@vger.kernel.org
-References: <20201102133658.4410-1-hdegoede@redhat.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <3f645eea-31a0-d1a9-7e70-54e766bab9c2@redhat.com>
-Date:   Mon, 2 Nov 2020 14:44:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+        id S1725798AbgKBOD5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 2 Nov 2020 09:03:57 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:43526 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725797AbgKBOD5 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Nov 2020 09:03:57 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0A2DwnIv148124;
+        Mon, 2 Nov 2020 14:03:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=t3b9EEDagkqC+ehJYtKBl08r7vml+Kp06EHE6bmsJFo=;
+ b=KGep6e7395sdwP35xcfweaBoJPUWj1yT9mmuouEsfECiSukNCMMvHmHHf6cvT/Bkm080
+ ZvmUt4qJFT+dVtTzeiOAx6k1hl3WaO4zkcRq1FP4BLUpFsws02+JPsLWOjwUX18XPXVZ
+ imdM4yIwfsQA+kvStCCIxks7ypKWI/Z04oa6cLWhMJ51yvVrbWBAtBtNJZRFoBYDZDXR
+ CBReqljqQ1rdaW93QgrAkR+6UxM6s0zwK+nN7s8WneULErdLNKkkqIw9nX1MVeEuCsBw
+ q6caefuGouD2mAYvfEV+bFqfB+TbRRZOulDolPvn6xz2Za6h602pzPGX3lO7meWFvQmN eg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2120.oracle.com with ESMTP id 34hhw2c1hc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 02 Nov 2020 14:03:54 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0A2DxeYt184985;
+        Mon, 2 Nov 2020 14:01:54 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userp3030.oracle.com with ESMTP id 34hvrtwfye-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 02 Nov 2020 14:01:54 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0A2E1rwk007028;
+        Mon, 2 Nov 2020 14:01:53 GMT
+Received: from mwanda (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 02 Nov 2020 06:01:52 -0800
+Date:   Mon, 2 Nov 2020 17:01:47 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     sandeep.singh@amd.com
+Cc:     linux-input@vger.kernel.org
+Subject: [bug report] SFH:Transport Driver to add support of AMD Sensor
+ Fusion Hub (SFH)
+Message-ID: <20201102140147.GA41810@mwanda>
 MIME-Version: 1.0
-In-Reply-To: <20201102133658.4410-1-hdegoede@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9792 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0 mlxscore=0
+ malwarescore=0 mlxlogscore=999 suspectscore=10 spamscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011020111
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9792 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0 mlxscore=0
+ suspectscore=10 clxscore=1011 priorityscore=1501 impostorscore=0
+ spamscore=0 lowpriorityscore=0 mlxlogscore=999 phishscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011020111
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hello Sandeep Singh,
 
-On 11/2/20 2:36 PM, Hans de Goede wrote:
-> Some quad/bluetooth keyboards, such as the Dinovo Edge (Y-RAY81) have a
-> builtin touchpad. In this case when asking the receiver for paired devices,
-> we get only 1 paired device with a device_type of REPORT_TYPE_KEYBOARD.
-> 
-> This means that we do not instantiate a second dj_hiddev for the mouse
-> (as we normally would) and thus there is no place for us to forward the
-> mouse input reports to, causing the touchpad part of the keyboard to not
-> work.
-> 
-> There is no way for us to detect these keyboards, so this commit adds
-> an array with device-ids for such keyboards and when a keyboard is on
-> this list it adds STD_MOUSE to the reports_supported bitmap for the
-> dj_hiddev created for the keyboard fixing the touchpad not working.
-> 
-> Using a list of device-ids for this is not ideal, but there are only
-> very few such keyboards so this should be fine. Besides the Dinovo Edge,
-> other known wireless Logitech keyboards with a builtin touchpad are:
-> 
-> * Dinovo Mini (TODO add its device-id to the list)
+The patch 4b2c53d93a4b: "SFH:Transport Driver to add support of AMD
+Sensor Fusion Hub (SFH)" from Oct 10, 2020, leads to the following
+static checker warning:
 
-Benjamin, you have a Dinovo Mini, right ?
+	drivers/hid/amd-sfh-hid/amd_sfh_client.c:222 amd_sfh_hid_client_init()
+	warn: '&cl_data->work.timer' not released on lines: 202,222.
 
-It looks like that is using the same quad/bluetooth combo receiver
-as the Dinovo Edge, but then with slightly different USB ids, which
-means that atm we are not using the logitech-dj driver for it.
+drivers/hid/amd-sfh-hid/amd_sfh_client.c
+   134  int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata)
+   135  {
+   136          struct amdtp_cl_data *cl_data = privdata->cl_data;
+   137          struct amd_mp2_sensor_info info;
+   138          struct device *dev;
+   139          u32 feature_report_size;
+   140          u32 input_report_size;
+   141          u8 cl_idx;
+   142          int rc, i;
+   143  
+   144          dev = &privdata->pdev->dev;
+   145          cl_data = kzalloc(sizeof(*cl_data), GFP_KERNEL);
+   146          if (!cl_data)
+   147                  return -ENOMEM;
+   148  
+   149          cl_data->num_hid_devices = amd_mp2_get_sensor_num(privdata, &cl_data->sensor_idx[0]);
+   150  
+   151          INIT_DELAYED_WORK(&cl_data->work, amd_sfh_work);
+   152          INIT_DELAYED_WORK(&cl_data->work_buffer, amd_sfh_work_buffer);
 
-But the dongles appear to be interchangeable I can pair the Dinovo
-Edge with both the MX5000 and the MX5500 dongles which I have, so
-someone who mixes up dongles (or gets a spare one) could end up
-using the Dinovo Mini with a dongle which is already handled by
-the logitech-dj driver.
+I think the INIT_DELAYED_WORK() allocates a bunch of debug stuff but I'm
+not 100% positive...  Maybe there is nothing to free.  Does anyone know?
 
-As such it would be good if you can add the Dinovo Mini to the
-device-id list this patch introduces (or if you tell me the device-id
-I can do a v2 adding it depending on the timing).
+   153          INIT_LIST_HEAD(&req_list.list);
+   154  
+   155          for (i = 0; i < cl_data->num_hid_devices; i++) {
+   156                  cl_data->sensor_virt_addr[i] = dma_alloc_coherent(dev, sizeof(int) * 8,
+   157                                                                    &cl_data->sensor_phys_addr[i],
+   158                                                                    GFP_KERNEL);
+   159                  cl_data->sensor_sts[i] = 0;
+   160                  cl_data->sensor_requested_cnt[i] = 0;
+   161                  cl_data->cur_hid_dev = i;
+   162                  cl_idx = cl_data->sensor_idx[i];
+   163                  cl_data->report_descr_sz[i] = get_descr_sz(cl_idx, descr_size);
+   164                  if (!cl_data->report_descr_sz[i]) {
+   165                          rc = -EINVAL;
+   166                          goto cleanup;
+   167                  }
+   168                  feature_report_size = get_descr_sz(cl_idx, feature_size);
+   169                  if (!feature_report_size) {
+   170                          rc = -EINVAL;
+   171                          goto cleanup;
+   172                  }
+   173                  input_report_size =  get_descr_sz(cl_idx, input_size);
+   174                  if (!input_report_size) {
+   175                          rc = -EINVAL;
+   176                          goto cleanup;
+   177                  }
+   178                  cl_data->feature_report[i] = kzalloc(feature_report_size, GFP_KERNEL);
+   179                  if (!cl_data->feature_report[i]) {
+   180                          rc = -ENOMEM;
+   181                          goto cleanup;
+   182                  }
+   183                  cl_data->input_report[i] = kzalloc(input_report_size, GFP_KERNEL);
+   184                  if (!cl_data->input_report[i]) {
+   185                          rc = -ENOMEM;
+   186                          goto cleanup;
+   187                  }
+   188                  info.period = msecs_to_jiffies(AMD_SFH_IDLE_LOOP);
+   189                  info.sensor_idx = cl_idx;
+   190                  info.phys_address = cl_data->sensor_phys_addr[i];
+   191  
+   192                  cl_data->report_descr[i] = kzalloc(cl_data->report_descr_sz[i], GFP_KERNEL);
+   193                  if (!cl_data->report_descr[i]) {
+   194                          rc = -ENOMEM;
+   195                          goto cleanup;
+   196                  }
+   197                  rc = get_report_descriptor(cl_idx, cl_data->report_descr[i]);
+   198                  if (rc)
+   199                          return rc;
+                                ^^^^^^^^^^
+This should "goto cleanup"
 
-Also I think you should probably add the USB-ids for your
-Dinovo dongle to the logitech-dj driver. This will allow you
-to verify that adding the device-id is necessary and also
-will give you battery status reporting while used in USB HID
-proxy mode.
 
-Last you may want to check battery-status reporting in Bluetooth
-mode, and maybe also make the logitech-hidpp driver handle the
-Dinovo Mini in bluetooth mode, as at least on the Dinovo Edge
-the standard HID battery reporting done in bluetooth mode
-(and not in HID proxy mode interesting enough) seems to be
-broken.
+   200                  rc = amdtp_hid_probe(cl_data->cur_hid_dev, cl_data);
+   201                  if (rc)
+   202                          return rc;
+                                ^^^^^^^^^^
+Same
 
-Regards,
+   203                  amd_start_sensor(privdata, info);
+   204                  cl_data->sensor_sts[i] = 1;
+   205          }
+   206          privdata->cl_data = cl_data;
+   207          schedule_delayed_work(&cl_data->work_buffer, msecs_to_jiffies(AMD_SFH_IDLE_LOOP));
+   208          return 0;
+   209  
+   210  cleanup:
+   211          for (i = 0; i < cl_data->num_hid_devices; i++) {
+   212                  if (cl_data->sensor_virt_addr[i]) {
+   213                          dma_free_coherent(&privdata->pdev->dev, 8 * sizeof(int),
+   214                                            cl_data->sensor_virt_addr[i],
+   215                                            cl_data->sensor_phys_addr[i]);
+   216                  }
+   217                  kfree(cl_data->feature_report[i]);
+   218                  kfree(cl_data->input_report[i]);
+   219                  kfree(cl_data->report_descr[i]);
+   220          }
+   221          kfree(cl_data);
+   222          return rc;
+   223  }
 
-Hans
-
-
-
-> * K400 (uses a unifying receiver so is not affected)
-> * K600 (uses a unifying receiver so is not affected)
-> 
-> Cc: stable@vger.kernel.org
-> BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1811424
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/hid/hid-logitech-dj.c | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
-> 
-> diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
-> index ea1e40530f85..9ed7260b9593 100644
-> --- a/drivers/hid/hid-logitech-dj.c
-> +++ b/drivers/hid/hid-logitech-dj.c
-> @@ -867,11 +867,23 @@ static void logi_dj_recv_queue_notification(struct dj_receiver_dev *djrcv_dev,
->  	schedule_work(&djrcv_dev->work);
->  }
->  
-> +/*
-> + * Some quad/bluetooth keyboards have a builtin touchpad in this case we see
-> + * only 1 paired device with a device_type of REPORT_TYPE_KEYBOARD. For the
-> + * touchpad to work we must also forward mouse input reports to the dj_hiddev
-> + * created for the keyboard (instead of forwarding them to a second paired
-> + * device with a device_type of REPORT_TYPE_MOUSE as we normally would).
-> + */
-> +static const u16 kbd_builtin_touchpad_ids[] = {
-> +	0xb309, /* Dinovo Edge */
-> +};
-> +
->  static void logi_hidpp_dev_conn_notif_equad(struct hid_device *hdev,
->  					    struct hidpp_event *hidpp_report,
->  					    struct dj_workitem *workitem)
->  {
->  	struct dj_receiver_dev *djrcv_dev = hid_get_drvdata(hdev);
-> +	int i, id;
->  
->  	workitem->type = WORKITEM_TYPE_PAIRED;
->  	workitem->device_type = hidpp_report->params[HIDPP_PARAM_DEVICE_INFO] &
-> @@ -883,6 +895,13 @@ static void logi_hidpp_dev_conn_notif_equad(struct hid_device *hdev,
->  		workitem->reports_supported |= STD_KEYBOARD | MULTIMEDIA |
->  					       POWER_KEYS | MEDIA_CENTER |
->  					       HIDPP;
-> +		id = (workitem->quad_id_msb << 8) | workitem->quad_id_lsb;
-> +		for (i = 0; i < ARRAY_SIZE(kbd_builtin_touchpad_ids); i++) {
-> +			if (id == kbd_builtin_touchpad_ids[i]) {
-> +				workitem->reports_supported |= STD_MOUSE;
-> +				break;
-> +			}
-> +		}
->  		break;
->  	case REPORT_TYPE_MOUSE:
->  		workitem->reports_supported |= STD_MOUSE | HIDPP;
-> 
-
+regards,
+dan carpenter
