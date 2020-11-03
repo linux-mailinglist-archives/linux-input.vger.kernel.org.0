@@ -2,280 +2,388 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D227A2A455F
-	for <lists+linux-input@lfdr.de>; Tue,  3 Nov 2020 13:43:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AA962A4D2C
+	for <lists+linux-input@lfdr.de>; Tue,  3 Nov 2020 18:37:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726581AbgKCMnG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 3 Nov 2020 07:43:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57007 "EHLO
+        id S1728806AbgKCRhU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 3 Nov 2020 12:37:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45152 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728435AbgKCMnF (ORCPT
+        by vger.kernel.org with ESMTP id S1728292AbgKCRhU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 3 Nov 2020 07:43:05 -0500
+        Tue, 3 Nov 2020 12:37:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1604407383;
+        s=mimecast20190719; t=1604425037;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=F84fRXLZfMfvouZKtilNzMebEPZg/rkOtWVtPorkAYY=;
-        b=dx+5QDBGQgsbWfWUhtPh5r2yGMEqD6YMSepsGnXl5l9kNA44ntAtSTlWdCJWz3udcDPqTS
-        jLnS8Dcdz0UULQQnx587vwFNO8v9Hlc8k0JZmPv4QZR5Kyu1ENHknLPthJermWNJHcVSa6
-        W/vBfv8YqxaH9bkEQsPTdUIGdqEbGew=
+        bh=i9snDXU2ybJXDGo7hnFXq/Cq4lV2fEeQCxKYcIflCyI=;
+        b=ejmKyoOK/s4CfteHtMMwA36+qA6IkEtGbwkY2B5Fn73j4AhyswhENkBYMDt91TP2BW3pcL
+        yb9LkXeRmXnFPJkm64ZNFCYP9RFxIJTjpqo0aqURpeZJU9ivNJsaD66IlpP/Ot9WnV1ISm
+        IfaeSPy9Ln9K4whZQ10CvxhZ9cMCJZQ=
 Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
  [209.85.215.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-54eyGplcMCmpg-THrd4H1g-1; Tue, 03 Nov 2020 07:43:00 -0500
-X-MC-Unique: 54eyGplcMCmpg-THrd4H1g-1
-Received: by mail-pg1-f198.google.com with SMTP id o11so9846450pgj.21
-        for <linux-input@vger.kernel.org>; Tue, 03 Nov 2020 04:43:00 -0800 (PST)
+ us-mta-507-NZqvJGJ_MGa4xvIfEJIxxg-1; Tue, 03 Nov 2020 12:37:11 -0500
+X-MC-Unique: NZqvJGJ_MGa4xvIfEJIxxg-1
+Received: by mail-pg1-f198.google.com with SMTP id 33so11795976pgt.9
+        for <linux-input@vger.kernel.org>; Tue, 03 Nov 2020 09:37:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=F84fRXLZfMfvouZKtilNzMebEPZg/rkOtWVtPorkAYY=;
-        b=kQMkE9aQKl620LkYU9alyPn5OF2XnjmnJApiTY/1qFL+2IcLzEXknlMFPvKSWmDeZt
-         H0kS1GntsBoyDmWw6wpUW8bhdQgNsy35sfevofQ4RNW1itW9HsY2wDU7dKLl0oYrN9w2
-         OMMdVaV9VCmHosoJ4Fwwwr8TNO+i7h5IHbH8p+G3x4gcPMM8urDM13bV7hivxXGk1ycE
-         T5lAUWLLktDD+7U4lstlbs5nsQzXaBLFz6y+tGmI7n5oHilkpiw5HA0ib6B6OTF4/lXk
-         Yx140Hk7KWBLpi+vM98zn+6tA1gtOXwXN8zdC3Rn0uShIW9C/snRCEpLIbngSNqxbavm
-         wx/A==
-X-Gm-Message-State: AOAM532BfZVoTiUbXhhE81hYfGO8EtHEovLP6E12NKnJybrs7V1YCVPp
-        nIi3bZ9Zdrw/GKuO+ye0BkOxH5DcONAuK9m79e18OKd9LQGAGKmzdwtqqy3i9ZoodiPZiug48cX
-        wEsrav0rQve1TIXnR6uY9JcE/OELd8AN6RQTTFaA=
-X-Received: by 2002:a17:902:8341:b029:d4:e3fa:e464 with SMTP id z1-20020a1709028341b02900d4e3fae464mr25504391pln.66.1604407378929;
-        Tue, 03 Nov 2020 04:42:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzCSfQ64saOLX5LWijdtM2Fq5blGHymwhge3rMASlkcCq2TButQB+Up8kV9F5JnSR0PJcWZA4MtXbke5oigqkE=
-X-Received: by 2002:a17:902:8341:b029:d4:e3fa:e464 with SMTP id
- z1-20020a1709028341b02900d4e3fae464mr25504358pln.66.1604407378497; Tue, 03
- Nov 2020 04:42:58 -0800 (PST)
+        bh=i9snDXU2ybJXDGo7hnFXq/Cq4lV2fEeQCxKYcIflCyI=;
+        b=b719+A4nnCrbyUyEeLPDz2oISRLOmn9TM6jmBXEo+4Uy4WWOhP0Ccixv9VnED8ZZBE
+         Ap+MzuV/cwa5PeRpvoFaBDIP/IGUO+qRcSbL9O2G9s1/QHDOw7FQNoBpjhZUACMsSNPe
+         PvNX0sT1aG3DBMTKFK/k2fRMI3qO46r+AdOWSzVWnq1AkAwKh0wZ89YyHStMgKcqu5XR
+         FWKQED74I1Ka3pWrEMD/GiDvXDoIDM1f8OyTnfZYRXSp/exvBUN/gaq1VKxOiPX8oDo1
+         QdFUkI01CslpUxru/uarBGfvuNVNEvtotuT9sx05IsJUmbDDsKs8QwKJVK3UYYzXTInm
+         ZofQ==
+X-Gm-Message-State: AOAM5321KYHbLK9bTY7MK38Txd6syEYOTXtC10/fS2mm0VJvaiY/H3uS
+        RfjGv/HPWXRZS4aj0pVkNdCL4DQgzmVpaksHe1tZjJ2DhK0N+DTrDZKXdp6AKAaSgCBjx7S5L3y
+        +wPhhh5A9ITQZQYoLbIJsKldKJljrw+e7WA0I6XI=
+X-Received: by 2002:a63:d74b:: with SMTP id w11mr17871855pgi.147.1604425028706;
+        Tue, 03 Nov 2020 09:37:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwgnRxy+mIMGzy7XC/GOFiP6yZOPAWkEdf6uab1jr5p7QNhGD5kIaPyQx4W6QIz081jstK8hvGO/ej73DhfvxQ=
+X-Received: by 2002:a63:d74b:: with SMTP id w11mr17871840pgi.147.1604425028365;
+ Tue, 03 Nov 2020 09:37:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20201102161210.v3.1.Ibb28033c81d87fcc13a6ba28c6ea7ac154d65f93@changeid>
- <20201102161210.v3.2.Ied4ce10d229cd7c69abf13a0361ba0b8d82eb9c4@changeid>
- <CAL_JsqLxGugWg7Xwr-NQa1h+a_=apQsfFCU0KF-97xt1ZB8jMg@mail.gmail.com> <28e75d51-28d8-5a9a-adf9-71f107e94dfb@redhat.com>
-In-Reply-To: <28e75d51-28d8-5a9a-adf9-71f107e94dfb@redhat.com>
+References: <20201101193504.679934-1-lzye@google.com> <CAO-hwJJVKOM7Om8E+kmYXTrA7SiOFgFt46BHfv+0j+ORhepbaQ@mail.gmail.com>
+ <7505bbc6-9f76-0875-c1c1-95d611a980bb@gmail.com>
+In-Reply-To: <7505bbc6-9f76-0875-c1c1-95d611a980bb@gmail.com>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 3 Nov 2020 13:42:47 +0100
-Message-ID: <CAO-hwJK2DfU_v==uwWyyPkH9N6zb9Vh_pJOxz8dZ_mqJ1+CdsA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] HID: i2c-hid: Allow subclasses of i2c-hid for
- power sequencing
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Jiri Kosina <jkosina@suse.cz>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Date:   Tue, 3 Nov 2020 18:36:57 +0100
+Message-ID: <CAO-hwJK3EzeQbiPMy=8YAVp91nN6bMcAqqfzff+-6mti9PFMHQ@mail.gmail.com>
+Subject: Re: [PATCH v2] Input: Fix the HID usage of DPAD input event generation.
+To:     Chris Ye <linzhao.ye@gmail.com>
+Cc:     Chris Ye <lzye@google.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Linux Input <linux-input@vger.kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Kai Heng Feng <kai.heng.feng@canonical.com>,
-        andrea@borgia.bo.it, Aaron Ma <aaron.ma@canonical.com>,
-        Daniel Playfair Cal <daniel.playfair.cal@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>, Pavel Balan <admin@kryma.net>,
-        You-Sheng Yang <vicamo.yang@canonical.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+        Jiri Kosina <jikos@kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>, trivial@kernel.org,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi Chris,
 
-On Tue, Nov 3, 2020 at 10:09 AM Hans de Goede <hdegoede@redhat.com> wrote:
+On Mon, Nov 2, 2020 at 6:24 PM Chris Ye <linzhao.ye@gmail.com> wrote:
 >
-> Hi,
+> Hi Benjamin,
 >
-> On 11/3/20 2:46 AM, Rob Herring wrote:
-> > On Mon, Nov 2, 2020 at 6:13 PM Douglas Anderson <dianders@chromium.org> wrote:
-> >>
-> >> This exports some things from i2c-hid so that we can have a driver
-> >> that's effectively a subclass of it and that can do its own power
-> >> sequencing.
-> >>
-> >> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> >> ---
-> >>
-> >> Changes in v3:
-> >> - Rework to use subclassing.
-> >>
-> >> Changes in v2:
-> >> - Use a separate compatible string for this new touchscreen.
-> >> - Get timings based on the compatible string.
-> >>
-> >>  drivers/hid/i2c-hid/i2c-hid-core.c    | 78 +++++++++++++++++----------
-> >>  include/linux/input/i2c-hid-core.h    | 19 +++++++
-> >>  include/linux/platform_data/i2c-hid.h |  9 ++++
-> >>  3 files changed, 79 insertions(+), 27 deletions(-)
-> >>  create mode 100644 include/linux/input/i2c-hid-core.h
-> >>
-> >> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-> >> index 786e3e9af1c9..910e9089fcf8 100644
-> >> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
-> >> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-> >> @@ -22,6 +22,7 @@
-> >>  #include <linux/i2c.h>
-> >>  #include <linux/interrupt.h>
-> >>  #include <linux/input.h>
-> >> +#include <linux/input/i2c-hid-core.h>
-> >>  #include <linux/irq.h>
-> >>  #include <linux/delay.h>
-> >>  #include <linux/slab.h>
-> >> @@ -1007,8 +1008,33 @@ static void i2c_hid_fwnode_probe(struct i2c_client *client,
-> >>                 pdata->post_power_delay_ms = val;
-> >>  }
-> >>
-> >> -static int i2c_hid_probe(struct i2c_client *client,
-> >> -                        const struct i2c_device_id *dev_id)
-> >> +static int i2c_hid_power_up_device(struct i2c_hid_platform_data *pdata)
-> >> +{
-> >> +       struct i2c_hid *ihid = container_of(pdata, struct i2c_hid, pdata);
-> >> +       struct hid_device *hid = ihid->hid;
-> >> +       int ret;
-> >> +
-> >> +       ret = regulator_bulk_enable(ARRAY_SIZE(pdata->supplies),
-> >> +                                   pdata->supplies);
-> >> +       if (ret) {
-> >> +               if (hid)
-> >> +                       hid_warn(hid, "Failed to enable supplies: %d\n", ret);
-> >> +               return ret;
-> >> +       }
-> >> +
-> >> +       if (pdata->post_power_delay_ms)
-> >> +               msleep(pdata->post_power_delay_ms);
-> >> +
-> >> +       return 0;
-> >> +}
-> >> +
-> >> +static void i2c_hid_power_down_device(struct i2c_hid_platform_data *pdata)
-> >> +{
-> >> +       regulator_bulk_disable(ARRAY_SIZE(pdata->supplies), pdata->supplies);
-> >> +}
-> >> +
-> >> +int i2c_hid_probe(struct i2c_client *client,
-> >> +                 const struct i2c_device_id *dev_id)
-> >>  {
-> >>         int ret;
-> >>         struct i2c_hid *ihid;
-> >> @@ -1035,6 +1061,9 @@ static int i2c_hid_probe(struct i2c_client *client,
-> >>         if (!ihid)
-> >>                 return -ENOMEM;
-> >>
-> >> +       if (platform_data)
-> >> +               ihid->pdata = *platform_data;
-> >> +
-> >>         if (client->dev.of_node) {
-> >>                 ret = i2c_hid_of_probe(client, &ihid->pdata);
-> >>                 if (ret)
-> >> @@ -1043,13 +1072,16 @@ static int i2c_hid_probe(struct i2c_client *client,
-> >>                 ret = i2c_hid_acpi_pdata(client, &ihid->pdata);
-> >>                 if (ret)
-> >>                         return ret;
-> >> -       } else {
-> >> -               ihid->pdata = *platform_data;
-> >>         }
-> >>
-> >>         /* Parse platform agnostic common properties from ACPI / device tree */
-> >>         i2c_hid_fwnode_probe(client, &ihid->pdata);
-> >>
-> >> +       if (!ihid->pdata.power_up_device)
-> >> +               ihid->pdata.power_up_device = i2c_hid_power_up_device;
-> >> +       if (!ihid->pdata.power_down_device)
-> >> +               ihid->pdata.power_down_device = i2c_hid_power_down_device;
-> >> +
-> >>         ihid->pdata.supplies[0].supply = "vdd";
-> >>         ihid->pdata.supplies[1].supply = "vddl";
-> >>
-> >> @@ -1059,14 +1091,10 @@ static int i2c_hid_probe(struct i2c_client *client,
-> >>         if (ret)
-> >>                 return ret;
-> >>
-> >> -       ret = regulator_bulk_enable(ARRAY_SIZE(ihid->pdata.supplies),
-> >> -                                   ihid->pdata.supplies);
-> >> -       if (ret < 0)
-> >> +       ret = ihid->pdata.power_up_device(&ihid->pdata);
-> >> +       if (ret)
-> >
-> > This is an odd driver structure IMO. I guess platform data is already
-> > there, but that's not what we'd use for any new driver.
-> >
-> > Why not export i2c_hid_probe, i2c_hid_remove, etc. and then just call
-> > them from the goodix driver and possibly make it handle all DT
-> > platforms?
-> >
-> > Who else needs regulators besides DT platforms? I thought with ACPI
-> > it's all wonderfully abstracted away?
+>      I've tried the hid-tool for testing on my linux machine and it
+> works.  However the issue comes from a game controller I don't posses in
+> hand right now so I can't physically connect it and provide the log from
+> hid-tool recording.  I do have the raw HID descriptor and in Linux
+> kernel the debug info is like below:
 >
-> Right with ACPI we do not need the regulators, actually not checking
-> for them with ACPI would be preferable, if only to suppress kernel
-> messages like these:
->
-> [    3.515658] i2c_hid i2c-SYNA8007:00: supply vdd not found, using dummy regulator
-> [    3.515848] i2c_hid i2c-SYNA8007:00: supply vddl not found, using dummy regulator
->
-> To be fair the i2c-hid-core.c code does have some acpi specific handling too.
->
-> With the latest fixes from:
-> https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/log/?h=for-5.10/upstream-fixes
-> taken into account we have the following acpi specific functions being called
-> from various places:
->
-> i2c_hid_acpi_fix_up_power   (called on probe)
-> i2c_hid_acpi_enable_wakeup  (called on probe)
-> i2c_hid_acpi_shutdown       (called on shutdown)
->
-> Not I'm not Benjamin / not the MAINTAINER of this code, but I think that
-> splitting out both the ACPI *and* the of/dt handling might make sense.
+> # cat /d/hid/0005\:27F8\:0BBE.0001/rdesc
+> 05 01 09 05 a1 01 a1 02 15 81 25 7f 05 01 09 01 a1 00 75 08 95 04 35 00
+> 46 ff 00 09 30 09 31 09 32 09 35 81 02 75 08 95 02 15 01 26 ff 00 09 39
+> 09 39 81 02 c0 05 07 19 4f 29 52 15 00 25 01 75 01 95 04 81 02 05 01 09
+> 90 09 91 09 92 09 93 75 01 95 04 81 02 75 01 95 10 05 09 19 01 29 10 81
+> 02 06 02 ff 09 01 a1 01 15 00 25 01 09 04 75 01 95 01 81 02 c0 05 0c 09
+> 01 a1 01 15 00 25 01 0a 24 02 75 01 95 01 81 06 c0 75 01 95 06 81 03 15
+> 00 25 ff 05 02 09 01 a1 00 75 08 95 02 35 00 45 ff 09 c4 09 c5 81 02 c0
+> 06 00 ff 09 80 75 08 95 08 15 00 26 ff 00 b1 02 c0 c0
 
-Yep, fully agree.
+Thanks for the report descriptor. That allowed me to add the device to
+the tests at https://gitlab.freedesktop.org/bentiss/hid-tools/-/commits/wip/gamevice
+
+And also to realize that... "how is that thing supposed to be working????"
 
 >
-> Maybe even turn drivers/hid/i2c-hid/i2c-hid-core.c into a library
-> and have 2 separate:
+>    INPUT[INPUT]
+>      Field(0)
+>        Physical(GenericDesktop.Pointer)
+>        Application(GenericDesktop.GamePad)
+>        Usage(4)
+>          GenericDesktop.X
+>          GenericDesktop.Y
+>          GenericDesktop.Z
+>          GenericDesktop.Rz
+>        Logical Minimum(-127)
+>        Logical Maximum(127)
+>        Physical Minimum(0)
+>        Physical Maximum(255)
+>        Report Size(8)
+>        Report Count(4)
+>        Report Offset(0)
+>        Flags( Variable Absolute )
+>      Field(1)
+>        Physical(GenericDesktop.Pointer)
+>        Application(GenericDesktop.GamePad)
+>        Usage(2)
+>          GenericDesktop.HatSwitch
+>          GenericDesktop.HatSwitch
+>        Logical Minimum(1)
+>        Logical Maximum(255)
+>        Physical Minimum(0)
+>        Physical Maximum(255)
+>        Report Size(8)
+>        Report Count(2)
+>        Report Offset(32)
+>        Flags( Variable Absolute )
+>      Field(2)
+>        Application(GenericDesktop.GamePad)
+>        Usage(4)
+>          Keyboard.004f
+>          Keyboard.0050
+>          Keyboard.0051
+>          Keyboard.0052
+>        Logical Minimum(0)
+>        Logical Maximum(1)
+>        Physical Minimum(0)
+>        Physical Maximum(255)
+>        Report Size(1)
+>        Report Count(4)
+>        Report Offset(48)
+>        Flags( Variable Absolute )
+>      Field(3)
+>        Application(GenericDesktop.GamePad)
+>        Usage(4)
+>          GenericDesktop.D-PadUp
+>          GenericDesktop.D-PadDown
+>          GenericDesktop.D-PadRight
+>          GenericDesktop.D-PadLeft
+>        Logical Minimum(0)
+>        Logical Maximum(1)
+>        Physical Minimum(0)
+>        Physical Maximum(255)
+>        Report Size(1)
+>        Report Count(4)
+>        Report Offset(52)
+>        Flags( Variable Absolute )
+>      Field(4)
+>        Application(GenericDesktop.GamePad)
+>        Usage(16)
+>          Button.0001
+>          Button.0002
+>          Button.0003
+>          Button.0004
+>          Button.0005
+>          Button.0006
+>          Button.0007
+>          Button.0008
+>          Button.0009
+>          Button.000a
+>          Button.000b
+>          Button.000c
+>          Button.000d
+>          Button.000e
+>          Button.000f
+>          Button.0010
+>        Logical Minimum(0)
+>        Logical Maximum(1)
+>        Physical Minimum(0)
+>        Physical Maximum(255)
+>        Report Size(1)
+>        Report Count(16)
+>        Report Offset(56)
+>        Flags( Variable Absolute )
+>      Field(5)
+>        Application(ff02.0001)
+>        Usage(1)
+>          ff02.0004
+>        Logical Minimum(0)
+>        Logical Maximum(1)
+>        Physical Minimum(0)
+>        Physical Maximum(255)
+>        Report Size(1)
+>        Report Count(1)
+>        Report Offset(72)
+>        Flags( Variable Absolute )
+>      Field(6)
+>        Application(Consumer.0001)
+>        Usage(1)
+>          Consumer.0224
+>        Logical Minimum(0)
+>        Logical Maximum(1)
+>        Physical Minimum(0)
+>        Physical Maximum(255)
+>        Report Size(1)
+>        Report Count(1)
+>        Report Offset(73)
+>        Flags( Variable Relative )
+>      Field(7)
+>        Physical(Simulation.0001)
+>        Application(GenericDesktop.GamePad)
+>        Usage(2)
+>          Simulation.00c4
+>          Simulation.00c5
+>        Logical Minimum(0)
+>        Logical Maximum(255)
+>        Physical Minimum(0)
+>        Physical Maximum(255)
+>        Report Size(8)
+>        Report Count(2)
+>        Report Offset(80)
+>        Flags( Variable Absolute )
+>    FEATURE[FEATURE]
+>      Field(0)
+>        Application(GenericDesktop.GamePad)
+>        Usage(8)
+>          ff00.0080
+>          ff00.0080
+>          ff00.0080
+>          ff00.0080
+>          ff00.0080
+>          ff00.0080
+>          ff00.0080
+>          ff00.0080
+>        Logical Minimum(0)
+>        Logical Maximum(255)
+>        Physical Minimum(0)
+>        Physical Maximum(255)
+>        Report Size(8)
+>        Report Count(8)
+>        Report Offset(0)
+>        Flags( Variable Absolute )
 >
-> drivers/hid/i2c-hid/i2c-hid-acpi.c
-> drivers/hid/i2c-hid/i2c-hid-of.c
+> GenericDesktop.X ---> Absolute.X
+> GenericDesktop.Y ---> Absolute.Y
+> GenericDesktop.Z ---> Absolute.Z
+> GenericDesktop.Rz ---> Absolute.Rz
+> GenericDesktop.HatSwitch ---> Absolute.Hat0X
+> GenericDesktop.HatSwitch ---> Absolute.Hat0Y
+
+It took me a while to realize that you were needing
+https://patchwork.kernel.org/project/linux-input/patch/20201101193452.678628-1-lzye@google.com/
+for that.
+
+But the weird part is that Hat switch are usually used as a single
+variable, with values being mapped to Hat0X and Hat0Y. So I still
+haven't manage to understand how the hid-input driver would map the
+axis to a regular one between 1 and 255...
+
+> Keyboard.004f ---> Key.Right
+> Keyboard.0050 ---> Key.Left
+> Keyboard.0051 ---> Key.Down
+> Keyboard.0052 ---> Key.Up
+> GenericDesktop.D-PadUp ---> Absolute.Hat1X
+> GenericDesktop.D-PadDown ---> Sync.Report
+> GenericDesktop.D-PadRight ---> Sync.Report
+> GenericDesktop.D-PadLeft ---> Sync.Report
+> Button.0001 ---> Key.BtnA
+> Button.0002 ---> Key.BtnB
+> Button.0003 ---> Key.BtnC
+> Button.0004 ---> Key.BtnX
+> Button.0005 ---> Key.BtnY
+> Button.0006 ---> Key.BtnZ
+> Button.0007 ---> Key.BtnTL
+> Button.0008 ---> Key.BtnTR
+> Button.0009 ---> Key.BtnTL2
+> Button.000a ---> Key.BtnTR2
+> Button.000b ---> Key.BtnSelect
+> Button.000c ---> Key.BtnStart
+> Button.000d ---> Key.BtnMode
+> Button.000e ---> Key.BtnThumbL
+> Button.000f ---> Key.BtnThumbR
+> Button.0010 ---> Key.?
+> ff02.0004 ---> Key.Btn0
+> Consumer.0224 ---> Key.Back
+> Simulation.00c4 ---> Absolute.Gas
+> Simulation.00c5 ---> Absolute.Brake
 >
-> drivers using that library.
->
-> That would change the kernel-module name, but there only is the debug
-> module parameter which is affected by that from a userspace API point
-> of break, so I think that changing the kernel-module name is fine.
+> So you can see the device has D-Up, D-Down,D-Right,D-Left usages, and
+> D-up is mapped to Hat1X.
 
-Ack, this is a small downside compared to a better extensibility of the driver.
-
-Also, we could then delete entirely the platform_data as the register
-of the hid_descriptor_address could simply be added as an argument to
-i2c_hid_probe. Though that would force me to rewrite my testing patch
-with custom i2c-hid devices over an USB<->I2C adapter.
+OK, now I am starting to understand the problem better.
 
 >
-> So you would have 2 i2c drivers, one with an acpi_match_table and one
-> with an of_match_table. And then either also have 2 separate probe
-> functions, or have a probe helper which gets passed some platform_data
-> given by the acpi/of probe function + some extra callbacks (either
-> as extra arguments or inside the pdata).
->
-> Having a separate drivers/hid/i2c-hid/i2c-hid-of.c file also allows
-> for a separate MAINTAINER entry where someone else then Benjamin
-> becomes responsible for reviewing DT related changes...
+> Also if you can send HID report from hid-tool,  you will see there are
+> always intail events on Hat1X/Hat1Y as the HatDir is 0, even no DPAD
+> buttons pressed.  When you send HID report with D-DPAD buttons with
+> different state, it doesn't generate any axis events because the HatDir
+> internally is still 0 regardless the report value of the 4 DPAD usages.
 
-I like that :)
+That's the part I am a little bit stuck. I can emulate events for X,Y,
+buttons,... but I am not sure how the gamepad sends the events for the
+Hat switch and the D-Pad together.
 
->
-> Anyways just my 2 cents, it is probably wise to wait what Benjamin
-> has to say before sinking time in implementing my suggestion :)
-
-I also want to say that I like the general idea of Doug's patch.
-Having a separate driver that handles the specific use case of goodix
-is really nice, as it allows to just load this driver without touching
-the core of i2c-hid. I believe this is in line with what Google tries
-to do with their kernel that OEMs can not touch, but only add overlays
-to it. The implementation is not polished (I don't think this new
-driver belongs to the input subsystem), but I like the general idea of
-having the "subclassing". Maybe we can make it prettier with Hans'
-suggestion, given that this mainly means we are transforming
-i2c-hid-core.c into a library.
-
-As for where this new goodix driver goes, it can stay in
-drivers/hid/i2c-hid IMO.
+Again, before we merge anything, I'd like to have the proper tests
+written for it, on top of
+https://gitlab.freedesktop.org/bentiss/hid-tools/-/commits/wip/gamevice
+so we can ensure there is no regression for it, and that we will not
+regress on it later on.
 
 Cheers,
 Benjamin
+
+>
+>
+> Thanks!
+>
+> Chris
+>
+>
+> On 11/2/20 12:16 AM, Benjamin Tissoires wrote:
+> > Hi Chris,
+> >
+> >
+> > On Sun, Nov 1, 2020 at 8:35 PM Chris Ye <lzye@google.com> wrote:
+> >> Generic Desktop DPAD usage is mapped by hid-input, that only the first
+> >> DPAD usage maps to usage type EV_ABS and code of an axis. If HID
+> >> descriptor has DPAD UP/DOWN/LEFT/RIGHT HID usages and each of usage size
+> >> is 1 bit, then only the first one will generate input event, the rest of
+> >> the HID usages will be assigned to hat direction only.
+> >> The hid input event should check the HID report value and generate
+> >> HID event for its hat direction.
+> >>
+> >> Test: Connect HID device with Generic Desktop DPAD usage and press the
+> >> DPAD to generate input events.
+> > Thanks for the patch, but I would rather have a proper tests added to
+> > https://gitlab.freedesktop.org/libevdev/hid-tools
+> >
+> > We already have gamepads tests, and it would be very nice to have this
+> > patch reflected as a test as well. This would also allow me to better
+> > understand the problem. I am not sure I follow the whole logic of this
+> > patch without seeing the 2 variants of report descriptors.
+> >
+> > Cheers,
+> > Benjamin
+> >
+> >> Signed-off-by: Chris Ye <lzye@google.com>
+> >> ---
+> >>   drivers/hid/hid-input.c | 16 ++++++++++++----
+> >>   1 file changed, 12 insertions(+), 4 deletions(-)
+> >>
+> >> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> >> index 9770db624bfa..6c1007de3409 100644
+> >> --- a/drivers/hid/hid-input.c
+> >> +++ b/drivers/hid/hid-input.c
+> >> @@ -1269,7 +1269,7 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
+> >>          struct input_dev *input;
+> >>          unsigned *quirks = &hid->quirks;
+> >>
+> >> -       if (!usage->type)
+> >> +       if (!usage->type && !field->dpad)
+> >>                  return;
+> >>
+> >>          if (usage->type == EV_PWR) {
+> >> @@ -1286,9 +1286,17 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
+> >>                  int hat_dir = usage->hat_dir;
+> >>                  if (!hat_dir)
+> >>                          hat_dir = (value - usage->hat_min) * 8 / (usage->hat_max - usage->hat_min + 1) + 1;
+> >> -               if (hat_dir < 0 || hat_dir > 8) hat_dir = 0;
+> >> -               input_event(input, usage->type, usage->code    , hid_hat_to_axis[hat_dir].x);
+> >> -               input_event(input, usage->type, usage->code + 1, hid_hat_to_axis[hat_dir].y);
+> >> +               if (hat_dir < 0 || hat_dir > 8 || value == 0)
+> >> +                       hat_dir = 0;
+> >> +               if (field->dpad) {
+> >> +                       input_event(input, EV_ABS, field->dpad, hid_hat_to_axis[hat_dir].x);
+> >> +                       input_event(input, EV_ABS, field->dpad + 1, hid_hat_to_axis[hat_dir].y);
+> >> +               } else {
+> >> +                       input_event(input, usage->type, usage->code,
+> >> +                               hid_hat_to_axis[hat_dir].x);
+> >> +                       input_event(input, usage->type, usage->code + 1,
+> >> +                               hid_hat_to_axis[hat_dir].y);
+> >> +               }
+> >>                  return;
+> >>          }
+> >>
+> >> --
+> >> 2.29.1.341.ge80a0c044ae-goog
+> >>
+>
 
