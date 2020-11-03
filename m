@@ -2,109 +2,181 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A36852A3B43
-	for <lists+linux-input@lfdr.de>; Tue,  3 Nov 2020 04:59:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CB5E2A3DD1
+	for <lists+linux-input@lfdr.de>; Tue,  3 Nov 2020 08:40:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727282AbgKCD7J (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 2 Nov 2020 22:59:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33940 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727312AbgKCD7G (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 2 Nov 2020 22:59:06 -0500
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1380C0617A6;
-        Mon,  2 Nov 2020 19:59:05 -0800 (PST)
-Received: by mail-lj1-x242.google.com with SMTP id x16so17541588ljh.2;
-        Mon, 02 Nov 2020 19:59:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=SgDFD27UVRKii640rvXHvwpae24ErqFjXOqO253fhcY=;
-        b=BSe5NKp75nwSYYuE/7lQanTProiLqua600T+gtFW0E/tO+ZocB9adxn0yE/WbxymP3
-         VquIxqJNm2Zu0VvI+8ceXvDWCNqJkKvO4sCG59RVoG2n/wGHzqezREp+aldB2BpNmTxs
-         2VeBKYiwafC9IlWmO1Bwqa42vjeYXmQVN3RscHz5Z53hnjAvkrmQj54XE3ir5mKTUi53
-         prDbwSNh51bcp5/WcmLkIJy6UYp//u3HfSZ2HcEjkEV1z+/uSpymyqNzh1WYw6ZjMyqD
-         9c1G+5YIsXFcpHLPd7fdX46g24SAUM0s5lYpRc5FD7ByOOKJQRhxM27yt3Q235PcFR5j
-         9y5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=SgDFD27UVRKii640rvXHvwpae24ErqFjXOqO253fhcY=;
-        b=JmAFTmmJUz+2vqBjJ18apHkLBjYtS0d1ROA11RVFE7SoyFHIp15Hm17oCmVgHzxVvl
-         h2egsy6tJz0FzXzK2QWWjpwpTSiucgN0IGnfw7t2V2YSHP+Yw3AaTCWd2CAbajGE89vb
-         HO2KLotsiDkdsRtGO6mqs/AuNLdQNLyqKysOWeEsgrIh9/uFXAckk6cGnHjkAoqOgLxz
-         Yygi04e4HxOVmR3rspio7UhNkiPyzbBs6qd4juIXGOOnOWW5EPqsFlK1igHhQ8PJUkcX
-         R5nnvnm5WeF3NqUjIWv6ua605qXduox4rsm8xK+vSxfceSHtFJOQI+lsrfWHakMRX5MS
-         SQPA==
-X-Gm-Message-State: AOAM532/SdbKIzrD4ANcuLWYsuqBtECENzsDI4ofJ78M8j5kEm+Pgxs/
-        0s+Zymv92yZJFmekcURT5E+Gs1Jygg4=
-X-Google-Smtp-Source: ABdhPJyHuApH4XD8Jr3oProNxTyKh81g51mvQrqJVICKW3ZOYFNr56JJC8uJXIH7+7JE3L/xV7Rrsg==
-X-Received: by 2002:a2e:920a:: with SMTP id k10mr1042035ljg.330.1604375944105;
-        Mon, 02 Nov 2020 19:59:04 -0800 (PST)
-Received: from [192.168.2.145] (109-252-192-17.dynamic.spd-mgts.ru. [109.252.192.17])
-        by smtp.googlemail.com with ESMTPSA id m15sm2653852lfr.241.2020.11.02.19.59.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Nov 2020 19:59:03 -0800 (PST)
-Subject: Re: [PATCH v8 0/4] input: elants: Support Asus TF300T and Nexus 7
- touchscreens
-To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Johnny Chuang <johnny.chuang.emc@gmail.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1603543323.git.mirq-linux@rere.qmqm.pl>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <d942c01f-d43d-8bce-4c02-924feee1e3f9@gmail.com>
-Date:   Tue, 3 Nov 2020 06:59:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1727857AbgKCHkN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 3 Nov 2020 02:40:13 -0500
+Received: from goliath.siemens.de ([192.35.17.28]:35568 "EHLO
+        goliath.siemens.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725982AbgKCHkM (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 3 Nov 2020 02:40:12 -0500
+Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
+        by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id 0A37e64S028897
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 3 Nov 2020 08:40:06 +0100
+Received: from dev.vm7.ccp.siemens.com ([167.87.49.155])
+        by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id 0A37e5ac006013;
+        Tue, 3 Nov 2020 08:40:05 +0100
+Received: from mail2.siemens.de (localhost [127.0.0.1])
+        by dev.vm7.ccp.siemens.com (Postfix) with ESMTP id B365070BAB5;
+        Tue,  3 Nov 2020 08:40:05 +0100 (CET)
+From:   Andrej Valek <andrej.valek@siemens.com>
+To:     dmitry.torokhov@gmail.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kbuild-all@lists.01.org, Andrej Valek <andrej.valek@siemens.com>
+Subject: [PATCH v2] Input: st1232 - add support resolution reading
+Date:   Tue,  3 Nov 2020 08:39:49 +0100
+Message-Id: <20201103073949.12198-1-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <202011030200.dKK6cKCM-lkp@intel.com>
+References: <202011030200.dKK6cKCM-lkp@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <cover.1603543323.git.mirq-linux@rere.qmqm.pl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-24.10.2020 15:46, Michał Mirosław пишет:
-> This series cleans up the driver a bit and implements changes needed to
-> support EKTF3624-based touchscreen used in Asus TF300T, Google Nexus 7
-> and similar Tegra3-based tablets.
-> 
-> ---
-> v2: extended with Dmitry's patches (replaced v1 patches 3 and 4)
-> v3: rebased for v5.7-rc1
-> v4: rebased onto v5.7-rc2+ (current Linus' master)
->     update "remove unused axes" and "refactor
->       elants_i2c_execute_command()" patches after review
->     add David's patch converting DT binding to YAML
-> v5: rebased onto dtor/input/for-linus
-> v6: rebased onto newer dtor/input/for-linus
->     remove yet unused constants from patch 1
->     added a new drive-by cleanup (last patch)
-> v7: rebased onto current dtor/input/for-next
-> v8: rebased onto current dtor/input/for-linus again
-> ---
-> 
-> Dmitry Osipenko (1):
->   input: elants: support 0x66 reply opcode for reporting touches
-> 
-> Michał Mirosław (3):
->   input: elants: document some registers and values
->   input: elants: support old touch report format
->   input: elants: read touchscreen size for EKTF3624
-> 
->  drivers/input/touchscreen/elants_i2c.c | 149 +++++++++++++++++++++----
->  1 file changed, 127 insertions(+), 22 deletions(-)
-> 
+Hard-coding resolution for st1633 device was wrong. Some of LCDs like
+YTS700TLBC-02-100C has assembled Sitronix st1633 touchcontroller too. But
+the resolution is not 320x480 as was hard-coded.
+Add new function which reads correct resolution directly from register.
 
-Hello all!
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+---
+ drivers/input/touchscreen/st1232.c | 52 +++++++++++++++++++++---------
+ 1 file changed, 36 insertions(+), 16 deletions(-)
 
-Johnny Chuang, do you have any comments or objections to this series?
-Could you please give yours review and acks to the patches? Thanks in
-advance!
+diff --git a/drivers/input/touchscreen/st1232.c b/drivers/input/touchscreen/st1232.c
+index 63b29c7279e29..1b4b139c85330 100644
+--- a/drivers/input/touchscreen/st1232.c
++++ b/drivers/input/touchscreen/st1232.c
+@@ -26,15 +26,14 @@
+ #define ST1232_TS_NAME	"st1232-ts"
+ #define ST1633_TS_NAME	"st1633-ts"
+ 
++#define REG_XY_RESOLUTION	0x04
++#define REG_XY_COORDINATES	0x12
+ #define ST_TS_MAX_FINGERS	10
+ 
+ struct st_chip_info {
+ 	bool	have_z;
+-	u16	max_x;
+-	u16	max_y;
+ 	u16	max_area;
+ 	u16	max_fingers;
+-	u8	start_reg;
+ };
+ 
+ struct st1232_ts_data {
+@@ -48,15 +47,14 @@ struct st1232_ts_data {
+ 	u8 *read_buf;
+ };
+ 
+-static int st1232_ts_read_data(struct st1232_ts_data *ts)
++static int st1232_ts_read_data(struct st1232_ts_data *ts, u8 reg)
+ {
+ 	struct i2c_client *client = ts->client;
+-	u8 start_reg = ts->chip_info->start_reg;
+ 	struct i2c_msg msg[] = {
+ 		{
+ 			.addr	= client->addr,
+-			.len	= sizeof(start_reg),
+-			.buf	= &start_reg,
++			.len	= sizeof(reg),
++			.buf	= &reg,
+ 		},
+ 		{
+ 			.addr	= client->addr,
+@@ -74,6 +72,25 @@ static int st1232_ts_read_data(struct st1232_ts_data *ts)
+ 	return 0;
+ }
+ 
++static int st1232_ts_read_resolution(struct st1232_ts_data *ts, u16 *max_x,
++				     u16 *max_y)
++{
++	u8 *buf;
++	int error;
++
++	/* select resolution register */
++	error = st1232_ts_read_data(ts, REG_XY_RESOLUTION);
++	if (error)
++		return error;
++
++	buf = ts->read_buf;
++
++	*max_x = ((buf[0] & 0x0070) << 4) | buf[1];
++	*max_y = ((buf[0] & 0x0007) << 8) | buf[2];
++
++	return 0;
++}
++
+ static int st1232_ts_parse_and_report(struct st1232_ts_data *ts)
+ {
+ 	struct input_dev *input = ts->input_dev;
+@@ -123,7 +140,7 @@ static irqreturn_t st1232_ts_irq_handler(int irq, void *dev_id)
+ 	int count;
+ 	int error;
+ 
+-	error = st1232_ts_read_data(ts);
++	error = st1232_ts_read_data(ts, REG_XY_COORDINATES);
+ 	if (error)
+ 		goto out;
+ 
+@@ -157,20 +174,14 @@ static void st1232_ts_power_off(void *data)
+ 
+ static const struct st_chip_info st1232_chip_info = {
+ 	.have_z		= true,
+-	.max_x		= 0x31f, /* 800 - 1 */
+-	.max_y		= 0x1df, /* 480 -1 */
+ 	.max_area	= 0xff,
+ 	.max_fingers	= 2,
+-	.start_reg	= 0x12,
+ };
+ 
+ static const struct st_chip_info st1633_chip_info = {
+ 	.have_z		= false,
+-	.max_x		= 0x13f, /* 320 - 1 */
+-	.max_y		= 0x1df, /* 480 -1 */
+ 	.max_area	= 0x00,
+ 	.max_fingers	= 5,
+-	.start_reg	= 0x12,
+ };
+ 
+ static int st1232_ts_probe(struct i2c_client *client,
+@@ -179,6 +190,7 @@ static int st1232_ts_probe(struct i2c_client *client,
+ 	const struct st_chip_info *match;
+ 	struct st1232_ts_data *ts;
+ 	struct input_dev *input_dev;
++	u16 max_x, max_y;
+ 	int error;
+ 
+ 	match = device_get_match_data(&client->dev);
+@@ -239,14 +251,22 @@ static int st1232_ts_probe(struct i2c_client *client,
+ 	input_dev->name = "st1232-touchscreen";
+ 	input_dev->id.bustype = BUS_I2C;
+ 
++	/* read resolution from chip */
++	error = st1232_ts_read_resolution(ts, &max_x, &max_y);
++	if (error) {
++		dev_err(&client->dev,
++			"Failed to read resolution: %d\n", error);
++		return error;
++	}
++
+ 	if (ts->chip_info->have_z)
+ 		input_set_abs_params(input_dev, ABS_MT_TOUCH_MAJOR, 0,
+ 				     ts->chip_info->max_area, 0, 0);
+ 
+ 	input_set_abs_params(input_dev, ABS_MT_POSITION_X,
+-			     0, ts->chip_info->max_x, 0, 0);
++			     0, max_x, 0, 0);
+ 	input_set_abs_params(input_dev, ABS_MT_POSITION_Y,
+-			     0, ts->chip_info->max_y, 0, 0);
++			     0, max_y, 0, 0);
+ 
+ 	touchscreen_parse_properties(input_dev, true, &ts->prop);
+ 
+-- 
+2.20.1
+
