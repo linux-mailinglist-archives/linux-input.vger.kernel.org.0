@@ -2,203 +2,129 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA7792A7015
-	for <lists+linux-input@lfdr.de>; Wed,  4 Nov 2020 23:02:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C77912A70D1
+	for <lists+linux-input@lfdr.de>; Wed,  4 Nov 2020 23:51:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732042AbgKDWCl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Nov 2020 17:02:41 -0500
-Received: from esa6.microchip.iphmx.com ([216.71.154.253]:5083 "EHLO
-        esa6.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731198AbgKDWCf (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Nov 2020 17:02:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1604527354; x=1636063354;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=GNGAiShu/8brycAcsYXEC6wJgzf/foiuvxYEUaQxlh8=;
-  b=DTJJb0ojDaPxeQPltrO4mgZlfyoprJQb/DLX/bJE9xn2nBawpH/nrE3y
-   Zm63/wQGkxgemst6yXdaut+/CaIhBSoyqz8DW0zVXIQKngGfwJd2wPC4y
-   6xLqvYm8odmj5yrKl7iyWNirniuZ/1J06JaEb3BPUsnvYmfaTeyCzhPdJ
-   khShK2Gf9rtF2CE0gZIig2KFgPRSrDCnshy8c897qJvISqs2RVH32uwkI
-   psrxTIVDLrgiblc8umgnBQSmpt6DoYGlkIww4oDfL8mXPsYYG9IUy4y9d
-   jNI+GAjiFTf2KX9CFtycLE5wCuq6LDPPk3NhmLJwxisugosASmpxY3YGr
-   A==;
-IronPort-SDR: S9qNVmM+hchmvZ+/mJO8y9EB+5GGlk2QLrVa7s3yygptQ1IskvsXHWJFN4k47pGysJYU2+UQqt
- 0dQsftMJbVKNW07z31zZsUGSxdAg9Y2yHFsqxbFGoef8/5/IHMgc/PNR4nPGaHH9OfRZ8Htjn3
- 1PQ6P7EDG7xErdrAICryC++FvgYNkkgBAVO5VfBqtZmaC4iphL06Cg9217kMMltVUBDozx9G18
- 4bgbjeleOnRC2IBDQYNDE+lgRYVnf/c2lwHT7DVmzo0UnsRCoE04BbcXp+MnCMXyQfN6NHVgYX
- wX4=
-X-IronPort-AV: E=Sophos;i="5.77,451,1596524400"; 
-   d="scan'208";a="32465680"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 04 Nov 2020 15:02:33 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1979.3; Wed, 4 Nov 2020 15:02:33 -0700
-Received: from soft-dev10.microsemi.net (10.10.115.15) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.1979.3 via Frontend Transport; Wed, 4 Nov 2020 15:02:31 -0700
-From:   Lars Povlsen <lars.povlsen@microchip.com>
-To:     Rishi Gupta <gupt21@gmail.com>, Jiri Kosina <jikos@kernel.org>,
-        "Benjamin Tissoires" <benjamin.tissoires@redhat.com>,
-        UNGLinuxDriver <UNGLinuxDriver@microchip.com>
-CC:     Lars Povlsen <lars.povlsen@microchip.com>,
-        <linux-i2c@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH] HID: mcp2221: Fix GPIO output handling
-Date:   Wed, 4 Nov 2020 23:02:23 +0100
-Message-ID: <20201104220223.293253-1-lars.povlsen@microchip.com>
-X-Mailer: git-send-email 2.25.1
+        id S1727711AbgKDWu7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 Nov 2020 17:50:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39630 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726996AbgKDWu7 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Nov 2020 17:50:59 -0500
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EDC2C0613CF;
+        Wed,  4 Nov 2020 14:50:59 -0800 (PST)
+Received: by mail-pf1-x441.google.com with SMTP id z3so3139778pfb.10;
+        Wed, 04 Nov 2020 14:50:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=tAyng+NRbLqoDdZKXQQbVGYLYTF01tOtqb3wwjrvMCQ=;
+        b=PIPN+ho8vhqah809l38Brm5NOhW6jT4TPYlijaD2wn1oX0SowkEBMesyb+nFs9+gqO
+         o5vP8N9Vn/bLGgaFvlbmXDO1Lvo60yZMcrBqn0TFDarGdXjDvvGa42/p9JAubZ+YBg/M
+         6+qEH1p1DwzLBfbRbWZtC4hmGUVl7oXhN3QrM8ClF0/6ETgnZt2DYwcid6FmQlDo6hyF
+         Bmya5iX0/v6rwkSt0V0yaPgqfYV+VTyL0GiDzAuhNsSr6ytKIY2GYR2tkTJmItt4k4s+
+         9N+VVlkMAyzlCd+XZk1scDQ+WfKHTZQxZGfAuiOZZOMEh2bSvmBgL5FK6KSb0QszWwuR
+         3JCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=tAyng+NRbLqoDdZKXQQbVGYLYTF01tOtqb3wwjrvMCQ=;
+        b=KEoS8MTOs4ZfVtOn0Y6K7b8jtbS9/4tY1K87/GWByBMzE02zYNCoIbNFtkCbrwIaUH
+         aL/RIj17c8kHbL3WFscF2D/JNmS+Mmxplp4ys1RRqoTB5ivMiOraPWBK7Tni19k+Vqv5
+         XJv/Q9NB75ZjcQfxpJ+4BiIHJBl8S+7HixtFL8NdFkkELbEIGMLFaZznGYUR8qElPURZ
+         nU7K7rOMllP5S2HLr1WsIlEhwZoNpWsITV6G7J6+s6AARRigHwokkJ/a7xBbwShwkMa+
+         hfhBafkO1zr8N52VBPHFODg39erfaL65w7LdF1lXIJlmBIb9tNDr8BYsuMA6W03g7LN2
+         Di7w==
+X-Gm-Message-State: AOAM531BPS2tVwZGYUA7bVt6mVbkXcqdUM/33iogzphB93Aq8kTXTCLU
+        9DNx0h07aKuuZ/XVay1HJLI=
+X-Google-Smtp-Source: ABdhPJzc+9IhoxfLu/Y+QA1RetmpQho3PcJGRPFSwp4ot8ibWoQA/Ac4OgEj55Hac5S/tLSAxWVDAQ==
+X-Received: by 2002:a63:845:: with SMTP id 66mr210596pgi.318.1604530258334;
+        Wed, 04 Nov 2020 14:50:58 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id j1sm3577373pfa.96.2020.11.04.14.50.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2020 14:50:57 -0800 (PST)
+Date:   Wed, 4 Nov 2020 14:50:54 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     linux-kernel@vger.kernel.org, dusonlin@emc.com.tw,
+        KT Liao <kt.liao@emc.com.tw>, linux-input@vger.kernel.org
+Subject: Re: [PATCH 06/20] include: input: elan-i2c-ids: Mark 'elan_acpi_id'
+ as __maybe_unused
+Message-ID: <20201104225054.GC1003057@dtor-ws>
+References: <20201104162427.2984742-1-lee.jones@linaro.org>
+ <20201104162427.2984742-7-lee.jones@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+In-Reply-To: <20201104162427.2984742-7-lee.jones@linaro.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The mcp2221 driver GPIO output handling has has several issues.
+Hi Lee,
 
-* A wrong value is used for the GPIO direction.
+On Wed, Nov 04, 2020 at 04:24:13PM +0000, Lee Jones wrote:
+> Some drivers which include 'elan-i2c-ids.h' make use of
+> 'elan_acpi_id', but not all do.  Tell the compiler that this is
+> expected behaviour.
+> 
+> Fixes the following W=1 kernel build warning(s):
+> 
+>  include/linux/input/elan-i2c-ids.h:26:36: warning: ‘elan_acpi_id’ defined but not used [-Wunused-const-variable=]
+> 
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: dusonlin@emc.com.tw
+> Cc: KT Liao <kt.liao@emc.com.tw>
+> Cc: linux-input@vger.kernel.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> ---
+>  include/linux/input/elan-i2c-ids.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/linux/input/elan-i2c-ids.h b/include/linux/input/elan-i2c-ids.h
+> index 520858d126808..b6976d99b6b75 100644
+> --- a/include/linux/input/elan-i2c-ids.h
+> +++ b/include/linux/input/elan-i2c-ids.h
+> @@ -23,7 +23,7 @@
+>  
+>  #include <linux/mod_devicetable.h>
+>  
+> -static const struct acpi_device_id elan_acpi_id[] = {
+> +static const struct acpi_device_id __maybe_unused elan_acpi_id[] = {
+>  	{ "ELAN0000", 0 },
+>  	{ "ELAN0100", 0 },
+>  	{ "ELAN0600", 0 },
 
-* Wrong offsets are calculated for some GPIO set value/set direction
-  operations, when offset is larger than 0.
+I think I'd prefer something like this instead:
 
-This has been fixed by introducing proper manifest constants for the
-direction encoding, and using 'offsetof' when calculating GPIO
-register offsets.
+diff --git a/drivers/input/mouse/elan_i2c_core.c
+b/drivers/input/mouse/elan_i2c_core.c
+index c599e21a8478..65d21a050cea 100644
+--- a/drivers/input/mouse/elan_i2c_core.c
++++ b/drivers/input/mouse/elan_i2c_core.c
+@@ -34,7 +34,6 @@
+ #include <linux/completion.h>
+ #include <linux/of.h>
+ #include <linux/property.h>
+-#include <linux/input/elan-i2c-ids.h>
+ #include <linux/regulator/consumer.h>
+ #include <asm/unaligned.h>
 
-The updated driver has been tested with the Sparx5 pcb134/pcb135
-board, which has the mcp2221 device with several (output) GPIO's.
+@@ -1413,6 +1412,7 @@ static const struct i2c_device_id elan_id[] = {
+ MODULE_DEVICE_TABLE(i2c, elan_id);
 
-Signed-off-by: Lars Povlsen <lars.povlsen@microchip.com>
----
- drivers/hid/hid-mcp2221.c | 48 +++++++++++++++++++++++++++++++--------
- 1 file changed, 39 insertions(+), 9 deletions(-)
+ #ifdef CONFIG_ACPI
++#include <linux/input/elan-i2c-ids.h>
+ MODULE_DEVICE_TABLE(acpi, elan_acpi_id);
+ #endif
 
-diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
-index 0d27ccb55dd9..4211b9839209 100644
---- a/drivers/hid/hid-mcp2221.c
-+++ b/drivers/hid/hid-mcp2221.c
-@@ -49,6 +49,36 @@ enum {
- 	MCP2221_ALT_F_NOT_GPIOD = 0xEF,
- };
- 
-+/* MCP GPIO direction encoding */
-+enum {
-+	MCP2221_DIR_OUT = 0x00,
-+	MCP2221_DIR_IN = 0x01,
-+};
-+
-+#define MCP_NGPIO	4
-+
-+/* MCP GPIO set command layout */
-+struct mcp_set_gpio {
-+	u8 cmd;
-+	u8 dummy;
-+	struct {
-+		u8 change_value;
-+		u8 value;
-+		u8 change_direction;
-+		u8 direction;
-+	} gpio[MCP_NGPIO];
-+} __packed;
-+
-+/* MCP GPIO get command layout */
-+struct mcp_get_gpio {
-+	u8 cmd;
-+	u8 dummy;
-+	struct {
-+		u8 direction;
-+		u8 value;
-+	} gpio[MCP_NGPIO];
-+} __packed;
-+
- /*
-  * There is no way to distinguish responses. Therefore next command
-  * is sent only after response to previous has been received. Mutex
-@@ -542,7 +572,7 @@ static int mcp_gpio_get(struct gpio_chip *gc,
- 
- 	mcp->txbuf[0] = MCP2221_GPIO_GET;
- 
--	mcp->gp_idx = (offset + 1) * 2;
-+	mcp->gp_idx = offsetof(struct mcp_get_gpio, gpio[offset].value);
- 
- 	mutex_lock(&mcp->lock);
- 	ret = mcp_send_data_req_status(mcp, mcp->txbuf, 1);
-@@ -559,7 +589,7 @@ static void mcp_gpio_set(struct gpio_chip *gc,
- 	memset(mcp->txbuf, 0, 18);
- 	mcp->txbuf[0] = MCP2221_GPIO_SET;
- 
--	mcp->gp_idx = ((offset + 1) * 4) - 1;
-+	mcp->gp_idx = offsetof(struct mcp_set_gpio, gpio[offset].value);
- 
- 	mcp->txbuf[mcp->gp_idx - 1] = 1;
- 	mcp->txbuf[mcp->gp_idx] = !!value;
-@@ -575,7 +605,7 @@ static int mcp_gpio_dir_set(struct mcp2221 *mcp,
- 	memset(mcp->txbuf, 0, 18);
- 	mcp->txbuf[0] = MCP2221_GPIO_SET;
- 
--	mcp->gp_idx = (offset + 1) * 5;
-+	mcp->gp_idx = offsetof(struct mcp_set_gpio, gpio[offset].direction);
- 
- 	mcp->txbuf[mcp->gp_idx - 1] = 1;
- 	mcp->txbuf[mcp->gp_idx] = val;
-@@ -590,7 +620,7 @@ static int mcp_gpio_direction_input(struct gpio_chip *gc,
- 	struct mcp2221 *mcp = gpiochip_get_data(gc);
- 
- 	mutex_lock(&mcp->lock);
--	ret = mcp_gpio_dir_set(mcp, offset, 0);
-+	ret = mcp_gpio_dir_set(mcp, offset, MCP2221_DIR_IN);
- 	mutex_unlock(&mcp->lock);
- 
- 	return ret;
-@@ -603,7 +633,7 @@ static int mcp_gpio_direction_output(struct gpio_chip *gc,
- 	struct mcp2221 *mcp = gpiochip_get_data(gc);
- 
- 	mutex_lock(&mcp->lock);
--	ret = mcp_gpio_dir_set(mcp, offset, 1);
-+	ret = mcp_gpio_dir_set(mcp, offset, MCP2221_DIR_OUT);
- 	mutex_unlock(&mcp->lock);
- 
- 	/* Can't configure as output, bailout early */
-@@ -623,7 +653,7 @@ static int mcp_gpio_get_direction(struct gpio_chip *gc,
- 
- 	mcp->txbuf[0] = MCP2221_GPIO_GET;
- 
--	mcp->gp_idx = (offset + 1) * 2;
-+	mcp->gp_idx = offsetof(struct mcp_get_gpio, gpio[offset].direction);
- 
- 	mutex_lock(&mcp->lock);
- 	ret = mcp_send_data_req_status(mcp, mcp->txbuf, 1);
-@@ -632,7 +662,7 @@ static int mcp_gpio_get_direction(struct gpio_chip *gc,
- 	if (ret)
- 		return ret;
- 
--	if (mcp->gpio_dir)
-+	if (mcp->gpio_dir == MCP2221_DIR_IN)
- 		return GPIO_LINE_DIRECTION_IN;
- 
- 	return GPIO_LINE_DIRECTION_OUT;
-@@ -758,7 +788,7 @@ static int mcp2221_raw_event(struct hid_device *hdev,
- 				mcp->status = -ENOENT;
- 			} else {
- 				mcp->status = !!data[mcp->gp_idx];
--				mcp->gpio_dir = !!data[mcp->gp_idx + 1];
-+				mcp->gpio_dir = data[mcp->gp_idx + 1];
- 			}
- 			break;
- 		default:
-@@ -860,7 +890,7 @@ static int mcp2221_probe(struct hid_device *hdev,
- 	mcp->gc->get_direction = mcp_gpio_get_direction;
- 	mcp->gc->set = mcp_gpio_set;
- 	mcp->gc->get = mcp_gpio_get;
--	mcp->gc->ngpio = 4;
-+	mcp->gc->ngpio = MCP_NGPIO;
- 	mcp->gc->base = -1;
- 	mcp->gc->can_sleep = 1;
- 	mcp->gc->parent = &hdev->dev;
+Thanks.
+
 -- 
-2.25.1
-
+Dmitry
