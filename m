@@ -2,100 +2,140 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B4742A6B77
-	for <lists+linux-input@lfdr.de>; Wed,  4 Nov 2020 18:13:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A53592A6B7A
+	for <lists+linux-input@lfdr.de>; Wed,  4 Nov 2020 18:14:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731225AbgKDRNy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Nov 2020 12:13:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43608 "EHLO
+        id S1730362AbgKDROa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 Nov 2020 12:14:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730362AbgKDRNy (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Nov 2020 12:13:54 -0500
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE765C0613D3;
-        Wed,  4 Nov 2020 09:13:52 -0800 (PST)
-Received: by mail-ot1-x344.google.com with SMTP id z16so14811732otq.6;
-        Wed, 04 Nov 2020 09:13:52 -0800 (PST)
+        with ESMTP id S1726737AbgKDROa (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Nov 2020 12:14:30 -0500
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 849C9C0613D3
+        for <linux-input@vger.kernel.org>; Wed,  4 Nov 2020 09:14:30 -0800 (PST)
+Received: by mail-pl1-x644.google.com with SMTP id 1so10602061ple.2
+        for <linux-input@vger.kernel.org>; Wed, 04 Nov 2020 09:14:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=5LBE+JYAg1FMao9hDSNR2rR/Xnyuu7Kx1Nw4Aylqvuo=;
-        b=FuH/YcBOkVgfFQCpmyWHXNs+ZKUF5WiOQWDQHkVLoDt6nc5LWXoWngQYvqonLc8SXy
-         wL0TIF4lufy5aPW+leQnS982s7cVBU4PORcFXdwIM8jCZ5RxJKHhq+s+js6tTkfR1jVq
-         w3Zv82LT1JVBcTeoykJasgFv39bPvUsGHOXDKQ6egofXFp7/bebUW9hpYKs4Hu1d5Fuy
-         /VEM5p++xOz2hjvU1eApg518JjuDXGvnEOWb8hhEaQkq5Xj/Bp5G4JQ3+ZoUj/PppfjG
-         fpbro8DzLrzmNwvxARiaIb1gEQjLl6NehbWaqSIa/ufctub3HqaHFjWn+Oyp9UUZGkIg
-         vJoA==
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=bVG0yljf/chzBochzgYUSJjwoIrF6dv343NWdoTR8Qo=;
+        b=IT/T/dUA2bTkYbyFwjcO57C2YR6mlNuCX3hIk9Zm3RWG75WqBSlUWzpRgo3kbbuCmv
+         ARxHh/cG5qxIyyIacYXGhdnOA2T7l+T/aODopBLsNVPtIwMnnAel/h++6EwzGtNOQAQH
+         3AL3CyCHAhQ3+d8tIqAb37+n7wZfpv7Jp+NjbMd6iAK1nf/nHZZLeJ5AHajuLI5WXtZT
+         LPKkobvod9qCn6HP4zqYaNxbSdy1dLGRr0Tv7VdjGxhMqf/Xs9HdEvobx9Y6DCh5Cvnl
+         OxRr6ZNNI/0hKwbaHpFN6BBD863BeKOPzfwJua4A8LY8ndVFmxzhYIKd3wOF/LdZVMyJ
+         WsWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=5LBE+JYAg1FMao9hDSNR2rR/Xnyuu7Kx1Nw4Aylqvuo=;
-        b=RIcDQ2rMxQr9pa54DC/j3HPuFRya5s8EKMK7AZz2vR4ZuOlSpkNH8PA4VR9Jqf0Kge
-         QnCoo7kzgF7/U/69+MkJ8ZWAgU9Mksup73nKBTsOe+iuLn8MayfDyqXCckOVRIbntSx9
-         Fx40nUJomnZRFBKB2BY9e6oai1fLjTTFCF8u5Q6EDwtMtZtSzaUHia380J5ueB6aQ84j
-         PQvlaU7imBO6T46AjlFXlgPbwmdSd5bBtk7PmopslN5EJP3j4zONaj7CJCzLqhcO5/pW
-         RlO6PbOaHpQotASEpOetr7IZEkSFaBsfJIVLtVNxp6ljZA+T2wYO+OXqyn9f1urSHW+m
-         LgtQ==
-X-Gm-Message-State: AOAM530EV3kpRtECgx72rwbraaBTVvuSD+nFgcRRx2HU/f0lUobUiEn9
-        8J0AiRNB3fw+XLOHn9TBCyp6uwjEwJEsMRtq
-X-Google-Smtp-Source: ABdhPJxWfHOdKpuAoVyh9eKyY4bNewXcAgMq4q61VWgMeT7YRcBPLUxquxDt+Kh+vlGv8a381CSM9A==
-X-Received: by 2002:a9d:6d19:: with SMTP id o25mr19778108otp.85.1604510032069;
-        Wed, 04 Nov 2020 09:13:52 -0800 (PST)
-Received: from ?IPv6:2600:1700:4a30:eaf0::21? ([2600:1700:4a30:eaf0::21])
-        by smtp.gmail.com with ESMTPSA id g8sm579513oia.16.2020.11.04.09.13.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Nov 2020 09:13:51 -0800 (PST)
-Subject: Re: [PATCH v2] Input: Fix the HID usage of DPAD input event
- generation.
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Chris Ye <lzye@google.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=bVG0yljf/chzBochzgYUSJjwoIrF6dv343NWdoTR8Qo=;
+        b=CZcjIJbuqZYezxDfvs+iwt2zn/1SLeSI5mxAg4BbPiOVdwVTixsMhCW6fGp4eY0VTY
+         VCQnHuDbox84+P0tq/nxaH6fSl0se0MI03w28Dpg7lL6fX+ClxP3jalndYuhuEnha9bi
+         6ecF3f3RNlxgRY0D8mr8AxS2rlKcAd2nfeaBvFIceO5RgN4YhtC0WleP4PymJlXFc7Ua
+         3q5hscbrY281j/h6QXFztbaVRocUFEBoQvA0pnwmzNKRq/26/hQCs0l+g09HDxLmDpqs
+         iUnhsEicyEEYITtb8z198FoHUrDeykUZVD+PgYU1jUuLT7YHlGKfkplXTzUvbpHxCvPp
+         z6Lw==
+X-Gm-Message-State: AOAM530Qw+m3ItYAGM+MlIagmJaHPjY/z4MqNAUOxIJUVMR1B9qUptt+
+        qlLXSCSM50aLCBDLjLB4V0Px/Q==
+X-Google-Smtp-Source: ABdhPJwp4bI5UQJT0/KcSw3fGejauKPDDdtwEQ9CaGRD6h48NaxpCzBgmcFRDfRpiq4DROaDi40VEw==
+X-Received: by 2002:a17:902:d351:b029:d6:e3d1:6482 with SMTP id l17-20020a170902d351b02900d6e3d16482mr6930375plk.75.1604510069697;
+        Wed, 04 Nov 2020 09:14:29 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:4a0f:cfff:fe66:e92e])
+        by smtp.gmail.com with ESMTPSA id w19sm3115447pff.76.2020.11.04.09.14.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2020 09:14:28 -0800 (PST)
+Date:   Wed, 4 Nov 2020 09:14:23 -0800
+From:   Benson Leung <bleung@google.com>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     linux-kernel@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>, trivial@kernel.org,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-References: <20201101193504.679934-1-lzye@google.com>
- <CAO-hwJJVKOM7Om8E+kmYXTrA7SiOFgFt46BHfv+0j+ORhepbaQ@mail.gmail.com>
- <7505bbc6-9f76-0875-c1c1-95d611a980bb@gmail.com>
- <CAO-hwJK3EzeQbiPMy=8YAVp91nN6bMcAqqfzff+-6mti9PFMHQ@mail.gmail.com>
-From:   Chris Ye <linzhao.ye@gmail.com>
-Message-ID: <62b486c3-6cbe-495e-7843-1cffb010a685@gmail.com>
-Date:   Wed, 4 Nov 2020 09:13:50 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Dudley Du <dudl@cypress.com>,
+        Daniel Kurtz <djkurtz@chromium.org>,
+        Benson Leung <bleung@chromium.org>, linux-input@vger.kernel.org
+Subject: Re: [PATCH 02/20] input: mouse: cyapa: Fix misnaming of
+ 'cyapa_i2c_write's 'reg' param
+Message-ID: <20201104171423.GA2322691@google.com>
+References: <20201104162427.2984742-1-lee.jones@linaro.org>
+ <20201104162427.2984742-3-lee.jones@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CAO-hwJK3EzeQbiPMy=8YAVp91nN6bMcAqqfzff+-6mti9PFMHQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="8t9RHnE3ZwKMSgU+"
+Content-Disposition: inline
+In-Reply-To: <20201104162427.2984742-3-lee.jones@linaro.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Benjamin,
 
-    We are using hid driver to inject hid report for D-Pad and Hat 
-switch events, like:
+--8t9RHnE3ZwKMSgU+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-       [0x00, 0x00, 0x00, 0x00, 0x01, 0x80, 0x00, 0x00, 0x00, 0x00, 
-0x00, 0x00],
+Hi Lee,
 
-Check the HID format dump from kernel, this will send a 0x1 on HID usage 
-GenericDesktop.HatSwitch.
+On Wed, Nov 04, 2020 at 04:24:09PM +0000, Lee Jones wrote:
+> Fixes the following W=3D1 kernel build warning(s):
+>=20
+>  drivers/input/mouse/cyapa.c:130: warning: Function parameter or member '=
+reg' not described in 'cyapa_i2c_write'
+>  drivers/input/mouse/cyapa.c:130: warning: Excess function parameter 'ret=
+' description in 'cyapa_i2c_write'
+>=20
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Henrik Rydberg <rydberg@bitmath.org>
+> Cc: Dudley Du <dudl@cypress.com>
+> Cc: Daniel Kurtz <djkurtz@chromium.org>
+> Cc: Benson Leung <bleung@chromium.org>
+> Cc: linux-input@vger.kernel.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
 
-Do you need me to help write the gamevice tests? I've not observed any 
-regression from my side, as this patch is very specific to usage 
-D-PadUp/Down/Left/Right.
+Reviewed-by: Benson Leung <bleung@chromium.org>
 
+> ---
+>  drivers/input/mouse/cyapa.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/input/mouse/cyapa.c b/drivers/input/mouse/cyapa.c
+> index c675f156948b5..dacf7c0e43f98 100644
+> --- a/drivers/input/mouse/cyapa.c
+> +++ b/drivers/input/mouse/cyapa.c
+> @@ -119,7 +119,7 @@ static ssize_t cyapa_i2c_read(struct cyapa *cyapa, u8=
+ reg, size_t len,
+>  /**
+>   * cyapa_i2c_write - Execute i2c block data write operation
+>   * @cyapa: Handle to this driver
+> - * @ret: Offset of the data to written in the register map
+> + * @reg: Offset of the data to written in the register map
+>   * @len: number of bytes to write
+>   * @values: Data to be written
+>   *
+> --=20
+> 2.25.1
+>=20
 
-Thanks!
+--=20
+Benson Leung
+Staff Software Engineer
+Chrome OS Kernel
+Google Inc.
+bleung@google.com
+Chromium OS Project
+bleung@chromium.org
 
-Chris
+--8t9RHnE3ZwKMSgU+
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-On 11/3/20 9:36 AM, Benjamin Tissoires wrote:
->   I can emulate events for X,Y,
-> buttons,... but I am not sure how the gamepad sends the events for the
-> Hat switch and the D-Pad together.
+iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCX6LhbwAKCRBzbaomhzOw
+wj89AP9UcAA8Xj1aru5r9YX2Jh5jtaCCaqOgFhXhZbY/Ua7RpAD/fJNQClHztXHt
+E1zFPsHeKZ8/zKCF8EeSF4FEYXBwcAQ=
+=UTaY
+-----END PGP SIGNATURE-----
+
+--8t9RHnE3ZwKMSgU+--
