@@ -2,100 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DF4A2A6970
-	for <lists+linux-input@lfdr.de>; Wed,  4 Nov 2020 17:25:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 089592A6972
+	for <lists+linux-input@lfdr.de>; Wed,  4 Nov 2020 17:25:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730819AbgKDQYy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Nov 2020 11:24:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35688 "EHLO
+        id S1730934AbgKDQY5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 Nov 2020 11:24:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730906AbgKDQYw (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Nov 2020 11:24:52 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87DC7C0613D4
-        for <linux-input@vger.kernel.org>; Wed,  4 Nov 2020 08:24:50 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id e2so2901171wme.1
-        for <linux-input@vger.kernel.org>; Wed, 04 Nov 2020 08:24:50 -0800 (PST)
+        with ESMTP id S1730913AbgKDQYx (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Nov 2020 11:24:53 -0500
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBE49C061A4A
+        for <linux-input@vger.kernel.org>; Wed,  4 Nov 2020 08:24:51 -0800 (PST)
+Received: by mail-wr1-x441.google.com with SMTP id w1so22743917wrm.4
+        for <linux-input@vger.kernel.org>; Wed, 04 Nov 2020 08:24:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=PA3FVb+J4SclMKAlYY0ZMYvDath2dI2KOPbq273rzfU=;
-        b=h3mrDnBnxtdzKtq6qaH4Yz1GlgnTi+jA7inH14IUqkWjyA20QAPGpBiFc5cf9nym+c
-         UKA2KLCEXqYJ+/I+mXu1z10VqS9jsWRdHfYMrB+XlRjv/TZ/maeIkMV3qMQiFzmqU6ow
-         8XZlmBPWezi1G23RYmGrnMtlKHgFerW9GLD34mvRWQwUXNQ5UobzGUUzmsnLGp8itYZY
-         h0iL1qsbz4OLNS4fmSrER/WH5x0DLsEG+6diVr4hIvo/+D26b67sBDojSRbCfd1o4p9q
-         S5mjIwswjmXCigpggCkdguU0N+WfNIydyl12UiqtKt6MrbwKUTUP9BqQqOoMabm17Ffa
-         ZrEA==
+        bh=X0gqY/+HUV0Wr5kDu/23vRzM4J8U3NtwS4/rj4N8QsA=;
+        b=lso1mucyGqycLajbhrAkYzP7u5i7QVTrGcp1cPVbYO8d332GYeWLGyef9lRw3CPlwJ
+         XpltyVJrrtTJe5qv9u1OiDK05mV6Ioc4rMg5TUp2GmRygBvnJGz55bLjvplQmF/mK5+G
+         IgRg/OOD2+2tyyG4kECcOx4kYqGnv6AcC72C4i+LiGI1REKovh4sFGJ9hSg0i3ksaP7F
+         C9cLQTVIGrKN0CIBTRxcBZbqx7k6D8fM3S/BKMCWMhGMNbNioj/it64ZDvwYZnLwi35J
+         BcgCRdZlccOzvtRBxQ3rL9nbGzaeIZidlEbRU0tXgHxNVN3knnhnZlaM0qwEy747HMfn
+         gqPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=PA3FVb+J4SclMKAlYY0ZMYvDath2dI2KOPbq273rzfU=;
-        b=FJxykrIUUDcZ7XAgaAR5IopXQizgv3sRS5SmjFl++CEVQJmIjXIdvaV8E/SuFdM/+k
-         HolOu4aXyNGJ3LjHrzaEdmEXz38WoXBIdUDwRNe8MkEW9AxvPv4vaGFataBpsH20bdyA
-         Q5e/nwWSluE7uJj3AAiZ2m2DaKcmMPgXtxTdung3aCYd81gRZKWRH0Kl3lor6gE5fH6/
-         UxVNdmLIjXzYu75p/FQhVPalymTPnhjDGGlTKCu3erNWtuPAtEXIOviwQKLf7UbhE3Wq
-         vAo4mK4c3oJoleYOajclzIdBIKonL5NacgIUMrvP5kCrak3wVUnnzJHL3PG8eSwa1GC+
-         /EfA==
-X-Gm-Message-State: AOAM530xbCTlrRXLWnEIQbyS7+c55kSCvlP2ql4f9q0rTfM0HiO6SXAA
-        51y1IEgzzEWCw28+iyBG49MiMw==
-X-Google-Smtp-Source: ABdhPJzGkwC0/0zybFgME2vUtjZnUQpYba8BVXb2AQnp+5IpCvk1PI+MgzlLVHgipc70m2+Cb7ZTHw==
-X-Received: by 2002:a1c:b387:: with SMTP id c129mr5384063wmf.58.1604507089249;
-        Wed, 04 Nov 2020 08:24:49 -0800 (PST)
+        bh=X0gqY/+HUV0Wr5kDu/23vRzM4J8U3NtwS4/rj4N8QsA=;
+        b=Hb2sL3wGefz0OdYSn7cQS1+xI/Yvu9gTEIZ1H/3XnZQEwMno1Er64nyjGtb6ljsgLa
+         p/lIn49Pb9Oe1oGGq8KzV+Okzlbiuc39YJV6ntS1YQ7GCyGBQ/HBeSFTrsXvU6kLGOwR
+         jxP8Gtc+ca15enxXMTLhWO6e1OMeclxJ+9uYno07oTB5a6GyV4QixbLjCoQNaSvSd1yu
+         Xoeh7e/0Yo9wqpMhsn6qyTZsDd0LsqPhdpAniAfCG64J6WYdfK8cjMH2gsHHcCR2spxJ
+         OFpFdzmlfVllRROQsuaUsXvgPouFX3EiE4iqQrIh/66pVkjPbb/7HIr6466qohcHQ9c7
+         dhnw==
+X-Gm-Message-State: AOAM531fIYSAaFGs/dKPBptTzOjNQENX+7Og3oIe1B3qCgt/BR/iGY5B
+        q7sY8cl15ICf/EInhnYYT7orvQ==
+X-Google-Smtp-Source: ABdhPJyIVkNKg158DR7Ruz3lyqCJ3UvU4gBJZ3sbH1KLrh50PA/PjxkN9udRu3pprTPXFw/OvrVM0A==
+X-Received: by 2002:a5d:66c9:: with SMTP id k9mr36083715wrw.158.1604507090615;
+        Wed, 04 Nov 2020 08:24:50 -0800 (PST)
 Received: from dell.default ([91.110.221.242])
-        by smtp.gmail.com with ESMTPSA id o129sm3008564wmb.25.2020.11.04.08.24.48
+        by smtp.gmail.com with ESMTPSA id o129sm3008564wmb.25.2020.11.04.08.24.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2020 08:24:48 -0800 (PST)
+        Wed, 04 Nov 2020 08:24:49 -0800 (PST)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
 Cc:     linux-kernel@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        dusonlin@emc.com.tw, KT Liao <kt.liao@emc.com.tw>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
         linux-input@vger.kernel.org
-Subject: [PATCH 06/20] include: input: elan-i2c-ids: Mark 'elan_acpi_id' as __maybe_unused
-Date:   Wed,  4 Nov 2020 16:24:13 +0000
-Message-Id: <20201104162427.2984742-7-lee.jones@linaro.org>
+Subject: [PATCH 07/20] input: keyboard: cros_ec_keyb: Struct headers should start with 'struct <name>'
+Date:   Wed,  4 Nov 2020 16:24:14 +0000
+Message-Id: <20201104162427.2984742-8-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201104162427.2984742-1-lee.jones@linaro.org>
 References: <20201104162427.2984742-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Some drivers which include 'elan-i2c-ids.h' make use of
-'elan_acpi_id', but not all do.  Tell the compiler that this is
-expected behaviour.
-
 Fixes the following W=1 kernel build warning(s):
 
- include/linux/input/elan-i2c-ids.h:26:36: warning: ‘elan_acpi_id’ defined but not used [-Wunused-const-variable=]
+ drivers/input/keyboard/cros_ec_keyb.c:72: warning: cannot understand function prototype: 'struct cros_ec_bs_map '
 
 Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: dusonlin@emc.com.tw
-Cc: KT Liao <kt.liao@emc.com.tw>
+Cc: Benson Leung <bleung@chromium.org>
+Cc: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Cc: Guenter Roeck <groeck@chromium.org>
 Cc: linux-input@vger.kernel.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- include/linux/input/elan-i2c-ids.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/input/keyboard/cros_ec_keyb.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/input/elan-i2c-ids.h b/include/linux/input/elan-i2c-ids.h
-index 520858d126808..b6976d99b6b75 100644
---- a/include/linux/input/elan-i2c-ids.h
-+++ b/include/linux/input/elan-i2c-ids.h
-@@ -23,7 +23,7 @@
+diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
+index 15d17c7170816..fce0c839e1430 100644
+--- a/drivers/input/keyboard/cros_ec_keyb.c
++++ b/drivers/input/keyboard/cros_ec_keyb.c
+@@ -58,10 +58,9 @@ struct cros_ec_keyb {
+ 	struct notifier_block notifier;
+ };
  
- #include <linux/mod_devicetable.h>
- 
--static const struct acpi_device_id elan_acpi_id[] = {
-+static const struct acpi_device_id __maybe_unused elan_acpi_id[] = {
- 	{ "ELAN0000", 0 },
- 	{ "ELAN0100", 0 },
- 	{ "ELAN0600", 0 },
+-
+ /**
+- * cros_ec_bs_map - Struct mapping Linux keycodes to EC button/switch bitmap
+- * #defines
++ * struct cros_ec_bs_map - Struct mapping Linux keycodes to EC button/switch
++ *			   bitmap #defines
+  *
+  * @ev_type: The type of the input event to generate (e.g., EV_KEY).
+  * @code: A linux keycode
 -- 
 2.25.1
 
