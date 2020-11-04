@@ -2,123 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84C812A697F
-	for <lists+linux-input@lfdr.de>; Wed,  4 Nov 2020 17:26:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B4742A6B77
+	for <lists+linux-input@lfdr.de>; Wed,  4 Nov 2020 18:13:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731018AbgKDQZY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Nov 2020 11:25:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35788 "EHLO
+        id S1731225AbgKDRNy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 Nov 2020 12:13:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731016AbgKDQZI (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Nov 2020 11:25:08 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF7F5C061A4A
-        for <linux-input@vger.kernel.org>; Wed,  4 Nov 2020 08:25:07 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id p19so2221301wmg.0
-        for <linux-input@vger.kernel.org>; Wed, 04 Nov 2020 08:25:07 -0800 (PST)
+        with ESMTP id S1730362AbgKDRNy (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Nov 2020 12:13:54 -0500
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE765C0613D3;
+        Wed,  4 Nov 2020 09:13:52 -0800 (PST)
+Received: by mail-ot1-x344.google.com with SMTP id z16so14811732otq.6;
+        Wed, 04 Nov 2020 09:13:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=TUgG9h/tqc78+buLe1wAWz/4+Vyvpx2KQ686RNHflno=;
-        b=gQK/xp857nk6m1GRx6GUgrGDA+ULtaOWWxe8LqhpsySyUVzL5isfOvta12JVHGrOJi
-         gzBr4aR2aznK/K+av2uj6BCAZCJNtzWBsQqjFjtp6dh0FLh1MhVneHsELlJiU7Ih9dUk
-         FKTIqlsTU/SYXYkqDlpwcuf3ZqNxQhPwOwmnyu180LS7IiFEz/iG+niRZdPqyM9XFa9y
-         xRGeC2Vzg26JaeztJ6SM5pIj6YPKOxEoyad7HJFWZZlp8ZD5wrR1u8GSb2/bXLIRBguK
-         gWWDG+1zfCdjrgaQyjm1rPrJxyPGuIO+GSPa4vDVX3sbVw8pQEOuOxkm/1ByPEO3n090
-         YUOA==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=5LBE+JYAg1FMao9hDSNR2rR/Xnyuu7Kx1Nw4Aylqvuo=;
+        b=FuH/YcBOkVgfFQCpmyWHXNs+ZKUF5WiOQWDQHkVLoDt6nc5LWXoWngQYvqonLc8SXy
+         wL0TIF4lufy5aPW+leQnS982s7cVBU4PORcFXdwIM8jCZ5RxJKHhq+s+js6tTkfR1jVq
+         w3Zv82LT1JVBcTeoykJasgFv39bPvUsGHOXDKQ6egofXFp7/bebUW9hpYKs4Hu1d5Fuy
+         /VEM5p++xOz2hjvU1eApg518JjuDXGvnEOWb8hhEaQkq5Xj/Bp5G4JQ3+ZoUj/PppfjG
+         fpbro8DzLrzmNwvxARiaIb1gEQjLl6NehbWaqSIa/ufctub3HqaHFjWn+Oyp9UUZGkIg
+         vJoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=TUgG9h/tqc78+buLe1wAWz/4+Vyvpx2KQ686RNHflno=;
-        b=ZuCy/4u3OSHi/RDnzd5U7eNLZChEameA4LiLc17i29rHhm8d3xvga6MWW9Iuny0U8w
-         +GFgFO+5ccFnCAWgnU/UvwZX5Q5x0t1SDBC9DZcJHHIC2kWgMYMe1YoAak2D2A8MiHm4
-         R6u1gV4smldshdTli+GZcQ2Rvyg0VVKxMhhJ4WNySuHQJm3QK8RbDJcp25o7WtvvVrCY
-         0c6AGUCi9nNhTramZdgGhBaStu7pb8gkdc23ABW8obUKJ2a2lCOyaf1PIeat7w+L5Hoz
-         TZFPISL9Y604lFt2Mb+N9iTjNO8zzNX5v5avNp/M7A0flHIhhaa8JZWlNyPYmVWBc/ll
-         rDPQ==
-X-Gm-Message-State: AOAM531ENXxVXKTZUkhDzPb/gaY9cRB0+jqrMF8OyFhLl2q7Iop1/w3Z
-        pHM6Nn+oY46+6YrsV8I1O8GhIA==
-X-Google-Smtp-Source: ABdhPJxVaASBytTSgq8ExCJqrw3ThXNu25G6bOifGtb0/Nz2b6YDRxmAq3xZ/yDVcMCCuomPSAvHhg==
-X-Received: by 2002:a1c:9c51:: with SMTP id f78mr5726303wme.189.1604507106433;
-        Wed, 04 Nov 2020 08:25:06 -0800 (PST)
-Received: from dell.default ([91.110.221.242])
-        by smtp.gmail.com with ESMTPSA id o129sm3008564wmb.25.2020.11.04.08.25.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2020 08:25:05 -0800 (PST)
-From:   Lee Jones <lee.jones@linaro.org>
-To:     lee.jones@linaro.org
-Cc:     linux-kernel@vger.kernel.org,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=5LBE+JYAg1FMao9hDSNR2rR/Xnyuu7Kx1Nw4Aylqvuo=;
+        b=RIcDQ2rMxQr9pa54DC/j3HPuFRya5s8EKMK7AZz2vR4ZuOlSpkNH8PA4VR9Jqf0Kge
+         QnCoo7kzgF7/U/69+MkJ8ZWAgU9Mksup73nKBTsOe+iuLn8MayfDyqXCckOVRIbntSx9
+         Fx40nUJomnZRFBKB2BY9e6oai1fLjTTFCF8u5Q6EDwtMtZtSzaUHia380J5ueB6aQ84j
+         PQvlaU7imBO6T46AjlFXlgPbwmdSd5bBtk7PmopslN5EJP3j4zONaj7CJCzLqhcO5/pW
+         RlO6PbOaHpQotASEpOetr7IZEkSFaBsfJIVLtVNxp6ljZA+T2wYO+OXqyn9f1urSHW+m
+         LgtQ==
+X-Gm-Message-State: AOAM530EV3kpRtECgx72rwbraaBTVvuSD+nFgcRRx2HU/f0lUobUiEn9
+        8J0AiRNB3fw+XLOHn9TBCyp6uwjEwJEsMRtq
+X-Google-Smtp-Source: ABdhPJxWfHOdKpuAoVyh9eKyY4bNewXcAgMq4q61VWgMeT7YRcBPLUxquxDt+Kh+vlGv8a381CSM9A==
+X-Received: by 2002:a9d:6d19:: with SMTP id o25mr19778108otp.85.1604510032069;
+        Wed, 04 Nov 2020 09:13:52 -0800 (PST)
+Received: from ?IPv6:2600:1700:4a30:eaf0::21? ([2600:1700:4a30:eaf0::21])
+        by smtp.gmail.com with ESMTPSA id g8sm579513oia.16.2020.11.04.09.13.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Nov 2020 09:13:51 -0800 (PST)
+Subject: Re: [PATCH v2] Input: Fix the HID usage of DPAD input event
+ generation.
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Chris Ye <lzye@google.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Trilok Soni <tsoni@codeaurora.org>, linux-input@vger.kernel.org
-Subject: [PATCH 20/20] input: keyboard: pmic8xxx-keypad: Fix kernel-doc formatting
-Date:   Wed,  4 Nov 2020 16:24:27 +0000
-Message-Id: <20201104162427.2984742-21-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201104162427.2984742-1-lee.jones@linaro.org>
-References: <20201104162427.2984742-1-lee.jones@linaro.org>
+        Jiri Kosina <jikos@kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>, trivial@kernel.org,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+References: <20201101193504.679934-1-lzye@google.com>
+ <CAO-hwJJVKOM7Om8E+kmYXTrA7SiOFgFt46BHfv+0j+ORhepbaQ@mail.gmail.com>
+ <7505bbc6-9f76-0875-c1c1-95d611a980bb@gmail.com>
+ <CAO-hwJK3EzeQbiPMy=8YAVp91nN6bMcAqqfzff+-6mti9PFMHQ@mail.gmail.com>
+From:   Chris Ye <linzhao.ye@gmail.com>
+Message-ID: <62b486c3-6cbe-495e-7843-1cffb010a685@gmail.com>
+Date:   Wed, 4 Nov 2020 09:13:50 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+In-Reply-To: <CAO-hwJK3EzeQbiPMy=8YAVp91nN6bMcAqqfzff+-6mti9PFMHQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Fixes the following W=1 kernel build warning(s):
+Hi Benjamin,
 
- drivers/input/keyboard/pmic8xxx-keypad.c:106: warning: Function parameter or member 'num_rows' not described in 'pmic8xxx_kp'
- drivers/input/keyboard/pmic8xxx-keypad.c:106: warning: Function parameter or member 'num_cols' not described in 'pmic8xxx_kp'
- drivers/input/keyboard/pmic8xxx-keypad.c:106: warning: Function parameter or member 'input' not described in 'pmic8xxx_kp'
- drivers/input/keyboard/pmic8xxx-keypad.c:106: warning: Function parameter or member 'regmap' not described in 'pmic8xxx_kp'
- drivers/input/keyboard/pmic8xxx-keypad.c:106: warning: Function parameter or member 'key_sense_irq' not described in 'pmic8xxx_kp'
- drivers/input/keyboard/pmic8xxx-keypad.c:106: warning: Function parameter or member 'key_stuck_irq' not described in 'pmic8xxx_kp'
- drivers/input/keyboard/pmic8xxx-keypad.c:106: warning: Function parameter or member 'keycodes' not described in 'pmic8xxx_kp'
- drivers/input/keyboard/pmic8xxx-keypad.c:106: warning: Function parameter or member 'dev' not described in 'pmic8xxx_kp'
- drivers/input/keyboard/pmic8xxx-keypad.c:106: warning: Function parameter or member 'keystate' not described in 'pmic8xxx_kp'
- drivers/input/keyboard/pmic8xxx-keypad.c:106: warning: Function parameter or member 'stuckstate' not described in 'pmic8xxx_kp'
- drivers/input/keyboard/pmic8xxx-keypad.c:106: warning: Function parameter or member 'ctrl_reg' not described in 'pmic8xxx_kp'
+    We are using hid driver to inject hid report for D-Pad and Hat 
+switch events, like:
 
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Trilok Soni <tsoni@codeaurora.org>
-Cc: linux-input@vger.kernel.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/input/keyboard/pmic8xxx-keypad.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+       [0x00, 0x00, 0x00, 0x00, 0x01, 0x80, 0x00, 0x00, 0x00, 0x00, 
+0x00, 0x00],
 
-diff --git a/drivers/input/keyboard/pmic8xxx-keypad.c b/drivers/input/keyboard/pmic8xxx-keypad.c
-index 91d5811d6f0e1..36bee6f5a8af0 100644
---- a/drivers/input/keyboard/pmic8xxx-keypad.c
-+++ b/drivers/input/keyboard/pmic8xxx-keypad.c
-@@ -76,17 +76,17 @@
- 
- /**
-  * struct pmic8xxx_kp - internal keypad data structure
-- * @num_cols - number of columns of keypad
-- * @num_rows - number of row of keypad
-- * @input - input device pointer for keypad
-- * @regmap - regmap handle
-- * @key_sense_irq - key press/release irq number
-- * @key_stuck_irq - key stuck notification irq number
-- * @keycodes - array to hold the key codes
-- * @dev - parent device pointer
-- * @keystate - present key press/release state
-- * @stuckstate - present state when key stuck irq
-- * @ctrl_reg - control register value
-+ * @num_cols: number of columns of keypad
-+ * @num_rows: number of row of keypad
-+ * @input: input device pointer for keypad
-+ * @regmap: regmap handle
-+ * @key_sense_irq: key press/release irq number
-+ * @key_stuck_irq: key stuck notification irq number
-+ * @keycodes: array to hold the key codes
-+ * @dev: parent device pointer
-+ * @keystate: present key press/release state
-+ * @stuckstate: present state when key stuck irq
-+ * @ctrl_reg: control register value
-  */
- struct pmic8xxx_kp {
- 	unsigned int num_rows;
--- 
-2.25.1
+Check the HID format dump from kernel, this will send a 0x1 on HID usage 
+GenericDesktop.HatSwitch.
 
+Do you need me to help write the gamevice tests? I've not observed any 
+regression from my side, as this patch is very specific to usage 
+D-PadUp/Down/Left/Right.
+
+
+Thanks!
+
+Chris
+
+
+On 11/3/20 9:36 AM, Benjamin Tissoires wrote:
+>   I can emulate events for X,Y,
+> buttons,... but I am not sure how the gamepad sends the events for the
+> Hat switch and the D-Pad together.
