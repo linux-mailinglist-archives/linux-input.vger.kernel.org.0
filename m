@@ -2,61 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E4D8B2A67AE
-	for <lists+linux-input@lfdr.de>; Wed,  4 Nov 2020 16:30:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EAB72A67AF
+	for <lists+linux-input@lfdr.de>; Wed,  4 Nov 2020 16:30:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730434AbgKDPao (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Nov 2020 10:30:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55334 "EHLO
+        id S1730001AbgKDPaq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 Nov 2020 10:30:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726919AbgKDPao (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Nov 2020 10:30:44 -0500
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6525AC0613D4
-        for <linux-input@vger.kernel.org>; Wed,  4 Nov 2020 07:30:42 -0800 (PST)
-Received: by mail-lf1-x144.google.com with SMTP id i6so27699047lfd.1
-        for <linux-input@vger.kernel.org>; Wed, 04 Nov 2020 07:30:42 -0800 (PST)
+        with ESMTP id S1726919AbgKDPaq (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Nov 2020 10:30:46 -0500
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86A1CC0613D3
+        for <linux-input@vger.kernel.org>; Wed,  4 Nov 2020 07:30:45 -0800 (PST)
+Received: by mail-lf1-x143.google.com with SMTP id 126so27640131lfi.8
+        for <linux-input@vger.kernel.org>; Wed, 04 Nov 2020 07:30:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=yRASjRKxtplopJt2MsU1Jw8BgtmuvKdoRaCX+NVYm3Q=;
-        b=q4ZJAOCqlJKBmGhQnreQ8Zb8K3jzZs0mfQJ2yqw+tBw7LbIlue4ATYMP59/eTQSvXU
-         IZPbK7je3rzunmuSe68rLjQ1y4S5hP3DxF9t1UOLgTH3qBp3HN0UWmnJAAsTnnttNY/R
-         t4LT9+5mEPsK9kJpu4iksE8z2oe41ZO3/LY3N87YLsWYeq3sKa5CwpOjtR9Olvob3kss
-         uowK4ZfjG9eRIUdm/J1WuVq5kml79TdeYBAbbKW9LrlmfroS8Ka7hHUe5WnuWzCddA1m
-         TMtzrXLMGd3ro/MGjAJ771RK02x33cjmMAo8ILH/lQ+LbRvpWA7PXERGPU9+4yKLJb2l
-         TqSA==
+        bh=vJ6ztVVBRZ16uubquzSyqQMF+41h20JXH1K/EAQ8XR8=;
+        b=aFqLXMtOp/aZcVBxAO2hTADOyF8hDQKgYCgjygp441e/DpdlMfqEj4l+jOW8ESpkEe
+         CDMQJuDWcOhqH5hB2f3xM8Jl0gq11EqdzPvy5L5OY/8HsopBql0ZV5fwZ7FlN7EDmQ3w
+         8is5XgP9Ly7PkZoMMsP7nhfIxQxrScFrs2uVA5ONV5RFBHni2LScNrnzqDPNCZTdNU5f
+         EOPsywP4sioUzkUPTMDGFUqdd/XEu4RvHq/I/0Oq+zJq/xpfh3WUoQaqkH0102g02HVh
+         5PvjQ3hOE7FbB+W4GKmVz78KD9T6HVjRyX4twh9d71n1JmexkXdt9cMvC21OAs+zaxW0
+         qIhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=yRASjRKxtplopJt2MsU1Jw8BgtmuvKdoRaCX+NVYm3Q=;
-        b=V+jH63OJrmdIlYEDxAbN0e/5+5H/PFQbFI1GvF8xVu3Vycn/TN7Q07IB9Cw5JBtQsB
-         eNM3eDZlPkQOb9XOOsfMny76Sa569YDz+peRXAJauBykosEiCO/P+HCX+tI1DcZpumUA
-         IWgxS1XpHlpqo7VYO/Wj+cbAWYYK4kfyCvCsWvntjZoaSjjJbBEur4sVmjW7FpCK/EYH
-         tPKzltZIR60ggoltZyya0Q/Kt7HIvdgdXUUQqTf5zrZRCd4qiv7MsgjAZzNFtMAMbHmF
-         y1LtZYHjrDlHRHXOpy1XU961TeQCMQbY05R3YJa1fcgZ4q6A+Ihyppd+HyRqQQ5a3wf7
-         kI8A==
-X-Gm-Message-State: AOAM532fDkBSgqQsSpPgRduBHY/oGiZzQbq25swvvHU+atBfHwMAw1Ps
-        i+9BUj08SXktv1UDNv8DCWaviA==
-X-Google-Smtp-Source: ABdhPJwWQDsL0nXkNgeMZUogdSYafFiiuG6oByvxrPGnXX6eGh7JZVn6u8AeKhsFNyOcYWJM2yXMHw==
-X-Received: by 2002:a19:7518:: with SMTP id y24mr7062984lfe.133.1604503840859;
-        Wed, 04 Nov 2020 07:30:40 -0800 (PST)
+        bh=vJ6ztVVBRZ16uubquzSyqQMF+41h20JXH1K/EAQ8XR8=;
+        b=FV/s3khpIh+gIkIRE3q54vtn8dAaEwaDaKbgy4OAQM4F0CZBV4q/fxmRhDynu9HQ3I
+         VyCRtpQiyEiYFR87arSIIK84h7fReQNuLQvIZInNHPYBcq2IHMAQfTgtF1TYZc1uWaxd
+         3HSfHSmaGkEMnbZwtlb0Gn9aKiS+a/znQEXMJurHSN6QGZiBtLlUA91Hf5e5ubfa+VU1
+         xFGcldVBiHDY4azrS6tP9gIe6T2NUE859LZtoxdOo6x3g8Itn2vFCrTwmlvRFLre+8PY
+         gtdyRmjO0nRtfEmp/xLp9mL0MPNGGtk7LIO71vfzs6IOstxjRRO9eVZqZUS6f+AoQOKi
+         RXzQ==
+X-Gm-Message-State: AOAM5323fgo3zUQZvz57ZL/+zdOjCFzXAZR8Ah7VXSBH9bMPlnFVzOmb
+        VW2s2XjHOaV1w8VyaO7e+B1KNw==
+X-Google-Smtp-Source: ABdhPJzGW3+1FlSbRvfqgXmWj+kd1i/bnRjfpcYviiI+TpsZqc7cj8HG31LgQ7PXmSkmXl04bilShw==
+X-Received: by 2002:a19:5f5c:: with SMTP id a28mr9442210lfj.434.1604503843933;
+        Wed, 04 Nov 2020 07:30:43 -0800 (PST)
 Received: from localhost.bredbandsbolaget (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
-        by smtp.gmail.com with ESMTPSA id c131sm440453lfg.110.2020.11.04.07.30.39
+        by smtp.gmail.com with ESMTPSA id c131sm440453lfg.110.2020.11.04.07.30.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2020 07:30:40 -0800 (PST)
+        Wed, 04 Nov 2020 07:30:43 -0800 (PST)
 From:   Linus Walleij <linus.walleij@linaro.org>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org
 Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Nick Dyer <nick@shmanahar.org>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        devicetree@vger.kernel.org
-Subject: [PATCH 2/3 v2] Input: atmel_mxt_ts - Convert bindings to YAML and extend
-Date:   Wed,  4 Nov 2020 16:30:31 +0100
-Message-Id: <20201104153032.1387747-2-linus.walleij@linaro.org>
+        Stephan Gerhold <stephan@gerhold.net>
+Subject: [PATCH 3/3 v2] Input: atmel_mxt_ts - Support regulator supplies
+Date:   Wed,  4 Nov 2020 16:30:32 +0100
+Message-Id: <20201104153032.1387747-3-linus.walleij@linaro.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201104153032.1387747-1-linus.walleij@linaro.org>
 References: <20201104153032.1387747-1-linus.walleij@linaro.org>
@@ -66,184 +65,117 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This converts the Armel MXT touchscreen bindings to YAML
-format and extends them with the following two properties:
+This adds the code for the Atmel touchscreens such as
+mXT224 to obtain power regulators for the supply voltages
+AVDD and VDD. On mobile phones such as Samsung GT-I8190
+(Golden) this is needed to explicitly bring power online.
 
-- vdda-supply: the optional analog supply voltage
-- vdd-supply: the optional digital supply voltage
+We just enable the regulators at probe() and disable
+them at remove() or in the errorpath for now.
 
-I also explained about the reset-gpios property that this
-better be flagged as active high (0) despite actually
-being active low, because all current device trees and
-drivers assume that this is the case and will actively
-drive the line low to assert RESET.
-
-Tested the schema with all in-tree users and they verify
-fine.
+As regulators are naturally stubbed if not available,
+this should have no impact on existing systems.
 
 Cc: Nick Dyer <nick@shmanahar.org>
 Cc: Stephan Gerhold <stephan@gerhold.net>
-Cc: devicetree@vger.kernel.org
 Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
 ChangeLog v1->v2:
-- State that the GPIO lines shall be flagged as active low.
-  We will fix all users.
+- Resend with the other changes.
 ---
- .../bindings/input/atmel,maxtouch.txt         | 41 ----------
- .../bindings/input/atmel,maxtouch.yaml        | 81 +++++++++++++++++++
- MAINTAINERS                                   |  2 +-
- 3 files changed, 82 insertions(+), 42 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/atmel,maxtouch.txt
- create mode 100644 Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
+ drivers/input/touchscreen/atmel_mxt_ts.c | 37 +++++++++++++++++++++++-
+ 1 file changed, 36 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt b/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-deleted file mode 100644
-index c88919480d37..000000000000
---- a/Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-+++ /dev/null
-@@ -1,41 +0,0 @@
--Atmel maXTouch touchscreen/touchpad
--
--Required properties:
--- compatible:
--    atmel,maxtouch
--
--    The following compatibles have been used in various products but are
--    deprecated:
--	atmel,qt602240_ts
--	atmel,atmel_mxt_ts
--	atmel,atmel_mxt_tp
--	atmel,mXT224
--
--- reg: The I2C address of the device
--
--- interrupts: The sink for the touchpad's IRQ output
--    See ../interrupt-controller/interrupts.txt
--
--Optional properties for main touchpad device:
--
--- linux,gpio-keymap: When enabled, the SPT_GPIOPWN_T19 object sends messages
--    on GPIO bit changes. An array of up to 8 entries can be provided
--    indicating the Linux keycode mapped to each bit of the status byte,
--    starting at the LSB. Linux keycodes are defined in
--    <dt-bindings/input/input.h>.
--
--    Note: the numbering of the GPIOs and the bit they start at varies between
--    maXTouch devices. You must either refer to the documentation, or
--    experiment to determine which bit corresponds to which input. Use
--    KEY_RESERVED for unused padding values.
--
--- reset-gpios: GPIO specifier for the touchscreen's reset pin (active low)
--
--Example:
--
--	touch@4b {
--		compatible = "atmel,maxtouch";
--		reg = <0x4b>;
--		interrupt-parent = <&gpio>;
--		interrupts = <TEGRA_GPIO(W, 3) IRQ_TYPE_LEVEL_LOW>;
--	};
-diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml b/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
-new file mode 100644
-index 000000000000..8c6418f76e94
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
-@@ -0,0 +1,81 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/atmel,maxtouch.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Atmel maXTouch touchscreen/touchpad
-+
-+maintainers:
-+  - Nick Dyer <nick@shmanahar.org>
-+  - Linus Walleij <linus.walleij@linaro.org>
-+
-+description: |
-+  Atmel maXTouch touchscreen or touchpads such as the mXT244
-+  and similar devices.
-+
-+properties:
-+  compatible:
-+    const: atmel,maxtouch
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  vdda-supply:
-+    description:
-+      Optional regulator for the AVDD analog voltage.
-+
-+  vdd-supply:
-+    description:
-+      Optional regulator for the VDD digital voltage.
-+
-+  reset-gpios:
-+    maxItems: 1
-+    description:
-+      Optional GPIO specifier for the touchscreen's reset pin
-+      (active low). The line must be flagged with
-+      GPIO_ACTIVE_LOW.
-+
-+  linux,gpio-keymap:
-+    $ref: /schemas/types.yaml#/definitions/uint32-array
-+    description: |
-+      When enabled, the SPT_GPIOPWN_T19 object sends messages
-+      on GPIO bit changes. An array of up to 8 entries can be provided
-+      indicating the Linux keycode mapped to each bit of the status byte,
-+      starting at the LSB. Linux keycodes are defined in
-+      <dt-bindings/input/input.h>.
-+
-+      Note: the numbering of the GPIOs and the bit they start at varies
-+      between maXTouch devices. You must either refer to the documentation,
-+      or experiment to determine which bit corresponds to which input. Use
-+      KEY_RESERVED for unused padding values.
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/gpio/gpio.h>
-+    i2c {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+      touchscreen@4a {
-+        compatible = "atmel,maxtouch";
-+        reg = <0x4a>;
-+        interrupt-parent = <&gpio>;
-+        interrupts = <26 IRQ_TYPE_EDGE_FALLING>;
-+        reset-gpios = <&gpio 27 GPIO_ACTIVE_LOW>;
-+        vdda-supply = <&ab8500_ldo_aux2_reg>;
-+        vdd-supply = <&ab8500_ldo_aux5_reg>;
-+      };
-+    };
-+
-+...
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e73636b75f29..b4b46fcb82db 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2966,7 +2966,7 @@ ATMEL MAXTOUCH DRIVER
- M:	Nick Dyer <nick@shmanahar.org>
- S:	Maintained
- T:	git git://github.com/ndyer/linux.git
--F:	Documentation/devicetree/bindings/input/atmel,maxtouch.txt
-+F:	Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
- F:	drivers/input/touchscreen/atmel_mxt_ts.c
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index ef7915400c9f..e34984388791 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -24,6 +24,7 @@
+ #include <linux/of.h>
+ #include <linux/property.h>
+ #include <linux/slab.h>
++#include <linux/regulator/consumer.h>
+ #include <linux/gpio/consumer.h>
+ #include <asm/unaligned.h>
+ #include <media/v4l2-device.h>
+@@ -309,6 +310,7 @@ struct mxt_data {
+ 	u8 multitouch;
+ 	struct t7_config t7_cfg;
+ 	struct mxt_dbg dbg;
++	struct regulator_bulk_data regulators[2];
+ 	struct gpio_desc *reset_gpio;
+ 	bool use_retrigen_workaround;
  
- ATMEL WIRELESS DRIVER
+@@ -3134,6 +3136,21 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 	if (error)
+ 		return error;
+ 
++	/*
++	 * VDDA is the analog voltage supply 2.57..3.47 V
++	 * VDD  is the digital voltage supply 1.71..3.47 V
++	 */
++	data->regulators[0].supply = "vdda";
++	data->regulators[1].supply = "vdd";
++	error = devm_regulator_bulk_get(&client->dev, ARRAY_SIZE(data->regulators),
++					data->regulators);
++	if (error) {
++		if (error != -EPROBE_DEFER)
++			dev_err(&client->dev, "Failed to get regulators %d\n",
++				error);
++		return error;
++	}
++
+ 	/* Request the RESET line as asserted so we go into reset */
+ 	data->reset_gpio = devm_gpiod_get_optional(&client->dev,
+ 						   "reset", GPIOD_OUT_HIGH);
+@@ -3153,6 +3170,19 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 
+ 	disable_irq(client->irq);
+ 
++	error = regulator_bulk_enable(ARRAY_SIZE(data->regulators),
++				      data->regulators);
++	if (error) {
++		dev_err(&client->dev, "failed to enable regulators: %d\n",
++			error);
++		return error;
++	}
++	/*
++	 * The device takes 40ms to come up after power-on according
++	 * to the mXT224 datasheet, page 13.
++	 */
++	msleep(MXT_BACKUP_TIME);
++
+ 	if (data->reset_gpio) {
+ 		/* Wait a while and then de-assert the RESET GPIO line */
+ 		msleep(MXT_RESET_GPIO_TIME);
+@@ -3162,7 +3192,7 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 
+ 	error = mxt_initialize(data);
+ 	if (error)
+-		return error;
++		goto err_disable_regulators;
+ 
+ 	error = sysfs_create_group(&client->dev.kobj, &mxt_attr_group);
+ 	if (error) {
+@@ -3176,6 +3206,9 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ err_free_object:
+ 	mxt_free_input_device(data);
+ 	mxt_free_object_table(data);
++err_disable_regulators:
++	regulator_bulk_disable(ARRAY_SIZE(data->regulators),
++			       data->regulators);
+ 	return error;
+ }
+ 
+@@ -3187,6 +3220,8 @@ static int mxt_remove(struct i2c_client *client)
+ 	sysfs_remove_group(&client->dev.kobj, &mxt_attr_group);
+ 	mxt_free_input_device(data);
+ 	mxt_free_object_table(data);
++	regulator_bulk_disable(ARRAY_SIZE(data->regulators),
++			       data->regulators);
+ 
+ 	return 0;
+ }
 -- 
 2.26.2
 
