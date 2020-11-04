@@ -2,60 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACC0A2A6988
-	for <lists+linux-input@lfdr.de>; Wed,  4 Nov 2020 17:26:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EBB1A2A698D
+	for <lists+linux-input@lfdr.de>; Wed,  4 Nov 2020 17:26:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730983AbgKDQZz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Nov 2020 11:25:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35746 "EHLO
+        id S1731128AbgKDQZ7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 Nov 2020 11:25:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730973AbgKDQZD (ORCPT
+        with ESMTP id S1730976AbgKDQZD (ORCPT
         <rfc822;linux-input@vger.kernel.org>); Wed, 4 Nov 2020 11:25:03 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E3DDC0401C1
-        for <linux-input@vger.kernel.org>; Wed,  4 Nov 2020 08:24:58 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id k18so2872360wmj.5
-        for <linux-input@vger.kernel.org>; Wed, 04 Nov 2020 08:24:58 -0800 (PST)
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A8E8C0401C3
+        for <linux-input@vger.kernel.org>; Wed,  4 Nov 2020 08:24:59 -0800 (PST)
+Received: by mail-wr1-x441.google.com with SMTP id n15so22750933wrq.2
+        for <linux-input@vger.kernel.org>; Wed, 04 Nov 2020 08:24:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=wqV2KeQMP/jFy3p+xfQ20dH54ZYHRrmQaU4ia2enM0c=;
-        b=TgpHBxydiK0xY7RBNvsdU9Yu+j5Ha0R/S+kR6gjh3E260ncOOfUtbuIQQj/zGA/fIs
-         a6c9rBGWZAi3x1dKcHK9Tbg9ZrTA45/6eE/PfJTwxNRM8jWIzBvUqt0MEs9SgWke2w9Z
-         Qf9ncIivi1Kn9I5VipWCLMyXFcYVBEmFNq/m1qiYpLu4MR3PjuBdObyOWZdNk8BE88mY
-         Eq5HaISwXddNkG3Gyx/OT+xYWjqivnvpJY0n5uCVIKRRYlE8ylLREiW4uNUHxnZTnhr+
-         mY0A+J/5780uburyheUsfTypAVqbyDVV9KOABCawsljanzyVoPJF7h/wyXMQE2w4CccC
-         rkQA==
+        bh=msuLefrZcEgx331/KYpWGgm3TBHNpr52u7dLtV0zqps=;
+        b=wfZOJTrnJLcGlYWEG9B+GhDqsHkblvuFsfWhIGXyFjshWYHWR4vtXpsCVcTSbmVkAt
+         oxZ4bOxM0fIV8AbbwoIkF1EnPmnlgGZYsQS5pID2zK7Tabthi6BONKDAbjiuNUy2eYal
+         NMr6y+NvM+aeRXDTHIfFQRC2JqjikLBItk8Fr9UBD/3PloBYg7qMTloSAkweE+wDx3ak
+         dcl9jOKsDuFTjE5uvUBCL4HfzV+K/V0Sy1c/Peh9K060HUY3KJ85bnTI5sjEpa4sCvoq
+         ovgD+NsiBwUCq3HGH7W4sKf7tsfAsOrvdrWeyN4eKNB2Ff8X7EwtQ2hjfnJuslsGgnEr
+         7aDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=wqV2KeQMP/jFy3p+xfQ20dH54ZYHRrmQaU4ia2enM0c=;
-        b=Q2xdp2GbqfCkXtmPuZS1rNPXLq2BVNMBY0wnmQkLiHPIz0IK1XkxrUQzHMqUYjBZeJ
-         9mscnCpTjVI6/1OOYJZFVrJzLevqfL3kGL8AjxTiZLgAbclXnmtu+9NUEXJyzqJW3h0E
-         v/xlD2KkHe/b9immAbg4iofNswNwfJx3/0D2NfkgKxi0n1jEyhRSwAVgtHYoXtO6UzMR
-         MXyY/IyFree64ae9GBUqD4WRfvNGVlR5BdNH9iIGUkMbRfMjTi52+qd1PWFNx12okbaw
-         5GbBEVCEStsZZf735qEHL/dbm0cqHcJdRKuP96nxsYjbx2vIhILbnCV9mQs634WKsKw3
-         EPDg==
-X-Gm-Message-State: AOAM530pq6wVGrV/AnQ7ZCroeHZYMfF6/mUkv8v+HU6ERkhO/gse1e+i
-        hxOuVl4+kgipu8J6VDPG53R0ug==
-X-Google-Smtp-Source: ABdhPJw8fPHgbe9/qhRL11vvZZ1bNdDlY920DUkgfl4LgerotHnx/SYgDgtZu2uk1jR8JBUCEWkwjw==
-X-Received: by 2002:a1c:9cc1:: with SMTP id f184mr5351092wme.5.1604507096858;
-        Wed, 04 Nov 2020 08:24:56 -0800 (PST)
+        bh=msuLefrZcEgx331/KYpWGgm3TBHNpr52u7dLtV0zqps=;
+        b=DIm5rcSiaWIwUkAITOFz3BSsBqnU7UIIS5Bc9ALmIsfY73xdGvYkXFozEo5CKR/S9j
+         Eqzb5Zviyw6vlcq0IZA+qU17Zwh7gboNXxJwJI0tbUelG4XcmaphicI6QB7HKb0ipc8q
+         aChShjFwFzIScfCTIkWKnutvLufYQ8VuSzRvlu7mzeoxrjeT6SaZPh+jG7qcXpp01yY0
+         uEBFUzs36ao4PmazI2ZQ6ic1Ppj23GbER2nvBKPXSmeV7MzLIFbaofHBvbsUQBmLyDVl
+         NWEhUiHmIwSN4muWG0yHbhNbeVaM1CBWWoLy0fpE4kFwzA6o6u9H9DOTi8Gl3dvnmhXq
+         VTBQ==
+X-Gm-Message-State: AOAM532dH8avseCL4HJMwqgxzbfPkPE2UTlC9ff+xfL5HWuj0YDFNlOS
+        GOQP5UHeBS9vb85zrRDKZOYyOPpnGZPcRrs6
+X-Google-Smtp-Source: ABdhPJyHBpgiYezebevIEOeTys2mcAT0d8aCDxyMKil5oGa56dkB4VMa0DUUUu9MiJzU6eU3OB8/Cw==
+X-Received: by 2002:a5d:6ca8:: with SMTP id a8mr18741943wra.319.1604507098189;
+        Wed, 04 Nov 2020 08:24:58 -0800 (PST)
 Received: from dell.default ([91.110.221.242])
-        by smtp.gmail.com with ESMTPSA id o129sm3008564wmb.25.2020.11.04.08.24.55
+        by smtp.gmail.com with ESMTPSA id o129sm3008564wmb.25.2020.11.04.08.24.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2020 08:24:56 -0800 (PST)
+        Wed, 04 Nov 2020 08:24:57 -0800 (PST)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
 Cc:     linux-kernel@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Arjan Opmeer <arjan@opmeer.net>, linux-input@vger.kernel.org
-Subject: [PATCH 12/20] input: mouse: elantech: Demote obvious abuse of kernel-doc header
-Date:   Wed,  4 Nov 2020 16:24:19 +0000
-Message-Id: <20201104162427.2984742-13-lee.jones@linaro.org>
+        linux-input@vger.kernel.org
+Subject: [PATCH 13/20] input: rmi4: rmi_f54: Provide some missing 'REPORT_TYPE' enums
+Date:   Wed,  4 Nov 2020 16:24:20 +0000
+Message-Id: <20201104162427.2984742-14-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201104162427.2984742-1-lee.jones@linaro.org>
 References: <20201104162427.2984742-1-lee.jones@linaro.org>
@@ -67,32 +66,40 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/input/mouse/elantech.c:1837: warning: Function parameter or member 'psmouse' not described in 'elantech_setup_smbus'
- drivers/input/mouse/elantech.c:1837: warning: Function parameter or member 'info' not described in 'elantech_setup_smbus'
- drivers/input/mouse/elantech.c:1837: warning: Function parameter or member 'leave_breadcrumbs' not described in 'elantech_setup_smbus'
+ drivers/input/rmi4/rmi_f54.c:77: warning: Enum value 'F54_REPORT_NONE' not described in enum 'rmi_f54_report_type'
+ drivers/input/rmi4/rmi_f54.c:77: warning: Enum value 'F54_MAX_REPORT_TYPE' not described in enum 'rmi_f54_report_type'
 
 Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Henrik Rydberg <rydberg@bitmath.org>
-Cc: Arjan Opmeer <arjan@opmeer.net>
 Cc: linux-input@vger.kernel.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/input/mouse/elantech.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/input/rmi4/rmi_f54.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
-index 90f8765f9efc8..47cd0e7f79bd1 100644
---- a/drivers/input/mouse/elantech.c
-+++ b/drivers/input/mouse/elantech.c
-@@ -1827,7 +1827,7 @@ static int elantech_create_smbus(struct psmouse *psmouse,
- 				  leave_breadcrumbs);
- }
- 
--/**
-+/*
-  * elantech_setup_smbus - called once the PS/2 devices are enumerated
-  * and decides to instantiate a SMBus InterTouch device.
+diff --git a/drivers/input/rmi4/rmi_f54.c b/drivers/input/rmi4/rmi_f54.c
+index 6b23e679606ee..93b328c796c64 100644
+--- a/drivers/input/rmi4/rmi_f54.c
++++ b/drivers/input/rmi4/rmi_f54.c
+@@ -42,6 +42,8 @@
+ /**
+  * enum rmi_f54_report_type - RMI4 F54 report types
+  *
++ * @F54_REPORT_NONE:	No Image Report.
++ *
+  * @F54_8BIT_IMAGE:	Normalized 8-Bit Image Report. The capacitance variance
+  *			from baseline for each pixel.
+  *
+@@ -64,6 +66,10 @@
+  *			Report. Set Low reference to its minimum value and high
+  *			references to its maximum value, then report the raw
+  *			capacitance for each pixel.
++ *
++ * @F54_MAX_REPORT_TYPE:
++ *			Maximum number of Report Types.  Used for sanity
++ *			checking.
   */
+ enum rmi_f54_report_type {
+ 	F54_REPORT_NONE = 0,
 -- 
 2.25.1
 
