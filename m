@@ -2,513 +2,257 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 708692A67C9
-	for <lists+linux-input@lfdr.de>; Wed,  4 Nov 2020 16:35:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E56742A68E6
+	for <lists+linux-input@lfdr.de>; Wed,  4 Nov 2020 16:59:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730391AbgKDPfi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 4 Nov 2020 10:35:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56098 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730203AbgKDPfh (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 4 Nov 2020 10:35:37 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4201C040201
-        for <linux-input@vger.kernel.org>; Wed,  4 Nov 2020 07:35:35 -0800 (PST)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1kaKos-0004O5-79; Wed, 04 Nov 2020 16:35:30 +0100
-Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1kaKor-0006cV-Iv; Wed, 04 Nov 2020 16:35:29 +0100
-From:   Oleksij Rempel <o.rempel@pengutronix.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Alexandru Ardelean <alexandru.ardelean@analog.com>,
-        Mark Brown <broonie@kernel.org>
-Cc:     Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-spi@vger.kernel.org, David Jander <david@protonic.nl>
-Subject: [PATCH v1 2/2] Input: ads7846: convert to one message
-Date:   Wed,  4 Nov 2020 16:35:28 +0100
-Message-Id: <20201104153528.25362-3-o.rempel@pengutronix.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201104153528.25362-1-o.rempel@pengutronix.de>
-References: <20201104153528.25362-1-o.rempel@pengutronix.de>
+        id S1730029AbgKDP7G (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 4 Nov 2020 10:59:06 -0500
+Received: from mail-vi1eur05on2108.outbound.protection.outlook.com ([40.107.21.108]:8512
+        "EHLO EUR05-VI1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729992AbgKDP7G (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 4 Nov 2020 10:59:06 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LRNnb9NSohWgNMzk0eYL4RZcGLboSQMDP1ZJnHJAvIhZCv+vU5NhxfeXxSuhDpxl72D3cglS8K2VIP0d37w8ZNt6Ni7rxb9eSstESMnhxPbNBeTucSNSJt3N5CcjItxH3Bvn011Y7f9N6s1fu7BmVi4fx0QHzmUu1Pyqp2egQknc8RhI2JBeT5T3AoJcot2O7T5wl50+orXV6FI8sevGXJf+SdvitOq0ZZ3vIit1xd5VtKDDIuFg0dUYML1uQSd9sdc8IxCPQu5ZakzZR1xz8NWy3o65c6/vY22QHvYk5CqdClXgrkl2P63eh8aFiR8M+eXb+5L7wlfG4rHHy9fWGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AHXir1gZOxlF0KVPNi92GuaMuxX02Cqnvaba9mI5B5Y=;
+ b=PwkX0tNsT6MHcTHmVkScK5ZB8Ykniuom/dL3gGKZUCs5UDug9JMd1QGyx71pHUOnji1UEqCSSKx1JvXTrXcd+T7Z13OmxDipE16J2tjWTdYNO/K8GgtWm6wbYPtePAluIFCuxpx1dUqCIanw0HeyVr34fRCY1EOV54ZePBr7SE4oHezrJtXHfFztLIZTB3McTPeUP+u0TG9/plduTM+DiOhOoT9nq6ZHCjbT1/q/nlP11P/rv8L9UNJmj1OU2k4oiRjF6wa2uX7OqdF9xRZ2vos7zsEyrUsL0fuUaimkE1M8dSnZx4cqr1D8vhuVm2+A5CbtS5QZe5KCLHQlIAy6ow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=toradex.com; dmarc=pass action=none header.from=toradex.com;
+ dkim=pass header.d=toradex.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=toradex.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AHXir1gZOxlF0KVPNi92GuaMuxX02Cqnvaba9mI5B5Y=;
+ b=koPmt9ILlpmL6iSrTeMXy8bD3XrTPtukaFiEjhI4/+Tcy00BThGzcw/JdqlNrUSBCs5dRhXp57OUGHndmTQqxyhgh0vgtS6zozjnDEt5iSNoYCPfvhauLC8ux+B70ex5+aaBy2CmwsOgNi/Z+XfGZfyOFu2b+D8gYm6aV0Vb1HI=
+Received: from VE1PR05MB7278.eurprd05.prod.outlook.com (2603:10a6:800:1a5::23)
+ by VI1PR0502MB3807.eurprd05.prod.outlook.com (2603:10a6:803:10::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20; Wed, 4 Nov
+ 2020 15:59:01 +0000
+Received: from VE1PR05MB7278.eurprd05.prod.outlook.com
+ ([fe80::1487:898c:932b:283a]) by VE1PR05MB7278.eurprd05.prod.outlook.com
+ ([fe80::1487:898c:932b:283a%6]) with mapi id 15.20.3499.032; Wed, 4 Nov 2020
+ 15:59:01 +0000
+From:   Philippe Schenker <philippe.schenker@toradex.com>
+To:     "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>
+CC:     "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "linux-samsung-soc@vger.kernel.org" 
+        <linux-samsung-soc@vger.kernel.org>,
+        "linux-imx@nxp.com" <linux-imx@nxp.com>,
+        "krzk@kernel.org" <krzk@kernel.org>,
+        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
+Subject: Re: [PATCH 1/3 v2] Input: atmel_mxt_ts - Fix up inverted RESET
+ handler
+Thread-Topic: [PATCH 1/3 v2] Input: atmel_mxt_ts - Fix up inverted RESET
+ handler
+Thread-Index: AQHWsr93azyusx9l6U6Hjf3TiAfcqqm4IVIA
+Date:   Wed, 4 Nov 2020 15:59:01 +0000
+Message-ID: <1d8c82b85aad83a1d3c91264ac0a8471097f2c8f.camel@toradex.com>
+References: <20201104153032.1387747-1-linus.walleij@linaro.org>
+In-Reply-To: <20201104153032.1387747-1-linus.walleij@linaro.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.36.5 
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=toradex.com;
+x-originating-ip: [51.154.7.61]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 12a0e243-85f6-43c5-4398-08d880da8c08
+x-ms-traffictypediagnostic: VI1PR0502MB3807:
+x-microsoft-antispam-prvs: <VI1PR0502MB380736F103051FAC46DC7A0BF4EF0@VI1PR0502MB3807.eurprd05.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Eo2IjO4USJldAlM0TTfyo57xJUeu5zGy3pBVGVDjkEpnHAaTep+1Ps4LREEE0xm0dKfT/huQf3s7v2I/CT1iLdCQoBqA91Nl5FWSowbv4ur0HEI/b9CiHIRzehiHvTR9UlMS4K30m6nCjd78PEAHYKG29TCHMJxw5caiTcIoihp1lH+gfIoxEgUsIfFXJEsQXGNyXqjbZSz4rsdhoemQ69H0K8yiPu1BJWLnNLdrfsDmWPFLW5703saIGoHluDisS3Z3Lpt9x8GZoLyKk/kLQsIrDvJC1nNEt38XiiLhphGivRGr0xk2f0XYsOL1+fwQ
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR05MB7278.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(39850400004)(376002)(366004)(346002)(396003)(91956017)(6486002)(316002)(4326008)(2906002)(44832011)(478600001)(6512007)(54906003)(86362001)(6506007)(26005)(36756003)(8936002)(66556008)(64756008)(83380400001)(2616005)(8676002)(5660300002)(110136005)(76116006)(186003)(66476007)(71200400001)(66446008)(66946007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: w6/4Gjun1jqI9uK5FeHXMo/joTQFfMCxl7l8zkQSHL9ypXM5TmE6tsrFUBnycNpTGLt78nRxQZl0Mm8dATJPUK3uOwJrk6Ok/JBZocz+gKUmY8GLshM0FlMskwNOvAQzcUO8oDjSWl/sgyeMEdXhG0/RLszUipr9jH2aza3bD5i39Af+Se7VzOY4Hi5FbFeIpsokyPaP9V46uORTm3CXnckNiYlmZKrVulkug3W3hFi/U8sbrnW7yV4ha9LU1NmMfeeTKktn02792/uC5yEtLm3rDbUJ+Xauuq8PZlMzw78ZPCrzF3dFNBTX+pQlhF+ht2zzC23xy1sk0TqgfFx52o5qCsJuKasB+U5G5IrB5I0fycBRWoP2SbmPsw9JwHn4w6SpxqZbegBCXP/AfTMHXrENmEkmso5kvio2qftl8JrBVvUqWNfVcPxpEDJtv4R5vSzvfvnqhlXmd2b+W+vnSS/Rz6M2cCqLvXzQPv4MP+YpFETRJy1e1y5k1chDq4fdDkGTz+D8utfY3yre0h0TEZfRjr/an+upGcJ8+fp5toplbUlK3on9dQfXzlVSHnY1pA/rkDSjrDjW6+gcv6RbETIPXdRW5UcWa+JtvCSasWI1P1YhI6I1wz9+E1Y1N3rJDQtpgB0Nqj8YbSi0xniytQ==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <DC294C4A0A8C6F4EAA141BF356B52401@eurprd05.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+X-OriginatorOrg: toradex.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR05MB7278.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 12a0e243-85f6-43c5-4398-08d880da8c08
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Nov 2020 15:59:01.2178
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d9995866-0d9b-4251-8315-093f062abab4
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: HdHsdDC/SS2K0xgrvadPKx7gw1h3+HVbfGVyHuwzM36ebxk7YsMjm5hsudfI1FSFdjfVFt+pwNREz3Y3tB9wYHREVm6TdHxLA0atJhlhE7I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0502MB3807
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Convert multiple full duplex transfers in to a single transfer.
-
-Current driver version support two modes:
-- not filtered
-- driver specific debounce filter
-- platform specific debounce filter (do any platform provides such
-filter?)
-
-Without filter this HW is not really usable, since the physic of
-resistive touchscreen can provide some bounce effects. With filter, we
-have constant amount of retries + debounce retries if some anomaly was
-detected.
-
-This patch create one SPI transfer with all fields and not optional retires. If
-bounce anomaly was detected, we will make more transfer if needed.
-
-Without this patch, we will get about 10% CPU load on iMX6S if some thing
-is pressing on the screen (holding finger, etc.)
-
-With this patch, depending in the amount of retries, the CPU load will
-be 1.5-2% with "ti,debounce-rep = <3>" and 1% or less with
-"ti,debounce-rep = <10>". Depending on the buffer size, different SPI
-controllers use different optimizations. On iMX, the buffer below
-64 Byte will be transfered in the PIO mode and beyond this threshold,
-it will be transfered in the DMA mode.
-
-Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
----
- drivers/input/touchscreen/ads7846.c | 310 +++++++++++++---------------
- 1 file changed, 143 insertions(+), 167 deletions(-)
-
-diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
-index e9a520c9ad69..a68b9e5aa505 100644
---- a/drivers/input/touchscreen/ads7846.c
-+++ b/drivers/input/touchscreen/ads7846.c
-@@ -64,37 +64,25 @@
- 
- struct ads7846_buf {
- 	u8 cmd;
--	/* This union is a temporary hack. The driver does an in-place
--	 * endianness conversion. This will be cleaned up in the next
--	 * patch.
--	 */
--	union {
--		__be16 data_be16;
--		u16 data;
--	};
-+	__be16 data;
- } __attribute__((__packed__));
- 
--
--struct ts_event {
--	bool ignore;
--	struct ads7846_buf x;
--	struct ads7846_buf y;
--	struct ads7846_buf z1;
--	struct ads7846_buf z2;
--};
--
- /*
-  * We allocate this separately to avoid cache line sharing issues when
-  * driver is used with DMA-based SPI controllers (like atmel_spi) on
-  * systems where main memory is not DMA-coherent (most non-x86 boards).
-  */
- struct ads7846_packet {
--	struct ts_event tc;
--	struct ads7846_buf read_x_cmd;
--	struct ads7846_buf read_y_cmd;
--	struct ads7846_buf read_z1_cmd;
--	struct ads7846_buf read_z2_cmd;
-+	unsigned int count;
-+	unsigned int fields;
-+	unsigned int last_field;
-+	struct ads7846_buf *rx;
-+	struct ads7846_buf *tx;
-+
- 	struct ads7846_buf pwrdown_cmd;
-+
-+	bool ignore;
-+	u16 x, y, z1, z2;
- };
- 
- struct ads7846 {
-@@ -206,6 +194,13 @@ struct ads7846 {
- #define	REF_ON	(READ_12BIT_DFR(x, 1, 1))
- #define	REF_OFF	(READ_12BIT_DFR(y, 0, 0))
- 
-+enum ads7846_cmds {
-+	ADS7846_Y,
-+	ADS7846_X,
-+	ADS7846_Z1,
-+	ADS7846_Z2,
-+};
-+
- static int get_pendown_state(struct ads7846 *ts)
- {
- 	if (ts->get_pendown_state)
-@@ -696,26 +691,68 @@ static int ads7846_no_filter(void *ads, int data_idx, int *val)
- 	return ADS7846_FILTER_OK;
- }
- 
--static int ads7846_get_value(struct ads7846 *ts, struct spi_message *m)
-+static int ads7846_get_value(struct ads7846_buf *buf)
- {
- 	int value;
--	struct spi_transfer *t =
--		list_entry(m->transfers.prev, struct spi_transfer, transfer_list);
--	struct ads7846_buf *buf = t->rx_buf;
- 
--	value = be16_to_cpup(&buf->data_be16);
-+	value = be16_to_cpup(&buf->data);
- 
- 	/* enforce ADC output is 12 bits width */
- 	return (value >> 3) & 0xfff;
- }
- 
--static void ads7846_update_value(struct spi_message *m, int val)
-+static void ads7846_set_field_val(struct ads7846 *ts, enum ads7846_cmds filed,
-+				  u16 val)
- {
--	struct spi_transfer *t =
--		list_entry(m->transfers.prev, struct spi_transfer, transfer_list);
--	struct ads7846_buf *buf = t->rx_buf;
-+	struct ads7846_packet *packet = ts->packet;
-+
-+	switch (filed) {
-+	case ADS7846_Y:
-+		packet->y = val;
-+		break;
-+	case ADS7846_X:
-+		packet->x = val;
-+		break;
-+	case ADS7846_Z1:
-+		packet->z1 = val;
-+		break;
-+	case ADS7846_Z2:
-+		packet->z2 = val;
-+		break;
-+	default:
-+		pr_err("kappuuuut auch!!!\n");
-+	}
-+}
-+
-+static int ads7846_filter_state(struct ads7846 *ts)
-+{
-+	struct ads7846_packet *packet = ts->packet;
-+	int msg_idx = 0;
-+	int action;
-+	int val;
-+	unsigned int a, b;
- 
--	buf->data = val;
-+	packet->ignore = false;
-+	for (a = packet->last_field; a < packet->fields; a++) {
-+		packet->last_field = a;
-+		for (b = 0; b < packet->count; b++) {
-+			val = ads7846_get_value(&packet->rx[b * packet->fields + a]);
-+
-+			action = ts->filter(ts->filter_data, msg_idx, &val);
-+			if (action == ADS7846_FILTER_REPEAT) {
-+				if (b == packet->count - 1)
-+					return -EAGAIN;
-+			} else if (action == ADS7846_FILTER_OK) {
-+				ads7846_set_field_val(ts, a, val);
-+				break;
-+			} else {
-+				packet->ignore = true;
-+				return 0;
-+			}
-+		}
-+	}
-+
-+	return 0;
- }
- 
- static void ads7846_read_state(struct ads7846 *ts)
-@@ -723,52 +760,30 @@ static void ads7846_read_state(struct ads7846 *ts)
- 	struct ads7846_packet *packet = ts->packet;
- 	struct spi_message *m;
- 	int msg_idx = 0;
--	int val;
--	int action;
- 	int error;
- 
--	while (msg_idx < ts->msg_count) {
-+	packet->last_field = 0;
- 
-+	while (msg_idx < ts->msg_count) {
- 		ts->wait_for_sync();
- 
- 		m = &ts->msg[msg_idx];
- 		error = spi_sync(ts->spi, m);
- 		if (error) {
- 			dev_err(&ts->spi->dev, "spi_sync --> %d\n", error);
--			packet->tc.ignore = true;
-+			packet->ignore = true;
- 			return;
- 		}
- 
--		/*
--		 * Last message is power down request, no need to convert
--		 * or filter the value.
--		 */
--		if (msg_idx < ts->msg_count - 1) {
-+		/* last message is power down request */
-+		if (msg_idx == ts->msg_count - 1)
-+			break;
- 
--			val = ads7846_get_value(ts, m);
-+		error = ads7846_filter_state(ts);
-+		if (error)
-+			continue;
- 
--			action = ts->filter(ts->filter_data, msg_idx, &val);
--			switch (action) {
--			case ADS7846_FILTER_REPEAT:
--				continue;
--
--			case ADS7846_FILTER_IGNORE:
--				packet->tc.ignore = true;
--				msg_idx = ts->msg_count - 1;
--				continue;
--
--			case ADS7846_FILTER_OK:
--				ads7846_update_value(m, val);
--				packet->tc.ignore = false;
--				msg_idx++;
--				break;
--
--			default:
--				BUG();
--			}
--		} else {
--			msg_idx++;
--		}
-+		msg_idx++;
- 	}
- }
- 
-@@ -783,14 +798,14 @@ static void ads7846_report_state(struct ads7846 *ts)
- 	 * from on-the-wire format as part of debouncing to get stable
- 	 * readings.
- 	 */
--	x = packet->tc.x.data;
--	y = packet->tc.y.data;
-+	x = packet->x;
-+	y = packet->y;
- 	if (ts->model == 7845) {
- 		z1 = 0;
- 		z2 = 0;
- 	} else {
--		z1 = packet->tc.z1.data;
--		z2 = packet->tc.z2.data;
-+		z1 = packet->z1;
-+		z2 = packet->z2;
- 	}
- 
- 	/* range filtering */
-@@ -822,9 +837,9 @@ static void ads7846_report_state(struct ads7846 *ts)
- 	 * the maximum. Don't report it to user space, repeat at least
- 	 * once more the measurement
- 	 */
--	if (packet->tc.ignore || Rt > ts->pressure_max) {
-+	if (packet->ignore || Rt > ts->pressure_max) {
- 		dev_vdbg(&ts->spi->dev, "ignored %d pressure %d\n",
--			 packet->tc.ignore, Rt);
-+			 packet->ignore, Rt);
- 		return;
- 	}
- 
-@@ -981,17 +996,62 @@ static int ads7846_setup_pendown(struct spi_device *spi,
- 	return 0;
- }
- 
-+
-+static u8 ads7846_get_cmd(enum ads7846_cmds filed, int vref)
-+{
-+	switch (filed) {
-+	case ADS7846_Y:
-+		return READ_Y(vref);
-+	case ADS7846_X:
-+		return READ_X(vref);
-+
-+	/* 7846 specific commands  */
-+	case ADS7846_Z1:
-+		return READ_Z1(vref);
-+	case ADS7846_Z2:
-+		return READ_Z2(vref);
-+	default:
-+		pr_err("kappuuuut!!!\n");
-+	}
-+
-+	return 0;
-+}
-+
- /*
-  * Set up the transfers to read touchscreen state; this assumes we
-  * use formula #2 for pressure, not #3.
-  */
--static void ads7846_setup_spi_msg(struct ads7846 *ts,
-+static int ads7846_setup_spi_msg(struct ads7846 *ts,
- 				  const struct ads7846_platform_data *pdata)
- {
- 	struct spi_message *m = &ts->msg[0];
- 	struct spi_transfer *x = ts->xfer;
- 	struct ads7846_packet *packet = ts->packet;
- 	int vref = pdata->keep_vref_on;
-+	unsigned int a, b;
-+	size_t size;
-+
-+	if (ts->debounce_max && ts->debounce_rep)
-+		/* ads7846_debounce_filter() is making ts->debounce_rep + 2
-+		 * reads. So we need to get all samples for normal case. */
-+		packet->count = ts->debounce_rep + 2;
-+	else
-+		packet->count = 1;
-+
-+	if (ts->model == 7846)
-+		packet->fields = 4; /* x, y, z1, z2 */
-+	else
-+		packet->fields = 2; /* x, y */
-+
-+	size = sizeof(*packet->tx) * packet->count * packet->fields;
-+
-+	packet->tx = devm_kzalloc(&ts->spi->dev, size, GFP_KERNEL);
-+	if (!packet->tx)
-+		return -ENOMEM;
-+
-+	packet->rx = devm_kzalloc(&ts->spi->dev, size, GFP_KERNEL);
-+	if (!packet->rx)
-+		return -ENOMEM;
- 
- 	if (ts->model == 7873) {
- 		/*
-@@ -1007,110 +1067,24 @@ static void ads7846_setup_spi_msg(struct ads7846 *ts,
- 	spi_message_init(m);
- 	m->context = ts;
- 
--	packet->read_y_cmd.cmd = READ_Y(vref);
--	x->tx_buf = &packet->read_y_cmd;
--	x->rx_buf = &packet->tc.y;
--	x->len = 3;
--	spi_message_add_tail(x, m);
--
--	/*
--	 * The first sample after switching drivers can be low quality;
--	 * optionally discard it, using a second one after the signals
--	 * have had enough time to stabilize.
--	 */
--	if (pdata->settle_delay_usecs) {
--		x->delay.value = pdata->settle_delay_usecs;
--		x->delay.unit = SPI_DELAY_UNIT_USECS;
--		x++;
--
--		x->tx_buf = &packet->read_y_cmd;
--		x->rx_buf = &packet->tc.y;
--		x->len = 3;
--		spi_message_add_tail(x, m);
-+	for (a = 0; a < packet->count; a++) {
-+		for (b = 0; b < packet->fields; b++) {
-+			u8 cmd = ads7846_get_cmd(b, vref);
-+			packet->tx[a * packet->fields + b].cmd = cmd;
-+		}
- 	}
- 
--	ts->msg_count++;
--	m++;
--	spi_message_init(m);
--	m->context = ts;
--
--	/* turn y- off, x+ on, then leave in lowpower */
--	x++;
--	packet->read_x_cmd.cmd = READ_X(vref);
--	x->tx_buf = &packet->read_x_cmd;
--	x->rx_buf = &packet->tc.x;
--	x->len = 3;
-+	x->tx_buf = packet->tx;
-+	x->rx_buf = packet->rx;
-+	x->len = size;
-+	x->cs_change = 1; /* do not set CS until we do the PWRDOWN */
- 	spi_message_add_tail(x, m);
- 
--	/* ... maybe discard first sample ... */
--	if (pdata->settle_delay_usecs) {
--		x->delay.value = pdata->settle_delay_usecs;
--		x->delay.unit = SPI_DELAY_UNIT_USECS;
--
--		x++;
--		x->tx_buf = &packet->read_x_cmd;
--		x->rx_buf = &packet->tc.x;
--		x->len = 3;
--		spi_message_add_tail(x, m);
--	}
--
--	/* turn y+ off, x- on; we'll use formula #2 */
--	if (ts->model == 7846) {
--		ts->msg_count++;
--		m++;
--		spi_message_init(m);
--		m->context = ts;
--
--		x++;
--		packet->read_z1_cmd.cmd = READ_Z1(vref);
--		x->tx_buf = &packet->read_z1_cmd;
--		x->rx_buf = &packet->tc.z1;
--		x->len = 3;
--		spi_message_add_tail(x, m);
--
--		/* ... maybe discard first sample ... */
--		if (pdata->settle_delay_usecs) {
--			x->delay.value = pdata->settle_delay_usecs;
--			x->delay.unit = SPI_DELAY_UNIT_USECS;
--
--			x++;
--			x->tx_buf = &packet->read_z1_cmd;
--			x->rx_buf = &packet->tc.z1;
--			x->len = 3;
--			spi_message_add_tail(x, m);
--		}
--
--		ts->msg_count++;
--		m++;
--		spi_message_init(m);
--		m->context = ts;
--
--		x++;
--		packet->read_z2_cmd.cmd = READ_Z2(vref);
--		x->tx_buf = &packet->read_z2_cmd;
--		x->rx_buf = &packet->tc.z2;
--		x->len = 3;
--		spi_message_add_tail(x, m);
--
--		/* ... maybe discard first sample ... */
--		if (pdata->settle_delay_usecs) {
--			x->delay.value = pdata->settle_delay_usecs;
--			x->delay.unit = SPI_DELAY_UNIT_USECS;
--
--			x++;
--			x->tx_buf = &packet->read_z2_cmd;
--			x->rx_buf = &packet->tc.z2;
--			x->len = 3;
--			spi_message_add_tail(x, m);
--		}
--	}
--
--	/* power down */
- 	ts->msg_count++;
- 	m++;
- 	spi_message_init(m);
- 	m->context = ts;
--
-+	/* power down */
- 	x++;
- 	packet->pwrdown_cmd.cmd = PWRDOWN;
- 	x->tx_buf = &packet->pwrdown_cmd;
-@@ -1118,6 +1092,8 @@ static void ads7846_setup_spi_msg(struct ads7846 *ts,
- 
- 	CS_CHANGE(*x);
- 	spi_message_add_tail(x, m);
-+
-+	return 0;
- }
- 
- #ifdef CONFIG_OF
--- 
-2.28.0
-
+T24gV2VkLCAyMDIwLTExLTA0IGF0IDE2OjMwICswMTAwLCBMaW51cyBXYWxsZWlqIHdyb3RlOg0K
+PiBUaGlzIGRyaXZlciB1c2VzIEdQSU8gZGVzY3JpcHRvcnMgdG8gZHJpdmUgdGhlIHRvdWNoc2Ny
+ZWVuDQo+IFJFU0VUIGxpbmUuIEluIHRoZSBleGlzdGluZyBkZXZpY2UgdHJlZXMgdGhpcyBoYXMg
+aW4NCj4gY29uZmxpY3Qgd2l0aCBpbnR1dGlvbiBiZWVuIGZsYWdnZWQgYXMgR1BJT19BQ1RJVkVf
+SElHSA0KPiBhbmQgdGhlIGRyaXZlciB0aGVuIGFwcGxpZXMgdGhlIHJldmVyc2UgYWN0aW9uIGJ5
+DQo+IGRyaXZpbmcgdGhlIGxpbmUgbG93IChzZXR0aW5nIHRvIDApIHRvIGVudGVyDQo+IHJlc2V0
+IHN0YXRlIGFuZCBkcml2aW5nIHRoZSBsaW5lIGhpZ2ggKHNldHRpbmcgdG8gMSkgdG8NCj4gZ2V0
+IG91dCBvZiByZXNldCBzdGF0ZS4NCj4gDQo+IFRoZSBjb3JyZWN0IHdheSB0byBoYW5kbGUgYWN0
+aXZlIGxvdyBHUElPIGxpbmVzIGlzIHRvDQo+IHByb3ZpZGUgdGhlIEdQSU9fQUNUSVZFX0xPVyBp
+biB0aGUgZGV2aWNlIHRyZWUgKHRodXMNCj4gcHJvcGVybHkgZGVzY3JpYmluZyB0aGUgaGFyZHdh
+cmUpIGFuZCBsZXR0aW5nIHRoZSBHUElPDQo+IGZyYW1ld29yayBpbnZlcnQgdGhlIGFzc2VydGlv
+biAoZHJpdmluZyBoaWdoKSB0byBhIGxvdw0KPiBsZXZlbCBhbmQgdmljZSB2ZXJzYS4NCj4gDQo+
+IFRoaXMgaXMgY29uc2lkZXJlZCBhIGJ1ZyBzaW5jZSB0aGUgZGV2aWNlIHRyZWVzIGFyZQ0KPiBp
+bmNvcnJlY3RseSBtaXMtc3BlY2lmeWluZyB0aGUgbGluZSBhcyBhY3RpdmUgaGlnaC4NCj4gDQo+
+IEZpeCB0aGUgZHJpdmVyIGFuZCBhbGwgZGV2aWNlIHRyZWVzIHNwZWNpZnlpbmcgYSByZXNldA0K
+PiBsaW5lLg0KPiANCj4gQ2M6IEtyenlzenRvZiBLb3psb3dza2kgPGtyemtAa2VybmVsLm9yZz4N
+Cj4gQ2M6IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZw0KPiBDYzogbGludXgt
+dGVncmFAdmdlci5rZXJuZWwub3JnDQo+IENjOiBsaW51eC1zYW1zdW5nLXNvY0B2Z2VyLmtlcm5l
+bC5vcmcNCj4gQ2M6IE5YUCBMaW51eCBUZWFtIDxsaW51eC1pbXhAbnhwLmNvbT4NCj4gQ2M6IFBl
+bmd1dHJvbml4IEtlcm5lbCBUZWFtIDxrZXJuZWxAcGVuZ3V0cm9uaXguZGU+DQo+IFNpZ25lZC1v
+ZmYtYnk6IExpbnVzIFdhbGxlaWogPGxpbnVzLndhbGxlaWpAbGluYXJvLm9yZz4NCg0KVGhhbmtz
+IGZvciBmaXhpbmcgdGhpcyENCg0KUmV2aWV3ZWQtYnk6IFBoaWxpcHBlIFNjaGVua2VyIDxwaGls
+aXBwZS5zY2hlbmtlckB0b3JhZGV4LmNvbT4NCg0KPiAtLS0NCj4gQ2hhbmdlTG9nIHYxLT52MjoN
+Cj4gLSBOZXcgcGF0Y2ggZml4aW5nIHRoaXMgY29uZnVzaW9uIGJlZm9yZSBhZGRpbmcgdGhlDQo+
+ICAgbmV3IFlBTUwgYmluZGluZ3MuDQo+IC0gQ0Mgc29tZSBtaXNjIG1haW50YWluZXJzIGFuZCBt
+YWlsaW5nIGxpc3RzIHRoYXQgc2hvdWxkDQo+ICAgYmUgYXdhcmUgdGhhdCB3ZSBkbyB0aGlzIGNo
+YW5nZS4NCj4gLS0tDQo+ICBhcmNoL2FybS9ib290L2R0cy9pbXg1My1wcGQuZHRzICAgICAgICAg
+ICAgICAgICB8IDIgKy0NCj4gIGFyY2gvYXJtL2Jvb3QvZHRzL2lteDZkbC1jb2xpYnJpLWV2YWwt
+djMuZHRzICAgIHwgMiArLQ0KPiAgYXJjaC9hcm0vYm9vdC9kdHMvaW14NnEtYXBhbGlzLWV2YWwu
+ZHRzICAgICAgICAgfCAyICstDQo+ICBhcmNoL2FybS9ib290L2R0cy9pbXg2cS1hcGFsaXMtaXhv
+cmEtdjEuMS5kdHMgICB8IDIgKy0NCj4gIGFyY2gvYXJtL2Jvb3QvZHRzL2lteDZxLWFwYWxpcy1p
+eG9yYS5kdHMgICAgICAgIHwgMiArLQ0KPiAgYXJjaC9hcm0vYm9vdC9kdHMvaW14Ny1jb2xpYnJp
+LWFzdGVyLmR0c2kgICAgICAgfCAyICstDQo+ICBhcmNoL2FybS9ib290L2R0cy9pbXg3LWNvbGli
+cmktZXZhbC12My5kdHNpICAgICB8IDIgKy0NCj4gIGFyY2gvYXJtL2Jvb3QvZHRzL21vdG9yb2xh
+LW1hcHBob25lLWNvbW1vbi5kdHNpIHwgMiArLQ0KPiAgYXJjaC9hcm0vYm9vdC9kdHMvczVwdjIx
+MC1hcmllcy5kdHNpICAgICAgICAgICAgfCAyICstDQo+ICBhcmNoL2FybS9ib290L2R0cy90ZWdy
+YTIwLWFjZXItYTUwMC1waWNhc3NvLmR0cyB8IDIgKy0NCj4gIGRyaXZlcnMvaW5wdXQvdG91Y2hz
+Y3JlZW4vYXRtZWxfbXh0X3RzLmMgICAgICAgIHwgNiArKysrLS0NCj4gIDExIGZpbGVzIGNoYW5n
+ZWQsIDE0IGluc2VydGlvbnMoKyksIDEyIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBh
+L2FyY2gvYXJtL2Jvb3QvZHRzL2lteDUzLXBwZC5kdHMNCj4gYi9hcmNoL2FybS9ib290L2R0cy9p
+bXg1My1wcGQuZHRzDQo+IGluZGV4IGY3ZGNkZjk2ZTVjMC4uOGY0YTYzZWE5MTJlIDEwMDY0NA0K
+PiAtLS0gYS9hcmNoL2FybS9ib290L2R0cy9pbXg1My1wcGQuZHRzDQo+ICsrKyBiL2FyY2gvYXJt
+L2Jvb3QvZHRzL2lteDUzLXBwZC5kdHMNCj4gQEAgLTU4OSw3ICs1ODksNyBAQCAmaTJjMiB7DQo+
+ICANCj4gIAl0b3VjaHNjcmVlbkA0YiB7DQo+ICAJCWNvbXBhdGlibGUgPSAiYXRtZWwsbWF4dG91
+Y2giOw0KPiAtCQlyZXNldC1ncGlvID0gPCZncGlvNSAxOSBHUElPX0FDVElWRV9ISUdIPjsNCj4g
+KwkJcmVzZXQtZ3BpbyA9IDwmZ3BpbzUgMTkgR1BJT19BQ1RJVkVfTE9XPjsNCj4gIAkJcmVnID0g
+PDB4NGI+Ow0KPiAgCQlpbnRlcnJ1cHQtcGFyZW50ID0gPCZncGlvNT47DQo+ICAJCWludGVycnVw
+dHMgPSA8NCBJUlFfVFlQRV9MRVZFTF9MT1c+Ow0KPiBkaWZmIC0tZ2l0IGEvYXJjaC9hcm0vYm9v
+dC9kdHMvaW14NmRsLWNvbGlicmktZXZhbC12My5kdHMNCj4gYi9hcmNoL2FybS9ib290L2R0cy9p
+bXg2ZGwtY29saWJyaS1ldmFsLXYzLmR0cw0KPiBpbmRleCA2NTM1OWFlY2U5NTAuLjdkYTc0ZTZm
+NDZkOSAxMDA2NDQNCj4gLS0tIGEvYXJjaC9hcm0vYm9vdC9kdHMvaW14NmRsLWNvbGlicmktZXZh
+bC12My5kdHMNCj4gKysrIGIvYXJjaC9hcm0vYm9vdC9kdHMvaW14NmRsLWNvbGlicmktZXZhbC12
+My5kdHMNCj4gQEAgLTE0Myw3ICsxNDMsNyBAQCB0b3VjaHNjcmVlbkA0YSB7DQo+ICAJCXJlZyA9
+IDwweDRhPjsNCj4gIAkJaW50ZXJydXB0LXBhcmVudCA9IDwmZ3BpbzE+Ow0KPiAgCQlpbnRlcnJ1
+cHRzID0gPDkgSVJRX1RZUEVfRURHRV9GQUxMSU5HPjsJCS8qDQo+IFNPRElNTSAyOCAqLw0KPiAt
+CQlyZXNldC1ncGlvcyA9IDwmZ3BpbzIgMTAgR1BJT19BQ1RJVkVfSElHSD47CS8qDQo+IFNPRElN
+TSAzMCAqLw0KPiArCQlyZXNldC1ncGlvcyA9IDwmZ3BpbzIgMTAgR1BJT19BQ1RJVkVfTE9XPjsJ
+LyoNCj4gU09ESU1NIDMwICovDQo+ICAJCXN0YXR1cyA9ICJkaXNhYmxlZCI7DQo+ICAJfTsNCj4g
+IA0KPiBkaWZmIC0tZ2l0IGEvYXJjaC9hcm0vYm9vdC9kdHMvaW14NnEtYXBhbGlzLWV2YWwuZHRz
+DQo+IGIvYXJjaC9hcm0vYm9vdC9kdHMvaW14NnEtYXBhbGlzLWV2YWwuZHRzDQo+IGluZGV4IGZh
+YjgzYWJiNjQ2Ni4uYTA2ODNiNGFlY2ExIDEwMDY0NA0KPiAtLS0gYS9hcmNoL2FybS9ib290L2R0
+cy9pbXg2cS1hcGFsaXMtZXZhbC5kdHMNCj4gKysrIGIvYXJjaC9hcm0vYm9vdC9kdHMvaW14NnEt
+YXBhbGlzLWV2YWwuZHRzDQo+IEBAIC0xNDAsNyArMTQwLDcgQEAgdG91Y2hzY3JlZW5ANGEgew0K
+PiAgCQlyZWcgPSA8MHg0YT47DQo+ICAJCWludGVycnVwdC1wYXJlbnQgPSA8JmdwaW82PjsNCj4g
+IAkJaW50ZXJydXB0cyA9IDwxMCBJUlFfVFlQRV9FREdFX0ZBTExJTkc+Ow0KPiAtCQlyZXNldC1n
+cGlvcyA9IDwmZ3BpbzYgOSBHUElPX0FDVElWRV9ISUdIPjsgLyogU09ESU1NIDEzDQo+ICovDQo+
+ICsJCXJlc2V0LWdwaW9zID0gPCZncGlvNiA5IEdQSU9fQUNUSVZFX0xPVz47IC8qIFNPRElNTSAx
+Mw0KPiAqLw0KPiAgCQlzdGF0dXMgPSAiZGlzYWJsZWQiOw0KPiAgCX07DQo+ICANCj4gZGlmZiAt
+LWdpdCBhL2FyY2gvYXJtL2Jvb3QvZHRzL2lteDZxLWFwYWxpcy1peG9yYS12MS4xLmR0cw0KPiBi
+L2FyY2gvYXJtL2Jvb3QvZHRzL2lteDZxLWFwYWxpcy1peG9yYS12MS4xLmR0cw0KPiBpbmRleCAx
+NjE0YjFhZTUwMWQuLjg2ZTg0NzgxY2Y1ZCAxMDA2NDQNCj4gLS0tIGEvYXJjaC9hcm0vYm9vdC9k
+dHMvaW14NnEtYXBhbGlzLWl4b3JhLXYxLjEuZHRzDQo+ICsrKyBiL2FyY2gvYXJtL2Jvb3QvZHRz
+L2lteDZxLWFwYWxpcy1peG9yYS12MS4xLmR0cw0KPiBAQCAtMTQ1LDcgKzE0NSw3IEBAIHRvdWNo
+c2NyZWVuQDRhIHsNCj4gIAkJcmVnID0gPDB4NGE+Ow0KPiAgCQlpbnRlcnJ1cHQtcGFyZW50ID0g
+PCZncGlvNj47DQo+ICAJCWludGVycnVwdHMgPSA8MTAgSVJRX1RZUEVfRURHRV9GQUxMSU5HPjsN
+Cj4gLQkJcmVzZXQtZ3Bpb3MgPSA8JmdwaW82IDkgR1BJT19BQ1RJVkVfSElHSD47IC8qIFNPRElN
+TSAxMw0KPiAqLw0KPiArCQlyZXNldC1ncGlvcyA9IDwmZ3BpbzYgOSBHUElPX0FDVElWRV9MT1c+
+OyAvKiBTT0RJTU0gMTMNCj4gKi8NCj4gIAkJc3RhdHVzID0gImRpc2FibGVkIjsNCj4gIAl9Ow0K
+PiAgDQo+IGRpZmYgLS1naXQgYS9hcmNoL2FybS9ib290L2R0cy9pbXg2cS1hcGFsaXMtaXhvcmEu
+ZHRzDQo+IGIvYXJjaC9hcm0vYm9vdC9kdHMvaW14NnEtYXBhbGlzLWl4b3JhLmR0cw0KPiBpbmRl
+eCBmYTlmOThkZDE1YWMuLjYyZTcyNzczZTUzYiAxMDA2NDQNCj4gLS0tIGEvYXJjaC9hcm0vYm9v
+dC9kdHMvaW14NnEtYXBhbGlzLWl4b3JhLmR0cw0KPiArKysgYi9hcmNoL2FybS9ib290L2R0cy9p
+bXg2cS1hcGFsaXMtaXhvcmEuZHRzDQo+IEBAIC0xNDQsNyArMTQ0LDcgQEAgdG91Y2hzY3JlZW5A
+NGEgew0KPiAgCQlyZWcgPSA8MHg0YT47DQo+ICAJCWludGVycnVwdC1wYXJlbnQgPSA8JmdwaW82
+PjsNCj4gIAkJaW50ZXJydXB0cyA9IDwxMCBJUlFfVFlQRV9FREdFX0ZBTExJTkc+Ow0KPiAtCQly
+ZXNldC1ncGlvcyA9IDwmZ3BpbzYgOSBHUElPX0FDVElWRV9ISUdIPjsgLyogU09ESU1NIDEzDQo+
+ICovDQo+ICsJCXJlc2V0LWdwaW9zID0gPCZncGlvNiA5IEdQSU9fQUNUSVZFX0xPVz47IC8qIFNP
+RElNTSAxMw0KPiAqLw0KPiAgCQlzdGF0dXMgPSAiZGlzYWJsZWQiOw0KPiAgCX07DQo+ICANCj4g
+ZGlmZiAtLWdpdCBhL2FyY2gvYXJtL2Jvb3QvZHRzL2lteDctY29saWJyaS1hc3Rlci5kdHNpDQo+
+IGIvYXJjaC9hcm0vYm9vdC9kdHMvaW14Ny1jb2xpYnJpLWFzdGVyLmR0c2kNCj4gaW5kZXggOWZh
+NzAxYmVjMmVjLi4xMzkxODhlYjlmNDAgMTAwNjQ0DQo+IC0tLSBhL2FyY2gvYXJtL2Jvb3QvZHRz
+L2lteDctY29saWJyaS1hc3Rlci5kdHNpDQo+ICsrKyBiL2FyY2gvYXJtL2Jvb3QvZHRzL2lteDct
+Y29saWJyaS1hc3Rlci5kdHNpDQo+IEBAIC05OSw3ICs5OSw3IEBAIHRvdWNoc2NyZWVuQDRhIHsN
+Cj4gIAkJcmVnID0gPDB4NGE+Ow0KPiAgCQlpbnRlcnJ1cHQtcGFyZW50ID0gPCZncGlvMj47DQo+
+ICAJCWludGVycnVwdHMgPSA8MTUgSVJRX1RZUEVfRURHRV9GQUxMSU5HPjsJLyogU09ESU1NIDEw
+Nw0KPiAqLw0KPiAtCQlyZXNldC1ncGlvcyA9IDwmZ3BpbzIgMjggR1BJT19BQ1RJVkVfSElHSD47
+CS8qDQo+IFNPRElNTSAxMDYgKi8NCj4gKwkJcmVzZXQtZ3Bpb3MgPSA8JmdwaW8yIDI4IEdQSU9f
+QUNUSVZFX0xPVz47CS8qDQo+IFNPRElNTSAxMDYgKi8NCj4gIAl9Ow0KPiAgDQo+ICAJLyogTTQx
+VDBNNiByZWFsIHRpbWUgY2xvY2sgb24gY2FycmllciBib2FyZCAqLw0KPiBkaWZmIC0tZ2l0IGEv
+YXJjaC9hcm0vYm9vdC9kdHMvaW14Ny1jb2xpYnJpLWV2YWwtdjMuZHRzaQ0KPiBiL2FyY2gvYXJt
+L2Jvb3QvZHRzL2lteDctY29saWJyaS1ldmFsLXYzLmR0c2kNCj4gaW5kZXggOTc2MDEzNzVmMjY0
+Li4zY2FmNDUwNzM1ZDcgMTAwNjQ0DQo+IC0tLSBhL2FyY2gvYXJtL2Jvb3QvZHRzL2lteDctY29s
+aWJyaS1ldmFsLXYzLmR0c2kNCj4gKysrIGIvYXJjaC9hcm0vYm9vdC9kdHMvaW14Ny1jb2xpYnJp
+LWV2YWwtdjMuZHRzaQ0KPiBAQCAtMTI0LDcgKzEyNCw3IEBAIHRvdWNoc2NyZWVuQDRhIHsNCj4g
+IAkJcmVnID0gPDB4NGE+Ow0KPiAgCQlpbnRlcnJ1cHQtcGFyZW50ID0gPCZncGlvMT47DQo+ICAJ
+CWludGVycnVwdHMgPSA8OSBJUlFfVFlQRV9FREdFX0ZBTExJTkc+OwkJLyoNCj4gU09ESU1NIDI4
+ICovDQo+IC0JCXJlc2V0LWdwaW9zID0gPCZncGlvMSAxMCBHUElPX0FDVElWRV9ISUdIPjsJLyoN
+Cj4gU09ESU1NIDMwICovDQo+ICsJCXJlc2V0LWdwaW9zID0gPCZncGlvMSAxMCBHUElPX0FDVElW
+RV9MT1c+OwkvKg0KPiBTT0RJTU0gMzAgKi8NCj4gIAkJc3RhdHVzID0gImRpc2FibGVkIjsNCj4g
+IAl9Ow0KPiAgDQo+IGRpZmYgLS1naXQgYS9hcmNoL2FybS9ib290L2R0cy9tb3Rvcm9sYS1tYXBw
+aG9uZS1jb21tb24uZHRzaQ0KPiBiL2FyY2gvYXJtL2Jvb3QvZHRzL21vdG9yb2xhLW1hcHBob25l
+LWNvbW1vbi5kdHNpDQo+IGluZGV4IGQ1ZGVkNGY3OTRkZi4uNWY4Zjc3Y2ZiZTU5IDEwMDY0NA0K
+PiAtLS0gYS9hcmNoL2FybS9ib290L2R0cy9tb3Rvcm9sYS1tYXBwaG9uZS1jb21tb24uZHRzaQ0K
+PiArKysgYi9hcmNoL2FybS9ib290L2R0cy9tb3Rvcm9sYS1tYXBwaG9uZS1jb21tb24uZHRzaQ0K
+PiBAQCAtNDMwLDcgKzQzMCw3IEBAIHRvdWNoc2NyZWVuQDRhIHsNCj4gIAkJcGluY3RybC1uYW1l
+cyA9ICJkZWZhdWx0IjsNCj4gIAkJcGluY3RybC0wID0gPCZ0b3VjaHNjcmVlbl9waW5zPjsNCj4g
+IA0KPiAtCQlyZXNldC1ncGlvcyA9IDwmZ3BpbzYgMTMgR1BJT19BQ1RJVkVfSElHSD47IC8qIGdw
+aW8xNzMNCj4gKi8NCj4gKwkJcmVzZXQtZ3Bpb3MgPSA8JmdwaW82IDEzIEdQSU9fQUNUSVZFX0xP
+Vz47IC8qIGdwaW8xNzMgKi8NCj4gIA0KPiAgCQkvKiBncGlvXzE4MyB3aXRoIHN5c19uaXJxMiBw
+YWQgYXMgd2FrZXVwICovDQo+ICAJCWludGVycnVwdHMtZXh0ZW5kZWQgPSA8JmdwaW82IDIzIElS
+UV9UWVBFX0xFVkVMX0xPVz4sDQo+IGRpZmYgLS1naXQgYS9hcmNoL2FybS9ib290L2R0cy9zNXB2
+MjEwLWFyaWVzLmR0c2kNCj4gYi9hcmNoL2FybS9ib290L2R0cy9zNXB2MjEwLWFyaWVzLmR0c2kN
+Cj4gaW5kZXggYmQ0NDUwZGJkY2I2Li40ZGEzM2QwZjI3NDggMTAwNjQ0DQo+IC0tLSBhL2FyY2gv
+YXJtL2Jvb3QvZHRzL3M1cHYyMTAtYXJpZXMuZHRzaQ0KPiArKysgYi9hcmNoL2FybS9ib290L2R0
+cy9zNXB2MjEwLWFyaWVzLmR0c2kNCj4gQEAgLTYzMiw3ICs2MzIsNyBAQCB0b3VjaHNjcmVlbkA0
+YSB7DQo+ICAJCWludGVycnVwdHMgPSA8NSBJUlFfVFlQRV9FREdFX0ZBTExJTkc+Ow0KPiAgCQlw
+aW5jdHJsLW5hbWVzID0gImRlZmF1bHQiOw0KPiAgCQlwaW5jdHJsLTAgPSA8JnRzX2lycT47DQo+
+IC0JCXJlc2V0LWdwaW9zID0gPCZncGoxIDMgR1BJT19BQ1RJVkVfSElHSD47DQo+ICsJCXJlc2V0
+LWdwaW9zID0gPCZncGoxIDMgR1BJT19BQ1RJVkVfTE9XPjsNCj4gIAl9Ow0KPiAgfTsNCj4gIA0K
+PiBkaWZmIC0tZ2l0IGEvYXJjaC9hcm0vYm9vdC9kdHMvdGVncmEyMC1hY2VyLWE1MDAtcGljYXNz
+by5kdHMNCj4gYi9hcmNoL2FybS9ib290L2R0cy90ZWdyYTIwLWFjZXItYTUwMC1waWNhc3NvLmR0
+cw0KPiBpbmRleCBhMGI4Mjk3MzhlOGYuLjEwNzk0YTg3MDc3NiAxMDA2NDQNCj4gLS0tIGEvYXJj
+aC9hcm0vYm9vdC9kdHMvdGVncmEyMC1hY2VyLWE1MDAtcGljYXNzby5kdHMNCj4gKysrIGIvYXJj
+aC9hcm0vYm9vdC9kdHMvdGVncmEyMC1hY2VyLWE1MDAtcGljYXNzby5kdHMNCj4gQEAgLTQ0Niw3
+ICs0NDYsNyBAQCB0b3VjaHNjcmVlbkA0YyB7DQo+ICAJCQlpbnRlcnJ1cHQtcGFyZW50ID0gPCZn
+cGlvPjsNCj4gIAkJCWludGVycnVwdHMgPSA8VEVHUkFfR1BJTyhWLCA2KQ0KPiBJUlFfVFlQRV9M
+RVZFTF9MT1c+Ow0KPiAgDQo+IC0JCQlyZXNldC1ncGlvcyA9IDwmZ3BpbyBURUdSQV9HUElPKFEs
+IDcpDQo+IEdQSU9fQUNUSVZFX0hJR0g+Ow0KPiArCQkJcmVzZXQtZ3Bpb3MgPSA8JmdwaW8gVEVH
+UkFfR1BJTyhRLCA3KQ0KPiBHUElPX0FDVElWRV9MT1c+Ow0KPiAgDQo+ICAJCQlhdmRkLXN1cHBs
+eSA9IDwmdmRkXzN2M19zeXM+Ow0KPiAgCQkJdmRkLXN1cHBseSAgPSA8JnZkZF8zdjNfc3lzPjsN
+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvaW5wdXQvdG91Y2hzY3JlZW4vYXRtZWxfbXh0X3RzLmMN
+Cj4gYi9kcml2ZXJzL2lucHV0L3RvdWNoc2NyZWVuL2F0bWVsX214dF90cy5jDQo+IGluZGV4IDk4
+ZjE3ZmEzYTg5Mi4uZWY3OTE1NDAwYzlmIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2lucHV0L3Rv
+dWNoc2NyZWVuL2F0bWVsX214dF90cy5jDQo+ICsrKyBiL2RyaXZlcnMvaW5wdXQvdG91Y2hzY3Jl
+ZW4vYXRtZWxfbXh0X3RzLmMNCj4gQEAgLTMxMzQsOCArMzEzNCw5IEBAIHN0YXRpYyBpbnQgbXh0
+X3Byb2JlKHN0cnVjdCBpMmNfY2xpZW50ICpjbGllbnQsDQo+IGNvbnN0IHN0cnVjdCBpMmNfZGV2
+aWNlX2lkICppZCkNCj4gIAlpZiAoZXJyb3IpDQo+ICAJCXJldHVybiBlcnJvcjsNCj4gIA0KPiAr
+CS8qIFJlcXVlc3QgdGhlIFJFU0VUIGxpbmUgYXMgYXNzZXJ0ZWQgc28gd2UgZ28gaW50byByZXNl
+dCAqLw0KPiAgCWRhdGEtPnJlc2V0X2dwaW8gPSBkZXZtX2dwaW9kX2dldF9vcHRpb25hbCgmY2xp
+ZW50LT5kZXYsDQo+IC0JCQkJCQkgICAicmVzZXQiLA0KPiBHUElPRF9PVVRfTE9XKTsNCj4gKwkJ
+CQkJCSAgICJyZXNldCIsDQo+IEdQSU9EX09VVF9ISUdIKTsNCj4gIAlpZiAoSVNfRVJSKGRhdGEt
+PnJlc2V0X2dwaW8pKSB7DQo+ICAJCWVycm9yID0gUFRSX0VSUihkYXRhLT5yZXNldF9ncGlvKTsN
+Cj4gIAkJZGV2X2VycigmY2xpZW50LT5kZXYsICJGYWlsZWQgdG8gZ2V0IHJlc2V0IGdwaW86ICVk
+XG4iLA0KPiBlcnJvcik7DQo+IEBAIC0zMTUzLDggKzMxNTQsOSBAQCBzdGF0aWMgaW50IG14dF9w
+cm9iZShzdHJ1Y3QgaTJjX2NsaWVudCAqY2xpZW50LA0KPiBjb25zdCBzdHJ1Y3QgaTJjX2Rldmlj
+ZV9pZCAqaWQpDQo+ICAJZGlzYWJsZV9pcnEoY2xpZW50LT5pcnEpOw0KPiAgDQo+ICAJaWYgKGRh
+dGEtPnJlc2V0X2dwaW8pIHsNCj4gKwkJLyogV2FpdCBhIHdoaWxlIGFuZCB0aGVuIGRlLWFzc2Vy
+dCB0aGUgUkVTRVQgR1BJTyBsaW5lDQo+ICovDQo+ICAJCW1zbGVlcChNWFRfUkVTRVRfR1BJT19U
+SU1FKTsNCj4gLQkJZ3Bpb2Rfc2V0X3ZhbHVlKGRhdGEtPnJlc2V0X2dwaW8sIDEpOw0KPiArCQln
+cGlvZF9zZXRfdmFsdWUoZGF0YS0+cmVzZXRfZ3BpbywgMCk7DQo+ICAJCW1zbGVlcChNWFRfUkVT
+RVRfSU5WQUxJRF9DSEcpOw0KPiAgCX0NCj4gIA0K
