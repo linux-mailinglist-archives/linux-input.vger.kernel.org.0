@@ -2,109 +2,137 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 203B52A7A10
-	for <lists+linux-input@lfdr.de>; Thu,  5 Nov 2020 10:09:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B33752A7A2B
+	for <lists+linux-input@lfdr.de>; Thu,  5 Nov 2020 10:13:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725827AbgKEJJL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 5 Nov 2020 04:09:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50780 "EHLO
+        id S1730542AbgKEJNR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 5 Nov 2020 04:13:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729909AbgKEJJK (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 5 Nov 2020 04:09:10 -0500
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0610C0613D3
-        for <linux-input@vger.kernel.org>; Thu,  5 Nov 2020 01:09:08 -0800 (PST)
-Received: by mail-ed1-x541.google.com with SMTP id a71so717402edf.9
-        for <linux-input@vger.kernel.org>; Thu, 05 Nov 2020 01:09:08 -0800 (PST)
+        with ESMTP id S1730061AbgKEJNK (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 5 Nov 2020 04:13:10 -0500
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E05AC0613CF
+        for <linux-input@vger.kernel.org>; Thu,  5 Nov 2020 01:13:09 -0800 (PST)
+Received: by mail-wm1-x344.google.com with SMTP id h22so821433wmb.0
+        for <linux-input@vger.kernel.org>; Thu, 05 Nov 2020 01:13:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DAVVTcqOtshkqa//jG0tMqJnAZn8lkJ/jC3ZQlpD4iI=;
-        b=gnCWxb3A2YT1XunheHSuiLH9SajfLtYxFoSSt/SMRqAjsx1al/ZDjdmGmdcaRCgATD
-         VjIP7kiSbjNExGEXiLiKkUKac6IoHWJ/Fimd03ck22Y3TV8a4rMz01X4WGQkmlH9oyFA
-         9esubFwVfP/2m1vKPl5C03O/MKjH3usvIu/M/u1jCtkmZsVaRlPUI4GOMG2G25yqE1WE
-         FkwCiZzuIp80ijwg2sDMrq/aDxArFsCDn2GSr7ejg4GkjzXoXRmPg7sE+KMD8rfx5UT2
-         P0rDV2vx/4uXjrJDE1VHH5s96ArZURV9t0QiVse/pLv22O/+my2jfZQspbaaigUdqAgS
-         xSDg==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=ppYF0PlErbRwfu8mEHF7wqc9jdX4m5kx1kPLbT7peag=;
+        b=IttUDjlTiYiGPb0c5L/usFI9KKlI5FGGTYkpqXQRVcDYOmEHfwHcdcpHZHXlj/CUmd
+         mI1zRNsW15M6Ga+fV2uIBZAabTC4bS8o6ifnFzbK2r2JDvSaBnpFXH8eTgWUkhgeg9yC
+         CUGAiYM+cZUrTy879BMVrpxQMa/sVLAqVLmaKjN9lOnK6v/AuTkDT027AqrfF8otY8y2
+         1jgLd9zYccP0nT43isgCkcIcVjYrKBgayW+iCMX87a41BtPzuyl+E1VUrWjFFQsW9hs+
+         k8q6/6lDlD1VSNaHrrcyw/k7zXv4Eusjh4gHumas/7Hcz7zH5sJGIwo8fIWnYlewFlkI
+         pP4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DAVVTcqOtshkqa//jG0tMqJnAZn8lkJ/jC3ZQlpD4iI=;
-        b=aBDbDaWbgnJ2Ptq7lFt0/g03xAhVSpTJv+YPukYl8P41B7FoKto5DbnY1bjlQh5Gmk
-         0DngYFeiK5Ov5elRImuEcU4OH5B+TA0YJMiTZEAquLDHtrTd67xXk/Yhw3bQ/PBDPsIi
-         eowERa6vMJZv69W8cSHDXyYm8kouoacmf7RE9SX6RVluaX5FHYoV+pTpFCpqyPyHBcmp
-         y13uTaKxJZS4SE3PS9DE0cdSPFZisZUiFloNPKu+ECLHB5/d/+Tq2IYK9gu8VLhZWtn1
-         AdOMiQaGuqdHFVOnAWpMNe+1klowwmbOxdvFTOiLW4jEYIkPQWJ64I1hBTuUsOKq5Rb8
-         eUpg==
-X-Gm-Message-State: AOAM530pRQvg4/dd0M/Qp5zTp6YhyJnhccy6g8dz0Wij4qQwyrO88x52
-        ao+DSvmOi0w0WLmF3ZUJQqOPKL1m/ChSLACWU8mL7A==
-X-Google-Smtp-Source: ABdhPJyqANWyJ3aSTbJtEhMCIaR58Dz9yl2OLSrIAItWEawq6opjRvdm8/eux/hxk+LAgMAS7EPN7dAVW7T2X8+w+iU=
-X-Received: by 2002:a05:6402:283:: with SMTP id l3mr1593849edv.232.1604567347374;
- Thu, 05 Nov 2020 01:09:07 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=ppYF0PlErbRwfu8mEHF7wqc9jdX4m5kx1kPLbT7peag=;
+        b=GvtyFXpj56sqUVWeZCmFaqFx98oy7yCJpuM71/4IMJ+cv5Ypo2+lk/UE8AsV2gvCgS
+         66Hxc382Ti8do3COqc6af5HAa29w6cR1S0HYw7SyAntb9qAKy1okw0I/m/Q8ZPFAzMEc
+         rrmxAXrU0cC3kSMXlJmp+mxmguN60O1McC8mFVcrn4UpthKdhSWqkiDCVfDnG7ytO1eg
+         KD17OsXR4RrOZs+e4e2kda4m8wOjPPBriiYAek+Fha5/9rnCbSoDfszHwoZM29YRYDc4
+         rN3HUrQZoNGLHoRd+pw1gZg/JvikunZqebwaasV3wmwFVskt1aMrvWci1Xfa53YiftYE
+         Flcg==
+X-Gm-Message-State: AOAM530Q5P4T2m1+f9NYXjIqMwLdLXRkuQsXP+sQttfSxj9FvpAk1aov
+        43d6s4XjjLcgmAh9PkM7xOQyGg==
+X-Google-Smtp-Source: ABdhPJzwvxvC55mfhNxs1rZhTHZFiQyUhDp2eRPI3OFsmvNmIkibkr1lXvdEhVgU6KPpcLyTBYaaeA==
+X-Received: by 2002:a1c:9a0e:: with SMTP id c14mr1603242wme.35.1604567587575;
+        Thu, 05 Nov 2020 01:13:07 -0800 (PST)
+Received: from dell ([91.110.221.242])
+        by smtp.gmail.com with ESMTPSA id y10sm1453811wru.94.2020.11.05.01.13.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2020 01:13:06 -0800 (PST)
+Date:   Thu, 5 Nov 2020 09:13:05 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, dusonlin@emc.com.tw,
+        KT Liao <kt.liao@emc.com.tw>, linux-input@vger.kernel.org
+Subject: Re: [PATCH 06/20] include: input: elan-i2c-ids: Mark 'elan_acpi_id'
+ as __maybe_unused
+Message-ID: <20201105091305.GH4488@dell>
+References: <20201104162427.2984742-1-lee.jones@linaro.org>
+ <20201104162427.2984742-7-lee.jones@linaro.org>
+ <20201104225054.GC1003057@dtor-ws>
 MIME-Version: 1.0
-References: <20201104103938.1286-1-nsaenzjulienne@suse.de> <20201104103938.1286-4-nsaenzjulienne@suse.de>
-In-Reply-To: <20201104103938.1286-4-nsaenzjulienne@suse.de>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Thu, 5 Nov 2020 10:08:56 +0100
-Message-ID: <CAMpxmJWv3nfD2xpS4jEq+vJvr=+cD7BV3AFDnsRjCG5qB60c-A@mail.gmail.com>
-Subject: Re: [PATCH v3 03/11] gpio: raspberrypi-exp: Release firmware handle
- on unbind
-To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Cc:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        linux-pwm@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
-        arm-soc <linux-arm-kernel@lists.infradead.org>,
-        linux-devicetree <devicetree@vger.kernel.org>, wahrenst@gmx.net,
-        Linux Input <linux-input@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        devel@driverdev.osuosl.org, Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-gpio <linux-gpio@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-rpi-kernel@lists.infradead.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201104225054.GC1003057@dtor-ws>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Nov 4, 2020 at 11:39 AM Nicolas Saenz Julienne
-<nsaenzjulienne@suse.de> wrote:
->
-> Use devm_rpi_firmware_get() so as to make sure we release RPi's firmware
-> interface when unbinding the device.
->
-> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
->
-> ---
->
-> Changes since v2:
->  - Use devm_rpi_firmware_get(), instead of remove function
->
->  drivers/gpio/gpio-raspberrypi-exp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpio/gpio-raspberrypi-exp.c b/drivers/gpio/gpio-raspberrypi-exp.c
-> index bb100e0124e6..64a552ecc2ad 100644
-> --- a/drivers/gpio/gpio-raspberrypi-exp.c
-> +++ b/drivers/gpio/gpio-raspberrypi-exp.c
-> @@ -208,7 +208,7 @@ static int rpi_exp_gpio_probe(struct platform_device *pdev)
->                 return -ENOENT;
->         }
->
-> -       fw = rpi_firmware_get(fw_node);
-> +       fw = devm_rpi_firmware_get(&pdev->dev, fw_node);
->         of_node_put(fw_node);
->         if (!fw)
->                 return -EPROBE_DEFER;
-> --
-> 2.29.1
->
+On Wed, 04 Nov 2020, Dmitry Torokhov wrote:
 
-Acked-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> Hi Lee,
+> 
+> On Wed, Nov 04, 2020 at 04:24:13PM +0000, Lee Jones wrote:
+> > Some drivers which include 'elan-i2c-ids.h' make use of
+> > 'elan_acpi_id', but not all do.  Tell the compiler that this is
+> > expected behaviour.
+> > 
+> > Fixes the following W=1 kernel build warning(s):
+> > 
+> >  include/linux/input/elan-i2c-ids.h:26:36: warning: ‘elan_acpi_id’ defined but not used [-Wunused-const-variable=]
+> > 
+> > Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > Cc: dusonlin@emc.com.tw
+> > Cc: KT Liao <kt.liao@emc.com.tw>
+> > Cc: linux-input@vger.kernel.org
+> > Signed-off-by: Lee Jones <lee.jones@linaro.org>
+> > ---
+> >  include/linux/input/elan-i2c-ids.h | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/include/linux/input/elan-i2c-ids.h b/include/linux/input/elan-i2c-ids.h
+> > index 520858d126808..b6976d99b6b75 100644
+> > --- a/include/linux/input/elan-i2c-ids.h
+> > +++ b/include/linux/input/elan-i2c-ids.h
+> > @@ -23,7 +23,7 @@
+> >  
+> >  #include <linux/mod_devicetable.h>
+> >  
+> > -static const struct acpi_device_id elan_acpi_id[] = {
+> > +static const struct acpi_device_id __maybe_unused elan_acpi_id[] = {
+> >  	{ "ELAN0000", 0 },
+> >  	{ "ELAN0100", 0 },
+> >  	{ "ELAN0600", 0 },
+> 
+> I think I'd prefer something like this instead:
+> 
+> diff --git a/drivers/input/mouse/elan_i2c_core.c
+> b/drivers/input/mouse/elan_i2c_core.c
+> index c599e21a8478..65d21a050cea 100644
+> --- a/drivers/input/mouse/elan_i2c_core.c
+> +++ b/drivers/input/mouse/elan_i2c_core.c
+> @@ -34,7 +34,6 @@
+>  #include <linux/completion.h>
+>  #include <linux/of.h>
+>  #include <linux/property.h>
+> -#include <linux/input/elan-i2c-ids.h>
+>  #include <linux/regulator/consumer.h>
+>  #include <asm/unaligned.h>
+> 
+> @@ -1413,6 +1412,7 @@ static const struct i2c_device_id elan_id[] = {
+>  MODULE_DEVICE_TABLE(i2c, elan_id);
+> 
+>  #ifdef CONFIG_ACPI
+> +#include <linux/input/elan-i2c-ids.h>
+>  MODULE_DEVICE_TABLE(acpi, elan_acpi_id);
+>  #endif
+
+Moving an #include file to the bottom of a source file, really?
+
+I can do as you wish, but it's a pretty 'interesting' solution. :)
+
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
