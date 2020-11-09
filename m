@@ -2,108 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FA8E2AC236
-	for <lists+linux-input@lfdr.de>; Mon,  9 Nov 2020 18:28:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E36682AC246
+	for <lists+linux-input@lfdr.de>; Mon,  9 Nov 2020 18:30:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731841AbgKIR2t (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 9 Nov 2020 12:28:49 -0500
-Received: from rere.qmqm.pl ([91.227.64.183]:1381 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731634AbgKIR2t (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 9 Nov 2020 12:28:49 -0500
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 4CVHz3362MzTg;
-        Mon,  9 Nov 2020 18:28:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1604942927; bh=nLwavT2NA5+jIA2IuW6zD/l5oswZ/ngNahOWEbWGrOQ=;
-        h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
-        b=HxjM3Q0hwLScDtmMX5LDO2s9nm2aLpP5C7QYWaj1PdAilcDhAq6UH2PgfdaBw7qTg
-         ji3goqS3TNJ+W9q2Ysic2XhMjjTtnEpJm8akqUnXE+Hg4QNx31NdURbIPpiQxpSlz9
-         3Ute+7OMramr9SM81XzQeOnXcjDu+YhMRtJupNCrXxtBXDwbsPeK5r7rUIR9vpPd99
-         7K6JGTDAcjIY8GI2mi16MqZvJxBTl64XUDBjzC5T3xGnKjBt6QkZToK8BqimBuzgGZ
-         Go+HzgAHmcA5CA2CrV8uRhErw+Ftzo8nQdVNjCdT+zWVCVilPoRGh8ncVpvoDu+uRc
-         JspujQ7dmzTzg==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.4 at mail
-Date:   Mon, 09 Nov 2020 18:28:46 +0100
-Message-Id: <76ce45c4a488036f94547d45fc4a964b83c6e381.1604942771.git.mirq-linux@rere.qmqm.pl>
-In-Reply-To: <cover.1604942771.git.mirq-linux@rere.qmqm.pl>
-References: <cover.1604942771.git.mirq-linux@rere.qmqm.pl>
-From:   =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Subject: [PATCH RESEND v8 4/4] input: elants: support 0x66 reply opcode for
- reporting touches
+        id S1731942AbgKIRaT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 9 Nov 2020 12:30:19 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:33209 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731605AbgKIRaT (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 9 Nov 2020 12:30:19 -0500
+Received: by mail-ot1-f66.google.com with SMTP id i18so9739070ots.0;
+        Mon, 09 Nov 2020 09:30:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=By0PfcwclbGGWqIdY33FlSgGR3U94IawXT/xMqBW40E=;
+        b=CGjWpAFE7vay4WNnUocso3+HVf8UavlRxWyAUnHcYYGFpA11axGrd2PrvXXtMY0xjs
+         yIs9GZaozkD3xbuPGXAku8tKoTuDGH/1xBS/R6sx/Xx91nlGPrF3dazeJUX4KkwlFN0q
+         QWPffsC0/q5ydVdcgqqdmeBnpi60VVmfzLFAFRUPAPTkiMZVl+3Nvo6QIh1kf73ww5A5
+         3DizGahAlil8E9heoz1P2aa30iamVhd53GkM3Y+QdAlcHtNKPK6QGcGhBxodEsBuiDFz
+         BJUel1OqQtEl7fsPyTnRNG5HR/avDKB9b0VV528bUvr0LLHOnGiuc9w25vtdivkJAjEG
+         q5Tw==
+X-Gm-Message-State: AOAM530+d83N3J6QVQTTfqedOAwrfXILK00sTsY+miJCyJTAnVSlgmRP
+        vV4r2OZwHbIJHi72iumY7SzQ4L6Tyg==
+X-Google-Smtp-Source: ABdhPJw8uESyxkiXU8hrlZbactHbSu5LN58qs7p49yMnLuL/T3mgUR7DZIbagysRkiCCZviHxpRSDg==
+X-Received: by 2002:a9d:6189:: with SMTP id g9mr2191501otk.231.1604943018638;
+        Mon, 09 Nov 2020 09:30:18 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id t20sm2561274oic.1.2020.11.09.09.30.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2020 09:30:18 -0800 (PST)
+Received: (nullmailer pid 1473175 invoked by uid 1000);
+        Mon, 09 Nov 2020 17:30:17 -0000
+Date:   Mon, 9 Nov 2020 11:30:17 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        devicetree@vger.kernel.org, Stephan Gerhold <stephan@gerhold.net>,
+        Nick Dyer <nick@shmanahar.org>
+Subject: Re: [PATCH 2/3 v2] Input: atmel_mxt_ts - Convert bindings to YAML
+ and extend
+Message-ID: <20201109173017.GA1473085@bogus>
+References: <20201104153032.1387747-1-linus.walleij@linaro.org>
+ <20201104153032.1387747-2-linus.walleij@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Johnny Chuang <johnny.chuang.emc@gmail.com>
-Cc:     Dmitry Osipenko <digetx@gmail.com>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Peter Hutterer <peter.hutterer@who-t.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201104153032.1387747-2-linus.walleij@linaro.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Dmitry Osipenko <digetx@gmail.com>
+On Wed, 04 Nov 2020 16:30:31 +0100, Linus Walleij wrote:
+> This converts the Armel MXT touchscreen bindings to YAML
+> format and extends them with the following two properties:
+> 
+> - vdda-supply: the optional analog supply voltage
+> - vdd-supply: the optional digital supply voltage
+> 
+> I also explained about the reset-gpios property that this
+> better be flagged as active high (0) despite actually
+> being active low, because all current device trees and
+> drivers assume that this is the case and will actively
+> drive the line low to assert RESET.
+> 
+> Tested the schema with all in-tree users and they verify
+> fine.
+> 
+> Cc: Nick Dyer <nick@shmanahar.org>
+> Cc: Stephan Gerhold <stephan@gerhold.net>
+> Cc: devicetree@vger.kernel.org
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+> ChangeLog v1->v2:
+> - State that the GPIO lines shall be flagged as active low.
+>   We will fix all users.
+> ---
+>  .../bindings/input/atmel,maxtouch.txt         | 41 ----------
+>  .../bindings/input/atmel,maxtouch.yaml        | 81 +++++++++++++++++++
+>  MAINTAINERS                                   |  2 +-
+>  3 files changed, 82 insertions(+), 42 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/input/atmel,maxtouch.txt
+>  create mode 100644 Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
+> 
 
-eKTF3624 touchscreen firmware uses two variants of the reply opcodes for
-reporting touch events: one is 0x63 (used by older firmware) and other is
-0x66 (used by newer firmware). The 0x66 variant is equal to 0x63 of
-eKTH3500, while 0x63 needs small adjustment of the touch pressure value.
-
-Nexus 7 tablet device has eKTF3624 touchscreen and it uses 0x66 opcode for
-reporting touch events, let's support it now. Other devices, eg. ASUS TF300T,
-use 0x63.
-
-Note: CMD_HEADER_REK is used for replying to calibration requests, it has
-the same 0x66 opcode number which eKTF3624 uses for reporting touches.
-The calibration replies are handled separately from the the rest of the
-commands in the driver by entering into ELAN_WAIT_RECALIBRATION state
-and thus this change shouldn't change the old behavior.
-
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-Tested-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
-Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
----
- drivers/input/touchscreen/elants_i2c.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
-index c24d8cdc4251..1cbda6f20d07 100644
---- a/drivers/input/touchscreen/elants_i2c.c
-+++ b/drivers/input/touchscreen/elants_i2c.c
-@@ -61,6 +61,15 @@
- #define QUEUE_HEADER_NORMAL	0X63
- #define QUEUE_HEADER_WAIT	0x64
- 
-+/*
-+ * Depending on firmware version, eKTF3624 touchscreens may utilize one of
-+ * these opcodes for the touch events: 0x63 and 0x66. The 0x63 is used by
-+ * older firmware version and differs from 0x66 such that touch pressure
-+ * value needs to be adjusted. The 0x66 opcode of newer firmware is equal
-+ * to 0x63 of eKTH3500.
-+ */
-+#define QUEUE_HEADER_NORMAL2	0x66
-+
- /* Command header definition */
- #define CMD_HEADER_WRITE	0x54
- #define CMD_HEADER_READ		0x53
-@@ -1052,7 +1061,6 @@ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
- 		switch (ts->buf[FW_HDR_TYPE]) {
- 		case CMD_HEADER_HELLO:
- 		case CMD_HEADER_RESP:
--		case CMD_HEADER_REK:
- 			break;
- 
- 		case QUEUE_HEADER_WAIT:
-@@ -1072,6 +1080,7 @@ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
- 			break;
- 
- 		case QUEUE_HEADER_NORMAL:
-+		case QUEUE_HEADER_NORMAL2:
- 			report_count = ts->buf[FW_HDR_COUNT];
- 			if (report_count == 0 || report_count > 3) {
- 				dev_err(&client->dev,
--- 
-2.20.1
-
+Reviewed-by: Rob Herring <robh@kernel.org>
