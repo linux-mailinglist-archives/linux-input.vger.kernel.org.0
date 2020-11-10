@@ -2,39 +2,44 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BEE632ADCB4
-	for <lists+linux-input@lfdr.de>; Tue, 10 Nov 2020 18:17:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80C5F2ADCD8
+	for <lists+linux-input@lfdr.de>; Tue, 10 Nov 2020 18:25:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728272AbgKJRRM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 10 Nov 2020 12:17:12 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42400 "EHLO mail.kernel.org"
+        id S1727968AbgKJRZ0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 10 Nov 2020 12:25:26 -0500
+Received: from mga01.intel.com ([192.55.52.88]:61204 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726344AbgKJRRM (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 10 Nov 2020 12:17:12 -0500
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E8ADF206F1;
-        Tue, 10 Nov 2020 17:17:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605028631;
-        bh=IDiwP0RhYpD80ItMS9pgKMzinJ2j4RtNCNx75zFTLog=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rTE23E2QGj8kKIvhyewqMnyCvmBtSLIvI6AS3O7CXzihw1ZjpE+2bvb94mXPkcsoI
-         SVG6lnO9M8KRECXAnxI94EM3ZlstbwM1R8BmKPWvV2Jrq5FBn/QhsOsLKYb8c+bFPw
-         FS81r8caaLa+AF3dXMajMDqYq2OjVmAfvjYe5Sos=
-Date:   Tue, 10 Nov 2020 18:18:08 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
+        id S1726152AbgKJRZ0 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 10 Nov 2020 12:25:26 -0500
+IronPort-SDR: L0kOyrsKANivfp5SHOQIyw8ovcGchWZ2BfbyN3RVtjgdA5PjvGnQScmDmp4UIAWDxtBMoUYKrS
+ 98p1OcSZpJhw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9801"; a="187983038"
+X-IronPort-AV: E=Sophos;i="5.77,466,1596524400"; 
+   d="scan'208";a="187983038"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2020 09:25:22 -0800
+IronPort-SDR: 89+SA59M9uozLTZpI8yPaKZus9uHxxs4ACMYnZPLspc8G+5pQikcItIA1+kSVOF5NG3aP4EoAQ
+ y2JJZ/DGq4pA==
+X-IronPort-AV: E=Sophos;i="5.77,466,1596524400"; 
+   d="scan'208";a="541414921"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.163])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2020 09:25:19 -0800
+Received: by lahna (sSMTP sendmail emulation); Tue, 10 Nov 2020 19:25:17 +0200
+Date:   Tue, 10 Nov 2020 19:25:17 +0200
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     "Limonciello, Mario" <Mario.Limonciello@dell.com>
-Cc:     Bastien Nocera <hadess@hadess.net>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Bastien Nocera <hadess@hadess.net>,
         Linux PM <linux-pm@vger.kernel.org>,
         "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>
+        Hans de Goede <hdegoede@redhat.com>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>
 Subject: Re: How to enable auto-suspend by default
-Message-ID: <X6rLUDuG0N98jz18@kroah.com>
+Message-ID: <20201110172517.GC2495@lahna.fi.intel.com>
 References: <fe8ab4cab3740afd261fa902f14ecae002a1122d.camel@hadess.net>
  <X6p6ubTOoMPUPPXi@kroah.com>
  <DM6PR19MB2636C94B56D5FBC0BD98A1B0FAE90@DM6PR19MB2636.namprd19.prod.outlook.com>
@@ -42,6 +47,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <DM6PR19MB2636C94B56D5FBC0BD98A1B0FAE90@DM6PR19MB2636.namprd19.prod.outlook.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
@@ -79,25 +85,11 @@ On Tue, Nov 10, 2020 at 04:02:33PM +0000, Limonciello, Mario wrote:
 > the allowlist in the kernel instead.  Then distributions that either don't
 > use systemd or don't regularly update udev rules from systemd can take
 > advantage of better defaults on modern hardware.
-
-That's what the "hardware ids" database is supposed to be handling.
-It's easier to manage this in userspace than in the kernel.
-
-I just love systems where people feel it is safer to update the kernel
-than it is to update a hardware database file :)
-
+> 
 > The one item that stood out to me in that rules file was 8086:a0ed.
 > It's listed as "Volteer XHCI", but that same device ID is actually present
 > in an XPS 9310 in front of me as well and used by the xhci-pci kernel module.
-
-That's an Intel PCI device id.  If someone else is abusing that number,
-I'm sure Intel would want to know about it and would be glad to go after
-them.
-
-But note, PCI devices can be behind lots of different types of busses,
-so maybe the "can this device autosuspend" differs for them because of
-different implementations of where the device is, right?
-
+> 
 > Given we're effectively ending up with the combination of runtime PM turned
 > on by udev rules, do we need something like this for that ID:
 > 
@@ -105,8 +97,11 @@ different implementations of where the device is, right?
 > 
 > @Mika Westerberg should 8086:a0ed be quirked like the TCSS xHCI too?
 
-Submit a patch!
+I think this one is the TGL PCH xHCI. The quirk currently for xHCI
+controllers that are part of the TCSS (Type-C SubSystem) where it is
+important to put all devices into low power mode whenever possible,
+otherwise it keeps the whole block on.
 
-thanks,
-
-greg k-h
+Typically we haven't done that for PCH side xHCI controllers though, but
+I don't see why not if it works that is. Adding Mathias to comment more
+on that since he is the xHCI maintainer.
