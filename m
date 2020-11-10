@@ -2,164 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 678982AD7CB
-	for <lists+linux-input@lfdr.de>; Tue, 10 Nov 2020 14:38:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7046D2AD7E4
+	for <lists+linux-input@lfdr.de>; Tue, 10 Nov 2020 14:43:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730617AbgKJNi5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 10 Nov 2020 08:38:57 -0500
-Received: from mx2.suse.de ([195.135.220.15]:35390 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730534AbgKJNi4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 10 Nov 2020 08:38:56 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 7AAC6ACDB;
-        Tue, 10 Nov 2020 13:38:54 +0000 (UTC)
-Message-ID: <25933d5863cd6ddb98dea25bdedf342ebd063480.camel@suse.de>
-Subject: Re: [PATCH v3 01/11] firmware: raspberrypi: Introduce
- devm_rpi_firmware_get()
-From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc:     Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        bcm-kernel-feedback-list@broadcom.com, linux-pwm@vger.kernel.org,
-        arm-soc <linux-arm-kernel@lists.infradead.org>,
-        linux-devicetree <devicetree@vger.kernel.org>, wahrenst@gmx.net,
-        Linux Input <linux-input@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        devel@driverdev.osuosl.org, Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-gpio <linux-gpio@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-rpi-kernel@lists.infradead.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 10 Nov 2020 14:38:52 +0100
-In-Reply-To: <CAMpxmJUZ23uYM3+_L2XvTXzvA48JWrxrhZaLnGAxTpJjFiERRA@mail.gmail.com>
-References: <20201104103938.1286-1-nsaenzjulienne@suse.de>
-         <20201104103938.1286-2-nsaenzjulienne@suse.de>
-         <CAMpxmJWJRcQQiLitJCLWKmhQVQWr3bMDY=td5FEn5uy2YZfwkA@mail.gmail.com>
-         <47eaba0bc71c6e23bff87b8a01cebf0c6d12efd0.camel@suse.de>
-         <CAMpxmJUZ23uYM3+_L2XvTXzvA48JWrxrhZaLnGAxTpJjFiERRA@mail.gmail.com>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-aSQnVn7Q9FP2OogzR6s5"
-User-Agent: Evolution 3.36.5 
+        id S1730617AbgKJNno (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 10 Nov 2020 08:43:44 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:34858 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730099AbgKJNno (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 10 Nov 2020 08:43:44 -0500
+Received: by mail-oi1-f194.google.com with SMTP id c80so14350735oib.2;
+        Tue, 10 Nov 2020 05:43:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=WpFVE6ofl5+PZ7ETLOM4YJeMuugBjXN/ryVQoNcTj3w=;
+        b=iiwbustvPPGhdGy0jQt5BjOUWl/JCSLciOZAIiraoAC7xC2ohe8H1i4OeKTK/NbZ4I
+         QMorKb0wOApDEZSnZYwes1Xp42Ls6jmd/W08MAasDycHQcXseppaFIRaqZJeFYD2XfVo
+         IZrsqFxcVXSAfJ6bRPl5w7MQiY6FqZHsrPNjyEPEkCD15WBhsaA6Ba9AfITas7tuLBwu
+         N5LIWgDMhTtsF2GpjTNHZHddfkoAf1TQkcnlgpxWPIovmm7ARzjdGpOIt1tUCIzAoRaT
+         cipMI3P+TDGHJvdkT6VZAD38pxuiniN09njqwmp0bCV/Zx/6QmFICDJJNysLh0+bgBd6
+         lOrg==
+X-Gm-Message-State: AOAM531fPU8HCIZxpK1oTD1iXKpYR/A9LX7oTu2cc1r3lZiV8CbBcCLj
+        afgZppNCePnAt4OxO3WRCHUJHK3aHw==
+X-Google-Smtp-Source: ABdhPJxLq0HuK77T+P1JhbEOUFMIPB7pENYAAjIDpcPFoqU5pJqnjH9fqPQkwQ4DHmeCnkrjJ4qD0A==
+X-Received: by 2002:aca:4387:: with SMTP id q129mr2827367oia.108.1605015822787;
+        Tue, 10 Nov 2020 05:43:42 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id a23sm3117370oot.33.2020.11.10.05.43.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2020 05:43:42 -0800 (PST)
+Received: (nullmailer pid 3068702 invoked by uid 1000);
+        Tue, 10 Nov 2020 13:43:40 -0000
+Date:   Tue, 10 Nov 2020 07:43:40 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Andrej Valek <andrej.valek@siemens.com>
+Cc:     dmitry.torokhov@gmail.com, nick@shmanahar.org, hadess@hadess.net,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 2/4] dt-bindings: touchscreen: goodix: add info about
+ disabling FW loading
+Message-ID: <20201110134340.GA3068076@bogus>
+References: <20201029170313.25529-1-andrej.valek@siemens.com>
+ <20201110090720.6650-3-andrej.valek@siemens.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201110090720.6650-3-andrej.valek@siemens.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-
---=-aSQnVn7Q9FP2OogzR6s5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Bartosz, thanks for the feedback.
-
-On Thu, 2020-11-05 at 10:42 +0100, Bartosz Golaszewski wrote:
-> On Thu, Nov 5, 2020 at 10:28 AM Nicolas Saenz Julienne
-> <nsaenzjulienne@suse.de> wrote:
-> > Hi Bartosz, thanks for the review.
-> >=20
-> > On Thu, 2020-11-05 at 10:13 +0100, Bartosz Golaszewski wrote:
-> > > > +/**
-> > > > + * devm_rpi_firmware_get - Get pointer to rpi_firmware structure.
-> > > > + * @firmware_node:    Pointer to the firmware Device Tree node.
-> > > > + *
-> > > > + * Returns NULL is the firmware device is not ready.
-> > > > + */
-> > > > +struct rpi_firmware *devm_rpi_firmware_get(struct device *dev,
-> > > > +                                          struct device_node *firm=
-ware_node)
-> > > > +{
-> > > > +       struct platform_device *pdev =3D of_find_device_by_node(fir=
-mware_node);
-> > > > +       struct rpi_firmware *fw;
-> > > > +
-> > > > +       if (!pdev)
-> > > > +               return NULL;
-> > > > +
-> > > > +       fw =3D platform_get_drvdata(pdev);
-> > > > +       if (!fw)
-> > > > +               return NULL;
-> > > > +
-> > > > +       if (!refcount_inc_not_zero(&fw->consumers))
-> > > > +               return NULL;
-> > > > +
-> > > > +       if (devm_add_action_or_reset(dev, rpi_firmware_put, fw))
-> > > > +               return NULL;
-> > > > +
-> > > > +       return fw;
-> > > > +}
-> > > > +EXPORT_SYMBOL_GPL(devm_rpi_firmware_get);
-> > >=20
-> > > Usually I'd expect the devres variant to simply call
-> > > rpi_firmware_get() and then schedule a release callback which would
-> > > call whatever function is the release counterpart for it currently.
-> > > Devres actions are for drivers which want to schedule some more
-> > > unusual tasks at driver detach. Any reason for designing it this way?
-> >=20
-> > Yes, see patch #8 where I get rid of rpi_firmware_get() altogether afte=
-r
-> > converting all users to devres. Since there is no use for the vanilla v=
-ersion
-> > of the function anymore, I figured it'd be better to merge everything i=
-nto
-> > devm_rpi_firmware_get(). That said it's not something I have strong fee=
-lings
-> > about.
-> >=20
->=20
-> I see. So the previous version didn't really have any reference
-> counting and it leaked the reference returned by
-> of_find_device_by_node(), got it. Could you just clarify for me the
-> logic behind the wait_queue in rpi_firmware_remove()? If the firmware
-> driver gets detached and remove() stops on the wait_queue - it will be
-> stuck until the last user releases the firmware. I'm not sure this is
-> correct.
-
-Yes, that's what I meant to implement.
-
-> I'd prefer to see a kref with a release callback and remove
-> would simply decrease the kref and return. Each user would do the same
-> and then after the last user is detached the firmware would be
-> destroyed.
-
-Sounds good to me. I'll update it.
-
-> Don't we really have some centralized firmware subsystem that would handl=
-e this?
-
-Sadly no, this is an RPi specific thing, it doesn't live behind a standard =
-like
-other firmware based protocols (for ex. SCMI), and evolves as the needs ari=
-se.
-
-Regards,
-Nicolas
+On Tue, 10 Nov 2020 10:07:18 +0100, Andrej Valek wrote:
+> Add information about option how to disable FW loading for each boot.
+> 
+> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> ---
+>  Documentation/devicetree/bindings/input/touchscreen/goodix.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
 
---=-aSQnVn7Q9FP2OogzR6s5
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+My bot found errors running 'make dt_binding_check' on your patch:
 
------BEGIN PGP SIGNATURE-----
+yamllint warnings/errors:
 
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl+ql+wACgkQlfZmHno8
-x/5TFQgArzH6eU5ljiN7do5NqV1SI7f2HoX88NazrWiPc8Ixl7QT4jfzWnZeyiBn
-31OdfWDVQeexADs3RDEvq/o5SSxNP+FDGlnzm9PiYaKPWcGdOpe8wW9wggXest4N
-MVtyqksGQlf3MuItqI4HgP/aAhB8EKnYHTVrku2tAPR9cNliVmeusFWsPWIYXSYc
-IcX61cPnzFkqU56k7aNrk452Kme6XDFDi2eD2DXAzHNlSHiQOH5ZQPKBmFUkaCDL
-xP/T5PwL+YwF3ZWO2sU6voMp96QfiO8R/LYt215dIzlmTmdKcIC7scqEkr4HRSJp
-9SW2n981ery3AA1wXoyGhLMJMilzcQ==
-=CaET
------END PGP SIGNATURE-----
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml: properties:goodix,do-not-load-fw: False is not of type 'object'
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml: ignoring, error in schema: properties: goodix,do-not-load-fw
+warning: no schema found in file: ./Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
 
---=-aSQnVn7Q9FP2OogzR6s5--
+
+See https://patchwork.ozlabs.org/patch/1397438
+
+The base for the patch is generally the last rc1. Any dependencies
+should be noted.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
