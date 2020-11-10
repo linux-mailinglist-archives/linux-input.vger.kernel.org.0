@@ -2,36 +2,36 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F17B2AD215
-	for <lists+linux-input@lfdr.de>; Tue, 10 Nov 2020 10:08:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C0A0B2AD218
+	for <lists+linux-input@lfdr.de>; Tue, 10 Nov 2020 10:08:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730094AbgKJJIR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 10 Nov 2020 04:08:17 -0500
-Received: from goliath.siemens.de ([192.35.17.28]:34125 "EHLO
+        id S1729943AbgKJJIZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 10 Nov 2020 04:08:25 -0500
+Received: from goliath.siemens.de ([192.35.17.28]:34203 "EHLO
         goliath.siemens.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729584AbgKJJIP (ORCPT
+        with ESMTP id S1730239AbgKJJIW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 10 Nov 2020 04:08:15 -0500
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-        by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id 0AA982J7023055
+        Tue, 10 Nov 2020 04:08:22 -0500
+Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
+        by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id 0AA983k6023081
         (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 10 Nov 2020 10:08:02 +0100
+        Tue, 10 Nov 2020 10:08:03 +0100
 Received: from dev.vm7.ccp.siemens.com ([167.87.134.60])
-        by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id 0AA981bP019060;
-        Tue, 10 Nov 2020 10:08:02 +0100
+        by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id 0AA982vD003820;
+        Tue, 10 Nov 2020 10:08:03 +0100
 Received: from mail3.siemens.de (localhost [127.0.0.1])
-        by dev.vm7.ccp.siemens.com (Postfix) with ESMTP id E296370FF89;
-        Tue, 10 Nov 2020 10:07:59 +0100 (CET)
+        by dev.vm7.ccp.siemens.com (Postfix) with ESMTP id 1F4F670BAB5;
+        Tue, 10 Nov 2020 10:08:01 +0100 (CET)
 From:   Andrej Valek <andrej.valek@siemens.com>
 To:     robh@kernel.org, nick@shmanahar.org, hadess@hadess.net,
         dmitry.torokhov@gmail.com
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         devicetree@vger.kernel.org, Andrej Valek <andrej.valek@siemens.com>
-Subject: [PATCH v3 3/4] Input: atmel_mxt_ts - add option to disable firmware loading
-Date:   Tue, 10 Nov 2020 10:07:19 +0100
-Message-Id: <20201110090720.6650-4-andrej.valek@siemens.com>
+Subject: [PATCH v3 4/4] Input: st1232 - add support resolution reading
+Date:   Tue, 10 Nov 2020 10:07:20 +0100
+Message-Id: <20201110090720.6650-5-andrej.valek@siemens.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201029170313.25529-4-andrej.valek@siemens.com>
+In-Reply-To: <20201106100539.6646-2-andrej.valek@siemens.com>
 References: <20201029170313.25529-1-andrej.valek@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -39,60 +39,146 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Firmware file loadind for mXT336U controller takes too much time (~60s).
-There is no check that configuration is the same which is already present.
-This happens always during boot, which makes touchscreen unusable.
-
-Add there an option to prevent firmware file loading, but keep it enabled
-by default.
+Hard-coding resolution for st1633 device was wrong. Some of LCDs like
+YTS700TLBC-02-100C has assembled Sitronix st1633 touchcontroller too. But
+the resolution is not 320x480 as was hard-coded.
+Add new function which reads correct resolution directly from register.
 
 Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+ drivers/input/touchscreen/st1232.c | 52 +++++++++++++++++++++---------
+ 1 file changed, 36 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 98f17fa3a8926..491d5088d2826 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -311,6 +311,7 @@ struct mxt_data {
- 	struct mxt_dbg dbg;
- 	struct gpio_desc *reset_gpio;
- 	bool use_retrigen_workaround;
-+	bool cfg_loading_disabled;
+diff --git a/drivers/input/touchscreen/st1232.c b/drivers/input/touchscreen/st1232.c
+index 63b29c7279e29..1b4b139c85330 100644
+--- a/drivers/input/touchscreen/st1232.c
++++ b/drivers/input/touchscreen/st1232.c
+@@ -26,15 +26,14 @@
+ #define ST1232_TS_NAME	"st1232-ts"
+ #define ST1633_TS_NAME	"st1633-ts"
  
- 	/* Cached parameters from object table */
- 	u16 T5_address;
-@@ -2191,9 +2192,15 @@ static int mxt_initialize(struct mxt_data *data)
++#define REG_XY_RESOLUTION	0x04
++#define REG_XY_COORDINATES	0x12
+ #define ST_TS_MAX_FINGERS	10
+ 
+ struct st_chip_info {
+ 	bool	have_z;
+-	u16	max_x;
+-	u16	max_y;
+ 	u16	max_area;
+ 	u16	max_fingers;
+-	u8	start_reg;
+ };
+ 
+ struct st1232_ts_data {
+@@ -48,15 +47,14 @@ struct st1232_ts_data {
+ 	u8 *read_buf;
+ };
+ 
+-static int st1232_ts_read_data(struct st1232_ts_data *ts)
++static int st1232_ts_read_data(struct st1232_ts_data *ts, u8 reg)
+ {
+ 	struct i2c_client *client = ts->client;
+-	u8 start_reg = ts->chip_info->start_reg;
+ 	struct i2c_msg msg[] = {
+ 		{
+ 			.addr	= client->addr,
+-			.len	= sizeof(start_reg),
+-			.buf	= &start_reg,
++			.len	= sizeof(reg),
++			.buf	= &reg,
+ 		},
+ 		{
+ 			.addr	= client->addr,
+@@ -74,6 +72,25 @@ static int st1232_ts_read_data(struct st1232_ts_data *ts)
+ 	return 0;
+ }
+ 
++static int st1232_ts_read_resolution(struct st1232_ts_data *ts, u16 *max_x,
++				     u16 *max_y)
++{
++	u8 *buf;
++	int error;
++
++	/* select resolution register */
++	error = st1232_ts_read_data(ts, REG_XY_RESOLUTION);
++	if (error)
++		return error;
++
++	buf = ts->read_buf;
++
++	*max_x = ((buf[0] & 0x0070) << 4) | buf[1];
++	*max_y = ((buf[0] & 0x0007) << 8) | buf[2];
++
++	return 0;
++}
++
+ static int st1232_ts_parse_and_report(struct st1232_ts_data *ts)
+ {
+ 	struct input_dev *input = ts->input_dev;
+@@ -123,7 +140,7 @@ static irqreturn_t st1232_ts_irq_handler(int irq, void *dev_id)
+ 	int count;
+ 	int error;
+ 
+-	error = st1232_ts_read_data(ts);
++	error = st1232_ts_read_data(ts, REG_XY_COORDINATES);
  	if (error)
- 		return error;
+ 		goto out;
  
--	error = request_firmware_nowait(THIS_MODULE, true, MXT_CFG_NAME,
--					&client->dev, GFP_KERNEL, data,
--					mxt_config_cb);
-+	/* Load firmware if enabled */
-+	if (!data->cfg_loading_disabled) {
-+		error = request_firmware_nowait(THIS_MODULE, true, MXT_CFG_NAME,
-+						&client->dev, GFP_KERNEL, data,
-+						mxt_config_cb);
-+	} else {
-+		mxt_config_cb(NULL, data);
+@@ -157,20 +174,14 @@ static void st1232_ts_power_off(void *data)
+ 
+ static const struct st_chip_info st1232_chip_info = {
+ 	.have_z		= true,
+-	.max_x		= 0x31f, /* 800 - 1 */
+-	.max_y		= 0x1df, /* 480 -1 */
+ 	.max_area	= 0xff,
+ 	.max_fingers	= 2,
+-	.start_reg	= 0x12,
+ };
+ 
+ static const struct st_chip_info st1633_chip_info = {
+ 	.have_z		= false,
+-	.max_x		= 0x13f, /* 320 - 1 */
+-	.max_y		= 0x1df, /* 480 -1 */
+ 	.max_area	= 0x00,
+ 	.max_fingers	= 5,
+-	.start_reg	= 0x12,
+ };
+ 
+ static int st1232_ts_probe(struct i2c_client *client,
+@@ -179,6 +190,7 @@ static int st1232_ts_probe(struct i2c_client *client,
+ 	const struct st_chip_info *match;
+ 	struct st1232_ts_data *ts;
+ 	struct input_dev *input_dev;
++	u16 max_x, max_y;
+ 	int error;
+ 
+ 	match = device_get_match_data(&client->dev);
+@@ -239,14 +251,22 @@ static int st1232_ts_probe(struct i2c_client *client,
+ 	input_dev->name = "st1232-touchscreen";
+ 	input_dev->id.bustype = BUS_I2C;
+ 
++	/* read resolution from chip */
++	error = st1232_ts_read_resolution(ts, &max_x, &max_y);
++	if (error) {
++		dev_err(&client->dev,
++			"Failed to read resolution: %d\n", error);
++		return error;
 +	}
 +
- 	if (error) {
- 		dev_err(&client->dev, "Failed to invoke firmware loader: %d\n",
- 			error);
-@@ -3158,6 +3165,10 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 		msleep(MXT_RESET_INVALID_CHG);
- 	}
+ 	if (ts->chip_info->have_z)
+ 		input_set_abs_params(input_dev, ABS_MT_TOUCH_MAJOR, 0,
+ 				     ts->chip_info->max_area, 0, 0);
  
-+	/* prevent firmware flashing for each start */
-+	data->cfg_loading_disabled = device_property_read_bool(&client->dev,
-+						"atmel,do-not-load-fw");
-+
- 	error = mxt_initialize(data);
- 	if (error)
- 		return error;
+ 	input_set_abs_params(input_dev, ABS_MT_POSITION_X,
+-			     0, ts->chip_info->max_x, 0, 0);
++			     0, max_x, 0, 0);
+ 	input_set_abs_params(input_dev, ABS_MT_POSITION_Y,
+-			     0, ts->chip_info->max_y, 0, 0);
++			     0, max_y, 0, 0);
+ 
+ 	touchscreen_parse_properties(input_dev, true, &ts->prop);
+ 
 -- 
 2.20.1
 
