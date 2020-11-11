@@ -2,174 +2,118 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 539182AE494
-	for <lists+linux-input@lfdr.de>; Wed, 11 Nov 2020 01:05:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A8A32AE5CD
+	for <lists+linux-input@lfdr.de>; Wed, 11 Nov 2020 02:24:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732029AbgKKAFE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 10 Nov 2020 19:05:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37858 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731984AbgKKAFE (ORCPT
+        id S1732013AbgKKBYl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 10 Nov 2020 20:24:41 -0500
+Received: from nl101-3.vfemail.net ([149.210.219.33]:31459 "EHLO
+        nl101-3.vfemail.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727275AbgKKBYl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 10 Nov 2020 19:05:04 -0500
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ADDDC0613D1;
-        Tue, 10 Nov 2020 16:05:02 -0800 (PST)
-Received: by mail-pf1-x443.google.com with SMTP id w6so401909pfu.1;
-        Tue, 10 Nov 2020 16:05:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=1VEs0o+nsMDorHoMLUHmM+Xmj5XOsdY/7qiX8QRbC/U=;
-        b=dQRCcZPk9TuqGWd0J4OEMBT3NP0Zj7UD3GBHsiK7RS+UrAFDha5DNmNzvmvPVVi+qq
-         dHO+aKjdF2On7kLJqgZcLUGAXjX4Ea70/0CDP/cA91LvH79JBBrWS4SHDyoUv03EIMl9
-         +HMTMHPTj9Ik9rQ7e81KfQAkxRLRfCsVdAgDC57kTIJY8uWJPLCYacZ/O4cN8fFU9qbe
-         xQ8OC5NtJejty36oPzOKgcDs6desxNWtmf267cXunT2R5VJJ6cuodnItwBk91BSG/f6d
-         LUr77JmJjE2T35fd9br3Z3sOlafpl1vfshX/Lpt7CgGlVsFIHKL0gbdXD9lTIaWJT3An
-         nY+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=1VEs0o+nsMDorHoMLUHmM+Xmj5XOsdY/7qiX8QRbC/U=;
-        b=YUpeRWy9m5kTEMoQaEq9cwK0Pa2/IwHea0uA3/uxl/vfEE0kQHlGSq/HV4I03EwJBT
-         ngOgIFeBQCedzM/79d4eUmNJD2xVxuwTK5b2woHrHgti+vWsBBme4HGnV4aENm8mTDjN
-         XU7q4vVUonbtIwJRkDfoS5yJLOsPJgDl1GCX4/7caaXe51lOxd5HEuIh6aPQb4+eaTQ/
-         +zT4BU5ZPt15fs0GfmIQafrBsx7h9rOX3ILhjBOk84vOH3qUS4Wi1JOiYCKpKa1wdwUp
-         aHle11Gsq/8e7j8fJogZ7UjN5YEq36jBVE5sNv0lwmKRVmo04bKGzb0TtbsuWDlUiOyb
-         E/jQ==
-X-Gm-Message-State: AOAM533bXBoAhOa6b+mgYGA2XeQsaGr/LDLH/+kvJarq+NUR1cp1+XI1
-        VE5jKOeRmjDz16GAIeZ/OVg=
-X-Google-Smtp-Source: ABdhPJwnfIuENM6ztZT1PA62l4IOafE83CtvWjIDfYcM0qYA9YMv5JG/BbInpmt763yc7YTwnCHUSA==
-X-Received: by 2002:a63:e004:: with SMTP id e4mr7625859pgh.51.1605053101819;
-        Tue, 10 Nov 2020 16:05:01 -0800 (PST)
-Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id y8sm262749pfe.33.2020.11.10.16.05.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2020 16:05:01 -0800 (PST)
-Date:   Tue, 10 Nov 2020 16:04:58 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Doug Anderson <dianders@chromium.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>, Jiri Kosina <jkosina@suse.cz>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Andrea Borgia <andrea@borgia.bo.it>,
-        Jiri Kosina <jikos@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Pavel Balan <admin@kryma.net>,
-        Xiaofei Tan <tanxiaofei@huawei.com>,
-        You-Sheng Yang <vicamo.yang@canonical.com>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v5 1/4] HID: i2c-hid: Reorganize so ACPI and OF are
- separate modules
-Message-ID: <20201111000458.GW1003057@dtor-ws>
-References: <20201109213636.1267536-1-dianders@chromium.org>
- <20201109133526.v5.1.Ied4ce10d229cd7c69abf13a0361ba0b8d82eb9c4@changeid>
- <d51318d1-5d26-f840-2651-42a1134d407b@redhat.com>
- <CAD=FV=WL7C_OPOQqJY_9nDP4Riz6c4XMHXBBj7FkzMJPBVo9Nw@mail.gmail.com>
+        Tue, 10 Nov 2020 20:24:41 -0500
+X-Greylist: delayed 400 seconds by postgrey-1.27 at vger.kernel.org; Tue, 10 Nov 2020 20:24:40 EST
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=vfemail.net; h=date:from
+        :to:cc:subject:message-id:in-reply-to:references:mime-version
+        :content-type:content-transfer-encoding; s=2018; bh=BzlUAaycItE0
+        crjUqcE5N+l/26Xc5ORPaC1Xen5g9g0=; b=WHdh0fTCwhbAIObdCIt8VASjj8wa
+        8xA6Fg6Edn77Da79xDmTsK1fCpalggh0w9ejuQjD0ZAX75t81eVwRYn7uTffBKt8
+        0goFCGMETAqF1e5swtM69KhohPA7/OoDSsOMfjeFlzFABfo0UPhPBcRCq3YtSW82
+        /hiCG5HQTJqczEo=
+Received: (qmail 53021 invoked from network); 11 Nov 2020 01:17:57 -0000
+Received: by simscan 1.4.0 ppid: 53006, pid: 53014, t: 0.3608s
+         scanners:none
+Received: from unknown (HELO d3d3MTkyLnZmZW1haWwubmV0) (aGdudGt3aXNAdmZlbWFpbC5uZXQ=@MTkyLjE2OC4xLjE5Mg==)
+  by nl101.vfemail.net with ESMTPA; 11 Nov 2020 01:17:57 -0000
+Date:   Tue, 10 Nov 2020 20:17:35 -0500
+From:   Hgntkwis@vfemail.net
+To:     stern@rowland.harvard.edu
+Cc:     linux-usb@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: I need advice with UPS connection.
+Message-ID: <20201110201735.29a37035@Phenom-II-x6.niklas.com>
+In-Reply-To: <20201110215511.GA208895@rowland.harvard.edu>
+References: <20201109220000.2ae98fa5@Phenom-II-x6.niklas.com>
+ <20201110215511.GA208895@rowland.harvard.edu>
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAD=FV=WL7C_OPOQqJY_9nDP4Riz6c4XMHXBBj7FkzMJPBVo9Nw@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Nov 10, 2020 at 02:17:27PM -0800, Doug Anderson wrote:
-> Hi,
+On Tue, 10 Nov 2020 16:55:11 -0500
+Alan Stern <stern@rowland.harvard.edu> wrote:
+> On Mon, Nov 09, 2020 at 10:00:00PM -0500, David Niklas wrote:
+> > Hello,
+> > I'm running Linux Kernel 5.8.X on a Devuan (Debian) system. I
+> > connected my UPS (OPTI-UPS Thunder Shield TS2250B) via USB cable and
+> > got:
+> > 
+> > [739229.454592][T25544] usb 9-4: new low-speed USB device number 2
+> > using ohci-pci [739229.635343][T25544] usb 9-4: config index 0
+> > descriptor too short (expected 9, got 0) [739229.635348][T25544] usb
+> > 9-4: can't read configurations, error -22 [739229.791290][T25544] usb
+> > 9-4: new low-speed USB device number 3 using ohci-pci
+> > [739229.982414][T25544] usb 9-4: New USB device found, idVendor=0d9f,
+> > idProduct=0004, bcdDevice= 0.02 [739229.982421][T25544] usb 9-4: New
+> > USB device strings: Mfr=3, Product=1, SerialNumber=2
+> > [739229.982426][T25544] usb 9-4: Product: HID UPS Battery
+> > [739229.982430][T25544] usb 9-4: Manufacturer: POWERCOM Co.,LTD
+> > [739229.982433][T25544] usb 9-4: SerialNumber: 004-0D9F-000
+> > [739230.027616][T25544] hid-generic 0003:0D9F:0004.0004:
+> > hiddev1,hidraw2: USB HID v1.00 Device [POWERCOM Co.,LTD HID UPS
+> > Battery] on usb-0000:00:16.0-4/input0 [739233.484723][T25544] usb
+> > 9-4: USB disconnect, device number 3 [739236.257951][T25544] usb 9-4:
+> > new low-speed USB device number 4 using ohci-pci
+> > [739236.475434][T25544] usb 9-4: New USB device found, idVendor=0d9f,
+> > idProduct=0004, bcdDevice= 0.02 [739236.475442][T25544] usb 9-4: New
+> > USB device strings: Mfr=3, Product=1, SerialNumber=2
+> > [739236.520783][T25544] hid-generic 0003:0D9F:0004.0005:
+> > hiddev1,hidraw2: USB HID v1.00 Device [HID 0d9f:0004] on
+> > usb-0000:00:16.0-4/input0 [739239.933809][T25544] usb 9-4: USB
+> > disconnect, device number 4 [739242.701322][T25544] usb 9-4: new
+> > low-speed USB device number 5 using ohci-pci [739242.880035][T25544]
+> > usb 9-4: device descriptor read/all, error -62
+> > [739243.034561][T25544] usb 9-4: new low-speed USB device number 6
+> > using ohci-pci [739243.252040][T25544] usb 9-4: New USB device found,
+> > idVendor=0d9f, idProduct=0004, bcdDevice= 0.02
+> > [739243.252042][T25544] usb 9-4: New USB device strings: Mfr=3,
+> > Product=1, SerialNumber=2 [739243.296444][T25544] hid-generic
+> > 0003:0D9F:0004.0006: hiddev1,hidraw2: USB HID v1.00 Device [HID
+> > 0d9f:0004] on usb-0000:00:16.0-4/input0 [739246.720152][T25544] usb
+> > 9-4: USB disconnect, device number 6 [739249.491330][T13473] usb 9-4:
+> > new low-speed USB device number 7 using ohci-pci
+> > [739249.718707][T13473] usb 9-4: New USB device found, idVendor=0d9f,
+> > idProduct=0004, bcdDevice= 0.02 [739249.718709][T13473] usb 9-4: New
+> > USB device strings: Mfr=3, Product=1, SerialNumber=2
+> > [739249.718710][T13473] usb 9-4: Product: HID UPS Battery
+> > [739249.718711][T13473] usb 9-4: Manufacturer: POWERCOM Co.,LTD
+> > [739249.718712][T13473] usb 9-4: SerialNumber: 004-0D9F-000
+> > [739249.751173][T13473] hid-generic 0003:0D9F:0004.0007: unknown main
+> > item tag 0x0 <snip class="spam-repeated-previous-message">
+> > [739250.162392][T13473] hid-generic 0003:0D9F:0004.0007: unknown main
+> > item tag 0x0 [739250.162813][T13473] hid-generic 0003:0D9F:0004.0007:
+> > hidraw2: USB HID v1.00 Device [POWERCOM Co.,LTD HID UPS Battery] on
+> > usb-0000:00:16.0-4/input0 [739253.165518][T13473] usb 9-4: USB
+> > disconnect, device number 7 ...
+> > 
+> > 
+> > I'd appreciate any advice trying to get my UPS to stay connected and
+> > not spam the kernel log. The UPS is about 1 year old. It's working
+> > fine. I just want to use nut or apcupsd with it.
+> > 
+> > Thanks,
+> > David
+>
+> +Jiri, Ben, and linux-input
 > 
-> On Tue, Nov 10, 2020 at 1:01 AM Hans de Goede <hdegoede@redhat.com> wrote:
-> >
-> > Hi,
-> >
-> > On 11/9/20 10:36 PM, Douglas Anderson wrote:
-> > > This patch rejiggers the i2c-hid code so that the OF (Open Firmware
-> > > aka Device Tree) and ACPI support is separated out a bit.  The OF and
-> > > ACPI drivers are now separate modules that wrap the core module.
-> > >
-> > > Essentially, what we're doing here:
-> > > * Make "power up" and "power down" a function that can be (optionally)
-> > >   implemented by a given user of the i2c-hid core.
-> > > * The OF and ACPI modules are drivers on their own, so they implement
-> > >   probe / remove / suspend / resume / shutdown.  The core code
-> > >   provides implementations that OF and ACPI can call into.
-> > >
-> > > We'll organize this so that we now have 3 modules: the old i2c-hid
-> > > module becomes the "core" module and two new modules will depend on
-> > > it, handling probing the specific device.
-> > >
-> > > As part of this work, we'll remove the i2c-hid "platform data"
-> > > concept since it's not needed.
-> > >
-> > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > > ---
-> > >
-> > > Changes in v5:
-> > > - Add shutdown_tail op and use it in ACPI.
-> > > - i2chid_subclass_data => i2chid_ops.
-> > > - power_up_device => power_up (same with power_down).
-> > > - subclass => ops.
-> > >
-> >
-> > Thanks this looks good to now, 2 small remarks below (since you are
-> > going to do a v6 anyways). Feel free to ignore these remarks if
-> > you prefer to keep things as is.
-> >
-> > And feel free to add my reviewed-by to v6 of this patch:
-> >
-> > Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-> 
-> Thanks!
-> 
-> 
-> > > +static const struct i2c_device_id i2c_hid_acpi_id_table[] = {
-> > > +     { "hid", 0 },
-> > > +     { "hid-over-i2c", 0 },
-> > > +     { },
-> > > +};
-> > > +MODULE_DEVICE_TABLE(i2c, i2c_hid_acpi_id_table);
-> >
-> > Hmm, I do not think these old-style i2c-ids are necessarry at
-> > all in this driver. I expect all use-cases to use either
-> > of or acpi matches.
-> >
-> > This was already present in the code before though, so
-> > please ignore this remark. This is just something which
-> > I noticed and thought was worth while pointing out as
-> > a future cleanup.
-> 
-> Yeah, I wasn't sure if there was anyone using them.
-> 
-> Hrm.  Thinking about it, though, is it really OK for two drivers to
-> both have the same table listed?  I'm not sure how that would work.
-> Do you know?
-> 
-> I don't know a ton about ACPI, but for device tree I know i2c has a
-> fallback mode.  Specifically having this table means that we'll match
-> compatible strings such as:
-> 
->   "zipzapzing,hid"
->   "kapowzers,hid-over-i2c"
-> 
-> In other words it'll ignore the vendor part and just match on the
-> second half.  Just to make sure I wasn't remembering that from a dream
-> I tried it and it worked.  I don't see any mainline device trees that
-> look like that, though.  I could delete it, though it doesn't really
-> take up much space and it seems nice to keep it working in case anyone
-> was relying on it?
-> 
-> For ACPI is there a similar fallback?  If not then it seems like it'd
-> be easy to remove it from there...
 
-Just a random thought - will all this still be working with ACPI PRP0001
-and DT-style compatible string and properties in _DSD?
+I googled Jiri and ben but I don't see anything promising. Can you give
+me more search terms or absolute URLs?
 
-Thanks.
+Also, in pointing me to the linux-input subsystem, are you recommending
+me to write a driver or something else?
 
--- 
-Dmitry
+Thanks,
+David
