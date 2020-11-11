@@ -2,65 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B63602AF1EE
-	for <lists+linux-input@lfdr.de>; Wed, 11 Nov 2020 14:21:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 149DC2AF1FA
+	for <lists+linux-input@lfdr.de>; Wed, 11 Nov 2020 14:22:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726310AbgKKNVO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 Nov 2020 08:21:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51978 "EHLO
+        id S1726771AbgKKNWg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 Nov 2020 08:22:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726273AbgKKNVN (ORCPT
+        with ESMTP id S1726625AbgKKNWf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 Nov 2020 08:21:13 -0500
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68ED1C0613D4
-        for <linux-input@vger.kernel.org>; Wed, 11 Nov 2020 05:21:13 -0800 (PST)
-Received: by mail-qt1-x844.google.com with SMTP id 7so1230856qtp.1
-        for <linux-input@vger.kernel.org>; Wed, 11 Nov 2020 05:21:13 -0800 (PST)
+        Wed, 11 Nov 2020 08:22:35 -0500
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A60CC0613D4
+        for <linux-input@vger.kernel.org>; Wed, 11 Nov 2020 05:22:35 -0800 (PST)
+Received: by mail-qk1-x742.google.com with SMTP id y197so1554194qkb.7
+        for <linux-input@vger.kernel.org>; Wed, 11 Nov 2020 05:22:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=NlADkPeF/YZcmq6MXZpZOGFEMPUEHqqqbsTG2vEoP8g=;
-        b=h6LMNerpgdJy4MB7Bei3GC+QiC9oJnWc/M4vBTWRLEBQFErKytWoJzbsk0rThbAhDy
-         eE4UH6zjGPoNwRdRZJz1AAdvWMG8CzhXGb/7UaUrI4NJzUZyCy2beMOFh4zf7tGpQH4d
-         cbj1CgZNvU3/0I3RxLu5vH/oMrNXvyIwlIQ9mY+ynt1Bjps10EUh9AUvJiCIBdSqeXLO
-         DOJaQzM6M8rRMqJerHFQbexHksJZLR26gk8DYRCc9mJIR67lezN/rUCEsWlmvP/3WTrE
-         m9gOkow9UKDZQVZNfvasHpoj91qJfDrP57kdC4W+C0u3qYnJfoZWaAeQLHfKXbLV0Iiz
-         kJvw==
+        bh=x/Q60pfLuPWLPv6hX/jkwh8drVlnoc+vlgtJVcchKak=;
+        b=eXy4ZUKMnn4GrduIy6g6TSW2Xs+a4O2883ah6wgIaSYjEhOmReuVImp9s0P0SgtUxD
+         m+ytNjE4hh/UVGkTtBTD0B9pHywto+zQV2oOqf77xGesQyClFNgNyHEMM3I8JOoQi1Sb
+         3xk5VPBwZ1uNq77etytCuo8hGN8If7nbcBXMNaB4ZwRy+xqQhbBPnFfGOFuk5kHsJj0H
+         rQCQ03QEWVSGxNG6TmxhJp7PB7vtEpU6nvtDDZwouqCpemhpbXqecQK+XJpzFdkiezln
+         iL9RzUMxFIdbcuZcYlf4HXGgXJkpxHe6IZ3tOjHJq6ZvMpHLqMiBBUo5YRL0OnYQHwBO
+         12dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to;
-        bh=NlADkPeF/YZcmq6MXZpZOGFEMPUEHqqqbsTG2vEoP8g=;
-        b=PXBgufecJ7azaVUuXBrHZl3+fXp1W7PwpOO41ymaXuHtrYiAQRerpp+TZagcXA3CMO
-         Bxk5XCdGwLCNd0JeSxVVkhuvkEQrlnr8NDZj4mwITGTCEqadOVB2SRNTtFXPzqKo/Xua
-         KiZPgKan8Eg9YNE/AkIFBKTSJEbq5ykr95JnIIu5kCbbF1HI7R6IiT8ZTdUE5V5V72IC
-         wyGom2ACWrxpjTPClQvHDGfXmrcsjDOxG3b5e7XREubYUDf19GjchQI/Vl5B4J4kqo7b
-         MPKiD65qRHbUIkHsdaf1IsAQAjA7afLaZB63E4dVvAfTI9DuN20oOOqotFo2zlZe9TOF
-         TBjA==
-X-Gm-Message-State: AOAM533qQZaZhdD/fSa+aXIGxpDTvJs9rOO5FlFZRGz0Lt0zimGqe49r
-        p48Kl3ldLfQNfKyE2VNA7cJgnceC6Q/lsvMY1Jsxqw==
-X-Google-Smtp-Source: ABdhPJxcBEyPj+tDuFDmcKoMZziKSY9uwj771yemIf0qMp4iKQ2BGE5dQb4+/QfRpqpaTLdU73nN5VjbkIm23x9cGDM=
-X-Received: by 2002:aed:2b47:: with SMTP id p65mr22002545qtd.337.1605100872289;
- Wed, 11 Nov 2020 05:21:12 -0800 (PST)
+        bh=x/Q60pfLuPWLPv6hX/jkwh8drVlnoc+vlgtJVcchKak=;
+        b=khzOz4Ce2PMEe37XuMgy0uT7/DuLaMtW3Kcsv+DnCQNBNX+raKpdR4tx3PIr+Gphy5
+         9phjaUlesqX9NvohvyQ20i0UEjCu9Z68PdT/5HVDJzm570isJSsbQN6xCd5EW/9Bz5WI
+         cJR5JRPez8gctFTEAfGyFAp0yhAdCpt7nctUkgd5ViXYUyUZPu/CF5uRkN/BtBJq2OgA
+         CAgiO5O2LJ7YERkTPsU1+A76rrd0uQJFzqFQOlK/iL4vSlW8Wt375BTu7Wkt6berT+Dd
+         v6+r2Zh8vAYQ1hVNRowgzxxBvMIYsxSIq+vVb4Ko/dZomtECjLSThllhMVFOywBTnjWW
+         bF8g==
+X-Gm-Message-State: AOAM5310P8ghmveZ9UVYFJcp+BpAcK+RgrFp0EW3ssCOsQgJX4R6Ki2D
+        iP2gu3Fqh32RJWK9jc0nON/M8PjhL0k9PjKKiyBdPA==
+X-Google-Smtp-Source: ABdhPJytp8qk0/tBKQNwejB7g7hac4aTbtfWdQLmjza31MLnM8KNfxoRLAP7csVzsyLasBOZ/Gdx7HgXnyD5DyKpt0s=
+X-Received: by 2002:a37:49d6:: with SMTP id w205mr24951520qka.501.1605100954534;
+ Wed, 11 Nov 2020 05:22:34 -0800 (PST)
 MIME-Version: 1.0
-References: <000000000000ce8d2305a03b0988@google.com> <0000000000006a67f005b117a94a@google.com>
-In-Reply-To: <0000000000006a67f005b117a94a@google.com>
+References: <00000000000054c0d105a0328487@google.com> <00000000000074076405b0f9632a@google.com>
+In-Reply-To: <00000000000074076405b0f9632a@google.com>
 From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Wed, 11 Nov 2020 14:21:01 +0100
-Message-ID: <CACT4Y+aqGaM8cGJzqDML8XY49BLr+fa0e9zqKv246s5qmPfyzg@mail.gmail.com>
-Subject: Re: INFO: trying to register non-static key in uhid_char_release
-To:     syzbot <syzbot+8357fbef0d7bb602de45@syzkaller.appspotmail.com>,
+Date:   Wed, 11 Nov 2020 14:22:23 +0100
+Message-ID: <CACT4Y+a4VWAe4ED7v5+czPc39TATu_ARw6erMikKM8AwpFWYsg@mail.gmail.com>
+Subject: Re: INFO: trying to register non-static key in uhid_dev_destroy
+To:     syzbot <syzbot+0c601d7fbb8122d39093@syzkaller.appspotmail.com>,
         "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Oct 7, 2020 at 7:01 PM syzbot
-<syzbot+8357fbef0d7bb602de45@syzkaller.appspotmail.com> wrote:
+On Tue, Oct 6, 2020 at 6:54 AM syzbot
+<syzbot+0c601d7fbb8122d39093@syzkaller.appspotmail.com> wrote:
 >
 > syzbot suspects this issue was fixed by commit:
 >
@@ -70,13 +70,13 @@ On Wed, Oct 7, 2020 at 7:01 PM syzbot
 >
 >     HID: core: Correctly handle ReportSize being zero
 >
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=12d19370500000
-> start commit:   1127b219 Merge tag 'fallthrough-fixes-5.9-rc3' of git://gi..
+> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=10b82f50500000
+> start commit:   152036d1 Merge tag 'nfsd-5.7-rc-2' of git://git.linux-nfs...
 > git tree:       upstream
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=891ca5711a9f1650
-> dashboard link: https://syzkaller.appspot.com/bug?extid=8357fbef0d7bb602de45
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=102c472e900000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13081056900000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=efdde85c3af536b5
+> dashboard link: https://syzkaller.appspot.com/bug?extid=0c601d7fbb8122d39093
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10ebad0c100000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14d6c21c100000
 >
 > If the result looks correct, please mark the issue as fixed by replying with:
 >
