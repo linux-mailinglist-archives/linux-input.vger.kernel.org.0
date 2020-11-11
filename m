@@ -2,97 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 59BE82AF68A
-	for <lists+linux-input@lfdr.de>; Wed, 11 Nov 2020 17:31:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 657AF2AF890
+	for <lists+linux-input@lfdr.de>; Wed, 11 Nov 2020 19:52:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726273AbgKKQbX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 Nov 2020 11:31:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53796 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726208AbgKKQbX (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 Nov 2020 11:31:23 -0500
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 06267206B5;
-        Wed, 11 Nov 2020 16:31:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605112282;
-        bh=u1W79eBhFJDijrV1bXsrDHc02dojBuPzlmTjNRwzECM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pTJO7zCDEAIc4ENcSgzN9lsMdGt7wXtmAxlhGhYh9RxxpVjT7DGXoeXUS10GeaFoJ
-         TqdEeulUJiiE6h4kRf+qbVUdou0DBrWTQpZdIfznMNMFg0Uy+wXHd5P9E0SvPkdoXw
-         eDeNfg3jKEyZgGrNPO6pRBc2UXlWpwDPeeHKE9T4=
-Date:   Wed, 11 Nov 2020 17:32:22 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     "Limonciello, Mario" <Mario.Limonciello@dell.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Bastien Nocera <hadess@hadess.net>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: How to enable auto-suspend by default
-Message-ID: <X6wSFojYLvwGhY/g@kroah.com>
-References: <fe8ab4cab3740afd261fa902f14ecae002a1122d.camel@hadess.net>
- <X6p6ubTOoMPUPPXi@kroah.com>
- <DM6PR19MB2636C94B56D5FBC0BD98A1B0FAE90@DM6PR19MB2636.namprd19.prod.outlook.com>
- <20201110172517.GC2495@lahna.fi.intel.com>
- <30957f1a-1fe5-5d9a-101b-25f12fb93907@redhat.com>
- <DM6PR19MB26366008D59FC94D384A1E3BFAE80@DM6PR19MB2636.namprd19.prod.outlook.com>
+        id S1726466AbgKKSwA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 Nov 2020 13:52:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47046 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726126AbgKKSv7 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 11 Nov 2020 13:51:59 -0500
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DF22C0613D1;
+        Wed, 11 Nov 2020 10:51:59 -0800 (PST)
+Received: by mail-pj1-x1044.google.com with SMTP id r9so1149908pjl.5;
+        Wed, 11 Nov 2020 10:51:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=l1Pegl0AGNVKaWQlJGzbmp8EJmfVq5zNsJCWYXHqOnQ=;
+        b=Sma0B//i35MjdI7HCYP+08L7s9F239NGmzphbelfWa2ENFCQpLLXlUAe/x+rjedsc6
+         TN+lVpjjqEDnl8+S0iZ9yMEzpBhMl5fsd5c58bomv+UyWH/687H7nkHD0TdeMVM3uTiZ
+         wi3zkTu6uazExkFK/R8FQeJUrhOrFd4rRoyQgA0m8XFEEuQFykA1uPP96y3dIEon9A/N
+         KC0zThADnhzemVUeqw1HtK/p7TqhPM5784XAMpECJJ4Hr1AM0LV+Pa+FfGLe9qnRIKbi
+         Z4d8oGK7j/bCc7FjqRt2I0NQC8CWxCC16nYIoi07nkO2QONKakdpxzTBFJhi9A8Nav90
+         YI3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=l1Pegl0AGNVKaWQlJGzbmp8EJmfVq5zNsJCWYXHqOnQ=;
+        b=YFcZZ9YOuc85yuwDNvCLtrEk0RtYOMOvoxOUIAjqKqElWgCKMo80ezV0ruSdS/HDT4
+         35dWB7gUFIkH0GNg0wJXU/3GHF3/urSfWdjnuTu4NOBP2c5NKfMpcT8pVoJmaNU6/I6O
+         Vqao/nvAxkbq6/5zh3WqJzPUPcWXpj/Tkc/MFs+91GdiwBlmkv5O/RKruHzrjZbVGahe
+         1PDJ2sNZXWQG1XEOaac82YK1zze+ZStjS5eHXOHRhVhnqqikkW1M4URv5g+yq7xrtTby
+         lsMQ0hjMyT34Ad2/AqHO02o6zXkFdDjlkhdzgav08bqP4PY5SRpEcBxUa7h3nQuFu9JC
+         ATxg==
+X-Gm-Message-State: AOAM5336sVi2bXgE7ZaIRTsnxGwP8I895qWgK93IyM4U8uTv/8A4RWTH
+        v2Gu2Tldiz0Oj42lhDrSNxE=
+X-Google-Smtp-Source: ABdhPJyVUxQq2cBj6TbT7F1VtW6AHWOcUSdgcCYuaWRLgf846LUydwLec7E5iGdGUkH1FvYA9TxFWg==
+X-Received: by 2002:a17:902:bd01:b029:d4:d73d:7644 with SMTP id p1-20020a170902bd01b02900d4d73d7644mr22293923pls.69.1605120718101;
+        Wed, 11 Nov 2020 10:51:58 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id v18sm3367522pfn.35.2020.11.11.10.51.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2020 10:51:57 -0800 (PST)
+Date:   Wed, 11 Nov 2020 10:51:55 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     Alexandru Ardelean <alexandru.ardelean@analog.com>,
+        Mark Brown <broonie@kernel.org>, kernel@pengutronix.de,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-spi@vger.kernel.org, David Jander <david@protonic.nl>
+Subject: Re: [PATCH v2 2/2] Input: ads7846: do not overwrite spi->mode flags
+ set by spi framework
+Message-ID: <20201111185155.GX1003057@dtor-ws>
+References: <20201027095724.18654-1-o.rempel@pengutronix.de>
+ <20201027095724.18654-3-o.rempel@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DM6PR19MB26366008D59FC94D384A1E3BFAE80@DM6PR19MB2636.namprd19.prod.outlook.com>
+In-Reply-To: <20201027095724.18654-3-o.rempel@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Nov 11, 2020 at 04:03:30PM +0000, Limonciello, Mario wrote:
-> > >> Given we're effectively ending up with the combination of runtime PM turned
-> > >> on by udev rules, do we need something like this for that ID:
-> > >>
-> > >>
-> > https://github.com/torvalds/linux/commit/6a7c533d4a1854f54901a065d8c672e890400
-> > d8a
-> > >>
-> > >> @Mika Westerberg should 8086:a0ed be quirked like the TCSS xHCI too?
-> > >
-> > > I think this one is the TGL PCH xHCI. The quirk currently for xHCI
-> > > controllers that are part of the TCSS (Type-C SubSystem) where it is
-> > > important to put all devices into low power mode whenever possible,
-> > > otherwise it keeps the whole block on.
-> > 
-> > Note that there are currently some IDs missing from the xHCIs which
-> > are part of the TCSS too. At least the id for the xHCI in the thunderbolt
-> > controller on the Lenovo T14 gen 1 is missing. I started a discussion
-> > about extending the kernel quirk list for this vs switching to hwdb
-> > a while a go:
-> > 
-> > https://lore.kernel.org/linux-usb/b8b21ba3-0a8a-ff54-5e12-
-> > cf8960651086@redhat.com/
-> > 
-> > The conclusion back then was to switch to hwdb, but I never got around to
-> > this.
+On Tue, Oct 27, 2020 at 10:57:24AM +0100, Oleksij Rempel wrote:
+> Do not overwrite spi->mode flags set by spi framework, otherwise the
+> chip select polarity will get lost.
 > 
-> I guess the problem I see with switching to a hwdb for this type of thing is
-> that if there is a "bug" in your kernel driver around autosuspend you will
-> then be potentially causing it to occur more regularly on a kernel that didn't
-> necessarily pick up the fix but does have the newer hwdb.
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+
+Mark, could you please pick up this one through your tree as well? I do
+not believe that outstanding patches that I have in my queue for this
+driver will clash with it.  
+
+Thanks!
+
+> ---
+>  drivers/input/touchscreen/ads7846.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> I don't know how common that will really be though.
+> diff --git a/drivers/input/touchscreen/ads7846.c b/drivers/input/touchscreen/ads7846.c
+> index 8fd7fc39c4fd..f2dc2c8ab5ec 100644
+> --- a/drivers/input/touchscreen/ads7846.c
+> +++ b/drivers/input/touchscreen/ads7846.c
+> @@ -1288,7 +1288,8 @@ static int ads7846_probe(struct spi_device *spi)
+>  	 * may not.  So we stick to very-portable 8 bit words, both RX and TX.
+>  	 */
+>  	spi->bits_per_word = 8;
+> -	spi->mode = SPI_MODE_0;
+> +	spi->mode &= ~SPI_MODE_X_MASK;
+> +	spi->mode |= SPI_MODE_0;
+>  	err = spi_setup(spi);
+>  	if (err < 0)
+>  		return err;
+> -- 
+> 2.28.0
 > 
-> Since Mika mentioned the really light userspace scenario, what about shipping
-> the hwdb "with" the kernel in tree?  This could allow evicting all these quirk
-> scenarios from the kernel at the same time as switching to a hwdb and also cover
-> the problem I suggested might happen with a bug in older kernel and newer userspace.
 
-We took things out of the kernel to put it in hwdb years ago as it was
-easier for people to update a "text file" than it was their kernel
-image.  I don't think you want to go backwards here :)
-
-thanks,
-
-greg k-h
+-- 
+Dmitry
