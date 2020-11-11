@@ -2,86 +2,175 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 149DC2AF1FA
-	for <lists+linux-input@lfdr.de>; Wed, 11 Nov 2020 14:22:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EDD022AF29C
+	for <lists+linux-input@lfdr.de>; Wed, 11 Nov 2020 14:55:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726771AbgKKNWg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 11 Nov 2020 08:22:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52196 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726625AbgKKNWf (ORCPT
+        id S1727176AbgKKNzb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 11 Nov 2020 08:55:31 -0500
+Received: from mail-il1-f199.google.com ([209.85.166.199]:34599 "EHLO
+        mail-il1-f199.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727192AbgKKNz3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 11 Nov 2020 08:22:35 -0500
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A60CC0613D4
-        for <linux-input@vger.kernel.org>; Wed, 11 Nov 2020 05:22:35 -0800 (PST)
-Received: by mail-qk1-x742.google.com with SMTP id y197so1554194qkb.7
-        for <linux-input@vger.kernel.org>; Wed, 11 Nov 2020 05:22:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=x/Q60pfLuPWLPv6hX/jkwh8drVlnoc+vlgtJVcchKak=;
-        b=eXy4ZUKMnn4GrduIy6g6TSW2Xs+a4O2883ah6wgIaSYjEhOmReuVImp9s0P0SgtUxD
-         m+ytNjE4hh/UVGkTtBTD0B9pHywto+zQV2oOqf77xGesQyClFNgNyHEMM3I8JOoQi1Sb
-         3xk5VPBwZ1uNq77etytCuo8hGN8If7nbcBXMNaB4ZwRy+xqQhbBPnFfGOFuk5kHsJj0H
-         rQCQ03QEWVSGxNG6TmxhJp7PB7vtEpU6nvtDDZwouqCpemhpbXqecQK+XJpzFdkiezln
-         iL9RzUMxFIdbcuZcYlf4HXGgXJkpxHe6IZ3tOjHJq6ZvMpHLqMiBBUo5YRL0OnYQHwBO
-         12dA==
+        Wed, 11 Nov 2020 08:55:29 -0500
+Received: by mail-il1-f199.google.com with SMTP id e14so1387100ilr.1
+        for <linux-input@vger.kernel.org>; Wed, 11 Nov 2020 05:55:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=x/Q60pfLuPWLPv6hX/jkwh8drVlnoc+vlgtJVcchKak=;
-        b=khzOz4Ce2PMEe37XuMgy0uT7/DuLaMtW3Kcsv+DnCQNBNX+raKpdR4tx3PIr+Gphy5
-         9phjaUlesqX9NvohvyQ20i0UEjCu9Z68PdT/5HVDJzm570isJSsbQN6xCd5EW/9Bz5WI
-         cJR5JRPez8gctFTEAfGyFAp0yhAdCpt7nctUkgd5ViXYUyUZPu/CF5uRkN/BtBJq2OgA
-         CAgiO5O2LJ7YERkTPsU1+A76rrd0uQJFzqFQOlK/iL4vSlW8Wt375BTu7Wkt6berT+Dd
-         v6+r2Zh8vAYQ1hVNRowgzxxBvMIYsxSIq+vVb4Ko/dZomtECjLSThllhMVFOywBTnjWW
-         bF8g==
-X-Gm-Message-State: AOAM5310P8ghmveZ9UVYFJcp+BpAcK+RgrFp0EW3ssCOsQgJX4R6Ki2D
-        iP2gu3Fqh32RJWK9jc0nON/M8PjhL0k9PjKKiyBdPA==
-X-Google-Smtp-Source: ABdhPJytp8qk0/tBKQNwejB7g7hac4aTbtfWdQLmjza31MLnM8KNfxoRLAP7csVzsyLasBOZ/Gdx7HgXnyD5DyKpt0s=
-X-Received: by 2002:a37:49d6:: with SMTP id w205mr24951520qka.501.1605100954534;
- Wed, 11 Nov 2020 05:22:34 -0800 (PST)
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=eBJECi1MCWmcND7XU6JD96ghwkq64uxBYy2L3wSV0kY=;
+        b=lMuI2ZJYYxwsAYQ+pQkfkOrOFHOOw2iT1AkO8D3S9q3PkJfcygmukaRsYcpV0z2NMB
+         EundpS3LO72hxP7vnYbK6UpsI9UAcSU7veXytNb6SzarIeLfV043ZDA5kE8MKqF2gKNM
+         N8xjW8jmiJY3oLLKcW9T3tAMuc6GacdonPkj5bE/axXN9y9WzLbYXejcO4ZqEbpsL+Iw
+         8tongIuPN6iuxhI5Vcb097FE3I9aXYCbZ2f8OfIfAIVzGmERTURgOcRn4cZcrTZLQnzp
+         WHTmA4yDJBXr6UedAFWY0ff4w18Dda+ilr2Dq9HGg3e7/ZUxKksyozY4LREMMAY879yW
+         kLLQ==
+X-Gm-Message-State: AOAM53241ADNx4eACC/OzGICWp/kLB3n8UnplvWQ58x31wcH4tt/UYEp
+        0WreY/YrlnNtqkf4icKRnddk0cuKZEJN4XRQdjRRex1uChe9
+X-Google-Smtp-Source: ABdhPJyqsVD/08P7KbjopKFgcEXU3rJ49JEnT/YpZLyQBbsuoA9cpDRkJxew2c6gp9ZEl+04aZ2IP0wHC6Pa5XJA9g5YPzelGxcR
 MIME-Version: 1.0
-References: <00000000000054c0d105a0328487@google.com> <00000000000074076405b0f9632a@google.com>
-In-Reply-To: <00000000000074076405b0f9632a@google.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Wed, 11 Nov 2020 14:22:23 +0100
-Message-ID: <CACT4Y+a4VWAe4ED7v5+czPc39TATu_ARw6erMikKM8AwpFWYsg@mail.gmail.com>
-Subject: Re: INFO: trying to register non-static key in uhid_dev_destroy
-To:     syzbot <syzbot+0c601d7fbb8122d39093@syzkaller.appspotmail.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        LKML <linux-kernel@vger.kernel.org>
+X-Received: by 2002:a92:4442:: with SMTP id a2mr18160839ilm.220.1605102926926;
+ Wed, 11 Nov 2020 05:55:26 -0800 (PST)
+Date:   Wed, 11 Nov 2020 05:55:26 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000c99ca505b3d525fb@google.com>
+Subject: memory leak in __usbhid_submit_report
+From:   syzbot <syzbot+47b26cd837ececfc666d@syzkaller.appspotmail.com>
+To:     benjamin.tissoires@redhat.com, jikos@kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Oct 6, 2020 at 6:54 AM syzbot
-<syzbot+0c601d7fbb8122d39093@syzkaller.appspotmail.com> wrote:
->
-> syzbot suspects this issue was fixed by commit:
->
-> commit bce1305c0ece3dc549663605e567655dd701752c
-> Author: Marc Zyngier <maz@kernel.org>
-> Date:   Sat Aug 29 11:26:01 2020 +0000
->
->     HID: core: Correctly handle ReportSize being zero
->
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=10b82f50500000
-> start commit:   152036d1 Merge tag 'nfsd-5.7-rc-2' of git://git.linux-nfs...
-> git tree:       upstream
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=efdde85c3af536b5
-> dashboard link: https://syzkaller.appspot.com/bug?extid=0c601d7fbb8122d39093
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10ebad0c100000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14d6c21c100000
->
-> If the result looks correct, please mark the issue as fixed by replying with:
->
-> #syz fix: HID: core: Correctly handle ReportSize being zero
->
-> For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+Hello,
 
-#syz fix: HID: core: Correctly handle ReportSize being zero
+syzbot found the following issue on:
+
+HEAD commit:    f8394f23 Linux 5.10-rc3
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=12ebbdc6500000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=a3f13716fa0212fd
+dashboard link: https://syzkaller.appspot.com/bug?extid=47b26cd837ececfc666d
+compiler:       gcc (GCC) 10.1.0-syz 20200507
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14497b82500000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1586ff14500000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+47b26cd837ececfc666d@syzkaller.appspotmail.com
+
+BUG: memory leak
+unreferenced object 0xffff8881097e5ec0 (size 32):
+  comm "kworker/0:1", pid 7, jiffies 4294949214 (age 33.520s)
+  hex dump (first 32 bytes):
+    04 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<000000008296eaa1>] __usbhid_submit_report+0x116/0x490 drivers/hid/usbhid/hid-core.c:588
+    [<00000000fe39f007>] usbhid_submit_report drivers/hid/usbhid/hid-core.c:638 [inline]
+    [<00000000fe39f007>] usbhid_request+0x59/0xa0 drivers/hid/usbhid/hid-core.c:1272
+    [<00000000428a854b>] hidinput_led_worker+0x59/0x160 drivers/hid/hid-input.c:1507
+    [<000000001bb8d86d>] process_one_work+0x27d/0x590 kernel/workqueue.c:2272
+    [<000000005d9a2f9c>] worker_thread+0x59/0x5d0 kernel/workqueue.c:2418
+    [<00000000dc999b29>] kthread+0x178/0x1b0 kernel/kthread.c:292
+    [<0000000099d5a9ee>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:296
+
+BUG: memory leak
+unreferenced object 0xffff8881120200c0 (size 32):
+  comm "kworker/0:1", pid 7, jiffies 4294949214 (age 33.520s)
+  hex dump (first 32 bytes):
+    04 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<000000008296eaa1>] __usbhid_submit_report+0x116/0x490 drivers/hid/usbhid/hid-core.c:588
+    [<00000000fe39f007>] usbhid_submit_report drivers/hid/usbhid/hid-core.c:638 [inline]
+    [<00000000fe39f007>] usbhid_request+0x59/0xa0 drivers/hid/usbhid/hid-core.c:1272
+    [<00000000428a854b>] hidinput_led_worker+0x59/0x160 drivers/hid/hid-input.c:1507
+    [<000000001bb8d86d>] process_one_work+0x27d/0x590 kernel/workqueue.c:2272
+    [<000000005d9a2f9c>] worker_thread+0x59/0x5d0 kernel/workqueue.c:2418
+    [<00000000dc999b29>] kthread+0x178/0x1b0 kernel/kthread.c:292
+    [<0000000099d5a9ee>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:296
+
+BUG: memory leak
+unreferenced object 0xffff888107fa9420 (size 32):
+  comm "kworker/0:1", pid 7, jiffies 4294949214 (age 33.520s)
+  hex dump (first 32 bytes):
+    04 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<000000008296eaa1>] __usbhid_submit_report+0x116/0x490 drivers/hid/usbhid/hid-core.c:588
+    [<00000000fe39f007>] usbhid_submit_report drivers/hid/usbhid/hid-core.c:638 [inline]
+    [<00000000fe39f007>] usbhid_request+0x59/0xa0 drivers/hid/usbhid/hid-core.c:1272
+    [<00000000428a854b>] hidinput_led_worker+0x59/0x160 drivers/hid/hid-input.c:1507
+    [<000000001bb8d86d>] process_one_work+0x27d/0x590 kernel/workqueue.c:2272
+    [<000000005d9a2f9c>] worker_thread+0x59/0x5d0 kernel/workqueue.c:2418
+    [<00000000dc999b29>] kthread+0x178/0x1b0 kernel/kthread.c:292
+    [<0000000099d5a9ee>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:296
+
+BUG: memory leak
+unreferenced object 0xffff888112020b60 (size 32):
+  comm "kworker/1:4", pid 8569, jiffies 4294949237 (age 33.290s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<000000008296eaa1>] __usbhid_submit_report+0x116/0x490 drivers/hid/usbhid/hid-core.c:588
+    [<00000000fe39f007>] usbhid_submit_report drivers/hid/usbhid/hid-core.c:638 [inline]
+    [<00000000fe39f007>] usbhid_request+0x59/0xa0 drivers/hid/usbhid/hid-core.c:1272
+    [<00000000428a854b>] hidinput_led_worker+0x59/0x160 drivers/hid/hid-input.c:1507
+    [<000000001bb8d86d>] process_one_work+0x27d/0x590 kernel/workqueue.c:2272
+    [<000000005d9a2f9c>] worker_thread+0x59/0x5d0 kernel/workqueue.c:2418
+    [<00000000dc999b29>] kthread+0x178/0x1b0 kernel/kthread.c:292
+    [<0000000099d5a9ee>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:296
+
+BUG: memory leak
+unreferenced object 0xffff888107fa9a20 (size 32):
+  comm "kworker/1:3", pid 8559, jiffies 4294949241 (age 33.250s)
+  hex dump (first 32 bytes):
+    04 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<000000008296eaa1>] __usbhid_submit_report+0x116/0x490 drivers/hid/usbhid/hid-core.c:588
+    [<00000000fe39f007>] usbhid_submit_report drivers/hid/usbhid/hid-core.c:638 [inline]
+    [<00000000fe39f007>] usbhid_request+0x59/0xa0 drivers/hid/usbhid/hid-core.c:1272
+    [<00000000428a854b>] hidinput_led_worker+0x59/0x160 drivers/hid/hid-input.c:1507
+    [<000000001bb8d86d>] process_one_work+0x27d/0x590 kernel/workqueue.c:2272
+    [<000000005d9a2f9c>] worker_thread+0x59/0x5d0 kernel/workqueue.c:2418
+    [<00000000dc999b29>] kthread+0x178/0x1b0 kernel/kthread.c:292
+    [<0000000099d5a9ee>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:296
+
+BUG: memory leak
+unreferenced object 0xffff888112020940 (size 32):
+  comm "kworker/1:3", pid 8559, jiffies 4294949241 (age 33.250s)
+  hex dump (first 32 bytes):
+    04 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<000000008296eaa1>] __usbhid_submit_report+0x116/0x490 drivers/hid/usbhid/hid-core.c:588
+    [<00000000fe39f007>] usbhid_submit_report drivers/hid/usbhid/hid-core.c:638 [inline]
+    [<00000000fe39f007>] usbhid_request+0x59/0xa0 drivers/hid/usbhid/hid-core.c:1272
+    [<00000000428a854b>] hidinput_led_worker+0x59/0x160 drivers/hid/hid-input.c:1507
+    [<000000001bb8d86d>] process_one_work+0x27d/0x590 kernel/workqueue.c:2272
+    [<000000005d9a2f9c>] worker_thread+0x59/0x5d0 kernel/workqueue.c:2418
+    [<00000000dc999b29>] kthread+0x178/0x1b0 kernel/kthread.c:292
+    [<0000000099d5a9ee>] ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:296
+
+executing program
+executing program
+executing program
+executing program
+executing program
+executing program
+executing program
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
