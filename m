@@ -2,167 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 507C52B0244
-	for <lists+linux-input@lfdr.de>; Thu, 12 Nov 2020 10:50:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 16F3A2B02FE
+	for <lists+linux-input@lfdr.de>; Thu, 12 Nov 2020 11:44:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725928AbgKLJuU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 12 Nov 2020 04:50:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30866 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727727AbgKLJuT (ORCPT
+        id S1727940AbgKLKo0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 12 Nov 2020 05:44:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52246 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726107AbgKLKoZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 12 Nov 2020 04:50:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1605174617;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=PtxnjSLOtg2WGHDNZpdP38be5tiMnWAe+aTxlrj8fy0=;
-        b=JdDoMMsw9gtPlemZEvuCqe9F9h+ZlcGa18RfGYctdR6gl5z4Q31m2kMh/NLugmxLZ/cd/f
-        cCj0IR2xi8f/mvL59T4gVqVQMMP6xnf66wEc13m6vcV49fJNktJ1dk9PIRElMu0ptOyFN/
-        Lmv1O5H2KqpwHSNnmYJiKU9ZyRPhdic=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-Ncx0INcePCWWlUjvM6dgAw-1; Thu, 12 Nov 2020 04:50:16 -0500
-X-MC-Unique: Ncx0INcePCWWlUjvM6dgAw-1
-Received: by mail-ej1-f71.google.com with SMTP id gt7so1615206ejb.23
-        for <linux-input@vger.kernel.org>; Thu, 12 Nov 2020 01:50:15 -0800 (PST)
+        Thu, 12 Nov 2020 05:44:25 -0500
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEAA6C0613D1
+        for <linux-input@vger.kernel.org>; Thu, 12 Nov 2020 02:44:23 -0800 (PST)
+Received: by mail-wm1-x342.google.com with SMTP id 19so4845523wmf.1
+        for <linux-input@vger.kernel.org>; Thu, 12 Nov 2020 02:44:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=ygXEyC17mmqkLuT+LSwnv8yANRbLqR9DFVnrEPXtZ4M=;
+        b=I6ogObdQP+1zd9NhSXGSnPGJAG4gcJxrpgTyuCCN5IYGW5plCifjhj9ca2dMhtwJBj
+         +jAJIokPCuZDcPcoK16EIoxoHBrIJcm5KCT1lZwZfpyso0Cr0bQqsB/PbW+chwaIIN7Q
+         RIwBigEbiHi8+MKGZwG4/OfPhr5JXtoTtf4CE+AYu4I9Ae7J9/Y8FnL481pzNwSw4pWj
+         iQCws3HhM81hlBYKDbsuiZZ5xEDoXR1TUo2SghQx9hNtGb6eDUaMjD5cbffC888x6Le+
+         f7CEDPIPfSVSLFTAXpgXbi2/jAYDOlXH3AthoEzNKrCI/VO4t4DkhcO6vjbsCkRK0+SO
+         /Drw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=PtxnjSLOtg2WGHDNZpdP38be5tiMnWAe+aTxlrj8fy0=;
-        b=EU1T/P2Crg52fEM8pedNoRLQPSi1bfggR0E+ubHyfN2rysQ0zQLgpoNerrLkzZQkKb
-         eEeQC9SxHQ3sHHFOBrWu/BJDbvQOtb8h8FJz+EUBX8yPTM+MEWpCn/Bk8V1yzeo28PCl
-         lXeDhTa0D85UtJgSiMwLE6tm/+PfactFMq69cdjKf9yJfrg1ft5QQN6qLw/iXi182Gwz
-         nF8U1BnfUevhWF4Nrx9VpCaLLYRvzeATGEM+IQRb6v32ZsrATQsrDRzHnrVrCvvNVVkL
-         K8ZxeAOz0t9sBdO3+Xu9Y/556t9sqWvBrey8TgZAiWnehAkD+l+4XwPsUYx+KBCwfHZO
-         AucQ==
-X-Gm-Message-State: AOAM532z3Lb86d6oY/RWPi63O2zOpDmFvJeeBabzQGHz/Iqk4V9NtDMv
-        9kLfJHL9XWbWj7sMlB6jijIkHA3vYeYHtURPPdoiuxaXdTYEe5LLD0MELYKb8cKxap0bD2b+eGa
-        SFXBswX+3kfSZo/Tq794ZGfH2FnDYQwjoOJzAWvMAxyiLP4SuhiMrTlRXbJGT7yrFEaAp/rzku+
-        k=
-X-Received: by 2002:a05:6402:1813:: with SMTP id g19mr4255901edy.105.1605174614473;
-        Thu, 12 Nov 2020 01:50:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzidUxBmuZRcyzJJvnxIsic7KwZERKf4QL2v4s6OGPWebhvnkyW1kP6myShnRnbvGBMsr82WQ==
-X-Received: by 2002:a05:6402:1813:: with SMTP id g19mr4255875edy.105.1605174614219;
-        Thu, 12 Nov 2020 01:50:14 -0800 (PST)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-6c10-fbf3-14c4-884c.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:6c10:fbf3:14c4:884c])
-        by smtp.gmail.com with ESMTPSA id f13sm1873154ejf.42.2020.11.12.01.50.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Nov 2020 01:50:13 -0800 (PST)
-Subject: Re: [External] Using IIO to export laptop palm-sensor and lap-mode
- info to userspace?
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        linux-iio@vger.kernel.org, Bastien Nocera <hadess@hadess.net>,
-        Nitin Joshi1 <njoshi1@lenovo.com>, linux-input@vger.kernel.org
-References: <9f9b0ff6-3bf1-63c4-eb36-901cecd7c4d9@redhat.com>
- <5a646527-7a1f-2fb9-7c09-8becdbff417b@lenovo.com>
- <20201007083602.00006b7e@Huawei.com>
- <218be284-4a37-e9f9-749d-c126ef1d098b@redhat.com>
- <20201112062348.GF1003057@dtor-ws>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <3568c492-d9bd-c02d-4cbc-7f3eef605ef5@redhat.com>
-Date:   Thu, 12 Nov 2020 10:50:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=ygXEyC17mmqkLuT+LSwnv8yANRbLqR9DFVnrEPXtZ4M=;
+        b=Q+q01OCaEVX1iXiedkPXOlLDDL2WG52YOa2UnK7ZqBp5H3zUhOb1M597Qc6cR99Pam
+         s9HQ6v2O0G+aRMQlP544vWWhaHYsChI4dr1EHyQ6x5zxuwfoV/XxNeiV3E5wWxE5iROL
+         Lh9TAGj7ZOmlcNQyMgWYCPpzCyggauuSWxTmyxkfabbO06VqBDZ4Y2yzF8jtW9cOxF3z
+         lh9FTnbWF8dzA03pMWJM7h5NHlMmzOseXE6vy22DvC4eWI3Z7/l768efDpQhGLgvdN9Z
+         uzUXP6T4x1QBdEowKlosZCjKfXRGXysoNQVZJupX8dU408rqN/o8PVpyiFJCqIEDT6Zq
+         s5JA==
+X-Gm-Message-State: AOAM533Nhp4gQa9DeZzmjTpBEWg11ooMh2c9M/c2ZMyd5b0CIEMr66Px
+        83w5wB6YhrAkAMWDj9w7MpmdUQ==
+X-Google-Smtp-Source: ABdhPJxxSp68T0y9TRXVHc8JIto9ZdMg6AEEVOoiRgdoeOZ7uP+qT6GcEu2n8vbhXI9PC5geDUUPmA==
+X-Received: by 2002:a1c:7d12:: with SMTP id y18mr8856951wmc.103.1605177862562;
+        Thu, 12 Nov 2020 02:44:22 -0800 (PST)
+Received: from dell ([91.110.221.159])
+        by smtp.gmail.com with ESMTPSA id h62sm6060487wrh.82.2020.11.12.02.44.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2020 02:44:21 -0800 (PST)
+Date:   Thu, 12 Nov 2020 10:44:20 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     linux-kernel@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        dusonlin@emc.com.tw, KT Liao <kt.liao@emc.com.tw>,
+        linux-input@vger.kernel.org
+Subject: [PATCH] input: mouse: elan_i2c_core: Move header inclusion inside
+Message-ID: <20201112104420.GG1997862@dell>
+References: <20201104162427.2984742-1-lee.jones@linaro.org>
+ <20201104162427.2984742-7-lee.jones@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20201112062348.GF1003057@dtor-ws>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201104162427.2984742-7-lee.jones@linaro.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+The same clause as its use.
 
-On 11/12/20 7:23 AM, Dmitry Torokhov wrote:
-> On Wed, Oct 07, 2020 at 11:51:05AM +0200, Hans de Goede wrote:
->> Hi,
->>
->> On 10/7/20 10:36 AM, Jonathan Cameron wrote:
->>> On Mon, 5 Oct 2020 22:04:27 -0400
->>> Mark Pearson <markpearson@lenovo.com> wrote:
->>>
->>>> Adding Nitin, lead for this feature, to the thread
->>>
->>> +CC linux-input and Dmitry for reasons that will become clear below.
->>>>
->>>> On 2020-10-03 10:02 a.m., Hans de Goede wrote:
->>>>> Hi All,
->>>>>
->>>>> Modern laptops can have various sensors which are kinda
->>>>> like proximity sensors, but not really (they are more
->>>>> specific in which part of the laptop the user is
->>>>> proximate to).
->>>>>
->>>>> Specifically modern Thinkpad's have 2 readings which we
->>>>> want to export to userspace, and I'm wondering if we
->>>>> could use the IIO framework for this since these readings
->>>>> are in essence sensor readings:
->>>>>
->>>>> 1. These laptops have a sensor in the palm-rests to
->>>>> check if a user is physically proximate to the device's
->>>>> palm-rests. This info will be used by userspace for WWAN
->>>>> functionality to control the transmission level safely.
->>>>>
->>>>> A patch adding a thinkpad_acpi specific sysfs API for this
->>>>> is currently pending:
->>>>> https://patchwork.kernel.org/patch/11722127/
->>>>>
->>>>> But I'm wondering if it would not be better to use
->>>>> IIO to export this info.
->>>
->>> My first thought on this is it sounds more like a key than a sensor
->>> (simple proximity sensors fall into this category as well.)
-> 
-> [ sorry for sitting on this thread for so long ]
-> 
-> So I think the important question here is if we only ever want yes/no
-> answer, or if we can consider adjusting behavior of the system based on
-> the "closeness" of an object to the device, in which case I think IIO is
-> more flexible.
-> 
-> FWIW in Chrome OS land we name IIO proximity sensors using a scheme
-> "proximity-lte", "proximity-wifi", "proximity-wifi-left",
-> "proximity-wifi-right", etc, and then userspace implements various
-> policies (SAR, etc) based off it.
+Fixes the following W=1 kernel build warning(s):
 
-Interesting, so 2 questions:
+ include/linux/input/elan-i2c-ids.h:26:36: warning: ‘elan_acpi_id’ defined but not used [-Wunused-const-variable=]
 
-1. So your encoding the location in the sensor's parent-device name
-instead of using a new sysfs attribute for this ?
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Henrik Rydberg <rydberg@bitmath.org>
+Cc: Jingle Wu <jingle.wu@emc.com.tw>
+Cc: dusonlin@emc.com.tw
+Cc: KT Liao <kt.liao@emc.com.tw>
+Cc: linux-input@vger.kernel.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
+---
+ drivers/input/mouse/elan_i2c_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-2. Do these sensors just give a boolean value atm, or do they already
-report a range ?  IIRC one of the objections from the iio folks in
-the Lenovo case was that booleans are not really a good fit for iio
-(IIRC they also said we could still use iio for this).
-
-Perhaps you can provide an URL to the kernel code implementing these ?
-
->> That is an interesting suggestion. Using the input/evdev API
->> would have some advantages such as being able to have a single
->> event node for all the proximity switches and then being able
->> to pass a fd to that from a privileged process to a non
->> privileged one, something which userspace already has
->> various infrastructure for.
-> 
-> I am not sure if multiplexing all proximity switches into one evdev node
-> is that great option, as I am sure we'll soon have devices with 2x
-> palmrest switches and being capable finely adjusting transmit power,
-> etc.
-
-Right, so going with iio, together with a naming scheme like used
-on ChromeOS might indeed be more future proof (and make things
-easier for running ChromeOS on non ChromeOS hardware and the other
-way around).
-
-Regards,
-
-Hans
-
+diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
+index c599e21a84784..65d21a050cea0 100644
+--- a/drivers/input/mouse/elan_i2c_core.c
++++ b/drivers/input/mouse/elan_i2c_core.c
+@@ -34,7 +34,6 @@
+ #include <linux/completion.h>
+ #include <linux/of.h>
+ #include <linux/property.h>
+-#include <linux/input/elan-i2c-ids.h>
+ #include <linux/regulator/consumer.h>
+ #include <asm/unaligned.h>
+ 
+@@ -1413,6 +1412,7 @@ static const struct i2c_device_id elan_id[] = {
+ MODULE_DEVICE_TABLE(i2c, elan_id);
+ 
+ #ifdef CONFIG_ACPI
++#include <linux/input/elan-i2c-ids.h>
+ MODULE_DEVICE_TABLE(acpi, elan_acpi_id);
+ #endif
+ 
+-- 
+2.25.1
