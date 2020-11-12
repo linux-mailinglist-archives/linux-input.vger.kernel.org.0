@@ -2,97 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C1152B081E
-	for <lists+linux-input@lfdr.de>; Thu, 12 Nov 2020 16:07:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5275C2B085F
+	for <lists+linux-input@lfdr.de>; Thu, 12 Nov 2020 16:27:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728238AbgKLPHU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 12 Nov 2020 10:07:20 -0500
-Received: from mail-il1-f200.google.com ([209.85.166.200]:34153 "EHLO
-        mail-il1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727035AbgKLPHT (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 12 Nov 2020 10:07:19 -0500
-Received: by mail-il1-f200.google.com with SMTP id e14so4187937ilr.1
-        for <linux-input@vger.kernel.org>; Thu, 12 Nov 2020 07:07:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=yHecYpfF6cT432rI6k7GGa93GqlnRPwyZZLgxG/YBFI=;
-        b=ZJWnpTS6vmtIdFfvNpE3kRcT39CxlNxJ3oncCX5eSQ8w3ZY7kuG9JT+EsGX0nzDqCC
-         I643YuggPktmMpLSdDudgPkBym+1reKFOEmDwULhy9hUAvFBSO++4BCKa1jYDcuUk69j
-         vRS3ToEIVuT7cCeEVm8Gme8lFZmG7nG1jH0jHMvDuSsezikR5KMG7ZLmN9FJLZQnN3iY
-         jbpoZmTknAasjadv5+59yUr0t/aMe9svupjpCX2WjNqEmfkifk5qSg6Dg13sewsXLYae
-         utlBGqs0EMTvOEZpe2I8mN0IDpoLliM9RtTQt3S939BPiffuVCul0kBII2uH6m+JuS0k
-         FM2Q==
-X-Gm-Message-State: AOAM531ZjiHphVY8egzulOocih8yWxpPihfQgTD+ukhD6U1RUUOd03G5
-        nr+g9FVfyioRwcyUVsI9jwYSgIvIdGuYaRcJYeM9yBTX9dDu
-X-Google-Smtp-Source: ABdhPJwczwO+PYjo7Lr1qDXqIncKJ/Pi6xRgKhkFMGHr4BkZV2736ijDDt2yrq1UO8wGx3nwntSHxzVfYju1rQ+WioIvtO58qWEc
+        id S1728583AbgKLP10 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 12 Nov 2020 10:27:26 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47134 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727932AbgKLP1Z (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 12 Nov 2020 10:27:25 -0500
+Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id AF97922248;
+        Thu, 12 Nov 2020 15:27:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1605194845;
+        bh=KXMqFKActDUukVWA32+31xUPWeWnRqtfN6zbxzHPsXk=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=rY0Qw6PpPBQzOurcEedRcmRR8Mcji6wqHIf6R3eOqZLb9fijc05dTp+YqX/l+2Exb
+         vKqcw+8p5gwIawwIHA3uBjuu1IAZXjzPWWH1/d1h+VzbzWlJjVOn8ABkKrTyDelzH8
+         auYNyNBogKu9PpjUX6wKpXxMOt3tbQFyqSXKOBNs=
+Date:   Thu, 12 Nov 2020 16:27:11 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Colin King <colin.king@canonical.com>
+cc:     Nehal Shah <nehal-bakulchandra.shah@amd.com>,
+        Sandeep Singh <sandeep.singh@amd.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH][next] SFH: fix error return check for -ERESTARTSYS
+In-Reply-To: <20201030143002.535531-1-colin.king@canonical.com>
+Message-ID: <nycvar.YFH.7.76.2011121626590.6877@cbobk.fhfr.pm>
+References: <20201030143002.535531-1-colin.king@canonical.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-X-Received: by 2002:a02:ac09:: with SMTP id a9mr75060jao.60.1605193638204;
- Thu, 12 Nov 2020 07:07:18 -0800 (PST)
-Date:   Thu, 12 Nov 2020 07:07:18 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000099d90905b3ea44b4@google.com>
-Subject: memory leak in wacom_probe
-From:   syzbot <syzbot+5b49c9695968d7250a26@syzkaller.appspotmail.com>
-To:     benjamin.tissoires@redhat.com, jikos@kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+On Fri, 30 Oct 2020, Colin King wrote:
 
-syzbot found the following issue on:
+> From: Colin Ian King <colin.king@canonical.com>
+> 
+> Currently the check for the error return code -ERESTARTSYS is dead code
+> and never executed because a previous check for ret < 0 is catching this
+> and returning -ETIMEDOUT instead.  Fix this by checking for -ERESTARTSYS
+> before the more generic negative error code.
+> 
+> Addresses-Coverity: ("Logically dead code")
+> Fixes: 4b2c53d93a4b ("SFH:Transport Driver to add support of AMD Sensor Fusion Hub (SFH)")
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
 
-HEAD commit:    eccc8767 Merge branch 'fixes' of git://git.kernel.org/pub/..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=145055aa500000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=a3f13716fa0212fd
-dashboard link: https://syzkaller.appspot.com/bug?extid=5b49c9695968d7250a26
-compiler:       gcc (GCC) 10.1.0-syz 20200507
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16339ad6500000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1409f511500000
+Applied, thanks.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+5b49c9695968d7250a26@syzkaller.appspotmail.com
+-- 
+Jiri Kosina
+SUSE Labs
 
-BUG: memory leak
-unreferenced object 0xffff88810dc44a00 (size 512):
-  comm "kworker/1:2", pid 3674, jiffies 4294943617 (age 14.100s)
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<0000000023e1afac>] kmalloc_array include/linux/slab.h:592 [inline]
-    [<0000000023e1afac>] __kfifo_alloc+0xad/0x100 lib/kfifo.c:43
-    [<00000000c477f737>] wacom_probe+0x1a1/0x3b0 drivers/hid/wacom_sys.c:2727
-    [<00000000b3109aca>] hid_device_probe+0x16b/0x210 drivers/hid/hid-core.c:2281
-    [<00000000aff7c640>] really_probe+0x159/0x480 drivers/base/dd.c:554
-    [<00000000778d0bc3>] driver_probe_device+0x84/0x100 drivers/base/dd.c:738
-    [<000000005108dbb5>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:844
-    [<00000000efb7c59e>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:431
-    [<0000000024ab1590>] __device_attach+0x122/0x250 drivers/base/dd.c:912
-    [<000000004c7ac048>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:491
-    [<00000000b93050a3>] device_add+0x5ac/0xc30 drivers/base/core.c:2936
-    [<00000000e5b46ea5>] hid_add_device+0x151/0x390 drivers/hid/hid-core.c:2437
-    [<00000000c6add147>] usbhid_probe+0x412/0x560 drivers/hid/usbhid/hid-core.c:1407
-    [<00000000c33acdb4>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
-    [<00000000aff7c640>] really_probe+0x159/0x480 drivers/base/dd.c:554
-    [<00000000778d0bc3>] driver_probe_device+0x84/0x100 drivers/base/dd.c:738
-    [<000000005108dbb5>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:844
-
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
