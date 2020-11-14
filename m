@@ -2,132 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F9582B22CD
-	for <lists+linux-input@lfdr.de>; Fri, 13 Nov 2020 18:45:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA1C72B2C74
+	for <lists+linux-input@lfdr.de>; Sat, 14 Nov 2020 10:46:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726121AbgKMRpl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 13 Nov 2020 12:45:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33666 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726070AbgKMRpl (ORCPT
+        id S1726584AbgKNJpm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 14 Nov 2020 04:45:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26970 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726578AbgKNJpl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 13 Nov 2020 12:45:41 -0500
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D471C0613D1;
-        Fri, 13 Nov 2020 09:45:41 -0800 (PST)
-Received: by mail-ot1-x342.google.com with SMTP id n89so9667947otn.3;
-        Fri, 13 Nov 2020 09:45:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=3EZByT1zquCKI3tJAU+7LG89e+iMM8LuM0+NXD2/HaA=;
-        b=vg3SSRPPeuIIpwkesAa9QdeCB8MjLXR4Da2h5oYD50jBzJzAbTezMWi4GXPEtaWcXe
-         aHXCZjk2rWVNEOKDtWr46R1/DFJbA9mQornIrSsO2IWPKSE9XAKrC2cKw11yaf2JUdaO
-         Ri6bwRVbLldmJIXtDmuImbPpSeWB3EMdHhJRCMPW6k7o9mo18oyvFUeSjlRD07Jgz6wj
-         ASqrDrYui2x7YUQZSC0CfLmA7Q5GcR6AX6w5xP1JC4YyUv6V8+Ne9D8Gh92SZmZjn4Xp
-         WE1u1d6jAMoG/+3mbWPykGwPpP9HHNO05LuyEEWZsezucYq8Dujov1qUNQVWUKF+6Ei9
-         KE6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=3EZByT1zquCKI3tJAU+7LG89e+iMM8LuM0+NXD2/HaA=;
-        b=r5jd9ANf29yDLQkP+YsYY5LnRcNpEwddCcKD2QPlbx3Zyv2MQT5tkoRzT1A4XQDKDp
-         ekMwTIz+JuWf1+XrgA2DebJhicBU1oaxAP/LY52dJ9CFzhAnm4nwlqIHUOrGMhmmP6iM
-         NROX2h5HywE+106Q3+nIgMiuPjnccwgvL8KeGlbBsJD6eiNRgxC9d+5ZsRAdWFfAftMd
-         7V8HdiEP7DBk7kq6twQ3PaAwhJitTLbGun4JRaf6q+QGKUXUOxYeQ07JsTc99xk5E17z
-         DRZoCx9mF5JYsEAGJnI4MStMS5mfdJaKyL3MrWTk+0U6NBc5Khgz4+qfp/e8fMrf8iGM
-         YzFA==
-X-Gm-Message-State: AOAM531Z1JrZsIO/GuuGznNG+Yz1qzhC9m3oQ+HgYqHFiN1QU7CKASFk
-        jyw7DSW+D0BvD7+F7/gU5DAwPCWmDzuge5FZ
-X-Google-Smtp-Source: ABdhPJwA/h7lbKSIiaL9qgR6RdsLg66blL90+VbzCMxp4MWdw7U7acnjTXdDzvhUS6hR9bH2cVBRGA==
-X-Received: by 2002:a9d:190a:: with SMTP id j10mr2302462ota.264.1605289539163;
-        Fri, 13 Nov 2020 09:45:39 -0800 (PST)
-Received: from ?IPv6:2600:1700:4a30:eaf0::35? ([2600:1700:4a30:eaf0::35])
-        by smtp.gmail.com with ESMTPSA id n1sm2031244oig.20.2020.11.13.09.45.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Nov 2020 09:45:38 -0800 (PST)
-Subject: Re: [PATCH v2] Input: Add devices for
- HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE
-To:     Michael Wright <michaelwr@android.com>
-Cc:     Jiri Kosina <jikos@kernel.org>, Chris Ye <lzye@google.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-References: <20201101193452.678628-1-lzye@google.com>
- <nycvar.YFH.7.76.2011091255280.18859@cbobk.fhfr.pm>
- <e39fbd02-e691-010c-702d-de86ecfc8854@gmail.com>
- <CALDEARh3325ZxQqY58T6imT3QBAkKX_i7ZnuX3PFJ9uQjofozA@mail.gmail.com>
-From:   Chris Ye <linzhao.ye@gmail.com>
-Message-ID: <5e7c71d1-82c8-bcc0-f0fe-6d83f086cdbf@gmail.com>
-Date:   Fri, 13 Nov 2020 09:45:37 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        Sat, 14 Nov 2020 04:45:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1605347139;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=6hXYZmIPa8wyA5niJb8ZS057Kv9WHT3Q438nEI4IGKM=;
+        b=hiZzGG+dJr2lmH/D63GXkocYCwi4G5PUaIcXExTzdaYcQ9s06aTcjLwKXUPnXxwy8xHmGo
+        MeSXWPwYEI3vZF0xIW6LI94ftpFDPm+x0I+4dBtu23EjFlyunWyFHUo68ZAHQolGJNC0UK
+        eW4n09elMF91MN9PqTB1/huNcr4Q/Q8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-225-L0sGAddhO9-BjXDaiix_cg-1; Sat, 14 Nov 2020 04:45:37 -0500
+X-MC-Unique: L0sGAddhO9-BjXDaiix_cg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8BC1E1868401;
+        Sat, 14 Nov 2020 09:45:36 +0000 (UTC)
+Received: from x1.localdomain.com (ovpn-112-97.ams2.redhat.com [10.36.112.97])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A30135D9E8;
+        Sat, 14 Nov 2020 09:45:32 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org
+Subject: [PATCH] HID: logitech-dj: Fix an error in mse_bluetooth_descriptor
+Date:   Sat, 14 Nov 2020 10:45:31 +0100
+Message-Id: <20201114094531.8285-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CALDEARh3325ZxQqY58T6imT3QBAkKX_i7ZnuX3PFJ9uQjofozA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Great, thanks a lot Michael!
+Fix an error in the mouse / INPUT(2) descriptor used for quad/bt2.0 combo
+receivers. Replace INPUT with INPUT (Data,Var,Abs) for the field for the
+4 extra buttons which share their report-byte with the low-res hwheel.
 
-On 11/13/20 9:43 AM, Michael Wright wrote:
-> Hi Chris,
->
-> I believe the patch is applied to the HID tree:
-> https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git/commit/?h=for-5.10/upstream-fixes&id=f59ee399de4a8ca4d7d19cdcabb4b63e94867f09
->
-> If so, the commit SHA is f59ee399de4a8ca4d7d19cdcabb4b63e94867f09.
->
-> Hope this helps,
-> Michael
->
->
-> On Fri, Nov 13, 2020 at 5:27 PM Chris Ye <linzhao.ye@gmail.com> wrote:
->> Hi Jiri,  can I have a commit ID for 5.10? I'll need this to submit the
->> patch internally.
->>
->> Thanks!
->>
->> Chris
->>
->> On 11/9/20 3:55 AM, Jiri Kosina wrote:
->>> On Sun, 1 Nov 2020, Chris Ye wrote:
->>>
->>>> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
->>>> index 74be76e848bf..cf55dca494f3 100644
->>>> --- a/drivers/hid/hid-ids.h
->>>> +++ b/drivers/hid/hid-ids.h
->>>> @@ -449,6 +449,10 @@
->>>>    #define USB_VENDOR_ID_FRUCTEL      0x25B6
->>>>    #define USB_DEVICE_ID_GAMETEL_MT_MODE      0x0002
->>>>
->>>> +#define USB_VENDOR_ID_GAMEVICE      0x27F8
->>>> +#define USB_DEVICE_ID_GAMEVICE_GV186        0x0BBE
->>>> +#define USB_DEVICE_ID_GAMEVICE_KISHI        0x0BBF
->>>> +
->>>>    #define USB_VENDOR_ID_GAMERON              0x0810
->>>>    #define USB_DEVICE_ID_GAMERON_DUAL_PSX_ADAPTOR     0x0001
->>>>    #define USB_DEVICE_ID_GAMERON_DUAL_PCS_ADAPTOR     0x0002
->>>> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
->>>> index 0440e2f6e8a3..36d94e3485e3 100644
->>>> --- a/drivers/hid/hid-quirks.c
->>>> +++ b/drivers/hid/hid-quirks.c
->>>> @@ -84,6 +84,10 @@ static const struct hid_device_id hid_quirks[] = {
->>>>       { HID_USB_DEVICE(USB_VENDOR_ID_FREESCALE, USB_DEVICE_ID_FREESCALE_MX28), HID_QUIRK_NOGET },
->>>>       { HID_USB_DEVICE(USB_VENDOR_ID_FUTABA, USB_DEVICE_ID_LED_DISPLAY), HID_QUIRK_NO_INIT_REPORTS },
->>>>       { HID_USB_DEVICE(USB_VENDOR_ID_GREENASIA, USB_DEVICE_ID_GREENASIA_DUAL_USB_JOYPAD), HID_QUIRK_MULTI_INPUT },
->>>> +    { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_GAMEVICE, USB_DEVICE_ID_GAMEVICE_GV186),
->>>> +            HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
->>>> +    { HID_USB_DEVICE(USB_VENDOR_ID_GAMEVICE, USB_DEVICE_ID_GAMEVICE_KISHI),
->>>> +            HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
->>>>       { HID_USB_DEVICE(USB_VENDOR_ID_HAPP, USB_DEVICE_ID_UGCI_DRIVING), HID_QUIRK_BADPAD | HID_QUIRK_MULTI_INPUT },
->>>>       { HID_USB_DEVICE(USB_VENDOR_ID_HAPP, USB_DEVICE_ID_UGCI_FIGHTING), HID_QUIRK_BADPAD | HID_QUIRK_MULTI_INPUT },
->>>>       { HID_USB_DEVICE(USB_VENDOR_ID_HAPP, USB_DEVICE_ID_UGCI_FLYING), HID_QUIRK_BADPAD | HID_QUIRK_MULTI_INPUT },
->>> Applied for 5.10, thanks.
->>>
+This is likely a copy and paste error. I've verified that the new
+0x81, 0x02 value matches both the mouse descriptor for the currently
+supported MX5000 / MX5500 receivers, as well as the INPUT(2) mouse
+descriptors for the Dinovo receivers for which support is being
+worked on.
+
+Fixes: f2113c3020ef ("HID: logitech-dj: add support for Logitech Bluetooth Mini-Receiver")
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/hid/hid-logitech-dj.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+index d3471d655ab4..7706454de88f 100644
+--- a/drivers/hid/hid-logitech-dj.c
++++ b/drivers/hid/hid-logitech-dj.c
+@@ -330,7 +330,7 @@ static const char mse_bluetooth_descriptor[] = {
+ 	0x25, 0x01,		/*      LOGICAL_MAX (1)                 */
+ 	0x75, 0x01,		/*      REPORT_SIZE (1)                 */
+ 	0x95, 0x04,		/*      REPORT_COUNT (4)                */
+-	0x81, 0x06,		/*      INPUT                           */
++	0x81, 0x02,		/*      INPUT (Data,Var,Abs)            */
+ 	0xC0,			/*    END_COLLECTION                    */
+ 	0xC0,			/*  END_COLLECTION                      */
+ };
+-- 
+2.28.0
+
