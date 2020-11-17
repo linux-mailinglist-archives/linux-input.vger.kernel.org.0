@@ -2,152 +2,169 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7A032B5B3C
-	for <lists+linux-input@lfdr.de>; Tue, 17 Nov 2020 09:48:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 909812B628A
+	for <lists+linux-input@lfdr.de>; Tue, 17 Nov 2020 14:30:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726211AbgKQIsJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 17 Nov 2020 03:48:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45540 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725947AbgKQIsJ (ORCPT
+        id S1731563AbgKQN3c (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 Nov 2020 08:29:32 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:8105 "EHLO
+        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731594AbgKQN3a (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 Nov 2020 03:48:09 -0500
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE0A8C0613CF
-        for <linux-input@vger.kernel.org>; Tue, 17 Nov 2020 00:48:08 -0800 (PST)
-Received: by mail-ej1-x641.google.com with SMTP id o21so28316210ejb.3
-        for <linux-input@vger.kernel.org>; Tue, 17 Nov 2020 00:48:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=W7XStV/2dVeiArIHuu6Y5yZaJGXPki6yS2KcN0YZ/+g=;
-        b=iDQbpqxfAxNYssRozJceRlRHbu3hCuXinNTCf7Yl0syf94+HSfkh8kqIVWEx4a/nt1
-         OPC9KiXdebs6JgfYDpdxSmk9Xs5lkIdymWd+gz5eP2wQGRh/tYbUlGCheXerUpuNXJoe
-         L2AlcUDfwu7BuKypcdvANtY61q3CrjcnDbO16wE/pwnWsE3qxEv2wA5orln8w22ZG5m1
-         agtaPMUW27x7T8LlqqwcTxL8jyqmD1UY3ghn9v+wGTlJrPfTxIOrtYc2kj1IVWfswaWW
-         UEVzWhld1dhDaeMoFqiw2Lrlg3f7neSnweGpbZJM/VTH4g2+J7VXP59jjCA31EyC/j2Q
-         ogdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=W7XStV/2dVeiArIHuu6Y5yZaJGXPki6yS2KcN0YZ/+g=;
-        b=NPhHdHs3p74KdO57ZYv8lpZ8312NOoLdDEQXXcWQtWhdDfpvzYgphB0BGA8KsFcUvO
-         5ntherMlB+Qn8Hj5O4sLx76GmJ6kr2uBqkgXn0TpbXgAhv9ShKfHj87ivg16P6duZFfa
-         UlUpSlDLAV5baNOsT3iHXlMLYY7BBru8PlURVOesK5gZSu75MRWepZBrA42oh/xz+4AL
-         AKh4l+KRBzlpcAcjFKGzq5k2dSaGmIlX5aWdLozxvqfCAYIdktm25sfQcOaL4BelF5TE
-         oNWCnEvzrt4oHh8unNkC6xt/v1WmDRT/2EkhAVV56pWxBG8Ae76Kp+TLSlV6bKkVjbBW
-         ky8Q==
-X-Gm-Message-State: AOAM533qcfgvrH/lgxpVy6dh4bYIJNgDJZBkcgjHiCr8A0M/cjgQrBZR
-        vUs3KkO6ub3dbqLEfra4iuArm0+jeMk=
-X-Google-Smtp-Source: ABdhPJzXZm/AE2xxd4uf6e4wNi3VpxGpRbufCCp+caSdlUYnldi7fuk3pAl1C6a3PbBh3tActIK7wA==
-X-Received: by 2002:a17:906:934d:: with SMTP id p13mr17640284ejw.245.1605602887131;
-        Tue, 17 Nov 2020 00:48:07 -0800 (PST)
-Received: from aurora.lan (g17120.upc-g.chello.nl. [80.57.17.120])
-        by smtp.gmail.com with ESMTPSA id lz27sm11425683ejb.39.2020.11.17.00.48.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2020 00:48:06 -0800 (PST)
-From:   "Wladimir J. van der Laan" <laanwj@gmail.com>
-To:     linux-input@vger.kernel.org
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        Ethan Warth <redyoshi49q@gmail.com>,
-        "Wladimir J . van der Laan" <laanwj@gmail.com>
-Subject: [PATCH] HID: add support for 0079:1846 Mayflash/Dragonrise USB Gamecube Adapter
-Date:   Tue, 17 Nov 2020 09:48:00 +0100
-Message-Id: <20201117084800.2054276-1-laanwj@gmail.com>
+        Tue, 17 Nov 2020 08:29:30 -0500
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
+        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Cb6Gn0jHFzLpDr;
+        Tue, 17 Nov 2020 21:29:05 +0800 (CST)
+Received: from huawei.com (10.175.103.91) by DGGEMS411-HUB.china.huawei.com
+ (10.3.19.211) with Microsoft SMTP Server id 14.3.487.0; Tue, 17 Nov 2020
+ 21:29:18 +0800
+From:   Yang Yingliang <yangyingliang@huawei.com>
+To:     <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>
+CC:     <dmitry.torokhov@gmail.com>, <yangyingliang@huawei.com>
+Subject: [PATCH] Input: sunkbd - fix UAF in sunkbd_reinit()
+Date:   Tue, 17 Nov 2020 21:27:51 +0800
+Message-ID: <20201117132751.14863-1-yangyingliang@huawei.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.103.91]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Ethan Warth <redyoshi49q@gmail.com>
+According the PoC in link:
+https://www.openwall.com/lists/oss-security/2020/11/05/2
 
-Mayflash/Dragonrise seems to have yet another device ID for one of their
-Gamecube controller adapters.  Previous to this commit, the adapter
-registered only one /dev/input/js* device, and all controller inputs (from
-any controller) were mapped to this device.  This patch defines the 1846
-USB device ID and enables the HID_QUIRK_MULTI_INPUT quirk for it, which
-fixes that (with the patch, four /dev/input/js* devices are created, one
-for each of the four controller ports).
+Here is UAF log:
+[  235.504246] ==================================================================
+[  235.508297] BUG: KASAN: use-after-free in __lock_acquire+0x2c75/0x34e0
+[  235.511906] Read of size 8 at addr ffff88812d4754f0 by task kworker/2:1/124
+[  235.515752]
+[  235.516641] CPU: 2 PID: 124 Comm: kworker/2:1 Not tainted 5.10.0-rc4 #1169
+[  235.520390] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.13.0-48-gd9c812dda519-prebuilt.qemu.org 04/01/2014
+[  235.526648] Workqueue: events sunkbd_reinit
+[  235.528869] Call Trace:
+[  235.530140]  dump_stack+0xe6/0x136
+[  235.531881]  ? __lock_acquire+0x2c75/0x34e0
+[  235.533954]  print_address_description.constprop.8+0x3e/0x60
+[  235.536781]  ? rcu_read_lock_bh_held+0xc0/0xc0
+[  235.539005]  ? vprintk_func+0xaf/0x1b0
+[  235.540830]  ? __lock_acquire+0x2c75/0x34e0
+[  235.542709]  ? __lock_acquire+0x2c75/0x34e0
+[  235.544613]  kasan_report.cold.10+0x1f/0x37
+[  235.546506]  ? __lock_acquire+0x2c75/0x34e0
+[  235.548410]  __lock_acquire+0x2c75/0x34e0
+[  235.550241]  ? lock_is_held_type+0xae/0xe0
+[  235.552130]  ? rcu_read_lock_sched_held+0xaf/0xe0
+[  235.554237]  ? rcu_read_lock_bh_held+0xc0/0xc0
+[  235.556239]  lock_acquire+0x19c/0x8f0
+[  235.557908]  ? prepare_to_wait_event+0x73/0x660
+[  235.559946]  ? rcu_read_unlock+0x50/0x50
+[  235.561715]  ? del_timer_sync+0xe3/0x130
+[  235.563548]  ? schedule_timeout+0x43b/0x950
+[  235.565278]  _raw_spin_lock_irqsave+0x43/0x60
+[  235.567047]  ? prepare_to_wait_event+0x73/0x660
+[  235.568910]  prepare_to_wait_event+0x73/0x660
+[  235.570701]  ? __next_timer_interrupt+0x1b0/0x1b0
+[  235.572647]  ? wait_woken+0x280/0x280
+[  235.574187]  sunkbd_reinit+0x579/0x700
+[  235.575744]  ? sunkbd_event+0x3d0/0x3d0
+[  235.577189]  ? finish_wait+0x280/0x280
+[  235.578623]  ? rcu_read_lock_bh_held+0xc0/0xc0
+[  235.580303]  ? lockdep_hardirqs_on_prepare+0x294/0x3e0
+[  235.582253]  process_one_work+0x8ef/0x1560
+[  235.583815]  ? pwq_dec_nr_in_flight+0x330/0x330
+[  235.585537]  ? do_raw_spin_lock+0x126/0x290
+[  235.587133]  worker_thread+0x91/0xc30
+[  235.588601]  ? process_one_work+0x1560/0x1560
+[  235.590233]  kthread+0x37a/0x450
+[  235.591487]  ? _raw_spin_unlock_irq+0x24/0x40
+[  235.593131]  ? kthread_mod_delayed_work+0x190/0x190
+[  235.594965]  ret_from_fork+0x22/0x30
+[  235.596346]
+[  235.596945] Allocated by task 85:
+[  235.598200]  kasan_save_stack+0x19/0x40
+[  235.599685]  __kasan_kmalloc.constprop.13+0xc1/0xd0
+[  235.601389]  kmem_cache_alloc_trace+0x11b/0x1d0
+[  235.602969]  sunkbd_connect+0xa7/0x10e0
+[  235.604330]  serio_connect_driver+0x50/0x70
+[  235.605810]  really_probe+0x287/0xd90
+[  235.607102]  driver_probe_device+0x267/0x3d0
+[  235.608611]  __device_attach_driver+0x1cc/0x280
+[  235.610209]  bus_for_each_drv+0x154/0x1d0
+[  235.611638]  __device_attach+0x234/0x3a0
+[  235.612912]  bus_probe_device+0x1dd/0x290
+[  235.614223]  device_add+0xc5f/0x1880
+[  235.615415]  serio_handle_event+0x4ae/0x8f0
+[  235.616788]  process_one_work+0x8ef/0x1560
+[  235.618124]  worker_thread+0x91/0xc30
+[  235.619351]  kthread+0x37a/0x450
+[  235.620427]  ret_from_fork+0x22/0x30
+[  235.621582]
+[  235.622097] Freed by task 2609:
+[  235.623130]  kasan_save_stack+0x19/0x40
+[  235.624396]  kasan_set_track+0x1c/0x30
+[  235.625612]  kasan_set_free_info+0x1b/0x30
+[  235.626944]  __kasan_slab_free+0x111/0x160
+[  235.628282]  slab_free_freelist_hook+0x5a/0x150
+[  235.629754]  kfree+0xe5/0x660
+[  235.630731]  serio_disconnect_driver+0x78/0xa0
+[  235.632187]  serio_driver_remove+0x1a/0x20
+[  235.633537]  device_release_driver_internal+0x239/0x520
+[  235.635250]  serio_unregister_port+0x24/0x40
+[  235.636634]  serport_ldisc_read+0x416/0x5f0
+[  235.638008]  tty_read+0x17d/0x270
+[  235.639096]  vfs_read+0x156/0x4c0
+[  235.640203]  ksys_read+0x104/0x200
+[  235.641318]  do_syscall_64+0x33/0x40
+[  235.642475]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[  235.644099]
+[  235.644631] The buggy address belongs to the object at ffff88812d475400
+[  235.644631]  which belongs to the cache kmalloc-512 of size 512
+[  235.648610] The buggy address is located 240 bytes inside of
+[  235.648610]  512-byte region [ffff88812d475400, ffff88812d475600)
+[  235.652304] The buggy address belongs to the page:
+[  235.653862] page:(____ptrval____) refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x12d470
+[  235.656841] head:(____ptrval____) order:3 compound_mapcount:0 compound_pincount:0
+[  235.659232] flags: 0x2fffff80010200(slab|head)
+[  235.660688] raw: 002fffff80010200 dead000000000100 dead000000000122 ffff8881000432c0
+[  235.663141] raw: 0000000000000000 0000000000200020 00000001ffffffff 0000000000000000
+[  235.665605] page dumped because: kasan: bad access detected
+[  235.667390]
+[  235.667898] Memory state around the buggy address:
+[  235.669433]  ffff88812d475380: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+[  235.671755]  ffff88812d475400: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[  235.674072] >ffff88812d475480: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[  235.676390]                                                              ^
+[  235.678576]  ffff88812d475500: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[  235.680880]  ffff88812d475580: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+[  235.683221] ==================================================================
 
-Signed-off-by: Ethan Warth <redyoshi49q@gmail.com>
-Tested-by: Wladimir J. van der Laan <laanwj@gmail.com>
+After sunkbd->tq is added to workqueue, before scheduled work finish, sunkbd is
+freed by sunkbd_disconnect(), when sunkbd is used in sunkbd_reinit(), it causes
+a UAF. Fix this by calling flush_scheduled_work() before free sunkbd.
+
+This fixes CVE-2020-25669.
+
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 ---
- drivers/hid/hid-ids.h    | 1 +
- drivers/hid/hid-mf.c     | 2 ++
- drivers/hid/hid-quirks.c | 2 ++
- 3 files changed, 5 insertions(+)
+ drivers/input/keyboard/sunkbd.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-This patch is not my work but a direct repost of
-https://lore.kernel.org/lkml/CAAPc1Th4mgE=ntLY=NXn2Jbfgi0OBpZ5R2sYGhWJ_4+syuPA9w@mail.gmail.com/T/.
-
-The original patch was not merged due to a line break issue. I have corrected this.
-
-I have tested it against current master as well as ubuntu focal's 5.4.0,
-and it works, it separates the adapter into four different evdev devices,
-making it usable in Linux. It also enables rumble (which I have not tested due to lack
-of a capable controller).
-
-[   67.150155] usb 2-1: new full-speed USB device number 2 using xhci_hcd
-[   67.325014] usb 2-1: New USB device found, idVendor=0079, idProduct=1846, bcdDevice= 1.00
-[   67.325020] usb 2-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-[   67.325024] usb 2-1: Product: GameCube Controller Adapter
-[   67.325026] usb 2-1: Manufacturer: Nintendo
-[   67.367729] input: Nintendo GameCube Controller Adapter as /devices/pci0000:00/0000:00:10.0/usb2/2-1/2-1:1.0/0003:0079:1846.0004/input/input21
-[   67.367906] input: Nintendo GameCube Controller Adapter as /devices/pci0000:00/0000:00:10.0/usb2/2-1/2-1:1.0/0003:0079:1846.0004/input/input22
-[   67.367992] input: Nintendo GameCube Controller Adapter as /devices/pci0000:00/0000:00:10.0/usb2/2-1/2-1:1.0/0003:0079:1846.0004/input/input23
-[   67.368066] input: Nintendo GameCube Controller Adapter as /devices/pci0000:00/0000:00:10.0/usb2/2-1/2-1:1.0/0003:0079:1846.0004/input/input24
-[   67.368143] hid_mf 0003:0079:1846.0004: input,hidraw3: USB HID v1.10 Joystick [Nintendo GameCube Controller Adapter] on usb-0000:00:10.0-1/input0
-[   67.368155] hid_mf 0003:0079:1846.0004: Force feedback for HJZ Mayflash game controller adapters by Marcel Hasler <mahasler@gmail.com>
-
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index d69842f79fc665c53243331c3efc9e458233ca65..9132f007fee468099fa08446b7092e0be8ab64f6 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -357,6 +357,7 @@
- #define USB_DEVICE_ID_DRAGONRISE_DOLPHINBAR	0x1803
- #define USB_DEVICE_ID_DRAGONRISE_GAMECUBE1	0x1843
- #define USB_DEVICE_ID_DRAGONRISE_GAMECUBE2	0x1844
-+#define USB_DEVICE_ID_DRAGONRISE_GAMECUBE3	0x1846
+diff --git a/drivers/input/keyboard/sunkbd.c b/drivers/input/keyboard/sunkbd.c
+index 27126e621eb6..b6222896acdf 100644
+--- a/drivers/input/keyboard/sunkbd.c
++++ b/drivers/input/keyboard/sunkbd.c
+@@ -316,6 +316,7 @@ static void sunkbd_disconnect(struct serio *serio)
+ {
+ 	struct sunkbd *sunkbd = serio_get_drvdata(serio);
  
- #define USB_VENDOR_ID_DWAV		0x0eef
- #define USB_DEVICE_ID_EGALAX_TOUCHCONTROLLER	0x0001
-diff --git a/drivers/hid/hid-mf.c b/drivers/hid/hid-mf.c
-index fc75f30f537c95dbc7a4c19581c6953ef76e40a8..92d7ecd41a78fb94910f044daf4bfb91594f93d3 100644
---- a/drivers/hid/hid-mf.c
-+++ b/drivers/hid/hid-mf.c
-@@ -153,6 +153,8 @@ static const struct hid_device_id mf_devices[] = {
- 		.driver_data = HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_GAMECUBE2),
- 		.driver_data = 0 }, /* No quirk required */
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_GAMECUBE3),
-+		.driver_data = HID_QUIRK_MULTI_INPUT },
- 	{ }
- };
- MODULE_DEVICE_TABLE(hid, mf_devices);
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index 7a2be0205dfd12a81a82e963893ca664512bb526..e67134a4c3dec7533a9fecefb293a8a624bf28de 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -72,6 +72,7 @@ static const struct hid_device_id hid_quirks[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_REDRAGON_SEYMUR2), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_DOLPHINBAR), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_GAMECUBE1), HID_QUIRK_MULTI_INPUT },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_GAMECUBE3), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_PS3), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_WIIU), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_DWAV, USB_DEVICE_ID_EGALAX_TOUCHCONTROLLER), HID_QUIRK_MULTI_INPUT | HID_QUIRK_NOGET },
-@@ -479,6 +480,7 @@ static const struct hid_device_id hid_have_special_driver[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_DOLPHINBAR) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_GAMECUBE1) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_GAMECUBE2) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRISE_GAMECUBE3) },
- #endif
- #if IS_ENABLED(CONFIG_HID_MICROSOFT)
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_COMFORT_MOUSE_4500) },
++	flush_scheduled_work();
+ 	sunkbd_enable(sunkbd, false);
+ 	input_unregister_device(sunkbd->dev);
+ 	serio_close(serio);
 -- 
-2.25.1
+2.17.1
 
