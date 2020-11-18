@@ -2,86 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3A3A2B7019
-	for <lists+linux-input@lfdr.de>; Tue, 17 Nov 2020 21:32:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 72E012B7318
+	for <lists+linux-input@lfdr.de>; Wed, 18 Nov 2020 01:31:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727657AbgKQUcG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 17 Nov 2020 15:32:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41800 "EHLO
+        id S1727066AbgKRAbF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 17 Nov 2020 19:31:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727629AbgKQUcF (ORCPT
+        with ESMTP id S1726657AbgKRAbF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 17 Nov 2020 15:32:05 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 359F6C0613CF;
-        Tue, 17 Nov 2020 12:32:04 -0800 (PST)
-Received: from zn.tnic (p200300ec2f10130053cbbcbd889a5460.dip0.t-ipconnect.de [IPv6:2003:ec:2f10:1300:53cb:bcbd:889a:5460])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 018CC1EC03CE;
-        Tue, 17 Nov 2020 21:32:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1605645123;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=3C8iZQVCyNe8hkbWuwV/tblbPZQNKnK6sRC+nVZs2vs=;
-        b=i+QDHSEnYVK5bfheQXKktIj3n8699yZScn/2NCs9OhD68XNHt/PTz4m4xxcqoXPs47+YOp
-        4RRMtF6WP5zTMt0nJXguuBh6ezlTJhzfqc64pItHPlGTrV93g17OgJKd7GjeHbz+te+zvg
-        r33PwHDPgyIvTfNC7i6WLaDIAwUx+M8=
-Date:   Tue, 17 Nov 2020 21:31:55 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
-Cc:     linux-kernel@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        x86@kernel.org, hpa@zytor.com, dmitry.torokhov@gmail.com,
-        derek.kiernan@xilinx.com, dragan.cvetic@xilinx.com,
-        richardcochran@gmail.com, linux-hyperv@vger.kernel.org,
-        linux-input@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH 1/2] x86: make vmware support optional
-Message-ID: <20201117203155.GO5719@zn.tnic>
-References: <20201117202308.7568-1-info@metux.net>
+        Tue, 17 Nov 2020 19:31:05 -0500
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3D89C0613CF;
+        Tue, 17 Nov 2020 16:31:04 -0800 (PST)
+Received: by mail-pf1-x444.google.com with SMTP id q10so306440pfn.0;
+        Tue, 17 Nov 2020 16:31:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=kUdQDsFuXxGWfUMm8DBKihFVcWGXfNC/uH4yococqkU=;
+        b=r6+AYzDGpLy6GOZYuzz3Qgm67Djxd+34pRQw/EUEyGoSITIiqyig0z5a0d9JrIDqRg
+         Al88HmoHlZ6FFaMrNOdyW8ZOxzstmp2KwpJbaiKkM7fNHy5QiZ6Hd/Jz667Z2zAh4wIP
+         hqB0kPbnMjGMXykeHHVNVab3fIhRLJ3l/RPvf1uLOJVcyDcyTMhkLFmr4D1liaYQfnYt
+         xheTtgQckEc3ZnmUNKM4wfE/VK1XvI5fG6uQL+BFBC9v+BK9/JjM+V16nWTfnCKFm7oT
+         2ZcBKQzIiHW1gxELZzCVlhC1PE7kPPXfXrmB8HvAGSTes11YKZj+CmUeseRbpHLwf+9e
+         RzpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=kUdQDsFuXxGWfUMm8DBKihFVcWGXfNC/uH4yococqkU=;
+        b=jSdO2ejROVilo1d2fqUUpBbnPRPsfwzlOzog2Le4GBbTgyBFS/xQDa8qJ68nOeQycg
+         4slA4FlbENsUiKbrAjQIExCNaEBf0QxDZTM9T3L3OhpYepqrMVF51+XKriT92nh9aV+w
+         9yHbpI426UwDm6XUt1Dx5dLqnQyQD4VVamhlj0b6+677I6IbUMDsm4giNzgk+CFFj2xK
+         neUzlwBC1ByaN7IRfOzfv5hPGaIHwzQnMuOSo7y6HFMfBAFuTsb6LaPNsTHi3eFMfdud
+         iKyD8Nmd33vbSgllvmXyOzKhuAZRYKzI+68vBxMHDmOT1zGX9UeKrg4J0IMqpN7xasM9
+         rVZw==
+X-Gm-Message-State: AOAM531AVycgIZt9jnb1P/Ro+mVAHsJ6Yy2GV3f1ZmutsDNnUflJie53
+        Fqem3PcJaZSCFc5+Bqj5Q+Q=
+X-Google-Smtp-Source: ABdhPJwWoA+9WfM9TY5q3oyIHU2vtM1lIoqBVrdZPAljeo3yRt3Zvkbt8ICCFDQ0v0g7UsGw4kHKxw==
+X-Received: by 2002:a65:4946:: with SMTP id q6mr5913749pgs.216.1605659464185;
+        Tue, 17 Nov 2020 16:31:04 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id j184sm24255902pfg.207.2020.11.17.16.31.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2020 16:31:02 -0800 (PST)
+Date:   Tue, 17 Nov 2020 16:31:00 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     Alexandru Ardelean <alexandru.ardelean@analog.com>,
+        David Jander <david@protonic.nl>, kernel@pengutronix.de,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH v2] Input: touchscreen: ads7846.c: Fix race that causes
+ missing releases
+Message-ID: <20201118003100.GB2009714@dtor-ws>
+References: <20201027105416.18773-1-o.rempel@pengutronix.de>
+ <20201111190740.GY1003057@dtor-ws>
+ <20201112114851.mlhhxxjonhx5n4sz@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201117202308.7568-1-info@metux.net>
+In-Reply-To: <20201112114851.mlhhxxjonhx5n4sz@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Nov 17, 2020 at 09:23:07PM +0100, Enrico Weigelt, metux IT consult wrote:
-> Make it possible to opt-out from vmware support
-
-Why?
-
-I can think of a couple of reasons but maybe yours might not be the one
-I'm thinking of.
-
-> Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
-> ---
->  arch/x86/Kconfig                 | 7 +++++++
->  arch/x86/kernel/cpu/Makefile     | 4 +++-
->  arch/x86/kernel/cpu/hypervisor.c | 2 ++
->  drivers/input/mouse/Kconfig      | 2 +-
->  drivers/misc/Kconfig             | 2 +-
->  drivers/ptp/Kconfig              | 2 +-
->  6 files changed, 15 insertions(+), 4 deletions(-)
+On Thu, Nov 12, 2020 at 12:48:51PM +0100, Oleksij Rempel wrote:
+> On Wed, Nov 11, 2020 at 11:07:40AM -0800, Dmitry Torokhov wrote:
+> > Hi Oleksij,
+> > 
+> > On Tue, Oct 27, 2020 at 11:54:16AM +0100, Oleksij Rempel wrote:
+> > > From: David Jander <david@protonic.nl>
+> > > 
+> > > If touchscreen is released while busy reading HWMON device, the release
+> > > can be missed. The IRQ thread is not started because no touch is active
+> > > and BTN_TOUCH release event is never sent.
+> > > 
+> > > Fixes: f5a28a7d4858f94a ("Input: ads7846 - avoid pen up/down when reading hwmon")
+> > > Co-Developed-by: David Jander <david@protonic.nl>
+> > 
+> > Since the patch is nominally attributed to David (via the From: tag)
+> > I'll be changing Co-developed-by tag to your name, OK?
 > 
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index f6946b81f74a..c227c1fa0091 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -801,6 +801,13 @@ config X86_HV_CALLBACK_VECTOR
->  
->  source "arch/x86/xen/Kconfig"
->  
-> +config VMWARE_GUEST
-> +	bool "Vmware Guest support"
-> +	default y
+> OK.
 
-depends on HYPERVISOR_GUEST. The hyperv one too.
+Applied, thank you.
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Dmitry
