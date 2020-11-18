@@ -2,254 +2,218 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04E4B2B7A9E
-	for <lists+linux-input@lfdr.de>; Wed, 18 Nov 2020 10:51:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D0122B8104
+	for <lists+linux-input@lfdr.de>; Wed, 18 Nov 2020 16:44:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725804AbgKRJsZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Nov 2020 04:48:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52126 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725792AbgKRJsZ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Nov 2020 04:48:25 -0500
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5851BC0613D4
-        for <linux-input@vger.kernel.org>; Wed, 18 Nov 2020 01:48:25 -0800 (PST)
-Received: by mail-pf1-x430.google.com with SMTP id w14so1078740pfd.7
-        for <linux-input@vger.kernel.org>; Wed, 18 Nov 2020 01:48:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fourwalledcubicle-com.20150623.gappssmtp.com; s=20150623;
-        h=to:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=1144Mc3rVmmoAK7W7xXclhuNRtb94BJ77TWwhDE0Oo0=;
-        b=i2iVK0TZoeW0ZsoWn7Hap5K5moKkEtGkQh8yPDeQASFii7i6/q0PS75344yTVAma1U
-         NIdTnhd+DtqJGgGFPG1pL2KyJXpx0RK5xZsitHMOX5OlExs11hy2H0xos+lfj6bMKY5I
-         OIqzA754CM6jrYMQWfInHFt4jm46iKLS9TcnSM7w/We0gKP/g4dF5bTlKizs3ZrVit06
-         ae285HPJ99qWxdRBwpGJplFji03wlX4FuLEvzz+fofQHkzRD+x+0XcBUPRWGzr65rufa
-         chS6jYZfTF9d3tmMUxFMlvNWId905RrCgFdzPyNYDiF78T3NmC/oEoaTnX3f7ceGvvIL
-         E4cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=1144Mc3rVmmoAK7W7xXclhuNRtb94BJ77TWwhDE0Oo0=;
-        b=fsNOOlxsMCXoC5tXo8mcaLp2SyPfpvd4GHhajoPT0S81GrgTfaTo7UP1DGFiFJx163
-         8GdkTqZPD+S6e5bt+btsnqB25NnnRD7pwy61IK+w+GjWa6KSFXYbNEuMwRNrolMpHEZG
-         599T7YabPCBmVLMGovJj71dG1rTaZuSIbrE/dtLMAjo8l2+HF17SRhvWWTHBsQQMnWIw
-         Wt/eWGrkSZO22HHvYfS9rG8EzD9+ZxrmGCvqbC6TASBQ5w4DZR57dpn6Utu/RdcG485/
-         QpuCsM8G3hD7Mh0ZlmgIt4z2CHpfb2BtHT9YOssiDW09jL7fpAm+NDr1op13Fv605pbM
-         WOlA==
-X-Gm-Message-State: AOAM533FFkVrwtMaGslkAGl0zz1Si7dbgB+DUjc6Ng45hm6fz9HhA5sh
-        7OnQlxq32BYGdOrrc9a86mvrYKmwEZg2FQ==
-X-Google-Smtp-Source: ABdhPJyzdQXqIUX83NKpuyW98LVbrzzhlH+v9gf+BGq+LOaOfrogLN9ccyO5rGfNm9S2H4sdC6GjfA==
-X-Received: by 2002:aa7:9abb:0:b029:195:2f0d:755d with SMTP id x27-20020aa79abb0000b02901952f0d755dmr3669244pfi.28.1605692904337;
-        Wed, 18 Nov 2020 01:48:24 -0800 (PST)
-Received: from [10.0.0.4] (203-123-108-233.ip4.superloop.com. [203.123.108.233])
-        by smtp.gmail.com with ESMTPSA id e31sm9839170pgb.16.2020.11.18.01.48.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Nov 2020 01:48:23 -0800 (PST)
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-From:   Dean Camera <dean@fourwalledcubicle.com>
-Subject: [PATCH 2/2] Add additional hidraw input/output report ioctls.
-Message-ID: <d3888c0f-0f3c-d840-5888-475f4160beed@fourwalledcubicle.com>
-Date:   Wed, 18 Nov 2020 20:48:20 +1100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.3
+        id S1726547AbgKRPns (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Nov 2020 10:43:48 -0500
+Received: from mga04.intel.com ([192.55.52.120]:62015 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726089AbgKRPnr (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 18 Nov 2020 10:43:47 -0500
+IronPort-SDR: hWiYLFbtLvtdsf5Q9XKwlKLsA0evO9gy5y8Cz7tfLK3+H4CTNGqJdr0tlaZS2ENSPRABoCE9Yk
+ 0g7G3hVNbOBw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9808"; a="168562719"
+X-IronPort-AV: E=Sophos;i="5.77,486,1596524400"; 
+   d="scan'208";a="168562719"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2020 07:43:46 -0800
+IronPort-SDR: i3FSC46PfKDkgilKZQb7LFh1E/olaXZxdH7Tg+oWdRjOVxcwqMQZmVWk7KLyh+r0W5PofIKmZy
+ 6T+FmvlS0G3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,486,1596524400"; 
+   d="scan'208";a="325629235"
+Received: from lkp-server02.sh.intel.com (HELO 67996b229c47) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 18 Nov 2020 07:43:45 -0800
+Received: from kbuild by 67996b229c47 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kfPcW-00009J-Kx; Wed, 18 Nov 2020 15:43:44 +0000
+Date:   Wed, 18 Nov 2020 23:43:16 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [input:master] BUILD SUCCESS
+ c6c746508981f22ffa754e0c8fcee00da6923b9e
+Message-ID: <5fb54114.WEl2p19EDPm7LKKC%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Currently the hidraw module can only read and write feature HID
-reports on demand, via dedicated ioctls. Input reports are read
-from the device through the read() interface, while output reports
-are written through the write interface().
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git  master
+branch HEAD: c6c746508981f22ffa754e0c8fcee00da6923b9e  Input: atmel_mxt_ts - support regulator supplies
 
-This is insufficient; it is desirable in many situations to be
-able to read and write input and output reports through the
-control interface to cover additional scenarios:
-  - Reading an input report by its report ID, to get initial state
-  - Writing an input report, to set initial input state in the device
-  - Reading an output report by its report ID, to obtain current state
-  - Writing an output report by its report ID, out of band
+elapsed time: 725m
 
-This patch adds these missing ioctl requests to read and write
-the remaining HID report types. Note that not all HID backends will
-neccesarily support this (e.g. while the USB link layer supports
-setting Input reports, others may not).
+configs tested: 154
+configs skipped: 2
 
-Also included are documentation and example updates. The current
-hidraw documentation states that feature reports read from the
-device does *not* include the report ID, however this is not the
-case and the returned report will have its report ID prepended
-by conforming HID devices, as the report data sent from the device
-over the control endpoint must be indentical in format to those
-sent over the regular transport.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Signed-off-by: Dean Camera <dean@fourwalledcubicle.com>
+gcc tested configs:
+arm64                               defconfig
+arm                                 defconfig
+arm64                            allyesconfig
+arm                              allyesconfig
+arm                              allmodconfig
+sh                          rsk7269_defconfig
+powerpc                 mpc832x_rdb_defconfig
+sh                        edosk7760_defconfig
+sh                         microdev_defconfig
+sh                            shmin_defconfig
+sh                            migor_defconfig
+sh                 kfr2r09-romimage_defconfig
+arm                           corgi_defconfig
+powerpc64                           defconfig
+arm                            lart_defconfig
+powerpc                     rainier_defconfig
+powerpc                     mpc5200_defconfig
+m68k                            mac_defconfig
+arm                          tango4_defconfig
+arm                        spear3xx_defconfig
+mips                malta_kvm_guest_defconfig
+powerpc                       maple_defconfig
+arm                            qcom_defconfig
+c6x                         dsk6455_defconfig
+arc                           tb10x_defconfig
+powerpc                    ge_imp3a_defconfig
+arm                          gemini_defconfig
+xtensa                    xip_kc705_defconfig
+powerpc                     ksi8560_defconfig
+microblaze                    nommu_defconfig
+arm                          exynos_defconfig
+mips                 decstation_r4k_defconfig
+mips                      maltasmvp_defconfig
+mips                           ci20_defconfig
+arc                         haps_hs_defconfig
+sh                   sh7770_generic_defconfig
+mips                      loongson3_defconfig
+arm                            mps2_defconfig
+arc                     nsimosci_hs_defconfig
+mips                            ar7_defconfig
+powerpc                      cm5200_defconfig
+mips                          malta_defconfig
+openrisc                    or1ksim_defconfig
+arm                         hackkit_defconfig
+m68k                         apollo_defconfig
+mips                          rm200_defconfig
+mips                  decstation_64_defconfig
+sh                            hp6xx_defconfig
+mips                       bmips_be_defconfig
+c6x                        evmc6472_defconfig
+sh                                  defconfig
+mips                        omega2p_defconfig
+arm                         mv78xx0_defconfig
+powerpc                           allnoconfig
+s390                       zfcpdump_defconfig
+powerpc                     pq2fads_defconfig
+powerpc                      pmac32_defconfig
+powerpc                 mpc8315_rdb_defconfig
+sh                          polaris_defconfig
+sh                           se7724_defconfig
+m68k                          atari_defconfig
+sh                        dreamcast_defconfig
+mips                      maltaaprp_defconfig
+arm                         socfpga_defconfig
+powerpc                 mpc8313_rdb_defconfig
+sh                               j2_defconfig
+xtensa                  cadence_csp_defconfig
+arm                          prima2_defconfig
+powerpc                    gamecube_defconfig
+h8300                            alldefconfig
+mips                      bmips_stb_defconfig
+s390                             alldefconfig
+arm                           h5000_defconfig
+arm                        neponset_defconfig
+i386                                defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+x86_64               randconfig-a005-20201118
+x86_64               randconfig-a003-20201118
+x86_64               randconfig-a004-20201118
+x86_64               randconfig-a002-20201118
+x86_64               randconfig-a006-20201118
+x86_64               randconfig-a001-20201118
+i386                 randconfig-a006-20201117
+i386                 randconfig-a005-20201117
+i386                 randconfig-a001-20201117
+i386                 randconfig-a002-20201117
+i386                 randconfig-a004-20201117
+i386                 randconfig-a003-20201117
+i386                 randconfig-a006-20201118
+i386                 randconfig-a005-20201118
+i386                 randconfig-a002-20201118
+i386                 randconfig-a001-20201118
+i386                 randconfig-a003-20201118
+i386                 randconfig-a004-20201118
+i386                 randconfig-a012-20201118
+i386                 randconfig-a014-20201118
+i386                 randconfig-a016-20201118
+i386                 randconfig-a011-20201118
+i386                 randconfig-a013-20201118
+i386                 randconfig-a015-20201118
+i386                 randconfig-a016-20201117
+i386                 randconfig-a015-20201117
+i386                 randconfig-a012-20201117
+i386                 randconfig-a014-20201117
+i386                 randconfig-a011-20201117
+i386                 randconfig-a013-20201117
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a015-20201118
+x86_64               randconfig-a014-20201118
+x86_64               randconfig-a011-20201118
+x86_64               randconfig-a013-20201118
+x86_64               randconfig-a016-20201118
+x86_64               randconfig-a012-20201118
+
 ---
-  Documentation/hid/hidraw.rst | 45 ++++++++++++++++++++++++++++++++++--
-  drivers/hid/hidraw.c         | 24 ++++++++++++++++++-
-  include/uapi/linux/hidraw.h  |  6 +++++
-  samples/hidraw/hid-example.c |  2 +-
-  4 files changed, 73 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/hid/hidraw.rst b/Documentation/hid/hidraw.rst
-index 4a4a0ba1f362..f41c1f0f6252 100644
---- a/Documentation/hid/hidraw.rst
-+++ b/Documentation/hid/hidraw.rst
-@@ -123,8 +123,49 @@ HIDIOCGFEATURE(len):
-  This ioctl will request a feature report from the device using the control
-  endpoint.  The first byte of the supplied buffer should be set to the 
-report
-  number of the requested report.  For devices which do not use numbered
--reports, set the first byte to 0.  The report will be returned starting at
--the first byte of the buffer (ie: the report number is not returned).
-+reports, set the first byte to 0.  The returned report buffer will 
-contain the
-+report number in the first byte, followed by the report data read from the
-+device.  For devices which do not use numbered reports, the report data 
-will
-+begin at the first byte of the returned buffer.
-+
-+HIDIOCSINPUT(len):
-+	Send an Input Report
-+
-+This ioctl will send an input report to the device, using the control 
-endpoint.
-+In most cases, setting an input HID report on a device is meaningless 
-and has
-+no effect, but some devices may choose to use this to set or reset an 
-initial
-+state of a report.  The format of the buffer issued with this report is 
-identical
-+to that of HIDIOCSFEATURE.
-+
-+HIDIOCGINPUT(len):
-+	Get an Input Report
-+
-+This ioctl will request an input report from the device using the control
-+endpoint.  This is slower on most devices where a dedicated In endpoint 
-exists
-+for regular input reports, but allows the host to request the value of a
-+specific report number.  Typically, this is used to request the initial 
-states of
-+an input report of a device, before an application listens for normal 
-reports via
-+the regular device read() interface.  The format of the buffer issued 
-with this report
-+is identical to that of HIDIOCGFEATURE.
-+
-+HIDIOCSOUTPUT(len):
-+	Send an Output Report
-+
-+This ioctl will send an output report to the device, using the control 
-endpoint.
-+This is slower on most devices where a dedicated Out endpoint exists 
-for regular
-+output reports, but is added for completeness.  Typically, this is used 
-to set
-+the initial states of an output report of a device, before an 
-application sends
-+updates via the regular device write() interface. The format of the 
-buffer issued
-+with this report is identical to that of HIDIOCSFEATURE.
-+
-+HIDIOCGOUTPUT(len):
-+	Get an Output Report
-+
-+This ioctl will request an output report from the device using the control
-+endpoint.  Typically, this is used to retrive the initial state of
-+an output report of a device, before an application updates it as 
-necessary either
-+via a HIDIOCSOUTPUT request, or the regular device write() interface. 
-The format
-+of the buffer issued with this report is identical to that of 
-HIDIOCGFEATURE.
-
-  Example
-  -------
-diff --git a/drivers/hid/hidraw.c b/drivers/hid/hidraw.c
-index 2eee5e31c2b7..79faac87a06f 100644
---- a/drivers/hid/hidraw.c
-+++ b/drivers/hid/hidraw.c
-@@ -170,7 +170,7 @@ static ssize_t hidraw_write(struct file *file, const 
-char __user *buffer, size_t
-  /*
-   * This function performs a Get_Report transfer over the control endpoint
-   * per section 7.2.1 of the HID specification, version 1.1.  The first 
-byte
-- * of buffer is the report number to request, or 0x0 if the defice does not
-+ * of buffer is the report number to request, or 0x0 if the device does not
-   * use numbered reports. The report_type parameter can be 
-HID_FEATURE_REPORT
-   * or HID_INPUT_REPORT.
-   */
-@@ -428,6 +428,28 @@ static long hidraw_ioctl(struct file *file, 
-unsigned int cmd,
-  					break;
-  				}
-
-+				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCSINPUT(0))) {
-+					int len = _IOC_SIZE(cmd);
-+					ret = hidraw_send_report(file, user_arg, len, HID_INPUT_REPORT);
-+					break;
-+				}
-+				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGINPUT(0))) {
-+					int len = _IOC_SIZE(cmd);
-+					ret = hidraw_get_report(file, user_arg, len, HID_INPUT_REPORT);
-+					break;
-+				}
-+
-+				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCSOUTPUT(0))) {
-+					int len = _IOC_SIZE(cmd);
-+					ret = hidraw_send_report(file, user_arg, len, HID_OUTPUT_REPORT);
-+					break;
-+				}
-+				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGOUTPUT(0))) {
-+					int len = _IOC_SIZE(cmd);
-+					ret = hidraw_get_report(file, user_arg, len, HID_OUTPUT_REPORT);
-+					break;
-+				}
-+
-  				/* Begin Read-only ioctls. */
-  				if (_IOC_DIR(cmd) != _IOC_READ) {
-  					ret = -EINVAL;
-diff --git a/include/uapi/linux/hidraw.h b/include/uapi/linux/hidraw.h
-index 4913539e5bcc..33ebad81720a 100644
---- a/include/uapi/linux/hidraw.h
-+++ b/include/uapi/linux/hidraw.h
-@@ -40,6 +40,12 @@ struct hidraw_devinfo {
-  #define HIDIOCSFEATURE(len)    _IOC(_IOC_WRITE|_IOC_READ, 'H', 0x06, len)
-  #define HIDIOCGFEATURE(len)    _IOC(_IOC_WRITE|_IOC_READ, 'H', 0x07, len)
-  #define HIDIOCGRAWUNIQ(len)     _IOC(_IOC_READ, 'H', 0x08, len)
-+/* The first byte of SINPUT and GINPUT is the report number */
-+#define HIDIOCSINPUT(len)    _IOC(_IOC_WRITE|_IOC_READ, 'H', 0x09, len)
-+#define HIDIOCGINPUT(len)    _IOC(_IOC_WRITE|_IOC_READ, 'H', 0x0A, len)
-+/* The first byte of SOUTPUT and GOUTPUT is the report number */
-+#define HIDIOCSOUTPUT(len)    _IOC(_IOC_WRITE|_IOC_READ, 'H', 0x0B, len)
-+#define HIDIOCGOUTPUT(len)    _IOC(_IOC_WRITE|_IOC_READ, 'H', 0x0C, len)
-
-  #define HIDRAW_FIRST_MINOR 0
-  #define HIDRAW_MAX_DEVICES 64
-diff --git a/samples/hidraw/hid-example.c b/samples/hidraw/hid-example.c
-index 37a0ffcb4d63..0f73ace3c6c3 100644
---- a/samples/hidraw/hid-example.c
-+++ b/samples/hidraw/hid-example.c
-@@ -128,7 +128,7 @@ int main(int argc, char **argv)
-  		perror("HIDIOCGFEATURE");
-  	} else {
-  		printf("ioctl HIDIOCGFEATURE returned: %d\n", res);
--		printf("Report data (not containing the report number):\n\t");
-+		printf("Report data:\n\t");
-  		for (i = 0; i < res; i++)
-  			printf("%hhx ", buf[i]);
-  		puts("\n");
--- 
-2.25.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
