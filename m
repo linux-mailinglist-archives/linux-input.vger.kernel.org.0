@@ -2,148 +2,254 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E1A72B7A4B
-	for <lists+linux-input@lfdr.de>; Wed, 18 Nov 2020 10:25:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04E4B2B7A9E
+	for <lists+linux-input@lfdr.de>; Wed, 18 Nov 2020 10:51:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726158AbgKRJXm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 18 Nov 2020 04:23:42 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:35709 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725804AbgKRJXm (ORCPT
+        id S1725804AbgKRJsZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 18 Nov 2020 04:48:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52126 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725792AbgKRJsZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 18 Nov 2020 04:23:42 -0500
-Received: by mail-wm1-f66.google.com with SMTP id w24so2019444wmi.0;
-        Wed, 18 Nov 2020 01:23:40 -0800 (PST)
+        Wed, 18 Nov 2020 04:48:25 -0500
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5851BC0613D4
+        for <linux-input@vger.kernel.org>; Wed, 18 Nov 2020 01:48:25 -0800 (PST)
+Received: by mail-pf1-x430.google.com with SMTP id w14so1078740pfd.7
+        for <linux-input@vger.kernel.org>; Wed, 18 Nov 2020 01:48:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fourwalledcubicle-com.20150623.gappssmtp.com; s=20150623;
+        h=to:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=1144Mc3rVmmoAK7W7xXclhuNRtb94BJ77TWwhDE0Oo0=;
+        b=i2iVK0TZoeW0ZsoWn7Hap5K5moKkEtGkQh8yPDeQASFii7i6/q0PS75344yTVAma1U
+         NIdTnhd+DtqJGgGFPG1pL2KyJXpx0RK5xZsitHMOX5OlExs11hy2H0xos+lfj6bMKY5I
+         OIqzA754CM6jrYMQWfInHFt4jm46iKLS9TcnSM7w/We0gKP/g4dF5bTlKizs3ZrVit06
+         ae285HPJ99qWxdRBwpGJplFji03wlX4FuLEvzz+fofQHkzRD+x+0XcBUPRWGzr65rufa
+         chS6jYZfTF9d3tmMUxFMlvNWId905RrCgFdzPyNYDiF78T3NmC/oEoaTnX3f7ceGvvIL
+         E4cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=2nsnjnOqDV6WPzahzgOv8VDTMdt+UU18h3NLzAQiSpA=;
-        b=X5DWRRpLxLa2YwmpnxCDdJ9m2LJqPGahM/mvYxyBmEzouI6woOAdiclOXCRDK+/Ckv
-         g/fBPyVpajhQ/8IdIVgnrq2DkTHQLbIltySYpK6SNrsi4rL6urTRYnF58ovnu9W8kRhP
-         5akmkcElDDpyjwbI9iBQTZtvQmtpSY5GTLTYxd358utefNb+N4+JvC1ModI61825yr6r
-         yeEzcwaSbeiE47oHOoMU72yrUMm28l1Knyt62GCkhyQbqI+mObM+8Spu4fCi++gy3UU5
-         7dDmvcPMyd/pKdWXmMaB645OohHZcXNV9JMVkxYwVPaZPkgzxfkqRfNxTo3Oe6bhkZmw
-         69OA==
-X-Gm-Message-State: AOAM532xzEUwHnoW/fAmZyRrL/eotorSELX22CYYGbjdJeljfqmNYXxG
-        BEMtHHfP9zpYeP54o6hxKZVL3tBGSGk=
-X-Google-Smtp-Source: ABdhPJxckaDRo8U42uknkQAN3d1oqdfUPR8JMwF4vNreh318c5rq4YB0kqkTqeFa5f4PE6gRlLM59w==
-X-Received: by 2002:a7b:c2ef:: with SMTP id e15mr3585111wmk.180.1605691419662;
-        Wed, 18 Nov 2020 01:23:39 -0800 (PST)
-Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id g4sm32723173wrp.0.2020.11.18.01.23.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2020 01:23:39 -0800 (PST)
-Date:   Wed, 18 Nov 2020 09:23:37 +0000
-From:   Wei Liu <wei.liu@kernel.org>
-To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
-Cc:     linux-kernel@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dmitry.torokhov@gmail.com, derek.kiernan@xilinx.com,
-        dragan.cvetic@xilinx.com, richardcochran@gmail.com,
-        linux-hyperv@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, Wei Liu <wei.liu@kernel.org>
-Subject: Re: [PATCH 2/2] x86: make hyperv support optional
-Message-ID: <20201118092337.k4inzcaqxygrnqc3@liuwe-devbox-debian-v2>
-References: <20201117202308.7568-1-info@metux.net>
- <20201117202308.7568-2-info@metux.net>
+        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=1144Mc3rVmmoAK7W7xXclhuNRtb94BJ77TWwhDE0Oo0=;
+        b=fsNOOlxsMCXoC5tXo8mcaLp2SyPfpvd4GHhajoPT0S81GrgTfaTo7UP1DGFiFJx163
+         8GdkTqZPD+S6e5bt+btsnqB25NnnRD7pwy61IK+w+GjWa6KSFXYbNEuMwRNrolMpHEZG
+         599T7YabPCBmVLMGovJj71dG1rTaZuSIbrE/dtLMAjo8l2+HF17SRhvWWTHBsQQMnWIw
+         Wt/eWGrkSZO22HHvYfS9rG8EzD9+ZxrmGCvqbC6TASBQ5w4DZR57dpn6Utu/RdcG485/
+         QpuCsM8G3hD7Mh0ZlmgIt4z2CHpfb2BtHT9YOssiDW09jL7fpAm+NDr1op13Fv605pbM
+         WOlA==
+X-Gm-Message-State: AOAM533FFkVrwtMaGslkAGl0zz1Si7dbgB+DUjc6Ng45hm6fz9HhA5sh
+        7OnQlxq32BYGdOrrc9a86mvrYKmwEZg2FQ==
+X-Google-Smtp-Source: ABdhPJyzdQXqIUX83NKpuyW98LVbrzzhlH+v9gf+BGq+LOaOfrogLN9ccyO5rGfNm9S2H4sdC6GjfA==
+X-Received: by 2002:aa7:9abb:0:b029:195:2f0d:755d with SMTP id x27-20020aa79abb0000b02901952f0d755dmr3669244pfi.28.1605692904337;
+        Wed, 18 Nov 2020 01:48:24 -0800 (PST)
+Received: from [10.0.0.4] (203-123-108-233.ip4.superloop.com. [203.123.108.233])
+        by smtp.gmail.com with ESMTPSA id e31sm9839170pgb.16.2020.11.18.01.48.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Nov 2020 01:48:23 -0800 (PST)
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org
+From:   Dean Camera <dean@fourwalledcubicle.com>
+Subject: [PATCH 2/2] Add additional hidraw input/output report ioctls.
+Message-ID: <d3888c0f-0f3c-d840-5888-475f4160beed@fourwalledcubicle.com>
+Date:   Wed, 18 Nov 2020 20:48:20 +1100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201117202308.7568-2-info@metux.net>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Nov 17, 2020 at 09:23:08PM +0100, Enrico Weigelt, metux IT consult wrote:
-> Make it possible to opt-out from hyperv support.
-> 
+Currently the hidraw module can only read and write feature HID
+reports on demand, via dedicated ioctls. Input reports are read
+from the device through the read() interface, while output reports
+are written through the write interface().
 
-"Hyper-V support".
+This is insufficient; it is desirable in many situations to be
+able to read and write input and output reports through the
+control interface to cover additional scenarios:
+  - Reading an input report by its report ID, to get initial state
+  - Writing an input report, to set initial input state in the device
+  - Reading an output report by its report ID, to obtain current state
+  - Writing an output report by its report ID, out of band
 
-Have you tested this patch? If so, how?
+This patch adds these missing ioctl requests to read and write
+the remaining HID report types. Note that not all HID backends will
+neccesarily support this (e.g. while the USB link layer supports
+setting Input reports, others may not).
 
-> Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
-> ---
->  arch/x86/Kconfig                 | 7 +++++++
->  arch/x86/kernel/cpu/Makefile     | 4 ++--
->  arch/x86/kernel/cpu/hypervisor.c | 2 ++
->  drivers/hv/Kconfig               | 2 +-
->  4 files changed, 12 insertions(+), 3 deletions(-)
-> 
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index c227c1fa0091..60aab344d6ab 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -808,6 +808,13 @@ config VMWARE_GUEST
->  	  This option enables several optimizations for running under the
->  	  VMware hypervisor.
->  
-> +config HYPERV_GUEST
-> +	bool "HyperV Guest support"
+Also included are documentation and example updates. The current
+hidraw documentation states that feature reports read from the
+device does *not* include the report ID, however this is not the
+case and the returned report will have its report ID prepended
+by conforming HID devices, as the report data sent from the device
+over the control endpoint must be indentical in format to those
+sent over the regular transport.
 
-Hyper-V here.
+Signed-off-by: Dean Camera <dean@fourwalledcubicle.com>
+---
+  Documentation/hid/hidraw.rst | 45 ++++++++++++++++++++++++++++++++++--
+  drivers/hid/hidraw.c         | 24 ++++++++++++++++++-
+  include/uapi/linux/hidraw.h  |  6 +++++
+  samples/hidraw/hid-example.c |  2 +-
+  4 files changed, 73 insertions(+), 4 deletions(-)
 
-> +	default y
-> +	help
-> +	  This option enables several optimizations for running under the
-> +	  HyperV hypervisor.
-> +
+diff --git a/Documentation/hid/hidraw.rst b/Documentation/hid/hidraw.rst
+index 4a4a0ba1f362..f41c1f0f6252 100644
+--- a/Documentation/hid/hidraw.rst
++++ b/Documentation/hid/hidraw.rst
+@@ -123,8 +123,49 @@ HIDIOCGFEATURE(len):
+  This ioctl will request a feature report from the device using the control
+  endpoint.  The first byte of the supplied buffer should be set to the 
+report
+  number of the requested report.  For devices which do not use numbered
+-reports, set the first byte to 0.  The report will be returned starting at
+-the first byte of the buffer (ie: the report number is not returned).
++reports, set the first byte to 0.  The returned report buffer will 
+contain the
++report number in the first byte, followed by the report data read from the
++device.  For devices which do not use numbered reports, the report data 
+will
++begin at the first byte of the returned buffer.
++
++HIDIOCSINPUT(len):
++	Send an Input Report
++
++This ioctl will send an input report to the device, using the control 
+endpoint.
++In most cases, setting an input HID report on a device is meaningless 
+and has
++no effect, but some devices may choose to use this to set or reset an 
+initial
++state of a report.  The format of the buffer issued with this report is 
+identical
++to that of HIDIOCSFEATURE.
++
++HIDIOCGINPUT(len):
++	Get an Input Report
++
++This ioctl will request an input report from the device using the control
++endpoint.  This is slower on most devices where a dedicated In endpoint 
+exists
++for regular input reports, but allows the host to request the value of a
++specific report number.  Typically, this is used to request the initial 
+states of
++an input report of a device, before an application listens for normal 
+reports via
++the regular device read() interface.  The format of the buffer issued 
+with this report
++is identical to that of HIDIOCGFEATURE.
++
++HIDIOCSOUTPUT(len):
++	Send an Output Report
++
++This ioctl will send an output report to the device, using the control 
+endpoint.
++This is slower on most devices where a dedicated Out endpoint exists 
+for regular
++output reports, but is added for completeness.  Typically, this is used 
+to set
++the initial states of an output report of a device, before an 
+application sends
++updates via the regular device write() interface. The format of the 
+buffer issued
++with this report is identical to that of HIDIOCSFEATURE.
++
++HIDIOCGOUTPUT(len):
++	Get an Output Report
++
++This ioctl will request an output report from the device using the control
++endpoint.  Typically, this is used to retrive the initial state of
++an output report of a device, before an application updates it as 
+necessary either
++via a HIDIOCSOUTPUT request, or the regular device write() interface. 
+The format
++of the buffer issued with this report is identical to that of 
+HIDIOCGFEATURE.
 
-"for running under Hyper-V".
+  Example
+  -------
+diff --git a/drivers/hid/hidraw.c b/drivers/hid/hidraw.c
+index 2eee5e31c2b7..79faac87a06f 100644
+--- a/drivers/hid/hidraw.c
++++ b/drivers/hid/hidraw.c
+@@ -170,7 +170,7 @@ static ssize_t hidraw_write(struct file *file, const 
+char __user *buffer, size_t
+  /*
+   * This function performs a Get_Report transfer over the control endpoint
+   * per section 7.2.1 of the HID specification, version 1.1.  The first 
+byte
+- * of buffer is the report number to request, or 0x0 if the defice does not
++ * of buffer is the report number to request, or 0x0 if the device does not
+   * use numbered reports. The report_type parameter can be 
+HID_FEATURE_REPORT
+   * or HID_INPUT_REPORT.
+   */
+@@ -428,6 +428,28 @@ static long hidraw_ioctl(struct file *file, 
+unsigned int cmd,
+  					break;
+  				}
 
->  config KVM_GUEST
->  	bool "KVM Guest support (including kvmclock)"
->  	depends on PARAVIRT
-> diff --git a/arch/x86/kernel/cpu/Makefile b/arch/x86/kernel/cpu/Makefile
-> index a615b0152bf0..5536b801cb44 100644
-> --- a/arch/x86/kernel/cpu/Makefile
-> +++ b/arch/x86/kernel/cpu/Makefile
-> @@ -51,9 +51,9 @@ obj-$(CONFIG_X86_CPU_RESCTRL)		+= resctrl/
->  
->  obj-$(CONFIG_X86_LOCAL_APIC)		+= perfctr-watchdog.o
->  
-> -obj-$(CONFIG_HYPERVISOR_GUEST)		+= hypervisor.o mshyperv.o
-> +obj-$(CONFIG_HYPERVISOR_GUEST)		+= hypervisor.o
->  obj-$(CONFIG_VMWARE_GUEST)		+= vmware.o
-> -
-> +obj-$(CONFIG_HYPERV_GUEST)		+= mshyperv.o
->  obj-$(CONFIG_ACRN_GUEST)		+= acrn.o
->  
->  ifdef CONFIG_X86_FEATURE_NAMES
-> diff --git a/arch/x86/kernel/cpu/hypervisor.c b/arch/x86/kernel/cpu/hypervisor.c
-> index c0e770a224aa..32d6b2084d05 100644
-> --- a/arch/x86/kernel/cpu/hypervisor.c
-> +++ b/arch/x86/kernel/cpu/hypervisor.c
-> @@ -37,7 +37,9 @@ static const __initconst struct hypervisor_x86 * const hypervisors[] =
->  #ifdef CONFIG_VMWARE_GUEST
->  	&x86_hyper_vmware,
->  #endif
-> +#ifdef CONFIG_HYPERV_GUEST
->  	&x86_hyper_ms_hyperv,
-> +#endif
->  #ifdef CONFIG_KVM_GUEST
->  	&x86_hyper_kvm,
->  #endif
-> diff --git a/drivers/hv/Kconfig b/drivers/hv/Kconfig
-> index 79e5356a737a..7b3094c59a81 100644
-> --- a/drivers/hv/Kconfig
-> +++ b/drivers/hv/Kconfig
-> @@ -4,7 +4,7 @@ menu "Microsoft Hyper-V guest support"
->  
->  config HYPERV
->  	tristate "Microsoft Hyper-V client drivers"
-> -	depends on X86 && ACPI && X86_LOCAL_APIC && HYPERVISOR_GUEST
-> +	depends on X86 && ACPI && X86_LOCAL_APIC && HYPERV_GUEST
->  	select PARAVIRT
->  	select X86_HV_CALLBACK_VECTOR
->  	help
++				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCSINPUT(0))) {
++					int len = _IOC_SIZE(cmd);
++					ret = hidraw_send_report(file, user_arg, len, HID_INPUT_REPORT);
++					break;
++				}
++				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGINPUT(0))) {
++					int len = _IOC_SIZE(cmd);
++					ret = hidraw_get_report(file, user_arg, len, HID_INPUT_REPORT);
++					break;
++				}
++
++				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCSOUTPUT(0))) {
++					int len = _IOC_SIZE(cmd);
++					ret = hidraw_send_report(file, user_arg, len, HID_OUTPUT_REPORT);
++					break;
++				}
++				if (_IOC_NR(cmd) == _IOC_NR(HIDIOCGOUTPUT(0))) {
++					int len = _IOC_SIZE(cmd);
++					ret = hidraw_get_report(file, user_arg, len, HID_OUTPUT_REPORT);
++					break;
++				}
++
+  				/* Begin Read-only ioctls. */
+  				if (_IOC_DIR(cmd) != _IOC_READ) {
+  					ret = -EINVAL;
+diff --git a/include/uapi/linux/hidraw.h b/include/uapi/linux/hidraw.h
+index 4913539e5bcc..33ebad81720a 100644
+--- a/include/uapi/linux/hidraw.h
++++ b/include/uapi/linux/hidraw.h
+@@ -40,6 +40,12 @@ struct hidraw_devinfo {
+  #define HIDIOCSFEATURE(len)    _IOC(_IOC_WRITE|_IOC_READ, 'H', 0x06, len)
+  #define HIDIOCGFEATURE(len)    _IOC(_IOC_WRITE|_IOC_READ, 'H', 0x07, len)
+  #define HIDIOCGRAWUNIQ(len)     _IOC(_IOC_READ, 'H', 0x08, len)
++/* The first byte of SINPUT and GINPUT is the report number */
++#define HIDIOCSINPUT(len)    _IOC(_IOC_WRITE|_IOC_READ, 'H', 0x09, len)
++#define HIDIOCGINPUT(len)    _IOC(_IOC_WRITE|_IOC_READ, 'H', 0x0A, len)
++/* The first byte of SOUTPUT and GOUTPUT is the report number */
++#define HIDIOCSOUTPUT(len)    _IOC(_IOC_WRITE|_IOC_READ, 'H', 0x0B, len)
++#define HIDIOCGOUTPUT(len)    _IOC(_IOC_WRITE|_IOC_READ, 'H', 0x0C, len)
 
-Maybe that one should be moved to x86/Kconfig and used instead?
+  #define HIDRAW_FIRST_MINOR 0
+  #define HIDRAW_MAX_DEVICES 64
+diff --git a/samples/hidraw/hid-example.c b/samples/hidraw/hid-example.c
+index 37a0ffcb4d63..0f73ace3c6c3 100644
+--- a/samples/hidraw/hid-example.c
++++ b/samples/hidraw/hid-example.c
+@@ -128,7 +128,7 @@ int main(int argc, char **argv)
+  		perror("HIDIOCGFEATURE");
+  	} else {
+  		printf("ioctl HIDIOCGFEATURE returned: %d\n", res);
+-		printf("Report data (not containing the report number):\n\t");
++		printf("Report data:\n\t");
+  		for (i = 0; i < res; i++)
+  			printf("%hhx ", buf[i]);
+  		puts("\n");
+-- 
+2.25.1
 
-Wei.
-
-> -- 
-> 2.11.0
-> 
