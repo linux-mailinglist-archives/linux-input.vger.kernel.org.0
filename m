@@ -2,58 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 612BA2B95ED
-	for <lists+linux-input@lfdr.de>; Thu, 19 Nov 2020 16:17:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C59A2B9614
+	for <lists+linux-input@lfdr.de>; Thu, 19 Nov 2020 16:25:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728015AbgKSPQ2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 19 Nov 2020 10:16:28 -0500
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:49017 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726791AbgKSPQ1 (ORCPT
+        id S1727171AbgKSPY0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 19 Nov 2020 10:24:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30623 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727804AbgKSPYZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 19 Nov 2020 10:16:27 -0500
-X-Originating-IP: 82.255.60.242
-Received: from [192.168.0.28] (lns-bzn-39-82-255-60-242.adsl.proxad.net [82.255.60.242])
-        (Authenticated sender: hadess@hadess.net)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id BEE151C000C;
-        Thu, 19 Nov 2020 15:16:24 +0000 (UTC)
-Message-ID: <96e2c4ebd7e826b6ea52f72f301fb5e8c33479d5.camel@hadess.net>
+        Thu, 19 Nov 2020 10:24:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1605799464;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=lszpJqSI3eY5AHkczCdj9Dt5FSswLvwnFJiuNI8t5Cw=;
+        b=Wf3IvxL9qKwEirHtR621ftfL6bJLMJuwjgt38pFVYrfUMb6+ayqPK2GNy0JKr3eKKZjPut
+        pfp+Jzh6u7toTVY+2drXUJWt4izaX72cirt4v8QgZjPjCIhhV61RhYWp7gFY5L5gwuKX15
+        HZ8IscVZE2C/XhMAFO3yUw9DKuRsEHk=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-70-jnf2GHRAOM-KGWP87vwBcQ-1; Thu, 19 Nov 2020 10:24:22 -0500
+X-MC-Unique: jnf2GHRAOM-KGWP87vwBcQ-1
+Received: by mail-ej1-f69.google.com with SMTP id p6so2325261ejj.5
+        for <linux-input@vger.kernel.org>; Thu, 19 Nov 2020 07:24:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=lszpJqSI3eY5AHkczCdj9Dt5FSswLvwnFJiuNI8t5Cw=;
+        b=uMO25PLo7JnSHg7Dexoa/IM0Y0cwnf6xKUuNesEV6HelU0VmLMzEiBrr7k2dMDhAnG
+         Dq1710C207IQe6IjTTl/W2zMQyRIxkdLYDr5/RQxXuk9Hg/zUDD743UNoKqkroemcRzq
+         orBT8epiWEa3ybLwb4wEMkjdkfgD8i6hE/F2Q/7Da+pPWZYBuqDaZTsl4acpcA/AaLhs
+         FdTkAwvBtD1YgCpbaYnKF1kjSYwufXV9t3HukfkhcB68pmXHSHQjDm4Ho94c9d1K3vwy
+         tBFt7QqUeWa0Cq8bBdP9AHOn83ZSchdzNzK3tBBiqbgVE/f1q0S4+wvhdFy36Umml1l8
+         XWww==
+X-Gm-Message-State: AOAM533b1Yn3rouXWTRiQoif2lE/3dErFoEmex1uf1wH1RwAbfvFF8r3
+        AeUlDmhde+6NpkmMqbXJMBbTLB4ns5M3BAmiVUr4/IiUXvwyPWzVcd8JUSNojlhaOgHCV+D7bam
+        u3hwsaYEytJ1Hpb4yRWu9SP8n5XufNIqk50v4mZtqZC6L0zp120S2b6dVdYFAJP8+ropbn8QQl4
+        I=
+X-Received: by 2002:a50:85c6:: with SMTP id q6mr32435574edh.126.1605799460804;
+        Thu, 19 Nov 2020 07:24:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxUrvFpsfkC2FtqUtyt4sD4BX7TPMl6noqDcSqQsjhWgC2ws9+3GgbuVaz9JqG9dOoz08nEEA==
+X-Received: by 2002:a50:85c6:: with SMTP id q6mr32435550edh.126.1605799460581;
+        Thu, 19 Nov 2020 07:24:20 -0800 (PST)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-6c10-fbf3-14c4-884c.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:6c10:fbf3:14c4:884c])
+        by smtp.gmail.com with ESMTPSA id f18sm15202540edt.32.2020.11.19.07.24.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Nov 2020 07:24:19 -0800 (PST)
 Subject: Re: [External] Using IIO to export laptop palm-sensor and lap-mode
  info to userspace?
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>
+To:     Bastien Nocera <hadess@hadess.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
         Mark Pearson <markpearson@lenovo.com>,
         linux-iio@vger.kernel.org, Nitin Joshi1 <njoshi1@lenovo.com>,
         linux-input@vger.kernel.org
-Date:   Thu, 19 Nov 2020 16:16:24 +0100
-In-Reply-To: <20201112062348.GF1003057@dtor-ws>
 References: <9f9b0ff6-3bf1-63c4-eb36-901cecd7c4d9@redhat.com>
-         <5a646527-7a1f-2fb9-7c09-8becdbff417b@lenovo.com>
-         <20201007083602.00006b7e@Huawei.com>
-         <218be284-4a37-e9f9-749d-c126ef1d098b@redhat.com>
-         <20201112062348.GF1003057@dtor-ws>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.1 (3.38.1-1.fc33) 
+ <5a646527-7a1f-2fb9-7c09-8becdbff417b@lenovo.com>
+ <20201007083602.00006b7e@Huawei.com>
+ <218be284-4a37-e9f9-749d-c126ef1d098b@redhat.com>
+ <20201112062348.GF1003057@dtor-ws>
+ <96e2c4ebd7e826b6ea52f72f301fb5e8c33479d5.camel@hadess.net>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <19622786-6aa9-483a-bbad-28112ea3609a@redhat.com>
+Date:   Thu, 19 Nov 2020 16:24:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+In-Reply-To: <96e2c4ebd7e826b6ea52f72f301fb5e8c33479d5.camel@hadess.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 2020-11-11 at 22:23 -0800, Dmitry Torokhov wrote:
-> <snip>
-> I am not sure if multiplexing all proximity switches into one evdev
-> node
-> is that great option, as I am sure we'll soon have devices with 2x
-> palmrest switches and being capable finely adjusting transmit power,
-> etc.
+Hi,
 
-Hans, Mark, so is there a consensus to how we should export the "lap-
-mode"?
+On 11/19/20 4:16 PM, Bastien Nocera wrote:
+> On Wed, 2020-11-11 at 22:23 -0800, Dmitry Torokhov wrote:
+>> <snip>
+>> I am not sure if multiplexing all proximity switches into one evdev
+>> node
+>> is that great option, as I am sure we'll soon have devices with 2x
+>> palmrest switches and being capable finely adjusting transmit power,
+>> etc.
+> 
+> Hans, Mark, so is there a consensus to how we should export the "lap-
+> mode"?
 
-I had nearly finished working on updated code and all the test suite
-changes needed to use an input device with switches when IIO started
-being discussed, so I stopped in my tracks.
+Given Dmitry's input itl ooks like we need to go back to using iio
+for this. Probably with something like my initial proposal wherre we
+add an in_proximity_location sysfs attribute to the iio-devices which
+represent the lap-mode and palmrest sensors. But ChromeOS is doing
+something different to figure out which sensor is which, so this needs
+a bit more discussion.
+
+I'll go and reply to Dmitry's latest mail on this now and then we will
+see from there.
+
+> I had nearly finished working on updated code and all the test suite
+> changes needed to use an input device with switches when IIO started
+> being discussed, so I stopped in my tracks.
+
+Ouch, sorry about this.
+
+Regards,
+
+Hans
 
