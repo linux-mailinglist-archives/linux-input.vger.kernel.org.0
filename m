@@ -2,115 +2,232 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5B562B9636
-	for <lists+linux-input@lfdr.de>; Thu, 19 Nov 2020 16:32:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B75E2B965F
+	for <lists+linux-input@lfdr.de>; Thu, 19 Nov 2020 16:40:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728658AbgKSP0K (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 19 Nov 2020 10:26:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20456 "EHLO
+        id S1728568AbgKSPjR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 19 Nov 2020 10:39:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42145 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728656AbgKSP0I (ORCPT
+        by vger.kernel.org with ESMTP id S1728560AbgKSPjQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 19 Nov 2020 10:26:08 -0500
+        Thu, 19 Nov 2020 10:39:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1605799567;
+        s=mimecast20190719; t=1605800354;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=wFBpf4aF5l3Vov+SDr/1VipD16OT3kd9CrTIp3FflAg=;
-        b=d1azDTwo8mZWQ5OZOX+66bIJrDAJnEXMlIZnchOCcTLsphe1XdTaX9B0GsiZOtsuXk88Dc
-        vmwN6GEqiulVeAGm1hBqpUR0Yll6oVhbA24H7U+rJXf1J7OTaewLHN0CqV8HBzDZPg5U5U
-        OVEg9j07WnCLgzMpRviaYaLSndvy3yM=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-YsmJqe5bN5C_C2v6tD5VWA-1; Thu, 19 Nov 2020 10:26:05 -0500
-X-MC-Unique: YsmJqe5bN5C_C2v6tD5VWA-1
-Received: by mail-pg1-f197.google.com with SMTP id c4so3689017pgb.0
-        for <linux-input@vger.kernel.org>; Thu, 19 Nov 2020 07:26:05 -0800 (PST)
+        bh=DoAe37z9hu1FPzzmCPBFQ69UVruif+/VKwGqbHZ90rc=;
+        b=POvP5rBWuw3PpciXmvTRW8gm/d3A7iBsOA2oVBLMruNFo4weNpmHTKpLkqI+Hv3EdLVgDy
+        xVSqokcP71R5zqj8681Eulo5DEvpqrpjaqThwbAXcBBsy48usJCaMRAMI0cJESwEnTEc/J
+        1hFTBZizWLn+Zg0RocGD/BfOLNFbg+I=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-246-8j8bBvDyP_2We2ZxBjGV0g-1; Thu, 19 Nov 2020 10:39:11 -0500
+X-MC-Unique: 8j8bBvDyP_2We2ZxBjGV0g-1
+Received: by mail-ed1-f70.google.com with SMTP id y11so2479367edv.6
+        for <linux-input@vger.kernel.org>; Thu, 19 Nov 2020 07:39:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wFBpf4aF5l3Vov+SDr/1VipD16OT3kd9CrTIp3FflAg=;
-        b=dUjAvvC7co7ed0bphm1LdGhqqza/oR8vZrtBDtnadvV396nWjdoJUuPxd55N2JZ8P4
-         eTa1Vkk+4u5w1+L4+VdYfYKL5yXfFZclQGoFeRRnKbnf57K/3FhzFgKTYhgKseJSPMBC
-         zyPxt5hx9pnosZUnKlJB+ELWcuM3fd14tL0e/XMlHoUw+CgW8kLTi5RcHX03ARBqj44L
-         sXtdnCk3joZhG8hopwVM0OsLjbm9YjpA5yqjG2qW0I+L5DZK28f5FQRhpg7zCO7g7a+N
-         myrkU9w2xa5xJggD1t0naGk29TOF/J3qteJUrcsoOtOb2feA2W+pPKNxWiCgSP+9qBeC
-         nrKw==
-X-Gm-Message-State: AOAM533DyvYPsbtCueyB85dzshiNIzdMmdrh/LD9bpabIq+GSlko7WJ3
-        ej9E7Q4LfP4lT3TUxruC1sC7pWxRVhDAhmefZC92uT0/GbLXydVqgX7qNgF8ncSzOLvNquUez4g
-        dBlcMWOz1aM5OsqRmg8W8Vwu6WQYkepAK+6Hwto8=
-X-Received: by 2002:a17:902:7890:b029:d8:bb20:518e with SMTP id q16-20020a1709027890b02900d8bb20518emr9429736pll.66.1605799564441;
-        Thu, 19 Nov 2020 07:26:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzAuYEKOyD643Q9foZwqDDabzv0ZpcZHJVRZ+HH+9J8VoI44sbFl4OrKkNuQSYbrI2/M0cUkv9vik+iTyiv/LI=
-X-Received: by 2002:a17:902:7890:b029:d8:bb20:518e with SMTP id
- q16-20020a1709027890b02900d8bb20518emr9429712pll.66.1605799564156; Thu, 19
- Nov 2020 07:26:04 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=DoAe37z9hu1FPzzmCPBFQ69UVruif+/VKwGqbHZ90rc=;
+        b=R11Lu1FTuHU0k+dhbSRYalxN9khLRN5fMscRYaixXy47LpsW5vKDdo3r6IWtF+JJC6
+         taGgcrTeNQgQ436aNqLDiXE8ffyMChojpJKb75cJza3XUSifsHuhI8ME3WpzkWgZIRU4
+         OGmn/3MX1opJWW38NlxfRk/d28xYHU4pP/SLYb32qG2XpXv6hpVmfsadNKojkfSAiQgl
+         0lDaZiBaMdtsTcWp2ztwk6BHaU1F8VeX6OTwgw8GO7j8Ys+2eLbBpSLEy7PYV53OYLIb
+         B3KaXx5OWLIp9h7YPONL9mAeTO5VWKrGVoN7RRsUjhNraGgXmWAsxIkEWpv8qH78dh5v
+         R/9w==
+X-Gm-Message-State: AOAM533GsXADX4jYxm87/7LAHW3yhBJ/p0tBHeV4j2lLMtgH7EJBg6Mg
+        wrWP8MQn2iqcLBgmgjPU7Unpp1KZVJHNPrGUJh1lVm3GF6W0CGI/AZz8LYg8BXFmA3LDLLN+8wr
+        495JM3j9k7hVn4beN5gNQvKN9JCRK74eFC0TWt0sx/WCmHgWtuPw0kSCZzb9Imp9sG3YxgSJwPR
+        I=
+X-Received: by 2002:a17:906:17d1:: with SMTP id u17mr27918496eje.229.1605800349595;
+        Thu, 19 Nov 2020 07:39:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzfiB/zwWGB1az64zh8Y+EIgFR5kmqWHzMaHJKtOHPTjR3DvU2qIZUOodAjud5TEidxfwp3Lg==
+X-Received: by 2002:a17:906:17d1:: with SMTP id u17mr27918471eje.229.1605800349271;
+        Thu, 19 Nov 2020 07:39:09 -0800 (PST)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-6c10-fbf3-14c4-884c.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:6c10:fbf3:14c4:884c])
+        by smtp.gmail.com with ESMTPSA id h11sm15201457edl.16.2020.11.19.07.39.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Nov 2020 07:39:08 -0800 (PST)
+Subject: Re: [External] Using IIO to export laptop palm-sensor and lap-mode
+ info to userspace?
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Mark Pearson <markpearson@lenovo.com>,
+        linux-iio@vger.kernel.org, Bastien Nocera <hadess@hadess.net>,
+        Nitin Joshi1 <njoshi1@lenovo.com>, linux-input@vger.kernel.org
+References: <9f9b0ff6-3bf1-63c4-eb36-901cecd7c4d9@redhat.com>
+ <5a646527-7a1f-2fb9-7c09-8becdbff417b@lenovo.com>
+ <20201007083602.00006b7e@Huawei.com>
+ <218be284-4a37-e9f9-749d-c126ef1d098b@redhat.com>
+ <20201112062348.GF1003057@dtor-ws>
+ <3568c492-d9bd-c02d-4cbc-7f3eef605ef5@redhat.com>
+ <20201113065832.GD356503@dtor-ws>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <6df00683-9508-3dd9-831e-9b343658287b@redhat.com>
+Date:   Thu, 19 Nov 2020 16:39:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <20201114212058.19590-1-hdegoede@redhat.com>
-In-Reply-To: <20201114212058.19590-1-hdegoede@redhat.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 19 Nov 2020 16:25:53 +0100
-Message-ID: <CAO-hwJJN-1P3XW4i-8R=JBjyFvvyiHK89tN4B7r783LQL1r=sw@mail.gmail.com>
-Subject: Re: [RFC 0/3] HID: logitech-dj: Dinovo keyboard fixes and improvements
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20201113065832.GD356503@dtor-ws>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Hans,
+Hi,
 
-On Sat, Nov 14, 2020 at 10:21 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi Benjamin,
->
-> Here is my patch series for the discussed Dinovo keyboard (receiver)
-> support improvements.
->
-> I've marked this as a RFC since it has not been tested with a Dinovo Mini
-> (nor a Dinovo Mini receiver) yet.
->
-> I have tested it extensively with a Dinovo Edge, a MX5000 and a MX5500
-> keyboard. In case of the Dinovo Edge and MX5000 I've not only tested
-> them against their own receiver but also against each-others receiver.
->
-> Once you have tested this series on your Dinovo Mini, it is ready to
-> go upstream.
+On 11/13/20 7:58 AM, Dmitry Torokhov wrote:
+> On Thu, Nov 12, 2020 at 10:50:12AM +0100, Hans de Goede wrote:
+>> Hi,
+>>
+>> On 11/12/20 7:23 AM, Dmitry Torokhov wrote:
+>>> On Wed, Oct 07, 2020 at 11:51:05AM +0200, Hans de Goede wrote:
+>>>> Hi,
+>>>>
+>>>> On 10/7/20 10:36 AM, Jonathan Cameron wrote:
+>>>>> On Mon, 5 Oct 2020 22:04:27 -0400
+>>>>> Mark Pearson <markpearson@lenovo.com> wrote:
+>>>>>
+>>>>>> Adding Nitin, lead for this feature, to the thread
+>>>>>
+>>>>> +CC linux-input and Dmitry for reasons that will become clear below.
+>>>>>>
+>>>>>> On 2020-10-03 10:02 a.m., Hans de Goede wrote:
+>>>>>>> Hi All,
+>>>>>>>
+>>>>>>> Modern laptops can have various sensors which are kinda
+>>>>>>> like proximity sensors, but not really (they are more
+>>>>>>> specific in which part of the laptop the user is
+>>>>>>> proximate to).
+>>>>>>>
+>>>>>>> Specifically modern Thinkpad's have 2 readings which we
+>>>>>>> want to export to userspace, and I'm wondering if we
+>>>>>>> could use the IIO framework for this since these readings
+>>>>>>> are in essence sensor readings:
+>>>>>>>
+>>>>>>> 1. These laptops have a sensor in the palm-rests to
+>>>>>>> check if a user is physically proximate to the device's
+>>>>>>> palm-rests. This info will be used by userspace for WWAN
+>>>>>>> functionality to control the transmission level safely.
+>>>>>>>
+>>>>>>> A patch adding a thinkpad_acpi specific sysfs API for this
+>>>>>>> is currently pending:
+>>>>>>> https://patchwork.kernel.org/patch/11722127/
+>>>>>>>
+>>>>>>> But I'm wondering if it would not be better to use
+>>>>>>> IIO to export this info.
+>>>>>
+>>>>> My first thought on this is it sounds more like a key than a sensor
+>>>>> (simple proximity sensors fall into this category as well.)
+>>>
+>>> [ sorry for sitting on this thread for so long ]
+>>>
+>>> So I think the important question here is if we only ever want yes/no
+>>> answer, or if we can consider adjusting behavior of the system based on
+>>> the "closeness" of an object to the device, in which case I think IIO is
+>>> more flexible.
+>>>
+>>> FWIW in Chrome OS land we name IIO proximity sensors using a scheme
+>>> "proximity-lte", "proximity-wifi", "proximity-wifi-left",
+>>> "proximity-wifi-right", etc, and then userspace implements various
+>>> policies (SAR, etc) based off it.
+>>
+>> Interesting, so 2 questions:
+>>
+>> 1. So your encoding the location in the sensor's parent-device name
+>> instead of using a new sysfs attribute for this ?
+> 
+> I think it depends on the kernel we use and architecture. On x86 I think
+> we rely on udev, like this:
+> 
+> https://chromium.googlesource.com/chromiumos/overlays/board-overlays/+/master/overlay-nocturne/chromeos-base/chromeos-bsp-nocturne/files/udev/99-cros-sx-proximity.rules
+> 
+> DEVPATH=="*/pci0000:00/0000:00:15.1/*", SYMLINK+="proximity-wifi-right"
+> DEVPATH=="*/pci0000:00/0000:00:19.1/*", SYMLINK+="proximity-wifi-left"
+> ATTR{events/in_proximity1_USE_CS1_thresh_either_en}="1"
 
-That part is now done, so I guess we can push it upstream :)
+So that results in a symlink under /dev, right ? That seems like
+it is not really compatible with how most modern userspace discovers
+hw (through udev). Although I guess code using udev could still
+lookup the symlink in the udev per device data, this just not feel
+like a good way forward.
 
-FTR, the dinovo mini still works fine with this series. I have a weird
-issue where the secondary button gives me a left click, but according
-to the raw logs, this is emitted from the hardware itself and is the
-same whether I am on hid-logitech-dj or not.
+> On newer ARM we use "label" attribute in DTS:
+> 
+> arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+> 
+>         ap_sar_sensor: proximity@28 {
+>                 compatible = "semtech,sx9310";
+>                 reg = <0x28>;
+>                 #io-channel-cells = <1>;
+>                 pinctrl-names = "default";
+>                 pinctrl-0 = <&p_sensor_int_l>;
+> 
+>                 interrupt-parent = <&tlmm>;
+>                 interrupts = <24 IRQ_TYPE_LEVEL_LOW>;
+> 
+>                 vdd-supply = <&pp3300_a>;
+>                 svdd-supply = <&pp1800_prox>;
+> 
+>                 status = "disabled";
+>                 label = "proximity-wifi";
+>         };
+
+Hmm, interesting. I did not know iio-devices could
+have a label sysfs attribute (nor that that could be
+set through device-tree). I was thinking about adding
+an in_proximity_location sysfs attribute. But using
+labels (and standardizing a set of label names) will
+work nicely too.
+
+I have no real preference for this either way, so
+I guess we might as well go with labels to avoid
+having any unnecessary discrepancies between ChromeOS
+and whatever we do for the Thinkpad sensors.
+
+Is there a know set of labels which ChromeOS is currently
+using? If we are going to use labels for this it would
+be good IMHO to define a set of standard labels for
+this in say Documentation/ABI/testing/sysfs-bus-iio-labels.
+
+>> 2. Do these sensors just give a boolean value atm, or do they already
+>> report a range ?  IIRC one of the objections from the iio folks in
+>> the Lenovo case was that booleans are not really a good fit for iio
+>> (IIRC they also said we could still use iio for this).
+> 
+> One of the sensors we use is sx9310 that I believe can report range, but
+> I think we configure them to trigger when a threshold is crossed.
+> 
+> Events are handled by our powerd:
+> 
+> https://chromium.googlesource.com/chromiumos/platform2/+/master/power_manager/powerd/system/sar_watcher.cc
+> 
+>>
+>> Perhaps you can provide an URL to the kernel code implementing these ?
+> 
+> drivers/iio/proximity/sx9310.c
+
+If I'm reading that correctly the it exports a raw "distance"
+reading and a suggested threshold value for the code interpreting
+the reading to use.
+
+So that would be a bit different then the Thinkpad sensors, but
+exporting just a 0-1 range for the in_proximity_raw value for the
+Thinkpad case should not be a problem. Or we could just make it
+repot 0 and 100 and export a fixed in_proximity_nearlevel of 50,
+that would make the userspace API more like other proximity sensors.
+
+Regards,
+
+Hans
 
 
-> The first patch should probably go to 5.10 as a fix in
-> case someone pairs the Dinovo Mini with a MX5x00 receiver like the
-> reporter of this bug did with his Dinovo Edge:
-> https://bugzilla.redhat.com/show_bug.cgi?id=1811424
 
-OK, then I can apply it on top of the previous fix. I guess we don't
-need stable@vger.k.o for this one?
-
->
-> The other 2 are 5.11 material.
-
-If I have to break the series, I will have to wait for Linus to first
-merge the 5.10 material, then I'll be able to apply the others on
-top...
-
-Cheers,
-Benjamin
-
->
-> Regards,
->
-> Hans
->
->
 
