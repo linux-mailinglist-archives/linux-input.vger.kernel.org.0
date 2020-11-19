@@ -2,107 +2,155 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B2C52B8E72
-	for <lists+linux-input@lfdr.de>; Thu, 19 Nov 2020 10:14:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 338E52B8F60
+	for <lists+linux-input@lfdr.de>; Thu, 19 Nov 2020 10:52:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726073AbgKSJMM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 19 Nov 2020 04:12:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43114 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725936AbgKSJMM (ORCPT
+        id S1726908AbgKSJt6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 19 Nov 2020 04:49:58 -0500
+Received: from mx0a-00128a01.pphosted.com ([148.163.135.77]:42884 "EHLO
+        mx0a-00128a01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726073AbgKSJt5 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 19 Nov 2020 04:12:12 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0908BC0613D4
-        for <linux-input@vger.kernel.org>; Thu, 19 Nov 2020 01:12:12 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id c9so6406395wml.5
-        for <linux-input@vger.kernel.org>; Thu, 19 Nov 2020 01:12:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=qrvNFqIshFToJZ8d6/WF6C/Crs0qG1otBamb+mHYUl8=;
-        b=WiwugfDa9s4Dh5Kd+43uSCfEG86ljd1UiK0QrdShHAw7RpkhNGTapw++vyhFaJMfcY
-         on/FSJb5XtIHuApwVqbT1LG+Mk9eXM+pzNecoh2zG9qia/s706DOcpdc3NioPmwKjv8r
-         x8B9UAscQofTbLQLrdou54zFSwYsfaKvsREH54x3wuifIRrO5v81n4P/vCKfKJOCLb0F
-         42fSSJldaIxWKRVd0tZVX9Zyf9bJCM7ind4ULhtgTGWSHChcVlDeG9fQvIxTI6BSWXbh
-         yjwFWLps5dnwgZr5UuR1S+/HDTcOFY69vdIs1RpzBW7k6T9TVdbr6WxFBMvr5GsAgH3u
-         zbNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=qrvNFqIshFToJZ8d6/WF6C/Crs0qG1otBamb+mHYUl8=;
-        b=sOtRw3Yzcoow8CP9NNH1MasahYiRyGmMZhB2Kw56qkHuHttZLRW4kRByqIv38qVUd2
-         8sK68whoLJhc76NZ6gnLkNdFMMHzUtdfD+5SJnDGXPCPrr2pbU52qaFjWAFL6am4gncD
-         yUUXVClu0qrive2c4JqGvevy8u+JPu+wZkR/+eWxGwg19regDbhAVpxlknBDtqzxQmWz
-         Y2lsGzmXRpJcVHGPiJezW4MG0HrBbaXXZFA2Tk8HwVOPW9jbAegLBd5MBL0Rv7lc5OMu
-         EmXwoR1qqjG40YvtRdjvtA/8f7z4xqpSo6887nCALUJgo5yhUhv86mO6acP/K1pPWJVa
-         F4fg==
-X-Gm-Message-State: AOAM532py3UnMIanEVW2COqqNbkOjSqIRBUi3bMdD/YJ8TJxBoPEZrBs
-        QTcWT1WN5av5K8sWe2LIyL5dqg==
-X-Google-Smtp-Source: ABdhPJzzSx2Nv+LpqWm35A4XApOvrsh/u2QGuNG32M/53E82KFLWKyZFMWSSY4Ws0YMxNVe86TPxnQ==
-X-Received: by 2002:a1c:7d13:: with SMTP id y19mr3309797wmc.98.1605777130663;
-        Thu, 19 Nov 2020 01:12:10 -0800 (PST)
-Received: from dell ([91.110.221.241])
-        by smtp.gmail.com with ESMTPSA id l16sm36483432wrx.5.2020.11.19.01.12.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2020 01:12:09 -0800 (PST)
-Date:   Thu, 19 Nov 2020 09:12:08 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Haibo Chen <haibo.chen@freescale.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH 05/15] input: touchscreen: imx6ul_tsc: Remove set but
- unused variable 'value'
-Message-ID: <20201119091208.GX1869941@dell>
-References: <20201112110204.2083435-1-lee.jones@linaro.org>
- <20201112110204.2083435-6-lee.jones@linaro.org>
- <20201113073718.GH356503@dtor-ws>
+        Thu, 19 Nov 2020 04:49:57 -0500
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+        by mx0a-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0AJ9lG48021616;
+        Thu, 19 Nov 2020 04:49:43 -0500
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+        by mx0a-00128a01.pphosted.com with ESMTP id 34td19h43w-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 19 Nov 2020 04:49:43 -0500
+Received: from SCSQMBX11.ad.analog.com (SCSQMBX11.ad.analog.com [10.77.17.10])
+        by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 0AJ9nflV025366
+        (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=FAIL);
+        Thu, 19 Nov 2020 04:49:42 -0500
+Received: from SCSQCASHYB6.ad.analog.com (10.77.17.132) by
+ SCSQMBX11.ad.analog.com (10.77.17.10) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1779.2; Thu, 19 Nov 2020 01:49:40 -0800
+Received: from SCSQMBX10.ad.analog.com (10.77.17.5) by
+ SCSQCASHYB6.ad.analog.com (10.77.17.132) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1779.2; Thu, 19 Nov 2020 01:48:32 -0800
+Received: from zeus.spd.analog.com (10.66.68.11) by SCSQMBX10.ad.analog.com
+ (10.77.17.5) with Microsoft SMTP Server id 15.1.1779.2 via Frontend
+ Transport; Thu, 19 Nov 2020 01:49:40 -0800
+Received: from localhost.localdomain ([10.48.65.12])
+        by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 0AJ9nbw4017439;
+        Thu, 19 Nov 2020 04:49:38 -0500
+From:   Alexandru Ardelean <alexandru.ardelean@analog.com>
+To:     <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     <lars@metafoo.de>, <dmitry.torokhov@gmail.com>,
+        Alexandru Ardelean <alexandru.ardelean@analog.com>
+Subject: [PATCH 1/3] Input: adp5589-keys - add default platform data
+Date:   Thu, 19 Nov 2020 11:54:52 +0200
+Message-ID: <20201119095454.48631-1-alexandru.ardelean@analog.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201113073718.GH356503@dtor-ws>
+Content-Type: text/plain
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
+ definitions=2020-11-19_08:2020-11-17,2020-11-19 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 suspectscore=0
+ impostorscore=0 mlxscore=0 malwarescore=0 adultscore=0 clxscore=1015
+ phishscore=0 priorityscore=1501 lowpriorityscore=0 spamscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011190071
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 12 Nov 2020, Dmitry Torokhov wrote:
+From: Lars-Peter Clausen <lars@metafoo.de>
 
-> On Thu, Nov 12, 2020 at 11:01:54AM +0000, Lee Jones wrote:
-> > Fixes the following W=1 kernel build warning(s):
-> > 
-> >  drivers/input/touchscreen/imx6ul_tsc.c: In function ‘adc_irq_fn’:
-> >  drivers/input/touchscreen/imx6ul_tsc.c:307:6: warning: variable ‘value’ set but not used [-Wunused-but-set-variable]
-> > 
-> > Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > Cc: Shawn Guo <shawnguo@kernel.org>
-> > Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> > Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> > Cc: Fabio Estevam <festevam@gmail.com>
-> > Cc: NXP Linux Team <linux-imx@nxp.com>
-> > Cc: Haibo Chen <haibo.chen@freescale.com>
-> > Cc: linux-input@vger.kernel.org
-> > Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> 
-> Applied, thank you.
+If no platform data is supplied use a dummy platform data that configures
+the device in GPIO only mode. This change adds a adp5589_kpad_pdata_get()
+helper that returns the default platform-data. This can be later extended
+to load configuration from device-trees or ACPI.
 
-Good morning Dmitry,
+Signed-off-by: Lars-Peter Clausen <lars@metafoo.de>
+Signed-off-by: Alexandru Ardelean <alexandru.ardelean@analog.com>
+---
+ drivers/input/keyboard/adp5589-keys.c | 33 +++++++++++++++++++--------
+ 1 file changed, 24 insertions(+), 9 deletions(-)
 
-Are you planning on finishing this review?
-
-About half of the patches are unreviewed and there are a couple of
-open questions on others.
-
+diff --git a/drivers/input/keyboard/adp5589-keys.c b/drivers/input/keyboard/adp5589-keys.c
+index 31145a85c819..8e559be24bda 100644
+--- a/drivers/input/keyboard/adp5589-keys.c
++++ b/drivers/input/keyboard/adp5589-keys.c
+@@ -368,6 +368,25 @@ static const struct adp_constants const_adp5585 = {
+ 	.reg			= adp5585_reg,
+ };
+ 
++static const struct adp5589_gpio_platform_data adp5589_default_gpio_pdata = {
++	.gpio_start = -1,
++};
++
++static const struct adp5589_kpad_platform_data adp5589_default_pdata = {
++	.gpio_data = &adp5589_default_gpio_pdata,
++};
++
++static const struct adp5589_kpad_platform_data *adp5589_kpad_pdata_get(
++	struct device *dev)
++{
++	const struct adp5589_kpad_platform_data *pdata = dev_get_platdata(dev);
++
++	if (!pdata)
++		pdata = &adp5589_default_pdata;
++
++	return pdata;
++}
++
+ static int adp5589_read(struct i2c_client *client, u8 reg)
+ {
+ 	int ret = i2c_smbus_read_byte_data(client, reg);
+@@ -497,7 +516,8 @@ static int adp5589_build_gpiomap(struct adp5589_kpad *kpad,
+ static int adp5589_gpio_add(struct adp5589_kpad *kpad)
+ {
+ 	struct device *dev = &kpad->client->dev;
+-	const struct adp5589_kpad_platform_data *pdata = dev_get_platdata(dev);
++	const struct adp5589_kpad_platform_data *pdata =
++		adp5589_kpad_pdata_get(dev);
+ 	const struct adp5589_gpio_platform_data *gpio_data = pdata->gpio_data;
+ 	int i, error;
+ 
+@@ -618,7 +638,7 @@ static int adp5589_setup(struct adp5589_kpad *kpad)
+ {
+ 	struct i2c_client *client = kpad->client;
+ 	const struct adp5589_kpad_platform_data *pdata =
+-		dev_get_platdata(&client->dev);
++		adp5589_kpad_pdata_get(&client->dev);
+ 	u8 (*reg) (u8) = kpad->var->reg;
+ 	unsigned char evt_mode1 = 0, evt_mode2 = 0, evt_mode3 = 0;
+ 	unsigned char pull_mask = 0;
+@@ -823,7 +843,7 @@ static int adp5589_keypad_add(struct adp5589_kpad *kpad, unsigned int revid)
+ {
+ 	struct i2c_client *client = kpad->client;
+ 	const struct adp5589_kpad_platform_data *pdata =
+-		dev_get_platdata(&client->dev);
++		adp5589_kpad_pdata_get(&client->dev);
+ 	struct input_dev *input;
+ 	unsigned int i;
+ 	int error;
+@@ -947,7 +967,7 @@ static int adp5589_probe(struct i2c_client *client,
+ {
+ 	struct adp5589_kpad *kpad;
+ 	const struct adp5589_kpad_platform_data *pdata =
+-		dev_get_platdata(&client->dev);
++		adp5589_kpad_pdata_get(&client->dev);
+ 	unsigned int revid;
+ 	int error, ret;
+ 
+@@ -957,11 +977,6 @@ static int adp5589_probe(struct i2c_client *client,
+ 		return -EIO;
+ 	}
+ 
+-	if (!pdata) {
+-		dev_err(&client->dev, "no platform data?\n");
+-		return -EINVAL;
+-	}
+-
+ 	kpad = devm_kzalloc(&client->dev, sizeof(*kpad), GFP_KERNEL);
+ 	if (!kpad)
+ 		return -ENOMEM;
 -- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+2.17.1
+
