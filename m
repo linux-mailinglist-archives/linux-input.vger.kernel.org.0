@@ -2,116 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C59A2B9614
-	for <lists+linux-input@lfdr.de>; Thu, 19 Nov 2020 16:25:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E5B562B9636
+	for <lists+linux-input@lfdr.de>; Thu, 19 Nov 2020 16:32:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727171AbgKSPY0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 19 Nov 2020 10:24:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30623 "EHLO
+        id S1728658AbgKSP0K (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 19 Nov 2020 10:26:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20456 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727804AbgKSPYZ (ORCPT
+        by vger.kernel.org with ESMTP id S1728656AbgKSP0I (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 19 Nov 2020 10:24:25 -0500
+        Thu, 19 Nov 2020 10:26:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1605799464;
+        s=mimecast20190719; t=1605799567;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=lszpJqSI3eY5AHkczCdj9Dt5FSswLvwnFJiuNI8t5Cw=;
-        b=Wf3IvxL9qKwEirHtR621ftfL6bJLMJuwjgt38pFVYrfUMb6+ayqPK2GNy0JKr3eKKZjPut
-        pfp+Jzh6u7toTVY+2drXUJWt4izaX72cirt4v8QgZjPjCIhhV61RhYWp7gFY5L5gwuKX15
-        HZ8IscVZE2C/XhMAFO3yUw9DKuRsEHk=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-70-jnf2GHRAOM-KGWP87vwBcQ-1; Thu, 19 Nov 2020 10:24:22 -0500
-X-MC-Unique: jnf2GHRAOM-KGWP87vwBcQ-1
-Received: by mail-ej1-f69.google.com with SMTP id p6so2325261ejj.5
-        for <linux-input@vger.kernel.org>; Thu, 19 Nov 2020 07:24:22 -0800 (PST)
+        bh=wFBpf4aF5l3Vov+SDr/1VipD16OT3kd9CrTIp3FflAg=;
+        b=d1azDTwo8mZWQ5OZOX+66bIJrDAJnEXMlIZnchOCcTLsphe1XdTaX9B0GsiZOtsuXk88Dc
+        vmwN6GEqiulVeAGm1hBqpUR0Yll6oVhbA24H7U+rJXf1J7OTaewLHN0CqV8HBzDZPg5U5U
+        OVEg9j07WnCLgzMpRviaYaLSndvy3yM=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-570-YsmJqe5bN5C_C2v6tD5VWA-1; Thu, 19 Nov 2020 10:26:05 -0500
+X-MC-Unique: YsmJqe5bN5C_C2v6tD5VWA-1
+Received: by mail-pg1-f197.google.com with SMTP id c4so3689017pgb.0
+        for <linux-input@vger.kernel.org>; Thu, 19 Nov 2020 07:26:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=lszpJqSI3eY5AHkczCdj9Dt5FSswLvwnFJiuNI8t5Cw=;
-        b=uMO25PLo7JnSHg7Dexoa/IM0Y0cwnf6xKUuNesEV6HelU0VmLMzEiBrr7k2dMDhAnG
-         Dq1710C207IQe6IjTTl/W2zMQyRIxkdLYDr5/RQxXuk9Hg/zUDD743UNoKqkroemcRzq
-         orBT8epiWEa3ybLwb4wEMkjdkfgD8i6hE/F2Q/7Da+pPWZYBuqDaZTsl4acpcA/AaLhs
-         FdTkAwvBtD1YgCpbaYnKF1kjSYwufXV9t3HukfkhcB68pmXHSHQjDm4Ho94c9d1K3vwy
-         tBFt7QqUeWa0Cq8bBdP9AHOn83ZSchdzNzK3tBBiqbgVE/f1q0S4+wvhdFy36Umml1l8
-         XWww==
-X-Gm-Message-State: AOAM533b1Yn3rouXWTRiQoif2lE/3dErFoEmex1uf1wH1RwAbfvFF8r3
-        AeUlDmhde+6NpkmMqbXJMBbTLB4ns5M3BAmiVUr4/IiUXvwyPWzVcd8JUSNojlhaOgHCV+D7bam
-        u3hwsaYEytJ1Hpb4yRWu9SP8n5XufNIqk50v4mZtqZC6L0zp120S2b6dVdYFAJP8+ropbn8QQl4
-        I=
-X-Received: by 2002:a50:85c6:: with SMTP id q6mr32435574edh.126.1605799460804;
-        Thu, 19 Nov 2020 07:24:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxUrvFpsfkC2FtqUtyt4sD4BX7TPMl6noqDcSqQsjhWgC2ws9+3GgbuVaz9JqG9dOoz08nEEA==
-X-Received: by 2002:a50:85c6:: with SMTP id q6mr32435550edh.126.1605799460581;
-        Thu, 19 Nov 2020 07:24:20 -0800 (PST)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-6c10-fbf3-14c4-884c.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:6c10:fbf3:14c4:884c])
-        by smtp.gmail.com with ESMTPSA id f18sm15202540edt.32.2020.11.19.07.24.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Nov 2020 07:24:19 -0800 (PST)
-Subject: Re: [External] Using IIO to export laptop palm-sensor and lap-mode
- info to userspace?
-To:     Bastien Nocera <hadess@hadess.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        linux-iio@vger.kernel.org, Nitin Joshi1 <njoshi1@lenovo.com>,
-        linux-input@vger.kernel.org
-References: <9f9b0ff6-3bf1-63c4-eb36-901cecd7c4d9@redhat.com>
- <5a646527-7a1f-2fb9-7c09-8becdbff417b@lenovo.com>
- <20201007083602.00006b7e@Huawei.com>
- <218be284-4a37-e9f9-749d-c126ef1d098b@redhat.com>
- <20201112062348.GF1003057@dtor-ws>
- <96e2c4ebd7e826b6ea52f72f301fb5e8c33479d5.camel@hadess.net>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <19622786-6aa9-483a-bbad-28112ea3609a@redhat.com>
-Date:   Thu, 19 Nov 2020 16:24:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wFBpf4aF5l3Vov+SDr/1VipD16OT3kd9CrTIp3FflAg=;
+        b=dUjAvvC7co7ed0bphm1LdGhqqza/oR8vZrtBDtnadvV396nWjdoJUuPxd55N2JZ8P4
+         eTa1Vkk+4u5w1+L4+VdYfYKL5yXfFZclQGoFeRRnKbnf57K/3FhzFgKTYhgKseJSPMBC
+         zyPxt5hx9pnosZUnKlJB+ELWcuM3fd14tL0e/XMlHoUw+CgW8kLTi5RcHX03ARBqj44L
+         sXtdnCk3joZhG8hopwVM0OsLjbm9YjpA5yqjG2qW0I+L5DZK28f5FQRhpg7zCO7g7a+N
+         myrkU9w2xa5xJggD1t0naGk29TOF/J3qteJUrcsoOtOb2feA2W+pPKNxWiCgSP+9qBeC
+         nrKw==
+X-Gm-Message-State: AOAM533DyvYPsbtCueyB85dzshiNIzdMmdrh/LD9bpabIq+GSlko7WJ3
+        ej9E7Q4LfP4lT3TUxruC1sC7pWxRVhDAhmefZC92uT0/GbLXydVqgX7qNgF8ncSzOLvNquUez4g
+        dBlcMWOz1aM5OsqRmg8W8Vwu6WQYkepAK+6Hwto8=
+X-Received: by 2002:a17:902:7890:b029:d8:bb20:518e with SMTP id q16-20020a1709027890b02900d8bb20518emr9429736pll.66.1605799564441;
+        Thu, 19 Nov 2020 07:26:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzAuYEKOyD643Q9foZwqDDabzv0ZpcZHJVRZ+HH+9J8VoI44sbFl4OrKkNuQSYbrI2/M0cUkv9vik+iTyiv/LI=
+X-Received: by 2002:a17:902:7890:b029:d8:bb20:518e with SMTP id
+ q16-20020a1709027890b02900d8bb20518emr9429712pll.66.1605799564156; Thu, 19
+ Nov 2020 07:26:04 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <96e2c4ebd7e826b6ea52f72f301fb5e8c33479d5.camel@hadess.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20201114212058.19590-1-hdegoede@redhat.com>
+In-Reply-To: <20201114212058.19590-1-hdegoede@redhat.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Thu, 19 Nov 2020 16:25:53 +0100
+Message-ID: <CAO-hwJJN-1P3XW4i-8R=JBjyFvvyiHK89tN4B7r783LQL1r=sw@mail.gmail.com>
+Subject: Re: [RFC 0/3] HID: logitech-dj: Dinovo keyboard fixes and improvements
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi Hans,
 
-On 11/19/20 4:16 PM, Bastien Nocera wrote:
-> On Wed, 2020-11-11 at 22:23 -0800, Dmitry Torokhov wrote:
->> <snip>
->> I am not sure if multiplexing all proximity switches into one evdev
->> node
->> is that great option, as I am sure we'll soon have devices with 2x
->> palmrest switches and being capable finely adjusting transmit power,
->> etc.
-> 
-> Hans, Mark, so is there a consensus to how we should export the "lap-
-> mode"?
+On Sat, Nov 14, 2020 at 10:21 PM Hans de Goede <hdegoede@redhat.com> wrote:
+>
+> Hi Benjamin,
+>
+> Here is my patch series for the discussed Dinovo keyboard (receiver)
+> support improvements.
+>
+> I've marked this as a RFC since it has not been tested with a Dinovo Mini
+> (nor a Dinovo Mini receiver) yet.
+>
+> I have tested it extensively with a Dinovo Edge, a MX5000 and a MX5500
+> keyboard. In case of the Dinovo Edge and MX5000 I've not only tested
+> them against their own receiver but also against each-others receiver.
+>
+> Once you have tested this series on your Dinovo Mini, it is ready to
+> go upstream.
 
-Given Dmitry's input itl ooks like we need to go back to using iio
-for this. Probably with something like my initial proposal wherre we
-add an in_proximity_location sysfs attribute to the iio-devices which
-represent the lap-mode and palmrest sensors. But ChromeOS is doing
-something different to figure out which sensor is which, so this needs
-a bit more discussion.
+That part is now done, so I guess we can push it upstream :)
 
-I'll go and reply to Dmitry's latest mail on this now and then we will
-see from there.
+FTR, the dinovo mini still works fine with this series. I have a weird
+issue where the secondary button gives me a left click, but according
+to the raw logs, this is emitted from the hardware itself and is the
+same whether I am on hid-logitech-dj or not.
 
-> I had nearly finished working on updated code and all the test suite
-> changes needed to use an input device with switches when IIO started
-> being discussed, so I stopped in my tracks.
 
-Ouch, sorry about this.
+> The first patch should probably go to 5.10 as a fix in
+> case someone pairs the Dinovo Mini with a MX5x00 receiver like the
+> reporter of this bug did with his Dinovo Edge:
+> https://bugzilla.redhat.com/show_bug.cgi?id=1811424
 
-Regards,
+OK, then I can apply it on top of the previous fix. I guess we don't
+need stable@vger.k.o for this one?
 
-Hans
+>
+> The other 2 are 5.11 material.
+
+If I have to break the series, I will have to wait for Linus to first
+merge the 5.10 material, then I'll be able to apply the others on
+top...
+
+Cheers,
+Benjamin
+
+>
+> Regards,
+>
+> Hans
+>
+>
 
