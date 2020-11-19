@@ -2,117 +2,193 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 42E6C2B8C7E
-	for <lists+linux-input@lfdr.de>; Thu, 19 Nov 2020 08:44:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F1B72B8CD8
+	for <lists+linux-input@lfdr.de>; Thu, 19 Nov 2020 09:12:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725843AbgKSHoG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 19 Nov 2020 02:44:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57738 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725816AbgKSHoG (ORCPT
+        id S1725853AbgKSIIz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 19 Nov 2020 03:08:55 -0500
+Received: from mx0a-00128a01.pphosted.com ([148.163.135.77]:53380 "EHLO
+        mx0a-00128a01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725843AbgKSIIy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 19 Nov 2020 02:44:06 -0500
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CF3BC0613CF;
-        Wed, 18 Nov 2020 23:44:06 -0800 (PST)
-Received: by mail-pg1-x544.google.com with SMTP id 81so3488045pgf.0;
-        Wed, 18 Nov 2020 23:44:06 -0800 (PST)
+        Thu, 19 Nov 2020 03:08:54 -0500
+Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
+        by mx0a-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0AJ84S0a018716;
+        Thu, 19 Nov 2020 03:08:53 -0500
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2174.outbound.protection.outlook.com [104.47.55.174])
+        by mx0a-00128a01.pphosted.com with ESMTP id 34t9ybs9jh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 19 Nov 2020 03:08:53 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Jgu/uzTpecR+DDIlj5Ozq50S8ugPCWUsng3oz9qcR2MZncDlDUNBDXHNBCFnQxlolhFDv8o4MXqGUryx6RTeWT8MmvfCKcn6zm2ubF/Y/8r7+hwW62pYeTRbHf4iEuBq7YxhMd8d8VmJgDFh4nZTRBNTUSkEU95yaSmkvw4q670i0yTQRVg1cw1tUOSlAjVQkUUHQ67qYuGqlNQUUdb/qiPeEdKJ4lRGVi+UbJYbne9cfX7KYaI8PZfRO81EqXZNg8fVhJJrUx5vjlpzI2JMM0C78ftfeDeC6fRmm+dBtG2mjReDSGoR/aVwektDXkhYqt64dCNZdH1m6KDXJ5ph5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iH3K3PeyVLiKvCIDn1zFqI0IexoqPXK1qCkKD44t3cE=;
+ b=fMZj1daltsJJF7ptngZFhqOKBHkaAyeog/0xMwMbDsWfU29GoCssybJLYM2gRCvTG/XueUg6S5YBzKwKYXZHMzkwbL6bMhRiGEU18/E6esIfzB1cvFH1LL4verK4afta49iL8zKLhrsE+vmHZ4pqjrWR0Dppwa1WJtPpJiHawb5JuZJ5XJQzMCdsxoMxoxjzM8raZxojipf9DBg09f7iP1uMwnByHc+vshZyeyaGebEUJBu/J5vGGgaHEbuPEAyeawWIZtl33pY/I06wAvSWjRloQ9tmzRp+JzGNLm7ymd0LCwBLdRpNgIrovC+SunbZqAMYYUX3sTx+VZ/0ShTc4g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
+ dkim=pass header.d=analog.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Ec1xITJXJPHsK4WsglFJaBFNQfiW4GmeuzD+V4XJvcQ=;
-        b=AYnLZxyf5HHWAIr8Lfop48ELkUoCsCG3au63ad/vaD9yMcMXy4TPuI1CkNzLQd+ocp
-         pcepIOLmFhV08dMYRbB6fs2DpOs/LyFa5Nj1hgbRyKLqkWLWv45hzCQmRiaTjDrfdMyV
-         kcKu8P7LEUTDE5V2JVNAmzSjckoLqBRBIb906id0RPQxb07nvmPpaF7lfab7iPd+Ekrb
-         Vmy5JSklZ7yPo7UF6oR7JlEKVRCkM+tneytPX1JEAEE+pYB/dqg37h37w3a098ogFSa0
-         46zJx+BJ1lrqjQWhWFM3dwzDOiwD2a7F4SMQw0QSGLNsYJsO1ykqvuPO1bzO81R7SWTl
-         Tu9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Ec1xITJXJPHsK4WsglFJaBFNQfiW4GmeuzD+V4XJvcQ=;
-        b=TLo7OCOsMxraXN04+qzsIq2FYizThRhkZO7yl3csf9Oc60v6dbPxBVZu30ePoxx7WS
-         C/UxbBnVXiWx/xESb1r+OEEVtOrUKnTDduVEV2YMu5v3RSx+zSnogoj2/bZeub2Fr3iW
-         hWLGO2vMHZp3Pz4v3e0hQwmk6eHoWZRFqlD5Gs3frQYboL730nwOIEqJarut81I5k8ut
-         6ebOpmtfTvTvdewkRF4u8wyQVBXnei6j+gD59glMJ3rvtBEgQwHkRsGok6aLNcnfwfU/
-         agUJgV44mDzMgIBfHyNJiZF6twmWrPcBJEQIuOsBoQ12+M8L4SX/SEKrEtxiQLFug3gA
-         TVwA==
-X-Gm-Message-State: AOAM533XSec2C6z5DwjdLPMTfLP68TRdBQSfgsPqsEAFmeiSWZ6lW4jN
-        Wc2UbV2EJF59QkIcAKujLukwBQHJemg=
-X-Google-Smtp-Source: ABdhPJx5QZcgv0zxlKyXaRhck9HZo8tQrcRiMlZ+WmkWmZ2kaakZ5Lc3RZiVYIJkdKadXlZeCr18ew==
-X-Received: by 2002:a63:ff5d:: with SMTP id s29mr11980445pgk.290.1605771845603;
-        Wed, 18 Nov 2020 23:44:05 -0800 (PST)
-Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id m2sm4122127pgv.0.2020.11.18.23.44.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2020 23:44:05 -0800 (PST)
-Date:   Wed, 18 Nov 2020 23:44:02 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Joe Perches <joe@perches.com>
-Cc:     linux-input@vger.kernel.org,
-        Alexandru Ardelean <alexandru.ardelean@analog.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: adp5589-keys - use BIT()
-Message-ID: <20201119074402.GH2034289@dtor-ws>
-References: <20201119072440.GA116840@dtor-ws>
- <9100d801f26e0a068462f9582b7ce193be813966.camel@perches.com>
+ d=analog.onmicrosoft.com; s=selector2-analog-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iH3K3PeyVLiKvCIDn1zFqI0IexoqPXK1qCkKD44t3cE=;
+ b=wsEHOyvfVR+h8hk91jC68KQRZMw/KmItFznpGSTwA9b4SAWo5iiBJw77JDEuhfpRehbNhV5oanj6AjFa3m1HTJLtpGyZifkwmGWxRFLniVPBQUzCLdy3JjNjYx+pj35Vpx13YHgtspoxadNJXy4t7igF/BBmVlxkvZB7ZcYOxsM=
+Received: from DM6PR03MB4411.namprd03.prod.outlook.com (2603:10b6:5:10f::14)
+ by DM6PR03MB4010.namprd03.prod.outlook.com (2603:10b6:5:5b::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.28; Thu, 19 Nov
+ 2020 08:08:50 +0000
+Received: from DM6PR03MB4411.namprd03.prod.outlook.com
+ ([fe80::f99d:8928:7e14:1a62]) by DM6PR03MB4411.namprd03.prod.outlook.com
+ ([fe80::f99d:8928:7e14:1a62%6]) with mapi id 15.20.3589.021; Thu, 19 Nov 2020
+ 08:08:50 +0000
+From:   "Ardelean, Alexandru" <alexandru.Ardelean@analog.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] Input: adp5589-keys - mark suspend and resume methods as
+ __maybe_unused
+Thread-Topic: [PATCH] Input: adp5589-keys - mark suspend and resume methods as
+ __maybe_unused
+Thread-Index: AQHWvkUCVa4Majlqrk+sPiO82zVfG6nPGcqg
+Date:   Thu, 19 Nov 2020 08:08:50 +0000
+Message-ID: <DM6PR03MB44112BAAFE36D19430FF0DC6F9E00@DM6PR03MB4411.namprd03.prod.outlook.com>
+References: <20201119072418.GA114677@dtor-ws>
+In-Reply-To: <20201119072418.GA114677@dtor-ws>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: =?us-ascii?Q?PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcYWFyZGVsZWFc?=
+ =?us-ascii?Q?YXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRi?=
+ =?us-ascii?Q?YTI5ZTM1Ylxtc2dzXG1zZy03NWNkY2VjNy0yYTNlLTExZWItYTVjNS00MTU2?=
+ =?us-ascii?Q?NDUwMDAwMzBcYW1lLXRlc3RcNzVjZGNlYzktMmEzZS0xMWViLWE1YzUtNDE1?=
+ =?us-ascii?Q?NjQ1MDAwMDMwYm9keS50eHQiIHN6PSIyMDAxIiB0PSIxMzI1MDI0NjkzMjc5?=
+ =?us-ascii?Q?MDc1NTQiIGg9IjNGbWJxVDJlNUpDNm9mWXJkaGdsNjRISHErcz0iIGlkPSIi?=
+ =?us-ascii?Q?IGJsPSIwIiBibz0iMSIgY2k9ImNBQUFBRVJIVTFSU1JVRk5DZ1VBQUVvQ0FB?=
+ =?us-ascii?Q?RGk2aVk0Uzc3V0FZTURnK0w1NXhvRWd3T0Q0dm5uR2dRREFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFIQUFBQURhQVFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFFQUFRQUJBQUFBZ3NWMDRRQUFBQUFBQUFBQUFBQUFBSjRBQUFCaEFHUUFh?=
+ =?us-ascii?Q?UUJmQUhNQVpRQmpBSFVBY2dCbEFGOEFjQUJ5QUc4QWFnQmxBR01BZEFCekFG?=
+ =?us-ascii?Q?OEFaZ0JoQUd3QWN3QmxBRjhBWmdCdkFITUFhUUIwQUdrQWRnQmxBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUVBQUFBQUFBQUFBZ0FBQUFBQW5nQUFBR0VBWkFCcEFGOEFjd0JsQUdNQWRR?=
+ =?us-ascii?Q?QnlBR1VBWHdCd0FISUFid0JxQUdVQVl3QjBBSE1BWHdCMEFHa0FaUUJ5QURF?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFRQUFBQUFBQUFBQ0FB?=
+ =?us-ascii?Q?QUFBQUNlQUFBQVlRQmtBR2tBWHdCekFHVUFZd0IxQUhJQVpRQmZBSEFBY2dC?=
+ =?us-ascii?Q?dkFHb0FaUUJqQUhRQWN3QmZBSFFBYVFCbEFISUFNZ0FBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFB?=
+ =?us-ascii?Q?QUFBQUFBQUFBQUFBQUFBQUFCQUFBQUFBQUFBQUlBQUFBQUFBPT0iLz48L21l?=
+ =?us-ascii?Q?dGE+?=
+x-dg-rorf: true
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=analog.com;
+x-originating-ip: [188.27.128.26]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 58e30b20-2799-4316-5f97-08d88c62593a
+x-ms-traffictypediagnostic: DM6PR03MB4010:
+x-microsoft-antispam-prvs: <DM6PR03MB4010D7E94116C4DC6A8F9A90F9E00@DM6PR03MB4010.namprd03.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:497;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 66fvttH3kjuPNA3bbsXKNmCxt5CPP8GwD/ZQ7aivVLE439DSjRHKZ7Gr5K6WnhWsAM7z+jPkS+ZBBG+T3R7juB9nNGyZ3uROjEwGcsHtfVbb1K2HLpELGmkw+EYtmsl7kwxxeAgn5NNctohgrlEn60WWQGNHicMrG2OAOmb3gj0t/elHNYpz1SNFAU1Vym9HbbyNqso2V2V8x45wOnFQAm0mX1hNcves6yX2kVkRdN3OXJMDCXzatfm+7MpFSgPKzKWvndTDecmiwyBiPkeBuBGyJozQa0p8dtUmOhsLxV6jHthiRCS++E/Rej5XtMq5cy4lNasq3Vkcp4TpLsL/pw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR03MB4411.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(346002)(39860400002)(366004)(376002)(136003)(33656002)(76116006)(71200400001)(8676002)(66476007)(110136005)(66446008)(55016002)(53546011)(26005)(316002)(8936002)(5660300002)(9686003)(52536014)(6506007)(186003)(7696005)(83380400001)(86362001)(66556008)(64756008)(66946007)(4326008)(478600001)(15650500001)(2906002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: ZNNAszhwreHUlzHRZnYdzQfTsMqEMIS0sX1bLOCiJtk9l/DHm1MuuSaQgnoTsdq4gKRtmRHXRmLtZJtG9njaxZLTRTP5gqSTDI2d8hWrt4ROkFSWabLU+i+ycV+1e7rq5pyJ6Ir/LSk271EEccOLFs+Zp70g0VETeFwu/EOYOU7lajzDNoclN3Fm9X6WK/nLb8K37gXFloCWl0u4rl1I7CTzyBEsFMntPCADXnTIvlt3bDjfz3iruPs8n5jhW2RDibyuBJLaK1k7FPsPi/uR9ERLTQxzkZA5CsfGuGlM0PJu0/IdqMJdRNvd6V6x1gFFfPdbZXZTEJAf4KixZVYe+EvegC08npd5Qn+QsLXxiiVFT3FPYP4kd0URIT8um5xOefRe+dLmrZdITvRcQgp9q4QMU/h/WSLo4n4z64DUQyWT3nRKrGYWqS/eROeudTvH/0kHjRJI29qfh2tAknNQuWVBjJENLZqNNlKE9whv2I+QPy555dMvLRZ2YYOS5Rr5Qg9g2mWoH8XhamrrGtDtSZw3h+qsx2W3A8yS7LqRKyzYu0/l0wQukCDUrWtvY8j76v1NuRze6+vrSVLpDrvQFrRee71v2isfOfBz8CakdOgoA7CkXy5pdO2V0nzf1oA11y7sXnUFeDtwMGLDv7n7kQ==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9100d801f26e0a068462f9582b7ce193be813966.camel@perches.com>
+X-OriginatorOrg: analog.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR03MB4411.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 58e30b20-2799-4316-5f97-08d88c62593a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Nov 2020 08:08:50.3377
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jYQp92p3sSE7tvQwStk2gy3sfHcKSoNxJ8YORtKRFsSdo6BS4pXYcqHl7ZAKj/6S10OGPFECMkmlB4Ycqe0EzHFYL30HhPlwmwe10NRE6wA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR03MB4010
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
+ definitions=2020-11-19_05:2020-11-17,2020-11-19 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 mlxscore=0
+ priorityscore=1501 suspectscore=0 impostorscore=0 lowpriorityscore=0
+ bulkscore=0 clxscore=1015 spamscore=0 adultscore=0 mlxlogscore=999
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011190059
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Nov 18, 2020 at 11:34:28PM -0800, Joe Perches wrote:
-> On Wed, 2020-11-18 at 23:24 -0800, Dmitry Torokhov wrote:
-> > Let's use BIT() macro instead of explicitly shifting '1'.
-> []
-> > diff --git a/drivers/input/keyboard/adp5589-keys.c b/drivers/input/keyboard/adp5589-keys.c
-> 
-> > @@ -651,13 +652,13 @@ static int adp5589_setup(struct adp5589_kpad *kpad)
-> >  		unsigned short pin = pdata->gpimap[i].pin;
-> >  
-> 
-> trivia:
-> 
-> Perhaps nicer to create and use a temporary
-> 
-> 	unsigned int bit = BIT(pin - kpad->var->gpi_pin_col_base);
-> 
-> so in these places below:
-> 
-> >  		if (pin <= kpad->var->gpi_pin_row_end) {
-> > -			evt_mode1 |= (1 << (pin - kpad->var->gpi_pin_row_base));
-> > +			evt_mode1 |= BIT(pin - kpad->var->gpi_pin_row_base);
-> 
-> 			evt_mode1 |= bit;
-> 
-> >  		} else {
-> >  			evt_mode2 |=
-> > -			    ((1 << (pin - kpad->var->gpi_pin_col_base)) & 0xFF);
-> > +			    BIT(pin - kpad->var->gpi_pin_col_base) & 0xFF;
-> 
-> 			evt_mode2 |= bit & 0xff;
 
-Different "bit" tough - row vs column.
 
-> 
-> >  			if (!kpad->is_adp5585)
-> > -				evt_mode3 |= ((1 << (pin -
-> > -					kpad->var->gpi_pin_col_base)) >> 8);
-> > +				evt_mode3 |=
-> > +				    BIT(pin - kpad->var->gpi_pin_col_base) >> 8;
-> 
-> 				evt_mode3 |= bit >> 8;
-> 
-> 
+> -----Original Message-----
+> From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Sent: Thursday, November 19, 2020 9:24 AM
+> To: linux-input@vger.kernel.org
+> Cc: Ardelean, Alexandru <alexandru.Ardelean@analog.com>; linux-
+> kernel@vger.kernel.org
+> Subject: [PATCH] Input: adp5589-keys - mark suspend and resume methods as
+> __maybe_unused
+>=20
+> [External]
+>=20
+> This improves compile coverage of the code; unused code will be dropped b=
+y the
+> linker.
+>=20
 
-Thanks.
+Acked-by: Alexandru Ardelean <Alexandru.ardelean@analog.com>
 
--- 
-Dmitry
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> ---
+>  drivers/input/keyboard/adp5589-keys.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/input/keyboard/adp5589-keys.c
+> b/drivers/input/keyboard/adp5589-keys.c
+> index 31145a85c819..a9b69a268c09 100644
+> --- a/drivers/input/keyboard/adp5589-keys.c
+> +++ b/drivers/input/keyboard/adp5589-keys.c
+> @@ -1016,8 +1016,7 @@ static int adp5589_probe(struct i2c_client *client,
+>  	return 0;
+>  }
+>=20
+> -#ifdef CONFIG_PM_SLEEP
+> -static int adp5589_suspend(struct device *dev)
+> +static int __maybe_unused adp5589_suspend(struct device *dev)
+>  {
+>  	struct adp5589_kpad *kpad =3D dev_get_drvdata(dev);
+>  	struct i2c_client *client =3D kpad->client; @@ -1033,7 +1032,7 @@ stati=
+c
+> int adp5589_suspend(struct device *dev)
+>  	return 0;
+>  }
+>=20
+> -static int adp5589_resume(struct device *dev)
+> +static int __maybe_unused adp5589_resume(struct device *dev)
+>  {
+>  	struct adp5589_kpad *kpad =3D dev_get_drvdata(dev);
+>  	struct i2c_client *client =3D kpad->client; @@ -1048,7 +1047,6 @@ stati=
+c
+> int adp5589_resume(struct device *dev)
+>=20
+>  	return 0;
+>  }
+> -#endif
+>=20
+>  static SIMPLE_DEV_PM_OPS(adp5589_dev_pm_ops, adp5589_suspend,
+> adp5589_resume);
+>=20
+> --
+> 2.29.2.299.gdc1121823c-goog
+>=20
+>=20
+> --
+> Dmitry
