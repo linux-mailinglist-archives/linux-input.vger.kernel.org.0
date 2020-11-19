@@ -2,142 +2,209 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ED8382B9780
-	for <lists+linux-input@lfdr.de>; Thu, 19 Nov 2020 17:14:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 708352B9B7E
+	for <lists+linux-input@lfdr.de>; Thu, 19 Nov 2020 20:31:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728211AbgKSQLI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 19 Nov 2020 11:11:08 -0500
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:44239 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728124AbgKSQLI (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 19 Nov 2020 11:11:08 -0500
-X-Originating-IP: 82.255.60.242
-Received: from [192.168.0.28] (lns-bzn-39-82-255-60-242.adsl.proxad.net [82.255.60.242])
-        (Authenticated sender: hadess@hadess.net)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 9A4EA20011;
-        Thu, 19 Nov 2020 16:11:04 +0000 (UTC)
-Message-ID: <e0853f4690a531c89c9d48cc009a97f05ba0181b.camel@hadess.net>
-Subject: Re: [External] Using IIO to export laptop palm-sensor and lap-mode
- info to userspace?
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        linux-iio@vger.kernel.org, Nitin Joshi1 <njoshi1@lenovo.com>,
-        linux-input@vger.kernel.org
-Date:   Thu, 19 Nov 2020 17:11:04 +0100
-In-Reply-To: <6df00683-9508-3dd9-831e-9b343658287b@redhat.com>
-References: <9f9b0ff6-3bf1-63c4-eb36-901cecd7c4d9@redhat.com>
-         <5a646527-7a1f-2fb9-7c09-8becdbff417b@lenovo.com>
-         <20201007083602.00006b7e@Huawei.com>
-         <218be284-4a37-e9f9-749d-c126ef1d098b@redhat.com>
-         <20201112062348.GF1003057@dtor-ws>
-         <3568c492-d9bd-c02d-4cbc-7f3eef605ef5@redhat.com>
-         <20201113065832.GD356503@dtor-ws>
-         <6df00683-9508-3dd9-831e-9b343658287b@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.1 (3.38.1-1.fc33) 
+        id S1727401AbgKST1r (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 19 Nov 2020 14:27:47 -0500
+Received: from mga04.intel.com ([192.55.52.120]:11363 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727192AbgKST1r (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 19 Nov 2020 14:27:47 -0500
+IronPort-SDR: HjQTpyrhHqyxdHJGkwEHjJhBn1bfErAjIC2YrZ08swigZKfTCVMMwPKnWVk4aesC6VhNiIICUr
+ R8uk9LIG86tw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9810"; a="168777349"
+X-IronPort-AV: E=Sophos;i="5.78,354,1599548400"; 
+   d="scan'208";a="168777349"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2020 11:27:45 -0800
+IronPort-SDR: cqhwXoCVSDh1/S/Dy6zUb70+Dk8rIVS05OtreKj6UwN/BUtIDq19GFBlSJ+ec+nSXuAmYwaBFn
+ CXs6PiACur1Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,354,1599548400"; 
+   d="scan'208";a="476935174"
+Received: from lkp-server01.sh.intel.com (HELO 1b817e3f8ad2) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 19 Nov 2020 11:27:44 -0800
+Received: from kbuild by 1b817e3f8ad2 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kfpap-0000At-UA; Thu, 19 Nov 2020 19:27:43 +0000
+Date:   Fri, 20 Nov 2020 03:27:00 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [input:master] BUILD SUCCESS
+ 30df385e35a48f773b85117fc490152c2395e45b
+Message-ID: <5fb6c704.XQwpvcyswg9maaju%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 2020-11-19 at 16:39 +0100, Hans de Goede wrote:
-> Hi,
-> 
-> On 11/13/20 7:58 AM, Dmitry Torokhov wrote:
-> > On Thu, Nov 12, 2020 at 10:50:12AM +0100, Hans de Goede wrote:
-> > > Hi,
-> > > 
-> > > On 11/12/20 7:23 AM, Dmitry Torokhov wrote:
-> > > > On Wed, Oct 07, 2020 at 11:51:05AM +0200, Hans de Goede wrote:
-> > > > > Hi,
-> > > > > 
-> > > > > On 10/7/20 10:36 AM, Jonathan Cameron wrote:
-> > > > > > On Mon, 5 Oct 2020 22:04:27 -0400
-> > > > > > Mark Pearson <markpearson@lenovo.com> wrote:
-> > > > > > 
-> > > > > > > Adding Nitin, lead for this feature, to the thread
-> > > > > > 
-> > > > > > +CC linux-input and Dmitry for reasons that will become
-> > > > > > clear below.
-> > > > > > > 
-> > > > > > > On 2020-10-03 10:02 a.m., Hans de Goede wrote:
-> > > > > > > > Hi All,
-> > > > > > > > 
-> > > > > > > > Modern laptops can have various sensors which are kinda
-> > > > > > > > like proximity sensors, but not really (they are more
-> > > > > > > > specific in which part of the laptop the user is
-> > > > > > > > proximate to).
-> > > > > > > > 
-> > > > > > > > Specifically modern Thinkpad's have 2 readings which we
-> > > > > > > > want to export to userspace, and I'm wondering if we
-> > > > > > > > could use the IIO framework for this since these
-> > > > > > > > readings
-> > > > > > > > are in essence sensor readings:
-> > > > > > > > 
-> > > > > > > > 1. These laptops have a sensor in the palm-rests to
-> > > > > > > > check if a user is physically proximate to the device's
-> > > > > > > > palm-rests. This info will be used by userspace for
-> > > > > > > > WWAN
-> > > > > > > > functionality to control the transmission level safely.
-> > > > > > > > 
-> > > > > > > > A patch adding a thinkpad_acpi specific sysfs API for
-> > > > > > > > this
-> > > > > > > > is currently pending:
-> > > > > > > > https://patchwork.kernel.org/patch/11722127/
-> > > > > > > > 
-> > > > > > > > But I'm wondering if it would not be better to use
-> > > > > > > > IIO to export this info.
-> > > > > > 
-> > > > > > My first thought on this is it sounds more like a key than
-> > > > > > a sensor
-> > > > > > (simple proximity sensors fall into this category as well.)
-> > > > 
-> > > > [ sorry for sitting on this thread for so long ]
-> > > > 
-> > > > So I think the important question here is if we only ever want
-> > > > yes/no
-> > > > answer, or if we can consider adjusting behavior of the system
-> > > > based on
-> > > > the "closeness" of an object to the device, in which case I
-> > > > think IIO is
-> > > > more flexible.
-> > > > 
-> > > > FWIW in Chrome OS land we name IIO proximity sensors using a
-> > > > scheme
-> > > > "proximity-lte", "proximity-wifi", "proximity-wifi-left",
-> > > > "proximity-wifi-right", etc, and then userspace implements
-> > > > various
-> > > > policies (SAR, etc) based off it.
-> > > 
-> > > Interesting, so 2 questions:
-> > > 
-> > > 1. So your encoding the location in the sensor's parent-device
-> > > name
-> > > instead of using a new sysfs attribute for this ?
-> > 
-> > I think it depends on the kernel we use and architecture. On x86 I
-> > think
-> > we rely on udev, like this:
-> > 
-> > https://chromium.googlesource.com/chromiumos/overlays/board-overlays/+/master/overlay-nocturne/chromeos-base/chromeos-bsp-nocturne/files/udev/99-cros-sx-proximity.rules
-> > 
-> > DEVPATH=="*/pci0000:00/0000:00:15.1/*", SYMLINK+="proximity-wifi-
-> > right"
-> > DEVPATH=="*/pci0000:00/0000:00:19.1/*", SYMLINK+="proximity-wifi-
-> > left"
-> > ATTR{events/in_proximity1_USE_CS1_thresh_either_en}="1"
-> 
-> So that results in a symlink under /dev, right ? That seems like
-> it is not really compatible with how most modern userspace discovers
-> hw (through udev). Although I guess code using udev could still
-> lookup the symlink in the udev per device data, this just not feel
-> like a good way forward.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git  master
+branch HEAD: 30df385e35a48f773b85117fc490152c2395e45b  Input: adp5589-keys - use devm_add_action_or_reset() for register clear
 
-We can tag it, the metadata will be readable in where we need it,
-through libudev, so that's not a big bother.
+elapsed time: 724m
 
+configs tested: 145
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+powerpc                    ge_imp3a_defconfig
+mips                     cu1830-neo_defconfig
+powerpc                     powernv_defconfig
+mips                        nlm_xlr_defconfig
+parisc                           allyesconfig
+microblaze                    nommu_defconfig
+mips                         mpc30x_defconfig
+xtensa                          iss_defconfig
+powerpc                      ppc40x_defconfig
+powerpc                     kmeter1_defconfig
+arm                        oxnas_v6_defconfig
+powerpc                     mpc5200_defconfig
+arm                     davinci_all_defconfig
+arm                         hackkit_defconfig
+sparc                       sparc64_defconfig
+m68k                        mvme147_defconfig
+xtensa                           alldefconfig
+powerpc                      obs600_defconfig
+m68k                          atari_defconfig
+sh                           se7712_defconfig
+arm                       multi_v4t_defconfig
+mips                        workpad_defconfig
+arm                          pcm027_defconfig
+powerpc                     stx_gp3_defconfig
+arm                         bcm2835_defconfig
+powerpc                     rainier_defconfig
+powerpc                     tqm8540_defconfig
+arm                        trizeps4_defconfig
+xtensa                         virt_defconfig
+m68k                            q40_defconfig
+ia64                          tiger_defconfig
+arm                        realview_defconfig
+m68k                          sun3x_defconfig
+arm                          exynos_defconfig
+mips                      pistachio_defconfig
+mips                        nlm_xlp_defconfig
+mips                           ip27_defconfig
+csky                                defconfig
+powerpc                    gamecube_defconfig
+powerpc                  mpc866_ads_defconfig
+m68k                        m5407c3_defconfig
+powerpc                       eiger_defconfig
+um                            kunit_defconfig
+mips                      bmips_stb_defconfig
+sh                            titan_defconfig
+powerpc                 mpc85xx_cds_defconfig
+arm                          prima2_defconfig
+xtensa                  audio_kc705_defconfig
+arm                          ixp4xx_defconfig
+powerpc                    klondike_defconfig
+mips                     cu1000-neo_defconfig
+arm                     am200epdkit_defconfig
+arm                           h5000_defconfig
+arm                  colibri_pxa270_defconfig
+mips                        vocore2_defconfig
+mips                          rm200_defconfig
+sparc                            alldefconfig
+m68k                       m5275evb_defconfig
+mips                        omega2p_defconfig
+arm                          badge4_defconfig
+xtensa                    smp_lx200_defconfig
+arm                         lpc32xx_defconfig
+mips                       bmips_be_defconfig
+powerpc                 mpc837x_mds_defconfig
+arm                            zeus_defconfig
+arc                         haps_hs_defconfig
+arm                         s5pv210_defconfig
+powerpc                           allnoconfig
+powerpc                       ebony_defconfig
+sh                          r7785rp_defconfig
+arm                      footbridge_defconfig
+sh                            shmin_defconfig
+openrisc                 simple_smp_defconfig
+arm                         nhk8815_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+alpha                               defconfig
+alpha                            allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+xtensa                           allyesconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                                defconfig
+sparc                               defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+i386                 randconfig-a006-20201119
+i386                 randconfig-a005-20201119
+i386                 randconfig-a002-20201119
+i386                 randconfig-a001-20201119
+i386                 randconfig-a003-20201119
+i386                 randconfig-a004-20201119
+x86_64               randconfig-a015-20201119
+x86_64               randconfig-a014-20201119
+x86_64               randconfig-a011-20201119
+x86_64               randconfig-a013-20201119
+x86_64               randconfig-a016-20201119
+x86_64               randconfig-a012-20201119
+i386                 randconfig-a012-20201119
+i386                 randconfig-a014-20201119
+i386                 randconfig-a016-20201119
+i386                 randconfig-a011-20201119
+i386                 randconfig-a013-20201119
+i386                 randconfig-a015-20201119
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                            allmodconfig
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a005-20201119
+x86_64               randconfig-a003-20201119
+x86_64               randconfig-a004-20201119
+x86_64               randconfig-a002-20201119
+x86_64               randconfig-a006-20201119
+x86_64               randconfig-a001-20201119
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
