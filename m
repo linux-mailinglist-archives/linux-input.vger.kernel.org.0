@@ -2,238 +2,206 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C92BD2BAB62
-	for <lists+linux-input@lfdr.de>; Fri, 20 Nov 2020 14:37:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E54452BAF95
+	for <lists+linux-input@lfdr.de>; Fri, 20 Nov 2020 17:07:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726255AbgKTNfv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 Nov 2020 08:35:51 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:8378 "EHLO
-        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728324AbgKTNfv (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 Nov 2020 08:35:51 -0500
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
-        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CcyGm5xWHz6xZT
-        for <linux-input@vger.kernel.org>; Fri, 20 Nov 2020 21:35:28 +0800 (CST)
-Received: from huawei.com (10.175.127.227) by DGGEMS401-HUB.china.huawei.com
- (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0; Fri, 20 Nov 2020
- 21:35:43 +0800
-From:   Zhang Qilong <zhangqilong3@huawei.com>
-To:     <dmitry.torokhov@gmail.com>
-CC:     <linux-input@vger.kernel.org>
-Subject: [PATCH v2] Input: omap-keypad: Fix error goto and handling in omap4_keypad_probe
-Date:   Fri, 20 Nov 2020 21:39:18 +0800
-Message-ID: <20201120133918.2559681-1-zhangqilong3@huawei.com>
-X-Mailer: git-send-email 2.25.4
+        id S1729054AbgKTQD4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 20 Nov 2020 11:03:56 -0500
+Received: from mga17.intel.com ([192.55.52.151]:40414 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728860AbgKTQDz (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 20 Nov 2020 11:03:55 -0500
+IronPort-SDR: nkxJUa0aKlChLBSkHKUk6YTWSwtg2IFSKpb+YVI/T5DEe7t2fe9nCZ0w9LOdH2p33PE53bMatA
+ NIoTObCZNvmQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9810"; a="151341071"
+X-IronPort-AV: E=Sophos;i="5.78,357,1599548400"; 
+   d="scan'208";a="151341071"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2020 08:03:55 -0800
+IronPort-SDR: nKcSQtjGgU6B72FsbnOacnSDT36JadCH4IZP4ZND4UEGyJr/apI4KcI1i/74S2x6iniOFZxEIN
+ ae5Dv7eZuvAg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,357,1599548400"; 
+   d="scan'208";a="477272431"
+Received: from lkp-server01.sh.intel.com (HELO 00bc34107a07) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 20 Nov 2020 08:03:53 -0800
+Received: from kbuild by 00bc34107a07 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kg8t7-00001H-3t; Fri, 20 Nov 2020 16:03:53 +0000
+Date:   Sat, 21 Nov 2020 00:03:30 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [input:master] BUILD SUCCESS
+ 3aa40a1ad36717114d9a267b08d884a387489fab
+Message-ID: <5fb7e8d2.tz+omuwEmEAJrTuU%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.127.227]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-In omap4_keypad_probe, the patch fix several bugs.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git  master
+branch HEAD: 3aa40a1ad36717114d9a267b08d884a387489fab  Input: vmmouse - demote obvious abuse of kernel-doc header
 
-  1) pm_runtime_get_sync will increment pm usage counter even it
-     failed. Forgetting to pm_runtime_put_noidle will result in
-     reference leak.
+elapsed time: 720m
 
-  2) In err_unmap, forget to disable runtime of device,
-     pm_runtime_enable will increase power disable depth. Thus a
-     pairing decrement is needed on the error handling path to keep
-     it balanced.
+configs tested: 142
+configs skipped: 4
 
-  3) In err_pm_disable, it will call pm_runtime_put_sync twice not
-     one time.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-And we add the pm_runtime_put_noidle when pm_runtime_get_sync failed
-for 1). Move pm_runtime_disable to the err_unmap branch for 2). Move
-the input_register_device ahead for 3).
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arc                     haps_hs_smp_defconfig
+mips                         db1xxx_defconfig
+mips                      malta_kvm_defconfig
+m68k                          sun3x_defconfig
+s390                                defconfig
+sh                           se7722_defconfig
+nios2                         3c120_defconfig
+m68k                       m5249evb_defconfig
+powerpc                   lite5200b_defconfig
+mips                       capcella_defconfig
+xtensa                       common_defconfig
+arm                         hackkit_defconfig
+sh                   sh7724_generic_defconfig
+powerpc                      obs600_defconfig
+powerpc                     mpc512x_defconfig
+powerpc                    socrates_defconfig
+um                             i386_defconfig
+sparc64                             defconfig
+arm                          exynos_defconfig
+arm                         cm_x300_defconfig
+mips                      pic32mzda_defconfig
+powerpc                     pseries_defconfig
+mips                      maltaaprp_defconfig
+arm                           u8500_defconfig
+arm                          ep93xx_defconfig
+alpha                               defconfig
+ia64                            zx1_defconfig
+ia64                      gensparse_defconfig
+sh                            hp6xx_defconfig
+mips                     decstation_defconfig
+sh                          sdk7780_defconfig
+mips                   sb1250_swarm_defconfig
+mips                        jmr3927_defconfig
+xtensa                          iss_defconfig
+arm                              alldefconfig
+mips                           ip28_defconfig
+um                           x86_64_defconfig
+arm                      tct_hammer_defconfig
+powerpc                     ep8248e_defconfig
+arm                        multi_v5_defconfig
+arm                     davinci_all_defconfig
+arm                             pxa_defconfig
+mips                        workpad_defconfig
+powerpc                 linkstation_defconfig
+h8300                    h8300h-sim_defconfig
+mips                            gpr_defconfig
+xtensa                generic_kc705_defconfig
+arm                       mainstone_defconfig
+powerpc                      ep88xc_defconfig
+m68k                          amiga_defconfig
+m68k                         amcore_defconfig
+powerpc                    ge_imp3a_defconfig
+powerpc                      pcm030_defconfig
+arm                        magician_defconfig
+m68k                           sun3_defconfig
+um                            kunit_defconfig
+powerpc                     ppa8548_defconfig
+mips                            ar7_defconfig
+arm                        mvebu_v5_defconfig
+sparc                       sparc64_defconfig
+sh                           se7750_defconfig
+h8300                     edosk2674_defconfig
+mips                     cu1830-neo_defconfig
+csky                             alldefconfig
+arm                  colibri_pxa270_defconfig
+mips                           ci20_defconfig
+powerpc                         ps3_defconfig
+arm                          pxa3xx_defconfig
+arm                           stm32_defconfig
+powerpc                         wii_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                            allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+xtensa                           allyesconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a003-20201120
+x86_64               randconfig-a004-20201120
+x86_64               randconfig-a001-20201120
+x86_64               randconfig-a002-20201120
+x86_64               randconfig-a006-20201120
+x86_64               randconfig-a005-20201120
+i386                 randconfig-a004-20201120
+i386                 randconfig-a003-20201120
+i386                 randconfig-a002-20201120
+i386                 randconfig-a005-20201120
+i386                 randconfig-a001-20201120
+i386                 randconfig-a006-20201120
+i386                 randconfig-a012-20201120
+i386                 randconfig-a013-20201120
+i386                 randconfig-a011-20201120
+i386                 randconfig-a016-20201120
+i386                 randconfig-a014-20201120
+i386                 randconfig-a015-20201120
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
 
-Fixes: f77621cc640a7 ("Input: omap-keypad - dynamically handle register offsets")
-Fixes: 5ad567ffbaf20 ("Input: Input: omap4-keypad - wire up runtime PM handling")
-Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+clang tested configs:
+x86_64               randconfig-a011-20201120
+x86_64               randconfig-a014-20201120
+x86_64               randconfig-a012-20201120
+x86_64               randconfig-a013-20201120
+x86_64               randconfig-a015-20201120
+x86_64               randconfig-a016-20201120
+
 ---
-Changelog:
-v2
-- Add limited area of where we have device's clocks enabled to only
-  where we need it.
----
- drivers/input/keyboard/omap4-keypad.c | 90 ++++++++++++++++-----------
- 1 file changed, 54 insertions(+), 36 deletions(-)
-
-diff --git a/drivers/input/keyboard/omap4-keypad.c b/drivers/input/keyboard/omap4-keypad.c
-index d6c924032aaa..cde510cd3919 100644
---- a/drivers/input/keyboard/omap4-keypad.c
-+++ b/drivers/input/keyboard/omap4-keypad.c
-@@ -186,12 +186,8 @@ static int omap4_keypad_open(struct input_dev *input)
- 	return 0;
- }
- 
--static void omap4_keypad_close(struct input_dev *input)
-+static void omap4_keypad_stop(struct omap4_keypad *keypad_data)
- {
--	struct omap4_keypad *keypad_data = input_get_drvdata(input);
--
--	disable_irq(keypad_data->irq);
--
- 	/* Disable interrupts and wake-up events */
- 	kbd_write_irqreg(keypad_data, OMAP4_KBD_IRQENABLE,
- 			 OMAP4_VAL_IRQDISABLE);
-@@ -200,7 +196,15 @@ static void omap4_keypad_close(struct input_dev *input)
- 	/* clear pending interrupts */
- 	kbd_write_irqreg(keypad_data, OMAP4_KBD_IRQSTATUS,
- 			 kbd_read_irqreg(keypad_data, OMAP4_KBD_IRQSTATUS));
-+}
-+
-+static void omap4_keypad_close(struct input_dev *input)
-+{
-+	struct omap4_keypad *keypad_data;
- 
-+	keypad_data = input_get_drvdata(input);
-+	disable_irq(keypad_data->irq);
-+	omap4_keypad_stop(keypad_data);
- 	enable_irq(keypad_data->irq);
- 
- 	pm_runtime_put_sync(input->dev.parent);
-@@ -223,13 +227,38 @@ static int omap4_keypad_parse_dt(struct device *dev,
- 	return 0;
- }
- 
-+static int
-+omap4_keypad_check_revision(struct device *dev,
-+			    struct omap4_keypad *keypad_data)
-+{
-+	unsigned int rev;
-+
-+	rev = __raw_readl(keypad_data->base + OMAP4_KBD_REVISION);
-+	rev &= 0x03 << 30;
-+	rev >>= 30;
-+	switch (rev) {
-+	case KBD_REVISION_OMAP4:
-+		keypad_data->reg_offset = 0x00;
-+		keypad_data->irqreg_offset = 0x00;
-+		break;
-+	case KBD_REVISION_OMAP5:
-+		keypad_data->reg_offset = 0x10;
-+		keypad_data->irqreg_offset = 0x0c;
-+		break;
-+	default:
-+		dev_err(dev, "Keypad reports unsupported revision %d", rev);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
- static int omap4_keypad_probe(struct platform_device *pdev)
- {
- 	struct omap4_keypad *keypad_data;
- 	struct input_dev *input_dev;
- 	struct resource *res;
- 	unsigned int max_keys;
--	int rev;
- 	int irq;
- 	int error;
- 
-@@ -269,41 +298,32 @@ static int omap4_keypad_probe(struct platform_device *pdev)
- 		goto err_release_mem;
- 	}
- 
-+	pm_runtime_enable(&pdev->dev);
- 
- 	/*
- 	 * Enable clocks for the keypad module so that we can read
- 	 * revision register.
- 	 */
--	pm_runtime_enable(&pdev->dev);
- 	error = pm_runtime_get_sync(&pdev->dev);
- 	if (error) {
-+		pm_runtime_put_noidle(&pdev->dev);
- 		dev_err(&pdev->dev, "pm_runtime_get_sync() failed\n");
--		goto err_unmap;
--	}
--	rev = __raw_readl(keypad_data->base + OMAP4_KBD_REVISION);
--	rev &= 0x03 << 30;
--	rev >>= 30;
--	switch (rev) {
--	case KBD_REVISION_OMAP4:
--		keypad_data->reg_offset = 0x00;
--		keypad_data->irqreg_offset = 0x00;
--		break;
--	case KBD_REVISION_OMAP5:
--		keypad_data->reg_offset = 0x10;
--		keypad_data->irqreg_offset = 0x0c;
--		break;
--	default:
--		dev_err(&pdev->dev,
--			"Keypad reports unsupported revision %d", rev);
--		error = -EINVAL;
--		goto err_pm_put_sync;
-+		goto err_pm_disable;
-+	} else {
-+		error = omap4_keypad_check_revision(&pdev->dev,
-+						    keypad_data);
-+		if (!error) {
-+			/* Ensure device does not raise interrupts */
-+			omap4_keypad_stop(keypad_data);
-+		}
-+		pm_runtime_put_sync(&pdev->dev);
- 	}
- 
- 	/* input device allocation */
- 	keypad_data->input = input_dev = input_allocate_device();
- 	if (!input_dev) {
- 		error = -ENOMEM;
--		goto err_pm_put_sync;
-+		goto err_pm_disable;
- 	}
- 
- 	input_dev->name = pdev->name;
-@@ -349,33 +369,31 @@ static int omap4_keypad_probe(struct platform_device *pdev)
- 		goto err_free_keymap;
- 	}
- 
--	device_init_wakeup(&pdev->dev, true);
--	pm_runtime_put_sync(&pdev->dev);
--
- 	error = input_register_device(keypad_data->input);
- 	if (error < 0) {
- 		dev_err(&pdev->dev, "failed to register input device\n");
--		goto err_pm_disable;
-+		goto err_free_irq;
- 	}
- 
-+	device_init_wakeup(&pdev->dev, true);
- 	platform_set_drvdata(pdev, keypad_data);
-+
- 	return 0;
- 
--err_pm_disable:
--	pm_runtime_disable(&pdev->dev);
-+err_free_irq:
- 	free_irq(keypad_data->irq, keypad_data);
- err_free_keymap:
- 	kfree(keypad_data->keymap);
- err_free_input:
- 	input_free_device(input_dev);
--err_pm_put_sync:
--	pm_runtime_put_sync(&pdev->dev);
--err_unmap:
-+err_pm_disable:
-+	pm_runtime_disable(&pdev->dev);
- 	iounmap(keypad_data->base);
- err_release_mem:
- 	release_mem_region(res->start, resource_size(res));
- err_free_keypad:
- 	kfree(keypad_data);
-+
- 	return error;
- }
- 
--- 
-2.25.4
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
