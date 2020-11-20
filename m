@@ -2,228 +2,194 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF7BF2BA6E9
-	for <lists+linux-input@lfdr.de>; Fri, 20 Nov 2020 11:00:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B71482BAA26
+	for <lists+linux-input@lfdr.de>; Fri, 20 Nov 2020 13:32:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727417AbgKTJ76 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 Nov 2020 04:59:58 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2134 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727678AbgKTJ75 (ORCPT
+        id S1725942AbgKTMcJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 20 Nov 2020 07:32:09 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2379 "EHLO
+        szxga03-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727878AbgKTMcJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 Nov 2020 04:59:57 -0500
-Received: from fraeml705-chm.china.huawei.com (unknown [172.18.147.226])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4CcsRr1nJMz67FvV;
-        Fri, 20 Nov 2020 17:58:00 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml705-chm.china.huawei.com (10.206.15.54) with Microsoft SMTP Server
+        Fri, 20 Nov 2020 07:32:09 -0500
+Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.53])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4CcwsB3vm1z55Qb
+        for <linux-input@vger.kernel.org>; Fri, 20 Nov 2020 20:31:42 +0800 (CST)
+Received: from dggema707-chm.china.huawei.com (10.3.20.71) by
+ DGGEMM403-HUB.china.huawei.com (10.3.20.211) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Fri, 20 Nov 2020 20:32:03 +0800
+Received: from dggema755-chm.china.huawei.com (10.1.198.197) by
+ dggema707-chm.china.huawei.com (10.3.20.71) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Fri, 20 Nov 2020 10:59:55 +0100
-Received: from localhost (10.47.69.87) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1913.5; Fri, 20 Nov
- 2020 09:59:54 +0000
-Date:   Fri, 20 Nov 2020 09:59:43 +0000
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-CC:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        <linux-iio@vger.kernel.org>, Bastien Nocera <hadess@hadess.net>,
-        Nitin Joshi1 <njoshi1@lenovo.com>,
-        <linux-input@vger.kernel.org>
-Subject: Re: [External] Using IIO to export laptop palm-sensor and lap-mode
- info to userspace?
-Message-ID: <20201120095943.000001a6@Huawei.com>
-In-Reply-To: <6df00683-9508-3dd9-831e-9b343658287b@redhat.com>
-References: <9f9b0ff6-3bf1-63c4-eb36-901cecd7c4d9@redhat.com>
-        <5a646527-7a1f-2fb9-7c09-8becdbff417b@lenovo.com>
-        <20201007083602.00006b7e@Huawei.com>
-        <218be284-4a37-e9f9-749d-c126ef1d098b@redhat.com>
-        <20201112062348.GF1003057@dtor-ws>
-        <3568c492-d9bd-c02d-4cbc-7f3eef605ef5@redhat.com>
-        <20201113065832.GD356503@dtor-ws>
-        <6df00683-9508-3dd9-831e-9b343658287b@redhat.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+ 15.1.1913.5; Fri, 20 Nov 2020 20:32:02 +0800
+Received: from dggema755-chm.china.huawei.com ([10.1.198.197]) by
+ dggema755-chm.china.huawei.com ([10.1.198.197]) with mapi id 15.01.1913.007;
+ Fri, 20 Nov 2020 20:32:02 +0800
+From:   zhangqilong <zhangqilong3@huawei.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Subject: =?gb2312?B?tPC4tDogW1BBVENIXSBJbnB1dDogb21hcC1rZXlwYWQ6IEZpeCBlcnJvciBn?=
+ =?gb2312?B?b3RvIGFuZCBoYW5kbGluZyBpbiBvbWFwNF9rZXlwYWRfcHJvYmU=?=
+Thread-Topic: [PATCH] Input: omap-keypad: Fix error goto and handling in
+ omap4_keypad_probe
+Thread-Index: AQHWvw5Ymu9Pfp81J0ukrVT7E4jVbKnQ86zg
+Date:   Fri, 20 Nov 2020 12:32:02 +0000
+Message-ID: <741348a4b7384e6d8e8dfc50e30aacaf@huawei.com>
+References: <20201119070119.4174387-1-zhangqilong3@huawei.com>
+ <20201120072539.GV2034289@dtor-ws>
+In-Reply-To: <20201120072539.GV2034289@dtor-ws>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.179.28]
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.69.87]
-X-ClientProxiedBy: lhreml705-chm.china.huawei.com (10.201.108.54) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
 X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 19 Nov 2020 16:39:07 +0100
-Hans de Goede <hdegoede@redhat.com> wrote:
-
-> Hi,
-> 
-> On 11/13/20 7:58 AM, Dmitry Torokhov wrote:
-> > On Thu, Nov 12, 2020 at 10:50:12AM +0100, Hans de Goede wrote:  
-> >> Hi,
-> >>
-> >> On 11/12/20 7:23 AM, Dmitry Torokhov wrote:  
-> >>> On Wed, Oct 07, 2020 at 11:51:05AM +0200, Hans de Goede wrote:  
-> >>>> Hi,
-> >>>>
-> >>>> On 10/7/20 10:36 AM, Jonathan Cameron wrote:  
-> >>>>> On Mon, 5 Oct 2020 22:04:27 -0400
-> >>>>> Mark Pearson <markpearson@lenovo.com> wrote:
-> >>>>>  
-> >>>>>> Adding Nitin, lead for this feature, to the thread  
-> >>>>>
-> >>>>> +CC linux-input and Dmitry for reasons that will become clear below.  
-> >>>>>>
-> >>>>>> On 2020-10-03 10:02 a.m., Hans de Goede wrote:  
-> >>>>>>> Hi All,
-> >>>>>>>
-> >>>>>>> Modern laptops can have various sensors which are kinda
-> >>>>>>> like proximity sensors, but not really (they are more
-> >>>>>>> specific in which part of the laptop the user is
-> >>>>>>> proximate to).
-> >>>>>>>
-> >>>>>>> Specifically modern Thinkpad's have 2 readings which we
-> >>>>>>> want to export to userspace, and I'm wondering if we
-> >>>>>>> could use the IIO framework for this since these readings
-> >>>>>>> are in essence sensor readings:
-> >>>>>>>
-> >>>>>>> 1. These laptops have a sensor in the palm-rests to
-> >>>>>>> check if a user is physically proximate to the device's
-> >>>>>>> palm-rests. This info will be used by userspace for WWAN
-> >>>>>>> functionality to control the transmission level safely.
-> >>>>>>>
-> >>>>>>> A patch adding a thinkpad_acpi specific sysfs API for this
-> >>>>>>> is currently pending:
-> >>>>>>> https://patchwork.kernel.org/patch/11722127/
-> >>>>>>>
-> >>>>>>> But I'm wondering if it would not be better to use
-> >>>>>>> IIO to export this info.  
-> >>>>>
-> >>>>> My first thought on this is it sounds more like a key than a sensor
-> >>>>> (simple proximity sensors fall into this category as well.)  
-> >>>
-> >>> [ sorry for sitting on this thread for so long ]
-> >>>
-> >>> So I think the important question here is if we only ever want yes/no
-> >>> answer, or if we can consider adjusting behavior of the system based on
-> >>> the "closeness" of an object to the device, in which case I think IIO is
-> >>> more flexible.
-> >>>
-> >>> FWIW in Chrome OS land we name IIO proximity sensors using a scheme
-> >>> "proximity-lte", "proximity-wifi", "proximity-wifi-left",
-> >>> "proximity-wifi-right", etc, and then userspace implements various
-> >>> policies (SAR, etc) based off it.  
-> >>
-> >> Interesting, so 2 questions:
-> >>
-> >> 1. So your encoding the location in the sensor's parent-device name
-> >> instead of using a new sysfs attribute for this ?  
-> > 
-> > I think it depends on the kernel we use and architecture. On x86 I think
-> > we rely on udev, like this:
-> > 
-> > https://chromium.googlesource.com/chromiumos/overlays/board-overlays/+/master/overlay-nocturne/chromeos-base/chromeos-bsp-nocturne/files/udev/99-cros-sx-proximity.rules
-> > 
-> > DEVPATH=="*/pci0000:00/0000:00:15.1/*", SYMLINK+="proximity-wifi-right"
-> > DEVPATH=="*/pci0000:00/0000:00:19.1/*", SYMLINK+="proximity-wifi-left"
-> > ATTR{events/in_proximity1_USE_CS1_thresh_either_en}="1"  
-> 
-> So that results in a symlink under /dev, right ? That seems like
-> it is not really compatible with how most modern userspace discovers
-> hw (through udev). Although I guess code using udev could still
-> lookup the symlink in the udev per device data, this just not feel
-> like a good way forward.
-> 
-> > On newer ARM we use "label" attribute in DTS:
-> > 
-> > arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
-> > 
-> >         ap_sar_sensor: proximity@28 {
-> >                 compatible = "semtech,sx9310";
-> >                 reg = <0x28>;
-> >                 #io-channel-cells = <1>;
-> >                 pinctrl-names = "default";
-> >                 pinctrl-0 = <&p_sensor_int_l>;
-> > 
-> >                 interrupt-parent = <&tlmm>;
-> >                 interrupts = <24 IRQ_TYPE_LEVEL_LOW>;
-> > 
-> >                 vdd-supply = <&pp3300_a>;
-> >                 svdd-supply = <&pp1800_prox>;
-> > 
-> >                 status = "disabled";
-> >                 label = "proximity-wifi";
-> >         };  
-> 
-> Hmm, interesting. I did not know iio-devices could
-> have a label sysfs attribute (nor that that could be
-> set through device-tree). I was thinking about adding
-> an in_proximity_location sysfs attribute. But using
-> labels (and standardizing a set of label names) will
-> work nicely too.
-
-It's fairly new.   Note we also have per channel labels
-though they are 'very new'.  Might be handy if the sensors
-appear as a single device despite being spread over the
-laptop.
-
-> 
-> I have no real preference for this either way, so
-> I guess we might as well go with labels to avoid
-> having any unnecessary discrepancies between ChromeOS
-> and whatever we do for the Thinkpad sensors.
-> 
-> Is there a know set of labels which ChromeOS is currently
-> using? If we are going to use labels for this it would
-> be good IMHO to define a set of standard labels for
-> this in say Documentation/ABI/testing/sysfs-bus-iio-labels.
-
-If you do want to do this, please just put it under sysfs-bus-iio
-doc.  I want this to be in the top level doc and there is an issue
-we are currently trying to sort out with autogenerated docs and
-repeats of a given filename in the ABI docs.
-(basically it doesn't work and generates lots of warnings!)
-
-Thanks,
-
-Jonathan
-
-> 
-> >> 2. Do these sensors just give a boolean value atm, or do they already
-> >> report a range ?  IIRC one of the objections from the iio folks in
-> >> the Lenovo case was that booleans are not really a good fit for iio
-> >> (IIRC they also said we could still use iio for this).  
-> > 
-> > One of the sensors we use is sx9310 that I believe can report range, but
-> > I think we configure them to trigger when a threshold is crossed.
-> > 
-> > Events are handled by our powerd:
-> > 
-> > https://chromium.googlesource.com/chromiumos/platform2/+/master/power_manager/powerd/system/sar_watcher.cc
-> >   
-> >>
-> >> Perhaps you can provide an URL to the kernel code implementing these ?  
-> > 
-> > drivers/iio/proximity/sx9310.c  
-> 
-> If I'm reading that correctly the it exports a raw "distance"
-> reading and a suggested threshold value for the code interpreting
-> the reading to use.
-> 
-> So that would be a bit different then the Thinkpad sensors, but
-> exporting just a 0-1 range for the in_proximity_raw value for the
-> Thinkpad case should not be a problem. Or we could just make it
-> repot 0 and 100 and export a fixed in_proximity_nearlevel of 50,
-> that would make the userspace API more like other proximity sensors.
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> 
-> 
-
+PiBIaSBaaGFuZywNCj4gDQo+IE9uIFRodSwgTm92IDE5LCAyMDIwIGF0IDAzOjAxOjE5UE0gKzA4
+MDAsIFpoYW5nIFFpbG9uZyB3cm90ZToNCj4gPiBJbiBvbWFwNF9rZXlwYWRfcHJvYmUsIHRoZSBw
+YXRjaCBmaXggc2V2ZXJhbCBidWdzLg0KPiA+DQo+ID4gICAxKSBwbV9ydW50aW1lX2dldF9zeW5j
+IHdpbGwgaW5jcmVtZW50IHBtIHVzYWdlIGNvdW50ZXIgZXZlbiBpdA0KPiA+ICAgICAgZmFpbGVk
+LiBGb3JnZXR0aW5nIHRvIHBtX3J1bnRpbWVfcHV0X25vaWRsZSB3aWxsIHJlc3VsdCBpbg0KPiA+
+ICAgICAgcmVmZXJlbmNlIGxlYWsuDQo+ID4NCj4gPiAgIDIpIEluIGVycl91bm1hcCwgZm9yZ2V0
+IHRvIGRpc2FibGUgcnVudGltZSBvZiBkZXZpY2UsDQo+ID4gICAgICBwbV9ydW50aW1lX2VuYWJs
+ZSB3aWxsIGluY3JlYXNlIHBvd2VyIGRpc2FibGUgZGVwdGguIFRodXMgYQ0KPiA+ICAgICAgcGFp
+cmluZyBkZWNyZW1lbnQgaXMgbmVlZGVkIG9uIHRoZSBlcnJvciBoYW5kbGluZyBwYXRoIHRvIGtl
+ZXANCj4gPiAgICAgIGl0IGJhbGFuY2VkLg0KPiA+DQo+ID4gICAzKSBJbiBlcnJfcG1fZGlzYWJs
+ZSwgaXQgd2lsbCBjYWxsIHBtX3J1bnRpbWVfcHV0X3N5bmMgdHdpY2Ugbm90DQo+ID4gICAgICBv
+bmUgdGltZS4NCj4gPg0KPiA+IEFuZCB3ZSBhZGQgdGhlIHBtX3J1bnRpbWVfcHV0X25vaWRsZSB3
+aGVuIHBtX3J1bnRpbWVfZ2V0X3N5bmMgZmFpbGVkDQo+ID4gZm9yIDEpLiBNb3ZlIHBtX3J1bnRp
+bWVfZGlzYWJsZSB0byB0aGUgZXJyX3VubWFwIGJyYW5jaCBmb3IgMikuIE1vdmUNCj4gPiB0aGUg
+aW5wdXRfcmVnaXN0ZXJfZGV2aWNlIGFoZWFkIGZvciAzKS4NCj4gPg0KPiA+IEZpeGVzOiBmNzc2
+MjFjYzY0MGE3ICgiSW5wdXQ6IG9tYXAta2V5cGFkIC0gZHluYW1pY2FsbHkgaGFuZGxlDQo+ID4g
+cmVnaXN0ZXIgb2Zmc2V0cyIpDQo+ID4gRml4ZXM6IDVhZDU2N2ZmYmFmMjAgKCJJbnB1dDogSW5w
+dXQ6IG9tYXA0LWtleXBhZCAtIHdpcmUgdXAgcnVudGltZSBQTQ0KPiA+IGhhbmRsaW5nIikNCj4g
+PiBTaWduZWQtb2ZmLWJ5OiBaaGFuZyBRaWxvbmcgPHpoYW5ncWlsb25nM0BodWF3ZWkuY29tPg0K
+PiA+IC0tLQ0KPiA+ICBkcml2ZXJzL2lucHV0L2tleWJvYXJkL29tYXA0LWtleXBhZC5jIHwgMTMg
+KysrKysrKy0tLS0tLQ0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCA2IGRl
+bGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvaW5wdXQva2V5Ym9hcmQv
+b21hcDQta2V5cGFkLmMNCj4gPiBiL2RyaXZlcnMvaW5wdXQva2V5Ym9hcmQvb21hcDQta2V5cGFk
+LmMNCj4gPiBpbmRleCBkNmM5MjQwMzJhYWEuLjE3YWJjODQzNGFmNSAxMDA2NDQNCj4gPiAtLS0g
+YS9kcml2ZXJzL2lucHV0L2tleWJvYXJkL29tYXA0LWtleXBhZC5jDQo+ID4gKysrIGIvZHJpdmVy
+cy9pbnB1dC9rZXlib2FyZC9vbWFwNC1rZXlwYWQuYw0KPiA+IEBAIC0yNzcsNiArMjc3LDcgQEAg
+c3RhdGljIGludCBvbWFwNF9rZXlwYWRfcHJvYmUoc3RydWN0DQo+IHBsYXRmb3JtX2RldmljZSAq
+cGRldikNCj4gPiAgCXBtX3J1bnRpbWVfZW5hYmxlKCZwZGV2LT5kZXYpOw0KPiA+ICAJZXJyb3Ig
+PSBwbV9ydW50aW1lX2dldF9zeW5jKCZwZGV2LT5kZXYpOw0KPiA+ICAJaWYgKGVycm9yKSB7DQo+
+ID4gKwkJcG1fcnVudGltZV9wdXRfbm9pZGxlKCZwZGV2LT5kZXYpOw0KPiA+ICAJCWRldl9lcnIo
+JnBkZXYtPmRldiwgInBtX3J1bnRpbWVfZ2V0X3N5bmMoKSBmYWlsZWRcbiIpOw0KPiA+ICAJCWdv
+dG8gZXJyX3VubWFwOw0KPiA+ICAJfQ0KPiA+IEBAIC0zNDksMjAgKzM1MCwxOSBAQCBzdGF0aWMg
+aW50IG9tYXA0X2tleXBhZF9wcm9iZShzdHJ1Y3QNCj4gcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0K
+PiA+ICAJCWdvdG8gZXJyX2ZyZWVfa2V5bWFwOw0KPiA+ICAJfQ0KPiA+DQo+ID4gLQlkZXZpY2Vf
+aW5pdF93YWtldXAoJnBkZXYtPmRldiwgdHJ1ZSk7DQo+ID4gLQlwbV9ydW50aW1lX3B1dF9zeW5j
+KCZwZGV2LT5kZXYpOw0KPiA+IC0NCj4gPiAgCWVycm9yID0gaW5wdXRfcmVnaXN0ZXJfZGV2aWNl
+KGtleXBhZF9kYXRhLT5pbnB1dCk7DQo+ID4gIAlpZiAoZXJyb3IgPCAwKSB7DQo+ID4gIAkJZGV2
+X2VycigmcGRldi0+ZGV2LCAiZmFpbGVkIHRvIHJlZ2lzdGVyIGlucHV0IGRldmljZVxuIik7DQo+
+ID4gLQkJZ290byBlcnJfcG1fZGlzYWJsZTsNCj4gPiArCQlnb3RvIGVycl9mcmVlX2lycTsNCj4g
+PiAgCX0NCj4gPg0KPiA+ICsJZGV2aWNlX2luaXRfd2FrZXVwKCZwZGV2LT5kZXYsIHRydWUpOw0K
+PiA+ICsJcG1fcnVudGltZV9wdXRfc3luYygmcGRldi0+ZGV2KTsNCj4gPiArDQo+IA0KPiBJIHRo
+aW5rIHlvdXIgcGF0Y2ggaXMgdGVjaG5pY2FsbHkgY29ycmVjdCwgYnV0IEkgd29uZGVyIGlmIHdl
+IHNob3VsZCBsaW1pdCBhcmVhIG9mDQo+IHdoZXJlIHdlIGhhdmUgZGV2aWNlJ3MgY2xvY2tzIGVu
+YWJsZWQgdG8gb25seSB3aGVyZSB3ZSBuZWVkIGl0LiBJLmUuDQo+IHNvbWV0aGluZyBsaWtlIHRo
+aXM6DQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9pbnB1dC9rZXlib2FyZC9vbWFwNC1rZXlw
+YWQuYw0KPiBiL2RyaXZlcnMvaW5wdXQva2V5Ym9hcmQvb21hcDQta2V5cGFkLmMNCj4gaW5kZXgg
+ZDZjOTI0MDMyYWFhLi40Y2E3NTRlOTU5NzggMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvaW5wdXQv
+a2V5Ym9hcmQvb21hcDQta2V5cGFkLmMNCj4gKysrIGIvZHJpdmVycy9pbnB1dC9rZXlib2FyZC9v
+bWFwNC1rZXlwYWQuYw0KPiBAQCAtMTg2LDEyICsxODYsOCBAQCBzdGF0aWMgaW50IG9tYXA0X2tl
+eXBhZF9vcGVuKHN0cnVjdCBpbnB1dF9kZXYNCj4gKmlucHV0KQ0KPiAgCXJldHVybiAwOw0KPiAg
+fQ0KPiANCj4gLXN0YXRpYyB2b2lkIG9tYXA0X2tleXBhZF9jbG9zZShzdHJ1Y3QgaW5wdXRfZGV2
+ICppbnB1dCkNCj4gK3N0YXRpYyB2b2lkIG9tYXA0X2tleXBhZF9zdG9wKHN0cnVjdCBvbWFwNF9r
+ZXlwYWQgKmtleXBhZF9kYXRhKQ0KPiAgew0KPiAtCXN0cnVjdCBvbWFwNF9rZXlwYWQgKmtleXBh
+ZF9kYXRhID0gaW5wdXRfZ2V0X2RydmRhdGEoaW5wdXQpOw0KPiAtDQo+IC0JZGlzYWJsZV9pcnEo
+a2V5cGFkX2RhdGEtPmlycSk7DQo+IC0NCj4gIAkvKiBEaXNhYmxlIGludGVycnVwdHMgYW5kIHdh
+a2UtdXAgZXZlbnRzICovDQo+ICAJa2JkX3dyaXRlX2lycXJlZyhrZXlwYWRfZGF0YSwgT01BUDRf
+S0JEX0lSUUVOQUJMRSwNCj4gIAkJCSBPTUFQNF9WQUxfSVJRRElTQUJMRSk7DQo+IEBAIC0yMDAs
+NyArMTk2LDE0IEBAIHN0YXRpYyB2b2lkIG9tYXA0X2tleXBhZF9jbG9zZShzdHJ1Y3QgaW5wdXRf
+ZGV2DQo+ICppbnB1dCkNCj4gIAkvKiBjbGVhciBwZW5kaW5nIGludGVycnVwdHMgKi8NCj4gIAlr
+YmRfd3JpdGVfaXJxcmVnKGtleXBhZF9kYXRhLCBPTUFQNF9LQkRfSVJRU1RBVFVTLA0KPiAgCQkJ
+IGtiZF9yZWFkX2lycXJlZyhrZXlwYWRfZGF0YSwgT01BUDRfS0JEX0lSUVNUQVRVUykpOw0KPiAr
+fQ0KPiANCj4gK3N0YXRpYyB2b2lkIG9tYXA0X2tleXBhZF9jbG9zZShzdHJ1Y3QgaW5wdXRfZGV2
+ICppbnB1dCkgew0KPiArCXN0cnVjdCBvbWFwNF9rZXlwYWQgKmtleXBhZF9kYXRhID0gaW5wdXRf
+Z2V0X2RydmRhdGEoaW5wdXQpOw0KPiArDQo+ICsJZGlzYWJsZV9pcnEoa2V5cGFkX2RhdGEtPmly
+cSk7DQo+ICsJb21hcDRfa2V5cGFkX3N0b3Aoa2V5cGFkX2RhdGEpOw0KPiAgCWVuYWJsZV9pcnEo
+a2V5cGFkX2RhdGEtPmlycSk7DQo+IA0KPiAgCXBtX3J1bnRpbWVfcHV0X3N5bmMoaW5wdXQtPmRl
+di5wYXJlbnQpOw0KPiBAQCAtMjIzLDEzICsyMjYsMzcgQEAgc3RhdGljIGludCBvbWFwNF9rZXlw
+YWRfcGFyc2VfZHQoc3RydWN0IGRldmljZQ0KPiAqZGV2LA0KPiAgCXJldHVybiAwOw0KPiAgfQ0K
+PiANCj4gK3N0YXRpYyBpbnQgb21hcDRfa2V5cGFkX2NoZWNrX3JldmlzaW9uKHN0cnVjdCBkZXZp
+Y2UgKmRldiwNCj4gKwkJCQkgICAgICAgc3RydWN0IG9tYXA0X2tleXBhZCAqa2V5cGFkX2RhdGEp
+IHsNCj4gKwl1bnNpZ25lZCBpbnQgcmV2Ow0KPiArDQo+ICsJcmV2ID0gX19yYXdfcmVhZGwoa2V5
+cGFkX2RhdGEtPmJhc2UgKyBPTUFQNF9LQkRfUkVWSVNJT04pOw0KPiArCXJldiAmPSAweDAzIDw8
+IDMwOw0KPiArCXJldiA+Pj0gMzA7DQo+ICsJc3dpdGNoIChyZXYpIHsNCj4gKwljYXNlIEtCRF9S
+RVZJU0lPTl9PTUFQNDoNCj4gKwkJa2V5cGFkX2RhdGEtPnJlZ19vZmZzZXQgPSAweDAwOw0KPiAr
+CQlrZXlwYWRfZGF0YS0+aXJxcmVnX29mZnNldCA9IDB4MDA7DQo+ICsJCWJyZWFrOw0KPiArCWNh
+c2UgS0JEX1JFVklTSU9OX09NQVA1Og0KPiArCQlrZXlwYWRfZGF0YS0+cmVnX29mZnNldCA9IDB4
+MTA7DQo+ICsJCWtleXBhZF9kYXRhLT5pcnFyZWdfb2Zmc2V0ID0gMHgwYzsNCj4gKwkJYnJlYWs7
+DQo+ICsJZGVmYXVsdDoNCj4gKwkJZGV2X2VycihkZXYsICJLZXlwYWQgcmVwb3J0cyB1bnN1cHBv
+cnRlZCByZXZpc2lvbiAlZCIsIHJldik7DQo+ICsJCXJldHVybiAtRUlOVkFMOw0KPiArCX0NCj4g
+Kw0KPiArCXJldHVybiAwOw0KPiArfQ0KPiArDQo+ICBzdGF0aWMgaW50IG9tYXA0X2tleXBhZF9w
+cm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KSAgew0KPiAgCXN0cnVjdCBvbWFwNF9r
+ZXlwYWQgKmtleXBhZF9kYXRhOw0KPiAgCXN0cnVjdCBpbnB1dF9kZXYgKmlucHV0X2RldjsNCj4g
+IAlzdHJ1Y3QgcmVzb3VyY2UgKnJlczsNCj4gIAl1bnNpZ25lZCBpbnQgbWF4X2tleXM7DQo+IC0J
+aW50IHJldjsNCj4gIAlpbnQgaXJxOw0KPiAgCWludCBlcnJvcjsNCj4gDQo+IEBAIC0yNjksNDEg
+KzI5NiwzMCBAQCBzdGF0aWMgaW50IG9tYXA0X2tleXBhZF9wcm9iZShzdHJ1Y3QNCj4gcGxhdGZv
+cm1fZGV2aWNlICpwZGV2KQ0KPiAgCQlnb3RvIGVycl9yZWxlYXNlX21lbTsNCj4gIAl9DQo+IA0K
+PiArCXBtX3J1bnRpbWVfZW5hYmxlKCZwZGV2LT5kZXYpOw0KPiANCj4gIAkvKg0KPiAgCSAqIEVu
+YWJsZSBjbG9ja3MgZm9yIHRoZSBrZXlwYWQgbW9kdWxlIHNvIHRoYXQgd2UgY2FuIHJlYWQNCj4g
+IAkgKiByZXZpc2lvbiByZWdpc3Rlci4NCj4gIAkgKi8NCj4gLQlwbV9ydW50aW1lX2VuYWJsZSgm
+cGRldi0+ZGV2KTsNCj4gIAllcnJvciA9IHBtX3J1bnRpbWVfZ2V0X3N5bmMoJnBkZXYtPmRldik7
+DQo+ICAJaWYgKGVycm9yKSB7DQo+ICAJCWRldl9lcnIoJnBkZXYtPmRldiwgInBtX3J1bnRpbWVf
+Z2V0X3N5bmMoKSBmYWlsZWRcbiIpOw0KPiAtCQlnb3RvIGVycl91bm1hcDsNCj4gLQl9DQo+IC0J
+cmV2ID0gX19yYXdfcmVhZGwoa2V5cGFkX2RhdGEtPmJhc2UgKyBPTUFQNF9LQkRfUkVWSVNJT04p
+Ow0KPiAtCXJldiAmPSAweDAzIDw8IDMwOw0KPiAtCXJldiA+Pj0gMzA7DQo+IC0Jc3dpdGNoIChy
+ZXYpIHsNCj4gLQljYXNlIEtCRF9SRVZJU0lPTl9PTUFQNDoNCj4gLQkJa2V5cGFkX2RhdGEtPnJl
+Z19vZmZzZXQgPSAweDAwOw0KPiAtCQlrZXlwYWRfZGF0YS0+aXJxcmVnX29mZnNldCA9IDB4MDA7
+DQo+IC0JCWJyZWFrOw0KPiAtCWNhc2UgS0JEX1JFVklTSU9OX09NQVA1Og0KPiAtCQlrZXlwYWRf
+ZGF0YS0+cmVnX29mZnNldCA9IDB4MTA7DQo+IC0JCWtleXBhZF9kYXRhLT5pcnFyZWdfb2Zmc2V0
+ID0gMHgwYzsNCj4gLQkJYnJlYWs7DQo+IC0JZGVmYXVsdDoNCj4gLQkJZGV2X2VycigmcGRldi0+
+ZGV2LA0KPiAtCQkJIktleXBhZCByZXBvcnRzIHVuc3VwcG9ydGVkIHJldmlzaW9uICVkIiwgcmV2
+KTsNCj4gLQkJZXJyb3IgPSAtRUlOVkFMOw0KPiAtCQlnb3RvIGVycl9wbV9wdXRfc3luYzsNCj4g
+KwkJcG1fcnVudGltZV9wdXRfbm9pZGxlKCZwZGV2LT5kZXYpOw0KDQpJIHRoaW5rIGl0J3MgT0ss
+IHRoYXQgaXMgbW9yZSBjbGVhcmx5LCBoZXJlIGl0IHNob3VsZCBnb3RvIGVycl9wbV9kaXNhYmxl
+ID8NCg0KVGhhbmtzLA0KWmhhbmcNCg0KPiArCX0gZWxzZSB7DQo+ICsJCWVycm9yID0gb21hcDRf
+a2V5cGFkX2NoZWNrX3JldmlzaW9uKCZwZGV2LT5kZXYsIGtleXBhZF9kYXRhKTsNCj4gKwkJaWYg
+KCFlcnJvcikgew0KPiArCQkJLyogRW5zdXJlIGRldmljZSBkb2VzIG5vdCByYWlzZSBpbnRlcnJ1
+cHRzICovDQo+ICsJCQlvbWFwNF9rZXlwYWRfc3RvcChrZXlwYWRfZGF0YSk7DQo+ICsJCX0NCj4g
+KwkJcG1fcnVudGltZV9wdXRfc3luYygmcGRldi0+ZGV2KTsNCj4gIAl9DQo+IA0KPiAgCS8qIGlu
+cHV0IGRldmljZSBhbGxvY2F0aW9uICovDQo+ICAJa2V5cGFkX2RhdGEtPmlucHV0ID0gaW5wdXRf
+ZGV2ID0gaW5wdXRfYWxsb2NhdGVfZGV2aWNlKCk7DQo+ICAJaWYgKCFpbnB1dF9kZXYpIHsNCj4g
+IAkJZXJyb3IgPSAtRU5PTUVNOw0KPiAtCQlnb3RvIGVycl9wbV9wdXRfc3luYzsNCj4gKwkJZ290
+byBlcnJfcG1fZGlzYWJsZTsNCj4gIAl9DQo+IA0KPiAgCWlucHV0X2Rldi0+bmFtZSA9IHBkZXYt
+Pm5hbWU7DQo+IEBAIC0zNDksMjggKzM2NSwyNSBAQCBzdGF0aWMgaW50IG9tYXA0X2tleXBhZF9w
+cm9iZShzdHJ1Y3QNCj4gcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiAgCQlnb3RvIGVycl9mcmVl
+X2tleW1hcDsNCj4gIAl9DQo+IA0KPiAtCWRldmljZV9pbml0X3dha2V1cCgmcGRldi0+ZGV2LCB0
+cnVlKTsNCj4gLQlwbV9ydW50aW1lX3B1dF9zeW5jKCZwZGV2LT5kZXYpOw0KPiAtDQo+ICAJZXJy
+b3IgPSBpbnB1dF9yZWdpc3Rlcl9kZXZpY2Uoa2V5cGFkX2RhdGEtPmlucHV0KTsNCj4gIAlpZiAo
+ZXJyb3IgPCAwKSB7DQo+ICAJCWRldl9lcnIoJnBkZXYtPmRldiwgImZhaWxlZCB0byByZWdpc3Rl
+ciBpbnB1dCBkZXZpY2VcbiIpOw0KPiAtCQlnb3RvIGVycl9wbV9kaXNhYmxlOw0KPiArCQlnb3Rv
+IGVycl9mcmVlX2lycTsNCj4gIAl9DQo+IA0KPiArCWRldmljZV9pbml0X3dha2V1cCgmcGRldi0+
+ZGV2LCB0cnVlKTsNCj4gIAlwbGF0Zm9ybV9zZXRfZHJ2ZGF0YShwZGV2LCBrZXlwYWRfZGF0YSk7
+DQo+ICsNCj4gIAlyZXR1cm4gMDsNCj4gDQo+IC1lcnJfcG1fZGlzYWJsZToNCj4gLQlwbV9ydW50
+aW1lX2Rpc2FibGUoJnBkZXYtPmRldik7DQo+ICtlcnJfZnJlZV9pcnE6DQo+ICAJZnJlZV9pcnEo
+a2V5cGFkX2RhdGEtPmlycSwga2V5cGFkX2RhdGEpOw0KPiAgZXJyX2ZyZWVfa2V5bWFwOg0KPiAg
+CWtmcmVlKGtleXBhZF9kYXRhLT5rZXltYXApOw0KPiAgZXJyX2ZyZWVfaW5wdXQ6DQo+ICAJaW5w
+dXRfZnJlZV9kZXZpY2UoaW5wdXRfZGV2KTsNCj4gLWVycl9wbV9wdXRfc3luYzoNCj4gLQlwbV9y
+dW50aW1lX3B1dF9zeW5jKCZwZGV2LT5kZXYpOw0KPiAtZXJyX3VubWFwOg0KPiArZXJyX3BtX2Rp
+c2FibGU6DQo+ICsJcG1fcnVudGltZV9kaXNhYmxlKCZwZGV2LT5kZXYpOw0KPiAgCWlvdW5tYXAo
+a2V5cGFkX2RhdGEtPmJhc2UpOw0KPiAgZXJyX3JlbGVhc2VfbWVtOg0KPiAgCXJlbGVhc2VfbWVt
+X3JlZ2lvbihyZXMtPnN0YXJ0LCByZXNvdXJjZV9zaXplKHJlcykpOw0KPiANCj4gPiAgCXBsYXRm
+b3JtX3NldF9kcnZkYXRhKHBkZXYsIGtleXBhZF9kYXRhKTsNCj4gPiAgCXJldHVybiAwOw0KPiA+
+DQo+ID4gLWVycl9wbV9kaXNhYmxlOg0KPiA+IC0JcG1fcnVudGltZV9kaXNhYmxlKCZwZGV2LT5k
+ZXYpOw0KPiA+ICtlcnJfZnJlZV9pcnE6DQo+ID4gIAlmcmVlX2lycShrZXlwYWRfZGF0YS0+aXJx
+LCBrZXlwYWRfZGF0YSk7DQo+ID4gIGVycl9mcmVlX2tleW1hcDoNCj4gPiAgCWtmcmVlKGtleXBh
+ZF9kYXRhLT5rZXltYXApOw0KPiA+IEBAIC0zNzEsNiArMzcxLDcgQEAgc3RhdGljIGludCBvbWFw
+NF9rZXlwYWRfcHJvYmUoc3RydWN0DQo+ID4gcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiA+ICBl
+cnJfcG1fcHV0X3N5bmM6DQo+ID4gIAlwbV9ydW50aW1lX3B1dF9zeW5jKCZwZGV2LT5kZXYpOw0K
+PiA+ICBlcnJfdW5tYXA6DQo+ID4gKwlwbV9ydW50aW1lX2Rpc2FibGUoJnBkZXYtPmRldik7DQo+
+ID4gIAlpb3VubWFwKGtleXBhZF9kYXRhLT5iYXNlKTsNCj4gPiAgZXJyX3JlbGVhc2VfbWVtOg0K
+PiA+ICAJcmVsZWFzZV9tZW1fcmVnaW9uKHJlcy0+c3RhcnQsIHJlc291cmNlX3NpemUocmVzKSk7
+DQo+ID4gLS0NCj4gPiAyLjI1LjQNCj4gPg0KPiANCj4gVGhhbmtzLg0KPiANCj4gLS0NCj4gRG1p
+dHJ5DQo=
