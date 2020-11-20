@@ -2,194 +2,217 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B71482BAA26
-	for <lists+linux-input@lfdr.de>; Fri, 20 Nov 2020 13:32:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EDF042BAAE3
+	for <lists+linux-input@lfdr.de>; Fri, 20 Nov 2020 14:16:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725942AbgKTMcJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 Nov 2020 07:32:09 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:2379 "EHLO
-        szxga03-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727878AbgKTMcJ (ORCPT
+        id S1727015AbgKTNPD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 20 Nov 2020 08:15:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48802 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725801AbgKTNPC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 Nov 2020 07:32:09 -0500
-Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.53])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4CcwsB3vm1z55Qb
-        for <linux-input@vger.kernel.org>; Fri, 20 Nov 2020 20:31:42 +0800 (CST)
-Received: from dggema707-chm.china.huawei.com (10.3.20.71) by
- DGGEMM403-HUB.china.huawei.com (10.3.20.211) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Fri, 20 Nov 2020 20:32:03 +0800
-Received: from dggema755-chm.china.huawei.com (10.1.198.197) by
- dggema707-chm.china.huawei.com (10.3.20.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Fri, 20 Nov 2020 20:32:02 +0800
-Received: from dggema755-chm.china.huawei.com ([10.1.198.197]) by
- dggema755-chm.china.huawei.com ([10.1.198.197]) with mapi id 15.01.1913.007;
- Fri, 20 Nov 2020 20:32:02 +0800
-From:   zhangqilong <zhangqilong3@huawei.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: =?gb2312?B?tPC4tDogW1BBVENIXSBJbnB1dDogb21hcC1rZXlwYWQ6IEZpeCBlcnJvciBn?=
- =?gb2312?B?b3RvIGFuZCBoYW5kbGluZyBpbiBvbWFwNF9rZXlwYWRfcHJvYmU=?=
-Thread-Topic: [PATCH] Input: omap-keypad: Fix error goto and handling in
- omap4_keypad_probe
-Thread-Index: AQHWvw5Ymu9Pfp81J0ukrVT7E4jVbKnQ86zg
-Date:   Fri, 20 Nov 2020 12:32:02 +0000
-Message-ID: <741348a4b7384e6d8e8dfc50e30aacaf@huawei.com>
-References: <20201119070119.4174387-1-zhangqilong3@huawei.com>
- <20201120072539.GV2034289@dtor-ws>
-In-Reply-To: <20201120072539.GV2034289@dtor-ws>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.179.28]
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+        Fri, 20 Nov 2020 08:15:02 -0500
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC31DC0613CF;
+        Fri, 20 Nov 2020 05:15:02 -0800 (PST)
+Received: by mail-qt1-x842.google.com with SMTP id b16so6998357qtb.6;
+        Fri, 20 Nov 2020 05:15:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RJenwxuMJ3fHhAqhSb9DRcOy5ZgHFW9ardFwfPRGSio=;
+        b=TQ8tCR+3msq61mUjTsOCu2tEfQijzpFcbBd9E1FpvhBaLp/XmfKkMZiaDViqlX5D0P
+         nNWtgIrvltPSMTW56191BUeI1yzdMXB2i96sLgrT44WNuGk/Eol/ELUkCjt+bwcTAD9i
+         1YMmCOl4Xc9ZDyAz01WrV0T/CkwBN/1DlJrDws+kRVgf7oYLUoIE+DxGO0SlRXnxwD3p
+         IQCX+zRdH67nFAGkXefRbNX4IRnAzgA4tNrX5u/WDKnoKQn7xgoH9xzxCnpllCOeUIun
+         7DTaCeXhZUARG1NZjywcMYXOEww/zHBL2nm/1tFrOQY8/6zToAEQtXG20W/vUZ3lFGOW
+         Aifg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RJenwxuMJ3fHhAqhSb9DRcOy5ZgHFW9ardFwfPRGSio=;
+        b=SkSDalZ0L5dX1HeynnWS9H4rwhVQj+MGtf15wms3Hr8+GuX85uaj9o5vcd/E7LLt5z
+         xx6iQiSuYYaj5lTngp0DTpHbmm5TAT+6ZWY2an1+Y8wBAnOLSFcu/dyfnv5OgGZq8iao
+         H6/8zNqNVB2qAoNnOtYLKCKRTs9pqNGMznNJYOLnEys33Nsugajtu0pKYw/JBlR45vP6
+         FR8MTbxJJvFIJCXz/glN1kpjL7F5Uw3CcXhV/A4BYgfDFYI6mEZU345Q+UgzeSJV5tRL
+         Mua0pKnVcAbcqPmZ+PaVGXAb33NnqlNruZmCaZ6eUoFebQlc8GurFY78kPl17jIGW5/v
+         PyDw==
+X-Gm-Message-State: AOAM5333FfHqTFGyWGzI4bREf/AlZMLWcfedcrceBW3aJb35glXi19Fr
+        aug+zUBU4I6c6QAdDk+v2M+7X+pmMLG32bbzLZTCWFqQgqs=
+X-Google-Smtp-Source: ABdhPJw9f+0WPTBvR82J0tnwOZmunJ1poP5d26B+Q+WNv5jbC4SH8rIDenJemutiALLu1IXmymLF148sGh1AUI+/9IM=
+X-Received: by 2002:ac8:7a70:: with SMTP id w16mr15678577qtt.61.1605878101749;
+ Fri, 20 Nov 2020 05:15:01 -0800 (PST)
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+References: <20201120030103.36138-1-matt.ranostay@konsulko.com>
+In-Reply-To: <20201120030103.36138-1-matt.ranostay@konsulko.com>
+From:   rishi gupta <gupt21@gmail.com>
+Date:   Fri, 20 Nov 2020 18:44:49 +0530
+Message-ID: <CALUj-guTNWK9m-bwmkRC3st9VExhFkXPiUevXw_EA9xamR6BYA@mail.gmail.com>
+Subject: Re: [PATCH] HID: mcp2221: add ADC support
+To:     Matt Ranostay <matt.ranostay@konsulko.com>
+Cc:     linux-iio@vger.kernel.org,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-PiBIaSBaaGFuZywNCj4gDQo+IE9uIFRodSwgTm92IDE5LCAyMDIwIGF0IDAzOjAxOjE5UE0gKzA4
-MDAsIFpoYW5nIFFpbG9uZyB3cm90ZToNCj4gPiBJbiBvbWFwNF9rZXlwYWRfcHJvYmUsIHRoZSBw
-YXRjaCBmaXggc2V2ZXJhbCBidWdzLg0KPiA+DQo+ID4gICAxKSBwbV9ydW50aW1lX2dldF9zeW5j
-IHdpbGwgaW5jcmVtZW50IHBtIHVzYWdlIGNvdW50ZXIgZXZlbiBpdA0KPiA+ICAgICAgZmFpbGVk
-LiBGb3JnZXR0aW5nIHRvIHBtX3J1bnRpbWVfcHV0X25vaWRsZSB3aWxsIHJlc3VsdCBpbg0KPiA+
-ICAgICAgcmVmZXJlbmNlIGxlYWsuDQo+ID4NCj4gPiAgIDIpIEluIGVycl91bm1hcCwgZm9yZ2V0
-IHRvIGRpc2FibGUgcnVudGltZSBvZiBkZXZpY2UsDQo+ID4gICAgICBwbV9ydW50aW1lX2VuYWJs
-ZSB3aWxsIGluY3JlYXNlIHBvd2VyIGRpc2FibGUgZGVwdGguIFRodXMgYQ0KPiA+ICAgICAgcGFp
-cmluZyBkZWNyZW1lbnQgaXMgbmVlZGVkIG9uIHRoZSBlcnJvciBoYW5kbGluZyBwYXRoIHRvIGtl
-ZXANCj4gPiAgICAgIGl0IGJhbGFuY2VkLg0KPiA+DQo+ID4gICAzKSBJbiBlcnJfcG1fZGlzYWJs
-ZSwgaXQgd2lsbCBjYWxsIHBtX3J1bnRpbWVfcHV0X3N5bmMgdHdpY2Ugbm90DQo+ID4gICAgICBv
-bmUgdGltZS4NCj4gPg0KPiA+IEFuZCB3ZSBhZGQgdGhlIHBtX3J1bnRpbWVfcHV0X25vaWRsZSB3
-aGVuIHBtX3J1bnRpbWVfZ2V0X3N5bmMgZmFpbGVkDQo+ID4gZm9yIDEpLiBNb3ZlIHBtX3J1bnRp
-bWVfZGlzYWJsZSB0byB0aGUgZXJyX3VubWFwIGJyYW5jaCBmb3IgMikuIE1vdmUNCj4gPiB0aGUg
-aW5wdXRfcmVnaXN0ZXJfZGV2aWNlIGFoZWFkIGZvciAzKS4NCj4gPg0KPiA+IEZpeGVzOiBmNzc2
-MjFjYzY0MGE3ICgiSW5wdXQ6IG9tYXAta2V5cGFkIC0gZHluYW1pY2FsbHkgaGFuZGxlDQo+ID4g
-cmVnaXN0ZXIgb2Zmc2V0cyIpDQo+ID4gRml4ZXM6IDVhZDU2N2ZmYmFmMjAgKCJJbnB1dDogSW5w
-dXQ6IG9tYXA0LWtleXBhZCAtIHdpcmUgdXAgcnVudGltZSBQTQ0KPiA+IGhhbmRsaW5nIikNCj4g
-PiBTaWduZWQtb2ZmLWJ5OiBaaGFuZyBRaWxvbmcgPHpoYW5ncWlsb25nM0BodWF3ZWkuY29tPg0K
-PiA+IC0tLQ0KPiA+ICBkcml2ZXJzL2lucHV0L2tleWJvYXJkL29tYXA0LWtleXBhZC5jIHwgMTMg
-KysrKysrKy0tLS0tLQ0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCA2IGRl
-bGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvaW5wdXQva2V5Ym9hcmQv
-b21hcDQta2V5cGFkLmMNCj4gPiBiL2RyaXZlcnMvaW5wdXQva2V5Ym9hcmQvb21hcDQta2V5cGFk
-LmMNCj4gPiBpbmRleCBkNmM5MjQwMzJhYWEuLjE3YWJjODQzNGFmNSAxMDA2NDQNCj4gPiAtLS0g
-YS9kcml2ZXJzL2lucHV0L2tleWJvYXJkL29tYXA0LWtleXBhZC5jDQo+ID4gKysrIGIvZHJpdmVy
-cy9pbnB1dC9rZXlib2FyZC9vbWFwNC1rZXlwYWQuYw0KPiA+IEBAIC0yNzcsNiArMjc3LDcgQEAg
-c3RhdGljIGludCBvbWFwNF9rZXlwYWRfcHJvYmUoc3RydWN0DQo+IHBsYXRmb3JtX2RldmljZSAq
-cGRldikNCj4gPiAgCXBtX3J1bnRpbWVfZW5hYmxlKCZwZGV2LT5kZXYpOw0KPiA+ICAJZXJyb3Ig
-PSBwbV9ydW50aW1lX2dldF9zeW5jKCZwZGV2LT5kZXYpOw0KPiA+ICAJaWYgKGVycm9yKSB7DQo+
-ID4gKwkJcG1fcnVudGltZV9wdXRfbm9pZGxlKCZwZGV2LT5kZXYpOw0KPiA+ICAJCWRldl9lcnIo
-JnBkZXYtPmRldiwgInBtX3J1bnRpbWVfZ2V0X3N5bmMoKSBmYWlsZWRcbiIpOw0KPiA+ICAJCWdv
-dG8gZXJyX3VubWFwOw0KPiA+ICAJfQ0KPiA+IEBAIC0zNDksMjAgKzM1MCwxOSBAQCBzdGF0aWMg
-aW50IG9tYXA0X2tleXBhZF9wcm9iZShzdHJ1Y3QNCj4gcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0K
-PiA+ICAJCWdvdG8gZXJyX2ZyZWVfa2V5bWFwOw0KPiA+ICAJfQ0KPiA+DQo+ID4gLQlkZXZpY2Vf
-aW5pdF93YWtldXAoJnBkZXYtPmRldiwgdHJ1ZSk7DQo+ID4gLQlwbV9ydW50aW1lX3B1dF9zeW5j
-KCZwZGV2LT5kZXYpOw0KPiA+IC0NCj4gPiAgCWVycm9yID0gaW5wdXRfcmVnaXN0ZXJfZGV2aWNl
-KGtleXBhZF9kYXRhLT5pbnB1dCk7DQo+ID4gIAlpZiAoZXJyb3IgPCAwKSB7DQo+ID4gIAkJZGV2
-X2VycigmcGRldi0+ZGV2LCAiZmFpbGVkIHRvIHJlZ2lzdGVyIGlucHV0IGRldmljZVxuIik7DQo+
-ID4gLQkJZ290byBlcnJfcG1fZGlzYWJsZTsNCj4gPiArCQlnb3RvIGVycl9mcmVlX2lycTsNCj4g
-PiAgCX0NCj4gPg0KPiA+ICsJZGV2aWNlX2luaXRfd2FrZXVwKCZwZGV2LT5kZXYsIHRydWUpOw0K
-PiA+ICsJcG1fcnVudGltZV9wdXRfc3luYygmcGRldi0+ZGV2KTsNCj4gPiArDQo+IA0KPiBJIHRo
-aW5rIHlvdXIgcGF0Y2ggaXMgdGVjaG5pY2FsbHkgY29ycmVjdCwgYnV0IEkgd29uZGVyIGlmIHdl
-IHNob3VsZCBsaW1pdCBhcmVhIG9mDQo+IHdoZXJlIHdlIGhhdmUgZGV2aWNlJ3MgY2xvY2tzIGVu
-YWJsZWQgdG8gb25seSB3aGVyZSB3ZSBuZWVkIGl0LiBJLmUuDQo+IHNvbWV0aGluZyBsaWtlIHRo
-aXM6DQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9pbnB1dC9rZXlib2FyZC9vbWFwNC1rZXlw
-YWQuYw0KPiBiL2RyaXZlcnMvaW5wdXQva2V5Ym9hcmQvb21hcDQta2V5cGFkLmMNCj4gaW5kZXgg
-ZDZjOTI0MDMyYWFhLi40Y2E3NTRlOTU5NzggMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvaW5wdXQv
-a2V5Ym9hcmQvb21hcDQta2V5cGFkLmMNCj4gKysrIGIvZHJpdmVycy9pbnB1dC9rZXlib2FyZC9v
-bWFwNC1rZXlwYWQuYw0KPiBAQCAtMTg2LDEyICsxODYsOCBAQCBzdGF0aWMgaW50IG9tYXA0X2tl
-eXBhZF9vcGVuKHN0cnVjdCBpbnB1dF9kZXYNCj4gKmlucHV0KQ0KPiAgCXJldHVybiAwOw0KPiAg
-fQ0KPiANCj4gLXN0YXRpYyB2b2lkIG9tYXA0X2tleXBhZF9jbG9zZShzdHJ1Y3QgaW5wdXRfZGV2
-ICppbnB1dCkNCj4gK3N0YXRpYyB2b2lkIG9tYXA0X2tleXBhZF9zdG9wKHN0cnVjdCBvbWFwNF9r
-ZXlwYWQgKmtleXBhZF9kYXRhKQ0KPiAgew0KPiAtCXN0cnVjdCBvbWFwNF9rZXlwYWQgKmtleXBh
-ZF9kYXRhID0gaW5wdXRfZ2V0X2RydmRhdGEoaW5wdXQpOw0KPiAtDQo+IC0JZGlzYWJsZV9pcnEo
-a2V5cGFkX2RhdGEtPmlycSk7DQo+IC0NCj4gIAkvKiBEaXNhYmxlIGludGVycnVwdHMgYW5kIHdh
-a2UtdXAgZXZlbnRzICovDQo+ICAJa2JkX3dyaXRlX2lycXJlZyhrZXlwYWRfZGF0YSwgT01BUDRf
-S0JEX0lSUUVOQUJMRSwNCj4gIAkJCSBPTUFQNF9WQUxfSVJRRElTQUJMRSk7DQo+IEBAIC0yMDAs
-NyArMTk2LDE0IEBAIHN0YXRpYyB2b2lkIG9tYXA0X2tleXBhZF9jbG9zZShzdHJ1Y3QgaW5wdXRf
-ZGV2DQo+ICppbnB1dCkNCj4gIAkvKiBjbGVhciBwZW5kaW5nIGludGVycnVwdHMgKi8NCj4gIAlr
-YmRfd3JpdGVfaXJxcmVnKGtleXBhZF9kYXRhLCBPTUFQNF9LQkRfSVJRU1RBVFVTLA0KPiAgCQkJ
-IGtiZF9yZWFkX2lycXJlZyhrZXlwYWRfZGF0YSwgT01BUDRfS0JEX0lSUVNUQVRVUykpOw0KPiAr
-fQ0KPiANCj4gK3N0YXRpYyB2b2lkIG9tYXA0X2tleXBhZF9jbG9zZShzdHJ1Y3QgaW5wdXRfZGV2
-ICppbnB1dCkgew0KPiArCXN0cnVjdCBvbWFwNF9rZXlwYWQgKmtleXBhZF9kYXRhID0gaW5wdXRf
-Z2V0X2RydmRhdGEoaW5wdXQpOw0KPiArDQo+ICsJZGlzYWJsZV9pcnEoa2V5cGFkX2RhdGEtPmly
-cSk7DQo+ICsJb21hcDRfa2V5cGFkX3N0b3Aoa2V5cGFkX2RhdGEpOw0KPiAgCWVuYWJsZV9pcnEo
-a2V5cGFkX2RhdGEtPmlycSk7DQo+IA0KPiAgCXBtX3J1bnRpbWVfcHV0X3N5bmMoaW5wdXQtPmRl
-di5wYXJlbnQpOw0KPiBAQCAtMjIzLDEzICsyMjYsMzcgQEAgc3RhdGljIGludCBvbWFwNF9rZXlw
-YWRfcGFyc2VfZHQoc3RydWN0IGRldmljZQ0KPiAqZGV2LA0KPiAgCXJldHVybiAwOw0KPiAgfQ0K
-PiANCj4gK3N0YXRpYyBpbnQgb21hcDRfa2V5cGFkX2NoZWNrX3JldmlzaW9uKHN0cnVjdCBkZXZp
-Y2UgKmRldiwNCj4gKwkJCQkgICAgICAgc3RydWN0IG9tYXA0X2tleXBhZCAqa2V5cGFkX2RhdGEp
-IHsNCj4gKwl1bnNpZ25lZCBpbnQgcmV2Ow0KPiArDQo+ICsJcmV2ID0gX19yYXdfcmVhZGwoa2V5
-cGFkX2RhdGEtPmJhc2UgKyBPTUFQNF9LQkRfUkVWSVNJT04pOw0KPiArCXJldiAmPSAweDAzIDw8
-IDMwOw0KPiArCXJldiA+Pj0gMzA7DQo+ICsJc3dpdGNoIChyZXYpIHsNCj4gKwljYXNlIEtCRF9S
-RVZJU0lPTl9PTUFQNDoNCj4gKwkJa2V5cGFkX2RhdGEtPnJlZ19vZmZzZXQgPSAweDAwOw0KPiAr
-CQlrZXlwYWRfZGF0YS0+aXJxcmVnX29mZnNldCA9IDB4MDA7DQo+ICsJCWJyZWFrOw0KPiArCWNh
-c2UgS0JEX1JFVklTSU9OX09NQVA1Og0KPiArCQlrZXlwYWRfZGF0YS0+cmVnX29mZnNldCA9IDB4
-MTA7DQo+ICsJCWtleXBhZF9kYXRhLT5pcnFyZWdfb2Zmc2V0ID0gMHgwYzsNCj4gKwkJYnJlYWs7
-DQo+ICsJZGVmYXVsdDoNCj4gKwkJZGV2X2VycihkZXYsICJLZXlwYWQgcmVwb3J0cyB1bnN1cHBv
-cnRlZCByZXZpc2lvbiAlZCIsIHJldik7DQo+ICsJCXJldHVybiAtRUlOVkFMOw0KPiArCX0NCj4g
-Kw0KPiArCXJldHVybiAwOw0KPiArfQ0KPiArDQo+ICBzdGF0aWMgaW50IG9tYXA0X2tleXBhZF9w
-cm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KSAgew0KPiAgCXN0cnVjdCBvbWFwNF9r
-ZXlwYWQgKmtleXBhZF9kYXRhOw0KPiAgCXN0cnVjdCBpbnB1dF9kZXYgKmlucHV0X2RldjsNCj4g
-IAlzdHJ1Y3QgcmVzb3VyY2UgKnJlczsNCj4gIAl1bnNpZ25lZCBpbnQgbWF4X2tleXM7DQo+IC0J
-aW50IHJldjsNCj4gIAlpbnQgaXJxOw0KPiAgCWludCBlcnJvcjsNCj4gDQo+IEBAIC0yNjksNDEg
-KzI5NiwzMCBAQCBzdGF0aWMgaW50IG9tYXA0X2tleXBhZF9wcm9iZShzdHJ1Y3QNCj4gcGxhdGZv
-cm1fZGV2aWNlICpwZGV2KQ0KPiAgCQlnb3RvIGVycl9yZWxlYXNlX21lbTsNCj4gIAl9DQo+IA0K
-PiArCXBtX3J1bnRpbWVfZW5hYmxlKCZwZGV2LT5kZXYpOw0KPiANCj4gIAkvKg0KPiAgCSAqIEVu
-YWJsZSBjbG9ja3MgZm9yIHRoZSBrZXlwYWQgbW9kdWxlIHNvIHRoYXQgd2UgY2FuIHJlYWQNCj4g
-IAkgKiByZXZpc2lvbiByZWdpc3Rlci4NCj4gIAkgKi8NCj4gLQlwbV9ydW50aW1lX2VuYWJsZSgm
-cGRldi0+ZGV2KTsNCj4gIAllcnJvciA9IHBtX3J1bnRpbWVfZ2V0X3N5bmMoJnBkZXYtPmRldik7
-DQo+ICAJaWYgKGVycm9yKSB7DQo+ICAJCWRldl9lcnIoJnBkZXYtPmRldiwgInBtX3J1bnRpbWVf
-Z2V0X3N5bmMoKSBmYWlsZWRcbiIpOw0KPiAtCQlnb3RvIGVycl91bm1hcDsNCj4gLQl9DQo+IC0J
-cmV2ID0gX19yYXdfcmVhZGwoa2V5cGFkX2RhdGEtPmJhc2UgKyBPTUFQNF9LQkRfUkVWSVNJT04p
-Ow0KPiAtCXJldiAmPSAweDAzIDw8IDMwOw0KPiAtCXJldiA+Pj0gMzA7DQo+IC0Jc3dpdGNoIChy
-ZXYpIHsNCj4gLQljYXNlIEtCRF9SRVZJU0lPTl9PTUFQNDoNCj4gLQkJa2V5cGFkX2RhdGEtPnJl
-Z19vZmZzZXQgPSAweDAwOw0KPiAtCQlrZXlwYWRfZGF0YS0+aXJxcmVnX29mZnNldCA9IDB4MDA7
-DQo+IC0JCWJyZWFrOw0KPiAtCWNhc2UgS0JEX1JFVklTSU9OX09NQVA1Og0KPiAtCQlrZXlwYWRf
-ZGF0YS0+cmVnX29mZnNldCA9IDB4MTA7DQo+IC0JCWtleXBhZF9kYXRhLT5pcnFyZWdfb2Zmc2V0
-ID0gMHgwYzsNCj4gLQkJYnJlYWs7DQo+IC0JZGVmYXVsdDoNCj4gLQkJZGV2X2VycigmcGRldi0+
-ZGV2LA0KPiAtCQkJIktleXBhZCByZXBvcnRzIHVuc3VwcG9ydGVkIHJldmlzaW9uICVkIiwgcmV2
-KTsNCj4gLQkJZXJyb3IgPSAtRUlOVkFMOw0KPiAtCQlnb3RvIGVycl9wbV9wdXRfc3luYzsNCj4g
-KwkJcG1fcnVudGltZV9wdXRfbm9pZGxlKCZwZGV2LT5kZXYpOw0KDQpJIHRoaW5rIGl0J3MgT0ss
-IHRoYXQgaXMgbW9yZSBjbGVhcmx5LCBoZXJlIGl0IHNob3VsZCBnb3RvIGVycl9wbV9kaXNhYmxl
-ID8NCg0KVGhhbmtzLA0KWmhhbmcNCg0KPiArCX0gZWxzZSB7DQo+ICsJCWVycm9yID0gb21hcDRf
-a2V5cGFkX2NoZWNrX3JldmlzaW9uKCZwZGV2LT5kZXYsIGtleXBhZF9kYXRhKTsNCj4gKwkJaWYg
-KCFlcnJvcikgew0KPiArCQkJLyogRW5zdXJlIGRldmljZSBkb2VzIG5vdCByYWlzZSBpbnRlcnJ1
-cHRzICovDQo+ICsJCQlvbWFwNF9rZXlwYWRfc3RvcChrZXlwYWRfZGF0YSk7DQo+ICsJCX0NCj4g
-KwkJcG1fcnVudGltZV9wdXRfc3luYygmcGRldi0+ZGV2KTsNCj4gIAl9DQo+IA0KPiAgCS8qIGlu
-cHV0IGRldmljZSBhbGxvY2F0aW9uICovDQo+ICAJa2V5cGFkX2RhdGEtPmlucHV0ID0gaW5wdXRf
-ZGV2ID0gaW5wdXRfYWxsb2NhdGVfZGV2aWNlKCk7DQo+ICAJaWYgKCFpbnB1dF9kZXYpIHsNCj4g
-IAkJZXJyb3IgPSAtRU5PTUVNOw0KPiAtCQlnb3RvIGVycl9wbV9wdXRfc3luYzsNCj4gKwkJZ290
-byBlcnJfcG1fZGlzYWJsZTsNCj4gIAl9DQo+IA0KPiAgCWlucHV0X2Rldi0+bmFtZSA9IHBkZXYt
-Pm5hbWU7DQo+IEBAIC0zNDksMjggKzM2NSwyNSBAQCBzdGF0aWMgaW50IG9tYXA0X2tleXBhZF9w
-cm9iZShzdHJ1Y3QNCj4gcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiAgCQlnb3RvIGVycl9mcmVl
-X2tleW1hcDsNCj4gIAl9DQo+IA0KPiAtCWRldmljZV9pbml0X3dha2V1cCgmcGRldi0+ZGV2LCB0
-cnVlKTsNCj4gLQlwbV9ydW50aW1lX3B1dF9zeW5jKCZwZGV2LT5kZXYpOw0KPiAtDQo+ICAJZXJy
-b3IgPSBpbnB1dF9yZWdpc3Rlcl9kZXZpY2Uoa2V5cGFkX2RhdGEtPmlucHV0KTsNCj4gIAlpZiAo
-ZXJyb3IgPCAwKSB7DQo+ICAJCWRldl9lcnIoJnBkZXYtPmRldiwgImZhaWxlZCB0byByZWdpc3Rl
-ciBpbnB1dCBkZXZpY2VcbiIpOw0KPiAtCQlnb3RvIGVycl9wbV9kaXNhYmxlOw0KPiArCQlnb3Rv
-IGVycl9mcmVlX2lycTsNCj4gIAl9DQo+IA0KPiArCWRldmljZV9pbml0X3dha2V1cCgmcGRldi0+
-ZGV2LCB0cnVlKTsNCj4gIAlwbGF0Zm9ybV9zZXRfZHJ2ZGF0YShwZGV2LCBrZXlwYWRfZGF0YSk7
-DQo+ICsNCj4gIAlyZXR1cm4gMDsNCj4gDQo+IC1lcnJfcG1fZGlzYWJsZToNCj4gLQlwbV9ydW50
-aW1lX2Rpc2FibGUoJnBkZXYtPmRldik7DQo+ICtlcnJfZnJlZV9pcnE6DQo+ICAJZnJlZV9pcnEo
-a2V5cGFkX2RhdGEtPmlycSwga2V5cGFkX2RhdGEpOw0KPiAgZXJyX2ZyZWVfa2V5bWFwOg0KPiAg
-CWtmcmVlKGtleXBhZF9kYXRhLT5rZXltYXApOw0KPiAgZXJyX2ZyZWVfaW5wdXQ6DQo+ICAJaW5w
-dXRfZnJlZV9kZXZpY2UoaW5wdXRfZGV2KTsNCj4gLWVycl9wbV9wdXRfc3luYzoNCj4gLQlwbV9y
-dW50aW1lX3B1dF9zeW5jKCZwZGV2LT5kZXYpOw0KPiAtZXJyX3VubWFwOg0KPiArZXJyX3BtX2Rp
-c2FibGU6DQo+ICsJcG1fcnVudGltZV9kaXNhYmxlKCZwZGV2LT5kZXYpOw0KPiAgCWlvdW5tYXAo
-a2V5cGFkX2RhdGEtPmJhc2UpOw0KPiAgZXJyX3JlbGVhc2VfbWVtOg0KPiAgCXJlbGVhc2VfbWVt
-X3JlZ2lvbihyZXMtPnN0YXJ0LCByZXNvdXJjZV9zaXplKHJlcykpOw0KPiANCj4gPiAgCXBsYXRm
-b3JtX3NldF9kcnZkYXRhKHBkZXYsIGtleXBhZF9kYXRhKTsNCj4gPiAgCXJldHVybiAwOw0KPiA+
-DQo+ID4gLWVycl9wbV9kaXNhYmxlOg0KPiA+IC0JcG1fcnVudGltZV9kaXNhYmxlKCZwZGV2LT5k
-ZXYpOw0KPiA+ICtlcnJfZnJlZV9pcnE6DQo+ID4gIAlmcmVlX2lycShrZXlwYWRfZGF0YS0+aXJx
-LCBrZXlwYWRfZGF0YSk7DQo+ID4gIGVycl9mcmVlX2tleW1hcDoNCj4gPiAgCWtmcmVlKGtleXBh
-ZF9kYXRhLT5rZXltYXApOw0KPiA+IEBAIC0zNzEsNiArMzcxLDcgQEAgc3RhdGljIGludCBvbWFw
-NF9rZXlwYWRfcHJvYmUoc3RydWN0DQo+ID4gcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiA+ICBl
-cnJfcG1fcHV0X3N5bmM6DQo+ID4gIAlwbV9ydW50aW1lX3B1dF9zeW5jKCZwZGV2LT5kZXYpOw0K
-PiA+ICBlcnJfdW5tYXA6DQo+ID4gKwlwbV9ydW50aW1lX2Rpc2FibGUoJnBkZXYtPmRldik7DQo+
-ID4gIAlpb3VubWFwKGtleXBhZF9kYXRhLT5iYXNlKTsNCj4gPiAgZXJyX3JlbGVhc2VfbWVtOg0K
-PiA+ICAJcmVsZWFzZV9tZW1fcmVnaW9uKHJlcy0+c3RhcnQsIHJlc291cmNlX3NpemUocmVzKSk7
-DQo+ID4gLS0NCj4gPiAyLjI1LjQNCj4gPg0KPiANCj4gVGhhbmtzLg0KPiANCj4gLS0NCj4gRG1p
-dHJ5DQo=
+On Fri, Nov 20, 2020 at 8:31 AM Matt Ranostay
+<matt.ranostay@konsulko.com> wrote:
+>
+> Add support for the three 10-bit ADC channels registered via
+> the IIO subsystem.
+>
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-iio@vger.kernel.org
+> CC: Rishi Gupta <gupt21@gmail.com>
+> Signed-off-by: Matt Ranostay <matt.ranostay@konsulko.com>
+> ---
+>  drivers/hid/Kconfig       |  1 +
+>  drivers/hid/hid-mcp2221.c | 65 ++++++++++++++++++++++++++++++++++++++-
+>  2 files changed, 65 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+> index 05315b434276..4795744d9979 100644
+> --- a/drivers/hid/Kconfig
+> +++ b/drivers/hid/Kconfig
+> @@ -1157,6 +1157,7 @@ config HID_MCP2221
+>         tristate "Microchip MCP2221 HID USB-to-I2C/SMbus host support"
+>         depends on USB_HID && I2C
+>         depends on GPIOLIB
+> +       depends on IIO
+I am wondering what will happen on systems which do not enable IIO.
+This driver can not be used there.
+Is my understanding correct?
+>         help
+>         Provides I2C and SMBUS host adapter functionality over USB-HID
+>         through MCP2221 device.
+> diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
+> index 0d27ccb55dd9..7e62f1dc54d3 100644
+> --- a/drivers/hid/hid-mcp2221.c
+> +++ b/drivers/hid/hid-mcp2221.c
+> @@ -18,6 +18,9 @@
+>  #include <linux/gpio/driver.h>
+>  #include "hid-ids.h"
+>
+> +#include <linux/iio/iio.h>
+> +#include <linux/iio/sysfs.h>
+> +
+>  /* Commands codes in a raw output report */
+>  enum {
+>         MCP2221_I2C_WR_DATA = 0x90,
+> @@ -56,6 +59,7 @@ enum {
+>   */
+>  struct mcp2221 {
+>         struct hid_device *hdev;
+> +       struct iio_dev *indio_dev;
+>         struct i2c_adapter adapter;
+>         struct mutex lock;
+>         struct completion wait_in_report;
+> @@ -67,6 +71,11 @@ struct mcp2221 {
+>         struct gpio_chip *gc;
+>         u8 gp_idx;
+>         u8 gpio_dir;
+> +       u16 adc_values[3];
+> +};
+> +
+> +struct mcp2221_iio {
+> +       struct mcp2221 *mcp;
+>  };
+>
+>  /*
+> @@ -712,6 +721,7 @@ static int mcp2221_raw_event(struct hid_device *hdev,
+>                                 break;
+>                         }
+>                         mcp->status = mcp_get_i2c_eng_state(mcp, data, 8);
+> +                       memcpy(&mcp->adc_values, &data[50], 6);
+>                         break;
+>                 default:
+>                         mcp->status = -EIO;
+> @@ -791,11 +801,54 @@ static int mcp2221_raw_event(struct hid_device *hdev,
+>         return 1;
+>  }
+>
+> +static int mcp2221_read_raw(struct iio_dev *indio_dev,
+> +                           struct iio_chan_spec const *channel, int *val,
+> +                           int *val2, long mask)
+> +{
+> +
+> +       struct mcp2221_iio *priv = iio_priv(indio_dev);
+> +       struct mcp2221 *mcp = priv->mcp;
+> +       int ret;
+> +
+> +       mutex_lock(&mcp->lock);
+> +
+> +       /* Read ADC values */
+> +       ret = mcp_chk_last_cmd_status(mcp);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       *val = le16_to_cpu(mcp->adc_values[channel->channel]);
+> +
+> +       mutex_unlock(&mcp->lock);
+> +
+> +       return IIO_VAL_INT;
+> +}
+> +
+> +static const struct iio_info mcp2221_info = {
+> +       .read_raw = &mcp2221_read_raw,
+> +};
+> +
+> +#define MCP2221_ADC_CHANNEL(idx) \
+> +       { \
+> +               .type = IIO_VOLTAGE, \
+> +               .indexed = 1, \
+> +               .channel = idx, \
+> +               .info_mask_separate = BIT(IIO_CHAN_INFO_RAW), \
+> +               .scan_index = -1, \
+> +       }
+> +
+> +static const struct iio_chan_spec mcp2221_channels[] = {
+> +       MCP2221_ADC_CHANNEL(0),
+> +       MCP2221_ADC_CHANNEL(1),
+> +       MCP2221_ADC_CHANNEL(2),
+> +};
+> +
+>  static int mcp2221_probe(struct hid_device *hdev,
+>                                         const struct hid_device_id *id)
+>  {
+>         int ret;
+>         struct mcp2221 *mcp;
+> +       struct mcp2221_iio *iio;
+>
+>         mcp = devm_kzalloc(&hdev->dev, sizeof(*mcp), GFP_KERNEL);
+>         if (!mcp)
+> @@ -869,8 +922,17 @@ static int mcp2221_probe(struct hid_device *hdev,
+>         if (ret)
+>                 goto err_gc;
+>
+> -       return 0;
+> +       mcp->indio_dev = devm_iio_device_alloc(&hdev->dev, sizeof(*iio));
+> +       iio = iio_priv(mcp->indio_dev);
+> +       iio->mcp = mcp;
+> +
+> +       mcp->indio_dev->name = "mcp2221_adc";
+> +       mcp->indio_dev->modes = INDIO_DIRECT_MODE;
+> +       mcp->indio_dev->info = &mcp2221_info;
+> +       mcp->indio_dev->channels = mcp2221_channels;
+> +       mcp->indio_dev->num_channels = ARRAY_SIZE(mcp2221_channels);
+>
+> +       return iio_device_register(mcp->indio_dev);
+>  err_gc:
+>         i2c_del_adapter(&mcp->adapter);
+>  err_i2c:
+> @@ -884,6 +946,7 @@ static void mcp2221_remove(struct hid_device *hdev)
+>  {
+>         struct mcp2221 *mcp = hid_get_drvdata(hdev);
+>
+> +       iio_device_unregister(mcp->indio_dev);
+>         i2c_del_adapter(&mcp->adapter);
+>         hid_hw_close(mcp->hdev);
+>         hid_hw_stop(mcp->hdev);
+> --
+> 2.20.1
+>
