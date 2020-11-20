@@ -2,136 +2,312 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 610942BA2E2
-	for <lists+linux-input@lfdr.de>; Fri, 20 Nov 2020 08:18:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC1142BA324
+	for <lists+linux-input@lfdr.de>; Fri, 20 Nov 2020 08:26:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726321AbgKTHRZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 20 Nov 2020 02:17:25 -0500
-Received: from mail-eopbgr150083.outbound.protection.outlook.com ([40.107.15.83]:19824
-        "EHLO EUR01-DB5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725768AbgKTHRZ (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 20 Nov 2020 02:17:25 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gBwfYk7gM7bcvusBS9wU+q96TIxtxPI9k7SfFnTm8x6C0XHh54ExWCLcNXNF8wYZ2dHZBzpdpJFZOu5hgjcGIGEf7932XBtiKTUoENmmh0MX0DE2cQxtfkPDQjxFhNFOx78E548UUW56lnUyRYaQtt8DAheJDrtb6y77P1SNR+Jy7xz1VBwYv2dJ1KH2tuNy12OfqmGZYh/X1CU8vBZ6glX/0PP09O1o17ZduoID9T/caqm4vKDdW7H5krF2HcpuCzAtcMaJrEnwlaYXJFgsq6MXV+DEbSmEbAoOWh7suBw6cKuXHr3KmcK/y7UILX6dbE625tqv24QmAUeVu7rMRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=swfXi/ncLH6KAZX3yUbIUlXlZSOVZ2hVNIk7iNXXC5s=;
- b=erVSpU3yVTqIAoF+DezeKVqL2OEES1KUgLSxPruVXzpXJWPhEeEN1QsO6lLAlE+WAWjJ8VdKWt8SNJBB/le/LI9irA+mpmXs3V8k01Opg5C+6i6efy9Jx1aq6Tl8DJ+tIQkvjrwbyfAAznMvfd4+KtLGhcHbArileY8rCEU+qxK6aWG2QCwAtuiDnSZfx98GUcNWHMCsThNXuTz3YJs5zkjrHklHIkcqwSUoYjz4RJJ7i/Rs6ssFQEKfGdCeDknyTLsxISPLwPYlvy8K5R8xN9LSdVAIsYsE4MxmVaTtxvQ6c8+7tEgXED6Mb6UFjPU97zagFE0Rzm/ljFI9Y4n5OA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
+        id S1726334AbgKTHZn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 20 Nov 2020 02:25:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51084 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725768AbgKTHZn (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 20 Nov 2020 02:25:43 -0500
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8625C0613CF
+        for <linux-input@vger.kernel.org>; Thu, 19 Nov 2020 23:25:42 -0800 (PST)
+Received: by mail-pf1-x443.google.com with SMTP id b63so7000405pfg.12
+        for <linux-input@vger.kernel.org>; Thu, 19 Nov 2020 23:25:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=siemens.onmicrosoft.com; s=selector1-siemens-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=swfXi/ncLH6KAZX3yUbIUlXlZSOVZ2hVNIk7iNXXC5s=;
- b=RrCoOM9cCraE/6pD5m7MPpj3jgwSf6qNW1evqgzHYscK73c0tHiFdavyMQfOFWyeAUzgNZFmnwp2fsjI3LpEaFUZJAXLtlf08cQ5kxony4dqzw2aSd48/jrRHXsYVpGHor3tH+xmbBKSPDBXqUPJDrCsSIZdDQO5nJyTofZSPcc=
-Received: from AM0PR10MB3971.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:144::20)
- by AM9PR10MB4182.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:1cc::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.22; Fri, 20 Nov
- 2020 07:17:20 +0000
-Received: from AM0PR10MB3971.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::c806:d3c3:3a93:ac47]) by AM0PR10MB3971.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::c806:d3c3:3a93:ac47%4]) with mapi id 15.20.3564.028; Fri, 20 Nov 2020
- 07:17:20 +0000
-From:   "Valek, Andrej" <andrej.valek@siemens.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "kbuild-all@lists.01.org" <kbuild-all@lists.01.org>
-Subject: RE: [PATCH v2] Input: st1232 - add support resolution reading
-Thread-Topic: [PATCH v2] Input: st1232 - add support resolution reading
-Thread-Index: AQHWuJausQ675DfOyEKCxRf7capNnKnEJVGAgAyDAQA=
-Date:   Fri, 20 Nov 2020 07:17:20 +0000
-Message-ID: <AM0PR10MB3971222411966A87E29A9F5C92FF0@AM0PR10MB3971.EURPRD10.PROD.OUTLOOK.COM>
-References: <202011030200.dKK6cKCM-lkp@intel.com>
- <20201103073949.12198-1-andrej.valek@siemens.com>
- <20201112015348.GD1003057@dtor-ws>
- <DB8PR10MB3977BDD73A260EE7999DD76892E70@DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <DB8PR10MB3977BDD73A260EE7999DD76892E70@DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Enabled=true;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_SetDate=2020-11-20T07:17:17Z;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Method=Standard;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Name=restricted-default;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_ActionId=8687f37a-1984-451f-bf2b-f32752f66bf7;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_ContentBits=0
-document_confidentiality: Restricted
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=siemens.com;
-x-originating-ip: [165.225.200.172]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: c9c5438f-5f57-4cad-5edb-08d88d2451bb
-x-ms-traffictypediagnostic: AM9PR10MB4182:
-x-microsoft-antispam-prvs: <AM9PR10MB4182315E788D7E29384DFCD892FF0@AM9PR10MB4182.EURPRD10.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Aj7BcEoco1zzX1D2R3TITY/RCDpJj20CWd626/U8syv84PQOxCLOpqEhhH/p3Hd1bgRglt0Y3CkaT87rayO7lt+gNAWX3HBmt3k3UHHKjDrHrRzW0GkZWS6Ujx23H5Cb5r80HIN7rbEG3Jo98e5UQt0DB+0Kc+2eE3YvX5/tcdhTecuosDSJJtJCOsFx4k31oVG3bJFf6hwtkOVJ38Cx+uAWSHTBqsl8SJw8xmoWHT+W1/iV0p/LnBM9luGQTykqYWATi9iPtB26TBqD78PCtK6DhYuFFkVioDSkFwBdX47YitlkF6ljFMgR+OHK5ECgfjYhBK1CZEfNqpdErHHm/w==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR10MB3971.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(346002)(396003)(136003)(376002)(39860400002)(366004)(76116006)(6916009)(55236004)(53546011)(83380400001)(7696005)(6506007)(64756008)(54906003)(8936002)(8676002)(478600001)(2906002)(66446008)(71200400001)(66556008)(26005)(52536014)(86362001)(33656002)(186003)(5660300002)(66476007)(66946007)(9686003)(316002)(4326008)(55016002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: o4ydcNpyHOu7so55W87F8dVk3NLKA1Th73jRL1/JOlSNY70jeGzk3JV1x9nyPjCdb9+lgZ1de1wS98esY2na496QppcEeEitfnJOn4Gud/4oQzHHCaXTiM3xpSa5HUhaTMFXy1ztnvAugwhrI5ljJuhNu3F3sP0bf5nEU5N7tNaktvFDfPt4Nv0Fheis4HwtyLNhdCjVoa0Rj0/xElu7BQoNj0dH+6QRzuyRe9PsnG+dEvOducQXaCv/62i4B/pikJjc1PiYXZuxGUGKjb97TynxxN5mzx56cg0SMgPHuygbICr7iLLitzuBntf/rSmj27xOUG0diGJfCgz8fw3C45Y6hdxgpZMGCQs+4cJHDjd1WJcPnp3x8B6nuCbN8ZDgkmL7n6Quz0WFI8k4lUWrIu8vRqRUZsTxRLzZGtk3SMgdBSWOEqcCXeFtROG+5bCor4EhcVl8RcPGPF88DsGGhCQyMvnho4vb8SZhp0SIPMoXOxVLwbzn+lQUePxk7zdUJGmQO524zygl2VW89SeQr57mBvmZ2YVmGKaCIRxEoLPy9O+YtZVg+JQ5Ivslajg5Vk7PpxnwnOK0Gg1X2etmRh9MPRqrfUg8vhRdsZVjmzGrlSL4EExJPGqj17jl3++WzvthQptGEqVF/c9D9/aETg==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=1NIHxbi5eN0Dg9dFeuUeDv/w7VQXUKrWk3uXK00RFA4=;
+        b=a7/79FPqpFZj+9TtJK8jbUeEfM+pto4H81MJHKFFM5CBqysOPaqym8rizD8SeTiSWz
+         dVWzFjOj9i4DArThzgtkK84zParFYLOHIif9ngsz0+ruogWVD9m4T3EMMM/Ldo5Cd+RX
+         2Ymx8gBNu64vFfSTUotTKQ7IYLHM2K9NAZTYNvBCa4rcgcj6FKyrtGbdXF6kOUTXLaV0
+         M7g9y8sohUbQ+b2ZeAg7cxobW336Kve2Jb2u+N1fp0JZ+rOu7cTdOf16KPE49urqZyo2
+         k28aCkBLezgYaz3y+c6lWV4+BhporRHSzC57KV2CAeFYlokYMfyP3qZbI+RBJP5+gc2w
+         o7Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=1NIHxbi5eN0Dg9dFeuUeDv/w7VQXUKrWk3uXK00RFA4=;
+        b=NbWaBtbGFyFfkARaVR67HOUaPRikRmSDGHTaH9JemAHnK2aqAGgKL6iMA0vNcV1nmD
+         vRxljS6q5FQzjygqF6kBPimjvN2BghVfWM1eS7FPwR+kwn0ImrdxfpF8Xfe8qoW4MK8U
+         M5hjZYCS8P/MJXxzNU9CQB5SywvD/hJM1pkuCW0cDY+h96OojvsbeHfP+Y9vk0R5PGi3
+         y9pLcWmFayrH5UZ4Ke5bu0YEjJdFZ3cBKR28AK5EculWeP+8l2C10dMNxdPzd7LX7Xes
+         hFkNBb423C2Ud35oNVvuMX8bYTRMwf2pcWGSUlnCSm2RqzxaMXnKS73u/xMCPEWZQ8wp
+         XkvQ==
+X-Gm-Message-State: AOAM533Py2CclVEYUwBzOyxljNePYzawLnHzJCM2ovllsS2i6MuQ8QQW
+        AMfP9TcP927fAcMyz9hrkL4=
+X-Google-Smtp-Source: ABdhPJzC4yRMg8wNNn4qurl4wr+ifWZ5n0KslQnYtmGSiYkmr6ckyvbe38T44o6980C7jOldbxhijQ==
+X-Received: by 2002:a17:90b:8c:: with SMTP id bb12mr8192056pjb.133.1605857142388;
+        Thu, 19 Nov 2020 23:25:42 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id e6sm2388535pfn.190.2020.11.19.23.25.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Nov 2020 23:25:41 -0800 (PST)
+Date:   Thu, 19 Nov 2020 23:25:39 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Zhang Qilong <zhangqilong3@huawei.com>
+Cc:     linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: omap-keypad: Fix error goto and handling in
+ omap4_keypad_probe
+Message-ID: <20201120072539.GV2034289@dtor-ws>
+References: <20201119070119.4174387-1-zhangqilong3@huawei.com>
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR10MB3971.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: c9c5438f-5f57-4cad-5edb-08d88d2451bb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Nov 2020 07:17:20.2050
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: X28OLDxmo/XsJP38xmW5xDUFq0gr6i0QJONORgwUw+bLj448wG2RJ8F74b0cDsfQM3w3o6hsFi9D4ohC2WFxboA/p4AgcuHTO+kPUu+rolo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR10MB4182
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201119070119.4174387-1-zhangqilong3@huawei.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello again Dimitry,
+Hi Zhang,
 
-I haven't received any response yet, so I will ask again.
+On Thu, Nov 19, 2020 at 03:01:19PM +0800, Zhang Qilong wrote:
+> In omap4_keypad_probe, the patch fix several bugs.
+> 
+>   1) pm_runtime_get_sync will increment pm usage counter even it
+>      failed. Forgetting to pm_runtime_put_noidle will result in
+>      reference leak.
+> 
+>   2) In err_unmap, forget to disable runtime of device,
+>      pm_runtime_enable will increase power disable depth. Thus a
+>      pairing decrement is needed on the error handling path to keep
+>      it balanced.
+> 
+>   3) In err_pm_disable, it will call pm_runtime_put_sync twice not
+>      one time.
+> 
+> And we add the pm_runtime_put_noidle when pm_runtime_get_sync failed
+> for 1). Move pm_runtime_disable to the err_unmap branch for 2). Move
+> the input_register_device ahead for 3).
+> 
+> Fixes: f77621cc640a7 ("Input: omap-keypad - dynamically handle register offsets")
+> Fixes: 5ad567ffbaf20 ("Input: Input: omap4-keypad - wire up runtime PM handling")
+> Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
+> ---
+>  drivers/input/keyboard/omap4-keypad.c | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/input/keyboard/omap4-keypad.c b/drivers/input/keyboard/omap4-keypad.c
+> index d6c924032aaa..17abc8434af5 100644
+> --- a/drivers/input/keyboard/omap4-keypad.c
+> +++ b/drivers/input/keyboard/omap4-keypad.c
+> @@ -277,6 +277,7 @@ static int omap4_keypad_probe(struct platform_device *pdev)
+>  	pm_runtime_enable(&pdev->dev);
+>  	error = pm_runtime_get_sync(&pdev->dev);
+>  	if (error) {
+> +		pm_runtime_put_noidle(&pdev->dev);
+>  		dev_err(&pdev->dev, "pm_runtime_get_sync() failed\n");
+>  		goto err_unmap;
+>  	}
+> @@ -349,20 +350,19 @@ static int omap4_keypad_probe(struct platform_device *pdev)
+>  		goto err_free_keymap;
+>  	}
+>  
+> -	device_init_wakeup(&pdev->dev, true);
+> -	pm_runtime_put_sync(&pdev->dev);
+> -
+>  	error = input_register_device(keypad_data->input);
+>  	if (error < 0) {
+>  		dev_err(&pdev->dev, "failed to register input device\n");
+> -		goto err_pm_disable;
+> +		goto err_free_irq;
+>  	}
+>  
+> +	device_init_wakeup(&pdev->dev, true);
+> +	pm_runtime_put_sync(&pdev->dev);
+> +
 
-I would like to know, the current status about my other patches for goodix =
-and atmel input.
-Are there any problems, or what I have to do, to be applied?
+I think your patch is technically correct, but I wonder if we should
+limit area of where we have device's clocks enabled to only where we
+need it. I.e. something like this:
 
-Thanks,
-Andrej
+diff --git a/drivers/input/keyboard/omap4-keypad.c b/drivers/input/keyboard/omap4-keypad.c
+index d6c924032aaa..4ca754e95978 100644
+--- a/drivers/input/keyboard/omap4-keypad.c
++++ b/drivers/input/keyboard/omap4-keypad.c
+@@ -186,12 +186,8 @@ static int omap4_keypad_open(struct input_dev *input)
+ 	return 0;
+ }
+ 
+-static void omap4_keypad_close(struct input_dev *input)
++static void omap4_keypad_stop(struct omap4_keypad *keypad_data)
+ {
+-	struct omap4_keypad *keypad_data = input_get_drvdata(input);
+-
+-	disable_irq(keypad_data->irq);
+-
+ 	/* Disable interrupts and wake-up events */
+ 	kbd_write_irqreg(keypad_data, OMAP4_KBD_IRQENABLE,
+ 			 OMAP4_VAL_IRQDISABLE);
+@@ -200,7 +196,14 @@ static void omap4_keypad_close(struct input_dev *input)
+ 	/* clear pending interrupts */
+ 	kbd_write_irqreg(keypad_data, OMAP4_KBD_IRQSTATUS,
+ 			 kbd_read_irqreg(keypad_data, OMAP4_KBD_IRQSTATUS));
++}
+ 
++static void omap4_keypad_close(struct input_dev *input)
++{
++	struct omap4_keypad *keypad_data = input_get_drvdata(input);
++
++	disable_irq(keypad_data->irq);
++	omap4_keypad_stop(keypad_data);
+ 	enable_irq(keypad_data->irq);
+ 
+ 	pm_runtime_put_sync(input->dev.parent);
+@@ -223,13 +226,37 @@ static int omap4_keypad_parse_dt(struct device *dev,
+ 	return 0;
+ }
+ 
++static int omap4_keypad_check_revision(struct device *dev,
++				       struct omap4_keypad *keypad_data)
++{
++	unsigned int rev;
++
++	rev = __raw_readl(keypad_data->base + OMAP4_KBD_REVISION);
++	rev &= 0x03 << 30;
++	rev >>= 30;
++	switch (rev) {
++	case KBD_REVISION_OMAP4:
++		keypad_data->reg_offset = 0x00;
++		keypad_data->irqreg_offset = 0x00;
++		break;
++	case KBD_REVISION_OMAP5:
++		keypad_data->reg_offset = 0x10;
++		keypad_data->irqreg_offset = 0x0c;
++		break;
++	default:
++		dev_err(dev, "Keypad reports unsupported revision %d", rev);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ static int omap4_keypad_probe(struct platform_device *pdev)
+ {
+ 	struct omap4_keypad *keypad_data;
+ 	struct input_dev *input_dev;
+ 	struct resource *res;
+ 	unsigned int max_keys;
+-	int rev;
+ 	int irq;
+ 	int error;
+ 
+@@ -269,41 +296,30 @@ static int omap4_keypad_probe(struct platform_device *pdev)
+ 		goto err_release_mem;
+ 	}
+ 
++	pm_runtime_enable(&pdev->dev);
+ 
+ 	/*
+ 	 * Enable clocks for the keypad module so that we can read
+ 	 * revision register.
+ 	 */
+-	pm_runtime_enable(&pdev->dev);
+ 	error = pm_runtime_get_sync(&pdev->dev);
+ 	if (error) {
+ 		dev_err(&pdev->dev, "pm_runtime_get_sync() failed\n");
+-		goto err_unmap;
+-	}
+-	rev = __raw_readl(keypad_data->base + OMAP4_KBD_REVISION);
+-	rev &= 0x03 << 30;
+-	rev >>= 30;
+-	switch (rev) {
+-	case KBD_REVISION_OMAP4:
+-		keypad_data->reg_offset = 0x00;
+-		keypad_data->irqreg_offset = 0x00;
+-		break;
+-	case KBD_REVISION_OMAP5:
+-		keypad_data->reg_offset = 0x10;
+-		keypad_data->irqreg_offset = 0x0c;
+-		break;
+-	default:
+-		dev_err(&pdev->dev,
+-			"Keypad reports unsupported revision %d", rev);
+-		error = -EINVAL;
+-		goto err_pm_put_sync;
++		pm_runtime_put_noidle(&pdev->dev);
++	} else {
++		error = omap4_keypad_check_revision(&pdev->dev, keypad_data);
++		if (!error) {
++			/* Ensure device does not raise interrupts */
++			omap4_keypad_stop(keypad_data);
++		}
++		pm_runtime_put_sync(&pdev->dev);
+ 	}
+ 
+ 	/* input device allocation */
+ 	keypad_data->input = input_dev = input_allocate_device();
+ 	if (!input_dev) {
+ 		error = -ENOMEM;
+-		goto err_pm_put_sync;
++		goto err_pm_disable;
+ 	}
+ 
+ 	input_dev->name = pdev->name;
+@@ -349,28 +365,25 @@ static int omap4_keypad_probe(struct platform_device *pdev)
+ 		goto err_free_keymap;
+ 	}
+ 
+-	device_init_wakeup(&pdev->dev, true);
+-	pm_runtime_put_sync(&pdev->dev);
+-
+ 	error = input_register_device(keypad_data->input);
+ 	if (error < 0) {
+ 		dev_err(&pdev->dev, "failed to register input device\n");
+-		goto err_pm_disable;
++		goto err_free_irq;
+ 	}
+ 
++	device_init_wakeup(&pdev->dev, true);
+ 	platform_set_drvdata(pdev, keypad_data);
++
+ 	return 0;
+ 
+-err_pm_disable:
+-	pm_runtime_disable(&pdev->dev);
++err_free_irq:
+ 	free_irq(keypad_data->irq, keypad_data);
+ err_free_keymap:
+ 	kfree(keypad_data->keymap);
+ err_free_input:
+ 	input_free_device(input_dev);
+-err_pm_put_sync:
+-	pm_runtime_put_sync(&pdev->dev);
+-err_unmap:
++err_pm_disable:
++	pm_runtime_disable(&pdev->dev);
+ 	iounmap(keypad_data->base);
+ err_release_mem:
+ 	release_mem_region(res->start, resource_size(res));
 
-> Hello Dimitry,
->=20
-> Thank you for that.
-> What about the other patches?
->
-> Regards,
-> Andrej
->
->> -----Original Message-----
->> From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
->> Sent: Thursday, November 12, 2020 2:54 AM>
->> To: Valek, Andrej (ADV D EU SK SI-BP1) <andrej.valek@siemens.com>
->> Cc: linux-input@vger.kernel.org; linux-kernel@vger.kernel.org;=20
->> kbuild-all@lists.01.org
->> Subject: Re: [PATCH v2] Input: st1232 - add support resolution reading
->>=20
->> On Tue, Nov 03, 2020 at 08:39:49AM +0100, Andrej Valek wrote:
->>> Hard-coding resolution for st1633 device was wrong. Some of LCDs like=20
->>> YTS700TLBC-02-100C has assembled Sitronix st1633 touchcontroller too.
->>> But the resolution is not 320x480 as was hard-coded.
->>> Add new function which reads correct resolution directly from register.
->>>=20
->>> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
->>
->> Applied, thank you.
->>
-> --
->> Dmitry
+>  	platform_set_drvdata(pdev, keypad_data);
+>  	return 0;
+>  
+> -err_pm_disable:
+> -	pm_runtime_disable(&pdev->dev);
+> +err_free_irq:
+>  	free_irq(keypad_data->irq, keypad_data);
+>  err_free_keymap:
+>  	kfree(keypad_data->keymap);
+> @@ -371,6 +371,7 @@ static int omap4_keypad_probe(struct platform_device *pdev)
+>  err_pm_put_sync:
+>  	pm_runtime_put_sync(&pdev->dev);
+>  err_unmap:
+> +	pm_runtime_disable(&pdev->dev);
+>  	iounmap(keypad_data->base);
+>  err_release_mem:
+>  	release_mem_region(res->start, resource_size(res));
+> -- 
+> 2.25.4
+> 
+
+Thanks.
+
+-- 
+Dmitry
