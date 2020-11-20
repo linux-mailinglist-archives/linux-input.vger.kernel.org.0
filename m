@@ -2,85 +2,79 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8439B2BA0F6
-	for <lists+linux-input@lfdr.de>; Fri, 20 Nov 2020 04:17:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 652D52BA0FA
+	for <lists+linux-input@lfdr.de>; Fri, 20 Nov 2020 04:17:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726894AbgKTDQy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 19 Nov 2020 22:16:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41158 "EHLO
+        id S1727222AbgKTDRV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 19 Nov 2020 22:17:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726485AbgKTDQy (ORCPT
+        with ESMTP id S1726281AbgKTDRU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 19 Nov 2020 22:16:54 -0500
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25042C0613CF;
-        Thu, 19 Nov 2020 19:16:54 -0800 (PST)
-Received: by mail-pg1-x541.google.com with SMTP id t37so6016189pga.7;
-        Thu, 19 Nov 2020 19:16:54 -0800 (PST)
+        Thu, 19 Nov 2020 22:17:20 -0500
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74600C0613CF;
+        Thu, 19 Nov 2020 19:17:20 -0800 (PST)
+Received: by mail-pg1-x543.google.com with SMTP id t37so6016988pga.7;
+        Thu, 19 Nov 2020 19:17:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=QJenGn5hXJKKY6fUccZ2hCXij23Q3Avx9k+iYRW+S3A=;
-        b=F/ofmLMt2LTlPAYNlfqAV34mPgdBRaJDBqFIyEFfAgVm+A0e/B92jqUdVdbh3dkAai
-         5MAhSOBHeSCdWgGGG4gwtqQg4h6BNRyeRcNnNcFWYPhCWH/LA7bTOa5c1Fpyq2cXtPI7
-         weVMyv7WnxdOJaND9zQtDhol7n4x5BCFShrIeAeN5awE5Kc8Ntv+rncPSJ8zP6suf9ng
-         /JHLwXbbsAT9Mnal1bTboQPqcGTvltTST111D25Rpg+cQjxcZb9G6+2ctxNlaLGIanYe
-         UO85six2GYZZHM90L3SlNsw5eetTdVuKnTIVY8K20WyoxUb88mGdKBdvqYezW9L9p5fm
-         u+qw==
+         :content-disposition:in-reply-to;
+        bh=7d06uGnwa3OtUYz9yRcXoPbaRdUlmhPGFQRkdMiIseo=;
+        b=uX1VFR8Fp+b0qRThdTYKgzOIsEzTY+pPp+iXkamodZ9oxrBicXTU7nz8H//kB60Di8
+         bwjACk38+w9+xo4tMHgt7tu/3ag28qnFV26vLWL0Yi9T2DxTTnnl+TKzryuSOHWDF5Cu
+         H+QcvdLau9FJEMIV1Pb84uWCdvNZA9Xqr9UyBqv0y7soLpIY7glRcYRFoKUqG8E28YrT
+         2vu2P87Pe406uZ2PBXjHGEdRG6UEoxd6YUO2SimcmsEkSpn0ZwSj9Dx0mSr1zD7tqf0L
+         92lOZ5hJkNmKrgF6NUZW+y4hF8H/5x88Sn4GfCB6+aj31VqOgED2W8bBiE+Vj9tBvO/4
+         4B/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=QJenGn5hXJKKY6fUccZ2hCXij23Q3Avx9k+iYRW+S3A=;
-        b=dZ0wLG/zf/VnixIL7hLMDfk04RTWCkIu7Ju4sz7enmSwayI+ZgJuHDXTk82UPfWbT9
-         H2lGsESgw2YTQfhXCtQMfNAVrLAjqeG33hoY2oahUxYjGXGi86Nbe2tsgV/szbI41CwZ
-         JrNuyBKg0ZkUsxbne3RCyi4/S1KWescx/5qTzMsbupvK68Y3vbvUXrN1jK/dO1ERNKq3
-         Y8acwx6Z5hCcK3sZmvnEOY4hqKgjOp+1j2Bm9hqsc543tS9z4fi/NgzP6KGCuVGil4Km
-         Z18wBeo7w9VO4SReiqj2Md9BPYuRc7EU9u7lv5ivZ2Fo8U/T4pWoOLZx670Oca3UpoiL
-         4ztQ==
-X-Gm-Message-State: AOAM532E8ZedWlfN4YSyMLd9WTGSOLx0ra9OvrDYyGlsZnbKiQpw24e+
-        acvJ98q8Uts5et8Oi6LLxxU=
-X-Google-Smtp-Source: ABdhPJwf7K+3SFhnPrQYDBZ0qvxrPoja8yw2WAa9OwvRA2IP+FEFr8rDLpO/RVmBxMRFzi7ChJK7Og==
-X-Received: by 2002:a05:6a00:13a3:b029:18b:d5d2:196 with SMTP id t35-20020a056a0013a3b029018bd5d20196mr12447989pfg.62.1605842213571;
-        Thu, 19 Nov 2020 19:16:53 -0800 (PST)
+         :mime-version:content-disposition:in-reply-to;
+        bh=7d06uGnwa3OtUYz9yRcXoPbaRdUlmhPGFQRkdMiIseo=;
+        b=GLXyDyreyJcYHFhIaithvSymVOkMZXwH8BCQ8ni8KtAanHnWp9m4/xFn94WyzyP/Ad
+         PFtjYWO2vjPG+GcRCbFvxwAfSZs11z0GzLo7cv8oRAihH/I0fsr226bzLtxedRHeV8Em
+         OTvaEIyUqNqieGRxxS+BTpfgUovvJmypNEN0wveikXeJD1P09CqYXSySgsGYYRG8uPtb
+         57Ggci4Sy5D8X1xG5qdBpMIk5skOBf5jCV7LQM06Lca4FzLvRVC97IsU5F4gf5msQkR1
+         voplmBvk91U3aAhOp/Xy795hvmdFKLALDu6aNJpiAIpXQPJ7V0sQ/XKaa/5fl6ObufpN
+         xEvg==
+X-Gm-Message-State: AOAM530dnR3psq4i9IPIW0Z9F1ZqHTwe26uVyYPb/mM1lSrIIrgkTRg5
+        3G8BSg0UBYGfmHZVy+jSHEE=
+X-Google-Smtp-Source: ABdhPJx8P2EE7QznY4G2BVc1/R4PdIF5SC9aTs4R5KCk73CnEGuoSumJfvWvFdwuHuG8PUpBTbFaHg==
+X-Received: by 2002:a17:90b:2342:: with SMTP id ms2mr7960349pjb.136.1605842239978;
+        Thu, 19 Nov 2020 19:17:19 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id z68sm1148229pgb.37.2020.11.19.19.16.52
+        by smtp.gmail.com with ESMTPSA id p7sm1229344pgr.31.2020.11.19.19.17.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2020 19:16:52 -0800 (PST)
-Date:   Thu, 19 Nov 2020 19:16:50 -0800
+        Thu, 19 Nov 2020 19:17:19 -0800 (PST)
+Date:   Thu, 19 Nov 2020 19:17:16 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Lee Jones <lee.jones@linaro.org>
-Cc:     linux-kernel@vger.kernel.org, Henrik Rydberg <rydberg@bitmath.org>,
-        Benjamin Tissoires <benjamin.tissoires@gmail.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH 10/15] input: touchscreen: surface3_spi: Fix naming issue
- with 'surface3_spi_get_gpio_config's header
-Message-ID: <20201120031650.GO2034289@dtor-ws>
+Cc:     linux-kernel@vger.kernel.org,
+        Mark Brown <broonie@opensource.wolfsonmicro.com>,
+        patches@opensource.cirrus.com, linux-input@vger.kernel.org
+Subject: Re: [PATCH 09/15] input: misc: wm831x-on: Source file headers are
+ not good candidates for kernel-doc
+Message-ID: <20201120031716.GP2034289@dtor-ws>
 References: <20201112110204.2083435-1-lee.jones@linaro.org>
- <20201112110204.2083435-11-lee.jones@linaro.org>
+ <20201112110204.2083435-10-lee.jones@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201112110204.2083435-11-lee.jones@linaro.org>
+In-Reply-To: <20201112110204.2083435-10-lee.jones@linaro.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Nov 12, 2020 at 11:01:59AM +0000, Lee Jones wrote:
+On Thu, Nov 12, 2020 at 11:01:58AM +0000, Lee Jones wrote:
 > Fixes the following W=1 kernel build warning(s):
 > 
->  drivers/input/touchscreen/surface3_spi.c: In function ‘surface3_spi_process_touch’:
->  drivers/input/touchscreen/surface3_spi.c:97:6: warning: variable ‘timestamp’ set but not used [-Wunused-but-set-variable]
->  drivers/input/touchscreen/surface3_spi.c:225: warning: Function parameter or member 'data' not described in 'surface3_spi_get_gpio_config'
->  drivers/input/touchscreen/surface3_spi.c:225: warning: Excess function parameter 'ts' description in 'surface3_spi_get_gpio_config'
+>  drivers/input/misc/wm831x-on.c:30: warning: cannot understand function prototype: 'struct wm831x_on '
 > 
 > Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Henrik Rydberg <rydberg@bitmath.org>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Benjamin Tissoires <benjamin.tissoires@gmail.com>
+> Cc: Mark Brown <broonie@opensource.wolfsonmicro.com>
+> Cc: patches@opensource.cirrus.com
 > Cc: linux-input@vger.kernel.org
 > Signed-off-by: Lee Jones <lee.jones@linaro.org>
 
