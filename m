@@ -2,224 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 340972BBDCB
-	for <lists+linux-input@lfdr.de>; Sat, 21 Nov 2020 08:29:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C386F2BBF16
+	for <lists+linux-input@lfdr.de>; Sat, 21 Nov 2020 13:59:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726329AbgKUH2r (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 21 Nov 2020 02:28:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48780 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726008AbgKUH2r (ORCPT
+        id S1727689AbgKUM4u (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 21 Nov 2020 07:56:50 -0500
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:45580 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727668AbgKUM4t (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 21 Nov 2020 02:28:47 -0500
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93D2EC061A48
-        for <linux-input@vger.kernel.org>; Fri, 20 Nov 2020 23:28:45 -0800 (PST)
-Received: by mail-wm1-x343.google.com with SMTP id 10so13116797wml.2
-        for <linux-input@vger.kernel.org>; Fri, 20 Nov 2020 23:28:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WnKGIdfS38YrTil3LFSb66Hf1M9I8iJmfkl1md/Hs8c=;
-        b=boAzf9B6C2T39rhSD7MPWFsj3Cs/c89tqGNUmR5F6gA1kwNror7283lVzj+Hak9mAH
-         kldTYfgEoZ94IIOu1CRI5X+1FWhi51c1XHcIzASQLt0h57+CgGO6sCkOWEa7dfhZYj5l
-         l2bEUa5r2zVCrQnbbqa3ZLtijuPPMDdsutTGY=
+        Sat, 21 Nov 2020 07:56:49 -0500
+Received: by mail-qk1-f196.google.com with SMTP id q5so11695714qkc.12;
+        Sat, 21 Nov 2020 04:56:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WnKGIdfS38YrTil3LFSb66Hf1M9I8iJmfkl1md/Hs8c=;
-        b=ZN26Mcohgbt8Ze/Awxi6UPB6vkGp6Y0fuTFpwh6d2RZm3XIiCVyprzpnIE4fdGHLzx
-         sTnr7JiGsAAqxd0BZMkAzFpYske6GLU5lr4xVSq0VbzcrwoaF5SYHxg6R7ooVohpfOZh
-         4WPYsTRCpvG/dWO9Rkh/P9VTtcdaN/HzwVRlf6pmS1PkXBSVLjU/FtRPU/Aj0liJpuAP
-         DFyk7JwJLoCZgZh4W2ANSN4XKgmvm09DSVPQ6UXA3qMTmGjufQ2O6nFEy27r+qT/pOZ8
-         riGWvapEZk66s7SXkgTHFRelk3WeFqnK386E5lV0Mz+NqUUcvAkyKlGcgKk66UrHec/v
-         t8LQ==
-X-Gm-Message-State: AOAM531E8p7gKo8i0aFH+easN5ZKeOP6bhcOVUqdcCshqhaN13Ve4y7A
-        QpJUWn9bA0YVSUvjiQXTTKkI7Q==
-X-Google-Smtp-Source: ABdhPJy7w6OYWzC3JqBUQP4emf6DqNvTnSTmMM+WrwvEfK5U2U4gaiirgRhEyoeU2JUfBtVAVmYHjw==
-X-Received: by 2002:a7b:c4c3:: with SMTP id g3mr13477796wmk.65.1605943724130;
-        Fri, 20 Nov 2020 23:28:44 -0800 (PST)
-Received: from taos.konsulko.bg (lan.nucleusys.com. [92.247.61.126])
-        by smtp.gmail.com with ESMTPSA id o21sm823328wra.40.2020.11.20.23.28.42
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=ToElgtgxokI53Ol3P5lIooZ15Z39ALXjwMgyoo4gBOI=;
+        b=la0bdU8k87RNC8aR3GUJLY41kxJD31M6iK9KEMVVC3GySneRUi4LSrkLewq/u2GRGm
+         /x0EYXo/fO7EE4KW6rRwX/5xwmQbn3VVlqR3Fqq8hPSrZqLJpVX7/Ji4RbWPyuRd7c/E
+         KmJxZjhvPIgY3rFaN6y8mWcMfE5oNPBxRhAPr5pC4meYr6atpHbX3jGcffC3JzGlTep6
+         7EDuR3L9FXyyvwDEnnYzVCkJHBGGeOWa2L2EWxdv6FFodzte+hj3JsjJrrE0M89ha7Ir
+         3E86kx8dHcrQ4X/E4x9z+S/eS9EszESDNly1ZBchUns+YdcUfQzbvuHKhhjeYRIYAAT8
+         Fyxw==
+X-Gm-Message-State: AOAM53393Mwvy1+tcLh8CjOE4ZP7EughqFRl/o4qNMN2K7Yg0b4n/wtB
+        c8jXRawNzqR9TQCvHgkfnAAeOPXx7w==
+X-Google-Smtp-Source: ABdhPJw32SlJwXbb7W/+4G1tBXyRjdh05lyhTKZMeQ50JvIOaSn6aZJvBhb1cBsGLAX7x/7v1FPLIw==
+X-Received: by 2002:a37:a707:: with SMTP id q7mr1466240qke.5.1605963408068;
+        Sat, 21 Nov 2020 04:56:48 -0800 (PST)
+Received: from xps15 ([2607:fb90:5feb:6270:cdf7:680e:59f2:6ccd])
+        by smtp.gmail.com with ESMTPSA id k4sm3903561qki.2.2020.11.21.04.56.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2020 23:28:42 -0800 (PST)
-From:   Matt Ranostay <matt.ranostay@konsulko.com>
-To:     lars@metafoo.de
-Cc:     Matt Ranostay <matt.ranostay@konsulko.com>,
-        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        Rishi Gupta <gupt21@gmail.com>
-Subject: [PATCH v2] HID: mcp2221: add ADC support
-Date:   Sat, 21 Nov 2020 09:28:33 +0200
-Message-Id: <20201121072833.40326-1-matt.ranostay@konsulko.com>
-X-Mailer: git-send-email 2.20.1
+        Sat, 21 Nov 2020 04:56:47 -0800 (PST)
+Received: (nullmailer pid 2083927 invoked by uid 1000);
+        Sat, 21 Nov 2020 12:56:42 -0000
+Date:   Sat, 21 Nov 2020 06:56:42 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Mark Brown <broonie@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-kernel@vger.kernel.org, kernel@pengutronix.de,
+        linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Benjamin Gaignard <benjamin.gaignard@st.com>,
+        David Jander <david@protonic.nl>
+Subject: Re: [PATCH v1] dt-bindings: touchscreen: add
+ touchscreen-read-duration-us and touchscreen-settling-time-us properties
+Message-ID: <20201121125642.GA2083872@robh.at.kernel.org>
+References: <20201112112048.12134-1-o.rempel@pengutronix.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201112112048.12134-1-o.rempel@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add support for the three 10-bit ADC channels registered via
-the IIO subsystem.
+On Thu, 12 Nov 2020 12:20:48 +0100, Oleksij Rempel wrote:
+> According to the TI application bulletin [1] we deal with two generic
+> mechanisms which would affect the precision of provided input events:
+> 
+> |TOUCH SCREEN SETTLING TIME
+> |
+> |When the touch  panel is pressed or touched, there are
+> |two mechanisms that will affect the voltage level at the contact point of
+> |the touch panel. These two mechanisms will cause the voltage across the
+> |touch panel to “ring” (oscillate), and then slowly settle (decay)
+> |down to a stable DC value.
+> |
+> |The two mechanisms are:
+> | 1) Mechanical bouncing caused by vibration of the top layer sheet  of
+> |    the touch  panel  when  the  panel  is  pressed.
+> |
+> | 2) Electrical  ringing  due  to  parasitic  capacitance  between the top
+> |    and bottom layer sheets of the touch panel and at the  input  of  ADS7843
+> |    that  causes  the  voltage  to  “ring”(oscillate).
+> 
+> Since both of this mechanisms are board specific and reflect the
+> mechanical, and electrical properties of end product, it is better to
+> provide a generic properties to address them.
+> 
+> The touchscreen-read-duration-us property should address 1. mechanism.
+> This effect can be triggered by device specific design. The duration ma be
+> dependent on the use case of the end device. For example a touch where
+> writing is required may have other timing requirements as the device
+> where only "buttons" should be pressed.
+> 
+> The touchscreen-settling-time-us property should address 2. mechanism
+> where the size and construction of touch screen plates affect the parasitic
+> capacitance and time needed between enabling power supply for the
+> plates, and actual usable voltage level to detect the position of touch event.
+> 
+> [1] https://www.ti.com/lit/an/sbaa036/sbaa036.pdf
+> 
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> ---
+>  .../bindings/input/touchscreen/touchscreen.yaml          | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
 
-Cc: linux-input@vger.kernel.org
-Cc: linux-iio@vger.kernel.org
-CC: Rishi Gupta <gupt21@gmail.com>
-Signed-off-by: Matt Ranostay <matt.ranostay@konsulko.com>
----
-
-Changes from v1:
-
-* Removed 'select IIO' from Kconfig
-* Removed useless iio/sysfs.h include
-* Add IS_REACHABLE checks for IIO subsystem 
-
- drivers/hid/hid-mcp2221.c | 89 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 89 insertions(+)
-
-diff --git a/drivers/hid/hid-mcp2221.c b/drivers/hid/hid-mcp2221.c
-index 0d27ccb55dd9..36fa9336c4c5 100644
---- a/drivers/hid/hid-mcp2221.c
-+++ b/drivers/hid/hid-mcp2221.c
-@@ -16,6 +16,7 @@
- #include <linux/hidraw.h>
- #include <linux/i2c.h>
- #include <linux/gpio/driver.h>
-+#include <linux/iio/iio.h>
- #include "hid-ids.h"
- 
- /* Commands codes in a raw output report */
-@@ -56,6 +57,7 @@ enum {
-  */
- struct mcp2221 {
- 	struct hid_device *hdev;
-+	struct iio_dev *indio_dev;
- 	struct i2c_adapter adapter;
- 	struct mutex lock;
- 	struct completion wait_in_report;
-@@ -67,6 +69,11 @@ struct mcp2221 {
- 	struct gpio_chip *gc;
- 	u8 gp_idx;
- 	u8 gpio_dir;
-+	u16 adc_values[3];
-+};
-+
-+struct mcp2221_iio {
-+	struct mcp2221 *mcp;
- };
- 
- /*
-@@ -712,6 +719,7 @@ static int mcp2221_raw_event(struct hid_device *hdev,
- 				break;
- 			}
- 			mcp->status = mcp_get_i2c_eng_state(mcp, data, 8);
-+			memcpy(&mcp->adc_values, &data[50], 6);
- 			break;
- 		default:
- 			mcp->status = -EIO;
-@@ -791,6 +799,79 @@ static int mcp2221_raw_event(struct hid_device *hdev,
- 	return 1;
- }
- 
-+#if IS_REACHABLE(CONFIG_IIO)
-+
-+static int mcp2221_read_raw(struct iio_dev *indio_dev,
-+			    struct iio_chan_spec const *channel, int *val,
-+			    int *val2, long mask)
-+{
-+
-+	struct mcp2221_iio *priv = iio_priv(indio_dev);
-+	struct mcp2221 *mcp = priv->mcp;
-+	int ret;
-+
-+	mutex_lock(&mcp->lock);
-+
-+	/* Read ADC values */
-+	ret = mcp_chk_last_cmd_status(mcp);
-+	if (ret < 0)
-+		return ret;
-+
-+	*val = le16_to_cpu(mcp->adc_values[channel->channel]);
-+
-+	mutex_unlock(&mcp->lock);
-+
-+	return IIO_VAL_INT;
-+}
-+
-+static const struct iio_info mcp2221_info = {
-+	.read_raw = &mcp2221_read_raw,
-+};
-+
-+#define MCP2221_ADC_CHANNEL(idx) \
-+	{ \
-+		.type = IIO_VOLTAGE, \
-+		.indexed = 1, \
-+		.channel = idx, \
-+		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW), \
-+		.scan_index = -1, \
-+	}
-+
-+static const struct iio_chan_spec mcp2221_channels[] = {
-+	MCP2221_ADC_CHANNEL(0),
-+	MCP2221_ADC_CHANNEL(1),
-+	MCP2221_ADC_CHANNEL(2),
-+};
-+
-+static int mcp2221_register_adcs(struct device *dev, struct mcp2221 *mcp)
-+{
-+	struct mcp2221_iio *iio;
-+
-+	mcp->indio_dev = devm_iio_device_alloc(dev, sizeof(*iio));
-+	if (!mcp->indio_dev)
-+		return -ENOMEM;
-+
-+	iio = iio_priv(mcp->indio_dev);
-+	iio->mcp = mcp;
-+
-+	mcp->indio_dev->name = "mcp2221_adc";
-+	mcp->indio_dev->modes = INDIO_DIRECT_MODE;
-+	mcp->indio_dev->info = &mcp2221_info;
-+	mcp->indio_dev->channels = mcp2221_channels;
-+	mcp->indio_dev->num_channels = ARRAY_SIZE(mcp2221_channels);
-+
-+	return iio_device_register(mcp->indio_dev);
-+}
-+
-+#else
-+
-+static int mcp2221_register_adcs(struct device *dev, struct mcp2221 *mcp)
-+{
-+	return 0;
-+}
-+
-+#endif
-+
- static int mcp2221_probe(struct hid_device *hdev,
- 					const struct hid_device_id *id)
- {
-@@ -869,6 +950,10 @@ static int mcp2221_probe(struct hid_device *hdev,
- 	if (ret)
- 		goto err_gc;
- 
-+	ret = mcp2221_register_adcs(&hdev->dev, mcp);
-+	if (ret)
-+		goto err_gc;
-+
- 	return 0;
- 
- err_gc:
-@@ -884,6 +969,10 @@ static void mcp2221_remove(struct hid_device *hdev)
- {
- 	struct mcp2221 *mcp = hid_get_drvdata(hdev);
- 
-+#if IS_REACHABLE(CONFIG_IIO)
-+	iio_device_unregister(mcp->indio_dev);
-+#endif
-+
- 	i2c_del_adapter(&mcp->adapter);
- 	hid_hw_close(mcp->hdev);
- 	hid_hw_stop(mcp->hdev);
--- 
-2.20.1
-
+Reviewed-by: Rob Herring <robh@kernel.org>
