@@ -2,107 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C386F2BBF16
-	for <lists+linux-input@lfdr.de>; Sat, 21 Nov 2020 13:59:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BD6C2BC02B
+	for <lists+linux-input@lfdr.de>; Sat, 21 Nov 2020 16:11:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727689AbgKUM4u (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 21 Nov 2020 07:56:50 -0500
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:45580 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727668AbgKUM4t (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sat, 21 Nov 2020 07:56:49 -0500
-Received: by mail-qk1-f196.google.com with SMTP id q5so11695714qkc.12;
-        Sat, 21 Nov 2020 04:56:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=ToElgtgxokI53Ol3P5lIooZ15Z39ALXjwMgyoo4gBOI=;
-        b=la0bdU8k87RNC8aR3GUJLY41kxJD31M6iK9KEMVVC3GySneRUi4LSrkLewq/u2GRGm
-         /x0EYXo/fO7EE4KW6rRwX/5xwmQbn3VVlqR3Fqq8hPSrZqLJpVX7/Ji4RbWPyuRd7c/E
-         KmJxZjhvPIgY3rFaN6y8mWcMfE5oNPBxRhAPr5pC4meYr6atpHbX3jGcffC3JzGlTep6
-         7EDuR3L9FXyyvwDEnnYzVCkJHBGGeOWa2L2EWxdv6FFodzte+hj3JsjJrrE0M89ha7Ir
-         3E86kx8dHcrQ4X/E4x9z+S/eS9EszESDNly1ZBchUns+YdcUfQzbvuHKhhjeYRIYAAT8
-         Fyxw==
-X-Gm-Message-State: AOAM53393Mwvy1+tcLh8CjOE4ZP7EughqFRl/o4qNMN2K7Yg0b4n/wtB
-        c8jXRawNzqR9TQCvHgkfnAAeOPXx7w==
-X-Google-Smtp-Source: ABdhPJw32SlJwXbb7W/+4G1tBXyRjdh05lyhTKZMeQ50JvIOaSn6aZJvBhb1cBsGLAX7x/7v1FPLIw==
-X-Received: by 2002:a37:a707:: with SMTP id q7mr1466240qke.5.1605963408068;
-        Sat, 21 Nov 2020 04:56:48 -0800 (PST)
-Received: from xps15 ([2607:fb90:5feb:6270:cdf7:680e:59f2:6ccd])
-        by smtp.gmail.com with ESMTPSA id k4sm3903561qki.2.2020.11.21.04.56.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Nov 2020 04:56:47 -0800 (PST)
-Received: (nullmailer pid 2083927 invoked by uid 1000);
-        Sat, 21 Nov 2020 12:56:42 -0000
-Date:   Sat, 21 Nov 2020 06:56:42 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Oleksij Rempel <o.rempel@pengutronix.de>
-Cc:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Mark Brown <broonie@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-kernel@vger.kernel.org, kernel@pengutronix.de,
-        linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benjamin Gaignard <benjamin.gaignard@st.com>,
-        David Jander <david@protonic.nl>
-Subject: Re: [PATCH v1] dt-bindings: touchscreen: add
- touchscreen-read-duration-us and touchscreen-settling-time-us properties
-Message-ID: <20201121125642.GA2083872@robh.at.kernel.org>
-References: <20201112112048.12134-1-o.rempel@pengutronix.de>
+        id S1727835AbgKUPKz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 21 Nov 2020 10:10:55 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42214 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727741AbgKUPKy (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 21 Nov 2020 10:10:54 -0500
+Received: from archlinux (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0344322226;
+        Sat, 21 Nov 2020 15:10:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1605971453;
+        bh=JOmXJ8GhVmVUzkilu+dYeO6+zNU8V6nbmJpVJcisMf4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=eUuTX64ubF565q5cUZTkR4DLaP9swSD0logHU/hG4RawYpAuIJzxqmXGNLBwNb8JA
+         PJvzjZNYamX3hCOIE6Ctm81Xon5unANA4gMsLJKJAUYB8TD6h0Ha7J5oSbNTOeBJV3
+         P56mEsTBGXqoqL08w/gav1yBVZlKJ6MXGh8WiV0w=
+Date:   Sat, 21 Nov 2020 15:10:49 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Matt Ranostay <matt.ranostay@konsulko.com>
+Cc:     Lars-Peter Clausen <lars@metafoo.de>,
+        rishi gupta <gupt21@gmail.com>,
+        "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Subject: Re: [PATCH] HID: mcp2221: add ADC support
+Message-ID: <20201121151049.425a7c97@archlinux>
+In-Reply-To: <CAJCx=gkHYsu6=ne2BPCajVP+N9natV3stieP0cKd5nTSC8ARRA@mail.gmail.com>
+References: <20201120030103.36138-1-matt.ranostay@konsulko.com>
+        <CALUj-guTNWK9m-bwmkRC3st9VExhFkXPiUevXw_EA9xamR6BYA@mail.gmail.com>
+        <CAJCx=gn=jAeYkVtLQ8Ou7P9xRpvSaXpuUk5XWDxMD_HPMTzH+Q@mail.gmail.com>
+        <8151a886-b2db-8d44-eee6-46e8eb300ffb@metafoo.de>
+        <CAJCx=gkHYsu6=ne2BPCajVP+N9natV3stieP0cKd5nTSC8ARRA@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201112112048.12134-1-o.rempel@pengutronix.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 12 Nov 2020 12:20:48 +0100, Oleksij Rempel wrote:
-> According to the TI application bulletin [1] we deal with two generic
-> mechanisms which would affect the precision of provided input events:
-> 
-> |TOUCH SCREEN SETTLING TIME
-> |
-> |When the touch  panel is pressed or touched, there are
-> |two mechanisms that will affect the voltage level at the contact point of
-> |the touch panel. These two mechanisms will cause the voltage across the
-> |touch panel to “ring” (oscillate), and then slowly settle (decay)
-> |down to a stable DC value.
-> |
-> |The two mechanisms are:
-> | 1) Mechanical bouncing caused by vibration of the top layer sheet  of
-> |    the touch  panel  when  the  panel  is  pressed.
-> |
-> | 2) Electrical  ringing  due  to  parasitic  capacitance  between the top
-> |    and bottom layer sheets of the touch panel and at the  input  of  ADS7843
-> |    that  causes  the  voltage  to  “ring”(oscillate).
-> 
-> Since both of this mechanisms are board specific and reflect the
-> mechanical, and electrical properties of end product, it is better to
-> provide a generic properties to address them.
-> 
-> The touchscreen-read-duration-us property should address 1. mechanism.
-> This effect can be triggered by device specific design. The duration ma be
-> dependent on the use case of the end device. For example a touch where
-> writing is required may have other timing requirements as the device
-> where only "buttons" should be pressed.
-> 
-> The touchscreen-settling-time-us property should address 2. mechanism
-> where the size and construction of touch screen plates affect the parasitic
-> capacitance and time needed between enabling power supply for the
-> plates, and actual usable voltage level to detect the position of touch event.
-> 
-> [1] https://www.ti.com/lit/an/sbaa036/sbaa036.pdf
-> 
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> ---
->  .../bindings/input/touchscreen/touchscreen.yaml          | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
+On Fri, 20 Nov 2020 12:31:23 -0800
+Matt Ranostay <matt.ranostay@konsulko.com> wrote:
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+> On Fri, Nov 20, 2020 at 11:54 AM Lars-Peter Clausen <lars@metafoo.de> wrote:
+> >
+> > On 11/20/20 8:17 PM, Matt Ranostay wrote:  
+> > > On Fri, Nov 20, 2020 at 5:15 AM rishi gupta <gupt21@gmail.com> wrote:  
+> > >> On Fri, Nov 20, 2020 at 8:31 AM Matt Ranostay
+> > >> <matt.ranostay@konsulko.com> wrote:  
+> > >>> Add support for the three 10-bit ADC channels registered via
+> > >>> the IIO subsystem.
+> > >>>
+> > >>> Cc: linux-input@vger.kernel.org
+> > >>> Cc: linux-iio@vger.kernel.org
+> > >>> CC: Rishi Gupta <gupt21@gmail.com>
+> > >>> Signed-off-by: Matt Ranostay <matt.ranostay@konsulko.com>
+> > >>> ---
+> > >>>   drivers/hid/Kconfig       |  1 +
+> > >>>   drivers/hid/hid-mcp2221.c | 65 ++++++++++++++++++++++++++++++++++++++-
+> > >>>   2 files changed, 65 insertions(+), 1 deletion(-)
+> > >>>
+> > >>> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+> > >>> index 05315b434276..4795744d9979 100644
+> > >>> --- a/drivers/hid/Kconfig
+> > >>> +++ b/drivers/hid/Kconfig
+> > >>> @@ -1157,6 +1157,7 @@ config HID_MCP2221
+> > >>>          tristate "Microchip MCP2221 HID USB-to-I2C/SMbus host support"
+> > >>>          depends on USB_HID && I2C
+> > >>>          depends on GPIOLIB
+> > >>> +       depends on IIO  
+> > >> I am wondering what will happen on systems which do not enable IIO.
+> > >> This driver can not be used there.
+> > >> Is my understanding correct?  
+> > > Actually yeah this should be "select IIO" to avoid that issue.  
+> >
+> > No, we should not have a individual driver select a framework. This will
+> > cause all kinds of issues with reverse dependencies.
+> >
+> > It might be worth splitting this driver into a MFD driver, then the MFD
+> > cells could have their own module that depend on the subsystem and if
+> > not enabled the functionality will not be provided.  
+> 
+> Would it make sense to use IS_REACHABLE(CONFIG_IIO) for the iio blocks?
+> 
+> Guessing the weak reference "imply IIO" would still be bad for the
+> driver selecting a framework?
+
+A lesser option than going full MFD for this (which is probably the
+right design decision but is a big change) would be to just put the
+IIO stuff in a separate C file and use some build time magic.
+
+I agree with Lars though that this is probably better done as an MFD.
+It supports a bunch of things in entirely different subsystems afterall.
+
+Jonathan
+
+> 
+> Thanks,
+> 
+> Matt
+> 
+> >
+> > - Lars
+> >  
+
