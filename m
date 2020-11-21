@@ -2,59 +2,156 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 78C2F2BC1DF
-	for <lists+linux-input@lfdr.de>; Sat, 21 Nov 2020 21:00:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B8AA2BC22B
+	for <lists+linux-input@lfdr.de>; Sat, 21 Nov 2020 22:02:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728452AbgKUT5R (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 21 Nov 2020 14:57:17 -0500
-Received: from vps50575.inmotionhosting.com ([205.134.253.127]:35438 "EHLO
-        vps50575.inmotionhosting.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728445AbgKUT5R (ORCPT
+        id S1728477AbgKUVBu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 21 Nov 2020 16:01:50 -0500
+Received: from v133-130-127-43.a05a.g.tyo1.static.cnode.io ([133.130.127.43]:56346
+        "EHLO mail.hard-wi.red" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728459AbgKUVBu (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 21 Nov 2020 14:57:17 -0500
-X-Greylist: delayed 1755 seconds by postgrey-1.27 at vger.kernel.org; Sat, 21 Nov 2020 14:57:17 EST
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=iblowdry.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Message-ID:From:Date:Subject:To:Sender:Reply-To:Cc:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=vB8m7lrwmd1CDKmZmu186Lj3l3Ugstvy1LhspudWpNc=; b=Ga/BuqULvb1zdgErUmmxguVuWx
-        tT+oEUdVhow1VpOPAgRSy03FcfVzIFdyZ4UsXhKZzAGL8LLSY5lgx30geeNC800Sufq8ikkJL7QlE
-        YbcniExRRtEL2O5DnnB7iaD1CWG1urgrB8tskqGmXdnqz/UvjUYOgIlqRqwcBuni/K37jgz2VN9ka
-        kxV/nQwEAMm+ZzlXBDd5yHt4rGR3luh7LUAJ7mUtp8IIEYNSn48UFz6D/YEX0pzzNFxQJ1/AqWn2A
-        NkUx5qE9xGG9iWR5SnkYnXByYMKleAPxqzmHPPNFxlhunArp1Z4e9cE5udIhxnBgR2uVeIG1jFrOG
-        pJZVYR9w==;
-Received: from iblow2 by vps50575.inmotionhosting.com with local (Exim 4.93)
-        (envelope-from <iblow2@vps50575.inmotionhosting.com>)
-        id 1kgYYD-0006td-LN
-        for linux-input@vger.kernel.org; Sat, 21 Nov 2020 11:28:02 -0800
-To:     linux-input@vger.kernel.org
-Subject: =?UTF-8?Q?Thank_You_for_Contacting_iBlowdry,_auto_responding?=  =?UTF-8?Q?_to:_=F0=9F=96=A4_I'm_waiting_for_you..._Answer_me?=  =?UTF-8?Q?_here:_http://bit.do/fLf4n=3Fx53_=F0=9F=96=A4?=
-X-PHP-Script: iblowdry.com/index.php for 125.123.68.126
-X-PHP-Originating-Script: 1000:PHPMailer.php
-Date:   Sat, 21 Nov 2020 19:28:01 +0000
-From:   WordPress <info@iblowdry.com>
-Message-ID: <Bn1nJpOrOxcn8xwH3tp1qbHmYkg3Qi2jBVsDif9Cw@iblowdry.com>
-X-Mailer: PHPMailer 6.1.6 (https://github.com/PHPMailer/PHPMailer)
+        Sat, 21 Nov 2020 16:01:50 -0500
+X-Greylist: delayed 371 seconds by postgrey-1.27 at vger.kernel.org; Sat, 21 Nov 2020 16:01:48 EST
+Received: from authenticated-user (PRIMARY_HOSTNAME [PUBLIC_IP])
+        by mail.hard-wi.red (Postfix) with ESMTPA id 3666E2000E7;
+        Sat, 21 Nov 2020 20:55:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hard-wi.red; s=dkim;
+        t=1605992130;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=xXmjl9KdvMj+q78Dtg4S+J4OXqzsc707ZPj+S2i4LKI=;
+        b=OAMMVio3LCJPhNbEgW6+wTFR5BdQBZ4YyZEyN5mYc8IyJOKqmxWitD6ZCz2zjX8QumBtVa
+        dacjnVKY2xEMYeu9MGiPI0bUS5SwOc26KsPfrWBsd2h9JGC83mZXXB3bHpbZ7+q0JccqRT
+        AHWg9tYloD3GFvUyUEuecvRPAGWqOp8=
+From:   YOSHIOKA Takuma <lo48576@hard-wi.red>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     YOSHIOKA Takuma <lo48576@hard-wi.red>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] HID: elecom: rewrite report based on model specific parameters
+Date:   Sun, 22 Nov 2020 05:54:37 +0900
+Message-Id: <20201121205438.4092-1-lo48576@hard-wi.red>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OutGoing-Spam-Status: No, score=2.4
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - vps50575.inmotionhosting.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [1000 1002] / [47 12]
-X-AntiAbuse: Sender Address Domain - vps50575.inmotionhosting.com
-X-Get-Message-Sender-Via: vps50575.inmotionhosting.com: authenticated_id: iblow2/from_h
-X-Authenticated-Sender: vps50575.inmotionhosting.com: info@iblowdry.com
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=hard-wi.red;
+        s=dkim; t=1605992130;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=xXmjl9KdvMj+q78Dtg4S+J4OXqzsc707ZPj+S2i4LKI=;
+        b=lDcxjQhxKfKtMsswsEqF1NkAXR0n9RmT8VRtAgk53p1BYFzAVyh3ZRznMGRiHJiJVKAjgq
+        3t2BSXqe8tACdLnX7gtp2CG01bbenHjv84kB2ZONDnld0yE82x65m1f5Ht69Z78iFYYi+H
+        SkkWeNeJvqHDmjne+ZfIakIgYzEWhlA=
+ARC-Seal: i=1; s=dkim; d=hard-wi.red; t=1605992130; a=rsa-sha256; cv=none;
+        b=ZSqU2ZDXpCb9qeu94Xz2Pj0oH+eP8O461ajvwZy2VHeMlOplm6mPU20IKeGy+QIB2UvBao
+        C0uhoQi27zAWY82fjxmYpOd/Qm2BkDkdJKxlw6wG+1QZTOVKVKqYG3qnLDqKUMZ+D8wo2p
+        lHoD73OxxheQUkHJOTIeAu5gL5S2CTg=
+ARC-Authentication-Results: i=1;
+        mail.hard-wi.red;
+        auth=pass smtp.auth=lo48576@hard-wi.red smtp.mailfrom=lo48576@hard-wi.red
+Authentication-Results: mail.hard-wi.red;
+        auth=pass smtp.auth=lo48576@hard-wi.red smtp.mailfrom=lo48576@hard-wi.red
+X-Spamd-Bar: /
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The following message was sent to a representative of iBlowdry and will be responding soon:
+The report descriptor for EX-G wireless mouse (M-XGL20DLBK) is a bit
+different from that for trackball mice such as DEFT. For such mouse, the
+current `mouse_button_fixup` cannot be used as is, because it uses
+hard-coded indices for a report descriptor.
 
-🖤 I'm waiting for you... Answer me here: http://bit.do/fLf4n?x53 🖤
+Add parameters to `mouse_button_fixup` function, in order to support
+fixing report descriptors for more models.
 
-This e-mail was sent from Contact Us page on iBlowdry Salon (http://iblowdry.com/contact.html)
+Signed-off-by: YOSHIOKA Takuma <lo48576@hard-wi.red>
+---
+ drivers/hid/hid-elecom.c | 41 ++++++++++++++++++++++++++++------------
+ 1 file changed, 29 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/hid/hid-elecom.c b/drivers/hid/hid-elecom.c
+index 8c712d4bc075..233188100884 100644
+--- a/drivers/hid/hid-elecom.c
++++ b/drivers/hid/hid-elecom.c
+@@ -11,6 +11,7 @@
+  *  Copyright (c) 2017 Diego Elio Pettenò <flameeyes@flameeyes.eu>
+  *  Copyright (c) 2017 Alex Manoussakis <amanou@gnu.org>
+  *  Copyright (c) 2017 Tomasz Kramkowski <tk@the-tk.com>
++ *  Copyright (c) 2020 YOSHIOKA Takuma <lo48576@hard-wi.red>
+  */
+ 
+ /*
+@@ -29,25 +30,26 @@
+  * report descriptor but it does not appear that these enable software to
+  * control what the extra buttons map to. The only simple and straightforward
+  * solution seems to involve fixing up the report descriptor.
+- *
+- * Report descriptor format:
+- * Positions 13, 15, 21 and 31 store the button bit count, button usage minimum,
+- * button usage maximum and padding bit count respectively.
+  */
+ #define MOUSE_BUTTONS_MAX 8
+ static void mouse_button_fixup(struct hid_device *hdev,
+ 			       __u8 *rdesc, unsigned int rsize,
++			       unsigned int button_bit_count,
++			       unsigned int padding_bit,
++			       unsigned int button_report_size,
++			       unsigned int button_usage_maximum,
+ 			       int nbuttons)
+ {
+-	if (rsize < 32 || rdesc[12] != 0x95 ||
+-	    rdesc[14] != 0x75 || rdesc[15] != 0x01 ||
+-	    rdesc[20] != 0x29 || rdesc[30] != 0x75)
++	if (rsize < 32 || rdesc[button_bit_count] != 0x95 ||
++	    rdesc[button_report_size] != 0x75 ||
++	    rdesc[button_report_size + 1] != 0x01 ||
++	    rdesc[button_usage_maximum] != 0x29 || rdesc[padding_bit] != 0x75)
+ 		return;
+ 	hid_info(hdev, "Fixing up Elecom mouse button count\n");
+ 	nbuttons = clamp(nbuttons, 0, MOUSE_BUTTONS_MAX);
+-	rdesc[13] = nbuttons;
+-	rdesc[21] = nbuttons;
+-	rdesc[31] = MOUSE_BUTTONS_MAX - nbuttons;
++	rdesc[button_bit_count + 1] = nbuttons;
++	rdesc[button_usage_maximum + 1] = nbuttons;
++	rdesc[padding_bit + 1] = MOUSE_BUTTONS_MAX - nbuttons;
+ }
+ 
+ static __u8 *elecom_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+@@ -65,13 +67,28 @@ static __u8 *elecom_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ 	case USB_DEVICE_ID_ELECOM_M_XT3URBK:
+ 	case USB_DEVICE_ID_ELECOM_M_XT3DRBK:
+ 	case USB_DEVICE_ID_ELECOM_M_XT4DRBK:
+-		mouse_button_fixup(hdev, rdesc, *rsize, 6);
++		/*
++		 * Report descriptor format:
++		 * 12: button bit count
++		 * 30: padding bit count
++		 * 14: button report size
++		 * 20: button usage maximum
++		 */
++		mouse_button_fixup(hdev, rdesc, *rsize, 12, 30, 14, 20, 6);
+ 		break;
+ 	case USB_DEVICE_ID_ELECOM_M_DT1URBK:
+ 	case USB_DEVICE_ID_ELECOM_M_DT1DRBK:
+ 	case USB_DEVICE_ID_ELECOM_M_HT1URBK:
+ 	case USB_DEVICE_ID_ELECOM_M_HT1DRBK:
+-		mouse_button_fixup(hdev, rdesc, *rsize, 8);
++		/*mouse_button_fixup(hdev, rdesc, *rsize, 13, 15, 21, 31, 8);*/
++		/*
++		 * Report descriptor format:
++		 * 12: button bit count
++		 * 30: padding bit count
++		 * 14: button report size
++		 * 20: button usage maximum
++		 */
++		mouse_button_fixup(hdev, rdesc, *rsize, 12, 30, 14, 20, 8);
+ 		break;
+ 	}
+ 	return rdesc;
+-- 
+2.29.2
 
