@@ -2,166 +2,118 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E701C2BFC54
-	for <lists+linux-input@lfdr.de>; Sun, 22 Nov 2020 23:36:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 61C622BFC77
+	for <lists+linux-input@lfdr.de>; Sun, 22 Nov 2020 23:41:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726893AbgKVWgH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 22 Nov 2020 17:36:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40856 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726440AbgKVWgF (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sun, 22 Nov 2020 17:36:05 -0500
-Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [IPv6:2607:fcd0:100:8a00::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7AEAC0613CF;
-        Sun, 22 Nov 2020 14:36:05 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by bedivere.hansenpartnership.com (Postfix) with ESMTP id 3A73012808A8;
-        Sun, 22 Nov 2020 14:36:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=hansenpartnership.com; s=20151216; t=1606084565;
-        bh=y5Oo39UQGhMKIHztx5i9osM+IVUxOt/AInbXjgVEmOM=;
-        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-        b=it2DEm5qbX6tNKGabRZf0YZ7FJN256ppIXEFnMqNHN+XY9h76oTIzuZgEyEoREiKM
-         yiP/0zNVKPNW1kWiLTindkrOQ7bXlSJOTVsRohihqSOzq1tvOmtHcybKKU2pQsn+gK
-         kXbE7Tzelwaqt/71bFtBSSIQ6PZYHLF3M7J5PGe0=
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
-        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id Cj3BhyzZ1krD; Sun, 22 Nov 2020 14:36:05 -0800 (PST)
-Received: from jarvis.int.hansenpartnership.com (unknown [IPv6:2601:600:8280:66d1::527])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id B820412808A7;
-        Sun, 22 Nov 2020 14:36:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=hansenpartnership.com; s=20151216; t=1606084565;
-        bh=y5Oo39UQGhMKIHztx5i9osM+IVUxOt/AInbXjgVEmOM=;
-        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-        b=it2DEm5qbX6tNKGabRZf0YZ7FJN256ppIXEFnMqNHN+XY9h76oTIzuZgEyEoREiKM
-         yiP/0zNVKPNW1kWiLTindkrOQ7bXlSJOTVsRohihqSOzq1tvOmtHcybKKU2pQsn+gK
-         kXbE7Tzelwaqt/71bFtBSSIQ6PZYHLF3M7J5PGe0=
-Message-ID: <1c7d7fde126bc0acf825766de64bf2f9b888f216.camel@HansenPartnership.com>
-Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
-From:   James Bottomley <James.Bottomley@HansenPartnership.com>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        alsa-devel@alsa-project.org, amd-gfx@lists.freedesktop.org,
-        bridge@lists.linux-foundation.org, ceph-devel@vger.kernel.org,
-        cluster-devel@redhat.com, coreteam@netfilter.org,
-        devel@driverdev.osuosl.org, dm-devel@redhat.com,
-        drbd-dev@lists.linbit.com, dri-devel@lists.freedesktop.org,
-        GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
-        intel-gfx@lists.freedesktop.org, intel-wired-lan@lists.osuosl.org,
-        keyrings@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-        linux-acpi@vger.kernel.org, linux-afs@lists.infradead.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-arm-msm@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net,
-        linux-block@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-cifs@vger.kernel.org,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        linux-decnet-user@lists.sourceforge.net,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-fbdev@vger.kernel.org, linux-geode@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-hams@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
-        linux-ide@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input <linux-input@vger.kernel.org>,
-        linux-integrity@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-mmc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        netfilter-devel@vger.kernel.org, nouveau@lists.freedesktop.org,
-        op-tee@lists.trustedfirmware.org, oss-drivers@netronome.com,
-        patches@opensource.cirrus.com, rds-devel@oss.oracle.com,
-        reiserfs-devel@vger.kernel.org, samba-technical@lists.samba.org,
-        selinux@vger.kernel.org, target-devel@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net,
-        usb-storage@lists.one-eyed-alien.net,
-        virtualization@lists.linux-foundation.org,
-        wcn36xx@lists.infradead.org,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        xen-devel@lists.xenproject.org, linux-hardening@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>, Joe Perches <joe@perches.com>
-Date:   Sun, 22 Nov 2020 14:36:00 -0800
-In-Reply-To: <CANiq72nZrHWTA4_Msg6MP9snTyenC6-eGfD27CyfNSu7QoVZbw@mail.gmail.com>
-References: <cover.1605896059.git.gustavoars@kernel.org>
-         <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-         <202011201129.B13FDB3C@keescook>
-         <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-         <202011220816.8B6591A@keescook>
-         <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
-         <CANiq72nZrHWTA4_Msg6MP9snTyenC6-eGfD27CyfNSu7QoVZbw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+        id S1725964AbgKVWje (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 22 Nov 2020 17:39:34 -0500
+Received: from mail-dm6nam12on2083.outbound.protection.outlook.com ([40.107.243.83]:3168
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725782AbgKVWje (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 22 Nov 2020 17:39:34 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eFe1H5dKQYeUUlYvP1YSIZwzKK2sXLzgmmAePpSjA/04D31zj1k1nPrsN28BKyzxbtETe8nx+N2JjcLlibjel5cCgbL3oRyzefNXb3vq3jo8hxomwuspuKeFuqbBxL/rmNRDG9l379sVdOCT5c9JIqKgZo0CjqU2mFMfn1128RKCfoKqi+KuH9a4a/ThFLf/tT9bB4gkJhb0/HTH+ELONYsyba+9eGz0IleHyux28Yva1BQepn5wgY60B9KMlA06AC8RL7VP99NJKnMbVzAA861r1dQVr/jjktCtwJZb1fsdyKfD5NWcuHd8RH9KdhMeLEk16HzJISm/Ksb3OlQ/Og==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kDqA91T6F5+XKXa/TvrvyXPj24i4mDcDjxYIqFTBFXA=;
+ b=ng66lrq9pzlKj5XvB1KX19VitSTHHxPOyf2+5JiSi9sBGC2itX8dzDOajLOK1rQqiHF6YB4kBKMdX0sFiOLAiV7tOb0hEPsHsPGfAZCaMpuH2+Rv7YIbOhLpw2jeWmOQ46JAQbwyi+JtYUg5WrH/DxvH0tSVkFdgr5N34nY8rqi/xPMnFiteYb3/iqbxKEsq562O8uAx2ceUc1wWoYxyw3YvwvNLBHeMMCktTVAUkppdp+4JjdphMuKr/nM5KwS5H0wLrLdiQPQllMyqzbN/yoNQzINbjwVhepyvudEpeoFn8mKLBtDhtrpxDsQFIpY3o5WcEXwQbWwm3UGxrF2D3w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
+ dkim=pass header.d=labundy.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kDqA91T6F5+XKXa/TvrvyXPj24i4mDcDjxYIqFTBFXA=;
+ b=grk5I66MQXsCNAU0RivhfKysYxKrRqrV6d23qfte/W0jcXNlINv7LY73SFnfAmU0BBVXTN6V1FAsmTXfgUefSMwv7i9wikmA1Bwrk32pEURWnytqhc+eiwe3pdGpl48C8S+2zAMz/pI6I//gOWmPB2k9o/fATFy3TVgDPGP2vlA=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=labundy.com;
+Received: from SN6PR08MB5517.namprd08.prod.outlook.com (2603:10b6:805:fb::32)
+ by SA2PR08MB6604.namprd08.prod.outlook.com (2603:10b6:806:11c::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20; Sun, 22 Nov
+ 2020 22:39:29 +0000
+Received: from SN6PR08MB5517.namprd08.prod.outlook.com
+ ([fe80::3cac:792d:fcf4:75a2]) by SN6PR08MB5517.namprd08.prod.outlook.com
+ ([fe80::3cac:792d:fcf4:75a2%7]) with mapi id 15.20.3564.035; Sun, 22 Nov 2020
+ 22:39:29 +0000
+From:   Jeff LaBundy <jeff@labundy.com>
+To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        Jeff LaBundy <jeff@labundy.com>
+Subject: [PATCH 0/2] Add support for Azoteq IQS626A
+Date:   Sun, 22 Nov 2020 16:39:06 -0600
+Message-Id: <1606084748-4097-1-git-send-email-jeff@labundy.com>
+X-Mailer: git-send-email 2.7.4
+Content-Type: text/plain
+X-Originating-IP: [136.49.227.119]
+X-ClientProxiedBy: SN6PR01CA0017.prod.exchangelabs.com (2603:10b6:805:b6::30)
+ To SN6PR08MB5517.namprd08.prod.outlook.com (2603:10b6:805:fb::32)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (136.49.227.119) by SN6PR01CA0017.prod.exchangelabs.com (2603:10b6:805:b6::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3589.20 via Frontend Transport; Sun, 22 Nov 2020 22:39:29 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3892a94e-95c0-43cd-fa8a-08d88f37796f
+X-MS-TrafficTypeDiagnostic: SA2PR08MB6604:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SA2PR08MB660453AF846B40C2F0213A46D3FD0@SA2PR08MB6604.namprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HPAXiNzFbvAMMufwnL38BkErhbg6BilL/mVgaSPnOqtAZo0mCLaplE3xINssEG2Wi75tlijp96tlV6tR8DVD80HGrRttMefodRSRoAAKEiCFvzaosnkuLJ0Qbx3VzraQyMj0dQ43cIF4KrxrsfBO8zzXcqTYPlaPzVPuxJXz1bM4Vc2Q7si3BGeJTD30bGIuXNG7u8gje8YDV5goYuBEyIR7FrhIJgSj2EHXCyzSrzrEGuhCEasIesr8iO7WsX35H0AaLlLOCU7bMHiQw5wGPQ6GIcOykiA7IFOJ6YJDBQHBnT/I+g3OqPkgeXgpQYYSc+FMXKNnO7Id+U5HHXgkoWZjfsmFhXr65VI1c694mUkWrxrMlgSMX2ETUDRhJiG3SWLjEG2ATeNs+5KffV7RF2b26uzJT+b4hVW3073KLM5ArWJr3c6mgbiMS3T48gPnirtAhhl1SrVOAV7xGRURsQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR08MB5517.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(346002)(136003)(396003)(366004)(376002)(39830400003)(6512007)(316002)(6486002)(83380400001)(86362001)(69590400008)(36756003)(478600001)(8676002)(966005)(4326008)(5660300002)(107886003)(6506007)(66946007)(66556008)(66476007)(2906002)(26005)(6666004)(8936002)(52116002)(2616005)(16526019)(186003)(956004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: xUdyhq7cLzFXd6T3EjQ55u2CNSYx5QwWBG2K3WqU1JbmRRCfK9sUTPP9DAPXaiu3kZxxZ1HMPk3vB3cmv5Y2NuPyQnwDddmHP1QY9GUwOBf+pQWWqBIXds0RIgPyx7GIr4ddB9qJFl0MVB0C1vkfux308IzNqrAxpRc5ShuFSav4XRFLcoMvMWQnFnf1eVtFGQ/QVfNSH9QqFbk0b92AF4rpGr4bwLRQ8i03xiOvNSmYohxCdZw2+Q1niceFvLuC4L9O43vgnCDVDjxOAmlMQiuG1GkD/eUbt1pHJdSSjONFLuG7WPvafQUpQRfLUQ4ZZ+fJPlmvzANLW8P8fT3JPpbFfH6tEO6iLey8IIBr/tzyX2HEisgZsfkCJd9HkGuUb4iMzXALuxoZeaYnhaGLC7RMx1jc22bggoxTu9D0OxnMWlpKexbU20+bXjULOcQOhU8GRLdVe5/e3I7HQiF4EG71+QkmdrrqYpu6gVOnxnIE1c9ZSdPKsdc4YMPSDbSlUdpsAT9HoT07CR7aSk5EUEYtrKb1kzQAAQp1hQyvox/e121UZj8r3FbWpyzcs+qtmuXKM2DshsNyVRCEzZPG1YX/AzKdRiqSCVCe4fzW0Lw22NsUt3JUORAmJxOlHnV6SIrGlmaWnX0xnLgO2zsx0Q==
+X-OriginatorOrg: labundy.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3892a94e-95c0-43cd-fa8a-08d88f37796f
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR08MB5517.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2020 22:39:29.7839
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: r1OzNqnk2y0yk7ed2MHdAsz/BbpEeAKIPYe0T9gYK0l2slzqdtbPbvQLanHDQ5X87K5iNY4ssK6ncsow8ToFEA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR08MB6604
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 2020-11-22 at 21:35 +0100, Miguel Ojeda wrote:
-> On Sun, Nov 22, 2020 at 7:22 PM James Bottomley
-> <James.Bottomley@hansenpartnership.com> wrote:
-> > Well, it's a problem in an error leg, sure, but it's not a really
-> > compelling reason for a 141 patch series, is it?  All that fixing
-> > this error will do is get the driver to print "oh dear there's a
-> > problem" under four more conditions than it previously did.
-> > 
-> > We've been at this for three years now with nearly a thousand
-> > patches, firstly marking all the fall throughs with /* fall through
-> > */ and later changing it to fallthrough.  At some point we do have
-> > to ask if the effort is commensurate with the protection
-> > afforded.  Please tell me our reward for all this effort isn't a
-> > single missing error print.
-> 
-> It isn't that much effort, isn't it?
+This series introduces support for the Azoteq IQS626A capacitive touch
+controller, a highly flexible multifunction sensor targeting wearable
+applications. It is a close cousin to the IQS269A with the following key
+differences:
 
-Well, it seems to be three years of someone's time plus the maintainer
-review time and series disruption of nearly a thousand patches.  Let's
-be conservative and assume the producer worked about 30% on the series
-and it takes about 5-10 minutes per patch to review, merge and for
-others to rework existing series.  So let's say it's cost a person year
-of a relatively junior engineer producing the patches and say 100h of
-review and application time.  The latter is likely the big ticket item
-because it's what we have in least supply in the kernel (even though
-it's 20x vs the producer time).
+ - Channel count increases from 8 to 14.
+ - Channels are assigned dedicated functions as follows:
+   - ULP (ultra-low power): a single channel that continues to be sampled
+     during the device's lowest-power sensing mode for wake-up signaling.
+   - Trackpad: a group of 6 or 9 channels forming a capacitive trackpad with
+     gesture support.
+   - Generic: 3 independent channels capable of capacitive or inductive
+     sensing, plus much more.
+   - Hall: a single channel leveraging a pair of internal Hall-effect plates
+     serving lid or dock detection.
+ - Each channel (or group of channels) has a unique collection of configurable
+   parameters rather than common parameters for every channel.
 
->  Plus we need to take into account the future mistakes that it might
-> prevent, too. So even if there were zero problems found so far, it is
-> still a positive change.
+Channels and events reported by the channels are configured using the device
+tree, similar to what was done for the IQS269A.
 
-Well, the question I was asking is if it's worth the cost which I've
-tried to outline above.
+A demo is shown in the following video: https://youtu.be/n0Q5BXYFIgI
 
-> I would agree if these changes were high risk, though; but they are
-> almost trivial.
+Jeff LaBundy (2):
+  dt-bindings: input: Add bindings for Azoteq IQS626A
+  input: Add support for Azoteq IQS626A
 
-It's not about the risk of the changes it's about the cost of
-implementing them.  Even if you discount the producer time (which
-someone gets to pay for, and if I were the engineering manager, I'd be
-unhappy about), the review/merge/rework time is pretty significant in
-exchange for six minor bug fixes.  Fine, when a new compiler warning
-comes along it's certainly reasonable to see if we can benefit from it
-and the fact that the compiler people think it's worthwhile is enough
-evidence to assume this initially.  But at some point you have to ask
-whether that assumption is supported by the evidence we've accumulated
-over the time we've been using it.  And if the evidence doesn't support
-it perhaps it is time to stop the experiment.
+ .../devicetree/bindings/input/iqs626a.yaml         |  840 +++++++++
+ drivers/input/misc/Kconfig                         |   11 +
+ drivers/input/misc/Makefile                        |    1 +
+ drivers/input/misc/iqs626a.c                       | 1846 ++++++++++++++++++++
+ 4 files changed, 2698 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/iqs626a.yaml
+ create mode 100644 drivers/input/misc/iqs626a.c
 
-James
-
+--
+2.7.4
 
