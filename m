@@ -2,116 +2,162 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 721CB2C01A7
-	for <lists+linux-input@lfdr.de>; Mon, 23 Nov 2020 09:46:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A7E6D2C030A
+	for <lists+linux-input@lfdr.de>; Mon, 23 Nov 2020 11:16:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728123AbgKWIqs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 Nov 2020 03:46:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59075 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726977AbgKWIqs (ORCPT
+        id S1728082AbgKWKNJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 Nov 2020 05:13:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34614 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728182AbgKWKNI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 Nov 2020 03:46:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1606121206;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=0EgyJjhX29A+wOUcHgkoovIGjjiENqeDg1JmKe2gpgE=;
-        b=cYjiSWwGzEU1FNihmtkEyoIJc0Ck+RjhizFlvPrYCQ5g2DlEBxmsM+bvEeEEBGp2KwC/e5
-        nGKp5Hw4qhlR4P4zj6k0DqC4ztBW5jAZ7sMCrxiz0eka3Kjtx1yI4i6NPzSWws6ZeqSsyp
-        Ohy+feLko+xDtvV6D9klGBmGOVKM0tA=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-521-RGeY-ydXO3uufDMVjxEfpQ-1; Mon, 23 Nov 2020 03:46:44 -0500
-X-MC-Unique: RGeY-ydXO3uufDMVjxEfpQ-1
-Received: by mail-ej1-f71.google.com with SMTP id gr9so5390354ejb.19
-        for <linux-input@vger.kernel.org>; Mon, 23 Nov 2020 00:46:44 -0800 (PST)
+        Mon, 23 Nov 2020 05:13:08 -0500
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 978D1C061A4E
+        for <linux-input@vger.kernel.org>; Mon, 23 Nov 2020 02:13:08 -0800 (PST)
+Received: by mail-yb1-xb42.google.com with SMTP id o144so15430865ybg.7
+        for <linux-input@vger.kernel.org>; Mon, 23 Nov 2020 02:13:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Lvn4+bjYbxxCbS7L/QCzyvRpE+ItUgyiLMioWuZNw0g=;
+        b=zPiVI/dQ12Jth9bMBDSqmQOmWkH5ziZh0ycmMbl3yW9lANMDaBW/jc0DiVo/+1Mvtb
+         QnWJWQ+IrlF4J6L3qvAPtw8EmiuOa2Ez2vx43FJeiIdL1dA4qnGHNPVCJ9xsHsSmEpMT
+         eOiWC6867AktKIRRe+Rns4P22awgSl5t4FXtbH6TP98D/wiGPePxRw4JaqzwcV3j3onf
+         xqEmszGQRlsBMTY6yBsxwzDLcXoIe8LD7oMWL2hAy+++ltg/x8aCBlQ3CqMJTa3cJJ6Z
+         bK6O8vuUGEK5Pe7SgoSYTH44sHS1ABxvw2L0O1pMymtEOTzYttpkEA2wd6TZ8+B4xN0q
+         jX+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=0EgyJjhX29A+wOUcHgkoovIGjjiENqeDg1JmKe2gpgE=;
-        b=gjBv75LxfiowxRJSHyHz0jzCDfSDZrIkuqX64Df6CkysLiXnywSS6VILRxGK0ZJIr2
-         07wSIZoGU4Mph9m3XdeQ8KC4yfRN3w6OKl/Le6uG7h0GwPcWhGxUUIBSbU+r0HC+uXFa
-         eg2a1Ds4LRZ7Fi0sUVHvU1FrIIZG6t4iRGO60zpE4Yoly1xTNT8HarocgdNPOVrq5u1h
-         buIdL1Zn3SqPXYy2RnVglbySSV3cNyviR3lOenONJQ2YojxgzTTlLRUYiqOSXgP+aIgx
-         qv+H0ieEkGesJHuU500+t2Ne3AE27jnmTPx2P26CFZJEu2xGnRq2E9moUis9Aiv4Wi7f
-         qBrQ==
-X-Gm-Message-State: AOAM532btlGy1DyMESYXCtWWnvNhml8wwv0M/n2AO7S6E7cbAgELVrye
-        c4h+zc3gR31T7UVCus+ywpzhkka/MfGdw0BzfRJbVJbOunE6xZj2II7hlUMpLyKffQm3r/ujsen
-        KEZvVskqmqttg/44OSsZoqcE=
-X-Received: by 2002:a05:6402:3076:: with SMTP id bs22mr11962045edb.267.1606121203076;
-        Mon, 23 Nov 2020 00:46:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxArviIzq7Y2VUTP/v0eMdhI8XczZlTvXdk7SSJlx1EK9GwksDj+tt0vm8gqre0iudxZE2tfQ==
-X-Received: by 2002:a05:6402:3076:: with SMTP id bs22mr11962038edb.267.1606121202934;
-        Mon, 23 Nov 2020 00:46:42 -0800 (PST)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-6c10-fbf3-14c4-884c.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:6c10:fbf3:14c4:884c])
-        by smtp.gmail.com with ESMTPSA id b15sm4545719ejz.114.2020.11.23.00.46.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Nov 2020 00:46:42 -0800 (PST)
-Subject: Re: [PATCH] Input: soc_button_array - add missing include
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org
-References: <20201123061508.GA1009828@dtor-ws>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <017e8b75-4913-ca62-db1d-6c137edf650a@redhat.com>
-Date:   Mon, 23 Nov 2020 09:46:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Lvn4+bjYbxxCbS7L/QCzyvRpE+ItUgyiLMioWuZNw0g=;
+        b=NAFicSOpQVmNF//WmjVfQ5+H6XSFZt2H/EeObSKqBlLRrLpfLRbLyCActHqzH8hN38
+         8pGKCqRDpdxIpYpfxM3PbxVsx2l0CGffzlVUyhlCNr8osqRSP3qH4izsXtXs6CK0sjFO
+         2Sn2nwL2ItaQ3iIYFNDrC2fN74vu/LEQJdqLS2rkEW5Vo8JLoRHmBdIxSZ4AgfPxfIQj
+         RebR1PNd43q/l7stV1HGuUnx7O1nVLY0RawwuVWvnRIP8sE8NlW0QT6Tr/e19cBKHO7k
+         79rmXkNEdSyzB6GcO1zl7yxLOUQL/XWMQdp2fgCEay1PlpVJFUboWZgoi+TEXfqzsB8w
+         iCXg==
+X-Gm-Message-State: AOAM532pevPNAwKggZwhQudf0Ga51+YBcGm2fbU16u/BBD93y1OrIDZ6
+        UMhNG7wuvP132xRrHuzo3JxMcpLYhVyQrtTjaGnm/g==
+X-Google-Smtp-Source: ABdhPJzIY/SaDA417dFn6lslJn7PBUUzQ1eYf5tPZpZKaIjf/lLLOk3BgqB+rXma5/8S4sS9JW8vit8t9UbXTS5zfrU=
+X-Received: by 2002:a25:c7c6:: with SMTP id w189mr32070799ybe.403.1606126387667;
+ Mon, 23 Nov 2020 02:13:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201123061508.GA1009828@dtor-ws>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20201028221302.66583-1-kholk11@gmail.com>
+In-Reply-To: <20201028221302.66583-1-kholk11@gmail.com>
+From:   Amit Pundir <amit.pundir@linaro.org>
+Date:   Mon, 23 Nov 2020 15:42:32 +0530
+Message-ID: <CAMi1Hd1hh3NYuFTs3C39ha1Jy_0LxQ4Akg36sm0x1+uicWYRjQ@mail.gmail.com>
+Subject: Re: [PATCH v9 0/3] Add Novatek NT36xxx touchscreen driver
+To:     kholk11@gmail.com
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>, rydberg@bitmath.org,
+        priv.luk@gmail.com, linux-input@vger.kernel.org,
+        lkml <linux-kernel@vger.kernel.org>, marijns95@gmail.com,
+        Konrad Dybcio <konradybcio@gmail.com>, martin.botka1@gmail.com,
+        phone-devel@vger.kernel.org, dt <devicetree@vger.kernel.org>,
+        krzk@kernel.org, andy.shevchenko@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 Hi,
 
-On 11/23/20 7:15 AM, Dmitry Torokhov wrote:
-> This fixes the following build errors:
-> 
->   CC [M]  drivers/input/misc/soc_button_array.o
-> drivers/input/misc/soc_button_array.c:156:4: error: implicit declaration of function 'irq_set_irq_type' [-Werror,-Wimplicit-function-declaration]
->                         irq_set_irq_type(irq, IRQ_TYPE_LEVEL_LOW);
->                         ^
-> drivers/input/misc/soc_button_array.c:156:26: error: use of undeclared identifier 'IRQ_TYPE_LEVEL_LOW'
->                         irq_set_irq_type(irq, IRQ_TYPE_LEVEL_LOW);
->                                               ^
-> 2 errors generated.
-> 
-> Fixes: 78a5b53e9fb4 ("Input: soc_button_array - work around DSDTs which modify the irqflags")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+On Thu, 29 Oct 2020 at 06:32, <kholk11@gmail.com> wrote:
+>
+> From: AngeloGioacchino Del Regno <kholk11@gmail.com>
+>
+> This patch series adds support for the Novatek NT36xxx Series' In-Cell
+> touchscreen (integrated into the DriverIC).
+>
+> This patch series has been tested against the following devices:
+>  - Sony Xperia 10        (SDM630 Ganges Kirin)
+>  - Sony Xperia 10 Plus   (SDM636 Ganges Mermaid)
 
-Thanks, patch looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Tested the patch series on Xiaomi Poco F1 (SDM845 Beryllium) using
+Novatek NT36672A IC. May I suggest adding "novatek,nt36672a" in the
+list of compatible of_device_id{} as well.
 
 Regards,
+Amit Pundir
 
-Hans
 
-> ---
->  drivers/input/misc/soc_button_array.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
-> index cae1a3fae83a..d14a65683c5e 100644
-> --- a/drivers/input/misc/soc_button_array.c
-> +++ b/drivers/input/misc/soc_button_array.c
-> @@ -9,6 +9,7 @@
->  #include <linux/module.h>
->  #include <linux/input.h>
->  #include <linux/init.h>
-> +#include <linux/irq.h>
->  #include <linux/kernel.h>
->  #include <linux/acpi.h>
->  #include <linux/dmi.h>
-> 
-
+>
+> Changes in v2:
+> - Fixed sparse warnings from lkp kernel test robot
+>
+> Changes in v3 (as requested by Dmitry Torokhov):
+> - Using shorthand u16/u32 (sorry for the overlook!)
+> - Now using more input and touchscreen APIs
+> - Fixed useless workqueue involvements
+> - Removed useless locking
+> - Switched reads and writes to use regmap
+> - Moved header contents to nt36xxx.c
+> - Fixed reset gpio handling
+> - Other cleanups
+> - P.S.: Thanks, Dmitry!
+>
+> Changes in v4:
+> - Fixed regmap read length for CRC_ERR_FLAG final check
+> - Fixed YAML binding, as requested by Krzysztof Kozlowski
+>
+> Changes in v5:
+> - Replaced subsystem maintainer's name with .. mine,
+>   usage of additionalProperties to unevaluatedProperties
+>   and a typo fix for reset-gpios as per Rob Herring's review
+> - Changed compatible string as per Krzysztof K. request
+> - Renamed the novatek,nt36xxx.yaml file to just nt36xxx.yaml
+>   in order to now reflect the driver name instead of the DT
+>   compatible
+> - Fixed blank line at EOF
+>
+> Changes in v6:
+> - Removed include of_gpio.h, added mod_devicetable.h and
+>   gpio/consumer.h
+> - Added kerneldoc to relevant functions/enum
+> - Used traditional patterns for error checking where possible
+> - Documented calls to usleep/msleep
+> - Using be16_to_cpu / get_unaligned_be16 where possible
+> - Added helper for CRC error check on retrieved buffer
+> - Decreased indentation in the CRC reboot recovery function
+> - Removed instances of error code sum
+> - Dropped all likely/unlikely optimization as per request
+> - Removed redundant reset_gpio checks
+> - Dropped of_match_ptr and ifdefs for CONFIG_OF
+>
+> Changes in v7:
+> - Fixed typo in nt36xxx.c
+>
+> Changes in v8:
+> - Fixed typo reset-gpio -> reset-gpios in dt-bindings
+>
+> Changes in v9:
+> - Includes are now sorted
+> - Used proposed sizeof variable instead of sizeof type
+> - Fixed a return value check for common pattern
+> - Added NULL check to devm_kasprintf call
+> - Returning ret on probe function to be consistent
+>
+> AngeloGioacchino Del Regno (3):
+>   dt-bindings: Add vendor prefix for Novatek Microelectronics Corp.
+>   Input: Add Novatek NT36xxx touchscreen driver
+>   dt-bindings: touchscreen: Add binding for Novatek NT36xxx series
+>     driver
+>
+>  .../bindings/input/touchscreen/nt36xxx.yaml   |  59 ++
+>  .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+>  drivers/input/touchscreen/Kconfig             |  12 +
+>  drivers/input/touchscreen/Makefile            |   1 +
+>  drivers/input/touchscreen/nt36xxx.c           | 894 ++++++++++++++++++
+>  drivers/input/touchscreen/nt36xxx.h           | 122 +++
+>  6 files changed, 1090 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/nt36xxx.yaml
+>  create mode 100644 drivers/input/touchscreen/nt36xxx.c
+>  create mode 100644 drivers/input/touchscreen/nt36xxx.h
+>
+> --
+> 2.28.0
+>
