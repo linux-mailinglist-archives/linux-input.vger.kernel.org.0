@@ -2,90 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7898F2C0048
-	for <lists+linux-input@lfdr.de>; Mon, 23 Nov 2020 07:49:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F20D2C004A
+	for <lists+linux-input@lfdr.de>; Mon, 23 Nov 2020 07:49:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727821AbgKWGss (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 Nov 2020 01:48:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59730 "EHLO
+        id S1727825AbgKWGs6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 Nov 2020 01:48:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726626AbgKWGss (ORCPT
+        with ESMTP id S1726603AbgKWGs6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 Nov 2020 01:48:48 -0500
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0664FC0613CF;
-        Sun, 22 Nov 2020 22:48:48 -0800 (PST)
-Received: by mail-pf1-x442.google.com with SMTP id b6so3557173pfp.7;
-        Sun, 22 Nov 2020 22:48:48 -0800 (PST)
+        Mon, 23 Nov 2020 01:48:58 -0500
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8425CC0613CF
+        for <linux-input@vger.kernel.org>; Sun, 22 Nov 2020 22:48:58 -0800 (PST)
+Received: by mail-pl1-x643.google.com with SMTP id v21so7111713plo.12
+        for <linux-input@vger.kernel.org>; Sun, 22 Nov 2020 22:48:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=28cYgRsJ7c/Vbf4Q/dW+RnYvZz+VwVBF9wov2zGw7TE=;
-        b=Fc+em1gQ79fOpllIdeeIkNliu0Yqb+xf2lsD++YLMwXKFt05l7j8X/31QU8TodglJp
-         CPwVpOVM0TahM6DPyDvbo4RxrZMoZhv+xqrqTv3sm5V28U/2Q1an3JsksJ15cJ+6UmP8
-         yW3Qb+yWWxesM+G0Z640a8zHi41ujffsMfsrQpeY0KVBBKb4HBqGeFD2sx+5Br0xNzaX
-         p4dnXFuCLriADcOYPmZPx85e371jhp7m4skaZxhGU69DzfHP6xTNCP6yfLasU1qyELSw
-         Ebs8xfB+8BWXGRWsohCWcfThk5/sjLAbA8TwtnKTGzAZNG2iG/NvxbCcS6lpeW1QIHlt
-         QkOQ==
+        bh=7va8iOKrlnt3K7b//Fm5ZLYQuZjDYYlsazxFh2lHQkc=;
+        b=prfzHTtkzkaqq5JrH7NWdGIssXxWxDNaL1igOQLW2Pd6zsacTiXlLL91oyO4UXCApz
+         8+ldCF6sHCfLmg8Vntvp/Upx7Q4eHAESyFNQZSUKNaN1unUU59JY8XtsQX3MW3vYIOaX
+         OrvIsPPL5PIFK61rUl/r83ZixVi+Qevxf/FImipJ1VTa6OjkzyktjY6S4PMiRA4MxxuI
+         y8fKpY5QQv8Sr1R2KJI04+h10wHMub2FPb+zPItcTh6KRWr4sizaxpBlPHPp59UHKERR
+         rCBdOQRwFlRTK+0CG7K5T+1Q7Giq9PG3neUe1WfvPwC5t8ZtrTPFyu9CImpZalj3XUWH
+         5rcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=28cYgRsJ7c/Vbf4Q/dW+RnYvZz+VwVBF9wov2zGw7TE=;
-        b=LTqZma5QTW+XstUHD0NK7oGgA67JUqeQr4w0KaWou1rpbx3TZK4RpvKYh5kW9/sQkS
-         FP67EgqS9VWJn4Xlo/uvsHJDJH19X/PDe4kSUItB29Tfni2kfSQ/ZGs1sZmpdxBrEFxO
-         iaRXku4i4znVz1x0NPr6GbYMqC0058hIgzRohgstPQqUblRcrdSxj4V10H0nfUef6hGC
-         xIbyPuOsLJ4sFaA6E4NvesYa+fUjWbUKseudJnwjQbWNrpjyEo31brhux5JSOvcrjFK5
-         dXqCgx1VX3bs0vaEkNp10bgKp2B4HWHRU1lm31e8a0J4yZPM4mLyomvKHE1fzdYBLbD8
-         U/Gg==
-X-Gm-Message-State: AOAM532jsxzljylC+8SEoHOu0ujpRBYJrip43FmHzK8P/MoBPxh8AzbG
-        5ZrjPnsRAnuhlO4KPrKdEls=
-X-Google-Smtp-Source: ABdhPJz5kUMKF0rTcNZOzYCpsu+04H5u8FQrirBTBzc3tiKZjNYg7fsY7iiR81Sjt4NJHNnTe543FQ==
-X-Received: by 2002:a17:90a:1bc5:: with SMTP id r5mr24271025pjr.157.1606114127494;
-        Sun, 22 Nov 2020 22:48:47 -0800 (PST)
+        bh=7va8iOKrlnt3K7b//Fm5ZLYQuZjDYYlsazxFh2lHQkc=;
+        b=Co5F5oh7IjzE9VASDfRnTMUXD6/pCBd1Q9KEL+ONCJVDIKJat8MUipLx04rhf2yOYJ
+         S6CaTFI/J8AKyOIrEtBnNgbLl+i9KQY/hveELlnNTF1UBA5Lk7dN0taYPIquY1YZ+5wh
+         Q5k0c3OI9rBvOJXZ0jGgNY4Q4JXdV4Gzu8R4or8IW+/EVmJSUPFBlTVQE+HdPkTUGKzz
+         Q9kYss8HQ4rmYvvM3AQx8a7cPfEWOJqrRls1jcT965BeDxPfFjWnFhHZorHOVXVZxwwn
+         JX4ljLeFmdb8hvlfhX1x12NQOIyQ6kMiPKVKUVb2YQShAmfrfy9woihe2dCWKd6LRw9a
+         diKw==
+X-Gm-Message-State: AOAM531RXoW+tqjjtny+yL1aZWBpn4b13wFPiGH/Lru/FiZy5u3zHqKb
+        2RK/qJBNXxYo4J4pd70u0uk=
+X-Google-Smtp-Source: ABdhPJzKN3czuoPjNgmyylnme3mqlmujynvvEZk73Hrag3XP0VHjo5Ay80+W1DJ9lAVG1yISuDthtA==
+X-Received: by 2002:a17:902:b717:b029:d9:e816:fd0b with SMTP id d23-20020a170902b717b02900d9e816fd0bmr11551347pls.50.1606114138068;
+        Sun, 22 Nov 2020 22:48:58 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id d68sm10116096pfd.32.2020.11.22.22.48.46
+        by smtp.gmail.com with ESMTPSA id v1sm12569997pjs.16.2020.11.22.22.48.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2020 22:48:46 -0800 (PST)
-Date:   Sun, 22 Nov 2020 22:48:44 -0800
+        Sun, 22 Nov 2020 22:48:57 -0800 (PST)
+Date:   Sun, 22 Nov 2020 22:48:55 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Linus Walleij <linus.walleij@linaro.org>
 Cc:     linux-input@vger.kernel.org, Nick Dyer <nick@shmanahar.org>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/3 v2] Input: atmel_mxt_ts - Convert bindings to YAML
- and extend
-Message-ID: <20201123064844.GA2034289@dtor-ws>
+        Stephan Gerhold <stephan@gerhold.net>
+Subject: Re: [PATCH 3/3 v2] Input: atmel_mxt_ts - Support regulator supplies
+Message-ID: <20201123064855.GB2034289@dtor-ws>
 References: <20201104153032.1387747-1-linus.walleij@linaro.org>
- <20201104153032.1387747-2-linus.walleij@linaro.org>
+ <20201104153032.1387747-3-linus.walleij@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201104153032.1387747-2-linus.walleij@linaro.org>
+In-Reply-To: <20201104153032.1387747-3-linus.walleij@linaro.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Nov 04, 2020 at 04:30:31PM +0100, Linus Walleij wrote:
-> This converts the Armel MXT touchscreen bindings to YAML
-> format and extends them with the following two properties:
+On Wed, Nov 04, 2020 at 04:30:32PM +0100, Linus Walleij wrote:
+> This adds the code for the Atmel touchscreens such as
+> mXT224 to obtain power regulators for the supply voltages
+> AVDD and VDD. On mobile phones such as Samsung GT-I8190
+> (Golden) this is needed to explicitly bring power online.
 > 
-> - vdda-supply: the optional analog supply voltage
-> - vdd-supply: the optional digital supply voltage
+> We just enable the regulators at probe() and disable
+> them at remove() or in the errorpath for now.
 > 
-> I also explained about the reset-gpios property that this
-> better be flagged as active high (0) despite actually
-> being active low, because all current device trees and
-> drivers assume that this is the case and will actively
-> drive the line low to assert RESET.
-> 
-> Tested the schema with all in-tree users and they verify
-> fine.
+> As regulators are naturally stubbed if not available,
+> this should have no impact on existing systems.
 > 
 > Cc: Nick Dyer <nick@shmanahar.org>
 > Cc: Stephan Gerhold <stephan@gerhold.net>
-> Cc: devicetree@vger.kernel.org
 > Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 
 Applied, thank you.
