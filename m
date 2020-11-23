@@ -2,134 +2,97 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D2782BFCCA
-	for <lists+linux-input@lfdr.de>; Mon, 23 Nov 2020 00:05:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 954D52BFFD2
+	for <lists+linux-input@lfdr.de>; Mon, 23 Nov 2020 07:15:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726805AbgKVXEo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 22 Nov 2020 18:04:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45216 "EHLO
+        id S1726302AbgKWGPM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 Nov 2020 01:15:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725788AbgKVXEm (ORCPT
+        with ESMTP id S1725275AbgKWGPM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 22 Nov 2020 18:04:42 -0500
-Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [IPv6:2607:fcd0:100:8a00::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB334C0613CF;
-        Sun, 22 Nov 2020 15:04:41 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-        by bedivere.hansenpartnership.com (Postfix) with ESMTP id 587D812808F8;
-        Sun, 22 Nov 2020 15:04:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=hansenpartnership.com; s=20151216; t=1606086281;
-        bh=ampKVWKUqLiKYyObj0dhEgltdPGbsuliUrstEBadWMw=;
-        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-        b=WmZvrZ8SISP4O7CkmRRwRn7Ww4EqbFeoj9AudkGWHrTHPvBGVyYGXPtxxL5/3UBwZ
-         KEGMUiR7FBhAVO42W5uBkyouydambEWUMRvvMR32eyWutkJh8vdHwfKrPde3Z6lPQr
-         zwZuERjUvzNlbmlNByqn4M9h7sLDVk7BBiQeo3h4=
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
-        by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id ANo_7oL4BAZt; Sun, 22 Nov 2020 15:04:41 -0800 (PST)
-Received: from jarvis.int.hansenpartnership.com (unknown [IPv6:2601:600:8280:66d1::527])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 9178D12808F6;
-        Sun, 22 Nov 2020 15:04:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=hansenpartnership.com; s=20151216; t=1606086281;
-        bh=ampKVWKUqLiKYyObj0dhEgltdPGbsuliUrstEBadWMw=;
-        h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-        b=WmZvrZ8SISP4O7CkmRRwRn7Ww4EqbFeoj9AudkGWHrTHPvBGVyYGXPtxxL5/3UBwZ
-         KEGMUiR7FBhAVO42W5uBkyouydambEWUMRvvMR32eyWutkJh8vdHwfKrPde3Z6lPQr
-         zwZuERjUvzNlbmlNByqn4M9h7sLDVk7BBiQeo3h4=
-Message-ID: <c3371b7c15ed30b92e9bb8609ff65bdaa0ef61fa.camel@HansenPartnership.com>
-Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
-From:   James Bottomley <James.Bottomley@HansenPartnership.com>
-To:     Finn Thain <fthain@telegraphics.com.au>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        alsa-devel@alsa-project.org, amd-gfx@lists.freedesktop.org,
-        bridge@lists.linux-foundation.org, ceph-devel@vger.kernel.org,
-        cluster-devel@redhat.com, coreteam@netfilter.org,
-        devel@driverdev.osuosl.org, dm-devel@redhat.com,
-        drbd-dev@lists.linbit.com, dri-devel@lists.freedesktop.org,
-        GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
-        intel-gfx@lists.freedesktop.org, intel-wired-lan@lists.osuosl.org,
-        keyrings@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-        linux-acpi@vger.kernel.org, linux-afs@lists.infradead.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-arm-msm@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net,
-        linux-block@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-cifs@vger.kernel.org,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        linux-decnet-user@lists.sourceforge.net,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-fbdev@vger.kernel.org, linux-geode@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-hams@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
-        linux-ide@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input <linux-input@vger.kernel.org>,
-        linux-integrity@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-mmc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        netfilter-devel@vger.kernel.org, nouveau@lists.freedesktop.org,
-        op-tee@lists.trustedfirmware.org, oss-drivers@netronome.com,
-        patches@opensource.cirrus.com, rds-devel@oss.oracle.com,
-        reiserfs-devel@vger.kernel.org, samba-technical@lists.samba.org,
-        selinux@vger.kernel.org, target-devel@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net,
-        usb-storage@lists.one-eyed-alien.net,
-        virtualization@lists.linux-foundation.org,
-        wcn36xx@lists.infradead.org,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        xen-devel@lists.xenproject.org, linux-hardening@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>, Joe Perches <joe@perches.com>
-Date:   Sun, 22 Nov 2020 15:04:36 -0800
-In-Reply-To: <alpine.LNX.2.23.453.2011230938390.7@nippy.intranet>
-References: <cover.1605896059.git.gustavoars@kernel.org>
-         <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-         <202011201129.B13FDB3C@keescook>
-         <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-         <202011220816.8B6591A@keescook>
-         <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
-         <CANiq72nZrHWTA4_Msg6MP9snTyenC6-eGfD27CyfNSu7QoVZbw@mail.gmail.com>
-         <alpine.LNX.2.23.453.2011230938390.7@nippy.intranet>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+        Mon, 23 Nov 2020 01:15:12 -0500
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E8CAC0613CF;
+        Sun, 22 Nov 2020 22:15:12 -0800 (PST)
+Received: by mail-pl1-x644.google.com with SMTP id u2so8321364pls.10;
+        Sun, 22 Nov 2020 22:15:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=1sNSI9+VHiS8jsCXSpla4wiPIAGnEp4AMU2x4XB2+lI=;
+        b=gryl4jYuFxIcEqxDJeXzLyzCzZgG/p0D8YYm7KelV4fOIqo+nsvGcvz7GhSaqxTNA9
+         mzld6gafjsqSQpHDyVRfT/LubaK10wMKxOG4tyvgDmkhLotBvmmEWq2ffIL9tBUv8OYq
+         mnR+owkUsqn1zhNcH09zahztEynyvcyDU03tg3iEumwfm1IeFfo9+y9PjCfwBidDiql6
+         LvoRzFNJeonHC8+hfUqyt+YRDWetNGQSHZ6Wn2rJb6NplM0WGwO+6rv7qKyELlqMZU2b
+         FtM/7gfhhKdqn4r/37mTlG+ZKeNEljGx+MEnvM8RyMaj8Kyni91D1jOf4vbE8XkL/xyx
+         6/Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=1sNSI9+VHiS8jsCXSpla4wiPIAGnEp4AMU2x4XB2+lI=;
+        b=CSGRakQvXbCoK5y9K2dcp1A5vdZiXPNPTuKFYD4m4VpSR9z2/5+HNVSBAVMuSC2FWB
+         UcsOErLdEHvrgZ0T/lJVtEZRi8CaM1OvnlPBvx+DUhif7xTBC/D6Lkg5BosBbqO3lRf+
+         LGW7BfnI06EkbnSD2Fy8aolBjRcEChYxPv981ykYbU747qcsuDCLCvun15euPWNllEJw
+         1MxuA9A81uoTUP6NnBnl3zZvLKWcpBQDKZYwmDL2QVcP096ygSude3lcp1uklPot/2rR
+         QZfFLuffUPcAH68hgLtEDWUkWD5zXCbmzsiIic97z9gwEtcRSt8z/ZT/DglAP8xnCyp/
+         hG3g==
+X-Gm-Message-State: AOAM531nj+lTjxE3OD1RnnLE4CwUcuQ9xSqKIWweJlIA8z8VJWF/YlB0
+        7aTFZ43VnCIVBiRx+fhEdjuPNmmNTCg=
+X-Google-Smtp-Source: ABdhPJyxzrU59fgcFKpQVfOqbQ816ob5ymVEUOSIClvIlCWJ2PCR3rei0H9ZyLXvIRY0Hmh6n2xhMQ==
+X-Received: by 2002:a17:902:ee04:b029:d9:d8a8:fa60 with SMTP id z4-20020a170902ee04b02900d9d8a8fa60mr16849816plb.84.1606112111442;
+        Sun, 22 Nov 2020 22:15:11 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id i11sm10617915pfq.156.2020.11.22.22.15.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Nov 2020 22:15:10 -0800 (PST)
+Date:   Sun, 22 Nov 2020 22:15:08 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: soc_button_array - add missing include
+Message-ID: <20201123061508.GA1009828@dtor-ws>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 2020-11-23 at 09:54 +1100, Finn Thain wrote:
-> But is anyone keeping score of the regressions? If unreported bugs
-> count, what about unreported regressions?
+This fixes the following build errors:
 
-Well, I was curious about the former (obviously no tool will tell me
-about the latter), so I asked git what patches had a fall-through
-series named in a fixes tag and these three popped out:
+  CC [M]  drivers/input/misc/soc_button_array.o
+drivers/input/misc/soc_button_array.c:156:4: error: implicit declaration of function 'irq_set_irq_type' [-Werror,-Wimplicit-function-declaration]
+                        irq_set_irq_type(irq, IRQ_TYPE_LEVEL_LOW);
+                        ^
+drivers/input/misc/soc_button_array.c:156:26: error: use of undeclared identifier 'IRQ_TYPE_LEVEL_LOW'
+                        irq_set_irq_type(irq, IRQ_TYPE_LEVEL_LOW);
+                                              ^
+2 errors generated.
 
-9cf51446e686 bpf, powerpc: Fix misuse of fallthrough in bpf_jit_comp()
-6a9dc5fd6170 lib: Revert use of fallthrough pseudo-keyword in lib/
-91dbd73a1739 mips/oprofile: Fix fallthrough placement
+Fixes: 78a5b53e9fb4 ("Input: soc_button_array - work around DSDTs which modify the irqflags")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/misc/soc_button_array.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-I don't think any of these is fixing a significant problem, but they
-did cause someone time and trouble to investigate.
+diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
+index cae1a3fae83a..d14a65683c5e 100644
+--- a/drivers/input/misc/soc_button_array.c
++++ b/drivers/input/misc/soc_button_array.c
+@@ -9,6 +9,7 @@
+ #include <linux/module.h>
+ #include <linux/input.h>
+ #include <linux/init.h>
++#include <linux/irq.h>
+ #include <linux/kernel.h>
+ #include <linux/acpi.h>
+ #include <linux/dmi.h>
+-- 
+2.29.2.454.gaff20da3a2-goog
 
-James
 
-
+-- 
+Dmitry
