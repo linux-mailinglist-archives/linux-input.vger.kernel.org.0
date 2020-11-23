@@ -2,162 +2,181 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7E6D2C030A
-	for <lists+linux-input@lfdr.de>; Mon, 23 Nov 2020 11:16:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 43B322C0558
+	for <lists+linux-input@lfdr.de>; Mon, 23 Nov 2020 13:19:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728082AbgKWKNJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 Nov 2020 05:13:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34614 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728182AbgKWKNI (ORCPT
+        id S1728895AbgKWMQ1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 Nov 2020 07:16:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29513 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727941AbgKWMQ0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 Nov 2020 05:13:08 -0500
-Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 978D1C061A4E
-        for <linux-input@vger.kernel.org>; Mon, 23 Nov 2020 02:13:08 -0800 (PST)
-Received: by mail-yb1-xb42.google.com with SMTP id o144so15430865ybg.7
-        for <linux-input@vger.kernel.org>; Mon, 23 Nov 2020 02:13:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Lvn4+bjYbxxCbS7L/QCzyvRpE+ItUgyiLMioWuZNw0g=;
-        b=zPiVI/dQ12Jth9bMBDSqmQOmWkH5ziZh0ycmMbl3yW9lANMDaBW/jc0DiVo/+1Mvtb
-         QnWJWQ+IrlF4J6L3qvAPtw8EmiuOa2Ez2vx43FJeiIdL1dA4qnGHNPVCJ9xsHsSmEpMT
-         eOiWC6867AktKIRRe+Rns4P22awgSl5t4FXtbH6TP98D/wiGPePxRw4JaqzwcV3j3onf
-         xqEmszGQRlsBMTY6yBsxwzDLcXoIe8LD7oMWL2hAy+++ltg/x8aCBlQ3CqMJTa3cJJ6Z
-         bK6O8vuUGEK5Pe7SgoSYTH44sHS1ABxvw2L0O1pMymtEOTzYttpkEA2wd6TZ8+B4xN0q
-         jX+A==
+        Mon, 23 Nov 2020 07:16:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1606133785;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=lXe5+vC9XhuqiWvB8SprIOltRTdJYIxBBDQ4j3P4YgE=;
+        b=UQLDdW/FJXoFgrLwOnC06/TIiwbBSzZf8lhs6M0Tb4I2NYijq9kFF8z3X0VBhAmBmM0BIa
+        U6KZmRtb0N1j/hKJlbK57MxAYqQmu3PIi3frDJ4DyHqbkBsA8krh5Nmbu/3Ple8awjwvd4
+        rVkXBqKIc7agZkdv39FrndKlBbe/O+w=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-151-CUcNmt46PwWwgGjFgZ0JEQ-1; Mon, 23 Nov 2020 07:16:23 -0500
+X-MC-Unique: CUcNmt46PwWwgGjFgZ0JEQ-1
+Received: by mail-ej1-f72.google.com with SMTP id j18so3992968ejs.12
+        for <linux-input@vger.kernel.org>; Mon, 23 Nov 2020 04:16:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Lvn4+bjYbxxCbS7L/QCzyvRpE+ItUgyiLMioWuZNw0g=;
-        b=NAFicSOpQVmNF//WmjVfQ5+H6XSFZt2H/EeObSKqBlLRrLpfLRbLyCActHqzH8hN38
-         8pGKCqRDpdxIpYpfxM3PbxVsx2l0CGffzlVUyhlCNr8osqRSP3qH4izsXtXs6CK0sjFO
-         2Sn2nwL2ItaQ3iIYFNDrC2fN74vu/LEQJdqLS2rkEW5Vo8JLoRHmBdIxSZ4AgfPxfIQj
-         RebR1PNd43q/l7stV1HGuUnx7O1nVLY0RawwuVWvnRIP8sE8NlW0QT6Tr/e19cBKHO7k
-         79rmXkNEdSyzB6GcO1zl7yxLOUQL/XWMQdp2fgCEay1PlpVJFUboWZgoi+TEXfqzsB8w
-         iCXg==
-X-Gm-Message-State: AOAM532pevPNAwKggZwhQudf0Ga51+YBcGm2fbU16u/BBD93y1OrIDZ6
-        UMhNG7wuvP132xRrHuzo3JxMcpLYhVyQrtTjaGnm/g==
-X-Google-Smtp-Source: ABdhPJzIY/SaDA417dFn6lslJn7PBUUzQ1eYf5tPZpZKaIjf/lLLOk3BgqB+rXma5/8S4sS9JW8vit8t9UbXTS5zfrU=
-X-Received: by 2002:a25:c7c6:: with SMTP id w189mr32070799ybe.403.1606126387667;
- Mon, 23 Nov 2020 02:13:07 -0800 (PST)
-MIME-Version: 1.0
-References: <20201028221302.66583-1-kholk11@gmail.com>
-In-Reply-To: <20201028221302.66583-1-kholk11@gmail.com>
-From:   Amit Pundir <amit.pundir@linaro.org>
-Date:   Mon, 23 Nov 2020 15:42:32 +0530
-Message-ID: <CAMi1Hd1hh3NYuFTs3C39ha1Jy_0LxQ4Akg36sm0x1+uicWYRjQ@mail.gmail.com>
-Subject: Re: [PATCH v9 0/3] Add Novatek NT36xxx touchscreen driver
-To:     kholk11@gmail.com
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=lXe5+vC9XhuqiWvB8SprIOltRTdJYIxBBDQ4j3P4YgE=;
+        b=PT0W5BDP3ZLt5OdsRybmAydp6P+9Nt/bw9JxyVh52MWc0MxAeGjyHQImLz7ATuw7hD
+         CrORpyuofbPRCQkTm/vorxVnawbuuvyPc/CsKg9TI0iCOEWk01OjlfC73gfF4DpYNfrn
+         zUgwH5nS3YawAxko++fByBuJLMoCBVl4fNAyegaeCNJnrI/OJLnyzTXb+O9wX7gBss5Q
+         ZTBjDkTPZl4wqPi+JyI3Uy6MezCeJT+v1gaqWqZk3VgwP8Dq0JaKKGSiQXjWcNoRwiYx
+         wML5ALSDEA9WzITohAff7hYBBedf9Zs9Sio+4PBqG0FmxP7v3k1eI/Q4b8H40xNNyUqr
+         zCKw==
+X-Gm-Message-State: AOAM532j7+3ITIx1w1eKkhzlozmRZBbn7fBF91eSZtGfrSv1J2VToIdM
+        uNuVIx2lSaP52xcfdSP3Rwg/g5lAeRq8mXNNjQvh43ERThCMYkTGPpuv2vFd38noCRvpdytYBpA
+        BbLm/fLSj0H/kpg3W4y5o6aBootFGQuQojrdwonIue4deFsVhdVVNLYNlWepA1/KSizN9lojx3b
+        4=
+X-Received: by 2002:a05:6402:c83:: with SMTP id cm3mr46539010edb.189.1606133782117;
+        Mon, 23 Nov 2020 04:16:22 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzlu7xwnh8BWC6vLqyoykLxoAYe2O5lhMVohFmamMLlf7fBHlEwPAtV6V2wyonz2GDFsiEWFQ==
+X-Received: by 2002:a05:6402:c83:: with SMTP id cm3mr46538974edb.189.1606133781764;
+        Mon, 23 Nov 2020 04:16:21 -0800 (PST)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-6c10-fbf3-14c4-884c.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:6c10:fbf3:14c4:884c])
+        by smtp.gmail.com with ESMTPSA id p14sm2383987edq.6.2020.11.23.04.16.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Nov 2020 04:16:21 -0800 (PST)
+Subject: Re: [External] Using IIO to export laptop palm-sensor and lap-mode
+ info to userspace?
+To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
 Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, rydberg@bitmath.org,
-        priv.luk@gmail.com, linux-input@vger.kernel.org,
-        lkml <linux-kernel@vger.kernel.org>, marijns95@gmail.com,
-        Konrad Dybcio <konradybcio@gmail.com>, martin.botka1@gmail.com,
-        phone-devel@vger.kernel.org, dt <devicetree@vger.kernel.org>,
-        krzk@kernel.org, andy.shevchenko@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+        Mark Pearson <markpearson@lenovo.com>,
+        linux-iio@vger.kernel.org, Bastien Nocera <hadess@hadess.net>,
+        Nitin Joshi1 <njoshi1@lenovo.com>, linux-input@vger.kernel.org
+References: <9f9b0ff6-3bf1-63c4-eb36-901cecd7c4d9@redhat.com>
+ <5a646527-7a1f-2fb9-7c09-8becdbff417b@lenovo.com>
+ <20201007083602.00006b7e@Huawei.com>
+ <218be284-4a37-e9f9-749d-c126ef1d098b@redhat.com>
+ <20201112062348.GF1003057@dtor-ws>
+ <3568c492-d9bd-c02d-4cbc-7f3eef605ef5@redhat.com>
+ <20201113065832.GD356503@dtor-ws>
+ <6df00683-9508-3dd9-831e-9b343658287b@redhat.com>
+ <20201120095943.000001a6@Huawei.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <aeb7bc51-0b27-198b-d3b5-50b18ad114e7@redhat.com>
+Date:   Mon, 23 Nov 2020 13:16:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+MIME-Version: 1.0
+In-Reply-To: <20201120095943.000001a6@Huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 Hi,
 
-On Thu, 29 Oct 2020 at 06:32, <kholk11@gmail.com> wrote:
->
-> From: AngeloGioacchino Del Regno <kholk11@gmail.com>
->
-> This patch series adds support for the Novatek NT36xxx Series' In-Cell
-> touchscreen (integrated into the DriverIC).
->
-> This patch series has been tested against the following devices:
->  - Sony Xperia 10        (SDM630 Ganges Kirin)
->  - Sony Xperia 10 Plus   (SDM636 Ganges Mermaid)
+On 11/20/20 10:59 AM, Jonathan Cameron wrote:
+> On Thu, 19 Nov 2020 16:39:07 +0100
+> Hans de Goede <hdegoede@redhat.com> wrote:
 
-Tested the patch series on Xiaomi Poco F1 (SDM845 Beryllium) using
-Novatek NT36672A IC. May I suggest adding "novatek,nt36672a" in the
-list of compatible of_device_id{} as well.
+>>>>>>>> On 2020-10-03 10:02 a.m., Hans de Goede wrote:  
+>>>>>>>>> Hi All,
+>>>>>>>>>
+>>>>>>>>> Modern laptops can have various sensors which are kinda
+>>>>>>>>> like proximity sensors, but not really (they are more
+>>>>>>>>> specific in which part of the laptop the user is
+>>>>>>>>> proximate to).
+>>>>>>>>>
+>>>>>>>>> Specifically modern Thinkpad's have 2 readings which we
+>>>>>>>>> want to export to userspace, and I'm wondering if we
+>>>>>>>>> could use the IIO framework for this since these readings
+>>>>>>>>> are in essence sensor readings:
+>>>>>>>>>
+>>>>>>>>> 1. These laptops have a sensor in the palm-rests to
+>>>>>>>>> check if a user is physically proximate to the device's
+>>>>>>>>> palm-rests. This info will be used by userspace for WWAN
+>>>>>>>>> functionality to control the transmission level safely.
+>>>>>>>>>
+>>>>>>>>> A patch adding a thinkpad_acpi specific sysfs API for this
+>>>>>>>>> is currently pending:
+>>>>>>>>> https://patchwork.kernel.org/patch/11722127/
+>>>>>>>>>
+>>>>>>>>> But I'm wondering if it would not be better to use
+>>>>>>>>> IIO to export this info.  
+
+<snip>
+
+>>> On newer ARM we use "label" attribute in DTS:
+>>>
+>>> arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+>>>
+>>>         ap_sar_sensor: proximity@28 {
+>>>                 compatible = "semtech,sx9310";
+>>>                 reg = <0x28>;
+>>>                 #io-channel-cells = <1>;
+>>>                 pinctrl-names = "default";
+>>>                 pinctrl-0 = <&p_sensor_int_l>;
+>>>
+>>>                 interrupt-parent = <&tlmm>;
+>>>                 interrupts = <24 IRQ_TYPE_LEVEL_LOW>;
+>>>
+>>>                 vdd-supply = <&pp3300_a>;
+>>>                 svdd-supply = <&pp1800_prox>;
+>>>
+>>>                 status = "disabled";
+>>>                 label = "proximity-wifi";
+>>>         };  
+>>
+>> Hmm, interesting. I did not know iio-devices could
+>> have a label sysfs attribute (nor that that could be
+>> set through device-tree). I was thinking about adding
+>> an in_proximity_location sysfs attribute. But using
+>> labels (and standardizing a set of label names) will
+>> work nicely too.
+> 
+> It's fairly new.   Note we also have per channel labels
+> though they are 'very new'.  Might be handy if the sensors
+> appear as a single device despite being spread over the
+> laptop.
+
+Interesting, the thinkpad_acpi stuff currently has 2
+proximity(ish) sensors:
+
+1. Laptop is close to (on) someones lap
+2. Someone's arms are resting on or close to the palmrest
+
+Ideally we would indeed register 1 iio-dev with separate
+channels for this, rather then having to register 2
+(and the future maybe even more) iio-devs for this.
+
+Can you give a pointer to docs / examples of using a
+label per channel ?
+
+>> Is there a know set of labels which ChromeOS is currently
+>> using? If we are going to use labels for this it would
+>> be good IMHO to define a set of standard labels for
+>> this in say Documentation/ABI/testing/sysfs-bus-iio-labels.
+> 
+> If you do want to do this, please just put it under sysfs-bus-iio
+> doc.  I want this to be in the top level doc.
+
+Ok, ack.
+
+Dmitry, can you perhaps dig up a full-list of labels
+which ChromeOS is currently using to identify
+proximity sensors for e.g. SAR related use?
 
 Regards,
-Amit Pundir
 
+Hans
 
->
-> Changes in v2:
-> - Fixed sparse warnings from lkp kernel test robot
->
-> Changes in v3 (as requested by Dmitry Torokhov):
-> - Using shorthand u16/u32 (sorry for the overlook!)
-> - Now using more input and touchscreen APIs
-> - Fixed useless workqueue involvements
-> - Removed useless locking
-> - Switched reads and writes to use regmap
-> - Moved header contents to nt36xxx.c
-> - Fixed reset gpio handling
-> - Other cleanups
-> - P.S.: Thanks, Dmitry!
->
-> Changes in v4:
-> - Fixed regmap read length for CRC_ERR_FLAG final check
-> - Fixed YAML binding, as requested by Krzysztof Kozlowski
->
-> Changes in v5:
-> - Replaced subsystem maintainer's name with .. mine,
->   usage of additionalProperties to unevaluatedProperties
->   and a typo fix for reset-gpios as per Rob Herring's review
-> - Changed compatible string as per Krzysztof K. request
-> - Renamed the novatek,nt36xxx.yaml file to just nt36xxx.yaml
->   in order to now reflect the driver name instead of the DT
->   compatible
-> - Fixed blank line at EOF
->
-> Changes in v6:
-> - Removed include of_gpio.h, added mod_devicetable.h and
->   gpio/consumer.h
-> - Added kerneldoc to relevant functions/enum
-> - Used traditional patterns for error checking where possible
-> - Documented calls to usleep/msleep
-> - Using be16_to_cpu / get_unaligned_be16 where possible
-> - Added helper for CRC error check on retrieved buffer
-> - Decreased indentation in the CRC reboot recovery function
-> - Removed instances of error code sum
-> - Dropped all likely/unlikely optimization as per request
-> - Removed redundant reset_gpio checks
-> - Dropped of_match_ptr and ifdefs for CONFIG_OF
->
-> Changes in v7:
-> - Fixed typo in nt36xxx.c
->
-> Changes in v8:
-> - Fixed typo reset-gpio -> reset-gpios in dt-bindings
->
-> Changes in v9:
-> - Includes are now sorted
-> - Used proposed sizeof variable instead of sizeof type
-> - Fixed a return value check for common pattern
-> - Added NULL check to devm_kasprintf call
-> - Returning ret on probe function to be consistent
->
-> AngeloGioacchino Del Regno (3):
->   dt-bindings: Add vendor prefix for Novatek Microelectronics Corp.
->   Input: Add Novatek NT36xxx touchscreen driver
->   dt-bindings: touchscreen: Add binding for Novatek NT36xxx series
->     driver
->
->  .../bindings/input/touchscreen/nt36xxx.yaml   |  59 ++
->  .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
->  drivers/input/touchscreen/Kconfig             |  12 +
->  drivers/input/touchscreen/Makefile            |   1 +
->  drivers/input/touchscreen/nt36xxx.c           | 894 ++++++++++++++++++
->  drivers/input/touchscreen/nt36xxx.h           | 122 +++
->  6 files changed, 1090 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/nt36xxx.yaml
->  create mode 100644 drivers/input/touchscreen/nt36xxx.c
->  create mode 100644 drivers/input/touchscreen/nt36xxx.h
->
-> --
-> 2.28.0
->
