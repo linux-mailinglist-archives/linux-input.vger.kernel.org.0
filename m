@@ -2,97 +2,79 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 954D52BFFD2
-	for <lists+linux-input@lfdr.de>; Mon, 23 Nov 2020 07:15:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B34D2BFFDA
+	for <lists+linux-input@lfdr.de>; Mon, 23 Nov 2020 07:19:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726302AbgKWGPM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 Nov 2020 01:15:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54594 "EHLO
+        id S1727989AbgKWGP6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 Nov 2020 01:15:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725275AbgKWGPM (ORCPT
+        with ESMTP id S1725275AbgKWGP6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 Nov 2020 01:15:12 -0500
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E8CAC0613CF;
-        Sun, 22 Nov 2020 22:15:12 -0800 (PST)
-Received: by mail-pl1-x644.google.com with SMTP id u2so8321364pls.10;
-        Sun, 22 Nov 2020 22:15:12 -0800 (PST)
+        Mon, 23 Nov 2020 01:15:58 -0500
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 764DAC0613CF;
+        Sun, 22 Nov 2020 22:15:58 -0800 (PST)
+Received: by mail-pf1-x443.google.com with SMTP id c66so13942027pfa.4;
+        Sun, 22 Nov 2020 22:15:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=1sNSI9+VHiS8jsCXSpla4wiPIAGnEp4AMU2x4XB2+lI=;
-        b=gryl4jYuFxIcEqxDJeXzLyzCzZgG/p0D8YYm7KelV4fOIqo+nsvGcvz7GhSaqxTNA9
-         mzld6gafjsqSQpHDyVRfT/LubaK10wMKxOG4tyvgDmkhLotBvmmEWq2ffIL9tBUv8OYq
-         mnR+owkUsqn1zhNcH09zahztEynyvcyDU03tg3iEumwfm1IeFfo9+y9PjCfwBidDiql6
-         LvoRzFNJeonHC8+hfUqyt+YRDWetNGQSHZ6Wn2rJb6NplM0WGwO+6rv7qKyELlqMZU2b
-         FtM/7gfhhKdqn4r/37mTlG+ZKeNEljGx+MEnvM8RyMaj8Kyni91D1jOf4vbE8XkL/xyx
-         6/Zg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=UFIIpfjjkPR20mDGHiuOo88/6f0kLs/K3QWcbqNsuJo=;
+        b=KfnRNmepoyr9R1xv7PwItdu5GfRjOIjEFIhBVR0CVILQzh9l4Qzc9v9fp+xgK1ThyU
+         GZplPhSy56htkfkOWx6VvwslOgSkDq5yDgN/Z4yUUwKjdlCKeyvRE++fyvgXNdTvr9ct
+         xuweHQKJtRMlqGLvV66xr+FvkD379KHXdIJiWPWa3Wr0FnH3F5iEcp2Sl/j8cNUKewH/
+         D6IJ9o/Q/imzXalMarRv8IhJBaerbs6vcbtJP8l0b4GQub0nizi8p7zOtAcI6UJ0+3e8
+         pb3A3CYC+AJsE/FTHzYYhmJSJ3jqtwZTV3nHgjJJdg8FeT26kZT0EaovG0kG/+1oj9H8
+         wJXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=1sNSI9+VHiS8jsCXSpla4wiPIAGnEp4AMU2x4XB2+lI=;
-        b=CSGRakQvXbCoK5y9K2dcp1A5vdZiXPNPTuKFYD4m4VpSR9z2/5+HNVSBAVMuSC2FWB
-         UcsOErLdEHvrgZ0T/lJVtEZRi8CaM1OvnlPBvx+DUhif7xTBC/D6Lkg5BosBbqO3lRf+
-         LGW7BfnI06EkbnSD2Fy8aolBjRcEChYxPv981ykYbU747qcsuDCLCvun15euPWNllEJw
-         1MxuA9A81uoTUP6NnBnl3zZvLKWcpBQDKZYwmDL2QVcP096ygSude3lcp1uklPot/2rR
-         QZfFLuffUPcAH68hgLtEDWUkWD5zXCbmzsiIic97z9gwEtcRSt8z/ZT/DglAP8xnCyp/
-         hG3g==
-X-Gm-Message-State: AOAM531nj+lTjxE3OD1RnnLE4CwUcuQ9xSqKIWweJlIA8z8VJWF/YlB0
-        7aTFZ43VnCIVBiRx+fhEdjuPNmmNTCg=
-X-Google-Smtp-Source: ABdhPJyxzrU59fgcFKpQVfOqbQ816ob5ymVEUOSIClvIlCWJ2PCR3rei0H9ZyLXvIRY0Hmh6n2xhMQ==
-X-Received: by 2002:a17:902:ee04:b029:d9:d8a8:fa60 with SMTP id z4-20020a170902ee04b02900d9d8a8fa60mr16849816plb.84.1606112111442;
-        Sun, 22 Nov 2020 22:15:11 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=UFIIpfjjkPR20mDGHiuOo88/6f0kLs/K3QWcbqNsuJo=;
+        b=HWCaIxBkHVT5BZ0sP6427BavIUnqhkJx1nNv2YXJZD5FjE/i/eL1nnHeL3Q0W5LKNJ
+         F9/ZlAWDqnNvI9I+C2DQGzgJhLCjYlyvugHDSI+/WWn7ZEmeDUbi0DEr/yJN5uvc7KzN
+         dJX273xl5tt2Fr19PnGmyr9/fWmo8hvk6ryu46UOkV28IuiooAO1QEVkUBjoP28O2z7j
+         fU6omRN8KM2IfrslEHUd/hX7Giunf6FPY7odu5lL92GgVcEoRQ6QJE+KaKPC9GVCQ7KE
+         Akm5pmkzRbZwkyH1UU2ipcLeMMD28Gk//bQnu6SaYhWsirCG0RE4Hl3v3zrztAKPYR8B
+         d4lg==
+X-Gm-Message-State: AOAM531V8aIqFEP84pIZXGBuRcQyUmCQEU0oVBEI67+IqHarj852OTrE
+        zeVrt557eqxP3jKLdUiOjD4=
+X-Google-Smtp-Source: ABdhPJxbUo6zrXUfMLNgV8CJFu40xfTXCSyMcZn2vUhjsmjyzdv+AbgHU/AcDsdmozr/P72z3eyfnw==
+X-Received: by 2002:a62:3047:0:b029:197:6ca1:24de with SMTP id w68-20020a6230470000b02901976ca124demr22998117pfw.8.1606112158018;
+        Sun, 22 Nov 2020 22:15:58 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id i11sm10617915pfq.156.2020.11.22.22.15.10
+        by smtp.gmail.com with ESMTPSA id s21sm9245517pgk.52.2020.11.22.22.15.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2020 22:15:10 -0800 (PST)
-Date:   Sun, 22 Nov 2020 22:15:08 -0800
+        Sun, 22 Nov 2020 22:15:57 -0800 (PST)
+Date:   Sun, 22 Nov 2020 22:15:55 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     linux-input@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: soc_button_array - add missing include
-Message-ID: <20201123061508.GA1009828@dtor-ws>
+To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 037/141] Input: pcspkr - Fix fall-through warnings for
+ Clang
+Message-ID: <20201123061555.GW2034289@dtor-ws>
+References: <cover.1605896059.git.gustavoars@kernel.org>
+ <4b659e3e65f2fa3c8bb7ed153e2016c3fb395bbc.1605896059.git.gustavoars@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <4b659e3e65f2fa3c8bb7ed153e2016c3fb395bbc.1605896059.git.gustavoars@kernel.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This fixes the following build errors:
+On Fri, Nov 20, 2020 at 12:30:02PM -0600, Gustavo A. R. Silva wrote:
+> In preparation to enable -Wimplicit-fallthrough for Clang, fix a warning
+> by explicitly adding a break statement instead of just letting the code
+> fall through to the next case.
+> 
+> Link: https://github.com/KSPP/linux/issues/115
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 
-  CC [M]  drivers/input/misc/soc_button_array.o
-drivers/input/misc/soc_button_array.c:156:4: error: implicit declaration of function 'irq_set_irq_type' [-Werror,-Wimplicit-function-declaration]
-                        irq_set_irq_type(irq, IRQ_TYPE_LEVEL_LOW);
-                        ^
-drivers/input/misc/soc_button_array.c:156:26: error: use of undeclared identifier 'IRQ_TYPE_LEVEL_LOW'
-                        irq_set_irq_type(irq, IRQ_TYPE_LEVEL_LOW);
-                                              ^
-2 errors generated.
-
-Fixes: 78a5b53e9fb4 ("Input: soc_button_array - work around DSDTs which modify the irqflags")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/misc/soc_button_array.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/input/misc/soc_button_array.c b/drivers/input/misc/soc_button_array.c
-index cae1a3fae83a..d14a65683c5e 100644
---- a/drivers/input/misc/soc_button_array.c
-+++ b/drivers/input/misc/soc_button_array.c
-@@ -9,6 +9,7 @@
- #include <linux/module.h>
- #include <linux/input.h>
- #include <linux/init.h>
-+#include <linux/irq.h>
- #include <linux/kernel.h>
- #include <linux/acpi.h>
- #include <linux/dmi.h>
--- 
-2.29.2.454.gaff20da3a2-goog
-
+Applied, thank you.
 
 -- 
 Dmitry
