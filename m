@@ -2,86 +2,111 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F20D2C004A
-	for <lists+linux-input@lfdr.de>; Mon, 23 Nov 2020 07:49:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 965062C004F
+	for <lists+linux-input@lfdr.de>; Mon, 23 Nov 2020 07:54:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727825AbgKWGs6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 Nov 2020 01:48:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59760 "EHLO
+        id S1726326AbgKWGxk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 Nov 2020 01:53:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726603AbgKWGs6 (ORCPT
+        with ESMTP id S1725275AbgKWGxk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 Nov 2020 01:48:58 -0500
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8425CC0613CF
-        for <linux-input@vger.kernel.org>; Sun, 22 Nov 2020 22:48:58 -0800 (PST)
-Received: by mail-pl1-x643.google.com with SMTP id v21so7111713plo.12
-        for <linux-input@vger.kernel.org>; Sun, 22 Nov 2020 22:48:58 -0800 (PST)
+        Mon, 23 Nov 2020 01:53:40 -0500
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81C8DC0613CF;
+        Sun, 22 Nov 2020 22:53:40 -0800 (PST)
+Received: by mail-pg1-x542.google.com with SMTP id 81so13372339pgf.0;
+        Sun, 22 Nov 2020 22:53:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=7va8iOKrlnt3K7b//Fm5ZLYQuZjDYYlsazxFh2lHQkc=;
-        b=prfzHTtkzkaqq5JrH7NWdGIssXxWxDNaL1igOQLW2Pd6zsacTiXlLL91oyO4UXCApz
-         8+ldCF6sHCfLmg8Vntvp/Upx7Q4eHAESyFNQZSUKNaN1unUU59JY8XtsQX3MW3vYIOaX
-         OrvIsPPL5PIFK61rUl/r83ZixVi+Qevxf/FImipJ1VTa6OjkzyktjY6S4PMiRA4MxxuI
-         y8fKpY5QQv8Sr1R2KJI04+h10wHMub2FPb+zPItcTh6KRWr4sizaxpBlPHPp59UHKERR
-         rCBdOQRwFlRTK+0CG7K5T+1Q7Giq9PG3neUe1WfvPwC5t8ZtrTPFyu9CImpZalj3XUWH
-         5rcg==
+        bh=AqH+kLyfNSbRjDLKPT+SsIsj8+I7WO+7Bvg2fjY/Z0A=;
+        b=comoGkzQSq1akMG2KJ1yCSrD9omTjuStH07ueYahOT3p63sAn/er4GTzVWll/kYSob
+         RttxTru+pvJBIUCDKvP6UfOeMh8TmXN2cnTvSO7JU+VbARt9THgQTEt3O7YGM4oaVnme
+         HXq8YD+EHHpw6UWla+ZutbEY8X7SVdmCpNJPKK3Vw9RAiPtGWZZbOq9EAgVyEMgyuMQk
+         SeLhD6FfT0NKx0zs9hvLH8Yyd4Gy/GxVsqDYu5QLtSoTrKp9PJbCHX8db+cT7vwjJDF2
+         2UDswjl1gbuX3YH1CfUWENk2PYaF5vq+zglEeYp5zhVzbveAkVA7YjqU+M2wWAl0N8ox
+         c/pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=7va8iOKrlnt3K7b//Fm5ZLYQuZjDYYlsazxFh2lHQkc=;
-        b=Co5F5oh7IjzE9VASDfRnTMUXD6/pCBd1Q9KEL+ONCJVDIKJat8MUipLx04rhf2yOYJ
-         S6CaTFI/J8AKyOIrEtBnNgbLl+i9KQY/hveELlnNTF1UBA5Lk7dN0taYPIquY1YZ+5wh
-         Q5k0c3OI9rBvOJXZ0jGgNY4Q4JXdV4Gzu8R4or8IW+/EVmJSUPFBlTVQE+HdPkTUGKzz
-         Q9kYss8HQ4rmYvvM3AQx8a7cPfEWOJqrRls1jcT965BeDxPfFjWnFhHZorHOVXVZxwwn
-         JX4ljLeFmdb8hvlfhX1x12NQOIyQ6kMiPKVKUVb2YQShAmfrfy9woihe2dCWKd6LRw9a
-         diKw==
-X-Gm-Message-State: AOAM531RXoW+tqjjtny+yL1aZWBpn4b13wFPiGH/Lru/FiZy5u3zHqKb
-        2RK/qJBNXxYo4J4pd70u0uk=
-X-Google-Smtp-Source: ABdhPJzKN3czuoPjNgmyylnme3mqlmujynvvEZk73Hrag3XP0VHjo5Ay80+W1DJ9lAVG1yISuDthtA==
-X-Received: by 2002:a17:902:b717:b029:d9:e816:fd0b with SMTP id d23-20020a170902b717b02900d9e816fd0bmr11551347pls.50.1606114138068;
-        Sun, 22 Nov 2020 22:48:58 -0800 (PST)
+        bh=AqH+kLyfNSbRjDLKPT+SsIsj8+I7WO+7Bvg2fjY/Z0A=;
+        b=uNmUWlOngJAl2VAwAGrI2NcqFHQQ2NpZThB0PTfd0iHaf7opAU2CtPUBgT3dN6EV2z
+         zKhMwDtqxEJBYnfOTdHHYQnSYj+qbWWDnIKyyhmaoveXVQASqzz9xVliyj6iPRlFWMAF
+         FZVqkIfB8/B5WfqM+rN5Xno+mBn2ru3HHIx5UvYDMFvdAuSpm6PtxN8JBFK6bLJ4ux54
+         kBcJf36X11VLapeNuty0WfuCkcyLAnPPf2Q05GIJ9u8cxnMfzbf+rZjD9uLgxebv16Nl
+         awkqc65WZU0e8pAPmdZJGoXrQ9Q+9gTILsSHtCJKYAux+SMJjMCIpdwGQcnd723PfNUl
+         /wyA==
+X-Gm-Message-State: AOAM53102ws7QfWyFC3cUFETag+VtUpEy8oWkqODQP54+j6ij++b7+XE
+        JTDzuy26o1ivn9ExrIV0tGI=
+X-Google-Smtp-Source: ABdhPJxlhqDP+WPcjP6wtxfCWA1hDSDeC7I4IiqEu8VeQwLU92AnH2VGwpeOUkRk2VvH3vLpfo5t2w==
+X-Received: by 2002:a63:283:: with SMTP id 125mr5373383pgc.282.1606114419926;
+        Sun, 22 Nov 2020 22:53:39 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id v1sm12569997pjs.16.2020.11.22.22.48.56
+        by smtp.gmail.com with ESMTPSA id m2sm9896986pgv.0.2020.11.22.22.53.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2020 22:48:57 -0800 (PST)
-Date:   Sun, 22 Nov 2020 22:48:55 -0800
+        Sun, 22 Nov 2020 22:53:38 -0800 (PST)
+Date:   Sun, 22 Nov 2020 22:53:36 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-input@vger.kernel.org, Nick Dyer <nick@shmanahar.org>,
-        Stephan Gerhold <stephan@gerhold.net>
-Subject: Re: [PATCH 3/3 v2] Input: atmel_mxt_ts - Support regulator supplies
-Message-ID: <20201123064855.GB2034289@dtor-ws>
-References: <20201104153032.1387747-1-linus.walleij@linaro.org>
- <20201104153032.1387747-3-linus.walleij@linaro.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Andrej Valek <andrej.valek@siemens.com>, nick@shmanahar.org,
+        hadess@hadess.net, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/3] Input: goodix - add option to disable firmware
+ loading
+Message-ID: <20201123065336.GC2034289@dtor-ws>
+References: <20201029170313.25529-1-andrej.valek@siemens.com>
+ <20201029170313.25529-2-andrej.valek@siemens.com>
+ <20201029203608.GE2547185@dtor-ws>
+ <a5964429-a472-6b78-e53c-69b4cb115b94@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201104153032.1387747-3-linus.walleij@linaro.org>
+In-Reply-To: <a5964429-a472-6b78-e53c-69b4cb115b94@redhat.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Nov 04, 2020 at 04:30:32PM +0100, Linus Walleij wrote:
-> This adds the code for the Atmel touchscreens such as
-> mXT224 to obtain power regulators for the supply voltages
-> AVDD and VDD. On mobile phones such as Samsung GT-I8190
-> (Golden) this is needed to explicitly bring power online.
+On Fri, Oct 30, 2020 at 10:56:20AM +0100, Hans de Goede wrote:
+> Hi,
 > 
-> We just enable the regulators at probe() and disable
-> them at remove() or in the errorpath for now.
+> On 10/29/20 9:36 PM, Dmitry Torokhov wrote:
+> > Hi Andrej,
+> > 
+> > On Thu, Oct 29, 2020 at 06:03:11PM +0100, Andrej Valek wrote:
+> >> Firmware file loadind for GT911 controller takes too much time (~60s).
+> >> There is no check that configuration is the same which is already present.
+> >> This happens always during boot, which makes touchscreen unusable.
+> >>
+> >> Add there an option to prevent firmware file loading, but keep it enabled
+> >> by default.
+> > 
+> > I thought that Goodix was losing firmware loading at poweroff. Is this
+> > not the case with this model?
 > 
-> As regulators are naturally stubbed if not available,
-> this should have no impact on existing systems.
+> So first of all there are 2 sorts of firmware involved with the
+> Goodix touchscreen controllers, the actual firmware and a block
+> of config data for that firmware which I presume adjusts it for
+> the specific (model of) the digitizer which is attached.
 > 
-> Cc: Nick Dyer <nick@shmanahar.org>
-> Cc: Stephan Gerhold <stephan@gerhold.net>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ATM the mainline Linux driver does not support models where
+> the actual firmware itself needs to be loaded (because they
+> only have RAM, so they come up without firmware).
+> 
+> I do have one model tablet with a ROM-less goodix touchpad
+> controller, so if I ever find the time I might add support
+> for loading the actual firmware.
+> 
+> So what we are talking about here is just loading the config
+> data and I'm a bit surprised that this take so long.
 
-Applied, thank you.
+So I am still confused about this: is the config stored in RAM or NVRAM?
+I.e. do we actually need to re-load it every time on boot, or it
+supposed to be flashed only when it is changed (or lost)?
+
+Thanks.
 
 -- 
 Dmitry
