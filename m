@@ -2,148 +2,158 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7E5C2C0D4E
-	for <lists+linux-input@lfdr.de>; Mon, 23 Nov 2020 15:27:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A4E2D2C0DD4
+	for <lists+linux-input@lfdr.de>; Mon, 23 Nov 2020 15:41:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388944AbgKWOUJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 23 Nov 2020 09:20:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44652 "EHLO
+        id S1728913AbgKWOjt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 23 Nov 2020 09:39:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730804AbgKWOUH (ORCPT
+        with ESMTP id S1726745AbgKWOjs (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 23 Nov 2020 09:20:07 -0500
-Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97705C061A4D;
-        Mon, 23 Nov 2020 06:20:06 -0800 (PST)
-Received: by mail-yb1-xb41.google.com with SMTP id r127so12314537yba.10;
-        Mon, 23 Nov 2020 06:20:06 -0800 (PST)
+        Mon, 23 Nov 2020 09:39:48 -0500
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B376CC0613CF;
+        Mon, 23 Nov 2020 06:39:48 -0800 (PST)
+Received: by mail-pf1-x441.google.com with SMTP id n137so5046568pfd.3;
+        Mon, 23 Nov 2020 06:39:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WUYMqcUnfpAQa1YuH9tQ3ze5bp2bxaoGLXc9Sg/470Y=;
-        b=b0LkeT2q71Z3peIccxL7MkU5QadaCN3igdEC89IE4ykmdOxIlhuoo/0+H7pQCoNmlh
-         0UX19Z7soasUpz2fDZHX56luUWrH4GLKAJ9K28HwPu9km7qlcvasqfBffaQW+LtXvh6a
-         fVP4J8wQFxbi1QWFB10Wsq9dLONxRShLcqQtcaktrZCy3tSRV5R4FOw2MSdgwNuCxNwd
-         cKQMyE/jYgmlc9Qm972BZKz9xJaasT5iW6gpZgai8YpCh1sxJNgZFzlfCpv21Fvd7rwb
-         akOsznbnFT4mJT95mXFDUPnplTdAJirWAcm8YfzHFRAfOGn9Vk91PuRcq7JipLelDPMB
-         VWgQ==
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=fM4j6RxSfo5XXrx0DZNKP61g+fXLGOf6UqMSA1kliTM=;
+        b=n4arlp4WrfAdV9Al4lHHmjtOFo/jH6SuDDse9onYIq4yhjSioHU3iYpJwH138yPrzY
+         LBZUQagNqnrgPF4JILY/I9bN9EEwTimM4alYTZYbk2J7o7tx2Xgskt9xYPnr1+FrnLKp
+         SiJzWibdOTZyz6shXUuOmNzFNDbSef02QEkSNV8RSWiLgutHrLk7SROluh7zkmH4xAsd
+         /qQ4syQ9U7CoiJml/LkXllebqwpPiavQl7hWJ+jgGXhxdbFXw035Vxdh51aj71Bnxu2k
+         O3BvsEe3FSKebtpwF4efadGrMJwytMR6hvhcmH+TqvDJ89ntx2gZXmehfnE0H3ZviBLH
+         b/hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WUYMqcUnfpAQa1YuH9tQ3ze5bp2bxaoGLXc9Sg/470Y=;
-        b=lKwdUTbbfqoTkTAIgp9mZrmqU0ijWcHp+iS8IAhntH72d3s9iYJuX87xfDva9I4lf3
-         v8fZFrd6A/ZoNnnKI9Ufo/CQd84EPCVmP699vgDnaebb1AOTGh35TDQox+Tjt+Mkl+PO
-         9xhrICCS8DPqhs5qDLfgPBudTzTlVuoCX1zMCGn265RUXoKazk8TNw8gVmCeIWmxjXu0
-         9atl13SD50eRTituupdU7yHj0eeNc1FZy80Dql4f4jClf3PJKAd0dw0fF0iq70BlyjBm
-         D/8h5bsNDzQDKcXJmk5WKbzZmOyiV9nWldAukc3pft/P820sC0PeoGme7yQLVJZl6dNN
-         68lQ==
-X-Gm-Message-State: AOAM533cX8axbPLyO/5uGloelj8h1rp7LshnxgMBjIAQvMSvBl7c7+7W
-        X/53WSk6j6xjolzoHOFypqUhx/48H/iN54UXOIs=
-X-Google-Smtp-Source: ABdhPJyiJqjBIpEzWlk5pyqpoGG3+KpoWdKnlyza2YA6ODhXnRhATytwh5Bq+iGOzNqc5gs+zuqHC8iB1cjfDTXU/ik=
-X-Received: by 2002:a25:bcc7:: with SMTP id l7mr32380985ybm.115.1606141205830;
- Mon, 23 Nov 2020 06:20:05 -0800 (PST)
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=fM4j6RxSfo5XXrx0DZNKP61g+fXLGOf6UqMSA1kliTM=;
+        b=RMoVH3Y7LOmBkDTED9TxiKLlkSP1k9WPIaSjohZsu0UnWFv8US4K/NbMudEqkV8qo+
+         pAO86Wltwo7mu7ClE/TkzQzhwQONEObzULFNIoRy3qd4Wf/Kr/JTmjvQNus0nEsMWYtS
+         E+HYw6qS7wCs9zusnnG0BTbwTUK5AijOqZe+MF5F6KMTw7dUxi43LOF7hNkJknQ9rbUu
+         XTzPuMl/8SezouDMPCiYhLrr/C12jYOox4cGyuw/u0cP18M2FSNEia/DyrLxJpDtfyX3
+         fEHf6YcsxZc4X77Ps1kE6JJmZFuYGBFAtW8Zxg+DgJ6ad57dnXOLrqyQ3WcboT8Jplr2
+         fwCA==
+X-Gm-Message-State: AOAM531jehvpL/xGrU8D93ziFz88cGt4bgbin0RXuP5Dktjip+UJpvZn
+        ac8p0Q7i/E9JhfFy5zM2AVU=
+X-Google-Smtp-Source: ABdhPJyjc1M3igO33p6Z7ggpwS0tjse9yx7d+DyT5lc9Di4y9VULB6f0m9+NCpQbWKBgfb704C0aJw==
+X-Received: by 2002:a17:90b:a43:: with SMTP id gw3mr22pjb.189.1606142387596;
+        Mon, 23 Nov 2020 06:39:47 -0800 (PST)
+Received: from localhost ([2001:e42:102:1532:160:16:113:140])
+        by smtp.gmail.com with ESMTPSA id m13sm2087797pfa.115.2020.11.23.06.39.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2020 06:39:46 -0800 (PST)
+From:   Coiby Xu <coiby.xu@gmail.com>
+X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
+Date:   Mon, 23 Nov 2020 22:36:13 +0800
+To:     =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Helmut Stult <helmut.stult@schinfo.de>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3] HID: i2c-hid: add polling mode based on connected
+ GPIO chip's pin status
+Message-ID: <20201123143613.zzrm3wgm4m6ngvrz@Rk>
+References: <20201021134931.462560-1-coiby.xu@gmail.com>
+ <qo0Y8DqV6mbQsSFabOaqRoxYhKdYCZPjqYuF811CTdPXRFFXpx7sNXYcW9OGI5PMyclgsTjI7Xj3Du3v4hYQVBWGJl3t0t8XSbTKE9uOJ2E=@protonmail.com>
+ <20201122101525.j265hvj6lqgbtfi2@Rk>
+ <xsbDy_74QEfC8byvpA0nIjI0onndA3wuiLm2Iattq-8TLPy28kMq7GKhkfrfzqdBAQfp_w5CTCCJ8XjFmegtZqP58xioheh7OHV7Bam33aQ=@protonmail.com>
 MIME-Version: 1.0
-References: <cover.1605896059.git.gustavoars@kernel.org> <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011201129.B13FDB3C@keescook> <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011220816.8B6591A@keescook> <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
- <CANiq72nZrHWTA4_Msg6MP9snTyenC6-eGfD27CyfNSu7QoVZbw@mail.gmail.com> <1c7d7fde126bc0acf825766de64bf2f9b888f216.camel@HansenPartnership.com>
-In-Reply-To: <1c7d7fde126bc0acf825766de64bf2f9b888f216.camel@HansenPartnership.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 23 Nov 2020 15:19:55 +0100
-Message-ID: <CANiq72m22Jb5_+62NnwX8xds2iUdWDMAqD8PZw9cuxdHd95W0A@mail.gmail.com>
-Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
-To:     James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc:     Kees Cook <keescook@chromium.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        alsa-devel@alsa-project.org, amd-gfx@lists.freedesktop.org,
-        bridge@lists.linux-foundation.org, ceph-devel@vger.kernel.org,
-        cluster-devel@redhat.com, coreteam@netfilter.org,
-        devel@driverdev.osuosl.org, dm-devel@redhat.com,
-        drbd-dev@lists.linbit.com, dri-devel@lists.freedesktop.org,
-        GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
-        intel-gfx@lists.freedesktop.org, intel-wired-lan@lists.osuosl.org,
-        keyrings@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-        linux-acpi@vger.kernel.org, linux-afs@lists.infradead.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-arm-msm@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net,
-        linux-block@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-cifs@vger.kernel.org,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        linux-decnet-user@lists.sourceforge.net,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-fbdev@vger.kernel.org, linux-geode@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-hams@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
-        linux-ide@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input <linux-input@vger.kernel.org>,
-        linux-integrity@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-mmc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        netfilter-devel@vger.kernel.org, nouveau@lists.freedesktop.org,
-        op-tee@lists.trustedfirmware.org, oss-drivers@netronome.com,
-        patches@opensource.cirrus.com, rds-devel@oss.oracle.com,
-        reiserfs-devel@vger.kernel.org, samba-technical@lists.samba.org,
-        selinux@vger.kernel.org, target-devel@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net,
-        usb-storage@lists.one-eyed-alien.net,
-        virtualization@lists.linux-foundation.org,
-        wcn36xx@lists.infradead.org,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        xen-devel@lists.xenproject.org, linux-hardening@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>, Joe Perches <joe@perches.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <xsbDy_74QEfC8byvpA0nIjI0onndA3wuiLm2Iattq-8TLPy28kMq7GKhkfrfzqdBAQfp_w5CTCCJ8XjFmegtZqP58xioheh7OHV7Bam33aQ=@protonmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Nov 22, 2020 at 11:36 PM James Bottomley
-<James.Bottomley@hansenpartnership.com> wrote:
+On Sun, Nov 22, 2020 at 01:33:01PM +0000, Barnabás Pőcze wrote:
+>Hi
 >
-> Well, it seems to be three years of someone's time plus the maintainer
-> review time and series disruption of nearly a thousand patches.  Let's
-> be conservative and assume the producer worked about 30% on the series
-> and it takes about 5-10 minutes per patch to review, merge and for
-> others to rework existing series.  So let's say it's cost a person year
-> of a relatively junior engineer producing the patches and say 100h of
-> review and application time.  The latter is likely the big ticket item
-> because it's what we have in least supply in the kernel (even though
-> it's 20x vs the producer time).
+>
+>2020. november 22., vasárnap 11:15 keltezéssel, Coiby Xu írta:
+>
+>> [...]
+>> >> +static int get_gpio_pin_state(struct irq_desc *irq_desc)
+>> >> +{
+>> >> +	struct gpio_chip *gc = irq_data_get_irq_chip_data(&irq_desc->irq_data);
+>> >> +
+>> >> +	return gc->get(gc, irq_desc->irq_data.hwirq);
+>> >> +}
+>> [...]
+>> >> +	ssize_t	status = get_gpio_pin_state(irq_desc);
+>> >
+>> >`get_gpio_pin_state()` returns an `int`, so I am not sure why `ssize_t` is used here.
+>> >
+>>
+>> I used `ssize_t` because I found gpiolib-sysfs.c uses `ssize_t`
+>>
+>>      // drivers/gpio/gpiolib-sysfs.c
+>>      static ssize_t value_show(struct device *dev,
+>>      		struct device_attribute *attr, char *buf)
+>>      {
+>>      	struct gpiod_data *data = dev_get_drvdata(dev);
+>>      	struct gpio_desc *desc = data->desc;
+>>      	ssize_t			status;
+>>
+>>      	mutex_lock(&data->mutex);
+>>
+>>      	status = gpiod_get_value_cansleep(desc);
+>>          ...
+>>      	return status;
+>>      }
+>>
+>> According to the book Advanced Programming in the UNIX Environment by
+>> W. Richard Stevens,
+>>      With the 1990 POSIX.1 standard, the primitive system data type
+>>      ssize_t was introduced to provide the signed return value...
+>>
+>> So ssize_t is fairly common, for example, the read and write syscall
+>> return a value of type ssize_t. But I haven't found out why ssize_t is
+>> better int.
+>> >
+>
+>Sorry if I wasn't clear, what prompted me to ask that question is the following:
+>`gc->get()` returns `int`, `get_gpio_pin_state()` returns `int`, yet you still
+>save the return value of `get_gpio_pin_state()` into a variable with type
+>`ssize_t` for no apparent reason. In the example you cited, `ssize_t` is used
+>because the show() callback of a sysfs attribute must return `ssize_t`, but here,
+>`interrupt_line_active()` returns `bool`, so I don't see any advantage over a
+>plain `int`. Anyways, I believe either one is fine, I just found it odd.
+>
+I don't understand why "the show() callback of a sysfs attribute
+must return `ssize_t`" instead of int. Do you think the rationale
+behind it is the same for this case? If yes, using "ssize_t" for
+status could be justified.
 
-How are you arriving at such numbers? It is a total of ~200 trivial lines.
+>
+>> >> +
+>> >> +	if (status < 0) {
+>> >> +		dev_warn(&client->dev,
+>> >> +			 "Failed to get GPIO Interrupt line status for %s",
+>> >> +			 client->name);
+>> >
+>> >I think it's possible that the kernel message buffer is flooded with these
+>> >messages, which is not optimal in my opinion.
+>> >
+>> Thank you! Replaced with dev_dbg in v4.
+>> [...]
+>
+>Have you looked at `dev_{warn,dbg,...}_ratelimited()`?
+>
+Thank you for pointing me to these functions!
+>
+>Regards,
+>Barnabás Pőcze
 
-> It's not about the risk of the changes it's about the cost of
-> implementing them.  Even if you discount the producer time (which
-> someone gets to pay for, and if I were the engineering manager, I'd be
-> unhappy about), the review/merge/rework time is pretty significant in
-> exchange for six minor bug fixes.  Fine, when a new compiler warning
-> comes along it's certainly reasonable to see if we can benefit from it
-> and the fact that the compiler people think it's worthwhile is enough
-> evidence to assume this initially.  But at some point you have to ask
-> whether that assumption is supported by the evidence we've accumulated
-> over the time we've been using it.  And if the evidence doesn't support
-> it perhaps it is time to stop the experiment.
-
-Maintainers routinely review 1-line trivial patches, not to mention
-internal API changes, etc.
-
-If some company does not want to pay for that, that's fine, but they
-don't get to be maintainers and claim `Supported`.
-
-Cheers,
-Miguel
+--
+Best regards,
+Coiby
