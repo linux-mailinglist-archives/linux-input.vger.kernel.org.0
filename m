@@ -2,70 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25ED32C2BAA
-	for <lists+linux-input@lfdr.de>; Tue, 24 Nov 2020 16:46:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 72F7D2C2C02
+	for <lists+linux-input@lfdr.de>; Tue, 24 Nov 2020 16:54:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389803AbgKXPpP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Nov 2020 10:45:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54994 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389799AbgKXPpP (ORCPT
+        id S2390087AbgKXPxG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Nov 2020 10:53:06 -0500
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:38315 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389842AbgKXPxE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Nov 2020 10:45:15 -0500
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAC81C0613D6
-        for <linux-input@vger.kernel.org>; Tue, 24 Nov 2020 07:45:13 -0800 (PST)
-Received: by mail-lf1-x12f.google.com with SMTP id a9so29527717lfh.2
-        for <linux-input@vger.kernel.org>; Tue, 24 Nov 2020 07:45:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=JwWq5JGhKrq0fQjX+abmUvyg4pLULlEVHjNuHdjUPAQ=;
-        b=c4XSA5adRMFwDflUKbZrj+pZfeYC12FvGOItGord4whbxDMCx9gsMkiX514zDNq/71
-         z/rwSL6Ll2X+teNTEI4tlrX1uCNSihN2HNzXNt/ljTK9guAZe7etbJ2R1idSnkrvTvGh
-         pXjcA3MOG0xgGXNjQiYtXiHuChaChIR3FNaCqD8j3utnI/2l+i/C5s5oUFCrWTbuCDAT
-         aTUUN5Tf2CG5dh18xsaM8M5Kt2q1rWK1AiSG5Gy/3FwLaPBg1dDRPuHPUZ7x5xQbYEXP
-         iY9C0iUDwBL8XHySFEEbss/MGWarb44U9PeADoxValrvpNrR668dc2JXNmEe2k/WETmf
-         Q24A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=JwWq5JGhKrq0fQjX+abmUvyg4pLULlEVHjNuHdjUPAQ=;
-        b=DQ2zqRHR0UYRAc5OcSO/pfZkdLkPFxm4U9dEcq0wg/Z3WbGA6bASDB8jqxSk5IQqap
-         Yy41DpPVI1jqCAoszCPSW/4NEerNAEPLB9CHegixXA0OzpPcoJBy7f0VUqS29gWwDd46
-         3do6mRHytSI22EhKPtRtm9V5lmpoOdT2+vo6BkDAelkNXsMMiO2mUh0VTN3oR9iuwNAw
-         2gHG2Sc1PDvc7rhfYXv/0ef1Qi30d+XiZ9BnnoEpjD+4MxEftv6P3anzjhJer/HWw/l+
-         iHRGuj+idbjc4d2+/6lN/5YhTYFlyFPUAyPkqgQA3m+KZM1fAftKgQ4NjnKDDb8oXudF
-         uhKQ==
-X-Gm-Message-State: AOAM531HTgyKzc40YTZdF2amYulQdBIc/UqjEucE0j0lgctixVH2VKUJ
-        BYRMVJ0zm1azxriAB+d0u8MKyjWW4J4U0E62s0g=
-X-Google-Smtp-Source: ABdhPJy42qhfqdDH3FLMeonCnuNXgxr5KkIv0KPvBVzVbhE1rVzZMq+K4QGYt5EgzgxhIflOcZp+olNkXc1cwUrx2sc=
-X-Received: by 2002:ac2:4349:: with SMTP id o9mr1887585lfl.194.1606232712206;
- Tue, 24 Nov 2020 07:45:12 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a19:6b0e:0:0:0:0:0 with HTTP; Tue, 24 Nov 2020 07:45:11
- -0800 (PST)
-Reply-To: julianmarshalls@yahoo.com
-From:   "Julian Marshall, Esq." <jr77hy@gmail.com>
-Date:   Tue, 24 Nov 2020 07:45:11 -0800
-Message-ID: <CAKMjQs6JbzHnuJzXcny64=+CONO8EeohDDKtJu25UVe=cF3NJA@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
+        Tue, 24 Nov 2020 10:53:04 -0500
+X-Originating-IP: 82.255.60.242
+Received: from [192.168.0.28] (lns-bzn-39-82-255-60-242.adsl.proxad.net [82.255.60.242])
+        (Authenticated sender: hadess@hadess.net)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id E0D1760003;
+        Tue, 24 Nov 2020 15:53:00 +0000 (UTC)
+Message-ID: <56726c3591feb0a61dd2bf8ffa5dc218af46cbab.camel@hadess.net>
+Subject: Re: How to enable auto-suspend by default
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc:     "Limonciello, Mario" <Mario.Limonciello@dell.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+Date:   Tue, 24 Nov 2020 16:53:00 +0100
+In-Reply-To: <ecd964af-efdb-99c6-45cb-4979397fb324@linux.intel.com>
+References: <fe8ab4cab3740afd261fa902f14ecae002a1122d.camel@hadess.net>
+         <X6p6ubTOoMPUPPXi@kroah.com>
+         <DM6PR19MB2636C94B56D5FBC0BD98A1B0FAE90@DM6PR19MB2636.namprd19.prod.outlook.com>
+         <20201110172517.GC2495@lahna.fi.intel.com>
+         <30957f1a-1fe5-5d9a-101b-25f12fb93907@redhat.com>
+         <20201111143143.GV2495@lahna.fi.intel.com>
+         <30aa8c96-1809-8c5f-2305-5e39fbeba434@redhat.com>
+         <ecd964af-efdb-99c6-45cb-4979397fb324@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.38.1 (3.38.1-1.fc33) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Ich habe mich wegen der mit dieser Frage verbundenen Dringlichkeit
-entschlossen, Sie zu kontaktieren. Ich bin Julian Marshall,
-Rechtsanwalt. Ich pers=C3=B6nlich bin ein Treuhandagent von Dr. Edwin,
-einem weithin bekannten unabh=C3=A4ngigen Auftragnehmer hier in Lome Togo,
-der mit seiner Frau und seiner einzigen Tochter bei einem Autounfall
-starb. Ich habe Sie kontaktiert, um mich bei der R=C3=BCckf=C3=BChrung von =
-zwei
-Millionen f=C3=BCnfhunderttausend Dollar auf Ihr Konto zu unterst=C3=BCtzen=
-.
-Bitte kontaktieren Sie mich f=C3=BCr weitere Informationen zu diesem Thema.
+On Tue, 2020-11-24 at 14:37 +0200, Mathias Nyman wrote:
+> <snip>
+> I don't think we are ready to enable runtime pm as default for all
+> Intel xHCI controllers.
+> The risk of xHCI not waking up when user plugs a mouse/keyboard,
+> making the system unusable
+> just seems too high compared to the powersaving benefit.
+> 
+> The powersaving benefit from autosuspending the TCSS xHCI is a lot
+> better, and we, (Mika mostly)
+> has been able to verify they work.
+> 
+> So I propose we for now continue adding TCSS xHCI controllers to the
+> allowlist in kernel.
+> For others I think a userspace allow/denylist makes sense.
+> 
+> Long term goal would be default allow for all, with short denylist in
+> kernel.
+
+Is there any way to preemptively enable autosuspend for all the _TCSS_
+xHCI controllers?
+
+This was the problem the original post tried to tease out, whether it
+would be easier/better to enable autosuspend by default, and not enable
+it on systems where it breaks something, rather than default to sucking
+battery until somebody notices that a device ID got missed.
+
