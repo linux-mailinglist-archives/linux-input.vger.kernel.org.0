@@ -2,71 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8187B2C2046
-	for <lists+linux-input@lfdr.de>; Tue, 24 Nov 2020 09:43:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C1DB92C2050
+	for <lists+linux-input@lfdr.de>; Tue, 24 Nov 2020 09:45:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726942AbgKXInI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Nov 2020 03:43:08 -0500
-Received: from www381.your-server.de ([78.46.137.84]:49786 "EHLO
-        www381.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730492AbgKXInI (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Nov 2020 03:43:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=metafoo.de;
-         s=default2002; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-        MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID;
-        bh=/PJriEbKuBtu1s7B9RLwhifyLDJjChCYoTRFC2wpWEk=; b=dPPeGkRu/MoW93ThXxCexkdM7u
-        V2HaUjTWlQOybg5914q/yQUVMEyajjunPzo8ybmJNYwwy27pqXXOPyE8z3gCRcTE0b9W7KUUsqujT
-        4rir8R38Id+LCFqgf2xaAJfpCs4buoh4OimyTSZHdgyg6nXWbdiyDSnSuAZEpzntZGGF3rhkCPg95
-        5zC2H+Rq8pxyFh5pxyvu4OfESypJxNmzZMHFbubOBv0RdGGjvsY1kFWYC8PJQFLyLmQlASEIi17Bj
-        jrJXXcXKCe/BH4pk3pH5RYNAaUxAIbdvs0fIVRlRQOg/gpggMnQLRXNU517uL1PQ9FDTF+iPTNI0O
-        Jcn1QXVQ==;
-Received: from sslproxy06.your-server.de ([78.46.172.3])
-        by www381.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92.3)
-        (envelope-from <lars@metafoo.de>)
-        id 1khTuj-0005Go-Tn; Tue, 24 Nov 2020 09:43:06 +0100
-Received: from [62.216.202.98] (helo=[192.168.178.20])
-        by sslproxy06.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <lars@metafoo.de>)
-        id 1khTuj-000PIe-Q1; Tue, 24 Nov 2020 09:43:05 +0100
-Subject: Re: [PATCH v2 3/3] Input: adp5589-keys - add basic devicetree support
-To:     Alexandru Ardelean <alexandru.ardelean@analog.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     dmitry.torokhov@gmail.com
-References: <20201124082255.13427-1-alexandru.ardelean@analog.com>
- <20201124082255.13427-3-alexandru.ardelean@analog.com>
-From:   Lars-Peter Clausen <lars@metafoo.de>
-Message-ID: <d8265d12-0269-a7ed-1f02-ee5679ee1db2@metafoo.de>
-Date:   Tue, 24 Nov 2020 09:43:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S1730804AbgKXIoV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Nov 2020 03:44:21 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57142 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730492AbgKXIoU (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 24 Nov 2020 03:44:20 -0500
+Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2B74E2073C;
+        Tue, 24 Nov 2020 08:44:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1606207459;
+        bh=vNc3YIGGUMRA9IF+1LR1huhZMMWXo1F/YeriOtzJC5w=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=xCx8wNC6LO95FsYxR27wKMfRl+lbaGjfTbWlyNxGG2srOaAKJyoFa/RNOg8xkfyN0
+         gCg6HcF1UGNZ2Ygo3POVytCfJ/MZ7cTLluvj+MXNv7hvN4vdcu3Lay372uERTncSvq
+         dDyl/N3i/TgvoISNQxzQ0aYjmIEkH7WrJxglBg+g=
+Date:   Tue, 24 Nov 2020 09:44:15 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     syzbot <syzbot+5b49c9695968d7250a26@syzkaller.appspotmail.com>
+cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+        Jason Gerecke <jason.gerecke@wacom.com>,
+        Ping Cheng <ping.cheng@wacom.com>
+Subject: Re: memory leak in wacom_probe
+In-Reply-To: <00000000000099d90905b3ea44b4@google.com>
+Message-ID: <nycvar.YFH.7.76.2011240943530.6877@cbobk.fhfr.pm>
+References: <00000000000099d90905b3ea44b4@google.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-In-Reply-To: <20201124082255.13427-3-alexandru.ardelean@analog.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Authenticated-Sender: lars@metafoo.de
-X-Virus-Scanned: Clear (ClamAV 0.102.4/25997/Mon Nov 23 14:13:38 2020)
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 11/24/20 9:22 AM, Alexandru Ardelean wrote:
->   	error = devm_add_action_or_reset(&client->dev, adp5589_clear_config,
-> @@ -1078,6 +1098,13 @@ static int __maybe_unused adp5589_resume(struct device *dev)
->   
->   static SIMPLE_DEV_PM_OPS(adp5589_dev_pm_ops, adp5589_suspend, adp5589_resume);
->   
-> +static const struct of_device_id adp5589_of_match[] = {
-> +	{ .compatible = "adi,adp5585", .data = &adp5589_chip_info_tbl[ADP5585_01] },
-> +	{ .compatible = "adi,adp5585-02", .data = &adp5589_chip_info_tbl[ADP5585_02] },
-> +	{ .compatible = "adi,adp5589", .data = &adp5589_chip_info_tbl[ADP5589] },
+On Thu, 12 Nov 2020, syzbot wrote:
 
-I think we need to add these to 
-Documentation/devicetree/bindings/trivial-devices.yaml
+> Hello,
+> 
+> syzbot found the following issue on:
 
+CCing Jason and Ping, the maintainers of hid-wacom.
+
+> 
+> HEAD commit:    eccc8767 Merge branch 'fixes' of git://git.kernel.org/pub/..
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=145055aa500000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=a3f13716fa0212fd
+> dashboard link: https://syzkaller.appspot.com/bug?extid=5b49c9695968d7250a26
+> compiler:       gcc (GCC) 10.1.0-syz 20200507
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16339ad6500000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1409f511500000
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+5b49c9695968d7250a26@syzkaller.appspotmail.com
+> 
+> BUG: memory leak
+> unreferenced object 0xffff88810dc44a00 (size 512):
+>   comm "kworker/1:2", pid 3674, jiffies 4294943617 (age 14.100s)
+>   hex dump (first 32 bytes):
+>     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>   backtrace:
+>     [<0000000023e1afac>] kmalloc_array include/linux/slab.h:592 [inline]
+>     [<0000000023e1afac>] __kfifo_alloc+0xad/0x100 lib/kfifo.c:43
+>     [<00000000c477f737>] wacom_probe+0x1a1/0x3b0 drivers/hid/wacom_sys.c:2727
+>     [<00000000b3109aca>] hid_device_probe+0x16b/0x210 drivers/hid/hid-core.c:2281
+>     [<00000000aff7c640>] really_probe+0x159/0x480 drivers/base/dd.c:554
+>     [<00000000778d0bc3>] driver_probe_device+0x84/0x100 drivers/base/dd.c:738
+>     [<000000005108dbb5>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:844
+>     [<00000000efb7c59e>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:431
+>     [<0000000024ab1590>] __device_attach+0x122/0x250 drivers/base/dd.c:912
+>     [<000000004c7ac048>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:491
+>     [<00000000b93050a3>] device_add+0x5ac/0xc30 drivers/base/core.c:2936
+>     [<00000000e5b46ea5>] hid_add_device+0x151/0x390 drivers/hid/hid-core.c:2437
+>     [<00000000c6add147>] usbhid_probe+0x412/0x560 drivers/hid/usbhid/hid-core.c:1407
+>     [<00000000c33acdb4>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
+>     [<00000000aff7c640>] really_probe+0x159/0x480 drivers/base/dd.c:554
+>     [<00000000778d0bc3>] driver_probe_device+0x84/0x100 drivers/base/dd.c:738
+>     [<000000005108dbb5>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:844
+> 
+> 
+> 
+> ---
+> This report is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
+> 
+> syzbot will keep track of this issue. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> syzbot can test patches for this issue, for details see:
+> https://goo.gl/tpsmEJ#testing-patches
+> 
+
+-- 
+Jiri Kosina
+SUSE Labs
 
