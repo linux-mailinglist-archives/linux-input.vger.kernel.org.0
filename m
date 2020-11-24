@@ -2,105 +2,118 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1DB92C2050
-	for <lists+linux-input@lfdr.de>; Tue, 24 Nov 2020 09:45:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1D412C21CF
+	for <lists+linux-input@lfdr.de>; Tue, 24 Nov 2020 10:40:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730804AbgKXIoV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 24 Nov 2020 03:44:21 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57142 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730492AbgKXIoU (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 24 Nov 2020 03:44:20 -0500
-Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2B74E2073C;
-        Tue, 24 Nov 2020 08:44:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606207459;
-        bh=vNc3YIGGUMRA9IF+1LR1huhZMMWXo1F/YeriOtzJC5w=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=xCx8wNC6LO95FsYxR27wKMfRl+lbaGjfTbWlyNxGG2srOaAKJyoFa/RNOg8xkfyN0
-         gCg6HcF1UGNZ2Ygo3POVytCfJ/MZ7cTLluvj+MXNv7hvN4vdcu3Lay372uERTncSvq
-         dDyl/N3i/TgvoISNQxzQ0aYjmIEkH7WrJxglBg+g=
-Date:   Tue, 24 Nov 2020 09:44:15 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     syzbot <syzbot+5b49c9695968d7250a26@syzkaller.appspotmail.com>
-cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com,
-        Jason Gerecke <jason.gerecke@wacom.com>,
-        Ping Cheng <ping.cheng@wacom.com>
-Subject: Re: memory leak in wacom_probe
-In-Reply-To: <00000000000099d90905b3ea44b4@google.com>
-Message-ID: <nycvar.YFH.7.76.2011240943530.6877@cbobk.fhfr.pm>
-References: <00000000000099d90905b3ea44b4@google.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S1731551AbgKXJj0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 24 Nov 2020 04:39:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32356 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731564AbgKXJjW (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 24 Nov 2020 04:39:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1606210760;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=HZ7CehUUaEq2hmE1v+VaSFpw/raxtP/pGzbiD0suVXQ=;
+        b=IjLPdSaeTP+fu24dGv9AviLrWCCzf5bsTJYZcQYjXQFLbZgjbOousTBMmccNGzkyT9fK2B
+        uiOGfCA8xlKQr1BYs5HlClWX5S0KRE3pIzfzhN2Hr2iQ3r9Dyq1gGor7VmC/vKwyLnc7uU
+        bCyVoTjo1Vv0/rUNlZ4Cc2qlZSqUYME=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-356-oLTKIwSINVGtm2uFjoYECA-1; Tue, 24 Nov 2020 04:39:18 -0500
+X-MC-Unique: oLTKIwSINVGtm2uFjoYECA-1
+Received: by mail-ed1-f71.google.com with SMTP id o11so7763972edq.5
+        for <linux-input@vger.kernel.org>; Tue, 24 Nov 2020 01:39:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=HZ7CehUUaEq2hmE1v+VaSFpw/raxtP/pGzbiD0suVXQ=;
+        b=K9pttae1HekgKD3/HB0t0+4okX1bLAjVIjNdTSr0+guONUfwOmHQtUWpvB8jjvaZIr
+         Ba8WSZq1/EbbF5TFi/1FYHgdPygpyGL4ajTQPu+i7yCn5onClJKp4AYrxpRADpPN0/0+
+         d0muumGHQ/3YLUgdxF0pU5d5IRf9Hp9qOvU/KusblU/6G8JkonZ74enCoKmmxYnQVkeT
+         FXcZHDBn27z5bFIZxpPaRyjaolCsAKsEuROCVSI8fi3hUWPLdqFrn9S7s2uP+02kxK6I
+         yQBUxrGw5py0o6Srg+7Gg+mGdsP/KHcSD8h1WoybP7LOzSCqfaTgtCMjcqo6pJHkyjhH
+         /msg==
+X-Gm-Message-State: AOAM532AHcDdpwW/OjcgeEDe1rKBaQtHy7BaeZ8s+ycHmxyPwMFFCnsN
+        5dUPB1jiSfZ61/B3Cddd/jjxgEwU4ROjDHrVd+2x4aLpABZ/UC8egn8jFCpkg0M2vBBFU885ZLH
+        ZC1EdBJHTZrB78XTrmdgrIyuuENKCbdE0XO5AMcy9Qv0p0nFsUYxDD5UWzwVaaZp3b/9Erfl9os
+        k=
+X-Received: by 2002:a17:906:490:: with SMTP id f16mr3571798eja.12.1606210757250;
+        Tue, 24 Nov 2020 01:39:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzbraEzTC/kvaLqVRH/B6BYCc6j8uc619geaDI8q7jzgkfCLJ33OwqhtWowfW9z4T0+41Z56g==
+X-Received: by 2002:a17:906:490:: with SMTP id f16mr3571777eja.12.1606210757001;
+        Tue, 24 Nov 2020 01:39:17 -0800 (PST)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-6c10-fbf3-14c4-884c.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:6c10:fbf3:14c4:884c])
+        by smtp.gmail.com with ESMTPSA id v27sm6644321edl.82.2020.11.24.01.39.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Nov 2020 01:39:16 -0800 (PST)
+Subject: Re: [PATCH] input: soc_button_array: fix IRQ-related build errors
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     kernel test robot <lkp@intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+References: <20201124001802.10094-1-rdunlap@infradead.org>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <cf1d080a-6eb0-6660-6e8d-46491f7991d3@redhat.com>
+Date:   Tue, 24 Nov 2020 10:39:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20201124001802.10094-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 12 Nov 2020, syzbot wrote:
+Hi Randy,
 
-> Hello,
+On 11/24/20 1:18 AM, Randy Dunlap wrote:
+> Fix these new build errors by adding <linux/irq.h>:
 > 
-> syzbot found the following issue on:
+> ../drivers/input/misc/soc_button_array.c: In function ‘soc_button_device_create’:
+> ../drivers/input/misc/soc_button_array.c:156:4: error: implicit declaration of function ‘irq_set_irq_type’; did you mean ‘acpi_dev_get_irq_type’? [-Werror=implicit-function-declaration]
+>     irq_set_irq_type(irq, IRQ_TYPE_LEVEL_LOW);
+>   CC [M]  drivers/rtc/rtc-ds1343.o
+> ../drivers/input/misc/soc_button_array.c:156:26: error: ‘IRQ_TYPE_LEVEL_LOW’ undeclared (first use in this function)
+>     irq_set_irq_type(irq, IRQ_TYPE_LEVEL_LOW);
+> 
+> Fixes: 78a5b53e9fb4 ("Input: soc_button_array - work around DSDTs which modify the irqflags")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Cc: Hans de Goede <hdegoede@redhat.com>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: linux-input@vger.kernel.org
 
-CCing Jason and Ping, the maintainers of hid-wacom.
+Thank you for your fix, but Dmitry already send out the same fix
+yesterday, so your fix is a duplicate.
 
-> 
-> HEAD commit:    eccc8767 Merge branch 'fixes' of git://git.kernel.org/pub/..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=145055aa500000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=a3f13716fa0212fd
-> dashboard link: https://syzkaller.appspot.com/bug?extid=5b49c9695968d7250a26
-> compiler:       gcc (GCC) 10.1.0-syz 20200507
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16339ad6500000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1409f511500000
-> 
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+5b49c9695968d7250a26@syzkaller.appspotmail.com
-> 
-> BUG: memory leak
-> unreferenced object 0xffff88810dc44a00 (size 512):
->   comm "kworker/1:2", pid 3674, jiffies 4294943617 (age 14.100s)
->   hex dump (first 32 bytes):
->     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
->     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
->   backtrace:
->     [<0000000023e1afac>] kmalloc_array include/linux/slab.h:592 [inline]
->     [<0000000023e1afac>] __kfifo_alloc+0xad/0x100 lib/kfifo.c:43
->     [<00000000c477f737>] wacom_probe+0x1a1/0x3b0 drivers/hid/wacom_sys.c:2727
->     [<00000000b3109aca>] hid_device_probe+0x16b/0x210 drivers/hid/hid-core.c:2281
->     [<00000000aff7c640>] really_probe+0x159/0x480 drivers/base/dd.c:554
->     [<00000000778d0bc3>] driver_probe_device+0x84/0x100 drivers/base/dd.c:738
->     [<000000005108dbb5>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:844
->     [<00000000efb7c59e>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:431
->     [<0000000024ab1590>] __device_attach+0x122/0x250 drivers/base/dd.c:912
->     [<000000004c7ac048>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:491
->     [<00000000b93050a3>] device_add+0x5ac/0xc30 drivers/base/core.c:2936
->     [<00000000e5b46ea5>] hid_add_device+0x151/0x390 drivers/hid/hid-core.c:2437
->     [<00000000c6add147>] usbhid_probe+0x412/0x560 drivers/hid/usbhid/hid-core.c:1407
->     [<00000000c33acdb4>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
->     [<00000000aff7c640>] really_probe+0x159/0x480 drivers/base/dd.c:554
->     [<00000000778d0bc3>] driver_probe_device+0x84/0x100 drivers/base/dd.c:738
->     [<000000005108dbb5>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:844
-> 
-> 
-> 
+Regards,
+
+Hans
+
+
+
 > ---
-> This report is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
+>  drivers/input/misc/soc_button_array.c |    1 +
+>  1 file changed, 1 insertion(+)
 > 
-> syzbot will keep track of this issue. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-> syzbot can test patches for this issue, for details see:
-> https://goo.gl/tpsmEJ#testing-patches
+> --- linux-next-20201123.orig/drivers/input/misc/soc_button_array.c
+> +++ linux-next-20201123/drivers/input/misc/soc_button_array.c
+> @@ -9,6 +9,7 @@
+>  #include <linux/module.h>
+>  #include <linux/input.h>
+>  #include <linux/init.h>
+> +#include <linux/irq.h>
+>  #include <linux/kernel.h>
+>  #include <linux/acpi.h>
+>  #include <linux/dmi.h>
 > 
-
--- 
-Jiri Kosina
-SUSE Labs
 
