@@ -2,126 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A4EB02C40FE
-	for <lists+linux-input@lfdr.de>; Wed, 25 Nov 2020 14:18:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 482582C40EE
+	for <lists+linux-input@lfdr.de>; Wed, 25 Nov 2020 14:13:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729318AbgKYNSO convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Wed, 25 Nov 2020 08:18:14 -0500
-Received: from plasma4.jpberlin.de ([80.241.57.33]:38203 "EHLO
-        plasma4.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726422AbgKYNSO (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Nov 2020 08:18:14 -0500
-X-Greylist: delayed 524 seconds by postgrey-1.27 at vger.kernel.org; Wed, 25 Nov 2020 08:18:13 EST
-Received: from spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de [80.241.56.125])
-        by plasma.jpberlin.de (Postfix) with ESMTP id D2786AB8BD;
-        Wed, 25 Nov 2020 14:09:26 +0100 (CET)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from plasma.jpberlin.de ([80.241.56.68])
-        by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de [80.241.56.125]) (amavisd-new, port 10030)
-        with ESMTP id Do3T6i8jw2_u; Wed, 25 Nov 2020 14:09:25 +0100 (CET)
-Received: from webmail.opensynergy.com (unknown [217.66.60.5])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (Client CN "*.opensynergy.com", Issuer "Starfield Secure Certificate Authority - G2" (not verified))
-        (Authenticated sender: opensynergy@jpberlin.de)
-        by plasma.jpberlin.de (Postfix) with ESMTPSA id 6E4CFAAC9A;
-        Wed, 25 Nov 2020 14:09:24 +0100 (CET)
-From:   Vasyl Vavrychuk <vasyl.vavrychuk@opensynergy.com>
-To:     <linux-input@vger.kernel.org>,
-        <virtualization@lists.linux-foundation.org>
-CC:     Gerd Hoffmann <kraxel@redhat.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        CROMBEZ Mathias <mathias.crombez@faurecia.com>,
-        Vasyl Vavrychuk <vasyl.vavrychuk@opensynergy.com>
-Subject: [PATCH] virtio-input: add multi-touch support
-Date:   Wed, 25 Nov 2020 15:09:02 +0200
-Message-ID: <20201125130902.10185-1-vasyl.vavrychuk@opensynergy.com>
+        id S1725989AbgKYNMu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Nov 2020 08:12:50 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53354 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725875AbgKYNMu (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 25 Nov 2020 08:12:50 -0500
+Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CA6C4206E5;
+        Wed, 25 Nov 2020 13:12:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1606309969;
+        bh=8c+tXMwztOWnQzr0BaFywkoj1p2WDtG71rSdUXCvw5Q=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=jdzA18QXi4CVT0hO6KFl84pIwy/tfE66p9ivK60Pmauu5PfpWSoLIk6MTPbQTnnFX
+         m7UFQVpj/NU2kOUx3Sn000K2iaETRvchEFil5jm9kiBEVR6zYbNqH/GLvbIrrCFyM6
+         aDxyr0Po1P1FG83yNzM+kXs97YFGcFOSCQdn8LOA=
+Date:   Wed, 25 Nov 2020 14:12:46 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Dean Camera <dean@fourwalledcubicle.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH 1/2] Increase HID_MAX_BUFFER_SIZE to 8KB to support
+ additional, devices.
+In-Reply-To: <acdda6f0-3675-7e8b-b57c-711fe8199ce9@fourwalledcubicle.com>
+Message-ID: <nycvar.YFH.7.76.2011251412230.3441@cbobk.fhfr.pm>
+References: <acdda6f0-3675-7e8b-b57c-711fe8199ce9@fourwalledcubicle.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain
-X-ClientProxiedBy: SR-MAIL-02.open-synergy.com (10.26.10.22) To
- SR-MAIL-01.open-synergy.com (10.26.10.21)
-X-MBO-SPAM-Probability: 
-X-Rspamd-Score: -4.61 / 15.00 / 15.00
-X-Rspamd-Queue-Id: D2786AB8BD
-X-Rspamd-UID: 7b76c8
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Mathias Crombez <mathias.crombez@faurecia.com>
+On Wed, 18 Nov 2020, Dean Camera wrote:
 
-Without multi-touch slots allocated, ABS_MT_SLOT events will be lost by
-input_handle_abs_event.
+> Currently the maximum HID report size which can be buffered by the
+> kernel is 8KB. This is sufficient for the vast majority of HID
+> devices on the market, as most HID reports are fairly small.
+> 
+> However, some unusual devices such as the Elgate Stream Deck exist
+> which use a report size slightly over 8KB for the image data that
+> is sent to the device. Reports these large cannot be buffered by
+> the regular HID subsystem currently, thus the only way to use such
+> device is to bypass the HID subsystem entirely.
+> 
+> This increases the maximum HID report size to 16KB, which should
+> cover all sanely designed HID devices.
+> 
+> Signed-off-by: Dean Camera <dean@fourwalledcubicle.com>
 
-Signed-off-by: Mathias Crombez <mathias.crombez@faurecia.com>
-Signed-off-by: Vasyl Vavrychuk <vasyl.vavrychuk@opensynergy.com>
-Tested-by: Vasyl Vavrychuk <vasyl.vavrychuk@opensynergy.com>
----
- drivers/virtio/Kconfig        | 11 +++++++++++
- drivers/virtio/virtio_input.c |  8 ++++++++
- 2 files changed, 19 insertions(+)
+Dean,
 
-diff --git a/drivers/virtio/Kconfig b/drivers/virtio/Kconfig
-index 7b41130d3f35..2cfd5b01d96d 100644
---- a/drivers/virtio/Kconfig
-+++ b/drivers/virtio/Kconfig
-@@ -111,6 +111,17 @@ config VIRTIO_INPUT
+thanks for the patch.
 
-         If unsure, say M.
+It has been whitespace-damaged by your mail client though. Could you 
+please fix that and resubmit?
 
-+config VIRTIO_INPUT_MULTITOUCH_SLOTS
-+       depends on VIRTIO_INPUT
-+       int "Number of multitouch slots"
-+       range 0 64
-+       default 10
-+       help
-+        Define the number of multitouch slots used. Default to 10.
-+        This parameter is unused if there is no multitouch capability.
-+
-+        0 will disable the feature.
-+
- config VIRTIO_MMIO
-        tristate "Platform bus driver for memory mapped virtio devices"
-        depends on HAS_IOMEM && HAS_DMA
-diff --git a/drivers/virtio/virtio_input.c b/drivers/virtio/virtio_input.c
-index f1f6208edcf5..13f3d90e6c30 100644
---- a/drivers/virtio/virtio_input.c
-+++ b/drivers/virtio/virtio_input.c
-@@ -7,6 +7,7 @@
+-- 
+Jiri Kosina
+SUSE Labs
 
- #include <uapi/linux/virtio_ids.h>
- #include <uapi/linux/virtio_input.h>
-+#include <linux/input/mt.h>
-
- struct virtio_input {
-        struct virtio_device       *vdev;
-@@ -205,6 +206,7 @@ static int virtinput_probe(struct virtio_device *vdev)
-        unsigned long flags;
-        size_t size;
-        int abs, err;
-+       bool is_mt = false;
-
-        if (!virtio_has_feature(vdev, VIRTIO_F_VERSION_1))
-                return -ENODEV;
-@@ -287,9 +289,15 @@ static int virtinput_probe(struct virtio_device *vdev)
-                for (abs = 0; abs < ABS_CNT; abs++) {
-                        if (!test_bit(abs, vi->idev->absbit))
-                                continue;
-+                       if (input_is_mt_value(abs))
-+                               is_mt = true;
-                        virtinput_cfg_abs(vi, abs);
-                }
-        }
-+       if (is_mt)
-+               input_mt_init_slots(vi->idev,
-+                                   CONFIG_VIRTIO_INPUT_MULTITOUCH_SLOTS,
-+                                   INPUT_MT_DIRECT);
-
-        virtio_device_ready(vdev);
-        vi->ready = true;
---
-2.23.0
-
-
-Please mind our privacy notice<https://www.opensynergy.com/datenschutzerklaerung/privacy-notice-for-business-partners-pursuant-to-article-13-of-the-general-data-protection-regulation-gdpr/> pursuant to Art. 13 GDPR. // Unsere Hinweise zum Datenschutz gem. Art. 13 DSGVO finden Sie hier.<https://www.opensynergy.com/de/datenschutzerklaerung/datenschutzhinweise-fuer-geschaeftspartner-gem-art-13-dsgvo/>
