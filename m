@@ -2,125 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A304D2C429E
-	for <lists+linux-input@lfdr.de>; Wed, 25 Nov 2020 16:07:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 088E22C4310
+	for <lists+linux-input@lfdr.de>; Wed, 25 Nov 2020 16:38:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729640AbgKYPHb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Nov 2020 10:07:31 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46236 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726295AbgKYPHb (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Nov 2020 10:07:31 -0500
-Received: from localhost (82-217-20-185.cable.dynamic.v4.ziggo.nl [82.217.20.185])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0434420679;
-        Wed, 25 Nov 2020 15:07:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1606316850;
-        bh=XUXkH2P+Dj+LfdkoHygf4L5x2gUdd3NfXUBkon3pM9A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Em17VZvWWVlY5BRMnMYZzW3hq0R6dbkbJqGZlomaIrDWJejvK9KSDxJVZgK03ItrZ
-         lms3lto2jKNlaqS9UlSLYVt+gOs2it0Zzbgx5BMKym5lFi8FfGwMvDn3s7+e5Xwc15
-         5C1KPBQGN9O0Z8NIrVjf3IYc04YgAgitcpcqYU/4=
-Date:   Wed, 25 Nov 2020 16:07:27 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Coiby Xu <coiby.xu@gmail.com>
-Cc:     linux-input@vger.kernel.org,
-        Helmut Stult <helmut.stult@schinfo.de>,
-        =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
-        Baq Domalaq <domalak@gmail.com>,
-        Pedro Ribeiro <pedrib@gmail.com>, stable@vger.kernel.org,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4] HID: i2c-hid: add polling mode based on connected
- GPIO chip's pin status
-Message-ID: <X75zL12q+FF6KBHi@kroah.com>
-References: <20201125141022.321643-1-coiby.xu@gmail.com>
+        id S1730278AbgKYPfV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Nov 2020 10:35:21 -0500
+Received: from antispam.etsmtl.ca ([208.72.177.108]:41242 "EHLO
+        antispam.etsmtl.ca" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729153AbgKYPfU (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 25 Nov 2020 10:35:20 -0500
+X-ASG-Debug-ID: 1606316878-1241590d82084a0001-vblZzk
+Received: from relais.etsmtl.ca (relais.etsmtl.ca [142.137.1.25]) by antispam.etsmtl.ca with ESMTP id K8FADQDkNtthHKAZ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO); Wed, 25 Nov 2020 10:08:08 -0500 (EST)
+X-Barracuda-Envelope-From: Pascal.Giard@etsmtl.ca
+X-Barracuda-Effective-Source-IP: relais.etsmtl.ca[142.137.1.25]
+X-Barracuda-Apparent-Source-IP: 142.137.1.25
+Content-Type: text/plain; charset="UTF-8"
+DKIM-Signature: v=1; a=rsa-sha256; d=etsmtl.ca; s=bbb; c=relaxed/relaxed;
+        t=1606316775; h=from:subject:to:date:ad-hoc;
+        bh=khtPpAgLM6IxM2PgECfdudGn3b6vWer81Vnekdp2FKM=;
+        b=PtYgt3b0Py32zpJbj2h2HegfI+psRRNvErFnEzrI0vyWcNLlwpcl6bYRPSCdqNSM6ngUBLIeINm
+        9Ut7OKikyae3EfrMoaVhcVAATUDldOhmSF/Emj9ZFP36zg+od2gb3CITJEtwtezpisXFb2kZeHNA3
+        1UDIgRytZGkJxAfob+k=
+X-Gm-Message-State: AOAM531zmVnyid5DFtlkSzyWqTTCnK1WRdznmFrDNUsaQr0UCu+xI6u3
+        TCvxpr/5wKlcu/IZukKJdnI5+oZwGF88Ha7KSHo=
+X-Google-Smtp-Source: ABdhPJxOoO2zxjwUx1ep8qRtUfcUKqAPaPm+rt9vz4IGCeSK36SJozwZ/AynvR0VpOiSxvRsILkXbnXxqdVKhg+5OFI=
+X-Received: by 2002:a05:6102:105a:: with SMTP id h26mr1288181vsq.45.1606316775114;
+ Wed, 25 Nov 2020 07:06:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201125141022.321643-1-coiby.xu@gmail.com>
+References: <acf595c3-1b0a-4d73-8087-784d89bdec91@email.android.com> <nycvar.YFH.7.76.2011251439500.3441@cbobk.fhfr.pm>
+In-Reply-To: <nycvar.YFH.7.76.2011251439500.3441@cbobk.fhfr.pm>
+From:   Pascal Giard <pascal.giard@etsmtl.ca>
+Date:   Wed, 25 Nov 2020 10:06:03 -0500
+X-Gmail-Original-Message-ID: <CAJNNDm=2mh43JxrLkpPM6Nuag-9d1acyQH=uwJyQzxOy-gO8rA@mail.gmail.com>
+Message-ID: <CAJNNDm=2mh43JxrLkpPM6Nuag-9d1acyQH=uwJyQzxOy-gO8rA@mail.gmail.com>
+Subject: Re: [PATCH v2] HID: sony: support for ghlive ps3/wii u dongles
+To:     Jiri Kosina <jikos@kernel.org>
+X-ASG-Orig-Subj: Re: [PATCH v2] HID: sony: support for ghlive ps3/wii u dongles
+CC:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Sanjay Govind <sanjay.govind9@gmail.com>
+X-Originating-IP: [142.137.250.50]
+X-ClientProxiedBy: FacteurB.ad.etsmtl.ca (10.162.28.15) To
+ FacteurB.ad.etsmtl.ca (10.162.28.15)
+X-Barracuda-Connect: relais.etsmtl.ca[142.137.1.25]
+X-Barracuda-Start-Time: 1606316888
+X-Barracuda-Encrypted: ECDHE-RSA-AES256-GCM-SHA384
+X-Barracuda-URL: https://antispam.etsmtl.ca:8100/cgi-mod/mark.cgi
+X-Virus-Scanned: by bsmtpd at etsmtl.ca
+X-Barracuda-Scan-Msg-Size: 943
+X-Barracuda-BRTS-Status: 1
+X-Barracuda-Bayes: INNOCENT GLOBAL 0.1186 1.0000 -1.2821
+X-Barracuda-Spam-Score: -1.28
+X-Barracuda-Spam-Status: No, SCORE=-1.28 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=3.2 KILL_LEVEL=5.2 tests=
+X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.86116
+        Rule breakdown below
+         pts rule name              description
+        ---- ---------------------- --------------------------------------------------
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Nov 25, 2020 at 10:10:22PM +0800, Coiby Xu wrote:
-> For a broken touchpad, it may take several months or longer to be fixed.
-> Polling mode could be a fallback solution for enthusiastic Linux users
-> when they have a new laptop. It also acts like a debugging feature. If
-> polling mode works for a broken touchpad, we can almost be certain
-> the root cause is related to the interrupt or power setting.
-> 
-> This patch could fix touchpads of Lenovo AMD gaming laptops including
-> Legion-5 15ARH05 (R7000), Legion-5P (R7000P) and IdeaPad Gaming 3
-> 15ARH05.
-> 
-> When polling mode is enabled, an I2C device can't wake up the suspended
-> system since enable/disable_irq_wake is invalid for polling mode.
-> 
-> Three module parameters are added to i2c-hid,
->     - polling_mode: by default set to 0, i.e., polling is disabled
->     - polling_interval_idle_ms: the polling internal when the touchpad
->       is idle, default to 10ms
->     - polling_interval_active_us: the polling internal when the touchpad
->       is active, default to 4000us
-> 
-> User can change the last two runtime polling parameter by writing to
-> /sys/module/i2c_hid/parameters/polling_interval_{idle_ms,active_us}.
-> 
-> Note xf86-input-synaptics doesn't work well with this polling mode
-> for the Synaptics touchpad. The Synaptics touchpad would often locks
-> into scroll mode when using multitouch gestures [1]. One remedy is to
-> decrease the polling interval.
-> 
-> Thanks to Barnabás's thorough review of this patch and the useful
-> feedback!
-> 
-> [1] https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1887190/comments/235
-> 
-> Cc: <stable@vger.kernel.org>
-> Cc: Barnabás Pőcze <pobrn@protonmail.com>
-> BugLink: https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1887190
-> Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
-> ---
->  drivers/hid/i2c-hid/i2c-hid-core.c | 152 +++++++++++++++++++++++++++--
->  1 file changed, 142 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-> index aeff1ffb0c8b..f25503f31ccf 100644
-> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
-> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-> @@ -36,6 +36,8 @@
->  #include <linux/hid.h>
->  #include <linux/mutex.h>
->  #include <linux/acpi.h>
-> +#include <linux/kthread.h>
-> +#include <linux/gpio/driver.h>
->  #include <linux/of.h>
->  #include <linux/regulator/consumer.h>
->  
-> @@ -60,6 +62,25 @@
->  #define I2C_HID_PWR_ON		0x00
->  #define I2C_HID_PWR_SLEEP	0x01
->  
-> +/* polling mode */
-> +#define I2C_HID_POLLING_DISABLED 0
-> +#define I2C_HID_POLLING_GPIO_PIN 1
-> +#define I2C_HID_POLLING_INTERVAL_ACTIVE_US 4000
-> +#define I2C_HID_POLLING_INTERVAL_IDLE_MS 10
-> +
-> +static u8 polling_mode;
-> +module_param(polling_mode, byte, 0444);
-> +MODULE_PARM_DESC(polling_mode, "How to poll (default=0) - 0 disabled; 1 based on GPIO pin's status");
+Apologies for the resend. I had not realized that gmail's app for
+smartphones didn't really support plaintext.
 
-Module parameters are for the 1990's, they are global and horrible to
-try to work with.  You should provide something on a per-device basis,
-as what happens if your system requires different things here for
-different devices?  You set this for all devices :(
+On Wed, Nov 25, 2020 at 8:41 AM Jiri Kosina <jikos@kernel.org> wrote:
+>
+> On Wed, 25 Nov 2020, Pascal.Giard@etsmtl.ca wrote:
+>
+> > Thank you for reviewing this new version.
+> >
+> > You are right, we could totally do without GHL_GUITAR_CONTROLLER.
+> >
+> > This can be seen as premature generalization or an excess of optimism;
+> > I'm assuming that the PS4 also needs magic control messages to behave
+> > correctly, and that I will figure those sooner than later. But I may be
+> > assuming too much and this will be trivial to add when the time comes.
+>
+> Yeah, let's extend this only when really needed.
 
-thanks,
+Fair.
 
-greg k-h
+> > Do you want me to submit a v3?
+>
+> Please do, thanks. I'll merge that one, I promise :) Sorry for not
+> having catched this in v1 already.
+
+No worries, will do.
+
+Thanks again!
+
+-Pascal
