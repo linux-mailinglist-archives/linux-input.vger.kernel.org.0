@@ -2,159 +2,162 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BDB262C3DE7
-	for <lists+linux-input@lfdr.de>; Wed, 25 Nov 2020 11:40:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 629422C3E9D
+	for <lists+linux-input@lfdr.de>; Wed, 25 Nov 2020 12:00:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729101AbgKYKhd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Nov 2020 05:37:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60192 "EHLO
+        id S1726422AbgKYK6Q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Nov 2020 05:58:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725876AbgKYKh3 (ORCPT
+        with ESMTP id S1726190AbgKYK6Q (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Nov 2020 05:37:29 -0500
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 572EAC0613D6;
-        Wed, 25 Nov 2020 02:37:29 -0800 (PST)
-Received: by mail-pl1-x642.google.com with SMTP id b23so898046pls.11;
-        Wed, 25 Nov 2020 02:37:29 -0800 (PST)
+        Wed, 25 Nov 2020 05:58:16 -0500
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3E3EC0613D4;
+        Wed, 25 Nov 2020 02:57:57 -0800 (PST)
+Received: by mail-pg1-x541.google.com with SMTP id s63so2122240pgc.8;
+        Wed, 25 Nov 2020 02:57:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lG3+Uwz8lZti6FSb8xjGyaQfdt5OwV03xvf6+L3ZqWc=;
-        b=YCtEdyPA4vCzWZsMjIt3djSgR9gg7vMRhn3I5LT7lEmWHdT3b/jEkR0QdduouORJ7k
-         kiuUl5RijkS3EJmc3PIdIbhuWrYEtLAccN+wdoprBDsU56ruoUGszfH1Sxvuy4WXIhMK
-         0dDt7R//JtRYOU1+gQ96Rpa2FinP3O1pFccTMutbPTGjvqTac0chojMQO8cZdySzLIim
-         HHsTKo91pUaUTwyxPnWizwDASocTC+n+eyDdN/HKPn9pe4V2vLDA/DOFrCcWbsrVXkvE
-         5CsjPeXzCB0gF8EvrEVdW+qQjVnUcViOyjSAD57xy0gbwLs+FCHLejwxIxOdH/xJHiTG
-         +NRA==
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=R9jPt2NH0PK1K5G5eT5q3EFReOKpDq7B+jBKCFjohwc=;
+        b=kNfN86rUCgkHBYEGXYY3KxiFEGCkN9x2OrS7GJ5DMpZhvENrmY6hPmOyoCnIPLgsyc
+         UDeMXa2CCUbOzJzAN7uwGa1J6LObL4515ObltxkOsk9pTVHhAPsJboqC2wmCMrGmDRdA
+         6C6+48OE6hYSgqW9p29YrWc9+3+ciEv/QaJ7efQojK1j5tW+l1PWGPURb9LvtR+ouLzb
+         pFxwwKLMJ2AYnT1xQ3+3AVD1sERk27A93pUMIlrcKK3zM1lCwP3kygeK8ZNDgio6h82c
+         Tn7Gu6p05noyjfa5Rpe2ZGCo8izkVwWWw8HljimpnRLAYIFDKCcF/JXe397UQHvO3zP2
+         HdWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lG3+Uwz8lZti6FSb8xjGyaQfdt5OwV03xvf6+L3ZqWc=;
-        b=HqxCMBnUjIt02wGgCngQgoatqmWXXlAtuei00ZaLA+J48O+B1j6bCYFuvdzJZHAMy9
-         SQZI3ZiFCUDUFHusJmIWT0MC92rOtiWOq6sEYoy8q25N3mDQAz1InmwPUJ2Roy/M3iPa
-         vltnthynrm17qL0rghDuth0vDo20iDxAaR+anXajOpA/0VENftxw7HJGmAtN+2MyxP0c
-         cw4tjtyc+WlxAzt4+qTpy9KvfvIVCmRuF5v3nK5U6GDt/TDSh1+4tewI/akYbvoF8/uY
-         f1WblEOyb3N1rkqS7L34BJzRlxD6yYBVFdYI5Vs/ET0tu9tthm6XyZscWs0u3X//933D
-         hunw==
-X-Gm-Message-State: AOAM5304mZtoVvAcNBp/cPMGh/vdShE0t5qCmjw2XeMKosWoDEmFIXv8
-        IAHmTwESxPjqzwmi9sJ7XwoV7crHuuNgZomTcvU=
-X-Google-Smtp-Source: ABdhPJzEY8ebPN4xZ4jf0ZFVw9i65L6qlCom+E751HZA34/qY3SkadUuuLf2HukIG4qONDPWI5feIsM1VQGLuSbFYSc=
-X-Received: by 2002:a17:902:ead2:b029:da:2596:198e with SMTP id
- p18-20020a170902ead2b02900da2596198emr1937529pld.21.1606300648824; Wed, 25
- Nov 2020 02:37:28 -0800 (PST)
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=R9jPt2NH0PK1K5G5eT5q3EFReOKpDq7B+jBKCFjohwc=;
+        b=EOqsHRfwBhjP/JuRfyTeTIjHlazwU2kDPiTntVVchapGKB7aZfZ9Iqq9EtiJnQyNCO
+         +g/YIduLYn9VjpxXZJmS1il6L2Yn7RkIVsT3jcmqAGI57KVcUJVAeqbBKVPOrU4Z285L
+         yQcOPAG47/n6fa/TzBHlyae7OS7DyohfSx34CCdDkhohFq6CT4f/v19k2PH5TZA6k5E+
+         IzwCg9xupsr+7u1GO0kvDYonz7Fattx0hRH8H7VCzDJzYEw24ddZ1S+wI6KfaTNwGW8c
+         B/NTFkbUQN9UwP99Cc0a/ElyAGu60zppM4muBg5gkh1LjcOmP6zTZDP2vp4HdaryGt2o
+         epqQ==
+X-Gm-Message-State: AOAM5325ALV5TYsy+nzs7SEHHYseCw73lkgo+N5aPX2JQ+8Eu8qq6Phr
+        BfhHmIGWWiDnabnJd6r3bArsShg0vK0QpFYn
+X-Google-Smtp-Source: ABdhPJzsuDYQ6UoK81C2ACET8sZYWgiFM+HazP3c2EQv5tebpQTo0+d1gQzAQwaOCpeMzvenX4/pZw==
+X-Received: by 2002:a17:90a:ec06:: with SMTP id l6mr3455086pjy.38.1606301877362;
+        Wed, 25 Nov 2020 02:57:57 -0800 (PST)
+Received: from localhost ([2001:e42:102:1532:160:16:113:140])
+        by smtp.gmail.com with ESMTPSA id t128sm1673438pfb.111.2020.11.25.02.57.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2020 02:57:56 -0800 (PST)
+From:   Coiby Xu <coiby.xu@gmail.com>
+X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
+Date:   Wed, 25 Nov 2020 18:57:20 +0800
+To:     =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Helmut Stult <helmut.stult@schinfo.de>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3] HID: i2c-hid: add polling mode based on connected
+ GPIO chip's pin status
+Message-ID: <20201125105720.xatyiva7psrfyzbi@Rk>
+References: <20201021134931.462560-1-coiby.xu@gmail.com>
+ <qo0Y8DqV6mbQsSFabOaqRoxYhKdYCZPjqYuF811CTdPXRFFXpx7sNXYcW9OGI5PMyclgsTjI7Xj3Du3v4hYQVBWGJl3t0t8XSbTKE9uOJ2E=@protonmail.com>
+ <20201122101525.j265hvj6lqgbtfi2@Rk>
+ <xsbDy_74QEfC8byvpA0nIjI0onndA3wuiLm2Iattq-8TLPy28kMq7GKhkfrfzqdBAQfp_w5CTCCJ8XjFmegtZqP58xioheh7OHV7Bam33aQ=@protonmail.com>
+ <20201123143613.zzrm3wgm4m6ngvrz@Rk>
+ <1FeR4cJ-m2i5GGyb68drDocoWP-yJ47BeKKEi2IkYbkppLFRCQPTQT4D6xqVCQcmUIjIsoe9HXhwycxxt5XxtsESO6w4uVMzISa987s_T-U=@protonmail.com>
 MIME-Version: 1.0
-References: <cover.1605896059.git.gustavoars@kernel.org> <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011201129.B13FDB3C@keescook> <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011220816.8B6591A@keescook> <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
- <CANiq72nZrHWTA4_Msg6MP9snTyenC6-eGfD27CyfNSu7QoVZbw@mail.gmail.com>
- <1c7d7fde126bc0acf825766de64bf2f9b888f216.camel@HansenPartnership.com>
- <CANiq72m22Jb5_+62NnwX8xds2iUdWDMAqD8PZw9cuxdHd95W0A@mail.gmail.com>
- <fc45750b6d0277c401015b7aa11e16cd15f32ab2.camel@HansenPartnership.com>
- <CANiq72k5tpDoDPmJ0ZWc1DGqm+81Gi-uEENAtvEs9v3SZcx6_Q@mail.gmail.com> <4993259d01a0064f8bb22770503490f9252f3659.camel@HansenPartnership.com>
-In-Reply-To: <4993259d01a0064f8bb22770503490f9252f3659.camel@HansenPartnership.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 25 Nov 2020 12:38:17 +0200
-Message-ID: <CAHp75VfaewwkLsrht95Q7DaxFk7JpQjwx0KQ7Jvh5f7DUbZkRA@mail.gmail.com>
-Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
-To:     James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
-        amd-gfx@lists.freedesktop.org, bridge@lists.linux-foundation.org,
-        ceph-devel@vger.kernel.org, cluster-devel@redhat.com,
-        coreteam@netfilter.org,
-        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
-        device-mapper development <dm-devel@redhat.com>,
-        drbd-dev@lists.linbit.com,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
-        intel-gfx <intel-gfx@lists.freedesktop.org>,
-        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
-        linux1394-devel@lists.sourceforge.net,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        linux-afs@lists.infradead.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-arm-msm@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net,
-        linux-block@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-cifs@vger.kernel.org,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        linux-decnet-user@lists.sourceforge.net,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
-        linux-geode@lists.infradead.org,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-hams@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-i3c@lists.infradead.org, linux-ide@vger.kernel.org,
-        linux-iio <linux-iio@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
-        linux-nfs@vger.kernel.org,
-        "open list:HFI1 DRIVER" <linux-rdma@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-scsi <linux-scsi@vger.kernel.org>,
-        linux-sctp@vger.kernel.org,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        USB <linux-usb@vger.kernel.org>, linux-watchdog@vger.kernel.org,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        netfilter-devel@vger.kernel.org, nouveau@lists.freedesktop.org,
-        op-tee@lists.trustedfirmware.org, oss-drivers@netronome.com,
-        patches@opensource.cirrus.com, rds-devel@oss.oracle.com,
-        reiserfs-devel@vger.kernel.org, samba-technical@lists.samba.org,
-        selinux@vger.kernel.org,
-        target-devel <target-devel@vger.kernel.org>,
-        tipc-discussion@lists.sourceforge.net,
-        usb-storage@lists.one-eyed-alien.net,
-        virtualization@lists.linux-foundation.org,
-        wcn36xx@lists.infradead.org,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        xen-devel@lists.xenproject.org, linux-hardening@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>, Joe Perches <joe@perches.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1FeR4cJ-m2i5GGyb68drDocoWP-yJ47BeKKEi2IkYbkppLFRCQPTQT4D6xqVCQcmUIjIsoe9HXhwycxxt5XxtsESO6w4uVMzISa987s_T-U=@protonmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Nov 23, 2020 at 10:39 PM James Bottomley
-<James.Bottomley@hansenpartnership.com> wrote:
-> On Mon, 2020-11-23 at 19:56 +0100, Miguel Ojeda wrote:
-> > On Mon, Nov 23, 2020 at 4:58 PM James Bottomley
-> > <James.Bottomley@hansenpartnership.com> wrote:
-
-...
-
-> > But if we do the math, for an author, at even 1 minute per line
-> > change and assuming nothing can be automated at all, it would take 1
-> > month of work. For maintainers, a couple of trivial lines is noise
-> > compared to many other patches.
+On Mon, Nov 23, 2020 at 04:32:40PM +0000, Barnabás Pőcze wrote:
+>> [...]
+>> >> >> +static int get_gpio_pin_state(struct irq_desc *irq_desc)
+>> >> >> +{
+>> >> >> +	struct gpio_chip *gc = irq_data_get_irq_chip_data(&irq_desc->irq_data);
+>> >> >> +
+>> >> >> +	return gc->get(gc, irq_desc->irq_data.hwirq);
+>> >> >> +}
+>> >> [...]
+>> >> >> +	ssize_t	status = get_gpio_pin_state(irq_desc);
+>> >> >
+>> >> >`get_gpio_pin_state()` returns an `int`, so I am not sure why `ssize_t` is used here.
+>> >> >
+>> >>
+>> >> I used `ssize_t` because I found gpiolib-sysfs.c uses `ssize_t`
+>> >>
+>> >>      // drivers/gpio/gpiolib-sysfs.c
+>> >>      static ssize_t value_show(struct device *dev,
+>> >>      		struct device_attribute *attr, char *buf)
+>> >>      {
+>> >>      	struct gpiod_data *data = dev_get_drvdata(dev);
+>> >>      	struct gpio_desc *desc = data->desc;
+>> >>      	ssize_t			status;
+>> >>
+>> >>      	mutex_lock(&data->mutex);
+>> >>
+>> >>      	status = gpiod_get_value_cansleep(desc);
+>> >>          ...
+>> >>      	return status;
+>> >>      }
+>> >>
+>> >> According to the book Advanced Programming in the UNIX Environment by
+>> >> W. Richard Stevens,
+>> >>      With the 1990 POSIX.1 standard, the primitive system data type
+>> >>      ssize_t was introduced to provide the signed return value...
+>> >>
+>> >> So ssize_t is fairly common, for example, the read and write syscall
+>> >> return a value of type ssize_t. But I haven't found out why ssize_t is
+>> >> better int.
+>> >> >
+>> >
+>> >Sorry if I wasn't clear, what prompted me to ask that question is the following:
+>> >`gc->get()` returns `int`, `get_gpio_pin_state()` returns `int`, yet you still
+>> >save the return value of `get_gpio_pin_state()` into a variable with type
+>> >`ssize_t` for no apparent reason. In the example you cited, `ssize_t` is used
+>> >because the show() callback of a sysfs attribute must return `ssize_t`, but here,
+>> >`interrupt_line_active()` returns `bool`, so I don't see any advantage over a
+>> >plain `int`. Anyways, I believe either one is fine, I just found it odd.
+>> >
+>> I don't understand why "the show() callback of a sysfs attribute
+>> must return `ssize_t`" instead of int. Do you think the rationale
+>> behind it is the same for this case? If yes, using "ssize_t" for
+>> status could be justified.
+>> [...]
 >
-> So you think a one line patch should take one minute to produce ... I
-> really don't think that's grounded in reality.  I suppose a one line
-> patch only takes a minute to merge with b4 if no-one reviews or tests
-> it, but that's not really desirable.
+>Because it was decided that way, `ssize_t` is a better choice for that purpose
+>than plain `int`. You can see it in include/linux/device.h, that both the
+>show() and store() methods must return `ssize_t`.
+>
 
-In my practice most of the one line patches were either to fix or to
-introduce quite interesting issues.
-1 minute is 2-3 orders less than usually needed for such patches.
-That's why I don't like churn produced by people who often even didn't
-compile their useful contributions.
+Could you explain why `ssize_t` is a better choice? AFAIU, ssize_t
+is used because we can return negative value to indicate an error. If
+we use ssize_t here, it's a reminder that reading a GPIO pin's status
+could fail. And ssize_t reminds us it's a operation similar to read
+or write. So ssize_t is better than int here. And maybe it's the same
+reason why "it was decided that way".
 
--- 
-With Best Regards,
-Andy Shevchenko
+>What I'm arguing here, is that there is no reason to use `ssize_t` in this case.
+>Because `get_gpio_pin_state()` returns `int`. So when you do
+>```
+>ssize_t status = get_gpio_pin_state(...);
+>```
+>then the return value of `get_gpio_pin_state()` (which is an `int`), will be
+>converted to an `ssize_t`, and saved into `status`. I'm arguing that that is
+>unnecessary and a plain `int` would work perfectly well in this case. Anyways,
+>both work fine, I just found the unnecessary use of `ssize_t` here odd.
+>
+>
+>Regards,
+>Barnabás Pőcze
+
+--
+Best regards,
+Coiby
