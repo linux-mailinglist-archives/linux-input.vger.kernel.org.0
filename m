@@ -2,34 +2,35 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 942032C4413
-	for <lists+linux-input@lfdr.de>; Wed, 25 Nov 2020 16:44:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7094B2C43D9
+	for <lists+linux-input@lfdr.de>; Wed, 25 Nov 2020 16:44:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730293AbgKYPki (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Nov 2020 10:40:38 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55364 "EHLO mail.kernel.org"
+        id S1731049AbgKYPh0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Nov 2020 10:37:26 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55404 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730994AbgKYPhU (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Nov 2020 10:37:20 -0500
+        id S1731034AbgKYPhZ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 25 Nov 2020 10:37:25 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 35C3021D81;
-        Wed, 25 Nov 2020 15:37:19 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3F19721D81;
+        Wed, 25 Nov 2020 15:37:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606318640;
-        bh=ZeIzVfLco/GLm6tYbOevg3JIWmsCYliTX+lwwVPA2uE=;
+        s=default; t=1606318644;
+        bh=hxkcGanDN1clyyqXEFogoewdZ8re6+5iebuHCSgRWUc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mrpFGzJIaxniWz05DQavSMvAEhWpVRmCTNcwhChdrqlLW/r47Zm/F8oKVJD74rfj0
-         5rbwdwgYJqsMVTTrwZbHSdZ9omE5iwgjenUNIwZffK9s+5TL4CVWd++QfqBVxfkL1f
-         UBIdR0EyySF4bsly2+2GNjWqyE22wffBF+Fj3khA=
+        b=a6k+3SAASS1IA9UaYx+R/n1G54qO3Rg+yO5aCCAtHj65n71ZvEVhrIKA/hf/090VC
+         ioKB+xl07OjGYr8i13j6eACr6Fdg0Vw5/R8P6ZulgKGy38hTtYWTMuiXuMQ5XEhs9f
+         ygSZNNbLj4NVtGIz0CQrtYp+6OwtjKKlUWTY4P08=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Chris Ye <lzye@google.com>, Jiri Kosina <jkosina@suse.cz>,
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 05/15] HID: add HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE for Gamevice devices
-Date:   Wed, 25 Nov 2020 10:37:02 -0500
-Message-Id: <20201125153712.810655-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 08/15] HID: Add Logitech Dinovo Edge battery quirk
+Date:   Wed, 25 Nov 2020 10:37:05 -0500
+Message-Id: <20201125153712.810655-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201125153712.810655-1-sashal@kernel.org>
 References: <20201125153712.810655-1-sashal@kernel.org>
@@ -41,51 +42,53 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Chris Ye <lzye@google.com>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit f59ee399de4a8ca4d7d19cdcabb4b63e94867f09 ]
+[ Upstream commit 7940fb035abd88040d56be209962feffa33b03d0 ]
 
-Kernel 5.4 introduces HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE, devices need to
-be set explicitly with this flag.
+The battery status is also being reported by the logitech-hidpp driver,
+so ignore the standard HID battery status to avoid reporting the same
+info twice.
 
-Signed-off-by: Chris Ye <lzye@google.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Note the logitech-hidpp battery driver provides more info, such as properly
+differentiating between charging and discharging. Also the standard HID
+battery info seems to be wrong, reporting a capacity of just 26% after
+fully charging the device.
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-ids.h    | 4 ++++
- drivers/hid/hid-quirks.c | 4 ++++
- 2 files changed, 8 insertions(+)
+ drivers/hid/hid-ids.h   | 1 +
+ drivers/hid/hid-input.c | 3 +++
+ 2 files changed, 4 insertions(+)
 
 diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 4d2a1d540a821..ad079aca68898 100644
+index ad079aca68898..6d118da1615d4 100644
 --- a/drivers/hid/hid-ids.h
 +++ b/drivers/hid/hid-ids.h
-@@ -444,6 +444,10 @@
- #define USB_VENDOR_ID_FRUCTEL	0x25B6
- #define USB_DEVICE_ID_GAMETEL_MT_MODE	0x0002
+@@ -733,6 +733,7 @@
+ #define USB_VENDOR_ID_LOGITECH		0x046d
+ #define USB_DEVICE_ID_LOGITECH_AUDIOHUB 0x0a0e
+ #define USB_DEVICE_ID_LOGITECH_T651	0xb00c
++#define USB_DEVICE_ID_LOGITECH_DINOVO_EDGE_KBD	0xb309
+ #define USB_DEVICE_ID_LOGITECH_C007	0xc007
+ #define USB_DEVICE_ID_LOGITECH_C077	0xc077
+ #define USB_DEVICE_ID_LOGITECH_RECEIVER	0xc101
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index 11bd2ca22a2e6..13deb9a676855 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -331,6 +331,9 @@ static const struct hid_device_id hid_battery_quirks[] = {
+ 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_ASUSTEK,
+ 		USB_DEVICE_ID_ASUSTEK_T100CHI_KEYBOARD),
+ 	  HID_BATTERY_QUIRK_IGNORE },
++	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH,
++		USB_DEVICE_ID_LOGITECH_DINOVO_EDGE_KBD),
++	  HID_BATTERY_QUIRK_IGNORE },
+ 	{}
+ };
  
-+#define USB_VENDOR_ID_GAMEVICE	0x27F8
-+#define USB_DEVICE_ID_GAMEVICE_GV186	0x0BBE
-+#define USB_DEVICE_ID_GAMEVICE_KISHI	0x0BBF
-+
- #define USB_VENDOR_ID_GAMERON		0x0810
- #define USB_DEVICE_ID_GAMERON_DUAL_PSX_ADAPTOR	0x0001
- #define USB_DEVICE_ID_GAMERON_DUAL_PCS_ADAPTOR	0x0002
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index 493e2e7e12de0..10cb42a00fe87 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -87,6 +87,10 @@ static const struct hid_device_id hid_quirks[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_FUTABA, USB_DEVICE_ID_LED_DISPLAY), HID_QUIRK_NO_INIT_REPORTS },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_GREENASIA, USB_DEVICE_ID_GREENASIA_DUAL_SAT_ADAPTOR), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_GREENASIA, USB_DEVICE_ID_GREENASIA_DUAL_USB_JOYPAD), HID_QUIRK_MULTI_INPUT },
-+	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_GAMEVICE, USB_DEVICE_ID_GAMEVICE_GV186),
-+		HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_GAMEVICE, USB_DEVICE_ID_GAMEVICE_KISHI),
-+		HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HAPP, USB_DEVICE_ID_UGCI_DRIVING), HID_QUIRK_BADPAD | HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HAPP, USB_DEVICE_ID_UGCI_FIGHTING), HID_QUIRK_BADPAD | HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HAPP, USB_DEVICE_ID_UGCI_FLYING), HID_QUIRK_BADPAD | HID_QUIRK_MULTI_INPUT },
 -- 
 2.27.0
 
