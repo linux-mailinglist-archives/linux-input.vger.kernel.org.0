@@ -2,38 +2,36 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63E6E2C43A9
-	for <lists+linux-input@lfdr.de>; Wed, 25 Nov 2020 16:43:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C61632C43BF
+	for <lists+linux-input@lfdr.de>; Wed, 25 Nov 2020 16:44:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730445AbgKYPgJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Nov 2020 10:36:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53518 "EHLO mail.kernel.org"
+        id S1730728AbgKYPgm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Nov 2020 10:36:42 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54392 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730420AbgKYPgJ (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Nov 2020 10:36:09 -0500
+        id S1730187AbgKYPgl (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 25 Nov 2020 10:36:41 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5979320BED;
-        Wed, 25 Nov 2020 15:36:07 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4C31321D1A;
+        Wed, 25 Nov 2020 15:36:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606318568;
-        bh=yHSAuWvarhHnzBKfK31tOI4gNfsowSUP5J5DKDVzLzg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LeZKwcBIp1NoB7l5f4KLbjHLH9AnPuB3X/DhRZuACjcmbhYKkjDuik+BtBFxHkTwz
-         BeAOpp0dmcrp6iYzhyk9y/pZFHY+F0GWejnfZbr517XUBR0baJBCjMAdZuwvvk9f7M
-         gJ+zYih3uFYSLAbQVmGSI2YcWXWyb5mOcWgQYhtY=
+        s=default; t=1606318601;
+        bh=0ugI040/amBDGw2cudqxi8oqdNwVsgh8NjKXwVtFsJo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=u/A6sugkNjCPw/vWr/QtNr/ALglT8+JBBWE3BXw2RS9nx4j/Z86wg8h3Xz9K7WcVo
+         j5p4i0LH4kQB/7GaGeBV5ztIStmEXK9/1hBbPIFr+4QEGDSrkwmsbQ+xQRNWEP5+A5
+         V4zju6yp5n1jZE7cz3NmKlCAgAfpKd+0RMLmOyo8=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.9 13/33] HID: Add Logitech Dinovo Edge battery quirk
-Date:   Wed, 25 Nov 2020 10:35:30 -0500
-Message-Id: <20201125153550.810101-13-sashal@kernel.org>
+Cc:     Martijn van de Streek <martijn@zeewinde.xyz>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 01/23] HID: uclogic: Add ID for Trust Flex Design Tablet
+Date:   Wed, 25 Nov 2020 10:36:16 -0500
+Message-Id: <20201125153638.810419-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201125153550.810101-1-sashal@kernel.org>
-References: <20201125153550.810101-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -42,53 +40,61 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: Martijn van de Streek <martijn@zeewinde.xyz>
 
-[ Upstream commit 7940fb035abd88040d56be209962feffa33b03d0 ]
+[ Upstream commit 022fc5315b7aff69d3df2c953b892a6232642d50 ]
 
-The battery status is also being reported by the logitech-hidpp driver,
-so ignore the standard HID battery status to avoid reporting the same
-info twice.
+The Trust Flex Design Tablet has an UGTizer USB ID and requires the same
+initialization as the UGTizer GP0610 to be detected as a graphics tablet
+instead of a mouse.
 
-Note the logitech-hidpp battery driver provides more info, such as properly
-differentiating between charging and discharging. Also the standard HID
-battery info seems to be wrong, reporting a capacity of just 26% after
-fully charging the device.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Signed-off-by: Martijn van de Streek <martijn@zeewinde.xyz>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-ids.h   | 1 +
- drivers/hid/hid-input.c | 3 +++
- 2 files changed, 4 insertions(+)
+ drivers/hid/hid-ids.h            | 1 +
+ drivers/hid/hid-uclogic-core.c   | 2 ++
+ drivers/hid/hid-uclogic-params.c | 2 ++
+ 3 files changed, 5 insertions(+)
 
 diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 96e84a51f6b2c..a6d63a7590434 100644
+index 7363d0b488bd8..62b8802a534e8 100644
 --- a/drivers/hid/hid-ids.h
 +++ b/drivers/hid/hid-ids.h
-@@ -749,6 +749,7 @@
- #define USB_VENDOR_ID_LOGITECH		0x046d
- #define USB_DEVICE_ID_LOGITECH_AUDIOHUB 0x0a0e
- #define USB_DEVICE_ID_LOGITECH_T651	0xb00c
-+#define USB_DEVICE_ID_LOGITECH_DINOVO_EDGE_KBD	0xb309
- #define USB_DEVICE_ID_LOGITECH_C007	0xc007
- #define USB_DEVICE_ID_LOGITECH_C077	0xc077
- #define USB_DEVICE_ID_LOGITECH_RECEIVER	0xc101
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 9770db624bfaf..4dca113924593 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -319,6 +319,9 @@ static const struct hid_device_id hid_battery_quirks[] = {
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_ASUSTEK,
- 		USB_DEVICE_ID_ASUSTEK_T100CHI_KEYBOARD),
- 	  HID_BATTERY_QUIRK_IGNORE },
-+	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH,
-+		USB_DEVICE_ID_LOGITECH_DINOVO_EDGE_KBD),
-+	  HID_BATTERY_QUIRK_IGNORE },
- 	{}
- };
+@@ -1292,6 +1292,7 @@
  
+ #define USB_VENDOR_ID_UGTIZER			0x2179
+ #define USB_DEVICE_ID_UGTIZER_TABLET_GP0610	0x0053
++#define USB_DEVICE_ID_UGTIZER_TABLET_GT5040	0x0077
+ 
+ #define USB_VENDOR_ID_VIEWSONIC			0x0543
+ #define USB_DEVICE_ID_VIEWSONIC_PD1011		0xe621
+diff --git a/drivers/hid/hid-uclogic-core.c b/drivers/hid/hid-uclogic-core.c
+index 86b568037cb8a..8e9c9e646cb7d 100644
+--- a/drivers/hid/hid-uclogic-core.c
++++ b/drivers/hid/hid-uclogic-core.c
+@@ -385,6 +385,8 @@ static const struct hid_device_id uclogic_devices[] = {
+ 				USB_DEVICE_ID_UCLOGIC_DRAWIMAGE_G3) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_UGTIZER,
+ 				USB_DEVICE_ID_UGTIZER_TABLET_GP0610) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_UGTIZER,
++				USB_DEVICE_ID_UGTIZER_TABLET_GT5040) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
+ 				USB_DEVICE_ID_UGEE_TABLET_G5) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_UGEE,
+diff --git a/drivers/hid/hid-uclogic-params.c b/drivers/hid/hid-uclogic-params.c
+index 78a364ae2f685..e80c812f44a77 100644
+--- a/drivers/hid/hid-uclogic-params.c
++++ b/drivers/hid/hid-uclogic-params.c
+@@ -997,6 +997,8 @@ int uclogic_params_init(struct uclogic_params *params,
+ 		break;
+ 	case VID_PID(USB_VENDOR_ID_UGTIZER,
+ 		     USB_DEVICE_ID_UGTIZER_TABLET_GP0610):
++	case VID_PID(USB_VENDOR_ID_UGTIZER,
++		     USB_DEVICE_ID_UGTIZER_TABLET_GT5040):
+ 	case VID_PID(USB_VENDOR_ID_UGEE,
+ 		     USB_DEVICE_ID_UGEE_XPPEN_TABLET_G540):
+ 	case VID_PID(USB_VENDOR_ID_UGEE,
 -- 
 2.27.0
 
