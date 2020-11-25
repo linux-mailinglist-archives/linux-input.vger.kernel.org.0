@@ -2,37 +2,36 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 482582C40EE
-	for <lists+linux-input@lfdr.de>; Wed, 25 Nov 2020 14:13:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BDF12C4100
+	for <lists+linux-input@lfdr.de>; Wed, 25 Nov 2020 14:18:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725989AbgKYNMu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Nov 2020 08:12:50 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53354 "EHLO mail.kernel.org"
+        id S1729153AbgKYNSL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Nov 2020 08:18:11 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53832 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725875AbgKYNMu (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Nov 2020 08:12:50 -0500
+        id S1726422AbgKYNSK (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 25 Nov 2020 08:18:10 -0500
 Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CA6C4206E5;
-        Wed, 25 Nov 2020 13:12:48 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 41344206E5;
+        Wed, 25 Nov 2020 13:18:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606309969;
-        bh=8c+tXMwztOWnQzr0BaFywkoj1p2WDtG71rSdUXCvw5Q=;
+        s=default; t=1606310290;
+        bh=J9gO+WXJ4CAYXF2VqrRZILd+9qWaibHE2TyAtPX5gyM=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=jdzA18QXi4CVT0hO6KFl84pIwy/tfE66p9ivK60Pmauu5PfpWSoLIk6MTPbQTnnFX
-         m7UFQVpj/NU2kOUx3Sn000K2iaETRvchEFil5jm9kiBEVR6zYbNqH/GLvbIrrCFyM6
-         aDxyr0Po1P1FG83yNzM+kXs97YFGcFOSCQdn8LOA=
-Date:   Wed, 25 Nov 2020 14:12:46 +0100 (CET)
+        b=IqK18eKtowgWvbkaZid+fZL1VztUCibnpEpeAfbPikkhXZwYbtrVRG0KoYGL7RLuH
+         2+PvOcCx75Kclc8kH02z6+NSJTYxHYYM+NtB5TKzoaVvWnz+pzloM5DD6lOES7WxID
+         hKbdskIY8Sn7C8NP2SOZtFQsw4oN5E+IF9jEiCSE=
+Date:   Wed, 25 Nov 2020 14:18:07 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Dean Camera <dean@fourwalledcubicle.com>
+To:     Rikard Falkeborn <rikard.falkeborn@gmail.com>
 cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH 1/2] Increase HID_MAX_BUFFER_SIZE to 8KB to support
- additional, devices.
-In-Reply-To: <acdda6f0-3675-7e8b-b57c-711fe8199ce9@fourwalledcubicle.com>
-Message-ID: <nycvar.YFH.7.76.2011251412230.3441@cbobk.fhfr.pm>
-References: <acdda6f0-3675-7e8b-b57c-711fe8199ce9@fourwalledcubicle.com>
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: wacom: Constify attribute_groups
+In-Reply-To: <20201124230109.67543-1-rikard.falkeborn@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2011251417570.3441@cbobk.fhfr.pm>
+References: <20201124230109.67543-1-rikard.falkeborn@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -40,29 +39,17 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 18 Nov 2020, Dean Camera wrote:
+On Wed, 25 Nov 2020, Rikard Falkeborn wrote:
 
-> Currently the maximum HID report size which can be buffered by the
-> kernel is 8KB. This is sufficient for the vast majority of HID
-> devices on the market, as most HID reports are fairly small.
+> These are never modified, so make them const to allow the compiler to put
+> them in read-only memory. It also allows the compiler to shrink the
+> resulting module with ~900 bytes, test-built with gcc 10.2 on x86_64.
 > 
-> However, some unusual devices such as the Elgate Stream Deck exist
-> which use a report size slightly over 8KB for the image data that
-> is sent to the device. Reports these large cannot be buffered by
-> the regular HID subsystem currently, thus the only way to use such
-> device is to bypass the HID subsystem entirely.
-> 
-> This increases the maximum HID report size to 16KB, which should
-> cover all sanely designed HID devices.
-> 
-> Signed-off-by: Dean Camera <dean@fourwalledcubicle.com>
+>    text    data     bss     dec     hex filename
+>  204377   42832     576  247785   3c7e9 drivers/hid/wacom_old.ko
+>  204240   42064     576  246880   3c460 drivers/hid/wacom_new.ko
 
-Dean,
-
-thanks for the patch.
-
-It has been whitespace-damaged by your mail client though. Could you 
-please fix that and resubmit?
+Applied, thanks Rikard.
 
 -- 
 Jiri Kosina
