@@ -2,160 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4050B2C405C
-	for <lists+linux-input@lfdr.de>; Wed, 25 Nov 2020 13:39:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EA302C40A2
+	for <lists+linux-input@lfdr.de>; Wed, 25 Nov 2020 13:55:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727520AbgKYMjS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Nov 2020 07:39:18 -0500
-Received: from mail-03.mail-europe.com ([91.134.188.129]:33876 "EHLO
-        mail-03.mail-europe.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725848AbgKYMjR (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Nov 2020 07:39:17 -0500
-Date:   Wed, 25 Nov 2020 12:39:02 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1606307952;
-        bh=lybJm4KNbspx+koo3raaZ40pyMf68YvNuqxbO9ZAm2w=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=gdUByJfulR0dPeAeA90XiXeYnYkBV2vfGUhhdAZtiUBwCyZxPEsCdhzGriIEWdQPu
-         lROlNIBLUT0zQS94HvzzJIGCYGBcSqq6JLRBpqFLtZQy0v7aY9JBNU7g7DUS8Jn7xa
-         O3hWfBTcTughYsfr5vOVTNhFQu7hZIyzsRWUGntg=
-To:     Coiby Xu <coiby.xu@gmail.com>
-From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Helmut Stult <helmut.stult@schinfo.de>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Subject: Re: [PATCH v3] HID: i2c-hid: add polling mode based on connected GPIO chip's pin status
-Message-ID: <_1j4GSFZpZ-rAOrhM2TQwyID7K4XCCkKwLeIcFMxQ1vlFg6wr544L5Lcrp7BvpsMmkhMYsTUT3yTTM61J7aVTYmGMSddkrz244_uV0gg9mU=@protonmail.com>
-In-Reply-To: <20201125105720.xatyiva7psrfyzbi@Rk>
-References: <20201021134931.462560-1-coiby.xu@gmail.com> <qo0Y8DqV6mbQsSFabOaqRoxYhKdYCZPjqYuF811CTdPXRFFXpx7sNXYcW9OGI5PMyclgsTjI7Xj3Du3v4hYQVBWGJl3t0t8XSbTKE9uOJ2E=@protonmail.com> <20201122101525.j265hvj6lqgbtfi2@Rk> <xsbDy_74QEfC8byvpA0nIjI0onndA3wuiLm2Iattq-8TLPy28kMq7GKhkfrfzqdBAQfp_w5CTCCJ8XjFmegtZqP58xioheh7OHV7Bam33aQ=@protonmail.com> <20201123143613.zzrm3wgm4m6ngvrz@Rk> <1FeR4cJ-m2i5GGyb68drDocoWP-yJ47BeKKEi2IkYbkppLFRCQPTQT4D6xqVCQcmUIjIsoe9HXhwycxxt5XxtsESO6w4uVMzISa987s_T-U=@protonmail.com> <20201125105720.xatyiva7psrfyzbi@Rk>
+        id S1729365AbgKYMzW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Nov 2020 07:55:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50564 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729334AbgKYMzW (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 25 Nov 2020 07:55:22 -0500
+Received: from pobox.suse.cz (nat1.prg.suse.com [195.250.132.148])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D227D206E5;
+        Wed, 25 Nov 2020 12:55:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1606308921;
+        bh=N00h6+B7Af2g0ryoTX+CHzUF/w3UJtcNZfPSyiyDDVA=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=nfhJ+akBcune4UhqTu+G1BXU3R63IQO4MeOQdHWFavl58x1EZYyIuNbXXfvvmSEKV
+         2OFGK1pP/TFgJO8j5nP0Cnb/nt6evDz98ARjUXc+CWLy3+f6DlshNn1bT959SWZPgR
+         4fwRTnqmKMmFqTOX5CLMxuSnv6b8lfwNiwBojdLw=
+Date:   Wed, 25 Nov 2020 13:55:10 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Roderick Colenbrander <roderick@gaikai.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: Re: [PATCH 0/3] HID: sony: various DS4 improvements
+In-Reply-To: <20201110072229.9112-1-roderick@gaikai.com>
+Message-ID: <nycvar.YFH.7.76.2011251354360.3441@cbobk.fhfr.pm>
+References: <20201110072229.9112-1-roderick@gaikai.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-2020. november 25., szerda 11:57 keltez=C3=A9ssel, Coiby Xu =C3=ADrta:
+On Mon, 9 Nov 2020, Roderick Colenbrander wrote:
 
-> On Mon, Nov 23, 2020 at 04:32:40PM +0000, Barnab=C3=A1s P=C5=91cze wrote:
-> >> [...]
-> >> >> >> +static int get_gpio_pin_state(struct irq_desc *irq_desc)
-> >> >> >> +{
-> >> >> >> +=09struct gpio_chip *gc =3D irq_data_get_irq_chip_data(&irq_des=
-c->irq_data);
-> >> >> >> +
-> >> >> >> +=09return gc->get(gc, irq_desc->irq_data.hwirq);
-> >> >> >> +}
-> >> >> [...]
-> >> >> >> +=09ssize_t=09status =3D get_gpio_pin_state(irq_desc);
-> >> >> >
-> >> >> >`get_gpio_pin_state()` returns an `int`, so I am not sure why `ssi=
-ze_t` is used here.
-> >> >> >
-> >> >>
-> >> >> I used `ssize_t` because I found gpiolib-sysfs.c uses `ssize_t`
-> >> >>
-> >> >>      // drivers/gpio/gpiolib-sysfs.c
-> >> >>      static ssize_t value_show(struct device *dev,
-> >> >>      =09=09struct device_attribute *attr, char *buf)
-> >> >>      {
-> >> >>      =09struct gpiod_data *data =3D dev_get_drvdata(dev);
-> >> >>      =09struct gpio_desc *desc =3D data->desc;
-> >> >>      =09ssize_t=09=09=09status;
-> >> >>
-> >> >>      =09mutex_lock(&data->mutex);
-> >> >>
-> >> >>      =09status =3D gpiod_get_value_cansleep(desc);
-> >> >>          ...
-> >> >>      =09return status;
-> >> >>      }
-> >> >>
-> >> >> According to the book Advanced Programming in the UNIX Environment =
-by
-> >> >> W. Richard Stevens,
-> >> >>      With the 1990 POSIX.1 standard, the primitive system data type
-> >> >>      ssize_t was introduced to provide the signed return value...
-> >> >>
-> >> >> So ssize_t is fairly common, for example, the read and write syscal=
-l
-> >> >> return a value of type ssize_t. But I haven't found out why ssize_t=
- is
-> >> >> better int.
-> >> >> >
-> >> >
-> >> >Sorry if I wasn't clear, what prompted me to ask that question is the=
- following:
-> >> >`gc->get()` returns `int`, `get_gpio_pin_state()` returns `int`, yet =
-you still
-> >> >save the return value of `get_gpio_pin_state()` into a variable with =
-type
-> >> >`ssize_t` for no apparent reason. In the example you cited, `ssize_t`=
- is used
-> >> >because the show() callback of a sysfs attribute must return `ssize_t=
-`, but here,
-> >> >`interrupt_line_active()` returns `bool`, so I don't see any advantag=
-e over a
-> >> >plain `int`. Anyways, I believe either one is fine, I just found it o=
-dd.
-> >> >
-> >> I don't understand why "the show() callback of a sysfs attribute
-> >> must return `ssize_t`" instead of int. Do you think the rationale
-> >> behind it is the same for this case? If yes, using "ssize_t" for
-> >> status could be justified.
-> >> [...]
-> >
-> >Because it was decided that way, `ssize_t` is a better choice for that p=
-urpose
-> >than plain `int`. You can see it in include/linux/device.h, that both th=
-e
-> >show() and store() methods must return `ssize_t`.
-> >
->
-> Could you explain why `ssize_t` is a better choice? AFAIU, ssize_t
-> is used because we can return negative value to indicate an error.
+> From: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> 
+> Hi,
+> 
+> This patch series provides a number of independent DS4 driver
+> improvements.
+> 
+> The first patch improves DS4 battery level and battery status
+> reporting. The current implementation interpreted the value
+> ranges and status levels incorrectly.
+> 
+> The second patch fixes a DS4 dongle kernel crash (bug 206785).
+> The specific problem is related to Steam, which implements
+> its own user-space DS4 driver using hidraw. It collides during
+> DS4 dongle hotplug, causing 'out of order HID feature reports'.
+> The driver didn't expect this and this led to a kernel crash
+> later on due to interpreting data incorrectly. The workaround
+> is checking if the right data was returned and retrying.
+> Though, I really really dislike this type of fix. Long-term
+> some solution is needed to perhaps prevent hidraw and evdev
+> drivers to step on each other's toes. For now this fixes
+> the current problem.
+> 
+> The last patch fixes sysfs cleanup issues encountered using
+> the DS4 dongle.
 
-ssize_t: "Signed integer type used for a count of bytes or an error indicat=
-ion."[1]
+Hi Roderick,
 
-And POSIX mandates that the return type of read() and write() be `ssize_t`,
-so it makes sense to keep a similar interface in the kernel since show() an=
-d store()
-are called as a direct result of the user using the read() and write() syst=
-em
-calls, respectively.
+I've applied the kernel crash fix to for-5.10/upstream-fixes and remaining 
+two to for-5.11/sony.
 
+Thanks,
 
-> If
-> we use ssize_t here, it's a reminder that reading a GPIO pin's status
-> could fail. And ssize_t reminds us it's a operation similar to read
-> or write. So ssize_t is better than int here. And maybe it's the same
-> reason why "it was decided that way".
-> [...]
+-- 
+Jiri Kosina
+SUSE Labs
 
-I believe it's more appropriate to use ssize_t when it's about a "count of =
-elements",
-but the GPIO pin state is a single boolean value (or an error indication), =
-which
-is returned as an `int`. Since it's returned as an `int` - I'm arguing that=
- -
-there is no reason to use `ssize_t` here. Anyways, both `ssize_t` and `int`=
- work fine
-in this case.
-
-
-[1]: https://pubs.opengroup.org/onlinepubs/9699919799/functions/V2_chap02.h=
-tml#tag_15_12
-
-
-Regards,
-Barnab=C3=A1s P=C5=91cze
