@@ -2,34 +2,35 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 557252C442B
-	for <lists+linux-input@lfdr.de>; Wed, 25 Nov 2020 16:44:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 518CE2C4346
+	for <lists+linux-input@lfdr.de>; Wed, 25 Nov 2020 16:38:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730266AbgKYPlc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 25 Nov 2020 10:41:32 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54864 "EHLO mail.kernel.org"
+        id S1730843AbgKYPgz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 25 Nov 2020 10:36:55 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55048 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730796AbgKYPgu (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 25 Nov 2020 10:36:50 -0500
+        id S1730835AbgKYPgz (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 25 Nov 2020 10:36:55 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8708621D7A;
-        Wed, 25 Nov 2020 15:36:49 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 72FE221D7A;
+        Wed, 25 Nov 2020 15:36:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606318610;
-        bh=kJKwS4GsTZmni+0jTLCZD40IeNVZuyZ27b/reR4p9AQ=;
+        s=default; t=1606318614;
+        bh=PnALDJJysI/Z+uPUS4m2ghNME1MNLS8cJ12T/Y+zxyk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oXwp8mHlzHFpu16IfQDSxR1OqVVQB8RxrgnDDrVcSQtENpMfZ6MI+m6Hb/EvoDbJ6
-         hCgIzO44G+iEHyaoCyCeW4Sj0BdhLWLy5EmqvATUK4r8zC8WVaWdzrXlU5qxMoQPGR
-         oASM9YXpxypzibSH+Z1aaRCKB0wn8PG9081sPswA=
+        b=2CLID7Z8S4T/6e3leI7H7kqm8WsrNIw6Xdep+MFgIHU9l8UqrzWiKJTXPPq5dqW5M
+         c58Ww/ntV4kXwT2H6feA25J3FqqZw205d1lBogGihDr4rHXCxiMPz/NTc4E8l/YLnp
+         ZAFZRFCayBqJ6QRQ1UYIByhs9sgd+Xx/aiGsXIqM=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Chris Ye <lzye@google.com>, Jiri Kosina <jkosina@suse.cz>,
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 08/23] HID: add HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE for Gamevice devices
-Date:   Wed, 25 Nov 2020 10:36:23 -0500
-Message-Id: <20201125153638.810419-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 11/23] HID: logitech-hidpp: Add HIDPP_CONSUMER_VENDOR_KEYS quirk for the Dinovo Edge
+Date:   Wed, 25 Nov 2020 10:36:26 -0500
+Message-Id: <20201125153638.810419-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201125153638.810419-1-sashal@kernel.org>
 References: <20201125153638.810419-1-sashal@kernel.org>
@@ -41,51 +42,51 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Chris Ye <lzye@google.com>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit f59ee399de4a8ca4d7d19cdcabb4b63e94867f09 ]
+[ Upstream commit c27168a04a438a457c100253b1aaf0c779218aae ]
 
-Kernel 5.4 introduces HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE, devices need to
-be set explicitly with this flag.
+Like the MX5000 and MX5500 quad/bluetooth keyboards the Dinovo Edge also
+needs the HIDPP_CONSUMER_VENDOR_KEYS quirk for some special keys to work.
+Specifically without this the "Phone" and the 'A' - 'D' Smart Keys do not
+send any events.
 
-Signed-off-by: Chris Ye <lzye@google.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+In addition to fixing these keys not sending any events, adding the
+Bluetooth match, so that hid-logitech-hidpp is used instead of the
+generic HID driver, also adds battery monitoring support when the
+keyboard is connected over Bluetooth.
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-ids.h    | 4 ++++
- drivers/hid/hid-quirks.c | 4 ++++
- 2 files changed, 8 insertions(+)
+ drivers/hid/hid-logitech-hidpp.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index d173badafcf1f..6b1c26e6fa4a3 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -451,6 +451,10 @@
- #define USB_VENDOR_ID_FRUCTEL	0x25B6
- #define USB_DEVICE_ID_GAMETEL_MT_MODE	0x0002
- 
-+#define USB_VENDOR_ID_GAMEVICE	0x27F8
-+#define USB_DEVICE_ID_GAMEVICE_GV186	0x0BBE
-+#define USB_DEVICE_ID_GAMEVICE_KISHI	0x0BBF
-+
- #define USB_VENDOR_ID_GAMERON		0x0810
- #define USB_DEVICE_ID_GAMERON_DUAL_PSX_ADAPTOR	0x0001
- #define USB_DEVICE_ID_GAMERON_DUAL_PCS_ADAPTOR	0x0002
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index abee4e950a4ee..60d188a704e5e 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -85,6 +85,10 @@ static const struct hid_device_id hid_quirks[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_FUTABA, USB_DEVICE_ID_LED_DISPLAY), HID_QUIRK_NO_INIT_REPORTS },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_GREENASIA, USB_DEVICE_ID_GREENASIA_DUAL_SAT_ADAPTOR), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_GREENASIA, USB_DEVICE_ID_GREENASIA_DUAL_USB_JOYPAD), HID_QUIRK_MULTI_INPUT },
-+	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_GAMEVICE, USB_DEVICE_ID_GAMEVICE_GV186),
-+		HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_GAMEVICE, USB_DEVICE_ID_GAMEVICE_KISHI),
-+		HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HAPP, USB_DEVICE_ID_UGCI_DRIVING), HID_QUIRK_BADPAD | HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HAPP, USB_DEVICE_ID_UGCI_FIGHTING), HID_QUIRK_BADPAD | HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_HAPP, USB_DEVICE_ID_UGCI_FLYING), HID_QUIRK_BADPAD | HID_QUIRK_MULTI_INPUT },
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index e49d36de07968..919551ed5809c 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -3789,6 +3789,9 @@ static const struct hid_device_id hidpp_devices[] = {
+ 	{ /* Keyboard MX5000 (Bluetooth-receiver in HID proxy mode) */
+ 	  LDJ_DEVICE(0xb305),
+ 	  .driver_data = HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS },
++	{ /* Dinovo Edge (Bluetooth-receiver in HID proxy mode) */
++	  LDJ_DEVICE(0xb309),
++	  .driver_data = HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS },
+ 	{ /* Keyboard MX5500 (Bluetooth-receiver in HID proxy mode) */
+ 	  LDJ_DEVICE(0xb30b),
+ 	  .driver_data = HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS },
+@@ -3831,6 +3834,9 @@ static const struct hid_device_id hidpp_devices[] = {
+ 	{ /* MX5000 keyboard over Bluetooth */
+ 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb305),
+ 	  .driver_data = HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS },
++	{ /* Dinovo Edge keyboard over Bluetooth */
++	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb309),
++	  .driver_data = HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS },
+ 	{ /* MX5500 keyboard over Bluetooth */
+ 	  HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb30b),
+ 	  .driver_data = HIDPP_QUIRK_HIDPP_CONSUMER_VENDOR_KEYS },
 -- 
 2.27.0
 
