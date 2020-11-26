@@ -2,61 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EFC172C55D4
-	for <lists+linux-input@lfdr.de>; Thu, 26 Nov 2020 14:38:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD4A62C55CF
+	for <lists+linux-input@lfdr.de>; Thu, 26 Nov 2020 14:38:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390033AbgKZNgY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 26 Nov 2020 08:36:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57784 "EHLO
+        id S2390354AbgKZNgT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 26 Nov 2020 08:36:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390480AbgKZNgX (ORCPT
+        with ESMTP id S2390327AbgKZNgS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 26 Nov 2020 08:36:23 -0500
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A12FAC0617A7
-        for <linux-input@vger.kernel.org>; Thu, 26 Nov 2020 05:36:21 -0800 (PST)
-Received: by mail-wm1-x343.google.com with SMTP id 10so2176162wml.2
-        for <linux-input@vger.kernel.org>; Thu, 26 Nov 2020 05:36:21 -0800 (PST)
+        Thu, 26 Nov 2020 08:36:18 -0500
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72253C0617A7
+        for <linux-input@vger.kernel.org>; Thu, 26 Nov 2020 05:36:18 -0800 (PST)
+Received: by mail-wr1-x441.google.com with SMTP id k14so2191805wrn.1
+        for <linux-input@vger.kernel.org>; Thu, 26 Nov 2020 05:36:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=VOfJDj7y+29ZeViL6kV6ywYnxqJxhhS/scmeQ+AwyUU=;
-        b=Qba3Y44UBdpC8FW+jUziVINWIgRedMTLk1YdievSzjOk4FV2QY6K+mZoOGTp3AalIO
-         yZJs0ZcGqkoTIxL3v4lUDuxliEjAGgEr6PV3a59wCDc3NNhjiqR6aOgGMqEodtf6N/93
-         LNtSNs7fK87N5IfB5Oz9oy9mWnQw/TduJM95YPiSfb+/mXlDAxx5czfYL9rKr0UKZquE
-         tYxIco6SbhOf5EpKT/emq0KuHOZBrb1R7P8tBSiJh7n09ykqUkbVq/rJDmFd/1Hv8FT3
-         X3D8MsISYr3hWyKYbEfXOI/yr9gIpX/xOh1LQqTZitONUdozBmTExTm8eZrcomVaFPlw
-         adBA==
+        bh=ptuCzI/J/pK9IazFF47wcnYE5/wwDz9k/tG2ZC99w5I=;
+        b=fsUJkN4/93Fz7NiE9jRzBq6Hfq0UT50vEbBIcuvpg45I4KmD6OMv4XyGsj5CG1LHWR
+         fpgYzwiplcjwn/5uYkPtEUG+uwYsQnK79MkHbhgK3nJJZr+uN3nueq/yigjtR/QMJrv2
+         k/y+vsocVqpob2Ytont14F9aBquqt4fo1DOPq70hvnmTT89r6pKYIW2F0aRqktGI4ZxK
+         FTQdnQcz+pxlA/9IWWCY5DE0/Ugqt6IIj/1MjPZ7Pm3sklxAV10hSdnlpIsWxGUOlVK+
+         a4u3z+me4ADzl7cZQ0mVvPf02q2rS/tYNdAgvf4hCOaiF4BvHo/+tCQlw2ynBkeqmE+M
+         Cv4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=VOfJDj7y+29ZeViL6kV6ywYnxqJxhhS/scmeQ+AwyUU=;
-        b=eNuwJbaZhGW928JoZ3rcgPHUVHQU7CMgiKzLZ7P3Ywjgc6QS28LfLiYyPgAfQ21H60
-         /0Xa3kPeoJN0Sjk3Hyn6OBO3AsP12Zk6JOREVsb7rQTyxGeIW0DLeenr0Fo+bB80AaoX
-         9jrYs2LTfwEivGIgYB+CQ3l4Thp53jRel3JH8WyJT6amV5OlakvFWK4ekLzQlHmEPB/M
-         UZY2zwdKd7aprQCEHjEvErHfj+QnUXO8Oy8YW++LSyrgW8mi560X/NaSxel79QwUyQS0
-         i/YYfjLTzc8mmmb/4F+Dz1LFuMywWo4AtelXaEsqD/443BD7nzau8vjU+jcGUe9ZN1GW
-         H60Q==
-X-Gm-Message-State: AOAM532ePe9PXEYS1iKrWVj64/WIR3jG4GsBJUQgK87yvNdvjtp8ge1J
-        HZiX0s8GUl+fvn0ILQEGv2wsbQ==
-X-Google-Smtp-Source: ABdhPJxwE9siZ4vhGtQgx5DvuECLtki3M1efXqBKTmVa3SLokn14BDGvexxUi8KQBLfqf4CQsC5FUQ==
-X-Received: by 2002:a1c:e0d4:: with SMTP id x203mr3590217wmg.68.1606397774983;
-        Thu, 26 Nov 2020 05:36:14 -0800 (PST)
+        bh=ptuCzI/J/pK9IazFF47wcnYE5/wwDz9k/tG2ZC99w5I=;
+        b=YQfU5YKVOKlCGwfK0juuzk/dGXgPvUHMhvIBPhR57mXpctuGOsUIYRP/G0JSdsHN88
+         BZeg+V+ST+u4MMowfcQWjNykg426Q1QQCOL1q5X26xxxqtKb4uVjqS90Rodgd5IdUvMd
+         HHmmKMXQ/nojQqH1WS3Bd3/9Xjpw0N32lxyML9l2PmYG9uYVxM6W2eByCDTN62Ur4+uc
+         oZNSkSCN9p9HmoajaQlVLXTOKqLACJcsy9coUp7ZkAMnVw0hHIHtI5gGeCUNzdwkZVbX
+         wvGdP3K7+hXdhYq6Pm8svUQTPKRizrhpJ1vmCkklC4h2XK1rElLUyUb6sch9ujBvaGMS
+         fKxA==
+X-Gm-Message-State: AOAM532IlzKtqna5bLSmvuZh1buqfPnzHvg6Egm1SC7QCxB5Ny+1yO34
+        z6h9QXKYTQRFlbjxm0LZ+XsPzA==
+X-Google-Smtp-Source: ABdhPJxwcnxrJ60FYcuBBWacWLhwXpwENFfsols49hd2U3IbbEunR/QQzoUJFwWbsF4dSCR5Ykp83w==
+X-Received: by 2002:a5d:544e:: with SMTP id w14mr3906110wrv.227.1606397777236;
+        Thu, 26 Nov 2020 05:36:17 -0800 (PST)
 Received: from dell.default ([91.110.221.235])
-        by smtp.gmail.com with ESMTPSA id l3sm9056280wrr.89.2020.11.26.05.36.13
+        by smtp.gmail.com with ESMTPSA id l3sm9056280wrr.89.2020.11.26.05.36.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2020 05:36:14 -0800 (PST)
+        Thu, 26 Nov 2020 05:36:16 -0800 (PST)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
-Cc:     linux-kernel@vger.kernel.org, Sangwon Jee <jeesw@melfas.com>,
+Cc:     linux-kernel@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Henrik Rydberg <rydberg@bitmath.org>,
-        linux-input@vger.kernel.org
-Subject: [PATCH v2 2/4] input: touchscreen: melfas_mip4: Remove a bunch of unused variables
-Date:   Thu, 26 Nov 2020 13:36:05 +0000
-Message-Id: <20201126133607.3212484-3-lee.jones@linaro.org>
+        James Hilliard <james.hilliard1@gmail.com>,
+        Daniel Ritz <daniel.ritz@gmx.ch>, linux-input@vger.kernel.org
+Subject: [PATCH v2 3/4] input: touchscreen: usbtouchscreen: Remove unused variable 'ret'
+Date:   Thu, 26 Nov 2020 13:36:06 +0000
+Message-Id: <20201126133607.3212484-4-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201126133607.3212484-1-lee.jones@linaro.org>
 References: <20201126133607.3212484-1-lee.jones@linaro.org>
@@ -69,69 +70,41 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/input/touchscreen/melfas_mip4.c: In function ‘mip4_report_touch’:
- drivers/input/touchscreen/melfas_mip4.c:474:5: warning: variable ‘size’ set but not used [-Wunused-but-set-variable]
- drivers/input/touchscreen/melfas_mip4.c:472:5: warning: variable ‘pressure_stage’ set but not used [-Wunused-but-set-variable]
- drivers/input/touchscreen/melfas_mip4.c:469:7: warning: variable ‘palm’ set but not used [-Wunused-but-set-variable]
- drivers/input/touchscreen/melfas_mip4.c:468:7: warning: variable ‘hover’ set but not used [-Wunused-but-set-variable]
+ drivers/input/touchscreen/usbtouchscreen.c: In function ‘nexio_read_data’:
+ drivers/input/touchscreen/usbtouchscreen.c:1052:50: warning: variable ‘ret’ set but not used [-Wunused-but-set-variable]
 
-Cc: Sangwon Jee <jeesw@melfas.com>
 Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: Henrik Rydberg <rydberg@bitmath.org>
+Cc: James Hilliard <james.hilliard1@gmail.com>
+Cc: Daniel Ritz <daniel.ritz@gmx.ch>
 Cc: linux-input@vger.kernel.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/input/touchscreen/melfas_mip4.c | 11 -----------
- 1 file changed, 11 deletions(-)
+ drivers/input/touchscreen/usbtouchscreen.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/input/touchscreen/melfas_mip4.c b/drivers/input/touchscreen/melfas_mip4.c
-index f67efdd040b24..9c98759098c7a 100644
---- a/drivers/input/touchscreen/melfas_mip4.c
-+++ b/drivers/input/touchscreen/melfas_mip4.c
-@@ -465,13 +465,9 @@ static void mip4_report_keys(struct mip4_ts *ts, u8 *packet)
- static void mip4_report_touch(struct mip4_ts *ts, u8 *packet)
- {
- 	int id;
--	bool hover;
--	bool palm;
- 	bool state;
- 	u16 x, y;
--	u8 pressure_stage = 0;
- 	u8 pressure;
--	u8 size;
- 	u8 touch_major;
- 	u8 touch_minor;
+diff --git a/drivers/input/touchscreen/usbtouchscreen.c b/drivers/input/touchscreen/usbtouchscreen.c
+index 397cb1d3f481b..c3b7130cd9033 100644
+--- a/drivers/input/touchscreen/usbtouchscreen.c
++++ b/drivers/input/touchscreen/usbtouchscreen.c
+@@ -1049,7 +1049,7 @@ static int nexio_read_data(struct usbtouch_usb *usbtouch, unsigned char *pkt)
+ 	unsigned int data_len = be16_to_cpu(packet->data_len);
+ 	unsigned int x_len = be16_to_cpu(packet->x_len);
+ 	unsigned int y_len = be16_to_cpu(packet->y_len);
+-	int x, y, begin_x, begin_y, end_x, end_y, w, h, ret;
++	int x, y, begin_x, begin_y, end_x, end_y, w, h;
  
-@@ -480,14 +476,11 @@ static void mip4_report_touch(struct mip4_ts *ts, u8 *packet)
- 	case 1:
- 		/* Touch only */
- 		state = packet[0] & BIT(7);
--		hover = packet[0] & BIT(5);
--		palm = packet[0] & BIT(4);
- 		id = (packet[0] & 0x0F) - 1;
- 		x = ((packet[1] & 0x0F) << 8) | packet[2];
- 		y = (((packet[1] >> 4) & 0x0F) << 8) |
- 			packet[3];
- 		pressure = packet[4];
--		size = packet[5];
- 		if (ts->event_format == 0) {
- 			touch_major = packet[5];
- 			touch_minor = packet[5];
-@@ -501,14 +494,10 @@ static void mip4_report_touch(struct mip4_ts *ts, u8 *packet)
- 	default:
- 		/* Touch + Force(Pressure) */
- 		id = (packet[0] & 0x0F) - 1;
--		hover = packet[1] & BIT(2);
--		palm = packet[1] & BIT(1);
- 		state = packet[1] & BIT(0);
- 		x = ((packet[2] & 0x0F) << 8) | packet[3];
- 		y = (((packet[2] >> 4) & 0x0F) << 8) |
- 			packet[4];
--		size = packet[6];
--		pressure_stage = (packet[7] & 0xF0) >> 4;
- 		pressure = ((packet[7] & 0x0F) << 8) |
- 			packet[8];
- 		touch_major = packet[9];
+ 	/* got touch data? */
+ 	if ((pkt[0] & 0xe0) != 0xe0)
+@@ -1061,7 +1061,7 @@ static int nexio_read_data(struct usbtouch_usb *usbtouch, unsigned char *pkt)
+ 		x_len -= 0x80;
+ 
+ 	/* send ACK */
+-	ret = usb_submit_urb(priv->ack, GFP_ATOMIC);
++	usb_submit_urb(priv->ack, GFP_ATOMIC);
+ 
+ 	if (!usbtouch->type->max_xc) {
+ 		usbtouch->type->max_xc = 2 * x_len;
 -- 
 2.25.1
 
