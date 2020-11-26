@@ -2,198 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA5D12C5936
-	for <lists+linux-input@lfdr.de>; Thu, 26 Nov 2020 17:20:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C79C92C596C
+	for <lists+linux-input@lfdr.de>; Thu, 26 Nov 2020 17:44:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391566AbgKZQSo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 26 Nov 2020 11:18:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59064 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2391546AbgKZQSg (ORCPT
+        id S2403841AbgKZQnN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 26 Nov 2020 11:43:13 -0500
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:56209 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730181AbgKZQnN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 26 Nov 2020 11:18:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1606407513;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=IL7sPB68gF1YeWIUFuBJ//YIBDjI3bDL6qHHKubt/Z0=;
-        b=GLzdL7tYVKsmBk/Y84/z/jKYmkKh/RT/tk9tQbNmWx4PQXRq+ryN0m57ZnqmTFUj2gjQo3
-        MsnKsrfIG82+n4lSHkT7qVk8n5yK+I7LnXhQZiHNnxBT8nHlgQkMvHPXdDBJZDBaq9Y5gb
-        VZgtQSt/g4VlFYurkHCXqSF+bIfnbdA=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-221-5T8CheRCMd2jWa99J-d4Lw-1; Thu, 26 Nov 2020 11:18:25 -0500
-X-MC-Unique: 5T8CheRCMd2jWa99J-d4Lw-1
-Received: by mail-qt1-f200.google.com with SMTP id y5so1497900qtb.13
-        for <linux-input@vger.kernel.org>; Thu, 26 Nov 2020 08:18:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IL7sPB68gF1YeWIUFuBJ//YIBDjI3bDL6qHHKubt/Z0=;
-        b=BS4bVxXc+QalvOELS30MMdYMw3L+bHTUulhffp/8ix3fmBC244m2uEyCXBsmXY5VPN
-         ktPQkX5ZBrHheWPCNsCcNXcNRzAcYVhDlA9z+WfWcGKd4/63qP59TajcHctceIXA9GvY
-         KKGSN29umae5l0vyIJHejWMTfrsm2vp9ag+hF9AtS8LzEClEr+pixz10zu0LOr6uONVG
-         4lXvZkTedoHQfhPdfpZSxsieSRMANST6YTjhXBLuhefVnvG10yA1jNhf1+XJWGSUz7cX
-         zNe1ib9tjZ3V4sLZB+tvkbJG/FqSVwfs5MHY/b7tkRqrBe8fXAPqRlmNXWYlrRQzIDG5
-         xFZQ==
-X-Gm-Message-State: AOAM5332pUUcRGWXA67h7Jws+VYqrdgqS8VcMuiAYx/clUjNe+GSkiE6
-        +BpGcJsz7ZqL2YsAqv4LNl0D0ca3jgbOH1w38yRG1lWmyBGJ8y54u7VSCU1dTU0Qe+05VukaPy0
-        uFSN3ZBznPJ0LoTUNzVOJBIh+PkOrDy+ffKw3n1c=
-X-Received: by 2002:a37:ac8:: with SMTP id 191mr3793918qkk.381.1606407504813;
-        Thu, 26 Nov 2020 08:18:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzCU4CKAolN2PpaYdMoKCHma/+NC3lHjkQkQkRPTWC20j3rANbYTTy+FG9V7n634RRlgf0kcsxPjR4LO+NB5fA=
-X-Received: by 2002:a37:ac8:: with SMTP id 191mr3793888qkk.381.1606407504531;
- Thu, 26 Nov 2020 08:18:24 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1605896059.git.gustavoars@kernel.org> <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011201129.B13FDB3C@keescook> <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011220816.8B6591A@keescook> <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
- <CANiq72nZrHWTA4_Msg6MP9snTyenC6-eGfD27CyfNSu7QoVZbw@mail.gmail.com>
- <1c7d7fde126bc0acf825766de64bf2f9b888f216.camel@HansenPartnership.com>
- <CANiq72m22Jb5_+62NnwX8xds2iUdWDMAqD8PZw9cuxdHd95W0A@mail.gmail.com>
- <fc45750b6d0277c401015b7aa11e16cd15f32ab2.camel@HansenPartnership.com>
- <CANiq72k5tpDoDPmJ0ZWc1DGqm+81Gi-uEENAtvEs9v3SZcx6_Q@mail.gmail.com>
- <4993259d01a0064f8bb22770503490f9252f3659.camel@HansenPartnership.com>
- <CANiq72kqO=bYMJnFS2uYRpgWATJ=uXxZuNUsTXT+3aLtrpnzvQ@mail.gmail.com>
- <44005bde-f6d4-5eaa-39b8-1a5efeedb2d3@gmail.com> <CANiq72nobq=ptWK-qWxU91JHqkKhMcRtJNnw2XJd5-vSJWZd8Q@mail.gmail.com>
- <CAMuHMdV5kOakvZJMWLxbpigFPS+Xuw6DVYsWCWZy7wGsv3idcw@mail.gmail.com>
-In-Reply-To: <CAMuHMdV5kOakvZJMWLxbpigFPS+Xuw6DVYsWCWZy7wGsv3idcw@mail.gmail.com>
-From:   Karol Herbst <kherbst@redhat.com>
-Date:   Thu, 26 Nov 2020 17:18:13 +0100
-Message-ID: <CACO55tsBj3gLECoMWtViDitd7fVTnW+Cp0LVmqYkR=QFBJkEmQ@mail.gmail.com>
-Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
-        bridge@lists.linux-foundation.org,
-        target-devel <target-devel@vger.kernel.org>,
-        linux-iio@vger.kernel.org,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        virtualization@lists.linux-foundation.org,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        linux-ide@vger.kernel.org, dm-devel@redhat.com,
-        keyrings@vger.kernel.org,
-        MTD Maling List <linux-mtd@lists.infradead.org>,
-        GR-everest-linux-l2@marvell.com, wcn36xx@lists.infradead.org,
-        linux-i3c@lists.infradead.org,
-        linux1394-devel@lists.sourceforge.net,
-        linux-afs@lists.infradead.org,
-        Lars Ellenberg <drbd-dev@lists.linbit.com>,
-        driverdevel <devel@driverdev.osuosl.org>,
-        linux-cifs@vger.kernel.org, rds-devel@oss.oracle.com,
-        scsi <linux-scsi@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        oss-drivers@netronome.com, linux-atm-general@lists.sourceforge.net,
-        ceph-devel <ceph-devel@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,
-        usb-storage@lists.one-eyed-alien.net, coreteam@netfilter.org,
-        intel-wired-lan@lists.osuosl.org,
-        linux-input <linux-input@vger.kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        NetFilter <netfilter-devel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Kees Cook <keescook@chromium.org>, selinux@vger.kernel.org,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        linux-sctp@vger.kernel.org, reiserfs-devel@vger.kernel.org,
-        linux-geode@lists.infradead.org, linux-block@vger.kernel.org,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        op-tee@lists.trustedfirmware.org,
-        linux-mediatek@lists.infradead.org, xen-devel@lists.xenproject.org,
-        Nouveau Dev <nouveau@lists.freedesktop.org>,
-        linux-hams@vger.kernel.org,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        linux-can@vger.kernel.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-hwmon@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
-        GR-Linux-NIC-Dev@marvell.com, Linux-MM <linux-mm@kvack.org>,
-        Network Development <netdev@vger.kernel.org>,
-        linux-decnet-user@lists.sourceforge.net,
-        samba-technical@lists.samba.org,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Edward Cree <ecree.xilinx@gmail.com>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        tipc-discussion@lists.sourceforge.net,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        patches@opensource.cirrus.com, Joe Perches <joe@perches.com>,
-        linux-integrity <linux-integrity@vger.kernel.org>,
-        "open list:NFS, SUNRPC, AND..." <linux-nfs@vger.kernel.org>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        linux-hardening@vger.kernel.org
+        Thu, 26 Nov 2020 11:43:13 -0500
+X-Originating-IP: 82.255.60.242
+Received: from [192.168.0.28] (lns-bzn-39-82-255-60-242.adsl.proxad.net [82.255.60.242])
+        (Authenticated sender: hadess@hadess.net)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 737F520006;
+        Thu, 26 Nov 2020 16:43:11 +0000 (UTC)
+Message-ID: <f0a3e23f8e650b679fde299702685588b6cf54a3.camel@hadess.net>
+Subject: Re: Support for Logitech g703 mouse battery levels
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Max Illis <max@illis.uk>, linux-input@vger.kernel.org
+Date:   Thu, 26 Nov 2020 17:43:10 +0100
+In-Reply-To: <CAA5fPw=5SJvsYjoZDECAhHDe5XeLt-HmEvMrmgaeJ7hQMwHnRg@mail.gmail.com>
+References: <CAA5fPw=5SJvsYjoZDECAhHDe5XeLt-HmEvMrmgaeJ7hQMwHnRg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.1 (3.38.1-1.fc33) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Nov 26, 2020 at 4:28 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Miguel,
->
-> On Thu, Nov 26, 2020 at 3:54 PM Miguel Ojeda
-> <miguel.ojeda.sandonis@gmail.com> wrote:
-> > On Wed, Nov 25, 2020 at 11:44 PM Edward Cree <ecree.xilinx@gmail.com> wrote:
-> > > To make the intent clear, you have to first be certain that you
-> > >  understand the intent; otherwise by adding either a break or a
-> > >  fallthrough to suppress the warning you are just destroying the
-> > >  information that "the intent of this code is unknown".
-> >
-> > If you don't know what the intent of your own code is, then you
-> > *already* have a problem in your hands.
->
-> The maintainer is not necessarily the owner/author of the code, and
-> thus may not know the intent of the code.
->
-> > > or does it flag up code
-> > >  that can be mindlessly "fixed" (in which case the warning is
-> > >  worthless)?  Proponents in this thread seem to be trying to
-> > >  have it both ways.
-> >
-> > A warning is not worthless just because you can mindlessly fix it.
-> > There are many counterexamples, e.g. many
-> > checkpatch/lint/lang-format/indentation warnings, functional ones like
-> > the `if (a = b)` warning...
->
-> BTW, you cannot mindlessly fix the latter, as you cannot know if
-> "(a == b)" or "((a = b))" was intended, without understanding the code
-> (and the (possibly unavailable) data sheet, and the hardware, ...).
->
+On Thu, 2020-11-26 at 15:57 +0000, Max Illis wrote:
+> I raised a ticket on upower, but have been pointed here
+> (https://gitlab.freedesktop.org/upower/upower/-/issues/125)
+> 
+> _Some_ info is reported:
+> 
+> ```
+> /sys/class/power_supply/hidpp_battery_1$ ls
+> device  manufacturer  online  powers  serial_number  subsystem 
+> uevent
+>       wakeup27
+> hwmon3  model_name    power   scope   status         type      
+> voltage_now
+> ```
+> But nothing is reported by upower apparently due to `capacity` or
+> `capacity_level` missing
 
-to allow assignments in if statements was clearly a mistake and if you
-need outside information to understand the code, your code is the
-issue already.
 
-> P.S. So far I've stayed out of this thread, as I like it if the compiler
->      flags possible mistakes.  After all I was the one fixing new
->      "may be used uninitialized" warnings thrown up by gcc-4.1, until
->      (a bit later than) support for that compiler was removed...
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->
+The voltage is output, but it's not interpreted, so it's impossible to
+know what XX volts corresponds to as a battery level.
+
+Hans, Benjamin, any ideas how this could be better handled? Are we
+going to need voltage <-> capacity mapping?
+
+Cheers
+
+> 
+> I'm running Ubuntu 20.10 Linux 5.8.0-29-generic
+> 
+> LMK if more info is needed
+> Max
+> 
+> max@illis.uk
+> 07803 009 004
+> 
+> max@illis.uk
+> 07803 009 004
+
 
