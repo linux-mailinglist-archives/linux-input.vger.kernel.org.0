@@ -2,41 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 639912C5289
-	for <lists+linux-input@lfdr.de>; Thu, 26 Nov 2020 12:03:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AA7A2C5339
+	for <lists+linux-input@lfdr.de>; Thu, 26 Nov 2020 12:47:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728127AbgKZLCC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 26 Nov 2020 06:02:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33750 "EHLO
+        id S1733086AbgKZLrg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 26 Nov 2020 06:47:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726392AbgKZLCC (ORCPT
+        with ESMTP id S1732649AbgKZLrg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 26 Nov 2020 06:02:02 -0500
+        Thu, 26 Nov 2020 06:47:36 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26F08C0613D4
-        for <linux-input@vger.kernel.org>; Thu, 26 Nov 2020 03:02:02 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8FEBC0613D4
+        for <linux-input@vger.kernel.org>; Thu, 26 Nov 2020 03:47:35 -0800 (PST)
 Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
         by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1kiF25-0000P7-N2; Thu, 26 Nov 2020 12:01:49 +0100
+        id 1kiFkH-0006J0-W7; Thu, 26 Nov 2020 12:47:30 +0100
 Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
         (envelope-from <ukl@pengutronix.de>)
-        id 1kiF23-00052Z-Ke; Thu, 26 Nov 2020 12:01:47 +0100
+        id 1kiFkG-0006wX-Pq; Thu, 26 Nov 2020 12:47:28 +0100
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
 To:     Russell King <linux@armlinux.org.uk>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+        Dominik Brodowski <linux@dominikbrodowski.net>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: [PATCH] ARM: locomo: make locomo bus's remove callback return void
-Date:   Thu, 26 Nov 2020 12:01:40 +0100
-Message-Id: <20201126110140.2021758-1-u.kleine-koenig@pengutronix.de>
+        linux-usb@vger.kernel.org, kernel@pengutronix.de
+Subject: [PATCH] ARM: sa11111: make sa1111 bus's remove callback return void
+Date:   Thu, 26 Nov 2020 12:47:24 +0100
+Message-Id: <20201126114724.2028511-1-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -49,129 +47,119 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The driver core ignores the return value of struct bus_type::remove
+The driver core ignores the return value of struct device_driver::remove
 because there is only little that can be done. To simplify the quest to
-make this function return void, let struct locomo_driver::remove return
+make this function return void, let struct sa1111_driver::remove return
 void, too. All users already unconditionally return 0, this commit makes
 it obvious that returning an error code is a bad idea and ensures future
 users behave accordingly.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
-Hello,
+ arch/arm/common/sa1111.c               | 6 +++---
+ arch/arm/include/asm/hardware/sa1111.h | 2 +-
+ drivers/input/serio/sa1111ps2.c        | 4 +---
+ drivers/pcmcia/sa1111_generic.c        | 3 +--
+ drivers/usb/host/ohci-sa1111.c         | 4 +---
+ 5 files changed, 7 insertions(+), 12 deletions(-)
 
-if desired the change to arch/arm/mach-sa1100/collie.c can be split out
-of this patch. The change of prototype then doesn't affect this driver
-any more. There is one locomo-driver that is already now unaffected:
-drivers/leds/leds-locomo.c. This driver doesn't have a remove callback.
-
-Best regards
-Uwe
-
- arch/arm/common/locomo.c               | 5 ++---
- arch/arm/include/asm/hardware/locomo.h | 2 +-
- arch/arm/mach-sa1100/collie.c          | 6 ------
- drivers/input/keyboard/locomokbd.c     | 4 +---
- drivers/video/backlight/locomolcd.c    | 3 +--
- 5 files changed, 5 insertions(+), 15 deletions(-)
-
-diff --git a/arch/arm/common/locomo.c b/arch/arm/common/locomo.c
-index 62f241b09fe3..e45f4e4e06b6 100644
---- a/arch/arm/common/locomo.c
-+++ b/arch/arm/common/locomo.c
-@@ -838,11 +838,10 @@ static int locomo_bus_remove(struct device *dev)
+diff --git a/arch/arm/common/sa1111.c b/arch/arm/common/sa1111.c
+index f89c1ea327a2..ff5e0d04cb89 100644
+--- a/arch/arm/common/sa1111.c
++++ b/arch/arm/common/sa1111.c
+@@ -1368,11 +1368,11 @@ static int sa1111_bus_remove(struct device *dev)
  {
- 	struct locomo_dev *ldev = LOCOMO_DEV(dev);
- 	struct locomo_driver *drv = LOCOMO_DRV(dev->driver);
+ 	struct sa1111_dev *sadev = to_sa1111_device(dev);
+ 	struct sa1111_driver *drv = SA1111_DRV(dev->driver);
 -	int ret = 0;
  
  	if (drv->remove)
--		ret = drv->remove(ldev);
+-		ret = drv->remove(sadev);
 -	return ret;
-+		drv->remove(ldev);
++		drv->remove(sadev);
++
 +	return 0;
  }
  
- struct bus_type locomo_bus_type = {
-diff --git a/arch/arm/include/asm/hardware/locomo.h b/arch/arm/include/asm/hardware/locomo.h
-index f8712e3c29cf..246a3de25931 100644
---- a/arch/arm/include/asm/hardware/locomo.h
-+++ b/arch/arm/include/asm/hardware/locomo.h
-@@ -188,7 +188,7 @@ struct locomo_driver {
+ struct bus_type sa1111_bus_type = {
+diff --git a/arch/arm/include/asm/hardware/sa1111.h b/arch/arm/include/asm/hardware/sa1111.h
+index d134b9a5ff94..2e70db6f22ea 100644
+--- a/arch/arm/include/asm/hardware/sa1111.h
++++ b/arch/arm/include/asm/hardware/sa1111.h
+@@ -403,7 +403,7 @@ struct sa1111_driver {
  	struct device_driver	drv;
  	unsigned int		devid;
- 	int (*probe)(struct locomo_dev *);
--	int (*remove)(struct locomo_dev *);
-+	void (*remove)(struct locomo_dev *);
+ 	int (*probe)(struct sa1111_dev *);
+-	int (*remove)(struct sa1111_dev *);
++	void (*remove)(struct sa1111_dev *);
  };
  
- #define LOCOMO_DRV(_d)	container_of((_d), struct locomo_driver, drv)
-diff --git a/arch/arm/mach-sa1100/collie.c b/arch/arm/mach-sa1100/collie.c
-index bd3a52fd09ce..f43beb7b25c7 100644
---- a/arch/arm/mach-sa1100/collie.c
-+++ b/arch/arm/mach-sa1100/collie.c
-@@ -204,18 +204,12 @@ static int collie_uart_probe(struct locomo_dev *dev)
- 	return 0;
- }
- 
--static int collie_uart_remove(struct locomo_dev *dev)
--{
--	return 0;
--}
--
- static struct locomo_driver collie_uart_driver = {
- 	.drv = {
- 		.name = "collie_uart",
- 	},
- 	.devid	= LOCOMO_DEVID_UART,
- 	.probe	= collie_uart_probe,
--	.remove	= collie_uart_remove,
- };
- 
- static int __init collie_uart_init(void)
-diff --git a/drivers/input/keyboard/locomokbd.c b/drivers/input/keyboard/locomokbd.c
-index daf6a753ca61..dae053596572 100644
---- a/drivers/input/keyboard/locomokbd.c
-+++ b/drivers/input/keyboard/locomokbd.c
-@@ -304,7 +304,7 @@ static int locomokbd_probe(struct locomo_dev *dev)
- 	return err;
- }
- 
--static int locomokbd_remove(struct locomo_dev *dev)
-+static void locomokbd_remove(struct locomo_dev *dev)
+ #define SA1111_DRV(_d)	container_of((_d), struct sa1111_driver, drv)
+diff --git a/drivers/input/serio/sa1111ps2.c b/drivers/input/serio/sa1111ps2.c
+index 7b8ceb702a74..68fac4801e2e 100644
+--- a/drivers/input/serio/sa1111ps2.c
++++ b/drivers/input/serio/sa1111ps2.c
+@@ -344,7 +344,7 @@ static int ps2_probe(struct sa1111_dev *dev)
+ /*
+  * Remove one device from this driver.
+  */
+-static int ps2_remove(struct sa1111_dev *dev)
++static void ps2_remove(struct sa1111_dev *dev)
  {
- 	struct locomokbd *locomokbd = locomo_get_drvdata(dev);
+ 	struct ps2if *ps2if = sa1111_get_drvdata(dev);
  
-@@ -318,8 +318,6 @@ static int locomokbd_remove(struct locomo_dev *dev)
- 	release_mem_region((unsigned long) dev->mapbase, dev->length);
+@@ -353,8 +353,6 @@ static int ps2_remove(struct sa1111_dev *dev)
+ 	sa1111_set_drvdata(dev, NULL);
  
- 	kfree(locomokbd);
+ 	kfree(ps2if);
 -
 -	return 0;
  }
  
- static struct locomo_driver keyboard_driver = {
-diff --git a/drivers/video/backlight/locomolcd.c b/drivers/video/backlight/locomolcd.c
-index 297ee2e1ab0b..0468ea82159f 100644
---- a/drivers/video/backlight/locomolcd.c
-+++ b/drivers/video/backlight/locomolcd.c
-@@ -208,7 +208,7 @@ static int locomolcd_probe(struct locomo_dev *ldev)
- 	return 0;
+ /*
+diff --git a/drivers/pcmcia/sa1111_generic.c b/drivers/pcmcia/sa1111_generic.c
+index 11783410223b..29fdd174bc23 100644
+--- a/drivers/pcmcia/sa1111_generic.c
++++ b/drivers/pcmcia/sa1111_generic.c
+@@ -238,7 +238,7 @@ static int pcmcia_probe(struct sa1111_dev *dev)
+ 	return ret;
  }
  
--static int locomolcd_remove(struct locomo_dev *dev)
-+static void locomolcd_remove(struct locomo_dev *dev)
+-static int pcmcia_remove(struct sa1111_dev *dev)
++static void pcmcia_remove(struct sa1111_dev *dev)
  {
- 	unsigned long flags;
+ 	struct sa1111_pcmcia_socket *next, *s = dev_get_drvdata(&dev->dev);
  
-@@ -220,7 +220,6 @@ static int locomolcd_remove(struct locomo_dev *dev)
- 	local_irq_save(flags);
- 	locomolcd_dev = NULL;
- 	local_irq_restore(flags);
+@@ -252,7 +252,6 @@ static int pcmcia_remove(struct sa1111_dev *dev)
+ 
+ 	release_mem_region(dev->res.start, 512);
+ 	sa1111_disable_device(dev);
 -	return 0;
  }
  
- static struct locomo_driver poodle_lcd_driver = {
+ static struct sa1111_driver pcmcia_driver = {
+diff --git a/drivers/usb/host/ohci-sa1111.c b/drivers/usb/host/ohci-sa1111.c
+index 8e19a5eb5b62..feca826d3f6a 100644
+--- a/drivers/usb/host/ohci-sa1111.c
++++ b/drivers/usb/host/ohci-sa1111.c
+@@ -236,7 +236,7 @@ static int ohci_hcd_sa1111_probe(struct sa1111_dev *dev)
+  * Reverses the effect of ohci_hcd_sa1111_probe(), first invoking
+  * the HCD's stop() method.
+  */
+-static int ohci_hcd_sa1111_remove(struct sa1111_dev *dev)
++static void ohci_hcd_sa1111_remove(struct sa1111_dev *dev)
+ {
+ 	struct usb_hcd *hcd = sa1111_get_drvdata(dev);
+ 
+@@ -244,8 +244,6 @@ static int ohci_hcd_sa1111_remove(struct sa1111_dev *dev)
+ 	sa1111_stop_hc(dev);
+ 	release_mem_region(hcd->rsrc_start, hcd->rsrc_len);
+ 	usb_put_hcd(hcd);
+-
+-	return 0;
+ }
+ 
+ static void ohci_hcd_sa1111_shutdown(struct device *_dev)
 -- 
 2.29.2
 
