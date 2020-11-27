@@ -2,205 +2,142 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FA0E2C6B8C
-	for <lists+linux-input@lfdr.de>; Fri, 27 Nov 2020 19:27:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3359E2C6C80
+	for <lists+linux-input@lfdr.de>; Fri, 27 Nov 2020 21:19:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730675AbgK0SZo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 27 Nov 2020 13:25:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42048 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726250AbgK0SZn (ORCPT
+        id S1727952AbgK0USb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 27 Nov 2020 15:18:31 -0500
+Received: from mail.archlinux.org ([95.216.189.61]:43012 "EHLO
+        mail.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731345AbgK0ULx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 27 Nov 2020 13:25:43 -0500
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73A34C0613D1
-        for <linux-input@vger.kernel.org>; Fri, 27 Nov 2020 10:25:43 -0800 (PST)
-Received: by mail-wr1-x444.google.com with SMTP id k14so6540020wrn.1
-        for <linux-input@vger.kernel.org>; Fri, 27 Nov 2020 10:25:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zvREU9gheVXcatn+iRSJximCTgwJ0WTNqgHIZ1vio58=;
-        b=LD3caOeV74sw0O/siBo9V6qijPNI/o5x/7dz/gdjgtUI24Wrl1NPGREEMnBBRweuVC
-         Yyc3/t9DYRPbBwOC6+iYjIyS7Nv08EwvLabyc2EfvMjJDdetMJK3plP5/owPX1/UsXAp
-         So2VAGQeGGJnS2YyVXhEQxXHApLSBfkXH/ZxCQISRCp0IOe2yCwKBkFR2pxmyFndaOci
-         lXYQpOMTZIgk97LFwrRi4WHfpO4WTEJkZqYxu7htJcdzR5/f4qg4OrnYOPs5COVRlp7k
-         eJP1843rDNpoMgrAC40+FuwBto064vtiaNZsZfG8iSGvl+nOV0mhKBAINzEKiD5i7SKn
-         fajg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zvREU9gheVXcatn+iRSJximCTgwJ0WTNqgHIZ1vio58=;
-        b=g8Igx8OnNKKL/P4bJECZ8L5QrKDp6ULwuJfm4IjCC4aybwQRJuKR9a0ZsYkG2FkUF4
-         nDzpWu/WAXDDAJvC34QkCilVjLGuXKmGXAq447GtmuyUVA8SXl32OUZtTm3kpZ3E8svW
-         dQT5rPYslhNHncC20IOa4B3Z1+02wA4hsSG2gAp5vbczuNxSwUGrWVj/RemxMhEWqUYF
-         vGOuS5F/5QAcraP09Qflp8XGhAlJk41bLSya8hfooFzTRa7mtn+7fhqzPBviZjq9oxZU
-         VmOdqld89XCMxvlZWb2wVnwQMJqaL4LpSWilAwT7RR8CG9Tqt9SsPi1CVxVVpKMudFne
-         svEw==
-X-Gm-Message-State: AOAM531Lpg1uYos4TA7gwjfV54eM4J8Fm+yhzPz81ILksFujEjSLclnn
-        r+LAs9WKNCP+Qw5NgfElqRq3x27hYbw=
-X-Google-Smtp-Source: ABdhPJxs52tNfI1GwmVtTlI7iNtfKlGPkXDNtuyp3hcxvQKFtLvPJu94u8lQx5kTOsM+fxAXJpmnMQ==
-X-Received: by 2002:a5d:4604:: with SMTP id t4mr12116286wrq.411.1606501542185;
-        Fri, 27 Nov 2020 10:25:42 -0800 (PST)
-Received: from morpheus.home.roving-it.com (f.c.9.1.f.e.c.d.1.e.0.0.2.b.5.5.1.8.6.2.1.1.b.f.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:fb11:2681:55b2:e1:dcef:19cf])
-        by smtp.googlemail.com with ESMTPSA id l24sm16312405wrb.28.2020.11.27.10.25.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2020 10:25:41 -0800 (PST)
-From:   Peter Robinson <pbrobinson@gmail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     Peter Robinson <pbrobinson@gmail.com>
-Subject: [PATCH] Input: touchscreen: Move serio based touchscreens from select to depend on
-Date:   Fri, 27 Nov 2020 18:25:39 +0000
-Message-Id: <20201127182539.212763-1-pbrobinson@gmail.com>
-X-Mailer: git-send-email 2.28.0
+        Fri, 27 Nov 2020 15:11:53 -0500
+Received: from [IPv6:2001:8a0:f26a:7e00:d2bc:b624:5e5d:f425] (unknown [IPv6:2001:8a0:f26a:7e00:d2bc:b624:5e5d:f425])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: ffy00)
+        by mail.archlinux.org (Postfix) with ESMTPSA id 119362698D2;
+        Fri, 27 Nov 2020 20:11:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
+        s=dkim-rsa; t=1606507883;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=+Nd+12YLJx2eGe1V7mrolBrhx7LPs3QFZbXCwh8EZGY=;
+        b=UrRbOENDHrA1uYJMmg2x2Xul+UU8j4dCjl6vnhtX9PRl/gqwI7GaKeuHekvxPxUqE+9h/N
+        oI+PI89onnvtkwT0qm/471eQs5+EPfkMiJgjVhaUW0SakcVLM5X5gyQ3fFpn/qMtyD4+l9
+        WNwa9fVKO86V9og9frZENjCO9efsv4w/Uvpm3Usmweab07FE6yHk8meuSMd13jZUJ1pGPm
+        AlGZv3f+zraWOOpM+EHdDD/AxfFkeXCfhMLy4c9OKy5TlQHy4FsX1zW1ATKKNXV7WHwNT7
+        5Anfsj/IShBFueeDBt+/txkGiFKgSd+W2QTtW2oBPVNJMVToRmLMxcCW+TIjJ+FU8WLGrr
+        RwRaVxhfb/kWfAKVp8upABHEkxy/eZ4D7CDu3/PH4lxkGhx7jJn708ZwBA4Gi1yT5XB3ft
+        g3a7PiYUNG0rKvwJztxE+cscl62f7gvt1gFM07++tKhUjD1iI0KWIvCsGhnUv8Czp0zTzU
+        MDgzrKqYtu9LB2ciylJhRsv+Tpos4Mk8PB4VrISDByBrJ6cqOEtpQIaKFTo85RzCx1RBDp
+        yGNlTm3V+ItqfX1Xl3Vd+JUEFYJTc+gFogDC+LZILHvaBKiea2JqSGYm+12+RuFlIRnZqV
+        yIJpz4wXdDU+TWKcGltoe2GGtc5jtYUImMnKqYxp5g1TAiU6PMGPc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
+        s=dkim-ed25519; t=1606507883;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=+Nd+12YLJx2eGe1V7mrolBrhx7LPs3QFZbXCwh8EZGY=;
+        b=pg/suGc2KlaudY/Gx4kH5J6SfrWemRiJz2M9HvfmdxmiBfYv5bgHgoGzov7UdRW+itYGfM
+        jsBsLcdX5B8gdQBQ==
+Message-ID: <877bfbede4d3bbf40a91c8392218eeab6672e98c.camel@archlinux.org>
+Subject: Re: [V3, PATCH] Add additional hidraw input/output report ioctls.
+From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@archlinux.org>
+To:     Dean Camera <dean@fourwalledcubicle.com>,
+        linux-input@vger.kernel.org, jikos@kernel.org,
+        benjamin.tissoires@redhat.com
+In-Reply-To: <d295d0bf-9de7-9927-05b6-2897ada89c42@fourwalledcubicle.com>
+References: <20201125223957.5921-1-dean@fourwalledcubicle.com>
+         <2e19588821053914eebe30088b4590af51959409.camel@archlinux.org>
+         <2c2bfd55-3a03-9839-22f5-16058ac24e35@fourwalledcubicle.com>
+         <c8d4d17798e2c9fca417223d4edf5f4b1aebf75d.camel@archlinux.org>
+         <d295d0bf-9de7-9927-05b6-2897ada89c42@fourwalledcubicle.com>
+Organization: Archlinux
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-Yo3460Ba4DuXoanmQ9Rb"
+Date:   Fri, 27 Nov 2020 20:11:21 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Evolution 3.38.2 
+Authentication-Results: mail.archlinux.org;
+        auth=pass smtp.auth=ffy00 smtp.mailfrom=lains@archlinux.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Most of the touchscreens use the 'depend on' option for bus dependencies
-rather than explicitly selecting them so use this option for the serio
-devices too to make it easier to generally disable SERIO as a whole.
 
-Signed-off-by: Peter Robinson <pbrobinson@gmail.com>
----
- drivers/input/touchscreen/Kconfig | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+--=-Yo3460Ba4DuXoanmQ9Rb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-index cc18f54ea887..0f019c5d4d16 100644
---- a/drivers/input/touchscreen/Kconfig
-+++ b/drivers/input/touchscreen/Kconfig
-@@ -315,7 +315,7 @@ config TOUCHSCREEN_DA9052
- 
- config TOUCHSCREEN_DYNAPRO
- 	tristate "Dynapro serial touchscreen"
--	select SERIO
-+	depends on SERIO
- 	help
- 	  Say Y here if you have a Dynapro serial touchscreen connected to
- 	  your system.
-@@ -327,7 +327,7 @@ config TOUCHSCREEN_DYNAPRO
- 
- config TOUCHSCREEN_HAMPSHIRE
- 	tristate "Hampshire serial touchscreen"
--	select SERIO
-+	depends on SERIO
- 	help
- 	  Say Y here if you have a Hampshire serial touchscreen connected to
- 	  your system.
-@@ -358,7 +358,7 @@ config TOUCHSCREEN_EGALAX
- 
- config TOUCHSCREEN_EGALAX_SERIAL
- 	tristate "EETI eGalax serial touchscreen"
--	select SERIO
-+	depends on SERIO
- 	help
- 	  Say Y here to enable support for serial connected EETI
- 	  eGalax touch panels.
-@@ -378,7 +378,7 @@ config TOUCHSCREEN_EXC3000
- 
- config TOUCHSCREEN_FUJITSU
- 	tristate "Fujitsu serial touchscreen"
--	select SERIO
-+	depends on SERIO
- 	help
- 	  Say Y here if you have the Fujitsu touchscreen (such as one
- 	  installed in Lifebook P series laptop) connected to your
-@@ -467,7 +467,7 @@ config TOUCHSCREEN_S6SY761
- 
- config TOUCHSCREEN_GUNZE
- 	tristate "Gunze AHL-51S touchscreen"
--	select SERIO
-+	depends on SERIO
- 	help
- 	  Say Y here if you have the Gunze AHL-51 touchscreen connected to
- 	  your system.
-@@ -503,7 +503,7 @@ config TOUCHSCREEN_ELAN
- 
- config TOUCHSCREEN_ELO
- 	tristate "Elo serial touchscreens"
--	select SERIO
-+	depends on SERIO
- 	help
- 	  Say Y here if you have an Elo serial touchscreen connected to
- 	  your system.
-@@ -515,7 +515,7 @@ config TOUCHSCREEN_ELO
- 
- config TOUCHSCREEN_WACOM_W8001
- 	tristate "Wacom W8001 penabled serial touchscreen"
--	select SERIO
-+	depends on SERIO
- 	help
- 	  Say Y here if you have an Wacom W8001 penabled serial touchscreen
- 	  connected to your system.
-@@ -596,7 +596,7 @@ config TOUCHSCREEN_MELFAS_MIP4
- 
- config TOUCHSCREEN_MTOUCH
- 	tristate "MicroTouch serial touchscreens"
--	select SERIO
-+	depends on SERIO
- 	help
- 	  Say Y here if you have a MicroTouch (3M) serial touchscreen connected to
- 	  your system.
-@@ -620,7 +620,7 @@ config TOUCHSCREEN_IMX6UL_TSC
- 
- config TOUCHSCREEN_INEXIO
- 	tristate "iNexio serial touchscreens"
--	select SERIO
-+	depends on SERIO
- 	help
- 	  Say Y here if you have an iNexio serial touchscreen connected to
- 	  your system.
-@@ -687,7 +687,7 @@ config TOUCHSCREEN_HTCPEN
- 
- config TOUCHSCREEN_PENMOUNT
- 	tristate "Penmount serial touchscreen"
--	select SERIO
-+	depends on SERIO
- 	help
- 	  Say Y here if you have a Penmount serial touchscreen connected to
- 	  your system.
-@@ -735,7 +735,7 @@ config TOUCHSCREEN_MIGOR
- 
- config TOUCHSCREEN_TOUCHRIGHT
- 	tristate "Touchright serial touchscreen"
--	select SERIO
-+	depends on SERIO
- 	help
- 	  Say Y here if you have a Touchright serial touchscreen connected to
- 	  your system.
-@@ -747,7 +747,7 @@ config TOUCHSCREEN_TOUCHRIGHT
- 
- config TOUCHSCREEN_TOUCHWIN
- 	tristate "Touchwin serial touchscreen"
--	select SERIO
-+	depends on SERIO
- 	help
- 	  Say Y here if you have a Touchwin serial touchscreen connected to
- 	  your system.
-@@ -1036,7 +1036,7 @@ config TOUCHSCREEN_USB_EASYTOUCH
- 
- config TOUCHSCREEN_TOUCHIT213
- 	tristate "Sahara TouchIT-213 touchscreen"
--	select SERIO
-+	depends on SERIO
- 	help
- 	  Say Y here if you have a Sahara TouchIT-213 Tablet PC.
- 
-@@ -1063,7 +1063,7 @@ config TOUCHSCREEN_TS4800
- 
- config TOUCHSCREEN_TSC_SERIO
- 	tristate "TSC-10/25/40 serial touchscreen support"
--	select SERIO
-+	depends on SERIO
- 	help
- 	  Say Y here if you have a TSC-10, 25 or 40 serial touchscreen connected
- 	  to your system.
--- 
-2.28.0
+On Fri, 2020-11-27 at 15:05 +1100, Dean Camera wrote:
+> Thank you for the review, Filipe!
+>=20
+> I'm still new to the kernel patch submission process, so I'm a little=20
+> perplexed by the next steps. Who will decide if it is to be applied, and=
+=20
+> is there any further action I need to take?
+
+No worries :)
+That'd probably Benjamin Tissoires, co-maintainer of the HID subsystem.
+There is no further action you need to take, just wait. Please understand t=
+hat
+these things can sometimes take a while as maintainer time is limited and t=
+hey
+may have a long backlog to fight through.
+
+Also be aware that maintainers might be a bit conservative about adding new
+features as they will be required to maintain them in the long run, so don'=
+t
+take it personally if they chose not to to merge some of your patches.
+
+> I am obviously keen, but not impatient, to get this feature in. I'm=20
+> happy to follow whatever process is required, I just haven't found=20
+> anything beyond the initial "submitting your patch" documentation.
+
+Yeah, I sympathize. The process essentially is to send the patch and wait :=
+P
+
+Just one thing, in the kernel mailing lists you are discouraged to top-post=
+.
+
+A: Because it messes up the order in which people normally read text.
+Q: Why is top-posting such a bad thing?
+
+A: Top-posting.
+Q: What is the most annoying thing in e-mail?
+
+A: No.
+Q: Should I include quotations after my reply?
+
+> Cheers!
+> - Dean
+
+Cheers,
+Filipe La=C3=ADns
+
+--=-Yo3460Ba4DuXoanmQ9Rb
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAl/BXWQACgkQ+JPGdIFq
+qV1vBA//QWMrbliu7HOGDXHCPE1Ent0kEvS3HG3VqdcUykfcFj07IO7/sa4EVJsj
+tzbdBG8KCjBE3juOIMz7B4mYNR7AFZPKHuOBEkm579A7pa7SfWon/7veDEbd7TZ9
+LmSilomOSr2xm2GkdEeGgYF9EtYGUtVgItO4k3q7b1/Ux3O7sGdhPIn9M9CID0Qq
+hbdumPwEHEuTsw4LOjQRNDisxzTZvdxBXxw3PWnfVMrIaF0RBbOazWZa7nRg0Dpb
+Gh/9kWPUW/HekMf37QN0rtSnOlYHuX3gp6MBdd+Un5scV0/ImynjoVU5DXZtFADs
+qL2XLED5ce7qkEIOkSZu/qo4ZWFdgcfVXvV1L/70Vu8nB1hPNTmOqkWl9vK/eBqU
+MWBZdxcGjXuFrXHejnQ/a5vKOiEgbk9UO4O/2zpLLhXpuQhMxnMn0jM7l5tdnIh4
+Z95Y1RNPqlD44L7NmEHc3Q/RwNpcOJh86krzt2+6Pc6de4bk+243p1CMB6nzxC72
+EJXPNslTRRFrX26DA0q08YVEfTyGdGAW5z2uS2phRUUfmHkJ/4dpC7P1WwVGmOrD
+/5LdzbsQ196bqIy0MQVsHSEJpyUQATYa6s8HNb8ef5rysrMK3ARtUN3OipqFJLpx
+DDZ7o/Gy8I2jcvNrfXM9VziIJQTD5A6lNI7UJbjmuZKb7Tw/MWM=
+=ppUY
+-----END PGP SIGNATURE-----
+
+--=-Yo3460Ba4DuXoanmQ9Rb--
 
