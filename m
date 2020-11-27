@@ -2,35 +2,34 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 180242C6353
-	for <lists+linux-input@lfdr.de>; Fri, 27 Nov 2020 11:42:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F70A2C6355
+	for <lists+linux-input@lfdr.de>; Fri, 27 Nov 2020 11:42:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725865AbgK0KlQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 27 Nov 2020 05:41:16 -0500
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:33987 "EHLO
-        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725616AbgK0KlQ (ORCPT
+        id S1726171AbgK0Kmm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 27 Nov 2020 05:42:42 -0500
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:52849 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725989AbgK0Kmm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 27 Nov 2020 05:41:16 -0500
+        Fri, 27 Nov 2020 05:42:42 -0500
 X-Originating-IP: 82.255.60.242
 Received: from [192.168.0.28] (lns-bzn-39-82-255-60-242.adsl.proxad.net [82.255.60.242])
         (Authenticated sender: hadess@hadess.net)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id D2D3760004;
-        Fri, 27 Nov 2020 10:41:12 +0000 (UTC)
-Message-ID: <d4c92208c9b81ed56e82d669989d812a741ca6d9.camel@hadess.net>
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 83E0E1BF210;
+        Fri, 27 Nov 2020 10:42:39 +0000 (UTC)
+Message-ID: <c832b6088a7201bca41c0bcc539333e4faa95fdd.camel@hadess.net>
 Subject: Re: Support for Logitech g703 mouse battery levels
 From:   Bastien Nocera <hadess@hadess.net>
 To:     Filipe =?ISO-8859-1?Q?La=EDns?= <lains@archlinux.org>,
         Max Illis <max@illis.uk>, linux-input@vger.kernel.org
-Date:   Fri, 27 Nov 2020 11:41:12 +0100
-In-Reply-To: <a9425b1382c76c2d6d234a1a7af7c2f738eca0e4.camel@hadess.net>
+Date:   Fri, 27 Nov 2020 11:42:38 +0100
+In-Reply-To: <c80acf5d8bfea8eef32be6b31d444787ed8182de.camel@archlinux.org>
 References: <CAA5fPw=5SJvsYjoZDECAhHDe5XeLt-HmEvMrmgaeJ7hQMwHnRg@mail.gmail.com>
          <f0a3e23f8e650b679fde299702685588b6cf54a3.camel@hadess.net>
          <ef254031acfe25c2fccb1fb724fc7889117e451e.camel@archlinux.org>
          <992fe59c8da939e1adae51c8e6a52812da05e700.camel@hadess.net>
          <c80acf5d8bfea8eef32be6b31d444787ed8182de.camel@archlinux.org>
-         <a9425b1382c76c2d6d234a1a7af7c2f738eca0e4.camel@hadess.net>
-Content-Type: multipart/mixed; boundary="=-L6SAHrpL0HskEiRitxc6"
+Content-Type: multipart/mixed; boundary="=-IJVfkraRSs4NCXY/EIZI"
 User-Agent: Evolution 3.38.1 (3.38.1-1.fc33) 
 MIME-Version: 1.0
 Precedence: bulk
@@ -38,190 +37,136 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 
---=-L6SAHrpL0HskEiRitxc6
+--=-IJVfkraRSs4NCXY/EIZI
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2020-11-26 at 22:50 +0100, Bastien Nocera wrote:
-> On Thu, 2020-11-26 at 19:10 +0000, Filipe Laíns wrote:
-> > <snip>
-> > I did not have it at the time, Logitech has since made it public.
-> > 
-> > I went looking for the link :)
-> > https://drive.google.com/file/d/1F_fuqL0-TbZ77u0suXRcj3YcDidCcN1M/view?usp=sharing
-> 
-> Looks small enough to put in the kernel to be fair. The hid++ source
-> is
-> already 4k long, what's 100 more lines ;)
-> 
+On Thu, 2020-11-26 at 19:10 +0000, Filipe Laíns wrote:
+> <snip>
+> O went looking for the link :)
+> https://drive.google.com/file/d/1F_fuqL0-TbZ77u0suXRcj3YcDidCcN1M/view?usp=sharing
 
-Patch that's not even compile-tested attached. We probably need more
-device IDs, although it might be possible to always do that conversion
-when the battery voltage is known but not the battery level?
+Contents of the link so it doesn't get lost.
 
-I'd need comments to finish this off if I'm on the right path, although
-I'd be happy to leave it to someone with the hardware to finish up.
+--=-IJVfkraRSs4NCXY/EIZI
+Content-Disposition: attachment; filename="240 mAh battery - soc conversion table.txt"
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; name="240 mAh battery - soc conversion table.txt";
+	charset="us-ascii"
 
-Cheers
+Discharge conversion table for G Pro Wireless						
+240 mAh battery						
+Valid for products using the original G Pro Wireless battery (G Pro Wireless, G502 LightSpeed,  G703 LightSpeed)
+Values may vary between products and various parameters, like battery aging and temperature.					
+						
+Vbatt	SoC 					
+[V]	[%]					
+4.186	100%					
+4.156	99%					
+4.143	98%					
+4.133	97%					
+4.122	96%					
+4.113	95%					
+4.103	94%					
+4.094	93%					
+4.086	92%					
+4.076	91%					
+4.067	90%					
+4.06	89%					
+4.051	88%					
+4.043	87%					
+4.036	86%					
+4.027	85%					
+4.019	84%					
+4.012	83%					
+4.004	82%					
+3.997	81%					
+3.989	80%					
+3.983	79%					
+3.976	78%					
+3.969	77%					
+3.961	76%					
+3.955	75%					
+3.949	74%					
+3.942	73%					
+3.935	72%					
+3.929	71%					
+3.922	70%					
+3.916	69%					
+3.909	68%					
+3.902	67%					
+3.896	66%					
+3.89	65%					
+3.883	64%					
+3.877	63%					
+3.87	62%					
+3.865	61%					
+3.859	60%					
+3.853	59%					
+3.848	58%					
+3.842	57%					
+3.837	56%					
+3.833	55%					
+3.828	54%					
+3.824	53%					
+3.819	52%					
+3.815	51%					
+3.811	50%					
+3.808	49%					
+3.804	48%					
+3.8	47%					
+3.797	46%					
+3.793	45%					
+3.79	44%					
+3.787	43%					
+3.784	42%					
+3.781	41%					
+3.778	40%					
+3.775	39%					
+3.772	38%					
+3.77	37%					
+3.767	36%					
+3.764	35%					
+3.762	34%					
+3.759	33%					
+3.757	32%					
+3.754	31%					
+3.751	30%					
+3.748	29%					
+3.744	28%					
+3.741	27%					
+3.737	26%					
+3.734	25%					
+3.73	24%					
+3.726	23%					
+3.724	22%					
+3.72	21%					
+3.717	20%					
+3.714	19%					
+3.71	18%					
+3.706	17%					
+3.702	16%					
+3.697	15%					
+3.693	14%					
+3.688	13%					
+3.683	12%					
+3.677	11%					
+3.671	10%					
+3.666	9%					
+3.662	8%					
+3.658	7%					
+3.654	6%					
+3.646	5%					
+3.633	4%					
+3.612	3%					
+3.579	2%					
+3.537	1%					
+3.5	0%					
+						
+						
+						
+						
+						
 
---=-L6SAHrpL0HskEiRitxc6
-Content-Disposition: attachment;
-	filename="0001-WIP-HID-logitech-hidpp-Map-voltage-to-capacity.patch"
-Content-Transfer-Encoding: base64
-Content-Type: text/x-patch;
-	name="0001-WIP-HID-logitech-hidpp-Map-voltage-to-capacity.patch";
-	charset="UTF-8"
-
-RnJvbSAxMDNlNzU5ZjkwYThmNjdiY2Q2MWQwZmVkNGYwOThkODQxNTIwODEwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBCYXN0aWVuIE5vY2VyYSA8aGFkZXNzQGhhZGVzcy5uZXQ+CkRh
-dGU6IEZyaSwgMjcgTm92IDIwMjAgMTE6MzU6NDEgKzAxMDAKU3ViamVjdDogW1BBVENIXSBXSVA6
-IEhJRDogbG9naXRlY2gtaGlkcHA6IE1hcCB2b2x0YWdlIHRvIGNhcGFjaXR5CgpGb3IgZGV2aWNl
-cyBpbiB0aGUgRyBQcm8gV2lyZWxlc3MgcmFuZ2UgdGhhdCB1c3VhbGx5IHNwb3J0IGEgMjQwIG1B
-aApiYXR0ZXJ5LCBjb252ZXJ0IHRoZSBiYXR0ZXJ5IHZvbHRhZ2UgdG8gYSBjYXBhY2l0eS4KLS0t
-CiBkcml2ZXJzL2hpZC9oaWQtbG9naXRlY2gtaGlkcHAuYyB8IDE2MSArKysrKysrKysrKysrKysr
-KysrKysrKysrKysrLS0tCiAxIGZpbGUgY2hhbmdlZCwgMTQ5IGluc2VydGlvbnMoKyksIDEyIGRl
-bGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvaGlkL2hpZC1sb2dpdGVjaC1oaWRwcC5j
-IGIvZHJpdmVycy9oaWQvaGlkLWxvZ2l0ZWNoLWhpZHBwLmMKaW5kZXggYjhiNTNkYzk1ZTg2Li4y
-MjJjOGQ3MGIzY2EgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvaGlkL2hpZC1sb2dpdGVjaC1oaWRwcC5j
-CisrKyBiL2RyaXZlcnMvaGlkL2hpZC1sb2dpdGVjaC1oaWRwcC5jCkBAIC03NSw2ICs3NSw3IEBA
-IE1PRFVMRV9QQVJNX0RFU0MoZGlzYWJsZV90YXBfdG9fY2xpY2ssCiAjZGVmaW5lIEhJRFBQX1FV
-SVJLX0hJRFBQX1dIRUVMUwkJQklUKDI5KQogI2RlZmluZSBISURQUF9RVUlSS19ISURQUF9FWFRS
-QV9NT1VTRV9CVE5TCUJJVCgzMCkKICNkZWZpbmUgSElEUFBfUVVJUktfSElEUFBfQ09OU1VNRVJf
-VkVORE9SX0tFWVMJQklUKDMxKQorI2RlZmluZSBISURQUF9RVUlSS19CQVRURVJZX0xFVkVMX0ZS
-T01fVk9MVEFHRQlCSVQoMzIpCiAKIC8qIFRoZXNlIGFyZSBqdXN0IGFsaWFzZXMgZm9yIG5vdyAq
-LwogI2RlZmluZSBISURQUF9RVUlSS19LQkRfU0NST0xMX1dIRUVMIEhJRFBQX1FVSVJLX0hJRFBQ
-X1dIRUVMUwpAQCAtMTI1MSw4ICsxMjUyLDExNiBAQCBzdGF0aWMgaW50IGhpZHBwMjBfYmF0dGVy
-eV9ldmVudChzdHJ1Y3QgaGlkcHBfZGV2aWNlICpoaWRwcCwKIAogI2RlZmluZSBFVkVOVF9CQVRU
-RVJZX1ZPTFRBR0VfU1RBVFVTX0JST0FEQ0FTVCAweDAwCiAKK3N0YXRpYyBzdHJ1Y3QgeworCWlu
-dCBtdl92b2x0YWdlOworCWludCBjYXBhY2l0eTsKK30gYmF0dGVyeV90b19jYXBhY2l0eVtdID0g
-eworCXsgNDE4NiwgMTAwIH0sCisJeyA0MTU2LCA5OSB9LAorCXsgNDE0MywgOTggfSwKKwl7IDQx
-MzMsIDk3IH0sCisJeyA0MTIyLCA5NiB9LAorCXsgNDExMywgOTUgfSwKKwl7IDQxMDMsIDk0IH0s
-CisJeyA0MDk0LCA5MyB9LAorCXsgNDA4NiwgOTIgfSwKKwl7IDQwNzYsIDkxIH0sCisJeyA0MDY3
-LCA5MCB9LAorCXsgNDA2MCwgODkgfSwKKwl7IDQwNTEsIDg4IH0sCisJeyA0MDQzLCA4NyB9LAor
-CXsgNDAzNiwgODYgfSwKKwl7IDQwMjcsIDg1IH0sCisJeyA0MDE5LCA4NCB9LAorCXsgNDAxMiwg
-ODMgfSwKKwl7IDQwMDQsIDgyIH0sCisJeyAzOTk3LCA4MSB9LAorCXsgMzk4OSwgODAgfSwKKwl7
-IDM5ODMsIDc5IH0sCisJeyAzOTc2LCA3OCB9LAorCXsgMzk2OSwgNzcgfSwKKwl7IDM5NjEsIDc2
-IH0sCisJeyAzOTU1LCA3NSB9LAorCXsgMzk0OSwgNzQgfSwKKwl7IDM5NDIsIDczIH0sCisJeyAz
-OTM1LCA3MiB9LAorCXsgMzkyOSwgNzEgfSwKKwl7IDM5MjIsIDcwIH0sCisJeyAzOTE2LCA2OSB9
-LAorCXsgMzkwOSwgNjggfSwKKwl7IDM5MDIsIDY3IH0sCisJeyAzODk2LCA2NiB9LAorCXsgMzg5
-MCwgNjUgfSwKKwl7IDM4ODMsIDY0IH0sCisJeyAzODc3LCA2MyB9LAorCXsgMzg3MCwgNjIgfSwK
-Kwl7IDM4NjUsIDYxIH0sCisJeyAzODU5LCA2MCB9LAorCXsgMzg1MywgNTkgfSwKKwl7IDM4NDgs
-IDU4IH0sCisJeyAzODQyLCA1NyB9LAorCXsgMzgzNywgNTYgfSwKKwl7IDM4MzMsIDU1IH0sCisJ
-eyAzODI4LCA1NCB9LAorCXsgMzgyNCwgNTMgfSwKKwl7IDM4MTksIDUyIH0sCisJeyAzODE1LCA1
-MSB9LAorCXsgMzgxMSwgNTAgfSwKKwl7IDM4MDgsIDQ5IH0sCisJeyAzODA0LCA0OCB9LAorCXsg
-MzgwMCwgNDcgfSwKKwl7IDM3OTcsIDQ2IH0sCisJeyAzNzkzLCA0NSB9LAorCXsgMzc5MCwgNDQg
-fSwKKwl7IDM3ODcsIDQzIH0sCisJeyAzNzg0LCA0MiB9LAorCXsgMzc4MSwgNDEgfSwKKwl7IDM3
-NzgsIDQwIH0sCisJeyAzNzc1LCAzOSB9LAorCXsgMzc3MiwgMzggfSwKKwl7IDM3NzAsIDM3IH0s
-CisJeyAzNzY3LCAzNiB9LAorCXsgMzc2NCwgMzUgfSwKKwl7IDM3NjIsIDM0IH0sCisJeyAzNzU5
-LCAzMyB9LAorCXsgMzc1NywgMzIgfSwKKwl7IDM3NTQsIDMxIH0sCisJeyAzNzUxLCAzMCB9LAor
-CXsgMzc0OCwgMjkgfSwKKwl7IDM3NDQsIDI4IH0sCisJeyAzNzQxLCAyNyB9LAorCXsgMzczNywg
-MjYgfSwKKwl7IDM3MzQsIDI1IH0sCisJeyAzNzMwLCAyNCB9LAorCXsgMzcyNiwgMjMgfSwKKwl7
-IDM3MjQsIDIyIH0sCisJeyAzNzIwLCAyMSB9LAorCXsgMzcxNywgMjAgfSwKKwl7IDM3MTQsIDE5
-IH0sCisJeyAzNzEwLCAxOCB9LAorCXsgMzcwNiwgMTcgfSwKKwl7IDM3MDIsIDE2IH0sCisJeyAz
-Njk3LCAxNSB9LAorCXsgMzY5MywgMTQgfSwKKwl7IDM2ODgsIDEzIH0sCisJeyAzNjgzLCAxMiB9
-LAorCXsgMzY3NywgMTEgfSwKKwl7IDM2NzEsIDEwIH0sCisJeyAzNjY2LCA5IH0sCisJeyAzNjYy
-LCA4IH0sCisJeyAzNjU4LCA3IH0sCisJeyAzNjU0LCA2IH0sCisJeyAzNjQ2LCA1IH0sCisJeyAz
-NjMzLCA0IH0sCisJeyAzNjEyLCAzIH0sCisJeyAzNTc5LCAyIH0sCisJeyAzNTM3LCAxIH0sCisJ
-eyAzNTAwLCAwIH0KK307CisKIHN0YXRpYyBpbnQgaGlkcHAyMF9iYXR0ZXJ5X21hcF9zdGF0dXNf
-dm9sdGFnZSh1OCBkYXRhWzNdLCBpbnQgKnZvbHRhZ2UsCi0JCQkJCQlpbnQgKmxldmVsLCBpbnQg
-KmNoYXJnZV90eXBlKQorCQkJCQkJaW50ICpsZXZlbCwgaW50ICpjaGFyZ2VfdHlwZSwKKwkJCQkJ
-CWludCAqY2FwYWNpdHkpCiB7CiAJaW50IHN0YXR1czsKIApAQCAtMTI5MCwxMyArMTM5OSwyOCBA
-QCBzdGF0aWMgaW50IGhpZHBwMjBfYmF0dGVyeV9tYXBfc3RhdHVzX3ZvbHRhZ2UodTggZGF0YVsz
-XSwgaW50ICp2b2x0YWdlLAogCiAJKnZvbHRhZ2UgPSBnZXRfdW5hbGlnbmVkX2JlMTYoZGF0YSk7
-CiAKKwlpZiAoaGlkZC0+cXVpcmtzICYgSElEUFBfUVVJUktfQkFUVEVSWV9MRVZFTF9GUk9NX1ZP
-TFRBR0UpIHsKKwkJaW50IGk7CisJCWZvciAoaSA9IDA7IGkgPCBBUlJBWV9TSVpFKGJhdHRlcnlf
-dG9fY2FwYWNpdHkpOyBpKyspIHsKKwkJCWlmICgqdm9sdGFnZSA8IGJhdHRlcnlfdG9fY2FwYWNp
-dHlbaV0ubXZfdm9sdGFnZSkKKwkJCQljb250aW51ZTsKKwkJCWlmICgqdm9sdGFnZSA9PSBiYXR0
-ZXJ5X3RvX2NhcGFjaXR5W2ldLm12X3ZvbHRhZ2UgfHwKKwkJCQlpID09IDApCisJCQkJKmNhcGFj
-aXR5ID0gYmF0dGVyeV90b19jYXBhY2l0eVtpXS5jYXBhY2l0eTsKKwkJCWVsc2UKKwkJCQkqY2Fw
-YWNpdHkgPSBiYXR0ZXJ5X3RvX2NhcGFjaXR5W2kgLSAxXS5jYXBhY2l0eTsKKwkJCWJyZWFrOwor
-CQl9CisJfQorCiAJcmV0dXJuIHN0YXR1czsKIH0KIAogc3RhdGljIGludCBoaWRwcDIwX2JhdHRl
-cnlfZ2V0X2JhdHRlcnlfdm9sdGFnZShzdHJ1Y3QgaGlkcHBfZGV2aWNlICpoaWRwcCwKIAkJCQkJ
-CSB1OCBmZWF0dXJlX2luZGV4LAogCQkJCQkJIGludCAqc3RhdHVzLCBpbnQgKnZvbHRhZ2UsCi0J
-CQkJCQkgaW50ICpsZXZlbCwgaW50ICpjaGFyZ2VfdHlwZSkKKwkJCQkJCSBpbnQgKmxldmVsLCBp
-bnQgKmNoYXJnZV90eXBlLAorCQkJCQkJIGludCAqY2FwYWNpdHkpCiB7CiAJc3RydWN0IGhpZHBw
-X3JlcG9ydCByZXNwb25zZTsKIAlpbnQgcmV0OwpAQCAtMTMxNyw3ICsxNDQxLDggQEAgc3RhdGlj
-IGludCBoaWRwcDIwX2JhdHRlcnlfZ2V0X2JhdHRlcnlfdm9sdGFnZShzdHJ1Y3QgaGlkcHBfZGV2
-aWNlICpoaWRwcCwKIAloaWRwcC0+Y2FwYWJpbGl0aWVzIHw9IEhJRFBQX0NBUEFCSUxJVFlfQkFU
-VEVSWV9WT0xUQUdFOwogCiAJKnN0YXR1cyA9IGhpZHBwMjBfYmF0dGVyeV9tYXBfc3RhdHVzX3Zv
-bHRhZ2UocGFyYW1zLCB2b2x0YWdlLAotCQkJCQkJICAgICBsZXZlbCwgY2hhcmdlX3R5cGUpOwor
-CQkJCQkJICAgICBsZXZlbCwgY2hhcmdlX3R5cGUsCisJCQkJCQkgICAgIGNhcGFjaXR5KTsKIAog
-CXJldHVybiAwOwogfQpAQCAtMTMyNiw3ICsxNDUxLDcgQEAgc3RhdGljIGludCBoaWRwcDIwX3F1
-ZXJ5X2JhdHRlcnlfdm9sdGFnZV9pbmZvKHN0cnVjdCBoaWRwcF9kZXZpY2UgKmhpZHBwKQogewog
-CXU4IGZlYXR1cmVfdHlwZTsKIAlpbnQgcmV0OwotCWludCBzdGF0dXMsIHZvbHRhZ2UsIGxldmVs
-LCBjaGFyZ2VfdHlwZTsKKwlpbnQgc3RhdHVzLCB2b2x0YWdlLCBsZXZlbCwgY2hhcmdlX3R5cGUs
-IGNhcGFjaXR5OwogCiAJaWYgKGhpZHBwLT5iYXR0ZXJ5LnZvbHRhZ2VfZmVhdHVyZV9pbmRleCA9
-PSAweGZmKSB7CiAJCXJldCA9IGhpZHBwX3Jvb3RfZ2V0X2ZlYXR1cmUoaGlkcHAsIEhJRFBQX1BB
-R0VfQkFUVEVSWV9WT0xUQUdFLApAQCAtMTMzOCwxNCArMTQ2MywxOCBAQCBzdGF0aWMgaW50IGhp
-ZHBwMjBfcXVlcnlfYmF0dGVyeV92b2x0YWdlX2luZm8oc3RydWN0IGhpZHBwX2RldmljZSAqaGlk
-cHApCiAKIAlyZXQgPSBoaWRwcDIwX2JhdHRlcnlfZ2V0X2JhdHRlcnlfdm9sdGFnZShoaWRwcCwK
-IAkJCQkJCSAgaGlkcHAtPmJhdHRlcnkudm9sdGFnZV9mZWF0dXJlX2luZGV4LAotCQkJCQkJICAm
-c3RhdHVzLCAmdm9sdGFnZSwgJmxldmVsLCAmY2hhcmdlX3R5cGUpOworCQkJCQkJICAmc3RhdHVz
-LCAmdm9sdGFnZSwgJmxldmVsLCAmY2hhcmdlX3R5cGUsCisJCQkJCQkgICZjYXBhY2l0eSk7CiAK
-IAlpZiAocmV0KQogCQlyZXR1cm4gcmV0OwogCiAJaGlkcHAtPmJhdHRlcnkuc3RhdHVzID0gc3Rh
-dHVzOwogCWhpZHBwLT5iYXR0ZXJ5LnZvbHRhZ2UgPSB2b2x0YWdlOwotCWhpZHBwLT5iYXR0ZXJ5
-LmxldmVsID0gbGV2ZWw7CisJaWYgKGhpZGQtPnF1aXJrcyAmIEhJRFBQX1FVSVJLX0JBVFRFUllf
-TEVWRUxfRlJPTV9WT0xUQUdFKQorCQloaWRwcC0+YmF0dGVyLmNhcGFjaXR5ID0gY2FwYWNpdHk7
-CisJZWxzZQorCQloaWRwcC0+YmF0dGVyeS5sZXZlbCA9IGxldmVsOwogCWhpZHBwLT5iYXR0ZXJ5
-LmNoYXJnZV90eXBlID0gY2hhcmdlX3R5cGU7CiAJaGlkcHAtPmJhdHRlcnkub25saW5lID0gc3Rh
-dHVzICE9IFBPV0VSX1NVUFBMWV9TVEFUVVNfTk9UX0NIQVJHSU5HOwogCkBAIC0xMzU2LDIxICsx
-NDg1LDI0IEBAIHN0YXRpYyBpbnQgaGlkcHAyMF9iYXR0ZXJ5X3ZvbHRhZ2VfZXZlbnQoc3RydWN0
-IGhpZHBwX2RldmljZSAqaGlkcHAsCiAJCQkJCSAgICB1OCAqZGF0YSwgaW50IHNpemUpCiB7CiAJ
-c3RydWN0IGhpZHBwX3JlcG9ydCAqcmVwb3J0ID0gKHN0cnVjdCBoaWRwcF9yZXBvcnQgKilkYXRh
-OwotCWludCBzdGF0dXMsIHZvbHRhZ2UsIGxldmVsLCBjaGFyZ2VfdHlwZTsKKwlpbnQgc3RhdHVz
-LCB2b2x0YWdlLCBsZXZlbCwgY2hhcmdlX3R5cGUsIGNhcGFjaXR5OwogCiAJaWYgKHJlcG9ydC0+
-ZmFwLmZlYXR1cmVfaW5kZXggIT0gaGlkcHAtPmJhdHRlcnkudm9sdGFnZV9mZWF0dXJlX2luZGV4
-IHx8CiAJCXJlcG9ydC0+ZmFwLmZ1bmNpbmRleF9jbGllbnRpZCAhPSBFVkVOVF9CQVRURVJZX1ZP
-TFRBR0VfU1RBVFVTX0JST0FEQ0FTVCkKIAkJcmV0dXJuIDA7CiAKIAlzdGF0dXMgPSBoaWRwcDIw
-X2JhdHRlcnlfbWFwX3N0YXR1c192b2x0YWdlKHJlcG9ydC0+ZmFwLnBhcmFtcywgJnZvbHRhZ2Us
-Ci0JCQkJCQkgICAgJmxldmVsLCAmY2hhcmdlX3R5cGUpOworCQkJCQkJICAgICZsZXZlbCwgJmNo
-YXJnZV90eXBlLCAmY2FwYWNpdHkpOwogCiAJaGlkcHAtPmJhdHRlcnkub25saW5lID0gc3RhdHVz
-ICE9IFBPV0VSX1NVUFBMWV9TVEFUVVNfTk9UX0NIQVJHSU5HOwogCiAJaWYgKHZvbHRhZ2UgIT0g
-aGlkcHAtPmJhdHRlcnkudm9sdGFnZSB8fCBzdGF0dXMgIT0gaGlkcHAtPmJhdHRlcnkuc3RhdHVz
-KSB7CiAJCWhpZHBwLT5iYXR0ZXJ5LnZvbHRhZ2UgPSB2b2x0YWdlOwogCQloaWRwcC0+YmF0dGVy
-eS5zdGF0dXMgPSBzdGF0dXM7Ci0JCWhpZHBwLT5iYXR0ZXJ5LmxldmVsID0gbGV2ZWw7CisJCWlm
-IChoaWRkLT5xdWlya3MgJiBISURQUF9RVUlSS19CQVRURVJZX0xFVkVMX0ZST01fVk9MVEFHRSkK
-KwkJCWhpZHBwLT5iYXR0ZXJ5LmNhcGFjaXR5ID0gY2FwYWNpdHk7CisJCWVsc2UKKwkJCWhpZHBw
-LT5iYXR0ZXJ5LmxldmVsID0gbGV2ZWw7CiAJCWhpZHBwLT5iYXR0ZXJ5LmNoYXJnZV90eXBlID0g
-Y2hhcmdlX3R5cGU7CiAJCWlmIChoaWRwcC0+YmF0dGVyeS5wcykKIAkJCXBvd2VyX3N1cHBseV9j
-aGFuZ2VkKGhpZHBwLT5iYXR0ZXJ5LnBzKTsKQEAgLTM0NDgsNyArMzU4MCw4IEBAIHN0YXRpYyBp
-bnQgaGlkcHBfaW5pdGlhbGl6ZV9iYXR0ZXJ5KHN0cnVjdCBoaWRwcF9kZXZpY2UgKmhpZHBwKQog
-CiAJbnVtX2JhdHRlcnlfcHJvcHMgPSBBUlJBWV9TSVpFKGhpZHBwX2JhdHRlcnlfcHJvcHMpIC0g
-MzsKIAotCWlmIChoaWRwcC0+Y2FwYWJpbGl0aWVzICYgSElEUFBfQ0FQQUJJTElUWV9CQVRURVJZ
-X01JTEVBR0UpCisJaWYgKGhpZHBwLT5jYXBhYmlsaXRpZXMgJiBISURQUF9DQVBBQklMSVRZX0JB
-VFRFUllfTUlMRUFHRSB8fAorCSAgICBoaWRwcC0+cXVpcmtzICYgSElEUFBfUVVJUktfQkFUVEVS
-WV9MRVZFTF9GUk9NX1ZPTFRBR0UpCiAJCWJhdHRlcnlfcHJvcHNbbnVtX2JhdHRlcnlfcHJvcHMr
-K10gPQogCQkJCVBPV0VSX1NVUFBMWV9QUk9QX0NBUEFDSVRZOwogCkBAIC0zOTU1LDYgKzQwODgs
-OCBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGhpZF9kZXZpY2VfaWQgaGlkcHBfZGV2aWNlc1tdID0g
-ewogCXsgLyogTW91c2UgTG9naXRlY2ggTVggTWFzdGVyICovCiAJICBMREpfREVWSUNFKDB4NDA0
-MSksIC5kcml2ZXJfZGF0YSA9IEhJRFBQX1FVSVJLX0hJX1JFU19TQ1JPTExfWDIxMjEgfSwKIAl7
-IExESl9ERVZJQ0UoMHg0MDYwKSwgLmRyaXZlcl9kYXRhID0gSElEUFBfUVVJUktfSElfUkVTX1ND
-Uk9MTF9YMjEyMSB9LAorCXsgLyogTG9naXRlY2ggRzcwMyAqLworCSAgTERKX0RFVklDRSgweDQw
-NzApLCAuZHJpdmVyX2RhdGEgPSBISURQUF9RVUlSS19CQVRURVJZX0xFVkVMX0ZST01fVk9MVEFH
-RSB9LAogCXsgTERKX0RFVklDRSgweDQwNzEpLCAuZHJpdmVyX2RhdGEgPSBISURQUF9RVUlSS19I
-SV9SRVNfU0NST0xMX1gyMTIxIH0sCiAJeyAvKiBNb3VzZSBMb2dpdGVjaCBNWCBNYXN0ZXIgMlMg
-Ki8KIAkgIExESl9ERVZJQ0UoMHg0MDY5KSwgLmRyaXZlcl9kYXRhID0gSElEUFBfUVVJUktfSElf
-UkVTX1NDUk9MTF9YMjEyMSB9LApAQCAtMzk5Nyw3ICs0MTMyLDggQEAgc3RhdGljIGNvbnN0IHN0
-cnVjdCBoaWRfZGV2aWNlX2lkIGhpZHBwX2RldmljZXNbXSA9IHsKIAl7IC8qIExvZ2l0ZWNoIEc3
-MDMgR2FtaW5nIE1vdXNlIG92ZXIgVVNCICovCiAJICBISURfVVNCX0RFVklDRShVU0JfVkVORE9S
-X0lEX0xPR0lURUNILCAweEMwODcpIH0sCiAJeyAvKiBMb2dpdGVjaCBHNzAzIEhlcm8gR2FtaW5n
-IE1vdXNlIG92ZXIgVVNCICovCi0JICBISURfVVNCX0RFVklDRShVU0JfVkVORE9SX0lEX0xPR0lU
-RUNILCAweEMwOTApIH0sCisJICBISURfVVNCX0RFVklDRShVU0JfVkVORE9SX0lEX0xPR0lURUNI
-LCAweEMwOTApLAorCQkuZHJpdmVyX2RhdGEgPSBISURQUF9RVUlSS19CQVRURVJZX0xFVkVMX0ZS
-T01fVk9MVEFHRX0sCiAJeyAvKiBMb2dpdGVjaCBHOTAwIEdhbWluZyBNb3VzZSBvdmVyIFVTQiAq
-LwogCSAgSElEX1VTQl9ERVZJQ0UoVVNCX1ZFTkRPUl9JRF9MT0dJVEVDSCwgMHhDMDgxKSB9LAog
-CXsgLyogTG9naXRlY2ggRzkwMyBHYW1pbmcgTW91c2Ugb3ZlciBVU0IgKi8KQEAgLTQwMDgsNyAr
-NDE0NCw4IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgaGlkX2RldmljZV9pZCBoaWRwcF9kZXZpY2Vz
-W10gPSB7CiAJICBISURfVVNCX0RFVklDRShVU0JfVkVORE9SX0lEX0xPR0lURUNILCBVU0JfREVW
-SUNFX0lEX0xPR0lURUNIX0c5MjBfV0hFRUwpLAogCQkuZHJpdmVyX2RhdGEgPSBISURQUF9RVUlS
-S19DTEFTU19HOTIwIHwgSElEUFBfUVVJUktfRk9SQ0VfT1VUUFVUX1JFUE9SVFN9LAogCXsgLyog
-TG9naXRlY2ggRyBQcm8gR2FtaW5nIE1vdXNlIG92ZXIgVVNCICovCi0JICBISURfVVNCX0RFVklD
-RShVU0JfVkVORE9SX0lEX0xPR0lURUNILCAweEMwODgpIH0sCisJICBISURfVVNCX0RFVklDRShV
-U0JfVkVORE9SX0lEX0xPR0lURUNILCAweEMwODgpLAorCQkuZHJpdmVyX2RhdGEgPSBISURQUF9R
-VUlSS19CQVRURVJZX0xFVkVMX0ZST01fVk9MVEFHRX0sCiAKIAl7IC8qIE1YNTAwMCBrZXlib2Fy
-ZCBvdmVyIEJsdWV0b290aCAqLwogCSAgSElEX0JMVUVUT09USF9ERVZJQ0UoVVNCX1ZFTkRPUl9J
-RF9MT0dJVEVDSCwgMHhiMzA1KSwKLS0gCjIuMjguMAoK
-
-
---=-L6SAHrpL0HskEiRitxc6--
+--=-IJVfkraRSs4NCXY/EIZI--
 
