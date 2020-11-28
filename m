@@ -2,137 +2,126 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA45A2C722A
-	for <lists+linux-input@lfdr.de>; Sat, 28 Nov 2020 23:06:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D5032C7227
+	for <lists+linux-input@lfdr.de>; Sat, 28 Nov 2020 23:06:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387862AbgK1VuZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S2387849AbgK1VuZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Sat, 28 Nov 2020 16:50:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42380 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731747AbgK1SzO (ORCPT
+        with ESMTP id S1730118AbgK1Sh7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 28 Nov 2020 13:55:14 -0500
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99E5AC09424D
-        for <linux-input@vger.kernel.org>; Fri, 27 Nov 2020 23:03:00 -0800 (PST)
-Received: by mail-pf1-x441.google.com with SMTP id w187so6370209pfd.5
-        for <linux-input@vger.kernel.org>; Fri, 27 Nov 2020 23:03:00 -0800 (PST)
+        Sat, 28 Nov 2020 13:37:59 -0500
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9975C02A18E
+        for <linux-input@vger.kernel.org>; Sat, 28 Nov 2020 04:37:26 -0800 (PST)
+Received: by mail-lf1-x142.google.com with SMTP id d20so10907887lfe.11
+        for <linux-input@vger.kernel.org>; Sat, 28 Nov 2020 04:37:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fourwalledcubicle-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=NU4z0OiErDMQDw3JmLN+FqLZ6SUoe1hTNyHYijHV1zE=;
-        b=LgPaA+kHazkRlGTf9fIkNfASDDbMOG+8YS7I0lJ2t4we1TKF3G2OeSfQ7yzGOin/iB
-         Vb5p2i3UE8eiUpGMimQspNj5ilMrthAO8QrWLOlA7sgoJg7vldqlB+Qcz7n18mC9XXbP
-         zFO5UfW2kLrxlBZs0q4qREpKvVnrbcMGsq4dDfBxVXLpkOdKlnrIckaHvCUyXoMN7TIh
-         /thP2FzZgtWU0o4kDvurG6JfkWsmtp31dRBFbYB13GPUclZhn4xoWN2e47rPBaqpGCcD
-         STAKP0XWfk/lv0CtejplsdSdzmyuuWtAG8l4vvN79bcCjwLi5TGuMMV26P8Ok2t1JLIG
-         H+/Q==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=e4VRle5XYJGMSXH05W51yvLETuLs3J9IHLNDYKySqxc=;
+        b=HEcSZCUpbimBKnJL9fn5HiDpNtUOkNUHYcYl48Q9ZBfPef2Kvub5oaTkNffhD1YYn7
+         LzqSRnydWU1gItOpT2jPXWRYGgN6xZJvM6P82x7l3XR3ce5KYy5MfIKwdTfx+Yl3AcG/
+         M7AM/EyW4XoqnUpg4fHJpAUmZHx04uMjkitq4QhrKkWe1gyacQvlOBieWC8DaOX+mWVj
+         srEJSA7PD5Qx58De2YFTEkoqhzAcDx0D9sOYKe8YEtxtify0mzVhg4EmDKlI+uul2Dvk
+         B/LPewOPbouMrnDMkiiLGcYGF22Ztl6eWnShj08OpQEMrX/rjYjdbtwaXLv8rZSEYAsS
+         0PVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=NU4z0OiErDMQDw3JmLN+FqLZ6SUoe1hTNyHYijHV1zE=;
-        b=uFFFUDgqdSlKLWeTa6EcdRXkcnNJKv8wOsMlk9i9TxoTlnqPPGXTTwypec7Xp9/AXQ
-         CKamJtjCAinYOQbzVse4u/l8rtkiHBjUd38a3IYx/eazpgMCf1mrGYo6hIxHhY0Fa9CC
-         uJMmpFtzq18ON58orFB1sIgfSqhpICKbw5VhSyQAzsQqeGbH3Z5haSWHzj2pjSfn/oA9
-         SICibmBsrk9ql6RBBlbCDb9GHUtrdmYg1HR/0AAlycm3vqrQLConkkFA/BNmRdOADpe3
-         Iwc1NZt2DalQ8ASywB/K0gEipHCAKJKvAJCPM0yo85s1i6B1+Oz8FZV0LL/JjzDLaTxG
-         8RiA==
-X-Gm-Message-State: AOAM5330PKRisUF3uCrfmGRga53CnlWKyGHwghYxgZKdhqkxFapc5Xar
-        tmf1qqMK10ri9/pO8H0EN8eLCw==
-X-Google-Smtp-Source: ABdhPJyXUdGijpuWpU2iGWq929vAV969XoIHEqq5vAG0GGla6aVvBgVDCthJHGHbAZY08csfQYcupQ==
-X-Received: by 2002:a63:445c:: with SMTP id t28mr9580082pgk.373.1606546980050;
-        Fri, 27 Nov 2020 23:03:00 -0800 (PST)
-Received: from [10.0.0.4] (203-123-108-233.ip4.superloop.com. [203.123.108.233])
-        by smtp.gmail.com with ESMTPSA id e18sm9083239pgr.71.2020.11.27.23.02.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Nov 2020 23:02:59 -0800 (PST)
-Subject: Re: [V3, PATCH] Add additional hidraw input/output report ioctls.
-To:     =?UTF-8?Q?Filipe_La=c3=adns?= <lains@archlinux.org>,
-        linux-input@vger.kernel.org, jikos@kernel.org,
-        benjamin.tissoires@redhat.com
-References: <20201125223957.5921-1-dean@fourwalledcubicle.com>
- <2e19588821053914eebe30088b4590af51959409.camel@archlinux.org>
- <2c2bfd55-3a03-9839-22f5-16058ac24e35@fourwalledcubicle.com>
- <c8d4d17798e2c9fca417223d4edf5f4b1aebf75d.camel@archlinux.org>
- <d295d0bf-9de7-9927-05b6-2897ada89c42@fourwalledcubicle.com>
- <877bfbede4d3bbf40a91c8392218eeab6672e98c.camel@archlinux.org>
-From:   Dean Camera <dean@fourwalledcubicle.com>
-Message-ID: <c55b4ad5-9fb8-18ef-b931-38a4c37f445f@fourwalledcubicle.com>
-Date:   Sat, 28 Nov 2020 18:02:55 +1100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        bh=e4VRle5XYJGMSXH05W51yvLETuLs3J9IHLNDYKySqxc=;
+        b=e5qXM4IGA/ehNP7v+6EzrPxKE/GjmIhTXpxVb2BKA0mFrHm24EZ3Vyju2l7tPIk2DB
+         ndZSCkZvJNnNtcuJyucDuKiq2py4RLmPuVz+8q29nt8xOJldH2JpbRPKQCvOrXumDExZ
+         TkQvQcUS5i/zfeIM3kmZ7ZcxiQzkj5ISENtvMFJIXE8byEFKsAtXZmnl/RRgUEoWuOjN
+         n56QqpXde0ooimlb6asFItDN7N6oXYv1L9F7djPgtfq/IHkug3MV08QtUOpzMsNpKyuI
+         1MTAuOuoZ7G//TVqZ2cI3rDFuR6AlCC1ev/MRZgvD1i39IJvTZkba+SS2YBwBAjRIern
+         VsyA==
+X-Gm-Message-State: AOAM530AmYQKyn35yaWCNZX+pE6lg2Fc05IzwvrzZVpM5NCAQrblGt4M
+        rsd4Qe06BnZhUZ7QXlgoLOg7MQ==
+X-Google-Smtp-Source: ABdhPJzMzZuL3ggPZ12LGo8Ys/UFdF1C1kph2R9aP2Gg5nJXFTmn5HnT4Lh3Hm/nZl/5yDqH5SexIQ==
+X-Received: by 2002:ac2:5939:: with SMTP id v25mr5385426lfi.490.1606567045318;
+        Sat, 28 Nov 2020 04:37:25 -0800 (PST)
+Received: from localhost.bredbandsbolaget (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
+        by smtp.gmail.com with ESMTPSA id f24sm1364239ljc.54.2020.11.28.04.37.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Nov 2020 04:37:24 -0800 (PST)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Andre <andre.muller@web.de>, Nick Dyer <nick.dyer@itdev.co.uk>,
+        Jiada Wang <jiada_wang@mentor.com>, stable@vger.kernel.org
+Subject: [PATCH] Input: atmel_mxt_ts - Fix lost interrupts
+Date:   Sat, 28 Nov 2020 13:37:20 +0100
+Message-Id: <20201128123720.929948-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <877bfbede4d3bbf40a91c8392218eeab6672e98c.camel@archlinux.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 28/11/2020 7:11 am, Filipe Laíns wrote:
-> On Fri, 2020-11-27 at 15:05 +1100, Dean Camera wrote:
->> Thank you for the review, Filipe!
->>
->> I'm still new to the kernel patch submission process, so I'm a little
->> perplexed by the next steps. Who will decide if it is to be applied, and
->> is there any further action I need to take?
-> 
-> No worries :)
-> That'd probably Benjamin Tissoires, co-maintainer of the HID subsystem.
-> There is no further action you need to take, just wait. Please understand that
-> these things can sometimes take a while as maintainer time is limited and they
-> may have a long backlog to fight through.
-> 
+After commit 74d905d2d38a devices requiring the workaround
+for edge triggered interrupts stopped working.
 
-I completely understand - I maintain some open source projects myself, 
-so I know how it is. I'm just a millenial used to pull requests, issue 
-trackers and/or email attachments, so I wasn't too sure how to proceed 
-here and didn't want to mis-step and end up with it getting lost due to 
-my own inaction.
+This is because the "data" state container defaults to
+*not* using the workaround, but the workaround gets used
+*before* the check of whether it is needed or not. This
+semantic is not obvious from just looking on the patch,
+but related to the program flow.
 
-Thank you both sincerely for your time and efforts, they are very much 
-appreciated.
+The hardware needs the quirk to be used before even
+proceeding to check if the quirk is needed.
 
-> Also be aware that maintainers might be a bit conservative about adding new
-> features as they will be required to maintain them in the long run, so don't
-> take it personally if they chose not to to merge some of your patches.
-> 
->> I am obviously keen, but not impatient, to get this feature in. I'm
->> happy to follow whatever process is required, I just haven't found
->> anything beyond the initial "submitting your patch" documentation.
-> 
-> Yeah, I sympathize. The process essentially is to send the patch and wait :P
-> 
+This patch makes the quirk be used until we determine
+it is *not* needed.
 
-I do wish there was a way to track the patches a little better - I fully 
-understand about the time pressures involved, but having a way to at 
-least know it was seen and added to a backlog somewhere would be nice. 
-Alas, I fear such talk is somewhat like the proverbial ocean boiling.
+Cc: Andre <andre.muller@web.de>
+Cc: Nick Dyer <nick.dyer@itdev.co.uk>
+Cc: Jiada Wang <jiada_wang@mentor.com>
+Cc: stable@vger.kernel.org
+Fixes: 74d905d2d38a ("Input: atmel_mxt_ts - only read messages in mxt_acquire_irq() when necessary")
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ drivers/input/touchscreen/atmel_mxt_ts.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-> Just one thing, in the kernel mailing lists you are discouraged to top-post.
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index e34984388791..f25b2f6038a7 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -1297,8 +1297,6 @@ static int mxt_check_retrigen(struct mxt_data *data)
+ 	int val;
+ 	struct irq_data *irqd;
+ 
+-	data->use_retrigen_workaround = false;
+-
+ 	irqd = irq_get_irq_data(data->irq);
+ 	if (!irqd)
+ 		return -EINVAL;
+@@ -1313,8 +1311,10 @@ static int mxt_check_retrigen(struct mxt_data *data)
+ 		if (error)
+ 			return error;
+ 
+-		if (val & MXT_COMMS_RETRIGEN)
++		if (val & MXT_COMMS_RETRIGEN) {
++			data->use_retrigen_workaround = false;
+ 			return 0;
++		}
+ 	}
+ 
+ 	dev_warn(&client->dev, "Enabling RETRIGEN workaround\n");
+@@ -3117,6 +3117,7 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
+ 	data = devm_kzalloc(&client->dev, sizeof(struct mxt_data), GFP_KERNEL);
+ 	if (!data)
+ 		return -ENOMEM;
++	data->use_retrigen_workaround = true;
+ 
+ 	snprintf(data->phys, sizeof(data->phys), "i2c-%u-%04x/input0",
+ 		 client->adapter->nr, client->addr);
+-- 
+2.26.2
 
-Thanks for the advice, taken under consideration :).
-
-> 
-> A: Because it messes up the order in which people normally read text.
-> Q: Why is top-posting such a bad thing?
-> 
-> A: Top-posting.
-> Q: What is the most annoying thing in e-mail?
-> 
-> A: No.
-> Q: Should I include quotations after my reply?
-> 
->> Cheers!
->> - Dean
-> 
-> Cheers,
-> Filipe Laíns
-> 
-
-Cheers!
-- Dean
