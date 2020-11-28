@@ -2,126 +2,159 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D5032C7227
-	for <lists+linux-input@lfdr.de>; Sat, 28 Nov 2020 23:06:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E24CD2C7224
+	for <lists+linux-input@lfdr.de>; Sat, 28 Nov 2020 23:06:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387849AbgK1VuZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S1731747AbgK1VuZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Sat, 28 Nov 2020 16:50:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40018 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730118AbgK1Sh7 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sat, 28 Nov 2020 13:37:59 -0500
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9975C02A18E
-        for <linux-input@vger.kernel.org>; Sat, 28 Nov 2020 04:37:26 -0800 (PST)
-Received: by mail-lf1-x142.google.com with SMTP id d20so10907887lfe.11
-        for <linux-input@vger.kernel.org>; Sat, 28 Nov 2020 04:37:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=e4VRle5XYJGMSXH05W51yvLETuLs3J9IHLNDYKySqxc=;
-        b=HEcSZCUpbimBKnJL9fn5HiDpNtUOkNUHYcYl48Q9ZBfPef2Kvub5oaTkNffhD1YYn7
-         LzqSRnydWU1gItOpT2jPXWRYGgN6xZJvM6P82x7l3XR3ce5KYy5MfIKwdTfx+Yl3AcG/
-         M7AM/EyW4XoqnUpg4fHJpAUmZHx04uMjkitq4QhrKkWe1gyacQvlOBieWC8DaOX+mWVj
-         srEJSA7PD5Qx58De2YFTEkoqhzAcDx0D9sOYKe8YEtxtify0mzVhg4EmDKlI+uul2Dvk
-         B/LPewOPbouMrnDMkiiLGcYGF22Ztl6eWnShj08OpQEMrX/rjYjdbtwaXLv8rZSEYAsS
-         0PVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=e4VRle5XYJGMSXH05W51yvLETuLs3J9IHLNDYKySqxc=;
-        b=e5qXM4IGA/ehNP7v+6EzrPxKE/GjmIhTXpxVb2BKA0mFrHm24EZ3Vyju2l7tPIk2DB
-         ndZSCkZvJNnNtcuJyucDuKiq2py4RLmPuVz+8q29nt8xOJldH2JpbRPKQCvOrXumDExZ
-         TkQvQcUS5i/zfeIM3kmZ7ZcxiQzkj5ISENtvMFJIXE8byEFKsAtXZmnl/RRgUEoWuOjN
-         n56QqpXde0ooimlb6asFItDN7N6oXYv1L9F7djPgtfq/IHkug3MV08QtUOpzMsNpKyuI
-         1MTAuOuoZ7G//TVqZ2cI3rDFuR6AlCC1ev/MRZgvD1i39IJvTZkba+SS2YBwBAjRIern
-         VsyA==
-X-Gm-Message-State: AOAM530AmYQKyn35yaWCNZX+pE6lg2Fc05IzwvrzZVpM5NCAQrblGt4M
-        rsd4Qe06BnZhUZ7QXlgoLOg7MQ==
-X-Google-Smtp-Source: ABdhPJzMzZuL3ggPZ12LGo8Ys/UFdF1C1kph2R9aP2Gg5nJXFTmn5HnT4Lh3Hm/nZl/5yDqH5SexIQ==
-X-Received: by 2002:ac2:5939:: with SMTP id v25mr5385426lfi.490.1606567045318;
-        Sat, 28 Nov 2020 04:37:25 -0800 (PST)
-Received: from localhost.bredbandsbolaget (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
-        by smtp.gmail.com with ESMTPSA id f24sm1364239ljc.54.2020.11.28.04.37.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Nov 2020 04:37:24 -0800 (PST)
-From:   Linus Walleij <linus.walleij@linaro.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Andre <andre.muller@web.de>, Nick Dyer <nick.dyer@itdev.co.uk>,
-        Jiada Wang <jiada_wang@mentor.com>, stable@vger.kernel.org
-Subject: [PATCH] Input: atmel_mxt_ts - Fix lost interrupts
-Date:   Sat, 28 Nov 2020 13:37:20 +0100
-Message-Id: <20201128123720.929948-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.26.2
+Received: from mail.kernel.org ([198.145.29.99]:50806 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1733211AbgK1TGu (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 28 Nov 2020 14:06:50 -0500
+Received: from archlinux (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E57E924671;
+        Sat, 28 Nov 2020 13:29:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1606570176;
+        bh=ISe7j/OX5cdcWTRh8YAAybJtMJKopbyofLwO0nzAGLA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=WFxnkD+3JHVa9hvCSw2Kf0esY6f+cdvXt4BrDxxqAB9g+Hy1bHnkl2ZcljeyZcnyq
+         7hWD3sQ9wiEWpVh7xjHxd0idxdVrkHD6G+igqOp5tVruqe75qDkGO/TYTky0Q76Xq4
+         YTMUqagwcFM8N1Bt6f1hQ8WZTGwRFZM4f2eXVog8=
+Date:   Sat, 28 Nov 2020 13:29:31 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     "Ye, Xiang" <xiang.ye@intel.com>
+Cc:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>, jikos@kernel.org,
+        srinivas.pandruvada@linux.intel.com, linux-input@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] HID: hid-sensor-custom: Add custom sensor iio
+ support
+Message-ID: <20201128132931.4844ceb5@archlinux>
+In-Reply-To: <20201125022721.GA4958@host>
+References: <20201119100331.2594-1-xiang.ye@intel.com>
+        <20201119100331.2594-2-xiang.ye@intel.com>
+        <20201121172127.18bdd4bb@archlinux>
+        <20201124102905.GA29864@host>
+        <20201124113211.00003141@Huawei.com>
+        <20201125022721.GA4958@host>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-After commit 74d905d2d38a devices requiring the workaround
-for edge triggered interrupts stopped working.
+On Wed, 25 Nov 2020 10:27:21 +0800
+"Ye, Xiang" <xiang.ye@intel.com> wrote:
 
-This is because the "data" state container defaults to
-*not* using the workaround, but the workaround gets used
-*before* the check of whether it is needed or not. This
-semantic is not obvious from just looking on the patch,
-but related to the program flow.
+> On Tue, Nov 24, 2020 at 11:32:11AM +0000, Jonathan Cameron wrote:
+> > Hi
+> > ...  
+> > > > >  	sysfs_remove_group(&sensor_inst->pdev->dev.kobj,
+> > > > > diff --git a/include/linux/hid-sensor-ids.h b/include/linux/hid-sensor-ids.h
+> > > > > index 530c09f3e64a..46db3056f04b 100644
+> > > > > --- a/include/linux/hid-sensor-ids.h
+> > > > > +++ b/include/linux/hid-sensor-ids.h
+> > > > > @@ -128,6 +128,10 @@
+> > > > >  #define HID_USAGE_SENSOR_UNITS_DEGREES_PER_SECOND		0x15
+> > > > >  
+> > > > >  /* Common selectors */
+> > > > > +#define HID_USAGE_SENSOR_PROP_DESC				0x200300
+> > > > > +#define HID_USAGE_SENSOR_PROP_FRIENDLY_NAME			0x200301
+> > > > > +#define HID_USAGE_SENSOR_PROP_SERIAL_NUM			0x200307
+> > > > > +#define HID_USAGE_SENSOR_PROP_MANUFACTURER			0x200305
+> > > > >  #define HID_USAGE_SENSOR_PROP_REPORT_INTERVAL			0x20030E
+> > > > >  #define HID_USAGE_SENSOR_PROP_SENSITIVITY_ABS			0x20030F
+> > > > >  #define HID_USAGE_SENSOR_PROP_SENSITIVITY_RANGE_PCT		0x200310
+> > > > > @@ -159,4 +163,39 @@
+> > > > >  #define HID_USAGE_SENSOR_PROP_REPORTING_STATE_NO_EVENTS_ENUM	0x200840
+> > > > >  #define HID_USAGE_SENSOR_PROP_REPORTING_STATE_ALL_EVENTS_ENUM	0x200841
+> > > > >  
+> > > > > +/* Custom Sensor (2000e1) */
+> > > > > +#define HID_USAGE_SENSOR_HINGE				        0x20020B
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_LOCATION			0x200400
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELE_TIME_SINCE_SYS_BOOT		0x20052B
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_USAGE		0x200541
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE		0x200543    
+> > > > Given these are all defined in a block could we use a macro?
+> > > > HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE(x)                     0x200543 + (x)
+> > > > 
+> > > > perhaps?
+> > > > 
+> > > > I'm not sure what the preferred convention is in this file.    
+> > > If using HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE(x), we should give a range to x, like (1<x<28).
+> > > How to ensure the x is in the range? It can be an issue when someone using x out of the range.  
+> > 
+> > It can be done via build time checking.
+> > https://elixir.bootlin.com/linux/latest/source/include/linux/build_bug.h#L49
+> > Normally we wouldn't bother and would rely on review to pick up on this but
+> > I'd have no problem with a paranoid check in the macro. Particularly as 28 isn't
+> > exactly and obvious number to support!  
+> Because HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE is used as case condition, we cannot use
+> Build_BUG_ON in the macro like below.
+> #define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE(x)                            \
+>        ({                                                                     \
+>                BUILD_BUG_ON(x > 28);                                          \
+>                BUILD_BUG_ON(x < 0);                                           \
+>                (HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_BASE + (x));         \
+>        })
 
-The hardware needs the quirk to be used before even
-proceeding to check if the quirk is needed.
+Ah. I'd missed the case condition element.  Good point!
 
-This patch makes the quirk be used until we determine
-it is *not* needed.
 
-Cc: Andre <andre.muller@web.de>
-Cc: Nick Dyer <nick.dyer@itdev.co.uk>
-Cc: Jiada Wang <jiada_wang@mentor.com>
-Cc: stable@vger.kernel.org
-Fixes: 74d905d2d38a ("Input: atmel_mxt_ts - only read messages in mxt_acquire_irq() when necessary")
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- drivers/input/touchscreen/atmel_mxt_ts.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> I can use the define with a comments to declear the range of x.
+> #define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_BASE           0x200543
+> /* Custom Sensor data 28=>x>=0 */
+> #define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE(x)                            \
+> 	(HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_BASE + (x)) 
+> 
+Sounds good to me.
 
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index e34984388791..f25b2f6038a7 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -1297,8 +1297,6 @@ static int mxt_check_retrigen(struct mxt_data *data)
- 	int val;
- 	struct irq_data *irqd;
- 
--	data->use_retrigen_workaround = false;
--
- 	irqd = irq_get_irq_data(data->irq);
- 	if (!irqd)
- 		return -EINVAL;
-@@ -1313,8 +1311,10 @@ static int mxt_check_retrigen(struct mxt_data *data)
- 		if (error)
- 			return error;
- 
--		if (val & MXT_COMMS_RETRIGEN)
-+		if (val & MXT_COMMS_RETRIGEN) {
-+			data->use_retrigen_workaround = false;
- 			return 0;
-+		}
- 	}
- 
- 	dev_warn(&client->dev, "Enabling RETRIGEN workaround\n");
-@@ -3117,6 +3117,7 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 	data = devm_kzalloc(&client->dev, sizeof(struct mxt_data), GFP_KERNEL);
- 	if (!data)
- 		return -ENOMEM;
-+	data->use_retrigen_workaround = true;
- 
- 	snprintf(data->phys, sizeof(data->phys), "i2c-%u-%04x/input0",
- 		 client->adapter->nr, client->addr);
--- 
-2.26.2
+Thanks,
+
+Jonathan
+
+> Thanks
+> Ye, Xiang
+> >   
+> > > 
+> > > Thanks
+> > > Xiang  
+> > > >     
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_1		0x200544
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_2		0x200545
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_3		0x200546
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_4		0x200547
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_5		0x200548
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_6		0x200549
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_7		0x20054A
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_8		0x20054B
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_9		0x20054C
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_10		0x20054D
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_11		0x20054E
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_12		0x20054F
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_13		0x200550
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_14		0x200551
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_15		0x200552
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_16		0x200553
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_17		0x200554
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_18		0x200555
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_19		0x200556
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_20		0x200557
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_21		0x200558
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_22		0x200559
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_23		0x20055A
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_24		0x20055B
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_25		0x20055C
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_26		0x20055D
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_27		0x20055E
+> > > > > +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_28		0x20055F
+> > > > > +
+> > > > >  #endif    
+> > > >     
+> >   
 
