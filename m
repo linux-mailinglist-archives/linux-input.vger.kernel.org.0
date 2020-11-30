@@ -2,93 +2,154 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D2322C7F5D
-	for <lists+linux-input@lfdr.de>; Mon, 30 Nov 2020 08:56:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CFB02C7F7D
+	for <lists+linux-input@lfdr.de>; Mon, 30 Nov 2020 09:03:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727165AbgK3H4N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 Nov 2020 02:56:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42794 "EHLO
+        id S1726560AbgK3IBw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 Nov 2020 03:01:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726858AbgK3H4M (ORCPT
+        with ESMTP id S1725965AbgK3IBv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 Nov 2020 02:56:12 -0500
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A9E5C0613D4;
-        Sun, 29 Nov 2020 23:55:32 -0800 (PST)
-Received: by mail-pg1-x541.google.com with SMTP id l4so3527022pgu.5;
-        Sun, 29 Nov 2020 23:55:32 -0800 (PST)
+        Mon, 30 Nov 2020 03:01:51 -0500
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7D6DC0613CF;
+        Mon, 30 Nov 2020 00:01:11 -0800 (PST)
+Received: by mail-pl1-x643.google.com with SMTP id l11so6059115plt.1;
+        Mon, 30 Nov 2020 00:01:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=tlhpps4VXXl1XVzMESkL1pdScpF5cYOHwICDcu9T2Cg=;
-        b=sA9vLnPEqzbO/Va1VEUMLXFZk5ZL3hBoR/BOLWSzDzRi1uR7Pr5g4lg+XTjp1cb60J
-         /o1MB01lyNYSwVlzoZiYPBY+Zme3w2wmRNZoe4J1N6Zt27VzX4VVeRfZyn+4019BSiw+
-         nTmray+pYly5NQI7ajGnpaxFNepGs5q0m48fZxSCteue8bglLQAoEFZ0z4Ex/JvUtpdz
-         2jziJXX/ZXok0uSn1+LjDlFEn99wpiZA841Af0CVJKD8tzPv4tiuhFHobXjxLuGVHmRS
-         SFO42UjtsOQa6kONtOmHsZ8WzOE/KXgV4ez3dDGH2bO6ByHyNXXrAY3jfSzcqoBhvHZW
-         e7pQ==
+        bh=xWg0wxDFGMcY8UIe2/5RebvM9I9LsP6Y+5sFTmocQPE=;
+        b=H7w/06l3Smy/4ntHvbEC+kWfxw7JtvF4APIsTdn2pXUnkSufHzTZm02KQEHdNtOAWJ
+         +Mb5GdG2+orfZt16Lt/EgtkOO8+6tb4RpOpHKTlFhYRF400/0cV3LPvUUm+3A4rCxzRd
+         WW5heuxXD9zeNNCSQTAjmpFFJq4pXDNKZGaoqV7qWDtjp7sYHPvn7gwVemK95iJ6ARDz
+         yg9UOiFAMpPcL+XeWd+dub+OcSxRVSPglxm7AtrsSeHssSMd+G0SeX7gD9wCBxoP4Ig6
+         iZWbXChXyuQ7XkMRWZ1PjTtw21lBhRM/Gch/8/0gp3rBp6Y14YTwaUiTaFGjC92K+Zpf
+         8RcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=tlhpps4VXXl1XVzMESkL1pdScpF5cYOHwICDcu9T2Cg=;
-        b=Ff9mtUIH3VhwJI2Aod3kUzZE3joe2PMVE2qP87TUaAY02UHMdDSTlD/3IXQff8NUiq
-         sF6nF+Ixo5RTplYIYH4yLr6rJTREHtJ+tq2YKIelYfxXN8xG6GcjGdPCRFOLXv3uluv0
-         ojwYV3BqpWH3c8Z1Xox3S2NqCBTGk1OZl37HJPIPnFCFdMA6KTQKXtcCaGz0KfQdPiBm
-         VQssDSgni/hTOR7HWpDfp1U1iib39iEGjZia/EEFVgiV03PnsyRYpJSUKkh40vkBUtu9
-         ot3aAGzuuZOwjotN8uY4XIQTm3dBE+fjof8y9cyE5xyuHy5IT9tjkG+o7D8fDk28vdx4
-         /vkg==
-X-Gm-Message-State: AOAM530V7DQ2+O68o134X5Ajb06Mv3YR7Mhu1iIUbOOU2LuEUCENaIGT
-        xOHvYFdh2TGDwaiJysKoiXc=
-X-Google-Smtp-Source: ABdhPJyClsOt6799GnriPA/SIYXhMhfjVIdMRJ7PfCG8Sb8dUNWxEjGgKwivKSTxh9slkfSyK+zniw==
-X-Received: by 2002:a62:5293:0:b029:18b:5c86:7ad0 with SMTP id g141-20020a6252930000b029018b5c867ad0mr17779615pfb.51.1606722932101;
-        Sun, 29 Nov 2020 23:55:32 -0800 (PST)
+        bh=xWg0wxDFGMcY8UIe2/5RebvM9I9LsP6Y+5sFTmocQPE=;
+        b=phodhi387/7F7oPtiQtw9kIVZvlaKmHep/qlaj/hh89a2SjkN++WCTQKN428Ene+6j
+         gXE50gUcF4c/zb7DD75auzsoDwLQSq64eXjNLSZbTCKOJtFca66QIRAVrlTN2wTfsnTE
+         y52lG5hqE2dDr0acrk78Qlfr0d9U1E2elavMDsYEnJu1fioZCyP3cFKq8cx3pYebrpPQ
+         1SESl0s82NnjUEhzyp2DN2xSOC3Mgut7woUjbzHh0Ep/EwjVJA9wqoE2a3McS1qGxvIb
+         qviyAuj3zE+NrmT1kS0YYdwlSiFUO1/76gQZzTPA/LfNADxNOpSJSVvaPkhhMrAwlY+e
+         l2YA==
+X-Gm-Message-State: AOAM531OLYgvZo54WX62wYhp+ZzrNpYPZaq0wsMjKXig7dlU0uTBhYUP
+        Mt0iBq6Jk9Oqwis3p3DUoQE=
+X-Google-Smtp-Source: ABdhPJxucWHA3g3YjklN0cjfBbgSXYNxuecjN6DGXW99d+SNb2gUUNyLNZlI+7If2Y3FlW55339k9Q==
+X-Received: by 2002:a17:902:bd05:b029:d6:f041:f5b with SMTP id p5-20020a170902bd05b02900d6f0410f5bmr17920428pls.9.1606723271359;
+        Mon, 30 Nov 2020 00:01:11 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id oc13sm20427278pjb.5.2020.11.29.23.55.30
+        by smtp.gmail.com with ESMTPSA id e18sm15093256pgr.71.2020.11.30.00.01.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Nov 2020 23:55:31 -0800 (PST)
-Date:   Sun, 29 Nov 2020 23:55:28 -0800
+        Mon, 30 Nov 2020 00:01:10 -0800 (PST)
+Date:   Mon, 30 Nov 2020 00:01:08 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Roy Im <roy.im.opensource@diasemi.com>
-Cc:     Uwe Kleine-Koenig <u.kleine-koenig@pengutronix.de>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Brian Masney <masneyb@onstation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Pascal PAILLET-LME <p.paillet@st.com>,
-        Rob Herring <robh@kernel.org>,
-        Samuel Ortiz <sameo@linux.intel.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Support Opensource <support.opensource@diasemi.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org
-Subject: Re: [RESEND PATCH V20 3/3] Input: new da7280 haptic driver
-Message-ID: <20201130075528.GM2034289@dtor-ws>
-References: <cover.1606320459.git.Roy.Im@diasemi.com>
- <1e293e8c4830b09255af3b7e1721b73afaefdfa3.1606320459.git.Roy.Im@diasemi.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Linux Input <linux-input@vger.kernel.org>,
+        Andre <andre.muller@web.de>, Nick Dyer <nick.dyer@itdev.co.uk>,
+        Jiada Wang <jiada_wang@mentor.com>,
+        stable <stable@vger.kernel.org>
+Subject: Re: [PATCH] Input: atmel_mxt_ts - Fix lost interrupts
+Message-ID: <20201130080108.GN2034289@dtor-ws>
+References: <20201128123720.929948-1-linus.walleij@linaro.org>
+ <20201129025328.GH2034289@dtor-ws>
+ <CACRpkdY8r5_EYAtWLL2vZQ8ULf6rG-VfgDe=7oveJQwiRXxTNg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1e293e8c4830b09255af3b7e1721b73afaefdfa3.1606320459.git.Roy.Im@diasemi.com>
+In-Reply-To: <CACRpkdY8r5_EYAtWLL2vZQ8ULf6rG-VfgDe=7oveJQwiRXxTNg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Roy,
+On Sun, Nov 29, 2020 at 10:13:06PM +0100, Linus Walleij wrote:
+> On Sun, Nov 29, 2020 at 3:53 AM Dmitry Torokhov
+> <dmitry.torokhov@gmail.com> wrote:
+> > On Sat, Nov 28, 2020 at 01:37:20PM +0100, Linus Walleij wrote:
+> 
+> > > @@ -1297,8 +1297,6 @@ static int mxt_check_retrigen(struct mxt_data *data)
+> > >       int val;is
+> > >       struct irq_data *irqd;
+> > >
+> > > -     data->use_retrigen_workaround = false;
+> > > -
+> >
+> > So this will result in data->use_retrigen_workaround staying "true" for
+> > level interrupts, which is not needed, as with those we will never lose
+> > an edge. So I think your patch can be reduced to simply setting
+> > data->use_retrigen_workaround to true in mxt_probe() and leaving
+> > mxt_check_retrigen() without any changes.
+> 
+> I did that first but then I realized that since there is an
+> errorpath in mxt_check_retrigen() and it starts by disabling
+> the workaround so in an error occurs in
+> __mxt_read_reg() it will be left disabled.
 
-On Thu, Nov 26, 2020 at 01:07:39AM +0900, Roy Im wrote:
-> Adds support for the Dialog DA7280 LRA/ERM Haptic Driver with
-> multiple mode and integrated waveform memory and wideband support.
-> It communicates via an I2C bus to the device.
+If __mxt_read_reg() fails then we will bail out and leave the device not
+operable, so leaving the workaround disabled does not change anything.
 
-I am looking at the driver and should finish review tomorrow. If you do
-not hear from me by Wednesday please poke me again - I want to get the
-driver into the upcoming merge window.
+> 
+> But I see that I fail to account for the level-trigging
+> case where it should disable the workaround and
+> bail out so I anyway need to revise the patch.
+> 
+> > However I wonder if it would not be better to simply call
+> > mxt_check_retrigen() before calling mxt_acquire_irq() in mxt_probe()
+> > instead of after.
+> 
+> I don't fully understand this driver, but it seems the information
+> whether retrigen is available only appears after talking to the
+> device a bit, checking firmware and "objects" available on the
+> device and then it may already be too late.
 
-Thanks!
+No, because the workaround is checked only in mxt_acquire_irq() which is
+called immediately preceding the check for RETRIGEN. And since
+__mxt_read_reg() is a wrapper around i2c_transfer() and does not need
+IRQs to be enalbed, we can move stuff around. Could you please check if
+the following works for you:
+
+diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
+index dde364dfb79d..2b3fff0822fe 100644
+--- a/drivers/input/touchscreen/atmel_mxt_ts.c
++++ b/drivers/input/touchscreen/atmel_mxt_ts.c
+@@ -2185,11 +2185,11 @@ static int mxt_initialize(struct mxt_data *data)
+ 		msleep(MXT_FW_RESET_TIME);
+ 	}
+ 
+-	error = mxt_acquire_irq(data);
++	error = mxt_check_retrigen(data);
+ 	if (error)
+ 		return error;
+ 
+-	error = mxt_check_retrigen(data);
++	error = mxt_acquire_irq(data);
+ 	if (error)
+ 		return error;
+ 
+
+> Someone who knows the device better might be able to
+> contribute here :/
+> 
+> > By the way, does your touchscreen work if you change interrupt trigger
+> > to level in DTS?
+> 
+> Nope. This happens:
+> [    1.824610] atmel_mxt_ts 3-004a: Failed to register interrupt
+> [    1.830583] atmel_mxt_ts: probe of 3-004a failed with error -22
+> 
+> And that in turn is because this connected to a Nomadik
+> GPIO controller which is one of those GPIO controllers
+> that only support edge triggered interrupts and does not
+> support level interrupts. So it needs to be edge triggered on
+> this platform.
+
+Ah, I see. Thank you.
 
 -- 
 Dmitry
