@@ -2,157 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5236D2C7B60
-	for <lists+linux-input@lfdr.de>; Sun, 29 Nov 2020 22:25:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D2322C7F5D
+	for <lists+linux-input@lfdr.de>; Mon, 30 Nov 2020 08:56:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726669AbgK2VZC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 29 Nov 2020 16:25:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59664 "EHLO
+        id S1727165AbgK3H4N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 Nov 2020 02:56:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725950AbgK2VZB (ORCPT
+        with ESMTP id S1726858AbgK3H4M (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 29 Nov 2020 16:25:01 -0500
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C154C0613D2
-        for <linux-input@vger.kernel.org>; Sun, 29 Nov 2020 13:24:21 -0800 (PST)
-Received: by mail-lf1-x144.google.com with SMTP id v14so16939594lfo.3
-        for <linux-input@vger.kernel.org>; Sun, 29 Nov 2020 13:24:21 -0800 (PST)
+        Mon, 30 Nov 2020 02:56:12 -0500
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A9E5C0613D4;
+        Sun, 29 Nov 2020 23:55:32 -0800 (PST)
+Received: by mail-pg1-x541.google.com with SMTP id l4so3527022pgu.5;
+        Sun, 29 Nov 2020 23:55:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Biku2J8BsPoMFtUmmujXmzyLzFVT5Xoun9zHadRzJbM=;
-        b=hOHQ1TZu8nseHNCD+nD1x4B6XCYfKa30cEkxmCBA5wJGA5Sfxi1OiuvFm5Zmg0ScT1
-         3fMSKUllzJtT9M78YcKRJcS6EeGxDQjizufmq7u4CsCwC2OGooS0DmTfwH/5miioegYz
-         0GD8LOeNyYT4XQcQER9Wg/iTX+kK4DAEMMmdhSrLfJaHW17Qbp8ysj6SVkeincIKvwFv
-         l5dzRUbjLriSIH5wLJ4uM4RmaZ265LkA9eohgoHp7n9YcgpLaf+6+biGeH1ggN16UlM7
-         kAdij97trvDWpsLj7xX/zx7aMJxoQKWVeFW8oeZU3fnHNPItFLIHylPSS8+oq95JAqoh
-         vOPg==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=tlhpps4VXXl1XVzMESkL1pdScpF5cYOHwICDcu9T2Cg=;
+        b=sA9vLnPEqzbO/Va1VEUMLXFZk5ZL3hBoR/BOLWSzDzRi1uR7Pr5g4lg+XTjp1cb60J
+         /o1MB01lyNYSwVlzoZiYPBY+Zme3w2wmRNZoe4J1N6Zt27VzX4VVeRfZyn+4019BSiw+
+         nTmray+pYly5NQI7ajGnpaxFNepGs5q0m48fZxSCteue8bglLQAoEFZ0z4Ex/JvUtpdz
+         2jziJXX/ZXok0uSn1+LjDlFEn99wpiZA841Af0CVJKD8tzPv4tiuhFHobXjxLuGVHmRS
+         SFO42UjtsOQa6kONtOmHsZ8WzOE/KXgV4ez3dDGH2bO6ByHyNXXrAY3jfSzcqoBhvHZW
+         e7pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Biku2J8BsPoMFtUmmujXmzyLzFVT5Xoun9zHadRzJbM=;
-        b=IxbXaVbi7VGdsBsdpozNMbbpXHJM10TKc1o7qKzNWJGbgMz6WpH4fZRW4GaxFiZQ49
-         1HeCVthndeKOY4QcfJX6rBh0Qsuqp+1XeubsCdmQMEzYaIzxS3wTFoUc/po90vR6sJG9
-         TQ2rb9FT4tXnt9p3XROwdOPtxZQvcag9LInQtZ9/OXLofhKqc+egGRoY42AqZA6CBkq7
-         0YAzLzRsOt3XFYUYTzx1kTFpdSCmUmdxGYvPOqdLsGtR7ltaN04oa0YWNyG5EU5XztnP
-         YN4u03doWQSSIRXfSGxRhqR2g6nv4SZ06K0VE4N4nT5XGjT6jT6X4ErKDmW9HwM9+XYR
-         5q1Q==
-X-Gm-Message-State: AOAM531zXD+4mX0F3rE2gc8VoRQfVe34A3hu8JGA2ebPzkXNzejNl8Xl
-        T2utIs3j4NejbP6ikF+hhh1pCg==
-X-Google-Smtp-Source: ABdhPJycz35NJ0RSwoiD9TfC/V4tORz+4FANT05txRcr2AIJkOOWQiWd0CZx9UQXrLYDk7qUAxHXQQ==
-X-Received: by 2002:a19:40d5:: with SMTP id n204mr7941318lfa.29.1606685059817;
-        Sun, 29 Nov 2020 13:24:19 -0800 (PST)
-Received: from localhost.bredbandsbolaget (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
-        by smtp.gmail.com with ESMTPSA id o6sm960685ljc.25.2020.11.29.13.24.18
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=tlhpps4VXXl1XVzMESkL1pdScpF5cYOHwICDcu9T2Cg=;
+        b=Ff9mtUIH3VhwJI2Aod3kUzZE3joe2PMVE2qP87TUaAY02UHMdDSTlD/3IXQff8NUiq
+         sF6nF+Ixo5RTplYIYH4yLr6rJTREHtJ+tq2YKIelYfxXN8xG6GcjGdPCRFOLXv3uluv0
+         ojwYV3BqpWH3c8Z1Xox3S2NqCBTGk1OZl37HJPIPnFCFdMA6KTQKXtcCaGz0KfQdPiBm
+         VQssDSgni/hTOR7HWpDfp1U1iib39iEGjZia/EEFVgiV03PnsyRYpJSUKkh40vkBUtu9
+         ot3aAGzuuZOwjotN8uY4XIQTm3dBE+fjof8y9cyE5xyuHy5IT9tjkG+o7D8fDk28vdx4
+         /vkg==
+X-Gm-Message-State: AOAM530V7DQ2+O68o134X5Ajb06Mv3YR7Mhu1iIUbOOU2LuEUCENaIGT
+        xOHvYFdh2TGDwaiJysKoiXc=
+X-Google-Smtp-Source: ABdhPJyClsOt6799GnriPA/SIYXhMhfjVIdMRJ7PfCG8Sb8dUNWxEjGgKwivKSTxh9slkfSyK+zniw==
+X-Received: by 2002:a62:5293:0:b029:18b:5c86:7ad0 with SMTP id g141-20020a6252930000b029018b5c867ad0mr17779615pfb.51.1606722932101;
+        Sun, 29 Nov 2020 23:55:32 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id oc13sm20427278pjb.5.2020.11.29.23.55.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Nov 2020 13:24:19 -0800 (PST)
-From:   Linus Walleij <linus.walleij@linaro.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        =?UTF-8?q?Andre=20M=C3=BCller?= <andre.muller@web.de>,
-        Nick Dyer <nick.dyer@itdev.co.uk>,
-        Jiada Wang <jiada_wang@mentor.com>, stable@vger.kernel.org
-Subject: [PATCH v2] Input: atmel_mxt_ts - Fix lost interrupts
-Date:   Sun, 29 Nov 2020 22:24:15 +0100
-Message-Id: <20201129212415.1167540-1-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.26.2
+        Sun, 29 Nov 2020 23:55:31 -0800 (PST)
+Date:   Sun, 29 Nov 2020 23:55:28 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Roy Im <roy.im.opensource@diasemi.com>
+Cc:     Uwe Kleine-Koenig <u.kleine-koenig@pengutronix.de>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Brian Masney <masneyb@onstation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>, Luca Weiss <luca@z3ntu.xyz>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Pascal PAILLET-LME <p.paillet@st.com>,
+        Rob Herring <robh@kernel.org>,
+        Samuel Ortiz <sameo@linux.intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Support Opensource <support.opensource@diasemi.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+Subject: Re: [RESEND PATCH V20 3/3] Input: new da7280 haptic driver
+Message-ID: <20201130075528.GM2034289@dtor-ws>
+References: <cover.1606320459.git.Roy.Im@diasemi.com>
+ <1e293e8c4830b09255af3b7e1721b73afaefdfa3.1606320459.git.Roy.Im@diasemi.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1e293e8c4830b09255af3b7e1721b73afaefdfa3.1606320459.git.Roy.Im@diasemi.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-After commit 74d905d2d38a devices requiring the workaround
-for edge triggered interrupts stopped working.
+Hi Roy,
 
-This is because the "data" state container defaults to
-*not* using the workaround, but the workaround gets used
-*before* the check of whether it is needed or not. This
-semantic is not obvious from just looking on the patch,
-but related to the program flow.
+On Thu, Nov 26, 2020 at 01:07:39AM +0900, Roy Im wrote:
+> Adds support for the Dialog DA7280 LRA/ERM Haptic Driver with
+> multiple mode and integrated waveform memory and wideband support.
+> It communicates via an I2C bus to the device.
 
-The hardware needs the quirk to be used before even
-proceeding to check if the quirk is needed.
+I am looking at the driver and should finish review tomorrow. If you do
+not hear from me by Wednesday please poke me again - I want to get the
+driver into the upcoming merge window.
 
-This patch makes the quirk be used until we determine
-it is *not* needed. It is determined as not needed when
-we either have a level-triggered interrupt or the
-firmware claims that it has enabled retrigging.
+Thanks!
 
-Cc: Andre Müller <andre.muller@web.de>
-Cc: Nick Dyer <nick.dyer@itdev.co.uk>
-Cc: Jiada Wang <jiada_wang@mentor.com>
-Cc: stable@vger.kernel.org
-Reported-by: Andre Müller <andre.muller@web.de>
-Fixes: 74d905d2d38a ("Input: atmel_mxt_ts - only read messages in mxt_acquire_irq() when necessary")
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
-ChangeLog v1->v2:
-- Explicitly disable the retrig workaround also if the
-  IRQ descriptor says we have a level triggered interrupt.
-- Drop the second explicit assigning of "true" to the
-  use_retrigen_workaround bool, it is already enabled.
-- Augment debug text to say that we leave it enabled
-  rather than enable it.
----
- drivers/input/touchscreen/atmel_mxt_ts.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index e34984388791..c822db8dbd02 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -1297,14 +1297,18 @@ static int mxt_check_retrigen(struct mxt_data *data)
- 	int val;
- 	struct irq_data *irqd;
- 
--	data->use_retrigen_workaround = false;
--
- 	irqd = irq_get_irq_data(data->irq);
- 	if (!irqd)
- 		return -EINVAL;
- 
--	if (irqd_is_level_type(irqd))
-+	if (irqd_is_level_type(irqd)) {
-+		/*
-+		 * We don't need the workaround if we have level trigged
-+		 * interrupts. This will just work fine.
-+		 */
-+		data->use_retrigen_workaround = false;
- 		return 0;
-+	}
- 
- 	if (data->T18_address) {
- 		error = __mxt_read_reg(client,
-@@ -1313,12 +1317,13 @@ static int mxt_check_retrigen(struct mxt_data *data)
- 		if (error)
- 			return error;
- 
--		if (val & MXT_COMMS_RETRIGEN)
-+		if (val & MXT_COMMS_RETRIGEN) {
-+			data->use_retrigen_workaround = false;
- 			return 0;
-+		}
- 	}
- 
--	dev_warn(&client->dev, "Enabling RETRIGEN workaround\n");
--	data->use_retrigen_workaround = true;
-+	dev_warn(&client->dev, "Leaving RETRIGEN workaround enabled\n");
- 	return 0;
- }
- 
-@@ -3117,6 +3122,7 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 	data = devm_kzalloc(&client->dev, sizeof(struct mxt_data), GFP_KERNEL);
- 	if (!data)
- 		return -ENOMEM;
-+	data->use_retrigen_workaround = true;
- 
- 	snprintf(data->phys, sizeof(data->phys), "i2c-%u-%04x/input0",
- 		 client->adapter->nr, client->addr);
 -- 
-2.26.2
-
+Dmitry
