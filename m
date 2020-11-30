@@ -2,98 +2,176 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 24C2D2C8B5E
-	for <lists+linux-input@lfdr.de>; Mon, 30 Nov 2020 18:40:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B88D02C8E2C
+	for <lists+linux-input@lfdr.de>; Mon, 30 Nov 2020 20:37:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727906AbgK3Ri3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 Nov 2020 12:38:29 -0500
-Received: from mail-io1-f67.google.com ([209.85.166.67]:39596 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726897AbgK3Ri2 (ORCPT
+        id S1726915AbgK3Tgy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 Nov 2020 14:36:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39238 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725987AbgK3Tgx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 Nov 2020 12:38:28 -0500
-Received: by mail-io1-f67.google.com with SMTP id j23so12624409iog.6;
-        Mon, 30 Nov 2020 09:38:13 -0800 (PST)
+        Mon, 30 Nov 2020 14:36:53 -0500
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F3E8C0613CF;
+        Mon, 30 Nov 2020 11:36:13 -0800 (PST)
+Received: by mail-pl1-x644.google.com with SMTP id v3so2453993plz.13;
+        Mon, 30 Nov 2020 11:36:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=INP1iaS/1J1Q1l8Ml0J+/1mxc8p9c2PVr/okUi7s1k4=;
+        b=nn3YqL3P7dvRSyAvN8YIKBJ30N+XEW1WVfmzOLDmQzXix6/0a5WEEH/Y+9mx0ef1Fv
+         9Iz4For0kTVvwJ7+2RDosA8CJF9inq1qQ6wggwrscr+lDIw6/tQcPF8imuozRnyDMx7l
+         Knp1Qx0QF/CGxJvgf/ny/orGs8frDOcWYXJhDT0xL/WOniyOmLryNnZ3WyEk981nEj0R
+         EasxdzwL/DI/k5xFI7QS5Ppf9qL6/ImmY2GeMYMfnD03oQGD1874yLLMBX3C+6XDrVr7
+         IfpEtNXBytFn9L3wZF89NJ69Xq5JKMc74zGQJoyN32kZrMslpJWu0XSG3H+MuTZUSSmY
+         PbwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=EbxO5evUKiSM0aVpZ7264LVzqvIYud6EcfSFwKJe+00=;
-        b=S5F/COts7B7BEtmUHgwCJxIt4a+c3mtXDVfKybVnRE9Xl+YQP5Fm3f5+nZB38/p0AK
-         QFOVkUPAU0A9ZwTnKDUS7JC8RjtyC/c86mIQngS3E1xpQ5k0Pp2Low9A8MQ+CKPgb6mm
-         euEE9tq34oMu9dFPBvxaQ35siXN+ikS+J8h6N2Ft1C+3rHmz0CQcn0itbcHRuTQuwx1X
-         yRr9tG1Di6VqarfHApYbgkYvaPq1NycRqLOO0wbA+5GsBV04snjnpnGgm3NXokZYxl39
-         UBCcZk6PeJtgo0QsAkM+lkDwvqUqaHjmMvxfH5jp6u26lOL+bvyo1vAN1lG5tH8qNvn8
-         PLow==
-X-Gm-Message-State: AOAM533jQ091vd9LX5ntXVC7o44WM69S/i3r0dGsocjOhhPneeF6oizS
-        8S5qt5zSLTwKQO1N8xcgAg==
-X-Google-Smtp-Source: ABdhPJxvNJsc+yBF/qkTCdkG0iTv3fy8ib/WXMjqHGbHr52Gef3w5tVyMdoRREpVDkBtg7GqqxpG4A==
-X-Received: by 2002:a5e:d80f:: with SMTP id l15mr17359037iok.21.1606757867424;
-        Mon, 30 Nov 2020 09:37:47 -0800 (PST)
-Received: from xps15 ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id r4sm4953747iop.24.2020.11.30.09.37.45
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=INP1iaS/1J1Q1l8Ml0J+/1mxc8p9c2PVr/okUi7s1k4=;
+        b=WY4Mu5L8SHlLfPrgHmOiKzPcXxsJOdptSL3bjt5Sm4P8Evz8GnwNrR6w9mHMJrlT6A
+         ZnSW92F9mvfEOM8SPIz7cDN/K64Mu+apr9Bcj5Oz3xNibwdVC8iQaKVHTNI0bj2VQFHr
+         LUhE6OWj2KqpxqxnlHNWpzFrqjc/3506E4AT4ynF+KP1V5ANDnmf/63ULvCZ/GqhOFLh
+         sUDgHJSI6FpAQzQkNMEpnq2ikOTo1dKXYzGJL4mEyHTXp/0j2cniXsCzIv5mA2lirhI8
+         CttXpNnQPBkTzCvQ60AAhvODIzR6qrnmXf8GOZgMfMRe/NwXXHjY/hLSKTe30oghIN25
+         o/kg==
+X-Gm-Message-State: AOAM530CmYP00ArKZppapg/tv2PGLMxKBlFzscRXrJBQVqmeuz3QDhKu
+        dl4lGbSAh0cOl4IR6/3ytKY=
+X-Google-Smtp-Source: ABdhPJw0hI5ul026KaadAYESp20h8i2V+Dod95LLxkjVUbzYkmG8lEdjPur767ECPiU4N/dTCJuBlQ==
+X-Received: by 2002:a17:902:a701:b029:da:f07:8475 with SMTP id w1-20020a170902a701b02900da0f078475mr20910410plq.46.1606764972878;
+        Mon, 30 Nov 2020 11:36:12 -0800 (PST)
+Received: from archlinux.forge.wetaworkshop.co.nz ([2407:7000:aa27:b302:92e6:aee5:1373:39cd])
+        by smtp.gmail.com with ESMTPSA id r7sm225155pjd.8.2020.11.30.11.36.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Nov 2020 09:37:46 -0800 (PST)
-Received: (nullmailer pid 2685741 invoked by uid 1000);
-        Mon, 30 Nov 2020 17:37:44 -0000
-Date:   Mon, 30 Nov 2020 10:37:44 -0700
-From:   Rob Herring <robh@kernel.org>
-To:     Lubomir Rintel <lkundrak@v3.sk>
-Cc:     devicetree@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: input: Add Dell Wyse 3020 Power
- Button binding
-Message-ID: <20201130173744.GA2684526@robh.at.kernel.org>
-References: <20201129142145.1526022-1-lkundrak@v3.sk>
- <20201129142145.1526022-2-lkundrak@v3.sk>
+        Mon, 30 Nov 2020 11:36:12 -0800 (PST)
+From:   sanjay.govind9@gmail.com
+To:     jikos@kernel.org
+Cc:     Sanjay Govind <sanjay.govind9@gmail.com>,
+        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        inux-kernel@vger.kernel.org, Pascal.Giard@etsmtl.ca
+Subject: [PATCH] HID: sony: Add support for tilt on guitar hero guitars
+Date:   Tue,  1 Dec 2020 08:35:58 +1300
+Message-Id: <20201130193558.88832-1-sanjay.govind9@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201129142145.1526022-2-lkundrak@v3.sk>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 29 Nov 2020 15:21:44 +0100, Lubomir Rintel wrote:
-> Add binding document for the Dell Wyse 3020 a.k.a. "Ariel" Power Button.
-> 
-> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> 
-> ---
-> Changes since v1:
-> - Collect Rob's R-b
-> 
->  .../bindings/input/ariel-pwrbutton.yaml       | 53 +++++++++++++++++++
->  1 file changed, 53 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/ariel-pwrbutton.yaml
-> 
+From: Sanjay Govind <sanjay.govind9@gmail.com>
 
+---
+ drivers/hid/Kconfig    |  1 +
+ drivers/hid/hid-ids.h  |  6 +++++-
+ drivers/hid/hid-sony.c | 18 +++++++++++++-----
+ 3 files changed, 19 insertions(+), 6 deletions(-)
 
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/ariel-pwrbutton.yaml: 'oneOf' conditional failed, one must be fixed:
-	'unevaluatedProperties' is a required property
-	'additionalProperties' is a required property
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/ariel-pwrbutton.yaml: ignoring, error in schema: 
-warning: no schema found in file: ./Documentation/devicetree/bindings/input/ariel-pwrbutton.yaml
-
-
-See https://patchwork.ozlabs.org/patch/1407831
-
-The base for the patch is generally the last rc1. Any dependencies
-should be noted.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 18b3ad50e1ca..02124c2c4b2e 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -908,6 +908,7 @@ config HID_SONY
+ 	  * Sony PS3 Blue-ray Disk Remote Control (Bluetooth)
+ 	  * Logitech Harmony adapter for Sony Playstation 3 (Bluetooth)
+ 	  * Guitar Hero Live PS3 and Wii U guitar dongles
++	  * Guitar Hero PS3 and PC guitar dongles
+ 
+ config SONY_FF
+ 	bool "Sony PS2/3/4 accessories force feedback support" 
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index eee6e27d5f1e..3479ae7dd651 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -40,6 +40,9 @@
+ #define USB_VENDOR_ID_ACTIONSTAR	0x2101
+ #define USB_DEVICE_ID_ACTIONSTAR_1011	0x1011
+ 
++#define USB_VENDOR_ID_ACTIVISION	0x1430
++#define USB_DEVICE_ID_ACTIVISION_GUITAR_DONGLE	0x474c
++
+ #define USB_VENDOR_ID_ADS_TECH		0x06e1
+ #define USB_DEVICE_ID_ADS_TECH_RADIO_SI470X	0xa155
+ 
+@@ -1074,8 +1077,9 @@
+ #define USB_DEVICE_ID_SONY_BUZZ_CONTROLLER		0x0002
+ #define USB_DEVICE_ID_SONY_WIRELESS_BUZZ_CONTROLLER	0x1000
+ 
+-#define USB_VENDOR_ID_SONY_GHLIVE			0x12ba
++#define USB_VENDOR_ID_SONY_RHYTHM	0x12ba
+ #define USB_DEVICE_ID_SONY_PS3WIIU_GHLIVE_DONGLE	0x074b
++#define USB_DEVICE_ID_SONY_PS3_GUITAR_DONGLE	0x0100
+ 
+ #define USB_VENDOR_ID_SINO_LITE			0x1345
+ #define USB_DEVICE_ID_SINO_LITE_CONTROLLER	0x3008
+diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
+index 326c4bdbd0ea..94dca5a5d361 100644
+--- a/drivers/hid/hid-sony.c
++++ b/drivers/hid/hid-sony.c
+@@ -12,6 +12,7 @@
+  *  Copyright (c) 2014-2016 Frank Praznik <frank.praznik@gmail.com>
+  *  Copyright (c) 2018 Todd Kelner
+  *  Copyright (c) 2020 Pascal Giard <pascal.giard@etsmtl.ca>
++ *  Copyright (c) 2020 Sanjay Govind <sanjay.govind9@gmail.com>
+  */
+ 
+ /*
+@@ -59,7 +60,8 @@
+ #define NSG_MR5U_REMOTE_BT        BIT(14)
+ #define NSG_MR7U_REMOTE_BT        BIT(15)
+ #define SHANWAN_GAMEPAD           BIT(16)
+-#define GHL_GUITAR_PS3WIIU        BIT(17)
++#define GH_GUITAR_CONTROLLER      BIT(17)
++#define GHL_GUITAR_PS3WIIU        BIT(18)
+ 
+ #define SIXAXIS_CONTROLLER (SIXAXIS_CONTROLLER_USB | SIXAXIS_CONTROLLER_BT)
+ #define MOTION_CONTROLLER (MOTION_CONTROLLER_USB | MOTION_CONTROLLER_BT)
+@@ -84,7 +86,7 @@
+ #define NSG_MRXU_MAX_Y 1868
+ 
+ #define GHL_GUITAR_POKE_INTERVAL 10 /* In seconds */
+-#define GHL_GUITAR_TILT_USAGE 44
++#define GUITAR_TILT_USAGE 44
+ 
+ /* Magic value and data taken from GHLtarUtility:
+  * https://github.com/ghlre/GHLtarUtility/blob/master/PS3Guitar.cs
+@@ -692,7 +694,7 @@ static int guitar_mapping(struct hid_device *hdev, struct hid_input *hi,
+ 	if ((usage->hid & HID_USAGE_PAGE) == HID_UP_MSVENDOR) {
+ 		unsigned int abs = usage->hid & HID_USAGE;
+ 
+-		if (abs == GHL_GUITAR_TILT_USAGE) {
++		if (abs == GUITAR_TILT_USAGE) {
+ 			hid_map_usage_clear(hi, usage, bit, max, EV_ABS, ABS_RY);
+ 			return 1;
+ 		}
+@@ -1481,7 +1483,7 @@ static int sony_mapping(struct hid_device *hdev, struct hid_input *hi,
+ 	if (sc->quirks & DUALSHOCK4_CONTROLLER)
+ 		return ds4_mapping(hdev, hi, field, usage, bit, max);
+ 
+-	if (sc->quirks & GHL_GUITAR_PS3WIIU)
++	if (sc->quirks & GH_GUITAR_CONTROLLER)
+ 		return guitar_mapping(hdev, hi, field, usage, bit, max);
+ 
+ 	/* Let hid-core decide for the others */
+@@ -3146,7 +3148,13 @@ static const struct hid_device_id sony_devices[] = {
+ 		.driver_data = NSG_MR7U_REMOTE_BT },
+ 	/* Guitar Hero Live PS3 and Wii U guitar dongles */
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY_GHLIVE, USB_DEVICE_ID_SONY_PS3WIIU_GHLIVE_DONGLE),
+-		.driver_data = GHL_GUITAR_PS3WIIU},
++		.driver_data = GHL_GUITAR_PS3WIIU | GH_GUITAR_CONTROLLER },
++	/* Guitar Hero PC Guitar Dongle */
++	{ HID_USB_DEVICE(USB_VENDOR_ID_ACTIVISION, USB_DEVICE_ID_ACTIVISION_GUITAR),
++		.driver_data = GH_GUITAR_CONTROLLER },
++	/* Guitar Hero PS3 World Tour Guitar Dongle */
++	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY_RHYTHM, USB_DEVICE_ID_SONY_PS3_GUITAR_DONGLE),
++		.driver_data = GH_GUITAR_CONTROLLER },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(hid, sony_devices);
+-- 
+2.29.2
 
