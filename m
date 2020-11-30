@@ -2,60 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B88D02C8E2C
-	for <lists+linux-input@lfdr.de>; Mon, 30 Nov 2020 20:37:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C41052C8E4E
+	for <lists+linux-input@lfdr.de>; Mon, 30 Nov 2020 20:44:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726915AbgK3Tgy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 Nov 2020 14:36:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39238 "EHLO
+        id S1727473AbgK3Toz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 Nov 2020 14:44:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725987AbgK3Tgx (ORCPT
+        with ESMTP id S1726364AbgK3Toy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 Nov 2020 14:36:53 -0500
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F3E8C0613CF;
-        Mon, 30 Nov 2020 11:36:13 -0800 (PST)
-Received: by mail-pl1-x644.google.com with SMTP id v3so2453993plz.13;
-        Mon, 30 Nov 2020 11:36:13 -0800 (PST)
+        Mon, 30 Nov 2020 14:44:54 -0500
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79EE7C0613CF;
+        Mon, 30 Nov 2020 11:44:07 -0800 (PST)
+Received: by mail-pg1-x544.google.com with SMTP id k11so10724109pgq.2;
+        Mon, 30 Nov 2020 11:44:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=INP1iaS/1J1Q1l8Ml0J+/1mxc8p9c2PVr/okUi7s1k4=;
-        b=nn3YqL3P7dvRSyAvN8YIKBJ30N+XEW1WVfmzOLDmQzXix6/0a5WEEH/Y+9mx0ef1Fv
-         9Iz4For0kTVvwJ7+2RDosA8CJF9inq1qQ6wggwrscr+lDIw6/tQcPF8imuozRnyDMx7l
-         Knp1Qx0QF/CGxJvgf/ny/orGs8frDOcWYXJhDT0xL/WOniyOmLryNnZ3WyEk981nEj0R
-         EasxdzwL/DI/k5xFI7QS5Ppf9qL6/ImmY2GeMYMfnD03oQGD1874yLLMBX3C+6XDrVr7
-         IfpEtNXBytFn9L3wZF89NJ69Xq5JKMc74zGQJoyN32kZrMslpJWu0XSG3H+MuTZUSSmY
-         PbwA==
+        bh=aYXZYz7t8iKyLXm09G0wi2yo2X7rJ2ES4ZGNlSW38fQ=;
+        b=GoxIhQfMJRIk0oY4XBWN6+7MQWtlUQXogv4yqnRE82NdIFV2JwCP4TZTkKpIgWOpBj
+         ks6Heak+Yzhq0bSADfoMvFriJ8j/PLctPH+xq3nG2RsC8+D7aMc81DNq3WWXY5CDPCUR
+         WlMBC5XAkW19YJu2Q2+qPYCYCG1Zixr/ZigjDgYoGmhxLG0VxtbSMd+0Rj1PsHqQGWAm
+         FuulMoggcUBr14Ny6y148XFbc29qS0pj4lDwpSx2DTKA/2JMKX0GGFPBfxAasi7S3AgK
+         SX/CO+rKIQpeG0JOw3rhJjNuQvfxYWFvfagwJiizSkz6zhtVJY87iWGPK2kLN/ziBOtd
+         XCBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=INP1iaS/1J1Q1l8Ml0J+/1mxc8p9c2PVr/okUi7s1k4=;
-        b=WY4Mu5L8SHlLfPrgHmOiKzPcXxsJOdptSL3bjt5Sm4P8Evz8GnwNrR6w9mHMJrlT6A
-         ZnSW92F9mvfEOM8SPIz7cDN/K64Mu+apr9Bcj5Oz3xNibwdVC8iQaKVHTNI0bj2VQFHr
-         LUhE6OWj2KqpxqxnlHNWpzFrqjc/3506E4AT4ynF+KP1V5ANDnmf/63ULvCZ/GqhOFLh
-         sUDgHJSI6FpAQzQkNMEpnq2ikOTo1dKXYzGJL4mEyHTXp/0j2cniXsCzIv5mA2lirhI8
-         CttXpNnQPBkTzCvQ60AAhvODIzR6qrnmXf8GOZgMfMRe/NwXXHjY/hLSKTe30oghIN25
-         o/kg==
-X-Gm-Message-State: AOAM530CmYP00ArKZppapg/tv2PGLMxKBlFzscRXrJBQVqmeuz3QDhKu
-        dl4lGbSAh0cOl4IR6/3ytKY=
-X-Google-Smtp-Source: ABdhPJw0hI5ul026KaadAYESp20h8i2V+Dod95LLxkjVUbzYkmG8lEdjPur767ECPiU4N/dTCJuBlQ==
-X-Received: by 2002:a17:902:a701:b029:da:f07:8475 with SMTP id w1-20020a170902a701b02900da0f078475mr20910410plq.46.1606764972878;
-        Mon, 30 Nov 2020 11:36:12 -0800 (PST)
+        bh=aYXZYz7t8iKyLXm09G0wi2yo2X7rJ2ES4ZGNlSW38fQ=;
+        b=qYlcUlhYfVA/5NEUydqxak8+SjA6QUNCy17T5R7/2kd0sy4/awOdxOmXsfaCJT+yra
+         BS6VbLJPZmxi2twCemMEwKBjgwoTgwrMZd2RI/3tdXVILe1miudzY0VJ7qRmjEefssyx
+         pNM+0b9z1E3qGVKxdPi4eJSJo4RYxlRzP3BahczunRzulx53z/v8LA4MWdIrq/j6cRmC
+         DduD4hB3thYpbt8ivH1lKAcyoG72zfI4ZJdEs/xvlJ8nIp3mx03eN7Bi5QyZHfNzoL2Y
+         qMLI8trB2MfbYbTRt6nsE3yv6Opa2WsSM1StEGYHG7g/cvB1+a5gTc69TIFaxJbuurxz
+         46bA==
+X-Gm-Message-State: AOAM533bZhfy0O/ZkTdfi4TGtgyHcxR7NofEwr1nMY+GS7fMtAfVVcpz
+        2Wy+gemDjbwJ9rwjASKLmcs=
+X-Google-Smtp-Source: ABdhPJzjAptZ9d9FazY901gm/gg5JD4GwqG0LgMjDZEEudgRoUQIudAATHudvkwQj6YFpcwXGS3sKg==
+X-Received: by 2002:a63:545:: with SMTP id 66mr6329239pgf.220.1606765447060;
+        Mon, 30 Nov 2020 11:44:07 -0800 (PST)
 Received: from archlinux.forge.wetaworkshop.co.nz ([2407:7000:aa27:b302:92e6:aee5:1373:39cd])
-        by smtp.gmail.com with ESMTPSA id r7sm225155pjd.8.2020.11.30.11.36.09
+        by smtp.gmail.com with ESMTPSA id m14sm17186913pgu.0.2020.11.30.11.44.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Nov 2020 11:36:12 -0800 (PST)
+        Mon, 30 Nov 2020 11:44:06 -0800 (PST)
 From:   sanjay.govind9@gmail.com
 To:     jikos@kernel.org
 Cc:     Sanjay Govind <sanjay.govind9@gmail.com>,
         benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        inux-kernel@vger.kernel.org, Pascal.Giard@etsmtl.ca
+        linux-kernel@vger.kernel.org, Pascal.Giard@etsmtl.ca
 Subject: [PATCH] HID: sony: Add support for tilt on guitar hero guitars
-Date:   Tue,  1 Dec 2020 08:35:58 +1300
-Message-Id: <20201130193558.88832-1-sanjay.govind9@gmail.com>
+Date:   Tue,  1 Dec 2020 08:43:15 +1300
+Message-Id: <20201130194314.89509-1-sanjay.govind9@gmail.com>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -65,6 +65,12 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Sanjay Govind <sanjay.govind9@gmail.com>
 
+This commit adds support for tilt on Standard Guitar Hero PS3 Guitars, and GH3 PC Guitars, mapping it to ABS_RY.
+
+Note that GH3 PC Guitars are identical, only they use different VID and PIDs.
+Also note that vendor id 0x12ba is used by a variety of different rhythm controllers on the ps3.
+
+Signed-off-by: Sanjay Govind <sanjay.govind9@gmail.com>
 ---
  drivers/hid/Kconfig    |  1 +
  drivers/hid/hid-ids.h  |  6 +++++-
