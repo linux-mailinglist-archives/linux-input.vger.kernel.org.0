@@ -2,300 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D50E2C88B5
-	for <lists+linux-input@lfdr.de>; Mon, 30 Nov 2020 16:57:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 24C2D2C8B5E
+	for <lists+linux-input@lfdr.de>; Mon, 30 Nov 2020 18:40:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727758AbgK3P4d (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 30 Nov 2020 10:56:33 -0500
-Received: from mail.v3.sk ([167.172.186.51]:47294 "EHLO shell.v3.sk"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727767AbgK3P4a (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 30 Nov 2020 10:56:30 -0500
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id BC50FE06E1;
-        Mon, 30 Nov 2020 15:52:52 +0000 (UTC)
-Received: from shell.v3.sk ([127.0.0.1])
-        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id KeiXWeDLxPcx; Mon, 30 Nov 2020 15:52:52 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id 1020EE06C5;
-        Mon, 30 Nov 2020 15:52:52 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at zimbra.v3.sk
-Received: from shell.v3.sk ([127.0.0.1])
-        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id aEQF7agQduk1; Mon, 30 Nov 2020 15:52:51 +0000 (UTC)
-Received: from localhost (unknown [109.183.109.54])
-        by zimbra.v3.sk (Postfix) with ESMTPSA id C246AE0701;
-        Mon, 30 Nov 2020 15:52:51 +0000 (UTC)
-From:   Lubomir Rintel <lkundrak@v3.sk>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Pavel Machek <pavel@ucw.cz>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lubomir Rintel <lkundrak@v3.sk>
-Subject: [PATCH v3 2/2] Input: add driver for power button on Dell Wyse 3020
-Date:   Mon, 30 Nov 2020 16:55:37 +0100
-Message-Id: <20201130155537.1665091-3-lkundrak@v3.sk>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201130155537.1665091-1-lkundrak@v3.sk>
-References: <20201130155537.1665091-1-lkundrak@v3.sk>
+        id S1727906AbgK3Ri3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 30 Nov 2020 12:38:29 -0500
+Received: from mail-io1-f67.google.com ([209.85.166.67]:39596 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726897AbgK3Ri2 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 30 Nov 2020 12:38:28 -0500
+Received: by mail-io1-f67.google.com with SMTP id j23so12624409iog.6;
+        Mon, 30 Nov 2020 09:38:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=EbxO5evUKiSM0aVpZ7264LVzqvIYud6EcfSFwKJe+00=;
+        b=S5F/COts7B7BEtmUHgwCJxIt4a+c3mtXDVfKybVnRE9Xl+YQP5Fm3f5+nZB38/p0AK
+         QFOVkUPAU0A9ZwTnKDUS7JC8RjtyC/c86mIQngS3E1xpQ5k0Pp2Low9A8MQ+CKPgb6mm
+         euEE9tq34oMu9dFPBvxaQ35siXN+ikS+J8h6N2Ft1C+3rHmz0CQcn0itbcHRuTQuwx1X
+         yRr9tG1Di6VqarfHApYbgkYvaPq1NycRqLOO0wbA+5GsBV04snjnpnGgm3NXokZYxl39
+         UBCcZk6PeJtgo0QsAkM+lkDwvqUqaHjmMvxfH5jp6u26lOL+bvyo1vAN1lG5tH8qNvn8
+         PLow==
+X-Gm-Message-State: AOAM533jQ091vd9LX5ntXVC7o44WM69S/i3r0dGsocjOhhPneeF6oizS
+        8S5qt5zSLTwKQO1N8xcgAg==
+X-Google-Smtp-Source: ABdhPJxvNJsc+yBF/qkTCdkG0iTv3fy8ib/WXMjqHGbHr52Gef3w5tVyMdoRREpVDkBtg7GqqxpG4A==
+X-Received: by 2002:a5e:d80f:: with SMTP id l15mr17359037iok.21.1606757867424;
+        Mon, 30 Nov 2020 09:37:47 -0800 (PST)
+Received: from xps15 ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id r4sm4953747iop.24.2020.11.30.09.37.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Nov 2020 09:37:46 -0800 (PST)
+Received: (nullmailer pid 2685741 invoked by uid 1000);
+        Mon, 30 Nov 2020 17:37:44 -0000
+Date:   Mon, 30 Nov 2020 10:37:44 -0700
+From:   Rob Herring <robh@kernel.org>
+To:     Lubomir Rintel <lkundrak@v3.sk>
+Cc:     devicetree@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: input: Add Dell Wyse 3020 Power
+ Button binding
+Message-ID: <20201130173744.GA2684526@robh.at.kernel.org>
+References: <20201129142145.1526022-1-lkundrak@v3.sk>
+ <20201129142145.1526022-2-lkundrak@v3.sk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201129142145.1526022-2-lkundrak@v3.sk>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This adds support for the power button attached to the Embedded Controlle=
-r
-on a Dell Wyse 3020 "Ariel" board.
+On Sun, 29 Nov 2020 15:21:44 +0100, Lubomir Rintel wrote:
+> Add binding document for the Dell Wyse 3020 a.k.a. "Ariel" Power Button.
+> 
+> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> 
+> ---
+> Changes since v1:
+> - Collect Rob's R-b
+> 
+>  .../bindings/input/ariel-pwrbutton.yaml       | 53 +++++++++++++++++++
+>  1 file changed, 53 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/ariel-pwrbutton.yaml
+> 
 
-The Embedded Controller's SPI interface is actually capable sending and
-receiving the PS/2 keyboard and mouse protocol data, which looks like
-a good fit for a serio driver. Howerver, I don't know of any machines whe=
-re
-this is actually used.
 
-My board only has a single power button and no way to connect an actual
-keyboard or a mouse. Using the atkbd driver with serio would be an overki=
-ll
-and would be inconvenient for the userspace. Therefore this driver
-registers an input device that is only capable of reporting the power
-button presses and releases.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+yamllint warnings/errors:
 
----
-Changes since v2:
-(All by the suggestions of Dmitry Torokhov. Thank you Dmitry!)
-- Add more includes
-- Make ariel_pwrbutton.msg_counter not a bitfield
-- Include an error code in error message when ec_input_read() fails in
-  the interrupt handler.
-- Return from the interrupt handler from a single point.
-- Remove a forgotten debug statement.
-- s/ret/error/
-- Return -EINVAL instead of -ENXIO when the IRQ line is not specified.
-- Don't hardcode rising edge trigger, rely on DT instead
-- Remove a banner print at the end of probe().
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/ariel-pwrbutton.yaml: 'oneOf' conditional failed, one must be fixed:
+	'unevaluatedProperties' is a required property
+	'additionalProperties' is a required property
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/ariel-pwrbutton.yaml: ignoring, error in schema: 
+warning: no schema found in file: ./Documentation/devicetree/bindings/input/ariel-pwrbutton.yaml
 
-Changes since v1:
-- Do away bitfields in order to be endian independent
 
- drivers/input/misc/Kconfig           |  11 ++
- drivers/input/misc/Makefile          |   1 +
- drivers/input/misc/ariel-pwrbutton.c | 169 +++++++++++++++++++++++++++
- 3 files changed, 181 insertions(+)
- create mode 100644 drivers/input/misc/ariel-pwrbutton.c
+See https://patchwork.ozlabs.org/patch/1407831
 
-diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
-index 362e8a01980cd..e7bb572e15182 100644
---- a/drivers/input/misc/Kconfig
-+++ b/drivers/input/misc/Kconfig
-@@ -73,6 +73,17 @@ config INPUT_AD714X_SPI
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called ad714x-spi.
-=20
-+config INPUT_ARIEL_PWRBUTTON
-+	tristate "Dell Wyse 3020 Power Button Driver"
-+	depends on SPI
-+	depends on MACH_MMP3_DT || COMPILE_TEST
-+	help
-+	  Say Y to enable support for reporting power button status on
-+	  on Dell Wyse 3020 ("Ariel") thin client.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called ariel-pwrbutton.
-+
- config INPUT_ARIZONA_HAPTICS
- 	tristate "Arizona haptics support"
- 	depends on MFD_ARIZONA && SND_SOC
-diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
-index a48e5f2d859d4..062cea9f181c9 100644
---- a/drivers/input/misc/Makefile
-+++ b/drivers/input/misc/Makefile
-@@ -15,6 +15,7 @@ obj-$(CONFIG_INPUT_ADXL34X)		+=3D adxl34x.o
- obj-$(CONFIG_INPUT_ADXL34X_I2C)		+=3D adxl34x-i2c.o
- obj-$(CONFIG_INPUT_ADXL34X_SPI)		+=3D adxl34x-spi.o
- obj-$(CONFIG_INPUT_APANEL)		+=3D apanel.o
-+obj-$(CONFIG_INPUT_ARIEL_PWRBUTTON)	+=3D ariel-pwrbutton.o
- obj-$(CONFIG_INPUT_ARIZONA_HAPTICS)	+=3D arizona-haptics.o
- obj-$(CONFIG_INPUT_ATI_REMOTE2)		+=3D ati_remote2.o
- obj-$(CONFIG_INPUT_ATLAS_BTNS)		+=3D atlas_btns.o
-diff --git a/drivers/input/misc/ariel-pwrbutton.c b/drivers/input/misc/ar=
-iel-pwrbutton.c
-new file mode 100644
-index 0000000000000..eda86ab552b9c
---- /dev/null
-+++ b/drivers/input/misc/ariel-pwrbutton.c
-@@ -0,0 +1,169 @@
-+// SPDX-License-Identifier: BSD-2-Clause OR GPL-2.0-or-later
-+/*
-+ * Dell Wyse 3020 a.k.a. "Ariel" Power Button Driver
-+ *
-+ * Copyright (C) 2020 Lubomir Rintel
-+ */
-+
-+#include <linux/device.h>
-+#include <linux/gfp.h>
-+#include <linux/input.h>
-+#include <linux/interrupt.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/spi/spi.h>
-+
-+#define RESP_COUNTER(response)	(response.header & 0x3)
-+#define RESP_SIZE(response)	((response.header >> 2) & 0x3)
-+#define RESP_TYPE(response)	((response.header >> 4) & 0xf)
-+
-+struct ec_input_response {
-+	u8 reserved;
-+	u8 header;
-+	u8 data[3];
-+} __packed;
-+
-+struct ariel_pwrbutton {
-+	struct spi_device *client;
-+	struct input_dev *input;
-+	u8 msg_counter;
-+};
-+
-+static int ec_input_read(struct ariel_pwrbutton *priv,
-+			 struct ec_input_response *response)
-+{
-+	u8 read_request[] =3D { 0x00, 0x5a, 0xa5, 0x00, 0x00 };
-+	struct spi_device *spi =3D priv->client;
-+	struct spi_transfer t =3D {
-+		.tx_buf =3D read_request,
-+		.rx_buf =3D response,
-+		.len =3D sizeof(read_request),
-+	};
-+
-+	compiletime_assert(sizeof(read_request) =3D=3D sizeof(*response),
-+			   "SPI xfer request/response size mismatch");
-+
-+	return spi_sync_transfer(spi, &t, 1);
-+}
-+
-+static irqreturn_t ec_input_interrupt(int irq, void *dev_id)
-+{
-+	struct ariel_pwrbutton *priv =3D dev_id;
-+	struct spi_device *spi =3D priv->client;
-+	struct ec_input_response response;
-+	int error;
-+	int i;
-+
-+	error =3D ec_input_read(priv, &response);
-+	if (error < 0) {
-+		dev_err(&spi->dev, "EC read failed: %d\n", error);
-+		goto out;
-+	}
-+
-+	if (priv->msg_counter =3D=3D RESP_COUNTER(response)) {
-+		dev_warn(&spi->dev, "No new data to read?\n");
-+		goto out;
-+	}
-+
-+	priv->msg_counter =3D RESP_COUNTER(response);
-+
-+	if (RESP_TYPE(response) !=3D 0x3 && RESP_TYPE(response) !=3D 0xc) {
-+		dev_dbg(&spi->dev, "Ignoring message that's not kbd data\n");
-+		goto out;
-+	}
-+
-+	for (i =3D 0; i < RESP_SIZE(response); i++) {
-+		switch (response.data[i]) {
-+		case 0x74:
-+			input_report_key(priv->input, KEY_POWER, 1);
-+			input_sync(priv->input);
-+			break;
-+		case 0xf4:
-+			input_report_key(priv->input, KEY_POWER, 0);
-+			input_sync(priv->input);
-+			break;
-+		default:
-+			dev_dbg(&spi->dev, "Unknown scan code: %02x\n",
-+				response.data[i]);
-+		}
-+	}
-+
-+out:
-+	return IRQ_HANDLED;
-+}
-+
-+static int ariel_pwrbutton_probe(struct spi_device *spi)
-+{
-+	struct ec_input_response response;
-+	struct ariel_pwrbutton *priv;
-+	int error;
-+
-+	if (!spi->irq) {
-+		dev_err(&spi->dev, "Missing IRQ.\n");
-+		return -EINVAL;
-+	}
-+
-+	priv =3D devm_kzalloc(&spi->dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->client =3D spi;
-+	spi_set_drvdata(spi, priv);
-+
-+	priv->input =3D devm_input_allocate_device(&spi->dev);
-+	if (!priv->input)
-+		return -ENOMEM;
-+	priv->input->name =3D "Power Button";
-+	priv->input->dev.parent =3D &spi->dev;
-+	input_set_capability(priv->input, EV_KEY, KEY_POWER);
-+	error =3D input_register_device(priv->input);
-+	if (error) {
-+		dev_err(&spi->dev, "error registering input device: %d\n", error);
-+		return error;
-+	}
-+
-+	error =3D ec_input_read(priv, &response);
-+	if (error < 0) {
-+		dev_err(&spi->dev, "EC read failed: %d\n", error);
-+		return error;
-+	}
-+	priv->msg_counter =3D RESP_COUNTER(response);
-+
-+	error =3D devm_request_threaded_irq(&spi->dev, spi->irq, NULL,
-+					  ec_input_interrupt,
-+					  IRQF_ONESHOT,
-+					  "Ariel EC Input", priv);
-+
-+	if (error) {
-+		dev_err(&spi->dev, "Failed to request IRQ %d: %d\n",
-+			spi->irq, error);
-+		return error;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id ariel_pwrbutton_of_match[] =3D {
-+	{ .compatible =3D "dell,wyse-ariel-ec-input" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, ariel_pwrbutton_of_match);
-+
-+static const struct spi_device_id ariel_pwrbutton_id_table[] =3D {
-+	{ "wyse-ariel-ec-input", 0 },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(spi, ariel_pwrbutton_id_table);
-+
-+static struct spi_driver ariel_pwrbutton_driver =3D {
-+	.driver =3D {
-+		.name =3D "dell-wyse-ariel-ec-input",
-+		.of_match_table =3D ariel_pwrbutton_of_match,
-+	},
-+	.probe =3D ariel_pwrbutton_probe,
-+};
-+module_spi_driver(ariel_pwrbutton_driver);
-+
-+MODULE_AUTHOR("Lubomir Rintel <lkundrak@v3.sk>");
-+MODULE_DESCRIPTION("Dell Wyse 3020 Power Button Input Driver");
-+MODULE_LICENSE("Dual BSD/GPL");
---=20
-2.28.0
+The base for the patch is generally the last rc1. Any dependencies
+should be noted.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
