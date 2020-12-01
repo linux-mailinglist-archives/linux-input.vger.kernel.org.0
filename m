@@ -2,113 +2,133 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A72BC2C97C6
-	for <lists+linux-input@lfdr.de>; Tue,  1 Dec 2020 08:04:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0095E2C97D0
+	for <lists+linux-input@lfdr.de>; Tue,  1 Dec 2020 08:07:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727297AbgLAHBv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 1 Dec 2020 02:01:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60734 "EHLO
+        id S1727341AbgLAHG7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Dec 2020 02:06:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727173AbgLAHBv (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Dec 2020 02:01:51 -0500
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 841EDC0613CF;
-        Mon, 30 Nov 2020 23:01:11 -0800 (PST)
-Received: by mail-pj1-x1041.google.com with SMTP id b12so659889pjl.0;
-        Mon, 30 Nov 2020 23:01:11 -0800 (PST)
+        with ESMTP id S1725859AbgLAHG6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Dec 2020 02:06:58 -0500
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93289C0613CF;
+        Mon, 30 Nov 2020 23:06:18 -0800 (PST)
+Received: by mail-pf1-x444.google.com with SMTP id d77so54886pfd.2;
+        Mon, 30 Nov 2020 23:06:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=Ngvoe86XzVxBfY2DEjilLAjY3kEDlzG9OjcsBvIxHYc=;
-        b=QC+OVFANJzpHO5Nu2sN5nqotWc9pcesf/sigDDcm6aqOkldfQm4AfMiaC2JDVkI/Ip
-         8cY2gdBKRIKQGZdEx31oqyGP3/XKRiZ7mIZW4mjht2qjQPlDHOI28pJfkefwrX7IQ4d+
-         /Y7eJQD/egEq4oTf5gWW4EAUzFT6R0MkDRVeqhSurz7/grGLdwpfILvZqBhPwfYIwTzG
-         88/997TMGVZJteafhUXdbYd7dfeUtHuqs62tLTPrCcJx2n4z8meRgMElfKG89NSRV2kh
-         nd9r6wP7hyhNtv0JstzmfuGeQGMxx6Ev8ekD24DJlynRN5h9f2LJlRK8xmTDBpzytmmJ
-         5Kcw==
+        bh=q1SvftNK3zi/hMGb+K8LgTI3L4X8qWPNkvVjZfh/PF4=;
+        b=uCeo1u1iPqDk0zo/Oo9m+EeB+yHWn7q/buUrmGWP93MAZRNIpvIvoGVyNWzBAjiLE7
+         D+VuEPK7EVOPY/xFi+WvXq012S2zumlGYVI7DkPUW4USj4ICby8+9eyTGpXmUoidN5et
+         YODYRi6XCIkp7AO5Ksvfdr3sdOuCI0cbiD4bp1bSbqz8ei1JwoJbsb0IU6LWnj++zrt5
+         K0a6fkryMSUVBFUazj3R6HmD9OPZ1JY2pfGb7fU+WEDyFGzxEV8ygEyyb6jT596t4lPg
+         l0QCD9jtmZNjFl1i2FTIQhR0NwYwg5Idffdr01zKK71/Q4JmcBfHzwiBknd18gA9SR1R
+         nANA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Ngvoe86XzVxBfY2DEjilLAjY3kEDlzG9OjcsBvIxHYc=;
-        b=sl3WU3BBrp5r8Zn77nA7+gW7krwoDa50sEVExcSD8SbpqQSzuck6zQlF7V0uxEfoUO
-         Jop85vUN81Eat4wZwbjnCYqq092RyN6PnsYa4WOlMijCVUJok8UEvtPF0WoNPZQfbJAo
-         MRiCHHbrNp0oe4psTgcV2BFhv4PKlNY6pJfMIZNjJPX8Y9QHneaZk/a3+fwJUGWY2zBW
-         7KbZUZKp3CXduyRVicNeDJoVnuFA1nxq0KnOOBCzBN8gRFV4fa7xXp3ALiDPXVbftkhk
-         xTgX40VPJRYbGdzX9XZFpVvOy7dEZl1oT5yUQUgTFgNK+kv48pq9bu8wFf267zLh5wt4
-         fXyA==
-X-Gm-Message-State: AOAM532BFw79wseF7MHJHOolrcBc/hnMTZ3UOfRDe3jkpm2p3vqJOw71
-        3tmuo+TK7NuGCioXWJ6Cy7MuzmdywPI=
-X-Google-Smtp-Source: ABdhPJziOej+w4a6O49GSjDIbdGXWv7MO0iRD/vkiANDYmPRC/F/ol3EWWwMWIheOlYhLAo4N3Wh6w==
-X-Received: by 2002:a17:90a:7343:: with SMTP id j3mr1333032pjs.51.1606806070980;
-        Mon, 30 Nov 2020 23:01:10 -0800 (PST)
+        bh=q1SvftNK3zi/hMGb+K8LgTI3L4X8qWPNkvVjZfh/PF4=;
+        b=PlTo7uXrTg0QdxnjbIlVUTqBLQmvi0xixKXZhVESfsu3PwK4PJMSOrZN/Np+PPT3fw
+         6iWZsBLDrffEdxt9GA4mtzBnmHTPgZNP7KF2ydw7jzlcD8SMlN0lhMcxE5JCUuBtiGIT
+         q4gwKVgaCsiSCmRsTkOQqi/cZ29vomsaputcYVmCy/5mY5zzFa6gbFME37CnqvwWqXB7
+         XhV+ftRvubdQR/3f4SukJcKAmk9Ip2h8jhEhg5D9r6v6BNn9TGqoEAQsiQWsiVSvYx1B
+         CWHjcuYAHbh9tFV5Sx0o2Q7QProYNTvQaVA2GzUDHGDiCBIH7cjMfoLeTJw420YzEg11
+         iLCg==
+X-Gm-Message-State: AOAM530KdbsP/eyOle1x3FQ/GMFPjssgsAKQNgG0PsoRSZLwSo/7o9r6
+        pR6sZ7Bye5DHXt98lbyhaOy6Lm5dNSg=
+X-Google-Smtp-Source: ABdhPJw0Dix9k/qLw9my/qcvzt+npSJvsk9DPAOx6EXRKRFuanHXphbwCnm0/IJcz7SfkILoKn/qyg==
+X-Received: by 2002:a05:6a00:1647:b029:18b:e825:8a6c with SMTP id m7-20020a056a001647b029018be8258a6cmr1253646pfc.19.1606806378096;
+        Mon, 30 Nov 2020 23:06:18 -0800 (PST)
 Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id h5sm1437075pfk.126.2020.11.30.23.01.08
+        by smtp.gmail.com with ESMTPSA id e17sm1363579pfm.155.2020.11.30.23.06.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Nov 2020 23:01:08 -0800 (PST)
-Date:   Mon, 30 Nov 2020 23:01:06 -0800
+        Mon, 30 Nov 2020 23:06:17 -0800 (PST)
+Date:   Mon, 30 Nov 2020 23:06:15 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     robh+dt@kernel.org, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/2] input: Add support for Azoteq IQS626A
-Message-ID: <20201201070106.GS2034289@dtor-ws>
-References: <1606084748-4097-1-git-send-email-jeff@labundy.com>
- <1606084748-4097-3-git-send-email-jeff@labundy.com>
- <20201123070307.GE2034289@dtor-ws>
- <20201124001516.GA6249@labundy.com>
+To:     Furquan Shaikh <furquan@google.com>
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+        linux-input@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] input: raydium_ts_i2c: Do not split tx transactions
+Message-ID: <20201201070615.GT2034289@dtor-ws>
+References: <20201201060050.1193986-1-furquan@google.com>
+ <20201201062807.GO2034289@dtor-ws>
+ <CAEGmHFGYuM91U+Tvq+YDt180cfHQKnOKMY5ToHZ7v44fOs-_8w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201124001516.GA6249@labundy.com>
+In-Reply-To: <CAEGmHFGYuM91U+Tvq+YDt180cfHQKnOKMY5ToHZ7v44fOs-_8w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Nov 23, 2020 at 06:15:16PM -0600, Jeff LaBundy wrote:
-> Hi Dmitry,
+On Mon, Nov 30, 2020 at 10:54:46PM -0800, Furquan Shaikh wrote:
+> Hello Dmitry,
 > 
-> Thank you for taking a look.
+> On Mon, Nov 30, 2020 at 10:28 PM Dmitry Torokhov
+> <dmitry.torokhov@gmail.com> wrote:
+> >
+> > Hi Furquan,
+> >
+> > On Mon, Nov 30, 2020 at 10:00:50PM -0800, Furquan Shaikh wrote:
+> > > Raydium device does not like splitting of tx transactions into
+> > > multiple messages - one for the register address and one for the
+> > > actual data. This results in incorrect behavior on the device side.
+> > >
+> > > This change updates raydium_i2c_read and raydium_i2c_write to create
+> > > i2c_msg arrays separately and passes those arrays into
+> > > raydium_i2c_xfer which decides based on the address whether the bank
+> > > switch command should be sent. The bank switch header is still added
+> > > by raydium_i2c_read and raydium_i2c_write to ensure that all these
+> > > operations are performed as part of a single I2C transfer. It
+> > > guarantees that no other transactions are initiated to any other
+> > > device on the same bus after the bank switch command is sent.
+> >
+> > i2c_transfer locks the bus [segment] for the entire time, so this
+> > explanation on why the change is needed does not make sense.
 > 
-> On Sun, Nov 22, 2020 at 11:03:07PM -0800, Dmitry Torokhov wrote:
-> > Hi Jeff,
-> > 
-> > On Sun, Nov 22, 2020 at 04:39:08PM -0600, Jeff LaBundy wrote:
-> > > +
-> > > +		if ((sys_reg->active & tp_mask) == tp_mask)
-> > > +			input_set_abs_params(iqs626->trackpad,
-> > > +					     ABS_X, 0, 255, 0, 0);
-> > > +		else
-> > > +			input_set_abs_params(iqs626->trackpad,
-> > > +					     ABS_X, 0, 128, 0, 0);
-> > > +#ifdef CONFIG_TOUCHSCREEN_PROPERTIES
-> > > +		touchscreen_parse_properties(iqs626->trackpad, false,
-> > > +					     &iqs626->prop);
-> > > +#endif /* CONFIG_TOUCHSCREEN_PROPERTIES */
-> > 
-> > This should not be separately selectable from CONFIG_INPUT, so there is
-> > not need to have this guard.
-> > 
-> > The reason it is a separate symbol is historical - it used to depend on
-> > OF in addition to INPUT. I suppose I can drop it now.
-> 
-> Without these guards, the build fails if CONFIG_INPUT_TOUCHSCREEN=n and
-> I felt it too heavy-handed to add a 'depends on' for what is ultimately
-> a corner-case of sorts for this device.
+> The actual problem is with raydium_i2c_write chopping off the write
+> data into 2 messages -- one for register address and other for actual
+> data. Raydium devices do not like that. Hence, this change to ensure
+> that the register address and actual data are packaged into a single
+> message. The latter part of the above comment attempts to explain why
+> the bank switch message is added to xfer[] array in raydium_i2c_read
+> and raydium_i2c_write instead of sending a separate message in
+> raydium_i2c_xfer i.e. to ensure that the read/write xfer and bank
+> switch are sent to i2c_transfer as a single array of messages so that
+> they can be handled as an atomic operation from the perspective of
+> communication with this device on the bus.
 
-Ah, I missed the fat that we got outside of the
-drivers/input/toucscreen.
+OK, I see.
 
 > 
-> The touchscreen helpers are useful for more than just touchscreens, and
-> we can extend them to all of input with something like the patch below.
-> If it looks OK to you, I can insert it into v2 after I collect feedback
-> from Rob for the binding.
+> >
+> > Also, does it help if you mark the data message as I2C_M_NOSTART in case
+> > of writes?
+> 
+> That is a great suggestion. I think this would be helpful in this
+> scenario. Let me follow-up on this to see if it helps with the current
+> problem.
+> 
+> >
+> > I also wonder if we should convert the driver to regmap, which should
+> > help with handling the bank switch as well as figuring out if it can do
+> > "gather write" or fall back to allocating an additional send buffer.
+> 
+> I will start with the above suggestion and fallback to this if that
+> doesn't work.
 
-Yes, I guess we should move into core. Can you move the file into
-drivers/input and maybe we should rename it into touch-properties.c? And
-start renaming the API form touchscreen_*() to touch_()?
+So my understanding is that not all I2C adapters support I2C_M_NOSTART
+so that is why regmap is nice as it hides it all away and figures things
+on its own.
+
+So simple solution of I2C_M_NOSTART might be a quick fix for Chrome OS
+kernel, but we'd either need to always use more expensive 2nd buffer as
+is in your patch, or regmap.
 
 Thanks.
 
