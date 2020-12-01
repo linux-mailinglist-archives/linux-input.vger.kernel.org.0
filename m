@@ -2,78 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87D502C979B
-	for <lists+linux-input@lfdr.de>; Tue,  1 Dec 2020 07:42:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 666ED2C97AA
+	for <lists+linux-input@lfdr.de>; Tue,  1 Dec 2020 07:50:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726337AbgLAGm0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 1 Dec 2020 01:42:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57764 "EHLO
+        id S1726915AbgLAGth (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Dec 2020 01:49:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725859AbgLAGm0 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Dec 2020 01:42:26 -0500
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43672C0613CF;
-        Mon, 30 Nov 2020 22:41:46 -0800 (PST)
-Received: by mail-pg1-x543.google.com with SMTP id k11so632915pgq.2;
-        Mon, 30 Nov 2020 22:41:46 -0800 (PST)
+        with ESMTP id S1725859AbgLAGtg (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Dec 2020 01:49:36 -0500
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E889C0613CF;
+        Mon, 30 Nov 2020 22:48:56 -0800 (PST)
+Received: by mail-pj1-x1041.google.com with SMTP id v1so635988pjr.2;
+        Mon, 30 Nov 2020 22:48:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=xN2kSxfpXS7iLORZcfKKRt6uOIYDmPB4iM8yy7ow6dw=;
-        b=WdYPTStTgR1ukgObG3LMqZBW/3WUX8j443Kfq860WcPTK2eoiDKUM0BHc9sfOh/4a5
-         ftamWn+OMbuUaPH7ORkb4o1QRua4MD8sePTmp6RtSUKDN9qmKo7SYdHEy1x8Prks3mvY
-         rrF6dczUulLTIdQtCs0F8pza9aS07bj9Q4VaSxIte8/s84w4wk5plU3cjSsp92Z8WfO3
-         nuPae9R0TY5Kc6bkMNh42v/ue8odfRZEypgHt8jH+MWrgMHWCNMEK87ld6nRwK+Cag63
-         K9P+5tCvi59viV304WLtCQ3/l/c1B7RzWKm5h/Wyn4lEjA2ue5MsUloK0xBeEGGfPmsX
-         nG5w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Dk2Z1eCeA2+ln1Aj7Jv+4mmrerL9/IMIjrPeBWfbcYY=;
+        b=AZj4va6QdxcyXtz5DQs0Kz94jPE3JZbffdjwDSmEB6lVQytpag8bAEwkeuQMWLMfuw
+         T/NLgt5sj7zMEQB4wF/4e3hrYULlpbykfsx9Hj0toDfqFFOpe2H9mCu9+fN0hJoxXWQB
+         kXn+2lIZfPXoyEbxugA43Mx83FTHknE6wJKjA6oVV/WBTi2MXDtMxnmAHJkXePLxqupL
+         EwoWMfnCazaFcl7Wo9519qR5ODkWBEraz+W1JChG/9UcjISgVfu7G9Kyt3642Pzr1knP
+         tSRZiKv9RTz/OeOpn8KqO22Y7LG2Hln257yXP/G2IJLR50WZngS3N/2NlwLxIKBiAi2A
+         Ebpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=xN2kSxfpXS7iLORZcfKKRt6uOIYDmPB4iM8yy7ow6dw=;
-        b=jOCGlxCLNrY7MH7smbDvL/LBL0kCAJxD0JFQl0nu7gTYL8G9dqWHsU7qba6/1/4Htx
-         ddohPFQwCJEVb80qoMDiolSyIG+dOHI6eKqh2XCyI3NOHLULZ/4rQfEOp26DBE+9EzCU
-         uvyPr9vjnbjWMXphcIdcca6RrmKgP0E6OQJp9/dQwd2U2I/5GjcC7FjpMjj74CcuGr2I
-         YdfgDP1WcZEXUhSH3YSEBFSUEyZRxSnm1eW5LP+LyLwMgIdDDe+ZfPHyeaYa6N327kgx
-         n0R/n5Dx0YW1E9fQCON2q1Ax7toBi/KZqUUHhXQt3XxQGVfW5MbaoT0zUQQcv0GP05Wv
-         yBwQ==
-X-Gm-Message-State: AOAM533fxed+1YjFS1chjVEQJxhtcDvZZ8kAgVWFVfqZJU4O+BDcyXNr
-        aa0s0wXpDCen1lBdxRrZqFA=
-X-Google-Smtp-Source: ABdhPJw9GvGGpfky5L1smizAgfAo76QQqqpv/vYZnU7bk5vueokmwBmJYf61lmX0xaU1LyK3VcEwrA==
-X-Received: by 2002:a63:c60a:: with SMTP id w10mr1049539pgg.211.1606804905699;
-        Mon, 30 Nov 2020 22:41:45 -0800 (PST)
-Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id n127sm1231238pfd.143.2020.11.30.22.41.44
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Dk2Z1eCeA2+ln1Aj7Jv+4mmrerL9/IMIjrPeBWfbcYY=;
+        b=NT8uidutg8cjvCkq7jy+H4arxHcL5FcVPp/l8KM9tlfJiQ1kXCN8bWUvi8H3h/svL9
+         Gj/yI+QdE6HeFFhjO2vjDn6PmggV+UwhcPOaz0yASZ+LtVKMrMBbilkcgfikunuKvyoO
+         kiSsnD1e9yN2Ty+6pzI+c892zzAgqWBuWqAkCyO02L+w+4oras+Euq4RPzdFycnRYZXm
+         NCEwnonW1Uc6iVAb/Na9boxrnpoiqYq3TazhGNleVwM1qIqW63OZOOLfqmTUAVhibZNh
+         tvLmWAF1GeDq6uk6764RCjwUhQ5AvcuvCwBz/X0H0uobic5QlobwzMzoCVgAirrSG87/
+         mrvQ==
+X-Gm-Message-State: AOAM533m+Xmj2gzoCs80AngxXEzIKpt7KWkPpmT1bZEA4FA3iEGjA9R8
+        6AgtLWjwj+1N5Y0uuLVsynk=
+X-Google-Smtp-Source: ABdhPJwZ/X97r+Knl315CF6O//3POZhF45zaYg5twieZPyh6XXDwcbQ9mpXHUv/93HGFXmIhJTc71w==
+X-Received: by 2002:a17:90a:43c1:: with SMTP id r59mr1294063pjg.13.1606805336162;
+        Mon, 30 Nov 2020 22:48:56 -0800 (PST)
+Received: from archlinux.GovzHome.Govindz.co.nz ([2407:7000:aa27:b302:92e6:aee5:1373:39cd])
+        by smtp.gmail.com with ESMTPSA id z12sm1286727pfg.123.2020.11.30.22.48.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Nov 2020 22:41:44 -0800 (PST)
-Date:   Mon, 30 Nov 2020 22:41:42 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Po-Hsu Lin <po-hsu.lin@canonical.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kevin@kevinlocke.name, hdegoede@redhat.com, limero1337@gmail.com,
-        jkosina@suse.cz, rajatja@google.com
-Subject: Re: [PATCH] Input: i8042 - Add ByteSpeed touchpad to noloop table
-Message-ID: <20201201064142.GR2034289@dtor-ws>
-References: <20201201054723.5939-1-po-hsu.lin@canonical.com>
+        Mon, 30 Nov 2020 22:48:55 -0800 (PST)
+From:   sanjay.govind9@gmail.com
+To:     dmitry.torokhov@gmail.com
+Cc:     Sanjay Govind <sanjay.govind9@gmail.com>, aicommander@gmail.com,
+        priv.luk@gmail.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] INPUT: xpad: support Ardwiino Controllers
+Date:   Tue,  1 Dec 2020 19:48:45 +1300
+Message-Id: <20201201064844.128122-1-sanjay.govind9@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201201054723.5939-1-po-hsu.lin@canonical.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Dec 01, 2020 at 01:47:23PM +0800, Po-Hsu Lin wrote:
-> It looks like the C15B laptop got another vendor: ByteSpeed LLC.
-> 
-> Avoid AUX loopback on this touchpad as well, thus input subsystem will
-> be able to recognize a Synaptics touchpad in the AUX port.
-> 
-> BugLink: https://bugs.launchpad.net/bugs/1906128
-> Signed-off-by: Po-Hsu Lin <po-hsu.lin@canonical.com>
+From: Sanjay Govind <sanjay.govind9@gmail.com>
 
-Applied, thank you.
+This commit adds support for Ardwiino Controllers
 
+Signed-off-by: Sanjay Govind <sanjay.govind9@gmail.com>
+---
+ drivers/input/joystick/xpad.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index c77cdb3b62b5..c9d78e2acb38 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -418,6 +418,7 @@ static const struct usb_device_id xpad_table[] = {
+ 	XPAD_XBOXONE_VENDOR(0x0f0d),		/* Hori Controllers */
+ 	XPAD_XBOX360_VENDOR(0x1038),		/* SteelSeries Controllers */
+ 	XPAD_XBOX360_VENDOR(0x11c9),		/* Nacon GC100XF */
++	XPAD_XBOX360_VENDOR(0x1209),		/* Ardwiino Controllers */
+ 	XPAD_XBOX360_VENDOR(0x12ab),		/* X-Box 360 dance pads */
+ 	XPAD_XBOX360_VENDOR(0x1430),		/* RedOctane X-Box 360 controllers */
+ 	XPAD_XBOX360_VENDOR(0x146b),		/* BigBen Interactive Controllers */
 -- 
-Dmitry
+2.29.2
+
