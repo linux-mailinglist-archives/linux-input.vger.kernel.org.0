@@ -2,172 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBF1A2CC468
-	for <lists+linux-input@lfdr.de>; Wed,  2 Dec 2020 18:59:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77BAE2CC674
+	for <lists+linux-input@lfdr.de>; Wed,  2 Dec 2020 20:21:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728825AbgLBR5a (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Dec 2020 12:57:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46886 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727031AbgLBR5a (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Dec 2020 12:57:30 -0500
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 627D6C0613D4
-        for <linux-input@vger.kernel.org>; Wed,  2 Dec 2020 09:56:50 -0800 (PST)
-Received: by mail-pg1-x544.google.com with SMTP id i38so1487408pgb.5
-        for <linux-input@vger.kernel.org>; Wed, 02 Dec 2020 09:56:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to;
-        bh=+zyeHoGR1jGfWp2r2TK/33YTYQgPCq9oitbp1/v4+1s=;
-        b=VgyB3Kh2JEi/EWC6xAtxhyZtFe84QaQH8Ckr8umG/DqT33dLo17Fl4hhBxQypl7dQD
-         G5JN7cazNRpAL7jiHOyNtliiDW3Bhkfj/phZhRIRmqWUDrXWYMvQF27v8uNIpYhPbuFI
-         C7oCePf7bg8EhrcYhIB6x1ohv8EJXAgg7C62Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to;
-        bh=+zyeHoGR1jGfWp2r2TK/33YTYQgPCq9oitbp1/v4+1s=;
-        b=gBZ1crYYeXRArQ8EGE+0i0738rAWvN5jUQq8/np3vV3DjuOLjpLuYkEr3bJcD0bPbm
-         SfYdHqdT6SguodFWtXeof10gXSLIg+Hu/y/WY7Jt7v5UIJZyu+39bOQ1xPV7SCx9Fq8d
-         uZ3jdjChy88rzFCrJoTQ1t7u1/GGQ2G/4h/Ugy9ptlDzPJ7aU2XzMIc/zqVRaxZmIRPa
-         0heYASkluncJd2lHy28KgFdQW/ar3lWeQ8iPN/85I90Ico09zC+YyjLlkEfwxkl61VEN
-         HLkBoCUI3rVRYOvoYxMv4TCDnTAHdkld+Shpwh1vz4PWo79VdJl8aJk9UQE37iM8uaUZ
-         x0pw==
-X-Gm-Message-State: AOAM5302PWM3wigV8N5fFBn1dCaR51k2iaV6yE9JLtu+Xpk+JvVrjpbQ
-        UBd0jh42NmLp448V1ss3PEyjmA==
-X-Google-Smtp-Source: ABdhPJxBe044BSxWCPiEeTi93ZhPm7YYKKxN40yOk58k6np08WWXwO/od1vrZpNwuxokEC+Wbx0dOQ==
-X-Received: by 2002:aa7:9606:0:b029:198:14c4:4f44 with SMTP id q6-20020aa796060000b029019814c44f44mr3903103pfg.80.1606931809755;
-        Wed, 02 Dec 2020 09:56:49 -0800 (PST)
-Received: from [10.230.28.242] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id a21sm287155pjq.37.2020.12.02.09.56.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Dec 2020 09:56:48 -0800 (PST)
-Subject: Re: [PATCH v5 07/11] staging: vchiq: Release firmware handle on
- unbind
-To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        u.kleine-koenig@pengutronix.de, linux-kernel@vger.kernel.org
-Cc:     f.fainelli@gmail.com, linux-pwm@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        wahrenst@gmx.net, linux-input@vger.kernel.org,
-        dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org,
-        devel@driverdev.osuosl.org, p.zabel@pengutronix.de,
-        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
-        linux-clk@vger.kernel.org, sboyd@kernel.org,
-        linux-rpi-kernel@lists.infradead.org, bgolaszewski@baylibre.com,
-        andy.shevchenko@gmail.com
-References: <20201123183833.18750-1-nsaenzjulienne@suse.de>
- <20201123183833.18750-8-nsaenzjulienne@suse.de>
-From:   Florian Fainelli <florian.fainelli@broadcom.com>
-Message-ID: <3bad2612-6280-b362-8239-493e4cc87509@broadcom.com>
-Date:   Wed, 2 Dec 2020 09:56:46 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.5.0
+        id S1730984AbgLBTUd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Dec 2020 14:20:33 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:45595 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728837AbgLBTUd (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Dec 2020 14:20:33 -0500
+Received: from [192.168.1.155] ([77.7.48.174]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MmlGg-1kIKQL2oGE-00jsn4; Wed, 02 Dec 2020 20:17:27 +0100
+Subject: Re: [PATCH 1/2] x86: make vmware support optional
+To:     Borislav Petkov <bp@alien8.de>,
+        "Enrico Weigelt, metux IT consult" <info@metux.net>
+Cc:     linux-kernel@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        x86@kernel.org, hpa@zytor.com, dmitry.torokhov@gmail.com,
+        derek.kiernan@xilinx.com, dragan.cvetic@xilinx.com,
+        richardcochran@gmail.com, linux-hyperv@vger.kernel.org,
+        linux-input@vger.kernel.org, netdev@vger.kernel.org
+References: <20201117202308.7568-1-info@metux.net>
+ <20201117203155.GO5719@zn.tnic>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <0c0480af-bcf5-d7ba-9e76-d511e60f76ec@metux.net>
+Date:   Wed, 2 Dec 2020 20:17:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201123183833.18750-8-nsaenzjulienne@suse.de>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="000000000000b9287005b57ef7a9"
+In-Reply-To: <20201117203155.GO5719@zn.tnic>
+Content-Type: text/plain; charset=utf-8
+Content-Language: tl
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:FP2CYEq15R80dQ6d6l9Zeukb8qsW02XwbWcM7FTCUJ8N+wkBHN0
+ sVeoBh7Gnt/ZU7cQZLYDkwMUzPKGAElGYu4M3oZ/jNQePe8BRSR3qqYISPbWlAoazq8aC8c
+ FcOGUM8zdRTqhe0fI6e+PfOa9Gyb4avrDwLJo3MmgNiRmpx5ru3P7WjHXmssc+Uxb2dOVCI
+ rWRWyKfa2kuthRj//6NHw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2HkvspBsxR8=:gaZWtRyrjr7D/OFxL4NKCm
+ /ouXkkPhyblj0piWqhd2Rg20ajU17FMi7vLb2KbGhLQCDAaWh+DtitqHcNbsqB6Yh8gBQvM34
+ Pj4+HOXfoaD26Czve6SXOH2eE93HM18Wqrs7+1u5Zpm9+Wsqv4TxGpqEu2Fg72rU4BTkJuBKZ
+ M4mIEKCvRCiY8+IncEXVifFv8r/mUOKPEObURZI/biQ4JhLfg31A5LnrSxX9gu40FRvHXEdPB
+ mcvNrsPg032JJ4Fn6qvp53pw/2JuwuO3blwr5OQMghpOkokxf/FRLiDxtpLxQEWvUVBCHvk8D
+ 0D3xC+Dq+6wH1Z5FpKw+oIkmt/mpMVGkgv7mFT++sw3Nbpm4t46/MovaaRqcA4u/isCUo7Tzt
+ lFm7aMfk14l0YQkJZfgeaWpcrfJdGwoXu3TWqEDyn7MOj9MOzpbz9HMR0axkD
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
---000000000000b9287005b57ef7a9
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-
-
-
-On 11/23/2020 10:38 AM, Nicolas Saenz Julienne wrote:
-> Use devm_rpi_firmware_get() so as to make sure we release RPi's firmware
-> interface when unbinding the device.
+On 17.11.20 21:31, Borislav Petkov wrote:
+> On Tue, Nov 17, 2020 at 09:23:07PM +0100, Enrico Weigelt, metux IT consult wrote:
+>> Make it possible to opt-out from vmware support
 > 
-> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+> Why?
 
-Reviewed-by: Florian Fainelli <f.fainelli@gmail.com>
+Reducing the kernel size. Think of very high density virtualization
+(w/ specially stripped-down workloads) or embedded systems.
+
+For example, I'm running bare minimum kernels w/ only kvm and virtio
+(not even pci, etc) in such scenarios.
+
+Of course, that's nothing for an average distro, therefore leaving
+default y.
+
+
+--mtx
+
+
+> 
+> I can think of a couple of reasons but maybe yours might not be the one
+> I'm thinking of.
+> 
+>> Signed-off-by: Enrico Weigelt, metux IT consult <info@metux.net>
+>> ---
+>>  arch/x86/Kconfig                 | 7 +++++++
+>>  arch/x86/kernel/cpu/Makefile     | 4 +++-
+>>  arch/x86/kernel/cpu/hypervisor.c | 2 ++
+>>  drivers/input/mouse/Kconfig      | 2 +-
+>>  drivers/misc/Kconfig             | 2 +-
+>>  drivers/ptp/Kconfig              | 2 +-
+>>  6 files changed, 15 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+>> index f6946b81f74a..c227c1fa0091 100644
+>> --- a/arch/x86/Kconfig
+>> +++ b/arch/x86/Kconfig
+>> @@ -801,6 +801,13 @@ config X86_HV_CALLBACK_VECTOR
+>>  
+>>  source "arch/x86/xen/Kconfig"
+>>  
+>> +config VMWARE_GUEST
+>> +	bool "Vmware Guest support"
+>> +	default y
+> 
+> depends on HYPERVISOR_GUEST. The hyperv one too.
+> 
+
 -- 
-Florian
-
---000000000000b9287005b57ef7a9
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-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
-NBgcnL8bS1GD7jRZUdtUvDm/XhPjv+5arhlrB5NmaKDsRaobcoQ0vtEyAnImSb64+wEvXgPF3y7V
-0LCIoQMCAwEAAaOCAdQwggHQMA4GA1UdDwEB/wQEAwIFoDCBngYIKwYBBQUHAQEEgZEwgY4wTQYI
-KwYBBQUHMAKGQWh0dHA6Ly9zZWN1cmUuZ2xvYmFsc2lnbi5jb20vY2FjZXJ0L2dzcGVyc29uYWxz
-aWduMnNoYTJnM29jc3AuY3J0MD0GCCsGAQUFBzABhjFodHRwOi8vb2NzcDIuZ2xvYmFsc2lnbi5j
-b20vZ3NwZXJzb25hbHNpZ24yc2hhMmczME0GA1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsG
-AQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAA
-MEQGA1UdHwQ9MDswOaA3oDWGM2h0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20vZ3NwZXJzb25hbHNp
-Z24yc2hhMmczLmNybDAoBgNVHREEITAfgR1mbG9yaWFuLmZhaW5lbGxpQGJyb2FkY29tLmNvbTAT
-BgNVHSUEDDAKBggrBgEFBQcDBDAfBgNVHSMEGDAWgBRpcoJiMWeVRIV3kYDEBDZJnXsLYTAdBgNV
-HQ4EFgQUjDSG6itHmsBGYhab0ncHg6PidD0wDQYJKoZIhvcNAQELBQADggEBAJD+OK9GMwW86kdo
-oTOaDH8VAbGtc3cvxHH/zTSRaq+XQOUwzXeB35AgKQ7VnnW+AYsU0NILbJUrAUGctIt4fMgPi+fZ
-1SJxTyzKxS0LCahS3l9aL3TEWyFOnDurmKeLcgVG5qMVXysLYDXiUGGg1I/zmOHefpv30RDNdUjD
-9oUbBggB6IHlL4Y6x21gV6Cduse0xOgMrY+dXhntQimTLmuPz0b3uUVJNdtTqVG5pZwZZ/cjsGCm
-QTlT5kx0VnHRHhYKS+1b2usAYk+pec77Wth9xL1gsEGVh4JmIdQpkhqGHA/m2nVkhW/WbbFsA7Im
-9CNMvmz2hVgGGipcf47g+EsxggJvMIICawIBATBtMF0xCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBH
-bG9iYWxTaWduIG52LXNhMTMwMQYDVQQDEypHbG9iYWxTaWduIFBlcnNvbmFsU2lnbiAyIENBIC0g
-U0hBMjU2IC0gRzMCDE64Wkk+BtY98mx37TANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQx
-IgQgCe0rNE/gu4F2iMflekC2RvUsUovFbc76TLB+OjWKpcwwGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjAxMjAyMTc1NjUwWjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCG
-SAFlAwQBKjALBglghkgBZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEB
-CjALBgkqhkiG9w0BAQcwCwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAHD2TQJkBFDdaKpx
-5IwGKRdVSCqafYi9EbCZzUnQGtDBQcWOUsgmkubyGiXUBajp1o/l2XBtjK4hRRi7VrDaF0f52yRw
-8QgxPWS6edKoaZuNQAtBbDLBv0g+V7xNFdqF6AvCVuCTjUPqbRYhJ7twF5sMX0iu0E9pyRAGInMz
-1QkHTwJ1sWQo7q5NG3mOHcSmitC8kyab2HLNa+GG18qPBO0HeVmR0P52EGoMWmELqJjKsMu6kJrv
-KBD2Ot6IW+hwXySsmcoiE19J+wZT0BE1oh7fkf8wbu3FQsk2u1VPCzstBCXwg72H0BAsHj8HAZFW
-+VX7ZvY68bRYsgHPurwWEZE=
---000000000000b9287005b57ef7a9--
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
