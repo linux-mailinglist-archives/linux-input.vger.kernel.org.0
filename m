@@ -2,159 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CEE6C2CB392
-	for <lists+linux-input@lfdr.de>; Wed,  2 Dec 2020 04:40:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF8812CB3EE
+	for <lists+linux-input@lfdr.de>; Wed,  2 Dec 2020 05:32:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387469AbgLBDkB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 1 Dec 2020 22:40:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55470 "EHLO
+        id S1727011AbgLBEb5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Dec 2020 23:31:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387407AbgLBDkA (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Dec 2020 22:40:00 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88B17C0613D6;
-        Tue,  1 Dec 2020 19:39:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=zBcNQ7c5UGfNwgj4EbfhHFvG+vj0E9L+Zv4JZYt1vpY=; b=DQRCB6mKfv+Xcb8cooyQw0/FBK
-        3+KR3QAtTtUHgPscCN9MKviiWuRyJ1TTXsQhzYIla9EAzptMx7v71yXsd7PjcMdHFKHKV7NlpHKQ7
-        1YuWBWbK9cjRyc5cGF/xZv6yuGsVoezkdh+idF61B2Fz9B1HNmWS5jr7Ti87ssjB3dKxDC4fcNjFU
-        pbqx7gpcRpKbe40Fyf2YUTwzmg4xSBDUXOhmCD3gLpbt4Re+WdIl/KTUjMoIQut1g3rS8ymMKWaOf
-        5JPsSAyeF9k6p3rK3xeEbDpbDWbKU+IlSMZSnpLAziSSFRtLZinm3rK7qfwgLPUD0mjLrqViDKaxn
-        wBAzDMCA==;
-Received: from [2601:1c0:6280:3f0::1494] (helo=smtpauth.infradead.org)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kkIz8-0002YM-60; Wed, 02 Dec 2020 03:39:18 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-Subject: [PATCH 2/2] HID: correct kernel-doc notation in hid-quirks.c
-Date:   Tue,  1 Dec 2020 19:39:05 -0800
-Message-Id: <20201202033905.15111-3-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201202033905.15111-1-rdunlap@infradead.org>
-References: <20201202033905.15111-1-rdunlap@infradead.org>
+        with ESMTP id S1726810AbgLBEb4 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Dec 2020 23:31:56 -0500
+Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82B26C0613CF
+        for <linux-input@vger.kernel.org>; Tue,  1 Dec 2020 20:31:16 -0800 (PST)
+Received: by mail-il1-x141.google.com with SMTP id z14so346820ilm.10
+        for <linux-input@vger.kernel.org>; Tue, 01 Dec 2020 20:31:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=DanhsUlifIoCTIthIs1n43gfefn3vyWMJQs2RPqSdds=;
+        b=gQUkYqHmJbnJTzO+LQQyRp2i51AqMF1wqOne4732g3Xv0iRCBzhmRHqWJkSdDceWQD
+         JMW1D49wJwyFsXBcE4YDeY/aHbK745YC0kmbMWXRN1wtRKEXSpagLWhOovNMiELd3cp9
+         8FD+FxQ6UTMrrnPxL4MAUgZzadTsNkOf22k0DRL/6JYXS0MZJOz8w1ng6225Ml7+Rw3X
+         rGtTWSjbtaALoCAF+Na4kHbaMIl3QlD0iNcJ6lPJM3+MYUvS5AEaIHbZXU9o8DggF30I
+         MvyF8mfNjX9RSfkj+/60I7KkyJgoQqa/G4PepIBu1lYsXjnkLJLC2h5SoScBeuNPWJf6
+         6daA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=DanhsUlifIoCTIthIs1n43gfefn3vyWMJQs2RPqSdds=;
+        b=AciacJqWxU3T2mlMF4x3LBuwbCPChasgD6LuXvaDaOR0g/jj4tLjfU1gYU2KrFf30T
+         um8GJUun+H2LjcGQAtwDnmGzdu6zZlABOAJnnQBEJnlLdLWkNKS/UqKHWtSeaB1rOpzK
+         NOg9Up3R5OPg+mvMPCeS+hJcK3UoHAPmD3sqDNfRQHsZ08F3W1reQiF40YjP5pBm3TDO
+         M8g6iiVQ9tu4ZVkYKmVRrps3vPx9i1d+SAzFOQEcG3jd9eaf4OnfmCZebqD5XbO9/WjM
+         VaeShd+Nq/cuE5Q/pSpEHjF9+yx3qjjAIuZvXHEjju9Mt/8t8DtVY9ZlWxhot0ZtI7oP
+         zjGQ==
+X-Gm-Message-State: AOAM533bHwD1R5GjKS9Z5AjVUH/I+d145f35YXjWDhoBnxGazXgFd2L8
+        BeTwhHat67P+AEfLxikl74rVJJFn5WVDVQx3jrA=
+X-Google-Smtp-Source: ABdhPJzS3aUnsq97hhIp0jJzWr/Moa1H0P/JDhr/YuhKFIuwWzhTkGhMTub1FOs2pRzclN9+S4QA274gb+ZlTIy3X3U=
+X-Received: by 2002:a05:6e02:80b:: with SMTP id u11mr791592ilm.43.1606883475696;
+ Tue, 01 Dec 2020 20:31:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201119082232.8774-1-felixhaedicke@web.de>
+In-Reply-To: <20201119082232.8774-1-felixhaedicke@web.de>
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Date:   Tue, 1 Dec 2020 20:31:04 -0800
+Message-ID: <CAKdAkRSyi53f0pwyzmNP4fNhkDT4P5vV_aDneZuCKTqWDvb+Kg@mail.gmail.com>
+Subject: Re: [PATCH] HID: quirks: Add Apple Magic Trackpad 2 to
+ hid_have_special_driver list
+To:     =?UTF-8?Q?Felix_H=C3=A4dicke?= <felixhaedicke@web.de>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "Sean O'Brien" <seobrien@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Use correct kernel-doc notation for functions.
-Add notation (comments) where it is missing.
-Use the documented "Return:" notation for function return values.
+On Thu, Nov 19, 2020 at 12:31 AM Felix H=C3=A4dicke <felixhaedicke@web.de> =
+wrote:
+>
+> The Apple Magic Trackpad 2 is handled by the magicmouse driver. And
+> there were severe stability issues when both drivers (hid-generic and
+> hid-magicmouse) were loaded for this device.
+>
+> Fixes: https://bugzilla.kernel.org/show_bug.cgi?id=3D210241
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jiri Kosina <jikos@kernel.org>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: linux-input@vger.kernel.org
----
- drivers/hid/hid-quirks.c |   25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
++Jiri Kosina +Benjamin Tissoires for visibility.
 
---- linux-next-20201201.orig/drivers/hid/hid-quirks.c
-+++ linux-next-20201201/drivers/hid/hid-quirks.c
-@@ -1029,7 +1029,7 @@ static DEFINE_MUTEX(dquirks_lock);
- /* Runtime ("dynamic") quirks manipulation functions */
- 
- /**
-- * hid_exists_dquirk: find any dynamic quirks for a HID device
-+ * hid_exists_dquirk - find any dynamic quirks for a HID device
-  * @hdev: the HID device to match
-  *
-  * Description:
-@@ -1037,7 +1037,7 @@ static DEFINE_MUTEX(dquirks_lock);
-  *         the pointer to the relevant struct hid_device_id if found.
-  *         Must be called with a read lock held on dquirks_lock.
-  *
-- * Returns: NULL if no quirk found, struct hid_device_id * if found.
-+ * Return: NULL if no quirk found, struct hid_device_id * if found.
-  */
- static struct hid_device_id *hid_exists_dquirk(const struct hid_device *hdev)
- {
-@@ -1061,7 +1061,7 @@ static struct hid_device_id *hid_exists_
- 
- 
- /**
-- * hid_modify_dquirk: add/replace a HID quirk
-+ * hid_modify_dquirk - add/replace a HID quirk
-  * @id: the HID device to match
-  * @quirks: the unsigned long quirks value to add/replace
-  *
-@@ -1070,7 +1070,7 @@ static struct hid_device_id *hid_exists_
-  *         quirks value with what was provided.  Otherwise, add the quirk
-  *         to the dynamic quirks list.
-  *
-- * Returns: 0 OK, -error on failure.
-+ * Return: 0 OK, -error on failure.
-  */
- static int hid_modify_dquirk(const struct hid_device_id *id,
- 			     const unsigned long quirks)
-@@ -1122,7 +1122,7 @@ static int hid_modify_dquirk(const struc
- }
- 
- /**
-- * hid_remove_all_dquirks: remove all runtime HID quirks from memory
-+ * hid_remove_all_dquirks - remove all runtime HID quirks from memory
-  * @bus: bus to match against. Use HID_BUS_ANY if all need to be removed.
-  *
-  * Description:
-@@ -1146,7 +1146,10 @@ static void hid_remove_all_dquirks(__u16
- }
- 
- /**
-- * hid_quirks_init: apply HID quirks specified at module load time
-+ * hid_quirks_init - apply HID quirks specified at module load time
-+ * @quirks_param: array of quirks strings (vendor:product:quirks)
-+ * @bus: bus type
-+ * @count: number of quirks to check
-  */
- int hid_quirks_init(char **quirks_param, __u16 bus, int count)
- {
-@@ -1177,7 +1180,7 @@ int hid_quirks_init(char **quirks_param,
- EXPORT_SYMBOL_GPL(hid_quirks_init);
- 
- /**
-- * hid_quirks_exit: release memory associated with dynamic_quirks
-+ * hid_quirks_exit - release memory associated with dynamic_quirks
-  * @bus: a bus to match against
-  *
-  * Description:
-@@ -1194,14 +1197,14 @@ void hid_quirks_exit(__u16 bus)
- EXPORT_SYMBOL_GPL(hid_quirks_exit);
- 
- /**
-- * hid_gets_squirk: return any static quirks for a HID device
-+ * hid_gets_squirk - return any static quirks for a HID device
-  * @hdev: the HID device to match
-  *
-  * Description:
-  *     Given a HID device, return a pointer to the quirked hid_device_id entry
-  *     associated with that device.
-  *
-- * Returns: the quirks.
-+ * Return: the quirks.
-  */
- static unsigned long hid_gets_squirk(const struct hid_device *hdev)
- {
-@@ -1225,13 +1228,13 @@ static unsigned long hid_gets_squirk(con
- }
- 
- /**
-- * hid_lookup_quirk: return any quirks associated with a HID device
-+ * hid_lookup_quirk - return any quirks associated with a HID device
-  * @hdev: the HID device to look for
-  *
-  * Description:
-  *     Given a HID device, return any quirks associated with that device.
-  *
-- * Returns: an unsigned long quirks value.
-+ * Return: an unsigned long quirks value.
-  */
- unsigned long hid_lookup_quirk(const struct hid_device *hdev)
- {
+>
+> Signed-off-by: Felix H=C3=A4dicke <felixhaedicke@web.de>
+> ---
+>  drivers/hid/hid-quirks.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+> index 7a2be0205dfd..0a589d956e5c 100644
+> --- a/drivers/hid/hid-quirks.c
+> +++ b/drivers/hid/hid-quirks.c
+> @@ -473,6 +473,8 @@ static const struct hid_device_id hid_have_special_dr=
+iver[] =3D {
+>  #if IS_ENABLED(CONFIG_HID_MAGICMOUSE)
+>         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_M=
+AGICMOUSE) },
+>         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_M=
+AGICTRACKPAD) },
+> +       { HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MA=
+GICTRACKPAD2) },
+> +       { HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGICTR=
+ACKPAD2) },
+>  #endif
+>  #if IS_ENABLED(CONFIG_HID_MAYFLASH)
+>         { HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGONRI=
+SE_PS3) },
+> --
+> 2.29.2
+>
+
+Thanks.
+
+--=20
+Dmitry
