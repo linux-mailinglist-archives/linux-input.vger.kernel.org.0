@@ -2,117 +2,130 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E4722CB4D0
-	for <lists+linux-input@lfdr.de>; Wed,  2 Dec 2020 07:04:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 248942CBA76
+	for <lists+linux-input@lfdr.de>; Wed,  2 Dec 2020 11:25:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726507AbgLBGEh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Dec 2020 01:04:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49340 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726160AbgLBGEh (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Dec 2020 01:04:37 -0500
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 937CCC0613CF;
-        Tue,  1 Dec 2020 22:03:51 -0800 (PST)
-Received: by mail-pj1-x1041.google.com with SMTP id r20so407280pjp.1;
-        Tue, 01 Dec 2020 22:03:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=sdg6m13JCDegZRe+NmQ9epCCrqdVuQ58ZPfdb2g7nwk=;
-        b=pCJA7Ta3XJljluS9z7yOcbr2jUsDThZD9M6lRMzlsYVGvFOkg0wP3wWBlshqdNcCUj
-         5uZvn95iyp309exveaPBLaEodgH692I7dBiok0BwlFyBzxW+KxVBKBsaJ3YAqmT67zP+
-         vT7IV6YGmGZXgrQL1P+KbMMk6BkHeNmyXgmsLs8wEBYPoHSWIIV0zS+oIMq3EZ18VhHl
-         v/jVjHYd64fR99K99JDgwRDqJ8llL6f+7U5Vea88QnSVhKT9CDR5uMs8nAOZPE5v31wN
-         8E6sSyJ5FNYSKCxnTg66FyMyGZaitBT0IHC39PlWgV35Rae1pxdg2a75c0p5lOK7kqV3
-         FibQ==
+        id S1729351AbgLBKWo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Dec 2020 05:22:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26697 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727873AbgLBKWn (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 2 Dec 2020 05:22:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1606904477;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=oegfJFOhvCdJGP+VONmFh1f37ulw7B2LInL2YgadOGA=;
+        b=PDA4zVEvvwUbRSlZcz7W4vWmWJICCf/1lwHjILjhMeoN8gshaffsMc491gR1ehtqJAAMM3
+        Sbxwsor2ul8/RqaQ84qLM1C1VfHohinaNRG+q7ReiliNraxHv+hsFGDr46IPoMNid3kwrX
+        lGtdVkxeq8GNE+IckdvrMqozivxbGxo=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-204-iEQc2dTyP-6ixdAq9xCIUg-1; Wed, 02 Dec 2020 05:21:15 -0500
+X-MC-Unique: iEQc2dTyP-6ixdAq9xCIUg-1
+Received: by mail-pl1-f200.google.com with SMTP id w9so831643plp.1
+        for <linux-input@vger.kernel.org>; Wed, 02 Dec 2020 02:21:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=sdg6m13JCDegZRe+NmQ9epCCrqdVuQ58ZPfdb2g7nwk=;
-        b=fM4ZfHjlYLSJvqgn+MI/+HFIt0ZTkuSvt7EE28og0HyZ4fOyXRROAQoE6JvcT9ksrb
-         sjg8AqbLUWmxLR5Gom1XpDyjEwe3EpZ9Adh1SS7dqlkV4Ula/bPCCLENMEAlLZUwoWEu
-         dL7KGguMY9aNBs20FR+upv0OG66xch8IrIIX7oawJ7NS2VgchFu602XD/5Bpv1bv6iqw
-         Rsg3bW9dhhMm7vkSRVhOSyoItyrsw3jhKILAMNxbXZg7Sd2tvTbLlwuqQctEM55jrVBB
-         jf16YFy7Aljif0/EvMCjVyp9X79WSw/4VNFdrgFpAAqvjH/0pz8hG+FVgMFcAKMa5GDz
-         TT9A==
-X-Gm-Message-State: AOAM531lHwWxtXeTMx30wykALfrm6zeyH+hBA7jjNerH7ekpk41Ec4/C
-        HtSnc7MsbnwVbA9PwKQZfzs=
-X-Google-Smtp-Source: ABdhPJzZ+izHWO3gM6iPbafcGZ1JHYrclBHjBVqhKWL05Il/SE7A6c1xDfh20W3Ydj+C/+H6a3Wb5g==
-X-Received: by 2002:a17:902:bf0b:b029:d8:f677:30f2 with SMTP id bi11-20020a170902bf0bb02900d8f67730f2mr1209361plb.25.1606889030866;
-        Tue, 01 Dec 2020 22:03:50 -0800 (PST)
-Received: from dtor-ws ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id x16sm600470pjh.39.2020.12.01.22.03.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Dec 2020 22:03:50 -0800 (PST)
-Date:   Tue, 1 Dec 2020 22:03:47 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Cc:     u.kleine-koenig@pengutronix.de, linux-kernel@vger.kernel.org,
-        f.fainelli@gmail.com, linux-pwm@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        wahrenst@gmx.net, linux-input@vger.kernel.org,
-        gregkh@linuxfoundation.org, devel@driverdev.osuosl.org,
-        p.zabel@pengutronix.de, linux-gpio@vger.kernel.org,
-        linus.walleij@linaro.org, linux-clk@vger.kernel.org,
-        sboyd@kernel.org, linux-rpi-kernel@lists.infradead.org,
-        bgolaszewski@baylibre.com, andy.shevchenko@gmail.com
-Subject: Re: [PATCH v5 08/11] input: raspberrypi-ts: Release firmware handle
- when not needed
-Message-ID: <20201202060347.GA2034289@dtor-ws>
-References: <20201123183833.18750-1-nsaenzjulienne@suse.de>
- <20201123183833.18750-9-nsaenzjulienne@suse.de>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=oegfJFOhvCdJGP+VONmFh1f37ulw7B2LInL2YgadOGA=;
+        b=g2w7zXFjc+EoVu4hsopOFwObic7b8ors+lBp31q1FbZIMIMpMHlHzCtQduVz1EF2Z8
+         xfsEdHfn2/ExUaR+yAwLHdvXGvcoLaIgnUPEQOBdk4ecJ+IhnV5hXCG59vlKlljfKA/o
+         XPRoWFn1BTTam1Cs7Ce1byaXfzGdqRATIi80dnoub15AY3+GzmStRf7ZJHmSFbG894wc
+         13co/5KZzpnEcZk+eXMQzohUlq9cI0Of7ilEpXn9W2rj9yH2AeNWcXMJMWuE7przrmln
+         59ejAOC6v5fCh6vxFD09fg+LgO/sAiM3hX49r7ZbfZp6qD85EZ6KD+O1A91QDZvtmGsp
+         +jyw==
+X-Gm-Message-State: AOAM533Af0Uunl5UtIET2sopvZhafmzxdFpmmKd60Ua/iIdmaieHlMfJ
+        7bUeVuSdGC3BmLR3l0U9wKWpGebgPDU1H41Mfzzvj4fySTQWJRk4mGri0HcLw1XCb+JfWC+K8Eg
+        MeRymmsp2CmPypOsF1r9jybTNMmV5+1igeZUe0ZI=
+X-Received: by 2002:a63:b60:: with SMTP id a32mr1967998pgl.275.1606904474353;
+        Wed, 02 Dec 2020 02:21:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxvdAOKkQnkechwxaXwXokr1ZNaTIHdeJBUyuOQeYlCFBsPUQEDz8ggCQYX8l2N4hm+hMQYzqkBX4blUP+WPdU=
+X-Received: by 2002:a63:b60:: with SMTP id a32mr1967984pgl.275.1606904474094;
+ Wed, 02 Dec 2020 02:21:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201123183833.18750-9-nsaenzjulienne@suse.de>
+References: <20201119082232.8774-1-felixhaedicke@web.de> <CAKdAkRSyi53f0pwyzmNP4fNhkDT4P5vV_aDneZuCKTqWDvb+Kg@mail.gmail.com>
+In-Reply-To: <CAKdAkRSyi53f0pwyzmNP4fNhkDT4P5vV_aDneZuCKTqWDvb+Kg@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Wed, 2 Dec 2020 11:21:03 +0100
+Message-ID: <CAO-hwJLk5hpBQA=Xy4Hmfhx8iMJp+TuqyV33r2ocJX7JW-PkFQ@mail.gmail.com>
+Subject: Re: [PATCH] HID: quirks: Add Apple Magic Trackpad 2 to
+ hid_have_special_driver list
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        =?UTF-8?Q?Felix_H=C3=A4dicke?= <felixhaedicke@web.de>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "Sean O'Brien" <seobrien@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Nicolas,
+Hi Felix,
 
-On Mon, Nov 23, 2020 at 07:38:29PM +0100, Nicolas Saenz Julienne wrote:
-> Use devm_rpi_firmware_get() so as to make sure we release RPi's firmware
-> interface when unbinding the device.
+On Wed, Dec 2, 2020 at 5:31 AM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> On Thu, Nov 19, 2020 at 12:31 AM Felix H=C3=A4dicke <felixhaedicke@web.de=
+> wrote:
+> >
+> > The Apple Magic Trackpad 2 is handled by the magicmouse driver. And
+> > there were severe stability issues when both drivers (hid-generic and
+> > hid-magicmouse) were loaded for this device.
+> >
+> > Fixes: https://bugzilla.kernel.org/show_bug.cgi?id=3D210241
 
-I do not believe this comment is correct any longer. Otherwise:
+As mentioned in the bug, this hardly looks like the correct solution.
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+The magicmouse is one of the 2 only drivers that calls
+`hid_register_report` and then overwrites the size of the report
+manually. I can not figure out immediately if this is wrong, and how
+that would impact a free in usbhid, but this is highly suspicious to
+me.
 
-> 
-> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-> 
-> ---
-> 
-> Changes since v3:
->  - Release firmware handle in probe function
-> 
-> Changes since v2:
->  - Use devm_rpi_firmware_get(), instead of remove function
-> 
->  drivers/input/touchscreen/raspberrypi-ts.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/touchscreen/raspberrypi-ts.c b/drivers/input/touchscreen/raspberrypi-ts.c
-> index ef6aaed217cf..5000f5fd9ec3 100644
-> --- a/drivers/input/touchscreen/raspberrypi-ts.c
-> +++ b/drivers/input/touchscreen/raspberrypi-ts.c
-> @@ -160,7 +160,7 @@ static int rpi_ts_probe(struct platform_device *pdev)
->  	touchbuf = (u32)ts->fw_regs_phys;
->  	error = rpi_firmware_property(fw, RPI_FIRMWARE_FRAMEBUFFER_SET_TOUCHBUF,
->  				      &touchbuf, sizeof(touchbuf));
-> -
-> +	rpi_firmware_put(fw);
->  	if (error || touchbuf != 0) {
->  		dev_warn(dev, "Failed to set touchbuf, %d\n", error);
->  		return error;
-> -- 
-> 2.29.2
-> 
+Cheers,
+Benjamin
 
--- 
-Dmitry
+>
+> +Jiri Kosina +Benjamin Tissoires for visibility.
+>
+> >
+> > Signed-off-by: Felix H=C3=A4dicke <felixhaedicke@web.de>
+> > ---
+> >  drivers/hid/hid-quirks.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+> > index 7a2be0205dfd..0a589d956e5c 100644
+> > --- a/drivers/hid/hid-quirks.c
+> > +++ b/drivers/hid/hid-quirks.c
+> > @@ -473,6 +473,8 @@ static const struct hid_device_id hid_have_special_=
+driver[] =3D {
+> >  #if IS_ENABLED(CONFIG_HID_MAGICMOUSE)
+> >         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE=
+_MAGICMOUSE) },
+> >         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE=
+_MAGICTRACKPAD) },
+> > +       { HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_=
+MAGICTRACKPAD2) },
+> > +       { HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC=
+TRACKPAD2) },
+> >  #endif
+> >  #if IS_ENABLED(CONFIG_HID_MAYFLASH)
+> >         { HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGON=
+RISE_PS3) },
+> > --
+> > 2.29.2
+> >
+>
+> Thanks.
+>
+> --
+> Dmitry
+>
+
