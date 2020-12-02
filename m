@@ -2,130 +2,204 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 248942CBA76
-	for <lists+linux-input@lfdr.de>; Wed,  2 Dec 2020 11:25:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F0E172CC0AE
+	for <lists+linux-input@lfdr.de>; Wed,  2 Dec 2020 16:21:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729351AbgLBKWo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Dec 2020 05:22:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26697 "EHLO
+        id S1726761AbgLBPVZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Dec 2020 10:21:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37283 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727873AbgLBKWn (ORCPT
+        by vger.kernel.org with ESMTP id S1726635AbgLBPVW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 2 Dec 2020 05:22:43 -0500
+        Wed, 2 Dec 2020 10:21:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1606904477;
+        s=mimecast20190719; t=1606922395;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=oegfJFOhvCdJGP+VONmFh1f37ulw7B2LInL2YgadOGA=;
-        b=PDA4zVEvvwUbRSlZcz7W4vWmWJICCf/1lwHjILjhMeoN8gshaffsMc491gR1ehtqJAAMM3
-        Sbxwsor2ul8/RqaQ84qLM1C1VfHohinaNRG+q7ReiliNraxHv+hsFGDr46IPoMNid3kwrX
-        lGtdVkxeq8GNE+IckdvrMqozivxbGxo=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-iEQc2dTyP-6ixdAq9xCIUg-1; Wed, 02 Dec 2020 05:21:15 -0500
-X-MC-Unique: iEQc2dTyP-6ixdAq9xCIUg-1
-Received: by mail-pl1-f200.google.com with SMTP id w9so831643plp.1
-        for <linux-input@vger.kernel.org>; Wed, 02 Dec 2020 02:21:15 -0800 (PST)
+        bh=fFR2t3IjQI80xXgeJr/lLM6Ot3yuaPlWOezeBx0tbPI=;
+        b=EHgBezg4BI+AW+nlYWzogXpTdqbxkir4TNi5eUZKSNYi+NGZ71P0cUz44hlun4AxOhdh6N
+        Qdogz+9ERYqvXU33Ae3bUrslK/mXNgjCilqcgG1nEyoEYmFkbXfVTSwCDXytOd63qm9e9n
+        8ZTYaKi0+dBGnbKjnqpiHbZ9+lnC9f4=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-205-R-nhSNQoPmKKqOFowcbNBg-1; Wed, 02 Dec 2020 10:19:54 -0500
+X-MC-Unique: R-nhSNQoPmKKqOFowcbNBg-1
+Received: by mail-pj1-f71.google.com with SMTP id s14so1213237pjk.4
+        for <linux-input@vger.kernel.org>; Wed, 02 Dec 2020 07:19:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=oegfJFOhvCdJGP+VONmFh1f37ulw7B2LInL2YgadOGA=;
-        b=g2w7zXFjc+EoVu4hsopOFwObic7b8ors+lBp31q1FbZIMIMpMHlHzCtQduVz1EF2Z8
-         xfsEdHfn2/ExUaR+yAwLHdvXGvcoLaIgnUPEQOBdk4ecJ+IhnV5hXCG59vlKlljfKA/o
-         XPRoWFn1BTTam1Cs7Ce1byaXfzGdqRATIi80dnoub15AY3+GzmStRf7ZJHmSFbG894wc
-         13co/5KZzpnEcZk+eXMQzohUlq9cI0Of7ilEpXn9W2rj9yH2AeNWcXMJMWuE7przrmln
-         59ejAOC6v5fCh6vxFD09fg+LgO/sAiM3hX49r7ZbfZp6qD85EZ6KD+O1A91QDZvtmGsp
-         +jyw==
-X-Gm-Message-State: AOAM533Af0Uunl5UtIET2sopvZhafmzxdFpmmKd60Ua/iIdmaieHlMfJ
-        7bUeVuSdGC3BmLR3l0U9wKWpGebgPDU1H41Mfzzvj4fySTQWJRk4mGri0HcLw1XCb+JfWC+K8Eg
-        MeRymmsp2CmPypOsF1r9jybTNMmV5+1igeZUe0ZI=
-X-Received: by 2002:a63:b60:: with SMTP id a32mr1967998pgl.275.1606904474353;
-        Wed, 02 Dec 2020 02:21:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxvdAOKkQnkechwxaXwXokr1ZNaTIHdeJBUyuOQeYlCFBsPUQEDz8ggCQYX8l2N4hm+hMQYzqkBX4blUP+WPdU=
-X-Received: by 2002:a63:b60:: with SMTP id a32mr1967984pgl.275.1606904474094;
- Wed, 02 Dec 2020 02:21:14 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=fFR2t3IjQI80xXgeJr/lLM6Ot3yuaPlWOezeBx0tbPI=;
+        b=Sft8E99xsgCSkEdR2MCT35YXiis9uIRDk/T7sePhOsPfioW59DXc+1GDwxzxfueLF7
+         LpLEVv7GpkEoShIPPnxkI1v8KNwnK7Y0f0r9zJS9o7qAFkhTQZ29ver3KiI4LQptHv9D
+         4T357KL9BhJVkd9lOZcGzxP4uNHMJKar+rCpCOjohO5O5iKh/MIB7T0NTVKqP0qu/Qt6
+         AYwVMgwN6IUl1KiK17fXvyZA3ESlNGL+likvCMIETJIsBcqUwfsJM5nTvyvgdloIxpZ7
+         jZpVFrb6b/jbXXJQTFuvgyXQvn5FCVeKL5YgovXArReJEIAlRk8KRVK5S0ue6KfoYZZj
+         PxOw==
+X-Gm-Message-State: AOAM5333l/fGT51WWPRigFmdm3ttqz5+gKtTOa26LMQM3ySG7tB/PnEJ
+        RAqcVkMQS7laNVfPgdY1g2EoIyTg48b+uJQAJ8aZb6UM+5hBY1kgq9BF4Dy/64KeJ03da3J7aYL
+        NmnlP2dSZRsR9CmQSC1JTLRxDwVGWQiMjJc+75QM=
+X-Received: by 2002:a63:1414:: with SMTP id u20mr312492pgl.147.1606922392851;
+        Wed, 02 Dec 2020 07:19:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzx1g9/LllhhTY2kqAX7DReYattvLk+1Zn+n8SVM7MqR/ECZ0g58ckaZi/4ZDUMErdOi5rr0+tT9celGmI9Nto=
+X-Received: by 2002:a63:1414:: with SMTP id u20mr312476pgl.147.1606922392587;
+ Wed, 02 Dec 2020 07:19:52 -0800 (PST)
 MIME-Version: 1.0
-References: <20201119082232.8774-1-felixhaedicke@web.de> <CAKdAkRSyi53f0pwyzmNP4fNhkDT4P5vV_aDneZuCKTqWDvb+Kg@mail.gmail.com>
-In-Reply-To: <CAKdAkRSyi53f0pwyzmNP4fNhkDT4P5vV_aDneZuCKTqWDvb+Kg@mail.gmail.com>
+References: <20201112004130.17290-1-dianders@chromium.org> <CAD=FV=W122aWPbg7Fo=zg+QmK7DHBcYTQ6CjPawLhucd4Rtw9A@mail.gmail.com>
+In-Reply-To: <CAD=FV=W122aWPbg7Fo=zg+QmK7DHBcYTQ6CjPawLhucd4Rtw9A@mail.gmail.com>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 2 Dec 2020 11:21:03 +0100
-Message-ID: <CAO-hwJLk5hpBQA=Xy4Hmfhx8iMJp+TuqyV33r2ocJX7JW-PkFQ@mail.gmail.com>
-Subject: Re: [PATCH] HID: quirks: Add Apple Magic Trackpad 2 to
- hid_have_special_driver list
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        =?UTF-8?Q?Felix_H=C3=A4dicke?= <felixhaedicke@web.de>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "Sean O'Brien" <seobrien@chromium.org>
+Date:   Wed, 2 Dec 2020 16:19:41 +0100
+Message-ID: <CAO-hwJ+amboty_wKzP3n11mHLfssGz8Npzdfu9QrcipEvu3VHA@mail.gmail.com>
+Subject: Re: [PATCH v6 0/4] HID: i2c-hid: Reorganize to allow supporting goodix,gt7375p
+To:     Doug Anderson <dianders@chromium.org>
+Cc:     Jiri Kosina <jkosina@suse.cz>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andrea Borgia <andrea@borgia.bo.it>,
+        Rob Herring <robh+dt@kernel.org>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Aaron Ma <aaron.ma@canonical.com>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Jiri Kosina <jikos@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Li Yang <leoyang.li@nxp.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Michael Walle <michael@walle.cc>,
+        Olof Johansson <olof@lixom.net>, Pavel Balan <admin@kryma.net>,
+        Shawn Guo <shawnguo@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        Will Deacon <will@kernel.org>,
+        Xiaofei Tan <tanxiaofei@huawei.com>,
+        You-Sheng Yang <vicamo.yang@canonical.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Felix,
+Hi Doug,
 
-On Wed, Dec 2, 2020 at 5:31 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
+On Tue, Dec 1, 2020 at 10:12 PM Doug Anderson <dianders@chromium.org> wrote:
 >
-> On Thu, Nov 19, 2020 at 12:31 AM Felix H=C3=A4dicke <felixhaedicke@web.de=
-> wrote:
+> Hi,
+>
+> On Wed, Nov 11, 2020 at 4:41 PM Douglas Anderson <dianders@chromium.org> wrote:
 > >
-> > The Apple Magic Trackpad 2 is handled by the magicmouse driver. And
-> > there were severe stability issues when both drivers (hid-generic and
-> > hid-magicmouse) were loaded for this device.
+> > The goal of this series is to support the Goodix GT7375P touchscreen.
+> > This touchscreen is special because it has power sequencing
+> > requirements that necessitate driving a reset GPIO.
 > >
-> > Fixes: https://bugzilla.kernel.org/show_bug.cgi?id=3D210241
+> > To do this, we totally rejigger the way i2c-hid is organized so that
+> > it's easier to jam the Goodix support in there.
+> >
+> > This series was:
+> > - Tested on a device that uses normal i2c-hid.
+> > - Tested on a device that has a Goodix i2c-hid device.
+> > - Tested on an ACPI device, but an earlier version of the series.
+> >
+> > Changes in v6:
+> > - ACPI probe function should have been "static"
+> > - Don't export suspend/resume, just export dev_pm_ops from core.
+> > - Fixed crash in ACPI module (missing init of "client")
+> > - No need for regulator include in the core.
+> > - Removed i2c_device_id table from ACPI module.
+> > - Suspend/resume are no longer exported from the core.
+> >
+> > Changes in v5:
+> > - Add shutdown_tail op and use it in ACPI.
+> > - Added mention of i2c-hid in the yaml itself as per Rob.
+> > - Adjusted subject as per Rob.
+> > - i2chid_subclass_data => i2chid_ops.
+> > - power_up_device => power_up (same with power_down).
+> > - subclass => ops.
+> >
+> > Changes in v4:
+> > - ("arm64: defconfig: Update config names for i2c-hid rejigger") new for v4.
+> > - Fully rejigger so ACPI and OF are full subclasses.
+> > - Totally redid based on the new subclass system.
+> >
+> > Changes in v3:
+> > - Fixed compatible in example.
+> > - Removed Benjamin as a maintainer.
+> > - Rework to use subclassing.
+> > - Updated description.
+> >
+> > Changes in v2:
+> > - ("dt-bindings: HID: i2c-hid: Introduce bindings for the Goodix GT7375P") new in v2.
+> > - Get timings based on the compatible string.
+> > - Use a separate compatible string for this new touchscreen.
+> >
+> > Douglas Anderson (4):
+> >   HID: i2c-hid: Reorganize so ACPI and OF are separate modules
+> >   arm64: defconfig: Update config names for i2c-hid rejigger
+> >   dt-bindings: input: HID: i2c-hid: Introduce bindings for the Goodix
+> >     GT7375P
+> >   HID: i2c-hid: Introduce goodix-i2c-hid using i2c-hid core
+> >
+> >  .../bindings/input/goodix,gt7375p.yaml        |  65 +++++
+> >  arch/arm64/configs/defconfig                  |   3 +-
+> >  drivers/hid/Makefile                          |   2 +-
+> >  drivers/hid/i2c-hid/Kconfig                   |  47 +++-
+> >  drivers/hid/i2c-hid/Makefile                  |   6 +-
+> >  drivers/hid/i2c-hid/i2c-hid-acpi.c            | 159 +++++++++++
+> >  drivers/hid/i2c-hid/i2c-hid-core.c            | 254 +++---------------
+> >  drivers/hid/i2c-hid/i2c-hid-of-goodix.c       | 116 ++++++++
+> >  drivers/hid/i2c-hid/i2c-hid-of.c              | 143 ++++++++++
+> >  drivers/hid/i2c-hid/i2c-hid.h                 |  22 ++
+> >  include/linux/platform_data/i2c-hid.h         |  41 ---
+> >  11 files changed, 596 insertions(+), 262 deletions(-)
+> >  create mode 100644 Documentation/devicetree/bindings/input/goodix,gt7375p.yaml
+> >  create mode 100644 drivers/hid/i2c-hid/i2c-hid-acpi.c
+> >  create mode 100644 drivers/hid/i2c-hid/i2c-hid-of-goodix.c
+> >  create mode 100644 drivers/hid/i2c-hid/i2c-hid-of.c
+> >  delete mode 100644 include/linux/platform_data/i2c-hid.h
+>
+> Are there any additional changes that folks would like with this
+> series?  It's not crazy urgent to get it in, but it touches enough
+> lines of code that it'd be nice to get it in before other patches land
+> and it gets merge conflicts.
 
-As mentioned in the bug, this hardly looks like the correct solution.
+Sorry for the delay. I was having an internal deadline last week. I
+just re-read the code, and I am quite happy with it. I also just
+tested it on the i2c-hid w/ acpi machine I have here, and it seems OK.
 
-The magicmouse is one of the 2 only drivers that calls
-`hid_register_report` and then overwrites the size of the report
-manually. I can not figure out immediately if this is wrong, and how
-that would impact a free in usbhid, but this is highly suspicious to
-me.
+So other than that, do we need to have approvals for patch 2/4
+(arch/arm64/configs/defconfig)? I can easily take that in the HID
+tree, but I prefer having the approval from the maintainers first.
+Catalin, Will?
+
+>
+> Hrm, I just checked and there actually is already one merge conflict
+> with commit afdd34c5fa40 ("HID: i2c-hid: show the error when failing
+> to fetch the HID descriptor") but that commit (and thus the
+> resolution) is trivial.  If there are no other comments I can re-post
+> atop that patch.  ...or I'm also happy if a maintainer is OK w/
+> resolving when landing my series.  Just let me know!
+
+If I can quickly get the approval from the arm64/config maintainers, I
+can try to apply it. Though, I wouldn't be against you sending a clean
+and conflict-free series :)
+
+>
+> ...or, if you want me to just shut up for a while and wait until your
+> tryptophan hangover wears off, that's fine too--just let me know.
+>
+
+Heh. Sorry, I have a tendency to have my inbox flooded, and some time
+gets distracted to do other important work I am paid for (too). I
+don't mind a gentle nudge from time to time, that helps figuring out
+the priorities :)
 
 Cheers,
 Benjamin
-
->
-> +Jiri Kosina +Benjamin Tissoires for visibility.
->
-> >
-> > Signed-off-by: Felix H=C3=A4dicke <felixhaedicke@web.de>
-> > ---
-> >  drivers/hid/hid-quirks.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-> > index 7a2be0205dfd..0a589d956e5c 100644
-> > --- a/drivers/hid/hid-quirks.c
-> > +++ b/drivers/hid/hid-quirks.c
-> > @@ -473,6 +473,8 @@ static const struct hid_device_id hid_have_special_=
-driver[] =3D {
-> >  #if IS_ENABLED(CONFIG_HID_MAGICMOUSE)
-> >         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE=
-_MAGICMOUSE) },
-> >         { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE=
-_MAGICTRACKPAD) },
-> > +       { HID_BLUETOOTH_DEVICE(BT_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_=
-MAGICTRACKPAD2) },
-> > +       { HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_MAGIC=
-TRACKPAD2) },
-> >  #endif
-> >  #if IS_ENABLED(CONFIG_HID_MAYFLASH)
-> >         { HID_USB_DEVICE(USB_VENDOR_ID_DRAGONRISE, USB_DEVICE_ID_DRAGON=
-RISE_PS3) },
-> > --
-> > 2.29.2
-> >
->
-> Thanks.
->
-> --
-> Dmitry
->
 
