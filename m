@@ -2,82 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B9222CCF45
-	for <lists+linux-input@lfdr.de>; Thu,  3 Dec 2020 07:31:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 28A0B2CD092
+	for <lists+linux-input@lfdr.de>; Thu,  3 Dec 2020 08:48:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726602AbgLCGab (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 3 Dec 2020 01:30:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50406 "EHLO
+        id S1729661AbgLCHrq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 3 Dec 2020 02:47:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726405AbgLCGab (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Dec 2020 01:30:31 -0500
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44714C061A4E
-        for <linux-input@vger.kernel.org>; Wed,  2 Dec 2020 22:29:51 -0800 (PST)
-Received: by mail-pl1-x641.google.com with SMTP id p6so572591plr.7
-        for <linux-input@vger.kernel.org>; Wed, 02 Dec 2020 22:29:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=HQh1lFfZKkrvI8RCzvCKS9gnwRCn+GcrHQvEziFIixE=;
-        b=vecggbur99yWok90VVR2izKCZOB3RBD85yISW4TNYmBeGLENLqLqjCvGKZz2+h6k3J
-         i9dDpSiVsHbRosdwp2xoV675AmnwVD9Su+qGYynqFuoFzuD2qwkNF74qwaIU0FAO1gs6
-         Vjq2k3SBMgH9+QXozCzPXaGliBuKJ+51lK4EeP5NFqZ887J5RSDRUajRbjOe5Ym7H43s
-         8v4HxaSJcKqsPolaVhp/spr1QBvhzBEep+Z1bRxN4Mju9K0j9ZHIjztAjRpJYm+riydQ
-         507yXmq40tBytlutPKUGUzpr8UsBmam1Kosf9R8O1mCHkBKLLic6HF1PsA+SfUrETmYt
-         Adog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=HQh1lFfZKkrvI8RCzvCKS9gnwRCn+GcrHQvEziFIixE=;
-        b=LLfukXT44REizzWobmrHMscIQT+mL7d+nnYQsaCotMtdK3I+d4j+2L2QZMhUJl9apO
-         uP2Wv9uK6qlQGLf7dhBIVneKYV9NDPzV+F4rCIqUKvB24BkozWrKgQB3ZoeWFVgr9upn
-         2Tu6gyLb4NA5w3fOSNIFeB23rtGBGQD/8iHcCQkX2d91qbHrDXFN9M4WnJvEOx+wRVmj
-         Ox9Vm/KtNaW48WUGwyg9xvItGaKYKZrnWjStvikYl3yiZHPyD1bpJhkzugx9LgBHC5jw
-         Yj7RiNw/1/CgXPw5o3s95KjYvwCSWKVLUC602ZoqZTFnQ7W7qBPM91knlyaI6iVnyjPw
-         bOAw==
-X-Gm-Message-State: AOAM532d3w9l6X1F8/qhn0Mj99h9Yz9ESzkygm8Qi/SnFfyUZ5s/J9mB
-        1ZOtAlS0/3SyafyM+nvy5to=
-X-Google-Smtp-Source: ABdhPJzVo089rXr7KnJjFwVoYIAAHo4fUfEAogdUN4XFcQO1awc0SxdjfhLdyQTPx5ID1sJZNEbLWw==
-X-Received: by 2002:a17:90a:62c4:: with SMTP id k4mr1712010pjs.32.1606976990863;
-        Wed, 02 Dec 2020 22:29:50 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id 199sm491850pfb.219.2020.12.02.22.29.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Dec 2020 22:29:49 -0800 (PST)
-Date:   Wed, 2 Dec 2020 22:29:47 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc:     linux-input@vger.kernel.org, kernel@collabora.com,
-        Dmitry Torokhov <dtor@chromium.org>
-Subject: Re: [PATCH 2/2] Input: elan_i2c: Support inhibiting
-Message-ID: <X8iF2y6WcfaW4xA9@google.com>
-References: <20200430161641.24503-1-andrzej.p@collabora.com>
- <20200430161641.24503-3-andrzej.p@collabora.com>
+        with ESMTP id S1729389AbgLCHrq (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Dec 2020 02:47:46 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49BB4C061A4D;
+        Wed,  2 Dec 2020 23:47:06 -0800 (PST)
+Received: from zn.tnic (p200300ec2f0dc500db287c99eb312af4.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:c500:db28:7c99:eb31:2af4])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id BDDD61EC04DD;
+        Thu,  3 Dec 2020 08:47:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1606981624;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=GedApLaNstVc3e1C3spK8dfnCKnZJiZf08fLRjtMt2A=;
+        b=Fd2gqakHIUkjMZIpv84iCARF7D6l2nvr1+N7K02vNH9XhX6+OH4BTfHRmIN4GPL5GuZ5VE
+        owPiDdfM5QEJL4SuOBYLcv1eoqlCNLRkloYOzifN1dXLYIe3PomA2GCKgtSUCGDl4Z9yog
+        NoQT7vEwbjDu8q7G31I+62fLnJWJutc=
+Date:   Thu, 3 Dec 2020 08:46:59 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
+Cc:     linux-kernel@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
+        x86@kernel.org, hpa@zytor.com, dmitry.torokhov@gmail.com,
+        derek.kiernan@xilinx.com, dragan.cvetic@xilinx.com,
+        richardcochran@gmail.com, linux-hyperv@vger.kernel.org,
+        linux-input@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] x86: make VMware support optional
+Message-ID: <20201203074631.GC3059@zn.tnic>
+References: <20201202211949.17730-1-info@metux.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200430161641.24503-3-andrzej.p@collabora.com>
+In-Reply-To: <20201202211949.17730-1-info@metux.net>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Andrzej,
-
-On Thu, Apr 30, 2020 at 06:16:41PM +0200, Andrzej Pietrasiewicz wrote:
-> From: Dmitry Torokhov <dtor@chromium.org>
+On Wed, Dec 02, 2020 at 10:19:48PM +0100, Enrico Weigelt, metux IT consult wrote:
+> Make it possible to opt-out from VMware support, for minimized kernels
+> that never will be run under Vmware (eg. high-density virtualization
+> or embedded systems).
 > 
-> This also implies adjusting suspend/resume.
+> Average distro kernel will leave it on, therefore default to y.
+> 
+> Signed-off-by: Enrico Weigelt <info@metux.net>
+> ---
+>  arch/x86/Kconfig                 | 11 +++++++++++
+>  arch/x86/kernel/cpu/Makefile     |  4 +++-
+>  arch/x86/kernel/cpu/hypervisor.c |  2 ++
+>  drivers/input/mouse/Kconfig      |  2 +-
+>  drivers/misc/Kconfig             |  2 +-
+>  drivers/ptp/Kconfig              |  2 +-
+>  6 files changed, 19 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> index f6946b81f74a..eff12460cb3c 100644
+> --- a/arch/x86/Kconfig
+> +++ b/arch/x86/Kconfig
+> @@ -801,6 +801,17 @@ config X86_HV_CALLBACK_VECTOR
+>  
+>  source "arch/x86/xen/Kconfig"
+>  
+> +config VMWARE_GUEST
+> +	bool "VMware Guest support"
+> +	default y
+> +	help
+> +	  This option enables several optimizations for running under the
+> +	  VMware hypervisor.
+> +
+> +	  Disabling it saves a few kb, for stripped down kernels eg. in high
 
-This was acceptable for Chrome OS, where we know that nobody is going to
-poke in sysfs or update firmware at random times, but for upstream we
-need to make sure that device is powered up when we try accessing it not
-only via open, but through sysfs as well (upload firmware, calibrate,
-etc).
+I was actually expecting for you to do your own measurements and show data.
+Anyway, I did it for you:
 
-Thanks.
+   text    data     bss     dec     hex filename
+15949304        127806978       36597916        180354198       abffc96 vmlinux.before
+15947650        127802430       36602012        180352092       abff45c vmlinux.after
+
+this is with my .config.
+
+How much is it with a stripped down kernel? I bet it is even less. Which
+makes this whole effort not worth it...
+
+Also, when you send a new version of your patches, please rework *all*
+review feedback you've received on the previous one.
+
+Thx.
 
 -- 
-Dmitry
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
