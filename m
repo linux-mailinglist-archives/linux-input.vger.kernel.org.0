@@ -2,56 +2,25 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D03AA2CD0C6
-	for <lists+linux-input@lfdr.de>; Thu,  3 Dec 2020 09:06:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C26E2CD1DD
+	for <lists+linux-input@lfdr.de>; Thu,  3 Dec 2020 09:55:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388205AbgLCIGN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 3 Dec 2020 03:06:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36866 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388003AbgLCIGN (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Dec 2020 03:06:13 -0500
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C06EC061A4E
-        for <linux-input@vger.kernel.org>; Thu,  3 Dec 2020 00:05:27 -0800 (PST)
-Received: by mail-ej1-x644.google.com with SMTP id d17so2067744ejy.9
-        for <linux-input@vger.kernel.org>; Thu, 03 Dec 2020 00:05:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=FZ8VxZZvqmh6ehr3KHE/PiRk3db+weOkpDGOlsh3YO8=;
-        b=haDseJv+D02T10aLAxQHXG0BsYACsfkijqaB+ELZmfch2JYU9g6y9ryqDyIqWShXaW
-         yaAZ88xKKVmpIrZKV/qetu3zM2AbVORk0wYWL03XQMh8ss+hr7Dc6CnNOdvjOspJC/vQ
-         R2df0RgSro0FHNGu8o3DpusAvPeMobIgNjOfc7hfwHJ6Nvy0U69h0GmKMctPOdP8JHuK
-         uCRMiqbef850rMYfMmIEUS0TzdqaTlcSg4Jgua9sT1AuBgZSfdy1txMa/Fszl/iCAsRa
-         6RBF8zj3OIpntYgPprvZoROYfpZUKnhmmTVDrR3O2ZTkmVat83g3y0aDOoH39HHPuS4h
-         RbOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=FZ8VxZZvqmh6ehr3KHE/PiRk3db+weOkpDGOlsh3YO8=;
-        b=r/FphDUh3WKEeik0GgjdUbGC3WlIYp7ds9LozK6QoPxa6uoZ8lp7EDvv3FDK7VdQVj
-         IKMNawDBsALE5yeZErIqFkM+la6rop88OjMpXTI86O9/dL5T7jXfucGs+yYZQjvKA20R
-         95xW+3nzM1Leo70bygeLUGaxx7ntklm+q3EJoW24TQvfQBUsELWrTLAlENf4kbibxnqm
-         kRso/NtVhMnFCahntM7JD1FB/1iGnqiFrLdjKmeBkz67jsODmOPn7c/qlshvpscVR0+b
-         BrZSI8iicnhmrC2v0WRvdRxtiYgk+l0oXIPxbC6vQDWBpVL6hSP242tg/xu8GRRj0a/j
-         xIeQ==
-X-Gm-Message-State: AOAM532+AHp7Ste7Bp/aCK0DEGbRUq143xEX7KcnWKmxbUHTcFq1PMOv
-        RT/xz7/cpCAGFluDvibBPG1o7v8kF9QSyS9eYv9waQ==
-X-Google-Smtp-Source: ABdhPJxP2EJznI3pbg+Rqtm4SZQefIKFXf0kkiRRTqzbUDyEG5oMEZvNtOYbyFNg3cm8vTl+G0cfLIdKavT7T0DOD1k=
-X-Received: by 2002:a17:906:7f01:: with SMTP id d1mr1414079ejr.429.1606982726027;
- Thu, 03 Dec 2020 00:05:26 -0800 (PST)
-MIME-Version: 1.0
-References: <20201123183833.18750-1-nsaenzjulienne@suse.de> <20201123183833.18750-2-nsaenzjulienne@suse.de>
-In-Reply-To: <20201123183833.18750-2-nsaenzjulienne@suse.de>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Thu, 3 Dec 2020 09:05:15 +0100
-Message-ID: <CAMpxmJX6zdoYek2THEj2x8ycJYz-bxqE_5RnOz1sYv0vwLSFpA@mail.gmail.com>
-Subject: Re: [PATCH v5 01/11] firmware: raspberrypi: Keep count of all consumers
-To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Cc:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        id S1730057AbgLCIx5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 3 Dec 2020 03:53:57 -0500
+Received: from mx2.suse.de ([195.135.220.15]:58580 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730016AbgLCIx4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 3 Dec 2020 03:53:56 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 6E0E5AC55;
+        Thu,  3 Dec 2020 08:53:14 +0000 (UTC)
+Message-ID: <401be3062e06f4896662da179a751a1a08b8a75a.camel@suse.de>
+Subject: Re: [PATCH v5 01/11] firmware: raspberrypi: Keep count of all
+ consumers
+From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
         <u.kleine-koenig@pengutronix.de>,
         LKML <linux-kernel@vger.kernel.org>,
         Florian Fainelli <f.fainelli@gmail.com>,
@@ -70,170 +39,132 @@ Cc:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?=
         Stephen Boyd <sboyd@kernel.org>,
         linux-rpi-kernel@lists.infradead.org,
         Andy Shevchenko <andy.shevchenko@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date:   Thu, 03 Dec 2020 09:53:12 +0100
+In-Reply-To: <CAMpxmJX6zdoYek2THEj2x8ycJYz-bxqE_5RnOz1sYv0vwLSFpA@mail.gmail.com>
+References: <20201123183833.18750-1-nsaenzjulienne@suse.de>
+         <20201123183833.18750-2-nsaenzjulienne@suse.de>
+         <CAMpxmJX6zdoYek2THEj2x8ycJYz-bxqE_5RnOz1sYv0vwLSFpA@mail.gmail.com>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-SBC+IJay38JRk592gNwQ"
+User-Agent: Evolution 3.38.2 
+MIME-Version: 1.0
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Nov 23, 2020 at 7:38 PM Nicolas Saenz Julienne
-<nsaenzjulienne@suse.de> wrote:
->
-> When unbinding the firmware device we need to make sure it has no
-> consumers left. Otherwise we'd leave them with a firmware handle
-> pointing at freed memory.
->
-> Keep a reference count of all consumers and introduce rpi_firmware_put()
-> which will permit automatically decrease the reference count upon
-> unbinding consumer drivers.
->
-> Suggested-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-> ---
->
-> Changes since v3:
-> - Use kref instead of waiting on refcount
->
->  drivers/firmware/raspberrypi.c             | 37 +++++++++++++++++++---
->  include/soc/bcm2835/raspberrypi-firmware.h |  2 ++
->  2 files changed, 35 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/firmware/raspberrypi.c b/drivers/firmware/raspberryp=
-i.c
-> index 30259dc9b805..ed793aef7851 100644
-> --- a/drivers/firmware/raspberrypi.c
-> +++ b/drivers/firmware/raspberrypi.c
-> @@ -7,6 +7,7 @@
->   */
->
->  #include <linux/dma-mapping.h>
-> +#include <linux/kref.h>
->  #include <linux/mailbox_client.h>
->  #include <linux/module.h>
->  #include <linux/of_platform.h>
-> @@ -27,6 +28,8 @@ struct rpi_firmware {
->         struct mbox_chan *chan; /* The property channel. */
->         struct completion c;
->         u32 enabled;
-> +
-> +       struct kref consumers;
->  };
->
->  static DEFINE_MUTEX(transaction_lock);
-> @@ -225,12 +228,27 @@ static void rpi_register_clk_driver(struct device *=
-dev)
->                                                 -1, NULL, 0);
->  }
->
-> +static void rpi_firmware_delete(struct kref *kref)
-> +{
-> +       struct rpi_firmware *fw =3D container_of(kref, struct rpi_firmwar=
-e,
-> +                                              consumers);
-> +
-> +       mbox_free_channel(fw->chan);
-> +       kfree(fw);
-> +}
-> +
-> +void rpi_firmware_put(struct rpi_firmware *fw)
-> +{
-> +       kref_put(&fw->consumers, rpi_firmware_delete);
-> +}
-> +EXPORT_SYMBOL_GPL(rpi_firmware_put);
-> +
->  static int rpi_firmware_probe(struct platform_device *pdev)
->  {
->         struct device *dev =3D &pdev->dev;
->         struct rpi_firmware *fw;
->
-> -       fw =3D devm_kzalloc(dev, sizeof(*fw), GFP_KERNEL);
 
-One nit from my side: maybe add a comment here saying that you really
-want to use non-managed kzalloc() because you're going to get people
-blindly converting it to devm_kzalloc() very soon.
+--=-SBC+IJay38JRk592gNwQ
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Bartosz
-
-> +       fw =3D kzalloc(sizeof(*fw), GFP_KERNEL);
->         if (!fw)
->                 return -ENOMEM;
->
-> @@ -247,6 +265,7 @@ static int rpi_firmware_probe(struct platform_device =
-*pdev)
->         }
->
->         init_completion(&fw->c);
-> +       kref_init(&fw->consumers);
->
->         platform_set_drvdata(pdev, fw);
->
-> @@ -275,25 +294,35 @@ static int rpi_firmware_remove(struct platform_devi=
-ce *pdev)
->         rpi_hwmon =3D NULL;
->         platform_device_unregister(rpi_clk);
->         rpi_clk =3D NULL;
-> -       mbox_free_channel(fw->chan);
-> +
-> +       rpi_firmware_put(fw);
->
->         return 0;
->  }
->
->  /**
-> - * rpi_firmware_get - Get pointer to rpi_firmware structure.
->   * @firmware_node:    Pointer to the firmware Device Tree node.
->   *
-> + * The reference to rpi_firmware has to be released with rpi_firmware_pu=
-t().
-> + *
->   * Returns NULL is the firmware device is not ready.
->   */
->  struct rpi_firmware *rpi_firmware_get(struct device_node *firmware_node)
->  {
->         struct platform_device *pdev =3D of_find_device_by_node(firmware_=
-node);
-> +       struct rpi_firmware *fw;
->
->         if (!pdev)
->                 return NULL;
->
-> -       return platform_get_drvdata(pdev);
-> +       fw =3D platform_get_drvdata(pdev);
-> +       if (!fw)
-> +               return NULL;
-> +
-> +       if (!kref_get_unless_zero(&fw->consumers))
-> +               return NULL;
-> +
-> +       return fw;
->  }
->  EXPORT_SYMBOL_GPL(rpi_firmware_get);
->
-> diff --git a/include/soc/bcm2835/raspberrypi-firmware.h b/include/soc/bcm=
-2835/raspberrypi-firmware.h
-> index cc9cdbc66403..fdfef7fe40df 100644
-> --- a/include/soc/bcm2835/raspberrypi-firmware.h
-> +++ b/include/soc/bcm2835/raspberrypi-firmware.h
-> @@ -140,6 +140,7 @@ int rpi_firmware_property(struct rpi_firmware *fw,
->                           u32 tag, void *data, size_t len);
->  int rpi_firmware_property_list(struct rpi_firmware *fw,
->                                void *data, size_t tag_size);
-> +void rpi_firmware_put(struct rpi_firmware *fw);
->  struct rpi_firmware *rpi_firmware_get(struct device_node *firmware_node)=
+On Thu, 2020-12-03 at 09:05 +0100, Bartosz Golaszewski wrote:
+> On Mon, Nov 23, 2020 at 7:38 PM Nicolas Saenz Julienne
+> <nsaenzjulienne@suse.de> wrote:
+> >=20
+> > When unbinding the firmware device we need to make sure it has no
+> > consumers left. Otherwise we'd leave them with a firmware handle
+> > pointing at freed memory.
+> >=20
+> > Keep a reference count of all consumers and introduce rpi_firmware_put(=
+)
+> > which will permit automatically decrease the reference count upon
+> > unbinding consumer drivers.
+> >=20
+> > Suggested-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> > Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+> > ---
+> >=20
+> > Changes since v3:
+> > - Use kref instead of waiting on refcount
+> >=20
+> > =C2=A0drivers/firmware/raspberrypi.c             | 37 +++++++++++++++++=
+++---
+> > =C2=A0include/soc/bcm2835/raspberrypi-firmware.h |  2 ++
+> > =C2=A02 files changed, 35 insertions(+), 4 deletions(-)
+> >=20
+> > diff --git a/drivers/firmware/raspberrypi.c b/drivers/firmware/raspberr=
+ypi.c
+> > index 30259dc9b805..ed793aef7851 100644
+> > --- a/drivers/firmware/raspberrypi.c
+> > +++ b/drivers/firmware/raspberrypi.c
+> > @@ -7,6 +7,7 @@
+> > =C2=A0=C2=A0*/
+> >=20
+> > =C2=A0#include <linux/dma-mapping.h>
+> > +#include <linux/kref.h>
+> > =C2=A0#include <linux/mailbox_client.h>
+> > =C2=A0#include <linux/module.h>
+> > =C2=A0#include <linux/of_platform.h>
+> > @@ -27,6 +28,8 @@ struct rpi_firmware {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct mbox_chan *chan;=
+ /* The property channel. */
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct completion c;
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u32 enabled;
+> > +
+> > +       struct kref consumers;
+> > =C2=A0};
+> >=20
+> > =C2=A0static DEFINE_MUTEX(transaction_lock);
+> > @@ -225,12 +228,27 @@ static void rpi_register_clk_driver(struct device=
+ *dev)
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0-1, NU=
+LL, 0);
+> > =C2=A0}
+> >=20
+> > +static void rpi_firmware_delete(struct kref *kref)
+> > +{
+> > +       struct rpi_firmware *fw =3D container_of(kref, struct rpi_firmw=
+are,
+> > +                                              consumers);
+> > +
+> > +       mbox_free_channel(fw->chan);
+> > +       kfree(fw);
+> > +}
+> > +
+> > +void rpi_firmware_put(struct rpi_firmware *fw)
+> > +{
+> > +       kref_put(&fw->consumers, rpi_firmware_delete);
+> > +}
+> > +EXPORT_SYMBOL_GPL(rpi_firmware_put);
+> > +
+> > =C2=A0static int rpi_firmware_probe(struct platform_device *pdev)
+> > =C2=A0{
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct device *dev =3D =
+&pdev->dev;
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct rpi_firmware *fw=
 ;
->  #else
->  static inline int rpi_firmware_property(struct rpi_firmware *fw, u32 tag=
-,
-> @@ -154,6 +155,7 @@ static inline int rpi_firmware_property_list(struct r=
-pi_firmware *fw,
->         return -ENOSYS;
->  }
->
-> +static inline void rpi_firmware_put(struct rpi_firmware *fw) { }
->  static inline struct rpi_firmware *rpi_firmware_get(struct device_node *=
-firmware_node)
->  {
->         return NULL;
-> --
-> 2.29.2
->
+> >=20
+> > -       fw =3D devm_kzalloc(dev, sizeof(*fw), GFP_KERNEL);
+>=20
+> One nit from my side: maybe add a comment here saying that you really
+> want to use non-managed kzalloc() because you're going to get people
+> blindly converting it to devm_kzalloc() very soon.
+
+Good point, I'll change it.
+
+Regards,
+Nicolas
+
+
+--=-SBC+IJay38JRk592gNwQ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl/Ip3gACgkQlfZmHno8
+x/5Ncwf8C0HFE7YBc4W1hWu3koQkBNupWVGDMLkAR36Dfmk6pph04kKcLSt6ZIu1
+2SMHgfQG4VikmJnqGQp66Y93QWodjPeglOr+09VL5rY7rehOGcdBICaNPJcS1vrl
+LnF+n0Lqyfirpq4rVd7qX5taBOz890GfthlZMmFsNcbFcSEuuUVogJC7iCDe+0cy
+nqEYLXfaCEVDE0jR4Zvmyvs20dEZpXHR0gfoc29hMBtRLDL2l1CClG7Vm9im7Ob1
+2Jm9YqHMduon8YCqLZF+jxnZesbb9ktTry5StYQ7lSZyfDxb32nOjAQqGeZfsYyF
+y1nknR5dNeL/6dbIqCn33h4p6HSTbA==
+=idux
+-----END PGP SIGNATURE-----
+
+--=-SBC+IJay38JRk592gNwQ--
+
