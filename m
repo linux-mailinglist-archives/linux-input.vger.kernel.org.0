@@ -2,15 +2,15 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C1762CD800
-	for <lists+linux-input@lfdr.de>; Thu,  3 Dec 2020 14:45:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1129E2CD769
+	for <lists+linux-input@lfdr.de>; Thu,  3 Dec 2020 14:35:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436656AbgLCNhB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 3 Dec 2020 08:37:01 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47780 "EHLO mail.kernel.org"
+        id S2389205AbgLCNeC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 3 Dec 2020 08:34:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47782 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2436608AbgLCNa3 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 3 Dec 2020 08:30:29 -0500
+        id S2436828AbgLCNbB (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 3 Dec 2020 08:31:01 -0500
 From:   Sasha Levin <sashal@kernel.org>
 Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
@@ -18,12 +18,12 @@ Cc:     Hans de Goede <hdegoede@redhat.com>,
         russianneuromancer <russianneuromancer@ya.ru>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org,
         platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.9 37/39] platform/x86: touchscreen_dmi: Add info for the Irbis TW118 tablet
-Date:   Thu,  3 Dec 2020 08:28:31 -0500
-Message-Id: <20201203132834.930999-37-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 21/23] platform/x86: touchscreen_dmi: Add info for the Irbis TW118 tablet
+Date:   Thu,  3 Dec 2020 08:29:33 -0500
+Message-Id: <20201203132935.931362-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201203132834.930999-1-sashal@kernel.org>
-References: <20201203132834.930999-1-sashal@kernel.org>
+In-Reply-To: <20201203132935.931362-1-sashal@kernel.org>
+References: <20201203132935.931362-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -47,10 +47,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 23 insertions(+)
 
 diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index 26cbf7cc8129c..5783139d0a119 100644
+index 1c7d8324ff5c2..1e072dbba30d6 100644
 --- a/drivers/platform/x86/touchscreen_dmi.c
 +++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -295,6 +295,21 @@ static const struct ts_dmi_data irbis_tw90_data = {
+@@ -264,6 +264,21 @@ static const struct ts_dmi_data irbis_tw90_data = {
  	.properties	= irbis_tw90_props,
  };
  
@@ -72,7 +72,7 @@ index 26cbf7cc8129c..5783139d0a119 100644
  static const struct property_entry itworks_tw891_props[] = {
  	PROPERTY_ENTRY_U32("touchscreen-min-x", 1),
  	PROPERTY_ENTRY_U32("touchscreen-min-y", 5),
-@@ -953,6 +968,14 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
+@@ -758,6 +773,14 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
  			DMI_MATCH(DMI_PRODUCT_NAME, "TW90"),
  		},
  	},
