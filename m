@@ -2,104 +2,238 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28A0B2CD092
-	for <lists+linux-input@lfdr.de>; Thu,  3 Dec 2020 08:48:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D03AA2CD0C6
+	for <lists+linux-input@lfdr.de>; Thu,  3 Dec 2020 09:06:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729661AbgLCHrq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 3 Dec 2020 02:47:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34046 "EHLO
+        id S2388205AbgLCIGN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 3 Dec 2020 03:06:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729389AbgLCHrq (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Dec 2020 02:47:46 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49BB4C061A4D;
-        Wed,  2 Dec 2020 23:47:06 -0800 (PST)
-Received: from zn.tnic (p200300ec2f0dc500db287c99eb312af4.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:c500:db28:7c99:eb31:2af4])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id BDDD61EC04DD;
-        Thu,  3 Dec 2020 08:47:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1606981624;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=GedApLaNstVc3e1C3spK8dfnCKnZJiZf08fLRjtMt2A=;
-        b=Fd2gqakHIUkjMZIpv84iCARF7D6l2nvr1+N7K02vNH9XhX6+OH4BTfHRmIN4GPL5GuZ5VE
-        owPiDdfM5QEJL4SuOBYLcv1eoqlCNLRkloYOzifN1dXLYIe3PomA2GCKgtSUCGDl4Z9yog
-        NoQT7vEwbjDu8q7G31I+62fLnJWJutc=
-Date:   Thu, 3 Dec 2020 08:46:59 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
-Cc:     linux-kernel@vger.kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        x86@kernel.org, hpa@zytor.com, dmitry.torokhov@gmail.com,
-        derek.kiernan@xilinx.com, dragan.cvetic@xilinx.com,
-        richardcochran@gmail.com, linux-hyperv@vger.kernel.org,
-        linux-input@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] x86: make VMware support optional
-Message-ID: <20201203074631.GC3059@zn.tnic>
-References: <20201202211949.17730-1-info@metux.net>
+        with ESMTP id S2388003AbgLCIGN (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Dec 2020 03:06:13 -0500
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C06EC061A4E
+        for <linux-input@vger.kernel.org>; Thu,  3 Dec 2020 00:05:27 -0800 (PST)
+Received: by mail-ej1-x644.google.com with SMTP id d17so2067744ejy.9
+        for <linux-input@vger.kernel.org>; Thu, 03 Dec 2020 00:05:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=FZ8VxZZvqmh6ehr3KHE/PiRk3db+weOkpDGOlsh3YO8=;
+        b=haDseJv+D02T10aLAxQHXG0BsYACsfkijqaB+ELZmfch2JYU9g6y9ryqDyIqWShXaW
+         yaAZ88xKKVmpIrZKV/qetu3zM2AbVORk0wYWL03XQMh8ss+hr7Dc6CnNOdvjOspJC/vQ
+         R2df0RgSro0FHNGu8o3DpusAvPeMobIgNjOfc7hfwHJ6Nvy0U69h0GmKMctPOdP8JHuK
+         uCRMiqbef850rMYfMmIEUS0TzdqaTlcSg4Jgua9sT1AuBgZSfdy1txMa/Fszl/iCAsRa
+         6RBF8zj3OIpntYgPprvZoROYfpZUKnhmmTVDrR3O2ZTkmVat83g3y0aDOoH39HHPuS4h
+         RbOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=FZ8VxZZvqmh6ehr3KHE/PiRk3db+weOkpDGOlsh3YO8=;
+        b=r/FphDUh3WKEeik0GgjdUbGC3WlIYp7ds9LozK6QoPxa6uoZ8lp7EDvv3FDK7VdQVj
+         IKMNawDBsALE5yeZErIqFkM+la6rop88OjMpXTI86O9/dL5T7jXfucGs+yYZQjvKA20R
+         95xW+3nzM1Leo70bygeLUGaxx7ntklm+q3EJoW24TQvfQBUsELWrTLAlENf4kbibxnqm
+         kRso/NtVhMnFCahntM7JD1FB/1iGnqiFrLdjKmeBkz67jsODmOPn7c/qlshvpscVR0+b
+         BrZSI8iicnhmrC2v0WRvdRxtiYgk+l0oXIPxbC6vQDWBpVL6hSP242tg/xu8GRRj0a/j
+         xIeQ==
+X-Gm-Message-State: AOAM532+AHp7Ste7Bp/aCK0DEGbRUq143xEX7KcnWKmxbUHTcFq1PMOv
+        RT/xz7/cpCAGFluDvibBPG1o7v8kF9QSyS9eYv9waQ==
+X-Google-Smtp-Source: ABdhPJxP2EJznI3pbg+Rqtm4SZQefIKFXf0kkiRRTqzbUDyEG5oMEZvNtOYbyFNg3cm8vTl+G0cfLIdKavT7T0DOD1k=
+X-Received: by 2002:a17:906:7f01:: with SMTP id d1mr1414079ejr.429.1606982726027;
+ Thu, 03 Dec 2020 00:05:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201202211949.17730-1-info@metux.net>
+References: <20201123183833.18750-1-nsaenzjulienne@suse.de> <20201123183833.18750-2-nsaenzjulienne@suse.de>
+In-Reply-To: <20201123183833.18750-2-nsaenzjulienne@suse.de>
+From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date:   Thu, 3 Dec 2020 09:05:15 +0100
+Message-ID: <CAMpxmJX6zdoYek2THEj2x8ycJYz-bxqE_5RnOz1sYv0vwLSFpA@mail.gmail.com>
+Subject: Re: [PATCH v5 01/11] firmware: raspberrypi: Keep count of all consumers
+To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        bcm-kernel-feedback-list@broadcom.com, linux-pwm@vger.kernel.org,
+        arm-soc <linux-arm-kernel@lists.infradead.org>,
+        linux-devicetree <devicetree@vger.kernel.org>, wahrenst@gmx.net,
+        Linux Input <linux-input@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        devel@driverdev.osuosl.org, Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-gpio <linux-gpio@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-rpi-kernel@lists.infradead.org,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Dec 02, 2020 at 10:19:48PM +0100, Enrico Weigelt, metux IT consult wrote:
-> Make it possible to opt-out from VMware support, for minimized kernels
-> that never will be run under Vmware (eg. high-density virtualization
-> or embedded systems).
-> 
-> Average distro kernel will leave it on, therefore default to y.
-> 
-> Signed-off-by: Enrico Weigelt <info@metux.net>
+On Mon, Nov 23, 2020 at 7:38 PM Nicolas Saenz Julienne
+<nsaenzjulienne@suse.de> wrote:
+>
+> When unbinding the firmware device we need to make sure it has no
+> consumers left. Otherwise we'd leave them with a firmware handle
+> pointing at freed memory.
+>
+> Keep a reference count of all consumers and introduce rpi_firmware_put()
+> which will permit automatically decrease the reference count upon
+> unbinding consumer drivers.
+>
+> Suggested-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 > ---
->  arch/x86/Kconfig                 | 11 +++++++++++
->  arch/x86/kernel/cpu/Makefile     |  4 +++-
->  arch/x86/kernel/cpu/hypervisor.c |  2 ++
->  drivers/input/mouse/Kconfig      |  2 +-
->  drivers/misc/Kconfig             |  2 +-
->  drivers/ptp/Kconfig              |  2 +-
->  6 files changed, 19 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> index f6946b81f74a..eff12460cb3c 100644
-> --- a/arch/x86/Kconfig
-> +++ b/arch/x86/Kconfig
-> @@ -801,6 +801,17 @@ config X86_HV_CALLBACK_VECTOR
->  
->  source "arch/x86/xen/Kconfig"
->  
-> +config VMWARE_GUEST
-> +	bool "VMware Guest support"
-> +	default y
-> +	help
-> +	  This option enables several optimizations for running under the
-> +	  VMware hypervisor.
+>
+> Changes since v3:
+> - Use kref instead of waiting on refcount
+>
+>  drivers/firmware/raspberrypi.c             | 37 +++++++++++++++++++---
+>  include/soc/bcm2835/raspberrypi-firmware.h |  2 ++
+>  2 files changed, 35 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/firmware/raspberrypi.c b/drivers/firmware/raspberryp=
+i.c
+> index 30259dc9b805..ed793aef7851 100644
+> --- a/drivers/firmware/raspberrypi.c
+> +++ b/drivers/firmware/raspberrypi.c
+> @@ -7,6 +7,7 @@
+>   */
+>
+>  #include <linux/dma-mapping.h>
+> +#include <linux/kref.h>
+>  #include <linux/mailbox_client.h>
+>  #include <linux/module.h>
+>  #include <linux/of_platform.h>
+> @@ -27,6 +28,8 @@ struct rpi_firmware {
+>         struct mbox_chan *chan; /* The property channel. */
+>         struct completion c;
+>         u32 enabled;
 > +
-> +	  Disabling it saves a few kb, for stripped down kernels eg. in high
+> +       struct kref consumers;
+>  };
+>
+>  static DEFINE_MUTEX(transaction_lock);
+> @@ -225,12 +228,27 @@ static void rpi_register_clk_driver(struct device *=
+dev)
+>                                                 -1, NULL, 0);
+>  }
+>
+> +static void rpi_firmware_delete(struct kref *kref)
+> +{
+> +       struct rpi_firmware *fw =3D container_of(kref, struct rpi_firmwar=
+e,
+> +                                              consumers);
+> +
+> +       mbox_free_channel(fw->chan);
+> +       kfree(fw);
+> +}
+> +
+> +void rpi_firmware_put(struct rpi_firmware *fw)
+> +{
+> +       kref_put(&fw->consumers, rpi_firmware_delete);
+> +}
+> +EXPORT_SYMBOL_GPL(rpi_firmware_put);
+> +
+>  static int rpi_firmware_probe(struct platform_device *pdev)
+>  {
+>         struct device *dev =3D &pdev->dev;
+>         struct rpi_firmware *fw;
+>
+> -       fw =3D devm_kzalloc(dev, sizeof(*fw), GFP_KERNEL);
 
-I was actually expecting for you to do your own measurements and show data.
-Anyway, I did it for you:
+One nit from my side: maybe add a comment here saying that you really
+want to use non-managed kzalloc() because you're going to get people
+blindly converting it to devm_kzalloc() very soon.
 
-   text    data     bss     dec     hex filename
-15949304        127806978       36597916        180354198       abffc96 vmlinux.before
-15947650        127802430       36602012        180352092       abff45c vmlinux.after
+Bartosz
 
-this is with my .config.
-
-How much is it with a stripped down kernel? I bet it is even less. Which
-makes this whole effort not worth it...
-
-Also, when you send a new version of your patches, please rework *all*
-review feedback you've received on the previous one.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+> +       fw =3D kzalloc(sizeof(*fw), GFP_KERNEL);
+>         if (!fw)
+>                 return -ENOMEM;
+>
+> @@ -247,6 +265,7 @@ static int rpi_firmware_probe(struct platform_device =
+*pdev)
+>         }
+>
+>         init_completion(&fw->c);
+> +       kref_init(&fw->consumers);
+>
+>         platform_set_drvdata(pdev, fw);
+>
+> @@ -275,25 +294,35 @@ static int rpi_firmware_remove(struct platform_devi=
+ce *pdev)
+>         rpi_hwmon =3D NULL;
+>         platform_device_unregister(rpi_clk);
+>         rpi_clk =3D NULL;
+> -       mbox_free_channel(fw->chan);
+> +
+> +       rpi_firmware_put(fw);
+>
+>         return 0;
+>  }
+>
+>  /**
+> - * rpi_firmware_get - Get pointer to rpi_firmware structure.
+>   * @firmware_node:    Pointer to the firmware Device Tree node.
+>   *
+> + * The reference to rpi_firmware has to be released with rpi_firmware_pu=
+t().
+> + *
+>   * Returns NULL is the firmware device is not ready.
+>   */
+>  struct rpi_firmware *rpi_firmware_get(struct device_node *firmware_node)
+>  {
+>         struct platform_device *pdev =3D of_find_device_by_node(firmware_=
+node);
+> +       struct rpi_firmware *fw;
+>
+>         if (!pdev)
+>                 return NULL;
+>
+> -       return platform_get_drvdata(pdev);
+> +       fw =3D platform_get_drvdata(pdev);
+> +       if (!fw)
+> +               return NULL;
+> +
+> +       if (!kref_get_unless_zero(&fw->consumers))
+> +               return NULL;
+> +
+> +       return fw;
+>  }
+>  EXPORT_SYMBOL_GPL(rpi_firmware_get);
+>
+> diff --git a/include/soc/bcm2835/raspberrypi-firmware.h b/include/soc/bcm=
+2835/raspberrypi-firmware.h
+> index cc9cdbc66403..fdfef7fe40df 100644
+> --- a/include/soc/bcm2835/raspberrypi-firmware.h
+> +++ b/include/soc/bcm2835/raspberrypi-firmware.h
+> @@ -140,6 +140,7 @@ int rpi_firmware_property(struct rpi_firmware *fw,
+>                           u32 tag, void *data, size_t len);
+>  int rpi_firmware_property_list(struct rpi_firmware *fw,
+>                                void *data, size_t tag_size);
+> +void rpi_firmware_put(struct rpi_firmware *fw);
+>  struct rpi_firmware *rpi_firmware_get(struct device_node *firmware_node)=
+;
+>  #else
+>  static inline int rpi_firmware_property(struct rpi_firmware *fw, u32 tag=
+,
+> @@ -154,6 +155,7 @@ static inline int rpi_firmware_property_list(struct r=
+pi_firmware *fw,
+>         return -ENOSYS;
+>  }
+>
+> +static inline void rpi_firmware_put(struct rpi_firmware *fw) { }
+>  static inline struct rpi_firmware *rpi_firmware_get(struct device_node *=
+firmware_node)
+>  {
+>         return NULL;
+> --
+> 2.29.2
+>
