@@ -2,97 +2,54 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C6DC82CF558
-	for <lists+linux-input@lfdr.de>; Fri,  4 Dec 2020 21:10:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 598802CF837
+	for <lists+linux-input@lfdr.de>; Sat,  5 Dec 2020 01:48:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730819AbgLDUKQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Dec 2020 15:10:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33904 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729147AbgLDUKQ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Dec 2020 15:10:16 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7ACFC061A51
-        for <linux-input@vger.kernel.org>; Fri,  4 Dec 2020 12:09:35 -0800 (PST)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1klHOU-00044M-E8; Fri, 04 Dec 2020 21:09:30 +0100
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1klHOS-00028b-4u; Fri, 04 Dec 2020 21:09:28 +0100
-Date:   Fri, 4 Dec 2020 21:09:27 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Alan Stern <stern@rowland.harvard.edu>, kernel@pengutronix.de,
-        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] ARM: sa11111: make sa1111 bus's remove callback return
- void
-Message-ID: <20201204200927.p354eli7uqr776sp@pengutronix.de>
-References: <20201126114724.2028511-1-u.kleine-koenig@pengutronix.de>
- <X8pOiU2a6BjfFuov@kroah.com>
+        id S1731043AbgLEArC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Dec 2020 19:47:02 -0500
+Received: from vsm-gw.hyogo-dai.ac.jp ([202.244.76.12]:49526 "EHLO
+        vsm-gw.hyogo-dai.ac.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726485AbgLEAq5 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Dec 2020 19:46:57 -0500
+X-Greylist: delayed 14573 seconds by postgrey-1.27 at vger.kernel.org; Fri, 04 Dec 2020 19:46:41 EST
+Received: from humans-kc.hyogo-dai.ac.jp (humans-kc.hyogo-dai.ac.jp [202.244.77.11])
+        by vsm-gw.hyogo-dai.ac.jp (Postfix) with ESMTP id 274A31A5589;
+        Sat,  5 Dec 2020 04:44:55 +0900 (JST)
+Received: from humans-kc.hyogo-dai.ac.jp (humans-kc.hyogo-dai.ac.jp [127.0.0.1])
+        by postfix.imss71 (Postfix) with ESMTP id E5C39838858;
+        Sat,  5 Dec 2020 04:44:54 +0900 (JST)
+Received: from hyogo-dai.ac.jp (unknown [202.244.77.11])
+        by humans-kc.hyogo-dai.ac.jp (Postfix) with SMTP id B84F6838260;
+        Sat,  5 Dec 2020 04:44:54 +0900 (JST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ylbalxyvhyuipbv3"
-Content-Disposition: inline
-In-Reply-To: <X8pOiU2a6BjfFuov@kroah.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+Message-ID: <20201204194454.00002B21.0147@hyogo-dai.ac.jp>
+Date:   Sat, 05 Dec 2020 04:44:54 +0900
+From:   "Dr.Raymond" <tabata@hyogo-dai.ac.jp>
+To:     <infocarferr1@aim.com>
+Reply-To: <infocarfer@aim.com>
+Subject: I am Vice Chairman of Hang Seng Bank, Dr. Raymond Chien
+         Kuo Fung I have Important Matter to Discuss with you concerning
+         my late client. Died without a NEXT OF KIN. Send me your private
+         email for full details information. 
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MAILER: Active! mail
+X-TM-AS-MML: disable
+X-TM-AS-Product-Ver: IMSS-7.1.0.1808-8.2.0.1013-25446.007
+X-TM-AS-Result: No--4.326-5.0-31-10
+X-imss-scan-details: No--4.326-5.0-31-10
+X-TM-AS-User-Approved-Sender: No
+X-TMASE-MatchedRID: +T4Z3mpR0x5ITndh1lLRASsOycAMAhSTkCM77ifYafsBLhz6t76Ce/bj
+        Enpjm61/Gf23dqZJjE4Erxo5p8V1/E1+zyfzlN7y/sToY2qzpx7w5nZ/qYg41XEWw1TkKAjcYff
+        qdBtG2ocgOkCKsW/kbuunGEBqPil++coAzulIP8gMTyJMXCOBhj9BWL7GG0LsKrauXd3MZDUZaR
+        NzIP3XI5u3uLPgwbAMH5RdHnhWfwyq9gpuf+A6coDeeVSgzszVDx5n520Z3eZyT7DDRtYlKaWBy
+        ZE9nSaC/rhfyjvqkZu/pNa4BidtZEMMprcbiest
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+infocarfer@aim.com
 
---ylbalxyvhyuipbv3
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hey Greg,
 
-On Fri, Dec 04, 2020 at 03:58:17PM +0100, Greg Kroah-Hartman wrote:
-> On Thu, Nov 26, 2020 at 12:47:24PM +0100, Uwe Kleine-K=F6nig wrote:
-> > The driver core ignores the return value of struct device_driver::remove
-> > because there is only little that can be done. To simplify the quest to
-> > make this function return void, let struct sa1111_driver::remove return
-> > void, too. All users already unconditionally return 0, this commit makes
-> > it obvious that returning an error code is a bad idea and ensures future
-> > users behave accordingly.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
->=20
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-Thanks, can I interpret this also as an Ack to take the change affecting
-drivers/usb via Russell's tree?
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---ylbalxyvhyuipbv3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAl/Kl3QACgkQwfwUeK3K
-7AlmhAf9F7NmYPLA9RAjwasWctkMau78khxkjBLaMDlVTgkU2ks5nm72b6Baizsn
-HKBguMwdF4uWzLd4LfifNzAsUtf3SWkcWxVpW20nH8NqFeLUuoz6u0i/JgqfaTdO
-mgeqyp3pZ2SrfQz6fq2Rp83YM7VAFvVCxFaNun248simpRrW+hPsKSybO2FIgDWU
-guqc8F23dbEStinvA7B5aUkvzHWvE4C4pDCBVzRWt4V8iSY8B6MbHCazRS0SKLhr
-sDA4sM9DCfiDTlDz5jrhkPkMIHiYa8oq8nAQ5Fd3B4i7OUIXOo+gp4PDTuxyW8kB
-7BBjNp17gStSdxi8As6ZKCP+OFvoKQ==
-=8a5x
------END PGP SIGNATURE-----
-
---ylbalxyvhyuipbv3--
