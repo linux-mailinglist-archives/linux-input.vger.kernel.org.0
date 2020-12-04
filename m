@@ -2,191 +2,217 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FA432CE1CA
-	for <lists+linux-input@lfdr.de>; Thu,  3 Dec 2020 23:35:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 18C572CE5A9
+	for <lists+linux-input@lfdr.de>; Fri,  4 Dec 2020 03:25:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731887AbgLCWeJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 3 Dec 2020 17:34:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58914 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731883AbgLCWeJ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Dec 2020 17:34:09 -0500
-Received: from mail.archlinux.org (mail.archlinux.org [IPv6:2a01:4f9:c010:3052::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC5BFC094251
-        for <linux-input@vger.kernel.org>; Thu,  3 Dec 2020 14:32:58 -0800 (PST)
-Received: from [IPv6:2001:8a0:f24a:e00:b36f:9f92:bb23:71bb] (unknown [IPv6:2001:8a0:f24a:e00:b36f:9f92:bb23:71bb])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: ffy00)
-        by mail.archlinux.org (Postfix) with ESMTPSA id 209782836F1;
-        Thu,  3 Dec 2020 22:32:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
-        s=dkim-rsa; t=1607034775;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=X86GOQ8hL9yxgvuz2lk0iBd0nejnwE5ojE6Tb//gFts=;
-        b=qZsbDCJTljD/yLb5HhtPN1nK+ohIwuwhG5y8Vl/w5l1Hn1k6G0w1woUyUt+jvRg56PBR5V
-        Sj3hi5Ye3wlHESohznUor6nWW7p0uE9ohqxyoQ46hAiV2XzokL3KoU7SVnsEghG6tEWw1u
-        EjMI0r+eoMlNOjVr0p3Lm2J/R85Zq+f2ZLDPZ74Z7JZJjexEHN+YIDzblheZsq8y5FR9JA
-        BURoKpNf3cMJ9eJNMJDO3gsc8P4oDkZ9vvePbR+K4e2TePbyZAMcjoKPal2HTkrP6zP+3A
-        PNxQhCDjlGERV/I5Ub54bkOHrVblFPm9/okzR7b/5EHG14TmLfzubfhwlDMNwSCvBqyx5D
-        RQqrtxhjZDGRqtI86zmhTexuihB4nzB27/MrJzys27IcbbHaXKSNqWUJDQluIskgUiqDOJ
-        KhzVMTaYTxl0BPgMY+0iUSI7hqk1jgixzGXLmOJyXEy+ZoZ+Yu/edxuslNnNBQj43BgPns
-        Mi5WJ2233MOY/1R3ZYCBCwxF56TXo177HVxlvJp62Wy1H8rqPYkDTf5VUNHNjEcit2oSSh
-        CWh5Y1eDtDAmSDWDTtT+melWWJpnKagciO/6Ljg5fwQKY/PRAmaC6mwMVwjlcl7M81Dov3
-        o4eWDnI27vytP43BKS53jx9SdXuJ9wFmQIXdGhnm4oAE0G4tt7Qbg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
-        s=dkim-ed25519; t=1607034775;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=X86GOQ8hL9yxgvuz2lk0iBd0nejnwE5ojE6Tb//gFts=;
-        b=u8zT3+NiXfFjBswz3BqZBAZgfWE5hTQz8MIkWmmLbOBidtwqPw1mjAqkuzkUXBiS6x+h+Q
-        RIiA5waCIID1EJAQ==
-Message-ID: <59ee9ef054b18aac75eec1276aa83cf4a8f076ca.camel@archlinux.org>
-Subject: Re: [V3, PATCH] Add additional hidraw input/output report ioctls.
-From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@archlinux.org>
-To:     Dean Camera <dean@fourwalledcubicle.com>,
-        linux-input@vger.kernel.org, jikos@kernel.org,
-        benjamin.tissoires@redhat.com
-In-Reply-To: <c55b4ad5-9fb8-18ef-b931-38a4c37f445f@fourwalledcubicle.com>
-References: <20201125223957.5921-1-dean@fourwalledcubicle.com>
-         <2e19588821053914eebe30088b4590af51959409.camel@archlinux.org>
-         <2c2bfd55-3a03-9839-22f5-16058ac24e35@fourwalledcubicle.com>
-         <c8d4d17798e2c9fca417223d4edf5f4b1aebf75d.camel@archlinux.org>
-         <d295d0bf-9de7-9927-05b6-2897ada89c42@fourwalledcubicle.com>
-         <877bfbede4d3bbf40a91c8392218eeab6672e98c.camel@archlinux.org>
-         <c55b4ad5-9fb8-18ef-b931-38a4c37f445f@fourwalledcubicle.com>
-Organization: Archlinux
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-8dqWbW59nm7+kzheyoad"
-Date:   Sun, 29 Nov 2020 20:01:30 +0000
+        id S1726430AbgLDCYd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 3 Dec 2020 21:24:33 -0500
+Received: from mga06.intel.com ([134.134.136.31]:25803 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726332AbgLDCYb (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 3 Dec 2020 21:24:31 -0500
+IronPort-SDR: xyEaIlCLONstWhtjGztmMMbmajwHcPYuYDt+E4E0NRA4FYZNhn7ylk7lvv9VymiUSdFa+becf0
+ lEHuVR3Q2dHQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9824"; a="234921550"
+X-IronPort-AV: E=Sophos;i="5.78,391,1599548400"; 
+   d="scan'208";a="234921550"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2020 18:23:35 -0800
+IronPort-SDR: S+wkUTSnFM7g4YZfX5yjRpgXRdEP3l0gK7HY+uFTpsa0CwG2+v2AysAsiAolJEjAewGjqpnYje
+ wiEmFGZAHXGw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,391,1599548400"; 
+   d="scan'208";a="336186698"
+Received: from lkp-server01.sh.intel.com (HELO 14e4acb3e84f) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 03 Dec 2020 18:23:34 -0800
+Received: from kbuild by 14e4acb3e84f with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kl0kv-00001A-C0; Fri, 04 Dec 2020 02:23:33 +0000
+Date:   Fri, 04 Dec 2020 10:22:35 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [input:master] BUILD SUCCESS
+ 6d59224fdcc532dd7292e3657d796b3728ec1e8e
+Message-ID: <5fc99d6b.es4yYoENt8WaZ/ag%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-User-Agent: Evolution 3.38.2 
-Authentication-Results: mail.archlinux.org;
-        auth=pass smtp.auth=ffy00 smtp.mailfrom=lains@archlinux.org
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git  master
+branch HEAD: 6d59224fdcc532dd7292e3657d796b3728ec1e8e  Input: document inhibiting
 
---=-8dqWbW59nm7+kzheyoad
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+elapsed time: 1197m
 
-On Sat, 2020-11-28 at 18:02 +1100, Dean Camera wrote:
-> On 28/11/2020 7:11 am, Filipe La=C3=ADns wrote:
-> > On Fri, 2020-11-27 at 15:05 +1100, Dean Camera wrote:
-> > > Thank you for the review, Filipe!
-> > >=20
-> > > I'm still new to the kernel patch submission process, so I'm a little
-> > > perplexed by the next steps. Who will decide if it is to be applied, =
-and
-> > > is there any further action I need to take?
-> >=20
-> > No worries :)
-> > That'd probably Benjamin Tissoires, co-maintainer of the HID subsystem.
-> > There is no further action you need to take, just wait. Please understa=
-nd
-> > that
-> > these things can sometimes take a while as maintainer time is limited a=
-nd
-> > they
-> > may have a long backlog to fight through.
-> >=20
->=20
-> I completely understand - I maintain some open source projects myself,=
-=20
-> so I know how it is. I'm just a millenial used to pull requests, issue=
-=20
-> trackers and/or email attachments, so I wasn't too sure how to proceed=
-=20
-> here and didn't want to mis-step and end up with it getting lost due to=
-=20
-> my own inaction.
+configs tested: 153
+configs skipped: 4
 
-Me too :P
-It can be a bit difficult to get started.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> Thank you both sincerely for your time and efforts, they are very much=
-=20
-> appreciated.
->=20
-> > Also be aware that maintainers might be a bit conservative about adding=
- new
-> > features as they will be required to maintain them in the long run, so =
-don't
-> > take it personally if they chose not to to merge some of your patches.
-> >=20
-> > > I am obviously keen, but not impatient, to get this feature in. I'm
-> > > happy to follow whatever process is required, I just haven't found
-> > > anything beyond the initial "submitting your patch" documentation.
-> >=20
-> > Yeah, I sympathize. The process essentially is to send the patch and wa=
-it :P
-> >=20
->=20
-> I do wish there was a way to track the patches a little better - I fully=
-=20
-> understand about the time pressures involved, but having a way to at=20
-> least know it was seen and added to a backlog somewhere would be nice.=
-=20
-> Alas, I fear such talk is somewhat like the proverbial ocean boiling.
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                             pxa_defconfig
+arm                           h3600_defconfig
+arm                          tango4_defconfig
+powerpc                 mpc837x_mds_defconfig
+xtensa                  nommu_kc705_defconfig
+powerpc                   motionpro_defconfig
+mips                     cu1830-neo_defconfig
+sh                        sh7763rdp_defconfig
+powerpc                   lite5200b_defconfig
+powerpc                     sbc8548_defconfig
+arm                      footbridge_defconfig
+h8300                       h8s-sim_defconfig
+arm                       aspeed_g4_defconfig
+powerpc                    klondike_defconfig
+arm                       imx_v6_v7_defconfig
+arc                           tb10x_defconfig
+powerpc                 mpc8315_rdb_defconfig
+sh                          r7780mp_defconfig
+sh                           se7712_defconfig
+riscv                               defconfig
+arc                         haps_hs_defconfig
+arm                            mmp2_defconfig
+xtensa                  audio_kc705_defconfig
+m68k                          multi_defconfig
+m68k                             alldefconfig
+arm                         socfpga_defconfig
+mips                     loongson1b_defconfig
+sh                ecovec24-romimage_defconfig
+m68k                       m5275evb_defconfig
+arm                          moxart_defconfig
+c6x                                 defconfig
+xtensa                       common_defconfig
+sh                                  defconfig
+sh                          r7785rp_defconfig
+powerpc                      arches_defconfig
+arm                            xcep_defconfig
+arm                            hisi_defconfig
+arm                             ezx_defconfig
+arm                      pxa255-idp_defconfig
+arm                          iop32x_defconfig
+sh                           se7343_defconfig
+mips                           ip32_defconfig
+powerpc                 canyonlands_defconfig
+powerpc                      obs600_defconfig
+sh                             sh03_defconfig
+mips                           rs90_defconfig
+sh                        sh7757lcr_defconfig
+sh                           se7721_defconfig
+nios2                            allyesconfig
+mips                      malta_kvm_defconfig
+arm                          pcm027_defconfig
+mips                         tb0226_defconfig
+sh                            titan_defconfig
+arm                           omap1_defconfig
+arm                       multi_v4t_defconfig
+mips                 decstation_r4k_defconfig
+powerpc                 mpc837x_rdb_defconfig
+powerpc                    socrates_defconfig
+m68k                          atari_defconfig
+powerpc                   currituck_defconfig
+arm                          badge4_defconfig
+mips                           ci20_defconfig
+sh                   sh7724_generic_defconfig
+arm                         bcm2835_defconfig
+mips                         mpc30x_defconfig
+powerpc                     tqm8560_defconfig
+powerpc                     skiroot_defconfig
+arm                        multi_v5_defconfig
+mips                  decstation_64_defconfig
+ia64                            zx1_defconfig
+xtensa                           alldefconfig
+powerpc                          allyesconfig
+arm                        magician_defconfig
+m68k                                defconfig
+powerpc                           allnoconfig
+arm                     davinci_all_defconfig
+s390                          debug_defconfig
+powerpc                     tqm8555_defconfig
+powerpc                     ppa8548_defconfig
+powerpc                    ge_imp3a_defconfig
+powerpc                 mpc8313_rdb_defconfig
+sh                             espt_defconfig
+powerpc                      cm5200_defconfig
+powerpc                      makalu_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allmodconfig
+i386                 randconfig-a004-20201203
+i386                 randconfig-a005-20201203
+i386                 randconfig-a001-20201203
+i386                 randconfig-a002-20201203
+i386                 randconfig-a006-20201203
+i386                 randconfig-a003-20201203
+x86_64               randconfig-a016-20201203
+x86_64               randconfig-a012-20201203
+x86_64               randconfig-a014-20201203
+x86_64               randconfig-a013-20201203
+x86_64               randconfig-a015-20201203
+x86_64               randconfig-a011-20201203
+i386                 randconfig-a014-20201203
+i386                 randconfig-a013-20201203
+i386                 randconfig-a011-20201203
+i386                 randconfig-a015-20201203
+i386                 randconfig-a012-20201203
+i386                 randconfig-a016-20201203
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
 
-There is
-https://patchwork.kernel.org/project/linux-input/patch/20201125223957.5921-=
-1-dean@fourwalledcubicle.com/
+clang tested configs:
+x86_64               randconfig-a004-20201203
+x86_64               randconfig-a006-20201203
+x86_64               randconfig-a001-20201203
+x86_64               randconfig-a002-20201203
+x86_64               randconfig-a005-20201203
+x86_64               randconfig-a003-20201203
 
-> Just one thing, in the kernel mailing lists you are discouraged to top-po=
-st.
-
-Thanks for the advice, taken under consideration :).
-
->=20
-> A: Because it messes up the order in which people normally read text.
-> Q: Why is top-posting such a bad thing?
->=20
-> A: Top-posting.
-> Q: What is the most annoying thing in e-mail?
->=20
-> A: No.
-> Q: Should I include quotations after my reply?
->=20
-> > Cheers!
-> > - Dean
->=20
-> Cheers,
-> Filipe La=C3=ADns
->=20
-
-Cheers!
-- Dean
-
-Cheers,
-Filipe La=C3=ADns
-
---=-8dqWbW59nm7+kzheyoad
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAl/D/hMACgkQ+JPGdIFq
-qV2+HQ//d30/taE4KrGrKlwIveixM1+0SlsSKZu+hJ6tvHneg13osEte4vzRkLpS
-mxMMoywhFpGLYVd4ZSWcoudyfto1W60RUUYP2E4xswKiX5+x5KB6MY1TnfSXSwH0
-3ateNY1f2RmUAjWf15cu+BmnfbGiO2KtUZEVrk5g9fef8Dw4mVkC4MytiuMSLcRa
-ZP74Rx3nIleA4g0ZoE6KL+F7BvXQOwLx/Lvx7EDyWiwltd1XX7aodyObX8ZNy50d
-gS2GZEIKTS+PAGntjHoyJ6+oKvYeJoi+WDBt/kln1Eo1GrDWWWrAaIGG1t0mM3OI
-/UBXrVD9FNSFZtD9XYQyZrYn/cE5Jy7EJ7flvMUoFAUYaMUTsaCZ1mW7dRzOOyjy
-DOnacyarBMNSxt8EpgBqxsfiA/Ab9vs7z3ioLJZkpKckozChM40sKk1zOHcMBEDz
-eTvhaIt9GbchJuQoMo/iO4+N24KkeqSIq09V/WohKy3cSURtcJvJ3oPJ32p0tXkS
-CAXVs7TaYX37v09h0MiUe6Z5UZC8YaztvOuZgsGXFxPEbTJLMPGohXUrPX0/ykoG
-rpqMEoRjE1TLNkYaU3PGA2L0YGANgoIZM+evViLn51vDTVrIa2TejVhCTA+N8KiJ
-7xKhOjyWiJHEsus9UcO3SwNmfgHuEbpl1HfJB0bim4ch+IaZQek=
-=awaH
------END PGP SIGNATURE-----
-
---=-8dqWbW59nm7+kzheyoad--
-
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
