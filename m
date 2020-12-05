@@ -2,107 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BE062CF85F
-	for <lists+linux-input@lfdr.de>; Sat,  5 Dec 2020 01:49:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 195852CF866
+	for <lists+linux-input@lfdr.de>; Sat,  5 Dec 2020 02:02:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728033AbgLEAri (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 4 Dec 2020 19:47:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48246 "EHLO
+        id S1731222AbgLEAtZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 4 Dec 2020 19:49:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726917AbgLEArh (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Dec 2020 19:47:37 -0500
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93F1EC061A52
-        for <linux-input@vger.kernel.org>; Fri,  4 Dec 2020 16:47:11 -0800 (PST)
-Received: by mail-pl1-x642.google.com with SMTP id t18so4090055plo.0
-        for <linux-input@vger.kernel.org>; Fri, 04 Dec 2020 16:47:11 -0800 (PST)
+        with ESMTP id S1726241AbgLEAtZ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 4 Dec 2020 19:49:25 -0500
+Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com [IPv6:2607:f8b0:4864:20::649])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80CA7C0613D1
+        for <linux-input@vger.kernel.org>; Fri,  4 Dec 2020 16:48:59 -0800 (PST)
+Received: by mail-pl1-x649.google.com with SMTP id b4so4167007plr.15
+        for <linux-input@vger.kernel.org>; Fri, 04 Dec 2020 16:48:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hKog1Hk16Zy0NdqkYsbCRJ/dEKa5FrvxxIb/RYLHAXI=;
-        b=WktJLgTUFGljAC5G3dVtGLjO+z2ENnXC/JEA8X/zrq5znM3Qir98xuDVfIeaMyGWcN
-         tuNslHFgshzhGe8rexyvu8OvmLiOUyIamPBCzR09xj6TV+k/ntq+9QEzVyK0ui9nS0nw
-         bB+xMKJyhMtIcnAdTGlXm81oQvzazia2ucSgI=
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:to:cc;
+        bh=OOLjFNMS8tQywl7ilpHmrUE6lso3cAuK5mUQnXiUclI=;
+        b=kR2WLgq1MjNAkDBZQFZSynjHMN96/QuHMTkFzTnuxjVXyVDh/WXr4AgVCPNNzHbetd
+         AkQu5IKFyahjMnccYJHPeuyxuALF4ICetGAGJf3VNwyeKaRhf3WjJsl/B8pem3mb87zR
+         ismFqiJo+Vbo0/rEcxnnoAIfwkJkW7GfECKqhPvGKyGWnpoxTFIpUnHnPqoXJLfn3584
+         +/0MpSUHaIvLsQ43PUH1FOR2CzsPq1NTWnlvNFQJJH+EU1zp6XJypFMEUj/BSOlh0SaH
+         /vnENeWNpn2WDXHJWk707/ckVlbasTScQ8mL68lcaCACqtI8i18/zeRG73fmj4nUL8BL
+         i2GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hKog1Hk16Zy0NdqkYsbCRJ/dEKa5FrvxxIb/RYLHAXI=;
-        b=DzJOJEObtkTqnFtb/sS332wPl72/BYd3YLyFPaT8LWqxjGAe3rsd66fVdK7tO8W6o8
-         Hqyp6S72+uMz/wzWfsoIDjGOxVsVpEyOpBPhyyn41njpThaLc9pGRWwJIEx4kbb9Qfnq
-         bngCxDTLDY4vUjUsFbhQcTe8nFbxJ2CSSH2W2meikyVepeJN3+qacpw3qp4dm7H4L2El
-         GjW3wUotk2sMnVGIWouZAHRJHhFr3gv3twFgUZAVjw/l0+NR9VMMRUHqJ2lnfeJbi5IY
-         QzoPVpTCT3wtyszte8dF5IHkypIbDsUu9nLYItbyHYUhGASM7K94a9/ruZjEvHJVsg7s
-         yOow==
-X-Gm-Message-State: AOAM530jV2dOHzqkYyzwuP+CGU7r9sJlOtH04in/O4exHriMHC0A7HoC
-        tASJTGBfKKCMI/48uGeUkI/2Gw==
-X-Google-Smtp-Source: ABdhPJy3ItCkWQH2TofMljBMQOS57N42E7QhPEdASieFslwrxqQX4/xxmVMX0DeLVF+Z4h07FO8kfQ==
-X-Received: by 2002:a17:90b:117:: with SMTP id p23mr6430244pjz.111.1607129231180;
-        Fri, 04 Dec 2020 16:47:11 -0800 (PST)
-Received: from smtp.gmail.com ([2620:15c:202:201:3e52:82ff:fe6c:83ab])
-        by smtp.gmail.com with ESMTPSA id jz7sm3146227pjb.14.2020.12.04.16.47.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Dec 2020 16:47:10 -0800 (PST)
-From:   Stephen Boyd <swboyd@chromium.org>
-To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benson Leung <bleung@chromium.org>,
-        Guenter Roeck <groeck@chromium.org>
-Subject: [PATCH] Input: cros_ec_keyb: Add support for a front proximity switch
-Date:   Fri,  4 Dec 2020 16:47:09 -0800
-Message-Id: <20201205004709.3126266-1-swboyd@chromium.org>
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :to:cc;
+        bh=OOLjFNMS8tQywl7ilpHmrUE6lso3cAuK5mUQnXiUclI=;
+        b=Zkl9zIt6A8bbGNjk71/AF5kC41zcGyUZuD/ynSkGU6GHuiFurFcEA+VpDFCd65Nwu9
+         aX0pJb/X93YSdY0L92guaHY6ELxsaG14ghD7ZGVhYSVhAXUQFFRgisK2NbC+D1iDo/X/
+         LLigQSvO3wMfQkmT6yDMXb9iC1Snhf+LQ5xdW+y644ZIQNqwRNO5cVAy4yOIZ9DuTR+O
+         hqfya6b4nwAjy6AE7Dt6EPhIbqXqkcmiKQpe7kIPhTwLUelOGM3UcjhQmG/15w/KNYzu
+         +PW+brfsXUhV923z1Zn6ZIQBrYNWmgPi2wiK9uJCUVsO1j9OFzIGPtOHa9dNx5kXgmD6
+         uahw==
+X-Gm-Message-State: AOAM530tLbbgZ5+ZkIx3YdGAgoX4Qz4O+bmJSck+ZtvIIv/QBFLPQoh3
+        H9NsjY7ZjmcxmyOXMqiCVWrIvEMEiyt1vnx9MsM=
+X-Google-Smtp-Source: ABdhPJxnEJgVSEKtlx0et017hyd4/HEojDJykyW5iVIE9P448AvF1NwP0M5Z88V5XnCcS2IFNFMKbj4QNe2Y7lgBmBY=
+Sender: "willmcvicker via sendgmr" <willmcvicker@willmcvicker.c.googlers.com>
+X-Received: from willmcvicker.c.googlers.com ([fda3:e722:ac3:10:24:72f4:c0a8:2dd0])
+ (user=willmcvicker job=sendgmr) by 2002:a17:902:56a:b029:d7:ced2:60eb with
+ SMTP id 97-20020a170902056ab02900d7ced260ebmr6156221plf.24.1607129338929;
+ Fri, 04 Dec 2020 16:48:58 -0800 (PST)
+Date:   Sat,  5 Dec 2020 00:48:48 +0000
+Message-Id: <20201205004848.2541215-1-willmcvicker@google.com>
+Mime-Version: 1.0
 X-Mailer: git-send-email 2.29.2.576.ga3fc446d84-goog
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: [PATCH v1] HID: make arrays usage and value to be the same
+From:   Will McVicker <willmcvicker@google.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        security@kernel.org
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-team@android.com, Will Coster <willcoster@google.com>,
+        Will McVicker <willmcvicker@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Some cros ECs support a front proximity MKBP event via
-'EC_MKBP_FRONT_PROXIMITY'. Map this to the 'SW_FRONT_PROXIMITY' input
-event code so it can be reported up to userspace.
+The HID subsystem allows an "HID report field" to have a different
+number of "values" and "usages" when it is allocated. When a field
+struct is created, the size of the usage array is guaranteed to be at
+least as large as the values array, but it may be larger. This leads to
+a potential out-of-bounds write in
+__hidinput_change_resolution_multipliers() and an out-of-bounds read in
+hidinput_count_leds().
 
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Benson Leung <bleung@chromium.org>
-Cc: Guenter Roeck <groeck@chromium.org>
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+To fix this, let's make sure that both the usage and value arrays are
+the same size.
+
+Signed-off-by: Will McVicker <willmcvicker@google.com>
 ---
- drivers/input/keyboard/cros_ec_keyb.c          | 5 +++++
- include/linux/platform_data/cros_ec_commands.h | 1 +
- 2 files changed, 6 insertions(+)
+ drivers/hid/hid-core.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-index 15d17c717081..9d05e9192a10 100644
---- a/drivers/input/keyboard/cros_ec_keyb.c
-+++ b/drivers/input/keyboard/cros_ec_keyb.c
-@@ -107,6 +107,11 @@ static const struct cros_ec_bs_map cros_ec_keyb_bs[] = {
- 		.code		= SW_TABLET_MODE,
- 		.bit		= EC_MKBP_TABLET_MODE,
- 	},
-+	{
-+		.ev_type	= EV_SW,
-+		.code		= SW_FRONT_PROXIMITY,
-+		.bit		= EC_MKBP_FRONT_PROXIMITY,
-+	},
- };
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index 56172fe6995c..8a8b2b982f83 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -90,7 +90,7 @@ EXPORT_SYMBOL_GPL(hid_register_report);
+  * Register a new field for this report.
+  */
  
- /*
-diff --git a/include/linux/platform_data/cros_ec_commands.h b/include/linux/platform_data/cros_ec_commands.h
-index a3a9a878415f..d9dc5e30e59e 100644
---- a/include/linux/platform_data/cros_ec_commands.h
-+++ b/include/linux/platform_data/cros_ec_commands.h
-@@ -3455,6 +3455,7 @@ struct ec_response_get_next_event_v1 {
- #define EC_MKBP_LID_OPEN	0
- #define EC_MKBP_TABLET_MODE	1
- #define EC_MKBP_BASE_ATTACHED	2
-+#define EC_MKBP_FRONT_PROXIMITY	3
+-static struct hid_field *hid_register_field(struct hid_report *report, unsigned usages, unsigned values)
++static struct hid_field *hid_register_field(struct hid_report *report, unsigned usages)
+ {
+ 	struct hid_field *field;
  
- /* Run keyboard factory test scanning */
- #define EC_CMD_KEYBOARD_FACTORY_TEST 0x0068
-
-base-commit: b65054597872ce3aefbc6a666385eabdf9e288da
+@@ -101,7 +101,7 @@ static struct hid_field *hid_register_field(struct hid_report *report, unsigned
+ 
+ 	field = kzalloc((sizeof(struct hid_field) +
+ 			 usages * sizeof(struct hid_usage) +
+-			 values * sizeof(unsigned)), GFP_KERNEL);
++			 usages * sizeof(unsigned)), GFP_KERNEL);
+ 	if (!field)
+ 		return NULL;
+ 
+@@ -300,7 +300,7 @@ static int hid_add_field(struct hid_parser *parser, unsigned report_type, unsign
+ 	usages = max_t(unsigned, parser->local.usage_index,
+ 				 parser->global.report_count);
+ 
+-	field = hid_register_field(report, usages, parser->global.report_count);
++	field = hid_register_field(report, usages);
+ 	if (!field)
+ 		return 0;
+ 
 -- 
-https://chromeos.dev
+2.29.2.576.ga3fc446d84-goog
 
