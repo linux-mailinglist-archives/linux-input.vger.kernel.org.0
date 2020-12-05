@@ -2,280 +2,338 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA9252CFCE6
-	for <lists+linux-input@lfdr.de>; Sat,  5 Dec 2020 19:51:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7058F2CFE45
+	for <lists+linux-input@lfdr.de>; Sat,  5 Dec 2020 20:24:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729064AbgLESTZ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Sat, 5 Dec 2020 13:19:25 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39722 "EHLO mail.kernel.org"
+        id S1726950AbgLETTy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 5 Dec 2020 14:19:54 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49516 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727073AbgLERjj (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 5 Dec 2020 12:39:39 -0500
+        id S1725923AbgLETTZ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 5 Dec 2020 14:19:25 -0500
 Received: from archlinux (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 47511222F9;
-        Sat,  5 Dec 2020 17:24:34 +0000 (UTC)
-Date:   Sat, 5 Dec 2020 17:24:30 +0000
+        by mail.kernel.org (Postfix) with ESMTPSA id 07A3723329;
+        Sat,  5 Dec 2020 16:00:49 +0000 (UTC)
+Date:   Sat, 5 Dec 2020 16:00:46 +0000
 From:   Jonathan Cameron <jic23@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        linux-iio@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 4/8] Documentation: HID: intel-ish-hid editing &
- corrections
-Message-ID: <20201205172430.509c915f@archlinux>
-In-Reply-To: <20201204062022.5095-5-rdunlap@infradead.org>
-References: <20201204062022.5095-1-rdunlap@infradead.org>
-        <20201204062022.5095-5-rdunlap@infradead.org>
+To:     Ye Xiang <xiang.ye@intel.com>
+Cc:     jikos@kernel.org, srinivas.pandruvada@linux.intel.com,
+        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] HID: hid-sensor-custom: Add custom sensor iio
+ support
+Message-ID: <20201205160046.357244a2@archlinux>
+In-Reply-To: <20201203035352.13918-2-xiang.ye@intel.com>
+References: <20201203035352.13918-1-xiang.ye@intel.com>
+        <20201203035352.13918-2-xiang.ye@intel.com>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu,  3 Dec 2020 22:20:18 -0800
-Randy Dunlap <rdunlap@infradead.org> wrote:
+On Thu,  3 Dec 2020 11:53:50 +0800
+Ye Xiang <xiang.ye@intel.com> wrote:
 
-> Do basic editing & correction to intel-ish-hid.rst:
-> - fix grammar, verb tense, punctutation, and word phrasing
-> - fix spellos
-> - hyphenate multi-word adjectives
-> - collapse 2 spaces to one space in the middle of sentences
-> - use "I2C" instead of lower-case letters (as Linux I2C does)
-> - change space indentation to tab
-> - use HID instead of hid consistently
-> - use a list so that some line items do not run together
-> - use "a UUID" instead of "an UUID"
+> Currently custom sensors properties are not decoded and it is up to
+> user space to interpret.
 > 
+> Some manufacturers already standardized the meaning of some custom sensors.
+> They can be presented as a proper IIO sensor. We can identify these sensors
+> based on manufacturer and serial number property in the report.
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jiri Kosina <jikos@kernel.org>
-> Cc: Jonathan Cameron <jic23@kernel.org>
-> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> Cc: linux-input@vger.kernel.org
-> Cc: linux-iio@vger.kernel.org
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
+> This change is identifying hinge sensor when the manufacturer is "INTEL".
+> This creates a platform device so that a sensor driver can be loaded to
+> process these sensors.
+> 
+> Signed-off-by: Ye Xiang <xiang.ye@intel.com>
+Hi,
+
+A few little comments inline.
+
+Others are much more familiar with this code than I am though so I'm sure
+they will give a more in depth review!
+
 > ---
->  Documentation/hid/intel-ish-hid.rst |   74 +++++++++++++-------------
->  1 file changed, 38 insertions(+), 36 deletions(-)
+>  drivers/hid/hid-sensor-custom.c | 181 ++++++++++++++++++++++++++++++++
+>  include/linux/hid-sensor-ids.h  |  14 +++
+>  2 files changed, 195 insertions(+)
 > 
-> --- linux-next-20201201.orig/Documentation/hid/intel-ish-hid.rst
-> +++ linux-next-20201201/Documentation/hid/intel-ish-hid.rst
-> @@ -4,19 +4,19 @@ Intel Integrated Sensor Hub (ISH)
+> diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-sensor-custom.c
+> index 4d25577a8573..b8e59021c6a8 100644
+> --- a/drivers/hid/hid-sensor-custom.c
+> +++ b/drivers/hid/hid-sensor-custom.c
+> @@ -4,6 +4,7 @@
+>   * Copyright (c) 2015, Intel Corporation.
+>   */
 >  
->  A sensor hub enables the ability to offload sensor polling and algorithm
->  processing to a dedicated low power co-processor. This allows the core
-> -processor to go into low power modes more often, resulting in the increased
-> +processor to go into low power modes more often, resulting in increased
->  battery life.
+> +#include <linux/ctype.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+>  #include <linux/init.h>
+> @@ -21,6 +22,7 @@
+>  #define HID_CUSTOM_TOTAL_ATTRS		(HID_CUSTOM_MAX_CORE_ATTRS + 1)
+>  #define HID_CUSTOM_FIFO_SIZE		4096
+>  #define HID_CUSTOM_MAX_FEATURE_BYTES	64
+> +#define HID_SENSOR_USAGE_LENGTH (4 + 1)
 >  
-> -There are many vendors providing external sensor hubs confirming to HID
-> -Sensor usage tables, and used in several tablets, 2 in 1 convertible laptops
-> +There are many vendors providing external sensor hubs conforming to HID
-> +Sensor usage tables, and used in several tablets, 2-in-1 convertible laptops
+>  struct hid_sensor_custom_field {
+>  	int report_id;
+> @@ -50,6 +52,8 @@ struct hid_sensor_custom {
+>  	struct kfifo data_fifo;
+>  	unsigned long misc_opened;
+>  	wait_queue_head_t wait;
+> +	struct platform_device *custom_pdev;
+> +	bool custom_pdev_exposed;
 
-Does that sentence actually make sense?  Perhaps..
+Note on this below.  I'm not sure the boolean brings us any advantages.
 
-There are many vendors providing external sensor hubs conforming to HID
-Sensor usage tables.  These may be found in tablets, 2-in-1 convertible laptops
-...
+>  };
+>  
+>  /* Header for each sample to user space via dev interface */
+> @@ -746,11 +750,164 @@ static void hid_sensor_custom_dev_if_remove(struct hid_sensor_custom
+>  
+>  }
+>  
+> +/*
+> + * use sensors luid which is defined in FW, such as ISH,
+> + * to identify sensor.
+Perhaps rephrase as
 
->  and embedded products. Linux had this support since Linux 3.9.
->  
->  Intel® introduced integrated sensor hubs as a part of the SoC starting from
->  Cherry Trail and now supported on multiple generations of CPU packages. There
->  are many commercial devices already shipped with Integrated Sensor Hubs (ISH).
-> -These ISH also comply to HID sensor specification, but the  difference is the
-> +These ISH also comply to HID sensor specification, but the difference is the
->  transport protocol used for communication. The current external sensor hubs
-> -mainly use HID over i2C or USB. But ISH doesn't use either i2c or USB.
-> +mainly use HID over I2C or USB. But ISH doesn't use either I2C or USB.
->  
->  1. Overview
->  ===========
-> @@ -35,7 +35,7 @@ for a very high speed communication::
->  	-----------------		----------------------
->  	      PCI				 PCI
->  	-----------------		----------------------
-> -        |Host controller|	-->	|    ISH processor   |
-> +	|Host controller|	-->	|    ISH processor   |
->  	-----------------		----------------------
->  	     USB Link
->  	-----------------		----------------------
-> @@ -50,13 +50,13 @@ applications implemented in the firmware
->  The ISH allows multiple sensor management applications executing in the
->  firmware. Like USB endpoints the messaging can be to/from a client. As part of
->  enumeration process, these clients are identified. These clients can be simple
-> -HID sensor applications, sensor calibration application or senor firmware
-> +HID sensor applications, sensor calibration application or sensor firmware
-
-Plural vs singular messy in here. Probably just make all the applications
-plural.
-
->  update application.
->  
->  The implementation model is similar, like USB bus, ISH transport is also
->  implemented as a bus. Each client application executing in the ISH processor
->  is registered as a device on this bus. The driver, which binds each device
-> -(ISH HID driver) identifies the device type and registers with the hid core.
-> +(ISH HID driver) identifies the device type and registers with the HID core.
->  
->  2. ISH Implementation: Block Diagram
->  ====================================
-> @@ -104,7 +104,7 @@ is registered as a device on this bus. T
->  
->  The ISH is exposed as "Non-VGA unclassified PCI device" to the host. The PCI
->  product and vendor IDs are changed from different generations of processors. So
-> -the source code which enumerate drivers needs to update from generation to
-> +the source code which enumerates drivers needs to update from generation to
->  generation.
->  
->  3.2 Inter Processor Communication (IPC) driver
-> @@ -112,41 +112,42 @@ generation.
->  
->  Location: drivers/hid/intel-ish-hid/ipc
->  
-> -The IPC message used memory mapped I/O. The registers are defined in
-> +The IPC message uses memory mapped I/O. The registers are defined in
->  hw-ish-regs.h.
->  
->  3.2.1 IPC/FW message types
->  ^^^^^^^^^^^^^^^^^^^^^^^^^^
->  
-> -There are two types of messages, one for management of link and other messages
-> -are to and from transport layers.
-> +There are two types of messages, one for management of link and another for
-> +messages to and from transport layers.
->  
->  TX and RX of Transport messages
->  ...............................
->  
-> -A set of memory mapped register offers support of multi byte messages TX and
-> -RX (E.g.IPC_REG_ISH2HOST_MSG, IPC_REG_HOST2ISH_MSG). The IPC layer maintains
-> -internal queues to sequence messages and send them in order to the FW.
-> +A set of memory mapped register offers support of multi-byte messages TX and
-> +RX (e.g. IPC_REG_ISH2HOST_MSG, IPC_REG_HOST2ISH_MSG). The IPC layer maintains
-> +internal queues to sequence messages and send them in order to the firmware.
->  Optionally the caller can register handler to get notification of completion.
-> -A door bell mechanism is used in messaging to trigger processing in host and
-> +A doorbell mechanism is used in messaging to trigger processing in host and
->  client firmware side. When ISH interrupt handler is called, the ISH2HOST
->  doorbell register is used by host drivers to determine that the interrupt
->  is for ISH.
->  
->  Each side has 32 32-bit message registers and a 32-bit doorbell. Doorbell
-> -register has the following format:
-> -Bits 0..6: fragment length (7 bits are used)
-> -Bits 10..13: encapsulated protocol
-> -Bits 16..19: management command (for IPC management protocol)
-> -Bit 31: doorbell trigger (signal H/W interrupt to the other side)
-> -Other bits are reserved, should be 0.
-> +register has the following format::
+luid defined in FW (e.g. ISH).  May be used to identify sensor.
+ 
+> + */
+> +static const char *const known_sensor_luid[] = { "020B000000000000" };
 > +
-> +  Bits 0..6: fragment length (7 bits are used)
-> +  Bits 10..13: encapsulated protocol
-> +  Bits 16..19: management command (for IPC management protocol)
-> +  Bit 31: doorbell trigger (signal H/W interrupt to the other side)
-> +  Other bits are reserved, should be 0.
->  
->  3.2.2 Transport layer interface
->  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->  
-> -To abstract HW level IPC communication, a set of callbacks are registered.
-> +To abstract HW level IPC communication, a set of callbacks is registered.
->  The transport layer uses them to send and receive messages.
-> -Refer to  struct ishtp_hw_ops for callbacks.
-> +Refer to struct ishtp_hw_ops for callbacks.
->  
->  3.3 ISH Transport layer
->  -----------------------
-> @@ -158,7 +159,7 @@ Location: drivers/hid/intel-ish-hid/isht
->  
->  The transport layer is a bi-directional protocol, which defines:
->  - Set of commands to start, stop, connect, disconnect and flow control
-> -(ishtp/hbm.h) for details
-> +(see ishtp/hbm.h for details)
->  - A flow control mechanism to avoid buffer overflows
->  
->  This protocol resembles bus messages described in the following document:
-> @@ -168,14 +169,14 @@ specifications/dcmi-hi-1-0-spec.pdf "Cha
->  3.3.2 Connection and Flow Control Mechanism
->  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->  
-> -Each FW client and a protocol is identified by an UUID. In order to communicate
-> +Each FW client and a protocol is identified by a UUID. In order to communicate
->  to a FW client, a connection must be established using connect request and
->  response bus messages. If successful, a pair (host_client_id and fw_client_id)
->  will identify the connection.
->  
->  Once connection is established, peers send each other flow control bus messages
->  independently. Every peer may send a message only if it has received a
-> -flow-control credit before. Once it sent a message, it may not send another one
-> +flow-control credit before. Once it has sent a message, it may not send another one
->  before receiving the next flow control credit.
->  Either side can send disconnect request bus message to end communication. Also
->  the link will be dropped if major FW reset occurs.
-> @@ -209,7 +210,7 @@ and DMA_XFER_ACK act as ownership indica
->  At initial state all outgoing memory belongs to the sender (TX to host, RX to
->  FW), DMA_XFER transfers ownership on the region that contains ISHTP message to
->  the receiving side, DMA_XFER_ACK returns ownership to the sender. A sender
-> -needs not wait for previous DMA_XFER to be ack'ed, and may send another message
-> +need not wait for previous DMA_XFER to be ack'ed, and may send another message
->  as long as remaining continuous memory in its ownership is enough.
->  In principle, multiple DMA_XFER and DMA_XFER_ACK messages may be sent at once
->  (up to IPC MTU), thus allowing for interrupt throttling.
-> @@ -219,8 +220,8 @@ fragments and via IPC otherwise.
->  3.3.4 Ring Buffers
->  ^^^^^^^^^^^^^^^^^^
->  
-> -When a client initiate a connection, a ring or RX and TX buffers are allocated.
-> -The size of ring can be specified by the client. HID client set 16 and 32 for
-> +When a client initiates a connection, a ring of RX and TX buffers is allocated.
-> +The size of ring can be specified by the client. HID client sets 16 and 32 for
->  TX and RX buffers respectively. On send request from client, the data to be
->  sent is copied to one of the send ring buffer and scheduled to be sent using
->  bus message protocol. These buffers are required because the FW may have not
-> @@ -230,10 +231,10 @@ to send. Same thing holds true on receiv
->  3.3.5 Host Enumeration
->  ^^^^^^^^^^^^^^^^^^^^^^
->  
-> -The host enumeration bus command allow discovery of clients present in the FW.
-> +The host enumeration bus command allows discovery of clients present in the FW.
->  There can be multiple sensor clients and clients for calibration function.
->  
-> -To ease in implantation and allow independent driver handle each client
-> +To ease implementation and allow independent drivers to handle each client,
->  this transport layer takes advantage of Linux Bus driver model. Each
->  client is registered as device on the transport bus (ishtp bus).
->  
-> @@ -270,7 +271,7 @@ The ISHTP client driver is responsible f
->  The functionality in these drivers is the same as an external sensor hub.
->  Refer to
->  Documentation/hid/hid-sensor.rst for HID sensor
-> -Documentation/ABI/testing/sysfs-bus-iio for IIO ABIs to user space
-> +Documentation/ABI/testing/sysfs-bus-iio for IIO ABIs to user space.
->  
->  3.6 End to End HID transport Sequence Diagram
->  ---------------------------------------------
-> @@ -341,9 +342,10 @@ Documentation/ABI/testing/sysfs-bus-iio
->  3.7 ISH Debugging
->  -----------------
->  
-> -To debug ISH, event tracing mechanism is used. To enable debug logs
-> -echo 1 > /sys/kernel/debug/tracing/events/intel_ish/enable
-> -cat sys/kernel/debug/tracing/trace
-> +To debug ISH, event tracing mechanism is used. To enable debug logs::
+> +static int get_luid_table_index(unsigned char *usage_str)
+> +{
+> +	int i;
 > +
-> +  echo 1 > /sys/kernel/debug/tracing/events/intel_ish/enable
-> +  cat sys/kernel/debug/tracing/trace
+> +	for (i = 0; i < ARRAY_SIZE(known_sensor_luid); i++) {
+> +		if (!strncmp(usage_str, known_sensor_luid[i],
+> +			     strlen(known_sensor_luid[i])))
+> +			return i;
+> +	}
+> +
+> +	return -1;
+> +}
+> +
+> +static int get_known_custom_sensor_index(struct hid_sensor_hub_device *hsdev)
+> +{
+> +	struct hid_sensor_hub_attribute_info sensor_manufacturer = { 0 };
+> +	struct hid_sensor_hub_attribute_info sensor_luid_info = { 0 };
+> +	int report_size;
+> +	int ret;
+> +	u16 *w_buf;
+> +	char *buf;
+> +	int w_buf_len = sizeof(u16) * HID_CUSTOM_MAX_FEATURE_BYTES;
+> +	int buf_len = sizeof(char) * HID_CUSTOM_MAX_FEATURE_BYTES;
+> +	int i;
+> +	int index;
+> +
+> +	w_buf = kzalloc(w_buf_len, GFP_KERNEL);
+> +	if (!w_buf) {
+> +		ret = -ENOMEM;
+> +		goto error_out2;
+> +	}
+> +
+> +	buf = kzalloc(buf_len, GFP_KERNEL);
+> +	if (!buf) {
+> +		ret = -ENOMEM;
+> +		goto error_out1;
+> +	}
+> +	/* get manufacturer info */
+> +	ret = sensor_hub_input_get_attribute_info(
+> +		hsdev, HID_FEATURE_REPORT, hsdev->usage,
+> +		HID_USAGE_SENSOR_PROP_MANUFACTURER, &sensor_manufacturer);
+> +	if (ret < 0) {
+> +		ret = -ENODEV;
+> +		goto error_out;
+> +	}
+> +
+> +	report_size =
+> +		sensor_hub_get_feature(hsdev, sensor_manufacturer.report_id,
+> +				       sensor_manufacturer.index, w_buf_len,
+> +				       w_buf);
+> +	if (report_size <= 0) {
+> +		hid_err(hsdev->hdev,
+> +			"Failed to get sensor manufacturer info %d\n",
+> +			report_size);
+> +		ret = -ENODEV;
+> +		goto error_out;
+> +	}
+> +
+> +	/* convert from wide char to char */
+> +	for (i = 0; i < buf_len - 1 && w_buf[i]; i++)
+> +		buf[i] = (char)w_buf[i];
+> +
+> +	/* ensure it's ISH sensor */
+> +	if (strncmp(buf, "INTEL", strlen("INTEL"))) {
+> +		ret = -ENODEV;
+> +		goto error_out;
+> +	}
+> +
+> +	memset(w_buf, 0, w_buf_len);
+> +	memset(buf, 0, buf_len);
+> +
+> +	/* get real usage id */
+> +	ret = sensor_hub_input_get_attribute_info(
+> +		hsdev, HID_FEATURE_REPORT, hsdev->usage,
+> +		HID_USAGE_SENSOR_PROP_SERIAL_NUM, &sensor_luid_info);
+> +	if (ret < 0) {
+> +		ret = -ENODEV;
+> +		goto error_out;
+> +	}
+> +
+> +	report_size = sensor_hub_get_feature(hsdev, sensor_luid_info.report_id,
+> +					     sensor_luid_info.index, w_buf_len,
+> +					     w_buf);
+> +	if (report_size <= 0) {
+> +		hid_err(hsdev->hdev, "Failed to get real usage info %d\n",
+> +			report_size);
+> +		ret = -ENODEV;
+> +		goto error_out;
+> +	}
+> +
+> +	/* convert from wide char to char */
+> +	for (i = 0; i < buf_len - 1 && w_buf[i]; i++)
+> +		buf[i] = (char)w_buf[i];
+> +
+> +	if (strlen(buf) != strlen(known_sensor_luid[0]) + 5) {
+> +		hid_err(hsdev->hdev,
+> +			"%s luid length not match %zu != (%zu + 5)\n", __func__,
+> +			strlen(buf), strlen(known_sensor_luid[0]));
+> +		ret = -ENODEV;
+> +		goto error_out;
+> +	}
+> +
+> +	/* get table index with luid (not matching 'LUID: ' in luid) */
+> +	index = get_luid_table_index(&buf[5]);
+> +	if (index >= 0)
+> +		ret = index;
+> +	else
+> +		ret = -ENODEV;
+> +
+> +error_out:
+> +	kfree(buf);
+> +error_out1:
+> +	kfree(w_buf);
+> +error_out2:
+> +	return ret;
+> +}
+> +
+> +static struct platform_device *
+> +hid_sensor_register_platform_device(struct platform_device *pdev,
+> +				    struct hid_sensor_hub_device *hsdev,
+> +				    int index)
+> +{
+> +	char real_usage[HID_SENSOR_USAGE_LENGTH] = { 0 };
+> +	struct platform_device *custom_pdev;
+> +	const char *dev_name;
+> +	char *c;
+> +
+> +	/* copy real usage id */
+> +	memcpy(real_usage, known_sensor_luid[index], 4);
+> +
+> +	/* usage id are all lowcase */
+> +	for (c = real_usage; *c != '\0'; c++)
+> +		*c = tolower(*c);
+> +
+> +	/* HID-SENSOR-INT-REAL_USAGE_ID */
+> +	dev_name = kasprintf(GFP_KERNEL, "HID-SENSOR-INT-%s", real_usage);
+> +	if (!dev_name)
+> +		return NULL;
+> +
+> +	custom_pdev = platform_device_register_data(pdev->dev.parent, dev_name,
+> +						    PLATFORM_DEVID_NONE, hsdev,
+> +						    sizeof(*hsdev));
+> +	kfree(dev_name);
+> +	return custom_pdev;
+> +}
+> +
+>  static int hid_sensor_custom_probe(struct platform_device *pdev)
+>  {
+>  	struct hid_sensor_custom *sensor_inst;
+>  	struct hid_sensor_hub_device *hsdev = pdev->dev.platform_data;
+>  	int ret;
+> +	int index;
 >  
->  3.8 ISH IIO sysfs Example on Lenovo thinkpad Yoga 260
->  -----------------------------------------------------
+>  	sensor_inst = devm_kzalloc(&pdev->dev, sizeof(*sensor_inst),
+>  				   GFP_KERNEL);
+> @@ -764,6 +921,25 @@ static int hid_sensor_custom_probe(struct platform_device *pdev)
+>  	sensor_inst->pdev = pdev;
+>  	mutex_init(&sensor_inst->mutex);
+>  	platform_set_drvdata(pdev, sensor_inst);
+> +
+> +	index = get_known_custom_sensor_index(hsdev);
+> +	if (index >= 0 && index < ARRAY_SIZE(known_sensor_luid)) {
+> +		sensor_inst->custom_pdev =
+> +			hid_sensor_register_platform_device(pdev, hsdev, index);
+> +
+> +		ret = PTR_ERR_OR_ZERO(sensor_inst->custom_pdev);
+> +		if (ret) {
+> +			dev_err(&pdev->dev,
+> +				"register_platform_device failed\n");
+> +			return ret;
+> +		}
+> +
+> +		sensor_inst->custom_pdev_exposed = true;
+
+Do we need an additional boolean or can we just use the existence of
+custom_pdev?
+
+> +		return 0;
+> +	} else if (index < 0 && index != -ENODEV) {
+> +		return index;
+> +	}
+> +
+>  	ret = sensor_hub_register_callback(hsdev, hsdev->usage,
+>  					   &sensor_inst->callbacks);
+>  	if (ret < 0) {
+> @@ -802,6 +978,11 @@ static int hid_sensor_custom_remove(struct platform_device *pdev)
+>  	struct hid_sensor_custom *sensor_inst = platform_get_drvdata(pdev);
+>  	struct hid_sensor_hub_device *hsdev = pdev->dev.platform_data;
+>  
+> +	if (sensor_inst->custom_pdev_exposed) {
+> +		platform_device_unregister(sensor_inst->custom_pdev);
+> +		return 0;
+> +	}
+> +
+>  	hid_sensor_custom_dev_if_remove(sensor_inst);
+>  	hid_sensor_custom_remove_attributes(sensor_inst);
+>  	sysfs_remove_group(&sensor_inst->pdev->dev.kobj,
+> diff --git a/include/linux/hid-sensor-ids.h b/include/linux/hid-sensor-ids.h
+> index 530c09f3e64a..ac631159403a 100644
+> --- a/include/linux/hid-sensor-ids.h
+> +++ b/include/linux/hid-sensor-ids.h
+> @@ -128,6 +128,10 @@
+>  #define HID_USAGE_SENSOR_UNITS_DEGREES_PER_SECOND		0x15
+>  
+>  /* Common selectors */
+> +#define HID_USAGE_SENSOR_PROP_DESC				0x200300
+> +#define HID_USAGE_SENSOR_PROP_FRIENDLY_NAME			0x200301
+> +#define HID_USAGE_SENSOR_PROP_SERIAL_NUM			0x200307
+> +#define HID_USAGE_SENSOR_PROP_MANUFACTURER			0x200305
+>  #define HID_USAGE_SENSOR_PROP_REPORT_INTERVAL			0x20030E
+>  #define HID_USAGE_SENSOR_PROP_SENSITIVITY_ABS			0x20030F
+>  #define HID_USAGE_SENSOR_PROP_SENSITIVITY_RANGE_PCT		0x200310
+> @@ -159,4 +163,14 @@
+>  #define HID_USAGE_SENSOR_PROP_REPORTING_STATE_NO_EVENTS_ENUM	0x200840
+>  #define HID_USAGE_SENSOR_PROP_REPORTING_STATE_ALL_EVENTS_ENUM	0x200841
+>  
+> +/* Custom Sensor (2000e1) */
+> +#define HID_USAGE_SENSOR_HINGE				        0x20020B
+> +#define HID_USAGE_SENSOR_DATA_FIELD_LOCATION			0x200400
+> +#define HID_USAGE_SENSOR_DATA_FIELE_TIME_SINCE_SYS_BOOT		0x20052B
+> +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_USAGE		0x200541
+> +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_BASE           0x200543
+> +/* Custom Sensor data 28=>x>=0 */
+> +#define HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE(x)                            \
+> +	(HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE_BASE + (x))
+> +
+>  #endif
 
