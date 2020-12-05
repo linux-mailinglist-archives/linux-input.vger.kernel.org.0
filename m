@@ -2,63 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F23F62CFAB9
-	for <lists+linux-input@lfdr.de>; Sat,  5 Dec 2020 10:03:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A5C42CFADE
+	for <lists+linux-input@lfdr.de>; Sat,  5 Dec 2020 10:40:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728913AbgLEJBT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 5 Dec 2020 04:01:19 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58576 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726012AbgLEJAm (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 5 Dec 2020 04:00:42 -0500
-Date:   Sat, 5 Dec 2020 09:59:57 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1607158801;
-        bh=z+uA0AM4EJ8toNr4PrCS1GY6pWLRjHrYKpwq5PMIhmI=;
-        h=From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pFAKxdZzEe/210p8J4rMoHXiMsmdSgIXpKik/uDqvgUoXyP2lE03sEl6E5TYqFd6r
-         TJnSoazBIQu393CpHELuNzitBv6y4w699JPDYQ4xlFEUnqb6ugLVTLBwW0j6zEO8GV
-         hfZJl9/GequiOVYjybT8GZyCPKzK5vTPKDG5/9QQ=
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Will McVicker <willmcvicker@google.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        security@kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-team@android.com,
-        Will Coster <willcoster@google.com>
-Subject: Re: [PATCH v1] HID: make arrays usage and value to be the same
-Message-ID: <X8tMDQTls/RcTSAy@kroah.com>
-References: <20201205004848.2541215-1-willmcvicker@google.com>
+        id S1727673AbgLEJii (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 5 Dec 2020 04:38:38 -0500
+Received: from isilmar-4.linta.de ([136.243.71.142]:46126 "EHLO
+        isilmar-4.linta.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728099AbgLEJh4 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Dec 2020 04:37:56 -0500
+X-Greylist: delayed 1404 seconds by postgrey-1.27 at vger.kernel.org; Sat, 05 Dec 2020 04:36:55 EST
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+X-isilmar-external: YES
+Received: from light.dominikbrodowski.net (brodo.linta [10.2.0.102])
+        by isilmar-4.linta.de (Postfix) with ESMTPSA id 55F72201111;
+        Sat,  5 Dec 2020 09:05:30 +0000 (UTC)
+Received: by light.dominikbrodowski.net (Postfix, from userid 1000)
+        id 1107F20EBD; Sat,  5 Dec 2020 09:26:28 +0100 (CET)
+Date:   Sat, 5 Dec 2020 09:26:27 +0100
+From:   Dominik Brodowski <linux@dominikbrodowski.net>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Russell King <linux@armlinux.org.uk>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-usb@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH] ARM: sa11111: make sa1111 bus's remove callback return
+ void
+Message-ID: <X8tEMw7d9S0hq8fN@light.dominikbrodowski.net>
+References: <20201126114724.2028511-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20201205004848.2541215-1-willmcvicker@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201126114724.2028511-1-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Dec 05, 2020 at 12:48:48AM +0000, Will McVicker wrote:
-> The HID subsystem allows an "HID report field" to have a different
-> number of "values" and "usages" when it is allocated. When a field
-> struct is created, the size of the usage array is guaranteed to be at
-> least as large as the values array, but it may be larger. This leads to
-> a potential out-of-bounds write in
-> __hidinput_change_resolution_multipliers() and an out-of-bounds read in
-> hidinput_count_leds().
+Am Thu, Nov 26, 2020 at 12:47:24PM +0100 schrieb Uwe Kleine-König:
+> The driver core ignores the return value of struct device_driver::remove
+> because there is only little that can be done. To simplify the quest to
+> make this function return void, let struct sa1111_driver::remove return
+> void, too. All users already unconditionally return 0, this commit makes
+> it obvious that returning an error code is a bad idea and ensures future
+> users behave accordingly.
 > 
-> To fix this, let's make sure that both the usage and value arrays are
-> the same size.
-> 
-> Signed-off-by: Will McVicker <willmcvicker@google.com>
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-Any reason not to also add a cc: stable on this?
+For the PCMCIA-related change, FWIW,
 
-And, has this always been the case, or was this caused by some specific
-commit in the past?  If so, a "Fixes:" tag is always nice to included.
+	Acked-by: Dominik Brodowski <linux@dominikbrodowski.net>
 
-And finally, as you have a fix for this already, no need to cc:
-security@k.o as there's nothing the people there can do about it now :)
-
-thanks,
-
-greg k-h
+Thanks,
+	Dominik
