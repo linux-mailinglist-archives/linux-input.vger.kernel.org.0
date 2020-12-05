@@ -2,98 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B25C02CFE70
-	for <lists+linux-input@lfdr.de>; Sat,  5 Dec 2020 20:35:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 586B72CFFA1
+	for <lists+linux-input@lfdr.de>; Sun,  6 Dec 2020 00:09:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726000AbgLETe0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 5 Dec 2020 14:34:26 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56408 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725730AbgLETeZ (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 5 Dec 2020 14:34:25 -0500
-Received: from archlinux (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EAF4623133;
-        Sat,  5 Dec 2020 15:52:35 +0000 (UTC)
-Date:   Sat, 5 Dec 2020 15:52:32 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     Ye Xiang <xiang.ye@intel.com>, jikos@kernel.org,
-        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] iio:Documentation: Add documentation for hinge
- sensor channels
-Message-ID: <20201205155232.702ce388@archlinux>
-In-Reply-To: <697be63c1500a4ad80651a8182e56ce4271693c1.camel@linux.intel.com>
-References: <20201203035352.13918-1-xiang.ye@intel.com>
-        <20201203035352.13918-4-xiang.ye@intel.com>
-        <697be63c1500a4ad80651a8182e56ce4271693c1.camel@linux.intel.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1725784AbgLEXI5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 5 Dec 2020 18:08:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56744 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725270AbgLEXI5 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 5 Dec 2020 18:08:57 -0500
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B01FCC0613CF
+        for <linux-input@vger.kernel.org>; Sat,  5 Dec 2020 15:08:16 -0800 (PST)
+Received: by mail-lf1-x144.google.com with SMTP id q13so12769896lfr.10
+        for <linux-input@vger.kernel.org>; Sat, 05 Dec 2020 15:08:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vwb2HdHtdDZZDHnperwU4T/43GW8HXiYw6+fTYALHZ4=;
+        b=SU9Mzn3kxhuqqKEDyZufnK7Jl5GgyAGR9GIYFHUx1XMFG2dsRuvATzgzMS5or8jGoq
+         GKpKXyiLgp2N/icq5y6VTiGSgXjgABGy+TP5fYyjJ0Lp35u899seb57zkNzG7xvU7DpY
+         MjKoPffW5FbBwPxkXy/5yx4HjPXQBeL15aFY8zEe0wMI0UpjdyUXMTL5AERuEX3qD7LG
+         7qq0fcrJaTa6HlYtM8xyptVG3WIrKZ0fV53l/FbgiTBCbpYVPZ9Qw5xhge4F/0ur2SqS
+         nj/UMaT20vcuXoNMSlm0bdGoS4yVN6aFYkJO3uqNzw+p8jFZjDUwXUmsJeZDJfEUQuds
+         OZUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vwb2HdHtdDZZDHnperwU4T/43GW8HXiYw6+fTYALHZ4=;
+        b=ScsXkdg4PcQPdWVEzO+sgGuMyIf7nH7DX9U+Ms7zZYPZXuEt1U5Lt5xMz/jUryqjTU
+         HJj5jk4CUc5ax2Y4YdoFeZv3o9ABN/r+H1cCkK9gqMWDjTa4oupY8g9b1H7yCAXM2gkz
+         gkYtjqIwNPtiz4ExG+a9wMTsTMgvKTKj+Qy8P5y5pki+6c029iAmUE/9ZbeBZ95hzFXZ
+         XqvorQq9X4rhxD5P5GKwoO7Ez2LRNg7Gniq/rKkbC8bkTa3zkywExBsPs/vTIwu0BLTq
+         3tvOiD0zVLVi1UgPifcBRheum2TvmLo2Tu9peDSs6p0IoOc3I/ZV/Iyvn/s+S6FnNT6x
+         VsKw==
+X-Gm-Message-State: AOAM533RiTe3PnM0TIQ8Y8ljpf3ByAsXDvNm3WKI+oGZkE9/5tKjtBoI
+        2cyPgwEhUkBhELqIvs6DFnLXI16Mdv4jsKCL01nUHA==
+X-Google-Smtp-Source: ABdhPJwdF479XZ7ajZEMYz/xc/9Bf8EKg6vkYwWis2eIiU1zHQw8oaYyfgNfyCcFk3hweLjiIOpUj79cCisirDSYA8M=
+X-Received: by 2002:ac2:4578:: with SMTP id k24mr5761952lfm.502.1607209695139;
+ Sat, 05 Dec 2020 15:08:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20201203131242.44397-1-stephan@gerhold.net>
+In-Reply-To: <20201203131242.44397-1-stephan@gerhold.net>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sun, 6 Dec 2020 00:08:04 +0100
+Message-ID: <CACRpkdY+SUkOZCoPgEOZ005T26hop=Tn-NjG3BwwyVFfWbZOpA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: Input: tm2-touchkey - convert to yaml
+To:     Stephan Gerhold <stephan@gerhold.net>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Linux Input <linux-input@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 04 Dec 2020 03:40:15 -0800
-Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> wrote:
+On Thu, Dec 3, 2020 at 2:13 PM Stephan Gerhold <stephan@gerhold.net> wrote:
 
-> On Thu, 2020-12-03 at 11:53 +0800, Ye Xiang wrote:
-> > Add channel description for hinge sensor, including channel label
-> > attribute and raw data description.
-> > 
-> > Signed-off-by: Ye Xiang <xiang.ye@intel.com>
-> > ---
-> >  Documentation/ABI/testing/sysfs-bus-iio | 17 +++++++++++++++++
-> >  1 file changed, 17 insertions(+)
-> > 
-> > diff --git a/Documentation/ABI/testing/sysfs-bus-iio
-> > b/Documentation/ABI/testing/sysfs-bus-iio
-> > index df42bed09f25..82303b1bdff0 100644
-> > --- a/Documentation/ABI/testing/sysfs-bus-iio
-> > +++ b/Documentation/ABI/testing/sysfs-bus-iio
-> > @@ -1802,3 +1802,20 @@ Contact:	linux-iio@vger.kernel.org
-> >  Description:
-> >  		Unscaled light intensity according to CIE 1931/DIN 5033
-> > color space.
-> >  		Units after application of scale are nano nanowatts per
-> > square meter.
-> > +
-> > +What:		/sys/bus/iio/devices/iio:deviceX/in_anglY_raw  
-> Channel "Y" doesn't sound to be a variable. Why not just say "*"
+> Convert the device tree bindings for tm2-touchkey to the YAML format.
+>
+> While we're at it, clarify the descriptions a bit to make it clear that
+> this driver can be used for many different MCUs that all implement
+> a similar I2C protocol. Depending on the MCU the voltage requirements
+> may be different, on some devices the controller uses 2.2V, 2.8V or
+> even 3.3V for vcc-supply instead of 1.8V.
+>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
 
-Long term convention.  More generally you need a way to refer to the
-individual wild cards. Sometimes there are more than the two we have
-here.
+LGTM
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Not entirely sure where the convention comes from but it is used
-throughout this file and I doubt I invented it.
-
-Jonathan
-
-
-> 
-> Thanks,
-> Srinivas
-> 
-> > +KernelVersion:	5.12
-> > +Contact:	linux-iio@vger.kernel.org
-> > +Description:
-> > +		Angle of rotation for channel Y. Units after
-> > application of scale
-> > +		and offset are radians.
-> > +
-> > +What:		/sys/bus/iio/devices/iio:deviceX/in_anglY_label
-> > +KernelVersion:	5.12
-> > +Contact:	linux-iio@vger.kernel.org
-> > +Description:
-> > +		Optional symbolic label for channel Y.
-> > +		For Intel hid hinge sensor, the label values are:
-> > +		hinge, keyboard, screen. It means the three channels
-> > +		each correspond respectively to hinge angle, keyboard
-> > angle,
-> > +		and screen angle.  
-> 
-
+Yours,
+Linus Walleij
