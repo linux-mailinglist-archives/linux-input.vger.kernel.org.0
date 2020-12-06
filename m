@@ -2,128 +2,111 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E1B22D06F6
-	for <lists+linux-input@lfdr.de>; Sun,  6 Dec 2020 20:44:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8017D2D074F
+	for <lists+linux-input@lfdr.de>; Sun,  6 Dec 2020 22:25:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727706AbgLFTnV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 6 Dec 2020 14:43:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36482 "EHLO
+        id S1727040AbgLFVYI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 6 Dec 2020 16:24:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726440AbgLFTnU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 6 Dec 2020 14:43:20 -0500
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62C17C0613D0;
-        Sun,  6 Dec 2020 11:42:40 -0800 (PST)
-Received: by mail-lf1-x143.google.com with SMTP id u19so14970061lfr.7;
-        Sun, 06 Dec 2020 11:42:40 -0800 (PST)
+        with ESMTP id S1726862AbgLFVYI (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 6 Dec 2020 16:24:08 -0500
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D14CC0613D1;
+        Sun,  6 Dec 2020 13:23:27 -0800 (PST)
+Received: by mail-wm1-x343.google.com with SMTP id x22so9841435wmc.5;
+        Sun, 06 Dec 2020 13:23:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=P8pAgTSPFmcGo2WsinSV0Iu1rGYJWBvbZOs81Qoj/1Q=;
-        b=Rg8YskXjofnemn8ddmL6FT3vkTom0Agh0dOKmLySHrVg7nNsCMaaLg/1bJhoQaGLtM
-         oW1np1+2oed9jTlfYjWts5Ns+5g2aqeSE36NOYBMBP7iOEtDFZ6ZnLaHTt0yHOpixlAS
-         gkWNujFxMe2O1UAMuTKymrvPWdCglWPqmn3AMhmuzfDj48pKcZzrYPcsbvH1726ULGoG
-         jcZT1gaBQPXlcp+Oxw5oOogsTifSauCrRQITLH+mCHo2x6FySPvdBGQo6FO1C4mH/C8H
-         InUpJFKBla1hy3H2gU+8HpL54IAwtYCkaKyOCR+uUmnU8egvg6HVpC7yIYB++os/7HHn
-         A/PQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FJVu7lAb4oJTbHUAssptypIC43UfqX9yrxi8AHaGOCM=;
+        b=HMuPAplgWkRlJgph/+o8oi/eKeDH4Z6Ixd81DYwKJ+9AJ0ViOtCzgVtwGxOb0vSofq
+         alJ1OecukrmW6zfrFR10FnunFQkuR2WoI1zJwNCpkPvoB3JB1lwXcyb65ZzyR0gJ74B6
+         wMSDkdJIf4djmRPaPoo/4jLgfm+wdY/pmBvvalKym42eCpnYjE8s5zktaYTVplcwwIOl
+         SeiKW3OHmefAxUfCYq4vUF5IADeIpZuXMRALDGTBu/PNTsk4xgL/hyR+lF2McVh+aP+c
+         xYrLo8pP3qX6Z2HZUaUs9XbBiWNee/o3UK7v8o7ZuqXTvFTMHKoZT5VkuAZFTMBNzEBg
+         yG1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=P8pAgTSPFmcGo2WsinSV0Iu1rGYJWBvbZOs81Qoj/1Q=;
-        b=TNjqJK0qQENRIVn8Exih+WQr4XIPWZLI0LkPUh+vcfH2xAoY7I/UCuxaFHU6Pqq3KF
-         uKC6ALNJDd0UR3uVz7CfW+Q6pJ1Op690EJQcxelrUh694PhT8NrOJtVBY+qLBxmsv59B
-         FcQ70jhmp+7fq91zIgY0NE2jv9EJr0ardrVG6SYuclTLfYXWI6bWhfUQh3hgVIuvqcnv
-         AGTCI6wfpMzj2PyxvdNOe66KYfoaJ3PWTj5Y5afwVlW01C0mjgOxJyfJdVqok8d5FIUL
-         A6cAlbt6E2J5MDsBU5IML8rCG80tq0JdnGNJMlfa6w5/woy7INM4mk9a8Xf5QmMzcWsA
-         YQVg==
-X-Gm-Message-State: AOAM532XHiOfQDfU/KU9PxPYY10dHhz/+r5w1vZNduRGxCz1hiD03y8L
-        1wRyGxs1LMEJBcZCsnGsbU+ZDXJKZtg=
-X-Google-Smtp-Source: ABdhPJysKEeEGlcBRVCI6+4AbOu+6HX3tV2ke3jyc1U6OEtF9pKNdVNPnM7O6gsIUf5jBw52swKQzA==
-X-Received: by 2002:a19:48c6:: with SMTP id v189mr1998085lfa.360.1607283758811;
-        Sun, 06 Dec 2020 11:42:38 -0800 (PST)
-Received: from [192.168.2.145] (109-252-192-53.dynamic.spd-mgts.ru. [109.252.192.53])
-        by smtp.googlemail.com with ESMTPSA id j25sm2625938lfh.71.2020.12.06.11.42.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 06 Dec 2020 11:42:38 -0800 (PST)
-Subject: Re: [PATCH v2 2/3] Input: atmel_mxt_ts - support wakeup methods
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Nick Dyer <nick@shmanahar.org>,
+        bh=FJVu7lAb4oJTbHUAssptypIC43UfqX9yrxi8AHaGOCM=;
+        b=UfC7UUBMnypGxBOjQkQ3jE/LBN47qd9+sfHhIfP68smBrgh0vvK14rTwUpvc32l5pC
+         03/jFrzzXtNsngfXFY/kL1llw48C/m5v5wloiigiBwG6sCzC5tNLb9qW9ZzFZRE+jzL1
+         5ANUB2Noz6qSopMPUNhoTHXr8x+1bgabJcO0Dl/d4Alvs2/AyXVA3Kda8kcC54Jo171L
+         IctwaPWBUtkwuUQKWfeUlmAgDh1b2k2dbkegxnFFg4LImWmrxOKv52W+sHtkmQ7ZI2zW
+         qFcaLLjzWJjEQyxc6fgz1X8AwOu03Jk5Z+soifiBxlIwwWSq0PAUk4P5cMTerPC/eaIh
+         RXiA==
+X-Gm-Message-State: AOAM530TNLtMB/CWEassWSESfzXkUB46mCkLXvRw6NNvsmSukU/Xfkhi
+        JPiZZ94Z6wzQtqVn+EjLKoE=
+X-Google-Smtp-Source: ABdhPJz9vITV6sLBx8u3DNyQCp+5oUqnN221wCYSDh+RzjFHWard0ZXYMYEN7oVrOGTBDwdbMal9Sw==
+X-Received: by 2002:a1c:68d6:: with SMTP id d205mr15246727wmc.154.1607289806341;
+        Sun, 06 Dec 2020 13:23:26 -0800 (PST)
+Received: from localhost.localdomain (109-252-192-53.dynamic.spd-mgts.ru. [109.252.192.53])
+        by smtp.gmail.com with ESMTPSA id l24sm12737540wrb.28.2020.12.06.13.23.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Dec 2020 13:23:25 -0800 (PST)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Nick Dyer <nick@shmanahar.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Jiada Wang <jiada_wang@mentor.com>,
-        Linux Input <linux-input@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20201205054749.26487-1-digetx@gmail.com>
- <20201205054749.26487-3-digetx@gmail.com>
- <CACRpkdZoxsamwCpckeMOVSkK_DQOqakmZ3fHzYb8CeSGZ1V_NA@mail.gmail.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <1c98644e-dd57-026e-54d2-59f3398bdd6d@gmail.com>
-Date:   Sun, 6 Dec 2020 22:42:37 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jiada Wang <jiada_wang@mentor.com>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/3] Support wakeup methods of Atmel maXTouch controllers
+Date:   Mon,  7 Dec 2020 00:22:14 +0300
+Message-Id: <20201206212217.6857-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <CACRpkdZoxsamwCpckeMOVSkK_DQOqakmZ3fHzYb8CeSGZ1V_NA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-06.12.2020 18:20, Linus Walleij пишет:
-> On Sat, Dec 5, 2020 at 6:48 AM Dmitry Osipenko <digetx@gmail.com> wrote:
-> 
->> According to datasheets, chips like mXT1386 have a WAKE line, it is used
->> to wake the chip up from deep sleep mode before communicating with it via
->> the I2C-compatible interface.
->>
->> If the WAKE line is connected to a GPIO line, the line must be asserted
->> 25 ms before the host attempts to communicate with the controller. If the
->> WAKE line is connected to the SCL pin, the controller will send a NACK on
->> the first attempt to address it, the host must then retry 25 ms later.
->>
->> Implement the wake-up methods in the driver. Touchscreen now works
->> properly on devices like Acer A500 tablet, fixing problems like this:
->>
->>  atmel_mxt_ts 0-004c: __mxt_read_reg: i2c transfer failed (-121)
->>  atmel_mxt_ts 0-004c: mxt_bootloader_read: i2c recv failed (-121)
->>  atmel_mxt_ts 0-004c: Trying alternate bootloader address
->>  atmel_mxt_ts 0-004c: mxt_bootloader_read: i2c recv failed (-121)
->>  atmel_mxt_ts: probe of 0-004c failed with error -121
->>
->> Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> 
-> OK looks interesting!
-> 
->> +       /* Request the WAKE line as asserted so controller won't sleep */
->> +       data->wake_gpio = devm_gpiod_get_optional(&client->dev,
->> +                                                 "wake", GPIOD_OUT_HIGH);
->> +       if (IS_ERR(data->wake_gpio)) {
->> +               error = PTR_ERR(data->wake_gpio);
->> +               dev_err(&client->dev, "Failed to get wake gpio: %d\n", error);
->> +               return error;
->> +       }
-> 
-> That is a bit brutal, don't you think? Now you force the controller
-> to be on at all times. Even across suspend/resume.
+Some Atmel maXTouch controllers, like mXT1386 and mXT3432S1 for example,
+have a WAKE line that needs to be asserted in order to wake controller
+from a deep sleep, otherwise it will be unusable. This series implements
+support for the wakeup methods in accordance to the mXT1386 datasheet [1],
+see page 29 (chapter "5.8 WAKE Line").
 
-Still it's better than a disfunctional hardware :)
+The mXT1386 is a widely used controller found on many older Android tablet
+devices. Touchscreen on Acer A500 tablet now works properly after this
+series.
 
-> Shouldn't the same patch drive this low in mxt_suspend()
-> and driver it high + wait 25 ms in mxt_resume()?
-> Waiting 25ms in mxt_resume() is chill, it is anyway on the
-> slowpath.
+This patchset is a continuation of the work originally started by
+Jiada Wang [2].
 
-I don't have hardware which uses the wake-gpio in order to test that it
-works properly, hence wanted to keep it minimal. But indeed sounds like
-toggling the GPIO in suspend/resume should be okay to do. Alright, I'll
-improve it in the v3. Thank you!
+[1] https://ww1.microchip.com/downloads/en/DeviceDoc/mXT1386_1vx_Datasheet_LX.pdf
+[2] https://patchwork.kernel.org/project/linux-input/list/?series=357875
+
+Changelog:
+
+v3: - Added "default: 0" to the atmel,wakeup-method property in the binding.
+
+    - Added r-b from Linus Walleij to the binding patch.
+
+    - The wake-GPIO is now toggled on touchscreen's start/stop in order to
+      allow it to sleep during suspend. Suggested by Linus Walleij.
+
+v2: - Fixed copy-paste bug in the code.
+
+Dmitry Osipenko (3):
+  dt-bindings: input: atmel_mxt_ts: Document atmel,wakeup-method and
+    wake-GPIO
+  Input: atmel_mxt_ts - support wakeup methods
+  ARM: tegra: acer-a500: Add atmel,wakeup-method property
+
+ .../bindings/input/atmel,maxtouch.yaml        | 29 +++++++
+ .../boot/dts/tegra20-acer-a500-picasso.dts    |  3 +
+ drivers/input/touchscreen/atmel_mxt_ts.c      | 78 +++++++++++++++++++
+ include/dt-bindings/input/atmel-maxtouch.h    | 10 +++
+ 4 files changed, 120 insertions(+)
+ create mode 100644 include/dt-bindings/input/atmel-maxtouch.h
+
+-- 
+2.29.2
+
