@@ -2,71 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 312AF2D0262
-	for <lists+linux-input@lfdr.de>; Sun,  6 Dec 2020 11:06:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D6492D04C9
+	for <lists+linux-input@lfdr.de>; Sun,  6 Dec 2020 13:34:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725945AbgLFKEo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 6 Dec 2020 05:04:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60746 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726181AbgLFKEn (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 6 Dec 2020 05:04:43 -0500
-Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com [IPv6:2607:f8b0:4864:20::f41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E796C0613D1
-        for <linux-input@vger.kernel.org>; Sun,  6 Dec 2020 02:03:58 -0800 (PST)
-Received: by mail-qv1-xf41.google.com with SMTP id p12so5080016qvj.13
-        for <linux-input@vger.kernel.org>; Sun, 06 Dec 2020 02:03:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mccsd.net; s=google;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=ZH1/6saFGiGlfpGxgeSA8T++8RUK54keMReyEGhsLwU=;
-        b=hfjnTlrPjHOcpC0bR6IqbQS0b5+vpJOsslte9jamaGCRIOFr9Ij78HKU7Z65IvT3Nx
-         C75/9C1w2RxtZGIfe4iynFvJjPLCCVio9k7QxszFJHt5/dCHnjLqACaYbZo3qtmahJxj
-         K4zqxo6JxQTPyLduoThREUxwkJL4c2BndGVisBskwpKuOjqPs6u2vh6NJh5/Cmysbmzy
-         VsNnTuX5iKcj3HdPofePlSiiL0zCLuz9+V3aElBbh9aaYc5HPcFd+ntjrj3YVgkwYR87
-         FfzWX4icEIcybvt51kSjLofLYnmK9evZWFRWjqZEg0LwyBcEkbSPuYy4EX5rRC46n6ft
-         rJFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=ZH1/6saFGiGlfpGxgeSA8T++8RUK54keMReyEGhsLwU=;
-        b=MbTgNli9LEyTFu0vCr6g/7NTUPBoo5jYXEHNdGfzboLegnQtzoNA7g7X93IGKV0dFs
-         Jg1y8/kW45Lh9S5AI5Y+krXM16Xz3o6EUstCnSdPqfe349Yw92V/3IpSgpR37jxmHlL3
-         xgmK+AoaC4Eu/4iPiLQaUVZEcWNkpW0/hyRlT62l6TJmSGGR1muk37uj+LOEB3gf0imW
-         4VK2I6AGEfL8TjWy7CX/uKP9wX1/lxmmMiNtWeDQqBBKBZR6eiHb7s5zNC0R8le93S2x
-         MJLCk2Yyg9CF6mmm00PqBKsqsS2z9ohyzQ/z13qxeiM854b3oR7Ujfr8ssJvYN9WFUDZ
-         vmQQ==
-X-Gm-Message-State: AOAM533OHpfKM8Y7tqkO0JPZHfZSv4esu2/T3TJY9f/iV+BWI30F3lIu
-        SK+jxzuYkSMZbpQsEJNYngJRONq1u1RrWv/jlNIqSA==
-X-Google-Smtp-Source: ABdhPJx0+yS43KBHMvl+PNkgEg3Ikop/j5CLJ83JNbzsZSs/E7AcKVjHUx9ITIFuzO+pobKWhX7kEkwYI/4FdA/U34M=
-X-Received: by 2002:a0c:b799:: with SMTP id l25mr14973943qve.25.1607249036127;
- Sun, 06 Dec 2020 02:03:56 -0800 (PST)
+        id S1727795AbgLFMcO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 6 Dec 2020 07:32:14 -0500
+Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.217]:21576 "EHLO
+        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725767AbgLFMcO (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 6 Dec 2020 07:32:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1607257701;
+        s=strato-dkim-0002; d=gerhold.net;
+        h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:
+        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+        bh=NdhkBxtn7L94tUEdaXrhYTzEd2GtpsrUba5lNB5ugvI=;
+        b=nFMZ9YAv3IjVdPRpckI0Q3rYwQMH6l3Krg+tdWWOI8hDr9jQvkGGrHkJnziAjjm7s0
+        q69nefcfYWCrpNq0t1e+1ji4cjH4E1bWLfdtHA8DV7aK5+Lg03FHA4lypNWuyLbRBbLx
+        1QAvdpHgxxHs81e4Eda/KIeBfqbeGtwdcMNztoN7juezbitpKRgZDJlj3fmTuBTS/B/R
+        J8FxFv2bG7bNH6WvFUl/HDYxon3q5e0WOjZOxvIP9UH1zJrXj19HxKoFYcGdUQFURMO3
+        uuNu0rvo010Jdo+M516TK3GwyVzbfColQvspFxy1XQWKzh+mqrko9HigyAthH1yPDSx+
+        5r4Q==
+X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u26zEodhPgRDZ8jxIcnBBg=="
+X-RZG-CLASS-ID: mo00
+Received: from gerhold.net
+        by smtp.strato.de (RZmta 47.3.4 DYNA|AUTH)
+        with ESMTPSA id Z061efwB6CSIZEy
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+        Sun, 6 Dec 2020 13:28:18 +0100 (CET)
+Date:   Sun, 6 Dec 2020 13:28:14 +0100
+From:   Stephan Gerhold <stephan@gerhold.net>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Linux Input <linux-input@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Subject: Re: [PATCH 2/3] dt-bindings: Input: tm2-touchkey - document
+ vddio-supply
+Message-ID: <X8zOXpJ7fjIlgtnP@gerhold.net>
+References: <20201203131242.44397-1-stephan@gerhold.net>
+ <20201203131242.44397-2-stephan@gerhold.net>
+ <CACRpkdadiyYK5i8+TaLqxjmp4mUJ8eTiyZkgPXp-Qa2+CD8DrA@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 2002:ac8:4e13:0:0:0:0:0 with HTTP; Sun, 6 Dec 2020 02:03:55 -0800 (PST)
-Reply-To: mrmusabrahm97@gmail.com
-From:   "Mr. Musa Ibrahim" <jstrong367@mccsd.net>
-Date:   Sun, 6 Dec 2020 10:03:55 +0000
-Message-ID: <CAJqCeNgYGg_H2B=T6MFRdJLAWrcm+iJanC_BOzmvEwuEE-n+Ow@mail.gmail.com>
-Subject: FROM MR. MUSA IBRAHIM: URGENT REPLY NEEDED
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACRpkdadiyYK5i8+TaLqxjmp4mUJ8eTiyZkgPXp-Qa2+CD8DrA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear Friend,
+On Sun, Dec 06, 2020 at 12:09:50AM +0100, Linus Walleij wrote:
+> On Thu, Dec 3, 2020 at 2:13 PM Stephan Gerhold <stephan@gerhold.net> wrote:
+> 
+> > The Samsung touchkey controllers are often used with external pull-up
+> > for the interrupt line and the I2C lines, so we might need to enable
+> > a regulator to bring the lines into usable state. Otherwise, this might
+> > cause spurious interrupts and reading from I2C will fail.
+> >
+> > Document support for a "vddio-supply" that is enabled by the tm2-touchkey
+> > driver so that the regulator gets enabled when needed.
+> >
+> > Cc: Linus Walleij <linus.walleij@linaro.org>
+> > Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
+> 
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> 
+> > +  vddio-supply:
+> > +    description: |
+> > +      Optional regulator that provides digital I/O voltage,
+> > +      e.g. for pulling up the interrupt line or the I2C pins.
+> 
+> I think the funny pipe | us only needed when you want something to be
+> fixed-width like ASCII art or ASCII tables. But no big deal I suppose.
+> 
 
-I am Mr. Musa Ibrahim from Burkina Faso. I am sending you this email,
-because of the latest development in my bank which I will like to
-bring you in. This business worth the sum of Thirteen Million Three
-Hundred Thousand United State Dollars (US$ 13.3 Million) and it is
-real and legitimate.
+Actually, the pipe | effectively means that new lines \n will be
+preserved in the parsed output, i.e.
 
-In completion of everything, we will share the funds equally. 50% for
-me and 50% for you. If you are interested in the deal, kindly contact
-me for more details.
+  something:
+    Hello
+    World
 
-Best regards,
+means "Hello World", while
 
-Mr. Musa Ibrahim
+  something: |
+    Hello
+    World
+
+means "Hello\nWorld\n".
+
+In practice I guess it doesn't make much of a difference for these
+descriptions. It also doesn't seem to be used very consistently in
+existing device tree bindings, so I think it's fine as-is.
+
+Thanks,
+Stephan
