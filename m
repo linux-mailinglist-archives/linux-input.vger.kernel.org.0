@@ -2,55 +2,54 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 816B32D0597
-	for <lists+linux-input@lfdr.de>; Sun,  6 Dec 2020 16:14:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E19912D05A6
+	for <lists+linux-input@lfdr.de>; Sun,  6 Dec 2020 16:22:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726147AbgLFPOx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 6 Dec 2020 10:14:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51914 "EHLO
+        id S1726359AbgLFPVq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 6 Dec 2020 10:21:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725730AbgLFPOx (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 6 Dec 2020 10:14:53 -0500
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9B0DC0613D0
-        for <linux-input@vger.kernel.org>; Sun,  6 Dec 2020 07:14:12 -0800 (PST)
-Received: by mail-lj1-x242.google.com with SMTP id q8so12212587ljc.12
-        for <linux-input@vger.kernel.org>; Sun, 06 Dec 2020 07:14:12 -0800 (PST)
+        with ESMTP id S1726318AbgLFPVq (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 6 Dec 2020 10:21:46 -0500
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89F45C0613D1
+        for <linux-input@vger.kernel.org>; Sun,  6 Dec 2020 07:21:05 -0800 (PST)
+Received: by mail-lj1-x241.google.com with SMTP id f11so69264ljm.8
+        for <linux-input@vger.kernel.org>; Sun, 06 Dec 2020 07:21:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=ewLQDP/8tzLVIjOAB6Z6yBX/hdvnuw9WqxClNkbxi5c=;
-        b=ebMvmXZOn+SFPjj7tRKJ1Hg0BIRHg5+xookwP/W5cirHmg6iPhktYlp+2gAc/z1Igl
-         MCoTL162aPOs/YSVqaV0dJrwuDgHM5bdjWcAIzUXlE6Pk+3LhVuueQ6wQwomppL7QwjO
-         ROSha5rWv1unSTc2Pc5V1ZB98hP4dbvBbKEnXWxo71XL3t0qAzPPG6KuQuy7DBnql3Tb
-         k7b2HPg1EQ1z5e44YOZl4aHSugKhI8bnOi4ndXsp8b6R3M/IaCS71yF6cRzAzsHm8ief
-         25QVaE93St2D3e04vPrWiBVZlJskrseHCpXsx1k9oLI3L5QFsHtCKJPy3zrZmtY1ITS0
-         4cWQ==
+        bh=P2jMJwesYEXerkWw0MU6aVmUBHRRKSZdzK4M16yygf0=;
+        b=trqlRO+RUgL6oM2i+qz8n57YuG8b3zo5dQODxU9+BWmqK2K3YjygtCfmMfCcO1nlmt
+         ZnZ2qSg1VGt3u6UZLGy56VJmIxubCYh39sN6LFx6j4FlmCFBC1KTWLu2SLb/AMrm5Waq
+         5vfMkMw7+08PCfqsfCdO9rbW6LcBD63qZroCTGQa4c4p3/UBYfYZxoutMrbIdPcDTO/g
+         peS3elfKb6M7QiHk1OZcJ+HQ7MFdS8+9wim4R/S5i7PiOtplFKZA7FyiYjwQcQUvoHqm
+         86qJ537/dlxHZ0u2rJgEE9iQoWr0ICFhsWcv5ueA2b4XAHYWvQCDMXNSIY8ozmJHalLD
+         XwVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ewLQDP/8tzLVIjOAB6Z6yBX/hdvnuw9WqxClNkbxi5c=;
-        b=aBsxZnwXYKomZP6c3m6X3UVo9NnMnBr3pZavntnCEfijSQ3oNItzKNChq+SWS+UP/1
-         hOpfOGuHYtvlDtGktbFi2JRucpBhjdPNB2KU3whxD5l67HwPvYdqKA+ST6kCpyCVfAya
-         unfHgwPTY+i6rLslWFOSNVDiTQN0LWCGqC4BY3LLp6zpNtn+Q4vIwvzfIUKg0unI8nqX
-         vaEU2s+y7VrpHfl3pXQxaKTR0YkJRFF9ODIRXj7016PB1o3YcVsuXgsJpSCZ61TCe9Uy
-         j1r2EGUVjN0eYVJgj2DQCZTOEgDl8+xWjcK6VjXXqmOqqPpVAm1MCFLAh1pwua9B945B
-         NEaA==
-X-Gm-Message-State: AOAM5305/iWLDqBWAOHuHJ8I6aTTU/cU8fnYRLSessu/tIbDuMcL77Wo
-        laxhq/QZqd5DOe2pZlIvmWWPdu5u1rreoJeGUFhnQQ==
-X-Google-Smtp-Source: ABdhPJy7Rh18d+1pv9wJ41IJ+1/SLO4A2I29ybUTEusEbi5vnUDxLdouW9sCljOvQyHl/r6VEcE/XS780edAEcMoGYo=
-X-Received: by 2002:a05:651c:c2:: with SMTP id 2mr6851536ljr.104.1607267651173;
- Sun, 06 Dec 2020 07:14:11 -0800 (PST)
+        bh=P2jMJwesYEXerkWw0MU6aVmUBHRRKSZdzK4M16yygf0=;
+        b=iFp1gEDWKXT+urMcRcj08vtivSHL0a6IVlAZ17DZFvp99nexQph/VZYQUN6rb6sGG2
+         1TSuoMNW2oyFJQHKean0zM7VViKx/MDkROkAnwlZ0mju+9AHb43ejARAWqR2NhWijNdl
+         oYl9epWnp/ElgAE2/Ex7uVQOztyFYHbnMAWVnCwF4aBA7YgY1r4Wy71LKbM5H1PMo7Ov
+         DTl5c/xUSnPXwNEZDHdLvlTWs/Gf7a1m+jr6XsalkAOKKqOeI/4cgHFfUnUjqqf83//R
+         cWN45Hjgo39babxp3vDsaXSzjIqQvSiWI9wJK8YGxDZETKylMkSp3sELvFI9BkPWk/Hb
+         h/vg==
+X-Gm-Message-State: AOAM530gk8TkvnP1aKDuCy9M+8BBAhPrBMfqfCdbrJLoJS+dMNhejykj
+        n4B+Z8GKHlrdz1pGNxq3eL6qlOEJ0LsWF5iGDT5mqA==
+X-Google-Smtp-Source: ABdhPJyzUPomIjJYXfFaqoDPfewszugEjgkBqy17YgWyc6uo0N691jeA252Ulgf8kt7Ye3tK0ZNQijAby1yx6tBHGK4=
+X-Received: by 2002:a2e:780d:: with SMTP id t13mr3229946ljc.144.1607268039459;
+ Sun, 06 Dec 2020 07:20:39 -0800 (PST)
 MIME-Version: 1.0
-References: <20201205053328.9535-1-digetx@gmail.com> <20201205053328.9535-2-digetx@gmail.com>
-In-Reply-To: <20201205053328.9535-2-digetx@gmail.com>
+References: <20201205054749.26487-1-digetx@gmail.com> <20201205054749.26487-3-digetx@gmail.com>
+In-Reply-To: <20201205054749.26487-3-digetx@gmail.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sun, 6 Dec 2020 16:13:59 +0100
-Message-ID: <CACRpkdY+fLhUD4cpM7X96Z7XjtXBkoVDRN6pDBUk+PjrQjTxcA@mail.gmail.com>
-Subject: Re: [PATCH v1 1/3] dt-bindings: input: atmel_mxt_ts: Document
- atmel,wakeup-method and wake-GPIO
+Date:   Sun, 6 Dec 2020 16:20:28 +0100
+Message-ID: <CACRpkdZoxsamwCpckeMOVSkK_DQOqakmZ3fHzYb8CeSGZ1V_NA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] Input: atmel_mxt_ts - support wakeup methods
 To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     Nick Dyer <nick@shmanahar.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
@@ -68,41 +67,47 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Dec 5, 2020 at 6:34 AM Dmitry Osipenko <digetx@gmail.com> wrote:
+On Sat, Dec 5, 2020 at 6:48 AM Dmitry Osipenko <digetx@gmail.com> wrote:
 
-> Some Atmel touchscreen controllers have a WAKE line that needs to be
-> asserted low in order to wake up controller from a deep sleep. Document
-> the wakeup methods and the wake-GPIO properties.
+> According to datasheets, chips like mXT1386 have a WAKE line, it is used
+> to wake the chip up from deep sleep mode before communicating with it via
+> the I2C-compatible interface.
 >
+> If the WAKE line is connected to a GPIO line, the line must be asserted
+> 25 ms before the host attempts to communicate with the controller. If the
+> WAKE line is connected to the SCL pin, the controller will send a NACK on
+> the first attempt to address it, the host must then retry 25 ms later.
+>
+> Implement the wake-up methods in the driver. Touchscreen now works
+> properly on devices like Acer A500 tablet, fixing problems like this:
+>
+>  atmel_mxt_ts 0-004c: __mxt_read_reg: i2c transfer failed (-121)
+>  atmel_mxt_ts 0-004c: mxt_bootloader_read: i2c recv failed (-121)
+>  atmel_mxt_ts 0-004c: Trying alternate bootloader address
+>  atmel_mxt_ts 0-004c: mxt_bootloader_read: i2c recv failed (-121)
+>  atmel_mxt_ts: probe of 0-004c failed with error -121
+>
+> Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 
-Looks really useful!
+OK looks interesting!
 
-> +  atmel,wakeup-method:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description: |
-> +      The WAKE line is an active-low input that is used to wake up the touch
-> +      controller from deep-sleep mode before communication with the controller
-> +      could be started. This feature used to minimize current consumption
-> +      when the controller is in deep sleep mode.
-> +
-> +      The WAKE pin can be connected in one of the following ways:
-> +       1) left permanently low
-> +       2) connected to the I2C-compatible SCL pin
-> +       3) connected to a GPIO pin on the host
-> +    enum:
-> +      - 0 # ATMEL_MXT_WAKEUP_NONE
-> +      - 1 # ATMEL_MXT_WAKEUP_I2C_SCL
-> +      - 2 # ATMEL_MXT_WAKEUP_GPIO
+> +       /* Request the WAKE line as asserted so controller won't sleep */
+> +       data->wake_gpio = devm_gpiod_get_optional(&client->dev,
+> +                                                 "wake", GPIOD_OUT_HIGH);
+> +       if (IS_ERR(data->wake_gpio)) {
+> +               error = PTR_ERR(data->wake_gpio);
+> +               dev_err(&client->dev, "Failed to get wake gpio: %d\n", error);
+> +               return error;
+> +       }
 
-So you can add:
-minimum: 0
-maximum: 2
+That is a bit brutal, don't you think? Now you force the controller
+to be on at all times. Even across suspend/resume.
 
-I suppose?
-
-With that:
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Shouldn't the same patch drive this low in mxt_suspend()
+and driver it high + wait 25 ms in mxt_resume()?
+Waiting 25ms in mxt_resume() is chill, it is anyway on the
+slowpath.
 
 Yours,
 Linus Walleij
