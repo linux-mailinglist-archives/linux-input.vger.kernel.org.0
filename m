@@ -2,52 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 913582D147C
-	for <lists+linux-input@lfdr.de>; Mon,  7 Dec 2020 16:14:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 175BD2D151F
+	for <lists+linux-input@lfdr.de>; Mon,  7 Dec 2020 16:53:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725877AbgLGPNt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 7 Dec 2020 10:13:49 -0500
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:35879 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725802AbgLGPNt (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Dec 2020 10:13:49 -0500
-X-Originating-IP: 82.255.60.242
-Received: from [192.168.0.28] (lns-bzn-39-82-255-60-242.adsl.proxad.net [82.255.60.242])
-        (Authenticated sender: hadess@hadess.net)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 28B2AE0002;
-        Mon,  7 Dec 2020 15:13:06 +0000 (UTC)
-Message-ID: <51f85699a86b751869689b3776ddf8e302131e95.camel@hadess.net>
-Subject: Re: [PATCH] Input: goodix - Add upside-down quirk for Teclast X98
- Pro tablet
-From:   Bastien Nocera <hadess@hadess.net>
-To:     linux@simonmicro.de, linux-input@vger.kernel.org
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Date:   Mon, 07 Dec 2020 16:13:06 +0100
-In-Reply-To: <672ddee0a276be7d34e01c665df20d1c8ad2b7d0.camel@hadess.net>
-References: <20201117004253.27A5A27EFD@localhost>
-         <672ddee0a276be7d34e01c665df20d1c8ad2b7d0.camel@hadess.net>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.1 (3.38.1-1.fc33) 
+        id S1726270AbgLGPuv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 7 Dec 2020 10:50:51 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:51704 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725814AbgLGPuv (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Dec 2020 10:50:51 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id 79D0D1F44D66
+Subject: Re: [PATCH v4 2/7] Input: use input_device_enabled()
+To:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-tegra@vger.kernel.org, patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Ferruh Yigit <fery@cypress.com>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Peter Hutterer <peter.hutterer@redhat.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        kernel@collabora.com,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+References: <2336e15d-ff4b-bbb6-c701-dbf3aa110fcd@redhat.com>
+ <20200608112211.12125-1-andrzej.p@collabora.com>
+ <20200608112211.12125-3-andrzej.p@collabora.com>
+ <CGME20201207133237eucas1p26f8484944760a14e51dc7353ed33cd28@eucas1p2.samsung.com>
+ <27ce1176-6318-45aa-4e22-3dec9f3df15d@samsung.com>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <9c784a23-eade-eacd-3e67-d344a5758b83@collabora.com>
+Date:   Mon, 7 Dec 2020 16:50:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <27ce1176-6318-45aa-4e22-3dec9f3df15d@samsung.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 2020-11-17 at 16:05 +0100, Bastien Nocera wrote:
-> On Mon, 2020-11-16 at 19:42 -0500, Simon Beginn wrote:
-> > The touchscreen on the Teclast x98 Pro is also mounted upside-down
-> > in
-> > relation to the display orientation. I added it also to the list of
-> > those devices. Verified it works on my device - this has not been
-> > tested with more users than myself...
+Hi Marek,
+
+W dniu 07.12.2020 o 14:32, Marek Szyprowski pisze:
+> Hi Andrzej,
 > 
-> Looks good to me, thanks.
+> On 08.06.2020 13:22, Andrzej Pietrasiewicz wrote:
+>> Use the newly added helper in relevant input drivers.
+>>
+>> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 > 
-> Signed-off-by: Bastien Nocera <hadess@hadess.net>
+> This patch landed recently in linux-next as commit d69f0a43c677 ("Input:
+> use input_device_enabled()"). Sadly it causes following warning during
+> system suspend/resume cycle on ARM 32bit Samsung Exynos5250-based Snow
+> Chromebook with kernel compiled from exynos_defconfig:
+> 
+> ------------[ cut here ]------------
+> WARNING: CPU: 0 PID: 1777 at drivers/input/input.c:2230
+> input_device_enabled+0x68/0x6c
+> Modules linked in: cmac bnep mwifiex_sdio mwifiex sha256_generic
+> libsha256 sha256_arm cfg80211 btmrvl_sdio btmrvl bluetooth s5p_mfc
+> exynos_gsc v4l2_mem2mem videob
+> CPU: 0 PID: 1777 Comm: rtcwake Not tainted
+> 5.10.0-rc6-next-20201207-00001-g49a0dc04c46d-dirty #9902
+> Hardware name: Samsung Exynos (Flattened Device Tree)
+> [<c0111718>] (unwind_backtrace) from [<c010d050>] (show_stack+0x10/0x14)
+> [<c010d050>] (show_stack) from [<c0b32810>] (dump_stack+0xb4/0xd4)
+> [<c0b32810>] (dump_stack) from [<c0126e24>] (__warn+0xd8/0x11c)
+> [<c0126e24>] (__warn) from [<c0126f18>] (warn_slowpath_fmt+0xb0/0xb8)
+> [<c0126f18>] (warn_slowpath_fmt) from [<c07fa2fc>]
+> (input_device_enabled+0x68/0x6c)
+> [<c07fa2fc>] (input_device_enabled) from [<c080a0f8>]
 
-Dmitry, this seems to have slipped through the cracks. Can you please
-pick it up for the next merge window?
+Apparently you are hitting this line of code in drivers/input/input.c:
 
-Cheers
+lockdep_assert_held(&dev->mutex);
 
+Inspecting input device's "users" member should happen under dev's lock.
+
+Regards,
+
+Andrzej
