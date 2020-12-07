@@ -2,101 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19CE02D0757
-	for <lists+linux-input@lfdr.de>; Sun,  6 Dec 2020 22:25:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F43C2D0A7B
+	for <lists+linux-input@lfdr.de>; Mon,  7 Dec 2020 07:01:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728358AbgLFVYN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 6 Dec 2020 16:24:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51798 "EHLO
+        id S1725877AbgLGGAp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 7 Dec 2020 01:00:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728356AbgLFVYL (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 6 Dec 2020 16:24:11 -0500
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A4A1C0613D4;
-        Sun,  6 Dec 2020 13:23:31 -0800 (PST)
-Received: by mail-wm1-x343.google.com with SMTP id 3so11855681wmg.4;
-        Sun, 06 Dec 2020 13:23:31 -0800 (PST)
+        with ESMTP id S1725773AbgLGGAo (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Dec 2020 01:00:44 -0500
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 460F2C0613D2
+        for <linux-input@vger.kernel.org>; Sun,  6 Dec 2020 22:00:04 -0800 (PST)
+Received: by mail-pf1-x443.google.com with SMTP id t8so8717949pfg.8
+        for <linux-input@vger.kernel.org>; Sun, 06 Dec 2020 22:00:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=y9gRg52LFimb3ceOLj9UGDG1IkEgZHW2S4OzYw39/xU=;
-        b=d7O0my1wBVi1u1gtjj4jjGlO8BWfXhGjjM23J6VRYei48Yys8pDpV2EQtxxZnohaM7
-         UFEfYFD7AaQVaNa9JbIBnbT8EeuFyLfbHZUDSnzSf0BcrQAB4hGCGo2K9PYpHsGvwqxl
-         5T2lrcjUKHvwoBW2EteXUMBjz/aSlK2j+tPXiC9U1cPMHpsWbrMq2uB3upji+eyIxC0l
-         dWRwkYAmAG7cmee7cR/2jk71CngxTPJuEcxOhkSvmClPm645SpRTNAbPwdlwXw1/oHcs
-         xM2GDsvrvnxNZxXJnB6DGUobM+SZw0F1JY1mc7lOGd2KaoB7Knf4G6/qmj0PknU2bfuQ
-         Q2Kg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=FSRcsfhnT34AUr1qIdAVppdM1vH49cOHDdV2H4oEXt0=;
+        b=p3mX7qqFIuJaYdo+EAZY5rBMzw7uNyOjo3LyfQ3d5jHMp2mvaMMgjXHVwt7oXOphwe
+         T+7JJacqB9gBN1bUFuY1uVdKe+LomXtIW+mj3UhxwZLUWb6p6vqWrRGcix4lj/6hy1du
+         YHhvbQwC6aqtxHeh9vOh+JIEHdV/2P+HfEK0UsqaosVg36Y+IHApVLl1jrC1MP5roioL
+         geUeUJ57v/b0eBGhlAI9bx+MAP2bN1wUTCV/WWnlCCc7J3U6gL4EQuXOPXex/2WlR2Qy
+         n5m7G9v4BFlNjDSifGRj31rqG27eVl6DEXfpxfx0IOGgfl5e0xmdfEQH/U87b1A5pe0j
+         ENoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=y9gRg52LFimb3ceOLj9UGDG1IkEgZHW2S4OzYw39/xU=;
-        b=PCDSgg2TLfiBAtsptb6rcA7bHN4etTo+aM3NDIVlzWrOC5ACme2jf6jx1CawjJ8yTt
-         1XAaWmVaenEnqaFV9AH2dgJrC44DDywLHekjiMPOhvMlQKCs06FkNQ87mGoEkO8vLU7g
-         bDSM/GlSsKDhNipQ0b5Zx8at0KIVTQBfLpYHR+vCT/1Ha6shBz1NUB4SPFQpBGfg0Duq
-         JH7ivHZF9lYuAzxDreBbO7GI9zdA6yUWSLAEY2P5gZuyY7w4x8zR0bpniZmh/JIUYr31
-         vi/+Ez0e4Safgpy4hbJeK4bsnT3W7DNOfk9NjqdFzUQzU5Yddu/VCMNSs9lKDlBBkxlO
-         +NLA==
-X-Gm-Message-State: AOAM5316yTtnGuLS0VhPhzoxEJBc4YKiUXgsLcZN7YMGBIeXGaf/H2VG
-        aZ1aiZlQtz0r102YiDBN87M=
-X-Google-Smtp-Source: ABdhPJy9NBN3kkvBfGdqYfnw9bTVuONN3G+ZpBDYqXmWuw1LROkYuyN1GceG+MLBXwmmERRuQBaqwA==
-X-Received: by 2002:a1c:9916:: with SMTP id b22mr14670639wme.182.1607289810102;
-        Sun, 06 Dec 2020 13:23:30 -0800 (PST)
-Received: from localhost.localdomain (109-252-192-53.dynamic.spd-mgts.ru. [109.252.192.53])
-        by smtp.gmail.com with ESMTPSA id l24sm12737540wrb.28.2020.12.06.13.23.29
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=FSRcsfhnT34AUr1qIdAVppdM1vH49cOHDdV2H4oEXt0=;
+        b=BY+OaQtjiHmeNwIud5vX9JySaFqDKa30F+Yohz8m1UZQg0pt06c2Mr4vCQUtwEXY+B
+         Y76whqoBdbUCaFtfVfp026wAZb6d+DI9vkEPg/F82sINevWzRK4BlpdP4RCXptPrmY/j
+         McrleGgW4rH+ZKwS3XVvM5gf8nqDMplNa44wcBy1tEEZka3uAJ9vB7wkKuPTny3rPz2F
+         2le8ZhfS4me5O1V3CDL/9qa/3zY8Xjx0faIzVLFgb1CrCEOVYq79Nj3xGfPoY6B4UV2S
+         3z1HDl2653Uq1TmJUYNjBcfTxrqj03SZs/I9wG+Qr10Rf/gEaivyqGNPW/sm9IZvJR6W
+         /XNQ==
+X-Gm-Message-State: AOAM531Q08tpoff7COw5NmC6Izx5ISeC5n25WrXcI2iC6uiMp/LnbAqe
+        ujG6QRveX4FWiwL6U6gqJlY=
+X-Google-Smtp-Source: ABdhPJzq9KlIe3tipVeY4SsfI/OFbUnxDheuVPNQ8m9tZo1rImgFyQIlsYAaFizVwg/vSHtFusVtjA==
+X-Received: by 2002:a63:3117:: with SMTP id x23mr15068606pgx.38.1607320803214;
+        Sun, 06 Dec 2020 22:00:03 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id i29sm11295377pgb.10.2020.12.06.22.00.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Dec 2020 13:23:29 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Nick Dyer <nick@shmanahar.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jiada Wang <jiada_wang@mentor.com>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 3/3] ARM: tegra: acer-a500: Add atmel,wakeup-method property
-Date:   Mon,  7 Dec 2020 00:22:17 +0300
-Message-Id: <20201206212217.6857-4-digetx@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201206212217.6857-1-digetx@gmail.com>
-References: <20201206212217.6857-1-digetx@gmail.com>
+        Sun, 06 Dec 2020 22:00:02 -0800 (PST)
+Date:   Sun, 6 Dec 2020 22:00:00 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: soc_button_array - Add Lenovo Yoga Tablet2 1051L
+ to the dmi_use_low_level_irq list
+Message-ID: <X83E4AB5sfxoeYFP@google.com>
+References: <20201206161245.24798-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201206161245.24798-1-hdegoede@redhat.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add atmel,wakeup-method property to the touchscreen node.
+On Sun, Dec 06, 2020 at 05:12:45PM +0100, Hans de Goede wrote:
+> Add the Lenovo Yoga Tablet2 1051L to the list of devices where the
+> ACPI AML code is poking the GPIO config register directly changing
+> the IRQ type to a low_level_irq, which we need to work around.
+> 
+> This fixes the home button on the Lenovo Yoga Tablet2 1051L not
+> working.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- arch/arm/boot/dts/tegra20-acer-a500-picasso.dts | 3 +++
- 1 file changed, 3 insertions(+)
+Applied, thank you.
 
-diff --git a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-index d3b99535d755..40c1bab22155 100644
---- a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-+++ b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- /dts-v1/;
- 
-+#include <dt-bindings/input/atmel-maxtouch.h>
- #include <dt-bindings/input/gpio-keys.h>
- #include <dt-bindings/input/input.h>
- #include <dt-bindings/thermal/thermal.h>
-@@ -450,6 +451,8 @@ touchscreen@4c {
- 
- 			avdd-supply = <&vdd_3v3_sys>;
- 			vdd-supply  = <&vdd_3v3_sys>;
-+
-+			atmel,wakeup-method = <ATMEL_MXT_WAKEUP_I2C_SCL>;
- 		};
- 
- 		gyroscope@68 {
 -- 
-2.29.2
-
+Dmitry
