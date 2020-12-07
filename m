@@ -2,129 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D18CA2D0AFC
-	for <lists+linux-input@lfdr.de>; Mon,  7 Dec 2020 08:14:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AEAC82D0C1A
+	for <lists+linux-input@lfdr.de>; Mon,  7 Dec 2020 09:53:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726010AbgLGHOF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 7 Dec 2020 02:14:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57144 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726002AbgLGHOF (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Dec 2020 02:14:05 -0500
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10343C0613D4
-        for <linux-input@vger.kernel.org>; Sun,  6 Dec 2020 23:13:19 -0800 (PST)
-Received: by mail-pg1-x544.google.com with SMTP id t3so8121990pgi.11
-        for <linux-input@vger.kernel.org>; Sun, 06 Dec 2020 23:13:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=endlessos.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2k+oDaqkHwmbJOsWV53SyXbGKj1PMhzkgY3csI96BRU=;
-        b=oXJ1NoOYPlMW8EPwkr5KV5W7GB2HvsdrBqCMY5r4qvbk+BDUSMPRe1OMN2M7tP03B2
-         C0GfPKhUonqO6q3rZx2qp8qC4X11YKWfUEx9WbYPH/pxrESP7gJYjrryK8yka4HPNKD/
-         GE/4dEQoeoaopap/bPW+u297D7q1a+JA0MVKJr2PRUKPTPfFNGfzWyMIq0E5J5+4CGJq
-         IhlRyYdHlLwEfGOz6wksDgB9R1LEkIcy83ehwBw0FxgU+hkhRVy1peqhfl2KMahDSvDM
-         w/xxzG5E6nuW9i8UXTETHvrSxpbN2o8jbpJlksyryS5gfyncAuOc+4ZsnW+coczxKsIX
-         HsFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2k+oDaqkHwmbJOsWV53SyXbGKj1PMhzkgY3csI96BRU=;
-        b=PgakV1/jXKMO+4Zo7zwbnSQBQ/vR6yQayznCK6/49QIk2j7M6z1JBnW563YMidlzsa
-         R5TiEI2eiQCiMG65ATva1XltDPqjEV+B5XnQ6MgOCEQM79Wb0ZvzF86kcgqCPv5Cb48R
-         S29UT0W0kErBFphrWK+g5vE4Mye8OYLKnob5y1YX74yb5fJ1ooFT475BqU6jZv3IVBuR
-         E7H8VH+B0gwZnz+fVL2WnN/Qc7tCkDzzvEY5M1HWQpgs/kQaBDsV+KBHWs9+Pv0swX93
-         No7PqwKB+RJTIDJasYM2NhOMOMoYsqFOuav4GQKo2r4LQq8RRom5503A1BUL09kqXrie
-         0Q8w==
-X-Gm-Message-State: AOAM5309nILgbX2aLmvad3IAQSvxVp5ktrj0KJErp6PNYjYRX52NdMr1
-        /2i9f40BtKcAI+wc1D3imUuj5g==
-X-Google-Smtp-Source: ABdhPJzZRTRSqGMc6OOIiFoMV3KX46AWzZSrqEGByKB++4nGFMVLGPyGPweibxSNibfAwQsFVha9Pg==
-X-Received: by 2002:a17:902:446:b029:d7:cdda:87 with SMTP id 64-20020a1709020446b02900d7cdda0087mr14754494ple.11.1607325198562;
-        Sun, 06 Dec 2020 23:13:18 -0800 (PST)
-Received: from localhost.localdomain (123-204-46-122.static.seed.net.tw. [123.204.46.122])
-        by smtp.googlemail.com with ESMTPSA id y24sm12794152pfn.176.2020.12.06.23.13.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Dec 2020 23:13:18 -0800 (PST)
-From:   Chris Chiu <chiu@endlessos.org>
-To:     dmitry.torokhov@gmail.com, kevin@kevinlocke.name,
-        hdegoede@redhat.com, limero1337@gmail.com, rajatja@google.com,
-        jkosina@suse.cz
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux@endlessos.org, Chris Chiu <chiu@endlessos.org>
-Subject: [PATCH] Input: i8042 - add Acer laptops to the i8042 reset list
-Date:   Mon,  7 Dec 2020 15:12:50 +0800
-Message-Id: <20201207071250.15021-1-chiu@endlessos.org>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726087AbgLGIvt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 7 Dec 2020 03:51:49 -0500
+Received: from emcscan.emc.com.tw ([192.72.220.5]:37214 "EHLO
+        emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726424AbgLGIvt (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Dec 2020 03:51:49 -0500
+X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
+   d="scan'208";a="38474446"
+Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
+  by emcscan.emc.com.tw with ESMTP; 07 Dec 2020 16:50:49 +0800
+Received: from 192.168.10.23
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(1270:0:AUTH_RELAY)
+        (envelope-from <jingle.wu@emc.com.tw>); Mon, 07 Dec 2020 16:50:48 +0800 (CST)
+Received: from 101.12.100.64
+        by webmail.emc.com.tw with Mail2000 ESMTPA Server V7.00(106416:1:AUTH_LOGIN)
+        (envelope-from <jingle.wu@emc.com.tw>); Mon, 07 Dec 2020 16:50:47 +0800 (CST)
+From:   "jingle.wu" <jingle.wu@emc.com.tw>
+To:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        dmitry.torohov@gmail.com
+Cc:     phoenix@emc.com.tw, josh.chen@emc.com.tw, dave.wang@emc.com.tw,
+        "jingle.wu" <jingle.wu@emc.com.tw>
+Subject: [PATCH 1/2] Input: elan_i2c - Add new trackpoint report type 0x5F.
+Date:   Mon,  7 Dec 2020 16:50:54 +0800
+Message-Id: <20201207085054.8328-1-jingle.wu@emc.com.tw>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The touchpad operates in Basic Mode by default in the Acer BIOS
-setup, but some Aspire/TravelMate models require the i8042 to be
-reset in order to be correctly detected.
+The 0x5F is new trackpoint report type of some module.
 
-Signed-off-by: Chris Chiu <chiu@endlessos.org>
+Signed-off-by: Jingle Wu <jingle.wu@emc.com.tw>
 ---
- drivers/input/serio/i8042-x86ia64io.h | 42 +++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+ drivers/input/mouse/elan_i2c_core.c  | 2 ++
+ drivers/input/mouse/elan_i2c_smbus.c | 3 ++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/input/serio/i8042-x86ia64io.h b/drivers/input/serio/i8042-x86ia64io.h
-index a4c9b9652560..f5ce656dc73f 100644
---- a/drivers/input/serio/i8042-x86ia64io.h
-+++ b/drivers/input/serio/i8042-x86ia64io.h
-@@ -607,6 +607,48 @@ static const struct dmi_system_id __initconst i8042_dmi_reset_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "AOA150"),
- 		},
- 	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Aspire ES1-332"),
-+		},
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Aspire ES1-132"),
-+		},
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Aspire ES1-432"),
-+		},
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Aspire A315-31"),
-+		},
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Aspire A314-31"),
-+		},
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Aspire A114-31"),
-+		},
-+	},
-+	{
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "TravelMate Spin B118-RN"),
-+		},
-+	},
- 	{
- 		/* Advent 4211 */
- 		.matches = {
+diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
+index 61ed3f5ca219..8f0c4663167c 100644
+--- a/drivers/input/mouse/elan_i2c_core.c
++++ b/drivers/input/mouse/elan_i2c_core.c
+@@ -52,6 +52,7 @@
+ #define ETP_REPORT_ID		0x5D
+ #define ETP_REPORT_ID2		0x60	/* High precision report */
+ #define ETP_TP_REPORT_ID	0x5E
++#define ETP_TP_REPORT_ID2	0x5F
+ #define ETP_REPORT_ID_OFFSET	2
+ #define ETP_TOUCH_INFO_OFFSET	3
+ #define ETP_FINGER_DATA_OFFSET	4
+@@ -1076,6 +1077,7 @@ static irqreturn_t elan_isr(int irq, void *dev_id)
+ 		elan_report_absolute(data, report, true);
+ 		break;
+ 	case ETP_TP_REPORT_ID:
++	case ETP_TP_REPORT_ID2:
+ 		elan_report_trackpoint(data, report);
+ 		break;
+ 	default:
+diff --git a/drivers/input/mouse/elan_i2c_smbus.c b/drivers/input/mouse/elan_i2c_smbus.c
+index 1820f1cfc1dc..1226d47ec3cf 100644
+--- a/drivers/input/mouse/elan_i2c_smbus.c
++++ b/drivers/input/mouse/elan_i2c_smbus.c
+@@ -45,6 +45,7 @@
+ #define ETP_SMBUS_CALIBRATE_QUERY	0xC5
+ 
+ #define ETP_SMBUS_REPORT_LEN		32
++#define ETP_SMBUS_REPORT_LEN2		7
+ #define ETP_SMBUS_REPORT_OFFSET		2
+ #define ETP_SMBUS_HELLOPACKET_LEN	5
+ #define ETP_SMBUS_IAP_PASSWORD		0x1234
+@@ -497,7 +498,7 @@ static int elan_smbus_get_report(struct i2c_client *client,
+ 		return len;
+ 	}
+ 
+-	if (len != ETP_SMBUS_REPORT_LEN) {
++	if ((len != ETP_SMBUS_REPORT_LEN) && (len != ETP_SMBUS_REPORT_LEN2))  {
+ 		dev_err(&client->dev,
+ 			"wrong report length (%d vs %d expected)\n",
+ 			len, ETP_SMBUS_REPORT_LEN);
 -- 
-2.20.1
+2.17.1
 
