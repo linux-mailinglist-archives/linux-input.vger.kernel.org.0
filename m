@@ -2,72 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 317512D19B1
-	for <lists+linux-input@lfdr.de>; Mon,  7 Dec 2020 20:37:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2091C2D1B53
+	for <lists+linux-input@lfdr.de>; Mon,  7 Dec 2020 21:54:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726718AbgLGTgG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 7 Dec 2020 14:36:06 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:37969 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725814AbgLGTgG (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Dec 2020 14:36:06 -0500
-Received: by mail-oi1-f195.google.com with SMTP id o25so16712533oie.5;
-        Mon, 07 Dec 2020 11:35:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=1tvsjAi7sc4t5IExztrA8y6ItDktEVUXn/bNRuvbfww=;
-        b=cYYOh3zPWNAHPUWUYveCOl8ZSykfRsgpscj8WJGMhTI01msDqd4FJweVyxTx89GRC6
-         XxI8xcVL8TlUx9E+kBNS/fkxS1MqFH3jyFyO9dZ20CCG1nj7wdaz7/nRfdXK6ud1kNb9
-         z2mZErM/Yy8jq5NFWVY2qfMpbFwCzbY9kK1tytOO8RajNlAGzvzDBg/wBb6w78+JGUZV
-         C0nTNUpeuE1/uOrsaoR3OluvQk3Iji9a/v6YPJ8GMiVhsKfrpFPnIQcPx+DyPzg/qLXW
-         deouljPmUjsE3jbFKUX1cgOOpQP9iAdLx3pnWz66YMD2ek1ZD38xX32sztXNYBV9blTv
-         epzw==
-X-Gm-Message-State: AOAM530cumjqhu6XVlkt+NjlDHpFGJfwKKzevPA3qqCPgymDcraOEt88
-        CcnjsggC/+jGOxxygl0ktg==
-X-Google-Smtp-Source: ABdhPJyv2Cm/TGmZJYRKuXo0QegMfZ/TS2t6drKyEph6145Lu8CzGj2M2WFKzbVFHcq3OygxKUoZlQ==
-X-Received: by 2002:a05:6808:91a:: with SMTP id w26mr259538oih.159.1607369719185;
-        Mon, 07 Dec 2020 11:35:19 -0800 (PST)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id t19sm913957otp.36.2020.12.07.11.35.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Dec 2020 11:35:18 -0800 (PST)
-Received: (nullmailer pid 679970 invoked by uid 1000);
-        Mon, 07 Dec 2020 19:35:16 -0000
-Date:   Mon, 7 Dec 2020 13:35:16 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Chunyan Zhang <zhang.lyra@gmail.com>
-Cc:     linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nemo Han <nemo.han@unisoc.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Chunyan Zhang <chunyan.zhang@unisoc.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Orson Zhai <orsonzhai@gmail.com>
-Subject: Re: [PATCH v2 3/3] dt-bindings: input: Add compatible string for
- SC2721 and SC2730
-Message-ID: <20201207193516.GA679922@robh.at.kernel.org>
-References: <20201117034949.47877-1-zhang.lyra@gmail.com>
- <20201117034949.47877-4-zhang.lyra@gmail.com>
+        id S1725918AbgLGUw5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 7 Dec 2020 15:52:57 -0500
+Received: from mx3.molgen.mpg.de ([141.14.17.11]:34481 "EHLO mx1.molgen.mpg.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726074AbgLGUw5 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 7 Dec 2020 15:52:57 -0500
+Received: from [192.168.0.3] (ip5f5af430.dynamic.kabel-deutschland.de [95.90.244.48])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: pmenzel)
+        by mx.molgen.mpg.de (Postfix) with ESMTPSA id A152520647B75;
+        Mon,  7 Dec 2020 21:52:14 +0100 (CET)
+Subject: Re: Dell XPS 13 9310 2-in-1: psmouse serio1: synaptics: Unable to
+ query device: -5
+To:     Mario Limonciello <Mario.Limonciello@dell.com>
+Cc:     linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+References: <a075a4f7-21f6-54cf-8d97-af7f55ff4b91@molgen.mpg.de>
+ <DM6PR19MB2636B859754CFACE88F5652BFACE0@DM6PR19MB2636.namprd19.prod.outlook.com>
+From:   Paul Menzel <pmenzel@molgen.mpg.de>
+Message-ID: <1fe43de4-61e1-82ac-2a17-fe2adfea252a@molgen.mpg.de>
+Date:   Mon, 7 Dec 2020 21:52:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201117034949.47877-4-zhang.lyra@gmail.com>
+In-Reply-To: <DM6PR19MB2636B859754CFACE88F5652BFACE0@DM6PR19MB2636.namprd19.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 17 Nov 2020 11:49:49 +0800, Chunyan Zhang wrote:
-> From: Chunyan Zhang <chunyan.zhang@unisoc.com>
-> 
-> Add new compatible strings to support sc2730 and sc2721 which are
-> two varieties of SC27XX family.
-> 
-> Signed-off-by: Chunyan Zhang <chunyan.zhang@unisoc.com>
-> ---
->  .../devicetree/bindings/input/sprd,sc27xx-vibrator.yaml         | 2 ++
->  1 file changed, 2 insertions(+)
-> 
+Dear Mario,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+
+As always thank you for your quick reply.
+
+Am 07.12.20 um 18:40 schrieb Limonciello, Mario:
+>> -----Original Message-----
+
+>> Sent: Monday, December 7, 2020 11:32
+
+>> On the Dell XPS 13 9310 2-in-1/02P55J, BIOS 1.0.3 10/05/2020 with Debian
+>> sid/unstable Linux 5.9.11 reports the error below (first line).
+>>
+>>       [    5.835078] psmouse serio1: synaptics: Unable to query device: -5
+>>       [   11.331176] input: PS/2 Synaptics TouchPad as /devices/platform/i8042/serio1/input/input2
+>>
+>> Please find the full log attached.
+>>
+>> It looks like some timeout. Maybe related to the embedded controller (EC)?
+
+[…]
+
+> The messages you're seeing are harmless in this laptop.
+> 
+> The laptop input is supported using the hid-multitouch and i2c-hid drivers as
+> noted in your messages.
+> 
+> [  393.280115] input: DLL09FF:01 06CB:CE39 Touchpad as /devices/pci0000:00/0000:00:15.1/i2c_designware.1/i2c-2/i2c-DLL09FF:01/0018:06CB:CE39.0002/input/input21
+> [  393.280221] hid-multitouch 0018:06CB:CE39.0002: input,hidraw1: I2C HID v1.00 Mouse [DLL09FF:01 06CB:CE39] on i2c-DLL09FF:01
+
+Where is
+
+     input: PS/2 Synaptics TouchPad as 
+/devices/platform/i8042/serio1/input/input2
+
+coming from then, and what touchpad is that supposed to be?
+
+If it’s harmless, should the log level be decreased from error to debug?
+
+
+Kind regards,
+
+Paul
