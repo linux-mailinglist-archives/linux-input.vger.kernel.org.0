@@ -2,93 +2,132 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 121622D20DD
-	for <lists+linux-input@lfdr.de>; Tue,  8 Dec 2020 03:33:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F07162D227A
+	for <lists+linux-input@lfdr.de>; Tue,  8 Dec 2020 05:56:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727758AbgLHCc0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 7 Dec 2020 21:32:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40000 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726479AbgLHCc0 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Dec 2020 21:32:26 -0500
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CDB3C061749
-        for <linux-input@vger.kernel.org>; Mon,  7 Dec 2020 18:31:46 -0800 (PST)
-Received: by mail-lj1-x242.google.com with SMTP id t22so17390533ljk.0
-        for <linux-input@vger.kernel.org>; Mon, 07 Dec 2020 18:31:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UIh58Pb5soqB/2URacD1gmXz7qZ0Z7IQDExviOSyhic=;
-        b=iDcHOGqyGiiRoEYnWYx84jc8JcAnQe0Eh4cD6j3DEvq9xnAd/EnD9TmU8CsCvZGEvp
-         aC2Zk8JIc3PEHcVrThRNYarfMX9E4WDxU6Yj8VhBctmEC6URrQo5OXEcIutlMsJbuf5I
-         OhAW4piVPqKsXUV0zSDCDDnWipuEq+S7BuXRp3HoAZZ4FTMr8ixIfL63t5bImABYffbG
-         lDx03L4K2NQ+LleYIawtv8jcSmEgPOcKrVCPJadA70dUb/Dkd+eUbqBfRBs0zh/5TT9H
-         fQ++TiObj2rX40SLlvOl3AZDTVbdHTuYDjwkIIs+n7YUYSx3uouobMzzwH0lSIM4PY4C
-         /YIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UIh58Pb5soqB/2URacD1gmXz7qZ0Z7IQDExviOSyhic=;
-        b=MbSraSZlXT+G2VQQiRvUpUm9AxDLGGkyqT8xeunZuPZequDCDU61Zv1faQovOK6SZl
-         9p1r0upjbdoksNgrlJI7wU7LJcRIL2JKaIi3qlfg9Tttz1fne+ynG1cM0FfxL84Qy3D2
-         07L5q9F/VyV/KACYfrUDmfOTbw316gV8tEXRlf5mjWSgE7NykD41ZriFrxL9mu+6nF2+
-         evTkKUO6zk5qJXd+iJW/TKVVnI+FpMlTjul3Z4SVYK0dCAC4jdNPjvnRv/QqVZxksbjC
-         7rc1gG+rRpvF69Zw9eZjJbA7Fq1Lf+Gxddxfsrlb/a0YNb/POifW5ayrSFATQcrSbluO
-         PjWg==
-X-Gm-Message-State: AOAM533EZiNXUpDJkPjF3jD+wH00CqPq7vTakun9rZb8PpSzU1lVtvek
-        K2+d/pBOP6weoSGdH+TFEwtgUgtAAiVcWOeQncVXYt5jqBE=
-X-Google-Smtp-Source: ABdhPJzRV+JyH+HG1WmER0OjAXXdUN6tzICF2hvRVp2zkBTZAOHPyX8oN2pIQRL3JKZveDv01yRMfMr8ubGaSG7SJF8=
-X-Received: by 2002:a2e:9cd3:: with SMTP id g19mr9357628ljj.188.1607394704491;
- Mon, 07 Dec 2020 18:31:44 -0800 (PST)
+        id S1727686AbgLHEyI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 7 Dec 2020 23:54:08 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:58200 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727485AbgLHEyD (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Dec 2020 23:54:03 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B84nPNV064006;
+        Tue, 8 Dec 2020 04:52:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=1e3cV7XKyt5cBPHNeWYhYMHu3W87CKppja6U1Jvw5F4=;
+ b=V+G180Fh0lHbcmydQJqS5i+cerb42SoRrRI9QCXlQMjyWKKfj0acXqExTQUiK+7OEtft
+ OuMy/8L57grCegXY4FPi2mfpdUD9NETOrjU6XyLEGnB6yCKU9e30d2WSgQTsYBxq/cMN
+ 5junVfgiRpfFB5rc1EfDtZHP43anCs3FIrUtz16u4yPsKG0NCInMT5yeMTaPCX1MMJeq
+ qZ1GHIcbwNatFRQ/tELhwJDJybfqjlIskC/pDoCLpTPJ2KTrod7PX9rst5aaRTC3xIQA
+ veh/+mbPHLjYXfePq5oiUCHv2+7Gowf8M2KKiHFzojpZKSSSQD2meZy2nTRpI8CVh6TQ Yg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2120.oracle.com with ESMTP id 35825m0srq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 08 Dec 2020 04:52:35 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B84ocw5155469;
+        Tue, 8 Dec 2020 04:52:34 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by userp3020.oracle.com with ESMTP id 358kys9m8s-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 08 Dec 2020 04:52:34 +0000
+Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0B84qX4M159553;
+        Tue, 8 Dec 2020 04:52:33 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3020.oracle.com with ESMTP id 358kys9m7s-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 08 Dec 2020 04:52:33 +0000
+Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0B84qDZf015901;
+        Tue, 8 Dec 2020 04:52:15 GMT
+Received: from ca-mkp.ca.oracle.com (/10.156.108.201)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 07 Dec 2020 20:52:13 -0800
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+To:     linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
+        coreteam@netfilter.org, selinux@vger.kernel.org,
+        Miguel Ojeda <ojeda@kernel.org>, Joe Perches <joe@perches.com>,
+        linux-hardening@vger.kernel.org, reiserfs-devel@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, patches@opensource.cirrus.com,
+        linux-fbdev@vger.kernel.org, keyrings@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-geode@lists.infradead.org, linux-gpio@vger.kernel.org,
+        linux-hams@vger.kernel.org, linux-ext4@vger.kernel.org,
+        wcn36xx@lists.infradead.org, GR-everest-linux-l2@marvell.com,
+        x86@kernel.org, linux-watchdog@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-cifs@vger.kernel.org,
+        linux-nfs@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-usb@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-atm-general@lists.sourceforge.net,
+        linux-wireless@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-decnet-user@lists.sourceforge.net,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        netfilter-devel@vger.kernel.org, target-devel@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-mediatek@lists.infradead.org,
+        Kees Cook <keescook@chromium.org>,
+        samba-technical@lists.samba.org, ceph-devel@vger.kernel.org,
+        drbd-dev@tron.linbit.com, intel-gfx@lists.freedesktop.org,
+        dm-devel@redhat.com, linux-acpi@vger.kernel.org,
+        linux-ide@vger.kernel.org, xen-devel@lists.xenproject.org,
+        op-tee@lists.trustedfirmware.org, linux-hwmon@vger.kernel.org,
+        linux-sctp@vger.kernel.org, bridge@lists.linux-foundation.org,
+        linux-mtd@lists.infradead.org, linux-input@vger.kernel.org,
+        linux-can@vger.kernel.org, rds-devel@oss.oracle.com,
+        oss-drivers@netronome.com, tipc-discussion@lists.sourceforge.net,
+        cluster-devel@redhat.com, linux-rdma@vger.kernel.org,
+        dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org, linux-block@vger.kernel.org,
+        usb-storage@lists.one-eyed-alien.net,
+        linux1394-devel@lists.sourceforge.net, alsa-devel@alsa-project.org,
+        linux-i3c@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-afs@lists.infradead.org, nouveau@lists.freedesktop.org,
+        GR-Linux-NIC-Dev@marvell.com, netdev@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com, linux-mm@kvack.org,
+        intel-wired-lan@lists.osuosl.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: (subset) [PATCH 000/141] Fix fall-through warnings for Clang
+Date:   Mon,  7 Dec 2020 23:52:01 -0500
+Message-Id: <160740299787.710.4201881220590518200.b4-ty@oracle.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <cover.1605896059.git.gustavoars@kernel.org>
+References: <cover.1605896059.git.gustavoars@kernel.org>
 MIME-Version: 1.0
-References: <X87aOaSptPTvZ3nZ@google.com>
-In-Reply-To: <X87aOaSptPTvZ3nZ@google.com>
-From:   Rajat Jain <rajatja@google.com>
-Date:   Mon, 7 Dec 2020 18:31:08 -0800
-Message-ID: <CACK8Z6Fycg-U4vmUiL53Cc0uCuyKgsaqkdkJVRNKvw4w-YTCDA@mail.gmail.com>
-Subject: Re: [PATCH] Input: cros_ec_keyb - send 'scancodes' in addition to key events
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input <linux-input@vger.kernel.org>,
-        Benson Leung <bleung@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9828 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 adultscore=0 bulkscore=0
+ phishscore=0 mlxlogscore=380 clxscore=1015 priorityscore=1501 mlxscore=0
+ spamscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012080029
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Dec 7, 2020 at 5:43 PM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> To let userspace know what 'scancodes' should be used in EVIOCGKEYCODE
-> and EVIOCSKEYCODE ioctls, we should send EV_MSC/MSC_SCAN events in
-> addition to EV_KEY/KEY_* events. The driver already declared MSC_SCAN
-> capability, so it is only matter of actually sending the events.
->
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-FWIW, Acked-by: Rajat Jain <rajatja@google.com>
+On Fri, 20 Nov 2020 12:21:39 -0600, Gustavo A. R. Silva wrote:
 
+> This series aims to fix almost all remaining fall-through warnings in
+> order to enable -Wimplicit-fallthrough for Clang.
+> 
+> In preparation to enable -Wimplicit-fallthrough for Clang, explicitly
+> add multiple break/goto/return/fallthrough statements instead of just
+> letting the code fall through to the next case.
+> 
+> [...]
 
-> ---
->  drivers/input/keyboard/cros_ec_keyb.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-> index 023f083dadd3..354d74d62f05 100644
-> --- a/drivers/input/keyboard/cros_ec_keyb.c
-> +++ b/drivers/input/keyboard/cros_ec_keyb.c
-> @@ -184,6 +184,7 @@ static void cros_ec_keyb_process(struct cros_ec_keyb *ckdev,
->                                         "changed: [r%d c%d]: byte %02x\n",
->                                         row, col, new_state);
->
-> +                               input_event(idev, EV_MSC, MSC_SCAN, pos);
->                                 input_report_key(idev, keycodes[pos],
->                                                  new_state);
->                         }
-> --
-> 2.29.2.576.ga3fc446d84-goog
->
->
-> --
-> Dmitry
+Applied to 5.11/scsi-queue, thanks!
+
+[054/141] target: Fix fall-through warnings for Clang
+          https://git.kernel.org/mkp/scsi/c/492096ecfa39
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
