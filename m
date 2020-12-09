@@ -2,85 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ED9092D4036
-	for <lists+linux-input@lfdr.de>; Wed,  9 Dec 2020 11:47:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F8E02D4595
+	for <lists+linux-input@lfdr.de>; Wed,  9 Dec 2020 16:40:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726422AbgLIKmx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 9 Dec 2020 05:42:53 -0500
-Received: from mx2.suse.de ([195.135.220.15]:34822 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726335AbgLIKmx (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 9 Dec 2020 05:42:53 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 08849AB63;
-        Wed,  9 Dec 2020 10:42:11 +0000 (UTC)
-Message-ID: <fcc97ca28c3aaa3ab69b4de4818c1dc89b85b430.camel@suse.de>
-Subject: Re: [PATCH v5 11/11] pwm: Add Raspberry Pi Firmware based PWM bus
-From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To:     u.kleine-koenig@pengutronix.de, linux-kernel@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>
-Cc:     f.fainelli@gmail.com, linux-pwm@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        wahrenst@gmx.net, linux-input@vger.kernel.org,
-        dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org,
-        devel@driverdev.osuosl.org, p.zabel@pengutronix.de,
-        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
-        linux-clk@vger.kernel.org, sboyd@kernel.org,
-        linux-rpi-kernel@lists.infradead.org, bgolaszewski@baylibre.com,
-        andy.shevchenko@gmail.com
-Date:   Wed, 09 Dec 2020 11:42:09 +0100
-In-Reply-To: <20201123183833.18750-12-nsaenzjulienne@suse.de>
-References: <20201123183833.18750-1-nsaenzjulienne@suse.de>
-         <20201123183833.18750-12-nsaenzjulienne@suse.de>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-DYDWHGJjHHu30M9SeI+k"
-User-Agent: Evolution 3.38.2 
+        id S1728209AbgLIPjF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 9 Dec 2020 10:39:05 -0500
+Received: from mail-40137.protonmail.ch ([185.70.40.137]:11015 "EHLO
+        mail-40137.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726278AbgLIPjE (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Dec 2020 10:39:04 -0500
+X-Greylist: delayed 63525 seconds by postgrey-1.27 at vger.kernel.org; Wed, 09 Dec 2020 10:39:03 EST
+Date:   Wed, 09 Dec 2020 15:38:11 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail; t=1607528297;
+        bh=wdJCyYk1f38GX5JvsezuTqDeFPgJXHx/BdZltjPklBA=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+        b=ZzIQYxx70gKFm2N/jzgQd3dZxYzeo+dyYLsbsRTILwu3UiKgA9juRLSpncZiWsDMB
+         P2ul/Csk1luCpRbSfHaXglKka7qPcm5NY72u5vCNJFxw+g5PJxPCgwYGZ+72l41m00
+         4UNU+Brvu31D/+9aO4IyT/TlSjMDdmbHXTrCAenQ=
+To:     Greg KH <gregkh@linuxfoundation.org>
+From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Cc:     Coiby Xu <coiby.xu@gmail.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Helmut Stult <helmut.stult@schinfo.de>,
+        Baq Domalaq <domalak@gmail.com>,
+        Pedro Ribeiro <pedrib@gmail.com>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        open list <linux-kernel@vger.kernel.org>
+Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Subject: Re: [PATCH v4] HID: i2c-hid: add polling mode based on connected GPIO chip's pin status
+Message-ID: <CHTa60htGkyHzaM2En-TPXqyk1v3jVJUolGOMfHphEr_mMG5Z5f2K4mHTFilYR73bgpGEKNcGM1LFstJ7UhvbuJrgqr1-J2-YTZJenhK83Q=@protonmail.com>
+In-Reply-To: <X9B2B6KuzbP8Is+W@kroah.com>
+References: <20201125141022.321643-1-coiby.xu@gmail.com> <X75zL12q+FF6KBHi@kroah.com> <B3Hx1v5x_ZWS8XSi8-0vZov1KLuINEHyS5yDUGBaoBN4d9wTi9OlCoFX1h6sqYG8dCZr_OKcKeImWX9eyKh8X4X3ZMdAUQ-KVwmG5e9LJeI=@protonmail.com> <X9B2B6KuzbP8Is+W@kroah.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
+        autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+        mailout.protonmail.ch
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+2020. december 9., szerda 8:00 keltez=C3=A9ssel, Greg KH =C3=ADrta:
 
---=-DYDWHGJjHHu30M9SeI+k
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> On Tue, Dec 08, 2020 at 09:59:20PM +0000, Barnab=C3=A1s P=C5=91cze wrote:
+>
+> > 2020.  november 25., szerda 16:07 keltez=C3=A9ssel, Greg KH =C3=ADrta:
+> >
+> > > [...]
+> > >
+> > > > +static u8 polling_mode;
+> > > > +module_param(polling_mode, byte, 0444);
+> > > > +MODULE_PARM_DESC(polling_mode, "How to poll (default=3D0) - 0 disa=
+bled; 1 based on GPIO pin's status");
+> > >
+> > > Module parameters are for the 1990's, they are global and horrible to
+> > > try to work with. You should provide something on a per-device basis,
+> > > as what happens if your system requires different things here for
+> > > different devices? You set this for all devices :(
+> > > [...]
+> >
+> > Hi
+> > do you think something like what the usbcore has would be better?
+> > A module parameter like "quirks=3D<vendor-id>:<product-id>:<flags>[,<ve=
+ndor-id>:<product-id>:<flags>]*"?
+>
+> Not really, that's just for debugging, and asking users to test
+> something, not for a final solution to anything.
 
-Hi All,
+My understanding is that this polling mode option is by no means intended
+as a final solution, it's purely for debugging/fallback:
 
-On Mon, 2020-11-23 at 19:38 +0100, Nicolas Saenz Julienne wrote:
-> Adds support to control the PWM bus available in official Raspberry Pi
-> PoE HAT. Only RPi's co-processor has access to it, so commands have to
-> be sent through RPi's firmware mailbox interface.
->=20
-> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
->=20
+"Polling mode could be a fallback solution for enthusiastic Linux users
+when they have a new laptop. It also acts like a debugging feature. If
+polling mode works for a broken touchpad, we can almost be certain
+the root cause is related to the interrupt or power setting."
 
-I'll soon send a v6 of this series and was wondering if there is any more
-feedback for this patch.
+What would you suggest instead of the module parameter?
+
 
 Regards,
-Nicolas
-
-
---=-DYDWHGJjHHu30M9SeI+k
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl/QqgEACgkQlfZmHno8
-x/4KCgf/atII/Noi91247tu9b99CnitDBaC5oT2VJlArRSWUNcHEEJPbZ1seDvpF
-wmsApHQ7yKkAnDJdCzSRj7K+/Pp8PhETFK/vmD5TWAxaBtjbvvdHDQT+2RvLSthv
-x4AJ/aAdpPsHuGzde7JViJAuogdoPuqVWExVPdjBbA2+SoWmuHxsaCBtnlD+HYhL
-jP+22+d6ea9OTvtVHgWrgeRjfWXPaNSvQ6GCWASLBpbsfssUWlSWWAURk4NP/lXA
-XhGFaDg+yzd1scAtX8T74lseUd7EP0sMpGmL4G3YWx1eg1oLSChdPx4hdupyIA6G
-ZUcTKvwbLhTkXiSJYnXeAUDjSgbJag==
-=FbnN
------END PGP SIGNATURE-----
-
---=-DYDWHGJjHHu30M9SeI+k--
-
+Barnab=C3=A1s P=C5=91cze
