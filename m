@@ -2,164 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EE682D3B97
-	for <lists+linux-input@lfdr.de>; Wed,  9 Dec 2020 07:39:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C18422D3BCA
+	for <lists+linux-input@lfdr.de>; Wed,  9 Dec 2020 08:00:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728151AbgLIGi0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 9 Dec 2020 01:38:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48386 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726437AbgLIGiZ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Dec 2020 01:38:25 -0500
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C934DC0613CF;
-        Tue,  8 Dec 2020 22:37:45 -0800 (PST)
-Received: by mail-pl1-x641.google.com with SMTP id j1so423126pld.3;
-        Tue, 08 Dec 2020 22:37:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=e50gjx2u+dk5VMtYgu+q4thABv8jJUcueqKzMMAspdM=;
-        b=ixLOM9HvY9cq9Z4h6NLLxTGvQ6HSYGtx3j6FDGjAbxvLa2OpQf6evTG0K7aZ8AyjSg
-         Vz4p0EtroLc123xr1LjxiO7na/Pplis+8FzmNk1d2UrvVlqZn09vTY6OtuwPEytSuGG5
-         2KCJbhZpSunbmaFIabDEFehnWei8Vt8i4Oc66zINdaloS1KlTL4RhfHAx8SycAn2ADXy
-         YYLbUI9xC9wRdfqk9Ka7jLgWNvZxP0tNIfJltreYt+Oh5syP5tk1wE9V022lxItkYGs5
-         /OGETCIhjaIt9TdmtA4GohQaG58NA5xxvbe5jJROaeFQOjvoee/Vgex7LnTi6mSyI+/t
-         Kb4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=e50gjx2u+dk5VMtYgu+q4thABv8jJUcueqKzMMAspdM=;
-        b=Ons/8vi8C/L+E3fvYfxpGl1el4ZSLrhT+YqYYXGdq81ubG5rU+9yF8adMRuF+hOrKH
-         RLPe1BmRhYaqx5k7/K69Yb0Fqy636p/FNuJQuJuFuZilQNOxsHgdVchppHVSKzb7cBrX
-         0XfZKUhBbJa02Kcmj1yTyp3/H48UWfXfsJVGTQw15Wwrws76gN6C2D0f5qFnXK+CLB8y
-         AFe8X1bGY9ogB6or/q8C0qa6Um7QK34ThJvUBkw5B4Mg5qXtIVTjWMmWR4VfOrIC8Etv
-         6JQ7DkJ/reIP5dKb5ka/9UEecKzQS1QY90PZrC7/eLqPvKgxzTWu4Jd693QLmamF0srJ
-         EZ8Q==
-X-Gm-Message-State: AOAM531QnZ3PWySNvyoiq97K1qx1db4BjdgnbwZVv5H86nAqSe1xRM9s
-        skpQfVIRSKfh3kNe8uhCcoU=
-X-Google-Smtp-Source: ABdhPJwjfEiPLMae+ffo6Cnhp7douBFcf3vSLYOtRxV9vdx0S2C51CdSPEgUeVMZh9kilf8XyPe8TA==
-X-Received: by 2002:a17:90b:4a0d:: with SMTP id kk13mr880119pjb.23.1607495865199;
-        Tue, 08 Dec 2020 22:37:45 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id z11sm990299pfj.191.2020.12.08.22.37.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Dec 2020 22:37:44 -0800 (PST)
-Date:   Tue, 8 Dec 2020 22:37:40 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-tegra@vger.kernel.org, patches@opensource.cirrus.com,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Laxman Dewangan <ldewangan@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Barry Song <baohua@kernel.org>,
-        Michael Hennerich <michael.hennerich@analog.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Ferruh Yigit <fery@cypress.com>,
-        Sangwon Jee <jeesw@melfas.com>,
-        Peter Hutterer <peter.hutterer@redhat.com>,
-        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
-        kernel@collabora.com,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Subject: Re: [PATCH v4 2/7] Input: use input_device_enabled()
-Message-ID: <X9BwtHs9XriwR8gL@google.com>
-References: <2336e15d-ff4b-bbb6-c701-dbf3aa110fcd@redhat.com>
- <20200608112211.12125-1-andrzej.p@collabora.com>
- <20200608112211.12125-3-andrzej.p@collabora.com>
- <CGME20201207133237eucas1p26f8484944760a14e51dc7353ed33cd28@eucas1p2.samsung.com>
- <27ce1176-6318-45aa-4e22-3dec9f3df15d@samsung.com>
- <9c784a23-eade-eacd-3e67-d344a5758b83@collabora.com>
- <ad093ba3-7b17-18f3-6bb5-d8133c3da89a@samsung.com>
+        id S1728287AbgLIG7t (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 9 Dec 2020 01:59:49 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50768 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728341AbgLIG7r (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 9 Dec 2020 01:59:47 -0500
+Date:   Wed, 9 Dec 2020 08:00:23 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1607497146;
+        bh=7nHAfEfm1CHzNsPGKp3jAJdYE9lEuX3kGqfC8DN3i6Y=;
+        h=From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tX5SqM7jTd3o0VwpPnIVa4ks4vrh+DmP+v93i7jDs7l23Skviu3SYkXdUt0r3PbtY
+         jtytAbivnLDoPINhdIJp0t1DZ3Iz2y1LpKXo4vMKXL7BploHALocbcEg2DOG7zXdfQ
+         XuXqwLHt7V2zQ/EScEVReNez9riBz13/mHQfyS9Y=
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Cc:     Coiby Xu <coiby.xu@gmail.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Helmut Stult <helmut.stult@schinfo.de>,
+        Baq Domalaq <domalak@gmail.com>,
+        Pedro Ribeiro <pedrib@gmail.com>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4] HID: i2c-hid: add polling mode based on connected
+ GPIO chip's pin status
+Message-ID: <X9B2B6KuzbP8Is+W@kroah.com>
+References: <20201125141022.321643-1-coiby.xu@gmail.com>
+ <X75zL12q+FF6KBHi@kroah.com>
+ <B3Hx1v5x_ZWS8XSi8-0vZov1KLuINEHyS5yDUGBaoBN4d9wTi9OlCoFX1h6sqYG8dCZr_OKcKeImWX9eyKh8X4X3ZMdAUQ-KVwmG5e9LJeI=@protonmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ad093ba3-7b17-18f3-6bb5-d8133c3da89a@samsung.com>
+In-Reply-To: <B3Hx1v5x_ZWS8XSi8-0vZov1KLuINEHyS5yDUGBaoBN4d9wTi9OlCoFX1h6sqYG8dCZr_OKcKeImWX9eyKh8X4X3ZMdAUQ-KVwmG5e9LJeI=@protonmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Dec 08, 2020 at 11:05:42AM +0100, Marek Szyprowski wrote:
-> Hi Andrzej,
+On Tue, Dec 08, 2020 at 09:59:20PM +0000, Barnabás Pőcze wrote:
+> 2020. november 25., szerda 16:07 keltezéssel, Greg KH írta:
 > 
-> On 07.12.2020 16:50, Andrzej Pietrasiewicz wrote:
-> > Hi Marek,
+> > [...]
+> > > +static u8 polling_mode;
+> > > +module_param(polling_mode, byte, 0444);
+> > > +MODULE_PARM_DESC(polling_mode, "How to poll (default=0) - 0 disabled; 1 based on GPIO pin's status");
 > >
-> > W dniu 07.12.2020 o�14:32, Marek Szyprowski pisze:
-> >> Hi Andrzej,
-> >>
-> >> On 08.06.2020 13:22, Andrzej Pietrasiewicz wrote:
-> >>> Use the newly added helper in relevant input drivers.
-> >>>
-> >>> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-> >>
-> >> This patch landed recently in linux-next as commit d69f0a43c677 ("Input:
-> >> use input_device_enabled()"). Sadly it causes following warning during
-> >> system suspend/resume cycle on ARM 32bit Samsung Exynos5250-based Snow
-> >> Chromebook with kernel compiled from exynos_defconfig:
-> >>
-> >> ------------[ cut here ]------------
-> >> WARNING: CPU: 0 PID: 1777 at drivers/input/input.c:2230
-> >> input_device_enabled+0x68/0x6c
-> >> Modules linked in: cmac bnep mwifiex_sdio mwifiex sha256_generic
-> >> libsha256 sha256_arm cfg80211 btmrvl_sdio btmrvl bluetooth s5p_mfc
-> >> exynos_gsc v4l2_mem2mem videob
-> >> CPU: 0 PID: 1777 Comm: rtcwake Not tainted
-> >> 5.10.0-rc6-next-20201207-00001-g49a0dc04c46d-dirty #9902
-> >> Hardware name: Samsung Exynos (Flattened Device Tree)
-> >> [<c0111718>] (unwind_backtrace) from [<c010d050>] (show_stack+0x10/0x14)
-> >> [<c010d050>] (show_stack) from [<c0b32810>] (dump_stack+0xb4/0xd4)
-> >> [<c0b32810>] (dump_stack) from [<c0126e24>] (__warn+0xd8/0x11c)
-> >> [<c0126e24>] (__warn) from [<c0126f18>] (warn_slowpath_fmt+0xb0/0xb8)
-> >> [<c0126f18>] (warn_slowpath_fmt) from [<c07fa2fc>]
-> >> (input_device_enabled+0x68/0x6c)
-> >> [<c07fa2fc>] (input_device_enabled) from [<c080a0f8>]
-> >
-> > Apparently you are hitting this line of code in drivers/input/input.c:
-> >
-> > lockdep_assert_held(&dev->mutex);
-> >
-> > Inspecting input device's "users" member should happen under dev's lock.
-> >
-> This check and warning has been introduced by this patch. I assume that 
-> the suspend/resume paths are correct, but it looks that they were not 
-> tested with this patch thus it has not been noticed that they are not 
-> called under the input's lock. This needs a fix. Dmitry: how would you 
-> like to handle this issue?
+> > Module parameters are for the 1990's, they are global and horrible to
+> > try to work with. You should provide something on a per-device basis,
+> > as what happens if your system requires different things here for
+> > different devices? You set this for all devices :(
+> > [...]
+> 
+> Hi
+> 
+> do you think something like what the usbcore has would be better?
+> A module parameter like "quirks=<vendor-id>:<product-id>:<flags>[,<vendor-id>:<product-id>:<flags>]*"?
 
-The check is proper and the warning is legit, cyapa should not be
-checking this field without holding the lock. I think we can simply
-remove this check from the power ops for gen3 and gen5, and this should
-shut up the warning on suspend, but there other places in cyapa that do
-check 'users', and they also need to be fixed.
+Not really, that's just for debugging, and asking users to test
+something, not for a final solution to anything.
 
-Thanks.
+thanks,
 
--- 
-Dmitry
+greg k-h
