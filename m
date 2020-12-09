@@ -2,186 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 027692D4E84
-	for <lists+linux-input@lfdr.de>; Thu, 10 Dec 2020 00:10:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51F052D4E9C
+	for <lists+linux-input@lfdr.de>; Thu, 10 Dec 2020 00:16:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727228AbgLIXJz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 9 Dec 2020 18:09:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60418 "EHLO
+        id S1729735AbgLIXQj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 9 Dec 2020 18:16:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727028AbgLIXJz (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Dec 2020 18:09:55 -0500
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA5F9C0613CF;
-        Wed,  9 Dec 2020 15:09:14 -0800 (PST)
-Received: by mail-pg1-x543.google.com with SMTP id w5so1581909pgj.3;
-        Wed, 09 Dec 2020 15:09:14 -0800 (PST)
+        with ESMTP id S1729348AbgLIXQj (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Dec 2020 18:16:39 -0500
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42EB0C0613D6
+        for <linux-input@vger.kernel.org>; Wed,  9 Dec 2020 15:15:59 -0800 (PST)
+Received: by mail-pg1-x542.google.com with SMTP id v29so2348548pgk.12
+        for <linux-input@vger.kernel.org>; Wed, 09 Dec 2020 15:15:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=RllWjXmt24+TR71iaZkso9VeRpDv2hfIa/LswWV4QMM=;
-        b=pybgsXa/SwpSGRNtfyTJe/9ribuitvtHQM7OfiXiNg/Y5qSmkr0bvRuRDj6tQ38nS7
-         sQsq/G762XhtkbL1+KRDGUWB166ZYkK558C0XpcJPS+RIiwmDcmaDCr/zi1pZehugIWe
-         xblZ+CYMo4Ky2cYGWhj8j/gZRL9WDZFiKKMxv+m1V9oqsp/qlnbt/WkBdghGGkJBlhkt
-         eChO7aT3bloG4FmioJxVtYOBg/d8xVppPQosGydLwvWZqRhLXhMy0mGxEH+hKCxUHuoc
-         6Pt/2xCQ3QCrrHq1PzpDrWqTPguLQHsTKw2RfIahLbOJeUdwQxCRjJWL2BRKqzhpvE3H
-         /s8w==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=eqFleX3gRcFJOMKkR8Te+Mf6aGTWR0Qq4djNYtrRvKM=;
+        b=SR3VBOLze9+8W363k8zVEXuSJIS0nO/5JE1Mmozf8d/1VNL+8cSIXSG0F+lEaVOq73
+         axwOQaufPCRymchAYOX89r16v/i6RmMho9SM1oa94N9xo5ZfVU2KQ6fQT/ACCMXPK4kY
+         T4O6IpJCe74p6DyS1D0VPg7MJutvqtHkNHLWiM9UCEvIfLDX59PdpVQu6zWfzP6b6/sX
+         ogENPhz5Pz3vgC7bE870pv55CRsmVVqkyz91G21HUDtl+BH1+L9hj/bmAZp7d0JE10WB
+         Ve72qpknd199mAEDhhoa0UkuX2JhanC8vKBL1PXYTE7BWywRjrGHPg1Cj/faC8/t4/QO
+         D6XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=RllWjXmt24+TR71iaZkso9VeRpDv2hfIa/LswWV4QMM=;
-        b=GqyJX3Nx7B/1wmUxppT3+GppYAk9DKYhmHBoXjG6vO8fnzbQG5dPXYg3N/lCEUOTMx
-         Z+agvUjp+M3Fl4x75vAE2+B23tHH7uBwQpu5qffjUhhSNiMXaBe8lWmC8e6txSqM739N
-         14GEyZsZMaSr7J0cSYumL4VV/s0NwFzRV2N0U9k/P0prs2I10TLTPJ8fDsvSYzAC8Mm5
-         F23w1+zD9/YYGj8b4+KJqHicmbbfIDxpKr8TtMrK3NGTSYKuuK37RP5Je5lAQ/upKacA
-         fbnQ8ht3KuPWqyX/X19JcSVcCwBSOKabPklbJL3Ev7Hu5XNrDtCu1j4mPyz288dTwIWC
-         agLw==
-X-Gm-Message-State: AOAM532h0y2PF7MK/UcEgP+wOMkLBlot2KnJpnaS6aa5K3V2+IlqjrRA
-        3p38UiG+pzFOggviQoV/0TLOFWv3EAY=
-X-Google-Smtp-Source: ABdhPJzMDxGbz/ewirIQgmz5g0n3asex8tyE3wz4eYgqgVctqnk6HlwtVnehOR+rOBb2iur0z/7rWQ==
-X-Received: by 2002:a05:6a00:acc:b029:198:2ba6:c0f6 with SMTP id c12-20020a056a000accb02901982ba6c0f6mr4226061pfl.53.1607555354006;
-        Wed, 09 Dec 2020 15:09:14 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=eqFleX3gRcFJOMKkR8Te+Mf6aGTWR0Qq4djNYtrRvKM=;
+        b=suMbRnwI7aivvdn2dvyAUcavdldxkZ+wugoggJZjoi0nr8puuGydpjoKq41+ANKLEb
+         xKx7q+KHOlimWuhj3NNZ70w5SqtO7eTlwqujxI9vlXzNI3SR1o6CiwgwYHyzuagQPRt/
+         +MajPmyyeUf3DPZ/u1vG0zGLMOojR8IIMsRlnvA+Y90vYhsiqQNUJzXiNZr2wGeUsVLZ
+         P5fd39AcdlPFGA/g22I+4gOZ3xWnM0AF40AN1xuX0/Jby9R/uVfUEOBa+gbEHGTiyLmk
+         SDUQPtLLyTNAsVSkTgjOhmTwbpykwsPmTQMdY/jUT0w7HIWlIZru7P23TUE7d0iu2yLQ
+         iUSg==
+X-Gm-Message-State: AOAM533q0UxfR0TaEXaYRO+d1xAii3UOyhYE9P1BiVLcgrj6nmDBIuxU
+        2MHkF4VTSz9mDhoaTGHPMpYBuebeZb0=
+X-Google-Smtp-Source: ABdhPJyQ/0vIGcPfhmCVPPF+pMvc6jgEsZYPQFE3E5X0+NnVZoD1uX1EMfjk3rq/saGD6tEvFJBPew==
+X-Received: by 2002:a17:90a:1bc7:: with SMTP id r7mr4476892pjr.33.1607555758856;
+        Wed, 09 Dec 2020 15:15:58 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id r15sm3589246pgn.26.2020.12.09.15.09.12
+        by smtp.gmail.com with ESMTPSA id y27sm3658373pfr.78.2020.12.09.15.15.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Dec 2020 15:09:12 -0800 (PST)
-Date:   Wed, 9 Dec 2020 15:09:10 -0800
+        Wed, 09 Dec 2020 15:15:57 -0800 (PST)
+Date:   Wed, 9 Dec 2020 15:15:55 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     linux-input@vger.kernel.org
-Cc:     Marco Felsch <m.felsch@pengutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Simon Budig <simon.budig@kernelconcepts.de>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: edt-ft5x06 - consolidate handling of number of
- electrodes
-Message-ID: <X9FZFs3NZADoIhhH@google.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-input@vger.kernel.org
+Subject: Re: [PATCH v2] Input: edt-ft5x06 - use U16_MAX instead of -1
+Message-ID: <X9Faq5tbK4rjCul1@google.com>
+References: <20201026174126.19449-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20201026174126.19449-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Instead of using special-casing retrieval of number of X/Y electrodes
-based on the firmware, let's select default values and mark registers as
-non-existent on firmwares that do not support this operation.
+Hi Andy,
 
-Also mark "report rate" register as non-existent for generic firmwares as
-having it set to 0 does not make sense.
+On Mon, Oct 26, 2020 at 07:41:26PM +0200, Andy Shevchenko wrote:
+> Explicitly show what the value we supply for the touchscreen resolution
+> when it can't be detected. -1 is hard to compare with when unsigned short
+> type is in use. The change will help to avoid signed vs. unsigned error
+> prone comparisons.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+> v2: rebased on top of v5.10-rc1
+>  drivers/input/touchscreen/edt-ft5x06.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
+> index 6ff81d48da86..34e9cb9c0691 100644
+> --- a/drivers/input/touchscreen/edt-ft5x06.c
+> +++ b/drivers/input/touchscreen/edt-ft5x06.c
+> @@ -23,6 +23,7 @@
+>  #include <linux/input/touchscreen.h>
+>  #include <linux/irq.h>
+>  #include <linux/kernel.h>
+> +#include <linux/limits.h>
+>  #include <linux/module.h>
+>  #include <linux/ratelimit.h>
+>  #include <linux/regulator/consumer.h>
+> @@ -1005,8 +1006,8 @@ edt_ft5x06_ts_get_parameters(struct edt_ft5x06_ts_data *tsdata)
+>  		tsdata->num_y = edt_ft5x06_register_read(tsdata,
+>  							 reg_addr->reg_num_y);
+>  	} else {
+> -		tsdata->num_x = -1;
+> -		tsdata->num_y = -1;
+> +		tsdata->num_x = U16_MAX;
+> +		tsdata->num_y = U16_MAX;
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/touchscreen/edt-ft5x06.c | 43 ++++++++++----------------
- 1 file changed, 17 insertions(+), 26 deletions(-)
+Here we do not really do any comparisons, and using -1 to set to
+maximum unsigned number is a common pattern...
 
-diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-index 6ff81d48da86..2eefbc2485bc 100644
---- a/drivers/input/touchscreen/edt-ft5x06.c
-+++ b/drivers/input/touchscreen/edt-ft5x06.c
-@@ -69,6 +69,9 @@
- #define EDT_RAW_DATA_RETRIES		100
- #define EDT_RAW_DATA_DELAY		1000 /* usec */
- 
-+#define EDT_DEFAULT_NUM_X		1024
-+#define EDT_DEFAULT_NUM_Y		1024
-+
- enum edt_pmode {
- 	EDT_PMODE_NOT_SUPPORTED,
- 	EDT_PMODE_HIBERNATE,
-@@ -977,8 +980,7 @@ static void edt_ft5x06_ts_get_defaults(struct device *dev,
- 	}
- }
- 
--static void
--edt_ft5x06_ts_get_parameters(struct edt_ft5x06_ts_data *tsdata)
-+static void edt_ft5x06_ts_get_parameters(struct edt_ft5x06_ts_data *tsdata)
- {
- 	struct edt_reg_addr *reg_addr = &tsdata->reg_addr;
- 
-@@ -997,21 +999,17 @@ edt_ft5x06_ts_get_parameters(struct edt_ft5x06_ts_data *tsdata)
- 	if (reg_addr->reg_report_rate != NO_REGISTER)
- 		tsdata->report_rate = edt_ft5x06_register_read(tsdata,
- 						reg_addr->reg_report_rate);
--	if (tsdata->version == EDT_M06 ||
--	    tsdata->version == EDT_M09 ||
--	    tsdata->version == EDT_M12) {
-+	tsdata->num_x = EDT_DEFAULT_NUM_X;
-+	if (reg_addr->reg_num_x != NO_REGISTER)
- 		tsdata->num_x = edt_ft5x06_register_read(tsdata,
- 							 reg_addr->reg_num_x);
-+	tsdata->num_y = EDT_DEFAULT_NUM_Y;
-+	if (reg_addr->reg_num_y != NO_REGISTER)
- 		tsdata->num_y = edt_ft5x06_register_read(tsdata,
- 							 reg_addr->reg_num_y);
--	} else {
--		tsdata->num_x = -1;
--		tsdata->num_y = -1;
--	}
- }
- 
--static void
--edt_ft5x06_ts_set_regs(struct edt_ft5x06_ts_data *tsdata)
-+static void edt_ft5x06_ts_set_regs(struct edt_ft5x06_ts_data *tsdata)
- {
- 	struct edt_reg_addr *reg_addr = &tsdata->reg_addr;
- 
-@@ -1041,22 +1039,25 @@ edt_ft5x06_ts_set_regs(struct edt_ft5x06_ts_data *tsdata)
- 
- 	case EV_FT:
- 		reg_addr->reg_threshold = EV_REGISTER_THRESHOLD;
-+		reg_addr->reg_report_rate = NO_REGISTER;
- 		reg_addr->reg_gain = EV_REGISTER_GAIN;
- 		reg_addr->reg_offset = NO_REGISTER;
- 		reg_addr->reg_offset_x = EV_REGISTER_OFFSET_X;
- 		reg_addr->reg_offset_y = EV_REGISTER_OFFSET_Y;
- 		reg_addr->reg_num_x = NO_REGISTER;
- 		reg_addr->reg_num_y = NO_REGISTER;
--		reg_addr->reg_report_rate = NO_REGISTER;
- 		break;
- 
- 	case GENERIC_FT:
- 		/* this is a guesswork */
- 		reg_addr->reg_threshold = M09_REGISTER_THRESHOLD;
-+		reg_addr->reg_report_rate = NO_REGISTER;
- 		reg_addr->reg_gain = M09_REGISTER_GAIN;
- 		reg_addr->reg_offset = M09_REGISTER_OFFSET;
- 		reg_addr->reg_offset_x = NO_REGISTER;
- 		reg_addr->reg_offset_y = NO_REGISTER;
-+		reg_addr->reg_num_x = NO_REGISTER;
-+		reg_addr->reg_num_y = NO_REGISTER;
- 		break;
- 	}
- }
-@@ -1195,20 +1196,10 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
- 	input->id.bustype = BUS_I2C;
- 	input->dev.parent = &client->dev;
- 
--	if (tsdata->version == EDT_M06 ||
--	    tsdata->version == EDT_M09 ||
--	    tsdata->version == EDT_M12) {
--		input_set_abs_params(input, ABS_MT_POSITION_X,
--				     0, tsdata->num_x * 64 - 1, 0, 0);
--		input_set_abs_params(input, ABS_MT_POSITION_Y,
--				     0, tsdata->num_y * 64 - 1, 0, 0);
--	} else {
--		/* Unknown maximum values. Specify via devicetree */
--		input_set_abs_params(input, ABS_MT_POSITION_X,
--				     0, 65535, 0, 0);
--		input_set_abs_params(input, ABS_MT_POSITION_Y,
--				     0, 65535, 0, 0);
--	}
-+	input_set_abs_params(input, ABS_MT_POSITION_X,
-+			     0, tsdata->num_x * 64 - 1, 0, 0);
-+	input_set_abs_params(input, ABS_MT_POSITION_Y,
-+			     0, tsdata->num_y * 64 - 1, 0, 0);
- 
- 	touchscreen_parse_properties(input, true, &tsdata->prop);
- 
--- 
-2.29.2.576.ga3fc446d84-goog
+However I just CCed you on a patch that removes special handling for
+number of electrodes on select firmwares, so this patch will no longer
+be relevant.
 
+Thanks.
 
 -- 
 Dmitry
