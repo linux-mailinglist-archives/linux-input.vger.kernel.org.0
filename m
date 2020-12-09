@@ -2,74 +2,73 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AC852D4B58
-	for <lists+linux-input@lfdr.de>; Wed,  9 Dec 2020 21:13:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CFA62D4B57
+	for <lists+linux-input@lfdr.de>; Wed,  9 Dec 2020 21:13:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730664AbgLIUNV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 9 Dec 2020 15:13:21 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:35617 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729753AbgLIUNV (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Dec 2020 15:13:21 -0500
-Received: by mail-oi1-f195.google.com with SMTP id s2so3110104oij.2;
-        Wed, 09 Dec 2020 12:13:05 -0800 (PST)
+        id S2388128AbgLIUNd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 9 Dec 2020 15:13:33 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:37224 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730623AbgLIUNd (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Dec 2020 15:13:33 -0500
+Received: by mail-ot1-f68.google.com with SMTP id o11so2661956ote.4;
+        Wed, 09 Dec 2020 12:13:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Ox2CZng1tZUgL0ZrBXL0V+yI79povfCvPDQE3h1EtMo=;
-        b=nGz1Zd34ubINl+/kdeoMEDO8BiU2wZsUdlMRHTFTXK3MYO6Kw6niAtFU5K2H7E3Ssd
-         5uCTGS1wyRE+Lf9xg+J2W4mecTrwSuN/bLT9c4jifgrmwdjNpCGT2wYlaQ68lhUUoOSM
-         cLeoSvUcWg/diLIgUekJNB9bnLszQHgYEvZfvitSstdETS6u7y7ncjsx5BdvGmC5qAbB
-         Y7tRT2xaPVKZmI1IXQVfZ3coOoEmWHKRfZcKDEOoSnYshnfXQUxA6WT8gJn8ptIbomYi
-         wToIXFdeuhKK7jsnT45DLMjBL1NPt53+YAN0it5bjMSVhqRIW1MIYyOkZZ/u/G0SBIOa
-         5xng==
-X-Gm-Message-State: AOAM530Cgswbxmqn1GepkFOf152toirsKo0oQQfPOOex1Q6oW1TyP+Hr
-        hDqg17IMba/lQAn6Th+M5w==
-X-Google-Smtp-Source: ABdhPJzDHu5FdZ4saWrpXGhB64ttFVcgGXNvQ1Y23Ru/mNY6AZCBL3bdui5qA+FmpyNg2hWilrHY9w==
-X-Received: by 2002:a05:6808:24d:: with SMTP id m13mr3126639oie.106.1607544760221;
-        Wed, 09 Dec 2020 12:12:40 -0800 (PST)
+        bh=4WkPwlu52Q10AIZ+1tIPGMg0KSqgHstPiaQxqFnYDFo=;
+        b=byyFk5R1f7QZOjXkqR4EaGqkpKWGY/okp/pDBOlodRqeAFZ/Ij6G0BAUApRdeZHNXD
+         hd5stEG9LR8gLG8egrFbfpokfS3P5oOV6udX10FSDs0fnN7Lu0k0kbC0040EKokVorjZ
+         u2zpQ69Ue/FCSYHZg9wiXkiIsJeuPp9dJvDWuf60425xghHVcdnPldwV60rXbS2w1oiM
+         8VExVGeMqELgP7eGmqzC4Dal3FM6ylBBWxrsrdOiDyiCfvcxhms/Q2tXGloshCu09aG4
+         feSsh5HZovrOef6gMOI8vHUSDGKj2VrKv5HCf3oAUtp51UaQeJJw6INTaE6e+dk+FrRm
+         S49Q==
+X-Gm-Message-State: AOAM532FKBIhRUtOifKc1DZb8pSbXomQMNb4cCIIc26LsuE++jgpiz39
+        zQrGV9O6DNzd4K274yw2Yw==
+X-Google-Smtp-Source: ABdhPJwtKQwS8Gi3pDPIlZI5JEncLbmyXnT+ngYSWpyLnhIFwPETb9SdRk81hmxd9JJ/MwuNbUM+5Q==
+X-Received: by 2002:a9d:3e0d:: with SMTP id a13mr3371526otd.194.1607544771739;
+        Wed, 09 Dec 2020 12:12:51 -0800 (PST)
 Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id k3sm533139oor.19.2020.12.09.12.12.37
+        by smtp.gmail.com with ESMTPSA id y10sm593219ota.42.2020.12.09.12.12.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Dec 2020 12:12:38 -0800 (PST)
-Received: (nullmailer pid 863330 invoked by uid 1000);
-        Wed, 09 Dec 2020 20:12:37 -0000
-Date:   Wed, 9 Dec 2020 14:12:37 -0600
+        Wed, 09 Dec 2020 12:12:50 -0800 (PST)
+Received: (nullmailer pid 863704 invoked by uid 1000);
+        Wed, 09 Dec 2020 20:12:49 -0000
+Date:   Wed, 9 Dec 2020 14:12:49 -0600
 From:   Rob Herring <robh@kernel.org>
 To:     Stephan Gerhold <stephan@gerhold.net>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: Input: tm2-touchkey - convert to yaml
-Message-ID: <20201209201237.GA863279@robh.at.kernel.org>
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH 2/3] dt-bindings: Input: tm2-touchkey - document
+ vddio-supply
+Message-ID: <20201209201249.GA863661@robh.at.kernel.org>
 References: <20201203131242.44397-1-stephan@gerhold.net>
+ <20201203131242.44397-2-stephan@gerhold.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201203131242.44397-1-stephan@gerhold.net>
+In-Reply-To: <20201203131242.44397-2-stephan@gerhold.net>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 03 Dec 2020 14:12:40 +0100, Stephan Gerhold wrote:
-> Convert the device tree bindings for tm2-touchkey to the YAML format.
+On Thu, 03 Dec 2020 14:12:41 +0100, Stephan Gerhold wrote:
+> The Samsung touchkey controllers are often used with external pull-up
+> for the interrupt line and the I2C lines, so we might need to enable
+> a regulator to bring the lines into usable state. Otherwise, this might
+> cause spurious interrupts and reading from I2C will fail.
 > 
-> While we're at it, clarify the descriptions a bit to make it clear that
-> this driver can be used for many different MCUs that all implement
-> a similar I2C protocol. Depending on the MCU the voltage requirements
-> may be different, on some devices the controller uses 2.2V, 2.8V or
-> even 3.3V for vcc-supply instead of 1.8V.
+> Document support for a "vddio-supply" that is enabled by the tm2-touchkey
+> driver so that the regulator gets enabled when needed.
 > 
 > Cc: Linus Walleij <linus.walleij@linaro.org>
 > Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
 > ---
->  .../bindings/input/cypress,tm2-touchkey.txt   | 33 ---------
->  .../bindings/input/cypress,tm2-touchkey.yaml  | 68 +++++++++++++++++++
->  2 files changed, 68 insertions(+), 33 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/input/cypress,tm2-touchkey.txt
->  create mode 100644 Documentation/devicetree/bindings/input/cypress,tm2-touchkey.yaml
+>  .../devicetree/bindings/input/cypress,tm2-touchkey.yaml      | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
