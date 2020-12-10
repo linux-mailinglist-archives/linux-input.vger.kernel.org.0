@@ -2,39 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D3812D613A
-	for <lists+linux-input@lfdr.de>; Thu, 10 Dec 2020 17:09:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C2B542D61F3
+	for <lists+linux-input@lfdr.de>; Thu, 10 Dec 2020 17:33:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731270AbgLJQIe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Dec 2020 11:08:34 -0500
-Received: from mga18.intel.com ([134.134.136.126]:12093 "EHLO mga18.intel.com"
+        id S2391188AbgLJQck (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Dec 2020 11:32:40 -0500
+Received: from mga11.intel.com ([192.55.52.93]:41689 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2403886AbgLJQI2 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Dec 2020 11:08:28 -0500
-IronPort-SDR: lgSrGqfT9RXgvw/+3HxzmsKlM6QiBzyMW4D4FgoGeMXmtW8xe+6Td+wedPIBRWRzunqhWB8+Oj
- +kY0L2dUh68A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9830"; a="162038474"
+        id S1730829AbgLJQck (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 10 Dec 2020 11:32:40 -0500
+IronPort-SDR: Kf87uZJ8uqfzpjneHr7MFtuR7nxeMX0xfw4WPmOFr2l55yam2i9eO9be/iNkCBChgPxA56kiIF
+ ZYocs9pi3iWQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9830"; a="170779042"
 X-IronPort-AV: E=Sophos;i="5.78,408,1599548400"; 
-   d="scan'208";a="162038474"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2020 08:07:54 -0800
-IronPort-SDR: UBX+TSy92xi0itJCaocjYU0+RAhnKkLsoh7/z6/ZAq+8ADv6lWvZ9ECSpSc8Y9MXNXckG/2fod
- vrEUE3e0Lqsw==
+   d="scan'208";a="170779042"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2020 08:32:00 -0800
+IronPort-SDR: BVTBXcL8HsaApHpYub77dCoff0DULKggaSdkD/yzNtqz1tiU/Ok6xRFNM96l3Wf6LLMqPIvWi8
+ 8w+GDjCsmOpg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.78,408,1599548400"; 
-   d="scan'208";a="369127251"
+   d="scan'208";a="319825772"
 Received: from lkp-server01.sh.intel.com (HELO ecc0cebe68d1) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 10 Dec 2020 08:07:53 -0800
+  by fmsmga008.fm.intel.com with ESMTP; 10 Dec 2020 08:31:59 -0800
 Received: from kbuild by ecc0cebe68d1 with local (Exim 4.92)
         (envelope-from <lkp@intel.com>)
-        id 1knOTw-0000Lb-Jd; Thu, 10 Dec 2020 16:07:52 +0000
-Date:   Fri, 11 Dec 2020 00:06:57 +0800
+        id 1knOrG-0000MK-Lj; Thu, 10 Dec 2020 16:31:58 +0000
+Date:   Fri, 11 Dec 2020 00:31:25 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     linux-input@vger.kernel.org
-Subject: [input:master] BUILD SUCCESS
- 7002932325ef8efff354a70b93a63dcdbca20d81
-Message-ID: <5fd247a1.v1I+qqJZftmgey+O%lkp@intel.com>
+Subject: [input:test] BUILD SUCCESS
+ f6d088b4efe9636b0c5144e8ef36d785214e62cd
+Message-ID: <5fd24d5d.7aEULISi897LZbJd%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -43,12 +43,12 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git  master
-branch HEAD: 7002932325ef8efff354a70b93a63dcdbca20d81  Input: tm2-touchkey - add vddio regulator
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git  test
+branch HEAD: f6d088b4efe9636b0c5144e8ef36d785214e62cd  Input: cm109 - do not stomp on control URB
 
-elapsed time: 733m
+elapsed time: 724m
 
-configs tested: 173
+configs tested: 157
 configs skipped: 2
 
 The following configs have been built successfully.
@@ -78,10 +78,6 @@ riscv                    nommu_virt_defconfig
 arm                          ep93xx_defconfig
 powerpc                         wii_defconfig
 xtensa                  cadence_csp_defconfig
-sh                          r7780mp_defconfig
-powerpc                   lite5200b_defconfig
-mips                           ip32_defconfig
-sh                            migor_defconfig
 powerpc                      tqm8xx_defconfig
 arc                        vdk_hs38_defconfig
 powerpc                      walnut_defconfig
@@ -101,11 +97,6 @@ arm                         socfpga_defconfig
 alpha                            alldefconfig
 arm                        vexpress_defconfig
 powerpc                      makalu_defconfig
-powerpc                 mpc836x_rdk_defconfig
-sh                          rsk7264_defconfig
-sh                             sh03_defconfig
-arm                          simpad_defconfig
-powerpc                  iss476-smp_defconfig
 arm                    vt8500_v6_v7_defconfig
 sh                        edosk7760_defconfig
 arm                       imx_v6_v7_defconfig
@@ -133,19 +124,12 @@ powerpc                     redwood_defconfig
 powerpc                 linkstation_defconfig
 mips                           mtx1_defconfig
 sh                             shx3_defconfig
-powerpc                     tqm8541_defconfig
-m68k                             alldefconfig
-arm                        cerfcube_defconfig
-arm                       multi_v4t_defconfig
 powerpc                 mpc8540_ads_defconfig
 powerpc                      pmac32_defconfig
 riscv                    nommu_k210_defconfig
 openrisc                            defconfig
 m68k                           sun3_defconfig
 arm                        multi_v7_defconfig
-nios2                            alldefconfig
-arm                       aspeed_g5_defconfig
-powerpc                 canyonlands_defconfig
 ia64                             allmodconfig
 ia64                                defconfig
 ia64                             allyesconfig
