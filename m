@@ -2,71 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E777C2D9999
-	for <lists+linux-input@lfdr.de>; Mon, 14 Dec 2020 15:17:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B3CA2D9BC2
+	for <lists+linux-input@lfdr.de>; Mon, 14 Dec 2020 17:06:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439322AbgLNOP6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Dec 2020 09:15:58 -0500
-Received: from mga11.intel.com ([192.55.52.93]:30482 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2439175AbgLNOPw (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Dec 2020 09:15:52 -0500
-IronPort-SDR: hs+yAuibbMTvGhsn0fvWkEPZyXFmtYFV47qnWpRs0hTw2vt9DGvF0jATa0K2ZrQEmSCrekjMwM
- iSNmcnXUszDA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9834"; a="171201205"
-X-IronPort-AV: E=Sophos;i="5.78,419,1599548400"; 
-   d="scan'208";a="171201205"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2020 06:14:05 -0800
-IronPort-SDR: lalFpitClpvtGHnMUEgh1yUxTzy7ckyQw+MstcUsm/7HPgfOLdtd3WXoBDpwSsFsrMRoflobkV
- X2HPXSDzYhXw==
-X-IronPort-AV: E=Sophos;i="5.78,419,1599548400"; 
-   d="scan'208";a="448633520"
-Received: from kairampx-mobl.gar.corp.intel.com ([10.215.194.216])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2020 06:14:02 -0800
-Message-ID: <df1481e15c591106ba75ed85289b12507cbc8c49.camel@linux.intel.com>
-Subject: Re: [PATCH -next] hid/hid-sensor-custom: convert comma to semicolon
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Zheng Yongjun <zhengyongjun3@huawei.com>, jikos@kernel.org,
-        jic23@kernel.org, benjamin.tissoires@redhat.com
-Cc:     linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Mon, 14 Dec 2020 06:13:58 -0800
-In-Reply-To: <20201214133212.3569-1-zhengyongjun3@huawei.com>
-References: <20201214133212.3569-1-zhengyongjun3@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2 (3.38.2-1.fc33) 
+        id S2439944AbgLNQFl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Dec 2020 11:05:41 -0500
+Received: from server.kenspensetc.com ([185.148.128.76]:48008 "EHLO
+        server.kenspensetc.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2439358AbgLNQFj (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 14 Dec 2020 11:05:39 -0500
+Received: from localhost ([127.0.0.1]:47936 helo=server.kenspensetc.com)
+        by server.kenspensetc.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.93)
+        (envelope-from <sender@ridecals.com>)
+        id 1knLn0-00029V-6J; Thu, 10 Dec 2020 08:15:22 -0500
+Received: from [70.32.0.46] ([70.32.0.46]) by ridecals.com (Horde Framework)
+ with HTTPS; Thu, 10 Dec 2020 08:15:22 -0500
+Date:   Thu, 10 Dec 2020 08:15:22 -0500
+Message-ID: <20201210081522.Horde.GEA1j18D53oi4VTUxYWD_87@ridecals.com>
+From:   Russell Branting <sender@ridecals.com>
+Subject: Vital
+Reply-to: Goodagent01@gmail.com
+User-Agent: Horde Application Framework 5
+Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - server.kenspensetc.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - ridecals.com
+X-Get-Message-Sender-Via: server.kenspensetc.com: authenticated_id: sender9@ridecals.com
+X-Authenticated-Sender: server.kenspensetc.com: sender9@ridecals.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 2020-12-14 at 21:32 +0800, Zheng Yongjun wrote:
-> Replace a comma between expression statements by a semicolon.
-> 
-> Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
-> ---
->  drivers/hid/hid-sensor-custom.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-
-> sensor-custom.c
-> index 4d25577a8573..6c47a2e7623d 100644
-> --- a/drivers/hid/hid-sensor-custom.c
-> +++ b/drivers/hid/hid-sensor-custom.c
-> @@ -728,7 +728,7 @@ static int hid_sensor_custom_dev_if_add(struct
-> hid_sensor_custom *sensor_inst)
->  
->         sensor_inst->custom_dev.minor = MISC_DYNAMIC_MINOR;
->         sensor_inst->custom_dev.name = dev_name(&sensor_inst->pdev-
-> >dev);
-> -       sensor_inst->custom_dev.fops = &hid_sensor_custom_fops,
-> +       sensor_inst->custom_dev.fops = &hid_sensor_custom_fops;
->         ret = misc_register(&sensor_inst->custom_dev);
->         if (ret) {
->                 kfifo_free(&sensor_inst->data_fifo);
+I am instructed to inform you of your appointment as the next of kin  
+to your deceased relative estate. Kindly indicate your acceptance by  
+reconfirming your Full Name, Address & Phone Number for immediate  
+processing of the funds release to your control OR the deceased  
+deposited funds will be declared unclaimed.
 
 
