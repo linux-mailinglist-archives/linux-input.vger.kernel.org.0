@@ -2,97 +2,156 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 916352D517C
-	for <lists+linux-input@lfdr.de>; Thu, 10 Dec 2020 04:38:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 89FEC2D51D5
+	for <lists+linux-input@lfdr.de>; Thu, 10 Dec 2020 04:47:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729139AbgLJDhw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 9 Dec 2020 22:37:52 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:45248 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727348AbgLJDhv (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Dec 2020 22:37:51 -0500
-Received: by mail-ot1-f66.google.com with SMTP id h18so3615650otq.12;
-        Wed, 09 Dec 2020 19:37:35 -0800 (PST)
+        id S1730448AbgLJDpH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 9 Dec 2020 22:45:07 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:38104 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730376AbgLJDpE (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 9 Dec 2020 22:45:04 -0500
+Received: by mail-oi1-f196.google.com with SMTP id o25so4268856oie.5;
+        Wed, 09 Dec 2020 19:44:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=mzmL/cqocrUbPTVhVRwNLiqSMNifMnYmWyvL/HJKlvc=;
-        b=ajNOCR9nrqmYcZDo6AjKroQTKfa9f/B503j3sTlMk9jAoI3j7+9iyIEaBP8z3MgNdn
-         KBOvob3dfDtXKlqR5ZTs3s0IbxBcPsZ9vJWo23JxEQ+vNTZt74Q0XZNIVg/PnBAXcn6c
-         uYWNzevvkm0Boc4YuWvjOeQOMI/G+UCHDXyVdjchODkLbRT1ERUH/mUwOmKvrJ9rjjdb
-         83i7NqzqPnLpFUjdhdX2HQ7FKpwhxqSCUWwVVdv0kdZLW1u2P1wmirAoVwE1vSMIGnuS
-         m6O+MNTkOWWsITR2I/zjZbZid+mR2B54cEuTGnOrKIyOzMiixwBIrI0IuZSBEJQ5sN46
-         qEWA==
-X-Gm-Message-State: AOAM531Ki0obAtwcCWy34Z+KcWIsX3RLYQT2bir8APGNdCroaHn3Vhsi
-        JOWAfb4XEioOjDiG1oP6nA==
-X-Google-Smtp-Source: ABdhPJzEtvBU2o6Y5zBUf3Ax84L/wTQXpYXXCxobtgX7cv8FEOpg+xzasRQAncboRxY5AuPBKhbUgg==
-X-Received: by 2002:a9d:4795:: with SMTP id b21mr4419285otf.65.1607571430533;
-        Wed, 09 Dec 2020 19:37:10 -0800 (PST)
+        bh=Fu6C4QffPD0sOdnGBmBWkf0xe4d39JgNdhCtih00fXk=;
+        b=PLO+crZpFANXZp/nHa1OWgkUZejGP1bxzLPZTjoBOjoGPkw6ZC9TGVkmB96+cW8ETE
+         MMwrVTQTV65h+JXYLxMuP7cyqxRypQntkMV1GL0a2gmBgeDPufem6UJ2GWPsyGAK+bh8
+         7DoH/XqwvhWfQa64LuM4PF2gyct0DSDwrmI32ocn9LJTsu1F1yu7sjqqUNfTha/8MP7S
+         viwrmgV8Yv1VfTS8Gu+fqwmghlgLZWN+kcBMjE69xoSLrPQZ8dQOmQ64R42Q7Z753/A7
+         J+w/Unf2RMLDjFtauMOCvolO7pppbqVt2vtrDPUfzMZE5X0uN4NVcdBml0Dyi+rxTUiH
+         zuDQ==
+X-Gm-Message-State: AOAM531kWbC2VgNux9ih/JcmByEl74oQXT4fs/BKAS75zgu53vh9jQnL
+        bleyqSdB0IF5RGh6FWb4iQ==
+X-Google-Smtp-Source: ABdhPJz3gT186xFD11r4/H87QdtT5az1qJBQ/iAVgeJQCgY0qz0QsLhzOiYonLwdos+BNGeEIzHy+Q==
+X-Received: by 2002:aca:d706:: with SMTP id o6mr4229937oig.28.1607571862751;
+        Wed, 09 Dec 2020 19:44:22 -0800 (PST)
 Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id i82sm740215oif.33.2020.12.09.19.37.09
+        by smtp.gmail.com with ESMTPSA id f201sm536070oig.21.2020.12.09.19.44.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Dec 2020 19:37:09 -0800 (PST)
-Received: (nullmailer pid 1607732 invoked by uid 1000);
-        Thu, 10 Dec 2020 03:37:08 -0000
-Date:   Wed, 9 Dec 2020 21:37:08 -0600
+        Wed, 09 Dec 2020 19:44:21 -0800 (PST)
+Received: (nullmailer pid 1617044 invoked by uid 1000);
+        Thu, 10 Dec 2020 03:44:20 -0000
+Date:   Wed, 9 Dec 2020 21:44:20 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
-Cc:     Lee Jones <lee.jones@linaro.org>,
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Nick Dyer <nick@shmanahar.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-        linux-actions@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH v3 1/7] dt-bindings: input: Add reset-time-sec common
- property
-Message-ID: <20201210033708.GA1606132@robh.at.kernel.org>
-References: <cover.1607216141.git.cristian.ciocaltea@gmail.com>
- <c08349db08db67e71cf428fe7fd53624aaa0acf8.1607216141.git.cristian.ciocaltea@gmail.com>
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jiada Wang <jiada_wang@mentor.com>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] dt-bindings: input: atmel_mxt_ts: Document
+ atmel,wakeup-method and wake-GPIO
+Message-ID: <20201210034420.GA1615537@robh.at.kernel.org>
+References: <20201206212217.6857-1-digetx@gmail.com>
+ <20201206212217.6857-2-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c08349db08db67e71cf428fe7fd53624aaa0acf8.1607216141.git.cristian.ciocaltea@gmail.com>
+In-Reply-To: <20201206212217.6857-2-digetx@gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Dec 06, 2020 at 03:27:01AM +0200, Cristian Ciocaltea wrote:
-> Add a new common property 'reset-time-sec' to be used in conjunction
-> with the devices supporting the key pressed reset feature.
+On Mon, Dec 07, 2020 at 12:22:15AM +0300, Dmitry Osipenko wrote:
+> Some Atmel touchscreen controllers have a WAKE line that needs to be
+> asserted low in order to wake up controller from a deep sleep. Document
+> the wakeup methods and the wake-GPIO properties.
+
+wake-GPIO?
+
 > 
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
-> Changes in v3:
->  - This patch was not present in v2
+>  .../bindings/input/atmel,maxtouch.yaml        | 29 +++++++++++++++++++
+>  include/dt-bindings/input/atmel-maxtouch.h    | 10 +++++++
+>  2 files changed, 39 insertions(+)
+>  create mode 100644 include/dt-bindings/input/atmel-maxtouch.h
 > 
->  Documentation/devicetree/bindings/input/input.yaml | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/input/input.yaml b/Documentation/devicetree/bindings/input/input.yaml
-> index ab407f266bef..caba93209ae7 100644
-> --- a/Documentation/devicetree/bindings/input/input.yaml
-> +++ b/Documentation/devicetree/bindings/input/input.yaml
-> @@ -34,4 +34,11 @@ properties:
->        specify this property.
->      $ref: /schemas/types.yaml#/definitions/uint32
+> diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml b/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
+> index 8c6418f76e94..e6b03a1e7c30 100644
+> --- a/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
+> +++ b/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
+> @@ -39,6 +39,13 @@ properties:
+>        (active low). The line must be flagged with
+>        GPIO_ACTIVE_LOW.
 >  
-> +  reset-time-sec:
-
-Humm, I'm pretty sure we already have something for this. Or maybe just 
-power off.
-
+> +  wake-gpios:
+> +    maxItems: 1
 > +    description:
-> +      Duration in seconds which the key should be kept pressed for device to
-> +      reset automatically. Device with key pressed reset feature can specify
-> +      this property.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +      Optional GPIO specifier for the touchscreen's wake pin
+> +      (active low). The line must be flagged with
+> +      GPIO_ACTIVE_LOW.
 > +
->  additionalProperties: true
+>    linux,gpio-keymap:
+>      $ref: /schemas/types.yaml#/definitions/uint32-array
+>      description: |
+> @@ -53,6 +60,26 @@ properties:
+>        or experiment to determine which bit corresponds to which input. Use
+>        KEY_RESERVED for unused padding values.
+>  
+> +  atmel,wakeup-method:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description: |
+> +      The WAKE line is an active-low input that is used to wake up the touch
+> +      controller from deep-sleep mode before communication with the controller
+> +      could be started. This optional feature used to minimize current
+> +      consumption when the controller is in deep sleep mode. This feature is
+> +      relevant only to some controller families, like mXT1386 controller for
+> +      example.
+> +
+> +      The WAKE pin can be connected in one of the following ways:
+> +       1) left permanently low
+> +       2) connected to the I2C-compatible SCL pin
+> +       3) connected to a GPIO pin on the host
+> +    enum:
+> +      - 0 # ATMEL_MXT_WAKEUP_NONE
+> +      - 1 # ATMEL_MXT_WAKEUP_I2C_SCL
+> +      - 2 # ATMEL_MXT_WAKEUP_GPIO
+> +    default: 0
+> +
+>  required:
+>    - compatible
+>    - reg
+> @@ -63,6 +90,7 @@ additionalProperties: false
+>  examples:
+>    - |
+>      #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/input/atmel-maxtouch.h>
+>      #include <dt-bindings/gpio/gpio.h>
+>      i2c {
+>        #address-cells = <1>;
+> @@ -75,6 +103,7 @@ examples:
+>          reset-gpios = <&gpio 27 GPIO_ACTIVE_LOW>;
+>          vdda-supply = <&ab8500_ldo_aux2_reg>;
+>          vdd-supply = <&ab8500_ldo_aux5_reg>;
+> +        atmel,wakeup-method = <ATMEL_MXT_WAKEUP_I2C_SCL>;
+>        };
+>      };
+>  
+> diff --git a/include/dt-bindings/input/atmel-maxtouch.h b/include/dt-bindings/input/atmel-maxtouch.h
+> new file mode 100644
+> index 000000000000..7345ab32224d
+> --- /dev/null
+> +++ b/include/dt-bindings/input/atmel-maxtouch.h
+> @@ -0,0 +1,10 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +
+> +#ifndef _DT_BINDINGS_ATMEL_MAXTOUCH_H
+> +#define _DT_BINDINGS_ATMEL_MAXTOUCH_H
+> +
+> +#define ATMEL_MXT_WAKEUP_NONE		0
+> +#define ATMEL_MXT_WAKEUP_I2C_SCL	1
+> +#define ATMEL_MXT_WAKEUP_GPIO		2
+> +
+> +#endif /* _DT_BINDINGS_ATMEL_MAXTOUCH_H */
 > -- 
 > 2.29.2
 > 
