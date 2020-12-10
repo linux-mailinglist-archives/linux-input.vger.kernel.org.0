@@ -2,79 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3D1C2D594F
-	for <lists+linux-input@lfdr.de>; Thu, 10 Dec 2020 12:37:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ACB952D5B4E
+	for <lists+linux-input@lfdr.de>; Thu, 10 Dec 2020 14:11:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732556AbgLJLeb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Dec 2020 06:34:31 -0500
-Received: from mga11.intel.com ([192.55.52.93]:16536 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727149AbgLJLeU (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Dec 2020 06:34:20 -0500
-IronPort-SDR: Ut5zoj7FwXankmGOR28pGzamW8iKEI6CDyEtWseIw0vPFnA+M0OGmj1Ud6x6RjRFQ6N5zFcdmU
- xWhJtSytqjKw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9830"; a="170732060"
-X-IronPort-AV: E=Sophos;i="5.78,408,1599548400"; 
-   d="scan'208";a="170732060"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2020 03:32:34 -0800
-IronPort-SDR: VSPww2xSyJ1jwgHSm10TH7YLDBIp3WPatk1kyCCNsdQsg+yEziz23pdrbr38sDHAgUxN2OHgCt
- 6Su7XgnD1GIw==
-X-IronPort-AV: E=Sophos;i="5.78,408,1599548400"; 
-   d="scan'208";a="319024823"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2020 03:32:32 -0800
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1knKCU-00DP8D-Hr; Thu, 10 Dec 2020 13:33:34 +0200
-Date:   Thu, 10 Dec 2020 13:33:34 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Simon Budig <simon.budig@kernelconcepts.de>,
-        linux-kernel@vger.kernel.org
+        id S2388709AbgLJNJT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Dec 2020 08:09:19 -0500
+Received: from mail.kernelconcepts.de ([188.40.83.200]:47084 "EHLO
+        mail.kernelconcepts.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387479AbgLJNJP (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 10 Dec 2020 08:09:15 -0500
+X-Greylist: delayed 2315 seconds by postgrey-1.27 at vger.kernel.org; Thu, 10 Dec 2020 08:09:14 EST
+Received: from [144.76.69.73] (helo=[10.42.23.10])
+        by mail.kernelconcepts.de with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <simon.budig@kernelconcepts.de>)
+        id 1knL52-0008Qn-6n; Thu, 10 Dec 2020 13:29:56 +0100
+Message-ID: <724285f7c2d2544a11adfedf89aad1f9e8c684ca.camel@kernelconcepts.de>
 Subject: Re: [PATCH] Input: edt-ft5x06 - consolidate handling of number of
  electrodes
-Message-ID: <20201210113334.GD4077@smile.fi.intel.com>
+From:   Simon Budig <simon.budig@kernelconcepts.de>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     Marco Felsch <m.felsch@pengutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-kernel@vger.kernel.org
+Date:   Thu, 10 Dec 2020 13:29:46 +0100
+In-Reply-To: <X9FZFs3NZADoIhhH@google.com>
 References: <X9FZFs3NZADoIhhH@google.com>
- <20201210100803.bfohc5fglvrwrtcz@pengutronix.de>
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
+        boundary="=-Ws5Z8/jievU0ggPJF0Fx"
+User-Agent: Evolution 3.38.1-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201210100803.bfohc5fglvrwrtcz@pengutronix.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Dec 10, 2020 at 11:08:03AM +0100, Marco Felsch wrote:
-> On 20-12-09 15:09, Dmitry Torokhov wrote:
 
-...
+--=-Ws5Z8/jievU0ggPJF0Fx
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> >  	case EV_FT:
-> >  		reg_addr->reg_threshold = EV_REGISTER_THRESHOLD;
-> > +		reg_addr->reg_report_rate = NO_REGISTER;
-> >  		reg_addr->reg_gain = EV_REGISTER_GAIN;
-> >  		reg_addr->reg_offset = NO_REGISTER;
-> >  		reg_addr->reg_offset_x = EV_REGISTER_OFFSET_X;
-> >  		reg_addr->reg_offset_y = EV_REGISTER_OFFSET_Y;
-> >  		reg_addr->reg_num_x = NO_REGISTER;
-> >  		reg_addr->reg_num_y = NO_REGISTER;
-> > -		reg_addr->reg_report_rate = NO_REGISTER;
-> >  		break;
-> 
-> Nit:
-> Unrelated change.
+On Wed, 2020-12-09 at 15:09 -0800, Dmitry Torokhov wrote:
+> Instead of using special-casing retrieval of number of X/Y electrodes
+> based on the firmware, let's select default values and mark registers
+> as
+> non-existent on firmwares that do not support this operation.
+>=20
+> Also mark "report rate" register as non-existent for generic
+> firmwares as
+> having it set to 0 does not make sense.
 
-I guess the motive is to get these assignments consistent between the cases.
-Documentation actually allows this kind of modifications of code in one change
-when them are toughly related.
+Looks good.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Reviewed-by: Simon Budig <simon.budig@kernelconcepts.de>
 
+Thanks,
+        Simon
+--=20
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0kernel concepts GmbH                 Simon Bu=
+dig
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0Hauptstra=C3=9Fe 16                       sim=
+on.budig@kernelconcepts.de
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0D-57076 Siegen                       +49-271-=
+771091-17
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0http://www.kernelconcepts.de/
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0HR Siegen, HR B 9613; Gesch=C3=A4ftsf=C3=BChr=
+er: Ole Reinhardt
+
+--=-Ws5Z8/jievU0ggPJF0Fx
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQTPAwhwx6BA+WIUvUM7Y79Fd6yIcAUCX9IUugAKCRA7Y79Fd6yI
+cKkNAJ9X47tIpzA9rmLDBqWaGmWwxkHwLQCfYxfIA0F9eXbYcK3JOwYMtJv/KkY=
+=dH1+
+-----END PGP SIGNATURE-----
+
+--=-Ws5Z8/jievU0ggPJF0Fx--
 
