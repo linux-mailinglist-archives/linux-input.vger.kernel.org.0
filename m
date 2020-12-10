@@ -2,123 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F29A32D5716
-	for <lists+linux-input@lfdr.de>; Thu, 10 Dec 2020 10:28:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AEBDF2D5742
+	for <lists+linux-input@lfdr.de>; Thu, 10 Dec 2020 10:33:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732324AbgLJJ0Q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Dec 2020 04:26:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42028 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729784AbgLJJ0N (ORCPT
+        id S1731131AbgLJJd2 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Thu, 10 Dec 2020 04:33:28 -0500
+Received: from mail.i-loan.in ([103.149.165.29]:64680 "EHLO
+        WIN-U505DQLJ3R7.home" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727461AbgLJJdY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Dec 2020 04:26:13 -0500
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9D08C0613CF;
-        Thu, 10 Dec 2020 01:25:29 -0800 (PST)
-Received: by mail-ej1-x641.google.com with SMTP id d17so6324499ejy.9;
-        Thu, 10 Dec 2020 01:25:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=LKDlIegO8b/PUk6lqWTMXXqASk1SqEAKD63RKLvZ68w=;
-        b=QMOZjz7wrgnL1MDa0Wnp4GVWcEVLDMYmZZNJYrAAMf7pNpxncqh50+6bZC8tedndNN
-         dDDMUin/Qg/GNomEsC0jTp2jRAcm8HbCf+VHfG/6HNMI3waRQVzXDZC/NtRaSO0zScKO
-         srrriiirZBYBIwU5ps2kko9A1J1QvWkT8Wav6ctiG4GKfxJ00JFTBmIktWBTrqXjLwwZ
-         wtQ7DgviVF20uHazA9kmOrrzrM1rl/yhMU7TmqSWROyFyaV44X47PZKUG2zc6OcCHaU5
-         c6i21LMhNb+Ys8geYVmYoqzcOgYjepj5/cLoxyMkzkkmTeqs9XZ8goKXGq2LH2H3yf0b
-         l8OA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=LKDlIegO8b/PUk6lqWTMXXqASk1SqEAKD63RKLvZ68w=;
-        b=k1EMlFVl2m+OJ80uahpzz9QjxCot1S+QOr5cioy1UpgUt6qQ3b0aslqYGLjfHESrjn
-         CJJZ+WGPGJMSlsLOW8CAc8GPBEXJHq/9xvjMdum1VjKJSAOa8xLPXIesEVZwwiLDrLMo
-         BOAc9mWXm/dcixW7NohJda1kVKLGW48sjC6DKeNzE9llDFXSKlOLRN5tVKZB2YFm+vZ1
-         +8liQjA81tnpl+7a4jxsCZH8hiHhjDbpztopzKwjDyC8mozk3+c7Gjq2OROdr7yaGoc4
-         /heI6cKf8YLfFymAivpe/qTLIGk9sfwvJVO+DtX7bSFzGHD73qgI5U7+Vaz6GpmQIC1/
-         wDvA==
-X-Gm-Message-State: AOAM533n9tfz8QIHOi14FLUPCuak9iYAMBAixPMrjSzVvkhhbu7r3k6K
-        FdGIS0ETaL+xRQy5Ef0vVM8=
-X-Google-Smtp-Source: ABdhPJzcmcYNgXjJDk+3nXHFVvMB9YJWIvKD+ZhPsfGQCB5DoXUhwcQAPS3C3DFBZgIlfwIQK7kxlw==
-X-Received: by 2002:a17:906:55d0:: with SMTP id z16mr5490933ejp.466.1607592328449;
-        Thu, 10 Dec 2020 01:25:28 -0800 (PST)
-Received: from ubuntu2004 ([188.24.159.61])
-        by smtp.gmail.com with ESMTPSA id d13sm3788214ejc.44.2020.12.10.01.25.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Dec 2020 01:25:27 -0800 (PST)
-Date:   Thu, 10 Dec 2020 11:25:35 +0200
-From:   Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
-To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-        linux-actions@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH v3 1/7] dt-bindings: input: Add reset-time-sec common
- property
-Message-ID: <20201210092535.GB322060@ubuntu2004>
-References: <cover.1607216141.git.cristian.ciocaltea@gmail.com>
- <c08349db08db67e71cf428fe7fd53624aaa0acf8.1607216141.git.cristian.ciocaltea@gmail.com>
- <20201210040644.GC6466@thinkpad>
+        Thu, 10 Dec 2020 04:33:24 -0500
+X-Greylist: delayed 13184 seconds by postgrey-1.27 at vger.kernel.org; Thu, 10 Dec 2020 04:33:23 EST
+Received: from WIN-H7L9HI5UDA4.eu-central-1.compute.internal ([18.193.102.162]) by home with
+ MailEnable ESMTPSA (version=TLS1 cipher=TLS_DHE_RSA_WITH_AES_256_CBC_SHA); Wed, 9 Dec 2020 19:45:35 +0530
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201210040644.GC6466@thinkpad>
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Important Information to work from home
+To:     Recipients <info@surojsales.in>
+From:   info@surojsales.in
+Date:   Thu, 10 Dec 2020 02:15:06 +0000
+Reply-To: portalresourcesx@gmail.com
+Message-ID: <4EE32C9D116E430F918B3AF3E5C32F39.MAI@home>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Mani,
+Hello and good day. 
 
-On Thu, Dec 10, 2020 at 09:36:44AM +0530, Manivannan Sadhasivam wrote:
-> On Sun, Dec 06, 2020 at 03:27:01AM +0200, Cristian Ciocaltea wrote:
-> > Add a new common property 'reset-time-sec' to be used in conjunction
-> > with the devices supporting the key pressed reset feature.
-> > 
-> > Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
-> > ---
-> > Changes in v3:
-> >  - This patch was not present in v2
-> > 
-> >  Documentation/devicetree/bindings/input/input.yaml | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/input/input.yaml b/Documentation/devicetree/bindings/input/input.yaml
-> > index ab407f266bef..caba93209ae7 100644
-> > --- a/Documentation/devicetree/bindings/input/input.yaml
-> > +++ b/Documentation/devicetree/bindings/input/input.yaml
-> > @@ -34,4 +34,11 @@ properties:
-> >        specify this property.
-> >      $ref: /schemas/types.yaml#/definitions/uint32
-> >  
-> > +  reset-time-sec:
-> > +    description:
-> > +      Duration in seconds which the key should be kept pressed for device to
-> > +      reset automatically. Device with key pressed reset feature can specify
-> > +      this property.
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > +
-> 
-> Why can't you just use "power-off-time-sec"?
+Hope you are keeping safe?
+ It’s my pleasure to present to you a work from home job offer from our reputable company. 
+Edata consulting SL.Edata consulting integration Services is a service oriented company based in Canarias Spain, which specializes in sourcing, procurement and disbursement of medical PPE (Personal protective equipment) like face mask, face shield, hand gel, hand gloves and covid test kits to U.S.A.
+ We are glad to offer you a job position to work from home with our company. We need someone to work for the company as a Payment Representative in the USA and North America. This is in view of us not having an office presently in the USA due to the pandemic (Corona virus) to maintain social distancing and help to stop the spread of the virus. You don't need to have an Office and this certainly won't disturb any form of work you are doing at the moment. Due to the Increasing number of clients that we have in the U.S.A .we are having difficulty in reaching all of them, therefore we decided to employ representatives to help reach out to our clients. As our representative, you shall serve as a link between us and our clients and you will also be responsible for the collection of payments on our behalf.
 
-I think the common behavior of keeping the power button pressed is to
-trigger a power off rather than a reset. Hence, per Rob's suggestion in
-the previous revision of this patch series, I added the reset variant:
-https://lore.kernel.org/lkml/20200908214724.GA959481@bogus/
+We have decided to open this new job position to solve the problem of the covid-19 restriction of movement.
+Your tasks/duty are:
+1. Receive payment from Customers.
+2. Cash Payments at your Bank.
 
-Thanks,
-Cristi
+*The job is tax free
+No form of investments from you.
+* This job takes only 1-4 hours any day payment comes in.
+ Our payments will be issued out in your name and you will have them cashed at your bank or other Cashing Services.   Deduct your 10% commission on every transaction and forward the balance to the company. If you are interested, please send to us the information listed below:
+ Your full name:--------------------
+2. Your full home/ Mailing address--------------------
+3. Your age--------------------------
+4. Present occupation-------------------
+5. Contact telephone number-------------------
+We are looking only for persons who satisfy our requirements and will be in earnest assistant. If you are ready to work with us please complete the required information and send it back to us via our email: portalresourcesx@gmail.com As soon as we receive it a member of staff will contact you so that our customers will start sending payment to you.
 
-> Thanks,
-> Mani
-> 
-> >  additionalProperties: true
-> > -- 
-> > 2.29.2
-> > 
+
+
+Kind Regards
+Monica Perez (Human Resources Manager)
+ 
+EDATACONSULTING SL
+Company Registration No: B76185412
+Phone No: +34632445661
+Address: Calle Juan Rejón, 67, 35008 Las Palmas de Gran Canaria, Las Palmas, España
