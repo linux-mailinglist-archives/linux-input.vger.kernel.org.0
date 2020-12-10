@@ -2,112 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 296DB2D6867
-	for <lists+linux-input@lfdr.de>; Thu, 10 Dec 2020 21:16:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 52ED42D6C39
+	for <lists+linux-input@lfdr.de>; Fri, 11 Dec 2020 01:28:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390149AbgLJUOZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Dec 2020 15:14:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58022 "EHLO
+        id S1730642AbgLJX7w (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Dec 2020 18:59:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393661AbgLJUOO (ORCPT
+        with ESMTP id S1729231AbgLJX7V (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Dec 2020 15:14:14 -0500
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33E12C0613D3;
-        Thu, 10 Dec 2020 12:13:33 -0800 (PST)
-Received: by mail-lf1-x143.google.com with SMTP id a9so10080593lfh.2;
-        Thu, 10 Dec 2020 12:13:33 -0800 (PST)
+        Thu, 10 Dec 2020 18:59:21 -0500
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C73DC0613CF;
+        Thu, 10 Dec 2020 15:58:41 -0800 (PST)
+Received: by mail-pg1-x544.google.com with SMTP id f17so5846395pge.6;
+        Thu, 10 Dec 2020 15:58:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=cubcqPyiVtmFFdXlSvbS5gnpVAJDkak3mmW80ANq1nA=;
-        b=m++KLY50+Zb3kDjd7LHlPu9npriqD7Zo9p6ZkdeEmyVpVlGSA5wE8yjd6BRoBeJ8SO
-         eKVX43rqnD15JpNTjqC6SyGW8n+E7aHzYxZop1BSBvWo72F+m09Flem2OoVAsBsMoBDa
-         dCwYrX61EenFMZVdkiYVy/qIg+r19bnLWKmfC+Z9QZTcH6HmjrVHP3GNwDDaN2mh/vDO
-         wk8kPqpUt54nxfbUrBBKNLjIKVV9dsxmZmrz13gCy0Ln2iQRroX908cx68LsAebGCUmS
-         Q6JrocxCza5ZHzCutFVY7TDIuP9XYBVAJuq1X5uz5wP+7ci6TI5uh4hOu9S85Wqo5jbi
-         iLiA==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=L3d831+dnOWhI5RtMGl5c7cNy6XBFirQmQWs7vyIZBM=;
+        b=se07J9oSLReNy7EaHE5a4FPHwySjHq8wdrR5ABcshzUnyVlIE/qcQ8PhBDrvZXAZW8
+         m7fo7M4hp8fSnd9nKrOqwG8s2y0BlQgVukLyJ3SYoPaPKBWYyDTYjy6GeDyIeaJnb21I
+         oMxw/KUGuZm/DN3wPG+blkmbHXhaFL/0AAnEF/4/VUiO3Ger+YRcWFg9hfEA6d1Kq+xI
+         Cf1UxqNDf2G76wWzqLzLMH4/+IiyoQp1OyMBo/eIdxAuwjAJ5rGyYbFZPfGxgyosii6R
+         MUt9DJ6+4ze5ApR+MwPM5tdvpkF9Q9MQYw5Om9qxue37ZB5qMR5zG5dVJLuOd6kvzNWM
+         H3RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=cubcqPyiVtmFFdXlSvbS5gnpVAJDkak3mmW80ANq1nA=;
-        b=tuj06iK/TPxFOdkFlLdZMrMGoYl/0Yfd8mdLS+i3NrHc+MJmpO7tugn0Mf2suJoNFD
-         Y36jqy/vW+iJx/Ea9v8nj32JFjzptLSGvn5XzeMVL2Jrj7ANwc22f21OKh7iAO2tz/oM
-         i//KjOLMEI2C8cajdStHqltvfXcI2FrYgE2LcJcdIJXVJZsoFN6XPJYYVV1G5U1keYwi
-         OvRwT0/xoJ0IJ287on/Z+jtzdfLasx2lEN+dol1JdUAwE0Fvw/J89PmQj99UNnhsmfph
-         9PpSpbaImbKPboLka8vZsdlmInO1rhXuB2Ofyo6be3a0cujTxTw6GAnEWZDuq6Czgul5
-         fVww==
-X-Gm-Message-State: AOAM530v0vEHXH+0RiCeVe2VM2ResNuC/sEt0EU+j1rel3r3XIhszGQv
-        w3mVxrb+iNy04JzZtAEochQLUEq2gVU=
-X-Google-Smtp-Source: ABdhPJzpWtIzRb85t6xHbQMz47MlDCrpDWCIaWe+v+ZY5Gp0X0rHdwH14Rcc8vyrFGrzHidhjqyViA==
-X-Received: by 2002:a19:8a46:: with SMTP id m67mr3270217lfd.515.1607631211714;
-        Thu, 10 Dec 2020 12:13:31 -0800 (PST)
-Received: from [192.168.2.145] (109-252-193-205.dynamic.spd-mgts.ru. [109.252.193.205])
-        by smtp.googlemail.com with ESMTPSA id w2sm635587lfk.51.2020.12.10.12.13.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Dec 2020 12:13:30 -0800 (PST)
-Subject: Re: [PATCH RESEND v8 0/4] input: elants: Support Asus TF300T and
- Nexus 7 touchscreens
-To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Johnny Chuang <johnny.chuang.emc@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Peter Hutterer <peter.hutterer@who-t.net>
-References: <cover.1604942771.git.mirq-linux@rere.qmqm.pl>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <76f75e8f-1895-6f51-eb1d-7d212a7e917f@gmail.com>
-Date:   Thu, 10 Dec 2020 23:13:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=L3d831+dnOWhI5RtMGl5c7cNy6XBFirQmQWs7vyIZBM=;
+        b=WwKINOIaQcp9Gg7aampXdv8oVOVwL94fBoiVG2ydfNlv9qdXCO6QivwNneohlLvaSH
+         u/mBkwkgJeFD9CjEAgRV9Vcd84rUwvln4/YoOpWHCXpaJ0oOVSCL39c0Y04H+EuEukpb
+         FQDyLNETRbY+H1ztFoWPjQNJD13nSToZCW6NHL5nnWxkf2MLw8BPVDSJiJk/CSMPg23N
+         cSTd+J8V8bd3vnViXPhpTtTQ16jhsgykbxUryGa4AqN/3X9YW2iJNj0ADE7PL6zgvT1T
+         mHCRdEcRUJS9ye+7nOIdB3tw15f7/aTgSoPs3SpH7j8jW8hJsCpJuL0FgCt1ZMIQzaUI
+         EaCg==
+X-Gm-Message-State: AOAM531Frp3m2LxV8SLCyo5cGqwRhmA0OfYxPm0pcM1KIlJFj/ojz40U
+        0IP7HrQ7fte9nnTAPTqMgg+3RgitvY4=
+X-Google-Smtp-Source: ABdhPJyQNK+UPTtm0o80UpfbpvYj0BmXjKUBk0wl/jVzbCoV7hZ0rirHnQQRfonyhecfc+Y/DoNFOg==
+X-Received: by 2002:aa7:963c:0:b029:19d:dcd3:b2ae with SMTP id r28-20020aa7963c0000b029019ddcd3b2aemr8971968pfg.76.1607644720955;
+        Thu, 10 Dec 2020 15:58:40 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id h11sm8183371pjg.46.2020.12.10.15.58.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Dec 2020 15:58:40 -0800 (PST)
+Date:   Thu, 10 Dec 2020 15:58:37 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: cm109 - do not stomp on control URB
+Message-ID: <X9K2LXQ8iLICkpu3@google.com>
 MIME-Version: 1.0
-In-Reply-To: <cover.1604942771.git.mirq-linux@rere.qmqm.pl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-09.11.2020 20:28, Michał Mirosław пишет:
-> This series cleans up the driver a bit and implements changes needed to
-> support EKTF3624-based touchscreen used in Asus TF300T, Google Nexus 7
-> and similar Tegra3-based tablets.
-> 
-> ---
-> v2: extended with Dmitry's patches (replaced v1 patches 3 and 4)
-> v3: rebased for v5.7-rc1
-> v4: rebased onto v5.7-rc2+ (current Linus' master)
->     update "remove unused axes" and "refactor
->       elants_i2c_execute_command()" patches after review
->     add David's patch converting DT binding to YAML
-> v5: rebased onto dtor/input/for-linus
-> v6: rebased onto newer dtor/input/for-linus
->     remove yet unused constants from patch 1
->     added a new drive-by cleanup (last patch)
-> v7: rebased onto current dtor/input/for-next
-> v8: rebased onto current dtor/input/for-linus
-> ---
-> 
-> Dmitry Osipenko (1):
->   input: elants: support 0x66 reply opcode for reporting touches
-> 
-> Michał Mirosław (3):
->   input: elants: document some registers and values
->   input: elants: support old touch report format
->   input: elants: read touchscreen size for EKTF3624
-> 
->  drivers/input/touchscreen/elants_i2c.c | 149 +++++++++++++++++++++----
->  1 file changed, 127 insertions(+), 22 deletions(-)
-> 
+We need to make sure we are not stomping on the control URB that was
+issued when opening the device when attempting to toggle buzzer.
+To do that we need to mark it as pending in cm109_open().
 
-This patchset missed another kernel release cycle and touchscreen
-hardware remains unusable on Nexus 7 [1] and other Asus devices.
+Reported-and-tested-by: syzbot+150f793ac5bc18eee150@syzkaller.appspotmail.com
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/misc/cm109.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-[1]
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm/boot/dts/tegra30-asus-nexus7-grouper-common.dtsi?h=v5.10-rc7#n845
+diff --git a/drivers/input/misc/cm109.c b/drivers/input/misc/cm109.c
+index e413801f0491..f515fae465c3 100644
+--- a/drivers/input/misc/cm109.c
++++ b/drivers/input/misc/cm109.c
+@@ -568,12 +568,15 @@ static int cm109_input_open(struct input_dev *idev)
+ 	dev->ctl_data->byte[HID_OR2] = dev->keybit;
+ 	dev->ctl_data->byte[HID_OR3] = 0x00;
+ 
++	dev->ctl_urb_pending = 1;
+ 	error = usb_submit_urb(dev->urb_ctl, GFP_KERNEL);
+-	if (error)
++	if (error) {
++		dev->ctl_urb_pending = 0;
+ 		dev_err(&dev->intf->dev, "%s: usb_submit_urb (urb_ctl) failed %d\n",
+ 			__func__, error);
+-	else
++	} else {
+ 		dev->open = 1;
++	}
+ 
+ 	mutex_unlock(&dev->pm_mutex);
+ 
+-- 
+2.29.2.576.ga3fc446d84-goog
 
-Dmitry Torokhov, could you please take a look at the v8 and let us know
-whether it's good already or something needs to be improved?
+
+-- 
+Dmitry
