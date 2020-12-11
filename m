@@ -2,92 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F11D12D6E50
-	for <lists+linux-input@lfdr.de>; Fri, 11 Dec 2020 04:07:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE1B02D6E69
+	for <lists+linux-input@lfdr.de>; Fri, 11 Dec 2020 04:18:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388013AbgLKDGO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Dec 2020 22:06:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52590 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387768AbgLKDFm (ORCPT
+        id S2395042AbgLKDR0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Dec 2020 22:17:26 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:37127 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2395038AbgLKDRZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Dec 2020 22:05:42 -0500
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D21E4C0613CF;
-        Thu, 10 Dec 2020 19:05:02 -0800 (PST)
-Received: by mail-pj1-x1044.google.com with SMTP id v1so1482237pjr.2;
-        Thu, 10 Dec 2020 19:05:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=NiJXm49bb0+mRAzm+9WCX1DuxepspdwYot+zYnU24TY=;
-        b=jJPI7KpYIdeRq+Ht1nNATy9GMpr7rNTGQv9dtKarJg0Hsqynb7sHB6oDtdwESBhzdm
-         Ekx2kfMZlSigOc8fdmxpoJBV8eIsSzv1ImGdXwXH+y3BDs8+p7Q5aDNfCbe0Re0ukC6o
-         +JpXcg38mTFWdRmdZX6upzmWq35JgOoRimkqLiKmNUM+U7JqYrDh2FJvE4RHtcdsNDQJ
-         PqYFqcKkq1JlhOSHWB5vlcAFoLr/Uq9b4Kcp7NqWgw+Kuc8kMIaDhGCEP0Tu9EfSjxAx
-         7bODazyuaybB/0MTArv3zTOFuB7bEero8vvioAeixXzBNuZytqZrab2w+Vrw/DKd1Ahb
-         /wXA==
+        Thu, 10 Dec 2020 22:17:25 -0500
+Received: by mail-ot1-f67.google.com with SMTP id o11so7044998ote.4;
+        Thu, 10 Dec 2020 19:17:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=NiJXm49bb0+mRAzm+9WCX1DuxepspdwYot+zYnU24TY=;
-        b=fbrJHG1dgTIkzSQOs++wsLthlYyLktXhjsyahH8sMT+K6EKf/+lz0rFsP86LYduapR
-         ESnyvcqQHKrDoTkUPsXnJBue6w5dbLxF0MreF1rBjfZcm9KO9D7fP9PwZFqAFLxoobOr
-         CoICCED3pg01cCZq2GpdTt1mwbJcS+pO0YkmhT8tT1c1W8ZgTALiDTpSvPVhlh3O+UjF
-         9CKu6t6qMR8/c4z06A+qZ+k9ror937WVdcVBup1LnzQqm/cGxTl4PKJdr1UCACx09ZO1
-         FP2cDEIDAjOB61Q2IXzBOVTeqU+BeT6wusPIId+VGCGJ7ccZNYpNIxvTD7Mc+9E3oXbY
-         QChQ==
-X-Gm-Message-State: AOAM531I7527nI68gCb+zoJZmR3WtJqYtxA8vKKY+tfNbf3RNkBbFH7l
-        kxI17rRH5yMJip12YQSdOZY=
-X-Google-Smtp-Source: ABdhPJxyTt2+80BKgtYiWsQjqy+tE+647/gV6Wi1HcqlFJsoikOjpRwGoBRiCdr+YoEevZ1Rt+xXVQ==
-X-Received: by 2002:a17:902:8e8a:b029:db:de2a:2e58 with SMTP id bg10-20020a1709028e8ab02900dbde2a2e58mr1508616plb.39.1607655902193;
-        Thu, 10 Dec 2020 19:05:02 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id l23sm7745673pff.194.2020.12.10.19.05.00
+        bh=UAQ/+yxq3lvFh3mlevVQAOgZP4fPvuW24IZd1p2z3wA=;
+        b=NClEFe11d0rBvcJNrdC4c2fiEtfprTUsfDWnTiEfj1U3V1dkTdSSrQiZpbnVeKsyV8
+         YNnP9ZyM8686+J3s8kY+DbXC/VZJBjW7Bku/wEFXcqFlBOhxTqQpLMNceZrjzWsco5XQ
+         oS/L8zEMMERkgdZQ7nte4WLyS6am2XMtMez0MiAcDaXXNovBwuuKTq4cu4TLL4MUhbHr
+         InvugUSxLamdp/pBwFvYIgTK2IhINlBWGonLQvPDopr8aKyvOdtI8X+xaL035s/o2Qhf
+         GFHRidRrCIH0IDrwHKys4iQjJjLwmNQ85HCBx++iBhQTK3TJUCNDbhy26zXTQN4uhiWz
+         DrHA==
+X-Gm-Message-State: AOAM533CbsaROBXlXMB+4rf9Xt+iO7QOtJ727vowD09i9jFTqWcXAeo4
+        KHfODH//y/qI5stFyLp9YQ==
+X-Google-Smtp-Source: ABdhPJzEyaHLlvA4GwXz6prj5x7rXBSxOvLIEtJLnus5sFylsZnfvKpaDBWHA9e5tqLVo02eOu3czQ==
+X-Received: by 2002:a9d:1f0:: with SMTP id e103mr8382432ote.74.1607656604698;
+        Thu, 10 Dec 2020 19:16:44 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id l134sm830943oig.25.2020.12.10.19.16.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Dec 2020 19:05:00 -0800 (PST)
-Date:   Thu, 10 Dec 2020 19:04:58 -0800
-From:   'Dmitry Torokhov' <dmitry.torokhov@gmail.com>
-To:     jingle <jingle.wu@emc.com.tw>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        phoenix@emc.com.tw, josh.chen@emc.com.tw, dave.wang@emc.com.tw
-Subject: Re: [PATCH 1/2] Input: elan_i2c - Add new trackpoint report type
- 0x5F.
-Message-ID: <X9Lh2n42om+SNEFx@google.com>
-References: <20201207090751.9076-1-jingle.wu@emc.com.tw>
- <X9G8xUk/QvcxsNWi@google.com>
- <004b01d6cf66$b1a8c590$14fa50b0$@emc.com.tw>
+        Thu, 10 Dec 2020 19:16:43 -0800 (PST)
+Received: (nullmailer pid 3561568 invoked by uid 1000);
+        Fri, 11 Dec 2020 03:16:42 -0000
+Date:   Thu, 10 Dec 2020 21:16:42 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
+Cc:     Lee Jones <lee.jones@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+        linux-actions@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: Re: [PATCH v3 1/7] dt-bindings: input: Add reset-time-sec common
+ property
+Message-ID: <20201211031642.GA3556770@robh.at.kernel.org>
+References: <cover.1607216141.git.cristian.ciocaltea@gmail.com>
+ <c08349db08db67e71cf428fe7fd53624aaa0acf8.1607216141.git.cristian.ciocaltea@gmail.com>
+ <20201210033708.GA1606132@robh.at.kernel.org>
+ <20201210091350.GA322060@ubuntu2004>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <004b01d6cf66$b1a8c590$14fa50b0$@emc.com.tw>
+In-Reply-To: <20201210091350.GA322060@ubuntu2004>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jingle,
-
-On Fri, Dec 11, 2020 at 10:38:22AM +0800, jingle wrote:
-> HI Dmitry:
-
-Please do not top post on the kernel mailing lists.
-
+On Thu, Dec 10, 2020 at 11:13:50AM +0200, Cristian Ciocaltea wrote:
+> Hi Rob,
 > 
-> I would prefer if we validated report length versus the packet type before
-> accepting it.
+> On Wed, Dec 09, 2020 at 09:37:08PM -0600, Rob Herring wrote:
+> > On Sun, Dec 06, 2020 at 03:27:01AM +0200, Cristian Ciocaltea wrote:
+> > > Add a new common property 'reset-time-sec' to be used in conjunction
+> > > with the devices supporting the key pressed reset feature.
+> > > 
+> > > Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
+> > > ---
+> > > Changes in v3:
+> > >  - This patch was not present in v2
+> > > 
+> > >  Documentation/devicetree/bindings/input/input.yaml | 7 +++++++
+> > >  1 file changed, 7 insertions(+)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/input/input.yaml b/Documentation/devicetree/bindings/input/input.yaml
+> > > index ab407f266bef..caba93209ae7 100644
+> > > --- a/Documentation/devicetree/bindings/input/input.yaml
+> > > +++ b/Documentation/devicetree/bindings/input/input.yaml
+> > > @@ -34,4 +34,11 @@ properties:
+> > >        specify this property.
+> > >      $ref: /schemas/types.yaml#/definitions/uint32
+> > >  
+> > > +  reset-time-sec:
+> > 
+> > Humm, I'm pretty sure we already have something for this. Or maybe just 
+> > power off.
 > 
-> -> If the tracking point report is 0x5F, the report length is 7, but the
-> touchpad report length is 32.
-> -> So, report length will be different with this module.
+> We only have 'power-off-time-sec', so I added 'reset-time-sec' according
+> to your review in v2:
+> https://lore.kernel.org/lkml/20200908214724.GA959481@bogus/
 
-Right, but we could check the report type when we receive the data and
-refuse it if length does not match what is expected for the report type
-received. This can happen before we pass the data on to the
-elan_i2c_core.
+I'm doing good if I remember reviews from a week ago. From 3 months ago, 
+no chance without some reminder.
 
-Thanks.
+Reviewed-by: Rob Herring <robh@kernel.org>
 
--- 
-Dmitry
+Rob
