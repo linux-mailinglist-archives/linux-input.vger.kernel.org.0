@@ -2,107 +2,175 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F05B2D706B
-	for <lists+linux-input@lfdr.de>; Fri, 11 Dec 2020 07:58:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 799DB2D709D
+	for <lists+linux-input@lfdr.de>; Fri, 11 Dec 2020 08:13:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391381AbgLKGym (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Dec 2020 01:54:42 -0500
-Received: from rere.qmqm.pl ([91.227.64.183]:29226 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2436553AbgLKGyf (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Dec 2020 01:54:35 -0500
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 4CshMk03d5z5m;
-        Fri, 11 Dec 2020 07:53:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1607669634; bh=nLwavT2NA5+jIA2IuW6zD/l5oswZ/ngNahOWEbWGrOQ=;
-        h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
-        b=X/yNYtguzcKvSFixjEv3sNVBHkr+D6rP4YN8vnLYYSH+UZwJuAlzT0Y1lNXELmyCT
-         BRaCz6rRphFCseZveDgR8lnyBfSRJ0aT9kpXgyqAXPalR3ELThThs4Fza/dwaDMULq
-         m4IhRAu3ymalNkpvCKNVrbB0NS+bMJfGDpwZv5MshP/2ouEvEweKHEfUrmUbX7xtow
-         9yQ5jbGlq3ukFDe3fsT+8YvgXIPQmySdAFYOvm/wXh7f7zCPs/Ivf4TmUAMpjFjfeN
-         TYpAE2L4DEef31rr8kg9jkIIXS/2wrBHeav780kkdqbT1uS5k9hU0/NKPE0y6hFTVT
-         SmZpRvuyxN8Sg==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.4 at mail
-Date:   Fri, 11 Dec 2020 07:53:57 +0100
-Message-Id: <b0120b1dc884591364834da7b8c16e576a1d7226.1607669375.git.mirq-linux@rere.qmqm.pl>
-In-Reply-To: <cover.1607669375.git.mirq-linux@rere.qmqm.pl>
-References: <cover.1607669375.git.mirq-linux@rere.qmqm.pl>
-From:   =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Subject: [PATCH RESEND v8 4/4] input: elants: support 0x66 reply opcode for
- reporting touches
+        id S1731132AbgLKHKm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Dec 2020 02:10:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33456 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730799AbgLKHKY (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 11 Dec 2020 02:10:24 -0500
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 548B7C0613CF;
+        Thu, 10 Dec 2020 23:09:44 -0800 (PST)
+Received: by mail-pg1-x541.google.com with SMTP id w16so6508660pga.9;
+        Thu, 10 Dec 2020 23:09:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=agSZMQdvaCGV7hdnrq9aTuJTFu3GU2xvnWahrOKp2Jc=;
+        b=iaCwlxTDrUkLZaR2IE70DXZlzMvfp14eegDu7lsHhJVqA94v1rPO5Tw4Re0cXWzUs5
+         tTdmMAeE833iUuG2ImjX+nRar2krQmwfag0rFEsw5K4ZZDSsw9fPPIUx1J2XQU6rwbnH
+         Kz55ev9L7xh0UTnBPP41ch7Fo9bpfKhtijuuRjlbCoQIPm6fHPuAydEfkg/7WaDcnUw2
+         KrX/PojTaAYfFOJojhEJH0JOWh5+06NYveWE7iDEGwTmJRic5BIrac7SqUas4AAAIZYJ
+         M0gohUFiRGvu59MmoW09LRLN4qrmmTOMEwyEoyc9qQHocn+A30QS9pv/UEmoXPeSjRD6
+         JYkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=agSZMQdvaCGV7hdnrq9aTuJTFu3GU2xvnWahrOKp2Jc=;
+        b=dqWcGVMx6IB8U9g6alO7K1sU0PMOKrfe81K+1noR5utrQcHIYWRGLVmEDYq704aFgV
+         OxIAvtHeAuYlI2OS/mEk/U47vrzcJVVmw7lBK978XBwOe6bqplXKbaNuCA2FEEqCBElA
+         ATFNTQHNyPJ7cupDjc48mqAVd/pvU0rZUX8QnyaLzz3AVG45GoJbC0WayihkDEI7oaSX
+         ik3LG6RpifogWt1Nngg03d2xFNU2FtXpWWVlV9Da1Kx3dogpjH1c1nU6207u9l3pL+fQ
+         zm3TsSck8qBkTCHlY9R9Hldy0cJ/NBphlABeGl0NkbMYq0xs9oW9auTgz2For8tFUBO9
+         vAgQ==
+X-Gm-Message-State: AOAM533KvSO0UuBaJXzT/q33ms2fGMpBm16Ovc4Djj6vefd4jgHC/8PQ
+        XgEZvGH1g+Kp4/Kov6OgHss=
+X-Google-Smtp-Source: ABdhPJxv8+WMAsqzX+/A7wLGk5FIrmzTZ6C65bUsZXxoEOBEVQ55NlCjhr48qYKwqGs7+RH4FmPorQ==
+X-Received: by 2002:a63:4d5c:: with SMTP id n28mr10516947pgl.88.1607670583820;
+        Thu, 10 Dec 2020 23:09:43 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id j3sm8846830pjs.50.2020.12.10.23.09.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Dec 2020 23:09:43 -0800 (PST)
+Date:   Thu, 10 Dec 2020 23:09:38 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-tegra@vger.kernel.org, patches@opensource.cirrus.com,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <lenb@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Barry Song <baohua@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Nick Dyer <nick@shmanahar.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Ferruh Yigit <fery@cypress.com>,
+        Sangwon Jee <jeesw@melfas.com>,
+        Peter Hutterer <peter.hutterer@redhat.com>,
+        Henrique de Moraes Holschuh <ibm-acpi@hmh.eng.br>,
+        kernel@collabora.com,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: [PATCH] Input: cyapa - do not call input_device_enabled from power
+ mode handler
+Message-ID: <X9MbMja+TEfbKkmJ@google.com>
+References: <2336e15d-ff4b-bbb6-c701-dbf3aa110fcd@redhat.com>
+ <20200608112211.12125-1-andrzej.p@collabora.com>
+ <20200608112211.12125-3-andrzej.p@collabora.com>
+ <CGME20201207133237eucas1p26f8484944760a14e51dc7353ed33cd28@eucas1p2.samsung.com>
+ <27ce1176-6318-45aa-4e22-3dec9f3df15d@samsung.com>
+ <9c784a23-eade-eacd-3e67-d344a5758b83@collabora.com>
+ <ad093ba3-7b17-18f3-6bb5-d8133c3da89a@samsung.com>
+ <X9BwtHs9XriwR8gL@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Johnny Chuang <johnny.chuang.emc@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <X9BwtHs9XriwR8gL@google.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Dmitry Osipenko <digetx@gmail.com>
+Input device's user counter is supposed to be accessed only while holding
+input->mutex.  Commit d69f0a43c677 ("Input: use input_device_enabled()")
+recently switched cyapa to using the dedicated API and it uncovered the
+fact that cyapa driver violated this constraint.
 
-eKTF3624 touchscreen firmware uses two variants of the reply opcodes for
-reporting touch events: one is 0x63 (used by older firmware) and other is
-0x66 (used by newer firmware). The 0x66 variant is equal to 0x63 of
-eKTH3500, while 0x63 needs small adjustment of the touch pressure value.
+This patch removes checks whether the input device is open when clearing
+device queues when changing device's power mode as there is no harm in
+sending input events through closed input device - the events will simply
+be dropped by the input core.
 
-Nexus 7 tablet device has eKTF3624 touchscreen and it uses 0x66 opcode for
-reporting touch events, let's support it now. Other devices, eg. ASUS TF300T,
-use 0x63.
+Note that there are more places in cyapa driver that call
+input_device_enabled() without holding input->mutex, those are left
+unfixed for now.
 
-Note: CMD_HEADER_REK is used for replying to calibration requests, it has
-the same 0x66 opcode number which eKTF3624 uses for reporting touches.
-The calibration replies are handled separately from the the rest of the
-commands in the driver by entering into ELAN_WAIT_RECALIBRATION state
-and thus this change shouldn't change the old behavior.
-
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-Tested-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
-Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
- drivers/input/touchscreen/elants_i2c.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
-index c24d8cdc4251..1cbda6f20d07 100644
---- a/drivers/input/touchscreen/elants_i2c.c
-+++ b/drivers/input/touchscreen/elants_i2c.c
-@@ -61,6 +61,15 @@
- #define QUEUE_HEADER_NORMAL	0X63
- #define QUEUE_HEADER_WAIT	0x64
- 
-+/*
-+ * Depending on firmware version, eKTF3624 touchscreens may utilize one of
-+ * these opcodes for the touch events: 0x63 and 0x66. The 0x63 is used by
-+ * older firmware version and differs from 0x66 such that touch pressure
-+ * value needs to be adjusted. The 0x66 opcode of newer firmware is equal
-+ * to 0x63 of eKTH3500.
-+ */
-+#define QUEUE_HEADER_NORMAL2	0x66
-+
- /* Command header definition */
- #define CMD_HEADER_WRITE	0x54
- #define CMD_HEADER_READ		0x53
-@@ -1052,7 +1061,6 @@ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
- 		switch (ts->buf[FW_HDR_TYPE]) {
- 		case CMD_HEADER_HELLO:
- 		case CMD_HEADER_RESP:
--		case CMD_HEADER_REK:
- 			break;
- 
- 		case QUEUE_HEADER_WAIT:
-@@ -1072,6 +1080,7 @@ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
- 			break;
- 
- 		case QUEUE_HEADER_NORMAL:
-+		case QUEUE_HEADER_NORMAL2:
- 			report_count = ts->buf[FW_HDR_COUNT];
- 			if (report_count == 0 || report_count > 3) {
- 				dev_err(&client->dev,
--- 
-2.20.1
+Marek, could you please try this one?
 
+ drivers/input/mouse/cyapa_gen3.c |    5 +----
+ drivers/input/mouse/cyapa_gen5.c |    3 +--
+ 2 files changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/input/mouse/cyapa_gen3.c b/drivers/input/mouse/cyapa_gen3.c
+index a97f4acb6452..4a9022faf945 100644
+--- a/drivers/input/mouse/cyapa_gen3.c
++++ b/drivers/input/mouse/cyapa_gen3.c
+@@ -907,7 +907,6 @@ static u16 cyapa_get_wait_time_for_pwr_cmd(u8 pwr_mode)
+ static int cyapa_gen3_set_power_mode(struct cyapa *cyapa, u8 power_mode,
+ 		u16 always_unused, enum cyapa_pm_stage pm_stage)
+ {
+-	struct input_dev *input = cyapa->input;
+ 	u8 power;
+ 	int tries;
+ 	int sleep_time;
+@@ -953,7 +952,6 @@ static int cyapa_gen3_set_power_mode(struct cyapa *cyapa, u8 power_mode,
+ 	 * depending on the command's content.
+ 	 */
+ 	if (cyapa->operational &&
+-	    input && input_device_enabled(input) &&
+ 	    (pm_stage == CYAPA_PM_RUNTIME_SUSPEND ||
+ 	     pm_stage == CYAPA_PM_RUNTIME_RESUME)) {
+ 		/* Try to polling in 120Hz, read may fail, just ignore it. */
+@@ -1223,8 +1221,7 @@ static int cyapa_gen3_try_poll_handler(struct cyapa *cyapa)
+ 	    (data.finger_btn & OP_DATA_VALID) != OP_DATA_VALID)
+ 		return -EINVAL;
+ 
+-	return cyapa_gen3_event_process(cyapa, &data);
+-
++	return cyapa->input ? cyapa_gen3_event_process(cyapa, &data) : 0;
+ }
+ 
+ static int cyapa_gen3_initialize(struct cyapa *cyapa) { return 0; }
+diff --git a/drivers/input/mouse/cyapa_gen5.c b/drivers/input/mouse/cyapa_gen5.c
+index abf42f77b4c5..afc5aa4dcf47 100644
+--- a/drivers/input/mouse/cyapa_gen5.c
++++ b/drivers/input/mouse/cyapa_gen5.c
+@@ -518,8 +518,7 @@ int cyapa_empty_pip_output_data(struct cyapa *cyapa,
+ 			*len = length;
+ 			/* Response found, success. */
+ 			return 0;
+-		} else if (cyapa->operational &&
+-			   input && input_device_enabled(input) &&
++		} else if (cyapa->operational && input &&
+ 			   (pm_stage == CYAPA_PM_RUNTIME_RESUME ||
+ 			    pm_stage == CYAPA_PM_RUNTIME_SUSPEND)) {
+ 			/* Parse the data and report it if it's valid. */
