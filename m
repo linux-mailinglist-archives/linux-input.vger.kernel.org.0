@@ -2,104 +2,148 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B61462D7B23
-	for <lists+linux-input@lfdr.de>; Fri, 11 Dec 2020 17:42:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 952702D7B6B
+	for <lists+linux-input@lfdr.de>; Fri, 11 Dec 2020 17:53:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388456AbgLKQkl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Dec 2020 11:40:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36630 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388177AbgLKQkQ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Dec 2020 11:40:16 -0500
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D65AC0613CF;
-        Fri, 11 Dec 2020 08:39:36 -0800 (PST)
-Received: by mail-lf1-x143.google.com with SMTP id a9so14191381lfh.2;
-        Fri, 11 Dec 2020 08:39:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=kURQvp2iR25Ml68svxNRaJXyZL2nIIJj6++uLzdZFw4=;
-        b=OHTN15aZO/HK+cZ1ZKO+3ijcqOXXNGyGgV9whlB1ch1qnjX2UOEXOfxxmxnTtjA5YE
-         vzS8i3DMrCWb8UqEpTQPXZcNLganJlrIlkPLSJM/YcruRJjFkiJFGk8kxEY2xm/gO6hZ
-         sVD1FL6NcZir725vDVYo5uWwumKGXRfWfyTzfE8VPc5G26Zlf2+Lxel6AAVMH8i/IE53
-         MIcNVL89L4Zdq5SOQTY6r5cCHNLVoX9y0tWY7wu8B2PcDV6qk/zuwS/j/0eH3UBfWtQ0
-         LMFun0z11cBEkh4lLXIcsTwkO0OqPuk3Fkd5rjVmAevY1VdnXEp597wQVsYev+bMq3fE
-         Cvrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=kURQvp2iR25Ml68svxNRaJXyZL2nIIJj6++uLzdZFw4=;
-        b=a5O+2Ylp52IdC1jqJ6wN3r5dYfFQcC55vZN0ZHMk97OZc2OXj4WcGkLsJPTK/ItAgL
-         TbCQiUzLe9Mew+NYCD1SvLmqDg+cDCxE7K9JClp/3+gNrGfa/Ncj1qSidVdz4uOJfAzZ
-         mcxQQYEoFUjRdolrYZTNniIRXm8qQPL8pS6m5Kr8GvvOfYE2e4nSN6fRytT22hWRTLL1
-         9zQNOEzUGDelh3svioXJoLxKndGJ5JUbWFdApbSRf8r9tHbP6rI4KkE/D7Kdh6eNK9nw
-         9N2m3xYnEVCbN4L7ic6yJEYfcq+gRx0j161t+GwPbZ94Z7XZ5bHTOz/4/V20Joi9vb5Z
-         rw0Q==
-X-Gm-Message-State: AOAM53102BxdjDSGQ2Me79/Hc7z8panC8SLmcU32d3cSzAWdjezRG9f4
-        eMDw+xWZQKs39EZ8GPEZvYuoD9vGgdI=
-X-Google-Smtp-Source: ABdhPJy8fHoK8/T/0Xdf4x4m5KVAAy4SVzTT+IkyME39dnJOXLdY3G2uVph6MUVObpexnujUYhBLvQ==
-X-Received: by 2002:ac2:5cba:: with SMTP id e26mr4687363lfq.4.1607704774462;
-        Fri, 11 Dec 2020 08:39:34 -0800 (PST)
-Received: from [192.168.2.145] (109-252-193-205.dynamic.spd-mgts.ru. [109.252.193.205])
-        by smtp.googlemail.com with ESMTPSA id k11sm703143lji.95.2020.12.11.08.39.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Dec 2020 08:39:33 -0800 (PST)
-Subject: Re: [PATCH RESEND v8 2/4] input: elants: support old touch report
- format
-To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Johnny Chuang <johnny.chuang.emc@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1607669375.git.mirq-linux@rere.qmqm.pl>
- <a5c0b6b300fadf9425781285351b46c6dbb4f618.1607669375.git.mirq-linux@rere.qmqm.pl>
- <X9Mf5G6yvIEAoh2C@google.com> <20201211160917.GA23095@qmqm.qmqm.pl>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <3d872d19-a0b2-ed83-4b08-5c9a4755c2fe@gmail.com>
-Date:   Fri, 11 Dec 2020 19:39:33 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+        id S2389826AbgLKQtN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Dec 2020 11:49:13 -0500
+Received: from mx2.suse.de ([195.135.220.15]:34216 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389466AbgLKQsu (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 11 Dec 2020 11:48:50 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id B06C2ADCD;
+        Fri, 11 Dec 2020 16:48:07 +0000 (UTC)
+From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To:     u.kleine-koenig@pengutronix.de, linux-kernel@vger.kernel.org
+Cc:     f.fainelli@gmail.com, linux-pwm@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        wahrenst@gmx.net, linux-input@vger.kernel.org,
+        dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org,
+        devel@driverdev.osuosl.org, p.zabel@pengutronix.de,
+        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
+        linux-clk@vger.kernel.org, sboyd@kernel.org,
+        linux-rpi-kernel@lists.infradead.org, bgolaszewski@baylibre.com,
+        andy.shevchenko@gmail.com,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        Eric Anholt <eric@anholt.net>
+Subject: [PATCH v6 00/11] Raspberry Pi PoE HAT fan support
+Date:   Fri, 11 Dec 2020 17:47:49 +0100
+Message-Id: <20201211164801.7838-1-nsaenzjulienne@suse.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20201211160917.GA23095@qmqm.qmqm.pl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-11.12.2020 19:09, Michał Mirosław пишет:
-> On Thu, Dec 10, 2020 at 11:29:40PM -0800, Dmitry Torokhov wrote:
->> Hi Michał,
->> On Fri, Dec 11, 2020 at 07:53:56AM +0100, Michał Mirosław wrote:
->>> @@ -998,17 +1011,18 @@ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
->>>  			}
->>>  
->>>  			report_len = ts->buf[FW_HDR_LENGTH] / report_count;
->>> -			if (report_len != PACKET_SIZE) {
->>> +			if (report_len != PACKET_SIZE &&
->>> +			    report_len != PACKET_SIZE_OLD) {
->>>  				dev_err(&client->dev,
->>> -					"mismatching report length: %*ph\n",
->>> +					"unsupported report length: %*ph\n",
->>>  					HEADER_SIZE, ts->buf);
->> Do I understand this correctly that the old packets are only observed on
->> EKTF3624? If so can we expand the check so that we only accept packets
->> with "old" size when we know we are dealing with this device?
-> 
-> We only have EKTF3624 and can't be sure there are no other chips needing this.
+The aim of this series is to add support to the fan found on RPi's PoE
+HAT. Some commentary on the design can be found below. But the imporant
+part to the people CC'd here not involved with PWM is that, in order to
+achieve this properly, we also have to fix the firmware interface the
+driver uses to communicate with the PWM bus (and many other low level
+functions). Specifically, we have to make sure the firmware interface
+isn't unbound while consumers are still up. So, patch #1 & #2 introduce
+reference counting in the firwmware interface driver and patches #3 to
+#8 update all firmware users. Patches #9 to #11 introduce the new PWM
+driver.
 
-In practice this older packet format should be seen only on 3624, but
-nevertheless we could make it more explicit by adding the extra chip_id
-checks.
+I sent everything as a single series as the final version of the PWM
+drivers depends on the firwmare fixes, but I'll be happy to split this
+into two separate series if you think it's better.
 
-It won't be difficult to change it in the future if will be needed.
+--- Original cover letter below ---
 
-I think the main point that Dmitry Torokhov conveys here is that we
-should minimize the possible impact on the current EKT3500 code since we
-don't have definitive answers regarding the firmware differences among
-the hardware variants.
+This series aims at adding support to RPi's official PoE HAT fan[1].
+
+The HW setup is the following:
+
+| Raspberry Pi                               | PoE HAT                    |
+ arm core -> Mailbox -> RPi co-processor -> I2C -> Atmel MCU -> PWM -> FAN
+
+The arm cores have only access to the mailbox interface, as i2c0, even if
+physically accessible, is to be used solely by the co-processor
+(VideoCore 4/6).
+
+This series implements a PWM bus, and has pwm-fan sitting on top of it as per
+this discussion: https://lkml.org/lkml/2018/9/2/486. Although this design has a
+series of shortcomings:
+
+- It depends on a DT binding: it's not flexible if a new hat shows up with new
+  functionality, we're not 100% sure we'll be able to expand it without
+  breaking backwards compatibility. But without it we can't make use of DT
+  thermal-zones, which IMO is overkill.
+
+- We're using pwm-fan, writing a hwmon driver would, again, give us more
+  flexibility, but it's not really needed at the moment.
+
+I personally think that it's not worth the effort, it's unlikely we'll get
+things right in advance. And ultimately, if the RPi people come up with
+something new, we can always write a new driver/bindings from scratch (as in
+not reusing previous code).
+
+That said, I'm more than happy to change things if there is a consensus that
+another design will do the trick.
+
+[1] https://www.raspberrypi.org/blog/introducing-power-over-ethernet-poe-hat/
+
+---
+
+Changes since v5:
+ - Small cleanups
+ - Add extra code comments
+
+Changes since v4:
+ - Cleanup devm calls
+ - Rename compatible string so it's unique to the PoE HAT
+
+Changes since v3:
+ - Split first patch, #1 introduces refcount, then #2 the devm function
+ - Fix touchscreen function
+ - Use kref
+
+Changes since v2:
+ - Introduce devm_rpi_firmware_get()
+ - Small cleanups in PWM driver
+
+Changes since v1:
+ - Address PWM driver changes
+ - Fix binding, now with 2 cells
+
+Nicolas Saenz Julienne (11):
+  firmware: raspberrypi: Keep count of all consumers
+  firmware: raspberrypi: Introduce devm_rpi_firmware_get()
+  clk: bcm: rpi: Release firmware handle on unbind
+  gpio: raspberrypi-exp: Release firmware handle on unbind
+  reset: raspberrypi: Release firmware handle on unbind
+  soc: bcm: raspberrypi-power: Release firmware handle on unbind
+  staging: vchiq: Release firmware handle on unbind
+  input: raspberrypi-ts: Release firmware handle when not needed
+  dt-bindings: pwm: Add binding for RPi firmware PWM bus
+  DO NOT MERGE: ARM: dts: Add RPi's official PoE hat support
+  pwm: Add Raspberry Pi Firmware based PWM bus
+
+ .../arm/bcm/raspberrypi,bcm2835-firmware.yaml |  20 ++
+ arch/arm/boot/dts/bcm2711-rpi-4-b.dts         |  54 +++++
+ drivers/clk/bcm/clk-raspberrypi.c             |   2 +-
+ drivers/firmware/raspberrypi.c                |  69 +++++-
+ drivers/gpio/gpio-raspberrypi-exp.c           |   2 +-
+ drivers/input/touchscreen/raspberrypi-ts.c    |   2 +-
+ drivers/pwm/Kconfig                           |   9 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-raspberrypi-poe.c             | 216 ++++++++++++++++++
+ drivers/reset/reset-raspberrypi.c             |   2 +-
+ drivers/soc/bcm/raspberrypi-power.c           |   2 +-
+ .../interface/vchiq_arm/vchiq_arm.c           |   2 +-
+ .../pwm/raspberrypi,firmware-poe-pwm.h        |  13 ++
+ include/soc/bcm2835/raspberrypi-firmware.h    |  10 +
+ 14 files changed, 395 insertions(+), 9 deletions(-)
+ create mode 100644 drivers/pwm/pwm-raspberrypi-poe.c
+ create mode 100644 include/dt-bindings/pwm/raspberrypi,firmware-poe-pwm.h
+
+-- 
+2.29.2
+
