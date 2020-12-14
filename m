@@ -2,136 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 842E32D933C
-	for <lists+linux-input@lfdr.de>; Mon, 14 Dec 2020 07:17:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B2C52D98DD
+	for <lists+linux-input@lfdr.de>; Mon, 14 Dec 2020 14:34:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438653AbgLNGQg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Dec 2020 01:16:36 -0500
-Received: from mga09.intel.com ([134.134.136.24]:26776 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727746AbgLNGQg (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Dec 2020 01:16:36 -0500
-IronPort-SDR: we7a68v8zloUiToOIbPjWTD3l6nS6TR7YEnnHYHKdw3leb9GwZLrNwG4HZrpQ1nY6tIAKln1dj
- NTCku+5IRZ+A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9834"; a="174805464"
-X-IronPort-AV: E=Sophos;i="5.78,417,1599548400"; 
-   d="scan'208";a="174805464"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2020 22:15:53 -0800
-IronPort-SDR: 77inXdLATyLP18YxtOXyKK5PijU3N34hp3XjfdiZE9aAyRLkJHOQcuDy8ELDLAHhWsyYrOOIK8
- OqIK5VEIfiAA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,417,1599548400"; 
-   d="scan'208";a="486886677"
-Received: from host.sh.intel.com (HELO host) ([10.239.154.115])
-  by orsmga004.jf.intel.com with ESMTP; 13 Dec 2020 22:15:51 -0800
-Date:   Mon, 14 Dec 2020 14:16:40 +0800
-From:   "Ye, Xiang" <xiang.ye@intel.com>
-To:     Jonathan Cameron <jic23@kernel.org>
-Cc:     jikos@kernel.org, srinivas.pandruvada@linux.intel.com,
-        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] iio:Documentation: Add documentation for hinge
- sensor channels
-Message-ID: <20201214061640.GA28333@host>
-References: <20201203035352.13918-1-xiang.ye@intel.com>
- <20201203035352.13918-4-xiang.ye@intel.com>
- <20201205160540.22d2b8d5@archlinux>
- <20201207091818.GA23419@host>
- <20201213141545.1e9d30de@archlinux>
+        id S1727147AbgLNNdD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Dec 2020 08:33:03 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:9173 "EHLO
+        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732365AbgLNNcp (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 14 Dec 2020 08:32:45 -0500
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Cvj2m1nnzz15f6d;
+        Mon, 14 Dec 2020 21:31:12 +0800 (CST)
+Received: from ubuntu.network (10.175.138.68) by
+ DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 14 Dec 2020 21:31:41 +0800
+From:   Zheng Yongjun <zhengyongjun3@huawei.com>
+To:     <jikos@kernel.org>, <jic23@kernel.org>,
+        <srinivas.pandruvada@linux.intel.com>,
+        <benjamin.tissoires@redhat.com>
+CC:     <linux-input@vger.kernel.org>, <linux-iio@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Zheng Yongjun <zhengyongjun3@huawei.com>
+Subject: [PATCH -next] hid/hid-sensor-custom: convert comma to semicolon
+Date:   Mon, 14 Dec 2020 21:32:12 +0800
+Message-ID: <20201214133212.3569-1-zhengyongjun3@huawei.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201213141545.1e9d30de@archlinux>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.138.68]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Dec 13, 2020 at 02:15:45PM +0000, Jonathan Cameron wrote:
-> On Mon, 7 Dec 2020 17:18:18 +0800
-> "Ye, Xiang" <xiang.ye@intel.com> wrote:
-> 
-> > Hi Jonathan
-> > 
-> > Thanks for review and comments.
-> > 
-> > On Sat, Dec 05, 2020 at 04:05:40PM +0000, Jonathan Cameron wrote:
-> > > On Thu,  3 Dec 2020 11:53:52 +0800
-> > > Ye Xiang <xiang.ye@intel.com> wrote:
-> > >   
-> > > > Add channel description for hinge sensor, including channel label
-> > > > attribute and raw data description.
-> > > > 
-> > > > Signed-off-by: Ye Xiang <xiang.ye@intel.com>
-> > > > ---
-> > > >  Documentation/ABI/testing/sysfs-bus-iio | 17 +++++++++++++++++
-> > > >  1 file changed, 17 insertions(+)
-> > > > 
-> > > > diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
-> > > > index df42bed09f25..82303b1bdff0 100644
-> > > > --- a/Documentation/ABI/testing/sysfs-bus-iio
-> > > > +++ b/Documentation/ABI/testing/sysfs-bus-iio
-> > > > @@ -1802,3 +1802,20 @@ Contact:	linux-iio@vger.kernel.org
-> > > >  Description:
-> > > >  		Unscaled light intensity according to CIE 1931/DIN 5033 color space.
-> > > >  		Units after application of scale are nano nanowatts per square meter.
-> > > > +
-> > > > +What:		/sys/bus/iio/devices/iio:deviceX/in_anglY_raw
-> > > > +KernelVersion:	5.12
-> > > > +Contact:	linux-iio@vger.kernel.org
-> > > > +Description:
-> > > > +		Angle of rotation for channel Y. Units after application of scale
-> > > > +		and offset are radians.  
-> > > 
-> > > This entry is already mostly in the doc around line 200, just without the index.
-> > > Please just add the What: line to that block to reduce repetition.
-> > > If you want to add... "Where present, Y indexes the channel." or something like
-> > > that feel free.  
-> > When adding in_anglY_raw to in_angl_raw block, Should I update the KernelVersion form
-> > 4.17 to 5.12? Like blow:
-> > 
-> > What:		/sys/bus/iio/devices/iio:deviceX/in_angl_raw
-> > What:		/sys/bus/iio/devices/iio:deviceX/in_anglY_raw
-> > KernelVersion:	5.12
-> > Contact:	linux-iio@vger.kernel.org
-> > Description:
-> > 		Angle of rotation. Units after application of scale and offset
-> > 		are radians. Where present, Y indexes the channel.
-> 
-> No. This is an unfortunate limitation of these files unless we keep duplicating
-> nearly identical text.
-> 
-> I'm not that worried about documenting an optional bit of ABI as apparently
-> being in an earlier kernel than it actually was.  That way any userspace
-> will work.  The other way around is more likely to cause problems.
-Got it, then I will keep KernelVersion 4.17. will send the next version out
-for review soon. Thanks again for the review.
-> 
-> > 
-> > > 
-> > >   
-> > > > +
-> > > > +What:		/sys/bus/iio/devices/iio:deviceX/in_anglY_label
-> > > > +KernelVersion:	5.12
-> > > > +Contact:	linux-iio@vger.kernel.org
-> > > > +Description:
-> > > > +		Optional symbolic label for channel Y.
-> > > > +		For Intel hid hinge sensor, the label values are:
-> > > > +		hinge, keyboard, screen. It means the three channels
-> > > > +		each correspond respectively to hinge angle, keyboard angle,
-> > > > +		and screen angle.  
-> > > 
-> > > Makes sense to keep this block separate given the additional info provided.
-> > > Alternative would be to add it to the one with in_voltageY_label which would
-> > > be odd given what follows!  
-> > Ok, Then I will keep the in_anglY_label block here. BTW, I didnot see in_voltageY_label
-> > in sysfs-bus-iio in current kernel master branch.
-> It was part of the series that added the support for per channel labels to the core.
-> 3079188f821c ("iio:Documentation: Add documentation for label channel attribute")
-> so will only going into current master in the merge window that will open shortly.
-got it.
-> 
+Replace a comma between expression statements by a semicolon.
 
-Thanks
-Ye, Xiang
+Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
+---
+ drivers/hid/hid-sensor-custom.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-sensor-custom.c
+index 4d25577a8573..6c47a2e7623d 100644
+--- a/drivers/hid/hid-sensor-custom.c
++++ b/drivers/hid/hid-sensor-custom.c
+@@ -728,7 +728,7 @@ static int hid_sensor_custom_dev_if_add(struct hid_sensor_custom *sensor_inst)
+ 
+ 	sensor_inst->custom_dev.minor = MISC_DYNAMIC_MINOR;
+ 	sensor_inst->custom_dev.name = dev_name(&sensor_inst->pdev->dev);
+-	sensor_inst->custom_dev.fops = &hid_sensor_custom_fops,
++	sensor_inst->custom_dev.fops = &hid_sensor_custom_fops;
+ 	ret = misc_register(&sensor_inst->custom_dev);
+ 	if (ret) {
+ 		kfifo_free(&sensor_inst->data_fifo);
+-- 
+2.22.0
+
