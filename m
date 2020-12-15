@@ -2,225 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F0FB2DABC7
-	for <lists+linux-input@lfdr.de>; Tue, 15 Dec 2020 12:19:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B28A2DABE6
+	for <lists+linux-input@lfdr.de>; Tue, 15 Dec 2020 12:24:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728674AbgLOLTa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Dec 2020 06:19:30 -0500
-Received: from mga04.intel.com ([192.55.52.120]:37609 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728613AbgLOLTY (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Dec 2020 06:19:24 -0500
-IronPort-SDR: 06xK7IRVJOai+Ko1B6k9/IGM0aduxhW4BP/zxmbbEqP0tKJMBuZb1POewh5nQ53GwwoK6rTalo
- kTNlrje6ccsg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9835"; a="172294969"
-X-IronPort-AV: E=Sophos;i="5.78,420,1599548400"; 
-   d="scan'208";a="172294969"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2020 03:18:39 -0800
-IronPort-SDR: 8kS/2cYlWWOqj28Xne/oMQL68MGPqoxEov6USJW4IDHJ1aerz3yPgNrAaTmWPzNkf6pFxAAuWO
- /g/3mCUX/Mjw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,420,1599548400"; 
-   d="scan'208";a="411853197"
-Received: from lkp-server02.sh.intel.com (HELO a947d92d0467) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 15 Dec 2020 03:18:37 -0800
-Received: from kbuild by a947d92d0467 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1kp8Ll-0000jD-30; Tue, 15 Dec 2020 11:18:37 +0000
-Date:   Tue, 15 Dec 2020 19:18:08 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [input:master] BUILD SUCCESS
- 92f0a3a22c7a4c936277ece3a0215955a2d52238
-Message-ID: <5fd89b70.WBwS2aWRoJkG+ux8%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+        id S1728822AbgLOLVX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Dec 2020 06:21:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41352 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728813AbgLOLVH (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 15 Dec 2020 06:21:07 -0500
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7236BC0617A6
+        for <linux-input@vger.kernel.org>; Tue, 15 Dec 2020 03:20:27 -0800 (PST)
+Received: by mail-pg1-x544.google.com with SMTP id i7so3338121pgc.8
+        for <linux-input@vger.kernel.org>; Tue, 15 Dec 2020 03:20:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raydium-corp-partner-google-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id;
+        bh=KDZfAWhL7geC34mCQgWIQj/onDO2eDN30FnzkR+Q6bc=;
+        b=O4b2knP7K/egh01xp4fqwR+sJ/EO41cfefyFMIe/IQx4HYw0cG27crJKB/zj6D4E1a
+         JWeoTCQW3B6a4sF4zGZEPLzq5LTwfR6i5KOYKOfuJPQuxNMDvMH0YKLrAUWNrOS7asbC
+         Axl4bQPVmCPRXhzFDUOK7roHxg0lM0VIf/aBeSEejbXJloibJsSkYQGxltX5RPCooKTO
+         bjzq17o7MA055ytS9wXcSi3Fm86Aa7yEDwIdk5Tmmwox0Ib2YBRgBenRluBpmmEct5cA
+         L505ktLqAnfG1GY9tNuZvR3LF/dLYxDI0U/wKgMZS5vZXjhzIwG26QWn9eRy+olBP0DK
+         4S/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=KDZfAWhL7geC34mCQgWIQj/onDO2eDN30FnzkR+Q6bc=;
+        b=FZP1thxFWf75JvxPq6ynqGB1qsZP2Jd0gMKUUr/Zm2Xc4DPFtwTp4RqS/4x63H2NWK
+         aRvjkZQs80rpfI5fFZV+BZJu+3+Hftkvpd3/5t1DqMP3tLKjdPl2uS5rj54EmEPx73sS
+         jXlGFkwW1wmLJhO2TDcwK88BHeBQ89jCeml5M2W61yibX/fz23L2w+kjr2QU4+OOo1Ew
+         7HMQDmYdIoxxcnZvDs08LpUEMQnNYA7yxT1V7lSrz+EwUU7njGvH0bDXGRSZvxi8Iwg7
+         lHRMCq4qW+Ast0uUn0u+0o3pN1yy2aVQITD4jrcMa4m4YUVGICLhp53N8jAZx+sYL28B
+         /JgA==
+X-Gm-Message-State: AOAM533/WwMWzJLGt4YlCy92OfzkkszqdX90WNcRRWfYD8YwohYHN3mE
+        9q5RM50nzdFajCsfg1SgS+jAhw==
+X-Google-Smtp-Source: ABdhPJyfTJX2ErQFQxFsZ2dXXpe3NpYKKXcM7xEBfup4cFAXfAWfHDoBlyNy91SM3W7S17aip26voQ==
+X-Received: by 2002:a65:6145:: with SMTP id o5mr28765400pgv.186.1608031226856;
+        Tue, 15 Dec 2020 03:20:26 -0800 (PST)
+Received: from localhost.localdomain (2001-b400-e3d9-619c-a02e-47f2-1ebf-215e.emome-ip6.hinet.net. [2001:b400:e3d9:619c:a02e:47f2:1ebf:215e])
+        by smtp.gmail.com with ESMTPSA id p15sm23195094pgl.19.2020.12.15.03.20.23
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 15 Dec 2020 03:20:26 -0800 (PST)
+From:   "jeffrey.lin" <jeffrey.lin@raydium.corp-partner.google.com>
+To:     dmitry.torokhov@gmail.com, furquan@google.com,
+        seanpaul@chromium.org, rrangel@chromium.org,
+        dan.carpenter@oracle.com
+Cc:     jeffrey.lin@rad-ic.com, KP.li@rad-ic.com,
+        jeffrey.lin@raydium.corp-partner.google.com,
+        calvin.tseng@rad-ic.com, simba.hsu@rad-ic.com,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [PATCH] Input: raydium_ts_i2c: Do not send zero length 
+Date:   Tue, 15 Dec 2020 19:20:17 +0800
+Message-Id: <1608031217-7247-1-git-send-email-jeffrey.lin@raydium.corp-partner.google.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git  master
-branch HEAD: 92f0a3a22c7a4c936277ece3a0215955a2d52238  Input: da7280 - fix spelling mistake "sequemce" -> "sequence"
+Add default write command package to prevent i2c quirk error of zero
+data length as Raydium touch firmware update is executed.
 
-elapsed time: 721m
-
-configs tested: 163
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-powerpc                       maple_defconfig
-powerpc                 mpc834x_itx_defconfig
-powerpc                       ebony_defconfig
-sh                   secureedge5410_defconfig
-m68k                             allmodconfig
-mips                        nlm_xlp_defconfig
-arc                          axs101_defconfig
-sh                           se7206_defconfig
-arm                              zx_defconfig
-powerpc                      arches_defconfig
-arc                              alldefconfig
-powerpc                     kmeter1_defconfig
-mips                         rt305x_defconfig
-arm                      tct_hammer_defconfig
-arm                       cns3420vb_defconfig
-mips                      pistachio_defconfig
-arc                        nsimosci_defconfig
-alpha                            allyesconfig
-h8300                       h8s-sim_defconfig
-arm                     eseries_pxa_defconfig
-m68k                          amiga_defconfig
-arm                            dove_defconfig
-sparc                            allyesconfig
-powerpc                     akebono_defconfig
-arc                                 defconfig
-mips                         db1xxx_defconfig
-mips                        vocore2_defconfig
-h8300                     edosk2674_defconfig
-sh                          sdk7780_defconfig
-m68k                           sun3_defconfig
-arm                            u300_defconfig
-i386                             alldefconfig
-arc                            hsdk_defconfig
-m68k                          sun3x_defconfig
-powerpc                      acadia_defconfig
-arm                          pxa168_defconfig
-arm                       omap2plus_defconfig
-m68k                             alldefconfig
-arm                         socfpga_defconfig
-sparc64                             defconfig
-arm                      footbridge_defconfig
-sh                          rsk7264_defconfig
-powerpc                      obs600_defconfig
-mips                     cu1000-neo_defconfig
-csky                                defconfig
-sh                   rts7751r2dplus_defconfig
-powerpc                         ps3_defconfig
-sh                ecovec24-romimage_defconfig
-sh                   sh7770_generic_defconfig
-mips                     loongson1b_defconfig
-sh                             sh03_defconfig
-x86_64                           alldefconfig
-arm                      pxa255-idp_defconfig
-mips                      bmips_stb_defconfig
-mips                     loongson1c_defconfig
-powerpc                      pmac32_defconfig
-xtensa                         virt_defconfig
-sh                        edosk7760_defconfig
-mips                       capcella_defconfig
-sh                          lboxre2_defconfig
-sh                          sdk7786_defconfig
-sh                            titan_defconfig
-powerpc                    gamecube_defconfig
-c6x                        evmc6472_defconfig
-sh                           se7722_defconfig
-arm                        spear6xx_defconfig
-mips                        nlm_xlr_defconfig
-mips                            gpr_defconfig
-mips                       lemote2f_defconfig
-powerpc                          g5_defconfig
-powerpc                   currituck_defconfig
-arm                           sunxi_defconfig
-sh                         ap325rxa_defconfig
-sh                         microdev_defconfig
-powerpc64                        alldefconfig
-mips                 decstation_r4k_defconfig
-mips                  cavium_octeon_defconfig
-sh                   sh7724_generic_defconfig
-sh                         apsh4a3a_defconfig
-h8300                               defconfig
-sh                           se7619_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-alpha                               defconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a004-20201214
-i386                 randconfig-a006-20201214
-i386                 randconfig-a005-20201214
-i386                 randconfig-a001-20201214
-i386                 randconfig-a003-20201214
-i386                 randconfig-a002-20201214
-i386                 randconfig-a001-20201213
-i386                 randconfig-a004-20201213
-i386                 randconfig-a003-20201213
-i386                 randconfig-a002-20201213
-i386                 randconfig-a005-20201213
-i386                 randconfig-a006-20201213
-x86_64               randconfig-a016-20201214
-x86_64               randconfig-a012-20201214
-x86_64               randconfig-a013-20201214
-x86_64               randconfig-a015-20201214
-x86_64               randconfig-a014-20201214
-x86_64               randconfig-a011-20201214
-i386                 randconfig-a014-20201214
-i386                 randconfig-a013-20201214
-i386                 randconfig-a012-20201214
-i386                 randconfig-a011-20201214
-i386                 randconfig-a015-20201214
-i386                 randconfig-a016-20201214
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a006-20201214
-x86_64               randconfig-a005-20201214
-x86_64               randconfig-a003-20201214
-x86_64               randconfig-a002-20201214
-x86_64               randconfig-a004-20201214
-x86_64               randconfig-a001-20201214
-x86_64               randconfig-a016-20201213
-x86_64               randconfig-a012-20201213
-x86_64               randconfig-a013-20201213
-x86_64               randconfig-a015-20201213
-x86_64               randconfig-a014-20201213
-x86_64               randconfig-a011-20201213
-
+Signed-off-by: jeffrey.lin <jeffrey.lin@rad-ic.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/input/touchscreen/raydium_i2c_ts.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/input/touchscreen/raydium_i2c_ts.c b/drivers/input/touchscreen/raydium_i2c_ts.c
+index 603a948460d64..4d2d22a869773 100644
+--- a/drivers/input/touchscreen/raydium_i2c_ts.c
++++ b/drivers/input/touchscreen/raydium_i2c_ts.c
+@@ -445,6 +445,7 @@ static int raydium_i2c_write_object(struct i2c_client *client,
+ 				    enum raydium_bl_ack state)
+ {
+ 	int error;
++	static const u8 cmd[] = { 0xFF, 0x39 };
+ 
+ 	error = raydium_i2c_send(client, RM_CMD_BOOT_WRT, data, len);
+ 	if (error) {
+@@ -453,7 +454,7 @@ static int raydium_i2c_write_object(struct i2c_client *client,
+ 		return error;
+ 	}
+ 
+-	error = raydium_i2c_send(client, RM_CMD_BOOT_ACK, NULL, 0);
++	error = raydium_i2c_send(client, RM_CMD_BOOT_ACK, cmd, sizeof(cmd));
+ 	if (error) {
+ 		dev_err(&client->dev, "Ack obj command failed: %d\n", error);
+ 		return error;
+-- 
+2.26.2
+
