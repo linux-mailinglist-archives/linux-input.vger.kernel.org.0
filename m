@@ -2,143 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DCF962DA816
-	for <lists+linux-input@lfdr.de>; Tue, 15 Dec 2020 07:29:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 253FE2DAAFE
+	for <lists+linux-input@lfdr.de>; Tue, 15 Dec 2020 11:37:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725778AbgLOG2o (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Dec 2020 01:28:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52830 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725535AbgLOG2n (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Dec 2020 01:28:43 -0500
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97C64C06179C;
-        Mon, 14 Dec 2020 22:28:03 -0800 (PST)
-Received: by mail-pl1-x642.google.com with SMTP id s2so10434609plr.9;
-        Mon, 14 Dec 2020 22:28:03 -0800 (PST)
+        id S1728454AbgLOKgz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Dec 2020 05:36:55 -0500
+Received: from mail-eopbgr20046.outbound.protection.outlook.com ([40.107.2.46]:40002
+        "EHLO EUR02-VE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728236AbgLOKgq (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 15 Dec 2020 05:36:46 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jyCDeTPdmx3rNDtJsyR/leV7Dp/HKXmwkpDXBR1q88IXTD21QSjzBWuUGv2m4DQ7ji5NWuwQkLda1cwxzmWWdHQ65cpr58KpVEdBhsAavL/2BV9zO0+clwIdPIGRUH9/iahg/fDI0CNMt+VKZ1W+jwMTSbfmSQ8OXTuI3E1d9Y4w5PHz6p5S/7U5HTYnR6aqgq2F+bhIZH4fpCGMQpW5inZRERDfN2WiK0s/L7iHeEG1cufp4Kxfwj68DoTW4QzcQU35gZI3yASKDFswL2PjSCCo+LxbFNCCTAlZ1vARyEEnxzZ7GL2xPbpKtHIrRuuTq5mfcI78/jCLqxK/N9iLOg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+EBRl+c16FGJOdFezI0vvI8el9pz8a6HZ0hK/eR63QE=;
+ b=LQmALB2ktcM2njKlza2Wgc8htgD91YwbN1V5ui1AOWuT8T3jS6Ya+Q5QxZ2UKQQMTM02unnNHZzK3mnlteH9EDkebck5cVuppCuKjY6xMvJk9MXv5QD4q3IMmml6UBIVLQM6EJ9zMCC3tqVYk9EeV5t8zfe7K2530DyB2y8atosK+tZ9lvghqOYSihlFPCgNJ0feMS2MOOamRgrBwguYbyRrKvyN2vhRLHN/e15osX9ksI+vk9TBVac2QkpMgYm2lSQULZJw+nD2BpLMg2Rios8hk6xPX0y4/GL6xpa5AYqVX8doYG7QRWRJgHadPwSPor1+3EewFYCjdIFfYZwOlA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=diasemi.com; dmarc=pass action=none header.from=diasemi.com;
+ dkim=pass header.d=diasemi.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=KaZLnF6Ca13HKnEPZPec+JevKgSP4YCN0sRWZ+m6pyY=;
-        b=k1oUbHHjew5YsIhi5W5+V9KHG5O+tngKHAsKxRHHdx4QMY9f4Svy0C8iwFsCbaxnbM
-         hp7OZvVDN91hakcKi+PoooMSEAdkqRRP5riZsDu+/hUNo1avmK/dHR6cgqKsg3utzv1z
-         kG2Vc4QWbXUW+J7gIU0Y8/Tzk/syMo5hw5kqes4q14yJ/bQXUxFj9+WZiQPhbemXfwaC
-         eOxDsRuLeKfsqiV3Em5mSPxPSaGqkNeNTJrD71uELQ+TJXby7FtR7FkBtdXi42e29RDS
-         lW33BDZsDuWvKrSPPeP/J1VUieOcKH94evl4KoMmt65BVFvnoFixMTUDZxLk/EJ8Bi+z
-         i5Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=KaZLnF6Ca13HKnEPZPec+JevKgSP4YCN0sRWZ+m6pyY=;
-        b=ib/udhZ2eHEZx5Bb8rGyBy6U2Mm/k/++17kjPd5w95DOyb2YHGJGNKaszWhsqNdlEO
-         GTazXBxTuF7QRjN8g+rUVDxSYoJs1Dlu5jZUSmmIeEcgs9rn4RcD4aMvFlmGRdqfWpit
-         CHpyqSpOhceNlg1/qjvOoklrrpYSXoZp5RIFLrcAMoz8oMBRI6RUbAM4byNrqWeAiqmb
-         dOltisWRR6JgPYHM6/G6JsILzTBG/KTpznv7cj4l9JmtodDPEwbjDXKa/0rAc29ixBL5
-         QU8hqOdfIIR3P9B0e+xqEY8dIpmsp1I9XIyHMsQTqkUBj2RNjQrhVgwxKOi5cNu81Rtn
-         v11Q==
-X-Gm-Message-State: AOAM533hsstC+5xsKHSoxzcY2yngmnKSbNhJwtA4RlKvFdcTWqtIHJxg
-        WWgeXz8SMvO6817Rfp8djCVeZSdhD3M=
-X-Google-Smtp-Source: ABdhPJwxN+mLOpBW9HpQKvvgkQYZhYouc0fz5VrQcHXq8Qe2ejq+m05TUiJahpjGBQcwZZRRg2h64g==
-X-Received: by 2002:a17:902:8f94:b029:da:d168:4443 with SMTP id z20-20020a1709028f94b02900dad1684443mr25559985plo.57.1608013683019;
-        Mon, 14 Dec 2020 22:28:03 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id f15sm20395528pju.49.2020.12.14.22.28.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Dec 2020 22:28:02 -0800 (PST)
-Date:   Mon, 14 Dec 2020 22:27:58 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jeffrey Lin <jeffrey.lin@raydium.corp-partner.google.com>
-Cc:     Furquan Shaikh <furquan@google.com>,
-        Sean Paul <seanpaul@chromium.org>, rrangel@chromium.org,
-        dan.carpenter@oracle.com, jeffrey.lin@rad-ic.com, KP.li@rad-ic.com,
-        calvin.tseng@rad-ic.com, simba.hsu@rad-ic.com,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: raydium_ts_i2c: Do not send zero length
-Message-ID: <X9hXbmn1gxxPEKVS@google.com>
-References: <1608002466-9263-1-git-send-email-jeffrey.lin@raydium.corp-partner.google.com>
- <X9hONuOdn3cTZ6vH@google.com>
- <CAGdSJX2esa41ypqhGGVSJn+Yqxz8gTyz4HYmfB4WfVDEJLgVYw@mail.gmail.com>
+ d=dialogsemiconductor.onmicrosoft.com;
+ s=selector1-dialogsemiconductor-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+EBRl+c16FGJOdFezI0vvI8el9pz8a6HZ0hK/eR63QE=;
+ b=RdmtwXgh7O/bFfjDVOgqIzDRLvJid3YWUN9e010lm7mROxDemy1hXyLWy7xNy5xCFnZaLzx+RWElHnRMI5twXccWGiBjUyZIKBpVERukFU0wwR11AyolJMBsugaxiH4g0Htgruych93O6a5oMWACR08oM/+iZSSIMIEKcC4B8xI=
+Received: from AM6PR10MB1926.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:209:35::12)
+ by AM6PR10MB1989.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:209:2d::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12; Tue, 15 Dec
+ 2020 10:35:56 +0000
+Received: from AM6PR10MB1926.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::8805:7516:b929:e052]) by AM6PR10MB1926.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::8805:7516:b929:e052%7]) with mapi id 15.20.3654.025; Tue, 15 Dec 2020
+ 10:35:56 +0000
+From:   Roy Im <roy.im.opensource@diasemi.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Colin King <colin.king@canonical.com>,
+        Support Opensource <Support.Opensource@diasemi.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
+CC:     "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH][next] Input: da7280: fix spelling mistake "sequemce" ->
+ "sequence"
+Thread-Topic: [PATCH][next] Input: da7280: fix spelling mistake "sequemce" ->
+ "sequence"
+Thread-Index: AQHW0mjUtOSDIaprAUu0lPFsYADybqn39Kxg
+Date:   Tue, 15 Dec 2020 10:35:55 +0000
+Message-ID: <AM6PR10MB192611F04C6472367F349E7285C60@AM6PR10MB1926.EURPRD10.PROD.OUTLOOK.COM>
+References: <20201214223109.82924-1-colin.king@canonical.com>
+In-Reply-To: <20201214223109.82924-1-colin.king@canonical.com>
+Accept-Language: ko-KR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=diasemi.com;
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [1.230.217.19]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 36dc06b1-c56e-4154-d600-08d8a0e5347c
+x-ms-traffictypediagnostic: AM6PR10MB1989:
+x-ms-exchange-sharedmailbox-routingagent-processed: True
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <AM6PR10MB1989294ECF857D8B96082D2FA2C60@AM6PR10MB1989.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:158;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 4QRotpdmGVv2MsPTr/ZnJZKYL69xvyqUCTtf8y9vc+b62SnXuGeK8hzgj9wk8S8H8iLHwrTHBcDssWn0LOZoH6ecHKy8l9PfREfNZFlXRLanln0QL4XMxQtFbfWW+/UmBiksVX7eBbnpdfk8yRxWsY9Ah+gEDbA5H4kA9VH8lSaVOsaK3aBVzbnQVNCJxPfDYCnnm2Ci81/aVcQAstzS7Ro3CUccjBg4E+xoZ6EWfxYEHxKdmiBjP3oNv6Zel8h/JhWRU+L5VNkG1PYiV8G3F7k1o6y4ivp1JYGQzJMoVtUz0VnWvQfIC7V8JRApOnpNrj9piTfWuquc/fgNbrbf7g==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR10MB1926.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(558084003)(71200400001)(4326008)(52536014)(110136005)(26005)(55016002)(7696005)(54906003)(2906002)(76116006)(33656002)(9686003)(498600001)(5660300002)(66946007)(6506007)(86362001)(186003)(8676002)(66476007)(83380400001)(8936002)(64756008)(66446008)(66556008)(53546011);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: =?utf-8?B?M2J3WWNYZjZid2pSaFFwVG9oMnNjbEp5MkloUGlkTTlIYzZ5NndlMnQrOEZZ?=
+ =?utf-8?B?bG1MQkdONWRlZ0NMMmNINzF1SS9uaGQ1WkhmY2hNY2hieE01VkVqK2Q5aVVs?=
+ =?utf-8?B?TUhUUlRGNmtvUDcvRFd5US9qV1FIekRCTEN5cjgwV0krRHdiY1Rzb2l5eElp?=
+ =?utf-8?B?TDd6a3FHMnhnbEpTWVlVZ0J6aG9yc0ZBZVIyZWZsY0lSWFpOSDdMVjMwWTMw?=
+ =?utf-8?B?MkFoTWZlaWNRWGFGWFpMV2IrdHJ5Y0ZWU0sxeXJWeTVGeDJBWlI0ZVRiVjc5?=
+ =?utf-8?B?a2UzMUpDZkNGNlowVlJQYlNwTGdMZWdjWUhmc1dsV2Y2Qnd6RnZNeXFEdGVq?=
+ =?utf-8?B?RXUxV1IrdXVpSmE0TTFSUkxWdEIwUS9rYy9mSEU4REUya2cvYTNaVk5FcFNT?=
+ =?utf-8?B?ZWJmd0ZXUmxwVWp3MmFuWWE1VWtvdWVZQm0zTEJ3ZWtBMGFTNWh6bWNValBh?=
+ =?utf-8?B?ejVqN1dHQ3ZlSEUvejduWUlWYTh5cytNWWRiMmF4YjNtdXM1VDNVWm9aV1R5?=
+ =?utf-8?B?USszcHEwTG1pYXEyTUxkZnhKVzNmUmRUSUFib1RjTkdCWS9qZ3lDK0RQdG10?=
+ =?utf-8?B?MVpJb3N2eU05RkZKVzRBaUpobmU5OXg5RlBxdkhaTXlnZ0VJaU5ocHUrZWJk?=
+ =?utf-8?B?WUpuT204ZnpubG9HQTE4bDdiMld6OWY4WjFBT3NnY2tiL3hHZXQrSCtaaVdX?=
+ =?utf-8?B?Y0lWa1VUQUw2QmZxd3lRVVJ6em9BZENiZGhJUWhPbjlYMnFJS3Q4SW5CZVZD?=
+ =?utf-8?B?ODRiS3FXVmI0WDlsNDEydWZzWGpwdkpLU3d2TVQ5Vm96d04yd2RGKzZQRjc5?=
+ =?utf-8?B?dFROS1RJbEk5OWpyMGNMTFJtaTdCMlJxSm02ejRQQ3pjOHNzN0xvY2Rpb28v?=
+ =?utf-8?B?a0l5dXArUDhiWkE5ZTV0M1ZJZlh0V3RZSWZPY1VGS2R4QXV1WG5VdWgxdHpl?=
+ =?utf-8?B?Yng0VVpNdXd5RWszbEF2TWtMay8wYURSa1JienJoK0ZHRklzTlk0akdBR3Q0?=
+ =?utf-8?B?RmpWUHEyMUNmdEtUang5TUxUSDQrSXhxcE95T0VEV2d2ZmdQS2FHWUJqands?=
+ =?utf-8?B?SnE5Y0ZCOXNwN2pPYzdsQzFkNmxyVGFLbExod0c4MmNrblVlY0UwVEp0S1pQ?=
+ =?utf-8?B?V25VQnhxYk1WZ0s0MU8vSHY3cmZRZ1FOckFpRzB1TlpYblZiVG9tWUlqbjFV?=
+ =?utf-8?B?QnlkY0Q4R1A4ZVJodkZtL29UZGVWRk43R3E2Q055Z0tJcks3ekdFNjFvZ3JN?=
+ =?utf-8?B?bFJ5ZEY3eW5LWkdmMTBvVHlScjdmWENKTzN1MXNZOWhvWUFQdFlGODRNa1Zs?=
+ =?utf-8?Q?y8moBdYGhl3Ho=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGdSJX2esa41ypqhGGVSJn+Yqxz8gTyz4HYmfB4WfVDEJLgVYw@mail.gmail.com>
+X-OriginatorOrg: diasemi.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR10MB1926.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 36dc06b1-c56e-4154-d600-08d8a0e5347c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Dec 2020 10:35:56.0177
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: bRNDix7i+IcCBNdRIcldR9o+0l2qrsQTcvbPMrK9fzG7bVscyrEc+X2NQfuHW+trwiRP1rKjFYK9bkw/3zFlxg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR10MB1989
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Dec 15, 2020 at 02:07:00PM +0800, Jeffrey Lin wrote:
-> Yes, it is.
-
-Great!
-
-> 
-> Dmitry Torokhov <dmitry.torokhov@gmail.com> 於 2020年12月15日 週二 下午1:48寫道：
-> 
-> > Hi Jeffrey,
-> >
-> > On Tue, Dec 15, 2020 at 11:21:06AM +0800, jeffrey.lin wrote:
-> > > Add default write command package to prevent i2c quirk error of zero
-> > > data length as Raydium touch firmware update is executed.
-> > >
-> > > Signed-off-by: jeffrey.lin <jeffrey.lin@rad-ic.com>
-> > > BUG=b:174207906
-> > > TEST=Successfully tested update Raydium touch firmware over 100 times
-> > > Change-Id: I311b0d26d7642bb800547cd0e87013be17cb7e1b
-
-Could you please drop these BUG/TEST/Change-Id and re-send from your
-main account (jeffrey.lin@rad-ic.com)? Or simply add "From:" tag:
-
-From: Jeffrey Lin <jeffrey.lin@rad-ic.com>
-
-> > > ---
-> > >  drivers/input/touchscreen/raydium_i2c_ts.c | 3 ++-
-> > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/input/touchscreen/raydium_i2c_ts.c
-> > b/drivers/input/touchscreen/raydium_i2c_ts.c
-> > > index 603a948460d64..4d2d22a869773 100644
-> > > --- a/drivers/input/touchscreen/raydium_i2c_ts.c
-> > > +++ b/drivers/input/touchscreen/raydium_i2c_ts.c
-> > > @@ -445,6 +445,7 @@ static int raydium_i2c_write_object(struct
-> > i2c_client *client,
-> > >                                   enum raydium_bl_ack state)
-> > >  {
-> > >       int error;
-> > > +     static const u8 cmd[] = { 0xFF, 0x39 };
-> > >
-> > >       error = raydium_i2c_send(client, RM_CMD_BOOT_WRT, data, len);
-> > >       if (error) {
-> > > @@ -453,7 +454,7 @@ static int raydium_i2c_write_object(struct
-> > i2c_client *client,
-> > >               return error;
-> > >       }
-> > >
-> > > -     error = raydium_i2c_send(client, RM_CMD_BOOT_ACK, NULL, 0);
-> > > +     error = raydium_i2c_send(client, RM_CMD_BOOT_ACK, cmd,
-> > sizeof(cmd));
-> >
-> > Is this supported by all firmwares?
-> >
-> > >       if (error) {
-> > >               dev_err(&client->dev, "Ack obj command failed: %d\n",
-> > error);
-> > >               return error;
-> > > --
-> > > 2.26.2
-> > >
-> >
-> > Thanks.
-> >
-> > --
-> > Dmitry
-> >
-
-Thanks!
-
--- 
-Dmitry
+T24gVHVlc2RheSwgRGVjZW1iZXIgMTUsIDIwMjAgNzozMSBBTSwgT24gQ29saW4gS2luZyB3cm90
+ZToNCg0KPiBUaGVyZSBpcyBhIHNwZWxsaW5nIG1pc3Rha2UgaW4gYSBkZXZfZXJyIG1lc3NhZ2Uu
+IEZpeCBpdC4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IENvbGluIElhbiBLaW5nIDxjb2xpbi5raW5n
+QGNhbm9uaWNhbC5jb20+DQo+IC0tLQ0KPiAtCQkJCSJGYWlsZWQgdG8gdXBkYXRlIEdQSSBzZXF1
+ZW1jZTogJWRcbiIsIGVycm9yKTsNCj4gKwkJCQkiRmFpbGVkIHRvIHVwZGF0ZSBHUEkgc2VxdWVu
+Y2U6ICVkXG4iLCBlcnJvcik7DQoNCllvdSBhcmUgcmlnaHQuDQoNClJldmlld2VkLWJ5OiBSb3kg
+SW0gPFJveS5JbS5PcGVuc291cmNlQGRpYXNlbWkuY29tPg0K
