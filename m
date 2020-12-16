@@ -2,191 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EA2B2DC1BC
-	for <lists+linux-input@lfdr.de>; Wed, 16 Dec 2020 14:59:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CB1A2DC904
+	for <lists+linux-input@lfdr.de>; Wed, 16 Dec 2020 23:36:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726096AbgLPN7Y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 16 Dec 2020 08:59:24 -0500
-Received: from mga12.intel.com ([192.55.52.136]:25904 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725550AbgLPN7Y (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 16 Dec 2020 08:59:24 -0500
-IronPort-SDR: ymAkHf8LzfkQmHae0ImbznMpBkvnjGG3MIWi1rEt36n+eIBmlV0w/6e1hoVsMJJK9Y2zsc3f5V
- TKSZYp4LhvjQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9836"; a="154296697"
-X-IronPort-AV: E=Sophos;i="5.78,424,1599548400"; 
-   d="scan'208";a="154296697"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2020 05:58:43 -0800
-IronPort-SDR: DEkrNKwOd83K9p805L2m0mOc7UZiUvjmZYwThv62f2EsdGukau3GM4utl06MQbFID7wM6N/CwH
- FNRTzR/c/Mew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,424,1599548400"; 
-   d="scan'208";a="412634425"
-Received: from lkp-server02.sh.intel.com (HELO 070e1a605002) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 16 Dec 2020 05:58:42 -0800
-Received: from kbuild by 070e1a605002 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1kpXKD-000043-Dx; Wed, 16 Dec 2020 13:58:41 +0000
-Date:   Wed, 16 Dec 2020 21:57:58 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [input:master] BUILD SUCCESS
- fafd320ae51b9c72d371585b2501f86640ea7b7d
-Message-ID: <5fda1266.DddG1V/1aIGo9ogP%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1730031AbgLPWev (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 16 Dec 2020 17:34:51 -0500
+Received: from mail-io1-f69.google.com ([209.85.166.69]:33385 "EHLO
+        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727211AbgLPWev (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 16 Dec 2020 17:34:51 -0500
+Received: by mail-io1-f69.google.com with SMTP id t23so25503333ioh.0
+        for <linux-input@vger.kernel.org>; Wed, 16 Dec 2020 14:34:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=IZfEY1LeHQQfcMHwLHOg0yRfOEN2IrB4yJqAjN62emU=;
+        b=jkNp17utvVauOIfUgmu/4sT9J2qlSuFMW3uc1XoCCoArcXcNPjI+6OfauuQ6l5L93t
+         pQn8TgqWAM9lSO9o8dQvUCC73uVMpQ2zFtuG/q+ErVzIJUMSmav04s1KB3qzHcq+23YQ
+         bJneGMaiAuUwDYQrMAZbnl55cG/9Hrcor9ESitiX/x8DldqImSSeHW/f/MOLEXiwAG1H
+         6phlH6L1T3hOSanUW+TVpu76gza4xooMyPM3t6fb9w1MHgY24QHpeQ7rJe9awvFao/CV
+         1+3kK+HD3zKZTZqk3t9pcL5MC0+W9VLarNdau2V3hZjJiq63d3rky8AeHaMEkqV+ebHB
+         qWsA==
+X-Gm-Message-State: AOAM533rZg2/d+66+5muyS+22LGLOcaeEjCnFAYJOG7Q+rsj5woZcgXG
+        q6JhyOt6RaPFpfyefBMiFZhFziClu6LoE+RKgAioRkbI25dS
+X-Google-Smtp-Source: ABdhPJwUmrQP7lhoWaZ7/MLh8CSKguix8UpL4a61Gh7Y3Xg41+f69GZrrY2tk+90HiT/1aCIvcnPOrppn5mhQSFUyUulFut50E5w
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a5e:8e07:: with SMTP id a7mr43788802ion.129.1608158050380;
+ Wed, 16 Dec 2020 14:34:10 -0800 (PST)
+Date:   Wed, 16 Dec 2020 14:34:10 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000055f53805b69c7939@google.com>
+Subject: WARNING in atp_close
+From:   syzbot <syzbot+e3f15f0b58a330ddfc30@syzkaller.appspotmail.com>
+To:     dmitry.torokhov@gmail.com, gustavoars@kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git  master
-branch HEAD: fafd320ae51b9c72d371585b2501f86640ea7b7d  Input: raydium_ts_i2c - do not send zero length
+Hello,
 
-elapsed time: 720m
+syzbot found the following issue on:
 
-configs tested: 129
-configs skipped: 2
+HEAD commit:    7b1b868e Merge tag 'for-linus' of git://git.kernel.org/pub..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=17b34b37500000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5ed9af1b47477866
+dashboard link: https://syzkaller.appspot.com/bug?extid=e3f15f0b58a330ddfc30
+compiler:       gcc (GCC) 10.1.0-syz 20200507
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-gcc tested configs:
-arm64                            allyesconfig
-arm64                               defconfig
-arm                                 defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-sh                           se7750_defconfig
-powerpc                 xes_mpc85xx_defconfig
-sh                           se7751_defconfig
-arm                            xcep_defconfig
-arm                           efm32_defconfig
-powerpc                  mpc885_ads_defconfig
-powerpc               mpc834x_itxgp_defconfig
-arc                           tb10x_defconfig
-powerpc                     ksi8560_defconfig
-arm                    vt8500_v6_v7_defconfig
-mips                            ar7_defconfig
-powerpc                       ppc64_defconfig
-arm                          ep93xx_defconfig
-powerpc                        warp_defconfig
-powerpc                    ge_imp3a_defconfig
-c6x                                 defconfig
-powerpc                     sequoia_defconfig
-sh                            shmin_defconfig
-xtensa                         virt_defconfig
-sparc64                             defconfig
-sparc                       sparc32_defconfig
-mips                          ath79_defconfig
-mips                        workpad_defconfig
-s390                             alldefconfig
-mips                           ip32_defconfig
-s390                                defconfig
-sh                           se7722_defconfig
-mips                     loongson1c_defconfig
-arm                       versatile_defconfig
-arm                          pxa910_defconfig
-arm                        clps711x_defconfig
-powerpc                     ep8248e_defconfig
-arm                       netwinder_defconfig
-arm                           h5000_defconfig
-powerpc                     kmeter1_defconfig
-arm                      integrator_defconfig
-powerpc                       maple_defconfig
-mips                           ip27_defconfig
-nds32                             allnoconfig
-arm64                            alldefconfig
-arm                             ezx_defconfig
-mips                        bcm47xx_defconfig
-powerpc                      mgcoge_defconfig
-sh                         apsh4a3a_defconfig
-mips                malta_qemu_32r6_defconfig
-m68k                       bvme6000_defconfig
-arm                        cerfcube_defconfig
-h8300                    h8300h-sim_defconfig
-mips                           gcw0_defconfig
-m68k                             alldefconfig
-mips                      malta_kvm_defconfig
-arm                              zx_defconfig
-mips                         cobalt_defconfig
-sh                        dreamcast_defconfig
-powerpc                 mpc85xx_cds_defconfig
-parisc                              defconfig
-s390                             allyesconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-arc                              allyesconfig
-c6x                              allyesconfig
-nios2                               defconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                           allyesconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a001-20201215
-i386                 randconfig-a004-20201215
-i386                 randconfig-a003-20201215
-i386                 randconfig-a002-20201215
-i386                 randconfig-a006-20201215
-i386                 randconfig-a005-20201215
-i386                 randconfig-a014-20201215
-i386                 randconfig-a013-20201215
-i386                 randconfig-a012-20201215
-i386                 randconfig-a011-20201215
-i386                 randconfig-a015-20201215
-i386                 randconfig-a016-20201215
-x86_64               randconfig-a006-20201215
-x86_64               randconfig-a005-20201215
-x86_64               randconfig-a003-20201215
-x86_64               randconfig-a002-20201215
-x86_64               randconfig-a004-20201215
-x86_64               randconfig-a001-20201215
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                      rhel-8.3-kbuiltin
-x86_64                               rhel-8.3
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                                  kexec
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+e3f15f0b58a330ddfc30@syzkaller.appspotmail.com
 
-clang tested configs:
-x86_64               randconfig-a012-20201215
-x86_64               randconfig-a013-20201215
-x86_64               randconfig-a014-20201215
-x86_64               randconfig-a011-20201215
-x86_64               randconfig-a016-20201215
-x86_64               randconfig-a015-20201215
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 11091 at kernel/workqueue.c:3040 __flush_work+0x91a/0xac0 kernel/workqueue.c:3040
+Modules linked in:
+CPU: 1 PID: 11091 Comm: syz-executor.1 Not tainted 5.10.0-rc7-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+RIP: 0010:__flush_work+0x91a/0xac0 kernel/workqueue.c:3040
+Code: e3 08 48 0f ba 28 03 48 8b 95 70 fe ff ff 81 cb e0 01 00 00 e9 50 fa ff ff e8 f2 03 28 00 0f 0b e9 19 fc ff ff e8 e6 03 28 00 <0f> 0b 45 31 f6 e9 0a fc ff ff e8 d7 03 28 00 e8 62 8d 14 00 31 ff
+RSP: 0018:ffffc900063efb58 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: dffffc0000000000 RCX: ffffffff8147f9a6
+RDX: ffff888075a2a380 RSI: ffffffff8148021a RDI: 0000000000000001
+RBP: ffffc900063efce8 R08: 0000000000000001 R09: ffffffff8ebb96a7
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000001
+R13: 1ffff92000c7dfa0 R14: 0000000000000001 R15: ffff888075a2a380
+FS:  0000000003523940(0000) GS:ffff8880b9f00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f5537bf2934 CR3: 0000000015468000 CR4: 00000000001506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ __cancel_work_timer+0x3b3/0x520 kernel/workqueue.c:3136
+ atp_close+0x5e/0xa0 drivers/input/mouse/appletouch.c:812
+ input_close_device+0x110/0x1a0 drivers/input/input.c:683
+ evdev_close_device drivers/input/evdev.c:414 [inline]
+ evdev_release+0x34c/0x410 drivers/input/evdev.c:456
+ __fput+0x285/0x920 fs/file_table.c:281
+ task_work_run+0xdd/0x190 kernel/task_work.c:151
+ tracehook_notify_resume include/linux/tracehook.h:188 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:164 [inline]
+ exit_to_user_mode_prepare+0x17e/0x1a0 kernel/entry/common.c:191
+ syscall_exit_to_user_mode+0x38/0x260 kernel/entry/common.c:266
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x417ab1
+Code: 75 14 b8 03 00 00 00 0f 05 48 3d 01 f0 ff ff 0f 83 a4 1a 00 00 c3 48 83 ec 08 e8 0a fc ff ff 48 89 04 24 b8 03 00 00 00 0f 05 <48> 8b 3c 24 48 89 c2 e8 53 fc ff ff 48 89 d0 48 83 c4 08 48 3d 01
+RSP: 002b:00007ffe30172430 EFLAGS: 00000293 ORIG_RAX: 0000000000000003
+RAX: 0000000000000000 RBX: 0000000000000005 RCX: 0000000000417ab1
+RDX: 0000000000000000 RSI: ffffffff88e8c21e RDI: 0000000000000004
+RBP: 0000000000000001 R08: ffffffff8130c47a R09: 00000000648e67d9
+R10: 00007ffe30172510 R11: 0000000000000293 R12: ffffffffffffffff
+R13: 000000000004decc R14: 00000000000003e8 R15: 000000000119bf8c
+
 
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
