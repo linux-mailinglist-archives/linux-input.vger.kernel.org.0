@@ -2,81 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 50B0A2DCA6E
-	for <lists+linux-input@lfdr.de>; Thu, 17 Dec 2020 02:17:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CBC6F2DCF69
+	for <lists+linux-input@lfdr.de>; Thu, 17 Dec 2020 11:21:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389087AbgLQBNL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 16 Dec 2020 20:13:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55064 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389016AbgLQBNK (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 16 Dec 2020 20:13:10 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 434B8C0617B0;
-        Wed, 16 Dec 2020 17:12:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=F8PQcYi3gvouvVHva2A57eJGUWi5JG5zYlkbXK0yVMo=; b=EBkrCGqMq/3cf0a2Z0P7yAhM0r
-        LoFNNB7S/agSex5YbwWgpt+4NKxHgCTaBgsbCX4qXSlEqt1CQoxSYpTdElUe0nHP5bkE5G2k2Xx/J
-        tnYxQiyJNSUPLBjmsGqHwmi3xMHtoIPHKY4Z4Lu4JkSlcPCBMo7rqlKBoa2GSnfs6k42gQkvVpc2+
-        cVzc+Dgm1gR7QNN6F40mulJCOfSnmztxSgNBXp/HfG0r5EKd/4VcEXpb7tQPkbksvdu619QepoDAI
-        LxkOxtdfiKUya/YARcUxc7FSzsGfPqLjBvsWRxA5+TIDKM9wAxOJtNlK0dkRooPshWOcfeQutC1Gm
-        6+O/QoPw==;
-Received: from [2601:1c0:6280:3f0::64ea] (helo=smtpauth.infradead.org)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kphqF-0003ck-7i; Thu, 17 Dec 2020 01:12:27 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        syzbot+1e911ad71dd4ea72e04a@syzkaller.appspotmail.com,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-Subject: [PATCH] HID: core: detect and skip invalid inputs to snto32()
-Date:   Wed, 16 Dec 2020 17:12:21 -0800
-Message-Id: <20201217011221.25678-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
+        id S1726631AbgLQKUe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 17 Dec 2020 05:20:34 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49628 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726548AbgLQKUe (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 17 Dec 2020 05:20:34 -0500
+Date:   Thu, 17 Dec 2020 11:19:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1608200393;
+        bh=jY4ps8uCooV8u+Tl4ow1NrBJT3axma8765wOmVWvCms=;
+        h=From:To:cc:Subject:In-Reply-To:References:From;
+        b=bDzAOWdWkiylXciUAaXTaWJ++rWAkAoqv4JbnLXdT1Q2S3NQAPZSx2AR1UAdDQuKP
+         plVmdqMipkq79AQxGlHyQrZ82ER/9coeZTqg9p5pWz4c53qaYYYkbLprnbiwZGyKna
+         Urf5313gKOa2uE6rM1MmzTo3m4tkfq4ko3mpjm9mdxZ9grcSKL6gDbMoajBvs9zlmo
+         1X6RE+vuche5ZWwgj2rGZJ9wZh77iZ7qZrW3MGzKBZN9XFr2x7XuOoa8wqZjNkPQsO
+         Ip5vEm8C878kjvG6+Xkg5sehQ9vzuGdKMB4TcOmsbxpSlCVmTXgBzG0tdlvkCNB7T4
+         Furjq/TRPR0gA==
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Will McVicker <willmcvicker@google.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        security@kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-team@android.com,
+        Will Coster <willcoster@google.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v1] HID: make arrays usage and value to be the same
+In-Reply-To: <X9e5vl+nw4GQNYEw@google.com>
+Message-ID: <nycvar.YFH.7.76.2012171119240.25826@cbobk.fhfr.pm>
+References: <20201205004848.2541215-1-willmcvicker@google.com> <X9e5vl+nw4GQNYEw@google.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Prevent invalid (0, 0) inputs to hid-core's snto32() function.
+On Mon, 14 Dec 2020, Will McVicker wrote:
 
-Maybe it is just the dummy device here that is causing this, but
-there are hundreds of calls to snto32(0, 0). Having n (bits count)
-of 0 is causing the current UBSAN trap with a shift value of
-0xffffffff (-1, or n - 1 in this function).
+> > The HID subsystem allows an "HID report field" to have a different
+> > number of "values" and "usages" when it is allocated. When a field
+> > struct is created, the size of the usage array is guaranteed to be at
+> > least as large as the values array, but it may be larger. This leads to
+> > a potential out-of-bounds write in
+> > __hidinput_change_resolution_multipliers() and an out-of-bounds read in
+> > hidinput_count_leds().
+> > 
+> > To fix this, let's make sure that both the usage and value arrays are
+> > the same size.
+> > 
+> > Signed-off-by: Will McVicker <willmcvicker@google.com>
+> > ---
+> >  drivers/hid/hid-core.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> > index 56172fe6995c..8a8b2b982f83 100644
+> > --- a/drivers/hid/hid-core.c
+> > +++ b/drivers/hid/hid-core.c
+> > @@ -90,7 +90,7 @@ EXPORT_SYMBOL_GPL(hid_register_report);
+> >   * Register a new field for this report.
+> >   */
+> >  
+> > -static struct hid_field *hid_register_field(struct hid_report *report, unsigned usages, unsigned values)
+> > +static struct hid_field *hid_register_field(struct hid_report *report, unsigned usages)
+> >  {
+> >  	struct hid_field *field;
+> >  
+> > @@ -101,7 +101,7 @@ static struct hid_field *hid_register_field(struct hid_report *report, unsigned
+> >  
+> >  	field = kzalloc((sizeof(struct hid_field) +
+> >  			 usages * sizeof(struct hid_usage) +
+> > -			 values * sizeof(unsigned)), GFP_KERNEL);
+> > +			 usages * sizeof(unsigned)), GFP_KERNEL);
+> >  	if (!field)
+> >  		return NULL;
+> >  
+> > @@ -300,7 +300,7 @@ static int hid_add_field(struct hid_parser *parser, unsigned report_type, unsign
+> >  	usages = max_t(unsigned, parser->local.usage_index,
+> >  				 parser->global.report_count);
+> >  
+> > -	field = hid_register_field(report, usages, parser->global.report_count);
+> > +	field = hid_register_field(report, usages);
+> >  	if (!field)
+> >  		return 0;
+> >  
+> > -- 
+> > 2.29.2.576.ga3fc446d84-goog
+> > 
+> 
+> Hi Jiri and Benjamin,
+> 
+> This is a friendly reminder in case this got lost in your inbox.
 
-Either of the value to shift being 0 or the bits count being 0 can be
-handled by just returning 0 to the caller, avoiding the following
-complex shift + OR operations:
+Hi Will,
 
-	return value & (1 << (n - 1)) ? value | (~0U << n) : value;
+I am planning to merge it once the merge window is over.
 
-Fixes: dde5845a529f ("[PATCH] Generic HID layer - code split")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reported-by: syzbot+1e911ad71dd4ea72e04a@syzkaller.appspotmail.com
-Cc: Jiri Kosina <jikos@kernel.org>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: linux-input@vger.kernel.org
----
- drivers/hid/hid-core.c |    3 +++
- 1 file changed, 3 insertions(+)
+-- 
+Jiri Kosina
+SUSE Labs
 
---- lnx-510.orig/drivers/hid/hid-core.c
-+++ lnx-510/drivers/hid/hid-core.c
-@@ -1307,6 +1307,9 @@ EXPORT_SYMBOL_GPL(hid_open_report);
- 
- static s32 snto32(__u32 value, unsigned n)
- {
-+	if (!value || !n)
-+		return 0;
-+
- 	switch (n) {
- 	case 8:  return ((__s8)value);
- 	case 16: return ((__s16)value);
