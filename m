@@ -2,95 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8BF82DDEBD
-	for <lists+linux-input@lfdr.de>; Fri, 18 Dec 2020 07:51:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D1C62DDEBF
+	for <lists+linux-input@lfdr.de>; Fri, 18 Dec 2020 07:54:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732720AbgLRGvG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Dec 2020 01:51:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46094 "EHLO
+        id S1727280AbgLRGyg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Dec 2020 01:54:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726045AbgLRGvF (ORCPT
+        with ESMTP id S1725860AbgLRGyg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Dec 2020 01:51:05 -0500
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD610C0617A7;
-        Thu, 17 Dec 2020 22:50:25 -0800 (PST)
-Received: by mail-pg1-x52d.google.com with SMTP id n16so761133pgm.0;
-        Thu, 17 Dec 2020 22:50:25 -0800 (PST)
+        Fri, 18 Dec 2020 01:54:36 -0500
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB114C0617A7;
+        Thu, 17 Dec 2020 22:53:55 -0800 (PST)
+Received: by mail-pl1-x630.google.com with SMTP id b8so917033plx.0;
+        Thu, 17 Dec 2020 22:53:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=b4kCDwFWNF5hPUlvRHjYLakA1FMegus+Nk7UxmXikCA=;
-        b=Rj8Fx0pjuCn05N0wUNH6bS4OEJsHawUv5HtAL5CbCob/eqJ384TGNADaH2oN2CIWXC
-         9V2Gn0gbbKdHRicEk1jjDSQ1ecehUWs6FefcEr5FvIVXzZtLbQyk8tX5q6430PiCSk+d
-         F6gmnfiE/coPmAhOO25mOfzjyjuNBAirCtjBUxIIz9W9PSjfud1x4jfUyBFsgjzaIGZ8
-         yiVJfDKnzG3ffzsQuTQe5yB6CnqQBsVxQZvZ9+p4GOzhN5GqPObfL9XkJXBHkH9Ic6jk
-         Flk3AKGC/taSYM9preiHGL4s0LQ6MJEWrOhMS07ZdQRGyDQpZzUxSg8z1/eJoC0TNtbl
-         B2Vw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Hz+n8sgcprA6LhyVXY2YPhKyM2gTWxdov4mu8BPj34U=;
+        b=jkQVQ3FFyQSW3O83sApBrX9x5afL3sflJQ0+gpX4mY4FG9sJwiGzI50eAPHlt+23lY
+         mG4+NBulxSFkVZTPku26NrlLVRtIZo9LjlnY0yjV9IiQw0x+X00vN4GVwHjo20C4N3hP
+         JQ/Obht1CkMw8NfNu8wxparwImmRyHj4AzX2eAX0qla2GSBNdzEPmDO47lA8Bh0Gb7/P
+         TbXS+ZoqPWE73LdbTAuHod95cavCP5KWD49EfKv8hFm0u1sRI2Qvaz5YOW6xaG6wk9Oi
+         JX3EPANWk3KX4tnASp38hAvEMw7fvsQgEvL742LHfLaOIRR08dQsMLyQEF12m++fv2oR
+         7Muw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=b4kCDwFWNF5hPUlvRHjYLakA1FMegus+Nk7UxmXikCA=;
-        b=QNibmlOEisXo+cYY4Qt8aQ5mt+4VaPMUy2cXiaQd9Bl8Uar5iQiO+2VD88gEfFG5zT
-         L9TTzAv9DcaGLkOK0It9D2o/nmNGzDBHz/WqsLenXLNANlLjmttd/EloUEVHtd9lhIZe
-         9vVtucbZnvjziE5wCwzCw7s+Q4OAPMN3H6Vi+E7pCl9cank/KEUpCJ6+5/Nmy59GGQ3O
-         XS6A+NDlrO6rzelrBzKDUMcUmL2YCb1KvmRfZO7JsIQGMc1TLdPly4KzEztOyTK7GLJ5
-         C1ZR34+ui3BA6fje9FQL1rAOj7jB3SkEinLylmVDxo8vQpPiHCymMOT702mszHUVAfRV
-         wijw==
-X-Gm-Message-State: AOAM532daqqqAxwxHt4vm+LROHL8vY4ka7n0fGf/J9osdoKjt+g5C5uU
-        puxHl32i7UdgLoQysJVkG3BoWN3aEXE=
-X-Google-Smtp-Source: ABdhPJzj06f5M+uabAAmqT3gYZwpe05f8lxua6Gqisvqffqd10ddzuyjJ268CLSy/lhAsYPyQ2PZzg==
-X-Received: by 2002:a63:2f05:: with SMTP id v5mr2885864pgv.3.1608274224975;
-        Thu, 17 Dec 2020 22:50:24 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Hz+n8sgcprA6LhyVXY2YPhKyM2gTWxdov4mu8BPj34U=;
+        b=biy0+vufp2vrKs6D8xg/8lcmwEj1h8SWvMU9qGiNO2GY733LPhSNyiIBIwO/tF8LhW
+         R9M8ZqaJWQ6dj5EOMwFXxDF/lwqfUjE0YtzBKWz0Rpcv0y2u4ZQi7BAuxN4yPEb1rBE2
+         J5mbDizwF/frLFore/6/NyezffpYw2Yf5hvyV5btBMkbLC0j5gb/gRpw3MvXv3uzuDFY
+         DUj57e2gSiUMMicIxN7UOxE+S5SIY7aZn0kAQDNtktxGTnh+xBf/gdYAcEchRbiYH80c
+         l7KJWG6zCRc58lVq6466upxtGLVNuftDc0hdan69t+AdooUBfENkXtLUe4VK1L80J8Vd
+         RZ5g==
+X-Gm-Message-State: AOAM533/QTUieKFhL2ule9SFtkA4DOX/5hLpcUumcLFWhmputntxKkNd
+        6+mZK1rIN3P4bPKmuCI88JBK0xVI1RM=
+X-Google-Smtp-Source: ABdhPJwgDSO67k+nVlT3HiPyIVMhprCtTsvl5ncczRKCaKa9p/cWPcHQKvETkaLpHvpRoeNqPpEhEA==
+X-Received: by 2002:a17:90a:fa18:: with SMTP id cm24mr2949223pjb.220.1608274435361;
+        Thu, 17 Dec 2020 22:53:55 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id r14sm1597070pgi.27.2020.12.17.22.50.23
+        by smtp.gmail.com with ESMTPSA id f29sm7918141pfk.32.2020.12.17.22.53.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Dec 2020 22:50:24 -0800 (PST)
-Date:   Thu, 17 Dec 2020 22:50:21 -0800
+        Thu, 17 Dec 2020 22:53:54 -0800 (PST)
+Date:   Thu, 17 Dec 2020 22:53:51 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     linux-input@vger.kernel.org
-Cc:     Roy Im <roy.im.opensource@diasemi.com>,
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     linux-input@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        Paul Hollinsky <phollinsky@holtechnik.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: da7280 - protect OF match table with CONFIG_OF
-Message-ID: <X9xRLVPt9eBi0CT6@google.com>
+Subject: Re: [PATCH] Input: gtco - remove driver
+Message-ID: <X9xR/wTjU1tLS5JV@google.com>
+References: <X8wbBtO5KidME17K@google.com>
+ <nycvar.YFH.7.76.2012171221350.25826@cbobk.fhfr.pm>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <nycvar.YFH.7.76.2012171221350.25826@cbobk.fhfr.pm>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The OF match table is only used when OF is enabled.
+Hi Jiri,
 
-Fixes: cd3f609823a5 ("Input: new da7280 haptic driver")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/misc/da7280.c | 2 ++
- 1 file changed, 2 insertions(+)
+On Thu, Dec 17, 2020 at 12:22:17PM +0100, Jiri Kosina wrote:
+> On Sat, 5 Dec 2020, Dmitry Torokhov wrote:
+> 
+> > The driver has its own HID descriptor parsing code, that had and still
+> > has several issues discovered by syzbot and other tools. Ideally we
+> > should move the driver over to the HID subsystem, so that it uses proven
+> > parsing code.  However the devices in question are EOL, and GTCO is not
+> > willing to extend resources for that, so let's simply remove the driver.
+> 
+> Acked-by: Jiri Kosina <jkosina@suse.cz>
+> 
+> > 
+> > Note that our HID support has greatly improved over the last 10 years,
+> > we may also consider reverting 6f8d9e26e7de ("hid-core.c: Adds all GTCO
+> > CalComp Digitizers and InterWrite School Products to blacklist") and see
+> > if GTCO devices actually work with normal HID drivers.
+> 
+> Sounds like a good plan to me. Perhaps you can do that in a series 
+> together, and stage that for 5.12?
 
-diff --git a/drivers/input/misc/da7280.c b/drivers/input/misc/da7280.c
-index 2f698a8c1d65..b08610d6e575 100644
---- a/drivers/input/misc/da7280.c
-+++ b/drivers/input/misc/da7280.c
-@@ -1300,11 +1300,13 @@ static int __maybe_unused da7280_resume(struct device *dev)
- 	return retval;
- }
- 
-+#ifdef CONFIG_OF
- static const struct of_device_id da7280_of_match[] = {
- 	{ .compatible = "dlg,da7280", },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, da7280_of_match);
-+#endif
- 
- static const struct i2c_device_id da7280_i2c_id[] = {
- 	{ "da7280", },
--- 
-2.29.2.729.g45daf8777d-goog
+Sorry, I already zapped the driver in 5.11.
 
+Unfortunately I do not have this hardware, so while we could remove
+these devices from the blacklist we will have to do that blindly. Please
+let me know if you still want to do that.
+
+Thank you.
 
 -- 
 Dmitry
