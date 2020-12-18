@@ -2,100 +2,171 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D1C62DDEBF
-	for <lists+linux-input@lfdr.de>; Fri, 18 Dec 2020 07:54:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 55B3C2DE33D
+	for <lists+linux-input@lfdr.de>; Fri, 18 Dec 2020 14:23:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727280AbgLRGyg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Dec 2020 01:54:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46634 "EHLO
+        id S1726520AbgLRNWY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Dec 2020 08:22:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725860AbgLRGyg (ORCPT
+        with ESMTP id S1726481AbgLRNWX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Dec 2020 01:54:36 -0500
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB114C0617A7;
-        Thu, 17 Dec 2020 22:53:55 -0800 (PST)
-Received: by mail-pl1-x630.google.com with SMTP id b8so917033plx.0;
-        Thu, 17 Dec 2020 22:53:55 -0800 (PST)
+        Fri, 18 Dec 2020 08:22:23 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 469A1C061285
+        for <linux-input@vger.kernel.org>; Fri, 18 Dec 2020 05:21:43 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id 91so2127451wrj.7
+        for <linux-input@vger.kernel.org>; Fri, 18 Dec 2020 05:21:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Hz+n8sgcprA6LhyVXY2YPhKyM2gTWxdov4mu8BPj34U=;
-        b=jkQVQ3FFyQSW3O83sApBrX9x5afL3sflJQ0+gpX4mY4FG9sJwiGzI50eAPHlt+23lY
-         mG4+NBulxSFkVZTPku26NrlLVRtIZo9LjlnY0yjV9IiQw0x+X00vN4GVwHjo20C4N3hP
-         JQ/Obht1CkMw8NfNu8wxparwImmRyHj4AzX2eAX0qla2GSBNdzEPmDO47lA8Bh0Gb7/P
-         TbXS+ZoqPWE73LdbTAuHod95cavCP5KWD49EfKv8hFm0u1sRI2Qvaz5YOW6xaG6wk9Oi
-         JX3EPANWk3KX4tnASp38hAvEMw7fvsQgEvL742LHfLaOIRR08dQsMLyQEF12m++fv2oR
-         7Muw==
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=F+ibjVaRawhB9by9+I/z97txlwumatdH7xKnsmPgCGQ=;
+        b=k5O8dSEmSegIR7pYA9kV2ana+UeZIpHtGeDaUNyh9fmp8oCXJhsX8wUXP68tD5eWZv
+         RJZNsMiPVsggdsokowNDv9oX1TWqyfbNOEo8AjdDAIwgyrys3P5y66kWCBOsEuPhQfec
+         eWWyJzb0+2YmlgcrJ2Vewwut/ZG8owPpSTRMsG51UIA2RshPJJEckF1PF17v/GpCTCN9
+         JmoP6ZT/ILZd8XyE1rTs3xCfMNWWFloEsQPfq5hm3XQ/W43zMNM8RXcjG3enzySy8Pjl
+         dsIx74U40ax+muXd4/dAAMrr3h1qL1rj64mYoHM78mhsD9v5orIYz88yAK90ivsTkSv1
+         QU1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Hz+n8sgcprA6LhyVXY2YPhKyM2gTWxdov4mu8BPj34U=;
-        b=biy0+vufp2vrKs6D8xg/8lcmwEj1h8SWvMU9qGiNO2GY733LPhSNyiIBIwO/tF8LhW
-         R9M8ZqaJWQ6dj5EOMwFXxDF/lwqfUjE0YtzBKWz0Rpcv0y2u4ZQi7BAuxN4yPEb1rBE2
-         J5mbDizwF/frLFore/6/NyezffpYw2Yf5hvyV5btBMkbLC0j5gb/gRpw3MvXv3uzuDFY
-         DUj57e2gSiUMMicIxN7UOxE+S5SIY7aZn0kAQDNtktxGTnh+xBf/gdYAcEchRbiYH80c
-         l7KJWG6zCRc58lVq6466upxtGLVNuftDc0hdan69t+AdooUBfENkXtLUe4VK1L80J8Vd
-         RZ5g==
-X-Gm-Message-State: AOAM533/QTUieKFhL2ule9SFtkA4DOX/5hLpcUumcLFWhmputntxKkNd
-        6+mZK1rIN3P4bPKmuCI88JBK0xVI1RM=
-X-Google-Smtp-Source: ABdhPJwgDSO67k+nVlT3HiPyIVMhprCtTsvl5ncczRKCaKa9p/cWPcHQKvETkaLpHvpRoeNqPpEhEA==
-X-Received: by 2002:a17:90a:fa18:: with SMTP id cm24mr2949223pjb.220.1608274435361;
-        Thu, 17 Dec 2020 22:53:55 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id f29sm7918141pfk.32.2020.12.17.22.53.53
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=F+ibjVaRawhB9by9+I/z97txlwumatdH7xKnsmPgCGQ=;
+        b=b7tU7TITUMZ9E+wU+GePRi6M8sHw4FP8Fjy6LmG8/HxcN3W5fVoESdibeLx9A1b98X
+         /j/IL3C6PHyg41aYJ93PliCvZOqUytS+HhKtD4HBJjvUE87dBHaYVZsfAGL9gneNS4le
+         SWDyEqbntJtzPgvCNdfG0EwXNBFcPHQbLOVgxIAMVaX8irEw1sx7psFkW3phKq2NGizP
+         hDxfbxUO2kjAaSBu8WKBNpUi/mEZ6X0rsxmUACG+pcA0Vr9DB+wh50VDtC9q6IlQiebB
+         no/TjfNCaBZ3vARNdxhaH2ekwBOvASjVex1ZzLkpDq9s64iBJzHp2Nt9Zx/B5Mw4I8vF
+         er6g==
+X-Gm-Message-State: AOAM531yk21OqyY2cNhrAz48A2VOzhAa8cWH3AoxJznHtTJogkI/VysR
+        dhoxhRDUBkt7LxHi26FiMUXutQ==
+X-Google-Smtp-Source: ABdhPJwtBIUdA1p+Ktu1cWhF7xpUYRoQd2G/kpx1lZYPa72QSunJ0F9p0UsLXj2jqK45VkD4M5qrZw==
+X-Received: by 2002:a05:6000:11c1:: with SMTP id i1mr4613985wrx.16.1608297701780;
+        Fri, 18 Dec 2020 05:21:41 -0800 (PST)
+Received: from dell ([91.110.221.216])
+        by smtp.gmail.com with ESMTPSA id c190sm11393200wme.19.2020.12.18.05.21.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Dec 2020 22:53:54 -0800 (PST)
-Date:   Thu, 17 Dec 2020 22:53:51 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     linux-input@vger.kernel.org, Rob Herring <robh@kernel.org>,
-        Paul Hollinsky <phollinsky@holtechnik.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: gtco - remove driver
-Message-ID: <X9xR/wTjU1tLS5JV@google.com>
-References: <X8wbBtO5KidME17K@google.com>
- <nycvar.YFH.7.76.2012171221350.25826@cbobk.fhfr.pm>
+        Fri, 18 Dec 2020 05:21:41 -0800 (PST)
+Date:   Fri, 18 Dec 2020 13:21:39 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+        linux-actions@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: Re: [PATCH v3 3/7] mfd: Add MFD driver for ATC260x PMICs
+Message-ID: <20201218132139.GR207743@dell>
+References: <cover.1607216141.git.cristian.ciocaltea@gmail.com>
+ <f538c21de556c66390614bad778f7dc095222e8c.1607216141.git.cristian.ciocaltea@gmail.com>
+ <20201216101000.GD207743@dell>
+ <20201217231731.GA104305@BV030612LT>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <nycvar.YFH.7.76.2012171221350.25826@cbobk.fhfr.pm>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201217231731.GA104305@BV030612LT>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jiri,
+On Fri, 18 Dec 2020, Cristian Ciocaltea wrote:
 
-On Thu, Dec 17, 2020 at 12:22:17PM +0100, Jiri Kosina wrote:
-> On Sat, 5 Dec 2020, Dmitry Torokhov wrote:
+> Hi Lee,
 > 
-> > The driver has its own HID descriptor parsing code, that had and still
-> > has several issues discovered by syzbot and other tools. Ideally we
-> > should move the driver over to the HID subsystem, so that it uses proven
-> > parsing code.  However the devices in question are EOL, and GTCO is not
-> > willing to extend resources for that, so let's simply remove the driver.
+> Thank you for the detailed review!
 > 
-> Acked-by: Jiri Kosina <jkosina@suse.cz>
-> 
+> I will prepare a new revision, but there are still a couple of open
+> points..
+
+Could you please snip your replies, leaving only the open points.
+
+Scrolling through lots of empty quotes or "done" comments is quite
+time consuming.  Thanks.
+
+[...]
+
+> > > +	/*
+> > > +	 * Using regmap within an atomic context (e.g. accessing a PMIC when
+> > > +	 * powering system down) is normally allowed only if the regmap type
+> > > +	 * is MMIO and the regcache type is either REGCACHE_NONE or
+> > > +	 * REGCACHE_FLAT. For slow buses like I2C and SPI, the regmap is
+> > > +	 * internally protected by a mutex which is acquired non-atomically.
+> > > +	 *
+> > > +	 * Let's improve this by using a customized locking scheme inspired
+> > > +	 * from I2C atomic transfer. See i2c_in_atomic_xfer_mode() for a
+> > > +	 * starting point.
+> > > +	 */
+> > > +	if (system_state > SYSTEM_RUNNING && irqs_disabled())
 > > 
-> > Note that our HID support has greatly improved over the last 10 years,
-> > we may also consider reverting 6f8d9e26e7de ("hid-core.c: Adds all GTCO
-> > CalComp Digitizers and InterWrite School Products to blacklist") and see
-> > if GTCO devices actually work with normal HID drivers.
+> > Were does system_state come from?
 > 
-> Sounds like a good plan to me. Perhaps you can do that in a series 
-> together, and stage that for 5.12?
+> It is declared in 'include/linux/kernel.h':
+> 
+> extern enum system_states {
+> 	SYSTEM_BOOTING,
+> 	SYSTEM_SCHEDULING,
+> 	SYSTEM_RUNNING,
+> 	SYSTEM_HALT,
+> 	SYSTEM_POWER_OFF,
+> 	SYSTEM_RESTART,
+> 	SYSTEM_SUSPEND,
+> } system_state;
+> 
+> The definition is in 'init/main.c':
+> 
+> enum system_states system_state __read_mostly;
+> EXPORT_SYMBOL(system_state);
 
-Sorry, I already zapped the driver in 5.11.
+Ah, it's a system wide thing.  No problem.
 
-Unfortunately I do not have this hardware, so while we could remove
-these devices from the blacklist we will have to do that blindly. Please
-let me know if you still want to do that.
+[...]
 
-Thank you.
+> > > +	ret = regmap_read(atc260x->regmap, atc260x->rev_reg, &chip_rev);
+> > > +	if (ret) {
+> > > +		dev_err(dev, "Failed to get chip revision\n");
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	if (chip_rev < 0 || chip_rev > 31) {
+> > > +		dev_err(dev, "Unknown chip revision: %d\n", ret);
+> > > +		return -EINVAL;
+> > > +	}
+> > 
+> > This still seems limiting.
+> 
+> This is based on the vendor implementation. Unfortunately I don't have
+> access to a data sheet or any other source of information about the
+> management of the chip revisions.
+
+So which versions does this driver work with?  All 32?
+
+[...]
+
+> > > +const struct of_device_id atc260x_i2c_of_match[] = {
+> > > +	{ .compatible = "actions,atc2603c", .data = (void *)ATC2603C },
+> > > +	{ .compatible = "actions,atc2609a", .data = (void *)ATC2609A },
+> > > +	{ /* sentinel */ }
+> > 
+> > I think you can drop the (void *) casts.
+> 
+> Without the cast, I get the following compiler warning:
+> 
+> drivers/mfd/atc260x-i2c.c:46:46: warning: initialization of ‘const void *’
+> from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+>   { .compatible = "actions,atc2603c", .data = ATC2603C },
+
+Perhaps I'm getting confused with addresses of things.  Never mind.
 
 -- 
-Dmitry
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
