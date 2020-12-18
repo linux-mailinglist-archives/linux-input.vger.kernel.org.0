@@ -2,129 +2,161 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A36E2DE7A0
-	for <lists+linux-input@lfdr.de>; Fri, 18 Dec 2020 17:50:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E7DF42DEBF4
+	for <lists+linux-input@lfdr.de>; Sat, 19 Dec 2020 00:21:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728189AbgLRQuh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Dec 2020 11:50:37 -0500
-Received: from mail-vi1eur05on2052.outbound.protection.outlook.com ([40.107.21.52]:53793
-        "EHLO EUR05-VI1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726708AbgLRQuh (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Dec 2020 11:50:37 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Be8QZlEZLMldIAAU5O+pKpBNSckkW+QN4hKo23nmV7YAHw1x0tj3sRhPO13mo6pMbDqjHgRqbkhc3hWSNZmKaYXi9MaMsAFrHofRNkJVSiO9Gx5qZ02dfAtRDChzVvjMYMwVOsWo5X+/76STSRlMaDeHP3eulbPnxbROwKt1A1bs36Lf6QV70pDPMlK4TpYPhEad8gitxsz0Q4PZq6Nyh+JV4i3hzU81cXjAiVpitxjGqf7JsFTKtgRG1GQHOGQOzjJAcdCkMUKSIicxObZNyLffgt2L8gq2b3nuvaGkxeM5NBLG313UlfeF96x1ciFtuaKUCVzRSyKA6xxvRzDBBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nIJ3rekNko5yDVHyvfeaztY9wQVKHpFCAchsBBQ1RgI=;
- b=GIBFQRRco9J82SlJj+4vddZGQBIJLMHwTShv5eQUcEBTZELuF9RXn2wVaPocE6T/MfXrCsTWLkPfyQlhMCHEdiLoqSvZkRsz2mBY6rW5Ex3mSzqGea4i8TsDdP2SewvxReSX/owdyusJXalzEQ8DLWtl6g/UmJjcsP6AXOT/VVHG6YPcgf9ZV7SqUQiGRV/QINXaeIa37mSxCsod0EKU7z1t0FUWhpwnMuuOWsG3KaI7TQGcI5SZ2N5lClYMbwtngekj2dR5gwvlgUStZHivkfL0YdkDhsjkBb3Ob4yc9rPSgk24eih9i80KGtbPVcmC/vJSCUdQw8J+UFeycZOOGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=diasemi.com; dmarc=pass action=none header.from=diasemi.com;
- dkim=pass header.d=diasemi.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dialogsemiconductor.onmicrosoft.com;
- s=selector1-dialogsemiconductor-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nIJ3rekNko5yDVHyvfeaztY9wQVKHpFCAchsBBQ1RgI=;
- b=0aS+KEKXonux+551VjPet7PakohjoynVLMiO4p6im4c3ZFPZSOrGkWJOCCZ7YT5OvR0em45ERXtaAecRUDDDXde3sGdCjYxp86que4ru8ihCnnHbLqWh5+4Ysw6z08VBWLHPGeJsisa/4MegKnTIKrMB5kEXJWB8o8IKL46ipwM=
-Received: from AM6PR10MB1926.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:209:35::12)
- by AM6PR10MB2984.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:e5::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12; Fri, 18 Dec
- 2020 16:49:48 +0000
-Received: from AM6PR10MB1926.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::8805:7516:b929:e052]) by AM6PR10MB1926.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::8805:7516:b929:e052%7]) with mapi id 15.20.3654.026; Fri, 18 Dec 2020
- 16:49:48 +0000
-From:   Roy Im <roy.im.opensource@diasemi.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-CC:     Roy Im <roy.im.opensource@diasemi.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] Input: da7280 - protect OF match table with CONFIG_OF
-Thread-Topic: [PATCH] Input: da7280 - protect OF match table with CONFIG_OF
-Thread-Index: AQHW1QoRSbw/Sew23UOcP0mEXBFrv6n9EGgA
-Date:   Fri, 18 Dec 2020 16:49:48 +0000
-Message-ID: <AM6PR10MB1926A5AB8951B4DE62A96EE385C30@AM6PR10MB1926.EURPRD10.PROD.OUTLOOK.COM>
-References: <X9xRLVPt9eBi0CT6@google.com>
-In-Reply-To: <X9xRLVPt9eBi0CT6@google.com>
-Accept-Language: ko-KR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=diasemi.com;
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [1.234.57.63]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: aaed37c5-90bb-4e88-609a-08d8a374ee53
-x-ms-traffictypediagnostic: AM6PR10MB2984:
-x-ms-exchange-sharedmailbox-routingagent-processed: True
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM6PR10MB2984D7AC90C4E93D42CC8D01A2C30@AM6PR10MB2984.EURPRD10.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:243;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: uj6VnUx2FrLaFGqqLjGFx/1vkad05w0TMD/4saVIb6E/vl1TUPTKbJqnfu2L+//xtNY4DKyNYz7sFvOVdkHwhnmVS/x0OtCBRvU9OcbkCA9wKFeWr4M6PSa1wBI7EfyCMsmyisb/4223FKaITTA/TyHryf1TQsizL26tr0hAIjdoACB8AF5U3Av7F0eHWEHEvzkiG1vEnuJ5glr7tJRRnJfgRdwaCnibOXOgfTe400Y8eAVoYbcYHkwmEhKGP5lcDpXNxeuE5c3JdktXUDq+HtMA0rgNd107+ARP3S1f4FJvUMvExJO3ZQ8GIvF2kM6IXXumIIRuijKosjOCvM25aw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR10MB1926.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(346002)(39850400004)(376002)(136003)(396003)(366004)(33656002)(26005)(66476007)(7696005)(316002)(71200400001)(110136005)(2906002)(64756008)(8936002)(66946007)(55016002)(54906003)(5660300002)(66446008)(66556008)(8676002)(86362001)(186003)(9686003)(6506007)(52536014)(4744005)(53546011)(4326008)(76116006)(478600001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: uodTL+mtN3ID5cnqdcORWRKM702jFHfOHFNQmUZ0fJ3P8Z75v28uboH/y2LIt0ODBTNuCmN2tiEDiIaLdeAOp/BOXxRvyPOfy8jtC/4ZIUjejQJFLD+Ik/21MBx+Hh1esIh+My0V5+a+l9/6ovYOWcc5mfIBpLoYImut4RfNPKBai4YiPIGcQ/M0uVPsOyAoWcqSWa+uzzkxmk6j0jkpIZh7alUG7n3Okb2QFfOKUwLm/86BkfDvmovRQVAdqtz4kwKAyP7ZpoZZ6Jho2QPp8CE6sToQdHQ0BiMqHCcd5VvDxWXUyyFys1Xpx7cET+a7yGz7wueVGHgMGG9tXLM+wuAaKQgAgmVcFCyPIgFhxU84QgOk+uaGyZWA5IxEFJpuUN4A0J5wB2SEdZtrpVLTpaaBdB9I3H8bhOSP8X1OkEkk2E2uOKFBrU4L9xxBTktBY0ZXjYzx0IVinry0J6wuD5wOXq0KtH81vswHR8J2rqmw4pxtZm/d7RuEt9LroPZIzIe5ePvZZjuIZpUwB6Upz9ccf1vKFxvrS7SUvQo4mv8S+mCZlrntKqIq/S9wx1l8LeUj+fahn1HF29c/IS6IXSVxYzCAq9Qy9RSsNIJf9q0Hr0DzkasP/DkADehVb4l9J9xpJ2Ta5hHXkbm8hTNEnLXBxcAUqgEb/rh3Wwz29vZCg0/Iccmfrx2P2dA5cckHtUgvEedSfN6X1mQuBb+ZdYpbHfnAmlADeeK20j4gY0E=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1726192AbgLRXVV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 18 Dec 2020 18:21:21 -0500
+Received: from plasma4.jpberlin.de ([80.241.57.33]:33829 "EHLO
+        plasma4.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725824AbgLRXVV (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 18 Dec 2020 18:21:21 -0500
+Received: from spamfilter01.heinlein-hosting.de (spamfilter01.heinlein-hosting.de [80.241.56.115])
+        by plasma.jpberlin.de (Postfix) with ESMTP id 69AB4AAC9A;
+        Sat, 19 Dec 2020 00:20:35 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from plasma.jpberlin.de ([80.241.56.68])
+        by spamfilter01.heinlein-hosting.de (spamfilter01.heinlein-hosting.de [80.241.56.115]) (amavisd-new, port 10030)
+        with ESMTP id gb9lsDoZ1lJr; Sat, 19 Dec 2020 00:20:34 +0100 (CET)
+Received: from webmail.opensynergy.com (unknown [217.66.60.5])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (Client CN "*.opensynergy.com", Issuer "Starfield Secure Certificate Authority - G2" (not verified))
+        (Authenticated sender: opensynergy@jpberlin.de)
+        by plasma.jpberlin.de (Postfix) with ESMTPSA id 19E0AAA9F0;
+        Sat, 19 Dec 2020 00:20:34 +0100 (CET)
+Subject: Re: [PATCH RESEND v2] virtio-input: add multi-touch support
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC:     <virtualization@lists.linux-foundation.org>,
+        <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Mathias Crombez <mathias.crombez@faurecia.com>
+References: <20201208210150.20001-1-vasyl.vavrychuk@opensynergy.com>
+ <X8/4kRLsr8755i01@google.com>
+From:   Vasyl Vavrychuk <vasyl.vavrychuk@opensynergy.com>
+Message-ID: <c1f764da-9923-9073-0001-757587f53853@opensynergy.com>
+Date:   Sat, 19 Dec 2020 01:20:30 +0200
 MIME-Version: 1.0
-X-OriginatorOrg: diasemi.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR10MB1926.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: aaed37c5-90bb-4e88-609a-08d8a374ee53
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Dec 2020 16:49:48.1621
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Zo9AJTOQIkbNPCUz11/7nTGVqYpJ11qXe28xKYQnpYIIBUSPR7xKzA/mLer2ITshZjY6cpHJSYOqxx87hfOYVA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR10MB2984
+In-Reply-To: <X8/4kRLsr8755i01@google.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SR-MAIL-02.open-synergy.com (10.26.10.22) To
+ SR-MAIL-01.open-synergy.com (10.26.10.21)
+X-MBO-SPAM-Probability: 
+X-Rspamd-Score: -7.00 / 15.00 / 15.00
+X-Rspamd-Queue-Id: 69AB4AAC9A
+X-Rspamd-UID: 2b4d75
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Friday, December 18, 2020 3:50 PM, Dmitry Torokhov wrote:
+Hi, Dmitry,
 
-> The OF match table is only used when OF is enabled.
->=20
-> Fixes: cd3f609823a5 ("Input: new da7280 haptic driver")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> ---
->  drivers/input/misc/da7280.c | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/drivers/input/misc/da7280.c b/drivers/input/misc/da7280.c in=
-dex 2f698a8c1d65..b08610d6e575 100644
-> --- a/drivers/input/misc/da7280.c
-> +++ b/drivers/input/misc/da7280.c
-> @@ -1300,11 +1300,13 @@ static int __maybe_unused da7280_resume(struct de=
-vice *dev)
->  	return retval;
->  }
->=20
-> +#ifdef CONFIG_OF
->  static const struct of_device_id da7280_of_match[] =3D {
->  	{ .compatible =3D "dlg,da7280", },
->  	{ }
->  };
->  MODULE_DEVICE_TABLE(of, da7280_of_match);
-> +#endif
->=20
->  static const struct i2c_device_id da7280_i2c_id[] =3D {
->  	{ "da7280", },
-> --
-> 2.29.2.729.g45daf8777d-goog
->=20
->=20
+Thanks for you suggestion. I have sent v3 version of the patch where I 
+have applied it.
+
+Kind regards,
+Vasyl
+
+On 09.12.20 00:05, Dmitry Torokhov wrote:
+> CAUTION: This email originated from outside of the organization.
+> Do not click links or open attachments unless you recognize the sender and know the content is safe.
+> 
+> 
+> Hi Vasyl,
+> 
+> On Tue, Dec 08, 2020 at 11:01:50PM +0200, Vasyl Vavrychuk wrote:
+>> From: Mathias Crombez <mathias.crombez@faurecia.com>
+>>
+>> Without multi-touch slots allocated, ABS_MT_SLOT events will be lost by
+>> input_handle_abs_event.
+>>
+>> Signed-off-by: Mathias Crombez <mathias.crombez@faurecia.com>
+>> Signed-off-by: Vasyl Vavrychuk <vasyl.vavrychuk@opensynergy.com>
+>> Tested-by: Vasyl Vavrychuk <vasyl.vavrychuk@opensynergy.com>
+>> ---
+>> v2: fix patch corrupted by corporate email server
+>>
+>>   drivers/virtio/Kconfig        | 11 +++++++++++
+>>   drivers/virtio/virtio_input.c |  8 ++++++++
+>>   2 files changed, 19 insertions(+)
+>>
+>> diff --git a/drivers/virtio/Kconfig b/drivers/virtio/Kconfig
+>> index 7b41130d3f35..2cfd5b01d96d 100644
+>> --- a/drivers/virtio/Kconfig
+>> +++ b/drivers/virtio/Kconfig
+>> @@ -111,6 +111,17 @@ config VIRTIO_INPUT
+>>
+>>         If unsure, say M.
+>>
+>> +config VIRTIO_INPUT_MULTITOUCH_SLOTS
+>> +     depends on VIRTIO_INPUT
+>> +     int "Number of multitouch slots"
+>> +     range 0 64
+>> +     default 10
+>> +     help
+>> +      Define the number of multitouch slots used. Default to 10.
+>> +      This parameter is unused if there is no multitouch capability.
+> 
+> I believe the number of slots should be communicated to the guest by
+> the host, similarly to how the rest of input device capabilities is
+> transferred, instead of having static compile-time option.
+> 
+>> +
+>> +      0 will disable the feature.
+>> +
+>>   config VIRTIO_MMIO
+>>        tristate "Platform bus driver for memory mapped virtio devices"
+>>        depends on HAS_IOMEM && HAS_DMA
+>> diff --git a/drivers/virtio/virtio_input.c b/drivers/virtio/virtio_input.c
+>> index f1f6208edcf5..13f3d90e6c30 100644
+>> --- a/drivers/virtio/virtio_input.c
+>> +++ b/drivers/virtio/virtio_input.c
+>> @@ -7,6 +7,7 @@
+>>
+>>   #include <uapi/linux/virtio_ids.h>
+>>   #include <uapi/linux/virtio_input.h>
+>> +#include <linux/input/mt.h>
+>>
+>>   struct virtio_input {
+>>        struct virtio_device       *vdev;
+>> @@ -205,6 +206,7 @@ static int virtinput_probe(struct virtio_device *vdev)
+>>        unsigned long flags;
+>>        size_t size;
+>>        int abs, err;
+>> +     bool is_mt = false;
+>>
+>>        if (!virtio_has_feature(vdev, VIRTIO_F_VERSION_1))
+>>                return -ENODEV;
+>> @@ -287,9 +289,15 @@ static int virtinput_probe(struct virtio_device *vdev)
+>>                for (abs = 0; abs < ABS_CNT; abs++) {
+>>                        if (!test_bit(abs, vi->idev->absbit))
+>>                                continue;
+>> +                     if (input_is_mt_value(abs))
+>> +                             is_mt = true;
+>>                        virtinput_cfg_abs(vi, abs);
+>>                }
+>>        }
+>> +     if (is_mt)
+>> +             input_mt_init_slots(vi->idev,
+>> +                                 CONFIG_VIRTIO_INPUT_MULTITOUCH_SLOTS,
+>> +                                 INPUT_MT_DIRECT);
+> 
+> Here errors need to be handled.
+> 
+>>
+>>        virtio_device_ready(vdev);
+>>        vi->ready = true;
+>> --
+>> 2.23.0
+>>
+> 
+> Thanks.
+> 
 > --
 > Dmitry
-
-Thanks!
-
-Acked-by: Roy Im <roy.im.opensource@diasemi.com>
-
+> 
