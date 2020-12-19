@@ -2,133 +2,129 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEA7C2DED12
-	for <lists+linux-input@lfdr.de>; Sat, 19 Dec 2020 05:50:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 89C492DED73
+	for <lists+linux-input@lfdr.de>; Sat, 19 Dec 2020 07:24:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726310AbgLSErI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 18 Dec 2020 23:47:08 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:36319 "EHLO
-        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726254AbgLSErI (ORCPT
+        id S1726334AbgLSGYV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 19 Dec 2020 01:24:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36734 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726326AbgLSGYU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 18 Dec 2020 23:47:08 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-        by mailout.nyi.internal (Postfix) with ESMTP id 3FAC85C00CB;
-        Fri, 18 Dec 2020 23:46:02 -0500 (EST)
-Received: from imap22 ([10.202.2.72])
-  by compute2.internal (MEProxy); Fri, 18 Dec 2020 23:46:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mxxn.io; h=
-        mime-version:message-id:date:from:to:subject:content-type
-        :content-transfer-encoding; s=fm1; bh=nC0KoqiKl38hyjl3b0YXmDOFpA
-        9kO4GqxnDV3PcLu9Y=; b=aqr/PAzP12MrJvTKOGS9rabY0JgqlAsLGNVw0uJWSX
-        Gj5YCsHmZzRwExbrmRAS6FJR3UCUWzYQkFt/CaDH1BnSAmYUyeBRT1NVKY7s59I6
-        C+bDMjHohEoVJIWUp81mZstZr7WaVnVGxx53QN6HOocksVD4U4C6rhXCHMNigYLQ
-        wVb0x/n5mgT8/YrF/P7D7RGljMLzYdfwH2VlGy5xkhjFNWi4Gl9HrJtT58uFx7Pr
-        u8zlChAwVXiMPVSTKQ0DmuVoR5lIWlyTciQcJJ8A6UCcw1QyKWqW7p7FiUqJ9gKQ
-        tSDnYAiCtSwEfD5N/KDgFQ9gnS79qUbCY+d5CufFkUag==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=content-transfer-encoding:content-type
-        :date:from:message-id:mime-version:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=nC0Koq
-        iKl38hyjl3b0YXmDOFpA9kO4GqxnDV3PcLu9Y=; b=i3cwHf0EYSwrUNRpW3cKeg
-        gLJoxwQ/iYdcO6f3xrXeOTvwXRlcQQTCkds0f5c6kDbEVSeYnqCC5EFTmvrBmcQ8
-        v3iWoqRsLd497ijN/qC+H+7BGMY7k5CDUmjBz62p+TcXeyeT5U/I3+DfW5xvNcAn
-        KUEAGi2PPOO6SyFJlMtq8lY/dyaPA3Qo1TxB9luHgpHrKmymEkIib2Kmy+h1Eu4s
-        Y1Fg/iDxRO63IYzcF6fOm0kmOxF/qrAWohGck367kkGUVXIhnNwrZnHJekg0Lu46
-        ayhwBP7eWLoXQoTfw0fMWIPrcoGysMqdEL1Ej88yTkA1B+ExbHo6l3oqRpy6tjOQ
-        ==
-X-ME-Sender: <xms:iYXdX0_QzoKwkrWZ4nEsB4VoDlrkjKJ2jTD-YAr5cSlUXQl4pKt9Lw>
-    <xme:iYXdX8vH_1M5H9h4UYUmjN6M57qL_3OrjUH0Dz5_GM5SJDHHDT66Nkc-ORiweeH2V
-    11hXGSqcZAbD4QESQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeljedgjeduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkfffhvffutgfgsehtqhertderreejnecuhfhrohhmpeeulhgrkkgp
-    jfhrrghsthhnihhkuceosghlrgiisehmgiignhdrihhoqeenucggtffrrghtthgvrhhnpe
-    dvteekleduieduuddvieejvdehveffhfevjeevkedtfeeiuddufeefveevlefhvdenucev
-    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegslhgriiesmh
-    iggihnrdhioh
-X-ME-Proxy: <xmx:iYXdX6DL7MGoJj84swKFx_8WmacnMbm7vO-DK8CYNeE0TqPGnVMIpA>
-    <xmx:iYXdX0ffJw1UEQtj0kMyNFnJ1SxqutLaqaft6eDjxuLPIjposwDJag>
-    <xmx:iYXdX5OfSxAF8W-ncoZXY_3aJ4l0qbEgnQBp3B7qc5EYhU3Jx_UIDw>
-    <xmx:ioXdX7W8awhZaxf98o498UOtEuMcz2FbU4yyS918j87zfl1oeJkeBg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 5EF8A62A005E; Fri, 18 Dec 2020 23:45:26 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.3.1-61-gb52c239-fm-20201210.001-gb52c2396
-Mime-Version: 1.0
-Message-Id: <2b4c5881-2047-407f-8bb4-623d9bd167c7@www.fastmail.com>
-Date:   Sat, 19 Dec 2020 13:47:41 +0900
-From:   =?UTF-8?Q?Bla=C5=BE_Hrastnik?= <blaz@mxxn.io>
-To:     "Jiri Kosina" <jikos@kernel.org>,
-        "Benjamin Tissoires" <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-Subject: HID: multitouch: Set to high latency mode on suspend.
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+        Sat, 19 Dec 2020 01:24:20 -0500
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3D7EC0617B0
+        for <linux-input@vger.kernel.org>; Fri, 18 Dec 2020 22:23:40 -0800 (PST)
+Received: by mail-pf1-x430.google.com with SMTP id v2so2852027pfm.9
+        for <linux-input@vger.kernel.org>; Fri, 18 Dec 2020 22:23:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gaikai-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BjSK2KgPjfqodhEi0KGu+WK4FN5lyzq+GsbsBT/wonk=;
+        b=U766bkZlHYjeUsTPHRxu3GKe0suKtrN6zcbGPMR7w4vgAvzDNHtQbf71cC9+QEwXiM
+         rEsPL3EaSxS5Iz+hvhGFJG4x2ojFjxYu5ZW8xhZbf23SCEPsYf4N1zXXZktNYXYUgol4
+         xXQfFtgPFg0jX3ii/Tq7fLTCrgFMS1cue9PgJBc1+99UqQ+h3f506rQgS7+eoedI2J/w
+         0uaXUbDxLSPIhFGtrZ4e7+HMX7VPDV++9ksfI/Z8r4nTTMzmaqsswaYiRxhjKntycL19
+         pm4naojrd5JOIL1l2IfHE6WrMHK6jd8hwYEv26AOhhcyVa7dmJStIUrWsxpJxokKET7R
+         cj5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BjSK2KgPjfqodhEi0KGu+WK4FN5lyzq+GsbsBT/wonk=;
+        b=nnfxSy/p90lx0gO6+h8sPv4p+U095VtQ86WU9xPieKFwZIAO8BfjejHj6+MTXFCC/m
+         MQBjJmkkt9qAfxPQZjp5TJo7G7HHUFFLCfocRygFcu79EKcCMCiETBJZ7Q/y9seshqYy
+         2gSRo534dcdPFEVm4waHVFmWFiUqD6gYkTAvwojznxQhUzzs5ZdW/Fcc3S6D6XjNjJZ8
+         7qibc20TR56qZLN8rsOo8HBozeYsGEWKA62Wg4U3BU02NGcKc7E0wdgr1w+Hcv8CHwQM
+         Xkydn5WTKlD0PrN/vafIKlMIxHSCPeIHhqxJPq6f86fbUbtcXhUXX/trhWhg/MR7WLrT
+         Qa1A==
+X-Gm-Message-State: AOAM5323XdeD6T11S2jRR4MPHeByY/eD+zbIbrL53NxPQWfF244pqZLC
+        UhTO3NJdOjeEib5xSdOY85V4Lg==
+X-Google-Smtp-Source: ABdhPJy+6DhBEtqWzlFtywt3IoLZgvi49BMbs3Ti4H5UxbfFQu+jqoNLaCcB7/rnCgTM4/inLxg75w==
+X-Received: by 2002:a65:620c:: with SMTP id d12mr7093356pgv.220.1608359020324;
+        Fri, 18 Dec 2020 22:23:40 -0800 (PST)
+Received: from localhost.localdomain (cpe-76-87-77-78.socal.res.rr.com. [76.87.77.78])
+        by smtp.gmail.com with ESMTPSA id bf3sm9655302pjb.45.2020.12.18.22.23.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Dec 2020 22:23:39 -0800 (PST)
+From:   Roderick Colenbrander <roderick@gaikai.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, Chris Ye <lzye@google.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: [PATCH 00/13] HID: new driver for PS5 'DualSense' controller
+Date:   Fri, 18 Dec 2020 22:23:23 -0800
+Message-Id: <20201219062336.72568-1-roderick@gaikai.com>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Per Windows Precision Touchpad guidelines:
+From: Roderick Colenbrander <roderick.colenbrander@sony.com>
 
-> The latency mode feature report is sent by the host to a Windows
-> Precision Touchpad to indicate when high latency is desirable for
-> power savings and, conversely, when normal latency is desired for
-> operation.
->
-> For USB-connected Windows Precision Touchpads, this enables the device=
+Hi,
 
-> to disambiguate between being suspended for inactivity (runtime IDLE)
-> and being suspended because the system is entering S3 or Connected
-> Standby.
+I am pleased to share a new Linux driver for the PlayStation 5 'DualSense'
+game controller. The driver supports the DualSense in both Bluetooth
+and USB modes. Most controller features are supported including LEDs,
+Touchpad, Motion Sensors and Rumble.
 
-The current implementation would set the latency to normal on device ini=
-tialization,
-but we didn't set the device to high latency on suspend.
+DualSense supported is implemented in a new 'hid-playstation' driver, which
+will be used for peripherals by 'Sony Interactive Entertainment' (PlayStation).
+Hid-sony will be used for devices for the larger Sony Group. We intend to
+migrate existing devices over time gradually to hid-playstation. We do not
+want to cause any regressions and maintain quality. As such moving forward,
+unit tests are important and we started by providing these through 'hid-tools'
+including DualSense.
 
-Signed-off-by: Bla=C5=BE Hrastnik <blaz@mxxn.io>
----
- drivers/hid/hid-multitouch.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+The Linux driver exposes DualSense functionality as a 'compositive device'
+similar to DualShock 4 in hid-sony, spanning multiple frameworks. First,
+it exposes 3 evdev nodes for respectively the 'gamepad', 'touchpad' and
+'motion sensors'. The FF framework is used to provide basic rumble features.
+The leds-class is used to implement the Player indicator LEDs below the
+DualSense's touchpad, while the new 'leds-class-multicolor' is used for
+the lightbars next to the touchpad.
 
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c=
+Not yet supported are new unique features introduced by the DualSense
+such as Adaptive Triggers and the VCM based Haptics. These features require
+a large amount of data and complex data structures. It is not clear how to
+expose these. The current Evdev and FF frameworks are too limiting. We hope
+to have a dialog on how to expose these over time in a generic way.
 
-index d670bcd57..28bac0f39 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -1746,6 +1746,13 @@ static int mt_probe(struct hid_device *hdev, cons=
-t struct hid_device_id *id)
- }
-=20
- #ifdef CONFIG_PM
-+static int mt_suspend(struct hid_device *hdev, pm_message_t state)
-+{
-+	/* High latency is desirable for power savings during S3/S0ix */
-+	mt_set_modes(hdev, HID_LATENCY_HIGH, true, true);
-+	return 0;
-+}
-+
- static int mt_reset_resume(struct hid_device *hdev)
- {
- 	mt_release_contacts(hdev);
-@@ -1761,6 +1768,8 @@ static int mt_resume(struct hid_device *hdev)
-=20
- 	hid_hw_idle(hdev, 0, 0, HID_REQ_SET_IDLE);
-=20
-+	mt_set_modes(hdev, HID_LATENCY_NORMAL, true, true);
-+
- 	return 0;
- }
- #endif
-@@ -2150,6 +2159,7 @@ static struct hid_driver mt_driver =3D {
- 	.event =3D mt_event,
- 	.report =3D mt_report,
- #ifdef CONFIG_PM
-+	.suspend =3D mt_suspend,
- 	.reset_resume =3D mt_reset_resume,
- 	.resume =3D mt_resume,
- #endif
---=20
-2.29.2
+Enjoy the new DualSense driver and let us know if you have any questions
+or feedback.
+
+Thanks,
+
+Roderick Colenbrander
+Sony Interactive Entertainment, LLC
+
+Roderick Colenbrander (13):
+  HID: playstation: initial DualSense USB support.
+  HID: playstation: use DualSense MAC address as unique identifier.
+  HID: playstation: add DualSense battery support.
+  HID: playstation: add DualSense touchpad support.
+  HID: playstation: add DualSense accelerometer and gyroscope support.
+  HID: playstation: track devices in list.
+  HID: playstation: add DualSense Bluetooth support.
+  HID: playstation: add DualSense classic rumble support.
+  HID: playstation: add DualSense lightbar support
+  HID: playstation: add microphone mute support for DualSense.
+  HID: playstation: add DualSense player LEDs support.
+  HID: playstation: DualSense set LEDs to default player id.
+  HID: playstation: report DualSense hardware and firmware version.
+
+ drivers/hid/Kconfig           |   20 +
+ drivers/hid/Makefile          |    1 +
+ drivers/hid/hid-ids.h         |    1 +
+ drivers/hid/hid-playstation.c | 1416 +++++++++++++++++++++++++++++++++
+ drivers/hid/hid-quirks.c      |    4 +
+ 5 files changed, 1442 insertions(+)
+ create mode 100644 drivers/hid/hid-playstation.c
+
+-- 
+2.26.2
 
