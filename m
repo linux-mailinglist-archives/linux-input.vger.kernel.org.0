@@ -2,60 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2D032DED7A
-	for <lists+linux-input@lfdr.de>; Sat, 19 Dec 2020 07:25:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 498792DED80
+	for <lists+linux-input@lfdr.de>; Sat, 19 Dec 2020 07:25:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726254AbgLSGZB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 19 Dec 2020 01:25:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36846 "EHLO
+        id S1726326AbgLSGZC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 19 Dec 2020 01:25:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726287AbgLSGZB (ORCPT
+        with ESMTP id S1726287AbgLSGZC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 19 Dec 2020 01:25:01 -0500
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E75B2C0611C5
-        for <linux-input@vger.kernel.org>; Fri, 18 Dec 2020 22:23:46 -0800 (PST)
-Received: by mail-pf1-x433.google.com with SMTP id c12so2841841pfo.10
-        for <linux-input@vger.kernel.org>; Fri, 18 Dec 2020 22:23:46 -0800 (PST)
+        Sat, 19 Dec 2020 01:25:02 -0500
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6AE7C0611CA
+        for <linux-input@vger.kernel.org>; Fri, 18 Dec 2020 22:23:47 -0800 (PST)
+Received: by mail-pj1-x1035.google.com with SMTP id j13so2599558pjz.3
+        for <linux-input@vger.kernel.org>; Fri, 18 Dec 2020 22:23:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gaikai-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Xiom21k8ouKY1sgtAKcfpq0w+T/ah4O7YYXgyd7k2Qc=;
-        b=bNJVvQtU5HM13JMzZxT62qcs5qfHKppFcSmtu2BimoOkLhVErD4svw+fGvUEk7iAs1
-         LU3RH8wQR7Mngm2X/38ecDlAjzPXc/3d9DhMnPHD9y+z6cZRFEok9VNW7+74CPb9hICo
-         xrjW9cd8AmUPzG/8LuWnpJRvoAcYxMm5OVaZt3tmUmJjhG/HLh2n4u62tF3mRp6oBto/
-         NI6AE6Y/zyigWxsKNmyKWT9IoE2w7BYX5a+qvupLSxszeeA0f02yyUJgpZ9OkBV14cPj
-         FvVSVzYa9/qKLjDNymtRcp6CAKv0G+KwUDjHZ7xy0lsTp5FmJNoD4+S+W/yXvtvJxAgy
-         Zv2A==
+        bh=KBCJOjps1MWXYGsRWU9J6NRMIpobIhwnMUsT8AgwRPU=;
+        b=NIUxx7kZUUTftEKAhCsuvhoc0GlSnC+rzi8ITPAPv/70N36BzMbBz5bC6GXelaUNK1
+         u8grW1gyYgZht9dbRFZTUODPoFL/q7ToTEc0fvPxQ08e6YiijeIsmuH59fkovoOIs9it
+         SrG5YaS2bINRrFhNf5VbZWoQI93NwzDgA3r07wVOfpcCboh2SzawIhg2RHWGrczE2SPH
+         bClgciVzV3EUFiaSpWF1tz5ZX9tp676w5KQKtXn/ZmXHqbGYOyIzl67RGcDdB7XJiZ2G
+         9MGEnN5cmNOlNafvM7uQXL9TXEDcyRQpOo49cnQ0Qw6RYJbH8tfcstm+okgBZ2Y8rPUN
+         TU9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Xiom21k8ouKY1sgtAKcfpq0w+T/ah4O7YYXgyd7k2Qc=;
-        b=tETiLrdoYUoxEVTjxnZ4ONFR86Q0+BeqRM2Sk2fQsZS3/+Q8eMQwJRwBgU+7O+8251
-         gRG6Quj+dvN+jRCEJT+C7I1C8Tm77dsrmf9l8YdY6VtXlGc2IhOpIxIBKQqPI7zNlqfu
-         MY3jX0/y1pCLA5gGZn3afYn7u6Yd+hFV0MwMFPQWY32MxCIgt2rGwWow2zFq1CGBKpTh
-         uJqPqcLwlD60ajiQVKTUnEmcf4OR1HWglo1jJdnloGshNc/aTUrpqcsIWrzt7b3bX+6h
-         Zti5ZOE62T4kxlkvwIux0kqWN1FBL01hXxFpHLCrmjMqd3XqPpVMUQztfy8m4d/ZviVF
-         Lf8A==
-X-Gm-Message-State: AOAM530SB2CDLG8/FxMmxdIydpaOFSP/TPuiW/vRFltXhs9M4Go/vt0M
-        dGx2odhA2o9ye8+JVOyYVsb5OyfrEeZT2w==
-X-Google-Smtp-Source: ABdhPJwMsERqpWjFG2rIshnDXmwk7J+YrB7IzQZVJT6fk3tkjUnHbbmH/3YA9xkS4uQwDTwMu8PX4Q==
-X-Received: by 2002:a63:1110:: with SMTP id g16mr7109160pgl.357.1608359026455;
-        Fri, 18 Dec 2020 22:23:46 -0800 (PST)
+        bh=KBCJOjps1MWXYGsRWU9J6NRMIpobIhwnMUsT8AgwRPU=;
+        b=mjxvvB66sGsFktBix4/2uRs7kCmmErVdkTDAY/JqTRJk8QHFEEXpiWIymH6xLWCYd/
+         ZzR2zgnlZqD+LntZ9V3yUVSiVFWzmk/HG1hmkDHNYSDpGQEZ2qCn66m3+aRlU00Cbts8
+         1xMDzIO9unUMB20o1wddkt9fFrg6jJVccCvbOVksng3GHpKSzE2EeIpdzY1KTX5GxekI
+         m+7x+nKEJX1tpV5mh3DP75MEbKq3tE7N0HflNXKCQt6A+7GmvrchviTUFgnJ4rl54j3+
+         5eNWEzOnC4M3SQWFhbpgaIKnYGiH9e1eYVSJtovl+5UpE3Ybq+9z/G2sN8rGMOM2Fc+0
+         EdfA==
+X-Gm-Message-State: AOAM531S0qJeoIC3d3N04eMiHmqCGG5K2lDwtmFJBul90JKE5fTMDx4q
+        Xk/N68G+IkszOGqp23ibcMYJ+w==
+X-Google-Smtp-Source: ABdhPJxq1IoKeGCGlreiM8f/KXgb01kV4aGf7LHgBCCS1IHPwiFKHc/zWT3GOQ+64W5/qAt/Yc4Csw==
+X-Received: by 2002:a17:90b:4b11:: with SMTP id lx17mr7898072pjb.154.1608359027429;
+        Fri, 18 Dec 2020 22:23:47 -0800 (PST)
 Received: from localhost.localdomain (cpe-76-87-77-78.socal.res.rr.com. [76.87.77.78])
-        by smtp.gmail.com with ESMTPSA id bf3sm9655302pjb.45.2020.12.18.22.23.45
+        by smtp.gmail.com with ESMTPSA id bf3sm9655302pjb.45.2020.12.18.22.23.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Dec 2020 22:23:46 -0800 (PST)
+        Fri, 18 Dec 2020 22:23:47 -0800 (PST)
 From:   Roderick Colenbrander <roderick@gaikai.com>
 To:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Cc:     linux-input@vger.kernel.org, Chris Ye <lzye@google.com>,
         Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: [PATCH 06/13] HID: playstation: track devices in list.
-Date:   Fri, 18 Dec 2020 22:23:29 -0800
-Message-Id: <20201219062336.72568-7-roderick@gaikai.com>
+Subject: [PATCH 07/13] HID: playstation: add DualSense Bluetooth support.
+Date:   Fri, 18 Dec 2020 22:23:30 -0800
+Message-Id: <20201219062336.72568-8-roderick@gaikai.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201219062336.72568-1-roderick@gaikai.com>
 References: <20201219062336.72568-1-roderick@gaikai.com>
@@ -67,100 +67,105 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Roderick Colenbrander <roderick.colenbrander@sony.com>
 
-Track devices in a list, so we can detect when a device is connected
-twice when using Bluetooth and USB.
+This patch adds support for the DualSense when operating in Bluetooth mode.
+The device has the same behavior as the DualShock 4 in that by default it
+sends a limited input report (0x1), but after requesting calibration data,
+it switches to an extended input report (report 49), which adds data for
+touchpad, motion sensors, battery and more.
 
 Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
 ---
- drivers/hid/hid-playstation.c | 45 +++++++++++++++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+ drivers/hid/hid-playstation.c | 36 +++++++++++++++++++++++++++++++++++
+ drivers/hid/hid-quirks.c      |  1 +
+ 2 files changed, 37 insertions(+)
 
 diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-index ea64f73e0b84..b0c0286cfd2b 100644
+index b0c0286cfd2b..042fa8d2627d 100644
 --- a/drivers/hid/hid-playstation.c
 +++ b/drivers/hid/hid-playstation.c
-@@ -14,8 +14,13 @@
- 
- #include "hid-ids.h"
- 
-+/* List of connected playstation devices. */
-+static DEFINE_MUTEX(ps_devices_lock);
-+static LIST_HEAD(ps_devices_list);
-+
- /* Base class for playstation devices. */
- struct ps_device {
-+	struct list_head list;
- 	struct hid_device *hdev;
- 	spinlock_t lock;
- 
-@@ -145,6 +150,37 @@ static const struct {int x; int y; } ps_gamepad_hat_mapping[] = {
- 	{0, 0}
+@@ -43,6 +43,7 @@ struct ps_calibration_data {
  };
  
-+/* Add a new ps_device to ps_devices if it doesn't exist.
-+ * Return error on duplicate device, which can happen if the same
-+ * device is connected using both Bluetooth and USB.
-+ */
-+static int ps_devices_list_add(struct ps_device *dev)
+ #define DS_INPUT_REPORT_USB			0x01
++#define DS_INPUT_REPORT_BT			0x31
+ 
+ #define DS_FEATURE_REPORT_CALIBRATION		5
+ #define DS_FEATURE_REPORT_CALIBRATION_SIZE	41
+@@ -274,6 +275,17 @@ static int ps_device_register_battery(struct ps_device *dev)
+ 	return 0;
+ }
+ 
++/* Compute crc32 of HID data and compare against expected CRC. */
++static bool ps_check_crc32(uint8_t seed, uint8_t *data, size_t len, uint32_t report_crc)
 +{
-+	struct ps_device *entry;
++	uint32_t crc;
 +
-+	mutex_lock(&ps_devices_lock);
-+	list_for_each_entry(entry, &ps_devices_list, list) {
-+		if (!memcmp(entry->mac_address, dev->mac_address, sizeof(dev->mac_address))) {
-+			hid_err(dev->hdev, "Duplicate device found for MAC address %pMR\n",
-+					dev->mac_address);
-+			mutex_unlock(&ps_devices_lock);
-+			return -EEXIST;
++	crc = crc32_le(0xFFFFFFFF, &seed, 1);
++	crc = ~crc32_le(crc, data, len);
++
++	return crc == report_crc;
++}
++
+ static struct input_dev *ps_gamepad_create(struct hid_device *hdev)
+ {
+ 	struct input_dev *gamepad;
+@@ -390,6 +402,18 @@ static int dualsense_get_calibration_data(struct dualsense *ds)
+ 	if (ret < 0)
+ 		goto err_free;
+ 
++	if (ds->base.hdev->bus == BUS_BLUETOOTH) {
++		/* Last 4 bytes contains crc32 */
++		uint8_t crc_offset = DS_FEATURE_REPORT_CALIBRATION_SIZE - 4;
++		uint32_t report_crc = get_unaligned_le32(&buf[crc_offset]);
++
++		if (!ps_check_crc32(0xa3, buf, crc_offset, report_crc)) {
++			hid_err(ds->base.hdev, "DualSense calibration report CRC's check failed\n");
++			ret = -EILSEQ;
++			goto err_free;
 +		}
 +	}
 +
-+	list_add_tail(&dev->list, &ps_devices_list);
-+	mutex_unlock(&ps_devices_lock);
-+	return 0;
-+}
+ 	gyro_pitch_bias  = get_unaligned_le16(&buf[1]);
+ 	gyro_yaw_bias    = get_unaligned_le16(&buf[3]);
+ 	gyro_roll_bias   = get_unaligned_le16(&buf[5]);
+@@ -494,6 +518,16 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
+ 	 */
+ 	if (report->id == DS_INPUT_REPORT_USB && hdev->bus == BUS_USB) {
+ 		ds_report = (struct dualsense_input_report *)&data[1];
++	} else if (report->id == DS_INPUT_REPORT_BT && hdev->bus == BUS_BLUETOOTH) {
++		/* Last 4 bytes of input report contain crc32 */
++		uint32_t report_crc = get_unaligned_le32(&data[size - 4]);
 +
-+static int ps_devices_list_remove(struct ps_device *dev)
-+{
-+	mutex_lock(&ps_devices_lock);
-+	list_del(&dev->list);
-+	mutex_unlock(&ps_devices_lock);
-+	return 0;
-+}
++		if (!ps_check_crc32(0xa1, data, size - 4, report_crc)) {
++			hid_err(hdev, "DualSense input CRC's check failed, size=%d\n", size);
++			return -EILSEQ;
++		}
 +
- static struct input_dev *ps_allocate_input_dev(struct hid_device *hdev, const char *name_suffix)
- {
- 	struct input_dev *input_dev;
-@@ -613,6 +649,10 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
- 	}
- 	snprintf(hdev->uniq, sizeof(hdev->uniq), "%pMR", ds->base.mac_address);
- 
-+	ret = ps_devices_list_add((struct ps_device *)ds);
-+	if (ret < 0)
-+		return ERR_PTR(ret);
-+
- 	ret = dualsense_get_calibration_data(ds);
- 	if (ret < 0) {
- 		hid_err(hdev, "Failed to get calibration data from DualSense\n");
-@@ -645,6 +685,7 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
- 	return (struct ps_device *)ds;
- 
- err:
-+	ps_devices_list_remove((struct ps_device *)ds);
- 	return ERR_PTR(ret);
++		ds_report = (struct dualsense_input_report *)&data[2];
+ 	} else {
+ 		hid_err(hdev, "Unhandled reportID=%d\n", report->id);
+ 		return -1;
+@@ -756,6 +790,8 @@ static void ps_remove(struct hid_device *hdev)
  }
  
-@@ -706,6 +747,10 @@ static int ps_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 
- static void ps_remove(struct hid_device *hdev)
- {
-+	struct ps_device *dev = hid_get_drvdata(hdev);
-+
-+	ps_devices_list_remove(dev);
-+
- 	hid_hw_close(hdev);
- 	hid_hw_stop(hdev);
- }
+ static const struct hid_device_id ps_devices[] = {
++	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER),
++		.driver_data = 0 },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER),
+ 		.driver_data = 0 },
+ };
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index 1ca46cb445be..541c8837debd 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -567,6 +567,7 @@ static const struct hid_device_id hid_have_special_driver[] = {
+ #endif
+ #if IS_ENABLED(CONFIG_HID_PLAYSTATION)
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER) },
+++	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_SONY, USB_DEVICE_ID_SONY_PS5_CONTROLLER) },
+ #endif
+ #if IS_ENABLED(CONFIG_HID_PRIMAX)
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_PRIMAX, USB_DEVICE_ID_PRIMAX_KEYBOARD) },
 -- 
 2.26.2
 
