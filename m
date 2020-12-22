@@ -2,49 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A46322E040F
-	for <lists+linux-input@lfdr.de>; Tue, 22 Dec 2020 02:49:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C2B12E0411
+	for <lists+linux-input@lfdr.de>; Tue, 22 Dec 2020 02:49:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726070AbgLVBss (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Dec 2020 20:48:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35816 "EHLO
+        id S1725807AbgLVBtZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Dec 2020 20:49:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726061AbgLVBsr (ORCPT
+        with ESMTP id S1725790AbgLVBtY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Dec 2020 20:48:47 -0500
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C3B4C061282
-        for <linux-input@vger.kernel.org>; Mon, 21 Dec 2020 17:48:07 -0800 (PST)
-Received: by mail-pf1-x42f.google.com with SMTP id t22so7551189pfl.3
-        for <linux-input@vger.kernel.org>; Mon, 21 Dec 2020 17:48:07 -0800 (PST)
+        Mon, 21 Dec 2020 20:49:24 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34578C061248
+        for <linux-input@vger.kernel.org>; Mon, 21 Dec 2020 17:48:16 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id b8so6613213plx.0
+        for <linux-input@vger.kernel.org>; Mon, 21 Dec 2020 17:48:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=O9t6b/EdSq28Lw+fWM3V++IKje/SzmyL7ftmGtHYk+M=;
-        b=meFiM90q7IuLgsrTTgMJTxUOJLl3ZDLh0qfjsn1QCJzMocLhnTPjJK0I91rGjVn9gX
-         +MFrguH6C0A77CiGyVwOXWriC0LOfzoVOzATWTUZ6Hadh7oDqNOPFJPiNsIenxKSODFO
-         bKIZ1hNb/SYcYA7iViJw+OQDnsvSzPpQWJIHE=
+        bh=K1LHXBytfI76uJ+Q0fQC7ufBawjIu6kcWpfQ3+EC1Vw=;
+        b=KaSG8szVWROO86ga8ksTHNDZiv+58qdqkzV5S/UjWri1aHGqK9s8OqpplnuNAiKOPQ
+         znDx/xFcTm8D/MNGGXsxPSmXygXlsazvJMr7DLh4ik3uqFPtKRmPuGRr39bFRwU0wgPk
+         AuqlFycjlF2jpIdEGJpp+oF+3yOg5O/KBwvkU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=O9t6b/EdSq28Lw+fWM3V++IKje/SzmyL7ftmGtHYk+M=;
-        b=K0xYAbHgoq8GX1tIAd9Et+cixOr0cKrvFy9WUuaiue3XJVfXKpsi9ZcFI+Odojst03
-         tPFohqE4MLQ7/J18anbgpRMTpl5tac6h0YNruDJUFG3Bz2uqk52xN8Vo+ZA/E/CqDiYo
-         ecHiTulCIlIMjogOIl3Jsz6VOmVciUKTSLVZ0yhhj4GBf+s6OQ92FcyDszDvApODPwzl
-         QMn77/iOAWOE/7Mg4WIGwanU8YoFT1oIxUTog4iTJLhuku5zQD21CzVjAHLyvkED0h9T
-         aX8bGddud1oERpPcnQHR30/E6cbNyZCGiHHifz83L+fAb6ktPaBSv2Qp7f8ZF14Tan4I
-         uWDQ==
-X-Gm-Message-State: AOAM531OmsR509/ElYQXtXrN4ljRBBzifZ8ip+tIML0E7G3ulBO//CyQ
-        tvtAjdvOEFMMpwFdhCF1Wi86xQ==
-X-Google-Smtp-Source: ABdhPJxANW1O5zypjQ4Vp0PzOiCYfx2GQ+AuJwfYFxjk9yhY2MeC7Q/OJ/HR3FmPTmnHk75osMtP3A==
-X-Received: by 2002:a63:5f12:: with SMTP id t18mr17778958pgb.308.1608601687097;
-        Mon, 21 Dec 2020 17:48:07 -0800 (PST)
+        bh=K1LHXBytfI76uJ+Q0fQC7ufBawjIu6kcWpfQ3+EC1Vw=;
+        b=VeGCFmZFxqZ2A9+jCO9oSMTnaoxXkWpdaoL3ovvsv9Uw7ywYQrD8K1lTa8zZ3qKv6g
+         wyvI2vljFSkbH/cpk87syWfHpxMRkA443Sd1o+cEhgQ9ghvdXqIm4PAZkY77+Bh7uXRx
+         s4lbhGq+WdwQ+/psY/mFv5vm4lisSn7HXDCvP/1fH4x0Q3uH+UrO5dSi0iztu9SC8jcU
+         qnBT9KjXzI2cjkNMrRxS1wSy2eoNNofnX6yEiD7wJqduHXsiWbe+EAjt0AzIy3g5aV7l
+         Xry3Rk/CWn4TE80f2Zc9ZHlFqmrgujNTohCgmXCKE6FcziQmCHx0HZkA27Q3mFNtMD5C
+         WR7w==
+X-Gm-Message-State: AOAM530Ui48ycDcVxxrodTP4Lb1RazLBSvrr1PwoQLprOnrMRS8IyANj
+        btoJI1W9KqdISwmCghb4U88MqA==
+X-Google-Smtp-Source: ABdhPJyBRfxwrU7hAsQuLM8YY5s4JGPgCC4cvg67S94IeDEdWEb7UWWeskQXWQX3HCGIpHEtPhO3HA==
+X-Received: by 2002:a17:902:7205:b029:db:d2d5:fe79 with SMTP id ba5-20020a1709027205b02900dbd2d5fe79mr18880303plb.30.1608601695797;
+        Mon, 21 Dec 2020 17:48:15 -0800 (PST)
 Received: from philipchen.mtv.corp.google.com ([2620:15c:202:201:a6ae:11ff:fe11:fd59])
-        by smtp.gmail.com with ESMTPSA id h8sm20164316pjc.2.2020.12.21.17.48.05
+        by smtp.gmail.com with ESMTPSA id h8sm20164316pjc.2.2020.12.21.17.48.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Dec 2020 17:48:06 -0800 (PST)
+        Mon, 21 Dec 2020 17:48:15 -0800 (PST)
 From:   Philip Chen <philipchen@chromium.org>
 To:     LKML <linux-kernel@vger.kernel.org>
 Cc:     dtor@chromium.org, swboyd@chromium.org, dianders@chromium.org,
@@ -53,10 +53,11 @@ Cc:     dtor@chromium.org, swboyd@chromium.org, dianders@chromium.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Enric Balletbo i Serra <enric.balletbo@collabora.com>,
         Guenter Roeck <groeck@chromium.org>,
-        Lee Jones <lee.jones@linaro.org>, linux-input@vger.kernel.org
-Subject: [PATCH 2/3] Input: cros_ec_keyb - Support custom top-row keys
-Date:   Mon, 21 Dec 2020 17:47:58 -0800
-Message-Id: <20201221174751.2.If8dc0ec9d1a60e436d1e852eba1316313f45ac0e@changeid>
+        Lee Jones <lee.jones@linaro.org>,
+        Rajat Jain <rajatja@google.com>, linux-input@vger.kernel.org
+Subject: [PATCH 3/3] Input: cros-ec-keyb - Expose function row physical map to userspace
+Date:   Mon, 21 Dec 2020 17:47:59 -0800
+Message-Id: <20201221174751.3.I48f45bea10c670224ad7429835d1d00da478dc7d@changeid>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201221174751.1.I025fb861cd5fa0ef5286b7dce514728e9df7ae74@changeid>
 References: <20201221174751.1.I025fb861cd5fa0ef5286b7dce514728e9df7ae74@changeid>
@@ -66,139 +67,118 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The function keys in a keyboard's top row are usually intended for
-certain actions such as "Browser back" and "Fullscreen".
+The top-row keys in a keyboard usually have dual functionalities.
+E.g. A function key "F1" is also an action key "Browser back".
 
-As of now, when a top-row key is pressed, cros_ec_keyb sends function
-key code (e.g. KEY_F1) instead of action key code (e.g. KEY_BACK) to
-applications. Because `linux,keymap` defined in cros-ec-keyboard.dtsi
-maps the scanlines of the top-row keys to the function key code.
+Therefore, when an application receives an action key code from
+a top-row key press, the application needs to know how to correlate
+the action key code with the function key code and do the conversion
+whenever necessary.
 
-Therefore, an application can only convert each function key to
-different action based on a fixed mapping.
+Since the userpace already knows the key scanlines (row/column)
+associated with a received key code. Essentially, the userspace only
+needs a mapping between the key row/column and the matching physical
+location in the top row.
 
-This patch aims to support a more flexible keyboard top-row design. If
-a board specifies a custom layout for the top row keys in dt binding,
-cros_ec_keyb will explicitly sends action key code to applications when
-any top-row key is pressed, so the applications no longer have to make
-assumptions.
+This patch enhances the cros-ec-keyb driver to create such a mapping and
+expose it to userspace in the form of a function-row-physmap attribute.
+The attribute would be a space separated ordered list of row/column codes,
+for the keys in the function row, in left-to-right order.
+
+The attribute will only be present when cros-ec-keyb sends action key
+codes for the top-row keys, otherwise the attribute shall not be
+visible.
 
 Signed-off-by: Philip Chen <philipchen@chromium.org>
 ---
 
- drivers/input/keyboard/cros_ec_keyb.c | 71 +++++++++++++++++++++++++++
- 1 file changed, 71 insertions(+)
+ drivers/input/keyboard/cros_ec_keyb.c | 59 +++++++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
 
 diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-index b379ed7628781..c997ec5c5d469 100644
+index c997ec5c5d469..4f2f98bb14663 100644
 --- a/drivers/input/keyboard/cros_ec_keyb.c
 +++ b/drivers/input/keyboard/cros_ec_keyb.c
-@@ -27,6 +27,34 @@
- 
- #include <asm/unaligned.h>
- 
-+#define MAX_NUM_TOP_ROW_KEYS   15
-+
-+/*
-+ * Row/column (in the scan matrix) of the function keys (T1-T15)
-+ * defined in Chrome OS keyboard spec
-+ */
-+static const struct key_pos {
-+	u8 row;
-+	u8 col;
-+} top_row_key_pos[] = {
-+	{.row = 0, .col = 2},	/* T1 */
-+	{.row = 3, .col = 2},	/* T2 */
-+	{.row = 2, .col = 2},	/* T3 */
-+	{.row = 1, .col = 2},	/* T4 */
-+	{.row = 3, .col = 4},	/* T5 */
-+	{.row = 2, .col = 4},	/* T6 */
-+	{.row = 1, .col = 4},	/* T7 */
-+	{.row = 2, .col = 9},	/* T8 */
-+	{.row = 1, .col = 9},	/* T9 */
-+	{.row = 0, .col = 4},	/* T10 */
-+	{.row = 0, .col = 1},	/* T11 */
-+	{.row = 1, .col = 5},	/* T12 */
-+	{.row = 3, .col = 5},	/* T13 */
-+	{.row = 0, .col = 9},	/* T14 */
-+	{.row = 0, .col = 11},	/* T15 */
-+};
-+BUILD_ASSERT(ARRAY_SIZE(top_row_key_pos) == MAX_NUM_TOP_ROW_KEYS);
-+
- /**
-  * struct cros_ec_keyb - Structure representing EC keyboard device
-  *
-@@ -42,6 +70,7 @@
-  * @idev: The input device for the matrix keys.
-  * @bs_idev: The input device for non-matrix buttons and switches (or NULL).
-  * @notifier: interrupt event notifier for transport devices
-+ * @num_function_row_keys: The number of top row keys in a custom keyboard
-  */
- struct cros_ec_keyb {
- 	unsigned int rows;
-@@ -58,6 +87,8 @@ struct cros_ec_keyb {
- 	struct input_dev *idev;
- 	struct input_dev *bs_idev;
- 	struct notifier_block notifier;
-+
-+	uint8_t num_function_row_keys;
- };
- 
- /**
-@@ -511,6 +542,44 @@ static int cros_ec_keyb_register_bs(struct cros_ec_keyb *ckdev)
+@@ -658,6 +658,56 @@ static int cros_ec_keyb_register_matrix(struct cros_ec_keyb *ckdev)
  	return 0;
  }
  
-+/**
-+ * cros_ec_keyb_update_custom_keymap
-+ *
-+ * Update the keymap if the board has custom top row keys.
-+ *
-+ * @ckdev: The keyboard device
-+ */
-+
-+static void cros_ec_keyb_update_custom_keymap(struct cros_ec_keyb *ckdev)
++static ssize_t function_row_physmap_show(struct device *dev,
++					 struct device_attribute *attr,
++					 char *buf)
 +{
++	ssize_t size = 0;
 +	u8 i;
 +	u16 code;
-+	u16 top_row_key_code[MAX_NUM_TOP_ROW_KEYS] = {0};
-+	struct input_dev *idev = ckdev->idev;
-+	unsigned short *keymap = idev->keycode;
++	struct cros_ec_keyb *ckdev = dev_get_drvdata(dev);
 +
-+	if (of_property_read_variable_u16_array(ckdev->dev->of_node,
-+						"google,custom-keyb-top-row",
-+						top_row_key_code,
-+						0,
-+						MAX_NUM_TOP_ROW_KEYS) > 0) {
-+		for (i = 0; i < MAX_NUM_TOP_ROW_KEYS; i++) {
-+			if (!top_row_key_code[i])
-+				break;
-+			code = MATRIX_SCAN_CODE(top_row_key_pos[i].row,
-+						top_row_key_pos[i].col,
-+						ckdev->row_shift);
-+			/*
-+			 * Add the action key code for a top row key
-+			 * into the keymap.
-+			 */
-+			keymap[code] = top_row_key_code[i];
-+			__set_bit(keymap[code], idev->keybit);
-+		}
-+		ckdev->num_function_row_keys = i;
++	if (!ckdev->num_function_row_keys)
++		return 0;
++
++	for (i = 0; i < ckdev->num_function_row_keys; i++) {
++		code = MATRIX_SCAN_CODE(top_row_key_pos[i].row,
++					top_row_key_pos[i].col,
++					ckdev->row_shift);
++		size += scnprintf(buf + size, PAGE_SIZE - size, "%02X ", code);
 +	}
++	size += scnprintf(buf + size, PAGE_SIZE - size, "\n");
++
++	return size;
 +}
 +
- /**
-  * cros_ec_keyb_register_bs - Register matrix keys
-  *
-@@ -576,6 +645,8 @@ static int cros_ec_keyb_register_matrix(struct cros_ec_keyb *ckdev)
- 	input_set_capability(idev, EV_MSC, MSC_SCAN);
- 	input_set_drvdata(idev, ckdev);
- 	ckdev->idev = idev;
++static DEVICE_ATTR_RO(function_row_physmap);
 +
-+	cros_ec_keyb_update_custom_keymap(ckdev);
- 	cros_ec_keyb_compute_valid_keys(ckdev);
++static struct attribute *cros_ec_keyb_attrs[] = {
++	&dev_attr_function_row_physmap.attr,
++	NULL,
++};
++
++static umode_t cros_ec_keyb_attr_is_visible(struct kobject *kobj,
++					    struct attribute *attr,
++					    int n)
++{
++	struct device *dev = container_of(kobj, struct device, kobj);
++	struct cros_ec_keyb *ckdev = dev_get_drvdata(dev);
++
++	if (attr == &dev_attr_function_row_physmap.attr &&
++	    !ckdev->num_function_row_keys)
++		return 0;
++
++	return attr->mode;
++}
++
++static const struct attribute_group cros_ec_keyb_attr_group = {
++	.is_visible = cros_ec_keyb_attr_is_visible,
++	.attrs = cros_ec_keyb_attrs,
++};
++
++
+ static int cros_ec_keyb_probe(struct platform_device *pdev)
+ {
+ 	struct cros_ec_device *ec = dev_get_drvdata(pdev->dev.parent);
+@@ -688,6 +738,12 @@ static int cros_ec_keyb_probe(struct platform_device *pdev)
+ 		return err;
+ 	}
  
- 	err = input_register_device(ckdev->idev);
++	err = sysfs_create_group(&dev->kobj, &cros_ec_keyb_attr_group);
++	if (err) {
++		dev_err(dev, "failed to create attributes. err=%d\n", err);
++		return err;
++	}
++
+ 	ckdev->notifier.notifier_call = cros_ec_keyb_work;
+ 	err = blocking_notifier_chain_register(&ckdev->ec->event_notifier,
+ 					       &ckdev->notifier);
+@@ -703,6 +759,9 @@ static int cros_ec_keyb_probe(struct platform_device *pdev)
+ static int cros_ec_keyb_remove(struct platform_device *pdev)
+ {
+ 	struct cros_ec_keyb *ckdev = dev_get_drvdata(&pdev->dev);
++	struct device *dev = &pdev->dev;
++
++	sysfs_remove_group(&dev->kobj, &cros_ec_keyb_attr_group);
+ 
+ 	blocking_notifier_chain_unregister(&ckdev->ec->event_notifier,
+ 					   &ckdev->notifier);
 -- 
 2.26.2
 
