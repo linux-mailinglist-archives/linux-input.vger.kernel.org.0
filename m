@@ -2,362 +2,182 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A8E32E064F
-	for <lists+linux-input@lfdr.de>; Tue, 22 Dec 2020 08:04:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED88D2E06DE
+	for <lists+linux-input@lfdr.de>; Tue, 22 Dec 2020 08:42:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725783AbgLVHEF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Dec 2020 02:04:05 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:41810 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725300AbgLVHEF (ORCPT
+        id S1725870AbgLVHmO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Dec 2020 02:42:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33506 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725865AbgLVHmN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Dec 2020 02:04:05 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ECB619E6;
-        Tue, 22 Dec 2020 08:03:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1608620601;
-        bh=wr2c/JvrpoqpuCs/EGNX0coXs6l9cQeH37ivwLJhHX0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oRhDZ+hUb1+7clW6B0GbznIznWZFsOAtCA/OUxeJ/fHeXgZuNxhvHN1SdLok7c0eh
-         diGC0VvpIDLU16mWknRPfe5jGZRhUSrHH01XJbLMrchfnUsp1a+TPhNu/PBh2IehYO
-         7xG4UnwvoyxJvcKA+4KlGGVo2HZoErt8uMvA8GUc=
-Date:   Tue, 22 Dec 2020 09:03:13 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Cameron <jic23@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        dri-devel@lists.freedesktop.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Drop unnecessary *-supply schemas properties
-Message-ID: <X+GaMWeSyGvt4S7Q@pendragon.ideasonboard.com>
-References: <20201221234659.824881-1-robh@kernel.org>
+        Tue, 22 Dec 2020 02:42:13 -0500
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CDDCC0613D3
+        for <linux-input@vger.kernel.org>; Mon, 21 Dec 2020 23:41:33 -0800 (PST)
+Received: by mail-pf1-x433.google.com with SMTP id t8so7976101pfg.8
+        for <linux-input@vger.kernel.org>; Mon, 21 Dec 2020 23:41:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=endlessos.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=msNvM5pzbAJYWbn5mWuzMEGirWXPRzYqMruqrj8OX6c=;
+        b=lQXUHk2Fsfs1sA+mkfafYI2CaAd1zQA6DfenVJTnQTN0i9Ss480VRYI/ng1ieVmoQ8
+         3PbGUHzhrLuxq2RX8DXV4q8TCLxDfx5wmJ3HV/aAvkT6mhJeugfpSea5sXsksPncLx1H
+         OskM58B1/4bzJjCExLl1lORWvSY2WCp8O5UUzALyeB5Uu8UyBJ50FurGtspMylRjGFBx
+         RYlDZZ16+RcXVb2ISf/QG//OQSVQtXrCnbJzRqTpyxmBOASWgan3o4bUFVEjJLJ5tDsS
+         6kXktKT5TcUL0QXyuo/fY70EZWzT3bbGR0b4dJPibUSwEHx+VWG+zn/4Ht7WWDQgtDYC
+         9c8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=msNvM5pzbAJYWbn5mWuzMEGirWXPRzYqMruqrj8OX6c=;
+        b=tgM9bwgJeG+T/eQRhA1L1gTuxSgL5H2hEGS4JiPyXBDY7OmZ7yzronl2lo4akSDf36
+         FH4OBRgvoU6C2AEjaVYAJ954vxFd+ihrEAOFGRJauVFPXU0TCooWSuyKVUhbekcQ8uPx
+         y0yK9TzfZQLT4k9qaV6mXOc9WU3k1wVvte8MOP4blf21efU60073qnLcfWRFIfefocAb
+         9elUjN2RH7K3esvV1L+sNW4cNWzzuboeIWEqtNTgdfguRwDJBxtkeagGDMuVd46zJ7Cf
+         6njS+TyVkLTwxPAqZMqKKoeX/riFbgTMeq9dml6TFF4jqtmKNH6t8wUwTdMCpB6Zr//h
+         VGQw==
+X-Gm-Message-State: AOAM533AAY400xvISF3DseGdxrIVFrEFSFo4YMm5VJvJ/WU1sKVam2QV
+        GEUpMarZRllLdlxMuh3Eb1o8ag==
+X-Google-Smtp-Source: ABdhPJxIYOi2lMUhqM9FA9/s/YZgH4HhW0Ae+PRwIKVYgSaINEIiuKkYxnhczYPlCkvy0omsr7HE3g==
+X-Received: by 2002:a63:da58:: with SMTP id l24mr18497739pgj.178.1608622893189;
+        Mon, 21 Dec 2020 23:41:33 -0800 (PST)
+Received: from starnight.localdomain (123-204-46-122.static.seed.net.tw. [123.204.46.122])
+        by smtp.googlemail.com with ESMTPSA id cq15sm17680984pjb.27.2020.12.21.23.41.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Dec 2020 23:41:32 -0800 (PST)
+From:   Jian-Hong Pan <jhp@endlessos.org>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux@endlessos.org, Jian-Hong Pan <jhp@endlessos.org>
+Subject: [PATCH] HID: Add Wireless Radio Control feature for Chicony devices
+Date:   Tue, 22 Dec 2020 15:38:56 +0800
+Message-Id: <20201222073855.98490-1-jhp@endlessos.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201221234659.824881-1-robh@kernel.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Rob,
+Some Chicony's keyboards support airplane mode hotkey (Fn+F2) with
+"Wireless Radio Control" feature. For example, the wireless keyboard
+[04f2:1236] shipped with ASUS all-in-one desktop.
 
-Thank you for the patch.
+After consulting Chicony for this hotkey, learned the device will send
+with 0x11 as the report ID and 0x1 as the value when the key is pressed
+down.
 
-On Mon, Dec 21, 2020 at 04:46:59PM -0700, Rob Herring wrote:
-> *-supply properties are always a single phandle, so binding schemas
-> don't need a type $ref nor 'maxItems'.
-> 
-> A meta-schema check for this is pending once these existing cases are
-> fixed.
-> 
-> Cc: Jonathan Cameron <jic23@kernel.org>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-iio@vger.kernel.org
-> Cc: linux-input@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  Documentation/devicetree/bindings/display/bridge/anx6345.yaml | 2 --
->  .../devicetree/bindings/display/bridge/ite,it6505.yaml        | 2 --
->  .../devicetree/bindings/display/bridge/lvds-codec.yaml        | 3 +--
->  Documentation/devicetree/bindings/display/bridge/ps8640.yaml  | 2 --
->  .../devicetree/bindings/display/bridge/simple-bridge.yaml     | 1 -
->  .../bindings/display/bridge/thine,thc63lvd1024.yaml           | 1 -
->  .../devicetree/bindings/display/bridge/toshiba,tc358775.yaml  | 2 --
->  Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml   | 4 +---
->  .../devicetree/bindings/iio/humidity/ti,hdc2010.yaml          | 3 +--
->  .../devicetree/bindings/input/fsl,mpr121-touchkey.yaml        | 3 +--
->  .../devicetree/bindings/input/touchscreen/edt-ft5x06.yaml     | 3 +--
->  .../devicetree/bindings/media/i2c/maxim,max9286.yaml          | 1 -
->  Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml     | 3 ---
->  Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml  | 3 ---
->  Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml  | 3 ---
->  Documentation/devicetree/bindings/mfd/st,stmfx.yaml           | 3 +--
->  .../devicetree/bindings/regulator/anatop-regulator.yaml       | 1 -
->  17 files changed, 6 insertions(+), 34 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/anx6345.yaml b/Documentation/devicetree/bindings/display/bridge/anx6345.yaml
-> index 8c0e4f285fbc..fccd63521a8c 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/anx6345.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/anx6345.yaml
-> @@ -26,11 +26,9 @@ properties:
->      description: GPIO connected to active low reset
->  
->    dvdd12-supply:
-> -    maxItems: 1
->      description: Regulator for 1.2V digital core power.
->  
->    dvdd25-supply:
-> -    maxItems: 1
->      description: Regulator for 2.5V digital core power.
->  
->    ports:
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> index efbb3d0117dc..02cfc0a3b550 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
-> @@ -35,11 +35,9 @@ properties:
->      maxItems: 1
->  
->    ovdd-supply:
-> -    maxItems: 1
->      description: I/O voltage
->  
->    pwr18-supply:
-> -    maxItems: 1
->      description: core voltage
->  
->    interrupts:
-> diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> index e5e3c72630cf..66a14d60ce1d 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> @@ -79,8 +79,7 @@ properties:
->        The GPIO used to control the power down line of this device.
->      maxItems: 1
->  
-> -  power-supply:
-> -    maxItems: 1
-> +  power-supply: true
->  
->  required:
->    - compatible
-> diff --git a/Documentation/devicetree/bindings/display/bridge/ps8640.yaml b/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
-> index 7e27cfcf770d..763c7909473e 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
-> @@ -35,11 +35,9 @@ properties:
->      description: GPIO connected to active low reset.
->  
->    vdd12-supply:
-> -    maxItems: 1
->      description: Regulator for 1.2V digital core power.
->  
->    vdd33-supply:
-> -    maxItems: 1
->      description: Regulator for 3.3V digital core power.
->  
->    ports:
-> diff --git a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
-> index 3ddb35fcf0a2..64e8a1c24b40 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
-> @@ -60,7 +60,6 @@ properties:
->      description: GPIO controlling bridge enable
->  
->    vdd-supply:
-> -    maxItems: 1
->      description: Power supply for the bridge
->  
->  required:
-> diff --git a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
-> index 469ac4a34273..3d5ce08a5792 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
-> @@ -74,7 +74,6 @@ properties:
->      description: Power down GPIO signal, pin name "/PDWN", active low.
->  
->    vcc-supply:
-> -    maxItems: 1
->      description:
->        Power supply for the TTL output, TTL CLOCKOUT signal, LVDS input, PLL and
->        digital circuitry.
-> diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
-> index fd3113aa9ccd..b5959cc78b8d 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
-> @@ -28,11 +28,9 @@ properties:
->      description: i2c address of the bridge, 0x0f
->  
->    vdd-supply:
-> -    maxItems: 1
->      description: 1.2V LVDS Power Supply
->  
->    vddio-supply:
-> -    maxItems: 1
->      description: 1.8V IO Power Supply
->  
->    stby-gpios:
-> diff --git a/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml b/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml
-> index 6a991e9f78e2..f04084fae5e8 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml
-> @@ -16,9 +16,7 @@ properties:
->      enum:
->        - lltc,ltc2496
->  
-> -  vref-supply:
-> -    description: phandle to an external regulator providing the reference voltage
-> -    $ref: /schemas/types.yaml#/definitions/phandle
-> +  vref-supply: true
+This patch maps the event as KEY_RFKILL.
 
-I'd keep part of the description as it's not just the device's main
-power supply (at least if we can trust the current description).
+Signed-off-by: Jian-Hong Pan <jhp@endlessos.org>
+---
+ drivers/hid/hid-chicony.c | 58 +++++++++++++++++++++++++++++++++++++++
+ drivers/hid/hid-ids.h     |  1 +
+ 2 files changed, 59 insertions(+)
 
-  vref-supply:
-    description: Power supply for the reference voltage
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->    reg:
->      description: spi chipselect number according to the usual spi bindings
-> diff --git a/Documentation/devicetree/bindings/iio/humidity/ti,hdc2010.yaml b/Documentation/devicetree/bindings/iio/humidity/ti,hdc2010.yaml
-> index 7037f82ec753..88384b69f917 100644
-> --- a/Documentation/devicetree/bindings/iio/humidity/ti,hdc2010.yaml
-> +++ b/Documentation/devicetree/bindings/iio/humidity/ti,hdc2010.yaml
-> @@ -22,8 +22,7 @@ properties:
->        - ti,hdc2010
->        - ti,hdc2080
->  
-> -  vdd-supply:
-> -    maxItems: 1
-> +  vdd-supply: true
->  
->    reg:
->      maxItems: 1
-> diff --git a/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml b/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
-> index 378a85c09d34..878464f128dc 100644
-> --- a/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
-> +++ b/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
-> @@ -31,8 +31,7 @@ properties:
->    interrupts:
->      maxItems: 1
->  
-> -  vdd-supply:
-> -    maxItems: 1
-> +  vdd-supply: true
->  
->    linux,keycodes:
->      minItems: 1
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-> index 4ce109476a0e..bfc3a8b5e118 100644
-> --- a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-> @@ -55,8 +55,7 @@ properties:
->  
->    wakeup-source: true
->  
-> -  vcc-supply:
-> -    maxItems: 1
-> +  vcc-supply: true
->  
->    gain:
->      description: Allows setting the sensitivity in the range from 0 to 31.
-> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> index 9ea827092fdd..68ee8c7d9e79 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> @@ -40,7 +40,6 @@ properties:
->  
->    poc-supply:
->      description: Regulator providing Power over Coax to the cameras
-> -    maxItems: 1
->  
->    enable-gpios:
->      description: GPIO connected to the \#PWDN pin with inverted polarity
-> diff --git a/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml b/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
-> index 0df0334d2d0d..bb3528315f20 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
-> @@ -39,15 +39,12 @@ properties:
->  
->    vana-supply:
->      description: Analogue voltage supply (VANA), sensor dependent.
-> -    maxItems: 1
->  
->    vcore-supply:
->      description: Core voltage supply (VCore), sensor dependent.
-> -    maxItems: 1
->  
->    vio-supply:
->      description: I/O voltage supply (VIO), sensor dependent.
-> -    maxItems: 1
->  
->    clocks:
->      description: External clock to the sensor.
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> index 1a3590dd0e98..eb12526a462f 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> @@ -37,15 +37,12 @@ properties:
->  
->    vdddo-supply:
->      description: Chip digital IO regulator (1.8V).
-> -    maxItems: 1
->  
->    vdda-supply:
->      description: Chip analog regulator (2.7V).
-> -    maxItems: 1
->  
->    vddd-supply:
->      description: Chip digital core regulator (1.12V).
-> -    maxItems: 1
->  
->    flash-leds:
->      description: See ../video-interfaces.txt
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
-> index f697e1a20beb..a66acb20d59b 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
-> @@ -33,15 +33,12 @@ properties:
->  
->    vana-supply:
->      description: Sensor 2.8 V analog supply.
-> -    maxItems: 1
->  
->    vdig-supply:
->      description: Sensor 1.8 V digital core supply.
-> -    maxItems: 1
->  
->    vddl-supply:
->      description: Sensor digital IO 1.2 V supply.
-> -    maxItems: 1
->  
->    port:
->      type: object
-> diff --git a/Documentation/devicetree/bindings/mfd/st,stmfx.yaml b/Documentation/devicetree/bindings/mfd/st,stmfx.yaml
-> index 888ab4b5df45..19e9afb385ac 100644
-> --- a/Documentation/devicetree/bindings/mfd/st,stmfx.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/st,stmfx.yaml
-> @@ -26,8 +26,7 @@ properties:
->  
->    drive-open-drain: true
->  
-> -  vdd-supply:
-> -    maxItems: 1
-> +  vdd-supply: true
->  
->    pinctrl:
->      type: object
-> diff --git a/Documentation/devicetree/bindings/regulator/anatop-regulator.yaml b/Documentation/devicetree/bindings/regulator/anatop-regulator.yaml
-> index e7b3abe30363..0a66338c7e5a 100644
-> --- a/Documentation/devicetree/bindings/regulator/anatop-regulator.yaml
-> +++ b/Documentation/devicetree/bindings/regulator/anatop-regulator.yaml
-> @@ -59,7 +59,6 @@ properties:
->      description: u32 value representing regulator enable bit offset.
->  
->    vin-supply:
-> -    $ref: '/schemas/types.yaml#/definitions/phandle'
->      description: input supply phandle.
->  
->  required:
-
+diff --git a/drivers/hid/hid-chicony.c b/drivers/hid/hid-chicony.c
+index 3f0ed6a95223..aca963aa0f1e 100644
+--- a/drivers/hid/hid-chicony.c
++++ b/drivers/hid/hid-chicony.c
+@@ -21,6 +21,42 @@
+ 
+ #include "hid-ids.h"
+ 
++#define KEY_PRESSED			0x01
++#define CH_WIRELESS_CTL_REPORT_ID	0x11
++
++static int ch_report_wireless(struct hid_report *report, u8 *data, int size)
++{
++	struct hid_device *hdev = report->device;
++	struct input_dev *input;
++
++	if (report->id != CH_WIRELESS_CTL_REPORT_ID ||
++	    report->maxfield != 1 ||
++	    *report->field[0]->value != KEY_PRESSED)
++		return 0;
++
++	input = report->field[0]->hidinput->input;
++	if (!input) {
++		hid_warn(hdev, "can't find wireless radio control's input");
++		return 0;
++	}
++
++	input_report_key(input, KEY_RFKILL, 1);
++	input_sync(input);
++	input_report_key(input, KEY_RFKILL, 0);
++	input_sync(input);
++
++	return 1;
++}
++
++static int ch_raw_event(struct hid_device *hdev,
++		struct hid_report *report, u8 *data, int size)
++{
++	if (report->application == HID_GD_WIRELESS_RADIO_CTLS)
++		return ch_report_wireless(report, data, size);
++
++	return 0;
++}
++
+ #define ch_map_key_clear(c)	hid_map_usage_clear(hi, usage, bit, max, \
+ 					EV_KEY, (c))
+ static int ch_input_mapping(struct hid_device *hdev, struct hid_input *hi,
+@@ -77,10 +113,30 @@ static __u8 *ch_switch12_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ 	return rdesc;
+ }
+ 
++static int ch_probe(struct hid_device *hdev, const struct hid_device_id *id)
++{
++	int ret;
++
++	hdev->quirks |= HID_QUIRK_INPUT_PER_APP;
++	ret = hid_parse(hdev);
++	if (ret) {
++		hid_err(hdev, "Chicony hid parse failed: %d\n", ret);
++		return ret;
++	}
++
++	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
++	if (ret) {
++		hid_err(hdev, "Chicony hw start failed: %d\n", ret);
++		return ret;
++	}
++
++	return 0;
++}
+ 
+ static const struct hid_device_id ch_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_TACTICAL_PAD) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_WIRELESS2) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_WIRELESS3) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_ACER_SWITCH12) },
+ 	{ }
+ };
+@@ -91,6 +147,8 @@ static struct hid_driver ch_driver = {
+ 	.id_table = ch_devices,
+ 	.report_fixup = ch_switch12_report_fixup,
+ 	.input_mapping = ch_input_mapping,
++	.probe = ch_probe,
++	.raw_event = ch_raw_event,
+ };
+ module_hid_driver(ch_driver);
+ 
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 4c5f23640f9c..06d90301a3dc 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -270,6 +270,7 @@
+ #define USB_DEVICE_ID_CHICONY_PIXART_USB_OPTICAL_MOUSE	0x1053
+ #define USB_DEVICE_ID_CHICONY_PIXART_USB_OPTICAL_MOUSE2	0x0939
+ #define USB_DEVICE_ID_CHICONY_WIRELESS2	0x1123
++#define USB_DEVICE_ID_CHICONY_WIRELESS3	0x1236
+ #define USB_DEVICE_ID_ASUS_AK1D		0x1125
+ #define USB_DEVICE_ID_CHICONY_TOSHIBA_WT10A	0x1408
+ #define USB_DEVICE_ID_CHICONY_ACER_SWITCH12	0x1421
 -- 
-Regards,
+2.29.2
 
-Laurent Pinchart
