@@ -2,129 +2,187 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E24192E0959
-	for <lists+linux-input@lfdr.de>; Tue, 22 Dec 2020 12:10:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09DFC2E0D7C
+	for <lists+linux-input@lfdr.de>; Tue, 22 Dec 2020 17:44:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725913AbgLVLJ4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Dec 2020 06:09:56 -0500
-Received: from mout.gmx.net ([212.227.15.15]:39793 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725847AbgLVLJ4 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Dec 2020 06:09:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1608635300;
-        bh=w3eF+si7e98IAYsFaPGDgdO3+FGxhhiRKm/JCEsQt9c=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=VN5NKVL6axuhBcpBY5CpatnyuAFi8vs0AyHQZ5NSf+FnSTgyujP3eTn5PYaW4VdWc
-         aQnW2SKMIdO/ERI/ROme1V2Z4wtbsQ338nIjjMgPyy1b+O1pU2nrAxK5taOR416gTo
-         s9snhap9UOLCQ4NyFs4x/NuZlZzwP1BBjvT8N1TM=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from LT02.fritz.box ([62.143.246.89]) by mail.gmx.com (mrgmx004
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1N5GDv-1jsjEf1R25-011E7m; Tue, 22
- Dec 2020 12:08:20 +0100
-From:   Heinrich Schuchardt <xypron.glpk@gmx.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Heinrich Schuchardt <xypron.glpk@gmx.de>
-Subject: [PATCH 1/1] dt-bindings: adc-keys.txt: clarify description
-Date:   Tue, 22 Dec 2020 12:08:15 +0100
-Message-Id: <20201222110815.24121-1-xypron.glpk@gmx.de>
-X-Mailer: git-send-email 2.29.2
+        id S1727418AbgLVQmh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Dec 2020 11:42:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60196 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727310AbgLVQmh (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 22 Dec 2020 11:42:37 -0500
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 298C4C0613D3
+        for <linux-input@vger.kernel.org>; Tue, 22 Dec 2020 08:41:57 -0800 (PST)
+Received: by mail-pg1-x529.google.com with SMTP id w5so8727588pgj.3
+        for <linux-input@vger.kernel.org>; Tue, 22 Dec 2020 08:41:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=endlessos.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4xcAHW0XBCyUGubD++/OVWBJA5lPhprCBQF9D05n+MI=;
+        b=BX0G3WyK1dfrzWtYs4Z6SUG9+r6N8uOuIxQpfrWqGbpeqaMOpG5/04cJQGiT3d9vAD
+         QpkY14Q/R0crgbtoaadRnFGof6sczgtA3/mQigkWIUQfvwbpKG6oxlNlzfGc/neVodly
+         Nk7Amu3ZyeMz3Qeslo/cTk482BsB2dXH/Pwk9N4c2uXZlwBcZfV1Rm8Nv4QB2fUS/sa2
+         7Sp6loUGG5qGV3J+Bp30hPjInuwl0ZLxC0eN2oc2Icdk42ZmnhVUxVHPsaMaWFqh/eDJ
+         +6vtekmV/QD/P2qC1Tw8GN0dQtIZ65hzlJp5YsfLTtEZJo9OLd4wpIPVjtKEN/KBHjvq
+         6C1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4xcAHW0XBCyUGubD++/OVWBJA5lPhprCBQF9D05n+MI=;
+        b=sgC8OisECCCpvjem/VOJv+6/eSmlnHcia9XY4Qj6g1L6citratTiUirMa7a3hAY+7F
+         nxU+5Ln73SI3gYyU1YzpPlOJ1Kt5GZ5JGCdqV+MosqxjGn6RxcwW9mpvxLTbNvKYDjjz
+         vIt54CM2leVzCnXhYac2pyKh6tGTP+6O4BlsXu9KaFCIhPshR7tDP7oKYsQ/XOgwdjv0
+         NTa5X46FJeKcmCLNs8+RgJPlkzIDfLd9162oAMShGJCnfrt+GUx2Ms95TZqPkhFu7U9X
+         shsktY4eGkpAa9aAjDrkKoDYy0NheGhCMLuFHjVutgnjxuSNBxrqRaz3Wi/Pp43Q6+Hu
+         iLCg==
+X-Gm-Message-State: AOAM532MJFgy9DlAf3ovGdLrxIq0+vTb86lD6Yz7qkhdoOiT+GR41fyv
+        1S4sNfDjR6AJr1fl2gFcv92mb6w7l0HQKZYVgHdrpQ==
+X-Google-Smtp-Source: ABdhPJw/oiTxxOPfcDoKXuyGtxsBCVwI1p6WYXr+n7mhIIfjr0tV8CwKPD2wC2UV4ncGjs1M/kJvEi7d7C5OsSTQqO4=
+X-Received: by 2002:a63:220b:: with SMTP id i11mr20732958pgi.2.1608655316551;
+ Tue, 22 Dec 2020 08:41:56 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:T38j14BVNR123t6GreLXV8CdLOXYQXkS20/t6TpFp9eD1nXX81+
- VROophO1u084jvi68NSWgY5pmoIj0Cj7qfrNKOzu1mr425XhIk0R0wsT6tdR2xi4VFhL4YE
- jLs9HWBU62cBB7Eb7JWFfJaHEltKxgpAiB9357UtI+xr2Ye/FOJuNyqqeHAxZsQGJhhKEIH
- BjV9NXXyoTC/TH2R1+xoA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:iYz9xFU/6DE=:Kqj9JaHSVuDM58CIrnF0R0
- /u7fUe8WrAOTZC2v7tRR8BX6HdFKu5+Jp49FH+1EGkiEQ6R1qXXYqD6zsnU1/H3XwVDiRcR0v
- +/xm/vc16BCVx7VK5xrhsSrHlLIh9NjmdAW2TtUokzquqlgPgG0CJWKdps8g56r8ho18A5MhL
- /OctsokZH7q5WjQzEzrxsC9znf+xTynXxYs2wq2MlmZceS/dWzfNYfODpp+e0pDUA5Te+vc30
- lpVmjPQUgKXllXveZA0PaGyEjTiQ3T/UxZoCqGWgfya0GCAbdWZrhJBCcDGhowOvfEb2M+QoH
- lxIGmybBXLjxctNhVpOW06z0Ipt5a5q/dWx216BER3A71yZ0ieaSscrlZz4wm1DqFY1j9hqWP
- ujIDkahZTgvFL8p/FiI7VNExIBz6g8S5VQq4PZmOUvsjm/IuxHxkcctXx5VBNzKPjr2QYbKUq
- zvPbZ3/9pdajEbry6X9l+0QWJ94Ajw0omeITm99oUE8ugzY8E4X1d3dhNJFdQhE217OYD9eV0
- yAsYSQeOqIOXyFZ9iX7+mPA8zMy7EAaPZenZ7t5/MILXOBJxsPB+T6L53ljGH1P2B6fsC3cMn
- 5qEL4E1ILDDRc2pusB6G8m+6bRUoO/4ZGo3SqIJ1CtD0USzWXY74MQxKNVt22rdXGIupnomS2
- RY9NA4GWuQ5Zf0jI0nJqpn0YVRdmTWmgyRYjmZKyBjHi/2mKchbp4XvXI3jU1gsl5DDB8gHm2
- fsEFEn2C3cdyFDEAesiwyfKY6LdKABc+0olaMJBFOZBaCYqEctbsfNX7+5K45htIjEYqgl0RM
- NOQtvLCjts4woj/see8sGn5kOajOhzyb8MM+qxiFMvuIBh8ZnJHYy2tTiEOnBGKjqKv3zNq2x
- aLHcRo3nyv/C9cOSQLcg==
+References: <20201222073855.98490-1-jhp@endlessos.org>
+In-Reply-To: <20201222073855.98490-1-jhp@endlessos.org>
+From:   Chris Chiu <chiu@endlessos.org>
+Date:   Wed, 23 Dec 2020 00:41:45 +0800
+Message-ID: <CAB4CAwfFQrMDYuzjL2nuUnHgXO031ty-mA7GGxW+-nHFkZTGTg@mail.gmail.com>
+Subject: Re: [PATCH] HID: Add Wireless Radio Control feature for Chicony devices
+To:     Jian-Hong Pan <jhp@endlessos.org>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        Linux Kernel <linux-kernel@vger.kernel.org>,
+        linux@endlessos.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The current description of ADC keys is not precise enough.
+On Tue, Dec 22, 2020 at 3:41 PM Jian-Hong Pan <jhp@endlessos.org> wrote:
+>
+> Some Chicony's keyboards support airplane mode hotkey (Fn+F2) with
+> "Wireless Radio Control" feature. For example, the wireless keyboard
+> [04f2:1236] shipped with ASUS all-in-one desktop.
+>
+> After consulting Chicony for this hotkey, learned the device will send
+> with 0x11 as the report ID and 0x1 as the value when the key is pressed
+> down.
+>
+> This patch maps the event as KEY_RFKILL.
+>
+> Signed-off-by: Jian-Hong Pan <jhp@endlessos.org>
+> ---
+>  drivers/hid/hid-chicony.c | 58 +++++++++++++++++++++++++++++++++++++++
+>  drivers/hid/hid-ids.h     |  1 +
+>  2 files changed, 59 insertions(+)
+>
+> diff --git a/drivers/hid/hid-chicony.c b/drivers/hid/hid-chicony.c
+> index 3f0ed6a95223..aca963aa0f1e 100644
+> --- a/drivers/hid/hid-chicony.c
+> +++ b/drivers/hid/hid-chicony.c
+> @@ -21,6 +21,42 @@
+>
+>  #include "hid-ids.h"
+>
+> +#define KEY_PRESSED                    0x01
+> +#define CH_WIRELESS_CTL_REPORT_ID      0x11
+> +
+> +static int ch_report_wireless(struct hid_report *report, u8 *data, int size)
+> +{
+> +       struct hid_device *hdev = report->device;
+> +       struct input_dev *input;
+> +
+> +       if (report->id != CH_WIRELESS_CTL_REPORT_ID ||
+> +           report->maxfield != 1 ||
+> +           *report->field[0]->value != KEY_PRESSED)
 
-"when this key is pressed" leaves it open if a key is considered pressed
-below or above the threshold. This has led to confusion:
-drivers/input/keyboard/adc-keys.c ignores the meaning of thresholds and
-sets the key that is closest to press-threshold-microvolt.
+Maybe replace this line with hid_check_keys_pressed() and the KEY_PRESSED
+is not required.
 
-This patch nails down the definitions and provides an interpretation of th=
-e
-supplied example.
-
-Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
-=2D--
-I know that this file needs to be converted to YAML. But lets first get th=
-e
-text right.
-=2D--
- .../devicetree/bindings/input/adc-keys.txt    | 22 +++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/input/adc-keys.txt b/Docume=
-ntation/devicetree/bindings/input/adc-keys.txt
-index e551814629b4..6c8be6a9ace2 100644
-=2D-- a/Documentation/devicetree/bindings/input/adc-keys.txt
-+++ b/Documentation/devicetree/bindings/input/adc-keys.txt
-@@ -5,7 +5,8 @@ Required properties:
-  - compatible: "adc-keys"
-  - io-channels: Phandle to an ADC channel
-  - io-channel-names =3D "buttons";
-- - keyup-threshold-microvolt: Voltage at which all the keys are considere=
-d up.
-+ - keyup-threshold-microvolt: Voltage above or equal to which all the key=
-s are
-+			      considered up.
-
- Optional properties:
- 	- poll-interval: Poll interval time in milliseconds
-@@ -17,7 +18,12 @@ Each button (key) is represented as a sub-node of "adc-=
-keys":
- Required subnode-properties:
- 	- label: Descriptive name of the key.
- 	- linux,code: Keycode to emit.
--	- press-threshold-microvolt: Voltage ADC input when this key is pressed.
-+	- press-threshold-microvolt: voltage above or equal to which this key is
-+				     considered pressed.
-+
-+No two values of press-threshold-microvolt may be the same.
-+All values of press-threshold-microvolt must be less than
-+keyup-threshold-microvolt.
-
- Example:
-
-@@ -47,3 +53,15 @@ Example:
- 			press-threshold-microvolt =3D <500000>;
- 		};
- 	};
-+
-++--------------------------------+------------------------+
-+| 2.000.000 <=3D value             | no key pressed         |
-++--------------------------------+------------------------+
-+| 1.500.000 <=3D value < 2.000.000 | KEY_VOLUMEUP pressed   |
-++--------------------------------+------------------------+
-+| 1.000.000 <=3D value < 1.500.000 | KEY_VOLUMEDOWN pressed |
-++--------------------------------+------------------------+
-+|   500.000 <=3D value < 1.000.000 | KEY_ENTER pressed      |
-++--------------------------------+------------------------+
-+|              value <   500.000 | no key pressed         |
-++--------------------------------+------------------------+
-=2D-
-2.29.2
-
+> +               return 0;
+> +
+> +       input = report->field[0]->hidinput->input;
+> +       if (!input) {
+> +               hid_warn(hdev, "can't find wireless radio control's input");
+> +               return 0;
+> +       }
+> +
+> +       input_report_key(input, KEY_RFKILL, 1);
+> +       input_sync(input);
+> +       input_report_key(input, KEY_RFKILL, 0);
+> +       input_sync(input);
+> +
+> +       return 1;
+> +}
+> +
+> +static int ch_raw_event(struct hid_device *hdev,
+> +               struct hid_report *report, u8 *data, int size)
+> +{
+> +       if (report->application == HID_GD_WIRELESS_RADIO_CTLS)
+> +               return ch_report_wireless(report, data, size);
+> +
+> +       return 0;
+> +}
+> +
+>  #define ch_map_key_clear(c)    hid_map_usage_clear(hi, usage, bit, max, \
+>                                         EV_KEY, (c))
+>  static int ch_input_mapping(struct hid_device *hdev, struct hid_input *hi,
+> @@ -77,10 +113,30 @@ static __u8 *ch_switch12_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+>         return rdesc;
+>  }
+>
+> +static int ch_probe(struct hid_device *hdev, const struct hid_device_id *id)
+> +{
+> +       int ret;
+> +
+> +       hdev->quirks |= HID_QUIRK_INPUT_PER_APP;
+> +       ret = hid_parse(hdev);
+> +       if (ret) {
+> +               hid_err(hdev, "Chicony hid parse failed: %d\n", ret);
+> +               return ret;
+> +       }
+> +
+> +       ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
+> +       if (ret) {
+> +               hid_err(hdev, "Chicony hw start failed: %d\n", ret);
+> +               return ret;
+> +       }
+> +
+> +       return 0;
+> +}
+>
+>  static const struct hid_device_id ch_devices[] = {
+>         { HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_TACTICAL_PAD) },
+>         { HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_WIRELESS2) },
+> +       { HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_WIRELESS3) },
+>         { HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_ACER_SWITCH12) },
+>         { }
+>  };
+> @@ -91,6 +147,8 @@ static struct hid_driver ch_driver = {
+>         .id_table = ch_devices,
+>         .report_fixup = ch_switch12_report_fixup,
+>         .input_mapping = ch_input_mapping,
+> +       .probe = ch_probe,
+> +       .raw_event = ch_raw_event,
+>  };
+>  module_hid_driver(ch_driver);
+>
+> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+> index 4c5f23640f9c..06d90301a3dc 100644
+> --- a/drivers/hid/hid-ids.h
+> +++ b/drivers/hid/hid-ids.h
+> @@ -270,6 +270,7 @@
+>  #define USB_DEVICE_ID_CHICONY_PIXART_USB_OPTICAL_MOUSE 0x1053
+>  #define USB_DEVICE_ID_CHICONY_PIXART_USB_OPTICAL_MOUSE2        0x0939
+>  #define USB_DEVICE_ID_CHICONY_WIRELESS2        0x1123
+> +#define USB_DEVICE_ID_CHICONY_WIRELESS3        0x1236
+>  #define USB_DEVICE_ID_ASUS_AK1D                0x1125
+>  #define USB_DEVICE_ID_CHICONY_TOSHIBA_WT10A    0x1408
+>  #define USB_DEVICE_ID_CHICONY_ACER_SWITCH12    0x1421
+> --
+> 2.29.2
+>
