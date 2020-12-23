@@ -2,95 +2,212 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E4DFC2E171C
-	for <lists+linux-input@lfdr.de>; Wed, 23 Dec 2020 04:11:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 781842E17F5
+	for <lists+linux-input@lfdr.de>; Wed, 23 Dec 2020 05:04:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731679AbgLWDF4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Dec 2020 22:05:56 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46404 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728503AbgLWCTI (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Dec 2020 21:19:08 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 42B40229C5;
-        Wed, 23 Dec 2020 02:18:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1608689898;
-        bh=xr+1SLuzJCgsYIl4xbn8lQXyhC0ITuyAxJQRQWyyD3g=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PbGQrgZYg/DbHsaTWQV+LRzMB9koHP3aA5WLV7f5qt7iY5Au/drm91UB/3svmKAWK
-         poSeLwDuG+bJ7a2830PuuX0Id/Kg7s6ljglRDFSlhwgUaQB5wMiHMLP3Xr5xd6Erx+
-         SMhDAjmG/skMcFD0RU6Q+1F1ZLIuJDtECcDjatQjTsJ4UI+8Kb13782DTWdeklJ7M/
-         tYPswhzVsm4qn6q2zRalYpAcHXIPvSpLhFUuWcdnFXHWKCkuLhvnlNuWJuCZDwAozf
-         veVApccleYAqBkDTRQD4t+EdhBNfQ/ACIddBIHGIm+xz9sV8nU6bajZAjNWuCoxpB6
-         PqNNvGdIDnu7g==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 004/130] HID: hid-input: occasionally report stylus battery even if not changed
-Date:   Tue, 22 Dec 2020 21:16:07 -0500
-Message-Id: <20201223021813.2791612-4-sashal@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201223021813.2791612-1-sashal@kernel.org>
-References: <20201223021813.2791612-1-sashal@kernel.org>
+        id S1726611AbgLWEDu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Dec 2020 23:03:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51868 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725300AbgLWEDu (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 22 Dec 2020 23:03:50 -0500
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFC35C0613D6
+        for <linux-input@vger.kernel.org>; Tue, 22 Dec 2020 20:03:09 -0800 (PST)
+Received: by mail-ot1-x32d.google.com with SMTP id b24so13985404otj.0
+        for <linux-input@vger.kernel.org>; Tue, 22 Dec 2020 20:03:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=endlessos.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=M0DHG+H05G+vGVNyiEGUd0nNPeHtEuJGU2Fu/N88wYc=;
+        b=JeayrbijE3y1HJvpVkt7xJ9yFsRRcF8/H4+ND1BbDza8aIa+CiLeMRDL1WfK+jtccA
+         LGPbcQbtn/8XiVxwmbRd0spmA+e50rYBh1IcT1yYBJ+K7OpVRFGnHQfDiLIumy5SvTBB
+         xNmdTRwndSG3Lk3nZDCHhya6kN4Z2afWZ1h/5TpgAq9OeX+mfcciKPPCEJEDya10D7ag
+         gVm2bS7IMxjdRgHSWIQGeXyjCu/VR1+ZdrV98SSDKfIgmYhdVlInBhYKLyz6s8yVS1W9
+         IvMH8SiyEP296gKVYgBAl9awSiEX+GV8pwwK+p3KpOyxDsahrEiuptGpRidRuWZdyAn+
+         vLBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=M0DHG+H05G+vGVNyiEGUd0nNPeHtEuJGU2Fu/N88wYc=;
+        b=WWk4IdcuX1cdVVNG6lVF7ja265dxEixwe/7pohNZGxlQF8kGKLAtF52bTdaBu7vExB
+         WOotJcdQ4xSqmPwhibsiJ5wEAf4ab6Jbu8FXzqGeux1y+qQRRgt2zNDiBWCjEzj67c66
+         NF5CKPuvRqBpGkvomIhihheJpoWz3cOec/fEQ4a365CntmPHEz+vGisf5mEktYZzjyrU
+         dZCM63kKoOT3aoSOrB6DgVX5eWcaHnzhDXNb2YfmSSk1v3sA9Ku1Xydk6RKszVs5IbW0
+         30O82S2qy3D2ttFKxEb0PedNWyftjch6MeT+RCgcr3+x29BBQOnS1XsV558GJvLYHfx9
+         cmCA==
+X-Gm-Message-State: AOAM531Qhh3gPvWIqV/kxZJL5YixvsE7WUXSmDpRXuMRWhn5upd6sptm
+        rBqr36VwajapE0XTl4P4R6BifaDHtCikycQ7K1g+3g==
+X-Google-Smtp-Source: ABdhPJwD8ZHGFh6F+gSqNx1Fmke5vR8qo2q+FKL0wchYbgSAHYg+C9thV3guUrjpfhfL53YIF+8RkwJ6Sr6ZMqlTc2A=
+X-Received: by 2002:a9d:1d41:: with SMTP id m59mr18198178otm.100.1608696188947;
+ Tue, 22 Dec 2020 20:03:08 -0800 (PST)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+References: <20201222073855.98490-1-jhp@endlessos.org> <CAB4CAwfFQrMDYuzjL2nuUnHgXO031ty-mA7GGxW+-nHFkZTGTg@mail.gmail.com>
+In-Reply-To: <CAB4CAwfFQrMDYuzjL2nuUnHgXO031ty-mA7GGxW+-nHFkZTGTg@mail.gmail.com>
+From:   Jian-Hong Pan <jhp@endlessos.org>
+Date:   Wed, 23 Dec 2020 12:02:22 +0800
+Message-ID: <CAPpJ_edREMzaNMm=D7OPFLcP-MJASvvs9wDfF4qzbpjhcG9FVw@mail.gmail.com>
+Subject: Re: [PATCH] HID: Add Wireless Radio Control feature for Chicony devices
+To:     Chris Chiu <chiu@endlessos.org>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        Linux Kernel <linux-kernel@vger.kernel.org>,
+        linux@endlessos.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
+Chris Chiu <chiu@endlessos.org> =E6=96=BC 2020=E5=B9=B412=E6=9C=8823=E6=97=
+=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=8812:41=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> On Tue, Dec 22, 2020 at 3:41 PM Jian-Hong Pan <jhp@endlessos.org> wrote:
+> >
+> > Some Chicony's keyboards support airplane mode hotkey (Fn+F2) with
+> > "Wireless Radio Control" feature. For example, the wireless keyboard
+> > [04f2:1236] shipped with ASUS all-in-one desktop.
+> >
+> > After consulting Chicony for this hotkey, learned the device will send
+> > with 0x11 as the report ID and 0x1 as the value when the key is pressed
+> > down.
+> >
+> > This patch maps the event as KEY_RFKILL.
+> >
+> > Signed-off-by: Jian-Hong Pan <jhp@endlessos.org>
+> > ---
+> >  drivers/hid/hid-chicony.c | 58 +++++++++++++++++++++++++++++++++++++++
+> >  drivers/hid/hid-ids.h     |  1 +
+> >  2 files changed, 59 insertions(+)
+> >
+> > diff --git a/drivers/hid/hid-chicony.c b/drivers/hid/hid-chicony.c
+> > index 3f0ed6a95223..aca963aa0f1e 100644
+> > --- a/drivers/hid/hid-chicony.c
+> > +++ b/drivers/hid/hid-chicony.c
+> > @@ -21,6 +21,42 @@
+> >
+> >  #include "hid-ids.h"
+> >
+> > +#define KEY_PRESSED                    0x01
+> > +#define CH_WIRELESS_CTL_REPORT_ID      0x11
+> > +
+> > +static int ch_report_wireless(struct hid_report *report, u8 *data, int=
+ size)
+> > +{
+> > +       struct hid_device *hdev =3D report->device;
+> > +       struct input_dev *input;
+> > +
+> > +       if (report->id !=3D CH_WIRELESS_CTL_REPORT_ID ||
+> > +           report->maxfield !=3D 1 ||
+> > +           *report->field[0]->value !=3D KEY_PRESSED)
+>
+> Maybe replace this line with hid_check_keys_pressed() and the KEY_PRESSED
+> is not required.
 
-[ Upstream commit c6838eeef2fbc7e3e1f83759aa016ae6b70c643e ]
+Thanks for your suggestion!
 
-There are styluses that only report their battery status when they are
-touching the touchscreen; additionally we currently suppress battery
-reports if capacity has not changed. To help userspace recognize how long
-ago the device reported battery status, let's send the change event through
-if either capacity has changed, or at least 30 seconds have passed since
-last report we've let through.
+I tried hid_check_keys_pressed().  But, it always returns no key is
+pressed in this case.
+However, if the idea is: Since there is already a report, there must
+be an event from the input.  So, the key press checking is duplicated.
+This idea makes sense.  I will have a modification for this.
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Jiri Kosina <jkosina@suse.cz>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/hid/hid-input.c | 5 ++++-
- include/linux/hid.h     | 1 +
- 2 files changed, 5 insertions(+), 1 deletion(-)
+Thanks!
+Jian-Hong Pan
 
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index b2da8476d0d30..54ac835b72357 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -537,9 +537,12 @@ static void hidinput_update_battery(struct hid_device *dev, int value)
- 	capacity = hidinput_scale_battery_capacity(dev, value);
- 
- 	if (dev->battery_status != HID_BATTERY_REPORTED ||
--	    capacity != dev->battery_capacity) {
-+	    capacity != dev->battery_capacity ||
-+	    ktime_after(ktime_get_coarse(), dev->battery_ratelimit_time)) {
- 		dev->battery_capacity = capacity;
- 		dev->battery_status = HID_BATTERY_REPORTED;
-+		dev->battery_ratelimit_time =
-+			ktime_add_ms(ktime_get_coarse(), 30 * 1000);
- 		power_supply_changed(dev->battery);
- 	}
- }
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index c7044a14200ea..b05f194f30db0 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -583,6 +583,7 @@ struct hid_device {							/* device report descriptor */
- 	__s32 battery_report_id;
- 	enum hid_battery_status battery_status;
- 	bool battery_avoid_query;
-+	ktime_t battery_ratelimit_time;
- #endif
- 
- 	unsigned long status;						/* see STAT flags above */
--- 
-2.27.0
-
+> > +               return 0;
+> > +
+> > +       input =3D report->field[0]->hidinput->input;
+> > +       if (!input) {
+> > +               hid_warn(hdev, "can't find wireless radio control's inp=
+ut");
+> > +               return 0;
+> > +       }
+> > +
+> > +       input_report_key(input, KEY_RFKILL, 1);
+> > +       input_sync(input);
+> > +       input_report_key(input, KEY_RFKILL, 0);
+> > +       input_sync(input);
+> > +
+> > +       return 1;
+> > +}
+> > +
+> > +static int ch_raw_event(struct hid_device *hdev,
+> > +               struct hid_report *report, u8 *data, int size)
+> > +{
+> > +       if (report->application =3D=3D HID_GD_WIRELESS_RADIO_CTLS)
+> > +               return ch_report_wireless(report, data, size);
+> > +
+> > +       return 0;
+> > +}
+> > +
+> >  #define ch_map_key_clear(c)    hid_map_usage_clear(hi, usage, bit, max=
+, \
+> >                                         EV_KEY, (c))
+> >  static int ch_input_mapping(struct hid_device *hdev, struct hid_input =
+*hi,
+> > @@ -77,10 +113,30 @@ static __u8 *ch_switch12_report_fixup(struct hid_d=
+evice *hdev, __u8 *rdesc,
+> >         return rdesc;
+> >  }
+> >
+> > +static int ch_probe(struct hid_device *hdev, const struct hid_device_i=
+d *id)
+> > +{
+> > +       int ret;
+> > +
+> > +       hdev->quirks |=3D HID_QUIRK_INPUT_PER_APP;
+> > +       ret =3D hid_parse(hdev);
+> > +       if (ret) {
+> > +               hid_err(hdev, "Chicony hid parse failed: %d\n", ret);
+> > +               return ret;
+> > +       }
+> > +
+> > +       ret =3D hid_hw_start(hdev, HID_CONNECT_DEFAULT);
+> > +       if (ret) {
+> > +               hid_err(hdev, "Chicony hw start failed: %d\n", ret);
+> > +               return ret;
+> > +       }
+> > +
+> > +       return 0;
+> > +}
+> >
+> >  static const struct hid_device_id ch_devices[] =3D {
+> >         { HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_T=
+ACTICAL_PAD) },
+> >         { HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_W=
+IRELESS2) },
+> > +       { HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_W=
+IRELESS3) },
+> >         { HID_USB_DEVICE(USB_VENDOR_ID_CHICONY, USB_DEVICE_ID_CHICONY_A=
+CER_SWITCH12) },
+> >         { }
+> >  };
+> > @@ -91,6 +147,8 @@ static struct hid_driver ch_driver =3D {
+> >         .id_table =3D ch_devices,
+> >         .report_fixup =3D ch_switch12_report_fixup,
+> >         .input_mapping =3D ch_input_mapping,
+> > +       .probe =3D ch_probe,
+> > +       .raw_event =3D ch_raw_event,
+> >  };
+> >  module_hid_driver(ch_driver);
+> >
+> > diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+> > index 4c5f23640f9c..06d90301a3dc 100644
+> > --- a/drivers/hid/hid-ids.h
+> > +++ b/drivers/hid/hid-ids.h
+> > @@ -270,6 +270,7 @@
+> >  #define USB_DEVICE_ID_CHICONY_PIXART_USB_OPTICAL_MOUSE 0x1053
+> >  #define USB_DEVICE_ID_CHICONY_PIXART_USB_OPTICAL_MOUSE2        0x0939
+> >  #define USB_DEVICE_ID_CHICONY_WIRELESS2        0x1123
+> > +#define USB_DEVICE_ID_CHICONY_WIRELESS3        0x1236
+> >  #define USB_DEVICE_ID_ASUS_AK1D                0x1125
+> >  #define USB_DEVICE_ID_CHICONY_TOSHIBA_WT10A    0x1408
+> >  #define USB_DEVICE_ID_CHICONY_ACER_SWITCH12    0x1421
+> > --
+> > 2.29.2
+> >
