@@ -2,168 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB5672E2529
-	for <lists+linux-input@lfdr.de>; Thu, 24 Dec 2020 08:14:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 875592E2775
+	for <lists+linux-input@lfdr.de>; Thu, 24 Dec 2020 14:53:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726186AbgLXHNw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 24 Dec 2020 02:13:52 -0500
-Received: from mail-out.m-online.net ([212.18.0.9]:53254 "EHLO
-        mail-out.m-online.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726159AbgLXHNw (ORCPT
+        id S1727372AbgLXNxg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 24 Dec 2020 08:53:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31686 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727240AbgLXNxf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 24 Dec 2020 02:13:52 -0500
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-        by mail-out.m-online.net (Postfix) with ESMTP id 4D1h9R61rkz1qs0m;
-        Thu, 24 Dec 2020 08:12:43 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-        by mail.m-online.net (Postfix) with ESMTP id 4D1h9R5FzZz1tYVv;
-        Thu, 24 Dec 2020 08:12:43 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-        by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
-        with ESMTP id phpJyjjMIsGL; Thu, 24 Dec 2020 08:12:42 +0100 (CET)
-X-Auth-Info: A7QbukQoILRDercA5+Atm3QLqqrjwpjjC3alGUKLmi8=
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Thu, 24 Dec 2020 08:53:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1608817926;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=J+Sxrs3G2eYnhv0XzWqvkwoAd5izCxz/KQO75l+MZTg=;
+        b=Thf55A+GZLJH6gHnRNT8YSyg1xTRsJHcWJ0j13UCzB61wal3nTx7aj9/DNXCFDS1SBopF+
+        R10GpD4yf06Drh/ARs5aYvb2W+VtTsBQ2eO/JdoLGP7IAfIVuQwPx8lIyZ8iymhOTLA2+b
+        K4GZKt3ulC+Ykq4KxZ9JTOPfujXuNC8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-553-z0SMGDROM1KjLIE5SLNZMA-1; Thu, 24 Dec 2020 08:52:02 -0500
+X-MC-Unique: z0SMGDROM1KjLIE5SLNZMA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.mnet-online.de (Postfix) with ESMTPSA;
-        Thu, 24 Dec 2020 08:12:42 +0100 (CET)
-From:   Marek Vasut <marex@denx.de>
-To:     linux-input@vger.kernel.org
-Cc:     Marek Vasut <marex@denx.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Olivier Sobrie <olivier@sobrie.be>,
-        Philipp Puschmann <pp@emlix.com>
-Subject: [PATCH] Input: ili210x - Implement pressure reporting for ILI251x
-Date:   Thu, 24 Dec 2020 08:12:38 +0100
-Message-Id: <20201224071238.160098-1-marex@denx.de>
-X-Mailer: git-send-email 2.29.2
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 422241005E46;
+        Thu, 24 Dec 2020 13:52:01 +0000 (UTC)
+Received: from x1.localdomain (ovpn-112-165.ams2.redhat.com [10.36.112.165])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id AF8FE5D9C6;
+        Thu, 24 Dec 2020 13:51:59 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Mark Gross <mgross@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
+        Andy Shevchenko <andy@infradead.org>,
+        platform-driver-x86@vger.kernel.org,
+        Bastien Nocera <hadess@hadess.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: [PATCH] platform/x86: touchscreen_dmi: Add swap-x-y quirk for Goodix touchscreen on Estar Beauty HD tablet
+Date:   Thu, 24 Dec 2020 14:51:58 +0100
+Message-Id: <20201224135158.10976-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The ILI251x seems to report pressure information in the 5th byte of
-each per-finger touch data element. On the available hardware, this
-information has the values ranging from 0x0 to 0xa, which is also
-matching the downstream example code. Report pressure information
-on the ILI251x.
+The Estar Beauty HD (MID 7316R) tablet uses a Goodix touchscreen,
+with the X and Y coordinates swapped compared to the LCD panel.
 
-Signed-off-by: Marek Vasut <marex@denx.de>
+Add a touchscreen_dmi entry for this adding a "touchscreen-swapped-x-y"
+device-property to the i2c-client instantiated for this device before
+the driver binds.
+
+This is the first entry of a Goodix touchscreen to touchscreen_dmi.c,
+so far DMI quirks for Goodix touchscreen's have been added directly
+to drivers/input/touchscreen/goodix.c. Currently there are 3
+DMI tables in goodix.c:
+1. rotated_screen[] for devices where the touchscreen is rotated
+   180 degrees vs the LCD panel
+2. inverted_x_screen[] for devices where the X axis is inverted
+3. nine_bytes_report[] for devices which use a non standard touch
+   report size
+
+Arguably only 3. really needs to be inside the driver and the other
+2 cases are better handled through the generic touchscreen DMI quirk
+mechanism from touchscreen_dmi.c, which allows adding device-props to
+any i2c-client. Esp. now that goodix.c is using the generic
+touchscreen_properties code.
+
+Alternative to the approach from this patch we could add a 4th
+dmi_system_id table for devices with swapped-x-y axis to goodix.c,
+but that seems undesirable.
+
+Cc: Bastien Nocera <hadess@hadess.net>
 Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Henrik Rydberg <rydberg@bitmath.org>
-Cc: Olivier Sobrie <olivier@sobrie.be>
-Cc: Philipp Puschmann <pp@emlix.com>
-To: linux-input@vger.kernel.org
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/input/touchscreen/ili210x.c | 26 +++++++++++++++++++-------
- 1 file changed, 19 insertions(+), 7 deletions(-)
+ drivers/platform/x86/touchscreen_dmi.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
-index 199cf3daec10..d8fccf048bf4 100644
---- a/drivers/input/touchscreen/ili210x.c
-+++ b/drivers/input/touchscreen/ili210x.c
-@@ -29,11 +29,13 @@ struct ili2xxx_chip {
- 			void *buf, size_t len);
- 	int (*get_touch_data)(struct i2c_client *client, u8 *data);
- 	bool (*parse_touch_data)(const u8 *data, unsigned int finger,
--				 unsigned int *x, unsigned int *y);
-+				 unsigned int *x, unsigned int *y,
-+				 unsigned int *z);
- 	bool (*continue_polling)(const u8 *data, bool touch);
- 	unsigned int max_touches;
- 	unsigned int resolution;
- 	bool has_calibrate_reg;
-+	bool has_pressure_reg;
+diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+index 5783139d0a11..c4de932302d6 100644
+--- a/drivers/platform/x86/touchscreen_dmi.c
++++ b/drivers/platform/x86/touchscreen_dmi.c
+@@ -263,6 +263,16 @@ static const struct ts_dmi_data digma_citi_e200_data = {
+ 	.properties	= digma_citi_e200_props,
  };
  
- struct ili210x {
-@@ -82,7 +84,8 @@ static int ili210x_read_touch_data(struct i2c_client *client, u8 *data)
- 
- static bool ili210x_touchdata_to_coords(const u8 *touchdata,
- 					unsigned int finger,
--					unsigned int *x, unsigned int *y)
-+					unsigned int *x, unsigned int *y,
-+					unsigned int *z)
- {
- 	if (touchdata[0] & BIT(finger))
- 		return false;
-@@ -137,7 +140,8 @@ static int ili211x_read_touch_data(struct i2c_client *client, u8 *data)
- 
- static bool ili211x_touchdata_to_coords(const u8 *touchdata,
- 					unsigned int finger,
--					unsigned int *x, unsigned int *y)
-+					unsigned int *x, unsigned int *y,
-+					unsigned int *z)
- {
- 	u32 data;
- 
-@@ -169,7 +173,8 @@ static const struct ili2xxx_chip ili211x_chip = {
- 
- static bool ili212x_touchdata_to_coords(const u8 *touchdata,
- 					unsigned int finger,
--					unsigned int *x, unsigned int *y)
-+					unsigned int *x, unsigned int *y,
-+					unsigned int *z)
- {
- 	u16 val;
- 
-@@ -235,7 +240,8 @@ static int ili251x_read_touch_data(struct i2c_client *client, u8 *data)
- 
- static bool ili251x_touchdata_to_coords(const u8 *touchdata,
- 					unsigned int finger,
--					unsigned int *x, unsigned int *y)
-+					unsigned int *x, unsigned int *y,
-+					unsigned int *z)
- {
- 	u16 val;
- 
-@@ -245,6 +251,7 @@ static bool ili251x_touchdata_to_coords(const u8 *touchdata,
- 
- 	*x = val & 0x3fff;
- 	*y = get_unaligned_be16(touchdata + 1 + (finger * 5) + 2);
-+	*z = touchdata[1 + (finger * 5) + 4];
- 
- 	return true;
- }
-@@ -261,6 +268,7 @@ static const struct ili2xxx_chip ili251x_chip = {
- 	.continue_polling	= ili251x_check_continue_polling,
- 	.max_touches		= 10,
- 	.has_calibrate_reg	= true,
-+	.has_pressure_reg	= true,
- };
- 
- static bool ili210x_report_events(struct ili210x *priv, u8 *touchdata)
-@@ -268,14 +276,16 @@ static bool ili210x_report_events(struct ili210x *priv, u8 *touchdata)
- 	struct input_dev *input = priv->input;
- 	int i;
- 	bool contact = false, touch;
--	unsigned int x = 0, y = 0;
-+	unsigned int x = 0, y = 0, z = 0;
- 
- 	for (i = 0; i < priv->chip->max_touches; i++) {
--		touch = priv->chip->parse_touch_data(touchdata, i, &x, &y);
-+		touch = priv->chip->parse_touch_data(touchdata, i, &x, &y, &z);
- 
- 		input_mt_slot(input, i);
- 		if (input_mt_report_slot_state(input, MT_TOOL_FINGER, touch)) {
- 			touchscreen_report_pos(input, &priv->prop, x, y, true);
-+			if (priv->chip->has_pressure_reg)
-+				input_report_abs(input, ABS_MT_PRESSURE, z);
- 			contact = true;
- 		}
- 	}
-@@ -437,6 +447,8 @@ static int ili210x_i2c_probe(struct i2c_client *client,
- 	max_xy = (chip->resolution ?: SZ_64K) - 1;
- 	input_set_abs_params(input, ABS_MT_POSITION_X, 0, max_xy, 0, 0);
- 	input_set_abs_params(input, ABS_MT_POSITION_Y, 0, max_xy, 0, 0);
-+	if (priv->chip->has_pressure_reg)
-+		input_set_abs_params(input, ABS_MT_PRESSURE, 0, 0xa, 0, 0);
- 	touchscreen_parse_properties(input, true, &priv->prop);
- 
- 	error = input_mt_init_slots(input, priv->chip->max_touches,
++static const struct property_entry estar_beauty_hd_props[] = {
++	PROPERTY_ENTRY_BOOL("touchscreen-swapped-x-y"),
++	{ }
++};
++
++static const struct ts_dmi_data estar_beauty_hd_data = {
++	.acpi_name	= "GDIX1001:00",
++	.properties	= estar_beauty_hd_props,
++};
++
+ static const struct property_entry gp_electronic_t701_props[] = {
+ 	PROPERTY_ENTRY_U32("touchscreen-size-x", 960),
+ 	PROPERTY_ENTRY_U32("touchscreen-size-y", 640),
+@@ -942,6 +952,14 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
+ 		},
+ 	},
++	{
++		/* Estar Beauty HD (MID 7316R) */
++		.driver_data = (void *)&estar_beauty_hd_data,
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Estar"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "eSTAR BEAUTY HD Intel Quad core"),
++		},
++	},
+ 	{
+ 		/* GP-electronic T701 */
+ 		.driver_data = (void *)&gp_electronic_t701_data,
 -- 
-2.29.2
+2.28.0
 
