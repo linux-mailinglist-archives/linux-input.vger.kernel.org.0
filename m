@@ -2,193 +2,168 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB4012E241B
-	for <lists+linux-input@lfdr.de>; Thu, 24 Dec 2020 04:47:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB5672E2529
+	for <lists+linux-input@lfdr.de>; Thu, 24 Dec 2020 08:14:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728686AbgLXDpy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 23 Dec 2020 22:45:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43934 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728578AbgLXDpx (ORCPT
+        id S1726186AbgLXHNw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 24 Dec 2020 02:13:52 -0500
+Received: from mail-out.m-online.net ([212.18.0.9]:53254 "EHLO
+        mail-out.m-online.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726159AbgLXHNw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 23 Dec 2020 22:45:53 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A044CC06179C
-        for <linux-input@vger.kernel.org>; Wed, 23 Dec 2020 19:45:13 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id j13so493099pjz.3
-        for <linux-input@vger.kernel.org>; Wed, 23 Dec 2020 19:45:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZcSp+cRdP2bcqWVQZJCDIiTdhj/sfG8FWouaFgmCU4k=;
-        b=oF8LweNTM0O1s0jpipHfe0Skl2HB5E2BuMofWlS8SNgvnYFeOQqCMoabngGlgi9vP0
-         QIXvD9HulcL+AG9TpZTBjrDDGf0Bxw9ZbwxgpK7IaTrWBmEMazXhnFkhwbpIG7hEYMPX
-         42AXp7O7KfFL4ea41pn6PXA1ilhSzOP0IHJ0M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZcSp+cRdP2bcqWVQZJCDIiTdhj/sfG8FWouaFgmCU4k=;
-        b=V5XbtM7Am+uyymeOVPAVeJbbOn8BmY336THFUrdNyRyxpT0alJ6gNAdRpguHQKvemy
-         eQG9+M4vxYHiIbB58qleN+TG9GRiIKKG5MuNFhSUeZYAghZHKtCiHAxxcCZkkGpVc8ND
-         U67ukW7CY4EriUwRo4SolSsVKaMGYT3GG5pCb4vIeEU0sF9cD2I0Ank+PDljJ9iyupSI
-         Oqs+K7kKblSzty+DTxIRmPGD3dNeKl7mw7QruF0gDUGKPy7gxR4znDRoUDkb5e8f2JJE
-         5HJj7GUEVpCgPqxWGtCkijgKx4ow/Wstnpo7uGrEfvyledgSX3PzjuHzhLS7cYhPUW6V
-         CE/w==
-X-Gm-Message-State: AOAM5314mZPH+gDXaisWoB6uQ/IMRWxb2qDFyJOJzk2IAJkjCR4AD6ez
-        QliRkQ+x3wozoILAX+9/cyfEIFAsgoo8dA==
-X-Google-Smtp-Source: ABdhPJzZmyMvqGZq9wHizORK2I38iQiCXGrUALo4r7txgdGVZT4btTypZYtuIYMmUDpPExmMijfXjg==
-X-Received: by 2002:a17:90b:4acc:: with SMTP id mh12mr2606669pjb.54.1608781512942;
-        Wed, 23 Dec 2020 19:45:12 -0800 (PST)
-Received: from drinkcat2.tpe.corp.google.com ([2401:fa00:1:b:7220:84ff:fe09:41dc])
-        by smtp.gmail.com with ESMTPSA id f24sm942332pjj.5.2020.12.23.19.45.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Dec 2020 19:45:12 -0800 (PST)
-From:   Nicolas Boichat <drinkcat@chromium.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Dmitry Torokhov <dtor@chromium.org>,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: google: Get HID report on probe to confirm tablet switch state
-Date:   Thu, 24 Dec 2020 11:45:07 +0800
-Message-Id: <20201224114502.1.I41b9795e4b5bda7209eb9099aebdc6a29677391e@changeid>
-X-Mailer: git-send-email 2.29.2.729.g45daf8777d-goog
+        Thu, 24 Dec 2020 02:13:52 -0500
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+        by mail-out.m-online.net (Postfix) with ESMTP id 4D1h9R61rkz1qs0m;
+        Thu, 24 Dec 2020 08:12:43 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+        by mail.m-online.net (Postfix) with ESMTP id 4D1h9R5FzZz1tYVv;
+        Thu, 24 Dec 2020 08:12:43 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+        by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
+        with ESMTP id phpJyjjMIsGL; Thu, 24 Dec 2020 08:12:42 +0100 (CET)
+X-Auth-Info: A7QbukQoILRDercA5+Atm3QLqqrjwpjjC3alGUKLmi8=
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.mnet-online.de (Postfix) with ESMTPSA;
+        Thu, 24 Dec 2020 08:12:42 +0100 (CET)
+From:   Marek Vasut <marex@denx.de>
+To:     linux-input@vger.kernel.org
+Cc:     Marek Vasut <marex@denx.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Olivier Sobrie <olivier@sobrie.be>,
+        Philipp Puschmann <pp@emlix.com>
+Subject: [PATCH] Input: ili210x - Implement pressure reporting for ILI251x
+Date:   Thu, 24 Dec 2020 08:12:38 +0100
+Message-Id: <20201224071238.160098-1-marex@denx.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This forces reading the base folded status anytime the device is
-probed.
+The ILI251x seems to report pressure information in the 5th byte of
+each per-finger touch data element. On the available hardware, this
+information has the values ranging from 0x0 to 0xa, which is also
+matching the downstream example code. Report pressure information
+on the ILI251x.
 
-Signed-off-by: Nicolas Boichat <drinkcat@chromium.org>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Henrik Rydberg <rydberg@bitmath.org>
+Cc: Olivier Sobrie <olivier@sobrie.be>
+Cc: Philipp Puschmann <pp@emlix.com>
+To: linux-input@vger.kernel.org
 ---
-Instead of all this manual parsing, it'd be easier to just call:
-hid_hw_request(hdev, report, HID_REQ_GET_REPORT);
-However, that fails silently as hdev->driver_input_lock is held
-during probe (or even some callbacks like input_configured.
+ drivers/input/touchscreen/ili210x.c | 26 +++++++++++++++++++-------
+ 1 file changed, 19 insertions(+), 7 deletions(-)
 
- drivers/hid/hid-google-hammer.c | 85 +++++++++++++++++++++++++--------
- 1 file changed, 66 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hammer.c
-index 85a054f1ce38..d9319622da44 100644
---- a/drivers/hid/hid-google-hammer.c
-+++ b/drivers/hid/hid-google-hammer.c
-@@ -392,30 +392,34 @@ static int hammer_input_mapping(struct hid_device *hdev, struct hid_input *hi,
- 	return 0;
- }
+diff --git a/drivers/input/touchscreen/ili210x.c b/drivers/input/touchscreen/ili210x.c
+index 199cf3daec10..d8fccf048bf4 100644
+--- a/drivers/input/touchscreen/ili210x.c
++++ b/drivers/input/touchscreen/ili210x.c
+@@ -29,11 +29,13 @@ struct ili2xxx_chip {
+ 			void *buf, size_t len);
+ 	int (*get_touch_data)(struct i2c_client *client, u8 *data);
+ 	bool (*parse_touch_data)(const u8 *data, unsigned int finger,
+-				 unsigned int *x, unsigned int *y);
++				 unsigned int *x, unsigned int *y,
++				 unsigned int *z);
+ 	bool (*continue_polling)(const u8 *data, bool touch);
+ 	unsigned int max_touches;
+ 	unsigned int resolution;
+ 	bool has_calibrate_reg;
++	bool has_pressure_reg;
+ };
  
--static int hammer_event(struct hid_device *hid, struct hid_field *field,
--			struct hid_usage *usage, __s32 value)
-+static void hammer_folded_event(struct hid_device *hdev, bool folded)
+ struct ili210x {
+@@ -82,7 +84,8 @@ static int ili210x_read_touch_data(struct i2c_client *client, u8 *data)
+ 
+ static bool ili210x_touchdata_to_coords(const u8 *touchdata,
+ 					unsigned int finger,
+-					unsigned int *x, unsigned int *y)
++					unsigned int *x, unsigned int *y,
++					unsigned int *z)
  {
- 	unsigned long flags;
+ 	if (touchdata[0] & BIT(finger))
+ 		return false;
+@@ -137,7 +140,8 @@ static int ili211x_read_touch_data(struct i2c_client *client, u8 *data)
  
--	if (usage->hid == HID_USAGE_KBD_FOLDED) {
--		spin_lock_irqsave(&cbas_ec_lock, flags);
-+	spin_lock_irqsave(&cbas_ec_lock, flags);
- 
--		/*
--		 * If we are getting events from Whiskers that means that it
--		 * is attached to the lid.
--		 */
--		cbas_ec.base_present = true;
--		cbas_ec.base_folded = value;
--		hid_dbg(hid, "%s: base: %d, folded: %d\n", __func__,
--			cbas_ec.base_present, cbas_ec.base_folded);
--
--		if (cbas_ec.input) {
--			input_report_switch(cbas_ec.input,
--					    SW_TABLET_MODE, value);
--			input_sync(cbas_ec.input);
--		}
-+	/*
-+	 * If we are getting events from Whiskers that means that it
-+	 * is attached to the lid.
-+	 */
-+	cbas_ec.base_present = true;
-+	cbas_ec.base_folded = folded;
-+	hid_dbg(hdev, "%s: base: %d, folded: %d\n", __func__,
-+		cbas_ec.base_present, cbas_ec.base_folded);
- 
--		spin_unlock_irqrestore(&cbas_ec_lock, flags);
-+	if (cbas_ec.input) {
-+		input_report_switch(cbas_ec.input, SW_TABLET_MODE, folded);
-+		input_sync(cbas_ec.input);
-+	}
-+
-+	spin_unlock_irqrestore(&cbas_ec_lock, flags);
-+}
-+
-+static int hammer_event(struct hid_device *hid, struct hid_field *field,
-+			struct hid_usage *usage, __s32 value)
-+{
-+	if (usage->hid == HID_USAGE_KBD_FOLDED) {
-+		hammer_folded_event(hid, value);
- 		return 1; /* We handled this event */
- 	}
- 
-@@ -457,6 +461,47 @@ static bool hammer_has_backlight_control(struct hid_device *hdev)
- 				HID_GD_KEYBOARD, HID_AD_BRIGHTNESS);
- }
- 
-+static void hammer_get_folded_state(struct hid_device *hdev)
-+{
-+	struct hid_report *report;
-+	char *buf;
-+	int len, rlen;
-+	int a;
-+
-+	report = hdev->report_enum[HID_INPUT_REPORT].report_id_hash[0x0];
-+
-+	if (!report || report->maxfield < 1)
-+		return;
-+
-+	len = hid_report_len(report) + 1;
-+
-+	buf = kmalloc(len, GFP_KERNEL);
-+	if (!buf)
-+		return;
-+
-+	rlen = hid_hw_raw_request(hdev, report->id, buf, len, report->type, HID_REQ_GET_REPORT);
-+
-+	if (rlen != len) {
-+		hid_warn(hdev, "Unable to read base folded state: %d (expected %d)\n", rlen, len);
-+		goto out;
-+	}
-+
-+	for (a = 0; a < report->maxfield; a++) {
-+		struct hid_field *field = report->field[a];
-+
-+		if (field->usage->hid == HID_USAGE_KBD_FOLDED) {
-+			u32 value = hid_field_extract(hdev, buf+1,
-+					field->report_offset, field->report_size);
-+
-+			hammer_folded_event(hdev, value);
-+			break;
-+		}
-+	}
-+
-+out:
-+	kfree(buf);
-+}
-+
- static int hammer_probe(struct hid_device *hdev,
- 			const struct hid_device_id *id)
+ static bool ili211x_touchdata_to_coords(const u8 *touchdata,
+ 					unsigned int finger,
+-					unsigned int *x, unsigned int *y)
++					unsigned int *x, unsigned int *y,
++					unsigned int *z)
  {
-@@ -481,6 +526,8 @@ static int hammer_probe(struct hid_device *hdev,
- 		error = hid_hw_open(hdev);
- 		if (error)
- 			return error;
-+
-+		hammer_get_folded_state(hdev);
- 	}
+ 	u32 data;
  
- 	if (hammer_has_backlight_control(hdev)) {
+@@ -169,7 +173,8 @@ static const struct ili2xxx_chip ili211x_chip = {
+ 
+ static bool ili212x_touchdata_to_coords(const u8 *touchdata,
+ 					unsigned int finger,
+-					unsigned int *x, unsigned int *y)
++					unsigned int *x, unsigned int *y,
++					unsigned int *z)
+ {
+ 	u16 val;
+ 
+@@ -235,7 +240,8 @@ static int ili251x_read_touch_data(struct i2c_client *client, u8 *data)
+ 
+ static bool ili251x_touchdata_to_coords(const u8 *touchdata,
+ 					unsigned int finger,
+-					unsigned int *x, unsigned int *y)
++					unsigned int *x, unsigned int *y,
++					unsigned int *z)
+ {
+ 	u16 val;
+ 
+@@ -245,6 +251,7 @@ static bool ili251x_touchdata_to_coords(const u8 *touchdata,
+ 
+ 	*x = val & 0x3fff;
+ 	*y = get_unaligned_be16(touchdata + 1 + (finger * 5) + 2);
++	*z = touchdata[1 + (finger * 5) + 4];
+ 
+ 	return true;
+ }
+@@ -261,6 +268,7 @@ static const struct ili2xxx_chip ili251x_chip = {
+ 	.continue_polling	= ili251x_check_continue_polling,
+ 	.max_touches		= 10,
+ 	.has_calibrate_reg	= true,
++	.has_pressure_reg	= true,
+ };
+ 
+ static bool ili210x_report_events(struct ili210x *priv, u8 *touchdata)
+@@ -268,14 +276,16 @@ static bool ili210x_report_events(struct ili210x *priv, u8 *touchdata)
+ 	struct input_dev *input = priv->input;
+ 	int i;
+ 	bool contact = false, touch;
+-	unsigned int x = 0, y = 0;
++	unsigned int x = 0, y = 0, z = 0;
+ 
+ 	for (i = 0; i < priv->chip->max_touches; i++) {
+-		touch = priv->chip->parse_touch_data(touchdata, i, &x, &y);
++		touch = priv->chip->parse_touch_data(touchdata, i, &x, &y, &z);
+ 
+ 		input_mt_slot(input, i);
+ 		if (input_mt_report_slot_state(input, MT_TOOL_FINGER, touch)) {
+ 			touchscreen_report_pos(input, &priv->prop, x, y, true);
++			if (priv->chip->has_pressure_reg)
++				input_report_abs(input, ABS_MT_PRESSURE, z);
+ 			contact = true;
+ 		}
+ 	}
+@@ -437,6 +447,8 @@ static int ili210x_i2c_probe(struct i2c_client *client,
+ 	max_xy = (chip->resolution ?: SZ_64K) - 1;
+ 	input_set_abs_params(input, ABS_MT_POSITION_X, 0, max_xy, 0, 0);
+ 	input_set_abs_params(input, ABS_MT_POSITION_Y, 0, max_xy, 0, 0);
++	if (priv->chip->has_pressure_reg)
++		input_set_abs_params(input, ABS_MT_PRESSURE, 0, 0xa, 0, 0);
+ 	touchscreen_parse_properties(input, true, &priv->prop);
+ 
+ 	error = input_mt_init_slots(input, priv->chip->max_touches,
 -- 
-2.29.2.729.g45daf8777d-goog
+2.29.2
 
