@@ -2,120 +2,132 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 557B22E2F01
-	for <lists+linux-input@lfdr.de>; Sat, 26 Dec 2020 20:29:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 121382E2F46
+	for <lists+linux-input@lfdr.de>; Sat, 26 Dec 2020 23:28:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725967AbgLZT1y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 26 Dec 2020 14:27:54 -0500
-Received: from lithium.sammserver.com ([168.119.122.30]:34712 "EHLO
-        lithium.sammserver.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725964AbgLZT1y (ORCPT
+        id S1726021AbgLZW1x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 26 Dec 2020 17:27:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33640 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725986AbgLZW1x (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 26 Dec 2020 14:27:54 -0500
-X-Greylist: delayed 61930 seconds by postgrey-1.27 at vger.kernel.org; Sat, 26 Dec 2020 14:27:53 EST
-Received: from mail.sammserver.com (sammserver.wg [10.32.40.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by lithium.sammserver.com (Postfix) with ESMTPS id A41A831181DE;
-        Sat, 26 Dec 2020 20:27:12 +0100 (CET)
-Received: from fastboi.localdomain (fastboi.wg [10.32.40.5])
-        by mail.sammserver.com (Postfix) with ESMTP id 29CE43C5F3;
-        Sat, 26 Dec 2020 20:27:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cavoj.net; s=email;
-        t=1609010832; bh=SZSJJ4UZ8FVw/WfczsUHj7kLkqBT4CcspdccNEOvUgM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kkL/LBdfhgvNETKapE+/REOY2Zq9ORqX6bSFnUrySsnb1divTSv9+3cjNDE9i52pR
-         kbetR0/ygy6W4gA4pD+40R95xh34bqe8l1/gjmXkMbR2UpSGIBO5yVByjbFUd+K1QR
-         zDleIr9S2wAFYMkY/G8Cg9R6FKqF8t6kgIMB7alM=
-Received: by fastboi.localdomain (Postfix, from userid 1000)
-        id 1712E1420814; Sat, 26 Dec 2020 20:27:12 +0100 (CET)
-Date:   Sat, 26 Dec 2020 20:27:12 +0100
-From:   Samuel =?utf-8?B?xIxhdm9q?= <samuel@cavoj.net>
-To:     Roderick Colenbrander <roderick@gaikai.com>
+        Sat, 26 Dec 2020 17:27:53 -0500
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19A42C061757
+        for <linux-input@vger.kernel.org>; Sat, 26 Dec 2020 14:27:13 -0800 (PST)
+Received: by mail-qk1-x736.google.com with SMTP id 186so6236351qkj.3
+        for <linux-input@vger.kernel.org>; Sat, 26 Dec 2020 14:27:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gaikai-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=sVCIp29IfubQaEXF6jdunifupKhW1Zcp7OvTUlaJX2E=;
+        b=EMl+1lmVTcrfHr+Ii/xS/YbFOdhW4P15kSs6wpfq/6RicW9L9XGgK/s2D8I6AQCUen
+         MltaUa1UOLZhNYRBw7RYFmqGV5c4icAAxIQG6aQhu+GoCUBuDW7HzyHAIqKPQQqD/iIN
+         6FDJ2YrzFBUCHagN8PRgrb4y1knyJMK3govwCK/0AobLWAeO9LFo2jX2Y75MHjaIziFX
+         12f0pyDmK93dslb0bCf0a9voWLp7QeMeRF0o6mJuLoaMHhql5jnpOTGuH+l7hsq9v4FR
+         9sBNhp99m0epsOp1Cmys/SEbjbmb482jofiw4l9h+Lr3j9BmtGV30o24+uXqqKHYwcrD
+         0//A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=sVCIp29IfubQaEXF6jdunifupKhW1Zcp7OvTUlaJX2E=;
+        b=fB6DWzf28nBvIyXq5NeJrwyb9n0yex86tBwhBPVN7zcvo/J7mJtKlFEUIriWc4v55C
+         BYae174I7PQXVjeXAXaYd+dx9cxlYsdgbHn7cXtskSZRYNzrNsOoFeTZxBD/+dHC5sLJ
+         dl41fbKU+63VDrGPXvgRV7UgFw4/hPFMNlHkMgTFqC+7GkEnmkLPF7lhfhrO8K/EYEAx
+         Xn2LoIbQ6HVta87KBK9C6CLNi7joyWiw8A9T1G5kSB2JFgfE9qpg8jYhsdVPKqcXEygK
+         8C1Trq9x/wrZytjTba23wCWeGyOy5e5ZsGdqpO9qdRyCHjDhAl6ovkEZ2WsMYEehYkKi
+         xLgw==
+X-Gm-Message-State: AOAM532Qex9adoUrGOMbUE63aHxp5ZPIgICk3In6jvtJsguPW6Pw6hzh
+        o0V+Yc2nOEnjYalXcbtfheXakmhuILz4EGEv0ZXEhA==
+X-Google-Smtp-Source: ABdhPJzU8w8WqZRtMsYV4NpiK0pbGWzCnkSlZSB58iKgTCvJXG7zA4ilW9JZ8QjYnlyw/c1q+1CzGF1pkEIMjGgfC/4=
+X-Received: by 2002:a37:a413:: with SMTP id n19mr39902982qke.15.1609021631436;
+ Sat, 26 Dec 2020 14:27:11 -0800 (PST)
+MIME-Version: 1.0
+References: <20201219062336.72568-1-roderick@gaikai.com> <20201219062336.72568-5-roderick@gaikai.com>
+ <20201226021456.gmnqkycoeqvdhk34@fastboi.localdomain>
+In-Reply-To: <20201226021456.gmnqkycoeqvdhk34@fastboi.localdomain>
+From:   Roderick Colenbrander <roderick@gaikai.com>
+Date:   Sat, 26 Dec 2020 14:27:00 -0800
+Message-ID: <CANndSKkqfok=4_eF3tGCRksT5farjoWmNEZDc7ZWkT0BooQSnQ@mail.gmail.com>
+Subject: Re: [PATCH 04/13] HID: playstation: add DualSense touchpad support.
+To:     =?UTF-8?Q?Samuel_=C4=8Cavoj?= <samuel@cavoj.net>
 Cc:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org, Chris Ye <lzye@google.com>,
         Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: Re: [PATCH 11/13] HID: playstation: add DualSense player LEDs
- support.
-Message-ID: <20201226192712.ky56nhdbh6n43bp6@fastboi.localdomain>
-References: <20201219062336.72568-1-roderick@gaikai.com>
- <20201219062336.72568-12-roderick@gaikai.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201219062336.72568-12-roderick@gaikai.com>
-X-Spam-Status: No, score=-2.7 required=5.0 tests=ALL_TRUSTED,BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS autolearn=no autolearn_force=no
-        version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on sammserver.tu
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi Samuel,
 
-I noticed that the `value` argument is not at all used in the
-player_led_set_brightness function.
+Thanks for your review.
 
-On 18.12.2020 22:23, Roderick Colenbrander wrote:
-> +
-> +static void dualsense_player_led_set_brightness(struct led_classdev *led, enum led_brightness value)
-> +{
-> +	struct hid_device *hdev = to_hid_device(led->dev->parent);
-> +	struct dualsense *ds = hid_get_drvdata(hdev);
-> +	uint8_t player_leds_state = 0;
-> +	unsigned long flags;
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(ds->player_leds); i++)
-> +		player_leds_state |= (ds->player_leds[i].brightness << i);
 
-Is it guaranteed at this point, that the led->brightness is set to the
-new value? I'm unfamiliar with the led subsystem, but skimming other
-drivers I found that they update the device based on the value of the
-`value` argument.
+On Fri, Dec 25, 2020 at 6:14 PM Samuel =C4=8Cavoj <samuel@cavoj.net> wrote:
+>
+> Hello,
+>
+> thank you for this driver. It makes me really happy to see an official
+> one. Just a small thing I noticed while reading through it:
+>
+>
+> On 18.12.2020 22:23, Roderick Colenbrander wrote:
+> > @@ -311,6 +345,25 @@ static int dualsense_parse_report(struct ps_device=
+ *ps_dev, struct hid_report *r
+> >       input_report_key(ds->gamepad, BTN_MODE, ds_report->buttons[2] & D=
+S_BUTTONS2_PS_HOME);
+> >       input_sync(ds->gamepad);
+> >
+> > +     input_report_key(ds->touchpad, BTN_LEFT, ds_report->buttons[2] & =
+DS_BUTTONS2_TOUCHPAD);
+>
+> The above line is duplicated right before the input_sync (marked). Is
+> there any reason for this or is it accidental?
 
-> +
-> +	spin_lock_irqsave(&ds->base.lock, flags);
-> +	ds->player_leds_state = player_leds_state;
-> +	ds->update_player_leds = true;
-> +	spin_unlock_irqrestore(&ds->base.lock, flags);
-> +
-> +	schedule_work(&ds->output_worker);
-> +}
+Good catch. It was purely accidental as the code went through many
+rebases and code shuffling. So a little artifact..
 
-Reading led-core.c, I found that led_set_brightness_{nosleep,sync} do
-set the brightness attribute, but the _nopm one does not and it is
-exported, although it is not used anywhere other than led-core.c and
-led-class.c.
+>
+> > +     for (i =3D 0; i < 2; i++) {
+> > +             bool active =3D (ds_report->points[i].contact & 0x80) ? f=
+alse : true;
+> > +
+> > +             input_mt_slot(ds->touchpad, i);
+> > +             input_mt_report_slot_state(ds->touchpad, MT_TOOL_FINGER, =
+active);
+> > +
+> > +             if (active) {
+> > +                     int x =3D (ds_report->points[i].x_hi << 8) | ds_r=
+eport->points[i].x_lo;
+> > +                     int y =3D (ds_report->points[i].y_hi << 4) | ds_r=
+eport->points[i].y_lo;
+> > +
+> > +                     input_report_abs(ds->touchpad, ABS_MT_POSITION_X,=
+ x);
+> > +                     input_report_abs(ds->touchpad, ABS_MT_POSITION_Y,=
+ y);
+> > +             }
+> > +     }
+> > +     input_mt_sync_frame(ds->touchpad);
+> > +     input_report_key(ds->touchpad, BTN_LEFT, ds_report->buttons[2] & =
+DS_BUTTONS2_TOUCHPAD);
+>
+> Right here.
 
-However, I find the usage in led_classdev_suspend and _resume
-interesting. In suspend, set_brightness_nopm is called with a value of
-0, which should turn off the LED while retaining the value of the
-brightness attribute, which is later recalled in _resume. I assume the
-intended behaviour is the LED to turn off when suspending and return to
-its original state on resume, without overwriting the attribute.
+I will probably keep this one and take the other one out as this is
+next to the other touchpad code.
 
-Assuming that, the "value" argument passed to dualsense_player_led_set_brightness
-can be different from led->brightness *on purpose* and should be used
-instead.
+>
+> > +     input_sync(ds->touchpad);
+> > +
+>
+> Regards,
+> Samuel
 
-I would write something along these lines:
-
-for (i = 0; i < ARRAY_SIZE(ds->player_leds); i++) {
-	if (&ds->player_leds[i] == led) {
-		if (value == LED_OFF)
-			player_leds_state &= ~(1 << i);
-		else
-			player_leds_state |= (1 << i);
-		break;
-	}
-}
-
-This is just me hypothesizing though, could anyone clear this up for
-me? Thank you very much.
-
-Regards,
-Samuel
+Thanks,
+Roderick
