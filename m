@@ -2,156 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADAB82E2D15
-	for <lists+linux-input@lfdr.de>; Sat, 26 Dec 2020 05:31:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 557B22E2F01
+	for <lists+linux-input@lfdr.de>; Sat, 26 Dec 2020 20:29:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728681AbgLZEax (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 25 Dec 2020 23:30:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38798 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725998AbgLZEaw (ORCPT
+        id S1725967AbgLZT1y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 26 Dec 2020 14:27:54 -0500
+Received: from lithium.sammserver.com ([168.119.122.30]:34712 "EHLO
+        lithium.sammserver.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725964AbgLZT1y (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 25 Dec 2020 23:30:52 -0500
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 388F5C061757;
-        Fri, 25 Dec 2020 20:30:12 -0800 (PST)
-Received: by mail-pl1-x629.google.com with SMTP id e2so3080547plt.12;
-        Fri, 25 Dec 2020 20:30:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=ZT8qsdCeT5k/hqq9TWUszufAJP8kWK+7oXAtkTtgf+M=;
-        b=rWyDxeNT5f+UbKj+wm650EQZG8LG7pfD2+PWKHAYcGDkNJMBGg3FY3ilrkgdxY54VE
-         3oQASUqSMPTEgE4EpFK8z3YQo3eQ6+mJ3MzhutEKpFa6oMxbUAg4Z02xdbux+rZGSeFL
-         rbZqCHlMwWcFWd+cp6xtkM/jM2mHyMqJjQGCa/5jZ7onMERGQitGGJl8snICmMgR4EyT
-         rRUAgSYbzQgZLvxXTNOAFOH7E4uJ3T54nsIcfUEsXVd6XhJsBWOROtHEWHd86KXgfpKI
-         UngYXsiYsqW4riDx6nEvh3wCNwiNurTc8lDVqV8PLK5+yUDGmVJ9V9ZmV1uFC5s+ruYQ
-         s0ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=ZT8qsdCeT5k/hqq9TWUszufAJP8kWK+7oXAtkTtgf+M=;
-        b=DLSnXEqKUFtSUIHJZ+Utk1wCYQsSJSiQTaPWAQcxyZwZetWkhkWNyXdNHtQyBgESAA
-         con6xdMhTzcr68T5TgoGz5yHoL7nOfR8JC+HdwgKSIyVhlgNApALJeZs+hCG+L3fk73l
-         oj7nBe1aihG93eXVsC/ZR2KpvpU7CLSJQGT8iLYFVAmhXIrrG3rm1tkdWUkKCsISSkbw
-         puSGT8f1Jxm54+l5wviBn2WfsVQtbg8qb+SNEGGdqiQnufYv6IaF9JujGzoX8hBJGaN9
-         HlSaDUkdnNSAXVnvhWNnIRFKyqM1/219Nr7fKEXgooSM6EksmxWRl8YeMS/g45TjySPn
-         Xjow==
-X-Gm-Message-State: AOAM533Dni+yHj98ldTXoFDFsCs0K9WxJbBa1q/rLstJ2JTVjD8QWmAB
-        80WGRWSbx7CNH3y82HcA93FbZYnG+es3fBof
-X-Google-Smtp-Source: ABdhPJyVGjIW2SWtY2ypHKnQ9EconUxcgrOotCEiV05SLCi80UEcD8b3XMO00UclsFkVCUG1Psls6w==
-X-Received: by 2002:a17:90a:c20d:: with SMTP id e13mr10670760pjt.185.1608957010826;
-        Fri, 25 Dec 2020 20:30:10 -0800 (PST)
-Received: from localhost ([2001:e42:102:1532:160:16:113:140])
-        by smtp.gmail.com with ESMTPSA id b2sm29057290pfo.164.2020.12.25.20.30.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Dec 2020 20:30:09 -0800 (PST)
-From:   Coiby Xu <coiby.xu@gmail.com>
-X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
-Date:   Sat, 26 Dec 2020 12:29:14 +0800
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Helmut Stult <helmut.stult@schinfo.de>,
-        Baq Domalaq <domalak@gmail.com>,
-        Pedro Ribeiro <pedrib@gmail.com>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        Jiri Kosina <jikos@kernel.org>,
+        Sat, 26 Dec 2020 14:27:54 -0500
+X-Greylist: delayed 61930 seconds by postgrey-1.27 at vger.kernel.org; Sat, 26 Dec 2020 14:27:53 EST
+Received: from mail.sammserver.com (sammserver.wg [10.32.40.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by lithium.sammserver.com (Postfix) with ESMTPS id A41A831181DE;
+        Sat, 26 Dec 2020 20:27:12 +0100 (CET)
+Received: from fastboi.localdomain (fastboi.wg [10.32.40.5])
+        by mail.sammserver.com (Postfix) with ESMTP id 29CE43C5F3;
+        Sat, 26 Dec 2020 20:27:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cavoj.net; s=email;
+        t=1609010832; bh=SZSJJ4UZ8FVw/WfczsUHj7kLkqBT4CcspdccNEOvUgM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kkL/LBdfhgvNETKapE+/REOY2Zq9ORqX6bSFnUrySsnb1divTSv9+3cjNDE9i52pR
+         kbetR0/ygy6W4gA4pD+40R95xh34bqe8l1/gjmXkMbR2UpSGIBO5yVByjbFUd+K1QR
+         zDleIr9S2wAFYMkY/G8Cg9R6FKqF8t6kgIMB7alM=
+Received: by fastboi.localdomain (Postfix, from userid 1000)
+        id 1712E1420814; Sat, 26 Dec 2020 20:27:12 +0100 (CET)
+Date:   Sat, 26 Dec 2020 20:27:12 +0100
+From:   Samuel =?utf-8?B?xIxhdm9q?= <samuel@cavoj.net>
+To:     Roderick Colenbrander <roderick@gaikai.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4] HID: i2c-hid: add polling mode based on connected
- GPIO chip's pin status
-Message-ID: <20201226042914.azz4yqje35h4vybw@Rk>
-References: <20201125141022.321643-1-coiby.xu@gmail.com>
- <X75zL12q+FF6KBHi@kroah.com>
- <B3Hx1v5x_ZWS8XSi8-0vZov1KLuINEHyS5yDUGBaoBN4d9wTi9OlCoFX1h6sqYG8dCZr_OKcKeImWX9eyKh8X4X3ZMdAUQ-KVwmG5e9LJeI=@protonmail.com>
- <X9B2B6KuzbP8Is+W@kroah.com>
- <CHTa60htGkyHzaM2En-TPXqyk1v3jVJUolGOMfHphEr_mMG5Z5f2K4mHTFilYR73bgpGEKNcGM1LFstJ7UhvbuJrgqr1-J2-YTZJenhK83Q=@protonmail.com>
- <X9Dw4zxx331I7zAk@kroah.com>
+        linux-input@vger.kernel.org, Chris Ye <lzye@google.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: Re: [PATCH 11/13] HID: playstation: add DualSense player LEDs
+ support.
+Message-ID: <20201226192712.ky56nhdbh6n43bp6@fastboi.localdomain>
+References: <20201219062336.72568-1-roderick@gaikai.com>
+ <20201219062336.72568-12-roderick@gaikai.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <X9Dw4zxx331I7zAk@kroah.com>
+In-Reply-To: <20201219062336.72568-12-roderick@gaikai.com>
+X-Spam-Status: No, score=-2.7 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS autolearn=no autolearn_force=no
+        version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on sammserver.tu
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Greg and Barnabás,
+Hi,
 
-On Wed, Dec 09, 2020 at 04:44:35PM +0100, Greg KH wrote:
->On Wed, Dec 09, 2020 at 03:38:11PM +0000, Barnabás Pőcze wrote:
->> 2020. december 9., szerda 8:00 keltezéssel, Greg KH írta:
->>
->> > On Tue, Dec 08, 2020 at 09:59:20PM +0000, Barnabás Pőcze wrote:
->> >
->> > > 2020.  november 25., szerda 16:07 keltezéssel, Greg KH írta:
->> > >
->> > > > [...]
->> > > >
->> > > > > +static u8 polling_mode;
->> > > > > +module_param(polling_mode, byte, 0444);
->> > > > > +MODULE_PARM_DESC(polling_mode, "How to poll (default=0) - 0 disabled; 1 based on GPIO pin's status");
->> > > >
->> > > > Module parameters are for the 1990's, they are global and horrible to
->> > > > try to work with. You should provide something on a per-device basis,
->> > > > as what happens if your system requires different things here for
->> > > > different devices? You set this for all devices :(
->> > > > [...]
+I noticed that the `value` argument is not at all used in the
+player_led_set_brightness function.
 
-Thank you for pointing out that.
+On 18.12.2020 22:23, Roderick Colenbrander wrote:
+> +
+> +static void dualsense_player_led_set_brightness(struct led_classdev *led, enum led_brightness value)
+> +{
+> +	struct hid_device *hdev = to_hid_device(led->dev->parent);
+> +	struct dualsense *ds = hid_get_drvdata(hdev);
+> +	uint8_t player_leds_state = 0;
+> +	unsigned long flags;
+> +	int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(ds->player_leds); i++)
+> +		player_leds_state |= (ds->player_leds[i].brightness << i);
 
->> > >
->> > > Hi
->> > > do you think something like what the usbcore has would be better?
->> > > A module parameter like "quirks=<vendor-id>:<product-id>:<flags>[,<vendor-id>:<product-id>:<flags>]*"?
->> >
->> > Not really, that's just for debugging, and asking users to test
->> > something, not for a final solution to anything.
->>
+Is it guaranteed at this point, that the led->brightness is set to the
+new value? I'm unfamiliar with the led subsystem, but skimming other
+drivers I found that they update the device based on the value of the
+`value` argument.
 
-This patch is not only for debugging. The primary reason is as a
-fallback solution to save the touchpad. The mentioned touchpads will
-be fixed by Linux 5.11 which means the enthusiastic Linux users have to
-wait for ~10 months to get their touchpads fixed.
+> +
+> +	spin_lock_irqsave(&ds->base.lock, flags);
+> +	ds->player_leds_state = player_leds_state;
+> +	ds->update_player_leds = true;
+> +	spin_unlock_irqrestore(&ds->base.lock, flags);
+> +
+> +	schedule_work(&ds->output_worker);
+> +}
 
->> My understanding is that this polling mode option is by no means intended
->> as a final solution, it's purely for debugging/fallback:
->>
->> "Polling mode could be a fallback solution for enthusiastic Linux users
->> when they have a new laptop. It also acts like a debugging feature. If
->> polling mode works for a broken touchpad, we can almost be certain
->> the root cause is related to the interrupt or power setting."
->>
->> What would you suggest instead of the module parameter?
->
->a debugfs file?  That means it's only for debugging and you have to be
->root to change the value.
->
+Reading led-core.c, I found that led_set_brightness_{nosleep,sync} do
+set the brightness attribute, but the _nopm one does not and it is
+exported, although it is not used anywhere other than led-core.c and
+led-class.c.
 
-Thank you for the helpful discussion and the suggestions!
+However, I find the usage in led_classdev_suspend and _resume
+interesting. In suspend, set_brightness_nopm is called with a value of
+0, which should turn off the LED while retaining the value of the
+brightness attribute, which is later recalled in _resume. I assume the
+intended behaviour is the LED to turn off when suspending and return to
+its original state on resume, without overwriting the attribute.
 
-If we can answer the following two questions, it could help decide
-what's the next move.
+Assuming that, the "value" argument passed to dualsense_player_led_set_brightness
+can be different from led->brightness *on purpose* and should be used
+instead.
 
-1. How many machines have two or more I2C HID devices?
+I would write something along these lines:
 
-For the laptops this patch try to fix, they only have one I2C HID
-device, i.e., the touchpad. If it's the case with most machines
-running Linux, then we don't need to support per-HID-I2C-device
-setting and module parameter is the most user-friendly since the user
-doesn't even need to know the <vendor-id>/<product-id> pair.
+for (i = 0; i < ARRAY_SIZE(ds->player_leds); i++) {
+	if (&ds->player_leds[i] == led) {
+		if (value == LED_OFF)
+			player_leds_state &= ~(1 << i);
+		else
+			player_leds_state |= (1 << i);
+		break;
+	}
+}
 
-2. How many I2C HID devices like touchpads could be saved by this
-patch in the future?
+This is just me hypothesizing though, could anyone clear this up for
+me? Thank you very much.
 
-If polling could potentially save lots of I2C hid devices, we are more
-motivated to make it easier to use.
-
-
---
-Best regards,
-Coiby
+Regards,
+Samuel
