@@ -2,97 +2,156 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A13592E2CE2
-	for <lists+linux-input@lfdr.de>; Sat, 26 Dec 2020 03:18:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ADAB82E2D15
+	for <lists+linux-input@lfdr.de>; Sat, 26 Dec 2020 05:31:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726322AbgLZCRH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 25 Dec 2020 21:17:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46652 "EHLO
+        id S1728681AbgLZEax (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 25 Dec 2020 23:30:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726259AbgLZCRG (ORCPT
+        with ESMTP id S1725998AbgLZEaw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 25 Dec 2020 21:17:06 -0500
-X-Greylist: delayed 86 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 25 Dec 2020 18:16:26 PST
-Received: from lithium.sammserver.com (lithium.sammserver.com [IPv6:2a01:4f8:c2c:b7df::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6673BC061757
-        for <linux-input@vger.kernel.org>; Fri, 25 Dec 2020 18:16:26 -0800 (PST)
-Received: from mail.sammserver.com (sammserver.wg [10.32.40.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by lithium.sammserver.com (Postfix) with ESMTPS id 7125731181DE;
-        Sat, 26 Dec 2020 03:14:57 +0100 (CET)
-Received: from fastboi.localdomain (fastboi.wg [10.32.40.5])
-        by mail.sammserver.com (Postfix) with ESMTP id 0F23934625;
-        Sat, 26 Dec 2020 03:14:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cavoj.net; s=email;
-        t=1608948897; bh=ioFCNhmE0DjTWYQOwrN6wX6Yup8FGdejDmfgr0nkogc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dx6JcUyA0MgVEjpPEtmBFKItP0kp0upU5emycmRSjFRosNGOI+0yj5+y+73mnS++j
-         MircfUN3kWk1APooU+dF2N27Ro0PxwiXr9oAw4P+VWDYG1H6IxzldU0ZwzysgYAvs6
-         cZAOu4M4VprAwUtuqvjvYNPiqYi9VyqTJymnpLXg=
-Received: by fastboi.localdomain (Postfix, from userid 1000)
-        id EDA6A1420814; Sat, 26 Dec 2020 03:14:56 +0100 (CET)
-Date:   Sat, 26 Dec 2020 03:14:56 +0100
-From:   Samuel =?utf-8?B?xIxhdm9q?= <samuel@cavoj.net>
-To:     Roderick Colenbrander <roderick@gaikai.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
+        Fri, 25 Dec 2020 23:30:52 -0500
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 388F5C061757;
+        Fri, 25 Dec 2020 20:30:12 -0800 (PST)
+Received: by mail-pl1-x629.google.com with SMTP id e2so3080547plt.12;
+        Fri, 25 Dec 2020 20:30:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=ZT8qsdCeT5k/hqq9TWUszufAJP8kWK+7oXAtkTtgf+M=;
+        b=rWyDxeNT5f+UbKj+wm650EQZG8LG7pfD2+PWKHAYcGDkNJMBGg3FY3ilrkgdxY54VE
+         3oQASUqSMPTEgE4EpFK8z3YQo3eQ6+mJ3MzhutEKpFa6oMxbUAg4Z02xdbux+rZGSeFL
+         rbZqCHlMwWcFWd+cp6xtkM/jM2mHyMqJjQGCa/5jZ7onMERGQitGGJl8snICmMgR4EyT
+         rRUAgSYbzQgZLvxXTNOAFOH7E4uJ3T54nsIcfUEsXVd6XhJsBWOROtHEWHd86KXgfpKI
+         UngYXsiYsqW4riDx6nEvh3wCNwiNurTc8lDVqV8PLK5+yUDGmVJ9V9ZmV1uFC5s+ruYQ
+         s0ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=ZT8qsdCeT5k/hqq9TWUszufAJP8kWK+7oXAtkTtgf+M=;
+        b=DLSnXEqKUFtSUIHJZ+Utk1wCYQsSJSiQTaPWAQcxyZwZetWkhkWNyXdNHtQyBgESAA
+         con6xdMhTzcr68T5TgoGz5yHoL7nOfR8JC+HdwgKSIyVhlgNApALJeZs+hCG+L3fk73l
+         oj7nBe1aihG93eXVsC/ZR2KpvpU7CLSJQGT8iLYFVAmhXIrrG3rm1tkdWUkKCsISSkbw
+         puSGT8f1Jxm54+l5wviBn2WfsVQtbg8qb+SNEGGdqiQnufYv6IaF9JujGzoX8hBJGaN9
+         HlSaDUkdnNSAXVnvhWNnIRFKyqM1/219Nr7fKEXgooSM6EksmxWRl8YeMS/g45TjySPn
+         Xjow==
+X-Gm-Message-State: AOAM533Dni+yHj98ldTXoFDFsCs0K9WxJbBa1q/rLstJ2JTVjD8QWmAB
+        80WGRWSbx7CNH3y82HcA93FbZYnG+es3fBof
+X-Google-Smtp-Source: ABdhPJyVGjIW2SWtY2ypHKnQ9EconUxcgrOotCEiV05SLCi80UEcD8b3XMO00UclsFkVCUG1Psls6w==
+X-Received: by 2002:a17:90a:c20d:: with SMTP id e13mr10670760pjt.185.1608957010826;
+        Fri, 25 Dec 2020 20:30:10 -0800 (PST)
+Received: from localhost ([2001:e42:102:1532:160:16:113:140])
+        by smtp.gmail.com with ESMTPSA id b2sm29057290pfo.164.2020.12.25.20.30.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Dec 2020 20:30:09 -0800 (PST)
+From:   Coiby Xu <coiby.xu@gmail.com>
+X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
+Date:   Sat, 26 Dec 2020 12:29:14 +0800
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Helmut Stult <helmut.stult@schinfo.de>,
+        Baq Domalaq <domalak@gmail.com>,
+        Pedro Ribeiro <pedrib@gmail.com>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, Chris Ye <lzye@google.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: Re: [PATCH 04/13] HID: playstation: add DualSense touchpad support.
-Message-ID: <20201226021456.gmnqkycoeqvdhk34@fastboi.localdomain>
-References: <20201219062336.72568-1-roderick@gaikai.com>
- <20201219062336.72568-5-roderick@gaikai.com>
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4] HID: i2c-hid: add polling mode based on connected
+ GPIO chip's pin status
+Message-ID: <20201226042914.azz4yqje35h4vybw@Rk>
+References: <20201125141022.321643-1-coiby.xu@gmail.com>
+ <X75zL12q+FF6KBHi@kroah.com>
+ <B3Hx1v5x_ZWS8XSi8-0vZov1KLuINEHyS5yDUGBaoBN4d9wTi9OlCoFX1h6sqYG8dCZr_OKcKeImWX9eyKh8X4X3ZMdAUQ-KVwmG5e9LJeI=@protonmail.com>
+ <X9B2B6KuzbP8Is+W@kroah.com>
+ <CHTa60htGkyHzaM2En-TPXqyk1v3jVJUolGOMfHphEr_mMG5Z5f2K4mHTFilYR73bgpGEKNcGM1LFstJ7UhvbuJrgqr1-J2-YTZJenhK83Q=@protonmail.com>
+ <X9Dw4zxx331I7zAk@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20201219062336.72568-5-roderick@gaikai.com>
-X-Spam-Status: No, score=-2.7 required=5.0 tests=ALL_TRUSTED,BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS autolearn=no autolearn_force=no
-        version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on sammserver.tu
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <X9Dw4zxx331I7zAk@kroah.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+Hi Greg and Barnabás,
 
-thank you for this driver. It makes me really happy to see an official
-one. Just a small thing I noticed while reading through it:
+On Wed, Dec 09, 2020 at 04:44:35PM +0100, Greg KH wrote:
+>On Wed, Dec 09, 2020 at 03:38:11PM +0000, Barnabás Pőcze wrote:
+>> 2020. december 9., szerda 8:00 keltezéssel, Greg KH írta:
+>>
+>> > On Tue, Dec 08, 2020 at 09:59:20PM +0000, Barnabás Pőcze wrote:
+>> >
+>> > > 2020.  november 25., szerda 16:07 keltezéssel, Greg KH írta:
+>> > >
+>> > > > [...]
+>> > > >
+>> > > > > +static u8 polling_mode;
+>> > > > > +module_param(polling_mode, byte, 0444);
+>> > > > > +MODULE_PARM_DESC(polling_mode, "How to poll (default=0) - 0 disabled; 1 based on GPIO pin's status");
+>> > > >
+>> > > > Module parameters are for the 1990's, they are global and horrible to
+>> > > > try to work with. You should provide something on a per-device basis,
+>> > > > as what happens if your system requires different things here for
+>> > > > different devices? You set this for all devices :(
+>> > > > [...]
+
+Thank you for pointing out that.
+
+>> > >
+>> > > Hi
+>> > > do you think something like what the usbcore has would be better?
+>> > > A module parameter like "quirks=<vendor-id>:<product-id>:<flags>[,<vendor-id>:<product-id>:<flags>]*"?
+>> >
+>> > Not really, that's just for debugging, and asking users to test
+>> > something, not for a final solution to anything.
+>>
+
+This patch is not only for debugging. The primary reason is as a
+fallback solution to save the touchpad. The mentioned touchpads will
+be fixed by Linux 5.11 which means the enthusiastic Linux users have to
+wait for ~10 months to get their touchpads fixed.
+
+>> My understanding is that this polling mode option is by no means intended
+>> as a final solution, it's purely for debugging/fallback:
+>>
+>> "Polling mode could be a fallback solution for enthusiastic Linux users
+>> when they have a new laptop. It also acts like a debugging feature. If
+>> polling mode works for a broken touchpad, we can almost be certain
+>> the root cause is related to the interrupt or power setting."
+>>
+>> What would you suggest instead of the module parameter?
+>
+>a debugfs file?  That means it's only for debugging and you have to be
+>root to change the value.
+>
+
+Thank you for the helpful discussion and the suggestions!
+
+If we can answer the following two questions, it could help decide
+what's the next move.
+
+1. How many machines have two or more I2C HID devices?
+
+For the laptops this patch try to fix, they only have one I2C HID
+device, i.e., the touchpad. If it's the case with most machines
+running Linux, then we don't need to support per-HID-I2C-device
+setting and module parameter is the most user-friendly since the user
+doesn't even need to know the <vendor-id>/<product-id> pair.
+
+2. How many I2C HID devices like touchpads could be saved by this
+patch in the future?
+
+If polling could potentially save lots of I2C hid devices, we are more
+motivated to make it easier to use.
 
 
-On 18.12.2020 22:23, Roderick Colenbrander wrote:
-> @@ -311,6 +345,25 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
->  	input_report_key(ds->gamepad, BTN_MODE, ds_report->buttons[2] & DS_BUTTONS2_PS_HOME);
->  	input_sync(ds->gamepad);
->  
-> +	input_report_key(ds->touchpad, BTN_LEFT, ds_report->buttons[2] & DS_BUTTONS2_TOUCHPAD);
-
-The above line is duplicated right before the input_sync (marked). Is
-there any reason for this or is it accidental?
-
-> +	for (i = 0; i < 2; i++) {
-> +		bool active = (ds_report->points[i].contact & 0x80) ? false : true;
-> +
-> +		input_mt_slot(ds->touchpad, i);
-> +		input_mt_report_slot_state(ds->touchpad, MT_TOOL_FINGER, active);
-> +
-> +		if (active) {
-> +			int x = (ds_report->points[i].x_hi << 8) | ds_report->points[i].x_lo;
-> +			int y = (ds_report->points[i].y_hi << 4) | ds_report->points[i].y_lo;
-> +
-> +			input_report_abs(ds->touchpad, ABS_MT_POSITION_X, x);
-> +			input_report_abs(ds->touchpad, ABS_MT_POSITION_Y, y);
-> +		}
-> +	}
-> +	input_mt_sync_frame(ds->touchpad);
-> +	input_report_key(ds->touchpad, BTN_LEFT, ds_report->buttons[2] & DS_BUTTONS2_TOUCHPAD);
-
-Right here.
-
-> +	input_sync(ds->touchpad);
-> +
-
-Regards,
-Samuel
+--
+Best regards,
+Coiby
