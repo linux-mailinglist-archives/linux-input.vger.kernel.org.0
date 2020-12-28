@@ -2,60 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEE0B2E34D4
-	for <lists+linux-input@lfdr.de>; Mon, 28 Dec 2020 08:49:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 71CA42E6B97
+	for <lists+linux-input@lfdr.de>; Tue, 29 Dec 2020 00:12:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726313AbgL1Htg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 28 Dec 2020 02:49:36 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:34897 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726300AbgL1Htg (ORCPT
+        id S1730807AbgL1Wzz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 28 Dec 2020 17:55:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37372 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729466AbgL1UyS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 28 Dec 2020 02:49:36 -0500
-Received: from mail-pg1-f200.google.com ([209.85.215.200])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <po-hsu.lin@canonical.com>)
-        id 1ktnGw-0003l8-1A
-        for linux-input@vger.kernel.org; Mon, 28 Dec 2020 07:48:54 +0000
-Received: by mail-pg1-f200.google.com with SMTP id y2so7649122pgq.23
-        for <linux-input@vger.kernel.org>; Sun, 27 Dec 2020 23:48:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=4MT251GRhyk8xqpVMvfb8sAxTW18BvVvWuyUti8uEK8=;
-        b=Akw1xucgScp3wF5HCuhOHKo2BydNJsr/rX5jaJ/QqocwMTi8rIQ6kZSzb+cpt35gAd
-         D4PZcV+fBhHz2/q81sc9lR1f3FAh5LV0Np3v+IXTVOMtnAnBTLDTfgQgy1lXhIdhGkH0
-         iKWMxPIsK6wBj7KjXJfhcYT1yGVaOXa0b4n2cdAwxUpuRGoyWPkq/34QXk3aTgl2dP1D
-         mBR7Dt55gu4yqOEXLyHT/zJIYtXftZcW2wX3bSEwyRV2HE8NqxwXFkteIkIA/187X4ik
-         A4eZr3BQcrCo64dS0IzfTgBXMvXwe31T7XEJuV21LuPoL+r9/ILy6P254AePE/bVATU7
-         CE1g==
-X-Gm-Message-State: AOAM5325Qz9QAN4UaudxNoJAlmyX1zvZqZ9IKqnatuNF0Jsv5BNHFL9o
-        c/pM5HsowaW+igNGKyfoQGy3hdjDHlVpGdwqxg9wmcsG9Q8hBMedu7wn0OcBv8F5YA3pLdirKKn
-        QvULkTSoXPxA1s1xEAsry9A2HaSsrvJQWIUy7hs4=
-X-Received: by 2002:a63:1b22:: with SMTP id b34mr12768042pgb.132.1609141732368;
-        Sun, 27 Dec 2020 23:48:52 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxJnEeK/c56yti4kEbq7PFM2Sj6GE0Rw2y2IwHUfLxHDcRTynQVm4jECoTMKJ+KVKnWXAbvqg==
-X-Received: by 2002:a63:1b22:: with SMTP id b34mr12768028pgb.132.1609141732067;
-        Sun, 27 Dec 2020 23:48:52 -0800 (PST)
-Received: from Leggiero.taipei.internal (61-220-137-38.HINET-IP.hinet.net. [61.220.137.38])
-        by smtp.gmail.com with ESMTPSA id jz20sm12948043pjb.4.2020.12.27.23.48.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Dec 2020 23:48:51 -0800 (PST)
-From:   Po-Hsu Lin <po-hsu.lin@canonical.com>
-To:     dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org
-Subject: ACK: [PATCH] input, i8042: unbreak Pegatron C15B
-Date:   Mon, 28 Dec 2020 15:48:36 +0800
-Message-Id: <20201228074836.23298-1-po-hsu.lin@canonical.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201228072335.GA27766@localhost.localdomain>
-References: <20201228072335.GA27766@localhost.localdomain>
+        Mon, 28 Dec 2020 15:54:18 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 677CDC0613D6;
+        Mon, 28 Dec 2020 12:53:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=v09Nc7+APqPjSs0d+VhDDcdKOvqlpFdSna4lZxnE79c=; b=C4h8jv0NQBbAdGq4GtSw7fQC0Q
+        krlUD94moocoN71JdNZgiOdOoDbMQxtdyJbyFM+9IYDQ3WcHLrgHtyAb3pZC/FmfxLRdCfybrt/Zj
+        F+hJyNzh5iDMjzZcm/1z4mqpsjjtqngdNqwcpvj8DLHorf5gvOD5p6lzG9eWqNqWJBz17PDMPsNt/
+        vQilrUCWxvNAlLlbIaSZRer2DhOTe3FAXWcrQX9ZCT9N8xRTxKTQErG5DhMtUNtu00tig/ak6xdcg
+        /5brB4XSaSF9rLgVomfwIFpA/YCSvrZTOPB716cIEBJIVXh9HVPtlxscVhp3aQyTlNsFzC3sjh8M1
+        wVchFCPA==;
+Received: from [2601:1c0:6280:3f0::64ea] (helo=smtpauth.infradead.org)
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1ktzWJ-0002ml-9z; Mon, 28 Dec 2020 20:53:35 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        linux-iio@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v2 0/8] Documentation: HID: edit/correct all files
+Date:   Mon, 28 Dec 2020 12:53:19 -0800
+Message-Id: <20201228205327.1063-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-LGTM, thanks for spotting this!
+Make editing corrections to all files in Documentation/hid/.
 
-Acked-by: Po-Hsu Lin <po-hsu.lin@canonical.com>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: linux-input@vger.kernel.org
+Cc: Jonathan Cameron <jic23@kernel.org>
+Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: linux-iio@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+
+ [PATCH v2 1/8] Documentation: HID: hid-alps editing & corrections
+ [PATCH v2 2/8] Documentation: HID: amd-sfh-hid editing & corrections
+ [PATCH v2 3/8] Documentation: HID: hiddev editing & corrections
+ [PATCH v2 4/8] Documentation: HID: intel-ish-hid editing & corrections
+ [PATCH v2 5/8] Documentation: HID: hidraw editing & corrections
+ [PATCH v2 6/8] Documentation: HID: hid-sensor editing & corrections
+ [PATCH v2 7/8] Documentation: HID: hid-transport editing & corrections
+ [PATCH v2 8/8] Documentation: HID: uhid editing & corrections
+
+ Documentation/hid/amd-sfh-hid.rst   |   22 +++----
+ Documentation/hid/hid-alps.rst      |    4 -
+ Documentation/hid/hid-sensor.rst    |   18 +++---
+ Documentation/hid/hid-transport.rst |   12 ++--
+ Documentation/hid/hiddev.rst        |   10 +--
+ Documentation/hid/hidraw.rst        |    5 +
+ Documentation/hid/intel-ish-hid.rst |   78 +++++++++++++-------------
+ Documentation/hid/uhid.rst          |   34 +++++------
+ 8 files changed, 93 insertions(+), 90 deletions(-)
