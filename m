@@ -2,56 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D14C2E6B7E
-	for <lists+linux-input@lfdr.de>; Tue, 29 Dec 2020 00:12:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7C6E2E6B79
+	for <lists+linux-input@lfdr.de>; Tue, 29 Dec 2020 00:12:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729644AbgL1Wz4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S1730880AbgL1Wz4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Mon, 28 Dec 2020 17:55:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42522 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729511AbgL1V1n (ORCPT
+        with ESMTP id S1729601AbgL1WDg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 28 Dec 2020 16:27:43 -0500
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 802E7C0613D6
-        for <linux-input@vger.kernel.org>; Mon, 28 Dec 2020 13:27:01 -0800 (PST)
-Received: by mail-qt1-x82e.google.com with SMTP id z3so7760301qtw.9
-        for <linux-input@vger.kernel.org>; Mon, 28 Dec 2020 13:27:01 -0800 (PST)
+        Mon, 28 Dec 2020 17:03:36 -0500
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A05DC0613D6
+        for <linux-input@vger.kernel.org>; Mon, 28 Dec 2020 14:02:56 -0800 (PST)
+Received: by mail-qk1-x72f.google.com with SMTP id f26so10085429qka.0
+        for <linux-input@vger.kernel.org>; Mon, 28 Dec 2020 14:02:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gaikai-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=KAK/qKCgt9WujMNQAyK8U1+/9rO/evAUmcSOHIepX40=;
-        b=JEMehpxuFxRH9P5Nf76qRJcZBWsuNoo4Ykd6Fxf09d6URPk29z6MZ90Fk3Vh0/1qRd
-         jW408B4GCrK2NPYzCErJp5hYEh94YruoXFqeWGMMie/4/j6vECVqimSMY3OZjk+3hvXh
-         skGMKV5XiTHxypSKE+WGFYV2YzbTCEYynnKuHncqFN6fGwlTZTh9M+1BzPEXpleApTIy
-         AqdTlorns7peZ4eJlC4JOgO6g/OYIRTKGj74bldL1HqHzHoVPxuDm0Cao3bX0nazJuEi
-         mQN6O+/JH8AMeufIgBEYsPwngdmkeC7OXZRyE21+FCTxBcvraea5ta9D6VCIapNUFj56
-         GbeQ==
+        bh=9y9jx5wo0A27Ckg9sWJdmgkDseqY3hAQxCY2tGwfCL0=;
+        b=YkomCscUffi/dL80lJb3C/AiF+bmKnWbBwkmV5f80tfbXP9nLt6h20E/oWNs/5fSDh
+         tA5EklS68k28KSEzg8+Q+7pi8OtzVhzipZnR6kTgXZSniCJ5yRjOGuLW4tAEtBbEiV8b
+         iQKjf3pigsDQ3sgERhdInb19ZSjUceUz/3+vpToRYBV0j6l3IB79UJOpomNxF5hB5QeN
+         OcG/XEKqPkoYRJPGF6AFBT+s0BkPt1Ks39Hv7F1BU+DfF5uoVFEvVvcdvIXAT/RxPJMP
+         qmd8PVHk+t/pLu9nftXvEoVmh0ozuj22ClqXwGOnomE2TmHyIfWD7weQV0LXQuUEVfdX
+         fVAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=KAK/qKCgt9WujMNQAyK8U1+/9rO/evAUmcSOHIepX40=;
-        b=oQX7Khw8KHTl7pmIHOUdBE6HrU59b7z5TYrZcIsFieKR+nCuIy2ygoovnTKg5LMnuV
-         HKjwzA3hrDM3vhzX7UKe+4Xf8am9iQ+RMwE76N+QMlWVYh0vSsd/6vU0rt29vnmX+Gun
-         92UBLD3XPWbPg3uxHhvYoL08TIFchjq7b2rM+wp7G/8X546D4P6lD27EU1/Ou1fyZZyF
-         8q3XilpesGMr/T42WQ+lekvXVWOCB1Z9OP54+ObllhGqzLdoOatEWJSQPizalDZ2vCi1
-         nDaWuRV1NyMNFmS0fS40ChHan5ftGh+BPxl9HyMbqXRLdDO6QyHEpx/CZYjcKxZIcnUZ
-         cHFQ==
-X-Gm-Message-State: AOAM5315exWkjEqhYmjN64lDE8Z67kmA/tXQhd0AYv+Btxg1QwJo0aNy
-        9AgIrD0eTgtf2AEYH0QV6ndbJq9CC+ZunS07DRgOKA==
-X-Google-Smtp-Source: ABdhPJxEmgE6wFVZdCgL8gEuSVMxtJATfcv9o3oJf2iiYVbkK1+dIBGGW+E+Icnwaw52n7V1Hb4jA8kojEg8QWYO67M=
-X-Received: by 2002:a05:622a:107:: with SMTP id u7mr46020823qtw.204.1609190820897;
- Mon, 28 Dec 2020 13:27:00 -0800 (PST)
+        bh=9y9jx5wo0A27Ckg9sWJdmgkDseqY3hAQxCY2tGwfCL0=;
+        b=kh5OOijsc8AE+5Y+VB0/z9kqv9TX++n5VWw25+29Y/jrh7UaTa3xpJTK/YLi3a15Jc
+         6ZrgNWDkdTTe30pvik8CjBbglkB4wtxBhC0aNx71aGXmiEyEWr9pyJ0Jv2UAX+sdtWj/
+         FGZMCnnbPxf9SObELdpwl5jAcBfwpEtJPOrgBp2uXzRSWoRzO4YM1q2/6qSuwTcFFlnq
+         uKYq5ZAOTCIOjuKaehhEZBZ7w/PEW/Q37mTCAY462B6kfifPlTleM+GwShCs86Nl6ps1
+         54jYXrtpS7orfEfPlCJG3Q5C/M82tU2KcgdfRvWuz9ysP6P0cu781NoO+QrGD3xhmF90
+         DV4g==
+X-Gm-Message-State: AOAM532x6DDMaX0ijUN7HQjE9FsfAmRFrv/rmymupbdqiMLABsTK+baU
+        fXJd3YHtty8a4tppz9eg0LG/fRIy1WVPLIr8IHKSDg==
+X-Google-Smtp-Source: ABdhPJzfVZ+YHlqEoIuVj6mEA9ktwhcJ+cL2iiNeQ/RSqOk0+7TnH56AZeyy7h38dYUc2DyDPz5fZqKdOzSQQtZkEss=
+X-Received: by 2002:a37:a413:: with SMTP id n19mr47262516qke.15.1609192975562;
+ Mon, 28 Dec 2020 14:02:55 -0800 (PST)
 MIME-Version: 1.0
-References: <20201219062336.72568-1-roderick@gaikai.com> <20201219062336.72568-10-roderick@gaikai.com>
- <_n_Seien29lcWzPT6LHN7MEtqlVZpJOBRKw-qe01hEhSGbKKL7cffbmSGPjZZIN8Q4B8fInhwChsV0JB70F-wqj44ZQILevS6y3FXYaDtw8=@protonmail.com>
-In-Reply-To: <_n_Seien29lcWzPT6LHN7MEtqlVZpJOBRKw-qe01hEhSGbKKL7cffbmSGPjZZIN8Q4B8fInhwChsV0JB70F-wqj44ZQILevS6y3FXYaDtw8=@protonmail.com>
+References: <20201219062336.72568-1-roderick@gaikai.com> <20201219062336.72568-12-roderick@gaikai.com>
+ <8ROOgrBVvXav7SOnZgBVtvZ4QKubyktYJ2WsauoAH22lewKj2-Rp9a-uEZyxhItvF3Q7pp8hKZ4etl0jgiD-G3XkbL1aM9z8cRNsHHmGN9A=@protonmail.com>
+In-Reply-To: <8ROOgrBVvXav7SOnZgBVtvZ4QKubyktYJ2WsauoAH22lewKj2-Rp9a-uEZyxhItvF3Q7pp8hKZ4etl0jgiD-G3XkbL1aM9z8cRNsHHmGN9A=@protonmail.com>
 From:   Roderick Colenbrander <roderick@gaikai.com>
-Date:   Mon, 28 Dec 2020 13:26:50 -0800
-Message-ID: <CANndSK=LSFyAf-7BfXJkCVrFcd7Auy64Wtqh65de6T7FkDN1Hw@mail.gmail.com>
-Subject: Re: [PATCH 09/13] HID: playstation: add DualSense lightbar support
+Date:   Mon, 28 Dec 2020 14:02:44 -0800
+Message-ID: <CANndSKkjhEDU0eB=J_F0CCZn2F=Jy3UMzBKOgJaNvecqRtAfnQ@mail.gmail.com>
+Subject: Re: [PATCH 11/13] HID: playstation: add DualSense player LEDs support.
 To:     =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>
 Cc:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
@@ -66,9 +66,7 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Hi Barnab=C3=A1s,
 
-Thanks for your review.
-
-On Sun, Dec 27, 2020 at 6:41 AM Barnab=C3=A1s P=C5=91cze <pobrn@protonmail.=
+On Sun, Dec 27, 2020 at 6:27 AM Barnab=C3=A1s P=C5=91cze <pobrn@protonmail.=
 com> wrote:
 >
 > Hi
@@ -80,117 +78,79 @@ com> wrote:
 > > [...]
 > > diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstatio=
 n.c
-> > index 0b62bcb28d8a..f8cf82a27d43 100644
+> > index ad8eedd3d2bf..384449e3095d 100644
 > > [...]
-> > +/* Create a DualSense/DualShock4 RGB lightbar represented by a multico=
-lor LED. */
-> > +static struct led_classdev_mc *ps_lightbar_create(struct ps_device *ps=
-_dev,
-> > +     int (*brightness_set)(struct led_classdev *, enum led_brightness)=
-)
+> > +static enum led_brightness dualsense_player_led_get_brightness(struct =
+led_classdev *led)
 > > +{
-> > +     struct hid_device *hdev =3D ps_dev->hdev;
-> > +     struct led_classdev_mc *lightbar_mc_dev;
-> > +     struct mc_subled *mc_led_info;
-> > +     struct led_classdev *led_cdev;
-> > +     int ret;
+> > +     struct hid_device *hdev =3D to_hid_device(led->dev->parent);
+> > +     struct dualsense *ds =3D hid_get_drvdata(hdev);
+> > +     int i;
 > > +
-> > +     lightbar_mc_dev =3D devm_kzalloc(&hdev->dev, sizeof(*lightbar_mc_=
-dev), GFP_KERNEL);
-> > +     if (!lightbar_mc_dev)
-> > +             return ERR_PTR(-ENOMEM);
-> > +
-> > +     mc_led_info =3D devm_kzalloc(&hdev->dev, 3*sizeof(*mc_led_info), =
-GFP_KERNEL);
-> > +     if (!mc_led_info)
-> > +             return ERR_PTR(-ENOMEM);
-> > +
->
-> Is there any reason why these are dynamically allocated?
-
-No particular reason. I should probably at least not dynamically
-allocate 'mc_dev' and pass it in similar to regular LED registration
-(previously I had my regular LEDs dynamically allocated). The
-mc_led_info I will probably keep dynamic. It feels a bit nasty to have
-the caller be aware of these internal details.
-
->
->
-> > +     mc_led_info[0].color_index =3D LED_COLOR_ID_RED;
-> > +     mc_led_info[0].channel =3D 0;
-> > +     mc_led_info[1].color_index =3D LED_COLOR_ID_GREEN;
-> > +     mc_led_info[1].channel =3D 1;
-> > +     mc_led_info[2].color_index =3D LED_COLOR_ID_BLUE;
-> > +     mc_led_info[2].channel =3D 2;
-> > +
-> > +     lightbar_mc_dev->subled_info =3D mc_led_info;
-> > +     lightbar_mc_dev->num_colors =3D 3;
-> > +
-> > +     led_cdev =3D &lightbar_mc_dev->led_cdev;
-> > +     led_cdev->name =3D devm_kasprintf(&hdev->dev, GFP_KERNEL, "playst=
-ation::%pMR::rgb",
-> > +                     ps_dev->mac_address);
->
-> I guess the double colons are used because the MAC address has ':' in it;=
- but
-> as far as I know this doesn't follow the naming scheme for LED devices, s=
-o I'm
-> not sure if this is the best way to go about it.
-
-Actually it was Benjamin who suggested this type of naming. He wasn't
-a fan of the previous hid-sony device naming (neither was I). This was
-the main idea so far.
-
->
-> > +     led_cdev->brightness =3D 255;
-> > +     led_cdev->max_brightness =3D 255;
-> > +     led_cdev->brightness_set_blocking =3D brightness_set;
-> > +
-> > +     ret =3D devm_led_classdev_multicolor_register(&hdev->dev, lightba=
-r_mc_dev);
-> > +     if (ret < 0) {
-> > +             hid_err(hdev, "Cannot register multicolor LED device\n");
-> > +             return ERR_PTR(ret);
+> > +     for (i =3D 0; i < ARRAY_SIZE(ds->player_leds); i++) {
+> > +             if (&ds->player_leds[i] =3D=3D led)
+> > +                     return !!(ds->player_leds_state & BIT(i));
 > > +     }
+>
+> Is there any reason why
+>
+> ```
+>   !!(ds->player_leds_state & BIT( led - ds->player_leds ))
+> ```
+>
+> or something similar is not used? Or am I missing something that prevents=
+ this
+> from working?
+
+I think this pointer math would work and need to give it a try. Hadn't
+considered it
+
+> Furthermore, I don't quite see the purpose of this function. The LED core
+> can handle if no brightness_get() callback is provided. And since this
+> function returns just a cached value, I fail to see how it is different f=
+rom
+> the default behaviour of the LED core, which is returning the last bright=
+ness
+> value. Am I missing something?
+
+Not all values may get set through sysfs. For example in the next
+patch (12/13) the driver sets a default player LED mask value directly
+and may set e.g. 0x1f or so. This could use the LED APIs, but the LED
+framework doesn't have any group LED support (besides the new
+multicolor class) and as such would get scheduled across multiple
+output reports.
+
+>
 > > +
-> > +     return lightbar_mc_dev;
+> > +     return LED_OFF;
 > > +}
-> > [...]
-> > +static int dualsense_reset_leds(struct dualsense *ds)
+> > +
+> > +static void dualsense_player_led_set_brightness(struct led_classdev *l=
+ed, enum led_brightness value)
 > > +{
-> > +     struct dualsense_output_report report;
-> > +     uint8_t *buf;
+> > +     struct hid_device *hdev =3D to_hid_device(led->dev->parent);
+> > +     struct dualsense *ds =3D hid_get_drvdata(hdev);
+> > +     uint8_t player_leds_state =3D 0;
+> > +     unsigned long flags;
+> > +     int i;
 > > +
-> > +     buf =3D kzalloc(sizeof(struct dualsense_output_report_bt), GFP_KE=
-RNEL);
-> > +     if (!buf)
-> > +             return -ENOMEM;
+> > +     for (i =3D 0; i < ARRAY_SIZE(ds->player_leds); i++)
+> > +             player_leds_state |=3D (ds->player_leds[i].brightness << =
+i);
 > > +
-> > +     dualsense_init_output_report(ds, &report, buf);
-> > +     /* On Bluetooth the DualSense outputs an animation on the lightba=
-r
-> > +      * during startup and maintains a color afterwards. We need to ex=
-plicitly
-> > +      * reconfigure the lightbar before we can do any programming late=
-r on.
-> > +      * In USB the lightbar is not on by default, but redoing the setu=
-p there
-> > +      * doesn't hurt.
-> > +      */
-> > +     report.common->valid_flag2 =3D DS_OUTPUT_VALID_FLAG2_LIGHTBAR_SET=
-UP_CONTROL_ENABLE;
-> > +     report.common->lightbar_setup =3D 2; /* Fade light out. */
 >
-> Maybe it'd be better to name that '2'?
+> I believe this could be simplified as well using the fact that
+> `led - ds->player_leds` gives the index of the LED.
 
-Will document this one.
+I will give this a try as well, thanks.
 
 >
->
-> > +     dualsense_send_output_report(ds, &report);
+> > +     spin_lock_irqsave(&ds->base.lock, flags);
+> > +     ds->player_leds_state =3D player_leds_state;
+> > +     ds->update_player_leds =3D true;
+> > +     spin_unlock_irqrestore(&ds->base.lock, flags);
 > > +
-> > +     kfree(buf);
-> > +     return 0;
+> > +     schedule_work(&ds->output_worker);
 > > +}
 > > [...]
 >
