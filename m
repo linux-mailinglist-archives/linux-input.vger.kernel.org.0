@@ -2,56 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7C6E2E6B79
-	for <lists+linux-input@lfdr.de>; Tue, 29 Dec 2020 00:12:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A20E2E6B7D
+	for <lists+linux-input@lfdr.de>; Tue, 29 Dec 2020 00:12:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730880AbgL1Wz4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S1730890AbgL1Wz4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Mon, 28 Dec 2020 17:55:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48022 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729601AbgL1WDg (ORCPT
+        with ESMTP id S1729678AbgL1Wq2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 28 Dec 2020 17:03:36 -0500
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A05DC0613D6
-        for <linux-input@vger.kernel.org>; Mon, 28 Dec 2020 14:02:56 -0800 (PST)
-Received: by mail-qk1-x72f.google.com with SMTP id f26so10085429qka.0
-        for <linux-input@vger.kernel.org>; Mon, 28 Dec 2020 14:02:56 -0800 (PST)
+        Mon, 28 Dec 2020 17:46:28 -0500
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FB33C0613D6
+        for <linux-input@vger.kernel.org>; Mon, 28 Dec 2020 14:45:47 -0800 (PST)
+Received: by mail-qk1-x72b.google.com with SMTP id f26so10167121qka.0
+        for <linux-input@vger.kernel.org>; Mon, 28 Dec 2020 14:45:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gaikai-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=9y9jx5wo0A27Ckg9sWJdmgkDseqY3hAQxCY2tGwfCL0=;
-        b=YkomCscUffi/dL80lJb3C/AiF+bmKnWbBwkmV5f80tfbXP9nLt6h20E/oWNs/5fSDh
-         tA5EklS68k28KSEzg8+Q+7pi8OtzVhzipZnR6kTgXZSniCJ5yRjOGuLW4tAEtBbEiV8b
-         iQKjf3pigsDQ3sgERhdInb19ZSjUceUz/3+vpToRYBV0j6l3IB79UJOpomNxF5hB5QeN
-         OcG/XEKqPkoYRJPGF6AFBT+s0BkPt1Ks39Hv7F1BU+DfF5uoVFEvVvcdvIXAT/RxPJMP
-         qmd8PVHk+t/pLu9nftXvEoVmh0ozuj22ClqXwGOnomE2TmHyIfWD7weQV0LXQuUEVfdX
-         fVAA==
+        bh=uptuQpMvAp8EqiroFkntcZevF81VveHZTB+MxLKWmao=;
+        b=NOVjbDEqs8cIMLD3X5i0+aO6Oq77JBzTA0/zwuNOIVNHU5RqdM2uyi2X7gPjn/E+JB
+         24ZMrP3ZClERIIArusEiBr0cNjdt2tf9dhEXdkXEJxpt2QUPhZCcNIcHTwHMi8qPJtZT
+         E+L43H5O74cimi5/2ENUQKSlKdO1Xc4OzIRMj0dqCie6jKd25cSocDqSnKk/DjSHKO5T
+         yMg9OL40FrcunAwwNenGKJvwqYgst0uQdC7iHPK7q9rorQfdJCzpLpkaAfc/AqDwx+GB
+         vX0g5dlGh1zJaLQjH2fn4kdgwfK2KPzMkFsTLlJhiRJjIJjPZkMRtsEWxgxC1F7zswVO
+         o6Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=9y9jx5wo0A27Ckg9sWJdmgkDseqY3hAQxCY2tGwfCL0=;
-        b=kh5OOijsc8AE+5Y+VB0/z9kqv9TX++n5VWw25+29Y/jrh7UaTa3xpJTK/YLi3a15Jc
-         6ZrgNWDkdTTe30pvik8CjBbglkB4wtxBhC0aNx71aGXmiEyEWr9pyJ0Jv2UAX+sdtWj/
-         FGZMCnnbPxf9SObELdpwl5jAcBfwpEtJPOrgBp2uXzRSWoRzO4YM1q2/6qSuwTcFFlnq
-         uKYq5ZAOTCIOjuKaehhEZBZ7w/PEW/Q37mTCAY462B6kfifPlTleM+GwShCs86Nl6ps1
-         54jYXrtpS7orfEfPlCJG3Q5C/M82tU2KcgdfRvWuz9ysP6P0cu781NoO+QrGD3xhmF90
-         DV4g==
-X-Gm-Message-State: AOAM532x6DDMaX0ijUN7HQjE9FsfAmRFrv/rmymupbdqiMLABsTK+baU
-        fXJd3YHtty8a4tppz9eg0LG/fRIy1WVPLIr8IHKSDg==
-X-Google-Smtp-Source: ABdhPJzfVZ+YHlqEoIuVj6mEA9ktwhcJ+cL2iiNeQ/RSqOk0+7TnH56AZeyy7h38dYUc2DyDPz5fZqKdOzSQQtZkEss=
-X-Received: by 2002:a37:a413:: with SMTP id n19mr47262516qke.15.1609192975562;
- Mon, 28 Dec 2020 14:02:55 -0800 (PST)
+        bh=uptuQpMvAp8EqiroFkntcZevF81VveHZTB+MxLKWmao=;
+        b=ddO/FbvmYsIa3WWmhMQFdZkNNJ1uAD1zhjksYSaqn0ZUvA0y2VTj0CJnk4LrlolW7E
+         9Yw8Up0dmmZG5QqtBfB52ra9KrVNmHOB48X/2EOSBvW9dMhXz49mNFJZiy7xCEzydGya
+         jRBELbE7ulLBlR2WFhQefw1FNbtrkI4JCk11H6asrvT1SX6lQ/F8Vrz2XO8hgs3Gl9/4
+         DKen53QwUUC3aY6Bcq5hA/onOvkEYlRm92Vevh/2eACeFEA18bYInGpQRoDAVllQ4Tfl
+         v3PC4NuNRzE1lYfoeKO3CjxOTDjkMb4mcKV3mAziI9zLvL3wY4y0NMP5GVe+JbIbIID7
+         KmPw==
+X-Gm-Message-State: AOAM533UvHYgf2ox2fKsXZrQDmbrwamD2btxVakNGhKiadwyvVZeOOtT
+        qFReMTxVyFrgnA/qllIw/DfgHjX+7KEuhhFf6NoAzg==
+X-Google-Smtp-Source: ABdhPJwGAuY+oCUF91Tbj8RWYCD1BaCw/T9afId1IIAC2lxXhJEsvmbr8xR8IW5QCl9YBg7dBSrcbEfbtxcsgdoFiPM=
+X-Received: by 2002:ae9:e64d:: with SMTP id x13mr45938518qkl.464.1609195546784;
+ Mon, 28 Dec 2020 14:45:46 -0800 (PST)
 MIME-Version: 1.0
-References: <20201219062336.72568-1-roderick@gaikai.com> <20201219062336.72568-12-roderick@gaikai.com>
- <8ROOgrBVvXav7SOnZgBVtvZ4QKubyktYJ2WsauoAH22lewKj2-Rp9a-uEZyxhItvF3Q7pp8hKZ4etl0jgiD-G3XkbL1aM9z8cRNsHHmGN9A=@protonmail.com>
-In-Reply-To: <8ROOgrBVvXav7SOnZgBVtvZ4QKubyktYJ2WsauoAH22lewKj2-Rp9a-uEZyxhItvF3Q7pp8hKZ4etl0jgiD-G3XkbL1aM9z8cRNsHHmGN9A=@protonmail.com>
+References: <20201219062336.72568-1-roderick@gaikai.com> <20201219062336.72568-14-roderick@gaikai.com>
+ <Wrry37udGNtUwRvYnSoet8ychKwk8YeD9NTEIjkfIMtrSmCXOc9h4oLcm5Uq77JV1AIgvP13uwxvXYuNAQF0jO_ZVp2M932WAPKQB5VdYGc=@protonmail.com>
+ <CANndSKn8xFGR3Y7x3rXxjhcNn89tt55o+RyvZkTp-aMzbF-JcA@mail.gmail.com>
+ <CANndSKmch6bdv0N8qUFdAgKBqi50Y11kdK4EFm63xr4Kct5D=A@mail.gmail.com> <3lVD85P15aERBMBIFGdOJT7p4Y8XB0pZREzvTKNJ-OX-Wt7V_pkfwGzC1h_8xboI0UA18rXrh4Ye23kFVeF1udP8FjdGoi3dMlNiE74aCN8=@protonmail.com>
+In-Reply-To: <3lVD85P15aERBMBIFGdOJT7p4Y8XB0pZREzvTKNJ-OX-Wt7V_pkfwGzC1h_8xboI0UA18rXrh4Ye23kFVeF1udP8FjdGoi3dMlNiE74aCN8=@protonmail.com>
 From:   Roderick Colenbrander <roderick@gaikai.com>
-Date:   Mon, 28 Dec 2020 14:02:44 -0800
-Message-ID: <CANndSKkjhEDU0eB=J_F0CCZn2F=Jy3UMzBKOgJaNvecqRtAfnQ@mail.gmail.com>
-Subject: Re: [PATCH 11/13] HID: playstation: add DualSense player LEDs support.
+Date:   Mon, 28 Dec 2020 14:45:35 -0800
+Message-ID: <CANndSK=v53UMTLrV8YSho2FRJ9_ZAWer4SmiOC0RS_pvf-bwVQ@mail.gmail.com>
+Subject: Re: [PATCH 13/13] HID: playstation: report DualSense hardware and
+ firmware version.
 To:     =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>
 Cc:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
@@ -64,99 +67,73 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Barnab=C3=A1s,
-
-On Sun, Dec 27, 2020 at 6:27 AM Barnab=C3=A1s P=C5=91cze <pobrn@protonmail.=
+On Sun, Dec 27, 2020 at 2:38 PM Barnab=C3=A1s P=C5=91cze <pobrn@protonmail.=
 com> wrote:
 >
-> Hi
->
->
-> 2020. december 19., szombat 7:23 keltez=C3=A9ssel, Roderick Colenbrander =
-=C3=ADrta:
+> 2020. december 27., vas=C3=A1rnap 23:27 keltez=C3=A9ssel, Roderick Colenb=
+rander =C3=ADrta:
 >
 > > [...]
-> > diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstatio=
-n.c
-> > index ad8eedd3d2bf..384449e3095d 100644
-> > [...]
-> > +static enum led_brightness dualsense_player_led_get_brightness(struct =
-led_classdev *led)
-> > +{
-> > +     struct hid_device *hdev =3D to_hid_device(led->dev->parent);
-> > +     struct dualsense *ds =3D hid_get_drvdata(hdev);
-> > +     int i;
-> > +
-> > +     for (i =3D 0; i < ARRAY_SIZE(ds->player_leds); i++) {
-> > +             if (&ds->player_leds[i] =3D=3D led)
-> > +                     return !!(ds->player_leds_state & BIT(i));
-> > +     }
+> > > > > -       ret =3D sysfs_create_group(&hdev->dev.kobj, &ps_device_at=
+tribute_group);
+> > > > >
+> > > > >
+> > > >
+> > > > It's a minor thing, but I think `device_{add,remove}_group()` would=
+ be better
+> > > > here in the sense that it expresses the fact that the group is adde=
+d to a device,
+> > > > not just any object better.
+> > >
+> > > Agreed, that's nicer I wasn't aware of it. I try to follow what other
+> > > hid drivers do and they all used the kobj directly, which honestly
+> > > felt nasty. Will change it to this.
+> >
+> > Actually devm_device_add_group seems to be even nicer. Surprisingly it
+> > isn't widely used yet.
+> >
+> > Roderick
 >
-> Is there any reason why
 >
-> ```
->   !!(ds->player_leds_state & BIT( led - ds->player_leds ))
-> ```
->
-> or something similar is not used? Or am I missing something that prevents=
- this
-> from working?
-
-I think this pointer math would work and need to give it a try. Hadn't
-considered it
-
-> Furthermore, I don't quite see the purpose of this function. The LED core
-> can handle if no brightness_get() callback is provided. And since this
-> function returns just a cached value, I fail to see how it is different f=
-rom
-> the default behaviour of the LED core, which is returning the last bright=
-ness
-> value. Am I missing something?
-
-Not all values may get set through sysfs. For example in the next
-patch (12/13) the driver sets a default player LED mask value directly
-and may set e.g. 0x1f or so. This could use the LED APIs, but the LED
-framework doesn't have any group LED support (besides the new
-multicolor class) and as such would get scheduled across multiple
-output reports.
-
->
-> > +
-> > +     return LED_OFF;
-> > +}
-> > +
-> > +static void dualsense_player_led_set_brightness(struct led_classdev *l=
-ed, enum led_brightness value)
-> > +{
-> > +     struct hid_device *hdev =3D to_hid_device(led->dev->parent);
-> > +     struct dualsense *ds =3D hid_get_drvdata(hdev);
-> > +     uint8_t player_leds_state =3D 0;
-> > +     unsigned long flags;
-> > +     int i;
-> > +
-> > +     for (i =3D 0; i < ARRAY_SIZE(ds->player_leds); i++)
-> > +             player_leds_state |=3D (ds->player_leds[i].brightness << =
-i);
-> > +
->
-> I believe this could be simplified as well using the fact that
-> `led - ds->player_leds` gives the index of the LED.
-
-I will give this a try as well, thanks.
-
->
-> > +     spin_lock_irqsave(&ds->base.lock, flags);
-> > +     ds->player_leds_state =3D player_leds_state;
-> > +     ds->update_player_leds =3D true;
-> > +     spin_unlock_irqrestore(&ds->base.lock, flags);
-> > +
-> > +     schedule_work(&ds->output_worker);
-> > +}
-> > [...]
+> Well, indeed, although I believe that shouldn't be used here. Consider
+> what happens if the hid-playstation module is unloaded. The attributes
+> of the HID device will not be unregistered, but the backing functions/etc=
+.
+> are unloaded, so reading/writing them will have undesirable effects - I i=
+magine.
+> So in either case, you'll need to use `[devm_]device_remove_group()`, and=
+ for
+> that reason I think using the devm_* variant is less efficient.
+> Please note, that I am not 100% sure this hypothesis is correct, but I'm =
+pretty sure.
 >
 >
 > Regards,
 > Barnab=C3=A1s P=C5=91cze
 
-Thanks,
+I did some more digging into 'devm_device_add_group' as I was curious.
+It is widely used for touchscreen drivers apparently and some other
+devices and generally used from 'probe' as you would expect. None of
+the drivers I found call devm_device_remove_group. Though, none of the
+drivers use HID.
+
+I tried using the call and it seems to work fine even after driver
+unloads/reloads without a 'devm_device_remove_group' call. I don't
+believe any sysfs entries are kept around (also based on watching the
+contents of the sysfs directory for the device). If they were I'm sure
+the kernel would have thrown some errors during a future
+'devm_device_add_group' call as you know sysfs gets quite unhappy if
+you added a duplicate node.
+
+This makes me believe it is getting cleaned up, but I'm not sure how.
+I suspect it happens when the HID driver is unregistered
+(hid_unregister_driver) from the bus, which follows a bus rescan. When
+the driver is removed, device_driver_detach is called, which triggers
+a lot of cleanup logic in 'device_driver_release_internal'. I haven't
+traced this call, but I think its call 'devres_release_all(dev)' is
+what is doing the magic.
+
+Any thoughts?
+
+Regards,
 Roderick
