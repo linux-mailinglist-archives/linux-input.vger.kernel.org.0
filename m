@@ -2,97 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D72192E332C
-	for <lists+linux-input@lfdr.de>; Mon, 28 Dec 2020 00:08:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A77A92E34AC
+	for <lists+linux-input@lfdr.de>; Mon, 28 Dec 2020 08:24:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726285AbgL0XIM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 27 Dec 2020 18:08:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33298 "EHLO
+        id S1726247AbgL1HYU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 28 Dec 2020 02:24:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52464 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726280AbgL0XIM (ORCPT
+        with ESMTP id S1726242AbgL1HYT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 27 Dec 2020 18:08:12 -0500
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 183C4C061794
-        for <linux-input@vger.kernel.org>; Sun, 27 Dec 2020 15:07:32 -0800 (PST)
-Received: by mail-qk1-x730.google.com with SMTP id v126so7648914qkd.11
-        for <linux-input@vger.kernel.org>; Sun, 27 Dec 2020 15:07:31 -0800 (PST)
+        Mon, 28 Dec 2020 02:24:19 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59F04C061794
+        for <linux-input@vger.kernel.org>; Sun, 27 Dec 2020 23:23:39 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id 91so10522765wrj.7
+        for <linux-input@vger.kernel.org>; Sun, 27 Dec 2020 23:23:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gaikai-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=q0jESGDJuKBF/wwstpF++At7ApAGR+UpBkxEOaUQQtY=;
-        b=rLtRjYWMURvv4nboF+5KBERaH2IvsQDte8pnu9s7F/onHlRDSF/sqejXoxOCLffRJu
-         2Ff8m6Us3hjDXHCGlWCGW/1ccTMklCSJE6oNzUFD+PIdYRx6/6khd1hGJBtBdf+t/52D
-         cazd5ucm2xfVvcWj/POajh5LhkezXgaH2S+xap+ZypBqxAnQU7hnEA9wtOLa8AxSorAe
-         BMW1NkuHQfCPhME+PobqOY3VJs4wy84sK8wnRBPonQpdmWtaL64aifT8pxSJJu6wtcTP
-         SMSA9jktnA3QrCRW4smh1VQNf6qxyHgxiLdwt6kgeHlJkZjLtPBEehnDOyrekENONzWI
-         zg+A==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :content-transfer-encoding;
+        bh=92J1PAJz+AOLAKU9NMMs9ZwM2Wd8ruhklWSBisC2hMc=;
+        b=telasu5o0XspEjNLkdvSRFkbNwsmhX82W5yjXr+/InwW7rLs+SEZ3O1TRgcFmilOyJ
+         X2lJlgCWHRgRHUr3XJJ3QCmpdagZgyl2PW6YpUI8F8wpkDYaKwxuJH2I+GZdRKO+ifNi
+         TWXq6fXL4jLQfyUjKgjuEMMPF22vIyxceCkPs6Fm58HXSbE70RSaCrOg0dsgKcDG5Z2r
+         HhCQd3+yeB1Rd0alJKfZiJbxk/FKXCiAVidUEVo6ID+SLsuJi0eHAM+QYVuo431uxKfD
+         da2lt8b59ZsHx71DzleozP1Dftg9bN7ZqLibua0qChFskWajap5OMv+XLi3bJfbbk0rJ
+         RkTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=q0jESGDJuKBF/wwstpF++At7ApAGR+UpBkxEOaUQQtY=;
-        b=H6KilvAWAray6RTw1qp84veF1lBP+5CIDCYOWSr8pPclFue2DgZEFDIlKtzO1j2sdZ
-         C1ofqvgCiEqQsKwM3SSjjx9BrdeNiC4zOSigBa1QjcJI6cFQ00R52jLQ7Pymmqptd2s+
-         +3hg0HJusZASvf+IUy0WwQuj1eouT69ChHKewZ1zPOhMaNdVz6CVKnXxMgJFxqtaDd8T
-         o0WQ6JNPr6iV+k4t5MfM8M/pAKVcs5mg1hQtyBELf/IBqlYH6ygJ1iDgSqCLP6X8urYM
-         lVgy+0cVsTulBw27tGXZAmIIf+x4tTxILr+wGRmHLRbftZug+kojbVWI31hidYCtArCi
-         N7bw==
-X-Gm-Message-State: AOAM531xO3q+3/lY3Ysfs37Ha+A1yQ1Wlnpuc6C5l4Mbx4urjyJLkGtB
-        V+pmODWm7NwvcdxmbiDrOPpmwa945ye83aQXeCdkKQ==
-X-Google-Smtp-Source: ABdhPJzSjBsc+VTH+dHCsUMoKiLFSM7Bl6Fd6QQ3bN2rvEMnDfYwHVKOSPoc7zMSfV2kHDixgN2fsQ9cRd4NtY/Rr/A=
-X-Received: by 2002:ae9:e64d:: with SMTP id x13mr41911667qkl.464.1609110451170;
- Sun, 27 Dec 2020 15:07:31 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:content-transfer-encoding;
+        bh=92J1PAJz+AOLAKU9NMMs9ZwM2Wd8ruhklWSBisC2hMc=;
+        b=FJxe+OJ3h1msBlQiBjlSrFpKxoYMHGhrHZMXejh95SYu3NvFY+ieoqQtidrmOytUTt
+         tT5mZ/zeTDR/9kCGkCCKQHkv+URPGvOBdJnfV+oT22B6Xiws2+lbl75ilDC2n0pOMffn
+         zT1ASfsdMYAsTPSc8CuiCX530PxC4eYmwPVPT9ZXB1p18jP6wyV8/KJOH6sq5uKjpzbE
+         gpV7I8UIDcKdpht+lO1anscK7fIlNLrJ4JSWW9UvngWBNbpFpF+Qn0j1aQZtM7yG/20p
+         tynpZS1Q83Smec1ntJwFLbrq4lZzk6wMdGbBdEvoAFvc979T7e3oJj3RQFRANwCXcA+d
+         8YAQ==
+X-Gm-Message-State: AOAM530Ivynum+vBdyvfLVa5f3zX4uLeMvJ/AURAaS6pbRfVjqPqix7I
+        8Sl8y0rrDXZ0plTRw41EJw==
+X-Google-Smtp-Source: ABdhPJzTjr+4WSqcHDWtRSpkXAW4FRekrOotvyjBvh3n1Qm8SN8N9ah2kIvXHCF8fjrYP8m64+Wrqg==
+X-Received: by 2002:a05:6000:1043:: with SMTP id c3mr48782230wrx.34.1609140217627;
+        Sun, 27 Dec 2020 23:23:37 -0800 (PST)
+Received: from localhost.localdomain ([46.53.248.233])
+        by smtp.gmail.com with ESMTPSA id r13sm54863995wrs.6.2020.12.27.23.23.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Dec 2020 23:23:36 -0800 (PST)
+Date:   Mon, 28 Dec 2020 10:23:35 +0300
+From:   Alexey Dobriyan <adobriyan@gmail.com>
+To:     dmitry.torokhov@gmail.com
+Cc:     linux-input@vger.kernel.org, po-hsu.lin@canonical.com
+Subject: [PATCH] input, i8042: unbreak Pegatron C15B
+Message-ID: <20201228072335.GA27766@localhost.localdomain>
 MIME-Version: 1.0
-References: <20201219062336.72568-1-roderick@gaikai.com> <20201219062336.72568-13-roderick@gaikai.com>
- <20201227000813.axo7h2tsaa4eqqbr@fastboi.localdomain>
-In-Reply-To: <20201227000813.axo7h2tsaa4eqqbr@fastboi.localdomain>
-From:   Roderick Colenbrander <roderick@gaikai.com>
-Date:   Sun, 27 Dec 2020 15:07:20 -0800
-Message-ID: <CANndSKmRswAAJKS9tkFoiskaerwkeFbPzSfR1wmtx3iF8Wr-2g@mail.gmail.com>
-Subject: Re: [PATCH 12/13] HID: playstation: DualSense set LEDs to default
- player id.
-To:     =?UTF-8?Q?Samuel_=C4=8Cavoj?= <sammko@sammserver.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, Chris Ye <lzye@google.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Dec 26, 2020 at 4:08 PM Samuel =C4=8Cavoj <sammko@sammserver.com> w=
-rote:
->
-> Hi Roderick,
->
-> this one is very much just a nitpick, yet not completely pointless.
->
-> On 18.12.2020 22:23, Roderick Colenbrander wrote:
-> > @@ -837,8 +859,8 @@ static void dualsense_output_worker(struct work_str=
-uct *work)
-> >       }
-> >
-> >       if (ds->update_player_leds) {
-> > -             r->valid_flag1 |=3D DS_OUTPUT_VALID_FLAG1_PLAYER_INDICATO=
-R_CONTROL_ENABLE;
-> > -             r->player_leds =3D ds->player_leds_state;
-> > +             common->valid_flag1 |=3D DS_OUTPUT_VALID_FLAG1_PLAYER_IND=
-ICATOR_CONTROL_ENABLE;
-> > +             common->player_leds =3D ds->player_leds_state;
->
-> This change should be merged into the previous patch, as it doesn't
-> compile without it (typo, I suppose). Could lead to annoyment during
-> git bisect and all that.
->
+g++ reports
 
-Yep that doesn't belong here. Rebase artifact and I didn't compile
-that particular patch after the fact apparently... Will run a 'rebase
--x' with a compile script on the next revision to make sure nothing
-got messed up...
+	drivers/input/serio/i8042-x86ia64io.h:225:3: error: ‘.matches’ designator used multiple times in the same initializer list
 
-Thanks,
-Roderick
+C99 semantics is that last duplicated initialiser wins,
+so DMI entry gets overwritten.
+
+Fixes: a48491c65b51 ("Input: i8042 - add ByteSpeed touchpad to noloop table")
+Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+---
+
+ drivers/input/serio/i8042-x86ia64io.h |    2 ++
+ 1 file changed, 2 insertions(+)
+
+--- a/drivers/input/serio/i8042-x86ia64io.h
++++ b/drivers/input/serio/i8042-x86ia64io.h
+@@ -219,6 +219,8 @@ static const struct dmi_system_id __initconst i8042_dmi_noloop_table[] = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "PEGATRON CORPORATION"),
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "C15B"),
+ 		},
++	},
++	{
+ 		.matches = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "ByteSpeed LLC"),
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "ByteSpeed Laptop C15B"),
