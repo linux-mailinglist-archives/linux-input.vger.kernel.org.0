@@ -2,127 +2,346 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A14152E71A2
-	for <lists+linux-input@lfdr.de>; Tue, 29 Dec 2020 16:14:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D4572E7222
+	for <lists+linux-input@lfdr.de>; Tue, 29 Dec 2020 17:11:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726203AbgL2PLr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 29 Dec 2020 10:11:47 -0500
-Received: from mail2.protonmail.ch ([185.70.40.22]:39687 "EHLO
-        mail2.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726388AbgL2PLq (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 29 Dec 2020 10:11:46 -0500
-X-Greylist: delayed 168421 seconds by postgrey-1.27 at vger.kernel.org; Tue, 29 Dec 2020 10:11:44 EST
-Date:   Tue, 29 Dec 2020 15:10:56 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1609254663;
-        bh=XSM9PwOX16dnP2aXHQZF2CvC5BxmrLpSnvGzD8u4+0Y=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=wEcA2k64Z9cAkNjJE/AXweLSZVuc7d2s2x7DYaH83Hi6E1P4/0Yv8M545S+fQyVS+
-         VbVwzjydqlodvvcUx9h8++qJk3Xvas3YNMC3V2AuT/DpSDS4NoT9oD4lLQbxvweQ+/
-         XPUZE0VaOKveeB6TLkZ3UxW7+ZSxATEj1Uojlo8M=
-To:     Roderick Colenbrander <roderick@gaikai.com>
-From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Chris Ye <lzye@google.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Subject: Re: [PATCH 13/13] HID: playstation: report DualSense hardware and firmware version.
-Message-ID: <yne0QXip_EgCtHIReHhKV2hveYKw4ct6QlQbHSRDBaI0tfcaMEt7s_-fseNx7vho_x_x3nGeqbO_uueXvMkblw8VXx9hNXQ_vFug-rdVWWo=@protonmail.com>
-In-Reply-To: <CANndSK=v53UMTLrV8YSho2FRJ9_ZAWer4SmiOC0RS_pvf-bwVQ@mail.gmail.com>
-References: <20201219062336.72568-1-roderick@gaikai.com> <20201219062336.72568-14-roderick@gaikai.com> <Wrry37udGNtUwRvYnSoet8ychKwk8YeD9NTEIjkfIMtrSmCXOc9h4oLcm5Uq77JV1AIgvP13uwxvXYuNAQF0jO_ZVp2M932WAPKQB5VdYGc=@protonmail.com> <CANndSKn8xFGR3Y7x3rXxjhcNn89tt55o+RyvZkTp-aMzbF-JcA@mail.gmail.com> <CANndSKmch6bdv0N8qUFdAgKBqi50Y11kdK4EFm63xr4Kct5D=A@mail.gmail.com> <3lVD85P15aERBMBIFGdOJT7p4Y8XB0pZREzvTKNJ-OX-Wt7V_pkfwGzC1h_8xboI0UA18rXrh4Ye23kFVeF1udP8FjdGoi3dMlNiE74aCN8=@protonmail.com> <CANndSK=v53UMTLrV8YSho2FRJ9_ZAWer4SmiOC0RS_pvf-bwVQ@mail.gmail.com>
+        id S1726111AbgL2QLJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 29 Dec 2020 11:11:09 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54188 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726114AbgL2QLJ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 29 Dec 2020 11:11:09 -0500
+Received: from archlinux (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5530720708;
+        Tue, 29 Dec 2020 16:10:25 +0000 (UTC)
+Date:   Tue, 29 Dec 2020 16:10:22 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Drop unnecessary *-supply schemas
+ properties
+Message-ID: <20201229161022.2df10815@archlinux>
+In-Reply-To: <20201221234659.824881-1-robh@kernel.org>
+References: <20201221234659.824881-1-robh@kernel.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-2020. december 28., h=C3=A9tf=C5=91 23:45 keltez=C3=A9ssel, Roderick Colenb=
-rander =C3=ADrta:
+On Mon, 21 Dec 2020 16:46:59 -0700
+Rob Herring <robh@kernel.org> wrote:
 
-> On Sun, Dec 27, 2020 at 2:38 PM Barnab=C3=A1s P=C5=91cze pobrn@protonmail=
-.com wrote:
->
-> > 2020.  december 27., vas=C3=A1rnap 23:27 keltez=C3=A9ssel, Roderick Col=
-enbrander =C3=ADrta:
-> >
-> > > [...]
-> > >
-> > > > > > -         ret =3D sysfs_create_group(&hdev->dev.kobj, &ps_devic=
-e_attribute_group);
-> > > > > >
-> > > > > >
-> > > > >
-> > > > > It's a minor thing, but I think `device_{add,remove}_group()` wou=
-ld be better
-> > > > > here in the sense that it expresses the fact that the group is ad=
-ded to a device,
-> > > > > not just any object better.
-> > > >
-> > > > Agreed, that's nicer I wasn't aware of it. I try to follow what oth=
-er
-> > > > hid drivers do and they all used the kobj directly, which honestly
-> > > > felt nasty. Will change it to this.
-> > >
-> > > Actually devm_device_add_group seems to be even nicer. Surprisingly i=
-t
-> > > isn't widely used yet.
-> > > Roderick
-> >
-> > Well, indeed, although I believe that shouldn't be used here. Consider
-> > what happens if the hid-playstation module is unloaded. The attributes
-> > of the HID device will not be unregistered, but the backing functions/e=
-tc.
-> > are unloaded, so reading/writing them will have undesirable effects - I=
- imagine.
-> > So in either case, you'll need to use `[devm_]device_remove_group()`, a=
-nd for
-> > that reason I think using the devm_* variant is less efficient.
-> > Please note, that I am not 100% sure this hypothesis is correct, but I'=
-m pretty sure.
-> > Regards,
-> > Barnab=C3=A1s P=C5=91cze
->
-> I did some more digging into 'devm_device_add_group' as I was curious.
-> It is widely used for touchscreen drivers apparently and some other
-> devices and generally used from 'probe' as you would expect. None of
-> the drivers I found call devm_device_remove_group. Though, none of the
-> drivers use HID.
->
-> I tried using the call and it seems to work fine even after driver
-> unloads/reloads without a 'devm_device_remove_group' call. I don't
-> believe any sysfs entries are kept around (also based on watching the
-> contents of the sysfs directory for the device). If they were I'm sure
-> the kernel would have thrown some errors during a future
-> 'devm_device_add_group' call as you know sysfs gets quite unhappy if
-> you added a duplicate node.
->
-> This makes me believe it is getting cleaned up, but I'm not sure how.
-> I suspect it happens when the HID driver is unregistered
-> (hid_unregister_driver) from the bus, which follows a bus rescan. When
-> the driver is removed, device_driver_detach is called, which triggers
-> a lot of cleanup logic in 'device_driver_release_internal'. I haven't
-> traced this call, but I think its call 'devres_release_all(dev)' is
-> what is doing the magic.
->
-> Any thoughts?
+> *-supply properties are always a single phandle, so binding schemas
+> don't need a type $ref nor 'maxItems'.
+> 
+> A meta-schema check for this is pending once these existing cases are
+> fixed.
+> 
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-iio@vger.kernel.org
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> #for-iio
 
-I also did some tests and it seems you're right, I was under the impression
-that "device managed" resources are tied to the lifetime of the device,
-and are not released when the driver unbinds, but this assumptions seems
-to be false and device managed resources are, in fact, released when a driv=
-er
-detaches so sorry for making you take this detour into investigating it.
+> ---
+>  Documentation/devicetree/bindings/display/bridge/anx6345.yaml | 2 --
+>  .../devicetree/bindings/display/bridge/ite,it6505.yaml        | 2 --
+>  .../devicetree/bindings/display/bridge/lvds-codec.yaml        | 3 +--
+>  Documentation/devicetree/bindings/display/bridge/ps8640.yaml  | 2 --
+>  .../devicetree/bindings/display/bridge/simple-bridge.yaml     | 1 -
+>  .../bindings/display/bridge/thine,thc63lvd1024.yaml           | 1 -
+>  .../devicetree/bindings/display/bridge/toshiba,tc358775.yaml  | 2 --
+>  Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml   | 4 +---
+>  .../devicetree/bindings/iio/humidity/ti,hdc2010.yaml          | 3 +--
+>  .../devicetree/bindings/input/fsl,mpr121-touchkey.yaml        | 3 +--
+>  .../devicetree/bindings/input/touchscreen/edt-ft5x06.yaml     | 3 +--
+>  .../devicetree/bindings/media/i2c/maxim,max9286.yaml          | 1 -
+>  Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml     | 3 ---
+>  Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml  | 3 ---
+>  Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml  | 3 ---
+>  Documentation/devicetree/bindings/mfd/st,stmfx.yaml           | 3 +--
+>  .../devicetree/bindings/regulator/anatop-regulator.yaml       | 1 -
+>  17 files changed, 6 insertions(+), 34 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/anx6345.yaml b/Documentation/devicetree/bindings/display/bridge/anx6345.yaml
+> index 8c0e4f285fbc..fccd63521a8c 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/anx6345.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/anx6345.yaml
+> @@ -26,11 +26,9 @@ properties:
+>      description: GPIO connected to active low reset
+>  
+>    dvdd12-supply:
+> -    maxItems: 1
+>      description: Regulator for 1.2V digital core power.
+>  
+>    dvdd25-supply:
+> -    maxItems: 1
+>      description: Regulator for 2.5V digital core power.
+>  
+>    ports:
+> diff --git a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> index efbb3d0117dc..02cfc0a3b550 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/ite,it6505.yaml
+> @@ -35,11 +35,9 @@ properties:
+>      maxItems: 1
+>  
+>    ovdd-supply:
+> -    maxItems: 1
+>      description: I/O voltage
+>  
+>    pwr18-supply:
+> -    maxItems: 1
+>      description: core voltage
+>  
+>    interrupts:
+> diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> index e5e3c72630cf..66a14d60ce1d 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> @@ -79,8 +79,7 @@ properties:
+>        The GPIO used to control the power down line of this device.
+>      maxItems: 1
+>  
+> -  power-supply:
+> -    maxItems: 1
+> +  power-supply: true
+>  
+>  required:
+>    - compatible
+> diff --git a/Documentation/devicetree/bindings/display/bridge/ps8640.yaml b/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
+> index 7e27cfcf770d..763c7909473e 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/ps8640.yaml
+> @@ -35,11 +35,9 @@ properties:
+>      description: GPIO connected to active low reset.
+>  
+>    vdd12-supply:
+> -    maxItems: 1
+>      description: Regulator for 1.2V digital core power.
+>  
+>    vdd33-supply:
+> -    maxItems: 1
+>      description: Regulator for 3.3V digital core power.
+>  
+>    ports:
+> diff --git a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+> index 3ddb35fcf0a2..64e8a1c24b40 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
+> @@ -60,7 +60,6 @@ properties:
+>      description: GPIO controlling bridge enable
+>  
+>    vdd-supply:
+> -    maxItems: 1
+>      description: Power supply for the bridge
+>  
+>  required:
+> diff --git a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
+> index 469ac4a34273..3d5ce08a5792 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.yaml
+> @@ -74,7 +74,6 @@ properties:
+>      description: Power down GPIO signal, pin name "/PDWN", active low.
+>  
+>    vcc-supply:
+> -    maxItems: 1
+>      description:
+>        Power supply for the TTL output, TTL CLOCKOUT signal, LVDS input, PLL and
+>        digital circuitry.
+> diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
+> index fd3113aa9ccd..b5959cc78b8d 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358775.yaml
+> @@ -28,11 +28,9 @@ properties:
+>      description: i2c address of the bridge, 0x0f
+>  
+>    vdd-supply:
+> -    maxItems: 1
+>      description: 1.2V LVDS Power Supply
+>  
+>    vddio-supply:
+> -    maxItems: 1
+>      description: 1.8V IO Power Supply
+>  
+>    stby-gpios:
+> diff --git a/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml b/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml
+> index 6a991e9f78e2..f04084fae5e8 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml
+> @@ -16,9 +16,7 @@ properties:
+>      enum:
+>        - lltc,ltc2496
+>  
+> -  vref-supply:
+> -    description: phandle to an external regulator providing the reference voltage
+> -    $ref: /schemas/types.yaml#/definitions/phandle
+> +  vref-supply: true
+>  
+>    reg:
+>      description: spi chipselect number according to the usual spi bindings
+> diff --git a/Documentation/devicetree/bindings/iio/humidity/ti,hdc2010.yaml b/Documentation/devicetree/bindings/iio/humidity/ti,hdc2010.yaml
+> index 7037f82ec753..88384b69f917 100644
+> --- a/Documentation/devicetree/bindings/iio/humidity/ti,hdc2010.yaml
+> +++ b/Documentation/devicetree/bindings/iio/humidity/ti,hdc2010.yaml
+> @@ -22,8 +22,7 @@ properties:
+>        - ti,hdc2010
+>        - ti,hdc2080
+>  
+> -  vdd-supply:
+> -    maxItems: 1
+> +  vdd-supply: true
+>  
+>    reg:
+>      maxItems: 1
+> diff --git a/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml b/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
+> index 378a85c09d34..878464f128dc 100644
+> --- a/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
+> +++ b/Documentation/devicetree/bindings/input/fsl,mpr121-touchkey.yaml
+> @@ -31,8 +31,7 @@ properties:
+>    interrupts:
+>      maxItems: 1
+>  
+> -  vdd-supply:
+> -    maxItems: 1
+> +  vdd-supply: true
+>  
+>    linux,keycodes:
+>      minItems: 1
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
+> index 4ce109476a0e..bfc3a8b5e118 100644
+> --- a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
+> @@ -55,8 +55,7 @@ properties:
+>  
+>    wakeup-source: true
+>  
+> -  vcc-supply:
+> -    maxItems: 1
+> +  vcc-supply: true
+>  
+>    gain:
+>      description: Allows setting the sensitivity in the range from 0 to 31.
+> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> index 9ea827092fdd..68ee8c7d9e79 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> @@ -40,7 +40,6 @@ properties:
+>  
+>    poc-supply:
+>      description: Regulator providing Power over Coax to the cameras
+> -    maxItems: 1
+>  
+>    enable-gpios:
+>      description: GPIO connected to the \#PWDN pin with inverted polarity
+> diff --git a/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml b/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
+> index 0df0334d2d0d..bb3528315f20 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
+> @@ -39,15 +39,12 @@ properties:
+>  
+>    vana-supply:
+>      description: Analogue voltage supply (VANA), sensor dependent.
+> -    maxItems: 1
+>  
+>    vcore-supply:
+>      description: Core voltage supply (VCore), sensor dependent.
+> -    maxItems: 1
+>  
+>    vio-supply:
+>      description: I/O voltage supply (VIO), sensor dependent.
+> -    maxItems: 1
+>  
+>    clocks:
+>      description: External clock to the sensor.
+> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
+> index 1a3590dd0e98..eb12526a462f 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
+> @@ -37,15 +37,12 @@ properties:
+>  
+>    vdddo-supply:
+>      description: Chip digital IO regulator (1.8V).
+> -    maxItems: 1
+>  
+>    vdda-supply:
+>      description: Chip analog regulator (2.7V).
+> -    maxItems: 1
+>  
+>    vddd-supply:
+>      description: Chip digital core regulator (1.12V).
+> -    maxItems: 1
+>  
+>    flash-leds:
+>      description: See ../video-interfaces.txt
+> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+> index f697e1a20beb..a66acb20d59b 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx274.yaml
+> @@ -33,15 +33,12 @@ properties:
+>  
+>    vana-supply:
+>      description: Sensor 2.8 V analog supply.
+> -    maxItems: 1
+>  
+>    vdig-supply:
+>      description: Sensor 1.8 V digital core supply.
+> -    maxItems: 1
+>  
+>    vddl-supply:
+>      description: Sensor digital IO 1.2 V supply.
+> -    maxItems: 1
+>  
+>    port:
+>      type: object
+> diff --git a/Documentation/devicetree/bindings/mfd/st,stmfx.yaml b/Documentation/devicetree/bindings/mfd/st,stmfx.yaml
+> index 888ab4b5df45..19e9afb385ac 100644
+> --- a/Documentation/devicetree/bindings/mfd/st,stmfx.yaml
+> +++ b/Documentation/devicetree/bindings/mfd/st,stmfx.yaml
+> @@ -26,8 +26,7 @@ properties:
+>  
+>    drive-open-drain: true
+>  
+> -  vdd-supply:
+> -    maxItems: 1
+> +  vdd-supply: true
+>  
+>    pinctrl:
+>      type: object
+> diff --git a/Documentation/devicetree/bindings/regulator/anatop-regulator.yaml b/Documentation/devicetree/bindings/regulator/anatop-regulator.yaml
+> index e7b3abe30363..0a66338c7e5a 100644
+> --- a/Documentation/devicetree/bindings/regulator/anatop-regulator.yaml
+> +++ b/Documentation/devicetree/bindings/regulator/anatop-regulator.yaml
+> @@ -59,7 +59,6 @@ properties:
+>      description: u32 value representing regulator enable bit offset.
+>  
+>    vin-supply:
+> -    $ref: '/schemas/types.yaml#/definitions/phandle'
+>      description: input supply phandle.
+>  
+>  required:
 
-
-Regards,
-Barnab=C3=A1s P=C5=91cze
