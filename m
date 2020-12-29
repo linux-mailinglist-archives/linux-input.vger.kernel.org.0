@@ -2,75 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A7182E72F6
-	for <lists+linux-input@lfdr.de>; Tue, 29 Dec 2020 19:19:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BE532E7315
+	for <lists+linux-input@lfdr.de>; Tue, 29 Dec 2020 19:51:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726203AbgL2ST1 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Tue, 29 Dec 2020 13:19:27 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35500 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726196AbgL2ST1 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 29 Dec 2020 13:19:27 -0500
-Received: from archlinux (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 27C71207AB;
-        Tue, 29 Dec 2020 18:18:45 +0000 (UTC)
-Date:   Tue, 29 Dec 2020 18:18:41 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     Zheng Yongjun <zhengyongjun3@huawei.com>, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] hid/hid-sensor-custom: convert comma to semicolon
-Message-ID: <20201229181841.6d63213a@archlinux>
-In-Reply-To: <df1481e15c591106ba75ed85289b12507cbc8c49.camel@linux.intel.com>
-References: <20201214133212.3569-1-zhengyongjun3@huawei.com>
-        <df1481e15c591106ba75ed85289b12507cbc8c49.camel@linux.intel.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S1726230AbgL2Suv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 29 Dec 2020 13:50:51 -0500
+Received: from mail-40133.protonmail.ch ([185.70.40.133]:19234 "EHLO
+        mail-40133.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726218AbgL2Suv (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 29 Dec 2020 13:50:51 -0500
+Date:   Tue, 29 Dec 2020 18:49:58 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail; t=1609267808;
+        bh=Dxzz1Onh+CnJaur9pe276Ea+HxqDE9zAQNF/CmtHFYQ=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+        b=plYy2CTZwYFjmq3fPQU3GaTr5wtHwqkIMSaxb6D2K6SlJ1a9a+hj5y4VRh03GjKgB
+         Pmkw0ZA8Lsy6qwK3Uvsm8Fs1DMEtMOIHP7AEC4cv6fGnHL2EDDWwLaXBcLmYC2sGAd
+         nyBolH4QeKqgjQdXQ+Ix2cbT1HVzOp1f5gk5fa70=
+To:     Roderick Colenbrander <roderick@gaikai.com>
+From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Chris Ye <lzye@google.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Subject: Re: [PATCH 11/13] HID: playstation: add DualSense player LEDs support.
+Message-ID: <Ee06NX3a3IlP-SwuhM_nbxoV4mALNgJcvoAlILMpBo0kiW1PTpawk7n7Fy08PzWbyY7NAGprXifN6peWr8ilHYbYKKDd2u0YkWLJMtdymcs=@protonmail.com>
+In-Reply-To: <CANndSKkjhEDU0eB=J_F0CCZn2F=Jy3UMzBKOgJaNvecqRtAfnQ@mail.gmail.com>
+References: <20201219062336.72568-1-roderick@gaikai.com> <20201219062336.72568-12-roderick@gaikai.com> <8ROOgrBVvXav7SOnZgBVtvZ4QKubyktYJ2WsauoAH22lewKj2-Rp9a-uEZyxhItvF3Q7pp8hKZ4etl0jgiD-G3XkbL1aM9z8cRNsHHmGN9A=@protonmail.com> <CANndSKkjhEDU0eB=J_F0CCZn2F=Jy3UMzBKOgJaNvecqRtAfnQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
+        autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+        mailout.protonmail.ch
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 14 Dec 2020 06:13:58 -0800
-Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> wrote:
+2020. december 28., h=C3=A9tf=C5=91 23:02 keltez=C3=A9ssel, Roderick Colenb=
+rander =C3=ADrta:
 
-> On Mon, 2020-12-14 at 21:32 +0800, Zheng Yongjun wrote:
-> > Replace a comma between expression statements by a semicolon.
-> > 
-> > Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>  
-> Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Applied to the togreg branch of iio.git and pushed out as testing for
-the autobuilders to see if they can break it.
+> [...]
+> > Furthermore, I don't quite see the purpose of this function. The LED co=
+re
+> > can handle if no brightness_get() callback is provided. And since this
+> > function returns just a cached value, I fail to see how it is different=
+ from
+> > the default behaviour of the LED core, which is returning the last brig=
+htness
+> > value. Am I missing something?
+>
+> Not all values may get set through sysfs. For example in the next
+> patch (12/13) the driver sets a default player LED mask value directly
+> and may set e.g. 0x1f or so. This could use the LED APIs, but the LED
+> framework doesn't have any group LED support (besides the new
+> multicolor class) and as such would get scheduled across multiple
+> output reports.
+> [...]
 
-Thanks,
-
-Jonathan
-
-> 
-> > ---
-> >  drivers/hid/hid-sensor-custom.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-
-> > sensor-custom.c
-> > index 4d25577a8573..6c47a2e7623d 100644
-> > --- a/drivers/hid/hid-sensor-custom.c
-> > +++ b/drivers/hid/hid-sensor-custom.c
-> > @@ -728,7 +728,7 @@ static int hid_sensor_custom_dev_if_add(struct
-> > hid_sensor_custom *sensor_inst)
-> >  
-> >         sensor_inst->custom_dev.minor = MISC_DYNAMIC_MINOR;
-> >         sensor_inst->custom_dev.name = dev_name(&sensor_inst->pdev-  
-> > >dev);  
-> > -       sensor_inst->custom_dev.fops = &hid_sensor_custom_fops,
-> > +       sensor_inst->custom_dev.fops = &hid_sensor_custom_fops;
-> >         ret = misc_register(&sensor_inst->custom_dev);
-> >         if (ret) {
-> >                 kfifo_free(&sensor_inst->data_fifo);  
-> 
-> 
-
+You're right, I've missed that.
