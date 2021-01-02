@@ -2,159 +2,118 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC2C62E889B
-	for <lists+linux-input@lfdr.de>; Sat,  2 Jan 2021 22:05:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D5E4E2E8906
+	for <lists+linux-input@lfdr.de>; Sat,  2 Jan 2021 23:33:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726689AbhABVFD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 2 Jan 2021 16:05:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45856 "EHLO
+        id S1726794AbhABWcP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 2 Jan 2021 17:32:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726671AbhABVFD (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 2 Jan 2021 16:05:03 -0500
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A08CDC061573;
-        Sat,  2 Jan 2021 13:04:22 -0800 (PST)
-Received: by mail-pg1-x532.google.com with SMTP id 30so11569161pgr.6;
-        Sat, 02 Jan 2021 13:04:22 -0800 (PST)
+        with ESMTP id S1726733AbhABWcO (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 2 Jan 2021 17:32:14 -0500
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF680C061573
+        for <linux-input@vger.kernel.org>; Sat,  2 Jan 2021 14:31:33 -0800 (PST)
+Received: by mail-pl1-x629.google.com with SMTP id y8so12458291plp.8
+        for <linux-input@vger.kernel.org>; Sat, 02 Jan 2021 14:31:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=batTpJaMOL1FFI0uGtWA1DfsObBuHXQtfvMMJL5nuPY=;
-        b=BlTP4nFqXWxo/gFNPnN/QvF9cqLiYKCC7FFH+1TzF5gx+fWXbhg54L0adxijxJaHF0
-         rzYoKqe7tQPPSksA2yS8GDUajlgiQMUXdCCA44FSwLVbmFr4iLLPl62akZF60SZK6whW
-         um4XM+W+RNaAQerGS+DSnY2O79SOPu5ayYRMRaqOMIDzFmKBa2k0CSqc8pt1VXY44JxZ
-         FOc7zza3W5mfhqn4iOvuRTACBbr4aD3CMDECppp3LaKU0tsW2PCDsC9HAaJuKKZP68qk
-         SzNnXIqwTlmx0YLD8AVmF/Yf9FpyEq8fr6BuPV26Zyaop4r8jioc6Ox/hhupTSW0zmlL
-         TAfw==
+        d=gaikai-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XU/qOQ78RB39CfeMZQLPcThijwmIUgO34NtQGNaeNOY=;
+        b=mBpJWaAqeRDb86TdsoTkHvM61Uwx2M5G6pWWk4sp9bZWqeCcGIYXnEs55rceNQvR3L
+         TQbbwITNsDzOvAs9l0QpU4afTYk5LwIellMTkwOdWbtH2QuboHeLEOrWSMKgaMJ0jdHy
+         2hajVATXXhoJnKD38s/5F63O9jSu0vay+lxTptVshCuKG/cxqNyqYBmc8hd0DIMIhjmP
+         btAGSL31+voDSbN48Rt60GFyfU2KOpkYxyObEQqqicZCsETrH9/IVQM+mZrNLQ87ynv2
+         Tjkr150XX5hOP/PPCizNizkfVU0PNqbLyp+pTwK6vrZo6/D8dT5vVlb6dDGNKatiy10w
+         pqLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=batTpJaMOL1FFI0uGtWA1DfsObBuHXQtfvMMJL5nuPY=;
-        b=YAnkoxkOjqCyDyFuCpG/YkIWKJJFdxsZTxwR+yuBXzKliK832SiSz4fUmkn/b9cbgB
-         12zOM0zmpJFDBqopWkCor+vJKQEZ8qNfdZhhuYkIWXH9OImAI0c7p4CDoxBe6ee/RTAV
-         NMtb16wU8qlvZ7+HXuBs02KFDAYHpkAITLd1ldu0Mru7s0ctL3sYfq1SHDj+tRmLf/zM
-         K6Sg7oClWi8XoLvBTaIqRo8XMKGyf97gcPoI2Ps3y+vnEV8FSa0I0UE059mr+IRTxUQr
-         /FSCqvcpr0RibYH6uLuVaWUSrave4K7AtiSrPCeiJCcP48qr2KScxD8k4+97hw/vWfD5
-         OTFA==
-X-Gm-Message-State: AOAM533Wzk/xaNgZQFa8StrZsRDiOtMsuGR6o5GrxOLZwoEI6YAVBRFp
-        CgaQQ6NDDjQC3H3ZR5xs1LE=
-X-Google-Smtp-Source: ABdhPJyvzklQDstje9V+YroXzhRkM4BKP1nWETe4FmdNgNo3J1MTHjRg4+eJCWEkcsFAE0Px7S9Hqg==
-X-Received: by 2002:a63:5d3:: with SMTP id 202mr65071783pgf.286.1609621461908;
-        Sat, 02 Jan 2021 13:04:21 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id b22sm51049570pfo.163.2021.01.02.13.04.20
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XU/qOQ78RB39CfeMZQLPcThijwmIUgO34NtQGNaeNOY=;
+        b=jZ6jk/HXE5vRg8cwBHmEOgcpWCgvbNcMF2ZyFA7JPOxuhAv5Hput8vWzjuFvAevl1x
+         wyrkYzIanL3xlMPoYs6jBw0ryIN+Y/RM9QLFvdk10P+Qwzx+fCsO53Ucb2TlkM+hOxVL
+         ngaQm5exaKlzCXOPRqnCws5G4WBmIMY4Rd1Ix0C4E2ZrB5vZt1MWBSOd4JmgQcmwsRTI
+         dGMDh/8dyFnyMHWVYOV31gS+HuQFUq7Pes0Gjs6r9aoTEX52kYYeq5wz68U5LUqO3DtQ
+         wldYCWk0vNdQMLYYlFYNzqAJBlYHx4od0lk/AUPykHDMBRS5QEn7elpsyVBjxYO3iuVH
+         mVyg==
+X-Gm-Message-State: AOAM5323enNZKDLhuvcQJnkd9jlquAkRgc5TCoTl2IDR7VrnF0UV1vKV
+        OS0GTDYNaH99nfYvL/pPHO2xuw==
+X-Google-Smtp-Source: ABdhPJweFa2iBJkRGZ+I9mSHvfqUdtZHLCcP8++IqUqGGh2c2t8PH4pDCrh2RwbLpAe24ANkSoOxgA==
+X-Received: by 2002:a17:90b:1202:: with SMTP id gl2mr23773916pjb.123.1609626693383;
+        Sat, 02 Jan 2021 14:31:33 -0800 (PST)
+Received: from localhost.localdomain (cpe-76-87-77-78.socal.res.rr.com. [76.87.77.78])
+        by smtp.gmail.com with ESMTPSA id r20sm49537931pgb.3.2021.01.02.14.31.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Jan 2021 13:04:21 -0800 (PST)
-Date:   Sat, 2 Jan 2021 13:04:18 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Philip Chen <philipchen@chromium.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Dmitry Torokhov <dtor@chromium.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Douglas Anderson <dianders@chromium.org>,
-        Rajat Jain <rajatja@chromium.org>,
-        Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Simon Glass <sjg@chromium.org>, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: input: cros-ec-keyb: Add a new property
-Message-ID: <X/Df0uuclk1ZNOps@google.com>
-References: <20201221174751.1.I025fb861cd5fa0ef5286b7dce514728e9df7ae74@changeid>
- <X+rKPhJrQaykPxri@google.com>
- <CA+cxXh=HH-UAt747OYRwaaABdJpT8r=TvrYcFah7PQ1vHqYutg@mail.gmail.com>
+        Sat, 02 Jan 2021 14:31:32 -0800 (PST)
+From:   Roderick Colenbrander <roderick@gaikai.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, Chris Ye <lzye@google.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: [PATCH v2 00/13] HID: new driver for PS5 'DualSense' controller
+Date:   Sat,  2 Jan 2021 14:30:56 -0800
+Message-Id: <20210102223109.996781-1-roderick@gaikai.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+cxXh=HH-UAt747OYRwaaABdJpT8r=TvrYcFah7PQ1vHqYutg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Jan 02, 2021 at 11:39:34AM -0800, Philip Chen wrote:
-> Hi Dmitry,
-> 
-> Thanks for reviewing my patch over the holiday season.
-> Please check my CIL.
-> 
-> On Mon, Dec 28, 2020 at 10:18 PM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> >
-> > Hi Philip,
-> >
-> > On Mon, Dec 21, 2020 at 05:47:57PM -0800, Philip Chen wrote:
-> > > This patch adds a new property `google,custom-keyb-top-row` to the
-> > > device tree for the custom keyboard top row design.
-> >
-> > Why don't we use the property we have for the same purpose in atkbd.c?
-> > I.e. function-row-physmap?
-> >
-> Because this property serves a different purpose than function-row-physmap.
-> `function-row-physmap` basically links the scancode to the physical
-> position in the top row.
-> `google,custom-keyb-top-row` aims at specifying the board-specific
-> keyboard top row design associated with the action codes.
-> 
-> In x86 path, the board-specific keyboard top row design associated
-> with the action codes is exposed from coreboot to kernel through
-> "linux,keymap" acpi table.
-> When coreboot generates this acpi table, it asks EC to provide this
-> information, since we add the board-specific top-row-design in EC
-> codebase.
-> (E.g. https://chromium.googlesource.com/chromiumos/platform/ec/+/refs/heads/main/board/jinlon/board.c#396)
-> 
-> In ARM, we don't plan to involve EC in the vivaldi support stack.
-> So `google,custom-keyb-top-row` DT property is our replacement for the
-> board-specific top-row-design in x86 EC codebase.
+From: Roderick Colenbrander <roderick.colenbrander@sony.com>
 
-I disagree with this decision. We already have "linux,keymap" property
-that is supposed to hold accurate keymap for the device in question,
-there should be no need to introduce yet another property to adjust the
-keymap to reflect the reality. If a device uses "non classic" ChromeOS
-top row it should not be using the default keymap from
-arch/arm/boot/dts/cros-ec-keyboard.dtsi but supply its own. You can
-consider splitting the keymap into generic lower portion and the top row
-and moving them into an .h file so they can be easily reused.
+Hi,
 
-> 
-> > Also, instead of specifying keycodes in this array we should use
-> > combination of row and column identifying keys, like this:
-> >
-> >         function-row-physmap = <
-> >                 MATRIX_KEY(0x00, 0x02, KEY_F1),
-> >                 MATRIX_KEY(0x03, 0x02, KEY_F2),
-> >                 ...
-> >         >;
-> 
-> This mapping between row/column to function keycode is fixed for all
-> Chrome OS devices.
+I would like to share an updated version of the hid-playstation driver.
+This new revision is very similar to the original release, but with
+various small changes and minor improvements. Thanks to everyone who
+provided feedback through the mailing list or privately.
 
-*for now* The mapping for the rest of the keyboard has also stayed
-static, but we still did not hardcode this information in the driver but
-rather used DT property to pass it into the kernel.
+Changes since v1:
+- Export ps_devices table using MODULE_DEVICE_TABLE.
+- Uses 'width - 1' and 'height - 1' for touchpad ABS_MT_POSITION_X/Y.
+- Uses 'sysfs_emit' instead of 'snprintf' in sysfs show functions.
+- Switched to devm_device_add_group to manage attribute groups.
+- Changed player LED lookup to use pointer calculations instead of a loop.
+- Added readonly mute set_brightness call to silence ENOTSUP.
+- Lightbar is not dynamically allocated and now allocated as part of 'struct dualsense'
+- Size checking on hid_hw_raw_request for calibration, firmware and mac addrees info.
+- Replaced magic constants with defines e.g. for HID version or output report values.
+- Minor code changes e.g. const changes.
+- Uses container_of to retrieve 'struct ps_device' from 'struct dualsense'.
+- Added an explicit module_init/module_exit to clean up the player IDA.
 
-> So we don't really need to host this information in DT.
-> Instead, I plan to hardcode this information in cros_ec_keyb.c.
-> (Please see the array "top_row_key_pos[]" in my next patch: "[2/3]
-> Input: cros_ec_keyb - Support custom top-row keys".)
-> 
-> The only thing that could make the function-row-physmap file different
-> among boards is the number of top row keys.
-> But this information can be derived from the length of
-> `google,custom-keyb-top-row`.
-> So we don't need a separate DT property for it.
+Thanks,
 
-I am sorry, but I must insist. We need to have:
+Roderick Colenbrander
+Sony Interactive Entertainment, LLC
 
-- accurate keymap in linux,keymap property
-- a separate property describing location of top row keys in terms of
-  rows and columns (whether we reuse MATRIX_KEY or define another macro
-  I do not really care).
+Roderick Colenbrander (13):
+  HID: playstation: initial DualSense USB support.
+  HID: playstation: use DualSense MAC address as unique identifier.
+  HID: playstation: add DualSense battery support.
+  HID: playstation: add DualSense touchpad support.
+  HID: playstation: add DualSense accelerometer and gyroscope support.
+  HID: playstation: track devices in list.
+  HID: playstation: add DualSense Bluetooth support.
+  HID: playstation: add DualSense classic rumble support.
+  HID: playstation: add DualSense lightbar support
+  HID: playstation: add microphone mute support for DualSense.
+  HID: playstation: add DualSense player LEDs support.
+  HID: playstation: DualSense set LEDs to default player id.
+  HID: playstation: report DualSense hardware and firmware version.
 
-Thanks.
+ MAINTAINERS                   |    6 +
+ drivers/hid/Kconfig           |   20 +
+ drivers/hid/Makefile          |    1 +
+ drivers/hid/hid-ids.h         |    1 +
+ drivers/hid/hid-playstation.c | 1448 +++++++++++++++++++++++++++++++++
+ drivers/hid/hid-quirks.c      |    4 +
+ 6 files changed, 1480 insertions(+)
+ create mode 100644 drivers/hid/hid-playstation.c
 
 -- 
-Dmitry
+2.26.2
+
