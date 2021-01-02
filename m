@@ -2,82 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2C702E8682
-	for <lists+linux-input@lfdr.de>; Sat,  2 Jan 2021 06:57:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 510B12E86B8
+	for <lists+linux-input@lfdr.de>; Sat,  2 Jan 2021 09:00:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725764AbhABFzx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 2 Jan 2021 00:55:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41968 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725208AbhABFzw (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 2 Jan 2021 00:55:52 -0500
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59DEAC061573;
-        Fri,  1 Jan 2021 21:55:12 -0800 (PST)
-Received: by mail-pl1-x633.google.com with SMTP id j1so11789799pld.3;
-        Fri, 01 Jan 2021 21:55:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=iJZAqzKqZgcIsMRNmmvHW0lF2fkCdunCtBb6MpxtWhM=;
-        b=jinKG8gH+/HxGhNe7CcKomA1Ta5bARXabnrQLd4e+uei36RFubUkMCX4du3uiAxFDF
-         PDNdRX3j4/VlNSKtIOkFZ2+Pmv+5HTc2i/BXu5Jk8bTi+dvWdmOSaalcHNIZ8cwUALUI
-         kB2GwnyEg8bCCAp046uoC4PUFjh7l9x4W8HhJBg5iOLvTTu7e4MQiF6c/KiXEMUSoB7s
-         ZIZTKvidLuxPd8YV6m4R4ZH3N2UDF+1feXAN/xL4rfd7P4IbD0r8Tvy1iq+RLvxVg2I6
-         X8o5HiMcqyRVwuX+7s3y7vr0DUWTCFe6U+xSERrlgXdAYi4tRw6vltRSlpPv8sJF3Hgn
-         cSCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=iJZAqzKqZgcIsMRNmmvHW0lF2fkCdunCtBb6MpxtWhM=;
-        b=erkKQNi/I173h++gdKno41fCOdCH+tjXT031xLcXCUSdRx0XLOhtM5mluOnSvQPfJw
-         I06b9XDKWsixfneAJ0NsBLkSHZbbzYZExNGPHQ2GzZeqZ572OiSEKrSiH/Dpl3DRfzwG
-         tB3JmEF6SI5hE69oVhsNentHu+03X8Z9ZgF98LLsM2SjsZzCIoFg+j+gfnC6EeLALGt5
-         8VNBdpHqgA+uFPtDu5dfSVB2Df8eO2deO7zjAZP9Q6l9ska/m39Ual5oEaMHF9C9f5zH
-         smyv9x+XUnK2xNzATHYZFo0L8j8fGJHyYqhuptnucRD1RIsSfgMYyikjtA6oNn2DDt5Z
-         cuiw==
-X-Gm-Message-State: AOAM532UmBXWa+wWdMVyv75ObTfL9NGyFWXMie6+MmpbSqnW/43HYnw1
-        gH3Ey4LcZpJOUbfGwsRWC3v3vk07e3o=
-X-Google-Smtp-Source: ABdhPJwE/bgsV8V5R2xrSoKI96HszDccfTzvO2UfH6sPNeHp01IQLNWEVWGYBekoKQ5PUTv3b5mQNg==
-X-Received: by 2002:a17:902:b706:b029:dc:3817:4da5 with SMTP id d6-20020a170902b706b02900dc38174da5mr40202727pls.23.1609566911638;
-        Fri, 01 Jan 2021 21:55:11 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id b7sm38676966pff.96.2021.01.01.21.55.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Jan 2021 21:55:11 -0800 (PST)
-Date:   Fri, 1 Jan 2021 21:55:08 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Barry Song <song.bao.hua@hisilicon.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: ar1021 - use IRQ_NOAUTOEN flags to replace
+        id S1726253AbhABH65 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Sat, 2 Jan 2021 02:58:57 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2417 "EHLO
+        szxga03-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726210AbhABH65 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 2 Jan 2021 02:58:57 -0500
+Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.54])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4D7DkX4l3Pz5BrR;
+        Sat,  2 Jan 2021 15:57:08 +0800 (CST)
+Received: from dggemi760-chm.china.huawei.com (10.1.198.146) by
+ DGGEMM403-HUB.china.huawei.com (10.3.20.211) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Sat, 2 Jan 2021 15:58:14 +0800
+Received: from dggemi761-chm.china.huawei.com (10.1.198.147) by
+ dggemi760-chm.china.huawei.com (10.1.198.146) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2106.2; Sat, 2 Jan 2021 15:58:13 +0800
+Received: from dggemi761-chm.china.huawei.com ([10.9.49.202]) by
+ dggemi761-chm.china.huawei.com ([10.9.49.202]) with mapi id 15.01.2106.002;
+ Sat, 2 Jan 2021 15:58:13 +0800
+From:   "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+CC:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] Input: ar1021 - use IRQ_NOAUTOEN flags to replace
  disable_irq
-Message-ID: <X/AKvA8Wt0F6DjcU@google.com>
+Thread-Topic: [PATCH] Input: ar1021 - use IRQ_NOAUTOEN flags to replace
+ disable_irq
+Thread-Index: AQHW4MCESBb+gWALl0W0Bb/giVN9RqoTUAkAgACi5wA=
+Date:   Sat, 2 Jan 2021 07:58:13 +0000
+Message-ID: <0404c78f6be5434fbe9eab9539a2443d@hisilicon.com>
 References: <20210102042902.41664-1-song.bao.hua@hisilicon.com>
+ <X/AKvA8Wt0F6DjcU@google.com>
+In-Reply-To: <X/AKvA8Wt0F6DjcU@google.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.126.201.27]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210102042902.41664-1-song.bao.hua@hisilicon.com>
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Barry,
 
-On Sat, Jan 02, 2021 at 05:29:02PM +1300, Barry Song wrote:
-> disable_irq() after request_irq is unsafe as it gives a time gap which
-> irq can come before disable_irq(). IRQ_NOAUTOEN is the common way to
-> avoid enabling IRQ due to requesting IRQ.
 
-Actually it is OK for the ISR to fire before the input device is
-registered, input core allows that.
+> -----Original Message-----
+> From: Dmitry Torokhov [mailto:dmitry.torokhov@gmail.com]
+> Sent: Saturday, January 2, 2021 6:55 PM
+> To: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>
+> Cc: linux-input@vger.kernel.org; linux-kernel@vger.kernel.org
+> Subject: Re: [PATCH] Input: ar1021 - use IRQ_NOAUTOEN flags to replace
+> disable_irq
+> 
+> Hi Barry,
 
-What I would like to see is to allow passing something like
-IRQF_DISABLED to request_irq() so that we would not need neither
-irq_set_status_flags() nor disable_irq().
+Hi Dmitry,
+Thanks for your quick reply.
 
-Thanks.
+> 
+> On Sat, Jan 02, 2021 at 05:29:02PM +1300, Barry Song wrote:
+> > disable_irq() after request_irq is unsafe as it gives a time gap which
+> > irq can come before disable_irq(). IRQ_NOAUTOEN is the common way to
+> > avoid enabling IRQ due to requesting IRQ.
+> 
+> Actually it is OK for the ISR to fire before the input device is
+> registered, input core allows that.
+> 
 
--- 
-Dmitry
+Yep. probably the only issue left is that the code looks silly.
+It enables the interrupt in request_irq() automatically and
+disables it immediately. So a better way would be avoiding enabling
+the IRQ during request_irq().
+
+> What I would like to see is to allow passing something like
+> IRQF_DISABLED to request_irq() so that we would not need neither
+> irq_set_status_flags() nor disable_irq().
+> 
+
+IRQF_DISABLED has been deleted for many years since Linux kernel
+doesn't support interrupts enter while an irq handler is running
+any more. That flag used to work for forbidding all interrupts
+while  kernel was running in one hardIRQ to avoid IRQ races for
+kernel older than 2.6.32.
+
+Maybe we can invent a new flag like IRQF_NOAUTOEN for request_irq()?
+but right now all other drivers are using irq_set_status_flags
+(IRQ_NOAUTOEN) since this request flag doesn't exist.
+
+Do you think it is worth to add a new flag to replace many
+irq_set_status_flags(irq, IRQ_NOAUTOEN);
+request_irq();
+in drivers/gpu, i2c, input, media, net, perf, tc, spi, tty,
+usb, vfio?
+
+and +Thomas to get his comments as well :-)
+
+> Thanks.
+> 
+> --
+> Dmitry
+
+Thanks
+Barry
