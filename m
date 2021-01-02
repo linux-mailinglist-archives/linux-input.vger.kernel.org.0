@@ -2,49 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D81782E8907
-	for <lists+linux-input@lfdr.de>; Sat,  2 Jan 2021 23:33:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51DD52E8908
+	for <lists+linux-input@lfdr.de>; Sat,  2 Jan 2021 23:33:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726846AbhABWc6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S1726844AbhABWc6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Sat, 2 Jan 2021 17:32:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59252 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726844AbhABWc5 (ORCPT
+        with ESMTP id S1726864AbhABWc5 (ORCPT
         <rfc822;linux-input@vger.kernel.org>); Sat, 2 Jan 2021 17:32:57 -0500
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5D2BC0617A2
-        for <linux-input@vger.kernel.org>; Sat,  2 Jan 2021 14:31:44 -0800 (PST)
-Received: by mail-pf1-x42b.google.com with SMTP id s21so14048589pfu.13
-        for <linux-input@vger.kernel.org>; Sat, 02 Jan 2021 14:31:44 -0800 (PST)
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B20C7C0617A3
+        for <linux-input@vger.kernel.org>; Sat,  2 Jan 2021 14:31:45 -0800 (PST)
+Received: by mail-pf1-x429.google.com with SMTP id q22so14055886pfk.12
+        for <linux-input@vger.kernel.org>; Sat, 02 Jan 2021 14:31:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gaikai-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=AnYnS6fYaMZEZl3GdLkbHCHM8C7felhMNNlV5fv5q8U=;
-        b=OSFyIstW1mNN/d2BfF+XwxVJe5l16UpM3S8EzNOzdFKEdpy6JZyS6VhOfA4d7LuszG
-         7CMqThPO7PFYlA+qIc3yG3VFLdV3bYL9pkAKITFKY4GGLhwE5k1RjgmdIJ5f34RR8kYb
-         6NZMvLZCs/SARgWRO/ahp9Xzx9Zte68Q6jLAKP9BVxRAByxGLVIsjdDDAnvUMNcpqAmd
-         EAoW2MSU/ZFvTnTC5/+CD1d04gl42I9h5hC0vjIRQL2hd/52ba2kb179Q+R9ng2zuKSo
-         jUBWtI7EOkwnp27jUGv7RsnEXj+qCAei/hQhOKQi6U/O9STYDhhpwnsBu5Y+e6J9NxFH
-         HokQ==
+        bh=Gi8/CTgZPDKxehMytPWFsv0BOGBiUCMPMGE5dEqXWvE=;
+        b=D825KqDvNN/gLmhKa2r7wrYb2ACP044Uvr+Tlg55N7Xy6AYfYB6IZTzpXrzkxaiMZW
+         csAkk5lWUFw7lmHPe1zuwz/fGGT6gNHnkOpX86M5I5jO90I5e7c2nXz9McVQrJGU7aaJ
+         E1cXY16p9ljl98DhkCVwwkpZrSdko/7Y7Mlluyzif8YspOP9G36gqJNlmVCGE0hH7nZl
+         UOO6ypgSLmq1SYJY4mH20223iZwvWOQVMWxyQFPQLS1JXDk2mKnc6TXaT167O4R6RhLo
+         ipn+/pCfrEYeVzXxC3ob7FWPut+dJZClLRPDQPtrkDvNJ/m9ub/mclO2tBQU/8/7ijTG
+         zJlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=AnYnS6fYaMZEZl3GdLkbHCHM8C7felhMNNlV5fv5q8U=;
-        b=XDYUrkiq2PR9t9R01cHdbH5cInWsbYS8nc05ac8wb85AQT8B3RlUguQDTi1bKmDgFO
-         RKNq9/odpHPPlBIQpze52c/F2ADfZ9q2JMw7Gq6JYzZzMlrKDYl9/19rmiyXIGENTEmK
-         HmItka6tIe1LktQNfQtxm5CaR0HBo2h+GF63Qh4c+8RTEnb2Va+u3I1JYXYdCxbW65ui
-         6AHY5dPCDDDZuBfg+J7/V+J0g3yaO74bX+xevOrtgH2jq9J27pGGYiSVghETgakBkym0
-         ErgVBwYblo7Pm4OHS9O2OWatyFLzlGbCxPmxsbhI1ZiXEr9pZApEvPyZXeovdIqY8gqR
-         RFwA==
-X-Gm-Message-State: AOAM530AUoXdEF+J/sv+N0vA8jRQUWM1kqxUYHPYW3z8Lpv4TCgyaOrJ
-        NRdeAr916rnSkoU+nbvvgVbt7w==
-X-Google-Smtp-Source: ABdhPJy2KgYDiFekNUe772y/1pcUX4fe0ZwhCy36mN6X6UTdYQEproPGBlwqJCxIP9p7Ac2bubyhnQ==
-X-Received: by 2002:a63:24c4:: with SMTP id k187mr18191808pgk.238.1609626704330;
-        Sat, 02 Jan 2021 14:31:44 -0800 (PST)
+        bh=Gi8/CTgZPDKxehMytPWFsv0BOGBiUCMPMGE5dEqXWvE=;
+        b=XrzXibdn2ZCorGPHmAV2dRRuKxnK0EJgkCvnfO1wgCZ0Nq9WfcE0lsZmAloRtiXZih
+         OueCAVIdLJxsYy4+KZ8G3C/sRLOMTYfk6aalVjJeF98/3EO51hoezsjIWq1oQRGyXAm/
+         JsDoiGXx5fZnXdXXFGP0ivml4XHzmELFmns61DjQ5DW8mLCQRyRdjYlODhD0SiR412Q6
+         KQTMTO2kn15mr8PrLGHkfW5+siaTjma8lAxHXZ5wiBBbIwVX4hBvOSX2+gQt8qcRAzla
+         nJbmyxuDt5SgWEXKY8Z0H5jwJKibZVPzlY/oibS78kfYpGZNqGKIQoD1LL6dGJ67LX1w
+         h/bg==
+X-Gm-Message-State: AOAM5302OUsaKyFnIDYRh4ZHfLCmnlJBfr14DQk2QYxdO8DueEqUvKyH
+        azQ5KcIK9XLnrsQKfYkbG350nw==
+X-Google-Smtp-Source: ABdhPJxQedOBaIjQPqkSpZbES1nbqfmUpbZptTGbOo6A1w/ktOQm4HqZPeUfEob54Uyw/QfEunGPEA==
+X-Received: by 2002:aa7:9619:0:b029:1ae:33b2:780f with SMTP id q25-20020aa796190000b02901ae33b2780fmr4968463pfg.26.1609626705272;
+        Sat, 02 Jan 2021 14:31:45 -0800 (PST)
 Received: from localhost.localdomain (cpe-76-87-77-78.socal.res.rr.com. [76.87.77.78])
-        by smtp.gmail.com with ESMTPSA id r20sm49537931pgb.3.2021.01.02.14.31.43
+        by smtp.gmail.com with ESMTPSA id r20sm49537931pgb.3.2021.01.02.14.31.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sat, 02 Jan 2021 14:31:44 -0800 (PST)
 From:   Roderick Colenbrander <roderick@gaikai.com>
@@ -52,9 +52,9 @@ To:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Cc:     linux-input@vger.kernel.org, Chris Ye <lzye@google.com>,
         Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: [PATCH v2 11/13] HID: playstation: add DualSense player LEDs support.
-Date:   Sat,  2 Jan 2021 14:31:07 -0800
-Message-Id: <20210102223109.996781-12-roderick@gaikai.com>
+Subject: [PATCH v2 12/13] HID: playstation: DualSense set LEDs to default player id.
+Date:   Sat,  2 Jan 2021 14:31:08 -0800
+Message-Id: <20210102223109.996781-13-roderick@gaikai.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210102223109.996781-1-roderick@gaikai.com>
 References: <20210102223109.996781-1-roderick@gaikai.com>
@@ -66,126 +66,144 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Roderick Colenbrander <roderick.colenbrander@sony.com>
 
-The DualSense features 5 player LEDs below its touchpad, which are
-meant as player id indications. This patch exposes the player LEDs
-as individual LEDs.
+Add a ID allocator to assign player ids to ps_device instances.
+Utilize the player id to set a default color on the DualSense its
+player LED strip.
 
 Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
 ---
- drivers/hid/hid-playstation.c | 60 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 59 insertions(+), 1 deletion(-)
+ drivers/hid/hid-playstation.c | 69 ++++++++++++++++++++++++++++++++++-
+ 1 file changed, 68 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-index ebf8a6550308..183f011f081b 100644
+index 183f011f081b..1a95c81da8a3 100644
 --- a/drivers/hid/hid-playstation.c
 +++ b/drivers/hid/hid-playstation.c
-@@ -100,6 +100,7 @@ struct ps_led_info {
- #define DS_OUTPUT_VALID_FLAG1_POWER_SAVE_CONTROL_ENABLE BIT(1)
- #define DS_OUTPUT_VALID_FLAG1_LIGHTBAR_CONTROL_ENABLE BIT(2)
- #define DS_OUTPUT_VALID_FLAG1_RELEASE_LEDS BIT(3)
-+#define DS_OUTPUT_VALID_FLAG1_PLAYER_INDICATOR_CONTROL_ENABLE BIT(4)
- #define DS_OUTPUT_VALID_FLAG2_LIGHTBAR_SETUP_CONTROL_ENABLE BIT(1)
- #define DS_OUTPUT_POWER_SAVE_CONTROL_MIC_MUTE BIT(4)
- #define DS_OUTPUT_LIGHTBAR_SETUP_LIGHT_OUT BIT(1)
-@@ -145,6 +146,11 @@ struct dualsense {
- 	bool last_btn_mic_state;
- 	struct led_classdev mute_led;
+@@ -9,6 +9,7 @@
+ #include <linux/crc32.h>
+ #include <linux/device.h>
+ #include <linux/hid.h>
++#include <linux/idr.h>
+ #include <linux/input/mt.h>
+ #include <linux/leds.h>
+ #include <linux/led-class-multicolor.h>
+@@ -22,6 +23,8 @@
+ static DEFINE_MUTEX(ps_devices_lock);
+ static LIST_HEAD(ps_devices_list);
  
-+	/* Player leds */
-+	bool update_player_leds;
-+	uint8_t player_leds_state;
-+	struct led_classdev player_leds[5];
++static DEFINE_IDA(ps_player_id_allocator);
 +
- 	struct work_struct output_worker;
- 	void *output_report_dmabuf;
- 	uint8_t output_seq; /* Sequence number for output report. */
-@@ -730,6 +736,35 @@ static void dualsense_mute_led_set_brightness(struct led_classdev *led, enum led
+ #define HID_PLAYSTATION_VERSION_PATCH 0x8000
  
+ /* Base class for playstation devices. */
+@@ -30,6 +33,8 @@ struct ps_device {
+ 	struct hid_device *hdev;
+ 	spinlock_t lock;
+ 
++	uint32_t player_id;
++
+ 	struct power_supply_desc battery_desc;
+ 	struct power_supply *battery;
+ 	uint8_t battery_capacity;
+@@ -299,6 +304,24 @@ static int ps_devices_list_remove(struct ps_device *dev)
+ 	return 0;
  }
  
-+static enum led_brightness dualsense_player_led_get_brightness(struct led_classdev *led)
++static int ps_device_set_player_id(struct ps_device *dev)
 +{
-+	struct hid_device *hdev = to_hid_device(led->dev->parent);
-+	struct dualsense *ds = hid_get_drvdata(hdev);
++	int ret = ida_alloc(&ps_player_id_allocator, GFP_KERNEL);
 +
-+	return !!(ds->player_leds_state & BIT(led - ds->player_leds));
++	if (ret < 0)
++		return ret;
++
++	dev->player_id = ret;
++	return 0;
 +}
 +
-+static void dualsense_player_led_set_brightness(struct led_classdev *led, enum led_brightness value)
++static void ps_device_release_player_id(struct ps_device *dev)
 +{
-+	struct hid_device *hdev = to_hid_device(led->dev->parent);
-+	struct dualsense *ds = hid_get_drvdata(hdev);
-+	unsigned long flags;
-+	unsigned int led_index;
++	ida_free(&ps_player_id_allocator, dev->player_id);
 +
-+	spin_lock_irqsave(&ds->base.lock, flags);
++	dev->player_id = -1;
++}
 +
-+	led_index = led - ds->player_leds;
-+	if (value == LED_OFF)
-+		ds->player_leds_state &= ~(1 << led_index);
-+	else
-+		ds->player_leds_state |= (1 << led_index);
+ static struct input_dev *ps_allocate_input_dev(struct hid_device *hdev, const char *name_suffix)
+ {
+ 	struct input_dev *input_dev;
+@@ -1102,6 +1125,28 @@ static int dualsense_reset_leds(struct dualsense *ds)
+ 	return 0;
+ }
+ 
++static void dualsense_set_player_leds(struct dualsense *ds)
++{
++	/* The DualSense controller has a row of 5 LEDs used for player ids.
++	 * Behavior on the PlayStation 5 console is to center the player id
++	 * across the LEDs, so e.g. player 1 would be "--x--" with x being 'on'.
++	 * Follow a similar mapping here.
++	 */
++	int player_ids[5] = {
++		BIT(2),
++		BIT(3) | BIT(1),
++		BIT(4) | BIT(2) | BIT(0),
++		BIT(4) | BIT(3) | BIT(1) | BIT(0),
++		BIT(4) | BIT(3) | BIT(2) | BIT(1) | BIT(0)
++	};
++
++	uint8_t player_id = ds->base.player_id % 5;
 +
 +	ds->update_player_leds = true;
-+	spin_unlock_irqrestore(&ds->base.lock, flags);
-+
++	ds->player_leds_state = player_ids[player_id];
 +	schedule_work(&ds->output_worker);
 +}
 +
- static void dualsense_init_output_report(struct dualsense *ds, struct dualsense_output_report *rp,
- 		void *buf)
+ static struct ps_device *dualsense_create(struct hid_device *hdev)
  {
-@@ -820,6 +855,13 @@ static void dualsense_output_worker(struct work_struct *work)
- 		ds->update_lightbar = false;
+ 	struct dualsense *ds;
+@@ -1207,6 +1252,15 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
+ 			goto err;
  	}
  
-+	if (ds->update_player_leds) {
-+		common->valid_flag1 |= DS_OUTPUT_VALID_FLAG1_PLAYER_INDICATOR_CONTROL_ENABLE;
-+		common->player_leds = ds->player_leds_state;
-+
-+		ds->update_player_leds = false;
++	ret = ps_device_set_player_id(ps_dev);
++	if (ret < 0) {
++		hid_err(hdev, "Failed to assign player id for DualSense\n");
++		goto err;
 +	}
 +
- 	if (ds->update_mic_mute) {
- 		if (ds->mic_muted) {
- 			common->valid_flag1 |= DS_OUTPUT_VALID_FLAG1_MIC_MUTE_LED_CONTROL_ENABLE;
-@@ -1065,12 +1107,20 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
- 	struct dualsense *ds;
- 	struct ps_device *ps_dev;
- 	uint8_t max_output_report_size;
--	int ret;
-+	int i, ret;
- 
- 	struct ps_led_info mute_led_info = {
- 		"micmute", dualsense_mute_led_get_brightness, dualsense_mute_led_set_brightness
- 	};
- 
-+	struct ps_led_info player_leds_info[] = {
-+		{ "led1", dualsense_player_led_get_brightness, dualsense_player_led_set_brightness },
-+		{ "led2", dualsense_player_led_get_brightness, dualsense_player_led_set_brightness },
-+		{ "led3", dualsense_player_led_get_brightness, dualsense_player_led_set_brightness },
-+		{ "led4", dualsense_player_led_get_brightness, dualsense_player_led_set_brightness },
-+		{ "led5", dualsense_player_led_get_brightness, dualsense_player_led_set_brightness }
-+	};
-+
- 	ds = devm_kzalloc(&hdev->dev, sizeof(*ds), GFP_KERNEL);
- 	if (!ds)
- 		return ERR_PTR(-ENOMEM);
-@@ -1149,6 +1199,14 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
- 	if (ret < 0)
- 		goto err;
- 
-+	for (i = 0; i < ARRAY_SIZE(player_leds_info); i++) {
-+		struct ps_led_info *led_info = &player_leds_info[i];
-+
-+		ret = ps_led_register(ps_dev, &ds->player_leds[i], led_info);
-+		if (ret < 0)
-+			goto err;
-+	}
++	/* Set player LEDs to our player id. */
++	dualsense_set_player_leds(ds);
 +
  	return &ds->base;
  
  err:
+@@ -1271,6 +1325,7 @@ static void ps_remove(struct hid_device *hdev)
+ 	struct ps_device *dev = hid_get_drvdata(hdev);
+ 
+ 	ps_devices_list_remove(dev);
++	ps_device_release_player_id(dev);
+ 
+ 	hid_hw_close(hdev);
+ 	hid_hw_stop(hdev);
+@@ -1291,7 +1346,19 @@ static struct hid_driver ps_driver = {
+ 	.raw_event        = ps_raw_event,
+ };
+ 
+-module_hid_driver(ps_driver);
++static int __init ps_init(void)
++{
++	return hid_register_driver(&ps_driver);
++}
++
++static void __exit ps_exit(void)
++{
++	hid_unregister_driver(&ps_driver);
++	ida_destroy(&ps_player_id_allocator);
++}
++
++module_init(ps_init);
++module_exit(ps_exit);
+ 
+ MODULE_AUTHOR("Sony Interactive Entertainment");
+ MODULE_DESCRIPTION("HID Driver for PlayStation peripherals.");
 -- 
 2.26.2
 
