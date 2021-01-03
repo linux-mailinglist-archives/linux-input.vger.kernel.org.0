@@ -2,146 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 165642E8C60
-	for <lists+linux-input@lfdr.de>; Sun,  3 Jan 2021 14:56:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A10312E8D3D
+	for <lists+linux-input@lfdr.de>; Sun,  3 Jan 2021 17:39:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726864AbhACNzE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 3 Jan 2021 08:55:04 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34648 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726691AbhACNzD (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 3 Jan 2021 08:55:03 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ED00F2080D;
-        Sun,  3 Jan 2021 13:54:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1609682062;
-        bh=rFgbjPwhakFpYCmzEMub3NjARwNhgcgryoiBToag7ww=;
-        h=From:To:Cc:Subject:Date:From;
-        b=rjJK6dwWUWcUeNcKCIf2NTpwpCIj1fUEPiQ5HgyGX3zi09jxTrjfz6A88X545iNez
-         t+e5YtMKYo7Ekel0slRURVYpdkesQ8z+vsL+P1YaqspKLHrdEHbOiVk0RJctwVED+N
-         FQfSU9bj751jy0Vk8gwzm2lxZao3N2AkVYY0gC/JCvfRO4mOwWFrcumwSe3HBAGlGa
-         0hAaWaj3ZWkalZAYIgVYPkT1+kEntB3ANC1y2J8Pgp2Wxgt7YCbg1bFflea9zYtBeC
-         Vnhk/a4UVwz8NBxWM74pebruiupTNpbBwTO7EM6s2WSCxqPcVsqGGpRlRwYmfnZhRO
-         UpNsLVUfVcGsg==
-From:   Arnd Bergmann <arnd@kernel.org>
-To:     Nehal Shah <nehal-bakulchandra.shah@amd.com>,
-        Sandeep Singh <sandeep.singh@amd.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: sfh: fix address space confusion
-Date:   Sun,  3 Jan 2021 14:53:55 +0100
-Message-Id: <20210103135418.3645344-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
+        id S1727486AbhACQix (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 3 Jan 2021 11:38:53 -0500
+Received: from mail-io1-f46.google.com ([209.85.166.46]:43225 "EHLO
+        mail-io1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726008AbhACQiw (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 3 Jan 2021 11:38:52 -0500
+Received: by mail-io1-f46.google.com with SMTP id o6so22848220iob.10;
+        Sun, 03 Jan 2021 08:38:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=1kJVhpksm4jkbhD+fHMugBUW25LFDOTn9tmnMyzMqgw=;
+        b=JZEILY7Baj2RIbdNSXkR2iKWVCi1BfRXpnf/5gWACYXmJ8OQL6ovtYxBIJowTxFADb
+         MoawSgoEdfSYzYmKptVnkGL9mxo/4oELNiWHIcuEmes7UJsvaHmF/IS45OckkAMQwjH6
+         A1gTg7nAToyC0mUYVqj470Fei3/ol0l+kZK0LokhMkjJgka/aJfSpVp8nvsz5yQX1UXi
+         UUpu3TiEiTt/bJWlEPvNqZGVIIhSWC+Fw4FHAvJOe3idM6VtUX50P33iSn6VAqEKWj7P
+         oywufdmi5/vISs6mYRFWWfmrPPA+nvhpsH/ZTFxH6uQe7kMyGEjDWtu6J3j2R+Al5ieW
+         gqqw==
+X-Gm-Message-State: AOAM532b5YGSlUucyac51zF7bdF4jR7vxAJnkF9u9W9XI8PSWLR6zZ/t
+        GEa48GegXOSPYTrexLfuGg==
+X-Google-Smtp-Source: ABdhPJzlMI6n/NalP1e8jIQi3gb8aBQJqi9q6UduKZy5SC6l2eAjAoX5Ncinnv8V2QVlL/vbfoe5Mg==
+X-Received: by 2002:a02:8585:: with SMTP id d5mr59449962jai.109.1609691891697;
+        Sun, 03 Jan 2021 08:38:11 -0800 (PST)
+Received: from robh.at.kernel.org ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id t2sm41646859ili.31.2021.01.03.08.38.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Jan 2021 08:38:10 -0800 (PST)
+Received: (nullmailer pid 4009040 invoked by uid 1000);
+        Sun, 03 Jan 2021 16:38:06 -0000
+Date:   Sun, 3 Jan 2021 09:38:06 -0700
+From:   Rob Herring <robh@kernel.org>
+To:     Heinrich Schuchardt <xypron.glpk@gmx.de>
+Cc:     devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH 1/1] dt-bindings: adc-keys.txt: clarify description
+Message-ID: <20210103163806.GA4008983@robh.at.kernel.org>
+References: <20201222110815.24121-1-xypron.glpk@gmx.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201222110815.24121-1-xypron.glpk@gmx.de>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Tue, 22 Dec 2020 12:08:15 +0100, Heinrich Schuchardt wrote:
+> The current description of ADC keys is not precise enough.
+> 
+> "when this key is pressed" leaves it open if a key is considered pressed
+> below or above the threshold. This has led to confusion:
+> drivers/input/keyboard/adc-keys.c ignores the meaning of thresholds and
+> sets the key that is closest to press-threshold-microvolt.
+> 
+> This patch nails down the definitions and provides an interpretation of the
+> supplied example.
+> 
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
+> ---
+> I know that this file needs to be converted to YAML. But lets first get the
+> text right.
+> ---
+>  .../devicetree/bindings/input/adc-keys.txt    | 22 +++++++++++++++++--
+>  1 file changed, 20 insertions(+), 2 deletions(-)
+> 
 
-The new driver uses a phys_addr_t to store a DMA address,
-which does not work when the two are different size:
-
-drivers/hid/amd-sfh-hid/amd_sfh_client.c:157:11: error: incompatible pointer types passing 'phys_addr_t *' (aka 'unsigned int *') to parameter of type 'dma_addr_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
-                                                                  &cl_data->sensor_phys_addr[i],
-                                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-include/linux/dma-mapping.h:393:15: note: passing argument to parameter 'dma_handle' here
-                dma_addr_t *dma_handle, gfp_t gfp)
-                            ^
-
-Change both the type and the variable name to dma_addr for consistency.
-
-Fixes: 4b2c53d93a4b ("SFH:Transport Driver to add support of AMD Sensor Fusion Hub (SFH)")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/hid/amd-sfh-hid/amd_sfh_client.c | 8 ++++----
- drivers/hid/amd-sfh-hid/amd_sfh_hid.h    | 2 +-
- drivers/hid/amd-sfh-hid/amd_sfh_pcie.c   | 2 +-
- drivers/hid/amd-sfh-hid/amd_sfh_pcie.h   | 2 +-
- 4 files changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_client.c b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-index 3d1ccac5d99a..2ab38b715347 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-@@ -154,7 +154,7 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata)
- 
- 	for (i = 0; i < cl_data->num_hid_devices; i++) {
- 		cl_data->sensor_virt_addr[i] = dma_alloc_coherent(dev, sizeof(int) * 8,
--								  &cl_data->sensor_phys_addr[i],
-+								  &cl_data->sensor_dma_addr[i],
- 								  GFP_KERNEL);
- 		cl_data->sensor_sts[i] = 0;
- 		cl_data->sensor_requested_cnt[i] = 0;
-@@ -187,7 +187,7 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata)
- 		}
- 		info.period = msecs_to_jiffies(AMD_SFH_IDLE_LOOP);
- 		info.sensor_idx = cl_idx;
--		info.phys_address = cl_data->sensor_phys_addr[i];
-+		info.dma_address = cl_data->sensor_dma_addr[i];
- 
- 		cl_data->report_descr[i] = kzalloc(cl_data->report_descr_sz[i], GFP_KERNEL);
- 		if (!cl_data->report_descr[i]) {
-@@ -212,7 +212,7 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata)
- 		if (cl_data->sensor_virt_addr[i]) {
- 			dma_free_coherent(&privdata->pdev->dev, 8 * sizeof(int),
- 					  cl_data->sensor_virt_addr[i],
--					  cl_data->sensor_phys_addr[i]);
-+					  cl_data->sensor_dma_addr[i]);
- 		}
- 		kfree(cl_data->feature_report[i]);
- 		kfree(cl_data->input_report[i]);
-@@ -238,7 +238,7 @@ int amd_sfh_hid_client_deinit(struct amd_mp2_dev *privdata)
- 		if (cl_data->sensor_virt_addr[i]) {
- 			dma_free_coherent(&privdata->pdev->dev, 8 * sizeof(int),
- 					  cl_data->sensor_virt_addr[i],
--					  cl_data->sensor_phys_addr[i]);
-+					  cl_data->sensor_dma_addr[i]);
- 		}
- 	}
- 	kfree(cl_data);
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_hid.h b/drivers/hid/amd-sfh-hid/amd_sfh_hid.h
-index 6be0783d885c..d7eac1728e31 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_hid.h
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_hid.h
-@@ -27,7 +27,7 @@ struct amdtp_cl_data {
- 	int hid_descr_size[MAX_HID_DEVICES];
- 	phys_addr_t phys_addr_base;
- 	u32 *sensor_virt_addr[MAX_HID_DEVICES];
--	phys_addr_t sensor_phys_addr[MAX_HID_DEVICES];
-+	dma_addr_t sensor_dma_addr[MAX_HID_DEVICES];
- 	u32 sensor_sts[MAX_HID_DEVICES];
- 	u32 sensor_requested_cnt[MAX_HID_DEVICES];
- 	u8 report_type[MAX_HID_DEVICES];
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-index a51c7b76283b..dbac16641662 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-@@ -41,7 +41,7 @@ void amd_start_sensor(struct amd_mp2_dev *privdata, struct amd_mp2_sensor_info i
- 	cmd_param.s.buf_layout = 1;
- 	cmd_param.s.buf_length = 16;
- 
--	writeq(info.phys_address, privdata->mmio + AMD_C2P_MSG2);
-+	writeq(info.dma_address, privdata->mmio + AMD_C2P_MSG2);
- 	writel(cmd_param.ul, privdata->mmio + AMD_C2P_MSG1);
- 	writel(cmd_base.ul, privdata->mmio + AMD_C2P_MSG0);
- }
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
-index e8be94f935b7..8f8d19b2cfe5 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
-@@ -67,7 +67,7 @@ struct amd_mp2_dev {
- struct amd_mp2_sensor_info {
- 	u8 sensor_idx;
- 	u32 period;
--	phys_addr_t phys_address;
-+	dma_addr_t dma_address;
- };
- 
- void amd_start_sensor(struct amd_mp2_dev *privdata, struct amd_mp2_sensor_info info);
--- 
-2.29.2
-
+Acked-by: Rob Herring <robh@kernel.org>
