@@ -2,53 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 50B6D2E92EF
-	for <lists+linux-input@lfdr.de>; Mon,  4 Jan 2021 10:54:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 064F62E92C6
+	for <lists+linux-input@lfdr.de>; Mon,  4 Jan 2021 10:46:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726749AbhADJxP convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Mon, 4 Jan 2021 04:53:15 -0500
-Received: from post.dks.ru ([194.226.89.161]:56215 "EHLO post.dks.ru"
+        id S1726176AbhADJqi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 4 Jan 2021 04:46:38 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43476 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726289AbhADJxO (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 4 Jan 2021 04:53:14 -0500
-X-Greylist: delayed 1716 seconds by postgrey-1.27 at vger.kernel.org; Mon, 04 Jan 2021 04:53:11 EST
-Received: from ksmg.dks.lan (unknown [172.17.112.11])
-        by post.dks.ru (Postfix) with ESMTP id C1144270841;
-        Mon,  4 Jan 2021 12:21:38 +0300 (MSK)
-Received: from [192.168.88.237] (unknown [212.154.23.124])
-        (Authenticated sender: zapros@dks.ru)
-        by post.dks.ru (Postfix) with ESMTP id 6520D270852;
-        Mon,  4 Jan 2021 12:21:35 +0300 (MSK)
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1726173AbhADJqi (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 4 Jan 2021 04:46:38 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8CCD021D7F;
+        Mon,  4 Jan 2021 09:45:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1609753557;
+        bh=xhcxGU73opBaxA6SLb2C6H6HREW/m2aBOHhnWIGGbBc=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=Vu0het6HhXFKFPLHYqh3DCPGfnocBX8WWdqpP99S1NG0TfJOsj57NyJV2EccbvsZ0
+         DeLkCbm5AH4MTGxdd2OcpHEK4red+ekp5IDDjuBMXG9Ae4K7EnLPW2UQnh0U7+xbjv
+         FLWEUcFtwjQzClFws3vpAwcqcxXoGCpgTn20OCrZFE1bcxMZQh2uI4Fk6U8ejt/agi
+         T6Dp8xXuK8/nfHB2TaR9COhBLv1xIjj0d1huqJj9fU56MVS7IUlcquOizMfQbA2az6
+         lAAEXaku4525xfpcZlb0EpTX7VHbZu76Uv1M/uy8RQPNVGBPiHpAPoWAi/RXPrJZBU
+         zyCyVBiPB+adg==
+Date:   Mon, 4 Jan 2021 10:45:54 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Ye Xiang <xiang.ye@intel.com>
+cc:     jic23@kernel.org, srinivas.pandruvada@linux.intel.com,
+        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] HID: hid-sensor-custom: Add custom sensor iio
+ support
+In-Reply-To: <20201215054444.9324-2-xiang.ye@intel.com>
+Message-ID: <nycvar.YFH.7.76.2101041045320.25826@cbobk.fhfr.pm>
+References: <20201215054444.9324-1-xiang.ye@intel.com> <20201215054444.9324-2-xiang.ye@intel.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: YOUR URGENT RESPONSE !!!!
-To:     Recipients <zapros@dks.ru>
-From:   "Mr. Kim Leang" <zapros@dks.ru>
-Date:   Mon, 04 Jan 2021 01:22:01 -0800
-Reply-To: kimleang575@yahoo.com
-Message-Id: <20210104092135.6520D270852@post.dks.ru>
-X-KLMS-Rule-ID: 7
-X-KLMS-Message-Action: clean
-X-KLMS-AntiSpam-Status: not scanned, disabled by settings
-X-KLMS-AntiSpam-Interceptor-Info: not scanned
-X-KLMS-AntiPhishing: Clean, bases: 2021/01/04 08:40:00
-X-KLMS-AntiVirus: Kaspersky Security for Linux Mail Server, version 8.0.3.30, bases: 2021/01/04 05:34:00 #16008269
-X-KLMS-AntiVirus-Status: Clean, skipped
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Greeting!
+On Tue, 15 Dec 2020, Ye Xiang wrote:
 
-I am contacting you to receive and share with me an abandoned fund ( $21,537.000.00 ) left in our bank by a deceased customer. I was going through the Internet search when I found your email address. My name is Mr. Kim Leang.
+> Currently custom sensors properties are not decoded and it is up to
+> user space to interpret.
+> 
+> Some manufacturers already standardized the meaning of some custom sensors.
+> They can be presented as a proper IIO sensor. We can identify these sensors
+> based on manufacturer and serial number property in the report.
+> 
+> This change is identifying hinge sensor when the manufacturer is "INTEL".
+> This creates a platform device so that a sensor driver can be loaded to
+> process these sensors.
+> 
+> Signed-off-by: Ye Xiang <xiang.ye@intel.com>
 
-I want to utilize this opportunity and make use of this fund if I should present your name to the bank to stand as his business associate/ trustee for the fund to be released to you via Visa card for easy withdrawals in any VISA ATM machine anywhere in the World.
+Acked-by: Jiri Kosina <jkosina@suse.cz>
 
-The bank will also give you international online transfer options. With these you can transfer the funds without any risk.
+Jonathan, feel free to take this with the rest through your tree. Thanks,
 
-Should you be interested in working with me in this project? Please reply back and let's benefit from this golden opportunity.You are my first contact. I shall wait a few days and if I do not hear from you, I shall look for another person.
+-- 
+Jiri Kosina
+SUSE Labs
 
-Thanks and have a nice day,
-Mr. Kim Leang
