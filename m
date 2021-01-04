@@ -2,40 +2,40 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75B402E999A
-	for <lists+linux-input@lfdr.de>; Mon,  4 Jan 2021 17:02:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BD2C2E9A09
+	for <lists+linux-input@lfdr.de>; Mon,  4 Jan 2021 17:07:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728695AbhADQBy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 4 Jan 2021 11:01:54 -0500
-Received: from mga02.intel.com ([134.134.136.20]:44997 "EHLO mga02.intel.com"
+        id S1728876AbhADQCi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 4 Jan 2021 11:02:38 -0500
+Received: from mga11.intel.com ([192.55.52.93]:16444 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728683AbhADQBx (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 4 Jan 2021 11:01:53 -0500
-IronPort-SDR: ACJJGEXBjOByAb3abgwMrK/x3x6nGrI4rb/sfKLuZO8K6LXZM3t/YYWwDrvjUVYrElPH2eL88r
- JWDkmc92bNHg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9854"; a="164038275"
+        id S1728867AbhADQCh (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 4 Jan 2021 11:02:37 -0500
+IronPort-SDR: ujtu2biZ8lVMSj4prL3+p+l4fz7H/tTtFKHvjOVbhyYbxZKAC6JPTlksG9vAc1WpGlhyZ6d57W
+ USsEnNaJvmhA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9854"; a="173462300"
 X-IronPort-AV: E=Sophos;i="5.78,474,1599548400"; 
-   d="scan'208";a="164038275"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2021 08:00:04 -0800
-IronPort-SDR: PqkjaAOZ05b3K0qgSSq2hTGyfPnWapxeQ+lDd91dYWVvuejuwPT2aJ3rvAsIBc60hsTfDTYyAL
- StLhGcxbwSwQ==
+   d="scan'208";a="173462300"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2021 08:00:50 -0800
+IronPort-SDR: vwnvJaU/a6I5h5zaXPncVosTvcPloa/uHL/E3L7TzSPubkXuivLFgdZgw7ZXU8bAVMzvuGa7U1
+ G8BR428/69dg==
 X-IronPort-AV: E=Sophos;i="5.78,474,1599548400"; 
-   d="scan'208";a="421411861"
+   d="scan'208";a="349990952"
 Received: from hnanjund-mobl.amr.corp.intel.com ([10.254.115.148])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2021 08:00:02 -0800
-Message-ID: <ad1fe7a86872026267b9ed74771e0c9561ffb5a6.camel@linux.intel.com>
-Subject: Re: [PATCH 1/2] hid: intel-ish-hid: ipc: finish power flow for EHL
- OOB
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2021 08:00:46 -0800
+Message-ID: <add58401d7d9962402628fd4746cf16a31ec4b10.camel@linux.intel.com>
+Subject: Re: [PATCH 2/2] hid: intel-ish-hid: ipc: Address EHL Sx resume
+ issues
 From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 To:     Zhang Lixu <lixu.zhang@intel.com>, jikos@kernel.org,
         linux-input@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, benjamin.tissoires@redhat.com,
-        Najumon Ba <najumon.ba@intel.com>, Even Xu <even.xu@intel.com>
-Date:   Mon, 04 Jan 2021 07:59:58 -0800
-In-Reply-To: <20201216063640.4086068-2-lixu.zhang@intel.com>
+        Wei Jiang <wei.w.jiang@intel.com>, Even Xu <even.xu@intel.com>
+Date:   Mon, 04 Jan 2021 08:00:42 -0800
+In-Reply-To: <20201216063640.4086068-3-lixu.zhang@intel.com>
 References: <20201216063640.4086068-1-lixu.zhang@intel.com>
-         <20201216063640.4086068-2-lixu.zhang@intel.com>
+         <20201216063640.4086068-3-lixu.zhang@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.38.2 (3.38.2-1.fc33) 
 MIME-Version: 1.0
@@ -45,121 +45,109 @@ List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 On Wed, 2020-12-16 at 14:36 +0800, Zhang Lixu wrote:
-> The EHL (Elkhart Lake) based platforms provide a OOB (Out of band)
-> service, which allows wakup device when the system is in S5 (Soft-Off
-> state). This OOB service can be enabled/disabled from BIOS settings.
-> When
-> enabled, the ISH device gets PME wake capability. To enable PME
-> wakeup,
-> driver also needs to enable ACPI GPE bit.
+> When OOB is disabled, FW will be power gated when system is in
+> S3/S4/S5
+> which is the same behavior with legacy ISH FW.
+> When OOB is enabled, FW will always power on which is totally
+> different
+> comparing to legacy ISH FW.
 > 
-> Once wakeup, BIOS will clear the wakeup bit to identify wakeup is
-> successful. So driver need to re-enable it in resume function to
-> keep the next wakeup capability.
+> So NO_D3 flag is not enough to check FW's status after resume.
+> Here we can use IPC FW status register to check host link status.
+> If it is false, it means FW get reset after power gated, need go
+> through
+> the whole initialization flow; If it is true, it means FW is alive,
+> just
+> set host ready bit to let fw know host is up.
 > 
-> Since this feature is only present on EHL, we use EHL PCI device id
-> to
-> enable this feature.
-> 
-> Co-developed-by: Najumon Ba <najumon.ba@intel.com>
-> Signed-off-by: Najumon Ba <najumon.ba@intel.com>
+> Co-developed-by: Wei Jiang <wei.w.jiang@intel.com>
+> Signed-off-by: Wei Jiang <wei.w.jiang@intel.com>
 > Signed-off-by: Even Xu <even.xu@intel.com>
 > Signed-off-by: Zhang Lixu <lixu.zhang@intel.com>
 Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
 > ---
->  drivers/hid/intel-ish-hid/ipc/pci-ish.c | 48
+>  drivers/hid/intel-ish-hid/ipc/hw-ish.h  |  1 +
+>  drivers/hid/intel-ish-hid/ipc/ipc.c     | 27
 > +++++++++++++++++++++++++
->  1 file changed, 48 insertions(+)
+>  drivers/hid/intel-ish-hid/ipc/pci-ish.c |  6 +++++-
+>  3 files changed, 33 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-> b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-> index c6d48a8648b7..c9c5488e44cb 100644
-> --- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-> +++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-> @@ -5,6 +5,7 @@
->   * Copyright (c) 2014-2016, Intel Corporation.
->   */
+> diff --git a/drivers/hid/intel-ish-hid/ipc/hw-ish.h
+> b/drivers/hid/intel-ish-hid/ipc/hw-ish.h
+> index 1fb294ca463e..111ad259ba74 100644
+> --- a/drivers/hid/intel-ish-hid/ipc/hw-ish.h
+> +++ b/drivers/hid/intel-ish-hid/ipc/hw-ish.h
+> @@ -81,5 +81,6 @@ struct ishtp_device *ish_dev_init(struct pci_dev
+> *pdev);
+>  int ish_hw_start(struct ishtp_device *dev);
+>  void ish_device_disable(struct ishtp_device *dev);
+>  int ish_disable_dma(struct ishtp_device *dev);
+> +void ish_set_host_ready(struct ishtp_device *dev);
 >  
-> +#include <linux/acpi.h>
->  #include <linux/module.h>
->  #include <linux/moduleparam.h>
->  #include <linux/kernel.h>
-> @@ -111,6 +112,42 @@ static inline bool ish_should_leave_d0i3(struct
-> pci_dev *pdev)
->         return !pm_resume_via_firmware() || pdev->device ==
-> CHV_DEVICE_ID;
+>  #endif /* _ISHTP_HW_ISH_H_ */
+> diff --git a/drivers/hid/intel-ish-hid/ipc/ipc.c b/drivers/hid/intel-
+> ish-hid/ipc/ipc.c
+> index a45ac7fa417b..47bbeb8b492b 100644
+> --- a/drivers/hid/intel-ish-hid/ipc/ipc.c
+> +++ b/drivers/hid/intel-ish-hid/ipc/ipc.c
+> @@ -193,6 +193,33 @@ static void ish_clr_host_rdy(struct ishtp_device
+> *dev)
+>         ish_reg_write(dev, IPC_REG_HOST_COMM, host_status);
 >  }
 >  
-> +static int enable_gpe(struct device *dev)
+> +static bool ish_chk_host_rdy(struct ishtp_device *dev)
 > +{
-> +#ifdef CONFIG_ACPI
-> +       acpi_status acpi_sts;
-> +       struct acpi_device *adev;
-> +       struct acpi_device_wakeup *wakeup;
+> +       uint32_t host_status = ish_reg_read(dev, IPC_REG_HOST_COMM);
 > +
-> +       adev = ACPI_COMPANION(dev);
-> +       if (!adev) {
-> +               dev_err(dev, "get acpi handle failed\n");
-> +               return -ENODEV;
-> +       }
-> +       wakeup = &adev->wakeup;
-> +
-> +       acpi_sts = acpi_enable_gpe(wakeup->gpe_device, wakeup-
-> >gpe_number);
-> +       if (ACPI_FAILURE(acpi_sts)) {
-> +               dev_err(dev, "enable ose_gpe failed\n");
-> +               return -EIO;
-> +       }
-> +
-> +       return 0;
-> +#else
-> +       return -ENODEV;
-> +#endif
+> +       return (host_status & IPC_HOSTCOMM_READY_BIT);
 > +}
 > +
-> +static void enable_pme_wake(struct pci_dev *pdev)
+> +/**
+> + * ish_set_host_ready() - reconfig ipc host registers
+> + * @dev: ishtp device pointer
+> + *
+> + * Set host to ready state
+> + * This API is called in some case:
+> + *    fw is still on, but ipc is powered down.
+> + *    such as OOB case.
+> + *
+> + * Return: 0 for success else error fault code
+> + */
+> +void ish_set_host_ready(struct ishtp_device *dev)
 > +{
-> +       if ((pci_pme_capable(pdev, PCI_D0) ||
-> +            pci_pme_capable(pdev, PCI_D3hot) ||
-> +            pci_pme_capable(pdev, PCI_D3cold)) && !enable_gpe(&pdev-
-> >dev)) {
-> +               pci_pme_active(pdev, true);
-> +               dev_dbg(&pdev->dev, "ish ipc driver pme wake
-> enabled\n");
-> +       }
+> +       if (ish_chk_host_rdy(dev))
+> +               return;
+> +
+> +       ish_set_host_rdy(dev);
+> +       set_host_ready(dev);
 > +}
 > +
 >  /**
->   * ish_probe() - PCI driver probe callback
->   * @pdev:      pci device
-> @@ -179,6 +216,10 @@ static int ish_probe(struct pci_dev *pdev, const
-> struct pci_device_id *ent)
->         init_waitqueue_head(&ishtp->suspend_wait);
->         init_waitqueue_head(&ishtp->resume_wait);
->  
-> +       /* Enable PME for EHL */
-> +       if (pdev->device == EHL_Ax_DEVICE_ID)
-> +               enable_pme_wake(pdev);
-> +
->         ret = ish_init(ishtp);
->         if (ret)
->                 return ret;
-> @@ -317,6 +358,13 @@ static int __maybe_unused ish_resume(struct
-> device *device)
->         struct pci_dev *pdev = to_pci_dev(device);
+>   * _ishtp_read_hdr() - Read message header
+>   * @dev: ISHTP device pointer
+> diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+> b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+> index c9c5488e44cb..8cb40696984a 100644
+> --- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+> +++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
+> @@ -259,11 +259,15 @@ static void __maybe_unused
+> ish_resume_handler(struct work_struct *work)
+>  {
+>         struct pci_dev *pdev = to_pci_dev(ish_resume_device);
 >         struct ishtp_device *dev = pci_get_drvdata(pdev);
+> +       uint32_t fwsts = dev->ops->get_fw_status(dev);
+>         int ret;
 >  
-> +       /* add this to finish power flow for EHL */
-> +       if (dev->pdev->device == EHL_Ax_DEVICE_ID) {
-> +               pci_set_power_state(pdev, PCI_D0);
-> +               enable_pme_wake(pdev);
-> +               dev_dbg(dev->devc, "set power state to D0 for
-> ehl\n");
-> +       }
+> -       if (ish_should_leave_d0i3(pdev) && !dev->suspend_flag) {
+> +       if (ish_should_leave_d0i3(pdev) && !dev->suspend_flag
+> +                       && IPC_IS_ISH_ILUP(fwsts)) {
+>                 disable_irq_wake(pdev->irq);
+>  
+> +               ish_set_host_ready(dev);
 > +
->         ish_resume_device = device;
->         dev->resume_flag = 1;
+>                 ishtp_send_resume(dev);
 >  
+>                 /* Waiting to get resume response */
 
 
