@@ -2,91 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68F852E8F43
-	for <lists+linux-input@lfdr.de>; Mon,  4 Jan 2021 02:46:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 40C082E8F4D
+	for <lists+linux-input@lfdr.de>; Mon,  4 Jan 2021 02:59:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727716AbhADBqn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 3 Jan 2021 20:46:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54558 "EHLO
+        id S1727764AbhADB70 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 3 Jan 2021 20:59:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727709AbhADBqn (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 3 Jan 2021 20:46:43 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 136DAC061574;
-        Sun,  3 Jan 2021 17:46:03 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id m5so9520749pjv.5;
-        Sun, 03 Jan 2021 17:46:03 -0800 (PST)
+        with ESMTP id S1727709AbhADB7Z (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 3 Jan 2021 20:59:25 -0500
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B755C061574;
+        Sun,  3 Jan 2021 17:58:45 -0800 (PST)
+Received: by mail-pl1-x62a.google.com with SMTP id g3so13620299plp.2;
+        Sun, 03 Jan 2021 17:58:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=bHLuXqrZPUxKHtPV4CHNz02ZJ26j8UftHg+8MB5Uf84=;
-        b=fLZyKRei3jXHzAolgOumqcwb1M/nn+E7Ii0axn5v/Af/bOMtvJQ1Id5Gwc4iEFxvf4
-         zKM+F2w8BsERV+12FaXLe1l4g7WnzV/GLJmpy6aY56TTzwyn7R0q3Sqgqe4N7ydr/1lO
-         uNTZ+hKAOzD3Drhscb71e23L5C1HLSrzbYSQfJbbV8x2Tyyv4NosAuvesHUV8rdrPSzc
-         yWewBOJf6ySQFf5XB/vpYjIadsmfwzF6XszqjFDZRi6FX7tWsZ2o5GQN6NFZmP+uWyt8
-         1d204XsTnobtCUr58ojDH0X46j3no8zrWXFdpe5qpnr8VemtTnTaRdMYQt2s+lXMfVz2
-         +Vow==
+        bh=wJ/1G2K55JmGFecIGoHgxm3za8JbP8OvFmT1PDH78F8=;
+        b=Y8mYL5QNtSDRFsn33XDWLykSN6W6sfkdX7AMpSb1GE7gZZTfbe0GBPNm0fT+uXR8d9
+         zEkyHcNzYzIZlfMbitUt5MhW5HxJ+kAXl0neVKeEgIVqTShfExd9VgpdQSXYZcmJU21w
+         VWva9OmXURa3DLZaNbO4TZotinC7bvFTiZ08NU15q9n0B9G1ioHE733y347YpxDOXHCg
+         2v/m/Q5OFb6xmEGZDfrh+oo5sM3Yxj9Zo4Zgzc8n9cPN7xGSCcNdzW5TkF+08btFebCH
+         OaEP4/SUzpCAKcC5wqr7DvTkAyCwfuktmkM+LEBnIlcaH9svavwf8lTvPWkzOPfy0Qum
+         rC2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=bHLuXqrZPUxKHtPV4CHNz02ZJ26j8UftHg+8MB5Uf84=;
-        b=WcyLWOztLOvUdzOi+Eoj2/yypwDNNjKawWNVfAQ3EplK156AKZrWy9x96ibSAG8Z5v
-         p02TwqAB1MQ5OxR2XRKkFPGlB09Ylacg568tazX3l8yhE7nVX5J/A4KrBlbaO3Lcrkps
-         R2NUvrVp4g/pb0N2aPCNyWM0i6Praje3xWYZXDdRfvxRTrNxIn+7k4Vyw4UbDzOruuxq
-         T/HqVe2ma1H7yV1l1xR0uGLOu8IcK7Dj6C4Zq/8qq7xpBYAdyoBIAmfFZ2V0SUKlby4I
-         em8EcWjTCddrZHwuxUzxeF8zI+k48vbAdpgkH3wpKbFS/7wSEOcTycJr3AjhHYgJI4gQ
-         b2rw==
-X-Gm-Message-State: AOAM533mGhzQJPQGfFiOdEcdlaEweFkJmcf64UigXYYgPvH2c7S15YNh
-        oK+TguXEpOvKMnNI7+voJy8=
-X-Google-Smtp-Source: ABdhPJw5+9zo4AP/JRSAkC7/o7XjbQOdWGMltkNCMPa0Qo5/tGL5ZC5AA/+GmhXrIhtUKd1Jb07tDw==
-X-Received: by 2002:a17:90a:d18c:: with SMTP id fu12mr26763168pjb.153.1609724762615;
-        Sun, 03 Jan 2021 17:46:02 -0800 (PST)
+        bh=wJ/1G2K55JmGFecIGoHgxm3za8JbP8OvFmT1PDH78F8=;
+        b=seGRLpx3modNwf6RPASnqqBBV2d/wEbcljkXr4SVqidNAPXN4XFVX7mcveuc+pu6h7
+         xArh08NnopR9ogvNxdZyWYo6D6WoOCnLK/xUErOg03IYhQhk1UYGeqawvObtZ35KUoch
+         kH90OUV8qhvr/ekDDM0CUmO5e2ean4wnB7r6xs15gHDfddQC7TaoVt965bMvHjL3upIS
+         LSZKJDas9OITedruJOITCUmdLAaFpa1gFglcJ6ERvgbxAV8fW/5BVMNb5O5G97D9uuI2
+         Jjp2GrWtmmtuTBeHNPMEXecDzz5DnJP0Tm3qCchFDNU54isArOpSPBH/OHrbvOlt4gEK
+         yPXQ==
+X-Gm-Message-State: AOAM530W5/v8tms7cnLKlL6L0VlZhnJM4ibe8bO99QDIUuvBn9zMVfLb
+        3WM205fWn//9s+QByr9JvfU=
+X-Google-Smtp-Source: ABdhPJzEbuWdn+CuLvkjytPO7pQFgDeKHh8Rlnz56WrXmMdftO340nBRF+Apd/QfgYkjBsJPG56ToQ==
+X-Received: by 2002:a17:90b:fd5:: with SMTP id gd21mr28573499pjb.139.1609725524976;
+        Sun, 03 Jan 2021 17:58:44 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id w1sm53726597pfn.151.2021.01.03.17.46.01
+        by smtp.gmail.com with ESMTPSA id z16sm12724604pgj.51.2021.01.03.17.58.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Jan 2021 17:46:01 -0800 (PST)
-Date:   Sun, 3 Jan 2021 17:45:59 -0800
+        Sun, 03 Jan 2021 17:58:43 -0800 (PST)
+Date:   Sun, 3 Jan 2021 17:58:41 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Andrej Valek <andrej.valek@siemens.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-input@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 3/3] Input: st1232 - wait until device is ready before
- reading resolution
-Message-ID: <X/JzV6+EF58kysci@google.com>
-References: <20201229162601.2154566-1-geert+renesas@glider.be>
- <20201229162601.2154566-4-geert+renesas@glider.be>
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     Roy Im <roy.im.opensource@diasemi.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Input: da7280 - protect OF match table with CONFIG_OF
+Message-ID: <X/J2Ud24zs7ZJdTU@google.com>
+References: <X9xRLVPt9eBi0CT6@google.com>
+ <AM6PR10MB1926A5AB8951B4DE62A96EE385C30@AM6PR10MB1926.EURPRD10.PROD.OUTLOOK.COM>
+ <20201220020109.GA13501@labundy.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201229162601.2154566-4-geert+renesas@glider.be>
+In-Reply-To: <20201220020109.GA13501@labundy.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Dec 29, 2020 at 05:26:01PM +0100, Geert Uytterhoeven wrote:
-> According to the st1232 datasheet, the host has to wait for the device
-> to change into Normal state before accessing registers other than the
-> Status Register.
-> 
-> If the reset GPIO is wired, the device is powered on during driver
-> probe, just before reading the resolution.  However, the latter may
-> happen before the device is ready, leading to a probe failure:
-> 
->     st1232-ts 1-0055: Failed to read resolution: -6
-> 
-> Fix this by waiting until the device is ready, by trying to read the
-> Status Register until it indicates so, or until timeout.
-> 
-> On Armadillo 800 EVA, typically the first read fails with an I2C
-> transfer error, while the second read indicates the device is ready.
-> 
-> Fixes: 3a54a215410b1650 ("Input: st1232 - add support resolution reading")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hi Jeff,
 
-Applied, thank you.
+On Sat, Dec 19, 2020 at 08:01:09PM -0600, Jeff LaBundy wrote:
+> Hi Dmitry,
+> 
+> On Fri, Dec 18, 2020 at 04:49:48PM +0000, Roy Im wrote:
+> > On Friday, December 18, 2020 3:50 PM, Dmitry Torokhov wrote:
+> > 
+> > > The OF match table is only used when OF is enabled.
+> > > 
+> > > Fixes: cd3f609823a5 ("Input: new da7280 haptic driver")
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > > ---
+> > >  drivers/input/misc/da7280.c | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > > 
+> > > diff --git a/drivers/input/misc/da7280.c b/drivers/input/misc/da7280.c index 2f698a8c1d65..b08610d6e575 100644
+> > > --- a/drivers/input/misc/da7280.c
+> > > +++ b/drivers/input/misc/da7280.c
+> > > @@ -1300,11 +1300,13 @@ static int __maybe_unused da7280_resume(struct device *dev)
+> > >  	return retval;
+> > >  }
+> > > 
+> > > +#ifdef CONFIG_OF
+> > >  static const struct of_device_id da7280_of_match[] = {
+> > >  	{ .compatible = "dlg,da7280", },
+> > >  	{ }
+> > >  };
+> > >  MODULE_DEVICE_TABLE(of, da7280_of_match);
+> > > +#endif
+> 
+> Just for my own understanding, would it not work just as well
+> to include of_device.h? This includes mod_devicetable.h which
+> in turn defines the of_device_id struct (even if CONFIG_OF is
+> not set).
+
+The issue here is not that the structure is undefined, but the variable
+is unused. We could also fix this by not using of_match_ptr() when
+assigning the match table to the driver structure, making the variable
+referenced even if CONFIG_OF is off.
+
+> 
+> The reason for asking is because it seems many drivers do not
+> include these guards.
+
+It could be that they are either only compiled with OF, or they decided
+it is not worth saving a few bytes, or maybe they are used on ACPI-based
+systems with PRP0001 bindings in which case the match table in the
+driver might still be needed.
+
+Thanks.
 
 -- 
 Dmitry
