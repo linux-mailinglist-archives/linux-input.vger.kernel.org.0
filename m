@@ -2,150 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8157A2EA7B4
-	for <lists+linux-input@lfdr.de>; Tue,  5 Jan 2021 10:36:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D6D42EA9A9
+	for <lists+linux-input@lfdr.de>; Tue,  5 Jan 2021 12:18:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728466AbhAEJfM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 5 Jan 2021 04:35:12 -0500
-Received: from mga17.intel.com ([192.55.52.151]:51517 "EHLO mga17.intel.com"
+        id S1729243AbhAELSz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 5 Jan 2021 06:18:55 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40634 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728460AbhAEJfL (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 5 Jan 2021 04:35:11 -0500
-IronPort-SDR: FTVBKLBiFPlr4X3pFTV6W0XCD5ttzSthT7xiBxftPQyMsslaii9JEJgWxnrf9IbQwcSePATmx6
- CJBSCYgY3S3A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9854"; a="156864101"
-X-IronPort-AV: E=Sophos;i="5.78,476,1599548400"; 
-   d="scan'208";a="156864101"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2021 01:34:15 -0800
-IronPort-SDR: Q9PolnMbw6qWmNGPTsXyTZCh0/LqSeTD7l8tWk5VSeg289HhseqCxMN1VcQteUTVr6rngkeAdm
- 4B3at3xF1lpA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,476,1599548400"; 
-   d="scan'208";a="569665187"
-Received: from host.sh.intel.com ([10.239.154.115])
-  by fmsmga005.fm.intel.com with ESMTP; 05 Jan 2021 01:34:13 -0800
-From:   Ye Xiang <xiang.ye@intel.com>
-To:     jikos@kernel.org, jic23@kernel.org,
-        srinivas.pandruvada@linux.intel.com
-Cc:     linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Ye Xiang <xiang.ye@intel.com>
-Subject: [PATCH 6/6] iio: hid-sensor-rotation: Add timestamp channel
-Date:   Tue,  5 Jan 2021 17:35:15 +0800
-Message-Id: <20210105093515.19135-7-xiang.ye@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210105093515.19135-1-xiang.ye@intel.com>
-References: <20210105093515.19135-1-xiang.ye@intel.com>
+        id S1729196AbhAELSy (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 5 Jan 2021 06:18:54 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 736B5229C5;
+        Tue,  5 Jan 2021 11:18:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1609845492;
+        bh=GDmYQRHGn/AcnFt3hdxGi1mf2d4j0SgudD/3lB6HiLU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MGoc1AfjFEcjnH2LG9n6lBEYoM6Ri+jtRDQ3pMETkgkS4xWatgY5WzBCv7tGFTTX4
+         9deGZUIgeLAhm1VPGBdYES++ZORJDj29LOoOSG8tACOto7uS1nWJwFUZ5fw3Q/9+7t
+         9Rnjcz0F86y/qp986vAfUr6GinSVP0XwPgyXu3vSEN7cNL4OxE10chjJdGA85/nxVF
+         lPpoMqPvAHjIz+Tazlv2fQtQtSQARqHG/OYlCfxgVMRWyanIC2bLCSGkFIWiXyTy98
+         QR/IH6Kj4pkkDkHe387Q3RpA+JZkCdNIme8yoaM7itWnaNn71YrIoqeYgceFoOyLsB
+         SI0+F1HbHOM4g==
+Received: by earth.universe (Postfix, from userid 1000)
+        id 4BD5B3C0C94; Tue,  5 Jan 2021 12:18:10 +0100 (CET)
+Date:   Tue, 5 Jan 2021 12:18:10 +0100
+From:   Sebastian Reichel <sre@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jens Axboe <axboe@kernel.dk>, Stephen Boyd <sboyd@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-arm-kernel@lists.infradead.org, linux-ide@vger.kernel.org,
+        linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-serial@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-spi@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Add missing array size constraints
+Message-ID: <20210105111810.5sdfmjga5in5wgvx@earth.universe>
+References: <20210104230253.2805217-1-robh@kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="vyuzhxvp4ms2cjlb"
+Content-Disposition: inline
+In-Reply-To: <20210104230253.2805217-1-robh@kernel.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Each sample has a timestamp field with this change. This timestamp may
-be from the sensor hub when present or local kernel timestamp. And the
-unit of timestamp is nanosecond.
 
-Signed-off-by: Ye Xiang <xiang.ye@intel.com>
----
- drivers/iio/orientation/hid-sensor-rotation.c | 46 +++++++++++--------
- 1 file changed, 26 insertions(+), 20 deletions(-)
+--vyuzhxvp4ms2cjlb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/iio/orientation/hid-sensor-rotation.c b/drivers/iio/orientation/hid-sensor-rotation.c
-index 665ccf3673cc..b0245b3b7ffc 100644
---- a/drivers/iio/orientation/hid-sensor-rotation.c
-+++ b/drivers/iio/orientation/hid-sensor-rotation.c
-@@ -20,11 +20,15 @@ struct dev_rot_state {
- 	struct hid_sensor_hub_callbacks callbacks;
- 	struct hid_sensor_common common_attributes;
- 	struct hid_sensor_hub_attribute_info quaternion;
--	u32 sampled_vals[4];
-+	struct {
-+		u32 sampled_vals[4] __aligned(16);
-+		u64 timestamp __aligned(8);
-+	} scan;
- 	int scale_pre_decml;
- 	int scale_post_decml;
- 	int scale_precision;
- 	int value_offset;
-+	s64 timestamp;
- };
- 
- static const u32 rotation_sensitivity_addresses[] = {
-@@ -42,8 +46,10 @@ static const struct iio_chan_spec dev_rot_channels[] = {
- 		.info_mask_shared_by_type = BIT(IIO_CHAN_INFO_SAMP_FREQ) |
- 					BIT(IIO_CHAN_INFO_OFFSET) |
- 					BIT(IIO_CHAN_INFO_SCALE) |
--					BIT(IIO_CHAN_INFO_HYSTERESIS)
--	}
-+					BIT(IIO_CHAN_INFO_HYSTERESIS),
-+		.scan_index = 0
-+	},
-+	IIO_CHAN_SOFT_TIMESTAMP(1)
- };
- 
- /* Adjust channel real bits based on report descriptor */
-@@ -75,7 +81,7 @@ static int dev_rot_read_raw(struct iio_dev *indio_dev,
- 	case IIO_CHAN_INFO_RAW:
- 		if (size >= 4) {
- 			for (i = 0; i < 4; ++i)
--				vals[i] = rot_state->sampled_vals[i];
-+				vals[i] = rot_state->scan.sampled_vals[i];
- 			ret_type = IIO_VAL_INT_MULTIPLE;
- 			*val_len =  4;
- 		} else
-@@ -137,15 +143,6 @@ static const struct iio_info dev_rot_info = {
- 	.write_raw = &dev_rot_write_raw,
- };
- 
--/* Function to push data to buffer */
--static void hid_sensor_push_data(struct iio_dev *indio_dev, u8 *data, int len)
--{
--	dev_dbg(&indio_dev->dev, "hid_sensor_push_data >>\n");
--	iio_push_to_buffers(indio_dev, (u8 *)data);
--	dev_dbg(&indio_dev->dev, "hid_sensor_push_data <<\n");
--
--}
--
- /* Callback handler to send event after all samples are received and captured */
- static int dev_rot_proc_event(struct hid_sensor_hub_device *hsdev,
- 				unsigned usage_id,
-@@ -155,10 +152,15 @@ static int dev_rot_proc_event(struct hid_sensor_hub_device *hsdev,
- 	struct dev_rot_state *rot_state = iio_priv(indio_dev);
- 
- 	dev_dbg(&indio_dev->dev, "dev_rot_proc_event\n");
--	if (atomic_read(&rot_state->common_attributes.data_ready))
--		hid_sensor_push_data(indio_dev,
--				(u8 *)rot_state->sampled_vals,
--				sizeof(rot_state->sampled_vals));
-+	if (atomic_read(&rot_state->common_attributes.data_ready)) {
-+		if (!rot_state->timestamp)
-+			rot_state->timestamp = iio_get_time_ns(indio_dev);
-+
-+		iio_push_to_buffers_with_timestamp(indio_dev, &rot_state->scan,
-+						   rot_state->timestamp);
-+
-+		rot_state->timestamp = 0;
-+	}
- 
- 	return 0;
- }
-@@ -173,10 +175,14 @@ static int dev_rot_capture_sample(struct hid_sensor_hub_device *hsdev,
- 	struct dev_rot_state *rot_state = iio_priv(indio_dev);
- 
- 	if (usage_id == HID_USAGE_SENSOR_ORIENT_QUATERNION) {
--		memcpy(rot_state->sampled_vals, raw_data,
--					sizeof(rot_state->sampled_vals));
-+		memcpy(&rot_state->scan.sampled_vals, raw_data,
-+		       sizeof(rot_state->scan.sampled_vals));
-+
- 		dev_dbg(&indio_dev->dev, "Recd Quat len:%zu::%zu\n", raw_len,
--					sizeof(rot_state->sampled_vals));
-+			sizeof(rot_state->scan.sampled_vals));
-+	} else if (usage_id == HID_USAGE_SENSOR_TIME_TIMESTAMP) {
-+		rot_state->timestamp = hid_sensor_convert_timestamp(&rot_state->common_attributes,
-+								    *(s64 *)raw_data);
- 	}
- 
- 	return 0;
--- 
-2.17.1
+Hi Rob,
 
+On Mon, Jan 04, 2021 at 04:02:53PM -0700, Rob Herring wrote:
+> DT properties which can have multiple entries need to specify what the
+> entries are and define how many entries there can be. In the case of
+> only a single entry, just 'maxItems: 1' is sufficient.
+>=20
+> Add the missing entry constraints. These were found with a modified
+> meta-schema. Unfortunately, there are a few cases where the size
+> constraints are not defined such as common bindings, so the meta-schema
+> can't be part of the normal checks.
+>=20
+> [...]
+>  .../bindings/power/supply/bq25980.yaml        |  1 +
+> [...]
+
+Acked-by: Sebastian Reichel <sre@kernel.org>
+
+-- Sebastian
+
+--vyuzhxvp4ms2cjlb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl/0SucACgkQ2O7X88g7
++ppIAQ/8CwCUtes2Mr7K09stdBuNtR3gBayMxcQnnIM6AQvBexKzq6gM2xpDIPB8
+YVpTjaGQkOcwS3BMu7BsRT4t2s3KXy9lVS5jkChykskjyAyr9a7QPsK7MVZVRh2Q
+U896qS+zI2nsNdeX6+kT10+29b7PcoEvTJRtEPEFlsq4UoFbMAsdJhtHBo9v1oUP
+cJMT7NSkqtcHM9HeSPZFCTLyAsoGFPYMTneKdN9ZVlPHoQRkCH0k3vyHMmKKPWAQ
+uafDLlP+nvs9Ug/FSsFsoaLcixHHAI+GkVj48muZL7EVAygGTbrRA27r0txduvfj
+DOxfT7BdNOMkmDge0RR2vk29V/2WYsEg4vwi3uyP2BDQsdXEYpwTn00IJ5IJgcqE
+EAjq7hWsSo7zd8VkMc/CLN1a1W+PEpIJ0CGfS4cLtAMwRLNLdPA+FS4UaBCAoS4k
+T9AZGFXABwtQQHyOAHD8/Hjs5vexDnWdvcRyCuDqgt6YeUX6Lu8pRTWx5lkWPkLy
+GZf/jppVAnP/gtnsOOJnPL37jxbOpelu+4UopYZ/j9YLJb+M7P2xYhsYuRlnKn0r
+aAgoNpEXu3TNpex2apw+Cm70EiidWAGcWqvrOCWhdqWBulGJ+O4v1DYe536LLoZN
+rdX4Hbkx7kBMNJ1ZZVIA3x9YzLwGKo/1nnV2q7fUdTzUEobcJWQ=
+=gWL0
+-----END PGP SIGNATURE-----
+
+--vyuzhxvp4ms2cjlb--
