@@ -2,144 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BFAF2EA343
-	for <lists+linux-input@lfdr.de>; Tue,  5 Jan 2021 03:20:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C7872EA34F
+	for <lists+linux-input@lfdr.de>; Tue,  5 Jan 2021 03:25:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727757AbhAECUJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 4 Jan 2021 21:20:09 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:10382 "EHLO
-        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727701AbhAECUJ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 4 Jan 2021 21:20:09 -0500
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
-        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4D8x4S27l9z7Q5h;
-        Tue,  5 Jan 2021 10:18:32 +0800 (CST)
-Received: from SWX921481.china.huawei.com (10.126.203.185) by
- DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 5 Jan 2021 10:19:14 +0800
-From:   Barry Song <song.bao.hua@hisilicon.com>
-To:     <tglx@linutronix.de>, <maz@kernel.org>,
-        <gregkh@linuxfoundation.org>, <linux-input@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <linuxarm@openeuler.org>, Barry Song <song.bao.hua@hisilicon.com>,
-        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>
-Subject: [PATCH v2] genirq: add IRQF_NO_AUTOEN for request_irq
-Date:   Tue, 5 Jan 2021 15:14:11 +1300
-Message-ID: <20210105021411.34020-1-song.bao.hua@hisilicon.com>
-X-Mailer: git-send-email 2.21.0.windows.1
+        id S1728054AbhAECXV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 4 Jan 2021 21:23:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57172 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727822AbhAECXU (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 4 Jan 2021 21:23:20 -0500
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22EEFC061793
+        for <linux-input@vger.kernel.org>; Mon,  4 Jan 2021 18:22:40 -0800 (PST)
+Received: by mail-pj1-x1029.google.com with SMTP id w1so613317pjc.0
+        for <linux-input@vger.kernel.org>; Mon, 04 Jan 2021 18:22:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=F5v4P5OpFzV6txdYAKpaZWpOyrHHIe3zcVp3Rukxxyc=;
+        b=Fd9C5eh1l5XGQUug3JLCx6bXUXKY2FUOKpd6xlqkQRS4CPI390Ko/dfC8c7+vc+ZCB
+         8LRQiiZclIEgvq2hT9O1puypOipuNsqJg3xHYYFMfBXXj6OYTmYqXk4UNMPP8vIfNzbd
+         MvNlgkR593pRrJ5kR/GRGLiJPzW26BDErirJ8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=F5v4P5OpFzV6txdYAKpaZWpOyrHHIe3zcVp3Rukxxyc=;
+        b=U9reaChMrtO1ZfoxTEpLeUEMVGJRrDgSGV2zpWxmMgwL1bqyI12YBoKcPbJbLzktwA
+         t32tO6WXNZ5ElPftb8NiZfnnPonMtOX7RNFGqwWSaO30obL1M0hOPEANHr6usnHveKG2
+         eDA4Gtpvn+qluKGbF7y7N8uPtFg2hR2VaqIoPBPzvJefDnjwyEBltYhYwEgKLcCATSl3
+         ptGGUabr3wocLIz8Oquuu+b5uLoTzeLg+MeyuNZKzKSvw/sIf4XJeBuOcHaGRQLX0RuV
+         MxCWL3s88VmvUpEFkjNFp2DodD2/eEGf37ZZRdidE8dj8OYdtGQ2Gs7H7+fVqVU94BjE
+         qelg==
+X-Gm-Message-State: AOAM531OX+FbIWyceulqWRns9DcnWBPpDH6ZuNT1Q7aSTllDXM5/4jAX
+        CX7wF4TnUEZdVq8qM+BRIqwUuA==
+X-Google-Smtp-Source: ABdhPJwgn2j95/Q5PEpRXUFGNFU6+5GQKsifIo8y/OfwXh0gOAuL2TXdXcMbclnQUpdHu4w07X64NQ==
+X-Received: by 2002:a17:902:778e:b029:da:feef:8f2d with SMTP id o14-20020a170902778eb02900dafeef8f2dmr74759358pll.25.1609813359737;
+        Mon, 04 Jan 2021 18:22:39 -0800 (PST)
+Received: from philipchen.mtv.corp.google.com ([2620:15c:202:201:a6ae:11ff:fe11:fd59])
+        by smtp.gmail.com with ESMTPSA id t23sm56732903pfc.0.2021.01.04.18.22.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Jan 2021 18:22:39 -0800 (PST)
+From:   Philip Chen <philipchen@chromium.org>
+To:     LKML <linux-kernel@vger.kernel.org>, dmitry.torokhov@gmail.com
+Cc:     dianders@chromium.org, swboyd@chromium.org,
+        Philip Chen <philipchen@chromium.org>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Simon Glass <sjg@chromium.org>, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: [PATCH v3 1/2] dt-bindings: input: cros-ec-keyb: Add a new property
+Date:   Mon,  4 Jan 2021 18:22:33 -0800
+Message-Id: <20210104182154.v3.1.I025fb861cd5fa0ef5286b7dce514728e9df7ae74@changeid>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.126.203.185]
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Many drivers don't want interrupts enabled automatically due to
-request_irq(). So they are handling this issue by either way of
-the below two:
-(1)
-irq_set_status_flags(irq, IRQ_NOAUTOEN);
-request_irq(dev, irq...);
-(2)
-request_irq(dev, irq...);
-disable_irq(irq);
+This patch adds a new property `function-row-physmap` to the
+device tree for the custom keyboard top row design.
 
-The code in the second way is silly and unsafe. In the small time
-gap between request_irq() and disable_irq(), interrupts can still
-come.
-The code in the first way is safe though we might be able to do it
-in the generic irq code.
+The property describes the rows/columns of the top row keys
+from left to right.
 
-With this patch, drivers can request_irq with IRQF_NO_AUTOEN flag.
-They will need neither irq_set_status_flags() nor disable_irq().
-Hundreds of drivers with this problem will be handled afterwards.
-
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
+Signed-off-by: Philip Chen <philipchen@chromium.org>
 ---
- -v2:
- refuse the cases IRQF_NO_AUTOEN + IRQF_DISABLED are both set with
- respect to Dmitry's feedback in v1
 
- include/linux/interrupt.h |  3 +++
- kernel/irq/manage.c       |  8 ++++++++
- kernel/irq/settings.h     | 10 ++++++++++
- 3 files changed, 21 insertions(+)
+(no changes since v2)
 
-diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-index bb8ff9083e7d..0f22d277078c 100644
---- a/include/linux/interrupt.h
-+++ b/include/linux/interrupt.h
-@@ -61,6 +61,8 @@
-  *                interrupt handler after suspending interrupts. For system
-  *                wakeup devices users need to implement wakeup detection in
-  *                their interrupt handlers.
-+ * IRQF_NO_AUTOEN - Don't enable IRQ automatically when users request it. Users
-+ *                will enable it explicitly by enable_irq() later.
-  */
- #define IRQF_SHARED		0x00000080
- #define IRQF_PROBE_SHARED	0x00000100
-@@ -74,6 +76,7 @@
- #define IRQF_NO_THREAD		0x00010000
- #define IRQF_EARLY_RESUME	0x00020000
- #define IRQF_COND_SUSPEND	0x00040000
-+#define IRQF_NO_AUTOEN		0x00080000
+Changes in v2:
+- add `function-row-physmap` instead of `google,custom-keyb-top-row`
+
+ .../devicetree/bindings/input/google,cros-ec-keyb.yaml | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+index 8e50c14a9d778..7acdb33781d30 100644
+--- a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
++++ b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
+@@ -31,6 +31,16 @@ properties:
+       if the EC does not have its own logic or hardware for this.
+     type: boolean
  
- #define IRQF_TIMER		(__IRQF_TIMER | IRQF_NO_SUSPEND | IRQF_NO_THREAD)
- 
-diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
-index ab8567f32501..2b28314e2572 100644
---- a/kernel/irq/manage.c
-+++ b/kernel/irq/manage.c
-@@ -1693,6 +1693,9 @@ __setup_irq(unsigned int irq, struct irq_desc *desc, struct irqaction *new)
- 			irqd_set(&desc->irq_data, IRQD_NO_BALANCING);
- 		}
- 
-+		if (new->flags & IRQF_NO_AUTOEN)
-+			irq_settings_set_noautoen(desc);
++  function-row-physmap:
++    $ref: '/schemas/types.yaml#/definitions/uint32-array'
++    description: |
++      An ordered u32 array describing the rows/columns (in the scan matrix)
++      of top row keys from physical left (KEY_F1) to right. Each entry
++      encodes the row/column as:
++      (((row) & 0xFF) << 24) | (((column) & 0xFF) << 16)
++      where the lower 16 bits are reserved. This property is specified only
++      when the keyboard has a custom design for the top row keys.
 +
- 		if (irq_settings_can_autoenable(desc)) {
- 			irq_startup(desc, IRQ_RESEND, IRQ_START_COND);
- 		} else {
-@@ -2086,10 +2089,15 @@ int request_threaded_irq(unsigned int irq, irq_handler_t handler,
- 	 * which interrupt is which (messes up the interrupt freeing
- 	 * logic etc).
- 	 *
-+	 * Also shared interrupts do not go well with disabling auto enable.
-+	 * The sharing interrupt might request it while it's still disabled
-+	 * and then wait for interrupts forever.
-+	 *
- 	 * Also IRQF_COND_SUSPEND only makes sense for shared interrupts and
- 	 * it cannot be set along with IRQF_NO_SUSPEND.
- 	 */
- 	if (((irqflags & IRQF_SHARED) && !dev_id) ||
-+	    ((irqflags & IRQF_SHARED) && (irqflags & IRQF_NO_AUTOEN)) ||
- 	    (!(irqflags & IRQF_SHARED) && (irqflags & IRQF_COND_SUSPEND)) ||
- 	    ((irqflags & IRQF_NO_SUSPEND) && (irqflags & IRQF_COND_SUSPEND)))
- 		return -EINVAL;
-diff --git a/kernel/irq/settings.h b/kernel/irq/settings.h
-index 403378b9947b..a28958a9c548 100644
---- a/kernel/irq/settings.h
-+++ b/kernel/irq/settings.h
-@@ -145,6 +145,16 @@ static inline bool irq_settings_can_move_pcntxt(struct irq_desc *desc)
- 	return desc->status_use_accessors & _IRQ_MOVE_PCNTXT;
- }
+ required:
+   - compatible
  
-+static inline void irq_settings_clr_noautoen(struct irq_desc *desc)
-+{
-+	desc->status_use_accessors &= ~_IRQ_NOAUTOEN;
-+}
-+
-+static inline void irq_settings_set_noautoen(struct irq_desc *desc)
-+{
-+	desc->status_use_accessors |= _IRQ_NOAUTOEN;
-+}
-+
- static inline bool irq_settings_can_autoenable(struct irq_desc *desc)
- {
- 	return !(desc->status_use_accessors & _IRQ_NOAUTOEN);
 -- 
-2.25.1
+2.26.2
 
