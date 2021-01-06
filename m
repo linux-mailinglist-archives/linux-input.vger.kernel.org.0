@@ -2,201 +2,168 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CFD772EB685
-	for <lists+linux-input@lfdr.de>; Wed,  6 Jan 2021 00:51:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 586C32EB7C0
+	for <lists+linux-input@lfdr.de>; Wed,  6 Jan 2021 02:44:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727362AbhAEXuY convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Tue, 5 Jan 2021 18:50:24 -0500
-Received: from aposti.net ([89.234.176.197]:33650 "EHLO aposti.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726171AbhAEXuW (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 5 Jan 2021 18:50:22 -0500
-Date:   Tue, 05 Jan 2021 23:49:18 +0000
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH] dt-bindings: Add missing array size constraints
-To:     Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        linux-usb@vger.kernel.org, linux-iio@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-remoteproc@vger.kernel.org, alsa-devel@alsa-project.org,
-        dri-devel@lists.freedesktop.org,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        linux-ide@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        netdev@vger.kernel.org, linux-clk@vger.kernel.org,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Marc Zyngier <maz@kernel.org>, linux-riscv@lists.infradead.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
-        Jakub Kicinski <kuba@kernel.org>, linux-media@vger.kernel.org,
-        Ohad Ben-Cohen <ohad@wizery.com>, linux-pm@vger.kernel.org,
-        linux-gpio@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, Jens Axboe <axboe@kernel.dk>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-spi@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Cameron <jic23@kernel.org>, s-anna@ti.com
-Message-Id: <6IJHMQ.19OBCF0P9Z4X2@crapouillou.net>
-In-Reply-To: <20210105232729.GA2864340@xps15>
-References: <20210104230253.2805217-1-robh@kernel.org>
-        <20210105232729.GA2864340@xps15>
+        id S1725768AbhAFBoU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 5 Jan 2021 20:44:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50012 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725730AbhAFBoU (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 5 Jan 2021 20:44:20 -0500
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAE1FC061574
+        for <linux-input@vger.kernel.org>; Tue,  5 Jan 2021 17:43:39 -0800 (PST)
+Received: by mail-ot1-x334.google.com with SMTP id r9so1617695otk.11
+        for <linux-input@vger.kernel.org>; Tue, 05 Jan 2021 17:43:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8190Rw9nFurXvpyVpr5H2heqLA3Td/3zauNq8uzsNzM=;
+        b=MKfJ7zGxTH1maYa7wKycTAhSCe7iU3Dy08HvTas4FA/zUjsnZ6Hjc05jcStbPpGZ/B
+         g7TV1HRXxJ+RX79sAOjh9NV09M2ekhu2NPTSuTTHO9ncVhG+jBvzCjpGxG+wKMSgiOtu
+         ZdPYyd4Chi2Xa6auJVV/rnzWGMTaQgVoK9zy0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8190Rw9nFurXvpyVpr5H2heqLA3Td/3zauNq8uzsNzM=;
+        b=qsdQenBJKYYNVOGE8X3PeQIyl3JdQxSH5T8RxE05D6doij64QLY7xPJDGF+L1I2/bG
+         O9LimwLkUj8cDCzykweNw79FWe2XH9uYEvz1gcMM7KxNXUql2ihDNQJsljq2uZd72TjW
+         GpE4Aol7Tde/F8PlziQTWogNTfWPAz01ayRlc2bw44VNfi8zNbIJgAsR2wlrxmlfAiCO
+         GZi6jwM8bQdDORStgRU1Q+rSWKVRt8CncXfaVFEyY4QwUo24X7yF2F4fBke2DZNSZA4v
+         kNIDVMflf7oEIn45IokcfeolDsIWVoqiyZxxpA4wpwSANMmIlcwgERIjgIS314pOr95t
+         9Ycw==
+X-Gm-Message-State: AOAM532iz0P4gvOMTRpjWJDEqoEkNflf5oy7VRs7a6l+2jhp7ozxH6o+
+        QkVKRlgWVOFOTRdKz//HZRLVgSvdyh+qfw==
+X-Google-Smtp-Source: ABdhPJxaD7Kb8VvjxJPnmuGv9HqPEWcSoCUAWIwnlG96N30ikqDBF7+6KBl1L/8pE12nbCNLGO8/cA==
+X-Received: by 2002:a05:6830:17cc:: with SMTP id p12mr1745118ota.102.1609897418833;
+        Tue, 05 Jan 2021 17:43:38 -0800 (PST)
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com. [209.85.210.51])
+        by smtp.gmail.com with ESMTPSA id o64sm287496oif.43.2021.01.05.17.43.38
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Jan 2021 17:43:38 -0800 (PST)
+Received: by mail-ot1-f51.google.com with SMTP id r9so1617676otk.11
+        for <linux-input@vger.kernel.org>; Tue, 05 Jan 2021 17:43:38 -0800 (PST)
+X-Received: by 2002:ab0:2e99:: with SMTP id f25mr1914472uaa.104.1609896944481;
+ Tue, 05 Jan 2021 17:35:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: 8BIT
+References: <20201211222448.2115188-1-dianders@chromium.org>
+In-Reply-To: <20201211222448.2115188-1-dianders@chromium.org>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Tue, 5 Jan 2021 17:35:33 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=Ve4wGJ=KxQjraYsiAQZHG_5qEeFW0ZhmBBkRmtdm7Gwg@mail.gmail.com>
+Message-ID: <CAD=FV=Ve4wGJ=KxQjraYsiAQZHG_5qEeFW0ZhmBBkRmtdm7Gwg@mail.gmail.com>
+Subject: Re: [PATCH v8 0/4] HID: i2c-hid: Reorganize to allow supporting goodix,gt7375p
+To:     Jiri Kosina <jkosina@suse.cz>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Andrea Borgia <andrea@borgia.bo.it>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Daniel Playfair Cal <daniel.playfair.cal@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
+        Jiri Kosina <jikos@kernel.org>, Li Yang <leoyang.li@nxp.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Max Krummenacher <max.oss.09@gmail.com>,
+        Michael Walle <michael@walle.cc>,
+        Pavel Balan <admin@kryma.net>, Shawn Guo <shawnguo@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>, Will Deacon <will@kernel.org>,
+        Xiaofei Tan <tanxiaofei@huawei.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Benjamin,
 
-Le mar. 5 janv. 2021 à 16:27, Mathieu Poirier 
-<mathieu.poirier@linaro.org> a écrit :
-> Adding Suman and Paul - guys please have a look.
-> 
-> On Mon, Jan 04, 2021 at 04:02:53PM -0700, Rob Herring wrote:
->>  DT properties which can have multiple entries need to specify what 
->> the
->>  entries are and define how many entries there can be. In the case of
->>  only a single entry, just 'maxItems: 1' is sufficient.
->> 
->>  Add the missing entry constraints. These were found with a modified
->>  meta-schema. Unfortunately, there are a few cases where the size
->>  constraints are not defined such as common bindings, so the 
->> meta-schema
->>  can't be part of the normal checks.
->> 
->>  Cc: Jens Axboe <axboe@kernel.dk>
->>  Cc: Stephen Boyd <sboyd@kernel.org>
->>  Cc: Thierry Reding <thierry.reding@gmail.com>
->>  Cc: MyungJoo Ham <myungjoo.ham@samsung.com>
->>  Cc: Chanwoo Choi <cw00.choi@samsung.com>
->>  Cc: Linus Walleij <linus.walleij@linaro.org>
->>  Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
->>  Cc: Jonathan Cameron <jic23@kernel.org>
->>  Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
->>  Cc: Thomas Gleixner <tglx@linutronix.de>
->>  Cc: Marc Zyngier <maz@kernel.org>
->>  Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
->>  Cc: Chen-Yu Tsai <wens@csie.org>
->>  Cc: Ulf Hansson <ulf.hansson@linaro.org>
->>  Cc: "David S. Miller" <davem@davemloft.net>
->>  Cc: Jakub Kicinski <kuba@kernel.org>
->>  Cc: Sebastian Reichel <sre@kernel.org>
->>  Cc: Ohad Ben-Cohen <ohad@wizery.com>
->>  Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
->>  Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->>  Signed-off-by: Rob Herring <robh@kernel.org>
->>  ---
->>  Cc: linux-arm-kernel@lists.infradead.org
->>  Cc: linux-ide@vger.kernel.org
->>  Cc: linux-clk@vger.kernel.org
->>  Cc: dri-devel@lists.freedesktop.org
->>  Cc: linux-gpio@vger.kernel.org
->>  Cc: linux-iio@vger.kernel.org
->>  Cc: linux-input@vger.kernel.org
->>  Cc: linux-media@vger.kernel.org
->>  Cc: linux-mmc@vger.kernel.org
->>  Cc: netdev@vger.kernel.org
->>  Cc: linux-pm@vger.kernel.org
->>  Cc: linux-remoteproc@vger.kernel.org
->>  Cc: linux-riscv@lists.infradead.org
->>  Cc: linux-serial@vger.kernel.org
->>  Cc: alsa-devel@alsa-project.org
->>  Cc: linux-spi@vger.kernel.org
->>  Cc: linux-usb@vger.kernel.org
-> 
->> 
->>  ---
->>   .../socionext,uniphier-system-cache.yaml      |  4 ++--
->>   .../bindings/ata/sata_highbank.yaml           |  1 +
->>   .../bindings/clock/canaan,k210-clk.yaml       |  1 +
->>   .../bindings/display/brcm,bcm2711-hdmi.yaml   |  1 +
->>   .../bindings/display/brcm,bcm2835-hdmi.yaml   |  1 +
->>   .../display/panel/jdi,lt070me05000.yaml       |  1 +
->>   .../display/panel/mantix,mlaf057we51-x.yaml   |  3 ++-
->>   .../display/panel/novatek,nt36672a.yaml       |  1 +
->>   .../devicetree/bindings/dsp/fsl,dsp.yaml      |  2 +-
->>   .../devicetree/bindings/eeprom/at25.yaml      |  3 +--
->>   .../bindings/extcon/extcon-ptn5150.yaml       |  2 ++
->>   .../bindings/gpio/gpio-pca95xx.yaml           |  1 +
->>   .../bindings/iio/adc/adi,ad7768-1.yaml        |  2 ++
->>   .../bindings/iio/adc/aspeed,ast2400-adc.yaml  |  1 +
->>   .../bindings/iio/adc/lltc,ltc2496.yaml        |  2 +-
->>   .../bindings/iio/adc/qcom,spmi-vadc.yaml      |  1 +
->>   .../bindings/iio/adc/st,stm32-adc.yaml        |  2 ++
->>   .../iio/magnetometer/asahi-kasei,ak8975.yaml  |  1 +
->>   .../iio/potentiometer/adi,ad5272.yaml         |  1 +
->>   .../input/touchscreen/elan,elants_i2c.yaml    |  1 +
->>   .../interrupt-controller/fsl,intmux.yaml      |  2 +-
->>   .../interrupt-controller/st,stm32-exti.yaml   |  2 ++
->>   .../allwinner,sun4i-a10-video-engine.yaml     |  1 +
->>   .../devicetree/bindings/media/i2c/imx219.yaml |  1 +
->>   .../memory-controllers/exynos-srom.yaml       |  2 ++
->>   .../bindings/misc/fsl,dpaa2-console.yaml      |  1 +
->>   .../bindings/mmc/mmc-controller.yaml          |  2 ++
->>   .../bindings/net/ti,k3-am654-cpsw-nuss.yaml   |  1 +
->>   .../bindings/net/ti,k3-am654-cpts.yaml        |  1 +
->>   .../phy/allwinner,sun4i-a10-usb-phy.yaml      |  2 ++
->>   .../phy/allwinner,sun50i-a64-usb-phy.yaml     |  2 ++
->>   .../phy/allwinner,sun50i-h6-usb-phy.yaml      |  2 ++
->>   .../phy/allwinner,sun5i-a13-usb-phy.yaml      |  2 ++
->>   .../phy/allwinner,sun6i-a31-usb-phy.yaml      |  2 ++
->>   .../phy/allwinner,sun8i-a23-usb-phy.yaml      |  2 ++
->>   .../phy/allwinner,sun8i-a83t-usb-phy.yaml     |  2 ++
->>   .../phy/allwinner,sun8i-h3-usb-phy.yaml       |  2 ++
->>   .../phy/allwinner,sun8i-r40-usb-phy.yaml      |  2 ++
->>   .../phy/allwinner,sun8i-v3s-usb-phy.yaml      |  2 ++
->>   .../phy/allwinner,sun9i-a80-usb-phy.yaml      | 19 
->> ++++++++-----------
->>   .../phy/socionext,uniphier-ahci-phy.yaml      |  2 +-
->>   .../phy/socionext,uniphier-pcie-phy.yaml      |  2 +-
->>   .../phy/socionext,uniphier-usb3hs-phy.yaml    |  2 +-
->>   .../phy/socionext,uniphier-usb3ss-phy.yaml    |  2 +-
->>   .../bindings/phy/ti,phy-gmii-sel.yaml         |  2 +-
->>   .../pinctrl/aspeed,ast2400-pinctrl.yaml       |  3 +--
->>   .../pinctrl/aspeed,ast2500-pinctrl.yaml       |  4 ++--
->>   .../bindings/power/supply/bq25980.yaml        |  1 +
->>   .../bindings/remoteproc/ingenic,vpu.yaml      |  2 +-
->>   .../remoteproc/ti,omap-remoteproc.yaml        |  3 +++
->>   .../bindings/riscv/sifive-l2-cache.yaml       |  1 +
->>   .../bindings/serial/renesas,hscif.yaml        |  2 ++
->>   .../bindings/serial/renesas,scif.yaml         |  2 ++
->>   .../bindings/serial/renesas,scifa.yaml        |  2 ++
->>   .../bindings/serial/renesas,scifb.yaml        |  2 ++
->>   .../sound/allwinner,sun4i-a10-codec.yaml      |  1 +
->>   .../bindings/sound/google,sc7180-trogdor.yaml |  1 +
->>   .../bindings/sound/samsung,aries-wm8994.yaml  |  3 +++
->>   .../bindings/sound/samsung,midas-audio.yaml   |  2 ++
->>   .../devicetree/bindings/sound/tas2562.yaml    |  2 ++
->>   .../devicetree/bindings/sound/tas2770.yaml    |  2 ++
->>   .../bindings/sound/tlv320adcx140.yaml         |  1 +
->>   .../devicetree/bindings/spi/renesas,rspi.yaml |  2 ++
->>   .../devicetree/bindings/sram/sram.yaml        |  2 ++
->>   .../timer/allwinner,sun4i-a10-timer.yaml      |  2 ++
->>   .../bindings/timer/intel,ixp4xx-timer.yaml    |  2 +-
->>   .../usb/allwinner,sun4i-a10-musb.yaml         |  2 +-
->>   .../bindings/usb/brcm,usb-pinmap.yaml         |  3 +++
->>   .../devicetree/bindings/usb/generic-ehci.yaml |  1 +
->>   .../devicetree/bindings/usb/generic-ohci.yaml |  1 +
->>   .../devicetree/bindings/usb/ingenic,musb.yaml |  2 +-
->>   .../bindings/usb/renesas,usbhs.yaml           |  1 +
->>   .../devicetree/bindings/usb/ti,j721e-usb.yaml |  3 ++-
->>   .../bindings/usb/ti,keystone-dwc3.yaml        |  2 ++
->>   74 files changed, 118 insertions(+), 33 deletions(-)
+On Fri, Dec 11, 2020 at 2:24 PM Douglas Anderson <dianders@chromium.org> wrote:
+>
+> The goal of this series is to support the Goodix GT7375P touchscreen.
+> This touchscreen is special because it has power sequencing
+> requirements that necessitate driving a reset GPIO.
+>
+> To do this, we totally rejigger the way i2c-hid is organized so that
+> it's easier to jam the Goodix support in there.
+>
+> This series was:
+> - Tested on a device that uses normal i2c-hid.
+> - Tested on a device that has a Goodix i2c-hid device.
+> - Tested on an ACPI device, but an earlier version of the series.
+>
+> I believe the plan is for Benjamin to land the whole series.  Will
+> said this about the arm64 defconfig change (and provided his Ack):
+> > ...there are a few things I really care about
+> > in defconfig (e.g. things like page size!), generally speaking we don't
+> > need to Ack everything that changes in there.
+> >
+> > That said, might be worth checking whether arm-soc have any defconfig
+> > changes queued in -next so you don't end up with conflicts.
+>
+> Changes in v8:
+> - Mark suspend/resume as static as per patches robot.
+>
+> Changes in v7:
+> - Rebase atop commit afdd34c5fa40 ("HID: i2c-hid: show the error ...")
+>
+> Changes in v6:
+> - ACPI probe function should have been "static"
+> - Don't export suspend/resume, just export dev_pm_ops from core.
+> - Fixed crash in ACPI module (missing init of "client")
+> - No need for regulator include in the core.
+> - Removed i2c_device_id table from ACPI module.
+> - Suspend/resume are no longer exported from the core.
+>
+> Changes in v5:
+> - Add shutdown_tail op and use it in ACPI.
+> - Added mention of i2c-hid in the yaml itself as per Rob.
+> - Adjusted subject as per Rob.
+> - i2chid_subclass_data => i2chid_ops.
+> - power_up_device => power_up (same with power_down).
+> - subclass => ops.
+>
+> Changes in v4:
+> - ("arm64: defconfig: Update config names for i2c-hid rejigger") new for v4.
+> - Fully rejigger so ACPI and OF are full subclasses.
+> - Totally redid based on the new subclass system.
+>
+> Changes in v3:
+> - Fixed compatible in example.
+> - Removed Benjamin as a maintainer.
+> - Rework to use subclassing.
+> - Updated description.
+>
+> Changes in v2:
+> - ("dt-bindings: HID: i2c-hid: Introduce bindings for the Goodix GT7375P") new in v2.
+> - Get timings based on the compatible string.
+> - Use a separate compatible string for this new touchscreen.
+>
+> Douglas Anderson (4):
+>   HID: i2c-hid: Reorganize so ACPI and OF are separate modules
+>   arm64: defconfig: Update config names for i2c-hid rejigger
+>   dt-bindings: input: HID: i2c-hid: Introduce bindings for the Goodix
+>     GT7375P
+>   HID: i2c-hid: Introduce goodix-i2c-hid using i2c-hid core
 
-For bindings/remoteproc/ingenic,vpu.yaml and 
-devicetree/bindings/usb/ingenic,musb.yaml:
+I think this series is ready to land.  The "defconfig" has a trivial
+conflict with commit 74b87103b3d0 ("arm64: defconfig: Enable HID
+multitouch") against linuxnext, but it's so simple that hopefully
+folks will be OK with that when it lands.
 
-Acked-by: Paul Cercueil <paul@crapouillou.net>
+Please let me know if there's anything else you need me to do.  :-)
 
-Cheers,
--Paul
-
-
+-Doug
