@@ -2,122 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2715A2EBA58
-	for <lists+linux-input@lfdr.de>; Wed,  6 Jan 2021 08:14:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 631CF2EBA6E
+	for <lists+linux-input@lfdr.de>; Wed,  6 Jan 2021 08:26:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725944AbhAFHOU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 6 Jan 2021 02:14:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45294 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725803AbhAFHOU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 6 Jan 2021 02:14:20 -0500
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6AACC061358
-        for <linux-input@vger.kernel.org>; Tue,  5 Jan 2021 23:13:39 -0800 (PST)
-Received: by mail-ej1-x62a.google.com with SMTP id x16so3756963ejj.7
-        for <linux-input@vger.kernel.org>; Tue, 05 Jan 2021 23:13:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rT4Dc8swlK31/4OXAMfRD8Dy9QIvv8YpGOiKzBJjVS0=;
-        b=kW/FIQ9UMgiQ4U+TkdADVoEYk5gZPV3uhWmFEaBISm60k6X7HKncaLJMcm7Te12ixW
-         DmozTsbCxinSR4kw60jnPkTRpJcI2yoqWEX3PsYD1Gobe1MgtRCRsAYMvDuT6a2OmRZe
-         JA5aIaNzC2Qz1QI2pjKK7hj+qAEnukuAv07b9W7M8pBoGmUjZmXbHaL5522RR1fvjBcC
-         aUOByaCkN/CFtegf2L0lfAhcsuMiZ+e/Z0kGD0hJrq1CBcozlTfyZi2pX2qyg5tLtp5K
-         qfoj7U94CqKy1yfDXJToNFtVkn5zEBI7/9XBDJd/bwiyCn1gMrTQ4lsyGmJDatnR3P5D
-         m6RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rT4Dc8swlK31/4OXAMfRD8Dy9QIvv8YpGOiKzBJjVS0=;
-        b=i4YMPQoyauQuDtyUOBnCdjG53E4QY2kKR05tdJlQ2rEXN3EOQtOvy9q5FbvTg5tqEn
-         wk8WlOY+r1GHJTTs+OHJ4Z7EwbrbmoYN9jH8emLtSl2PhOzuFIljR8OvhrQJHJ77T6L4
-         yiKmdCHrEqnKj1ZNX+Pola+HvmC942W3b2owsB9tS/1xFFbxWU0n+6Pc5PJdFeVlk+Mp
-         n6A6xZHgiWTpSVlrYQSSIQwwyxIT3PTiKq0obrx2frMQGetNBBg/bi/0Rk1O39TnWXj7
-         pVzrYIXtaMKMEICNYZrLGqs5DCcrdEBlljtH+rssrjzPD4DS3S9Td85195vx5ZV1eHzu
-         57Rg==
-X-Gm-Message-State: AOAM530mesXCtxmCXHtpfvI/kZ+gARXBUS9O5IUbTSCGgxZciOx4/ErD
-        3tHsCDJTW4Ldw3S+96JdkMO7xnJvigGXWq7mSOc2CA==
-X-Google-Smtp-Source: ABdhPJz7NZsjb4UgOGiErAdqwk42sh/yXenAjVlhxnzAVaOFNfM5U6i5Q3E7GI/VvU/IA448wOjGCY/95IeDdC3rxz4=
-X-Received: by 2002:a17:906:8594:: with SMTP id v20mr1986708ejx.470.1609917218321;
- Tue, 05 Jan 2021 23:13:38 -0800 (PST)
-MIME-Version: 1.0
-References: <20210104230253.2805217-1-robh@kernel.org>
-In-Reply-To: <20210104230253.2805217-1-robh@kernel.org>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Wed, 6 Jan 2021 08:13:27 +0100
-Message-ID: <CAMpxmJVFFu6q53-O_iWCyhY3M3up2Hg1TMY_DpmOvED4eN8bJQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: Add missing array size constraints
-To:     Rob Herring <robh@kernel.org>
-Cc:     linux-devicetree <devicetree@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jens Axboe <axboe@kernel.dk>, Stephen Boyd <sboyd@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Marc Zyngier <maz@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        arm-soc <linux-arm-kernel@lists.infradead.org>,
-        linux-ide@vger.kernel.org, linux-clk <linux-clk@vger.kernel.org>,
-        linux-drm <dri-devel@lists.freedesktop.org>,
-        linux-gpio <linux-gpio@vger.kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        Linux Input <linux-input@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        linux-mmc@vger.kernel.org, netdev <netdev@vger.kernel.org>,
-        linux-pm <linux-pm@vger.kernel.org>,
-        linux-remoteproc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-serial@vger.kernel.org,
-        Linux-ALSA <alsa-devel@alsa-project.org>,
-        linux-spi@vger.kernel.org, USB list <linux-usb@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1725789AbhAFH0J (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 6 Jan 2021 02:26:09 -0500
+Received: from mout.gmx.net ([212.227.17.22]:46247 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725562AbhAFH0J (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 6 Jan 2021 02:26:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1609917876;
+        bh=qmv55JTidpW9XDoGGDekeDfrI3zhxboXsDWJ5aX4p2E=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+        b=L8hP8Kqlnrs7yL5pugy11G/4gcPTmEZ/hcnhv3msOKA0JiLLrwCL9UuKh+7l/iDKZ
+         JLhEjMjiLQKg+Ds5LWgrmu4SWwmesibhWWOsIDdXFyiEsr68TSGVEYRWZC9IOB1L90
+         oU9ZDMzWD9mdYCztBLoPEy4asQYG95CgN+jukFjY=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from Valinor ([82.128.181.212]) by mail.gmx.com (mrgmx105
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1N95eJ-1jsHGV2B7f-016Bhn; Wed, 06
+ Jan 2021 08:24:36 +0100
+Date:   Wed, 6 Jan 2021 09:26:15 +0200
+From:   Lauri Kasanen <cand@gmx.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-mips@vger.kernel.org, tsbogend@alpha.franken.de,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH 4/6] input: Add N64 controller driver
+Message-Id: <20210106092615.e72e715bd3817e2f1dc6d55c@gmx.com>
+In-Reply-To: <X/Tk/ZrqyPlGriiZ@google.com>
+References: <20210104154811.ced3a894cddc4d309827307c@gmx.com>
+        <X/Tk/ZrqyPlGriiZ@google.com>
+X-Mailer: Sylpheed 3.5.0 (GTK+ 2.18.6; x86_64-unknown-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:NhCbZQ8m3X67A4wNfTQbid/oDanPpAoTsdF86+bpsFRGdaxzJCS
+ haHq+tKc2CwlAMyHCwfBBmT/7nHa3hLM/O0InlYAVdytuQJ0DNRCusl6eNswY/YSK9oXkGF
+ zDAVbVvbGllZgc8MfDMjfnvt+b5umzwJYZdyNzGdy/P8e2IR8JPEJ0S9N5p79GmLjKRI9aK
+ xP4qURdEILTCP4Uc1VUYA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:SSoQi+2wYBo=:ME7flNZpn52wNW0anOYc4Z
+ 3oDlWMVCuBrya5AtBhIc6zSjkm23LYd5GOd0i6WYf2ht7QK/vom2bHc+q0qEi9GGPru/qpzEr
+ MBKqQh+3wT61GwnDLeEfhMzCIJErDmJsjPVsbAzUuQd+yGoLqQjU9I20cRgpqsZr8FtmSEjV1
+ XBSRf2rhlaEoRYXhvMl7mWMnSgDltN3OnwEpWpYVfmwHtG/q5SiMYKwegUxO34tavQRzDwH67
+ XVPzw5Kh+lmylD3Q4edcNd6kIBUfdcu/S4FccwU/ndS+2oScOq5sdvR+CScakE1iU5lcaKJtb
+ 3nHVJ1AT8vjBr8RZls0FEUkh7HG6wizvXGch2W2XHivawR5laBniBla9s+X3/cQBUxzJkLeJr
+ e+J9NAzx/LnZOTpzyPDSH5w1Jwt8eBXoae+kC77jeh+KXU+Nq+gx8V1fsHohMa8yJvkWWE8/h
+ eUqd2lUhAn1lC9xkUutPaSux0QSJO8H2+JZds9Ql1bqBorKaF4bUa5sVaiqvr/nd+yS2vV4la
+ nKTbWK5QHvtuD9wFLh4p8z1axZfn4Npl30LmnWC8lOSqfsi1Utsyh1itr4UhF1yH0zq3u7wdX
+ vwsdwK2CIkLz+aF5c4JP56vD59sAJYXvhEVzfDSdbwvDpS+hzr7hGczIoDaTz2QkWAItjuJE+
+ FyHguceQ7dAfdqz913HQ6EzApn9+pV8hIzlYg/C1eM7xbGObdjDaqTmHEcmfrYIt2+Em99X6i
+ ylyM0RnfyjMXwF3ETI8m2xaHLzmV9diVfuHGI7yEr/uxmuD5nyBo4q1SBZmV2hW5J5p6fZNE6
+ qGaDk5SbF4XW6d73MQQGw/LS5arog2JONpaA3qeLsdbmUtlUoOnWbPJmKKHwAwNWpjaXbEZfv
+ DMMYDwXxzUkAXarG3Hgg==
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jan 5, 2021 at 12:03 AM Rob Herring <robh@kernel.org> wrote:
+On Tue, 5 Jan 2021 14:15:25 -0800
+Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:
+
+> > +config JOYSTICK_N64
+> > +	bool "N64 controller"
+> > +	depends on MACH_NINTENDO64
+> > +	help
+> > +	  Support for the four N64 controllers.
+> > +
 >
-> DT properties which can have multiple entries need to specify what the
-> entries are and define how many entries there can be. In the case of
-> only a single entry, just 'maxItems: 1' is sufficient.
->
-> Add the missing entry constraints. These were found with a modified
-> meta-schema. Unfortunately, there are a few cases where the size
-> constraints are not defined such as common bindings, so the meta-schema
-> can't be part of the normal checks.
->
+> "To compile this driver as a module..."
+...
+> No option to unload the driver?
 
-[snip!]
+Yes, no option to build as a module or to unload, on purpose. The target
+system has 8mb RAM, and this is the only input system. It saves RAM,
+and makes no sense to unload your only input possibility.
 
->  .../bindings/gpio/gpio-pca95xx.yaml           |  1 +
+The driver is specific to the N64. It can't be used on other systems,
+mips or otherwise.
 
-[snip!]
-
-> diff --git a/Documentation/devicetree/bindings/gpio/gpio-pca95xx.yaml b/Documentation/devicetree/bindings/gpio/gpio-pca95xx.yaml
-> index f5ee23c2df60..57cdcfd4ff3c 100644
-> --- a/Documentation/devicetree/bindings/gpio/gpio-pca95xx.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/gpio-pca95xx.yaml
-> @@ -81,6 +81,7 @@ properties:
->      const: 2
->
->    reset-gpios:
-> +    maxItems: 1
->      description:
->        GPIO specification for the RESET input. This is an active low signal to
->        the PCA953x.  Not valid for Maxim MAX732x devices.
-
-Acked-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+- Lauri
