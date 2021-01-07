@@ -2,74 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E44092EE81C
-	for <lists+linux-input@lfdr.de>; Thu,  7 Jan 2021 23:06:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 040892EE822
+	for <lists+linux-input@lfdr.de>; Thu,  7 Jan 2021 23:07:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727852AbhAGWFs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 7 Jan 2021 17:05:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43160 "EHLO
+        id S1726854AbhAGWHn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 7 Jan 2021 17:07:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725944AbhAGWFs (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 7 Jan 2021 17:05:48 -0500
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5A2BC0612F5;
-        Thu,  7 Jan 2021 14:05:07 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id o17so18272717lfg.4;
-        Thu, 07 Jan 2021 14:05:07 -0800 (PST)
+        with ESMTP id S1726526AbhAGWHm (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 7 Jan 2021 17:07:42 -0500
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 363C1C0612F4;
+        Thu,  7 Jan 2021 14:07:02 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id o17so18283723lfg.4;
+        Thu, 07 Jan 2021 14:07:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
+        h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=JQNiO2Mnj6QxwX1KOBemH+gofG2EOUwTUr4JeDXvjvk=;
-        b=jgw+CU1Q5PZmru7wKEP4suIgDUIZgoXFY6oAGUeETSt3z6gUwm9UKspKZpb1nO8/Ag
-         tPGxXtiV9S/qr0zbBLdE5X23OjABwUyrDRCzhFE5gIW3H8/pnCYGVJJ7TGwIIxx2kmjp
-         J8UOvbmVaHdhStxm/2Looa/gR4Wx0Yfzy+0C5JqTd0v5aAPV4B8bYDrHCtVzXMtqaojd
-         O74nNncQCLwjvxpr2UbkEeyVFlJ69fCRz8KSTPXMqxgqQzJnWEvKKfiG0yj+8Ne/wcgd
-         IYOdgGItsHSB5pOVN9N2rxUDvl0qEFuvstdsVLkKWfL9zJaU78K7leiRzC+4waChx+j8
-         rFuw==
+        bh=x0u8HAywMTIZHLAk6gCOMzis2S7YjfHM2qyipJvElg4=;
+        b=BjAFMhfJtEzx8E8SPIiom6TC9QWp4QrJ2tIdXclg4KatIn3SzE9ja/r9LdNJFml+BO
+         es/eThkuRZx1tyxGVqhvWmb6s2QLr8q0tgKQVvdnCyloup3kaNic3tBnmjKWqjEwland
+         v3F4Er8NkQXnCYByvY/PjCIYLjK+cJf2v8yCOJJANX+I1W3wcaOXgSJ64n4zAI5OX/p8
+         2nRTrvXh3gENDWalA/DxTPIfVEvneu5NjcvjHHem+8XpP2TYPqYt1upjfARw3HiFy0tV
+         WtI0sdZ6as8Ldg6g8SVfr1NYnSuOH6pbj76zY8Szr6jfqwjOuacqZBnXpC8vdgqyGggh
+         /TAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=JQNiO2Mnj6QxwX1KOBemH+gofG2EOUwTUr4JeDXvjvk=;
-        b=HME2otYDn28QTZs1BbXj+SGWYqO0iUamisocPIzDVWHbNS29gTLpxG2RM5SnsI/hs4
-         O1iTqB1h3gxcBg9yZJKl9rBU1pwFZfVBzjcXldU4L+KKKpvsXcJp+VYg9leUtixoGPi0
-         ziqm2I9vTaRU0DcZopZMhCsSxkwhFGBDceXBI2RYWSW073kwEpxI8dnL8+iP6puDmw4S
-         gh7c/RSXpAdVi7Qb635Sl0iaMdGztNy3u4azZVtrFX2OhtW0lg5udKyl/Z8SW4DXn7XS
-         ekfa0Mv1pbMnRNBf0YZ21uBsyEg/YNE+nRy9WiGS7LIPbcxPAYY2zMvaT2bibY7n92K4
-         v8Ig==
-X-Gm-Message-State: AOAM530pHlPOUiGfR66Uw79fGixZ13hzYLbo0Z3rhbfCOKVnnCnLvBxc
-        k2ze4tjNPbz0ojIM9hE9qV9CF5ZdMdQ=
-X-Google-Smtp-Source: ABdhPJyKqM9KoMtCnGj//sZ+f2Zm5WBIE6fUHYwgGxtsGuMPhEBZqVCWR5E9Tbuml69jadxCYBYxLA==
-X-Received: by 2002:a2e:93d6:: with SMTP id p22mr225896ljh.169.1610057105955;
-        Thu, 07 Jan 2021 14:05:05 -0800 (PST)
+        bh=x0u8HAywMTIZHLAk6gCOMzis2S7YjfHM2qyipJvElg4=;
+        b=YvrB5drmuFsKagzXA7P2vUfDOhKLGzM3xwDILassWwDnFF86YD6AzZBMQVSKXLvjvi
+         njTRoBmvVBhlDlvwCaa6vTlSfOVzHPjRXDrOP+Q7T8YHNA06xPwWAGngmaHNdJNnpOEO
+         FnUeQHLD148dLCms/+qCJ59FpWuwtyWgTY9/kLzCcFeWvPsTnwnGwfiAr9BiayI3q7OO
+         a43DiG8LgkICMWDiOhXEGZHrUybtsQQIZS7CGkUeKikqKds6XLJbgdGVCFLuRHKlSfJe
+         7y/VRggAB6ivbrklUnTz5I0p04xBvlzZaxOXKZJS23Njd2I78Pq3oy8I9jhc5mVG8RKS
+         5OgA==
+X-Gm-Message-State: AOAM533TBi277MivWY140o55wOOdVg+hVCRlAcWwC3/K8bT3G6k3toN5
+        XWaTT+rptb0HRQD2XyyjjX58Ui+YV3U=
+X-Google-Smtp-Source: ABdhPJyu7b+p5/ILfwUcKBfY1ZPU5VvCcWvCQNkHZFe8fEiMpHsILI5C52Kfph8V8SAwfLHoHct1gg==
+X-Received: by 2002:a2e:88d6:: with SMTP id a22mr220034ljk.150.1610057220416;
+        Thu, 07 Jan 2021 14:07:00 -0800 (PST)
 Received: from [192.168.2.145] (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.googlemail.com with ESMTPSA id f27sm1433917lfk.293.2021.01.07.14.05.04
+        by smtp.googlemail.com with ESMTPSA id c14sm1429632lfd.186.2021.01.07.14.06.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Jan 2021 14:05:05 -0800 (PST)
-Subject: Re: [PATCH v3 0/3] Support wakeup methods of Atmel maXTouch
- controllers
+        Thu, 07 Jan 2021 14:06:59 -0800 (PST)
+Subject: Re: [PATCH RESEND v8 2/4] input: elants: support old touch report
+ format
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+Cc:     Johnny Chuang <johnny.chuang.emc@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1607669375.git.mirq-linux@rere.qmqm.pl>
+ <a5c0b6b300fadf9425781285351b46c6dbb4f618.1607669375.git.mirq-linux@rere.qmqm.pl>
+ <X9Mf5G6yvIEAoh2C@google.com> <20201211160917.GA23095@qmqm.qmqm.pl>
+ <3d872d19-a0b2-ed83-4b08-5c9a4755c2fe@gmail.com>
+ <20201211170401.GA31605@qmqm.qmqm.pl> <X9O/F0M4rU6cBdRi@google.com>
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Nick Dyer <nick@shmanahar.org>, Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jiada Wang <jiada_wang@mentor.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20201206212217.6857-1-digetx@gmail.com>
- <X9QuTuGEicUnlaJp@google.com>
- <3577ed5b-feff-5915-7d70-5fa8fe4a0a82@gmail.com>
- <X9WblR19HZPZ5XtY@google.com>
- <6b515373-e7b3-4700-7d34-4413a630c461@gmail.com>
-Message-ID: <508585f7-6c2b-3b33-ada8-91cc15ed683e@gmail.com>
-Date:   Fri, 8 Jan 2021 01:05:04 +0300
+Message-ID: <79cf6571-4239-e98e-6001-70a4bf8b0fe5@gmail.com>
+Date:   Fri, 8 Jan 2021 01:06:59 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.2
 MIME-Version: 1.0
-In-Reply-To: <6b515373-e7b3-4700-7d34-4413a630c461@gmail.com>
+In-Reply-To: <X9O/F0M4rU6cBdRi@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -77,50 +73,53 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-13.12.2020 12:26, Dmitry Osipenko пишет:
-> 13.12.2020 07:41, Dmitry Torokhov пишет:
->> Thank you for the logs. I am confused where these calls to put the
->> controller into deep sleep are coming from. Does something constantly
->> open and close input device?
+11.12.2020 21:48, Dmitry Torokhov пишет:
+> On Fri, Dec 11, 2020 at 06:04:01PM +0100, Michał Mirosław wrote:
+>> On Fri, Dec 11, 2020 at 07:39:33PM +0300, Dmitry Osipenko wrote:
+>>> 11.12.2020 19:09, Michał Mirosław пишет:
+>>>> On Thu, Dec 10, 2020 at 11:29:40PM -0800, Dmitry Torokhov wrote:
+>>>>> Hi Michał,
+>>>>> On Fri, Dec 11, 2020 at 07:53:56AM +0100, Michał Mirosław wrote:
+>>>>>> @@ -998,17 +1011,18 @@ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
+>>>>>>  			}
+>>>>>>  
+>>>>>>  			report_len = ts->buf[FW_HDR_LENGTH] / report_count;
+>>>>>> -			if (report_len != PACKET_SIZE) {
+>>>>>> +			if (report_len != PACKET_SIZE &&
+>>>>>> +			    report_len != PACKET_SIZE_OLD) {
+>>>>>>  				dev_err(&client->dev,
+>>>>>> -					"mismatching report length: %*ph\n",
+>>>>>> +					"unsupported report length: %*ph\n",
+>>>>>>  					HEADER_SIZE, ts->buf);
+>>>>> Do I understand this correctly that the old packets are only observed on
+>>>>> EKTF3624? If so can we expand the check so that we only accept packets
+>>>>> with "old" size when we know we are dealing with this device?
+>>>>
+>>>> We only have EKTF3624 and can't be sure there are no other chips needing this.
+>>>
+>>> In practice this older packet format should be seen only on 3624, but
+>>> nevertheless we could make it more explicit by adding the extra chip_id
+>>> checks.
+>>>
+>>> It won't be difficult to change it in the future if will be needed.
+>>>
+>>> I think the main point that Dmitry Torokhov conveys here is that we
+>>> should minimize the possible impact on the current EKT3500 code since we
+>>> don't have definitive answers regarding the firmware differences among
+>>> the hardware variants.
+>>
+>> The only possible impact here is that older firmware instead of breaking
+>> would suddenly work. Maybe we can accept such a risk?
 > 
-> Input devices are re-opened multiple times during Linux distro boot-up,
-> a regular Ubuntu 20.10 in this case.
+> These are not controllers we'll randomly find in devices: Windows boxes
+> use I2C HID, Chrome devices use "new" firmware, so that leaves random
+> ARM where someone needs to consciously add proper compatible before the
+> driver will engage with the controller.
 > 
->> Do you have any additional patches?
+> I would prefer we were conservative and not accept potentially invalid
+> data.
 > 
-> No, I'm using next-20201211 + this "wakeup methods" patchset.
+> Thanks.
 > 
->> We definitely do not issue deep sleep request in mxt_start(). Do you mind
->> putting dump_stack() into mxt_set_t7_power_cfg() to see where the calls
->> are coming from?
-> 
-> Please see the log below, I added it like this:
-> 
-> diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c
-> b/drivers/input/touchscreen/atmel_mxt_ts.c
-> index e3342fdfe9f3..bbc5a5ee158a 100644
-> --- a/drivers/input/touchscreen/atmel_mxt_ts.c
-> +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-> @@ -2271,6 +2271,8 @@ static int mxt_set_t7_power_cfg(struct mxt_data
-> *data, u8 sleep)
->  	dev_dbg(dev, "Set T7 ACTV:%d IDLE:%d\n",
->  		new_config->active, new_config->idle);
-> 
-> +	dump_stack();
-> +
->  	return 0;
->  }
-> 
->> I also do not see additional "waking up controller" messages after
->> requesting the chip via T7 to be configured to be active, which I'd
->> expected to see if we indeed needed to wake it up again for T6 to
->> succeed.
-> 
-> I'm not familiar with what controller does internally, hence no clue.
-> 
-> 
-> [ 1.195295] Family: 160 Variant: 0 Firmware V1.0.AA Objects: 18
-> [ 1.195468] T37 Start:118 Size:130 Instances:1 Report IDs:0-0
-...
-Dmitry Torokhov, do you have any more comments? Are you okay with v3? If
-yes, could you please pick up patches into -next?
+
+Michał, will you be able to make v9 with all the review comments addressed?
