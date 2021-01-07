@@ -2,91 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EA012ED029
-	for <lists+linux-input@lfdr.de>; Thu,  7 Jan 2021 13:46:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 28E762ED0E9
+	for <lists+linux-input@lfdr.de>; Thu,  7 Jan 2021 14:37:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728283AbhAGMm7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 7 Jan 2021 07:42:59 -0500
-Received: from mail1.protonmail.ch ([185.70.40.18]:45423 "EHLO
-        mail1.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728675AbhAGMm5 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 7 Jan 2021 07:42:57 -0500
-Date:   Thu, 07 Jan 2021 12:42:11 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1610023334;
-        bh=QegKq5w0B0K1wSKH+Ma1s3ZVdYjsw/w0Yumg9kivo4M=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=R6w//+4pb55DTdTdqt/3xB/6CP0AvmplgHO+PorxtD5W2/OR04aE5g/BThOJ918Lo
-         PFXlV4QTZy0uZIwNDWW0hKXzGmdCZ4SycalMywHz+ZcXOgfK0DGl1+31q5dcxmC14I
-         vyO9q6xNfWg/j0jv4QtWqYbFtFgfPabJRw06TldY=
-To:     Hui Wang <hui.wang@canonical.com>
-From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "jikos@kernel.org" <jikos@kernel.org>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "jkosina@suse.cz" <jkosina@suse.cz>
-Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Subject: Re: [PATCH] HID: multitouch: add a quirk to skip set inputmode for 2 new laptops
-Message-ID: <uQnmWiLQ4Lmlm2GUj2fhPTv6zZ9Cszx0BNMz2K4WvVE7TjLE82lmU6mi0Leu4OK2fXfn-86Tw8WeR6kla03TdTpKIn-1zcmb1mLHl8WAt_Q=@protonmail.com>
-In-Reply-To: <20210107112708.25990-1-hui.wang@canonical.com>
-References: <20210107112708.25990-1-hui.wang@canonical.com>
+        id S1726441AbhAGNhV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 7 Jan 2021 08:37:21 -0500
+Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.50]:33198 "EHLO
+        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726326AbhAGNhU (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 7 Jan 2021 08:37:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1610026468;
+        s=strato-dkim-0002; d=florianmaerkl.de;
+        h=In-Reply-To:Date:Message-ID:From:Subject:References:Cc:To:From:
+        Subject:Sender;
+        bh=6booAnaKm3EE+TaZZg5Y1kwx+X4w8GuXyCiOf58PRCo=;
+        b=tCQPs+grHlZVBpbwW+sW6n1U3HKw4U23doKwy6lQU74k7j5TyQXaTcOdpD1gIf5rOy
+        a/Y53Kw7is24XG5I+OHLr5u5obxwzxofryOBY/w4N1xwgO2T9ASIAlj+mhwTIxgCxQU/
+        nwW3n/8VNZvI9PWxGCjY8IaQxkTn0AxiJwu/BcGWC93vICd4Bhu8pgKgH51rxYBXlTht
+        oSoJhw7Jxv3y2IFRRyGHG+hHVqgZgm8QOfqloIwiFR2ryaet+RczZY1zHs0n3bspKQ3h
+        tEHaHkOIVcNrksBhglbOYoFHDKFTQ4wi5ouoT/nBIvCfHpiYftmGwUS2aBnjHnvo3WEh
+        CaWQ==
+X-RZG-AUTH: ":JWICemCud/DxHoRx2yg49oX0O/FjOgMCY83ji5SkMM6Tf/x8LI/wkWHHWmeAjaMTF/tut4Ypwww="
+X-RZG-CLASS-ID: mo00
+Received: from [192.168.1.22]
+        by smtp.strato.de (RZmta 47.12.1 DYNA|AUTH)
+        with ESMTPSA id L09737x07DYN1UK
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+        Thu, 7 Jan 2021 14:34:23 +0100 (CET)
+To:     roderick@gaikai.com
+Cc:     benjamin.tissoires@redhat.com, jikos@kernel.org,
+        linux-input@vger.kernel.org, lzye@google.com,
+        roderick.colenbrander@sony.com
+References: <20210102223109.996781-6-roderick@gaikai.com>
+Subject: Re: [PATCH v2 05/13] HID: playstation: add DualSense accelerometer
+ and gyroscope support.
+From:   =?UTF-8?Q?Florian_M=c3=a4rkl?= <linux@florianmaerkl.de>
+Message-ID: <16e2def9-2d88-45f2-1a76-4de209f1af78@florianmaerkl.de>
+Date:   Thu, 7 Jan 2021 14:34:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <20210102223109.996781-6-roderick@gaikai.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+Content-Language: en-US-large
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi
+> +static struct input_dev *ps_sensors_create(struct hid_device *hdev, int accel_range, int accel_res,
+> +		int gyro_range, int gyro_res)
+> +{
+> +	struct input_dev *sensors;
+> +	int ret;
+> +
+> +	sensors = ps_allocate_input_dev(hdev, "Motion Sensors");
+> +	if (IS_ERR(sensors))
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	__set_bit(INPUT_PROP_ACCELEROMETER, sensors->propbit);
+> +
+> +	/* Accelerometer */
+> +	input_set_abs_params(sensors, ABS_X, -accel_range, accel_range, 16, 0);
+> +	input_set_abs_params(sensors, ABS_Y, -accel_range, accel_range, 16, 0);
+> +	input_set_abs_params(sensors, ABS_Z, -accel_range, accel_range, 16, 0);
+> +	input_abs_set_res(sensors, ABS_X, accel_res);
+> +	input_abs_set_res(sensors, ABS_Y, accel_res);
+> +	input_abs_set_res(sensors, ABS_Z, accel_res);
+> +
+> +	/* Gyroscope */
+> +	input_set_abs_params(sensors, ABS_RX, -gyro_range, gyro_range, 16, 0);
+> +	input_set_abs_params(sensors, ABS_RY, -gyro_range, gyro_range, 16, 0);
+> +	input_set_abs_params(sensors, ABS_RZ, -gyro_range, gyro_range, 16, 0);
+> +	input_abs_set_res(sensors, ABS_RX, gyro_res);
+> +	input_abs_set_res(sensors, ABS_RY, gyro_res);
+> +	input_abs_set_res(sensors, ABS_RZ, gyro_res);
+> +
+> +	ret = input_register_device(sensors);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+> +	return sensors;
+> +}
+
+The bits for EV_MSC/MSC_TIMESTAMP events are not set here, hence
+timestamp events would not delivered:
+
+	__set_bit(EV_MSC, sensors->evbit);
+	__set_bit(MSC_TIMESTAMP, sensors->mscbit);
 
 
-2021. janu=C3=A1r 7., cs=C3=BCt=C3=B6rt=C3=B6k 12:27 keltez=C3=A9ssel, Hui =
-Wang =C3=ADrta:
+>  static int dualsense_get_mac_address(struct dualsense *ds)
+>  {
+>  	uint8_t *buf;
+> @@ -319,6 +469,7 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
+>  	struct dualsense_input_report *ds_report;
+>  	uint8_t battery_data, battery_capacity, charging_status, value;
+>  	int battery_status;
+> +	uint16_t sensor_timestamp;
 
-> we have 2 latest Thinkpad laptops, the synaptics trackpoint module is
-> connected to i8042 bus and the synaptics touchpad module is on the i2c
-> bus. The trackpoint is driven by input/mouse/trackpoint.c and the
-> touchpad is driven by hid-multitouch.c.
->
-> They all work well independently, but if users press any buttons of
-> trackpoint and meanwhile move finger on the touchpad, the touchpad
-> can't work, the i2c bus can't generate interrupts even. That is to say
-> the touchpad can't work with trackpoint together, once trackpoint
-> works, the touchpad stops working.
->
-> The current hid driver parses the device descriptor and selects the
-> hid-multitouch.c and applies the MT_CLS_WIN_8 to the touchpad, I found
-> this issue begins to happen after the driver sets the
-> MT_INPUTMODE_TOUCHPAD to the device, If skipping to set it, the
-> touchpad work well and doesn't have that issue, even after suspend and
-> resume, the touchpad still work well.
->
-> This touchpad module doesn't support multi inputmodes, and its init
-> mode is set by BIOS already, it is safe to skip to set it again in
-> the kernel driver.
-> [...]
+This uint16_t variable overflows just after a few events. Since the
+timestamp from the controller is 32bit and the event value too, I assume
+this should be too.
 
-Assuming I'm not missing anything obvious, a windows precision touchpad
-should revert back to reporting events via its HID compliant mouse collecti=
-on
-when power cycled or reset by the host[1].
-
-Doesn't that imply that the events will be reported via the mouse collectio=
-n
-in this case, and that the multi-touch capabilities of the device will not
-be usable? Or am I missing something?
-
-
-[1]: https://docs.microsoft.com/en-us/windows-hardware/design/component-gui=
-delines/windows-precision-touchpad-required-hid-top-level-collections#input=
--mode-feature-report
-
-
-Regards,
-Barnab=C3=A1s P=C5=91cze
-
+-- 
+Florian Märkl
+https://metallic.software
