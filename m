@@ -2,29 +2,29 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66D262EE915
-	for <lists+linux-input@lfdr.de>; Thu,  7 Jan 2021 23:48:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8D042EE918
+	for <lists+linux-input@lfdr.de>; Thu,  7 Jan 2021 23:48:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728973AbhAGWpo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 7 Jan 2021 17:45:44 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:10407 "EHLO
-        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728524AbhAGWpn (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 7 Jan 2021 17:45:43 -0500
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
-        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DBh9c5s2rz7RTq;
-        Fri,  8 Jan 2021 06:44:04 +0800 (CST)
+        id S1729047AbhAGWpr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 7 Jan 2021 17:45:47 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:10037 "EHLO
+        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728524AbhAGWpr (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 7 Jan 2021 17:45:47 -0500
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
+        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DBh9j479lzj4YV;
+        Fri,  8 Jan 2021 06:44:09 +0800 (CST)
 Received: from SWX921481.china.huawei.com (10.126.201.115) by
  DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.498.0; Fri, 8 Jan 2021 06:44:54 +0800
+ 14.3.498.0; Fri, 8 Jan 2021 06:44:56 +0800
 From:   Barry Song <song.bao.hua@hisilicon.com>
 To:     <dmitry.torokhov@gmail.com>, <tglx@linutronix.de>,
         <maz@kernel.org>, <gregkh@linuxfoundation.org>,
         <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
 CC:     <linuxarm@openeuler.org>, Barry Song <song.bao.hua@hisilicon.com>
-Subject: [PATCH v3 08/12] Input: mms114 - request_irq by IRQF_NO_AUTOEN and remove disable_irq
-Date:   Fri, 8 Jan 2021 11:39:22 +1300
-Message-ID: <20210107223926.35284-9-song.bao.hua@hisilicon.com>
+Subject: [PATCH v3 09/12] Input: wm831x-ts - request_irq by IRQF_NO_AUTOEN and remove disable_irq
+Date:   Fri, 8 Jan 2021 11:39:23 +1300
+Message-ID: <20210107223926.35284-10-song.bao.hua@hisilicon.com>
 X-Mailer: git-send-email 2.21.0.windows.1
 In-Reply-To: <20210107223926.35284-1-song.bao.hua@hisilicon.com>
 References: <20210107223926.35284-1-song.bao.hua@hisilicon.com>
@@ -43,29 +43,29 @@ disable IRQ auto-enable because of requesting.
 
 Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
 ---
- drivers/input/touchscreen/mms114.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/input/touchscreen/wm831x-ts.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/input/touchscreen/mms114.c b/drivers/input/touchscreen/mms114.c
-index 16557f51b09d..7043f57ea2dd 100644
---- a/drivers/input/touchscreen/mms114.c
-+++ b/drivers/input/touchscreen/mms114.c
-@@ -530,13 +530,13 @@ static int mms114_probe(struct i2c_client *client,
- 	}
+diff --git a/drivers/input/touchscreen/wm831x-ts.c b/drivers/input/touchscreen/wm831x-ts.c
+index bb1699e0d3c7..319f57fb9af5 100644
+--- a/drivers/input/touchscreen/wm831x-ts.c
++++ b/drivers/input/touchscreen/wm831x-ts.c
+@@ -317,14 +317,13 @@ static int wm831x_ts_probe(struct platform_device *pdev)
  
- 	error = devm_request_threaded_irq(&client->dev, client->irq,
--					  NULL, mms114_interrupt, IRQF_ONESHOT,
-+					  NULL, mms114_interrupt,
-+					  IRQF_ONESHOT | IRQF_NO_AUTOEN,
- 					  dev_name(&client->dev), data);
+ 	error = request_threaded_irq(wm831x_ts->data_irq,
+ 				     NULL, wm831x_ts_data_irq,
+-				     irqf | IRQF_ONESHOT,
++				     irqf | IRQF_ONESHOT | IRQF_NO_AUTOEN,
+ 				     "Touchscreen data", wm831x_ts);
  	if (error) {
- 		dev_err(&client->dev, "Failed to register interrupt\n");
- 		return error;
+ 		dev_err(&pdev->dev, "Failed to request data IRQ %d: %d\n",
+ 			wm831x_ts->data_irq, error);
+ 		goto err_alloc;
  	}
--	disable_irq(client->irq);
+-	disable_irq(wm831x_ts->data_irq);
  
- 	error = input_register_device(data->input_dev);
- 	if (error) {
+ 	if (pdata && pdata->pd_irqf)
+ 		irqf = pdata->pd_irqf;
 -- 
 2.25.1
 
