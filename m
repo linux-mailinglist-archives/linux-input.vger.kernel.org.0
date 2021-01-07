@@ -2,23 +2,23 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF9432EE884
-	for <lists+linux-input@lfdr.de>; Thu,  7 Jan 2021 23:26:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74F682EE89A
+	for <lists+linux-input@lfdr.de>; Thu,  7 Jan 2021 23:28:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728483AbhAGW0C (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 7 Jan 2021 17:26:02 -0500
-Received: from mail-40133.protonmail.ch ([185.70.40.133]:16594 "EHLO
-        mail-40133.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728481AbhAGW0B (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 7 Jan 2021 17:26:01 -0500
-Date:   Thu, 07 Jan 2021 22:25:15 +0000
+        id S1728001AbhAGW1g (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 7 Jan 2021 17:27:36 -0500
+Received: from mail-40131.protonmail.ch ([185.70.40.131]:56871 "EHLO
+        mail-40131.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728152AbhAGW1g (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 7 Jan 2021 17:27:36 -0500
+Date:   Thu, 07 Jan 2021 22:26:51 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1610058319;
-        bh=oS4GEc0YKLg0xAXfjpdDA1wE5WRVX/wPxs9oKTcJlN4=;
+        s=protonmail; t=1610058413;
+        bh=H/rS01y3sUzETZyLR3N/6VGgN+VrCaFAob5/yCbnkSc=;
         h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=mHNGCYotHGgb7M58Yp0UBmBYv8/FdvUj6e3rwJrdBzzYZGZo5ZiXDEB8TlH0rLpXZ
-         agZ/2dlLNzue8JmYO2inTccKxyWNksVpXhts5kr6lZYw4zJdgXee3XprQwTF4EYfJX
-         SGaV50uDb0qPuNRwJe6gmlN1/Qx7HPxmox+O1P4A=
+        b=Jk7lKipmBXdvFEseAUZTnkpmLFXOB8DloBri4DF4JDJSXP+rFHsObMS5lNNDXPAax
+         nCg7BuTRpw/3cPdXkyn+L/2FtKUTFOesYar/mWPnJ3MkK+X2syPgneteNsP0J7MXct
+         VfTyfpInKGA8N1ajRCnXuCcFneVJdOSg+XTxA2Fs=
 To:     Roderick Colenbrander <roderick@gaikai.com>
 From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
 Cc:     Jiri Kosina <jikos@kernel.org>,
@@ -27,10 +27,10 @@ Cc:     Jiri Kosina <jikos@kernel.org>,
         Chris Ye <lzye@google.com>,
         Roderick Colenbrander <roderick.colenbrander@sony.com>
 Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Subject: Re: [PATCH v2 12/13] HID: playstation: DualSense set LEDs to default player id.
-Message-ID: <uyEK3LmEvaKDosxkqkczg8jyXrMGJdo2b69sFZrK0Zlbag81cf5AMqf60JATfAyeFLCWpMT3z9k1i16W5Vbw7gjmNep2lV6BtTG-vDo947I=@protonmail.com>
-In-Reply-To: <20210102223109.996781-13-roderick@gaikai.com>
-References: <20210102223109.996781-1-roderick@gaikai.com> <20210102223109.996781-13-roderick@gaikai.com>
+Subject: Re: [PATCH v2 13/13] HID: playstation: report DualSense hardware and firmware version.
+Message-ID: <dFczDbiHgeToh7k4T1Mj0RbQswy7l-e1u4-XRIYhM0BAo41tGrjjt_OsbMnFb81IJncn9oaCqKfFsgNoiJ8W3_CMW-WkSG9fx4kR6Cbw-d0=@protonmail.com>
+In-Reply-To: <20210102223109.996781-14-roderick@gaikai.com>
+References: <20210102223109.996781-1-roderick@gaikai.com> <20210102223109.996781-14-roderick@gaikai.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -49,65 +49,118 @@ Hi
 2021. janu=C3=A1r 2., szombat 23:31 keltez=C3=A9ssel, Roderick Colenbrander=
  =C3=ADrta:
 
-> From: Roderick Colenbrander <roderick.colenbrander@sony.com>
->
-> Add a ID allocator to assign player ids to ps_device instances.
-> Utilize the player id to set a default color on the DualSense its
-> player LED strip.
->
-> Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
->
+> diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.=
+c
+> index 1a95c81da8a3..8440af6d6cd7 100644
+> --- a/drivers/hid/hid-playstation.c
+> +++ b/drivers/hid/hid-playstation.c
 > [...]
-> +static void ps_device_release_player_id(struct ps_device *dev)
+> +static int dualsense_get_firmware_info(struct dualsense *ds)
 > +{
-> +=09ida_free(&ps_player_id_allocator, dev->player_id);
+> +=09uint8_t *buf;
+> +=09int ret;
 > +
-> +=09dev->player_id =3D -1;
+> +=09buf =3D kzalloc(DS_FEATURE_REPORT_FIRMWARE_INFO_SIZE, GFP_KERNEL);
+> +=09if (!buf)
+> +=09=09return -ENOMEM;
+> +
+> +=09ret =3D hid_hw_raw_request(ds->base.hdev, DS_FEATURE_REPORT_FIRMWARE_=
+INFO, buf,
+> +=09=09=09DS_FEATURE_REPORT_FIRMWARE_INFO_SIZE, HID_FEATURE_REPORT,
+> +=09=09=09HID_REQ_GET_REPORT);
+> +=09if (ret < 0)
+> +=09=09goto err_free;
+> +=09else if (ret !=3D DS_FEATURE_REPORT_FIRMWARE_INFO_SIZE) {
 
-A minor thing, but I believe U32_MAX would be better here. I'd avoid
-(especially) negative magic numbers for an unsigned value. You could even
-  #define PS_PLAYER_ID_INVALID U32_MAX
-or something similar.
+As per coding style[1], please either use {} for all branches, or just drop=
+ the
+`else` and maybe add a new line:
+
+```
+if (ret < 0)
+  goto ...
+
+if (ret !=3D ...) {
+  ...
+}
+```
+
+> +=09=09hid_err(ds->base.hdev, "failed to retrieve DualSense firmware info=
+\n");
+> +=09=09ret =3D -EINVAL;
+> +=09=09goto err_free;
+> +=09}
+
+Shouldn't the CRC be validated here when using Bluetooth? Or there is none?
 
 
+> +
+> +=09ds->base.hw_version =3D get_unaligned_le32(&buf[24]);
+> +=09ds->base.fw_version =3D get_unaligned_le32(&buf[28]);
+> +
+> +err_free:
+> +=09kfree(buf);
+> +=09return ret;
 > +}
 > +
->  static struct input_dev *ps_allocate_input_dev(struct hid_device *hdev, =
-const char *name_suffix)
+>  static int dualsense_get_mac_address(struct dualsense *ds)
 >  {
->  =09struct input_dev *input_dev;
-> @@ -1102,6 +1125,28 @@  static int dualsense_reset_leds(struct dualsense =
-*ds)
->  =09return 0;
->  }
+>  =09uint8_t *buf;
+> @@ -1195,6 +1261,12 @@  static struct ps_device *dualsense_create(struct =
+hid_device *hdev)
+>  =09}
+>  =09snprintf(hdev->uniq, sizeof(hdev->uniq), "%pMR", ds->base.mac_address=
+);
 >
-> +static void dualsense_set_player_leds(struct dualsense *ds)
-> +{
-> +=09/* The DualSense controller has a row of 5 LEDs used for player ids.
-> +=09 * Behavior on the PlayStation 5 console is to center the player id
-> +=09 * across the LEDs, so e.g. player 1 would be "--x--" with x being 'o=
-n'.
-> +=09 * Follow a similar mapping here.
+> +=09ret =3D dualsense_get_firmware_info(ds);
+> +=09if (ret < 0) {
+> +=09=09hid_err(hdev, "Failed to get firmware info from DualSense\n");
+> +=09=09return ERR_PTR(ret);
+> +=09}
+> +
+>  =09ret =3D ps_devices_list_add(ps_dev);
+>  =09if (ret < 0)
+>  =09=09return ERR_PTR(ret);
+> @@ -1261,6 +1333,12 @@  static struct ps_device *dualsense_create(struct =
+hid_device *hdev)
+>  =09/* Set player LEDs to our player id. */
+>  =09dualsense_set_player_leds(ds);
+>
+> +=09/* Reporting hardware and firmware is important as there are frequent=
+ updates, which
+> +=09 * can change behavior.
 > +=09 */
-> +=09int player_ids[5] =3D {
-> +=09=09BIT(2),
-> +=09=09BIT(3) | BIT(1),
-> +=09=09BIT(4) | BIT(2) | BIT(0),
-> +=09=09BIT(4) | BIT(3) | BIT(1) | BIT(0),
-> +=09=09BIT(4) | BIT(3) | BIT(2) | BIT(1) | BIT(0)
-> +=09};
+> +=09hid_info(hdev, "Registered DualSense controller hw_version=3D%x fw_ve=
+rsion=3D%x\n",
+
+Maybe the format could be same as in the device attributes (0x%08x)?
+
+
+> +=09=09=09ds->base.hw_version, ds->base.fw_version);
 > +
-> +=09uint8_t player_id =3D ds->base.player_id % 5;
-
-I'd write `ds->base.player_id % ARRAY_SIZE(player_ids)` here.
-
-
+>  =09return &ds->base;
+>
+>  err:
+> @@ -1311,6 +1389,12 @@  static int ps_probe(struct hid_device *hdev, cons=
+t struct hid_device_id *id)
+>  =09=09}
+>  =09}
+>
+> +=09ret =3D devm_device_add_group(&hdev->dev, &ps_device_attribute_group)=
+;
+> +=09if (ret < 0) {
+> +=09=09hid_err(hdev, "Failed to register sysfs nodes.\n");
+> +=09=09goto err_close;
+> +=09}
 > +
-> +=09ds->update_player_leds =3D true;
-> +=09ds->player_leds_state =3D player_ids[player_id];
-> +=09schedule_work(&ds->output_worker);
-> +}
-> [...]
+>  =09return ret;
+>
+>  err_close:
+>
+
+
+[1]: https://www.kernel.org/doc/html/latest/process/coding-style.html#placi=
+ng-braces-and-spaces
 
 
 Regards,
