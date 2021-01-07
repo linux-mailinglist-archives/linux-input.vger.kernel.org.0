@@ -2,127 +2,134 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B8D12EC9F0
-	for <lists+linux-input@lfdr.de>; Thu,  7 Jan 2021 06:22:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A782C2ECC66
+	for <lists+linux-input@lfdr.de>; Thu,  7 Jan 2021 10:13:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725821AbhAGFV6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 7 Jan 2021 00:21:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55486 "EHLO
+        id S1727279AbhAGJLm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 7 Jan 2021 04:11:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725306AbhAGFV6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 7 Jan 2021 00:21:58 -0500
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE881C0612F0;
-        Wed,  6 Jan 2021 21:21:17 -0800 (PST)
-Received: by mail-pf1-x429.google.com with SMTP id t22so3173353pfl.3;
-        Wed, 06 Jan 2021 21:21:17 -0800 (PST)
+        with ESMTP id S1727353AbhAGJLl (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 7 Jan 2021 04:11:41 -0500
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 997CFC061290
+        for <linux-input@vger.kernel.org>; Thu,  7 Jan 2021 01:10:20 -0800 (PST)
+Received: by mail-lf1-x12f.google.com with SMTP id b26so12920750lff.9
+        for <linux-input@vger.kernel.org>; Thu, 07 Jan 2021 01:10:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=oJwkEv2jlSNP3WrO5Vf9IqJ+fb2RqSaCTtW7Dm7rldA=;
-        b=WpMj6Q4evfMCLUvNTeTrFr9kYMzdQGUyGiui/25pxZDIE2feg6U5I4g9keWJxrlGIh
-         cU0sJojbj5fTmLoYyoXIZfKFGjjeI6HdpVGCKwI3De6lqtjRrNyWCy79M8oS4ntKJb9k
-         Lyr8WRG1jMB0STEpcRTM2ieqthG5LaJlgMRH0nyCPLIlh16DhmJsKP1ZMRmPZC67W1W8
-         7yY+2RdVG3ghgd5WDQYTUF58bEjnEHje8aHAoqmIKuXqqSYNCuTqs+k79VxIoTMARk6l
-         W6Eo/Bw1/pK1Iern0pcngUjOZRa4K4b9+FXpaRA45D8Ro9DJFWlMAbf6CAtFwuYuqSEX
-         /9Ag==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=T+iZKNW1gmpT+HQqIiqmRRpQMcaG8pgogUVWa/pKYOM=;
+        b=cyz7QwbTfHcC+qnorIFVkv7DnbL/oyA5L+VJJAN8XWkNMg42oKdig8X5tU4xa7X7pN
+         01zspKzmEcVvu5fY2nzlSr3geA/q2812tr8Wz0sUieGMHhvg1aGrsz+m0J4b8Wmr2jr4
+         Bxuqd5E5gXQb8ARkFssKYAOK0W62M412pmNUBd9NwRQD04zf23syAxjzcLmFBod8VeLt
+         Wkczn2W4OJkxg0o6mQ3tRUOpKTABRCCUpHtxAiPQFjxJEJCf/WQ1QzYZHEZTgGgMtnu2
+         jNC0bNdR63+2S3cfHE4fDoxHLsYIWb3l6Ja+q5Vt8aM4kBs1TbyhYMIEDY91gB4GZfH3
+         2CvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=oJwkEv2jlSNP3WrO5Vf9IqJ+fb2RqSaCTtW7Dm7rldA=;
-        b=Ap0AifhrXoxsXSsaMshSQyOTKvdnhuY9AJANJS1ROFhoXYWcnDdOgPN+MetpXYWWyQ
-         8ll2KGoJDanghZZdgUUXflWmGREXQEe8gZTod/65yyMgbFU+MWZh5PN0Nobt0nZN3Rpa
-         Pw7c4uqIUb+i/qF8XeRvKfI48oXvoQe6dKQ4Jo/OmZP4+tBcAAHdVSiueET901y5j9Nc
-         GgYXbQwr3SSA2TI4l/TrPlcAgpqiexzck6wR0N2NhIohJtIn8FWHHQLCA1g8vltc/oo7
-         3ARTqthWBBidLrYeuENEa+qjb4iZ8Rg5Ti8ym0AQPDrD4NpB1ioZQcha72dPkzi5R77y
-         oFwg==
-X-Gm-Message-State: AOAM530sMIN72KM9YNpZ2VHHJu9ffwePEy9Lv7+zQX//uJ8YJTjtsR3c
-        TvcWr0rPE2ZHQPS7Qop6j6o=
-X-Google-Smtp-Source: ABdhPJwqPU9pv/3rCFGgmRYIEbUhy2yA94FAMlsLmmH7oyToQI1J5Jd8fUIvUmtsRv2tl5erRIKNWw==
-X-Received: by 2002:a62:528c:0:b029:19e:4a39:d9ea with SMTP id g134-20020a62528c0000b029019e4a39d9eamr7503750pfb.20.1609996877074;
-        Wed, 06 Jan 2021 21:21:17 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id p17sm3993779pfn.52.2021.01.06.21.21.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Jan 2021 21:21:16 -0800 (PST)
-Date:   Wed, 6 Jan 2021 21:21:13 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Philip Chen <philipchen@chromium.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>, dianders@chromium.org,
-        swboyd@chromium.org, Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Rajat Jain <rajatja@google.com>, linux-input@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] Input: cros-ec-keyb - Expose function row
- physical map to userspace
-Message-ID: <X/aaSdEATjwStnOo@google.com>
-References: <20210104182154.v3.1.I025fb861cd5fa0ef5286b7dce514728e9df7ae74@changeid>
- <20210104182154.v3.2.Ibe7d7d53c5b4fe72c60de90111ff763b53f38dbb@changeid>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=T+iZKNW1gmpT+HQqIiqmRRpQMcaG8pgogUVWa/pKYOM=;
+        b=Q3tUa7uF4S3lV7YbxmCLMZkG5dBobu/W4MDq+/vTuOpJtcdNaCwsoT0KK0GtITb8fl
+         HmOlV9y9mJdmo+QIFlSccRsBSqDVlHLQ2g3DTCfigQhFgRIDhTdXw0j+1OpWFoyBBhZz
+         AdbxRDvQzg8vUPoBTdiB59sX35Dtc+wSzVDdaClijO/RrYORCCCvmpJHLSTHxDlArU45
+         2l+BGVMA7YkQUT7BRz8YNlHxHJazOfqpgxUVoV2/zi0z4kT0v8H2LufLD53uhmAQDTVz
+         7Bh1jUx/rLI3XA3GGZwCvL/gxGw/oZOvnhkxhmrCBy9dEFlQfUYMTLS/AAkmrhzVMm3P
+         gfJA==
+X-Gm-Message-State: AOAM530efFIBN8yWkPraRniP76rvD7LFUUTTk/6g0LHS/EqpEA1WYT7N
+        lUDqCWUE3jF2X8aTjY5PtNRKKBwLqkXa0UxRfW9rjA==
+X-Google-Smtp-Source: ABdhPJz6FNuZKYGADUxlk9Tv8Rh/lJVu/2CmZBJO3UIrMaB/edLmB9ZlsVBcuBoQ7GbjgHsRrGXCE/gOnIldpK4OwK0=
+X-Received: by 2002:a19:495d:: with SMTP id l29mr3392190lfj.465.1610010618615;
+ Thu, 07 Jan 2021 01:10:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210104182154.v3.2.Ibe7d7d53c5b4fe72c60de90111ff763b53f38dbb@changeid>
+References: <20210104230253.2805217-1-robh@kernel.org>
+In-Reply-To: <20210104230253.2805217-1-robh@kernel.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 7 Jan 2021 10:10:07 +0100
+Message-ID: <CACRpkdZVC8RE-DTes+p6g-1EAHxQWpu2u+sBCX2ei32cvaCrDA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Add missing array size constraints
+To:     Rob Herring <robh@kernel.org>
+Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Jens Axboe <axboe@kernel.dk>, Stephen Boyd <sboyd@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:LIBATA SUBSYSTEM (Serial and Parallel ATA drivers)" 
+        <linux-ide@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
+        "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-iio <linux-iio@vger.kernel.org>,
+        Linux Input <linux-input@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linux-remoteproc@vger.kernel.org,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        "moderated list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." 
+        <alsa-devel@alsa-project.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        linux-usb <linux-usb@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Philip,
+On Tue, Jan 5, 2021 at 12:03 AM Rob Herring <robh@kernel.org> wrote:
 
-On Mon, Jan 04, 2021 at 06:22:34PM -0800, Philip Chen wrote:
-> The top-row keys in a keyboard usually have dual functionalities.
-> E.g. A function key "F1" is also an action key "Browser back".
-> 
-> Therefore, when an application receives an action key code from
-> a top-row key press, the application needs to know how to correlate
-> the action key code with the function key code and do the conversion
-> whenever necessary.
-> 
-> Since the userpace already knows the key scanlines (row/column)
-> associated with a received key code. Essentially, the userspace only
-> needs a mapping between the key row/column and the matching physical
-> location in the top row.
-> 
-> This patch enhances the cros-ec-keyb driver to create such a mapping
-> and expose it to userspace in the form of a function-row-physmap
-> attribute. The attribute would be a space separated ordered list of
-> row/column codes, for the keys in the function row, in a left-to-right
-> order.
-> 
-> The attribute will only be present when the device has a custom design
-> for the top-row keys.
-> 
-> Signed-off-by: Philip Chen <philipchen@chromium.org>
-> ---
-> 
-> Changes in v3:
-> - parse `function-row-physmap` from DT earlier, when we probe
->   cros_ec_keyb, and then store the extracted info in struct cros_ec_keyb.
+> DT properties which can have multiple entries need to specify what the
+> entries are and define how many entries there can be. In the case of
+> only a single entry, just 'maxItems: 1' is sufficient.
+>
+> Add the missing entry constraints. These were found with a modified
+> meta-schema. Unfortunately, there are a few cases where the size
+> constraints are not defined such as common bindings, so the meta-schema
+> can't be part of the normal checks.
+>
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: MyungJoo Ham <myungjoo.ham@samsung.com>
+> Cc: Chanwoo Choi <cw00.choi@samsung.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Marc Zyngier <maz@kernel.org>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Ulf Hansson <ulf.hansson@linaro.org>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: Ohad Ben-Cohen <ohad@wizery.com>
+> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Thank you for making the changes, much appreciated. Let's wait a bit to
-see if Rob has any issues with this.
+This is good. The stricter the better.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-...
-
->  static int cros_ec_keyb_probe(struct platform_device *pdev)
->  {
->  	struct cros_ec_device *ec = dev_get_drvdata(pdev->dev.parent);
-> @@ -617,6 +690,12 @@ static int cros_ec_keyb_probe(struct platform_device *pdev)
->  		return err;
->  	}
->  
-> +	err = sysfs_create_group(&dev->kobj, &cros_ec_keyb_attr_group);
-> +	if (err) {
-> +		dev_err(dev, "failed to create attributes. err=%d\n", err);
-> +		return err;
-> +	}
-
-Let's use devm_device_add_group() so that we do not need to remove it
-manually in cros_ec_keyb_remove().
-
-Thanks.
-
--- 
-Dmitry
+Yours,
+Linus Walleij
