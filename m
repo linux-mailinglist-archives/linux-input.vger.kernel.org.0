@@ -2,23 +2,23 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 57C152EE75A
-	for <lists+linux-input@lfdr.de>; Thu,  7 Jan 2021 22:03:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E2A12EE80C
+	for <lists+linux-input@lfdr.de>; Thu,  7 Jan 2021 22:59:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726052AbhAGVCQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 7 Jan 2021 16:02:16 -0500
-Received: from mail-40136.protonmail.ch ([185.70.40.136]:25346 "EHLO
-        mail-40136.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726507AbhAGVCP (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 7 Jan 2021 16:02:15 -0500
-Date:   Thu, 07 Jan 2021 21:01:24 +0000
+        id S1727665AbhAGV6o (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 7 Jan 2021 16:58:44 -0500
+Received: from mail-40134.protonmail.ch ([185.70.40.134]:35993 "EHLO
+        mail-40134.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726666AbhAGV6o (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 7 Jan 2021 16:58:44 -0500
+Date:   Thu, 07 Jan 2021 21:57:55 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1610053291;
-        bh=GLrm7GTrx/uDlFp7P6MUjPhIy+aH0QVTG0Sgtodw+Ys=;
+        s=protonmail; t=1610056681;
+        bh=uw1Sdp3mLmP6n92b66SQNY/47x6iE6b9SeilpY+fZAQ=;
         h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=Fb7lDVYKVII7L7lI/EGSUfWAMLEE3+Hv/rn3dhTpM2OS91sZkYuheWucu+BQ1gN/S
-         XNJsHLXi3XzcsIyGgBHdyXS0cTD7Mall5GtW2zK4z4GRAU9fVldmmd7IQBvIHwL/az
-         /xtizLeYWvg4zGCr9MGjquw+/VsRUgufnXjqYVXw=
+        b=DrzCd+sxz/dk34VEuroDitln5DEjL0rJsfxjl1xr8kFDEaPgs/sbdRxOkoB8oEsYb
+         9u9bDpqv/CcXImdEKhIttxI/yl6QHRPMOxyJmVX54ga4UQe0Skfh5Z4wJDUkbvSsjl
+         ObHS8B/yp5LjUfF652WKz7cI7bwDixB3r8GbY0I0=
 To:     Roderick Colenbrander <roderick@gaikai.com>
 From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
 Cc:     Jiri Kosina <jikos@kernel.org>,
@@ -27,10 +27,10 @@ Cc:     Jiri Kosina <jikos@kernel.org>,
         Chris Ye <lzye@google.com>,
         Roderick Colenbrander <roderick.colenbrander@sony.com>
 Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Subject: Re: [PATCH v2 09/13] HID: playstation: add DualSense lightbar support
-Message-ID: <ALCENkx-A9Ev61S-COD8OEepdiT-CJWxze7GbpoOgZfU7C3z0h4IL0MAPUt3QizapD_4WVhpH6oFVbpQfl_Vf9ekkCvjOn_v68haPJDTTQM=@protonmail.com>
-In-Reply-To: <20210102223109.996781-10-roderick@gaikai.com>
-References: <20210102223109.996781-1-roderick@gaikai.com> <20210102223109.996781-10-roderick@gaikai.com>
+Subject: Re: [PATCH v2 10/13] HID: playstation: add microphone mute support for DualSense.
+Message-ID: <4yIVE2AxrwY_p2Y48xsx2F9ZDdgoZtQoNbjNKpPdM5U-OYomokG4hpc3KlFC6LYG6jFdHwwxASx8M4gn2sjlr8hNdc2kXi0FppcTYVAsFkY=@protonmail.com>
+In-Reply-To: <20210102223109.996781-11-roderick@gaikai.com>
+References: <20210102223109.996781-1-roderick@gaikai.com> <20210102223109.996781-11-roderick@gaikai.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -43,166 +43,163 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi
+
+
 2021. janu=C3=A1r 2., szombat 23:31 keltez=C3=A9ssel, Roderick Colenbrander=
  =C3=ADrta:
 
 > From: Roderick Colenbrander <roderick.colenbrander@sony.com>
 >
-> Expose the DualSense its RGB lightbar using the new multicolor LED
-> framework.
+> The DualSense controller has a built-in microphone exposed as an
+> audio device over USB (or HID using Bluetooth). A dedicated
+> button on the controller handles mute, but software has to configure
+> the device to mute the audio stream.
+>
+> This patch captures the mute button and schedules an output report
+> to mute/unmute the audio stream as well as toggle the mute LED.
 >
 > Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
+>
+> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+> index c80c81916f4a..9b1803f8f935 100644
+> --- a/drivers/hid/Kconfig
+> +++ b/drivers/hid/Kconfig
+> @@ -857,6 +857,7 @@  config HID_PLAYSTATION
+>  =09tristate "PlayStation HID Driver"
+>  =09default !EXPERT
+>  =09depends on HID
+
+I think maybe "select NEW_LEDS" should be here as well?
+
+
+> +=09select LEDS_CLASS
+>  =09select LEDS_CLASS_MULTICOLOR
+>  =09select POWER_SUPPLY
+>  =09help
+> diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.=
+c
+> index 3b26445acbb9..ebf8a6550308 100644
+> --- a/drivers/hid/hid-playstation.c
+> +++ b/drivers/hid/hid-playstation.c
 > [...]
-> +/* Register a DualSense/DualShock4 RGB lightbar represented by a multico=
-lor LED. */
-> +static int ps_lightbar_register(struct ps_device *ps_dev, struct led_cla=
-ssdev_mc *lightbar_mc_dev,
-> +=09int (*brightness_set)(struct led_classdev *, enum led_brightness))
+> +static int ps_led_register(struct ps_device *ps_dev, struct led_classdev=
+ *led,
+> +=09=09struct ps_led_info *led_info)
 > +{
-> +=09struct hid_device *hdev =3D ps_dev->hdev;
-> +=09struct mc_subled *mc_led_info;
-> +=09struct led_classdev *led_cdev;
 > +=09int ret;
 > +
-> +=09mc_led_info =3D devm_kzalloc(&hdev->dev, 3*sizeof(*mc_led_info), GFP_=
-KERNEL);
-
-I believe `devm_kmalloc_array()` would be more appropriate. Have you looked=
- at it?
-
-
-> +=09if (!mc_led_info)
+> +=09led->name =3D devm_kasprintf(&ps_dev->hdev->dev, GFP_KERNEL,
+> +=09=09=09"playstation::%pMR::%s", ps_dev->mac_address, led_info->name);
+> +
+> +=09if (!led->name)
 > +=09=09return -ENOMEM;
 > +
-> +=09mc_led_info[0].color_index =3D LED_COLOR_ID_RED;
-> +=09mc_led_info[0].channel =3D 0;
-> +=09mc_led_info[1].color_index =3D LED_COLOR_ID_GREEN;
-> +=09mc_led_info[1].channel =3D 1;
-> +=09mc_led_info[2].color_index =3D LED_COLOR_ID_BLUE;
-> +=09mc_led_info[2].channel =3D 2;
-
-Just a small note, as far as I'm aware, the `channel` member is not used by
-multicolor LED functions, and it's not even used in this module as far as I=
- see.
-
-
+> +=09led->brightness =3D 0;
+> +=09led->max_brightness =3D 1;
+> +=09led->flags =3D LED_CORE_SUSPENDRESUME;
+> +=09led->brightness_get =3D led_info->brightness_get;
+> +=09led->brightness_set =3D led_info->brightness_set;
 > +
-> +=09lightbar_mc_dev->subled_info =3D mc_led_info;
-> +=09lightbar_mc_dev->num_colors =3D 3;
-> +
-> +=09led_cdev =3D &lightbar_mc_dev->led_cdev;
-> +=09led_cdev->name =3D devm_kasprintf(&hdev->dev, GFP_KERNEL, "playstatio=
-n::%pMR::rgb",
-> +=09=09=09ps_dev->mac_address);
-> +=09led_cdev->brightness =3D 255;
-> +=09led_cdev->max_brightness =3D 255;
-> +=09led_cdev->brightness_set_blocking =3D brightness_set;
-> +
-> +=09ret =3D devm_led_classdev_multicolor_register(&hdev->dev, lightbar_mc=
-_dev);
-> +=09if (ret < 0) {
-> +=09=09hid_err(hdev, "Cannot register multicolor LED device\n");
+> +=09ret =3D devm_led_classdev_register(&ps_dev->hdev->dev, led);
+> +=09if (ret) {
+> +=09=09hid_err(ps_dev->hdev, "Failed to register LED %s: %d\n", led_info-=
+>name, ret);
+
+Another inconsistency with log messages is that sometimes the error code is=
+ printed,
+sometimes it is not. I believe it would be preferable if there was no incos=
+istency.
+
+
 > +=09=09return ret;
 > +=09}
 > +
 > +=09return 0;
 > +}
-> +
->  static struct input_dev *ps_sensors_create(struct hid_device *hdev, int =
-accel_range, int accel_res,
->  =09=09int gyro_range, int gyro_res)
->  {
-> @@ -601,6 +652,27 @@  static int dualsense_get_mac_address(struct dualsen=
-se *ds)
->  =09return ret;
->  }
->
-> +static int dualsense_lightbar_set_brightness(struct led_classdev *cdev,
-> +=09enum led_brightness brightness)
+> [...]
+> +static enum led_brightness dualsense_mute_led_get_brightness(struct led_=
+classdev *led)
 > +{
-> +=09struct led_classdev_mc *mc_cdev =3D lcdev_to_mccdev(cdev);
-> +=09struct hid_device *hdev =3D to_hid_device(cdev->dev->parent);
+> +=09struct hid_device *hdev =3D to_hid_device(led->dev->parent);
 > +=09struct dualsense *ds =3D hid_get_drvdata(hdev);
 
-I think the previous two lines could be replaced with
+I think these two lines could be replaced with:
 
 ```
-struct dualsense *ds =3D container_of(mc_cdev, struct dualsense, lightbar);
+struct dualsense *ds =3D container_of(led, struct dualsense, mute_led);
 ```
 
 
-> +=09unsigned long flags;
 > +
-> +=09led_mc_calc_color_components(mc_cdev, brightness);
-> +
-> +=09spin_lock_irqsave(&ds->base.lock, flags);
-> +=09ds->update_lightbar =3D true;
-> +=09ds->lightbar_red =3D mc_cdev->subled_info[0].brightness;
-> +=09ds->lightbar_green =3D mc_cdev->subled_info[1].brightness;
-> +=09ds->lightbar_blue =3D mc_cdev->subled_info[2].brightness;
-> +=09spin_unlock_irqrestore(&ds->base.lock, flags);
-> +
-> +=09schedule_work(&ds->output_worker);
-> +=09return 0;
+> +=09return ds->mic_muted;
 > +}
-> +
+> [...]
 >  static void dualsense_init_output_report(struct dualsense *ds, struct du=
 alsense_output_report *rp,
 >  =09=09void *buf)
 >  {
-> @@ -682,6 +754,15 @@  static void dualsense_output_worker(struct work_str=
+> @@ -763,6 +820,26 @@  static void dualsense_output_worker(struct work_str=
 uct *work)
->  =09=09ds->update_rumble =3D false;
+>  =09=09ds->update_lightbar =3D false;
 >  =09}
 >
-> +=09if (ds->update_lightbar) {
-> +=09=09common->valid_flag1 |=3D DS_OUTPUT_VALID_FLAG1_LIGHTBAR_CONTROL_EN=
-ABLE;
-> +=09=09common->lightbar_red =3D ds->lightbar_red;
-> +=09=09common->lightbar_green =3D ds->lightbar_green;
-> +=09=09common->lightbar_blue =3D ds->lightbar_blue;
+> +=09if (ds->update_mic_mute) {
+> +=09=09if (ds->mic_muted) {
+> +=09=09=09common->valid_flag1 |=3D DS_OUTPUT_VALID_FLAG1_MIC_MUTE_LED_CON=
+TROL_ENABLE;
+> +=09=09=09common->mute_button_led =3D 1; /* Enable mute LED. */
 > +
-> +=09=09ds->update_lightbar =3D false;
+> +=09=09=09/* Disable microphone */
+> +=09=09=09common->valid_flag1 |=3D DS_OUTPUT_VALID_FLAG1_POWER_SAVE_CONTR=
+OL_ENABLE;
+> +=09=09=09common->power_save_control |=3D DS_OUTPUT_POWER_SAVE_CONTROL_MI=
+C_MUTE;
+> +=09=09} else {
+> +=09=09=09common->valid_flag1 |=3D DS_OUTPUT_VALID_FLAG1_MIC_MUTE_LED_CON=
+TROL_ENABLE;
+> +=09=09=09common->mute_button_led =3D 0; /* Disable mute LED. */
+> +
+> +=09=09=09/* Enable microphone */
+> +=09=09=09common->valid_flag1 |=3D DS_OUTPUT_VALID_FLAG1_POWER_SAVE_CONTR=
+OL_ENABLE;
+> +=09=09=09common->power_save_control &=3D ~DS_OUTPUT_POWER_SAVE_CONTROL_M=
+IC_MUTE;
+> +=09=09}
+> +
+
+I'd put the first two lines (or at least the first line) outside the condit=
+ional.
+
+
+> +=09=09ds->update_mic_mute =3D false;
 > +=09}
 > +
 >  =09spin_unlock_irqrestore(&ds->base.lock, flags);
 >
 >  =09dualsense_send_output_report(ds, &report);
-> @@ -861,6 +942,30 @@  static int dualsense_play_effect(struct input_dev *=
-dev, void *data, struct ff_ef
->  =09return 0;
->  }
-> [...]
->  static struct ps_device *dualsense_create(struct hid_device *hdev)
->  {
->  =09struct dualsense *ds;
-> @@ -930,6 +1035,18 @@  static struct ps_device *dualsense_create(struct h=
-id_device *hdev)
->  =09if (ret < 0)
->  =09=09goto err;
+> @@ -777,6 +854,7 @@  static int dualsense_parse_report(struct ps_device *=
+ps_dev, struct hid_report *r
+>  =09uint8_t battery_data, battery_capacity, charging_status, value;
+>  =09int battery_status;
+>  =09uint16_t sensor_timestamp;
+> +=09bool btn_mic_state;
+>  =09unsigned long flags;
+>  =09int i;
 >
-> +=09/* The hardware may have control over the LEDs (e.g. in Bluetooth on =
-startup).
-> +=09 * Reset the LEDs (lightbar, mute, player leds), so we can control th=
-em
-> +=09 * from software.
-> +=09 */
-> +=09ret =3D dualsense_reset_leds(ds);
-> +=09if (ret < 0)
-
-I believe if `dualsense_reset_leds()` can only return 0 on success, or an e=
-rrno,
-then `if (ret)` would be better.
-
-
-> +=09=09goto err;
-> +
-> +=09ret =3D ps_lightbar_register(ps_dev, &ds->lightbar, dualsense_lightba=
-r_set_brightness);
-> +=09if (ret < 0)
+> @@ -829,6 +907,22 @@  static int dualsense_parse_report(struct ps_device =
+*ps_dev, struct hid_report *r
+>  =09input_report_key(ds->gamepad, BTN_MODE,   ds_report->buttons[2] & DS_=
+BUTTONS2_PS_HOME);
+>  =09input_sync(ds->gamepad);
+>
+> +=09/* The DualSense has an internal microphone, which can be muted throu=
+gh a mute button
+> +=09 * on the device. The driver expected to read the button state and pr=
+ogram the device
 > [...]
 
-Same here.
+"The driver is expected" ?
 
 
 Regards,
