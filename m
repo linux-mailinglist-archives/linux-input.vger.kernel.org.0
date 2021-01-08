@@ -2,71 +2,451 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2A562EEDDA
-	for <lists+linux-input@lfdr.de>; Fri,  8 Jan 2021 08:26:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B96AB2EEEA2
+	for <lists+linux-input@lfdr.de>; Fri,  8 Jan 2021 09:34:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727395AbhAHH0M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 Jan 2021 02:26:12 -0500
-Received: from muru.com ([72.249.23.125]:41204 "EHLO muru.com"
+        id S1727439AbhAHIeO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 Jan 2021 03:34:14 -0500
+Received: from mout.gmx.net ([212.227.15.19]:40297 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726763AbhAHH0L (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 8 Jan 2021 02:26:11 -0500
-Received: from atomide.com (localhost [127.0.0.1])
-        by muru.com (Postfix) with ESMTPS id A75A680B4;
-        Fri,  8 Jan 2021 07:25:52 +0000 (UTC)
-Date:   Fri, 8 Jan 2021 09:25:27 +0200
-From:   Tony Lindgren <tony@atomide.com>
-To:     Sebastian Reichel <sre@kernel.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-omap@vger.kernel.org,
-        Arthur Demchenkov <spinal.by@gmail.com>,
-        Carl Philipp Klemm <philipp@uvos.xyz>,
-        Merlijn Wajer <merlijn@wizzup.org>,
-        Pavel Machek <pavel@ucw.cz>, ruleh <ruleh@gmx.de>
-Subject: Re: [PATCH 4/4] Input: omap4-keypad - simplify probe with devm
-Message-ID: <X/gI55MjYj5ImKwi@atomide.com>
-References: <20210106125822.31315-1-tony@atomide.com>
- <20210106125822.31315-5-tony@atomide.com>
- <20210106134336.lmbaywvn7aqohsj5@earth.universe>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210106134336.lmbaywvn7aqohsj5@earth.universe>
+        id S1727146AbhAHIeO (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 8 Jan 2021 03:34:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1610094760;
+        bh=pTp/i1ZIcBcI53t09ZHYoA4yiuK7R7sC2FQA8/2Ockg=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+        b=ekLDNLvrvPBaCzyQXTU5Q6Ve6zoA8lwrzK+sIRD1myUmVij8QMzltZfocJWKs4cmL
+         FPU2lKgkabfLw5OJMZa14tOQpfDpLjywt7KTIpJXAhPFElSUyNGbL5a0v3hMGCigeM
+         FpRgvdZq4B4Javtt4xEnQDylpd3ygc2QjalWBUAA=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from Valinor ([82.128.181.212]) by mail.gmx.com (mrgmx005
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1M2f5Z-1kxW5A45Gx-0049tU; Fri, 08
+ Jan 2021 09:32:40 +0100
+Date:   Fri, 8 Jan 2021 10:34:19 +0200
+From:   Lauri Kasanen <cand@gmx.com>
+To:     linux-mips@vger.kernel.org
+Cc:     tsbogend@alpha.franken.de, dmitry.torokhov@gmail.com,
+        linux-input@vger.kernel.org
+Subject: [PATCH 4/6 v3] input: Add N64 controller driver
+Message-Id: <20210108103419.9e1af01609fc8fb809b349f4@gmx.com>
+X-Mailer: Sylpheed 3.5.0 (GTK+ 2.18.6; x86_64-unknown-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ecoWhc2IDgp5s0ATU26UTP+1LMoKawS+lcbjnTMWoh2vgJA6UK1
+ IA+psT4upzNwaYmZF+7e7BkE/rp9794FgU4vIQHfOEvSKmpRfheV+yNmWnTZSP4o5mQ070l
+ 3G3ty37ZSkqovreCs5a3v4XWQPv8PrxeuXLMDdwHBSZ43bnQrA6TKl7N4Qt9wnBavRuYhTn
+ I1e8AwRNr8GTmbJtepEBg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:9/rKbeXgPNQ=:UhP6BkrdID5F+u8jKZ8t1J
+ wydVF7fz4HbDVIMd46ghVaO+8lF4mlHcCCW5RM/LMHH+82L1thh/MqEkc1Y043EwzkgRZmWIi
+ t/VYfgNJz42ARFGrjlnyUHlMK0pVY3MNzKhs88ACrkF8DosSgZFWO+jRPvQnd54/siYolytyP
+ evJFb5ahJGC8wvC9U2re9C5Gyoz+yZZpmsoFURsbSnUwgjS6V559e+DIkX2CTfI6x7E9G0tVY
+ yTEEi1T7v3lTsfB8I7MyVK8YMVPEpX7V0nh1Ecb5Ad/RAYAxkWLqoUxGil9Ogn+jV4OAEAzYu
+ WlgIo99JIKS8aeOV8qJ1hIBOuAaGOTG33WAtlTRQ021OXFgpB00XeZviyi1VcOVHW4uIOf1wH
+ Pe1kqnZutKynB25LFWv3ap4p0uKywBsK7KB/YE45DREfAZ2jJwYyF9On7vjH5Fyzi3z1JXAXG
+ RPZZeivHejuZlmwkqQP4hlsfnt3a+veMaUKTO4oCtOpuDAeObyMeBvi2TvVJjfgglafdl1/sp
+ r48c7Rsf6kRpl2l1k9EX1VYWGNDllbgxpIxZqieO9lhzVSI7L56QtlkHU5DE3gPXFLiPOKuIV
+ DZ0n4oQ42q/NxdXZTFL0n4QGuJuoCHaO/hhuQgBOpyyuvE3zaExcmQ/lKOqOgW97lxWMyp0P4
+ JEkqVWOHJHPRMGr7gzUlvMrmPxuyPMYxYLDuJno6jGpkk/FXpWUEpPJ8b86GU9zUiu/kNfpJo
+ DdrrRgOKdYl9tp8ngM2EQDUqxBQxq3tuerDhaYFHpQe9SFJjz5vJZlJ3kejrJDwR+YaA2Xc9N
+ goQz4ftVYMVoUIyukklPZyOjLP3kxD16/lsrlB3jNhF5jK6N5/+QDBoRBfE3i7xU+sROlACw7
+ Nper5DBsTyyck1yaBe+A==
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-* Sebastian Reichel <sre@kernel.org> [210106 13:44]:
-> On Wed, Jan 06, 2021 at 02:58:22PM +0200, Tony Lindgren wrote:
-> > -	struct resource *res;
-> >  
-> >  	dev_pm_clear_wake_irq(&pdev->dev);
-> > -
-> > -	free_irq(keypad_data->irq, keypad_data);
-> > -
-> >  	pm_runtime_dont_use_autosuspend(&pdev->dev);
-> >  	pm_runtime_disable(&pdev->dev);
-> > -
-> >  	input_unregister_device(keypad_data->input);
-> 
-> not needed:
-> 
->  * devm_input_allocate_device - allocate managed input device
->  * @dev: device owning the input device being created
->  *
->  * Returns prepared struct input_dev or %NULL.
->  *
->  * Managed input devices do not need to be explicitly unregistered or
->  * freed as it will be done automatically when owner device unbinds from
->  * its driver (or binding fails). [...]
+This adds support for the four built-in controller
+ports on the Nintendo 64 console. The N64 controller
+includes an analog stick, a d-pad, and several buttons.
 
-OK thanks will drop and fix up the reported autobuild warnings
-and repost. Looks like also the OMAP4_KEYPAD_AUTOIDLE_MS value
-of 50 is too long, I recently changed it from 30 but now have
-seen few stuck last pressed keys.
+No module support as the target has only 8mb ram.
 
-Regards,
+Signed-off-by: Lauri Kasanen <cand@gmx.com>
+=2D--
 
-Tony
+v3:
+s/to_uncac/ckseg1/
+
+v2:
+BIT()
+define 4
+use a dev struct
+cpu_relax
+bit-setting helpers
+pr_fmt
+
+ drivers/input/joystick/Kconfig  |   6 +
+ drivers/input/joystick/Makefile |   2 +-
+ drivers/input/joystick/n64joy.c | 322 +++++++++++++++++++++++++++++++++++=
++++++
+ 3 files changed, 329 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/input/joystick/n64joy.c
+
+diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconf=
+ig
+index b080f0c..e1a8128 100644
+=2D-- a/drivers/input/joystick/Kconfig
++++ b/drivers/input/joystick/Kconfig
+@@ -382,4 +382,10 @@ config JOYSTICK_FSIA6B
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called fsia6b.
+
++config JOYSTICK_N64
++	bool "N64 controller"
++	depends on MACH_NINTENDO64
++	help
++	  Support for the four N64 controllers.
++
+ endif
+diff --git a/drivers/input/joystick/Makefile b/drivers/input/joystick/Make=
+file
+index 58232b3..31d720c 100644
+=2D-- a/drivers/input/joystick/Makefile
++++ b/drivers/input/joystick/Makefile
+@@ -24,6 +24,7 @@ obj-$(CONFIG_JOYSTICK_INTERACT)		+=3D interact.o
+ obj-$(CONFIG_JOYSTICK_JOYDUMP)		+=3D joydump.o
+ obj-$(CONFIG_JOYSTICK_MAGELLAN)		+=3D magellan.o
+ obj-$(CONFIG_JOYSTICK_MAPLE)		+=3D maplecontrol.o
++obj-$(CONFIG_JOYSTICK_N64)		+=3D n64joy.o
+ obj-$(CONFIG_JOYSTICK_PSXPAD_SPI)	+=3D psxpad-spi.o
+ obj-$(CONFIG_JOYSTICK_PXRC)		+=3D pxrc.o
+ obj-$(CONFIG_JOYSTICK_SIDEWINDER)	+=3D sidewinder.o
+@@ -37,4 +38,3 @@ obj-$(CONFIG_JOYSTICK_WARRIOR)		+=3D warrior.o
+ obj-$(CONFIG_JOYSTICK_WALKERA0701)	+=3D walkera0701.o
+ obj-$(CONFIG_JOYSTICK_XPAD)		+=3D xpad.o
+ obj-$(CONFIG_JOYSTICK_ZHENHUA)		+=3D zhenhua.o
+-
+diff --git a/drivers/input/joystick/n64joy.c b/drivers/input/joystick/n64j=
+oy.c
+new file mode 100644
+index 0000000..816bd53
+=2D-- /dev/null
++++ b/drivers/input/joystick/n64joy.c
+@@ -0,0 +1,322 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Support for the four N64 controllers.
++ *
++ * Copyright (c) 2020 Lauri Kasanen
++ */
++
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++
++#include <linux/errno.h>
++#include <linux/init.h>
++#include <linux/input.h>
++#include <linux/limits.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/slab.h>
++#include <linux/timer.h>
++
++#include <asm/addrspace.h>
++#include <asm/io.h>
++
++MODULE_AUTHOR("Lauri Kasanen <cand@gmx.com>");
++MODULE_DESCRIPTION("Driver for N64 controllers");
++MODULE_LICENSE("GPL");
++
++#define PIF_RAM 0x1fc007c0
++#define REG_BASE ((u32 *) CKSEG1ADDR(0x4800000))
++
++#define SI_DRAM_REG 0
++#define SI_READ_REG 1
++#define SI_WRITE_REG 4
++#define SI_STATUS_REG 6
++
++#define SI_STATUS_DMA_BUSY  BIT(0)
++#define SI_STATUS_IO_BUSY   BIT(1)
++
++#define N64_CONTROLLER_ID 0x0500
++
++#define MAX_CONTROLLERS 4
++
++static const char *n64joy_phys[MAX_CONTROLLERS] =3D {
++	"n64joy/port0",
++	"n64joy/port1",
++	"n64joy/port2",
++	"n64joy/port3",
++};
++
++struct n64joy_priv {
++	u64 si_buf[8] ____cacheline_aligned;
++	struct timer_list timer;
++	struct mutex n64joy_mutex;
++	struct input_dev *n64joy_dev[MAX_CONTROLLERS];
++	u8 n64joy_opened;
++};
++
++struct joydata {
++	unsigned: 16; // unused
++	unsigned err: 2;
++	unsigned: 14; // unused
++
++	union {
++		u32 data;
++
++		struct {
++			unsigned a: 1;
++			unsigned b: 1;
++			unsigned z: 1;
++			unsigned start: 1;
++			unsigned up: 1;
++			unsigned down: 1;
++			unsigned left: 1;
++			unsigned right: 1;
++			unsigned: 2; // unused
++			unsigned l: 1;
++			unsigned r: 1;
++			unsigned c_up: 1;
++			unsigned c_down: 1;
++			unsigned c_left: 1;
++			unsigned c_right: 1;
++			signed x: 8;
++			signed y: 8;
++		};
++	};
++};
++
++static void n64joy_write_reg(const u8 reg, const u32 value)
++{
++	__raw_writel(value, REG_BASE + reg);
++}
++
++static u32 n64joy_read_reg(const u8 reg)
++{
++	return __raw_readl(REG_BASE + reg);
++}
++
++static void n64joy_wait_si_dma(void)
++{
++	while (n64joy_read_reg(SI_STATUS_REG) & (SI_STATUS_DMA_BUSY | SI_STATUS_=
+IO_BUSY))
++		cpu_relax();
++}
++
++static void n64joy_exec_pif(struct n64joy_priv *priv, const u64 in[8])
++{
++	unsigned long flags;
++
++	dma_cache_wback_inv((unsigned long) in, 8 * 8);
++	dma_cache_inv((unsigned long) priv->si_buf, 8 * 8);
++
++	local_irq_save(flags);
++
++	n64joy_wait_si_dma();
++
++	barrier();
++	n64joy_write_reg(SI_DRAM_REG, virt_to_phys(in));
++	barrier();
++	n64joy_write_reg(SI_WRITE_REG, PIF_RAM);
++	barrier();
++
++	n64joy_wait_si_dma();
++
++	barrier();
++	n64joy_write_reg(SI_DRAM_REG, virt_to_phys(priv->si_buf));
++	barrier();
++	n64joy_write_reg(SI_READ_REG, PIF_RAM);
++	barrier();
++
++	n64joy_wait_si_dma();
++
++	local_irq_restore(flags);
++}
++
++static const u64 polldata[] ____cacheline_aligned =3D {
++	0xff010401ffffffff,
++	0xff010401ffffffff,
++	0xff010401ffffffff,
++	0xff010401ffffffff,
++	0xfe00000000000000,
++	0,
++	0,
++	1
++};
++
++static void n64joy_poll(struct timer_list *t)
++{
++	const struct joydata *data;
++	struct n64joy_priv *priv =3D container_of(t, struct n64joy_priv, timer);
++	struct input_dev *dev;
++	u32 i;
++
++	n64joy_exec_pif(priv, polldata);
++
++	data =3D (struct joydata *) priv->si_buf;
++
++	for (i =3D 0; i < MAX_CONTROLLERS; i++) {
++		if (!priv->n64joy_dev[i])
++			continue;
++
++		dev =3D priv->n64joy_dev[i];
++
++		// d-pad
++		input_report_key(dev, BTN_DPAD_UP, data[i].up);
++		input_report_key(dev, BTN_DPAD_DOWN, data[i].down);
++		input_report_key(dev, BTN_DPAD_LEFT, data[i].left);
++		input_report_key(dev, BTN_DPAD_RIGHT, data[i].right);
++
++		// c buttons
++		input_report_key(dev, BTN_FORWARD, data[i].c_up);
++		input_report_key(dev, BTN_BACK, data[i].c_down);
++		input_report_key(dev, BTN_LEFT, data[i].c_left);
++		input_report_key(dev, BTN_RIGHT, data[i].c_right);
++
++		// matching buttons
++		input_report_key(dev, BTN_START, data[i].start);
++		input_report_key(dev, BTN_Z, data[i].z);
++
++		// remaining ones: a, b, l, r
++		input_report_key(dev, BTN_0, data[i].a);
++		input_report_key(dev, BTN_1, data[i].b);
++		input_report_key(dev, BTN_2, data[i].l);
++		input_report_key(dev, BTN_3, data[i].r);
++
++		input_report_abs(dev, ABS_X, data[i].x);
++		input_report_abs(dev, ABS_Y, data[i].y);
++
++		input_sync(dev);
++	}
++
++	mod_timer(&priv->timer, jiffies + msecs_to_jiffies(16));
++}
++
++static int n64joy_open(struct input_dev *dev)
++{
++	struct n64joy_priv *priv =3D input_get_drvdata(dev);
++	int err;
++
++	err =3D mutex_lock_interruptible(&priv->n64joy_mutex);
++	if (err)
++		return err;
++
++	if (!priv->n64joy_opened) {
++		// Could use the vblank irq, but it's not important if the poll
++		// point slightly changes.
++		timer_setup(&priv->timer, n64joy_poll, 0);
++		mod_timer(&priv->timer, jiffies + msecs_to_jiffies(16));
++	}
++
++	priv->n64joy_opened++;
++
++	mutex_unlock(&priv->n64joy_mutex);
++	return err;
++}
++
++static void n64joy_close(struct input_dev *dev)
++{
++	struct n64joy_priv *priv =3D input_get_drvdata(dev);
++
++	mutex_lock(&priv->n64joy_mutex);
++	if (!--priv->n64joy_opened)
++		del_timer_sync(&priv->timer);
++	mutex_unlock(&priv->n64joy_mutex);
++}
++
++static const u64 __initconst scandata[] ____cacheline_aligned =3D {
++	0xff010300ffffffff,
++	0xff010300ffffffff,
++	0xff010300ffffffff,
++	0xff010300ffffffff,
++	0xfe00000000000000,
++	0,
++	0,
++	1
++};
++
++static int __init n64joy_init(void)
++{
++	const struct joydata *data;
++	struct n64joy_priv *priv;
++	struct input_dev *dev;
++	int err =3D 0;
++	u32 i, j, found =3D 0;
++
++	priv =3D kzalloc(sizeof(struct n64joy_priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++	mutex_init(&priv->n64joy_mutex);
++
++	// The controllers are not hotpluggable, so we can scan in init
++	n64joy_exec_pif(priv, scandata);
++
++	data =3D (struct joydata *) priv->si_buf;
++
++	for (i =3D 0; i < MAX_CONTROLLERS; i++) {
++		if (!data[i].err && data[i].data >> 16 =3D=3D N64_CONTROLLER_ID) {
++			found++;
++
++			dev =3D priv->n64joy_dev[i] =3D input_allocate_device();
++			if (!priv->n64joy_dev[i]) {
++				err =3D -ENOMEM;
++				goto fail;
++			}
++
++			input_set_drvdata(dev, priv);
++
++			dev->name =3D "N64 controller";
++			dev->phys =3D n64joy_phys[i];
++			dev->id.bustype =3D BUS_HOST;
++			dev->id.vendor =3D 0;
++			dev->id.product =3D data[i].data >> 16;
++			dev->id.version =3D 0;
++
++			dev->open =3D n64joy_open;
++			dev->close =3D n64joy_close;
++
++			// d-pad
++			input_set_capability(dev, EV_KEY, BTN_DPAD_UP);
++			input_set_capability(dev, EV_KEY, BTN_DPAD_DOWN);
++			input_set_capability(dev, EV_KEY, BTN_DPAD_LEFT);
++			input_set_capability(dev, EV_KEY, BTN_DPAD_RIGHT);
++			// c buttons
++			input_set_capability(dev, EV_KEY, BTN_LEFT);
++			input_set_capability(dev, EV_KEY, BTN_RIGHT);
++			input_set_capability(dev, EV_KEY, BTN_FORWARD);
++			input_set_capability(dev, EV_KEY, BTN_BACK);
++			// matching buttons
++			input_set_capability(dev, EV_KEY, BTN_START);
++			input_set_capability(dev, EV_KEY, BTN_Z);
++			// remaining ones: a, b, l, r
++			input_set_capability(dev, EV_KEY, BTN_0);
++			input_set_capability(dev, EV_KEY, BTN_1);
++			input_set_capability(dev, EV_KEY, BTN_2);
++			input_set_capability(dev, EV_KEY, BTN_3);
++
++			for (j =3D 0; j < 2; j++) {
++				input_set_abs_params(dev, ABS_X + j,
++						     S8_MIN, S8_MAX, 0, 0);
++			}
++
++			err =3D input_register_device(dev);
++			if (err) {
++				input_free_device(dev);
++				goto fail;
++			}
++		}
++	}
++
++	pr_info("%u controller(s) connected\n", found);
++
++	if (!found)
++		return -ENODEV;
++
++	return 0;
++fail:
++	for (i =3D 0; i < MAX_CONTROLLERS; i++) {
++		if (!priv->n64joy_dev[i])
++			continue;
++		input_unregister_device(priv->n64joy_dev[i]);
++	}
++	return err;
++}
++
++module_init(n64joy_init);
+=2D-
+2.6.2
 
