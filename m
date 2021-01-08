@@ -2,56 +2,55 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A14362EED59
-	for <lists+linux-input@lfdr.de>; Fri,  8 Jan 2021 07:10:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CE582EEDBA
+	for <lists+linux-input@lfdr.de>; Fri,  8 Jan 2021 08:13:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726600AbhAHGHm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 Jan 2021 01:07:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33594 "EHLO
+        id S1726353AbhAHHNM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 Jan 2021 02:13:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725308AbhAHGHm (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Jan 2021 01:07:42 -0500
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EBE3C0612F4
-        for <linux-input@vger.kernel.org>; Thu,  7 Jan 2021 22:07:01 -0800 (PST)
-Received: by mail-qt1-x832.google.com with SMTP id 7so5962241qtp.1
-        for <linux-input@vger.kernel.org>; Thu, 07 Jan 2021 22:07:01 -0800 (PST)
+        with ESMTP id S1726312AbhAHHNM (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 8 Jan 2021 02:13:12 -0500
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0498FC0612F4
+        for <linux-input@vger.kernel.org>; Thu,  7 Jan 2021 23:12:31 -0800 (PST)
+Received: by mail-qk1-x735.google.com with SMTP id 22so7725502qkf.9
+        for <linux-input@vger.kernel.org>; Thu, 07 Jan 2021 23:12:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gaikai-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=ukyOHRMIzEJGgqZ5pPrjQeaIvsdAIlI/rd0GDT9c2jk=;
-        b=i4O24AxwDJGKOQcd0ObC+AJcsqEAmci0j+5SuHJhXPi7QWnW+ir7lk349nUQWriCd8
-         CT6aoR7lbN7T7RD8ZMoxhKRMXPHjjEgfQ2YpO5o6QUi8bxpLkOLWVYdXbHdr+/w3l51Y
-         Z4dn7nKdpsoWgfMonE9F/gfZvMTNDOl8hfON0zXOEh1jVgWcck7AIwzKIf1nOBL9iJ54
-         1YDcmKIPvGKwfqmdIopwXQdVgV2Uh6qMXBi0ipG7aL45xCpGD6FnQnA0DosqYxtWVheu
-         KbI+cetjEy5q5h2viIdtyAcjkx+OsQMHOhip6xV1DZCoF+3ySuPDSFs8VaEk/w6Wjja+
-         wL/A==
+        bh=HmoGBIut6Ch8HO80VtEOtFiPz+uc2B7hXYnMOBJTf9I=;
+        b=DSTnAnj1i9W1CmQZEScoPmca0MMAFIBJgdZAsLIKaQrNTHBKZFONKiWucv970Ly748
+         FjvTbFiXVPt+a5QEvMpZ+eJ12jIcOk+NvvoMA/Mwm6Vac2DAv9ULlUMx/7+fKxOSlqPp
+         jX4qkaXCB8Q8JjmA8uJgbjXJm7RRzg/d/5Hod+ZeJb/xB5BjLZ1CjDPTjWf7W8kzGd9Y
+         BpgvgAuyONamikYndrFvZFHfCWOQxNo/tUB7bds1CC4IYZpp+bG+4o1+fsy2gLhlcpql
+         Z/d7LfZYWB/OXfiDoP6FoetZTr5rY4CPIxh9BhmvnG9l5dufkrY6E48vsxMjz6ubBapm
+         I6jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ukyOHRMIzEJGgqZ5pPrjQeaIvsdAIlI/rd0GDT9c2jk=;
-        b=n9hzSAILwY+LFX7K0ha9J6jrWeI3pc6JD0pnEPvTknrTFpeli3ukvulk9ZT66Cnhox
-         5ur5au82nxYfwY6oeOsEvsoFw8tnoUI7yS8xcYKNBAbcdiVGwZbkPbieL/P8b1E9S0C+
-         RALE8gS0mAHLmZ969w/qDWfx7qIeEIUbFJf5XzE42XtMvylIb0Ig0hZadcizltyhNGqs
-         PAlIH0rWkVhblXQ0g2QKYDoYOcC3aEWnPJ7fX3dIWUKYXabF4jpzl8KUovZw/55yYdPV
-         abqkqSVkJ1qZEW9dQqYC84MluLMopGBxhiHe2+xKA1H4eYIXwqow8sz1EV5pVOK3XVQy
-         YLvg==
-X-Gm-Message-State: AOAM531qmKVNbTqaAA4Jed+Gu7qGnZhmnvyF3Le/rg1qQIhW6BSkqqpc
-        W/MeBianTsVcKib1Qwvis2LjXjukzbJFqG8JEfwpjQ==
-X-Google-Smtp-Source: ABdhPJx46RW+2iPBZA7dmvpnCrQQuo+Dzq1vYF5TY7vqbPksjup8UH8EFEQPSlzZXXsRlduzkjXQhXnvLIsnsslUafI=
-X-Received: by 2002:aed:2d65:: with SMTP id h92mr2117235qtd.263.1610086020234;
- Thu, 07 Jan 2021 22:07:00 -0800 (PST)
+        bh=HmoGBIut6Ch8HO80VtEOtFiPz+uc2B7hXYnMOBJTf9I=;
+        b=pcE7E5joibi4t3iKUie0C1ObroKirhiXScG/chfbbd79Ff+Ilfap5z3ypOzb6lg9lu
+         I6DE8x0KmsDgPjzgBk+KN+9jIjmzN4g/6E5MaOjiwK7EtTFodlUD6mAm+MnPsH6lLWze
+         cOhCG3h510zFBTJkKsFePTB3uXb6lRP3D2T1gDrUEyAKJUpB1pZiy8mktynZAq+llnxG
+         urtGMKw1XML6LmvVQPLoSQG3zyOkfEXbQV0jIbJDtWOeAg41xT5s5Ng1bQR/yNLuo65i
+         8VsOwj/F2KDaPfv/lcbsSAMTOCWKv1lN45hgA0PblT5RRQCjT5NSf0fhBFnUbWtgYVyj
+         IbOw==
+X-Gm-Message-State: AOAM53358PfdGeOCwNjpJbaS2XBYgi7GFVXYnrrfAY7UuyQ7Wx7mDfMa
+        vcdKPcu4rXKCHNfS/ViKSJnhSyXc5M0WDSEI4x+Gyf4UqAAdAg==
+X-Google-Smtp-Source: ABdhPJyUR7JH8IelAPb097qySuIfOKrINkEj2xYmL1jk3jC0nTJv+OG0zXQfpnw8992B+dRa/mQWPkwKHmXfv16FklI=
+X-Received: by 2002:a37:bd01:: with SMTP id n1mr2590802qkf.469.1610089950714;
+ Thu, 07 Jan 2021 23:12:30 -0800 (PST)
 MIME-Version: 1.0
-References: <20210102223109.996781-1-roderick@gaikai.com> <20210102223109.996781-6-roderick@gaikai.com>
- <JtD5x8UNWvllStSHpZaryZUUarp8NZiy5G3HjT9xEIiUCxzfNmsaS7CSX52XSEObQ1TwkXlMPkNE0KG7JTl_WOgzOXDocF9jFecpqUkrBwg=@protonmail.com>
-In-Reply-To: <JtD5x8UNWvllStSHpZaryZUUarp8NZiy5G3HjT9xEIiUCxzfNmsaS7CSX52XSEObQ1TwkXlMPkNE0KG7JTl_WOgzOXDocF9jFecpqUkrBwg=@protonmail.com>
+References: <20210102223109.996781-1-roderick@gaikai.com> <20210102223109.996781-2-roderick@gaikai.com>
+ <WPROyPA6bw7Qd6BoSwn5qrj7_PMada9lEMUE8Q4kNYXbohSn9fXrFhZIrTKmjmDEn3FDNwyfDPkY-7xYdUnLz6dIvPZvr-up0NsMdJweZ0A=@protonmail.com>
+In-Reply-To: <WPROyPA6bw7Qd6BoSwn5qrj7_PMada9lEMUE8Q4kNYXbohSn9fXrFhZIrTKmjmDEn3FDNwyfDPkY-7xYdUnLz6dIvPZvr-up0NsMdJweZ0A=@protonmail.com>
 From:   Roderick Colenbrander <roderick@gaikai.com>
-Date:   Thu, 7 Jan 2021 22:06:49 -0800
-Message-ID: <CANndSKk9Z=ivs_TiuLd77Kv9DMdhqTcdQnobNfnfVPTd2Bpzqg@mail.gmail.com>
-Subject: Re: [PATCH v2 05/13] HID: playstation: add DualSense accelerometer
- and gyroscope support.
+Date:   Thu, 7 Jan 2021 23:12:19 -0800
+Message-ID: <CANndSKmuqD=Ls2UAEjzrzNKH1GV9rfjqu_+gzxRiGcf3oHmFcQ@mail.gmail.com>
+Subject: Re: [PATCH v2 01/13] HID: playstation: initial DualSense USB support.
 To:     =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>
 Cc:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
@@ -64,363 +63,357 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Barnab=C3=A1s,
+Hi Barnabas,
 
-Thanks for all your feedback (including other patches).
+Thanks for your suggestions.
 
-On Thu, Jan 7, 2021 at 10:52 AM Barnab=C3=A1s P=C5=91cze <pobrn@protonmail.=
-com> wrote:
+On Thu, Jan 7, 2021 at 9:14 AM Barnab=C3=A1s P=C5=91cze <pobrn@protonmail.c=
+om> wrote:
 >
 > Hi
 >
 >
-> 2021. janu=C3=A1r 2., szombat 23:31 keltez=C3=A9ssel, Roderick Colenbrand=
+> I have just a couple minor comments.
+>
+>
+> 2021. janu=C3=A1r 2., szombat 23:30 keltez=C3=A9ssel, Roderick Colenbrand=
 er =C3=ADrta:
 >
-> > From: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> > From: Roderick Colenbrander roderick.colenbrander@sony.com
 > >
-> > The DualSense features an accelerometer and gyroscope. The data is
-> > embedded into the main HID input reports. Expose both sensors through
-> > through a separate evdev node.
+> > Implement support for PlayStation DualSense gamepad in USB mode.
+> > Support features include buttons and sticks, which adhere to the
+> > Linux gamepad spec.
 > >
-> > Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> > Signed-off-by: Roderick Colenbrander roderick.colenbrander@sony.com
 > > [...]
-> > +static struct input_dev *ps_sensors_create(struct hid_device *hdev, in=
-t accel_range, int accel_res,
-> > +             int gyro_range, int gyro_res)
+> > +/* Common gamepad buttons across DualShock 3 / 4 and DualSense.
+> > + * Note: for device with a touchpad, touchpad button is not included
+> > + *        as it will be part of the touchpad device.
+> > + */
+> > +static const int ps_gamepad_buttons[] =3D {
+> > +     BTN_WEST, /* Square */
+> > +     BTN_NORTH, /* Triangle */
+> > +     BTN_EAST, /* Circle */
+> > +     BTN_SOUTH, /* Cross */
+> > +     BTN_TL, /* L1 */
+> > +     BTN_TR, /* R1 */
+> > +     BTN_TL2, /* L2 */
+> > +     BTN_TR2, /* R2 */
+> > +     BTN_SELECT, /* Create (PS5) / Share (PS4) */
+> > +     BTN_START, /* Option */
+> > +     BTN_THUMBL, /* L3 */
+> > +     BTN_THUMBR, /* R3 */
+> > +     BTN_MODE, /* PS Home */
+> > +};
+> > +
+> > +static const struct {int x; int y; } ps_gamepad_hat_mapping[] =3D {
+> > +     {0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}, {-1, 1}, {-1, 0}, {-1, =
+-1},
+> > +     {0, 0}
+> > +};
+>
+> I believe the preferred way is to have a comma after each array/enum/etc.=
+ element
+> unless it is a terminating entry.
+>
+>
+> > +
+> > +static struct input_dev *ps_allocate_input_dev(struct hid_device *hdev=
+, const char *name_suffix)
 > > +{
-> > +     struct input_dev *sensors;
+> > +     struct input_dev *input_dev;
+> > +
+> > +     input_dev =3D devm_input_allocate_device(&hdev->dev);
+> > +     if (!input_dev)
+> > +             return ERR_PTR(-ENOMEM);
+> > +
+> > +     input_dev->id.bustype =3D hdev->bus;
+> > +     input_dev->id.vendor =3D hdev->vendor;
+> > +     input_dev->id.product =3D hdev->product;
+> > +     input_dev->id.version =3D hdev->version;
+> > +     input_dev->uniq =3D hdev->uniq;
+> > +
+> > +     if (name_suffix) {
+> > +             input_dev->name =3D devm_kasprintf(&hdev->dev, GFP_KERNEL=
+, "%s %s", hdev->name,
+> > +                             name_suffix);
+> > +             if (!input_dev->name)
+> > +                     return ERR_PTR(-ENOMEM);
+> > +     } else {
+> > +             input_dev->name =3D hdev->name;
+> > +     }
+> > +
+> > +     input_set_drvdata(input_dev, hdev);
+> > +
+> > +     return input_dev;
+> > +}
+> > +
+> > +static struct input_dev *ps_gamepad_create(struct hid_device *hdev)
+> > +{
+> > +     struct input_dev *gamepad;
+> > +     unsigned int i;
 > > +     int ret;
 > > +
-> > +     sensors =3D ps_allocate_input_dev(hdev, "Motion Sensors");
-> > +     if (IS_ERR(sensors))
+> > +     gamepad =3D ps_allocate_input_dev(hdev, NULL);
+> > +     if (IS_ERR(gamepad))
 > > +             return ERR_PTR(-ENOMEM);
 >
 > I know that at the moment ENOMEM is the only possible error, but I believ=
 e
-> `return ERR_CAST(sensors);` would be better. (Or even just `return sensor=
-s;`.)
+> `return ERR_CAST(gamepad);` would be better. (Or even just `return gamepa=
+d;`.)
 >
 >
 > > +
-> > +     __set_bit(INPUT_PROP_ACCELEROMETER, sensors->propbit);
+> > +     input_set_abs_params(gamepad, ABS_X, 0, 255, 0, 0);
+> > +     input_set_abs_params(gamepad, ABS_Y, 0, 255, 0, 0);
+> > +     input_set_abs_params(gamepad, ABS_Z, 0, 255, 0, 0);
+> > +     input_set_abs_params(gamepad, ABS_RX, 0, 255, 0, 0);
+> > +     input_set_abs_params(gamepad, ABS_RY, 0, 255, 0, 0);
+> > +     input_set_abs_params(gamepad, ABS_RZ, 0, 255, 0, 0);
 > > +
-> > +     /* Accelerometer */
-> > +     input_set_abs_params(sensors, ABS_X, -accel_range, accel_range, 1=
-6, 0);
-> > +     input_set_abs_params(sensors, ABS_Y, -accel_range, accel_range, 1=
-6, 0);
-> > +     input_set_abs_params(sensors, ABS_Z, -accel_range, accel_range, 1=
-6, 0);
-> > +     input_abs_set_res(sensors, ABS_X, accel_res);
-> > +     input_abs_set_res(sensors, ABS_Y, accel_res);
-> > +     input_abs_set_res(sensors, ABS_Z, accel_res);
+> > +     input_set_abs_params(gamepad, ABS_HAT0X, -1, 1, 0, 0);
+> > +     input_set_abs_params(gamepad, ABS_HAT0Y, -1, 1, 0, 0);
 > > +
-> > +     /* Gyroscope */
-> > +     input_set_abs_params(sensors, ABS_RX, -gyro_range, gyro_range, 16=
-, 0);
-> > +     input_set_abs_params(sensors, ABS_RY, -gyro_range, gyro_range, 16=
-, 0);
-> > +     input_set_abs_params(sensors, ABS_RZ, -gyro_range, gyro_range, 16=
-, 0);
-> > +     input_abs_set_res(sensors, ABS_RX, gyro_res);
-> > +     input_abs_set_res(sensors, ABS_RY, gyro_res);
-> > +     input_abs_set_res(sensors, ABS_RZ, gyro_res);
+> > +     for (i =3D 0; i < ARRAY_SIZE(ps_gamepad_buttons); i++)
+> > +             input_set_capability(gamepad, EV_KEY, ps_gamepad_buttons[=
+i]);
 > > +
-> > +     ret =3D input_register_device(sensors);
+> > +     ret =3D input_register_device(gamepad);
 > > +     if (ret)
 > > +             return ERR_PTR(ret);
 > > +
-> > +     return sensors;
+> > +     return gamepad;
+> > +}
+> > +
+> > +static int dualsense_parse_report(struct ps_device *ps_dev, struct hid=
+_report *report,
+> > +             u8 *data, int size)
+> > +{
+> > +     struct hid_device *hdev =3D ps_dev->hdev;
+> > +     struct dualsense *ds =3D container_of(ps_dev, struct dualsense, b=
+ase);
+> > +     struct dualsense_input_report *ds_report;
+> > +     uint8_t value;
+> > +
+>
+> I think `size` should be checked somewhere around here.
+>
+>
+> > +     /* DualSense in USB uses the full HID report for reportID 1, but
+> > +      * Bluetooth uses a minimal HID report for reportID 1 and reports
+> > +      * the full report using reportID 49.
+> > +      */
+> > +     if (report->id =3D=3D DS_INPUT_REPORT_USB && hdev->bus =3D=3D BUS=
+_USB) {
+> > +             ds_report =3D (struct dualsense_input_report *)&data[1];
+> > +     } else {
+> > +             hid_err(hdev, "Unhandled reportID=3D%d\n", report->id);
+> > +             return -1;
+> > +     }
+> > +
+> > +     input_report_abs(ds->gamepad, ABS_X,  ds_report->x);
+> > +     input_report_abs(ds->gamepad, ABS_Y,  ds_report->y);
+> > +     input_report_abs(ds->gamepad, ABS_RX, ds_report->rx);
+> > +     input_report_abs(ds->gamepad, ABS_RY, ds_report->ry);
+> > +     input_report_abs(ds->gamepad, ABS_Z,  ds_report->z);
+> > +     input_report_abs(ds->gamepad, ABS_RZ, ds_report->rz);
+> > +
+> > +     value =3D ds_report->buttons[0] & DS_BUTTONS0_HAT_SWITCH;
+> > +     if (value > 7)
+> > +             value =3D 8; /* center */
+>
+> This seems a bit flimsy to me, it relies on a different part of the code
+> being in a certain way that is not enforced by anything
+
+What do you mean with not enforced? I'm not saying I'm a big fan of
+the code, but HATs seem to work like this. The DualShock4/DualSense
+describe it in their HID descriptors with a logical minimum value of 0
+and a max value of 7.
+
+The code is very similar to hid-input.c:
+
+static const struct {
+__s32 x;
+__s32 y;
+}  hid_hat_to_axis[] =3D {{ 0, 0}, { 0,-1}, { 1,-1}, { 1, 0}, { 1, 1}, {
+0, 1}, {-1, 1}, {-1, 0}, {-1,-1}};
+
+int hat_dir =3D usage->hat_dir;
+if (!hat_dir)
+    hat_dir =3D (value - usage->hat_min) * 8 / (usage->hat_max -
+usage->hat_min + 1) + 1;
+if (hat_dir < 0 || hat_dir > 8) hat_dir =3D 0;
+input_event(input, usage->type, usage->code    , hid_hat_to_axis[hat_dir].x=
+);
+input_event(input, usage->type, usage->code + 1, hid_hat_to_axis[hat_dir].y=
+);
+
+Main difference seems to be that this code places {0, 0} at the start
+and adds a "+1" to avoid having to set the value to "8" when out of
+range.
+
+ I'd probably do something
+> like this:
+>
+> enum {
+>   HAT_DIR_W =3D 0,
+>   HAT_DIR_NW,
+>   ...
+>   HAT_DIR_SW,
+>   HAT_DIR_NONE,
+> };
+>
+> static const struct {int x; int y; } ps_gamepad_hat_mapping[] =3D {
+>   [HAT_DIR_W] =3D {0, -1},
+>   ...
+>   [HAT_DIR_NONE] =3D {0, 0},
+> };
+>
+> and then
+>
+> if (value >=3D ARRAY_SIZE(ps_gamepad_hat_mapping))
+>   value =3D HAT_DIR_NONE;
+>
+> Please consider it. By the way, are values 9..15 actually sent by the con=
+troller?
+
+See above. They are not sent. The Hat Switch in the report descriptor
+is reported with a logical minimum of 0 and a max of 8.
+
+>
+> > +     input_report_abs(ds->gamepad, ABS_HAT0X, ps_gamepad_hat_mapping[v=
+alue].x);
+> > +     input_report_abs(ds->gamepad, ABS_HAT0Y, ps_gamepad_hat_mapping[v=
+alue].y);
+> > +
+> > +     input_report_key(ds->gamepad, BTN_WEST,   ds_report->buttons[0] &=
+ DS_BUTTONS0_SQUARE);
+> > +     input_report_key(ds->gamepad, BTN_SOUTH,  ds_report->buttons[0] &=
+ DS_BUTTONS0_CROSS);
+> > +     input_report_key(ds->gamepad, BTN_EAST,   ds_report->buttons[0] &=
+ DS_BUTTONS0_CIRCLE);
+> > +     input_report_key(ds->gamepad, BTN_NORTH,  ds_report->buttons[0] &=
+ DS_BUTTONS0_TRIANGLE);
+> > +     input_report_key(ds->gamepad, BTN_TL,     ds_report->buttons[1] &=
+ DS_BUTTONS1_L1);
+> > +     input_report_key(ds->gamepad, BTN_TR,     ds_report->buttons[1] &=
+ DS_BUTTONS1_R1);
+> > +     input_report_key(ds->gamepad, BTN_TL2,    ds_report->buttons[1] &=
+ DS_BUTTONS1_L2);
+> > +     input_report_key(ds->gamepad, BTN_TR2,    ds_report->buttons[1] &=
+ DS_BUTTONS1_R2);
+> > +     input_report_key(ds->gamepad, BTN_SELECT, ds_report->buttons[1] &=
+ DS_BUTTONS1_CREATE);
+> > +     input_report_key(ds->gamepad, BTN_START,  ds_report->buttons[1] &=
+ DS_BUTTONS1_OPTIONS);
+> > +     input_report_key(ds->gamepad, BTN_THUMBL, ds_report->buttons[1] &=
+ DS_BUTTONS1_L3);
+> > +     input_report_key(ds->gamepad, BTN_THUMBR, ds_report->buttons[1] &=
+ DS_BUTTONS1_R3);
+> > +     input_report_key(ds->gamepad, BTN_MODE,   ds_report->buttons[2] &=
+ DS_BUTTONS2_PS_HOME);
+> > +     input_sync(ds->gamepad);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static struct ps_device *dualsense_create(struct hid_device *hdev)
+> > +{
+> > +     struct dualsense *ds;
+> > +     int ret;
+> > +
+> > +     ds =3D devm_kzalloc(&hdev->dev, sizeof(*ds), GFP_KERNEL);
+> > +     if (!ds)
+> > +             return ERR_PTR(-ENOMEM);
+> > +
+> > +     /* Patch version to allow userspace to distinguish between
+> > +      * hid-generic vs hid-playstation axis and button mapping.
+> > +      */
+> > +     hdev->version |=3D HID_PLAYSTATION_VERSION_PATCH;
+> > +
+> > +     ds->base.hdev =3D hdev;
+> > +     ds->base.parse_report =3D dualsense_parse_report;
+> > +     hid_set_drvdata(hdev, ds);
+> > +
+> > +     ds->gamepad =3D ps_gamepad_create(hdev);
+> > +     if (IS_ERR(ds->gamepad)) {
+> > +             ret =3D PTR_ERR(ds->gamepad);
+> > +             goto err;
+> > +     }
+> > +
+> > +     return &ds->base;
+> > +
+> > +err:
+> > +     return ERR_PTR(ret);
 > > +}
 > > [...]
-> > +static int dualsense_get_calibration_data(struct dualsense *ds)
+> > +static int ps_probe(struct hid_device *hdev, const struct hid_device_i=
+d *id)
 > > +{
-> > +     short gyro_pitch_bias, gyro_pitch_plus, gyro_pitch_minus;
-> > +     short gyro_yaw_bias, gyro_yaw_plus, gyro_yaw_minus;
-> > +     short gyro_roll_bias, gyro_roll_plus, gyro_roll_minus;
-> > +     short gyro_speed_plus, gyro_speed_minus;
-> > +     short acc_x_plus, acc_x_minus;
-> > +     short acc_y_plus, acc_y_minus;
-> > +     short acc_z_plus, acc_z_minus;
-> > +     int speed_2x;
-> > +     int range_2g;
-> > +     int ret =3D 0;
-> > +     uint8_t *buf;
+> > +     struct ps_device *dev;
+> > +     int ret;
 > > +
-> > +     buf =3D kzalloc(DS_FEATURE_REPORT_CALIBRATION_SIZE, GFP_KERNEL);
-> > +     if (!buf)
-> > +             return -ENOMEM;
-> > +
-> > +     ret =3D hid_hw_raw_request(ds->base.hdev, DS_FEATURE_REPORT_CALIB=
-RATION, buf,
-> > +                     DS_FEATURE_REPORT_CALIBRATION_SIZE, HID_FEATURE_R=
-EPORT, HID_REQ_GET_REPORT);
->
-> I think it would be better if lines were aligned. I have missed this in o=
-ther patches,
-> so if you decide to make this change, please do it everywhere.
-
-What do you mean with "if lines were aligned"? You mean aligning the
-DS_FEATURE.. part with ds->base.hdev?
-
-I'm almost tempted in the future (as part of a future patch series) to
-perhaps have a ps_device_get_feature_report or something like that as
-there is the same code in multiple places. It can do some nicer
-checking as well (including to see if the first byte is the report ID
-number, which is guaranteed for DualSense). I think it is a bit much
-to add now, but probably in the future also when I add DualShock 4 in
-here.
-
->
-> > +     if (ret < 0)
-> > +             goto err_free;
-> > +     else if (ret !=3D DS_FEATURE_REPORT_CALIBRATION_SIZE) {
->
-> As per coding style[1], please either use {} for all branches, or just dr=
-op the
-> `else` and maybe add a new line:
->
-> ```
-> if (ret < 0)
->   goto ...
->
-> if (ret !=3D ...) {
->   ...
-> }
-> ```
->
->
-> > +             hid_err(ds->base.hdev, "failed to retrieve DualSense cali=
-bration info\n");
->
-> I think this message could be improved to better pinpoint the exact probl=
-em
-> that triggered it.
->
->
-> > +             ret =3D -EINVAL;
-> > +             goto err_free;
+> > +     ret =3D hid_parse(hdev);
+> > +     if (ret) {
+> > +             hid_err(hdev, "parse failed\n");
+> > +             return ret;
 > > +     }
 > > +
-> > +     gyro_pitch_bias  =3D get_unaligned_le16(&buf[1]);
-> > +     gyro_yaw_bias    =3D get_unaligned_le16(&buf[3]);
-> > +     gyro_roll_bias   =3D get_unaligned_le16(&buf[5]);
-> > +     gyro_pitch_plus  =3D get_unaligned_le16(&buf[7]);
-> > +     gyro_pitch_minus =3D get_unaligned_le16(&buf[9]);
-> > +     gyro_yaw_plus    =3D get_unaligned_le16(&buf[11]);
-> > +     gyro_yaw_minus   =3D get_unaligned_le16(&buf[13]);
-> > +     gyro_roll_plus   =3D get_unaligned_le16(&buf[15]);
-> > +     gyro_roll_minus  =3D get_unaligned_le16(&buf[17]);
-> > +     gyro_speed_plus  =3D get_unaligned_le16(&buf[19]);
-> > +     gyro_speed_minus =3D get_unaligned_le16(&buf[21]);
-> > +     acc_x_plus       =3D get_unaligned_le16(&buf[23]);
-> > +     acc_x_minus      =3D get_unaligned_le16(&buf[25]);
-> > +     acc_y_plus       =3D get_unaligned_le16(&buf[27]);
-> > +     acc_y_minus      =3D get_unaligned_le16(&buf[29]);
-> > +     acc_z_plus       =3D get_unaligned_le16(&buf[31]);
-> > +     acc_z_minus      =3D get_unaligned_le16(&buf[33]);
+> > +     ret =3D hid_hw_start(hdev, HID_CONNECT_HIDRAW);
+> > +     if (ret) {
+> > +             hid_err(hdev, "hw start failed\n");
+> > +             return ret;
+> > +     }
 > > +
-> > +     /* Set gyroscope calibration and normalization parameters.
-> > +      * Data values will be normalized to 1/DS_GYRO_RES_PER_DEG_S degr=
-ee/s.
-> > +      */
+> > +     ret =3D hid_hw_open(hdev);
+> > +     if (ret) {
+> > +             hid_err(hdev, "hw open failed\n");
+> > +             goto err_stop;
+> > +     }
+> > +
+> > +     if (hdev->product =3D=3D USB_DEVICE_ID_SONY_PS5_CONTROLLER) {
 >
-> A small note, as written in [2], the preferred style of multi-line commen=
-ts is different,
-> so you might want to change the comments. If you decide to make this chan=
-ge, please
-> do it everywhere.
+> I'm still not fully seeing the purpose of this `if`. The probe should not=
+ be
+> called for devices not in the id_table, so this seems to me to be a long =
+way
+> of writing `if (true)`. Or am I missing something?
+
+It is not used. It more there for the future, when we will add
+DualShock 4 and perhaps some other devices here.
+
 >
+> > +             dev =3D dualsense_create(hdev);
+> > +             if (IS_ERR(dev)) {
+> > +                     hid_err(hdev, "Failed to create dualsense.\n");
 >
-> > +     speed_2x =3D (gyro_speed_plus + gyro_speed_minus);
-> > +     ds->gyro_calib_data[0].abs_code =3D ABS_RX;
-> > +     ds->gyro_calib_data[0].bias =3D gyro_pitch_bias;
-> > +     ds->gyro_calib_data[0].sens_numer =3D speed_2x*DS_GYRO_RES_PER_DE=
-G_S;
-> > +     ds->gyro_calib_data[0].sens_denom =3D gyro_pitch_plus - gyro_pitc=
-h_minus;
-> > +
-> > +     ds->gyro_calib_data[1].abs_code =3D ABS_RY;
-> > +     ds->gyro_calib_data[1].bias =3D gyro_yaw_bias;
-> > +     ds->gyro_calib_data[1].sens_numer =3D speed_2x*DS_GYRO_RES_PER_DE=
-G_S;
-> > +     ds->gyro_calib_data[1].sens_denom =3D gyro_yaw_plus - gyro_yaw_mi=
-nus;
-> > +
-> > +     ds->gyro_calib_data[2].abs_code =3D ABS_RZ;
-> > +     ds->gyro_calib_data[2].bias =3D gyro_roll_bias;
-> > +     ds->gyro_calib_data[2].sens_numer =3D speed_2x*DS_GYRO_RES_PER_DE=
-G_S;
-> > +     ds->gyro_calib_data[2].sens_denom =3D gyro_roll_plus - gyro_roll_=
-minus;
-> > +
-> > +     /* Set accelerometer calibration and normalization parameters.
-> > +      * Data values will be normalized to 1/DS_ACC_RES_PER_G G.
->                                                                 ^
-> Minor thing, but I believe it should be 'g', not 'G'?
+> I think it'd be preferable if all log messages would either be lowercase =
+or
+> uppercase, not a mix of both. Same for punctuation. This applies to all p=
+atches.
 >
 >
-> > +      */
-> > +     range_2g =3D acc_x_plus - acc_x_minus;
-> > +     ds->accel_calib_data[0].abs_code =3D ABS_X;
-> > +     ds->accel_calib_data[0].bias =3D acc_x_plus - range_2g / 2;
-> > +     ds->accel_calib_data[0].sens_numer =3D 2*DS_ACC_RES_PER_G;
-> > +     ds->accel_calib_data[0].sens_denom =3D range_2g;
+> > +                     ret =3D PTR_ERR(dev);
+> > +                     goto err_close;
+> > +             }
+> > +     }
 > > +
-> > +     range_2g =3D acc_y_plus - acc_y_minus;
-> > +     ds->accel_calib_data[1].abs_code =3D ABS_Y;
-> > +     ds->accel_calib_data[1].bias =3D acc_y_plus - range_2g / 2;
-> > +     ds->accel_calib_data[1].sens_numer =3D 2*DS_ACC_RES_PER_G;
-> > +     ds->accel_calib_data[1].sens_denom =3D range_2g;
+> > +     return ret;
 > > +
-> > +     range_2g =3D acc_z_plus - acc_z_minus;
-> > +     ds->accel_calib_data[2].abs_code =3D ABS_Z;
-> > +     ds->accel_calib_data[2].bias =3D acc_z_plus - range_2g / 2;
-> > +     ds->accel_calib_data[2].sens_numer =3D 2*DS_ACC_RES_PER_G;
-> > +     ds->accel_calib_data[2].sens_denom =3D range_2g;
-> > +
-> > +err_free:
-> > +     kfree(buf);
+> > +err_close:
+> > +     hid_hw_close(hdev);
+> > +err_stop:
+> > +     hid_hw_stop(hdev);
 > > +     return ret;
 > > +}
-> > +
-> >  static int dualsense_get_mac_address(struct dualsense *ds)
-> >  {
-> >       uint8_t *buf;
-> > @@ -319,6 +469,7 @@  static int dualsense_parse_report(struct ps_device=
- *ps_dev, struct hid_report *r
-> >       struct dualsense_input_report *ds_report;
-> >       uint8_t battery_data, battery_capacity, charging_status, value;
-> >       int battery_status;
-> > +     uint16_t sensor_timestamp;
-> >       unsigned long flags;
-> >       int i;
-> >
-> > @@ -361,6 +512,44 @@  static int dualsense_parse_report(struct ps_devic=
-e *ps_dev, struct hid_report *r
-> >       input_report_key(ds->gamepad, BTN_MODE,   ds_report->buttons[2] &=
- DS_BUTTONS2_PS_HOME);
-> >       input_sync(ds->gamepad);
-> >
-> > +     /* Parse and calibrate gyroscope data. */
-> > +     for (i =3D 0; i < 3; i++) {
->
-> I think `i < ARRAY_SIZE(...)` would be better.
-> And I would add a `static_assert(ARRAY_SIZE(ds_report->gyro) =3D=3D ARRAY=
-_SIZE(ds->gyro_calib_data))`
-> somewhere around here just to be safe. Or define a new constant like `DS_=
-GYRO_DIMS`
-> and use that to define the arrays. Or both. *
->
->
-> > +             int raw_data =3D (short)le16_to_cpu(ds_report->gyro[i]);
-> > +             int calib_data =3D mult_frac(ds->gyro_calib_data[i].sens_=
-numer,
-> > +                             raw_data - ds->gyro_calib_data[i].bias,
-> > +                             ds->gyro_calib_data[i].sens_denom);
->
-> I believe it would be better if the second and third lines was aligned. *=
-*
->
->
-> > +
-> > +             input_report_abs(ds->sensors, ds->gyro_calib_data[i].abs_=
-code, calib_data);
-> > +     }
-> > +
-> > +     /* Parse and calibrate accelerometer data. */
-> > +     for (i =3D 0; i < 3; i++) {
->
-> Same here. *
->
->
-> > +             int raw_data =3D (short)le16_to_cpu(ds_report->accel[i]);
-> > +             int calib_data =3D mult_frac(ds->accel_calib_data[i].sens=
-_numer,
-> > +                             raw_data - ds->accel_calib_data[i].bias,
-> > +                             ds->accel_calib_data[i].sens_denom);
->
-> Same here. **
->
->
-> > +
-> > +             input_report_abs(ds->sensors, ds->accel_calib_data[i].abs=
-_code, calib_data);
-> > +     }
-> > +
-> > +     /* Convert timestamp (in 0.33us unit) to timestamp_us */
-> > +     sensor_timestamp =3D le32_to_cpu(ds_report->sensor_timestamp);
-> > +     if (!ds->sensor_timestamp_initialized) {
-> > +             ds->sensor_timestamp_us =3D sensor_timestamp / 3;
-> > +             ds->sensor_timestamp_initialized =3D true;
-> > +     } else {
-> > +             uint32_t delta;
-> > +
-> > +             if (ds->prev_sensor_timestamp > sensor_timestamp)
-> > +                     delta =3D (U32_MAX - ds->prev_sensor_timestamp + =
-sensor_timestamp + 1);
-> > +             else
-> > +                     delta =3D sensor_timestamp - ds->prev_sensor_time=
-stamp;
-> > +             ds->sensor_timestamp_us +=3D delta / 3;
-> > +     }
-> > +     ds->prev_sensor_timestamp =3D sensor_timestamp;
-> > +     input_event(ds->sensors, EV_MSC, MSC_TIMESTAMP, ds->sensor_timest=
-amp_us);
-> > +     input_sync(ds->sensors);
-> > +
-> >       for (i =3D 0; i < 2; i++) {
-> >               bool active =3D (ds_report->points[i].contact & DS_TOUCH_=
-POINT_INACTIVE) ? false : true;
-> >
-> > @@ -446,12 +635,25 @@  static struct ps_device *dualsense_create(struct=
- hid_device *hdev)
-> >       }
-> >       snprintf(hdev->uniq, sizeof(hdev->uniq), "%pMR", ds->base.mac_add=
-ress);
-> >
-> > +     ret =3D dualsense_get_calibration_data(ds);
-> > +     if (ret < 0) {
-> > +             hid_err(hdev, "Failed to get calibration data from DualSe=
-nse\n");
-> > +             goto err;
-> > +     }
-> > +
-> >       ds->gamepad =3D ps_gamepad_create(hdev);
-> >       if (IS_ERR(ds->gamepad)) {
-> >               ret =3D PTR_ERR(ds->gamepad);
-> >               goto err;
-> >       }
-> >
-> > +     ds->sensors =3D ps_sensors_create(hdev, DS_ACC_RANGE, DS_ACC_RES_=
-PER_G,
-> > +                     DS_GYRO_RANGE, DS_GYRO_RES_PER_DEG_S);
->
-> I believe it would be better if the second line was aligned to the `h` in=
- 'hdev'.
->
->
-> > +     if (IS_ERR(ds->sensors)) {
-> > +             ret =3D PTR_ERR(ds->sensors);
-> > +             goto err;
-> > +     }
-> > +
-> >       ds->touchpad =3D ps_touchpad_create(hdev, DS_TOUCHPAD_WIDTH, DS_T=
-OUCHPAD_HEIGHT, 2);
-> >       if (IS_ERR(ds->touchpad)) {
-> >               ret =3D PTR_ERR(ds->touchpad);
-> >
->
->
-> [1]: https://www.kernel.org/doc/html/latest/process/coding-style.html#pla=
-cing-braces-and-spaces
-> [2]: https://www.kernel.org/doc/html/latest/process/coding-style.html#com=
-menting
+> > [...]
 >
 >
 > Regards,
 > Barnab=C3=A1s P=C5=91cze
+
 
 
 Regards,
