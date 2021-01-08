@@ -2,35 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 099752EF2DE
-	for <lists+linux-input@lfdr.de>; Fri,  8 Jan 2021 14:09:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BC50B2EF324
+	for <lists+linux-input@lfdr.de>; Fri,  8 Jan 2021 14:36:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727205AbhAHNI4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 8 Jan 2021 08:08:56 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60690 "EHLO mail.kernel.org"
+        id S1726736AbhAHNgY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 8 Jan 2021 08:36:24 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37292 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726216AbhAHNIz (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 8 Jan 2021 08:08:55 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7D5D2235FC;
-        Fri,  8 Jan 2021 13:08:14 +0000 (UTC)
+        id S1726060AbhAHNgY (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 8 Jan 2021 08:36:24 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 34A9923998;
+        Fri,  8 Jan 2021 13:35:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610111295;
-        bh=6Yah1f+8BLz2MwUhsQSUqEzgqrjzlaNR/fcAcpV3c6U=;
+        s=k20201202; t=1610112943;
+        bh=6xKInCD0XJ7fZUFJsDTLg+852XRKb0NnGLUbi6vsFTI=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=r/rAhkX2uMWNlFmli2aGwlKnwiqwvcMw3GNDN94cRR5rYnYRXL2SY7vr8OtI0VNN2
-         z6UDPVJSsPfyOK2OhpqvPw05JH/ju7BVpRhcDhbkPmBgYnXKu2ZX3ovdYyBuC5TjDK
-         oSjxj3QIXhDGC0JT41cNsyejOpAaI1azs2QqL8ELCW+34rGyKCs46yOfbzLO6yn6ZO
-         roAYiQWv75t46+TznHkoU5k17l8D1bHRL24Dp0EJGhMa5hB25FmupVjsmc31+grsfv
-         8bsF6eBv3mi+ORjo7poDJRjCvJAqeShFkyYNeQSAmS5IZ04uYHoihRj0NvH5xh+yoh
-         dVJBJY4yK1aVA==
-Date:   Fri, 8 Jan 2021 14:08:12 +0100 (CET)
+        b=Y9CBsSHbXMx4G/GUly+7ECb0uyh1+RPC9Q2HFNPVQK/GErC/kEIsI2aooewL/JcP5
+         Hf2bN18NLU6JjAbydNhz8hXIoV7iC2pFUQ0QL4IxYJDu9GdNyNWcCt6Px8l7DvHwcv
+         QbweRU8BNxUTqcZfcObrPiTRaRudZNnVAs1NfavebCJVofTB7QYGwtFEB6qR6KHgpU
+         V5UCX9idhxZPfr8JR28Y3PAGg5fdTOGLcBr+t5D6wvmh1dY8shxSxF/yBzAT2gF2BM
+         RFyDRRwW6ZGxBrKk3IR0vso9lXLJqxVA5qrSPqgGnBTq9j5XwG6USALYow9MbIR+E/
+         BEG/R5appBTGQ==
+Date:   Fri, 8 Jan 2021 14:35:40 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Cristian Klein <cristian.klein@elastisys.com>
-cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org
-Subject: Re: [PATCH] HID: uclogic: Improve support for Trust Panora
-In-Reply-To: <20201227130815.437433-1-cristian.klein@elastisys.com>
-Message-ID: <nycvar.YFH.7.76.2101081408020.13752@cbobk.fhfr.pm>
-References: <20201227130815.437433-1-cristian.klein@elastisys.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+cc:     linux-input@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        Paul Hollinsky <phollinsky@holtechnik.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: gtco - remove driver
+In-Reply-To: <X9xR/wTjU1tLS5JV@google.com>
+Message-ID: <nycvar.YFH.7.76.2101081434550.13752@cbobk.fhfr.pm>
+References: <X8wbBtO5KidME17K@google.com> <nycvar.YFH.7.76.2012171221350.25826@cbobk.fhfr.pm> <X9xR/wTjU1tLS5JV@google.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -38,19 +41,27 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 27 Dec 2020, Cristian Klein wrote:
+On Thu, 17 Dec 2020, Dmitry Torokhov wrote:
 
-> After more discussions with the [libinput project][1], it has been
-> determined that the uclogic driver provides better support for this
-> tablet. Fortunately, the Trust Panora is physically and logically
-> identical with the UGEE G5, despite having a different USB vendor and
-> product ID.
+> > > Note that our HID support has greatly improved over the last 10 years,
+> > > we may also consider reverting 6f8d9e26e7de ("hid-core.c: Adds all GTCO
+> > > CalComp Digitizers and InterWrite School Products to blacklist") and see
+> > > if GTCO devices actually work with normal HID drivers.
+> > 
+> > Sounds like a good plan to me. Perhaps you can do that in a series 
+> > together, and stage that for 5.12?
 > 
-> [1]: https://gitlab.freedesktop.org/libinput/libinput/-/issues/482
+> Sorry, I already zapped the driver in 5.11.
 > 
-> Signed-off-by: Cristian Klein <cristian.klein@elastisys.com>
+> Unfortunately I do not have this hardware, so while we could remove
+> these devices from the blacklist we will have to do that blindly. Please
+> let me know if you still want to do that.
 
-Applied, thanks.
+We can also wait for the first person to potentially complain (if ever) 
+about the driver going away -- that'd mean that the person does actually 
+still have that hardware, and we could ask him to test with hid-generic.
+
+Thanks,
 
 -- 
 Jiri Kosina
