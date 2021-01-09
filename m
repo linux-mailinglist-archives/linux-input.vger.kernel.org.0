@@ -2,118 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37A252EFF7C
-	for <lists+linux-input@lfdr.de>; Sat,  9 Jan 2021 13:36:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 349A92F0065
+	for <lists+linux-input@lfdr.de>; Sat,  9 Jan 2021 15:05:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726404AbhAIMgc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 9 Jan 2021 07:36:32 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:49338 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726398AbhAIMgc (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 9 Jan 2021 07:36:32 -0500
-Received: from [123.114.32.120] (helo=[192.168.0.106])
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <hui.wang@canonical.com>)
-        id 1kyDT8-0001j3-7k; Sat, 09 Jan 2021 12:35:47 +0000
-Subject: Re: [PATCH] HID: multitouch: add a quirk to skip set inputmode for 2
- new laptops
-To:     =?UTF-8?Q?Barnab=c3=a1s_P=c5=91cze?= <pobrn@protonmail.com>
-Cc:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "jikos@kernel.org" <jikos@kernel.org>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "jkosina@suse.cz" <jkosina@suse.cz>
-References: <20210107112708.25990-1-hui.wang@canonical.com>
- <uQnmWiLQ4Lmlm2GUj2fhPTv6zZ9Cszx0BNMz2K4WvVE7TjLE82lmU6mi0Leu4OK2fXfn-86Tw8WeR6kla03TdTpKIn-1zcmb1mLHl8WAt_Q=@protonmail.com>
-From:   Hui Wang <hui.wang@canonical.com>
-Message-ID: <af979df2-d5dc-ce91-5349-44b5b428e517@canonical.com>
-Date:   Sat, 9 Jan 2021 20:35:06 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        id S1725890AbhAIOFj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 9 Jan 2021 09:05:39 -0500
+Received: from relay02.th.seeweb.it ([5.144.164.163]:46011 "EHLO
+        relay02.th.seeweb.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725854AbhAIOFj (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 9 Jan 2021 09:05:39 -0500
+X-Greylist: delayed 581 seconds by postgrey-1.27 at vger.kernel.org; Sat, 09 Jan 2021 09:05:38 EST
+Received: from IcarusMOD.eternityproject.eu (unknown [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by m-r1.th.seeweb.it (Postfix) with ESMTPSA id B4F351F4EA;
+        Sat,  9 Jan 2021 14:55:13 +0100 (CET)
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@somainline.org>
+To:     linux-input@vger.kernel.org
+Cc:     konrad.dybcio@somainline.org, marijn.suijten@somainline.org,
+        martin.botka@somainline.org, phone-devel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, hadess@hadess.net,
+        dmitry.torokhov@gmail.com, devicetree@vger.kernel.org,
+        robh+dt@kernel.org,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@somainline.org>
+Subject: [PATCH 0/2] Add support for Goodix GT9286 chip
+Date:   Sat,  9 Jan 2021 14:55:10 +0100
+Message-Id: <20210109135512.149032-1-angelogioacchino.delregno@somainline.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <uQnmWiLQ4Lmlm2GUj2fhPTv6zZ9Cszx0BNMz2K4WvVE7TjLE82lmU6mi0Leu4OK2fXfn-86Tw8WeR6kla03TdTpKIn-1zcmb1mLHl8WAt_Q=@protonmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Add support for the GT9286 chip, tested on F(x)Tec Pro1 (MSM8998).
 
-On 1/7/21 8:42 PM, Barnabás Pőcze wrote:
-> Hi
->
->
-> 2021. január 7., csütörtök 12:27 keltezéssel, Hui Wang írta:
->
->> we have 2 latest Thinkpad laptops, the synaptics trackpoint module is
->> connected to i8042 bus and the synaptics touchpad module is on the i2c
->> bus. The trackpoint is driven by input/mouse/trackpoint.c and the
->> touchpad is driven by hid-multitouch.c.
->>
->> They all work well independently, but if users press any buttons of
->> trackpoint and meanwhile move finger on the touchpad, the touchpad
->> can't work, the i2c bus can't generate interrupts even. That is to say
->> the touchpad can't work with trackpoint together, once trackpoint
->> works, the touchpad stops working.
->>
->> The current hid driver parses the device descriptor and selects the
->> hid-multitouch.c and applies the MT_CLS_WIN_8 to the touchpad, I found
->> this issue begins to happen after the driver sets the
->> MT_INPUTMODE_TOUCHPAD to the device, If skipping to set it, the
->> touchpad work well and doesn't have that issue, even after suspend and
->> resume, the touchpad still work well.
->>
->> This touchpad module doesn't support multi inputmodes, and its init
->> mode is set by BIOS already, it is safe to skip to set it again in
->> the kernel driver.
->> [...]
-> Assuming I'm not missing anything obvious, a windows precision touchpad
-> should revert back to reporting events via its HID compliant mouse collection
-> when power cycled or reset by the host[1].
->
-> Doesn't that imply that the events will be reported via the mouse collection
-> in this case, and that the multi-touch capabilities of the device will not
-> be usable? Or am I missing something?
->
->
-> [1]: https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/windows-precision-touchpad-required-hid-top-level-collections#input-mode-feature-report
+AngeloGioacchino Del Regno (2):
+  input: goodix: Add support for Goodix GT9286 chip
+  dt-bindings: ts: goodix: Add binding for GT9286 IC
 
-Yes, you are right, after applying this patch, the events will be 
-reported through mouse collection and some features specific to touchpad 
-collection like multi-touch are lost. So this patch is not a correct 
-solution, please ignore this patch.
+ Documentation/devicetree/bindings/input/touchscreen/goodix.yaml | 1 +
+ drivers/input/touchscreen/goodix.c                              | 2 ++
+ 2 files changed, 3 insertions(+)
 
-And I found If using the hid-rmi.c to drive this touchpad, it will work 
-well, the touchpad and trackpoint could work well together and the 
-touchpad has multi-touch capability. But because the report descriptor 
-contains an Input item which has the usage HID_DG_CONTACTID, the 
-hid->group is set to HID_GROUP_MULTITOUCH, the hid-multitouch.c is 
-selected to drive this touchpad.
+-- 
+2.29.2
 
-Is it Okay to do the change below and let hid-rmi.c drive this touchpad?
-
-diff --git a/drivers/hid/hid-rmi.c b/drivers/hid/hid-rmi.c
-index 311eee599ce9..58a7529499f5 100644
---- a/drivers/hid/hid-rmi.c
-+++ b/drivers/hid/hid-rmi.c
-@@ -759,6 +759,7 @@ static const struct hid_device_id rmi_id[] = {
-         { HID_USB_DEVICE(USB_VENDOR_ID_PRIMAX, 
-USB_DEVICE_ID_PRIMAX_REZEL) },
-         { HID_USB_DEVICE(USB_VENDOR_ID_SYNAPTICS, 
-USB_DEVICE_ID_SYNAPTICS_ACER_SWITCH5),
-                 .driver_data = RMI_DEVICE_OUTPUT_SET_REPORT },
-+       { HID_I2C_DEVICE(USB_VENDOR_ID_SYNAPTICS, 0xce57) },
-         { HID_DEVICE(HID_BUS_ANY, HID_GROUP_RMI, HID_ANY_ID, HID_ANY_ID) },
-         { }
-  };
-
-Thanks,
-
-Hui.
-
->
->
-> Regards,
-> Barnabás Pőcze
->
