@@ -2,63 +2,111 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 48FBD2F008D
-	for <lists+linux-input@lfdr.de>; Sat,  9 Jan 2021 15:44:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC7312F02E5
+	for <lists+linux-input@lfdr.de>; Sat,  9 Jan 2021 19:43:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725901AbhAIOnp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 9 Jan 2021 09:43:45 -0500
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:57601 "EHLO
-        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725826AbhAIOnp (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 9 Jan 2021 09:43:45 -0500
-X-Originating-IP: 82.255.60.242
-Received: from [192.168.1.150] (lns-bzn-39-82-255-60-242.adsl.proxad.net [82.255.60.242])
-        (Authenticated sender: hadess@hadess.net)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 3BBDC6004A;
-        Sat,  9 Jan 2021 14:37:40 +0000 (UTC)
-Message-ID: <5c923458ee8f86efed2ab1c49906dd89789f663b.camel@hadess.net>
-Subject: Re: [PATCH 0/2] Add support for Goodix GT9286 chip
-From:   Bastien Nocera <hadess@hadess.net>
-To:     AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@somainline.org>,
-        linux-input@vger.kernel.org
-Cc:     konrad.dybcio@somainline.org, marijn.suijten@somainline.org,
-        martin.botka@somainline.org, phone-devel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, dmitry.torokhov@gmail.com,
-        devicetree@vger.kernel.org, robh+dt@kernel.org
-Date:   Sat, 09 Jan 2021 15:37:40 +0100
-In-Reply-To: <20210109135512.149032-1-angelogioacchino.delregno@somainline.org>
-References: <20210109135512.149032-1-angelogioacchino.delregno@somainline.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.2 (3.38.2-1.fc33) 
+        id S1726113AbhAISmN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 9 Jan 2021 13:42:13 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45782 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725956AbhAISmN (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 9 Jan 2021 13:42:13 -0500
+Received: from archlinux (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 131C923A04;
+        Sat,  9 Jan 2021 18:41:30 +0000 (UTC)
+Date:   Sat, 9 Jan 2021 18:41:27 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     "Ye, Xiang" <xiang.ye@intel.com>
+Cc:     jikos@kernel.org, srinivas.pandruvada@linux.intel.com,
+        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/3] add custom hinge sensor support
+Message-ID: <20210109184127.48ac58c3@archlinux>
+In-Reply-To: <20201231024640.GA5718@host>
+References: <20201215054444.9324-1-xiang.ye@intel.com>
+        <20201230120517.622d3351@archlinux>
+        <20201231024640.GA5718@host>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 2021-01-09 at 14:55 +0100, AngeloGioacchino Del Regno wrote:
-> Add support for the GT9286 chip, tested on F(x)Tec Pro1 (MSM8998).
+On Thu, 31 Dec 2020 10:46:40 +0800
+"Ye, Xiang" <xiang.ye@intel.com> wrote:
 
-Can you please add this test information to the commit message for the
-goodix.c patch?
+> On Wed, Dec 30, 2020 at 12:05:17PM +0000, Jonathan Cameron wrote:
+> > On Tue, 15 Dec 2020 13:44:41 +0800
+> > Ye Xiang <xiang.ye@intel.com> wrote:
+> >   
+> > > Here we register one iio device with three channels which present angle for
+> > > hinge, keyboard and screen.
+> > > 
+> > > This driver works on devices with Intel integrated sensor hub, where
+> > > hinge sensor is presented using a custom sensor usage id.
+> > > 
+> > > Here the angle is presented in degrees, which is converted to radians.  
+> > 
+> > Other than those minor bits I'm happy to fix up in patch 2, this looks
+> > good to me.  However, I'll need a Jiri Ack for the hid parts before
+> > I apply it.  We are are early in this cycle, so no great rush given
+> > the usual xmas slow down!  
+> 
+> Ok, let's wait Jiri to review the hid parts. Thanks for the help.
+Series applied with the changes mentioned in review of patch 2.
 
-Feel free to add my:
-Reviewed-by: Bastien Nocera <hadess@hadess.net>
-to both patches when you send a v2.
+Applied to the togreg branch of iio.git and pushed out as testing for
+the various autobuilders to poke at it at and see if they can find
+anything I missed.
 
-Cheers
+Thanks,
+
+Jonathan
 
 > 
-> AngeloGioacchino Del Regno (2):
->   input: goodix: Add support for Goodix GT9286 chip
->   dt-bindings: ts: goodix: Add binding for GT9286 IC
-> 
->  Documentation/devicetree/bindings/input/touchscreen/goodix.yaml | 1
-> +
->  drivers/input/touchscreen/goodix.c                              | 2
-> ++
->  2 files changed, 3 insertions(+)
-> 
-
+> Thanks
+> Ye Xiang
+> >   
+> > > 
+> > > Changes since v3:
+> > >   - hid-sensor-custom: remove sensor_inst::custom_pdev_exposed.
+> > >   - hid-sensor-custom: use static buf, w_buf to avoid using goto in 
+> > >     get_known_custom_sensor_index.
+> > >   - hid-sensor-custom-intel-hinge: use devm_ prefix function instead.
+> > >   - sysfs-bus-iio: put in_anglY_raw together with in_angl_raw.
+> > > 
+> > > Changes since v2:
+> > >   - use 1 iio device instead of 3 for hinge sensor.
+> > >   - use indexed channel instead of modified channel and added channel
+> > >     labels.
+> > >   - remove 2,3 patch in last version, add a document patch to describe the
+> > >     hinge channels.
+> > >   - hid-sensor-custom: use meaningful return value in 
+> > >     get_known_custom_sensor_index and checked in call side.
+> > >   - hid-sensor-ids.h: use HID_USAGE_SENSOR_DATA_FIELD_CUSTOM_VALUE(x) to 
+> > >     define custom sensor value.
+> > > 
+> > > Changes since v1:
+> > >   - fixed errors reported by lkp
+> > > 
+> > > Ye Xiang (3):
+> > >   HID: hid-sensor-custom: Add custom sensor iio support
+> > >   iio: hid-sensors: Add hinge sensor driver
+> > >   iio:Documentation: Add documentation for hinge sensor channels
+> > > 
+> > >  Documentation/ABI/testing/sysfs-bus-iio       |  11 +
+> > >  drivers/hid/hid-sensor-custom.c               | 143 +++++++
+> > >  .../hid-sensors/hid-sensor-attributes.c       |   2 +
+> > >  drivers/iio/position/Kconfig                  |  16 +
+> > >  drivers/iio/position/Makefile                 |   1 +
+> > >  .../position/hid-sensor-custom-intel-hinge.c  | 391 ++++++++++++++++++
+> > >  include/linux/hid-sensor-ids.h                |  14 +
+> > >  7 files changed, 578 insertions(+)
+> > >  create mode 100644 drivers/iio/position/hid-sensor-custom-intel-hinge.c
+> > >   
+> >   
 
