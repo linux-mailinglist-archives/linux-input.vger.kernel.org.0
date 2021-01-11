@@ -2,199 +2,225 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD2752F2169
-	for <lists+linux-input@lfdr.de>; Mon, 11 Jan 2021 22:04:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C0932F22C1
+	for <lists+linux-input@lfdr.de>; Mon, 11 Jan 2021 23:29:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730259AbhAKVDc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 Jan 2021 16:03:32 -0500
-Received: from mx2.suse.de ([195.135.220.15]:45088 "EHLO mx2.suse.de"
+        id S2390033AbhAKW2y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 Jan 2021 17:28:54 -0500
+Received: from mga09.intel.com ([134.134.136.24]:60064 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728396AbhAKVDb (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 Jan 2021 16:03:31 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 01C45AB7F;
-        Mon, 11 Jan 2021 21:02:49 +0000 (UTC)
-Message-ID: <47b4dbc7a70d8f900789608e753be6faa36cebeb.camel@suse.de>
-Subject: Re: [PATCH v6 00/11] Raspberry Pi PoE HAT fan support
-From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To:     u.kleine-koenig@pengutronix.de, linux-kernel@vger.kernel.org,
-        gregkh <gregkh@linuxfoundation.org>
-Cc:     f.fainelli@gmail.com, linux-pwm@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        wahrenst@gmx.net, linux-input@vger.kernel.org,
-        dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org,
-        devel@driverdev.osuosl.org, p.zabel@pengutronix.de,
-        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
-        linux-clk@vger.kernel.org, sboyd@kernel.org,
-        linux-rpi-kernel@lists.infradead.org, bgolaszewski@baylibre.com,
-        andy.shevchenko@gmail.com, Eric Anholt <eric@anholt.net>
-Date:   Mon, 11 Jan 2021 22:02:46 +0100
-In-Reply-To: <20201211164801.7838-1-nsaenzjulienne@suse.de>
-References: <20201211164801.7838-1-nsaenzjulienne@suse.de>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-638U3w+irQodfqeZCK9N"
-User-Agent: Evolution 3.38.2 
+        id S2387685AbhAKW2y (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 11 Jan 2021 17:28:54 -0500
+IronPort-SDR: 4qAmzVTFvh4uSlnvPY4Kak079Pok/TQtQ/pJ/adJPn+F2VPwSK+CoI+tTCMMmuNEPDDIgook8v
+ 8IaZzrEXrVuw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9861"; a="178096896"
+X-IronPort-AV: E=Sophos;i="5.79,339,1602572400"; 
+   d="scan'208";a="178096896"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2021 14:28:12 -0800
+IronPort-SDR: n4vZ/s/7ywFjdoDzkMOeR4aXsH6C4zW4Uljf3GIL7SO8JewPZHRd3z4mFb5U7vEkR9G8ZdjcyE
+ bLu41GG8aLDA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,339,1602572400"; 
+   d="scan'208";a="464307245"
+Received: from lkp-server01.sh.intel.com (HELO 3cff8e4c45aa) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 11 Jan 2021 14:28:11 -0800
+Received: from kbuild by 3cff8e4c45aa with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kz5fX-0000N0-3Q; Mon, 11 Jan 2021 22:28:11 +0000
+Date:   Tue, 12 Jan 2021 06:28:01 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [input:master] BUILD SUCCESS
+ 2f6aa61d87e7d93c39e37b7ba2c4a9035000a0c8
+Message-ID: <5ffcd0f1.P4qF2A1ZpZI+UXKS%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git  master
+branch HEAD: 2f6aa61d87e7d93c39e37b7ba2c4a9035000a0c8  Input: omap4-keypad - implement errata check for lost key-up events
 
---=-638U3w+irQodfqeZCK9N
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+elapsed time: 720m
 
-On Fri, 2020-12-11 at 17:47 +0100, Nicolas Saenz Julienne wrote:
-> The aim of this series is to add support to the fan found on RPi's PoE
-> HAT. Some commentary on the design can be found below. But the imporant
-> part to the people CC'd here not involved with PWM is that, in order to
-> achieve this properly, we also have to fix the firmware interface the
-> driver uses to communicate with the PWM bus (and many other low level
-> functions). Specifically, we have to make sure the firmware interface
-> isn't unbound while consumers are still up. So, patch #1 & #2 introduce
-> reference counting in the firwmware interface driver and patches #3 to
-> #8 update all firmware users. Patches #9 to #11 introduce the new PWM
-> driver.
->=20
-> I sent everything as a single series as the final version of the PWM
-> drivers depends on the firwmare fixes, but I'll be happy to split this
-> into two separate series if you think it's better.
->=20
-> --- Original cover letter below ---
->=20
-> This series aims at adding support to RPi's official PoE HAT fan[1].
->=20
-> The HW setup is the following:
->=20
-> > Raspberry Pi                               | PoE HAT                   =
- |
-> =C2=A0arm core -> Mailbox -> RPi co-processor -> I2C -> Atmel MCU -> PWM =
--> FAN
->=20
-> The arm cores have only access to the mailbox interface, as i2c0, even if
-> physically accessible, is to be used solely by the co-processor
-> (VideoCore 4/6).
->=20
-> This series implements a PWM bus, and has pwm-fan sitting on top of it as=
- per
-> this discussion: https://lkml.org/lkml/2018/9/2/486. Although this design=
- has a
-> series of shortcomings:
->=20
-> - It depends on a DT binding: it's not flexible if a new hat shows up wit=
-h new
-> =C2=A0=C2=A0functionality, we're not 100% sure we'll be able to expand it=
- without
-> =C2=A0=C2=A0breaking backwards compatibility. But without it we can't mak=
-e use of DT
-> =C2=A0=C2=A0thermal-zones, which IMO is overkill.
->=20
-> - We're using pwm-fan, writing a hwmon driver would, again, give us more
-> =C2=A0=C2=A0flexibility, but it's not really needed at the moment.
->=20
-> I personally think that it's not worth the effort, it's unlikely we'll ge=
-t
-> things right in advance. And ultimately, if the RPi people come up with
-> something new, we can always write a new driver/bindings from scratch (as=
- in
-> not reusing previous code).
->=20
-> That said, I'm more than happy to change things if there is a consensus t=
-hat
-> another design will do the trick.
->=20
-> [1] https://www.raspberrypi.org/blog/introducing-power-over-ethernet-poe-=
-hat/
->=20
-> ---
+configs tested: 163
+configs skipped: 4
 
-I'd say at this point the series is pretty clean and, AFAIK, there aren't a=
-ny
-objections. I'm not so sure who should take it, given that it covers numero=
-us
-subsystems. Any suggestions on how to handle it?
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Regards,
-Nicolas
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+nios2                            allyesconfig
+powerpc                 mpc8560_ads_defconfig
+sh                        dreamcast_defconfig
+powerpc                      makalu_defconfig
+powerpc                           allnoconfig
+powerpc                    sam440ep_defconfig
+arm                           tegra_defconfig
+powerpc                     kmeter1_defconfig
+arm                          pxa910_defconfig
+c6x                        evmc6457_defconfig
+arm                         s5pv210_defconfig
+mips                          ath25_defconfig
+arm                     eseries_pxa_defconfig
+nds32                             allnoconfig
+sh                          sdk7780_defconfig
+riscv                            alldefconfig
+mips                       rbtx49xx_defconfig
+sh                             shx3_defconfig
+mips                  cavium_octeon_defconfig
+sh                           se7206_defconfig
+powerpc                  storcenter_defconfig
+arm                          ep93xx_defconfig
+mips                        bcm63xx_defconfig
+powerpc                  iss476-smp_defconfig
+riscv                    nommu_k210_defconfig
+i386                             alldefconfig
+sh                          rsk7269_defconfig
+sparc                               defconfig
+sparc                       sparc64_defconfig
+arm                          pxa168_defconfig
+h8300                     edosk2674_defconfig
+um                             i386_defconfig
+arc                            hsdk_defconfig
+powerpc                     tqm8540_defconfig
+mips                      maltaaprp_defconfig
+ia64                          tiger_defconfig
+arm                        cerfcube_defconfig
+mips                          ath79_defconfig
+powerpc                      ep88xc_defconfig
+arc                      axs103_smp_defconfig
+s390                             allyesconfig
+arm                       multi_v4t_defconfig
+mips                         rt305x_defconfig
+mips                         tb0219_defconfig
+powerpc                      pcm030_defconfig
+mips                      fuloong2e_defconfig
+arm                         s3c2410_defconfig
+powerpc                       maple_defconfig
+sh                          polaris_defconfig
+arc                     haps_hs_smp_defconfig
+arm                             mxs_defconfig
+parisc                generic-32bit_defconfig
+xtensa                       common_defconfig
+arm                         lpc18xx_defconfig
+powerpc                      arches_defconfig
+arm                          pcm027_defconfig
+arm                           h5000_defconfig
+powerpc                     tqm8560_defconfig
+mips                      pic32mzda_defconfig
+arm                        mini2440_defconfig
+arm                          imote2_defconfig
+mips                         bigsur_defconfig
+arc                 nsimosci_hs_smp_defconfig
+mips                         cobalt_defconfig
+arm                          gemini_defconfig
+powerpc                     tqm5200_defconfig
+powerpc                      bamboo_defconfig
+arm                          badge4_defconfig
+sh                          lboxre2_defconfig
+sh                          sdk7786_defconfig
+arc                           tb10x_defconfig
+arm                         assabet_defconfig
+xtensa                           alldefconfig
+sh                  sh7785lcr_32bit_defconfig
+arc                     nsimosci_hs_defconfig
+parisc                           alldefconfig
+powerpc                    mvme5100_defconfig
+powerpc                     pseries_defconfig
+sh                   secureedge5410_defconfig
+mips                        qi_lb60_defconfig
+sh                           se7619_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+c6x                              allyesconfig
+nds32                               defconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+x86_64               randconfig-a006-20210111
+x86_64               randconfig-a005-20210111
+x86_64               randconfig-a004-20210111
+x86_64               randconfig-a001-20210111
+x86_64               randconfig-a003-20210111
+x86_64               randconfig-a002-20210111
+i386                 randconfig-a002-20210111
+i386                 randconfig-a005-20210111
+i386                 randconfig-a006-20210111
+i386                 randconfig-a001-20210111
+i386                 randconfig-a003-20210111
+i386                 randconfig-a004-20210111
+i386                 randconfig-a002-20210110
+i386                 randconfig-a005-20210110
+i386                 randconfig-a006-20210110
+i386                 randconfig-a001-20210110
+i386                 randconfig-a003-20210110
+i386                 randconfig-a004-20210110
+x86_64               randconfig-a015-20210110
+x86_64               randconfig-a012-20210110
+x86_64               randconfig-a013-20210110
+x86_64               randconfig-a016-20210110
+x86_64               randconfig-a014-20210110
+x86_64               randconfig-a011-20210110
+i386                 randconfig-a012-20210111
+i386                 randconfig-a011-20210111
+i386                 randconfig-a016-20210111
+i386                 randconfig-a015-20210111
+i386                 randconfig-a013-20210111
+i386                 randconfig-a014-20210111
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
 
-> Changes since v5:
-> =C2=A0- Small cleanups
-> =C2=A0- Add extra code comments
->=20
-> Changes since v4:
-> =C2=A0- Cleanup devm calls
-> =C2=A0- Rename compatible string so it's unique to the PoE HAT
->=20
-> Changes since v3:
-> =C2=A0- Split first patch, #1 introduces refcount, then #2 the devm funct=
-ion
-> =C2=A0- Fix touchscreen function
-> =C2=A0- Use kref
->=20
-> Changes since v2:
-> =C2=A0- Introduce devm_rpi_firmware_get()
-> =C2=A0- Small cleanups in PWM driver
->=20
-> Changes since v1:
-> =C2=A0- Address PWM driver changes
-> =C2=A0- Fix binding, now with 2 cells
->=20
-> Nicolas Saenz Julienne (11):
-> =C2=A0=C2=A0firmware: raspberrypi: Keep count of all consumers
-> =C2=A0=C2=A0firmware: raspberrypi: Introduce devm_rpi_firmware_get()
-> =C2=A0=C2=A0clk: bcm: rpi: Release firmware handle on unbind
-> =C2=A0=C2=A0gpio: raspberrypi-exp: Release firmware handle on unbind
-> =C2=A0=C2=A0reset: raspberrypi: Release firmware handle on unbind
-> =C2=A0=C2=A0soc: bcm: raspberrypi-power: Release firmware handle on unbin=
-d
-> =C2=A0=C2=A0staging: vchiq: Release firmware handle on unbind
-> =C2=A0=C2=A0input: raspberrypi-ts: Release firmware handle when not neede=
-d
-> =C2=A0=C2=A0dt-bindings: pwm: Add binding for RPi firmware PWM bus
-> =C2=A0=C2=A0DO NOT MERGE: ARM: dts: Add RPi's official PoE hat support
-> =C2=A0=C2=A0pwm: Add Raspberry Pi Firmware based PWM bus
->=20
-> =C2=A0.../arm/bcm/raspberrypi,bcm2835-firmware.yaml |  20 ++
-> =C2=A0arch/arm/boot/dts/bcm2711-rpi-4-b.dts         |  54 +++++
-> =C2=A0drivers/clk/bcm/clk-raspberrypi.c             |   2 +-
-> =C2=A0drivers/firmware/raspberrypi.c                |  69 +++++-
-> =C2=A0drivers/gpio/gpio-raspberrypi-exp.c           |   2 +-
-> =C2=A0drivers/input/touchscreen/raspberrypi-ts.c    |   2 +-
-> =C2=A0drivers/pwm/Kconfig                           |   9 +
-> =C2=A0drivers/pwm/Makefile                          |   1 +
-> =C2=A0drivers/pwm/pwm-raspberrypi-poe.c             | 216 +++++++++++++++=
-+++
-> =C2=A0drivers/reset/reset-raspberrypi.c             |   2 +-
-> =C2=A0drivers/soc/bcm/raspberrypi-power.c           |   2 +-
-> =C2=A0.../interface/vchiq_arm/vchiq_arm.c           |   2 +-
-> =C2=A0.../pwm/raspberrypi,firmware-poe-pwm.h        |  13 ++
-> =C2=A0include/soc/bcm2835/raspberrypi-firmware.h    |  10 +
-> =C2=A014 files changed, 395 insertions(+), 9 deletions(-)
-> =C2=A0create mode 100644 drivers/pwm/pwm-raspberrypi-poe.c
-> =C2=A0create mode 100644 include/dt-bindings/pwm/raspberrypi,firmware-poe=
--pwm.h
->=20
+clang tested configs:
+x86_64               randconfig-a015-20210111
+x86_64               randconfig-a012-20210111
+x86_64               randconfig-a013-20210111
+x86_64               randconfig-a016-20210111
+x86_64               randconfig-a014-20210111
+x86_64               randconfig-a011-20210111
 
-
-
---=-638U3w+irQodfqeZCK9N
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl/8vPcACgkQlfZmHno8
-x/4R5Af/YvMUXETi3hHekSRpuPNb4Zm1CBsYK+FRbnRq8W4gTWSDtIaawje7j3Lk
-HR+/zx0QY/qW8xM8LkPlr4xgheQ/OK1J73ZQ8Wzcq0D1R1p+uynGzLy3eaRmCfcC
-N80kvtAArsEkYJsOqkzGNoWlCZrTJmvPPwjS48SiAQlq2o2SWApcWvcmzGe5R08c
-3fa4RLG2DVuLx39Np4NxWaTy/2S2cVNW0T+PZe+SA6NKsfbhe3Cj+cn4fSmJQgsF
-7yPw9UaMw17oXRcDJrfof5nwva6uVun4I4B9oiVHFqmk5y+jkjTPFul+xewqA2w9
-L5Nb5j/qHTSFJa23gghq7Zct1OjgWA==
-=ioOp
------END PGP SIGNATURE-----
-
---=-638U3w+irQodfqeZCK9N--
-
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
