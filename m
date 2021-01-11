@@ -2,89 +2,178 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 713152F0E39
-	for <lists+linux-input@lfdr.de>; Mon, 11 Jan 2021 09:35:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DBD622F0E43
+	for <lists+linux-input@lfdr.de>; Mon, 11 Jan 2021 09:37:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727700AbhAKIeh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 Jan 2021 03:34:37 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:57440 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726611AbhAKIeh (ORCPT
+        id S1727477AbhAKIgz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 Jan 2021 03:36:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46528 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727240AbhAKIgz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 Jan 2021 03:34:37 -0500
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 2DE6C1C0B85; Mon, 11 Jan 2021 09:33:54 +0100 (CET)
-Date:   Mon, 11 Jan 2021 09:33:53 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Tony Lindgren <tony@atomide.com>
+        Mon, 11 Jan 2021 03:36:55 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51D41C061786
+        for <linux-input@vger.kernel.org>; Mon, 11 Jan 2021 00:36:15 -0800 (PST)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1kysgP-0005aW-F6; Mon, 11 Jan 2021 09:36:13 +0100
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1kysgO-00022S-8P; Mon, 11 Jan 2021 09:36:12 +0100
+Date:   Mon, 11 Jan 2021 09:36:12 +0100
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Stephan Gerhold <stephan@gerhold.net>
 Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-omap@vger.kernel.org,
-        Arthur Demchenkov <spinal.by@gmail.com>,
-        Carl Philipp Klemm <philipp@uvos.xyz>,
-        Merlijn Wajer <merlijn@wizzup.org>, ruleh <ruleh@gmx.de>,
-        Sebastian Reichel <sre@kernel.org>
-Subject: Re: [PATCH 5/5] Input: omap4-keypad - implement errata check for
- lost key-up events
-Message-ID: <20210111083353.GA23439@amd>
-References: <20210110190529.46135-1-tony@atomide.com>
- <20210110190529.46135-6-tony@atomide.com>
+        linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org,
+        Simon Budig <simon.budig@kernelconcepts.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Ondrej Jirman <megous@megous.com>
+Subject: Re: [PATCH 2/2] Input: edt-ft5x06 - add support for iovcc-supply
+Message-ID: <20210111083612.swe2bu7mvjzjromg@pengutronix.de>
+References: <20210108192337.563679-1-stephan@gerhold.net>
+ <20210108192337.563679-2-stephan@gerhold.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="tKW2IUtsqtDRztdT"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210110190529.46135-6-tony@atomide.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20210108192337.563679-2-stephan@gerhold.net>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 09:20:03 up 39 days, 22:26, 26 users,  load average: 0.02, 0.11,
+ 0.08
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi Stephan,
 
---tKW2IUtsqtDRztdT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+thanks for the patch :) Please see my inline comments.
 
-Hi!
+On 21-01-08 20:23, Stephan Gerhold wrote:
+> At the moment, the edt-ft5x06 driver can control a single regulator
+> ("vcc"). However, some FocalTech touch controllers have an additional
+> IOVCC pin that should be supplied with the digital I/O voltage.
+> 
+> The I/O voltage might be provided by another regulator that should also
+> be kept on. Otherwise, the touchscreen can randomly stop functioning if
+> the regulator is turned off because no other components still require it.
+> 
+> Implement (optional) support for also enabling an "iovcc-supply".
+> IOVCC is needed whenever VCC is needed, so switch to the regulator bulk
+> APIs to request/enable/disable both when appropriate.
+> 
+> Cc: Ondrej Jirman <megous@megous.com>
+> Cc: Marco Felsch <m.felsch@pengutronix.de>
+> Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
+> ---
+>  drivers/input/touchscreen/edt-ft5x06.c | 35 ++++++++++++++------------
+>  1 file changed, 19 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
+> index 2eefbc2485bc..bf2e208112fe 100644
+> --- a/drivers/input/touchscreen/edt-ft5x06.c
+> +++ b/drivers/input/touchscreen/edt-ft5x06.c
+> @@ -103,7 +103,7 @@ struct edt_ft5x06_ts_data {
+>  	struct touchscreen_properties prop;
+>  	u16 num_x;
+>  	u16 num_y;
+> -	struct regulator *vcc;
+> +	struct regulator_bulk_data regulators[2];
 
-> We are still missing handling for errata i689 related issues for the
-> case where we never see a key up interrupt for the last pressed key.
->=20
-> To fix the issue, we must scan the key state again after the keyboard
-> controller has idled to check if a key up event was missed. This is
-> described in the omap4 silicon errata documentation for Errata ID i689
-> "1.32 Keyboard Key Up Event Can Be Missed":
->=20
-> "When a key is released for a time shorter than the debounce time,
->  in-between 2 key press (KP1 and KP2), the keyboard state machine will go
->  to idle mode and will never detect the key release (after KP1, and also
->  after KP2), and thus will never generate a new IRQ indicating the key
->  release."
->=20
-> We can use PM runtime autosuspend features to check the keyboard state
-> after it enters idle.
+Is there an enabling order we must follow?
 
-I thought about this and... is it reasonable?
+>  	struct gpio_desc *reset_gpio;
+>  	struct gpio_desc *wake_gpio;
+> @@ -1066,7 +1066,7 @@ static void edt_ft5x06_disable_regulator(void *arg)
+>  {
+>  	struct edt_ft5x06_ts_data *data = arg;
+>  
+> -	regulator_disable(data->vcc);
+> +	regulator_bulk_disable(ARRAY_SIZE(data->regulators), data->regulators);
+>  }
+>  
+>  static int edt_ft5x06_ts_probe(struct i2c_client *client,
+> @@ -1098,18 +1098,19 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
+>  
+>  	tsdata->max_support_points = chip_data->max_support_points;
+>  
+> -	tsdata->vcc = devm_regulator_get(&client->dev, "vcc");
+> -	if (IS_ERR(tsdata->vcc)) {
+> -		error = PTR_ERR(tsdata->vcc);
+> -		if (error != -EPROBE_DEFER)
+> -			dev_err(&client->dev,
+> -				"failed to request regulator: %d\n", error);
+> -		return error;
+> -	}
+> +	tsdata->regulators[0].supply = "vcc";
+> +	tsdata->regulators[1].supply = "iovcc";
+> +	error = devm_regulator_bulk_get(&client->dev,
+> +					ARRAY_SIZE(tsdata->regulators),
+> +					tsdata->regulators);
+> +	if (error)
+> +		return dev_err_probe(&client->dev, error,
+> +				     "failed to request regulators\n");
 
-Autosuspend is now required for correct operation. But autosuspend is
-optional feature, configurable by user, and may not be available
-depending on .config.
+It would be nice to have a patch in front of this one which handles the
+support for dev_err_probe().
 
-Do we need some other solution?
-								Pavel
---=20
-http://www.livejournal.com/~pavelmachek
+Regards,
+  Marco
 
---tKW2IUtsqtDRztdT
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+>  
+> -	error = regulator_enable(tsdata->vcc);
+> +	error = regulator_bulk_enable(ARRAY_SIZE(tsdata->regulators),
+> +				      tsdata->regulators);
+>  	if (error < 0) {
+> -		dev_err(&client->dev, "failed to enable vcc: %d\n", error);
+> +		dev_err(&client->dev, "failed to enable regulators: %d\n", error);
+>  		return error;
+>  	}
+>  
+> @@ -1286,9 +1287,10 @@ static int __maybe_unused edt_ft5x06_ts_suspend(struct device *dev)
+>  	gpiod_set_value_cansleep(reset_gpio, 1);
+>  	usleep_range(1000, 2000);
+>  
+> -	ret = regulator_disable(tsdata->vcc);
+> +	ret = regulator_bulk_disable(ARRAY_SIZE(tsdata->regulators),
+> +				     tsdata->regulators);
+>  	if (ret)
+> -		dev_warn(dev, "Failed to disable vcc\n");
+> +		dev_warn(dev, "Failed to disable regulators\n");
+>  
+>  	return 0;
+>  }
+> @@ -1319,9 +1321,10 @@ static int __maybe_unused edt_ft5x06_ts_resume(struct device *dev)
+>  		gpiod_set_value_cansleep(reset_gpio, 1);
+>  		usleep_range(5000, 6000);
+>  
+> -		ret = regulator_enable(tsdata->vcc);
+> +		ret = regulator_bulk_enable(ARRAY_SIZE(tsdata->regulators),
+> +					    tsdata->regulators);
+>  		if (ret) {
+> -			dev_err(dev, "Failed to enable vcc\n");
+> +			dev_err(dev, "Failed to enable regulators\n");
+>  			return ret;
+>  		}
+>  
+> -- 
+> 2.30.0
+> 
+> 
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl/8DXEACgkQMOfwapXb+vKtZACfd3NcNXkO1yKW1SP+TADKN1yG
-4P4AniWJwRF37GaWLU1uCaVqN3ns6EGf
-=OW9c
------END PGP SIGNATURE-----
-
---tKW2IUtsqtDRztdT--
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
