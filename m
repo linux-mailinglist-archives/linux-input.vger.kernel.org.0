@@ -2,97 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B5CAF2F0FC4
-	for <lists+linux-input@lfdr.de>; Mon, 11 Jan 2021 11:13:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7F582F1003
+	for <lists+linux-input@lfdr.de>; Mon, 11 Jan 2021 11:24:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728960AbhAKKNQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 Jan 2021 05:13:16 -0500
-Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.51]:16708 "EHLO
-        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726246AbhAKKNP (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 Jan 2021 05:13:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1610359823;
-        s=strato-dkim-0002; d=gerhold.net;
-        h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:From:
-        Subject:Sender;
-        bh=WCsdo+NoLvVlHPZJrjReX6gwiFzt49I9QwB5UUBmnE4=;
-        b=SnnjR7BjNXbzyFEJwdHC90XIiDBo+wxIpWyYlzR+1oCLxap5PrNjBsTQvj7/jwchID
-        xblT/ptzaRDEgid7v4P5sBmhZm0c/nRlYwBqcqBXsniDzul9rPFIoOhjpFMooufwktsi
-        52E58cLPQgHKPBD4Fn1aimKN2Tb1GaLrKVTRzmHqCTym4yWvD9bFO9NkPvPa0b1rNW18
-        AibdxfnXRP66yVJJolB4TkNZEStG6alObCkbow/sP2NYklQ4Dd/NFQaR2jzc3ZzQc4zY
-        Uvt9MIndbostg3NQZ1ngPDQ1RCY09kHatFe08NdwoX1sgtXNZJcM0PLxW/1cBmzl8MFh
-        9Y+w==
-X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u26zEodhPgRDZ8jxIcvGBg=="
-X-RZG-CLASS-ID: mo00
-Received: from gerhold.net
-        by smtp.strato.de (RZmta 47.12.1 DYNA|AUTH)
-        with ESMTPSA id R0a218x0BAAFrFh
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-        Mon, 11 Jan 2021 11:10:15 +0100 (CET)
-Date:   Mon, 11 Jan 2021 11:10:01 +0100
-From:   Stephan Gerhold <stephan@gerhold.net>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        id S1729066AbhAKKX1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 Jan 2021 05:23:27 -0500
+Received: from mga05.intel.com ([192.55.52.43]:7223 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729007AbhAKKX1 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 11 Jan 2021 05:23:27 -0500
+IronPort-SDR: cGCK05JmHZ6LGlS+dmsR9tMoFae1P9rPb0CPjibZkZcTBT3j1SULV/7R5ujdGmahS2/jt0RQ5H
+ N0ZlO7PYGr2w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9860"; a="262617550"
+X-IronPort-AV: E=Sophos;i="5.79,338,1602572400"; 
+   d="scan'208";a="262617550"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2021 02:21:37 -0800
+IronPort-SDR: XrxqOyIQOY7xzfAx0qIdIxIt3LI8kS6SjHlUmUsJCthRNAF5MDG2ODRFAZQVn7RiHwcpjzL1fN
+ T73jdeefRvkA==
+X-IronPort-AV: E=Sophos;i="5.79,338,1602572400"; 
+   d="scan'208";a="404076510"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2021 02:21:35 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kyuLM-00A5Rt-Uj; Mon, 11 Jan 2021 12:22:36 +0200
+Date:   Mon, 11 Jan 2021 12:22:36 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Stephan Gerhold <stephan@gerhold.net>
+Cc:     Marco Felsch <m.felsch@pengutronix.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
         devicetree@vger.kernel.org,
         Simon Budig <simon.budig@kernelconcepts.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Ondrej Jirman <megous@megous.com>
 Subject: Re: [PATCH 2/2] Input: edt-ft5x06 - add support for iovcc-supply
-Message-ID: <X/wj+bxe/IlznCj6@gerhold.net>
+Message-ID: <20210111102236.GT4077@smile.fi.intel.com>
 References: <20210108192337.563679-1-stephan@gerhold.net>
  <20210108192337.563679-2-stephan@gerhold.net>
  <20210111083612.swe2bu7mvjzjromg@pengutronix.de>
  <X/wZqiRbx6nmrj0e@gerhold.net>
- <20210111094538.yg3otwgesgyemktp@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210111094538.yg3otwgesgyemktp@pengutronix.de>
+In-Reply-To: <X/wZqiRbx6nmrj0e@gerhold.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jan 11, 2021 at 10:45:38AM +0100, Marco Felsch wrote:
-> On 21-01-11 10:26, Stephan Gerhold wrote:
-> > On Mon, Jan 11, 2021 at 09:36:12AM +0100, Marco Felsch wrote:
-> > > On 21-01-08 20:23, Stephan Gerhold wrote:
-> > > > diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-> > > > index 2eefbc2485bc..bf2e208112fe 100644
-> > > > --- a/drivers/input/touchscreen/edt-ft5x06.c
-> > > > +++ b/drivers/input/touchscreen/edt-ft5x06.c
-> > > > @@ -103,7 +103,7 @@ struct edt_ft5x06_ts_data {
-> > > >  	struct touchscreen_properties prop;
-> > > >  	u16 num_x;
-> > > >  	u16 num_y;
-> > > > -	struct regulator *vcc;
-> > > > +	struct regulator_bulk_data regulators[2];
-> > > 
-> > > Is there an enabling order we must follow?
-> > > 
+On Mon, Jan 11, 2021 at 10:26:25AM +0100, Stephan Gerhold wrote:
+> On Mon, Jan 11, 2021 at 09:36:12AM +0100, Marco Felsch wrote:
+> > On 21-01-08 20:23, Stephan Gerhold wrote:
+
+...
+
+> > > +	if (error)
+> > > +		return dev_err_probe(&client->dev, error,
+> > > +				     "failed to request regulators\n");
 > > 
-> > I don't know, sadly. The datasheets I was able to find do not mention
-> > anything about this; the power-on sequence only includes the VDD line.
+> > It would be nice to have a patch in front of this one which handles the
+> > support for dev_err_probe().
+> > 
 > 
-> I've goolged a bit :)
-> 
-> Check this: https://focuslcds.com/content/FT5X26.pdf, page 12 of 32
-> 
+> OK, I can send a v2 with the dev_err_probe() change separated into an
+> extra patch.
 
-Thanks! I looked at several datasheets, that's probably one of the few I
-did not look at. :(
+AFAIR Dmitry has strong opinion against dev_err_probe(). But I might be
+mistaken.
 
-> There it is mentioned that we need to enable it first and add a 10us
-> delay till we can enable the vdd line. So unfortunately the bulk_api
-> can't be used as it is today. Another solution could be to extended the
-> bulk api to respect on/off delays.
-> 
+-- 
+With Best Regards,
+Andy Shevchenko
 
-I think for two regulators like here it's still manageable to
-get/enable/disable/put them separately, so I will just revert the bulk
-API change in v2.
 
-Thanks again!
-Stephan
