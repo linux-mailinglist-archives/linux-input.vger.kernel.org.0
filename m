@@ -2,240 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72CFC2F0CBA
-	for <lists+linux-input@lfdr.de>; Mon, 11 Jan 2021 07:04:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E5CBB2F0CBE
+	for <lists+linux-input@lfdr.de>; Mon, 11 Jan 2021 07:11:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727364AbhAKGDg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 11 Jan 2021 01:03:36 -0500
-Received: from muru.com ([72.249.23.125]:42646 "EHLO muru.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727363AbhAKGDg (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 11 Jan 2021 01:03:36 -0500
-Received: from atomide.com (localhost [127.0.0.1])
-        by muru.com (Postfix) with ESMTPS id BF72B80E4;
-        Mon, 11 Jan 2021 06:02:53 +0000 (UTC)
-Date:   Mon, 11 Jan 2021 08:02:50 +0200
-From:   Tony Lindgren <tony@atomide.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-omap@vger.kernel.org,
-        Arthur Demchenkov <spinal.by@gmail.com>,
-        Carl Philipp Klemm <philipp@uvos.xyz>,
-        Merlijn Wajer <merlijn@wizzup.org>,
-        Pavel Machek <pavel@ucw.cz>, ruleh <ruleh@gmx.de>,
-        Sebastian Reichel <sre@kernel.org>
-Subject: Re: [PATCH 4/5] Input: omap4-keypad - use PM runtime autosuspend
-Message-ID: <X/vqCs5/EDURprAJ@atomide.com>
-References: <20210110190529.46135-1-tony@atomide.com>
- <20210110190529.46135-5-tony@atomide.com>
- <X/vbqdQTTDg2UUaJ@google.com>
- <X/vePMbD4fwsNb5Y@atomide.com>
+        id S1725797AbhAKGKJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 11 Jan 2021 01:10:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43410 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725536AbhAKGKI (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 11 Jan 2021 01:10:08 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0C62C061786
+        for <linux-input@vger.kernel.org>; Sun, 10 Jan 2021 22:09:28 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id be12so8954481plb.4
+        for <linux-input@vger.kernel.org>; Sun, 10 Jan 2021 22:09:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:subject:to:cc:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=SENDDBcyqDONedjRDgqRGD4btez8dwdugfY0rjrKk6A=;
+        b=jhmZrHem3ud+QoSrexJ52viLjLBuEBDClHOGEXHbabKdXvSzecF5e+b7OygjSD2mAi
+         whtyppQebx0HXWCk7WGGIBBrICEwbw+WouSJdEaY0XYI5suQ16tg7DRplPloifEyYE4g
+         aXdfba1XyqavgElL1R0vrs61smqCzm6jpr280S7hAaUFWMf2P2xQzJDw2t0/3pyP4wJZ
+         8dZxsxbY7eqdi4Bxk8QHnFCx860hd4jqKnQRcjXjh4QnQWCIGX1TUim8cnzN+xT8ksYu
+         W8FUr41VVfuvdGmY9W5imAx2UcwGPmAvQB7F7ID1wBgTIdtqd19Xn09z4WkQOONFfjNZ
+         8/0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=SENDDBcyqDONedjRDgqRGD4btez8dwdugfY0rjrKk6A=;
+        b=nrjsEh4jB//BoXVCwq+RWbumOLWAeJ7lLXqBNKpfxPTM0eup3Hk6CMM7QFGFQKmIlE
+         W9HY/ZHD5PSXugXNImnupVga9ufZW7Xb1DnPbjMaeBLl30FemRSqxpAIkTU3b7SJAt3V
+         zE5mEiQ34TU58dvDnGWT3p48R5z2JtJE1TWOMxkhrbwZtrPChqxwA5WBlcsO203qcDXc
+         hoe8YqLkvG0XH6wxrwbNdNQisIoVOSHzk7bD1PLzVjYi+g2U7JMru11Lc71Iho1ZUPzY
+         56tvrstJvVvp0lkaecmOeOl4bTfurhQf1TucSSdCiRIefJpVnlPa3tcuGx+++hLKNHS7
+         DZ0w==
+X-Gm-Message-State: AOAM531UGSwI284hqWxR1UreI6A4H5uroq9Pt13IZRkow6ZpytC2D73c
+        bh1ExhjUIeGyJ8lg8mcO9msg6IVtYmho6w==
+X-Google-Smtp-Source: ABdhPJyQdF1MhU1DltazpK/B1gsK2FZmLNOH/zmvbHABcmYTLfEKVXaDazO6bnhq9vMG4iOTGgo69A==
+X-Received: by 2002:a17:90a:fe8e:: with SMTP id co14mr16568876pjb.105.1610345367511;
+        Sun, 10 Jan 2021 22:09:27 -0800 (PST)
+Received: from ?IPv6:2601:601:1401:3540:7705:2d1f:7496:570? ([2601:601:1401:3540:7705:2d1f:7496:570])
+        by smtp.googlemail.com with ESMTPSA id j15sm18050591pfn.180.2021.01.10.22.09.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 10 Jan 2021 22:09:26 -0800 (PST)
+From:   Nicholas Miell <nmiell@gmail.com>
+Subject: [PATCH] HID: logitech-hidpp: Add product ID for MX Ergo in Bluetooth
+ mode
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, hdegoede@redhat.com,
+        linux-input@vger.kernel.org
+Message-ID: <6b58bc1e-7ab8-0d5b-be9e-a8c29df2c252@gmail.com>
+Date:   Sun, 10 Jan 2021 22:09:25 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <X/vePMbD4fwsNb5Y@atomide.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-* Tony Lindgren <tony@atomide.com> [210111 05:13]:
-> * Dmitry Torokhov <dmitry.torokhov@gmail.com> [210111 05:01]:
-> > Hi Tony,
-> > 
-> > On Sun, Jan 10, 2021 at 09:05:28PM +0200, Tony Lindgren wrote:
-> > > @@ -350,15 +379,12 @@ static int omap4_keypad_probe(struct platform_device *pdev)
-> > >  
-> > >  	error = omap4_keypad_check_revision(&pdev->dev,
-> > >  					    keypad_data);
-> > > -	if (!error) {
-> > > -		/* Ensure device does not raise interrupts */
-> > > -		omap4_keypad_stop(keypad_data);
-> > > -	}
-> > > -
-> > > -	pm_runtime_put_sync(&pdev->dev);
-> > 
-> > Why are we moving this down? The idea was to make sure the power usage
-> > counters are correct even if we exit probe early.
-> 
-> Yes you are right, omap4_keypad_close() won't help with balancing the
-> get if we exit early.
-> 
-> > Can we call pm_runtime_mark_last_busy() and pm_runtime_put_autosuspend()
-> > here?
-> 
-> Yes that should work as there's no more register access during the probe.
+The Logitech MX Ergo trackball supports HID++ 4.5 over Bluetooth. Add its
+product ID to the table so we can get battery monitoring support.
+(The hid-logitech-hidpp driver already recognizes it when connected via
+a Unifying Receiver.)
 
-Below is an updated version. I updated probe to use dev instead of
-&pdev->dev since we have it there. Does this look OK to you?
-
-Regards,
-
-Tony
-
-8< ---------------------------
-From tony Mon Sep 17 00:00:00 2001
-From: Tony Lindgren <tony@atomide.com>
-Date: Sun, 10 Jan 2021 17:38:15 +0200
-Subject: [PATCH] Input: omap4-keypad - use PM runtime autosuspend
-
-Implement PM runtime autosuspend support to prepare for adding handling to
-clear stuck last pressed key in the following patches. The hardware has
-support for autoidle and can wake up to keypress events.
-
-Let's also update omap4_keypad_probe() to use dev instead of &pdev->dev
-since we already have it from the earlier changes.
-
-Cc: Arthur Demchenkov <spinal.by@gmail.com>
-Cc: Carl Philipp Klemm <philipp@uvos.xyz>
-Cc: Merlijn Wajer <merlijn@wizzup.org>
-Cc: Pavel Machek <pavel@ucw.cz>
-Cc: ruleh <ruleh@gmx.de>
-Cc: Sebastian Reichel <sre@kernel.org>
-Signed-off-by: Tony Lindgren <tony@atomide.com>
+Signed-off-by: Nicholas Miell <nmiell@gmail.com>
 ---
- drivers/input/keyboard/omap4-keypad.c | 51 ++++++++++++++++++++-------
- 1 file changed, 39 insertions(+), 12 deletions(-)
+ drivers/hid/hid-logitech-hidpp.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/input/keyboard/omap4-keypad.c b/drivers/input/keyboard/omap4-keypad.c
---- a/drivers/input/keyboard/omap4-keypad.c
-+++ b/drivers/input/keyboard/omap4-keypad.c
-@@ -172,9 +172,17 @@ static irqreturn_t omap4_keypad_irq_handler(int irq, void *dev_id)
- static irqreturn_t omap4_keypad_irq_thread_fn(int irq, void *dev_id)
- {
- 	struct omap4_keypad *keypad_data = dev_id;
-+	struct device *dev = keypad_data->input->dev.parent;
- 	u32 low, high;
-+	int error;
- 	u64 keys;
- 
-+	error = pm_runtime_get_sync(dev);
-+	if (error < 0) {
-+		pm_runtime_put_noidle(dev);
-+		return IRQ_NONE;
-+	}
-+
- 	low = kbd_readl(keypad_data, OMAP4_KBD_FULLCODE31_0);
- 	high = kbd_readl(keypad_data, OMAP4_KBD_FULLCODE63_32);
- 	keys = low | (u64)high << 32;
-@@ -185,14 +193,23 @@ static irqreturn_t omap4_keypad_irq_thread_fn(int irq, void *dev_id)
- 	kbd_write_irqreg(keypad_data, OMAP4_KBD_IRQSTATUS,
- 			 kbd_read_irqreg(keypad_data, OMAP4_KBD_IRQSTATUS));
- 
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_put_autosuspend(dev);
-+
- 	return IRQ_HANDLED;
- }
- 
- static int omap4_keypad_open(struct input_dev *input)
- {
- 	struct omap4_keypad *keypad_data = input_get_drvdata(input);
-+	struct device *dev = input->dev.parent;
-+	int error;
- 
--	pm_runtime_get_sync(input->dev.parent);
-+	error = pm_runtime_get_sync(dev);
-+	if (error < 0) {
-+		pm_runtime_put_noidle(dev);
-+		return error;
-+	}
- 
- 	disable_irq(keypad_data->irq);
- 
-@@ -211,6 +228,9 @@ static int omap4_keypad_open(struct input_dev *input)
- 
- 	enable_irq(keypad_data->irq);
- 
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_put_autosuspend(dev);
-+
- 	return 0;
- }
- 
-@@ -228,14 +248,20 @@ static void omap4_keypad_stop(struct omap4_keypad *keypad_data)
- 
- static void omap4_keypad_close(struct input_dev *input)
- {
--	struct omap4_keypad *keypad_data;
-+	struct omap4_keypad *keypad_data = input_get_drvdata(input);
-+	struct device *dev = input->dev.parent;
-+	int error;
-+
-+	error = pm_runtime_get_sync(dev);
-+	if (error < 0)
-+		pm_runtime_put_noidle(dev);
- 
--	keypad_data = input_get_drvdata(input);
- 	disable_irq(keypad_data->irq);
- 	omap4_keypad_stop(keypad_data);
- 	enable_irq(keypad_data->irq);
- 
--	pm_runtime_put_sync(input->dev.parent);
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_put_autosuspend(dev);
- }
- 
- static int omap4_keypad_parse_dt(struct device *dev,
-@@ -282,6 +308,7 @@ static int omap4_keypad_check_revision(struct device *dev,
- 
- static void omap4_disable_pm(void *d)
- {
-+	pm_runtime_dont_use_autosuspend(d);
- 	pm_runtime_disable(d);
- }
- 
-@@ -314,6 +341,7 @@ static int omap4_keypad_probe(struct platform_device *pdev)
- 
- 	keypad_data->irq = irq;
- 	mutex_init(&keypad_data->lock);
-+	platform_set_drvdata(pdev, keypad_data);
- 
- 	error = omap4_keypad_parse_dt(dev, keypad_data);
- 	if (error)
-@@ -323,6 +351,7 @@ static int omap4_keypad_probe(struct platform_device *pdev)
- 	if (IS_ERR(keypad_data->base))
- 		return PTR_ERR(keypad_data->base);
- 
-+	pm_runtime_use_autosuspend(dev);
- 	pm_runtime_enable(dev);
- 
- 	error = devm_add_action_or_reset(dev, omap4_disable_pm, dev);
-@@ -335,21 +364,21 @@ static int omap4_keypad_probe(struct platform_device *pdev)
- 	 * Enable clocks for the keypad module so that we can read
- 	 * revision register.
- 	 */
--	error = pm_runtime_get_sync(&pdev->dev);
-+	error = pm_runtime_get_sync(dev);
- 	if (error) {
--		dev_err(&pdev->dev, "pm_runtime_get_sync() failed\n");
--		pm_runtime_put_noidle(&pdev->dev);
-+		dev_err(dev, "pm_runtime_get_sync() failed\n");
-+		pm_runtime_put_noidle(dev);
- 		return error;
- 	}
- 
--	error = omap4_keypad_check_revision(&pdev->dev,
--					    keypad_data);
-+	error = omap4_keypad_check_revision(dev, keypad_data);
- 	if (!error) {
- 		/* Ensure device does not raise interrupts */
- 		omap4_keypad_stop(keypad_data);
- 	}
- 
--	pm_runtime_put_sync(&pdev->dev);
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_put_autosuspend(dev);
- 	if (error)
- 		return error;
- 
-@@ -413,8 +442,6 @@ static int omap4_keypad_probe(struct platform_device *pdev)
- 	if (error)
- 		dev_warn(dev, "failed to set up wakeup irq: %d\n", error);
- 
--	platform_set_drvdata(pdev, keypad_data);
--
- 	return 0;
- }
- 
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index f85781464807d..7eb9a6ddb46a6 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -4053,6 +4053,8 @@ static const struct hid_device_id hidpp_devices[] = {
+        { /* MX Master mouse over Bluetooth */
+          HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb012),
+          .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
++       { /* MX Ergo trackball over Bluetooth */
++         HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01d) },
+        { HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH, 0xb01e),
+          .driver_data = HIDPP_QUIRK_HI_RES_SCROLL_X2121 },
+        { /* MX Master 3 mouse over Bluetooth */
 -- 
-2.30.0
+2.29.2
