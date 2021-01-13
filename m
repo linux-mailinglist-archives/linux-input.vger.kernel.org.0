@@ -2,150 +2,202 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A8DC32F5373
-	for <lists+linux-input@lfdr.de>; Wed, 13 Jan 2021 20:37:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BB422F5719
+	for <lists+linux-input@lfdr.de>; Thu, 14 Jan 2021 02:59:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728816AbhAMTgy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 13 Jan 2021 14:36:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58252 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728805AbhAMTgx (ORCPT
+        id S1728868AbhANB6q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 13 Jan 2021 20:58:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43118 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729541AbhAMXj6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 13 Jan 2021 14:36:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1610566526;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=VbEtyqBdwcJzKeG1wyZKRO8aTEA6+w3GGKg392l/7SU=;
-        b=OGGwrtNqTmNVud44aHrtAeUMKiUVW5Efl119INtlaDwIOBcpwv1ADqiqsB5JvEv4bxuGWz
-        GSjjmyjXy0yD4igpJgZk0AX1EgTIRDqcJ03+GyZajAKkW0L4dcCCc+/2wrVGs2GOrq9qcP
-        7DUfk6UDzRDPaNZYxzguwjfTn387RhI=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-sKE5KYKJP3yk2yGeHuBeyg-1; Wed, 13 Jan 2021 14:35:25 -0500
-X-MC-Unique: sKE5KYKJP3yk2yGeHuBeyg-1
-Received: by mail-pl1-f199.google.com with SMTP id l11so1840761plt.2
-        for <linux-input@vger.kernel.org>; Wed, 13 Jan 2021 11:35:24 -0800 (PST)
+        Wed, 13 Jan 2021 18:39:58 -0500
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73D24C061786
+        for <linux-input@vger.kernel.org>; Wed, 13 Jan 2021 14:47:30 -0800 (PST)
+Received: by mail-qk1-x72b.google.com with SMTP id 186so4541970qkj.3
+        for <linux-input@vger.kernel.org>; Wed, 13 Jan 2021 14:47:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=h+FqGCykPSHqWh7cxX3d9VdlwZG4V5G5JNIRu5wpRt4=;
+        b=H5Bfii1PDUDNIlTTwSyW6VN6E9N6jcYRGggL87RbPSRzyVEYxXkdHeiHFD+kvaD5VV
+         scGoJezQQf+X8lcwnd6LgdraIehHTUaLmNQY54rwXtX0EBUohI8PyGfaZohjvuKHZAQ6
+         amuET9y/crD5ChPV6NPUQGO7+568VT1/N44Mc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=VbEtyqBdwcJzKeG1wyZKRO8aTEA6+w3GGKg392l/7SU=;
-        b=hpTKeRT0y2UUTCIflYYzeBx872NSCAQJQ1rCCJrISQLJIHVaQ1k/3CkgRykMnWGI9j
-         hr1ynZkqxekcEfOrW5kDs5G7S+33Mn9jeAA+kwhWdcUpe8b0vNU59arGAihQvll2JU6A
-         hJXonB7nhYoNcZHU2pRnJjpjY1KqucV0QMaf0GVXICLr+m0nVWtyaPw+bY45ngTvx+do
-         2D4440rg1uMq4zKTzsr8M2xiecJHOGLCgWCNUDVGM29wjXq8WH+6XQ3qh64YSQXICU5h
-         Pwh1ck0cCLRWi7LtAN8Gx2LBpSzHpIRY6vyI9yDMgecfTNAZjMmk3uuvvBCOEOVtmAdB
-         cT1A==
-X-Gm-Message-State: AOAM531siRk0MhoWOgzexhmcJ3UAoiWUvmWHpOS5+jnZsYHMnmk/AzBa
-        bhaamVP6t3bLIfT3HmPRDI7cSfpMYuA7UFbzp/uXzbkVclUPJz9eLfJx8O0yq2xQ60e8nQ5Zn97
-        Im6g9i8q+QVRDGTAfZvcDGqMY3F4AhLnQaJFa+XU=
-X-Received: by 2002:a17:90a:4bc3:: with SMTP id u3mr897600pjl.56.1610566523638;
-        Wed, 13 Jan 2021 11:35:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz2fp4B6076gDor+MKRDmZygwIeP4EAAXjFgkA3mR5JdkHoL53cyA3W5wgmGsBrvY5bwF+aXTr6Q8622nmc0XE=
-X-Received: by 2002:a17:90a:4bc3:: with SMTP id u3mr897578pjl.56.1610566523391;
- Wed, 13 Jan 2021 11:35:23 -0800 (PST)
+        bh=h+FqGCykPSHqWh7cxX3d9VdlwZG4V5G5JNIRu5wpRt4=;
+        b=g5IDS2r/OSIPr+lxuQUezwKWwfHBNWACjIbUeCC7L366pA1fI3H4jkMM7EAFmm7p34
+         UHMPr/5d1oRnTmaQeHXsRCkCCFCgmMVX7k4+9Hv3vr25OeObXHeW2fgnW58rYyWyFEYR
+         3ZSG1jxt41zWrY0P9seco+crUa14LF6Wzlrr2NGiHOVm0GqvqHuCFYMUi0iWG38P6U3B
+         zM1BPHsmdxp6U0SSCS51jo1rvpIMNINNHYZkR59F/WCSUHqrSJUhN06+6l2s9PtAgb3G
+         VXmsFY4fY6RmNynoEbOH3c5ha/11oGM0db+1wZdrm6rYDwG0BUTEzGEYfr4PSrGmRXG6
+         ctDw==
+X-Gm-Message-State: AOAM532NgbJbmNh9YJMcOUbvVSHk+XQdsEIlW/iSDfNtHu1Ap1V5kMXI
+        VJkj1JfKQ8yK8W0jdzO0UKrqQINgUEtc7gVqFE5arIVTmtdDIQ==
+X-Google-Smtp-Source: ABdhPJw8exMIp6KEAqr10pn2/JqKH9Qo/CkxRzriiBrjuWmyCeaq02m2Sib01Zj3AFuNb2EGWweFcJ9Xm97g3nvBBb0=
+X-Received: by 2002:a5b:54a:: with SMTP id r10mr6762311ybp.250.1610578049597;
+ Wed, 13 Jan 2021 14:47:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20201211222448.2115188-1-dianders@chromium.org>
- <CAD=FV=Ve4wGJ=KxQjraYsiAQZHG_5qEeFW0ZhmBBkRmtdm7Gwg@mail.gmail.com>
- <CAO-hwJK+=537C-EbgNXPY3=m5LvM8SVKCDB5X145BfSMHgUMdw@mail.gmail.com>
- <CAO-hwJLuzAccZbLSCvyP0JnkCW8fgswrm8RJfMaVKjtyF5Yg_A@mail.gmail.com> <CAD=FV=W3uzNPwAGPCUfjC-zoWEPyY4bF8TE4JgPP21s-3MAfpQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=W3uzNPwAGPCUfjC-zoWEPyY4bF8TE4JgPP21s-3MAfpQ@mail.gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 13 Jan 2021 20:35:12 +0100
-Message-ID: <CAO-hwJ+Gz_yp_vn1prREvhcU=YqVatqd_Hp+95L5i2=bcwfhbA@mail.gmail.com>
-Subject: Re: [PATCH v8 0/4] HID: i2c-hid: Reorganize to allow supporting goodix,gt7375p
-To:     Doug Anderson <dianders@chromium.org>
-Cc:     Jiri Kosina <jkosina@suse.cz>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+References: <20210107154200.v4.1.I025fb861cd5fa0ef5286b7dce514728e9df7ae74@changeid>
+ <20210107154200.v4.2.Ibe7d7d53c5b4fe72c60de90111ff763b53f38dbb@changeid>
+ <161041827643.3661239.17919996906733477213@swboyd.mtv.corp.google.com>
+ <CA+cxXhm45emyg-9j99U=UWY8QuhzWifh+VvsFBaTOTWs81tvUQ@mail.gmail.com> <161052058590.3661239.5654596152411573148@swboyd.mtv.corp.google.com>
+In-Reply-To: <161052058590.3661239.5654596152411573148@swboyd.mtv.corp.google.com>
+From:   Philip Chen <philipchen@chromium.org>
+Date:   Wed, 13 Jan 2021 14:47:18 -0800
+Message-ID: <CA+cxXhmZd0eeLjUwcTevZRNovbZWXNKQH5qOX_YFCKowxHNVfQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] Input: cros-ec-keyb - Expose function row physical
+ map to userspace
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Andrea Borgia <andrea@borgia.bo.it>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Daniel Playfair Cal <daniel.playfair.cal@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
-        Jiri Kosina <jikos@kernel.org>, Li Yang <leoyang.li@nxp.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Max Krummenacher <max.oss.09@gmail.com>,
-        Michael Walle <michael@walle.cc>,
-        Pavel Balan <admin@kryma.net>, Shawn Guo <shawnguo@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>, Will Deacon <will@kernel.org>,
-        Xiaofei Tan <tanxiaofei@huawei.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>
+        Douglas Anderson <dianders@chromium.org>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Lee Jones <lee.jones@linaro.org>, linux-input@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jan 13, 2021 at 5:05 PM Doug Anderson <dianders@chromium.org> wrote:
+On Tue, Jan 12, 2021 at 10:49 PM Stephen Boyd <swboyd@chromium.org> wrote:
 >
-> Hi,
->
-> On Wed, Jan 13, 2021 at 7:09 AM Benjamin Tissoires
-> <benjamin.tissoires@redhat.com> wrote:
-> >
-> > > I wanted to apply the series yesterday, but for these kinds of changes
-> > > I like giving it a spin on actual hardware. Turns out that my XPS-13
-> > > can not boot to v5.11-rc2, which makes testing the new branch slightly
-> > > more difficult.
+> Quoting Philip Chen (2021-01-12 15:55:28)
+> > On Mon, Jan 11, 2021 at 6:24 PM Stephen Boyd <swboyd@chromium.org> wrote:
 > > >
-> > > I'll give it a spin next week, but I think I should be able to land it for 5.12.
+> > > Quoting Philip Chen (2021-01-07 15:42:09)
+> > > > The top-row keys in a keyboard usually have dual functionalities.
+> > > > E.g. A function key "F1" is also an action key "Browser back".
+> > > >
+> > > > Therefore, when an application receives an action key code from
+> > > > a top-row key press, the application needs to know how to correlate
+> > > > the action key code with the function key code and do the conversion
+> > > > whenever necessary.
+> > > >
+> > > > Since the userpace already knows the key scanlines (row/column)
+> > > > associated with a received key code. Essentially, the userspace only
+> > > > needs a mapping between the key row/column and the matching physical
+> > > > location in the top row.
+> > > >
+> > > > This patch enhances the cros-ec-keyb driver to create such a mapping
+> > > > and expose it to userspace in the form of a function-row-physmap
+> > > > attribute. The attribute would be a space separated ordered list of
+> > > > row/column codes, for the keys in the function row, in a left-to-right
+> > > > order.
+> > > >
+> > > > The attribute will only be present when the device has a custom design
+> > > > for the top-row keys.
 > > >
-> > > Regarding the defconfig conflict, no worries, we can handle it with
-> > > Stephen and Linus.
+> > > Is it documented in Documentation/ABI/?
+> > Not yet.
+> > Is it proper to add the documentation to `testing/sysfs-driver-input-keyboard`?
+>
+> Somewhere in testing is fine. I'm not sure if it is a generic proprty
+> for all keyboards though? What's the path in sysfs?
+I wouldn't say it's generic.
+It is available in the keyboard device node only when the board has a
+custom top-row keyboard design.
+The path in sysfs is something like:
+/sys/class/input/input0/device/function_row_physmap, where input0 is
+cros_ec.
+>
 > > >
-> >
-> > After 2 full kernel bisects (I messed up the first because I am an
-> > idiot and inverted good and bad after the first reboot), I found my
-> > culprit, and I was able to test the series today.
-> >
-> > The series works fine regarding enumeration and removing of devices,
-> > but it prevents my system from being suspended. If I rmmod
-> > i2c-hid-acpi, suspend works fine, but if it is present, it immediately
-> > comes back, which makes me think that something must be wrong.
-> >
-> > I also just reverted the series and confirmed that suspend/resume now
-> > works, meaning that patch 1/4 needs to be checked.
+> > > >
+> > > >  /**
+> > > >   * struct cros_ec_keyb - Structure representing EC keyboard device
+> > > >   *
+> > > > @@ -42,6 +44,9 @@
+> > > >   * @idev: The input device for the matrix keys.
+> > > >   * @bs_idev: The input device for non-matrix buttons and switches (or NULL).
+> > > >   * @notifier: interrupt event notifier for transport devices
+> > > > + * @function_row_physmap: An array of the encoded rows/columns for the top
+> > > > + *                        row function keys, in an order from left to right
+> > > > + * @num_function_row_keys: The number of top row keys in a custom keyboard
+> > > >   */
+> > > >  struct cros_ec_keyb {
+> > > >         unsigned int rows;
+> > > > @@ -58,6 +63,9 @@ struct cros_ec_keyb {
+> > > >         struct input_dev *idev;
+> > > >         struct input_dev *bs_idev;
+> > > >         struct notifier_block notifier;
+> > > > +
+> > > > +       u16 function_row_physmap[MAX_NUM_TOP_ROW_KEYS];
+> > > > +       u8 num_function_row_keys;
+> > >
+> > > Why not size_t?
+> > I usually try to use the minimal required bytes for variables, even
+> > for local ones.
+> > In this case, we only need one byte for num_function_row_keys.
+> > Are there any reasons why size_t is better?
 >
-> Can you give me any hints about what type of failure you're seeing?
-> Any logs?  I don't have an ACPI system to test with...
-
-I don't have any logs, just that the system comes back up. There is a
-chance we are not powering the device down correctly, which triggers
-an IRQ and which puts the system back on.
-
+> I suppose to indicate that it's an array size. It's not a super strong
+> argument but the usage of u8 looks like we're trying to save space in a
+> single structure instance (or maybe a couple if there are a few
+> keyboards), when for all I know it actually generates worse code because
+> it has to do some masking operation on the load from memory when it
+> could just load the value directly into a register.
+OK, I'll do size_t.
 >
-> Is there any chance that some type of userspace / udev rule is getting
-> tripped up by the driver being renamed?  We ran into something like
-> this recently on Chrome OS where we had a tool that was hardcoded to
-> look for "i2c-hid" and needed to be adapted to account for the new
-> driver name.  Often userspace tweaks with wakeup rules based on driver
-> name...
-
-I don't think there is anything like that on a regular desktop.
-
+> > >
+> > > >  };
+> > > >
+> > > >  /**
+> > > > @@ -587,6 +613,52 @@ static int cros_ec_keyb_register_matrix(struct cros_ec_keyb *ckdev)
+> > > >         return 0;
+> > > >  }
+> > > >
+> > > > +static ssize_t function_row_physmap_show(struct device *dev,
+> > > > +                                        struct device_attribute *attr,
+> > > > +                                        char *buf)
+> > > > +{
+> > > > +       ssize_t size = 0;
+> > > > +       u8 i;
+> > >
+> > > int i? Why u8? Surely the size of a local variable isn't important.
+> > The same reason as "u8 num_function_row_keys".
+> > Is int better in this case?
 >
-> I'll go stare at the code now and see if anything jumps out.
+> Yeah int is better because it's a local variable and nobody cares about
+> those extra few bytes.
+OK, I'll do int.
 >
-
-Thanks, but don't spend too much time on it, unless something really
-jumps out. I'll debug that tomorrow. It's much easier with an actual
-device than by just looking at the code.
-
-Cheers,
-Benjamin
-
-> -Doug
+> > >
+> > > > +       struct cros_ec_keyb *ckdev = dev_get_drvdata(dev);
+> > > > +
+> > > > +       if (!ckdev->num_function_row_keys)
+> > > > +               return 0;
+> > > > +
+> > > > +       for (i = 0; i < ckdev->num_function_row_keys; i++)
+> > > > +               size += scnprintf(buf + size, PAGE_SIZE - size, "%02X ",
+> > > > +                                 ckdev->function_row_physmap[i]);
+> > > > +       size += scnprintf(buf + size, PAGE_SIZE - size, "\n");
+> > > > +
+> > > > +       return size;
+> > >
+> > > I'd rather see
+> > >
+> > >         ssize_t size = 0;
+> > >         int i;
+> > >         struct cros_ec_keyb *ckdev = dev_get_drvdata(dev);
+> > >         u16 *physmap = ckdev->function_row_physmap;
+> > >
+> > >         for (i = 0; i < ckdev->num_function_row_keys; i++)
+> > >                 size += scnprintf(buf + size, PAGE_SIZE - size,
+> > >                                   "%s%02X", size ? " " : "", physmap[i]);
+> > >
+> > >         if (size)
+> > >                 size += scnprintf(buf + size, PAGE_SIZE - size, "\n");
+> > >
+> > >         return size;
+> > >
+> > > And I wonder if hex_dump_to_buffer() works for this?
+> > It seems to work? I'll give it a try.
+> > If hex_dump_to_buffer() doesn't work, I'll fall back to the
+> > implementation you suggested above.
 >
-
+> Ok sounds good.
