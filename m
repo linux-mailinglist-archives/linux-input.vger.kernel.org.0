@@ -2,125 +2,170 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A59BE2F467D
-	for <lists+linux-input@lfdr.de>; Wed, 13 Jan 2021 09:30:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 514802F4704
+	for <lists+linux-input@lfdr.de>; Wed, 13 Jan 2021 10:03:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725998AbhAMI3q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 13 Jan 2021 03:29:46 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:42739 "EHLO
-        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725834AbhAMI3q (ORCPT
+        id S1727146AbhAMJBU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 13 Jan 2021 04:01:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51004 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727389AbhAMJBU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 13 Jan 2021 03:29:46 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id 292A55C003F;
-        Wed, 13 Jan 2021 03:28:40 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Wed, 13 Jan 2021 03:28:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=TzU6WcM+BIQSy4nmgiJ5TPU0ge7
-        8zp+Iupe9d0GMyic=; b=USIsB8FCx2ut10qMVZojg5teN6Z+OE1ivil6ojt/wkK
-        Y61vL6i+vIoEWDZSUFXMsEjF6mGoOa9PEKzyjjVH4bdhe7KFTd2Fe7UMehPVH/z2
-        yePIED3L08YQtQ5ndVKzED2WWtfxnB8zdfi5/o3R75FiIeMgLFCe2VXTTZ8JQrTt
-        Ps8Q0AR1jyyyrs7pdUkwzNX7HcOg2dEXSW8j+xqfgizP2cKvTmYZHabmRE1nmqid
-        lyrdF9yRbt+s13dhq+3ngVTy41zSMa6M5Y1lH471OPKjcZHSOCY4mv3JwYDNudZc
-        Y+Ub8ZlGRsHTL7kA7nQ/LKoT4rpagMk8Gzjono8mDyQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=TzU6Wc
-        M+BIQSy4nmgiJ5TPU0ge78zp+Iupe9d0GMyic=; b=f+eRvpzLwJiv1ros6GwI1F
-        KUPPqbnHPYYIq5dId5jhyu/x+uzkRAnO65U6NNv1ouBlu5MLG8cWv1nF4xCqWold
-        qt+rTIpo64E3Ml0wNXdezEhU5Oko7E9iy+sy1DbdKiB3HBFE/ZdSxxSbDnDa4d6K
-        JnAArBuOtDn68xg1nkhEuq+htaxMjVv4F8q/Xnfqu0fOhgtgdGB038gtDzYqaV80
-        NrD+QBxDdF9jQwnAem049EUG9bnDKU4RP3vLtwFi39QSKqfwrOmVekUBajwO12Yz
-        twHvDSb2WRwuWrpacy7PckjNbSCcMnkqqMrAIhvCtVTwWq2AJlT63IphzI/wtEeA
-        ==
-X-ME-Sender: <xms:N6_-X3vfrWSJP2-GjWDl3GWKHyiZzUiNK9AWpBoB9mqd83fv6P_mmw>
-    <xme:N6_-X4fFKgw2-ekt31CMg4unA4PjeDmOVNqhJbWDXSzVgaizCpZ70Nh369MpPs-5K
-    7vvhgCEKgERjtEIIMg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedukedrtddugdduvdduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepudenuc
-    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:N6_-X6y8gb1ChGqa5OoN7HlW288uQCwa1-giZnfMcKA2x-odwQtdsg>
-    <xmx:N6_-X2NJM5uHQrWrPfBWHD6W7rPKWBSAmKq3Z17avnLpZClcDCS-uQ>
-    <xmx:N6_-X3_1TOblX_b6Ny3hfzmAaZfwflpF5A-vZvxqiiE2YbVFPymu1w>
-    <xmx:OK_-X4O__H-k0tEDnNqoFEdy94wpaL6Jdwjb0Jg-7LeQqqrZ0KkEcA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 7D515108005F;
-        Wed, 13 Jan 2021 03:28:39 -0500 (EST)
-Date:   Wed, 13 Jan 2021 09:28:38 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Samuel Holland <samuel@sholland.org>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-sunxi@googlegroups.com
-Subject: Re: [PATCH v2 0/3] PinePhone volume key (LRADC) wakeup support
-Message-ID: <20210113082838.kwwekwwsnpobk7bg@gilmour>
-References: <20210113040542.34247-1-samuel@sholland.org>
+        Wed, 13 Jan 2021 04:01:20 -0500
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAA67C061575;
+        Wed, 13 Jan 2021 01:00:39 -0800 (PST)
+Received: by mail-qk1-x730.google.com with SMTP id v126so893492qkd.11;
+        Wed, 13 Jan 2021 01:00:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=pbIjM7Y2l1QZG495FHuBObshGZMrXbccqmIZVjHdFFY=;
+        b=hbnoG52Fys9E2+Ad9ZZ027ZjhIAoLnyG42xdppfQ3gUSAahiq71f+njlW5c8pawrHF
+         no2oGIFoZiM/1K5kWxlW1kn6jIaQ/v4m0YGaA4H2cnobysRSmkEsxJNoXzX5oEotFpQy
+         S5OlsZ1A0k157geOjY0wW3xvdgvksKao8QANhNbT4b1shlfQC2OIQJBSPYUPIAipOzN6
+         NDkfEHm7adLHT0TedcIvzbTWJTkhaPDqFnraKZy2fqpn2f3bxyQKuALVJIf0YMottcVa
+         idan2jiwyQGOC3FKd3ZSioS7zSEfPij9sPlwqawBL9zIk27y1GTUwzLG68zMtUnKF9sf
+         opdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pbIjM7Y2l1QZG495FHuBObshGZMrXbccqmIZVjHdFFY=;
+        b=moxsgeO10B0ZwIH+vYs49/TUkTpm8az4G7hihjwm4GjJEt0Zwv8Z0YqiCeUWC/ab4e
+         /EtOB0SjvIYVf+w4o8nMzrGGVoKkcnXqAz5w75sRrW8iIPdktvZkB0CPFFIyzOEQ2IsH
+         EwOvmmStD3RHVKi4g8skHsLVZblkYoo7sG3isZJOmIUNTw9sWVLQaa/jYuMayqmyyort
+         t6eO6aaUloWzQtVo9rHcFN4IOqNjPbTZRmCGvymLmbjnqkSvsdTY7iaiMhst+kuojEvM
+         h/0eHN+fyfKfo18k3ebquqJFdHKLfYTUfS8dKbDiN+fVRZ5LwrUxDUFZKAYRRWJi9aqA
+         f5lA==
+X-Gm-Message-State: AOAM531JBVFjf0jpxPjeNMcO0pihrzkzUtzqpeA9OV8uEfImpqMThgNa
+        gUKERUTO4CYU/wtU4z1ZY/s+B9OhZ9ZFOd8eZSGhEanIxuQ=
+X-Google-Smtp-Source: ABdhPJwMJe+FCIqZLrOZSfzPVTml5CBTjec9zWLucfYDdoJxMHqxs+HusUGQjyg8xb3jZqVxHLgZURsaadYLTZ1tjo4=
+X-Received: by 2002:a37:a893:: with SMTP id r141mr930119qke.459.1610528439051;
+ Wed, 13 Jan 2021 01:00:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="vhpp6qqqfwdpuanf"
-Content-Disposition: inline
-In-Reply-To: <20210113040542.34247-1-samuel@sholland.org>
+References: <20210112230310.GA149342@jelly>
+In-Reply-To: <20210112230310.GA149342@jelly>
+From:   Benjamin Tissoires <benjamin.tissoires@gmail.com>
+Date:   Wed, 13 Jan 2021 10:00:27 +0100
+Message-ID: <CAN+gG=ER7LndA9facg-EB-0VBdBBkpac+nYu+eOo7wDW6G6fBw@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: input: define ABS_PRESSURE/ABS_MT_PRESSURE
+ resolution as grams
+To:     Peter Hutterer <peter.hutterer@who-t.net>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jason Gerecke <killertofu@gmail.com>,
+        Ping Cheng <pinglinux@gmail.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Wed, Jan 13, 2021 at 12:03 AM Peter Hutterer
+<peter.hutterer@who-t.net> wrote:
+>
+> ABS_PRESSURE and ABS_MT_PRESSURE on touch devices usually represent
+> contact size (as a finger flattens with higher pressure the contact size
+> increases) and userspace translates the kernel pressure value back into
+> contact size. For example, libinput has pressure thresholds when a touch is
+> considered a palm (palm == large contact area -> high pressure). The values
+> themselves are on an arbitrary scale and device-specific.
+>
+> On pressurepads however, the pressure axis may represent the real physical
+> pressure. Pressurepads are touchpads without a hinge but an actual pressure
+> sensor underneath the device instead, for example the Lenovo Yoga 9i.
+>
+> A high-enough pressure is converted to a button click by the firmware.
+> Microsoft does not require a pressure axis to be present, see [1], so as seen
+> from userspace most pressurepads are identical to clickpads - one button and
+> INPUT_PROP_BUTTONPAD set.
+>
+> However, pressurepads that export the pressure axis break userspace because
+> that axis no longer represents contact size, resulting in inconsistent touch
+> tracking, e.g. [2]. Userspace needs to know when a pressure axis represents
+> real pressure and the best way to do so is to define what the resolution
+> field means. Userspace can then treat data with a pressure resolution as
+> true pressure.
+>
+> This patch documents that the pressure resolution is in units/gram. This
+> allows for fine-grained detail and tops out at roughly ~2000t, enough for the
+> devices we're dealing with. Grams is not a scientific pressure unit but the
+> alternative is:
+> - Pascal: defined as force per area and area is unreliable on many devices and
+>   seems like the wrong option here anyway, especially for devices with a
+>   single pressure sensor only.
+> - Newton: defined as mass * distance/acceleration and for the purposes of a
+>   pressure axis, the distance is tricky to interpret and we get the data to
+>   calculate acceleration from event timestamps anyway.
+>
+> For the purposes of touch devices and digitizers, grams seems the best choice
+> and the easiest to interpret.
+>
+> Bonus side effect: we can use the existing hwdb infrastructure in userspace to
+> fix devices that advertise false pressure.
+>
+> [1] https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/windows-precision-touchpad-required-hid-top-level-collections#windows-precision-touchpad-input-reports
+> [2] https://gitlab.freedesktop.org/libinput/libinput/-/issues/562
+>
+> Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
 
---vhpp6qqqfwdpuanf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+FWIW, and because I was involved in the initial discussion:
+Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
-On Tue, Jan 12, 2021 at 10:05:39PM -0600, Samuel Holland wrote:
-> This series allows the volume keys on the PinePhone to wake up the
-> device. As pointed out for v1, wakeup should only be enabled when a
-> "wakeup-source" property is present, so v2 requires DT and binding
-> changes in addition to the driver change.
->=20
-> Changes since v1:
->   - Add requisite DT binding change
->   - Only add wakeup capability if "wakeup-source" is present
->   - Warn but do not error out if setting the wake IRQ fails
->   - Add "wakeup-source" property to PinePhone device tree
->=20
-> Ondrej Jirman (1):
->   input: sun4i-lradc-keys -  Add wakup support
->=20
-> Samuel Holland (2):
->   dt-bindings: sun4i-a10-lradc-keys: Accept wakeup-source property
->   arm64: dts: allwinner: pinephone: Support volume key wakeup
->=20
->  .../input/allwinner,sun4i-a10-lradc-keys.yaml |  2 ++
->  .../dts/allwinner/sun50i-a64-pinephone.dtsi   |  1 +
->  drivers/input/keyboard/sun4i-lradc-keys.c     | 22 +++++++++++++++----
->  3 files changed, 21 insertions(+), 4 deletions(-)
+Cheers,
+Benjamin
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
-
-I've applied patch 3
-
-Maxime
-
---vhpp6qqqfwdpuanf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX/6vNgAKCRDj7w1vZxhR
-xfMtAQDVdffEBMyH+3xfy28vcNPZ4l3C99AYGTCUmy62qTwl1QEA7N4GZ/dALQDD
-c2AAwHc05QFZinkvyfVZbSBNmIVoqwE=
-=qhju
------END PGP SIGNATURE-----
-
---vhpp6qqqfwdpuanf--
+> ---
+>  Documentation/input/event-codes.rst          | 15 +++++++++++++++
+>  Documentation/input/multi-touch-protocol.rst |  4 ++++
+>  2 files changed, 19 insertions(+)
+>
+> diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
+> index b24b5343f5eb..3118fc1c1e26 100644
+> --- a/Documentation/input/event-codes.rst
+> +++ b/Documentation/input/event-codes.rst
+> @@ -236,6 +236,21 @@ A few EV_ABS codes have special meanings:
+>    - Used to describe multitouch input events. Please see
+>      multi-touch-protocol.txt for details.
+>
+> +* ABS_PRESSURE/ABS_MT_PRESSURE:
+> +
+> +   - For touch devices, many devices converted contact size into pressure.
+> +     A finger flattens with pressure, causing a larger contact area and thus
+> +     pressure and contact size are directly related. This is not the case
+> +     for other devices, for example digitizers and touchpads with a true
+> +     pressure sensor ("pressure pads").
+> +
+> +     A device should set the resolution of the axis to indicate whether the
+> +     pressure is in measurable units. If the resolution is zero, the
+> +     pressure data is in arbitrary units. If the resolution is nonzero, the
+> +     pressure data is in units/gram. For example, a value of 10 with a
+> +     resolution of 1 represents 10 gram, a value of 10 with a resolution on
+> +     1000 represents 10 microgram.
+> +
+>  EV_SW
+>  -----
+>
+> diff --git a/Documentation/input/multi-touch-protocol.rst b/Documentation/input/multi-touch-protocol.rst
+> index 307fe22d9668..21c1e6a22888 100644
+> --- a/Documentation/input/multi-touch-protocol.rst
+> +++ b/Documentation/input/multi-touch-protocol.rst
+> @@ -260,6 +260,10 @@ ABS_MT_PRESSURE
+>      of TOUCH and WIDTH for pressure-based devices or any device with a spatial
+>      signal intensity distribution.
+>
+> +    If the resolution is zero, the pressure data is in arbitrary units.
+> +    If the resolution is nonzero, the pressure data is in units/gram. See
+> +    :ref:`input-event-codes` for details.
+> +
+>  ABS_MT_DISTANCE
+>      The distance, in surface units, between the contact and the surface. Zero
+>      distance means the contact is touching the surface. A positive number means
+> --
+> 2.29.2
+>
