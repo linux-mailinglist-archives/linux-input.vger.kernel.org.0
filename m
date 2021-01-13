@@ -2,198 +2,463 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA57C2F4E28
-	for <lists+linux-input@lfdr.de>; Wed, 13 Jan 2021 16:10:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E14E2F4E47
+	for <lists+linux-input@lfdr.de>; Wed, 13 Jan 2021 16:16:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726626AbhAMPKY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 13 Jan 2021 10:10:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24846 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726523AbhAMPKX (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 13 Jan 2021 10:10:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1610550536;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=kWipm+X2j1RbsimdpvIAl9U3K5QN86SQ19iK5SoxS1o=;
-        b=STkhg0Pybd7hUHilPx5Zh89F671FWSeS9kQ/FP1UD64lIjIfT3mfwRXqiR7+MOfWUVaT80
-        a1ll+EXbFgFUQC5JgXpusFn4LGBYTQVixp1oFYl6egwtrG9w6G75tSoxesUK1BkhtVt/FQ
-        55Bd9QQbBrlWwtK07vOfSDyXicyCV9Q=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-3kRJ8gvlN5CnBob_M_zInQ-1; Wed, 13 Jan 2021 10:08:54 -0500
-X-MC-Unique: 3kRJ8gvlN5CnBob_M_zInQ-1
-Received: by mail-pl1-f200.google.com with SMTP id 98so1414760pla.12
-        for <linux-input@vger.kernel.org>; Wed, 13 Jan 2021 07:08:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kWipm+X2j1RbsimdpvIAl9U3K5QN86SQ19iK5SoxS1o=;
-        b=HfogPdbqNRpjelFqYE+Omix7xDX7sJ6d1adBcrr3TyhIQWb5aWCn0oN5MaSneqxlxX
-         U59pcx4VWTH3P/rwZIJZKfaGgGnq277OnFN6Xzu1nk0PXIQocI1CKYUxfhlHFr2gmTGM
-         tkiNxXk8kcLOejFN6V2dp8S96EU7wU+vkabn110Ya4silxeBqwoRake5DZqSEyb7adwz
-         Yx3di7NwYz3dK0j8Zzn85kLvbwHsneuyrDLkiRhqCSlTRAsmf/+36+BzwI2JyJUo0r75
-         OMUW81DpYJ8XYSTXO37XgYsZNaliRu2+EpHloyVzOq0Vlf0juR8hGz6MrF6721BszOU+
-         1EfA==
-X-Gm-Message-State: AOAM532RrKOx4McZge0ozBSJgJZLq5E+03wTiwfAVdNmffIbZAlr/YUc
-        j23HHJuqtztuJnSXCP3C9VSAVUPXZd/TCwFKcTiookWDkV1lsEizW6pmug4ZrjtF7eM/xoYn06e
-        Ipj+ZZvXWqFRxoSKT1llzUd9iCzcvtilb0sOsVb0=
-X-Received: by 2002:a63:4d41:: with SMTP id n1mr2439838pgl.147.1610550532832;
-        Wed, 13 Jan 2021 07:08:52 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzvxkW7BMeeEqiByfe7FaWReWauDte5vCp+7LTLQQFvoJcFAxS9Ug7HUmiUfgfocS9TC46d93Yz9Z3rprm9ksw=
-X-Received: by 2002:a63:4d41:: with SMTP id n1mr2439815pgl.147.1610550532579;
- Wed, 13 Jan 2021 07:08:52 -0800 (PST)
-MIME-Version: 1.0
-References: <20201211222448.2115188-1-dianders@chromium.org>
- <CAD=FV=Ve4wGJ=KxQjraYsiAQZHG_5qEeFW0ZhmBBkRmtdm7Gwg@mail.gmail.com> <CAO-hwJK+=537C-EbgNXPY3=m5LvM8SVKCDB5X145BfSMHgUMdw@mail.gmail.com>
-In-Reply-To: <CAO-hwJK+=537C-EbgNXPY3=m5LvM8SVKCDB5X145BfSMHgUMdw@mail.gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 13 Jan 2021 16:08:41 +0100
-Message-ID: <CAO-hwJLuzAccZbLSCvyP0JnkCW8fgswrm8RJfMaVKjtyF5Yg_A@mail.gmail.com>
-Subject: Re: [PATCH v8 0/4] HID: i2c-hid: Reorganize to allow supporting goodix,gt7375p
-To:     Doug Anderson <dianders@chromium.org>
-Cc:     Jiri Kosina <jkosina@suse.cz>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Andrea Borgia <andrea@borgia.bo.it>,
-        Anson Huang <Anson.Huang@nxp.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Daniel Playfair Cal <daniel.playfair.cal@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
-        Jiri Kosina <jikos@kernel.org>, Li Yang <leoyang.li@nxp.com>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Max Krummenacher <max.oss.09@gmail.com>,
-        Michael Walle <michael@walle.cc>,
-        Pavel Balan <admin@kryma.net>, Shawn Guo <shawnguo@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>, Will Deacon <will@kernel.org>,
-        Xiaofei Tan <tanxiaofei@huawei.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1727102AbhAMPPC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 13 Jan 2021 10:15:02 -0500
+Received: from mout.gmx.net ([212.227.15.18]:46697 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726884AbhAMPPB (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 13 Jan 2021 10:15:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1610550806;
+        bh=V2H1LQMFORpJ3T6RKLvfoJKZ/snyAYsiqh5441bb8M0=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+        b=beyjTFwbog9PcAPws51tsITMe7r/2iD6biAw71LRCXYK107F6gTNRvbsBXRPTIJpA
+         HhVG0ZhKRLjZbkh54K/WqWjvWBfXuhd2ExPQIgHZkiu4+2ElHQTH01H++4P3FobO7A
+         ER0sDf3M9Re/QztL+cOTZHKTRBEed04HIV4/CkPI=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from Valinor ([82.203.161.65]) by mail.gmx.com (mrgmx005
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1N3KTo-1jzncq0Rta-010NLP; Wed, 13
+ Jan 2021 16:13:26 +0100
+Date:   Wed, 13 Jan 2021 17:12:36 +0200
+From:   Lauri Kasanen <cand@gmx.com>
+To:     linux-mips@vger.kernel.org
+Cc:     tsbogend@alpha.franken.de, dmitry.torokhov@gmail.com,
+        linux-input@vger.kernel.org
+Subject: [PATCH 4/6 v6] input: Add N64 controller driver
+Message-Id: <20210113171236.c22d14ff656dba3d21910c45@gmx.com>
+X-Mailer: Sylpheed 3.5.0 (GTK+ 2.18.6; x86_64-unknown-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:s/Q5eAR5yB2r0cnHgQgNVEapiWggeDm3m22VvyO64NrVM8Pd8M0
+ ps6eFDLqO7q4dcH93WU8fv4oZBXQ26bAVUoDmYkv0MUcQFHD+FfG2TOYN/LcA+NueBO4Tal
+ eNhl34Tgc9DHelq279ykIm/jZ4Vea1qL0Vy5TbHNUcNg+WNyAKSLqnj899kCDR5DnvaXhk7
+ biyG+kKq+aW/85z7bLxtg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UYyUa50UhtU=:2phw2q0QiJFLABflJds36h
+ 49cqwL6szlM/7ECruWFEacRCDJw8t5ozJgfDpaYK5CV2GU3guj7dIh4YmZpcSS38SX/oJxosP
+ 1L6uPBdl48A7BMAoDsvDgoOzh5P3AdSLOxmEdHuTBz5k8aJo5RQS/jJ6BUKdF8DYvrXUuy8YH
+ 5W7iy7AsGPD9eaoRg76gGGfv9poSv+7ZcpJ0C3Zbox8OC+lKq6rNXQ2TN/G9uYVqyv3tUCAcD
+ VJkw9LrlfqOXSk06YNMA4OuY4KpUxv3YEF7wi+i3kXw026KKMTBa35E0bOhdeHxLBcjrKmH5p
+ GkuRUY2MCkXsEgEQF7DxYpJCOg4SYNI66i3Hrex2CdWCbzbap6wkOy2K/UOcBoi3X9ZmymJq8
+ MP5hLsi2beMymKVZ0Ohuw0QDbZRoVWApvUmaxjiLiMX5GmLAUm+4cq/4UwBW1XSDVR9ts6p0S
+ kYLg8ueR2pu/n7/pJNfmO0GC45Bh84g6pDxL1HrSioVdj2VRGmMIKlA+CDsMP1mipjzUxdb5k
+ CM53TGOxWRYzZLDrhM5dewBpTtR/qCEgfZtSzLhHPF9H5fkdnSzV3mQRdTdpv42v8srHg7K6/
+ veSoFzakcJbjRDCsWNPLaNbWleklfdMjvPlAcVaDGWU4Il9eZ8qxlYBXBOEs+arBV9XboHLe8
+ 86HI+mY+VA078ME6VhgvcsllIZlrOjEN69zVPpyAZ2xV43okDayu/1RO8X+ueLorLjAf7S7Vj
+ DRJ0oYtOhgD5mxDlIN4kNBBou5O1IgEs/wrBSoL25FGhB/LRZE7UsMq2U69fjtt7Bog28ciEZ
+ P6N1vLCzYxZra9qUPSeFV/e8DpBYKXfcL8n/sXp2M+Vc0QLdUXOR9GPlTp2kpwJSJRf7PMJax
+ gCudQODQ/iOgoTmWSqGQ==
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jan 8, 2021 at 6:52 PM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> Hi Doug,
->
-> On Wed, Jan 6, 2021 at 2:35 AM Doug Anderson <dianders@chromium.org> wrote:
-> >
-> > Benjamin,
-> >
-> > On Fri, Dec 11, 2020 at 2:24 PM Douglas Anderson <dianders@chromium.org> wrote:
-> > >
-> > > The goal of this series is to support the Goodix GT7375P touchscreen.
-> > > This touchscreen is special because it has power sequencing
-> > > requirements that necessitate driving a reset GPIO.
-> > >
-> > > To do this, we totally rejigger the way i2c-hid is organized so that
-> > > it's easier to jam the Goodix support in there.
-> > >
-> > > This series was:
-> > > - Tested on a device that uses normal i2c-hid.
-> > > - Tested on a device that has a Goodix i2c-hid device.
-> > > - Tested on an ACPI device, but an earlier version of the series.
-> > >
-> > > I believe the plan is for Benjamin to land the whole series.  Will
-> > > said this about the arm64 defconfig change (and provided his Ack):
-> > > > ...there are a few things I really care about
-> > > > in defconfig (e.g. things like page size!), generally speaking we don't
-> > > > need to Ack everything that changes in there.
-> > > >
-> > > > That said, might be worth checking whether arm-soc have any defconfig
-> > > > changes queued in -next so you don't end up with conflicts.
-> > >
-> > > Changes in v8:
-> > > - Mark suspend/resume as static as per patches robot.
-> > >
-> > > Changes in v7:
-> > > - Rebase atop commit afdd34c5fa40 ("HID: i2c-hid: show the error ...")
-> > >
-> > > Changes in v6:
-> > > - ACPI probe function should have been "static"
-> > > - Don't export suspend/resume, just export dev_pm_ops from core.
-> > > - Fixed crash in ACPI module (missing init of "client")
-> > > - No need for regulator include in the core.
-> > > - Removed i2c_device_id table from ACPI module.
-> > > - Suspend/resume are no longer exported from the core.
-> > >
-> > > Changes in v5:
-> > > - Add shutdown_tail op and use it in ACPI.
-> > > - Added mention of i2c-hid in the yaml itself as per Rob.
-> > > - Adjusted subject as per Rob.
-> > > - i2chid_subclass_data => i2chid_ops.
-> > > - power_up_device => power_up (same with power_down).
-> > > - subclass => ops.
-> > >
-> > > Changes in v4:
-> > > - ("arm64: defconfig: Update config names for i2c-hid rejigger") new for v4.
-> > > - Fully rejigger so ACPI and OF are full subclasses.
-> > > - Totally redid based on the new subclass system.
-> > >
-> > > Changes in v3:
-> > > - Fixed compatible in example.
-> > > - Removed Benjamin as a maintainer.
-> > > - Rework to use subclassing.
-> > > - Updated description.
-> > >
-> > > Changes in v2:
-> > > - ("dt-bindings: HID: i2c-hid: Introduce bindings for the Goodix GT7375P") new in v2.
-> > > - Get timings based on the compatible string.
-> > > - Use a separate compatible string for this new touchscreen.
-> > >
-> > > Douglas Anderson (4):
-> > >   HID: i2c-hid: Reorganize so ACPI and OF are separate modules
-> > >   arm64: defconfig: Update config names for i2c-hid rejigger
-> > >   dt-bindings: input: HID: i2c-hid: Introduce bindings for the Goodix
-> > >     GT7375P
-> > >   HID: i2c-hid: Introduce goodix-i2c-hid using i2c-hid core
-> >
-> > I think this series is ready to land.  The "defconfig" has a trivial
-> > conflict with commit 74b87103b3d0 ("arm64: defconfig: Enable HID
-> > multitouch") against linuxnext, but it's so simple that hopefully
-> > folks will be OK with that when it lands.
-> >
-> > Please let me know if there's anything else you need me to do.  :-)
-> >
->
-> I wanted to apply the series yesterday, but for these kinds of changes
-> I like giving it a spin on actual hardware. Turns out that my XPS-13
-> can not boot to v5.11-rc2, which makes testing the new branch slightly
-> more difficult.
->
-> I'll give it a spin next week, but I think I should be able to land it for 5.12.
->
-> Regarding the defconfig conflict, no worries, we can handle it with
-> Stephen and Linus.
->
+This adds support for the four built-in controller
+ports on the Nintendo 64 console. The N64 controller
+includes an analog stick, a d-pad, and several buttons.
 
-After 2 full kernel bisects (I messed up the first because I am an
-idiot and inverted good and bad after the first reboot), I found my
-culprit, and I was able to test the series today.
+No module support as the target has only 8mb ram.
 
-The series works fine regarding enumeration and removing of devices,
-but it prevents my system from being suspended. If I rmmod
-i2c-hid-acpi, suspend works fine, but if it is present, it immediately
-comes back, which makes me think that something must be wrong.
+Signed-off-by: Lauri Kasanen <cand@gmx.com>
+=2D--
+ drivers/input/joystick/Kconfig  |   6 +
+ drivers/input/joystick/Makefile |   2 +-
+ drivers/input/joystick/n64joy.c | 345 +++++++++++++++++++++++++++++++++++=
++++++
+ 3 files changed, 352 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/input/joystick/n64joy.c
 
-I also just reverted the series and confirmed that suspend/resume now
-works, meaning that patch 1/4 needs to be checked.
+diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconf=
+ig
+index b080f0c..e1a8128 100644
+=2D-- a/drivers/input/joystick/Kconfig
++++ b/drivers/input/joystick/Kconfig
+@@ -382,4 +382,10 @@ config JOYSTICK_FSIA6B
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called fsia6b.
 
-Cheers,
-Benjamin
++config JOYSTICK_N64
++	bool "N64 controller"
++	depends on MACH_NINTENDO64
++	help
++	  Support for the four N64 controllers.
++
+ endif
+diff --git a/drivers/input/joystick/Makefile b/drivers/input/joystick/Make=
+file
+index 58232b3..31d720c 100644
+=2D-- a/drivers/input/joystick/Makefile
++++ b/drivers/input/joystick/Makefile
+@@ -24,6 +24,7 @@ obj-$(CONFIG_JOYSTICK_INTERACT)		+=3D interact.o
+ obj-$(CONFIG_JOYSTICK_JOYDUMP)		+=3D joydump.o
+ obj-$(CONFIG_JOYSTICK_MAGELLAN)		+=3D magellan.o
+ obj-$(CONFIG_JOYSTICK_MAPLE)		+=3D maplecontrol.o
++obj-$(CONFIG_JOYSTICK_N64)		+=3D n64joy.o
+ obj-$(CONFIG_JOYSTICK_PSXPAD_SPI)	+=3D psxpad-spi.o
+ obj-$(CONFIG_JOYSTICK_PXRC)		+=3D pxrc.o
+ obj-$(CONFIG_JOYSTICK_SIDEWINDER)	+=3D sidewinder.o
+@@ -37,4 +38,3 @@ obj-$(CONFIG_JOYSTICK_WARRIOR)		+=3D warrior.o
+ obj-$(CONFIG_JOYSTICK_WALKERA0701)	+=3D walkera0701.o
+ obj-$(CONFIG_JOYSTICK_XPAD)		+=3D xpad.o
+ obj-$(CONFIG_JOYSTICK_ZHENHUA)		+=3D zhenhua.o
+-
+diff --git a/drivers/input/joystick/n64joy.c b/drivers/input/joystick/n64j=
+oy.c
+new file mode 100644
+index 0000000..e7650c5
+=2D-- /dev/null
++++ b/drivers/input/joystick/n64joy.c
+@@ -0,0 +1,345 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Support for the four N64 controllers.
++ *
++ * Copyright (c) 2021 Lauri Kasanen
++ */
++
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++
++#include <linux/errno.h>
++#include <linux/init.h>
++#include <linux/input.h>
++#include <linux/limits.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/platform_device.h>
++#include <linux/slab.h>
++#include <linux/timer.h>
++
++MODULE_AUTHOR("Lauri Kasanen <cand@gmx.com>");
++MODULE_DESCRIPTION("Driver for N64 controllers");
++MODULE_LICENSE("GPL");
++
++#define PIF_RAM 0x1fc007c0
++
++#define SI_DRAM_REG 0
++#define SI_READ_REG 1
++#define SI_WRITE_REG 4
++#define SI_STATUS_REG 6
++
++#define SI_STATUS_DMA_BUSY  BIT(0)
++#define SI_STATUS_IO_BUSY   BIT(1)
++
++#define N64_CONTROLLER_ID 0x0500
++
++#define MAX_CONTROLLERS 4
++
++static const char *n64joy_phys[MAX_CONTROLLERS] =3D {
++	"n64joy/port0",
++	"n64joy/port1",
++	"n64joy/port2",
++	"n64joy/port3",
++};
++
++struct n64joy_priv {
++	u64 si_buf[8] ____cacheline_aligned;
++	struct timer_list timer;
++	struct mutex n64joy_mutex;
++	struct input_dev *n64joy_dev[MAX_CONTROLLERS];
++	u32 __iomem *reg_base;
++	u8 n64joy_opened;
++};
++
++struct joydata {
++	unsigned: 16; // unused
++	unsigned err: 2;
++	unsigned: 14; // unused
++
++	union {
++		u32 data;
++
++		struct {
++			unsigned a: 1;
++			unsigned b: 1;
++			unsigned z: 1;
++			unsigned start: 1;
++			unsigned up: 1;
++			unsigned down: 1;
++			unsigned left: 1;
++			unsigned right: 1;
++			unsigned: 2; // unused
++			unsigned l: 1;
++			unsigned r: 1;
++			unsigned c_up: 1;
++			unsigned c_down: 1;
++			unsigned c_left: 1;
++			unsigned c_right: 1;
++			signed x: 8;
++			signed y: 8;
++		};
++	};
++};
++
++static void n64joy_write_reg(u32 __iomem *reg_base, const u8 reg, const u=
+32 value)
++{
++	writel(value, reg_base + reg);
++}
++
++static u32 n64joy_read_reg(u32 __iomem *reg_base, const u8 reg)
++{
++	return readl(reg_base + reg);
++}
++
++static void n64joy_wait_si_dma(u32 __iomem *reg_base)
++{
++	while (n64joy_read_reg(reg_base, SI_STATUS_REG) &
++	       (SI_STATUS_DMA_BUSY | SI_STATUS_IO_BUSY))
++		cpu_relax();
++}
++
++static void n64joy_exec_pif(struct n64joy_priv *priv, const u64 in[8])
++{
++	unsigned long flags;
++
++	dma_cache_wback_inv((unsigned long) in, 8 * 8);
++	dma_cache_inv((unsigned long) priv->si_buf, 8 * 8);
++
++	local_irq_save(flags);
++
++	n64joy_wait_si_dma(priv->reg_base);
++
++	barrier();
++	n64joy_write_reg(priv->reg_base, SI_DRAM_REG, virt_to_phys(in));
++	barrier();
++	n64joy_write_reg(priv->reg_base, SI_WRITE_REG, PIF_RAM);
++	barrier();
++
++	n64joy_wait_si_dma(priv->reg_base);
++
++	barrier();
++	n64joy_write_reg(priv->reg_base, SI_DRAM_REG, virt_to_phys(priv->si_buf)=
+);
++	barrier();
++	n64joy_write_reg(priv->reg_base, SI_READ_REG, PIF_RAM);
++	barrier();
++
++	n64joy_wait_si_dma(priv->reg_base);
++
++	local_irq_restore(flags);
++}
++
++static const u64 polldata[] ____cacheline_aligned =3D {
++	0xff010401ffffffff,
++	0xff010401ffffffff,
++	0xff010401ffffffff,
++	0xff010401ffffffff,
++	0xfe00000000000000,
++	0,
++	0,
++	1
++};
++
++static void n64joy_poll(struct timer_list *t)
++{
++	const struct joydata *data;
++	struct n64joy_priv *priv =3D container_of(t, struct n64joy_priv, timer);
++	struct input_dev *dev;
++	u32 i;
++
++	n64joy_exec_pif(priv, polldata);
++
++	data =3D (struct joydata *) priv->si_buf;
++
++	for (i =3D 0; i < MAX_CONTROLLERS; i++) {
++		if (!priv->n64joy_dev[i])
++			continue;
++
++		dev =3D priv->n64joy_dev[i];
++
++		// d-pad
++		input_report_key(dev, BTN_DPAD_UP, data[i].up);
++		input_report_key(dev, BTN_DPAD_DOWN, data[i].down);
++		input_report_key(dev, BTN_DPAD_LEFT, data[i].left);
++		input_report_key(dev, BTN_DPAD_RIGHT, data[i].right);
++
++		// c buttons
++		input_report_key(dev, BTN_FORWARD, data[i].c_up);
++		input_report_key(dev, BTN_BACK, data[i].c_down);
++		input_report_key(dev, BTN_LEFT, data[i].c_left);
++		input_report_key(dev, BTN_RIGHT, data[i].c_right);
++
++		// matching buttons
++		input_report_key(dev, BTN_START, data[i].start);
++		input_report_key(dev, BTN_Z, data[i].z);
++
++		// remaining ones: a, b, l, r
++		input_report_key(dev, BTN_0, data[i].a);
++		input_report_key(dev, BTN_1, data[i].b);
++		input_report_key(dev, BTN_2, data[i].l);
++		input_report_key(dev, BTN_3, data[i].r);
++
++		input_report_abs(dev, ABS_X, data[i].x);
++		input_report_abs(dev, ABS_Y, data[i].y);
++
++		input_sync(dev);
++	}
++
++	mod_timer(&priv->timer, jiffies + msecs_to_jiffies(16));
++}
++
++static int n64joy_open(struct input_dev *dev)
++{
++	struct n64joy_priv *priv =3D input_get_drvdata(dev);
++	int err;
++
++	err =3D mutex_lock_interruptible(&priv->n64joy_mutex);
++	if (err)
++		return err;
++
++	if (!priv->n64joy_opened) {
++		// Could use the vblank irq, but it's not important if the poll
++		// point slightly changes.
++		timer_setup(&priv->timer, n64joy_poll, 0);
++		mod_timer(&priv->timer, jiffies + msecs_to_jiffies(16));
++	}
++
++	priv->n64joy_opened++;
++
++	mutex_unlock(&priv->n64joy_mutex);
++	return err;
++}
++
++static void n64joy_close(struct input_dev *dev)
++{
++	struct n64joy_priv *priv =3D input_get_drvdata(dev);
++
++	mutex_lock(&priv->n64joy_mutex);
++	if (!--priv->n64joy_opened)
++		del_timer_sync(&priv->timer);
++	mutex_unlock(&priv->n64joy_mutex);
++}
++
++static const u64 __initconst scandata[] ____cacheline_aligned =3D {
++	0xff010300ffffffff,
++	0xff010300ffffffff,
++	0xff010300ffffffff,
++	0xff010300ffffffff,
++	0xfe00000000000000,
++	0,
++	0,
++	1
++};
++
++/*
++ * The target device is embedded and RAM-constrained. We save RAM
++ * by initializing in __init code that gets dropped late in boot.
++ * For the same reason there is no module or unloading support.
++ */
++static int __init n64joy_probe(struct platform_device *pdev)
++{
++	const struct joydata *data;
++	struct resource *res;
++	struct n64joy_priv *priv;
++	struct input_dev *dev;
++	unsigned long len;
++	int err =3D 0;
++	u32 i, j, found =3D 0;
++
++	priv =3D kzalloc(sizeof(struct n64joy_priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++	mutex_init(&priv->n64joy_mutex);
++
++	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	len =3D res->end - res->start + 1;
++	priv->reg_base =3D ioremap(res->start, len);
++
++	// The controllers are not hotpluggable, so we can scan in init
++	n64joy_exec_pif(priv, scandata);
++
++	data =3D (struct joydata *) priv->si_buf;
++
++	for (i =3D 0; i < MAX_CONTROLLERS; i++) {
++		if (!data[i].err && data[i].data >> 16 =3D=3D N64_CONTROLLER_ID) {
++			found++;
++
++			dev =3D priv->n64joy_dev[i] =3D input_allocate_device();
++			if (!priv->n64joy_dev[i]) {
++				err =3D -ENOMEM;
++				goto fail;
++			}
++
++			input_set_drvdata(dev, priv);
++
++			dev->name =3D "N64 controller";
++			dev->phys =3D n64joy_phys[i];
++			dev->id.bustype =3D BUS_HOST;
++			dev->id.vendor =3D 0;
++			dev->id.product =3D data[i].data >> 16;
++			dev->id.version =3D 0;
++
++			dev->open =3D n64joy_open;
++			dev->close =3D n64joy_close;
++
++			// d-pad
++			input_set_capability(dev, EV_KEY, BTN_DPAD_UP);
++			input_set_capability(dev, EV_KEY, BTN_DPAD_DOWN);
++			input_set_capability(dev, EV_KEY, BTN_DPAD_LEFT);
++			input_set_capability(dev, EV_KEY, BTN_DPAD_RIGHT);
++			// c buttons
++			input_set_capability(dev, EV_KEY, BTN_LEFT);
++			input_set_capability(dev, EV_KEY, BTN_RIGHT);
++			input_set_capability(dev, EV_KEY, BTN_FORWARD);
++			input_set_capability(dev, EV_KEY, BTN_BACK);
++			// matching buttons
++			input_set_capability(dev, EV_KEY, BTN_START);
++			input_set_capability(dev, EV_KEY, BTN_Z);
++			// remaining ones: a, b, l, r
++			input_set_capability(dev, EV_KEY, BTN_0);
++			input_set_capability(dev, EV_KEY, BTN_1);
++			input_set_capability(dev, EV_KEY, BTN_2);
++			input_set_capability(dev, EV_KEY, BTN_3);
++
++			for (j =3D 0; j < 2; j++) {
++				input_set_abs_params(dev, ABS_X + j,
++						     S8_MIN, S8_MAX, 0, 0);
++			}
++
++			err =3D input_register_device(dev);
++			if (err) {
++				input_free_device(dev);
++				goto fail;
++			}
++		}
++	}
++
++	pr_info("%u controller(s) connected\n", found);
++
++	if (!found)
++		return -ENODEV;
++
++	return 0;
++fail:
++	iounmap(priv->reg_base);
++
++	for (i =3D 0; i < MAX_CONTROLLERS; i++) {
++		if (!priv->n64joy_dev[i])
++			continue;
++		input_unregister_device(priv->n64joy_dev[i]);
++	}
++	return err;
++}
++
++static struct platform_driver n64joy_driver =3D {
++	.driver =3D {
++		.name =3D "n64joy",
++	},
++};
++
++static int __init n64joy_init(void)
++{
++	return platform_driver_probe(&n64joy_driver, n64joy_probe);
++}
++
++module_init(n64joy_init);
+=2D-
+2.6.2
 
