@@ -2,103 +2,204 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBE972F42CA
-	for <lists+linux-input@lfdr.de>; Wed, 13 Jan 2021 05:06:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5644F2F44AB
+	for <lists+linux-input@lfdr.de>; Wed, 13 Jan 2021 07:52:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725984AbhAMEGe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 12 Jan 2021 23:06:34 -0500
-Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:52943 "EHLO
-        wnew2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726023AbhAMEGc (ORCPT
+        id S1726355AbhAMGu3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 13 Jan 2021 01:50:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51194 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726211AbhAMGu3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 12 Jan 2021 23:06:32 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailnew.west.internal (Postfix) with ESMTP id 18EB919F7;
-        Tue, 12 Jan 2021 23:05:46 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 12 Jan 2021 23:05:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm1; bh=WaS8/78gDwrUX
-        gmgRZUlIKgc3Lq9AqgE9iKAVPo1S9o=; b=lqGyIJVbl43S9Pjl8Y9VUTa6/RdSK
-        8t4EYFwiEoSuYOdrc4vOFXSH8onIrj9M0GNdli4oen8ByANid8tRRbO8PEAA1R+e
-        f4YbE2hTUidNuuzxUiPMJnpWJxm0SyfxOGDlruAgZSBbUyPXUnlp33xEbBqXwDoq
-        bwlnMOApElzAyOWBTXKeBcNQSosaQRCOwqYW2Y81LSC/f/ecUMlEeKP4QR9NgZyD
-        qdK9E5jHVP4kFMBavDBaBIomnTzaZJu45LCz+vrpsl+UBQGqvIpQQ6iI7CC7qDGI
-        SoqCxuaMAOlRXQ2IlpWbZPBkIvexamPvIidsQn3hbxIplA+MFi22bTPuQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :in-reply-to:message-id:mime-version:references:subject:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; bh=WaS8/78gDwrUXgmgRZUlIKgc3Lq9AqgE9iKAVPo1S9o=; b=SgBm+OOn
-        wQFbVLzBHL4NPEdfZq/RtaHCO6NLyKr/JmdVAWwm59dI8wjROR40J6EkRTbmKOmy
-        UrCMLLPgMCgvKuYNEm9oc6ujXipf2xRGjMtmIjy8+RbXePLlxH+fQbCdqoHJk+/G
-        fp5aN3OtftGZXOwMfQcZ9VuRMk+C71pyd30BQre/Ng28gonHRqxk769Rc52DXiSC
-        XBZK20X5ET1+fySmaWrZS3CRGT2wRRducb6ribHT3ZhqVDbmv+mAcnmC4LcmyLcU
-        b44Z4Zk1p34QXRB3GG/APrnc5aKgKCcFCnRCmKRgc15dTHBioKq7sWdECiV6OJvf
-        R+P9pIwZF1vC3A==
-X-ME-Sender: <xms:mXH-X7B5mV0k4QMWi0syMPjG2zXy3lAgYm4MLYOTDtCQqCI-jyNXlw>
-    <xme:mXH-XxgM49NfuH0eRZUNjE7WAZB78hCOmthkxnjmBfT-G66HAOgoqSlSzeVjyt22e
-    Z8WxHfo8D1NhPbUOg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedukedrtddugdeilecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
-    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
-    grthhtvghrnhepudfhjeefvdfhgfefheetgffhieeigfefhefgvddvveefgeejheejvdfg
-    jeehueeinecukfhppeejtddrudefhedrudegkedrudehudenucevlhhushhtvghrufhiii
-    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgrnhgu
-    rdhorhhg
-X-ME-Proxy: <xmx:mXH-X2kOCiLfseWDq1ii3OUQCWPI28_uI_gWGr5VqEgdvAMr3sBHIQ>
-    <xmx:mXH-X9zk6SIEjKmQPTyi0SyfGMJ8M264PxuoQi7ch7a_A-sig1yllg>
-    <xmx:mXH-XwTeRwAEgr_W5PcaZiprgl3ud6D6Kb5aCjGR8gIkdWvK8ULM5w>
-    <xmx:mXH-XzFj7dfbgLZeb187pxDzK3oBu9xb9wdSfW0_3xZwQOBhLny4FwAghl4>
-Received: from titanium.stl.sholland.net (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 16EF024005D;
-        Tue, 12 Jan 2021 23:05:45 -0500 (EST)
-From:   Samuel Holland <samuel@sholland.org>
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-Cc:     devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-sunxi@googlegroups.com,
-        Samuel Holland <samuel@sholland.org>
-Subject: [PATCH v2 3/3] arm64: dts: allwinner: pinephone: Support volume key wakeup
-Date:   Tue, 12 Jan 2021 22:05:42 -0600
-Message-Id: <20210113040542.34247-4-samuel@sholland.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210113040542.34247-1-samuel@sholland.org>
-References: <20210113040542.34247-1-samuel@sholland.org>
+        Wed, 13 Jan 2021 01:50:29 -0500
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79AF0C061575
+        for <linux-input@vger.kernel.org>; Tue, 12 Jan 2021 22:49:48 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id p15so432953pjv.3
+        for <linux-input@vger.kernel.org>; Tue, 12 Jan 2021 22:49:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:content-transfer-encoding:in-reply-to:references
+         :subject:from:cc:to:date:message-id:user-agent;
+        bh=neSby72j0b5HlJrIGeJmifVi+m9HqbA8b9D0MeTdW+w=;
+        b=YFMpA4BH1B3/+tZWGOUoYSGmfyz0tcCAlV5ZHl8r4jS1YNzsKVUXOULZTcSApANNLf
+         qzvxFLr0Awtds8T1tyY+uylAMZvgZNjDfvOzP6BZ+/rtN6wsvY6nr1O7R8hNUmH5BSFw
+         J10Y9Dxl44jwBR4h6LwyGibc6O4+hb6GYzkXU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:content-transfer-encoding
+         :in-reply-to:references:subject:from:cc:to:date:message-id
+         :user-agent;
+        bh=neSby72j0b5HlJrIGeJmifVi+m9HqbA8b9D0MeTdW+w=;
+        b=NX8hMP5pZfnGzxndHN0gm3op8f/FhXuKC1UolL5XCtdbpAn5dLeyEkciyq5Ib6q+xy
+         wOYCPwG2IIfADR4nGGkR9qs6U0AHkl+G5dM6+gZVWadxpSC+RV4PZvNURSsAVjjhUVrb
+         crjGvpZW41o+WyuStd9htznK254YB1eejnPoN+MyZPAYiApzF21f8TV7C2byfQ5AOg20
+         9vTxFqHvhHFu4Ydh73QFfi2ft7fPKpWfdiK9M2H5lSKeLiQOmfKMs+SGDHU3co2ei0TN
+         FSnKXYI/JWIiOHUAXmdv0rY44HqtZ5ADbX3DbKnZ+yS0jgCJOLRarUotuz8LRogwOyL4
+         pTzQ==
+X-Gm-Message-State: AOAM5305oGayg3V3ktsj6UVxGf4MEMEZ8Ja3gNwyeZE62/BX4zAuYVkI
+        rP21oDAClTSdHXfXuFUtiGYTGA==
+X-Google-Smtp-Source: ABdhPJxvosWJiHmSgpKvk+/JhQBQcgB9mJ7kYVHs54zEqUKckSwoIzpnznntfjxKM+x3J6bjQBp2rw==
+X-Received: by 2002:a17:902:d202:b029:da:d86b:78be with SMTP id t2-20020a170902d202b02900dad86b78bemr845912ply.0.1610520588002;
+        Tue, 12 Jan 2021 22:49:48 -0800 (PST)
+Received: from chromium.org ([2620:15c:202:201:3e52:82ff:fe6c:83ab])
+        by smtp.gmail.com with ESMTPSA id x125sm1275744pgb.35.2021.01.12.22.49.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Jan 2021 22:49:47 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CA+cxXhm45emyg-9j99U=UWY8QuhzWifh+VvsFBaTOTWs81tvUQ@mail.gmail.com>
+References: <20210107154200.v4.1.I025fb861cd5fa0ef5286b7dce514728e9df7ae74@changeid> <20210107154200.v4.2.Ibe7d7d53c5b4fe72c60de90111ff763b53f38dbb@changeid> <161041827643.3661239.17919996906733477213@swboyd.mtv.corp.google.com> <CA+cxXhm45emyg-9j99U=UWY8QuhzWifh+VvsFBaTOTWs81tvUQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] Input: cros-ec-keyb - Expose function row physical map to userspace
+From:   Stephen Boyd <swboyd@chromium.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Lee Jones <lee.jones@linaro.org>, linux-input@vger.kernel.org
+To:     Philip Chen <philipchen@chromium.org>
+Date:   Tue, 12 Jan 2021 22:49:45 -0800
+Message-ID: <161052058590.3661239.5654596152411573148@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-PinePhone volume keys are connected to the LRADC in the A64. Users may
-want to use them to wake the device from sleep. Support this by
-declaring the LRADC as a wakeup source.
+Quoting Philip Chen (2021-01-12 15:55:28)
+> On Mon, Jan 11, 2021 at 6:24 PM Stephen Boyd <swboyd@chromium.org> wrote:
+> >
+> > Quoting Philip Chen (2021-01-07 15:42:09)
+> > > The top-row keys in a keyboard usually have dual functionalities.
+> > > E.g. A function key "F1" is also an action key "Browser back".
+> > >
+> > > Therefore, when an application receives an action key code from
+> > > a top-row key press, the application needs to know how to correlate
+> > > the action key code with the function key code and do the conversion
+> > > whenever necessary.
+> > >
+> > > Since the userpace already knows the key scanlines (row/column)
+> > > associated with a received key code. Essentially, the userspace only
+> > > needs a mapping between the key row/column and the matching physical
+> > > location in the top row.
+> > >
+> > > This patch enhances the cros-ec-keyb driver to create such a mapping
+> > > and expose it to userspace in the form of a function-row-physmap
+> > > attribute. The attribute would be a space separated ordered list of
+> > > row/column codes, for the keys in the function row, in a left-to-right
+> > > order.
+> > >
+> > > The attribute will only be present when the device has a custom design
+> > > for the top-row keys.
+> >
+> > Is it documented in Documentation/ABI/?
+> Not yet.
+> Is it proper to add the documentation to `testing/sysfs-driver-input-keyb=
+oard`?
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
- arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+Somewhere in testing is fine. I'm not sure if it is a generic proprty
+for all keyboards though? What's the path in sysfs?
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-index 2dfe9bae8c67..7f37f9fea0ab 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-@@ -196,6 +196,7 @@ &i2c2 {
- 
- &lradc {
- 	vref-supply = <&reg_aldo3>;
-+	wakeup-source;
- 	status = "okay";
- 
- 	button-200 {
--- 
-2.26.2
+> >
+> > >
+> > >  /**
+> > >   * struct cros_ec_keyb - Structure representing EC keyboard device
+> > >   *
+> > > @@ -42,6 +44,9 @@
+> > >   * @idev: The input device for the matrix keys.
+> > >   * @bs_idev: The input device for non-matrix buttons and switches (o=
+r NULL).
+> > >   * @notifier: interrupt event notifier for transport devices
+> > > + * @function_row_physmap: An array of the encoded rows/columns for t=
+he top
+> > > + *                        row function keys, in an order from left t=
+o right
+> > > + * @num_function_row_keys: The number of top row keys in a custom ke=
+yboard
+> > >   */
+> > >  struct cros_ec_keyb {
+> > >         unsigned int rows;
+> > > @@ -58,6 +63,9 @@ struct cros_ec_keyb {
+> > >         struct input_dev *idev;
+> > >         struct input_dev *bs_idev;
+> > >         struct notifier_block notifier;
+> > > +
+> > > +       u16 function_row_physmap[MAX_NUM_TOP_ROW_KEYS];
+> > > +       u8 num_function_row_keys;
+> >
+> > Why not size_t?
+> I usually try to use the minimal required bytes for variables, even
+> for local ones.
+> In this case, we only need one byte for num_function_row_keys.
+> Are there any reasons why size_t is better?
 
+I suppose to indicate that it's an array size. It's not a super strong
+argument but the usage of u8 looks like we're trying to save space in a
+single structure instance (or maybe a couple if there are a few
+keyboards), when for all I know it actually generates worse code because
+it has to do some masking operation on the load from memory when it
+could just load the value directly into a register.
+
+> >
+> > >  };
+> > >
+> > >  /**
+> > > @@ -587,6 +613,52 @@ static int cros_ec_keyb_register_matrix(struct c=
+ros_ec_keyb *ckdev)
+> > >         return 0;
+> > >  }
+> > >
+> > > +static ssize_t function_row_physmap_show(struct device *dev,
+> > > +                                        struct device_attribute *att=
+r,
+> > > +                                        char *buf)
+> > > +{
+> > > +       ssize_t size =3D 0;
+> > > +       u8 i;
+> >
+> > int i? Why u8? Surely the size of a local variable isn't important.
+> The same reason as "u8 num_function_row_keys".
+> Is int better in this case?
+
+Yeah int is better because it's a local variable and nobody cares about
+those extra few bytes.
+
+> >
+> > > +       struct cros_ec_keyb *ckdev =3D dev_get_drvdata(dev);
+> > > +
+> > > +       if (!ckdev->num_function_row_keys)
+> > > +               return 0;
+> > > +
+> > > +       for (i =3D 0; i < ckdev->num_function_row_keys; i++)
+> > > +               size +=3D scnprintf(buf + size, PAGE_SIZE - size, "%0=
+2X ",
+> > > +                                 ckdev->function_row_physmap[i]);
+> > > +       size +=3D scnprintf(buf + size, PAGE_SIZE - size, "\n");
+> > > +
+> > > +       return size;
+> >
+> > I'd rather see
+> >
+> >         ssize_t size =3D 0;
+> >         int i;
+> >         struct cros_ec_keyb *ckdev =3D dev_get_drvdata(dev);
+> >         u16 *physmap =3D ckdev->function_row_physmap;
+> >
+> >         for (i =3D 0; i < ckdev->num_function_row_keys; i++)
+> >                 size +=3D scnprintf(buf + size, PAGE_SIZE - size,
+> >                                   "%s%02X", size ? " " : "", physmap[i]=
+);
+> >
+> >         if (size)
+> >                 size +=3D scnprintf(buf + size, PAGE_SIZE - size, "\n");
+> >
+> >         return size;
+> >
+> > And I wonder if hex_dump_to_buffer() works for this?
+> It seems to work? I'll give it a try.
+> If hex_dump_to_buffer() doesn't work, I'll fall back to the
+> implementation you suggested above.
+
+Ok sounds good.
