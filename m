@@ -2,106 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22E512F44AE
-	for <lists+linux-input@lfdr.de>; Wed, 13 Jan 2021 07:55:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D1AF2F4641
+	for <lists+linux-input@lfdr.de>; Wed, 13 Jan 2021 09:23:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726510AbhAMGws (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 13 Jan 2021 01:52:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51694 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726411AbhAMGws (ORCPT
+        id S1727120AbhAMIPd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 13 Jan 2021 03:15:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36568 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726918AbhAMIPc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 13 Jan 2021 01:52:48 -0500
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BE4AC061575
-        for <linux-input@vger.kernel.org>; Tue, 12 Jan 2021 22:52:08 -0800 (PST)
-Received: by mail-pl1-x62e.google.com with SMTP id j1so540513pld.3
-        for <linux-input@vger.kernel.org>; Tue, 12 Jan 2021 22:52:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:content-transfer-encoding:in-reply-to:references
-         :subject:from:cc:to:date:message-id:user-agent;
-        bh=Szy2uZ5NZovRd/6XFMzWNhLQaVCstjvtDliO/4bcg+s=;
-        b=NWwn0UVAS3xi6JgU1GcK9Tv8PzurOJA7EKIdVkV46r9L00wXmJAIVw9/EQNTLDVyEt
-         hN3ksk0pdgUnZHHB/jelh4G+aItRYL9PAxO+NYborTZ3fzn8iWj7Swf3GotBYaHHcNrG
-         GxaTwXcfn7T8COV76xfNCz4LWWyMbrYWYFSp0=
+        Wed, 13 Jan 2021 03:15:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1610525646;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=/1vAmJrhkq2OfagK3P6iEhed/uMIynZjuQhF3qxhH8o=;
+        b=Yo+IX3PAvj134ldCL90Fgk0mR0gEqF6wzHuXbjX161G0ZHWFipEIhPZhpTSFGOiYa/0cWb
+        dpSDoV7WUfiq2mrvimOuuWfLF8lFW+G3eALDdCEzPk/bdW56R/vQdamesFxtW2rTy43fi0
+        Js/6SB54xR2C9wfnxzn8H+vyMrsHBnQ=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-64-xVKfgK-aPB6YJ2lO8Y1Y6g-1; Wed, 13 Jan 2021 03:14:04 -0500
+X-MC-Unique: xVKfgK-aPB6YJ2lO8Y1Y6g-1
+Received: by mail-ed1-f72.google.com with SMTP id p17so497935edx.22
+        for <linux-input@vger.kernel.org>; Wed, 13 Jan 2021 00:14:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:content-transfer-encoding
-         :in-reply-to:references:subject:from:cc:to:date:message-id
-         :user-agent;
-        bh=Szy2uZ5NZovRd/6XFMzWNhLQaVCstjvtDliO/4bcg+s=;
-        b=WOxiDgkKwzxfbXmchPeNehBta6kx+liYHQmQKPQFWYv6GLPEq1d6Iue0Tvy+wkwCiM
-         419caNBwD4GZQxPV/N1GBEQ6q72lN/PEwIx+y6h9FAv9Hq1yqxJ+g8Ul6O9sJgEk79T6
-         4M/1EcDGWR2sx4ibPeUFa66vaD5mhyWEFkOyKXcVXzNWn7bbmCi/CNitLVBg/ryM10o8
-         4+UEoHibJ2xEmnbFW8AXPYNafg1SCpgpaZZSDK3ybebRROu4ALu0Cf1pUzWRhIr4p6ql
-         +pXjxDSMcj9WeVHq36gkcWavkjB/TX9u17eWLqjxql9Oz8DvWSNZvTHpcWcgm07R/auU
-         VX0Q==
-X-Gm-Message-State: AOAM533x3Kzm1Esrcu6vxgn9yC9OPvbi/owXs5haSLja5b5XDOinV3oL
-        AKWciapcWdlUZGc64HUr/d3uUA==
-X-Google-Smtp-Source: ABdhPJw4r3n64gzdAsEHIp0sfkAo7LRBW267UKlEjDUdmET5goQxxwOINht8CXwxvSXNDD+mdZlmhw==
-X-Received: by 2002:a17:90a:de94:: with SMTP id n20mr748448pjv.196.1610520728049;
-        Tue, 12 Jan 2021 22:52:08 -0800 (PST)
-Received: from chromium.org ([2620:15c:202:201:3e52:82ff:fe6c:83ab])
-        by smtp.gmail.com with ESMTPSA id u126sm1201536pfu.113.2021.01.12.22.52.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jan 2021 22:52:07 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CA+cxXhkXJGYx0SQ-S7B=6iHAWFoCQpokw7huaGTNKbVmP1JDhA@mail.gmail.com>
-References: <20210107154200.v4.1.I025fb861cd5fa0ef5286b7dce514728e9df7ae74@changeid> <161041741167.3661239.13546059654424804588@swboyd.mtv.corp.google.com> <CA+cxXhkXJGYx0SQ-S7B=6iHAWFoCQpokw7huaGTNKbVmP1JDhA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] dt-bindings: input: cros-ec-keyb: Add a new property
-From:   Stephen Boyd <swboyd@chromium.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=/1vAmJrhkq2OfagK3P6iEhed/uMIynZjuQhF3qxhH8o=;
+        b=laic54QMvq3IdPXqO1RrJDQTASa8EKGSrHwafg4Nl0rJ517o+Tkd7qSoP4c+eamQNh
+         UuaAHmRo5Xc4LTbfGIr8FJ/ZUG9b+Qm4IED07Z2Jyl9+igmrRcvQPF4hlQ56JudhjzWN
+         QYhUAJdMa5LaL5L2gRHQtD1V/lXnItSCGlUQgd7WhAsUUgrd58AfTeP3UXlfKuDRnWJL
+         fvD610C0eOGjJfFMRvV0k46dVKZGGWWPt9+hQZ73o0EBOVKUfmSr7U+aS6oPii25NAKY
+         PmibDNLH/gM3TYMVeR/d2I8CNUi+rDWNg5T1fDgH/hcY+xgE+ewkw9JtxvWsWhReAwMW
+         A6QA==
+X-Gm-Message-State: AOAM5321vrqMBU0gY4luiGC7lSlPlpik7KA5zVQAqqRNFlNk9HHmKjKJ
+        dask1mNHGjE981qV8Zi/mNr8tOkO1VaZDHnlrpa2SocjeJD8WEV4smvblXiS/zYZiTPbzfu46oE
+        sF19VeEmTU747eNpur0nZuHk=
+X-Received: by 2002:a17:906:59a:: with SMTP id 26mr685055ejn.309.1610525643081;
+        Wed, 13 Jan 2021 00:14:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzpBbPK2it/e3/DMPj561v1NJDrZUmv4OrQR0EDu4qwYEu5NzUyBMJt5+9U1Ocwv7e2f0fGdA==
+X-Received: by 2002:a17:906:59a:: with SMTP id 26mr685045ejn.309.1610525642945;
+        Wed, 13 Jan 2021 00:14:02 -0800 (PST)
+Received: from x1.localdomain (2001-1c00-0c1e-bf00-37a3-353b-be90-1238.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:37a3:353b:be90:1238])
+        by smtp.gmail.com with ESMTPSA id x17sm482923edq.77.2021.01.13.00.14.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Jan 2021 00:14:02 -0800 (PST)
+Subject: Re: [PATCH v2 0/3] PinePhone volume key (LRADC) wakeup support
+To:     Samuel Holland <samuel@sholland.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Simon Glass <sjg@chromium.org>, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org
-To:     Philip Chen <philipchen@chromium.org>
-Date:   Tue, 12 Jan 2021 22:52:06 -0800
-Message-ID: <161052072608.3661239.3835950564432313633@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>
+Cc:     devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-sunxi@googlegroups.com
+References: <20210113040542.34247-1-samuel@sholland.org>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <45344b30-b784-c3d3-e8dc-d2a562c5cb83@redhat.com>
+Date:   Wed, 13 Jan 2021 09:14:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+MIME-Version: 1.0
+In-Reply-To: <20210113040542.34247-1-samuel@sholland.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Quoting Philip Chen (2021-01-12 15:29:11)
-> On Mon, Jan 11, 2021 at 6:10 PM Stephen Boyd <swboyd@chromium.org> wrote:
-> > Quoting Philip Chen (2021-01-07 15:42:08)
-> > > ---
-> > > diff --git a/Documentation/devicetree/bindings/input/google,cros-ec-k=
-eyb.yaml b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-> > > index 8e50c14a9d778..7acdb33781d30 100644
-> > > --- a/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-> > > +++ b/Documentation/devicetree/bindings/input/google,cros-ec-keyb.yaml
-> > > @@ -31,6 +31,16 @@ properties:
-> > >        if the EC does not have its own logic or hardware for this.
-> > >      type: boolean
-> > >
-> > > +  function-row-physmap:
-> >
-> > Is there any minimum/maximum number of elements possible?
-> The maximum is 15.
-> There is no definition for the minimum - we can probably say the minimum =
-is 1.
+Hi,
 
-Ok cool. Please add min/max of 1 to 15 to the binding.
+On 1/13/21 5:05 AM, Samuel Holland wrote:
+> This series allows the volume keys on the PinePhone to wake up the
+> device. As pointed out for v1, wakeup should only be enabled when a
+> "wakeup-source" property is present, so v2 requires DT and binding
+> changes in addition to the driver change.
+> 
+> Changes since v1:
+>   - Add requisite DT binding change
+>   - Only add wakeup capability if "wakeup-source" is present
+>   - Warn but do not error out if setting the wake IRQ fails
+>   - Add "wakeup-source" property to PinePhone device tree
+> 
+> Ondrej Jirman (1):
+>   input: sun4i-lradc-keys -  Add wakup support
+> 
+> Samuel Holland (2):
+>   dt-bindings: sun4i-a10-lradc-keys: Accept wakeup-source property
+>   arm64: dts: allwinner: pinephone: Support volume key wakeup
 
-> >
-> > > +    $ref: '/schemas/types.yaml#/definitions/uint32-array'
-> > > +    description: |
-> > > +      An ordered u32 array describing the rows/columns (in the scan =
-matrix)
-> > > +      of top row keys from physical left (KEY_F1) to right. Each ent=
-ry
-> > > +      encodes the row/column as:
-> > > +      (((row) & 0xFF) << 24) | (((column) & 0xFF) << 16)
-> > > +      where the lower 16 bits are reserved. This property is specifi=
-ed only
-> > > +      when the keyboard has a custom design for the top row keys.
-> > > +
+Thanks, the entire series looks good to me:
+
+Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+
+Regards,
+
+Hans
+
