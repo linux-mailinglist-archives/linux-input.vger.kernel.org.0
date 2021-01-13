@@ -2,199 +2,150 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1419F2F5130
-	for <lists+linux-input@lfdr.de>; Wed, 13 Jan 2021 18:35:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A8DC32F5373
+	for <lists+linux-input@lfdr.de>; Wed, 13 Jan 2021 20:37:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727484AbhAMRez (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 13 Jan 2021 12:34:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49244 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727403AbhAMRey (ORCPT
+        id S1728816AbhAMTgy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 13 Jan 2021 14:36:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58252 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728805AbhAMTgx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 13 Jan 2021 12:34:54 -0500
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 087D8C061794;
-        Wed, 13 Jan 2021 09:34:14 -0800 (PST)
-Received: by mail-lf1-x12e.google.com with SMTP id o13so3975236lfr.3;
-        Wed, 13 Jan 2021 09:34:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Ks2fhv+8OJfx3hTfppNwZ0f4AtqOkYzksAdi1JOdYMA=;
-        b=e0yos9QKDuIovZa2NAVmA19fq8jOqTmRChJe3kssByHkNKvb5RlGV0/1xDQS9HHx4Q
-         3fLdEOiK4nxeYGrJ16JESSzF6RhaYxrQ1ii8V1EcIGc0IiRx0LjNjJgZay68LYOKXrF+
-         hc1I9FQiYauXvsbAOcYkm4wzB1W2CyUemh3jDYQug+LnSsObg9mOi5kpNbnGX2mvr+Oi
-         Wfopbd3JEjUSogpPKs9XdkFN8rZZ8kHN4rN/Lgk5XUphKLxyynDysYGEiA82Gj+wIlR3
-         GjAVrIiTeqb/UCGghbAjy3GQZZGccE9jaokqIZ5P8Q3rRRj3n6SY0HzZ+aMLxXJzQjd0
-         Cxww==
+        Wed, 13 Jan 2021 14:36:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1610566526;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=VbEtyqBdwcJzKeG1wyZKRO8aTEA6+w3GGKg392l/7SU=;
+        b=OGGwrtNqTmNVud44aHrtAeUMKiUVW5Efl119INtlaDwIOBcpwv1ADqiqsB5JvEv4bxuGWz
+        GSjjmyjXy0yD4igpJgZk0AX1EgTIRDqcJ03+GyZajAKkW0L4dcCCc+/2wrVGs2GOrq9qcP
+        7DUfk6UDzRDPaNZYxzguwjfTn387RhI=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-388-sKE5KYKJP3yk2yGeHuBeyg-1; Wed, 13 Jan 2021 14:35:25 -0500
+X-MC-Unique: sKE5KYKJP3yk2yGeHuBeyg-1
+Received: by mail-pl1-f199.google.com with SMTP id l11so1840761plt.2
+        for <linux-input@vger.kernel.org>; Wed, 13 Jan 2021 11:35:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Ks2fhv+8OJfx3hTfppNwZ0f4AtqOkYzksAdi1JOdYMA=;
-        b=Uzkd16urT+A9VM02Mm7g3KiOsVS1KXRv117Nd5V99JA1mSaLkaq1Mbk86m81BMr1mv
-         CfWB3ykm1zMYi2RJR5sjWRcEe03SSjXJfXTDHOtxGEi4scOxV7IKK0so7bQYE04AuV/l
-         FHouZuAoq2+4Cx/DmTNHPJ9E2ZP2hn76X5AO1U5mZ/VgkeKfgqo/UabS05yxmobb+Uwo
-         Bv4ILaS3e6cNkdgxt1gngXMUuxDXbCPp0o8xmE5DVybBn/miQaI7pv4DwErQtDpzIxOc
-         qmXGW2lqIdaeanUA9QgjghSN/Tok39VBGC4VeIQXKVlOgJdeNOaVrXeDPbkQXrCAESlH
-         yakQ==
-X-Gm-Message-State: AOAM53279/81ERVYoov1h/uPw8w+hmzpsplRgQ16F4xPA5wzsW2hWGpY
-        8y4RQnzw0RVGVQSQ3zX7UfjwCKxxacs/Ew==
-X-Google-Smtp-Source: ABdhPJyJ4OXWLOJBN6gb158WFOMSRuwfRuY7VQFTiGX+3W68b9urQ6UCP8meli8ja1zuogEVOnXCsQ==
-X-Received: by 2002:a05:6512:3194:: with SMTP id i20mr1306959lfe.283.1610559252427;
-        Wed, 13 Jan 2021 09:34:12 -0800 (PST)
-Received: from localhost (pool-109-191-164-140.is74.ru. [109.191.164.140])
-        by smtp.gmail.com with ESMTPSA id f29sm271977lfj.47.2021.01.13.09.34.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Jan 2021 09:34:11 -0800 (PST)
-From:   Ivan Mironov <mironov.ivan@gmail.com>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ivan Mironov <mironov.ivan@gmail.com>
-Subject: [PATCH] HID: sony: Support for DS4 clones that do not implement feature report 0x81
-Date:   Wed, 13 Jan 2021 22:34:02 +0500
-Message-Id: <20210113173402.17030-1-mironov.ivan@gmail.com>
-X-Mailer: git-send-email 2.29.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VbEtyqBdwcJzKeG1wyZKRO8aTEA6+w3GGKg392l/7SU=;
+        b=hpTKeRT0y2UUTCIflYYzeBx872NSCAQJQ1rCCJrISQLJIHVaQ1k/3CkgRykMnWGI9j
+         hr1ynZkqxekcEfOrW5kDs5G7S+33Mn9jeAA+kwhWdcUpe8b0vNU59arGAihQvll2JU6A
+         hJXonB7nhYoNcZHU2pRnJjpjY1KqucV0QMaf0GVXICLr+m0nVWtyaPw+bY45ngTvx+do
+         2D4440rg1uMq4zKTzsr8M2xiecJHOGLCgWCNUDVGM29wjXq8WH+6XQ3qh64YSQXICU5h
+         Pwh1ck0cCLRWi7LtAN8Gx2LBpSzHpIRY6vyI9yDMgecfTNAZjMmk3uuvvBCOEOVtmAdB
+         cT1A==
+X-Gm-Message-State: AOAM531siRk0MhoWOgzexhmcJ3UAoiWUvmWHpOS5+jnZsYHMnmk/AzBa
+        bhaamVP6t3bLIfT3HmPRDI7cSfpMYuA7UFbzp/uXzbkVclUPJz9eLfJx8O0yq2xQ60e8nQ5Zn97
+        Im6g9i8q+QVRDGTAfZvcDGqMY3F4AhLnQaJFa+XU=
+X-Received: by 2002:a17:90a:4bc3:: with SMTP id u3mr897600pjl.56.1610566523638;
+        Wed, 13 Jan 2021 11:35:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz2fp4B6076gDor+MKRDmZygwIeP4EAAXjFgkA3mR5JdkHoL53cyA3W5wgmGsBrvY5bwF+aXTr6Q8622nmc0XE=
+X-Received: by 2002:a17:90a:4bc3:: with SMTP id u3mr897578pjl.56.1610566523391;
+ Wed, 13 Jan 2021 11:35:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201211222448.2115188-1-dianders@chromium.org>
+ <CAD=FV=Ve4wGJ=KxQjraYsiAQZHG_5qEeFW0ZhmBBkRmtdm7Gwg@mail.gmail.com>
+ <CAO-hwJK+=537C-EbgNXPY3=m5LvM8SVKCDB5X145BfSMHgUMdw@mail.gmail.com>
+ <CAO-hwJLuzAccZbLSCvyP0JnkCW8fgswrm8RJfMaVKjtyF5Yg_A@mail.gmail.com> <CAD=FV=W3uzNPwAGPCUfjC-zoWEPyY4bF8TE4JgPP21s-3MAfpQ@mail.gmail.com>
+In-Reply-To: <CAD=FV=W3uzNPwAGPCUfjC-zoWEPyY4bF8TE4JgPP21s-3MAfpQ@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Wed, 13 Jan 2021 20:35:12 +0100
+Message-ID: <CAO-hwJ+Gz_yp_vn1prREvhcU=YqVatqd_Hp+95L5i2=bcwfhbA@mail.gmail.com>
+Subject: Re: [PATCH v8 0/4] HID: i2c-hid: Reorganize to allow supporting goodix,gt7375p
+To:     Doug Anderson <dianders@chromium.org>
+Cc:     Jiri Kosina <jkosina@suse.cz>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Andrea Borgia <andrea@borgia.bo.it>,
+        Anson Huang <Anson.Huang@nxp.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Daniel Playfair Cal <daniel.playfair.cal@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
+        Jiri Kosina <jikos@kernel.org>, Li Yang <leoyang.li@nxp.com>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Max Krummenacher <max.oss.09@gmail.com>,
+        Michael Walle <michael@walle.cc>,
+        Pavel Balan <admin@kryma.net>, Shawn Guo <shawnguo@kernel.org>,
+        Vinod Koul <vkoul@kernel.org>, Will Deacon <will@kernel.org>,
+        Xiaofei Tan <tanxiaofei@huawei.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-There are clones of DualShock 4 that are very similar to the originals,
-except of 1) they do not support HID feature report 0x81 and 2) they do
-not have any USB Audio interfaces despite they physically have audio
-jack.
+On Wed, Jan 13, 2021 at 5:05 PM Doug Anderson <dianders@chromium.org> wrote:
+>
+> Hi,
+>
+> On Wed, Jan 13, 2021 at 7:09 AM Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
+> >
+> > > I wanted to apply the series yesterday, but for these kinds of changes
+> > > I like giving it a spin on actual hardware. Turns out that my XPS-13
+> > > can not boot to v5.11-rc2, which makes testing the new branch slightly
+> > > more difficult.
+> > >
+> > > I'll give it a spin next week, but I think I should be able to land it for 5.12.
+> > >
+> > > Regarding the defconfig conflict, no worries, we can handle it with
+> > > Stephen and Linus.
+> > >
+> >
+> > After 2 full kernel bisects (I messed up the first because I am an
+> > idiot and inverted good and bad after the first reboot), I found my
+> > culprit, and I was able to test the series today.
+> >
+> > The series works fine regarding enumeration and removing of devices,
+> > but it prevents my system from being suspended. If I rmmod
+> > i2c-hid-acpi, suspend works fine, but if it is present, it immediately
+> > comes back, which makes me think that something must be wrong.
+> >
+> > I also just reverted the series and confirmed that suspend/resume now
+> > works, meaning that patch 1/4 needs to be checked.
+>
+> Can you give me any hints about what type of failure you're seeing?
+> Any logs?  I don't have an ACPI system to test with...
 
-Such controllers are working fine with Linux when connected via
-Bluetooth, but not when connected via USB. Here is how failed USB
-connection attempt looks in log:
+I don't have any logs, just that the system comes back up. There is a
+chance we are not powering the device down correctly, which triggers
+an IRQ and which puts the system back on.
 
-	usb 1-5: New USB device found, idVendor=054c, idProduct=05c4, bcdDevice= 1.00
-	usb 1-5: New USB device strings: Mfr=1, Product=2, SerialNumber=0
-	usb 1-5: Product: Wireless Controller
-	usb 1-5: Manufacturer: Sony Computer Entertainment
-	sony 0003:054C:05C4.0007: failed to retrieve feature report 0x81 with the DualShock 4 MAC address
-	sony 0003:054C:05C4.0007: hidraw6: USB HID v81.11 Gamepad [Sony Computer Entertainment Wireless Controller] on usb-0000:00:14.0-5/input0
-	sony 0003:054C:05C4.0007: failed to claim input
+>
+> Is there any chance that some type of userspace / udev rule is getting
+> tripped up by the driver being renamed?  We ran into something like
+> this recently on Chrome OS where we had a tool that was hardcoded to
+> look for "i2c-hid" and needed to be adapted to account for the new
+> driver name.  Often userspace tweaks with wakeup rules based on driver
+> name...
 
-This patch adds support of using feature report 0x12 as a fallback for
-Bluetooth MAC address retrieval. Feature report 0x12 also seems to be
-used by DS4Windows[1] for all DS4 controllers.
+I don't think there is anything like that on a regular desktop.
 
-[1] https://github.com/Ryochan7/DS4Windows/blob/1b74a4440089f38a24ee2c2483c1d733a0692b8f/DS4Windows/HidLibrary/HidDevice.cs#L479
+>
+> I'll go stare at the code now and see if anything jumps out.
+>
 
-Signed-off-by: Ivan Mironov <mironov.ivan@gmail.com>
----
- drivers/hid/hid-sony.c | 72 ++++++++++++++++++++++++++++++------------
- 1 file changed, 52 insertions(+), 20 deletions(-)
+Thanks, but don't spend too much time on it, unless something really
+jumps out. I'll debug that tomorrow. It's much easier with an actual
+device than by just looking at the code.
 
-diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
-index e3a557dc9ffd..97df12180e45 100644
---- a/drivers/hid/hid-sony.c
-+++ b/drivers/hid/hid-sony.c
-@@ -491,6 +491,7 @@ struct motion_output_report_02 {
- 
- #define DS4_FEATURE_REPORT_0x02_SIZE 37
- #define DS4_FEATURE_REPORT_0x05_SIZE 41
-+#define DS4_FEATURE_REPORT_0x12_SIZE 16
- #define DS4_FEATURE_REPORT_0x81_SIZE 7
- #define DS4_FEATURE_REPORT_0xA3_SIZE 49
- #define DS4_INPUT_REPORT_0x11_SIZE 78
-@@ -2593,6 +2594,53 @@ static int sony_get_bt_devaddr(struct sony_sc *sc)
- 	return 0;
- }
- 
-+static int sony_get_usb_ds4_devaddr(struct sony_sc *sc)
-+{
-+	u8 *buf = NULL;
-+	int ret;
-+
-+	buf = kmalloc(max(DS4_FEATURE_REPORT_0x12_SIZE, DS4_FEATURE_REPORT_0x81_SIZE), GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	/*
-+	 * The MAC address of a DS4 controller connected via USB can be
-+	 * retrieved with feature report 0x81. The address begins at
-+	 * offset 1.
-+	 */
-+	ret = hid_hw_raw_request(sc->hdev, 0x81, buf,
-+			DS4_FEATURE_REPORT_0x81_SIZE, HID_FEATURE_REPORT,
-+			HID_REQ_GET_REPORT);
-+	if (ret == DS4_FEATURE_REPORT_0x81_SIZE) {
-+		memcpy(sc->mac_address, &buf[1], sizeof(sc->mac_address));
-+		goto out_free;
-+	}
-+	dbg_hid("%s: hid_hw_raw_request(..., 0x81, ...) returned %d\n", __func__, ret);
-+
-+	/*
-+	 * Some variants do not implement feature report 0x81 at all.
-+	 * Fortunately, feature report 0x12 also contains the MAC address of
-+	 * a controller.
-+	 */
-+	ret = hid_hw_raw_request(sc->hdev, 0x12, buf,
-+			DS4_FEATURE_REPORT_0x12_SIZE, HID_FEATURE_REPORT,
-+			HID_REQ_GET_REPORT);
-+	if (ret == DS4_FEATURE_REPORT_0x12_SIZE) {
-+		memcpy(sc->mac_address, &buf[1], sizeof(sc->mac_address));
-+		goto out_free;
-+	}
-+	dbg_hid("%s: hid_hw_raw_request(..., 0x12, ...) returned %d\n", __func__, ret);
-+
-+	hid_err(sc->hdev, "failed to retrieve feature reports 0x81 and 0x12 with the DualShock 4 MAC address\n");
-+	ret = ret < 0 ? ret : -EINVAL;
-+
-+out_free:
-+
-+	kfree(buf);
-+
-+	return ret;
-+}
-+
- static int sony_check_add(struct sony_sc *sc)
- {
- 	u8 *buf = NULL;
-@@ -2613,26 +2661,9 @@ static int sony_check_add(struct sony_sc *sc)
- 			return 0;
- 		}
- 	} else if (sc->quirks & (DUALSHOCK4_CONTROLLER_USB | DUALSHOCK4_DONGLE)) {
--		buf = kmalloc(DS4_FEATURE_REPORT_0x81_SIZE, GFP_KERNEL);
--		if (!buf)
--			return -ENOMEM;
--
--		/*
--		 * The MAC address of a DS4 controller connected via USB can be
--		 * retrieved with feature report 0x81. The address begins at
--		 * offset 1.
--		 */
--		ret = hid_hw_raw_request(sc->hdev, 0x81, buf,
--				DS4_FEATURE_REPORT_0x81_SIZE, HID_FEATURE_REPORT,
--				HID_REQ_GET_REPORT);
--
--		if (ret != DS4_FEATURE_REPORT_0x81_SIZE) {
--			hid_err(sc->hdev, "failed to retrieve feature report 0x81 with the DualShock 4 MAC address\n");
--			ret = ret < 0 ? ret : -EINVAL;
--			goto out_free;
--		}
--
--		memcpy(sc->mac_address, &buf[1], sizeof(sc->mac_address));
-+		ret = sony_get_usb_ds4_devaddr(sc);
-+		if (ret < 0)
-+			return ret;
- 
- 		snprintf(sc->hdev->uniq, sizeof(sc->hdev->uniq),
- 			 "%pMR", sc->mac_address);
-@@ -2670,6 +2701,7 @@ static int sony_check_add(struct sony_sc *sc)
- 		return 0;
- 	}
- 
-+	dbg_hid("%s: retrieved MAC address: %s\n", __func__, sc->hdev->uniq);
- 	ret = sony_check_add_dev_list(sc);
- 
- out_free:
--- 
-2.29.2
+Cheers,
+Benjamin
+
+> -Doug
+>
 
