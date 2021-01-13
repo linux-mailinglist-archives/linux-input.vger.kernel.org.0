@@ -2,78 +2,179 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BDA52F479A
-	for <lists+linux-input@lfdr.de>; Wed, 13 Jan 2021 10:32:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7238C2F4996
+	for <lists+linux-input@lfdr.de>; Wed, 13 Jan 2021 12:10:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726987AbhAMJ3g (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 13 Jan 2021 04:29:36 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2332 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726951AbhAMJ3f (ORCPT
+        id S1727771AbhAMLGm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 13 Jan 2021 06:06:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49788 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727426AbhAMLGm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 13 Jan 2021 04:29:35 -0500
-Received: from fraeml702-chm.china.huawei.com (unknown [172.18.147.226])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DG27P5CVNz67bW0;
-        Wed, 13 Jan 2021 17:23:45 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml702-chm.china.huawei.com (10.206.15.51) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2106.2; Wed, 13 Jan 2021 10:28:53 +0100
-Received: from [10.47.0.70] (10.47.0.70) by lhreml724-chm.china.huawei.com
- (10.201.108.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 13 Jan
- 2021 09:28:52 +0000
-Subject: Re: [Linuxarm] [PATCH v2] input - mk712: remove the driver as it is
- obsolete and causes kernel crash
-To:     "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-CC:     "linuxarm@openeuler.org" <linuxarm@openeuler.org>,
-        Daniel Quinlan <quinlan@pathname.com>,
-        Vojtech Pavlik <vojtech@suse.cz>
-References: <20210112055129.7840-1-song.bao.hua@hisilicon.com>
- <7094caf0-4faf-4958-e1cf-fdf1d2a8cec9@huawei.com>
- <1758f0370ffc46499077d4e261dbde53@hisilicon.com>
-From:   John Garry <john.garry@huawei.com>
-Message-ID: <39ddc462-766a-383a-1b7d-c5de5e203073@huawei.com>
-Date:   Wed, 13 Jan 2021 09:27:44 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.2
+        Wed, 13 Jan 2021 06:06:42 -0500
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85B40C061575;
+        Wed, 13 Jan 2021 03:06:01 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id by27so1414913edb.10;
+        Wed, 13 Jan 2021 03:06:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0caYI0BCZYWJbJWW7ELDjllL7Y2GwQ3vTeIJcdj8mM4=;
+        b=L+uHHoyIEFfA5ETHDFPO7WL5VOYH16TGZOSr6xvt68Y8DyeDK+F8ou8ujoZe1e4oxp
+         iqEv97RFoOVJzjMjLg8bz5+3TRptxkf167AW/wDFoi1ULZqDc53lbZVXc/fhvWMGjn5y
+         NFUsnphNXtrwIiyFiAPekgeCrP8sbIqACiP4JrQ/u8BON36zNyDZ99BMSnsPOigRPCE7
+         5r/a43HLqX5R5BpStV1rcRM5bsLT+2O+x15ueriasvbKBlLMa1XR19HioC0Y0lLjvMYf
+         BMeE65OTsFhlXThQ21TUb/BH+6C9hglvbXlm03Aq0cFQ6CZLtv6BZvaj9IXsbRoDH+fY
+         oXtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0caYI0BCZYWJbJWW7ELDjllL7Y2GwQ3vTeIJcdj8mM4=;
+        b=okKt8PzOpyYPPwQRP3MnqzA0AHXyLuQcMaqPHMp837jl4BLYNJaNCvu+Mv6B7LOhod
+         6sSJgbeAM6UjEP+mYLhtKXthygQLW2w0Fe2ZmpfpHlalDn7N4wydo1ljf5XxSgq5PRFj
+         mi08hPXFMRnQeiSn0BSr/AG4bA0EI/Yrb3JuZy6W4mDca0qgA+nkru+cF8UxAE8sJHGn
+         uVRoaGnttw4IQosHOCU9fvE3ntE1gAvTOjCQeWfoSQiYaFtCCUdHfjp4e3ywyODLsVCX
+         mfwzERD6R9rtIbTO5yCOBwGVSbHmd/1IzmTOtfyLQ6lXfq7A5I3NFPNMt1eTWcjCroRs
+         MkbA==
+X-Gm-Message-State: AOAM531GUrCeT9wWW0SZtJO4HzyAhnMVIMgarf/AHzk+7NN0k/vLTZNN
+        L1SGnj36WJ0s/XGbftgnfwHP88lsOzo=
+X-Google-Smtp-Source: ABdhPJyfYreH63XDNueyC2R0AIfIvqtnxLSqrwY0hjfxgmAn10C/FYZmkBTM7xQHI9aeSbDc+RjGFg==
+X-Received: by 2002:aa7:d6c9:: with SMTP id x9mr1291895edr.96.1610535960245;
+        Wed, 13 Jan 2021 03:06:00 -0800 (PST)
+Received: from localhost.localdomain ([188.24.159.61])
+        by smtp.gmail.com with ESMTPSA id zn8sm597343ejb.39.2021.01.13.03.05.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Jan 2021 03:05:59 -0800 (PST)
+From:   Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
+To:     Lee Jones <lee.jones@linaro.org>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>
+Cc:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        =?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-actions@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: [PATCH v5 0/7] Add initial support for ATC260x PMICs
+Date:   Wed, 13 Jan 2021 13:05:50 +0200
+Message-Id: <cover.1610534765.git.cristian.ciocaltea@gmail.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-In-Reply-To: <1758f0370ffc46499077d4e261dbde53@hisilicon.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.0.70]
-X-ClientProxiedBy: lhreml736-chm.china.huawei.com (10.201.108.87) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 12/01/2021 21:54, Song Bao Hua (Barry Song) wrote:
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/dr
->> ivers/hwmon/Kconfig?h=v5.11-rc3#n551
->>
->> But not a great solution.
-> Yep. It looks buggy as powerpc and arm64 could have the device literally
-> though practically people might not use them.
-> 
->> I tried to guard against it in this series, but never got it over the line:
->> https://lore.kernel.org/linux-pci/1560262374-67875-1-git-send-email-john.g
->> arry@huawei.com/
-> Cool. I didn't realize you have tried to figure out a patchset
-> to fix it in common code. It seems it is worth revisiting the
-> patchset?
-> 
+The ATC260x family of PMICs integrates Audio Codec, Power management,
+Clock generation and GPIO controller blocks. There are currently 3
+variants: ATC2603A, ATC2603C and ATC2609A.
 
-So that patchset would stop the system crashing when there is no IO port 
-mapped upon access. But I still did not like how those drivers 
-unconditionally access those ports, which could have side-effects when 
-some PCI IO port is mapped to the same IO port address.
+This is re-spin of the v1 patch series submitted some time ago by
+Mani, who provided the MFD and regulator drivers for ATC2609A:
+https://lore.kernel.org/lkml/20190617155011.15376-1-manivannan.sadhasivam@linaro.org/
 
-Anyway, I'll look again at it.
+Since v2, I added support for ATC2603C, together with some new
+functionalities for both chips: power controller and onkey input.
+The ATC2603A chip type remains unsupported for the moment.
+
+This has been tested on RoseapplePi, a SBC based on the Actions Semi S500
+SoC, which integrates the ATC2603C variant of the PMIC.
+
+Note that enabling the ATC260x PMICs on compatible Actions Semi Owl SoC
+based boards depends on:
+
+* the Actions Semi SIRQ driver (for PMIC DTS setup), merged in v5.10:
+  https://lore.kernel.org/lkml/cover.1600114378.git.cristian.ciocaltea@gmail.com/
+
+* the atomic transfers in Owl I2C driver (for power controller), merged in v5.11:
+  https://lore.kernel.org/lkml/cover.1602190168.git.cristian.ciocaltea@gmail.com/
+
+Additionally, please note that I have taken the authorship for the MFD
+and regulator drivers patches, considering the original code has been
+modified to a large extent.
 
 Thanks,
-John
+Cristi
+
+Changes in v5:
+- Removed an unnecessary '#include' line in the power-off driver,
+  as noticed by Sebastian
+- Rebased patchset on v5.11-rc3
+
+Changes in v4:
+- Updated MFD driver according to Lee's review
+- Handled ATC2603C's LDO12 fixed regulator per Mark's suggestion
+- Rebased patchset on v5.11-rc1
+
+Changes in v3:
+- Integrated feedback from Mani, Rob, Mark, Sebastian, Dmitry
+- Fixed issues reported by Lee's kernel test robot
+- Added new patch for 'reset-time-sec' DT binding property
+- Rebased patchset on v5.10-rc6
+
+Changes in v2:
+- Reworked MFD core & I2C driver
+  * Integrated Lee's feedback
+  * Added support for using the regmap within atomic contexts
+  * Added support for ATC2603C chip variant
+  * Reorganized KConfig entries
+- Improved regulator driver
+  * Added support for ATC2603C variant
+  * Used helper macros for more compact specification of regulator_desc items
+  * Added more regulator capabilities
+- Added power controller driver
+  * Provides system poweroff/reboot functionalities
+  * Depends on atomic transfers in the Owl I2C driver
+- Added onkey driver: exposes the power button as an input device
+- Added yaml binding doc
+- Rebased patchset on kernel v5.9-rc1
+
+Cristian Ciocaltea (6):
+  dt-bindings: input: Add reset-time-sec common property
+  dt-bindings: mfd: Add Actions Semi ATC260x PMIC binding
+  mfd: Add MFD driver for ATC260x PMICs
+  regulator: Add regulator driver for ATC260x PMICs
+  power: reset: Add poweroff driver for ATC260x PMICs
+  input: atc260x: Add onkey driver for ATC260x PMICs
+
+Manivannan Sadhasivam (1):
+  MAINTAINERS: Add entry for ATC260x PMIC
+
+ .../devicetree/bindings/input/input.yaml      |   7 +
+ .../bindings/mfd/actions,atc260x.yaml         | 183 ++++++
+ MAINTAINERS                                   |  12 +
+ drivers/input/misc/Kconfig                    |  11 +
+ drivers/input/misc/Makefile                   |   2 +-
+ drivers/input/misc/atc260x-onkey.c            | 305 ++++++++++
+ drivers/mfd/Kconfig                           |  18 +
+ drivers/mfd/Makefile                          |   3 +
+ drivers/mfd/atc260x-core.c                    | 293 ++++++++++
+ drivers/mfd/atc260x-i2c.c                     |  64 +++
+ drivers/power/reset/Kconfig                   |   8 +-
+ drivers/power/reset/Makefile                  |   1 +
+ drivers/power/reset/atc260x-poweroff.c        | 262 +++++++++
+ drivers/regulator/Kconfig                     |   8 +
+ drivers/regulator/Makefile                    |   1 +
+ drivers/regulator/atc260x-regulator.c         | 539 ++++++++++++++++++
+ include/linux/mfd/atc260x/atc2603c.h          | 281 +++++++++
+ include/linux/mfd/atc260x/atc2609a.h          | 308 ++++++++++
+ include/linux/mfd/atc260x/core.h              |  58 ++
+ 19 files changed, 2362 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/mfd/actions,atc260x.yaml
+ create mode 100644 drivers/input/misc/atc260x-onkey.c
+ create mode 100644 drivers/mfd/atc260x-core.c
+ create mode 100644 drivers/mfd/atc260x-i2c.c
+ create mode 100644 drivers/power/reset/atc260x-poweroff.c
+ create mode 100644 drivers/regulator/atc260x-regulator.c
+ create mode 100644 include/linux/mfd/atc260x/atc2603c.h
+ create mode 100644 include/linux/mfd/atc260x/atc2609a.h
+ create mode 100644 include/linux/mfd/atc260x/core.h
+
+-- 
+2.30.0
+
