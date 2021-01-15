@@ -2,128 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 513B42F69DD
-	for <lists+linux-input@lfdr.de>; Thu, 14 Jan 2021 19:50:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AEA282F6F96
+	for <lists+linux-input@lfdr.de>; Fri, 15 Jan 2021 01:36:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728009AbhANSpa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Jan 2021 13:45:30 -0500
-Received: from mx2.suse.de ([195.135.220.15]:39726 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727346AbhANSpa (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Jan 2021 13:45:30 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 248D5B77E;
-        Thu, 14 Jan 2021 18:44:48 +0000 (UTC)
-Message-ID: <99a7d6e80646ff7ac6c1fc615146fc4ad1428552.camel@suse.de>
-Subject: Re: [PATCH v6 11/11] pwm: Add Raspberry Pi Firmware based PWM bus
-From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To:     Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     linux-kernel@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>, f.fainelli@gmail.com,
-        linux-pwm@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        wahrenst@gmx.net, linux-input@vger.kernel.org,
-        dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org,
-        devel@driverdev.osuosl.org, p.zabel@pengutronix.de,
-        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
-        linux-clk@vger.kernel.org, sboyd@kernel.org,
-        linux-rpi-kernel@lists.infradead.org, bgolaszewski@baylibre.com,
-        andy.shevchenko@gmail.com
-Date:   Thu, 14 Jan 2021 19:44:46 +0100
-In-Reply-To: <20210112091842.3th64ardbqjafvuq@pengutronix.de>
-References: <20201211164801.7838-1-nsaenzjulienne@suse.de>
-         <20201211164801.7838-12-nsaenzjulienne@suse.de>
-         <20210112091842.3th64ardbqjafvuq@pengutronix.de>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-Gc66jpwjN4JFK05BfjVR"
-User-Agent: Evolution 3.38.2 
+        id S1731290AbhAOAgC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 Jan 2021 19:36:02 -0500
+Received: from mx1.opensynergy.com ([217.66.60.4]:62738 "EHLO
+        mx1.opensynergy.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729048AbhAOAgB (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 14 Jan 2021 19:36:01 -0500
+X-Greylist: delayed 520 seconds by postgrey-1.27 at vger.kernel.org; Thu, 14 Jan 2021 19:36:01 EST
+Received: from SR-MAILGATE-02.opensynergy.com (localhost.localdomain [127.0.0.1])
+        by mx1.opensynergy.com (Proxmox) with ESMTP id 09218A1372;
+        Fri, 15 Jan 2021 01:26:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=opensynergy.com;
+         h=cc:cc:content-transfer-encoding:content-type:content-type
+        :date:from:from:message-id:mime-version:reply-to:subject:subject
+        :to:to; s=srmailgate02; bh=vjQz/FTdcUA4ikts1emzODkjkcrbE4dUUeRlg
+        xezK8s=; b=qW2W7tpA30Q0V4IIuz28HwNuJ/Ixfi/osS5uVNjrsQX3QtIenqFor
+        o5ZPjJVKypOQFbZEU8O+C2sne911M4vQ5odKwrH3YxV6r8XF3m3Ht2IJfJ8wegqS
+        0lmKcrTApoySlxWOu1KRWuFdaJ/nk1rJEPQGdXx+EKqMF9tv4d3Ri7Y0mqgv8PQs
+        aGyrQGx9zXMfwREtBUdzElhoxQiPLrg8YXYESz8J8EqO8OdSo8mki9J+XMnPcdt7
+        KAUvZ80eZ+6Dd/rkdIRlkiajLBXj90AowVuHCP/f9KjDva9aGEycaoBSu+4GmqgB
+        +F774G3+DvXRU+UDSorxhle2JqZhMmyQQ==
+From:   Vasyl Vavrychuk <vasyl.vavrychuk@opensynergy.com>
+To:     <virtualization@lists.linux-foundation.org>,
+        <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>
+CC:     "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Mathias Crombez <mathias.crombez@faurecia.com>,
+        Vasyl Vavrychuk <vasyl.vavrychuk@opensynergy.com>
+Subject: [PATCH RESEND v3] virtio-input: add multi-touch support
+Date:   Fri, 15 Jan 2021 02:26:23 +0200
+Message-ID: <20210115002623.8576-1-vasyl.vavrychuk@opensynergy.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SR-MAIL-01.open-synergy.com (10.26.10.21) To
+ SR-MAIL-01.open-synergy.com (10.26.10.21)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+From: Mathias Crombez <mathias.crombez@faurecia.com>
 
---=-Gc66jpwjN4JFK05BfjVR
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Without multi-touch slots allocated, ABS_MT_SLOT events will be lost by
+input_handle_abs_event.
 
-Hi Uwe, thanks for the review.
+Implementation is based on uinput_create_device.
 
-On Tue, 2021-01-12 at 10:18 +0100, Uwe Kleine-K=C3=B6nig wrote:
+Signed-off-by: Mathias Crombez <mathias.crombez@faurecia.com>
+Co-developed-by: Vasyl Vavrychuk <vasyl.vavrychuk@opensynergy.com>
+Signed-off-by: Vasyl Vavrychuk <vasyl.vavrychuk@opensynergy.com>
+---
+v2: fix patch corrupted by corporate email server
+v3: use number of slots from the host
 
-[...]
+Resend since to feedback.
 
-> > +                duty_cycle =3D DIV_ROUND_CLOSEST_ULL(state->duty_cycle=
- * RPI_PWM_MAX_DUTY,
-> > +					           RPI_PWM_PERIOD_NS);
->=20
-> ... and round down here.
->=20
-> Just to be sure: writing RPI_PWM_MAX_DUTY (i.e. 255) yields 100% duty
-> cycle, right?
+ drivers/virtio/virtio_input.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-Yes, at 255 the signal is flat.
+diff --git a/drivers/virtio/virtio_input.c b/drivers/virtio/virtio_input.c
+index f1f6208edcf5..f643536807dd 100644
+--- a/drivers/virtio/virtio_input.c
++++ b/drivers/virtio/virtio_input.c
+@@ -7,6 +7,7 @@
+ 
+ #include <uapi/linux/virtio_ids.h>
+ #include <uapi/linux/virtio_input.h>
++#include <linux/input/mt.h>
+ 
+ struct virtio_input {
+ 	struct virtio_device       *vdev;
+@@ -204,7 +205,7 @@ static int virtinput_probe(struct virtio_device *vdev)
+ 	struct virtio_input *vi;
+ 	unsigned long flags;
+ 	size_t size;
+-	int abs, err;
++	int abs, err, nslots;
+ 
+ 	if (!virtio_has_feature(vdev, VIRTIO_F_VERSION_1))
+ 		return -ENODEV;
+@@ -289,6 +290,13 @@ static int virtinput_probe(struct virtio_device *vdev)
+ 				continue;
+ 			virtinput_cfg_abs(vi, abs);
+ 		}
++
++		if (test_bit(ABS_MT_SLOT, vi->idev->absbit)) {
++			nslots = input_abs_get_max(vi->idev, ABS_MT_SLOT) + 1;
++			err = input_mt_init_slots(vi->idev, nslots, 0);
++			if (err)
++				goto err_mt_init_slots;
++		}
+ 	}
+ 
+ 	virtio_device_ready(vdev);
+@@ -304,6 +312,7 @@ static int virtinput_probe(struct virtio_device *vdev)
+ 	spin_lock_irqsave(&vi->lock, flags);
+ 	vi->ready = false;
+ 	spin_unlock_irqrestore(&vi->lock, flags);
++err_mt_init_slots:
+ 	input_free_device(vi->idev);
+ err_input_alloc:
+ 	vdev->config->del_vqs(vdev);
+-- 
+2.20.1
 
-> > +        else
-> > +                duty_cycle =3D RPI_PWM_MAX_DUTY;
-> > +
-> > +	if (duty_cycle =3D=3D rpipwm->duty_cycle)
-> > +		return 0;
-> > +
-> > +	ret =3D raspberrypi_pwm_set_property(rpipwm->firmware, RPI_PWM_CUR_DU=
-TY_REG,
-> > +					   duty_cycle);
-> > +	if (ret) {
-> > +		dev_err(chip->dev, "Failed to set duty cycle: %d\n", ret);
-> > +		return ret;
-> > +	}
-> > +
-> > +	/*
-> > +	 * This sets the default duty cycle after resetting the board, we
-> > +	 * updated it every time to mimic Raspberry Pi's downstream's driver
-> > +	 * behaviour.
-> > +	 */
-> > +	ret =3D raspberrypi_pwm_set_property(rpipwm->firmware, RPI_PWM_DEF_DU=
-TY_REG,
-> > +					   duty_cycle);
-> > +	if (ret) {
-> > +		dev_err(chip->dev, "Failed to set default duty cycle: %d\n", ret);
-> > +		return ret;
-> > +	}
-> > +
-> > +        rpipwm->duty_cycle =3D duty_cycle;
->=20
-> Please use tabs for indention. (The general hint is to use checkpatch
-> which (I hope) tells you about problems like this.)
-
-Sorry for that.
-
-I took note of the rest of comments and will update the code.
-
-Regards,
-Nicolas
-
-
-
---=-Gc66jpwjN4JFK05BfjVR
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAmAAkR4ACgkQlfZmHno8
-x/7WpAf+OcmBebYI8HGJFfpFhX3gBSdN6587Todi3RNaMrm6loRFFbe3HDS3rO0u
-pv9Zl7lrjVKV1+Fug2/3rTL4Kh0/w98EZJ5mpf6n5k0EG+EoMqGqfqElaLL0mvW9
-7NpiNF15W4/v/U22BH3jtFUkt0PpjN1J2WPclOl+ZPEe31vjdiEauq7zAhRT9Gpr
-XHH9ZbY9f4oXR2s91ZaYGdni3ikxxB4cG/aS50GAM019KW/RIkEibfYpDjrCNOml
-M4Z4Y15Mqi8aouumlLNKiuxNmNhtyCilx3jHPeNm+2b5GeBp/S9jtAVkVaUaYQ9I
-N8qh4QzVUk4qMeucxLeRRemzuIWCOw==
-=pJN/
------END PGP SIGNATURE-----
-
---=-Gc66jpwjN4JFK05BfjVR--
 
