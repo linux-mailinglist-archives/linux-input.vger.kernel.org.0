@@ -2,96 +2,170 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30EE32F70AC
-	for <lists+linux-input@lfdr.de>; Fri, 15 Jan 2021 03:40:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C3A32F719C
+	for <lists+linux-input@lfdr.de>; Fri, 15 Jan 2021 05:32:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725995AbhAOCjv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Jan 2021 21:39:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52934 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725988AbhAOCjv (ORCPT
+        id S1733024AbhAOEbU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 14 Jan 2021 23:31:20 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:36961 "EHLO
+        out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727301AbhAOEbU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Jan 2021 21:39:51 -0500
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B64AC061757
-        for <linux-input@vger.kernel.org>; Thu, 14 Jan 2021 18:39:05 -0800 (PST)
-Received: by mail-pg1-x529.google.com with SMTP id i5so5095407pgo.1
-        for <linux-input@vger.kernel.org>; Thu, 14 Jan 2021 18:39:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:content-transfer-encoding:in-reply-to:references
-         :subject:from:cc:to:date:message-id:user-agent;
-        bh=fRDLUAnMV4W5LTd7YwU8Eg9d/U3dd23J9T5poIBKzTo=;
-        b=jLBlylEfglXyMt337Jovv+Tj4cspqn1eEHvm6tZ3FHWdMeiMEE0oWQTFuT8BagEg3P
-         5DwygBEYcPvWQ0xIXXTzjZ6QI4nkturzNVxKVs647SLxgCSUd5WriTXfpjKbGp5x97rP
-         j/D0A0wVQJk31MUwH1owYyHKzQwHcB9ZKYdWQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:content-transfer-encoding
-         :in-reply-to:references:subject:from:cc:to:date:message-id
-         :user-agent;
-        bh=fRDLUAnMV4W5LTd7YwU8Eg9d/U3dd23J9T5poIBKzTo=;
-        b=qgXfJUepnxLnZAo4C6FsksRT5iJudmTdqxG9jE/ldtc5I9k8dNfqMbkEKZOq4wBtzX
-         MUQC6jB2o0FqEEjVHcqjBAo8/g3WWzswq5cCXtaStGBdxOHIx3PvJqmWOBICUH5L7aUH
-         Je3SIxxj9BJ4su+QiMbZuSgSA0D/W1t5zCgrZm4Y2R4GpR8/r15ZuTBdnaGmhoV8ABSo
-         hk9eeRbKBtm22FlFOfwC/5LchofoqJ9ljkOCK7E8piuJQTAKMc4L26Nqoj5tbVghYZym
-         7llxFvbP52Mj4PIOLQb5TFsSykWmzv5c+PTyYpmu7KfT7J4EAmK2SL6KA2Buj4Z+7bjv
-         QDPg==
-X-Gm-Message-State: AOAM533y4ZNj1rWtvOMz2cXN8Z9SWDLTbmvMqrjSx0dlVHKHyImcIjkF
-        34w1Uz08O/qGBWnqKHkic+dJGw==
-X-Google-Smtp-Source: ABdhPJx5jSeXLUAkNliCTE5Rl1V0h6B0hP37E5oRYNx00LoRSNaRtQDIOXUMdWG9+VXsEeOYNACLHw==
-X-Received: by 2002:aa7:95b6:0:b029:1ae:8a7b:59ac with SMTP id a22-20020aa795b60000b02901ae8a7b59acmr10373413pfk.15.1610678345177;
-        Thu, 14 Jan 2021 18:39:05 -0800 (PST)
-Received: from chromium.org ([2620:15c:202:201:3e52:82ff:fe6c:83ab])
-        by smtp.gmail.com with ESMTPSA id s7sm6086154pfh.207.2021.01.14.18.39.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Jan 2021 18:39:04 -0800 (PST)
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
+        Thu, 14 Jan 2021 23:31:20 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+        by mailout.nyi.internal (Postfix) with ESMTP id 17F2C5C0126;
+        Thu, 14 Jan 2021 23:30:34 -0500 (EST)
+Received: from imap22 ([10.202.2.72])
+  by compute2.internal (MEProxy); Thu, 14 Jan 2021 23:30:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mxxn.io; h=
+        mime-version:message-id:in-reply-to:references:date:from:to:cc
+        :subject:content-type:content-transfer-encoding; s=fm1; bh=yqeuM
+        fv2IOExgFErm1xJcX2x/HvIci2Xu4LJOGreuUk=; b=SiccvwxoDNXSxzZV9bhHE
+        atq3vMoFSVrp6EWJywLlw6NlRDuI5LRiag8N4klWxkWyNDKvNsb11cV01orBHqK4
+        2C/kEuGsCJt8Zu3y1Z0nYYntzN+VxKf/+LWajFtZEZiUd1YaVRXTDS4ftkMxCE8/
+        TYvduSXYnh7lrkoubyqSylKK2Q9PchZFvoffjtuh+OiZDD9vKZ91DDsjbWB1OzvX
+        9GNWjiJ5cuZrrvzlLi66KH3gBIbb9+3I79LRaXTduQLBO766udI1paQh9msBHgct
+        7QTnpGMDyOpsjMMZkrdSJPujfCG23yU4wsBYAN5oCJn1fc90SzM6ayoMTku9cqeW
+        Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm1; bh=yqeuMfv2IOExgFErm1xJcX2x/HvIci2Xu4LJOGreu
+        Uk=; b=r4pau40ufO4DtKPMC/TYcmbD/XK4uRx82G/rROc0oAG+P8r5ialJHbjF8
+        /swmpdPvIDJ9vLSF0KNv3gLpxtKM60zp/mKBtc/tDn71A/NXBshzTqR6O8U/9xra
+        BExp9Uju5BGoh45vcRXnzlGmPGqguxOEnkqFCDTNupfTDeaSbWA9K2kxZ+7yPMhX
+        DbD4m6O8mXlo043jab/tolehfrV6nAuPDFFZACS3WNTPZRgv6iXKDjz1vh6ICp9D
+        t4pHP8urPP/ewVJHN/vb5ZL5feBPPV8Ru2p9K1VpID22q+Hhd8qFRNMcsYK/Uyp0
+        h4hpNjwImMAD1LVcES8bQ1A0SuIyA==
+X-ME-Sender: <xms:aRoBYDves1za6WBUf40-PDUVIwvgVpnjCW5ETejsegujAsTMoiB8cw>
+    <xme:aRoBYEe9mGImx5TvAdez9cxsXIyfrgbS_g7FHpn1_iCv-GOkCk0KVvSAGe-wWHvqf
+    YEFwa6RBA4K2fZ_hw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtddugdejvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvufgtgfesthhqredtreerjeenucfhrhhomhepuehlrgkk
+    pgfjrhgrshhtnhhikhcuoegslhgriiesmhiggihnrdhioheqnecuggftrfgrthhtvghrnh
+    epueetveelffduheefgeeftdfgvedttefhgfekhfekgfdtvdffvefhieetvdefudevnecu
+    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsghlrgiise
+    hmgiignhdrihho
+X-ME-Proxy: <xmx:aRoBYGy56jtlDIPl2MuGjtY93APF8mZx0T8iemmM1jla0aQv87zR2g>
+    <xmx:aRoBYCNn-0Gnh-hITa1PB9v-SdZFyRMWL1id3_QC770A5slZDw-bWg>
+    <xmx:aRoBYD8gPKFHjkkV9sSB7fQxctGyMUUoUZLHK-pD0X3451Zjaq4PjA>
+    <xmx:ahoBYAEYVYuM8B-PDDj6E1XzwogsVMzyzOKzyG5VhWMYCWz1WB2Czg>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id A564162A0065; Thu, 14 Jan 2021 23:30:32 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-45-g4839256-fm-20210104.001-g48392560
+Mime-Version: 1.0
+Message-Id: <91a7cedf-ea95-4fc3-8c89-5f8699656399@www.fastmail.com>
+In-Reply-To: <CAO-hwJ+iA2vMMVEukDFGg_L6RPSRVfEhnB71yaTf-yPgkxLLNg@mail.gmail.com>
+References: <2b4c5881-2047-407f-8bb4-623d9bd167c7@www.fastmail.com>
+ <CAO-hwJ+iA2vMMVEukDFGg_L6RPSRVfEhnB71yaTf-yPgkxLLNg@mail.gmail.com>
+Date:   Fri, 15 Jan 2021 13:27:26 +0900
+From:   =?UTF-8?Q?Bla=C5=BE_Hrastnik?= <blaz@mxxn.io>
+To:     "Benjamin Tissoires" <benjamin.tissoires@redhat.com>
+Cc:     "Jiri Kosina" <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Subject: Re: HID: multitouch: Set to high latency mode on suspend.
+Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20210114183010.v6.2.I2c219435b0d06a84411ae35c3154e123c52fcd7d@changeid>
-References: <20210114183010.v6.1.I025fb861cd5fa0ef5286b7dce514728e9df7ae74@changeid> <20210114183010.v6.2.I2c219435b0d06a84411ae35c3154e123c52fcd7d@changeid>
-Subject: Re: [PATCH v6 2/2] Input: cros-ec-keyb - Expose function row physical map to userspace
-From:   Stephen Boyd <swboyd@chromium.org>
-Cc:     dianders@chromium.org, Philip Chen <philipchen@chromium.org>,
-        Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Lee Jones <lee.jones@linaro.org>, linux-input@vger.kernel.org
-To:     LKML <linux-kernel@vger.kernel.org>,
-        Philip Chen <philipchen@chromium.org>,
-        dmitry.torokhov@gmail.com
-Date:   Thu, 14 Jan 2021 18:39:03 -0800
-Message-ID: <161067834304.3661239.10444715775164261177@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Quoting Philip Chen (2021-01-14 18:30:31)
-> The top-row keys in a keyboard usually have dual functionalities.
-> E.g. A function key "F1" is also an action key "Browser back".
->=20
-> Therefore, when an application receives an action key code from
-> a top-row key press, the application needs to know how to correlate
-> the action key code with the function key code and do the conversion
-> whenever necessary.
->=20
-> Since the userpace already knows the key scanlines (row/column)
-> associated with a received key code. Essentially, the userspace only
-> needs a mapping between the key row/column and the matching physical
-> location in the top row.
->=20
-> So, enhance the cros-ec-keyb driver to create such a mapping
-> and expose it to userspace in the form of a function_row_physmap
-> attribute. The attribute would be a space separated ordered list of
-> row/column codes, for the keys in the function row, in a left-to-right
-> order.
->=20
-> The attribute will only be present when the device has a custom design
-> for the top-row keys.
->=20
-> Signed-off-by: Philip Chen <philipchen@chromium.org>
-> ---
+> Just a couple of quick questions, do you have any reason to implement
+> this besides just trying to match the specification?
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+On the Surface Laptop 3 touchpad and the keyboard are provided by a sepa=
+rate embedded controller that also handles various other components. I t=
+hink setting the latency mode could improve battery efficiency during su=
+spend. The same should be true for touchpads configured as wake-up sourc=
+es.
+
+Bla=C5=BE
+
+On Fri, 15 Jan 2021, at 01:55, Benjamin Tissoires wrote:
+> Hi Bla=C5=BE,
+>=20
+> On Sat, Dec 19, 2020 at 5:55 AM Bla=C5=BE Hrastnik <blaz@mxxn.io> wrot=
+e:
+> >
+> > Per Windows Precision Touchpad guidelines:
+> >
+> > > The latency mode feature report is sent by the host to a Windows
+> > > Precision Touchpad to indicate when high latency is desirable for
+> > > power savings and, conversely, when normal latency is desired for
+> > > operation.
+> > >
+> > > For USB-connected Windows Precision Touchpads, this enables the de=
+vice
+> > > to disambiguate between being suspended for inactivity (runtime ID=
+LE)
+> > > and being suspended because the system is entering S3 or Connected=
+
+> > > Standby.
+> >
+> > The current implementation would set the latency to normal on device=
+ initialization,
+> > but we didn't set the device to high latency on suspend.
+>=20
+> Just a couple of quick questions, do you have any reason to implement
+> this besides just trying to match the specification?
+>=20
+> Have you checked if Windows is doing the same thing?
+>=20
+> Cheers,
+> Benjamin
+>=20
+>=20
+>=20
+> >
+> > Signed-off-by: Bla=C5=BE Hrastnik <blaz@mxxn.io>
+> > ---
+> >  drivers/hid/hid-multitouch.c | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> >
+> > diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitou=
+ch.c
+> > index d670bcd57..28bac0f39 100644
+> > --- a/drivers/hid/hid-multitouch.c
+> > +++ b/drivers/hid/hid-multitouch.c
+> > @@ -1746,6 +1746,13 @@ static int mt_probe(struct hid_device *hdev, =
+const struct hid_device_id *id)
+> >  }
+> >
+> >  #ifdef CONFIG_PM
+> > +static int mt_suspend(struct hid_device *hdev, pm_message_t state)
+> > +{
+> > +       /* High latency is desirable for power savings during S3/S0i=
+x */
+> > +       mt_set_modes(hdev, HID_LATENCY_HIGH, true, true);
+> > +       return 0;
+> > +}
+> > +
+> >  static int mt_reset_resume(struct hid_device *hdev)
+> >  {
+> >         mt_release_contacts(hdev);
+> > @@ -1761,6 +1768,8 @@ static int mt_resume(struct hid_device *hdev)
+> >
+> >         hid_hw_idle(hdev, 0, 0, HID_REQ_SET_IDLE);
+> >
+> > +       mt_set_modes(hdev, HID_LATENCY_NORMAL, true, true);
+> > +
+> >         return 0;
+> >  }
+> >  #endif
+> > @@ -2150,6 +2159,7 @@ static struct hid_driver mt_driver =3D {
+> >         .event =3D mt_event,
+> >         .report =3D mt_report,
+> >  #ifdef CONFIG_PM
+> > +       .suspend =3D mt_suspend,
+> >         .reset_resume =3D mt_reset_resume,
+> >         .resume =3D mt_resume,
+> >  #endif
+> > --
+> > 2.29.2
+> >
+>=20
+>
