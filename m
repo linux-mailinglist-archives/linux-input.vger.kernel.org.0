@@ -2,102 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E82C82F71AE
-	for <lists+linux-input@lfdr.de>; Fri, 15 Jan 2021 05:46:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A64962F7239
+	for <lists+linux-input@lfdr.de>; Fri, 15 Jan 2021 06:35:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728668AbhAOEpS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 14 Jan 2021 23:45:18 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:36109 "EHLO
-        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726032AbhAOEpR (ORCPT
+        id S1731785AbhAOFfC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 15 Jan 2021 00:35:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33860 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731788AbhAOFex (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 14 Jan 2021 23:45:17 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.nyi.internal (Postfix) with ESMTP id 7CF975C00AE;
-        Thu, 14 Jan 2021 23:44:31 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Thu, 14 Jan 2021 23:44:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=HddAvGpngy7gMAMoANW+9cHBGjv
-        IshbqLk0/grNgfO4=; b=f1ayHlkTp6zhZkh/s/h43Koq7wd4JoK3+IVZAigx4Ae
-        G3x4XHAb/4uiqz6Kn9DHJkFM74pARaqlMBS/z0bDTqGWHp2mQgbpldq2jEt8jr54
-        zrHhr0eUFmBbE8sk9++0hgk6MDJCg+QET0hXYjKsBbswJInrClrHQwDKv0h7eroz
-        8N5Gg/92K1blTFv1qO4lrzRqHK9PVQ4Yn+apQ0vmVofu9nRrkmaBnHX7uYGyQKyn
-        sXe8YK4Nx77+05Es06e3j+jqDw+Bi6aWDUH/e7jejjA9ePX2l/zhBWDVYnfGXFxx
-        AXv6TQqey7uKEq1wqXIONQo1XvQ3p7cnDYsvNlkwg8w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=HddAvG
-        pngy7gMAMoANW+9cHBGjvIshbqLk0/grNgfO4=; b=ljoezSl2KpGUor+YfKT9IP
-        X5BcxRVtqxXZGG+prpKLlHIY/X6Jt9TyBx8rsz+UBg8BexEeCHsAMMLs0+pmbUsZ
-        1pMrbGKFWakn9MBuRSguNQVQEAmXyks/5LhPS1tmLgYmWLdGGHXwIguK1y5zveH7
-        uCz7AwHFyQ2eXpVpdSVeZsJV6gJuXkkDbauo8E8BAAuYTZyHE3rQgfy7Op/kg3A/
-        afmUUQgvgbFZmrEy7vZKirM8hbFz+T96tQk8wHUYiw+egLPcjCapdHRIB967RRhD
-        OjsT+RjuA830G/cm5T+OmYEcGCpa2kmj/xOXLB/iDVsQAuiz9Okp4QjgcfDXHFww
-        ==
-X-ME-Sender: <xms:rx0BYBZMPtFobrdHP3sfWHMnLuX_9slhfqN2b9V8kkn0uC0ZSG4CBQ>
-    <xme:rx0BYIZFIJA7o7l7Xt4of5mdJ96vtprc2akOjuKEdrhZJDDSURKnlcL9CvjOTJUQ0
-    xf70_NqsbgSzjavOig>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtddugdejgecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgvthgvrhcu
-    jfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvghtqe
-    enucggtffrrghtthgvrhhnpeehhfehfffgheelgeeuudelhefgvdefveekudevjeevjeev
-    vefggefguddufeeuveenucfkphepuddujedrvddtrdejuddrjeefnecuvehluhhsthgvrh
-    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhdrhhhuthhtvghr
-    vghrseifhhhoqdhtrdhnvght
-X-ME-Proxy: <xmx:rx0BYD9WHJ8bYi1BVyRdd5L3WDQ1OR4ziIh9cgk-eVC3T_SLMFqZCg>
-    <xmx:rx0BYPq-hJ1fHkUKgf6UW29Va5XgY7W9viOYyq-GasFDAcI6yNXoVw>
-    <xmx:rx0BYMqw1WvDKyWwMdqe-w6FqFzQJhLP7pmqr0kI3BCIfDU3am4fvA>
-    <xmx:rx0BYHW6XkoanXZs0xaMB6mkTunYLgjWIpSimcO_T6r71g1jkw5qjw>
-Received: from koala (117-20-71-73.751447.bne.nbn.aussiebb.net [117.20.71.73])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 34ADB1080057;
-        Thu, 14 Jan 2021 23:44:28 -0500 (EST)
-Date:   Fri, 15 Jan 2021 14:44:25 +1000
-From:   Peter Hutterer <peter.hutterer@who-t.net>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        seobrien@chromium.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: hid-input: avoid splitting keyboard, system and
- consumer controls
-Message-ID: <20210115044425.GA1395024@koala>
-References: <X//jjawwbm8FxbQU@google.com>
+        Fri, 15 Jan 2021 00:34:53 -0500
+Received: from mail-vk1-xa31.google.com (mail-vk1-xa31.google.com [IPv6:2607:f8b0:4864:20::a31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19084C061757
+        for <linux-input@vger.kernel.org>; Thu, 14 Jan 2021 21:34:13 -0800 (PST)
+Received: by mail-vk1-xa31.google.com with SMTP id k9so1926768vke.4
+        for <linux-input@vger.kernel.org>; Thu, 14 Jan 2021 21:34:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ax6mB1CqVZukWAU1tjWp4UeICbzmILWOckaiTff+GZw=;
+        b=Mmtw+vEcv+96LHq4ptHZUUyiqiIgq5C9cQJcctXZ374b2ayb8Mom4B0adLtxi0/JzC
+         PDOyEprhCkCrq9EBxz6EGLRSMCcykPuujhFRdP5OsGMRnsDTh/maCmyMAC6KyQtZIsCw
+         rFHTzAqycEp8n/+BJ12KRio0oK2m67UjX9iV0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ax6mB1CqVZukWAU1tjWp4UeICbzmILWOckaiTff+GZw=;
+        b=Pzy7panQUUjJP/IdxKY9guQ2BFAdMlCey4kxxNBbHg8eulb03Ncwhon6dc1f3pkE2L
+         TIaV0TOGqnnXimnfz/lwNuB+Yh7x5tait9oGrT5Oc8uV85eU/wV4ZZ29W9skAnWe1Nj+
+         UcnQpGfFBNogOzWLInw2dAGhg4KSoQ1vctW0YVw1F3+mqsgthumKS42UgVn6Af1UiqeI
+         B63F+S2uGuaqqNH/O6o4T//aJ3R4Zx8QzyxI5rWSe9DFYeM/Nqbn0/CTJV/mIxIPCnKW
+         ftnrbsAIAZRalykthQG01Zst+ANjZjM/4mHe4Wm7CJlyu1kQB3MP53mxNn0WG6Mq1aVg
+         sI1Q==
+X-Gm-Message-State: AOAM533PY6N6P9ZCNK+4feh5gWBhT0ksldb69bmOLJJxRcUnnIndYqJg
+        tDcWMlEPB0IyEddjZaG2RqnoSR5sCkdUZ9JjD3sz2g==
+X-Google-Smtp-Source: ABdhPJwXNJSYdQjNrt7NEv4DcVveYiDrfEBOv25u+SOwBxLVCXD5muGOkDS70HOyAVKN2oIN7ef1Aim9049JarUf4T8=
+X-Received: by 2002:ac5:c5b5:: with SMTP id f21mr8986198vkl.13.1610688852162;
+ Thu, 14 Jan 2021 21:34:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <X//jjawwbm8FxbQU@google.com>
+References: <20201224114502.1.I41b9795e4b5bda7209eb9099aebdc6a29677391e@changeid>
+ <nycvar.YFH.7.76.2101141314410.13752@cbobk.fhfr.pm>
+In-Reply-To: <nycvar.YFH.7.76.2101141314410.13752@cbobk.fhfr.pm>
+From:   Nicolas Boichat <drinkcat@chromium.org>
+Date:   Fri, 15 Jan 2021 13:34:01 +0800
+Message-ID: <CANMq1KC84MykRrKROQdVUmFZerpw4okEb1dLfVhAu-JXw5=Yfg@mail.gmail.com>
+Subject: Re: [PATCH] HID: google: Get HID report on probe to confirm tablet
+ switch state
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dtor@chromium.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jan 13, 2021 at 10:24:13PM -0800, Dmitry Torokhov wrote:
-> A typical USB keyboard usually splits its keys into several reports:
-> 
-> - one for the basic alphanumeric keys, modifier keys, F<n> keys, six pack
->   keys and keypad. This report's application is normally listed as
->   GenericDesktop.Keyboard
-> - a GenericDesktop.SystemControl report for the system control keys, such
->   as power and sleep
-> - Consumer.ConsumerControl report for multimedia (forward, rewind,
->   play/pause, mute, etc) and other extended keys.
-> - additional output, vendor specific, and feature reports
-> 
-> Splitting each report into a separate input device is wasteful and even
-> hurts userspace as it makes it harder to determine the true capabilities
-> (set of available keys) of a keyboard, so let's adjust application
-> matching to merge system control and consumer control reports with
-> keyboard report, if one has already been processed.
-> 
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+On Thu, Jan 14, 2021 at 8:15 PM Jiri Kosina <jikos@kernel.org> wrote:
+>
+> On Thu, 24 Dec 2020, Nicolas Boichat wrote:
+>
+> > This forces reading the base folded status anytime the device is
+> > probed.
+>
+> Could you please provide a little bit more verbose changelog (namely what
+> is the actual problem this patch is fixing)? Thanks.
 
-Acked-by: Peter Hutterer <peter.hutterer@who-t.net>
+Sure, I should have done this in the first place... v2 on the way.
 
-I think, let's see if there's any fallout from that :)
-
-Cheers,
-   Peter
+>
+> --
+> Jiri Kosina
+> SUSE Labs
+>
