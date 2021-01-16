@@ -2,91 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C53972F89AC
-	for <lists+linux-input@lfdr.de>; Sat, 16 Jan 2021 00:58:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D75B82F9165
+	for <lists+linux-input@lfdr.de>; Sun, 17 Jan 2021 09:36:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726820AbhAOX53 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 15 Jan 2021 18:57:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47186 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726811AbhAOX52 (ORCPT
+        id S1726785AbhAQIf3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 17 Jan 2021 03:35:29 -0500
+Received: from 213-229-86-237.static.as29550.net ([213.229.86.237]:47468 "EHLO
+        host.flipiebeckerwealth.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727663AbhAQIdV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 15 Jan 2021 18:57:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1610754962;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=cGjEZEFUxe554punPGhls5fx0stMnIYqvwbTtWgboaU=;
-        b=ArwV7KCD9Ca5GPkdBxmyxlJTMNTtvGhF+ad4dUEtr66n0Hjtvnjqfcfk5r4y981ZKw9ZGa
-        1zUQX/UGTLEzNGKC26pzPApBjdou0YOOp6eD+dLsLQCN4JEcfUM91sSYTLY2dkAKu7b1oP
-        R4qxUMM/LlT7wC6df+sY33pY0bljQgU=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-293-dCUyY_nkP8C7v2w2SH2GEw-1; Fri, 15 Jan 2021 18:56:00 -0500
-X-MC-Unique: dCUyY_nkP8C7v2w2SH2GEw-1
-Received: by mail-qk1-f198.google.com with SMTP id i82so9649535qke.19
-        for <linux-input@vger.kernel.org>; Fri, 15 Jan 2021 15:56:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cGjEZEFUxe554punPGhls5fx0stMnIYqvwbTtWgboaU=;
-        b=Fn+8ZwirS5dHzrMVN6nQ5VLRfXmf0GSrSfV0ufK9STGxcteACsUxy71Ow40QYr2uX2
-         tyOn/IM9BjGCZ+zLCrCUWsCAhmtlH8Uq7JaVVyWcnGgMXeEEFp1pULwOgn+ZcqwlhdgY
-         lkRZD+o8eGbtk2XqalEAb7iuZHCfPCJElaqooWPExZp1NQ3HBzYUiiXaV5N4/2APLpta
-         BSPUUwatOlVJvYdN4k0s4r+/KUlYc8V6ZvupUtvQc+Jvr3tDZCS82nc/kjZYoVS17Htq
-         nRkJLalKNLNNkLbkbv9kAjbp0RVaxP5oXLCGCn6BBT5YXwL9a5L4JH6J4cucBcxY7uFn
-         XhUg==
-X-Gm-Message-State: AOAM533RpJxBIptwXD7zsQWIG6Yb8l+pjHI/50N5wAt1S700v5YTNi6+
-        Cl59+vnzfwd2kJ/ymea6502VRRwxXiWeWEzaGXie8OcVhMr5Rjsr4zEki2N2ZNhNszws1DhXytW
-        BCcSlueKa9y9uATheHeQM+i0=
-X-Received: by 2002:a37:9ac9:: with SMTP id c192mr14533318qke.453.1610754959965;
-        Fri, 15 Jan 2021 15:55:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxpls7ZQlmvJu5XrFUrVZ5xSL5nXDsB8rVwbVCjXoNaUiafJx+npfQJFw5ceiTr+wxzt4bN1g==
-X-Received: by 2002:a37:9ac9:: with SMTP id c192mr14533309qke.453.1610754959804;
-        Fri, 15 Jan 2021 15:55:59 -0800 (PST)
-Received: from trix.remote.csb (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id q3sm6075310qkb.73.2021.01.15.15.55.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Jan 2021 15:55:59 -0800 (PST)
-From:   trix@redhat.com
-To:     dmitry.torokhov@gmail.com, hdegoede@redhat.com,
-        gustavoars@kernel.org, luomeng12@huawei.com, rajatja@google.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tom Rix <trix@redhat.com>
-Subject: [PATCH] Input: i8042: remove definition of DEBUG
-Date:   Fri, 15 Jan 2021 15:55:53 -0800
-Message-Id: <20210115235553.290476-1-trix@redhat.com>
-X-Mailer: git-send-email 2.27.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 17 Jan 2021 03:33:21 -0500
+X-Greylist: delayed 45875 seconds by postgrey-1.27 at vger.kernel.org; Sun, 17 Jan 2021 03:33:20 EST
+Received: from flipiebeckerwealth.com (ec2-18-219-155-5.us-east-2.compute.amazonaws.com [18.219.155.5])
+        by host.flipiebeckerwealth.com (Postfix) with ESMTPA id 063381641985
+        for <linux-input@vger.kernel.org>; Sat, 16 Jan 2021 17:45:57 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 host.flipiebeckerwealth.com 063381641985
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=flipiebeckerwealth.com; s=default; t=1610819159;
+        bh=kGzt7KNxwYgpNJsee1IoUj15HLkuUJi6G03+lCYHaDU=;
+        h=Reply-To:From:To:Subject:Date:From;
+        b=nE+7jM6J64wkDC/w/rSLb3gIpwqNi4z3g5HW8Wwj82Kf+nmQk11NvbMRk2h58ZgWj
+         YFbJFnpUChJYdPcF327erS4NtAr/kJT01H0lB0JL3YV9keLFX+lE08X4cFXL3ejGUh
+         g/QauVbyfcWle/Tzz9RPeC6fkfVpbisO3/zlrMsk=
+DKIM-Filter: OpenDKIM Filter v2.11.0 host.flipiebeckerwealth.com 063381641985
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=flipiebeckerwealth.com; s=default; t=1610819159;
+        bh=kGzt7KNxwYgpNJsee1IoUj15HLkuUJi6G03+lCYHaDU=;
+        h=Reply-To:From:To:Subject:Date:From;
+        b=nE+7jM6J64wkDC/w/rSLb3gIpwqNi4z3g5HW8Wwj82Kf+nmQk11NvbMRk2h58ZgWj
+         YFbJFnpUChJYdPcF327erS4NtAr/kJT01H0lB0JL3YV9keLFX+lE08X4cFXL3ejGUh
+         g/QauVbyfcWle/Tzz9RPeC6fkfVpbisO3/zlrMsk=
+Reply-To: djohnston2@flippiebeckerwealth.com
+From:   Dean J <djohnston2@flipiebeckerwealth.com>
+To:     linux-input@vger.kernel.org
+Subject: Project
+Date:   16 Jan 2021 17:45:57 +0000
+Message-ID: <20210116174557.4ADBBD8631C82297@flipiebeckerwealth.com>
+Mime-Version: 1.0
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Tom Rix <trix@redhat.com>
+Hello there,
 
-Defining DEBUG should only be done in development.
-So remove DEBUG.
+I hope this message finds you in good spirits especially during=20
+this challenging time of coronavirus pandemic. I hope you and=20
+your family are well and keeping safe. Anyway, I am Dean=20
+Johnston, a broker working with Flippiebecker Wealth. I got your=20
+contact (along with few other contacts) through an online=20
+business directory and I thought I should contact you to see if=20
+you are interested in this opportunity. I am contacting you=20
+because one of my high profile clients is interested  in=20
+investing abroad and has asked me to look for individuals and=20
+companies with interesting business ideas and projects that he=20
+can invest in. He wants to invest a substantial amount of asset=20
+abroad.
 
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/input/serio/i8042.c | 1 -
- 1 file changed, 1 deletion(-)
+Please kindly respond back to this email if you are interested in=20
+this opportunity. Once I receive your response, I will give you=20
+more details and we can plan a strategy that will be beneficial=20
+to all parties.
 
-diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
-index abae23af0791..411ebb2cefb5 100644
---- a/drivers/input/serio/i8042.c
-+++ b/drivers/input/serio/i8042.c
-@@ -111,7 +111,6 @@ module_param_named(nopnp, i8042_nopnp, bool, 0);
- MODULE_PARM_DESC(nopnp, "Do not use PNP to detect controller settings");
- #endif
- 
--#define DEBUG
- #ifdef DEBUG
- static bool i8042_debug;
- module_param_named(debug, i8042_debug, bool, 0600);
--- 
-2.27.0
+Best regards
 
+D Johnston
+Flippiebecker Wealth
++27-104426203
