@@ -2,149 +2,147 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B1F22F9651
-	for <lists+linux-input@lfdr.de>; Mon, 18 Jan 2021 00:44:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03BEB2F965B
+	for <lists+linux-input@lfdr.de>; Mon, 18 Jan 2021 00:47:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729455AbhAQXnW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 17 Jan 2021 18:43:22 -0500
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:48499 "EHLO
-        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730687AbhAQXm6 (ORCPT
+        id S1730525AbhAQXqH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 17 Jan 2021 18:46:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33792 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730845AbhAQXpZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 17 Jan 2021 18:42:58 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.nyi.internal (Postfix) with ESMTP id 45C545C0114;
-        Sun, 17 Jan 2021 18:42:12 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Sun, 17 Jan 2021 18:42:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
-         h=from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm3; bh=I+9i7Zg7kl5zs
-        7aTybIaXEt2e7jVzXYo07W5LPwCSgc=; b=HARRe+SQ9rxwaOlqMMNULU/drSBAB
-        8xk3oDFQahqA6wqzfMGD9Q1yyfxZ9oNoxQcbwh6zzdm4F0IwYOH2Kjc4s1xEghd7
-        xjHFxaj61VyoZpbYHOzXQw/xX+l+R5sguZZjkVYVz9zSigKINom8Ll6zqJCEArHx
-        QWQ2ZrnX99H4bKAPjsp9TpM8MGVSOSfH+GnJIfINYNdU9a41h1ZmC7hSzo0FR2S8
-        f2DMBRLUfSjA1eAuCibu8g9NLX1/SRxjbEABptFBR6Q/Vz5bchavfDGL8l8byBU6
-        DnIMi3d/tb0129e+v2BHtIb4PlE76UYKNvIUdOJ5Uw54QSUN58dAeBT3g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :in-reply-to:message-id:mime-version:references:subject:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; bh=I+9i7Zg7kl5zs7aTybIaXEt2e7jVzXYo07W5LPwCSgc=; b=g12Umfli
-        J8b17sYmju67qdV5xJklSHdAYv2cBqezsClo+fVTd7wEDneRHy/ZiJMJLbqQT+3s
-        qGf18lHfOLtTbiPi46somi4j/VmKB1IYfV4VZ5Vb5d4BbEVAd5bJ95LapiqaqAML
-        z0WXDbCqYXcwPhmU3uYzDKXPJSgPQ/SEeX4HSQxrGtgf/zE5z6X5NKLuSIlwJt/j
-        dok6YfSZPS862KsyIu1NsUhzDLV4k5V6Byt5iMAbCMoh0PzT/PsW4K8dleBBTH0z
-        5KkSLcDg4fDWXX32sniRTPdqXcKCFfsFG+mXCwHLv5H/dazISIMj4cYDYiiozjT8
-        UY+5sr9SW2Boow==
-X-ME-Sender: <xms:VMsEYHvTXKuEfVxxKbKMo-VQTUj2d7OUGWI7hqIj_UuntQINsu2Zhw>
-    <xme:VMsEYIep4EMvCng5ohDqlTrVEemEKA0iMh53WqU8KTRAJvcSp20m54mnk2NeShmKI
-    0m2kJUJ0sWNaXh8BsY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdejgdduvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtkeertd
-    ertddtnecuhfhrohhmpeetlhhishhtrghirhcuhfhrrghntghishcuoegrlhhishhtrghi
-    rhesrghlihhsthgrihhrvdefrdhmvgeqnecuggftrfgrthhtvghrnhepgeegtdetjeekge
-    eguefgheeuvedugedvteejveeiudegvddtkeffkeehtdetudfhnecukfhppeejfedrleef
-    rdekgedrvddtkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpegrlhhishhtrghirhesrghlihhsthgrihhrvdefrdhmvg
-X-ME-Proxy: <xmx:VMsEYKzQyxDk_h65elFpfDqKVgKwhnhbgPr98Cp7wUjmDDX5feF_fQ>
-    <xmx:VMsEYGPNtQ-8pr52DXfDkL3c6hDUeVFzAEQ9RwaY-H9xFBgHfQk91g>
-    <xmx:VMsEYH8pd3QEyVSSE1NdRfvqFbiM1VtImL3TtcMUU7wR2oErB6Rlag>
-    <xmx:VMsEYKauqhsEjSGT9Sjkv4Mgz75eotORsyLhPMprSCDKVFwsyFqchQ>
-Received: from ThinkpadX1Yoga3.localdomain (c-73-93-84-208.hsd1.ca.comcast.net [73.93.84.208])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 6551E24005E;
-        Sun, 17 Jan 2021 18:42:11 -0500 (EST)
-From:   Alistair Francis <alistair@alistair23.me>
-To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-        linux-imx@nxp.com, kernel@pengutronix.de
-Cc:     linux-kernel@vger.kernel.org, alistair23@gmail.com,
-        Alistair Francis <alistair@alistair23.me>
-Subject: [PATCH 3/3] arch/arm: reMarkable2: Enable wacom_i2c
-Date:   Sat, 16 Jan 2021 20:24:28 -0800
-Message-Id: <20210117042428.1497-3-alistair@alistair23.me>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210117042428.1497-1-alistair@alistair23.me>
-References: <20210117042428.1497-1-alistair@alistair23.me>
+        Sun, 17 Jan 2021 18:45:25 -0500
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B515C061573
+        for <linux-input@vger.kernel.org>; Sun, 17 Jan 2021 15:44:45 -0800 (PST)
+Received: by mail-pl1-x62c.google.com with SMTP id u11so3365453plg.13
+        for <linux-input@vger.kernel.org>; Sun, 17 Jan 2021 15:44:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gaikai-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=P+Oizrlo3OIDbfPymvWyjuO3HZ7nWkZrzoyzd5R0UuY=;
+        b=hkhkWoIS4hzraQ0FzJ+r8DpAFixesb+wiKVOyb2F8p7nyCvzHH137FL8uYI+phbEaA
+         cDDlBZiyCBBR176e5zJfvcKj2AFhGL71tiHHZmny9PUO4y+cnL0bEpZq3ZanXGGryKZR
+         BTbMLVWUd0PG9UuVCmT8lxJ9XAhJpCb2E1kuR2S2d4fc8Whv22kvlE25xhV4rMBCzGT7
+         P6eeXOI9YHe/Jj7mw+2vgCbrrGkOqaAsBqojNdCTRLadaGnj+2Nl9is+xgPGJ4JbOHE/
+         s+RSXR3+zQ9r/3IH37xxxAYb72lhOTYnuy4/2x4nPAaWRKd5u2WdkFTEEwpf3tlGmkKc
+         Zgig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=P+Oizrlo3OIDbfPymvWyjuO3HZ7nWkZrzoyzd5R0UuY=;
+        b=QQMkU35RzuUXhd/fa9aQFo9Z8ClUgWcfSgsVWOY/nQuVkOCbOdmG7C3YIp0JCo+wMm
+         obaWZbsah0V+RRHaucAkKugCrcCKmsZHpFWqdZZ+HDM6aO049/gyOOLbF2V/4Q1vFMpi
+         N1d17F3PNAHGAQJbebENoJojAS2rgMyTMD0TclIoyksqd2/GWxF/ucYs4BE+WMonN2Ze
+         V06Q5u1xMtWrIhmWYVpbzz5ScCpbEmiV9sa7MAWBh3UD3556HR+3fAnOiAplWSN4dO49
+         siFFXzuvNR+YpD4oZ4jLAH5K0JIidIxVujI1zSF15KgNmO6Hl8JMeqt/thaYkWePGcGe
+         mmlg==
+X-Gm-Message-State: AOAM531XISLm8dzeD25Q/JF+Ni5DeszsjfHKMADiTN6FDqFib2obg/0K
+        MD/uDbcswqA8YlLk9V1/2g1UAw==
+X-Google-Smtp-Source: ABdhPJzT7RFWojhX/JJDCvhbbiyoEUYjegQnawjBATq7O23ClovCEYORnlEhrnzRoen645B0g9XouA==
+X-Received: by 2002:a17:902:e846:b029:da:d44d:1968 with SMTP id t6-20020a170902e846b02900dad44d1968mr14030858plg.47.1610927085168;
+        Sun, 17 Jan 2021 15:44:45 -0800 (PST)
+Received: from us8c16456344dc.lan (cpe-76-87-77-78.socal.res.rr.com. [76.87.77.78])
+        by smtp.gmail.com with ESMTPSA id i2sm14721568pjd.21.2021.01.17.15.44.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Jan 2021 15:44:44 -0800 (PST)
+From:   Roderick Colenbrander <roderick@gaikai.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, Chris Ye <lzye@google.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: [PATCH v4 00/13] HID: new driver for PS5 'DualSense' controller
+Date:   Sun, 17 Jan 2021 15:44:22 -0800
+Message-Id: <20210117234435.180294-1-roderick@gaikai.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Enable the wacom_i2c touchscreen for the reMarkable2.
+From: Roderick Colenbrander <roderick.colenbrander@sony.com>
 
-Signed-off-by: Alistair Francis <alistair@alistair23.me>
----
- arch/arm/boot/dts/imx7d-remarkable2.dts | 41 +++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+Hi,
 
-diff --git a/arch/arm/boot/dts/imx7d-remarkable2.dts b/arch/arm/boot/dts/imx7d-remarkable2.dts
-index fba55a0e028a..8052d884a5e5 100644
---- a/arch/arm/boot/dts/imx7d-remarkable2.dts
-+++ b/arch/arm/boot/dts/imx7d-remarkable2.dts
-@@ -150,6 +150,30 @@ &dma_apbh {
- 	status = "disabled";
- };
- 
-+&i2c1 {
-+	clock-frequency = <400000>;
-+	pinctrl-names = "default", "sleep";
-+	pinctrl-0 = <&pinctrl_i2c1>;
-+	pinctrl-1 = <&pinctrl_i2c1>;
-+	status = "okay";
-+
-+	digitizer: wacom-i2c@9 {
-+		pinctrl-names = "default", "sleep";
-+		pinctrl-0 = <&pinctrl_wacom>;
-+		pinctrl-1 = <&pinctrl_wacom>;
-+		compatible = "wacom,wacom-i2c";
-+		reg = <0x09>;
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <1 2>;
-+		flip-tilt-x;
-+		flip-tilt-y;
-+		flip-pos-x;
-+		flip-pos-y;
-+		flip-distance;
-+		vdd-supply = <&reg_digitizer>;
-+	};
-+};
-+
- &sdma {
- 	status = "okay";
- };
-@@ -221,6 +245,16 @@ &wdog1 {
- };
- 
- &iomuxc_lpsr {
-+	pinctrl_wacom: wacomgrp {
-+		fsl,pins = <
-+			/*MX7D_PAD_LPSR_GPIO1_IO00__GPIO1_IO0	0x00000074 /* WACOM RESET */
-+			MX7D_PAD_LPSR_GPIO1_IO01__GPIO1_IO1	0x00000034 /* WACOM INT */
-+			MX7D_PAD_LPSR_GPIO1_IO04__GPIO1_IO4	0x00000074 /* PDCTB */
-+			/*MX7D_PAD_LPSR_GPIO1_IO05__GPIO1_IO5	0x00000014 /* FWE */
-+			/*MX7D_PAD_LPSR_GPIO1_IO06__GPIO1_IO6	0x00000014 /* WACOM PWR ENABLE */
-+		>;
-+	};
-+
- 	pinctrl_digitizer_reg: digitizerreggrp {
- 		fsl,pins = <
- 			/* DIGITIZER_PWR_EN */
-@@ -236,6 +270,13 @@ MX7D_PAD_SAI1_RX_SYNC__GPIO6_IO16	0x59
- 		>;
- 	};
- 
-+	pinctrl_i2c1: i2c1grp {
-+		fsl,pins = <
-+			MX7D_PAD_I2C1_SDA__I2C1_SDA		0x4000007f
-+			MX7D_PAD_I2C1_SCL__I2C1_SCL		0x4000007f
-+		>;
-+	};
-+
- 	pinctrl_uart1: uart1grp {
- 		fsl,pins = <
- 			MX7D_PAD_UART1_TX_DATA__UART1_DCE_TX	0x79
+This is the same code as v3. Due to a misstake during a last minute
+rebase, the touchpad and sensors patch got combined while fixing a conflict.
+The new v4 corrects that issue. There are no additional code changes.
+
+This new revision contains a few bug fixes, but mostly features small
+code changes and minor improvements relative to v2.
+
+In terms of bugs there were bugs in the sensor code. There was an overflow
+issue and EV_MSC/MSC_TIMESTAMP were not set on the device. In addition,
+the ps_device spinlock was not initialized.
+
+The biggest change in the driver was the addition of a new 'ps_get_report'
+helper function. It handles GET_FEATURE report retrieval and any error handling
+including CRC checks for PlayStation Bluetooth devices. This greatly simplified
+all the functions (dualsense_get_mac_address, dualsense_calibration_info, ..)
+dealing, which used their own report handling and error checking.
+
+Aside for these changes, there were mostly little code style changes like defining
+magic constants, cleaning up comments, cleaning up log messages, static_assert
+checks etcetera.
+
+Thanks to everyone who provided feedback through the mailing list or privately.
+
+Changes since v3:
+- Separated touchpad and sensors into separate patches due to rebase misstake.
+
+Changes since v2:
+- Removed !Expert setting for hid-playstation from Kconfig.
+- Removed DualSense from hid-quirks table.
+- Added report size checks to dualsense_parse_report.
+- Moved mac address endianess comment to struct ps_device.
+- Added static_asserts for packed structure size checks.
+- Improved readability of battery capacity calculation using 'min'.
+- Added spin_lock_init to dualsense_create to initialize ps_device lock. 
+- Fixed sensors timestamp overflow.
+- Fixed missing MSC_TIMESTAMP and EV_MSC capabilities in ps_sensors_create.
+- Used DIV_ROUND_CLOSEST for timestamp calculations to minimize rounding errors.
+- Switched to devm_kmalloc_array for lightbar allocation.
+- Added CRC32 and NEW_LEDS dependency to Kconfig.
+- Added defines for crc32 seed constants.
+- Added crc32 check for dualsense_get_mac_address and increased report size to 20.
+- Added new ps_get_report call to obtain feature reports.
+- Switched to ARRAY_SIZE in dualsense_parse_reports for touch points, accel and gyro data.
+- Changed touch point parse loop to use "struct dualsense_touch_point".
+- Improved consistency of info and error messages.
+- Unified comment style.
+
+
+Thanks,
+
+Roderick Colenbrander
+Sony Interactive Entertainment, LLC
+
+Roderick Colenbrander (13):
+  HID: playstation: initial DualSense USB support.
+  HID: playstation: use DualSense MAC address as unique identifier.
+  HID: playstation: add DualSense battery support.
+  HID: playstation: add DualSense touchpad support.
+  HID: playstation: add DualSense accelerometer and gyroscope support.
+  HID: playstation: track devices in list.
+  HID: playstation: add DualSense Bluetooth support.
+  HID: playstation: add DualSense classic rumble support.
+  HID: playstation: add DualSense lightbar support
+  HID: playstation: add microphone mute support for DualSense.
+  HID: playstation: add DualSense player LEDs support.
+  HID: playstation: DualSense set LEDs to default player id.
+  HID: playstation: report DualSense hardware and firmware version.
+
+ MAINTAINERS                   |    6 +
+ drivers/hid/Kconfig           |   21 +
+ drivers/hid/Makefile          |    1 +
+ drivers/hid/hid-ids.h         |    1 +
+ drivers/hid/hid-playstation.c | 1485 +++++++++++++++++++++++++++++++++
+ 5 files changed, 1514 insertions(+)
+ create mode 100644 drivers/hid/hid-playstation.c
+
 -- 
-2.29.2
+2.26.2
 
