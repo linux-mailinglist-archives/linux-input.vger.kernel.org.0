@@ -2,60 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 00CC92F9666
-	for <lists+linux-input@lfdr.de>; Mon, 18 Jan 2021 00:48:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87AD62F9665
+	for <lists+linux-input@lfdr.de>; Mon, 18 Jan 2021 00:48:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730385AbhAQXry (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 17 Jan 2021 18:47:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33814 "EHLO
+        id S1730086AbhAQXrv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 17 Jan 2021 18:47:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730852AbhAQXp3 (ORCPT
+        with ESMTP id S1730854AbhAQXpa (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 17 Jan 2021 18:45:29 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92947C0613C1
-        for <linux-input@vger.kernel.org>; Sun, 17 Jan 2021 15:44:49 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id cq1so8321486pjb.4
-        for <linux-input@vger.kernel.org>; Sun, 17 Jan 2021 15:44:49 -0800 (PST)
+        Sun, 17 Jan 2021 18:45:30 -0500
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DEAEC0613D6
+        for <linux-input@vger.kernel.org>; Sun, 17 Jan 2021 15:44:50 -0800 (PST)
+Received: by mail-pg1-x52f.google.com with SMTP id c132so9853880pga.3
+        for <linux-input@vger.kernel.org>; Sun, 17 Jan 2021 15:44:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gaikai-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=WVlKx6xZ83Igk9QgAIM+ji3r+4485U9QbK8oiIuVj7U=;
-        b=zq4LDp5EaezangXzd92eYhNm217jnZBXkom+2vWRlbTTFOOrhRmgsnhfT+w1lfsxvw
-         OwzhSJtJ713+AiKG8ep6aL++K2rs+FdrFgIpq2BxcyP8Ouc5QF6k0tNnGGHpkdpe87Hh
-         6Xclo3OtcZQn7un+2PmcSJlf+BeiySVoDGJ6NUKlm/Xu8GgJhQmU5hwrTgjr6OzrmP20
-         Q52rDv27XfusSTTQoD1koX+40dOaMO4Fxc3++L2tmN0+R765N8RlWJj/Re2g+EVn/Jwe
-         4M+Z+OmVq300mPUJ1AHlZbmTsquE7Biu59i/Oih7bWgp+htMSMpGXHKTkS8/LPvvRgP2
-         LMyg==
+        bh=uaDb3/6zPuXGf+bVSWLXVC0me8uqFc25JCRWTnjAnYQ=;
+        b=a8oN0J8WoNFxEZPmrxRTQD0zTjTxvXR9hge7NHDmoqlxNi4qxiEhnaJYFZCD1+QMP5
+         lzz8LPbcEOfV7q80wiMwY293ImS2a32U/wO8cA33newmD1fSKeC9d7hSYFHnVdegzRsb
+         FjAD51mvrOkObm5pJdbAfcVJjpl12kyHgNo7levKMPffTwmHR8KkYu71tI7ieTEcUfmn
+         A8cxLbOL7paH8Gt8UmCQvOKFt6AKINCh0SWoUZDqAbEcZa4iqbxS7oh1kD9udYhBUFC7
+         gBM46V9++vGnz6OPSvIyLt1SvIAGDHo2vimmFoEtMs4mbWwrhU8yWyGV+yjd/DAAjr6a
+         Z3Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WVlKx6xZ83Igk9QgAIM+ji3r+4485U9QbK8oiIuVj7U=;
-        b=FfEUfs84BU1NyNT3XmjjrKFNSta5ImJW6HYTWe6+nKz0jHpmFtEUZoLEqHnFB+bhdJ
-         +U8vgMtLc1kDKwAIiYeA/04OGTA/CpBoOe7Eoufn+G/Ava4tSmaS/2lsXCDmlYAGrIgC
-         xwJA2HxSE2tZONh4S0widZuqVxNYkCZrdp9q/PVcePkHIu81U56qexMZcUU0u9GVoPDQ
-         1pph4n4SdIHcK3LSDMEo/FY51tKB6vt5m0+M3ktZsU/37RpFswwopZ7ygRhDQpFWP+LU
-         wJvT/ZRK1xD9v+w407AzZIHyEFTiQ17pbQollg8nIxnO5Jz9VctOQ1Qv6INfMHxxktsS
-         2WTg==
-X-Gm-Message-State: AOAM532otfkRixhCWI8BdnjucDJluTiUYTyW6r5nedeHEeqjoLbw3xEL
-        lmEhGrKOt4k1/CNDi+21RvPD4g==
-X-Google-Smtp-Source: ABdhPJxtzgsEa3fdWLy5wm15jbAfVgjp1/pYWrHF76PBfQ7Umy/S5R5bHtpjYUPCYexJ9AGv5ZOCQw==
-X-Received: by 2002:a17:90a:183:: with SMTP id 3mr10353737pjc.99.1610927089145;
-        Sun, 17 Jan 2021 15:44:49 -0800 (PST)
+        bh=uaDb3/6zPuXGf+bVSWLXVC0me8uqFc25JCRWTnjAnYQ=;
+        b=U0DMT1hNYHIFzxWIiRh/g+jWU73WO+PA5sEFXbgn26HFUrFFHxOqwYp0JhPQLp/Yqf
+         HlheV3st53BqaxfHPFOGukfXMPT2CFsBG+DWrE27z3s3U840ctlQXFT5aluDkLofN+Ux
+         jVzjQaDPItFuc0t4ZqILHuh82ZSJEhSAHdoOymybIqZ/z/sLuMEPVczfEsfTT6zkoYLU
+         tNGtD1GVJwm3pWl1p0umt3e0CUVSlo9iavluykxl6qU/0D9Htk8+dYEc9rM/1M7oDJ1t
+         N0fhNwWZt/5IdEljtRm1+5mxEUhWmoipcXcmyMCw2nBc74lEWT8MFpsVu1VST/hm9UDR
+         /eeA==
+X-Gm-Message-State: AOAM532TOqgNtX2+c6X+2/jsIssVfp9DzIK/6S/mfhW/WLJb9MPjn9gJ
+        AHV89vTeU/1d79F7pztIQkWiM9/p7GSK0g==
+X-Google-Smtp-Source: ABdhPJybtgQzVbuc9C4k8z3US+ahxltHHaKMUfWHxpgx4E4ZcYmQe3c8znc7Xmhk0S2LO6kerAb6Gg==
+X-Received: by 2002:a62:1a47:0:b029:19b:c093:2766 with SMTP id a68-20020a621a470000b029019bc0932766mr24012606pfa.10.1610927090172;
+        Sun, 17 Jan 2021 15:44:50 -0800 (PST)
 Received: from us8c16456344dc.lan (cpe-76-87-77-78.socal.res.rr.com. [76.87.77.78])
-        by smtp.gmail.com with ESMTPSA id i2sm14721568pjd.21.2021.01.17.15.44.48
+        by smtp.gmail.com with ESMTPSA id i2sm14721568pjd.21.2021.01.17.15.44.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Jan 2021 15:44:48 -0800 (PST)
+        Sun, 17 Jan 2021 15:44:49 -0800 (PST)
 From:   Roderick Colenbrander <roderick@gaikai.com>
 To:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Cc:     linux-input@vger.kernel.org, Chris Ye <lzye@google.com>,
         Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: [PATCH v4 04/13] HID: playstation: add DualSense touchpad support.
-Date:   Sun, 17 Jan 2021 15:44:26 -0800
-Message-Id: <20210117234435.180294-5-roderick@gaikai.com>
+Subject: [PATCH v4 05/13] HID: playstation: add DualSense accelerometer and gyroscope support.
+Date:   Sun, 17 Jan 2021 15:44:27 -0800
+Message-Id: <20210117234435.180294-6-roderick@gaikai.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210117234435.180294-1-roderick@gaikai.com>
 References: <20210117234435.180294-1-roderick@gaikai.com>
@@ -67,121 +67,243 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Roderick Colenbrander <roderick.colenbrander@sony.com>
 
-Implement support for DualSense touchpad as a separate input device.
+The DualSense features an accelerometer and gyroscope. The data is
+embedded into the main HID input reports. Expose both sensors through
+through a separate evdev node.
 
 Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
 ---
- drivers/hid/hid-playstation.c | 66 +++++++++++++++++++++++++++++++++++
- 1 file changed, 66 insertions(+)
+ drivers/hid/hid-playstation.c | 166 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 166 insertions(+)
 
 diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-index c5c450fc25db..64d6d736c435 100644
+index 64d6d736c435..ef8da272cf59 100644
 --- a/drivers/hid/hid-playstation.c
 +++ b/drivers/hid/hid-playstation.c
-@@ -60,9 +60,21 @@ struct ps_device {
- #define DS_STATUS_CHARGING		GENMASK(7, 4)
- #define DS_STATUS_CHARGING_SHIFT	4
+@@ -32,9 +32,19 @@ struct ps_device {
+ 	int (*parse_report)(struct ps_device *dev, struct hid_report *report, u8 *data, int size);
+ };
  
-+/*
-+ * Status of a DualSense touch point contact.
-+ * Contact IDs, with highest bit set are 'inactive'
-+ * and any associated data is then invalid.
-+ */
-+#define DS_TOUCH_POINT_INACTIVE BIT(7)
++/* Calibration data for playstation motion sensors. */
++struct ps_calibration_data {
++	int abs_code;
++	short bias;
++	int sens_numer;
++	int sens_denom;
++};
 +
-+/* DualSense hardware limits */
-+#define DS_TOUCHPAD_WIDTH	1920
-+#define DS_TOUCHPAD_HEIGHT	1080
-+
+ #define DS_INPUT_REPORT_USB			0x01
+ #define DS_INPUT_REPORT_USB_SIZE		64
+ 
++#define DS_FEATURE_REPORT_CALIBRATION		0x05
++#define DS_FEATURE_REPORT_CALIBRATION_SIZE	41
+ #define DS_FEATURE_REPORT_PAIRING_INFO		0x09
+ #define DS_FEATURE_REPORT_PAIRING_INFO_SIZE	20
+ 
+@@ -68,13 +78,27 @@ struct ps_device {
+ #define DS_TOUCH_POINT_INACTIVE BIT(7)
+ 
+ /* DualSense hardware limits */
++#define DS_ACC_RES_PER_G	8192
++#define DS_ACC_RANGE		(4*DS_ACC_RES_PER_G)
++#define DS_GYRO_RES_PER_DEG_S	1024
++#define DS_GYRO_RANGE		(2048*DS_GYRO_RES_PER_DEG_S)
+ #define DS_TOUCHPAD_WIDTH	1920
+ #define DS_TOUCHPAD_HEIGHT	1080
+ 
  struct dualsense {
  	struct ps_device base;
  	struct input_dev *gamepad;
-+	struct input_dev *touchpad;
++	struct input_dev *sensors;
+ 	struct input_dev *touchpad;
++
++	/* Calibration data for accelerometer and gyroscope. */
++	struct ps_calibration_data accel_calib_data[3];
++	struct ps_calibration_data gyro_calib_data[3];
++
++	/* Timestamp for sensor data */
++	bool sensor_timestamp_initialized;
++	uint32_t prev_sensor_timestamp;
++	uint32_t sensor_timestamp_us;
  };
  
  struct dualsense_touch_point {
-@@ -272,6 +284,34 @@ static int ps_get_report(struct hid_device *hdev, uint8_t report_id, uint8_t *bu
- 	return 0;
+@@ -312,6 +336,96 @@ static struct input_dev *ps_touchpad_create(struct hid_device *hdev, int width,
+ 	return touchpad;
  }
  
-+static struct input_dev *ps_touchpad_create(struct hid_device *hdev, int width, int height,
-+		unsigned int num_contacts)
++static int dualsense_get_calibration_data(struct dualsense *ds)
 +{
-+	struct input_dev *touchpad;
-+	int ret;
++	short gyro_pitch_bias, gyro_pitch_plus, gyro_pitch_minus;
++	short gyro_yaw_bias, gyro_yaw_plus, gyro_yaw_minus;
++	short gyro_roll_bias, gyro_roll_plus, gyro_roll_minus;
++	short gyro_speed_plus, gyro_speed_minus;
++	short acc_x_plus, acc_x_minus;
++	short acc_y_plus, acc_y_minus;
++	short acc_z_plus, acc_z_minus;
++	int speed_2x;
++	int range_2g;
++	int ret = 0;
++	uint8_t *buf;
 +
-+	touchpad = ps_allocate_input_dev(hdev, "Touchpad");
-+	if (IS_ERR(touchpad))
-+		return ERR_CAST(touchpad);
++	buf = kzalloc(DS_FEATURE_REPORT_CALIBRATION_SIZE, GFP_KERNEL);
++	if (!buf)
++		return -ENOMEM;
 +
-+	/* Map button underneath touchpad to BTN_LEFT. */
-+	input_set_capability(touchpad, EV_KEY, BTN_LEFT);
-+	__set_bit(INPUT_PROP_BUTTONPAD, touchpad->propbit);
++	ret = ps_get_report(ds->base.hdev, DS_FEATURE_REPORT_CALIBRATION, buf,
++			DS_FEATURE_REPORT_CALIBRATION_SIZE);
++	if (ret) {
++		hid_err(ds->base.hdev, "Failed to retrieve DualSense calibration info: %d\n", ret);
++		goto err_free;
++	}
 +
-+	input_set_abs_params(touchpad, ABS_MT_POSITION_X, 0, width - 1, 0, 0);
-+	input_set_abs_params(touchpad, ABS_MT_POSITION_Y, 0, height - 1, 0, 0);
++	gyro_pitch_bias  = get_unaligned_le16(&buf[1]);
++	gyro_yaw_bias    = get_unaligned_le16(&buf[3]);
++	gyro_roll_bias   = get_unaligned_le16(&buf[5]);
++	gyro_pitch_plus  = get_unaligned_le16(&buf[7]);
++	gyro_pitch_minus = get_unaligned_le16(&buf[9]);
++	gyro_yaw_plus    = get_unaligned_le16(&buf[11]);
++	gyro_yaw_minus   = get_unaligned_le16(&buf[13]);
++	gyro_roll_plus   = get_unaligned_le16(&buf[15]);
++	gyro_roll_minus  = get_unaligned_le16(&buf[17]);
++	gyro_speed_plus  = get_unaligned_le16(&buf[19]);
++	gyro_speed_minus = get_unaligned_le16(&buf[21]);
++	acc_x_plus       = get_unaligned_le16(&buf[23]);
++	acc_x_minus      = get_unaligned_le16(&buf[25]);
++	acc_y_plus       = get_unaligned_le16(&buf[27]);
++	acc_y_minus      = get_unaligned_le16(&buf[29]);
++	acc_z_plus       = get_unaligned_le16(&buf[31]);
++	acc_z_minus      = get_unaligned_le16(&buf[33]);
 +
-+	ret = input_mt_init_slots(touchpad, num_contacts, INPUT_MT_POINTER);
-+	if (ret)
-+		return ERR_PTR(ret);
++	/*
++	 * Set gyroscope calibration and normalization parameters.
++	 * Data values will be normalized to 1/DS_GYRO_RES_PER_DEG_S degree/s.
++	 */
++	speed_2x = (gyro_speed_plus + gyro_speed_minus);
++	ds->gyro_calib_data[0].abs_code = ABS_RX;
++	ds->gyro_calib_data[0].bias = gyro_pitch_bias;
++	ds->gyro_calib_data[0].sens_numer = speed_2x*DS_GYRO_RES_PER_DEG_S;
++	ds->gyro_calib_data[0].sens_denom = gyro_pitch_plus - gyro_pitch_minus;
 +
-+	ret = input_register_device(touchpad);
-+	if (ret)
-+		return ERR_PTR(ret);
++	ds->gyro_calib_data[1].abs_code = ABS_RY;
++	ds->gyro_calib_data[1].bias = gyro_yaw_bias;
++	ds->gyro_calib_data[1].sens_numer = speed_2x*DS_GYRO_RES_PER_DEG_S;
++	ds->gyro_calib_data[1].sens_denom = gyro_yaw_plus - gyro_yaw_minus;
 +
-+	return touchpad;
++	ds->gyro_calib_data[2].abs_code = ABS_RZ;
++	ds->gyro_calib_data[2].bias = gyro_roll_bias;
++	ds->gyro_calib_data[2].sens_numer = speed_2x*DS_GYRO_RES_PER_DEG_S;
++	ds->gyro_calib_data[2].sens_denom = gyro_roll_plus - gyro_roll_minus;
++
++	/*
++	 * Set accelerometer calibration and normalization parameters.
++	 * Data values will be normalized to 1/DS_ACC_RES_PER_G g.
++	 */
++	range_2g = acc_x_plus - acc_x_minus;
++	ds->accel_calib_data[0].abs_code = ABS_X;
++	ds->accel_calib_data[0].bias = acc_x_plus - range_2g / 2;
++	ds->accel_calib_data[0].sens_numer = 2*DS_ACC_RES_PER_G;
++	ds->accel_calib_data[0].sens_denom = range_2g;
++
++	range_2g = acc_y_plus - acc_y_minus;
++	ds->accel_calib_data[1].abs_code = ABS_Y;
++	ds->accel_calib_data[1].bias = acc_y_plus - range_2g / 2;
++	ds->accel_calib_data[1].sens_numer = 2*DS_ACC_RES_PER_G;
++	ds->accel_calib_data[1].sens_denom = range_2g;
++
++	range_2g = acc_z_plus - acc_z_minus;
++	ds->accel_calib_data[2].abs_code = ABS_Z;
++	ds->accel_calib_data[2].bias = acc_z_plus - range_2g / 2;
++	ds->accel_calib_data[2].sens_numer = 2*DS_ACC_RES_PER_G;
++	ds->accel_calib_data[2].sens_denom = range_2g;
++
++err_free:
++	kfree(buf);
++	return ret;
 +}
 +
  static int dualsense_get_mac_address(struct dualsense *ds)
  {
  	uint8_t *buf;
-@@ -304,6 +344,7 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
+@@ -343,6 +457,7 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
+ 	struct dualsense_input_report *ds_report;
  	uint8_t battery_data, battery_capacity, charging_status, value;
  	int battery_status;
++	uint32_t sensor_timestamp;
  	unsigned long flags;
-+	int i;
+ 	int i;
  
- 	/*
- 	 * DualSense in USB uses the full HID report for reportID 1, but
-@@ -346,6 +387,25 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
+@@ -387,6 +502,44 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
  	input_report_key(ds->gamepad, BTN_MODE,   ds_report->buttons[2] & DS_BUTTONS2_PS_HOME);
  	input_sync(ds->gamepad);
  
-+	for (i = 0; i < ARRAY_SIZE(ds_report->points); i++) {
-+		struct dualsense_touch_point *point = &ds_report->points[i];
-+		bool active = (point->contact & DS_TOUCH_POINT_INACTIVE) ? false : true;
++	/* Parse and calibrate gyroscope data. */
++	for (i = 0; i < ARRAY_SIZE(ds_report->gyro); i++) {
++		int raw_data = (short)le16_to_cpu(ds_report->gyro[i]);
++		int calib_data = mult_frac(ds->gyro_calib_data[i].sens_numer,
++					   raw_data - ds->gyro_calib_data[i].bias,
++					   ds->gyro_calib_data[i].sens_denom);
 +
-+		input_mt_slot(ds->touchpad, i);
-+		input_mt_report_slot_state(ds->touchpad, MT_TOOL_FINGER, active);
-+
-+		if (active) {
-+			int x = (point->x_hi << 8) | point->x_lo;
-+			int y = (point->y_hi << 4) | point->y_lo;
-+
-+			input_report_abs(ds->touchpad, ABS_MT_POSITION_X, x);
-+			input_report_abs(ds->touchpad, ABS_MT_POSITION_Y, y);
-+		}
++		input_report_abs(ds->sensors, ds->gyro_calib_data[i].abs_code, calib_data);
 +	}
-+	input_mt_sync_frame(ds->touchpad);
-+	input_report_key(ds->touchpad, BTN_LEFT, ds_report->buttons[2] & DS_BUTTONS2_TOUCHPAD);
-+	input_sync(ds->touchpad);
 +
- 	battery_data = ds_report->status & DS_STATUS_BATTERY_CAPACITY;
- 	charging_status = (ds_report->status & DS_STATUS_CHARGING) >> DS_STATUS_CHARGING_SHIFT;
- 
-@@ -422,6 +482,12 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
- 		goto err;
++	/* Parse and calibrate accelerometer data. */
++	for (i = 0; i < ARRAY_SIZE(ds_report->accel); i++) {
++		int raw_data = (short)le16_to_cpu(ds_report->accel[i]);
++		int calib_data = mult_frac(ds->accel_calib_data[i].sens_numer,
++					   raw_data - ds->accel_calib_data[i].bias,
++					   ds->accel_calib_data[i].sens_denom);
++
++		input_report_abs(ds->sensors, ds->accel_calib_data[i].abs_code, calib_data);
++	}
++
++	/* Convert timestamp (in 0.33us unit) to timestamp_us */
++	sensor_timestamp = le32_to_cpu(ds_report->sensor_timestamp);
++	if (!ds->sensor_timestamp_initialized) {
++		ds->sensor_timestamp_us = DIV_ROUND_CLOSEST(sensor_timestamp, 3);
++		ds->sensor_timestamp_initialized = true;
++	} else {
++		uint32_t delta;
++
++		if (ds->prev_sensor_timestamp > sensor_timestamp)
++			delta = (U32_MAX - ds->prev_sensor_timestamp + sensor_timestamp + 1);
++		else
++			delta = sensor_timestamp - ds->prev_sensor_timestamp;
++		ds->sensor_timestamp_us += DIV_ROUND_CLOSEST(delta, 3);
++	}
++	ds->prev_sensor_timestamp = sensor_timestamp;
++	input_event(ds->sensors, EV_MSC, MSC_TIMESTAMP, ds->sensor_timestamp_us);
++	input_sync(ds->sensors);
++
+ 	for (i = 0; i < ARRAY_SIZE(ds_report->points); i++) {
+ 		struct dualsense_touch_point *point = &ds_report->points[i];
+ 		bool active = (point->contact & DS_TOUCH_POINT_INACTIVE) ? false : true;
+@@ -476,12 +629,25 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
  	}
+ 	snprintf(hdev->uniq, sizeof(hdev->uniq), "%pMR", ds->base.mac_address);
  
-+	ds->touchpad = ps_touchpad_create(hdev, DS_TOUCHPAD_WIDTH, DS_TOUCHPAD_HEIGHT, 2);
-+	if (IS_ERR(ds->touchpad)) {
-+		ret = PTR_ERR(ds->touchpad);
++	ret = dualsense_get_calibration_data(ds);
++	if (ret) {
++		hid_err(hdev, "Failed to get calibration data from DualSense\n");
 +		goto err;
 +	}
 +
- 	ret = ps_device_register_battery(ps_dev);
- 	if (ret)
+ 	ds->gamepad = ps_gamepad_create(hdev);
+ 	if (IS_ERR(ds->gamepad)) {
+ 		ret = PTR_ERR(ds->gamepad);
  		goto err;
+ 	}
+ 
++	ds->sensors = ps_sensors_create(hdev, DS_ACC_RANGE, DS_ACC_RES_PER_G,
++			DS_GYRO_RANGE, DS_GYRO_RES_PER_DEG_S);
++	if (IS_ERR(ds->sensors)) {
++		ret = PTR_ERR(ds->sensors);
++		goto err;
++	}
++
+ 	ds->touchpad = ps_touchpad_create(hdev, DS_TOUCHPAD_WIDTH, DS_TOUCHPAD_HEIGHT, 2);
+ 	if (IS_ERR(ds->touchpad)) {
+ 		ret = PTR_ERR(ds->touchpad);
 -- 
 2.26.2
 
