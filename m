@@ -2,60 +2,150 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B79A32F9DA6
-	for <lists+linux-input@lfdr.de>; Mon, 18 Jan 2021 12:12:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D430E2FA15A
+	for <lists+linux-input@lfdr.de>; Mon, 18 Jan 2021 14:24:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389131AbhARKsP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 18 Jan 2021 05:48:15 -0500
-Received: from mail.kernel.org ([198.145.29.99]:37652 "EHLO mail.kernel.org"
+        id S2391615AbhARMdo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 18 Jan 2021 07:33:44 -0500
+Received: from mx2.suse.de ([195.135.220.15]:38094 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389375AbhARJ4p (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 18 Jan 2021 04:56:45 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0D82522228;
-        Mon, 18 Jan 2021 09:56:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1610963765;
-        bh=hAH879fCCZw1dfCtLfrTzmyt6X6aM8UCFrEg1gU8pUU=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=pKACODJC7FKzF8TgNnaJRUhxSrJSD3VTZ/9rpSTGa0A749r7pjMFpcB0fupmgNYwD
-         8P53sRRPlsLlnLlu+k5eq25YKtr104pRmMd+eigkzpI7pq9zKUMIy+5XWR9kuosWZN
-         SLJt3eCVx/92huYmILbIM4iAkXF/aZsDu3PO/YVkVFzUFxy52Ab0clb+9Zj63+NqYn
-         xCioDcWu//N8v2MFaIk5IOq9fQCvmEg9p+GT4gZ/Jq4M3nakmUvzl19hcK3TvRdMjC
-         hHLoirWVokaQNWweQ/zqPF2XoJMaM3l6mDo+YErenvl17pxVwIz1Z8Dux+KX9OmpVB
-         Ghl7DkTpyAFYA==
-Date:   Mon, 18 Jan 2021 10:56:02 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Sanjay Govind <sanjay.govind9@gmail.com>
-cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Pascal.Giard@etsmtl.ca
-Subject: Re: [PATCH v2] HID: sony: Add support for tilt on guitar hero
- guitars
-In-Reply-To: <20201204054526.148299-1-sanjay.govind9@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2101181054520.5622@cbobk.fhfr.pm>
-References: <20201130194314.89509-1-sanjay.govind9@gmail.com> <20201204054526.148299-1-sanjay.govind9@gmail.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S2391450AbhARMdj (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 18 Jan 2021 07:33:39 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 545C3ACBA;
+        Mon, 18 Jan 2021 12:32:55 +0000 (UTC)
+From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To:     u.kleine-koenig@pengutronix.de
+Cc:     f.fainelli@gmail.com, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        wahrenst@gmx.net, linux-input@vger.kernel.org,
+        dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org,
+        devel@driverdev.osuosl.org, p.zabel@pengutronix.de,
+        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
+        linux-clk@vger.kernel.org, sboyd@kernel.org,
+        linux-rpi-kernel@lists.infradead.org, bgolaszewski@baylibre.com,
+        andy.shevchenko@gmail.com,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Subject: [PATCH v7 00/11] Raspberry Pi PoE HAT fan support
+Date:   Mon, 18 Jan 2021 13:32:33 +0100
+Message-Id: <20210118123244.13669-1-nsaenzjulienne@suse.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 4 Dec 2020, sanjay.govind9@gmail.com wrote:
+The aim of this series is to add support to the fan found on RPi's PoE
+HAT. Some commentary on the design can be found below. But the important
+part to the people CC'd here not involved with PWM is that, in order to
+achieve this properly, we also have to fix the firmware interface the
+driver uses to communicate with the PWM bus (and many other low level
+functions). Specifically, we have to make sure the firmware interface
+isn't unbound while consumers are still up. So, patch #1 & #2 introduce
+reference counting in the firmware interface driver and patches #3 to #8
+update all firmware users. Patches #9 to #11 introduce the new PWM
+driver.
 
-> From: Sanjay Govind <sanjay.govind9@gmail.com>
-> 
-> This commit adds support for tilt on Standard Guitar Hero PS3 Guitars, and GH3 PC Guitars, mapping it to ABS_RY.
-> 
-> Note that GH3 PC Guitars are identical, only they use different VID and PIDs.
-> Also note that vendor id 0x12ba is used by a variety of different rhythm controllers on the ps3.
-> 
-> Signed-off-by: Sanjay Govind <sanjay.govind9@gmail.com>
-> 
-> Fix some incorrect constants after a refactor
+I sent everything as a single series as the final version of the PWM
+drivers depends on the firmware fixes, but I'll be happy to split this
+into two separate series if you think it's better.
 
-I have removed the sentence above and applied, thanks.
+--- Original cover letter below ---
+
+This series aims at adding support to RPi's official PoE HAT fan[1].
+
+The HW setup is the following:
+
+| Raspberry Pi                               | PoE HAT                    |
+ arm core -> Mailbox -> RPi co-processor -> I2C -> Atmel MCU -> PWM -> FAN
+
+The arm cores have only access to the mailbox interface, as i2c0, even if
+physically accessible, is to be used solely by the co-processor
+(VideoCore 4/6).
+
+This series implements a PWM bus, and has pwm-fan sitting on top of it as per
+this discussion: https://lkml.org/lkml/2018/9/2/486. Although this design has a
+series of shortcomings:
+
+- It depends on a DT binding: it's not flexible if a new hat shows up with new
+  functionality, we're not 100% sure we'll be able to expand it without
+  breaking backwards compatibility. But without it we can't make use of DT
+  thermal-zones, which IMO is overkill.
+
+- We're using pwm-fan, writing a hwmon driver would, again, give us more
+  flexibility, but it's not really needed at the moment.
+
+I personally think that it's not worth the effort, it's unlikely we'll get
+things right in advance. And ultimately, if the RPi people come up with
+something new, we can always write a new driver/bindings from scratch (as in
+not reusing previous code).
+
+That said, I'm more than happy to change things if there is a consensus that
+another design will do the trick.
+
+[1] https://www.raspberrypi.org/blog/introducing-power-over-ethernet-poe-hat/
+
+---
+
+Changes since v6:
+ - Address PWM driver comments
+
+Changes since v5:
+ - Small cleanups
+ - Add extra code comments
+
+Changes since v4:
+ - Cleanup devm calls
+ - Rename compatible string so it's unique to the PoE HAT
+
+Changes since v3:
+ - Split first patch, #1 introduces refcount, then #2 the devm function
+ - Fix touchscreen function
+ - Use kref
+
+Changes since v2:
+ - Introduce devm_rpi_firmware_get()
+ - Small cleanups in PWM driver
+
+Changes since v1:
+ - Address PWM driver changes
+ - Fix binding, now with 2 cells
+
+Nicolas Saenz Julienne (11):
+  firmware: raspberrypi: Keep count of all consumers
+  firmware: raspberrypi: Introduce devm_rpi_firmware_get()
+  clk: bcm: rpi: Release firmware handle on unbind
+  gpio: raspberrypi-exp: Release firmware handle on unbind
+  reset: raspberrypi: Release firmware handle on unbind
+  soc: bcm: raspberrypi-power: Release firmware handle on unbind
+  staging: vchiq: Release firmware handle on unbind
+  input: raspberrypi-ts: Release firmware handle when not needed
+  dt-bindings: pwm: Add binding for RPi firmware PWM bus
+  DO NOT MERGE: ARM: dts: Add RPi's official PoE hat support
+  pwm: Add Raspberry Pi Firmware based PWM bus
+
+ .../arm/bcm/raspberrypi,bcm2835-firmware.yaml |  20 ++
+ arch/arm/boot/dts/bcm2711-rpi-4-b.dts         |  54 +++++
+ drivers/clk/bcm/clk-raspberrypi.c             |   2 +-
+ drivers/firmware/raspberrypi.c                |  69 +++++-
+ drivers/gpio/gpio-raspberrypi-exp.c           |   2 +-
+ drivers/input/touchscreen/raspberrypi-ts.c    |   2 +-
+ drivers/pwm/Kconfig                           |   9 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-raspberrypi-poe.c             | 220 ++++++++++++++++++
+ drivers/reset/reset-raspberrypi.c             |   2 +-
+ drivers/soc/bcm/raspberrypi-power.c           |   2 +-
+ .../interface/vchiq_arm/vchiq_arm.c           |   2 +-
+ .../pwm/raspberrypi,firmware-poe-pwm.h        |  13 ++
+ include/soc/bcm2835/raspberrypi-firmware.h    |  10 +
+ 14 files changed, 399 insertions(+), 9 deletions(-)
+ create mode 100644 drivers/pwm/pwm-raspberrypi-poe.c
+ create mode 100644 include/dt-bindings/pwm/raspberrypi,firmware-poe-pwm.h
 
 -- 
-Jiri Kosina
-SUSE Labs
+2.29.2
 
