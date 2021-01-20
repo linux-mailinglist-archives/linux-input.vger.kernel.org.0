@@ -2,52 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E9262FD89E
-	for <lists+linux-input@lfdr.de>; Wed, 20 Jan 2021 19:47:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 154F22FD8A4
+	for <lists+linux-input@lfdr.de>; Wed, 20 Jan 2021 19:47:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733189AbhATSn5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Jan 2021 13:43:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47192 "EHLO
+        id S1728068AbhATSoR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Jan 2021 13:44:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404234AbhATSYV (ORCPT
+        with ESMTP id S2404639AbhATSZz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Jan 2021 13:24:21 -0500
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D31CC0613C1;
-        Wed, 20 Jan 2021 10:23:41 -0800 (PST)
-Received: by mail-ed1-x52c.google.com with SMTP id s11so19621120edd.5;
-        Wed, 20 Jan 2021 10:23:41 -0800 (PST)
+        Wed, 20 Jan 2021 13:25:55 -0500
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D9FDC0613D6;
+        Wed, 20 Jan 2021 10:23:48 -0800 (PST)
+Received: by mail-ej1-x635.google.com with SMTP id l9so29164754ejx.3;
+        Wed, 20 Jan 2021 10:23:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=DmwajdtcsvpevtFPcr/W9PT5T5hPWpAKVvzcBmaY6LI=;
-        b=dEF9rDuPXvxzN1UQzzb3r9e09PRulKHZh0yoClrJqAhrfDPGAnJaQUWw8aHssqmnM4
-         v/PUxyNKwr0Ol7DZh+ZLq6RY5jhI8YUYsS2P1YbYrg3gyAB28EhnDqlNaPUL/MAO5c7H
-         3/6f2R8YC6E0e79YUmhrlde7gxlDLFCR2kzFgil1rjXuB+qI84ihKpwXaRxReaEVJSJa
-         t1AdsqVo646iZSubp051HiFdiA1RaZyzd9lrPxGPuSjeiW3dkDUovUMmW+920FGTg7rV
-         Luoaypc9jThcj4xyT4SkGIfL3tA+g5nFt+Xrogatrx7GtfnFV/aJSoKTMDwPBC4oKftu
-         yhzg==
+        bh=y8f1cq7Mf2Wy4TPYXP9bhiGTtg8q5gdv/AEqlDgWAJw=;
+        b=u28gsrHPAATzDDGA3j4cpdtpDQ99N3k7MCtkCtXj10Oty3796ad+bgd0Txpi/qWlOm
+         v2scUq5K74saiaGM9d4vmoDaiIZ+QoqmNDjDdSS/ATRPw+KE9n9VTM5vXIQb8Hh5uYTX
+         BblHORimK+F3Ox0JvdasEHLstokPwJ+XwtVxn489YCF6+pWpMpTKvZ3CtZchnqfurHal
+         tiAscwZc4HIQ2v8LQupPctYxyy4kKnhnjel1KWBL8ZGnGIZ3rWRLWY2fn3Ta3tBTNH1F
+         AoexiS4vT+5yxAF+xq4ZKVdb/GNk9FoBARv/hqiKv95dk/9V3Hv7L64mFpPTzxR2dMFr
+         OFdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=DmwajdtcsvpevtFPcr/W9PT5T5hPWpAKVvzcBmaY6LI=;
-        b=rG/KNQcXfyIsqVlI9+6+zXFkLSmAXvWUAaf3cBAIc+2xdtcJHlCQOD/lp8erBpMgWT
-         fHyhNmgziLe2ZZwnc+pNRIK1IieKEJ0zRAUV+v1mQUjn1LsCxfe9EFHuCEua5W6IZy8P
-         /thZr4xQ2yOa3Cv/t+ri2gykmIiGkt8HSfeSG7b4wSQPUmNqnsd4K0+A3T5E6yyAcsVO
-         7sVJ9mhi/UboINdJ2XFptxysG+x0hQ97d0ExhwMubjcMgbGXy61nZwlTVohnM2vj3AP9
-         pBgbtn7VlWKwp6Crhnb3YZ8uBae1vJvRwYAIDajtb84ko8HtpdSNJmnGpiR2OeupaoIv
-         +d+Q==
-X-Gm-Message-State: AOAM531Akt3Oo/fBLpi5wOBtVc0BqqAqiulW/oSc7QgYB4J7LC2vQgS8
-        rGX7VWP0swWSgdMKDudsXGI=
-X-Google-Smtp-Source: ABdhPJyzlbPaiWan/dUu3IOjOoRhLTl+WrCJ9qJN/cmzqtDnXDGd+NBSGNWqoYl4dWTsY3Z8TZCIMg==
-X-Received: by 2002:aa7:c643:: with SMTP id z3mr8761528edr.330.1611167019929;
-        Wed, 20 Jan 2021 10:23:39 -0800 (PST)
+        bh=y8f1cq7Mf2Wy4TPYXP9bhiGTtg8q5gdv/AEqlDgWAJw=;
+        b=FEsUlGIQCRqfeunc102zp4BoNe3V3ehpTFSdjrT5ITgIeJ89vuDgltrn+Cvm9krmQO
+         pE0kzFgML6M0bsiCRpFERz6KISpVviePVqIm+CqQyWcu4XXBRnC/7+ijQEart8DaMUyW
+         NuyKdsTbAc+EZAgX8z7GKT4qQjHCg4HzufO3dTgDqJFNdsPAiReZbc80imjbc44nRKLn
+         MeNVKQFl0PhvV2sonA9FnQt95osaMFJDPaOPusUHjxP7dfT1NfxSy7be2Ig/UQw1Oijh
+         XRkmgjXJYR7mJDsbozkyAYbrir/Au5MERU1a+NsLr3ao7EehoC6HmGrkIO6wKrarrT6v
+         FqcQ==
+X-Gm-Message-State: AOAM532rZz82AHtDxDyxaeIWPVQObmFEf990a4pbb45h6vN/CpnI9u6P
+        74vaXLoU/fx2PzkJrKvQFr4=
+X-Google-Smtp-Source: ABdhPJwhhOCHh4q4hd2rsn6xbSFTt3vWwMGjUv3Ez081PLC9tmrljhU8tLuJRF03i9r8i9DsjiBMCQ==
+X-Received: by 2002:a17:907:10c8:: with SMTP id rv8mr6755952ejb.228.1611167026087;
+        Wed, 20 Jan 2021 10:23:46 -0800 (PST)
 Received: from localhost.localdomain ([188.24.159.61])
-        by smtp.gmail.com with ESMTPSA id hr31sm1158332ejc.125.2021.01.20.10.23.38
+        by smtp.gmail.com with ESMTPSA id hr31sm1158332ejc.125.2021.01.20.10.23.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jan 2021 10:23:39 -0800 (PST)
+        Wed, 20 Jan 2021 10:23:45 -0800 (PST)
 From:   Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
 To:     Lee Jones <lee.jones@linaro.org>, Mark Brown <broonie@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -59,10 +59,10 @@ Cc:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
         Linus Walleij <linus.walleij@linaro.org>,
         linux-actions@lists.infradead.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-pm@vger.kernel.org, Rob Herring <robh@kernel.org>
-Subject: [PATCH v6 2/7] dt-bindings: mfd: Add Actions Semi ATC260x PMIC binding
-Date:   Wed, 20 Jan 2021 20:23:27 +0200
-Message-Id: <0fe2072b32faaf5db430b9a1979bb99e18887e7e.1611165200.git.cristian.ciocaltea@gmail.com>
+        linux-pm@vger.kernel.org
+Subject: [PATCH v6 5/7] power: reset: Add poweroff driver for ATC260x PMICs
+Date:   Wed, 20 Jan 2021 20:23:30 +0200
+Message-Id: <b69855aa199d6abb134a93e767a0a2ed07df617c.1611165200.git.cristian.ciocaltea@gmail.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <cover.1611165200.git.cristian.ciocaltea@gmail.com>
 References: <cover.1611165200.git.cristian.ciocaltea@gmail.com>
@@ -72,218 +72,333 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add devicetree binding for Actions Semi ATC260x PMICs.
+This driver provides poweroff and reboot support for a system through
+the ATC2603C and ATC2609A chip variants of the Actions Semi ATC260x
+family of PMICs.
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
 ---
 Changes in v6:
  - None
 
 Changes in v5:
+ - Drop unneeded '#include <linux/of.h>'
+
+Changes in v4:
  - None
 
-Changes in v4
- - Added Reviewed-by from Rob
- - Added support for ATC2603C LDO12 fixed regulator per Mark's suggestion
+Changes in v3:
+ - Removed the unnecessary driver compatibles
 
-Changes in v3 (according to Rob's review):
- - Dropped the 'pwrc' and 'onkey' nodes
- - Used a common 'reset-time-sec' property
+ drivers/power/reset/Kconfig            |   8 +-
+ drivers/power/reset/Makefile           |   1 +
+ drivers/power/reset/atc260x-poweroff.c | 262 +++++++++++++++++++++++++
+ 3 files changed, 270 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/power/reset/atc260x-poweroff.c
 
- .../bindings/mfd/actions,atc260x.yaml         | 183 ++++++++++++++++++
- 1 file changed, 183 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/mfd/actions,atc260x.yaml
-
-diff --git a/Documentation/devicetree/bindings/mfd/actions,atc260x.yaml b/Documentation/devicetree/bindings/mfd/actions,atc260x.yaml
+diff --git a/drivers/power/reset/Kconfig b/drivers/power/reset/Kconfig
+index b22c4fdb2561..1737e227b16e 100644
+--- a/drivers/power/reset/Kconfig
++++ b/drivers/power/reset/Kconfig
+@@ -39,6 +39,13 @@ config POWER_RESET_AT91_SAMA5D2_SHDWC
+ 	  This driver supports the alternate shutdown controller for some Atmel
+ 	  SAMA5 SoCs. It is present for example on SAMA5D2 SoC.
+ 
++config POWER_RESET_ATC260X
++	tristate "Actions Semi ATC260x PMIC power-off driver"
++	depends on MFD_ATC260X
++	help
++	  This driver provides power-off and restart support for a system
++	  through Actions Semi ATC260x series PMICs.
++
+ config POWER_RESET_AXXIA
+ 	bool "LSI Axxia reset driver"
+ 	depends on ARCH_AXXIA
+@@ -292,4 +299,3 @@ config NVMEM_REBOOT_MODE
+ 	  action according to the mode.
+ 
+ endif
+-
+diff --git a/drivers/power/reset/Makefile b/drivers/power/reset/Makefile
+index 9dc49d3a57ff..b4601c0a96ed 100644
+--- a/drivers/power/reset/Makefile
++++ b/drivers/power/reset/Makefile
+@@ -3,6 +3,7 @@ obj-$(CONFIG_POWER_RESET_AS3722) += as3722-poweroff.o
+ obj-$(CONFIG_POWER_RESET_AT91_POWEROFF) += at91-poweroff.o
+ obj-$(CONFIG_POWER_RESET_AT91_RESET) += at91-reset.o
+ obj-$(CONFIG_POWER_RESET_AT91_SAMA5D2_SHDWC) += at91-sama5d2_shdwc.o
++obj-$(CONFIG_POWER_RESET_ATC260X) += atc260x-poweroff.o
+ obj-$(CONFIG_POWER_RESET_AXXIA) += axxia-reset.o
+ obj-$(CONFIG_POWER_RESET_BRCMKONA) += brcm-kona-reset.o
+ obj-$(CONFIG_POWER_RESET_BRCMSTB) += brcmstb-reboot.o
+diff --git a/drivers/power/reset/atc260x-poweroff.c b/drivers/power/reset/atc260x-poweroff.c
 new file mode 100644
-index 000000000000..dd43a0c766f3
+index 000000000000..98f20251a6d1
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/mfd/actions,atc260x.yaml
-@@ -0,0 +1,183 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/mfd/actions,atc260x.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/power/reset/atc260x-poweroff.c
+@@ -0,0 +1,262 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Poweroff & reset driver for Actions Semi ATC260x PMICs
++ *
++ * Copyright (c) 2020 Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
++ */
 +
-+title: Actions Semi ATC260x Power Management IC bindings
++#include <linux/delay.h>
++#include <linux/mfd/atc260x/core.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/power_supply.h>
++#include <linux/reboot.h>
++#include <linux/regmap.h>
 +
-+maintainers:
-+  - Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-+  - Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
++struct atc260x_pwrc {
++	struct device *dev;
++	struct regmap *regmap;
++	struct notifier_block restart_nb;
++	int (*do_poweroff)(const struct atc260x_pwrc *pwrc, bool restart);
++};
 +
-+description: |
-+  ATC260x series PMICs integrates Audio Codec, Power Management, RTC, IR
-+  and GPIO controller blocks. Currently only the PM related functionalities
-+  (i.e. regulators and system power-off/reboot) for the ATC2603C and ATC2609A
-+  chip variants are supported.
-+  ATC2603C includes 3 programmable DC-DC converters, 9 programmable LDO
-+  regulators and 1 fixed LDO regulator.
-+  ATC2609A includes 5 programmable DC-DC converters and 10 programmable LDO
-+  regulators.
++/* Global variable needed only for pm_power_off */
++static struct atc260x_pwrc *atc260x_pwrc_data;
 +
-+allOf:
-+  - $ref: ../input/input.yaml
++static int atc2603c_do_poweroff(const struct atc260x_pwrc *pwrc, bool restart)
++{
++	int ret, deep_sleep = 0;
++	uint reg_mask, reg_val;
 +
-+properties:
-+  compatible:
-+    enum:
-+      - actions,atc2603c
-+      - actions,atc2609a
++	/* S4-Deep Sleep Mode is NOT available for WALL/USB power */
++	if (!restart && !power_supply_is_system_supplied()) {
++		deep_sleep = 1;
++		dev_info(pwrc->dev, "Enabling S4-Deep Sleep Mode");
++	}
 +
-+  reg:
-+    maxItems: 1
++	/* Update wakeup sources */
++	reg_val = ATC2603C_PMU_SYS_CTL0_ONOFF_LONG_WK_EN |
++		  (restart ? ATC2603C_PMU_SYS_CTL0_RESET_WK_EN
++			   : ATC2603C_PMU_SYS_CTL0_ONOFF_SHORT_WK_EN);
 +
-+  interrupts:
-+    maxItems: 1
++	ret = regmap_update_bits(pwrc->regmap, ATC2603C_PMU_SYS_CTL0,
++				 ATC2603C_PMU_SYS_CTL0_WK_ALL, reg_val);
++	if (ret)
++		dev_warn(pwrc->dev, "failed to write SYS_CTL0: %d\n", ret);
 +
-+  reset-time-sec:
-+    description: |
-+      Duration in seconds which the key should be kept pressed for device
-+      to reset automatically. The hardware default is 8. Use 0 to disable
-+      this functionality.
-+    enum: [0, 6, 8, 10, 12]
++	/* Update power mode */
++	reg_mask = ATC2603C_PMU_SYS_CTL3_EN_S2 | ATC2603C_PMU_SYS_CTL3_EN_S3;
 +
-+  regulators:
-+    type: object
-+    description: |
-+      List of child nodes specifying the regulators, depending on chip variant:
-+      * ATC2603C: dcdc[1-3], ldo[1-3,5-8,11,12], switchldo1
-+      * ATC2609A: dcdc[0-4], ldo[0-9]
++	ret = regmap_update_bits(pwrc->regmap, ATC2603C_PMU_SYS_CTL3, reg_mask,
++				 deep_sleep ? 0 : ATC2603C_PMU_SYS_CTL3_EN_S3);
++	if (ret) {
++		dev_err(pwrc->dev, "failed to write SYS_CTL3: %d\n", ret);
++		return ret;
++	}
 +
-+    properties:
-+      compatible:
-+        enum:
-+          - actions,atc2603c-regulator
-+          - actions,atc2609a-regulator
++	/* Trigger poweroff / restart sequence */
++	reg_mask = restart ? ATC2603C_PMU_SYS_CTL0_RESTART_EN
++			   : ATC2603C_PMU_SYS_CTL1_EN_S1;
++	reg_val = restart ? ATC2603C_PMU_SYS_CTL0_RESTART_EN : 0;
 +
-+      switchldo1:
-+        type: object
-+        $ref: ../regulator/regulator.yaml
++	ret = regmap_update_bits(pwrc->regmap,
++				 restart ? ATC2603C_PMU_SYS_CTL0 : ATC2603C_PMU_SYS_CTL1,
++				 reg_mask, reg_val);
++	if (ret) {
++		dev_err(pwrc->dev, "failed to write SYS_CTL%d: %d\n",
++			restart ? 0 : 1, ret);
++		return ret;
++	}
 +
-+        properties:
-+          regulator-name: true
-+          regulator-boot-on: true
-+          regulator-always-on: true
-+          regulator-min-microvolt: true
-+          regulator-max-microvolt: true
-+          regulator-allow-bypass: true
-+          regulator-active-discharge: true
++	/* Wait for trigger completion */
++	mdelay(200);
 +
-+        additionalProperties: false
++	return 0;
++}
 +
-+    patternProperties:
-+      "^(dcdc[0-4]|ldo[0-9]|ldo1[1-2]|switchldo1)-supply$":
-+        description: ATC260x voltage regulators supplies
++static int atc2609a_do_poweroff(const struct atc260x_pwrc *pwrc, bool restart)
++{
++	int ret, deep_sleep = 0;
++	uint reg_mask, reg_val;
 +
-+      "^(dcdc[0-4]|ldo[0-9]|ldo1[1-2])$":
-+        type: object
-+        $ref: ../regulator/regulator.yaml
++	/* S4-Deep Sleep Mode is NOT available for WALL/USB power */
++	if (!restart && !power_supply_is_system_supplied()) {
++		deep_sleep = 1;
++		dev_info(pwrc->dev, "Enabling S4-Deep Sleep Mode");
++	}
 +
-+        properties:
-+          regulator-name: true
-+          regulator-boot-on: true
-+          regulator-always-on: true
-+          regulator-min-microvolt: true
-+          regulator-max-microvolt: true
-+          regulator-allow-bypass: true
++	/* Update wakeup sources */
++	reg_val = ATC2609A_PMU_SYS_CTL0_ONOFF_LONG_WK_EN |
++		  (restart ? ATC2609A_PMU_SYS_CTL0_RESET_WK_EN
++			   : ATC2609A_PMU_SYS_CTL0_ONOFF_SHORT_WK_EN);
 +
-+        additionalProperties: false
++	ret = regmap_update_bits(pwrc->regmap, ATC2609A_PMU_SYS_CTL0,
++				 ATC2609A_PMU_SYS_CTL0_WK_ALL, reg_val);
++	if (ret)
++		dev_warn(pwrc->dev, "failed to write SYS_CTL0: %d\n", ret);
 +
-+    allOf:
-+      - if:
-+          properties:
-+            compatible:
-+              contains:
-+                const: actions,atc2603c-regulator
-+        then:
-+          patternProperties:
-+            "^(dcdc[0,4]|ldo[0,4,9])(-supply)?$": false
++	/* Update power mode */
++	reg_mask = ATC2609A_PMU_SYS_CTL3_EN_S2 | ATC2609A_PMU_SYS_CTL3_EN_S3;
 +
-+            "^(ldo|dcdc)":
-+              properties:
-+                regulator-allow-bypass: false
-+      - if:
-+          properties:
-+            compatible:
-+              contains:
-+                const: actions,atc2609a-regulator
-+        then:
-+          patternProperties:
-+            "^(ldo1[1-2]|switchldo1)(-supply)?$": false
++	ret = regmap_update_bits(pwrc->regmap, ATC2609A_PMU_SYS_CTL3, reg_mask,
++				 deep_sleep ? 0 : ATC2609A_PMU_SYS_CTL3_EN_S3);
++	if (ret) {
++		dev_err(pwrc->dev, "failed to write SYS_CTL3: %d\n", ret);
++		return ret;
++	}
 +
-+            "^(dcdc|ldo[3-9])":
-+              properties:
-+                regulator-allow-bypass: false
++	/* Trigger poweroff / restart sequence */
++	reg_mask = restart ? ATC2609A_PMU_SYS_CTL0_RESTART_EN
++			   : ATC2609A_PMU_SYS_CTL1_EN_S1;
++	reg_val = restart ? ATC2609A_PMU_SYS_CTL0_RESTART_EN : 0;
 +
-+    required:
-+      - compatible
++	ret = regmap_update_bits(pwrc->regmap,
++				 restart ? ATC2609A_PMU_SYS_CTL0 : ATC2609A_PMU_SYS_CTL1,
++				 reg_mask, reg_val);
++	if (ret) {
++		dev_err(pwrc->dev, "failed to write SYS_CTL%d: %d\n",
++			restart ? 0 : 1, ret);
++		return ret;
++	}
 +
-+    additionalProperties: false
++	/* Wait for trigger completion */
++	mdelay(200);
 +
-+additionalProperties: false
++	return 0;
++}
 +
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
++static int atc2603c_init(const struct atc260x_pwrc *pwrc)
++{
++	int ret;
 +
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    i2c0 {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++	/*
++	 * Delay transition from S2/S3 to S1 in order to avoid
++	 * DDR init failure in Bootloader.
++	 */
++	ret = regmap_update_bits(pwrc->regmap, ATC2603C_PMU_SYS_CTL3,
++				 ATC2603C_PMU_SYS_CTL3_S2S3TOS1_TIMER_EN,
++				 ATC2603C_PMU_SYS_CTL3_S2S3TOS1_TIMER_EN);
++	if (ret)
++		dev_warn(pwrc->dev, "failed to write SYS_CTL3: %d\n", ret);
 +
-+        pmic@65 {
-+            compatible = "actions,atc2603c";
-+            reg = <0x65>;
-+            interrupt-parent = <&sirq>;
-+            interrupts = <2 IRQ_TYPE_LEVEL_HIGH>;
++	/* Set wakeup sources */
++	ret = regmap_update_bits(pwrc->regmap, ATC2603C_PMU_SYS_CTL0,
++				 ATC2603C_PMU_SYS_CTL0_WK_ALL,
++				 ATC2603C_PMU_SYS_CTL0_HDSW_WK_EN |
++				 ATC2603C_PMU_SYS_CTL0_ONOFF_LONG_WK_EN);
++	if (ret)
++		dev_warn(pwrc->dev, "failed to write SYS_CTL0: %d\n", ret);
 +
-+            reset-time-sec = <6>;
++	return ret;
++}
 +
-+            regulators {
-+                compatible = "actions,atc2603c-regulator";
++static int atc2609a_init(const struct atc260x_pwrc *pwrc)
++{
++	int ret;
 +
-+                dcdc1-supply = <&reg_5v0>;
-+                dcdc3-supply = <&reg_5v0>;
-+                ldo5-supply = <&reg_5v0>;
-+                switchldo1-supply = <&vcc>;
++	/* Set wakeup sources */
++	ret = regmap_update_bits(pwrc->regmap, ATC2609A_PMU_SYS_CTL0,
++				 ATC2609A_PMU_SYS_CTL0_WK_ALL,
++				 ATC2609A_PMU_SYS_CTL0_HDSW_WK_EN |
++				 ATC2609A_PMU_SYS_CTL0_ONOFF_LONG_WK_EN);
++	if (ret)
++		dev_warn(pwrc->dev, "failed to write SYS_CTL0: %d\n", ret);
 +
-+                vdd_cpu: dcdc1 {
-+                    regulator-name = "VDD_CPU";
-+                    regulator-min-microvolt = <700000>;
-+                    regulator-max-microvolt = <1400000>;
-+                    regulator-always-on;
-+                };
++	return ret;
++}
 +
-+                vcc: dcdc3 {
-+                    regulator-name = "VCC";
-+                    regulator-min-microvolt = <2600000>;
-+                    regulator-max-microvolt = <3300000>;
-+                    regulator-always-on;
-+                };
++static void atc260x_pwrc_pm_handler(void)
++{
++	atc260x_pwrc_data->do_poweroff(atc260x_pwrc_data, false);
 +
-+                vcc_3v1: ldo5 {
-+                    regulator-name = "VCC_3V1";
-+                    regulator-min-microvolt = <2600000>;
-+                    regulator-max-microvolt = <3300000>;
-+                };
++	WARN_ONCE(1, "Unable to power off system\n");
++}
 +
-+                sd_vcc: switchldo1 {
-+                    regulator-name = "SD_VCC";
-+                    regulator-min-microvolt = <3000000>;
-+                    regulator-max-microvolt = <3300000>;
-+                    regulator-always-on;
-+                    regulator-boot-on;
-+                };
-+            };
-+        };
-+    };
++static int atc260x_pwrc_restart_handler(struct notifier_block *nb,
++					unsigned long mode, void *cmd)
++{
++	struct atc260x_pwrc *pwrc = container_of(nb, struct atc260x_pwrc,
++						 restart_nb);
++	pwrc->do_poweroff(pwrc, true);
 +
-+...
++	return NOTIFY_DONE;
++}
++
++static int atc260x_pwrc_probe(struct platform_device *pdev)
++{
++	struct atc260x *atc260x = dev_get_drvdata(pdev->dev.parent);
++	struct atc260x_pwrc *priv;
++	int ret;
++
++	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	priv->dev = &pdev->dev;
++	priv->regmap = atc260x->regmap;
++	priv->restart_nb.notifier_call = atc260x_pwrc_restart_handler;
++	priv->restart_nb.priority = 192;
++
++	switch (atc260x->ic_type) {
++	case ATC2603C:
++		priv->do_poweroff = atc2603c_do_poweroff;
++		ret = atc2603c_init(priv);
++		break;
++	case ATC2609A:
++		priv->do_poweroff = atc2609a_do_poweroff;
++		ret = atc2609a_init(priv);
++		break;
++	default:
++		dev_err(priv->dev,
++			"Poweroff not supported for ATC260x PMIC type: %u\n",
++			atc260x->ic_type);
++		return -EINVAL;
++	}
++
++	if (ret)
++		return ret;
++
++	platform_set_drvdata(pdev, priv);
++
++	if (!pm_power_off) {
++		atc260x_pwrc_data = priv;
++		pm_power_off = atc260x_pwrc_pm_handler;
++	} else {
++		dev_warn(priv->dev, "Poweroff callback already assigned\n");
++	}
++
++	ret = register_restart_handler(&priv->restart_nb);
++	if (ret)
++		dev_err(priv->dev, "failed to register restart handler: %d\n",
++			ret);
++
++	return ret;
++}
++
++static int atc260x_pwrc_remove(struct platform_device *pdev)
++{
++	struct atc260x_pwrc *priv = platform_get_drvdata(pdev);
++
++	if (atc260x_pwrc_data == priv) {
++		pm_power_off = NULL;
++		atc260x_pwrc_data = NULL;
++	}
++
++	unregister_restart_handler(&priv->restart_nb);
++
++	return 0;
++}
++
++static struct platform_driver atc260x_pwrc_driver = {
++	.probe = atc260x_pwrc_probe,
++	.remove = atc260x_pwrc_remove,
++	.driver = {
++		.name = "atc260x-pwrc",
++	},
++};
++
++module_platform_driver(atc260x_pwrc_driver);
++
++MODULE_DESCRIPTION("Poweroff & reset driver for ATC260x PMICs");
++MODULE_AUTHOR("Cristian Ciocaltea <cristian.ciocaltea@gmail.com>");
++MODULE_LICENSE("GPL");
 -- 
 2.30.0
 
