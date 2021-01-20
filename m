@@ -2,162 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9634B2FC0B7
-	for <lists+linux-input@lfdr.de>; Tue, 19 Jan 2021 21:16:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 71F752FC64E
+	for <lists+linux-input@lfdr.de>; Wed, 20 Jan 2021 02:16:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730197AbhASUPz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 Jan 2021 15:15:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41246 "EHLO
+        id S1729161AbhATBPT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 Jan 2021 20:15:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404498AbhASUIW (ORCPT
+        with ESMTP id S1730172AbhATBPK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 Jan 2021 15:08:22 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08AE9C061757;
-        Tue, 19 Jan 2021 12:07:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=qH9+bSG9rldlwp1A7DpxVLC8Lk4DArwmSI8u9Y2/wRo=; b=zZEqB+N+PwjS44QIyd9rjx4bof
-        oAewXwE/xA/GnLniegGNLlzGe9JqKM4bPY4RoIa9JsFxzoGBo2J1vPNdkUxnggDM8ItznVoEGkXEP
-        rGlsCdky9z9HeGESISYAT2kBtVqaqwkxHHPxzHBUJUjhXqT4kiqpa4fIzLFJdNvTRBRkuCXdDS8T+
-        Ut//TIrieZ0Y9gYovWwGZ5mLpnk7G/J5rA66q5lGdgdWBeoPrXHP1F9I7oelCOYoGGXp5XcGJWtcy
-        57NMLS3MLBq6o7QATx1vdgjgZUn5kDiMxDScSqFaBq67WEzSoOwD4COaxg63JxAlVN2vk7UH0KAPa
-        yzSgWBbQ==;
-Received: from [2601:1c0:6280:3f0::9abc] (helo=merlin.infradead.org)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1l1xHr-00073y-Ld; Tue, 19 Jan 2021 20:07:36 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-Subject: [PATCH 2/2 v2] HID: correct kernel-doc notation in hid-quirks.c
-Date:   Tue, 19 Jan 2021 12:07:23 -0800
-Message-Id: <20210119200723.12092-3-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210119200723.12092-1-rdunlap@infradead.org>
-References: <20210119200723.12092-1-rdunlap@infradead.org>
+        Tue, 19 Jan 2021 20:15:10 -0500
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72110C0613D6
+        for <linux-input@vger.kernel.org>; Tue, 19 Jan 2021 17:14:08 -0800 (PST)
+Received: by mail-pj1-x1033.google.com with SMTP id y12so1101699pji.1
+        for <linux-input@vger.kernel.org>; Tue, 19 Jan 2021 17:14:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=acY9ZLeBwuJ5n85Gq8inXcRYo3lIoo/fRx+0Q27Seo8=;
+        b=RyzLRdvuJLqh1+s1HZJinjMLA9Y/6g5Ymi2PM8s738Zqnjm/SsXgvpJfEqqtuuSwb/
+         7Mevs12bIaFoGiW6VkNh9U17kN3jMwLCTEYx0nSbGr99tK7UBPRldAgAxJMmniM9Sj76
+         QwKut9SiUh1PrfOBS3Zkt8sbievZTB0C47cI7JYml+2BwnHx0nVT14C/mf0hcwfkr0k9
+         AUcgtcY/4U02vUjBbbOl1WAI0YEDOc/WVZrcS7Yop7WghMUj/78GdV/LjHHfuw+8dYIe
+         HC7f+9Nz94x3vdIikZ3CUH1F4/EA8OM4YErluNdUJmVj8WEU94sM4E27WdEwO+BinDaE
+         dtow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=acY9ZLeBwuJ5n85Gq8inXcRYo3lIoo/fRx+0Q27Seo8=;
+        b=ZsHG5emjA+XAdfzZHWFy7vF4kyN6HKZOUfXAAG5BVdTLXdqK0fct2Ul+nGs559TTxP
+         DrPrc+YoNMXlWdb+zolFFISQmgXIClyfcpe3PZN/Masy6tPOO26DTWiw3kbZJDSM0sUt
+         NJhran4pRs88jh8pav3g2Bfb5qcHL1vozfaNfLbkxWNHTGripqnMBGKUYN66m3j5nQ8U
+         MBkibUtZa8DMV5PqlsAW78uzeqMNgnuScWvQ7jRWpLPfYcMUysbOeRzA1/FnJ2sK/V5e
+         VaL7nNnB2JAv7mdBaTjCOUzjgUYtz98D/gGOCMRlJtkuJTYZOMELj0ZH+WUkv+4xtqNK
+         7n0w==
+X-Gm-Message-State: AOAM531bkqypSmMGimjsAUFW0iCiciSrsEIDHh3NiadxNO1pko6A0+7f
+        Wkc6dcPleiz59gx0Ar/9GzI=
+X-Google-Smtp-Source: ABdhPJw0cDDKGjm7xLkgPPoyJZyZmhlUvV0LUKNF/d+8AyWVaFKAftiGBpQxnMtTbCOpe57Op90zaw==
+X-Received: by 2002:a17:902:8306:b029:da:d7f0:9e16 with SMTP id bd6-20020a1709028306b02900dad7f09e16mr7332033plb.53.1611105247930;
+        Tue, 19 Jan 2021 17:14:07 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
+        by smtp.gmail.com with ESMTPSA id m11sm163508pjz.44.2021.01.19.17.14.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Jan 2021 17:14:06 -0800 (PST)
+Date:   Tue, 19 Jan 2021 17:14:04 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     jzp0409 <jzp0409@163.com>
+Cc:     linux-input@vger.kernel.org, jiangzhipeng <jiangzhipeng@yulong.com>
+Subject: Re: [PATCH] Input: ft5x06 - of_device_id using CONFIG_OF
+Message-ID: <YAeD3LyTyR4T7Qxz@google.com>
+References: <20210120005301.2158-1-jzp0409@163.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210120005301.2158-1-jzp0409@163.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Use correct kernel-doc notation for functions.
-Add notation (comments) where it is missing.
-Use the documented "Return:" notation for function return values.
+On Wed, Jan 20, 2021 at 08:53:01AM +0800, jzp0409 wrote:
+> From: jiangzhipeng <jiangzhipeng@yulong.com>
+> 
+> ft5x06 use of_device_id,Use CONFIG_OF include
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jiri Kosina <jikos@kernel.org>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: linux-input@vger.kernel.org
----
-v2: rebase & resend
+This will not compile with !C0NFIG_OF.
 
- drivers/hid/hid-quirks.c |   25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
+> 
+> Signed-off-by: jiangzhipeng <jiangzhipeng@yulong.com>
+> ---
+>  drivers/input/touchscreen/edt-ft5x06.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
+> index 2eefbc2..c69fde0 100644
+> --- a/drivers/input/touchscreen/edt-ft5x06.c
+> +++ b/drivers/input/touchscreen/edt-ft5x06.c
+> @@ -1371,6 +1371,7 @@ static SIMPLE_DEV_PM_OPS(edt_ft5x06_ts_pm_ops,
+>  };
+>  MODULE_DEVICE_TABLE(i2c, edt_ft5x06_ts_id);
+>  
+> +#ifdef CONFIG_OF
+>  static const struct of_device_id edt_ft5x06_of_match[] = {
+>  	{ .compatible = "edt,edt-ft5206", .data = &edt_ft5x06_data },
+>  	{ .compatible = "edt,edt-ft5306", .data = &edt_ft5x06_data },
+> @@ -1382,6 +1383,7 @@ static SIMPLE_DEV_PM_OPS(edt_ft5x06_ts_pm_ops,
+>  	{ /* sentinel */ }
+>  };
+>  MODULE_DEVICE_TABLE(of, edt_ft5x06_of_match);
+> +#endif
+>  
+>  static struct i2c_driver edt_ft5x06_ts_driver = {
+>  	.driver = {
+> -- 
+> 1.9.1
+> 
+> 
 
---- linux-next-20210119.orig/drivers/hid/hid-quirks.c
-+++ linux-next-20210119/drivers/hid/hid-quirks.c
-@@ -1028,7 +1028,7 @@ static DEFINE_MUTEX(dquirks_lock);
- /* Runtime ("dynamic") quirks manipulation functions */
- 
- /**
-- * hid_exists_dquirk: find any dynamic quirks for a HID device
-+ * hid_exists_dquirk - find any dynamic quirks for a HID device
-  * @hdev: the HID device to match
-  *
-  * Description:
-@@ -1036,7 +1036,7 @@ static DEFINE_MUTEX(dquirks_lock);
-  *         the pointer to the relevant struct hid_device_id if found.
-  *         Must be called with a read lock held on dquirks_lock.
-  *
-- * Returns: NULL if no quirk found, struct hid_device_id * if found.
-+ * Return: NULL if no quirk found, struct hid_device_id * if found.
-  */
- static struct hid_device_id *hid_exists_dquirk(const struct hid_device *hdev)
- {
-@@ -1060,7 +1060,7 @@ static struct hid_device_id *hid_exists_
- 
- 
- /**
-- * hid_modify_dquirk: add/replace a HID quirk
-+ * hid_modify_dquirk - add/replace a HID quirk
-  * @id: the HID device to match
-  * @quirks: the unsigned long quirks value to add/replace
-  *
-@@ -1069,7 +1069,7 @@ static struct hid_device_id *hid_exists_
-  *         quirks value with what was provided.  Otherwise, add the quirk
-  *         to the dynamic quirks list.
-  *
-- * Returns: 0 OK, -error on failure.
-+ * Return: 0 OK, -error on failure.
-  */
- static int hid_modify_dquirk(const struct hid_device_id *id,
- 			     const unsigned long quirks)
-@@ -1121,7 +1121,7 @@ static int hid_modify_dquirk(const struc
- }
- 
- /**
-- * hid_remove_all_dquirks: remove all runtime HID quirks from memory
-+ * hid_remove_all_dquirks - remove all runtime HID quirks from memory
-  * @bus: bus to match against. Use HID_BUS_ANY if all need to be removed.
-  *
-  * Description:
-@@ -1145,7 +1145,10 @@ static void hid_remove_all_dquirks(__u16
- }
- 
- /**
-- * hid_quirks_init: apply HID quirks specified at module load time
-+ * hid_quirks_init - apply HID quirks specified at module load time
-+ * @quirks_param: array of quirks strings (vendor:product:quirks)
-+ * @bus: bus type
-+ * @count: number of quirks to check
-  */
- int hid_quirks_init(char **quirks_param, __u16 bus, int count)
- {
-@@ -1176,7 +1179,7 @@ int hid_quirks_init(char **quirks_param,
- EXPORT_SYMBOL_GPL(hid_quirks_init);
- 
- /**
-- * hid_quirks_exit: release memory associated with dynamic_quirks
-+ * hid_quirks_exit - release memory associated with dynamic_quirks
-  * @bus: a bus to match against
-  *
-  * Description:
-@@ -1193,14 +1196,14 @@ void hid_quirks_exit(__u16 bus)
- EXPORT_SYMBOL_GPL(hid_quirks_exit);
- 
- /**
-- * hid_gets_squirk: return any static quirks for a HID device
-+ * hid_gets_squirk - return any static quirks for a HID device
-  * @hdev: the HID device to match
-  *
-  * Description:
-  *     Given a HID device, return a pointer to the quirked hid_device_id entry
-  *     associated with that device.
-  *
-- * Returns: the quirks.
-+ * Return: the quirks.
-  */
- static unsigned long hid_gets_squirk(const struct hid_device *hdev)
- {
-@@ -1224,13 +1227,13 @@ static unsigned long hid_gets_squirk(con
- }
- 
- /**
-- * hid_lookup_quirk: return any quirks associated with a HID device
-+ * hid_lookup_quirk - return any quirks associated with a HID device
-  * @hdev: the HID device to look for
-  *
-  * Description:
-  *     Given a HID device, return any quirks associated with that device.
-  *
-- * Returns: an unsigned long quirks value.
-+ * Return: an unsigned long quirks value.
-  */
- unsigned long hid_lookup_quirk(const struct hid_device *hdev)
- {
+Thanks.
+
+-- 
+Dmitry
