@@ -2,79 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4279B2FC7A9
+	by mail.lfdr.de (Postfix) with ESMTP id BA10F2FC7AA
 	for <lists+linux-input@lfdr.de>; Wed, 20 Jan 2021 03:19:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728253AbhATCSB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 Jan 2021 21:18:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36668 "EHLO
+        id S1728131AbhATCTm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 Jan 2021 21:19:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730603AbhATCRx (ORCPT
+        with ESMTP id S1726550AbhATCTh (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 Jan 2021 21:17:53 -0500
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00644C061575;
-        Tue, 19 Jan 2021 18:17:12 -0800 (PST)
-Received: by mail-pg1-x52c.google.com with SMTP id z21so14215791pgj.4;
-        Tue, 19 Jan 2021 18:17:12 -0800 (PST)
+        Tue, 19 Jan 2021 21:19:37 -0500
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97B08C061575;
+        Tue, 19 Jan 2021 18:18:57 -0800 (PST)
+Received: by mail-pj1-x102f.google.com with SMTP id kx7so1185345pjb.2;
+        Tue, 19 Jan 2021 18:18:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=t00TCy5wC+D/qG4tfIGdU9KwNyTzKMrXg9QaOPRF4Ro=;
-        b=PAEasWe/eKvuH5ckT6Ewy3isYgo9T9iZXojfJkFRUNrZrWMGnetPLL7qG/zP+QJU+U
-         FxCA47meW4jKiuf2TaW4UAFlGIxApus8zQGruX3tqXrlNbl5I3M3rcEHHNyvrfMteqNV
-         7xN+6lYayp3j+eA8MLAioG+Iue3i0Ey3h6WNq+0M6hL/iHHyk0aXnMZrs0m1laDgJf/8
-         7S45d1fmHJhO4cQ2PHB1PpGOl+TrheS//7FIVOzKy7nw7M9trm4Gv3QX8Ic1YMdPRRRL
-         6EKHtlMGs3HXCOoFPFk6uGfWzct4hdeXbbNSqpU0VRRDiaq7v8DnTSZRKH3rynB6FDHU
-         XhiA==
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=/a+f4k/xRYb9VW3It87QkaFiw1Q2EwqXZUwb84ELXzk=;
+        b=utps7xbfdD2m2CBSRzvXCIkiwWz7Ls/7auAx3Dtz0iHV79MedBjizj6WVF0Oqnhr8z
+         RP+Nw5WcqZLBBMyBa5+lXbP0eaaBuAmpIEGRE9N9CGISQe7MWVrCms4oqE1Kv+sjoOzz
+         bfIFwDCyzeHYwnlNCldB4JshVymi8lsE6NnRK1ZQKoLHKonou429kSw+lxoxBPaFoZ6m
+         JTt2XfpNt13zHH/NiL287cd2SF9PTg1i3Aq4EViHD93ZzMYQGarn9vaGa+qXODMerlDv
+         Qoo7y03Ur0f52tMVe65PmY5ynxECdWId+jhPT0ZQtjOPQVF1ciewb5rL4oS4GMvRa1wz
+         r1wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=t00TCy5wC+D/qG4tfIGdU9KwNyTzKMrXg9QaOPRF4Ro=;
-        b=YlVMtinOAttQa7fOWHxy5Tu2i2u6J2iMoFzzJFRDcZ2KAuPJA3awPo6ccrPbNLIL21
-         L5OmaSohTKB3AFUeuANOkcSSV5KaeYaCBhvOBTnu6UBU+QMeEthKGP1HipwOewNp93KV
-         QOrUn8f1CeLuvhQT4/SPcZ+pSedPZOUnSxc7BIQ/MPZxIibrV3M5h/QZBBbn4rF0UBwr
-         XYgseXAtDqpbNKXJcPOBD/AhWoo9ezNDsRBxxmIQ/oTW8JNqMwPqRYVoJeJnSa0xzJHt
-         Zq/5kG/I/ONl/DbukWJ8mO2eW1ip4TtH3i7zztNAtQiLVJh9qgCo0o+4RhNJTGgmh7Cn
-         4auw==
-X-Gm-Message-State: AOAM531AwiTOJMjDLtruaQDDF+cCV2GjVTIPGY4KFqYVsNxAOv2jiDOw
-        7ID3vIHuKuQWxdHsO0cIeM8=
-X-Google-Smtp-Source: ABdhPJwgHSk1Ov4cHl9ao26GOKsNXQPq6Xf5/0h3Ik0npPPEKPBB5oIvpeD25qEdt7HB9+FnUr0RcA==
-X-Received: by 2002:aa7:9af4:0:b029:19d:975a:3ef2 with SMTP id y20-20020aa79af40000b029019d975a3ef2mr7136388pfp.5.1611109032534;
-        Tue, 19 Jan 2021 18:17:12 -0800 (PST)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=/a+f4k/xRYb9VW3It87QkaFiw1Q2EwqXZUwb84ELXzk=;
+        b=P5AEJ/bwYpLAkBClw5Dq7VqJe/K+OPGxV9QPdSNjJCNGyxTZTXY8iFlKFa1Q/FQTyN
+         7EhOh6FWfLVYKt5R2V5RrBE1XIQ1HWy7JyvaG7AKjrxfNvquxaWeZ686Xfj56s6Z1/Lv
+         SfBy7GQQ0UqiP0hghSVCMdmvx/Ucd6AEY3QvcJHRzBsHdyZ/sgNGVBae9TNilgMJpCPZ
+         M29Jg9RIfENU7zXOmeZzVEnuwqaZaqgaCDZqrwfLmS5noUHMhlo0tjaJsCmwHwdhq38Y
+         oRxEKGmzh0cx2ie9COvMzLA3kZ81vHnPbXtPAlumIcI02rv8/eFRx3GbKj9PQA8uSQ7Z
+         ZkCQ==
+X-Gm-Message-State: AOAM532PXV2PXweEjLzkMaxwWzK44KvzB+a87k14RRBMZh2mujw1Ei25
+        uQN11bRMAZVZdPQCd21u3eB5VJ5meLw=
+X-Google-Smtp-Source: ABdhPJyRJ1RzHNknGZ7NEz9pj0sHmS821RmTmg7zVpMswjr+4J8N7okmw2DjgM6hhVzvP8qHSM96pA==
+X-Received: by 2002:a17:90a:db0d:: with SMTP id g13mr2933151pjv.76.1611109137208;
+        Tue, 19 Jan 2021 18:18:57 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id f7sm241450pjs.25.2021.01.19.18.17.11
+        by smtp.gmail.com with ESMTPSA id j3sm238009pjs.50.2021.01.19.18.18.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 18:17:11 -0800 (PST)
-Date:   Tue, 19 Jan 2021 18:17:09 -0800
+        Tue, 19 Jan 2021 18:18:56 -0800 (PST)
+Date:   Tue, 19 Jan 2021 18:18:54 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Alistair Francis <alistair@alistair23.me>
-Cc:     linux-input@vger.kernel.org, linux-imx@nxp.com,
-        kernel@pengutronix.de, linux-kernel@vger.kernel.org,
-        alistair23@gmail.com
-Subject: Re: [PATCH 2/3] input/touchscreen: Add device tree support to
- wacom_i2c
-Message-ID: <YAeSpUIzV/3dWPC+@google.com>
-References: <20210117042428.1497-1-alistair@alistair23.me>
- <20210117042428.1497-2-alistair@alistair23.me>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     linux-kernel@vger.kernel.org, Sangwon Jee <jeesw@melfas.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH 2/5] input: touchscreen: melfas_mip4: Mark a bunch of
+ variables as __always_unused
+Message-ID: <YAeTDvUTE13ISJ0p@google.com>
+References: <20210114152323.2382283-1-lee.jones@linaro.org>
+ <20210114152323.2382283-3-lee.jones@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210117042428.1497-2-alistair@alistair23.me>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210114152323.2382283-3-lee.jones@linaro.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Jan 16, 2021 at 08:24:27PM -0800, Alistair Francis wrote:
-> Allow the wacom-i2c device to be exposed via device tree.
+On Thu, Jan 14, 2021 at 03:23:20PM +0000, Lee Jones wrote:
+> Dmitry requested to keep these around for the purposes of documentation.
+> 
+> Fixes the following W=1 kernel build warning(s):
+> 
+>  drivers/input/touchscreen/melfas_mip4.c: In function ‘mip4_report_touch’:
+>  drivers/input/touchscreen/melfas_mip4.c:474:5: warning: variable ‘size’ set but not used [-Wunused-but-set-variable]
+>  drivers/input/touchscreen/melfas_mip4.c:472:5: warning: variable ‘pressure_stage’ set but not used [-Wunused-but-set-variable]
+>  drivers/input/touchscreen/melfas_mip4.c:469:7: warning: variable ‘palm’ set but not used [-Wunused-but-set-variable]
+>  drivers/input/touchscreen/melfas_mip4.c:468:7: warning: variable ‘hover’ set but not used [-Wunused-but-set-variable]
+> 
+> Cc: Sangwon Jee <jeesw@melfas.com>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Henrik Rydberg <rydberg@bitmath.org>
+> Cc: linux-input@vger.kernel.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
 
-The patch seems incomplete. I see we are reading and storing properties,
-but we are not using them whatsoever, so I do not see the reason to have
-this in this form.
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
