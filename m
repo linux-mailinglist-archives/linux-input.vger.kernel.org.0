@@ -2,104 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 15C032FCBE0
-	for <lists+linux-input@lfdr.de>; Wed, 20 Jan 2021 08:44:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BDAB2FCBF1
+	for <lists+linux-input@lfdr.de>; Wed, 20 Jan 2021 08:47:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729216AbhATHl2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Jan 2021 02:41:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50024 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729574AbhATHlU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Jan 2021 02:41:20 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE51BC061757
-        for <linux-input@vger.kernel.org>; Tue, 19 Jan 2021 23:40:39 -0800 (PST)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1l286U-0004eK-7C; Wed, 20 Jan 2021 08:40:34 +0100
-Received: from ore by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ore@pengutronix.de>)
-        id 1l286S-0001Md-2k; Wed, 20 Jan 2021 08:40:32 +0100
-Date:   Wed, 20 Jan 2021 08:40:32 +0100
-From:   Oleksij Rempel <o.rempel@pengutronix.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Alexandru Ardelean <alexandru.ardelean@analog.com>,
-        Mark Brown <broonie@kernel.org>, kernel@pengutronix.de,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-spi@vger.kernel.org, David Jander <david@protonic.nl>
-Subject: Re: [PATCH v2 2/2] Input: ads7846: convert to one message
-Message-ID: <20210120074032.2swvp7iqli6xttul@pengutronix.de>
-References: <20201110085041.16303-1-o.rempel@pengutronix.de>
- <20201110085041.16303-3-o.rempel@pengutronix.de>
- <20201118003138.GD2009714@dtor-ws>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201118003138.GD2009714@dtor-ws>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 08:38:56 up 48 days, 21:45, 28 users,  load average: 0.00, 0.03,
- 0.00
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+        id S1729047AbhATHqf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Jan 2021 02:46:35 -0500
+Received: from mga17.intel.com ([192.55.52.151]:7116 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728215AbhATHqe (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 20 Jan 2021 02:46:34 -0500
+IronPort-SDR: ZK9AsS1uldtu4kCYV1dvvyPLZU2EE/QxruDnGSjX9Hx8NpfE+SN1PXd9rnVHexHNisRhI07VfE
+ PKy0jr3puuCg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9869"; a="158836353"
+X-IronPort-AV: E=Sophos;i="5.79,360,1602572400"; 
+   d="scan'208";a="158836353"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2021 23:45:54 -0800
+IronPort-SDR: +44SCZeZpBzqKfP3WQ9/Wys4rNcePPXriBEVdg6h6gAjCiD2aSza9OTs6qRByYDhda8IRATNij
+ raOZSHbevbxA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,360,1602572400"; 
+   d="scan'208";a="466994219"
+Received: from host.sh.intel.com ([10.239.154.115])
+  by fmsmga001.fm.intel.com with ESMTP; 19 Jan 2021 23:45:52 -0800
+From:   Ye Xiang <xiang.ye@intel.com>
+To:     jikos@kernel.org, jic23@kernel.org,
+        srinivas.pandruvada@linux.intel.com
+Cc:     linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Ye Xiang <xiang.ye@intel.com>
+Subject: [PATCH 0/3] resolve read hystersis return invalid argument issue for hid sensors
+Date:   Wed, 20 Jan 2021 15:47:03 +0800
+Message-Id: <20210120074706.23199-1-xiang.ye@intel.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+This patch series move get sensitivity attribute to common layer and
+resolve read hystersis return invalid argument issue for hid sensors als,
+incli-3d, rotation, and press on intel ISH Platform.
 
-Hi Dmitry,
+Ye Xiang (3):
+  iio: hid-sensors: Move get sensitivity attribute to hid-sensor-common
+  hid-sensor-common: Add relative sensitivity check
+  hid-sensors: Add more data fields for sensitivity checking
 
-On Tue, Nov 17, 2020 at 04:31:38PM -0800, Dmitry Torokhov wrote:
-> On Tue, Nov 10, 2020 at 09:50:41AM +0100, Oleksij Rempel wrote:
-> > Convert multiple full duplex transfers in to a single transfer to reduce
-> > CPU load.
-> > 
-> > Current driver version support following filtering modes:
-> > - ads7846_no_filter() - not filtered
-> > - ads7846_debounce_filter() - driver specific debounce filter
-> > - pdata->filter - platform specific debounce filter (do any platform
-> > 	provides such filter?)
-> > 
-> > Without filter this HW is not really usable, since the physic of
-> > resistive touchscreen can provide some bounce effects. With driver internal
-> > filter, we have constant amount of retries + debounce retries if some anomaly
-> > was detected.
-> > 
-> > High amount of tiny SPI transfers is the primer reason of high CPU load
-> > and interrupt frequency.
-> > 
-> > This patch create one SPI transfer with all fields and not optional retires. If
-> > bounce anomaly was detected, we will make more transfer if needed.
-> > 
-> > Without this patch, we will get about 10% CPU load on iMX6S on pen-down event.
-> > For example by holding stylus on the screen.
-> > 
-> > With this patch, depending in the amount of retries, the CPU load will
-> > be 1% with "ti,debounce-rep = <3>".
-> > 
-> > One buffer transfer allows us to use PIO FIFO or DMA engine, depending
-> > on the platform.
-> > 
-> > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> 
-> Applied, thank you.
+ drivers/iio/accel/hid-sensor-accel-3d.c       | 23 +++++--------
+ .../hid-sensors/hid-sensor-attributes.c       | 26 +++++++++++++-
+ drivers/iio/gyro/hid-sensor-gyro-3d.c         | 19 ++++-------
+ drivers/iio/humidity/hid-sensor-humidity.c    | 16 ++++-----
+ drivers/iio/light/hid-sensor-als.c            | 20 +++++------
+ drivers/iio/light/hid-sensor-prox.c           | 27 +++++----------
+ drivers/iio/magnetometer/hid-sensor-magn-3d.c | 34 ++++++-------------
+ drivers/iio/orientation/hid-sensor-incl-3d.c  | 20 +++++------
+ drivers/iio/orientation/hid-sensor-rotation.c | 24 ++++++-------
+ .../position/hid-sensor-custom-intel-hinge.c  | 20 ++++-------
+ drivers/iio/pressure/hid-sensor-press.c       | 20 +++++------
+ .../iio/temperature/hid-sensor-temperature.c  | 16 ++++-----
+ drivers/rtc/rtc-hid-sensor-time.c             |  4 ++-
+ include/linux/hid-sensor-hub.h                |  4 ++-
+ include/linux/hid-sensor-ids.h                |  1 +
+ 15 files changed, 122 insertions(+), 152 deletions(-)
 
-I can't find this patch in your git repository. Should I rebase it
-against latest git and resend it?
-
-Regards,
-Oleksij
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.17.1
+
