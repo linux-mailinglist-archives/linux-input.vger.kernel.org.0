@@ -2,123 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 953E32FDA1C
-	for <lists+linux-input@lfdr.de>; Wed, 20 Jan 2021 20:55:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 819142FDB53
+	for <lists+linux-input@lfdr.de>; Wed, 20 Jan 2021 22:25:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387945AbhATSo1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Jan 2021 13:44:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47530 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404644AbhATSZz (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Jan 2021 13:25:55 -0500
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C166DC061786;
-        Wed, 20 Jan 2021 10:23:50 -0800 (PST)
-Received: by mail-ej1-x632.google.com with SMTP id a10so18242286ejg.10;
-        Wed, 20 Jan 2021 10:23:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=hQ5eYd2yXDaG2x8OSmjOsHYCV/m/dRWpKbP4QFtdxVI=;
-        b=Nf+cwFcpqBozWZMA63vXzqCZIktkqS/hvWPkFMKkQmL5DeD0ORsBwuagCCyMnplHq0
-         8IxcHH6lvv5T0VNYfhxJEAMb+zdYJigIr3GVOrfaerhFaZtfL3UnFogvWSBP3Ho4eeO5
-         Mvj+rGwSwkk3RHT683UZkqYf0N7J5XXcwA7qzdwBaggFWC+dd/K7jcHpkOYJ7VaWfyZx
-         05GatbBPqODPP0E+cFUce9SJpCdFyhGl+yL7ImGmRbqXnpd2Bm4vfmvoRslYGqcq/ZCU
-         Tu3Vc+lQRzVWElV0+BSO0Va0AOPoGewKFwyymak9xHeL+wTgDq2w9e17VzknneYYESb+
-         GSaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=hQ5eYd2yXDaG2x8OSmjOsHYCV/m/dRWpKbP4QFtdxVI=;
-        b=jp3VRA5stTXsr1FfiRkeHw5/HVJiQIj7/yHQx49NrGGtX836e5HiYExVsyfEWJAtNx
-         W2XLPFkWren2zjOZFZtIh2AFmbk3d7TX5as7ATkPDUaGurK6HwZwBorSbMRoyTDkV8fy
-         LXHgf4SlImGSTAKsTqWicRA0IHOb1DuwPv+xzFqNwR/NpPrizsFBPIK1SzAAmEgQ+Mnx
-         DvoRVeKlw6RNt+4sONSR/SbhY/GuZz+Ewfs1j80StTTRvFOrNzFITm70p79Ig34EQYOS
-         6C2pZq3pJq6+9j3mxetbU8u6Av/1zL+idVE4KrZQA3gF5wB3EttJNylV+EXN41ZMvq8U
-         mWTA==
-X-Gm-Message-State: AOAM530npcPtXRysuumVlt/YNfLLj+i1R3HAgovF+FYutzF4xuxfSwPv
-        uULHebymFZCFeF2bcz1du/Q=
-X-Google-Smtp-Source: ABdhPJxMs0qf/WL4cqJLAjc99PZlF8qlVeqBHsQfxIq0JF5Pb3ly96KEIrEv7REzfy9lEumw9JEiMg==
-X-Received: by 2002:a17:907:3fa6:: with SMTP id hr38mr7106335ejc.24.1611167029531;
-        Wed, 20 Jan 2021 10:23:49 -0800 (PST)
-Received: from localhost.localdomain ([188.24.159.61])
-        by smtp.gmail.com with ESMTPSA id hr31sm1158332ejc.125.2021.01.20.10.23.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jan 2021 10:23:48 -0800 (PST)
-From:   Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
-To:     Lee Jones <lee.jones@linaro.org>, Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>
-Cc:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        =?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-actions@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: [PATCH v6 7/7] MAINTAINERS: Add entry for ATC260x PMIC
-Date:   Wed, 20 Jan 2021 20:23:32 +0200
-Message-Id: <76d4e3e09530dc65f4abafa19af743e9b6e351f5.1611165200.git.cristian.ciocaltea@gmail.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <cover.1611165200.git.cristian.ciocaltea@gmail.com>
-References: <cover.1611165200.git.cristian.ciocaltea@gmail.com>
+        id S2389963AbhATUxz convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Wed, 20 Jan 2021 15:53:55 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46552 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730347AbhATUuo (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 20 Jan 2021 15:50:44 -0500
+Received: from archlinux (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B7CB023600;
+        Wed, 20 Jan 2021 20:50:01 +0000 (UTC)
+Date:   Wed, 20 Jan 2021 20:49:57 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc:     Zheng Yongjun <zhengyongjun3@huawei.com>, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -next] hid/hid-sensor-custom: convert comma to semicolon
+Message-ID: <20210120204824.0d52a2d2@archlinux>
+In-Reply-To: <20201229181841.6d63213a@archlinux>
+References: <20201214133212.3569-1-zhengyongjun3@huawei.com>
+        <df1481e15c591106ba75ed85289b12507cbc8c49.camel@linux.intel.com>
+        <20201229181841.6d63213a@archlinux>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+On Tue, 29 Dec 2020 18:18:41 +0000
+Jonathan Cameron <jic23@kernel.org> wrote:
 
-Add MAINTAINERS entry for ATC260x PMIC.
+> On Mon, 14 Dec 2020 06:13:58 -0800
+> Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> wrote:
+> 
+> > On Mon, 2020-12-14 at 21:32 +0800, Zheng Yongjun wrote:  
+> > > Replace a comma between expression statements by a semicolon.
+> > > 
+> > > Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>    
+> > Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>  
+> Applied to the togreg branch of iio.git and pushed out as testing for
+> the autobuilders to see if they can break it.
+Hi Jiri,
 
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-[cristian: change binding doc file path, add file patterns for onkey and
-           poweroff drivers, fix ordering, add myself as co-maintainer]
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
----
-Changes in v6:
- - None
+Just realised this is in HID rather than IIO. I hope you don't mind as
+it's now deep in a tree I'd rather not rebase.
 
-Changes in v5:
- - None
+Sorry about that.
 
-Changes in v4:
- - None
+Jonathan
 
-Changes in v3:
- - Restored the authorship of the patch to Mani
-
- MAINTAINERS | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 844f05410509..e5e3429a6026 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2892,6 +2892,18 @@ W:	http://www.openaoe.org/
- F:	Documentation/admin-guide/aoe/
- F:	drivers/block/aoe/
- 
-+ATC260X PMIC MFD DRIVER
-+M:	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-+M:	Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
-+L:	linux-actions@lists.infradead.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/mfd/actions,atc260x.yaml
-+F:	drivers/input/misc/atc260x-onkey.c
-+F:	drivers/mfd/atc260*
-+F:	drivers/power/reset/atc260x-poweroff.c
-+F:	drivers/regulator/atc260x-regulator.c
-+F:	include/linux/mfd/atc260x/*
-+
- ATHEROS 71XX/9XXX GPIO DRIVER
- M:	Alban Bedel <albeu@free.fr>
- S:	Maintained
--- 
-2.30.0
+> 
+> Thanks,
+> 
+> Jonathan
+> 
+> >   
+> > > ---
+> > >  drivers/hid/hid-sensor-custom.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-
+> > > sensor-custom.c
+> > > index 4d25577a8573..6c47a2e7623d 100644
+> > > --- a/drivers/hid/hid-sensor-custom.c
+> > > +++ b/drivers/hid/hid-sensor-custom.c
+> > > @@ -728,7 +728,7 @@ static int hid_sensor_custom_dev_if_add(struct
+> > > hid_sensor_custom *sensor_inst)
+> > >  
+> > >         sensor_inst->custom_dev.minor = MISC_DYNAMIC_MINOR;
+> > >         sensor_inst->custom_dev.name = dev_name(&sensor_inst->pdev-    
+> > > >dev);    
+> > > -       sensor_inst->custom_dev.fops = &hid_sensor_custom_fops,
+> > > +       sensor_inst->custom_dev.fops = &hid_sensor_custom_fops;
+> > >         ret = misc_register(&sensor_inst->custom_dev);
+> > >         if (ret) {
+> > >                 kfifo_free(&sensor_inst->data_fifo);    
+> > 
+> >   
+> 
 
