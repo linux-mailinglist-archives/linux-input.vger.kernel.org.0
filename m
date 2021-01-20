@@ -2,35 +2,34 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 96E6F2FC98F
-	for <lists+linux-input@lfdr.de>; Wed, 20 Jan 2021 04:55:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 269292FC992
+	for <lists+linux-input@lfdr.de>; Wed, 20 Jan 2021 04:55:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731244AbhATC2y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 Jan 2021 21:28:54 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46148 "EHLO mail.kernel.org"
+        id S1731411AbhATC25 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 Jan 2021 21:28:57 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46600 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728025AbhATB0t (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 Jan 2021 20:26:49 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 582C123132;
-        Wed, 20 Jan 2021 01:26:08 +0000 (UTC)
+        id S1729328AbhATB12 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 19 Jan 2021 20:27:28 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8032923131;
+        Wed, 20 Jan 2021 01:26:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611105969;
-        bh=QYbcRn/BnzG2H2nzpKhuqui5hnSozgbRMaT/E0YsHbQ=;
+        s=k20201202; t=1611105970;
+        bh=saFJQyo/hoTL0Hb67wDhk6xyGKhA1Q7cd/qHGjDhsLw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tRdjO3TwMi8mwXh/Pkv4PAwhmsgQ1HLUNEDa/QPzm8zoK9mpL18rOa2eQiEEVl5aw
-         v4PEKI2JNzjVNFrnfyTLa5r3y7RWLId6M7oaAKtmjQBaS4xYGHlXPAjrAAy4YA85/s
-         GreGV8nHhWKp/dgqBdnneJIZv2EvxhMLPvA7R4UjjWl3kXg/pgJx1EH436xU8/rcDh
-         2lNc5KPc1UKWyLa+jM4VduylzL1pHlKYWEOOZz1YZ/0BINXtD324ukpmGohq54ovZI
-         AOfE15lj0sQ51yTtV5p+06BYsMtGyjLTvrTkBd8EszEkrwKNYW46LkbFQXZzr16PP8
-         lhVtf+GKmclSQ==
+        b=GfHWZp8VRLCyLQ4Lwd7zdRpFeZrGygAruKSnEHd+8OMI+Buoc3wvCQ1cG1RQBCW3d
+         bfEmpHRbaj9zXN22NOvNJzSb0xgtt8TBpKc0TlBgNaNQfw1BgRfMZZxbE63kgZCHjU
+         fPxRtGsXJJ+Tu/pznS87udfW1ErgksCq3tg/WJ3Qyqv90eyg0x6zxjt7XbhOeq2PDP
+         WiVXmRbaWBrlxI/Id6LUbbV6O9itZmuFlSg7KT1eE0dYmGvb7OfvdBIJBlelwc06+m
+         cQgsvDsCFTglbtRw/rcwfsehXKNIlinReUN5K8llrKmACWlwiLA1o5QnyG6tAaFCQE
+         TGoc2BhqqfSAg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 05/45] HID: multitouch: Enable multi-input for Synaptics pointstick/touchpad device
-Date:   Tue, 19 Jan 2021 20:25:22 -0500
-Message-Id: <20210120012602.769683-5-sashal@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Jiri Kosina <jkosina@suse.cz>,
+        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 06/45] HID: sony: select CONFIG_CRC32
+Date:   Tue, 19 Jan 2021 20:25:23 -0500
+Message-Id: <20210120012602.769683-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210120012602.769683-1-sashal@kernel.org>
 References: <20210120012602.769683-1-sashal@kernel.org>
@@ -42,35 +41,36 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+From: Arnd Bergmann <arnd@arndb.de>
 
-[ Upstream commit c3d6eb6e54373f297313b65c1f2319d36914d579 ]
+[ Upstream commit 273435a1d4e5826f039625c23ba4fe9a09f24d75 ]
 
-Pointstick and its left/right buttons on HP EliteBook 850 G7 need
-multi-input quirk to work correctly.
+Without crc32 support, this driver fails to link:
 
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+arm-linux-gnueabi-ld: drivers/hid/hid-sony.o: in function `sony_raw_event':
+hid-sony.c:(.text+0x8f4): undefined reference to `crc32_le'
+arm-linux-gnueabi-ld: hid-sony.c:(.text+0x900): undefined reference to `crc32_le'
+arm-linux-gnueabi-ld: drivers/hid/hid-sony.o:hid-sony.c:(.text+0x4408): more undefined references to `crc32_le' follow
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-multitouch.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/hid/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index d670bcd57bdef..0743ef51d3b24 100644
---- a/drivers/hid/hid-multitouch.c
-+++ b/drivers/hid/hid-multitouch.c
-@@ -2054,6 +2054,10 @@ static const struct hid_device_id mt_devices[] = {
- 		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
- 			USB_VENDOR_ID_SYNAPTICS, 0xce08) },
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 612629678c845..9b56226ce0d1c 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -899,6 +899,7 @@ config HID_SONY
+ 	depends on NEW_LEDS
+ 	depends on LEDS_CLASS
+ 	select POWER_SUPPLY
++	select CRC32
+ 	help
+ 	Support for
  
-+	{ .driver_data = MT_CLS_WIN_8_FORCE_MULTI_INPUT,
-+		HID_DEVICE(BUS_I2C, HID_GROUP_MULTITOUCH_WIN_8,
-+			USB_VENDOR_ID_SYNAPTICS, 0xce09) },
-+
- 	/* TopSeed panels */
- 	{ .driver_data = MT_CLS_TOPSEED,
- 		MT_USB_DEVICE(USB_VENDOR_ID_TOPSEED2,
 -- 
 2.27.0
 
