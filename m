@@ -2,38 +2,40 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6EB92FC956
-	for <lists+linux-input@lfdr.de>; Wed, 20 Jan 2021 04:47:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 749442FC951
+	for <lists+linux-input@lfdr.de>; Wed, 20 Jan 2021 04:45:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731607AbhATC3A (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 19 Jan 2021 21:29:00 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46618 "EHLO mail.kernel.org"
+        id S1731686AbhATC3P (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 19 Jan 2021 21:29:15 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47444 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729855AbhATB1q (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 19 Jan 2021 20:27:46 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 22E332332A;
-        Wed, 20 Jan 2021 01:26:25 +0000 (UTC)
+        id S1730635AbhATB26 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 19 Jan 2021 20:28:58 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6BBF3233FE;
+        Wed, 20 Jan 2021 01:27:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611105985;
-        bh=LvVRTh7MSvbssqT4SZy33+D8NrWxVC7FKb7pFdKc0Uk=;
+        s=k20201202; t=1611106036;
+        bh=FskA9qzo0lg/bwn8gw+ku1sTXg6bRVqfVAQZfhpjkn8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dBU6j2BY1YcTjnOrAEWoZ9Si7fYxst0gLkeq44PZ1y/DdDMIlX7r2R3cV6Ibj5YPH
-         SiJRauTzXmKN9PWdJhavusbiWRv4pmeB7X4LjtrSeoXsWfu6/wrmEJfj8/FzP4/dpY
-         MaFIDpL6nlcmJOMIUC55+qnk+S2/z/mT9BOvZEo9BjMlMllxRlN1jjP6ubMmr/sJqr
-         0T3n9P+RJTjE3FOnvyIqVMrMQ6q5/CwxU6G955/57C8+kCs9xYBwizTQmjxhRRxv51
-         KpHglyhP/63qC832sRopmPCwRkd+SI+M/cwGNhwzftT1f6LIsQv34EeqhDbByGfmYA
-         YkNAWCX41wJ/w==
+        b=N+5UNtJEQ/tU1PS/gCvCAP6cv5rhiTIZv/f/LckzSDPcC1swd9NTYwmeO5/Q8RoHF
+         60SolnbCnSHTGfMmREJRWgunARt6VtPJDQen7P32lbC4+zFysOJUGgV0c0WNXz+/Ss
+         VVxfXNK9zoAtGUIIYkC6Kie1bw/B+JAFjPIrP6m/ov/trqoi/i7hTipr2TSniXbv4j
+         ZyKh6ikRYIWp8OTCXZKSIXmOp4uuw3x/QrwbYzBrI7tp5vqT8R6sVYFn2BWFsT6u51
+         ObuN4qTZDBDpVZl3L62XPMZxbPiyF6g9xpnQACT+LQd+qyqpOw88gzbR/tFWI90SVg
+         51EzOqOSC1pTg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Seth Miller <miller.seth@gmail.com>, Jiri Kosina <jkosina@suse.cz>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 18/45] HID: Ignore battery for Elan touchscreen on ASUS UX550
-Date:   Tue, 19 Jan 2021 20:25:35 -0500
-Message-Id: <20210120012602.769683-18-sashal@kernel.org>
+Cc:     =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@archlinux.org>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 09/26] HID: logitech-dj: add the G602 receiver
+Date:   Tue, 19 Jan 2021 20:26:46 -0500
+Message-Id: <20210120012704.770095-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210120012602.769683-1-sashal@kernel.org>
-References: <20210120012602.769683-1-sashal@kernel.org>
+In-Reply-To: <20210120012704.770095-1-sashal@kernel.org>
+References: <20210120012704.770095-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -41,47 +43,35 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Seth Miller <miller.seth@gmail.com>
+From: Filipe Laíns <lains@archlinux.org>
 
-[ Upstream commit 7c38e769d5c508939ce5dc26df72602f3c902342 ]
+[ Upstream commit e400071a805d6229223a98899e9da8c6233704a1 ]
 
-Battery status is being reported for the Elan touchscreen on ASUS
-UX550 laptops despite not having a batter. It always shows either 0 or
-1%.
+Tested. The device gets correctly exported to userspace and I can see
+mouse and keyboard events.
 
-Signed-off-by: Seth Miller <miller.seth@gmail.com>
+Signed-off-by: Filipe Laíns <lains@archlinux.org>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-ids.h   | 1 +
- drivers/hid/hid-input.c | 2 ++
- 2 files changed, 3 insertions(+)
+ drivers/hid/hid-logitech-dj.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index f170feaac40ba..94180c63571ed 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -387,6 +387,7 @@
- #define USB_DEVICE_ID_TOSHIBA_CLICK_L9W	0x0401
- #define USB_DEVICE_ID_HP_X2		0x074d
- #define USB_DEVICE_ID_HP_X2_10_COVER	0x0755
-+#define USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN	0x2706
- 
- #define USB_VENDOR_ID_ELECOM		0x056e
- #define USB_DEVICE_ID_ELECOM_BM084	0x0061
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 4dca113924593..32024905fd70f 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -322,6 +322,8 @@ static const struct hid_device_id hid_battery_quirks[] = {
- 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_LOGITECH,
- 		USB_DEVICE_ID_LOGITECH_DINOVO_EDGE_KBD),
- 	  HID_BATTERY_QUIRK_IGNORE },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_ELAN, USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN),
-+	  HID_BATTERY_QUIRK_IGNORE },
- 	{}
- };
- 
+diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+index 54d811fdcdb44..e5550a5bf49d0 100644
+--- a/drivers/hid/hid-logitech-dj.c
++++ b/drivers/hid/hid-logitech-dj.c
+@@ -1862,6 +1862,10 @@ static const struct hid_device_id logi_dj_receivers[] = {
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
+ 		0xc531),
+ 	 .driver_data = recvr_type_gaming_hidpp},
++	{ /* Logitech G602 receiver (0xc537) */
++	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
++		0xc537),
++	 .driver_data = recvr_type_gaming_hidpp},
+ 	{ /* Logitech lightspeed receiver (0xc539) */
+ 	  HID_USB_DEVICE(USB_VENDOR_ID_LOGITECH,
+ 		USB_DEVICE_ID_LOGITECH_NANO_RECEIVER_LIGHTSPEED_1),
 -- 
 2.27.0
 
