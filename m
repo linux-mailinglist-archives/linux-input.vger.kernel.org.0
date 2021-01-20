@@ -2,52 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F06C92FDA33
-	for <lists+linux-input@lfdr.de>; Wed, 20 Jan 2021 20:56:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2840C2FDA1B
+	for <lists+linux-input@lfdr.de>; Wed, 20 Jan 2021 20:55:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387552AbhATSoH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 20 Jan 2021 13:44:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47210 "EHLO
+        id S2387785AbhATSoV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 20 Jan 2021 13:44:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47526 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404247AbhATSYZ (ORCPT
+        with ESMTP id S2404640AbhATSZz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Jan 2021 13:24:25 -0500
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BE42C0613D3;
-        Wed, 20 Jan 2021 10:23:45 -0800 (PST)
-Received: by mail-ej1-x62a.google.com with SMTP id 6so34881582ejz.5;
-        Wed, 20 Jan 2021 10:23:45 -0800 (PST)
+        Wed, 20 Jan 2021 13:25:55 -0500
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 364E2C0613ED;
+        Wed, 20 Jan 2021 10:23:49 -0800 (PST)
+Received: by mail-ej1-x62d.google.com with SMTP id a10so18242180ejg.10;
+        Wed, 20 Jan 2021 10:23:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=zjysMj1NK+CcJzMU0HzfR1EwQC/vwxIvvc2JgIoLgzw=;
-        b=XM9jXdmsTAVmI2P8o06dTRfIyhkPrVYCJvXArfpLME3M0/7sdmoMtv+eoIo4964H28
-         VB29JbRtTziGIrVOTGwIMH7t6M14SFz4D6eJC386GgYq5vCAFgkuS6HCcJA3S51U5aHQ
-         12ZnqdDWvN6D3qnMxeRwqa2zoGLnp0Ah6BW3q73VDqX9CDsXqe/kqrvz93ihqVfVDmu+
-         EjqXwo4GaAt/v1CDSaOUSaQZ7SgK9QpXoF/q+K8LlRJbQvraioT91vpi30/ToF67cMbH
-         ANMTros5DPBBGwKzduI28BJbrkcRGOrf5KX4RWbgr9WDJZrZTqVfxT/2Po1Br+zJU/z7
-         Dn3Q==
+        bh=piJ2WifNK2/64OE6iqYE/GF1H+oJGYHj5IgcljmDyNY=;
+        b=ek+HeOVy4sfupZJoD14sCJaf2Ag1fG9Aw4DtSkfrmA3qalMR3e6F8UFJuZgFzyp0DU
+         FnXEqjHBlwhvpYZXuK+AA+F35MhAf+AncDGyMmhR90ArVZoIQo2gkyQqhTwuNQic4xse
+         TXzUvFeZ33W52bkCH4FgJQTjUDTtl/dviXIVY361IXDV3wWJ/5cGoqVgcSoDKbfyPqdS
+         Nzu1ge2Su1kbleB2CU5OXExEIQdnq8UCuFnJe3silF41Xl5EMt9nLtDwDD3gQjWD5h5J
+         ZzNreiyFGij3f0v/7hNfPte9v2Fi9+v3CXhQTQLrI1oea7ULL3dV7EzrmPoEqg5Hb2Iv
+         x6uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zjysMj1NK+CcJzMU0HzfR1EwQC/vwxIvvc2JgIoLgzw=;
-        b=Tmjmc/42G1P2GR+Ym50ZsL8bTyktphGowan7s2OMKdFZsb1gd5vD2AMDi7M8PIswPW
-         Wg6mcHPVlBJYV1dfWx0fHx+izRnpiPfRW8qP8yLgkY7hteJPrOXrsqDEX4A/kUYp5hvq
-         gzXq5GUAugHUN1IQQiUlDNdu+dppFPy5doH+mvI7r0nndYtICMyBiQWEq8XPO00g7HWu
-         JuelK+t1C5cVYe6SBDpY6sTO1P0qsgLJj2soZz05FDr06W2SNjcYH4SLHBXKiOu098jA
-         lJYjmTZ6mfTtthA/rUsbUdBXLkumSLnHPo3UeGHjckaVcD89xmLnMjowGkL20GFdFy4C
-         8LJQ==
-X-Gm-Message-State: AOAM531Cslaz49xt69tHvblO1sBAvKv1uSwq5tfCrn/CZ3FW22K3pGlG
-        JxO+VVIM2XJk+B8H3t/pmV8=
-X-Google-Smtp-Source: ABdhPJztISZ0dR6kSgRPQTU/tML/9gWdDgmlTH32Ftw9PofT+qW3tS3XFcN7xq25efMS3MlSjesVrw==
-X-Received: by 2002:a17:906:d19b:: with SMTP id c27mr7005773ejz.234.1611167023928;
-        Wed, 20 Jan 2021 10:23:43 -0800 (PST)
+        bh=piJ2WifNK2/64OE6iqYE/GF1H+oJGYHj5IgcljmDyNY=;
+        b=l9OfZC0npQL96CB4JRBYIzrlqctEZCYsElT2NmnPPedOFeUl8vHdtnc8gT5yEOGqMr
+         ldYwNOLlzcEKHMr31oxov8pZw0T468ZO0A1WycgW2iN5JmMi1XmtuMOcnrRmOKNTnVuH
+         U85ntnsMFG3Nlslk7g2wXrnlEeAkvXF630ivcgWw/iSfpyegEVdgZgIyci7XxsptfCg7
+         VEW1QugH/J5D870tLdraHe5c4YuGBcf6HYe8NIJh1HCpEsRyMhcExcNIvsCEy/4ti0aq
+         EgTwRAdbIWXCa/Y5UhfQr+7e1ItE4ZoHJRbjGXbYu3mn0iPO45qqeFRgrN0kRR3LmuW6
+         9zBQ==
+X-Gm-Message-State: AOAM532ySUFoWbJ2FD/o5Lq5XWZzzHeFY9aqfKSXAqAvLR3UQG3bQ7PY
+        QzKC6p1dpC2MOPm5U8kXtP0=
+X-Google-Smtp-Source: ABdhPJw4MHBsHDQOgD3y0t/1JOk8eBxapXlZjW/EZIdHazRresOrYDTUHJTpjF8qLxa8H07g/2E1DA==
+X-Received: by 2002:a17:906:14d5:: with SMTP id y21mr7044603ejc.410.1611167027836;
+        Wed, 20 Jan 2021 10:23:47 -0800 (PST)
 Received: from localhost.localdomain ([188.24.159.61])
-        by smtp.gmail.com with ESMTPSA id hr31sm1158332ejc.125.2021.01.20.10.23.42
+        by smtp.gmail.com with ESMTPSA id hr31sm1158332ejc.125.2021.01.20.10.23.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jan 2021 10:23:43 -0800 (PST)
+        Wed, 20 Jan 2021 10:23:47 -0800 (PST)
 From:   Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
 To:     Lee Jones <lee.jones@linaro.org>, Mark Brown <broonie@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -60,9 +60,9 @@ Cc:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
         linux-actions@lists.infradead.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
         linux-pm@vger.kernel.org
-Subject: [PATCH v6 4/7] regulator: Add regulator driver for ATC260x PMICs
-Date:   Wed, 20 Jan 2021 20:23:29 +0200
-Message-Id: <3f48e9f8114cac0557abca88d4437849423793bb.1611165200.git.cristian.ciocaltea@gmail.com>
+Subject: [PATCH v6 6/7] input: atc260x: Add onkey driver for ATC260x PMICs
+Date:   Wed, 20 Jan 2021 20:23:31 +0200
+Message-Id: <27e90b18fa041dbce50e208a3dacc6da79dddd9c.1611165200.git.cristian.ciocaltea@gmail.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <cover.1611165200.git.cristian.ciocaltea@gmail.com>
 References: <cover.1611165200.git.cristian.ciocaltea@gmail.com>
@@ -72,13 +72,15 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add support for the DC-DC converters and LDO regulators found in
-the ATC2603C and ATC2609A chip variants of the Actions Semi ATC260x
-family of PMICs.
+The Actions Semi ATC260x PMICs are able to manage an onkey button.
+This driver exposes the ATC260x onkey as an input device. It can also
+be configured to force a system reset on a long key-press with an
+adjustable duration.
 
-Co-developed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+The currently supported chip variants are ATC2603C and ATC2609A.
+
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
 Changes in v6:
  - None
@@ -86,595 +88,376 @@ Changes in v6:
 Changes in v5:
  - None
 
-Changes in v4
- - Included the ATC2603C's LDO12 fixed regulator per Mark's suggestion
+Changes in v4:
+ - Added Acked-by from Dmitry
 
-Changes in v3:
- - Dropped 'last_dcdc_reg_id' from 'atc260x_regulator_data' and, instead,
-   provided separate ops for DCDCs and LDOs, as recommended by Mark
- - Removed the unnecessary compatibles, per Mark's review
- - Added 'Co-developed-by' tag in commit message and dropped [cristian: ...] line
+Changes in v3: 
+ - Integrated Dmitry's review:
+   * Dropped the logic around the check for 'pdev->dev.of_node'
+   * Renamed 'ret' variable in 'atc260x_onkey_probe()' to 'error'
+   * Used 'dev_dbg' instead of 'dev_info' on status KEY_RESET_DISABLED
+   * Dropped 'input_dev->evbit[0] = BIT_MASK(EV_KEY);'
+   * Removed IRQF_TRIGGER_HIGH flag on 'devm_request_threaded_irq()'
+   * Implemented open/close to mitigate the racing issue in
+     'atc260x_onkey_remove()' which has been dropped now
+ - Removed the unnecessary driver compatibles
+ - Used 'reset-time-sec' property of the parent device instead of
+   'actions,reset-time-sec' of now obsolete and removed 'onkey' DT node
 
- drivers/regulator/Kconfig             |   8 +
- drivers/regulator/Makefile            |   1 +
- drivers/regulator/atc260x-regulator.c | 539 ++++++++++++++++++++++++++
- 3 files changed, 548 insertions(+)
- create mode 100644 drivers/regulator/atc260x-regulator.c
+ drivers/input/misc/Kconfig         |  11 ++
+ drivers/input/misc/Makefile        |   2 +-
+ drivers/input/misc/atc260x-onkey.c | 305 +++++++++++++++++++++++++++++
+ 3 files changed, 317 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/input/misc/atc260x-onkey.c
 
-diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
-index 5abdd29fb9f3..6b1accaaed72 100644
---- a/drivers/regulator/Kconfig
-+++ b/drivers/regulator/Kconfig
-@@ -179,6 +179,14 @@ config REGULATOR_AS3722
- 	  AS3722 PMIC. This will enable support for all the software
- 	  controllable DCDC/LDO regulators.
+diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+index ad1b6c90bc4d..7237dc440b98 100644
+--- a/drivers/input/misc/Kconfig
++++ b/drivers/input/misc/Kconfig
+@@ -94,6 +94,17 @@ config INPUT_ARIZONA_HAPTICS
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called arizona-haptics.
  
-+config REGULATOR_ATC260X
-+	tristate "Actions Semi ATC260x PMIC Regulators"
++config INPUT_ATC260X_ONKEY
++	tristate "Actions Semi ATC260x PMIC ONKEY"
 +	depends on MFD_ATC260X
 +	help
-+	  This driver provides support for the voltage regulators on the
-+	  ATC260x PMICs. This will enable support for all the software
-+	  controllable DCDC/LDO regulators.
++	  Support the ONKEY of ATC260x PMICs as an input device reporting
++	  power button status. ONKEY can be used to wakeup from low power
++	  modes and force a reset on long press.
 +
- config REGULATOR_AXP20X
- 	tristate "X-POWERS AXP20X PMIC Regulators"
- 	depends on MFD_AXP20X
-diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
-index 680e539f6579..36a069f36346 100644
---- a/drivers/regulator/Makefile
-+++ b/drivers/regulator/Makefile
-@@ -27,6 +27,7 @@ obj-$(CONFIG_REGULATOR_ARIZONA_MICSUPP) += arizona-micsupp.o
- obj-$(CONFIG_REGULATOR_ARM_SCMI) += scmi-regulator.o
- obj-$(CONFIG_REGULATOR_AS3711) += as3711-regulator.o
- obj-$(CONFIG_REGULATOR_AS3722) += as3722-regulator.o
-+obj-$(CONFIG_REGULATOR_ATC260X) += atc260x-regulator.o
- obj-$(CONFIG_REGULATOR_AXP20X) += axp20x-regulator.o
- obj-$(CONFIG_REGULATOR_BCM590XX) += bcm590xx-regulator.o
- obj-$(CONFIG_REGULATOR_BD70528) += bd70528-regulator.o
-diff --git a/drivers/regulator/atc260x-regulator.c b/drivers/regulator/atc260x-regulator.c
++	  To compile this driver as a module, choose M here: the
++	  module will be called atc260x-onkey.
++
+ config INPUT_ATMEL_CAPTOUCH
+ 	tristate "Atmel Capacitive Touch Button Driver"
+ 	depends on OF || COMPILE_TEST
+diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
+index 7f202ba8f775..46db664a8bc4 100644
+--- a/drivers/input/misc/Makefile
++++ b/drivers/input/misc/Makefile
+@@ -17,6 +17,7 @@ obj-$(CONFIG_INPUT_ADXL34X_SPI)		+= adxl34x-spi.o
+ obj-$(CONFIG_INPUT_APANEL)		+= apanel.o
+ obj-$(CONFIG_INPUT_ARIEL_PWRBUTTON)	+= ariel-pwrbutton.o
+ obj-$(CONFIG_INPUT_ARIZONA_HAPTICS)	+= arizona-haptics.o
++obj-$(CONFIG_INPUT_ATC260X_ONKEY)	+= atc260x-onkey.o
+ obj-$(CONFIG_INPUT_ATI_REMOTE2)		+= ati_remote2.o
+ obj-$(CONFIG_INPUT_ATLAS_BTNS)		+= atlas_btns.o
+ obj-$(CONFIG_INPUT_ATMEL_CAPTOUCH)	+= atmel_captouch.o
+@@ -86,4 +87,3 @@ obj-$(CONFIG_INPUT_WM831X_ON)		+= wm831x-on.o
+ obj-$(CONFIG_INPUT_XEN_KBDDEV_FRONTEND)	+= xen-kbdfront.o
+ obj-$(CONFIG_INPUT_YEALINK)		+= yealink.o
+ obj-$(CONFIG_INPUT_IDEAPAD_SLIDEBAR)	+= ideapad_slidebar.o
+-
+diff --git a/drivers/input/misc/atc260x-onkey.c b/drivers/input/misc/atc260x-onkey.c
 new file mode 100644
-index 000000000000..d8b429955d33
+index 000000000000..999aabf9dcbd
 --- /dev/null
-+++ b/drivers/regulator/atc260x-regulator.c
-@@ -0,0 +1,539 @@
++++ b/drivers/input/misc/atc260x-onkey.c
+@@ -0,0 +1,305 @@
 +// SPDX-License-Identifier: GPL-2.0+
-+//
-+// Regulator driver for ATC260x PMICs
-+//
-+// Copyright (C) 2019 Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-+// Copyright (C) 2020 Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
++/*
++ * Onkey driver for Actions Semi ATC260x PMICs.
++ *
++ * Copyright (c) 2020 Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
++ */
 +
++#include <linux/bitfield.h>
++#include <linux/input.h>
++#include <linux/interrupt.h>
 +#include <linux/mfd/atc260x/core.h>
 +#include <linux/module.h>
-+#include <linux/of_device.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
 +#include <linux/regmap.h>
-+#include <linux/regulator/driver.h>
 +
-+struct atc260x_regulator_data {
-+	int voltage_time_dcdc;
-+	int voltage_time_ldo;
++/* <2s for short press, >2s for long press */
++#define KEY_PRESS_TIME_SEC	2
++
++/* Driver internals */
++enum atc260x_onkey_reset_status {
++	KEY_RESET_HW_DEFAULT,
++	KEY_RESET_DISABLED,
++	KEY_RESET_USER_SEL,
 +};
 +
-+static const struct linear_range atc2603c_dcdc_voltage_ranges[] = {
-+	REGULATOR_LINEAR_RANGE(1300000, 0, 13, 50000),
-+	REGULATOR_LINEAR_RANGE(1950000, 14, 15, 100000),
++struct atc260x_onkey_params {
++	u32 reg_int_ctl;
++	u32 kdwn_state_bm;
++	u32 long_int_pnd_bm;
++	u32 short_int_pnd_bm;
++	u32 kdwn_int_pnd_bm;
++	u32 press_int_en_bm;
++	u32 kdwn_int_en_bm;
++	u32 press_time_bm;
++	u32 reset_en_bm;
++	u32 reset_time_bm;
 +};
 +
-+static const struct linear_range atc2609a_dcdc_voltage_ranges[] = {
-+	REGULATOR_LINEAR_RANGE(600000, 0, 127, 6250),
-+	REGULATOR_LINEAR_RANGE(1400000, 128, 232, 25000),
++struct atc260x_onkey {
++	struct atc260x *atc260x;
++	const struct atc260x_onkey_params *params;
++	struct input_dev *input_dev;
++	struct delayed_work work;
++	int irq;
 +};
 +
-+static const struct linear_range atc2609a_ldo_voltage_ranges0[] = {
-+	REGULATOR_LINEAR_RANGE(700000, 0, 15, 100000),
-+	REGULATOR_LINEAR_RANGE(2100000, 16, 28, 100000),
++static const struct atc260x_onkey_params atc2603c_onkey_params = {
++	.reg_int_ctl		= ATC2603C_PMU_SYS_CTL2,
++	.long_int_pnd_bm	= ATC2603C_PMU_SYS_CTL2_ONOFF_LONG_PRESS,
++	.short_int_pnd_bm	= ATC2603C_PMU_SYS_CTL2_ONOFF_SHORT_PRESS,
++	.kdwn_int_pnd_bm	= ATC2603C_PMU_SYS_CTL2_ONOFF_PRESS_PD,
++	.press_int_en_bm	= ATC2603C_PMU_SYS_CTL2_ONOFF_INT_EN,
++	.kdwn_int_en_bm		= ATC2603C_PMU_SYS_CTL2_ONOFF_PRESS_INT_EN,
++	.kdwn_state_bm		= ATC2603C_PMU_SYS_CTL2_ONOFF_PRESS,
++	.press_time_bm		= ATC2603C_PMU_SYS_CTL2_ONOFF_PRESS_TIME,
++	.reset_en_bm		= ATC2603C_PMU_SYS_CTL2_ONOFF_PRESS_RESET_EN,
++	.reset_time_bm		= ATC2603C_PMU_SYS_CTL2_ONOFF_RESET_TIME_SEL,
 +};
 +
-+static const struct linear_range atc2609a_ldo_voltage_ranges1[] = {
-+	REGULATOR_LINEAR_RANGE(850000, 0, 15, 100000),
-+	REGULATOR_LINEAR_RANGE(2100000, 16, 27, 100000),
++static const struct atc260x_onkey_params atc2609a_onkey_params = {
++	.reg_int_ctl		= ATC2609A_PMU_SYS_CTL2,
++	.long_int_pnd_bm	= ATC2609A_PMU_SYS_CTL2_ONOFF_LONG_PRESS,
++	.short_int_pnd_bm	= ATC2609A_PMU_SYS_CTL2_ONOFF_SHORT_PRESS,
++	.kdwn_int_pnd_bm	= ATC2609A_PMU_SYS_CTL2_ONOFF_PRESS_PD,
++	.press_int_en_bm	= ATC2609A_PMU_SYS_CTL2_ONOFF_LSP_INT_EN,
++	.kdwn_int_en_bm		= ATC2609A_PMU_SYS_CTL2_ONOFF_PRESS_INT_EN,
++	.kdwn_state_bm		= ATC2609A_PMU_SYS_CTL2_ONOFF_PRESS,
++	.press_time_bm		= ATC2609A_PMU_SYS_CTL2_ONOFF_PRESS_TIME,
++	.reset_en_bm		= ATC2609A_PMU_SYS_CTL2_ONOFF_RESET_EN,
++	.reset_time_bm		= ATC2609A_PMU_SYS_CTL2_ONOFF_RESET_TIME_SEL,
 +};
 +
-+static const unsigned int atc260x_ldo_voltage_range_sel[] = {
-+	0x0, 0x1,
-+};
-+
-+static int atc260x_dcdc_set_voltage_time_sel(struct regulator_dev *rdev,
-+					     unsigned int old_selector,
-+					     unsigned int new_selector)
++static int atc2603x_onkey_hw_init(struct atc260x_onkey *onkey,
++				  enum atc260x_onkey_reset_status reset_status,
++				  u32 reset_time, u32 press_time)
 +{
-+	struct atc260x_regulator_data *data = rdev_get_drvdata(rdev);
++	u32 reg_bm, reg_val;
 +
-+	if (new_selector > old_selector)
-+		return data->voltage_time_dcdc;
++	reg_bm = onkey->params->long_int_pnd_bm |
++		 onkey->params->short_int_pnd_bm |
++		 onkey->params->kdwn_int_pnd_bm |
++		 onkey->params->press_int_en_bm |
++		 onkey->params->kdwn_int_en_bm;
++
++	reg_val = reg_bm | press_time;
++	reg_bm |= onkey->params->press_time_bm;
++
++	if (reset_status == KEY_RESET_DISABLED) {
++		reg_bm |= onkey->params->reset_en_bm;
++	} else if (reset_status == KEY_RESET_USER_SEL) {
++		reg_bm |= onkey->params->reset_en_bm |
++			  onkey->params->reset_time_bm;
++		reg_val |= onkey->params->reset_en_bm | reset_time;
++	}
++
++	return regmap_update_bits(onkey->atc260x->regmap,
++				  onkey->params->reg_int_ctl, reg_bm, reg_val);
++}
++
++static void atc260x_onkey_query(struct atc260x_onkey *onkey)
++{
++	u32 reg_bits;
++	int ret, key_down;
++
++	ret = regmap_read(onkey->atc260x->regmap,
++			  onkey->params->reg_int_ctl, &key_down);
++	if (ret) {
++		key_down = 1;
++		dev_err(onkey->atc260x->dev,
++			"Failed to read onkey status: %d\n", ret);
++	} else {
++		key_down &= onkey->params->kdwn_state_bm;
++	}
++
++	/*
++	 * The hardware generates interrupt only when the onkey pin is
++	 * asserted. Hence, the deassertion of the pin is simulated through
++	 * work queue.
++	 */
++	if (key_down) {
++		schedule_delayed_work(&onkey->work, msecs_to_jiffies(200));
++		return;
++	}
++
++	/*
++	 * The key-down status bit is cleared when the On/Off button
++	 * is released.
++	 */
++	input_report_key(onkey->input_dev, KEY_POWER, 0);
++	input_sync(onkey->input_dev);
++
++	reg_bits = onkey->params->long_int_pnd_bm |
++		   onkey->params->short_int_pnd_bm |
++		   onkey->params->kdwn_int_pnd_bm |
++		   onkey->params->press_int_en_bm |
++		   onkey->params->kdwn_int_en_bm;
++
++	/* Clear key press pending events and enable key press interrupts. */
++	regmap_update_bits(onkey->atc260x->regmap, onkey->params->reg_int_ctl,
++			   reg_bits, reg_bits);
++}
++
++static void atc260x_onkey_work(struct work_struct *work)
++{
++	struct atc260x_onkey *onkey = container_of(work, struct atc260x_onkey,
++						   work.work);
++	atc260x_onkey_query(onkey);
++}
++
++static irqreturn_t atc260x_onkey_irq(int irq, void *data)
++{
++	struct atc260x_onkey *onkey = data;
++	int ret;
++
++	/* Disable key press interrupts. */
++	ret = regmap_update_bits(onkey->atc260x->regmap,
++				 onkey->params->reg_int_ctl,
++				 onkey->params->press_int_en_bm |
++				 onkey->params->kdwn_int_en_bm, 0);
++	if (ret)
++		dev_err(onkey->atc260x->dev,
++			"Failed to disable interrupts: %d\n", ret);
++
++	input_report_key(onkey->input_dev, KEY_POWER, 1);
++	input_sync(onkey->input_dev);
++
++	atc260x_onkey_query(onkey);
++
++	return IRQ_HANDLED;
++}
++
++static int atc260x_onkey_open(struct input_dev *dev)
++{
++	struct atc260x_onkey *onkey = input_get_drvdata(dev);
++
++	enable_irq(onkey->irq);
 +
 +	return 0;
 +}
 +
-+static int atc260x_ldo_set_voltage_time_sel(struct regulator_dev *rdev,
-+					    unsigned int old_selector,
-+					    unsigned int new_selector)
++static void atc260x_onkey_close(struct input_dev *dev)
 +{
-+	struct atc260x_regulator_data *data = rdev_get_drvdata(rdev);
++	struct atc260x_onkey *onkey = input_get_drvdata(dev);
 +
-+	if (new_selector > old_selector)
-+		return data->voltage_time_ldo;
-+
-+	return 0;
++	disable_irq(onkey->irq);
++	cancel_delayed_work_sync(&onkey->work);
 +}
 +
-+static const struct regulator_ops atc260x_dcdc_ops = {
-+	.enable	= regulator_enable_regmap,
-+	.disable = regulator_disable_regmap,
-+	.is_enabled = regulator_is_enabled_regmap,
-+	.list_voltage = regulator_list_voltage_linear,
-+	.set_voltage_sel = regulator_set_voltage_sel_regmap,
-+	.get_voltage_sel = regulator_get_voltage_sel_regmap,
-+	.set_voltage_time_sel = atc260x_dcdc_set_voltage_time_sel,
-+};
-+
-+static const struct regulator_ops atc260x_ldo_ops = {
-+	.enable	= regulator_enable_regmap,
-+	.disable = regulator_disable_regmap,
-+	.is_enabled = regulator_is_enabled_regmap,
-+	.list_voltage = regulator_list_voltage_linear,
-+	.set_voltage_sel = regulator_set_voltage_sel_regmap,
-+	.get_voltage_sel = regulator_get_voltage_sel_regmap,
-+	.set_voltage_time_sel = atc260x_ldo_set_voltage_time_sel,
-+};
-+
-+static const struct regulator_ops atc260x_ldo_bypass_ops = {
-+	.enable	= regulator_enable_regmap,
-+	.disable = regulator_disable_regmap,
-+	.is_enabled = regulator_is_enabled_regmap,
-+	.list_voltage = regulator_list_voltage_linear,
-+	.set_voltage_sel = regulator_set_voltage_sel_regmap,
-+	.get_voltage_sel = regulator_get_voltage_sel_regmap,
-+	.set_voltage_time_sel = atc260x_ldo_set_voltage_time_sel,
-+	.set_bypass = regulator_set_bypass_regmap,
-+	.get_bypass = regulator_get_bypass_regmap,
-+};
-+
-+static const struct regulator_ops atc260x_ldo_bypass_discharge_ops = {
-+	.enable	= regulator_enable_regmap,
-+	.disable = regulator_disable_regmap,
-+	.is_enabled = regulator_is_enabled_regmap,
-+	.list_voltage = regulator_list_voltage_linear,
-+	.set_voltage_sel = regulator_set_voltage_sel_regmap,
-+	.get_voltage_sel = regulator_get_voltage_sel_regmap,
-+	.set_voltage_time_sel = atc260x_ldo_set_voltage_time_sel,
-+	.set_bypass = regulator_set_bypass_regmap,
-+	.get_bypass = regulator_get_bypass_regmap,
-+	.set_active_discharge = regulator_set_active_discharge_regmap,
-+};
-+
-+static const struct regulator_ops atc260x_dcdc_range_ops = {
-+	.enable	= regulator_enable_regmap,
-+	.disable = regulator_disable_regmap,
-+	.is_enabled = regulator_is_enabled_regmap,
-+	.list_voltage = regulator_list_voltage_linear_range,
-+	.set_voltage_sel = regulator_set_voltage_sel_regmap,
-+	.get_voltage_sel = regulator_get_voltage_sel_regmap,
-+	.set_voltage_time_sel = atc260x_dcdc_set_voltage_time_sel,
-+};
-+
-+static const struct regulator_ops atc260x_ldo_range_pick_ops = {
-+	.enable	= regulator_enable_regmap,
-+	.disable = regulator_disable_regmap,
-+	.is_enabled = regulator_is_enabled_regmap,
-+	.list_voltage = regulator_list_voltage_pickable_linear_range,
-+	.set_voltage_sel = regulator_set_voltage_sel_pickable_regmap,
-+	.get_voltage_sel = regulator_get_voltage_sel_pickable_regmap,
-+	.set_voltage_time_sel = atc260x_ldo_set_voltage_time_sel,
-+};
-+
-+static const struct regulator_ops atc260x_dcdc_fixed_ops = {
-+	.list_voltage = regulator_list_voltage_linear,
-+	.set_voltage_sel = regulator_set_voltage_sel_regmap,
-+	.get_voltage_sel = regulator_get_voltage_sel_regmap,
-+	.set_voltage_time_sel = atc260x_dcdc_set_voltage_time_sel,
-+};
-+
-+static const struct regulator_ops atc260x_ldo_fixed_ops = {
-+	.list_voltage = regulator_list_voltage_linear,
-+	.set_voltage_sel = regulator_set_voltage_sel_regmap,
-+	.get_voltage_sel = regulator_get_voltage_sel_regmap,
-+	.set_voltage_time_sel = atc260x_ldo_set_voltage_time_sel,
-+};
-+
-+static const struct regulator_ops atc260x_no_ops = {
-+};
-+
-+/*
-+ * Note LDO8 is not documented in datasheet (v2.4), but supported
-+ * in the vendor's driver implementation (xapp-le-kernel).
-+ */
-+enum atc2603c_reg_ids {
-+	ATC2603C_ID_DCDC1,
-+	ATC2603C_ID_DCDC2,
-+	ATC2603C_ID_DCDC3,
-+	ATC2603C_ID_LDO1,
-+	ATC2603C_ID_LDO2,
-+	ATC2603C_ID_LDO3,
-+	ATC2603C_ID_LDO5,
-+	ATC2603C_ID_LDO6,
-+	ATC2603C_ID_LDO7,
-+	ATC2603C_ID_LDO8,
-+	ATC2603C_ID_LDO11,
-+	ATC2603C_ID_LDO12,
-+	ATC2603C_ID_SWITCHLDO1,
-+	ATC2603C_ID_MAX,
-+};
-+
-+#define atc2603c_reg_desc_dcdc(num, min, step, n_volt, vsel_h, vsel_l) { \
-+	.name = "DCDC"#num, \
-+	.supply_name = "dcdc"#num, \
-+	.of_match = of_match_ptr("dcdc"#num), \
-+	.regulators_node = of_match_ptr("regulators"), \
-+	.id = ATC2603C_ID_DCDC##num, \
-+	.ops = &atc260x_dcdc_ops, \
-+	.type = REGULATOR_VOLTAGE, \
-+	.min_uV = min, \
-+	.uV_step = step, \
-+	.n_voltages = n_volt, \
-+	.vsel_reg = ATC2603C_PMU_DC##num##_CTL0, \
-+	.vsel_mask = GENMASK(vsel_h, vsel_l), \
-+	.enable_reg = ATC2603C_PMU_DC##num##_CTL0, \
-+	.enable_mask = BIT(15), \
-+	.enable_time = 800, \
-+	.owner = THIS_MODULE, \
-+}
-+
-+#define atc2603c_reg_desc_dcdc_range(num, vsel_h, vsel_l) { \
-+	.name = "DCDC"#num, \
-+	.supply_name = "dcdc"#num, \
-+	.of_match = of_match_ptr("dcdc"#num), \
-+	.regulators_node = of_match_ptr("regulators"), \
-+	.id = ATC2603C_ID_DCDC##num, \
-+	.ops = &atc260x_dcdc_range_ops, \
-+	.type = REGULATOR_VOLTAGE, \
-+	.n_voltages = 16, \
-+	.linear_ranges = atc2603c_dcdc_voltage_ranges, \
-+	.n_linear_ranges = ARRAY_SIZE(atc2603c_dcdc_voltage_ranges), \
-+	.vsel_reg = ATC2603C_PMU_DC##num##_CTL0, \
-+	.vsel_mask = GENMASK(vsel_h, vsel_l), \
-+	.enable_reg = ATC2603C_PMU_DC##num##_CTL0, \
-+	.enable_mask = BIT(15), \
-+	.enable_time = 800, \
-+	.owner = THIS_MODULE, \
-+}
-+
-+#define atc2603c_reg_desc_dcdc_fixed(num, min, step, n_volt, vsel_h, vsel_l) { \
-+	.name = "DCDC"#num, \
-+	.supply_name = "dcdc"#num, \
-+	.of_match = of_match_ptr("dcdc"#num), \
-+	.regulators_node = of_match_ptr("regulators"), \
-+	.id = ATC2603C_ID_DCDC##num, \
-+	.ops = &atc260x_dcdc_fixed_ops, \
-+	.type = REGULATOR_VOLTAGE, \
-+	.min_uV = min, \
-+	.uV_step = step, \
-+	.n_voltages = n_volt, \
-+	.vsel_reg = ATC2603C_PMU_DC##num##_CTL0, \
-+	.vsel_mask = GENMASK(vsel_h, vsel_l), \
-+	.enable_time = 800, \
-+	.owner = THIS_MODULE, \
-+}
-+
-+#define atc2603c_reg_desc_ldo(num, min, step, n_volt, vsel_h, vsel_l) { \
-+	.name = "LDO"#num, \
-+	.supply_name = "ldo"#num, \
-+	.of_match = of_match_ptr("ldo"#num), \
-+	.regulators_node = of_match_ptr("regulators"), \
-+	.id = ATC2603C_ID_LDO##num, \
-+	.ops = &atc260x_ldo_ops, \
-+	.type = REGULATOR_VOLTAGE, \
-+	.min_uV = min, \
-+	.uV_step = step, \
-+	.n_voltages = n_volt, \
-+	.vsel_reg = ATC2603C_PMU_LDO##num##_CTL, \
-+	.vsel_mask = GENMASK(vsel_h, vsel_l), \
-+	.enable_reg = ATC2603C_PMU_LDO##num##_CTL, \
-+	.enable_mask = BIT(0), \
-+	.enable_time = 2000, \
-+	.owner = THIS_MODULE, \
-+}
-+
-+#define atc2603c_reg_desc_ldo_fixed(num, min, step, n_volt, vsel_h, vsel_l) { \
-+	.name = "LDO"#num, \
-+	.supply_name = "ldo"#num, \
-+	.of_match = of_match_ptr("ldo"#num), \
-+	.regulators_node = of_match_ptr("regulators"), \
-+	.id = ATC2603C_ID_LDO##num, \
-+	.ops = &atc260x_ldo_fixed_ops, \
-+	.type = REGULATOR_VOLTAGE, \
-+	.min_uV = min, \
-+	.uV_step = step, \
-+	.n_voltages = n_volt, \
-+	.vsel_reg = ATC2603C_PMU_LDO##num##_CTL, \
-+	.vsel_mask = GENMASK(vsel_h, vsel_l), \
-+	.enable_time = 2000, \
-+	.owner = THIS_MODULE, \
-+}
-+
-+#define atc2603c_reg_desc_ldo_noops(num, vfixed) { \
-+	.name = "LDO"#num, \
-+	.supply_name = "ldo"#num, \
-+	.of_match = of_match_ptr("ldo"#num), \
-+	.regulators_node = of_match_ptr("regulators"), \
-+	.id = ATC2603C_ID_LDO##num, \
-+	.ops = &atc260x_no_ops, \
-+	.type = REGULATOR_VOLTAGE, \
-+	.fixed_uV = vfixed, \
-+	.n_voltages = 1, \
-+	.owner = THIS_MODULE, \
-+}
-+
-+#define atc2603c_reg_desc_ldo_switch(num, min, step, n_volt, vsel_h, vsel_l) { \
-+	.name = "SWITCHLDO"#num, \
-+	.supply_name = "switchldo"#num, \
-+	.of_match = of_match_ptr("switchldo"#num), \
-+	.regulators_node = of_match_ptr("regulators"), \
-+	.id = ATC2603C_ID_SWITCHLDO##num, \
-+	.ops = &atc260x_ldo_bypass_discharge_ops, \
-+	.type = REGULATOR_VOLTAGE, \
-+	.min_uV = min, \
-+	.uV_step = step, \
-+	.n_voltages = n_volt, \
-+	.vsel_reg = ATC2603C_PMU_SWITCH_CTL, \
-+	.vsel_mask = GENMASK(vsel_h, vsel_l), \
-+	.enable_reg = ATC2603C_PMU_SWITCH_CTL, \
-+	.enable_mask = BIT(15), \
-+	.enable_is_inverted = true, \
-+	.enable_time = 2000, \
-+	.bypass_reg = ATC2603C_PMU_SWITCH_CTL, \
-+	.bypass_mask = BIT(5), \
-+	.active_discharge_reg = ATC2603C_PMU_SWITCH_CTL, \
-+	.active_discharge_mask = BIT(1), \
-+	.owner = THIS_MODULE, \
-+}
-+
-+static const struct regulator_desc atc2603c_reg[] = {
-+	atc2603c_reg_desc_dcdc_fixed(1, 700000, 25000, 29, 11, 7),
-+	atc2603c_reg_desc_dcdc_range(2, 12, 8),
-+	atc2603c_reg_desc_dcdc_fixed(3, 2600000, 100000, 8, 11, 9),
-+	atc2603c_reg_desc_ldo_fixed(1, 2600000, 100000, 8, 15, 13),
-+	atc2603c_reg_desc_ldo_fixed(2, 2600000, 100000, 8, 15, 13),
-+	atc2603c_reg_desc_ldo_fixed(3, 1500000, 100000, 6, 15, 13),
-+	atc2603c_reg_desc_ldo(5, 2600000, 100000, 8, 15, 13),
-+	atc2603c_reg_desc_ldo_fixed(6, 700000, 25000, 29, 15, 11),
-+	atc2603c_reg_desc_ldo(7, 1500000, 100000, 6, 15, 13),
-+	atc2603c_reg_desc_ldo(8, 2300000, 100000, 11, 15, 12),
-+	atc2603c_reg_desc_ldo_fixed(11, 2600000, 100000, 8, 15, 13),
-+	atc2603c_reg_desc_ldo_noops(12, 1800000),
-+	atc2603c_reg_desc_ldo_switch(1, 3000000, 100000, 4, 4, 3),
-+};
-+
-+static const struct regulator_desc atc2603c_reg_dcdc2_ver_b =
-+	atc2603c_reg_desc_dcdc(2, 1000000, 50000, 18, 12, 8);
-+
-+enum atc2609a_reg_ids {
-+	ATC2609A_ID_DCDC0,
-+	ATC2609A_ID_DCDC1,
-+	ATC2609A_ID_DCDC2,
-+	ATC2609A_ID_DCDC3,
-+	ATC2609A_ID_DCDC4,
-+	ATC2609A_ID_LDO0,
-+	ATC2609A_ID_LDO1,
-+	ATC2609A_ID_LDO2,
-+	ATC2609A_ID_LDO3,
-+	ATC2609A_ID_LDO4,
-+	ATC2609A_ID_LDO5,
-+	ATC2609A_ID_LDO6,
-+	ATC2609A_ID_LDO7,
-+	ATC2609A_ID_LDO8,
-+	ATC2609A_ID_LDO9,
-+	ATC2609A_ID_MAX,
-+};
-+
-+#define atc2609a_reg_desc_dcdc(num, en_bit) { \
-+	.name = "DCDC"#num, \
-+	.supply_name = "dcdc"#num, \
-+	.of_match = of_match_ptr("dcdc"#num), \
-+	.regulators_node = of_match_ptr("regulators"), \
-+	.id = ATC2609A_ID_DCDC##num, \
-+	.ops = &atc260x_dcdc_ops, \
-+	.type = REGULATOR_VOLTAGE, \
-+	.min_uV = 600000, \
-+	.uV_step = 6250, \
-+	.n_voltages = 256, \
-+	.vsel_reg = ATC2609A_PMU_DC##num##_CTL0, \
-+	.vsel_mask = GENMASK(15, 8), \
-+	.enable_reg = ATC2609A_PMU_DC_OSC, \
-+	.enable_mask = BIT(en_bit), \
-+	.enable_time = 800, \
-+	.owner = THIS_MODULE, \
-+}
-+
-+#define atc2609a_reg_desc_dcdc_range(num, en_bit) { \
-+	.name = "DCDC"#num, \
-+	.supply_name = "dcdc"#num, \
-+	.of_match = of_match_ptr("dcdc"#num), \
-+	.regulators_node = of_match_ptr("regulators"), \
-+	.id = ATC2609A_ID_DCDC##num, \
-+	.ops = &atc260x_dcdc_range_ops, \
-+	.type = REGULATOR_VOLTAGE, \
-+	.n_voltages = 233, \
-+	.linear_ranges = atc2609a_dcdc_voltage_ranges, \
-+	.n_linear_ranges = ARRAY_SIZE(atc2609a_dcdc_voltage_ranges), \
-+	.vsel_reg = ATC2609A_PMU_DC##num##_CTL0, \
-+	.vsel_mask = GENMASK(15, 8), \
-+	.enable_reg = ATC2609A_PMU_DC_OSC, \
-+	.enable_mask = BIT(en_bit), \
-+	.enable_time = 800, \
-+	.owner = THIS_MODULE, \
-+}
-+
-+#define atc2609a_reg_desc_ldo(num) { \
-+	.name = "LDO"#num, \
-+	.supply_name = "ldo"#num, \
-+	.of_match = of_match_ptr("ldo"#num), \
-+	.regulators_node = of_match_ptr("regulators"), \
-+	.id = ATC2609A_ID_LDO##num, \
-+	.ops = &atc260x_ldo_ops, \
-+	.type = REGULATOR_VOLTAGE, \
-+	.min_uV = 700000, \
-+	.uV_step = 100000, \
-+	.n_voltages = 16, \
-+	.vsel_reg = ATC2609A_PMU_LDO##num##_CTL0, \
-+	.vsel_mask = GENMASK(4, 1), \
-+	.enable_reg = ATC2609A_PMU_LDO##num##_CTL0, \
-+	.enable_mask = BIT(0), \
-+	.enable_time = 2000, \
-+	.owner = THIS_MODULE, \
-+}
-+
-+#define atc2609a_reg_desc_ldo_bypass(num) { \
-+	.name = "LDO"#num, \
-+	.supply_name = "ldo"#num, \
-+	.of_match = of_match_ptr("ldo"#num), \
-+	.regulators_node = of_match_ptr("regulators"), \
-+	.id = ATC2609A_ID_LDO##num, \
-+	.ops = &atc260x_ldo_bypass_ops, \
-+	.type = REGULATOR_VOLTAGE, \
-+	.min_uV = 2300000, \
-+	.uV_step = 100000, \
-+	.n_voltages = 12, \
-+	.vsel_reg = ATC2609A_PMU_LDO##num##_CTL0, \
-+	.vsel_mask = GENMASK(5, 2), \
-+	.enable_reg = ATC2609A_PMU_LDO##num##_CTL0, \
-+	.enable_mask = BIT(0), \
-+	.enable_time = 2000, \
-+	.bypass_reg = ATC2609A_PMU_LDO##num##_CTL0, \
-+	.bypass_mask = BIT(1), \
-+	.owner = THIS_MODULE, \
-+}
-+
-+#define atc2609a_reg_desc_ldo_range_pick(num, n_range) { \
-+	.name = "LDO"#num, \
-+	.supply_name = "ldo"#num, \
-+	.of_match = of_match_ptr("ldo"#num), \
-+	.regulators_node = of_match_ptr("regulators"), \
-+	.id = ATC2609A_ID_LDO##num, \
-+	.ops = &atc260x_ldo_range_pick_ops, \
-+	.type = REGULATOR_VOLTAGE, \
-+	.linear_ranges = atc2609a_ldo_voltage_ranges##n_range, \
-+	.n_linear_ranges = ARRAY_SIZE(atc2609a_ldo_voltage_ranges##n_range), \
-+	.vsel_reg = ATC2609A_PMU_LDO##num##_CTL0, \
-+	.vsel_mask = GENMASK(4, 1), \
-+	.vsel_range_reg = ATC2609A_PMU_LDO##num##_CTL0, \
-+	.vsel_range_mask = BIT(5), \
-+	.linear_range_selectors = atc260x_ldo_voltage_range_sel, \
-+	.enable_reg = ATC2609A_PMU_LDO##num##_CTL0, \
-+	.enable_mask = BIT(0), \
-+	.enable_time = 2000, \
-+	.owner = THIS_MODULE, \
-+}
-+
-+#define atc2609a_reg_desc_ldo_fixed(num) { \
-+	.name = "LDO"#num, \
-+	.supply_name = "ldo"#num, \
-+	.of_match = of_match_ptr("ldo"#num), \
-+	.regulators_node = of_match_ptr("regulators"), \
-+	.id = ATC2609A_ID_LDO##num, \
-+	.ops = &atc260x_ldo_fixed_ops, \
-+	.type = REGULATOR_VOLTAGE, \
-+	.min_uV = 2600000, \
-+	.uV_step = 100000, \
-+	.n_voltages = 8, \
-+	.vsel_reg = ATC2609A_PMU_LDO##num##_CTL, \
-+	.vsel_mask = GENMASK(15, 13), \
-+	.enable_time = 2000, \
-+	.owner = THIS_MODULE, \
-+}
-+
-+static const struct regulator_desc atc2609a_reg[] = {
-+	atc2609a_reg_desc_dcdc(0, 4),
-+	atc2609a_reg_desc_dcdc(1, 5),
-+	atc2609a_reg_desc_dcdc(2, 6),
-+	atc2609a_reg_desc_dcdc_range(3, 7),
-+	atc2609a_reg_desc_dcdc(4, 8),
-+	atc2609a_reg_desc_ldo_bypass(0),
-+	atc2609a_reg_desc_ldo_bypass(1),
-+	atc2609a_reg_desc_ldo_bypass(2),
-+	atc2609a_reg_desc_ldo_range_pick(3, 0),
-+	atc2609a_reg_desc_ldo_range_pick(4, 0),
-+	atc2609a_reg_desc_ldo(5),
-+	atc2609a_reg_desc_ldo_range_pick(6, 1),
-+	atc2609a_reg_desc_ldo_range_pick(7, 0),
-+	atc2609a_reg_desc_ldo_range_pick(8, 0),
-+	atc2609a_reg_desc_ldo_fixed(9),
-+};
-+
-+static int atc260x_regulator_probe(struct platform_device *pdev)
++static int atc260x_onkey_probe(struct platform_device *pdev)
 +{
 +	struct atc260x *atc260x = dev_get_drvdata(pdev->dev.parent);
-+	struct device *dev = atc260x->dev;
-+	struct atc260x_regulator_data *atc260x_data;
-+	struct regulator_config config = {};
-+	struct regulator_dev *atc260x_rdev;
-+	const struct regulator_desc *regulators;
-+	bool atc2603c_ver_b = false;
-+	int i, nregulators;
++	struct atc260x_onkey *onkey;
++	struct input_dev *input_dev;
++	enum atc260x_onkey_reset_status reset_status;
++	u32 press_time = KEY_PRESS_TIME_SEC, reset_time = 0;
++	int val, error;
 +
-+	atc260x_data = devm_kzalloc(&pdev->dev, sizeof(*atc260x_data), GFP_KERNEL);
-+	if (!atc260x_data)
++	onkey = devm_kzalloc(&pdev->dev, sizeof(*onkey), GFP_KERNEL);
++	if (!onkey)
 +		return -ENOMEM;
 +
-+	atc260x_data->voltage_time_dcdc = 350;
-+	atc260x_data->voltage_time_ldo = 800;
++	error = device_property_read_u32(pdev->dev.parent,
++					 "reset-time-sec", &val);
++	if (error) {
++		reset_status = KEY_RESET_HW_DEFAULT;
++	} else if (val) {
++		if (val < 6 || val > 12) {
++			dev_err(&pdev->dev, "reset-time-sec out of range\n");
++			return -EINVAL;
++		}
++
++		reset_status = KEY_RESET_USER_SEL;
++		reset_time = (val - 6) / 2;
++	} else {
++		reset_status = KEY_RESET_DISABLED;
++		dev_dbg(&pdev->dev, "Disabled reset on long-press\n");
++	}
 +
 +	switch (atc260x->ic_type) {
 +	case ATC2603C:
-+		regulators = atc2603c_reg;
-+		nregulators = ATC2603C_ID_MAX;
-+		atc2603c_ver_b = atc260x->ic_ver == ATC260X_B;
++		onkey->params = &atc2603c_onkey_params;
++		press_time = FIELD_PREP(ATC2603C_PMU_SYS_CTL2_ONOFF_PRESS_TIME,
++					press_time);
++		reset_time = FIELD_PREP(ATC2603C_PMU_SYS_CTL2_ONOFF_RESET_TIME_SEL,
++					reset_time);
 +		break;
 +	case ATC2609A:
-+		atc260x_data->voltage_time_dcdc = 250;
-+		regulators = atc2609a_reg;
-+		nregulators = ATC2609A_ID_MAX;
++		onkey->params = &atc2609a_onkey_params;
++		press_time = FIELD_PREP(ATC2609A_PMU_SYS_CTL2_ONOFF_PRESS_TIME,
++					press_time);
++		reset_time = FIELD_PREP(ATC2609A_PMU_SYS_CTL2_ONOFF_RESET_TIME_SEL,
++					reset_time);
 +		break;
 +	default:
-+		dev_err(dev, "unsupported ATC260X ID %d\n", atc260x->ic_type);
++		dev_err(&pdev->dev,
++			"OnKey not supported for ATC260x PMIC type: %u\n",
++			atc260x->ic_type);
 +		return -EINVAL;
 +	}
 +
-+	config.dev = dev;
-+	config.regmap = atc260x->regmap;
-+	config.driver_data = atc260x_data;
-+
-+	/* Instantiate the regulators */
-+	for (i = 0; i < nregulators; i++) {
-+		if (atc2603c_ver_b && regulators[i].id == ATC2603C_ID_DCDC2)
-+			atc260x_rdev = devm_regulator_register(&pdev->dev,
-+							       &atc2603c_reg_dcdc2_ver_b,
-+							       &config);
-+		else
-+			atc260x_rdev = devm_regulator_register(&pdev->dev,
-+							       &regulators[i],
-+							       &config);
-+		if (IS_ERR(atc260x_rdev)) {
-+			dev_err(dev, "failed to register regulator: %d\n", i);
-+			return PTR_ERR(atc260x_rdev);
-+		}
++	input_dev = devm_input_allocate_device(&pdev->dev);
++	if (!input_dev) {
++		dev_err(&pdev->dev, "Failed to allocate input device\n");
++		return -ENOMEM;
 +	}
++
++	onkey->input_dev = input_dev;
++	onkey->atc260x = atc260x;
++
++	input_dev->name = "atc260x-onkey";
++	input_dev->phys = "atc260x-onkey/input0";
++	input_dev->open = atc260x_onkey_open;
++	input_dev->close = atc260x_onkey_close;
++
++	input_set_capability(input_dev, EV_KEY, KEY_POWER);
++	input_set_drvdata(input_dev, onkey);
++
++	INIT_DELAYED_WORK(&onkey->work, atc260x_onkey_work);
++
++	onkey->irq = platform_get_irq(pdev, 0);
++	if (onkey->irq < 0)
++		return onkey->irq;
++
++	error = devm_request_threaded_irq(&pdev->dev, onkey->irq, NULL,
++					  atc260x_onkey_irq, IRQF_ONESHOT,
++					  dev_name(&pdev->dev), onkey);
++	if (error) {
++		dev_err(&pdev->dev,
++			"Failed to register IRQ %d: %d\n", onkey->irq, error);
++		return error;
++	}
++
++	/* Keep IRQ disabled until atc260x_onkey_open() is called. */
++	disable_irq(onkey->irq);
++
++	error = input_register_device(input_dev);
++	if (error) {
++		dev_err(&pdev->dev,
++			"Failed to register input device: %d\n", error);
++		return error;
++	}
++
++	error = atc2603x_onkey_hw_init(onkey, reset_status,
++				       reset_time, press_time);
++	if (error)
++		return error;
++
++	device_init_wakeup(&pdev->dev, true);
 +
 +	return 0;
 +}
 +
-+static struct platform_driver atc260x_regulator_driver = {
-+	.probe = atc260x_regulator_probe,
-+	.driver = {
-+		.name = "atc260x-regulator",
++static struct platform_driver atc260x_onkey_driver = {
++	.probe	= atc260x_onkey_probe,
++	.driver	= {
++		.name = "atc260x-onkey",
 +	},
 +};
 +
-+module_platform_driver(atc260x_regulator_driver);
++module_platform_driver(atc260x_onkey_driver);
 +
-+MODULE_DESCRIPTION("Regulator driver for ATC260x PMICs");
-+MODULE_AUTHOR("Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>");
++MODULE_DESCRIPTION("Onkey driver for ATC260x PMICs");
 +MODULE_AUTHOR("Cristian Ciocaltea <cristian.ciocaltea@gmail.com>");
 +MODULE_LICENSE("GPL");
 -- 
