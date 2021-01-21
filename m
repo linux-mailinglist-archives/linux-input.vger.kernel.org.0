@@ -2,89 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 819142FDB53
-	for <lists+linux-input@lfdr.de>; Wed, 20 Jan 2021 22:25:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 198A92FE337
+	for <lists+linux-input@lfdr.de>; Thu, 21 Jan 2021 07:52:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389963AbhATUxz convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Wed, 20 Jan 2021 15:53:55 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46552 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730347AbhATUuo (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 20 Jan 2021 15:50:44 -0500
-Received: from archlinux (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B7CB023600;
-        Wed, 20 Jan 2021 20:50:01 +0000 (UTC)
-Date:   Wed, 20 Jan 2021 20:49:57 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc:     Zheng Yongjun <zhengyongjun3@huawei.com>, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] hid/hid-sensor-custom: convert comma to semicolon
-Message-ID: <20210120204824.0d52a2d2@archlinux>
-In-Reply-To: <20201229181841.6d63213a@archlinux>
-References: <20201214133212.3569-1-zhengyongjun3@huawei.com>
-        <df1481e15c591106ba75ed85289b12507cbc8c49.camel@linux.intel.com>
-        <20201229181841.6d63213a@archlinux>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        id S1726042AbhAUGwe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Jan 2021 01:52:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38464 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725933AbhAUGwc (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 21 Jan 2021 01:52:32 -0500
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2E0FC061575;
+        Wed, 20 Jan 2021 22:51:51 -0800 (PST)
+Received: by mail-io1-xd32.google.com with SMTP id z22so1972683ioh.9;
+        Wed, 20 Jan 2021 22:51:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RmR5J8GicNZJLuhUFmP22EBtCzbCjmN4ktsEfPuUAvI=;
+        b=BVIdcrIW4TMNNH77NUQtJS/OLJPOzEtNC1rGn5ZUr7j1YYmCBVCgI8I8pBRc2QPK8h
+         KGCEvwn0P8NY2sKTxJUCm3YTS/t6Oz1OgyGP69kP/VqmIuh44HTpGySJH+UqLD+ZYJfb
+         QMCrYKmBk5Mr+SXBTOM9kNE1VQwUbjaUiugQxDMc/4O3ALH/muNeRBr5UhFI9zUjVhmd
+         097YqXPABQeut+0o9M4Ve0zDrYsD5QbLV5UmRR4xcjaUb1etpp37Pt7rk0Nm8evKqIDZ
+         RYdqBQahBQePa8hNeHlNJIHDDVF2OovqIz9NpzCTYFFgBdW1XfmyuIArWZrQxvo/TWZu
+         qxVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RmR5J8GicNZJLuhUFmP22EBtCzbCjmN4ktsEfPuUAvI=;
+        b=J11Hy9DkKCjY5W56BvYGdc5nfWbVIpwQjG1UVu7CczB6H+XTHhwlNMWgJblUjQIRKw
+         XNZaeMEEHpoQ0eFLvwkhVwAcR3gYBu9OVTSlnzznYMCgP+MQOEK+W3sj2/HHzuLkbaGO
+         bS//fTEqXdD5YwtLAu1Ymiba9+k6L6oGe8sxh9NG7mMDqHCxKCUxrig9D/tISx0nvwnm
+         SiqOP9t5BaZzVRtgWviqaYy75Yx1zhKQ8GtdOchw0bJMtIwIkVeucKsQvypE/IcgZ/zM
+         IySm6U4DXJjCTS+xnajyf6W6135XF+O4yZgR1LtSiLQ2n3doa8m3b5SM1aWeuCncFQIx
+         GxBg==
+X-Gm-Message-State: AOAM530TPdHmA+4JuXclu6pkK5ndT6txI5ga/IJeuhrLBkaoJaeQxzbW
+        JWschGvcP6pRLbypxTIx1b0IGbij+f4J0HkzQZ8=
+X-Google-Smtp-Source: ABdhPJzZypTHMl5wMUilCwobB+qETmo15/kKxbdZRtGuuWn0dgPCe3PfFNxAIAp+fBjASBT1+5X2Hc2flnjf1pYjgfU=
+X-Received: by 2002:a02:2544:: with SMTP id g65mr10543131jag.91.1611211910995;
+ Wed, 20 Jan 2021 22:51:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+References: <20210117042428.1497-1-alistair@alistair23.me> <20210117042428.1497-2-alistair@alistair23.me>
+ <YAeSpUIzV/3dWPC+@google.com>
+In-Reply-To: <YAeSpUIzV/3dWPC+@google.com>
+From:   Alistair Francis <alistair23@gmail.com>
+Date:   Wed, 20 Jan 2021 22:51:24 -0800
+Message-ID: <CAKmqyKOFe0_JgFA1_9vemW40g-daBt5RY=S9CAXU5Yj-FftGGw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] input/touchscreen: Add device tree support to wacom_i2c
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Alistair Francis <alistair@alistair23.me>,
+        linux-input@vger.kernel.org, dl-linux-imx <linux-imx@nxp.com>,
+        Sascha Hauer <kernel@pengutronix.de>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 29 Dec 2020 18:18:41 +0000
-Jonathan Cameron <jic23@kernel.org> wrote:
+On Tue, Jan 19, 2021 at 6:17 PM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> On Sat, Jan 16, 2021 at 08:24:27PM -0800, Alistair Francis wrote:
+> > Allow the wacom-i2c device to be exposed via device tree.
+>
+> The patch seems incomplete. I see we are reading and storing properties,
+> but we are not using them whatsoever, so I do not see the reason to have
+> this in this form.
 
-> On Mon, 14 Dec 2020 06:13:58 -0800
-> Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> wrote:
-> 
-> > On Mon, 2020-12-14 at 21:32 +0800, Zheng Yongjun wrote:  
-> > > Replace a comma between expression statements by a semicolon.
-> > > 
-> > > Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>    
-> > Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>  
-> Applied to the togreg branch of iio.git and pushed out as testing for
-> the autobuilders to see if they can break it.
-Hi Jiri,
+Good point. I am trying to split up the work, but I guess here I split
+it up a little too much. I'm sending a v2 that should fix this.
 
-Just realised this is in HID rather than IIO. I hope you don't mind as
-it's now deep in a tree I'd rather not rebase.
+Alistair
 
-Sorry about that.
-
-Jonathan
-
-> 
-> Thanks,
-> 
-> Jonathan
-> 
-> >   
-> > > ---
-> > >  drivers/hid/hid-sensor-custom.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-
-> > > sensor-custom.c
-> > > index 4d25577a8573..6c47a2e7623d 100644
-> > > --- a/drivers/hid/hid-sensor-custom.c
-> > > +++ b/drivers/hid/hid-sensor-custom.c
-> > > @@ -728,7 +728,7 @@ static int hid_sensor_custom_dev_if_add(struct
-> > > hid_sensor_custom *sensor_inst)
-> > >  
-> > >         sensor_inst->custom_dev.minor = MISC_DYNAMIC_MINOR;
-> > >         sensor_inst->custom_dev.name = dev_name(&sensor_inst->pdev-    
-> > > >dev);    
-> > > -       sensor_inst->custom_dev.fops = &hid_sensor_custom_fops,
-> > > +       sensor_inst->custom_dev.fops = &hid_sensor_custom_fops;
-> > >         ret = misc_register(&sensor_inst->custom_dev);
-> > >         if (ret) {
-> > >                 kfifo_free(&sensor_inst->data_fifo);    
-> > 
-> >   
-> 
-
+>
+> Thanks.
+>
+> --
+> Dmitry
