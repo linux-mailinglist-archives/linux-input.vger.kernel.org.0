@@ -2,106 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DE842FE747
-	for <lists+linux-input@lfdr.de>; Thu, 21 Jan 2021 11:16:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E43A2FE8DE
+	for <lists+linux-input@lfdr.de>; Thu, 21 Jan 2021 12:33:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727900AbhAUKOu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Jan 2021 05:14:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53728 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728814AbhAUKOk (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Jan 2021 05:14:40 -0500
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B6EBC061757
-        for <linux-input@vger.kernel.org>; Thu, 21 Jan 2021 02:13:55 -0800 (PST)
-Received: by mail-qk1-x731.google.com with SMTP id d14so1061778qkc.13
-        for <linux-input@vger.kernel.org>; Thu, 21 Jan 2021 02:13:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=6wqsQE7fwIc4TSBX6UnnGBA1lojbGUyBNZxIV/YDZlk=;
-        b=Wj+ItNm1z+UTdxUspyrKqlNVUhYY9mOyYHxu9ASO/orixeM6jfhtHYPxHBxYwTS0L4
-         ze4IH+qtoHUZ9X1yNSXPpaBAGlSHOSsPclAW2tjDClXibqs+v6T0AtSlj5Lnp3kleOks
-         n0c/Z6zD7rHKywMtPqSi8fvwzfVR0py80tj8+gELcAJPmjyiasHzfn1Ec74cOjZTCq+0
-         MeSEc+/3BKQGPBPIMWCiJQNGxwZFnRLpaIuOCBhXqnsYObrb/mSHmeNtVep02aZXIEUW
-         gEuZM0DlCgKrv+SWVVhzz8Em1gh8zPpNQeKbHRmS0Ugt34U+tS3Ev2817hD5oYKLMHdd
-         3ggw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=6wqsQE7fwIc4TSBX6UnnGBA1lojbGUyBNZxIV/YDZlk=;
-        b=OhRJ9wMJaeT1GE1ytCyQyTwpU/ZNmEgeIWalwih9AiJHZf12SQD09wbl3vyj44if1r
-         hA/9e50Co8mjCcgOx+WcPFjzys8MYxdfj8SJDgTjQTjT4DfEAXtVVag+8yoPRURjMQql
-         PNyg9RwCnEPwmo52ztYlvpBI1zmqV3++X/zypQdwNU8P7c3fBjR/FNgbDDnvtvH/ehZH
-         Cv1/E4uOIocVk7meuFB3McyRaiSwhKn4RNRYGzfpzhaT2BeYK54/J5uBOuVQIHB0n1YQ
-         cITuLIxc4I1f2h2artfmI9qtos36gtk+VpiPkvAXHba32HFO0nrw8HGFU1Eh/SAN2k7b
-         jjLg==
-X-Gm-Message-State: AOAM532bfbUTTsofpwq/878oHF0hr2L/gKfCBgG38ZsF35FuftNt5eZm
-        DcCo3Hl1js0vBp7KpUJocwHKDvpT7OXif2ZephDqRWNhxFla
-X-Google-Smtp-Source: ABdhPJzPiWsx++OpKtGwD+Lnwao7sdg+b/rLqhQyphn3271UYZHefBcyx3Bmtd51dP0QK9+6BJv7CzZETZMzmYWCDkw=
-X-Received: by 2002:a05:620a:51:: with SMTP id t17mr13326199qkt.414.1611224034389;
- Thu, 21 Jan 2021 02:13:54 -0800 (PST)
-MIME-Version: 1.0
-From:   =?UTF-8?B?TWljaGHFgiBLb3BlxIc=?= <mkopec12@gmail.com>
-Date:   Thu, 21 Jan 2021 11:13:43 +0100
-Message-ID: <CAMWMcgD8-R3cuRkgSRsAzx1_Ukh-iWNqmMW9z-Aw4Z2O8gxB2w@mail.gmail.com>
-Subject: "psmouse.synaptics_intertouch=1" fails on Lenovo T14 AMD
-To:     linux-input@vger.kernel.org
+        id S1730506AbhAULdK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Jan 2021 06:33:10 -0500
+Received: from msg-1.mailo.com ([213.182.54.11]:38464 "EHLO msg-1.mailo.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730498AbhAULdC (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 21 Jan 2021 06:33:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailoo.org; s=mailo;
+        t=1611228723; bh=M2QKbhInlCnQOQT7RuMwftmcVbWNxVTLo5dHpoQRqbw=;
+        h=X-EA-Auth:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
+         References:Content-Type:MIME-Version:Content-Transfer-Encoding;
+        b=SOszrcp/9f/5xRBkhl2IS8Zpoj3YbNntUt/yiXQGNIJiJaU0Hi8fJWhQFjJvPyw8t
+         phpUcFWboc6Bzgjv+q6TnMv2saldvQWRQNMCUe1YNGkmSCog7eJZoZ02WlO32+f6Ae
+         o+AlZu+QtTZ0NAf1Vz3nY5/etbl+dWpeiPkJbU7g=
+Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
+        via proxy.mailoo.org [213.182.55.207]
+        Thu, 21 Jan 2021 12:32:03 +0100 (CET)
+X-EA-Auth: S72GLYOuz1vlT0elXBFH8QtqmGG6dMgBY/8X8YXDJm4vPuvVnAvMtJroEyXMwFfomcMMSOlGS2WfyLrKgRfaySyHGno4mE6860+wL2/x59s=
+Message-ID: <023807d33f122262f235712d7fc7af4ea9e5817b.camel@mailoo.org>
+Subject: Re: [PATCH 2/2] Input: add MStar msg26xx touchscreen driver
+From:   Vincent Knecht <vincent.knecht@mailoo.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Michael Srba <Michael.Srba@seznam.cz>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Date:   Thu, 21 Jan 2021 12:32:02 +0100
+In-Reply-To: <YAknNNgx66HDtrgQ@google.com>
+References: <20210120180119.849588-1-vincent.knecht@mailoo.org>
+         <20210120180119.849588-2-vincent.knecht@mailoo.org>
+         <YAknNNgx66HDtrgQ@google.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3 (3.38.3-1.fc33) 
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+Hi Dmitry!
 
-I found the following messages in dmesg on my Lenovo Thinkpad T14 AMD
-and I'm following the suggestion to report them here:
+Le mercredi 20 janvier 2021 =C3=A0 23:03 -0800, Dmitry Torokhov a =C3=A9cri=
+t=C2=A0:
+> Hi Vincent,
+>=20
+> On Wed, Jan 20, 2021 at 07:01:08PM +0100, Vincent Knecht wrote:
+> > +struct packet {
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u8=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0y_high : 4;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u8=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0x_high : 4;
+>=20
+> This will not work on big endian devices as order of bitfields changes.
+> I'd recommended treating contact packet as sequence of bytes and parse,
+> i.e.
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0x =3D ((buf[0] & 0x0f) <<=
+ 8) | buf[1];
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0x =3D ((buf[0] & 0xf0) <<=
+ 4) | buf[2];
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0...
 
-[    1.664239] psmouse serio1: synaptics: queried max coordinates: x
-[..5678], y [..4694]
-[    1.703482] psmouse serio1: synaptics: queried min coordinates: x
-[1266..], y [1162..]
-[    1.703492] psmouse serio1: synaptics: Your touchpad (PNP: LEN2064
-PNP0f13) says it can support a different bus. If i2c-hid and hid-rmi
-are not used, you might want to try setting
-psmouse.synaptics_intertouch to 1 and report this to
-linux-input@vger.kernel.org.
-[    1.770075] psmouse serio1: synaptics: Touchpad model: 1, fw:
-10.32, id: 0x1e2a1, caps: 0xf014a3/0x940300/0x12e800/0x500000, board
-id: 3471, fw id: 2909640
-[    1.770092] psmouse serio1: synaptics: serio: Synaptics
-pass-through port at isa0060/serio1/input0
-[    1.812535] input: SynPS/2 Synaptics TouchPad as
-/devices/platform/i8042/serio1/input/input6
+Ok, will change in v2
 
-However, booting with "psmouse.synaptics_intertouch=3D1"  results in the
-following messages:
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u8=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0x_low;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u8=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0y_low;
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u8=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0pressure;
+> > +};
+> > +
+> > +
+> > +static void mstar_power_on(struct msg26xx_ts_data *msg26xx)
+> > +{
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0gpiod_set_value(msg26xx->res=
+et_gpiod, 0);
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0mdelay(10);
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0gpiod_set_value(msg26xx->res=
+et_gpiod, 1);
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0mdelay(FIRMWARE_ON_DELAY);
+>=20
+> I am pretty sure this is incorrect. You are saying that you release the
+> reset line, wait a bit, and then assert it. gpiod is a logical API, with
+> 0 being inactive and 1 being active, and here you want to activate the
+> reset line, wait appropriate time, release it, and wait for the device
+> to initialize. What does the datasheet say about reset GPIO polarity?
+>=20
+> Thanks.
 
-[    1.701068] psmouse serio1: synaptics: queried max coordinates: x
-[..5678], y [..4694]
-[    1.741218] psmouse serio1: synaptics: queried min coordinates: x
-[1266..], y [1162..]
-[    1.741222] psmouse serio1: synaptics: Trying to set up SMBus access
-[    1.744456] psmouse serio1: synaptics: SMbus companion is not ready yet
-[    1.820409] psmouse serio1: synaptics: Touchpad model: 1, fw:
-10.32, id: 0x1e2a1, caps: 0xf014a3/0x940300/0x12e800/0x500000, board
-id: 3471, fw id: 2909640
-[    1.820416] psmouse serio1: synaptics: serio: Synaptics
-pass-through port at isa0060/serio1/input0
-[    1.872540] input: SynPS/2 Synaptics TouchPad as
-/devices/platform/i8042/serio1/input/input6
+I don't have any datasheet, only downstream code and dts for my device...
+After changing this function to assert then deassert and also the reset gpi=
+o
+polarity in my dts, it works as intended.
+I'll send a v2 shortly, also changing the example section in bindings to
+reflect the dts change I had to make (plus a minor change in title).
 
-after which the touchpad works in exactly the same way as when booted
-without the parameter.
+Thank you for the review!
 
-My kernel is compiled with HID_I2C and HID_RMI enabled. Am I missing
-some configuration here or is this expected behavior?
-Please let me know if there's any additional relevant information I can pro=
-vide.
 
-Thanks and best regards,
-Micha=C5=82 Kope=C4=87
+
+
