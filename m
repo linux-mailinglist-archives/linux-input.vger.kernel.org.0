@@ -2,136 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38C212FF564
-	for <lists+linux-input@lfdr.de>; Thu, 21 Jan 2021 21:07:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A8FB2FF615
+	for <lists+linux-input@lfdr.de>; Thu, 21 Jan 2021 21:39:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726210AbhAUTsg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Jan 2021 14:48:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51902 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726199AbhAUSro (ORCPT
+        id S1727410AbhAUHsj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Jan 2021 02:48:39 -0500
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:53259 "EHLO
+        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726530AbhAUG6D (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Jan 2021 13:47:44 -0500
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18AA6C06174A;
-        Thu, 21 Jan 2021 10:46:58 -0800 (PST)
-Received: by mail-pf1-x42f.google.com with SMTP id m6so2048398pfm.6;
-        Thu, 21 Jan 2021 10:46:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=DV+WyTHcLGBdAEm6DifZ+9dUcvJgKflailcNHBr+Tfo=;
-        b=kNJLrFZfILTqRRlm8iNz1uUmVGITt0RJNRtt4wpNPQU+/qKdfBFAT1Ghhd605PrMle
-         ltvpWzhjEP/aYf6duGWtPgcjYwtid1Fno6OV8Qt2J81O+v3ceEEZrREORw9oxazA1Y0F
-         etX0qn7e6NYP8cDu2ZW90lwZrJR5ov5a5wIhOfGf3swcoto5nZRObbXTgqsZFbZI30WU
-         De158HrarRogQbEqq2MxArc4IkA1H3iDNFVEXgQQ1MvV6lFsELhaFsC1AvDcXcrP1n85
-         JD/HUb5fMUs3OU/PDM1520GKdAKfKwx0UXHPuDjkDtKoUzPKHLxu/vbdJRPiFpu2LFz8
-         O7NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=DV+WyTHcLGBdAEm6DifZ+9dUcvJgKflailcNHBr+Tfo=;
-        b=A2yre98ACQdgl7pe5T8znGFoh0WoE6EmrHMAIEZWVuheXMkrAbkJ2hS9LRg8271RzC
-         mq97XApJlw/hduRxdDTRP9Ix7yjZ0A9b1LPrRGKnVABdavLrwiz8QfeZCF9A52aamsMT
-         fgv01CF1nrFOxIDdKWyOOatPY9O2OjICo+Q0HQ0Mhb1MrRMByxlyMzxpVm89MoM8Vd3R
-         Dcr8YpWaFOARPTJZRQynBIqWyq/g7SNXyZWnHHY7Duo8y5vzUJDkdiUFTNf2sMEIyOzC
-         v3CGnSEC8DKVmfoseUayYtTaBwhQPFoc76NOcCJ9Ro5AIopklZAQgsek5fELWgx0ABhx
-         irIQ==
-X-Gm-Message-State: AOAM531iv72e//ZaWLkA6i8q0DY+oPJu/Q//SFpY/oJEVY3bd9GbI4p6
-        FBCGWAzJA8RH5b2ZdNUleNuLCxKyjtt8KIf6
-X-Google-Smtp-Source: ABdhPJwYeGf1DLU8V+guJbuIG1u7QKLsPh3RlSayzCkHm/8bTJxhOSGoz6wMOqMfeUjw2UhnlheCGQ==
-X-Received: by 2002:a63:464a:: with SMTP id v10mr624584pgk.393.1611254817525;
-        Thu, 21 Jan 2021 10:46:57 -0800 (PST)
-Received: from horus.lan (71-34-80-131.ptld.qwest.net. [71.34.80.131])
-        by smtp.gmail.com with ESMTPSA id fh7sm6556714pjb.43.2021.01.21.10.46.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jan 2021 10:46:56 -0800 (PST)
-From:   Jason Gerecke <killertofu@gmail.com>
-X-Google-Original-From: Jason Gerecke <jason.gerecke@wacom.com>
-To:     linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jason Gerecke <jason.gerecke@wacom.com>, stable@vger.kernel.org,
-        Ping Cheng <ping.cheng@wacom.com>
-Subject: [PATCH] HID: wacom: Correct NULL dereference on AES pen proximity
-Date:   Thu, 21 Jan 2021 10:46:49 -0800
-Message-Id: <20210121184649.157189-1-jason.gerecke@wacom.com>
-X-Mailer: git-send-email 2.30.0
+        Thu, 21 Jan 2021 01:58:03 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.nyi.internal (Postfix) with ESMTP id 18CE45C00ED;
+        Thu, 21 Jan 2021 01:56:48 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Thu, 21 Jan 2021 01:56:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
+         h=from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=fm3; bh=WilBOyB7V0N1dNH+hL/QeOaRXv
+        DqeMrDrx+0C2UAfMY=; b=JVOaYz5l0SrOsyO6Dpw47iI91Z7dDIsxQYj2U2ZcKX
+        LHB54qK2eZRqGBaIVBVuY/CGhEL8U43/bCd2+ABc5MGFDsJwnsnpZFWvlZFalnfk
+        m8BHU63jZFGCyJr85AAVc5JkAEf/jABnwurggrEFVnnFFvrUTB85lcrDv9BBolOl
+        kb8E81tHTEJSg0/svmFLSqMxEmGnLHTK/JaAc7uOTOF8TThja0LVLwBHTnwYZbmM
+        CG6UZ3rGS+1PF2P8ceacUTIbTA+T5Hm63djcRO+u0SI+Fc35sQEuWEJ6fJJ4dvsS
+        um3SUq7HAaSSkMvSMNS2hTMtxKnN8LES6NeVEN8pKbQw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=WilBOyB7V0N1dNH+h
+        L/QeOaRXvDqeMrDrx+0C2UAfMY=; b=SFg1p7065y9JRI2/tClufybpJFYd4B1+X
+        Wu8v5Z3MDDazdJ9XhYRYbe45eMH9mg+DQWC79SqG599z26pQVuOCgWohn+mY1h5/
+        nEP9wt2UrjoriPjrMiB5sPsM8D0lH6oDjLbxamNBIr3h1kK1U3Cxv+NOf/Rx6Q89
+        A6c8zfIcmgJKD5SzG+jp+pDqY8t5xycDC2vCpfPGxdWSvsmjX4ftZa2JgZy8FMKf
+        wVZMo2Ma0Oi45vdlW3Q5KJeK1d6NDAspzz8wfPjmt1+mMLERYUUQItx66cId8nW5
+        fxOuT6QomP67+Rkyko+5LRXXOXv7e6OXY4voMCR0jOZKbdTPdXeNQ==
+X-ME-Sender: <xms:ryUJYLEIuh6KiRWbtEZl64gvpwVw6NPVIhvBlnLAjuzcbKY8ZTGc_w>
+    <xme:ryUJYIXVJgLTBJvFjpGR20xDl-2W_4zsVYMS78cHEmPb1AYGyCBdOpG9zPVdQcf-d
+    ywDb6-WgA_tS6_oqGs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudefgddutddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+    dttdenucfhrhhomheptehlihhsthgrihhrucfhrhgrnhgtihhsuceorghlihhsthgrihhr
+    segrlhhishhtrghirhdvfedrmhgvqeenucggtffrrghtthgvrhhnpeejleeihfdvtefgtd
+    ethfdtgefftdeiffefjeeiffefveeuleejheejvefhffeukeenucfkphepjeefrdelfedr
+    keegrddvtdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homheprghlihhsthgrihhrsegrlhhishhtrghirhdvfedrmhgv
+X-ME-Proxy: <xmx:ryUJYNK_WvK4ZiWMv-jSTZ29-wOVZAv0gGVYYmsgL3aTwbd0KRqPUQ>
+    <xmx:ryUJYJHEde8YnEvXa51A4tcC8-XnwOhZz32rrE6mZv0hZ3SqSyrhJw>
+    <xmx:ryUJYBW8rvOnMBZaV02Tuyn2Nff9kadggvO4Q4dWCV9N2oFcOBpiiw>
+    <xmx:sCUJYER6Z7q4oVqgOSubdHy08zS5bMJUDi2kS2xZThs1ds921dEwag>
+Received: from ThinkpadX1Yoga3.localdomain (c-73-93-84-208.hsd1.ca.comcast.net [73.93.84.208])
+        by mail.messagingengine.com (Postfix) with ESMTPA id C4F3F1080057;
+        Thu, 21 Jan 2021 01:56:46 -0500 (EST)
+From:   Alistair Francis <alistair@alistair23.me>
+To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+        linux-imx@nxp.com, kernel@pengutronix.de
+Cc:     linux-kernel@vger.kernel.org, alistair23@gmail.com,
+        Alistair Francis <alistair@alistair23.me>
+Subject: [PATCH v2 0/6] Add Wacom I2C support to rM2
+Date:   Wed, 20 Jan 2021 22:56:37 -0800
+Message-Id: <20210121065643.342-1-alistair@alistair23.me>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The recent commit to fix a memory leak introduced an inadvertant NULL
-pointer dereference. The `wacom_wac->pen_fifo` variable was never
-intialized, resuling in a crash whenever functions tried to use it.
-Since the FIFO is only used by AES pens (to buffer events from pen
-proximity until the hardware reports the pen serial number) this would
-have been easily overlooked without testing an AES device.
+Add support to the reMarkable2 (rM2) for the Wacom I2C device.
 
-This patch converts `wacom_wac->pen_fifo` over to a pointer (since the
-call to `devres_alloc` allocates memory for us) and ensures that we assign
-it to point to the allocated and initalized `pen_fifo` before the function
-returns.
+This is based on the reMarkable Linux fork and with this series I am
+able to probe the Wacom digitiser.
 
-Link: https://github.com/linuxwacom/input-wacom/issues/230
-Fixes: 37309f47e2f5 ("HID: wacom: Fix memory leakage caused by kfifo_alloc")
-CC: stable@vger.kernel.org # v4.19+
-Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
-Tested-by: Ping Cheng <ping.cheng@wacom.com>
----
- drivers/hid/wacom_sys.c | 7 ++++---
- drivers/hid/wacom_wac.h | 2 +-
- 2 files changed, 5 insertions(+), 4 deletions(-)
+Alistair Francis (6):
+  devicetree/bindings: Initial commit of wacom,wacom-i2c
+  input/touchscreen: Add device tree support to wacom_i2c
+  touchscreen/wacom_i2c: Add support for distance and tilt x/y
+  touchscreen/wacom_i2c: Clean up the query device fields
+  touchscreen/wacom_i2c: Add support for vdd regulator
+  arch/arm: reMarkable2: Enable wacom_i2c
 
-diff --git a/drivers/hid/wacom_sys.c b/drivers/hid/wacom_sys.c
-index e8acd235db2a..aa9e48876ced 100644
---- a/drivers/hid/wacom_sys.c
-+++ b/drivers/hid/wacom_sys.c
-@@ -147,9 +147,9 @@ static int wacom_wac_pen_serial_enforce(struct hid_device *hdev,
- 	}
- 
- 	if (flush)
--		wacom_wac_queue_flush(hdev, &wacom_wac->pen_fifo);
-+		wacom_wac_queue_flush(hdev, wacom_wac->pen_fifo);
- 	else if (insert)
--		wacom_wac_queue_insert(hdev, &wacom_wac->pen_fifo,
-+		wacom_wac_queue_insert(hdev, wacom_wac->pen_fifo,
- 				       raw_data, report_size);
- 
- 	return insert && !flush;
-@@ -1280,7 +1280,7 @@ static void wacom_devm_kfifo_release(struct device *dev, void *res)
- static int wacom_devm_kfifo_alloc(struct wacom *wacom)
- {
- 	struct wacom_wac *wacom_wac = &wacom->wacom_wac;
--	struct kfifo_rec_ptr_2 *pen_fifo = &wacom_wac->pen_fifo;
-+	struct kfifo_rec_ptr_2 *pen_fifo;
- 	int error;
- 
- 	pen_fifo = devres_alloc(wacom_devm_kfifo_release,
-@@ -1297,6 +1297,7 @@ static int wacom_devm_kfifo_alloc(struct wacom *wacom)
- 	}
- 
- 	devres_add(&wacom->hdev->dev, pen_fifo);
-+	wacom_wac->pen_fifo = pen_fifo;
- 
- 	return 0;
- }
-diff --git a/drivers/hid/wacom_wac.h b/drivers/hid/wacom_wac.h
-index da612b6e9c77..195910dd2154 100644
---- a/drivers/hid/wacom_wac.h
-+++ b/drivers/hid/wacom_wac.h
-@@ -342,7 +342,7 @@ struct wacom_wac {
- 	struct input_dev *pen_input;
- 	struct input_dev *touch_input;
- 	struct input_dev *pad_input;
--	struct kfifo_rec_ptr_2 pen_fifo;
-+	struct kfifo_rec_ptr_2 *pen_fifo;
- 	int pid;
- 	int num_contacts_left;
- 	u8 bt_features;
+ .../input/touchscreen/wacom,wacom-i2c.yaml    |  48 +++++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ arch/arm/boot/dts/imx7d-remarkable2.dts       |  41 ++++++
+ arch/arm/configs/imx_v6_v7_defconfig          |   1 +
+ drivers/input/touchscreen/wacom_i2c.c         | 136 +++++++++++++++---
+ 5 files changed, 205 insertions(+), 23 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/wacom,wacom-i2c.yaml
+
 -- 
-2.30.0
+2.29.2
 
