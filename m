@@ -2,59 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60EE92FEB60
-	for <lists+linux-input@lfdr.de>; Thu, 21 Jan 2021 14:17:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 089E82FEE75
+	for <lists+linux-input@lfdr.de>; Thu, 21 Jan 2021 16:24:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730937AbhAUNRF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Jan 2021 08:17:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36526 "EHLO
+        id S1732226AbhAUPYU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Jan 2021 10:24:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726993AbhAUNQt (ORCPT
+        with ESMTP id S1732242AbhAUN0M (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Jan 2021 08:16:49 -0500
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0325C061757
-        for <linux-input@vger.kernel.org>; Thu, 21 Jan 2021 05:16:08 -0800 (PST)
-Received: by mail-ed1-x530.google.com with SMTP id s11so2417197edd.5
-        for <linux-input@vger.kernel.org>; Thu, 21 Jan 2021 05:16:08 -0800 (PST)
+        Thu, 21 Jan 2021 08:26:12 -0500
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71D50C061757
+        for <linux-input@vger.kernel.org>; Thu, 21 Jan 2021 05:25:28 -0800 (PST)
+Received: by mail-ed1-x534.google.com with SMTP id d22so2468784edy.1
+        for <linux-input@vger.kernel.org>; Thu, 21 Jan 2021 05:25:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlemail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gLghMQwO+zk30sIUcr2ivrN9CpftHJOkKVQKCs+BVg4=;
-        b=psgBlcSa/rWTP5dia0n7kpXP3TVnxM1ZHz9p5rHFN3efCFkN5aVnOW37/ZLY9NNirN
-         YIoY/Qkz9eys7j5q72YMX6T7CeWaGGMcFGwi8RWUjkBC7ZWZq7cJ5CC9FSzNc4+1oD2P
-         0G+kzrpZp8Yuc7HYv2KK+LT1fDqXXIG22heRhuQaon7Dj9hEqV4LrXBelgdDOdO99pmq
-         dvFQ/1RwRYZH/2gQX662QlHWd9AQaJA/yIbPTdHxzx24inQMRxqalmoN1WlRoODjHcCb
-         drSqY0MUJWU6TS+Xjpdy6x6XMykp2WHNEWIB3gaKK/8o/vj2bQimFUYDEN2DVxPHxB5S
-         a6nw==
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=k3dEkKZeZFDbxGxvlcmEcZE21G3lLzG8fWUHxv2/bkk=;
+        b=tQkNYyyU4AIL3C/T+Qo9hdNurbMnxOjf+aa/qjC7tw4Y6Ikb3Rnk0+ioAVJo1fAKCa
+         sWqhBQlRiTKwmG3EiNEs0l+dGWuK2Go53yJz3yeSGAguzaNAWFQJzkPLHvpdR7+lB2GE
+         Lm5e4RHWzVoPkK23W/jyxoQULOnuO1TazLdX+ITFIKwsSSpbwXqr2zFcQo6bqDMJyJKr
+         /P+0gE28XlMBFUWvDeMBa+UjLX1gwHozKeW3Tyt2HDbbBUiPdYu27b6fFBccwmirrPJe
+         uxWdJCJsLHYeAViTbI+WrXWz2zAAL/CS8Lb8CndH+lvV1kvQke3ZDqTnzMr4DlVCf9KZ
+         t2qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gLghMQwO+zk30sIUcr2ivrN9CpftHJOkKVQKCs+BVg4=;
-        b=SsYy1DDEX3tF44JD0rQl4XyWZiHViWe9pARfniemu4OBAgutAe1BPpfWy2UGO2vDkC
-         321Bri0ud6vvVlf4qURX4hHhM/HbN2OQDSMIEVMfyI4OQM0gC3toWdcZXvk7dLASUcOE
-         VQEyg4urymXi0Q1Wc4O1rT7w5OijnpKX73FGGezjRoFdgeL42IBoyBcSLMRAtpqhlyZK
-         FzL6BAna/nd0hO9KaNuh0f+xRzgproHizaiHnEHXulSo+/Lby1vhSkZCpmpvArVzWe0O
-         HyiaCqjNNpPCd3Znc7CVPhOia/bY/6G4voRmrOfu/D9pIPm+L4y83AMz1qbS7yg2k4ie
-         mUUQ==
-X-Gm-Message-State: AOAM533FLbu0486r/zcnjboAUC0HGiKYK+ZtJn23/Z/+uqFpV9uL/D4f
-        qTYVi7AAnCd9TJlYMFJGmPo=
-X-Google-Smtp-Source: ABdhPJxWAlIyhqMd0yv9uH99gu1/cJS8ZK5XqZ+NI/A9XIjUub6X4Wfu/ZvHKfP8Ob47mZ7Aoio9eQ==
-X-Received: by 2002:aa7:c485:: with SMTP id m5mr10946295edq.320.1611234967659;
-        Thu, 21 Jan 2021 05:16:07 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=k3dEkKZeZFDbxGxvlcmEcZE21G3lLzG8fWUHxv2/bkk=;
+        b=suuhpBRRde2kHnDxqMa/f6tQUpauRVNPyOsLMOHR4sxxbylglLVJjLA8P6+maMokGe
+         u/NDx8uQqW3CiXHOse2B9zeDBCiECcmQvyw9w7tV8xEvrF3BTgjAyYIBqyZRjGQOTQDv
+         sIpu5toNdUlk8BOM7fD9dMxz/AQcew3lkduBI3r/eeM2uEjEnpgZ0P2efRhOQuxK2YIE
+         mSDCWmpw9FnQQQfuI8kbwEJHSUNIQcY8ErrwtVyItsNUc7NHvCh3GRYQSQdYGziHm0Wy
+         9kM6Fmrs4FeJDRT3dXDII7xTBg8SeWpplhnnqgVpyQWn9Qzl68d0eOHFN4ZI+EV0OsBa
+         SQgQ==
+X-Gm-Message-State: AOAM531Ct5Y09eALnaJt6599wJgDGzps+k78ExlKm5drJYeeVv6Q9EKd
+        8FIvZQFSsGobeQpDYAB68lU=
+X-Google-Smtp-Source: ABdhPJyCYIKwDtFQRVEfSyEANtb//35QvuUMrrAN1toHFzxnLKPmRdd2PhE4gQLzHTgvqbIbN5b8og==
+X-Received: by 2002:aa7:da41:: with SMTP id w1mr11371621eds.24.1611235527166;
+        Thu, 21 Jan 2021 05:25:27 -0800 (PST)
 Received: from rechenknecht2k11 (200116b8459c7b00b738b6f441b295d6.dip.versatel-1u1.de. [2001:16b8:459c:7b00:b738:b6f4:41b2:95d6])
-        by smtp.googlemail.com with ESMTPSA id lz27sm2220331ejb.50.2021.01.21.05.16.06
+        by smtp.googlemail.com with ESMTPSA id zk10sm2255305ejb.10.2021.01.21.05.25.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jan 2021 05:16:07 -0800 (PST)
-Date:   Thu, 21 Jan 2021 14:16:02 +0100
+        Thu, 21 Jan 2021 05:25:26 -0800 (PST)
+Date:   Thu, 21 Jan 2021 14:25:23 +0100
 From:   Benjamin Valentin <benpicco@googlemail.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org
 Cc:     Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH] Input: xpad - sync supported devices with fork on GitHub
-Message-ID: <20210121141602.7ff62580@rechenknecht2k11>
+Subject: [PATCHv2] Input: xpad - sync supported devices with fork on GitHub
+Message-ID: <20210121142523.1b6b050f@rechenknecht2k11>
+In-Reply-To: <20210121141602.7ff62580@rechenknecht2k11>
+References: <20210121141602.7ff62580@rechenknecht2k11>
 X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -73,41 +75,31 @@ needed for users of those devices anymore.
 
 Signed-off-by: Benjamin Valentin <benpicco@googlemail.com>
 ---
- drivers/input/joystick/xpad.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+Changed in v2: fix alphabetical order of IDs
+---
+ drivers/input/joystick/xpad.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 0687f0ed60b8..70e92fbf3d66
+index 0687f0ed60b8..8cc8ca4a9ac0
 --- a/drivers/input/joystick/xpad.c
 +++ b/drivers/input/joystick/xpad.c
-@@ -202,6 +202,8 @@ static const struct xpad_device {
- 	{ 0x0e6f, 0x0131, "PDP EA Sports Controller", 0, XTYPE_XBOX360 },
- 	{ 0x0e6f, 0x0133, "Xbox 360 Wired Controller", 0, XTYPE_XBOX360 },
- 	{ 0x0e6f, 0x0139, "Afterglow Prismatic Wired Controller", 0, XTYPE_XBOXONE },
-+	{ 0x0e6f, 0x02b3, "Afterglow Prismatic Wired Controller", 0, XTYPE_XBOXONE },
-+	{ 0x0e6f, 0x02b8, "Afterglow Prismatic Wired Controller", 0, XTYPE_XBOXONE },
- 	{ 0x0e6f, 0x013a, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
- 	{ 0x0e6f, 0x0146, "Rock Candy Wired Controller for Xbox One", 0, XTYPE_XBOXONE },
- 	{ 0x0e6f, 0x0147, "PDP Marvel Xbox One Controller", 0, XTYPE_XBOXONE },
-@@ -209,6 +211,10 @@ static const struct xpad_device {
- 	{ 0x0e6f, 0x0161, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
- 	{ 0x0e6f, 0x0162, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
- 	{ 0x0e6f, 0x0163, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
-+	{ 0x0e6f, 0x02a0, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
-+	{ 0x0e6f, 0x02a1, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
-+	{ 0x0e6f, 0x02a7, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
-+	{ 0x0e6f, 0x02a8, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
- 	{ 0x0e6f, 0x0164, "PDP Battlefield One", 0, XTYPE_XBOXONE },
- 	{ 0x0e6f, 0x0165, "PDP Titanfall 2", 0, XTYPE_XBOXONE },
- 	{ 0x0e6f, 0x0201, "Pelican PL-3601 'TSZ' Wired Xbox 360 Controller", 0, XTYPE_XBOX360 },
-@@ -216,8 +222,10 @@ static const struct xpad_device {
+@@ -215,9 +215,17 @@ static const struct xpad_device {
+ 	{ 0x0e6f, 0x0213, "Afterglow Gamepad for Xbox 360", 0, XTYPE_XBOX360 },
  	{ 0x0e6f, 0x021f, "Rock Candy Gamepad for Xbox 360", 0, XTYPE_XBOX360 },
  	{ 0x0e6f, 0x0246, "Rock Candy Gamepad for Xbox One 2015", 0, XTYPE_XBOXONE },
- 	{ 0x0e6f, 0x02ab, "PDP Controller for Xbox One", 0, XTYPE_XBOXONE },
+-	{ 0x0e6f, 0x02ab, "PDP Controller for Xbox One", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x02a0, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x02a1, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
 +	{ 0x0e6f, 0x02a2, "PDP Wired Controller for Xbox One - Crimson Red", 0, XTYPE_XBOXONE },
  	{ 0x0e6f, 0x02a4, "PDP Wired Controller for Xbox One - Stealth Series", 0, XTYPE_XBOXONE },
  	{ 0x0e6f, 0x02a6, "PDP Wired Controller for Xbox One - Camo Series", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x02a7, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x02a8, "PDP Xbox One Controller", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x02ab, "PDP Controller for Xbox One", 0, XTYPE_XBOXONE },
 +	{ 0x0e6f, 0x02ad, "PDP Wired Controller for Xbox One - Stealth Series", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x02b3, "Afterglow Prismatic Wired Controller", 0, XTYPE_XBOXONE },
++	{ 0x0e6f, 0x02b8, "Afterglow Prismatic Wired Controller", 0, XTYPE_XBOXONE },
  	{ 0x0e6f, 0x0301, "Logic3 Controller", 0, XTYPE_XBOX360 },
  	{ 0x0e6f, 0x0346, "Rock Candy Gamepad for Xbox One 2016", 0, XTYPE_XBOXONE },
  	{ 0x0e6f, 0x0401, "Logic3 Controller", 0, XTYPE_XBOX360 },
