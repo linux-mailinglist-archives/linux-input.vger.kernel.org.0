@@ -2,118 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3ABC32FE41C
-	for <lists+linux-input@lfdr.de>; Thu, 21 Jan 2021 08:39:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DE842FE747
+	for <lists+linux-input@lfdr.de>; Thu, 21 Jan 2021 11:16:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727296AbhAUHiV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 21 Jan 2021 02:38:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45438 "EHLO
+        id S1727900AbhAUKOu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 21 Jan 2021 05:14:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727169AbhAUHZD (ORCPT
+        with ESMTP id S1728814AbhAUKOk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 21 Jan 2021 02:25:03 -0500
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02A8FC061575;
-        Wed, 20 Jan 2021 23:24:23 -0800 (PST)
-Received: by mail-pj1-x1036.google.com with SMTP id x20so1059266pjh.3;
-        Wed, 20 Jan 2021 23:24:22 -0800 (PST)
+        Thu, 21 Jan 2021 05:14:40 -0500
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B6EBC061757
+        for <linux-input@vger.kernel.org>; Thu, 21 Jan 2021 02:13:55 -0800 (PST)
+Received: by mail-qk1-x731.google.com with SMTP id d14so1061778qkc.13
+        for <linux-input@vger.kernel.org>; Thu, 21 Jan 2021 02:13:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=eAPaHKp7CGeHSFxhpojsQTigei11DdiPzuKEyiGvVVE=;
-        b=Rw55E56Zr2NUtU3Dazx4l7DrEixq+oK++qgrgWlOFE5PrC1NekZch7TYTBtbZ9NSYM
-         tHpCeleYWZUBlI4B+gyAiaEGoXnBiRJo5d6r3C8nRb7+RVTq9MDhFDp+DIgTxH0dx8rW
-         HxydJv+HzuAFpxGEyx/7/UKcxwXYj03AIxKlsI9Royuduj+sVGM6FiveosKRX2+nZIql
-         4O0z8A6pJvR5dK5RQaKlGlhZPw/lxCqaogFavVcWEdedBZ2d1zhxo97UpdnQwYXAZF3+
-         E80nmHavTtH0eQeY2m3zAukXEugZY8L7N+E3kpYl4GzBVEuK+ipgotIMACYWFdFNTmpE
-         7B6g==
+        h=mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=6wqsQE7fwIc4TSBX6UnnGBA1lojbGUyBNZxIV/YDZlk=;
+        b=Wj+ItNm1z+UTdxUspyrKqlNVUhYY9mOyYHxu9ASO/orixeM6jfhtHYPxHBxYwTS0L4
+         ze4IH+qtoHUZ9X1yNSXPpaBAGlSHOSsPclAW2tjDClXibqs+v6T0AtSlj5Lnp3kleOks
+         n0c/Z6zD7rHKywMtPqSi8fvwzfVR0py80tj8+gELcAJPmjyiasHzfn1Ec74cOjZTCq+0
+         MeSEc+/3BKQGPBPIMWCiJQNGxwZFnRLpaIuOCBhXqnsYObrb/mSHmeNtVep02aZXIEUW
+         gEuZM0DlCgKrv+SWVVhzz8Em1gh8zPpNQeKbHRmS0Ugt34U+tS3Ev2817hD5oYKLMHdd
+         3ggw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=eAPaHKp7CGeHSFxhpojsQTigei11DdiPzuKEyiGvVVE=;
-        b=kLx7BAxCYgjOT+X2Am4faf48j91vWqK1oRSGaWw3xaHao5OWdMUjB6bD5p9lQ6tSh3
-         J4zW8K6h+F+qfsbzP/j8H/dJFx1WZnsg/0OuPInkvETTLSlnSUsO0/P6JoQdGGV+YWp+
-         ZCYU/LFAjYwV2OahUgtpUSkpidlKqIbMPB3eUYBdDaRagT/dTJJOaNv/9Lp2ZF2rnmE8
-         6cF6+IWh7a6T/HCVPMgUVc+eTcFeOlY/mNNeTp3ZqhcCegCI3+PFKbIkL2Kas+fdoOXn
-         Iou0+8I5soHbID16msoT3YbMFgMm5UBXlXTM7gK1cEx5Y0ra0rki9RPqLSWrLKqOpP7+
-         WtmQ==
-X-Gm-Message-State: AOAM532X5F5dghUeFaWj1Wquckcq+vv7cFiFWaHwtVccnEul4kBfEqZ/
-        oXpQXFbVIr9BSFBQ1pcKuMU=
-X-Google-Smtp-Source: ABdhPJzztRFbAkTFXsKoD6AZ1QE3XZXoTJIYpUd+FUkNuVMglAddNprH75Fcq8Gx4x6GuNVu3cBBsw==
-X-Received: by 2002:a17:902:c115:b029:de:8961:47e5 with SMTP id 21-20020a170902c115b02900de896147e5mr13545744pli.46.1611213862431;
-        Wed, 20 Jan 2021 23:24:22 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:a6ae:11ff:fe11:fcc3])
-        by smtp.gmail.com with ESMTPSA id c204sm2975884pfc.152.2021.01.20.23.24.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jan 2021 23:24:21 -0800 (PST)
-Date:   Wed, 20 Jan 2021 23:24:18 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Oleksij Rempel <o.rempel@pengutronix.de>
-Cc:     Alexandru Ardelean <alexandru.ardelean@analog.com>,
-        Mark Brown <broonie@kernel.org>, kernel@pengutronix.de,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-spi@vger.kernel.org, David Jander <david@protonic.nl>
-Subject: Re: [PATCH v2 2/2] Input: ads7846: convert to one message
-Message-ID: <YAksInM07b3ACwMa@google.com>
-References: <20201110085041.16303-1-o.rempel@pengutronix.de>
- <20201110085041.16303-3-o.rempel@pengutronix.de>
- <20201118003138.GD2009714@dtor-ws>
- <20210120074032.2swvp7iqli6xttul@pengutronix.de>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=6wqsQE7fwIc4TSBX6UnnGBA1lojbGUyBNZxIV/YDZlk=;
+        b=OhRJ9wMJaeT1GE1ytCyQyTwpU/ZNmEgeIWalwih9AiJHZf12SQD09wbl3vyj44if1r
+         hA/9e50Co8mjCcgOx+WcPFjzys8MYxdfj8SJDgTjQTjT4DfEAXtVVag+8yoPRURjMQql
+         PNyg9RwCnEPwmo52ztYlvpBI1zmqV3++X/zypQdwNU8P7c3fBjR/FNgbDDnvtvH/ehZH
+         Cv1/E4uOIocVk7meuFB3McyRaiSwhKn4RNRYGzfpzhaT2BeYK54/J5uBOuVQIHB0n1YQ
+         cITuLIxc4I1f2h2artfmI9qtos36gtk+VpiPkvAXHba32HFO0nrw8HGFU1Eh/SAN2k7b
+         jjLg==
+X-Gm-Message-State: AOAM532bfbUTTsofpwq/878oHF0hr2L/gKfCBgG38ZsF35FuftNt5eZm
+        DcCo3Hl1js0vBp7KpUJocwHKDvpT7OXif2ZephDqRWNhxFla
+X-Google-Smtp-Source: ABdhPJzPiWsx++OpKtGwD+Lnwao7sdg+b/rLqhQyphn3271UYZHefBcyx3Bmtd51dP0QK9+6BJv7CzZETZMzmYWCDkw=
+X-Received: by 2002:a05:620a:51:: with SMTP id t17mr13326199qkt.414.1611224034389;
+ Thu, 21 Jan 2021 02:13:54 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210120074032.2swvp7iqli6xttul@pengutronix.de>
+From:   =?UTF-8?B?TWljaGHFgiBLb3BlxIc=?= <mkopec12@gmail.com>
+Date:   Thu, 21 Jan 2021 11:13:43 +0100
+Message-ID: <CAMWMcgD8-R3cuRkgSRsAzx1_Ukh-iWNqmMW9z-Aw4Z2O8gxB2w@mail.gmail.com>
+Subject: "psmouse.synaptics_intertouch=1" fails on Lenovo T14 AMD
+To:     linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jan 20, 2021 at 08:40:32AM +0100, Oleksij Rempel wrote:
-> 
-> Hi Dmitry,
-> 
-> On Tue, Nov 17, 2020 at 04:31:38PM -0800, Dmitry Torokhov wrote:
-> > On Tue, Nov 10, 2020 at 09:50:41AM +0100, Oleksij Rempel wrote:
-> > > Convert multiple full duplex transfers in to a single transfer to reduce
-> > > CPU load.
-> > > 
-> > > Current driver version support following filtering modes:
-> > > - ads7846_no_filter() - not filtered
-> > > - ads7846_debounce_filter() - driver specific debounce filter
-> > > - pdata->filter - platform specific debounce filter (do any platform
-> > > 	provides such filter?)
-> > > 
-> > > Without filter this HW is not really usable, since the physic of
-> > > resistive touchscreen can provide some bounce effects. With driver internal
-> > > filter, we have constant amount of retries + debounce retries if some anomaly
-> > > was detected.
-> > > 
-> > > High amount of tiny SPI transfers is the primer reason of high CPU load
-> > > and interrupt frequency.
-> > > 
-> > > This patch create one SPI transfer with all fields and not optional retires. If
-> > > bounce anomaly was detected, we will make more transfer if needed.
-> > > 
-> > > Without this patch, we will get about 10% CPU load on iMX6S on pen-down event.
-> > > For example by holding stylus on the screen.
-> > > 
-> > > With this patch, depending in the amount of retries, the CPU load will
-> > > be 1% with "ti,debounce-rep = <3>".
-> > > 
-> > > One buffer transfer allows us to use PIO FIFO or DMA engine, depending
-> > > on the platform.
-> > > 
-> > > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> > 
-> > Applied, thank you.
-> 
-> I can't find this patch in your git repository. Should I rebase it
-> against latest git and resend it?
+Hello,
 
-Ugh, sorry, now applied for realz.
+I found the following messages in dmesg on my Lenovo Thinkpad T14 AMD
+and I'm following the suggestion to report them here:
 
-Thanks.
+[    1.664239] psmouse serio1: synaptics: queried max coordinates: x
+[..5678], y [..4694]
+[    1.703482] psmouse serio1: synaptics: queried min coordinates: x
+[1266..], y [1162..]
+[    1.703492] psmouse serio1: synaptics: Your touchpad (PNP: LEN2064
+PNP0f13) says it can support a different bus. If i2c-hid and hid-rmi
+are not used, you might want to try setting
+psmouse.synaptics_intertouch to 1 and report this to
+linux-input@vger.kernel.org.
+[    1.770075] psmouse serio1: synaptics: Touchpad model: 1, fw:
+10.32, id: 0x1e2a1, caps: 0xf014a3/0x940300/0x12e800/0x500000, board
+id: 3471, fw id: 2909640
+[    1.770092] psmouse serio1: synaptics: serio: Synaptics
+pass-through port at isa0060/serio1/input0
+[    1.812535] input: SynPS/2 Synaptics TouchPad as
+/devices/platform/i8042/serio1/input/input6
 
--- 
-Dmitry
+However, booting with "psmouse.synaptics_intertouch=3D1"  results in the
+following messages:
+
+[    1.701068] psmouse serio1: synaptics: queried max coordinates: x
+[..5678], y [..4694]
+[    1.741218] psmouse serio1: synaptics: queried min coordinates: x
+[1266..], y [1162..]
+[    1.741222] psmouse serio1: synaptics: Trying to set up SMBus access
+[    1.744456] psmouse serio1: synaptics: SMbus companion is not ready yet
+[    1.820409] psmouse serio1: synaptics: Touchpad model: 1, fw:
+10.32, id: 0x1e2a1, caps: 0xf014a3/0x940300/0x12e800/0x500000, board
+id: 3471, fw id: 2909640
+[    1.820416] psmouse serio1: synaptics: serio: Synaptics
+pass-through port at isa0060/serio1/input0
+[    1.872540] input: SynPS/2 Synaptics TouchPad as
+/devices/platform/i8042/serio1/input/input6
+
+after which the touchpad works in exactly the same way as when booted
+without the parameter.
+
+My kernel is compiled with HID_I2C and HID_RMI enabled. Am I missing
+some configuration here or is this expected behavior?
+Please let me know if there's any additional relevant information I can pro=
+vide.
+
+Thanks and best regards,
+Micha=C5=82 Kope=C4=87
