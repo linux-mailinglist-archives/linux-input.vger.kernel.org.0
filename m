@@ -2,66 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6A37300224
-	for <lists+linux-input@lfdr.de>; Fri, 22 Jan 2021 12:57:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CB7C3002FF
+	for <lists+linux-input@lfdr.de>; Fri, 22 Jan 2021 13:33:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727204AbhAVL4e (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Jan 2021 06:56:34 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53262 "EHLO mail.kernel.org"
+        id S1727115AbhAVJZ2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Jan 2021 04:25:28 -0500
+Received: from mx2.suse.de ([195.135.220.15]:33964 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727925AbhAVK7F (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Jan 2021 05:59:05 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3FF0720739;
-        Fri, 22 Jan 2021 10:58:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611313091;
-        bh=OE3wbEwuooYJTVEUo63UoWWZzM1gxqzc2fJJwvxMr0U=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=mz3dBZfaEbCWHEn08a8O4I4BBjbKCcYVopUgSNY/Q2xkDlmQQBS7UvLfe4Evskrms
-         J1HqjKOj7fazx+btXa68hslHm3JF3NPORbCAG3fWMNbZffWCmKoXboCnnRr1dG3lYW
-         GKfnQvbr+f44n54Uz16vz40W2uZ9oCNZHEhodCXUq7M0acMy8vw9gSEOagE3lJl9ox
-         RMwlUarkY1i0wYzq/gTbRFhByQWZSG+43swFJG95VOFqmh26jhzIJ3enx5K4ce9FvC
-         s5o7ivKCknwbrASPM9CyneTiZqsjRKfdJib35HU4VmrS9Oi9sKlOl98sxNY1iPdJtA
-         eNOCaVpfb9Z4Q==
-Date:   Fri, 22 Jan 2021 11:58:08 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Jonathan Cameron <jic23@kernel.org>
-cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Zheng Yongjun <zhengyongjun3@huawei.com>,
-        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] hid/hid-sensor-custom: convert comma to
- semicolon
-In-Reply-To: <20210120204824.0d52a2d2@archlinux>
-Message-ID: <nycvar.YFH.7.76.2101221157470.5622@cbobk.fhfr.pm>
-References: <20201214133212.3569-1-zhengyongjun3@huawei.com> <df1481e15c591106ba75ed85289b12507cbc8c49.camel@linux.intel.com> <20201229181841.6d63213a@archlinux> <20210120204824.0d52a2d2@archlinux>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+        id S1727156AbhAVJB6 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 22 Jan 2021 04:01:58 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 15E19AEAC;
+        Fri, 22 Jan 2021 09:01:16 +0000 (UTC)
+Date:   Fri, 22 Jan 2021 10:01:15 +0100
+Message-ID: <s5hv9bp8hwk.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <uwe@kleine-koenig.org>
+Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pau Oliva Fora <pof@eslack.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Hannes Reinecke <hare@suse.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Finn Thain <fthain@telegraphics.com.au>,
+        Michael Schmitz <schmitzmic@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, linux-watchdog@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-can@vger.kernel.org, netdev@vger.kernel.org,
+        linux-scsi@vger.kernel.org, alsa-devel@alsa-project.org
+Subject: Re: [PATCH v1 2/2] isa: Make the remove callback for isa drivers return void
+In-Reply-To: <20210121204812.402589-3-uwe@kleine-koenig.org>
+References: <20210121204812.402589-1-uwe@kleine-koenig.org>
+        <20210121204812.402589-3-uwe@kleine-koenig.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
+ FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
+ (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 20 Jan 2021, Jonathan Cameron wrote:
-
-> > > > Replace a comma between expression statements by a semicolon.
-> > > > 
-> > > > Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>    
-> > > Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>  
-> > Applied to the togreg branch of iio.git and pushed out as testing for
-> > the autobuilders to see if they can break it.
-> Hi Jiri,
+On Thu, 21 Jan 2021 21:48:12 +0100,
+Uwe Kleine-König wrote:
 > 
-> Just realised this is in HID rather than IIO. I hope you don't mind as
-> it's now deep in a tree I'd rather not rebase.
+> The driver core ignores the return value of the remove callback, so
+> don't give isa drivers the chance to provide a value.
 > 
-> Sorry about that.
+> Adapt all isa_drivers with a remove callbacks accordingly; they all
+> return 0 unconditionally anyhow.
+> 
+> Signed-off-by: Uwe Kleine-König <uwe@kleine-koenig.org>
 
-No worries, feel free to keep it in your tree.
+For the sound/* changes:
+Reviewed-by: Takashi Iwai <tiwai@suse.de>
 
-Thanks,
+BTW, how will we take the patches?
+Judging from the LOCs, sound/* are mostly affected, so I may merge
+them via sound.git tree, if other people have no objection.
 
--- 
-Jiri Kosina
-SUSE Labs
 
+thanks,
+
+Takashi
