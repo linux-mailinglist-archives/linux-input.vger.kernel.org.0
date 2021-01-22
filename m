@@ -2,163 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63E91300F83
-	for <lists+linux-input@lfdr.de>; Fri, 22 Jan 2021 23:03:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C0F0C301045
+	for <lists+linux-input@lfdr.de>; Fri, 22 Jan 2021 23:48:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730062AbhAVV6k (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Jan 2021 16:58:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40534 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730918AbhAVUIc (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Jan 2021 15:08:32 -0500
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03D88C0613D6;
-        Fri, 22 Jan 2021 12:07:52 -0800 (PST)
-Received: by mail-lj1-x22b.google.com with SMTP id p13so7954528ljg.2;
-        Fri, 22 Jan 2021 12:07:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=/Q9Reap3GWCAihxatXXr3FfVYUJhLMEM+4qTRCJHb9Q=;
-        b=EbYQVnYZe4+A4cZVNvsovFd+Uj5FB5Xx8OMwr0ixsUNq6fSZ6bNtgtrkD3lWMls0so
-         NW6aDSVA7UUPlHXJTi0FDP108Il2GhkrJvERU02VfGPGY/EU8OikhVdnLW9rjeyw5iZr
-         slVuzONZOgaLJEtm0hTBbJIysddZkBZuxk6T3i4auNRUV9CZxDzjajozm+TZ10FPZp9r
-         gErWpgszLu4EZTM8EJulC3F2ySreOf/tc8s9PJTOivYhO4tLRArx7Uepr/WhWHaFdBI+
-         SDf8pqs4xXzgrRWqcacgcCzoTL/UWe0iCGUaxQUC+dB2L87dhTBR+0UBg+ZaYtsWl6Pb
-         hl4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=/Q9Reap3GWCAihxatXXr3FfVYUJhLMEM+4qTRCJHb9Q=;
-        b=P0jOrHPVJfkomMtdkWb9MrvvZpKqstoEt3r27WlnrtPvn0uASjaV9qr5jJATDbdX9j
-         dfnOtN7DIfgc778ezU0FDEs8EBFBvB7WiDrFsfbr/uSHl4T20OQcDnRZI90cFguxnBKO
-         6NyIzs4aDyQETvqakEPInF3/ixeX/4PYESxWwyt9DwBjL4rvx9VfvtUciZNHBj3+V9Yf
-         /8ravBD1d5n5JbSVVj+JCpQ11VAPHu0fKITWMzVdQfmsUB97CAoK0wuq+3zCCU+uXVN+
-         fexUZnA4yzn3d06rxdrF8Qo6+1NOGJ/reOlNMGOA+M9ST/li/IQCv9HlXEgJDZw0szSj
-         XfZw==
-X-Gm-Message-State: AOAM531ch/4HV5qFTG/1DBug521/cKJH8NfqKS19jnyUTQ38eLLfQvZY
-        Rl6gtyZNt+yU+rt8ETMgJPk=
-X-Google-Smtp-Source: ABdhPJwwc8pKbByXTk7VYPWfy3Qn6WAYf7oG0/n7cLmvx4xCmuxZysQOwKgv8fORvnxUx6ZMupmXgw==
-X-Received: by 2002:a2e:9214:: with SMTP id k20mr1643215ljg.45.1611346070383;
-        Fri, 22 Jan 2021 12:07:50 -0800 (PST)
-Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
-        by smtp.gmail.com with ESMTPSA id u6sm994589lfk.127.2021.01.22.12.07.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Jan 2021 12:07:49 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Nick Dyer <nick@shmanahar.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jiada Wang <jiada_wang@mentor.com>
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 1/3] dt-bindings: input: atmel_mxt_ts: Document atmel,wakeup-method and WAKE line GPIO
-Date:   Fri, 22 Jan 2021 23:06:57 +0300
-Message-Id: <20210122200659.7404-2-digetx@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210122200659.7404-1-digetx@gmail.com>
-References: <20210122200659.7404-1-digetx@gmail.com>
+        id S1728179AbhAVWq6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Jan 2021 17:46:58 -0500
+Received: from rere.qmqm.pl ([91.227.64.183]:36765 "EHLO rere.qmqm.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728047AbhAVWqC (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 22 Jan 2021 17:46:02 -0500
+X-Greylist: delayed 465 seconds by postgrey-1.27 at vger.kernel.org; Fri, 22 Jan 2021 17:45:58 EST
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 4DMvK04gZNz67;
+        Fri, 22 Jan 2021 23:37:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1611355044; bh=jBEHC8YwgXFlj7D2xiylOBOLQweQ/xz01AF0u5HJYgc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=sOnJMs7aWGVRqB43r7lK7L+xxGHSI0L4Azh1+laK91AAUZ4W3ntHePfjxKPQ3qSKv
+         9brAZZ39Q5L7HFO//yEtamPkPZr9UFvP27QUPSqrhowRjyWg1JAxdMPzWa2x7/O0bB
+         z1YO7nHf/Pj3woUjbrpD0ISvCpEN4Xk7vlGCqfFVRpo8Kz/saSiHlcM1mswfAR3iiz
+         w4Tuz0kqGlKZMZuKLl2k3WmikWmdM5B9InjrST5guVsUKEpWMTY0af8IRhc91Ku9Fh
+         SygDQCc2uLbnrFpADj4Dxa18mKSIHzVIf/aSWelnoIqLrwXdwZOB8DcQbhOVKZlXcg
+         4FgbkQbYk0Dfw==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.102.4 at mail
+Date:   Fri, 22 Jan 2021 23:37:18 +0100
+From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Johnny Chuang <johnny.chuang.emc@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND v8 2/4] input: elants: support old touch report
+ format
+Message-ID: <20210122223718.GE17048@qmqm.qmqm.pl>
+References: <cover.1607669375.git.mirq-linux@rere.qmqm.pl>
+ <a5c0b6b300fadf9425781285351b46c6dbb4f618.1607669375.git.mirq-linux@rere.qmqm.pl>
+ <X9Mf5G6yvIEAoh2C@google.com>
+ <20201211160917.GA23095@qmqm.qmqm.pl>
+ <3d872d19-a0b2-ed83-4b08-5c9a4755c2fe@gmail.com>
+ <20201211170401.GA31605@qmqm.qmqm.pl>
+ <X9O/F0M4rU6cBdRi@google.com>
+ <79cf6571-4239-e98e-6001-70a4bf8b0fe5@gmail.com>
+ <4c443c59-a7f8-bf16-cc0b-0e542c0d127f@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <4c443c59-a7f8-bf16-cc0b-0e542c0d127f@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Some Atmel touchscreen controllers have a WAKE line that needs to be
-asserted low in order to wake up controller from a deep sleep. Document
-the wakeup methods and the new GPIO properties.
+On Fri, Jan 22, 2021 at 11:10:52PM +0300, Dmitry Osipenko wrote:
+> 08.01.2021 01:06, Dmitry Osipenko пишет:
+> > 11.12.2020 21:48, Dmitry Torokhov пишет:
+> >> On Fri, Dec 11, 2020 at 06:04:01PM +0100, Michał Mirosław wrote:
+> >>> On Fri, Dec 11, 2020 at 07:39:33PM +0300, Dmitry Osipenko wrote:
+> >>>> 11.12.2020 19:09, Michał Mirosław пишет:
+> >>>>> On Thu, Dec 10, 2020 at 11:29:40PM -0800, Dmitry Torokhov wrote:
+> >>>>>> Hi Michał,
+> >>>>>> On Fri, Dec 11, 2020 at 07:53:56AM +0100, Michał Mirosław wrote:
+> >>>>>>> @@ -998,17 +1011,18 @@ static irqreturn_t elants_i2c_irq(int irq, void *_dev)
+> >>>>>>>  			}
+> >>>>>>>  
+> >>>>>>>  			report_len = ts->buf[FW_HDR_LENGTH] / report_count;
+> >>>>>>> -			if (report_len != PACKET_SIZE) {
+> >>>>>>> +			if (report_len != PACKET_SIZE &&
+> >>>>>>> +			    report_len != PACKET_SIZE_OLD) {
+> >>>>>>>  				dev_err(&client->dev,
+> >>>>>>> -					"mismatching report length: %*ph\n",
+> >>>>>>> +					"unsupported report length: %*ph\n",
+> >>>>>>>  					HEADER_SIZE, ts->buf);
+> >>>>>> Do I understand this correctly that the old packets are only observed on
+> >>>>>> EKTF3624? If so can we expand the check so that we only accept packets
+> >>>>>> with "old" size when we know we are dealing with this device?
+> >>>>>
+> >>>>> We only have EKTF3624 and can't be sure there are no other chips needing this.
+> >>>>
+> >>>> In practice this older packet format should be seen only on 3624, but
+> >>>> nevertheless we could make it more explicit by adding the extra chip_id
+> >>>> checks.
+> >>>>
+> >>>> It won't be difficult to change it in the future if will be needed.
+> >>>>
+> >>>> I think the main point that Dmitry Torokhov conveys here is that we
+> >>>> should minimize the possible impact on the current EKT3500 code since we
+> >>>> don't have definitive answers regarding the firmware differences among
+> >>>> the hardware variants.
+> >>>
+> >>> The only possible impact here is that older firmware instead of breaking
+> >>> would suddenly work. Maybe we can accept such a risk?
+> >>
+> >> These are not controllers we'll randomly find in devices: Windows boxes
+> >> use I2C HID, Chrome devices use "new" firmware, so that leaves random
+> >> ARM where someone needs to consciously add proper compatible before the
+> >> driver will engage with the controller.
+> >>
+> >> I would prefer we were conservative and not accept potentially invalid
+> >> data.
+> >>
+> >> Thanks.
+> >>
+> > 
+> > Michał, will you be able to make v9 with all the review comments addressed?
+> > 
+> 
+> I'll make a v9 over this weekend.
+> 
+> Michał, please let me know if you already started to work on this or
+> have any objections.
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- .../bindings/input/atmel,maxtouch.yaml        | 29 +++++++++++++++++++
- include/dt-bindings/input/atmel-maxtouch.h    | 10 +++++++
- 2 files changed, 39 insertions(+)
- create mode 100644 include/dt-bindings/input/atmel-maxtouch.h
+Hi,
 
-diff --git a/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml b/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
-index 8c6418f76e94..e6b03a1e7c30 100644
---- a/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
-+++ b/Documentation/devicetree/bindings/input/atmel,maxtouch.yaml
-@@ -39,6 +39,13 @@ properties:
-       (active low). The line must be flagged with
-       GPIO_ACTIVE_LOW.
- 
-+  wake-gpios:
-+    maxItems: 1
-+    description:
-+      Optional GPIO specifier for the touchscreen's wake pin
-+      (active low). The line must be flagged with
-+      GPIO_ACTIVE_LOW.
-+
-   linux,gpio-keymap:
-     $ref: /schemas/types.yaml#/definitions/uint32-array
-     description: |
-@@ -53,6 +60,26 @@ properties:
-       or experiment to determine which bit corresponds to which input. Use
-       KEY_RESERVED for unused padding values.
- 
-+  atmel,wakeup-method:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: |
-+      The WAKE line is an active-low input that is used to wake up the touch
-+      controller from deep-sleep mode before communication with the controller
-+      could be started. This optional feature used to minimize current
-+      consumption when the controller is in deep sleep mode. This feature is
-+      relevant only to some controller families, like mXT1386 controller for
-+      example.
-+
-+      The WAKE pin can be connected in one of the following ways:
-+       1) left permanently low
-+       2) connected to the I2C-compatible SCL pin
-+       3) connected to a GPIO pin on the host
-+    enum:
-+      - 0 # ATMEL_MXT_WAKEUP_NONE
-+      - 1 # ATMEL_MXT_WAKEUP_I2C_SCL
-+      - 2 # ATMEL_MXT_WAKEUP_GPIO
-+    default: 0
-+
- required:
-   - compatible
-   - reg
-@@ -63,6 +90,7 @@ additionalProperties: false
- examples:
-   - |
-     #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/input/atmel-maxtouch.h>
-     #include <dt-bindings/gpio/gpio.h>
-     i2c {
-       #address-cells = <1>;
-@@ -75,6 +103,7 @@ examples:
-         reset-gpios = <&gpio 27 GPIO_ACTIVE_LOW>;
-         vdda-supply = <&ab8500_ldo_aux2_reg>;
-         vdd-supply = <&ab8500_ldo_aux5_reg>;
-+        atmel,wakeup-method = <ATMEL_MXT_WAKEUP_I2C_SCL>;
-       };
-     };
- 
-diff --git a/include/dt-bindings/input/atmel-maxtouch.h b/include/dt-bindings/input/atmel-maxtouch.h
-new file mode 100644
-index 000000000000..7345ab32224d
---- /dev/null
-+++ b/include/dt-bindings/input/atmel-maxtouch.h
-@@ -0,0 +1,10 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+
-+#ifndef _DT_BINDINGS_ATMEL_MAXTOUCH_H
-+#define _DT_BINDINGS_ATMEL_MAXTOUCH_H
-+
-+#define ATMEL_MXT_WAKEUP_NONE		0
-+#define ATMEL_MXT_WAKEUP_I2C_SCL	1
-+#define ATMEL_MXT_WAKEUP_GPIO		2
-+
-+#endif /* _DT_BINDINGS_ATMEL_MAXTOUCH_H */
--- 
-2.29.2
+Sorry for staying quiet so long. I have to revive my Transformer before
+I can test anything, so please go ahead.
 
+Best Regards
+Michał Mirosław
