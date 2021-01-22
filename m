@@ -2,81 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF49F300B5F
-	for <lists+linux-input@lfdr.de>; Fri, 22 Jan 2021 19:39:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A4FBF300D65
+	for <lists+linux-input@lfdr.de>; Fri, 22 Jan 2021 21:10:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728381AbhAVSR5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Jan 2021 13:17:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40386 "EHLO
+        id S1730600AbhAVUJx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Jan 2021 15:09:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729052AbhAVPqV (ORCPT
+        with ESMTP id S1730929AbhAVUIe (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Jan 2021 10:46:21 -0500
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E9AEC06174A
-        for <linux-input@vger.kernel.org>; Fri, 22 Jan 2021 07:45:34 -0800 (PST)
-Received: by mail-lj1-x236.google.com with SMTP id f2so1808345ljp.11
-        for <linux-input@vger.kernel.org>; Fri, 22 Jan 2021 07:45:34 -0800 (PST)
+        Fri, 22 Jan 2021 15:08:34 -0500
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04CD8C061788;
+        Fri, 22 Jan 2021 12:07:54 -0800 (PST)
+Received: by mail-lf1-x133.google.com with SMTP id u25so9255711lfc.2;
+        Fri, 22 Jan 2021 12:07:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=0Nka6MTbtU6h5jLHxXeqwLsnbuZPwsbM12l6jprsTMc=;
-        b=hjRb4PQ7yT/eBY8LuDABlO7QpTdi4nM6X6jms4ZHB9cZzNKPVte/zscOYNYi/oHCuc
-         CDndy35JcxZczsC7QCu8YUkVX1J2uG+Xc07rsX2UD1tM3hDjTFx/GZb66hplSI833rQ9
-         fJ0QvQ3sh/R+7HLup8ZASSrWleecOhSUqwJXdIL7luDYmEfkPFaF+TqbMTkDYSMCPLHK
-         FqWbTe/7HC81okP0yznJl7mic3pWfUordLa/vQ+K3p5Ri2hkp98Lf2WP3vPPmRMMbIEI
-         Wef23eDL7sN9qsn9oVd/s5foZU1d0xcP591qccb1g5G4h27iLDLWcdVxwturreJJtk+d
-         c/Fg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=y9gRg52LFimb3ceOLj9UGDG1IkEgZHW2S4OzYw39/xU=;
+        b=W99sHHYI7t0CcC8oPYPlrxWcMoA90BV6xA91iRAMLJV2XV7BhYK41oipX90fiNkoUu
+         vVo1yn1SVS67lzOTgoSLuuscQ0HEw9b+BGmcSg+RBO243c+oxIOLNClbWWk9hY2rlWNM
+         EjJTpmiKNOpqgRmuAK+KiUsRoNJlowI2X0ww+956L6WezLCSRuT5yRJqXdrDiTVgixsE
+         iu21JqETyon+PSIls/+/2DI3pRJs1bPtPsTkAWYiU8CNmacjnRaopRgygsj9LuOu/Vm4
+         E7DLGi/wyUUS7T+gcSrdKZB+1yMSzUGntYWSqrz3fSECz0lcZ0Uy9qov8Gek8ULjpBMB
+         wd3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=0Nka6MTbtU6h5jLHxXeqwLsnbuZPwsbM12l6jprsTMc=;
-        b=lmyCYgtG5iInoF6kZCuQJAugqS2/W2Hf+bz3IizRcouvLuVlCKm45iQHXoxZM1Y50b
-         Spvzqi/2XmtROehtuhE49dNn+06gltAnY+4/XQ2wPq7aLwEyvego6im8CsZALJSfFt41
-         3tMZ1RQioXoGTkr3Z6966N9IHNmkRHHFnlFmjxc0tyMuJVvGRTBfbHwLu/JJUTiw/cDr
-         Y5IddNRL1WwSI6+M+vdpdltpFEaC8lBFWd4g8MaAFLDcdPXKZoYZVQepsmyjBJ/c75Bp
-         jjgRy+9FbFj7lvE1aG5v6aj3ZTmJhcn3SCOuDwRDnom2bTTQ2a0b4wPUqPv3JxY2tlxh
-         e/dQ==
-X-Gm-Message-State: AOAM533hXYGB5PCDDqKe7rAlC/JYksGs82HUNYm6BqOlz+oaVaMQWWwb
-        NEwobJRokmd6vPNARhXjz7xmMDnavlAeDXNsfSc=
-X-Google-Smtp-Source: ABdhPJzJJFUOFvc4EkBMjK/Gh6iO08w4u6MqPEFrAfFI2/dL41hvdUfAi1hvWExZ9fi2aMUaG8mvl0Mc22tWEhDpoBE=
-X-Received: by 2002:a2e:988d:: with SMTP id b13mr1220675ljj.176.1611330333195;
- Fri, 22 Jan 2021 07:45:33 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=y9gRg52LFimb3ceOLj9UGDG1IkEgZHW2S4OzYw39/xU=;
+        b=Eljau46Bf/mF9YzJ/tLIpCnyNaXTCrc2y2I1bN0tNX5eJAgzUvpJMSJTqpLopKkjDR
+         fJ54QbsHKmsiw9SuM+ATzYmZ+z5Mlg0a347MPis0QmS+zMXCGb0LwJIxNeHwT4Wwei6u
+         omeU1PwMeRbVHjQwGZRCFDSxTQLrGjG+wyR/WaeNW5t5xFCoGI4njyI+nHlj4rTNT24J
+         Spatp3cVoJx9kwVkT4hx9lf1rTTNrBPor9VZPwUHBgP9EWKKqdZB1YvBnFJZfCpQlboL
+         YJ0ps6ljOlZ7k+Kd4Dv35EsD0Ir4/Okw/u8woPAkijKQFuzZiMfcvM3MrxPKYvEa4IKW
+         9r4Q==
+X-Gm-Message-State: AOAM533UW3vZlwFKKMYC8BcdMh0WSrzhHVH3uayX1/S1PNhEZbEbOc9W
+        LfY1LKPCtXjFWvjKmmtkC4Q=
+X-Google-Smtp-Source: ABdhPJzM/KzLAJZlVro7XhRkCNgTHuayNlQowADJx0rYOUq3vQEUkH/KJYLTiZeFCZ7e2A3rk8dd3g==
+X-Received: by 2002:a19:2346:: with SMTP id j67mr1374571lfj.254.1611346072510;
+        Fri, 22 Jan 2021 12:07:52 -0800 (PST)
+Received: from localhost.localdomain (109-252-192-57.dynamic.spd-mgts.ru. [109.252.192.57])
+        by smtp.gmail.com with ESMTPSA id u6sm994589lfk.127.2021.01.22.12.07.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Jan 2021 12:07:51 -0800 (PST)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Nick Dyer <nick@shmanahar.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jiada Wang <jiada_wang@mentor.com>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 3/3] ARM: tegra: acer-a500: Add atmel,wakeup-method property
+Date:   Fri, 22 Jan 2021 23:06:59 +0300
+Message-Id: <20210122200659.7404-4-digetx@gmail.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210122200659.7404-1-digetx@gmail.com>
+References: <20210122200659.7404-1-digetx@gmail.com>
 MIME-Version: 1.0
-Received: by 2002:a19:ee0c:0:0:0:0:0 with HTTP; Fri, 22 Jan 2021 07:45:32
- -0800 (PST)
-Reply-To: Bill.Chantal.Lawrence@usa.com
-From:   "Mrs. Bill Chantal Lawrence" <gcxedgiy@gmail.com>
-Date:   Fri, 22 Jan 2021 15:45:32 +0000
-Message-ID: <CAK_Tp-U11VpKTkNWgYM2eKp+ws9M13T3o6zgKWVPMAzR1eavkQ@mail.gmail.com>
-Subject: We bring greetings to you in the name of the lord.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear Friend
-We bring greetings to you in the name of the lord. This message is
-sent to you as a notification that you have been chosen to benefit
-from our charity project aimed at touching lives and helping those
-that we can across the world as God has blessed us. I won the
-Powerball lottery of $150Million on November 2, 2019 and I have
-voluntarily decided to donate the sum of $ 75 Million to charity, I
-try to reach people randomly from different sources and modes so as to
-touch lives from different angles, Hence you are getting a message
-here.
+Add atmel,wakeup-method property to the touchscreen node.
 
-You have been listed as one of the lucky recipients to receive $13.9M
-This donation is made out to you so to enable you strengthen your
-personal issues and mostly to generously help us extend hands ofgiving
-to the less privileged, orphans and charity organizations within your
-locality To verifyhttps://www.powerball.com/winner-story/150-million-powerball-ticket-claimed
-Get back to me on how to receive the donation through our official
-email address below You can also contact us via our my Whatsapp number
-+1 971 24 581 39   and email address
-(Bill.Chantal.Lawrence@usa.com) : The earlier you contact our email the earlier
-you receieve your donation
-Thanks
-Mrs. Bill Chantal Lawrence
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
+ arch/arm/boot/dts/tegra20-acer-a500-picasso.dts | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
+index d3b99535d755..40c1bab22155 100644
+--- a/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
++++ b/arch/arm/boot/dts/tegra20-acer-a500-picasso.dts
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /dts-v1/;
+ 
++#include <dt-bindings/input/atmel-maxtouch.h>
+ #include <dt-bindings/input/gpio-keys.h>
+ #include <dt-bindings/input/input.h>
+ #include <dt-bindings/thermal/thermal.h>
+@@ -450,6 +451,8 @@ touchscreen@4c {
+ 
+ 			avdd-supply = <&vdd_3v3_sys>;
+ 			vdd-supply  = <&vdd_3v3_sys>;
++
++			atmel,wakeup-method = <ATMEL_MXT_WAKEUP_I2C_SCL>;
+ 		};
+ 
+ 		gyroscope@68 {
+-- 
+2.29.2
+
