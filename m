@@ -2,148 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF46430096F
-	for <lists+linux-input@lfdr.de>; Fri, 22 Jan 2021 18:22:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF49F300B5F
+	for <lists+linux-input@lfdr.de>; Fri, 22 Jan 2021 19:39:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728931AbhAVP4O (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 22 Jan 2021 10:56:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41246 "EHLO
+        id S1728381AbhAVSR5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 22 Jan 2021 13:17:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729309AbhAVPuI (ORCPT
+        with ESMTP id S1729052AbhAVPqV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 22 Jan 2021 10:50:08 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6FA3C06174A
-        for <linux-input@vger.kernel.org>; Fri, 22 Jan 2021 07:49:27 -0800 (PST)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1l2yge-0000dL-Aj; Fri, 22 Jan 2021 16:49:24 +0100
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1l2ygd-0000WI-Ky; Fri, 22 Jan 2021 16:49:23 +0100
-Date:   Fri, 22 Jan 2021 16:49:23 +0100
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Alistair Francis <alistair@alistair23.me>
-Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-        linux-imx@nxp.com, kernel@pengutronix.de, alistair23@gmail.com,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/6] devicetree/bindings: Initial commit of wacom,
- wacom-i2c
-Message-ID: <20210122154923.zk3joqgdcmzijr3g@pengutronix.de>
-References: <20210121065643.342-1-alistair@alistair23.me>
- <20210121065643.342-2-alistair@alistair23.me>
+        Fri, 22 Jan 2021 10:46:21 -0500
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E9AEC06174A
+        for <linux-input@vger.kernel.org>; Fri, 22 Jan 2021 07:45:34 -0800 (PST)
+Received: by mail-lj1-x236.google.com with SMTP id f2so1808345ljp.11
+        for <linux-input@vger.kernel.org>; Fri, 22 Jan 2021 07:45:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=0Nka6MTbtU6h5jLHxXeqwLsnbuZPwsbM12l6jprsTMc=;
+        b=hjRb4PQ7yT/eBY8LuDABlO7QpTdi4nM6X6jms4ZHB9cZzNKPVte/zscOYNYi/oHCuc
+         CDndy35JcxZczsC7QCu8YUkVX1J2uG+Xc07rsX2UD1tM3hDjTFx/GZb66hplSI833rQ9
+         fJ0QvQ3sh/R+7HLup8ZASSrWleecOhSUqwJXdIL7luDYmEfkPFaF+TqbMTkDYSMCPLHK
+         FqWbTe/7HC81okP0yznJl7mic3pWfUordLa/vQ+K3p5Ri2hkp98Lf2WP3vPPmRMMbIEI
+         Wef23eDL7sN9qsn9oVd/s5foZU1d0xcP591qccb1g5G4h27iLDLWcdVxwturreJJtk+d
+         c/Fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=0Nka6MTbtU6h5jLHxXeqwLsnbuZPwsbM12l6jprsTMc=;
+        b=lmyCYgtG5iInoF6kZCuQJAugqS2/W2Hf+bz3IizRcouvLuVlCKm45iQHXoxZM1Y50b
+         Spvzqi/2XmtROehtuhE49dNn+06gltAnY+4/XQ2wPq7aLwEyvego6im8CsZALJSfFt41
+         3tMZ1RQioXoGTkr3Z6966N9IHNmkRHHFnlFmjxc0tyMuJVvGRTBfbHwLu/JJUTiw/cDr
+         Y5IddNRL1WwSI6+M+vdpdltpFEaC8lBFWd4g8MaAFLDcdPXKZoYZVQepsmyjBJ/c75Bp
+         jjgRy+9FbFj7lvE1aG5v6aj3ZTmJhcn3SCOuDwRDnom2bTTQ2a0b4wPUqPv3JxY2tlxh
+         e/dQ==
+X-Gm-Message-State: AOAM533hXYGB5PCDDqKe7rAlC/JYksGs82HUNYm6BqOlz+oaVaMQWWwb
+        NEwobJRokmd6vPNARhXjz7xmMDnavlAeDXNsfSc=
+X-Google-Smtp-Source: ABdhPJzJJFUOFvc4EkBMjK/Gh6iO08w4u6MqPEFrAfFI2/dL41hvdUfAi1hvWExZ9fi2aMUaG8mvl0Mc22tWEhDpoBE=
+X-Received: by 2002:a2e:988d:: with SMTP id b13mr1220675ljj.176.1611330333195;
+ Fri, 22 Jan 2021 07:45:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210121065643.342-2-alistair@alistair23.me>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 16:48:46 up 51 days,  5:55, 28 users,  load average: 0.13, 0.08,
- 0.04
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+Received: by 2002:a19:ee0c:0:0:0:0:0 with HTTP; Fri, 22 Jan 2021 07:45:32
+ -0800 (PST)
+Reply-To: Bill.Chantal.Lawrence@usa.com
+From:   "Mrs. Bill Chantal Lawrence" <gcxedgiy@gmail.com>
+Date:   Fri, 22 Jan 2021 15:45:32 +0000
+Message-ID: <CAK_Tp-U11VpKTkNWgYM2eKp+ws9M13T3o6zgKWVPMAzR1eavkQ@mail.gmail.com>
+Subject: We bring greetings to you in the name of the lord.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Dear Friend
+We bring greetings to you in the name of the lord. This message is
+sent to you as a notification that you have been chosen to benefit
+from our charity project aimed at touching lives and helping those
+that we can across the world as God has blessed us. I won the
+Powerball lottery of $150Million on November 2, 2019 and I have
+voluntarily decided to donate the sum of $ 75 Million to charity, I
+try to reach people randomly from different sources and modes so as to
+touch lives from different angles, Hence you are getting a message
+here.
 
-thnaks for the patch.
-
-On 21-01-20 22:56, Alistair Francis wrote:
-> Signed-off-by: Alistair Francis <alistair@alistair23.me>
-> ---
->  .../input/touchscreen/wacom,wacom-i2c.yaml    | 44 +++++++++++++++++++
->  .../devicetree/bindings/vendor-prefixes.yaml  |  2 +
-
-This should be splitted into two patches.
-
-Regards,
-  Marco
-
-
->  2 files changed, 46 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/wacom,wacom-i2c.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/input/touchscreen/wacom,wacom-i2c.yaml b/Documentation/devicetree/bindings/input/touchscreen/wacom,wacom-i2c.yaml
-> new file mode 100644
-> index 000000000000..b36d22cd20a2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/touchscreen/wacom,wacom-i2c.yaml
-> @@ -0,0 +1,44 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/touchscreen/wacom,wacom-i2c.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Wacom I2C Controller
-> +
-> +maintainers:
-> +  - Alistair Francis <alistair@alistair23.me>
-> +
-> +allOf:
-> +  - $ref: touchscreen.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: wacom,wacom-i2c
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include "dt-bindings/interrupt-controller/irq.h"
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +        digitiser@9 {
-> +                compatible = "wacom,wacom-i2c";
-> +                reg = <0x9>;
-> +                interrupt-parent = <&gpio1>;
-> +                interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
-> +        };
-> +    };
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> index 041ae90b0d8f..5bca22f035a3 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -1202,6 +1202,8 @@ patternProperties:
->      description: Vision Optical Technology Co., Ltd.
->    "^vxt,.*":
->      description: VXT Ltd
-> +  "^wacom,.*":
-> +    description: Wacom Co., Ltd
->    "^wand,.*":
->      description: Wandbord (Technexion)
->    "^waveshare,.*":
-> -- 
-> 2.29.2
-> 
-> 
-> 
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+You have been listed as one of the lucky recipients to receive $13.9M
+This donation is made out to you so to enable you strengthen your
+personal issues and mostly to generously help us extend hands ofgiving
+to the less privileged, orphans and charity organizations within your
+locality To verifyhttps://www.powerball.com/winner-story/150-million-powerball-ticket-claimed
+Get back to me on how to receive the donation through our official
+email address below You can also contact us via our my Whatsapp number
++1 971 24 581 39   and email address
+(Bill.Chantal.Lawrence@usa.com) : The earlier you contact our email the earlier
+you receieve your donation
+Thanks
+Mrs. Bill Chantal Lawrence
