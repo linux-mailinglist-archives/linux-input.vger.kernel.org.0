@@ -2,96 +2,168 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E32863018CB
-	for <lists+linux-input@lfdr.de>; Sun, 24 Jan 2021 00:01:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3D73301962
+	for <lists+linux-input@lfdr.de>; Sun, 24 Jan 2021 04:44:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726396AbhAWXAa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 23 Jan 2021 18:00:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47036 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726386AbhAWXAZ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sat, 23 Jan 2021 18:00:25 -0500
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4867FC06178B
-        for <linux-input@vger.kernel.org>; Sat, 23 Jan 2021 14:59:45 -0800 (PST)
-Received: by mail-lf1-x132.google.com with SMTP id q12so12616028lfo.12
-        for <linux-input@vger.kernel.org>; Sat, 23 Jan 2021 14:59:45 -0800 (PST)
+        id S1726398AbhAXDoM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 23 Jan 2021 22:44:12 -0500
+Received: from mail-bn8nam11on2081.outbound.protection.outlook.com ([40.107.236.81]:51801
+        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726223AbhAXDoM (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 23 Jan 2021 22:44:12 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=B2HuzZwL0JGWesvgvr+kJ22ja9JmCTXbKJVilxy/xEE8RhueP+hflKO+TBykfjIaMiHSo99fsT84Y/i7DUNCOhfD+C60qoQig4xMMzz+pAvNYSn6qkeN19xn3gaxMqK3M1pEU9OuuquNQ+0jdeaupczzxXDqsXoS5mNUI8k3IorUCfb6WNfI+OVb8sOggktJ7VAbzfqFq5HM4gXlgPeHaPxGjwlUrrkIVBkI/mmGyWqpdCeg7BcRtXu3JEj3Qeotc9BhrSD1jp+JdcHV1P4/hVn39M3+MfjggbJrXiH+bFP3C6W2njHxFdDt9ybqKz7ZjfDe14h4gd55RG6lDE+zEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/wzd1uuA8M1xJKaz5j+SIs91e7nzWS8JH7m4VU9EWSM=;
+ b=USrhtgftOwiefoJPEyJOxUhe4Y/tLAKHvTtHhMt2ut8d5YTuBdl9zZ/NLR9xD+1DnReI42ea5dkAjTxDL1QVoQ7WO4Q/sVBoVxlSvsIHiL3ALwQJCBLaGv1Mm955vlHbfUKLuFCTwSL99RupGkdJ6PSal9FH6WjnZs3srqir3Wb+d2mDR2O6rsuBYQPNw6KXbLzZnqd90UyDwTzwaMX9gxhssJTnZV138nCNcRGe6+ARRwkFptrESeXd2e5j8xdhOuYjrix6/S6Vh0sgR/j+mdVqH+dEaaz2JiXzjXaLz/uXZutoQjg8Pc35KncoJ95MxKXI3brHr8M2aa8RswfoAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
+ dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5sd27o0ULTlZ3D/LwNE5ATuhVJKEaDj8IKxEHxs/DWY=;
-        b=waLW7xR2wqrSAt8xfwNa1xcBOmt8wXwU5pu7RArop4szuT4hcsrhMvOTifJ5AFyqhE
-         eY3qgShI3Bw1WU+TPtmGuLK6C9+C/V8hSHtXtUNxwTHczvplVmBlttzf2i3f1z8kUFn3
-         MMKxZ2liqGA6dtxbgVch9u5We1c5CtqaXwyT+1udKheHvJ5N0L+id5ZSTk/rYpHjSDpc
-         +1I7Mp4rvpJsraM7SuvhREuqLHvNrA6LGSeotYc/vrq/SFoUdk8tj58bx6ETkGiZC1MA
-         i/P59NcD3u1JwjZDo7Bz5fH7jMk8hPlqo/4kz13y5MSnw5Ya/Ei79eHoe7UEqTQnoJII
-         8Igw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5sd27o0ULTlZ3D/LwNE5ATuhVJKEaDj8IKxEHxs/DWY=;
-        b=Ssr62qcvv8mQLjMBuIx3Vh8g9Zjke2+VY6LViRekJE5+1Bk8OHHoKfMehrUKWg4wmz
-         GlqnO/p7DJnVam8iEElQ4RNv/KyxJAC/XN4DO9B7yGtgUsprXLE09kJftCM/yzGOkOEn
-         7nd8cKxXXwnuccXsB3azI9RTMi3zQWvJDlITCmBeDNSRUnSAaF5jm0lnFyKhxKt90yol
-         zB+Pb+/DvvEk2efX3IjXBTlDoNdc8xvVM6nI9RTScyITlpjKr9pPtAUUT+LNB0mUPXhF
-         MsVEtZ67MqCDNZm3gqi/0S3HyVo7WCTkx9wbQR2Zl1FcpOWluD4x5TiQjeclAizmvqTd
-         9ibA==
-X-Gm-Message-State: AOAM530zZf3jPIgUPVU7DqZNnFbGlG77ym4nPRSdVl2GDbtvYc/bxKqS
-        8zWkZbUNXZzARenMtwz59wSC0mt5aOFPPmwfZlPijw==
-X-Google-Smtp-Source: ABdhPJyDNDGCqP2Bd1AdnHhAXHNuNpfFuS/5NG0c2yWkXKQF+uPmhZnSFD5ts5Fh/vSnt2I87AwTpBGxL+DEu8Q1GCw=
-X-Received: by 2002:a19:6557:: with SMTP id c23mr1720677lfj.157.1611442783800;
- Sat, 23 Jan 2021 14:59:43 -0800 (PST)
+ d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/wzd1uuA8M1xJKaz5j+SIs91e7nzWS8JH7m4VU9EWSM=;
+ b=gARw4wmgYt1ma9vsXfjN5R3UqdM0cHE6VKT93lWL7WYKz/3yWPV8Z1i7dVQEptSPwDoe4yNA+tE4zLYCyBTfHqKxTGw2WnrpDyMAeMFlIry/86qwIqD//5+M5Lw6Z7LrD1JdoGQJ++B/N6sSRJ0xUxr//xNpgh+2/ytMAxoGkSE=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=labundy.com;
+Received: from SN6PR08MB5517.namprd08.prod.outlook.com (2603:10b6:805:fb::32)
+ by SA1PR08MB6992.namprd08.prod.outlook.com (2603:10b6:806:189::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.16; Sun, 24 Jan
+ 2021 03:43:17 +0000
+Received: from SN6PR08MB5517.namprd08.prod.outlook.com
+ ([fe80::972:c257:aa68:9be0]) by SN6PR08MB5517.namprd08.prod.outlook.com
+ ([fe80::972:c257:aa68:9be0%4]) with mapi id 15.20.3763.014; Sun, 24 Jan 2021
+ 03:43:17 +0000
+From:   Jeff LaBundy <jeff@labundy.com>
+To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        Jeff LaBundy <jeff@labundy.com>
+Subject: [PATCH v2 0/5] Add support for Azoteq IQS626A
+Date:   Sat, 23 Jan 2021 21:42:51 -0600
+Message-Id: <1611459776-23265-1-git-send-email-jeff@labundy.com>
+X-Mailer: git-send-email 2.7.4
+Content-Type: text/plain
+X-Originating-IP: [136.49.173.128]
+X-ClientProxiedBy: SA9PR10CA0014.namprd10.prod.outlook.com
+ (2603:10b6:806:a7::19) To SN6PR08MB5517.namprd08.prod.outlook.com
+ (2603:10b6:805:fb::32)
 MIME-Version: 1.0
-References: <20210122200659.7404-1-digetx@gmail.com> <20210122200659.7404-3-digetx@gmail.com>
-In-Reply-To: <20210122200659.7404-3-digetx@gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sat, 23 Jan 2021 23:59:33 +0100
-Message-ID: <CACRpkda+wjjr3+=taNmKgj4HH8A6pSAmMwtB3CZh4ixnhDt_Dw@mail.gmail.com>
-Subject: Re: [PATCH v4 2/3] Input: atmel_mxt_ts - support wakeup methods
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Nick Dyer <nick@shmanahar.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Jiada Wang <jiada_wang@mentor.com>,
-        Linux Input <linux-input@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (136.49.173.128) by SA9PR10CA0014.namprd10.prod.outlook.com (2603:10b6:806:a7::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3784.12 via Frontend Transport; Sun, 24 Jan 2021 03:43:17 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0d9ba738-d5e1-4d86-b2ba-08d8c01a2f95
+X-MS-TrafficTypeDiagnostic: SA1PR08MB6992:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SA1PR08MB6992DAE6B6E03899F46B42A0D3BE9@SA1PR08MB6992.namprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /VOb6wMCjiC2KJvoIh4XsSnufD09O0y0ZItlx3tOMcdkrPzLwWDOzzphXiB80P/rz28LoCHcKOQpLWJKzc/XeF/V9D4plXNaNHMyo8UUmYGeBYqsDZwhTAAN3hWEMlB5ghFz4SG4zsyNpBB7hsYx/CPe6Ofrmqx9k5qSvyfauuluDxfqCetdiNBb1bubIN+bXX+BjISf73jKw3XugetbF1eGusnrP0Nwrzi564JgiI6pEknlKxUPuYoov5tvwS4/yR219xIMWmrxKRi7a1ICWobOsSCyyR7gWr7CjhNgTBIJThoYCqMcWYusGGDiaCdEqVV0SEiKGzJ5uwSjJKimLEHGfV1dibiB64D1commjIsidllGCKl/Ep4Yq/E6tuGSlBTv9F1OyPhW8SMhpG/9EfeVLq8cbnR3DV75d3E0jQsLvcAXvlG6R5lRZ7KqAaSfqBgXApQh3ofx+bG+8dWPmwxTjFLjl1/EjDFiCLffpnxf+Ul5LDlDIBCoGjFdtBwVMnGrH7Pu9Z2HpQ/Vrb6rxA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR08MB5517.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(376002)(396003)(136003)(39830400003)(346002)(52116002)(107886003)(5660300002)(66946007)(8676002)(6486002)(6506007)(66556008)(8936002)(36756003)(966005)(66476007)(86362001)(69590400011)(2616005)(83380400001)(4326008)(26005)(16526019)(186003)(6512007)(6666004)(316002)(478600001)(2906002)(956004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Pht2yZz249TXvXYBPksT2zez4cVCMPZDXhw2sKPVaEED1MZD8OWHrCXCfjeM?=
+ =?us-ascii?Q?G6TPTKxLi49J8mx+YTaiiE0t/oew9vV83MO/q6LtFiQv4bmX7oDQ4+pcM0IO?=
+ =?us-ascii?Q?Mg5QnPDITOTQU0xuOTf0qMrrG5yvfqhM7OjSqJtUN2Yp02SNX0vBfNGG/9xF?=
+ =?us-ascii?Q?bWIHN2pXusjjHXYvOs/BT+xU36NPPkvys/pjDkeZYQe+QJoJPW+xvjWmPQcl?=
+ =?us-ascii?Q?T+CcYom/oNwfyetMiKM7/ineIx36FGTOBsoKNk7AQDrDry5XksXYw83j+JHk?=
+ =?us-ascii?Q?z02l6MYureAEni1KVVZe15NpfYFs/Nc6ccgPrlI44IrB/JywyyP9dejFyI4k?=
+ =?us-ascii?Q?svAlMYd1tJfmsZ3oOSgGLZ3ZDVukpddPxE42MmmOvsiFwTgudxm0PXpnMS1+?=
+ =?us-ascii?Q?p96aVMisDHuxmTsba3c9ek1znzFYhlcM1LxEcr8wsBZWxkIGhdMDD6QYRbGi?=
+ =?us-ascii?Q?eKEaVnfhpjSUxvckhpHZOvMV2pGt5J8U/lFRsJzSGPjp0QQUdTjeL/tlyRdS?=
+ =?us-ascii?Q?fkIdWaeBRQ3qooDcsbnM/tn9nbtY2Y6XQDu/bZ5iTaZ9bUGChCmgDOm7Gy7x?=
+ =?us-ascii?Q?eKkd65qjR293kD40bmMIyh/N9oyFQjRn4S0be/Qp6vQ8XvelrTtltWnflV9T?=
+ =?us-ascii?Q?YoR5oo0xan5/IFX5QQrOZakgp8aD6ZFL1h/MLKhCIUsc0kbgy4VVZMq9YRY/?=
+ =?us-ascii?Q?KcopphQpdl7743RtPIfrdKXaxlfvgf12lUt0HxAd40/U7KFc7yO4DGbHOqUk?=
+ =?us-ascii?Q?mllBX37IeTGSNwfWxaF7FxptgCV6gG4XlS7kRaKMCvIzjHvKPr2I+JLwBGvN?=
+ =?us-ascii?Q?E69YBf0a9h23dCr/6oUehaNA6ntvnEKb1oZTA5Bq9yArVlvOhtFZQwZFyE4/?=
+ =?us-ascii?Q?CQR/5tq09e7akPR/N1h2xQDzWaYZ2x/3dDNWb4qYBrJVWlsYIgevT2J4r80v?=
+ =?us-ascii?Q?qvN/rRHgOOe+HcfNswzSxXn+hxlnntv7uuFh0xVoKYcCUidTlxpNgJ5vpwT9?=
+ =?us-ascii?Q?sazI?=
+X-OriginatorOrg: labundy.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d9ba738-d5e1-4d86-b2ba-08d8c01a2f95
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR08MB5517.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jan 2021 03:43:17.4165
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RJNbs4JwLH79T40E2q8pPN2TdDLXJqvm7+yZ0poa3E2HJ/ax5fwckDagLl2eH19bHKjuL+QSRaXNEjboFeylVg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR08MB6992
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jan 22, 2021 at 9:07 PM Dmitry Osipenko <digetx@gmail.com> wrote:
+This series introduces support for the Azoteq IQS626A capacitive touch
+controller, a highly flexible multifunction sensor targeting wearable
+applications. It is a close cousin to the IQS269A with the following key
+differences:
 
-> According to datasheets, chips like mXT1386 have a WAKE line, it is used
-> to wake the chip up from deep sleep mode before communicating with it via
-> the I2C-compatible interface.
->
-> If the WAKE line is connected to a GPIO line, the line must be asserted
-> 25 ms before the host attempts to communicate with the controller. If the
-> WAKE line is connected to the SCL pin, the controller will send a NACK on
-> the first attempt to address it, the host must then retry 25 ms later.
->
-> Implement the wake-up methods in the driver. Touchscreen now works
-> properly on devices like Acer A500 tablet, fixing problems like this:
->
->  atmel_mxt_ts 0-004c: __mxt_read_reg: i2c transfer failed (-121)
->  atmel_mxt_ts 0-004c: mxt_bootloader_read: i2c recv failed (-121)
->  atmel_mxt_ts 0-004c: Trying alternate bootloader address
->  atmel_mxt_ts 0-004c: mxt_bootloader_read: i2c recv failed (-121)
->  atmel_mxt_ts: probe of 0-004c failed with error -121
->
-> Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+ - Channel count increases from 8 to 14.
+ - Channels are assigned dedicated functions as follows:
+   - ULP (ultra-low power): a single channel that continues to be sampled
+     during the device's lowest-power sensing mode for wake-up signaling.
+   - Trackpad: a group of 6 or 9 channels forming a capacitive trackpad with
+     gesture support.
+   - Generic: 3 independent channels capable of capacitive or inductive
+     sensing, plus much more.
+   - Hall: a single channel leveraging a pair of internal Hall-effect plates
+     serving lid or dock detection.
+ - Each channel (or group of channels) has a unique collection of configurable
+   parameters rather than common parameters for every channel.
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Channels and events reported by the channels are configured using the device
+tree, similar to what was done for the IQS269A.
 
-Yours,
-Linus Walleij
+Also included are some preparatory patches that move the touchscreen helper
+functions into the core input directory, allowing them to be leveraged by
+multimodal devices like the IQS626A.
+
+A demo is shown in the following video: https://youtu.be/n0Q5BXYFIgI
+
+Jeff LaBundy (5):
+  input: touchscreen: Move helper functions to core
+  input: touchscreen: Broaden use-cases described in comments
+  dt-bindings: input: touchscreen: Move helper bindings to core
+  dt-bindings: input: Add bindings for Azoteq IQS626A
+  input: Add support for Azoteq IQS626A
+
+ .../devicetree/bindings/input/elan_i2c.txt         |    2 +-
+ .../devicetree/bindings/input/iqs626a.yaml         |  843 +++++++++
+ .../devicetree/bindings/input/touchscreen.txt      |    1 +
+ .../devicetree/bindings/input/touchscreen.yaml     |   83 +
+ .../bindings/input/touchscreen/ads7846.txt         |    2 +-
+ .../bindings/input/touchscreen/bu21013.txt         |    2 +-
+ .../input/touchscreen/cypress,cy8ctma140.yaml      |    2 +-
+ .../bindings/input/touchscreen/edt-ft5x06.yaml     |    2 +-
+ .../bindings/input/touchscreen/eeti,exc3000.yaml   |    2 +-
+ .../input/touchscreen/elan,elants_i2c.yaml         |    2 +-
+ .../bindings/input/touchscreen/goodix.yaml         |    2 +-
+ .../bindings/input/touchscreen/iqs5xx.txt          |    2 +-
+ .../bindings/input/touchscreen/mms114.txt          |    2 +-
+ .../bindings/input/touchscreen/touchscreen.txt     |    1 -
+ .../bindings/input/touchscreen/touchscreen.yaml    |   83 -
+ drivers/input/Makefile                             |    1 +
+ drivers/input/misc/Kconfig                         |   11 +
+ drivers/input/misc/Makefile                        |    1 +
+ drivers/input/misc/iqs626a.c                       | 1837 ++++++++++++++++++++
+ drivers/input/touchscreen.c                        |  207 +++
+ drivers/input/touchscreen/Kconfig                  |    4 -
+ drivers/input/touchscreen/Makefile                 |    1 -
+ drivers/input/touchscreen/of_touchscreen.c         |  206 ---
+ 23 files changed, 2994 insertions(+), 305 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/iqs626a.yaml
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen.txt
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen.yaml
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/touchscreen.txt
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
+ create mode 100644 drivers/input/misc/iqs626a.c
+ create mode 100644 drivers/input/touchscreen.c
+ delete mode 100644 drivers/input/touchscreen/of_touchscreen.c
+
+--
+2.7.4
+
