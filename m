@@ -2,56 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADB33304800
-	for <lists+linux-input@lfdr.de>; Tue, 26 Jan 2021 20:17:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2ABCB304801
+	for <lists+linux-input@lfdr.de>; Tue, 26 Jan 2021 20:17:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728149AbhAZFxt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 Jan 2021 00:53:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45992 "EHLO
+        id S1729564AbhAZFx7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 26 Jan 2021 00:53:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729564AbhAYOfc (ORCPT
+        with ESMTP id S1730610AbhAYSsA (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 25 Jan 2021 09:35:32 -0500
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C3C1C0613D6
-        for <linux-input@vger.kernel.org>; Mon, 25 Jan 2021 06:26:02 -0800 (PST)
-Received: by mail-wr1-x431.google.com with SMTP id v15so12734434wrx.4
-        for <linux-input@vger.kernel.org>; Mon, 25 Jan 2021 06:26:02 -0800 (PST)
+        Mon, 25 Jan 2021 13:48:00 -0500
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCFB7C0613D6;
+        Mon, 25 Jan 2021 10:47:19 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id g1so16761332edu.4;
+        Mon, 25 Jan 2021 10:47:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Vji1Tx5QRSQNLp89Gs6e8lzkkwhzHlemOJyNOLZx/Vs=;
-        b=C7OKxxXbzwcriXVOqt/vHbQNBqSMpqwjmlk7grSPzIT+mfxg/TvYC8aScaDUGk9ACp
-         gzWErcI9AFx59YsvnMYwSFfJ54l8HWaKF4dBUDNv4WMe8eAPx1q2TLruc8ABW8gF7VcZ
-         kFLUhRkp+NtHywqLT75AhPZOlXonh8UqhAnJAFV/ZHGRkOOb2hnPTZV2NbHg+XjWsxrX
-         sIcgMjZlS4WJrYyTqBMC77lRyI/MEVCqczskgg79ZbERtAuP5kWXsw4BuGs5BhjSiw01
-         cN8J8ba13f09b7WdFnqjNtXFF3ITRVAlsoVX+OrOWyQCD0uNQ6RI3XK4VuWKeDIvaKn+
-         Gh+g==
+        bh=nDehBXC5CPnwPawQZMlRv9xTC6ikQPcXUSWi8mtNNCM=;
+        b=bFCjrLXgHhYQFWM05dJfAnHtfh9k/ZIWNa+ZXxtNtEcHRgf2YRrSHPidxK2p3hzpjK
+         jPgGX/IhNMA4EG1zXRnXlC644Ah2yojB3EZrVisNuCyjrel4cSWWLUw8WQ6PfhIXE+RY
+         wm+T0/u/d3kA2jT9taZ2oq1HDMmBEgwmPvgSbxs7+UHz6TrX5xZzhUExGS4rSB2JlYIe
+         3YT/1PpKMeuLi7uoWoYE2ofK2w1Ebo/QxKsfjZ8hrYtTrFhnDvZZg2DBEjAJlcPUCAz8
+         taLFzpa3PD3RiXa9jOdjEU1SzXFmI2IEHqkjvq6W53zQs+00uyF5mwIox2pza2EyJs3Q
+         iwBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=Vji1Tx5QRSQNLp89Gs6e8lzkkwhzHlemOJyNOLZx/Vs=;
-        b=QwSCgoWw3Sojg3MQcdu4R0arlXTDfmwdtap/fWal6V1rvX/0cusZRXPLjE7DZKA7Y9
-         VXvTOc3KO4ZzEUw7YoSq+iB2jRq8LM1+lzH+IPsXuAhcvl7nvHXaMtyTYtamqHKfijnx
-         8ds21kvEArP86u6bwkQxBi2yELDYnS9MzsxZslvhvWmCdac++3V0O9+7A+m/2I5KpIOE
-         Emjowu/SA8Gumy80zcwkEpnqWwk3WbqMTv232vN/ciVP60ejl4puPgoty6KLU98JgZ8l
-         85jm/+OX/zzlqtRUP9t8YubtcRfkKU9AmA9F/5EvwPsx3+oYNQ0cJykUChfTt2joQuoD
-         I/Hw==
-X-Gm-Message-State: AOAM53255d+/zXJP6o94Lgg+tbGS4cqoDkBwKXYh0C2Njn6ZSARUKpVO
-        dZ5BgHv/Pvd/B4Jr5lW8qN6xhg==
-X-Google-Smtp-Source: ABdhPJwRHIRT4t+tsU+w3Q4lxBuXQlIFUyjKY1apuZy7xv0+VfMOA1VLqRWa9iiUnXxm5EhLHf8Dww==
-X-Received: by 2002:adf:d206:: with SMTP id j6mr1184505wrh.427.1611584760873;
-        Mon, 25 Jan 2021 06:26:00 -0800 (PST)
-Received: from dell ([91.110.221.194])
-        by smtp.gmail.com with ESMTPSA id r15sm23355806wrq.1.2021.01.25.06.25.59
+        bh=nDehBXC5CPnwPawQZMlRv9xTC6ikQPcXUSWi8mtNNCM=;
+        b=FX1MiI4QpIX8UOqEsYUeJK09F1QrCQmSQz28jaZk1jVhvkc+z2+bRYOsoc67fq9Amg
+         W46dNjKQDa/Mfz2uZtq04xPtfuPn+Y+z6s13c5delRlvVcFwHxnDo6yxvZTRXYYJUrHn
+         hejx+QpXxmwL8SdA/JdJN0ZEZH4+v7gHcIMPmmn7Vrj/3ZBoJRc2RCPexH0wrkKkx8+a
+         vKMI74L8loUxW+YTKnBy14ZDn49gBbXfoWhX0TokYxR0IGoMMmapMXwhDZA6AeVzUDPv
+         cJSW/D+nYC6WA4S9qIWTf4ot8AKzzjph3maOtEJ33d69gJIZ0GcL1QvDfwE+KSs6Prui
+         3AUw==
+X-Gm-Message-State: AOAM532SbhMA7MQoDKe6vW578nMtqTr00qHEMm4bghEMzpN8f+VtRoXK
+        qZgm1Z+eyRjcffImGHqr2MMmXWctlCw=
+X-Google-Smtp-Source: ABdhPJy3nYjnWIw/wvYkqBmyMQLIZ/bguKH8rV+PJA7vyKO58ToviMoMPnwQCxTouI22RmDwtQ60TA==
+X-Received: by 2002:a05:6402:1152:: with SMTP id g18mr1698932edw.18.1611600438569;
+        Mon, 25 Jan 2021 10:47:18 -0800 (PST)
+Received: from BV030612LT ([188.24.159.61])
+        by smtp.gmail.com with ESMTPSA id x2sm9652071eds.51.2021.01.25.10.47.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jan 2021 06:26:00 -0800 (PST)
-Date:   Mon, 25 Jan 2021 14:25:58 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
+        Mon, 25 Jan 2021 10:47:17 -0800 (PST)
+Date:   Mon, 25 Jan 2021 20:47:15 +0200
+From:   Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
+To:     Lee Jones <lee.jones@linaro.org>
 Cc:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sebastian Reichel <sre@kernel.org>,
@@ -63,182 +63,72 @@ Cc:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
         linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
         linux-pm@vger.kernel.org
 Subject: Re: [PATCH v6 3/7] mfd: Add MFD driver for ATC260x PMICs
-Message-ID: <20210125142558.GA4903@dell>
+Message-ID: <20210125184715.GA1061394@BV030612LT>
 References: <cover.1611165200.git.cristian.ciocaltea@gmail.com>
  <4bc76f9e3dc7204d7f407af6ee61c9f193a789d3.1611165200.git.cristian.ciocaltea@gmail.com>
+ <20210125142558.GA4903@dell>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4bc76f9e3dc7204d7f407af6ee61c9f193a789d3.1611165200.git.cristian.ciocaltea@gmail.com>
+In-Reply-To: <20210125142558.GA4903@dell>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 20 Jan 2021, Cristian Ciocaltea wrote:
+Hi Lee,
 
-> Add initial support for the Actions Semi ATC260x PMICs which integrates
-> Audio Codec, Power management, Clock generation and GPIO controller
-> blocks.
+On Mon, Jan 25, 2021 at 02:25:58PM +0000, Lee Jones wrote:
+> On Wed, 20 Jan 2021, Cristian Ciocaltea wrote:
 > 
-> For the moment this driver only supports Regulator, Poweroff and Onkey
-> functionalities for the ATC2603C and ATC2609A chip variants.
-> 
-> Since the PMICs can be accessed using both I2C and SPI buses, the
-> following driver structure has been adopted:
-> 
->            -----> atc260x-core.c (Implements core functionalities)
->           /
-> ATC260x --------> atc260x-i2c.c (Implements I2C interface)
->           \
->            -----> atc260x-spi.c (Implements SPI interface - TODO)
-> 
-> Co-developed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
-> ---
-> Changes in v6 - per Lee's feedback:
-> - Added ATC260X_CHIP_REV_MAX magic number
-> - Fixed code formattting arround atc260x_i2c_driver initialization
-> - Replaced dev_init() callback in struct atc260x with a pointer to a new struct
-> atc260x_init_regs to hold hardware specific registry information
-> - Added a generic atc260x_dev_init() function and instantiated atc2603c_init_regs
-> and atc2609a_init_regs
-> 
-> Changes in v5:
->  - None
-> 
-> Changes in v4 - according to Lee's review:
->  - Replaced 'regmap_add_irq_chip()' with 'devm' counterpart and dropped
->    'atc260x_device_remove()' and 'atc260x_i2c_remove()' functions
->  - Moved kerneldoc sections from prototypes to real functions
->  - Placed single line entries on one line for mfd_cells[]
->  - Several other minor changes
-> 
-> Changes in v3:
->  - Fixed the issues reported by Lee's kernel test robot:
->    WARNING: modpost: missing MODULE_LICENSE() in drivers/mfd/atc260x-core.o
->    >> FATAL: modpost: drivers/mfd/atc260x-i2c: sizeof(struct i2c_device_id)=24 is
->       not a modulo of the size of section __mod_i2c__<identifier>_device_table=588.
->    >> Fix definition of struct i2c_device_id in mod_devicetable.h
->  - Dropped the usage of '.of_compatible' fields in {atc2603c,atc2609a}_mfd_cells[]
->  - Added 'Co-developed-by' tag in commit message and dropped [cristian: ...] line
-> 
->  drivers/mfd/Kconfig                  |  18 ++
->  drivers/mfd/Makefile                 |   3 +
->  drivers/mfd/atc260x-core.c           | 310 +++++++++++++++++++++++++++
->  drivers/mfd/atc260x-i2c.c            |  64 ++++++
->  include/linux/mfd/atc260x/atc2603c.h | 281 ++++++++++++++++++++++++
->  include/linux/mfd/atc260x/atc2609a.h | 308 ++++++++++++++++++++++++++
->  include/linux/mfd/atc260x/core.h     |  58 +++++
->  7 files changed, 1042 insertions(+)
->  create mode 100644 drivers/mfd/atc260x-core.c
->  create mode 100644 drivers/mfd/atc260x-i2c.c
->  create mode 100644 include/linux/mfd/atc260x/atc2603c.h
->  create mode 100644 include/linux/mfd/atc260x/atc2609a.h
->  create mode 100644 include/linux/mfd/atc260x/core.h
-> 
-> diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-> index bdfce7b15621..a27ff2e83e7a 100644
-> --- a/drivers/mfd/Kconfig
-> +++ b/drivers/mfd/Kconfig
-> @@ -2064,6 +2064,24 @@ config MFD_WCD934X
->  	  This driver provides common support WCD934x audio codec and its
->  	  associated Pin Controller, Soundwire Controller and Audio codec.
->  
-> +config MFD_ATC260X
-> +	tristate
-> +	select MFD_CORE
-> +	select REGMAP
-> +	select REGMAP_IRQ
-> +
-> +config MFD_ATC260X_I2C
-> +	tristate "Actions Semi ATC260x PMICs with I2C"
-> +	select MFD_ATC260X
-> +	select REGMAP_I2C
-> +	depends on I2C
-> +	help
-> +	  Support for the Actions Semi ATC260x PMICs controlled via I2C.
-> +
-> +	  This driver provides common support for accessing the ATC2603C
-> +	  and ATC2609A chip variants, additional drivers must be enabled
-> +	  in order to use the functionality of the device.
-> +
->  config MFD_KHADAS_MCU
->  	tristate "Support for Khadas System control Microcontroller"
->  	depends on I2C
-> diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-> index 14fdb188af02..1ea88d2c83b4 100644
-> --- a/drivers/mfd/Makefile
-> +++ b/drivers/mfd/Makefile
-> @@ -268,3 +268,6 @@ obj-$(CONFIG_MFD_KHADAS_MCU) 	+= khadas-mcu.o
->  obj-$(CONFIG_SGI_MFD_IOC3)	+= ioc3.o
->  obj-$(CONFIG_MFD_SIMPLE_MFD_I2C)	+= simple-mfd-i2c.o
->  obj-$(CONFIG_MFD_INTEL_M10_BMC)   += intel-m10-bmc.o
-> +
-> +obj-$(CONFIG_MFD_ATC260X)	+= atc260x-core.o
-> +obj-$(CONFIG_MFD_ATC260X_I2C)	+= atc260x-i2c.o
-> diff --git a/drivers/mfd/atc260x-core.c b/drivers/mfd/atc260x-core.c
-> new file mode 100644
-> index 000000000000..7148ff5b05b1
-> --- /dev/null
-> +++ b/drivers/mfd/atc260x-core.c
-> @@ -0,0 +1,310 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Core support for ATC260x PMICs
-> + *
-> + * Copyright (C) 2019 Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> + * Copyright (C) 2020 Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
-> + */
-> +
-> +#include <linux/interrupt.h>
-> +#include <linux/mfd/atc260x/core.h>
-> +#include <linux/mfd/core.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_device.h>
-> +#include <linux/regmap.h>
-> +
-> +#define ATC260X_CHIP_REV_MAX	31
-> +
-> +struct atc260x_init_regs {
-> +	unsigned int cmu_devrst;
-> +	unsigned int cmu_devrst_ints;
-> +	unsigned int ints_msk;
-> +	unsigned int pad_en;
-> +	unsigned int pad_en_extirq;
-> +};
-> +
-> +static void regmap_lock_mutex(void *__mutex)
-> +{
-> +	struct mutex *mutex = __mutex;
-> +
-> +	/*
-> +	 * Using regmap within an atomic context (e.g. accessing a PMIC when
-> +	 * powering system down) is normally allowed only if the regmap type
-> +	 * is MMIO and the regcache type is either REGCACHE_NONE or
-> +	 * REGCACHE_FLAT. For slow buses like I2C and SPI, the regmap is
-> +	 * internally protected by a mutex which is acquired non-atomically.
-> +	 *
-> +	 * Let's improve this by using a customized locking scheme inspired
-> +	 * from I2C atomic transfer. See i2c_in_atomic_xfer_mode() for a
-> +	 * starting point.
-> +	 */
-> +	if (system_state > SYSTEM_RUNNING && irqs_disabled())
-> +		mutex_trylock(mutex);
-> +	else
-> +		mutex_lock(mutex);
-> +}
+> > Add initial support for the Actions Semi ATC260x PMICs which integrates
+> > Audio Codec, Power management, Clock generation and GPIO controller
+> > blocks.
+> > 
+> > For the moment this driver only supports Regulator, Poweroff and Onkey
+> > functionalities for the ATC2603C and ATC2609A chip variants.
+ 
+[...]
 
-Would this be useful to anyone else?
+> > +static void regmap_lock_mutex(void *__mutex)
+> > +{
+> > +	struct mutex *mutex = __mutex;
+> > +
+> > +	/*
+> > +	 * Using regmap within an atomic context (e.g. accessing a PMIC when
+> > +	 * powering system down) is normally allowed only if the regmap type
+> > +	 * is MMIO and the regcache type is either REGCACHE_NONE or
+> > +	 * REGCACHE_FLAT. For slow buses like I2C and SPI, the regmap is
+> > +	 * internally protected by a mutex which is acquired non-atomically.
+> > +	 *
+> > +	 * Let's improve this by using a customized locking scheme inspired
+> > +	 * from I2C atomic transfer. See i2c_in_atomic_xfer_mode() for a
+> > +	 * starting point.
+> > +	 */
+> > +	if (system_state > SYSTEM_RUNNING && irqs_disabled())
+> > +		mutex_trylock(mutex);
+> > +	else
+> > +		mutex_lock(mutex);
+> > +}
+> 
+> Would this be useful to anyone else?
 
-For my own reference (apply this as-is to your sign-off block):
+If you refer to the locking scheme, it is currently required by the
+power-off driver to handle atomic contexts.
 
-  Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
+> For my own reference (apply this as-is to your sign-off block):
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Please note the patches "[4/7] regulator: ..." and "[5/7] power: ..."
+have been already picked up by Mark and Sebastian, respectively, while
+Dmitry suggested to merge "[6/7] input: ..." through MFD.
+
+>   Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
+> 
+> -- 
+> Lee Jones [李琼斯]
+> Senior Technical Lead - Developer Services
+> Linaro.org │ Open source software for Arm SoCs
+> Follow Linaro: Facebook | Twitter | Blog
+
+Thanks,
+Cristi
