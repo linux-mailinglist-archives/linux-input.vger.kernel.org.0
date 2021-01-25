@@ -2,91 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DEB19302D02
-	for <lists+linux-input@lfdr.de>; Mon, 25 Jan 2021 21:54:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F21C1302FF0
+	for <lists+linux-input@lfdr.de>; Tue, 26 Jan 2021 00:17:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732380AbhAYUxd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 25 Jan 2021 15:53:33 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51120 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732420AbhAYUxW (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 25 Jan 2021 15:53:22 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 72BAC22513;
-        Mon, 25 Jan 2021 20:52:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611607961;
-        bh=HrLqwMmB9QuqNykshbTVTHa1+DOc0VDy8lIvxe0ein4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HUrhbj4NkDNkKT2HAYy1gJVIVwG9cmrdRiq/CBDD+1u9APLW3FIvcO58emXryQ5B1
-         XJ0LujBQV8y2Yhkgc0yU9o2xhseQbkp1nZ5LMN0axfTUKIFtUc3GWpRqBzbwAwf+Ut
-         0VeXc5Vl0yq7u3ViiiTq4XHR+ZlJy8jMoty2bqfp9Ya3BQLTFEjkyt4/WFCvCvx6Dl
-         0oJtZaCFc3aeoebZjIshf7uFWib6h0t9dGyVB7eUJ76WLyeVeQ+3v4OJZz3yRCpRPC
-         Pjks6Za8uWS6rW+N/hX+sPOYmfueNcjzwNA4Y+/MENuhZRVRkITGEwm0LHIiXSuClG
-         /6w2crhu2Rb6w==
-Date:   Mon, 25 Jan 2021 20:51:59 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
-Cc:     Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-actions@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH v6 4/7] regulator: Add regulator driver for ATC260x PMICs
-Message-ID: <20210125205159.GD4510@sirena.org.uk>
-References: <cover.1611165200.git.cristian.ciocaltea@gmail.com>
- <3f48e9f8114cac0557abca88d4437849423793bb.1611165200.git.cristian.ciocaltea@gmail.com>
- <20210125192311.GC4510@sirena.org.uk>
- <20210125205048.GA1066705@BV030612LT>
+        id S1732692AbhAYXQ2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 25 Jan 2021 18:16:28 -0500
+Received: from mail-oi1-f176.google.com ([209.85.167.176]:36838 "EHLO
+        mail-oi1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732105AbhAYXQY (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 25 Jan 2021 18:16:24 -0500
+Received: by mail-oi1-f176.google.com with SMTP id d18so7298832oic.3;
+        Mon, 25 Jan 2021 15:16:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Y8SknRKxss8n7RfRK+E579gYfvmeVKOv/GKQ9rXhrh0=;
+        b=Urah7uwSgd2PA2c2r+A7cpSLD0LQIm86eUVvfBQHN9MmjExOPikbtEJCy36khYd+RO
+         Qb5a/Z7RBGrNbHMNg5rXz0NWwxLMxGo1ZfBV7LCkAjBSUJQSS63zEJxoFoR7PpcpY0Fn
+         V1oNA1eoE3vOHWeOCdojpKx2NHZgJxmpvA72k9ljIZeMQ1fksmkjLx5kP8x6/K0782lw
+         uURwe46gPq4qsFdCo3K/z4p1/ugKOzhbR/8zTv4ifAgmpmV9dWTvgCAGDeI9oDUfx9cb
+         mBCPcjnfRhmzv21pDUHBOGjuBIm1Z0EsErzFdC+ynXtyLts4aEFrPh0vGKBktS6S9hqO
+         tdsg==
+X-Gm-Message-State: AOAM531BNcUHikuEcEdNWOQt8fNRQcywOAvSJE7+dJsWt8Xdi3IveYaa
+        8BgUiDmASBvue2f90kV8vA==
+X-Google-Smtp-Source: ABdhPJwIBZW25e9WtD04Zr3vYWJmXgdb7ZxllQ0ztfFBEaWagU0lR/CU0LZeiVeyq6iwXSBtBIlsdA==
+X-Received: by 2002:aca:cc03:: with SMTP id c3mr1451686oig.137.1611616543400;
+        Mon, 25 Jan 2021 15:15:43 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id b188sm3799998oif.49.2021.01.25.15.15.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Jan 2021 15:15:42 -0800 (PST)
+Received: (nullmailer pid 1223567 invoked by uid 1000);
+        Mon, 25 Jan 2021 23:15:40 -0000
+Date:   Mon, 25 Jan 2021 17:15:40 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Philip Chen <philipchen@chromium.org>
+Cc:     devicetree@vger.kernel.org, Guenter Roeck <groeck@chromium.org>,
+        swboyd@chromium.org, linux-input@vger.kernel.org,
+        dianders@chromium.org, Simon Glass <sjg@chromium.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Benson Leung <bleung@chromium.org>, dmitry.torokhov@gmail.com,
+        LKML <linux-kernel@vger.kernel.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Subject: Re: [PATCH v7 1/2] dt-bindings: input: cros-ec-keyb: Add a new
+ property
+Message-ID: <20210125231540.GA1223505@robh.at.kernel.org>
+References: <20210115122412.v7.1.I025fb861cd5fa0ef5286b7dce514728e9df7ae74@changeid>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="OaZoDhBhXzo6bW1J"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210125205048.GA1066705@BV030612LT>
-X-Cookie: Drive defensively.  Buy a tank.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210115122412.v7.1.I025fb861cd5fa0ef5286b7dce514728e9df7ae74@changeid>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Fri, 15 Jan 2021 12:24:29 -0800, Philip Chen wrote:
+> Add a new property `function-row-physmap` to the
+> device tree for the custom keyboard top row design.
+> 
+> The property describes the rows/columns of the top row keys
+> from left to right.
+> 
+> Signed-off-by: Philip Chen <philipchen@chromium.org>
+> ---
+> 
+> Changes in v7:
+> - Use MATRIX_KEY macro to describe `function-row-physmap`
+> 
+> Changes in v6:
+> - remove $ref and add `function-row-physmap` to the example
+> 
+> Changes in v5:
+> - add minItems and maxItems for `function-row-physmap`
+> 
+> Changes in v2:
+> - add `function-row-physmap` instead of `google,custom-keyb-top-row`
+> 
+>  .../bindings/input/google,cros-ec-keyb.yaml   | 24 +++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+> 
 
---OaZoDhBhXzo6bW1J
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Mon, Jan 25, 2021 at 10:50:48PM +0200, Cristian Ciocaltea wrote:
-> On Mon, Jan 25, 2021 at 07:23:11PM +0000, Mark Brown wrote:
-
-> > Please do not submit new versions of already applied patches, please
-> > submit incremental updates to the existing code.  Modifying existing
-
-> The patches applied to 'for-next' branches were not modified, but I have
-> (wrongly) assumed I need to keep them in the series until they are
-> eventually merged into master.
-
-> So, if I understand correctly, I should have dropped them from the patch
-> series as soon as they had been queued, and only if they need some
-> additional work, I can re-add them as incremental updates.
-
-Yes, once something is applied it shouldn't need sending again.
-
---OaZoDhBhXzo6bW1J
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmAPL24ACgkQJNaLcl1U
-h9CuhQf/TXNo5eKpTUo+pUm9d26vwESEP6romcQrnmFmNyU4ZhIcsHgis10aABRt
-ye8Itsor1mzv4phDC78NaXtr+TD/wF9Fg4Yg+N83rgUIcFXPPSFD5E4UzXoFB5Mt
-Mr0zuijpaYRfNKSiXKfKzNEKZB0wGiG3YjvEbVJRvuXkhL8LCGlW0T2xZGRCodbH
-wiiT4RXVB9kHIm2mcmoQdjGQHHi9bBpgu6UWPpP2MEq6gF6CWw1/uLWg9CtXnt9l
-8OaAt70Obju+Ea1E6dKjQxAQIUTd/UOh6Rs0aQAbYrrmRDJZDbSa1IfyMF243rEm
-SrF9cful63vaauj5Nx6PODc7Rr+vjQ==
-=90r4
------END PGP SIGNATURE-----
-
---OaZoDhBhXzo6bW1J--
+Reviewed-by: Rob Herring <robh@kernel.org>
