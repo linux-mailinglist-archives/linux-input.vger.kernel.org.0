@@ -2,158 +2,69 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 192F7303A02
-	for <lists+linux-input@lfdr.de>; Tue, 26 Jan 2021 11:18:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CFCA3303AEA
+	for <lists+linux-input@lfdr.de>; Tue, 26 Jan 2021 11:58:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391893AbhAZKRs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 Jan 2021 05:17:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46618 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391676AbhAZKQW (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 26 Jan 2021 05:16:22 -0500
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 042A0C061573;
-        Tue, 26 Jan 2021 02:15:42 -0800 (PST)
-Received: by mail-ed1-x535.google.com with SMTP id b21so19042193edy.6;
-        Tue, 26 Jan 2021 02:15:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=/rct3g+soQkZfk4LEwZexkLFSPahpYR/2YSKQ5JilcY=;
-        b=pzIvfmjkT8KVjUuO0izY/r1FVdyMrORT5Z1F8W9NRLH+n4u2t4OZiUj7y1hQsBOQya
-         Szy1e+Rv+WzRWD+c4ebD8n+s4gaITnsfJv3woXVKSYZWYZxeie4aBY7U6/b8Xwl0zRTR
-         eHZE8OxOmFFJC4n740aYtRue57KYhdFVvfJyPKvRuQRuO/e0PZkHBbpzKLFwUGbzFaYT
-         4skZU0F+MI9j5ComzDmcdVEqveQUbSNpX4nDJhJ9UAGHE/KBipYxTL9d4V/TIT89wpmP
-         wBpd6sucjsTVFnK/m3GoUqgFvB1FiXauvo3Hff2cB00wYuNc6AXTY7rPHSxVmHTyaU/A
-         Wy2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=/rct3g+soQkZfk4LEwZexkLFSPahpYR/2YSKQ5JilcY=;
-        b=IGVr98UqZE6V7yd0cGN/x1AEvtmH9QQWjCTq9RATumNU+9LFJTXdLqBRBVdZD1dIIV
-         dNuVIqQX2HzwCogjIZou4jXpaVQ/CSKytY0vOkZNoxK2a8hns0fP9PXkWX+BlrsPRsHd
-         glg1jQLsmImHlIsnhZzociGGhFkXtUCZeqT24MNdMDw501bxHQxDq5X005DBMQcO93x1
-         Xe7jX9EmqwJcomPIbNLD2ppCAsPrR3DawsoQzAkdn/8wzrzvICKBR0UVMqLVO0keBA2G
-         A1yWAINtH2JBHrZAZLsI+GKow2FZ+ikXN/sJ8wjCqahvJDiJWcz1A8tnn+CttYeCOmR0
-         qg0Q==
-X-Gm-Message-State: AOAM532fkuBjaqAk258pEv1DFmKT3u2nXnDgmSc4ZjoY4nsm3uZuyMws
-        YYl1fe3q5zUM4CjqpHb3yyY=
-X-Google-Smtp-Source: ABdhPJzXiP/L6TlYulI6WQYvMi/C3+rPzj3ZcqLihXWoiJ7jInOnxySpjFmOkMqjeDts0pMV3hQclg==
-X-Received: by 2002:a05:6402:1655:: with SMTP id s21mr3861428edx.360.1611656140787;
-        Tue, 26 Jan 2021 02:15:40 -0800 (PST)
-Received: from BV030612LT ([188.24.159.61])
-        by smtp.gmail.com with ESMTPSA id br6sm7707782ejb.46.2021.01.26.02.15.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 02:15:40 -0800 (PST)
-Date:   Tue, 26 Jan 2021 12:15:37 +0200
-From:   Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-actions@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH v6 3/7] mfd: Add MFD driver for ATC260x PMICs
-Message-ID: <20210126101537.GA1112736@BV030612LT>
-References: <cover.1611165200.git.cristian.ciocaltea@gmail.com>
- <4bc76f9e3dc7204d7f407af6ee61c9f193a789d3.1611165200.git.cristian.ciocaltea@gmail.com>
- <20210125142558.GA4903@dell>
- <20210125184715.GA1061394@BV030612LT>
- <20210126081535.GB4903@dell>
+        id S2404691AbhAZK4k (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 26 Jan 2021 05:56:40 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60608 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732142AbhAZKzv (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 26 Jan 2021 05:55:51 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8B4DE22581;
+        Tue, 26 Jan 2021 10:55:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1611658506;
+        bh=/G0jpGfGj7wtXKkXwyT9tJfgt9gpX0A3orQNjYj5ay8=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=dWRZs3Rc8P+CxIlEtXQR5m4ym5X7gF8BLKGaEqRTjGF5vwSuC4ikCGAykf5lgibmx
+         IS9ESsK8a0P1puxuUIyw2O90dJXnYvWAfn5MDTDD3hOZUDYC7UevQKucHLbGSnYDPi
+         2OdG8pVTU3mydmHEsKKhWz//rTJH31WF1rBD6w3JixlGFg8nZ9452rrrNm6p3tSmGg
+         oRhyJXeKTevpNoTC4VkTL6JE0t8YDMtGQnZhgeWoVhFBWgGYstR2RaIlKr5DaNhPCk
+         KTlQ+1wHHDbvG1i+NKV+lQMU2z35TnIewOJkSRbvaTKxJ3d5ECVPmyl24uBQtsfVfX
+         pGL9z72BNSpQQ==
+Date:   Tue, 26 Jan 2021 11:55:03 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Jason Gerecke <killertofu@gmail.com>
+cc:     linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>,
+        stable@vger.kernel.org, Ping Cheng <ping.cheng@wacom.com>
+Subject: Re: [PATCH] HID: wacom: Correct NULL dereference on AES pen
+ proximity
+In-Reply-To: <20210121184649.157189-1-jason.gerecke@wacom.com>
+Message-ID: <nycvar.YFH.7.76.2101261152030.5622@cbobk.fhfr.pm>
+References: <20210121184649.157189-1-jason.gerecke@wacom.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210126081535.GB4903@dell>
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jan 26, 2021 at 08:15:35AM +0000, Lee Jones wrote:
-> On Mon, 25 Jan 2021, Cristian Ciocaltea wrote:
-> 
-> > Hi Lee,
-> > 
-> > On Mon, Jan 25, 2021 at 02:25:58PM +0000, Lee Jones wrote:
-> > > On Wed, 20 Jan 2021, Cristian Ciocaltea wrote:
-> > > 
-> > > > Add initial support for the Actions Semi ATC260x PMICs which integrates
-> > > > Audio Codec, Power management, Clock generation and GPIO controller
-> > > > blocks.
-> > > > 
-> > > > For the moment this driver only supports Regulator, Poweroff and Onkey
-> > > > functionalities for the ATC2603C and ATC2609A chip variants.
-> >  
-> > [...]
-> > 
-> > > > +static void regmap_lock_mutex(void *__mutex)
-> > > > +{
-> > > > +	struct mutex *mutex = __mutex;
-> > > > +
-> > > > +	/*
-> > > > +	 * Using regmap within an atomic context (e.g. accessing a PMIC when
-> > > > +	 * powering system down) is normally allowed only if the regmap type
-> > > > +	 * is MMIO and the regcache type is either REGCACHE_NONE or
-> > > > +	 * REGCACHE_FLAT. For slow buses like I2C and SPI, the regmap is
-> > > > +	 * internally protected by a mutex which is acquired non-atomically.
-> > > > +	 *
-> > > > +	 * Let's improve this by using a customized locking scheme inspired
-> > > > +	 * from I2C atomic transfer. See i2c_in_atomic_xfer_mode() for a
-> > > > +	 * starting point.
-> > > > +	 */
-> > > > +	if (system_state > SYSTEM_RUNNING && irqs_disabled())
-> > > > +		mutex_trylock(mutex);
-> > > > +	else
-> > > > +		mutex_lock(mutex);
-> > > > +}
-> > > 
-> > > Would this be useful to anyone else?
-> > 
-> > If you refer to the locking scheme, it is currently required by the
-> > power-off driver to handle atomic contexts.
-> 
-> Right, but would this be helpful to any non-Actions drivers?
-> 
-> If so, perhaps it should reside as a Regmap helper?
+On Thu, 21 Jan 2021, Jason Gerecke wrote:
 
-I got it now, thanks for the suggestion. As a matter of fact this was
-my initial intention, but since I was not aware of any other use case
-I decided to keep it private for the moment.
-
-Most probably this hardware design is not specific to Actions only, so
-it might be helpful to other drivers as well. Therefore I am going to
-reconsider this and if/when it is accepted upstream, I will come back
-with a separate update patch for this driver.
-
-> > > For my own reference (apply this as-is to your sign-off block):
-> > 
-> > Please note the patches "[4/7] regulator: ..." and "[5/7] power: ..."
-> > have been already picked up by Mark and Sebastian, respectively, while
-> > Dmitry suggested to merge "[6/7] input: ..." through MFD.
+> The recent commit to fix a memory leak introduced an inadvertant NULL
+> pointer dereference. The `wacom_wac->pen_fifo` variable was never
+> intialized, resuling in a crash whenever functions tried to use it.
+> Since the FIFO is only used by AES pens (to buffer events from pen
+> proximity until the hardware reports the pen serial number) this would
+> have been easily overlooked without testing an AES device.
 > 
-> That's fine.
+> This patch converts `wacom_wac->pen_fifo` over to a pointer (since the
+> call to `devres_alloc` allocates memory for us) and ensures that we assign
+> it to point to the allocated and initalized `pen_fifo` before the function
+> returns.
 > 
-> Please re-submit the patches which have not been applied already.
+> Link: https://github.com/linuxwacom/input-wacom/issues/230
+> Fixes: 37309f47e2f5 ("HID: wacom: Fix memory leakage caused by kfifo_alloc")
+> CC: stable@vger.kernel.org # v4.19+
+> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+> Tested-by: Ping Cheng <ping.cheng@wacom.com>
 
-I have just submitted v7 with the two patches dropped.
+Applied, thanks.
 
-> > >   Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
-> > > 
-> > 
-> > Thanks,
-> > Cristi
-> 
-> -- 
-> Lee Jones [李琼斯]
-> Senior Technical Lead - Developer Services
-> Linaro.org │ Open source software for Arm SoCs
-> Follow Linaro: Facebook | Twitter | Blog
+-- 
+Jiri Kosina
+SUSE Labs
+
