@@ -2,136 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 91B723047F0
-	for <lists+linux-input@lfdr.de>; Tue, 26 Jan 2021 20:14:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E91EB304C28
+	for <lists+linux-input@lfdr.de>; Tue, 26 Jan 2021 23:31:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388895AbhAZFyJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 Jan 2021 00:54:09 -0500
-Received: from mail-bn8nam08on2047.outbound.protection.outlook.com ([40.107.100.47]:18913
-        "EHLO NAM04-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1731211AbhAZDL1 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 25 Jan 2021 22:11:27 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e1gst+DK6dZGnkxDaYznH+4DrJsqrBI8Jlfd3CAu8QO9VfFurm8qSGEmjYRwwaubrEEffm68p6vj1yJclKK8WG2RDPGu3C0Dc0GlNOfTmWWIuKHYbTnktSbwSndM4I+ntusswAOn8KkxfT9w+A8oSl0+mgRte4dMv0EnriGCgHOerDlXZpaCzm3T1kmetzxpHOl6npvBuEslacJUspyUQgDeV8ULZMCTCXFjIaQCO6w2tL3ZZta6hyB3hSAR6AAYYYMdWXMkxwlm2IkmKTqghopDJNDY5yeTrrzzfjuz1+J+0o1/rmOmiH+XPDOH0QaPpG3UndE70cHcLqLoIbr/cw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qal7ReR/P89aERAeS65npE7TSj5hkgQNVKKoq6S4Epg=;
- b=SOEzeq3EfrfFTRI5jxn8eygl0BH8nqjKPQfCZsOO1KgBO0DFrQq48kO7zYqmj1Na2UXZA0spTI1zzqRI2jlP8sUGm44msf9ySjt3NhwcAwbJCS0PlllKdC0CneelikokCMbmILmqDOKli9HCIcoo3xEyoZFDyS1FvDOTziUK9WZ83SHz+nj6vE0egsw5OQeJ1fazFo9/tS2jW0cFwKFa/xaJ3687bBFM9oiHMAwBpNzD7OrAgYhgSz1UBO34K/37rm0/Fm5NyJLpYaHusS2xsO5IQOmoyTVOr4MrZuIMM8GQeVS7TWgZ0OpyVAcq/Eoqb9cIRRhwwGhPQDvp9XoRhw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qal7ReR/P89aERAeS65npE7TSj5hkgQNVKKoq6S4Epg=;
- b=iMOZriGhjdaSiBZqv4DxXul2WVKMrI10717puZeJxlgA1SURSb0u8Mk6AdauMKDa35jDNMmJA7mUyoc2I2jvaxMO+97GlxY+Dn/bD7APMXXGlTljYUa03xRiTQpKCZX+/KrF2etCRSBvCHCDbfuWAT0bZRZ+fKO6jx0E7Sa7zG8=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=labundy.com;
-Received: from SN6PR08MB5517.namprd08.prod.outlook.com (2603:10b6:805:fb::32)
- by SN6PR08MB5518.namprd08.prod.outlook.com (2603:10b6:805:ff::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.19; Tue, 26 Jan
- 2021 03:10:34 +0000
-Received: from SN6PR08MB5517.namprd08.prod.outlook.com
- ([fe80::972:c257:aa68:9be0]) by SN6PR08MB5517.namprd08.prod.outlook.com
- ([fe80::972:c257:aa68:9be0%4]) with mapi id 15.20.3763.019; Tue, 26 Jan 2021
- 03:10:34 +0000
-Date:   Mon, 25 Jan 2021 21:10:32 -0600
-From:   Jeff LaBundy <jeff@labundy.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: Re: [PATCH 09/10] input: iqs5xx: Make reset GPIO optional
-Message-ID: <20210126031032.GB6155@labundy.com>
-References: <1611002626-5889-1-git-send-email-jeff@labundy.com>
- <1611002626-5889-10-git-send-email-jeff@labundy.com>
- <YA5Mgtct6WFsxFVi@google.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YA5Mgtct6WFsxFVi@google.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [136.49.173.128]
-X-ClientProxiedBy: SN7PR04CA0208.namprd04.prod.outlook.com
- (2603:10b6:806:126::33) To SN6PR08MB5517.namprd08.prod.outlook.com
- (2603:10b6:805:fb::32)
+        id S1726305AbhAZWav (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 26 Jan 2021 17:30:51 -0500
+Received: from foss.arm.com ([217.140.110.172]:48778 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729902AbhAZRL2 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 26 Jan 2021 12:11:28 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 843DFD6E;
+        Tue, 26 Jan 2021 09:08:55 -0800 (PST)
+Received: from [10.57.40.145] (unknown [10.57.40.145])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 099A63F66E;
+        Tue, 26 Jan 2021 09:08:45 -0800 (PST)
+Subject: Re: [PATCH v3 4/5] amba: Make the remove callback return void
+To:     =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Russell King <linux@armlinux.org.uk>,
+        Matt Mackall <mpm@selenic.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Eric Anholt <eric@anholt.net>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Mark Brown <broonie@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Eric Auger <eric.auger@redhat.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc:     linux-kernel@vger.kernel.org, kernel@pengutronix.de,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
+        linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, coresight@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-serial@vger.kernel.org,
+        kvm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, alsa-devel@alsa-project.org
+References: <20210126165835.687514-1-u.kleine-koenig@pengutronix.de>
+ <20210126165835.687514-5-u.kleine-koenig@pengutronix.de>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+Message-ID: <3e42b2ea-c713-31b2-9c86-c49a70d8e1f4@arm.com>
+Date:   Tue, 26 Jan 2021 17:08:40 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from labundy.com (136.49.173.128) by SN7PR04CA0208.namprd04.prod.outlook.com (2603:10b6:806:126::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.12 via Frontend Transport; Tue, 26 Jan 2021 03:10:34 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1c2929ab-c7e5-47f2-f40c-08d8c1a7f24f
-X-MS-TrafficTypeDiagnostic: SN6PR08MB5518:
-X-Microsoft-Antispam-PRVS: <SN6PR08MB5518F0197A1E4FCBEB4C23C0D3BC9@SN6PR08MB5518.namprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XWywsKAFQum6/RjeNngYQyk5HU7PBqfEPYLmBzvZdYGQ8DGcLHiTcMMiuSTaMXG0f/HfsVAOn8wNwG87k1NlFzB0pFAo8SlsE97ojKLWchW4nRX3k3RpOOcq4Pw7vKXQY1f1X+kDC0XCZE6sXX35LRahnxv9R+ouRXAhnW/ZuZZTgYumgbwIQ9oJ4aDIGYRUxBn5q/mPyUO2IUnD9bZ/l7XGo/CYTWHyFjd0g8PPt12aAild/aX+Rz+orBcCWnoouovLizioC/XAq6zYTM+O99+I94zmer2cj0xIqOcaybBM7kFZPHZZAhQ83HH/u+Q5dz4LalRUDS+t1GnrdOxQbwDaKnZogQxxiS8EphQggSAapAZrNUQP4fpJowHz8pxE95UbWFd7SvneWPKSvgDRysf0C6lvC1VSP59BR3fSwIu4X2kHX48Th0//zGonfUlqYEwT2Zy6xVa7ieTCa9jiB5lNdsX2oL0E6rHMzIksnL2hSEj3E6yQlVHD32j4hXTBwxx3jLgcTAiLI7oAom9mY5pArOpn5EVKu+D/EcKnkoIRsLlu6YGrf9yTYhFkBOiI
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR08MB5517.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(376002)(39830400003)(396003)(346002)(366004)(4326008)(8886007)(8936002)(36756003)(86362001)(52116002)(16526019)(83380400001)(33656002)(26005)(186003)(478600001)(6916009)(8676002)(55016002)(5660300002)(316002)(1076003)(2616005)(956004)(66476007)(7696005)(66556008)(66946007)(2906002)(32563001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?p5PhLEw8Opd0MI+JwBJBJiGrWUDeVx089sm3bI5YH8QI+dUESmXL6iPef1Io?=
- =?us-ascii?Q?D7WWW32N7D8n2OjuNflSVHAbxP8ZqKECZ8Kc9srDL291yw4BbMzXQCFaJ7NK?=
- =?us-ascii?Q?lS64Md4Vp7tr/xHCoQ0B8Rpz1vSOtJD6IhWYFUrCx5N7BKwiEbCIc7QO5ajB?=
- =?us-ascii?Q?XmDyQ/KAdgYUA49aMWvlICuCcMPqUkx/gC53ESSyhi4ypYWDA+dCyIsXbMiH?=
- =?us-ascii?Q?NeDDEvSpFNqLy/bAjA01zQ1EVoO3YPjyFHx3Sukx4f/PN+gKi8mPFviPGrh/?=
- =?us-ascii?Q?mEHvBuPXqujbVoQjFLa6SHpzzuKj/vhNMPVwTz83qIArNPPht5TUHBHfPXcP?=
- =?us-ascii?Q?hDpoqnPGj9eMv7Wr2H4q03exT3tCpFdxGhjBkA0io8b1qvlHD1PjJODDXrjo?=
- =?us-ascii?Q?SMlRkaANVACokC9lYjlVZIBifzIe4MEKz6kZfFL03zVrWC9kqFljVgqbg27k?=
- =?us-ascii?Q?XuKQEo60m52daR5poDD+oQqYQczTRzXM6ah/EajWWyamwd1XEQPmGQ0j3EQQ?=
- =?us-ascii?Q?SGKNgeqkinVD4/rdp45e95h443qOq3eBQwGiJZImDKmrV+sJYGS+qpm65oJm?=
- =?us-ascii?Q?40rxWiSvokuXsuQ0QAJ7Pw67glzCK0rn/n34OCPA6WtQAKrzwAfchnBGDH06?=
- =?us-ascii?Q?UlJ9HjwK3cJ1sjz0yBn/o+oDZfEO5/jsg1C7tE+sP9rAO/40akrN4Xzk5WfD?=
- =?us-ascii?Q?kcsfhknldgKlor+X/dW8/QwiHTCxKwBYlssgMYFK7deEpsQQU+KH31F8bwed?=
- =?us-ascii?Q?NVhV7/+/7lUdhaVCblJrFO2fXNt3J+VkRmuQOyf1eRW9ONtKQtAA0MA1xTDx?=
- =?us-ascii?Q?M9FgdrVnuhMGUuZXoub0Y+SrgElIArHSbL41Dn7RInMNgfIgH8HyqhijEEcL?=
- =?us-ascii?Q?BJyD+j8sjARWsj9V1/gL8uQ7cgVR9dKWbVzSMn6cSh1j++LnXTJXErYm21B2?=
- =?us-ascii?Q?r0e+4BjQcKYV0VCUmrMkQrqyRdBNmGkddRfEoBykXpLLfNYSRg2MhJ9JPGxm?=
- =?us-ascii?Q?l8F8P8I3PgIKG9EYI4kO3PXSUElpCtfuTnAAkZlW+qnONajYXcnbPHc9bs+q?=
- =?us-ascii?Q?eyW/2eqk?=
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c2929ab-c7e5-47f2-f40c-08d8c1a7f24f
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR08MB5517.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2021 03:10:34.4979
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zYUM6MU3uFb6vK7hqoNyfXFmoC+zmiek7Yd/bYxpcom70gIrbzj9XygLhzU/uAFL4UZufRvBq4tFaXHcGOgq5A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR08MB5518
+In-Reply-To: <20210126165835.687514-5-u.kleine-koenig@pengutronix.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+Hi
 
-On Sun, Jan 24, 2021 at 08:43:46PM -0800, Dmitry Torokhov wrote:
-> On Mon, Jan 18, 2021 at 02:43:45PM -0600, Jeff LaBundy wrote:
-> > The device's hardware reset pin is only required if the platform
-> > must be able to update the device's firmware on the fly.
-> > 
-> > As such, demote the reset GPIO to optional in support of devices
-> > that ship with pre-programmed firmware and don't route the reset
-> > pin back to the SOC.
-> > 
-> > If user space attempts to push updated firmware which would rely
-> > upon the reset pin to wake the bootloader, attempts to reach the
-> > bootloader are simply NAK'd and the device resumes normally.
+On 1/26/21 4:58 PM, Uwe Kleine-König wrote:
+> All amba drivers return 0 in their remove callback. Together with the
+> driver core ignoring the return value anyhow, it doesn't make sense to
+> return a value here.
 > 
-> Can we maybe make the firmware attribute invisible in this case? Or
-> return early instead of failing to enter bootloader mode?
-
-I almost sent the second alternative, but instead I liked the idea of
-restricting the check for reset_gpio to the only method that actually
-uses it. That way, nothing outside of iqs5xx_reset() has to check for
-the GPIO and can just fail gracefully in its absence.
-
-That being said, either of your suggestions work just as well; let me
-take another stab at it.
-
+> Change the remove prototype to return void, which makes it explicit that
+> returning an error value doesn't work as expected. This simplifies changing
+> the core remove callback to return void, too.
 > 
-> Thanks.
-> 
-> -- 
-> Dmitry
+> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Acked-by: Krzysztof Kozlowski <krzk@kernel.org> # for drivers/memory
+> Acked-by: Mark Brown <broonie@kernel.org>
+  > Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Acked-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 
-Kind regards,
-Jeff LaBundy
+
+>   drivers/hwtracing/coresight/coresight-etm4x-core.c | 4 +---
+
+You are most likely to have a conflict for the above file, with what is
+in coresight/next. It should be easy to resolve.
+
+Otherwise, the changes look good for the drivers/hwtracing/coresight/*
+
+Acked-by: Suzuki K Poulose <suzuki.poulose@arm.com>
