@@ -2,109 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7197305D5C
-	for <lists+linux-input@lfdr.de>; Wed, 27 Jan 2021 14:37:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F219305D5A
+	for <lists+linux-input@lfdr.de>; Wed, 27 Jan 2021 14:37:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S313157AbhAZWcM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 Jan 2021 17:32:12 -0500
-Received: from mail.kernel.org ([198.145.29.99]:37158 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388864AbhAZRbZ (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 26 Jan 2021 12:31:25 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D541121919;
-        Tue, 26 Jan 2021 17:30:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611682245;
-        bh=p9tGPF9ccd/d++aM4n9LyAfYAIV1RaM4Dz9iiSI4D3c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=upI/kMhl7eE4+5uUph8S2tnMemQz5UbOopsKlNTDclqyTUBBILQcZKMXkwORHX8Yq
-         cJWujimFLxD3PUXP3Q6R5vs2zcoQMtooqvBAs2SfrBJr86tAjNEuPYdfB5MvusQjhA
-         rfnXzeJTXEVfQT42qqoxlu/1tgXRz2T+JTiZP73bnjiQwVao3xvBwc5M7G4UXf469U
-         VF6liyETyFxIuLw+hAqs6DjITpSX4hILsnFHO/EYiFxk0F2hgX4ucJit2xkGTa6SJ/
-         LEzImN7uvO2sCqNSCL4qH0V6E+R6lLaPerEq4KlBRAb7BizMVwvcu+25e7achCvt2Z
-         DlVP64TyyHfRA==
-Date:   Tue, 26 Jan 2021 23:00:40 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Russell King <linux@armlinux.org.uk>,
-        Matt Mackall <mpm@selenic.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Eric Anholt <eric@anholt.net>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Mark Brown <broonie@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Eric Auger <eric.auger@redhat.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
-        kernel@pengutronix.de, Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
-        linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, coresight@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-serial@vger.kernel.org,
-        kvm@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: Re: [PATCH v3 4/5] amba: Make the remove callback return void
-Message-ID: <20210126173040.GY2771@vkoul-mobl>
-References: <20210126165835.687514-1-u.kleine-koenig@pengutronix.de>
- <20210126165835.687514-5-u.kleine-koenig@pengutronix.de>
+        id S313189AbhAZWcf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 26 Jan 2021 17:32:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59034 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392994AbhAZRm1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 26 Jan 2021 12:42:27 -0500
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC0F2C061786
+        for <linux-input@vger.kernel.org>; Tue, 26 Jan 2021 09:41:46 -0800 (PST)
+Received: by mail-yb1-xb2c.google.com with SMTP id 84so4583634yba.3
+        for <linux-input@vger.kernel.org>; Tue, 26 Jan 2021 09:41:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=ipc8gQKVcBHLKm6BxkJ6tOPGtJOetpGvm8EbfzJ31wk=;
+        b=BEYzSOOqI17x3i3orpT5BGnQS89GWEiu2M8v0r+120RNItrzt6030VA5kkdqiPU7TR
+         /Rwp2X6ydfkLY3k6rcALrDHThsb5bXTKoQSnB74AJ76+RqpiFIu1NQ91f+hesKwDnz1a
+         GP+0ome/ks+7rFfLPZssfDk/d7riPa6lI7ckNumcbGOfT16QOXJyZzJYjaU17m0Xol74
+         f4lu6lIBWqmrvg1J33VKzipJpwbAOOJn/Agjy4hqX3hyuBpJqHxw1QuiKSVxRIVpphjM
+         AnNpmw9yYOVdFC1rFUNCYEC6MwQIF+DOtX7NpQso1DnFw5wDehpPHZXk5DTrtptfiu1K
+         opXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=ipc8gQKVcBHLKm6BxkJ6tOPGtJOetpGvm8EbfzJ31wk=;
+        b=isvrsceROW3eyBctrBUVtVkMABA/AzU6r/UqUXTVXNfK+Gwc7AW5eQWY6k9hDtjvqi
+         NvIyn3RqJWSlKOyVK79t23BA35lTrER3Rtkd3kRRL1GLWayV/GNdtfuFo3eP2oEJNCwQ
+         yFL7+WPqQFJoawFXSfjpLJC6xQpATk3JSUNwjqdvCtqhlKwVYdU29FZNsQjGun8JA4k8
+         /oyRwpxE3NE3Xg3xfrtorohiiUtjZntYhhm9DMBXW/62ckz9p2Yz7EvfrZSJufHZxWOF
+         2XDwwQk06dP2h52kgr2afIguJGq2+m7NmRLcv2kWB03cZMheuykYO9gY6eYhJ32VQNDp
+         69Sg==
+X-Gm-Message-State: AOAM533Ux3ScImwvlP3On8Z2qxPqYLFcQrOTpYkWA45fXJoKx7b2PvKj
+        YEsh/yYX1k6F3ycl/VmeOS5KG7J/j/Eb4g7/vPU=
+X-Google-Smtp-Source: ABdhPJyufjsLrff5BJqnIatuk53z7FDyyuplZVujBAaviFrPl4Oaoy+5SENQWJQLvvTYAxO//WvOc5QqaKNM5OA+MWQ=
+X-Received: by 2002:a25:7a44:: with SMTP id v65mr10277559ybc.0.1611682906027;
+ Tue, 26 Jan 2021 09:41:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210126165835.687514-5-u.kleine-koenig@pengutronix.de>
+Received: by 2002:a25:804e:0:0:0:0:0 with HTTP; Tue, 26 Jan 2021 09:41:45
+ -0800 (PST)
+Reply-To: bill.chantallawrence22@seznam.cz
+From:   "Mrs. Bill Chantal Lawrence" <victorialab2020@gmail.com>
+Date:   Tue, 26 Jan 2021 17:41:45 +0000
+Message-ID: <CAErARo35-GLsOSJvt1+gfFRsCS3_Fj529gw=puVuKD++NU7GMA@mail.gmail.com>
+Subject: Compliment of the day
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 26-01-21, 17:58, Uwe Kleine-König wrote:
-> All amba drivers return 0 in their remove callback. Together with the
-> driver core ignoring the return value anyhow, it doesn't make sense to
-> return a value here.
-> 
-> Change the remove prototype to return void, which makes it explicit that
-> returning an error value doesn't work as expected. This simplifies changing
-> the core remove callback to return void, too.
-> 
-> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
-> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
-> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Acked-by: Krzysztof Kozlowski <krzk@kernel.org> # for drivers/memory
-> Acked-by: Mark Brown <broonie@kernel.org>
-> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Acked-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> ---
->  drivers/amba/bus.c                                 | 5 ++---
->  drivers/char/hw_random/nomadik-rng.c               | 3 +--
->  drivers/dma/pl330.c                                | 3 +--
+Dear Friend
 
-For dmaengine:
+We bring greetings to you in the name of the lord. This message is
+sent to you as a notification that you have been chosen to benefit
+from our charity project aimed at touching lives and helping those
+that we can across the world as God has blessed us. I won the
+Powerball lottery of $150Million on November 2, 2019 and I have
+voluntarily decided to donate the sum of $ 75 Million to charity, I
+try to reach people randomly from different sources and modes so as to
+touch lives from different angles, Hence you are getting a message
+here.
 
-Acked-By: Vinod Koul <vkoul@kernel.org>
 
--- 
-~Vinod
+
+You have been listed as one of the lucky recipients to receive $13.9M
+This donation is made out to you so to enable you strengthen your
+personal issues and mostly to generously help us extend hands ofgiving
+to the less privileged, orphans and charity organizations within your
+locality To verifyhttps://www.powerball.com/winner-story/150-million-powerball-ticket-claimed
+
+Get back to me on how to receive the donation through our official
+email address below You can also contact us via our my Whatsapp number
++1 971 24 581 39   and email address
+
+(bill.chantallawrence22@seznam.cz) : The earlier you contact our email
+the earlier
+
+you receieve your donation
+
+Thanks
+
+Mrs. Bill Chantal Lawrence
