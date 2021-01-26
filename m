@@ -2,90 +2,198 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F219305D5A
+	by mail.lfdr.de (Postfix) with ESMTP id 09495305D59
 	for <lists+linux-input@lfdr.de>; Wed, 27 Jan 2021 14:37:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S313189AbhAZWcf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 Jan 2021 17:32:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59034 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392994AbhAZRm1 (ORCPT
+        id S313154AbhAZWdd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 26 Jan 2021 17:33:33 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:41319 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389307AbhAZSHE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 26 Jan 2021 12:42:27 -0500
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC0F2C061786
-        for <linux-input@vger.kernel.org>; Tue, 26 Jan 2021 09:41:46 -0800 (PST)
-Received: by mail-yb1-xb2c.google.com with SMTP id 84so4583634yba.3
-        for <linux-input@vger.kernel.org>; Tue, 26 Jan 2021 09:41:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=ipc8gQKVcBHLKm6BxkJ6tOPGtJOetpGvm8EbfzJ31wk=;
-        b=BEYzSOOqI17x3i3orpT5BGnQS89GWEiu2M8v0r+120RNItrzt6030VA5kkdqiPU7TR
-         /Rwp2X6ydfkLY3k6rcALrDHThsb5bXTKoQSnB74AJ76+RqpiFIu1NQ91f+hesKwDnz1a
-         GP+0ome/ks+7rFfLPZssfDk/d7riPa6lI7ckNumcbGOfT16QOXJyZzJYjaU17m0Xol74
-         f4lu6lIBWqmrvg1J33VKzipJpwbAOOJn/Agjy4hqX3hyuBpJqHxw1QuiKSVxRIVpphjM
-         AnNpmw9yYOVdFC1rFUNCYEC6MwQIF+DOtX7NpQso1DnFw5wDehpPHZXk5DTrtptfiu1K
-         opXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=ipc8gQKVcBHLKm6BxkJ6tOPGtJOetpGvm8EbfzJ31wk=;
-        b=isvrsceROW3eyBctrBUVtVkMABA/AzU6r/UqUXTVXNfK+Gwc7AW5eQWY6k9hDtjvqi
-         NvIyn3RqJWSlKOyVK79t23BA35lTrER3Rtkd3kRRL1GLWayV/GNdtfuFo3eP2oEJNCwQ
-         yFL7+WPqQFJoawFXSfjpLJC6xQpATk3JSUNwjqdvCtqhlKwVYdU29FZNsQjGun8JA4k8
-         /oyRwpxE3NE3Xg3xfrtorohiiUtjZntYhhm9DMBXW/62ckz9p2Yz7EvfrZSJufHZxWOF
-         2XDwwQk06dP2h52kgr2afIguJGq2+m7NmRLcv2kWB03cZMheuykYO9gY6eYhJ32VQNDp
-         69Sg==
-X-Gm-Message-State: AOAM533Ux3ScImwvlP3On8Z2qxPqYLFcQrOTpYkWA45fXJoKx7b2PvKj
-        YEsh/yYX1k6F3ycl/VmeOS5KG7J/j/Eb4g7/vPU=
-X-Google-Smtp-Source: ABdhPJyufjsLrff5BJqnIatuk53z7FDyyuplZVujBAaviFrPl4Oaoy+5SENQWJQLvvTYAxO//WvOc5QqaKNM5OA+MWQ=
-X-Received: by 2002:a25:7a44:: with SMTP id v65mr10277559ybc.0.1611682906027;
- Tue, 26 Jan 2021 09:41:46 -0800 (PST)
+        Tue, 26 Jan 2021 13:07:04 -0500
+X-Greylist: delayed 3698 seconds by postgrey-1.27 at vger.kernel.org; Tue, 26 Jan 2021 13:07:04 EST
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1l4SaJ-00032e-0a; Tue, 26 Jan 2021 18:56:59 +0100
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1l4SaD-0007NA-AL; Tue, 26 Jan 2021 18:56:53 +0100
+Date:   Tue, 26 Jan 2021 18:56:52 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>
+Cc:     Russell King <linux@armlinux.org.uk>,
+        Matt Mackall <mpm@selenic.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Eric Anholt <eric@anholt.net>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Mark Brown <broonie@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Eric Auger <eric.auger@redhat.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, linux-rtc@vger.kernel.org,
+        kvm@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-serial@vger.kernel.org, coresight@lists.linaro.org,
+        linux-input@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-spi@vger.kernel.org, linux-i2c@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-crypto@vger.kernel.org,
+        kernel@pengutronix.de, Leo Yan <leo.yan@linaro.org>,
+        dmaengine@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org,
+        Mike Leach <mike.leach@linaro.org>
+Subject: Re: [PATCH v3 4/5] amba: Make the remove callback return void
+Message-ID: <20210126175652.3caoqfnsky2es42f@pengutronix.de>
+References: <20210126165835.687514-1-u.kleine-koenig@pengutronix.de>
+ <20210126165835.687514-5-u.kleine-koenig@pengutronix.de>
+ <3e42b2ea-c713-31b2-9c86-c49a70d8e1f4@arm.com>
 MIME-Version: 1.0
-Received: by 2002:a25:804e:0:0:0:0:0 with HTTP; Tue, 26 Jan 2021 09:41:45
- -0800 (PST)
-Reply-To: bill.chantallawrence22@seznam.cz
-From:   "Mrs. Bill Chantal Lawrence" <victorialab2020@gmail.com>
-Date:   Tue, 26 Jan 2021 17:41:45 +0000
-Message-ID: <CAErARo35-GLsOSJvt1+gfFRsCS3_Fj529gw=puVuKD++NU7GMA@mail.gmail.com>
-Subject: Compliment of the day
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="2x4mwcdrgqmlamtu"
+Content-Disposition: inline
+In-Reply-To: <3e42b2ea-c713-31b2-9c86-c49a70d8e1f4@arm.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear Friend
 
-We bring greetings to you in the name of the lord. This message is
-sent to you as a notification that you have been chosen to benefit
-from our charity project aimed at touching lives and helping those
-that we can across the world as God has blessed us. I won the
-Powerball lottery of $150Million on November 2, 2019 and I have
-voluntarily decided to donate the sum of $ 75 Million to charity, I
-try to reach people randomly from different sources and modes so as to
-touch lives from different angles, Hence you are getting a message
-here.
+--2x4mwcdrgqmlamtu
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hello,
 
+On Tue, Jan 26, 2021 at 05:08:40PM +0000, Suzuki K Poulose wrote:
+> On 1/26/21 4:58 PM, Uwe Kleine-K=F6nig wrote:
+> > All amba drivers return 0 in their remove callback. Together with the
+> > driver core ignoring the return value anyhow, it doesn't make sense to
+> > return a value here.
+> >=20
+> > Change the remove prototype to return void, which makes it explicit that
+> > returning an error value doesn't work as expected. This simplifies chan=
+ging
+> > the core remove callback to return void, too.
+> >=20
+> > Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+> > Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+> > Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> > Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > Acked-by: Krzysztof Kozlowski <krzk@kernel.org> # for drivers/memory
+> > Acked-by: Mark Brown <broonie@kernel.org>
+>  > Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > Acked-by: Linus Walleij <linus.walleij@linaro.org>
+> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+>=20
+>=20
+> >   drivers/hwtracing/coresight/coresight-etm4x-core.c | 4 +---
+>=20
+> You are most likely to have a conflict for the above file, with what is
+> in coresight/next. It should be easy to resolve.
 
-You have been listed as one of the lucky recipients to receive $13.9M
-This donation is made out to you so to enable you strengthen your
-personal issues and mostly to generously help us extend hands ofgiving
-to the less privileged, orphans and charity organizations within your
-locality To verifyhttps://www.powerball.com/winner-story/150-million-powerball-ticket-claimed
+I'm surprised to see that the remove callback introduced in 2952ecf5df33
+("coresight: etm4x: Refactor probing routine") has an __exit annotation.
 
-Get back to me on how to receive the donation through our official
-email address below You can also contact us via our my Whatsapp number
-+1 971 24 581 39   and email address
+With .suppress_bind_attrs =3D true you don't need a remove callback at
+all. (And without .suppress_bind_attrs =3D true the remove callback must
+have no __exit annotation.)
 
-(bill.chantallawrence22@seznam.cz) : The earlier you contact our email
-the earlier
+This make me looking at commit 45fe7befe0db ("coresight: remove broken
+__exit annotations") by Arnd. Unless I miss something the better change
+would have been to remove the unused remove callbacks instead of dropping
+their __exit annotation?!
 
-you receieve your donation
+Anyhow, my conflict resolution looks as follows:
+
+diff --cc drivers/hwtracing/coresight/coresight-etm4x-core.c
+index 82787cba537d,473ab7480a36..000000000000
+--- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
++++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+@@@ -1703,6 -1903,28 +1903,27 @@@ static int __exit etm4_remove_dev(struc
+  	cpus_read_unlock();
+ =20
+  	coresight_unregister(drvdata->csdev);
++=20
++ 	return 0;
++ }
++=20
+ -static int __exit etm4_remove_amba(struct amba_device *adev)
+++static void __exit etm4_remove_amba(struct amba_device *adev)
++ {
++ 	struct etmv4_drvdata *drvdata =3D dev_get_drvdata(&adev->dev);
++=20
++ 	if (drvdata)
+ -		return etm4_remove_dev(drvdata);
+ -	return 0;
+++		etm4_remove_dev(drvdata);
++ }
++=20
++ static int __exit etm4_remove_platform_dev(struct platform_device *pdev)
++ {
++ 	int ret =3D 0;
++ 	struct etmv4_drvdata *drvdata =3D dev_get_drvdata(&pdev->dev);
++=20
++ 	if (drvdata)
++ 		ret =3D etm4_remove_dev(drvdata);
++ 	pm_runtime_disable(&pdev->dev);
++ 	return ret;
+  }
+ =20
+  static const struct amba_id etm4_ids[] =3D {
+
+If this series should make it in for 5.12 we probably need an immutable
+branch between hwtracing and amba.
+
+> Otherwise, the changes look good for the drivers/hwtracing/coresight/*
+>=20
+> Acked-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 
 Thanks
+Uwe
 
-Mrs. Bill Chantal Lawrence
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--2x4mwcdrgqmlamtu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmAQV+EACgkQwfwUeK3K
+7AmVuQf6AtGutKPgbsyG3MlTDGKL2CFRBxCLR4sxog0b3QoNLrxr97ZAm+29XP+R
+/C9AgAEdBYZEp/2H2BkQe8cuBFS4UgHD/WEPZ5cI+JN475DZiqoF6T0qdSyCMF8m
+zEDDLZljJzggeci88eRuo1WxD4fyaD//srG7TdZYqXjasRvJ7uKPN4yTi7TrbMtU
+ECXScjnQQcZQPBSaUSqOzJfFs5iGDejv5lIG/emf+7QYEDD+AftUvKNVv/FyQYmL
+2jPJY9rLusZQGMxlZWQMyo5AzhkjmMkXv3GJVOiLzAUiEZ6WfU0kdtrZuzScshOW
+IRo6dRIxQLZOE4k2D+rDx3M/+KGaZQ==
+=Ozgm
+-----END PGP SIGNATURE-----
+
+--2x4mwcdrgqmlamtu--
