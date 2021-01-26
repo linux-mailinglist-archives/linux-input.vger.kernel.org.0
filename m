@@ -2,145 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 54F9F3037B1
-	for <lists+linux-input@lfdr.de>; Tue, 26 Jan 2021 09:17:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C28F63039A3
+	for <lists+linux-input@lfdr.de>; Tue, 26 Jan 2021 10:57:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729073AbhAZIRU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 26 Jan 2021 03:17:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49062 "EHLO
+        id S2390868AbhAZJ5N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 26 Jan 2021 04:57:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389578AbhAZIQj (ORCPT
+        with ESMTP id S2391668AbhAZJ4r (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 26 Jan 2021 03:16:39 -0500
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CED14C0613D6
-        for <linux-input@vger.kernel.org>; Tue, 26 Jan 2021 00:15:39 -0800 (PST)
-Received: by mail-wr1-x42d.google.com with SMTP id g10so15472182wrx.1
-        for <linux-input@vger.kernel.org>; Tue, 26 Jan 2021 00:15:39 -0800 (PST)
+        Tue, 26 Jan 2021 04:56:47 -0500
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7114FC0613ED;
+        Tue, 26 Jan 2021 01:56:06 -0800 (PST)
+Received: by mail-ed1-x532.google.com with SMTP id d22so19012401edy.1;
+        Tue, 26 Jan 2021 01:56:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Fh17X1oGkTFsnIkpB4JAuYpv4oKsLeUxJIgTn2ARuGY=;
-        b=uQ5oGbgzWTCpuDMVUzvFkh/vB8P54bwF4Td57s2a2iHLdgc1g4UKzszqHzfv2e5AhR
-         gAPMceK9UiAjyy+hfICSW+LHB0quf87EEF30lYbTPBDuRgIk4yYU2P92wRWx/9Ty/Tu0
-         3HxL6Nku4sCYzTI/hvdgP15PXncBjxVv+1fhGUlBE8KpOP+UOiiiWsEoi6t0jJnFu3/y
-         vXWl0Y0vTnc6ih59wmMMV19Jd4f3EiJxelJUMWz+NIwyKEaNkdUq+lDNBcRpv7R6LDx/
-         NPZTLMn9WrN5eBl5NijCqIws7a+EmcpCzITZnOS3EPcwKrIMmDFpvp4Ywt9ePljE3j7Z
-         yaHA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=2UsIhDknBiOfKaHxlibyvi4CoRT/UMiyIJnEzMxKA54=;
+        b=GlCl3UUuoFUofdZDn1iAkD5eyc4n3aXXLWWr0qiJeNawAFwYNSHBzrjZkxaCnJzUam
+         GI/v17kL2K1pQNn+CKkd69IGVzKI/6WpPEhzZxe3Q8d6opnKvlwEHBQEPlffqyHxe7AM
+         8vH0NshDb7zQpQZP0/dUT6hDEXaW5HsVtN/XWGa6vSdXN6nbeWxryzIkQ/vPiNuXo7OW
+         dFP/15HZaj4rK8FylAHLr3vAkcNcQYGSEekIx4OUlF3EoxsTuxVcf7IATOddkxZMWToB
+         AOpmQzvN/v/u0Eg4zZsmPa+Ax0b8FBSf0THhHT9IpwI7zgaJxdx8HqmU2I+PiogmkOhc
+         0s8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Fh17X1oGkTFsnIkpB4JAuYpv4oKsLeUxJIgTn2ARuGY=;
-        b=TkhBHswV/zV+oNpSJUQfXwdL/c56u0fy7FSxp5I7JDyC5XbnvodNsGIuV3XyMwKKkl
-         j8m6M5rLSZzoREfVNmmk3nZzaRFo567wBEgsk3IPHf0kB1SA1Y3bRowQaPlZalPIDuel
-         0sBqTMhneeHJDOTHboFH/k3x3k2xYdXaMgdftMf31sfxa+uJaXdkUxrbbYRTnCaBQT4E
-         foJqL6XtrMjc/5IOJyH+ImKtWomFxCoNatGRxlrDETDP739DsHr0lcZlcuJodnWs9d6W
-         D6sUWBMuDC2CJpZWW3lu0H2/+rQlgdppFPDa/z4/btAUpb/6HRF/6Q3HqKUK3KY84n8f
-         m6bg==
-X-Gm-Message-State: AOAM5333Zu6SBVZk/i9qfHD7LRi3oL8+PSmVs6O95qqMSE7++KpqirpV
-        bNidxdukRLYeWqHZ8q3dln+TnA==
-X-Google-Smtp-Source: ABdhPJwQfJcTCXZFY2/bo71X/d025nsEV6vjA3foLfWWnHWxFrHSS2FTrrfm1YpDk53lzrPnfFcMTw==
-X-Received: by 2002:adf:9d82:: with SMTP id p2mr4725387wre.330.1611648938481;
-        Tue, 26 Jan 2021 00:15:38 -0800 (PST)
-Received: from dell ([91.110.221.188])
-        by smtp.gmail.com with ESMTPSA id o13sm27797044wrh.88.2021.01.26.00.15.37
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=2UsIhDknBiOfKaHxlibyvi4CoRT/UMiyIJnEzMxKA54=;
+        b=MNwSzx5gcpFWzvA5nnclIttm+vFpPZBgNBj70qpIP3Q6jlQ0dmo6Vdt6m8AiqYlYJa
+         71wDN6BCMZk2cRHa3zhdTa5olBreXk8vO8Hkr9LHj182Z9R5G51sZFKK/ZXdljKdRf2z
+         y2JO4JMut1my9HhgR+SXltDkV2Q2zUPKYSmYsP0W+/VifPc//H91TIWUBOQhFVBnyIfV
+         N8VDHO+tn9qBdBA/5vV8QsrxA5JUEN6tN54OT8yVD4mppEt9y8NEJ54h24bFeM6Ju5Oc
+         XFaiGyWI83sMQXbsxryah/L1806WsVc8b9Ugkn6aKIjcIstW9AVl7yYbaO9BibtORvWV
+         i+7A==
+X-Gm-Message-State: AOAM531l6CHIshltlyvy16jAbkFNne5j870u4FplKh9CJW6tDTFQJrv5
+        xj4tk7VyMHx/TIX0UHK/NTg=
+X-Google-Smtp-Source: ABdhPJxXw262UWxvqZSJJbq37L8AjipjIsWacP2dsHP6OeJ22s+4h47FFkBrfjDhI81iNHy/JPlpGw==
+X-Received: by 2002:a50:fc8c:: with SMTP id f12mr3878101edq.225.1611654965227;
+        Tue, 26 Jan 2021 01:56:05 -0800 (PST)
+Received: from localhost.localdomain ([188.24.159.61])
+        by smtp.gmail.com with ESMTPSA id h12sm11648310edb.16.2021.01.26.01.56.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 00:15:37 -0800 (PST)
-Date:   Tue, 26 Jan 2021 08:15:35 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
-Cc:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Tue, 26 Jan 2021 01:56:04 -0800 (PST)
+From:   Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
+To:     Lee Jones <lee.jones@linaro.org>, Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>
+Cc:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
         Liam Girdwood <lgirdwood@gmail.com>,
-        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+        =?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
         Linus Walleij <linus.walleij@linaro.org>,
         linux-actions@lists.infradead.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH v6 3/7] mfd: Add MFD driver for ATC260x PMICs
-Message-ID: <20210126081535.GB4903@dell>
-References: <cover.1611165200.git.cristian.ciocaltea@gmail.com>
- <4bc76f9e3dc7204d7f407af6ee61c9f193a789d3.1611165200.git.cristian.ciocaltea@gmail.com>
- <20210125142558.GA4903@dell>
- <20210125184715.GA1061394@BV030612LT>
+        linux-pm@vger.kernel.org, Rob Herring <robh@kernel.org>
+Subject: [PATCH v7 1/5] dt-bindings: input: Add reset-time-sec common property
+Date:   Tue, 26 Jan 2021 11:55:57 +0200
+Message-Id: <a87f8a5421cee1c19f38a52fdfcd48a05502087f.1611653995.git.cristian.ciocaltea@gmail.com>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <cover.1611653995.git.cristian.ciocaltea@gmail.com>
+References: <cover.1611653995.git.cristian.ciocaltea@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210125184715.GA1061394@BV030612LT>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 25 Jan 2021, Cristian Ciocaltea wrote:
+Add a new common property 'reset-time-sec' to be used in conjunction
+with the devices supporting the key pressed reset feature.
 
-> Hi Lee,
-> 
-> On Mon, Jan 25, 2021 at 02:25:58PM +0000, Lee Jones wrote:
-> > On Wed, 20 Jan 2021, Cristian Ciocaltea wrote:
-> > 
-> > > Add initial support for the Actions Semi ATC260x PMICs which integrates
-> > > Audio Codec, Power management, Clock generation and GPIO controller
-> > > blocks.
-> > > 
-> > > For the moment this driver only supports Regulator, Poweroff and Onkey
-> > > functionalities for the ATC2603C and ATC2609A chip variants.
->  
-> [...]
-> 
-> > > +static void regmap_lock_mutex(void *__mutex)
-> > > +{
-> > > +	struct mutex *mutex = __mutex;
-> > > +
-> > > +	/*
-> > > +	 * Using regmap within an atomic context (e.g. accessing a PMIC when
-> > > +	 * powering system down) is normally allowed only if the regmap type
-> > > +	 * is MMIO and the regcache type is either REGCACHE_NONE or
-> > > +	 * REGCACHE_FLAT. For slow buses like I2C and SPI, the regmap is
-> > > +	 * internally protected by a mutex which is acquired non-atomically.
-> > > +	 *
-> > > +	 * Let's improve this by using a customized locking scheme inspired
-> > > +	 * from I2C atomic transfer. See i2c_in_atomic_xfer_mode() for a
-> > > +	 * starting point.
-> > > +	 */
-> > > +	if (system_state > SYSTEM_RUNNING && irqs_disabled())
-> > > +		mutex_trylock(mutex);
-> > > +	else
-> > > +		mutex_lock(mutex);
-> > > +}
-> > 
-> > Would this be useful to anyone else?
-> 
-> If you refer to the locking scheme, it is currently required by the
-> power-off driver to handle atomic contexts.
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+Changes in v7:
+ - None
 
-Right, but would this be helpful to any non-Actions drivers?
+Changes in v6:
+ - None
 
-If so, perhaps it should reside as a Regmap helper?
+Changes in v5:
+ - None
 
-> > For my own reference (apply this as-is to your sign-off block):
-> 
-> Please note the patches "[4/7] regulator: ..." and "[5/7] power: ..."
-> have been already picked up by Mark and Sebastian, respectively, while
-> Dmitry suggested to merge "[6/7] input: ..." through MFD.
+Changes in v4:
+ - Added Reviewed-by from Rob
 
-That's fine.
+Changes in v3:
+ - This patch was not present in v2
 
-Please re-submit the patches which have not been applied already.
+ Documentation/devicetree/bindings/input/input.yaml | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-> >   Acked-for-MFD-by: Lee Jones <lee.jones@linaro.org>
-> > 
-> 
-> Thanks,
-> Cristi
-
+diff --git a/Documentation/devicetree/bindings/input/input.yaml b/Documentation/devicetree/bindings/input/input.yaml
+index ab407f266bef..caba93209ae7 100644
+--- a/Documentation/devicetree/bindings/input/input.yaml
++++ b/Documentation/devicetree/bindings/input/input.yaml
+@@ -34,4 +34,11 @@ properties:
+       specify this property.
+     $ref: /schemas/types.yaml#/definitions/uint32
+ 
++  reset-time-sec:
++    description:
++      Duration in seconds which the key should be kept pressed for device to
++      reset automatically. Device with key pressed reset feature can specify
++      this property.
++    $ref: /schemas/types.yaml#/definitions/uint32
++
+ additionalProperties: true
 -- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+2.30.0
+
