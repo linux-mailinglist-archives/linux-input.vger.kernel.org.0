@@ -2,150 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63B65305FF1
-	for <lists+linux-input@lfdr.de>; Wed, 27 Jan 2021 16:44:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 461B7305FEC
+	for <lists+linux-input@lfdr.de>; Wed, 27 Jan 2021 16:44:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235799AbhA0Pn2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 27 Jan 2021 10:43:28 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:48113 "EHLO
+        id S236032AbhA0Pm7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 27 Jan 2021 10:42:59 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:49311 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234675AbhA0Pic (ORCPT
+        with ESMTP id S236084AbhA0Pid (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 27 Jan 2021 10:38:32 -0500
+        Wed, 27 Jan 2021 10:38:33 -0500
 Received: from envy.fritz.box ([82.207.222.125]) by mrelayeu.kundenserver.de
  (mreue012 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MjPYI-1lpQPo076Q-00l0mR; Wed, 27 Jan 2021 16:35:38 +0100
+ 1MJFpj-1lOvKr1GXL-00KeAs; Wed, 27 Jan 2021 16:35:38 +0100
 From:   mail@richard-neumann.de
 To:     nehal-bakulchandra.shah@amd.com, sandeep.singh@amd.com,
         mail@richard-neumann.de, jikos@kernel.org,
         benjamin.tissoires@redhat.com, arnd@arndb.de,
         linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH v1 2/3] Added quirks to detect sensor masks.
-Date:   Wed, 27 Jan 2021 16:35:32 +0100
-Message-Id: <20210127153533.21560-3-mail@richard-neumann.de>
+Subject: [PATCH v1 3/3] Updated MAINTAINERS
+Date:   Wed, 27 Jan 2021 16:35:33 +0100
+Message-Id: <20210127153533.21560-4-mail@richard-neumann.de>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210127153533.21560-1-mail@richard-neumann.de>
 References: <20210127153533.21560-1-mail@richard-neumann.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:kDvi8cjYfFSonZL1f0E7lkaDzh+WkzhFHV+zDiQbU356ECP22bq
- ZyjuSDaOgZlyf5r2UqLeSHzhVR04vUSAaDM2FJzxiA1gW8pRnL/krscnmxuig+VyXskm08/
- L4RKF44Rj2kRSdHMAiuEaWq6casijq2tdoISB6PwSjj2i64k0vMrvPnB5oRbjGSRzjA1Y+b
- Zcw6ZR968AJaqVyxOx5hA==
+X-Provags-ID: V03:K1:v7SOAhV0Vpk6JIWS/laQe2eWzMwhukhUpjk8MOQk7/B4ZqY5k9U
+ HkOfX+rFzVeb58+XVWNydcnRpe0psFGNWzUxmN58d6r0Gjc6AGhmjzfSgtEac/+fMnnemTe
+ bEEByXbMyJnEUJkepGYN9s88t8EpefzESPAZZ5h+tOx3mF6Z8hS0KORfNDtS8VWryexJ1Ea
+ ZmzsT2ZUKynaLW7xG4DAw==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:D4tCNtou888=:CtRCdiSo15DT2HO/hl207b
- qxh8pcRc0BMcVwHx91cTPuzKisdsKwHREikzTmdxaBUaMMJwJyL7R/jMwFcbiMuRmf+TQET90
- FPMGgTvA2cwMV6uh0kDPZZ/ylThBkTpuiE4XGjof1V5z5dLDqv9YnM/cSa0/x7w9InAuK1JoK
- sZXnDMHztzg8bXR7BTIFCVveNde0NbV2zyLxDvk+Hj7tgdXJIX4e6SDiId/FbXQLIvw4qXHZp
- AMrsKBKWJ/E6yK5lkP6xNwse+dMmj+yf/d2Yynp9kWOX9VnUdCht/5qOKQ5/Haq94zWdouIc2
- M/aLAovkBS19HLsd4PZnJt6iUhVfAjSJo6CuiIqJD/E/uIc3eZvSPf2y/yyVgnp2y4kn8iI1+
- dnPhbI3IwzAhjXNy8FxObTI37H5VQZBOBiCt9/oM7pG3ZkkVgXWOs2Adx3C6SA+ZBPQra7n1w
- wsBmr+lCJQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:YJNFv3CjWMs=:Z3AY8H/yCRzA+IvVZGe/PU
+ 3tGmC2qp9INaGDF1658mig3iTFLP+qC/hg2QKQUsevrAQ5f0ylw7FgPI2QZQICMZ6WAJ36Tx8
+ 3h2Lh+FAiTmIIkjBf5BUhdeZ+lKgP8WMjpnorMHMKXjyp2K96jJZ4q0grgvXpuVWsHFycuT+W
+ NYw8g5rRFG6DY0oUWinenrm7RB3+/vNrTS/s9eMpJHM2FsSSLucm8CKjhR2Oc1pRI+GPjdiPZ
+ JhZG3aiEvzP5ofwTvZxWTT+tkYpvnZhLAAr9XsCv5yMSwQjuE+TW7ed9uajKxgvmKyVQRA3yc
+ 4XkL47o1FqEkB1Vx79tMNNaJ5EhRm3ZJp2lqXQpwYt29Ugz5cthzCUGSHg9+9mLyzjvPtD3m+
+ KbmhTa4krVg4jvrytoQjg0WbDEgwmngQOx7DnqZvNwc1vkip/hwVnbx4FMwsPtln9pVaLrQPd
+ q5y/ynfZiA==
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 From: Richard Neumann <mail@richard-neumann.de>
 
-Added quirks file to determine the sensor masks for systems
-that do not have it stored in the corresponding P2C register.
-Values are based upon user reports from:
-
-    https://bugzilla.kernel.org/show_bug.cgi?id=199715
+Added Richard Neumann (me) to the list of maintainers for the
+AMD Sensor Fusion Hub driver.
 
 Signed-off-by: Richard Neumann <mail@richard-neumann.de>
 ---
- drivers/hid/amd-sfh-hid/amd_sfh_pcie.c   |  3 ++
- drivers/hid/amd-sfh-hid/amd_sfh_pcie.h   |  1 +
- drivers/hid/amd-sfh-hid/amd_sfh_quirks.c | 55 ++++++++++++++++++++++++
- 3 files changed, 59 insertions(+)
- create mode 100644 drivers/hid/amd-sfh-hid/amd_sfh_quirks.c
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-index 4b0ceb2ee86a..8f10d6d6b369 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-@@ -74,6 +74,9 @@ int amd_mp2_get_sensor_num(struct amd_mp2_dev *privdata, u8 *sensor_id)
- 
- 	privdata->activecontrolstatus = readl(privdata->mmio + AMD_P2C_MSG3);
- 	activestatus = privdata->activecontrolstatus >> 4;
-+	if (!activestatus)
-+		activestatus = amd_sfh_quirks_get_sensor_mask(privdata->pdev);
-+
- 	if (ACCEL_MASK  & activestatus)
- 		sensor_id[num_of_sensors++] = accel_idx;
- 
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
-index a39f02352c3b..64884e515895 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
-@@ -90,4 +90,5 @@ void amd_stop_all_sensors(struct amd_mp2_dev *privdata);
- int amd_mp2_get_sensor_num(struct amd_mp2_dev *privdata, u8 *sensor_id);
- int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata);
- int amd_sfh_hid_client_deinit(struct amd_mp2_dev *privdata);
-+int amd_sfh_quirks_get_sensor_mask(struct pci_dev *pci_dev);
- #endif
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_quirks.c b/drivers/hid/amd-sfh-hid/amd_sfh_quirks.c
-new file mode 100644
-index 000000000000..3f6c81d8f555
---- /dev/null
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_quirks.c
-@@ -0,0 +1,55 @@
-+// SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
-+/*
-+ * AMD Sensor Fusion Hub quirks
-+ *
-+ * Authors: Richard Neumann <mail@richard-neumann.de>
-+ */
-+
-+#include <linux/dmi.h>
-+#include <linux/pci.h>
-+
-+#include "amd_sfh_pcie.h"
-+
-+/**
-+ * DMI match for HP ENVY x360 convertibles, which do not
-+ * have information about the sensor mask in the P2C registers.
-+ */
-+static const struct dmi_system_id hp_envy_x360[] = {
-+	{
-+		.ident = "HP ENVY x360 Convertible 13-ag0xxx",
-+		.matches = {
-+			DMI_MATCH(DMI_PRODUCT_NAME, "HP"),
-+			DMI_MATCH(DMI_BOARD_NAME, "8496"),
-+			DMI_MATCH(DMI_BOARD_VERSION, "92.48"),
-+		},
-+	},
-+	{
-+		.ident = "HP ENVY x360 Convertible 15-cp0xxx",
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
-+			DMI_MATCH(DMI_BOARD_NAME, "8497"),
-+			DMI_MATCH(DMI_BOARD_VERSION, "92.48"),
-+		},
-+	},
-+	{ }
-+};
-+
-+/**
-+ * Returns the sensor mask for hardware, on which the
-+ * sensor mask is not written into the P2C registers.
-+ *
-+ * Returns an appropriate sensor mask or zero per default.
-+ */
-+int amd_sfh_quirks_get_sensor_mask(struct pci_dev *pci_dev)
-+{
-+	struct dmi_system_id *system;
-+
-+	system = dmi_first_match(hp_envy_x360);
-+	if (system) {
-+		pci_info(pci_dev, "Detected %s.\n", system->ident);
-+		return ACCEL_MASK + MAGNO_MASK;
-+	}
-+
-+	pci_warn(pci_dev, "No quirks available for this hardware.\n");
-+	return 0;
-+}
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 992fe3b0900a..de28236a08fe 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -958,6 +958,7 @@ F:	drivers/net/ethernet/amd/xgbe/
+ AMD SENSOR FUSION HUB DRIVER
+ M:	Nehal Shah <nehal-bakulchandra.shah@amd.com>
+ M:	Sandeep Singh <sandeep.singh@amd.com>
++M:	Richard Neumann <mail@richard-neumann.de>
+ L:	linux-input@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/hid/amd-sfh*
 -- 
 2.30.0
 
