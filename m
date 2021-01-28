@@ -2,52 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD624307C78
-	for <lists+linux-input@lfdr.de>; Thu, 28 Jan 2021 18:31:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F8F2307C79
+	for <lists+linux-input@lfdr.de>; Thu, 28 Jan 2021 18:31:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233081AbhA1R35 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 28 Jan 2021 12:29:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53100 "EHLO
+        id S232644AbhA1R37 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 28 Jan 2021 12:29:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233092AbhA1R1y (ORCPT
+        with ESMTP id S233094AbhA1R1z (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 28 Jan 2021 12:27:54 -0500
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E393C0617AB
-        for <linux-input@vger.kernel.org>; Thu, 28 Jan 2021 09:27:14 -0800 (PST)
-Received: by mail-pg1-x52c.google.com with SMTP id b21so4715845pgk.7
-        for <linux-input@vger.kernel.org>; Thu, 28 Jan 2021 09:27:14 -0800 (PST)
+        Thu, 28 Jan 2021 12:27:55 -0500
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3256C061351
+        for <linux-input@vger.kernel.org>; Thu, 28 Jan 2021 09:27:15 -0800 (PST)
+Received: by mail-pf1-x42b.google.com with SMTP id i63so4430091pfg.7
+        for <linux-input@vger.kernel.org>; Thu, 28 Jan 2021 09:27:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gaikai-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=mtLQBVd4/G/uuODeCS5oFCjVW2Y9vqejAFh4qoSjbmo=;
-        b=JyScDGK2IpOOKaZTqVeFiS88+J8vkWdA7xdc3XZ/WO3n2a2G+Z4qjEc1GRiIA8X9cX
-         zVpgH+OLjTAk96HgxswjahSns+7hQwifuXHmbeJZyDqykd2Iyi2DcDm3tdXpUWddTOUw
-         CLW/OCJauANEp8N3rmxCzJ0faKWIxi7rirWopw9kdAFw38/fbitrlVxAUDd0A12vk5vt
-         w3gAX+5Jb46Kzx6MiF3umECazAgU0TqugT07szGSF1vsNm5NSMBX7egS7/O/HB/kc25+
-         +M8ERkmz2zpTvzS28wx6jVNpHevVpR9SQl4PczLfXT/mDca9plvZdq/kVutux3RelR3t
-         D9og==
+        bh=sMfSLSyUdZD2sFFf9RvMXhrSy7osdHVD4OZybN25Bfg=;
+        b=JztaoGk6xblmPE5FchmSc2wg61UQOPc92VbOBSjzOxw4ZR3vG5FFPS7kJ/8O9kgnh3
+         +pEhBgOYzC1yp9zCmOpAh5eWnSn1kozToSayqrzobJ7PRqO77d2zNsZcdcpMdJ6eFD8A
+         M7veFWcn/cTZdI4AIYr2eZKaWybAhAwfyXsGRGRREWqoVs9fTB26RHGfKqe/TPiM1S9T
+         VNwlhRGGh5Ka0K/PRLo/Gq0i5PkTIC0MEqzKfeZTFGHeVxIBnpnYTLk17dtOuoBDme6d
+         oNBVb8PFZAn3P+Xw543jh7Ugy7cwxkuzrZxSV/+lcayY/2EYWUOaOVCd8bNmxMIZJTRw
+         q4og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mtLQBVd4/G/uuODeCS5oFCjVW2Y9vqejAFh4qoSjbmo=;
-        b=IUIfNQxvrPoF+WyTWquRGgPYCF49V2VUp37WORpsMNF/2WNW14cU2P2SZo3JMqUum0
-         1cBg7EIkNRV6MxEinFL+Ox4VoGNDG61Szhi7uVzP0Pm943Pe0FDcu1kphHXuMvOhSY9+
-         4yD51hzOqfbnq1M9ymyy2riOsU7SIqp6Bwcsplm0MuT5zLlRvLFTaXSl+cslEg4ZGpIp
-         /3aP2w96kRVkMtlENEPwriZP8MbnHK67nevmY5r53AMWwYWUgohe0N/Wl2VEp4E4zaXj
-         GIELwKkLtaH6xIYlCAY+S+jgqdJZmChgTezFo6uRKdgR4eqkogfGZvbE/YpDs7v+W9uY
-         rbjg==
-X-Gm-Message-State: AOAM531YwWfTY9J7SDUU4gfNtBnmiFVpnCgJye4rO3Vh1H/fdBbpHOBJ
-        wB4dUTNoqfSdL6V70+prSMQRFw==
-X-Google-Smtp-Source: ABdhPJxg6YD+K8WoeV9ddXVJwKpyxcXuzSKHrWXQFUEMVg6vp0MiXBeCx8kD/IcoCIYImaMUilXUkg==
-X-Received: by 2002:a65:4385:: with SMTP id m5mr554110pgp.296.1611854833999;
-        Thu, 28 Jan 2021 09:27:13 -0800 (PST)
+        bh=sMfSLSyUdZD2sFFf9RvMXhrSy7osdHVD4OZybN25Bfg=;
+        b=lPkF0jMuEZnO+wie+9fmJH0t1odruCH58kropxanD5btCkzYaQHh2jgC+ebAB4HMRh
+         jpHt6iraxSAECXFwrTcRDZCRydSeWgvfRiEjK7UbzKBtblsZvBfbunZrcv6pC49zhNw8
+         OAkwua3tJRMcFWzg94x9sZI2KN0pQTT/ArLoU0XasOEYnNysghM4D9shAAAciULHpj58
+         hKk4zjq72uqHI4EoNCZEpPlnGWaJOrCfFHI08gjjwo/tJvG73qKWSuhkmzqOLp9Rg6Fj
+         KXrx3vpnWfUKKTqVLB02WB2DJJ3g/sJ1zqR1l/fc+CeGhaOVoSYwwcrp9+ZRUjBBqK9E
+         f7fg==
+X-Gm-Message-State: AOAM533jkzK/kbxKJkCWveHd6aAQ33Q0HGsqzzZrmjR+rJF2+72x3ZtL
+        fFdW0upP7mWmGgPGBuuL4e2DaQ==
+X-Google-Smtp-Source: ABdhPJz+7MKwpRP46xlOKiQKqHrbZk4Z5Bs24HfzKJnOcDI5fcwPP7qrOin9wcVB52qmtJAVDOf/Vw==
+X-Received: by 2002:a63:cb01:: with SMTP id p1mr548648pgg.406.1611854835162;
+        Thu, 28 Jan 2021 09:27:15 -0800 (PST)
 Received: from us8c16456344dc.lan (cpe-76-87-77-78.socal.res.rr.com. [76.87.77.78])
-        by smtp.gmail.com with ESMTPSA id a31sm6190445pgb.93.2021.01.28.09.27.12
+        by smtp.gmail.com with ESMTPSA id a31sm6190445pgb.93.2021.01.28.09.27.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jan 2021 09:27:13 -0800 (PST)
+        Thu, 28 Jan 2021 09:27:14 -0800 (PST)
 From:   Roderick Colenbrander <roderick@gaikai.com>
 To:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
@@ -56,9 +56,9 @@ Cc:     linux-input@vger.kernel.org, Chris Ye <lzye@google.com>,
         =?UTF-8?q?Samuel=20=C4=8Cavoj?= <sammko@sammserver.com>,
         =?UTF-8?q?Florian=20M=C3=A4rkl?= <linux@florianmaerkl.de>,
         Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: [PATCH v5 08/13] HID: playstation: add DualSense classic rumble support.
-Date:   Thu, 28 Jan 2021 09:26:52 -0800
-Message-Id: <20210128172657.24516-9-roderick@gaikai.com>
+Subject: [PATCH v5 09/13] HID: playstation: add DualSense lightbar support
+Date:   Thu, 28 Jan 2021 09:26:53 -0800
+Message-Id: <20210128172657.24516-10-roderick@gaikai.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210128172657.24516-1-roderick@gaikai.com>
 References: <20210128172657.24516-1-roderick@gaikai.com>
@@ -70,331 +70,202 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Roderick Colenbrander <roderick.colenbrander@sony.com>
 
-The DualSense features a haptics system based on voicecoil motors,
-which requires PCM data (or special HID packets using Bluetooth). There
-is no appropriate API yet in the Linux kernel to expose these. The
-controller also provides a classic rumble feature for backwards
-compatibility. Expose this classic rumble feature using the FF framework.
+Expose the DualSense its RGB lightbar using the new multicolor LED
+framework.
 
 Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
 ---
- drivers/hid/Kconfig           |   8 ++
- drivers/hid/hid-playstation.c | 208 +++++++++++++++++++++++++++++++++-
- 2 files changed, 214 insertions(+), 2 deletions(-)
+ drivers/hid/Kconfig           |   1 +
+ drivers/hid/hid-playstation.c | 115 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 116 insertions(+)
 
 diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index b3ec01c7a0b7..54b4eee222f9 100644
+index 54b4eee222f9..cfa29dc17064 100644
 --- a/drivers/hid/Kconfig
 +++ b/drivers/hid/Kconfig
-@@ -863,6 +863,14 @@ config HID_PLAYSTATION
- 	  its special functionalities e.g. touchpad, lights and motion
- 	  sensors.
- 
-+config PLAYSTATION_FF
-+	bool "PlayStation force feedback support"
-+	depends on HID_PLAYSTATION
-+	select INPUT_FF_MEMLESS
-+	help
-+	  Say Y here if you would like to enable force feedback support for
-+	  PlayStation game controllers.
-+
- config HID_PRIMAX
- 	tristate "Primax non-fully HID-compliant devices"
+@@ -857,6 +857,7 @@ config HID_PLAYSTATION
+ 	tristate "PlayStation HID Driver"
  	depends on HID
+ 	select CRC32
++	select LEDS_CLASS_MULTICOLOR
+ 	select POWER_SUPPLY
+ 	help
+ 	  Provides support for Sony PS5 controllers including support for
 diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-index 2da362d3dbda..bb49e2ef9017 100644
+index bb49e2ef9017..58fdec0d32d4 100644
 --- a/drivers/hid/hid-playstation.c
 +++ b/drivers/hid/hid-playstation.c
-@@ -48,12 +48,17 @@ struct ps_calibration_data {
+@@ -10,6 +10,7 @@
+ #include <linux/device.h>
+ #include <linux/hid.h>
+ #include <linux/input/mt.h>
++#include <linux/led-class-multicolor.h>
+ #include <linux/module.h>
  
- /* Seed values for DualShock4 / DualSense CRC32 for different report types. */
- #define PS_INPUT_CRC32_SEED	0xA1
-+#define PS_OUTPUT_CRC32_SEED	0xA2
- #define PS_FEATURE_CRC32_SEED	0xA3
+ #include <asm/unaligned.h>
+@@ -99,6 +100,10 @@ struct ps_calibration_data {
+ /* Flags for DualSense output report. */
+ #define DS_OUTPUT_VALID_FLAG0_COMPATIBLE_VIBRATION BIT(0)
+ #define DS_OUTPUT_VALID_FLAG0_HAPTICS_SELECT BIT(1)
++#define DS_OUTPUT_VALID_FLAG1_LIGHTBAR_CONTROL_ENABLE BIT(2)
++#define DS_OUTPUT_VALID_FLAG1_RELEASE_LEDS BIT(3)
++#define DS_OUTPUT_VALID_FLAG2_LIGHTBAR_SETUP_CONTROL_ENABLE BIT(1)
++#define DS_OUTPUT_LIGHTBAR_SETUP_LIGHT_OUT BIT(1)
  
- #define DS_INPUT_REPORT_USB			0x01
- #define DS_INPUT_REPORT_USB_SIZE		64
- #define DS_INPUT_REPORT_BT			0x31
- #define DS_INPUT_REPORT_BT_SIZE			78
-+#define DS_OUTPUT_REPORT_USB			0x02
-+#define DS_OUTPUT_REPORT_USB_SIZE		63
-+#define DS_OUTPUT_REPORT_BT			0x31
-+#define DS_OUTPUT_REPORT_BT_SIZE		78
- 
- #define DS_FEATURE_REPORT_CALIBRATION		0x05
- #define DS_FEATURE_REPORT_CALIBRATION_SIZE	41
-@@ -89,6 +94,12 @@ struct ps_calibration_data {
-  */
- #define DS_TOUCH_POINT_INACTIVE BIT(7)
- 
-+ /* Magic value required in tag field of Bluetooth output report. */
-+#define DS_OUTPUT_TAG 0x10
-+/* Flags for DualSense output report. */
-+#define DS_OUTPUT_VALID_FLAG0_COMPATIBLE_VIBRATION BIT(0)
-+#define DS_OUTPUT_VALID_FLAG0_HAPTICS_SELECT BIT(1)
-+
  /* DualSense hardware limits */
  #define DS_ACC_RES_PER_G	8192
- #define DS_ACC_RANGE		(4*DS_ACC_RES_PER_G)
-@@ -111,6 +122,15 @@ struct dualsense {
- 	bool sensor_timestamp_initialized;
- 	uint32_t prev_sensor_timestamp;
- 	uint32_t sensor_timestamp_us;
-+
-+	/* Compatible rumble state */
-+	bool update_rumble;
-+	uint8_t motor_left;
-+	uint8_t motor_right;
-+
-+	struct work_struct output_worker;
-+	void *output_report_dmabuf;
-+	uint8_t output_seq; /* Sequence number for output report. */
- };
+@@ -128,6 +133,13 @@ struct dualsense {
+ 	uint8_t motor_left;
+ 	uint8_t motor_right;
  
- struct dualsense_touch_point {
-@@ -146,6 +166,68 @@ struct dualsense_input_report {
- /* Common input report size shared equals the size of the USB report minus 1 byte for ReportID. */
- static_assert(sizeof(struct dualsense_input_report) == DS_INPUT_REPORT_USB_SIZE - 1);
- 
-+/* Common data between DualSense BT/USB main output report. */
-+struct dualsense_output_report_common {
-+	uint8_t valid_flag0;
-+	uint8_t valid_flag1;
-+
-+	/* For DualShock 4 compatibility mode. */
-+	uint8_t motor_right;
-+	uint8_t motor_left;
-+
-+	/* Audio controls */
-+	uint8_t reserved[4];
-+	uint8_t mute_button_led;
-+
-+	uint8_t power_save_control;
-+	uint8_t reserved2[28];
-+
-+	/* LEDs and lightbar */
-+	uint8_t valid_flag2;
-+	uint8_t reserved3[2];
-+	uint8_t lightbar_setup;
-+	uint8_t led_brightness;
-+	uint8_t player_leds;
++	/* RGB lightbar */
++	struct led_classdev_mc lightbar;
++	bool update_lightbar;
 +	uint8_t lightbar_red;
 +	uint8_t lightbar_green;
 +	uint8_t lightbar_blue;
-+} __packed;
-+static_assert(sizeof(struct dualsense_output_report_common) == 47);
 +
-+struct dualsense_output_report_bt {
-+	uint8_t report_id; /* 0x31 */
-+	uint8_t seq_tag;
-+	uint8_t tag;
-+	struct dualsense_output_report_common common;
-+	uint8_t reserved[24];
-+	__le32 crc32;
-+} __packed;
-+static_assert(sizeof(struct dualsense_output_report_bt) == DS_OUTPUT_REPORT_BT_SIZE);
-+
-+struct dualsense_output_report_usb {
-+	uint8_t report_id; /* 0x02 */
-+	struct dualsense_output_report_common common;
-+	uint8_t reserved[15];
-+} __packed;
-+static_assert(sizeof(struct dualsense_output_report_usb) == DS_OUTPUT_REPORT_USB_SIZE);
-+
-+/*
-+ * The DualSense has a main output report used to control most features. It is
-+ * largely the same between Bluetooth and USB except for different headers and CRC.
-+ * This structure hide the differences between the two to simplify sending output reports.
-+ */
-+struct dualsense_output_report {
-+	uint8_t *data; /* Start of data */
-+	uint8_t len; /* Size of output report */
-+
-+	/* Points to Bluetooth data payload in case for a Bluetooth report else NULL. */
-+	struct dualsense_output_report_bt *bt;
-+	/* Points to USB data payload in case for a USB report else NULL. */
-+	struct dualsense_output_report_usb *usb;
-+	/* Points to common section of report, so past any headers. */
-+	struct dualsense_output_report_common *common;
-+};
-+
- /*
-  * Common gamepad buttons across DualShock 3 / 4 and DualSense.
-  * Note: for device with a touchpad, touchpad button is not included
-@@ -310,7 +392,8 @@ static bool ps_check_crc32(uint8_t seed, uint8_t *data, size_t len, uint32_t rep
- 	return crc == report_crc;
- }
- 
--static struct input_dev *ps_gamepad_create(struct hid_device *hdev)
-+static struct input_dev *ps_gamepad_create(struct hid_device *hdev,
-+		int (*play_effect)(struct input_dev *, void *, struct ff_effect *))
- {
- 	struct input_dev *gamepad;
- 	unsigned int i;
-@@ -333,6 +416,13 @@ static struct input_dev *ps_gamepad_create(struct hid_device *hdev)
- 	for (i = 0; i < ARRAY_SIZE(ps_gamepad_buttons); i++)
- 		input_set_capability(gamepad, EV_KEY, ps_gamepad_buttons[i]);
- 
-+#if IS_ENABLED(CONFIG_PLAYSTATION_FF)
-+	if (play_effect) {
-+		input_set_capability(gamepad, EV_FF, FF_RUMBLE);
-+		input_ff_create_memless(gamepad, NULL, play_effect);
-+	}
-+#endif
-+
- 	ret = input_register_device(gamepad);
- 	if (ret)
- 		return ERR_PTR(ret);
-@@ -552,6 +642,94 @@ static int dualsense_get_mac_address(struct dualsense *ds)
- 	return ret;
- }
- 
-+static void dualsense_init_output_report(struct dualsense *ds, struct dualsense_output_report *rp,
-+		void *buf)
-+{
-+	struct hid_device *hdev = ds->base.hdev;
-+
-+	if (hdev->bus == BUS_BLUETOOTH) {
-+		struct dualsense_output_report_bt *bt = buf;
-+
-+		memset(bt, 0, sizeof(*bt));
-+		bt->report_id = DS_OUTPUT_REPORT_BT;
-+		bt->tag = DS_OUTPUT_TAG; /* Tag must be set. Exact meaning is unclear. */
-+
-+		/*
-+		 * Highest 4-bit is a sequence number, which needs to be increased
-+		 * every report. Lowest 4-bit is tag and can be zero for now.
-+		 */
-+		bt->seq_tag = (ds->output_seq << 4) | 0x0;
-+		if (++ds->output_seq == 16)
-+			ds->output_seq = 0;
-+
-+		rp->data = buf;
-+		rp->len = sizeof(*bt);
-+		rp->bt = bt;
-+		rp->usb = NULL;
-+		rp->common = &bt->common;
-+	} else { /* USB */
-+		struct dualsense_output_report_usb *usb = buf;
-+
-+		memset(usb, 0, sizeof(*usb));
-+		usb->report_id = DS_OUTPUT_REPORT_USB;
-+
-+		rp->data = buf;
-+		rp->len = sizeof(*usb);
-+		rp->bt = NULL;
-+		rp->usb = usb;
-+		rp->common = &usb->common;
-+	}
-+}
-+
-+/*
-+ * Helper function to send DualSense output reports. Applies a CRC at the end of a report
-+ * for Bluetooth reports.
-+ */
-+static void dualsense_send_output_report(struct dualsense *ds,
-+		struct dualsense_output_report *report)
-+{
-+	struct hid_device *hdev = ds->base.hdev;
-+
-+	/* Bluetooth packets need to be signed with a CRC in the last 4 bytes. */
-+	if (report->bt) {
-+		uint32_t crc;
-+		uint8_t seed = PS_OUTPUT_CRC32_SEED;
-+
-+		crc = crc32_le(0xFFFFFFFF, &seed, 1);
-+		crc = ~crc32_le(crc, report->data, report->len - 4);
-+
-+		report->bt->crc32 = cpu_to_le32(crc);
-+	}
-+
-+	hid_hw_output_report(hdev, report->data, report->len);
-+}
-+
-+static void dualsense_output_worker(struct work_struct *work)
-+{
-+	struct dualsense *ds = container_of(work, struct dualsense, output_worker);
-+	struct dualsense_output_report report;
-+	struct dualsense_output_report_common *common;
-+	unsigned long flags;
-+
-+	dualsense_init_output_report(ds, &report, ds->output_report_dmabuf);
-+	common = report.common;
-+
-+	spin_lock_irqsave(&ds->base.lock, flags);
-+
-+	if (ds->update_rumble) {
-+		/* Select classic rumble style haptics and enable it. */
-+		common->valid_flag0 |= DS_OUTPUT_VALID_FLAG0_HAPTICS_SELECT;
-+		common->valid_flag0 |= DS_OUTPUT_VALID_FLAG0_COMPATIBLE_VIBRATION;
-+		common->motor_left = ds->motor_left;
-+		common->motor_right = ds->motor_right;
-+		ds->update_rumble = false;
-+	}
-+
-+	spin_unlock_irqrestore(&ds->base.lock, flags);
-+
-+	dualsense_send_output_report(ds, &report);
-+}
-+
- static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *report,
- 		u8 *data, int size)
- {
-@@ -712,10 +890,30 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
+ 	struct work_struct output_worker;
+ 	void *output_report_dmabuf;
+ 	uint8_t output_seq; /* Sequence number for output report. */
+@@ -464,6 +476,42 @@ static int ps_get_report(struct hid_device *hdev, uint8_t report_id, uint8_t *bu
  	return 0;
  }
  
-+static int dualsense_play_effect(struct input_dev *dev, void *data, struct ff_effect *effect)
++/* Register a DualSense/DualShock4 RGB lightbar represented by a multicolor LED. */
++static int ps_lightbar_register(struct ps_device *ps_dev, struct led_classdev_mc *lightbar_mc_dev,
++	int (*brightness_set)(struct led_classdev *, enum led_brightness))
 +{
-+	struct hid_device *hdev = input_get_drvdata(dev);
-+	struct dualsense *ds = hid_get_drvdata(hdev);
++	struct hid_device *hdev = ps_dev->hdev;
++	struct mc_subled *mc_led_info;
++	struct led_classdev *led_cdev;
++	int ret;
++
++	mc_led_info = devm_kmalloc_array(&hdev->dev, 3, sizeof(*mc_led_info), GFP_KERNEL | __GFP_ZERO);
++	if (!mc_led_info)
++		return -ENOMEM;
++
++	mc_led_info[0].color_index = LED_COLOR_ID_RED;
++	mc_led_info[1].color_index = LED_COLOR_ID_GREEN;
++	mc_led_info[2].color_index = LED_COLOR_ID_BLUE;
++
++	lightbar_mc_dev->subled_info = mc_led_info;
++	lightbar_mc_dev->num_colors = 3;
++
++	led_cdev = &lightbar_mc_dev->led_cdev;
++	led_cdev->name = devm_kasprintf(&hdev->dev, GFP_KERNEL, "playstation::%pMR::rgb",
++			ps_dev->mac_address);
++	led_cdev->brightness = 255;
++	led_cdev->max_brightness = 255;
++	led_cdev->brightness_set_blocking = brightness_set;
++
++	ret = devm_led_classdev_multicolor_register(&hdev->dev, lightbar_mc_dev);
++	if (ret < 0) {
++		hid_err(hdev, "Cannot register multicolor LED device\n");
++		return ret;
++	}
++
++	return 0;
++}
++
+ static struct input_dev *ps_sensors_create(struct hid_device *hdev, int accel_range, int accel_res,
+ 		int gyro_range, int gyro_res)
+ {
+@@ -642,6 +690,26 @@ static int dualsense_get_mac_address(struct dualsense *ds)
+ 	return ret;
+ }
+ 
++static int dualsense_lightbar_set_brightness(struct led_classdev *cdev,
++	enum led_brightness brightness)
++{
++	struct led_classdev_mc *mc_cdev = lcdev_to_mccdev(cdev);
++	struct dualsense *ds = container_of(mc_cdev, struct dualsense, lightbar);
 +	unsigned long flags;
 +
-+	if (effect->type != FF_RUMBLE)
-+		return 0;
++	led_mc_calc_color_components(mc_cdev, brightness);
 +
 +	spin_lock_irqsave(&ds->base.lock, flags);
-+	ds->update_rumble = true;
-+	ds->motor_left = effect->u.rumble.strong_magnitude / 256;
-+	ds->motor_right = effect->u.rumble.weak_magnitude / 256;
++	ds->update_lightbar = true;
++	ds->lightbar_red = mc_cdev->subled_info[0].brightness;
++	ds->lightbar_green = mc_cdev->subled_info[1].brightness;
++	ds->lightbar_blue = mc_cdev->subled_info[2].brightness;
 +	spin_unlock_irqrestore(&ds->base.lock, flags);
 +
 +	schedule_work(&ds->output_worker);
 +	return 0;
 +}
 +
+ static void dualsense_init_output_report(struct dualsense *ds, struct dualsense_output_report *rp,
+ 		void *buf)
+ {
+@@ -725,6 +793,15 @@ static void dualsense_output_worker(struct work_struct *work)
+ 		ds->update_rumble = false;
+ 	}
+ 
++	if (ds->update_lightbar) {
++		common->valid_flag1 |= DS_OUTPUT_VALID_FLAG1_LIGHTBAR_CONTROL_ENABLE;
++		common->lightbar_red = ds->lightbar_red;
++		common->lightbar_green = ds->lightbar_green;
++		common->lightbar_blue = ds->lightbar_blue;
++
++		ds->update_lightbar = false;
++	}
++
+ 	spin_unlock_irqrestore(&ds->base.lock, flags);
+ 
+ 	dualsense_send_output_report(ds, &report);
+@@ -909,6 +986,31 @@ static int dualsense_play_effect(struct input_dev *dev, void *data, struct ff_ef
+ 	return 0;
+ }
+ 
++static int dualsense_reset_leds(struct dualsense *ds)
++{
++	struct dualsense_output_report report;
++	uint8_t *buf;
++
++	buf = kzalloc(sizeof(struct dualsense_output_report_bt), GFP_KERNEL);
++	if (!buf)
++		return -ENOMEM;
++
++	dualsense_init_output_report(ds, &report, buf);
++	/*
++	 * On Bluetooth the DualSense outputs an animation on the lightbar
++	 * during startup and maintains a color afterwards. We need to explicitly
++	 * reconfigure the lightbar before we can do any programming later on.
++	 * In USB the lightbar is not on by default, but redoing the setup there
++	 * doesn't hurt.
++	 */
++	report.common->valid_flag2 = DS_OUTPUT_VALID_FLAG2_LIGHTBAR_SETUP_CONTROL_ENABLE;
++	report.common->lightbar_setup = DS_OUTPUT_LIGHTBAR_SETUP_LIGHT_OUT; /* Fade light out. */
++	dualsense_send_output_report(ds, &report);
++
++	kfree(buf);
++	return 0;
++}
++
  static struct ps_device *dualsense_create(struct hid_device *hdev)
  {
  	struct dualsense *ds;
- 	struct ps_device *ps_dev;
-+	uint8_t max_output_report_size;
- 	int ret;
+@@ -980,6 +1082,19 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
+ 	if (ret)
+ 		goto err;
  
- 	ds = devm_kzalloc(&hdev->dev, sizeof(*ds), GFP_KERNEL);
-@@ -734,8 +932,14 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
- 	ps_dev->battery_capacity = 100; /* initial value until parse_report. */
- 	ps_dev->battery_status = POWER_SUPPLY_STATUS_UNKNOWN;
- 	ps_dev->parse_report = dualsense_parse_report;
-+	INIT_WORK(&ds->output_worker, dualsense_output_worker);
- 	hid_set_drvdata(hdev, ds);
- 
-+	max_output_report_size = sizeof(struct dualsense_output_report_bt);
-+	ds->output_report_dmabuf = devm_kzalloc(&hdev->dev, max_output_report_size, GFP_KERNEL);
-+	if (!ds->output_report_dmabuf)
-+		return ERR_PTR(-ENOMEM);
++	/*
++	 * The hardware may have control over the LEDs (e.g. in Bluetooth on startup).
++	 * Reset the LEDs (lightbar, mute, player leds), so we can control them
++	 * from software.
++	 */
++	ret = dualsense_reset_leds(ds);
++	if (ret)
++		goto err;
 +
- 	ret = dualsense_get_mac_address(ds);
- 	if (ret) {
- 		hid_err(hdev, "Failed to get MAC address from DualSense\n");
-@@ -753,7 +957,7 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
- 		goto err;
- 	}
++	ret = ps_lightbar_register(ps_dev, &ds->lightbar, dualsense_lightbar_set_brightness);
++	if (ret)
++		goto err;
++
+ 	return &ds->base;
  
--	ds->gamepad = ps_gamepad_create(hdev);
-+	ds->gamepad = ps_gamepad_create(hdev, dualsense_play_effect);
- 	if (IS_ERR(ds->gamepad)) {
- 		ret = PTR_ERR(ds->gamepad);
- 		goto err;
+ err:
 -- 
 2.26.2
 
