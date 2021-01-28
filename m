@@ -2,159 +2,322 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A566307B14
-	for <lists+linux-input@lfdr.de>; Thu, 28 Jan 2021 17:36:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03611307BD1
+	for <lists+linux-input@lfdr.de>; Thu, 28 Jan 2021 18:11:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232594AbhA1Qgj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 28 Jan 2021 11:36:39 -0500
-Received: from mga05.intel.com ([192.55.52.43]:12672 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232593AbhA1Qff (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 28 Jan 2021 11:35:35 -0500
-IronPort-SDR: RJD7fxS39npS7iEX/ZdeFA+Q9vbj9zCWQ7No69yM1D+C9dv4jacO6TP10LB3Z9pNZiKcn3magP
- E9dzgoYbMrgg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9878"; a="265096989"
-X-IronPort-AV: E=Sophos;i="5.79,383,1602572400"; 
-   d="scan'208";a="265096989"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2021 08:34:47 -0800
-IronPort-SDR: y9pYDtN/Q58nS8laohgvzdHcatF0IUU4lKAXlan7AJNEfQMW4xksU2HSEnmXh8GqZISdaCqNs7
- If5a2VkfWYlg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,383,1602572400"; 
-   d="scan'208";a="430577314"
-Received: from host.sh.intel.com (HELO host) ([10.239.154.115])
-  by orsmga001.jf.intel.com with ESMTP; 28 Jan 2021 08:34:44 -0800
-Date:   Fri, 29 Jan 2021 00:35:49 +0800
-From:   "Ye, Xiang" <xiang.ye@intel.com>
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Jonathan Cameron <jic23@kernel.org>
-Cc:     jikos@kernel.org, linux-input@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] hid-sensor-common: Add relative sensitivity check
-Message-ID: <20210128163549.GA12432@host>
-References: <20210120074706.23199-1-xiang.ye@intel.com>
- <20210120074706.23199-3-xiang.ye@intel.com>
- <20210124131442.0fc2577e@archlinux>
- <7e136ebb914f71da3fcb90b8048f9f7dd8cdf0bf.camel@linux.intel.com>
+        id S232753AbhA1RJN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 28 Jan 2021 12:09:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48832 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232450AbhA1RIQ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 28 Jan 2021 12:08:16 -0500
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E19FCC061786
+        for <linux-input@vger.kernel.org>; Thu, 28 Jan 2021 09:07:35 -0800 (PST)
+Received: by mail-qv1-xf30.google.com with SMTP id j4so3112245qvk.6
+        for <linux-input@vger.kernel.org>; Thu, 28 Jan 2021 09:07:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gaikai-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+0K+MfnIWRPOq0TRt9VvD4SQ8THcWTJll6eXqg6DOkg=;
+        b=KZVI6PKvQ6RNPbei+0JbQ/pnSIvzwvu5+FVSGR+2sNm3t1DNI79t//t7reSd+p1bwC
+         25gIqs9bjPHrKKGlq/vH9tJ+ceUwzd+qdOT1SBcnXgH2z3go0Nimstksh1CPnLhPUHdi
+         SF1q32V41K0Elj945N9Q+bUNECCnjNEN6zr9FD1oj5qnj/JtvAAyooJpouRtxXpqDlYu
+         fYZa9EkQXFP78TexZc1MAZ5GKvmqmLJCCFs1sdEpHWxEsIh9jxkvqq3Squ4y2bqpp/wL
+         UM1e3UIVykuzupslpY4WXtxsQ296+6eg+IxKPlhWzZvaIdw6UDTXUeq5hza5o9dYUkjy
+         yd0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+0K+MfnIWRPOq0TRt9VvD4SQ8THcWTJll6eXqg6DOkg=;
+        b=tXk/ibV/k58tyI2UJxuFh2usWDLmAEIa1ZxCY27pOVpOsnZLfrDDIhPKJGnlfl/sU6
+         g50X+OZ0YH79Cg7dnnQ5gncAMZ+qDqCWNZX/1BwQzHJ4PnOkkdIxEtM3LwuH5Vh1TNtm
+         fm7XLUOaMFcGsYXATUP/GF526EUaurm0p1jKHZCzm9okAx98IBOJ93SLY0uFPcu3En1h
+         GbXph50Tzc9t+XGsT/N732ntEANML8oPoIv6JdDcm59Wi34Av3+Fj3ewqVXGZ1uMoi8k
+         FbYFsu5rGiKaBzPSpgj68aKmqSk/vHaJtEXB0dAXD1aLswdU/t32qPa6Zw39MwBBzeYe
+         /hIw==
+X-Gm-Message-State: AOAM532sPFEwp+FRHGYWK6Ogxa8W5FgzhNxCKhYleBtvPfj2dlPWJ4yw
+        lTSouwoxohY56mno+sZA6zbXNcropVh/D3MYFfZkUMCLUtE=
+X-Google-Smtp-Source: ABdhPJwaaT4DZEy2V6h58KbcGmmoxSEtOWidZAwpzZGG7WZXnF9DIib92ytTnnJIoKL39vVoCXhbk38z/1BTNesnpOI=
+X-Received: by 2002:a05:6214:c27:: with SMTP id a7mr183447qvd.54.1611853655069;
+ Thu, 28 Jan 2021 09:07:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7e136ebb914f71da3fcb90b8048f9f7dd8cdf0bf.camel@linux.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20210117234435.180294-1-roderick@gaikai.com> <20210117234435.180294-6-roderick@gaikai.com>
+ <c379c789-fb94-a2f3-ee9a-10aba6df6315@redhat.com>
+In-Reply-To: <c379c789-fb94-a2f3-ee9a-10aba6df6315@redhat.com>
+From:   Roderick Colenbrander <roderick@gaikai.com>
+Date:   Thu, 28 Jan 2021 09:07:24 -0800
+Message-ID: <CANndSKmgkKdQN3jdfO48TktkU8hXpaBdNUMVa=9pPTXi3Mnmdw@mail.gmail.com>
+Subject: Re: [PATCH v4 05/13] HID: playstation: add DualSense accelerometer
+ and gyroscope support.
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
+        Chris Ye <lzye@google.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Srinivas andd Jonathan
+On Thu, Jan 28, 2021 at 6:48 AM Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+> Hi Roderick,
+>
+> On 1/18/21 12:44 AM, Roderick Colenbrander wrote:
+> > From: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> >
+> > The DualSense features an accelerometer and gyroscope. The data is
+> > embedded into the main HID input reports. Expose both sensors through
+> > through a separate evdev node.
+> >
+> > Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> > ---
+> >   drivers/hid/hid-playstation.c | 166 ++++++++++++++++++++++++++++++++++
+> >   1 file changed, 166 insertions(+)
+> >
+> > diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
+> > index 64d6d736c435..ef8da272cf59 100644
+> > --- a/drivers/hid/hid-playstation.c
+> > +++ b/drivers/hid/hid-playstation.c
+> > @@ -32,9 +32,19 @@ struct ps_device {
+> >       int (*parse_report)(struct ps_device *dev, struct hid_report *report, u8 *data, int size);
+> >   };
+> >
+> > +/* Calibration data for playstation motion sensors. */
+> > +struct ps_calibration_data {
+> > +     int abs_code;
+> > +     short bias;
+> > +     int sens_numer;
+> > +     int sens_denom;
+> > +};
+> > +
+> >   #define DS_INPUT_REPORT_USB                 0x01
+> >   #define DS_INPUT_REPORT_USB_SIZE            64
+> >
+> > +#define DS_FEATURE_REPORT_CALIBRATION                0x05
+> > +#define DS_FEATURE_REPORT_CALIBRATION_SIZE   41
+> >   #define DS_FEATURE_REPORT_PAIRING_INFO              0x09
+> >   #define DS_FEATURE_REPORT_PAIRING_INFO_SIZE 20
+> >
+> > @@ -68,13 +78,27 @@ struct ps_device {
+> >   #define DS_TOUCH_POINT_INACTIVE BIT(7)
+> >
+> >   /* DualSense hardware limits */
+> > +#define DS_ACC_RES_PER_G     8192
+> > +#define DS_ACC_RANGE         (4*DS_ACC_RES_PER_G)
+> > +#define DS_GYRO_RES_PER_DEG_S        1024
+> > +#define DS_GYRO_RANGE                (2048*DS_GYRO_RES_PER_DEG_S)
+> >   #define DS_TOUCHPAD_WIDTH   1920
+> >   #define DS_TOUCHPAD_HEIGHT  1080
+> >
+> >   struct dualsense {
+> >       struct ps_device base;
+> >       struct input_dev *gamepad;
+> > +     struct input_dev *sensors;
+> >       struct input_dev *touchpad;
+> > +
+> > +     /* Calibration data for accelerometer and gyroscope. */
+> > +     struct ps_calibration_data accel_calib_data[3];
+> > +     struct ps_calibration_data gyro_calib_data[3];
+> > +
+> > +     /* Timestamp for sensor data */
+> > +     bool sensor_timestamp_initialized;
+> > +     uint32_t prev_sensor_timestamp;
+> > +     uint32_t sensor_timestamp_us;
+> >   };
+> >
+> >   struct dualsense_touch_point {
+> > @@ -312,6 +336,96 @@ static struct input_dev *ps_touchpad_create(struct hid_device *hdev, int width,
+> >       return touchpad;
+> >   }
+> >
+> > +static int dualsense_get_calibration_data(struct dualsense *ds)
+> > +{
+> > +     short gyro_pitch_bias, gyro_pitch_plus, gyro_pitch_minus;
+> > +     short gyro_yaw_bias, gyro_yaw_plus, gyro_yaw_minus;
+> > +     short gyro_roll_bias, gyro_roll_plus, gyro_roll_minus;
+> > +     short gyro_speed_plus, gyro_speed_minus;
+> > +     short acc_x_plus, acc_x_minus;
+> > +     short acc_y_plus, acc_y_minus;
+> > +     short acc_z_plus, acc_z_minus;
+> > +     int speed_2x;
+> > +     int range_2g;
+> > +     int ret = 0;
+> > +     uint8_t *buf;
+> > +
+> > +     buf = kzalloc(DS_FEATURE_REPORT_CALIBRATION_SIZE, GFP_KERNEL);
+> > +     if (!buf)
+> > +             return -ENOMEM;
+> > +
+> > +     ret = ps_get_report(ds->base.hdev, DS_FEATURE_REPORT_CALIBRATION, buf,
+> > +                     DS_FEATURE_REPORT_CALIBRATION_SIZE);
+> > +     if (ret) {
+> > +             hid_err(ds->base.hdev, "Failed to retrieve DualSense calibration info: %d\n", ret);
+> > +             goto err_free;
+> > +     }
+> > +
+> > +     gyro_pitch_bias  = get_unaligned_le16(&buf[1]);
+> > +     gyro_yaw_bias    = get_unaligned_le16(&buf[3]);
+> > +     gyro_roll_bias   = get_unaligned_le16(&buf[5]);
+> > +     gyro_pitch_plus  = get_unaligned_le16(&buf[7]);
+> > +     gyro_pitch_minus = get_unaligned_le16(&buf[9]);
+> > +     gyro_yaw_plus    = get_unaligned_le16(&buf[11]);
+> > +     gyro_yaw_minus   = get_unaligned_le16(&buf[13]);
+> > +     gyro_roll_plus   = get_unaligned_le16(&buf[15]);
+> > +     gyro_roll_minus  = get_unaligned_le16(&buf[17]);
+> > +     gyro_speed_plus  = get_unaligned_le16(&buf[19]);
+> > +     gyro_speed_minus = get_unaligned_le16(&buf[21]);
+> > +     acc_x_plus       = get_unaligned_le16(&buf[23]);
+> > +     acc_x_minus      = get_unaligned_le16(&buf[25]);
+> > +     acc_y_plus       = get_unaligned_le16(&buf[27]);
+> > +     acc_y_minus      = get_unaligned_le16(&buf[29]);
+> > +     acc_z_plus       = get_unaligned_le16(&buf[31]);
+> > +     acc_z_minus      = get_unaligned_le16(&buf[33]);
+> > +
+> > +     /*
+> > +      * Set gyroscope calibration and normalization parameters.
+> > +      * Data values will be normalized to 1/DS_GYRO_RES_PER_DEG_S degree/s.
+> > +      */
+> > +     speed_2x = (gyro_speed_plus + gyro_speed_minus);
+> > +     ds->gyro_calib_data[0].abs_code = ABS_RX;
+> > +     ds->gyro_calib_data[0].bias = gyro_pitch_bias;
+> > +     ds->gyro_calib_data[0].sens_numer = speed_2x*DS_GYRO_RES_PER_DEG_S;
+> > +     ds->gyro_calib_data[0].sens_denom = gyro_pitch_plus - gyro_pitch_minus;
+> > +
+> > +     ds->gyro_calib_data[1].abs_code = ABS_RY;
+> > +     ds->gyro_calib_data[1].bias = gyro_yaw_bias;
+> > +     ds->gyro_calib_data[1].sens_numer = speed_2x*DS_GYRO_RES_PER_DEG_S;
+> > +     ds->gyro_calib_data[1].sens_denom = gyro_yaw_plus - gyro_yaw_minus;
+> > +
+> > +     ds->gyro_calib_data[2].abs_code = ABS_RZ;
+> > +     ds->gyro_calib_data[2].bias = gyro_roll_bias;
+> > +     ds->gyro_calib_data[2].sens_numer = speed_2x*DS_GYRO_RES_PER_DEG_S;
+> > +     ds->gyro_calib_data[2].sens_denom = gyro_roll_plus - gyro_roll_minus;
+> > +
+> > +     /*
+> > +      * Set accelerometer calibration and normalization parameters.
+> > +      * Data values will be normalized to 1/DS_ACC_RES_PER_G g.
+> > +      */
+> > +     range_2g = acc_x_plus - acc_x_minus;
+> > +     ds->accel_calib_data[0].abs_code = ABS_X;
+> > +     ds->accel_calib_data[0].bias = acc_x_plus - range_2g / 2;
+> > +     ds->accel_calib_data[0].sens_numer = 2*DS_ACC_RES_PER_G;
+> > +     ds->accel_calib_data[0].sens_denom = range_2g;
+> > +
+> > +     range_2g = acc_y_plus - acc_y_minus;
+> > +     ds->accel_calib_data[1].abs_code = ABS_Y;
+> > +     ds->accel_calib_data[1].bias = acc_y_plus - range_2g / 2;
+> > +     ds->accel_calib_data[1].sens_numer = 2*DS_ACC_RES_PER_G;
+> > +     ds->accel_calib_data[1].sens_denom = range_2g;
+> > +
+> > +     range_2g = acc_z_plus - acc_z_minus;
+> > +     ds->accel_calib_data[2].abs_code = ABS_Z;
+> > +     ds->accel_calib_data[2].bias = acc_z_plus - range_2g / 2;
+> > +     ds->accel_calib_data[2].sens_numer = 2*DS_ACC_RES_PER_G;
+> > +     ds->accel_calib_data[2].sens_denom = range_2g;
+> > +
+> > +err_free:
+> > +     kfree(buf);
+> > +     return ret;
+> > +}
+> > +
+> >   static int dualsense_get_mac_address(struct dualsense *ds)
+> >   {
+> >       uint8_t *buf;
+> > @@ -343,6 +457,7 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
+> >       struct dualsense_input_report *ds_report;
+> >       uint8_t battery_data, battery_capacity, charging_status, value;
+> >       int battery_status;
+> > +     uint32_t sensor_timestamp;
+> >       unsigned long flags;
+> >       int i;
+> >
+> > @@ -387,6 +502,44 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
+> >       input_report_key(ds->gamepad, BTN_MODE,   ds_report->buttons[2] & DS_BUTTONS2_PS_HOME);
+> >       input_sync(ds->gamepad);
+> >
+> > +     /* Parse and calibrate gyroscope data. */
+> > +     for (i = 0; i < ARRAY_SIZE(ds_report->gyro); i++) {
+> > +             int raw_data = (short)le16_to_cpu(ds_report->gyro[i]);
+> > +             int calib_data = mult_frac(ds->gyro_calib_data[i].sens_numer,
+> > +                                        raw_data - ds->gyro_calib_data[i].bias,
+> > +                                        ds->gyro_calib_data[i].sens_denom);
+> > +
+> > +             input_report_abs(ds->sensors, ds->gyro_calib_data[i].abs_code, calib_data);
+> > +     }
+> > +
+> > +     /* Parse and calibrate accelerometer data. */
+> > +     for (i = 0; i < ARRAY_SIZE(ds_report->accel); i++) {
+> > +             int raw_data = (short)le16_to_cpu(ds_report->accel[i]);
+> > +             int calib_data = mult_frac(ds->accel_calib_data[i].sens_numer,
+> > +                                        raw_data - ds->accel_calib_data[i].bias,
+> > +                                        ds->accel_calib_data[i].sens_denom);
+> > +
+> > +             input_report_abs(ds->sensors, ds->accel_calib_data[i].abs_code, calib_data);
+> > +     }
+> > +
+> > +     /* Convert timestamp (in 0.33us unit) to timestamp_us */
+> > +     sensor_timestamp = le32_to_cpu(ds_report->sensor_timestamp);
+> > +     if (!ds->sensor_timestamp_initialized) {
+> > +             ds->sensor_timestamp_us = DIV_ROUND_CLOSEST(sensor_timestamp, 3);
+> > +             ds->sensor_timestamp_initialized = true;
+> > +     } else {
+> > +             uint32_t delta;
+> > +
+> > +             if (ds->prev_sensor_timestamp > sensor_timestamp)
+> > +                     delta = (U32_MAX - ds->prev_sensor_timestamp + sensor_timestamp + 1);
+> > +             else
+> > +                     delta = sensor_timestamp - ds->prev_sensor_timestamp;
+> > +             ds->sensor_timestamp_us += DIV_ROUND_CLOSEST(delta, 3);
+> > +     }
+> > +     ds->prev_sensor_timestamp = sensor_timestamp;
+> > +     input_event(ds->sensors, EV_MSC, MSC_TIMESTAMP, ds->sensor_timestamp_us);
+> > +     input_sync(ds->sensors);
+> > +
+> >       for (i = 0; i < ARRAY_SIZE(ds_report->points); i++) {
+> >               struct dualsense_touch_point *point = &ds_report->points[i];
+> >               bool active = (point->contact & DS_TOUCH_POINT_INACTIVE) ? false : true;
+> > @@ -476,12 +629,25 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
+> >       }
+> >       snprintf(hdev->uniq, sizeof(hdev->uniq), "%pMR", ds->base.mac_address);
+> >
+> > +     ret = dualsense_get_calibration_data(ds);
+> > +     if (ret) {
+> > +             hid_err(hdev, "Failed to get calibration data from DualSense\n");
+> > +             goto err;
+> > +     }
+> > +
+> >       ds->gamepad = ps_gamepad_create(hdev);
+> >       if (IS_ERR(ds->gamepad)) {
+> >               ret = PTR_ERR(ds->gamepad);
+> >               goto err;
+> >       }
+> >
+> > +     ds->sensors = ps_sensors_create(hdev, DS_ACC_RANGE, DS_ACC_RES_PER_G,
+>
+> Looks like you got a bad rebase here. I have the following complain when
+> compiling this series up to this patch:
+>
+> drivers/hid/hid-playstation.c: In function 'dualsense_create':
+> drivers/hid/hid-playstation.c:644:16: error: implicit declaration of function 'ps_sensors_create' [-Werror=implicit-function-declaration]
+>    644 |  ds->sensors = ps_sensors_create(hdev, DS_ACC_RANGE, DS_ACC_RES_PER_G,
+>        |                ^~~~~~~~~~~~~~~~~
+> drivers/hid/hid-playstation.c:644:14: warning: assignment to 'struct input_dev *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>    644 |  ds->sensors = ps_sensors_create(hdev, DS_ACC_RANGE, DS_ACC_RES_PER_G,
+>        |              ^
+>
+>
+> The function ps_sensors_create() gets added in "HID: playstation: add
+> DualSense lightbar support", which seems like a mistake.
+>
 
-Thanks for the review.
+Arggh. Yep something bad during rebase. I fixed and double, double
+checked and wrote a proper 'rebase -x' script to double check. I will
+send it out again, hopefully 5th time is a charm.
 
-On Sun, Jan 24, 2021 at 08:20:12AM -0800, Srinivas Pandruvada wrote:
-> On Sun, 2021-01-24 at 13:14 +0000, Jonathan Cameron wrote:
-> > On Wed, 20 Jan 2021 15:47:05 +0800
-> > Ye Xiang <xiang.ye@intel.com> wrote:
-> > 
-> > > Some hid sensors may use relative sensitivity such as als sensor.
-> > > This patch add relative sensitivity check for all hid-sensors.
-> > > 
-> > > Signed-off-by: Ye Xiang <xiang.ye@intel.com>
-> > > ---
-> > >  .../iio/common/hid-sensors/hid-sensor-attributes.c    | 11
-> > > ++++++++++-
-> > >  include/linux/hid-sensor-ids.h                        |  1 +
-> > >  2 files changed, 11 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/iio/common/hid-sensors/hid-sensor-attributes.c 
-> > > b/drivers/iio/common/hid-sensors/hid-sensor-attributes.c
-> > > index d349ace2e33f..b685c292a179 100644
-> > > --- a/drivers/iio/common/hid-sensors/hid-sensor-attributes.c
-> > > +++ b/drivers/iio/common/hid-sensors/hid-sensor-attributes.c
-> > > @@ -480,7 +480,7 @@ int hid_sensor_parse_common_attributes(struct
-> > > hid_sensor_hub_device *hsdev,
-> > >  
-> > >  	/*
-> > >  	 * Set Sensitivity field ids, when there is no individual
-> > > modifier, will
-> > > -	 * check absolute sensitivity of data field
-> > > +	 * check absolute sensitivity and relative sensitivity of data
-> > > field
-> > >  	 */
-> > >  	for (i = 0; i < sensitivity_addresses_len && st-
-> > > >sensitivity.index < 0; i++) {
-> > >  		sensor_hub_input_get_attribute_info(hsdev,
-> > > @@ -488,6 +488,15 @@ int hid_sensor_parse_common_attributes(struct
-> > > hid_sensor_hub_device *hsdev,
-> > >  				HID_USAGE_SENSOR_DATA_MOD_CHANGE_SENSIT
-> > > IVITY_ABS |
-> > >  					sensitivity_addresses[i],
-> > >  				&st->sensitivity);
-> > > +
-> > > +		if (st->sensitivity.index >= 0)
-> > > +			break;
-> > > +
-> > > +		sensor_hub_input_get_attribute_info(hsdev,
-> > > +				HID_FEATURE_REPORT, usage_id,
-> > > +				HID_USAGE_SENSOR_DATA_MOD_CHANGE_SENSIT
-> > > IVITY_REL_PCT |
-> > > +					sensitivity_addresses[i],
-> > > +				&st->sensitivity);
-> > 
-> > We can't provide the value to userspace without reflecting the
-> > difference between
-> > the two ways of expressing it.
-> > 
-> > It seems there are 3 ways sensitivity is expressed.
-> > 1. Raw value in same units as the measurement (easy one and what is
-> > currently reported)
-> > 2. Percentage of range - also relatively easy to transform into the
-> > same as 1.
-> > 3. Percentage of prior reading..  This one doesn't fit in any
-> > existing ABI, so
-> >    unfortunately we'll have to invent something new along the lines
-> > of
-> >    *_hysteresis_relative 
-
-yes, the 3th version sensitivity (Percentage of prior reading) is what we 
-are using for als sensor now. the 1th version sensitivity is common used 
-by other hid sensors. Do you have suggestion or reference about 
-how to add *_hysteresis_relative field to iio model?
-
-> 
-> This is why it was not added before when I developed.  But later few
-> years back there was a patch to add this by one of our developer. There
-> was some discussion, I thought it was decided it is OK to add.
-> 
-> But I agree, we should add new ABI as you suggested. Now almost every
-> laptop has HID sensors, better to address this. 
-> 
-
-I think the add relative hystersis patch should be separated into a independent
-patch series, for it's a independent function and need more effort for coding and 
-testing. And I can submit the other two patch in this patch series first.
-
-> > 
-> > 
-> > 
-> > >  	}
-> > >  
-> > >  	st->raw_hystersis = -1;
-> > > diff --git a/include/linux/hid-sensor-ids.h b/include/linux/hid-
-> > > sensor-ids.h
-> > > index 3bbdbccc5805..ac631159403a 100644
-> > > --- a/include/linux/hid-sensor-ids.h
-> > > +++ b/include/linux/hid-sensor-ids.h
-> > > @@ -149,6 +149,7 @@
-> > >  /* Per data field properties */
-> > >  #define HID_USAGE_SENSOR_DATA_MOD_NONE				
-> > > 	0x00
-> > >  #define HID_USAGE_SENSOR_DATA_MOD_CHANGE_SENSITIVITY_ABS		
-> > > 0x1000
-> > > +#define
-> > > HID_USAGE_SENSOR_DATA_MOD_CHANGE_SENSITIVITY_REL_PCT            0xE
-> > > 000
-> > >  
-> > >  /* Power state enumerations */
-> > >  #define HID_USAGE_SENSOR_PROP_POWER_STATE_UNDEFINED_ENUM	0x20085
-> > > 0
-> 
+Thanks,
+Roderick
