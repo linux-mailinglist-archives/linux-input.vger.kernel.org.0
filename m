@@ -2,143 +2,340 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 714A0307857
-	for <lists+linux-input@lfdr.de>; Thu, 28 Jan 2021 15:42:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C82543078A7
+	for <lists+linux-input@lfdr.de>; Thu, 28 Jan 2021 15:52:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231426AbhA1Okp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 28 Jan 2021 09:40:45 -0500
-Received: from mail-bn8nam11on2066.outbound.protection.outlook.com ([40.107.236.66]:51645
-        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231309AbhA1Oko (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 28 Jan 2021 09:40:44 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eDPe9mZTCk8LMcNezVs2qwnVh4WWjtEVC5XYdUiDv0LRdkXDrQqBTulrtyL+dDk9KyRcXA+NcGNA8bac5BBwHIEm7KPmABx5ot2jRDy+sws3LB+WcDS54AeN7/g1Ixg1DrjC88QnPP43nt5MehF03zRjJ182jyvBGxV7yeGwE/e0XbhDKgz2/NDhcA4/h5MPKqMy6vefAEQKw/FkBckvfcWyTFtGJRsNmPOHjRTfevFn3wwaz3KsXAXIkzKZRnXbqq5S9oXb7Q/Ox+/W8NipKFyYsGRK2a+m4qvbfqExMOnKoHopFHCf9gwOgzkqrkahB8N5EpBWPaVo3BmYC3Cqkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FVOvS5jmWQ0hZA01M/V4u4ErUTYfIJ5iyz0pVcNIg4c=;
- b=VxAkd6SXcTiCWYUUsZeAF6sF+IrshTQb/Me5XyNO18cgVxSz/Z51bePzmYZiwM6mLHpdxntM5Ogw+SfpyUNcpkhka0oYK1uQCcwQIhbSWhpcAx+vO62XkCrkjCgFtwLX++tJThqylnUqXkfQP4TzI/P5vdH79as5ywSVDRnaS4k7+GyCpFFLGiKFdPiyGMSNBgCTBCLhN6V5rjprUOrbMF2DcyopBdDNdg0q0F1TXq7eD5YUq5ZCJFGoYuj9q30/BY2gVNPoXl9Aw8FxlU9Y3bgqBTWyjawSm40+o2KI+Qm5j4RtXB4PiS69YOwESlf+dMJ3RGyJi6NCpIl5q0XLiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FVOvS5jmWQ0hZA01M/V4u4ErUTYfIJ5iyz0pVcNIg4c=;
- b=Plk1m6w9zqSvacMSYiaYVW4fKzY857FmD9DnONY9PRzbOX8CFTcwz4Qgfh/DZsWcuAGGLPlnyG8set0MPVPaTWEaV6Lh5bY6mFAe2dK6ARz/df3YExoouGgoIi0qVQsru3l+0fw0+SMaVL5O4xGh6trCAXNkgHgUqI5VHTstwKw=
-Authentication-Results: canonical.com; dkim=none (message not signed)
- header.d=none;canonical.com; dmarc=none action=none header.from=labundy.com;
-Received: from SN6PR08MB5517.namprd08.prod.outlook.com (2603:10b6:805:fb::32)
- by SN6PR08MB4094.namprd08.prod.outlook.com (2603:10b6:805:1c::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.16; Thu, 28 Jan
- 2021 14:39:51 +0000
-Received: from SN6PR08MB5517.namprd08.prod.outlook.com
- ([fe80::972:c257:aa68:9be0]) by SN6PR08MB5517.namprd08.prod.outlook.com
- ([fe80::972:c257:aa68:9be0%4]) with mapi id 15.20.3763.019; Thu, 28 Jan 2021
- 14:39:50 +0000
-Date:   Thu, 28 Jan 2021 08:39:46 -0600
-From:   Jeff LaBundy <jeff@labundy.com>
-To:     Colin King <colin.king@canonical.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH][next] Input: iqs5xx: Ensure error_bl is initialized on
- error exit path
-Message-ID: <20210128143946.GA14625@labundy.com>
-References: <20210128121903.636652-1-colin.king@canonical.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210128121903.636652-1-colin.king@canonical.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [136.49.173.128]
-X-ClientProxiedBy: SN1PR12CA0107.namprd12.prod.outlook.com
- (2603:10b6:802:21::42) To SN6PR08MB5517.namprd08.prod.outlook.com
- (2603:10b6:805:fb::32)
+        id S231915AbhA1Ov0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 28 Jan 2021 09:51:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49200 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231455AbhA1Ot7 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 28 Jan 2021 09:49:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1611845310;
+        h=from:from:reply-to:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=2yU/jzLHg9VG/9mT2qbvXUJXlpGVnuCLIe3HEPnBZrg=;
+        b=Xkx8ksjEBHGt58zPKgHXkM1pf/jUrhhdQPSnX1zlrBrD3jlLGRD0r6C2faNgpYkafpvMgT
+        wZ6bOVzbAWNZ45OH6xuu7oMp12Uol96bfCNhjlMW7YfFviUQ/dCvOnVTxUywk67k3L1fBc
+        IEc9Seervymp4MTAmJhk+ytOqP0b5+c=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-397-RKGGKd7vO5eVkfM0bZKbHg-1; Thu, 28 Jan 2021 09:48:28 -0500
+X-MC-Unique: RKGGKd7vO5eVkfM0bZKbHg-1
+Received: by mail-wm1-f70.google.com with SMTP id 5so2296572wmq.0
+        for <linux-input@vger.kernel.org>; Thu, 28 Jan 2021 06:48:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:reply-to:subject:to:cc:references:from
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=2yU/jzLHg9VG/9mT2qbvXUJXlpGVnuCLIe3HEPnBZrg=;
+        b=PedZOrSrKkIPOUoAyJZ8iy5Wwpd7N5VjVUWJR49l2y4rLfQhySEJPU1DpzgcwKYEtK
+         AhaqfJW25D08IilCUbZsMKeZ2tpxiTMUWqdXd4Z+7GxqoVA8vPKvxIOgFAqaaXnTquZN
+         iYxKEnDVR1Wn/liP1ed1fNb9JdYz2vPw3c4SxMqZm6FUzvqz4reYGLW64lWGHBBNomIP
+         IXMSWwMIB8ZkIeyGYC7So99Pt8edmRq3oLNdvHPXzSM7OyXlgrXGQGTypje6KTInRCbv
+         xpBr9brfsplIYyrBQVJ2zzyxgIuu5WZLmYZ3l1a6ZGNV9eLOngkhlQzv8JRBTDl8PQ67
+         vLBA==
+X-Gm-Message-State: AOAM533Bogp+X9t8/+nw0T+d22g7zJ1XSJo41w1jY3BndZH/+i2UXW38
+        ViW0HBph9bBPSeLQeGvx1A7fGxWqxFT+GzEnYBNEQWG/Lkh3CzTb21wQI1zxet4gBTqcrs1vP71
+        pWPHuBgGwZf2UAddXxveqnSU=
+X-Received: by 2002:a1c:1f86:: with SMTP id f128mr9100360wmf.174.1611845306299;
+        Thu, 28 Jan 2021 06:48:26 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzOPiyVRdw4IEjEtK7GKc2ZdyQDx5EcPKeOEjpPo9MMozYYXSc3yNiFpjs5K1OWrytrVddWSw==
+X-Received: by 2002:a1c:1f86:: with SMTP id f128mr9100346wmf.174.1611845305985;
+        Thu, 28 Jan 2021 06:48:25 -0800 (PST)
+Received: from ?IPv6:2a01:e34:eea6:7961:1234::5a1? ([2a01:e34:eea6:7961:1234::5a1])
+        by smtp.gmail.com with ESMTPSA id i7sm1480452wmq.2.2021.01.28.06.48.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Jan 2021 06:48:25 -0800 (PST)
+Reply-To: benjamin.tissoires@redhat.com
+Subject: Re: [PATCH v4 05/13] HID: playstation: add DualSense accelerometer
+ and gyroscope support.
+To:     Roderick Colenbrander <roderick@gaikai.com>,
+        Jiri Kosina <jikos@kernel.org>
+Cc:     linux-input@vger.kernel.org, Chris Ye <lzye@google.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+References: <20210117234435.180294-1-roderick@gaikai.com>
+ <20210117234435.180294-6-roderick@gaikai.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Message-ID: <c379c789-fb94-a2f3-ee9a-10aba6df6315@redhat.com>
+Date:   Thu, 28 Jan 2021 15:48:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from labundy.com (136.49.173.128) by SN1PR12CA0107.namprd12.prod.outlook.com (2603:10b6:802:21::42) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.17 via Frontend Transport; Thu, 28 Jan 2021 14:39:50 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d1249f60-1278-425b-c1fa-08d8c39a9180
-X-MS-TrafficTypeDiagnostic: SN6PR08MB4094:
-X-Microsoft-Antispam-PRVS: <SN6PR08MB40948EF42453B947E5EB9461D3BA9@SN6PR08MB4094.namprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uvs/ZxzgiMsS2h/yKQsZg99Sf2Om7PmfMkppJevXX8qV/0PfNwsIcwAWMWc74OhnpVoKGYZtTSPnaldBqDalhjXegHCoR3ruLIOz5ifMVF+Ep233bJNYMG5HVtJITqs4ZReOhRcpBYpZYuvlNT4kdBRaYpCiOjK8DrQpS6DBBRuqcrF9fl5jTWCwttjLORLfefYdcbfZ1XuUBpSSzi/UHlWgY6flIwdAvYWK1ZF+VGOH0ORnzJuCWTwzhZbXz/aRx17vECTbGwibUKtRs8j6mfpRD5wju19wwSaNyNGTA6aGB5HDD1t3aqkHwGYaO6yXBgP4jsAyGERy00GNcRvfeZWfc8TJw4ZEP8wWZTeW22lecKwtjpHbs/j6JNa80shR06a8bKwNA8IgKsVAlx+j2Gqk8Xygy9k45l4nfIP2oxUhNVllaMASAqJpdaJBteQ30wOlwnwk/gcch48SZCe/OLzBQRfnODFrScvxyviC67kIxRFkbTDobfSf2/Cc5G2x74F7HGazZG8kHnah7F1Xcu930E4ftmqIRW+DOHs4hJeLgBd4A8/7hkLtUfujjM2HKvgjO9ljLdT7nUrbSus5NgQkA3ZyMGSnxC9smGDK/34dgYLZIzLs2vjlV1wFBvRG1iH990taZlEGpFZS+jjIjA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR08MB5517.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(39830400003)(396003)(136003)(346002)(376002)(66556008)(83380400001)(66476007)(5660300002)(33656002)(966005)(8886007)(1076003)(4326008)(478600001)(66946007)(6666004)(55016002)(8936002)(26005)(16526019)(186003)(956004)(2616005)(86362001)(6916009)(316002)(8676002)(2906002)(52116002)(36756003)(7696005)(32563001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Zyeh25sXUGab8UlGyTyJx9LZu5tKRljIgSmAAyqsmxASC39zwUpdcXe2HVod?=
- =?us-ascii?Q?8LOAy9fpjG6ZrpQT7XzUcIm9snoEzRpvI2S58IFqNc/r7zJVy+sqCpyS7iyK?=
- =?us-ascii?Q?WyLxgbGBYcUDJyXZ7y6SYx9kQvilrhhmcTG0cvME9nQcOvoKYb5a081btxyC?=
- =?us-ascii?Q?YwttUrXlPK99S9pPZ3H+2IyfciHMzJ1OeBgEyLFbuMkhnL7xmWAflEqic6FS?=
- =?us-ascii?Q?SKBbHT3ref5yDdCUTI0SmINz5tHzBkiGqxpHLIx09wdJwE9V7jJrBH+tln2G?=
- =?us-ascii?Q?OpQqzvzZFEhUMA3W81g9yhb5XsqkzZlF9Cen8D12QCpRbNukynlGWRTLryax?=
- =?us-ascii?Q?PO9y1/UJdMb6RH55YGVCRq3sPx/VWAerJ5ImD9iTVgoSYCP2WW+8Ns4rf8Xx?=
- =?us-ascii?Q?YNq7bwhm6DGI61N4XwBpbsLt4Jnu48Mx9vGDB0FYkdficRnDc3OWxJpBcdh3?=
- =?us-ascii?Q?seLgZqiTXt2qREyFn+Q5QVe0Mgem6PtnxOcXk3P1ZJrILQotnt9Lf9El59TR?=
- =?us-ascii?Q?nTK/R8CTjl9xutJbWGVg5xSfT8Zs+hIHmJUZZpgFz4Wch34GfK8EUsU2q141?=
- =?us-ascii?Q?KjeVvSN/bwBmQkSmwrfyZaUw42yqwAa/tcVxs2x+79JE00w0SQ1FQNDkWtUw?=
- =?us-ascii?Q?e7Iy1uHCRlum9ClFUolERsnluQizGO7oFaibC3sSJj4oOSCWu57KXrq+vnmg?=
- =?us-ascii?Q?K/JHICUFOMWG/vNVQGSr9LmcwaySHHnM9u4bXTeOGAcoMo8v5x+N9M/rJyYC?=
- =?us-ascii?Q?+SKFoqa38HjPFLuavniXRgIZUthg44u9UNqLw+5XhXydqjBQ6zMcjTnomBVB?=
- =?us-ascii?Q?Q4IMluScOsv6oVHlRyB4EGFmEeXV9YbaZrvxW+JO8ZnZfBdP898XYz2si9CR?=
- =?us-ascii?Q?TRp2b6OBZyzCko8zyQufc53kpFhv6tn/WAwB0qJtw+yFz395J0xT26p+N9iu?=
- =?us-ascii?Q?XiSYduzrzWHYyEOW8wSnC3bKViBvV0i+G1McBYeDwaREo0sNsqMe0s7f83OA?=
- =?us-ascii?Q?DWJLMv/7nmPShYC7gsccA39Euzo/In6eyCqiX71shhYBZ8KYGio46Cz3F4nP?=
- =?us-ascii?Q?SK/Aws03?=
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1249f60-1278-425b-c1fa-08d8c39a9180
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR08MB5517.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2021 14:39:50.8048
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bGkvrEb4V0WX3QXW4J7M1IfH7FklFDnA9eE7Wz4YGgIYgJG9Qy8StxPcdyjt1YqXDImVELyueI6lqasTAiPQRg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR08MB4094
+In-Reply-To: <20210117234435.180294-6-roderick@gaikai.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Colin,
+Hi Roderick,
 
-On Thu, Jan 28, 2021 at 12:19:03PM +0000, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
+On 1/18/21 12:44 AM, Roderick Colenbrander wrote:
+> From: Roderick Colenbrander <roderick.colenbrander@sony.com>
 > 
-> Currently if the call to qs5xx_fw_file_parse fails the error return
-> exit path will read the uninitialized variable error_bl. Fix this
-> by ensuring error_bl is initialized to zero.
+> The DualSense features an accelerometer and gyroscope. The data is
+> embedded into the main HID input reports. Expose both sensors through
+> through a separate evdev node.
 > 
-> Addresses-Coverity: ("Uninitialized scalar variable")
-> Fixes: 2539da6677b6 ("Input: iqs5xx - preserve bootloader errors")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-
-This was fixed in [1]; it just needs pushed.
-
-[1] https://patchwork.kernel.org/patch/12043701
-
+> Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
 > ---
->  drivers/input/touchscreen/iqs5xx.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/hid/hid-playstation.c | 166 ++++++++++++++++++++++++++++++++++
+>   1 file changed, 166 insertions(+)
 > 
-> diff --git a/drivers/input/touchscreen/iqs5xx.c b/drivers/input/touchscreen/iqs5xx.c
-> index 05e0c6ff217b..54f30038dca4 100644
-> --- a/drivers/input/touchscreen/iqs5xx.c
-> +++ b/drivers/input/touchscreen/iqs5xx.c
-> @@ -852,7 +852,7 @@ static int iqs5xx_fw_file_parse(struct i2c_client *client,
->  static int iqs5xx_fw_file_write(struct i2c_client *client, const char *fw_file)
->  {
->  	struct iqs5xx_private *iqs5xx = i2c_get_clientdata(client);
-> -	int error, error_bl;
-> +	int error, error_bl = 0;
->  	u8 *pmap;
->  
->  	if (iqs5xx->bl_status == IQS5XX_BL_STATUS_NONE)
-> -- 
-> 2.29.2
+> diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
+> index 64d6d736c435..ef8da272cf59 100644
+> --- a/drivers/hid/hid-playstation.c
+> +++ b/drivers/hid/hid-playstation.c
+> @@ -32,9 +32,19 @@ struct ps_device {
+>   	int (*parse_report)(struct ps_device *dev, struct hid_report *report, u8 *data, int size);
+>   };
+>   
+> +/* Calibration data for playstation motion sensors. */
+> +struct ps_calibration_data {
+> +	int abs_code;
+> +	short bias;
+> +	int sens_numer;
+> +	int sens_denom;
+> +};
+> +
+>   #define DS_INPUT_REPORT_USB			0x01
+>   #define DS_INPUT_REPORT_USB_SIZE		64
+>   
+> +#define DS_FEATURE_REPORT_CALIBRATION		0x05
+> +#define DS_FEATURE_REPORT_CALIBRATION_SIZE	41
+>   #define DS_FEATURE_REPORT_PAIRING_INFO		0x09
+>   #define DS_FEATURE_REPORT_PAIRING_INFO_SIZE	20
+>   
+> @@ -68,13 +78,27 @@ struct ps_device {
+>   #define DS_TOUCH_POINT_INACTIVE BIT(7)
+>   
+>   /* DualSense hardware limits */
+> +#define DS_ACC_RES_PER_G	8192
+> +#define DS_ACC_RANGE		(4*DS_ACC_RES_PER_G)
+> +#define DS_GYRO_RES_PER_DEG_S	1024
+> +#define DS_GYRO_RANGE		(2048*DS_GYRO_RES_PER_DEG_S)
+>   #define DS_TOUCHPAD_WIDTH	1920
+>   #define DS_TOUCHPAD_HEIGHT	1080
+>   
+>   struct dualsense {
+>   	struct ps_device base;
+>   	struct input_dev *gamepad;
+> +	struct input_dev *sensors;
+>   	struct input_dev *touchpad;
+> +
+> +	/* Calibration data for accelerometer and gyroscope. */
+> +	struct ps_calibration_data accel_calib_data[3];
+> +	struct ps_calibration_data gyro_calib_data[3];
+> +
+> +	/* Timestamp for sensor data */
+> +	bool sensor_timestamp_initialized;
+> +	uint32_t prev_sensor_timestamp;
+> +	uint32_t sensor_timestamp_us;
+>   };
+>   
+>   struct dualsense_touch_point {
+> @@ -312,6 +336,96 @@ static struct input_dev *ps_touchpad_create(struct hid_device *hdev, int width,
+>   	return touchpad;
+>   }
+>   
+> +static int dualsense_get_calibration_data(struct dualsense *ds)
+> +{
+> +	short gyro_pitch_bias, gyro_pitch_plus, gyro_pitch_minus;
+> +	short gyro_yaw_bias, gyro_yaw_plus, gyro_yaw_minus;
+> +	short gyro_roll_bias, gyro_roll_plus, gyro_roll_minus;
+> +	short gyro_speed_plus, gyro_speed_minus;
+> +	short acc_x_plus, acc_x_minus;
+> +	short acc_y_plus, acc_y_minus;
+> +	short acc_z_plus, acc_z_minus;
+> +	int speed_2x;
+> +	int range_2g;
+> +	int ret = 0;
+> +	uint8_t *buf;
+> +
+> +	buf = kzalloc(DS_FEATURE_REPORT_CALIBRATION_SIZE, GFP_KERNEL);
+> +	if (!buf)
+> +		return -ENOMEM;
+> +
+> +	ret = ps_get_report(ds->base.hdev, DS_FEATURE_REPORT_CALIBRATION, buf,
+> +			DS_FEATURE_REPORT_CALIBRATION_SIZE);
+> +	if (ret) {
+> +		hid_err(ds->base.hdev, "Failed to retrieve DualSense calibration info: %d\n", ret);
+> +		goto err_free;
+> +	}
+> +
+> +	gyro_pitch_bias  = get_unaligned_le16(&buf[1]);
+> +	gyro_yaw_bias    = get_unaligned_le16(&buf[3]);
+> +	gyro_roll_bias   = get_unaligned_le16(&buf[5]);
+> +	gyro_pitch_plus  = get_unaligned_le16(&buf[7]);
+> +	gyro_pitch_minus = get_unaligned_le16(&buf[9]);
+> +	gyro_yaw_plus    = get_unaligned_le16(&buf[11]);
+> +	gyro_yaw_minus   = get_unaligned_le16(&buf[13]);
+> +	gyro_roll_plus   = get_unaligned_le16(&buf[15]);
+> +	gyro_roll_minus  = get_unaligned_le16(&buf[17]);
+> +	gyro_speed_plus  = get_unaligned_le16(&buf[19]);
+> +	gyro_speed_minus = get_unaligned_le16(&buf[21]);
+> +	acc_x_plus       = get_unaligned_le16(&buf[23]);
+> +	acc_x_minus      = get_unaligned_le16(&buf[25]);
+> +	acc_y_plus       = get_unaligned_le16(&buf[27]);
+> +	acc_y_minus      = get_unaligned_le16(&buf[29]);
+> +	acc_z_plus       = get_unaligned_le16(&buf[31]);
+> +	acc_z_minus      = get_unaligned_le16(&buf[33]);
+> +
+> +	/*
+> +	 * Set gyroscope calibration and normalization parameters.
+> +	 * Data values will be normalized to 1/DS_GYRO_RES_PER_DEG_S degree/s.
+> +	 */
+> +	speed_2x = (gyro_speed_plus + gyro_speed_minus);
+> +	ds->gyro_calib_data[0].abs_code = ABS_RX;
+> +	ds->gyro_calib_data[0].bias = gyro_pitch_bias;
+> +	ds->gyro_calib_data[0].sens_numer = speed_2x*DS_GYRO_RES_PER_DEG_S;
+> +	ds->gyro_calib_data[0].sens_denom = gyro_pitch_plus - gyro_pitch_minus;
+> +
+> +	ds->gyro_calib_data[1].abs_code = ABS_RY;
+> +	ds->gyro_calib_data[1].bias = gyro_yaw_bias;
+> +	ds->gyro_calib_data[1].sens_numer = speed_2x*DS_GYRO_RES_PER_DEG_S;
+> +	ds->gyro_calib_data[1].sens_denom = gyro_yaw_plus - gyro_yaw_minus;
+> +
+> +	ds->gyro_calib_data[2].abs_code = ABS_RZ;
+> +	ds->gyro_calib_data[2].bias = gyro_roll_bias;
+> +	ds->gyro_calib_data[2].sens_numer = speed_2x*DS_GYRO_RES_PER_DEG_S;
+> +	ds->gyro_calib_data[2].sens_denom = gyro_roll_plus - gyro_roll_minus;
+> +
+> +	/*
+> +	 * Set accelerometer calibration and normalization parameters.
+> +	 * Data values will be normalized to 1/DS_ACC_RES_PER_G g.
+> +	 */
+> +	range_2g = acc_x_plus - acc_x_minus;
+> +	ds->accel_calib_data[0].abs_code = ABS_X;
+> +	ds->accel_calib_data[0].bias = acc_x_plus - range_2g / 2;
+> +	ds->accel_calib_data[0].sens_numer = 2*DS_ACC_RES_PER_G;
+> +	ds->accel_calib_data[0].sens_denom = range_2g;
+> +
+> +	range_2g = acc_y_plus - acc_y_minus;
+> +	ds->accel_calib_data[1].abs_code = ABS_Y;
+> +	ds->accel_calib_data[1].bias = acc_y_plus - range_2g / 2;
+> +	ds->accel_calib_data[1].sens_numer = 2*DS_ACC_RES_PER_G;
+> +	ds->accel_calib_data[1].sens_denom = range_2g;
+> +
+> +	range_2g = acc_z_plus - acc_z_minus;
+> +	ds->accel_calib_data[2].abs_code = ABS_Z;
+> +	ds->accel_calib_data[2].bias = acc_z_plus - range_2g / 2;
+> +	ds->accel_calib_data[2].sens_numer = 2*DS_ACC_RES_PER_G;
+> +	ds->accel_calib_data[2].sens_denom = range_2g;
+> +
+> +err_free:
+> +	kfree(buf);
+> +	return ret;
+> +}
+> +
+>   static int dualsense_get_mac_address(struct dualsense *ds)
+>   {
+>   	uint8_t *buf;
+> @@ -343,6 +457,7 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
+>   	struct dualsense_input_report *ds_report;
+>   	uint8_t battery_data, battery_capacity, charging_status, value;
+>   	int battery_status;
+> +	uint32_t sensor_timestamp;
+>   	unsigned long flags;
+>   	int i;
+>   
+> @@ -387,6 +502,44 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
+>   	input_report_key(ds->gamepad, BTN_MODE,   ds_report->buttons[2] & DS_BUTTONS2_PS_HOME);
+>   	input_sync(ds->gamepad);
+>   
+> +	/* Parse and calibrate gyroscope data. */
+> +	for (i = 0; i < ARRAY_SIZE(ds_report->gyro); i++) {
+> +		int raw_data = (short)le16_to_cpu(ds_report->gyro[i]);
+> +		int calib_data = mult_frac(ds->gyro_calib_data[i].sens_numer,
+> +					   raw_data - ds->gyro_calib_data[i].bias,
+> +					   ds->gyro_calib_data[i].sens_denom);
+> +
+> +		input_report_abs(ds->sensors, ds->gyro_calib_data[i].abs_code, calib_data);
+> +	}
+> +
+> +	/* Parse and calibrate accelerometer data. */
+> +	for (i = 0; i < ARRAY_SIZE(ds_report->accel); i++) {
+> +		int raw_data = (short)le16_to_cpu(ds_report->accel[i]);
+> +		int calib_data = mult_frac(ds->accel_calib_data[i].sens_numer,
+> +					   raw_data - ds->accel_calib_data[i].bias,
+> +					   ds->accel_calib_data[i].sens_denom);
+> +
+> +		input_report_abs(ds->sensors, ds->accel_calib_data[i].abs_code, calib_data);
+> +	}
+> +
+> +	/* Convert timestamp (in 0.33us unit) to timestamp_us */
+> +	sensor_timestamp = le32_to_cpu(ds_report->sensor_timestamp);
+> +	if (!ds->sensor_timestamp_initialized) {
+> +		ds->sensor_timestamp_us = DIV_ROUND_CLOSEST(sensor_timestamp, 3);
+> +		ds->sensor_timestamp_initialized = true;
+> +	} else {
+> +		uint32_t delta;
+> +
+> +		if (ds->prev_sensor_timestamp > sensor_timestamp)
+> +			delta = (U32_MAX - ds->prev_sensor_timestamp + sensor_timestamp + 1);
+> +		else
+> +			delta = sensor_timestamp - ds->prev_sensor_timestamp;
+> +		ds->sensor_timestamp_us += DIV_ROUND_CLOSEST(delta, 3);
+> +	}
+> +	ds->prev_sensor_timestamp = sensor_timestamp;
+> +	input_event(ds->sensors, EV_MSC, MSC_TIMESTAMP, ds->sensor_timestamp_us);
+> +	input_sync(ds->sensors);
+> +
+>   	for (i = 0; i < ARRAY_SIZE(ds_report->points); i++) {
+>   		struct dualsense_touch_point *point = &ds_report->points[i];
+>   		bool active = (point->contact & DS_TOUCH_POINT_INACTIVE) ? false : true;
+> @@ -476,12 +629,25 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
+>   	}
+>   	snprintf(hdev->uniq, sizeof(hdev->uniq), "%pMR", ds->base.mac_address);
+>   
+> +	ret = dualsense_get_calibration_data(ds);
+> +	if (ret) {
+> +		hid_err(hdev, "Failed to get calibration data from DualSense\n");
+> +		goto err;
+> +	}
+> +
+>   	ds->gamepad = ps_gamepad_create(hdev);
+>   	if (IS_ERR(ds->gamepad)) {
+>   		ret = PTR_ERR(ds->gamepad);
+>   		goto err;
+>   	}
+>   
+> +	ds->sensors = ps_sensors_create(hdev, DS_ACC_RANGE, DS_ACC_RES_PER_G,
+
+Looks like you got a bad rebase here. I have the following complain when
+compiling this series up to this patch:
+
+drivers/hid/hid-playstation.c: In function 'dualsense_create':
+drivers/hid/hid-playstation.c:644:16: error: implicit declaration of function 'ps_sensors_create' [-Werror=implicit-function-declaration]
+   644 |  ds->sensors = ps_sensors_create(hdev, DS_ACC_RANGE, DS_ACC_RES_PER_G,
+       |                ^~~~~~~~~~~~~~~~~
+drivers/hid/hid-playstation.c:644:14: warning: assignment to 'struct input_dev *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   644 |  ds->sensors = ps_sensors_create(hdev, DS_ACC_RANGE, DS_ACC_RES_PER_G,
+       |              ^
+
+
+The function ps_sensors_create() gets added in "HID: playstation: add
+DualSense lightbar support", which seems like a mistake.
+
+Cheers,
+Benjamin
+
+> +			DS_GYRO_RANGE, DS_GYRO_RES_PER_DEG_S);
+> +	if (IS_ERR(ds->sensors)) {
+> +		ret = PTR_ERR(ds->sensors);
+> +		goto err;
+> +	}
+> +
+>   	ds->touchpad = ps_touchpad_create(hdev, DS_TOUCHPAD_WIDTH, DS_TOUCHPAD_HEIGHT, 2);
+>   	if (IS_ERR(ds->touchpad)) {
+>   		ret = PTR_ERR(ds->touchpad);
 > 
 
-Kind regards,
-Jeff LaBundy
