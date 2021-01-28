@@ -2,37 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E0CA3075A9
-	for <lists+linux-input@lfdr.de>; Thu, 28 Jan 2021 13:16:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D68A3075AB
+	for <lists+linux-input@lfdr.de>; Thu, 28 Jan 2021 13:16:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231368AbhA1MOP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 28 Jan 2021 07:14:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32702 "EHLO
+        id S229683AbhA1MOS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 28 Jan 2021 07:14:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21542 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229885AbhA1MOK (ORCPT
+        by vger.kernel.org with ESMTP id S229616AbhA1MOK (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
         Thu, 28 Jan 2021 07:14:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1611835960;
+        s=mimecast20190719; t=1611835963;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=DD/eCwEXbczpQQ9Bv1Zfv30VXydKFcvvdfV2DM1GLUY=;
-        b=J14ltTEqwQ5jZKRLcBTrzsGln2clabNGwH551zpbRykNpesAY6dPc1KU+TUoelJPRzE+nQ
-        XR9LD1i4bz1aziOm6HUtfIAnpGkTNNntbBkhh+XkjfE6pMcua65hKUIRSetGYASYcNgjBC
-        EWxRqoM9KlElAFmXZRXBgROH+erSD+Y=
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=h8NcN5kXtY1Zsl5dR+fALBa/cGLhl6Yx2gp4orM0/DU=;
+        b=Rz++pPJm0+ePzex4q2XQVeEiG2e6xImdnJBN8viRaAO9m0YKUhVsfpuCll1nQ7iYhudzAK
+        KqARDP4nAiM1Xrj+EGRaTwN8fb6XaOjL8sST3EbYESkLL5II+PJOU/03GtOxjzJlB/SioW
+        JYFBsNPeOebX3wgbjx9H85OpzHMJ47U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-530-e7iMefS4Pxiywo6zZRhGzA-1; Thu, 28 Jan 2021 07:12:37 -0500
-X-MC-Unique: e7iMefS4Pxiywo6zZRhGzA-1
+ us-mta-39-sbj6L0VuMLm23_eviMZ86A-1; Thu, 28 Jan 2021 07:12:41 -0500
+X-MC-Unique: sbj6L0VuMLm23_eviMZ86A-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82AD1193410B;
-        Thu, 28 Jan 2021 12:12:35 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68EDD107AFDB;
+        Thu, 28 Jan 2021 12:12:37 +0000 (UTC)
 Received: from x1.localdomain (ovpn-114-250.ams2.redhat.com [10.36.114.250])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id CE1895D9F6;
-        Thu, 28 Jan 2021 12:12:20 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id CBBE05D9F6;
+        Thu, 28 Jan 2021 12:12:35 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
@@ -41,9 +42,11 @@ To:     Jiri Kosina <jikos@kernel.org>,
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Richard Neumann <mail@richard-neumann.de>,
         linux-input@vger.kernel.org
-Subject: [PATCH 0/3] AMD_SFH: Allow overriding sensor-mask by module-param or DMI-quirk
-Date:   Thu, 28 Jan 2021 13:12:16 +0100
-Message-Id: <20210128121219.6381-1-hdegoede@redhat.com>
+Subject: [PATCH 1/3] AMD_SFH: Removed unused activecontrolstatus member from the amd_mp2_dev struct
+Date:   Thu, 28 Jan 2021 13:12:17 +0100
+Message-Id: <20210128121219.6381-2-hdegoede@redhat.com>
+In-Reply-To: <20210128121219.6381-1-hdegoede@redhat.com>
+References: <20210128121219.6381-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
@@ -51,59 +54,47 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi All,
+This value is only used once inside amd_mp2_get_sensor_num(),
+so there is no need to store this in the amd_mp2_dev struct,
+amd_mp2_get_sensor_num() can simple use a local variable for this.
 
-There are several bug-reports about the new AMD_SFH driver not working
-on various HP ENVY x360 Convertible models. The problem is that the
-driver expects the BIOS to program which sensors are present into the
-active bits of the AMD_P2C_MSG3 register; and the BIOS on these models
-does not do this:
+Fixes: 4f567b9f8141 ("SFH: PCIe driver to add support of AMD sensor fusion hub")
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/hid/amd-sfh-hid/amd_sfh_pcie.c | 6 ++++--
+ drivers/hid/amd-sfh-hid/amd_sfh_pcie.h | 1 -
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-https://bugzilla.kernel.org/show_bug.cgi?id=199715
-https://bugzilla.redhat.com/show_bug.cgi?id=1651886
-
-This patch-set adds a module-parameter + DMI-quirk mechanism to override
-the settings read back from the AMD_P2C_MSG3 register, to work around
-this problem. The DMI-quirk table is populated with 2 HP ENVY x360
-Convertible models which are know to need this workaround.
-
-There also is a much larger refactoring patch-set pending from
-Richard Neumann, who is also involved in the bugzilla.kernel.org bug.
-
-But it looks to me like that will need a bit more more work before
-it is ready for merging, where as (IMHO) this set is ready for
-merging now. So IMHO it would be good to first merge this patch-set
-to get this fix into the hands of end-users of these devices.
-
-Note there still is an open issue on these devices where the
-sensors stop working after a suspend/resume cycle.
-
-I wonder if the driver should perhaps not only not use the
-active bits of the AMD_P2C_MSG3 register for determining which
-sensors are there, but if it should actually write to those bots
-with the correct settings.
-
-Sandeep, do you have any ideas what might be the problem here?
-Should I ask the reporters to test a patch which actually
-updates the active bits?
-
-Regards,
-
-Hans
-
-
-
-Hans de Goede (3):
-  AMD_SFH: Removed unused activecontrolstatus member from the
-    amd_mp2_dev struct
-  AMD_SFH: Add sensor_mask module parameter
-  AMD_SFH: Add DMI quirk table for BIOS-es which don't set the
-    activestatus bits
-
- drivers/hid/amd-sfh-hid/amd_sfh_pcie.c | 40 ++++++++++++++++++++++++--
- drivers/hid/amd-sfh-hid/amd_sfh_pcie.h |  1 -
- 2 files changed, 37 insertions(+), 4 deletions(-)
-
+diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+index dbac16641662..f3cdb4ea33da 100644
+--- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
++++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+@@ -76,9 +76,11 @@ void amd_stop_all_sensors(struct amd_mp2_dev *privdata)
+ int amd_mp2_get_sensor_num(struct amd_mp2_dev *privdata, u8 *sensor_id)
+ {
+ 	int activestatus, num_of_sensors = 0;
++	u32 activecontrolstatus;
++
++	activecontrolstatus = readl(privdata->mmio + AMD_P2C_MSG3);
++	activestatus = activecontrolstatus >> 4;
+ 
+-	privdata->activecontrolstatus = readl(privdata->mmio + AMD_P2C_MSG3);
+-	activestatus = privdata->activecontrolstatus >> 4;
+ 	if (ACEL_EN  & activestatus)
+ 		sensor_id[num_of_sensors++] = accel_idx;
+ 
+diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
+index 8f8d19b2cfe5..489415f7c22c 100644
+--- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
++++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.h
+@@ -61,7 +61,6 @@ struct amd_mp2_dev {
+ 	struct pci_dev *pdev;
+ 	struct amdtp_cl_data *cl_data;
+ 	void __iomem *mmio;
+-	u32 activecontrolstatus;
+ };
+ 
+ struct amd_mp2_sensor_info {
 -- 
 2.29.2
 
