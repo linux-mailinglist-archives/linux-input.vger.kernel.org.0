@@ -2,134 +2,203 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B786F307706
-	for <lists+linux-input@lfdr.de>; Thu, 28 Jan 2021 14:28:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C774D307844
+	for <lists+linux-input@lfdr.de>; Thu, 28 Jan 2021 15:40:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231682AbhA1N0u (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 28 Jan 2021 08:26:50 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:53823 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231882AbhA1N0s (ORCPT
+        id S229810AbhA1Oi0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 28 Jan 2021 09:38:26 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:43122 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229840AbhA1OiZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 28 Jan 2021 08:26:48 -0500
-Received: from [172.23.56.21] ([82.207.216.72]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1M72wT-1l3idD3sUR-008XMc; Thu, 28 Jan 2021 14:24:09 +0100
-Message-ID: <b28ecd90eb0a58cbd07c434272244a4aa9581c7b.camel@richard-neumann.de>
-Subject: Re: [PATCH 0/3] AMD_SFH: Allow overriding sensor-mask by
- module-param or DMI-quirk
-From:   Richard Neumann <mail@richard-neumann.de>
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Nehal Shah <nehal-bakulchandra.shah@amd.com>,
-        Sandeep Singh <sandeep.singh@amd.com>
+        Thu, 28 Jan 2021 09:38:25 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10SEZGsp123398;
+        Thu, 28 Jan 2021 14:37:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ content-transfer-encoding : in-reply-to; s=corp-2020-01-29;
+ bh=yAx4Xh6Lrg7c9rpWXyju1T5K/HIYa6UIkgVFDKlyW58=;
+ b=r5XchmnPBaW1P1/+97bHB/HOtRNoIwYyMfw5g7c/alCw2aHk2X49GycNG5a8szFVhHvi
+ WgJtARGjBZOEpMDTPFNSC5virtPklIEVbGVHZAmjJyp5cPKBJ346T4rwrnuQMSTUpM1n
+ O7slYq71/BZGWFANLLSmr+vNXSOojNNjnJ6kcoPRm6LKES3OfJLpGiraQi2yi4wgwQio
+ JO83NRt6gIsB6SKCcRLBIbPXA4MCy6+qUyNhIxDzAtfrnh6ECdlpBRtzirHL9KEUf05g
+ FZMmmKaZne4Q74P0FRyOam69AJh/Sp168bTxghgNQ65f6k4PZvjl99PpbG8H3KxHrMdG mw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by aserp2130.oracle.com with ESMTP id 3689aavks0-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 28 Jan 2021 14:37:37 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10SEaEpj114407;
+        Thu, 28 Jan 2021 14:37:34 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by userp3030.oracle.com with ESMTP id 368wr0dgu2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 28 Jan 2021 14:37:34 +0000
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10SEbXNK006472;
+        Thu, 28 Jan 2021 14:37:33 GMT
+Received: from kadam (/102.36.221.92)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 28 Jan 2021 06:37:32 -0800
+Date:   Thu, 28 Jan 2021 17:37:26 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
 Cc:     linux-input@vger.kernel.org
-Date:   Thu, 28 Jan 2021 14:24:07 +0100
-In-Reply-To: <20210128121219.6381-1-hdegoede@redhat.com>
-References: <20210128121219.6381-1-hdegoede@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3 
+Subject: Re: [bug report] Input: elants_i2c - add support for eKTF3624
+Message-ID: <20210128143726.GT20820@kadam>
+References: <YBKKePZ1VyZIbBCo@mwanda>
+ <20210128130705.GA32681@qmqm.qmqm.pl>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:UE9NP0pdY4UYMMAstEq4X+GVF4VlTcOCnH9T2lvRWJKM71aq51f
- cLNX9uqwlMUAqYWvv9RINWwCJoIXg+BFx+tEAF57ZLwrLbWSyV5ZkF+dpx+1aUg7+EeFmzy
- B4Af0TprlqgCSk8RDaPL9fFR/Vg2eiv1zOBDOVHV7TddmtmlqJ0QyIFHGQVisHFdj+XxEVs
- 0gcvCIBbVXfNJateF891w==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zhVKJGrDmUg=:x4Po8GHqD6ybzpEn4OkFZd
- V5Du9k89GJ39JJqRRDIs/h2pzCLfpLCSv9fvkPnRdRh05UNOzUCinAGynT1NaV9BNb5IG11Ez
- a2P0V/PZ54pvzAIIebMugHQb3nxWsoVAUt11wYXlE/f4N1uniP2mq0KTFt3EwrzNQ3xhNOKCA
- 5fV6fqsKnzPmgYs5k1nYcUcPSKbnHbPHTBm3deCeMV/GSnCCLpN1stclt7GDRnSF/cpKopuVU
- hDw6HI8ZbwyaHF/f41BbKZxlylIag8Z7Ngjkg7p/1aoLmGHWv/Y5Bm/fGafeU/xRaVbBww+V8
- Q9m1r1RnMQ/Rv4G3vYXADr1sQO9AGlnowv9P6brkDJBIV/ZXNHvUFEhJadceGlkXLRYzAC5YY
- HqPFB8dg6nac6xtg1sjS79/sAFuua7hZweOel2RaEskK6mJA7Zky8bZQLiJByB5bCq9vZOY6e
- N3+4ea96Cw==
+In-Reply-To: <20210128130705.GA32681@qmqm.qmqm.pl>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9877 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 spamscore=0 phishscore=0
+ adultscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101280074
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9877 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 adultscore=0
+ lowpriorityscore=0 mlxlogscore=999 clxscore=1015 phishscore=0 bulkscore=0
+ spamscore=0 priorityscore=1501 mlxscore=0 suspectscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101280074
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Hans,
+On Thu, Jan 28, 2021 at 02:07:05PM +0100, Michał Mirosław wrote:
+> On Thu, Jan 28, 2021 at 12:57:12PM +0300, Dan Carpenter wrote:
+> > Hello Michał Mirosław,
+> > 
+> > The patch 9517b95bdc46: "Input: elants_i2c - add support for
+> > eKTF3624" from Jan 24, 2021, leads to the following static checker
+> > warning:
+> > 
+> > 	drivers/input/touchscreen/elants_i2c.c:966 elants_i2c_mt_event()
+> > 	warn: should this be a bitwise negate mask?
+> > 
+> > drivers/input/touchscreen/elants_i2c.c
+> [...]
+> >    963                                  w = buf[FW_POS_WIDTH + i / 2];
+> >    964                                  w >>= 4 * (~i & 1);
+> >    965                                  w |= w << 4;
+> >    966                                  w |= !w;
+> >                                         ^^^^^^^^
+> > 
+> > This code is just very puzzling.  I think it may actually be correct?
+> > The boring and conventional way to write this would be to do it like so:
+> > 
+> > 	if (!w)
+> > 		w = 1;
+> 
+> It could also be written as:
+> 
+> 	w += !w;
+> 
+> or:
+> 	w += w == 0;
+> 
+> while avoiding conditional.
 
-sorry, I missed to include you in the recipients of the patch I
-submitted yesterday: 
-https://patchwork.kernel.org/project/linux-input/list/?series=423055
+Is there some kind of prize for avoiding if statements??
 
-I was focused on the recipient returned by the get_maintainer.pl
-script.
-My patch, however, does the DMI matching a little differently and does
-not utilize the driver_data field of the DMI IDs.
-Also I did not include a patch to add a module parameter.
+> 
+> But, in this case, the warning is bogus. Because w | ~w == all-ones (always),
+> it might as well suggested to write:
+> 
+> 	w = -1;
+> 
+> or:
+> 	w = ~0;
+> 
+> making the code broken.
 
-I have too few knowledge which one is better. I don't think that we
-need the module parameter right now, if we have the DMI quirks, but
-I'll leave this decision to the experts.
+Yeah.  The rule is just a simple heuristic of a logical negate used
+with a bitwise operation.  You're comment has prompted me to review
+if this check is effective.
 
-It is true, that my fully refactored patch will need more review, and I
-changed some things already since I submitted it. But I will wait for
-some comments before I consider submitting it again.
+It turns out that it's not a super common thing so it doesn't lead to
+many warnings whether they are false positives or real bugs.  We did
+find one bug last week (in linux-next):
+5993e79398d3 ("drm/amdgpu: Fix masking binary not operator on two mask operations")
 
-Kind regards,
+There are only three other warnings for this rule in the kernel:
 
-Richard
+drivers/pci/pcie/aer_inject.c:376 aer_inject() warn: should this be a bitwise negate mask?
+drivers/pci/pcie/aer_inject.c:381 aer_inject() warn: should this be a bitwise negate mask?
+drivers/net/wireless/realtek/rtlwifi/rtl8821ae/dm.c:2435 rtl8821ae_dm_refresh_basic_rate_mask() warn: should this be a bitwise negate mask?
 
-Am Donnerstag, dem 28.01.2021 um 13:12 +0100 schrieb Hans de Goede:
-> Hi All,
-> 
-> There are several bug-reports about the new AMD_SFH driver not
-> working
-> on various HP ENVY x360 Convertible models. The problem is that the
-> driver expects the BIOS to program which sensors are present into the
-> active bits of the AMD_P2C_MSG3 register; and the BIOS on these
-> models
-> does not do this:
-> 
-> https://bugzilla.kernel.org/show_bug.cgi?id=199715
-> https://bugzilla.redhat.com/show_bug.cgi?id=1651886
-> 
-> This patch-set adds a module-parameter + DMI-quirk mechanism to
-> override
-> the settings read back from the AMD_P2C_MSG3 register, to work around
-> this problem. The DMI-quirk table is populated with 2 HP ENVY x360
-> Convertible models which are know to need this workaround.
-> 
-> There also is a much larger refactoring patch-set pending from
-> Richard Neumann, who is also involved in the bugzilla.kernel.org bug.
-> 
-> But it looks to me like that will need a bit more more work before
-> it is ready for merging, where as (IMHO) this set is ready for
-> merging now. So IMHO it would be good to first merge this patch-set
-> to get this fix into the hands of end-users of these devices.
-> 
-> Note there still is an open issue on these devices where the
-> sensors stop working after a suspend/resume cycle.
-> 
-> I wonder if the driver should perhaps not only not use the
-> active bits of the AMD_P2C_MSG3 register for determining which
-> sensors are there, but if it should actually write to those bots
-> with the correct settings.
-> 
-> Sandeep, do you have any ideas what might be the problem here?
-> Should I ask the reporters to test a patch which actually
-> updates the active bits?
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> 
-> Hans de Goede (3):
->   AMD_SFH: Removed unused activecontrolstatus member from the
->     amd_mp2_dev struct
->   AMD_SFH: Add sensor_mask module parameter
->   AMD_SFH: Add DMI quirk table for BIOS-es which don't set the
->     activestatus bits
-> 
->  drivers/hid/amd-sfh-hid/amd_sfh_pcie.c | 40
-> ++++++++++++++++++++++++--
->  drivers/hid/amd-sfh-hid/amd_sfh_pcie.h |  1 -
->  2 files changed, 37 insertions(+), 4 deletions(-)
-> 
+I never reported any of these because they're in ancient code and I
+couldn't figure out what it was trying to do.
 
+drivers/pci/pcie/aer_inject.c
+   374          if (aer_mask_override) {
+   375                  cor_mask_orig = cor_mask;
+   376                  cor_mask &= !(einj->cor_status);
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Is the bitwise ~ intended?  Why is BIT(0) special?  You would have to
+know the PCIe hardware spec to say the answer for that.  It's sort of
+like BIT(0) is a magic number but invisible...  :/
 
+   377                  pci_write_config_dword(dev, pos_cap_err + PCI_ERR_COR_MASK,
+   378                                         cor_mask);
+   379  
+   380                  uncor_mask_orig = uncor_mask;
+   381                  uncor_mask &= !(einj->uncor_status);
+   382                  pci_write_config_dword(dev, pos_cap_err + PCI_ERR_UNCOR_MASK,
+   383                                         uncor_mask);
+   384          }
+
+drivers/net/wireless/realtek/rtlwifi/rtl8821ae/dm.c
+  2415  static void rtl8821ae_dm_refresh_basic_rate_mask(struct ieee80211_hw *hw)
+  2416  {
+  2417          struct rtl_priv *rtlpriv = rtl_priv(hw);
+  2418          struct dig_t *dm_digtable = &rtlpriv->dm_digtable;
+  2419          struct rtl_mac *mac = &rtlpriv->mac80211;
+  2420          static u8 stage;
+  2421          u8 cur_stage = 0;
+  2422          u16 basic_rate = RRSR_1M | RRSR_2M | RRSR_5_5M | RRSR_11M | RRSR_6M;
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The important thing to note here is BIT(0) is RRSR_1M.
+
+  2423  
+  2424          if (mac->link_state < MAC80211_LINKED)
+  2425                  cur_stage = 0;
+  2426          else if (dm_digtable->rssi_val_min < 25)
+  2427                  cur_stage = 1;
+  2428          else if (dm_digtable->rssi_val_min > 30)
+  2429                  cur_stage = 3;
+  2430          else
+  2431                  cur_stage = 2;
+  2432  
+  2433          if (cur_stage != stage) {
+  2434                  if (cur_stage == 1) {
+  2435                          basic_rate &= (!(basic_rate ^ mac->basic_rates));
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Here we set "basic_rate" to either 0 or RRSR_1M.
+
+  2436                          rtlpriv->cfg->ops->set_hw_reg(hw,
+  2437                                  HW_VAR_BASIC_RATE, (u8 *)&basic_rate);
+
+This can't possibly be correct but the the ->set_hw_reg() implementations
+seem to have a work around where they take do:
+
+	basic_rate |= 0x01;
+
+at the start of the function.  Magic numbers again.  *le bigger sigh*.
+
+  2438                  } else if (cur_stage == 3 && (stage == 1 || stage == 2)) {
+  2439                          rtlpriv->cfg->ops->set_hw_reg(hw,
+  2440                                  HW_VAR_BASIC_RATE, (u8 *)&mac->basic_rates);
+  2441                  }
+  2442          }
+  2443          stage = cur_stage;
+  2444  }
+
+regards,
+dan carpenter
