@@ -2,189 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 007ED307195
-	for <lists+linux-input@lfdr.de>; Thu, 28 Jan 2021 09:35:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 64A373072EF
+	for <lists+linux-input@lfdr.de>; Thu, 28 Jan 2021 10:40:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231335AbhA1Id4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 28 Jan 2021 03:33:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43782 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229646AbhA1Ide (ORCPT
+        id S231408AbhA1Jj3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 28 Jan 2021 04:39:29 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:36398 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231641AbhA1Jgs (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 28 Jan 2021 03:33:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1611822721;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=IBdtIUDwfWamCpwn+H9Amb/H5XKi8QMaCRngaX+sBFc=;
-        b=Lc2n5+4jB6VhMLKRJCwa9o+J3iCkHsIdy4o1TVYfv//fXgps2GglEyW+4r6e26hpUsaQA6
-        dwHOdVctLeL8pWLX+fHFkXKbEPgTqIgnzYKTIL0QRadi0evQMykkQfCthDBpSs1/tu+bd9
-        44RDdvZ0PtUDooVu4d8KgmZqntyyENM=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-553-uqnHAIxYMXmI6bIe49RxGw-1; Thu, 28 Jan 2021 03:31:59 -0500
-X-MC-Unique: uqnHAIxYMXmI6bIe49RxGw-1
-Received: by mail-pl1-f198.google.com with SMTP id c18so2787721pls.8
-        for <linux-input@vger.kernel.org>; Thu, 28 Jan 2021 00:31:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=IBdtIUDwfWamCpwn+H9Amb/H5XKi8QMaCRngaX+sBFc=;
-        b=g2UP1QAqilkHvkBQKXUITLbD1n1002j3n13B6VuOKV0Q8yRwFJANKlDsTRgy8idlMj
-         MN8OnOFIreSYqD7zkONKVO44BNcGvmj/O4kTNDXVLmHlD9EGd4EJ9LVeZau1s7FH+lUu
-         xQdcOSLpjGD4a10M0iHZ3Z0cb3dtDWV40o96JIIX6BCRAp8EKYqxgSsY6LV52QFAOdoo
-         ecEYCCnW+/Tcre3lQE1DJZZ75amzIB8PZIragsJydOMQryJsmcaHdv2B3w4kDjo8SntY
-         3gCl0xFrZXtLtspVjicV61IMPpQ50A01+bBPmLN3tbiu/I9LY9LeShWSwmmsTWZZrPv/
-         X/LA==
-X-Gm-Message-State: AOAM530qGT4ZljvNuOqynj2vysRq53bPhMPQRC69S2AAxCmSeUGi93Ut
-        czByLKcAsxN0FPaOTDAOJGECN3rfPLTdaWUomxFIy2r7DUPYTaHykxwm0UdXcI30dwi/BLOO9zB
-        UCuDGK6uADusLqfE92UkwcrMA7IcvLOm4o08yrL4=
-X-Received: by 2002:a17:90b:fd3:: with SMTP id gd19mr10132899pjb.129.1611822715183;
-        Thu, 28 Jan 2021 00:31:55 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzoKoamlqIyOuKFkbSsIxcPNMNQew6/YFkOfMueEe5U/0VN+M3Hi1z6fwB2Y/ZziaiM1IQCI197GkNCz7TIgNk=
-X-Received: by 2002:a17:90b:fd3:: with SMTP id gd19mr10132876pjb.129.1611822714819;
- Thu, 28 Jan 2021 00:31:54 -0800 (PST)
+        Thu, 28 Jan 2021 04:36:48 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10S9FE15118562;
+        Thu, 28 Jan 2021 09:36:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=R1Fdx62Xf99Nzq0W82FyQBbmwyGKC1XkdoIOB/k4UWY=;
+ b=sFrH09d1HGxtjiY0UMp6vCb1pDf26ztgRvD6dy17ROOoTPvyJ5vQ56f3Apv2oQXgacft
+ fjQjtmmxlXL5fBH/HWh/5GclgAK0kPVB74nKXkspW7vs9RsEiDphydCYn5+F6TxVBDs9
+ 3TE4cI1KGTBm6Rv8YBD+pmgh+DDKh1cZ+9AYcHHQQzNNP0sf0H9v/OHiR3mV38jOzOgl
+ vlAD/z131TGICuzMPUvieN67SdH1D8YnLJnKh8FYQXYU6UTbPZjI4BIqcS0HAqClT/FK
+ bKtnnVCHTdf0vQ19v/OSW89CZF2sPS2R7zV87WDi1tsvlfSZHzs7i2WGLWBEydvPyyNA fg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by aserp2130.oracle.com with ESMTP id 3689aaubjb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 28 Jan 2021 09:36:00 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10S9GE6H156504;
+        Thu, 28 Jan 2021 09:35:58 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by userp3030.oracle.com with ESMTP id 368wr02qhb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 28 Jan 2021 09:35:58 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10S9ZvGP024403;
+        Thu, 28 Jan 2021 09:35:58 GMT
+Received: from mwanda (/10.175.203.176)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 28 Jan 2021 01:35:57 -0800
+Date:   Thu, 28 Jan 2021 12:35:51 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Shaun Jackman <sjackman@gmail.com>,
+        linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] Input: elo - fix an error code in elo_connect()
+Message-ID: <YBKFd5CvDu+jVmfW@mwanda>
 MIME-Version: 1.0
-References: <20210117234435.180294-1-roderick@gaikai.com>
-In-Reply-To: <20210117234435.180294-1-roderick@gaikai.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 28 Jan 2021 09:31:43 +0100
-Message-ID: <CAO-hwJJ5r0hBNEhKvZkLevyG8mf6rQVL_7nf4XcjUi0mgErF5w@mail.gmail.com>
-Subject: Re: [PATCH v4 00/13] HID: new driver for PS5 'DualSense' controller
-To:     Roderick Colenbrander <roderick@gaikai.com>,
-        =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>,
-        =?UTF-8?Q?Samuel_=C4=8Cavoj?= <sammko@sammserver.com>,
-        =?UTF-8?Q?Florian_M=C3=A4rkl?= <linux@florianmaerkl.de>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Chris Ye <lzye@google.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9877 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 spamscore=0 phishscore=0
+ adultscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101280048
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9877 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 adultscore=0
+ lowpriorityscore=0 mlxlogscore=999 clxscore=1011 phishscore=0 bulkscore=0
+ spamscore=0 priorityscore=1501 mlxscore=0 suspectscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101280048
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Roderick,
+If elo_setup_10() fails then this should return an error code instead
+of success.
 
-On Mon, Jan 18, 2021 at 12:44 AM Roderick Colenbrander
-<roderick@gaikai.com> wrote:
->
-> From: Roderick Colenbrander <roderick.colenbrander@sony.com>
->
-> Hi,
->
-> This is the same code as v3. Due to a misstake during a last minute
-> rebase, the touchpad and sensors patch got combined while fixing a confli=
-ct.
-> The new v4 corrects that issue. There are no additional code changes.
->
-> This new revision contains a few bug fixes, but mostly features small
-> code changes and minor improvements relative to v2.
->
-> In terms of bugs there were bugs in the sensor code. There was an overflo=
-w
-> issue and EV_MSC/MSC_TIMESTAMP were not set on the device. In addition,
-> the ps_device spinlock was not initialized.
->
-> The biggest change in the driver was the addition of a new 'ps_get_report=
-'
-> helper function. It handles GET_FEATURE report retrieval and any error ha=
-ndling
-> including CRC checks for PlayStation Bluetooth devices. This greatly simp=
-lified
-> all the functions (dualsense_get_mac_address, dualsense_calibration_info,=
- ..)
-> dealing, which used their own report handling and error checking.
->
-> Aside for these changes, there were mostly little code style changes like=
- defining
-> magic constants, cleaning up comments, cleaning up log messages, static_a=
-ssert
-> checks etcetera.
->
-> Thanks to everyone who provided feedback through the mailing list or priv=
-ately.
+Fixes: fae3006e4b42 ("Input: elo - add support for non-pressure-sensitive touchscreens")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/input/touchscreen/elo.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-From a rough review, the code looks good to me. However, I'd like to
-have Baranab=C3=A1s reviewed-by tag at least given all the work he has been
-doing. There were other people involved in the various versions, and
-it would be nice if we can get some credits for them too.
-
-So for anyone involved in the discussions, could you give us your
-reviewed-by or tested-by if you feel like?
-
-[Roderick, as a general rule of thumb, it's better IMO to keep Cc-ed
-the people who gave feedback, so they are notified of a new version.]
-
-Cheers,
-Benjamin
-
-
-
->
-> Changes since v3:
-> - Separated touchpad and sensors into separate patches due to rebase miss=
-take.
->
-> Changes since v2:
-> - Removed !Expert setting for hid-playstation from Kconfig.
-> - Removed DualSense from hid-quirks table.
-> - Added report size checks to dualsense_parse_report.
-> - Moved mac address endianess comment to struct ps_device.
-> - Added static_asserts for packed structure size checks.
-> - Improved readability of battery capacity calculation using 'min'.
-> - Added spin_lock_init to dualsense_create to initialize ps_device lock.
-> - Fixed sensors timestamp overflow.
-> - Fixed missing MSC_TIMESTAMP and EV_MSC capabilities in ps_sensors_creat=
-e.
-> - Used DIV_ROUND_CLOSEST for timestamp calculations to minimize rounding =
-errors.
-> - Switched to devm_kmalloc_array for lightbar allocation.
-> - Added CRC32 and NEW_LEDS dependency to Kconfig.
-> - Added defines for crc32 seed constants.
-> - Added crc32 check for dualsense_get_mac_address and increased report si=
-ze to 20.
-> - Added new ps_get_report call to obtain feature reports.
-> - Switched to ARRAY_SIZE in dualsense_parse_reports for touch points, acc=
-el and gyro data.
-> - Changed touch point parse loop to use "struct dualsense_touch_point".
-> - Improved consistency of info and error messages.
-> - Unified comment style.
->
->
-> Thanks,
->
-> Roderick Colenbrander
-> Sony Interactive Entertainment, LLC
->
-> Roderick Colenbrander (13):
->   HID: playstation: initial DualSense USB support.
->   HID: playstation: use DualSense MAC address as unique identifier.
->   HID: playstation: add DualSense battery support.
->   HID: playstation: add DualSense touchpad support.
->   HID: playstation: add DualSense accelerometer and gyroscope support.
->   HID: playstation: track devices in list.
->   HID: playstation: add DualSense Bluetooth support.
->   HID: playstation: add DualSense classic rumble support.
->   HID: playstation: add DualSense lightbar support
->   HID: playstation: add microphone mute support for DualSense.
->   HID: playstation: add DualSense player LEDs support.
->   HID: playstation: DualSense set LEDs to default player id.
->   HID: playstation: report DualSense hardware and firmware version.
->
->  MAINTAINERS                   |    6 +
->  drivers/hid/Kconfig           |   21 +
->  drivers/hid/Makefile          |    1 +
->  drivers/hid/hid-ids.h         |    1 +
->  drivers/hid/hid-playstation.c | 1485 +++++++++++++++++++++++++++++++++
->  5 files changed, 1514 insertions(+)
->  create mode 100644 drivers/hid/hid-playstation.c
->
-> --
-> 2.26.2
->
+diff --git a/drivers/input/touchscreen/elo.c b/drivers/input/touchscreen/elo.c
+index e0bacd34866a..4b2fb73da5e2 100644
+--- a/drivers/input/touchscreen/elo.c
++++ b/drivers/input/touchscreen/elo.c
+@@ -341,8 +341,10 @@ static int elo_connect(struct serio *serio, struct serio_driver *drv)
+ 	switch (elo->id) {
+ 
+ 	case 0: /* 10-byte protocol */
+-		if (elo_setup_10(elo))
++		if (elo_setup_10(elo)) {
++			err = -EINVAL;
+ 			goto fail3;
++		}
+ 
+ 		break;
+ 
+-- 
+2.29.2
 
