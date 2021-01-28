@@ -2,76 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F947307412
-	for <lists+linux-input@lfdr.de>; Thu, 28 Jan 2021 11:51:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E63F4307477
+	for <lists+linux-input@lfdr.de>; Thu, 28 Jan 2021 12:10:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229635AbhA1Ks4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 28 Jan 2021 05:48:56 -0500
-Received: from mail-ej1-f52.google.com ([209.85.218.52]:46597 "EHLO
-        mail-ej1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229486AbhA1Ksx (ORCPT
+        id S229606AbhA1LKB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 28 Jan 2021 06:10:01 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2442 "EHLO
+        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229594AbhA1LJ7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 28 Jan 2021 05:48:53 -0500
-Received: by mail-ej1-f52.google.com with SMTP id rv9so6986852ejb.13
-        for <linux-input@vger.kernel.org>; Thu, 28 Jan 2021 02:48:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=EdU5oY7qGZorL60Dbwvcp5OevbtQQ+Pg0G93EWXJPZQ=;
-        b=S7eAr2EzGhehCU9sbw5h48AMgb1LKAPe8tfVknQNTiNE8gyQHxxwN67LJ+EV8tl/+J
-         wFEcTY51Olc+NOEdMc08cieMmvUTBrQGURgQhYzUWIOPQyjek54zILmh1mscMk2aB14o
-         2s7fH0TITXFcgTU08vSnilLe2LHZqC3D3I1FRkEtNsK8ENPpYITalBSzxDCwi3ynGfRm
-         A30I1uWHIod5uwuf7vzUMlz6961da36Pr2oWEcDPu7XrD/OW/R+1GixA2rauYjy9un8Y
-         qGkIYB5NLXeepymlvXpLMK99jax7U5VQC7h7fq8qHkldcXtnbpDD8BFCzalpmva0NZIK
-         U+QA==
-X-Gm-Message-State: AOAM532TAWuXSb+AesvZUGXUz5iBOJxnVS8VJk0MEfOIHc8KiCHSg1SB
-        nGjy+P+6vfM4bITp0ui7+bsYRm2joGeBdQ==
-X-Google-Smtp-Source: ABdhPJzg+snMNuMTa06JDQRvSEdXg9ttuZsQjBpGVlaKytEdevclaIj5NKxuXeEyIqC5XxXDFc/AZg==
-X-Received: by 2002:a17:906:4e47:: with SMTP id g7mr9259892ejw.480.1611830891485;
-        Thu, 28 Jan 2021 02:48:11 -0800 (PST)
-Received: from anvil.localnet (p4fc50f7d.dip0.t-ipconnect.de. [79.197.15.125])
-        by smtp.googlemail.com with ESMTPSA id x25sm2765987edv.65.2021.01.28.02.48.10
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jan 2021 02:48:10 -0800 (PST)
-From:   Christopher Lee Thomas <christopherlee.thomas@a08.net>
-To:     linux-input@vger.kernel.org
-Subject: Dell G5 15 5590 | Touchpad apparently not recognized correctly
-Date:   Thu, 28 Jan 2021 11:48:09 +0100
-Message-ID: <24826546.1r3eYUQgxm@anvil>
+        Thu, 28 Jan 2021 06:09:59 -0500
+Received: from fraeml707-chm.china.huawei.com (unknown [172.18.147.207])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DRHhN5xclz67hBF;
+        Thu, 28 Jan 2021 19:05:56 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml707-chm.china.huawei.com (10.206.15.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 28 Jan 2021 12:09:17 +0100
+Received: from localhost (10.47.74.140) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 28 Jan
+ 2021 11:09:17 +0000
+Date:   Thu, 28 Jan 2021 11:08:33 +0000
+From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To:     "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>
+CC:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "maz@kernel.org" <maz@kernel.org>,
+        "linuxarm@openeuler.org" <linuxarm@openeuler.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [Linuxarm]  Re: [PATCH v3 00/12] add IRQF_NO_AUTOEN for
+ request_irq
+Message-ID: <20210128110833.00000c43@Huawei.com>
+In-Reply-To: <YBHC6SzXAOSNoQnI@google.com>
+References: <20210107223926.35284-1-song.bao.hua@hisilicon.com>
+        <848fb07c3073401bbbe15db71f5922c9@hisilicon.com>
+        <YBFvYStmGeChUJlO@kroah.com>
+        <YBHC6SzXAOSNoQnI@google.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.47.74.140]
+X-ClientProxiedBy: lhreml732-chm.china.huawei.com (10.201.108.83) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On Wed, 27 Jan 2021 11:45:45 -0800
+"dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com> wrote:
 
-I've got a *Dell G5 15 5590* Notebook with a Touchpad which apparently is not recognized correctly:
+> On Wed, Jan 27, 2021 at 02:49:21PM +0100, gregkh@linuxfoundation.org wrote:
+> > On Thu, Jan 21, 2021 at 09:38:28PM +0000, Song Bao Hua (Barry Song) wrote:  
+> > > Hi Thomas, Greg, Dmitry, Marc,
+> > > Any further comment on this new API?   
+> > 
+> > It's not my subsystem, I'll let the irq maintainers handle it :)  
+> 
+> Not my subsystem either, but I would like to have this feature
+> available. I do not like calling irq_set_status_flags() before
+> request_irq() as at that time we are not ensured of irq ownership, and
+> using disable_irq() afterwards is indeed awkward.
+> 
 
-$ dmesg | grep touch -i
-psmouse serio1: synaptics: Your touchpad (PNP: DLL08ed PNP0f13) says it can support a different bus. If i2c-hid and hid-rmi are not used, you might want to try setting psmouse.synaptics_intertouch to 1 and report this to linux-input@vger.kernel.org.
-psmouse serio1: synaptics: Touchpad model: 1, fw: 9.16, id: 0x1e2a1, caps: 0xf00123/0x840300/0x12e800/0x500000, board id: 3240, fw id: 2749858
-input: SynPS/2 Synaptics TouchPad as /devices/platform/i8042/serio1/input/input8
+Likewise, keen on having this available.
 
-Modules are loaded but not used:
+Jonathan
 
-$ lsmod | grep -i hid
-i2c_hid                28672  0
-hid_rmi                16384  0
-usbhid                 32768  0
-
-Kernel used is *5.4.92*:
-
-$ uname -a
-Linux anvil 5.4.92-gentoo-x86_64 #1 SMP Thu Jan 28 10:57:08 CET 2021 x86_64 Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz GenuineIntel GNU/Linux
-
-Any other information I can give you or any hint on how to fix this?
-
-
-Thank you,
-Christopher Lee Thomas
-
+> Thanks.
+> 
 
