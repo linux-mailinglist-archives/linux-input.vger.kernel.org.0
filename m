@@ -2,203 +2,143 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C774D307844
-	for <lists+linux-input@lfdr.de>; Thu, 28 Jan 2021 15:40:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 714A0307857
+	for <lists+linux-input@lfdr.de>; Thu, 28 Jan 2021 15:42:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229810AbhA1Oi0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 28 Jan 2021 09:38:26 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:43122 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229840AbhA1OiZ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 28 Jan 2021 09:38:25 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10SEZGsp123398;
-        Thu, 28 Jan 2021 14:37:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- content-transfer-encoding : in-reply-to; s=corp-2020-01-29;
- bh=yAx4Xh6Lrg7c9rpWXyju1T5K/HIYa6UIkgVFDKlyW58=;
- b=r5XchmnPBaW1P1/+97bHB/HOtRNoIwYyMfw5g7c/alCw2aHk2X49GycNG5a8szFVhHvi
- WgJtARGjBZOEpMDTPFNSC5virtPklIEVbGVHZAmjJyp5cPKBJ346T4rwrnuQMSTUpM1n
- O7slYq71/BZGWFANLLSmr+vNXSOojNNjnJ6kcoPRm6LKES3OfJLpGiraQi2yi4wgwQio
- JO83NRt6gIsB6SKCcRLBIbPXA4MCy6+qUyNhIxDzAtfrnh6ECdlpBRtzirHL9KEUf05g
- FZMmmKaZne4Q74P0FRyOam69AJh/Sp168bTxghgNQ65f6k4PZvjl99PpbG8H3KxHrMdG mw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2130.oracle.com with ESMTP id 3689aavks0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 28 Jan 2021 14:37:37 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10SEaEpj114407;
-        Thu, 28 Jan 2021 14:37:34 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3030.oracle.com with ESMTP id 368wr0dgu2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 28 Jan 2021 14:37:34 +0000
-Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10SEbXNK006472;
-        Thu, 28 Jan 2021 14:37:33 GMT
-Received: from kadam (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 28 Jan 2021 06:37:32 -0800
-Date:   Thu, 28 Jan 2021 17:37:26 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc:     linux-input@vger.kernel.org
-Subject: Re: [bug report] Input: elants_i2c - add support for eKTF3624
-Message-ID: <20210128143726.GT20820@kadam>
-References: <YBKKePZ1VyZIbBCo@mwanda>
- <20210128130705.GA32681@qmqm.qmqm.pl>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+        id S231426AbhA1Okp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 28 Jan 2021 09:40:45 -0500
+Received: from mail-bn8nam11on2066.outbound.protection.outlook.com ([40.107.236.66]:51645
+        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S231309AbhA1Oko (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 28 Jan 2021 09:40:44 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eDPe9mZTCk8LMcNezVs2qwnVh4WWjtEVC5XYdUiDv0LRdkXDrQqBTulrtyL+dDk9KyRcXA+NcGNA8bac5BBwHIEm7KPmABx5ot2jRDy+sws3LB+WcDS54AeN7/g1Ixg1DrjC88QnPP43nt5MehF03zRjJ182jyvBGxV7yeGwE/e0XbhDKgz2/NDhcA4/h5MPKqMy6vefAEQKw/FkBckvfcWyTFtGJRsNmPOHjRTfevFn3wwaz3KsXAXIkzKZRnXbqq5S9oXb7Q/Ox+/W8NipKFyYsGRK2a+m4qvbfqExMOnKoHopFHCf9gwOgzkqrkahB8N5EpBWPaVo3BmYC3Cqkw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FVOvS5jmWQ0hZA01M/V4u4ErUTYfIJ5iyz0pVcNIg4c=;
+ b=VxAkd6SXcTiCWYUUsZeAF6sF+IrshTQb/Me5XyNO18cgVxSz/Z51bePzmYZiwM6mLHpdxntM5Ogw+SfpyUNcpkhka0oYK1uQCcwQIhbSWhpcAx+vO62XkCrkjCgFtwLX++tJThqylnUqXkfQP4TzI/P5vdH79as5ywSVDRnaS4k7+GyCpFFLGiKFdPiyGMSNBgCTBCLhN6V5rjprUOrbMF2DcyopBdDNdg0q0F1TXq7eD5YUq5ZCJFGoYuj9q30/BY2gVNPoXl9Aw8FxlU9Y3bgqBTWyjawSm40+o2KI+Qm5j4RtXB4PiS69YOwESlf+dMJ3RGyJi6NCpIl5q0XLiQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
+ dkim=pass header.d=labundy.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FVOvS5jmWQ0hZA01M/V4u4ErUTYfIJ5iyz0pVcNIg4c=;
+ b=Plk1m6w9zqSvacMSYiaYVW4fKzY857FmD9DnONY9PRzbOX8CFTcwz4Qgfh/DZsWcuAGGLPlnyG8set0MPVPaTWEaV6Lh5bY6mFAe2dK6ARz/df3YExoouGgoIi0qVQsru3l+0fw0+SMaVL5O4xGh6trCAXNkgHgUqI5VHTstwKw=
+Authentication-Results: canonical.com; dkim=none (message not signed)
+ header.d=none;canonical.com; dmarc=none action=none header.from=labundy.com;
+Received: from SN6PR08MB5517.namprd08.prod.outlook.com (2603:10b6:805:fb::32)
+ by SN6PR08MB4094.namprd08.prod.outlook.com (2603:10b6:805:1c::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.16; Thu, 28 Jan
+ 2021 14:39:51 +0000
+Received: from SN6PR08MB5517.namprd08.prod.outlook.com
+ ([fe80::972:c257:aa68:9be0]) by SN6PR08MB5517.namprd08.prod.outlook.com
+ ([fe80::972:c257:aa68:9be0%4]) with mapi id 15.20.3763.019; Thu, 28 Jan 2021
+ 14:39:50 +0000
+Date:   Thu, 28 Jan 2021 08:39:46 -0600
+From:   Jeff LaBundy <jeff@labundy.com>
+To:     Colin King <colin.king@canonical.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH][next] Input: iqs5xx: Ensure error_bl is initialized on
+ error exit path
+Message-ID: <20210128143946.GA14625@labundy.com>
+References: <20210128121903.636652-1-colin.king@canonical.com>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210128130705.GA32681@qmqm.qmqm.pl>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9877 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 spamscore=0 phishscore=0
- adultscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101280074
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9877 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 adultscore=0
- lowpriorityscore=0 mlxlogscore=999 clxscore=1015 phishscore=0 bulkscore=0
- spamscore=0 priorityscore=1501 mlxscore=0 suspectscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101280074
+In-Reply-To: <20210128121903.636652-1-colin.king@canonical.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [136.49.173.128]
+X-ClientProxiedBy: SN1PR12CA0107.namprd12.prod.outlook.com
+ (2603:10b6:802:21::42) To SN6PR08MB5517.namprd08.prod.outlook.com
+ (2603:10b6:805:fb::32)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from labundy.com (136.49.173.128) by SN1PR12CA0107.namprd12.prod.outlook.com (2603:10b6:802:21::42) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.17 via Frontend Transport; Thu, 28 Jan 2021 14:39:50 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d1249f60-1278-425b-c1fa-08d8c39a9180
+X-MS-TrafficTypeDiagnostic: SN6PR08MB4094:
+X-Microsoft-Antispam-PRVS: <SN6PR08MB40948EF42453B947E5EB9461D3BA9@SN6PR08MB4094.namprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: uvs/ZxzgiMsS2h/yKQsZg99Sf2Om7PmfMkppJevXX8qV/0PfNwsIcwAWMWc74OhnpVoKGYZtTSPnaldBqDalhjXegHCoR3ruLIOz5ifMVF+Ep233bJNYMG5HVtJITqs4ZReOhRcpBYpZYuvlNT4kdBRaYpCiOjK8DrQpS6DBBRuqcrF9fl5jTWCwttjLORLfefYdcbfZ1XuUBpSSzi/UHlWgY6flIwdAvYWK1ZF+VGOH0ORnzJuCWTwzhZbXz/aRx17vECTbGwibUKtRs8j6mfpRD5wju19wwSaNyNGTA6aGB5HDD1t3aqkHwGYaO6yXBgP4jsAyGERy00GNcRvfeZWfc8TJw4ZEP8wWZTeW22lecKwtjpHbs/j6JNa80shR06a8bKwNA8IgKsVAlx+j2Gqk8Xygy9k45l4nfIP2oxUhNVllaMASAqJpdaJBteQ30wOlwnwk/gcch48SZCe/OLzBQRfnODFrScvxyviC67kIxRFkbTDobfSf2/Cc5G2x74F7HGazZG8kHnah7F1Xcu930E4ftmqIRW+DOHs4hJeLgBd4A8/7hkLtUfujjM2HKvgjO9ljLdT7nUrbSus5NgQkA3ZyMGSnxC9smGDK/34dgYLZIzLs2vjlV1wFBvRG1iH990taZlEGpFZS+jjIjA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR08MB5517.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(39830400003)(396003)(136003)(346002)(376002)(66556008)(83380400001)(66476007)(5660300002)(33656002)(966005)(8886007)(1076003)(4326008)(478600001)(66946007)(6666004)(55016002)(8936002)(26005)(16526019)(186003)(956004)(2616005)(86362001)(6916009)(316002)(8676002)(2906002)(52116002)(36756003)(7696005)(32563001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Zyeh25sXUGab8UlGyTyJx9LZu5tKRljIgSmAAyqsmxASC39zwUpdcXe2HVod?=
+ =?us-ascii?Q?8LOAy9fpjG6ZrpQT7XzUcIm9snoEzRpvI2S58IFqNc/r7zJVy+sqCpyS7iyK?=
+ =?us-ascii?Q?WyLxgbGBYcUDJyXZ7y6SYx9kQvilrhhmcTG0cvME9nQcOvoKYb5a081btxyC?=
+ =?us-ascii?Q?YwttUrXlPK99S9pPZ3H+2IyfciHMzJ1OeBgEyLFbuMkhnL7xmWAflEqic6FS?=
+ =?us-ascii?Q?SKBbHT3ref5yDdCUTI0SmINz5tHzBkiGqxpHLIx09wdJwE9V7jJrBH+tln2G?=
+ =?us-ascii?Q?OpQqzvzZFEhUMA3W81g9yhb5XsqkzZlF9Cen8D12QCpRbNukynlGWRTLryax?=
+ =?us-ascii?Q?PO9y1/UJdMb6RH55YGVCRq3sPx/VWAerJ5ImD9iTVgoSYCP2WW+8Ns4rf8Xx?=
+ =?us-ascii?Q?YNq7bwhm6DGI61N4XwBpbsLt4Jnu48Mx9vGDB0FYkdficRnDc3OWxJpBcdh3?=
+ =?us-ascii?Q?seLgZqiTXt2qREyFn+Q5QVe0Mgem6PtnxOcXk3P1ZJrILQotnt9Lf9El59TR?=
+ =?us-ascii?Q?nTK/R8CTjl9xutJbWGVg5xSfT8Zs+hIHmJUZZpgFz4Wch34GfK8EUsU2q141?=
+ =?us-ascii?Q?KjeVvSN/bwBmQkSmwrfyZaUw42yqwAa/tcVxs2x+79JE00w0SQ1FQNDkWtUw?=
+ =?us-ascii?Q?e7Iy1uHCRlum9ClFUolERsnluQizGO7oFaibC3sSJj4oOSCWu57KXrq+vnmg?=
+ =?us-ascii?Q?K/JHICUFOMWG/vNVQGSr9LmcwaySHHnM9u4bXTeOGAcoMo8v5x+N9M/rJyYC?=
+ =?us-ascii?Q?+SKFoqa38HjPFLuavniXRgIZUthg44u9UNqLw+5XhXydqjBQ6zMcjTnomBVB?=
+ =?us-ascii?Q?Q4IMluScOsv6oVHlRyB4EGFmEeXV9YbaZrvxW+JO8ZnZfBdP898XYz2si9CR?=
+ =?us-ascii?Q?TRp2b6OBZyzCko8zyQufc53kpFhv6tn/WAwB0qJtw+yFz395J0xT26p+N9iu?=
+ =?us-ascii?Q?XiSYduzrzWHYyEOW8wSnC3bKViBvV0i+G1McBYeDwaREo0sNsqMe0s7f83OA?=
+ =?us-ascii?Q?DWJLMv/7nmPShYC7gsccA39Euzo/In6eyCqiX71shhYBZ8KYGio46Cz3F4nP?=
+ =?us-ascii?Q?SK/Aws03?=
+X-OriginatorOrg: labundy.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d1249f60-1278-425b-c1fa-08d8c39a9180
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR08MB5517.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2021 14:39:50.8048
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bGkvrEb4V0WX3QXW4J7M1IfH7FklFDnA9eE7Wz4YGgIYgJG9Qy8StxPcdyjt1YqXDImVELyueI6lqasTAiPQRg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR08MB4094
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jan 28, 2021 at 02:07:05PM +0100, Michał Mirosław wrote:
-> On Thu, Jan 28, 2021 at 12:57:12PM +0300, Dan Carpenter wrote:
-> > Hello Michał Mirosław,
-> > 
-> > The patch 9517b95bdc46: "Input: elants_i2c - add support for
-> > eKTF3624" from Jan 24, 2021, leads to the following static checker
-> > warning:
-> > 
-> > 	drivers/input/touchscreen/elants_i2c.c:966 elants_i2c_mt_event()
-> > 	warn: should this be a bitwise negate mask?
-> > 
-> > drivers/input/touchscreen/elants_i2c.c
-> [...]
-> >    963                                  w = buf[FW_POS_WIDTH + i / 2];
-> >    964                                  w >>= 4 * (~i & 1);
-> >    965                                  w |= w << 4;
-> >    966                                  w |= !w;
-> >                                         ^^^^^^^^
-> > 
-> > This code is just very puzzling.  I think it may actually be correct?
-> > The boring and conventional way to write this would be to do it like so:
-> > 
-> > 	if (!w)
-> > 		w = 1;
+Hi Colin,
+
+On Thu, Jan 28, 2021 at 12:19:03PM +0000, Colin King wrote:
+> From: Colin Ian King <colin.king@canonical.com>
 > 
-> It could also be written as:
+> Currently if the call to qs5xx_fw_file_parse fails the error return
+> exit path will read the uninitialized variable error_bl. Fix this
+> by ensuring error_bl is initialized to zero.
 > 
-> 	w += !w;
+> Addresses-Coverity: ("Uninitialized scalar variable")
+> Fixes: 2539da6677b6 ("Input: iqs5xx - preserve bootloader errors")
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+
+This was fixed in [1]; it just needs pushed.
+
+[1] https://patchwork.kernel.org/patch/12043701
+
+> ---
+>  drivers/input/touchscreen/iqs5xx.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> or:
-> 	w += w == 0;
+> diff --git a/drivers/input/touchscreen/iqs5xx.c b/drivers/input/touchscreen/iqs5xx.c
+> index 05e0c6ff217b..54f30038dca4 100644
+> --- a/drivers/input/touchscreen/iqs5xx.c
+> +++ b/drivers/input/touchscreen/iqs5xx.c
+> @@ -852,7 +852,7 @@ static int iqs5xx_fw_file_parse(struct i2c_client *client,
+>  static int iqs5xx_fw_file_write(struct i2c_client *client, const char *fw_file)
+>  {
+>  	struct iqs5xx_private *iqs5xx = i2c_get_clientdata(client);
+> -	int error, error_bl;
+> +	int error, error_bl = 0;
+>  	u8 *pmap;
+>  
+>  	if (iqs5xx->bl_status == IQS5XX_BL_STATUS_NONE)
+> -- 
+> 2.29.2
 > 
-> while avoiding conditional.
 
-Is there some kind of prize for avoiding if statements??
-
-> 
-> But, in this case, the warning is bogus. Because w | ~w == all-ones (always),
-> it might as well suggested to write:
-> 
-> 	w = -1;
-> 
-> or:
-> 	w = ~0;
-> 
-> making the code broken.
-
-Yeah.  The rule is just a simple heuristic of a logical negate used
-with a bitwise operation.  You're comment has prompted me to review
-if this check is effective.
-
-It turns out that it's not a super common thing so it doesn't lead to
-many warnings whether they are false positives or real bugs.  We did
-find one bug last week (in linux-next):
-5993e79398d3 ("drm/amdgpu: Fix masking binary not operator on two mask operations")
-
-There are only three other warnings for this rule in the kernel:
-
-drivers/pci/pcie/aer_inject.c:376 aer_inject() warn: should this be a bitwise negate mask?
-drivers/pci/pcie/aer_inject.c:381 aer_inject() warn: should this be a bitwise negate mask?
-drivers/net/wireless/realtek/rtlwifi/rtl8821ae/dm.c:2435 rtl8821ae_dm_refresh_basic_rate_mask() warn: should this be a bitwise negate mask?
-
-I never reported any of these because they're in ancient code and I
-couldn't figure out what it was trying to do.
-
-drivers/pci/pcie/aer_inject.c
-   374          if (aer_mask_override) {
-   375                  cor_mask_orig = cor_mask;
-   376                  cor_mask &= !(einj->cor_status);
-                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Is the bitwise ~ intended?  Why is BIT(0) special?  You would have to
-know the PCIe hardware spec to say the answer for that.  It's sort of
-like BIT(0) is a magic number but invisible...  :/
-
-   377                  pci_write_config_dword(dev, pos_cap_err + PCI_ERR_COR_MASK,
-   378                                         cor_mask);
-   379  
-   380                  uncor_mask_orig = uncor_mask;
-   381                  uncor_mask &= !(einj->uncor_status);
-   382                  pci_write_config_dword(dev, pos_cap_err + PCI_ERR_UNCOR_MASK,
-   383                                         uncor_mask);
-   384          }
-
-drivers/net/wireless/realtek/rtlwifi/rtl8821ae/dm.c
-  2415  static void rtl8821ae_dm_refresh_basic_rate_mask(struct ieee80211_hw *hw)
-  2416  {
-  2417          struct rtl_priv *rtlpriv = rtl_priv(hw);
-  2418          struct dig_t *dm_digtable = &rtlpriv->dm_digtable;
-  2419          struct rtl_mac *mac = &rtlpriv->mac80211;
-  2420          static u8 stage;
-  2421          u8 cur_stage = 0;
-  2422          u16 basic_rate = RRSR_1M | RRSR_2M | RRSR_5_5M | RRSR_11M | RRSR_6M;
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-The important thing to note here is BIT(0) is RRSR_1M.
-
-  2423  
-  2424          if (mac->link_state < MAC80211_LINKED)
-  2425                  cur_stage = 0;
-  2426          else if (dm_digtable->rssi_val_min < 25)
-  2427                  cur_stage = 1;
-  2428          else if (dm_digtable->rssi_val_min > 30)
-  2429                  cur_stage = 3;
-  2430          else
-  2431                  cur_stage = 2;
-  2432  
-  2433          if (cur_stage != stage) {
-  2434                  if (cur_stage == 1) {
-  2435                          basic_rate &= (!(basic_rate ^ mac->basic_rates));
-                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Here we set "basic_rate" to either 0 or RRSR_1M.
-
-  2436                          rtlpriv->cfg->ops->set_hw_reg(hw,
-  2437                                  HW_VAR_BASIC_RATE, (u8 *)&basic_rate);
-
-This can't possibly be correct but the the ->set_hw_reg() implementations
-seem to have a work around where they take do:
-
-	basic_rate |= 0x01;
-
-at the start of the function.  Magic numbers again.  *le bigger sigh*.
-
-  2438                  } else if (cur_stage == 3 && (stage == 1 || stage == 2)) {
-  2439                          rtlpriv->cfg->ops->set_hw_reg(hw,
-  2440                                  HW_VAR_BASIC_RATE, (u8 *)&mac->basic_rates);
-  2441                  }
-  2442          }
-  2443          stage = cur_stage;
-  2444  }
-
-regards,
-dan carpenter
+Kind regards,
+Jeff LaBundy
