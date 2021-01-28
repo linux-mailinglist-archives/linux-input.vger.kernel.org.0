@@ -2,117 +2,159 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DEE0307923
-	for <lists+linux-input@lfdr.de>; Thu, 28 Jan 2021 16:10:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A566307B14
+	for <lists+linux-input@lfdr.de>; Thu, 28 Jan 2021 17:36:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231961AbhA1PHo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 28 Jan 2021 10:07:44 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53718 "EHLO mail.kernel.org"
+        id S232594AbhA1Qgj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 28 Jan 2021 11:36:39 -0500
+Received: from mga05.intel.com ([192.55.52.43]:12672 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231195AbhA1PHV (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 28 Jan 2021 10:07:21 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3702F64DFA;
-        Thu, 28 Jan 2021 15:06:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611846399;
-        bh=xk1dd2N7bT2aaQG6gk2VFDmTx80tdLgmCS2g5QD6Vfg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=O6Qj/jHawGkiZqPgEDvLj9ZPJP6+o8nSO8qVzILGm0EHlGi5Z8yj3Ddvbrv7HkFx3
-         uLgqQN82C5Vy9RuaoKW46TXPdoh5cdTsCr7IfzLZ2sAvdoFo4B1vjAlANA+lcg5wwa
-         I0JPWfOmnqbOQAczwbWWIOhOg1bXToaz/wY1SuCJfYA/5FPylqbhh/oWB76W5SPit2
-         oJaHd3NyeZh6DZElOO9Sw68M+z3IERMbUjLFff5jxNq+zZXIpTXQR0WsYQVT8LRmC/
-         TnaNNQjrjr+U/mC+Vw3wFUnM0QtzC2HmFS1deKAGjRuDksxGPXLfJEaKTWGy1xhLVg
-         EWZsXImulRUfw==
-Date:   Thu, 28 Jan 2021 15:05:55 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Andre Przywara <andre.przywara@arm.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Samuel Holland <samuel@sholland.org>,
-        Icenowy Zheng <icenowy@aosc.io>, Rob Herring <robh@kernel.org>,
-        =?iso-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>,
-        Shuosheng Huang <huangshuosheng@allwinnertech.com>,
-        Yangtao Li <tiny.windzz@gmail.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-sunxi@googlegroups.com, Lee Jones <lee.jones@linaro.org>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v5 05/20] Input: axp20x-pek: Bail out if AXP has no
- interrupt line connected
-Message-ID: <20210128150555.GD4537@sirena.org.uk>
-References: <20210127172500.13356-1-andre.przywara@arm.com>
- <20210127172500.13356-6-andre.przywara@arm.com>
- <YBHCF2tWIX4MeMia@google.com>
- <20210128104627.76b35a5c@slackpad.fritz.box>
- <20210128113601.GA4537@sirena.org.uk>
- <20210128123136.417eea7c@slackpad.fritz.box>
+        id S232593AbhA1Qff (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 28 Jan 2021 11:35:35 -0500
+IronPort-SDR: RJD7fxS39npS7iEX/ZdeFA+Q9vbj9zCWQ7No69yM1D+C9dv4jacO6TP10LB3Z9pNZiKcn3magP
+ E9dzgoYbMrgg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9878"; a="265096989"
+X-IronPort-AV: E=Sophos;i="5.79,383,1602572400"; 
+   d="scan'208";a="265096989"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2021 08:34:47 -0800
+IronPort-SDR: y9pYDtN/Q58nS8laohgvzdHcatF0IUU4lKAXlan7AJNEfQMW4xksU2HSEnmXh8GqZISdaCqNs7
+ If5a2VkfWYlg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,383,1602572400"; 
+   d="scan'208";a="430577314"
+Received: from host.sh.intel.com (HELO host) ([10.239.154.115])
+  by orsmga001.jf.intel.com with ESMTP; 28 Jan 2021 08:34:44 -0800
+Date:   Fri, 29 Jan 2021 00:35:49 +0800
+From:   "Ye, Xiang" <xiang.ye@intel.com>
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Jonathan Cameron <jic23@kernel.org>
+Cc:     jikos@kernel.org, linux-input@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] hid-sensor-common: Add relative sensitivity check
+Message-ID: <20210128163549.GA12432@host>
+References: <20210120074706.23199-1-xiang.ye@intel.com>
+ <20210120074706.23199-3-xiang.ye@intel.com>
+ <20210124131442.0fc2577e@archlinux>
+ <7e136ebb914f71da3fcb90b8048f9f7dd8cdf0bf.camel@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="pQhZXvAqiZgbeUkD"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210128123136.417eea7c@slackpad.fritz.box>
-X-Cookie: Do not pick the flowers.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <7e136ebb914f71da3fcb90b8048f9f7dd8cdf0bf.camel@linux.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi Srinivas andd Jonathan
 
---pQhZXvAqiZgbeUkD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Thanks for the review.
 
-On Thu, Jan 28, 2021 at 12:31:36PM +0000, Andre Przywara wrote:
-> Mark Brown <broonie@kernel.org> wrote:
+On Sun, Jan 24, 2021 at 08:20:12AM -0800, Srinivas Pandruvada wrote:
+> On Sun, 2021-01-24 at 13:14 +0000, Jonathan Cameron wrote:
+> > On Wed, 20 Jan 2021 15:47:05 +0800
+> > Ye Xiang <xiang.ye@intel.com> wrote:
+> > 
+> > > Some hid sensors may use relative sensitivity such as als sensor.
+> > > This patch add relative sensitivity check for all hid-sensors.
+> > > 
+> > > Signed-off-by: Ye Xiang <xiang.ye@intel.com>
+> > > ---
+> > >  .../iio/common/hid-sensors/hid-sensor-attributes.c    | 11
+> > > ++++++++++-
+> > >  include/linux/hid-sensor-ids.h                        |  1 +
+> > >  2 files changed, 11 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/iio/common/hid-sensors/hid-sensor-attributes.c 
+> > > b/drivers/iio/common/hid-sensors/hid-sensor-attributes.c
+> > > index d349ace2e33f..b685c292a179 100644
+> > > --- a/drivers/iio/common/hid-sensors/hid-sensor-attributes.c
+> > > +++ b/drivers/iio/common/hid-sensors/hid-sensor-attributes.c
+> > > @@ -480,7 +480,7 @@ int hid_sensor_parse_common_attributes(struct
+> > > hid_sensor_hub_device *hsdev,
+> > >  
+> > >  	/*
+> > >  	 * Set Sensitivity field ids, when there is no individual
+> > > modifier, will
+> > > -	 * check absolute sensitivity of data field
+> > > +	 * check absolute sensitivity and relative sensitivity of data
+> > > field
+> > >  	 */
+> > >  	for (i = 0; i < sensitivity_addresses_len && st-
+> > > >sensitivity.index < 0; i++) {
+> > >  		sensor_hub_input_get_attribute_info(hsdev,
+> > > @@ -488,6 +488,15 @@ int hid_sensor_parse_common_attributes(struct
+> > > hid_sensor_hub_device *hsdev,
+> > >  				HID_USAGE_SENSOR_DATA_MOD_CHANGE_SENSIT
+> > > IVITY_ABS |
+> > >  					sensitivity_addresses[i],
+> > >  				&st->sensitivity);
+> > > +
+> > > +		if (st->sensitivity.index >= 0)
+> > > +			break;
+> > > +
+> > > +		sensor_hub_input_get_attribute_info(hsdev,
+> > > +				HID_FEATURE_REPORT, usage_id,
+> > > +				HID_USAGE_SENSOR_DATA_MOD_CHANGE_SENSIT
+> > > IVITY_REL_PCT |
+> > > +					sensitivity_addresses[i],
+> > > +				&st->sensitivity);
+> > 
+> > We can't provide the value to userspace without reflecting the
+> > difference between
+> > the two ways of expressing it.
+> > 
+> > It seems there are 3 ways sensitivity is expressed.
+> > 1. Raw value in same units as the measurement (easy one and what is
+> > currently reported)
+> > 2. Percentage of range - also relatively easy to transform into the
+> > same as 1.
+> > 3. Percentage of prior reading..  This one doesn't fit in any
+> > existing ABI, so
+> >    unfortunately we'll have to invent something new along the lines
+> > of
+> >    *_hysteresis_relative 
 
-> > It sounds like you're trying to register an IRQ chip with a somehow
-> > bogus configuration?
+yes, the 3th version sensitivity (Percentage of prior reading) is what we 
+are using for als sensor now. the 1th version sensitivity is common used 
+by other hid sensors. Do you have suggestion or reference about 
+how to add *_hysteresis_relative field to iio model?
 
-> I patched the AXP MFD driver [1] to skip the regmap-irq creation when no
-> interrupts DT property was found, but this NULL pointer now
-> understandably confuses the -pek driver, and leads to this crash:
+> 
+> This is why it was not added before when I developed.  But later few
+> years back there was a patch to add this by one of our developer. There
+> was some discussion, I thought it was decided it is OK to add.
+> 
+> But I agree, we should add new ABI as you suggested. Now almost every
+> laptop has HID sensors, better to address this. 
+> 
 
-> http://lists.infradead.org/pipermail/linux-arm-kernel/2021-January/634969.html
+I think the add relative hystersis patch should be separated into a independent
+patch series, for it's a independent function and need more effort for coding and 
+testing. And I can submit the other two patch in this patch series first.
 
-> Hence I wanted to plug this hole, which seems useful regardless of this
-> particular issue.
-
-The driver code here looks pretty confused.  It appears to be looking up
-the interrupt to use from a resource (which is what I'd expect for a MFD
-child) then for reasons I can't fathom trying to pass that resource into
-regmap_irq_get_virq() which is at best going to just return the value
-that was passed in but may potentially end up just returning a random
-interrupt other than the one that was asked for since we're passing in a
-global interrupt number rather than a controller relative one.  I really
-can't tell what's supposed to be going on there.  A driver should either
-use resources or it should use regmap_irq_get_virq(), using both is a
-bug.
-
-The MFD for this device is also just plain buggy in that it is providing
-IRQ resources to the children when there is in fact no support for the
-interrupts on the device in the system.  This means that the MFD core
-sees that it has no interrupt domain, assumes that those interrupt
-resources are in fact absolute interrupt numbers and passes them
-straight through to the children.  This means that the children will
-just be requesting random interrupts in the system which may actually
-exist and be requestable which probably isn't going to end well.  When
-there is no interrupt controller the parent should not be trying to
-supply interrupt resources to the children at all.
-
---pQhZXvAqiZgbeUkD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmAS0tIACgkQJNaLcl1U
-h9AEMwf/eFfLeC/kkFhgn9OSqbusFPI39IMYbjPipgnGjB5lbEJDgqfI5u2yChVO
-FlxvhKEY40Qhu4FFuT/yx16fJJi6AzPbuKuCstGQWdpO7njXX6GgF2Zecc+bvr93
-MBCpXPizJnmoddwMAxQ5mKFuQUkn1QBtoFWQ+5wcAh10X4Pl3PyA3vpQgqzaErvT
-qNp+eLszYjPfRlvWBWogxKtJ68tewcA1H8dHTMbGax4CfUhiKDvuZ99vjryK3Kc4
-pmZSZzzi3gU33uz/zCc+Op1eqzDsXzEuznt5ip2B8UKJ9QGOEeYKU9/R8+kldKKb
-iZayujeDX/cpnEggntD5az/CLmLQ4g==
-=HQTd
------END PGP SIGNATURE-----
-
---pQhZXvAqiZgbeUkD--
+> > 
+> > 
+> > 
+> > >  	}
+> > >  
+> > >  	st->raw_hystersis = -1;
+> > > diff --git a/include/linux/hid-sensor-ids.h b/include/linux/hid-
+> > > sensor-ids.h
+> > > index 3bbdbccc5805..ac631159403a 100644
+> > > --- a/include/linux/hid-sensor-ids.h
+> > > +++ b/include/linux/hid-sensor-ids.h
+> > > @@ -149,6 +149,7 @@
+> > >  /* Per data field properties */
+> > >  #define HID_USAGE_SENSOR_DATA_MOD_NONE				
+> > > 	0x00
+> > >  #define HID_USAGE_SENSOR_DATA_MOD_CHANGE_SENSITIVITY_ABS		
+> > > 0x1000
+> > > +#define
+> > > HID_USAGE_SENSOR_DATA_MOD_CHANGE_SENSITIVITY_REL_PCT            0xE
+> > > 000
+> > >  
+> > >  /* Power state enumerations */
+> > >  #define HID_USAGE_SENSOR_PROP_POWER_STATE_UNDEFINED_ENUM	0x20085
+> > > 0
+> 
