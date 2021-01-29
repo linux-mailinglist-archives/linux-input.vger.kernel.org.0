@@ -2,111 +2,250 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DE85308215
-	for <lists+linux-input@lfdr.de>; Fri, 29 Jan 2021 00:45:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22872308337
+	for <lists+linux-input@lfdr.de>; Fri, 29 Jan 2021 02:27:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231314AbhA1Xpb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 28 Jan 2021 18:45:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49542 "EHLO
+        id S231524AbhA2B0q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 28 Jan 2021 20:26:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229828AbhA1Xpa (ORCPT
+        with ESMTP id S231364AbhA2B0m (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 28 Jan 2021 18:45:30 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F7A3C061573
-        for <linux-input@vger.kernel.org>; Thu, 28 Jan 2021 15:44:49 -0800 (PST)
-Received: from lwn.net (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 224666173;
-        Thu, 28 Jan 2021 23:43:37 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 224666173
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1611877417; bh=aM8jK69L2OObytiFwSPBUze10voMNgHvPClMSv8Seik=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Kj+PlQP46+U16dacGUjvC29DQZoQmKXSkuLgmhgw/o4i6nEp18N2uTmJPODZaL6K9
-         NVFPZArNOjoguezxg3AEcRw90ch569uv6X0uimDvpgw86neZFRzHsu1pty+zSiDYCg
-         ybaUZRbADpjN59S3fLLMvqVzbmN4Uj9IBtCuhc8/qJmtaeq861ea943iTyqyUfr0sp
-         S1FfpL7frMtmLPO3h//dviMZL5Opm3XftshmAVlWTMXW0foIVbP1vxhtBKt40Vots1
-         U6Fn1eJIP6MMmcpLncaq5M7yiyMhMlU6LyxTWHzESt2JekrojQ+L4DLIBruw5ALKhw
-         eIAqrSJDV4x5Q==
-Date:   Thu, 28 Jan 2021 16:43:36 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Peter Hutterer <peter.hutterer@who-t.net>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@gmail.com>,
-        Jason Gerecke <killertofu@gmail.com>,
-        Ping Cheng <pinglinux@gmail.com>, linux-input@vger.kernel.org,
-        Jiri Kosina <jikos@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation: input: define
- ABS_PRESSURE/ABS_MT_PRESSURE resolution as grams
-Message-ID: <20210128164336.3be90423@lwn.net>
-In-Reply-To: <20210112230310.GA149342@jelly>
-References: <20210112230310.GA149342@jelly>
-Organization: LWN.net
+        Thu, 28 Jan 2021 20:26:42 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5460FC061574;
+        Thu, 28 Jan 2021 17:26:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
+        Reply-To:Cc:Content-ID:Content-Description;
+        bh=OjJIGxFl6+sb3eeDTK3sXsJ5okb2ytnpBeIGODGtFUI=; b=hX6AnXiHKjXIyUUdEfwlrakVpj
+        7FPev4on6u8y4H9guloiKfd3EReYmnwz/z9KQ61B4D+2WEukVYUXoVYDAJ/7ahsCFjfgpzPs8AFZg
+        8WNT6CITNo/GkyoAo/ET8P18q68K1wvVXf9DJt5dsWZSBbRFqoiZrRlf/PRSsfrmxydOghX4ECh6O
+        jiFox0G2QojZr5RqiySgCPJVVTUsBAy4noAeyBDp7WTeY/ljsoLgQzilrNdnwqipf0ekvpRL8dWoB
+        19XJabl24FOlWpW/AR9zNLNi0Ze+QwPHl0VU9mO3wbAIdLNbuwujXUPe4e16WBqmtneRP+VmZoCuM
+        rUjx8O9w==;
+Received: from [2601:1c0:6280:3f0::7650]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1l5IXu-0000Pq-Ux; Fri, 29 Jan 2021 01:25:59 +0000
+Subject: Re: [PATCH v9 2/8] Updated documentation
+To:     mail@richard-neumann.de, nehal-bakulchandra.shah@amd.com,
+        sandeep.singh@amd.com, corbet@lwn.net, jikos@kernel.org,
+        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210123134716.13414-1-mail@richard-neumann.de>
+ <20210123134716.13414-3-mail@richard-neumann.de>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <650cef6a-6e7c-8fe9-ef48-a0efacfcf9f8@infradead.org>
+Date:   Thu, 28 Jan 2021 17:25:51 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210123134716.13414-3-mail@richard-neumann.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 13 Jan 2021 09:03:10 +1000
-Peter Hutterer <peter.hutterer@who-t.net> wrote:
-
-> ABS_PRESSURE and ABS_MT_PRESSURE on touch devices usually represent
-> contact size (as a finger flattens with higher pressure the contact size
-> increases) and userspace translates the kernel pressure value back into
-> contact size. For example, libinput has pressure thresholds when a touch is
-> considered a palm (palm == large contact area -> high pressure). The values
-> themselves are on an arbitrary scale and device-specific.
+On 1/23/21 5:47 AM, mail@richard-neumann.de wrote:
+> From: Richard Neumann <mail@richard-neumann.de>
 > 
-> On pressurepads however, the pressure axis may represent the real physical
-> pressure. Pressurepads are touchpads without a hinge but an actual pressure
-> sensor underneath the device instead, for example the Lenovo Yoga 9i.
+> Updated documentation of the AMD Sensor Fusion Hub.
 > 
-> A high-enough pressure is converted to a button click by the firmware.
-> Microsoft does not require a pressure axis to be present, see [1], so as seen
-> from userspace most pressurepads are identical to clickpads - one button and
-> INPUT_PROP_BUTTONPAD set.
-> 
-> However, pressurepads that export the pressure axis break userspace because
-> that axis no longer represents contact size, resulting in inconsistent touch
-> tracking, e.g. [2]. Userspace needs to know when a pressure axis represents
-> real pressure and the best way to do so is to define what the resolution
-> field means. Userspace can then treat data with a pressure resolution as
-> true pressure.
-> 
-> This patch documents that the pressure resolution is in units/gram. This
-> allows for fine-grained detail and tops out at roughly ~2000t, enough for the
-> devices we're dealing with. Grams is not a scientific pressure unit but the
-> alternative is:
-> - Pascal: defined as force per area and area is unreliable on many devices and
->   seems like the wrong option here anyway, especially for devices with a
->   single pressure sensor only.
-> - Newton: defined as mass * distance/acceleration and for the purposes of a
->   pressure axis, the distance is tricky to interpret and we get the data to
->   calculate acceleration from event timestamps anyway.
-> 
-> For the purposes of touch devices and digitizers, grams seems the best choice
-> and the easiest to interpret.
-> 
-> Bonus side effect: we can use the existing hwdb infrastructure in userspace to
-> fix devices that advertise false pressure.
-> 
-> [1] https://docs.microsoft.com/en-us/windows-hardware/design/component-guidelines/windows-precision-touchpad-required-hid-top-level-collections#windows-precision-touchpad-input-reports
-> [2] https://gitlab.freedesktop.org/libinput/libinput/-/issues/562
-> 
-> Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
+> Signed-off-by: Richard Neumann <mail@richard-neumann.de>
 > ---
->  Documentation/input/event-codes.rst          | 15 +++++++++++++++
->  Documentation/input/multi-touch-protocol.rst |  4 ++++
->  2 files changed, 19 insertions(+)
+>  Documentation/hid/amd-sfh-hid.rst | 275 ++++++++++++++----------------
+>  1 file changed, 131 insertions(+), 144 deletions(-)
+> 
+> diff --git a/Documentation/hid/amd-sfh-hid.rst b/Documentation/hid/amd-sfh-hid.rst
+> index 1f2fe29ccd4f..d68ba2b85d1e 100644
+> --- a/Documentation/hid/amd-sfh-hid.rst
+> +++ b/Documentation/hid/amd-sfh-hid.rst
+> @@ -1,145 +1,132 @@
 
-It looks like nobody has picked this up, so I went ahead and applied it.
+[snip deletions]
 
-Thanks,
+> +========================================
+> +Kernel drivers: amd-sfh-pci, amd-sfh-hid
+> +========================================
+> +
+> +Supported adapters:
+> +  * AMD Sensor Fusion Hub PCIe interface
+> +
+> +Datasheet: not publicly available.
+> +
+> +Authors:
+> +        - Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+> +        - Nehal Bakulchandra Shah <Nehal-bakulchandra.Shah@amd.com>
+> +        - Sandeep Singh <sandeep.singh@amd.com>
+> +        - Richard Neumann <mail@richard-neumann.de>
+> +
+> +Description
+> +===========
+> +The AMD Sensor Fushion Hub (SFH) is part of a SOC on Ryzen-based platforms.
 
-jon
+                  Fusion
+
+> +The SFH uses HID over PCIe bus. In terms of architecture it is much more
+
+                                                            it resembles the
+
+> +resmebles like ISH. However the major difference is, that currently HID reports
+
+   ISH. However, the major difference is that currently HID reports
+
+> +are being generated within the kernel driver.
+> +
+> +Block Diagram
+> +-------------
+> +.. code-block:: none
+> +
+> +    +-------------------------------+
+> +    |  HID User Space Applications  |
+> +    +-------------------------------+
+> +    =================================
+> +    +-------------------------------+
+> +    |      HID low-level driver     |
+> +    |   with HID report generator   |
+> +    +-------------------------------+
+> +
+> +    +-------------------------------+
+> +    |      HID platform driver      |
+> +    +-------------------------------+
+> +
+> +    +-------------------------------+
+> +    |      AMD SFH PCIe driver      |
+> +    +-------------------------------+
+> +    =================================
+> +    +-------------------------------+
+> +    |       SFH MP2 Processor       |
+> +    +-------------------------------+
+> +
+> +HID low-level driver
+>  --------------------
+
+[snip deletions]
+
+> +The driver is conceived in a multi-layer architecture.
+> +The level closest to the applications is the HID low-level (LL) driver,
+> +which implements the functions defined by the hid-core API to manage the
+> +respective HID devices and process reports.
+> +Therefor, the HID-LL-driver starts and stops the sensors as needed by invoking
+> +the exposed functions from the PCI driver (see below) and creates DMA mappings
+> +to access the DRAM of the PCI device to retrieve feature and input reports
+> +from it.
+> +
+> +HID platform driver (`amd-sfh-hid`)
+> +-----------------------------------
+> +The aforementioned HID devices are being managed, i.e. created on probing and
+> +destroyed on removing, by the platform driver. It is being loaded through ACPI
+
+                           better:                It is loaded through ACPI
+
+> +table matching if the PCI driver was loaded successfully.
+> +It determines the HID devices to be created on startup using the connected
+> +sensors bitmask retrieved by invoking the respective function of the PCI driver.
+> +On some systems the firmware does not provide the information about sensors
+> +connected to the SFH device. In this case, the detected sensors can be manually
+> +overridden by setting the driver's module parameter `sensor_mask=<int>`.
+> +
+> +PCI device driver (`amd-sfh-pci`)
+> +---------------------------------
+> +The PCI driver is responsible for making all transaction with the chip's
+
+                                                transactions
+
+> +firmware over PCI-e.
+> +The sensors are being started and stopped respectively by writing commands
+
+   The sensors are started and stopped
+
+> +and, where applicable, DRAM addresses to certain device registers.
+> +The sensor's input report data can then be accessed by accessing the DRAM
+> +through DMA-mapped virtual addresses. Commands are sent to the device using C2P
+> +mail box registers. These C2P registers are mapped in PCIe address space.
+
+what is C2P?
+
+> +Writing into the device message registers generates interrupts. The device's
+> +firmware uses DRAM interface registers to indirectly access DRAM memory. It is
+> +recommended to always write a minimum of 32 bytes into the DRAM.
+> +
+> +Driver loading
+> +--------------
+> +
+> ++------------+-----------------+----------------------+
+> +| PCI driver | Platform driver | HID low-level driver |
+> ++============+=================+======================+
+> +| Loaded at boot time if       | Used by spawned HIDs |
+> +| device is present.           |                      |
+> ++------------------------------+----------------------+
+> +
+> +Data flow table
+> +---------------
+> +.. code-block:: none
+> +
+> +                                                 +===============================================+
+> +    +============+        Get sensor mask        |                Platform driver                |
+> +    | PCI driver | <---------------------------- +===============================================+
+> +    +============+    of available HID devices   | * Probe HID devices according to sensor mask. |
+> +          ^                                      | * Start periodical polling from DRAM.         |
+
+                                                              periodic
+
+> +          |                                      +-----------------------------------------------+
+> + Start / stop sensor on                                                 |
+> + respective HID requsts.                                                |
+
+                   requests.
+
+> +          |                +==============================+             |
+> +          |                |        HID ll-driver         |             |
+> +          +--------------- +==============================+ <-----------+
+> +                           | Provide reports as requested |
+> +                           | by hid-code.                 |
+> +                           +------------------------------+
+> +
+> +Quirks
+> +------
+> +On some systems, the sensor hub has not been programmed with information about
+> +the sensors active on the device. This results in no sensors bein activated and
+
+                                                                being
+
+> +no HID devices being spawned by the driver. To manually active the respective
+
+                                                           activate
+
+> +sensors, you can load the module `amd-sfh-hid` with the kernel parameter
+> +`sensor_mask=<int>`. The available sensors are currently:
+> +
+
+How about adding a "value" column and an example?
+
+> ++----------------------+----------+
+> +|        sensor        |   mask   |  value
+> ++======================+==========+
+> +| accelerometer        |  BIT(0)  |    1
+> +| gyroscope            |  BIT(1)  |    2
+> +| magnetometer         |  BIT(2)  |    4
+> +| ambient light sensor |  BIT(19) | 524288
+> ++----------------------+----------+
+
+The values are additive, so to enable the gyroscope and the
+ambient light sensor, use a value of 524290.
+
+> +
+> +To enable e.g. only the accelerometer:
+> +
+> +    $ cat /etc/modprobe.d/amd_sfh.conf
+> +    options amd_sfh_hid sensor_mask=1
+> 
+
+
+HTH.
+-- 
+~Randy
+
