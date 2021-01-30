@@ -2,87 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EF0530947C
-	for <lists+linux-input@lfdr.de>; Sat, 30 Jan 2021 11:27:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DD1E309781
+	for <lists+linux-input@lfdr.de>; Sat, 30 Jan 2021 19:20:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232020AbhA3KZv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 30 Jan 2021 05:25:51 -0500
-Received: from mga06.intel.com ([134.134.136.31]:30877 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232221AbhA3KZ1 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 30 Jan 2021 05:25:27 -0500
-IronPort-SDR: 6T4EdNHxqpBM86DW1PHI4oBEkmKLbznH81XNqfpnx1ofSuemt/mV6Wd34BGWniD/51yhGMGnX/
- nbggDZKluB8A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9879"; a="242045419"
-X-IronPort-AV: E=Sophos;i="5.79,388,1602572400"; 
-   d="scan'208";a="242045419"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2021 02:24:46 -0800
-IronPort-SDR: p+YYND8MYMPvvWpMw0zIWV9d8gKMIumjcD0mHYFFIAm6//U4QAYX8iywbuz5cigbYoKtLuUK7q
- DVyfY01yN9eg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,388,1602572400"; 
-   d="scan'208";a="352940978"
-Received: from host.sh.intel.com ([10.239.154.115])
-  by fmsmga007.fm.intel.com with ESMTP; 30 Jan 2021 02:24:44 -0800
-From:   Ye Xiang <xiang.ye@intel.com>
-To:     jikos@kernel.org, jic23@kernel.org,
-        srinivas.pandruvada@linux.intel.com
-Cc:     linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Ye Xiang <xiang.ye@intel.com>
-Subject: [PATCH v2] iio: hid-sensor-rotation: Fix quaternion data not correct
-Date:   Sat, 30 Jan 2021 18:25:46 +0800
-Message-Id: <20210130102546.31397-1-xiang.ye@intel.com>
-X-Mailer: git-send-email 2.17.1
+        id S229990AbhA3SU1 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Sat, 30 Jan 2021 13:20:27 -0500
+Received: from mx1.integracja.org ([46.171.182.142]:47065 "EHLO
+        mail.integracja.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229953AbhA3SU1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sat, 30 Jan 2021 13:20:27 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by mail.integracja.org (Postfix) with ESMTP id 93D8035D9D;
+        Fri, 29 Jan 2021 21:42:39 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at #dep-poczta.spi-centrala.local
+X-Spam-Flag: NO
+X-Spam-Score: 1.202
+X-Spam-Level: *
+X-Spam-Status: No, score=1.202 tagged_above=-999 required=4.8
+        tests=[ALL_TRUSTED=-1.8, BAYES_00=-2.599, DCC_CHECK=2.17,
+        MISSING_MID=0.001, UNWANTED_LANGUAGE_BODY=2.8, US_DOLLARS_3=0.63]
+        autolearn=unavailable
+Received: from mail.integracja.org ([127.0.0.1])
+        by localhost (mail.integracja.org [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id ounCFPJFtlQr; Fri, 29 Jan 2021 21:42:39 +0100 (CET)
+Received: from [95.211.253.194] (unknown [95.211.253.194])
+        (Authenticated sender: test@integracja.org)
+        by mail.integracja.org (Postfix) with ESMTPSA id 2A4B935DAA;
+        Fri, 29 Jan 2021 20:00:17 +0100 (CET)
+Content-Type: text/plain; charset="iso-8859-1"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: DONATION
+To:     Recipients <test@integracja.org>
+From:   test@integracja.org
+Date:   Sat, 30 Jan 2021 02:55:16 -0800
+Reply-To: charlesjacksonjr2@gmail.com
+Message-Id: <20210129204239.93D8035D9D@mail.integracja.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Because the data of HID_USAGE_SENSOR_ORIENT_QUATERNION defined by ISH FW
-is s16, but quaternion data type is in_rot_quaternion_type(le:s16/32X4>>0),
-need to transform data type from s16 to s32
-
-Fixes: fc18dddc0625 ("iio: hid-sensors: Added device rotation support")
-Signed-off-by: Ye Xiang <xiang.ye@intel.com>
----
-v2:
-  - Add Fixes tag
-
----
- drivers/iio/orientation/hid-sensor-rotation.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/iio/orientation/hid-sensor-rotation.c b/drivers/iio/orientation/hid-sensor-rotation.c
-index b0245b3b7ffc..cf7f57a47681 100644
---- a/drivers/iio/orientation/hid-sensor-rotation.c
-+++ b/drivers/iio/orientation/hid-sensor-rotation.c
-@@ -21,7 +21,7 @@ struct dev_rot_state {
- 	struct hid_sensor_common common_attributes;
- 	struct hid_sensor_hub_attribute_info quaternion;
- 	struct {
--		u32 sampled_vals[4] __aligned(16);
-+		s32 sampled_vals[4] __aligned(16);
- 		u64 timestamp __aligned(8);
- 	} scan;
- 	int scale_pre_decml;
-@@ -175,8 +175,15 @@ static int dev_rot_capture_sample(struct hid_sensor_hub_device *hsdev,
- 	struct dev_rot_state *rot_state = iio_priv(indio_dev);
- 
- 	if (usage_id == HID_USAGE_SENSOR_ORIENT_QUATERNION) {
--		memcpy(&rot_state->scan.sampled_vals, raw_data,
--		       sizeof(rot_state->scan.sampled_vals));
-+		if (raw_len / 4 == sizeof(s16)) {
-+			rot_state->scan.sampled_vals[0] = ((s16 *)raw_data)[0];
-+			rot_state->scan.sampled_vals[1] = ((s16 *)raw_data)[1];
-+			rot_state->scan.sampled_vals[2] = ((s16 *)raw_data)[2];
-+			rot_state->scan.sampled_vals[3] = ((s16 *)raw_data)[3];
-+		} else {
-+			memcpy(&rot_state->scan.sampled_vals, raw_data,
-+			       sizeof(rot_state->scan.sampled_vals));
-+		}
- 
- 		dev_dbg(&indio_dev->dev, "Recd Quat len:%zu::%zu\n", raw_len,
- 			sizeof(rot_state->scan.sampled_vals));
--- 
-2.17.1
-
+My name is Charles W. Jackson Jr. and i won $344.6 million Powerball
+jackpot June 4, 2019.
+ I am giving donation to 5 randomly selected emails and yours is one
+of the email i selected from a raffle draw.
+I am donating the sum of $1,000,000 to you and your family in good faith.
+Contact me through email at charlesjacksonjr2@gmail.com to claim
+your donation
