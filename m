@@ -2,91 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8A5E309855
-	for <lists+linux-input@lfdr.de>; Sat, 30 Jan 2021 21:42:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 78BE3309AEC
+	for <lists+linux-input@lfdr.de>; Sun, 31 Jan 2021 08:17:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231970AbhA3Umj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 30 Jan 2021 15:42:39 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52242 "EHLO mail.kernel.org"
+        id S229471AbhAaHQ3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 31 Jan 2021 02:16:29 -0500
+Received: from mga07.intel.com ([134.134.136.100]:38227 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231923AbhA3Umh (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 30 Jan 2021 15:42:37 -0500
-Received: from archlinux (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AD29464E0C;
-        Sat, 30 Jan 2021 20:41:55 +0000 (UTC)
-Date:   Sat, 30 Jan 2021 20:41:51 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Ye Xiang <xiang.ye@intel.com>
+        id S229474AbhAaHQR (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 31 Jan 2021 02:16:17 -0500
+IronPort-SDR: BF/LEgrwbadlMWT3aud0yWHwKhWC0QaV2U6ChpI7TSYauLCNFg6uxpZKQlhaoiPkCU6En98Dji
+ hfJxb1huwcPQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9880"; a="244656125"
+X-IronPort-AV: E=Sophos;i="5.79,389,1602572400"; 
+   d="scan'208";a="244656125"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2021 23:15:12 -0800
+IronPort-SDR: uyC68IBMhV091J7f298dVt/JK7jy4ZpyAB0FAHffdPonCjTDQ5AQ/k2px0CEZfyPD/2cKeSYDP
+ 6MhKn8LyhIVA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,389,1602572400"; 
+   d="scan'208";a="411339949"
+Received: from host.sh.intel.com (HELO host) ([10.239.154.115])
+  by fmsmga002.fm.intel.com with ESMTP; 30 Jan 2021 23:15:10 -0800
+Date:   Sun, 31 Jan 2021 15:16:12 +0800
+From:   "Ye, Xiang" <xiang.ye@intel.com>
+To:     Jonathan Cameron <jic23@kernel.org>
 Cc:     jikos@kernel.org, srinivas.pandruvada@linux.intel.com,
         linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] iio: hid-sensor-rotation: Fix quaternion data not
- correct
-Message-ID: <20210130204151.46457a3e@archlinux>
-In-Reply-To: <20210130102546.31397-1-xiang.ye@intel.com>
-References: <20210130102546.31397-1-xiang.ye@intel.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Subject: Re: [PATCH v2] iio: hid-sensor-prox: Fix scale not correct issue
+Message-ID: <20210131071612.GA14631@host>
+References: <20210130102530.31064-1-xiang.ye@intel.com>
+ <20210130191429.2c485212@archlinux>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210130191429.2c485212@archlinux>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 30 Jan 2021 18:25:46 +0800
-Ye Xiang <xiang.ye@intel.com> wrote:
-
-> Because the data of HID_USAGE_SENSOR_ORIENT_QUATERNION defined by ISH FW
-> is s16, but quaternion data type is in_rot_quaternion_type(le:s16/32X4>>0),
-> need to transform data type from s16 to s32
+On Sat, Jan 30, 2021 at 07:14:29PM +0000, Jonathan Cameron wrote:
+> On Sat, 30 Jan 2021 18:25:30 +0800
+> Ye Xiang <xiang.ye@intel.com> wrote:
 > 
-> Fixes: fc18dddc0625 ("iio: hid-sensors: Added device rotation support")
-> Signed-off-by: Ye Xiang <xiang.ye@intel.com>
-This is going to need manual backporting.  I've applied it to the
-togreg branch of iio.git for the next merge window. So after that we can
-work on backports.
-
-Jonathan
-
-> ---
-> v2:
->   - Add Fixes tag
+> > Currently, the proxy sensor scale is zero because it just return the
+> > exponent directly. To fix this issue, this patch use
+> > hid_sensor_format_scale to process the scale first then return the
+> > output.
+> > 
+> > Fixes: 39a3a0138f61 ("iio: hid-sensors: Added Proximity Sensor Driver")
+> > Signed-off-by: Ye Xiang <xiang.ye@intel.com>
 > 
-> ---
->  drivers/iio/orientation/hid-sensor-rotation.c | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
+> Hi Ye Xiang,
 > 
-> diff --git a/drivers/iio/orientation/hid-sensor-rotation.c b/drivers/iio/orientation/hid-sensor-rotation.c
-> index b0245b3b7ffc..cf7f57a47681 100644
-> --- a/drivers/iio/orientation/hid-sensor-rotation.c
-> +++ b/drivers/iio/orientation/hid-sensor-rotation.c
-> @@ -21,7 +21,7 @@ struct dev_rot_state {
->  	struct hid_sensor_common common_attributes;
->  	struct hid_sensor_hub_attribute_info quaternion;
->  	struct {
-> -		u32 sampled_vals[4] __aligned(16);
-> +		s32 sampled_vals[4] __aligned(16);
->  		u64 timestamp __aligned(8);
->  	} scan;
->  	int scale_pre_decml;
-> @@ -175,8 +175,15 @@ static int dev_rot_capture_sample(struct hid_sensor_hub_device *hsdev,
->  	struct dev_rot_state *rot_state = iio_priv(indio_dev);
->  
->  	if (usage_id == HID_USAGE_SENSOR_ORIENT_QUATERNION) {
-> -		memcpy(&rot_state->scan.sampled_vals, raw_data,
-> -		       sizeof(rot_state->scan.sampled_vals));
-> +		if (raw_len / 4 == sizeof(s16)) {
-> +			rot_state->scan.sampled_vals[0] = ((s16 *)raw_data)[0];
-> +			rot_state->scan.sampled_vals[1] = ((s16 *)raw_data)[1];
-> +			rot_state->scan.sampled_vals[2] = ((s16 *)raw_data)[2];
-> +			rot_state->scan.sampled_vals[3] = ((s16 *)raw_data)[3];
-> +		} else {
-> +			memcpy(&rot_state->scan.sampled_vals, raw_data,
-> +			       sizeof(rot_state->scan.sampled_vals));
-> +		}
->  
->  		dev_dbg(&indio_dev->dev, "Recd Quat len:%zu::%zu\n", raw_len,
->  			sizeof(rot_state->scan.sampled_vals));
+> There was a bit of fuzz on this so please take a look at
+> my fixes-togreg branch and check it went in cleanly.
+Have checked, it's correct.
 
+Thanks
+Ye Xiang
+> 
+> 
+> > ---
+> > v2:
+> >   - Add Fixes tag
+> > 
+> > ---
+> >  drivers/iio/light/hid-sensor-prox.c | 13 +++++++++++--
+> >  1 file changed, 11 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/iio/light/hid-sensor-prox.c b/drivers/iio/light/hid-sensor-prox.c
+> > index 4ab285a418d5..4abcfe48f1d4 100644
+> > --- a/drivers/iio/light/hid-sensor-prox.c
+> > +++ b/drivers/iio/light/hid-sensor-prox.c
+> > @@ -23,6 +23,9 @@ struct prox_state {
+> >  	struct hid_sensor_common common_attributes;
+> >  	struct hid_sensor_hub_attribute_info prox_attr;
+> >  	u32 human_presence;
+> > +	int scale_pre_decml;
+> > +	int scale_post_decml;
+> > +	int scale_precision;
+> >  };
+> >  
+> >  static const u32 prox_sensitivity_addresses[] = {
+> > @@ -98,8 +101,9 @@ static int prox_read_raw(struct iio_dev *indio_dev,
+> >  		ret_type = IIO_VAL_INT;
+> >  		break;
+> >  	case IIO_CHAN_INFO_SCALE:
+> > -		*val = prox_state->prox_attr.units;
+> > -		ret_type = IIO_VAL_INT;
+> > +		*val = prox_state->scale_pre_decml;
+> > +		*val2 = prox_state->scale_post_decml;
+> > +		ret_type = prox_state->scale_precision;
+> >  		break;
+> >  	case IIO_CHAN_INFO_OFFSET:
+> >  		*val = hid_sensor_convert_exponent(
+> > @@ -221,6 +225,11 @@ static int prox_parse_report(struct platform_device *pdev,
+> >  	dev_dbg(&pdev->dev, "prox %x:%x\n", st->prox_attr.index,
+> >  			st->prox_attr.report_id);
+> >  
+> > +	st->scale_precision = hid_sensor_format_scale(
+> > +				hsdev->usage,
+> > +				&st->prox_attr,
+> > +				&st->scale_pre_decml, &st->scale_post_decml);
+> > +
+> >  	return ret;
+> >  }
+> >  
+> 
