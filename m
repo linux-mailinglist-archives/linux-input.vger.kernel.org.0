@@ -2,71 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9B5D315403
-	for <lists+linux-input@lfdr.de>; Tue,  9 Feb 2021 17:37:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B9ABA315958
+	for <lists+linux-input@lfdr.de>; Tue,  9 Feb 2021 23:24:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232869AbhBIQgN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 9 Feb 2021 11:36:13 -0500
-Received: from mail-oi1-f169.google.com ([209.85.167.169]:43918 "EHLO
-        mail-oi1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232810AbhBIQfP (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 9 Feb 2021 11:35:15 -0500
-Received: by mail-oi1-f169.google.com with SMTP id d20so20026085oiw.10;
-        Tue, 09 Feb 2021 08:35:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=9t4LJXTSLtxd8IT7qmYmEfW7Vhn57zaKjlRVT6AkWcI=;
-        b=Nw1y1+jhzWKhB3gIaRx4ozFHR5vl15p7Hijdz6ZpX+JHvZBZomREQufINq1ClJ4Kxx
-         5oKE5PRxsEfWG+Y82yR2JQJ5AiAUSlLgC5gSaJTwuIHO/DB/zHfVOmThqp5flPYOyFC7
-         1Itqw7bIRMtjEer78i2R17zhOVN24S8dNkfQsMiOHae3dIcmva1rwdafTddlYS0Pwwep
-         GPk0XqXdoDSSaFkMyTVlcl/He/TFMf7THofDQXiLoWVcie5TA1/2NWp0XNns7EqA+CiB
-         +Ere5BfKWOIyeXjYqBVkBpu+T3uw+LhqvBS8SnFng8GyKQWBOfng/e1s9VNleeIHAdrb
-         fgOQ==
-X-Gm-Message-State: AOAM5324uzScxAsvHia8STgVTIqP+i69SJL6YjL48qX7L63EG/Ftizdl
-        KbIDvVMjNf1RXCEoEPgv9g==
-X-Google-Smtp-Source: ABdhPJwfZkOdkhWpi2n7UayXXfGa53fjlVS+RYyKJ6pi8Te4tIRbsS0Mw7qauAsMT+JouVmWryIB1A==
-X-Received: by 2002:aca:4856:: with SMTP id v83mr2935963oia.43.1612888475401;
-        Tue, 09 Feb 2021 08:34:35 -0800 (PST)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id n189sm4193174oif.58.2021.02.09.08.34.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Feb 2021 08:34:33 -0800 (PST)
-Received: (nullmailer pid 3893005 invoked by uid 1000);
-        Tue, 09 Feb 2021 16:34:32 -0000
-Date:   Tue, 9 Feb 2021 10:34:32 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Jeff LaBundy <jeff@labundy.com>
-Cc:     dmitry.torokhov@gmail.com, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org, robh+dt@kernel.org
-Subject: Re: [PATCH v2 4/5] dt-bindings: input: Add bindings for Azoteq
- IQS626A
-Message-ID: <20210209163432.GA3892603@robh.at.kernel.org>
-References: <1611459776-23265-1-git-send-email-jeff@labundy.com>
- <1611459776-23265-5-git-send-email-jeff@labundy.com>
+        id S233500AbhBIWWO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 9 Feb 2021 17:22:14 -0500
+Received: from [20.39.40.203] ([20.39.40.203]:50631 "EHLO optinix.in"
+        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
+        id S233932AbhBIWKw (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 9 Feb 2021 17:10:52 -0500
+dkim-signature: v=1; a=rsa-sha256; d=digitalsol.in; s=dkim;
+        c=relaxed/relaxed; q=dns/txt; h=From:Reply-To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+        bh=wK2neTcOXNiSQ+RBxrnFed+mRrGUU/ndLGEgvo8IMCc=;
+        b=JFt3cjfr2gf0oZFNAIkKMxcz4dJD/YGkc0fGvOoSd3DydZ6om7JzTU837vBFVq1NIPU0D2QA5BLHZXE1+7cBmkJlbZjYCUFmJkkaBVbP88e4KHnDVRcctmBLIZ1pL5VerRqjcciKkL4DSuyXFJlGk3Z0CRoskvUoLBM7ZhpxLeqIU2BKsbHQXJZ1h2qHQhaHiD+VrGx+bGKjZzbhmRvwLDQIByq6jRcjht5MzYCcxpzOzp/k+Dev9dQj7B
+        WId68CyP4XonlI4wIMRo1xiGfUtKZ+P3cZo2ejPWBjr+ynq3dK3OxibTTEKfmOc5W1zmJFMAPQ+ZKxsa3M4d1PiYxHmg==
+Received: from User (Unknown [52.231.31.5])
+        by optinix.in with ESMTP
+        ; Mon, 1 Feb 2021 08:50:14 +0000
+Message-ID: <D474448D-A325-42CC-A881-8334C6C84BA7@optinix.in>
+Reply-To: <ms.reem@yandex.com>
+From:   "Ms. Reem" <support@digitalsol.in>
+Subject: Re:read
+Date:   Mon, 1 Feb 2021 08:50:13 -0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1611459776-23265-5-git-send-email-jeff@labundy.com>
+Content-Type: text/plain;
+        charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 23 Jan 2021 21:42:55 -0600, Jeff LaBundy wrote:
-> This patch adds device tree bindings for the Azoteq IQS626A
-> capacitive touch controller.
-> 
-> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
-> ---
-> Changes in v2:
->  - Added missing $ref to touchscreen.yaml
-> 
->  .../devicetree/bindings/input/iqs626a.yaml         | 843 +++++++++++++++++++++
->  1 file changed, 843 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/iqs626a.yaml
-> 
+Hello,
 
-Other than the file path:
+My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
+and Petroleum" also "Minister of State for International Cooperation"
+in UAE. I write to you on behalf of my other "three (3) colleagues"
+who has approved me to solicit for your "partnership in claiming of
+{us$47=Million}" from a Financial Home in Cambodia on their behalf and
+for our "Mutual Benefits".
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
+deal with Cambodian/Vietnam Government within 2013/2014, however, we
+don't want our government to know about the fund. If this proposal
+interests you, let me know, by sending me an email and I will send to
+you detailed information on how this business would be successfully
+transacted. Be informed that nobody knows about the secret of this
+fund except us, and we know how to carry out the entire transaction.
+So I am compelled to ask, that you will stand on our behalf and
+receive this fund into any account that is solely controlled by you.
+
+We will compensate you with 15% of the total amount involved as
+gratification for being our partner in this transaction. Reply to:
+ms.reem@yandex.com
+
+Regards,
+Ms. Reem.
+
