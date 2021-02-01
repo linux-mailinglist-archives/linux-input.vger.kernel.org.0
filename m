@@ -2,64 +2,181 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DCA930CEF7
-	for <lists+linux-input@lfdr.de>; Tue,  2 Feb 2021 23:36:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 738B530A0C6
+	for <lists+linux-input@lfdr.de>; Mon,  1 Feb 2021 05:09:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235054AbhBBWeX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 Feb 2021 17:34:23 -0500
-Received: from [20.39.40.203] ([20.39.40.203]:61037 "EHLO optinix.in"
-        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
-        id S230091AbhBBWeU (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 2 Feb 2021 17:34:20 -0500
-dkim-signature: v=1; a=rsa-sha256; d=digitalsol.in; s=dkim;
-        c=relaxed/relaxed; q=dns/txt; h=From:Reply-To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
-        bh=wK2neTcOXNiSQ+RBxrnFed+mRrGUU/ndLGEgvo8IMCc=;
-        b=Z/qoYR5e93G/1E5Uh8tLreepyziGYShILI7fcXozE97A3DqZKBadv9kcBZBcmHZnqAUcLkt0g+COxgI6WqJ5gdfKqksQSW540KJaAE4DNiZ+EZYtErJhsiZnZCgjfp9yI8W2dpgN2EsH5zUvgVY6Bl2MWU8ziaGqy1DCXSk4DXXi+2CTtkJX9uQrf2ohPvP7bhav6zr4dJxTQjQYoopWjV3h9j7RqQq/UIXqX3VBjVDZARoXQTZUB0KN0A
-        F7X8DeijiSCFEdYkkdQwasjHi3K0B6KloKBXegK0TgQ39PHt5t2MVnmtmeZadY0DbdImfujjk25mqjLTG700JJRoTl9A==
-Received: from User (Unknown [52.231.31.5])
-        by optinix.in with ESMTP
-        ; Sat, 30 Jan 2021 02:14:15 +0000
-Message-ID: <B0CC978E-0149-4652-A2D0-17DE1F49BCC1@optinix.in>
-Reply-To: <ms.reem@yandex.com>
-From:   "Ms. Reem" <support@digitalsol.in>
-Subject: Re:read
-Date:   Sat, 30 Jan 2021 02:14:13 -0000
+        id S230085AbhBAEJe convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Sun, 31 Jan 2021 23:09:34 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:3000 "EHLO
+        szxga02-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229842AbhBAEJ3 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sun, 31 Jan 2021 23:09:29 -0500
+Received: from DGGEMM405-HUB.china.huawei.com (unknown [172.30.72.55])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4DTZCk5wzRzR90Y;
+        Mon,  1 Feb 2021 12:07:30 +0800 (CST)
+Received: from dggemi761-chm.china.huawei.com (10.1.198.147) by
+ DGGEMM405-HUB.china.huawei.com (10.3.20.213) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Mon, 1 Feb 2021 12:08:40 +0800
+Received: from dggemi761-chm.china.huawei.com (10.1.198.147) by
+ dggemi761-chm.china.huawei.com (10.1.198.147) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2106.2; Mon, 1 Feb 2021 12:08:40 +0800
+Received: from dggemi761-chm.china.huawei.com ([10.9.49.202]) by
+ dggemi761-chm.china.huawei.com ([10.9.49.202]) with mapi id 15.01.2106.006;
+ Mon, 1 Feb 2021 12:08:40 +0800
+From:   "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+        "maz@kernel.org" <maz@kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+CC:     "linuxarm@openeuler.org" <linuxarm@openeuler.org>
+Subject: RE: [PATCH v3 01/12] genirq: add IRQF_NO_AUTOEN for request_irq
+Thread-Topic: [PATCH v3 01/12] genirq: add IRQF_NO_AUTOEN for request_irq
+Thread-Index: AQHW9a9uNArtZHW+oUqboLRFBHDNC6pCsLjg
+Date:   Mon, 1 Feb 2021 04:08:39 +0000
+Message-ID: <235c6c79dc4a4aa29f21f0dd331cf58f@hisilicon.com>
+References: <20210107223926.35284-2-song.bao.hua@hisilicon.com>
+ <87k0rwdegz.fsf@nanos.tec.linutronix.de>
+In-Reply-To: <87k0rwdegz.fsf@nanos.tec.linutronix.de>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.126.203.222]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-To:     unlisted-recipients:; (no To-header on input)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
 
-My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
-and Petroleum" also "Minister of State for International Cooperation"
-in UAE. I write to you on behalf of my other "three (3) colleagues"
-who has approved me to solicit for your "partnership in claiming of
-{us$47=Million}" from a Financial Home in Cambodia on their behalf and
-for our "Mutual Benefits".
 
-The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
-deal with Cambodian/Vietnam Government within 2013/2014, however, we
-don't want our government to know about the fund. If this proposal
-interests you, let me know, by sending me an email and I will send to
-you detailed information on how this business would be successfully
-transacted. Be informed that nobody knows about the secret of this
-fund except us, and we know how to carry out the entire transaction.
-So I am compelled to ask, that you will stand on our behalf and
-receive this fund into any account that is solely controlled by you.
+> -----Original Message-----
+> From: Thomas Gleixner [mailto:tglx@linutronix.de]
+> Sent: Friday, January 29, 2021 8:55 AM
+> To: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>;
+> dmitry.torokhov@gmail.com; maz@kernel.org; gregkh@linuxfoundation.org;
+> linux-input@vger.kernel.org; linux-kernel@vger.kernel.org
+> Cc: linuxarm@openeuler.org; Song Bao Hua (Barry Song)
+> <song.bao.hua@hisilicon.com>
+> Subject: Re: [PATCH v3 01/12] genirq: add IRQF_NO_AUTOEN for request_irq
+> 
+> Barry,
+> 
+> On Fri, Jan 08 2021 at 11:39, Barry Song wrote:
+> > diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
+> > index ab8567f32501..2b28314e2572 100644
+> > --- a/kernel/irq/manage.c
+> > +++ b/kernel/irq/manage.c
+> > @@ -1693,6 +1693,9 @@ __setup_irq(unsigned int irq, struct irq_desc *desc,
+> struct irqaction *new)
+> >  			irqd_set(&desc->irq_data, IRQD_NO_BALANCING);
+> >  		}
+> >
+> > +		if (new->flags & IRQF_NO_AUTOEN)
+> > +			irq_settings_set_noautoen(desc);
+> 
+> If we move this to request time flags, then setting the noautoen bit on
+> the irq descriptor is pretty pointless. See below.
+> 
+> I rather get rid of the irq_settings magic for NOAUTOEN completely.
 
-We will compensate you with 15% of the total amount involved as
-gratification for being our partner in this transaction. Reply to:
-ms.reem@yandex.com
+Thanks for your comment, Thomas.
 
-Regards,
-Ms. Reem.
+Got this issue fixed in v4:
+https://lore.kernel.org/lkml/20210128223538.20272-1-song.bao.hua@hisilicon.com/
+
+btw, for those drivers which are using the first pattern:
+irq_set_status_flags(irq, IRQ_NOAUTOEN);
+request_irq(dev, irq...);
+
+Simply running "git grep IRQ_NOAUTOEN"  will help figure where to fix.
+
+For those drivers which are using the second pattern:
+request_irq(dev, irq...);
+disable_irq(irq);
+
+I wrote a script as below:
+
+#!/bin/bash
+if [ $# != 1 -o ! -d $1 ] ; then
+        echo "USAGE: $0 dir"
+        exit 1;
+fi
+
+find $1 -iname "*.c" | while read i
+do
+        if [ -d "$i" ]; then
+                break
+        fi
+
+        irq=`grep -n -A 10 -E "request_irq|request_threaded_irq|request_any_context_irq" $i | grep disable_irq` 
+        if [ "$irq" != "" ]; then
+                echo "$i":"$irq"
+        fi
+done
+
+The script says there are more than 70 cases in 5.11-rc6.
+We are going to fix all of them after this one settles down.
+
+Thanks
+Barry
+
+> 
+> Thanks,
+> 
+>         tglx
+> ---
+> --- a/include/linux/interrupt.h
+> +++ b/include/linux/interrupt.h
+> @@ -61,6 +61,8 @@
+>   *                interrupt handler after suspending interrupts. For system
+>   *                wakeup devices users need to implement wakeup detection in
+>   *                their interrupt handlers.
+> + * IRQF_NO_AUTOEN - Don't enable IRQ automatically when users request it. Users
+> + *                will enable it explicitly by enable_irq() later.
+>   */
+>  #define IRQF_SHARED		0x00000080
+>  #define IRQF_PROBE_SHARED	0x00000100
+> @@ -74,6 +76,7 @@
+>  #define IRQF_NO_THREAD		0x00010000
+>  #define IRQF_EARLY_RESUME	0x00020000
+>  #define IRQF_COND_SUSPEND	0x00040000
+> +#define IRQF_NO_AUTOEN		0x00080000
+> 
+>  #define IRQF_TIMER		(__IRQF_TIMER | IRQF_NO_SUSPEND | IRQF_NO_THREAD)
+> 
+> --- a/kernel/irq/manage.c
+> +++ b/kernel/irq/manage.c
+> @@ -1693,7 +1693,8 @@ static int
+>  			irqd_set(&desc->irq_data, IRQD_NO_BALANCING);
+>  		}
+> 
+> -		if (irq_settings_can_autoenable(desc)) {
+> +		if (!(new->flags & IRQF_NO_AUTOEN) &&
+> +		    irq_settings_can_autoenable(desc)) {
+>  			irq_startup(desc, IRQ_RESEND, IRQ_START_COND);
+>  		} else {
+>  			/*
+> @@ -2086,10 +2087,15 @@ int request_threaded_irq(unsigned int ir
+>  	 * which interrupt is which (messes up the interrupt freeing
+>  	 * logic etc).
+>  	 *
+> +	 * Also shared interrupts do not go well with disabling auto enable.
+> +	 * The sharing interrupt might request it while it's still disabled
+> +	 * and then wait for interrupts forever.
+> +	 *
+>  	 * Also IRQF_COND_SUSPEND only makes sense for shared interrupts and
+>  	 * it cannot be set along with IRQF_NO_SUSPEND.
+>  	 */
+>  	if (((irqflags & IRQF_SHARED) && !dev_id) ||
+> +	    ((irqflags & IRQF_SHARED) && (irqflags & IRQF_NO_AUTOEN)) ||
+>  	    (!(irqflags & IRQF_SHARED) && (irqflags & IRQF_COND_SUSPEND)) ||
+>  	    ((irqflags & IRQF_NO_SUSPEND) && (irqflags & IRQF_COND_SUSPEND)))
+>  		return -EINVAL;
 
