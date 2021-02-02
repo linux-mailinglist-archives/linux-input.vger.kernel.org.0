@@ -2,131 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C62C30BC6A
-	for <lists+linux-input@lfdr.de>; Tue,  2 Feb 2021 11:54:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C126F30BDC1
+	for <lists+linux-input@lfdr.de>; Tue,  2 Feb 2021 13:10:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229786AbhBBKvl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 Feb 2021 05:51:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37114 "EHLO
+        id S231289AbhBBMJK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 Feb 2021 07:09:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229537AbhBBKvj (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Feb 2021 05:51:39 -0500
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51DB0C061573;
-        Tue,  2 Feb 2021 02:50:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-        Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=QUFoL1M4pevTeMyLwnDogHEMlQrHMZssskb6wG1LFcA=; b=wg2o6QP/gHbhqBuIhn1RZoUGj
-        2iHotGU7ufXkLAWPw4UwYFPNHzUu8ddsLF6ZH7DAZK9ibPxZPao37pY3QUiSj2kNvPg18QoU3RIbp
-        SB9YdTsgzRp09KPTWE899TVtBN6b7+9uCVpM084z3RB+393ttTKlzy9IbXmuACxRaE7AQP1axErmx
-        9bdLyqL5Tzp+2AR1s8H8Ra8HKPn+VaEgvK7MKLCh/WvBYIcLxWRrMqhYn6+wAR7lOhqYiExSBYnla
-        2ZSGKUuSlOCD0mvUg9A5mz9A1bzzWPt0jeQ/XhpyrV3IGp6JHZ9fsbmIMsvJ8Mev9a6w8QLTZD9/a
-        CRpSMItzA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:38176)
-        by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1l6tFN-0004FH-LS; Tue, 02 Feb 2021 10:49:25 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1l6tFE-0002yZ-0J; Tue, 02 Feb 2021 10:49:16 +0000
-Date:   Tue, 2 Feb 2021 10:49:15 +0000
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Matt Mackall <mpm@selenic.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Eric Anholt <eric@anholt.net>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Mark Brown <broonie@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Eric Auger <eric.auger@redhat.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, linux-kernel@vger.kernel.org,
-        kernel@pengutronix.de,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig.org@pengutronix.de>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
-        linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, coresight@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-serial@vger.kernel.org,
-        kvm@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, alsa-devel@alsa-project.org
-Subject: Re: [PATCH v3 0/5] amba: minor fix and various cleanups
-Message-ID: <20210202104915.GK1463@shell.armlinux.org.uk>
-References: <20210126165835.687514-1-u.kleine-koenig@pengutronix.de>
+        with ESMTP id S231281AbhBBMIx (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Feb 2021 07:08:53 -0500
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com [IPv6:2a00:1450:4864:20::131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCF94C061573;
+        Tue,  2 Feb 2021 04:08:12 -0800 (PST)
+Received: by mail-lf1-x131.google.com with SMTP id v24so27565862lfr.7;
+        Tue, 02 Feb 2021 04:08:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zZCZ+wr8JRQsDltWKVRvfaIgSPnse+tD2ObDmx6z1mo=;
+        b=WE6eDV958XPFL2lx62O08hHtA4AbTQKkx99h3LgDSiB8kL4k18sPL29upJlhwy79pW
+         dRE9GxYeTwkpywtjjLXy1FsDikUdVM0GoydTIbdG4O1iTCTjymUN4hrll8XWJVlyY+yl
+         6a/1394h+4586CA4idzuKMeYwn6tKQp8JKgcj3wlWTE4yVLfMHRk/BmusiN+RsTg3Nij
+         B0/Q6Sj5V0zAQ4EdSvUmr1/aDVfFt4lm+dSoacZ6PVGkVKg5MXiyFKlS1eMAayfJyJ7H
+         gGkRlmWMhZMevMiRAbw+CQkJ9O+UoeQ8qfuDXyRn2lncIdR/sKwLykcPjGmcOE78RnlA
+         is6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zZCZ+wr8JRQsDltWKVRvfaIgSPnse+tD2ObDmx6z1mo=;
+        b=iW8JPFTuwAgDcc1KA+8l6JWsSc8c45pz2I+zNHfOcDag7j/BsL/MWHuarHcbGkwT1o
+         QkXh7z5swnLHG1BIxkV7hmfQaYa3YJUhgsHQ1yXRC3TYNGioDeKhoEzh3dfxHzAiesZA
+         m6nxxXUNDCXYvJUfBAiggOEEiEqagwJGUVXQyueh8jajpdU/OdfhnasJaetQZtImO3ZG
+         SAnZkP/iBtbeIDYBsiMvKg7x5RRguwggw6HPOGJBrn3jUGIHI2tYi196HnWG7kPRvJeY
+         o2rK3bn8WCsoeGxGF5/bH+XmU+010rTbZRc2+kO1hTEFxug6KMYSs5gdHTxuuRPrZbCZ
+         wITA==
+X-Gm-Message-State: AOAM531jGMcbaTIum70KM7rsOLO814D988AuFRq8bXJo6yDXU3A1Q53Q
+        nKKK/Yot0rXe5SEL51Mhyrg=
+X-Google-Smtp-Source: ABdhPJzlgkqPiX4UUZ8aMlEwbhk6EdlzN9uDmhnCePDFFjoZGK+1yh+5uZEfT9h5TWq+18bIEG0J/A==
+X-Received: by 2002:a05:6512:39c3:: with SMTP id k3mr5404293lfu.501.1612267691278;
+        Tue, 02 Feb 2021 04:08:11 -0800 (PST)
+Received: from localhost.localdomain ([146.158.65.228])
+        by smtp.googlemail.com with ESMTPSA id i5sm3918806ljj.42.2021.02.02.04.08.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Feb 2021 04:08:10 -0800 (PST)
+From:   Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+To:     rydberg@bitmath.org, dmitry.torokhov@gmail.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        syzbot+0122fa359a69694395d5@syzkaller.appspotmail.com
+Subject: [PATCH] drivers/mt: restrict length of kzalloc in input_mt_init_slots()
+Date:   Tue,  2 Feb 2021 18:08:07 +0600
+Message-Id: <20210202120807.1394788-1-snovitoll@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210126165835.687514-1-u.kleine-koenig@pengutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Sender: Russell King - ARM Linux admin <linux@armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jan 26, 2021 at 05:58:30PM +0100, Uwe Kleine-König wrote:
-> From: Uwe Kleine-König <u.kleine-koenig.org@pengutronix.de
-> 
-> Hello,
-> 
-> Changes since v2 sent with Message-Id:
-> 20201124133139.3072124-1-uwe@kleine-koenig.org:
-> 
->  - Rebase to v5.11-rc1 (which resulted in a few conflicts in
->    drivers/hwtracing).
->  - Add various Acks.
->  - Send to more maintainers directly (which I think is one of the
->    reasons why there are so few Acks).
-> 
-> For my taste patch 4 needs some more acks (drivers/char/hw_random,
-> drivers/dma, drivers/gpu/drm/pl111, drivers/i2c, drivers/mmc,
-> drivers/vfio, drivers/watchdog and sound/arm have no maintainer feedback
-> yet).
-> 
-> My suggestion is to let this series go in via Russell King (who cares
-> for amba). Once enough Acks are there I can also provide a tag for
-> merging into different trees. Just tell me if you prefer this solution.
-> 
-> Would be great if this could make it for v5.12, but I'm aware it's
-> already late in the v5.11 cycle so it might have to wait for v5.13.
+syzbot found WARNING in input_mt_init_slots [1] when
+struct_size(mt, slots, num_slots)=0x40006 where num_slots=0x10001,
+which exceeds KMALLOC_MAX_SIZE (0x40000) and causes
+order >= MAX_ORDER condition.
 
-I think you need to have a 6th patch which moves the
-probe/remove/shutdown methods into the bus_type - if you're setting
-them for every struct device_driver, then there's no point doing that
-and they may as well be in the bus_type.
+[1]
+Call Trace:
+ alloc_pages_current+0x18c/0x2a0 mm/mempolicy.c:2267
+ alloc_pages include/linux/gfp.h:547 [inline]
+ kmalloc_order+0x2e/0xb0 mm/slab_common.c:837
+ kmalloc_order_trace+0x14/0x120 mm/slab_common.c:853
+ kmalloc include/linux/slab.h:557 [inline]
+ kzalloc include/linux/slab.h:682 [inline]
+ input_mt_init_slots drivers/input/input-mt.c:49 [inline]
 
-Apart from that, it looks good.
+Reported-by: syzbot+0122fa359a69694395d5@syzkaller.appspotmail.com
+Signed-off-by: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+---
+ drivers/input/input-mt.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/input/input-mt.c b/drivers/input/input-mt.c
+index 44fe6f2f063c..e542f45a45ab 100644
+--- a/drivers/input/input-mt.c
++++ b/drivers/input/input-mt.c
+@@ -40,13 +40,18 @@ int input_mt_init_slots(struct input_dev *dev, unsigned int num_slots,
+ {
+ 	struct input_mt *mt = dev->mt;
+ 	int i;
++	size_t mt_size = 0;
+ 
+ 	if (!num_slots)
+ 		return 0;
+ 	if (mt)
+ 		return mt->num_slots != num_slots ? -EINVAL : 0;
+ 
+-	mt = kzalloc(struct_size(mt, slots, num_slots), GFP_KERNEL);
++	mt_size = struct_size(mt, slots, num_slots);
++	if (mt_size > KMALLOC_MAX_SIZE)
++		return -ENOMEM;
++
++	mt = kzalloc(mt_size, GFP_KERNEL);
+ 	if (!mt)
+ 		goto err_mem;
+ 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+2.25.1
+
