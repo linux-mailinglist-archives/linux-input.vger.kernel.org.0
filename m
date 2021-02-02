@@ -2,81 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B26FC30BAFB
-	for <lists+linux-input@lfdr.de>; Tue,  2 Feb 2021 10:32:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 117D230BBE5
+	for <lists+linux-input@lfdr.de>; Tue,  2 Feb 2021 11:18:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232968AbhBBJcg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 Feb 2021 04:32:36 -0500
-Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:52931 "EHLO
-        out30-45.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232766AbhBBJca (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 2 Feb 2021 04:32:30 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04400;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0UNfeAix_1612258263;
-Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0UNfeAix_1612258263)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 02 Feb 2021 17:31:12 +0800
-From:   Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To:     erazor_de@users.sourceforge.net
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Subject: [PATCH] HID: displays: convert sysfs sprintf/snprintf family to sysfs_emit
-Date:   Tue,  2 Feb 2021 17:31:01 +0800
-Message-Id: <1612258261-96457-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+        id S229651AbhBBKQu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 Feb 2021 05:16:50 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47050 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229483AbhBBKQs (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 2 Feb 2021 05:16:48 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 50D8864E30;
+        Tue,  2 Feb 2021 10:16:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1612260966;
+        bh=D1z+7hvfH8BBbQ794heYv3zLWOeb4/j24TKN2iQJP1o=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=NeEtv4qRFlfzwlQVudcA0C/dyXsFwLX7DkQOWBH7i24uwNrQiHH//fljzQoO3ckT/
+         8Zr45ZqIhsu9wB7cr6U+lcIasKbdjoiFUoV+S7EmBnm0iGwC4s14q5WeXb4APNrk+I
+         uY9NYmJQ0f7ISgnuVT1taXoO6u3RSaf9cutx4aJ3V0JpW7alRMKr7j5S90lp7SqMOp
+         ppuzf/ZhDfFh1G2q3r/At67UhVaOIemJ8DN9ZyGib8BO+5IzxPEOpvGiVNqvxPQ5eg
+         b9ZHsYs9ZBppgF6GUOGmsQPJXR5AhV9Kp77FPib5aAx93g6bcJp/Sea5Nd2XanxQhG
+         DRe9t96XlEF3g==
+Date:   Tue, 2 Feb 2021 11:15:55 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        seobrien@chromium.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: hid-input: avoid splitting keyboard, system and
+ consumer controls
+In-Reply-To: <X//jjawwbm8FxbQU@google.com>
+Message-ID: <nycvar.YFH.7.76.2102021115451.28696@cbobk.fhfr.pm>
+References: <X//jjawwbm8FxbQU@google.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Fix the following coccicheck warning:
+On Wed, 13 Jan 2021, Dmitry Torokhov wrote:
 
-./drivers/hid/hid-roccat-arvo.c:45:8-16: WARNING: use scnprintf or
-sprintf.
+> A typical USB keyboard usually splits its keys into several reports:
+> 
+> - one for the basic alphanumeric keys, modifier keys, F<n> keys, six pack
+>   keys and keypad. This report's application is normally listed as
+>   GenericDesktop.Keyboard
+> - a GenericDesktop.SystemControl report for the system control keys, such
+>   as power and sleep
+> - Consumer.ConsumerControl report for multimedia (forward, rewind,
+>   play/pause, mute, etc) and other extended keys.
+> - additional output, vendor specific, and feature reports
+> 
+> Splitting each report into a separate input device is wasteful and even
+> hurts userspace as it makes it harder to determine the true capabilities
+> (set of available keys) of a keyboard, so let's adjust application
+> matching to merge system control and consumer control reports with
+> keyboard report, if one has already been processed.
+> 
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> ---
 
-./drivers/hid/hid-roccat-arvo.c:95:8-16: WARNING: use scnprintf or
-sprintf.
+Queued in for-5.12/core. Thanks,
 
-./drivers/hid/hid-roccat-arvo.c:149:8-16: WARNING: use scnprintf or
-sprintf.
-
-Reported-by: Abaci Robot<abaci@linux.alibaba.com>
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
----
- drivers/hid/hid-roccat-arvo.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/hid/hid-roccat-arvo.c b/drivers/hid/hid-roccat-arvo.c
-index ffcd444..4556d2a 100644
---- a/drivers/hid/hid-roccat-arvo.c
-+++ b/drivers/hid/hid-roccat-arvo.c
-@@ -42,7 +42,7 @@ static ssize_t arvo_sysfs_show_mode_key(struct device *dev,
- 	if (retval)
- 		return retval;
- 
--	return snprintf(buf, PAGE_SIZE, "%d\n", temp_buf.state);
-+	return sysfs_emit(buf, "%d\n", temp_buf.state);
- }
- 
- static ssize_t arvo_sysfs_set_mode_key(struct device *dev,
-@@ -92,7 +92,7 @@ static ssize_t arvo_sysfs_show_key_mask(struct device *dev,
- 	if (retval)
- 		return retval;
- 
--	return snprintf(buf, PAGE_SIZE, "%d\n", temp_buf.key_mask);
-+	return sysfs_emit(buf, "%d\n", temp_buf.key_mask);
- }
- 
- static ssize_t arvo_sysfs_set_key_mask(struct device *dev,
-@@ -146,7 +146,7 @@ static ssize_t arvo_sysfs_show_actual_profile(struct device *dev,
- 	struct arvo_device *arvo =
- 			hid_get_drvdata(dev_get_drvdata(dev->parent->parent));
- 
--	return snprintf(buf, PAGE_SIZE, "%d\n", arvo->actual_profile);
-+	return sysfs_emit(buf, "%d\n", arvo->actual_profile);
- }
- 
- static ssize_t arvo_sysfs_set_actual_profile(struct device *dev,
 -- 
-1.8.3.1
+Jiri Kosina
+SUSE Labs
 
