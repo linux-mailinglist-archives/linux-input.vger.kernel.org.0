@@ -2,69 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9ACB430B3AD
-	for <lists+linux-input@lfdr.de>; Tue,  2 Feb 2021 00:48:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D6DB730B3FF
+	for <lists+linux-input@lfdr.de>; Tue,  2 Feb 2021 01:19:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229593AbhBAXsQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 Feb 2021 18:48:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36096 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229524AbhBAXsP (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 1 Feb 2021 18:48:15 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A95CC061573;
-        Mon,  1 Feb 2021 15:47:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:Date:Message-ID:Subject:From:To:Sender:Reply-To:Cc:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=+1XaJEm6YZf4J98TFgCBRgeI5HE8lVr+vSWBp40FDII=; b=T/w946GfM85U36YVPAlLIP9ZvB
-        98gg8mKhlYyElrWA8qWzTy1dGaSDcq2RJlqAlyEh6GfNAFNKATYuNmPj3ke4u5YtcYc8ZF0gPF7GQ
-        h4IfO70IkhXgoi0LUsZx1vplb/xwlczkNmwf1PulyqduUQNPSPSbMoxJn/A5k3b7pFZxQCRkTyvSy
-        Rdc4ntnW2ylEOOTtiAlXBAF09/dTTsTmxBx9Jo9R46Yp5zyLLaxWUwdgrwFuaO9dPml3Eiv8bPdi5
-        rW5MYlQeFOMmyLWGlxYybY7zo9/sp+p/9ek9og84LxYsKVrBf1fSBz1qySoTPOD3MgqJNhJRGCwJb
-        wTxs1Kzw==;
-Received: from [2601:1c0:6280:3f0::2a53]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1l6iuq-00038y-Nm; Mon, 01 Feb 2021 23:47:33 +0000
-To:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Subject: do not suspend/sleep
-Message-ID: <f4cfa048-f612-8e38-2899-988471d84faa@infradead.org>
-Date:   Mon, 1 Feb 2021 15:47:29 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S230197AbhBBASQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 Feb 2021 19:18:16 -0500
+Received: from mga06.intel.com ([134.134.136.31]:13482 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230122AbhBBASP (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 1 Feb 2021 19:18:15 -0500
+IronPort-SDR: RW9GNazTa8+54nPm17mXaZlkz4OhCEC8Uw4KBCPuukER/t5sMqta9BiuXzZDeihGtoXAkkoPAI
+ SvyqACrbX0sg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9882"; a="242290597"
+X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; 
+   d="scan'208";a="242290597"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Feb 2021 16:17:27 -0800
+IronPort-SDR: smJdJiwMkzc9P/YXfcVcQpJa5/hZsncrUzC9L0s2AN13YyJCbQn+2oRBjeBlu8gorWgnxRVw7Z
+ /Rk+43L3AWag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,393,1602572400"; 
+   d="scan'208";a="356034831"
+Received: from unknown (HELO coxu-arch-shz) ([10.239.160.26])
+  by orsmga003.jf.intel.com with ESMTP; 01 Feb 2021 16:17:25 -0800
+Date:   Tue, 2 Feb 2021 08:17:24 +0800 (CST)
+From:   Colin Xu <colin.xu@intel.com>
+X-X-Sender: coxu_arch@coxu-arch-shz
+To:     "Michael S. Tsirkin" <mst@redhat.com>
+cc:     Vasyl Vavrychuk <vasyl.vavrychuk@opensynergy.com>,
+        rydberg@bitmath.org, mathias.crombez@faurecia.com,
+        linux-kernel@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH RESEND v3] virtio-input: add multi-touch support
+In-Reply-To: <20210129102647-mutt-send-email-mst@kernel.org>
+Message-ID: <alpine.LNX.2.22.419.2102020815440.5024@coxu-arch-shz>
+References: <20210115002623.8576-1-vasyl.vavrychuk@opensynergy.com> <20210129120654.16180-1-vasyl.vavrychuk@opensynergy.com> <20210129102647-mutt-send-email-mst@kernel.org>
+User-Agent: Alpine 2.22 (LNX 419 2020-04-12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi all.
 
-I usually run my systems (laptops) so that they will suspend to RAM
-after 30 or 60 minutes of no use (no input), but when I am building
-e.g. 3 kernels, that will take more than 30 minutes and I don't want
-the system to suspend during that time.
+I second the support of MT with this one or other alternative.
+This patch has been tested work in one of our POC project.
+--
+Best Regards,
+Colin Xu
 
-I was wondering what options are available to prevent entering suspend.
-I am willing to manually enter a command to make that happen if one
-is available.
+On Fri, 29 Jan 2021, Michael S. Tsirkin wrote:
 
-I was considering a way to generate a fake kbd or mouse input every
-M (e.g. 29) minutes.
-If that is feasible, what would someone suggest to use here?
-(I can script the "wait M minutes" part :) Just need the "how to
-inject a keystroke or mouse input" part.)
-
-My first idea was some way to prevent suspend/sleep if the system load
-level is > N (e.g. 4 -- user input), but I don't know where to do that.
-
-thanks for any suggestions.
-
--- 
-~Randy
-
+> On Fri, Jan 29, 2021 at 02:06:54PM +0200, Vasyl Vavrychuk wrote:
+>> Hi, All,
+>>
+>> There has been no reply to this patch.
+>>
+>> Is there anything I can do?
+>>
+>> Thanks,
+>> Vasyl
+>
+> Gerd any input on this?
+>
+> _______________________________________________
+> Virtualization mailing list
+> Virtualization@lists.linux-foundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/virtualization
+>
