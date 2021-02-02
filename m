@@ -2,117 +2,173 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 683C330BFF2
-	for <lists+linux-input@lfdr.de>; Tue,  2 Feb 2021 14:48:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0201230CB70
+	for <lists+linux-input@lfdr.de>; Tue,  2 Feb 2021 20:24:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232781AbhBBNq3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 Feb 2021 08:46:29 -0500
-Received: from jabberwock.ucw.cz ([46.255.230.98]:55096 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232802AbhBBNol (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Feb 2021 08:44:41 -0500
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 922351C0B7A; Tue,  2 Feb 2021 14:43:59 +0100 (CET)
-Date:   Tue, 2 Feb 2021 14:43:59 +0100
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Doug Anderson <dianders@chromium.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Benson Leung <bleung@chromium.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Guenter Roeck <groeck@chromium.org>
-Subject: Re: [PATCH] Input: cros_ec_keyb: Add support for a front proximity
- switch
-Message-ID: <20210202134359.GA25474@duo.ucw.cz>
-References: <20201205004709.3126266-1-swboyd@chromium.org>
- <CAD=FV=XjzBLTPMqOf1NK0pjXiZWrLT227nksxhMqaFG6GxAqjQ@mail.gmail.com>
- <X/ZwRqJFJ9BY4Z3z@google.com>
- <CAD=FV=VmNQDSZFT3vaJ64DYyGqoE39uig581ZmaX0s-Y1U_CTw@mail.gmail.com>
- <X/dlKKeAHU/Ab+VD@google.com>
+        id S233582AbhBBTYW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 Feb 2021 14:24:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49240 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233578AbhBBOAA (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Feb 2021 09:00:00 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88BD4C0613D6
+        for <linux-input@vger.kernel.org>; Tue,  2 Feb 2021 05:59:18 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1l6w82-0000fW-TE; Tue, 02 Feb 2021 14:54:02 +0100
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1l6w7u-0006bW-5D; Tue, 02 Feb 2021 14:53:54 +0100
+Date:   Tue, 2 Feb 2021 14:53:50 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Russell King <linux+pull@armlinux.org.uk>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-fbdev@vger.kernel.org, kvm@vger.kernel.org,
+        alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig.org@pengutronix.de>, linux-i2c@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-input@vger.kernel.org, Mike Leach <mike.leach@linaro.org>,
+        linux-watchdog@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-crypto@vger.kernel.org,
+        kernel@pengutronix.de, Leo Yan <leo.yan@linaro.org>,
+        dmaengine@vger.kernel.org, Matt Mackall <mpm@selenic.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Eric Anholt <eric@anholt.net>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Eric Auger <eric.auger@redhat.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Subject: [GIT PULL] immutable branch for amba changes targeting v5.12-rc1
+Message-ID: <20210202135350.36nj3dmcoq3t7gcf@pengutronix.de>
+References: <20210126165835.687514-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="7AUc2qLy4jB3hD7Z"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ofqcafd7fzy3m7fk"
 Content-Disposition: inline
-In-Reply-To: <X/dlKKeAHU/Ab+VD@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210126165835.687514-1-u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 
---7AUc2qLy4jB3hD7Z
-Content-Type: text/plain; charset=us-ascii
+--ofqcafd7fzy3m7fk
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi!
+Hello,
 
-> > > > Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> > > >
-> > > > Given that it touches a header file owned by the Chrome OS maintain=
-ers
-> > > > and a driver owned by input, how should it land?  One maintainer Ac=
-ks
-> > > > and the other lands?
-> > >
-> > > Sorry about missing this one, however the "front proximity" switch has
-> > > been introduced for the benefit of phone devices, to be emitted when a
-> > > device is raised to user's ear, and I do not think we should be using
-> > > this here.
-> > >
-> > > We have just recently had similar discussion with regard to palm- and
-> > > lap-mode sensors and whether they should be reported over input or IIO
-> > > as true proximity sensors:
-> > >
-> > > https://lore.kernel.org/linux-iio/9f9b0ff6-3bf1-63c4-eb36-901cecd7c4d=
-9@redhat.com/
-> > >
-> > > Based on what we are doing for other Chrome OS devices that expose
-> > > proximity sensors (for example trogdor) we have decided that we all
-> > > should be using IIO as it will allow not only on/off, but true proxim=
-ity
-> > > reporting with potential of implementing smarter policies by userspac=
-e.
-> > >
-> > > Because of that we should do the same here and export this as IIO
-> > > proximity sensor as well.
-> >=20
-> > For devices with a true proximity sensor that's exactly what we're
-> > doing.  I've only been involved in the periphery of the discussion,
-> > but as I understand it there are some models of laptop for which we
-> > don't have a true proximity sensor.  On these devices, the EC is in
-> > charge of deciding about proximity based on a number of factors.
->=20
-> Yes, I understand that on some devices the proximity sensors are not
-> true sensors but rather on/off signals, potentially derived from a
-> multitude of sources. However there is still a benefit in exposing them
-> as IIO proximity devices with limited reporting representing
-> [near, infinity] range/values. This will mean that userspace needs to
-> monitor only one set of devices (IIO) instead of both IIO and input, and
-> will not require constantly expanding EV_SW set to account for
-> ever-growing number of proximity sensors (lap, palm, general presence,
-> etc).
+the following changes since commit 5c8fe583cce542aa0b84adc939ce85293de36e5e:
 
-While I believe one set of devices is good goal, I don't think IIO is
-good solution here. It is being used for user input after
-all... Routing on/off values to IIO is strange.
+  Linux 5.11-rc1 (2020-12-27 15:30:22 -0800)
+
+are available in the Git repository at:
+
+  https://git.pengutronix.de/git/ukl/linux tags/amba-make-remove-return-void
+
+for you to fetch changes up to f170b59fedd733b92f58c4d7c8357fbf7601d623:
+
+  amba: Make use of bus_type functions (2021-02-02 14:26:02 +0100)
+
+I expect this tag to be merged by Russell King as amba maintainer and by
+Mathieu Poirier (or Greg Kroah-Hartman?) for coresight as there are some
+pending conflicting changes. These are not hard to resolve but also
+non-trivial. Tell me if you need assistance for resolving, also if it's onl=
+y a
+second pair of eyes to judge your resolution.
 
 Best regards,
-									Pavel
+Uwe
 
---=20
-http://www.livejournal.com/~pavelmachek
+----------------------------------------------------------------
+Tag for adaptions to struct amba_driver::remove changing prototype
 
---7AUc2qLy4jB3hD7Z
+----------------------------------------------------------------
+Uwe Kleine-K=F6nig (5):
+      amba: Fix resource leak for drivers without .remove
+      amba: reorder functions
+      vfio: platform: simplify device removal
+      amba: Make the remove callback return void
+      amba: Make use of bus_type functions
+
+ drivers/amba/bus.c                                 | 234 +++++++++++++++++=
+++++++++++++++++------------------------------
+ drivers/char/hw_random/nomadik-rng.c               |   3 +-
+ drivers/dma/pl330.c                                |   3 +-
+ drivers/gpu/drm/pl111/pl111_drv.c                  |   4 +-
+ drivers/hwtracing/coresight/coresight-catu.c       |   3 +-
+ drivers/hwtracing/coresight/coresight-cpu-debug.c  |   4 +-
+ drivers/hwtracing/coresight/coresight-cti-core.c   |   4 +-
+ drivers/hwtracing/coresight/coresight-etb10.c      |   4 +-
+ drivers/hwtracing/coresight/coresight-etm3x-core.c |   4 +-
+ drivers/hwtracing/coresight/coresight-etm4x-core.c |   4 +-
+ drivers/hwtracing/coresight/coresight-funnel.c     |   4 +-
+ drivers/hwtracing/coresight/coresight-replicator.c |   4 +-
+ drivers/hwtracing/coresight/coresight-stm.c        |   4 +-
+ drivers/hwtracing/coresight/coresight-tmc-core.c   |   4 +-
+ drivers/hwtracing/coresight/coresight-tpiu.c       |   4 +-
+ drivers/i2c/busses/i2c-nomadik.c                   |   4 +-
+ drivers/input/serio/ambakmi.c                      |   3 +-
+ drivers/memory/pl172.c                             |   4 +-
+ drivers/memory/pl353-smc.c                         |   4 +-
+ drivers/mmc/host/mmci.c                            |   4 +-
+ drivers/rtc/rtc-pl030.c                            |   4 +-
+ drivers/rtc/rtc-pl031.c                            |   4 +-
+ drivers/spi/spi-pl022.c                            |   5 +-
+ drivers/tty/serial/amba-pl010.c                    |   4 +-
+ drivers/tty/serial/amba-pl011.c                    |   3 +-
+ drivers/vfio/platform/vfio_amba.c                  |  15 ++--
+ drivers/video/fbdev/amba-clcd.c                    |   4 +-
+ drivers/watchdog/sp805_wdt.c                       |   4 +-
+ include/linux/amba/bus.h                           |   2 +-
+ sound/arm/aaci.c                                   |   4 +-
+ 30 files changed, 157 insertions(+), 198 deletions(-)
+
+
+
+--ofqcafd7fzy3m7fk
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYBlXHwAKCRAw5/Bqldv6
-8iQyAKDEsYNRzqr/jIGnzNuxddtPB41y4ACfTPpkTTE4bkMVKGj5xxJf3/IwM88=
-=+KpI
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmAZWWsACgkQwfwUeK3K
+7AnMhQgAhyeAx45pa3ebR9ymvzFG1Knp32GwFPlyLYw03yZzLsNR5n+d0kvDNZ1l
+vNIrU0g5WSS1SUWhs+m3WDRIcTlCHcgc3yoCKltLSNWiPXie9G9BZ0815b0gomXY
+eBSKiHZg/Ie8WhIspQcl0IA0P/2nOmTXF8qJx3CFow5WowriUutdf7n1ycTDq86a
+18Xpf2lW+esLut8MHM/98aHJUl6Jkj5PYfQfjgORIXKwNmNDltuK6lwvUU+pw+Vr
+0bDYXdXlaKLkNtSYYHSbDrKALiQccxhXYPg404KZV3FIHpOxKlq6im8hsFHWOOlu
+n9j2wq/tpGso23vYKdErmsE3GDncuQ==
+=P/zp
 -----END PGP SIGNATURE-----
 
---7AUc2qLy4jB3hD7Z--
+--ofqcafd7fzy3m7fk--
