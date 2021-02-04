@@ -2,84 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8A4030DCA1
-	for <lists+linux-input@lfdr.de>; Wed,  3 Feb 2021 15:25:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BDCBA30E8FC
+	for <lists+linux-input@lfdr.de>; Thu,  4 Feb 2021 01:54:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232023AbhBCOYW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 3 Feb 2021 09:24:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26675 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232713AbhBCOYQ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 3 Feb 2021 09:24:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1612362170;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=3xWLX20KnSq7G5ofmlPC/VwP2FA7d4Kic/EX2+ofCBw=;
-        b=BwGl9k575vkHD7MI9owk3+wweXII/3cuTgZsLrYzIQwPKMW76khNhSzFgiinYUZF4sgOoL
-        d0K4vxnsO8G2MXKesnSF4atHL0dXvljpSpjUan2ZXGpNnll0CJKdv3tGDuR1vanizGSXGl
-        e//L6R9F0njePF17sUUaRsu2/PGdnuA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-XA9H55P5NW2AW_YuhKhu5g-1; Wed, 03 Feb 2021 09:22:49 -0500
-X-MC-Unique: XA9H55P5NW2AW_YuhKhu5g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S233991AbhBDAyK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 3 Feb 2021 19:54:10 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:38146 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234521AbhBDAyK (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 3 Feb 2021 19:54:10 -0500
+Received: from localhost.localdomain (unknown [IPv6:2607:f2c0:f00e:4a00:5c27:6477:b42b:3c29])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E784107ACE8;
-        Wed,  3 Feb 2021 14:22:47 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-27.ams2.redhat.com [10.36.113.27])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 436F61002391;
-        Wed,  3 Feb 2021 14:22:44 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id 0EAA01800853; Wed,  3 Feb 2021 15:22:39 +0100 (CET)
-Date:   Wed, 3 Feb 2021 15:22:39 +0100
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     Vasyl Vavrychuk <vasyl.vavrychuk@opensynergy.com>
-Cc:     virtualization@lists.linux-foundation.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Mathias Crombez <mathias.crombez@faurecia.com>
-Subject: Re: [PATCH RESEND v3] virtio-input: add multi-touch support
-Message-ID: <20210203142239.7lknkkg4zx5kuaf2@sirius.home.kraxel.org>
-References: <20210115002623.8576-1-vasyl.vavrychuk@opensynergy.com>
+        (Authenticated sender: tester)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 5684E1F45523;
+        Thu,  4 Feb 2021 00:53:25 +0000 (GMT)
+From:   =?UTF-8?q?Olivier=20Cr=C3=AAte?= <olivier.crete@collabora.com>
+To:     linux-input@vger.kernel.org
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: [PATCH] Input: xpad - Add support for PowerA Enhanced Wired Controller for Xbox Series X|S
+Date:   Wed,  3 Feb 2021 19:53:18 -0500
+Message-Id: <20210204005318.615647-1-olivier.crete@collabora.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210115002623.8576-1-vasyl.vavrychuk@opensynergy.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Jan 15, 2021 at 02:26:23AM +0200, Vasyl Vavrychuk wrote:
-> From: Mathias Crombez <mathias.crombez@faurecia.com>
-> 
-> Without multi-touch slots allocated, ABS_MT_SLOT events will be lost by
-> input_handle_abs_event.
-> 
-> Implementation is based on uinput_create_device.
-> 
-> Signed-off-by: Mathias Crombez <mathias.crombez@faurecia.com>
-> Co-developed-by: Vasyl Vavrychuk <vasyl.vavrychuk@opensynergy.com>
-> Signed-off-by: Vasyl Vavrychuk <vasyl.vavrychuk@opensynergy.com>
-> ---
-> v2: fix patch corrupted by corporate email server
-> v3: use number of slots from the host
-> 
-> Resend since to feedback.
-> 
->  drivers/virtio/virtio_input.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
+From: Olivier Crête <olivier.crete@ocrete.ca>
 
-Have no test hardware, the logic looks sane though.
+Signed-off-by: Olivier Crête <olivier.crete@ocrete.ca>
+---
+ drivers/input/joystick/xpad.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-
-take care,
-  Gerd
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index 0687f0ed60b8..742a17c3ea3e 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -296,6 +296,7 @@ static const struct xpad_device {
+ 	{ 0x1bad, 0xfa01, "MadCatz GamePad", 0, XTYPE_XBOX360 },
+ 	{ 0x1bad, 0xfd00, "Razer Onza TE", 0, XTYPE_XBOX360 },
+ 	{ 0x1bad, 0xfd01, "Razer Onza", 0, XTYPE_XBOX360 },
++	{ 0x20d6, 0x2009, "PowerA Enhanced Wired Controller for Xbox Series X|S", 0, XTYPE_XBOXONE },
+ 	{ 0x24c6, 0x5000, "Razer Atrox Arcade Stick", MAP_TRIGGERS_TO_BUTTONS, XTYPE_XBOX360 },
+ 	{ 0x24c6, 0x5300, "PowerA MINI PROEX Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x24c6, 0x5303, "Xbox Airflo wired controller", 0, XTYPE_XBOX360 },
+@@ -429,6 +430,7 @@ static const struct usb_device_id xpad_table[] = {
+ 	XPAD_XBOX360_VENDOR(0x162e),		/* Joytech X-Box 360 controllers */
+ 	XPAD_XBOX360_VENDOR(0x1689),		/* Razer Onza */
+ 	XPAD_XBOX360_VENDOR(0x1bad),		/* Harminix Rock Band Guitar and Drums */
++	XPAD_XBOXONE_VENDOR(0x20d6),		/* PowerA Controllers */
+ 	XPAD_XBOX360_VENDOR(0x24c6),		/* PowerA Controllers */
+ 	XPAD_XBOXONE_VENDOR(0x24c6),		/* PowerA Controllers */
+ 	{ }
+-- 
+2.29.2
 
