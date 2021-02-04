@@ -2,161 +2,73 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 761FB30FB4F
-	for <lists+linux-input@lfdr.de>; Thu,  4 Feb 2021 19:28:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E90C30FEEA
+	for <lists+linux-input@lfdr.de>; Thu,  4 Feb 2021 21:59:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238902AbhBDSXh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 4 Feb 2021 13:23:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48090 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239029AbhBDSX1 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 4 Feb 2021 13:23:27 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FCE3C061786
-        for <linux-input@vger.kernel.org>; Thu,  4 Feb 2021 10:22:47 -0800 (PST)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1l7jAm-0002WQ-TD; Thu, 04 Feb 2021 19:16:08 +0100
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1l7jAV-0005Pi-Pr; Thu, 04 Feb 2021 19:15:51 +0100
-Date:   Thu, 4 Feb 2021 19:15:51 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-fbdev@vger.kernel.org,
-        Alessandro Zummo <a.zummo@towertech.it>, kvm@vger.kernel.org,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        alsa-devel@alsa-project.org, dri-devel@lists.freedesktop.org,
-        Jaroslav Kysela <perex@perex.cz>,
-        Eric Anholt <eric@anholt.net>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig.org@pengutronix.de>, linux-i2c@vger.kernel.org,
-        Jiri Slaby <jirislaby@kernel.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        linux-rtc@vger.kernel.org, Cornelia Huck <cohuck@redhat.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Takashi Iwai <tiwai@suse.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        David Airlie <airlied@linux.ie>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Mike Leach <mike.leach@linaro.org>,
-        linux-watchdog@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        coresight@lists.linaro.org, Vladimir Zapolskiy <vz@mleia.com>,
-        Eric Auger <eric.auger@redhat.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Mark Brown <broonie@kernel.org>,
-        Matt Mackall <mpm@selenic.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-spi@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
-        linux-crypto@vger.kernel.org, kernel@pengutronix.de,
-        Leo Yan <leo.yan@linaro.org>, dmaengine@vger.kernel.org
-Subject: Re: [GIT PULL] immutable branch for amba changes targeting v5.12-rc1
-Message-ID: <20210204181551.ethtuzm65flujmwe@pengutronix.de>
-References: <20210126165835.687514-1-u.kleine-koenig@pengutronix.de>
- <20210202135350.36nj3dmcoq3t7gcf@pengutronix.de>
- <YBlcTXlxemmC2lgr@kroah.com>
- <20210204165224.GA1463@shell.armlinux.org.uk>
- <YBwnUrQqlAz2LDPI@kroah.com>
- <20210204165951.GB1463@shell.armlinux.org.uk>
+        id S230034AbhBDU5x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 4 Feb 2021 15:57:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57999 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229841AbhBDU5w (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 4 Feb 2021 15:57:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1612472186;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=ZOvtNucwJczkzNINdmUj9KmQMT7i6fAZZQ9cC7Yntug=;
+        b=GFD4l89dy44SBxuuXi7JGMvJKPbtjy/LDC62oVcVRfT7oMD3gqvA30K0IqueZZEbhQ3wEH
+        JS80ZnBA04/2sbTwCyCH1KC6X4UtTSgBnP1zaaMdkHdayT5mls4/nKMTD2qKgrm0ur83cy
+        wgeG3HLYMpyBKXtZP4X4wannV9bwgRk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-238-2CP6fFgfPtezja3BRPcD5w-1; Thu, 04 Feb 2021 15:56:24 -0500
+X-MC-Unique: 2CP6fFgfPtezja3BRPcD5w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 571939127B;
+        Thu,  4 Feb 2021 20:56:23 +0000 (UTC)
+Received: from x1.localdomain.com (ovpn-112-68.ams2.redhat.com [10.36.112.68])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E30B970483;
+        Thu,  4 Feb 2021 20:56:18 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org
+Subject: [PATCH resend 0/2] HID: logitech-dj: Handle Dinovo quad/bt2.0 receivers in HID proxy mode
+Date:   Thu,  4 Feb 2021 21:56:15 +0100
+Message-Id: <20210204205617.72527-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="mw66hszyvu2hxhxe"
-Content-Disposition: inline
-In-Reply-To: <20210204165951.GB1463@shell.armlinux.org.uk>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi All,
 
---mw66hszyvu2hxhxe
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This series seems to have fallen through the cracks, so here is a resend.
+This has been tested by my on a Dinovo Edge and I believe that Benjamin
+tested this successfully on a Dinovo Mini.
 
-On Thu, Feb 04, 2021 at 04:59:51PM +0000, Russell King - ARM Linux admin wr=
-ote:
-> On Thu, Feb 04, 2021 at 05:56:50PM +0100, Greg Kroah-Hartman wrote:
-> > On Thu, Feb 04, 2021 at 04:52:24PM +0000, Russell King - ARM Linux admi=
-n wrote:
-> > > On Tue, Feb 02, 2021 at 03:06:05PM +0100, Greg Kroah-Hartman wrote:
-> > > > I'm glad to take this through my char/misc tree, as that's where the
-> > > > other coresight changes flow through.  So if no one else objects, I=
- will
-> > > > do so...
-> > >=20
-> > > Greg, did you end up pulling this after all? If not, Uwe produced a v=
-2.
-> > > I haven't merged v2 yet as I don't know what you've done.
-> >=20
-> > I thought you merged this?
->=20
-> I took v1, and put it in a branch I've promised in the past not to
-> rebase/rewind. Uwe is now asking for me to take a v2 or apply a patch
-> on top.
->=20
-> The only reason to produce an "immutable" branch is if it's the basis
-> for some dependent work and you need that branch merged into other
-> people's trees... so the whole "lets produce a v2" is really odd
-> workflow... I'm confused about what I should do, and who has to be
-> informed which option I take.
->=20
-> I'm rather lost here too.
+Regards,
 
-Sorry to have cause this confusion. After I saw that my initial tag
-missed to adapt a driver I wanted to make it easy for you to fix the
-situation.
-So I created a patch to fix it and created a second tag with the patch
-squashed in. Obviously only one of them have to be picked and I hoped
-you (=3D Russell + Greg) would agree which option to pick.
+Hans
 
-My preference would be if you both pick up v2 of the tag to yield a
-history that is bisectable without build problems, but if Russell (who
-already picked up the broken tag) considers his tree immutable and so
-isn't willing to rebase, then picking up the patch is the way to go.
 
-I suggest that Russell descides which option he wants to pick and tells
-Greg to do the same!?
+Hans de Goede (2):
+  HID: logitech-dj: Use hid-ids.h defines for USB device-ids for all
+    supported devices
+  HID: logitech-dj: Handle newer quad/bt2.0 receivers in HID proxy mode
 
-Best regards
-Uwe
+ drivers/hid/hid-ids.h         |  11 ++-
+ drivers/hid/hid-lg.c          |  24 -------
+ drivers/hid/hid-logitech-dj.c | 131 ++++++++++++++++++++++++++++------
+ drivers/hid/hid-quirks.c      |   2 -
+ 4 files changed, 120 insertions(+), 48 deletions(-)
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+-- 
+2.29.2
 
---mw66hszyvu2hxhxe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmAcOdQACgkQwfwUeK3K
-7AlatwgAoTySm2q5g+gxl/CCA9C6tYko2Pu8wLkL3YfNBIgf05iOJ9G8Miwhd95G
-eDv5Ue6LEvHVOMZHbbZMliKzacCtSGzzhTpNpIcL7SZH/Vu0nyB8qGbN+PAm+rsX
-K54DEaOvyPIcDUkuXgUGC2e0nXjg7499oDQs/rajEADbs8ECpDvKCTRYczmQ6E8v
-VS9a/GOt/WDa0dqOdAt6OfxirahLKjPQC1/FS1kcREk1QBYbH6TqM/t8b4t0ED9p
-A5RYkSHAXArD/ifkinbRDUIhLY7XzhBYGEiiNgwCCtsbHE06GP/BNPlXMj6+fLAY
-g/wGBoyP1j9OrCrpGDnsy/oyv64XRg==
-=Rv8c
------END PGP SIGNATURE-----
-
---mw66hszyvu2hxhxe--
