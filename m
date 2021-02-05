@@ -2,70 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2F923107AE
-	for <lists+linux-input@lfdr.de>; Fri,  5 Feb 2021 10:23:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B0F3F3107B1
+	for <lists+linux-input@lfdr.de>; Fri,  5 Feb 2021 10:23:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230310AbhBEJWB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 5 Feb 2021 04:22:01 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33866 "EHLO mail.kernel.org"
+        id S229511AbhBEJWo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 5 Feb 2021 04:22:44 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33954 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229931AbhBEJT5 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 5 Feb 2021 04:19:57 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 08A5A64F87;
-        Fri,  5 Feb 2021 09:18:59 +0000 (UTC)
+        id S230034AbhBEJUq (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 5 Feb 2021 04:20:46 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B59D364F95;
+        Fri,  5 Feb 2021 09:20:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612516741;
-        bh=D6IC+Qjel3VKDlF+oaoeNyDwbJGv7T/gs1hJNC79gqc=;
+        s=k20201202; t=1612516805;
+        bh=LPYwCLVMORkaSzpTvfp/9+nM6jkIXUDZkycBi0/2+TE=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=OFpDBT2WXqLHpbVVTlzgESWeNEiUL/wwVeC3Izvz8H4b2gSRDnIPJC7LlS+L39WG+
-         JBhST82jNruV0Iaxc6LNvJ3rcg5ni46D53ThcLsLCnWtBsLHUfuTijBRQXvr+b5C9y
-         d/cx1USBgrIETpg8kyJ0FYDdnWMswofB6w6aT/V4GD1YEf0DtV2d/K5SK41kuMgFTJ
-         ZGf2m28opprWxzEHQe+kJGrpL7wGyLNUhb267LwDq2syr15VEGtt2xNTcJu6ibfJxp
-         SCpX9xeLdeLunPrtIF9SeeJtRb9g1sMD4IOxmwb5mpkhMf1yXkvsou6eJV+IK4sOmj
-         bv1u3wCh9PB4A==
-Date:   Fri, 5 Feb 2021 10:18:57 +0100 (CET)
+        b=WAbC/7U0//WpfLP23RPW25/fPLAMyqjBPzbbrJ5lSq9GgJFqDa+WsG4jup+Vx05eM
+         EHumneEQV7HqeA+tsjGjpImvdoKZAZ05E2DvIC8tvfaiqAx2o/a/DnaMiSPhiq9uQQ
+         DySONVEHg00o5V5YNzQokOsfu52eOmAIi7n6dWh9MpBWxMPSGoKsWnuhJH9rKrUkzD
+         Q0e483eIY0QdXs3/CHZZWsnM5TEaYoGcBcrs5AkgFlMOMxCnir4b2Czzm9PBzTdjeS
+         1/i36GBrhrgKYEAt1HEmF3WOqjbAXm7QzwMB3Ll0cT936BVIWUhcip8M+mM0ikduCr
+         ZURNqvbck/2ww==
+Date:   Fri, 5 Feb 2021 10:20:02 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@archlinux.org>
+To:     Hans de Goede <hdegoede@redhat.com>
 cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hans de Goede <hdegoede@redhat.com>,
-        =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>
-Subject: Re: [PATCH] HID: logitech-dj: add support for keyboard events in
- eQUAD step 4 Gaming
-In-Reply-To: <20210130191027.1225465-1-lains@archlinux.org>
-Message-ID: <nycvar.YFH.7.76.2102051018370.28696@cbobk.fhfr.pm>
-References: <20210130191027.1225465-1-lains@archlinux.org>
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH] HID: i2c-hid: Add I2C_HID_QUIRK_NO_IRQ_AFTER_RESET for
+ ITE8568 EC on Voyo Winpad A15
+In-Reply-To: <20210130203323.88405-1-hdegoede@redhat.com>
+Message-ID: <nycvar.YFH.7.76.2102051019530.28696@cbobk.fhfr.pm>
+References: <20210130203323.88405-1-hdegoede@redhat.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 30 Jan 2021, Filipe Laíns wrote:
+On Sat, 30 Jan 2021, Hans de Goede wrote:
 
-> From: Filipe Laíns <lains@riseup.net>
+> The ITE8568 EC on the Voyo Winpad A15 presents itself as an I2C-HID
+> attached keyboard and mouse (which seems to never send any events).
 > 
-> In e400071a805d6229223a98899e9da8c6233704a1 I added support for the
-> receiver that comes with the G602 device, but unfortunately I screwed up
-> during testing and it seems the keyboard events were actually not being
-> sent to userspace.
-> This resulted in keyboard events being broken in userspace, please
-> backport the fix.
+> This needs the I2C_HID_QUIRK_NO_IRQ_AFTER_RESET quirk, otherwise we get
+> the following errors:
 > 
-> The receiver uses the normal 0x01 Logitech keyboard report descriptor,
-> as expected, so it is just a matter of flagging it as supported.
+> [ 3688.770850] i2c_hid i2c-ITE8568:00: failed to reset device.
+> [ 3694.915865] i2c_hid i2c-ITE8568:00: failed to reset device.
+> [ 3701.059717] i2c_hid i2c-ITE8568:00: failed to reset device.
+> [ 3707.205944] i2c_hid i2c-ITE8568:00: failed to reset device.
+> [ 3708.227940] i2c_hid i2c-ITE8568:00: can't add hid device: -61
+> [ 3708.236518] i2c_hid: probe of i2c-ITE8568:00 failed with error -61
 > 
-> Reported in
-> https://github.com/libratbag/libratbag/issues/1124
+> Which leads to a significant boot delay.
 > 
-> Signed-off-by: Filipe Laíns <lains@riseup.net>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Given this is a regression, could you please add proper Fixes: and Cc: 
-stable tags?
-
-Thank you,
+Applied, thanks Hans.
 
 -- 
 Jiri Kosina
