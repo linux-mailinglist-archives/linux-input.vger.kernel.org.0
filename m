@@ -2,120 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23A233103E1
-	for <lists+linux-input@lfdr.de>; Fri,  5 Feb 2021 04:52:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 79E7131078F
+	for <lists+linux-input@lfdr.de>; Fri,  5 Feb 2021 10:19:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230232AbhBEDwc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 4 Feb 2021 22:52:32 -0500
-Received: from mail-pf1-f171.google.com ([209.85.210.171]:38757 "EHLO
-        mail-pf1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229692AbhBEDwb (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 4 Feb 2021 22:52:31 -0500
-Received: by mail-pf1-f171.google.com with SMTP id d26so2227603pfn.5;
-        Thu, 04 Feb 2021 19:52:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=PUgTmQjg/F/6InB3//OtXUQJ9eXEdUj+c8K+WJcFafw=;
-        b=F3tz+2an+grok/uDff+BdMZF1h7zw0HflQGc8y1/qR3+pi2k/3675RHXVbkqaEZFXA
-         G09HOG/0ygBjeoI6hgSLjMERbqVu5zJ8HiQLzgj7QSr74QVjQQ77DpJUx6+4tnlfWnYK
-         rlfatVZi95oOxlbbSI1aaOvy8vBd369yL07aMvd+zUA5tvYACzbMen8ifDWxn3sdviJm
-         Z1o5c4KEx1877vX2LpcF3TPOZhCwfXLTCbOPizLTx0RmVKndRIg+F10M9PIs8qHwgsjd
-         hxcxfvgXaVvUDqzf27YzOmdyrW2tQZ4/hENBn5ydMB32Y03uKGbbCkHZop8dz7dD8JH0
-         2mOA==
-X-Gm-Message-State: AOAM533GK/9eSLU9tVL4cRy0LWmw0IiOuax+haXyZ0Qqte/WJdmPL3rP
-        04fEQ2rvKxyVVq9qn8sA9/M54mNLmnLWpg==
-X-Google-Smtp-Source: ABdhPJxg8wQ3A/EiNaMHd6Ag38vW7KVOGTfIiKpn26WVMFBcri374acTRm4xV5rpuuwoQVGeoMIQjA==
-X-Received: by 2002:a05:6a00:15cc:b029:1ba:5282:3ab8 with SMTP id o12-20020a056a0015ccb02901ba52823ab8mr2453895pfu.77.1612497109871;
-        Thu, 04 Feb 2021 19:51:49 -0800 (PST)
-Received: from [10.101.46.49] (61-220-137-37.HINET-IP.hinet.net. [61.220.137.37])
-        by smtp.gmail.com with ESMTPSA id h8sm844123pfv.154.2021.02.04.19.51.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Feb 2021 19:51:48 -0800 (PST)
-Subject: Re: [PATCH] HID: intel-ish-hid: ipc: Add Tiger Lake H PCI device ID
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Jiri Kosina <jikos@kernel.org>,
+        id S229704AbhBEJRX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 5 Feb 2021 04:17:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:32870 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229650AbhBEJOi (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 5 Feb 2021 04:14:38 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 53C1364F87;
+        Fri,  5 Feb 2021 09:13:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1612516437;
+        bh=g7qqE/LjRr2SK/zPFKonfwnMqNYdpQUw1Z/J54Z5cEg=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=Cm1eri8I9kgCAimFEfhI3wfbH05FN4iadZ2sHQ1rGwU6VqUVSer0mB1oQedn8WPTg
+         8wUthbV5RAvIvcQwRNWdEzNYcdH6q5qNy8mdfJPJqVLpw489CD6VsyfPbzTZSGQ/AB
+         B3xX21I1+2YtKLvD6e0VHwGT2iJjEY2GehhIIMDjzaBSWSVRMSwBViHjymSNEDVYy7
+         q1zssbVFqDVsGgm2rMyEwprgiBTybA2NS7KH6i06c2B/EL0ce55a7A5IncX5JvV9eq
+         e7yS9bXFBYHCTD+icXtI6B57E77v9lOh1e/TUq/mx5nG05KOjGwRynaNvTbmQgqfwe
+         XhvlRviYFazEg==
+Date:   Fri, 5 Feb 2021 10:13:54 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Colin King <colin.king@canonical.com>
+cc:     Hans de Goede <hdegoede@redhat.com>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210204083315.122952-1-vicamo.yang@canonical.com>
- <85a4e6e61ac977d0d00dd9140a9e85f1102b3a6d.camel@linux.intel.com>
-From:   You-Sheng Yang <vicamo.yang@canonical.com>
-Message-ID: <57544f34-0e90-359c-766f-affcf890664a@canonical.com>
-Date:   Fri, 5 Feb 2021 11:51:46 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: lg-g15: make a const array static, makes object
+ smaller
+In-Reply-To: <20210204172748.107406-1-colin.king@canonical.com>
+Message-ID: <nycvar.YFH.7.76.2102051013440.28696@cbobk.fhfr.pm>
+References: <20210204172748.107406-1-colin.king@canonical.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-In-Reply-To: <85a4e6e61ac977d0d00dd9140a9e85f1102b3a6d.camel@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 2/4/21 11:13 PM, Srinivas Pandruvada wrote:
-> On Thu, 2021-02-04 at 16:33 +0800, You-Sheng Yang wrote:
->> Added Tiger Lake H PCI device ID to the supported device list.
->>
->> Signed-off-by: You-Sheng Yang <vicamo.yang@canonical.com>
-> Did you get chance to verify on a platform?
-> Do you see sensors enumerated in /sys/bus/iio?
+On Thu, 4 Feb 2021, Colin King wrote:
 
-Yes,
-
-[    2.485650] ish-hid {33AECD58-B679-4E54-9BD9-A04D34F0C226}:
-[hid-ish]: enum_devices_done OK, num_hid_devices=3
-[    2.497337] hid-generic 001F:8087:0AC2.0003: hidraw2: <UNKNOWN> HID
-v2.00 Device [hid-ishtp 8087:0AC2] on
-[    2.506945] hid-generic 001F:8087:0AC2.0004: hidraw3: <UNKNOWN> HID
-v2.00 Device [hid-ishtp 8087:0AC2] on
-[    2.512127] hid-generic 001F:8087:0AC2.0005: hidraw4: <UNKNOWN> HID
-v2.00 Device [hid-ishtp 8087:0AC2] on
-
-$ ls /sys/bus/iio/devices/
-iio:device0  iio:device1  trigger0  trigger1
-
-One of them is an ambient light sensor, and it works only with this
-patch applied.
-
-Thanks,
-You-Sheng Yang
-
-> Thanks,
-> Srinivas
+> From: Colin Ian King <colin.king@canonical.com>
 > 
->> ---
->>  drivers/hid/intel-ish-hid/ipc/hw-ish.h  | 1 +
->>  drivers/hid/intel-ish-hid/ipc/pci-ish.c | 1 +
->>  2 files changed, 2 insertions(+)
->>
->> diff --git a/drivers/hid/intel-ish-hid/ipc/hw-ish.h
->> b/drivers/hid/intel-ish-hid/ipc/hw-ish.h
->> index 1fb294ca463e..21b0e6123754 100644
->> --- a/drivers/hid/intel-ish-hid/ipc/hw-ish.h
->> +++ b/drivers/hid/intel-ish-hid/ipc/hw-ish.h
->> @@ -27,6 +27,7 @@
->>  #define CMP_H_DEVICE_ID		0x06FC
->>  #define EHL_Ax_DEVICE_ID	0x4BB3
->>  #define TGL_LP_DEVICE_ID	0xA0FC
->> +#define TGL_H_DEVICE_ID		0x43FC
->>  
->>  #define	REVISION_ID_CHT_A0	0x6
->>  #define	REVISION_ID_CHT_Ax_SI	0x0
->> diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
->> b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
->> index c6d48a8648b7..6dea657b7b15 100644
->> --- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
->> +++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
->> @@ -37,6 +37,7 @@ static const struct pci_device_id ish_pci_tbl[] = {
->>  	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, CMP_H_DEVICE_ID)},
->>  	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, EHL_Ax_DEVICE_ID)},
->>  	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, TGL_LP_DEVICE_ID)},
->> +	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, TGL_H_DEVICE_ID)},
->>  	{0, }
->>  };
->>  MODULE_DEVICE_TABLE(pci, ish_pci_tbl);
+> Don't populate the const array led_names on the stack but instead make
+> it static. Makes the object code smaller by 79 bytes:
 > 
+> Before:
+>    text	   data	    bss	    dec	    hex	filename
+>   19686	   7952	    256	  27894	   6cf6	drivers/hid/hid-lg-g15.o
+> 
+> After:
+>    text	   data	    bss	    dec	    hex	filename
+>   19543	   8016	    256	  27815	   6ca7	drivers/hid/hid-lg-g15.o
+> 
+> (gcc version 10.2.0)
+> 
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+
+Applied.
+
+-- 
+Jiri Kosina
+SUSE Labs
+
