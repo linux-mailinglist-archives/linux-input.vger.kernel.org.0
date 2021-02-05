@@ -2,89 +2,128 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3248311595
-	for <lists+linux-input@lfdr.de>; Fri,  5 Feb 2021 23:43:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D23C3311576
+	for <lists+linux-input@lfdr.de>; Fri,  5 Feb 2021 23:33:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232107AbhBEWe6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 5 Feb 2021 17:34:58 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53650 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231969AbhBEOEy (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 5 Feb 2021 09:04:54 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 36E5C64FC9;
-        Fri,  5 Feb 2021 14:04:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1612533851;
-        bh=T1jLO24sF0pYkT3lQr2onlwV1fj0AbfnrcXXdUAochg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BZOBBDws+/yhmPTxNLP4zonarclKLQMtK4MPPXtDYExmUzHRLjxXcJnfGq14VQa4L
-         yZhVB9oNHiU0DzaVx6si8j0aXHMHTj1MM3VS8xDsEeLmU5/b+5mHQBkgW7cT1CQKhX
-         bLMDr8tZSM1SipNLwaZFpx+i2Ki4uOTJ99+ziw0o=
-Date:   Fri, 5 Feb 2021 15:04:08 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>
-Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Jaroslav Kysela <perex@perex.cz>,
-        Eric Anholt <eric@anholt.net>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig.org@pengutronix.de>, linux-i2c@vger.kernel.org,
-        Jiri Slaby <jirislaby@kernel.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-watchdog@vger.kernel.org, linux-rtc@vger.kernel.org,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Takashi Iwai <tiwai@suse.com>,
-        Russell King - ARM Linux admin <linux@armlinux.org.uk>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Mike Leach <mike.leach@linaro.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        alsa-devel@alsa-project.org,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        coresight@lists.linaro.org, Vladimir Zapolskiy <vz@mleia.com>,
-        Eric Auger <eric.auger@redhat.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Mark Brown <broonie@kernel.org>,
-        Matt Mackall <mpm@selenic.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Cornelia Huck <cohuck@redhat.com>, linux-mmc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
-        Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        linux-crypto@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        Leo Yan <leo.yan@linaro.org>, dmaengine@vger.kernel.org
-Subject: Re: [PATCH] coresight: etm4x: Fix merge resolution for amba rework
-Message-ID: <YB1QWFWPennQZmjw@kroah.com>
-References: <20210205130848.20009-1-uwe@kleine-koenig.org>
+        id S229669AbhBEWcf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 5 Feb 2021 17:32:35 -0500
+Received: from mail.archlinux.org ([95.216.189.61]:43238 "EHLO
+        mail.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232425AbhBEOQ3 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 5 Feb 2021 09:16:29 -0500
+Received: from [IPv6:2001:8a0:f24a:dd00:4cf5:7496:69c2:e329] (unknown [IPv6:2001:8a0:f24a:dd00:4cf5:7496:69c2:e329])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: ffy00)
+        by mail.archlinux.org (Postfix) with ESMTPSA id 5474D3C79A4;
+        Fri,  5 Feb 2021 14:36:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
+        s=dkim-rsa; t=1612535769;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=BdcXeBS9qmlteXxnHhvqawgjzqYPg8DsWN42PLeY9Uw=;
+        b=SKdb0TY3NI1ktIS1bXV/VyeImO251PIuFlomMzudJzF8MDhG9MdrXsppS62EYl6vIueIlD
+        lowAbALkjsVNBh3R0hbTQgtrlRGIXDOIzRVzitFzUdR+ZbWlH6zFLuL4q9Yk8godUGN7iY
+        qQv1841GvBeVyIXqWLust8zg+A2L/E3O03lVDed/LBY9iixDwdrP9giw/MjfeYcwYWIQF4
+        5RhMx5LryNcpkY5gRXAjituzuTdaKe6Z8lu88lyrZpj1i0cEtkt52Z/rNBaFuqiD4Wk4jh
+        cHJlx8+yXqTmBNDj4WhDNaZ1J98bC0NlGyvZPqwxI6qii6U4olVT22ljnpGMGDSpY7Bmb7
+        2kxlcOvNZmsUxCnfTXcT60bVCOcHl3K2BMnaTKWdHbsu/F1nf1AE/YBx4BoUDEHerAvrXj
+        vPDFa04b6oXoa2vKFTNyc9b0+gmsLx05f8g3xUs8Nhu3YpR6oMyyxsTTpPJvWO/wltZTK0
+        62I01TekKTq+yj0kSX1wBwO+Wolh0lfhEqAhry1MEGoIIxz27nK9BLtF7on63c1CkV9wM/
+        aISUJy/3Qn+Q4o9fazqx52rBi7apO71gPqWmcu0p11FdSwmKi59wyIngsHloxBVgpYCrZt
+        6i+jmw3krTPWcmv5DMbwfKK9ccoG5gkzeTn70WqoTxceRNfx/pjh4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
+        s=dkim-ed25519; t=1612535769;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=BdcXeBS9qmlteXxnHhvqawgjzqYPg8DsWN42PLeY9Uw=;
+        b=ScRsbG7dsJuiG9yEt4pgaqc5RIZVQRXKXsBZKahEHzphpHPG5L+JkImc2rDMSkNrMZCF6U
+        Ysl0v6g7G+6AfPAA==
+Message-ID: <a80853410f48a7d29541c155bca1341bdd24a671.camel@archlinux.org>
+Subject: Re: [PATCH] HID: logitech-dj: add support for keyboard events in
+ eQUAD step 4 Gaming
+From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@archlinux.org>
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <nycvar.YFH.7.76.2102051018370.28696@cbobk.fhfr.pm>
+References: <20210130191027.1225465-1-lains@archlinux.org>
+         <nycvar.YFH.7.76.2102051018370.28696@cbobk.fhfr.pm>
+Organization: Archlinux
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-k0whzotyicswfAMqfQHg"
+Date:   Fri, 05 Feb 2021 14:36:07 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210205130848.20009-1-uwe@kleine-koenig.org>
+User-Agent: Evolution 3.38.3 
+Authentication-Results: mail.archlinux.org;
+        auth=pass smtp.auth=ffy00 smtp.mailfrom=lains@archlinux.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Feb 05, 2021 at 02:08:47PM +0100, Uwe Kleine-König wrote:
-> This was non-trivial to get right because commits
-> c23bc382ef0e ("coresight: etm4x: Refactor probing routine") and
-> 5214b563588e ("coresight: etm4x: Add support for sysreg only devices")
-> changed the code flow considerably. With this change the driver can be
-> built again.
-> 
-> Fixes: 0573d3fa4864 ("Merge branch 'devel-stable' of git://git.armlinux.org.uk/~rmk/linux-arm into char-misc-next")
-> Signed-off-by: Uwe Kleine-König <uwe@kleine-koenig.org>
 
-Now queued up, thanks!
+--=-k0whzotyicswfAMqfQHg
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-greg k-h
+On Fri, 2021-02-05 at 10:18 +0100, Jiri Kosina wrote:
+> On Sat, 30 Jan 2021, Filipe La=C3=ADns wrote:
+>=20
+> > From: Filipe La=C3=ADns <lains@riseup.net>
+> >=20
+> > In e400071a805d6229223a98899e9da8c6233704a1 I added support for the
+> > receiver that comes with the G602 device, but unfortunately I screwed u=
+p
+> > during testing and it seems the keyboard events were actually not being
+> > sent to userspace.
+> > This resulted in keyboard events being broken in userspace, please
+> > backport the fix.
+> >=20
+> > The receiver uses the normal 0x01 Logitech keyboard report descriptor,
+> > as expected, so it is just a matter of flagging it as supported.
+> >=20
+> > Reported in
+> > https://github.com/libratbag/libratbag/issues/1124
+> >=20
+> > Signed-off-by: Filipe La=C3=ADns <lains@riseup.net>
+>=20
+> Given this is a regression, could you please add proper Fixes: and Cc:=
+=20
+> stable tags?
+>=20
+> Thank you,
+>=20
+
+Done :)
+Sorry about that, I am not yet familiarized with all steps of the workflow.
+
+Cheers,
+Filipe La=C3=ADns
+
+--=-k0whzotyicswfAMqfQHg
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAmAdV9cACgkQ+JPGdIFq
+qV1VBg//STnnbEKSewk1aaAAqd1Z/FWysoLF2bMHMv2Q4AORetDU+oYmE/zNY0fR
++DpspflqBfk9O1T7THJia5bHm0/bWEAu+dXGgRyJuAfof1CFJJxxs0dZn+V3Pkuh
+oauYl2+Ee20K4cbahKOnxaYNaAnh3GOa3ssxA8YLCaaYrRgR9Jf5N9jXnCSp8yGo
+X828i2u6+joOFhdcWhnzFRDC0lPEyLJoNdD/gcibfDk1b2GjtCfWAHgLO5P8d0xb
+VaViRfIhF6r5971Uh8xHCVvCATKJX9qSlAQXEX9oPtfWLUYeAZarQSVJ3yH9Sl05
+YNA/sOfnIrCKvx86eBPoFugbuVSzI0d+JzldBqPUnh1oOPOmTw4qm7hjkECl3et8
+iK0ZWYdzTd2HNN9RIxtSKT4SDuMi9HKGLwValJf5Z5yOc/nMGpg1NgaVsCBry/+1
+3ZPnTVu3gSZp8h+vN4eIRtdHuhCA+QahqCa9D58P8o0LAQy4uUSxyhhlJSa1908a
++0Y7cYdKcOQlgEbj9vubdmvLfhucCSpjTsj4HaWVz+BnlYNy9yOSTpP8ZcbZGf9O
+pHoNLwJNZJzrSVxfhSJiM2ZXusW59xjX/s0Ilw/Z9GpPSmcFVCzf7FY07V5crrwO
+LA0vBZxxlOAwX2EnUV8FNEV7ITrivGxs429yP+bfimaTilD/Dqg=
+=6fgA
+-----END PGP SIGNATURE-----
+
+--=-k0whzotyicswfAMqfQHg--
+
