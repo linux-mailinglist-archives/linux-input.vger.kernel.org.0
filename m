@@ -2,103 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9899F310D85
-	for <lists+linux-input@lfdr.de>; Fri,  5 Feb 2021 17:00:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6902F3110C4
+	for <lists+linux-input@lfdr.de>; Fri,  5 Feb 2021 20:12:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231217AbhBEOTT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 5 Feb 2021 09:19:19 -0500
-Received: from mail.archlinux.org ([95.216.189.61]:43242 "EHLO
-        mail.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232432AbhBEOQj (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 5 Feb 2021 09:16:39 -0500
-Received: from localhost.localdomain (unknown [IPv6:2001:8a0:f24a:dd00:4cf5:7496:69c2:e329])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: ffy00)
-        by mail.archlinux.org (Postfix) with ESMTPSA id D2E023C7995;
-        Fri,  5 Feb 2021 14:35:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
-        s=dkim-rsa; t=1612535704;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=NwiCsqnWonTULORaJqBJaMJZsYnHgHIEPKkCuvvEAZ4=;
-        b=mQWT80szYfzewHP7IgXmYw7rd1Cj/3AhJpdefjHNrQXSQCAjczwQbsc8SnDE82Kim5xvnB
-        opmGgULSPM/i/WBzdxPC3bs8P22QMLHT4NpN/RMaogbZQ7//VxBLxjvribPW5Q/fbJHkmX
-        QX+qBOs5sTZ8Z0INcH1ghXPmDxUDlSM3njCWQ9KzA4eRNCmVZHHbWnxAarOsei2hrfs5BO
-        8ZpI91za80iqD3h4c7xOdbEFpeSQel4Fvh6PJxEhX6VoSdo4xUXDYbAIKpHaSy+ChPlkxn
-        yvnspLOiLK5UvmdZfwTOQlQ1wrU631EA8RZdm9YnMnYCA++aYfp6tfQukAapau8XMG8X/O
-        Zl6jfDT9DlxbpQYJfTuueW7HtQYGPIKSwOijtLBxl0jrvXZrZz5y4UeKve7OSzAIpX/T85
-        70Nred3ga3X2EzfLhj5+AKNv62TzhqjG7aiv5mVPsSxy1lq4B1H5H0mwN0ji9F2/+xxIWq
-        2mWGvG0Ca/CWFPqdETbJmq5Xep3icpbeFxy89zD+ABmTX8UN3yPmoMyHQ4K+686UxZ8r+2
-        bxSHOfHQAM9Qdy4EmIGDkUrdGPNMAS56jPrVyfeTGHKQBaWTERjwExd4qomlOzsdUJqHOf
-        9f+9Vj/5tkmdp4ri4r4+yhkN4IOeHDgWjDnOvX+Y7GyCEAm5iGCI8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
-        s=dkim-ed25519; t=1612535704;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=NwiCsqnWonTULORaJqBJaMJZsYnHgHIEPKkCuvvEAZ4=;
-        b=AQJk+8TjWsZ35Cg8iEdUxvHDXHCFP8rg2j2n8egJSjp5KoqWyumUGZcrQvwkxtP6LCGz8j
-        /ODgjUrXgljjXKBg==
-From:   =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@archlinux.org>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
+        id S233276AbhBER1z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 5 Feb 2021 12:27:55 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54530 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233484AbhBEQAH (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 5 Feb 2021 11:00:07 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6F0DD650DD;
+        Fri,  5 Feb 2021 15:09:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1612537749;
+        bh=VgoeamMrRJ/nWoAGLMDwkW2XYYOF+2JWQXt539/V+FU=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=rgQIV9lN4/cV4HP0NGd5D3IUWmZaZmQyBXmjMH7ZmD4mtkgb76HBXVrmCP8MmJl6i
+         6I5PlZDhRd8ZAtdHDEbQrF93FsqLiwxLlQSCOCWftPzUYIm+WtYgLpTd6j8+FBJ3Cc
+         w6A8BsFfflFfwWjn9eYSzdwWH9BdyXhGcIpD2ZyfeoKZdHABaosD1qDqE+lH2Dzvpe
+         YXTXw5yx0FSQbzlHIIKQg/29Y7maQYje4+MvmvNd+yiZsBCz8Ug1xR5KBwDCn1PNPS
+         0zdUrOFTTBwUAg/VO9VIAsM5NUa6U6BF02zYgBQB8sah6cPVgal+gAkRy13U7T91gd
+         YzkMDDKluxoWQ==
+Date:   Fri, 5 Feb 2021 16:09:06 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@archlinux.org>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>,
         stable@vger.kernel.org
-Subject: [PATCH v2] HID: logitech-dj: add support for keyboard events in eQUAD step 4 Gaming
-Date:   Fri,  5 Feb 2021 14:34:44 +0000
-Message-Id: <20210205143444.1155367-1-lains@archlinux.org>
-X-Mailer: git-send-email 2.30.0
+Subject: Re: [PATCH v2] HID: logitech-dj: add support for keyboard events in
+ eQUAD step 4 Gaming
+In-Reply-To: <20210205143444.1155367-1-lains@archlinux.org>
+Message-ID: <nycvar.YFH.7.76.2102051608550.28696@cbobk.fhfr.pm>
+References: <20210205143444.1155367-1-lains@archlinux.org>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Authentication-Results: mail.archlinux.org;
-        auth=pass smtp.auth=ffy00 smtp.mailfrom=lains@archlinux.org
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Filipe Laíns <lains@riseup.net>
+On Fri, 5 Feb 2021, Filipe Laíns wrote:
 
-In e400071a805d6229223a98899e9da8c6233704a1 I added support for the
-receiver that comes with the G602 device, but unfortunately I screwed up
-during testing and it seems the keyboard events were actually not being
-sent to userspace.
-This resulted in keyboard events being broken in userspace, please
-backport the fix.
+> From: Filipe Laíns <lains@riseup.net>
+> 
+> In e400071a805d6229223a98899e9da8c6233704a1 I added support for the
+> receiver that comes with the G602 device, but unfortunately I screwed up
+> during testing and it seems the keyboard events were actually not being
+> sent to userspace.
+> This resulted in keyboard events being broken in userspace, please
+> backport the fix.
+> 
+> The receiver uses the normal 0x01 Logitech keyboard report descriptor,
+> as expected, so it is just a matter of flagging it as supported.
+> 
+> Reported in
+> https://github.com/libratbag/libratbag/issues/1124
+> 
+> Fixes: e400071a805d6 ("HID: logitech-dj: add the G602 receiver")
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Filipe Laíns <lains@riseup.net>
+> ---
+> 
+> Changes in v2:
+> - added missing Fixes: anc Cc: tags
 
-The receiver uses the normal 0x01 Logitech keyboard report descriptor,
-as expected, so it is just a matter of flagging it as supported.
+Applied, thanks Filipe.
 
-Reported in
-https://github.com/libratbag/libratbag/issues/1124
-
-Fixes: e400071a805d6 ("HID: logitech-dj: add the G602 receiver")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Filipe Laíns <lains@riseup.net>
----
-
-Changes in v2:
-- added missing Fixes: anc Cc: tags
-
- drivers/hid/hid-logitech-dj.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
-index 6596c81947a8..2703333edc34 100644
---- a/drivers/hid/hid-logitech-dj.c
-+++ b/drivers/hid/hid-logitech-dj.c
-@@ -981,6 +981,7 @@ static void logi_hidpp_recv_queue_notif(struct hid_device *hdev,
- 	case 0x07:
- 		device_type = "eQUAD step 4 Gaming";
- 		logi_hidpp_dev_conn_notif_equad(hdev, hidpp_report, &workitem);
-+		workitem.reports_supported |= STD_KEYBOARD;
- 		break;
- 	case 0x08:
- 		device_type = "eQUAD step 4 for gamepads";
 -- 
-2.30.0
+Jiri Kosina
+SUSE Labs
 
