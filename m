@@ -2,157 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E09DF311170
-	for <lists+linux-input@lfdr.de>; Fri,  5 Feb 2021 20:45:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C99FE311495
+	for <lists+linux-input@lfdr.de>; Fri,  5 Feb 2021 23:14:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233162AbhBESCg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 5 Feb 2021 13:02:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41082 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233213AbhBEPWn (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 5 Feb 2021 10:22:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1612544531;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=JptJ9DJFMdkg+AtiuS4nvdOZMMRG/RWYCKBiKWOe0Nw=;
-        b=Tdl4qzOGiT657QHI4SsvoaMqDhn922uUUBiamHYSKdDK97vBInSTwUnwaT630aYHeYF8ZU
-        NKTupQlsX4W+J404SLRY4EKfZsWBnb6zFSg50cep+yMJu9LvS3ExkvelNJtvZXt7WGB5VD
-        0ab25V7idjJozzrRJUpTUo5l+Iifgtk=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-33-PvJR5QgPNa-cXl31r7pVWQ-1; Fri, 05 Feb 2021 12:02:09 -0500
-X-MC-Unique: PvJR5QgPNa-cXl31r7pVWQ-1
-Received: by mail-pj1-f71.google.com with SMTP id ob3so4647523pjb.0
-        for <linux-input@vger.kernel.org>; Fri, 05 Feb 2021 09:02:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=JptJ9DJFMdkg+AtiuS4nvdOZMMRG/RWYCKBiKWOe0Nw=;
-        b=rRkEFnNbGNo3kf1of0J6ztun6z2n59OiG7fy3OAlvKpJ9ZanNQ21Ir1QmuQ1sdY9Hq
-         RA4fapkPcNSF00zK9bztGi1CyhhB9QcCYtY0I3V3DJo8u4jNv+wTYF3AlY1pIKHnCfGO
-         9I6Ok9PQvnGSeLIFFtN0lYvNT4w0jX6orAuyK9B6oF9PlQ2Tqoxj1gmfU3HRoiEEuidF
-         8d/Dc+2kJl0h6H4xNsxpSPsvOFPupakC9p4KCqZT2HUY3CeLqVJQExDgppleTnqGe4sT
-         jcGHa//3cOq8SYREaDRmfYjeXRxJ36kb2uXCqLxks9MLcjBPtMBNgsbR2KOD2eAOSa+U
-         mwFg==
-X-Gm-Message-State: AOAM530xTMm1v9hzgZoaJBUp83696kQ5dnqabOWkRQJpaXCGLjE8QNAJ
-        LJWEFxKZ5LZXHygqhZgA17rcCFoIIXBcNr6VxOO+Fk0LvA/+gZKBRPu5YOwjmXFb54wsNmipTh+
-        HlF13dI4lqmuVjN9fSfeJk5vFSENBimxodQoGJpc=
-X-Received: by 2002:a63:4d41:: with SMTP id n1mr5367749pgl.147.1612544527736;
-        Fri, 05 Feb 2021 09:02:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyp6cWqDGHxPDd/X1Zg73D7f7RKaWF23BTnVVjv3gqB/htOvNdgkKqZ4+oAIewYKDCLPOmVaVyicx3zHRq+y80=
-X-Received: by 2002:a63:4d41:: with SMTP id n1mr5367726pgl.147.1612544527445;
- Fri, 05 Feb 2021 09:02:07 -0800 (PST)
+        id S232862AbhBEWIS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 5 Feb 2021 17:08:18 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44342 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232881AbhBEOwM (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 5 Feb 2021 09:52:12 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 36E5C64FC9;
+        Fri,  5 Feb 2021 14:04:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1612533851;
+        bh=T1jLO24sF0pYkT3lQr2onlwV1fj0AbfnrcXXdUAochg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BZOBBDws+/yhmPTxNLP4zonarclKLQMtK4MPPXtDYExmUzHRLjxXcJnfGq14VQa4L
+         yZhVB9oNHiU0DzaVx6si8j0aXHMHTj1MM3VS8xDsEeLmU5/b+5mHQBkgW7cT1CQKhX
+         bLMDr8tZSM1SipNLwaZFpx+i2Ki4uOTJ99+ziw0o=
+Date:   Fri, 5 Feb 2021 15:04:08 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>
+Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Jaroslav Kysela <perex@perex.cz>,
+        Eric Anholt <eric@anholt.net>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig.org@pengutronix.de>, linux-i2c@vger.kernel.org,
+        Jiri Slaby <jirislaby@kernel.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-watchdog@vger.kernel.org, linux-rtc@vger.kernel.org,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        Takashi Iwai <tiwai@suse.com>,
+        Russell King - ARM Linux admin <linux@armlinux.org.uk>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Mike Leach <mike.leach@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        alsa-devel@alsa-project.org,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        coresight@lists.linaro.org, Vladimir Zapolskiy <vz@mleia.com>,
+        Eric Auger <eric.auger@redhat.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Mark Brown <broonie@kernel.org>,
+        Matt Mackall <mpm@selenic.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Cornelia Huck <cohuck@redhat.com>, linux-mmc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+        Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+        linux-crypto@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+        Leo Yan <leo.yan@linaro.org>, dmaengine@vger.kernel.org
+Subject: Re: [PATCH] coresight: etm4x: Fix merge resolution for amba rework
+Message-ID: <YB1QWFWPennQZmjw@kroah.com>
+References: <20210205130848.20009-1-uwe@kleine-koenig.org>
 MIME-Version: 1.0
-References: <20210128172657.24516-1-roderick@gaikai.com>
-In-Reply-To: <20210128172657.24516-1-roderick@gaikai.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 5 Feb 2021 18:01:56 +0100
-Message-ID: <CAO-hwJLi+twcmSFkbPHHJ23CpF5P=EORsVauyhwvGt9dGoq++A@mail.gmail.com>
-Subject: Re: [PATCH v5 00/13] HID: new driver for PS5 'DualSense' controller
-To:     Roderick Colenbrander <roderick@gaikai.com>,
-        =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Chris Ye <lzye@google.com>,
-        =?UTF-8?Q?Samuel_=C4=8Cavoj?= <sammko@sammserver.com>,
-        =?UTF-8?Q?Florian_M=C3=A4rkl?= <linux@florianmaerkl.de>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210205130848.20009-1-uwe@kleine-koenig.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On Fri, Feb 05, 2021 at 02:08:47PM +0100, Uwe Kleine-König wrote:
+> This was non-trivial to get right because commits
+> c23bc382ef0e ("coresight: etm4x: Refactor probing routine") and
+> 5214b563588e ("coresight: etm4x: Add support for sysreg only devices")
+> changed the code flow considerably. With this change the driver can be
+> built again.
+> 
+> Fixes: 0573d3fa4864 ("Merge branch 'devel-stable' of git://git.armlinux.org.uk/~rmk/linux-arm into char-misc-next")
+> Signed-off-by: Uwe Kleine-König <uwe@kleine-koenig.org>
 
-On Thu, Jan 28, 2021 at 6:27 PM Roderick Colenbrander
-<roderick@gaikai.com> wrote:
->
-> From: Roderick Colenbrander <roderick.colenbrander@sony.com>
->
-> Hi,
->
-> This is hopefully the final revision of this patch series. Patch v4 had
-> a rebase issue of a part of the sensors patch for which a part had moved
-> to the end of the series. This has been fixed. I have double, no triple
-> checked the patches. Made sure they build using a 'rebase -x' script
-> and also ran the hid-tools tests on the final driver.
->
-> Thanks to everyone who provided feedback through the mailing list or priv=
-ately.
-> As suggested by Benjamin on the 'v4' version of this email, if you were
-> involed in the review or testing of this series and would like some credi=
-t,
-> please provide a reviewed-by or tested-by tag.
->
-> Changes since v4:
-> - Fixed bad rebase of ps_sensors_create, moved it to appropriate patch.
+Now queued up, thanks!
 
-Barnab=C3=A1s, any comments on this version?
-
-As soon as I get your rev-by, we can apply the series, just in time for 5.1=
-2.
-
-Roderick, I do see a few checkpath errors that could be fixed, but I
-won't hole the series against:
-HID: playstation: add DualSense battery support. -> WARNING: Missing a
-blank line after declarations
-HID: playstation: report DualSense hardware and firmware version. ->
-WARNING: Consider renaming function(s) 'ps_show_firmware_version' to
-'firmware_version_show' (and same for ps_show_hardware_version)
-
-Also, there is a weird sparse error:
-+drivers/hid/hid-playstation.c:xxx:1:.error: static assertion failed:
-"sizeof(struct dualsense_input_report) =3D=3D DS_INPUT_REPORT_USB_SIZE -
-1"
-+drivers/hid/hid-playstation.c:xxx:1:.error: static assertion failed:
-"sizeof(struct dualsense_output_report_bt) =3D=3D
-DS_OUTPUT_REPORT_BT_SIZE"
-
-It's weird because it only fails while running sparse, when the normal
-compilation is just fine, and the assert is correctly evaluated.
-
-Anyway, the series is good from my Point of View, but I'd like to get
-the reviewers some credits.
-
-Cheers,
-Benjamin
-
->
-> Thanks,
->
-> Roderick Colenbrander
-> Sony Interactive Entertainment, LLC
->
-> Roderick Colenbrander (13):
->   HID: playstation: initial DualSense USB support.
->   HID: playstation: use DualSense MAC address as unique identifier.
->   HID: playstation: add DualSense battery support.
->   HID: playstation: add DualSense touchpad support.
->   HID: playstation: add DualSense accelerometer and gyroscope support.
->   HID: playstation: track devices in list.
->   HID: playstation: add DualSense Bluetooth support.
->   HID: playstation: add DualSense classic rumble support.
->   HID: playstation: add DualSense lightbar support
->   HID: playstation: add microphone mute support for DualSense.
->   HID: playstation: add DualSense player LEDs support.
->   HID: playstation: DualSense set LEDs to default player id.
->   HID: playstation: report DualSense hardware and firmware version.
->
->  MAINTAINERS                   |    6 +
->  drivers/hid/Kconfig           |   21 +
->  drivers/hid/Makefile          |    1 +
->  drivers/hid/hid-ids.h         |    1 +
->  drivers/hid/hid-playstation.c | 1492 +++++++++++++++++++++++++++++++++
->  5 files changed, 1521 insertions(+)
->  create mode 100644 drivers/hid/hid-playstation.c
->
-> --
-> 2.26.2
->
-
+greg k-h
