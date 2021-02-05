@@ -2,123 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88889310B96
-	for <lists+linux-input@lfdr.de>; Fri,  5 Feb 2021 14:13:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9899F310D85
+	for <lists+linux-input@lfdr.de>; Fri,  5 Feb 2021 17:00:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231282AbhBENMd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 5 Feb 2021 08:12:33 -0500
-Received: from antares.kleine-koenig.org ([94.130.110.236]:34562 "EHLO
-        antares.kleine-koenig.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231284AbhBENJ7 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 5 Feb 2021 08:09:59 -0500
-Received: by antares.kleine-koenig.org (Postfix, from userid 1000)
-        id D67A7AED6A1; Fri,  5 Feb 2021 14:08:50 +0100 (CET)
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Jaroslav Kysela <perex@perex.cz>,
-        Eric Anholt <eric@anholt.net>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig.org@pengutronix.de>, linux-i2c@vger.kernel.org,
-        Jiri Slaby <jirislaby@kernel.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-watchdog@vger.kernel.org, linux-rtc@vger.kernel.org,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Takashi Iwai <tiwai@suse.com>,
-        Russell King - ARM Linux admin <linux@armlinux.org.uk>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Mike Leach <mike.leach@linaro.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        alsa-devel@alsa-project.org,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        coresight@lists.linaro.org, Vladimir Zapolskiy <vz@mleia.com>,
-        Eric Auger <eric.auger@redhat.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Mark Brown <broonie@kernel.org>,
-        Matt Mackall <mpm@selenic.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Cornelia Huck <cohuck@redhat.com>, linux-mmc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
-        Vinod Koul <vkoul@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        linux-crypto@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        Leo Yan <leo.yan@linaro.org>, dmaengine@vger.kernel.org
-Subject: [PATCH] coresight: etm4x: Fix merge resolution for amba rework
-Date:   Fri,  5 Feb 2021 14:08:47 +0100
-Message-Id: <20210205130848.20009-1-uwe@kleine-koenig.org>
-X-Mailer: git-send-email 2.29.2
+        id S231217AbhBEOTT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 5 Feb 2021 09:19:19 -0500
+Received: from mail.archlinux.org ([95.216.189.61]:43242 "EHLO
+        mail.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232432AbhBEOQj (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 5 Feb 2021 09:16:39 -0500
+Received: from localhost.localdomain (unknown [IPv6:2001:8a0:f24a:dd00:4cf5:7496:69c2:e329])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: ffy00)
+        by mail.archlinux.org (Postfix) with ESMTPSA id D2E023C7995;
+        Fri,  5 Feb 2021 14:35:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
+        s=dkim-rsa; t=1612535704;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=NwiCsqnWonTULORaJqBJaMJZsYnHgHIEPKkCuvvEAZ4=;
+        b=mQWT80szYfzewHP7IgXmYw7rd1Cj/3AhJpdefjHNrQXSQCAjczwQbsc8SnDE82Kim5xvnB
+        opmGgULSPM/i/WBzdxPC3bs8P22QMLHT4NpN/RMaogbZQ7//VxBLxjvribPW5Q/fbJHkmX
+        QX+qBOs5sTZ8Z0INcH1ghXPmDxUDlSM3njCWQ9KzA4eRNCmVZHHbWnxAarOsei2hrfs5BO
+        8ZpI91za80iqD3h4c7xOdbEFpeSQel4Fvh6PJxEhX6VoSdo4xUXDYbAIKpHaSy+ChPlkxn
+        yvnspLOiLK5UvmdZfwTOQlQ1wrU631EA8RZdm9YnMnYCA++aYfp6tfQukAapau8XMG8X/O
+        Zl6jfDT9DlxbpQYJfTuueW7HtQYGPIKSwOijtLBxl0jrvXZrZz5y4UeKve7OSzAIpX/T85
+        70Nred3ga3X2EzfLhj5+AKNv62TzhqjG7aiv5mVPsSxy1lq4B1H5H0mwN0ji9F2/+xxIWq
+        2mWGvG0Ca/CWFPqdETbJmq5Xep3icpbeFxy89zD+ABmTX8UN3yPmoMyHQ4K+686UxZ8r+2
+        bxSHOfHQAM9Qdy4EmIGDkUrdGPNMAS56jPrVyfeTGHKQBaWTERjwExd4qomlOzsdUJqHOf
+        9f+9Vj/5tkmdp4ri4r4+yhkN4IOeHDgWjDnOvX+Y7GyCEAm5iGCI8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
+        s=dkim-ed25519; t=1612535704;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=NwiCsqnWonTULORaJqBJaMJZsYnHgHIEPKkCuvvEAZ4=;
+        b=AQJk+8TjWsZ35Cg8iEdUxvHDXHCFP8rg2j2n8egJSjp5KoqWyumUGZcrQvwkxtP6LCGz8j
+        /ODgjUrXgljjXKBg==
+From:   =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@archlinux.org>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
+        stable@vger.kernel.org
+Subject: [PATCH v2] HID: logitech-dj: add support for keyboard events in eQUAD step 4 Gaming
+Date:   Fri,  5 Feb 2021 14:34:44 +0000
+Message-Id: <20210205143444.1155367-1-lains@archlinux.org>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Authentication-Results: mail.archlinux.org;
+        auth=pass smtp.auth=ffy00 smtp.mailfrom=lains@archlinux.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This was non-trivial to get right because commits
-c23bc382ef0e ("coresight: etm4x: Refactor probing routine") and
-5214b563588e ("coresight: etm4x: Add support for sysreg only devices")
-changed the code flow considerably. With this change the driver can be
-built again.
+From: Filipe Laíns <lains@riseup.net>
 
-Fixes: 0573d3fa4864 ("Merge branch 'devel-stable' of git://git.armlinux.org.uk/~rmk/linux-arm into char-misc-next")
-Signed-off-by: Uwe Kleine-König <uwe@kleine-koenig.org>
+In e400071a805d6229223a98899e9da8c6233704a1 I added support for the
+receiver that comes with the G602 device, but unfortunately I screwed up
+during testing and it seems the keyboard events were actually not being
+sent to userspace.
+This resulted in keyboard events being broken in userspace, please
+backport the fix.
+
+The receiver uses the normal 0x01 Logitech keyboard report descriptor,
+as expected, so it is just a matter of flagging it as supported.
+
+Reported in
+https://github.com/libratbag/libratbag/issues/1124
+
+Fixes: e400071a805d6 ("HID: logitech-dj: add the G602 receiver")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Filipe Laíns <lains@riseup.net>
 ---
-On Fri, Feb 05, 2021 at 12:07:09PM +0100, Greg Kroah-Hartman wrote:
-> On Fri, Feb 05, 2021 at 11:56:15AM +0100, Uwe Kleine-König wrote:
-> > I didn't compile test, but I'm willing to bet your resolution is wrong.
-> > You have no return statement in etm4_remove_dev() but its return type is
-> > int and etm4_remove_amba() still returns int but should return void.
-> 
-> Can you send a patch to fix this up?
 
-Sure, here it comes. As I'm unsure if you want to squash it into the
-merge or want to keep it separate I crafted a commit message. If you
-prefer squashing feel free to do so.
+Changes in v2:
+- added missing Fixes: anc Cc: tags
 
-This change corresponds to the merge resolution I suggested before.
+ drivers/hid/hid-logitech-dj.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Best regards
-Uwe
-
- drivers/hwtracing/coresight/coresight-etm4x-core.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-index bc55b261af23..c8ecd91e289e 100644
---- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
-+++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-@@ -1906,15 +1906,16 @@ static int __exit etm4_remove_dev(struct etmv4_drvdata *drvdata)
- 	cpus_read_unlock();
- 
- 	coresight_unregister(drvdata->csdev);
-+
-+	return 0;
- }
- 
--static int __exit etm4_remove_amba(struct amba_device *adev)
-+static void __exit etm4_remove_amba(struct amba_device *adev)
- {
- 	struct etmv4_drvdata *drvdata = dev_get_drvdata(&adev->dev);
- 
- 	if (drvdata)
--		return etm4_remove_dev(drvdata);
--	return 0;
-+		etm4_remove_dev(drvdata);
- }
- 
- static int __exit etm4_remove_platform_dev(struct platform_device *pdev)
+diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+index 6596c81947a8..2703333edc34 100644
+--- a/drivers/hid/hid-logitech-dj.c
++++ b/drivers/hid/hid-logitech-dj.c
+@@ -981,6 +981,7 @@ static void logi_hidpp_recv_queue_notif(struct hid_device *hdev,
+ 	case 0x07:
+ 		device_type = "eQUAD step 4 Gaming";
+ 		logi_hidpp_dev_conn_notif_equad(hdev, hidpp_report, &workitem);
++		workitem.reports_supported |= STD_KEYBOARD;
+ 		break;
+ 	case 0x08:
+ 		device_type = "eQUAD step 4 for gamepads";
 -- 
-2.29.2
+2.30.0
 
