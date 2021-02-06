@@ -2,76 +2,156 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FF4B311A28
-	for <lists+linux-input@lfdr.de>; Sat,  6 Feb 2021 04:33:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37FD8311AAF
+	for <lists+linux-input@lfdr.de>; Sat,  6 Feb 2021 05:08:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230088AbhBFDce (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 5 Feb 2021 22:32:34 -0500
-Received: from mail-ot1-f48.google.com ([209.85.210.48]:40442 "EHLO
-        mail-ot1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230413AbhBFDaD (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 5 Feb 2021 22:30:03 -0500
-Received: by mail-ot1-f48.google.com with SMTP id i20so8927457otl.7;
-        Fri, 05 Feb 2021 19:29:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=mxnIFywdT9xUbNO9H2UneBOcEjIlQcVWaQNkaPhN+vs=;
-        b=phZsmIiLGrYnSb2x0afQzUdsML6nA9C5se8tPxm4ajTVYvMCKnR3+cTyC0WBRC2Z6T
-         8D09NUY3efo0mPkcAOFQBS1Bx26Mj82Luc6LNSBpo1F1OHZY6pMNq9GYsEb7xJjr7Wcn
-         Tao3e3dZ5U8hNe+/7D/ovKm5yfa2xBVSaJyNEwIxGJ7DK8aouwX7VrJ4X8IlMyqS3O5X
-         x29uI7E3w1Ls7W1VghaVYb+5EXK3u/pTCmoCdDAjqOhFl4L8zjWS0j7VJBaPbRcA1XK8
-         ryKyzPCQ7P+i/2HXA0LJ9yFd2JukYaD1DJ+7HF+QPCbHsNoPw3ngN76c6ssQBwVCOSZH
-         olpQ==
-X-Gm-Message-State: AOAM532D1BgShr7fhJxd+h3NZKqk/tJjMY7xTYJuPC0KP9aJloiHOwXK
-        1yTOtT9mVQVNjSEDRrFjJjBS2aWtYw==
-X-Google-Smtp-Source: ABdhPJzNgDcQeIwJUmVNF2N1Ty0TwcWQwG5fL8hjfJCXFld6MJNH3sK1yxm9gS20vW/sgM4DeTBSwQ==
-X-Received: by 2002:a9d:4d85:: with SMTP id u5mr5029369otk.47.1612566996937;
-        Fri, 05 Feb 2021 15:16:36 -0800 (PST)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id o20sm27784otp.20.2021.02.05.15.16.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Feb 2021 15:16:35 -0800 (PST)
-Received: (nullmailer pid 3944047 invoked by uid 1000);
-        Fri, 05 Feb 2021 23:16:34 -0000
-Date:   Fri, 5 Feb 2021 17:16:34 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Jiada Wang <jiada_wang@mentor.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-tegra@vger.kernel.org, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Nick Dyer <nick@shmanahar.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/3] dt-bindings: input: atmel_mxt_ts: Document
- atmel,wakeup-method and WAKE line GPIO
-Message-ID: <20210205231634.GA3944013@robh.at.kernel.org>
-References: <20210122200659.7404-1-digetx@gmail.com>
- <20210122200659.7404-2-digetx@gmail.com>
+        id S229622AbhBFEHV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 5 Feb 2021 23:07:21 -0500
+Received: from mail-40131.protonmail.ch ([185.70.40.131]:33542 "EHLO
+        mail-40131.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231237AbhBFEEc (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 5 Feb 2021 23:04:32 -0500
+Date:   Sat, 06 Feb 2021 04:03:34 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail; t=1612584222;
+        bh=rH9+1TMX2RC9cj0cYXZ7jbg4WmLcpNesr1gFVZytxAw=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+        b=Sr/JBUkmc8LN6CXtBtQGeGIBJGEHb5qRdeDEOAmBqzVvstkUX5QGd873ieV84Xe1I
+         Jkwo2+gGoQDHJGZePK5q43NIeLC3ejx9l696GKT+vN2NmilHBW4nRMxJHhdVnby7Hv
+         4mABRJREV8EfQf+w+qKqASSjnq4LOaHqwJtrwFbA=
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Roderick Colenbrander <roderick@gaikai.com>
+From:   =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Chris Ye <lzye@google.com>,
+        =?utf-8?Q?Samuel_=C4=8Cavoj?= <sammko@sammserver.com>,
+        =?utf-8?Q?Florian_M=C3=A4rkl?= <linux@florianmaerkl.de>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Reply-To: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Subject: Re: [PATCH v5 00/13] HID: new driver for PS5 'DualSense' controller
+Message-ID: <BSS2VIzUg6n3H_LHkC8vJVbSUi11kOgWTAPdurpx1i13T2qL1vJZg_rZIoX5ChX17cu3xu5k33VcKG52xWWTlDfFjyM_YcsTgitebXIsB8I=@protonmail.com>
+In-Reply-To: <CAO-hwJLi+twcmSFkbPHHJ23CpF5P=EORsVauyhwvGt9dGoq++A@mail.gmail.com>
+References: <20210128172657.24516-1-roderick@gaikai.com> <CAO-hwJLi+twcmSFkbPHHJ23CpF5P=EORsVauyhwvGt9dGoq++A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210122200659.7404-2-digetx@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
+        autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+        mailout.protonmail.ch
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 22 Jan 2021 23:06:57 +0300, Dmitry Osipenko wrote:
-> Some Atmel touchscreen controllers have a WAKE line that needs to be
-> asserted low in order to wake up controller from a deep sleep. Document
-> the wakeup methods and the new GPIO properties.
-> 
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  .../bindings/input/atmel,maxtouch.yaml        | 29 +++++++++++++++++++
->  include/dt-bindings/input/atmel-maxtouch.h    | 10 +++++++
->  2 files changed, 39 insertions(+)
->  create mode 100644 include/dt-bindings/input/atmel-maxtouch.h
-> 
+Hi
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+
+2021. febru=C3=A1r 5., p=C3=A9ntek 18:01 keltez=C3=A9ssel, Benjamin Tissoir=
+es =C3=ADrta:
+
+> Hi,
+>
+> On Thu, Jan 28, 2021 at 6:27 PM Roderick Colenbrander
+> roderick@gaikai.com wrote:
+>
+> > From: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> > Hi,
+> > This is hopefully the final revision of this patch series. Patch v4 had
+> > a rebase issue of a part of the sensors patch for which a part had move=
+d
+> > to the end of the series. This has been fixed. I have double, no triple
+> > checked the patches. Made sure they build using a 'rebase -x' script
+> > and also ran the hid-tools tests on the final driver.
+> > Thanks to everyone who provided feedback through the mailing list or pr=
+ivately.
+> > As suggested by Benjamin on the 'v4' version of this email, if you were
+> > involed in the review or testing of this series and would like some cre=
+dit,
+> > please provide a reviewed-by or tested-by tag.
+> > Changes since v4:
+> >
+> > -   Fixed bad rebase of ps_sensors_create, moved it to appropriate patc=
+h.
+>
+> Barnab=C3=A1s, any comments on this version?
+>
+> As soon as I get your rev-by, we can apply the series, just in time for 5=
+.12.
+>
+
+Sorry for not responding earlier, I have been relatively busy lately. I hav=
+e taken
+another look at the final source file. I have a couple comments for Roderic=
+k:
+
+ - `player_ids` array should be `static const` as far as I can see;
+ - there are a couple devm_kasprintf() calls which are not checked;
+ - power_supply_powers() call is not checked - I think either a comment
+   should mention that it's not considered a fatal error, or checked
+
+There are also other more minor things, formatting inconsistencies, but I
+cannot see anything else, so with the aforementioned things fixed, if you w=
+ant:
+
+Reviewed-by: Barnab=C3=A1s P=C5=91cze <pobrn@protonmail.com>
+
+
+Regards,
+Barnab=C3=A1s P=C5=91cze
+
+
+> Roderick, I do see a few checkpath errors that could be fixed, but I
+> won't hole the series against:
+> HID: playstation: add DualSense battery support. -> WARNING: Missing a
+> blank line after declarations
+> HID: playstation: report DualSense hardware and firmware version. ->
+> WARNING: Consider renaming function(s) 'ps_show_firmware_version' to
+> 'firmware_version_show' (and same for ps_show_hardware_version)
+>
+> Also, there is a weird sparse error:
+> +drivers/hid/hid-playstation.c:xxx:1:.error: static assertion failed:
+> "sizeof(struct dualsense_input_report) =3D=3D DS_INPUT_REPORT_USB_SIZE -
+> 1"
+> +drivers/hid/hid-playstation.c:xxx:1:.error: static assertion failed:
+> "sizeof(struct dualsense_output_report_bt) =3D=3D
+> DS_OUTPUT_REPORT_BT_SIZE"
+>
+> It's weird because it only fails while running sparse, when the normal
+> compilation is just fine, and the assert is correctly evaluated.
+>
+> Anyway, the series is good from my Point of View, but I'd like to get
+> the reviewers some credits.
+>
+> Cheers,
+> Benjamin
+>
+> > Thanks,
+> > Roderick Colenbrander
+> > Sony Interactive Entertainment, LLC
+> > Roderick Colenbrander (13):
+> > HID: playstation: initial DualSense USB support.
+> > HID: playstation: use DualSense MAC address as unique identifier.
+> > HID: playstation: add DualSense battery support.
+> > HID: playstation: add DualSense touchpad support.
+> > HID: playstation: add DualSense accelerometer and gyroscope support.
+> > HID: playstation: track devices in list.
+> > HID: playstation: add DualSense Bluetooth support.
+> > HID: playstation: add DualSense classic rumble support.
+> > HID: playstation: add DualSense lightbar support
+> > HID: playstation: add microphone mute support for DualSense.
+> > HID: playstation: add DualSense player LEDs support.
+> > HID: playstation: DualSense set LEDs to default player id.
+> > HID: playstation: report DualSense hardware and firmware version.
+> > MAINTAINERS | 6 +
+> > drivers/hid/Kconfig | 21 +
+> > drivers/hid/Makefile | 1 +
+> > drivers/hid/hid-ids.h | 1 +
+> > drivers/hid/hid-playstation.c | 1492 +++++++++++++++++++++++++++++++++
+> > 5 files changed, 1521 insertions(+)
+> > create mode 100644 drivers/hid/hid-playstation.c
+> > --
+> > 2.26.2
+
+
