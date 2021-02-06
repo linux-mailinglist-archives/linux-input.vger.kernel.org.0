@@ -2,217 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CAF7F3116D6
-	for <lists+linux-input@lfdr.de>; Sat,  6 Feb 2021 00:20:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C817311972
+	for <lists+linux-input@lfdr.de>; Sat,  6 Feb 2021 04:07:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229625AbhBEXQV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 5 Feb 2021 18:16:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36178 "EHLO
+        id S231905AbhBFDFY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 5 Feb 2021 22:05:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231843AbhBEK6x (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 5 Feb 2021 05:58:53 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D7B7C061356
-        for <linux-input@vger.kernel.org>; Fri,  5 Feb 2021 02:58:13 -0800 (PST)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1l7ymj-00035C-2Q; Fri, 05 Feb 2021 11:56:21 +0100
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1l7ymd-0004Fb-NN; Fri, 05 Feb 2021 11:56:15 +0100
-Date:   Fri, 5 Feb 2021 11:56:15 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-fbdev@vger.kernel.org, Cornelia Huck <cohuck@redhat.com>,
-        kvm@vger.kernel.org, David Airlie <airlied@linux.ie>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        dri-devel@lists.freedesktop.org, Jaroslav Kysela <perex@perex.cz>,
-        Eric Anholt <eric@anholt.net>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig.org@pengutronix.de>, linux-i2c@vger.kernel.org,
-        Jiri Slaby <jirislaby@kernel.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        linux-rtc@vger.kernel.org,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        Russell King - ARM Linux admin <linux@armlinux.org.uk>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        linux-serial@vger.kernel.org, linux-input@vger.kernel.org,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Mike Leach <mike.leach@linaro.org>,
-        linux-watchdog@vger.kernel.org, alsa-devel@alsa-project.org,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Eric Auger <eric.auger@redhat.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Mark Brown <broonie@kernel.org>,
-        Matt Mackall <mpm@selenic.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-mmc@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
-        linux-spi@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, linux-crypto@vger.kernel.org,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Leo Yan <leo.yan@linaro.org>, dmaengine@vger.kernel.org
-Subject: Re: [GIT PULL] immutable branch for amba changes targeting v5.12-rc1
-Message-ID: <20210205105615.qumu45huvntf2v4j@pengutronix.de>
-References: <20210126165835.687514-1-u.kleine-koenig@pengutronix.de>
- <20210202135350.36nj3dmcoq3t7gcf@pengutronix.de>
- <YBlcTXlxemmC2lgr@kroah.com>
- <20210204165224.GA1463@shell.armlinux.org.uk>
- <YBwnUrQqlAz2LDPI@kroah.com>
- <20210204165951.GB1463@shell.armlinux.org.uk>
- <20210204181551.ethtuzm65flujmwe@pengutronix.de>
- <20210205093744.kr4rc7yvfiq6wimq@pengutronix.de>
- <YB0baUzgvpd+EoO6@kroah.com>
+        with ESMTP id S232230AbhBFCzl (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 5 Feb 2021 21:55:41 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBE99C03327D;
+        Fri,  5 Feb 2021 18:13:35 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id z9so4826704pjl.5;
+        Fri, 05 Feb 2021 18:13:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=0buCJiWiupf4M1cuZVH0zshahYh4cEwQbw2GM3MH8Fg=;
+        b=G5on0SR7ld8bJ1VpW84vyIDXbUFHwiD6GzZ4cLMxlvWBuRe37PiM8Dj1+fyRArGO3r
+         49GExPbTWtQksWApW0BpgfL/COONqJSE8VjdU0Q/zv8TpKtZIMlGEoxvcXk7YGrI4iYC
+         ttAsD9u6Gq656++i666Qd7idYD9ruhjDmu2t/77I92rfDkL+OcBaw0i6Iw0W4x8cxEHU
+         N3PPq4Or5LWoVpFjiVQnfsL3dlV2yYTJUWI44B3on+cgf6nE9FZ89rI4U7sZLhiORji5
+         14xYZw6Wo7oCRW+U6feAJOGs3SmCPmBi0O8n+7a55CyC2imWixc6jEJHcRc976pJwpw8
+         uvNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=0buCJiWiupf4M1cuZVH0zshahYh4cEwQbw2GM3MH8Fg=;
+        b=LjJK012zTh7iE6wjnPCRRA1KvGU381eJVzp+uNaGep4twtcgvrSq9y+YbfB7i7dDM4
+         6uFmNe7pjW6TuSkjnMxQtbpmY6QeL93zcDZ66ErkkX24aR7fugQXuIBtMs+X/Y2R+DE9
+         yetYmWuQ+u/X+R6a26F6vRWaRFYNyqxRcG9dhP4A4zbgnt2aGyUhYwzMudq/4VRYmxkb
+         g3euzhBEHuFPKpIafMh2MC02brn/Fdcy38S764fkCcE9b8lL7fyb9eNI+luZPzbWccYu
+         XSonP3XigXr6edHNBGowmU3ioOPvIeQAEIpkb0DhlmtdPagO7ZR6SEtLg+kMcJPQ/sYe
+         exig==
+X-Gm-Message-State: AOAM533oOClP1WCSqyzG+BfcR+IMsEIS0Zl+thj66GpViLwVqrDi6nGQ
+        /YkuNvxZbjC/lcn6I3yMCIM=
+X-Google-Smtp-Source: ABdhPJzGiU+isXfShZJyv0Mh7lT8WZvsuNYGRAma+nWrzY3qKbkHoMwJorx4GCrAGeXlYDfjWIlXfw==
+X-Received: by 2002:a17:90a:b28b:: with SMTP id c11mr3499939pjr.62.1612577614945;
+        Fri, 05 Feb 2021 18:13:34 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:518d:8fc4:6ccc:568c])
+        by smtp.gmail.com with ESMTPSA id j4sm10789856pfa.131.2021.02.05.18.13.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Feb 2021 18:13:33 -0800 (PST)
+Date:   Fri, 5 Feb 2021 18:13:31 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [git pull] Input updates for v5.11-rc6
+Message-ID: <YB37S7x1mvSeERFT@google.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="vslstwmibba5nymi"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YB0baUzgvpd+EoO6@kroah.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi Linus,
 
---vslstwmibba5nymi
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Please pull from:
 
-On Fri, Feb 05, 2021 at 11:18:17AM +0100, Greg Kroah-Hartman wrote:
-> On Fri, Feb 05, 2021 at 10:37:44AM +0100, Uwe Kleine-K=F6nig wrote:
-> > Hello Russell, hello Greg,
-> >=20
-> > On Thu, Feb 04, 2021 at 07:15:51PM +0100, Uwe Kleine-K=F6nig wrote:
-> > > On Thu, Feb 04, 2021 at 04:59:51PM +0000, Russell King - ARM Linux ad=
-min wrote:
-> > > > On Thu, Feb 04, 2021 at 05:56:50PM +0100, Greg Kroah-Hartman wrote:
-> > > > > On Thu, Feb 04, 2021 at 04:52:24PM +0000, Russell King - ARM Linu=
-x admin wrote:
-> > > > > > On Tue, Feb 02, 2021 at 03:06:05PM +0100, Greg Kroah-Hartman wr=
-ote:
-> > > > > > > I'm glad to take this through my char/misc tree, as that's wh=
-ere the
-> > > > > > > other coresight changes flow through.  So if no one else obje=
-cts, I will
-> > > > > > > do so...
-> > > > > >=20
-> > > > > > Greg, did you end up pulling this after all? If not, Uwe produc=
-ed a v2.
-> > > > > > I haven't merged v2 yet as I don't know what you've done.
-> > > > >=20
-> > > > > I thought you merged this?
-> > > >=20
-> > > > I took v1, and put it in a branch I've promised in the past not to
-> > > > rebase/rewind. Uwe is now asking for me to take a v2 or apply a pat=
-ch
-> > > > on top.
-> > > >=20
-> > > > The only reason to produce an "immutable" branch is if it's the bas=
-is
-> > > > for some dependent work and you need that branch merged into other
-> > > > people's trees... so the whole "lets produce a v2" is really odd
-> > > > workflow... I'm confused about what I should do, and who has to be
-> > > > informed which option I take.
-> > > >=20
-> > > > I'm rather lost here too.
-> > >=20
-> > > Sorry to have cause this confusion. After I saw that my initial tag
-> > > missed to adapt a driver I wanted to make it easy for you to fix the
-> > > situation.
-> > > So I created a patch to fix it and created a second tag with the patch
-> > > squashed in. Obviously only one of them have to be picked and I hoped
-> > > you (=3D Russell + Greg) would agree which option to pick.
-> > >=20
-> > > My preference would be if you both pick up v2 of the tag to yield a
-> > > history that is bisectable without build problems, but if Russell (who
-> > > already picked up the broken tag) considers his tree immutable and so
-> > > isn't willing to rebase, then picking up the patch is the way to go.
-> >=20
-> > OK, the current state is that Russell applied the patch fixing
-> > drivers/mailbox/arm_mhuv2.c on top of merging my first tag.
-> >=20
-> > So the way forward now is that Greg pulls
-> >=20
-> > 	git://git.armlinux.org.uk/~rmk/linux-arm.git devel-stable
-> >=20
-> > which currently points to=20
-> >=20
-> > 	860660fd829e ("ARM: 9055/1: mailbox: arm_mhuv2: make remove callback r=
-eturn void")
-> >=20
-> > , into his tree that contains the hwtracing changes that conflict with =
-my
-> > changes. @Greg: Is this good enough, or do you require a dedicated tag
-> > to pull that?
-> >=20
-> > I think these conflicting hwtracing changes are not yet in any of Greg's
-> > trees (at least they are not in next).
-> >=20
-> > When I pull
-> >=20
-> > 	https://git.kernel.org/pub/scm/linux/kernel/git/coresight/linux.git ne=
-xt
-> >=20
-> > (currently pointing to 4e73ff249184 ("coresight: etm4x: Handle accesses
-> > to TRCSTALLCTLR")) into 860660fd829e, I get a conflict in
-> > drivers/hwtracing/coresight/coresight-etm4x-core.c as expected. My
-> > resolution looks as follows:
->=20
-> Ok, my resolution looked a bit different.
->=20
-> Can you pull my char-misc-testing branch and verify I got this all
-> pulled in correctly?
+	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
 
-minor side-note: mentioning the repo url would have simplified that test.
+to receive updates for the input subsystem. Nothing terribly
+interesting, just a few fixups.
 
-I looked at
+Changelog:
+---------
 
-	https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git char-=
-misc-testing
+Alexey Dobriyan (1):
+      Input: i8042 - unbreak Pegatron C15B
 
-commit 0573d3fa48640f0fa6b105ff92dcb02b94d6c1ab now.
+AngeloGioacchino Del Regno (2):
+      dt-bindings: input: touchscreen: goodix: Add binding for GT9286 IC
+      Input: goodix - add support for Goodix GT9286 chip
 
-I didn't compile test, but I'm willing to bet your resolution is wrong.
-You have no return statement in etm4_remove_dev() but its return type is
-int and etm4_remove_amba() still returns int but should return void.
+Benjamin Valentin (1):
+      Input: xpad - sync supported devices with fork on GitHub
 
-Best regards
-Uwe
+Geert Uytterhoeven (3):
+      Input: st1232 - fix off-by-one error in resolution handling
+      Input: st1232 - do not read more bytes than needed
+      Input: st1232 - wait until device is ready before reading resolution
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Heinrich Schuchardt (1):
+      dt-bindings: input: adc-keys: clarify description
 
---vslstwmibba5nymi
-Content-Type: application/pgp-signature; name="signature.asc"
+Marek Vasut (1):
+      Input: ili210x - implement pressure reporting for ILI251x
 
------BEGIN PGP SIGNATURE-----
+Souptick Joarder (1):
+      Input: ariel-pwrbutton - remove unused variable ariel_pwrbutton_id_table
 
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmAdJEwACgkQwfwUeK3K
-7AkhPggAk0ucNSGkkTWYbQF9BBYOZDKVlqvPHzvkMilvBGuAa1EXhuHHKu3esHxh
-NZf5xH5Lh7cnNyXodWF4Mp20NZfV0VFjzhbfNFexDfO2QfKJhJbATh9YiJ5onzsT
-cbMDvw+fQNUmooGN1gOW4OCiRvEPcYf8Z/TdrAkBXuRDaCYLiqJBPX1PCFTumEr3
-8Lxp3+k4zN9Wpkt17sqmgJxalvUHqNFOuL+1II2APrzMSZHB6T5fNtxEzMXUGXHx
-LzNGWjnnUKovRddHUyjFZu+rr6B/MUELKSYf9WH7lPI6osLnyjQf6vtczDdyZmlP
-PmCOMN9d1QJAKEMe6RJZvyfO22d11w==
-=kmsA
------END PGP SIGNATURE-----
+Diffstat:
+--------
 
---vslstwmibba5nymi--
+ .../devicetree/bindings/input/adc-keys.txt         | 22 +++++++++-
+ .../bindings/input/touchscreen/goodix.yaml         |  1 +
+ drivers/input/joystick/xpad.c                      | 17 +++++++-
+ drivers/input/misc/ariel-pwrbutton.c               |  6 ---
+ drivers/input/serio/i8042-x86ia64io.h              |  2 +
+ drivers/input/touchscreen/goodix.c                 |  2 +
+ drivers/input/touchscreen/ili210x.c                | 26 ++++++++----
+ drivers/input/touchscreen/st1232.c                 | 48 +++++++++++++++++++---
+ 8 files changed, 102 insertions(+), 22 deletions(-)
+
+Thanks.
+
+
+-- 
+Dmitry
