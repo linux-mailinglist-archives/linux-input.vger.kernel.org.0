@@ -2,141 +2,135 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7072F31237A
-	for <lists+linux-input@lfdr.de>; Sun,  7 Feb 2021 11:34:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BCEF4312451
+	for <lists+linux-input@lfdr.de>; Sun,  7 Feb 2021 13:39:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229596AbhBGKdr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 7 Feb 2021 05:33:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34574 "EHLO
+        id S229751AbhBGMi4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 7 Feb 2021 07:38:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41534 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229445AbhBGKdq (ORCPT
+        by vger.kernel.org with ESMTP id S229717AbhBGMiy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 7 Feb 2021 05:33:46 -0500
+        Sun, 7 Feb 2021 07:38:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1612693939;
+        s=mimecast20190719; t=1612701448;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=EZ2NyIxf6r/NIa95Lz0kTigmjh+yVnxtRLDiE0g2UJY=;
-        b=HKKPxsI/YSQGMwJk12NniOJoiCjqXGJXP8DPBUx16ZMC8fEp5btKundCw0ySQ6mvKLm1zM
-        GdKqkxzZ8P70ch6lmmkOiXVQ9WA48Z//u2VlkgZnwTX14QfGaWcF1/krvQL9fl+wXun3R2
-        HrgiKUC2vYSfJaN97jrQ6mt5nEZDSiY=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-581-PxZNND9iNxSE2Xyymtx5EQ-1; Sun, 07 Feb 2021 05:32:17 -0500
-X-MC-Unique: PxZNND9iNxSE2Xyymtx5EQ-1
-Received: by mail-ed1-f72.google.com with SMTP id g6so11538495edy.9
-        for <linux-input@vger.kernel.org>; Sun, 07 Feb 2021 02:32:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=EZ2NyIxf6r/NIa95Lz0kTigmjh+yVnxtRLDiE0g2UJY=;
-        b=RDiC2VfYN9+ucBFqXTv3MpyMZbqB5nnPttDTaWuEBsDwiN7iftAurOu0b+t2x4Sorh
-         KBpFJA+dGfrk18XAtCqEBL4CthPtUXluazF/BmcnPcAkXGIeZJcwTMWFKYkOCAQWSLBb
-         JS+HtAFjPG2fLp3eF5pFAtOugNG2T5sWvuJKGptTZ4fvXJw0Bj37g47lPuX/dxY+W9b3
-         Jf4zaDje00kuh5JCEB2RUxsNnQdams4fVJ7vQEG4KYAYkg+14b0xAiUOpch2N2r6o+/K
-         /CyB8kJnWfuE4Dk+z1pEINXWVruMmpd+U63kGj9U1xbvpjkCS28njRukpnXwiCcCtwfe
-         uGKg==
-X-Gm-Message-State: AOAM531thlimUe3HuzFWwRdYjHjDtdsjtKXzCB7VL68irJp2+PLFMi3w
-        4lkMhiJhs2rKmjblwiYnIkqdHHBm7NHqS0PiDK5rofO+05ZNrEcMN9NANmjDuQ3BFWx3hrK6wq2
-        0IeQ5OSW6nwXm0i26WGIj/mo=
-X-Received: by 2002:a17:906:3a13:: with SMTP id z19mr12457852eje.317.1612693935870;
-        Sun, 07 Feb 2021 02:32:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJynt5RcbjbWjEscrjnKI9AW6p2ZEi10XR+wMXyZ8/NYunIcGq2YCKh+O0sv5yYafLcghJMLQQ==
-X-Received: by 2002:a17:906:3a13:: with SMTP id z19mr12457842eje.317.1612693935678;
-        Sun, 07 Feb 2021 02:32:15 -0800 (PST)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id c27sm3503626eja.104.2021.02.07.02.32.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 07 Feb 2021 02:32:15 -0800 (PST)
-Subject: Re: [PATCH] Input: synaptic - reverting
- dcb00fc799dc03fd320e123e4c81b3278c763ea5 because it breaks the touchpad for
- one guy on Reddit.
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=TO6EqYEBjAkKYWeva1m4UJwzXVWsthXT13T1vTKUp5o=;
+        b=PwKYe8CiXokwihujV7U3PMKfsIwLa8j4Ga8z3MsNN6bpgHBvCBGrcJGzwR5zpXQDegTNKH
+        8EiJAgMN7RSYmZkN5gbepcrwzzTpn6kJdMD7jZOu3dXI/Xy2UNj0cGTgU0qIBu66UtKjL5
+        KDRPOQjZfAx6thIpi7Wp2xLQ8yivy9U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-338-uoNsFyldMFGmaircJXAmBg-1; Sun, 07 Feb 2021 07:37:25 -0500
+X-MC-Unique: uoNsFyldMFGmaircJXAmBg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2BAB6D4E3;
+        Sun,  7 Feb 2021 12:37:23 +0000 (UTC)
+Received: from x1.localdomain (ovpn-112-86.ams2.redhat.com [10.36.112.86])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id D106C19D9C;
+        Sun,  7 Feb 2021 12:37:21 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
-To:     Colton Booth <colton@boothsoftware.ca>, dmitry.torokhov@gmail.com
-Cc:     colton@boothlinux.ca, Lyude Paul <lyude@redhat.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Vincent Huang <vincent.huang@tw.synaptics.com>,
-        Dennis Kadioglu <denk@eclipso.email>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Yussuf Khalil <dev@pp3345.net>, Ilya Katsnelson <me@0upti.me>,
-        Gaurav Agrawal <agrawalgaurav@gnome.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210207035024.69095-1-colton@boothsoftware.ca>
- <08362ef4-c407-9cd0-20fa-354cd8e73fcb@redhat.com>
-Message-ID: <354e080e-4ddb-9097-2ca9-4834982e925b@redhat.com>
-Date:   Sun, 7 Feb 2021 11:32:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+To:     Jonathan Cameron <jic23@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        linux-iio@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mark Pearson <mpearson@lenovo.com>,
+        Bastien Nocera <hadess@hadess.net>
+Subject: [PATCH 1/2] iio: documentation: Document proximity sensor label use
+Date:   Sun,  7 Feb 2021 13:37:19 +0100
+Message-Id: <20210207123720.8357-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <08362ef4-c407-9cd0-20fa-354cd8e73fcb@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Add an entry to Documentation/ABI/testing/sysfs-bus-iio for
+the new device and channel label sysfs-attribute support.
 
-On 2/7/21 11:18 AM, Hans de Goede wrote:
-> Hi,
-> 
-> On 2/7/21 4:50 AM, Colton Booth wrote:
->> I can't test myself since I don't have the correct hardware, BUT this change seems to work for him. I'm thinking he has an early version of the X1E which may use slightly different trackpad revision.
-> 
-> Who is "him"? Do you have a bug-report link or some such ?
-> 
-> With which kernel version is this ?  Could it be that the commit you are reverting was
-> backported to a stable-series release while that stable series is missing the rmi4
-> updates necessary to make things work on newer models ?
-> 
-> What are the symptoms / problems "him" is seeing when not reverting this?
-> 
-> On case it is not clear: NACK due to insufficient information why this is
-> necessary / missing description and root cause analysis of the actual problem.
+And document the standardized labels which may be used with proximity
+sensors to hint userspace about the intended use of the sensor.
 
-p.s.
+Using labels to differentiate between the multiple proximity sensors
+which a modern laptop/tablet may have was discussed in this thread:
+https://lore.kernel.org/linux-iio/9f9b0ff6-3bf1-63c4-eb36-901cecd7c4d9@redhat.com/
 
-My apologies if this sounds a bit grumpy, I got out of bed on the wrong side this morning.
+As mentioned the "proximity-wifi*" labels are already being used in
+this manner on some chromebooks, see e.g.:
+arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+arch/arm64/boot/dts/qcom/sc7180-trogdor-lte-sku.dtsi
 
-Regards,
+And the "proximity-palmrest" and "proximity-lap" labels are intended
+to be used with the lap and palmrest sensors found in recent Lenovo
+ThinkPad models.
 
-Hans
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Mark Pearson <mpearson@lenovo.com>
+Cc: Bastien Nocera <hadess@hadess.net>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ Documentation/ABI/testing/sysfs-bus-iio | 41 +++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
-
-
-
-
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
->>
->> Signed-off-by: Colton Booth <colton@boothsoftware.ca>
->> ---
->>  drivers/input/mouse/synaptics.c | 2 --
->>  1 file changed, 2 deletions(-)
->>
->> diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
->> index ffad142801b3..2d3f03921dbc 100644
->> --- a/drivers/input/mouse/synaptics.c
->> +++ b/drivers/input/mouse/synaptics.c
->> @@ -179,9 +179,7 @@ static const char * const smbus_pnp_ids[] = {
->>  	"LEN0093", /* T480 */
->>  	"LEN0096", /* X280 */
->>  	"LEN0097", /* X280 -> ALPS trackpoint */
->> -	"LEN0099", /* X1 Extreme Gen 1 / P1 Gen 1 */
->>  	"LEN009b", /* T580 */
->> -	"LEN0402", /* X1 Extreme Gen 2 / P1 Gen 2 */
->>  	"LEN200f", /* T450s */
->>  	"LEN2044", /* L470  */
->>  	"LEN2054", /* E480 */
->>
+diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
+index 35289d47d6cb..f2f090f8bd2f 100644
+--- a/Documentation/ABI/testing/sysfs-bus-iio
++++ b/Documentation/ABI/testing/sysfs-bus-iio
+@@ -33,6 +33,47 @@ Description:
+ 		Description of the physical chip / device for device X.
+ 		Typically a part number.
+ 
++What:		/sys/bus/iio/devices/iio:deviceX/label
++What:		/sys/bus/iio/devices/iio:deviceX/in_*_label
++What:		/sys/bus/iio/devices/iio:deviceX/out_*_label
++KernelVersion:	5.8
++Contact:	linux-iio@vger.kernel.org
++Description:
++		Optional symbolic label for a device or a channel.
++		This is useful for userspace to be able to better identify an
++		individual device or channel.
++
++		The contents of the label are free-form, but there are some
++		standardized uses:
++
++		For proximity sensors which give the proximity (of a person) to
++		a certain wlan or wwan antenna the following standardized labels
++		are used:
++
++		* "proximity-wifi"
++		* "proximity-lte"
++		* "proximity-wifi-lte"
++		* "proximity-wifi-left"
++		* "proximity-wifi-right"
++
++		These are used to indicate to userspace that these proximity
++		sensors may be used to tune transmit power to ensure that
++		Specific Absorption Rate (SAR) limits are honored.
++		The "-left" and "-right" labels are for devices with multiple
++		antennas.
++
++		In some laptops/tablets the standardized proximity sensor labels
++		instead	indicate proximity to a specific part of the device:
++
++		* "proximity-palmrest" indicates proximity to the keyboard's palmrest
++		* "proximity-palmrest-left" indicates proximity to the left part of the palmrest
++		* "proximity-palmrest-right" indicates proximity to the right part of the palmrest
++		* "proximity-lap" indicates the device is being used on someone's lap
++
++		Note "proximity-lap" is special in that its value may be
++		calculated by firmware from other sensor readings, rather then
++		being a raw sensor reading.
++
+ What:		/sys/bus/iio/devices/iio:deviceX/current_timestamp_clock
+ KernelVersion:	4.5
+ Contact:	linux-iio@vger.kernel.org
+-- 
+2.30.0
 
