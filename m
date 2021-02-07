@@ -2,51 +2,51 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DEC83127AA
-	for <lists+linux-input@lfdr.de>; Sun,  7 Feb 2021 22:50:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 696683127AC
+	for <lists+linux-input@lfdr.de>; Sun,  7 Feb 2021 22:50:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229564AbhBGVui (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 7 Feb 2021 16:50:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54920 "EHLO
+        id S229601AbhBGVuj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 7 Feb 2021 16:50:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229590AbhBGVuh (ORCPT
+        with ESMTP id S229581AbhBGVuh (ORCPT
         <rfc822;linux-input@vger.kernel.org>); Sun, 7 Feb 2021 16:50:37 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E21FEC0617A7
-        for <linux-input@vger.kernel.org>; Sun,  7 Feb 2021 13:49:25 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id l18so7661367pji.3
-        for <linux-input@vger.kernel.org>; Sun, 07 Feb 2021 13:49:25 -0800 (PST)
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1F9BC0617A9
+        for <linux-input@vger.kernel.org>; Sun,  7 Feb 2021 13:49:26 -0800 (PST)
+Received: by mail-pg1-x52f.google.com with SMTP id e7so37574pge.0
+        for <linux-input@vger.kernel.org>; Sun, 07 Feb 2021 13:49:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gaikai-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Etz2J9pmlf+SykinxfpX+1GU6HYDag0pYFAujUJqgBs=;
-        b=S227OEL2fiY04gcGWsc/oc1/Oj0ritF7bu9Lh7DdVvOV1szpIy6FduTNkWCiSJIKxW
-         oXIl3Y4jn98SC0OSI7bGvUISjLbk3csJQ7Y2UeKU6hXKG/DLgW9Wjpn+81fEshvbWwZ2
-         rhuuTNN/gXtQxwysuLme1lnqj1mKNOty4S1WyJkPh5FiYASgy/7dupUebi+QwaoSED6D
-         +opNyR6PX6TsG4LzCFmLy16FjT1JE3E1VJMzhZoxw+58svZAh3jE9Xmm8JTfjqqA3QKs
-         bb3I/lXILOsTLrerLPZVfGtzhsTbcVCKnxFfoJrWEvF8pvesOn2o6bXjbOpfsLC3gSkD
-         IGMg==
+        bh=BS7DivJFl5AT7V+WqM5Kz27qKRGDnECZ9lanj9m1Rjc=;
+        b=tS04iCE+pLwsPdcQKJSZLUrTPBDfeeJoVLIUxvu4TPHLXbjYr1/+76gCtvaRP8TxYu
+         YwMTeXecoyfT5ljpIfmoRX5q98MR5M54S8l1yNe3udk+lAXqjIfysT/Scc/eoN9JiXy2
+         NNv+1v3X1iCd1NSDFnzgKeON73rTHa0sDwIw0qvuTlC1fKRSvpOVag4g8Hy5nENuguo8
+         aFQfbcmip4DEl9nQlpWWvQZ+IYeI9EtzK99CUL/2uyzXZj0ke2IXZyJ9kX4ex4+G2Tdx
+         bqZK3IK1ZUA1Ol5y3xL3rx/8cfB57hM4FTlxNoSY3euPKNNzb/cp/hO7k6Po1Orhgczl
+         iQTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Etz2J9pmlf+SykinxfpX+1GU6HYDag0pYFAujUJqgBs=;
-        b=YQY0xXJjxt//H4iqxYi0CItvs6a7zAXNgGRSKS9ysheWHFh9/a4a5W/whoeL28Vq9+
-         94kBRYwT2Ac2RtObOb4DObhE+SQ4eHifOjjZvHZzZhIEyrE4TKzaZAwaz6I4+uRjtyXw
-         196JhVuw3Ye/MuI33tjQpIBvVil0fn4LETVFrOoV00wpiJkmKNzpQxRcefMg9khWHt0V
-         OOvV+ZfC4TBW6q/mhzAFRq7P7IRZWzjFTGYlqJY1hSGT8YnJinxwK9CtYWy/8jrcykBm
-         R6PXUBttHTPTGarzSLL8H3++yxpSGc11oQPnZanC1H2zIXzl3x/2hTjl0GhHQ59OrGmU
-         1w9Q==
-X-Gm-Message-State: AOAM531cVhomTRt0tGPknh2zC8Ev2S0nwIayhodsQTYrFQ1MS7aatMb5
-        UhzCZqtNxfWxhlvhLj6YSbFFdA==
-X-Google-Smtp-Source: ABdhPJyqrpbTUkE0q1rjDQwVDpJrcwc0WY0vAh7lGfiOJAh3HdslN2GzS9xTmaecZT+vQ/juhjn05w==
-X-Received: by 2002:a17:90a:2e88:: with SMTP id r8mr14000538pjd.84.1612734565449;
-        Sun, 07 Feb 2021 13:49:25 -0800 (PST)
+        bh=BS7DivJFl5AT7V+WqM5Kz27qKRGDnECZ9lanj9m1Rjc=;
+        b=YuGBs9gKYXdp+ZbEQNx9Cz4dTRmxUFiKk366dn+l7kz9JTuLOTasu/KI/H/VZeZpf3
+         YNlb4wCvlkY8QUyhhNhPxHM8b2t7MX4dPMFQNKw2o0CyM86wLf08MwbnBLsCTBHQpIoV
+         3+xW1T09FXEfk85SL/03j5z8BHSNu3YqPgGFc7/xWBqtplw6edOZGkAnEnZXIFPJQUM0
+         u0PiJ/evq1yBCdSeRUm9sHjTs3miDrwpHsM3S/3qfgUm/yIDdOwRQNeBSUlRssTCFMGW
+         dY2NXhTCzedT3FQ/qY8DBuWhkdvQpxyHm2UDS2szN8tVD04hjPpNwqPGo0x5kB2lQ8dz
+         RyiA==
+X-Gm-Message-State: AOAM532tTm/odCgLWoR4HnztIB76cHXjcSjO7pfNw1HW2kqKPQaK1OCM
+        uMLCu0CNCUnt6ohQ2gQ6P2tvYg==
+X-Google-Smtp-Source: ABdhPJy0Q1HFBQMzwWsq5OuB9UJsMGkAoMfvRrrHHPbE5xAIm7BhYOiikE0cGIuo+6GPiNWN5wwiGg==
+X-Received: by 2002:aa7:86d8:0:b029:1b5:1121:729a with SMTP id h24-20020aa786d80000b02901b51121729amr4032882pfo.57.1612734566592;
+        Sun, 07 Feb 2021 13:49:26 -0800 (PST)
 Received: from us8c16456344dc.lan (cpe-76-87-77-78.socal.res.rr.com. [76.87.77.78])
-        by smtp.gmail.com with ESMTPSA id a141sm16578991pfa.189.2021.02.07.13.49.24
+        by smtp.gmail.com with ESMTPSA id a141sm16578991pfa.189.2021.02.07.13.49.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Feb 2021 13:49:25 -0800 (PST)
+        Sun, 07 Feb 2021 13:49:26 -0800 (PST)
 From:   Roderick Colenbrander <roderick@gaikai.com>
 To:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
@@ -55,9 +55,9 @@ Cc:     linux-input@vger.kernel.org, Chris Ye <lzye@google.com>,
         =?UTF-8?q?Samuel=20=C4=8Cavoj?= <sammko@sammserver.com>,
         =?UTF-8?q?Florian=20M=C3=A4rkl?= <linux@florianmaerkl.de>,
         Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: [PATCH v6 10/13] HID: playstation: add microphone mute support for DualSense.
-Date:   Sun,  7 Feb 2021 13:49:05 -0800
-Message-Id: <20210207214908.79573-11-roderick@gaikai.com>
+Subject: [PATCH v6 11/13] HID: playstation: add DualSense player LEDs support.
+Date:   Sun,  7 Feb 2021 13:49:06 -0800
+Message-Id: <20210207214908.79573-12-roderick@gaikai.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210207214908.79573-1-roderick@gaikai.com>
 References: <20210207214908.79573-1-roderick@gaikai.com>
@@ -69,219 +69,122 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 From: Roderick Colenbrander <roderick.colenbrander@sony.com>
 
-The DualSense controller has a built-in microphone exposed as an
-audio device over USB (or HID using Bluetooth). A dedicated
-button on the controller handles mute, but software has to configure
-the device to mute the audio stream.
-
-This patch captures the mute button and schedules an output report
-to mute/unmute the audio stream as well as toggle the mute LED.
+The DualSense features 5 player LEDs below its touchpad, which are
+meant as player id indications. This patch exposes the player LEDs
+as individual LEDs.
 
 Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
 ---
- drivers/hid/Kconfig           |  2 +
- drivers/hid/hid-playstation.c | 99 +++++++++++++++++++++++++++++++++++
- 2 files changed, 101 insertions(+)
+ drivers/hid/hid-playstation.c | 60 ++++++++++++++++++++++++++++++++++-
+ 1 file changed, 59 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index cfa29dc17064..446a4d579908 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -857,6 +857,8 @@ config HID_PLAYSTATION
- 	tristate "PlayStation HID Driver"
- 	depends on HID
- 	select CRC32
-+	select NEW_LEDS
-+	select LEDS_CLASS
- 	select LEDS_CLASS_MULTICOLOR
- 	select POWER_SUPPLY
- 	help
 diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-index 97c1118ba78f..c436ac8f7a6f 100644
+index c436ac8f7a6f..2d96785c397d 100644
 --- a/drivers/hid/hid-playstation.c
 +++ b/drivers/hid/hid-playstation.c
-@@ -10,6 +10,7 @@
- #include <linux/device.h>
- #include <linux/hid.h>
- #include <linux/input/mt.h>
-+#include <linux/leds.h>
- #include <linux/led-class-multicolor.h>
- #include <linux/module.h>
- 
-@@ -47,6 +48,12 @@ struct ps_calibration_data {
- 	int sens_denom;
- };
- 
-+struct ps_led_info {
-+	const char *name;
-+	enum led_brightness (*brightness_get)(struct led_classdev *cdev);
-+	void (*brightness_set)(struct led_classdev *cdev, enum led_brightness);
-+};
-+
- /* Seed values for DualShock4 / DualSense CRC32 for different report types. */
- #define PS_INPUT_CRC32_SEED	0xA1
- #define PS_OUTPUT_CRC32_SEED	0xA2
-@@ -82,6 +89,7 @@ struct ps_calibration_data {
- #define DS_BUTTONS1_R3		BIT(7)
- #define DS_BUTTONS2_PS_HOME	BIT(0)
- #define DS_BUTTONS2_TOUCHPAD	BIT(1)
-+#define DS_BUTTONS2_MIC_MUTE	BIT(2)
- 
- /* Status field of DualSense input report. */
- #define DS_STATUS_BATTERY_CAPACITY	GENMASK(3, 0)
-@@ -100,9 +108,12 @@ struct ps_calibration_data {
- /* Flags for DualSense output report. */
- #define DS_OUTPUT_VALID_FLAG0_COMPATIBLE_VIBRATION BIT(0)
- #define DS_OUTPUT_VALID_FLAG0_HAPTICS_SELECT BIT(1)
-+#define DS_OUTPUT_VALID_FLAG1_MIC_MUTE_LED_CONTROL_ENABLE BIT(0)
-+#define DS_OUTPUT_VALID_FLAG1_POWER_SAVE_CONTROL_ENABLE BIT(1)
+@@ -112,6 +112,7 @@ struct ps_led_info {
+ #define DS_OUTPUT_VALID_FLAG1_POWER_SAVE_CONTROL_ENABLE BIT(1)
  #define DS_OUTPUT_VALID_FLAG1_LIGHTBAR_CONTROL_ENABLE BIT(2)
  #define DS_OUTPUT_VALID_FLAG1_RELEASE_LEDS BIT(3)
++#define DS_OUTPUT_VALID_FLAG1_PLAYER_INDICATOR_CONTROL_ENABLE BIT(4)
  #define DS_OUTPUT_VALID_FLAG2_LIGHTBAR_SETUP_CONTROL_ENABLE BIT(1)
-+#define DS_OUTPUT_POWER_SAVE_CONTROL_MIC_MUTE BIT(4)
+ #define DS_OUTPUT_POWER_SAVE_CONTROL_MIC_MUTE BIT(4)
  #define DS_OUTPUT_LIGHTBAR_SETUP_LIGHT_OUT BIT(1)
+@@ -157,6 +158,11 @@ struct dualsense {
+ 	bool last_btn_mic_state;
+ 	struct led_classdev mute_led;
  
- /* DualSense hardware limits */
-@@ -140,6 +151,12 @@ struct dualsense {
- 	uint8_t lightbar_green;
- 	uint8_t lightbar_blue;
- 
-+	/* Microphone */
-+	bool update_mic_mute;
-+	bool mic_muted;
-+	bool last_btn_mic_state;
-+	struct led_classdev mute_led;
++	/* Player leds */
++	bool update_player_leds;
++	uint8_t player_leds_state;
++	struct led_classdev player_leds[5];
 +
  	struct work_struct output_worker;
  	void *output_report_dmabuf;
  	uint8_t output_seq; /* Sequence number for output report. */
-@@ -485,6 +502,32 @@ static int ps_get_report(struct hid_device *hdev, uint8_t report_id, uint8_t *bu
- 	return 0;
+@@ -778,6 +784,35 @@ static void dualsense_mute_led_set_brightness(struct led_classdev *led, enum led
+ 
  }
  
-+static int ps_led_register(struct ps_device *ps_dev, struct led_classdev *led,
-+		const struct ps_led_info *led_info)
++static enum led_brightness dualsense_player_led_get_brightness(struct led_classdev *led)
 +{
-+	int ret;
++	struct hid_device *hdev = to_hid_device(led->dev->parent);
++	struct dualsense *ds = hid_get_drvdata(hdev);
 +
-+	led->name = devm_kasprintf(&ps_dev->hdev->dev, GFP_KERNEL,
-+			"playstation::%pMR::%s", ps_dev->mac_address, led_info->name);
-+
-+	if (!led->name)
-+		return -ENOMEM;
-+
-+	led->brightness = 0;
-+	led->max_brightness = 1;
-+	led->flags = LED_CORE_SUSPENDRESUME;
-+	led->brightness_get = led_info->brightness_get;
-+	led->brightness_set = led_info->brightness_set;
-+
-+	ret = devm_led_classdev_register(&ps_dev->hdev->dev, led);
-+	if (ret) {
-+		hid_err(ps_dev->hdev, "Failed to register LED %s: %d\n", led_info->name, ret);
-+		return ret;
-+	}
-+
-+	return 0;
++	return !!(ds->player_leds_state & BIT(led - ds->player_leds));
 +}
 +
- /* Register a DualSense/DualShock4 RGB lightbar represented by a multicolor LED. */
- static int ps_lightbar_register(struct ps_device *ps_dev, struct led_classdev_mc *lightbar_mc_dev,
- 	int (*brightness_set)(struct led_classdev *, enum led_brightness))
-@@ -722,6 +765,19 @@ static int dualsense_lightbar_set_brightness(struct led_classdev *cdev,
- 	return 0;
- }
- 
-+static enum led_brightness dualsense_mute_led_get_brightness(struct led_classdev *led)
++static void dualsense_player_led_set_brightness(struct led_classdev *led, enum led_brightness value)
 +{
-+	struct dualsense *ds = container_of(led, struct dualsense, mute_led);
++	struct hid_device *hdev = to_hid_device(led->dev->parent);
++	struct dualsense *ds = hid_get_drvdata(hdev);
++	unsigned long flags;
++	unsigned int led_index;
 +
-+	return ds->mic_muted;
-+}
++	spin_lock_irqsave(&ds->base.lock, flags);
 +
-+/* The mute LED is treated as read-only. This set call prevents ENOTSUP errors e.g. on unload. */
-+static void dualsense_mute_led_set_brightness(struct led_classdev *led, enum led_brightness value)
-+{
++	led_index = led - ds->player_leds;
++	if (value == LED_OFF)
++		ds->player_leds_state &= ~BIT(led_index);
++	else
++		ds->player_leds_state |= BIT(led_index);
 +
++	ds->update_player_leds = true;
++	spin_unlock_irqrestore(&ds->base.lock, flags);
++
++	schedule_work(&ds->output_worker);
 +}
 +
  static void dualsense_init_output_report(struct dualsense *ds, struct dualsense_output_report *rp,
  		void *buf)
  {
-@@ -814,6 +870,23 @@ static void dualsense_output_worker(struct work_struct *work)
+@@ -870,6 +905,13 @@ static void dualsense_output_worker(struct work_struct *work)
  		ds->update_lightbar = false;
  	}
  
-+	if (ds->update_mic_mute) {
-+		common->valid_flag1 |= DS_OUTPUT_VALID_FLAG1_MIC_MUTE_LED_CONTROL_ENABLE;
-+		common->mute_button_led = ds->mic_muted;
++	if (ds->update_player_leds) {
++		common->valid_flag1 |= DS_OUTPUT_VALID_FLAG1_PLAYER_INDICATOR_CONTROL_ENABLE;
++		common->player_leds = ds->player_leds_state;
 +
-+		if (ds->mic_muted) {
-+			/* Disable microphone */
-+			common->valid_flag1 |= DS_OUTPUT_VALID_FLAG1_POWER_SAVE_CONTROL_ENABLE;
-+			common->power_save_control |= DS_OUTPUT_POWER_SAVE_CONTROL_MIC_MUTE;
-+		} else {
-+			/* Enable microphone */
-+			common->valid_flag1 |= DS_OUTPUT_VALID_FLAG1_POWER_SAVE_CONTROL_ENABLE;
-+			common->power_save_control &= ~DS_OUTPUT_POWER_SAVE_CONTROL_MIC_MUTE;
-+		}
-+
-+		ds->update_mic_mute = false;
++		ds->update_player_leds = false;
 +	}
 +
- 	spin_unlock_irqrestore(&ds->base.lock, flags);
- 
- 	dualsense_send_output_report(ds, &report);
-@@ -828,6 +901,7 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
- 	uint8_t battery_data, battery_capacity, charging_status, value;
- 	int battery_status;
- 	uint32_t sensor_timestamp;
-+	bool btn_mic_state;
- 	unsigned long flags;
- 	int i;
- 
-@@ -883,6 +957,23 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
- 	input_report_key(ds->gamepad, BTN_MODE,   ds_report->buttons[2] & DS_BUTTONS2_PS_HOME);
- 	input_sync(ds->gamepad);
- 
-+	/*
-+	 * The DualSense has an internal microphone, which can be muted through a mute button
-+	 * on the device. The driver is expected to read the button state and program the device
-+	 * to mute/unmute audio at the hardware level.
-+	 */
-+	btn_mic_state = !!(ds_report->buttons[2] & DS_BUTTONS2_MIC_MUTE);
-+	if (btn_mic_state && !ds->last_btn_mic_state) {
-+		spin_lock_irqsave(&ps_dev->lock, flags);
-+		ds->update_mic_mute = true;
-+		ds->mic_muted = !ds->mic_muted; /* toggle */
-+		spin_unlock_irqrestore(&ps_dev->lock, flags);
-+
-+		/* Schedule updating of microphone state at hardware level. */
-+		schedule_work(&ds->output_worker);
-+	}
-+	ds->last_btn_mic_state = btn_mic_state;
-+
- 	/* Parse and calibrate gyroscope data. */
- 	for (i = 0; i < ARRAY_SIZE(ds_report->gyro); i++) {
- 		int raw_data = (short)le16_to_cpu(ds_report->gyro[i]);
-@@ -1030,6 +1121,10 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
+ 	if (ds->update_mic_mute) {
+ 		common->valid_flag1 |= DS_OUTPUT_VALID_FLAG1_MIC_MUTE_LED_CONTROL_ENABLE;
+ 		common->mute_button_led = ds->mic_muted;
+@@ -1119,12 +1161,20 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
+ 	struct dualsense *ds;
+ 	struct ps_device *ps_dev;
  	uint8_t max_output_report_size;
- 	int ret;
+-	int ret;
++	int i, ret;
  
-+	static const struct ps_led_info mute_led_info = {
-+		"micmute", dualsense_mute_led_get_brightness, dualsense_mute_led_set_brightness
+ 	static const struct ps_led_info mute_led_info = {
+ 		"micmute", dualsense_mute_led_get_brightness, dualsense_mute_led_set_brightness
+ 	};
+ 
++	static const struct ps_led_info player_leds_info[] = {
++		{ "led1", dualsense_player_led_get_brightness, dualsense_player_led_set_brightness },
++		{ "led2", dualsense_player_led_get_brightness, dualsense_player_led_set_brightness },
++		{ "led3", dualsense_player_led_get_brightness, dualsense_player_led_set_brightness },
++		{ "led4", dualsense_player_led_get_brightness, dualsense_player_led_set_brightness },
++		{ "led5", dualsense_player_led_get_brightness, dualsense_player_led_set_brightness }
 +	};
 +
  	ds = devm_kzalloc(&hdev->dev, sizeof(*ds), GFP_KERNEL);
  	if (!ds)
  		return ERR_PTR(-ENOMEM);
-@@ -1107,6 +1202,10 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
+@@ -1206,6 +1256,14 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
  	if (ret)
  		goto err;
  
-+	ret = ps_led_register(ps_dev, &ds->mute_led, &mute_led_info);
-+	if (ret)
-+		goto err;
++	for (i = 0; i < ARRAY_SIZE(player_leds_info); i++) {
++		const struct ps_led_info *led_info = &player_leds_info[i];
++
++		ret = ps_led_register(ps_dev, &ds->player_leds[i], led_info);
++		if (ret < 0)
++			goto err;
++	}
 +
  	return &ds->base;
  
