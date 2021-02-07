@@ -2,94 +2,133 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F308631213A
-	for <lists+linux-input@lfdr.de>; Sun,  7 Feb 2021 05:17:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A40A53121EF
+	for <lists+linux-input@lfdr.de>; Sun,  7 Feb 2021 07:07:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229636AbhBGEPx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 6 Feb 2021 23:15:53 -0500
-Received: from beige.elm.relay.mailchannels.net ([23.83.212.16]:16188 "EHLO
-        beige.elm.relay.mailchannels.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229570AbhBGEPx (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sat, 6 Feb 2021 23:15:53 -0500
-X-Greylist: delayed 1431 seconds by postgrey-1.27 at vger.kernel.org; Sat, 06 Feb 2021 23:15:53 EST
-X-Sender-Id: hostingeremail|x-authsender|colton@boothsoftware.ca
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-        by relay.mailchannels.net (Postfix) with ESMTP id 4D5289220B9;
-        Sun,  7 Feb 2021 03:51:15 +0000 (UTC)
-Received: from nl-srv-smtpout2.hostinger.io (100-96-10-13.trex.outbound.svc.cluster.local [100.96.10.13])
-        (Authenticated sender: hostingeremail)
-        by relay.mailchannels.net (Postfix) with ESMTPA id 673A09216BC;
-        Sun,  7 Feb 2021 03:51:12 +0000 (UTC)
-X-Sender-Id: hostingeremail|x-authsender|colton@boothsoftware.ca
-Received: from nl-srv-smtpout2.hostinger.io ([UNAVAILABLE]. [145.14.159.14])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384)
-        by 100.96.10.13 (trex/6.0.2);
-        Sun, 07 Feb 2021 03:51:15 +0000
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: hostingeremail|x-authsender|colton@boothsoftware.ca
-X-MailChannels-Auth-Id: hostingeremail
-X-Descriptive-Robust: 0eb94da46eac812e_1612669875081_422781994
-X-MC-Loop-Signature: 1612669875081:1780897850
-X-MC-Ingress-Time: 1612669875080
-Received: from localhost.localdomain (unknown [IPv6:2607:fea8:a75f:aa80:1cb5:f870:745:692d])
-        (Authenticated sender: colton@boothsoftware.ca)
-        by nl-srv-smtpout2.hostinger.io (smtp.hostinger.com) with ESMTPSA id 57E0B333EFAF;
-        Sun,  7 Feb 2021 03:50:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=boothsoftware.ca;
-        s=hostingermail-a; t=1612669870;
-        bh=pYnuhkPXjsLWofrVCnC38U/IKzqhlzj4udvOa6QX/dM=;
-        h=From:To:Cc:Subject:Date;
-        b=oTEP+zuHnLckdhVGrVDmfnCwk+s6ZeF0khxWGyCETuluwYfn3otXoy54ScaHUxp/E
-         ueUU82lU5nFTWTx8cYbnpvC8FlHVJEkgmbw2PQSrqs4nCEusSj0DDoAg/kue9dAq2r
-         U9obo5J5dDiEjuSFlj1EaS97WuWWFvuLzHWRUEDwkP9Za1GhM90uyopR0Ff8uDOK/a
-         rakD2hekK9rB+Z99GJ1mp10k2+WqW6z0/2QOCZWg4gZi/n1zLLGZTqp/BKhozzY/X6
-         J4h4FJVPKlLTcNZH23sW0QE4+4QHA8uZsWvY3QXQfg0/RfIBCuuREPFQQEm1seIC5l
-         q9ubh8y5gAJfA==
-From:   Colton Booth <colton@boothsoftware.ca>
-To:     dmitry.torokhov@gmail.com
-Cc:     colton@boothlinux.ca, Colton Booth <colton@boothsoftware.ca>,
-        Lyude Paul <lyude@redhat.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Vincent Huang <vincent.huang@tw.synaptics.com>,
-        Dennis Kadioglu <denk@eclipso.email>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Yussuf Khalil <dev@pp3345.net>, Ilya Katsnelson <me@0upti.me>,
-        Gaurav Agrawal <agrawalgaurav@gnome.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: synaptic - reverting dcb00fc799dc03fd320e123e4c81b3278c763ea5 because it breaks the touchpad for one guy on Reddit.
-Date:   Sat,  6 Feb 2021 22:50:21 -0500
-Message-Id: <20210207035024.69095-1-colton@boothsoftware.ca>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+        id S229529AbhBGGGe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 7 Feb 2021 01:06:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51436 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229445AbhBGGG1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 7 Feb 2021 01:06:27 -0500
+Received: from mail-qv1-xf32.google.com (mail-qv1-xf32.google.com [IPv6:2607:f8b0:4864:20::f32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A659C061756
+        for <linux-input@vger.kernel.org>; Sat,  6 Feb 2021 22:05:47 -0800 (PST)
+Received: by mail-qv1-xf32.google.com with SMTP id w11so5539452qvz.12
+        for <linux-input@vger.kernel.org>; Sat, 06 Feb 2021 22:05:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gaikai-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Iss+N32KFNjVdSLKy1lt/kkAK+n9VYPqtD+MolB/mHU=;
+        b=lB9IwFzuYmlRMkyyMzpevGHff/aE36SQ7msFZBlhWSpM3asl+sJju1MrZ9bRu1Rekw
+         Nuij729ELEhn/qiM0+fMjKCRJ6233IBOHStWd3Rioxbw3Rt+To5Njfw38a9haZ4uCJmm
+         kpLuxqUos3JxBsiYiZDP1mQ0iMl1/86UgDwmr7SogljZlBHMWMSX0VBMVdVet8yYTcmH
+         0ViNHhIBHEq4fkBi0CmGoMw1kvT52jVl2fMUCO1m03LBm8W/lV543Vt/lcackUImw8sX
+         QcS+422hpuJeyYe1NB4sRhNGBJdJxbe5CN7mZa4OogVcRsW4OP82ukYW+SsNHEG9TkzF
+         JF9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Iss+N32KFNjVdSLKy1lt/kkAK+n9VYPqtD+MolB/mHU=;
+        b=HcLdXnW0EcyWxJMXp3BKe37HYix4xpHF0GkhcgkpNUSXCNmKAv5+ZQpIQjAvrvXPYi
+         6OLk9JfYYsH3I/iyiTSInlXyLsSZl4ulQr0zBBaw0T+972LI/jmM/w9YE9IGWyJ6EDh5
+         ck5kZADZyjL8k1eh+MyH+0Ejy8FXMbi+X06vCJQ9ogxA5W9V7VehgdyChmj/1A9yK8zd
+         dUBx3EVyj9pucK6zPB7hzxXPURvxb83EU5eFJXHgaCR4Zt8J/wLzDdTs9notnF0CxwEP
+         OfsXhredk8JCKInq9Uwvu+4WDdVNZEdE0UJqf6GI5wXsgGf8dTGaQ11xWTOADBqa7V4b
+         7bYA==
+X-Gm-Message-State: AOAM531nXVs3l5zeuyAe8IGiidgTz0C8+iRZLa16sblxgm2kWBvVLlNZ
+        nhpauplb0JYrYr6qdFZcuUluQJ+3q13aUWdW25CgiA==
+X-Google-Smtp-Source: ABdhPJxQKarqyHiexqQMfqJefnsMnHJMQ6DOvVD7tXGuZheFhGd7SIfOXWFWqqUGLrR8i2/lC1xMwyW1ouEAvGLXPCQ=
+X-Received: by 2002:a0c:f582:: with SMTP id k2mr11188768qvm.55.1612677946496;
+ Sat, 06 Feb 2021 22:05:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210128172657.24516-1-roderick@gaikai.com> <CAO-hwJLi+twcmSFkbPHHJ23CpF5P=EORsVauyhwvGt9dGoq++A@mail.gmail.com>
+ <BSS2VIzUg6n3H_LHkC8vJVbSUi11kOgWTAPdurpx1i13T2qL1vJZg_rZIoX5ChX17cu3xu5k33VcKG52xWWTlDfFjyM_YcsTgitebXIsB8I=@protonmail.com>
+In-Reply-To: <BSS2VIzUg6n3H_LHkC8vJVbSUi11kOgWTAPdurpx1i13T2qL1vJZg_rZIoX5ChX17cu3xu5k33VcKG52xWWTlDfFjyM_YcsTgitebXIsB8I=@protonmail.com>
+From:   Roderick Colenbrander <roderick@gaikai.com>
+Date:   Sat, 6 Feb 2021 22:05:35 -0800
+Message-ID: <CANndSKn5dPXdujHKpr6zQ05=dtNGiaPKmF7LKD2kONy=urmkOA@mail.gmail.com>
+Subject: Re: [PATCH v5 00/13] HID: new driver for PS5 'DualSense' controller
+To:     =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Chris Ye <lzye@google.com>,
+        =?UTF-8?Q?Samuel_=C4=8Cavoj?= <sammko@sammserver.com>,
+        =?UTF-8?Q?Florian_M=C3=A4rkl?= <linux@florianmaerkl.de>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-I can't test myself since I don't have the correct hardware, BUT this change seems to work for him. I'm thinking he has an early version of the X1E which may use slightly different trackpad revision.
+Hi Barnab=C3=A1s and Benjamin,
 
-Signed-off-by: Colton Booth <colton@boothsoftware.ca>
----
- drivers/input/mouse/synaptics.c | 2 --
- 1 file changed, 2 deletions(-)
+On Fri, Feb 5, 2021 at 8:03 PM Barnab=C3=A1s P=C5=91cze <pobrn@protonmail.c=
+om> wrote:
+>
+> Hi
+>
+>
+> 2021. febru=C3=A1r 5., p=C3=A9ntek 18:01 keltez=C3=A9ssel, Benjamin Tisso=
+ires =C3=ADrta:
+>
+> > Hi,
+> >
+> > On Thu, Jan 28, 2021 at 6:27 PM Roderick Colenbrander
+> > roderick@gaikai.com wrote:
+> >
+> > > From: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> > > Hi,
+> > > This is hopefully the final revision of this patch series. Patch v4 h=
+ad
+> > > a rebase issue of a part of the sensors patch for which a part had mo=
+ved
+> > > to the end of the series. This has been fixed. I have double, no trip=
+le
+> > > checked the patches. Made sure they build using a 'rebase -x' script
+> > > and also ran the hid-tools tests on the final driver.
+> > > Thanks to everyone who provided feedback through the mailing list or =
+privately.
+> > > As suggested by Benjamin on the 'v4' version of this email, if you we=
+re
+> > > involed in the review or testing of this series and would like some c=
+redit,
+> > > please provide a reviewed-by or tested-by tag.
+> > > Changes since v4:
+> > >
+> > > -   Fixed bad rebase of ps_sensors_create, moved it to appropriate pa=
+tch.
+> >
+> > Barnab=C3=A1s, any comments on this version?
+> >
+> > As soon as I get your rev-by, we can apply the series, just in time for=
+ 5.12.
+> >
+>
+> Sorry for not responding earlier, I have been relatively busy lately. I h=
+ave taken
+> another look at the final source file. I have a couple comments for Roder=
+ick:
+>
+>  - `player_ids` array should be `static const` as far as I can see;
+>  - there are a couple devm_kasprintf() calls which are not checked;
+>  - power_supply_powers() call is not checked - I think either a comment
+>    should mention that it's not considered a fatal error, or checked
+>
+> There are also other more minor things, formatting inconsistencies, but I
+> cannot see anything else, so with the aforementioned things fixed, if you=
+ want:
+>
+> Reviewed-by: Barnab=C3=A1s P=C5=91cze <pobrn@protonmail.com>
+>
 
-diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
-index ffad142801b3..2d3f03921dbc 100644
---- a/drivers/input/mouse/synaptics.c
-+++ b/drivers/input/mouse/synaptics.c
-@@ -179,9 +179,7 @@ static const char * const smbus_pnp_ids[] = {
- 	"LEN0093", /* T480 */
- 	"LEN0096", /* X280 */
- 	"LEN0097", /* X280 -> ALPS trackpoint */
--	"LEN0099", /* X1 Extreme Gen 1 / P1 Gen 1 */
- 	"LEN009b", /* T580 */
--	"LEN0402", /* X1 Extreme Gen 2 / P1 Gen 2 */
- 	"LEN200f", /* T450s */
- 	"LEN2044", /* L470  */
- 	"LEN2054", /* E480 */
--- 
-2.24.3 (Apple Git-128)
+Thanks for the additional feedback. I fixed a few additional checkpath
+warnings and also included these other fixes. I will send out a v6
+series tomorrow morning when I'm fresh :)
 
+Thanks,
+Roderick
