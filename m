@@ -2,82 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E6413138C2
-	for <lists+linux-input@lfdr.de>; Mon,  8 Feb 2021 17:03:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AF67313BFB
+	for <lists+linux-input@lfdr.de>; Mon,  8 Feb 2021 18:59:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232118AbhBHQCB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Feb 2021 11:02:01 -0500
-Received: from mga02.intel.com ([134.134.136.20]:28252 "EHLO mga02.intel.com"
+        id S235108AbhBHR7g (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Feb 2021 12:59:36 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45784 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232708AbhBHQBv (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 8 Feb 2021 11:01:51 -0500
-IronPort-SDR: Y6mwRYz3aEgGmlXqC4jfG5IOzgONhOFXylht1gjMxOl9kMesE2cRfXRR4HoKKBln8rb+VDed9K
- C/0jY5umwpXQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9889"; a="168856926"
-X-IronPort-AV: E=Sophos;i="5.81,162,1610438400"; 
-   d="scan'208";a="168856926"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2021 08:00:02 -0800
-IronPort-SDR: c7CLfHt80+yA9azdHJbQbf/tW/fO0BK07Yg65VDZyucPJhA4OLtCCZecbKygHGqrQD3ZgcMgHn
- PIo1yhQwaBIA==
-X-IronPort-AV: E=Sophos;i="5.81,162,1610438400"; 
-   d="scan'208";a="509511001"
-Received: from eshan-mobl.amr.corp.intel.com ([10.213.174.93])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2021 08:00:01 -0800
-Message-ID: <37cf77123be66e14f517a59576cdaba9c5787d0d.camel@linux.intel.com>
-Subject: Re: [PATCH] HID: intel-ish-hid: ipc: Add Tiger Lake H PCI device ID
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     You-Sheng Yang <vicamo.yang@canonical.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Mon, 08 Feb 2021 08:00:00 -0800
-In-Reply-To: <20210204083315.122952-1-vicamo.yang@canonical.com>
-References: <20210204083315.122952-1-vicamo.yang@canonical.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+        id S235038AbhBHR6w (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 8 Feb 2021 12:58:52 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D75F964E54;
+        Mon,  8 Feb 2021 17:58:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1612807091;
+        bh=vGAiZrUwT+WU6ASXGFHKVVJF1pYjRAtSiGzeESLKqkY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=imKYjhaeIpXbs5T3RwXb+OfEc67RCXvSQrQSSHtibHAMsvP9HbGAbXz1A+NVNv/cY
+         lCkmS9fUn/+5u/vxZF3EkqMJHVueiiwWKtPXPIF8Tcmdx08ECKkMDG5ftBYtZzXSk1
+         X+/RRJzcFtD5uu3sQuO7kR3jH84StvUE2NxYjWWaoMYe30Uv0oKH8GL1LvO+DZVKVM
+         9wiExcHc42ZYVaa/We83bo73m77OC/UUJSlyyBhRm7mk7srlgZ76ZeE2MVCbNDCQEG
+         DVGAJVBFFaIeD0MMeckOsYZO7Z5KLsC8ATuT2yzYUDRruGqzPaiYnS7XRse/uyphFa
+         SSiMQLThDtaPQ==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@somainline.org>,
+        Bastien Nocera <hadess@hadess.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 03/36] Input: goodix - add support for Goodix GT9286 chip
+Date:   Mon,  8 Feb 2021 12:57:33 -0500
+Message-Id: <20210208175806.2091668-3-sashal@kernel.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210208175806.2091668-1-sashal@kernel.org>
+References: <20210208175806.2091668-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 2021-02-04 at 16:33 +0800, You-Sheng Yang wrote:
-> Added Tiger Lake H PCI device ID to the supported device list.
-> 
-> Signed-off-by: You-Sheng Yang <vicamo.yang@canonical.com>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 
-> ---
->  drivers/hid/intel-ish-hid/ipc/hw-ish.h  | 1 +
->  drivers/hid/intel-ish-hid/ipc/pci-ish.c | 1 +
->  2 files changed, 2 insertions(+)
-> 
-> diff --git a/drivers/hid/intel-ish-hid/ipc/hw-ish.h
-> b/drivers/hid/intel-ish-hid/ipc/hw-ish.h
-> index 1fb294ca463e..21b0e6123754 100644
-> --- a/drivers/hid/intel-ish-hid/ipc/hw-ish.h
-> +++ b/drivers/hid/intel-ish-hid/ipc/hw-ish.h
-> @@ -27,6 +27,7 @@
->  #define CMP_H_DEVICE_ID		0x06FC
->  #define EHL_Ax_DEVICE_ID	0x4BB3
->  #define TGL_LP_DEVICE_ID	0xA0FC
-> +#define TGL_H_DEVICE_ID		0x43FC
->  
->  #define	REVISION_ID_CHT_A0	0x6
->  #define	REVISION_ID_CHT_Ax_SI	0x0
-> diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-> b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-> index c6d48a8648b7..6dea657b7b15 100644
-> --- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-> +++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-> @@ -37,6 +37,7 @@ static const struct pci_device_id ish_pci_tbl[] = {
->  	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, CMP_H_DEVICE_ID)},
->  	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, EHL_Ax_DEVICE_ID)},
->  	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, TGL_LP_DEVICE_ID)},
-> +	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, TGL_H_DEVICE_ID)},
->  	{0, }
->  };
->  MODULE_DEVICE_TABLE(pci, ish_pci_tbl);
+[ Upstream commit 2dce6db70c77bbe639f5cd9cc796fb8f2694a7d0 ]
+
+The Goodix GT9286 is a capacitive touch sensor IC based on GT1x.
+
+This chip can be found on a number of smartphones, including the
+F(x)tec Pro 1 and the Elephone U.
+
+This has been tested on F(x)Tec Pro1 (MSM8998).
+
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Link: https://lore.kernel.org/r/20210109135512.149032-2-angelogioacchino.delregno@somainline.org
+Reviewed-by: Bastien Nocera <hadess@hadess.net>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/input/touchscreen/goodix.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
+index 6612f9e2d7e83..45113767db964 100644
+--- a/drivers/input/touchscreen/goodix.c
++++ b/drivers/input/touchscreen/goodix.c
+@@ -157,6 +157,7 @@ static const struct goodix_chip_id goodix_chip_ids[] = {
+ 	{ .id = "5663", .data = &gt1x_chip_data },
+ 	{ .id = "5688", .data = &gt1x_chip_data },
+ 	{ .id = "917S", .data = &gt1x_chip_data },
++	{ .id = "9286", .data = &gt1x_chip_data },
+ 
+ 	{ .id = "911", .data = &gt911_chip_data },
+ 	{ .id = "9271", .data = &gt911_chip_data },
+@@ -1445,6 +1446,7 @@ static const struct of_device_id goodix_of_match[] = {
+ 	{ .compatible = "goodix,gt927" },
+ 	{ .compatible = "goodix,gt9271" },
+ 	{ .compatible = "goodix,gt928" },
++	{ .compatible = "goodix,gt9286" },
+ 	{ .compatible = "goodix,gt967" },
+ 	{ }
+ };
+-- 
+2.27.0
 
