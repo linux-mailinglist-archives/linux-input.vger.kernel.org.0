@@ -2,161 +2,108 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 405953134FC
-	for <lists+linux-input@lfdr.de>; Mon,  8 Feb 2021 15:22:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F75631364B
+	for <lists+linux-input@lfdr.de>; Mon,  8 Feb 2021 16:09:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232680AbhBHOVi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Feb 2021 09:21:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59712 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232684AbhBHOTW (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 8 Feb 2021 09:19:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1612793873;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=qtey4c35yoJG8YcPRW/vRCJjpPgDfPUO2mEimGsvBm4=;
-        b=VfGILiM1WUID0ftzpBXHU+E8S1RaOSYOyW75v6aXbtX3i4YVZSHbm3eh7vjg0HHU/kUhK5
-        D1hjs4C27YEvB1GpxnpTohKtZp3Hh0BnJKIfBSVBfQxlabFJ9l0IKGamlTpylsPnRYYkeO
-        4MpRM79Mg2XmOaja4XFLFqI4lPY1uA4=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-379-mUWI2-geNVmmYolaqps9Lw-1; Mon, 08 Feb 2021 09:17:50 -0500
-X-MC-Unique: mUWI2-geNVmmYolaqps9Lw-1
-Received: by mail-ed1-f69.google.com with SMTP id g2so13424168edq.14
-        for <linux-input@vger.kernel.org>; Mon, 08 Feb 2021 06:17:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=qtey4c35yoJG8YcPRW/vRCJjpPgDfPUO2mEimGsvBm4=;
-        b=Sh8es/PG7LH0V1W7riqH4HI8pjw5SqDWPJt8UihhAkUf5YFKevAXn+MeZuLYJQdZj9
-         GWx5ehGru5WNQKgl5gfSGOvQZG8z+Q+CPTxilfCGEqPPLcmSzfeceOECMIDUONznsuq7
-         PqtpVqsxmwlBBmDgmPAZ7QLegDruiUmGCKVx28TqQapEfzJNuBnGAOjJWIIGjvEvPmQX
-         9fQfpFdmmDjQnCWoyL4owDlfIBIzuUyKmwLwu2pFJtolhg0a1ksNj5jZ8uwERrqqGaGj
-         KMF6b6Kd9D/X1bGJBjXdDwSMbIBYbhPGIAE/6OnsNfJqrgp/QOTbvWKqNDQUfyTOer7p
-         Anmg==
-X-Gm-Message-State: AOAM532qGJaps4A2jVCfRxapTlimP8B/6sYl7bD+lmkI8+LUIMYvJny7
-        IcFl7q0BvhtBfoZOX1zag0KjB8qzlsCcqgMUH3nvcV5wzXudN05n2+acGxXMYDcyaqBj+HKXe/8
-        rAUwggMOCMlSEQz2R0abOQgg=
-X-Received: by 2002:a17:906:f2cd:: with SMTP id gz13mr17003846ejb.83.1612793869562;
-        Mon, 08 Feb 2021 06:17:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzsMmdGtqoc9KY6ZRHk5FY8g0FX5/ZJoKFmLev+/XQ8P1SHy5fuuFfWQRfDMxZxJKXfr49p1A==
-X-Received: by 2002:a17:906:f2cd:: with SMTP id gz13mr17003824ejb.83.1612793869357;
-        Mon, 08 Feb 2021 06:17:49 -0800 (PST)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id e16sm3952235eja.85.2021.02.08.06.17.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Feb 2021 06:17:48 -0800 (PST)
-Subject: Re: [PATCH 1/2] iio: documentation: Document proximity sensor label
- use
-To:     Bastien Nocera <hadess@hadess.net>,
-        Jonathan Cameron <jic23@kernel.org>
-Cc:     linux-input@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        linux-iio@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mark Pearson <mpearson@lenovo.com>
-References: <20210207123720.8357-1-hdegoede@redhat.com>
- <2b7a0374f4af5e2113c1d209246b506d7f42ae29.camel@hadess.net>
- <676c9b71-ffc6-343e-f4ef-b0ec73fdb906@redhat.com>
- <8c07c3f3515088b1c5a8ef6c45574233ca371590.camel@hadess.net>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <77eb5419-fbb6-ba7d-5e57-7886815dc0e9@redhat.com>
-Date:   Mon, 8 Feb 2021 15:17:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S232593AbhBHPI4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Feb 2021 10:08:56 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:54436 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232185AbhBHPHa (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Feb 2021 10:07:30 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 118F3T42009999;
+        Mon, 8 Feb 2021 15:06:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=qkErgRPWmbD5fYUGygjT0j3rMadLZ7aMXhTabVACc10=;
+ b=tCgIt9GDJM01QMd2841PQOOtw2KQdKDNyaPvaPUR1mga6FwiOn18pcPfaJOL3sMIaasj
+ cKsLEZnZr48wzy+vZ18lqGEoY+qT28VUvdqhHYblYAi2Y8YcbjOHJ4oc2eTg2VIgvWoi
+ Zv5hHlqs9JIFbgw38epRXP4ZE96RK2klYOegG7Gt96Z/cuogWMR4rsJRI9V2JMgE14A2
+ Tj/7K744+ZNDhuXDtwY9Mf50G4PC0zPY5lDQKBoSVzgGTPD9wvGqDLJReiNWZNhHTzZd
+ AWzIDJKckZHsFsfbgcx0+SquAXhNSr5/WgscDSeu7HJzlFwBikQpnfVbJ7IyaIZx8JD/ dA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2130.oracle.com with ESMTP id 36hjhqm6we-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 08 Feb 2021 15:06:40 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 118F0drM014587;
+        Mon, 8 Feb 2021 15:06:38 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by userp3020.oracle.com with ESMTP id 36j4vq0akb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 08 Feb 2021 15:06:38 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 118F6JSH002661;
+        Mon, 8 Feb 2021 15:06:19 GMT
+Received: from kadam (/102.36.221.92)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 08 Feb 2021 07:06:18 -0800
+Date:   Mon, 8 Feb 2021 18:06:11 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Colin King <colin.king@canonical.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Nestor Lopez Casado <nlopezcasad@logitech.com>,
+        linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: logitech-dj: fix unintentional integer overflow on
+ left shift
+Message-ID: <20210208150610.GI2696@kadam>
+References: <20210207232120.8885-1-colin.king@canonical.com>
 MIME-Version: 1.0
-In-Reply-To: <8c07c3f3515088b1c5a8ef6c45574233ca371590.camel@hadess.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210207232120.8885-1-colin.king@canonical.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9888 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 adultscore=0
+ mlxlogscore=999 mlxscore=0 suspectscore=0 malwarescore=0 phishscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102080103
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9888 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 impostorscore=0
+ priorityscore=1501 bulkscore=0 suspectscore=0 mlxscore=0 phishscore=0
+ lowpriorityscore=0 mlxlogscore=999 clxscore=1011 spamscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2102080103
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
-
-On 2/8/21 3:16 PM, Bastien Nocera wrote:
-> On Mon, 2021-02-08 at 14:50 +0100, Hans de Goede wrote:
->> Hi,
->>
->> On 2/8/21 2:40 PM, Bastien Nocera wrote:
->>> On Sun, 2021-02-07 at 13:37 +0100, Hans de Goede wrote:
->>>> Add an entry to Documentation/ABI/testing/sysfs-bus-iio for
->>>> the new device and channel label sysfs-attribute support.
->>>>
->>>> And document the standardized labels which may be used with
->>>> proximity
->>>> sensors to hint userspace about the intended use of the sensor.
->>>>
->>>> Using labels to differentiate between the multiple proximity
->>>> sensors
->>>> which a modern laptop/tablet may have was discussed in this
->>>> thread:
->>>> https://lore.kernel.org/linux-iio/9f9b0ff6-3bf1-63c4-eb36-901cecd7c4d9@redhat.com/
->>>>
->>>> As mentioned the "proximity-wifi*" labels are already being used
->>>> in
->>>> this manner on some chromebooks, see e.g.:
->>>> arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
->>>> arch/arm64/boot/dts/qcom/sc7180-trogdor-lte-sku.dtsi
->>>>
->>>> And the "proximity-palmrest" and "proximity-lap" labels are
->>>> intended
->>>> to be used with the lap and palmrest sensors found in recent
->>>> Lenovo
->>>> ThinkPad models.
->>>
->>> Both patches in the series look fine to me.
->>
->> Thank you for checking.
->>
->>> Is IIO the interface you plan on using to implement the lap
->>> detection
->>> for the thinkpad_acpi driver?
->>
->> ATM both the lap detection and the palmrest proximity detection are
->> already available using thinkpad_acpi specific sysfs attributes:
->>
->> [hans@x1 linux]$ cat
->> /sys/bus/platform/devices/thinkpad_acpi/dytc_lapmode 
->> 0
->> [hans@x1 linux]$ cat
->> /sys/bus/platform/devices/thinkpad_acpi/palmsensor 
->> 1
->>
->> Which I think you are already aware of ?
+On Sun, Feb 07, 2021 at 11:21:20PM +0000, Colin King wrote:
+> From: Colin Ian King <colin.king@canonical.com>
 > 
-> I didn't know those actually landed upstream (or I didn't remember), I
-> was waiting on the SW_LAP_PROXIMITY input device method to land:
-> https://gitlab.freedesktop.org/hadess/power-profiles-daemon/-/merge_requests/42
+> Shifting the integer value 1 is evaluated using 32-bit rithmetic
+> and then used in an expression that expects a 64-bit value, so
+> there is potentially an integer overflow. Fix this by using th
+> BIT_ULL macro to perform the shift and avoid the overflow.
 > 
-> That's abandoned, right?
-
-Yes that has been abandoned, sorry.
-
->>   These will not be going
->> anywhere since dropping these would be a userspace ABI break.
->>
->> With that said, yes the plan is to extend the thinkpad_acpi driver
->> to also report lap / palmrest proximity through IIO using these
->> labels.
+> Addresses-Coverity: ("Uninitentional integer overflow")
+> Fixes: 534a7b8e10ec ("HID: Add full support for Logitech Unifying receivers")
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> ---
+>  drivers/hid/hid-logitech-dj.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> OK, good to know.
-> 
-> I've filed:
-> https://gitlab.freedesktop.org/hadess/iio-sensor-proxy/-/issues/321
-> so we can eventually export more than a single proximity sensor through
-> the D-Bus interface in the future.
+> diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+> index 45e7e0bdd382..747f41be0603 100644
+> --- a/drivers/hid/hid-logitech-dj.c
+> +++ b/drivers/hid/hid-logitech-dj.c
+> @@ -1035,7 +1035,7 @@ static void logi_dj_recv_forward_null_report(struct dj_receiver_dev *djrcv_dev,
+>  	memset(reportbuffer, 0, sizeof(reportbuffer));
+>  
+>  	for (i = 0; i < NUMBER_OF_HID_REPORTS; i++) {
+                        ^^^^^^^^^^^^^^^^^^^^^
+This is 32, so it can't be undefined.
 
-Ok.
+> -		if (djdev->reports_supported & (1 << i)) {
+> +		if (djdev->reports_supported & BIT_ULL(i)) {
+>  			reportbuffer[0] = i;
+>  			if (hid_input_report(djdev->hdev,
+>  					     HID_INPUT_REPORT,
 
-Regards,
-
-Hans
-
+regards,
+dan carpenter
