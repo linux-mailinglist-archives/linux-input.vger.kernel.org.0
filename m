@@ -2,35 +2,35 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1876D313C87
-	for <lists+linux-input@lfdr.de>; Mon,  8 Feb 2021 19:08:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD79B313CAC
+	for <lists+linux-input@lfdr.de>; Mon,  8 Feb 2021 19:09:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235299AbhBHSHg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Feb 2021 13:07:36 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47386 "EHLO mail.kernel.org"
+        id S232391AbhBHSIa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Feb 2021 13:08:30 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49420 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232778AbhBHSER (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 8 Feb 2021 13:04:17 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B916B64EED;
-        Mon,  8 Feb 2021 18:00:01 +0000 (UTC)
+        id S235431AbhBHSGU (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 8 Feb 2021 13:06:20 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 622EB64EAC;
+        Mon,  8 Feb 2021 18:00:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1612807202;
+        s=k20201202; t=1612807209;
         bh=4ybdrJVYeo2/UDf8Lh/IUnsF4PV76/uempj2Vv0zRac=;
         h=From:To:Cc:Subject:Date:From;
-        b=nEUnIbkvwiV6UYdptzLceaaQHZL7NtmKd6C1ylRo0zNCg/gcSteEL75Y59fFccsSW
-         kwRyAcHBoGdbLdY96DG5Ik2uMLRsvv6qjE+1YiK6lKyzYHFpdNd1HpzVziAeKHbhx4
-         HOEbRlt4A/96H+NQucbnUsthhyENP7KiEawVLSSEIHp5L4as6A25npPmQW6mNgDa6o
-         WxSYZvRVv74m0a4t+aJMQed2dJZDWWD2t7T2H+KGIUAPV59zHGfyVbELVA6mTy4njF
-         6ZTIpIPGAcrp54pjDmSpH+dkqdyEwi+PC8CSqhC/IaqNCiTDD9ja3R2y3OLB/6yAPz
-         5fXA1CNoq8rzw==
+        b=oYPPeJdeDwReCCpMAE98zoZIunWi10+SPBYmP9WZV9Q1IlLjQm6XlOso5ex+cA3dv
+         Y++cNPP5O2Tn6xxrCew470NZgcG9UiI/7kayHEgfTUny4SgZg1qrz26cUp0l7Q/2oU
+         9EW6pM6AFngVLPKrPFBU/2iLflPB74oE1SkFS6B9o/eDFia1cwAfJ0PR2BYSIke/YE
+         AH4UjG2TAlhp99GMOG3nFopDHpppXUi71Hu7Dn/1lElbH/jv/VtdhNZBBoJpmsXv6G
+         zI4eboEHfGmAu2FYK/5X0BX+05kSii06uWCZIkpHBpruYjZyA/6YkvRQLze+O0yAZy
+         pxF88N56yMMeA==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Benjamin Valentin <benpicco@googlemail.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 1/4] Input: xpad - sync supported devices with fork on GitHub
-Date:   Mon,  8 Feb 2021 12:59:57 -0500
-Message-Id: <20210208180000.2092497-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 1/2] Input: xpad - sync supported devices with fork on GitHub
+Date:   Mon,  8 Feb 2021 13:00:06 -0500
+Message-Id: <20210208180007.2092581-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 X-stable: review
