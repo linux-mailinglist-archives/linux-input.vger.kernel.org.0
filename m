@@ -2,108 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B099312B77
-	for <lists+linux-input@lfdr.de>; Mon,  8 Feb 2021 09:08:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33972312BB9
+	for <lists+linux-input@lfdr.de>; Mon,  8 Feb 2021 09:33:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229715AbhBHIIm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Feb 2021 03:08:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20899 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229503AbhBHIIh (ORCPT
+        id S230087AbhBHIaN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Feb 2021 03:30:13 -0500
+Received: from smtp-18d.idc2.mandic.com.br ([177.70.124.135]:39111 "EHLO
+        smtp-18.idc2.mandic.com.br" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229894AbhBHIaI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 8 Feb 2021 03:08:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1612771622;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Lpxpa2kYKZq2T7KOylkeH5GurcJpKBZ4r2O2D2ivH5w=;
-        b=hYs4dQlaFIlQMOkTHz5e80qAOFZcpIJUdws49X084jY+aRJUu1RQX/5Cgpw3t1a+tY/Zoi
-        dZ+KHHoIMTWRlxwfGzFDgzSFVWcAh8qSOdq4kuo7Nt3O4NuS09Vfp0Wn+cvOp2MNZwsdtn
-        Gd/SwTefaileItBLoGPoocZftB8mwaU=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-326-e8vnnVoYM0yGpEW77MHr8g-1; Mon, 08 Feb 2021 03:07:00 -0500
-X-MC-Unique: e8vnnVoYM0yGpEW77MHr8g-1
-Received: by mail-pj1-f69.google.com with SMTP id e11so7473658pjj.8
-        for <linux-input@vger.kernel.org>; Mon, 08 Feb 2021 00:07:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Lpxpa2kYKZq2T7KOylkeH5GurcJpKBZ4r2O2D2ivH5w=;
-        b=XzHpzPrWPXIRZdHnxr/U2VgXQRejlL87sSWUfjb08H2aRawht1k/VimtF01qz5oOpl
-         r7NRr45WqWbwlkLUjdiERz6lLy3UaNPWkTIffevveBB7cq72rOF0VBrI3iEZQa9UjCo2
-         zKTXavWMSZ2dSNw90iTi3wNjt1BGXD1qVzoYXOhCeur/9fTIGItMTNZrszSIzA7vXmpb
-         52egHs9PaVvIt2EE+2ErFditDgInNmQE80ALWii0p/tSciSRWRGnhSPMM3EEJyDLotD7
-         06foHt0f6oYMqTdH04Vdge9ZbdeZIQC9hQsILUpwPYcqc0oM8/Cznol3slru2M4+v827
-         4gVQ==
-X-Gm-Message-State: AOAM533u/kcWVLMIghxDZaPgXap5wKU1vWC6rL/rlxdr/7buNgdcdTpj
-        E3EIYbCpgT/C3sPlsiBIABilzvCW90K88A/EABvGZJVD8fATObLNPvzUgFRP6a7VFsm0GOrkRFY
-        LaSkc4gG8eEBsGDlFfbEUkf5MbIdbbYytJ73paJ4=
-X-Received: by 2002:a62:e205:0:b029:1dd:b063:8872 with SMTP id a5-20020a62e2050000b02901ddb0638872mr3382151pfi.44.1612771619443;
-        Mon, 08 Feb 2021 00:06:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzAQDqeIL3uKwvgCr3sK0XFgd6KHtFGxwetDAWekwnkU31fTiEIkvaVcBGNAf2zljmwF8QuxcO0flw8wFkbWFg=
-X-Received: by 2002:a62:e205:0:b029:1dd:b063:8872 with SMTP id
- a5-20020a62e2050000b02901ddb0638872mr3382143pfi.44.1612771619207; Mon, 08 Feb
- 2021 00:06:59 -0800 (PST)
+        Mon, 8 Feb 2021 03:30:08 -0500
+Received: by smtp-18.smtp.mandic.prv (Postfix, from userid 491)
+        id 5BC52607E9FB; Mon,  8 Feb 2021 05:29:22 -0300 (-03)
+Received: from smtp-18.idc2.mandic.com.br (ifsmtp2 [192.168.1.38])
+        by smtp-18.smtp.mandic.prv (Postfix) with ESMTPS id C1044607AAA4;
+        Mon,  8 Feb 2021 05:29:16 -0300 (-03)
+Received: from User (unknown [52.235.38.23])
+        by smtp-18.smtp.mandic.prv (Postfix) with ESMTPA id 78375465E268;
+        Mon,  8 Feb 2021 05:26:42 -0300 (-03)
+Reply-To: <ms.reem@yandex.com>
+From:   "Ms. Reem" <stefy@macrometrica.com.br>
+Subject: Re:reply
+Date:   Mon, 8 Feb 2021 08:29:15 -0000
 MIME-Version: 1.0
-References: <20210208075205.3784059-1-nickel@altlinux.org>
-In-Reply-To: <20210208075205.3784059-1-nickel@altlinux.org>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Mon, 8 Feb 2021 09:06:48 +0100
-Message-ID: <CAO-hwJJpUj=+mpqQ7eMtbtwX6CPAkt2ZpDnpmX9GUDo1EuEOiw@mail.gmail.com>
-Subject: Re: [PATCH] Input: elantech - add LEN2146 to SMBus blacklist for
- ThinkPad L13 Gen2
-To:     Nikolai Kostrigin <nickel@altlinux.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+        charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+X-Mandic-Auth: DYB6x5JcyVot9snxiAasWC73cfc93V+pC3vUrorm87+eXbqAUeEHL0ZNPgpM50IYQeUbiYx0PkMIK2oavHcOOA==
+X-Mandic-Sender: stefy@macrometrica.com.br
+Message-Id: <20210208082916.C1044607AAA4@smtp-18.smtp.mandic.prv>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Nikolai,
+Hello,
 
-On Mon, Feb 8, 2021 at 9:01 AM Nikolai Kostrigin <nickel@altlinux.org> wrote:
->
-> ThinkPad L13 Gen2 has both touchpad and trackpoint.
-> PNP: LEN2146 PNP0f13
-> With the default protocol (elantech-smbus) trackpoint is not operating,
-> while touchpad does. Changing to elantech renders both operational.
->
-> Signed-off-by: Nikolai Kostrigin <nickel@altlinux.org>
+My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
+and Petroleum" also "Minister of State for International Cooperation"
+in UAE. I write to you on behalf of my other "three (3) colleagues"
+who has approved me to solicit for your "partnership in claiming of
+{us$47=Million}" from a Financial Home in Cambodia on their behalf and
+for our "Mutual Benefits".
 
-Instead of downgrading the capabilities of the touchpad, couldn't we
-fix the trackpoint issues?
+The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
+deal with Cambodian/Vietnam Government within 2013/2014, however, we
+don't want our government to know about the fund. If this proposal
+interests you, let me know, by sending me an email and I will send to
+you detailed information on how this business would be successfully
+transacted. Be informed that nobody knows about the secret of this
+fund except us, and we know how to carry out the entire transaction.
+So I am compelled to ask, that you will stand on our behalf and
+receive this fund into any account that is solely controlled by you.
 
-I am surprised elantech doesn't work with the trackpoint, because I am
-pretty sure I wrote patches in that regard. Which kernel version have
-you been testing?
+We will compensate you with 15% of the total amount involved as
+gratification for being our partner in this transaction. Reply to:
+ms.reem@yandex.com
 
-Cheers,
-Benjamin
-
-> ---
->  drivers/input/mouse/elantech.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/input/mouse/elantech.c b/drivers/input/mouse/elantech.c
-> index 90f8765f9efc..c4c3fa5828d8 100644
-> --- a/drivers/input/mouse/elantech.c
-> +++ b/drivers/input/mouse/elantech.c
-> @@ -1776,6 +1776,7 @@ static const char * const i2c_blacklist_pnp_ids[] = {
->          * These are known to not be working properly as bits are missing
->          * in elan_i2c.
->          */
-> +       "LEN2146", /* ThinkPad L13 Gen2 */
->         NULL
->  };
->
-> --
-> 2.29.2
->
-
+Regards,
+Ms. Reem.
