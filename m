@@ -2,81 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3523314111
-	for <lists+linux-input@lfdr.de>; Mon,  8 Feb 2021 21:57:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54F13314BAA
+	for <lists+linux-input@lfdr.de>; Tue,  9 Feb 2021 10:35:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233363AbhBHU4p (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Feb 2021 15:56:45 -0500
-Received: from mx2.suse.de ([195.135.220.15]:40120 "EHLO mx2.suse.de"
+        id S229760AbhBIJad (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 9 Feb 2021 04:30:33 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52430 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230305AbhBHUyp (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 8 Feb 2021 15:54:45 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id BAD3EAE57;
-        Mon,  8 Feb 2021 20:53:54 +0000 (UTC)
-Message-ID: <5c69d62a7b4479d184b0ee8b8e5168e43cd494a0.camel@suse.de>
-Subject: Re: [PATCH v7 11/11] pwm: Add Raspberry Pi Firmware based PWM bus
-From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To:     u.kleine-koenig@pengutronix.de
-Cc:     f.fainelli@gmail.com, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        wahrenst@gmx.net, linux-input@vger.kernel.org,
-        dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org,
-        devel@driverdev.osuosl.org, p.zabel@pengutronix.de,
-        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
-        linux-clk@vger.kernel.org, sboyd@kernel.org,
-        linux-rpi-kernel@lists.infradead.org, bgolaszewski@baylibre.com,
-        andy.shevchenko@gmail.com
-Date:   Mon, 08 Feb 2021 21:53:52 +0100
-In-Reply-To: <20210118123244.13669-12-nsaenzjulienne@suse.de>
-References: <20210118123244.13669-1-nsaenzjulienne@suse.de>
-         <20210118123244.13669-12-nsaenzjulienne@suse.de>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-oVNnO66HmWqHkepYu506"
-User-Agent: Evolution 3.38.3 
+        id S229981AbhBIJ22 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 9 Feb 2021 04:28:28 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id ECE2164E26;
+        Tue,  9 Feb 2021 09:27:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1612862868;
+        bh=5sfDL0nQFDumSda8/jOvRYwCgWHbyu8kZmDo58u1ONs=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=I3OEjoPQ1nwluox08V3dl8/1Ql4tOmTad9N6twxUdvROnjtNMfiEP49nH0Xo1aKU7
+         ZxHVopWsT5Ti5KsTvk08U3xd/ta0QfiHwNB2h6zESclYfgEvLsmWz46cYQSPVfrvlZ
+         K2sk+ojl2afE9Wd0d2qgp9/XPVHkig3waMkR57sXZyo3eN9WNBy+91HcIp5qak8IuE
+         ZosFzkG1mygIyThjjlLxImuWTEiyFkX0u1xScu+5NPAIsTpZQzczrvRxMiEC1SZu8C
+         0teLOPDKkRJYwCXkmIuJfSmnIJ/VI4gIWIBsbyQCPRxFHv78VKS3czf+Y9+k/exmCc
+         lJMq+gDyJr7ow==
+Date:   Tue, 9 Feb 2021 10:27:44 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+cc:     You-Sheng Yang <vicamo.yang@canonical.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: intel-ish-hid: ipc: Add Tiger Lake H PCI device
+ ID
+In-Reply-To: <37cf77123be66e14f517a59576cdaba9c5787d0d.camel@linux.intel.com>
+Message-ID: <nycvar.YFH.7.76.2102091027350.28696@cbobk.fhfr.pm>
+References: <20210204083315.122952-1-vicamo.yang@canonical.com> <37cf77123be66e14f517a59576cdaba9c5787d0d.camel@linux.intel.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Mon, 8 Feb 2021, Srinivas Pandruvada wrote:
 
---=-oVNnO66HmWqHkepYu506
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> > Added Tiger Lake H PCI device ID to the supported device list.
+> > 
+> > Signed-off-by: You-Sheng Yang <vicamo.yang@canonical.com>
+> Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
-On Mon, 2021-01-18 at 13:32 +0100, Nicolas Saenz Julienne wrote:
-> Adds support to control the PWM bus available in official Raspberry Pi
-> PoE HAT. Only RPi's co-processor has access to it, so commands have to
-> be sent through RPi's firmware mailbox interface.
->=20
-> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
->=20
-> ---
+Applied, thanks.
 
-ping :)
-
-Regards,
-Nicolas
-
-
---=-oVNnO66HmWqHkepYu506
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAmAhpOEACgkQlfZmHno8
-x/5Kegf+M/oVJydAlzbsZjeRxmVcRPlY/aU1YOdpfuIQyx991ny1JYSYaGMZ8b9g
-lJ4nBwIeNjAbsPMc0Th89250D6UkOhRb5L7C6grd0B++Ue01IMyQ2mA8UzxxhzYI
-aP/E3P1iwlnTpd/UbvgBr2xd2XBBEYEZ+CEeQohVX51Z/En4bEofLxQloVCwrAQ9
-z+4AWH9ZQDX3ItJ1zmdJGzmNuZjuNQV2igYjp0UuWY01wIkeau20FxDqFMweN9ul
-xMKBZ8zaX3T85TLQcYtj29KNQQGvUwV5xs8P36KJ5OfVUw4Ay4M5mSpb6nHb0GiU
-9YqIJIOQ+gzZH+tFpYr93phGwLoI7Q==
-=bPaD
------END PGP SIGNATURE-----
-
---=-oVNnO66HmWqHkepYu506--
+-- 
+Jiri Kosina
+SUSE Labs
 
