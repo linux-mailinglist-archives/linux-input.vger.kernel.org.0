@@ -2,64 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9ABA315958
-	for <lists+linux-input@lfdr.de>; Tue,  9 Feb 2021 23:24:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 02EF23159B8
+	for <lists+linux-input@lfdr.de>; Tue,  9 Feb 2021 23:55:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233500AbhBIWWO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 9 Feb 2021 17:22:14 -0500
-Received: from [20.39.40.203] ([20.39.40.203]:50631 "EHLO optinix.in"
-        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
-        id S233932AbhBIWKw (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 9 Feb 2021 17:10:52 -0500
-dkim-signature: v=1; a=rsa-sha256; d=digitalsol.in; s=dkim;
-        c=relaxed/relaxed; q=dns/txt; h=From:Reply-To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
-        bh=wK2neTcOXNiSQ+RBxrnFed+mRrGUU/ndLGEgvo8IMCc=;
-        b=JFt3cjfr2gf0oZFNAIkKMxcz4dJD/YGkc0fGvOoSd3DydZ6om7JzTU837vBFVq1NIPU0D2QA5BLHZXE1+7cBmkJlbZjYCUFmJkkaBVbP88e4KHnDVRcctmBLIZ1pL5VerRqjcciKkL4DSuyXFJlGk3Z0CRoskvUoLBM7ZhpxLeqIU2BKsbHQXJZ1h2qHQhaHiD+VrGx+bGKjZzbhmRvwLDQIByq6jRcjht5MzYCcxpzOzp/k+Dev9dQj7B
-        WId68CyP4XonlI4wIMRo1xiGfUtKZ+P3cZo2ejPWBjr+ynq3dK3OxibTTEKfmOc5W1zmJFMAPQ+ZKxsa3M4d1PiYxHmg==
-Received: from User (Unknown [52.231.31.5])
-        by optinix.in with ESMTP
-        ; Mon, 1 Feb 2021 08:50:14 +0000
-Message-ID: <D474448D-A325-42CC-A881-8334C6C84BA7@optinix.in>
-Reply-To: <ms.reem@yandex.com>
-From:   "Ms. Reem" <support@digitalsol.in>
-Subject: Re:read
-Date:   Mon, 1 Feb 2021 08:50:13 -0000
+        id S234498AbhBIWu6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 9 Feb 2021 17:50:58 -0500
+Received: from msg-2.mailo.com ([213.182.54.12]:41014 "EHLO msg-2.mailo.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234415AbhBIW00 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 9 Feb 2021 17:26:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailoo.org; s=mailo;
+        t=1612897114; bh=V3ccey8WzD2XM7AIsQttYEM9eTcmjZ4r0L//q+ngfDY=;
+        h=X-EA-Auth:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
+         References:Content-Type:MIME-Version:Content-Transfer-Encoding;
+        b=EuwOSoBSYeNTUosXXdJcfv6d/N0BqOdiTnMD29Ho55Q6IP51jmzYzDrgbX+sLfdhX
+         nhCp3nsZlcxop2yWVl6UYSTnvA5bHXWnqGFeg/ruG9BLkSidOYhviXz5ubrzgubHZQ
+         ZyeOCOCKi4yeAgVXj9qPxJS39khz9axAY5H7jvzc=
+Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
+        via proxy.mailoo.org [213.182.55.207]
+        Tue,  9 Feb 2021 19:58:34 +0100 (CET)
+X-EA-Auth: miDhEH5cip3PJigdiPHecsZKJftJVBmcIk/mjlO+sZYfQ82rAqPsLR+iXZKaGjd+Fg+sq5g9isTz3qrMVpIRrbEk72TO8fzfsr7vDETcAvM=
+Message-ID: <07cac63721a9ca63733617e461d640e8927a78f3.camel@mailoo.org>
+Subject: Re: [PATCH v3 1/2] dt-bindings: input/touchscreen: add bindings for
+ msg26xx
+From:   Vincent Knecht <vincent.knecht@mailoo.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Michael Srba <Michael.Srba@seznam.cz>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+Date:   Tue, 09 Feb 2021 19:58:33 +0100
+In-Reply-To: <20210209161319.GA3849081@robh.at.kernel.org>
+References: <20210121174359.1455393-1-vincent.knecht@mailoo.org>
+         <20210209161319.GA3849081@robh.at.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3 (3.38.3-1.fc33) 
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+Le mardi 09 f=C3=A9vrier 2021 =C3=A0 10:13 -0600, Rob Herring a =C3=A9crit=
+=C2=A0:
+> On Thu, Jan 21, 2021 at 06:43:47PM +0100, Vincent Knecht wrote:
+> > This adds dts bindings for the mstar msg26xx touchscreen.
+> >=20
+> > Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
+> > ---
+> > Changed in v3:
+> > - added `touchscreen-size-x: true` and `touchscreen-size-y: true` prope=
+rties
+> > Changed in v2:
+> > - changed M-Star to MStar in title line
+> > - changed reset gpio to active-low in example section
+> > ---
+> > =C2=A0.../input/touchscreen/mstar,msg26xx.yaml=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 69 +++++++++++++++++++
+> > =C2=A01 file changed, 69 insertions(+)
+> > =C2=A0create mode 100644 Documentation/devicetree/bindings/input/touchs=
+creen/mstar,msg26xx.yaml
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/input/touchscreen/mstar,=
+msg26xx.yaml
+> > b/Documentation/devicetree/bindings/input/touchscreen/mstar,msg26xx.yam=
+l
+> > new file mode 100644
+> > index 000000000000..5d26a1008bf1
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/input/touchscreen/mstar,msg26xx=
+.yaml
+> > @@ -0,0 +1,69 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/input/touchscreen/mstar,msg26xx.yam=
+l#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: MStar msg26xx touchscreen controller Bindings
+> > +
+> > +maintainers:
+> > +=C2=A0 - Vincent Knecht <vincent.knecht@mailoo.org>
+> > +
+> > +allOf:
+> > +=C2=A0 - $ref: touchscreen.yaml#
+> > +
+> > +properties:
+> > +=C2=A0 compatible:
+> > +=C2=A0=C2=A0=C2=A0 const: mstar,msg26xx
+>=20
+> Don't use wildcards in compatible strings.
 
-My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
-and Petroleum" also "Minister of State for International Cooperation"
-in UAE. I write to you on behalf of my other "three (3) colleagues"
-who has approved me to solicit for your "partnership in claiming of
-{us$47=Million}" from a Financial Home in Cambodia on their behalf and
-for our "Mutual Benefits".
+Thank you for the input...
 
-The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
-deal with Cambodian/Vietnam Government within 2013/2014, however, we
-don't want our government to know about the fund. If this proposal
-interests you, let me know, by sending me an email and I will send to
-you detailed information on how this business would be successfully
-transacted. Be informed that nobody knows about the secret of this
-fund except us, and we know how to carry out the entire transaction.
-So I am compelled to ask, that you will stand on our behalf and
-receive this fund into any account that is solely controlled by you.
+Let's say I set it to "mstar,msg2638", is it better to rename the driver fi=
+le and functions too ?
+According to downstream source file naming, msg2638 is the model I have and=
+ test this driver with.
 
-We will compensate you with 15% of the total amount involved as
-gratification for being our partner in this transaction. Reply to:
-ms.reem@yandex.com
 
-Regards,
-Ms. Reem.
+There's a possibility this driver works as-is or with minor mods for msg263=
+3 too,
+and a more remote one for msg21xx and msg22xx...
+
+
+
+
+
 
