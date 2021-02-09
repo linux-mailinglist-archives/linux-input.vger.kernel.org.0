@@ -2,79 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E29E831545D
-	for <lists+linux-input@lfdr.de>; Tue,  9 Feb 2021 17:52:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B9B5D315403
+	for <lists+linux-input@lfdr.de>; Tue,  9 Feb 2021 17:37:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232950AbhBIQvq convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Tue, 9 Feb 2021 11:51:46 -0500
-Received: from spam.auroraoh.com ([24.56.89.101]:51436 "EHLO
-        barracuda.auroraoh.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S233119AbhBIQtq (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 9 Feb 2021 11:49:46 -0500
-X-Greylist: delayed 866 seconds by postgrey-1.27 at vger.kernel.org; Tue, 09 Feb 2021 11:49:45 EST
-X-ASG-Debug-ID: 1612888447-112c0d6a7999cb0003-vblZzk
-Received: from COASRV-MAIL2.auroraoh.loc (coasrv-mail2.auroraoh.loc [10.3.1.15]) by barracuda.auroraoh.com with ESMTP id p8OW2pLSbAe6vhHI; Tue, 09 Feb 2021 11:34:08 -0500 (EST)
-X-Barracuda-Envelope-From: JanuskaD@auroraoh.com
-X-Barracuda-RBL-Trusted-Forwarder: 10.3.1.15
-Received: from [172.20.10.5] (197.210.29.8) by COASRV-MAIL2.auroraoh.loc
- (10.3.1.15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5; Tue, 9 Feb 2021
- 02:41:50 -0500
-Content-Type: text/plain; charset="iso-8859-1"
-X-Barracuda-RBL-Trusted-Forwarder: 172.20.10.5
+        id S232869AbhBIQgN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 9 Feb 2021 11:36:13 -0500
+Received: from mail-oi1-f169.google.com ([209.85.167.169]:43918 "EHLO
+        mail-oi1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232810AbhBIQfP (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 9 Feb 2021 11:35:15 -0500
+Received: by mail-oi1-f169.google.com with SMTP id d20so20026085oiw.10;
+        Tue, 09 Feb 2021 08:35:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=9t4LJXTSLtxd8IT7qmYmEfW7Vhn57zaKjlRVT6AkWcI=;
+        b=Nw1y1+jhzWKhB3gIaRx4ozFHR5vl15p7Hijdz6ZpX+JHvZBZomREQufINq1ClJ4Kxx
+         5oKE5PRxsEfWG+Y82yR2JQJ5AiAUSlLgC5gSaJTwuIHO/DB/zHfVOmThqp5flPYOyFC7
+         1Itqw7bIRMtjEer78i2R17zhOVN24S8dNkfQsMiOHae3dIcmva1rwdafTddlYS0Pwwep
+         GPk0XqXdoDSSaFkMyTVlcl/He/TFMf7THofDQXiLoWVcie5TA1/2NWp0XNns7EqA+CiB
+         +Ere5BfKWOIyeXjYqBVkBpu+T3uw+LhqvBS8SnFng8GyKQWBOfng/e1s9VNleeIHAdrb
+         fgOQ==
+X-Gm-Message-State: AOAM5324uzScxAsvHia8STgVTIqP+i69SJL6YjL48qX7L63EG/Ftizdl
+        KbIDvVMjNf1RXCEoEPgv9g==
+X-Google-Smtp-Source: ABdhPJwfZkOdkhWpi2n7UayXXfGa53fjlVS+RYyKJ6pi8Te4tIRbsS0Mw7qauAsMT+JouVmWryIB1A==
+X-Received: by 2002:aca:4856:: with SMTP id v83mr2935963oia.43.1612888475401;
+        Tue, 09 Feb 2021 08:34:35 -0800 (PST)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id n189sm4193174oif.58.2021.02.09.08.34.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Feb 2021 08:34:33 -0800 (PST)
+Received: (nullmailer pid 3893005 invoked by uid 1000);
+        Tue, 09 Feb 2021 16:34:32 -0000
+Date:   Tue, 9 Feb 2021 10:34:32 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     dmitry.torokhov@gmail.com, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org, robh+dt@kernel.org
+Subject: Re: [PATCH v2 4/5] dt-bindings: input: Add bindings for Azoteq
+ IQS626A
+Message-ID: <20210209163432.GA3892603@robh.at.kernel.org>
+References: <1611459776-23265-1-git-send-email-jeff@labundy.com>
+ <1611459776-23265-5-git-send-email-jeff@labundy.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: We are a registered Private Loan Investment Company in the United Kingdom,
- we also registered with the Turkish British Chamber of Commerce and Industry
- (TBCCI) we have operations in Europe and Asia.
-To:     Recipients <januskad@auroraoh.com>
-X-ASG-Orig-Subj: We are a registered Private Loan Investment Company in the United Kingdom,
- we also registered with the Turkish British Chamber of Commerce and Industry
- (TBCCI) we have operations in Europe and Asia.
-From:   <januskad@auroraoh.com>
-Date:   Tue, 9 Feb 2021 15:41:03 +0800
-Reply-To: <cfolimiited@gmail.com>
-X-Priority: 1 (High)
-X-Antivirus: Avast (VPS 210207-2, 02/07/2021), Outbound message
-X-Antivirus-Status: Clean
-Message-ID: <19476914-06ef-4e05-b16e-afe6693abdc0@COASRV-MAIL2.auroraoh.loc>
-X-Originating-IP: [197.210.29.8]
-X-ClientProxiedBy: COASRV-MAIL3.auroraoh.loc (10.3.1.13) To
- COASRV-MAIL2.auroraoh.loc (10.3.1.15)
-X-Barracuda-Connect: coasrv-mail2.auroraoh.loc[10.3.1.15]
-X-Barracuda-Start-Time: 1612888448
-X-Barracuda-URL: https://10.3.1.12:443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at auroraoh.com
-X-Barracuda-Scan-Msg-Size: 755
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Spam-Score: 1.61
-X-Barracuda-Spam-Status: No, SCORE=1.61 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=5.0 tests=BSF_SC0_SA609_NRN, BSF_SC0_SA912_RP_FR, BSF_SC0_SA_TO_FROM_ADDR_MATCH, NO_REAL_NAME
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.87864
-        Rule breakdown below
-         pts rule name              description
-        ---- ---------------------- --------------------------------------------------
-        0.00 NO_REAL_NAME           From: does not include a real name
-        0.01 BSF_SC0_SA912_RP_FR    Custom Rule BSF_SC0_SA912_RP_FR
-        0.50 BSF_SC0_SA_TO_FROM_ADDR_MATCH Sender Address Matches Recipient
-                                   Address
-        1.10 BSF_SC0_SA609_NRN      Custom Rule SA609_NRN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1611459776-23265-5-git-send-email-jeff@labundy.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-We are seeking for beneficiaries who source for fund to expand/relocating their business interest abroad. We are ready to fund projects outside Turkey and United Kingdom in the form of Soft Loan. We grant loans to both corporate and private entities at a low interest rate of 2% R.O.I per annul.
+On Sat, 23 Jan 2021 21:42:55 -0600, Jeff LaBundy wrote:
+> This patch adds device tree bindings for the Azoteq IQS626A
+> capacitive touch controller.
+> 
+> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> ---
+> Changes in v2:
+>  - Added missing $ref to touchscreen.yaml
+> 
+>  .../devicetree/bindings/input/iqs626a.yaml         | 843 +++++++++++++++++++++
+>  1 file changed, 843 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/iqs626a.yaml
+> 
 
-We like to grant loan in the following sectors: oil/Gas, banking, real estate, stock speculation and mining, transportation, health sector and tobacco, Communication Services, Agriculture Forestry & Fishing, thus any sector. The terms are very flexible and interesting.
+Other than the file path:
 
-Please contact us for more details;
-
-
-Kind regards,
-
-Paul McCann
-
--- 
-This email has been checked for viruses by Avast antivirus software.
-https://www.avast.com/antivirus
-
+Reviewed-by: Rob Herring <robh@kernel.org>
