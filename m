@@ -2,15 +2,15 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04960316D5C
-	for <lists+linux-input@lfdr.de>; Wed, 10 Feb 2021 18:54:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 91618316CEF
+	for <lists+linux-input@lfdr.de>; Wed, 10 Feb 2021 18:38:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233418AbhBJRxa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 10 Feb 2021 12:53:30 -0500
-Received: from ip-15.mailobj.net ([213.182.54.15]:36928 "EHLO msg-4.mailo.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233394AbhBJRxR (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 10 Feb 2021 12:53:17 -0500
+        id S232359AbhBJRhR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 10 Feb 2021 12:37:17 -0500
+Received: from msg-1.mailo.com ([213.182.54.11]:35638 "EHLO msg-1.mailo.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232977AbhBJRfk (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 10 Feb 2021 12:35:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailoo.org; s=mailo;
         t=1612978454; bh=EXG7f7uNuaToBdDu8mdjVFdsXTtJGfa9dWahPfAMOKs=;
         h=X-EA-Auth:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
