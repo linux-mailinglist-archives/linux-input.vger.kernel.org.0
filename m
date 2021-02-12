@@ -2,112 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27A983198ED
-	for <lists+linux-input@lfdr.de>; Fri, 12 Feb 2021 04:50:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E8E04319A06
+	for <lists+linux-input@lfdr.de>; Fri, 12 Feb 2021 07:45:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229493AbhBLDuM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 11 Feb 2021 22:50:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42328 "EHLO
+        id S229718AbhBLGlw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 12 Feb 2021 01:41:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbhBLDuK (ORCPT
+        with ESMTP id S229625AbhBLGlv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 11 Feb 2021 22:50:10 -0500
-Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F24EC061756;
-        Thu, 11 Feb 2021 19:49:30 -0800 (PST)
-Received: by mail-qt1-x82a.google.com with SMTP id b24so5838377qtp.13;
-        Thu, 11 Feb 2021 19:49:30 -0800 (PST)
+        Fri, 12 Feb 2021 01:41:51 -0500
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48C92C061574
+        for <linux-input@vger.kernel.org>; Thu, 11 Feb 2021 22:41:11 -0800 (PST)
+Received: by mail-pl1-x630.google.com with SMTP id s15so4607591plr.9
+        for <linux-input@vger.kernel.org>; Thu, 11 Feb 2021 22:41:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=ZveoRDfU1ztK8NF19LRexUft1jiNWtqDdCKy/TbMan8=;
-        b=pjm1QKRM29Trvl+CxxFOg8dRtiTrIZ+HhH/xaNmAvTIG0VsWFCcy7Ads943+y2GhSb
-         FhiIMKBZ8D6NCuMlnsLOe07bqNXS9NP42yS4TYHG03Qw0ZsAKwAAdj4MVgRhSufavWip
-         x1M51WAWv2vDxhCQfkb8kL60zH30OzYN6SQdL612ES6riuK2fFW9EQ4rW61D1NEL8itw
-         Ho/GuulbV3u7PzqEQMY7Tnqqpc6Vab/g+uezoJLB3eg0SyQgCDkzYvbQB0KOTVAAsfOc
-         ImQnaw8RCPJIfyUZuxsBvb3Nql7vTR0nhHAcra1gIiQwoNbBFQayI57MBDo7o3BsRUSu
-         RoYw==
+        d=gaikai-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eLo2cPKFl8L92kv1OZkZ6eeFbvtWh0ZA5ytRkdfBx4s=;
+        b=xN7OrClzd/0hHZ3UBOu62zl46yddJvZlu2dymNgGu37F1DFA4SyAWOezYvWy8eoKdE
+         ydeDSEbczL2KkDXxBrjND7R69e/GMdaTkL4YAs39v38UE8wqirI18a3N6OworMHdmw1o
+         FEWSUdJXio8NfrzaMMIrexV0XIqzuU3MqqYBGEAlK0mUVJE9I8x+Biwrs5HStPTuMaM/
+         zvIDCyCf4JKsvdsy8cssKS/t3rJvEbkfgLhpTtYiLifQqB3f8PZmGLEeC0/8YkwlQnQy
+         /NkqWHXlD1HkRLFK7TcDOaKcuQxInxwTqhAT5tE+qX7/5pNiv1DfoFK5O0fjRBlT4+nf
+         1Ukg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=ZveoRDfU1ztK8NF19LRexUft1jiNWtqDdCKy/TbMan8=;
-        b=NsKtunj2650ropmE7KYrD/nfqG18SUP6efMkIiXKRxMCJhaLUBpXdmpBDZUk4xbJ9S
-         +zDVZD6ZBzOpHokB45iJ9Dx/hgGSElEuI02BVyRM5EIFBfwE0fbvwCw2Ftk7k/Ynylfq
-         t7U77gIPP9rmLya3onCK9ELHjI6STd0B98aEjHQY9f7mt5LxPK0xO95YAtAEqMu+ws6f
-         B94pvyg93hYUQss8iZWcQ2b6F4mu4vbQOxEhCqF0LDkStFrO6o8oYguy3vcdofUK45U+
-         UQLiZMx9sEq06+tTvQTbLwMp9xLgn5uXowbNUrlLEi91BKcgzfmxE24f4X9eddVz1dc+
-         bjYw==
-X-Gm-Message-State: AOAM5333pMMp/Ipihe0saAcjYUtD8r+QvTbqoiMbYDIyGrJeAZmiq9aR
-        uyC6DV6tCxub24hAD9Mft5FqOCdg4CY5Jg==
-X-Google-Smtp-Source: ABdhPJwrq49A6o36tlRp3i75H3PiQLhCGubuZsZ/+8pLkpjqRii1rHYC5DI5/0MZ4NrNZs6XxO3UdQ==
-X-Received: by 2002:ac8:d03:: with SMTP id q3mr895048qti.19.1613101769684;
-        Thu, 11 Feb 2021 19:49:29 -0800 (PST)
-Received: from localhost ([128.211.185.211])
-        by smtp.gmail.com with ESMTPSA id i65sm5408670qkf.105.2021.02.11.19.49.28
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eLo2cPKFl8L92kv1OZkZ6eeFbvtWh0ZA5ytRkdfBx4s=;
+        b=NWDZFnvlSYFc1i+U2nQKYJePbf5xMH/UEk67gc4wWgbOMUs6zE1kgP4ImUJzsnQKkY
+         xCkxhNY+2089OTu4rykBuC69WxPoJVI4bEAlpv5+GC6IQE2UlOaBeh4POLY5ZS7bg1Yn
+         qmPgAQAU9hGaUTt09+G+ExAf5f3FsApaXgOnG87+261jCHkNVJH47HOROFDbzHgKzejp
+         P3Ge0zc3ZEweNo8A1iiKWdlyNvl6HxKfKUeUK1eSfsDi12rV6hitwdumRrV8n5CMWGLo
+         2+N72dyoksIWMkwOiOYCb2pKqPPqDyD9MJwuoEKeh9Qz6CTRhKguDuq3pnk4DgTwfHpM
+         zZwg==
+X-Gm-Message-State: AOAM533WyGfhi7ET5Upg58/R70HvOTNEzOCQztOuTEvvLJGKUHMtotLc
+        ToNXIAlnC/UUA+qnPw6npS5M6NXXT9saJQ==
+X-Google-Smtp-Source: ABdhPJwyfQLs95iMbGBGNHc7Ty6YCUf0kngFkAcagik+JQWLVBW6PhIm7tOvScb+24k4u3a2H4liyA==
+X-Received: by 2002:a17:90a:3188:: with SMTP id j8mr1471280pjb.53.1613112070874;
+        Thu, 11 Feb 2021 22:41:10 -0800 (PST)
+Received: from us8c16456344dc.lan (cpe-76-87-77-78.socal.res.rr.com. [76.87.77.78])
+        by smtp.gmail.com with ESMTPSA id jt21sm7025081pjb.51.2021.02.11.22.41.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Feb 2021 19:49:29 -0800 (PST)
-Date:   Thu, 11 Feb 2021 22:49:27 -0500
-From:   Akash Melachuri <amelachuri@gmail.com>
-To:     jikos@kernel.org
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH] HID: ezkey: Fix trailing statements error style and blank
- line after declarations warning style.
-Message-ID: <20210212034927.3gktbkxzjniyylcg@akash.localdomain>
+        Thu, 11 Feb 2021 22:41:10 -0800 (PST)
+From:   Roderick Colenbrander <roderick@gaikai.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>,
+        kernel test robot <lkp@intel.com>
+Subject: [PATCH] HID: playstation: fix unused variable in ps_battery_get_property.
+Date:   Thu, 11 Feb 2021 22:41:00 -0800
+Message-Id: <20210212064100.27193-1-roderick@gaikai.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch fixes the checkpatch.pl errors and warnings:
-ERROR: trailing statements should be on next line
-ERROR: trailing statements should be on next line
-ERROR: trailing statements should be on next line
-WARNING: Missing a blank line after declarations
+From: Roderick Colenbrander <roderick.colenbrander@sony.com>
 
-Signed-off-by: Akash Melachuri <amelachuri@gmail.com>
+The ret variable in ps_battery_get_property is set in an error path,
+but never actually returned. Change the function to return ret.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
 ---
- drivers/hid/hid-ezkey.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ drivers/hid/hid-playstation.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/hid/hid-ezkey.c b/drivers/hid/hid-ezkey.c
-index d14f91d78c96..8fa568ac79f9 100644
---- a/drivers/hid/hid-ezkey.c
-+++ b/drivers/hid/hid-ezkey.c
-@@ -30,14 +30,20 @@ static int ez_input_mapping(struct hid_device *hdev, struct hid_input *hi,
- 		return 0;
+diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
+index cc93c16cc822..408b651174cf 100644
+--- a/drivers/hid/hid-playstation.c
++++ b/drivers/hid/hid-playstation.c
+@@ -391,7 +391,7 @@ static int ps_battery_get_property(struct power_supply *psy,
+ 	uint8_t battery_capacity;
+ 	int battery_status;
+ 	unsigned long flags;
+-	int ret;
++	int ret = 0;
  
- 	switch (usage->hid & HID_USAGE) {
--	case 0x230: ez_map_key(BTN_MOUSE);	break;
--	case 0x231: ez_map_rel(REL_WHEEL);	break;
-+	case 0x230:
-+		ez_map_key(BTN_MOUSE);
-+		break;
-+	case 0x231:
-+		ez_map_rel(REL_WHEEL);
-+		break;
- 	/*
- 	 * this keyboard has a scrollwheel implemented in
- 	 * totally broken way. We map this usage temporarily
- 	 * to HWHEEL and handle it in the event quirk handler
- 	 */
--	case 0x232: ez_map_rel(REL_HWHEEL);	break;
-+	case 0x232:
-+		ez_map_rel(REL_HWHEEL);
-+		break;
- 	default:
- 		return 0;
+ 	spin_lock_irqsave(&dev->lock, flags);
+ 	battery_capacity = dev->battery_capacity;
+@@ -416,7 +416,7 @@ static int ps_battery_get_property(struct power_supply *psy,
+ 		break;
  	}
-@@ -54,6 +60,7 @@ static int ez_event(struct hid_device *hdev, struct hid_field *field,
- 	/* handle the temporary quirky mapping to HWHEEL */
- 	if (usage->type == EV_REL && usage->code == REL_HWHEEL) {
- 		struct input_dev *input = field->hidinput->input;
-+
- 		input_event(input, usage->type, REL_WHEEL, -value);
- 		return 1;
- 	}
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ static int ps_device_register_battery(struct ps_device *dev)
 -- 
-2.30.0
+2.26.2
 
