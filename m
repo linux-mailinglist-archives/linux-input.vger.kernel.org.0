@@ -2,214 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE76A31A4E2
-	for <lists+linux-input@lfdr.de>; Fri, 12 Feb 2021 20:01:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93D8231A88F
+	for <lists+linux-input@lfdr.de>; Sat, 13 Feb 2021 01:05:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231292AbhBLTAX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 12 Feb 2021 14:00:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35332 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229980AbhBLTAT (ORCPT
+        id S232057AbhBMAEH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 12 Feb 2021 19:04:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47880 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231977AbhBMAEB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 12 Feb 2021 14:00:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1613156331;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=J/KTzitd76L29CAg2OFoBrXIEqtJOlYZ8tiqpRKCJ4c=;
-        b=PpM8tMIC5ArogyeQdMZ8FaZZbOw4yQWSeSdvdjGSvZqeg6kdMfomtu9MhvRsYaMrW5dLbG
-        i1YSy+hCXXAl7BbPGd8/NvsKyE0o1UuGKSCxxwkwL21aJU8REjjudCHqjTslxPhFe0hiq4
-        T88rrzuyFi63Mr4K1Ps4khHtL5gcjso=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-211-QLiiZ04PPh6_bOJ4XH1zjQ-1; Fri, 12 Feb 2021 13:58:50 -0500
-X-MC-Unique: QLiiZ04PPh6_bOJ4XH1zjQ-1
-Received: by mail-ej1-f70.google.com with SMTP id yd11so339213ejb.9
-        for <linux-input@vger.kernel.org>; Fri, 12 Feb 2021 10:58:50 -0800 (PST)
+        Fri, 12 Feb 2021 19:04:01 -0500
+Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C430C061756;
+        Fri, 12 Feb 2021 16:03:20 -0800 (PST)
+Received: by mail-ed1-x52e.google.com with SMTP id l12so1811293edt.3;
+        Fri, 12 Feb 2021 16:03:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jq2Xmh4pkVtak+Gm3s4V3U7P6sDJYHZgeNfNcYHeOyc=;
+        b=AlP+yW1OiHRgoGJBLvQMCisbKMf67PEmBEp4emzb+qYmlAV40f6jFfNtqpEPvfl3b8
+         DXxWVSN+5K8/2MSoJG9pSbGo1r5IESKvkd7s63+RKttYfW3bZgVJsdb3Q61eJ7SdSuk5
+         ygNk38CyHhDVUP6YOmGGJAwb+omkXnOZazKOjUkP9QWwnzoNYQk7T6veS+9/++MGIwyJ
+         aZQsoGlDwTor0yiYF7mvYYSWDre5F61xrnMSV8RRpHAkFwwGHVO/hGi+ZVdcn2V94C7O
+         8c5wgY9mHHNaDorbSt6ahC0sV06T4N6vX+Tu/aT9hVKejvnHt0M4S02qA6Q7haybB1xq
+         GSng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=J/KTzitd76L29CAg2OFoBrXIEqtJOlYZ8tiqpRKCJ4c=;
-        b=h+u0bULHh02sc4ZnKXqGPH1iXZruHNM/DBApUF3qicMTWBF13RKWcXQsEwu0HpKyis
-         mXWyYrwqk3eL4uvuGX+uN0gacZBE8gHe8+9WZ3d4nxPoWdDMutGuek8PbGsG2PjT7U74
-         12X/ASaDHJ3RtueWKa4414vGIXVeMdLDLJVbGwP72LLiN6QqlBLmNfGzZ2y02vsm7DnE
-         G9RF9fi5Sl9yjXs9fc4pGuF31c8eKxf2mVjOUq+ODHTyZHjcBfzVp24GUnybbFdqwj9B
-         gXwD+uMtuUDFBI0Cc0RSlh9nwdip48ohKFNA7NQSYcO9uCuOELBq8LtrYUfdFRIxET3j
-         XLzg==
-X-Gm-Message-State: AOAM531l/Fkz85buGkej08UEJvUlKp4FPGggs5yIjRl5WXYxk7NGdO95
-        RXPGCwzoy1aDMI72zLQ6jpbqkgpp43k2FTUXW+REdds7D5eJAVGgFylZIq+Er8rHGTjv/D4n0kE
-        0W5h4JEkVU7shYhWhgzuQccY=
-X-Received: by 2002:a17:906:199a:: with SMTP id g26mr4403406ejd.485.1613156329022;
-        Fri, 12 Feb 2021 10:58:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyhHUxE/XR+MmyiA64roharOSdGR6Y3l3KzZy3GfoMNJmVwRFtUe5GtarMoDmXh6kFT/qExpQ==
-X-Received: by 2002:a17:906:199a:: with SMTP id g26mr4403373ejd.485.1613156328601;
-        Fri, 12 Feb 2021 10:58:48 -0800 (PST)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id z65sm6311599ede.80.2021.02.12.10.58.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Feb 2021 10:58:48 -0800 (PST)
-Subject: Re: [PATCH 1/2] iio: documentation: Document proximity sensor label
- use
-To:     Jonathan Cameron <jic23@kernel.org>
-Cc:     linux-input@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        linux-iio@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mark Pearson <mpearson@lenovo.com>,
-        Bastien Nocera <hadess@hadess.net>
-References: <20210207123720.8357-1-hdegoede@redhat.com>
- <20210212184617.5bad8172@archlinux>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <10c7f469-9bb4-3e1d-88f8-6b25071a5ea9@redhat.com>
-Date:   Fri, 12 Feb 2021 19:58:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        bh=jq2Xmh4pkVtak+Gm3s4V3U7P6sDJYHZgeNfNcYHeOyc=;
+        b=L1HTAn8V1RFCER0kt2uFcdX5Fzz7wVSEfMDYOU94ht2qwdzxUgfQmi8rayUhBWGGyl
+         z/ncbubJOMaMBIJaXlLAsdEXHQvPyMPr/uPOOyqpuMxFp9YA1VJekRn3WFhe9q2HBHAm
+         Yjh6hUd0d9719Kx5SBN89vIPhXZZRK2o6ZoWOd+qY7Fi4fxFLmHD+W46Q6drxNrDLZir
+         zjgaGmykbrU/fCp8+CpE4Thrr3m/Nc6gZ7zLi8FvrUqila/PoTmT7oD0mwua3IeLwoGu
+         6RAiROhdUX1YDnx/D8r4+j0jI9zLv3JAa3mpz0zT+ELpycmS4y59kTKyLUZH0cF+z9xN
+         xDDA==
+X-Gm-Message-State: AOAM5338+urptWpQUJduDpev9HR8f9gxHYJNExIOOqA6HrGroOTta4YC
+        fM7Ko/vk2kUxpFVUGnBFueQ=
+X-Google-Smtp-Source: ABdhPJzU2mKAEa3jHaukRTI/pZwoEeDb8+WA2tmcoJ2Ay5QSrhEdoH1rXdQbrQLhBTUqJajR/5SmWQ==
+X-Received: by 2002:a50:9e01:: with SMTP id z1mr5809641ede.44.1613174599256;
+        Fri, 12 Feb 2021 16:03:19 -0800 (PST)
+Received: from localhost.localdomain (89-139-118-26.bb.netvision.net.il. [89.139.118.26])
+        by smtp.googlemail.com with ESMTPSA id hb38sm6602567ejc.75.2021.02.12.16.03.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Feb 2021 16:03:18 -0800 (PST)
+From:   Michael Zaidman <michael.zaidman@gmail.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com, wsa@kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-i2c@vger.kernel.org,
+        Michael Zaidman <michael.zaidman@gmail.com>
+Subject: [PATCH 0/1] HID: ft260: add usb hid to i2c host bridge driver
+Date:   Sat, 13 Feb 2021 02:02:33 +0200
+Message-Id: <20210213000234.14948-1-michael.zaidman@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210212184617.5bad8172@archlinux>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+The FT260 is a USB device that implements USB to I2C/UART bridges
+through two USB HID class interfaces. The first - for I2C, and the
+second for UART. Each interface is independent, and the kernel
+detects it as a separate hidraw device.
 
-On 2/12/21 7:46 PM, Jonathan Cameron wrote:
-> On Sun,  7 Feb 2021 13:37:19 +0100
-> Hans de Goede <hdegoede@redhat.com> wrote:
-> 
->> Add an entry to Documentation/ABI/testing/sysfs-bus-iio for
->> the new device and channel label sysfs-attribute support.
->>
->> And document the standardized labels which may be used with proximity
->> sensors to hint userspace about the intended use of the sensor.
->>
->> Using labels to differentiate between the multiple proximity sensors
->> which a modern laptop/tablet may have was discussed in this thread:
->> https://lore.kernel.org/linux-iio/9f9b0ff6-3bf1-63c4-eb36-901cecd7c4d9@redhat.com/
->>
->> As mentioned the "proximity-wifi*" labels are already being used in
->> this manner on some chromebooks, see e.g.:
->> arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
->> arch/arm64/boot/dts/qcom/sc7180-trogdor-lte-sku.dtsi
->>
->> And the "proximity-palmrest" and "proximity-lap" labels are intended
->> to be used with the lap and palmrest sensors found in recent Lenovo
->> ThinkPad models.
->>
->> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
->> Cc: Mark Pearson <mpearson@lenovo.com>
->> Cc: Bastien Nocera <hadess@hadess.net>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>  Documentation/ABI/testing/sysfs-bus-iio | 41 +++++++++++++++++++++++++
->>  1 file changed, 41 insertions(+)
->>
->> diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
->> index 35289d47d6cb..f2f090f8bd2f 100644
->> --- a/Documentation/ABI/testing/sysfs-bus-iio
->> +++ b/Documentation/ABI/testing/sysfs-bus-iio
->> @@ -33,6 +33,47 @@ Description:
->>  		Description of the physical chip / device for device X.
->>  		Typically a part number.
->>  
->> +What:		/sys/bus/iio/devices/iio:deviceX/label
->> +What:		/sys/bus/iio/devices/iio:deviceX/in_*_label
->> +What:		/sys/bus/iio/devices/iio:deviceX/out_*_label
-> 
-> I was a bit in two minds about this from an organizational point of view.
-> 1) Whether to separate the general label where position tends to make sense
->    from the channel labels.  May be something we want to do in future but we can probably
->    let that go for now.
-> 2) Whether to allow such broad wild cards for the channels.
->    Whilst in theory any channel can have a label we normally only document ABI
->    that actually exists (mostly to know what we might break if we change anything :)
->    Still I can't see any way we can change this without breakage so in this
->    one case let's let the broad wild card go in.
-> 
-> This comes unstuck on the fact it overlaps with existing more specific Docs.
-> 
-> So can you pull the channel part out of here for v2.
-> /sys/bus/iio/devices/iio:deviceX/in_voltageY_label
-> /sys/bus/iio/devices/iio:deviceX/in_anglY_label
+This commit adds I2C host adapter support, enabling a wide range of
+standard userspace tools and applications that do not implement HID
+protocol, to access the I2C client devices via FT260 I2C controller.     
 
-The problem is that these labels may either be used on a whole device,
-which is certainly the case with the accelerometers in patch 2/2 where
-the x y and z channels obviously all are either "accel-base" or
-"accel-display".
+The driver was tested with different I2C client devices, Linux
+kernels, and Linux userspace tools.
 
-Where as for proximity sensors the labels could be either applied at the
-device level, or at a channel level.
+For data transfer, the FT260 implements one Interrupt IN and one
+Interrupt OUT pipes per interface. For configuration and control,
+the FT260 exposes the HID class commands through the Control pipe.
 
-The existing chromebook proximity usage is applying a label for this
-at the device level.
+Commands and responses are FT260 specific and documented in the
+AN_394_User_Guide_for_FT260.pdf on the https://www.ftdichip.com.
 
-This does mean that atm all users of this are using device-level labels;
-and maybe I'm reading too much in your request. I guess that for now
-I can just drop these lines for v2 :
+Michael Zaidman (1):
+  HID: ft260: add usb hid to i2c host bridge driver
 
-What:		/sys/bus/iio/devices/iio:deviceX/in_*_label
-What:		/sys/bus/iio/devices/iio:deviceX/out_*_label
-
-Is that what you have in mind ?
-
-Or do you want me to split this up in a proximity sensor case and an
-accel case, and group both cases together with other proximity / accel
-sensor attributes ?
-
-Regards,
-
-Hans
+ MAINTAINERS             |    7 +
+ drivers/hid/Kconfig     |   11 +
+ drivers/hid/Makefile    |    2 +
+ drivers/hid/hid-ft260.c | 1097 +++++++++++++++++++++++++++++++++++++++
+ drivers/hid/hid-ids.h   |    1 +
+ 5 files changed, 1118 insertions(+)
+ create mode 100644 drivers/hid/hid-ft260.c
 
 
-
-
-> Jonathan
->> +KernelVersion:	5.8
->> +Contact:	linux-iio@vger.kernel.org
->> +Description:
->> +		Optional symbolic label for a device or a channel.
->> +		This is useful for userspace to be able to better identify an
->> +		individual device or channel.
->> +
->> +		The contents of the label are free-form, but there are some
->> +		standardized uses:
->> +
->> +		For proximity sensors which give the proximity (of a person) to
->> +		a certain wlan or wwan antenna the following standardized labels
->> +		are used:
->> +
->> +		* "proximity-wifi"
->> +		* "proximity-lte"
->> +		* "proximity-wifi-lte"
->> +		* "proximity-wifi-left"
->> +		* "proximity-wifi-right"
->> +
->> +		These are used to indicate to userspace that these proximity
->> +		sensors may be used to tune transmit power to ensure that
->> +		Specific Absorption Rate (SAR) limits are honored.
->> +		The "-left" and "-right" labels are for devices with multiple
->> +		antennas.
->> +
->> +		In some laptops/tablets the standardized proximity sensor labels
->> +		instead	indicate proximity to a specific part of the device:
->> +
->> +		* "proximity-palmrest" indicates proximity to the keyboard's palmrest
->> +		* "proximity-palmrest-left" indicates proximity to the left part of the palmrest
->> +		* "proximity-palmrest-right" indicates proximity to the right part of the palmrest
->> +		* "proximity-lap" indicates the device is being used on someone's lap
->> +
->> +		Note "proximity-lap" is special in that its value may be
->> +		calculated by firmware from other sensor readings, rather then
->> +		being a raw sensor reading.
->> +
->>  What:		/sys/bus/iio/devices/iio:deviceX/current_timestamp_clock
->>  KernelVersion:	4.5
->>  Contact:	linux-iio@vger.kernel.org
-> 
+base-commit: 07f7e57c63aaa2afb4ea31edef05e08699a63a00
+-- 
+2.25.1
 
