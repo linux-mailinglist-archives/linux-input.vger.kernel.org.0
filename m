@@ -2,52 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A20F431C417
-	for <lists+linux-input@lfdr.de>; Mon, 15 Feb 2021 23:41:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 732D031C426
+	for <lists+linux-input@lfdr.de>; Mon, 15 Feb 2021 23:50:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229660AbhBOWk7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 15 Feb 2021 17:40:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46102 "EHLO
+        id S229708AbhBOWul (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 15 Feb 2021 17:50:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229615AbhBOWk7 (ORCPT
+        with ESMTP id S229702AbhBOWuk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 15 Feb 2021 17:40:59 -0500
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC07AC061574;
-        Mon, 15 Feb 2021 14:40:18 -0800 (PST)
-Received: by mail-wr1-x42e.google.com with SMTP id n6so10918824wrv.8;
-        Mon, 15 Feb 2021 14:40:18 -0800 (PST)
+        Mon, 15 Feb 2021 17:50:40 -0500
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA01CC061756;
+        Mon, 15 Feb 2021 14:49:59 -0800 (PST)
+Received: by mail-wm1-x336.google.com with SMTP id w4so7415132wmi.4;
+        Mon, 15 Feb 2021 14:49:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
         bh=QN1eO6+5uOlzlnYpw4yWwU4h0m7rl0IyUszzyiWdwK8=;
-        b=H/Ec5w4bTTnnQrthP4S/fTg9edb4+YysgAvVI/B84H7WhgGb3rquq8fbEcg/uLmPAM
-         aDWBilsCFENIEw0d9/RdaQ0UkemkniApI8A40jpIgItnYk9Qv1CVUBDnlA5pWslAZnJT
-         qJOA4jAGRdQGKmwnOQeOTAvg6luPLnPVSuvyeG3bjd8SE1OHSlsomxtyK8JdB8S/wgxG
-         Aw9xqYKWvi7vUWBD/+nNc+KkclhLdPM7WHIVsEE2xVCilcja2p25Ml6ArYJYxiLDsDk6
-         Kv9WopDnAT2bIm1LjGD6EheQcFejOXzywxI+5ReZVE0mOvs9KBog2HxidKeyouF6NLBY
-         DOUw==
+        b=ux6sXN+9ivxi+hMw/0QXr13n5rHu0OqevNiJsWoPzAsNCOClBAIXOcLpcvkRLGcmZS
+         gcDQdHfHdHTb10OuAvw+MWtJ9oyaeg0SKGrO1wOmLLBa1rVlSz7Cb6LwhOmpMdTwygO6
+         jveOGsdbgrll0NmCt5fK1vA1iWr+CbwxOKxKyHcdsewf00MRYQ1T2z1nNSaelA/WwOEl
+         /GS+1s3L/tNRNAIrT0gRvbzoutonHLC4QtkEJjn+2XDh8z7DX+41fwanPkG0iaBQuVzQ
+         iMtbwnDl10qH5b2Ps1WaOV8QqGEnhl0w8Ahs1X2UNtvVPjJ5WL568fAV5kdrTpr4fmML
+         31JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
         bh=QN1eO6+5uOlzlnYpw4yWwU4h0m7rl0IyUszzyiWdwK8=;
-        b=PngXCecE+Fs+ixi9baOL8ivaouDFqYBqqFlCtcKZY9EzEpvnClNdk+zteuNmxhikJn
-         f8UvZ7C1j4H/7mt85nMyUc8MBtm+ZwbPMmiLcTpYlLZO0D1RJRnzBbIHs1BlH6JQBH3n
-         CG86mI0yW2T500RsdKfcCX91xImagcCz//8mBlc2ZMyhlTLEeLreDVIvqYr7cmUb40VO
-         q0C/+aVHMjF3/ssv+2bavErf+lc8FtJ2p8KS4b1cd8gqgfevurOPdVSc+MGJCpLW8Uxf
-         oaAgVYGB/OiEsIB8vAoTbnzmwsRsFm5v7S+HlSRHbM6tMcz/CPHwIlXkGcoDakGgYD+P
-         gflA==
-X-Gm-Message-State: AOAM5338XOyX2Zv2H4iLNJyay43mYmMeKiz2cKRYiqjtoaAPQqNN9Qk1
-        T+gkobbFx0kTJSpdiKQv834=
-X-Google-Smtp-Source: ABdhPJxx6kadPm/1gJZhF4ng1aAu9NYMZh0prJKUVdBokAQwu8hqx/m/BzOySMMFDiE4djPTr4G5fA==
-X-Received: by 2002:a05:6000:1190:: with SMTP id g16mr20084001wrx.405.1613428817462;
-        Mon, 15 Feb 2021 14:40:17 -0800 (PST)
+        b=twzrd+5lVWodioiARbCUV5dAuS8Ed1QdYWXrOzpDl53VA7v8ii8S5aiMQ3e/vfXRiz
+         eI0DJKQlDVksbjeHxNETECj1rJe1k6PCg5PUKC+TZGoB5XwbvdXrxO6xForJ0j1J3APM
+         XjTfHrbITEBx9Hfix6rm/iLdjvL+66cOGGuw1o4jynCfCEoRxDB/X879PvZF5CafMAGk
+         3Wl1VthqR/fV9K4DMG2BYxGil/liLDwwUkJEsbrz+o3rroS5cFrCIVR3KpOb19u2Xmfv
+         5UCQrAF7+t19nUMI0QxTzzLv5x5ukeXAKVUC9wxTO3BaQF0vp2QN7EkT59gCw+Zm5EVO
+         k7QA==
+X-Gm-Message-State: AOAM533msbcjFI5hF3gpWGQE+RalGDqaeDvLuycydachpMuPwp4GI4MA
+        Mysm4LEiFZp97dpqb5QfEd6shR25Bz8ohw==
+X-Google-Smtp-Source: ABdhPJy3AJmOkYrLwv307AWR3HsLpivVUZfZ3mF81vhE64F3wue5/oZgV0714CqZb5O9X1wIpOcVfg==
+X-Received: by 2002:a1c:f312:: with SMTP id q18mr821052wmq.79.1613429398610;
+        Mon, 15 Feb 2021 14:49:58 -0800 (PST)
 Received: from localhost.localdomain ([39.40.112.112])
-        by smtp.googlemail.com with ESMTPSA id i8sm31956178wry.90.2021.02.15.14.40.14
+        by smtp.googlemail.com with ESMTPSA id x10sm849934wmg.6.2021.02.15.14.49.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Feb 2021 14:40:16 -0800 (PST)
+        Mon, 15 Feb 2021 14:49:58 -0800 (PST)
 From:   Hamza Farooq <0xa6c4@gmail.com>
 X-Google-Original-From: Hamza Farooq <0xA6C4@gmail.com>
 Cc:     kbuild-all@lists.01.org, Hamza Farooq <0xA6C4@gmail.com>,
@@ -56,11 +56,11 @@ Cc:     kbuild-all@lists.01.org, Hamza Farooq <0xA6C4@gmail.com>,
         Henrik Rydberg <rydberg@bitmath.org>,
         linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
 Subject: [PATCH v2] Input: psmouse - add support for FocalTech PS/2 Protocol v2
-Date:   Tue, 16 Feb 2021 03:38:53 +0500
-Message-Id: <20210215223858.23474-1-0xA6C4@gmail.com>
+Date:   Tue, 16 Feb 2021 03:49:28 +0500
+Message-Id: <20210215224933.23632-1-0xA6C4@gmail.com>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210210233926.GA3348@Hamzas-MacBook>
-References: <20210210233926.GA3348@Hamzas-MacBook>
+In-Reply-To: <202102111817.sPo0m4ak-lkp@intel.com>
+References: <202102111817.sPo0m4ak-lkp@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 To:     unlisted-recipients:; (no To-header on input)
