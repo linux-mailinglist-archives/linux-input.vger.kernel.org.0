@@ -2,42 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 322BF31C16A
-	for <lists+linux-input@lfdr.de>; Mon, 15 Feb 2021 19:20:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 909FF31C171
+	for <lists+linux-input@lfdr.de>; Mon, 15 Feb 2021 19:22:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229933AbhBOST6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 15 Feb 2021 13:19:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46478 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230172AbhBOSSl (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 15 Feb 2021 13:18:41 -0500
-X-Greylist: delayed 13033 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 15 Feb 2021 10:18:01 PST
-Received: from mail.nic.cz (mail.nic.cz [IPv6:2001:1488:800:400::400])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BA8CC061574;
-        Mon, 15 Feb 2021 10:18:01 -0800 (PST)
+        id S230117AbhBOSWU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 15 Feb 2021 13:22:20 -0500
+Received: from mail.nic.cz ([217.31.204.67]:45998 "EHLO mail.nic.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229996AbhBOSWI (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 15 Feb 2021 13:22:08 -0500
 Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
-        by mail.nic.cz (Postfix) with ESMTPSA id F2FC4140A77;
-        Mon, 15 Feb 2021 19:17:58 +0100 (CET)
-Date:   Mon, 15 Feb 2021 19:17:57 +0100
+        by mail.nic.cz (Postfix) with ESMTPSA id ECB11140A60;
+        Mon, 15 Feb 2021 19:21:24 +0100 (CET)
+Date:   Mon, 15 Feb 2021 19:21:24 +0100
 From:   Marek Behun <marek.behun@nic.cz>
 To:     Roderick Colenbrander <roderick@gaikai.com>
 Cc:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Pavel Machek <pavel@ucw.cz>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        pobm@protonmail.com,
         "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
         linux-leds@vger.kernel.org,
         Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: Re: [PATCH v6 2/4] HID: playstation: add microphone mute support
- for DualSense.
-Message-ID: <20210215191757.58992f44@nic.cz>
-In-Reply-To: <CANndSK=6TAzJJCvcgtRe_ASLbcqb73Y81gXPu3Qhg62Dxyvmuw@mail.gmail.com>
+Subject: Re: [PATCH v6 1/4] HID: playstation: add DualSense lightbar support
+Message-ID: <20210215192124.7a6c8c9d@nic.cz>
+In-Reply-To: <CANndSKkVAFJzf58CNYw_j0QY7hd4umOMn5Cs6U3JnK6TozWdEQ@mail.gmail.com>
 References: <20210215004549.135251-1-roderick@gaikai.com>
-        <20210215004549.135251-3-roderick@gaikai.com>
-        <20210215154045.4ac27ec0@nic.cz>
-        <CANndSK=6TAzJJCvcgtRe_ASLbcqb73Y81gXPu3Qhg62Dxyvmuw@mail.gmail.com>
+        <20210215004549.135251-2-roderick@gaikai.com>
+        <20210215143144.060fdbe6@nic.cz>
+        <CANndSKmSP7rdsrMuwRapQkDru75TxN9zbDUbvOj_5hrQpskmJg@mail.gmail.com>
+        <20210215165518.16033bb6@nic.cz>
+        <CANndSKkVAFJzf58CNYw_j0QY7hd4umOMn5Cs6U3JnK6TozWdEQ@mail.gmail.com>
 X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -52,78 +47,87 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 15 Feb 2021 10:07:29 -0800
+On Mon, 15 Feb 2021 09:51:15 -0800
 Roderick Colenbrander <roderick@gaikai.com> wrote:
 
-> On Mon, Feb 15, 2021 at 6:40 AM Marek Behun <marek.behun@nic.cz> wrote:
+> On Mon, Feb 15, 2021 at 7:55 AM Marek Behun <marek.behun@nic.cz> wrote:
 > >
-> > On Sun, 14 Feb 2021 16:45:47 -0800
+> > On Mon, 15 Feb 2021 07:36:58 -0800
 > > Roderick Colenbrander <roderick@gaikai.com> wrote:
 > >  
-> > > From: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> > > Hi Marek,
 > > >
-> > > The DualSense controller has a built-in microphone exposed as an
-> > > audio device over USB (or HID using Bluetooth). A dedicated
-> > > button on the controller handles mute, but software has to configure
-> > > the device to mute the audio stream.
+> > > On Mon, Feb 15, 2021 at 5:31 AM Marek Behun <marek.behun@nic.cz> wrote:  
+> > > >
+> > > > On Sun, 14 Feb 2021 16:45:46 -0800
+> > > > Roderick Colenbrander <roderick@gaikai.com> wrote:
+> > > >  
+> > > > > +     led_cdev->name = devm_kasprintf(&hdev->dev, GFP_KERNEL, "playstation::%pMR::rgb",
+> > > > > +                     ps_dev->mac_address);  
+> > > > ...  
+> > > > > +     ret = devm_led_classdev_multicolor_register(&hdev->dev, lightbar_mc_dev);  
+> > > >
+> > > > The LED subsystem has a predefined schema by which LED names should
+> > > > look like:
+> > > >   devicename:color:function
+> > > > (Not all fields are required, but the order must be preserved. The ':'
+> > > >  character should be used only as separator of these fields, so not MAC
+> > > >  addresses in these names, it will confuse userspace parsers.)
+> > > > See Documentation/leds/leds-class.rst
+> > > >
+> > > > The devicename part should not be "playstation". It should be something
+> > > > otherwise recognizable from userspace. For example an mmc indicator has
+> > > > devicename "mmc0", keyboard capslock LED can have devicename "input0"...
+> > > >
+> > > > In your case the name should be something like:
+> > > >   input3:rgb:indicator  
 > > >
-> > > This patch captures the mute button and schedules an output report
-> > > to mute/unmute the audio stream as well as toggle the mute LED.
+> > > Naming is a little bit tricky. The LEDs as well as other sysfs nodes
+> > > are added to the 'parent' HID device, not the input devices. In case
+> > > of DualSense it is actually implemented as a composite device with
+> > > mulitple input devices (gamepad, touchpad and motion sensors) per HID
+> > > device. The device name of HID devices seems to be something like:
+> > > <bus>:<vendor_id>:<product_id>:<some other id> e.g. for DualSense USB
+> > > 0003:054C:0CE6.0029 or Bluetooth 0005:054C:0CE6.002B
 > > >
-> > > Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>  
+> > > This is I guess why many HID devices in general pick their own names
+> > > (and not all have need to have input devices I guess). Though Benjamin
+> > > and Jiri know better.
+> > >
+> > > I'm not sure what naming could make sense here. The previous Sony
+> > > driver for PlayStation devices used: HID_name "::red" for e.g. red LED
+> > > on DualShock 4.  
 > >
-> > Is the microphone supported via Linux? I.e. is there an audio driver
-> > for it?  
+> > We have to find a reasonable devicename here. If each joystick registers
+> > multiple input devices, it cannot be "input%d". I suppose there isn't
+> > an API for grouping mulitple input devices toghether into inputgroups.
+> > Maybe it could be in the format "joystick%d".  
 > 
-> Yes and no. The microphone is supported using USB, not yet using
-> Bluetooth (uses a custom protocol). Actually there are various other
-> audio features in the DualSense (headphone jack, speaker, volume
-> controls,..) and they all work using custom protocols. We were
-> planning to defer this work through future patches as the features are
-> very complicated and need a deep analysis on how to realize them. For
-> example audio controls work through HID, but for USB the audio driver
-> is a generic hda audio device I think. Bluetooth is a custom protocol
-> and will be yet a different audio driver somewhere.
+> Yeah, there is no inputgroups mechanism.  It could use some type of
+> joystick name if that's what desired. However, there is no common ID
+> code. Individual drivers are sometimes calculating their own IDs
+> (hid-nintendo, hid-sony, hid-playstation and xpad I think). At least
+> for hid-sony/hid-playstation the use case for tracking IDs is for a
+> part to prevent duplicate devices as you can connect your device using
+> both bluetooth and USB. So would be "ps-joystick0"
 > 
-> > If it is, look at the audio-micmute LED trigger.
-> >  
+> At the HID layer there does seem to be a unique ID, but it is only
+> exposed in the name string: This is how the name is constructed:
+>      dev_set_name(&hdev->dev, "%04X:%04X:%04X.%04X", hdev->bus,
+>              hdev->vendor, hdev->product, atomic_inc_return(&id));
 > 
-> I'm not sure if the expected behavior for the DualSense is similar to
-> the standard audio mute use cases. My understanding of these triggers
-> (please correct me if I'm wrong) is for e.g. an audio driver or user
-> space to send a signal to anything registering for a particular
-> trigger. In this case a global micmute. Is that, right?
+> This ID is HID specific, but not all input devices use HID.
 > 
-> In our case for PlayStation games, there are often multiple
-> controllers connected and each user has their own microphone in their
-> controller. All can function at the same time (different from a
-> standard PC use case). That's why I'm wondering if this makes sense.I
-> know we are on Linux, but for Sony we want to properly support such
-> use cases.
+> I'm not entirely sure what makes sense...
 
-If there aren't audio drivers yet for this, simply have this driver
-also register a private LED trigger (with name "joystick-audiomute"
-or something similar), and when registering the LED, set the
-trigger_type member. Look at trigger_type in include/linux/leds.h, and
-in LED Documentation.
+So all HIDs can be uniqely determined via this atomic_inc_return(&id),
+but it is only stored in string form as part of device name.
 
-When this trigger is enabled for your LED, have your code switch LED
-state like it does now. When there is no trigger enabled, the userspace
-will be able to set brightness of this LED via sysfs. Before registering
-the LED, assign default_trigger member so that this trigger is enabled
-during registration.
+Send a patch to hid-core to make this atomic_inc_return(&id) also be
+stored into struct hid_device as an integer, not only as a part
+of the device name string.
 
-This is why we have support for private LED triggers.
+Then use "hid%d" as the devicename for this LED, with %d substituted
+with this ID.
 
 Marek
-
-> > If you can't use the audio-micmute trigger because the microphone isn't
-> > supported via Linux, I still think the LED should the LED should be
-> > read-write. You can then register a LED private trigger. The driver should
-> > change the state of the LED according to the microphone mute state only
-> > if these trigger is enabled.
-> >
-> > Marek  
-> 
-> Roderick
-
