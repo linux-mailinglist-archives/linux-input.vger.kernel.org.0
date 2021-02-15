@@ -2,89 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8D8331C315
-	for <lists+linux-input@lfdr.de>; Mon, 15 Feb 2021 21:40:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 65E6131C325
+	for <lists+linux-input@lfdr.de>; Mon, 15 Feb 2021 21:44:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229646AbhBOUjy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 15 Feb 2021 15:39:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51797 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229615AbhBOUjx (ORCPT
+        id S229646AbhBOUno (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 15 Feb 2021 15:43:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49254 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229627AbhBOUnn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 15 Feb 2021 15:39:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1613421507;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=vfOV5qIKuIZJ94/NWeZMoXRXEDoapJH6cjMGgZA03Io=;
-        b=K/jWkzgl1+xQimLtLG1LQzytTrRyJGb09nkzlDQ887kqOnSANZIOoHbhK/Z9SMJFsITh+0
-        rDLnCvR4InUvU1ieUYcMHU1qKHW/wOPA1Jk172mf4a0bjw+fuuwjCwrK9sIWHxGRpuaePi
-        UgQlMdtCWW4U4tVSRSith5WHRSsl8d8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-Jl9pkGHRMZqlDTjJAoykJg-1; Mon, 15 Feb 2021 15:38:25 -0500
-X-MC-Unique: Jl9pkGHRMZqlDTjJAoykJg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 508F980196C;
-        Mon, 15 Feb 2021 20:38:24 +0000 (UTC)
-Received: from x1.localdomain (ovpn-115-74.ams2.redhat.com [10.36.115.74])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 5DACA5D9C0;
-        Mon, 15 Feb 2021 20:38:23 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org
-Subject: [PATCH 5/5] HID: lenovo: Set default_trigger-s for the mute and micmute LEDs
-Date:   Mon, 15 Feb 2021 21:38:14 +0100
-Message-Id: <20210215203814.699633-5-hdegoede@redhat.com>
-In-Reply-To: <20210215203814.699633-1-hdegoede@redhat.com>
-References: <20210215203814.699633-1-hdegoede@redhat.com>
+        Mon, 15 Feb 2021 15:43:43 -0500
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA07AC061574
+        for <linux-input@vger.kernel.org>; Mon, 15 Feb 2021 12:43:02 -0800 (PST)
+Received: by mail-ej1-x630.google.com with SMTP id i23so7114086ejg.10
+        for <linux-input@vger.kernel.org>; Mon, 15 Feb 2021 12:43:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:from:subject:message-id:date:user-agent:mime-version
+         :content-transfer-encoding:content-language;
+        bh=ixg1ygQwMAIzmWmi4aZ6baIekeiK3vHVeqFnm5gcUm8=;
+        b=SE5zjvVnkBJvIkb/4hUZhvmndPwePnfxd0eQCjH8XNJXkMG+yhk7rl2NoGwFut9mTF
+         S3whyBXV44m2btySEZTp86Spaw1TAVtpb7Xs+QTI557U7ivG14WK9KjSpL9unmJZ3c3b
+         Oi5WTMolX/Qkrp22y6/DQHZJ61n+YDJ52CFdjroFCMr3YApQJmbsIe0MwitEpKSFM8lW
+         UigK0L9RGP+i1ijOpG8xbICpvf0wLnHYpOgrYQZYgF5pc+qisf/9jD1i3nVomIyDTlo5
+         sirVKLXg3jCmRNpQrQh7J8v151AajUB+h8cbt0WgRUvZjbqt510CV0HLhimwPL4rQ18J
+         8vAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+         :mime-version:content-transfer-encoding:content-language;
+        bh=ixg1ygQwMAIzmWmi4aZ6baIekeiK3vHVeqFnm5gcUm8=;
+        b=gvJM8xLmxOdh+/9cBqjw4M72jDVIi5JOO8CiPNZCdvFHNFJ+zxwxqslb9oId8sg5QU
+         lVGWLP6YxH9C5r6GdT9BLzP6tgWMO7iUqMFJf74CxwHQDfOoDdRvJsw7Yl8NG6JCwu6I
+         rjjPwCFUCeWLqUCPR90zKS1Z1QdEPUH1EU4sqj6BJHDfjOQE5FJ+qELoJiSOi/4K4DZt
+         8LAZ1N2rz+0UB9EdI/3x7uHd2NyS5axhHN2FTR0cMewQdJ/1TUWIzvdl71KuHUSgiiu7
+         a4ISleKrX6UmSImaOFLRyJIO7FGZNEn94SZ4nv/bm1ylPuKUoGN67hFRxjHpm/2LuA37
+         OlcA==
+X-Gm-Message-State: AOAM530wWmjGpPMxGBpSl17tOq0gWWH6wnzQrnWW2cz7LxOkKxV6XA/2
+        zjJwqZ3paJWBbj755boZsq/DxV6xnm0z1A==
+X-Google-Smtp-Source: ABdhPJw9I3BtXvBchoKUJV9DtCdgQxiPlz5bYT0XlpivaM4TT14XjdRM2mfNwhCVJWqLmuO4r3cW9A==
+X-Received: by 2002:a17:907:78d5:: with SMTP id kv21mr17392346ejc.461.1613421781352;
+        Mon, 15 Feb 2021 12:43:01 -0800 (PST)
+Received: from [192.168.1.100] (host-87-21-45-201.retail.telecomitalia.it. [87.21.45.201])
+        by smtp.gmail.com with ESMTPSA id bn2sm11582154ejb.35.2021.02.15.12.43.00
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Feb 2021 12:43:01 -0800 (PST)
+To:     linux-input@vger.kernel.org
+From:   Gennaro Cimmino <l0rdg3x@gmail.com>
+Subject: HID: 258a:0001 SINO WEALTH USB KEYBOARD
+Message-ID: <9152f235-83c2-abc7-0c9f-e07eafa406e2@gmail.com>
+Date:   Mon, 15 Feb 2021 21:43:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The mute and mic-mute LEDs should be automatically turned on/off based
-on the audio-cards mixer settings.
+Hi Everybody,
+someone can take a look to this bug?
+https://bugzilla.kernel.org/show_bug.cgi?id=211679
 
-Add the standardized default-trigger names for this, so that the alsa
-code can turn the LEDs on/off as appropriate (on supported audo cards).
+tested with kernel 5.11, not work.
 
-This brings the mute/mic-mute LED support inline with the thinkpad_acpi
-support for the same LEDs in keyboards directly connected to the
-laptop's embedded-controller.
+Thanks in advice.
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/hid/hid-lenovo.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
-index 045c06ba0ab8..c82e328f5310 100644
---- a/drivers/hid/hid-lenovo.c
-+++ b/drivers/hid/hid-lenovo.c
-@@ -829,6 +829,7 @@ static int lenovo_register_leds(struct hid_device *hdev)
- 	snprintf(name_micm, name_sz, "%s:amber:micmute", dev_name(&hdev->dev));
- 
- 	data->led_mute.name = name_mute;
-+	data->led_mute.default_trigger = "audio-mute";
- 	data->led_mute.brightness_get = lenovo_led_brightness_get;
- 	data->led_mute.brightness_set_blocking = lenovo_led_brightness_set;
- 	data->led_mute.dev = &hdev->dev;
-@@ -837,6 +838,7 @@ static int lenovo_register_leds(struct hid_device *hdev)
- 		return ret;
- 
- 	data->led_micmute.name = name_micm;
-+	data->led_micmute.default_trigger = "audio-micmute";
- 	data->led_micmute.brightness_get = lenovo_led_brightness_get;
- 	data->led_micmute.brightness_set_blocking = lenovo_led_brightness_set;
- 	data->led_micmute.dev = &hdev->dev;
--- 
-2.30.1
+Gennaro Cimmino
 
