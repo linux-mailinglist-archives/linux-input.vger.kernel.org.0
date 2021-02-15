@@ -2,533 +2,203 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 732D031C426
-	for <lists+linux-input@lfdr.de>; Mon, 15 Feb 2021 23:50:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D217631C42E
+	for <lists+linux-input@lfdr.de>; Tue, 16 Feb 2021 00:01:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229708AbhBOWul (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 15 Feb 2021 17:50:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48170 "EHLO
+        id S229682AbhBOXBY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 15 Feb 2021 18:01:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229702AbhBOWuk (ORCPT
+        with ESMTP id S229660AbhBOXBX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 15 Feb 2021 17:50:40 -0500
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA01CC061756;
-        Mon, 15 Feb 2021 14:49:59 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id w4so7415132wmi.4;
-        Mon, 15 Feb 2021 14:49:59 -0800 (PST)
+        Mon, 15 Feb 2021 18:01:23 -0500
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C0E3C061756
+        for <linux-input@vger.kernel.org>; Mon, 15 Feb 2021 15:00:42 -0800 (PST)
+Received: by mail-qt1-x82c.google.com with SMTP id v10so5945247qtq.7
+        for <linux-input@vger.kernel.org>; Mon, 15 Feb 2021 15:00:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=QN1eO6+5uOlzlnYpw4yWwU4h0m7rl0IyUszzyiWdwK8=;
-        b=ux6sXN+9ivxi+hMw/0QXr13n5rHu0OqevNiJsWoPzAsNCOClBAIXOcLpcvkRLGcmZS
-         gcDQdHfHdHTb10OuAvw+MWtJ9oyaeg0SKGrO1wOmLLBa1rVlSz7Cb6LwhOmpMdTwygO6
-         jveOGsdbgrll0NmCt5fK1vA1iWr+CbwxOKxKyHcdsewf00MRYQ1T2z1nNSaelA/WwOEl
-         /GS+1s3L/tNRNAIrT0gRvbzoutonHLC4QtkEJjn+2XDh8z7DX+41fwanPkG0iaBQuVzQ
-         iMtbwnDl10qH5b2Ps1WaOV8QqGEnhl0w8Ahs1X2UNtvVPjJ5WL568fAV5kdrTpr4fmML
-         31JA==
+        d=gaikai-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JvE/meSnSzBUHxjA37G3fitD+WZ6bXS3ShAbDM/I+R8=;
+        b=rzdC54VwYpXHZmNTpGHut+EZwemXIsNpG+x5vEVfZv35T8Bpx6pPkw0cTKxW6LvWuM
+         xUBGTZzTIcb14jsIXELESW7CFa6HtvmSW8hB6PP+ejUrxgAcJQvYqlqX9RzlbNcQnILQ
+         wgO5395xL/ySlWQEYNnp77FMU0Hn+GZK6b9KkhMnQaeVN1DtGMkjAJA/o7ZBcR0ggvRr
+         kPo7GBDI2CNUq9qUSpts6UYLHWCTTz719xCMzsHXmsOgT4Gl/HJSHWcMLjvjRs+Nzb8t
+         H1GymHecVqVVRq0mpIHM/JomSiOtb1NrqqW+ak8g0PIe4pijDAo2LToNoPk+rqT7/Feg
+         4UQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=QN1eO6+5uOlzlnYpw4yWwU4h0m7rl0IyUszzyiWdwK8=;
-        b=twzrd+5lVWodioiARbCUV5dAuS8Ed1QdYWXrOzpDl53VA7v8ii8S5aiMQ3e/vfXRiz
-         eI0DJKQlDVksbjeHxNETECj1rJe1k6PCg5PUKC+TZGoB5XwbvdXrxO6xForJ0j1J3APM
-         XjTfHrbITEBx9Hfix6rm/iLdjvL+66cOGGuw1o4jynCfCEoRxDB/X879PvZF5CafMAGk
-         3Wl1VthqR/fV9K4DMG2BYxGil/liLDwwUkJEsbrz+o3rroS5cFrCIVR3KpOb19u2Xmfv
-         5UCQrAF7+t19nUMI0QxTzzLv5x5ukeXAKVUC9wxTO3BaQF0vp2QN7EkT59gCw+Zm5EVO
-         k7QA==
-X-Gm-Message-State: AOAM533msbcjFI5hF3gpWGQE+RalGDqaeDvLuycydachpMuPwp4GI4MA
-        Mysm4LEiFZp97dpqb5QfEd6shR25Bz8ohw==
-X-Google-Smtp-Source: ABdhPJy3AJmOkYrLwv307AWR3HsLpivVUZfZ3mF81vhE64F3wue5/oZgV0714CqZb5O9X1wIpOcVfg==
-X-Received: by 2002:a1c:f312:: with SMTP id q18mr821052wmq.79.1613429398610;
-        Mon, 15 Feb 2021 14:49:58 -0800 (PST)
-Received: from localhost.localdomain ([39.40.112.112])
-        by smtp.googlemail.com with ESMTPSA id x10sm849934wmg.6.2021.02.15.14.49.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Feb 2021 14:49:58 -0800 (PST)
-From:   Hamza Farooq <0xa6c4@gmail.com>
-X-Google-Original-From: Hamza Farooq <0xA6C4@gmail.com>
-Cc:     kbuild-all@lists.01.org, Hamza Farooq <0xA6C4@gmail.com>,
-        kernel test robot <lkp@intel.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH v2] Input: psmouse - add support for FocalTech PS/2 Protocol v2
-Date:   Tue, 16 Feb 2021 03:49:28 +0500
-Message-Id: <20210215224933.23632-1-0xA6C4@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <202102111817.sPo0m4ak-lkp@intel.com>
-References: <202102111817.sPo0m4ak-lkp@intel.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JvE/meSnSzBUHxjA37G3fitD+WZ6bXS3ShAbDM/I+R8=;
+        b=l80YPf1wNWN0Sgknn6sb5nXKWeqZ35BOJnha9ojc4stzDQaC+sYZyisiwj/U7HxBQe
+         7Txf67nlwKJ0w3O4rngIpiLv2ep1KZ42U3MvfblpIXcpuHZmoXiEfPaAkXJZV5rXawrI
+         BkowGUisqZ/Sqn2BnNSBkxqD67nPzpSGO851bHV2mcPFrQsFvK45lN/taWrUcl9Ga6pk
+         eadw12tJa7dS0tMMGgTIgHpx9X4g7fxaMa80D+Cby1ffRPUss1Ja9FO74AaHVMYwBZne
+         aJ3PRje5ZtZpi/gl5qlIrbLeYb1UveX6lyzt728GbQDQ/0EwKRbAwD5aOa478lumRdGI
+         Tcgg==
+X-Gm-Message-State: AOAM530rgIOyOTVvarJPUT8Zt0aqCeso4lp6vNtwfyqkbdd4Ppx9l+1S
+        Q+ep5gAlGvePgPm5SFrBfGonhpxHtT6UJS7TEOhngQ==
+X-Google-Smtp-Source: ABdhPJzOMWkifrQGVzv0CIXVtZmJIpLXGgwwKhVjj/LxcZNPsk1zyWvdzxzORCeSU715nq2hoJxEjpJRwf5MRQy8XHk=
+X-Received: by 2002:ac8:1408:: with SMTP id k8mr16512324qtj.204.1613430041562;
+ Mon, 15 Feb 2021 15:00:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+References: <20210215004549.135251-1-roderick@gaikai.com> <20210215004549.135251-4-roderick@gaikai.com>
+In-Reply-To: <20210215004549.135251-4-roderick@gaikai.com>
+From:   Roderick Colenbrander <roderick@gaikai.com>
+Date:   Mon, 15 Feb 2021 15:00:30 -0800
+Message-ID: <CANndSK=52kV50SsDzhEg78m67AFhNoz=Z4H1=pFyHLzAJj-YBQ@mail.gmail.com>
+Subject: Re: [PATCH v6 3/4] HID: playstation: add DualSense player LEDs support.
+To:     Marek Behun <marek.behun@nic.cz>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        linux-leds@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Haier Y11C Laptop have FocalTech PS/2 Touchpad, BIOS Device Name is FTE0001.
-This device have different protocol than exisiting FocalTech PS/2 Driver.
+Hi Marek,
 
-This commit adds a basic multitouch-capable driver.
+On Sun, Feb 14, 2021 at 4:46 PM Roderick Colenbrander
+<roderick@gaikai.com> wrote:
+>
+> From: Roderick Colenbrander <roderick.colenbrander@sony.com>
+>
+> The DualSense features 5 player LEDs below its touchpad, which are
+> meant as player id indications. This patch exposes the player LEDs
+> as individual LEDs.
+>
+> Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> ---
+>  drivers/hid/hid-playstation.c | 60 ++++++++++++++++++++++++++++++++++-
+>  1 file changed, 59 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
+> index c436ac8f7a6f..2d96785c397d 100644
+> --- a/drivers/hid/hid-playstation.c
+> +++ b/drivers/hid/hid-playstation.c
+> @@ -112,6 +112,7 @@ struct ps_led_info {
+>  #define DS_OUTPUT_VALID_FLAG1_POWER_SAVE_CONTROL_ENABLE BIT(1)
+>  #define DS_OUTPUT_VALID_FLAG1_LIGHTBAR_CONTROL_ENABLE BIT(2)
+>  #define DS_OUTPUT_VALID_FLAG1_RELEASE_LEDS BIT(3)
+> +#define DS_OUTPUT_VALID_FLAG1_PLAYER_INDICATOR_CONTROL_ENABLE BIT(4)
+>  #define DS_OUTPUT_VALID_FLAG2_LIGHTBAR_SETUP_CONTROL_ENABLE BIT(1)
+>  #define DS_OUTPUT_POWER_SAVE_CONTROL_MIC_MUTE BIT(4)
+>  #define DS_OUTPUT_LIGHTBAR_SETUP_LIGHT_OUT BIT(1)
+> @@ -157,6 +158,11 @@ struct dualsense {
+>         bool last_btn_mic_state;
+>         struct led_classdev mute_led;
+>
+> +       /* Player leds */
+> +       bool update_player_leds;
+> +       uint8_t player_leds_state;
+> +       struct led_classdev player_leds[5];
+> +
+>         struct work_struct output_worker;
+>         void *output_report_dmabuf;
+>         uint8_t output_seq; /* Sequence number for output report. */
+> @@ -778,6 +784,35 @@ static void dualsense_mute_led_set_brightness(struct led_classdev *led, enum led
+>
+>  }
+>
+> +static enum led_brightness dualsense_player_led_get_brightness(struct led_classdev *led)
+> +{
+> +       struct hid_device *hdev = to_hid_device(led->dev->parent);
+> +       struct dualsense *ds = hid_get_drvdata(hdev);
+> +
+> +       return !!(ds->player_leds_state & BIT(led - ds->player_leds));
+> +}
+> +
+> +static void dualsense_player_led_set_brightness(struct led_classdev *led, enum led_brightness value)
+> +{
+> +       struct hid_device *hdev = to_hid_device(led->dev->parent);
+> +       struct dualsense *ds = hid_get_drvdata(hdev);
+> +       unsigned long flags;
+> +       unsigned int led_index;
+> +
+> +       spin_lock_irqsave(&ds->base.lock, flags);
+> +
+> +       led_index = led - ds->player_leds;
+> +       if (value == LED_OFF)
+> +               ds->player_leds_state &= ~BIT(led_index);
+> +       else
+> +               ds->player_leds_state |= BIT(led_index);
+> +
+> +       ds->update_player_leds = true;
+> +       spin_unlock_irqrestore(&ds->base.lock, flags);
+> +
+> +       schedule_work(&ds->output_worker);
+> +}
+> +
+>  static void dualsense_init_output_report(struct dualsense *ds, struct dualsense_output_report *rp,
+>                 void *buf)
+>  {
+> @@ -870,6 +905,13 @@ static void dualsense_output_worker(struct work_struct *work)
+>                 ds->update_lightbar = false;
+>         }
+>
+> +       if (ds->update_player_leds) {
+> +               common->valid_flag1 |= DS_OUTPUT_VALID_FLAG1_PLAYER_INDICATOR_CONTROL_ENABLE;
+> +               common->player_leds = ds->player_leds_state;
+> +
+> +               ds->update_player_leds = false;
+> +       }
+> +
+>         if (ds->update_mic_mute) {
+>                 common->valid_flag1 |= DS_OUTPUT_VALID_FLAG1_MIC_MUTE_LED_CONTROL_ENABLE;
+>                 common->mute_button_led = ds->mic_muted;
+> @@ -1119,12 +1161,20 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
+>         struct dualsense *ds;
+>         struct ps_device *ps_dev;
+>         uint8_t max_output_report_size;
+> -       int ret;
+> +       int i, ret;
+>
+>         static const struct ps_led_info mute_led_info = {
+>                 "micmute", dualsense_mute_led_get_brightness, dualsense_mute_led_set_brightness
+>         };
+>
+> +       static const struct ps_led_info player_leds_info[] = {
+> +               { "led1", dualsense_player_led_get_brightness, dualsense_player_led_set_brightness },
+> +               { "led2", dualsense_player_led_get_brightness, dualsense_player_led_set_brightness },
+> +               { "led3", dualsense_player_led_get_brightness, dualsense_player_led_set_brightness },
+> +               { "led4", dualsense_player_led_get_brightness, dualsense_player_led_set_brightness },
+> +               { "led5", dualsense_player_led_get_brightness, dualsense_player_led_set_brightness }
+> +       };
+> +
+>         ds = devm_kzalloc(&hdev->dev, sizeof(*ds), GFP_KERNEL);
+>         if (!ds)
+>                 return ERR_PTR(-ENOMEM);
+> @@ -1206,6 +1256,14 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
+>         if (ret)
+>                 goto err;
+>
+> +       for (i = 0; i < ARRAY_SIZE(player_leds_info); i++) {
+> +               const struct ps_led_info *led_info = &player_leds_info[i];
+> +
+> +               ret = ps_led_register(ps_dev, &ds->player_leds[i], led_info);
+> +               if (ret < 0)
+> +                       goto err;
+> +       }
+> +
+>         return &ds->base;
+>
+>  err:
+> --
+> 2.26.2
+>
 
-Some of the protcol is still unknown (just like the other FocalTech driver)
-Device can only be identified with PNP ID.
+What is the desired naming for these player LEDs? There is not an
+officially designed function based on DT bindings. So far they used
+"playstation::mac::ledX". When changing the naming scheme towards
+"hid" and removing MAC, they would be: "hid%d::led1" etcetera.
 
-Signed-off-by: Hamza Farooq <0xA6C4@gmail.com>
-Reported-by: kernel test robot <lkp@intel.com>
----
-Changes in v2:
-- Fixed compilation issue
-
- drivers/input/mouse/Kconfig        |  10 ++
- drivers/input/mouse/Makefile       |   2 +-
- drivers/input/mouse/focaltech_v2.c | 265 +++++++++++++++++++++++++++++
- drivers/input/mouse/focaltech_v2.h |  57 +++++++
- drivers/input/mouse/psmouse-base.c |  32 ++++
- drivers/input/mouse/psmouse.h      |   1 +
- 6 files changed, 366 insertions(+), 1 deletion(-)
- create mode 100644 drivers/input/mouse/focaltech_v2.c
- create mode 100644 drivers/input/mouse/focaltech_v2.h
-
-diff --git a/drivers/input/mouse/Kconfig b/drivers/input/mouse/Kconfig
-index 63c9cda55..843509c01 100644
---- a/drivers/input/mouse/Kconfig
-+++ b/drivers/input/mouse/Kconfig
-@@ -184,6 +184,16 @@ config MOUSE_PS2_FOCALTECH
- 
- 	  If unsure, say Y.
- 
-+config MOUSE_PS2_FOCALTECH_V2
-+	bool "FocalTech-v2 PS/2 mouse protocol extension" if EXPERT
-+	default y
-+	depends on MOUSE_PS2
-+	help
-+	  Say Y here if you have a FocalTech-V2 PS/2 TouchPad connected to
-+	  your system.
-+
-+	  If unsure, say Y.
-+
- config MOUSE_PS2_VMMOUSE
- 	bool "Virtual mouse (vmmouse)"
- 	depends on MOUSE_PS2 && X86 && HYPERVISOR_GUEST
-diff --git a/drivers/input/mouse/Makefile b/drivers/input/mouse/Makefile
-index e49f08565..31673ea8d 100644
---- a/drivers/input/mouse/Makefile
-+++ b/drivers/input/mouse/Makefile
-@@ -26,7 +26,7 @@ obj-$(CONFIG_MOUSE_SYNAPTICS_USB)	+= synaptics_usb.o
- obj-$(CONFIG_MOUSE_VSXXXAA)		+= vsxxxaa.o
- 
- cyapatp-objs := cyapa.o cyapa_gen3.o cyapa_gen5.o cyapa_gen6.o
--psmouse-objs := psmouse-base.o synaptics.o focaltech.o
-+psmouse-objs := psmouse-base.o synaptics.o focaltech.o focaltech_v2.o
- 
- psmouse-$(CONFIG_MOUSE_PS2_ALPS)	+= alps.o
- psmouse-$(CONFIG_MOUSE_PS2_BYD)		+= byd.o
-diff --git a/drivers/input/mouse/focaltech_v2.c b/drivers/input/mouse/focaltech_v2.c
-new file mode 100644
-index 000000000..c07c6fb65
---- /dev/null
-+++ b/drivers/input/mouse/focaltech_v2.c
-@@ -0,0 +1,265 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * Focaltech v2 TouchPad PS/2 mouse driver
-+ *
-+ * Copyright (c) 2021 Hamza Farooq <0xA6C4@gmail.com>
-+ */
-+
-+
-+#include <linux/device.h>
-+#include <linux/libps2.h>
-+#include <linux/input/mt.h>
-+#include <linux/serio.h>
-+#include <linux/slab.h>
-+#include "psmouse.h"
-+#include "focaltech_v2.h"
-+
-+static const struct fte_command switch_protocol[] = {
-+	{PSMOUSE_CMD_SETRATE,	0xea},
-+	{PSMOUSE_CMD_SETRATE,	0xed},
-+	{PSMOUSE_CMD_ENABLE,	0x00},
-+};
-+
-+static const char *const focaltech_pnp_ids[] = {
-+	"FTE0001",
-+	NULL};
-+
-+int focaltech_v2_detect(struct psmouse *psmouse, bool set_properties)
-+{
-+	if (!psmouse_matches_pnp_id(psmouse, focaltech_pnp_ids))
-+		return -ENODEV;
-+
-+	if (set_properties) {
-+		psmouse->vendor = "FocalTech";
-+		psmouse->name = "Touchpad V2";
-+	}
-+
-+	return 0;
-+}
-+
-+#ifdef CONFIG_MOUSE_PS2_FOCALTECH_V2
-+
-+static void focaltech_report_state(struct psmouse *psmouse)
-+{
-+	struct focaltech_data *priv = psmouse->private;
-+	struct focaltech_hw_state *state = &priv->state;
-+	struct input_dev *dev = psmouse->dev;
-+	int i;
-+
-+	for (i = 0; i < FOCALTECH_MAX_FINGERS; i++) {
-+		struct focaltech_finger_state *finger = &state->fingers[i];
-+
-+		input_mt_slot(dev, i);
-+		input_mt_report_slot_state(dev, MT_TOOL_FINGER, finger->valid);
-+		if (finger->valid) {
-+			input_report_abs(dev, ABS_MT_POSITION_X, finger->x);
-+			input_report_abs(dev, ABS_MT_POSITION_Y, finger->y);
-+			input_report_abs(dev, ABS_MT_TOUCH_MAJOR, finger->major);
-+			input_report_abs(dev, ABS_MT_TOUCH_MINOR, finger->minor);
-+			input_report_abs(dev, ABS_MT_PRESSURE, finger->pressure);
-+		}
-+	}
-+	input_mt_sync_frame(dev);
-+	input_report_key(dev, BTN_LEFT, state->left);
-+	input_report_key(dev, BTN_RIGHT, state->right);
-+	input_mt_report_finger_count(dev, state->fingerCount);
-+	input_sync(dev);
-+}
-+
-+static void focaltech_process_packet(struct psmouse *psmouse)
-+{
-+	unsigned char *packet = psmouse->packet;
-+	struct focaltech_data *priv = psmouse->private;
-+	struct focaltech_hw_state *state = &priv->state;
-+	int i, j;
-+
-+	if (!priv->isReadNext) {
-+		for (i = 0; i < 8; i++)
-+			priv->lastDeviceData[i] = packet[i];
-+		for (i = 8; i < 16; i++)
-+			priv->lastDeviceData[i] = 0xff;
-+		state->fingerCount = (int)(packet[4] & 3) + ((packet[4] & 48) >> 2);
-+		if ((state->fingerCount > 2) && (packet[0] != 0xff && packet[1] != 0xff && packet[2] != 0xff && packet[3] != 0xff) && (packet[0] & 48) != 32)
-+			priv->isReadNext = true;
-+	} else {
-+		priv->isReadNext = false;
-+		for (i = 8; i < 16; i++)
-+			priv->lastDeviceData[i] = packet[i - 8];
-+	}
-+	if (!priv->isReadNext) {
-+		if (!((priv->lastDeviceData[0] == 0xff) && (priv->lastDeviceData[1] == 0xff) && (priv->lastDeviceData[2] == 0xff) && (priv->lastDeviceData[3] == 0xff))) {
-+			if ((priv->lastDeviceData[0] & 1) == 1)
-+				state->left = true;
-+			else
-+				state->left = false;
-+			if ((priv->lastDeviceData[0] & 2) == 2)
-+				state->right = true;
-+			else
-+				state->right = false;
-+			if ((priv->lastDeviceData[0] & 48) == 16) {
-+				for (i = 0; i < 4; i++) {
-+					j = i * 4;
-+					if (!((priv->lastDeviceData[j + 1] == 0xff) && (priv->lastDeviceData[j + 2] == 0xff) && (priv->lastDeviceData[j + 3] == 0xff))) {
-+						state->fingers[i].minor = priv->lastDeviceData[j + 1];
-+						state->fingers[i].major = priv->lastDeviceData[j + 2];
-+						state->fingers[i].pressure = priv->lastDeviceData[j + 3] * 2;
-+						if (state->fingers[i].pressure > MAX_PRESSURE)
-+							state->fingers[i].pressure = MAX_PRESSURE;
-+					}
-+				}
-+			} else {
-+				for (i = 0; i < 4; i++) {
-+					j = i * 4;
-+					if (!((priv->lastDeviceData[j + 1] == 0xff) && (priv->lastDeviceData[j + 2] == 0xff) && (priv->lastDeviceData[j + 3] == 0xff))) {
-+						state->fingers[i].valid = true;
-+						state->fingers[i].x = (priv->lastDeviceData[j + 1] << 4) + ((priv->lastDeviceData[j + 3] & 240) >> 4);
-+						state->fingers[i].y = (priv->lastDeviceData[j + 2] << 4) + (priv->lastDeviceData[j + 3] & 15);
-+					} else
-+						state->fingers[i].valid = false;
-+				}
-+			}
-+			if (state->fingerCount == 0)
-+				for (i = 0; i < 4; i++)
-+					state->fingers[i].valid = false;
-+		}
-+	}
-+	focaltech_report_state(psmouse);
-+}
-+
-+static psmouse_ret_t focaltech_process_byte(struct psmouse *psmouse)
-+{
-+	if (psmouse->pktcnt >= 8) { /* packet received */
-+		focaltech_process_packet(psmouse);
-+		return PSMOUSE_FULL_PACKET;
-+	}
-+	return PSMOUSE_GOOD_DATA;
-+}
-+
-+static int focaltech_switch_protocol(struct psmouse *psmouse)
-+{
-+	struct ps2dev *ps2dev = &psmouse->ps2dev;
-+	unsigned char param[4];
-+	size_t i;
-+
-+	for (i = 0; i < ARRAY_SIZE(switch_protocol); ++i) {
-+		memset(param, 0, sizeof(param));
-+		param[0] = switch_protocol[i].data;
-+		if (ps2_command(ps2dev, param, switch_protocol[i].command))
-+			return -EIO;
-+	}
-+
-+	return 0;
-+}
-+
-+static void focaltech_reset(struct psmouse *psmouse)
-+{
-+	ps2_command(&psmouse->ps2dev, NULL, PSMOUSE_CMD_RESET_DIS);
-+	psmouse_reset(psmouse);
-+}
-+
-+static void focaltech_disconnect(struct psmouse *psmouse)
-+{
-+	focaltech_reset(psmouse);
-+	kfree(psmouse->private);
-+	psmouse->private = NULL;
-+}
-+
-+static int focaltech_reconnect(struct psmouse *psmouse)
-+{
-+	int error;
-+
-+	focaltech_reset(psmouse);
-+
-+	error = focaltech_switch_protocol(psmouse);
-+	if (error) {
-+		psmouse_err(psmouse, "Unable to initialize the device\n");
-+		return error;
-+	}
-+
-+	return 0;
-+}
-+
-+static void focaltech_set_input_params(struct psmouse *psmouse)
-+{
-+	struct input_dev *dev = psmouse->dev;
-+
-+	/*
-+	 * Undo part of setup done for us by psmouse core since touchpad
-+	 * is not a relative device.
-+	 */
-+	__clear_bit(EV_REL, dev->evbit);
-+	__clear_bit(REL_X, dev->relbit);
-+	__clear_bit(REL_Y, dev->relbit);
-+
-+	/*
-+	 * Now set up our capabilities.
-+	 */
-+	__set_bit(EV_ABS, dev->evbit);
-+	input_set_abs_params(dev, ABS_MT_POSITION_X, 0, MAX_X, 0, 0);
-+	input_set_abs_params(dev, ABS_MT_POSITION_Y, 0, MAX_Y, 0, 0);
-+	input_set_abs_params(dev, ABS_MT_PRESSURE, 0, MAX_PRESSURE, 0, 0);
-+	input_set_abs_params(dev, ABS_MT_TOUCH_MINOR, 0, MAX_MAJOR, 0, 0);
-+	input_set_abs_params(dev, ABS_MT_TOUCH_MAJOR, 0, MAX_MINOR, 0, 0);
-+	input_abs_set_res(dev, ABS_MT_POSITION_X, RESOLUTION);
-+	input_abs_set_res(dev, ABS_MT_POSITION_Y, RESOLUTION);
-+	input_mt_init_slots(dev, FOCALTECH_MAX_FINGERS, INPUT_MT_POINTER);
-+}
-+
-+static void focaltech_set_resolution(struct psmouse *psmouse, unsigned int resolution)
-+{
-+	/* not supported yet */
-+}
-+
-+static void focaltech_set_rate(struct psmouse *psmouse, unsigned int rate)
-+{
-+	/* not supported yet */
-+}
-+
-+static void focaltech_set_scale(struct psmouse *psmouse, enum psmouse_scale scale)
-+{
-+	/* not supported yet */
-+}
-+
-+int focaltech_v2_init(struct psmouse *psmouse)
-+{
-+	struct focaltech_data *priv;
-+	int error;
-+
-+	psmouse->private = priv = kzalloc(sizeof(struct focaltech_data), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	focaltech_reset(psmouse);
-+
-+	error = focaltech_switch_protocol(psmouse);
-+	if (error) {
-+		psmouse_err(psmouse, "Unable to initialize the device\n");
-+		goto fail;
-+	}
-+
-+	focaltech_set_input_params(psmouse);
-+
-+	psmouse->protocol_handler = focaltech_process_byte;
-+	psmouse->pktsize = 8;
-+	psmouse->disconnect = focaltech_disconnect;
-+	psmouse->reconnect = focaltech_reconnect;
-+	psmouse->cleanup = focaltech_reset;
-+	/* resync is not supported yet */
-+	psmouse->resync_time = 0;
-+	/*
-+	 * rate/resolution/scale changes are not supported yet, and
-+	 * the generic implementations of these functions seem to
-+	 * confuse some touchpads
-+	 */
-+	psmouse->set_resolution = focaltech_set_resolution;
-+	psmouse->set_rate = focaltech_set_rate;
-+	psmouse->set_scale = focaltech_set_scale;
-+
-+	return 0;
-+
-+fail:
-+	focaltech_reset(psmouse);
-+	kfree(priv);
-+	return error;
-+}
-+#endif /* CONFIG_MOUSE_PS2_FOCALTECH_V2 */
-diff --git a/drivers/input/mouse/focaltech_v2.h b/drivers/input/mouse/focaltech_v2.h
-new file mode 100644
-index 000000000..2206ab14c
---- /dev/null
-+++ b/drivers/input/mouse/focaltech_v2.h
-@@ -0,0 +1,57 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * Focaltech v2 TouchPad PS/2 mouse driver
-+ *
-+ * Copyright (c) 2021 Hamza Farooq <0xA6C4@gmail.com>
-+ */
-+
-+#ifndef _FOCALTECH_V2_H
-+#define _FOCALTECH_V2_H
-+
-+#define FOCALTECH_MAX_FINGERS 4
-+#define MAX_X			0x08E0  /* 2272 */
-+#define MAX_Y			0x03E0  /* 992 */
-+#define RESOLUTION		26	/* 87mm x 38mm */
-+#define MAX_MAJOR		10
-+#define MAX_MINOR		10
-+#define MAX_PRESSURE	127
-+
-+struct fte_command {
-+	int command;
-+	unsigned char data;
-+};
-+
-+struct focaltech_finger_state {
-+	int x;
-+	int y;
-+	int major;
-+	int minor;
-+	int pressure;
-+	bool valid;
-+};
-+
-+struct focaltech_hw_state {
-+	struct focaltech_finger_state fingers[FOCALTECH_MAX_FINGERS];
-+	int fingerCount;
-+	bool left;
-+	bool right;
-+};
-+
-+struct focaltech_data {
-+	bool isReadNext;
-+	int lastDeviceData[16];
-+	struct focaltech_hw_state state;
-+};
-+
-+int focaltech_v2_detect(struct psmouse *psmouse, bool set_properties);
-+
-+#ifdef CONFIG_MOUSE_PS2_FOCALTECH_V2
-+int focaltech_v2_init(struct psmouse *psmouse);
-+#else
-+static inline int focaltech_v2_init(struct psmouse *psmouse)
-+{
-+	return -ENOSYS;
-+}
-+#endif
-+
-+#endif
-diff --git a/drivers/input/mouse/psmouse-base.c b/drivers/input/mouse/psmouse-base.c
-index 0b4a3039f..5f720af51 100644
---- a/drivers/input/mouse/psmouse-base.c
-+++ b/drivers/input/mouse/psmouse-base.c
-@@ -34,6 +34,7 @@
- #include "sentelic.h"
- #include "cypress_ps2.h"
- #include "focaltech.h"
-+#include "focaltech_v2.h"
- #include "vmmouse.h"
- #include "byd.h"
- 
-@@ -891,6 +892,15 @@ static const struct psmouse_protocol psmouse_protocols[] = {
- 		.init		= focaltech_init,
- 	},
- #endif
-+#ifdef CONFIG_MOUSE_PS2_FOCALTECH_V2
-+	{
-+		.type		= PSMOUSE_FOCALTECH_V2,
-+		.name		= "FocalTechPS/2",
-+		.alias		= "focaltech-v2",
-+		.detect		= focaltech_detect,
-+		.init		= focaltech_init,
-+	},
-+#endif
- #ifdef CONFIG_MOUSE_PS2_VMMOUSE
- 	{
- 		.type		= PSMOUSE_VMMOUSE,
-@@ -1072,6 +1082,28 @@ static int psmouse_extensions(struct psmouse *psmouse,
- 		psmouse_max_proto = max_proto = PSMOUSE_PS2;
- 	}
- 
-+	/*
-+	 * Always check for focaltech-v2, this is safe as it uses pnp-id
-+	 * matching.
-+	 */
-+	if (psmouse_do_detect(focaltech_v2_detect,
-+			      psmouse, false, set_properties)) {
-+		if (max_proto > PSMOUSE_IMEX &&
-+		    IS_ENABLED(CONFIG_MOUSE_PS2_FOCALTECH_V2) &&
-+		    (!set_properties || focaltech_v2_init(psmouse) == 0)) {
-+			return PSMOUSE_FOCALTECH_V2;
-+		}
-+		/*
-+		 * Restrict psmouse_max_proto so that psmouse_initialize()
-+		 * does not try to reset rate and resolution, because even
-+		 * that upsets the device.
-+		 * This also causes us to basically fall through to basic
-+		 * protocol detection, where we fully reset the mouse,
-+		 * and set it up as bare PS/2 protocol device.
-+		 */
-+		psmouse_max_proto = max_proto = PSMOUSE_PS2;
-+	}
-+
- 	/*
- 	 * We always check for LifeBook because it does not disturb mouse
- 	 * (it only checks DMI information).
-diff --git a/drivers/input/mouse/psmouse.h b/drivers/input/mouse/psmouse.h
-index 64c3a5d3f..68e06aaac 100644
---- a/drivers/input/mouse/psmouse.h
-+++ b/drivers/input/mouse/psmouse.h
-@@ -65,6 +65,7 @@ enum psmouse_type {
- 	PSMOUSE_SYNAPTICS_RELATIVE,
- 	PSMOUSE_CYPRESS,
- 	PSMOUSE_FOCALTECH,
-+	PSMOUSE_FOCALTECH_V2,
- 	PSMOUSE_VMMOUSE,
- 	PSMOUSE_BYD,
- 	PSMOUSE_SYNAPTICS_SMBUS,
--- 
-2.27.0
-
+Thanks,
+Roderick
