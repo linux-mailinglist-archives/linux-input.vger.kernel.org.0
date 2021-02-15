@@ -2,44 +2,47 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC0FB31C313
-	for <lists+linux-input@lfdr.de>; Mon, 15 Feb 2021 21:40:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF29731C318
+	for <lists+linux-input@lfdr.de>; Mon, 15 Feb 2021 21:40:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229617AbhBOUjt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 15 Feb 2021 15:39:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39186 "EHLO
+        id S229652AbhBOUjw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 15 Feb 2021 15:39:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55873 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229615AbhBOUjt (ORCPT
+        by vger.kernel.org with ESMTP id S229627AbhBOUjv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 15 Feb 2021 15:39:49 -0500
+        Mon, 15 Feb 2021 15:39:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1613421502;
+        s=mimecast20190719; t=1613421505;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=NItAS8wI+TBQvsBsmps5OnlgxM07ewSSuEP1uPWhu8s=;
-        b=B4g+xPLHykIhVibeWCQI+bysuumoH9ITzzv/VirX0GeovEBx/fdmuK1CpyXrbLRHS9beNG
-        3DZAR/810QeqUpB0TazZGDap9gUx8sSWajCN+V9Vknq+IW1fyavxnulXjdFE1MOfbpXvlP
-        dgAljADWChYSWVKo8R25/qHsZfRaCBo=
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=2P6UfTZLC7mAdJk6n44E2dcbzB/XfRBh7PD279gvm2U=;
+        b=DHyfHJdqld34IEP8SIWmrnOPXEapcQknTql/a51uKfPR7KuWlLdAnMVQLU23s5yVcwcWkD
+        +3JX1vCXU48RBJeIECrwklPTA0AKQBcbLL+FS2yImomr0WhiaDh+tl9iJg2dHgWHYzSSog
+        KIbyyZPBkG8Fkew/xvgXj8YlVAznSs0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-DWKYamU8O-iyxDb4-6BOAA-1; Mon, 15 Feb 2021 15:38:21 -0500
-X-MC-Unique: DWKYamU8O-iyxDb4-6BOAA-1
+ us-mta-316-qfCw6MKrODaWCJ6kUgnKaw-1; Mon, 15 Feb 2021 15:38:21 -0500
+X-MC-Unique: qfCw6MKrODaWCJ6kUgnKaw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 748D6BBEE2;
-        Mon, 15 Feb 2021 20:38:19 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CF85192AB78;
+        Mon, 15 Feb 2021 20:38:20 +0000 (UTC)
 Received: from x1.localdomain (ovpn-115-74.ams2.redhat.com [10.36.115.74])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 617D95D9C0;
-        Mon, 15 Feb 2021 20:38:15 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id AC8F05D9C0;
+        Mon, 15 Feb 2021 20:38:19 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
 Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org
-Subject: [PATCH 1/5] HID: lenovo: Fix false positive errors on setting tp10ubkbd LEDs
-Date:   Mon, 15 Feb 2021 21:38:10 +0100
-Message-Id: <20210215203814.699633-1-hdegoede@redhat.com>
+Subject: [PATCH 2/5] HID: lenovo: Use brightness_set_blocking callback for setting LEDs brightness
+Date:   Mon, 15 Feb 2021 21:38:11 +0100
+Message-Id: <20210215203814.699633-2-hdegoede@redhat.com>
+In-Reply-To: <20210215203814.699633-1-hdegoede@redhat.com>
+References: <20210215203814.699633-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
@@ -47,29 +50,59 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Fix the error check in lenovo_led_set_tp10ubkbd(), on success
-hid_hw_raw_request() returns the number of bytes send. So we should
-check for (ret != 3) rather then for (ret != 0).
+The lenovo_led_brightness_set function may sleep, so we should have the
+the led_class_dev's brightness_set_blocking callback point to it, rather
+then the regular brightness_set callback.
+
+When toggle through sysfs this is not a problem, but the brightness_set
+callback may be called from atomic context when using LED-triggers.
 
 Fixes: bc04b37ea0ec ("HID: lenovo: Add ThinkPad 10 Ultrabook Keyboard support")
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/hid/hid-lenovo.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/hid/hid-lenovo.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
-index c6c8e20f3e8d..69d709439676 100644
+index 69d709439676..9b80b1685b53 100644
 --- a/drivers/hid/hid-lenovo.c
 +++ b/drivers/hid/hid-lenovo.c
-@@ -75,7 +75,7 @@ static void lenovo_led_set_tp10ubkbd(struct hid_device *hdev, u8 led_code,
- 	data->led_report[2] = value ? TP10UBKBD_LED_ON : TP10UBKBD_LED_OFF;
- 	ret = hid_hw_raw_request(hdev, data->led_report[0], data->led_report, 3,
- 				 HID_OUTPUT_REPORT, HID_REQ_SET_REPORT);
--	if (ret)
-+	if (ret != 3)
- 		hid_err(hdev, "Set LED output report error: %d\n", ret);
+@@ -777,7 +777,7 @@ static enum led_brightness lenovo_led_brightness_get(
+ 				: LED_OFF;
+ }
  
- 	mutex_unlock(&data->led_report_mutex);
+-static void lenovo_led_brightness_set(struct led_classdev *led_cdev,
++static int lenovo_led_brightness_set(struct led_classdev *led_cdev,
+ 			enum led_brightness value)
+ {
+ 	struct device *dev = led_cdev->dev->parent;
+@@ -802,6 +802,8 @@ static void lenovo_led_brightness_set(struct led_classdev *led_cdev,
+ 		lenovo_led_set_tp10ubkbd(hdev, tp10ubkbd_led[led_nr], value);
+ 		break;
+ 	}
++
++	return 0;
+ }
+ 
+ static int lenovo_register_leds(struct hid_device *hdev)
+@@ -822,7 +824,7 @@ static int lenovo_register_leds(struct hid_device *hdev)
+ 
+ 	data->led_mute.name = name_mute;
+ 	data->led_mute.brightness_get = lenovo_led_brightness_get;
+-	data->led_mute.brightness_set = lenovo_led_brightness_set;
++	data->led_mute.brightness_set_blocking = lenovo_led_brightness_set;
+ 	data->led_mute.dev = &hdev->dev;
+ 	ret = led_classdev_register(&hdev->dev, &data->led_mute);
+ 	if (ret < 0)
+@@ -830,7 +832,7 @@ static int lenovo_register_leds(struct hid_device *hdev)
+ 
+ 	data->led_micmute.name = name_micm;
+ 	data->led_micmute.brightness_get = lenovo_led_brightness_get;
+-	data->led_micmute.brightness_set = lenovo_led_brightness_set;
++	data->led_micmute.brightness_set_blocking = lenovo_led_brightness_set;
+ 	data->led_micmute.dev = &hdev->dev;
+ 	ret = led_classdev_register(&hdev->dev, &data->led_micmute);
+ 	if (ret < 0) {
 -- 
 2.30.1
 
