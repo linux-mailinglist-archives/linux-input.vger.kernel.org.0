@@ -2,156 +2,203 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21DED31B62A
-	for <lists+linux-input@lfdr.de>; Mon, 15 Feb 2021 10:07:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 34C5131B970
+	for <lists+linux-input@lfdr.de>; Mon, 15 Feb 2021 13:41:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230052AbhBOJFg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 15 Feb 2021 04:05:36 -0500
-Received: from mout.kundenserver.de ([217.72.192.75]:43259 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229960AbhBOJFe (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 15 Feb 2021 04:05:34 -0500
-Received: from [172.23.56.21] ([87.123.99.195]) by mrelayeu.kundenserver.de
- (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1M4JiJ-1lBqtU34fR-000HtR; Mon, 15 Feb 2021 10:02:50 +0100
-Message-ID: <96cc49f2254a006f6a9501a3843c2a739a18a4b3.camel@richard-neumann.de>
-Subject: Re: [PATCH 3/3] AMD_SFH: Add DMI quirk table for BIOS-es which
- don't set the activestatus bits
-From:   Richard Neumann <mail@richard-neumann.de>
-To:     "Shah, Nehal-bakulchandra" <nehal-bakulchandra.shah@amd.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Sandeep Singh <sandeep.singh@amd.com>
-Cc:     linux-input@vger.kernel.org, Shyam-sundar.S-k@amd.com
-Date:   Mon, 15 Feb 2021 10:02:48 +0100
-In-Reply-To: <eac9fd4c-f3ea-1127-a59d-aaa01ca8e0bc@amd.com>
-References: <20210128121219.6381-1-hdegoede@redhat.com>
-         <20210128121219.6381-4-hdegoede@redhat.com>
-         <eac9fd4c-f3ea-1127-a59d-aaa01ca8e0bc@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 
+        id S230026AbhBOMkJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 15 Feb 2021 07:40:09 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54210 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229998AbhBOMkH (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 15 Feb 2021 07:40:07 -0500
+Received: from archlinux (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3C692601FC;
+        Mon, 15 Feb 2021 12:39:25 +0000 (UTC)
+Date:   Mon, 15 Feb 2021 12:39:21 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     linux-input@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        linux-iio@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mark Pearson <mpearson@lenovo.com>,
+        Bastien Nocera <hadess@hadess.net>
+Subject: Re: [PATCH 1/2] iio: documentation: Document proximity sensor label
+ use
+Message-ID: <20210215123921.73428bea@archlinux>
+In-Reply-To: <10c7f469-9bb4-3e1d-88f8-6b25071a5ea9@redhat.com>
+References: <20210207123720.8357-1-hdegoede@redhat.com>
+        <20210212184617.5bad8172@archlinux>
+        <10c7f469-9bb4-3e1d-88f8-6b25071a5ea9@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:kMHKNIkwZdSIZDAxWfXumLMTBdTFWHsSVblLI433bROVZ7jB6tT
- moObVZ6DpQAIl1AeOz++65G9VWPLNniE+Humfjo7Z1jRHpI20tDm+W4+k+n3pNorhoQJwqo
- GOrhdX5l0E7KRDDy3C2R5ZCB9hPkDHHYq22sSKpZtSMFBz6A2pnIBNHr/SvGX0xrAo/ors7
- pr93IYpuvjKL1mJQeDSKA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gQEYizHgu/0=:aGU2bGqA/PHjEqdZMEraYA
- UhGII1+45rcll7mDaZ3slzrfO2CytuoTF1tONguWWvmqPV/jF0q8Dz191/RACHW24scyIln+U
- EJPl32/5IDK77uPhPsrbY7qtng+W18JaNdSFgrRKPqqBWcNZscIwdiDVAWRYWS5fEMgcr3uXb
- Z5UPcvs/r6lLIy2rOdE1Q6i0WVXYIcSarEGnYVYWe35R0+jLNhgVLI+xRpeckpshhSOWdje84
- 78CjMfljoJrjuZ9HPEMT3vt6VSm29sc8aWLVliCyjYv+LDFTXLgN8SsiL31CPYbzUhJA6oKy6
- EnD9pGJ360mDqMlCConAEwPWZ5HkENHHMJ1665Pk5BQg0FF1XoObvRy5aM3TQkEYpQPnQGmIx
- +IkUhIWR2xBKJuFMpA1lXWuQzulGAj6Jl2NUVQ7wJn1TvaCbI2v/20li23DVZV8AQ+D5oZl0a
- YCRZATiKEQ==
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-My 13" model is a Raven-Ridge device:
+On Fri, 12 Feb 2021 19:58:47 +0100
+Hans de Goede <hdegoede@redhat.com> wrote:
 
-$ grep -i model /proc/cpuinfo | head -2
-model		: 17
-model name	: AMD Ryzen 5 2500U with Radeon Vega Mobile Gfx
-
-Since the accelerometer is also reported working on the 15" device, I'd
-assume that the corresponding DMI record is also fine.
-
-However, I don't know whether there are newer models on the market with
-the same product names, which is why in my patch I used the board's
-serial number for DMI matching instead.
-This, however, seems unlikely since the series "13-ag0xxx" is included
-in the product name, so we should be fine here.
-
-Am Montag, dem 15.02.2021 um 13:54 +0530 schrieb Shah, Nehal-
-bakulchandra:
-> Hi Hans,
-> On 1/28/2021 5:42 PM, Hans de Goede wrote:
-> > Some BIOS-es do not initialize the activestatus bits of the
-> > AMD_P2C_MSG3
-> > register. This cause the AMD_SFH driver to not register any sensors
-> > even
-> > though the laptops in question do have sensors.
+> Hi,
+> 
+> On 2/12/21 7:46 PM, Jonathan Cameron wrote:
+> > On Sun,  7 Feb 2021 13:37:19 +0100
+> > Hans de Goede <hdegoede@redhat.com> wrote:
+> >   
+> >> Add an entry to Documentation/ABI/testing/sysfs-bus-iio for
+> >> the new device and channel label sysfs-attribute support.
+> >>
+> >> And document the standardized labels which may be used with proximity
+> >> sensors to hint userspace about the intended use of the sensor.
+> >>
+> >> Using labels to differentiate between the multiple proximity sensors
+> >> which a modern laptop/tablet may have was discussed in this thread:
+> >> https://lore.kernel.org/linux-iio/9f9b0ff6-3bf1-63c4-eb36-901cecd7c4d9@redhat.com/
+> >>
+> >> As mentioned the "proximity-wifi*" labels are already being used in
+> >> this manner on some chromebooks, see e.g.:
+> >> arch/arm64/boot/dts/qcom/sc7180-trogdor.dtsi
+> >> arch/arm64/boot/dts/qcom/sc7180-trogdor-lte-sku.dtsi
+> >>
+> >> And the "proximity-palmrest" and "proximity-lap" labels are intended
+> >> to be used with the lap and palmrest sensors found in recent Lenovo
+> >> ThinkPad models.
+> >>
+> >> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> >> Cc: Mark Pearson <mpearson@lenovo.com>
+> >> Cc: Bastien Nocera <hadess@hadess.net>
+> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> >> ---
+> >>  Documentation/ABI/testing/sysfs-bus-iio | 41 +++++++++++++++++++++++++
+> >>  1 file changed, 41 insertions(+)
+> >>
+> >> diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
+> >> index 35289d47d6cb..f2f090f8bd2f 100644
+> >> --- a/Documentation/ABI/testing/sysfs-bus-iio
+> >> +++ b/Documentation/ABI/testing/sysfs-bus-iio
+> >> @@ -33,6 +33,47 @@ Description:
+> >>  		Description of the physical chip / device for device X.
+> >>  		Typically a part number.
+> >>  
+> >> +What:		/sys/bus/iio/devices/iio:deviceX/label
+> >> +What:		/sys/bus/iio/devices/iio:deviceX/in_*_label
+> >> +What:		/sys/bus/iio/devices/iio:deviceX/out_*_label  
 > > 
-> > Add a DMI quirk-table for specifying sensor-mask overrides based on
-> > DMI match, to make the sensors work OOTB on these laptop models.
+> > I was a bit in two minds about this from an organizational point of view.
+> > 1) Whether to separate the general label where position tends to make sense
+> >    from the channel labels.  May be something we want to do in future but we can probably
+> >    let that go for now.
+> > 2) Whether to allow such broad wild cards for the channels.
+> >    Whilst in theory any channel can have a label we normally only document ABI
+> >    that actually exists (mostly to know what we might break if we change anything :)
+> >    Still I can't see any way we can change this without breakage so in this
+> >    one case let's let the broad wild card go in.
 > > 
-> > BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=199715
-> > BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1651886
-> > Fixes: 4f567b9f8141 ("SFH: PCIe driver to add support of AMD sensor
-> > fusion hub")
-> > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> > ---
-> >  drivers/hid/amd-sfh-hid/amd_sfh_pcie.c | 24 ++++++++++++++++++++++++
-> >  1 file changed, 24 insertions(+)
+> > This comes unstuck on the fact it overlaps with existing more specific Docs.
 > > 
-> > diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-> > b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-> > index ab0a9443e252..ddecc84fd6f0 100644
-> > --- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-> > +++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-> > @@ -10,6 +10,7 @@
-> >  #include <linux/bitops.h>
-> >  #include <linux/delay.h>
-> >  #include <linux/dma-mapping.h>
-> > +#include <linux/dmi.h>
-> >  #include <linux/interrupt.h>
-> >  #include <linux/io-64-nonatomic-lo-hi.h>
-> >  #include <linux/module.h>
-> > @@ -77,11 +78,34 @@ void amd_stop_all_sensors(struct amd_mp2_dev
-> > *privdata)
-> >         writel(cmd_base.ul, privdata->mmio + AMD_C2P_MSG0);
-> >  }
-> >  
-> > +static const struct dmi_system_id dmi_sensor_mask_overrides[] = {
-> > +       {
-> > +               .matches = {
-> > +                       DMI_MATCH(DMI_PRODUCT_NAME, "HP ENVY x360
-> > Convertible 13-ag0xxx"),
-> > +               },
-> > +               .driver_data = (void *)(ACEL_EN | MAGNO_EN),
-> > +       },
-> > +       {
-> > +               .matches = {
-> > +                       DMI_MATCH(DMI_PRODUCT_NAME, "HP ENVY x360
-> > Convertible 15-cp0xxx"),
-> > +               },
-> > +               .driver_data = (void *)(ACEL_EN | MAGNO_EN),
-> > +       },
-> > +       { }
-> > +};
-> > +
-> >  int amd_mp2_get_sensor_num(struct amd_mp2_dev *privdata, u8
-> > *sensor_id)
-> >  {
-> >         int activestatus, num_of_sensors = 0;
-> > +       const struct dmi_system_id *dmi_id;
-> >         u32 activecontrolstatus;
-> >  
-> > +       if (sensor_mask_override == -1) {
-> > +               dmi_id = dmi_first_match(dmi_sensor_mask_overrides);
-> > +               if (dmi_id)
-> > +                       sensor_mask_override = (long)dmi_id-
-> > >driver_data;
-> > +       }
-> > +
-> >         if (sensor_mask_override >= 0) {
-> >                 activestatus = sensor_mask_override;
-> >         } else {
-> Can you please confirm that HP Envy x360  is whether ryzen 4000 (Renior
-> based) series or ryzen 3000 (Raven based) series? As of now current
-> upstream code does not have support for Ryzen 4000 series
-> for which work is in progress. However, for Ryzen 3000 based series
-> this patch looks fine and thanks for the contribution.
+> > So can you pull the channel part out of here for v2.
+> > /sys/bus/iio/devices/iio:deviceX/in_voltageY_label
+> > /sys/bus/iio/devices/iio:deviceX/in_anglY_label  
 > 
+> The problem is that these labels may either be used on a whole device,
+> which is certainly the case with the accelerometers in patch 2/2 where
+> the x y and z channels obviously all are either "accel-base" or
+> "accel-display".
 > 
-> Regards
+> Where as for proximity sensors the labels could be either applied at the
+> device level, or at a channel level.
 > 
-> Nehal
+> The existing chromebook proximity usage is applying a label for this
+> at the device level.
 > 
-> 
+> This does mean that atm all users of this are using device-level labels;
 
+Not at all, but some (possibly all?) are separately documented in two
+existing entries. The generic version you propose overlaps with them
+and that is what I'd like to avoid.
+
+We could group these into the same 'catch all' element, but I suspect
+the text will just grow too large over time, so I'd like to keep them
+as broken up as possible.
+
+What:		/sys/bus/iio/devices/iio:deviceX/in_voltageY_label
+What:		/sys/bus/iio/devices/iio:deviceX/out_voltageY_label
+
+What:		/sys/bus/iio/devices/iio:deviceX/in_anglY_label
+
+> and maybe I'm reading too much in your request. I guess that for now
+> I can just drop these lines for v2 :
+> 
+> What:		/sys/bus/iio/devices/iio:deviceX/in_*_label
+> What:		/sys/bus/iio/devices/iio:deviceX/out_*_label
+> 
+> Is that what you have in mind ?
+> 
+> Or do you want me to split this up in a proximity sensor case and an
+> accel case, and group both cases together with other proximity / accel
+> sensor attributes ?
+
+Yes, that would be ideal for the cases where we have separate
+channel labels, but if we aren't using them today, lets introduce them
+when they are needed.
+
+Jonathan
+
+
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
+> 
+> 
+> > Jonathan  
+> >> +KernelVersion:	5.8
+> >> +Contact:	linux-iio@vger.kernel.org
+> >> +Description:
+> >> +		Optional symbolic label for a device or a channel.
+> >> +		This is useful for userspace to be able to better identify an
+> >> +		individual device or channel.
+> >> +
+> >> +		The contents of the label are free-form, but there are some
+> >> +		standardized uses:
+> >> +
+> >> +		For proximity sensors which give the proximity (of a person) to
+> >> +		a certain wlan or wwan antenna the following standardized labels
+> >> +		are used:
+> >> +
+> >> +		* "proximity-wifi"
+> >> +		* "proximity-lte"
+> >> +		* "proximity-wifi-lte"
+> >> +		* "proximity-wifi-left"
+> >> +		* "proximity-wifi-right"
+> >> +
+> >> +		These are used to indicate to userspace that these proximity
+> >> +		sensors may be used to tune transmit power to ensure that
+> >> +		Specific Absorption Rate (SAR) limits are honored.
+> >> +		The "-left" and "-right" labels are for devices with multiple
+> >> +		antennas.
+> >> +
+> >> +		In some laptops/tablets the standardized proximity sensor labels
+> >> +		instead	indicate proximity to a specific part of the device:
+> >> +
+> >> +		* "proximity-palmrest" indicates proximity to the keyboard's palmrest
+> >> +		* "proximity-palmrest-left" indicates proximity to the left part of the palmrest
+> >> +		* "proximity-palmrest-right" indicates proximity to the right part of the palmrest
+> >> +		* "proximity-lap" indicates the device is being used on someone's lap
+> >> +
+> >> +		Note "proximity-lap" is special in that its value may be
+> >> +		calculated by firmware from other sensor readings, rather then
+> >> +		being a raw sensor reading.
+> >> +
+> >>  What:		/sys/bus/iio/devices/iio:deviceX/current_timestamp_clock
+> >>  KernelVersion:	4.5
+> >>  Contact:	linux-iio@vger.kernel.org  
+> >   
+> 
 
