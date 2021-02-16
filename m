@@ -2,478 +2,238 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CA4331CE32
-	for <lists+linux-input@lfdr.de>; Tue, 16 Feb 2021 17:38:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A947831CE4D
+	for <lists+linux-input@lfdr.de>; Tue, 16 Feb 2021 17:44:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230482AbhBPQib (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 16 Feb 2021 11:38:31 -0500
-Received: from msg-1.mailo.com ([213.182.54.11]:54192 "EHLO msg-1.mailo.com"
+        id S230336AbhBPQmb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 16 Feb 2021 11:42:31 -0500
+Received: from mail.nic.cz ([217.31.204.67]:51236 "EHLO mail.nic.cz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230077AbhBPQia (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 16 Feb 2021 11:38:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailoo.org; s=mailo;
-        t=1613493462; bh=soZ+N6UuX1jDcwgW9V6FWXInmwwl4j7UyjIjlIZ4eBw=;
-        h=X-EA-Auth:From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:
-         References:MIME-Version:Content-Type:Content-Transfer-Encoding;
-        b=WYb0xy9NUrMutVnBqa9Sjo8eNwwSCl3FOcWgMb3TQ2kFnTSoxZExV0kHduNLoBAum
-         aT+XrbofI7TWl3X1oxj07SjHNAF5uULNQo8A9bIPdme6UmUEbNRaGTBrH7pcLp9XrY
-         1KIO4gF1yopY0q9BIKa79I5eGMtthYo+FyOBxW1s=
-Received: by b-6.in.mailobj.net [192.168.90.16] with ESMTP
-        via proxy.mailoo.org [213.182.55.207]
-        Tue, 16 Feb 2021 17:37:42 +0100 (CET)
-X-EA-Auth: CpORWIQ8HvgfcJu2Ajin5mf1mQfjPZBO+lD/CRmDk4g+U+deB0EHx9Wp3LZgtmtNlss8h1XaSvtGU15nV3SQ8L/S4VkF3ORVQj2/q0bo10Y=
-From:   Vincent Knecht <vincent.knecht@mailoo.org>
-To:     phone-devel@vger.kernel.org
-Cc:     ~postmarketos/upstreaming@lists.sr.ht,
-        Vincent Knecht <vincent.knecht@mailoo.org>,
+        id S230221AbhBPQmQ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 16 Feb 2021 11:42:16 -0500
+Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
+        by mail.nic.cz (Postfix) with ESMTPSA id 0DA03140B05;
+        Tue, 16 Feb 2021 17:41:32 +0100 (CET)
+Date:   Tue, 16 Feb 2021 17:41:29 +0100
+From:   Marek Behun <marek.behun@nic.cz>
+To:     Roderick Colenbrander <roderick@gaikai.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Pavel Machek <pavel@ucw.cz>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Michael Srba <Michael.Srba@seznam.cz>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v5 2/2] Input: add MStar MSG2638 touchscreen driver
-Date:   Tue, 16 Feb 2021 17:36:38 +0100
-Message-Id: <20210216163647.34264-2-vincent.knecht@mailoo.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210216163647.34264-1-vincent.knecht@mailoo.org>
-References: <20210216163647.34264-1-vincent.knecht@mailoo.org>
+        pobm@protonmail.com,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        linux-leds@vger.kernel.org,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: Re: [PATCH v6 2/4] HID: playstation: add microphone mute support
+ for DualSense.
+Message-ID: <20210216174129.78b2e9ab@nic.cz>
+In-Reply-To: <CANndSKmA4nh6FRv89vBwshUD7t0c7bBMcZcC7TbQOzU88j=+jA@mail.gmail.com>
+References: <20210215004549.135251-1-roderick@gaikai.com>
+        <20210215004549.135251-3-roderick@gaikai.com>
+        <20210215154045.4ac27ec0@nic.cz>
+        <CANndSK=6TAzJJCvcgtRe_ASLbcqb73Y81gXPu3Qhg62Dxyvmuw@mail.gmail.com>
+        <20210215191757.58992f44@nic.cz>
+        <CANndSKmA4nh6FRv89vBwshUD7t0c7bBMcZcC7TbQOzU88j=+jA@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,URIBL_BLOCKED,
+        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
+        autolearn=disabled version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add support for the msg2638 touchscreen IC from MStar.
-This driver reuses zinitix.c structure, while the checksum and irq handler
-functions are based on out-of-tree driver for Alcatel Idol 3 (4.7").
+On Tue, 16 Feb 2021 00:33:24 -0800
+Roderick Colenbrander <roderick@gaikai.com> wrote:
 
-Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
----
-Changed in v5:
-- use gpiod_set_value_cansleep() (Stephan G)
-- use msleep/usleep_range() rathen than mdelay() (Stephan G)
-Changed in v4:
-- rename from msg26xx to msg2638, following compatible string change
-- rename mstar_* functions to msg2638_* for consistency
-- add RESET_DELAY define and use it in msg2638_power_on()
-- change a few dev_err() calls to be on one line only
-- add missing \n in a few dev_err() strings
-Changed in v3:
-- no change
-Changed in v2:
-- don't use bitfields in packet struct, to prevent endian-ness related problems (Dmitry)
-- fix reset gpiod calls order in mstar_power_on() (Dmitry)
----
- drivers/input/touchscreen/Kconfig   |  12 +
- drivers/input/touchscreen/Makefile  |   1 +
- drivers/input/touchscreen/msg2638.c | 363 ++++++++++++++++++++++++++++
- 3 files changed, 376 insertions(+)
- create mode 100644 drivers/input/touchscreen/msg2638.c
+> On Mon, Feb 15, 2021 at 10:17 AM Marek Behun <marek.behun@nic.cz> wrote:
+> >
+> > On Mon, 15 Feb 2021 10:07:29 -0800
+> > Roderick Colenbrander <roderick@gaikai.com> wrote:
+> >  
+> > > On Mon, Feb 15, 2021 at 6:40 AM Marek Behun <marek.behun@nic.cz> wrote:  
+> > > >
+> > > > On Sun, 14 Feb 2021 16:45:47 -0800
+> > > > Roderick Colenbrander <roderick@gaikai.com> wrote:
+> > > >  
+> > > > > From: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> > > > >
+> > > > > The DualSense controller has a built-in microphone exposed as an
+> > > > > audio device over USB (or HID using Bluetooth). A dedicated
+> > > > > button on the controller handles mute, but software has to configure
+> > > > > the device to mute the audio stream.
+> > > > >
+> > > > > This patch captures the mute button and schedules an output report
+> > > > > to mute/unmute the audio stream as well as toggle the mute LED.
+> > > > >
+> > > > > Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>  
+> > > >
+> > > > Is the microphone supported via Linux? I.e. is there an audio driver
+> > > > for it?  
+> > >
+> > > Yes and no. The microphone is supported using USB, not yet using
+> > > Bluetooth (uses a custom protocol). Actually there are various other
+> > > audio features in the DualSense (headphone jack, speaker, volume
+> > > controls,..) and they all work using custom protocols. We were
+> > > planning to defer this work through future patches as the features are
+> > > very complicated and need a deep analysis on how to realize them. For
+> > > example audio controls work through HID, but for USB the audio driver
+> > > is a generic hda audio device I think. Bluetooth is a custom protocol
+> > > and will be yet a different audio driver somewhere.
+> > >  
+> > > > If it is, look at the audio-micmute LED trigger.
+> > > >  
+> > >
+> > > I'm not sure if the expected behavior for the DualSense is similar to
+> > > the standard audio mute use cases. My understanding of these triggers
+> > > (please correct me if I'm wrong) is for e.g. an audio driver or user
+> > > space to send a signal to anything registering for a particular
+> > > trigger. In this case a global micmute. Is that, right?
+> > >
+> > > In our case for PlayStation games, there are often multiple
+> > > controllers connected and each user has their own microphone in their
+> > > controller. All can function at the same time (different from a
+> > > standard PC use case). That's why I'm wondering if this makes sense.I
+> > > know we are on Linux, but for Sony we want to properly support such
+> > > use cases.  
+> >
+> > If there aren't audio drivers yet for this, simply have this driver
+> > also register a private LED trigger (with name "joystick-audiomute"
+> > or something similar), and when registering the LED, set the
+> > trigger_type member. Look at trigger_type in include/linux/leds.h, and
+> > in LED Documentation.  
+> 
+> Sorry for some more questions. I have been trying to understand
+> triggers all night. The concept is just so strange and foreign to me.
+> I understand it is in the end just a string and one use case is
+> in-kernel IPC and you can configure them from user space as well, but
+> I just don't get it. I understand you can use a trigger to in the end
+> program your LED in a automatic manner. I just don't understand how
+> the concepts fit together and how to implement it (maybe I will update
+> the docs later on... they are a bit sparse for if you don't know this
+> area).
+> 
+> Regarding registering a private trigger. I see include/linux/leds.h
+> have a comment about trigger_type and how it should be set for private
+> triggers on led_classdev. I haven't been able to find any example
+> usages of this within the kernel. It doesn't seem to be used in the
+> kernel, maybe it is just around for future use? I also seem to need to
+> implement my own activate/deactive callbacks for the trigger. These I
+> would use to program the LED brightness I guess. Though I see various
+> trigger drivers (drivers/leds/triggers), but not all of them have
+> activate/deactivate callbacks. Mostly simple drivers, but not sure why
+> they don't need them. What else is the point of a trigger?
+> 
+> > When this trigger is enabled for your LED, have your code switch LED
+> > state like it does now. When there is no trigger enabled, the userspace
+> > will be able to set brightness of this LED via sysfs.  
+> 
+> Right now I manage the button mute state directly from the input
+> handler (dualsense_parse_report) when the button is pressed and then
+> schedule an output report to toggle the LED and program the DualSense
+> to mute its audio (the PlayStation works very similar). I would need
+> to use led_trigger_event then here?
+> 
+> If I then understand it right, I need to modify my "brightness_set"
+> handler and check if there is a trigger (based on
+> led_classdev->activated??). If there is none, then userspace can
+> change the LED state. Internally when I change the LED state, I will
+> also program the hardware to mute as well. (they are tied together)
+> 
+> I am tempted to wait with the trigger code as I really don't understand it.
 
-diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-index f012fe746df0..fefbe1c1bb10 100644
---- a/drivers/input/touchscreen/Kconfig
-+++ b/drivers/input/touchscreen/Kconfig
-@@ -1334,4 +1334,16 @@ config TOUCHSCREEN_ZINITIX
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called zinitix.
- 
-+config TOUCHSCREEN_MSG2638
-+	tristate "MStar msg2638 touchscreen support"
-+	depends on I2C
-+	depends on GPIOLIB || COMPILE_TEST
-+	help
-+	  Say Y here if you have an I2C touchscreen using MStar msg2638.
-+
-+	  If unsure, say N.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called msg2638.
-+
- endif
-diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
-index 6233541e9173..83e516cb3d33 100644
---- a/drivers/input/touchscreen/Makefile
-+++ b/drivers/input/touchscreen/Makefile
-@@ -112,3 +112,4 @@ obj-$(CONFIG_TOUCHSCREEN_ROHM_BU21023)	+= rohm_bu21023.o
- obj-$(CONFIG_TOUCHSCREEN_RASPBERRYPI_FW)	+= raspberrypi-ts.o
- obj-$(CONFIG_TOUCHSCREEN_IQS5XX)	+= iqs5xx.o
- obj-$(CONFIG_TOUCHSCREEN_ZINITIX)	+= zinitix.o
-+obj-$(CONFIG_TOUCHSCREEN_MSG2638)	+= msg2638.o
-diff --git a/drivers/input/touchscreen/msg2638.c b/drivers/input/touchscreen/msg2638.c
-new file mode 100644
-index 000000000000..330d0674873c
---- /dev/null
-+++ b/drivers/input/touchscreen/msg2638.c
-@@ -0,0 +1,363 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Driver for MStar msg2638 touchscreens
-+ *
-+ * Copyright (c) 2021 Vincent Knecht <vincent.knecht@mailoo.org>
-+ *
-+ * Checksum and IRQ handler based on mstar_drv_common.c and mstar_drv_mutual_fw_control.c
-+ * Copyright (c) 2006-2012 MStar Semiconductor, Inc.
-+ *
-+ * Driver structure based on zinitix.c by Michael Srba <Michael.Srba@seznam.cz>
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/gpio.h>
-+#include <linux/i2c.h>
-+#include <linux/input.h>
-+#include <linux/input/mt.h>
-+#include <linux/input/touchscreen.h>
-+#include <linux/interrupt.h>
-+#include <linux/irq.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/slab.h>
-+
-+#define MODE_DATA_RAW			0x5A
-+
-+#define TPD_WIDTH			2048
-+#define TPD_HEIGHT			2048
-+
-+#define MAX_SUPPORTED_FINGER_NUM	5
-+
-+#define CHIP_ON_DELAY			15 // ms
-+#define FIRMWARE_ON_DELAY		50 // ms
-+#define RESET_DELAY_MIN			10000 // µs
-+#define RESET_DELAY_MAX			11000 // µs
-+
-+struct point_coord {
-+	u16	x;
-+	u16	y;
-+};
-+
-+struct packet {
-+	u8	xy_hi; /* higher bits of x and y coordinates */
-+	u8	x_low;
-+	u8	y_low;
-+	u8	pressure;
-+};
-+
-+struct touch_event {
-+	u8	mode;
-+	struct	packet pkt[MAX_SUPPORTED_FINGER_NUM];
-+	u8	proximity;
-+	u8	checksum;
-+};
-+
-+struct msg2638_ts_data {
-+	struct i2c_client *client;
-+	struct input_dev *input_dev;
-+	struct touchscreen_properties prop;
-+	struct regulator_bulk_data supplies[2];
-+	struct gpio_desc *reset_gpiod;
-+};
-+
-+static int msg2638_init_regulators(struct msg2638_ts_data *msg2638)
-+{
-+	struct i2c_client *client = msg2638->client;
-+	int error;
-+
-+	msg2638->supplies[0].supply = "vdd";
-+	msg2638->supplies[1].supply = "vddio";
-+	error = devm_regulator_bulk_get(&client->dev,
-+					ARRAY_SIZE(msg2638->supplies),
-+					msg2638->supplies);
-+	if (error < 0) {
-+		dev_err(&client->dev, "Failed to get regulators: %d\n", error);
-+		return error;
-+	}
-+
-+	return 0;
-+}
-+
-+static void msg2638_power_on(struct msg2638_ts_data *msg2638)
-+{
-+	gpiod_set_value_cansleep(msg2638->reset_gpiod, 1);
-+	usleep_range(RESET_DELAY_MIN, RESET_DELAY_MAX);
-+	gpiod_set_value_cansleep(msg2638->reset_gpiod, 0);
-+	msleep(FIRMWARE_ON_DELAY);
-+
-+	enable_irq(msg2638->client->irq);
-+}
-+
-+static void msg2638_report_finger(struct msg2638_ts_data *msg2638, int slot,
-+				const struct point_coord *pc)
-+{
-+	input_mt_slot(msg2638->input_dev, slot);
-+	input_mt_report_slot_state(msg2638->input_dev, MT_TOOL_FINGER, true);
-+	touchscreen_report_pos(msg2638->input_dev, &msg2638->prop, pc->x, pc->y, true);
-+	input_report_abs(msg2638->input_dev, ABS_MT_TOUCH_MAJOR, 1);
-+}
-+
-+static u8 msg2638_checksum(u8 *data, u32 length)
-+{
-+	s32 sum = 0;
-+	u32 i;
-+
-+	for (i = 0; i < length; i++)
-+		sum += data[i];
-+
-+	return (u8)((-sum) & 0xFF);
-+}
-+
-+static irqreturn_t msg2638_ts_irq_handler(int irq, void *msg2638_handler)
-+{
-+	struct msg2638_ts_data *msg2638 = msg2638_handler;
-+	struct i2c_client *client = msg2638->client;
-+	struct touch_event touch_event;
-+	struct point_coord coord;
-+	struct i2c_msg msg[1];
-+	struct packet *p;
-+	u32 len;
-+	int ret;
-+	int i;
-+
-+	len = sizeof(struct touch_event);
-+	memset(&touch_event, 0, len);
-+
-+	msg[0].addr = client->addr;
-+	msg[0].flags = I2C_M_RD;
-+	msg[0].len = len;
-+	msg[0].buf = (u8 *)&touch_event;
-+
-+	ret = i2c_transfer(client->adapter, msg, 1);
-+	if (ret != 1) {
-+		dev_err(&client->dev, "Failed I2C transfer in irq handler!\n");
-+		goto out;
-+	}
-+
-+	if (touch_event.mode != MODE_DATA_RAW)
-+		goto out;
-+
-+	if (msg2638_checksum((u8 *)&touch_event, len - 1) != touch_event.checksum) {
-+		dev_err(&client->dev, "Failed checksum!\n");
-+		goto out;
-+	}
-+
-+	for (i = 0; i < MAX_SUPPORTED_FINGER_NUM; i++) {
-+		p = &touch_event.pkt[i];
-+		/* Ignore non-pressed finger data */
-+		if (p->xy_hi == 0xFF && p->x_low == 0xFF && p->y_low == 0xFF)
-+			continue;
-+
-+		coord.x = (((p->xy_hi & 0xF0) << 4) | p->x_low) * msg2638->prop.max_x / TPD_WIDTH;
-+		coord.y = (((p->xy_hi & 0x0F) << 8) | p->y_low) * msg2638->prop.max_y / TPD_HEIGHT;
-+		msg2638_report_finger(msg2638, i, &coord);
-+	}
-+
-+	input_mt_sync_frame(msg2638->input_dev);
-+	input_sync(msg2638->input_dev);
-+
-+out:
-+	return IRQ_HANDLED;
-+}
-+
-+static int msg2638_start(struct msg2638_ts_data *msg2638)
-+{
-+	int error;
-+
-+	error = regulator_bulk_enable(ARRAY_SIZE(msg2638->supplies),
-+				      msg2638->supplies);
-+	if (error) {
-+		dev_err(&msg2638->client->dev, "Failed to enable regulators: %d\n", error);
-+		return error;
-+	}
-+
-+	msleep(CHIP_ON_DELAY);
-+
-+	msg2638_power_on(msg2638);
-+
-+	return 0;
-+}
-+
-+static int msg2638_stop(struct msg2638_ts_data *msg2638)
-+{
-+	int error;
-+
-+	disable_irq(msg2638->client->irq);
-+
-+	error = regulator_bulk_disable(ARRAY_SIZE(msg2638->supplies),
-+				       msg2638->supplies);
-+	if (error) {
-+		dev_err(&msg2638->client->dev, "Failed to disable regulators: %d\n", error);
-+		return error;
-+	}
-+
-+	return 0;
-+}
-+
-+static int msg2638_input_open(struct input_dev *dev)
-+{
-+	struct msg2638_ts_data *msg2638 = input_get_drvdata(dev);
-+
-+	return msg2638_start(msg2638);
-+}
-+
-+static void msg2638_input_close(struct input_dev *dev)
-+{
-+	struct msg2638_ts_data *msg2638 = input_get_drvdata(dev);
-+
-+	msg2638_stop(msg2638);
-+}
-+
-+static int msg2638_init_input_dev(struct msg2638_ts_data *msg2638)
-+{
-+	struct input_dev *input_dev;
-+	int error;
-+
-+	input_dev = devm_input_allocate_device(&msg2638->client->dev);
-+	if (!input_dev) {
-+		dev_err(&msg2638->client->dev, "Failed to allocate input device.\n");
-+		return -ENOMEM;
-+	}
-+
-+	input_set_drvdata(input_dev, msg2638);
-+	msg2638->input_dev = input_dev;
-+
-+	input_dev->name = "MStar TouchScreen";
-+	input_dev->phys = "input/ts";
-+	input_dev->id.bustype = BUS_I2C;
-+	input_dev->open = msg2638_input_open;
-+	input_dev->close = msg2638_input_close;
-+
-+	input_set_capability(input_dev, EV_ABS, ABS_MT_POSITION_X);
-+	input_set_capability(input_dev, EV_ABS, ABS_MT_POSITION_Y);
-+	input_set_abs_params(input_dev, ABS_MT_WIDTH_MAJOR, 0, 15, 0, 0);
-+	input_set_abs_params(input_dev, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
-+
-+	touchscreen_parse_properties(input_dev, true, &msg2638->prop);
-+	if (!msg2638->prop.max_x || !msg2638->prop.max_y) {
-+		dev_err(&msg2638->client->dev,
-+			"touchscreen-size-x and/or touchscreen-size-y not set in dts\n");
-+		return -EINVAL;
-+	}
-+
-+	error = input_mt_init_slots(input_dev, MAX_SUPPORTED_FINGER_NUM,
-+				    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
-+	if (error) {
-+		dev_err(&msg2638->client->dev, "Failed to initialize MT slots: %d\n", error);
-+		return error;
-+	}
-+
-+	error = input_register_device(input_dev);
-+	if (error) {
-+		dev_err(&msg2638->client->dev, "Failed to register input device: %d\n", error);
-+		return error;
-+	}
-+
-+	return 0;
-+}
-+
-+static int msg2638_ts_probe(struct i2c_client *client)
-+{
-+	struct msg2638_ts_data *msg2638;
-+	int error;
-+
-+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
-+		dev_err(&client->dev, "Failed to assert adapter's support for plain I2C.\n");
-+		return -ENXIO;
-+	}
-+
-+	msg2638 = devm_kzalloc(&client->dev, sizeof(*msg2638), GFP_KERNEL);
-+	if (!msg2638)
-+		return -ENOMEM;
-+
-+	msg2638->client = client;
-+	i2c_set_clientdata(client, msg2638);
-+
-+	error = msg2638_init_regulators(msg2638);
-+	if (error) {
-+		dev_err(&client->dev, "Failed to initialize regulators: %d\n", error);
-+		return error;
-+	}
-+
-+	msg2638->reset_gpiod = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(msg2638->reset_gpiod)) {
-+		error = PTR_ERR(msg2638->reset_gpiod);
-+		dev_err(&client->dev, "Failed to request reset GPIO: %d\n", error);
-+		return error;
-+	}
-+
-+	error = msg2638_init_input_dev(msg2638);
-+	if (error) {
-+		dev_err(&client->dev, "Failed to initialize input device: %d\n", error);
-+		return error;
-+	}
-+
-+	irq_set_status_flags(client->irq, IRQ_NOAUTOEN);
-+	error = devm_request_threaded_irq(&client->dev, client->irq,
-+					  NULL, msg2638_ts_irq_handler,
-+					  IRQF_ONESHOT, client->name, msg2638);
-+	if (error) {
-+		dev_err(&client->dev, "Failed to request IRQ: %d\n", error);
-+		return error;
-+	}
-+
-+	return 0;
-+}
-+
-+static int __maybe_unused msg2638_suspend(struct device *dev)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct msg2638_ts_data *msg2638 = i2c_get_clientdata(client);
-+
-+	mutex_lock(&msg2638->input_dev->mutex);
-+
-+	if (input_device_enabled(msg2638->input_dev))
-+		msg2638_stop(msg2638);
-+
-+	mutex_unlock(&msg2638->input_dev->mutex);
-+
-+	return 0;
-+}
-+
-+static int __maybe_unused msg2638_resume(struct device *dev)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct msg2638_ts_data *msg2638 = i2c_get_clientdata(client);
-+	int ret = 0;
-+
-+	mutex_lock(&msg2638->input_dev->mutex);
-+
-+	if (input_device_enabled(msg2638->input_dev))
-+		ret = msg2638_start(msg2638);
-+
-+	mutex_unlock(&msg2638->input_dev->mutex);
-+
-+	return ret;
-+}
-+
-+static SIMPLE_DEV_PM_OPS(msg2638_pm_ops, msg2638_suspend, msg2638_resume);
-+
-+#ifdef CONFIG_OF
-+static const struct of_device_id msg2638_of_match[] = {
-+	{ .compatible = "mstar,msg2638" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, msg2638_of_match);
-+#endif
-+
-+static struct i2c_driver msg2638_ts_driver = {
-+	.probe_new = msg2638_ts_probe,
-+	.driver = {
-+		.name = "MStar-TS",
-+		.pm = &msg2638_pm_ops,
-+		.of_match_table = of_match_ptr(msg2638_of_match),
-+	},
-+};
-+module_i2c_driver(msg2638_ts_driver);
-+
-+MODULE_AUTHOR("Vincent Knecht <vincent.knecht@mailoo.org>");
-+MODULE_DESCRIPTION("MStar MSG2638 touchscreen driver");
-+MODULE_LICENSE("GPL v2");
--- 
-2.29.2
+Simple triggers are just normal triggers but with some simplifying code
+to avoid code repetition. Ignore them for now.
 
+When a trigger is set to a LED via sysfs, the trigger .activate()
+method is called and the led_cdev.trigger is set to point to that
+trigger.
 
+It is then up to the code inside the trigger's .activate() method to
+initialize mechanisms that will control the LED.
 
+For netdev trigger a delayed_work is scheduled periodically, and in each
+execution of that work's callback the netdevice's stats are compared to
+the last ones. If the new stats are greater, the trigger code blinks the
+LED.
+
+So in your case it is pretty simple to implement, because you already
+have the necessary code to manipulate the LED brightness automatically
+according to whether button was pressed. You are setting
+  ds->update_mic_mute = true;
+in dualsense_parse_report() and then manipulate the LED in
+dualsense_output_worker().
+
+Just add another boolean member into struct dualsense:
+  bool control_mute_led;
+and change the code in dualsense_output_worker() to only change the
+mute_led brightness is this new member is true.
+
+Add this code to your driver:
+
+  static struct led_hw_trigger_type ps_micmute_trigger_type;
+
+When registering the LED in ps_led_register(), also set
+  led->trigger_type = &ps_micmute_trigger_type;
+
+Add this functions:
+  static int ps_micmute_trig_activate(struct led_classdev *led_cdev)
+  {
+    struct dualsense *ds = container_of(...);
+
+    /* make the worker control mute LED according to mute button */
+    ds->control_mute_led = true;
+
+    /* make sure the mute LED shows the current mute button state */
+    ds->update_mic_mute = true;
+    schedule_work(&ds->output_worker);
+
+    return 0;
+  }
+
+  static void ps_micmute_trig_deactivate(struct led_classdev *led_cdev)
+  {
+    struct dualsense *ds = container_of(...);
+
+    ds->control_mute_led = false;
+  }
+
+  static struct led_trigger ps_micmute_trigger = {
+    .name = "playstation-micmute",
+    .activate = ps_micmute_trig_activate,
+    .deactivate = ps_micmute_trig_deactivate,
+    .trigger_type = &ps_micmute_trigger_type,
+  };
+
+Add this code to ps_init():
+  int ret;
+
+  ret = led_trigger_register(&ps_micmute_trigger);
+  if (ret)
+    return ret;
+
+And to ps_exit():
+  led_trigger_unregister(&ps_micmute_trigger);
+
+All this will make sure that the driver will manipulate the mute
+LED state only when the playstation-micmute trigger is active on the
+LED.
+
+Moreover if you want this driver to be active on the LED by default,
+set this prior to registering the LED
+  led->default_trigger = "playstation-micmute";
+
+Finally add code to dualsense_mute_led_set_brightness() to make
+userspace/[other LED triggers] able to set mute LED brightness.
+
+The purpose of the .trigger_type member of struct led_classdev and
+struct led_trigger is that if this member is set for a trigger, this
+trigger will only be available for LEDs that have the same trigger_type.
+
+Marek
