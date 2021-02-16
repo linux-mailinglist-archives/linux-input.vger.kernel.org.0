@@ -2,96 +2,74 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D82131C43D
-	for <lists+linux-input@lfdr.de>; Tue, 16 Feb 2021 00:19:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22ECF31C4A2
+	for <lists+linux-input@lfdr.de>; Tue, 16 Feb 2021 01:35:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229662AbhBOXS7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 15 Feb 2021 18:18:59 -0500
-Received: from mail-il1-f200.google.com ([209.85.166.200]:48449 "EHLO
-        mail-il1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229652AbhBOXS6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 15 Feb 2021 18:18:58 -0500
-Received: by mail-il1-f200.google.com with SMTP id n12so6438737ili.15
-        for <linux-input@vger.kernel.org>; Mon, 15 Feb 2021 15:18:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=RhDtHpOLvv7u6BJ1lSgPY8LsKAeZXSIEoChoNXHhq+c=;
-        b=tc/noS6Y46yjLFpSP5ySPWEry8NcNSsG9GjzTsNLz2x7ugl2EEdH/ngi3yt8UFfejV
-         82nGSrXSm3VkwQeybjYYczLvXZosv2TmwuVfu5GqllPgPnw/OIUdhelgnmwKTY46I+Ws
-         7bGBpf3b7n5zJS/4BB5ePewG1FJq/YVBDmRJX7KonEC0Zh1WUGqsf/U5df4bOV3XQRu5
-         0T+kLNczgmJzu48FMp/EQlDFeEafX3ns/fl5x2R6LgYJxIyir3G+3DL2k2yaEZ7T+A6H
-         qXOGT3l/UM9i+57ybpHZg2LA/WkTyD9rDtd6fQK9IEXylejn1VaFIjOhR+P5ijP+L5De
-         9QVQ==
-X-Gm-Message-State: AOAM532BBJZi1uKhguW8oTnnMXzTKaHLKbQHAKz5LC6JXSzDXaY48nlu
-        xGDJrJqKmFUkSVHWbGxtGsdIISrl9lrtRi5T8V9V/x1iRUuz
-X-Google-Smtp-Source: ABdhPJzXWtHUmy25Bth3OwNjK0uKAdxuBCagcjFJODWydCEc8L4B1+4x0BxzfngVQy45JYld0t8US1bOaSdNq4z2kCtV1Ep2txS3
+        id S229720AbhBPAeX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 15 Feb 2021 19:34:23 -0500
+Received: from mail.nic.cz ([217.31.204.67]:40778 "EHLO mail.nic.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229670AbhBPAeV (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 15 Feb 2021 19:34:21 -0500
+Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
+        by mail.nic.cz (Postfix) with ESMTPSA id B3BF1140AE7;
+        Tue, 16 Feb 2021 01:33:38 +0100 (CET)
+Date:   Tue, 16 Feb 2021 01:33:37 +0100
+From:   Marek Behun <marek.behun@nic.cz>
+To:     Roderick Colenbrander <roderick@gaikai.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        linux-leds@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: Re: [PATCH v6 3/4] HID: playstation: add DualSense player LEDs
+ support.
+Message-ID: <20210216013337.284220cf@nic.cz>
+In-Reply-To: <CANndSK=52kV50SsDzhEg78m67AFhNoz=Z4H1=pFyHLzAJj-YBQ@mail.gmail.com>
+References: <20210215004549.135251-1-roderick@gaikai.com>
+        <20210215004549.135251-4-roderick@gaikai.com>
+        <CANndSK=52kV50SsDzhEg78m67AFhNoz=Z4H1=pFyHLzAJj-YBQ@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-Received: by 2002:a92:b008:: with SMTP id x8mr14945864ilh.297.1613431097349;
- Mon, 15 Feb 2021 15:18:17 -0800 (PST)
-Date:   Mon, 15 Feb 2021 15:18:17 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000006d5e6f05bb6833c3@google.com>
-Subject: UBSAN: shift-out-of-bounds in hid_report_raw_event
-From:   syzbot <syzbot+ee5ce0deec4ff5aa64e1@syzkaller.appspotmail.com>
-To:     benjamin.tissoires@redhat.com, jikos@kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,
+        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
+        autolearn=disabled version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+On Mon, 15 Feb 2021 15:00:30 -0800
+Roderick Colenbrander <roderick@gaikai.com> wrote:
 
-syzbot found the following issue on:
+> What is the desired naming for these player LEDs? There is not an
+> officially designed function based on DT bindings. So far they used
+> "playstation::mac::ledX". When changing the naming scheme towards
+> "hid" and removing MAC, they would be: "hid%d::led1" etcetera.
 
-HEAD commit:    291009f6 Merge tag 'pm-5.11-rc8' of git://git.kernel.org/p..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=17cd1098d00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=6a218c95bd23063a
-dashboard link: https://syzkaller.appspot.com/bug?extid=ee5ce0deec4ff5aa64e1
-compiler:       Debian clang version 11.0.1-2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10410288d00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13642124d00000
+Hi,
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+ee5ce0deec4ff5aa64e1@syzkaller.appspotmail.com
+there is one more thing I forgot to mention in the LED name schema:
+  devicename:color:function-functionEnumerator
 
-================================================================================
-UBSAN: shift-out-of-bounds in drivers/hid/hid-core.c:1315:20
-shift exponent 4294967295 is too large for 32-bit type 'int'
-CPU: 1 PID: 0 Comm: swapper/1 Not tainted 5.11.0-rc7-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Call Trace:
- <IRQ>
- __dump_stack lib/dump_stack.c:79 [inline]
- dump_stack+0x137/0x1be lib/dump_stack.c:120
- ubsan_epilogue lib/ubsan.c:148 [inline]
- __ubsan_handle_shift_out_of_bounds+0x432/0x4d0 lib/ubsan.c:395
- snto32 drivers/hid/hid-core.c:1315 [inline]
- hid_input_field drivers/hid/hid-core.c:1548 [inline]
- hid_report_raw_event+0xa9d/0x1480 drivers/hid/hid-core.c:1783
- hid_input_report+0x3f6/0x4d0 drivers/hid/hid-core.c:1850
- hid_irq_in+0x48d/0x690 drivers/hid/usbhid/hid-core.c:284
- __usb_hcd_giveback_urb+0x375/0x520 drivers/usb/core/hcd.c:1656
- dummy_timer+0xa22/0x2e70 drivers/usb/gadget/udc/dummy_hcd.c:1971
- call_timer_fn+0x91/0x160 kernel/time/timer.c:1417
- expire_timers kernel/time/timer.c:1462 [inline]
- __run_timers+0x6c0/0x8a0 kernel/time/timer.c:1731
- run_timer_softirq+0x63/0xf0 kernel/time/timer.c:1744
- __do_softirq+0x318/0x714 kernel/softirq.c:343
- asm_call_irq_on_stack
+So LED core can for example compose a names in the format:
+  switch0:green:lan-1
+  switch0:green:lan-2
+  switch0:green:lan-3
+  switch0:green:lan-4
 
+In your case I think the most appropriate name would be something like
+  hid0:color:indicator-1
+  hid0:color:indicator-2
+  ...
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Are these LEDs of different colors which are impossible to determine?
+The string "hid%d::led1" you mention above does not indicate color.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+Marek
