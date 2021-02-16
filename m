@@ -2,127 +2,162 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EAB7231D117
-	for <lists+linux-input@lfdr.de>; Tue, 16 Feb 2021 20:43:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C0A731D18C
+	for <lists+linux-input@lfdr.de>; Tue, 16 Feb 2021 21:29:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230017AbhBPTmq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 16 Feb 2021 14:42:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34100 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229811AbhBPTml (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 16 Feb 2021 14:42:41 -0500
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36298C06174A;
-        Tue, 16 Feb 2021 11:42:01 -0800 (PST)
-Received: by mail-pj1-x1031.google.com with SMTP id c19so1375426pjq.3;
-        Tue, 16 Feb 2021 11:42:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xiaixDEx+40UcqF9MHu0BuJvy9P/v7Jvjumb+nWcDfQ=;
-        b=OgVOSu/xzktvOu1nQj0J8A8PELQNnJ0K7kKMXjJqGcZ8wdxYIkTMl1ysWmpPwn2MJW
-         w/HC91i5Vc17N2C1QYRufzPKMkJIHCMOOxYXo8HaiMsd6/xoLJ6QIW/qtwZ6Dr5cV8ha
-         fuSi9p6oZbg7ZnwtwOdI6bV444wZTWJtZ0axoRVSsgmS1J7qrDVtFoDSI3yz/R9NJqe0
-         mnsP2km8J9w729gaj5p26SUrxv9W3JbP7R0pnEdTiAPNrp6I0hYnUJijrwUcK4pfNnza
-         xHUwgX9B0o3Gvxhs/wOf4+O8AcvorT7eqvWSf67G4YHV5mOg/GfG8AOHU2egmRqNR/DZ
-         iF+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xiaixDEx+40UcqF9MHu0BuJvy9P/v7Jvjumb+nWcDfQ=;
-        b=LWZzG4iExe9Qz032bZEpOSGgOooR/4wPQyfhX163w4H7oWeqY1uqP8PGXKv2Xw+6kp
-         TBN5p+bnYKzJ1P5alzoLSW691zdCvbOYYo65cXd9Q3r+a4kkuMxWVgZkofq8zsHmKDUy
-         wG5ZjKuUxdKpvGn1kPUCn5n8z6Fz7WlmO9PA2L0AdoZZMTnkOvDwJZrcsUTDjgLdOVpl
-         jxT+uVJSpK4LC5WS20gQ98I9VGLcyfqjmgTkZhoFGRdBfiMrxZF4wmYfkOxmxrn+nFXT
-         UCwC/HRks+0/rRJGGoL/y218mTmnyt8CHdzwwvnc+oYd2tom3unJcnWCkQ4fGd3/u/bu
-         R+oA==
-X-Gm-Message-State: AOAM53073Y6gIHQ8GlzTThY6bEJ6A2EiCrJaR71vF1pAWmZiLeOi6Kwd
-        m5/6N0mg4GEoFHtuN7pysK8VZei//AX2DQ==
-X-Google-Smtp-Source: ABdhPJw25kDuR+ISuKikfCP7YUyhMod9oga8bFtnUFH512/fVn6IErza9gq+onI4ib0hqNplkhjL0A==
-X-Received: by 2002:a17:902:7083:b029:e2:e330:7eaf with SMTP id z3-20020a1709027083b02900e2e3307eafmr21610753plk.18.1613504520573;
-        Tue, 16 Feb 2021 11:42:00 -0800 (PST)
-Received: from horus.lan (71-34-88-219.ptld.qwest.net. [71.34.88.219])
-        by smtp.gmail.com with ESMTPSA id x12sm21358316pfp.214.2021.02.16.11.41.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Feb 2021 11:41:59 -0800 (PST)
-From:   Jason Gerecke <killertofu@gmail.com>
-X-Google-Original-From: Jason Gerecke <jason.gerecke@wacom.com>
-To:     linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>, stable@vger.kernel.org
-Subject: [PATCH] HID: wacom: Ignore attempts to overwrite the touch_max value from HID
-Date:   Tue, 16 Feb 2021 11:41:54 -0800
-Message-Id: <20210216194154.111950-1-jason.gerecke@wacom.com>
-X-Mailer: git-send-email 2.30.1
+        id S229721AbhBPU2q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 16 Feb 2021 15:28:46 -0500
+Received: from mail.nic.cz ([217.31.204.67]:49012 "EHLO mail.nic.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229577AbhBPU2q (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 16 Feb 2021 15:28:46 -0500
+Received: from localhost (unknown [IPv6:2a0e:b107:ae1:0:3e97:eff:fe61:c680])
+        by mail.nic.cz (Postfix) with ESMTPSA id 8C51E140BED;
+        Tue, 16 Feb 2021 21:28:03 +0100 (CET)
+Date:   Tue, 16 Feb 2021 21:28:03 +0100
+From:   Marek Behun <marek.behun@nic.cz>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Roderick Colenbrander <roderick@gaikai.com>,
+        Jiri Kosina <jikos@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        linux-leds@vger.kernel.org,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: Re: [PATCH v6 1/4] HID: playstation: add DualSense lightbar support
+Message-ID: <20210216212803.123ce325@nic.cz>
+In-Reply-To: <CAO-hwJKS_jcuXP6fhYaOutDjGk=GF09Bni88xY1RprEFOCQ-Yg@mail.gmail.com>
+References: <20210215004549.135251-1-roderick@gaikai.com>
+        <20210215004549.135251-2-roderick@gaikai.com>
+        <20210215143144.060fdbe6@nic.cz>
+        <CANndSKmSP7rdsrMuwRapQkDru75TxN9zbDUbvOj_5hrQpskmJg@mail.gmail.com>
+        <20210215165518.16033bb6@nic.cz>
+        <CANndSKkVAFJzf58CNYw_j0QY7hd4umOMn5Cs6U3JnK6TozWdEQ@mail.gmail.com>
+        <20210215192124.7a6c8c9d@nic.cz>
+        <CAO-hwJ+=_fjHgenXvHv45sHgzwiG2z9vGeq7fmMqj2=BeYCF1Q@mail.gmail.com>
+        <20210216185602.48a980f6@nic.cz>
+        <CAO-hwJKS_jcuXP6fhYaOutDjGk=GF09Bni88xY1RprEFOCQ-Yg@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-100.0 required=5.9 tests=SHORTCIRCUIT,URIBL_BLOCKED,
+        USER_IN_WELCOMELIST,USER_IN_WHITELIST shortcircuit=ham
+        autolearn=disabled version=3.4.2
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.nic.cz
+X-Virus-Scanned: clamav-milter 0.102.2 at mail
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The `wacom_feature_mapping` function is careful to only set the the
-touch_max value a single time, but this care does not extend to the
-`wacom_wac_finger_event` function. In particular, if a device sends
-multiple HID_DG_CONTACTMAX items in a single feature report, the
-driver will end up retaining the value of last item.
+On Tue, 16 Feb 2021 19:14:48 +0100
+Benjamin Tissoires <benjamin.tissoires@redhat.com> wrote:
 
-The HID descriptor for the Cintiq Companion 2 does exactly this. It
-incorrectly sets a "Report Count" of 2, which will cause the driver
-to process two HID_DG_CONTACTCOUNT items. The first item has the actual
-count, while the second item should have been declared as a constant
-zero. The constant zero is the value the driver ends up using, however,
-since it is the last HID_DG_CONTACTCOUNT in the report.
+> On Tue, Feb 16, 2021 at 6:56 PM Marek Behun <marek.behun@nic.cz> wrote:
+> >
+> > On Tue, 16 Feb 2021 18:29:46 +0100
+> > Benjamin Tissoires <benjamin.tissoires@redhat.com> wrote:
+> >  
+> > > > So all HIDs can be uniqely determined via this atomic_inc_return(&id),
+> > > > but it is only stored in string form as part of device name.  
+> > >
+> > > Yes and no. This atomic_inc is only used to allow a sysfs tree,
+> > > because you can have several HID devices below the same USB, I2C or
+> > > UHID physical device. From the userspace, no-one cares about that ID,
+> > > because all HID devices are exported as input, IIO or hidraw nodes.
+> > >
+> > > So using this "id" would not allow for a direct mapping HID device ->
+> > > sysfs entry because users will still have to walk through the tree to
+> > > find out which is which.  
+> >
+> > So you are saying that the fact that userspace cannot take the number
+> > from "hidN" string and simply do a lookup /sys/bus/hid/devices/hidN is
+> > the problem here.
+> >
+> > This is not a problem in my opinion, because userspace can simply
+> > access the parent HID device via /sys/class/leds/hidN:color:func/parent.  
+> 
+> So in that case, there is no real point at keeping this ID in sync
+> with anything else? I would be more willing to accept a patch in HID
+> core that keeps this ID just for HID LEDs, instead of adding just an
+> ID with no meaning to all HID devices.
 
-    Report ID (16),
-    Usage (Contact Count Maximum),  ; Contact count maximum (55h, static value)
-    Report Count (2),
-    Logical Maximum (10),
-    Feature (Variable),
+I think there was some misunderstanding.
 
-To address this, we add a check that the touch_max is not already set
-within the `wacom_wac_finger_event` function that processes the
-HID_DG_TOUCHMAX item. We emit a warning if the value is set and ignore
-the updated value.
+If there are multiple LEDs on one joystick, all these LEDs should have
+the same devicename part of the LED name. Different joysticks should
+have different devicename parts of their LEDs names.
 
-This could potentially cause problems if there is a tablet which has
-a similar issue but requires the last item to be used. This is unlikely,
-however, since it would have to have a different non-zero value for
-HID_DG_CONTACTMAX earlier in the same report, which makes no sense
-except in the case of a firmware bug. Note that cases where the
-HID_DG_CONTACTMAX items are in different reports is already handled
-(and similarly ignored) by `wacom_feature_mapping` as mentioned above.
+As another example think about keyboard LEDs if I have 2 keyboards
+  input3:green:numlock
+  input3:green:capslock
+  input3:green:scrolllock
+  input4:green:numlock
+  input4:green:capslock
+  input4:green:scrolllock
 
-Link: https://github.com/linuxwacom/input-wacom/issues/223
-Fixes: 184eccd40389 ("HID: wacom: generic: read HID_DG_CONTACTMAX from any feature report")
-Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
-CC: stable@vger.kernel.org
----
- drivers/hid/wacom_wac.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+> Honestly, I think the whole LED class creation API should be
+> revisited. I guess this is not the first time this problem arises, and
+> you must be tired of having to chase down users.
 
-diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index 1bd0eb71559c..44d715c12f6a 100644
---- a/drivers/hid/wacom_wac.c
-+++ b/drivers/hid/wacom_wac.c
-@@ -2600,7 +2600,12 @@ static void wacom_wac_finger_event(struct hid_device *hdev,
- 		wacom_wac->is_invalid_bt_frame = !value;
- 		return;
- 	case HID_DG_CONTACTMAX:
--		features->touch_max = value;
-+		if (!features->touch_max) {
-+			features->touch_max = value;
-+		} else {
-+			hid_warn(hdev, "%s: ignoring attempt to overwrite non-zero touch_max "
-+				 "%d -> %d\n", __func__, features->touch_max, value);
-+		}
- 		return;
- 	}
- 
--- 
-2.30.1
+I will not argue with you about this since it is true. The work is
+slow though because lack of people and time. I too have some ideas for
+the LED subsystem but I also have many other priorities in work. Pavel
+has a TODO list in drivers/leds/TODO. The main thing probably is that
+it would be great to have more input from other kernel people when
+doing something in LEDs, but either not that many people subscribe to
+linux-leds mailing list or we should be informing them via different
+mechanisms...
 
+> If I had to deal with that situation once for all, I would deprecate
+> the current led class creation API, and add a new API that doesn't
+> take a free-form string as the name but constrain the name to be
+> formed by your requirements. This would also send a clear message to
+> all subsystems because the changes have to be propagated, and then,
+> all the maintainers would know about this problem. Bonus point, if you
+> need only "subsystem", "color" and "function", that means that the ID
+> can be stored internally to the led class and you'll get happy users.
+
+As I mentioned in the example above, there can be multiple LEDs for one
+devicename...
+
+> >
+> > In fact we did something similar for LEDs connected to ethernet PHYs.
+> > To summarize:
+> >   - ethernet PHYs are identified by long, sometimes crazy strings like
+> >       d0032004.mdio-mii:01
+> >     or even
+> >       /soc/internal-regs@d0000000/mdio@32004/switch0@10/mdio:08
+> >   - for the purposes of having a sane devicename part in LED names, I
+> >     sent this patch
+> >     https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg2301470.html
+> >     which adds a simple incrementing integer ID to each PHY device.
+> >     (The code is not in upstream yet because there is other work needed
+> >      and because I decided that some functionality has to be available
+> >      via a different mechanism, but this part is complete and reviewed.)
+> >  
+> > > An actual one-to-one mapping would using 'hidrawX' because there is a
+> > > one-to-one mapping between /dev/hidrawX for HID devices. However, this
+> > > means that we consider the bus to be hidraw which is plain wrong too.
+> > >
+> > > The unique ID of HID devices (in /sys/bus/hid/devices) is in the form
+> > > `BUS:VID:PID.XXXX`. I understand the need to not have colons, so could
+> > > we standardize LEDs on the HID subsystem to be named
+> > > `hid-bus_vid_pid_xxxx:color:fun(-n)?`? That would allow a mapping
+> > > between the LED and the sysfs, and would also allow users to quickly
+> > > filter out the playstation ones.  
+> >
+> > As I wrote in other e-mail some minutes ago, this just means that we
+> > need to wait for other people's opinions. Please do not send this
+> > pull-request with the LED patches until this is resolved.
+> >  
+> 
+> Yeah, I just asked Roderick to see if he can revert those patches
+> while keeping the functionality behind those. I am more concerned
+> about the micmute button, because we should really offer that feature
+> to users. The associated LED class has no real benefits for now, so
+> that code needs a little bit of care instead of a plain revert.
+
+Thank you.
+
+Marek
