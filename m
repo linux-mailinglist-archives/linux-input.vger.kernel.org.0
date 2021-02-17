@@ -2,107 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B83C531DFF2
-	for <lists+linux-input@lfdr.de>; Wed, 17 Feb 2021 21:06:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A25CD31E023
+	for <lists+linux-input@lfdr.de>; Wed, 17 Feb 2021 21:24:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233564AbhBQUGS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 17 Feb 2021 15:06:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28578 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232844AbhBQUGS (ORCPT
+        id S234131AbhBQUYJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 17 Feb 2021 15:24:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39864 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234056AbhBQUYI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 17 Feb 2021 15:06:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1613592291;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=vHoTmntEev68EJcmebE3piRT4pPjx5R2AdcGSR/9YdY=;
-        b=MjrfHT/r/hcvQNqzPTlfgo1P9CBUWO/WZDNcueY7/2pNpUD4q+oVvbkBJz/kkKa3R6EDb2
-        U8uwzMOwLjDQNEK0JE1qrXREomS490Wx5AAUZk6n6rsD2xxn4l0jRfNYDRR0FRTzqdmADK
-        vMNrweLPc3VBO1AwJHT3ZRzxBvWeC08=
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-ViRX3ZF3MnOIefP-DVAP-w-1; Wed, 17 Feb 2021 15:04:50 -0500
-X-MC-Unique: ViRX3ZF3MnOIefP-DVAP-w-1
-Received: by mail-pg1-f198.google.com with SMTP id f6so1188265pgh.3
-        for <linux-input@vger.kernel.org>; Wed, 17 Feb 2021 12:04:50 -0800 (PST)
+        Wed, 17 Feb 2021 15:24:08 -0500
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83916C061574;
+        Wed, 17 Feb 2021 12:23:27 -0800 (PST)
+Received: by mail-pg1-x52c.google.com with SMTP id m2so9217112pgq.5;
+        Wed, 17 Feb 2021 12:23:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=09V/Lx9sq9HWVGABhiuXxan/Vp0Zf4Nka8njzOOjfos=;
+        b=cUD6Ej1AeVls325jog8Wmpy+575Do8dxISLi6y2qyyMgL9p31bKn6lTKy1Zq6p/sAq
+         /bi/hyXz8vkhQvPVFHz2VeEcZS/UkfUZkoK7D7FRNRe7sDECReRfVS03oos8A8ZmBuJc
+         An+UR+tgvYdXCxZwe7/6jxgVei1JYdgz9Yoyr7rddtSkXmvNinx+km6qkfkfwOovSS7U
+         pzMos9HfaySCdw/EYaJzn90sJRHA9qs0UJ+Pt0H9a/XiMnLtf1PDb1Zwfun7Qy+GbIJ0
+         tzbMh10KM53sXOdZD1jWYxc4hfXlnkoAZLKM0ENA5lgp9uZxIVdJVRKMaPfSwpNLzyRs
+         hW6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vHoTmntEev68EJcmebE3piRT4pPjx5R2AdcGSR/9YdY=;
-        b=gSIEKk3gf31AppE2bmxg0EZ00uqpINKiU6c/edBkv1SneYe7DiylmOOt1RgbxTDZW0
-         RnvtT4rVCUmDr3ZK07MQJyMMMls7DQlNsws4W4myFShQjJvcqWGRpEDPOGk3rtH7oEqR
-         Gn7pyXTIGkbcojZ7aby02IOwzF7L+dB2GHq9fAXwSEfeGUCc+mnAc3j+2Go6ixFf0/jE
-         r/6sYMYS/5yobYvFXQxzAJ5jbnHDV4p2Atog/dlyvcADSJXX65cgKHDKkv5nOsKqJ8oS
-         fpryz48YSJK1M1Lk6cmPTuhKlPd1U6XvkU4hyUA5XSux9oB8/WnBDm0FPThT0cFRi+Fo
-         7geg==
-X-Gm-Message-State: AOAM531G+u461N1L8wh351AebACVCQJwVDgwNWYxP+N6/3eW+ErUK/mj
-        Khwr2uu6EpCFlhn/aCsQjDw1c6woZdxX2eHqPRbS3q/JG3Jge2Qi3MYOLICrXV0FSBIGp3kq7NW
-        5DzfcRC+kG+axw68gaCcTGjpy74k33p8QH8qhiX4=
-X-Received: by 2002:a17:902:d4d0:b029:e3:480a:cae3 with SMTP id o16-20020a170902d4d0b02900e3480acae3mr659679plg.41.1613592289315;
-        Wed, 17 Feb 2021 12:04:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwHK4y3zAv0/eqFBkTaoINYheQA70AODu58g83uoMfRBuIwAAnwdz1Gnbi35DShRThTbkZayF790UdUG4DSrlY=
-X-Received: by 2002:a17:902:d4d0:b029:e3:480a:cae3 with SMTP id
- o16-20020a170902d4d0b02900e3480acae3mr659658plg.41.1613592289030; Wed, 17 Feb
- 2021 12:04:49 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=09V/Lx9sq9HWVGABhiuXxan/Vp0Zf4Nka8njzOOjfos=;
+        b=sR80K8I39uey2fQFZgQZ1zeqvzQ2uHiYEzaMDtu5LuRT7eXRrO8mMgWwY5I08gtJXl
+         OQzZxpnqNa30G2FSjWCcdJZwVZoJYjY+/Vix627aiXeiYjZOchsiz9UrPysyFwMbofkV
+         hnByT0b7URvKPnbc/9nvXikAOpxKuYeDBDUhdAcHsAZxhBGZ8+gL/GeWg9Rv9Hnw9cpn
+         v6E3+MwZdt4iCsSu7nYT4zCFHkdv8OXfO+qw6Vha7ALU2loIeKTyzTyFuwwl/mRjHfNL
+         R8TQgC0yp25YeDXqkEXU78sy2vpX2USEqsZ3cgyIxt6NoPqNUN9qaQSuhHKDexJksE/n
+         eR2Q==
+X-Gm-Message-State: AOAM533hGSZNYDKTFeSq/0MUkGmg+l02AjtI++89+okyDN71Z6P+6N6X
+        L30m9hZsLoq44qQYZ8/xY4Y=
+X-Google-Smtp-Source: ABdhPJylECupCMg0rupEa1KtOVV5M/jlEfVnh/SN38BdJtujZIVXXrj3N+VIKBqTHkrYNtmVbb2NPQ==
+X-Received: by 2002:aa7:961b:0:b029:1db:532c:9030 with SMTP id q27-20020aa7961b0000b02901db532c9030mr901491pfg.30.1613593406843;
+        Wed, 17 Feb 2021 12:23:26 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:a459:a528:1312:4d4c])
+        by smtp.gmail.com with ESMTPSA id c9sm2847192pjr.44.2021.02.17.12.23.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Feb 2021 12:23:25 -0800 (PST)
+Date:   Wed, 17 Feb 2021 12:23:23 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Ronald =?iso-8859-1?Q?Tschal=E4r?= <ronald@innovation.ch>
+Cc:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Sergiu Cuciurean <sergiu.cuciurean@analog.com>,
+        Lee Jones <lee.jones@linaro.org>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] Input: applespi: Don't wait for responses to
+ commands indefinitely.
+Message-ID: <YC17OycMiNipMUyn@google.com>
+References: <20210217190718.11035-1-ronald@innovation.ch>
 MIME-Version: 1.0
-References: <20210215163921.84283-1-colin.king@canonical.com>
-In-Reply-To: <20210215163921.84283-1-colin.king@canonical.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 17 Feb 2021 21:04:38 +0100
-Message-ID: <CAO-hwJ+P=jH3ByHdab=qmrOWupnq-fiA0UR8mdHF1pQAuEqbAw@mail.gmail.com>
-Subject: Re: [PATCH][next] HID: playstation: fix array size comparison (off-by-one)
-To:     Colin King <colin.king@canonical.com>
-Cc:     Roderick Colenbrander <roderick.colenbrander@sony.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        kernel-janitors@vger.kernel.org,
-        lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210217190718.11035-1-ronald@innovation.ch>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Feb 15, 2021 at 5:39 PM Colin King <colin.king@canonical.com> wrote:
->
-> From: Colin Ian King <colin.king@canonical.com>
->
-> The comparison of value with the array size ps_gamepad_hat_mapping
-> appears to be off-by-one. Fix this by using >= rather than > for the
-> size comparison.
->
-> Addresses-Coverity: ("Out-of-bounds read")
-> Fixes: bc2e15a9a022 ("HID: playstation: initial DualSense USB support.")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> ---
+Hi Ronald,
 
-Good catch.
+On Wed, Feb 17, 2021 at 11:07:16AM -0800, Ronald Tschalär wrote:
+> @@ -869,7 +878,7 @@ static int applespi_send_cmd_msg(struct applespi_data *applespi)
+>  		return sts;
+>  	}
+>  
+> -	applespi->cmd_msg_queued = true;
+> +	applespi->cmd_msg_queued = ktime_get();
 
-Applied to for-5.12/playstation-v2
+Will it be OK if I change this to ktime_get_coarse()? I do not think we
+need exact time here, and the coarse variant is cheaper I believe.
 
-Cheers,
-Benjamin
+Thanks.
 
->  drivers/hid/hid-playstation.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-> index 408b651174cf..568a3a067c88 100644
-> --- a/drivers/hid/hid-playstation.c
-> +++ b/drivers/hid/hid-playstation.c
-> @@ -1064,7 +1064,7 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
->         input_report_abs(ds->gamepad, ABS_RZ, ds_report->rz);
->
->         value = ds_report->buttons[0] & DS_BUTTONS0_HAT_SWITCH;
-> -       if (value > ARRAY_SIZE(ps_gamepad_hat_mapping))
-> +       if (value >= ARRAY_SIZE(ps_gamepad_hat_mapping))
->                 value = 8; /* center */
->         input_report_abs(ds->gamepad, ABS_HAT0X, ps_gamepad_hat_mapping[value].x);
->         input_report_abs(ds->gamepad, ABS_HAT0Y, ps_gamepad_hat_mapping[value].y);
-> --
-> 2.30.0
->
-
+-- 
+Dmitry
