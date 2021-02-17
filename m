@@ -2,103 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A49431D2BF
-	for <lists+linux-input@lfdr.de>; Tue, 16 Feb 2021 23:42:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B5F2031D410
+	for <lists+linux-input@lfdr.de>; Wed, 17 Feb 2021 03:53:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230471AbhBPWlj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 16 Feb 2021 17:41:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44152 "EHLO
+        id S230436AbhBQCwR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 16 Feb 2021 21:52:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230332AbhBPWlj (ORCPT
+        with ESMTP id S229734AbhBQCwF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 16 Feb 2021 17:41:39 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB7C4C061574;
-        Tue, 16 Feb 2021 14:40:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
-        Reply-To:Cc:Content-ID:Content-Description;
-        bh=mPAli1afdCZMbOD64zRqWa6aZoqfb07qK+OEnx1CDzk=; b=aVLSqp+0aW152S4Lh0ZVsmxF18
-        v9ZH38uvYD3s8MEl/ikbJwxi8KnpgXJqGm6gexvQBKjrJbvx59tYM+BRz73bVAeFYqbNrYEsWModo
-        /rNuUX9mffEYpFX+2FnBY/pFLZtvWDDO5xU5Xbaj8KRuyI3Wb8bWM+NG7BKiY36T9JyLIR38ylObm
-        U9PXHsEuVlmhgvg+d4ZYxHnakxHwTLjGY6QAWOLqEsq8FAa3qvz2Oj5LhbSg7uCZUeGfPRiqZlkyJ
-        8q3siBu0/expEtoePoJjqN+6X8ceZcH6b7MyLuiUPR/+lFb2+Ib9xP2Rr+5LV45WZF7aQtxjhbQGF
-        a7XMLMgA==;
-Received: from [2601:1c0:6280:3f0::b669]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1lC91b-0002m1-Ua; Tue, 16 Feb 2021 22:40:56 +0000
-Subject: Re: UBSAN: shift-out-of-bounds in hid_report_raw_event
-To:     syzbot <syzbot+ee5ce0deec4ff5aa64e1@syzkaller.appspotmail.com>,
-        benjamin.tissoires@redhat.com, jikos@kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
-References: <0000000000006d5e6f05bb6833c3@google.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <3fe79599-47a0-58b7-315a-90a5f79b0aac@infradead.org>
-Date:   Tue, 16 Feb 2021 14:40:52 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        Tue, 16 Feb 2021 21:52:05 -0500
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 648D6C061756
+        for <linux-input@vger.kernel.org>; Tue, 16 Feb 2021 18:51:25 -0800 (PST)
+Received: by mail-yb1-xb30.google.com with SMTP id l8so12387588ybe.12
+        for <linux-input@vger.kernel.org>; Tue, 16 Feb 2021 18:51:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=hFixI9GqxBGkILczKHu+MKByGlW+Bb1I6hlZsCkJueg=;
+        b=BjpVcYkGU58w1IVSpaYYV/1GJ2K1WJn68MMb6+JImLDt859Wj0DixMejXivinwoV+R
+         B4nWHfokvbvmQEMJnZIfRvUchVsBp323kGbsV5LSEmq8N57lB+qmz9b6NlmELezfCenZ
+         B3YTESn4CXKcT+ENRpl+2hqVpwzFhkIZVw0GlhroKB+6aMP1mizhiczaz1+sk/ssz6ak
+         p19L0uw3Zmi5LrE/kyGsZmlNBrjQOvQMqK+bJLK/JBEfrovkyAcd6cMDjNE0mCj8m7dT
+         R3Eqt0QjPwFxgRwOu4J5ozr1DrYgAyvo3/B2aDK90ECZnKtErX575huFMZ0O0IytfCU0
+         SSkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=hFixI9GqxBGkILczKHu+MKByGlW+Bb1I6hlZsCkJueg=;
+        b=Lw5GLiSagDNVQxnQxmXrC6IP6A/U0VbxTkzksXNi7fYJ5MsWuhOgkfajQxnHb379S4
+         De24P8W7HF8NrtX4BB7/S4Tq+mGA948apuKFHkJ67FqtJVNNo0VbHJkqD8FUmgjvz+Bu
+         SLsfawnnxohp7nDoa5xe8LzHjOSJwqamFZykTz4sCCTbDTmAIEJ8NmalTMZQE5kS7CuS
+         758u5/5LyF40vCou7bFP7+qqoHn21i+A2I5hcdO9OO6nkv0vWuk2tHRlRF5/9w4IjINx
+         XMYxNKdX5AOzt9Hh6G6/2x5tapBIJ70erAJPvwl44CYI7rE9GjcLSt5c3/NuzI+eIG/V
+         FQUA==
+X-Gm-Message-State: AOAM530V2+2DFhgHiU5jFKMuAlErr/33iETpvCwAbCpU5EcJ0feLLWAR
+        WEqH80GJGHXY1xLTJWHOmFdTkmblHOZ00fp8bCnW3RxtO35//A==
+X-Google-Smtp-Source: ABdhPJxzJBMvcjzmTK56FNoB4dkeHmNCKH95PXg395K/69r82LqtBsjaaTI9MTpjy9ZYiFhV1/CEs78RaSFEaURtPqw=
+X-Received: by 2002:a25:9887:: with SMTP id l7mr35387590ybo.319.1613530283833;
+ Tue, 16 Feb 2021 18:51:23 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <0000000000006d5e6f05bb6833c3@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+From:   Koopa Koopa <codingkoopa@gmail.com>
+Date:   Tue, 16 Feb 2021 21:51:13 -0500
+Message-ID: <CAM1wO0=2zM=WNmGyDJETLa4wsECE_Nxvq-gAa6_Wb_cMH43K9w@mail.gmail.com>
+Subject: PROBLEM: Error logged when pressing mouse button
+To:     linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 2/15/21 3:18 PM, syzbot wrote:
-> Hello,
-> 
-> syzbot found the following issue on:
-> 
-> HEAD commit:    291009f6 Merge tag 'pm-5.11-rc8' of git://git.kernel.org/p..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=17cd1098d00000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=6a218c95bd23063a
-> dashboard link: https://syzkaller.appspot.com/bug?extid=ee5ce0deec4ff5aa64e1
-> compiler:       Debian clang version 11.0.1-2
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10410288d00000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13642124d00000
-> 
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+ee5ce0deec4ff5aa64e1@syzkaller.appspotmail.com
-> 
-> ================================================================================
-> UBSAN: shift-out-of-bounds in drivers/hid/hid-core.c:1315:20
-> shift exponent 4294967295 is too large for 32-bit type 'int'
-> CPU: 1 PID: 0 Comm: swapper/1 Not tainted 5.11.0-rc7-syzkaller #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-> Call Trace:
->  <IRQ>
->  __dump_stack lib/dump_stack.c:79 [inline]
->  dump_stack+0x137/0x1be lib/dump_stack.c:120
->  ubsan_epilogue lib/ubsan.c:148 [inline]
->  __ubsan_handle_shift_out_of_bounds+0x432/0x4d0 lib/ubsan.c:395
->  snto32 drivers/hid/hid-core.c:1315 [inline]
->  hid_input_field drivers/hid/hid-core.c:1548 [inline]
->  hid_report_raw_event+0xa9d/0x1480 drivers/hid/hid-core.c:1783
->  hid_input_report+0x3f6/0x4d0 drivers/hid/hid-core.c:1850
->  hid_irq_in+0x48d/0x690 drivers/hid/usbhid/hid-core.c:284
->  __usb_hcd_giveback_urb+0x375/0x520 drivers/usb/core/hcd.c:1656
->  dummy_timer+0xa22/0x2e70 drivers/usb/gadget/udc/dummy_hcd.c:1971
+Every time I press a button on my mouse, an error is logged in my
+system journal.
 
-> 
-> 
-> ---
-> This report is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
-> 
-> syzbot will keep track of this issue. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-> syzbot can test patches for this issue, for details see:
-> https://goo.gl/tpsmEJ#testing-patches
+Starting recently, every time I press any button on my Logitech G602
+mouse, the following is logged to my journal:
 
-#syz dup: UBSAN: shift-out-of-bounds in snto32
+    kernel: logitech-djreceiver 0003:046D:C537.0005: Unexpected input
+report number 128
 
+This includes both primary mouse buttons, the middle mouse buttons,
+the buttons on the side, and the buttons on the top controlling the
+DPI. It seems that, with commit
+e400071a805d6229223a98899e9da8c6233704a1
+(https://github.com/torvalds/linux/commit/e400071a805d6229223a98899e9da8c6233704a1),
+this driver was enabled for my mouse.
 
--- 
-~Randy
+My /proc/version:
 
+    Linux version 5.10.16-arch1-1 (linux@archlinux) (gcc (GCC) 10.2.0,
+GNU ld (GNU Binutils) 2.36) #1 SMP PREEMPT Sat, 13 Feb 2021 20:50:18
++0000
+
+My kernel .config file: See here
+(https://github.com/archlinux/svntogit-packages/blob/packages/linux/trunk/config).
+
+Thanks!
