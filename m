@@ -2,38 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 575BF31DE54
-	for <lists+linux-input@lfdr.de>; Wed, 17 Feb 2021 18:35:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F07431DE50
+	for <lists+linux-input@lfdr.de>; Wed, 17 Feb 2021 18:35:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234513AbhBQRfI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 17 Feb 2021 12:35:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60602 "EHLO
+        id S234444AbhBQRfB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 17 Feb 2021 12:35:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40974 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234512AbhBQRdk (ORCPT
+        by vger.kernel.org with ESMTP id S234513AbhBQRdk (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
         Wed, 17 Feb 2021 12:33:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1613583133;
+        s=mimecast20190719; t=1613583134;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=SalQoALVHWSDBuvFSejJz/dq2scECkvrFLmS0/hjb/M=;
-        b=KqHnR/SKu8HRTKGTGx7GWwP8Nh7T19v+fuGv4SrxombgqcfubHcks7RKKDoKqMs9M7I8F8
-        uuzhQHNTIdgFYcpxNkvgB1E6eqNy29EphghS+yqBusYfib30m3a6SEQ367GLmgS2kdL9Vn
-        NuDM9dPcxhkZbOeKEUZcbfLhwGAUano=
+        bh=sDTOgUIEuEM7FQrqTpcMCOXLpfzqhPkgfJcNxhVfhqQ=;
+        b=CCRstXCoIwEzQeWTUUbe+phSmvYsw18k3AYLog6bg0VlZnF8BiD16tpe6oJN4GRNz3io96
+        M/iecA3G43PIJrVW56q6xiA57pCTGXZj5zCZz1YambNoYULU7Ggh70LiXPdzDYAHoywARF
+        /CSKgozvCLCzQ+uuMbdbVJtJVi2KEvo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-323-86Izz6vOOhCf-8zeXlbJUw-1; Wed, 17 Feb 2021 12:32:10 -0500
-X-MC-Unique: 86Izz6vOOhCf-8zeXlbJUw-1
+ us-mta-562-S1I1SHYVMda519shZ8CrPQ-1; Wed, 17 Feb 2021 12:32:12 -0500
+X-MC-Unique: S1I1SHYVMda519shZ8CrPQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0E63835E22;
-        Wed, 17 Feb 2021 17:32:08 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A646A192CC40;
+        Wed, 17 Feb 2021 17:32:10 +0000 (UTC)
 Received: from plouf.redhat.com (ovpn-116-25.ams2.redhat.com [10.36.116.25])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id F24C360C61;
-        Wed, 17 Feb 2021 17:32:06 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 0196F60C61;
+        Wed, 17 Feb 2021 17:32:08 +0000 (UTC)
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
 To:     Jiri Kosina <jikos@kernel.org>,
         Roderick Colenbrander <roderick.colenbrander@sony.com>,
@@ -41,9 +41,9 @@ To:     Jiri Kosina <jikos@kernel.org>,
 Cc:     linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH 02/11] Revert "HID: playstation: report DualSense hardware and firmware version."
-Date:   Wed, 17 Feb 2021 18:31:49 +0100
-Message-Id: <20210217173158.3122868-3-benjamin.tissoires@redhat.com>
+Subject: [PATCH 03/11] Revert "HID: playstation: DualSense set LEDs to default player id."
+Date:   Wed, 17 Feb 2021 18:31:50 +0100
+Message-Id: <20210217173158.3122868-4-benjamin.tissoires@redhat.com>
 In-Reply-To: <20210217173158.3122868-1-benjamin.tissoires@redhat.com>
 References: <20210217173158.3122868-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
@@ -53,157 +53,153 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This reverts commit 1f902f8636e4 ("HID: playstation: report DualSense
-hardware and firmware version.")
+From: Roderick Colenbrander <roderick.colenbrander@sony.com>
+
+This reverts commit 05afe02ac24f ("HID: playstation: DualSense
+set LEDs to default player id.")
 
 There is currently an ongoing discussion on linux-leds LKML,
 and so to give us more room, we need to revert those related
-LEDs patches from linux-next.
-
-To have a cleaner merge with the new version, we also revert
-all patches on top of the LED ones.
+patches from linux-next.
 
 This is not a big deal, they are still not pushed to Linus.
 
+Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
 Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 ---
- drivers/hid/hid-playstation.c | 81 -----------------------------------
- 1 file changed, 81 deletions(-)
+ drivers/hid/hid-playstation.c | 70 +----------------------------------
+ 1 file changed, 1 insertion(+), 69 deletions(-)
 
 diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-index cc93c16cc822..973c1fe61e8a 100644
+index 973c1fe61e8a..2d96785c397d 100644
 --- a/drivers/hid/hid-playstation.c
 +++ b/drivers/hid/hid-playstation.c
-@@ -41,8 +41,6 @@ struct ps_device {
- 	int battery_status;
+@@ -9,7 +9,6 @@
+ #include <linux/crc32.h>
+ #include <linux/device.h>
+ #include <linux/hid.h>
+-#include <linux/idr.h>
+ #include <linux/input/mt.h>
+ #include <linux/leds.h>
+ #include <linux/led-class-multicolor.h>
+@@ -23,8 +22,6 @@
+ static DEFINE_MUTEX(ps_devices_lock);
+ static LIST_HEAD(ps_devices_list);
  
- 	uint8_t mac_address[6]; /* Note: stored in little endian order. */
--	uint32_t hw_version;
--	uint32_t fw_version;
+-static DEFINE_IDA(ps_player_id_allocator);
+-
+ #define HID_PLAYSTATION_VERSION_PATCH 0x8000
  
- 	int (*parse_report)(struct ps_device *dev, struct hid_report *report, u8 *data, int size);
- };
-@@ -79,8 +77,6 @@ struct ps_led_info {
- #define DS_FEATURE_REPORT_CALIBRATION_SIZE	41
- #define DS_FEATURE_REPORT_PAIRING_INFO		0x09
- #define DS_FEATURE_REPORT_PAIRING_INFO_SIZE	20
--#define DS_FEATURE_REPORT_FIRMWARE_INFO		0x20
--#define DS_FEATURE_REPORT_FIRMWARE_INFO_SIZE	64
+ /* Base class for playstation devices. */
+@@ -33,8 +30,6 @@ struct ps_device {
+ 	struct hid_device *hdev;
+ 	spinlock_t lock;
  
- /* Button masks for DualSense input report. */
- #define DS_BUTTONS0_HAT_SWITCH	GENMASK(3, 0)
-@@ -665,40 +661,6 @@ static struct input_dev *ps_touchpad_create(struct hid_device *hdev, int width,
- 	return touchpad;
+-	uint32_t player_id;
+-
+ 	struct power_supply_desc battery_desc;
+ 	struct power_supply *battery;
+ 	uint8_t battery_capacity;
+@@ -326,24 +321,6 @@ static int ps_devices_list_remove(struct ps_device *dev)
+ 	return 0;
  }
  
--static ssize_t firmware_version_show(struct device *dev,
--				struct device_attribute
--				*attr, char *buf)
+-static int ps_device_set_player_id(struct ps_device *dev)
 -{
--	struct hid_device *hdev = to_hid_device(dev);
--	struct ps_device *ps_dev = hid_get_drvdata(hdev);
+-	int ret = ida_alloc(&ps_player_id_allocator, GFP_KERNEL);
 -
--	return sysfs_emit(buf, "0x%08x\n", ps_dev->fw_version);
+-	if (ret < 0)
+-		return ret;
+-
+-	dev->player_id = ret;
+-	return 0;
 -}
 -
--static DEVICE_ATTR_RO(firmware_version);
--
--static ssize_t hardware_version_show(struct device *dev,
--				struct device_attribute
--				*attr, char *buf)
+-static void ps_device_release_player_id(struct ps_device *dev)
 -{
--	struct hid_device *hdev = to_hid_device(dev);
--	struct ps_device *ps_dev = hid_get_drvdata(hdev);
+-	ida_free(&ps_player_id_allocator, dev->player_id);
 -
--	return sysfs_emit(buf, "0x%08x\n", ps_dev->hw_version);
+-	dev->player_id = U32_MAX;
 -}
 -
--static DEVICE_ATTR_RO(hardware_version);
--
--static struct attribute *ps_device_attributes[] = {
--	&dev_attr_firmware_version.attr,
--	&dev_attr_hardware_version.attr,
--	NULL
--};
--
--static const struct attribute_group ps_device_attribute_group = {
--	.attrs = ps_device_attributes,
--};
--
- static int dualsense_get_calibration_data(struct dualsense *ds)
+ static struct input_dev *ps_allocate_input_dev(struct hid_device *hdev, const char *name_suffix)
  {
- 	short gyro_pitch_bias, gyro_pitch_plus, gyro_pitch_minus;
-@@ -789,30 +751,6 @@ static int dualsense_get_calibration_data(struct dualsense *ds)
- 	return ret;
+ 	struct input_dev *input_dev;
+@@ -1179,29 +1156,6 @@ static int dualsense_reset_leds(struct dualsense *ds)
+ 	return 0;
  }
  
--static int dualsense_get_firmware_info(struct dualsense *ds)
+-static void dualsense_set_player_leds(struct dualsense *ds)
 -{
--	uint8_t *buf;
--	int ret;
--
--	buf = kzalloc(DS_FEATURE_REPORT_FIRMWARE_INFO_SIZE, GFP_KERNEL);
--	if (!buf)
--		return -ENOMEM;
--
--	ret = ps_get_report(ds->base.hdev, DS_FEATURE_REPORT_FIRMWARE_INFO, buf,
--			DS_FEATURE_REPORT_FIRMWARE_INFO_SIZE);
--	if (ret) {
--		hid_err(ds->base.hdev, "Failed to retrieve DualSense firmware info: %d\n", ret);
--		goto err_free;
--	}
--
--	ds->base.hw_version = get_unaligned_le32(&buf[24]);
--	ds->base.fw_version = get_unaligned_le32(&buf[28]);
--
--err_free:
--	kfree(buf);
--	return ret;
--}
--
- static int dualsense_get_mac_address(struct dualsense *ds)
- {
- 	uint8_t *buf;
-@@ -1314,12 +1252,6 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
- 	}
- 	snprintf(hdev->uniq, sizeof(hdev->uniq), "%pMR", ds->base.mac_address);
- 
--	ret = dualsense_get_firmware_info(ds);
--	if (ret) {
--		hid_err(hdev, "Failed to get firmware info from DualSense\n");
--		return ERR_PTR(ret);
--	}
--
- 	ret = ps_devices_list_add(ps_dev);
- 	if (ret)
- 		return ERR_PTR(ret);
-@@ -1387,13 +1319,6 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
- 	/* Set player LEDs to our player id. */
- 	dualsense_set_player_leds(ds);
- 
 -	/*
--	 * Reporting hardware and firmware is important as there are frequent updates, which
--	 * can change behavior.
+-	 * The DualSense controller has a row of 5 LEDs used for player ids.
+-	 * Behavior on the PlayStation 5 console is to center the player id
+-	 * across the LEDs, so e.g. player 1 would be "--x--" with x being 'on'.
+-	 * Follow a similar mapping here.
 -	 */
--	hid_info(hdev, "Registered DualSense controller hw_version=0x%08x fw_version=0x%08x\n",
--			ds->base.hw_version, ds->base.fw_version);
+-	static const int player_ids[5] = {
+-		BIT(2),
+-		BIT(3) | BIT(1),
+-		BIT(4) | BIT(2) | BIT(0),
+-		BIT(4) | BIT(3) | BIT(1) | BIT(0),
+-		BIT(4) | BIT(3) | BIT(2) | BIT(1) | BIT(0)
+-	};
+-
+-	uint8_t player_id = ds->base.player_id % ARRAY_SIZE(player_ids);
+-
+-	ds->update_player_leds = true;
+-	ds->player_leds_state = player_ids[player_id];
+-	schedule_work(&ds->output_worker);
+-}
+-
+ static struct ps_device *dualsense_create(struct hid_device *hdev)
+ {
+ 	struct dualsense *ds;
+@@ -1310,15 +1264,6 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
+ 			goto err;
+ 	}
+ 
+-	ret = ps_device_set_player_id(ps_dev);
+-	if (ret) {
+-		hid_err(hdev, "Failed to assign player id for DualSense: %d\n", ret);
+-		goto err;
+-	}
+-
+-	/* Set player LEDs to our player id. */
+-	dualsense_set_player_leds(ds);
 -
  	return &ds->base;
  
  err:
-@@ -1444,12 +1369,6 @@ static int ps_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 		}
- 	}
+@@ -1383,7 +1328,6 @@ static void ps_remove(struct hid_device *hdev)
+ 	struct ps_device *dev = hid_get_drvdata(hdev);
  
--	ret = devm_device_add_group(&hdev->dev, &ps_device_attribute_group);
--	if (ret) {
--		hid_err(hdev, "Failed to register sysfs nodes.\n");
--		goto err_close;
--	}
+ 	ps_devices_list_remove(dev);
+-	ps_device_release_player_id(dev);
+ 
+ 	hid_hw_close(hdev);
+ 	hid_hw_stop(hdev);
+@@ -1404,19 +1348,7 @@ static struct hid_driver ps_driver = {
+ 	.raw_event	= ps_raw_event,
+ };
+ 
+-static int __init ps_init(void)
+-{
+-	return hid_register_driver(&ps_driver);
+-}
 -
- 	return ret;
+-static void __exit ps_exit(void)
+-{
+-	hid_unregister_driver(&ps_driver);
+-	ida_destroy(&ps_player_id_allocator);
+-}
+-
+-module_init(ps_init);
+-module_exit(ps_exit);
++module_hid_driver(ps_driver);
  
- err_close:
+ MODULE_AUTHOR("Sony Interactive Entertainment");
+ MODULE_DESCRIPTION("HID Driver for PlayStation peripherals.");
 -- 
 2.29.2
 
