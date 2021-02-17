@@ -2,134 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7AD631DF7B
-	for <lists+linux-input@lfdr.de>; Wed, 17 Feb 2021 20:20:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B83C531DFF2
+	for <lists+linux-input@lfdr.de>; Wed, 17 Feb 2021 21:06:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232367AbhBQTTO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 17 Feb 2021 14:19:14 -0500
-Received: from ec2-44-228-98-151.us-west-2.compute.amazonaws.com ([44.228.98.151]:58878
-        "EHLO chill.innovation.ch" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S232547AbhBQTTN (ORCPT
+        id S233564AbhBQUGS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 17 Feb 2021 15:06:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28578 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232844AbhBQUGS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 17 Feb 2021 14:19:13 -0500
-X-Greylist: delayed 651 seconds by postgrey-1.27 at vger.kernel.org; Wed, 17 Feb 2021 14:19:10 EST
-Received: from localhost (localhost [127.0.0.1])
-        by chill.innovation.ch (Postfix) with ESMTP id 30D451B640F;
-        Wed, 17 Feb 2021 19:07:32 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at chill.innovation.ch
-Received: from chill.innovation.ch ([127.0.0.1])
-        by localhost (chill.innovation.ch [127.0.0.1]) (amavisd-new, port 10024)
-        with LMTP id 7BxdjnFa6Gfu; Wed, 17 Feb 2021 19:07:31 +0000 (UTC)
-From:   =?UTF-8?q?Ronald=20Tschal=C3=A4r?= <ronald@innovation.ch>
-DKIM-Filter: OpenDKIM Filter v2.11.0 chill.innovation.ch 77B491B5EA9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=innovation.ch;
-        s=default; t=1613588851;
-        bh=NTnBPdcPQ1mHAuBRtKTt9xZ5SgKJhiroAKknFH1WnTw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bjhz7O0GLjLTNOkGgBYYRnp9CBqiOsET9xfFY56qDsSxdHc7lpTIB8Nj5s8g0RGiX
-         4cJVGHvCZEkrfhaBvjueFaVDAUkMpdFoJVy+Ja9LoShKKssBoRdTneci9h3uTS/MIs
-         NzrN6crorswasrDXGxzyydNVitahKYpClQ94koL7C9R554dJ38Y24OL87PrDWrci3S
-         St0BCcJNP4kf06+0CipaFtNK2VwQ/kDrHG4g+v6UuA/cdT5eBqXFWlJd60NmbUk75+
-         ecC4d/6YGdC+ieNIb8JW15fcHsEpG+1NTvFW7NfbYc63ZIJkUVDiGlabMqH9Y52S2c
-         wR4lmGJm+vm/g==
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Sergiu Cuciurean <sergiu.cuciurean@analog.com>,
-        Lee Jones <lee.jones@linaro.org>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] Input: applespi: Add trace_event module param for early tracing.
-Date:   Wed, 17 Feb 2021 11:07:18 -0800
-Message-Id: <20210217190718.11035-3-ronald@innovation.ch>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210217190718.11035-1-ronald@innovation.ch>
-References: <20210217190718.11035-1-ronald@innovation.ch>
+        Wed, 17 Feb 2021 15:06:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1613592291;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=vHoTmntEev68EJcmebE3piRT4pPjx5R2AdcGSR/9YdY=;
+        b=MjrfHT/r/hcvQNqzPTlfgo1P9CBUWO/WZDNcueY7/2pNpUD4q+oVvbkBJz/kkKa3R6EDb2
+        U8uwzMOwLjDQNEK0JE1qrXREomS490Wx5AAUZk6n6rsD2xxn4l0jRfNYDRR0FRTzqdmADK
+        vMNrweLPc3VBO1AwJHT3ZRzxBvWeC08=
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-584-ViRX3ZF3MnOIefP-DVAP-w-1; Wed, 17 Feb 2021 15:04:50 -0500
+X-MC-Unique: ViRX3ZF3MnOIefP-DVAP-w-1
+Received: by mail-pg1-f198.google.com with SMTP id f6so1188265pgh.3
+        for <linux-input@vger.kernel.org>; Wed, 17 Feb 2021 12:04:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vHoTmntEev68EJcmebE3piRT4pPjx5R2AdcGSR/9YdY=;
+        b=gSIEKk3gf31AppE2bmxg0EZ00uqpINKiU6c/edBkv1SneYe7DiylmOOt1RgbxTDZW0
+         RnvtT4rVCUmDr3ZK07MQJyMMMls7DQlNsws4W4myFShQjJvcqWGRpEDPOGk3rtH7oEqR
+         Gn7pyXTIGkbcojZ7aby02IOwzF7L+dB2GHq9fAXwSEfeGUCc+mnAc3j+2Go6ixFf0/jE
+         r/6sYMYS/5yobYvFXQxzAJ5jbnHDV4p2Atog/dlyvcADSJXX65cgKHDKkv5nOsKqJ8oS
+         fpryz48YSJK1M1Lk6cmPTuhKlPd1U6XvkU4hyUA5XSux9oB8/WnBDm0FPThT0cFRi+Fo
+         7geg==
+X-Gm-Message-State: AOAM531G+u461N1L8wh351AebACVCQJwVDgwNWYxP+N6/3eW+ErUK/mj
+        Khwr2uu6EpCFlhn/aCsQjDw1c6woZdxX2eHqPRbS3q/JG3Jge2Qi3MYOLICrXV0FSBIGp3kq7NW
+        5DzfcRC+kG+axw68gaCcTGjpy74k33p8QH8qhiX4=
+X-Received: by 2002:a17:902:d4d0:b029:e3:480a:cae3 with SMTP id o16-20020a170902d4d0b02900e3480acae3mr659679plg.41.1613592289315;
+        Wed, 17 Feb 2021 12:04:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwHK4y3zAv0/eqFBkTaoINYheQA70AODu58g83uoMfRBuIwAAnwdz1Gnbi35DShRThTbkZayF790UdUG4DSrlY=
+X-Received: by 2002:a17:902:d4d0:b029:e3:480a:cae3 with SMTP id
+ o16-20020a170902d4d0b02900e3480acae3mr659658plg.41.1613592289030; Wed, 17 Feb
+ 2021 12:04:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20210215163921.84283-1-colin.king@canonical.com>
+In-Reply-To: <20210215163921.84283-1-colin.king@canonical.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Wed, 17 Feb 2021 21:04:38 +0100
+Message-ID: <CAO-hwJ+P=jH3ByHdab=qmrOWupnq-fiA0UR8mdHF1pQAuEqbAw@mail.gmail.com>
+Subject: Re: [PATCH][next] HID: playstation: fix array size comparison (off-by-one)
+To:     Colin King <colin.king@canonical.com>
+Cc:     Roderick Colenbrander <roderick.colenbrander@sony.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The problem is that tracing can't be set via sysfs until the module is
-loaded, at which point the keyboard and trackpad initialization commands
-have already been run and hence tracing can't be used to debug problems
-here.
+On Mon, Feb 15, 2021 at 5:39 PM Colin King <colin.king@canonical.com> wrote:
+>
+> From: Colin Ian King <colin.king@canonical.com>
+>
+> The comparison of value with the array size ps_gamepad_hat_mapping
+> appears to be off-by-one. Fix this by using >= rather than > for the
+> size comparison.
+>
+> Addresses-Coverity: ("Out-of-bounds read")
+> Fixes: bc2e15a9a022 ("HID: playstation: initial DualSense USB support.")
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> ---
 
-Adding this param allows tracing to be enabled for messages sent and
-received during module probing. It takes comma-separated list of events,
-e.g.
+Good catch.
 
-  trace_event=applespi_tp_ini_cmd,applespi_bad_crc
+Applied to for-5.12/playstation-v2
 
-Signed-off-by: Ronald Tschalär <ronald@innovation.ch>
----
- drivers/input/keyboard/applespi.c | 32 +++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+Cheers,
+Benjamin
 
-diff --git a/drivers/input/keyboard/applespi.c b/drivers/input/keyboard/applespi.c
-index f0a0067c48ff6..03f9ad0f83967 100644
---- a/drivers/input/keyboard/applespi.c
-+++ b/drivers/input/keyboard/applespi.c
-@@ -53,6 +53,8 @@
- #include <linux/module.h>
- #include <linux/spinlock.h>
- #include <linux/spi/spi.h>
-+#include <linux/string.h>
-+#include <linux/trace_events.h>
- #include <linux/wait.h>
- #include <linux/workqueue.h>
- 
-@@ -110,6 +112,10 @@ module_param_string(touchpad_dimensions, touchpad_dimensions,
- 		    sizeof(touchpad_dimensions), 0444);
- MODULE_PARM_DESC(touchpad_dimensions, "The pixel dimensions of the touchpad, as XxY+W+H .");
- 
-+static char *trace_event;
-+module_param(trace_event, charp, 0444);
-+MODULE_PARM_DESC(trace_event, "Enable early event tracing. It takes the form of a comma-separated list of events to enable.");
-+
- /**
-  * struct keyboard_protocol - keyboard message.
-  * message.type = 0x0110, message.length = 0x000a
-@@ -1645,6 +1651,30 @@ static void applespi_save_bl_level(struct applespi_data *applespi,
- 			 "Error saving backlight level to EFI vars: %d\n", sts);
- }
- 
-+static void applespi_enable_early_event_tracing(struct device *dev)
-+{
-+	char *buf, *event;
-+	int sts;
-+
-+	if (trace_event && trace_event[0]) {
-+		buf = kstrdup(trace_event, GFP_KERNEL);
-+		if (!buf)
-+			return;
-+
-+		while ((event = strsep(&buf, ","))) {
-+			if (event[0]) {
-+				sts = trace_set_clr_event("applespi", event, 1);
-+				if (sts)
-+					dev_warn(dev,
-+						 "Error setting trace event '%s': %d\n",
-+						 event, sts);
-+			}
-+		}
-+
-+		kfree(buf);
-+	}
-+}
-+
- static int applespi_probe(struct spi_device *spi)
- {
- 	struct applespi_data *applespi;
-@@ -1653,6 +1683,8 @@ static int applespi_probe(struct spi_device *spi)
- 	int sts, i;
- 	unsigned long long gpe, usb_status;
- 
-+	applespi_enable_early_event_tracing(&spi->dev);
-+
- 	/* check if the USB interface is present and enabled already */
- 	acpi_sts = acpi_evaluate_integer(spi_handle, "UIST", NULL, &usb_status);
- 	if (ACPI_SUCCESS(acpi_sts) && usb_status) {
--- 
-2.26.2
+>  drivers/hid/hid-playstation.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
+> index 408b651174cf..568a3a067c88 100644
+> --- a/drivers/hid/hid-playstation.c
+> +++ b/drivers/hid/hid-playstation.c
+> @@ -1064,7 +1064,7 @@ static int dualsense_parse_report(struct ps_device *ps_dev, struct hid_report *r
+>         input_report_abs(ds->gamepad, ABS_RZ, ds_report->rz);
+>
+>         value = ds_report->buttons[0] & DS_BUTTONS0_HAT_SWITCH;
+> -       if (value > ARRAY_SIZE(ps_gamepad_hat_mapping))
+> +       if (value >= ARRAY_SIZE(ps_gamepad_hat_mapping))
+>                 value = 8; /* center */
+>         input_report_abs(ds->gamepad, ABS_HAT0X, ps_gamepad_hat_mapping[value].x);
+>         input_report_abs(ds->gamepad, ABS_HAT0Y, ps_gamepad_hat_mapping[value].y);
+> --
+> 2.30.0
+>
 
