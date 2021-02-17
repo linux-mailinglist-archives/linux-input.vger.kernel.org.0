@@ -2,80 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A9B7131D4A8
-	for <lists+linux-input@lfdr.de>; Wed, 17 Feb 2021 05:40:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7677631D54A
+	for <lists+linux-input@lfdr.de>; Wed, 17 Feb 2021 07:13:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230336AbhBQEik (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 16 Feb 2021 23:38:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35438 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230315AbhBQEid (ORCPT
+        id S231476AbhBQGLV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 17 Feb 2021 01:11:21 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:56058 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229814AbhBQGLU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 16 Feb 2021 23:38:33 -0500
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFBFAC06174A;
-        Tue, 16 Feb 2021 20:37:52 -0800 (PST)
-Received: by mail-pf1-x435.google.com with SMTP id j12so7620427pfj.12;
-        Tue, 16 Feb 2021 20:37:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=BhmsuKnH0E52H/9hYZJn/H63hbz5gesZzSHL5lPaF+k=;
-        b=JNgqrAxGKINEujyV5xnygACyy/PSSR7vRSklUAJ6pmQsEtakziusaHQbnNMb0FJWcx
-         HUQir+nv8Ks8Skx03XXgKXUZe9DtiH4j23xqwZWegg3ufl3NvTXCYesbnHeYpvzvoMc8
-         hVUnA9MhA/syHJsHgGBvkKXWJY5v2jqLIBN4Ht2cvA9J84PIJkBzg7BVq0ItfvkAHpFZ
-         JBSbcm9QkEheDl/GHXolFZiJkzlFbJ4ARgdqZo+Sygduw6xvmtHogGmn3EtwHsizq0s5
-         dDNsVxPGsQH4jGzZVRy56CiVefBco0EKMzce7NCZEapAzJhIZKjuFH3K8+LkuJRdC1Cv
-         jJvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=BhmsuKnH0E52H/9hYZJn/H63hbz5gesZzSHL5lPaF+k=;
-        b=U3P4PM3xBDiL1T5QhYELx4SmFu3tG0p0uEUD/nlS0gLV/XDm7s5jFTywziB+s/0aAZ
-         ADlbRxM2jmIU1HTWH/IJMnAyvls6zbDRYHHypVYyeT6Naj6/KxhCI0a6B6DL8+dkbZm+
-         3g1hjlyA9/bjpNwIX3+WCMzpOdnEIOI/BRspYJJY6LwJvkuYnHIBf+6OoQ2r1iGgUYtm
-         wm6tlPFuKuh7rWUhySy3Hv1XIWJItWe7MuiaIcMf1C7lODLJUduHEjGbePWWQa88E8HS
-         fY50bnCgBazlNwK2incNy45hMmQzimxFoXprA6J220uaM5c8lziL71DqbFN+rawYMfEL
-         2hJQ==
-X-Gm-Message-State: AOAM5302MaDcaDi4N+iK2Ai0G7t4Z3DN3T/2YSisUHq1Wkxd6igsPO16
-        tsvgHG+UIczJWaLImooY8Mc=
-X-Google-Smtp-Source: ABdhPJxgYAkmzaGKK6Rmlt9BuDNilTzv10gEyDILo7x0iWSyVhw41CHQizuqLxgIAzFFEa5r+TODtQ==
-X-Received: by 2002:a63:c44d:: with SMTP id m13mr22321252pgg.64.1613536672447;
-        Tue, 16 Feb 2021 20:37:52 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:21d3:2abc:ad8c:8b3a])
-        by smtp.gmail.com with ESMTPSA id 143sm543848pfv.134.2021.02.16.20.37.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Feb 2021 20:37:51 -0800 (PST)
-Date:   Tue, 16 Feb 2021 20:37:49 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Florian Echtler <floe@butterbrot.org>,
-        linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] Input: sur40 - Fix an error code in sur40_probe()
-Message-ID: <YCydnRcGmhWYw8Mp@google.com>
-References: <YBKFkbATXa5fA3xj@mwanda>
+        Wed, 17 Feb 2021 01:11:20 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 11H5xF8o156818;
+        Wed, 17 Feb 2021 06:10:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=vgy0GNxkRxaEgv8Y0pHIpFvkBEdF/BICto+PmglPrSc=;
+ b=Pqh1D/IyWPxBbWai+bAiBuVdljY7N3vMu66cdXv3SAz8HMwNh90zy3gMJUVqFzsvz9ON
+ +rstLgV9yPks7clsrBW3IQKlJjGaUMJvOGSNNTbnsJrk9YL1maGxFLklJYMbtGOJemjF
+ MIEs3+6xEFHW0IeXndzpj1qBWMoxndOCT2JFB6BSe2lMnvkZjhcqr5ql+vWBtya5Bk2J
+ 8DW2gx/I7rAn/tA0Y7Xy45CNDf6TbyaEIrlm38sA0WS8DaQDwDYg4gbftHCtu3/qoSrk
+ hHhwCvju6ciKhYTsoW+ZEhGNl0D1ibZJ3Tbbl1TLmosVWYUQDQ3AwlyjgAZ7/NOQKHiU EQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2130.oracle.com with ESMTP id 36p66r15xq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 17 Feb 2021 06:10:28 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 11H60CxE177068;
+        Wed, 17 Feb 2021 06:10:27 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3020.oracle.com with ESMTP id 36prnyuc6n-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 17 Feb 2021 06:10:27 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 11H6AOrV018381;
+        Wed, 17 Feb 2021 06:10:24 GMT
+Received: from mwanda (/102.36.221.92)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 16 Feb 2021 22:10:23 -0800
+Date:   Wed, 17 Feb 2021 09:10:15 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Stephen Kitt <steve@sk2.org>
+Cc:     linux-input@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] Input: joydev - prevent potential read overflow in ioctl
+Message-ID: <YCyzR8WvFRw4HWw6@mwanda>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YBKFkbATXa5fA3xj@mwanda>
+X-Mailer: git-send-email haha only kidding
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9897 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxlogscore=999
+ bulkscore=0 suspectscore=0 spamscore=0 malwarescore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102170046
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9897 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 suspectscore=0
+ impostorscore=0 priorityscore=1501 clxscore=1011 spamscore=0 mlxscore=0
+ phishscore=0 malwarescore=0 bulkscore=0 adultscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2102170046
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jan 28, 2021 at 12:36:17PM +0300, Dan Carpenter wrote:
-> If v4l2_ctrl_handler_setup() fails then probe() should return an error
-> code instead of returning success.
-> 
-> Fixes: cee1e3e2ef39 ("media: add video control handlers using V4L2 control framework")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+The problem here is that "len" might be less than "joydev->nabs" so the
+loops which verfy abspam[i] and keypam[] might read beyond the buffer.
 
-Applied, thank you.
+Fixes: 999b874f4aa3 ("Input: joydev - validate axis/button maps before clobbering current ones")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/input/joydev.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/input/joydev.c b/drivers/input/joydev.c
+index a2b5fbba2d3b..750f4513fe20 100644
+--- a/drivers/input/joydev.c
++++ b/drivers/input/joydev.c
+@@ -456,7 +456,7 @@ static int joydev_handle_JSIOCSAXMAP(struct joydev *joydev,
+ 	if (IS_ERR(abspam))
+ 		return PTR_ERR(abspam);
+ 
+-	for (i = 0; i < joydev->nabs; i++) {
++	for (i = 0; i < len && i < joydev->nabs; i++) {
+ 		if (abspam[i] > ABS_MAX) {
+ 			retval = -EINVAL;
+ 			goto out;
+@@ -487,7 +487,7 @@ static int joydev_handle_JSIOCSBTNMAP(struct joydev *joydev,
+ 	if (IS_ERR(keypam))
+ 		return PTR_ERR(keypam);
+ 
+-	for (i = 0; i < joydev->nkey; i++) {
++	for (i = 0; i < (len / 2) && i < joydev->nkey; i++) {
+ 		if (keypam[i] > KEY_MAX || keypam[i] < BTN_MISC) {
+ 			retval = -EINVAL;
+ 			goto out;
 -- 
-Dmitry
+2.30.0
+
