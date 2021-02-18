@@ -2,109 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 52E4C31E899
-	for <lists+linux-input@lfdr.de>; Thu, 18 Feb 2021 11:59:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3302431E8A3
+	for <lists+linux-input@lfdr.de>; Thu, 18 Feb 2021 11:59:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230420AbhBRJ7h (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 18 Feb 2021 04:59:37 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47552 "EHLO mail.kernel.org"
+        id S230122AbhBRKNE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 18 Feb 2021 05:13:04 -0500
+Received: from mga02.intel.com ([134.134.136.20]:2731 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231387AbhBRJBT (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 18 Feb 2021 04:01:19 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 65A226146D;
-        Thu, 18 Feb 2021 08:36:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1613637406;
-        bh=ig1PRDkBsfJjMTNunl5XG8hqPYLolURUKj9iYucYfEI=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=NC7dydBYMic99DW4E1gqG29vUrZfFeLKkuJ8DNFLcPuYfV9WM0Nb1S0xcjA7+H03D
-         E+nDGRBSpWSLQnLy2SuyMHMNDGxKZZV2n/SUBhqNb6Wx9aw1smiZ8SuTTCB2baqzjZ
-         y6PG3C8eU5hU/gXEs8Q6mkBUDNO3PGenPPySuYN/RkBTI/nf33IYFIaCOIO+IVNDts
-         EHhetSotUJRkhIYX/cyhYcvElmpUhmqiI4zZnP2yDiDuxhHfSieBIVouA+vQmKxtFb
-         lES2X+eyEv49Cw9UWTvu8NHJ/Sw1Qjo8OZ/N0sJU7C7OP8obp/leYEOuspKz4xy0L7
-         kh6nUQqIKajiQ==
-Date:   Thu, 18 Feb 2021 09:36:42 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Jason Gerecke <killertofu@gmail.com>
-cc:     linux-input@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Ping Cheng <pinglinux@gmail.com>,
-        Aaron Armstrong Skomra <skomra@gmail.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>, stable@vger.kernel.org
-Subject: Re: [PATCH] HID: wacom: Ignore attempts to overwrite the touch_max
- value from HID
-In-Reply-To: <20210216194154.111950-1-jason.gerecke@wacom.com>
-Message-ID: <nycvar.YFH.7.76.2102180936340.28696@cbobk.fhfr.pm>
-References: <20210216194154.111950-1-jason.gerecke@wacom.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S232535AbhBRKJ1 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 18 Feb 2021 05:09:27 -0500
+IronPort-SDR: XXq0gTHrTNYKrGxMImcQEWBcIRxnQ1lTjMuCrHl8N29pgPgMqs5fzKfljF/PQ9nDc0+UiDx8qH
+ B1JjJWWt5hKw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9898"; a="170587708"
+X-IronPort-AV: E=Sophos;i="5.81,186,1610438400"; 
+   d="scan'208";a="170587708"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2021 02:00:38 -0800
+IronPort-SDR: s1WG0DZzy9xrUmatwi8UX2FaeZy7aaOeEXENpuylMmbWq69GBkSyy8Sav3oRy4XG0C5OnDRf2e
+ Ta+Rww9xE7yA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,186,1610438400"; 
+   d="scan'208";a="362411541"
+Received: from lkp-server02.sh.intel.com (HELO cd560a204411) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 18 Feb 2021 02:00:36 -0800
+Received: from kbuild by cd560a204411 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1lCg6t-0009au-RZ; Thu, 18 Feb 2021 10:00:35 +0000
+Date:   Thu, 18 Feb 2021 17:59:53 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Michael Srba <Michael.Srba@seznam.cz>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Subject: [PATCH] Input: fix boolreturn.cocci warnings
+Message-ID: <20210218095953.GA24768@4e7c6a388622>
+References: <202102181739.Tb984rzG-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202102181739.Tb984rzG-lkp@intel.com>
+X-Patchwork-Hint: ignore
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 16 Feb 2021, Jason Gerecke wrote:
+From: kernel test robot <lkp@intel.com>
 
-> The `wacom_feature_mapping` function is careful to only set the the
-> touch_max value a single time, but this care does not extend to the
-> `wacom_wac_finger_event` function. In particular, if a device sends
-> multiple HID_DG_CONTACTMAX items in a single feature report, the
-> driver will end up retaining the value of last item.
-> 
-> The HID descriptor for the Cintiq Companion 2 does exactly this. It
-> incorrectly sets a "Report Count" of 2, which will cause the driver
-> to process two HID_DG_CONTACTCOUNT items. The first item has the actual
-> count, while the second item should have been declared as a constant
-> zero. The constant zero is the value the driver ends up using, however,
-> since it is the last HID_DG_CONTACTCOUNT in the report.
-> 
->     Report ID (16),
->     Usage (Contact Count Maximum),  ; Contact count maximum (55h, static value)
->     Report Count (2),
->     Logical Maximum (10),
->     Feature (Variable),
-> 
-> To address this, we add a check that the touch_max is not already set
-> within the `wacom_wac_finger_event` function that processes the
-> HID_DG_TOUCHMAX item. We emit a warning if the value is set and ignore
-> the updated value.
-> 
-> This could potentially cause problems if there is a tablet which has
-> a similar issue but requires the last item to be used. This is unlikely,
-> however, since it would have to have a different non-zero value for
-> HID_DG_CONTACTMAX earlier in the same report, which makes no sense
-> except in the case of a firmware bug. Note that cases where the
-> HID_DG_CONTACTMAX items are in different reports is already handled
-> (and similarly ignored) by `wacom_feature_mapping` as mentioned above.
-> 
-> Link: https://github.com/linuxwacom/input-wacom/issues/223
-> Fixes: 184eccd40389 ("HID: wacom: generic: read HID_DG_CONTACTMAX from any feature report")
-> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
-> CC: stable@vger.kernel.org
-> ---
->  drivers/hid/wacom_wac.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-> index 1bd0eb71559c..44d715c12f6a 100644
-> --- a/drivers/hid/wacom_wac.c
-> +++ b/drivers/hid/wacom_wac.c
-> @@ -2600,7 +2600,12 @@ static void wacom_wac_finger_event(struct hid_device *hdev,
->  		wacom_wac->is_invalid_bt_frame = !value;
->  		return;
->  	case HID_DG_CONTACTMAX:
-> -		features->touch_max = value;
-> +		if (!features->touch_max) {
-> +			features->touch_max = value;
-> +		} else {
-> +			hid_warn(hdev, "%s: ignoring attempt to overwrite non-zero touch_max "
-> +				 "%d -> %d\n", __func__, features->touch_max, value);
-> +		}
->  		return;
+drivers/input/touchscreen/zinitix.c:250:8-9: WARNING: return of 0/1 in function 'zinitix_init_touch' with return type bool
 
-Applied, thanks Jason.
+ Return statements in functions returning bool should use
+ true/false instead of 1/0.
+Generated by: scripts/coccinelle/misc/boolreturn.cocci
 
--- 
-Jiri Kosina
-SUSE Labs
+Fixes: 26822652c85e ("Input: add zinitix touchscreen driver")
+CC: Michael Srba <Michael.Srba@seznam.cz>
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: kernel test robot <lkp@intel.com>
+---
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f40ddce88593482919761f74910f42f4b84c004b
+commit: 26822652c85eff14e40115255727b2693400c524 Input: add zinitix touchscreen driver
+
+ zinitix.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/drivers/input/touchscreen/zinitix.c
++++ b/drivers/input/touchscreen/zinitix.c
+@@ -247,7 +247,7 @@ static bool zinitix_init_touch(struct bt
+ 		udelay(10);
+ 	}
+ 
+-	return 0;
++	return false;
+ }
+ 
+ static int zinitix_init_regulators(struct bt541_ts_data *bt541)
