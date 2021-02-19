@@ -2,113 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4361C31F42A
-	for <lists+linux-input@lfdr.de>; Fri, 19 Feb 2021 04:18:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 01A2231F438
+	for <lists+linux-input@lfdr.de>; Fri, 19 Feb 2021 04:39:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229623AbhBSDS3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 18 Feb 2021 22:18:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41124 "EHLO
+        id S229656AbhBSDfI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 18 Feb 2021 22:35:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44630 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229553AbhBSDS3 (ORCPT
+        with ESMTP id S229471AbhBSDfI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 18 Feb 2021 22:18:29 -0500
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D046C061574;
-        Thu, 18 Feb 2021 19:17:49 -0800 (PST)
-Received: by mail-pl1-x633.google.com with SMTP id b8so2561106plh.12;
-        Thu, 18 Feb 2021 19:17:49 -0800 (PST)
+        Thu, 18 Feb 2021 22:35:08 -0500
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBA04C061574;
+        Thu, 18 Feb 2021 19:34:27 -0800 (PST)
+Received: by mail-pl1-x632.google.com with SMTP id s16so2594848plr.9;
+        Thu, 18 Feb 2021 19:34:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=OwNV1ruvrzmTZHtKgrE8lgFC0d23DBddIr+rAQj3fCA=;
-        b=mQVOnq7krNIwtuspcWotiXg5heQPESU1irjCJKrU1ZtWJvLEO6jBJeWwIUIORpQ6tH
-         7D+TeDxnfet25IIiZr0F1aAgjoZTMHeK8qsviNcF3zyBdjodrClDssx8AI8ixMKZZo42
-         otffnoTunn14v3Zh5pxhuOdzB5eoAhXL1TBcLTqJkoGPkpJdcgjGVQsRLu6MgBpFNbAA
-         n5mk4y26kht2t/OmXeehMcFdBp1fnxflbwsv/3slI2X2Kz9xDcO4aozgwA18RSix9s5D
-         j58yYanvC8U/qwaMdIspKo8NmBZxm2JbidJVcn64Oyw5cVIYotXgRp7tbcYIWd73ugm0
-         RYlw==
+        bh=Rh/oSk8woDzhMcxGvDnFOJ03XjGV7BI5BPA5myV9isc=;
+        b=C3t0oHXN4wAB9/LdbmYTJWD2bVF4iWyvQVkSjdggb2MLyf8hB0BJdJIKTMY/leTncG
+         tCsDlmbufPcKAMbiz4A/AXRlahZNZ0VdttbQe5jn8qP8p7Nezxw1XzaddaIsr/+LxIJ1
+         V0wx9rkBNttA0CFcTmnBBhf19nib0CYLyqCf3djVKaeFNRu9i65JzH8QlsR54fVP7/6T
+         jv8HHZT/5XORXkUdCU/NHhqcXW1XL10fMB5WiEPFYS0rJwPUl2oB0x1m/Usg0IXO1Lp0
+         4TpDYUcXakbmivf3sxUzHIqPCATJZOjWI6Afgf1AdcB41vE2VOo7XJIoz8qqiFZqhwFQ
+         wUzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=OwNV1ruvrzmTZHtKgrE8lgFC0d23DBddIr+rAQj3fCA=;
-        b=bFIiKP2DiPIxyJqGvcbVqjr0RKvsI9D23vVOBbqffx4v7iBCbYQQV6yAkRUX1EMVru
-         tQq0b73IipZ1NaAXRxPtcAmI/JWekN2Sr/APzv6jFpzygNN1/71BZk7r/7252TyfE21b
-         KKKedqzjqvO/PlJpHNP+QMZfHUsKHgzeiPYlLHILvvipqYqqjWsrVglxuMIJguTfxdnt
-         JzTiGzwLVNhPff1W1WRr9527534UnNCd3/QzfHVrkyPQ5q9O+syIcj+Fn02oOjEkHgIt
-         fLxLfDBZTucwcopmh4CisEXZ22+CME0X21JdGS7NeVss2QDoO0yGKBOJ3CrD0gNkgiYN
-         R37w==
-X-Gm-Message-State: AOAM53256Av7LCPvsFKtJvP/+Zwxt7GTEM8gdFeGGfmE7rzxALggoj0T
-        UH/+WWM3fqndmHCQcqyRKUk=
-X-Google-Smtp-Source: ABdhPJxcaFa410Ckz6MrT2jZ1L/de+5zRk4l6zVCRdamgk6nWQVdwrJsbyrFtsvXY7xe/3XJYmvRRg==
-X-Received: by 2002:a17:90b:1093:: with SMTP id gj19mr6909241pjb.40.1613704668174;
-        Thu, 18 Feb 2021 19:17:48 -0800 (PST)
+        bh=Rh/oSk8woDzhMcxGvDnFOJ03XjGV7BI5BPA5myV9isc=;
+        b=XJMg0swDEzmYrRRxsWy+AoXoaImpXZ/5sfVrsf5niU7HYdENYSkUGztdY/7+5FPJf6
+         bEyxF72uD54ml2z20aM4KGbePJc9kRDNxw+4F7HWBILXtPHtyuWCG4kqDKrPqVjJrgkX
+         wmpoLPIXsk5Y5079vinWqf/Kvt6S5W7xIglWpYGWQeSIrT+5PxGaoBFQhQe6WYcaT5YF
+         zL6p0SFbXkt11vynMUAM5dOPTv0eqAXqF4qApp/csta00XWMreGiYVk80fc4eqdweRMH
+         QvYySMYYEW5hsST9bdvFsXg22RbvEEUIkxAZ3CYryOIDdmaJjLLuGY98rel/4V+ZnmUz
+         Vnmw==
+X-Gm-Message-State: AOAM532JCCwFLyiZ1TM6EKUAM6KFnRJxJkRDjbZAoMikhBrLmj3iFVDS
+        h7ziLZIM6Ir/Gtb0TjPkJVnL9lo76ms=
+X-Google-Smtp-Source: ABdhPJz9JfX63LDo/ER51CrqgMOVZDMVMKLqAZuOYcxBN5lwpI+eRl2vCVilKJYslp/uMAaWQprIMw==
+X-Received: by 2002:a17:90a:ea88:: with SMTP id h8mr7074671pjz.175.1613705667206;
+        Thu, 18 Feb 2021 19:34:27 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:8d20:87b2:91b7:7f7b])
-        by smtp.gmail.com with ESMTPSA id b15sm3521500pgg.85.2021.02.18.19.17.46
+        by smtp.gmail.com with ESMTPSA id y23sm7465947pfo.50.2021.02.18.19.34.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Feb 2021 19:17:47 -0800 (PST)
-Date:   Thu, 18 Feb 2021 19:17:44 -0800
+        Thu, 18 Feb 2021 19:34:26 -0800 (PST)
+Date:   Thu, 18 Feb 2021 19:34:23 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Stephen Kitt <steve@sk2.org>, linux-input@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] Input: joydev - prevent potential read overflow in ioctl
-Message-ID: <YC8t2EHKRSF7DwmF@google.com>
-References: <YCyzR8WvFRw4HWw6@mwanda>
+To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc:     rydberg@bitmath.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: Use true and false for bool variable
+Message-ID: <YC8xvyj48UKonhXI@google.com>
+References: <1613643835-1147-1-git-send-email-jiapeng.chong@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YCyzR8WvFRw4HWw6@mwanda>
+In-Reply-To: <1613643835-1147-1-git-send-email-jiapeng.chong@linux.alibaba.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dan,
+Hi,
 
-On Wed, Feb 17, 2021 at 09:10:15AM +0300, Dan Carpenter wrote:
-> The problem here is that "len" might be less than "joydev->nabs" so the
-> loops which verfy abspam[i] and keypam[] might read beyond the buffer.
+On Thu, Feb 18, 2021 at 06:23:55PM +0800, Jiapeng Chong wrote:
+> Fix the following coccicheck warnings:
 > 
-> Fixes: 999b874f4aa3 ("Input: joydev - validate axis/button maps before clobbering current ones")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-Thank you for the patch.
-
+> ./drivers/input/touchscreen/zinitix.c:250:8-9: WARNING: return of 0/1 in
+> function 'zinitix_init_touch' with return type bool.
+> 
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 > ---
->  drivers/input/joydev.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/input/touchscreen/zinitix.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/input/joydev.c b/drivers/input/joydev.c
-> index a2b5fbba2d3b..750f4513fe20 100644
-> --- a/drivers/input/joydev.c
-> +++ b/drivers/input/joydev.c
-> @@ -456,7 +456,7 @@ static int joydev_handle_JSIOCSAXMAP(struct joydev *joydev,
->  	if (IS_ERR(abspam))
->  		return PTR_ERR(abspam);
+> diff --git a/drivers/input/touchscreen/zinitix.c b/drivers/input/touchscreen/zinitix.c
+> index a3e3adb..acb1d53 100644
+> --- a/drivers/input/touchscreen/zinitix.c
+> +++ b/drivers/input/touchscreen/zinitix.c
+> @@ -247,7 +247,7 @@ static bool zinitix_init_touch(struct bt541_ts_data *bt541)
+>  		udelay(10);
+>  	}
 >  
-> -	for (i = 0; i < joydev->nabs; i++) {
-> +	for (i = 0; i < len && i < joydev->nabs; i++) {
->  		if (abspam[i] > ABS_MAX) {
->  			retval = -EINVAL;
->  			goto out;
-> @@ -487,7 +487,7 @@ static int joydev_handle_JSIOCSBTNMAP(struct joydev *joydev,
->  	if (IS_ERR(keypam))
->  		return PTR_ERR(keypam);
->  
-> -	for (i = 0; i < joydev->nkey; i++) {
-> +	for (i = 0; i < (len / 2) && i < joydev->nkey; i++) {
+> -	return 0;
+> +	return false;
 
-
-I think we also need to make sure that len is even. Do you mind if I add
-the check at the top of the function to return -EINVAL if it is odd?
-
->  		if (keypam[i] > KEY_MAX || keypam[i] < BTN_MISC) {
->  			retval = -EINVAL;
->  			goto out;
-> -- 
-> 2.30.0
-> 
+This is incorrect, as earlier we try to return error codes from this
+function. It needs to be changed to return int, I'll take care of it.
 
 Thanks.
 
