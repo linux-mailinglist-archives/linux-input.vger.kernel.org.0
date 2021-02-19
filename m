@@ -2,95 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01A2231F438
-	for <lists+linux-input@lfdr.de>; Fri, 19 Feb 2021 04:39:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7268A31F439
+	for <lists+linux-input@lfdr.de>; Fri, 19 Feb 2021 04:39:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229656AbhBSDfI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 18 Feb 2021 22:35:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44630 "EHLO
+        id S229708AbhBSDgm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 18 Feb 2021 22:36:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229471AbhBSDfI (ORCPT
+        with ESMTP id S229471AbhBSDgl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 18 Feb 2021 22:35:08 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBA04C061574;
-        Thu, 18 Feb 2021 19:34:27 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id s16so2594848plr.9;
-        Thu, 18 Feb 2021 19:34:27 -0800 (PST)
+        Thu, 18 Feb 2021 22:36:41 -0500
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F8B3C061574;
+        Thu, 18 Feb 2021 19:36:01 -0800 (PST)
+Received: by mail-pl1-x630.google.com with SMTP id s16so2596654plr.9;
+        Thu, 18 Feb 2021 19:36:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=Rh/oSk8woDzhMcxGvDnFOJ03XjGV7BI5BPA5myV9isc=;
-        b=C3t0oHXN4wAB9/LdbmYTJWD2bVF4iWyvQVkSjdggb2MLyf8hB0BJdJIKTMY/leTncG
-         tCsDlmbufPcKAMbiz4A/AXRlahZNZ0VdttbQe5jn8qP8p7Nezxw1XzaddaIsr/+LxIJ1
-         V0wx9rkBNttA0CFcTmnBBhf19nib0CYLyqCf3djVKaeFNRu9i65JzH8QlsR54fVP7/6T
-         jv8HHZT/5XORXkUdCU/NHhqcXW1XL10fMB5WiEPFYS0rJwPUl2oB0x1m/Usg0IXO1Lp0
-         4TpDYUcXakbmivf3sxUzHIqPCATJZOjWI6Afgf1AdcB41vE2VOo7XJIoz8qqiFZqhwFQ
-         wUzA==
+        bh=Bwui8jRScVwKr0ZT6q3CS0JkmV/YSF8KwvuD/o3Daac=;
+        b=jxvT9loR4JAcMRScbE/sWr6VPhYv57R5sAN9pWv/8e7jNCKZJJ7WR3jBsdAzB2ft+3
+         UKYFZ08efrQzCp7QZCmLbYvNK1+zeN4IXV41yUHjbiVlpjTVQteewwsFdmnwEyT+M30A
+         icGHbRmm+hH3YSRBruuCxvodxxE7LBYMPaqny4QnOodwYMP2NkP5cTUBubZ2yB4MDbIO
+         surAohDFylkApDemH0+tCXeHcpT5mgZnsuREgkdV909h73AdnccwkZAZXLwD8zrvw+LM
+         GZD7HKuVp16JBzMggmihvxfUMW5onpVSIOcgwH1qN0fqxT8qlYH4uotvlr27fB7pFbrj
+         KJaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Rh/oSk8woDzhMcxGvDnFOJ03XjGV7BI5BPA5myV9isc=;
-        b=XJMg0swDEzmYrRRxsWy+AoXoaImpXZ/5sfVrsf5niU7HYdENYSkUGztdY/7+5FPJf6
-         bEyxF72uD54ml2z20aM4KGbePJc9kRDNxw+4F7HWBILXtPHtyuWCG4kqDKrPqVjJrgkX
-         wmpoLPIXsk5Y5079vinWqf/Kvt6S5W7xIglWpYGWQeSIrT+5PxGaoBFQhQe6WYcaT5YF
-         zL6p0SFbXkt11vynMUAM5dOPTv0eqAXqF4qApp/csta00XWMreGiYVk80fc4eqdweRMH
-         QvYySMYYEW5hsST9bdvFsXg22RbvEEUIkxAZ3CYryOIDdmaJjLLuGY98rel/4V+ZnmUz
-         Vnmw==
-X-Gm-Message-State: AOAM532JCCwFLyiZ1TM6EKUAM6KFnRJxJkRDjbZAoMikhBrLmj3iFVDS
-        h7ziLZIM6Ir/Gtb0TjPkJVnL9lo76ms=
-X-Google-Smtp-Source: ABdhPJz9JfX63LDo/ER51CrqgMOVZDMVMKLqAZuOYcxBN5lwpI+eRl2vCVilKJYslp/uMAaWQprIMw==
-X-Received: by 2002:a17:90a:ea88:: with SMTP id h8mr7074671pjz.175.1613705667206;
-        Thu, 18 Feb 2021 19:34:27 -0800 (PST)
+        bh=Bwui8jRScVwKr0ZT6q3CS0JkmV/YSF8KwvuD/o3Daac=;
+        b=OR6l/kU+ZgHDkP9zhc8SFO74oqUObAV1G0a9uzeyRnvQ5qOTK0ifmv/uuqd7ILZDAW
+         BpUaK+u85RPnzSBxGTXgrPzsPkIhu/g+FmB9tOpu+M2ZSlypkk1Oz5tIqQd/6+15J9ac
+         ppHa+uAOM7zZOnbPNfDLdMtLNHLVaf9OZ4E608xVBfLXxP57JXxFBAynYaEDlTp0l/bB
+         2MdwBjUEwghqYX5bk6Kk5rFnBPUwFiRTBffnGMTWdiWh50Na3dlg8UtoEcd98uCgRB7c
+         F7trenoi4n6Ljv4nK0Ew/C49gzhArf5baInkzuaEq4YXcVC7edyXm2tRWMQ7ArkWOdnA
+         zSbg==
+X-Gm-Message-State: AOAM533OZJIXyeqC3WD6oT9PdI+x6zS07dArt/xyIz3eXaS5POx771JO
+        OGX+DVOHavPbfuoNWxLNo8M=
+X-Google-Smtp-Source: ABdhPJwce5FwMDtYrnUSFpL98MPO27Ip0K7LrWJtBtNXRvtVgoM+CFkj1Kj2eG8Hvtj8SblaLBYeHw==
+X-Received: by 2002:a17:90b:4b0f:: with SMTP id lx15mr7072656pjb.183.1613705761056;
+        Thu, 18 Feb 2021 19:36:01 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:8d20:87b2:91b7:7f7b])
-        by smtp.gmail.com with ESMTPSA id y23sm7465947pfo.50.2021.02.18.19.34.25
+        by smtp.gmail.com with ESMTPSA id g3sm7622802pfq.42.2021.02.18.19.35.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Feb 2021 19:34:26 -0800 (PST)
-Date:   Thu, 18 Feb 2021 19:34:23 -0800
+        Thu, 18 Feb 2021 19:36:00 -0800 (PST)
+Date:   Thu, 18 Feb 2021 19:35:57 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Cc:     rydberg@bitmath.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: Use true and false for bool variable
-Message-ID: <YC8xvyj48UKonhXI@google.com>
-References: <1613643835-1147-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+To:     kernel test robot <lkp@intel.com>
+Cc:     Michael Srba <Michael.Srba@seznam.cz>, kbuild-all@lists.01.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH] Input: fix boolreturn.cocci warnings
+Message-ID: <YC8yHSYnLIJaRnR2@google.com>
+References: <202102181739.Tb984rzG-lkp@intel.com>
+ <20210218095953.GA24768@4e7c6a388622>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1613643835-1147-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20210218095953.GA24768@4e7c6a388622>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 Hi,
 
-On Thu, Feb 18, 2021 at 06:23:55PM +0800, Jiapeng Chong wrote:
-> Fix the following coccicheck warnings:
+On Thu, Feb 18, 2021 at 05:59:53PM +0800, kernel test robot wrote:
+> From: kernel test robot <lkp@intel.com>
 > 
-> ./drivers/input/touchscreen/zinitix.c:250:8-9: WARNING: return of 0/1 in
-> function 'zinitix_init_touch' with return type bool.
+> drivers/input/touchscreen/zinitix.c:250:8-9: WARNING: return of 0/1 in function 'zinitix_init_touch' with return type bool
 > 
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+>  Return statements in functions returning bool should use
+>  true/false instead of 1/0.
+> Generated by: scripts/coccinelle/misc/boolreturn.cocci
+> 
+> Fixes: 26822652c85e ("Input: add zinitix touchscreen driver")
+> CC: Michael Srba <Michael.Srba@seznam.cz>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: kernel test robot <lkp@intel.com>
 > ---
->  drivers/input/touchscreen/zinitix.c | 2 +-
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   f40ddce88593482919761f74910f42f4b84c004b
+> commit: 26822652c85eff14e40115255727b2693400c524 Input: add zinitix touchscreen driver
+> 
+>  zinitix.c |    2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/input/touchscreen/zinitix.c b/drivers/input/touchscreen/zinitix.c
-> index a3e3adb..acb1d53 100644
 > --- a/drivers/input/touchscreen/zinitix.c
 > +++ b/drivers/input/touchscreen/zinitix.c
-> @@ -247,7 +247,7 @@ static bool zinitix_init_touch(struct bt541_ts_data *bt541)
+> @@ -247,7 +247,7 @@ static bool zinitix_init_touch(struct bt
 >  		udelay(10);
 >  	}
 >  
 > -	return 0;
 > +	return false;
 
-This is incorrect, as earlier we try to return error codes from this
-function. It needs to be changed to return int, I'll take care of it.
+This is incorrect as function is trying to return error codes. It needs
+to be changed to return int. I'll take care of it.
 
 Thanks.
 
