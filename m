@@ -2,78 +2,93 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0C1831FF37
-	for <lists+linux-input@lfdr.de>; Fri, 19 Feb 2021 20:10:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 34E9A31FF3A
+	for <lists+linux-input@lfdr.de>; Fri, 19 Feb 2021 20:13:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229555AbhBSTK3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 19 Feb 2021 14:10:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47082 "EHLO
+        id S229620AbhBSTND (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 19 Feb 2021 14:13:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229546AbhBSTK3 (ORCPT
+        with ESMTP id S229515AbhBSTND (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 19 Feb 2021 14:10:29 -0500
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C387C061574
-        for <linux-input@vger.kernel.org>; Fri, 19 Feb 2021 11:09:49 -0800 (PST)
-Received: by mail-pg1-x533.google.com with SMTP id a4so5368696pgc.11
-        for <linux-input@vger.kernel.org>; Fri, 19 Feb 2021 11:09:49 -0800 (PST)
+        Fri, 19 Feb 2021 14:13:03 -0500
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB29CC061574;
+        Fri, 19 Feb 2021 11:12:22 -0800 (PST)
+Received: by mail-pg1-x534.google.com with SMTP id o63so5392341pgo.6;
+        Fri, 19 Feb 2021 11:12:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=T1RopRrOVDk0z4KBiOVu6xnfw1jfcH/EqqPxxFLyPkw=;
-        b=DrJ2faqR3iCTg6IDo+YJ8nmAB7T/0/g+6mufUyvG3PZQyCikCvyQlRO8+mrkM+/Bwh
-         6ILC4rD5JqxEAIYIchvnB2N1LeCD6PjHj28EBkwUWIcojnrEsdW53/GReIDNaw1Q+MsY
-         iCeB0yZ0VTdlU7Mk935rRa1cF1VVfY7iHNwpru7uaoynZ6YDYZFMjOECU8w6hutN0fOK
-         Q5i3JhF0aLhZ017pDuS9KaBH89CXX0JDouu5hdbPt2ejgpQR+mI25MHjHrueYk31txWa
-         N59p6jAUjVcu9hLSh+Bx65HxRGgDdJ7WsYlIH9Knz+EXmoj+qfhFeQ/kpnmp7Go7ELyF
-         uhOQ==
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=mPS9dVmh2ROWfjV7NaKQt7uy1dCQUzeWW8U3dWjXIKw=;
+        b=qYIMqTJXDS25kTsL22vMKK6gO7gL4e+wFv+dEfWqq6BH0fdJBB7JQ/wVY4R1Et2Fi/
+         QDwStR6vR2dNFtce3EGzWmvH6vkiWTdOHARU11/ppgU5X11adlqKrz8ZGEd1ZdTOYRTP
+         0jZmrNnujlfXrguzYPo0Ho84RZgHA8BbCbNwbwSk007eRlMG9RbA/gYsCEBU7TW3G0iZ
+         5knWTNFgMUoFjEa/36qZUfbltUb5pX8JNXfbAgzWvVIYF17P9iOgell2TJuVlpKyH6e/
+         v7XnFwdVzaCtus9XGMl4q46GIg5VRzdd49GTVI9pqyp0h5OJvHywZV1ZbiDaHKKorrJS
+         M0AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=T1RopRrOVDk0z4KBiOVu6xnfw1jfcH/EqqPxxFLyPkw=;
-        b=DtunEAVT9c7uGm3gscSwu/5QiEsoo98ploJu+EcgvEjAAAcX36z6aPJAuv/weQLFLK
-         Y1GKsImFSWvBMbWWFQJyAWOpMbsqU916yiATJUepDsIpEfd6gRc0iNb9bejau88NIJnX
-         8ftHUhNEPxpjQ3Xrb1gnSCb7+nw/wf5u25WQwzQUpy2mFNeb16FM5pPIaRwuiSwQftfn
-         A/fUNMJYaURdzT78Cy0m/wrjICDTOyI7vKT5V3M/+Tvayn5aQiv5lkVLH9XTRh+1tZAL
-         Pc43Ep9DeahGS5XqQbA0bHEg+quggfvCb+L2pJo4hR3waFVzvHwaxe+Dud+U85TZtefd
-         B3Sw==
-X-Gm-Message-State: AOAM533VwNigdVfjnR60gCwjGaVDKIC3bOaQpWDRasBZEkqX506uMFUm
-        vEiZq8NYkBfXD8ogF1pFIiY=
-X-Google-Smtp-Source: ABdhPJx4XKImwABWAnGrPUbC0W0uAzNy08Eiq2hPsDW3/FmOF8+vkSqJgIcOhdFWCsm/eCOUPdRAIg==
-X-Received: by 2002:a63:f74f:: with SMTP id f15mr9761704pgk.413.1613761788552;
-        Fri, 19 Feb 2021 11:09:48 -0800 (PST)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=mPS9dVmh2ROWfjV7NaKQt7uy1dCQUzeWW8U3dWjXIKw=;
+        b=OPavqF8sxAyBhnK+71pt8cAKs8qHy0qN6Fwmwwv/I8JsPV5ToP/03JMcXKkR6+fa3r
+         fcseHfNVUS7vT7hiEU0Rlj/CM6VP+892Y4tUAit4XWPglbRmjBAOhM8Q4xMRxV13kcrI
+         LNLvDZOpMBuAoGsDhJc1jK2GEx2VH/e6/wMk09MgKlHYy+z7pRf9GoJPFkGPe5FHRB69
+         D+RsW+eQRAF2epUek0mkqT2HP+QjlxBZS5GGFXYrgW/bv0G6zIWzSuID2LXJqd/aG+dZ
+         AUhwcGzKPiYgHp36sJwVj+jXFRsvt6O7V1WT78JhOdJRZenaM5gs7p2ap/RtvOYixDiz
+         Vjfg==
+X-Gm-Message-State: AOAM533WPUV5S+juXhWYPhjgXYDqlYwbewJg5xKhP3S7AH7fBa7lCmLt
+        IBbsVK96l6Dpq7uoV+arrus=
+X-Google-Smtp-Source: ABdhPJy8hjojbcrjABTTJUTnMfa4GTyby/EXcyDoV28eJl36VKV+GTAJUhcSqXiNA2k1vM3NzX84pA==
+X-Received: by 2002:a63:2359:: with SMTP id u25mr9994975pgm.304.1613761942374;
+        Fri, 19 Feb 2021 11:12:22 -0800 (PST)
 Received: from google.com ([2620:15c:202:201:7d43:dae1:3b24:51b7])
-        by smtp.gmail.com with ESMTPSA id u7sm10186679pfh.150.2021.02.19.11.09.47
+        by smtp.gmail.com with ESMTPSA id d12sm9385217pgm.83.2021.02.19.11.12.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Feb 2021 11:09:47 -0800 (PST)
-Date:   Fri, 19 Feb 2021 11:09:45 -0800
+        Fri, 19 Feb 2021 11:12:21 -0800 (PST)
+Date:   Fri, 19 Feb 2021 11:12:18 -0800
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Michael Tretter <m.tretter@pengutronix.de>
-Cc:     linux-input@vger.kernel.org, geert+renesas@glider.be,
-        andrej.valek@siemens.com
-Subject: Re: [PATCH] Input: st1232 - add IDLE state as ready condition
-Message-ID: <YDAM+bsp5n/UfZW1@google.com>
-References: <20210219110556.1858969-1-m.tretter@pengutronix.de>
+To:     "Life is hard, and then you die" <ronald@innovation.ch>
+Cc:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Sergiu Cuciurean <sergiu.cuciurean@analog.com>,
+        Lee Jones <lee.jones@linaro.org>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] Input: applespi: Don't wait for responses to
+ commands indefinitely.
+Message-ID: <YDANkjYEMJtt9SGu@google.com>
+References: <20210217190718.11035-1-ronald@innovation.ch>
+ <YC17OycMiNipMUyn@google.com>
+ <20210217204551.GA25685@innovation.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210219110556.1858969-1-m.tretter@pengutronix.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210217204551.GA25685@innovation.ch>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Feb 19, 2021 at 12:05:56PM +0100, Michael Tretter wrote:
-> The st1232 can switch from NORMAL to IDLE state after the configured
-> idle time (by default 8 s). If the st1232 is not reset during probe, it
-> might already be ready but in IDLE state. Since it does not enter NORMAL
-> state in this case, probe fails.
+On Wed, Feb 17, 2021 at 12:45:51PM -0800, Life is hard, and then you die wrote:
 > 
-> Fix the wait function to report the IDLE state as ready, too.
+>   Hi Dmitry,
 > 
-> Fixes: f605be6a57b4 ("Input: st1232 - wait until device is ready before reading resolution")
-> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+> On Wed, Feb 17, 2021 at 12:23:23PM -0800, Dmitry Torokhov wrote:
+> > 
+> > On Wed, Feb 17, 2021 at 11:07:16AM -0800, Ronald Tschalär wrote:
+> > > @@ -869,7 +878,7 @@ static int applespi_send_cmd_msg(struct applespi_data *applespi)
+> > >  		return sts;
+> > >  	}
+> > >  
+> > > -	applespi->cmd_msg_queued = true;
+> > > +	applespi->cmd_msg_queued = ktime_get();
+> > 
+> > Will it be OK if I change this to ktime_get_coarse()? I do not think we
+> > need exact time here, and the coarse variant is cheaper I believe.
+> 
+> Certainly - I just wasn't aware of the coarse variant.
 
 Applied, thank you.
 
