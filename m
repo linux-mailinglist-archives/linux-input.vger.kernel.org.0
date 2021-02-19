@@ -2,307 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67B8131FEDF
-	for <lists+linux-input@lfdr.de>; Fri, 19 Feb 2021 19:40:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 745BE31FF01
+	for <lists+linux-input@lfdr.de>; Fri, 19 Feb 2021 19:56:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229862AbhBSSjj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 19 Feb 2021 13:39:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40502 "EHLO
+        id S229862AbhBSSzC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 19 Feb 2021 13:55:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbhBSSji (ORCPT
+        with ESMTP id S229546AbhBSSzB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 19 Feb 2021 13:39:38 -0500
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6BE4C061574;
-        Fri, 19 Feb 2021 10:38:57 -0800 (PST)
-Received: by mail-pg1-x536.google.com with SMTP id o38so5271767pgm.9;
-        Fri, 19 Feb 2021 10:38:57 -0800 (PST)
+        Fri, 19 Feb 2021 13:55:01 -0500
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AECFC061786;
+        Fri, 19 Feb 2021 10:54:21 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id cx11so2092096pjb.4;
+        Fri, 19 Feb 2021 10:54:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=FTUgtYc7VIUobepJZIEoX1e6J1q5pO7hKw9teVZYk/Q=;
-        b=gLeEKFOt7btkQZYxRTycOuWRGNxehR0yTQxKLypQD54LFl02xz4B/E+Zw8vf8SoQwx
-         vepJDpbB4K+MJgqAl6Ud7MDklOdmBjEI1X4QlT9I9Shd7QVr43LH3wfd7J5nv4xD4VhR
-         FQ4aUx7zDBWjaqhcAmdF5ge1WjZYmIC/AbqpuDASktjLEi27QjFKXFcjAqA/e7sGZyu1
-         bt2pVVq6MoxlOSbtvbPToZyqnsljMtB9Sevv35hB1k55x775UjDBX+GtxE2WWbfN0kL8
-         G/EB3r7dSnrhsAByjm3jc7mKpTv9DnaetJgObP+rHQ7+0IrENVFzXO2M5Owuk6Z9/sgO
-         3hzg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=a+41YRbSFzDZao2tp+3iHIh4EoYU6eQKRVaEr2sAmnQ=;
+        b=TbTKtUuA3ET4Twe/V+AK9n/JpKdx5d+g5GfJLB/0+JRbGvuWNXTtS+ita16i2+wtrC
+         jfLCe1xN0y6adBtHMePRGV6lB5tSm1u0BSMbDy7shu3hTjflMDJcnNT2MrimRK97bL7u
+         NG99Bn0wuTbVwJoMQWrK7HoAin0LA0KhzdlD5zRb5BsZ+5N972qYes1ri8S8paQ0hJKr
+         Cf/JqLKpv/vhzpCOjVdxPwJTuCWHD2YJ38APRkBP48/goGHpGVnX+KVpqGV7wqBTawPJ
+         72rIqL10ug4lzf9wlhz6RXach7OLWtaaGQPI6OpQJWD3uTsKhwHjrygPU2GMzAZPV3oH
+         z8fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=FTUgtYc7VIUobepJZIEoX1e6J1q5pO7hKw9teVZYk/Q=;
-        b=K6V40Y6XB4p6B4W14OqnZA2W8IkWexSbJcgpJJLzMoQegl+JnKfrPWboW30bF+5s3v
-         AX+WUBRRc/8kykPh27+BJViLl88t81nLcaZkbN7h5RWgRa49J8TkvT+kCi73JBgWI1Tn
-         S4x6Bn0CbhvJ8DB9gzdw/ehj9GMM/ZbYrXxA3AL7aBSJnJ4TZJqZMr7lXMVtPzdcwU7m
-         0UznFtjunP0TANaruIgSXmfyYEpYesrX5aJLSM94LtFoqg1BZWswVFo02uzbRDeUST/y
-         XWYszG9LLBqgY/AxjpKe0j2yd5ak7v9HjypP/EHi6NCLMkwxYhPEUhd7ggF2oaXuA1z5
-         RC8w==
-X-Gm-Message-State: AOAM532YrhLU/xpgiXhX938ZeXm+o7B9A0WqY1Wbz5hmPj1z8HY5eQW6
-        85VphnS/oioLgGJTPyBYAH8daO6qJxRQ4K+8lUV7FNyAGxo=
-X-Google-Smtp-Source: ABdhPJwHxKjtHuyKYRX07DRT0KUQs/q9ul9k8Tczr19IH9XzTtsYSG/9S9pfiuztDcHhkek0ixPbH0kVEMdPIpKPj+4=
-X-Received: by 2002:a63:f44:: with SMTP id 4mr9546016pgp.178.1613759937075;
- Fri, 19 Feb 2021 10:38:57 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=a+41YRbSFzDZao2tp+3iHIh4EoYU6eQKRVaEr2sAmnQ=;
+        b=an5RU0BYHvxzMrSNfzBDh9XGBCDDPBx2vbq3tkU0DOzhCGz8FJdKCROz7xYIHxuBVz
+         aPgfyjelcnYdieHteuzuETYRxGmgAy/tUU3Z99WVywAOcvD9Z20Gmj941GMB9XbLTMQ4
+         7teFWvVRQGI6ddNat5szb+SnAliw9jXMlDXauT8rINk9i6525NbPd4oiJP/IqCrHphNY
+         gO3SV1QLCRsdXwvdTnpjALaiJclSdDXrWl6f5G65tnZIc4jv0eGE7xm+BY1GR3FoC2Y7
+         sMp7k5XDEi0ddYxdYIfVmhJTnraWDebOxFo+pGXy+3T+3mNVUFzswB2vyfbrr7hYDMNb
+         yURQ==
+X-Gm-Message-State: AOAM531P1f9gfmjZLxSuOvg+1R9KkdVztbuCwcFTxgUMABuvTfz17L3R
+        CJnJxi530SQPlmn3G8SQz3Gnf/nIbRA=
+X-Google-Smtp-Source: ABdhPJxDPncVehyuKQeCQGkDb0C5q6KmbJ18G9TAEA/s3id0M+lY18mdgQXWJ6nvySdEYJG6B6SPNA==
+X-Received: by 2002:a17:902:ba92:b029:e3:8358:34c5 with SMTP id k18-20020a170902ba92b02900e3835834c5mr10708873pls.9.1613760860620;
+        Fri, 19 Feb 2021 10:54:20 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:7d43:dae1:3b24:51b7])
+        by smtp.gmail.com with ESMTPSA id 74sm10429950pfw.53.2021.02.19.10.54.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Feb 2021 10:54:19 -0800 (PST)
+Date:   Fri, 19 Feb 2021 10:54:16 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Stephen Kitt <steve@sk2.org>, linux-input@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] Input: joydev - prevent potential read overflow in ioctl
+Message-ID: <YDAJWC11RW9Wa3K8@google.com>
+References: <YCyzR8WvFRw4HWw6@mwanda>
+ <YC8t2EHKRSF7DwmF@google.com>
+ <20210219083215.GS2087@kadam>
 MIME-Version: 1.0
-From:   Mister Fix-IT <mrfixit2001@gmail.com>
-Date:   Fri, 19 Feb 2021 13:38:45 -0500
-Message-ID: <CAHa7zJO6Fd7F3EVLXTM4uQNY+Ur00sQXY+9JtnbMeX7dBE5sNw@mail.gmail.com>
-Subject: [PATCH] HID: sony: Fix rumble over bluetooth on shanwan sixaxis and
- add gasia support
-To:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Adam Smith <mrfixit2001@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Marcel Holtmann <marcel@holtmann.org>,
-        Luiz Augusto von Dentz <luiz.dentz@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210219083215.GS2087@kadam>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The bluez sixaxis driver has a new patch submitted that allows for the
-proper passing of the device name through to the kernel when connected
-over bluetooth.
-https://patches.linaro.org/patch/384498/
+On Fri, Feb 19, 2021 at 11:32:15AM +0300, Dan Carpenter wrote:
+> On Thu, Feb 18, 2021 at 07:17:44PM -0800, Dmitry Torokhov wrote:
+> > Hi Dan,
+> > 
+> > On Wed, Feb 17, 2021 at 09:10:15AM +0300, Dan Carpenter wrote:
+> > > The problem here is that "len" might be less than "joydev->nabs" so the
+> > > loops which verfy abspam[i] and keypam[] might read beyond the buffer.
+> > > 
+> > > Fixes: 999b874f4aa3 ("Input: joydev - validate axis/button maps before clobbering current ones")
+> > > Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > 
+> > Thank you for the patch.
+> > 
+> > > ---
+> > >  drivers/input/joydev.c | 4 ++--
+> > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/input/joydev.c b/drivers/input/joydev.c
+> > > index a2b5fbba2d3b..750f4513fe20 100644
+> > > --- a/drivers/input/joydev.c
+> > > +++ b/drivers/input/joydev.c
+> > > @@ -456,7 +456,7 @@ static int joydev_handle_JSIOCSAXMAP(struct joydev *joydev,
+> > >  	if (IS_ERR(abspam))
+> > >  		return PTR_ERR(abspam);
+> > >  
+> > > -	for (i = 0; i < joydev->nabs; i++) {
+> > > +	for (i = 0; i < len && i < joydev->nabs; i++) {
+> > >  		if (abspam[i] > ABS_MAX) {
+> > >  			retval = -EINVAL;
+> > >  			goto out;
+> > > @@ -487,7 +487,7 @@ static int joydev_handle_JSIOCSBTNMAP(struct joydev *joydev,
+> > >  	if (IS_ERR(keypam))
+> > >  		return PTR_ERR(keypam);
+> > >  
+> > > -	for (i = 0; i < joydev->nkey; i++) {
+> > > +	for (i = 0; i < (len / 2) && i < joydev->nkey; i++) {
+> > 
+> > 
+> > I think we also need to make sure that len is even. Do you mind if I add
+> > the check at the top of the function to return -EINVAL if it is odd?
+> 
+> Yes.  You are right.
+> 
+> Btw, thank you for fixing my patches, but feel free to just ask me to
+> resend if that's easier for you.
 
-Prior to the referenced bluez patch, applicable sixaxis devices were
-all being named "Sony PLAYSTATION(R)3 Controller", a static value from
-a struct. Moving forward, the device name will be pulled from the udev
-HID_NAME property and we can now properly identify Shanwan and Gasia
-sixaxis devices in the hid driver.
+It is not really fixing your patch, rather addressing another issue
+while we are there. Some might even say it could have been a separate
+patch.
 
-Some sixaxis shanwan controllers have an issue with rumble over
-bluetooth - every rumble event continues for 10 seconds and then all
-rumble events do not work for the following 10 seconds after that.
+Anyway, for small fixups like this I feel it's less noise on the lists
+without extra resubmissions, that is why I often do them on my side.
 
-I was able to identify that sending a soft-reset to the gamepad will
-stop the 10 second rumble, which led me to discovering that these
-delays are due to a timeout waiting for HIDP_WAITING_FOR_SEND_ACK in
-hidp_set_raw_report.
+Thanks!
 
-So I've added a report-timeout member to the hid device struct and set
-it's default to the 10 seconds that was previously hard coded. I then
-change this value to zero in the sony hid driver probe for shanwan
-bluetooth devices to make rumble work properly.
-
-There is already a quirk for shanwan devices, but the existing quirk
-should only be applied on the USB bus, so I have changed this quirk to
-be named appropriately, added that check when applied, and added a new
-quirk for shanwan bluetooth devices.
-
-I have also changed the way the shanwan quirks are detected - instead
-of searching for a single specific device name, it will now apply when
-the device name includes "shanwan" in it at all. An example why this
-is important would be that I have a shanwan device that is identified
-as "Shanwan     PLAYSTATION(R)3 Controller" - yes there are 5 spaces
-after Shanwan. I then use the same method to detect gasia devices,
-which share a similar code path as shanwan usb devices.
-
-Lastly, the report struct had members for rumble duration that were
-not being populated or passed to the report that's sent to the
-gamepad. This may be because ff memless tries to control this, but the
-default values in the sixaxis report were previously hard-set in the
-data. I have added these so that the report data being sent to the
-gamepad has the proper duration included.
-
-Signed-off-by: Adam Smith <mrfixit2001@gmail.com>
----
- drivers/hid/hid-sony.c    | 71 ++++++++++++++++++++++++++++++++++++-----------
- include/linux/hid.h       |  1 +
- net/bluetooth/hidp/core.c |  4 ++-
- 3 files changed, 59 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/hid/hid-sony.c b/drivers/hid/hid-sony.c
-index e3a557d..ff49296 100644
---- a/drivers/hid/hid-sony.c
-+++ b/drivers/hid/hid-sony.c
-@@ -58,8 +58,10 @@
- #define FUTUREMAX_DANCE_MAT       BIT(13)
- #define NSG_MR5U_REMOTE_BT        BIT(14)
- #define NSG_MR7U_REMOTE_BT        BIT(15)
--#define SHANWAN_GAMEPAD           BIT(16)
--#define GHL_GUITAR_PS3WIIU        BIT(17)
-+#define SHANWAN_GAMEPAD_USB       BIT(16)
-+#define SHANWAN_GAMEPAD_BT        BIT(17)
-+#define GHL_GUITAR_PS3WIIU        BIT(18)
-+#define GASIA_GAMEPAD             BIT(19)
-
- #define SIXAXIS_CONTROLLER (SIXAXIS_CONTROLLER_USB | SIXAXIS_CONTROLLER_BT)
- #define MOTION_CONTROLLER (MOTION_CONTROLLER_USB | MOTION_CONTROLLER_BT)
-@@ -573,6 +575,7 @@ struct sony_sc {
- #ifdef CONFIG_SONY_FF
-  u8 left;
-  u8 right;
-+ u8 length;
- #endif
-
-  u8 mac_address[6];
-@@ -1664,7 +1667,7 @@ static int sixaxis_set_operational_usb(struct
-hid_device *hdev)
-  * But the USB interrupt would cause SHANWAN controllers to
-  * start rumbling non-stop, so skip step 3 for these controllers.
-  */
-- if (sc->quirks & SHANWAN_GAMEPAD)
-+ if (sc->quirks & SHANWAN_GAMEPAD_USB)
-  goto out;
-
-  ret = hid_hw_output_report(hdev, buf, 1);
-@@ -2217,7 +2220,7 @@ static void sixaxis_send_output_report(struct sony_sc *sc)
-  static const union sixaxis_output_report_01 default_report = {
-  .buf = {
-  0x01,
-- 0x01, 0xff, 0x00, 0xff, 0x00,
-+ 0x01, 0x00, 0x00, 0x00, 0x00,
-  0x00, 0x00, 0x00, 0x00, 0x00,
-  0xff, 0x27, 0x10, 0x00, 0x32,
-  0xff, 0x27, 0x10, 0x00, 0x32,
-@@ -2229,6 +2232,7 @@ static void sixaxis_send_output_report(struct sony_sc *sc)
-  struct sixaxis_output_report *report =
-  (struct sixaxis_output_report *)sc->output_report_dmabuf;
-  int n;
-+ u8 duration;
-
-  /* Initialize the report with default values */
-  memcpy(report, &default_report, sizeof(struct sixaxis_output_report));
-@@ -2236,6 +2240,13 @@ static void sixaxis_send_output_report(struct
-sony_sc *sc)
- #ifdef CONFIG_SONY_FF
-  report->rumble.right_motor_on = sc->right ? 1 : 0;
-  report->rumble.left_motor_force = sc->left;
-+
-+ duration = sc->length;
-+ if (duration > 0xff || duration == 0) duration = 0xff;
-+ else if (duration < 4) duration = 4;
-+
-+ report->rumble.left_duration = duration;
-+ report->rumble.right_duration = duration;
- #endif
-
-  report->leds_bitmap |= sc->led_state[0] << 1;
-@@ -2263,14 +2274,18 @@ static void sixaxis_send_output_report(struct
-sony_sc *sc)
-  }
-  }
-
-- /* SHANWAN controllers require output reports via intr channel */
-- if (sc->quirks & SHANWAN_GAMEPAD)
-- hid_hw_output_report(sc->hdev, (u8 *)report,
-- sizeof(struct sixaxis_output_report));
-- else
-- hid_hw_raw_request(sc->hdev, report->report_id, (u8 *)report,
-- sizeof(struct sixaxis_output_report),
-- HID_OUTPUT_REPORT, HID_REQ_SET_REPORT);
-+ /*
-+ * Some Shanwan and Gasia controllers require output reports via intr channel
-+ * So try hid_hw_output_report first and if it fails then use
-hid_hw_raw_request
-+ */
-+ if (sc->quirks & (SHANWAN_GAMEPAD_USB | GASIA_GAMEPAD))
-+ if(hid_hw_output_report(sc->hdev, (u8 *)report,
-+ sizeof(struct sixaxis_output_report)) >= 0)
-+ return;
-+
-+ hid_hw_raw_request(sc->hdev, report->report_id, (u8 *)report,
-+ sizeof(struct sixaxis_output_report),
-+ HID_OUTPUT_REPORT, HID_REQ_SET_REPORT);
- }
-
- static void dualshock4_send_output_report(struct sony_sc *sc)
-@@ -2409,6 +2424,7 @@ static int sony_play_effect(struct input_dev
-*dev, void *data,
-
-  sc->left = effect->u.rumble.strong_magnitude / 256;
-  sc->right = effect->u.rumble.weak_magnitude / 256;
-+ sc->length = effect->replay.length / 256;
-
-  sony_schedule_work(sc, SONY_WORKER_STATE);
-  return 0;
-@@ -2976,17 +2992,31 @@ static int sony_input_configured(struct
-hid_device *hdev,
-
- static int sony_probe(struct hid_device *hdev, const struct hid_device_id *id)
- {
-- int ret;
-+ int ret, i;
-  unsigned long quirks = id->driver_data;
-  struct sony_sc *sc;
-  unsigned int connect_mask = HID_CONNECT_DEFAULT;
-+ char name[128];
-+
-+ // Get the device name in all uppercase
-+ strncpy(name, hdev->name, 128);
-+ for (i = 0; name[i] != '\0'; i++)
-+ if(name[i] >= 'a' && name[i] <= 'z')
-+ name[i] = name[i] -32;
-+
-+ if (strstr(name, "SHANWAN")) {
-+ if(quirks & SIXAXIS_CONTROLLER_BT)
-+ quirks |= SHANWAN_GAMEPAD_BT;
-+ else if(quirks & SIXAXIS_CONTROLLER_USB)
-+ quirks |= SHANWAN_GAMEPAD_USB;
-+ }
-+
-+ if (strstr(name, "GASIA")) && (quirks & SIXAXIS_CONTROLLER))
-+ quirks |= GASIA_GAMEPAD;
-
-  if (!strcmp(hdev->name, "FutureMax Dance Mat"))
-  quirks |= FUTUREMAX_DANCE_MAT;
-
-- if (!strcmp(hdev->name, "SHANWAN PS3 GamePad"))
-- quirks |= SHANWAN_GAMEPAD;
--
-  sc = devm_kzalloc(&hdev->dev, sizeof(*sc), GFP_KERNEL);
-  if (sc == NULL) {
-  hid_err(hdev, "can't alloc sony descriptor\n");
-@@ -3039,6 +3069,15 @@ static int sony_probe(struct hid_device *hdev,
-const struct hid_device_id *id)
-  return -ENODEV;
-  }
-
-+#ifdef CONFIG_SONY_FF
-+ /* Rumble on some shanwan sixaxis bluetooth gamepads will get "stuck" waiting
-+ * on HIDP_WAITING_FOR_SEND_ACK, so don't wait for the response at all.
-+ * This must be set AFTER the HID has been started and claimed.
-+ */
-+ if (sc->quirks & SHANWAN_GAMEPAD_BT)
-+ hdev->report_timeout = 0;
-+#endif
-+
-  if (sc->quirks & GHL_GUITAR_PS3WIIU) {
-  timer_setup(&sc->ghl_poke_timer, ghl_magic_poke, 0);
-  mod_timer(&sc->ghl_poke_timer,
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index c39d71e..b4a4f54 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -562,6 +562,7 @@ struct hid_device { /* device report descriptor */
-  unsigned country; /* HID country */
-  struct hid_report_enum report_enum[HID_REPORT_TYPES];
-  struct work_struct led_work; /* delayed LED worker */
-+ int report_timeout; /* seconds to wait for HIDP_WAITING_FOR_SEND_ACK */
-
-  struct semaphore driver_input_lock; /* protects the current driver */
-  struct device dev; /* device */
-diff --git a/net/bluetooth/hidp/core.c b/net/bluetooth/hidp/core.c
-index 0db48c8..b44aef0 100644
---- a/net/bluetooth/hidp/core.c
-+++ b/net/bluetooth/hidp/core.c
-@@ -354,7 +354,7 @@ static int hidp_set_raw_report(struct hid_device
-*hid, unsigned char reportnum,
-  res = wait_event_interruptible_timeout(session->report_queue,
-  !test_bit(HIDP_WAITING_FOR_SEND_ACK, &session->flags)
-  || atomic_read(&session->terminate),
-- 10*HZ);
-+ hid->report_timeout*HZ);
-  if (res == 0) {
-  /* timeout */
-  ret = -EIO;
-@@ -780,6 +780,8 @@ static int hidp_setup_hid(struct hidp_session *session,
-  hid->version = req->version;
-  hid->country = req->country;
-
-+ hid->report_timeout = 10;
-+
-  strscpy(hid->name, req->name, sizeof(hid->name));
-
-  snprintf(hid->phys, sizeof(hid->phys), "%pMR",
+-- 
+Dmitry
