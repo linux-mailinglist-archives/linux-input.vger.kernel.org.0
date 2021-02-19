@@ -2,87 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8731831F1C6
-	for <lists+linux-input@lfdr.de>; Thu, 18 Feb 2021 22:40:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4361C31F42A
+	for <lists+linux-input@lfdr.de>; Fri, 19 Feb 2021 04:18:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229752AbhBRVkL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 18 Feb 2021 16:40:11 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:51435 "EHLO
-        out4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229652AbhBRVkJ (ORCPT
+        id S229623AbhBSDS3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 18 Feb 2021 22:18:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41124 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229553AbhBSDS3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 18 Feb 2021 16:40:09 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-        by mailout.nyi.internal (Postfix) with ESMTP id 3DB9D5C0067;
-        Thu, 18 Feb 2021 16:39:04 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Thu, 18 Feb 2021 16:39:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=H0yjNZCCvNE+YgpJN
-        TvaN9hpZllwnD2nL2ItZk1wUyE=; b=XklhjCe7RCq0KzOGFCX4MIpEQ3MfRHS53
-        +G5HYxK2PNf95j4h575SK9G2Z2I4zWTtOaY4XJ/mAYTC8CwLIgRtN4ofQqGUTMDL
-        /vQDnyhQUkd9JXjECInnHvrksrEfr8Bw+Y/AkOORLGrdKITKVj8giEbUGpMi6djY
-        8eI8XqVB05KzwZswuQ/36ssIlFaPixGWk4mKGC08z3R84npRcthpSzVH21QErF7U
-        xlm+zxjMhJSr7GGKJigkXbb+YI89r9Na6KT+nz/KTIYDT72TY8NQx2gF3cIiLkLy
-        eEPdS7I+cVPijvOd4Cpusll/w2WPMuiRN5DefWvboGh0Nj7WHIw0A==
-X-ME-Sender: <xms:d94uYK_xT8pIIOCNUsDw6fEBjRZdQA9IklnRTQI6XwYJtrJi1n795A>
-    <xme:d94uYBvir-mmyscMIDyO4kyuZlGMc1u-beUR6LWqptuMMb7iqBqwjsqMinq5go4qU
-    bUUEkG2jfOfp7vRYik>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrjeeggddugeekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
-    dttdenucfhrhhomhepnfhukhgvucffucflohhnvghsuceolhhukhgvsehljhhonhgvshdr
-    uggvvheqnecuggftrfgrthhtvghrnhepfffghfehheekgfdttdeihfdugeetkeduiefhvd
-    dujeduiefgtdehieejtedvjedvnecukfhppeduudeirddvhedurdduleefrdduleeinecu
-    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheplhhukhgvse
-    hljhhonhgvshdruggvvh
-X-ME-Proxy: <xmx:d94uYFCV1c2FOZ0PeJ_I6WhDntGwoUBIX5Db05Q2hlmhuC44DzEolQ>
-    <xmx:d94uYBWB9mbFjdb_JyyUkEPivjOXN5OXJQjmaiD_cQZwEEI4F1aYhg>
-    <xmx:d94uYLAJizGkqcMimcGSXjCGJ0_k6WVoWZULhI8qGHLha08_RhB-1A>
-    <xmx:eN4uYByvAW8rzwh0cjFhLfmygt-r73-Awdrc9ymRoJx5b7uqo7u-SQ>
-Received: from localhost.localdomain (unknown [116.251.193.196])
-        by mail.messagingengine.com (Postfix) with ESMTPA id ED7FE24005D;
-        Thu, 18 Feb 2021 16:38:59 -0500 (EST)
-From:   Luke D Jones <luke@ljones.dev>
-To:     jikos@kernel.org
-Cc:     benjamin.tissoires@redhat.com, rydberg@bitmath.org,
-        linux-input@vger.kernel.org, Luke D Jones <luke@ljones.dev>
-Subject: [PATCH] HID: asus: Filter keyboard EC for old ROG keyboard
-Date:   Fri, 19 Feb 2021 10:38:46 +1300
-Message-Id: <20210218213846.22504-1-luke@ljones.dev>
-X-Mailer: git-send-email 2.30.1
+        Thu, 18 Feb 2021 22:18:29 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D046C061574;
+        Thu, 18 Feb 2021 19:17:49 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id b8so2561106plh.12;
+        Thu, 18 Feb 2021 19:17:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=OwNV1ruvrzmTZHtKgrE8lgFC0d23DBddIr+rAQj3fCA=;
+        b=mQVOnq7krNIwtuspcWotiXg5heQPESU1irjCJKrU1ZtWJvLEO6jBJeWwIUIORpQ6tH
+         7D+TeDxnfet25IIiZr0F1aAgjoZTMHeK8qsviNcF3zyBdjodrClDssx8AI8ixMKZZo42
+         otffnoTunn14v3Zh5pxhuOdzB5eoAhXL1TBcLTqJkoGPkpJdcgjGVQsRLu6MgBpFNbAA
+         n5mk4y26kht2t/OmXeehMcFdBp1fnxflbwsv/3slI2X2Kz9xDcO4aozgwA18RSix9s5D
+         j58yYanvC8U/qwaMdIspKo8NmBZxm2JbidJVcn64Oyw5cVIYotXgRp7tbcYIWd73ugm0
+         RYlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=OwNV1ruvrzmTZHtKgrE8lgFC0d23DBddIr+rAQj3fCA=;
+        b=bFIiKP2DiPIxyJqGvcbVqjr0RKvsI9D23vVOBbqffx4v7iBCbYQQV6yAkRUX1EMVru
+         tQq0b73IipZ1NaAXRxPtcAmI/JWekN2Sr/APzv6jFpzygNN1/71BZk7r/7252TyfE21b
+         KKKedqzjqvO/PlJpHNP+QMZfHUsKHgzeiPYlLHILvvipqYqqjWsrVglxuMIJguTfxdnt
+         JzTiGzwLVNhPff1W1WRr9527534UnNCd3/QzfHVrkyPQ5q9O+syIcj+Fn02oOjEkHgIt
+         fLxLfDBZTucwcopmh4CisEXZ22+CME0X21JdGS7NeVss2QDoO0yGKBOJ3CrD0gNkgiYN
+         R37w==
+X-Gm-Message-State: AOAM53256Av7LCPvsFKtJvP/+Zwxt7GTEM8gdFeGGfmE7rzxALggoj0T
+        UH/+WWM3fqndmHCQcqyRKUk=
+X-Google-Smtp-Source: ABdhPJxcaFa410Ckz6MrT2jZ1L/de+5zRk4l6zVCRdamgk6nWQVdwrJsbyrFtsvXY7xe/3XJYmvRRg==
+X-Received: by 2002:a17:90b:1093:: with SMTP id gj19mr6909241pjb.40.1613704668174;
+        Thu, 18 Feb 2021 19:17:48 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:8d20:87b2:91b7:7f7b])
+        by smtp.gmail.com with ESMTPSA id b15sm3521500pgg.85.2021.02.18.19.17.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Feb 2021 19:17:47 -0800 (PST)
+Date:   Thu, 18 Feb 2021 19:17:44 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Stephen Kitt <steve@sk2.org>, linux-input@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] Input: joydev - prevent potential read overflow in ioctl
+Message-ID: <YC8t2EHKRSF7DwmF@google.com>
+References: <YCyzR8WvFRw4HWw6@mwanda>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YCyzR8WvFRw4HWw6@mwanda>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Older ROG keyboards emit a similar stream of bytes to the new
-N-Key keyboards and require filtering to prevent a lot of
-unmapped key warnings showing. As all the ROG keyboards use
-QUIRK_USE_KBD_BACKLIGHT this is now used to branch to filtering
-in asus_raw_event.
+Hi Dan,
 
-Signed-off-by: Luke D Jones <luke@ljones.dev>
----
- drivers/hid/hid-asus.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Feb 17, 2021 at 09:10:15AM +0300, Dan Carpenter wrote:
+> The problem here is that "len" might be less than "joydev->nabs" so the
+> loops which verfy abspam[i] and keypam[] might read beyond the buffer.
+> 
+> Fixes: 999b874f4aa3 ("Input: joydev - validate axis/button maps before clobbering current ones")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
-index 2ab22b925941..1ed1c05c3d54 100644
---- a/drivers/hid/hid-asus.c
-+++ b/drivers/hid/hid-asus.c
-@@ -335,7 +335,7 @@ static int asus_raw_event(struct hid_device *hdev,
- 	if (drvdata->quirks & QUIRK_MEDION_E1239T)
- 		return asus_e1239t_event(drvdata, data, size);
- 
--	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
-+	if (drvdata->quirks & QUIRK_USE_KBD_BACKLIGHT) {
- 		/*
- 		 * Skip these report ID, the device emits a continuous stream associated
- 		 * with the AURA mode it is in which looks like an 'echo'.
+Thank you for the patch.
+
+> ---
+>  drivers/input/joydev.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/input/joydev.c b/drivers/input/joydev.c
+> index a2b5fbba2d3b..750f4513fe20 100644
+> --- a/drivers/input/joydev.c
+> +++ b/drivers/input/joydev.c
+> @@ -456,7 +456,7 @@ static int joydev_handle_JSIOCSAXMAP(struct joydev *joydev,
+>  	if (IS_ERR(abspam))
+>  		return PTR_ERR(abspam);
+>  
+> -	for (i = 0; i < joydev->nabs; i++) {
+> +	for (i = 0; i < len && i < joydev->nabs; i++) {
+>  		if (abspam[i] > ABS_MAX) {
+>  			retval = -EINVAL;
+>  			goto out;
+> @@ -487,7 +487,7 @@ static int joydev_handle_JSIOCSBTNMAP(struct joydev *joydev,
+>  	if (IS_ERR(keypam))
+>  		return PTR_ERR(keypam);
+>  
+> -	for (i = 0; i < joydev->nkey; i++) {
+> +	for (i = 0; i < (len / 2) && i < joydev->nkey; i++) {
+
+
+I think we also need to make sure that len is even. Do you mind if I add
+the check at the top of the function to return -EINVAL if it is odd?
+
+>  		if (keypam[i] > KEY_MAX || keypam[i] < BTN_MISC) {
+>  			retval = -EINVAL;
+>  			goto out;
+> -- 
+> 2.30.0
+> 
+
+Thanks.
+
 -- 
-2.30.1
-
+Dmitry
