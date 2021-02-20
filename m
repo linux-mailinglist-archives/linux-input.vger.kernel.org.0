@@ -2,50 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67E32320348
-	for <lists+linux-input@lfdr.de>; Sat, 20 Feb 2021 03:49:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9689432053D
+	for <lists+linux-input@lfdr.de>; Sat, 20 Feb 2021 13:26:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229876AbhBTCsi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 19 Feb 2021 21:48:38 -0500
-Received: from mail.mpcb.gov.in ([125.17.249.59]:50116 "EHLO
-        fortimail.email.mpcb.gov.in" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229796AbhBTCsi (ORCPT
+        id S229603AbhBTM0N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 20 Feb 2021 07:26:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53266 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229476AbhBTM0N (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 19 Feb 2021 21:48:38 -0500
-X-Greylist: delayed 69771 seconds by postgrey-1.27 at vger.kernel.org; Fri, 19 Feb 2021 21:48:31 EST
-Received: from User (rain-197-185-102-182.rain.network [197.185.102.182])
-        (user=feedback.consent@mpcb.gov.in mech=LOGIN bits=0)
-        by fortimail.email.mpcb.gov.in  with ESMTP id 11J7IVmK031284-11J7IVmM031284;
-        Fri, 19 Feb 2021 12:48:34 +0530
-Message-Id: <202102190718.11J7IVmK031284-11J7IVmM031284@fortimail.email.mpcb.gov.in>
-Reply-To: <brightwayfinanceloan01@protonmail.com>
-From:   "Brightway Finance Loan" <brightwayfinanceloan@gmail.com>
-Subject: Apply for loan at 5% interest rate per year
-Date:   Fri, 19 Feb 2021 09:18:30 +0200
+        Sat, 20 Feb 2021 07:26:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1613823886;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=3XGW2IdbfK0+RXlIsNYf734DWnS6Nq0t/VLqZqK7arc=;
+        b=b8PvDD+gDHdO/odp8LLKS16Go5FmLfvCCKMIefzDZYr2E2FWOUuYI8co1tXkQCxideIv2j
+        JB8ot2zO2etm/xOqIrRHQMjNbR2S0OpdQT8jIqso8yMK0LBrmA4LM59bbP1qV5kKNlPWvm
+        zaf6ktKmi6KiRCuAGOUW/8N5X28TRMk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-230-TwRzw7quOmWl46LkpQPKNQ-1; Sat, 20 Feb 2021 07:24:44 -0500
+X-MC-Unique: TwRzw7quOmWl46LkpQPKNQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 694E8107ACC7;
+        Sat, 20 Feb 2021 12:24:43 +0000 (UTC)
+Received: from x1.localdomain.com (ovpn-112-29.ams2.redhat.com [10.36.112.29])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 79B1910016FF;
+        Sat, 20 Feb 2021 12:24:39 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org,
+        linux-leds@vger.kernel.org
+Subject: [PATCH v2 0/7] HID: lenovo: Mute LED handling fixes and improvements
+Date:   Sat, 20 Feb 2021 13:24:31 +0100
+Message-Id: <20210220122438.21857-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-X-FEAS-Auth-User: feedback.consent@mpcb.gov.in
-X-FE-Policy-ID: 0:1:2:SYSTEM
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-BrightWay Finance offers Loans ranging from (R10, 000.00 - R60, 000,000.00). Loan duration is from 1 to 20 years (Maximum) No collateral,
-No ITC CHECK and Blacklisted are welcome. If you wish to apply kindly send your full names, ID number, 
-email address and cellphone number to brightwayfinanceloan01@protonmail.com
+Hi All,
+
+Here is v2 of my series with mute LED handling fixes and improvements
+for the hid-lenovo driver.
+
+This time I've added the LED folks to the Cc in case they have any input,
+but there is nothing controversial in here wrt use of the LED API.
+
+The following patches were changed or are new in version 2 of the
+series, see the individual patches for detaisl:
+
+[PATCH v2 2/7] HID: lenovo: Fix lenovo_led_set_tp10ubkbd() error handling
+[PATCH v2 4/7] HID: lenovo: Remove lenovo_led_brightness_get()
+[PATCH v2 5/7] HID: lenovo: Set LEDs max_brightness value
+
+Regards,
+
+Hans
 
 
-Yours in Service,
+Hans de Goede (7):
+  HID: lenovo: Use brightness_set_blocking callback for setting LEDs
+    brightness
+  HID: lenovo: Fix lenovo_led_set_tp10ubkbd() error handling
+  HID: lenovo: Check hid_get_drvdata() returns non NULL in
+    lenovo_event()
+  HID: lenovo: Remove lenovo_led_brightness_get()
+  HID: lenovo: Set LEDs max_brightness value
+  HID: lenovo: Map mic-mute button to KEY_F20 instead of KEY_MICMUTE
+  HID: lenovo: Set default_trigger-s for the mute and micmute LEDs
 
-Jane Cooper
-MARKETING TEAM
-Tel No: +27(0)622541582
-BrightWay Finance Loan(PTY) LTD.
-brightwayfinanceloan01@protonmail.com
+ drivers/hid/hid-lenovo.c | 61 ++++++++++++++++++++--------------------
+ 1 file changed, 31 insertions(+), 30 deletions(-)
+
+-- 
+2.30.1
+
