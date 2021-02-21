@@ -2,39 +2,40 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E2F03209F5
-	for <lists+linux-input@lfdr.de>; Sun, 21 Feb 2021 12:30:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E09F3209F8
+	for <lists+linux-input@lfdr.de>; Sun, 21 Feb 2021 12:31:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229896AbhBULaR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 21 Feb 2021 06:30:17 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54656 "EHLO mail.kernel.org"
+        id S229933AbhBULak (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 21 Feb 2021 06:30:40 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54696 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229634AbhBULaP (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 21 Feb 2021 06:30:15 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 05E7F64EE6;
-        Sun, 21 Feb 2021 11:29:33 +0000 (UTC)
+        id S229634AbhBULaj (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sun, 21 Feb 2021 06:30:39 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 695B964EE9;
+        Sun, 21 Feb 2021 11:29:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1613906975;
+        s=k20201202; t=1613906998;
         bh=Ii6mCKLdMk+Svk1KpodaVpXsreuwHJe163Dne4id3BY=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=Hg/RZgO7qxllEtTrL+rwIOgLwBckH64fiQbKiNXlL8AzYSvzcxfNBvGyfvQgJnm7X
-         A3BNl7/KbTkMm329Fkn5y4jeAe5WPqHPwFs64MmyLQG/1kJbiBrzjwdqhhbrxxwy+D
-         MUzSjQmZwUNIJrhBtRDMH54pU4gW7Q6CQZ16ChqyBXxeXEpb+ic+dKogt/ldAdOkb9
-         92ESx35CwxZNauEHtcE+oiaUDtz3xHTeB3JRpsSRNloN8gceKCvM1CEMW1CkPlu9f9
-         /feOqkMJI3MfpccHMN5KFRiecFdBrb70cEBJl1naM8bSWSXMnv2WxVgUS/wrXfFQVi
-         FuSDpxGGekG/w==
-Date:   Sun, 21 Feb 2021 12:29:31 +0100
+        b=d2UE9/90wdqjqqFrZcVN+lTrlsYm+8czUPx5JO6BrG/WVVOqbOaiL5ATqk5/0egaE
+         dJnljpBaBvbmOplzqcx01DAQBW0CuXXdMjM4XR41EMTG+zVaeZxCGgTQEVIp7ddpLM
+         RVo4YCqXp22TWQUr7E5zuS8OCeJb76svRj3Ccff10+KuxERfmJf6zNcAuMlL0nhp1D
+         uSRJjtz3c3vJv0iphQWJ+Zqe02+q4i2M2cU54DLVi/FzKQPCCAFjtZSjlPg8ru2FLc
+         0gobWBdFuswyDj1IUlaQjrID+S7n3t4QN/OMH3ktSdvT/7lJ/YkVgGFb4+DHm2Omi9
+         DZu7SBcagsfLA==
+Date:   Sun, 21 Feb 2021 12:29:55 +0100
 From:   Marek =?UTF-8?B?QmVow7pu?= <kabel@kernel.org>
 To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
         alsa-devel@alsa-project.org
-Subject: Re: [PATCH v3 5/7] HID: lenovo: Set LEDs max_brightness value
-Message-ID: <20210221122931.78f9a448@kernel.org>
-In-Reply-To: <20210221112005.102116-6-hdegoede@redhat.com>
+Subject: Re: [PATCH v3 2/7] HID: lenovo: Fix lenovo_led_set_tp10ubkbd()
+ error handling
+Message-ID: <20210221122955.2f933b14@kernel.org>
+In-Reply-To: <20210221112005.102116-3-hdegoede@redhat.com>
 References: <20210221112005.102116-1-hdegoede@redhat.com>
-        <20210221112005.102116-6-hdegoede@redhat.com>
+        <20210221112005.102116-3-hdegoede@redhat.com>
 X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
