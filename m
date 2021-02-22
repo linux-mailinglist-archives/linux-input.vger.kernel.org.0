@@ -2,56 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E8998321B76
-	for <lists+linux-input@lfdr.de>; Mon, 22 Feb 2021 16:32:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A445321C6F
+	for <lists+linux-input@lfdr.de>; Mon, 22 Feb 2021 17:10:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231488AbhBVPb0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 22 Feb 2021 10:31:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43806 "EHLO
+        id S231500AbhBVQJd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 22 Feb 2021 11:09:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231418AbhBVPbX (ORCPT
+        with ESMTP id S231693AbhBVQJH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 22 Feb 2021 10:31:23 -0500
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7686C061794
-        for <linux-input@vger.kernel.org>; Mon, 22 Feb 2021 07:30:19 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id r3so7875854wro.9
-        for <linux-input@vger.kernel.org>; Mon, 22 Feb 2021 07:30:19 -0800 (PST)
+        Mon, 22 Feb 2021 11:09:07 -0500
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22A57C061786;
+        Mon, 22 Feb 2021 08:08:26 -0800 (PST)
+Received: by mail-ej1-x630.google.com with SMTP id k13so28424367ejs.10;
+        Mon, 22 Feb 2021 08:08:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=yPjMBhojUCoon9NDnK8Nh4YqsBmKwJwjusKAtHDxYIs=;
-        b=OjNx+KbZDkEk7LQ/ccSS9UrYj0/EXZrMMqVlZW99G0CSZSvk2uZ/ZR3Q9ddUnSebHx
-         3BBJRkRLE4b30dqs69hAjAm0a/vNAcXDhp8AIF6552Jlfncuu0do0kQ/emuDmL5k7oo0
-         FQbpcYINidws4EaU1VeXJ6sq2TUyI5HRj+2nr2ZJj/p8zIzOQDcx/69YziNpje27sx8n
-         h4p3UqgA4b1bkJXaqx1WSPLq3WArsUdyJGfbQ+DyW9s/dRORi+HeMaJSHkrDnekZqnV7
-         oENgEV2hnWNFnbEUREHiuxaj4LulB4CA5x/7arpv70dWDKl3czrC4Nqc9T5LgfUKv5P/
-         BtZw==
+        bh=0z5cjnVMmZpnS0NGUFOXf9bMFTwoQWI9l7ipg+bgkgo=;
+        b=NMOvhhBuOhD9Q8b92ppeUwTc1/xb80CfMGlpP4xgYlYyveKH/ArONfN4r2QUXyAn6a
+         q4eNq/EE5ZarY1JwMBcOSN8cxc1ywkOIryPO+Gv5C4lP3Wj04NUqQkIJG/9kZRzFMZUb
+         31F7eRWSVg/GQzfa1oRDAckMIknVTqgOoFLZVfnQzCr2ZRmbhMtdAD0QN0B7/vTVisZG
+         VGPCtDO0cY0+lpaEopNmWQgdsnbsMAH1r6taPxlh+HoWlhDkMlnSlWXXHwVhvqHTVFvi
+         KrIwKQdNa7rVsKmCkfY10HvJDGqOExuo67HGLv829J1F9FdUEXfyyWny1bsfkYg61VK2
+         LxSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=yPjMBhojUCoon9NDnK8Nh4YqsBmKwJwjusKAtHDxYIs=;
-        b=ZnJN3fVebkO7niqfy8mtciUxdY1of9k3iOwchmPMCbTOL/qlZ/2Em1mpnOXAcJO3wy
-         4q2ESBwusnrVyJaEKN7JOMoq9mCjjNRk0SKmahnBcwAl827QK3+VEOPpCbO0eulHS4xq
-         YmCqcS+vVqHdb+qMvSxoXA3dtHgmk+LEF//XgUDtjnZyGuBqnzzeDpu76ScJrxTBOqdH
-         5gmMUCOKKHCwPK0nldVXLwLkl9gB9F6ZfmkrDKOFH9GPASdxBaVH8/izgmlcO+A0uTXe
-         +mJplmiTFCN1rSBKoU4GjO3oqXvBY2XsFavXCiaP1KYTP0155JfwNY+hGwGqEMxYOW5n
-         UxbQ==
-X-Gm-Message-State: AOAM533mGe84E1gSSsRLkn3i+FRTp9PPxAAyrKXlb7bSwdsp4Wpd42yR
-        pXmF6UBR85IiuY4r+mqrdq/AHA==
-X-Google-Smtp-Source: ABdhPJw5IU/i+9v0evRsCf/R2OGTjpriS7h0ZgwtXoJtP5oiyOJQEa8J03FTXvIz25R2t+h9dhymUg==
-X-Received: by 2002:adf:f1c4:: with SMTP id z4mr4413127wro.52.1614007818549;
-        Mon, 22 Feb 2021 07:30:18 -0800 (PST)
-Received: from dell ([91.110.221.155])
-        by smtp.gmail.com with ESMTPSA id f17sm28937083wrx.57.2021.02.22.07.30.17
+        bh=0z5cjnVMmZpnS0NGUFOXf9bMFTwoQWI9l7ipg+bgkgo=;
+        b=hX+GLwn5/B/qvPkODlGfWnGTPS++rXJPsJJuqzvXtlTbexAstJAmGiEWCidUhi7/ko
+         gHRErneHq3UsYX9zO0N32VyL2uGklct1gFYeSMATHFNan3RdP0mjqYBtnVb9zcZrd8zU
+         ILMBOafsul0A7RRnc3nUe7XemWo4MPlMkbM5kKd41M5UDB2yL3RurhCxRhUnh5xMFYAZ
+         FArrcExf1qnrskNV4D2iD5zkc9CQsgj/cV9RpooBO5wRAslZq5KLBHs93VzS0668PqTS
+         hFVr0zIKAxxgwH5/LmSHF18FMDku9fzCZFCH1oPciGCcozMxAtK9iI0ITkiPA3Oo+dQp
+         NAAA==
+X-Gm-Message-State: AOAM532P2mU7yH54MzZmC2Cd7Xy0XyMsS10iU29nomHzkIQ8n8UtQlya
+        2M9jIRT90cWcBJMFo8EfuHo=
+X-Google-Smtp-Source: ABdhPJygeIG28OHrqsgk/2CEHm8NN8YwBB4sHoOPTswcEo4aLKsjBz4rkKm77Ow6NK+uebVWeUCaeA==
+X-Received: by 2002:a17:906:33db:: with SMTP id w27mr20992248eja.195.1614010104744;
+        Mon, 22 Feb 2021 08:08:24 -0800 (PST)
+Received: from BV030612LT ([81.18.95.223])
+        by smtp.gmail.com with ESMTPSA id ck9sm11689974edb.36.2021.02.22.08.08.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Feb 2021 07:30:18 -0800 (PST)
-Date:   Mon, 22 Feb 2021 15:30:16 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
+        Mon, 22 Feb 2021 08:08:23 -0800 (PST)
+Date:   Mon, 22 Feb 2021 18:08:21 +0200
+From:   Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
+To:     Lee Jones <lee.jones@linaro.org>
 Cc:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sebastian Reichel <sre@kernel.org>,
@@ -63,59 +63,69 @@ Cc:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
         linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
         linux-pm@vger.kernel.org
 Subject: Re: [PATCH v7 0/5] Add initial support for ATC260x PMICs
-Message-ID: <20210222153016.GG376568@dell>
+Message-ID: <20210222160821.GA468766@BV030612LT>
 References: <cover.1611653995.git.cristian.ciocaltea@gmail.com>
  <20210221163602.GA297639@BV030612LT>
  <20210222090247.GA376568@dell>
  <20210222151649.GA467803@BV030612LT>
+ <20210222153016.GG376568@dell>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210222151649.GA467803@BV030612LT>
+In-Reply-To: <20210222153016.GG376568@dell>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 22 Feb 2021, Cristian Ciocaltea wrote:
-
-> On Mon, Feb 22, 2021 at 09:02:47AM +0000, Lee Jones wrote:
-> > On Sun, 21 Feb 2021, Cristian Ciocaltea wrote:
-> > 
-> > > Hi Lee,
+On Mon, Feb 22, 2021 at 03:30:16PM +0000, Lee Jones wrote:
+> On Mon, 22 Feb 2021, Cristian Ciocaltea wrote:
+> 
+> > On Mon, Feb 22, 2021 at 09:02:47AM +0000, Lee Jones wrote:
+> > > On Sun, 21 Feb 2021, Cristian Ciocaltea wrote:
 > > > 
-> > > I have just noticed your mfd-next tag for 5.12 doesn't include the
-> > > support for the ATC260x PMICs.
+> > > > Hi Lee,
+> > > > 
+> > > > I have just noticed your mfd-next tag for 5.12 doesn't include the
+> > > > support for the ATC260x PMICs.
+> > > > 
+> > > > I assumed the patchset is ready for merging.. Did I miss something?
 > > > 
-> > > I assumed the patchset is ready for merging.. Did I miss something?
+> > > The MFD driver needs another review.
+> > > 
+> > > For some reason, this didn't register on my TODO list.
 > > 
-> > The MFD driver needs another review.
+> > You have already tagged v6 with 'Acked-for-MFD-by: Lee Jones
+> > <lee.jones@linaro.org>':
+> > https://lore.kernel.org/lkml/20210125142558.GA4903@dell/
 > > 
-> > For some reason, this didn't register on my TODO list.
+> > I have submitted v7 to drop the patches that had been already picked up,
+> > as previously agreed, but otherwise there are no other changes.
+> > 
+> > That is why I didn't expect another round of review..
 > 
-> You have already tagged v6 with 'Acked-for-MFD-by: Lee Jones
-> <lee.jones@linaro.org>':
-> https://lore.kernel.org/lkml/20210125142558.GA4903@dell/
+> I see what's happened.  You forgot to:
 > 
-> I have submitted v7 to drop the patches that had been already picked up,
-> as previously agreed, but otherwise there are no other changes.
+>   "apply this as-is to your sign-off block"
 > 
-> That is why I didn't expect another round of review..
+> ... as requested, which made me think it needs a subsequent review.
 
-I see what's happened.  You forgot to:
+Sorry, I somehow missed that.  Should I resend the patch series?
 
-  "apply this as-is to your sign-off block"
+If yes, I assume I should also increment the revision number, even
+though there are no other changes except the addition of the
+indicated tag.
 
-... as requested, which made me think it needs a subsequent review.
+> > > In general, if you don't receive a review within ~2 weeks of posting
+> > > (and the merge window is not open), you should consider it lost and
+> > > submit a [RESEND].
+> 
+> Due to the fragility of email reviews, this is still very important.
 
-> > In general, if you don't receive a review within ~2 weeks of posting
-> > (and the merge window is not open), you should consider it lost and
-> > submit a [RESEND].
+Right, thanks for the hint!
 
-Due to the fragility of email reviews, this is still very important.
-
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+> -- 
+> Lee Jones [李琼斯]
+> Senior Technical Lead - Developer Services
+> Linaro.org │ Open source software for Arm SoCs
+> Follow Linaro: Facebook | Twitter | Blog
