@@ -2,113 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB0C53220F7
-	for <lists+linux-input@lfdr.de>; Mon, 22 Feb 2021 21:52:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 71DF232250D
+	for <lists+linux-input@lfdr.de>; Tue, 23 Feb 2021 06:08:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230063AbhBVUwd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 22 Feb 2021 15:52:33 -0500
-Received: from msg-2.mailo.com ([213.182.54.12]:52402 "EHLO msg-2.mailo.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230006AbhBVUwd (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 22 Feb 2021 15:52:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailoo.org; s=mailo;
-        t=1614027101; bh=yT9yvRTMH3hDKjbPZh495ozLuLQga9KRyWtS41qgQCU=;
-        h=X-EA-Auth:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
-         References:Content-Type:MIME-Version:Content-Transfer-Encoding;
-        b=BYeUEKdZE9FXyhfvc4fAaF5jKPeAEWA1ZbxZSV+4nPOaCIg6I7JHwPaXI3UBkEqOy
-         RQqEZ40po1lIclGjYCGsV/MPkZBjVaeaxIkTDiyCVCVJmmqALZ3tE04UQKs/BJZQDA
-         KJUUd6WRB7tj5KV7lD68J8QkoYvsIaPpU0bflziQ=
-Received: by b-3.in.mailobj.net [192.168.90.13] with ESMTP
-        via proxy.mailoo.org [213.182.55.207]
-        Mon, 22 Feb 2021 21:51:41 +0100 (CET)
-X-EA-Auth: f5tjIfSV86z/9LHQH2uDIBjEZ8HeKzTj2PLSAxSAmowAtHZFNnsFbP6GwYOUdr6lJYANbpibI12fpPDkqck81zFAduM28S7yZ6VZJy+/mTo=
-Message-ID: <a22fda89b5f97418e936655817f45bd55f6248ee.camel@mailoo.org>
-Subject: Re: [PATCH v4 2/2] Input: add MStar MSG2638 touchscreen driver
-From:   Vincent Knecht <vincent.knecht@mailoo.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Michael Srba <Michael.Srba@seznam.cz>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-Date:   Mon, 22 Feb 2021 21:51:39 +0100
-In-Reply-To: <YDGaB6L5+Aa2snUM@google.com>
-References: <20210210173403.667482-1-vincent.knecht@mailoo.org>
-         <20210210173403.667482-2-vincent.knecht@mailoo.org>
-         <YDGaB6L5+Aa2snUM@google.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+        id S230434AbhBWFI0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 23 Feb 2021 00:08:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50104 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230417AbhBWFIZ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 23 Feb 2021 00:08:25 -0500
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B907C061574;
+        Mon, 22 Feb 2021 21:07:45 -0800 (PST)
+Received: by mail-pl1-x629.google.com with SMTP id p5so4250996plo.4;
+        Mon, 22 Feb 2021 21:07:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=dAkQUG7Z9NTO7eCrWZ3ts0tI7vRJSQ9EpDPOXxmBG6I=;
+        b=EXs38H2lr1bu3uXmDZ/jToS+XJPhFd62xLdVPTu8hJsQjyJ99PY7YItBY7nCXOg+uR
+         PD+ZgVOj+yVFPBznHwaK+FVTtrRBm9oUQumh/ZB0PTExIfRD17PFgo2zP1W1YT/TvTLN
+         QGx70SrVu/si4EePOd8XgnCHfpXLb9tp+K6rMU/TOh4a80N1yKSBUEXsP76dSM1wrioL
+         awYoE7gWsJYyLCIAcybyyx+SuRZpj3BLzB4kkRMY5QS2dSrNcvtZOKNKVhWW8HPnHayi
+         idWJOmBuqlZzyrxRfXRafzvutueJNriI9YQvPjHPvNZTA7EAOR32Iy4Ft9CauCeOqzZ5
+         74vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=dAkQUG7Z9NTO7eCrWZ3ts0tI7vRJSQ9EpDPOXxmBG6I=;
+        b=Uy5y7axEAVWclii6LFIn/xrn3cRdzqOs5OCu8N4TTQ73Mi1Sc1JrwKZC1My2rGx4gn
+         /h1uCTEkuQjDo2/yZ9uucMfNyeEI+/aZ2vcSgDxdz+rB0geVERc/r6dOgFaq8Bnhgw62
+         7huxNFV0E3YajD+hgMWxaPZP1Y11DjLvj4zQQCmWC5/shooJaSQCQgawh42myy/tEUL2
+         vCpueFy9vLssw6NOnA7JC8TrHv70GRPx2K4ZdpucmuSMFxMm8prRMD5w4rmiHPpVDZCf
+         CWKpsUE+Iw5T16u8Xy/APuBUUmgIA27sCfWrbKB6D6wAd6J2NAnGucqELmZ4YGvFSMvp
+         4PLw==
+X-Gm-Message-State: AOAM5328pHdV+ebJd0Cb8V01k09L5PySouhFmuYVXGxBo89CGxvcAPNo
+        Od+6oPWnWosg9gOGyi0FUoM=
+X-Google-Smtp-Source: ABdhPJz4FkkeIbSeyIV/5naXadDKYw+R/vDAr/qiPlb27jBJdq32r9+9SjUS7OEK6mBBHgrBjQUpeQ==
+X-Received: by 2002:a17:90b:1650:: with SMTP id il16mr26072559pjb.97.1614056864418;
+        Mon, 22 Feb 2021 21:07:44 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:bc19:4f46:855:edfc])
+        by smtp.gmail.com with ESMTPSA id u15sm11540638pfk.128.2021.02.22.21.07.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Feb 2021 21:07:43 -0800 (PST)
+Date:   Mon, 22 Feb 2021 21:07:40 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Philip Chen <philipchen@chromium.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>, swboyd@chromium.org,
+        dianders@chromium.org, Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Simon Glass <sjg@chromium.org>, devicetree@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v7 1/2] dt-bindings: input: cros-ec-keyb: Add a new
+ property
+Message-ID: <YDSNnGBWcKdSi7Rq@google.com>
+References: <20210115122412.v7.1.I025fb861cd5fa0ef5286b7dce514728e9df7ae74@changeid>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210115122412.v7.1.I025fb861cd5fa0ef5286b7dce514728e9df7ae74@changeid>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Le samedi 20 f=C3=A9vrier 2021 =C3=A0 15:23 -0800, Dmitry Torokhov a =C3=A9=
-crit=C2=A0:
-> Hi Vincent,
+On Fri, Jan 15, 2021 at 12:24:29PM -0800, Philip Chen wrote:
+> Add a new property `function-row-physmap` to the
+> device tree for the custom keyboard top row design.
+> 
+> The property describes the rows/columns of the top row keys
+> from left to right.
+> 
+> Signed-off-by: Philip Chen <philipchen@chromium.org>
 
-Hi Dmitry, thank you for the review !
+Applied, thank you.
 
-> On Wed, Feb 10, 2021 at 06:33:52PM +0100, Vincent Knecht wrote:
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0for (i =3D 0; i < MAX_SUPPOR=
-TED_FINGER_NUM; i++) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0p =3D &touch_event.pkt[i];
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0/* Ignore non-pressed finger data */
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0if (p->xy_hi =3D=3D 0xFF && p->x_low =3D=3D 0xFF && p-=
->y_low =3D=3D 0xFF)
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0contin=
-ue;
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0coord.x =3D (((p->xy_hi & 0xF0) << 4) | p->x_low) * ms=
-g2638->prop.max_x / TPD_WIDTH;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0coord.y =3D (((p->xy_hi & 0x0F) << 8) | p->y_low) * ms=
-g2638->prop.max_y / TPD_HEIGHT;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0msg2638_report_finger(msg2638, i, &coord);
->=20
-> We do not scale the coordinates in the kernel. Rather we provide
-> resolution, if known, and min/max coordinates reported by the hardware,
-> and let userspace handle the rest.
-
-Ok, will remove scaling... I was able to test it's ok by setting=20
-touchscreen-size-{x,y} =3D <2048>;
-
-> > +static int __maybe_unused msg2638_suspend(struct device *dev)
-> > +{
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct i2c_client *client =
-=3D to_i2c_client(dev);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct msg2638_ts_data *msg2=
-638 =3D i2c_get_clientdata(client);
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0mutex_lock(&msg2638->input_d=
-ev->mutex);
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (input_device_enabled(msg=
-2638->input_dev))
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0msg2638_stop(msg2638);
->=20
-> I believe that you should power down the device only if it is not
-> configures as wakeup source. In fact (and I think most drivers are
-> wrong in this), you may want to power up the device if it is a wakeup
-> source and it does not have any users.
-
-I don't know much on this subject ; from downstream code, it seems
-the touchscreen supports "wakeup gestures" (like "double click",
-up/down/left/right directions and some characters/letters) and apparently
-an irq-gpio which would be used to wakeup.
-I don't handle that currently, is it required ?
-
-
-
-
-
+-- 
+Dmitry
