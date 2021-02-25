@@ -2,122 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CB0E3249A9
-	for <lists+linux-input@lfdr.de>; Thu, 25 Feb 2021 05:11:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D3703249C4
+	for <lists+linux-input@lfdr.de>; Thu, 25 Feb 2021 05:33:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234106AbhBYELS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 24 Feb 2021 23:11:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34056 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233479AbhBYELS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 24 Feb 2021 23:11:18 -0500
-Received: from mail-pj1-x104a.google.com (mail-pj1-x104a.google.com [IPv6:2607:f8b0:4864:20::104a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E032EC061574
-        for <linux-input@vger.kernel.org>; Wed, 24 Feb 2021 20:10:37 -0800 (PST)
-Received: by mail-pj1-x104a.google.com with SMTP id nm21so3323032pjb.6
-        for <linux-input@vger.kernel.org>; Wed, 24 Feb 2021 20:10:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc;
-        bh=dN8giP+M0NZZ+raI+j4A4emKMTlzkN2uZrsTunLcU0I=;
-        b=kbyu0Ljki8Uzonv361txlvdyP+FXne3QBI+5D8l72+MwLrI5jg80NR4Tbp8RlIwXMT
-         v6VWP5JPDvEPIZQgA5SdS0CxV7Mo/E4PO/g5laI8rRBqNjFSB2IuiA9Sv5qY8FMl3la1
-         jI2rOSxpjabn+Sjsxp5jhqDdLVOiHKaP+Z1eeDr6v9RJnSOyMUC0BJFNQ80geFt8kGRT
-         Jshc71PiAeKziTkaLfNpypK4FlP3R9LNz5WjEp1yLPDBJyGbf7wbkZx6cGq9i0o6k2qG
-         Lh0lfus9XYXdMei7Ye8GBZ1Gpcrx9poZYgGHb8VukNetstBUOJe1hvD7mVLXLDu/mDEt
-         p/zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc;
-        bh=dN8giP+M0NZZ+raI+j4A4emKMTlzkN2uZrsTunLcU0I=;
-        b=p87ajxK09boHnsyuNy4IDeuVPjYNYEg5zIoxzDBPmGx1dP3i0+Ot7Cm0YP6GhWyIOC
-         pWKUhNxVYgvJ3A1D88cmRuMS6empkNuUBQn+YMqTujdc4FHBsJuNbloUVeyHENiPtBtx
-         LHcNggdAShfTL/w3yp6OCPY3FJZrDVfoziLLkuBT561yfLn73SmXU+ZUegpdkZ/qBGE+
-         hjk5oVWoP7aU3NMxkhdAgu36uKKxM6XaEbb1w9FpFjHaFQin1gz/LlW0LYY/VZX641U9
-         5fTwaoO2VzLthKlg0v4Qvx4Fl8jvOg/SKx6dn3nU2+JdQ1eUKRKExvpzmbYMqNoMNO7q
-         hwyA==
-X-Gm-Message-State: AOAM532hgvtfeDas5mvm5PcXJTMc6WkwxCauVktty/DjmMf0mizTo3Sj
-        VjIU3WHAgkhZPgwAFbPwVwEArbeP
-X-Google-Smtp-Source: ABdhPJzXu0N8Wd3jqGWg9jO2UGCnqemwAwNptCftt66weRQF+c24CFNSZTGOxEl4lthb+dpz5/bJywh9
-Sender: "lzye via sendgmr" <lzye@lzye2.c.googlers.com>
-X-Received: from lzye2.c.googlers.com ([fda3:e722:ac3:10:24:72f4:c0a8:6713])
- (user=lzye job=sendgmr) by 2002:a17:902:f28b:b029:e4:5039:9f03 with SMTP id
- k11-20020a170902f28bb02900e450399f03mr1416232plc.62.1614226237316; Wed, 24
- Feb 2021 20:10:37 -0800 (PST)
-Date:   Thu, 25 Feb 2021 04:10:33 +0000
-Message-Id: <20210225041033.687014-1-lzye@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.30.0.617.g56c4b15f3c-goog
-Subject: [PATCH] Input: Add "Share" button to Microsoft Xbox One controller.
-From:   Chris Ye <lzye@google.com>
-To:     "=?UTF-8?q?=C5=81ukasz=20Patron=20?=" <priv.luk@gmail.com>,
-        Benjamin Valentin <benpicco@googlemail.com>,
-        Chris Ye <lzye@google.com>, Lee Jones <lee.jones@linaro.org>,
-        "=?UTF-8?q?Olivier=20Cr=C3=AAte=20?=" <olivier.crete@ocrete.ca>,
-        Sanjay Govind <sanjay.govind9@gmail.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+        id S234703AbhBYEdL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 24 Feb 2021 23:33:11 -0500
+Received: from m12-11.163.com ([220.181.12.11]:50081 "EHLO m12-11.163.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231284AbhBYEdL (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 24 Feb 2021 23:33:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=sBCHY
+        tyyAMjewXzDkB4dkOq0rbmi9+6n4xSLTpVJPbA=; b=RTiMRrQCst1Zv2y1BygZw
+        /O2Q8dy6SIa0KXIkiAH3b1AGDx6spzjFOWOUk+q8IcVt/ZjMyiAXZ+tVChgp6hit
+        V+hdD9xMTnThOKHFxwgowZW2aDGkv2s0J42vTNaLdgqa8tjsBC54PU4rbh+uRlG+
+        s32R64/K+98jpnJ6AvK1eg=
+Received: from COOL-20201222LC.ccdomain.com (unknown [218.94.48.178])
+        by smtp7 (Coremail) with SMTP id C8CowAAHIKDWJzdg6NQbPQ--.26767S2;
+        Thu, 25 Feb 2021 12:30:16 +0800 (CST)
+From:   dingsenjie@163.com
+To:     dmitry.torokhov@gmail.com, fery@cypress.com
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        trivial@kernel.org, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
+        dingsenjie <dingsenjie@yulong.com>
+Subject: [PATCH] input: touchscreen: Remove unneeded variable: "rc"
+Date:   Thu, 25 Feb 2021 12:29:39 +0800
+Message-Id: <20210225042939.11100-1-dingsenjie@163.com>
+X-Mailer: git-send-email 2.21.0.windows.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: C8CowAAHIKDWJzdg6NQbPQ--.26767S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrZw4UWrWfJF4xKFW8Kw1rWFg_yoWDZwbE9w
+        18twnrWry0kr47KrnrJ3sIvr97tryvvrnYv3Wkt343Gw15Xr47Ar9xW3WkA3y5WrW8uFWk
+        ArsxGr10kw4xAjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU8F385UUUUU==
+X-Originating-IP: [218.94.48.178]
+X-CM-SenderInfo: 5glqw25hqmxvi6rwjhhfrp/1tbiThhEyFUDH3tfLwAAsY
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add "Share" button input capability and input event mapping for
-Microsoft Xbox One controller.
-Fixed Microsoft Xbox One controller share button not working under USB
-connection.
+From: dingsenjie <dingsenjie@yulong.com>
 
-Signed-off-by: Chris Ye <lzye@google.com>
+Remove unneeded "rc" variable in the cyttsp4_core.c.
+
+Signed-off-by: dingsenjie <dingsenjie@yulong.com>
 ---
- drivers/input/joystick/xpad.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ drivers/input/touchscreen/cyttsp4_core.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 9f0d07dcbf06..08c3e93ccb2f 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -368,6 +368,14 @@ static const signed short xpad360_btn[] = {  /* buttons for x360 controller */
- 	-1
- };
+diff --git a/drivers/input/touchscreen/cyttsp4_core.c b/drivers/input/touchscreen/cyttsp4_core.c
+index dccbcb9..93d3c77 100644
+--- a/drivers/input/touchscreen/cyttsp4_core.c
++++ b/drivers/input/touchscreen/cyttsp4_core.c
+@@ -544,7 +544,6 @@ static int cyttsp4_si_get_btn_data(struct cyttsp4 *cd)
+ 	int num_defined_keys;
+ 	u16 *key_table;
+ 	void *p;
+-	int rc = 0;
  
-+static const signed short xpad_xboxone_btn[] = {
-+	/* buttons for xbox one controller */
-+	BTN_TL, BTN_TR,		/* Button LB/RB */
-+	BTN_MODE,		/* The big X button */
-+	KEY_RECORD,		/* The share button */
-+	-1
-+};
-+
- static const signed short xpad_abs[] = {
- 	ABS_X, ABS_Y,		/* left stick */
- 	ABS_RX, ABS_RY,		/* right stick */
-@@ -862,6 +870,7 @@ static void xpadone_process_packet(struct usb_xpad *xpad, u16 cmd, unsigned char
- 	/* menu/view buttons */
- 	input_report_key(dev, BTN_START,  data[4] & 0x04);
- 	input_report_key(dev, BTN_SELECT, data[4] & 0x08);
-+	input_report_key(dev, KEY_RECORD, data[22] & 0x01);
+ 	if (si->si_ofs.num_btns) {
+ 		si->si_ofs.btn_keys_size = si->si_ofs.num_btns *
+@@ -581,13 +580,13 @@ static int cyttsp4_si_get_btn_data(struct cyttsp4 *cd)
+ 			si->btn[btn].enabled = true;
+ 		}
  
- 	/* buttons A,B,X,Y */
- 	input_report_key(dev, BTN_A,	data[4] & 0x10);
-@@ -1668,10 +1677,13 @@ static int xpad_init_input(struct usb_xpad *xpad)
- 		input_set_capability(input_dev, EV_KEY, xpad_common_btn[i]);
+-		return rc;
++		return 0;
+ 	}
  
- 	/* set up model-specific ones */
--	if (xpad->xtype == XTYPE_XBOX360 || xpad->xtype == XTYPE_XBOX360W ||
--	    xpad->xtype == XTYPE_XBOXONE) {
-+	if (xpad->xtype == XTYPE_XBOX360 || xpad->xtype == XTYPE_XBOX360W) {
- 		for (i = 0; xpad360_btn[i] >= 0; i++)
- 			input_set_capability(input_dev, EV_KEY, xpad360_btn[i]);
-+	}  else if (xpad->xtype == XTYPE_XBOXONE) {
-+		for (i = 0; xpad_xboxone_btn[i] >= 0; i++)
-+			input_set_capability(input_dev, EV_KEY,
-+						xpad_xboxone_btn[i]);
- 	} else {
- 		for (i = 0; xpad_btn[i] >= 0; i++)
- 			input_set_capability(input_dev, EV_KEY, xpad_btn[i]);
+ 	si->si_ofs.btn_keys_size = 0;
+ 	kfree(si->btn);
+ 	si->btn = NULL;
+-	return rc;
++	return 0;
+ }
+ 
+ static int cyttsp4_si_get_op_data_ptrs(struct cyttsp4 *cd)
 -- 
-2.30.0.617.g56c4b15f3c-goog
+1.9.1
 
