@@ -2,108 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 692E7324D0E
-	for <lists+linux-input@lfdr.de>; Thu, 25 Feb 2021 10:41:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96C7E324F93
+	for <lists+linux-input@lfdr.de>; Thu, 25 Feb 2021 12:58:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232953AbhBYJkY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 25 Feb 2021 04:40:24 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51450 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234250AbhBYJiv (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 25 Feb 2021 04:38:51 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C513064EBA;
-        Thu, 25 Feb 2021 09:38:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614245890;
-        bh=5buN3EC107S76JKghAcicRI28n7jlFz14jT62JQaKPU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=euBaOkbadcvUXmfC2VxZUjDjRqbhLRRIGr9iOoFZJ2l82JgzRCpRJBInxlw/tWUJd
-         TTBSPZMLXSAccC+6x2QJmEhQNrCwFx+gvBeZBvNHgMUKRwP8OuPTGerA3pYT0LdxBA
-         kRJCHjgNqA9y/NKEsCAxUbkq86lQ8UJOEHQcS3yHCICalSLAGdqWxdNIzGR5Zrbcbj
-         C5Jf8/8x9yHMliTa7nd0gIsBtmcx8mfv144Vh+jOOjzsiz5MB8fwCJNqYctgvvQ6yj
-         q9/R5rlVpQ6OFSY6IyZY/z/okNFF8w8aKrdzmT49zjKr/AGYdHd6jn1E9Gyk2rJHNA
-         +NPUW4HmrHUrg==
-Date:   Thu, 25 Feb 2021 10:38:01 +0100
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Nikolai Kostrigin <nickel@basealt.ru>
-Cc:     linux-i2c@vger.kernel.org,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Colin Ian King <colin.king@canonical.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        id S229886AbhBYL6l (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 25 Feb 2021 06:58:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21233 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229561AbhBYL6k (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 25 Feb 2021 06:58:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1614254234;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=cyCLzSNxDNJLSDbo5sIZg2cP4ZMP0KNGABNn3qZjH94=;
+        b=Emf8LTonKQ+PPihQ2EM9sFcoqb/+pEaQCbNr/Y3gr90PJwg3pSDVXZY4c/A4m7H/HVI+wR
+        EsVC3kVTM9lhriIvfOVOSucwi5B28ybxJQ0TRKOgWWU3kySsguJXkqfD4BmLtWBdwPAa56
+        nSg7BmbrmLnUpu4eiQSX+WfKTb2isas=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-469-E_YnxZkTNG2foa_aMZHFFg-1; Thu, 25 Feb 2021 06:57:11 -0500
+X-MC-Unique: E_YnxZkTNG2foa_aMZHFFg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2FC6100CCC0;
+        Thu, 25 Feb 2021 11:57:10 +0000 (UTC)
+Received: from x1.localdomain (ovpn-112-2.ams2.redhat.com [10.36.112.2])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B24D85C224;
+        Thu, 25 Feb 2021 11:57:06 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        lkml <linux-kernel@vger.kernel.org>
-Subject: Re: Need some help on "Input: elantech - add LEN2146 to SMBus
- blacklist for ThinkPad L13 Gen2"
-Message-ID: <20210225093801.GA1008@ninjato>
-References: <0d1eaadd-5350-63a4-fe6d-f8f357c49504@basealt.ru>
- <CAO-hwJLmByHHULhJF60qOUAqprkqZpSvVh-GFXLZ_ndL0guvPQ@mail.gmail.com>
- <e1fd99ae-8e46-0b21-1011-db73cd75523b@basealt.ru>
+        Jiri Kosina <jikos@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org
+Subject: [RFC 0/1] Input: elants_i2c - Do not bind to i2c-hid compatible ACPI instantiated devices
+Date:   Thu, 25 Feb 2021 12:57:04 +0100
+Message-Id: <20210225115705.83031-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Dxnq1zWXvFF0Q93v"
-Content-Disposition: inline
-In-Reply-To: <e1fd99ae-8e46-0b21-1011-db73cd75523b@basealt.ru>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi All,
 
---Dxnq1zWXvFF0Q93v
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Here is a patch which should fix the touchscreen issues some people have
+been seeing on some recent Lenovo AMD CPU using models:
+https://bugzilla.kernel.org/show_bug.cgi?id=207759
 
-Hi,
+There are 2 reasons why this is a RFC:
 
-> I had a preliminary discussion with Benjamin Tissoires and according to
-> our agreement I repost it for wider audience.
-> Blacklisting the device was decided to be a bad idea.
-> But actually I managed to get touchpad totally operational via SMBus
-> using a following hack:
->=20
-> providing a parameter to i2c_i801 driver:
->=20
-> modprobe i2c_i801 disable_features=3D0x2 (i.e. disable the block buffer).
+1. It is compile-tested only ATM, I'm waiting for feedback from the
+reporters of the issue.
 
-So, from an I2C perspective, there are two things to mention here:
+2. The fix which I wrote is somewhat simple. It should work, but there
+might be older touchscreens which actually need to use the Elan specific
+protocol implemented by elants_i2c.ko; while the ACPI-fwnode describing
+the touchscreen falsely contains one of the i2c-hid ACPI compatiblity-id
+strings. This would of course be a bug in the ACPI tables, but I have
+seen this before.
 
-a) I am in the process of extending the I2C core to allow block
-transfers > 32 byte. This is a slow process, though, because we need to
-pay attention to not break userspace ABI. If this is done *and* the i801
-driver supports length > 32 bytes, too, then it would work natively. If
-the i801 can do this, this is a question for Jean Delvare.
+2. might lead to regressions (or it might be a non-issue) so I was hoping
+for some input on this from Benjamin as he originally wroter the elants_i2c
+code.
 
-b) I don't know Elantech HW but there are devices out there which allow
-configuration for the block size. Something like a bit specifying if
-block transfers > 32 are allowed. Or the SMBus version to support. Block
-transfers > 32 are SMBus 3.0+ only. If your HW does not have that,
-disabling SMBus is an option, too. Disabling it in the i801 driver is
-too much of a hammer, I'd say.
+Regards,
 
-Hope this helps! Happy hacking,
-
-   Wolfram
+Hans
 
 
---Dxnq1zWXvFF0Q93v
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+Hans de Goede (1):
+  Input: elants_i2c - Do not bind to i2c-hid compatible ACPI
+    instantiated devices
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmA3b/UACgkQFA3kzBSg
-KbZgIw/6Amdf7SNeFb/tzaL4tGkVQsJrbp9bEb04NSYN+KcVlsRlXGz4jV6Uup5s
-jyGQi3Nv64TdPTm0ASUnBEgvBsmniASxiCbLKpmTwpO6IfMp+U94SbeT0l2B5Ezu
-PFrxoRGyX1nnolfi1SL12SlyMJlxPjS2BXtE2ZOnoSGVi8UWTC9hvJ5lNVYIKTQ4
-EdBxhS78ptsrGxetlfao40+8pVFRWDSS7GtaXoNoUU5Ih71GVL4f5xWQYtKGWHJ4
-6TJjHQLHDhU1r978oqC36TTflQCnuwX1uShHqMIIz3cuqiQRbyHp9s8r1acGaKd0
-EtOVlLR0O3bgcdN/pFHzMxJKg6O+l4xQPdX6cD7KA6W8pNAtmRMXCSUvzZeVArO5
-dXL6j1uAtSPp55oc8zGjXtvnKDc1rvsNPtLOKlOK1JD6cMPwFZYfxpWVdjeiUpv5
-O9Kcf3ZW5w8CqSN5HDIU7rlJZUzYUNULGIvpNPMBp6CAcaQl7rray9QNqUM7iN4N
-oraCEkjtF/xa+65wGMpLSN1a03b7iGNTwVwxjNjPEXWT76ikjX6tZM4BXmRdMI/u
-FlpPTDWieZyEp+UEzm1a4HOxsnOQ2KpUW1YlEQk/FC3kRBBOn+DMaD21Mfz2uqCO
-m7oXTTNAI5w2AYfSvmLSqHrPV+ber09CV1T4i4wZUAqZuEU5X1o=
-=ZevR
------END PGP SIGNATURE-----
+ drivers/input/touchscreen/elants_i2c.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
---Dxnq1zWXvFF0Q93v--
+-- 
+2.30.1
+
