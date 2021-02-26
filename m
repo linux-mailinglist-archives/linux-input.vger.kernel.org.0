@@ -2,126 +2,112 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32FB73263CD
-	for <lists+linux-input@lfdr.de>; Fri, 26 Feb 2021 15:10:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AB7732658B
+	for <lists+linux-input@lfdr.de>; Fri, 26 Feb 2021 17:29:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230124AbhBZOJj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 26 Feb 2021 09:09:39 -0500
-Received: from mail.archlinux.org ([95.216.189.61]:47328 "EHLO
-        mail.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230297AbhBZOJP (ORCPT
+        id S229571AbhBZQ3K (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 26 Feb 2021 11:29:10 -0500
+Received: from netrider.rowland.org ([192.131.102.5]:44689 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S229727AbhBZQ3I (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 26 Feb 2021 09:09:15 -0500
-Received: from [10.161.159.55] (unknown [188.251.63.183])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: ffy00)
-        by mail.archlinux.org (Postfix) with ESMTPSA id 1C70E4261E3;
-        Fri, 26 Feb 2021 14:08:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
-        s=dkim-rsa; t=1614348491;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Mc1GZj3ZTdzoNAZUK5R2G3OyogtrhaRelHeC6qJIK3w=;
-        b=ssIVFEiX7v0pagy3KFNCr8CJX20yDgrQHk3UJc0cFgRCAczwbqCEVCwXWqhwOohQ/l6oZ8
-        cSL05g2MgdEngtbHZbw/ifp9PNStcui3XobEGQDhGBYICfo5oNaEU6rab0A9GnKXvlSUmB
-        ukRM2wFSakbVgzf/6gjcZVcr+URVE7k0ahtvZvtfT0irDFne9XFDZhsW+wCW6mZg2PUFZm
-        20jOrtobPwuIvcolporBSOEslQz7n50WvaibIdwvQSSNkomDSzP/f/JJgvUyolTATnXp4N
-        sigcdBsHy6T4oI6xOPfSXnhkT9rDvuFEOQHV8EFhdV7BlO8T9tfjyEvDpXHzTKf4lFnLng
-        ZDf7UX33PP6Pb7qgmw5eJwD+MAk5IvFCfvnsv+ZhHREkHXTO1mdV6CpX8a6eWIfDXNTM5C
-        3rUNkj8qi5fFVQ/1lu2+ooXSBV+yqosPo3qzqtX2dXw43xQJS6z6lCfVNKAPicgRMQWwS0
-        ZCm7vaZqarnVHZUgiJd790wbJhnQIwxot5JrSwRAKMSSzEf1loscq/jhS7+Lba3uNc/KHQ
-        NrLs/p+MSkfiSEaZ4zwRwVLR75IJ24cSLvCRW6/hlx84r6I0rQU8GibotiNx5UCn4hY7bJ
-        bI+byo+CDdhzbH6vFg9Uq759vQAEp71tqAh+mWcN48oB0alJTzh9k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
-        s=dkim-ed25519; t=1614348491;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Mc1GZj3ZTdzoNAZUK5R2G3OyogtrhaRelHeC6qJIK3w=;
-        b=mpNrJYgSQM44EDwIsrZPGHxjvlbVPlgrZWX9dXRRyn7opiVPN/xW6qjgJTNB3uG848yufl
-        hVjAI3nhQzXr3LCQ==
-Message-ID: <2cd72b01e143f8a6c07074bb6edf062ae2124b5b.camel@archlinux.org>
-Subject: Re: [PATCH 1/2] HID: logitech-dj: add support for the new
- lightspeed receiver iteration
-From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@archlinux.org>
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <nycvar.YFH.7.76.2102051614020.28696@cbobk.fhfr.pm>
-References: <20210123180334.3062995-1-lains@archlinux.org>
-         <nycvar.YFH.7.76.2102051614020.28696@cbobk.fhfr.pm>
-Organization: Archlinux
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-foESmcxkNMZuUk5FGgbJ"
-Date:   Fri, 26 Feb 2021 14:08:06 +0000
+        Fri, 26 Feb 2021 11:29:08 -0500
+Received: (qmail 1393709 invoked by uid 1000); 26 Feb 2021 11:28:21 -0500
+Date:   Fri, 26 Feb 2021 11:28:21 -0500
+From:   Alan Stern <stern@rowland.harvard.edu>
+To:     Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+Cc:     benjamin.tissoires@redhat.com, jikos@kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        syzbot+ab02336a647181a886a6@syzkaller.appspotmail.com
+Subject: Re: [PATCH] drivers/hid: fix for the big hid report length
+Message-ID: <20210226162821.GA1392547@rowland.harvard.edu>
+References: <20210225155914.GA1350993@rowland.harvard.edu>
+ <20210226081336.3475085-1-snovitoll@gmail.com>
 MIME-Version: 1.0
-User-Agent: Evolution 3.38.4 
-Authentication-Results: mail.archlinux.org;
-        auth=pass smtp.auth=ffy00 smtp.mailfrom=lains@archlinux.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210226081336.3475085-1-snovitoll@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Fri, Feb 26, 2021 at 02:13:36PM +0600, Sabyrzhan Tasbolatov wrote:
+> On Thu, 25 Feb 2021 10:59:14 -0500, Alan Stern wrote:
+> > Won't this cause silent errors?
+> 
+> Agree. But there are already such as cases like in:
+> 
+> // net/bluetooth/hidp/core.c
+> static void hidp_process_report(..)
+> {
+> 	..
+> 	if (len > HID_MAX_BUFFER_SIZE)
+> 		len = HID_MAX_BUFFER_SIZE;
+> 	..
+> 
+> // drivers/hid/hid-core.c
+> int hid_report_raw_event(..)
+> {
+> 	..
+> 	rsize = hid_compute_report_size(report);
+> 
+> 	if (report_enum->numbered && rsize >= HID_MAX_BUFFER_SIZE)
+> 		rsize = HID_MAX_BUFFER_SIZE - 1;
+> 	else if (rsize > HID_MAX_BUFFER_SIZE)
+> 		rsize = HID_MAX_BUFFER_SIZE;
+> 	..
+> 
+> // drivers/staging/greybus/hid.c
+> static int gb_hid_start(..)
+> {
+> 	..
+> 	if (bufsize > HID_MAX_BUFFER_SIZE)
+> 		bufsize = HID_MAX_BUFFER_SIZE;
+> 	..
+> 
+> > How about instead just rejecting any device which includes a report 
+> > whose length is too big (along with an line in the system log explaining 
+> > what's wrong)?
+> 
+> Not everywhere, but there are already such as logs when > HID_MAX_BUFFER_SIZE
+> 
+> // drivers/hid/hidraw.c
+> static ssize_t hidraw_send_report(..)
+> {
+> 	..
+> 	if (count > HID_MAX_BUFFER_SIZE) {
+> 		hid_warn(dev, "pid %d passed too large report\n",
+> 			 task_pid_nr(current));
+> 		ret = -EINVAL;
+> 		goto out;
+> 	}
+> 
+> 
+> I've just noticed that hid_compute_report_size() doing the same thing as
+> hid_report_len(). So I will replace it with latter one with length check.
+> 
+> So in [PATCH v2] I will do following:
+> 
+>  1. replace hid_compute_report_size() with hid_report_len()
+> 
+>  2. in hid_report_len() we can hid_warn() if length > HID_MAX_BUFFER_SIZE,
+> and return HID_MAX_BUFFER_SIZE. Or we can return 0 in hid_report_len() to let
+> functions like hid_hw_raw_request(), hid_hw_output_report() to validate
+> invalid report length and return -EINVAL. Though I'll need to add !length
+> missing checks in other places.
+> 
+> Please let me know what it's preferred way in 2nd step.
 
---=-foESmcxkNMZuUk5FGgbJ
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+It's been too long since I worked on this stuff; you should check with 
+the maintainers.
 
-On Fri, 2021-02-05 at 16:14 +0100, Jiri Kosina wrote:
-> On Sat, 23 Jan 2021, Filipe La=C3=ADns wrote:
->=20
-> > From: Filipe La=C3=ADns <lains@riseup.net>
-> >=20
-> > Tested with the G Pro X Superlight. libratbag sees the device, as
-> > expected, and input events are passing trough.
-> >=20
-> > https://github.com/libratbag/libratbag/pull/1122
-> >=20
-> > The receiver has a quirk where the moused interface doesn't have a
-> > report ID, I am not sure why, perhaps they forgot. All other interfaces
-> > have report IDs so I am left scratching my head.
-> > Since this driver doesn't have a quirk system, I simply implemented it
-> > as a different receiver type, which is true, it just wouldn't be the
-> > prefered approach :P
->=20
-> Benjamin, do you have any other idea how to accomplish this without this=
-=20
-> kind of spaghetti-style conditions?
-> If not, I am tempted to apply the patch as is.
->=20
-> Thanks,
->=20
+Another thing to consider: There probably are devices with multiple 
+reports, where one of the reports is too big but people only want to use 
+the other, smaller reports.  For situations like that, we don't want to 
+reject the entire device.
 
-Hi Benjamin, Jiri,
+I don't know if parsing a partiall part is a good thing to do.
 
-Could we get an update on this?
-
-Cheers,
-Filipe La=C3=ADns
-
---=-foESmcxkNMZuUk5FGgbJ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAmA5AMAACgkQ+JPGdIFq
-qV3BiQ/9E2O3R+V6lbZ5/2WrDhYct1yLpK1ckMRDTQEgZbjr+dVn/HTDK54lbuIn
-dGu6SxPeEa4DKCpUCVdPE7GnX1zPx13dvW/A7bsOBUdayy7fjo8/DGTWPGnBf0bV
-wvodb2BotSPu9hXVBLU5Ye9sYvzViMiVnbGXL92yGb918pgD0uq00sM7Go7LvRCA
-s8aUSS8sZla8d42GU7Sf2YTdbmNSgwHxnni0DxMCH3KFlHeeTLbGA17CpZyg/4iN
-rIGyVUzfApdl7USnsbXSgrAoiwdIqMbofxL5RW/pez5K5PeJabLgOa3r13QsCwHN
-blpmrAybEkYAfXbpI7/XMFIzNdvNXZmfvTJCLsyXvnFO4ImCzSFmmaImOhz+xtNZ
-RX3GN+ZT6ibI1eqwKB2J+H7tH6cNE+tKIZK6Iguc3SGLjkYibBZna3lU82rcWXRP
-F5uDruTnz2mbHlTj4UY5/XhZllPR9fk3HM0omsf88++NW1mbg5hRZsMP4/heobxE
-HIYSCZbjgq685ryjB8U6qPLHCWD38MaAnLOp6vuRU5WMMc7czQ+gsw4jamXWFDbz
-t+7cCOUEZWqAR2I3iPWTQIgR47s8TktmuXoGaCMt5iKThbgxcN+TdmaNgJ1kAFFP
-iNBW1BSuQmB06FH4SCiU60zup6a5yeIlQaHRmP7s8Z9vkYNKevs=
-=lKBP
------END PGP SIGNATURE-----
-
---=-foESmcxkNMZuUk5FGgbJ--
-
+Alan Stern
