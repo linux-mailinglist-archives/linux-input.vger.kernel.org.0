@@ -2,130 +2,126 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 90017325F57
-	for <lists+linux-input@lfdr.de>; Fri, 26 Feb 2021 09:43:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 32FB73263CD
+	for <lists+linux-input@lfdr.de>; Fri, 26 Feb 2021 15:10:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229449AbhBZIn1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 26 Feb 2021 03:43:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33664 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230107AbhBZInT (ORCPT
+        id S230124AbhBZOJj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 26 Feb 2021 09:09:39 -0500
+Received: from mail.archlinux.org ([95.216.189.61]:47328 "EHLO
+        mail.archlinux.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230297AbhBZOJP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 26 Feb 2021 03:43:19 -0500
-Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73ECDC061574;
-        Fri, 26 Feb 2021 00:42:39 -0800 (PST)
-Received: by mail-lj1-x22b.google.com with SMTP id a17so9724670ljq.2;
-        Fri, 26 Feb 2021 00:42:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=S793k6H/hAoKut98VLLNPVGW+xzCsgbTJeqIulBxCBw=;
-        b=h64S2zuIRShIjBfvFzDjoP6//eyY5VC6QbDGkArM0HMd6e4MmeZFplJrSqwvJlNWXU
-         RpW0UumJqRJFE9d5zSgYXZGfMXbOIEagfowr9VMZ2zm2jkGNiB4+37OdYmcm3vDWF56w
-         d30jPCUoqNExnK03TaUtur8nGH9evze4uVGY/OtXuOts6PKaAHXOvlEh9/+20aBoNC0o
-         0ANZhjAmaUz5L5XjCl84v9o2OvVMRa1BTiOOtmWMr03Y/Rl6yO+QTDoWmJd4lgCeUdIt
-         dtgFuwgMoNMUmSL8jpfHGAxFn8HCknmEB1o5gP9MDLOD9YcHjD0cMQiqK5CSNZDjYDeR
-         b4fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=S793k6H/hAoKut98VLLNPVGW+xzCsgbTJeqIulBxCBw=;
-        b=HdGLzgGaJev/FxC6QNiAiRp9efrBhBU2O28HPxGl/1yx6cPenBaE8fbyu6tot2UrAT
-         dTt8TxI19WMVoKZp0NAYTrJfylgUcxxhPmHTXOpTTWYgqoeRqwTi18DUMqcP7L7Y9ELr
-         2diC+YrpzQU9HpQq1JcquiyMi8Oz36+1y1+qZaWoBnY3oHZ3sTdGnPxHpRbPoB1DuMFp
-         ZsdmC/sefmlsAnv8TbXxTEJfDQCZ9r97zQBG2Hpb/vFMeIJhbcjiXpn15rWbRvL2rS/6
-         YDCYzC1YSwwbAIQYjT+5vsLN/hsD6sexnJsOlH8Ih2wKbJGCfO6X5EMlYnvNI3HblB+V
-         okaA==
-X-Gm-Message-State: AOAM531T5YQeniAwelkWv5Sp/iUdj8xya5Z83ZsPTmVNsxMmuE6p2Uos
-        RxHLX7JDFl+npx5HfyieU7c=
-X-Google-Smtp-Source: ABdhPJyUy8uHsfuWICzA7wts9QSpVKpBFPWOl9A2pMGEOc3u63vmbe0M9XKkNd3Tsmi7TpQOvzttCQ==
-X-Received: by 2002:a05:651c:1183:: with SMTP id w3mr1059612ljo.131.1614328958012;
-        Fri, 26 Feb 2021 00:42:38 -0800 (PST)
-Received: from localhost.localdomain ([146.158.65.224])
-        by smtp.googlemail.com with ESMTPSA id 12sm1312245ljc.106.2021.02.26.00.42.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Feb 2021 00:42:37 -0800 (PST)
-From:   Sabyrzhan Tasbolatov <snovitoll@gmail.com>
-To:     snovitoll@gmail.com
-Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, rydberg@bitmath.org,
-        syzbot+0122fa359a69694395d5@syzkaller.appspotmail.com
-Subject: Re: [PATCH] drivers/mt: restrict num_slots in input_mt_init_slots()
-Date:   Fri, 26 Feb 2021 14:42:34 +0600
-Message-Id: <20210226084234.3477119-1-snovitoll@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210202120807.1394788-1-snovitoll@gmail.com>
-References: <20210202120807.1394788-1-snovitoll@gmail.com>
+        Fri, 26 Feb 2021 09:09:15 -0500
+Received: from [10.161.159.55] (unknown [188.251.63.183])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: ffy00)
+        by mail.archlinux.org (Postfix) with ESMTPSA id 1C70E4261E3;
+        Fri, 26 Feb 2021 14:08:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
+        s=dkim-rsa; t=1614348491;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Mc1GZj3ZTdzoNAZUK5R2G3OyogtrhaRelHeC6qJIK3w=;
+        b=ssIVFEiX7v0pagy3KFNCr8CJX20yDgrQHk3UJc0cFgRCAczwbqCEVCwXWqhwOohQ/l6oZ8
+        cSL05g2MgdEngtbHZbw/ifp9PNStcui3XobEGQDhGBYICfo5oNaEU6rab0A9GnKXvlSUmB
+        ukRM2wFSakbVgzf/6gjcZVcr+URVE7k0ahtvZvtfT0irDFne9XFDZhsW+wCW6mZg2PUFZm
+        20jOrtobPwuIvcolporBSOEslQz7n50WvaibIdwvQSSNkomDSzP/f/JJgvUyolTATnXp4N
+        sigcdBsHy6T4oI6xOPfSXnhkT9rDvuFEOQHV8EFhdV7BlO8T9tfjyEvDpXHzTKf4lFnLng
+        ZDf7UX33PP6Pb7qgmw5eJwD+MAk5IvFCfvnsv+ZhHREkHXTO1mdV6CpX8a6eWIfDXNTM5C
+        3rUNkj8qi5fFVQ/1lu2+ooXSBV+yqosPo3qzqtX2dXw43xQJS6z6lCfVNKAPicgRMQWwS0
+        ZCm7vaZqarnVHZUgiJd790wbJhnQIwxot5JrSwRAKMSSzEf1loscq/jhS7+Lba3uNc/KHQ
+        NrLs/p+MSkfiSEaZ4zwRwVLR75IJ24cSLvCRW6/hlx84r6I0rQU8GibotiNx5UCn4hY7bJ
+        bI+byo+CDdhzbH6vFg9Uq759vQAEp71tqAh+mWcN48oB0alJTzh9k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
+        s=dkim-ed25519; t=1614348491;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Mc1GZj3ZTdzoNAZUK5R2G3OyogtrhaRelHeC6qJIK3w=;
+        b=mpNrJYgSQM44EDwIsrZPGHxjvlbVPlgrZWX9dXRRyn7opiVPN/xW6qjgJTNB3uG848yufl
+        hVjAI3nhQzXr3LCQ==
+Message-ID: <2cd72b01e143f8a6c07074bb6edf062ae2124b5b.camel@archlinux.org>
+Subject: Re: [PATCH 1/2] HID: logitech-dj: add support for the new
+ lightspeed receiver iteration
+From:   Filipe =?ISO-8859-1?Q?La=EDns?= <lains@archlinux.org>
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <nycvar.YFH.7.76.2102051614020.28696@cbobk.fhfr.pm>
+References: <20210123180334.3062995-1-lains@archlinux.org>
+         <nycvar.YFH.7.76.2102051614020.28696@cbobk.fhfr.pm>
+Organization: Archlinux
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-foESmcxkNMZuUk5FGgbJ"
+Date:   Fri, 26 Feb 2021 14:08:06 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Evolution 3.38.4 
+Authentication-Results: mail.archlinux.org;
+        auth=pass smtp.auth=ffy00 smtp.mailfrom=lains@archlinux.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue,  2 Feb 2021 18:08:07 +0600, Sabyrzhan Tasbolatov wrote:
-> syzbot found WARNING in input_mt_init_slots [1] when
-> struct_size(mt, slots, num_slots)=0x40006 where num_slots=0x10001,
-> which exceeds KMALLOC_MAX_SIZE (0x40000) and causes
-> order >= MAX_ORDER condition.
-> 
-> [1]
-> Call Trace:
->  alloc_pages_current+0x18c/0x2a0 mm/mempolicy.c:2267
->  alloc_pages include/linux/gfp.h:547 [inline]
->  kmalloc_order+0x2e/0xb0 mm/slab_common.c:837
->  kmalloc_order_trace+0x14/0x120 mm/slab_common.c:853
->  kmalloc include/linux/slab.h:557 [inline]
->  kzalloc include/linux/slab.h:682 [inline]
->  input_mt_init_slots drivers/input/input-mt.c:49 [inline]
-> 
-> Reported-by: syzbot+0122fa359a69694395d5@syzkaller.appspotmail.com
-> Signed-off-by: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
-> ---
->  drivers/input/input-mt.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/input-mt.c b/drivers/input/input-mt.c
-> index 44fe6f2f063c..e542f45a45ab 100644
-> --- a/drivers/input/input-mt.c
-> +++ b/drivers/input/input-mt.c
-> @@ -40,13 +40,18 @@ int input_mt_init_slots(struct input_dev *dev, unsigned int num_slots,
->  {
->  	struct input_mt *mt = dev->mt;
->  	int i;
-> +	size_t mt_size = 0;
->  
->  	if (!num_slots)
->  		return 0;
->  	if (mt)
->  		return mt->num_slots != num_slots ? -EINVAL : 0;
->  
-> -	mt = kzalloc(struct_size(mt, slots, num_slots), GFP_KERNEL);
-> +	mt_size = struct_size(mt, slots, num_slots);
-> +	if (mt_size > KMALLOC_MAX_SIZE)
-> +		return -ENOMEM;
-> +
-> +	mt = kzalloc(mt_size, GFP_KERNEL);
->  	if (!mt)
->  		goto err_mem;
->  
-> -- 
 
-Following-up. I've also just found out that in this function, there is another
-allocation with num_slots length:
+--=-foESmcxkNMZuUk5FGgbJ
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-int input_mt_init_slots(..)
-{
-	..
-	if (flags & INPUT_MT_TRACK) {
-		unsigned int n2 = num_slots * num_slots;
-		mt->red = kcalloc(n2, sizeof(*mt->red), GFP_KERNEL);
-	..
+On Fri, 2021-02-05 at 16:14 +0100, Jiri Kosina wrote:
+> On Sat, 23 Jan 2021, Filipe La=C3=ADns wrote:
+>=20
+> > From: Filipe La=C3=ADns <lains@riseup.net>
+> >=20
+> > Tested with the G Pro X Superlight. libratbag sees the device, as
+> > expected, and input events are passing trough.
+> >=20
+> > https://github.com/libratbag/libratbag/pull/1122
+> >=20
+> > The receiver has a quirk where the moused interface doesn't have a
+> > report ID, I am not sure why, perhaps they forgot. All other interfaces
+> > have report IDs so I am left scratching my head.
+> > Since this driver doesn't have a quirk system, I simply implemented it
+> > as a different receiver type, which is true, it just wouldn't be the
+> > prefered approach :P
+>=20
+> Benjamin, do you have any other idea how to accomplish this without this=
+=20
+> kind of spaghetti-style conditions?
+> If not, I am tempted to apply the patch as is.
+>=20
+> Thanks,
+>=20
 
-I've checked HID vendors' xrefs for input_mt_init_slots(), most of them
-pass >= 5 value to num_slots parameter. So either we should choose some
-optimal limit of num_slots or just restrict it with big KMALLOC_MAX_SIZE.
+Hi Benjamin, Jiri,
 
-Comments?
+Could we get an update on this?
+
+Cheers,
+Filipe La=C3=ADns
+
+--=-foESmcxkNMZuUk5FGgbJ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEE0jW0leqs33gyftiw+JPGdIFqqV0FAmA5AMAACgkQ+JPGdIFq
+qV3BiQ/9E2O3R+V6lbZ5/2WrDhYct1yLpK1ckMRDTQEgZbjr+dVn/HTDK54lbuIn
+dGu6SxPeEa4DKCpUCVdPE7GnX1zPx13dvW/A7bsOBUdayy7fjo8/DGTWPGnBf0bV
+wvodb2BotSPu9hXVBLU5Ye9sYvzViMiVnbGXL92yGb918pgD0uq00sM7Go7LvRCA
+s8aUSS8sZla8d42GU7Sf2YTdbmNSgwHxnni0DxMCH3KFlHeeTLbGA17CpZyg/4iN
+rIGyVUzfApdl7USnsbXSgrAoiwdIqMbofxL5RW/pez5K5PeJabLgOa3r13QsCwHN
+blpmrAybEkYAfXbpI7/XMFIzNdvNXZmfvTJCLsyXvnFO4ImCzSFmmaImOhz+xtNZ
+RX3GN+ZT6ibI1eqwKB2J+H7tH6cNE+tKIZK6Iguc3SGLjkYibBZna3lU82rcWXRP
+F5uDruTnz2mbHlTj4UY5/XhZllPR9fk3HM0omsf88++NW1mbg5hRZsMP4/heobxE
+HIYSCZbjgq685ryjB8U6qPLHCWD38MaAnLOp6vuRU5WMMc7czQ+gsw4jamXWFDbz
+t+7cCOUEZWqAR2I3iPWTQIgR47s8TktmuXoGaCMt5iKThbgxcN+TdmaNgJ1kAFFP
+iNBW1BSuQmB06FH4SCiU60zup6a5yeIlQaHRmP7s8Z9vkYNKevs=
+=lKBP
+-----END PGP SIGNATURE-----
+
+--=-foESmcxkNMZuUk5FGgbJ--
+
