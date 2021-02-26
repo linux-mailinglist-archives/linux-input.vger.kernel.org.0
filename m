@@ -2,74 +2,156 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA239325BC9
-	for <lists+linux-input@lfdr.de>; Fri, 26 Feb 2021 03:58:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E23E325E70
+	for <lists+linux-input@lfdr.de>; Fri, 26 Feb 2021 08:50:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229598AbhBZC6d (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 25 Feb 2021 21:58:33 -0500
-Received: from m12-14.163.com ([220.181.12.14]:34853 "EHLO m12-14.163.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229566AbhBZC6c (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 25 Feb 2021 21:58:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=UMYcB
-        nHHvwt1Ha69WtrsgPCO3uvo8qpZsUihGSnvsRc=; b=FX6vpckGLYAIfwDr/EX6w
-        o1ej4AJ9bOqNfXlLz6O8HQjtS/Xm9zsfnk0aig8LWA/jojAuttzlA7THG3KJe6y1
-        q7XeEoPy4wL64H4A2ug5MVjPxPkQJZT70cH+RQP3xGcm/A2LrVm0MzyLlDjQhs6K
-        MnII3tq2g8N0MeVFzrV/VE=
-Received: from COOL-20201222LC.ccdomain.com (unknown [218.94.48.178])
-        by smtp10 (Coremail) with SMTP id DsCowAAX_SmoXzhgOYlgmg--.13443S2;
-        Fri, 26 Feb 2021 10:40:41 +0800 (CST)
-From:   dingsenjie@163.com
-To:     dmitry.torokhov@gmail.com, mcoquelin.stm32@gmail.com,
-        alexandre.torgue@st.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dingsenjie <dingsenjie@yulong.com>
-Subject: [PATCH] input: touchscreen: fix reference leak in stmfts_input_open
-Date:   Fri, 26 Feb 2021 10:39:46 +0800
-Message-Id: <20210226023946.5168-1-dingsenjie@163.com>
-X-Mailer: git-send-email 2.21.0.windows.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: DsCowAAX_SmoXzhgOYlgmg--.13443S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrKw4xGr1kXry7tF13ZrW5KFg_yoWfZFc_W3
-        9Y93Z7Cr1jk3yqkwnrJwnxZryvvFW8Z3yxuwnYyrW3Cw1YvrWDA39xW397ArWUWr4UZryD
-        AFZ2gF92yw1xGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU8KZX5UUUUU==
-X-Originating-IP: [218.94.48.178]
-X-CM-SenderInfo: 5glqw25hqmxvi6rwjhhfrp/1tbiZQ5EyF8ZM5FgVgABs0
+        id S230022AbhBZHsi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 26 Feb 2021 02:48:38 -0500
+Received: from emcscan.emc.com.tw ([192.72.220.5]:30486 "EHLO
+        emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229482AbhBZHsi (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 26 Feb 2021 02:48:38 -0500
+X-Greylist: delayed 708 seconds by postgrey-1.27 at vger.kernel.org; Fri, 26 Feb 2021 02:48:37 EST
+X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
+   d="scan'208";a="39567952"
+Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
+  by emcscan.emc.com.tw with ESMTP; 26 Feb 2021 15:35:42 +0800
+Received: from 192.168.10.23
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(2833:0:AUTH_RELAY)
+        (envelope-from <jingle.wu@emc.com.tw>); Fri, 26 Feb 2021 15:35:39 +0800 (CST)
+Received: from 49.216.207.71
+        by webmail.emc.com.tw with Mail2000 ESMTPA Server V7.00(2477:1:AUTH_LOGIN)
+        (envelope-from <jingle.wu@emc.com.tw>); Fri, 26 Feb 2021 15:35:39 +0800 (CST)
+From:   "jingle.wu" <jingle.wu@emc.com.tw>
+To:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        dmitry.torokhov@gmail.com
+Cc:     phoenix@emc.com.tw, dave.wang@emc.com.tw, josh.chen@emc.com.tw,
+        "jingle.wu" <jingle.wu@emc.com.tw>
+Subject: [PATCH] Input: elan_i2c - Reduce the resume time for new devices
+Date:   Fri, 26 Feb 2021 15:35:37 +0800
+Message-Id: <20210226073537.4926-1-jingle.wu@emc.com.tw>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: dingsenjie <dingsenjie@yulong.com>
+Remove elan_initilize() function at resume state,
+for Voxel, Delbin, Magple, Bobba and new devices.
 
-pm_runtime_get_sync will increment pm usage counter even it
-failed. Forgetting to pm_runtime_put_noidle will result in
-reference leak in cedrus_start_streaming.
-
-Signed-off-by: dingsenjie <dingsenjie@yulong.com>
+Signed-off-by: Jingle Wu <jingle.wu@emc.com.tw>
 ---
- drivers/input/touchscreen/stmfts.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/input/mouse/elan_i2c.h      |  5 +++
+ drivers/input/mouse/elan_i2c_core.c | 57 +++++++++++++++++++++++++++--
+ 2 files changed, 58 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/input/touchscreen/stmfts.c b/drivers/input/touchscreen/stmfts.c
-index 9a64e1d..b91a59b 100644
---- a/drivers/input/touchscreen/stmfts.c
-+++ b/drivers/input/touchscreen/stmfts.c
-@@ -338,8 +338,10 @@ static int stmfts_input_open(struct input_dev *dev)
- 	int err;
+diff --git a/drivers/input/mouse/elan_i2c.h b/drivers/input/mouse/elan_i2c.h
+index d5f9cd76eefb..16b795524179 100644
+--- a/drivers/input/mouse/elan_i2c.h
++++ b/drivers/input/mouse/elan_i2c.h
+@@ -45,6 +45,11 @@
+ #define ETP_FW_PAGE_SIZE_512	512
+ #define ETP_FW_SIGNATURE_SIZE	6
  
- 	err = pm_runtime_get_sync(&sdata->client->dev);
--	if (err < 0)
-+	if (err < 0) {
-+		pm_runtime_put_noidle(&sdata->client->dev);
- 		return err;
-+	}
++#define ETP_PRODUCT_ID_DELBIN	0x00C2
++#define ETP_PRODUCT_ID_VOXEL	0x00BF
++#define ETP_PRODUCT_ID_MAGPIE   0x0120
++#define ETP_PRODUCT_ID_BOBBA    0x0121
++
+ struct i2c_client;
+ struct completion;
  
- 	err = i2c_smbus_write_byte(sdata->client, STMFTS_MS_MT_SENSE_ON);
- 	if (err)
+diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
+index 0f46e2f6c9e8..e75bbaeaf068 100644
+--- a/drivers/input/mouse/elan_i2c_core.c
++++ b/drivers/input/mouse/elan_i2c_core.c
+@@ -55,6 +55,9 @@
+ #define ETP_MK_DATA_OFFSET	33	/* For high precision reports */
+ #define ETP_MAX_REPORT_LEN	39
+ 
++/* quirks to control the device */
++#define ETP_QUIRK_SET_QUICK_WAKEUP_DEV	BIT(0)
++
+ /* The main device structure */
+ struct elan_tp_data {
+ 	struct i2c_client	*client;
+@@ -99,8 +102,50 @@ struct elan_tp_data {
+ 	bool			baseline_ready;
+ 	u8			clickpad;
+ 	bool			middle_button;
++
++	unsigned long		quirks;		/* Various quirks */
++};
++
++
++static const struct elan_i2c_quirks {
++	__u16 ic_type;
++	__u16 product_id;
++	__u32 quirks;
++} elan_i2c_quirks[] = {
++	{ 0x0D, ETP_PRODUCT_ID_DELBIN,
++		ETP_QUIRK_SET_QUICK_WAKEUP_DEV },
++	{ 0x10, ETP_PRODUCT_ID_VOXEL,
++		ETP_QUIRK_SET_QUICK_WAKEUP_DEV },
++	{ 0x14, ETP_PRODUCT_ID_MAGPIE,
++		ETP_QUIRK_SET_QUICK_WAKEUP_DEV },
++	{ 0x14, ETP_PRODUCT_ID_BOBBA,
++		ETP_QUIRK_SET_QUICK_WAKEUP_DEV },
++	{ 0, 0 }
+ };
+ 
++/*
++ * elan_i2c_lookup_quirk: return any quirks associated with a elan i2c device
++ * @ic_type: the 16-bit ic type
++ * @product_id: the 16-bit product ID
++ *
++ * Returns: a u32 quirks value.
++ */
++static u32 elan_i2c_lookup_quirk(const u16 ic_type, const u16 product_id)
++{
++	u32 quirks = 0;
++	int n;
++
++	for (n = 0; elan_i2c_quirks[n].ic_type; n++)
++		if (elan_i2c_quirks[n].ic_type == ic_type &&
++		    (elan_i2c_quirks[n].product_id == product_id))
++			quirks = elan_i2c_quirks[n].quirks;
++
++	if ((ic_type >= 0x0D) && (product_id >= 0x123))
++		quirks |= ETP_QUIRK_SET_QUICK_WAKEUP_DEV;
++
++	return quirks;
++}
++
+ static int elan_get_fwinfo(u16 ic_type, u8 iap_version, u16 *validpage_count,
+ 			   u32 *signature_address, u16 *page_size)
+ {
+@@ -273,10 +318,12 @@ static int __elan_initialize(struct elan_tp_data *data)
+ 	bool woken_up = false;
+ 	int error;
+ 
+-	error = data->ops->initialize(client);
+-	if (error) {
+-		dev_err(&client->dev, "device initialize failed: %d\n", error);
+-		return error;
++	if (!(data->quirks & ETP_QUIRK_SET_QUICK_WAKEUP_DEV)) {
++		error = data->ops->initialize(client);
++		if (error) {
++			dev_err(&client->dev, "device initialize failed: %d\n", error);
++			return error;
++		}
+ 	}
+ 
+ 	error = elan_query_product(data);
+@@ -366,6 +413,8 @@ static int elan_query_device_info(struct elan_tp_data *data)
+ 	if (error)
+ 		return error;
+ 
++	data->quirks = elan_i2c_lookup_quirk(data->ic_type, data->product_id);
++
+ 	error = elan_get_fwinfo(data->ic_type, data->iap_version,
+ 				&data->fw_validpage_count,
+ 				&data->fw_signature_address,
 -- 
-1.9.1
-
+2.17.1
 
