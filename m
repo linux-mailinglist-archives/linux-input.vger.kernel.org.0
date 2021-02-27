@@ -2,74 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D06E326779
-	for <lists+linux-input@lfdr.de>; Fri, 26 Feb 2021 20:36:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 513D8326F49
+	for <lists+linux-input@lfdr.de>; Sat, 27 Feb 2021 23:36:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229752AbhBZTge (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 26 Feb 2021 14:36:34 -0500
-Received: from mga04.intel.com ([192.55.52.120]:5179 "EHLO mga04.intel.com"
+        id S230179AbhB0WfD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 27 Feb 2021 17:35:03 -0500
+Received: from mail.jvpinto.com ([65.49.11.60]:42077 "EHLO mail.JVPinto.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229751AbhBZTgd (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 26 Feb 2021 14:36:33 -0500
-IronPort-SDR: 452iDf6s4syYs+u6WA+XI8VLJPzP9SV9NsJngC8WW+5XS4ZTqhsC2/aT3urlzsa2UYmrcefywr
- B9hAAHiuBOgA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9907"; a="183519109"
-X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; 
-   d="scan'208";a="183519109"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2021 11:34:48 -0800
-IronPort-SDR: p8A4BkKzUvM5PSJDwOEEtLry4Ks1U7UPpe1GyuwVDVDRFQl+xuSLrEd9wPqzOV7hqeH097O0hY
- OrwGwGYfwJcQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; 
-   d="scan'208";a="443191951"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga001.jf.intel.com with ESMTP; 26 Feb 2021 11:34:46 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 8E3305D6; Fri, 26 Feb 2021 21:32:28 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH v2 4/4] HID: i2c-hid: acpi: Drop redundant ACPI_PTR()
-Date:   Fri, 26 Feb 2021 21:32:25 +0200
-Message-Id: <20210226193225.47129-4-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210226193225.47129-1-andriy.shevchenko@linux.intel.com>
-References: <20210226193225.47129-1-andriy.shevchenko@linux.intel.com>
+        id S230001AbhB0We7 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 27 Feb 2021 17:34:59 -0500
+Received: from RW-EXC1.JVPinto.com (2002:ac20:10d::ac20:10d) by
+ RW-EXC1.JVPinto.com (2002:ac20:10d::ac20:10d) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Sat, 27 Feb 2021 14:33:46 -0800
+Received: from User (52.231.198.195) by RW-EXC1.JVPinto.com (172.32.1.13) with
+ Microsoft SMTP Server id 15.0.1497.2 via Frontend Transport; Sat, 27 Feb 2021
+ 14:33:32 -0800
+Reply-To: <ms.reem@yandex.com>
+From:   "Ms. Reem" <johnpinto@jvpinto.com>
+Subject: Hello okay
+Date:   Sat, 27 Feb 2021 22:33:46 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-ID: <837a988e66554c5d95b18ae85648d3d7@RW-EXC1.JVPinto.com>
+To:     Undisclosed recipients:;
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The driver depends on ACPI, ACPI_PTR() resolution is always the same.
-Otherwise a compiler may produce a warning.
+Hello,
 
-That said, the rule of thumb either ugly ifdeffery with ACPI_PTR or
-none should be used in a driver.
+My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
+and Petroleum" also "Minister of State for International Cooperation"
+in UAE. I write to you on behalf of my other "three (3) colleagues"
+who has approved me to solicit for your "partnership in claiming of
+{us$47=Million}" from a Financial Home in Cambodia on their behalf and
+for our "Mutual Benefits".
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
-v2: no changes
- drivers/hid/i2c-hid/i2c-hid-acpi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
+deal with Cambodian/Vietnam Government within 2013/2014, however, we
+don't want our government to know about the fund. If this proposal
+interests you, let me know, by sending me an email and I will send to
+you detailed information on how this business would be successfully
+transacted. Be informed that nobody knows about the secret of this
+fund except us, and we know how to carry out the entire transaction.
+So I am compelled to ask, that you will stand on our behalf and
+receive this fund into any account that is solely controlled by you.
 
-diff --git a/drivers/hid/i2c-hid/i2c-hid-acpi.c b/drivers/hid/i2c-hid/i2c-hid-acpi.c
-index a4810f199d59..a6f0257a26de 100644
---- a/drivers/hid/i2c-hid/i2c-hid-acpi.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-acpi.c
-@@ -126,7 +126,7 @@ static struct i2c_driver i2c_hid_acpi_driver = {
- 		.name	= "i2c_hid_acpi",
- 		.pm	= &i2c_hid_core_pm,
- 		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
--		.acpi_match_table = ACPI_PTR(i2c_hid_acpi_match),
-+		.acpi_match_table = i2c_hid_acpi_match,
- 	},
- 
- 	.probe_new	= i2c_hid_acpi_probe,
--- 
-2.30.0
+We will compensate you with 15% of the total amount involved as
+gratification for being our partner in this transaction. Reply to:
+ms.reem@yandex.com
 
+Regards,
+Ms. Reem.
