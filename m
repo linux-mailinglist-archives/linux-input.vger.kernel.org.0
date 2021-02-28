@@ -2,60 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 513D8326F49
-	for <lists+linux-input@lfdr.de>; Sat, 27 Feb 2021 23:36:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 041CB326FE6
+	for <lists+linux-input@lfdr.de>; Sun, 28 Feb 2021 02:27:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230179AbhB0WfD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 27 Feb 2021 17:35:03 -0500
-Received: from mail.jvpinto.com ([65.49.11.60]:42077 "EHLO mail.JVPinto.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230001AbhB0We7 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 27 Feb 2021 17:34:59 -0500
-Received: from RW-EXC1.JVPinto.com (2002:ac20:10d::ac20:10d) by
- RW-EXC1.JVPinto.com (2002:ac20:10d::ac20:10d) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Sat, 27 Feb 2021 14:33:46 -0800
-Received: from User (52.231.198.195) by RW-EXC1.JVPinto.com (172.32.1.13) with
- Microsoft SMTP Server id 15.0.1497.2 via Frontend Transport; Sat, 27 Feb 2021
- 14:33:32 -0800
-Reply-To: <ms.reem@yandex.com>
-From:   "Ms. Reem" <johnpinto@jvpinto.com>
-Subject: Hello okay
-Date:   Sat, 27 Feb 2021 22:33:46 +0000
+        id S230075AbhB1B1f (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 27 Feb 2021 20:27:35 -0500
+Received: from chill.innovation.ch ([216.218.245.220]:46722 "EHLO
+        chill.innovation.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229640AbhB1B1e (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sat, 27 Feb 2021 20:27:34 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by chill.innovation.ch (Postfix) with ESMTP id 4C8C96401B7;
+        Sat, 27 Feb 2021 17:26:54 -0800 (PST)
+X-Virus-Scanned: amavisd-new at innovation.ch
+Authentication-Results: chill.innovation.ch (amavisd-new);
+        dkim=pass (2048-bit key) header.d=innovation.ch
+Received: from chill.innovation.ch ([127.0.0.1])
+        by localhost (chill.innovation.ch [127.0.0.1]) (amavisd-new, port 10024)
+        with LMTP id rLSOAzMsa0yN; Sat, 27 Feb 2021 17:26:52 -0800 (PST)
+From:   =?UTF-8?q?Ronald=20Tschal=C3=A4r?= <ronald@innovation.ch>
+DKIM-Filter: OpenDKIM Filter v2.10.3 chill.innovation.ch 321036400FF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=innovation.ch;
+        s=default; t=1614475612;
+        bh=zURqOMgAiNjXHsgivuo5XODqpjhx+g4GziSUr/52jKo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=UHaWyzg5zKoyLRKkv+G1Zy/uCIRYwfZYbZpH26dss4kkjvbZ0FIrBS6/5BjkNy4Mq
+         SmkP6jPpT4rz3ER9qig3Vho4klXkUr0ul6guFgt6ieALQzaGQWZFNS7IKGlokLPWMX
+         qTDpF3NQv7VnBmlv7j+mj6qgGzKYQnpQWlqinoaoBbTLSqeQk2rrYPb/d3mnDpIAjd
+         KGnT+pj38vNccwivY6e4nmA6KQbmyigKbGPaffNQaEkak88FIxq2lYxRaVgVkxCS88
+         4YV/0pii2uMmqwNhYbgYzCqw6AZ3FQH/ZI9RaJutKX2u2pDL5evDZE62DdNa6osbH4
+         gB6habLfQ2U1Q==
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-iio@vger.kernel.org
+Subject: [PATCH 0/5] Touch Bar and ALS support for MacBook Pro's
+Date:   Sat, 27 Feb 2021 17:26:38 -0800
+Message-Id: <20210228012643.69944-1-ronald@innovation.ch>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-ID: <837a988e66554c5d95b18ae85648d3d7@RW-EXC1.JVPinto.com>
-To:     Undisclosed recipients:;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello,
+This patch set provides Touch Bar and ALS support on MacBook Pro's
+13,*, 14,*, and 15,*.
 
-My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
-and Petroleum" also "Minister of State for International Cooperation"
-in UAE. I write to you on behalf of my other "three (3) colleagues"
-who has approved me to solicit for your "partnership in claiming of
-{us$47=Million}" from a Financial Home in Cambodia on their behalf and
-for our "Mutual Benefits".
+Some time a go an earlier version of these were posted to the list;
+all code comments from there have been incorporated. In addition the
+approach has been cleaned up, especially given that we now know how
+the 15,* models are implemented, so that the ibridge driver is only
+needed for the pre-15,* models and the ALS and Touch Bar drivers work
+unchanged for all models.
 
-The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
-deal with Cambodian/Vietnam Government within 2013/2014, however, we
-don't want our government to know about the fund. If this proposal
-interests you, let me know, by sending me an email and I will send to
-you detailed information on how this business would be successfully
-transacted. Be informed that nobody knows about the secret of this
-fund except us, and we know how to carry out the entire transaction.
-So I am compelled to ask, that you will stand on our behalf and
-receive this fund into any account that is solely controlled by you.
+Ronald Tschalär (5):
+  HID: Recognize sensors with application collections too.
+  iio: hid-sensor-als: Support change sensitivity in illuminance too.
+  HID: core: Export some report item parsing functions.
+  HID: apple-ibridge: Add Apple iBridge HID driver for T1 chip.
+  HID: apple-touchbar - Add driver for the Touch Bar on MacBook Pro's.
 
-We will compensate you with 15% of the total amount involved as
-gratification for being our partner in this transaction. Reply to:
-ms.reem@yandex.com
+ drivers/hid/Kconfig                |   26 +
+ drivers/hid/Makefile               |    2 +
+ drivers/hid/apple-ibridge.c        |  682 +++++++++++++
+ drivers/hid/apple-ibridge.h        |   15 +
+ drivers/hid/apple-touchbar.c       | 1523 ++++++++++++++++++++++++++++
+ drivers/hid/hid-core.c             |   57 +-
+ drivers/hid/hid-ids.h              |    1 +
+ drivers/hid/hid-quirks.c           |    3 +
+ drivers/hid/hid-sensor-hub.c       |    6 +-
+ drivers/iio/light/hid-sensor-als.c |    8 +
+ include/linux/hid.h                |    4 +
+ 11 files changed, 2302 insertions(+), 25 deletions(-)
+ create mode 100644 drivers/hid/apple-ibridge.c
+ create mode 100644 drivers/hid/apple-ibridge.h
+ create mode 100644 drivers/hid/apple-touchbar.c
 
-Regards,
-Ms. Reem.
+-- 
+2.26.2
+
