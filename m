@@ -2,140 +2,128 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01A3C3272AE
-	for <lists+linux-input@lfdr.de>; Sun, 28 Feb 2021 16:04:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CBC12327573
+	for <lists+linux-input@lfdr.de>; Mon,  1 Mar 2021 01:05:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230298AbhB1PEc convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Sun, 28 Feb 2021 10:04:32 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2613 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229715AbhB1PEc (ORCPT
+        id S231486AbhCAAFM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 28 Feb 2021 19:05:12 -0500
+Received: from ec2-44-228-98-151.us-west-2.compute.amazonaws.com ([44.228.98.151]:54128
+        "EHLO chill.innovation.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231321AbhCAAFL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 28 Feb 2021 10:04:32 -0500
-Received: from fraeml741-chm.china.huawei.com (unknown [172.18.147.206])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DpRN35tl8z67qtQ;
-        Sun, 28 Feb 2021 22:58:11 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml741-chm.china.huawei.com (10.206.15.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Sun, 28 Feb 2021 16:03:47 +0100
-Received: from localhost (10.47.88.221) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Sun, 28 Feb
- 2021 15:03:47 +0000
-Date:   Sun, 28 Feb 2021 15:02:39 +0000
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Ronald =?ISO-8859-1?Q?Tschal=E4r?= <ronald@innovation.ch>
-CC:     Jiri Kosina <jikos@kernel.org>,
+        Sun, 28 Feb 2021 19:05:11 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by chill.innovation.ch (Postfix) with ESMTP id EBF7B1B5ACE;
+        Mon,  1 Mar 2021 00:04:30 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at innovation.ch
+Received: from chill.innovation.ch ([127.0.0.1])
+        by localhost (chill.innovation.ch [127.0.0.1]) (amavisd-new, port 10024)
+        with LMTP id 0jlRjtn27m3V; Mon,  1 Mar 2021 00:04:30 +0000 (UTC)
+Date:   Mon, 1 Mar 2021 00:04:30 +0000
+DKIM-Filter: OpenDKIM Filter v2.11.0 chill.innovation.ch 78F081B6455
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=innovation.ch;
+        s=default; t=1614557070;
+        bh=mbPn0neLZcgRJejMJaMjct0DkzF3tnCRvFCGemkflVg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WVhY98tLOyzCz4G0i3Co0sjUrs1QLKzRChFXwi9co8ncAXusTmGS5xLttk78YAQFu
+         6jLSG3c9sYC5CgICV4ixEQ14/xnUOgHeT8MDDKNaaRsXnR4vpdTkSTnJH2CtF7gNNR
+         2G1BQM55j02tCgATdepgTYAoosJYfsxoi0Ft26BTvwKtQDKtepIvuhs4h8Yzb6qbyE
+         P2BnivEJv+wJr8BOa5mtFVgRlOLwSnL/OsAFLNH5fbmOuy/a9tAz7v+yd4hDrl76+N
+         P4+sWPiDRPiaEgZEOLlW6RVbQO9YLhYZfLvUPAGL/xkstRfHJujMcAxaQmkxEFMxVY
+         bKP+T1WAtC/Rw==
+From:   "Life is hard, and then you die" <ronald@innovation.ch>
+To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Jonathan Cameron <jic23@kernel.org>,
         Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        "Lars-Peter Clausen" <lars@metafoo.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
         Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-iio@vger.kernel.org>
-Subject: Re: [PATCH 4/5] HID: apple-ibridge: Add Apple iBridge HID driver
- for T1 chip.
-Message-ID: <20210228150239.00007d34@Huawei.com>
-In-Reply-To: <20210228012643.69944-5-ronald@innovation.ch>
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-iio@vger.kernel.org
+Subject: Re: [PATCH 4/5] HID: apple-ibridge: Add Apple iBridge HID driver for
+ T1 chip.
+Message-ID: <20210301000430.GA754582@innovation.ch>
 References: <20210228012643.69944-1-ronald@innovation.ch>
-        <20210228012643.69944-5-ronald@innovation.ch>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+ <20210228012643.69944-5-ronald@innovation.ch>
+ <20210228150239.00007d34@Huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 8BIT
-X-Originating-IP: [10.47.88.221]
-X-ClientProxiedBy: lhreml718-chm.china.huawei.com (10.201.108.69) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20210228150239.00007d34@Huawei.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 27 Feb 2021 17:26:42 -0800
-Ronald Tschalär <ronald@innovation.ch> wrote:
 
-> The iBridge device provides access to several devices, including:
-> - the Touch Bar
-> - the iSight webcam
-> - the light sensor
-> - the fingerprint sensor
+  Hi Jonathan,
+
+On Sun, Feb 28, 2021 at 03:02:39PM +0000, Jonathan Cameron wrote:
+> On Sat, 27 Feb 2021 17:26:42 -0800
+> Ronald Tschal?r <ronald@innovation.ch> wrote:
+[snip]
+> > +#ifdef CONFIG_PM
+> > +/**
+> > + * appleib_forward_int_op() - Forward a hid-driver callback to all drivers on
+> > + * all virtual HID devices attached to the given real HID device.
+> > + * @hdev the real hid-device
+> > + * @forward a function that calls the callback on the given driver
+> > + * @args arguments for the forward function
+> > + *
+> > + * This is for callbacks that return a status as an int.
+> > + *
+> > + * Returns: 0 on success, or the first error returned by the @forward function.
+> > + */
+> > +static int appleib_forward_int_op(struct hid_device *hdev,
+> > +				  int (*forward)(struct hid_driver *,
+> > +						 struct hid_device *, void *),
+> > +				  void *args)
+> > +{
+> > +	struct appleib_hid_dev_info *hdev_info = hid_get_drvdata(hdev);
+> > +	struct hid_device *sub_hdev;
+> > +	int rc = 0;
+> > +	int i;
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(hdev_info->sub_hdevs); i++) {
+> > +		sub_hdev = hdev_info->sub_hdevs[i];
+> > +		if (sub_hdev->driver) {
+> > +			rc = forward(sub_hdev->driver, sub_hdev, args);
+> > +			if (rc)
+> > +				break;
 > 
-> This driver provides the core support for managing the iBridge device
-> and the access to the underlying devices. In particular, the
-> functionality for the touch bar and light sensor is exposed via USB HID
-> interfaces, and on devices with the T1 chip one of the HID devices is
-> used for both functions. So this driver creates virtual HID devices, one
-> per top-level report collection on each HID device (for a total of 3
-> virtual HID devices). The sub-drivers then bind to these virtual HID
-> devices.
+> return rc; here would be cleaner.
 > 
-> This way the Touch Bar and ALS drivers can be kept in their own modules,
-> while at the same time making them look very much like as if they were
-> connected to the real HID devices. And those drivers then work (mostly)
-> without further changes on MacBooks with the T2 chip that don't need
-> this driver.
+> > +		}
+> > +
+> > +		break;
 > 
-> Signed-off-by: Ronald Tschalär <ronald@innovation.ch>
-Hi Ronald.
+> This is unusual.  It's a for loop but as far as I can see only first iteration
+> can ever run as we exit the loop at this break if we haven't done so earlier.
+> What is the intent here?
+> 
+> > +	}
+> > +
+> > +	return rc;
+> > +}
 
-This is far from my specialty but mostly looks sensible to me.
+Ho boy, good catch! This is simply a mistake. As you say, it should
+(and does now) read:
 
-Just one thing stood out that I couldn't understand. See below.
+	for (i = 0; i < ARRAY_SIZE(hdev_info->sub_hdevs); i++) {
+		sub_hdev = hdev_info->sub_hdevs[i];
+		if (sub_hdev->driver) {
+			rc = forward(sub_hdev->driver, sub_hdev, args);
+			if (rc)
+				return rc;
+		}
+	}
 
-Jonathan
+	return rc;
 
-> new file mode 100644
-> index 0000000000000..5f2b71c199746
-> --- /dev/null
-> +++ b/drivers/hid/apple-ibridge.c
-> @@ -0,0 +1,682 @@
+Thanks.
 
-...
 
-> +
-> +#ifdef CONFIG_PM
-> +/**
-> + * appleib_forward_int_op() - Forward a hid-driver callback to all drivers on
-> + * all virtual HID devices attached to the given real HID device.
-> + * @hdev the real hid-device
-> + * @forward a function that calls the callback on the given driver
-> + * @args arguments for the forward function
-> + *
-> + * This is for callbacks that return a status as an int.
-> + *
-> + * Returns: 0 on success, or the first error returned by the @forward function.
-> + */
-> +static int appleib_forward_int_op(struct hid_device *hdev,
-> +				  int (*forward)(struct hid_driver *,
-> +						 struct hid_device *, void *),
-> +				  void *args)
-> +{
-> +	struct appleib_hid_dev_info *hdev_info = hid_get_drvdata(hdev);
-> +	struct hid_device *sub_hdev;
-> +	int rc = 0;
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(hdev_info->sub_hdevs); i++) {
-> +		sub_hdev = hdev_info->sub_hdevs[i];
-> +		if (sub_hdev->driver) {
-> +			rc = forward(sub_hdev->driver, sub_hdev, args);
-> +			if (rc)
-> +				break;
+  Cheers,
 
-return rc; here would be cleaner.
-
-> +		}
-> +
-> +		break;
-
-This is unusual.  It's a for loop but as far as I can see only first iteration
-can ever run as we exit the loop at this break if we haven't done so earlier.
-What is the intent here?
-
-> +	}
-> +
-> +	return rc;
-> +}
+  Ronald
 
