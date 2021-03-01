@@ -2,24 +2,24 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEF5A328660
-	for <lists+linux-input@lfdr.de>; Mon,  1 Mar 2021 18:10:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6412B32887B
+	for <lists+linux-input@lfdr.de>; Mon,  1 Mar 2021 18:45:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234870AbhCARJF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 Mar 2021 12:09:05 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36106 "EHLO mail.kernel.org"
+        id S234343AbhCARkt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 Mar 2021 12:40:49 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56554 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236783AbhCARHG (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 1 Mar 2021 12:07:06 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0010564F79;
-        Mon,  1 Mar 2021 16:40:36 +0000 (UTC)
+        id S237157AbhCARhy (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 1 Mar 2021 12:37:54 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 76AE1650B5;
+        Mon,  1 Mar 2021 16:55:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1614616837;
-        bh=s//kz97nON8nvzw4MNeeNZmq/9waPmgrwHCSQPCHk1w=;
+        s=korg; t=1614617703;
+        bh=XF4lalpHJM62Tz3EDNDQZYBVgVUMa/la/4422/LhUC4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=q3O0JBEpC3k/J+eyXLidP87PC+6x9vJaUsMB8ywTC/Z13+SnuCnTsPwFdTiQcUisg
-         9Du1hNI4yhrXRta4JeWTQHQ832KiBsDjlRl0Ztv69GkL/pcVZey6e5nRKnOit9bgQv
-         eKGEoUkE63wBlEMEr1EMcULs/3G3A1Ifh/1Q2QWk=
+        b=evMyDDQJw9p04r20xE/OTNwEYEOIELaCHlwBahDy6cULskzcEyH2LxfgWIVgFoqNU
+         t0tJs/obz8ET9Esllg04nY5OaqUXv3bV/U01ntSgL5xhvDUIogN2QCvo+fSsCHH9uu
+         mXFMb7gWUyACRnr0WIoRrnDFtMRS5gUszrLxRIDw=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -29,12 +29,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org, Jiri Kosina <jkosina@suse.cz>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.19 112/247] HID: core: detect and skip invalid inputs to snto32()
-Date:   Mon,  1 Mar 2021 17:12:12 +0100
-Message-Id: <20210301161037.154110947@linuxfoundation.org>
+Subject: [PATCH 5.4 137/340] HID: core: detect and skip invalid inputs to snto32()
+Date:   Mon,  1 Mar 2021 17:11:21 +0100
+Message-Id: <20210301161055.058755105@linuxfoundation.org>
 X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210301161031.684018251@linuxfoundation.org>
-References: <20210301161031.684018251@linuxfoundation.org>
+In-Reply-To: <20210301161048.294656001@linuxfoundation.org>
+References: <20210301161048.294656001@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -73,10 +73,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+)
 
 diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index bde5cef3290f5..9b66eb1d42c2d 100644
+index 263eca119ff0f..8d202011b2db5 100644
 --- a/drivers/hid/hid-core.c
 +++ b/drivers/hid/hid-core.c
-@@ -1128,6 +1128,9 @@ EXPORT_SYMBOL_GPL(hid_open_report);
+@@ -1300,6 +1300,9 @@ EXPORT_SYMBOL_GPL(hid_open_report);
  
  static s32 snto32(__u32 value, unsigned n)
  {
