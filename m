@@ -2,56 +2,129 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C01683278E8
-	for <lists+linux-input@lfdr.de>; Mon,  1 Mar 2021 09:09:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BC3E328071
+	for <lists+linux-input@lfdr.de>; Mon,  1 Mar 2021 15:15:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232742AbhCAIIy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 Mar 2021 03:08:54 -0500
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:42581 "EHLO
-        out30-131.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232707AbhCAIIx (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 1 Mar 2021 03:08:53 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R681e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01424;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=6;SR=0;TI=SMTPD_---0UPvxMk1_1614586089;
-Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0UPvxMk1_1614586089)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Mon, 01 Mar 2021 16:08:10 +0800
-From:   Yang Li <yang.lee@linux.alibaba.com>
-To:     bleung@chromium.org
-Cc:     dmitry.torokhov@gmail.com, groeck@chromium.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Yang Li <yang.lee@linux.alibaba.com>
-Subject: [PATCH] Input: cros_ec_keyb: Switch to using the new API kobj_to_dev()
-Date:   Mon,  1 Mar 2021 16:08:08 +0800
-Message-Id: <1614586088-115182-1-git-send-email-yang.lee@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+        id S236116AbhCAOOO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 Mar 2021 09:14:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35854 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236101AbhCAON1 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 1 Mar 2021 09:13:27 -0500
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F383EC061756;
+        Mon,  1 Mar 2021 06:12:46 -0800 (PST)
+Received: by mail-pl1-x630.google.com with SMTP id d11so9970036plo.8;
+        Mon, 01 Mar 2021 06:12:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Rvtbe24/4pCbrSbJGa1S0S5IZkxAu81Cy/hj2/HLLCg=;
+        b=n+w0klHtPenxZA/Kz2OD2SFcBvuJj6780NswXPNENrWEz+6TPgTlnbLIOPp5LwyKHk
+         jvY0z4L+pZxaP1U4HrHglO94EQ6Z47F+937fYA8sZfu/V8nIabKWTniZbW58LM03lyAZ
+         EDDN1cH3IKrHd+w6n+igj3wyx/154ROXgESSjvpkBpaEBGfDdelCDRnopeMjMALUEsZF
+         NQYD+HORTQgxdh3CXlvJTpZP0h5gdRi4tgsWkL63LuVCTa2fdXRvR5QrUHsMpOsPvdG8
+         i2/k/Svn3FqlVw8udkVHBUbKg/bwP6CvxT0MgVgIHL8AYH8ldtVkR6ZRkvkqxJbk3feT
+         eGNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Rvtbe24/4pCbrSbJGa1S0S5IZkxAu81Cy/hj2/HLLCg=;
+        b=Txs/ttpU1wx12WWqzuMr8we7PEe5OtIho8gdXQRTmSrbUAGsyIf2aF3xl0s/CwV9wd
+         7nOT6XSJWXVlp2F8GUFXUrZfuER66mBoMoKFO2ahDyhxgk7VOPduWOi/WEogw5ciLhcP
+         G+MIDTtzhz4w89iGVIz4Kr1grUAU8pNutkPb02oeAcwnGLJxnpE8Mzv1+ss5WweN1b6H
+         q3IaHaMl/ricCR7POHrOKaExhlDfMeJUxyM7PHJq4UWr/TfRoHZDXkJDkFjptrrvnX1c
+         2e0IqdnfW8T0Z+sVac/lHW8JpDpKsx9KtVOma0+ZZMR8vAdSgHXsmXJi7wYaKOAuVWlH
+         FbDg==
+X-Gm-Message-State: AOAM533scRQNd4g9/4KLfEr2SIiYJ6WSNWk528hngh8HN7DOhhYQvdZt
+        HJG5Ojm12WB77pzwcjM/L9sc6Knhj1rKDKOls5U0GEdsEe9o6g==
+X-Google-Smtp-Source: ABdhPJxPnN7RkZpSE77Lsn1szHfpSaago2tCmsH7CaVM4PsXwMcCrSprAs76tT/RWTPRvWjOVD2u3O7xhn63pg2cSpU=
+X-Received: by 2002:a17:90a:db49:: with SMTP id u9mr18401612pjx.181.1614607966461;
+ Mon, 01 Mar 2021 06:12:46 -0800 (PST)
+MIME-Version: 1.0
+References: <20210228012643.69944-1-ronald@innovation.ch> <20210228012643.69944-5-ronald@innovation.ch>
+In-Reply-To: <20210228012643.69944-5-ronald@innovation.ch>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 1 Mar 2021 16:12:30 +0200
+Message-ID: <CAHp75Vd13nobdyiUbYoTbeoqG4rGP-Vfswcuuy3oYjXgTXzNSw@mail.gmail.com>
+Subject: Re: [PATCH 4/5] HID: apple-ibridge: Add Apple iBridge HID driver for
+ T1 chip.
+To:     =?UTF-8?Q?Ronald_Tschal=C3=A4r?= <ronald@innovation.ch>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        linux-iio <linux-iio@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-fixed the following coccicheck:
-./drivers/input/keyboard/cros_ec_keyb.c:647:60-61: WARNING opportunity
-for kobj_to_dev()
+On Sun, Feb 28, 2021 at 3:30 AM Ronald Tschal=C3=A4r <ronald@innovation.ch>=
+ wrote:
+>
+> The iBridge device provides access to several devices, including:
+> - the Touch Bar
+> - the iSight webcam
+> - the light sensor
+> - the fingerprint sensor
+>
+> This driver provides the core support for managing the iBridge device
+> and the access to the underlying devices. In particular, the
+> functionality for the touch bar and light sensor is exposed via USB HID
+> interfaces, and on devices with the T1 chip one of the HID devices is
+> used for both functions. So this driver creates virtual HID devices, one
+> per top-level report collection on each HID device (for a total of 3
+> virtual HID devices). The sub-drivers then bind to these virtual HID
+> devices.
+>
+> This way the Touch Bar and ALS drivers can be kept in their own modules,
+> while at the same time making them look very much like as if they were
+> connected to the real HID devices. And those drivers then work (mostly)
+> without further changes on MacBooks with the T2 chip that don't need
+> this driver.
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
----
- drivers/input/keyboard/cros_ec_keyb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for the contribution.
+Before I'll do a full review, two concerns:
+ - don't do ACPI drivers, please, in the new code. Use platform driver
+infrastructure for that
+ - dependencies (see below)
 
-diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
-index 38457d9..fc02c54 100644
---- a/drivers/input/keyboard/cros_ec_keyb.c
-+++ b/drivers/input/keyboard/cros_ec_keyb.c
-@@ -644,7 +644,7 @@ static umode_t cros_ec_keyb_attr_is_visible(struct kobject *kobj,
- 					    struct attribute *attr,
- 					    int n)
- {
--	struct device *dev = container_of(kobj, struct device, kobj);
-+	struct device *dev = kobj_to_dev(kobj);
- 	struct cros_ec_keyb *ckdev = dev_get_drvdata(dev);
- 
- 	if (attr == &dev_attr_function_row_physmap.attr &&
--- 
-1.8.3.1
+...
 
+> +config HID_APPLE_IBRIDGE
+> +       tristate "Apple iBridge"
+
+> +       depends on ACPI
+> +       depends on USB_HID
+
+> +       depends on X86 || COMPILE_TEST
+
+I haven't found anything ACPI specific there, so this should be rather
+
+depends on (X86 && ACPI) || COMPILE_TEST
+
+> +       imply HID_SENSOR_HUB
+> +       imply HID_SENSOR_ALS
+> +       help
+> +         This module provides the core support for the Apple T1 chip fou=
+nd
+> +         on 2016 and 2017 MacBookPro's, also known as the iBridge. The d=
+rivers
+> +         for the Touch Bar (apple-touchbar) and light sensor (hid-sensor=
+-hub
+> +         and hid-sensor-als) need to be enabled separately.
+> +
+> +         To compile this driver as a module, choose M here: the
+> +         module will be called apple-ibridge.
+
+--=20
+With Best Regards,
+Andy Shevchenko
