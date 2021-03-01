@@ -2,93 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CD6232828F
-	for <lists+linux-input@lfdr.de>; Mon,  1 Mar 2021 16:33:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31A5A32829C
+	for <lists+linux-input@lfdr.de>; Mon,  1 Mar 2021 16:36:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237021AbhCAPdp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 Mar 2021 10:33:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53130 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237297AbhCAPdn (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 1 Mar 2021 10:33:43 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F72AC061756
-        for <linux-input@vger.kernel.org>; Mon,  1 Mar 2021 07:32:59 -0800 (PST)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1lGkXX-0006po-0c; Mon, 01 Mar 2021 16:32:55 +0100
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1lGkXW-0003az-CQ; Mon, 01 Mar 2021 16:32:54 +0100
-Date:   Mon, 1 Mar 2021 16:32:54 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel@pengutronix.de
-Subject: semaphore driver_input_lock and device removal
-Message-ID: <20210301153254.jygfskaqyc7cvwss@pengutronix.de>
+        id S237284AbhCAPfi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 Mar 2021 10:35:38 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45360 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237298AbhCAPf1 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 1 Mar 2021 10:35:27 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B8393600CF;
+        Mon,  1 Mar 2021 15:34:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614612886;
+        bh=Psb19aCJa1XXoKCEirAWxvB6lyGvYkploMB0td3VfyM=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=K1WusRT4Ojy3cEw3dnO53h++h9o5qbISLepa1U4YYuYgB8SOs/aB1ClDpWUp4rF5W
+         Dg9G6WBdrCvLhWEPZwWXriUPv7Ypc4db0i95YOA1h3nJAyM3uJ5jGyQz3iUPC3iB27
+         M0fOtIqdgPuoCpZVAVZzWT3W+YL7tzEnhDHi+R9y7eh8bbob37AjTS22K8gRCO4cm2
+         CokzZfyu7QcCMln2BScoJrCsoxzIuG9gUzzmx3PLYn/OSONRLVoLjx4ThVjNnIkyvw
+         QroLMMC4cYOdRuU5EH9n5JDdWq73xwkSS2kuNde7eXQv6vNNnUzpH2Al81XyjuRNPy
+         pjK4EKPkmtVWQ==
+Date:   Mon, 1 Mar 2021 16:34:41 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 4/4] HID: i2c-hid: acpi: Drop redundant ACPI_PTR()
+In-Reply-To: <CAO-hwJLWbsj4kDkn3TKdEW0mDv6XdafQEaheCCC0Nyq3=YaOYQ@mail.gmail.com>
+Message-ID: <nycvar.YFH.7.76.2103011633490.12405@cbobk.fhfr.pm>
+References: <20210226193225.47129-1-andriy.shevchenko@linux.intel.com> <20210226193225.47129-4-andriy.shevchenko@linux.intel.com> <CAO-hwJLWbsj4kDkn3TKdEW0mDv6XdafQEaheCCC0Nyq3=YaOYQ@mail.gmail.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="3yy4ftg2iy5cgwvx"
-Content-Disposition: inline
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Mon, 1 Mar 2021, Benjamin Tissoires wrote:
 
---3yy4ftg2iy5cgwvx
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Hi,
+> 
+> On Fri, Feb 26, 2021 at 8:34 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> >
+> > The driver depends on ACPI, ACPI_PTR() resolution is always the same.
+> > Otherwise a compiler may produce a warning.
+> >
+> > That said, the rule of thumb either ugly ifdeffery with ACPI_PTR or
+> > none should be used in a driver.
+> >
+> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> 
+> Thanks a lot for the series. This indeed cleans things up.
 
-Hello Jiri, hello Benjamin,
+Indeed, thanks.
 
-I'm working on making struct bus_type::remove return void (instead of
-int), see for example commit 0d519e0d52ee7c532d4018b90cd0b042d374c06d
-for the idea and motivation.
+> For the series:
+> Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> 
+> Jiri, I wonder where we want to land this one. This is not strictly
+> bug fixes, but we could definitively sneak this one in 5.12-rc1.
+> Well, I should probably run the series on an acpi laptop here before
+> merging, but I'd like to know if delaying to 5.13 is OK or if we need
+> this in 5.12.
 
-Looking at the function hid_device_remove() there is an error path that
-makes the function return -EINTR if taking the semaphore
-&hdev->driver_input_lock is interrupted.
+I'd like to do it the standard way and have it bake in for-next to see if 
+it really doesn't break anything, so unless there are convicing arguments 
+for 5.12-rcX, I'd rathre queue this for 5.13.
 
-If this exit path is taken the hid remove callback isn't called but the
-driver core considers the device unbound and frees resources which might
-then run into problems because the driver might continue to use these
-resources.
+Thanks,
 
-I tried to understand how this semaphore is to be used, but I'm unsure
-if if missed something. Can this semaphore just be converted to a mutex?
-Or is using down() here instead the right thing to do even though down()
-is deprecated according to the comment before its implementation?
+-- 
+Jiri Kosina
+SUSE Labs
 
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---3yy4ftg2iy5cgwvx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmA9CSMACgkQwfwUeK3K
-7AkTswf+NJ+fj5cry8TivXfuFVI651I9+K6ZkPWLMRdmhWvfRsdjk7nipwrQ0vyn
-UjzHZwFXngii956CkyCG7W1gtQoXNu7mCsAN08OIiZFg3Jgz2wNRLkp3g0UWxg+m
-PPfnFkY9hnLwY4ibmAyzUp/8sWnKOZNgLn9b2HyeMhMkJZ1+wHOZ1OtEXz88fh6M
-0ExS0cDbdS/mI06KoEQQmRNexocGbHHWQj4fnx7MMvqIx4ID6r4FVAqf8cZwecY6
-dAmq6avHFmiuFzbtwgeIUwF03BwOc/9QpxsIN8Os9/PccdNDLa+m1J9feDYaoPJz
-kBU2H1zajdTEtB/QuKxeaZ8czGburA==
-=zFOG
------END PGP SIGNATURE-----
-
---3yy4ftg2iy5cgwvx--
