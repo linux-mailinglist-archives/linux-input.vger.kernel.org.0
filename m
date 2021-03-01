@@ -2,128 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBC12327573
-	for <lists+linux-input@lfdr.de>; Mon,  1 Mar 2021 01:05:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42BBC3276FB
+	for <lists+linux-input@lfdr.de>; Mon,  1 Mar 2021 06:26:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231486AbhCAAFM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 28 Feb 2021 19:05:12 -0500
-Received: from ec2-44-228-98-151.us-west-2.compute.amazonaws.com ([44.228.98.151]:54128
-        "EHLO chill.innovation.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231321AbhCAAFL (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sun, 28 Feb 2021 19:05:11 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by chill.innovation.ch (Postfix) with ESMTP id EBF7B1B5ACE;
-        Mon,  1 Mar 2021 00:04:30 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at innovation.ch
-Received: from chill.innovation.ch ([127.0.0.1])
-        by localhost (chill.innovation.ch [127.0.0.1]) (amavisd-new, port 10024)
-        with LMTP id 0jlRjtn27m3V; Mon,  1 Mar 2021 00:04:30 +0000 (UTC)
-Date:   Mon, 1 Mar 2021 00:04:30 +0000
-DKIM-Filter: OpenDKIM Filter v2.11.0 chill.innovation.ch 78F081B6455
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=innovation.ch;
-        s=default; t=1614557070;
-        bh=mbPn0neLZcgRJejMJaMjct0DkzF3tnCRvFCGemkflVg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WVhY98tLOyzCz4G0i3Co0sjUrs1QLKzRChFXwi9co8ncAXusTmGS5xLttk78YAQFu
-         6jLSG3c9sYC5CgICV4ixEQ14/xnUOgHeT8MDDKNaaRsXnR4vpdTkSTnJH2CtF7gNNR
-         2G1BQM55j02tCgATdepgTYAoosJYfsxoi0Ft26BTvwKtQDKtepIvuhs4h8Yzb6qbyE
-         P2BnivEJv+wJr8BOa5mtFVgRlOLwSnL/OsAFLNH5fbmOuy/a9tAz7v+yd4hDrl76+N
-         P4+sWPiDRPiaEgZEOLlW6RVbQO9YLhYZfLvUPAGL/xkstRfHJujMcAxaQmkxEFMxVY
-         bKP+T1WAtC/Rw==
-From:   "Life is hard, and then you die" <ronald@innovation.ch>
-To:     Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-iio@vger.kernel.org
-Subject: Re: [PATCH 4/5] HID: apple-ibridge: Add Apple iBridge HID driver for
- T1 chip.
-Message-ID: <20210301000430.GA754582@innovation.ch>
-References: <20210228012643.69944-1-ronald@innovation.ch>
- <20210228012643.69944-5-ronald@innovation.ch>
- <20210228150239.00007d34@Huawei.com>
+        id S233466AbhCAF0B (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 Mar 2021 00:26:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35498 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231329AbhCAF0A (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 1 Mar 2021 00:26:00 -0500
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E426C06174A;
+        Sun, 28 Feb 2021 21:25:19 -0800 (PST)
+Received: by mail-pg1-x52a.google.com with SMTP id e6so10763208pgk.5;
+        Sun, 28 Feb 2021 21:25:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=rfrjhWTiKdZwm1SmPC3mAg3sEQUbY4V7eBsT+TSRXqw=;
+        b=vgkE0PuMfE8yEXxONSMKhpFoahERgruB2gY5VdxDp/KgIIR+3zrDkfrkLkcKTQ6Xz+
+         KK0G84EuSCIK1Pl0FVjuMoG8CxSwh4H1fJjPpIeBOaa+tOBRgGNobcXNXwtLx56+5niF
+         LgzB7jKeq3QoRH9wEf5Pjl7fDUJ9dVDkmHyxyeJZJP/H3BjTbNbQG92QG888toI9arzg
+         SW4GfH45vDnVk9SMpxB1mq6/EQFww2+ZAVWzvGQbZAEKZDFD4EzooYHhfcfVRiX8cSd8
+         d+Fx2j0UlcsXuNZAyP903BTvrNxa0Eqv1Zi8OdpPwKxMcB0D/ya9ZHEyrhbAYNC9aIRw
+         rKKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=rfrjhWTiKdZwm1SmPC3mAg3sEQUbY4V7eBsT+TSRXqw=;
+        b=jnFDYw0F/0gy4bAVLNYTO9olZbpq05mZA04A7mN2DcrqRTucYZ/1jxJrNdMLkGSi6R
+         Ssv7e+fA2SwEPzQa8SVxnKwB3Z77uc1ZLb4hZCYmMMYFtztwXT9GqQrQaxr0+3uknHEw
+         CIvDZaElV63QOZ2ruxFRAvnB91dQPWmY9o71mMO3ci7PAZf8+s8UCxun4zNSl/M4sfBR
+         gdUApn6tIf74ZfU1ciNCGQjLB5UddRGBbrQyS+XjwnZ/R3p3gTF81l7VD9wIqHQDde+e
+         77tayLCFgKXnqq7Vc4zUfeHSp+WYCyeJ49KONNd0DMjrOKNCeDon0lPS5vK8x43BulMr
+         Tw1g==
+X-Gm-Message-State: AOAM532lRmBH1kRj2tLMl3XcpaFFdIbJ8+FaLhr/c8B2xs7DbcKCUV5k
+        BQJ4AVrSQJfFox+IEXP5WRE=
+X-Google-Smtp-Source: ABdhPJzYV9b1Ay3uuQZIUCtsJVbvX1gxje81GHvBjfiv9/E16fMchHSbaSb0tcwKVD9NK1PMbkZCMg==
+X-Received: by 2002:a63:fd0a:: with SMTP id d10mr12263965pgh.345.1614576318646;
+        Sun, 28 Feb 2021 21:25:18 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:bc4a:36c8:19a:eb9e])
+        by smtp.gmail.com with ESMTPSA id h75sm16627072pfe.162.2021.02.28.21.25.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Feb 2021 21:25:17 -0800 (PST)
+Date:   Sun, 28 Feb 2021 21:25:13 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Joe Hung =?utf-8?B?KOa0qumKmOmZvSk=?= <joe_hung@ilitek.com>
+Cc:     "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Luca Hsu =?utf-8?B?KOW+kOWYiemNiik=?= <luca_hsu@ilitek.com>
+Subject: Re: [PATCH v3 2/2] input: touchscreen: Add support for ILITEK Lego
+ Series
+Message-ID: <YDx6udLZf6thd4KQ@google.com>
+References: <20210218064435.1360483-1-joe_hung@ilitek.com>
+ <20210218064435.1360483-2-joe_hung@ilitek.com>
+ <YDH0/tSytUagrzKP@google.com>
+ <3d8c4d2e56fd40cc859b393c292432ac@ilitek.com>
+ <YDdCZdRJAqBvVZFZ@google.com>
+ <4c0d711cd2f046938dbd34a1bf0d9661@ilitek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210228150239.00007d34@Huawei.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4c0d711cd2f046938dbd34a1bf0d9661@ilitek.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi Joe,
 
-  Hi Jonathan,
-
-On Sun, Feb 28, 2021 at 03:02:39PM +0000, Jonathan Cameron wrote:
-> On Sat, 27 Feb 2021 17:26:42 -0800
-> Ronald Tschal?r <ronald@innovation.ch> wrote:
-[snip]
-> > +#ifdef CONFIG_PM
-> > +/**
-> > + * appleib_forward_int_op() - Forward a hid-driver callback to all drivers on
-> > + * all virtual HID devices attached to the given real HID device.
-> > + * @hdev the real hid-device
-> > + * @forward a function that calls the callback on the given driver
-> > + * @args arguments for the forward function
-> > + *
-> > + * This is for callbacks that return a status as an int.
-> > + *
-> > + * Returns: 0 on success, or the first error returned by the @forward function.
-> > + */
-> > +static int appleib_forward_int_op(struct hid_device *hdev,
-> > +				  int (*forward)(struct hid_driver *,
-> > +						 struct hid_device *, void *),
-> > +				  void *args)
-> > +{
-> > +	struct appleib_hid_dev_info *hdev_info = hid_get_drvdata(hdev);
-> > +	struct hid_device *sub_hdev;
-> > +	int rc = 0;
-> > +	int i;
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(hdev_info->sub_hdevs); i++) {
-> > +		sub_hdev = hdev_info->sub_hdevs[i];
-> > +		if (sub_hdev->driver) {
-> > +			rc = forward(sub_hdev->driver, sub_hdev, args);
-> > +			if (rc)
-> > +				break;
+On Fri, Feb 26, 2021 at 08:30:25AM +0000, Joe Hung (洪銘陽) wrote:
+> Hello Dmitry,
 > 
-> return rc; here would be cleaner.
+> Thank you for the quick response.
+> Understand and agreed on all your comments.
 > 
-> > +		}
-> > +
-> > +		break;
+> Little question about the name of prefix and this driver file,
+> could it be named according to different protocol version named by ILITEK internally
+> as ilitek_p6x.c (as protocol version 6 for Lego series, and ili210x.c should be protocol 2).
 > 
-> This is unusual.  It's a for loop but as far as I can see only first iteration
-> can ever run as we exit the loop at this break if we haven't done so earlier.
-> What is the intent here?
-> 
-> > +	}
-> > +
-> > +	return rc;
-> > +}
+> In addition, could we named it like how touchscreen/elants_i2c.c and eftf2127.c worked?
 
-Ho boy, good catch! This is simply a mistake. As you say, it should
-(and does now) read:
+So elants_i2c vs eftf2127 is historical artefact with elants_i2c being
+there first.
 
-	for (i = 0; i < ARRAY_SIZE(hdev_info->sub_hdevs); i++) {
-		sub_hdev = hdev_info->sub_hdevs[i];
-		if (sub_hdev->driver) {
-			rc = forward(sub_hdev->driver, sub_hdev, args);
-			if (rc)
-				return rc;
-		}
-	}
+> Is there a way that we could keep ilitek as prefix and driver file's name?
 
-	return rc;
+OK, this is really a minor point as far as I am concerned and we spent
+way too much time debating it. You may keep ilitek file name and prefix
+if you would prefer. Just make sure you list supported
+controllers/protocols in Kconfig and that should be enough.
 
 Thanks.
 
-
-  Cheers,
-
-  Ronald
-
+-- 
+Dmitry
