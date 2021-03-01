@@ -2,108 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B8143280D0
-	for <lists+linux-input@lfdr.de>; Mon,  1 Mar 2021 15:29:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 424CC32811A
+	for <lists+linux-input@lfdr.de>; Mon,  1 Mar 2021 15:40:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236335AbhCAO3J (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 1 Mar 2021 09:29:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37736 "EHLO
+        id S236373AbhCAOkJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 1 Mar 2021 09:40:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25075 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236231AbhCAO3G (ORCPT
+        by vger.kernel.org with ESMTP id S236109AbhCAOkE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 1 Mar 2021 09:29:06 -0500
+        Mon, 1 Mar 2021 09:40:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1614608858;
+        s=mimecast20190719; t=1614609517;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=IXCBRh2c+qBG4FYkxXs4egkrr88I5IuLhf4mFWnbMs4=;
-        b=BhlhCVqhHQuIqEyP80O8jwEnmQaj4tcbZK1E4qE+CPaJvL3R/2E/FM7oujqJS8DKFKI0ie
-        08zZ0902glUK3ynvmT9eAapgYk32xaLFZ/KhXtVDRZKoS6tkT1Dn/9a+J3tjC8yqrBGr5U
-        +jeOBzJQq1N9Ws7D/pecpDxaZPEi3Zk=
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-410-BRtSFPkGNGyI-6MCIva3ww-1; Mon, 01 Mar 2021 09:27:34 -0500
-X-MC-Unique: BRtSFPkGNGyI-6MCIva3ww-1
-Received: by mail-pg1-f198.google.com with SMTP id n2so9936208pgj.12
-        for <linux-input@vger.kernel.org>; Mon, 01 Mar 2021 06:27:34 -0800 (PST)
+        bh=tN0JoqBuTFws3QXTxQXFTe91qQ1qRs8yOegCJEJPLIM=;
+        b=aZPsh2c+87mbVgDcIE8BhbV1cyo4h8BA4FurNN18rRlsYPeDkuxcKK0dH3eN1TE7vkskS3
+        +vWFrlxoz9vS5+YfuqwwnAHsnWRKkhb6j8LOVHnoio1dNeu1XExcwL0pIBzVvOP5LOOAlX
+        jYrrKUxn87U2hMH/eyxGfdkwrPNG/aU=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-170-YO7D1-cnOZSCz2ThbfQx_w-1; Mon, 01 Mar 2021 09:38:36 -0500
+X-MC-Unique: YO7D1-cnOZSCz2ThbfQx_w-1
+Received: by mail-pj1-f72.google.com with SMTP id w2so12866236pjk.4
+        for <linux-input@vger.kernel.org>; Mon, 01 Mar 2021 06:38:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=IXCBRh2c+qBG4FYkxXs4egkrr88I5IuLhf4mFWnbMs4=;
-        b=jUyoKkj2XHwCga7SkiUoF0ljg5yK2aqOJb8RXOLJ06tqom2TITEvrmu9JIp85xyj0j
-         wFTAoqKeu44VvtePpRYQT6PQusUzFIQ/p3c0kaG46qSUtsviJtAqxCC7HEPiPEzWcPVE
-         uiC6U88s5+iCbsrSP2ZbItX+Bb000hYpaemu8gt4UWvXYExi8ZHeTtmoE8kQkgqdgoRg
-         ujZ4RHdGkHciezmhHDxVi2RGSNH+uf2w6Rx3UlTFr2d01JGkwAN8Vl0SJYaWQvzJtoHS
-         4vSHpFEGNz6381zt06U9xXhs6DbFM+64qIg52aqWq6CsWTQWjOpgAl1uSIL41xs0sNLW
-         25+w==
-X-Gm-Message-State: AOAM532IVXT4JeUPJsjZpUHJ3oVXVJCaLemcVyhQNwzFcglAHFKegNKc
-        gieKnsUCMOnDbM2pxJ5K1s7NGBSbplwtpptxY1fowu4KBlOFiz3uNToi2dVoxivPK0SQQHpZJb+
-        /+hS5z4U5ozWQ6BFewTwGZ7AIAUGHCsdrICTy16E=
-X-Received: by 2002:a17:902:9b91:b029:e2:898c:d721 with SMTP id y17-20020a1709029b91b02900e2898cd721mr15893422plp.32.1614608853363;
-        Mon, 01 Mar 2021 06:27:33 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz1RhN7M5F9TIKLkoUngTtVB6Hn2M7hQyWdTc6rjiMIGVlZ9uKlnDsBGo49gjLo70zIi6BUT0oKxAcpEbauCeg=
-X-Received: by 2002:a17:902:9b91:b029:e2:898c:d721 with SMTP id
- y17-20020a1709029b91b02900e2898cd721mr15893396plp.32.1614608853104; Mon, 01
- Mar 2021 06:27:33 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=tN0JoqBuTFws3QXTxQXFTe91qQ1qRs8yOegCJEJPLIM=;
+        b=KvrW0F+l6Q7ytXcmJQIf7o6d2wpT/UrvtMLp4qpMFa9v661hg91ADujtGFq6rYSKyu
+         5HVwfziwp4ABXqFB7QmEVnSzNKjI0qgIeR+xQbA7/zUqUq/cZP1iLLn4NDuMcQkG4Qct
+         1qrTn3ZD5O3gySMtJrFfSKByGeqbZIjkjZ53WC7bMsUtU656WZxXDxxSc+4Y61uNUm8l
+         Ydi8ntkyjCTpciNR/SlEO2Mi7o3ZewFlcNZ6xWBRsQOvbm+DhOSEQxj7UfbE4viL+/zz
+         UIwE+NQkq6ox2PIrGGEjxfQCs4d4dhLPV5XF5RurRvWMCvffTaHmH52NZBvyFZzKGo0r
+         JRDA==
+X-Gm-Message-State: AOAM532N15hrpX/Je0oevFuQ7hsYknCrZ53+GTBWIDvgWXoUPrPnWATh
+        jk5P8KphTxgYHY7gSuNgq8kcLB1eaG7tUC7R644OiW37AP6BVhHQTVsvy6RtA7S9+FcPqYn2Nmu
+        khNjMQ3RCYsrZjOUSSjlE1xL6euhofDQW7TLIjJU=
+X-Received: by 2002:a17:90a:bb0c:: with SMTP id u12mr17938872pjr.234.1614609514931;
+        Mon, 01 Mar 2021 06:38:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzGK6rtQxDI96aRba38Wa782xikLN30F9jqdHgPqp09r4zd107U4ws7V5mPzZDW6ZcAO36WzP0ctzOD39uOnUY=
+X-Received: by 2002:a17:90a:bb0c:: with SMTP id u12mr17938853pjr.234.1614609514768;
+ Mon, 01 Mar 2021 06:38:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20210228012643.69944-1-ronald@innovation.ch> <20210228012643.69944-4-ronald@innovation.ch>
- <CAHp75Vfd6wZwg9HWJoEwvzAAZR=8K2zDWbz4FZfbbrJBvZS4yQ@mail.gmail.com>
-In-Reply-To: <CAHp75Vfd6wZwg9HWJoEwvzAAZR=8K2zDWbz4FZfbbrJBvZS4yQ@mail.gmail.com>
+References: <20210226193225.47129-1-andriy.shevchenko@linux.intel.com> <20210226193225.47129-4-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20210226193225.47129-4-andriy.shevchenko@linux.intel.com>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Mon, 1 Mar 2021 15:27:22 +0100
-Message-ID: <CAO-hwJLXAHvjYKxu8pyqMPCNgMrN-H8bGWudVqCaRFnWODHPVQ@mail.gmail.com>
-Subject: Re: [PATCH 3/5] HID: core: Export some report item parsing functions.
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     =?UTF-8?Q?Ronald_Tschal=C3=A4r?= <ronald@innovation.ch>,
-        Jiri Kosina <jikos@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        linux-iio <linux-iio@vger.kernel.org>
+Date:   Mon, 1 Mar 2021 15:38:23 +0100
+Message-ID: <CAO-hwJLWbsj4kDkn3TKdEW0mDv6XdafQEaheCCC0Nyq3=YaOYQ@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] HID: i2c-hid: acpi: Drop redundant ACPI_PTR()
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jiri Kosina <jikos@kernel.org>
+Cc:     Douglas Anderson <dianders@chromium.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Mar 1, 2021 at 3:18 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Sun, Feb 28, 2021 at 3:30 AM Ronald Tschal=C3=A4r <ronald@innovation.c=
-h> wrote:
-> >
-> > These are useful to drivers that need to scan or parse reports
-> > themselves.
->
-> ...
->
-> > -       while ((start =3D fetch_item(start, end, &item)) !=3D NULL)
-> > +       while ((start =3D hid_fetch_item(start, end, &item)) !=3D NULL)
-> >                 dispatch_type[item.type](parser, &item);
->
-> > -       while ((next =3D fetch_item(start, end, &item)) !=3D NULL) {
-> > +       while ((next =3D hid_fetch_item(start, end, &item)) !=3D NULL) =
-{
-> >                 start =3D next;
->
-> I don't see the full picture, but perhaps you may also introduce
-> for_each_hid_item() or so.
+Hi,
 
-Same here, I don't see the full picture, but I would suggest to not
-export those functions at all.
+On Fri, Feb 26, 2021 at 8:34 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> The driver depends on ACPI, ACPI_PTR() resolution is always the same.
+> Otherwise a compiler may produce a warning.
+>
+> That said, the rule of thumb either ugly ifdeffery with ACPI_PTR or
+> none should be used in a driver.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-From 4/5, I can see that you are using them in
-appleib_find_collection(), which is only called by
-appleib_add_device(), which in turn is always called with a parsed and
-started HID device. Why can you not rely on the core parsing and
-iterate over the already parsed hid_field?
+Thanks a lot for the series. This indeed cleans things up.
+
+For the series:
+Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+
+Jiri, I wonder where we want to land this one. This is not strictly
+bug fixes, but we could definitively sneak this one in 5.12-rc1.
+Well, I should probably run the series on an acpi laptop here before
+merging, but I'd like to know if delaying to 5.13 is OK or if we need
+this in 5.12.
 
 Cheers,
 Benjamin
+
+> ---
+> v2: no changes
+>  drivers/hid/i2c-hid/i2c-hid-acpi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/hid/i2c-hid/i2c-hid-acpi.c b/drivers/hid/i2c-hid/i2c-hid-acpi.c
+> index a4810f199d59..a6f0257a26de 100644
+> --- a/drivers/hid/i2c-hid/i2c-hid-acpi.c
+> +++ b/drivers/hid/i2c-hid/i2c-hid-acpi.c
+> @@ -126,7 +126,7 @@ static struct i2c_driver i2c_hid_acpi_driver = {
+>                 .name   = "i2c_hid_acpi",
+>                 .pm     = &i2c_hid_core_pm,
+>                 .probe_type = PROBE_PREFER_ASYNCHRONOUS,
+> -               .acpi_match_table = ACPI_PTR(i2c_hid_acpi_match),
+> +               .acpi_match_table = i2c_hid_acpi_match,
+>         },
+>
+>         .probe_new      = i2c_hid_acpi_probe,
+> --
+> 2.30.0
+>
 
