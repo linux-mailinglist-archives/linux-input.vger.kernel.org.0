@@ -2,49 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D44E132A57B
+	by mail.lfdr.de (Postfix) with ESMTP id 6367332A57A
 	for <lists+linux-input@lfdr.de>; Tue,  2 Mar 2021 17:18:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350739AbhCBMpt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 Mar 2021 07:45:49 -0500
-Received: from mail-dm6nam11on2045.outbound.protection.outlook.com ([40.107.223.45]:65249
-        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
+        id S1350721AbhCBMpQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 Mar 2021 07:45:16 -0500
+Received: from mail-eopbgr680051.outbound.protection.outlook.com ([40.107.68.51]:34530
+        "EHLO NAM04-BN3-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1346973AbhCAXvY (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 1 Mar 2021 18:51:24 -0500
+        id S1346885AbhCAXvB (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 1 Mar 2021 18:51:01 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=diF56BHZcH7hprXDlUOXB7eQg3mEFRIfyEPDIhX6DV7gE6qqipXGn0wg9ZSqknRkJ0UnUPb1F/iS8+YYL26zkzH0YYiAS9B55RAdrsS52wE9p7O6wRydb/js7SM5P7l81cRdmUNLN9Qkx9X1ujuC1kmCuH1GWVp1X17LuQc07FiO63hKr0D6d60OAgQvjRrJERlCYVCyFnWM1uE/jMzwp/0VO45dL/ELjaZvYmtnd0SBPxY+T+XJtdiyDsZ5hBYel6noGhmkhco+H+5HJQpL/fSNGaIAxcXVqLlewcoCg0XdiD6YKAeLPI8Y3PYF2xGGfgqjXOEzD4rxhRvgCbD42Q==
+ b=Cw4eMdLRPFgC+cuXr0wOeq7BThWCx8VbxhfK0my12FTg3N38ayc+Ag0TJn57Cy8S6M5SO6kUboOwRy3KicN2wVB+AOloAlfonmxo5QiR988RKDmVehgPbKp45Dw6y0Zu5+eghJeyoI+DJSunjXc+d+d5NWPTievN7Uvb1aslWmsIfsZL4avVVnPE2zV4P6RDUwEErHVD/G6mVl1/rEVJz2gFWi54Mm+rLl+BrRmQ2EyKifGDj9UpVPZqMrao0JZTOvaeUHltSFALy7ojRRT7J/x8/hp0gbhVG62XSk7hcarKpAZbjfnR+5x03h2Z3/gyrblOf6kMZIjPRbgNmdsvHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7l/Ism4reLcdigBf3PXlp6dnPc9bUTyWathYFf8t27E=;
- b=ZnKqAb3dPf2rTKt5njhvByzCbGq/c8WdK0acqZdKiTn3IGxxcq5D22bJf1e933PfiIRs2qZFBQVeLfyEHe7Wq9/2MNTNbDaiRo9OIfNTYhxeXx1kXCleAcKKPkpgrzQ/L6TFIMvIQOmusvMwr+r82iF8tXuLDELO2Y0bU5e9Phu3RRFNp6syIXVlwnU5HI33Lq2zuBeCSTf1jDJl6rzCQcPIuL5znymhbsFFwdC3VAibtZVkY7yGSgHJApJEc2A0YH/hj89sqIfjQdyGaJ3Rbgsgr4m6pbNh6z1FWdiaJks3UHRaLhDJBuS76/MqE+JS88MhETwbu/DVa8ZYAK+jFQ==
+ bh=/wufqOSLljnNGB2KTtdxReTpDuHmntXCCcmY05WHZ2o=;
+ b=mxeFVDyFbMMfnsNNHri/wRN65MXzXWkEPes08EZq5EjQp7fY73RS1DocJtBHPpHcBoxKZKaCqriTQ6ti3tTFkfN/Enx9GYhEkRUHiFz72eqR6Oc9itqbguuJPNTAy3/+KzEFY50Q+29Uv+6NdElGk1jHmuAFE/pBzcQItpckOnDGDNS9G2iax1zGmHqz4a0Qw5lasf7HZCgJVrTacCMmZjTX0c1GCaPQMRBjztpDVzJWIyHrLp7Qa6SoN5qGEu81/YC5jS5iXddkNv3PoU/bun672pNUOaE02sAxER3o5k/397tCVA7PkJt0wR05O2ediZCPCvgzWGIZ8+9KivchbQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
  dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7l/Ism4reLcdigBf3PXlp6dnPc9bUTyWathYFf8t27E=;
- b=yUnp7/Tq1580myi87A0HPcM3lqI7cRExtMDqJvpHQs4DSXOcq75EJivfjiIWNUeBm4BbjSHdWt1oYzfjqmtdSMyFWp5F3mJiDGEf7+p6Nf/C0zmjOTmeAvWwsJ2aiT0eF1Bs/PWhh2GsbPRZks4RTxpsU1D59Y5xq785JotFIjE=
+ bh=/wufqOSLljnNGB2KTtdxReTpDuHmntXCCcmY05WHZ2o=;
+ b=KXHSISNpsMXL5wg8o6ti1d+Uzur4vEMIIWoWqi56gADit5gqBVQqW5QKQgGiNvGZIwr7TQymvx5uT2/dGhgmvorOYAyvjxIwz6FFtu7S/PqnG7fmLXmcY3LGZzoyFRWh22Fl7IermNdmYSAKWLCEMgumx2nSbou7IVhtl/jiLFA=
 Authentication-Results: gmail.com; dkim=none (message not signed)
  header.d=none;gmail.com; dmarc=none action=none header.from=labundy.com;
 Received: from SN6PR08MB5517.namprd08.prod.outlook.com (2603:10b6:805:fb::32)
- by SN6PR08MB5151.namprd08.prod.outlook.com (2603:10b6:805:76::18) with
+ by SN6PR08MB5629.namprd08.prod.outlook.com (2603:10b6:805:100::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.20; Mon, 1 Mar
- 2021 23:49:58 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19; Mon, 1 Mar
+ 2021 23:50:12 +0000
 Received: from SN6PR08MB5517.namprd08.prod.outlook.com
  ([fe80::79a3:8aa5:feb8:7f04]) by SN6PR08MB5517.namprd08.prod.outlook.com
  ([fe80::79a3:8aa5:feb8:7f04%7]) with mapi id 15.20.3890.028; Mon, 1 Mar 2021
- 23:49:57 +0000
+ 23:50:12 +0000
 From:   Jeff LaBundy <jeff@labundy.com>
 To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org
 Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         Jeff LaBundy <jeff@labundy.com>
-Subject: [PATCH v3 1/4] Input: touchscreen - move helper functions to core
-Date:   Mon,  1 Mar 2021 17:49:25 -0600
-Message-Id: <20210301234928.4298-2-jeff@labundy.com>
+Subject: [PATCH v3 2/4] Input: touchscreen - broaden use-cases described in comments
+Date:   Mon,  1 Mar 2021 17:49:26 -0600
+Message-Id: <20210301234928.4298-3-jeff@labundy.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210301234928.4298-1-jeff@labundy.com>
 References: <20210301234928.4298-1-jeff@labundy.com>
@@ -55,130 +55,124 @@ X-ClientProxiedBy: SA0PR11CA0110.namprd11.prod.outlook.com
  (2603:10b6:805:fb::32)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (136.49.90.243) by SA0PR11CA0110.namprd11.prod.outlook.com (2603:10b6:806:d1::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19 via Frontend Transport; Mon, 1 Mar 2021 23:49:57 +0000
+Received: from localhost.localdomain (136.49.90.243) by SA0PR11CA0110.namprd11.prod.outlook.com (2603:10b6:806:d1::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19 via Frontend Transport; Mon, 1 Mar 2021 23:50:11 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8a2ca7e0-c44e-475c-2e5e-08d8dd0cb851
-X-MS-TrafficTypeDiagnostic: SN6PR08MB5151:
-X-MS-Exchange-MinimumUrlDomainAge: kernel.org#8760
+X-MS-Office365-Filtering-Correlation-Id: a024c633-349b-47d4-a743-08d8dd0cc0dc
+X-MS-TrafficTypeDiagnostic: SN6PR08MB5629:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR08MB515104ECCA0A08106B93EC5DD39A9@SN6PR08MB5151.namprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:576;
+X-Microsoft-Antispam-PRVS: <SN6PR08MB5629E5539934EB6CC1E77CB9D39A9@SN6PR08MB5629.namprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rZC43r1BQi8jagIRxhFbwMs1vjY74G8nrp4Rgn/fXYGzlWFqxl6cTCVpdpRhnCUhZz79x3xQjpyBUvzJtdXrVFMRd9DkGs7jDEgJhLMqP1QithxoFe88CThNDsHn6zaZ3b0ZMmRPUOgIBcsw+ImszqFQAaZl4ntxStNUiZnc+6BlPfx5fzILoJscMvk75WzD2N/+07vA6D/wrkguQeCJdQt9fhMnuwMX/8o97HMzEc1Ei5/UDblxlWKMmJzxCkCGyZ9fBqGeQzfSRROTJF/84/IgytvvLgo3LKX912nO5AlOKqZso6St2TE4MpFy3MHZ7yFciT2V+/Yj+tvzq3DFbKp62Tjhj1R8zR8GVn3fwg1oILucIfPIf/ESEWX486YRNX2RLkPOMN5az9+qMiBUJBmo7iOOcghHkn7xPFYKoMb7qiJ9O3kJBtB0b6/cLlIIg8u1uUdLXozYhkRojg5maD1ytro2/7NDNqsYK9sDykLUtYrpAOkrcpX9VfKo7dGbzhhlZzUGVa4C71/2mETlUCQV8bTzdSbOnAkRpkknrBihBnj1eZpJkBeOqv0Gks0uj7q/G77B1iqPdIIm7zKe3ly9wAeHxKCvLGFRp+M9xdC3E/v/n57K3DytbzuxIlwh4kul0N1eUUjvuCzboOwHsHU/HOhko2ExGQH4DjvCh/Q=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR08MB5517.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(346002)(136003)(39830400003)(376002)(366004)(396003)(1076003)(4326008)(956004)(6506007)(52116002)(107886003)(86362001)(316002)(5660300002)(83380400001)(2616005)(36756003)(69590400012)(186003)(16526019)(26005)(66946007)(66556008)(8936002)(6512007)(6666004)(8676002)(966005)(66476007)(478600001)(2906002)(6486002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?m5NGL9F5tadI4QINchBTsBt1RPFho1icxy10s0fdXZ/+nhhwOs29SB5Dl2PX?=
- =?us-ascii?Q?SOTsCqLm7lrrn435lWTbqiiGoxWTHR947nFBhAk0BYPYaJsL+aC4jXXC1DZ1?=
- =?us-ascii?Q?ek9xSwThprDKobbpj5bv9gEDmeuIsza3BZ5cXGtP0VO/b/z/VZzksfm+SSk+?=
- =?us-ascii?Q?o1HF0+lqKTqB/jL8PuqMFCtn9co5O4zsRqgJ+crLA6yE34ZNFigcmS8/0O3Y?=
- =?us-ascii?Q?/vnRL25Cg63mbo1On1zK+FJi33C+ygrOPXf1d3LfWLt84Uoqx1UVQcaZlPqg?=
- =?us-ascii?Q?MJ7Hf3YjHqejer45kvD7OOhQhiIzZHObSBlNqusmD9Tlf6pztMgLNbGkOYwC?=
- =?us-ascii?Q?VzF4evJYplxpXb/kd/s4vT7W+U6wvw4cvw+AJGS54KQB5cZv5F9hlRa4MKCf?=
- =?us-ascii?Q?NGhIx93rQ0KxEBGCee00xG1D6WsHX9TKOvgs+DDzecQMInnzr62sYLxffgcP?=
- =?us-ascii?Q?JQIaGLH4512tRuNGO0RYmdxzj0+7kXI4bokq79pXKWf5FRNqM7sNqqktXuJe?=
- =?us-ascii?Q?/yWRmrU27PU0YAwLCeAR8ob7QlZdIPWTSioVtyFffUt9XhoIWURyihX/lZfD?=
- =?us-ascii?Q?XoxkOaq+0h5UYvcXJKssRZuL5Q3MA3a8/CdBBzlIhvbrbwPpiPbq02qF12hn?=
- =?us-ascii?Q?A9bqrnsoD6t9F5n3COxS7enuwNJgHn4dp4Xk6ovD5d9o3ec9ef4BZLWt1D1l?=
- =?us-ascii?Q?0up2j/kZFQv7lCMX8w4yflzCq/PKPu0UTDjqKR6lygbzqgXU1zT2wgC1QJ5/?=
- =?us-ascii?Q?hGUc/iIb7pvJQRh6GH0GwowKMNxruAawSZr5lWmG6AQGFQK4xDGPaq8eT64R?=
- =?us-ascii?Q?kH82iOF72/xLl+T1MNjkeDzbd6fBKts/Z2Bdbj5TjVBXmAza20u5BJ7wWyA1?=
- =?us-ascii?Q?aUOqapa+LHEiO+AuOrS9SdLs4ofTw+ZbdmP5IBuA3biJQNc3Ls/OxtG3P1Zq?=
- =?us-ascii?Q?vqDlchshUIElu+JV7s2XkihItkRVOGsSyPlW6oCvnDcphbuxSVcBPP9lAJiy?=
- =?us-ascii?Q?pfybvfhJvOx+DMEZXGZBLvjK8JFZhXLGsQS3BZZ2jdToYf+Gl8VsDvrBt0Bn?=
- =?us-ascii?Q?mXwXStt0/ZU1hkDnj6ejlQaUNJQzhP8p+r6/xnOdCwsNAYSlj/QHILQNJc3J?=
- =?us-ascii?Q?mR5aNcF1PTlP3J31IIuF74/2G6FYd59Jiz6G2eNI6+mBUNeb5wedpkwDqR82?=
- =?us-ascii?Q?agbQ7JIqTGi+s+Hl5jKNNDE3/vGiF2+gKBngkrjclaAUkWNUp+ICPdULUtMF?=
- =?us-ascii?Q?2/rmnKdK8Zo0J6YWrfhUclw09GeOJR4zssCkyyRXn0yKPZG1/CA8+EoNZBoG?=
- =?us-ascii?Q?xiCOprupR+2JRHXCklCaaY5n?=
+X-Microsoft-Antispam-Message-Info: C7ENYM2LIqaFzbGzfzz++asEaIR2G8PtnZ91tD+Q/lQidiKgvyh7n7If41v4Z+O4ImrXW4QLtuCrkGZSmSOPiodg63/iVLIFV40hBx3dQ2Cj0opINNoVkHuapDj65WsFqwhaoAHkq+wO+/rdg4AELk+am4VehFrHxlCDwiyCmgKMCcHDxwrh0bKvCuGdReruQxikYVH6+8SY1nhaNlWcAtv0ANIFyb+VzsjQlw3VE3Y7LT4zIgEbH/uku8eiUz9xL8N8whw85i7TV0V2q7Wan4DSdvQOqNpo2mIV0j0WGeOc3t+Xrb4clZ9uSLN/D2Eno1nC3ocKnp/oN38NUALawOY4U6Rwv3wp+kKyhqZF/BBHYYiUvPirkCNHvhU1+io75os7Ejk+pCN+NdyBg3qI/KvnqQvVXxgV2jzk4RdzclitEr+YfMLGZhKLhTjnH1jSwCY5sLTJfSP0UP+90xC0H3h9fzackjvNqsxrTcq8IhzAWVYhJu8flGegB4vHfw5/fmRiXTyAa78G75curFP7bS84PrS3L6wZBj4yF5p4i5l3UrJhn8BlxTGOv+ZX3IWplk0XnhVAxL84wfjOleHhSg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR08MB5517.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(136003)(346002)(396003)(39830400003)(366004)(36756003)(8676002)(107886003)(6666004)(69590400012)(83380400001)(478600001)(86362001)(8936002)(5660300002)(6512007)(66476007)(2616005)(66556008)(956004)(186003)(26005)(4326008)(6506007)(6486002)(16526019)(2906002)(52116002)(66946007)(1076003)(316002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?UmMKUARCEGA6IGDJVL7t5OpcAmDHl2K0ZPMGBoHzAyTsbwDenHM4Xw+fJ17Z?=
+ =?us-ascii?Q?JhruJ7W9E6j1CF+1zyr3ctzeGteOR/ih7/uAZ9j23XGM+Z54RvfzcS2LlIAh?=
+ =?us-ascii?Q?DIPQeeEWV1egU/HQw4kNlPHNPFTf+i3C9kYrN2Tx59AG3bMAk4PahHlgLtVp?=
+ =?us-ascii?Q?PJxIPCak4sH4NIQdeXo/+vSuObTrW+oGXxerW1T2pCx6S2x8jH00kvAfgs60?=
+ =?us-ascii?Q?ftCF76zsQ8ccKfnc6mTLCb8x80IAJmPXJ+g5d0puvGemtmudwyxv7Qc/n9Au?=
+ =?us-ascii?Q?YWEDZYDMpCFA+TivTmsp/oKmSs1jayugPdjo1RjrAR6OkjB/kTVQ534YUNlP?=
+ =?us-ascii?Q?uk1jcaDmzhb5ZJ0HuXCrUMH+j/E6tFOGXD8lai5DzWSqRyGJ1xAY6pDrfV/Q?=
+ =?us-ascii?Q?xVuNxeUauVnhwhe1y0EK8xCaOAkkSGnUHtNpxpyQwuhPwjYRRpgPbBf8FtwO?=
+ =?us-ascii?Q?sa9aIywszFQ/HegOKMkn23kePFnXhvAQmtw1la2ZqUJg9JSYGivwbu22HPVi?=
+ =?us-ascii?Q?uTucEuayFPI6tkHPobO7r3+P/lHRQUiSuKLFJ+MR3ceFXXmQMd3PMpzpW6WR?=
+ =?us-ascii?Q?ePyRPSbccv4sREQBAlMRUAWYI1VM0bgOS4eegVroOp0yUomd3wOu57AsEw2s?=
+ =?us-ascii?Q?nAQ5MJK4qeEXmIEC1IinsAfKAclS8u6N/+bwM2kGulWuW/EmyUJBemiI5kXp?=
+ =?us-ascii?Q?PW+vc1VRemOgVoaFcILa1gR57PRa77yO/N9xTQFWxPZWh8P0wHfI66yhChw9?=
+ =?us-ascii?Q?HkX8OpCdzbT+JwEARIqNn8q0l5xtryMXBN2FynwMZD56MPUfpujrAvLp+s9D?=
+ =?us-ascii?Q?pJ7fbFz1Z14pK14bgN72xn+YhUBAvw/ORaqOdoKz7f9NcvLNIczQAomkLbEa?=
+ =?us-ascii?Q?nSTC5fbwhZVZHmVpIPks/bizIh1bhHVYH4X69+dksIUOSvxyY5BmoN19MQ3h?=
+ =?us-ascii?Q?tDT6WCgTKoaVHzf39gpSV4/OvY5o9FKVT6jsGo3CR3DKSjR6Gfqoxu7i75sI?=
+ =?us-ascii?Q?E/ez15U+2wG7ax2pCGVxfKrnurBRTex9p/72h2EdDvKfqhy4x7WKBR3D71IG?=
+ =?us-ascii?Q?f28cJdNfxFaa+M1noXA9wzn09PgfceCSqOlyr7jF2Kaw+6gBdBqagQAyZ5kR?=
+ =?us-ascii?Q?T5JLorz1tnb6k0ASXWYbwRjPyfjqUnuVjwCOUytKh2yPsbq6umNlpbCyS/T2?=
+ =?us-ascii?Q?VjXw331R3S5Igj0JMZMeJgnZXJ7Bfl7tby1NSxindN/dDNnCaj2K6Xf7oUDt?=
+ =?us-ascii?Q?XUsbmnKJglcbYk2rL7To6Zq5aYYJyJ7wKX3wgk/weE7V3nKkSxxO8xhDUpd/?=
+ =?us-ascii?Q?EL6X9xn5C74SZ1OuhQpGHJMX?=
 X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a2ca7e0-c44e-475c-2e5e-08d8dd0cb851
+X-MS-Exchange-CrossTenant-Network-Message-Id: a024c633-349b-47d4-a743-08d8dd0cc0dc
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR08MB5517.namprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2021 23:49:57.6258
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2021 23:50:11.9146
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Jw7G3n2HGY/rS9iYkcRL08UqHoqxkgCRW3g2EASr7/7RtxFgmgOVuuBngglo9V4Yqj1HTz5P9OS6PK3BOc2KrQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR08MB5151
+X-MS-Exchange-CrossTenant-UserPrincipalName: RVxzQalAMjfGid5VvZUmxDXr1x+PWVOo1flVYzzvu0EXNMBq6POgjBKpf5l3BXibF9uddwhyNcpqghQQYrLGMg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR08MB5629
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Some devices outside of drivers/input/touchscreen/ can still make
-use of the touchscreen helper functions. Therefore, it was agreed
-in [1] to move them outside of drivers/input/touchscreen/ so that
-other devices can call them without INPUT_TOUCHSCREEN being set.
+Now that the helper functions have been moved to drivers/input/ so
+that all input devices may use them, the introductory comments can
+be updated to remove any implication that the helper functions are
+solely limited to touchscreens.
 
-As part of this change, 'of' is dropped from the filename because
-the helpers no longer actually use OF. No changes are made to the
-file contents whatsoever.
-
-Based on the feedback in [2], the corresponding binding documents
-(touchscreen.yaml and touchscreen.txt) are left in their original
-locations.
-
-[1] https://patchwork.kernel.org/patch/11924029/
-[2] https://patchwork.kernel.org/patch/12042037/
+This patch also scrubs any remaining use of 'DT' since there isn't
+any actual dependency on OF. A minor spelling error is resolved as
+well ('setups' -> 'sets up').
 
 Signed-off-by: Jeff LaBundy <jeff@labundy.com>
 ---
 Changes in v3:
- - Updated the commit message to reference the discussion over the bindings
+ - Removed reference to DT from MODULE_DESCRIPTION
 
 Changes in v2:
  - Added this patch to the series
 
- drivers/input/Makefile                                        | 1 +
- drivers/input/{touchscreen/of_touchscreen.c => touchscreen.c} | 0
- drivers/input/touchscreen/Kconfig                             | 4 ----
- drivers/input/touchscreen/Makefile                            | 1 -
- 4 files changed, 1 insertion(+), 5 deletions(-)
- rename drivers/input/{touchscreen/of_touchscreen.c => touchscreen.c} (100%)
+ drivers/input/touchscreen.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/input/Makefile b/drivers/input/Makefile
-index d8f5310e22ba..037cc595106c 100644
---- a/drivers/input/Makefile
-+++ b/drivers/input/Makefile
-@@ -7,6 +7,7 @@
+diff --git a/drivers/input/touchscreen.c b/drivers/input/touchscreen.c
+index 97342e14b4f1..dd18cb917c4d 100644
+--- a/drivers/input/touchscreen.c
++++ b/drivers/input/touchscreen.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ /*
+- *  Generic DT helper functions for touchscreen devices
++ *  Generic helper functions for touchscreens and other two-dimensional
++ *  pointing devices
+  *
+  *  Copyright (c) 2014 Sebastian Reichel <sre@kernel.org>
+  */
+@@ -37,7 +38,7 @@ static void touchscreen_set_params(struct input_dev *dev,
 
- obj-$(CONFIG_INPUT)		+= input-core.o
- input-core-y := input.o input-compat.o input-mt.o input-poller.o ff-core.o
-+input-core-y += touchscreen.o
+ 	if (!test_bit(axis, dev->absbit)) {
+ 		dev_warn(&dev->dev,
+-			 "DT specifies parameters but the axis %lu is not set up\n",
++			 "Parameters are specified but the axis %lu is not set up\n",
+ 			 axis);
+ 		return;
+ 	}
+@@ -49,7 +50,7 @@ static void touchscreen_set_params(struct input_dev *dev,
+ }
 
- obj-$(CONFIG_INPUT_FF_MEMLESS)	+= ff-memless.o
- obj-$(CONFIG_INPUT_SPARSEKMAP)	+= sparse-keymap.o
-diff --git a/drivers/input/touchscreen/of_touchscreen.c b/drivers/input/touchscreen.c
-similarity index 100%
-rename from drivers/input/touchscreen/of_touchscreen.c
-rename to drivers/input/touchscreen.c
-diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-index 529614d364fe..aead3ad6ba6a 100644
---- a/drivers/input/touchscreen/Kconfig
-+++ b/drivers/input/touchscreen/Kconfig
-@@ -12,10 +12,6 @@ menuconfig INPUT_TOUCHSCREEN
+ /**
+- * touchscreen_parse_properties - parse common touchscreen DT properties
++ * touchscreen_parse_properties - parse common touchscreen properties
+  * @input: input device that should be parsed
+  * @multitouch: specifies whether parsed properties should be applied to
+  *	single-touch or multi-touch axes
+@@ -57,9 +58,9 @@ static void touchscreen_set_params(struct input_dev *dev,
+  *	axis swap and invert info for use with touchscreen_report_x_y();
+  *	or %NULL
+  *
+- * This function parses common DT properties for touchscreens and setups the
++ * This function parses common properties for touchscreens and sets up the
+  * input device accordingly. The function keeps previously set up default
+- * values if no value is specified via DT.
++ * values if no value is specified.
+  */
+ void touchscreen_parse_properties(struct input_dev *input, bool multitouch,
+ 				  struct touchscreen_properties *prop)
+@@ -203,4 +204,4 @@ void touchscreen_report_pos(struct input_dev *input,
+ EXPORT_SYMBOL(touchscreen_report_pos);
 
- if INPUT_TOUCHSCREEN
-
--config TOUCHSCREEN_PROPERTIES
--	def_tristate INPUT
--	depends on INPUT
--
- config TOUCHSCREEN_88PM860X
- 	tristate "Marvell 88PM860x touchscreen"
- 	depends on MFD_88PM860X
-diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
-index 6233541e9173..80cd241b4c1b 100644
---- a/drivers/input/touchscreen/Makefile
-+++ b/drivers/input/touchscreen/Makefile
-@@ -7,7 +7,6 @@
-
- wm97xx-ts-y := wm97xx-core.o
-
--obj-$(CONFIG_TOUCHSCREEN_PROPERTIES)	+= of_touchscreen.o
- obj-$(CONFIG_TOUCHSCREEN_88PM860X)	+= 88pm860x-ts.o
- obj-$(CONFIG_TOUCHSCREEN_AD7877)	+= ad7877.o
- obj-$(CONFIG_TOUCHSCREEN_AD7879)	+= ad7879.o
+ MODULE_LICENSE("GPL v2");
+-MODULE_DESCRIPTION("Device-tree helpers functions for touchscreen devices");
++MODULE_DESCRIPTION("Helper functions for touchscreens and other devices");
 --
 2.17.1
 
