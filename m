@@ -2,68 +2,68 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 886C532B4BA
-	for <lists+linux-input@lfdr.de>; Wed,  3 Mar 2021 06:38:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7643A32B4C7
+	for <lists+linux-input@lfdr.de>; Wed,  3 Mar 2021 06:38:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354175AbhCCF07 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 3 Mar 2021 00:26:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58456 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351276AbhCBWi4 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Mar 2021 17:38:56 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51E12C06121E;
-        Tue,  2 Mar 2021 14:35:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=bCrl2JT7gWAImYo9m6rSceBGUV1jXooR2t40Fw22toI=; b=lkcsZ8dS9F3qJV2TAzRgkV6rBe
-        FGCs8YksR6Sao/SUi2mkpWDT25B8t3y54bKD4Qo5/EUTIbPHc6f+C3x8wtuPY87PcY5TH6ewkgmEw
-        8jkG7FQhS8ghRSP4UILZTfi9+kq8Ez+RedF+o7Agf4lVztqP1AwyCwbWeNr6ZCw2shBlR8USCF5W7
-        9cTiyMm0hHdj5wp2n23cNhyobTQX43khIfekgRMT1BPN8EZsfakyL48Bp4/0owjzyAE/3SWwfM1rE
-        9ovp8OA3XT+58vBlT1eBLJ4cGXuy8vYr6dZFS2r/isFMaSQ+mq6mutIszRoIRW27US1aCreHis7wv
-        k2IOlbnw==;
-Received: from [2601:1c0:6280:3f0::3ba4] (helo=smtpauth.infradead.org)
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lHDcK-000WSO-Ow; Tue, 02 Mar 2021 22:35:51 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 8/8] input: Documentation: corrections for uinput.rst
-Date:   Tue,  2 Mar 2021 14:35:23 -0800
-Message-Id: <20210302223523.20130-9-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210302223523.20130-1-rdunlap@infradead.org>
-References: <20210302223523.20130-1-rdunlap@infradead.org>
+        id S1354208AbhCCF2b (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 3 Mar 2021 00:28:31 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:13458 "EHLO
+        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1445113AbhCBW6W (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Mar 2021 17:58:22 -0500
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
+        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Dqsr45Z24zjVSN;
+        Wed,  3 Mar 2021 06:53:56 +0800 (CST)
+Received: from SWX921481.china.huawei.com (10.126.201.99) by
+ DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
+ 14.3.498.0; Wed, 3 Mar 2021 06:55:28 +0800
+From:   Barry Song <song.bao.hua@hisilicon.com>
+To:     <tglx@linutronix.de>, <dmitry.torokhov@gmail.com>,
+        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     <maz@kernel.org>, <gregkh@linuxfoundation.org>,
+        <linuxarm@openeuler.org>, <jonathan.cameron@huawei.com>,
+        Barry Song <song.bao.hua@hisilicon.com>
+Subject: [PATCH v5 0/2] add IRQF_NO_AUTOEN for request_irq
+Date:   Wed, 3 Mar 2021 11:49:14 +1300
+Message-ID: <20210302224916.13980-1-song.bao.hua@hisilicon.com>
+X-Mailer: git-send-email 2.21.0.windows.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.126.201.99]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Fix a typo (supportinf -> supporting).
+-v5:
+  * add the same check for IRQF_NO_AUTOEN in request_nmi()
+  * combine a dozen of separate patches of input into one (hopefully
+    this could easy the life of the maintainers)
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/input/uinput.rst |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+-v4:
+  * remove the irq_settings magic for NOAUTOEN with respect to
+    Thomas's comment
 
---- linux-next-20210202.orig/Documentation/input/uinput.rst
-+++ linux-next-20210202/Documentation/input/uinput.rst
-@@ -179,7 +179,7 @@ uinput old interface
- --------------------
- 
- Before uinput version 5, there wasn't a dedicated ioctl to set up a virtual
--device. Programs supportinf older versions of uinput interface need to fill
-+device. Programs supporting older versions of uinput interface need to fill
- a uinput_user_dev structure and write it to the uinput file descriptor to
- configure the new uinput device. New code should not use the old interface
- but interact with uinput via ioctl calls, or use libevdev.
+Barry Song (2):
+  genirq: add IRQF_NO_AUTOEN for request_irq
+  Input: move to use request_irq by IRQF_NO_AUTOEN flag
+
+ drivers/input/keyboard/tca6416-keypad.c  |  3 +--
+ drivers/input/keyboard/tegra-kbc.c       |  5 ++---
+ drivers/input/touchscreen/ar1021_i2c.c   |  5 +----
+ drivers/input/touchscreen/atmel_mxt_ts.c |  5 ++---
+ drivers/input/touchscreen/bu21029_ts.c   |  4 ++--
+ drivers/input/touchscreen/cyttsp_core.c  |  5 ++---
+ drivers/input/touchscreen/melfas_mip4.c  |  5 ++---
+ drivers/input/touchscreen/mms114.c       |  4 ++--
+ drivers/input/touchscreen/stmfts.c       |  3 +--
+ drivers/input/touchscreen/wm831x-ts.c    |  3 +--
+ drivers/input/touchscreen/zinitix.c      |  4 ++--
+ include/linux/interrupt.h                |  4 ++++
+ kernel/irq/manage.c                      | 11 +++++++++--
+ 13 files changed, 31 insertions(+), 30 deletions(-)
+
+-- 
+2.25.1
+
