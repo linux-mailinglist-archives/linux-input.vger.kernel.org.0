@@ -2,154 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F0CE32A586
+	by mail.lfdr.de (Postfix) with ESMTP id F182932A587
 	for <lists+linux-input@lfdr.de>; Tue,  2 Mar 2021 17:20:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350776AbhCBMub (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 Mar 2021 07:50:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51768 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345001AbhCBJBf (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Mar 2021 04:01:35 -0500
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DDC1C061788
-        for <linux-input@vger.kernel.org>; Tue,  2 Mar 2021 01:00:18 -0800 (PST)
-Received: by mail-ej1-x636.google.com with SMTP id dx17so6181962ejb.2
-        for <linux-input@vger.kernel.org>; Tue, 02 Mar 2021 01:00:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=OlQhZo66tdfixj0c2XUayC5dC48cYkknFAh4g2s0VB8=;
-        b=VVhxRPrsIbUWjeeEIAfPVav1chwuvvW2ogpbLjn/vg1vGxAANoefHJJk8ETghcW2De
-         KXXv2FUZAzBm01C5763rsWLGWfldabW7sEwRxOVBkTM0nCNK5OFf0iVmQyzj+AMMwDyl
-         ivHp8ULnyNeFH5o010LZ31o2PvxbUekoKg9411FrKaCLYRv3RTaBzeTqPNiQjiDOKzTg
-         39Q9rPMbz9L8K5HwSuS0ixqrts6QVmuKTBwmeoWkMMc76kZQTkznuTfqeM6p0sT7/2Mn
-         QlnS8dfgA/t4gYFKo/O0ODB6obPSs8UmC2bOdfcOWLLd0c0hpCP5YjLDwkHYNv9y1y3T
-         3MCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=OlQhZo66tdfixj0c2XUayC5dC48cYkknFAh4g2s0VB8=;
-        b=mYFU8w3d37XYZ6n+hX9Ui81RaqYZdDUyNmSAC+O3ooNFOtwORRvpT6bWbVKxfJKx1v
-         0FjZAU/E42pkmfIK6kGbl2YwAYFfCSfirPiI0zyEKdOOo2OJB5SRYTSUgzHP5F5oMEwI
-         Fj2gdSVFoJ6bAiM0Hg90KXGNa0GaZIlkWIkQp2ryiAcDx1XY1hljpjRKJSxFdcvPHsby
-         OQHrf6eVOaEWlLXSVveUiXDK88bCnwZTLlT/KRxu8bei6gi+pCOHjNf2ODuxppJzJKp+
-         FUyksW4TVyODyIUgsnItyyJwHYFCYPQz9an2zZC8eqg6e44d18De+PpdXOVHurCxHJ/Z
-         FJ6A==
-X-Gm-Message-State: AOAM530VCaR2P+jPtqVi+7dPvZ1U2SGdwIeWy1VMQRlFVv5BTc6xXrKL
-        2jk24woVztV+t+I2OBVHxAOLnfO0FS58LXtFhjpz4w==
-X-Google-Smtp-Source: ABdhPJzbcdp9yM+SANcB02A7Piji7QgRmHuVFYC2ehQOoZpWEmfM8Re/BPYo+miajM5iedjeo+7jPk+12Cf5EkxQtgE=
-X-Received: by 2002:a17:906:1d44:: with SMTP id o4mr18660019ejh.130.1614675616685;
- Tue, 02 Mar 2021 01:00:16 -0800 (PST)
-MIME-Version: 1.0
-References: <20210216163647.34264-1-vincent.knecht@mailoo.org> <20210216163647.34264-2-vincent.knecht@mailoo.org>
-In-Reply-To: <20210216163647.34264-2-vincent.knecht@mailoo.org>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 2 Mar 2021 10:00:05 +0100
-Message-ID: <CACRpkdaLJzG3_M7fNC-MHOdQ6HMsqHqVccK7XkvL=PvJnycCHQ@mail.gmail.com>
-Subject: Re: [PATCH v5 2/2] Input: add MStar MSG2638 touchscreen driver
-To:     Vincent Knecht <vincent.knecht@mailoo.org>
-Cc:     phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Michael Srba <Michael.Srba@seznam.cz>,
-        Linux Input <linux-input@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+        id S1350813AbhCBMuf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 Mar 2021 07:50:35 -0500
+Received: from relay12.mail.gandi.net ([217.70.178.232]:35295 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1382704AbhCBJwC (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Mar 2021 04:52:02 -0500
+Received: from [192.168.1.150] (unknown [78.199.60.242])
+        (Authenticated sender: hadess@hadess.net)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 01D3920000E;
+        Tue,  2 Mar 2021 09:50:50 +0000 (UTC)
+Message-ID: <1b315e2cd02f4017cc746909088cc8bc1a39024e.camel@hadess.net>
+Subject: Re: [PATCH] [v2] Input: Add "Share" button to Microsoft Xbox One
+ controller.
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Chris Ye <lzye@google.com>,
+        =?UTF-8?Q?=C5=81ukasz?= Patron <priv.luk@gmail.com>,
+        Benjamin Valentin <benpicco@googlemail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Olivier =?ISO-8859-1?Q?Cr=EAte?= <olivier.crete@ocrete.ca>,
+        Sanjay Govind <sanjay.govind9@gmail.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        trivial@kernel.org, kernel-team@android.com
+Date:   Tue, 02 Mar 2021 10:50:49 +0100
+In-Reply-To: <20210225053204.697951-1-lzye@google.com>
+References: <20210225053204.697951-1-lzye@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Vincent,
-
-thanks for your patch!
-
-On Tue, Feb 16, 2021 at 5:38 PM Vincent Knecht
-<vincent.knecht@mailoo.org> wrote:
-
-> Add support for the msg2638 touchscreen IC from MStar.
-> This driver reuses zinitix.c structure, while the checksum and irq handle=
-r
-> functions are based on out-of-tree driver for Alcatel Idol 3 (4.7").
->
-> Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
+On Thu, 2021-02-25 at 05:32 +0000, Chris Ye wrote:
+> Add "Share" button input capability and input event mapping for
+> Microsoft Xbox One controller.
+> Fixed Microsoft Xbox One controller share button not working under USB
+> connection.
+> 
+> Signed-off-by: Chris Ye <lzye@google.com>
 > ---
-> Changed in v5:
-> - use gpiod_set_value_cansleep() (Stephan G)
-> - use msleep/usleep_range() rathen than mdelay() (Stephan G)
+>  drivers/input/joystick/xpad.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/input/joystick/xpad.c
+> b/drivers/input/joystick/xpad.c
+> index 9f0d07dcbf06..0c3374091aff 100644
+> --- a/drivers/input/joystick/xpad.c
+> +++ b/drivers/input/joystick/xpad.c
+> @@ -79,6 +79,7 @@
+>  #define MAP_DPAD_TO_BUTTONS            (1 << 0)
+>  #define MAP_TRIGGERS_TO_BUTTONS                (1 << 1)
+>  #define MAP_STICKS_TO_NULL             (1 << 2)
+> +#define MAP_SHARE_BUTTON               (1 << 3)
+>  #define DANCEPAD_MAP_CONFIG    (MAP_DPAD_TO_BUTTONS
+> |                  \
+>                                 MAP_TRIGGERS_TO_BUTTONS |
+> MAP_STICKS_TO_NULL)
+>  
+> @@ -130,6 +131,7 @@ static const struct xpad_device {
+>         { 0x045e, 0x02e3, "Microsoft X-Box One Elite pad", 0,
+> XTYPE_XBOXONE },
+>         { 0x045e, 0x02ea, "Microsoft X-Box One S pad", 0, XTYPE_XBOXONE
+> },
+>         { 0x045e, 0x0719, "Xbox 360 Wireless Receiver",
+> MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360W },
+> +       { 0x045e, 0x0b12, "Microsoft X-Box One X pad",
+> MAP_SHARE_BUTTON, XTYPE_XBOXONE },
+>         { 0x046d, 0xc21d, "Logitech Gamepad F310", 0, XTYPE_XBOX360 },
+>         { 0x046d, 0xc21e, "Logitech Gamepad F510", 0, XTYPE_XBOX360 },
+>         { 0x046d, 0xc21f, "Logitech Gamepad F710", 0, XTYPE_XBOX360 },
+> @@ -862,6 +864,8 @@ static void xpadone_process_packet(struct usb_xpad
+> *xpad, u16 cmd, unsigned char
+>         /* menu/view buttons */
+>         input_report_key(dev, BTN_START,  data[4] & 0x04);
+>         input_report_key(dev, BTN_SELECT, data[4] & 0x08);
+> +       if (xpad->mapping & MAP_SHARE_BUTTON)
+> +               input_report_key(dev, KEY_RECORD, data[22] & 0x01);
+>  
+>         /* buttons A,B,X,Y */
+>         input_report_key(dev, BTN_A,    data[4] & 0x10);
+> @@ -1669,9 +1673,12 @@ static int xpad_init_input(struct usb_xpad
+> *xpad)
+>  
+>         /* set up model-specific ones */
+>         if (xpad->xtype == XTYPE_XBOX360 || xpad->xtype ==
+> XTYPE_XBOX360W ||
+> -           xpad->xtype == XTYPE_XBOXONE) {
+> +               xpad->xtype == XTYPE_XBOXONE) {
+>                 for (i = 0; xpad360_btn[i] >= 0; i++)
+>                         input_set_capability(input_dev, EV_KEY,
+> xpad360_btn[i]);
+> +               if (xpad->mapping & MAP_SHARE_BUTTON) {
+> +                       input_set_capability(input_dev, EV_KEY,
+> KEY_RECORD);
 
-(...)
+Is there not a better keycode to use than "Record"? Should a "share"
+keycode be added?
 
-> +#include <linux/delay.h>
-> +#include <linux/gpio.h>
+I couldn't find a share button in the most recent USB HID Usage Tables:
+https://www.usb.org/document-library/hid-usage-tables-121
 
-Please only include
-#include <linux/gpio/consumer.h>
+> +               }
+>         } else {
+>                 for (i = 0; xpad_btn[i] >= 0; i++)
+>                         input_set_capability(input_dev, EV_KEY,
+> xpad_btn[i]);
 
-> +#define CHIP_ON_DELAY                  15 // ms
-> +#define FIRMWARE_ON_DELAY              50 // ms
-> +#define RESET_DELAY_MIN                        10000 // =C2=B5s
-> +#define RESET_DELAY_MAX                        11000 // =C2=B5s
 
-Rename the defines with _MS and _US suffixes so you don't
-need the comments, CHIP_ON_DELAY_MS etc.
-
-> +static int msg2638_init_regulators(struct msg2638_ts_data *msg2638)
-> +{
-> +       struct i2c_client *client =3D msg2638->client;
-> +       int error;
-
-I usually prefer a short name like "err" (cognitive load) but your choice.
-
-> +static u8 msg2638_checksum(u8 *data, u32 length)
-> +{
-> +       s32 sum =3D 0;
-> +       u32 i;
-> +
-> +       for (i =3D 0; i < length; i++)
-> +               sum +=3D data[i];
-> +
-> +       return (u8)((-sum) & 0xFF);
-> +}
-
-Interesting checksum algoritm.
-
-> +static int msg2638_start(struct msg2638_ts_data *msg2638)
-> +{
-> +       int error;
-> +
-> +       error =3D regulator_bulk_enable(ARRAY_SIZE(msg2638->supplies),
-> +                                     msg2638->supplies);
-> +       if (error) {
-> +               dev_err(&msg2638->client->dev, "Failed to enable regulato=
-rs: %d\n", error);
-> +               return error;
-> +       }
-> +
-> +       msleep(CHIP_ON_DELAY);
-> +
-> +       msg2638_power_on(msg2638);
-
-Maybe move enable_irq() here from power on to mirror
-the stop() function below?
-
-> +#ifdef CONFIG_OF
-> +static const struct of_device_id msg2638_of_match[] =3D {
-> +       { .compatible =3D "mstar,msg2638" },
-> +       { }
-> +};
-> +MODULE_DEVICE_TABLE(of, msg2638_of_match);
-> +#endif
-
-I think these #ifdefs are not needed anymore. We just have struct of_device=
-_id
-available at all times.
-
-Yours,
-Linus Walleij
