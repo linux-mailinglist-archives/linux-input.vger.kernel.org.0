@@ -2,62 +2,64 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E0E832A588
+	by mail.lfdr.de (Postfix) with ESMTP id E14F032A589
 	for <lists+linux-input@lfdr.de>; Tue,  2 Mar 2021 17:20:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350816AbhCBMuk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 Mar 2021 07:50:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38230 "EHLO
+        id S1442638AbhCBMun (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 Mar 2021 07:50:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1838287AbhCBKJS (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Mar 2021 05:09:18 -0500
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29666C061756;
-        Tue,  2 Mar 2021 02:08:37 -0800 (PST)
-Received: by mail-lf1-x12d.google.com with SMTP id k9so10466502lfo.12;
-        Tue, 02 Mar 2021 02:08:37 -0800 (PST)
+        with ESMTP id S1382786AbhCBKQp (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Mar 2021 05:16:45 -0500
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58D8DC061756;
+        Tue,  2 Mar 2021 02:16:04 -0800 (PST)
+Received: by mail-lf1-x12a.google.com with SMTP id z11so30362246lfb.9;
+        Tue, 02 Mar 2021 02:16:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=sfUQ5KkuJugRcswoXUIYuj0VO0djxRHGJcsWdg+KZjU=;
-        b=SREfkOV5YjngyaW6kgRMW6XmqLOOigj8+ADhOCMufJ1iRRUMuNBWbHsCqjUzWWt6RG
-         vqIWfYG3W9ZJBvpHPygONmzb9jyvmYo8JlsNZVPPu26vKOGFUwdYvLcDbUFzTizQbxIb
-         k8M8URlvwnPCw7E3jD0s1PQEzjVkb3vAtm/RzPLZz/HA+RAnsuPv2IY0fZ8ErMCiHdPX
-         MGTznypCqMUo8xtrz2aXggKnx251MUiU6sL9p9EiQNgPxi+9DUtfgEWN74vOmC/iqW6x
-         sPA1esYehtYg6JsvtvY6gu/9od9X3IhrHgWd4s6JP+PMEP+KwUhwvqa9BOOYZqjs7tra
-         hcxQ==
+        bh=PAuXf894I6dZt2fftnLEpxbZ38F5TI7pME3T3qqIkZI=;
+        b=BeiNOLHXfUd6x5xIH3DAqIB46kUFYiitWpt4cNZNlo1GZmWsGL/2yYn1JfYePe7DoP
+         89k+KuS66b0E5jDpnVX9hhx6pm4A/NqOpzGjUVC36RZsgvopFwvaa+jftP9zsyzCH3pE
+         dwhJ8y8UiT5L/dbwkyDoNQMZUEAZHyn0zhYhjujR/Eq8GnFc/tZNhkXyGnHRjGw0hWCq
+         0kZjkTk/UTjJNunNCE4osRlm9R6BZsjOIc3nCgjEI0Jj6Phr4vL1gaZJaNUBJuPpEN8E
+         N82/HiWkhHxczU83tLGEqSI97gFAKIWd1fhnKqP5/D6H9AdMiWyEPD3yYjjgnTCbVli9
+         eByg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=sfUQ5KkuJugRcswoXUIYuj0VO0djxRHGJcsWdg+KZjU=;
-        b=Rdm7PfEZ7RNQj01dcYqo1P0H4VUDDDRonoiWWmVvYTkCr2YBbnqP//WmgtvoQJAsla
-         R4nqL+HISPxpcLs7LnesuCboE2T/IdNoa+QPtf5vgM0tenJGMrSjhcN5aSdllSTT3Qu1
-         zEZ3KyaajiGpwHZxKiepf1s08A/cr5alFchEHDcQKRzNCsmRJ5yugrHoBxAXMqKOCaE7
-         BsGIhQ+7Pp5g4035UXX9gdi3mxzRyQcvshZG6B0JESiTLC97i3Zz1hVO3tn4iUJLBhKm
-         rVr5nj0hvxLjL1IA6cPzcP04zZ2IfAyMcfbl03unwpsLAlANyWKB+wsWB2xNB4ersG1U
-         p+/Q==
-X-Gm-Message-State: AOAM530+umB0GBY+2Koe//HsWYYQCQ6xY7D/XwTIudyOlnS32anyt6GA
-        ZWFKHickiZ8KIYuQpoXfoe8=
-X-Google-Smtp-Source: ABdhPJzmMFbGapGmoNeZO/smtuHVHtf3ixjTLxqIfeAXFo+Ap5rq6rMyT/sYvROMWjn9/0O+wvBcMg==
-X-Received: by 2002:a05:6512:547:: with SMTP id h7mr12285352lfl.529.1614679715517;
-        Tue, 02 Mar 2021 02:08:35 -0800 (PST)
+        bh=PAuXf894I6dZt2fftnLEpxbZ38F5TI7pME3T3qqIkZI=;
+        b=XbgquZ2g59wVJNrBntjPjgYTuxaOVHLV1OAqctnIouqqjoTBJvef5gvOwURN6fNnhg
+         HYLC+gmKRWbKkhbC0V7Gmg9cl5mKchBeL/SnQh7+tlPNq9xiBCKmK0Op5DhWAF4ux100
+         F3PPq8jdokT1ngTH71ZTdC8GjlIM7FWDZaLvsaQ3IuHtkyDBFYNmgc11+xRHAowW0hIu
+         QIgenqqOeiMPsf/q+/VZn6AA7EXCujBsrqgfsyDrOY4yFHsVEIk02+5LU785yZQhwuz0
+         pVtOK9MbaFhW0ZNALj7LQ5AdoLieKfWtWMnl7ZSkeKOCEKi4VwsRewAtnDL8vIgGnAmK
+         /wqA==
+X-Gm-Message-State: AOAM530e+mZW9XSsBV6VhWAFdqnNgaDdoLw48RiJBii2m/P+JzmhXSvQ
+        uMfU60aLyN43L2SHXJF32Dg=
+X-Google-Smtp-Source: ABdhPJwYoPjpQg2/CPbZ46GC5VGUq1ff/xol41ePlNNTSTvg7Zai3jSN9j2oNzNuoeuND998v4BiWQ==
+X-Received: by 2002:a05:6512:31cc:: with SMTP id j12mr11449977lfe.408.1614680162897;
+        Tue, 02 Mar 2021 02:16:02 -0800 (PST)
 Received: from localhost.localdomain (109-252-193-52.dynamic.spd-mgts.ru. [109.252.193.52])
-        by smtp.gmail.com with ESMTPSA id g10sm1725052lfe.90.2021.03.02.02.08.34
+        by smtp.gmail.com with ESMTPSA id w4sm307861lfl.236.2021.03.02.02.16.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Mar 2021 02:08:34 -0800 (PST)
+        Tue, 02 Mar 2021 02:16:02 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
-        Johnny Chuang <johnny.chuang.emc@gmail.com>,
-        Jasper Korten <jja2000@gmail.com>,
-        Svyatoslav Ryhel <clamor95@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v1] Input: elants_i2c - fix division by zero if firmware reports zero phys size
-Date:   Tue,  2 Mar 2021 13:08:24 +0300
-Message-Id: <20210302100824.3423-1-digetx@gmail.com>
+To:     Nick Dyer <nick@shmanahar.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jiada Wang <jiada_wang@mentor.com>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v5 0/3] Support wakeup methods of Atmel maXTouch controllers
+Date:   Tue,  2 Mar 2021 13:15:53 +0300
+Message-Id: <20210302101556.7150-1-digetx@gmail.com>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -65,44 +67,53 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Touchscreen firmware of ASUS Transformer TF700T reports zeros for the phys
-size. Hence check whether the size is zero and don't set the resolution in
-this case.
+Some Atmel maXTouch controllers, like mXT1386 and mXT3432S1 for example,
+have a WAKE line that needs to be asserted in order to wake controller
+from a deep sleep, otherwise it will be unusable. This series implements
+support for the wakeup methods in accordance to the mXT1386 datasheet [1],
+see page 29 (chapter "5.8 WAKE Line").
 
-Reported-by: Jasper Korten <jja2000@gmail.com>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
+The mXT1386 is a widely used controller found on many older Android tablet
+devices. Touchscreen on Acer A500 tablet now works properly after this
+series.
 
-Please note that ASUS TF700T isn't yet supported by upstream kernel,
-hence this is not a critical fix.
+This patchset is a continuation of the work originally started by
+Jiada Wang [2].
 
- drivers/input/touchscreen/elants_i2c.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+[1] https://ww1.microchip.com/downloads/en/DeviceDoc/mXT1386_1vx_Datasheet_LX.pdf
+[2] https://patchwork.kernel.org/project/linux-input/list/?series=357875
 
-diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
-index 4c2b579f6c8b..a2e1cc4192b0 100644
---- a/drivers/input/touchscreen/elants_i2c.c
-+++ b/drivers/input/touchscreen/elants_i2c.c
-@@ -1441,14 +1441,16 @@ static int elants_i2c_probe(struct i2c_client *client,
- 
- 	touchscreen_parse_properties(ts->input, true, &ts->prop);
- 
--	if (ts->chip_id == EKTF3624) {
-+	if (ts->chip_id == EKTF3624 && ts->phy_x && ts->phy_y) {
- 		/* calculate resolution from size */
- 		ts->x_res = DIV_ROUND_CLOSEST(ts->prop.max_x, ts->phy_x);
- 		ts->y_res = DIV_ROUND_CLOSEST(ts->prop.max_y, ts->phy_y);
- 	}
- 
--	input_abs_set_res(ts->input, ABS_MT_POSITION_X, ts->x_res);
--	input_abs_set_res(ts->input, ABS_MT_POSITION_Y, ts->y_res);
-+	if (ts->x_res > 0)
-+		input_abs_set_res(ts->input, ABS_MT_POSITION_X, ts->x_res);
-+	if (ts->y_res > 0)
-+		input_abs_set_res(ts->input, ABS_MT_POSITION_Y, ts->y_res);
- 	if (ts->major_res > 0)
- 		input_abs_set_res(ts->input, ABS_MT_TOUCH_MAJOR, ts->major_res);
- 
+Changelog:
+
+v5: - No code changes. Improved commit message of the "acer-a500: Add
+      atmel,wakeup-method property" patch and added r-b from Linus Walleij
+      to "Input: atmel_mxt_ts - support wakeup methods" patch that he gave
+      to v4.
+
+v4: - Improved commit message of the DT binding patch. No code changes.
+
+v3: - Added "default: 0" to the atmel,wakeup-method property in the binding.
+
+    - Added r-b from Linus Walleij to the binding patch.
+
+    - The wake-GPIO is now toggled on touchscreen's start/stop in order to
+      allow it to sleep during suspend. Suggested by Linus Walleij.
+
+v2: - Fixed copy-paste bug in the code.
+
+Dmitry Osipenko (3):
+  dt-bindings: input: atmel_mxt_ts: Document atmel,wakeup-method and
+    WAKE line GPIO
+  Input: atmel_mxt_ts - support wakeup methods
+  ARM: tegra: acer-a500: Add atmel,wakeup-method property
+
+ .../bindings/input/atmel,maxtouch.yaml        | 29 +++++++
+ .../boot/dts/tegra20-acer-a500-picasso.dts    |  3 +
+ drivers/input/touchscreen/atmel_mxt_ts.c      | 78 +++++++++++++++++++
+ include/dt-bindings/input/atmel-maxtouch.h    | 10 +++
+ 4 files changed, 120 insertions(+)
+ create mode 100644 include/dt-bindings/input/atmel-maxtouch.h
+
 -- 
 2.29.2
 
