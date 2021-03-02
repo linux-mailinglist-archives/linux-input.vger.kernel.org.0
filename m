@@ -2,40 +2,40 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C833532B4B2
-	for <lists+linux-input@lfdr.de>; Wed,  3 Mar 2021 06:38:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 051FC32B4AE
+	for <lists+linux-input@lfdr.de>; Wed,  3 Mar 2021 06:38:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354148AbhCCF0I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 3 Mar 2021 00:26:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57810 "EHLO
+        id S1354139AbhCCFZm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 3 Mar 2021 00:25:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351254AbhCBWi4 (ORCPT
+        with ESMTP id S1351252AbhCBWi4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>); Tue, 2 Mar 2021 17:38:56 -0500
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3038C0617AA;
-        Tue,  2 Mar 2021 14:35:40 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B365C0617AB;
+        Tue,  2 Mar 2021 14:35:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
         References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
         Content-Type:Content-ID:Content-Description;
-        bh=fB7cIY86DyAWTapI+MAfsx1E3wwthMq8695L3n2YfGc=; b=hCYnifQZVDQCOJPF8Vy9XG/nRw
-        Rs1l+qVcu/2hpbe+mL1wPNZX5qasZ9Q2ihY3iEP4w62UJssq0TFQoggxJSUfb99sVnHfRQ+YUhDya
-        94C7cQKS8WQGANVGlMWek5yrIi4He/wOHd1CcE5m7sp36kFNAgDD0wZ3K6fmDWJAZi77cnBioxxp1
-        oeNTe6gI97VoKDzjFBY2Mmobh3MAdTYG7iQjOh/ZOeAxlvEIiaYDkdCjfhwEgdVlAEB5W4A1JsoN1
-        OhoJZ3B7zGZmFRfgGfeuGYL1UNigiOii/H42RUtGMjQ0ChZtAOmzSpb/EuMxhpikT4HCQlmfFkYGi
-        /RSbWtFw==;
+        bh=V1Htl9i9ALhyRPuRFiH4WouYrmwFA3kifK1CMhsgjAI=; b=PvaFNG4q0yHTdizWgUT1fPsXme
+        2LBlj4nWCgnlFre1lXGuQOMil1BblNsY1a5LSiPINO19p6BshUe0bGgNFWmxQIHEItdbn9LZZH/1a
+        S5N8KX6quVBEMppMh963A/xKXOOGZ7YuA3ImCuIEvOU/6LbvFnNS0NGF5ggNPw3dejEBVlOmja989
+        y1P4SZNixyYzjJnB+zAh7sijtno3j4u+9V9Fdy9kJRiQJwfGlTLs0HfE/GLqbr1QuaWlNTDXsxwUW
+        FT7owfSriKJS1+SvG8cHozZu3LF3DZFzURzNwW7wfvz1An3mT8W9W6hM8LwdshrO2abyzptpHq3xb
+        vkSkUntA==;
 Received: from [2601:1c0:6280:3f0::3ba4] (helo=smtpauth.infradead.org)
         by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lHDcA-000WSO-98; Tue, 02 Mar 2021 22:35:38 +0000
+        id 1lHDcC-000WSO-T0; Tue, 02 Mar 2021 22:35:41 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 4/8] input: Documentation: corrections for gameport-programming.rst
-Date:   Tue,  2 Mar 2021 14:35:19 -0800
-Message-Id: <20210302223523.20130-5-rdunlap@infradead.org>
+        linux-doc@vger.kernel.org, Henrik Rydberg <rydberg@bitmath.org>
+Subject: [PATCH 5/8] input: Documentation: corrections for multi-touch-protocol.rst
+Date:   Tue,  2 Mar 2021 14:35:20 -0800
+Message-Id: <20210302223523.20130-6-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210302223523.20130-1-rdunlap@infradead.org>
 References: <20210302223523.20130-1-rdunlap@infradead.org>
@@ -45,92 +45,52 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Use "E.g." instead of "Eg.".
-Use correct index for buttons[] array.
-Update all of struct gameport's descriptions.
+Correct hyphenation, spelling, and capitalization.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: linux-input@vger.kernel.org
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
+Cc: Henrik Rydberg <rydberg@bitmath.org>
 ---
- Documentation/input/gameport-programming.rst |   35 +++++++++++------
- 1 file changed, 23 insertions(+), 12 deletions(-)
+ Documentation/input/multi-touch-protocol.rst |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
---- linux-next-20210202.orig/Documentation/input/gameport-programming.rst
-+++ linux-next-20210202/Documentation/input/gameport-programming.rst
-@@ -21,7 +21,7 @@ choose which one to program the hardware
- addresses is preferred, because the likelihood of clashing with the standard
- 0x201 address is smaller.
+--- linux-next-20210202.orig/Documentation/input/multi-touch-protocol.rst
++++ linux-next-20210202/Documentation/input/multi-touch-protocol.rst
+@@ -261,7 +261,7 @@ ABS_MT_PRESSURE
+     signal intensity distribution.
  
--Eg. if your driver supports addresses 0x200, 0x208, 0x210 and 0x218, then
-+E.g. if your driver supports addresses 0x200, 0x208, 0x210 and 0x218, then
- 0x218 would be the address of first choice.
+     If the resolution is zero, the pressure data is in arbitrary units.
+-    If the resolution is nonzero, the pressure data is in units/gram. See
++    If the resolution is non-zero, the pressure data is in units/gram. See
+     :ref:`input-event-codes` for details.
  
- If your hardware supports a gameport address that is not mapped to ISA io
-@@ -78,7 +78,7 @@ the gameport. To register a cooked gamep
+ ABS_MT_DISTANCE
+@@ -279,14 +279,14 @@ ABS_MT_ORIENTATION
+     max should be returned; when aligned with the X axis in the negative
+     direction, the range -max should be returned.
  
- 		for (i = 0; i < 4; i++)
- 			axes[i] = my_mmio[i];
--		buttons[i] = my_mmio[4];
-+		buttons[0] = my_mmio[4];
- 	}
+-    Touch ellipsis are symmetrical by default. For devices capable of true 360
++    Touch ellipses are symmetrical by default. For devices capable of true 360
+     degree orientation, the reported orientation must exceed the range max to
+     indicate more than a quarter of a revolution. For an upside-down finger,
+     range max * 2 should be returned.
  
- 	int my_open(struct gameport *gameport, int mode)
-@@ -117,25 +117,28 @@ Simple::
- The gameport structure
- ~~~~~~~~~~~~~~~~~~~~~~
+     Orientation can be omitted if the touch area is circular, or if the
+     information is not available in the kernel driver. Partial orientation
+-    support is possible if the device can distinguish between the two axis, but
++    support is possible if the device can distinguish between the two axes, but
+     not (uniquely) any values in between. In such cases, the range of
+     ABS_MT_ORIENTATION should be [0, 1] [#f4]_.
  
--.. note::
--
--    This section is outdated. There are several fields here that don't
--    match what's there at include/linux/gameport.h.
--
- ::
+@@ -356,7 +356,7 @@ The range of ABS_MT_ORIENTATION should b
+ the device can distinguish between a finger along the Y axis (0) and a
+ finger along the X axis (1).
  
-     struct gameport {
+-For win8 devices with both T and C coordinates, the position mapping is::
++For Win8 devices with both T and C coordinates, the position mapping is::
  
--	void *private;
-+	void *port_data;
- 
- A private pointer for free use in the gameport driver. (Not the joystick
- driver!)
- 
- ::
- 
--	int number;
-+	char name[32];
-+
-+Driver's name as set by driver calling gameport_set_name(). Informational
-+purpose only.
-+
-+::
-+
-+	char phys[32];
- 
--Number assigned to the gameport when registered. Informational purpose only.
-+gameport's physical name/description as set by driver calling gameport_set_phys().
-+Informational purpose only.
- 
- ::
- 
-@@ -210,8 +213,16 @@ gameport.
- 
- ::
- 
--	struct gameport_dev *dev;
--	struct gameport *next;
-+	struct timer_list poll_timer;
-+	unsigned int poll_interval;     /* in msecs */
-+	spinlock_t timer_lock;
-+	unsigned int poll_cnt;
-+	void (*poll_handler)(struct gameport *);
-+	struct gameport *parent, *child;
-+	struct gameport_driver *drv;
-+	struct mutex drv_mutex;		/* protects serio->drv so attributes can pin driver */
-+	struct device dev;
-+	struct list_head node;
- 
- For internal use by the gameport layer.
- 
+    ABS_MT_POSITION_X := T_X
+    ABS_MT_POSITION_Y := T_Y
