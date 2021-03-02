@@ -2,290 +2,156 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E8ECE32B4CB
-	for <lists+linux-input@lfdr.de>; Wed,  3 Mar 2021 06:38:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DB8D32B4CE
+	for <lists+linux-input@lfdr.de>; Wed,  3 Mar 2021 06:38:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354229AbhCCF25 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 3 Mar 2021 00:28:57 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:13042 "EHLO
-        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2361093AbhCBXTa (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Mar 2021 18:19:30 -0500
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
-        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Dqsqf6HvhzMgMj;
-        Wed,  3 Mar 2021 06:53:34 +0800 (CST)
-Received: from SWX921481.china.huawei.com (10.126.201.99) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 3 Mar 2021 06:55:33 +0800
-From:   Barry Song <song.bao.hua@hisilicon.com>
-To:     <tglx@linutronix.de>, <dmitry.torokhov@gmail.com>,
-        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     <maz@kernel.org>, <gregkh@linuxfoundation.org>,
-        <linuxarm@openeuler.org>, <jonathan.cameron@huawei.com>,
-        Barry Song <song.bao.hua@hisilicon.com>
-Subject: [PATCH v5 2/2] Input: move to use request_irq by IRQF_NO_AUTOEN flag
-Date:   Wed, 3 Mar 2021 11:49:16 +1300
-Message-ID: <20210302224916.13980-3-song.bao.hua@hisilicon.com>
-X-Mailer: git-send-email 2.21.0.windows.1
-In-Reply-To: <20210302224916.13980-1-song.bao.hua@hisilicon.com>
-References: <20210302224916.13980-1-song.bao.hua@hisilicon.com>
+        id S1354234AbhCCF3I (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 3 Mar 2021 00:29:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47616 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234742AbhCBX6L (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Mar 2021 18:58:11 -0500
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D985C06178C
+        for <linux-input@vger.kernel.org>; Tue,  2 Mar 2021 15:57:23 -0800 (PST)
+Received: by mail-lf1-x136.google.com with SMTP id p21so34101265lfu.11
+        for <linux-input@vger.kernel.org>; Tue, 02 Mar 2021 15:57:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6fCVkbah6pSIEP9uT2I1gEQN4XMZej1XdHi/fOlEwxc=;
+        b=uLY6Ewk8O4OadIFIg7ecEqKC3J+ynPM/uF4lqOSOwtcsz7zzX2BljRT4YVWoaKiK/0
+         TCP4VwNrkdir+GJQR/qvCnsILikTxII1Z0BeYt/VXCF29k0xZ6c+bb3lgKGhEeLTlp6m
+         EKqGmx8kFtNFlPDJMY/BpCBxc11OQTtPcXbvZ95fEDb1/YnvprMJjucf1ZOJLMbASKhz
+         2GVwpuf20uGYgMyrJYmmEZkv3l43L9YTzV+fgVdZiOsNeGYkuG5TSAYKEWZ9kwZuMioM
+         ytmIGC+RcUYuRv60Lf0Asv6zzIznnX1MP9rjphl8G1Zp0gQ+D0kGcK/kca/HdzizknCd
+         k0Vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6fCVkbah6pSIEP9uT2I1gEQN4XMZej1XdHi/fOlEwxc=;
+        b=cL+wkzTkdSGFnq85kx+lqZNuZxSZ8KNg7bBjnNhb/eRS624wdZheMqZBYi7p1eVChK
+         M01+KyltjcoYCw6kVyUgi/NR/8meKnny9sTw577/HaFHdnClNIWcjJqFTedONiE8Ncui
+         EXEIEAduCAPXLKAO6UefElm0xkIUwFOdtv3DDIltvv+ul44qZwTqKCR9/oB9I23+eYaq
+         0OmCitk1L74dv2wrfFdzwxEHTyaoUYlfQdjdR3uPmu3VL6JcE7KEd1ahRnfJ8DX1Bcu6
+         JxKVK64YyZdJHRER4pp7ehq5DlFrPIL0tquHnNbRDaJKoI3TBst/JVWPv3CeloXtNqmv
+         tioA==
+X-Gm-Message-State: AOAM533dmcQ/I8kd5bk03ZR4BU+fbvcw9dbQ/DlqK6mmELgMB47P43Zv
+        4j9ZtanU9PtDUtG0EDoEzXv82IrLqX+JEt9CnSSPgvSh2NRnTA==
+X-Google-Smtp-Source: ABdhPJx9+8kF2fruR0C99yWVQkQmsnkFwPk5CaxSZycKlxUBaBvYeA/45SEnP9Bzt2oDwvg4os31NMmmUWvBwhy5dOA=
+X-Received: by 2002:ac2:4255:: with SMTP id m21mr12926860lfl.482.1614729441728;
+ Tue, 02 Mar 2021 15:57:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.126.201.99]
-X-CFilter-Loop: Reflected
+References: <20210225053204.697951-1-lzye@google.com> <1b315e2cd02f4017cc746909088cc8bc1a39024e.camel@hadess.net>
+In-Reply-To: <1b315e2cd02f4017cc746909088cc8bc1a39024e.camel@hadess.net>
+From:   Chris Ye <lzye@google.com>
+Date:   Tue, 2 Mar 2021 15:57:10 -0800
+Message-ID: <CAFFuddJKqkUEFdqhk8o+6K3_a42UyT934dmj002MS8deLD6fdA@mail.gmail.com>
+Subject: Re: [PATCH] [v2] Input: Add "Share" button to Microsoft Xbox One controller.
+To:     Bastien Nocera <hadess@hadess.net>
+Cc:     =?UTF-8?Q?=C5=81ukasz_Patron?= <priv.luk@gmail.com>,
+        Benjamin Valentin <benpicco@googlemail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?Q?Olivier_Cr=C3=AAte?= <olivier.crete@ocrete.ca>,
+        Sanjay Govind <sanjay.govind9@gmail.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        trivial@kernel.org, kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-disable_irq() after request_irq() still has a time gap in which
-interrupts can come. request_irq() with IRQF_NO_AUTOEN flag will
-disable IRQ auto-enable because of requesting.
+Hi Bastien,
+    The "Share button" is a name Microsoft calls it, it actually has
+HID descriptor defined in the bluetooth interface, which the HID usage
+is:
+consumer 0xB2:
+0x05, 0x0C,        //   Usage Page (Consumer)
+0x0A, 0xB2, 0x00,  //   Usage (Record)
+Microsoft wants the same key code to be generated consistently for USB
+and bluetooth.
+Thanks!
+Chris
 
-On the other hand, request_irq() after setting IRQ_NOAUTOEN as
-below
-irq_set_status_flags(irq, IRQ_NOAUTOEN);
-request_irq(dev, irq...);
-can also be replaced by request_irq() with IRQF_NO_AUTOEN flag.
 
-Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
----
- drivers/input/keyboard/tca6416-keypad.c  | 3 +--
- drivers/input/keyboard/tegra-kbc.c       | 5 ++---
- drivers/input/touchscreen/ar1021_i2c.c   | 5 +----
- drivers/input/touchscreen/atmel_mxt_ts.c | 5 ++---
- drivers/input/touchscreen/bu21029_ts.c   | 4 ++--
- drivers/input/touchscreen/cyttsp_core.c  | 5 ++---
- drivers/input/touchscreen/melfas_mip4.c  | 5 ++---
- drivers/input/touchscreen/mms114.c       | 4 ++--
- drivers/input/touchscreen/stmfts.c       | 3 +--
- drivers/input/touchscreen/wm831x-ts.c    | 3 +--
- drivers/input/touchscreen/zinitix.c      | 4 ++--
- 11 files changed, 18 insertions(+), 28 deletions(-)
-
-diff --git a/drivers/input/keyboard/tca6416-keypad.c b/drivers/input/keyboard/tca6416-keypad.c
-index 9b0f9665dcb0..2a9755910065 100644
---- a/drivers/input/keyboard/tca6416-keypad.c
-+++ b/drivers/input/keyboard/tca6416-keypad.c
-@@ -274,7 +274,7 @@ static int tca6416_keypad_probe(struct i2c_client *client,
- 		error = request_threaded_irq(chip->irqnum, NULL,
- 					     tca6416_keys_isr,
- 					     IRQF_TRIGGER_FALLING |
--						IRQF_ONESHOT,
-+					     IRQF_ONESHOT | IRQF_NO_AUTOEN,
- 					     "tca6416-keypad", chip);
- 		if (error) {
- 			dev_dbg(&client->dev,
-@@ -282,7 +282,6 @@ static int tca6416_keypad_probe(struct i2c_client *client,
- 				chip->irqnum, error);
- 			goto fail1;
- 		}
--		disable_irq(chip->irqnum);
- 	}
- 
- 	error = input_register_device(input);
-diff --git a/drivers/input/keyboard/tegra-kbc.c b/drivers/input/keyboard/tegra-kbc.c
-index 9671842a082a..570fe18c0ce9 100644
---- a/drivers/input/keyboard/tegra-kbc.c
-+++ b/drivers/input/keyboard/tegra-kbc.c
-@@ -694,14 +694,13 @@ static int tegra_kbc_probe(struct platform_device *pdev)
- 	input_set_drvdata(kbc->idev, kbc);
- 
- 	err = devm_request_irq(&pdev->dev, kbc->irq, tegra_kbc_isr,
--			       IRQF_TRIGGER_HIGH, pdev->name, kbc);
-+			       IRQF_TRIGGER_HIGH | IRQF_NO_AUTOEN,
-+			       pdev->name, kbc);
- 	if (err) {
- 		dev_err(&pdev->dev, "failed to request keyboard IRQ\n");
- 		return err;
- 	}
- 
--	disable_irq(kbc->irq);
--
- 	err = input_register_device(kbc->idev);
- 	if (err) {
- 		dev_err(&pdev->dev, "failed to register input device\n");
-diff --git a/drivers/input/touchscreen/ar1021_i2c.c b/drivers/input/touchscreen/ar1021_i2c.c
-index c0d5c2413356..dc6a85362a40 100644
---- a/drivers/input/touchscreen/ar1021_i2c.c
-+++ b/drivers/input/touchscreen/ar1021_i2c.c
-@@ -125,7 +125,7 @@ static int ar1021_i2c_probe(struct i2c_client *client,
- 
- 	error = devm_request_threaded_irq(&client->dev, client->irq,
- 					  NULL, ar1021_i2c_irq,
--					  IRQF_ONESHOT,
-+					  IRQF_ONESHOT | IRQF_NO_AUTOEN,
- 					  "ar1021_i2c", ar1021);
- 	if (error) {
- 		dev_err(&client->dev,
-@@ -133,9 +133,6 @@ static int ar1021_i2c_probe(struct i2c_client *client,
- 		return error;
- 	}
- 
--	/* Disable the IRQ, we'll enable it in ar1021_i2c_open() */
--	disable_irq(client->irq);
--
- 	error = input_register_device(ar1021->input);
- 	if (error) {
- 		dev_err(&client->dev,
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 383a848eb601..3c837c7b24b3 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -3156,15 +3156,14 @@ static int mxt_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 	}
- 
- 	error = devm_request_threaded_irq(&client->dev, client->irq,
--					  NULL, mxt_interrupt, IRQF_ONESHOT,
-+					  NULL, mxt_interrupt,
-+					  IRQF_ONESHOT | IRQF_NO_AUTOEN,
- 					  client->name, data);
- 	if (error) {
- 		dev_err(&client->dev, "Failed to register interrupt\n");
- 		return error;
- 	}
- 
--	disable_irq(client->irq);
--
- 	error = regulator_bulk_enable(ARRAY_SIZE(data->regulators),
- 				      data->regulators);
- 	if (error) {
-diff --git a/drivers/input/touchscreen/bu21029_ts.c b/drivers/input/touchscreen/bu21029_ts.c
-index 341925edb8e6..392950aa7856 100644
---- a/drivers/input/touchscreen/bu21029_ts.c
-+++ b/drivers/input/touchscreen/bu21029_ts.c
-@@ -401,10 +401,10 @@ static int bu21029_probe(struct i2c_client *client,
- 
- 	input_set_drvdata(in_dev, bu21029);
- 
--	irq_set_status_flags(client->irq, IRQ_NOAUTOEN);
- 	error = devm_request_threaded_irq(&client->dev, client->irq,
- 					  NULL, bu21029_touch_soft_irq,
--					  IRQF_ONESHOT, DRIVER_NAME, bu21029);
-+					  IRQF_ONESHOT | IRQF_NO_AUTOEN,
-+					  DRIVER_NAME, bu21029);
- 	if (error) {
- 		dev_err(&client->dev,
- 			"unable to request touch irq: %d\n", error);
-diff --git a/drivers/input/touchscreen/cyttsp_core.c b/drivers/input/touchscreen/cyttsp_core.c
-index 73c854f35f33..d5c933604168 100644
---- a/drivers/input/touchscreen/cyttsp_core.c
-+++ b/drivers/input/touchscreen/cyttsp_core.c
-@@ -652,7 +652,8 @@ struct cyttsp *cyttsp_probe(const struct cyttsp_bus_ops *bus_ops,
- 	}
- 
- 	error = devm_request_threaded_irq(dev, ts->irq, NULL, cyttsp_irq,
--					  IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-+					  IRQF_TRIGGER_FALLING | IRQF_ONESHOT |
-+					  IRQF_NO_AUTOEN,
- 					  "cyttsp", ts);
- 	if (error) {
- 		dev_err(ts->dev, "failed to request IRQ %d, err: %d\n",
-@@ -660,8 +661,6 @@ struct cyttsp *cyttsp_probe(const struct cyttsp_bus_ops *bus_ops,
- 		return ERR_PTR(error);
- 	}
- 
--	disable_irq(ts->irq);
--
- 	cyttsp_hard_reset(ts);
- 
- 	error = cyttsp_power_on(ts);
-diff --git a/drivers/input/touchscreen/melfas_mip4.c b/drivers/input/touchscreen/melfas_mip4.c
-index 225796a3f546..2745bf1aee38 100644
---- a/drivers/input/touchscreen/melfas_mip4.c
-+++ b/drivers/input/touchscreen/melfas_mip4.c
-@@ -1502,7 +1502,8 @@ static int mip4_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 
- 	error = devm_request_threaded_irq(&client->dev, client->irq,
- 					  NULL, mip4_interrupt,
--					  IRQF_ONESHOT, MIP4_DEVICE_NAME, ts);
-+					  IRQF_ONESHOT | IRQF_NO_AUTOEN,
-+					  MIP4_DEVICE_NAME, ts);
- 	if (error) {
- 		dev_err(&client->dev,
- 			"Failed to request interrupt %d: %d\n",
-@@ -1510,8 +1511,6 @@ static int mip4_probe(struct i2c_client *client, const struct i2c_device_id *id)
- 		return error;
- 	}
- 
--	disable_irq(client->irq);
--
- 	error = input_register_device(input);
- 	if (error) {
- 		dev_err(&client->dev,
-diff --git a/drivers/input/touchscreen/mms114.c b/drivers/input/touchscreen/mms114.c
-index 16557f51b09d..7043f57ea2dd 100644
---- a/drivers/input/touchscreen/mms114.c
-+++ b/drivers/input/touchscreen/mms114.c
-@@ -530,13 +530,13 @@ static int mms114_probe(struct i2c_client *client,
- 	}
- 
- 	error = devm_request_threaded_irq(&client->dev, client->irq,
--					  NULL, mms114_interrupt, IRQF_ONESHOT,
-+					  NULL, mms114_interrupt,
-+					  IRQF_ONESHOT | IRQF_NO_AUTOEN,
- 					  dev_name(&client->dev), data);
- 	if (error) {
- 		dev_err(&client->dev, "Failed to register interrupt\n");
- 		return error;
- 	}
--	disable_irq(client->irq);
- 
- 	error = input_register_device(data->input_dev);
- 	if (error) {
-diff --git a/drivers/input/touchscreen/stmfts.c b/drivers/input/touchscreen/stmfts.c
-index 9a64e1dbc04a..bc11203c9cf7 100644
---- a/drivers/input/touchscreen/stmfts.c
-+++ b/drivers/input/touchscreen/stmfts.c
-@@ -691,10 +691,9 @@ static int stmfts_probe(struct i2c_client *client,
- 	 * interrupts. To be on the safe side it's better to not enable
- 	 * the interrupts during their request.
- 	 */
--	irq_set_status_flags(client->irq, IRQ_NOAUTOEN);
- 	err = devm_request_threaded_irq(&client->dev, client->irq,
- 					NULL, stmfts_irq_handler,
--					IRQF_ONESHOT,
-+					IRQF_ONESHOT | IRQF_NO_AUTOEN,
- 					"stmfts_irq", sdata);
- 	if (err)
- 		return err;
-diff --git a/drivers/input/touchscreen/wm831x-ts.c b/drivers/input/touchscreen/wm831x-ts.c
-index bb1699e0d3c7..319f57fb9af5 100644
---- a/drivers/input/touchscreen/wm831x-ts.c
-+++ b/drivers/input/touchscreen/wm831x-ts.c
-@@ -317,14 +317,13 @@ static int wm831x_ts_probe(struct platform_device *pdev)
- 
- 	error = request_threaded_irq(wm831x_ts->data_irq,
- 				     NULL, wm831x_ts_data_irq,
--				     irqf | IRQF_ONESHOT,
-+				     irqf | IRQF_ONESHOT | IRQF_NO_AUTOEN,
- 				     "Touchscreen data", wm831x_ts);
- 	if (error) {
- 		dev_err(&pdev->dev, "Failed to request data IRQ %d: %d\n",
- 			wm831x_ts->data_irq, error);
- 		goto err_alloc;
- 	}
--	disable_irq(wm831x_ts->data_irq);
- 
- 	if (pdata && pdata->pd_irqf)
- 		irqf = pdata->pd_irqf;
-diff --git a/drivers/input/touchscreen/zinitix.c b/drivers/input/touchscreen/zinitix.c
-index 3b636beb583c..b8d901099378 100644
---- a/drivers/input/touchscreen/zinitix.c
-+++ b/drivers/input/touchscreen/zinitix.c
-@@ -513,10 +513,10 @@ static int zinitix_ts_probe(struct i2c_client *client)
- 		return -EINVAL;
- 	}
- 
--	irq_set_status_flags(client->irq, IRQ_NOAUTOEN);
- 	error = devm_request_threaded_irq(&client->dev, client->irq,
- 					  NULL, zinitix_ts_irq_handler,
--					  IRQF_ONESHOT, client->name, bt541);
-+					  IRQF_ONESHOT | IRQF_NO_AUTOEN,
-+					  client->name, bt541);
- 	if (error) {
- 		dev_err(&client->dev, "Failed to request IRQ: %d\n", error);
- 		return error;
--- 
-2.25.1
-
+On Tue, Mar 2, 2021 at 1:50 AM Bastien Nocera <hadess@hadess.net> wrote:
+>
+> On Thu, 2021-02-25 at 05:32 +0000, Chris Ye wrote:
+> > Add "Share" button input capability and input event mapping for
+> > Microsoft Xbox One controller.
+> > Fixed Microsoft Xbox One controller share button not working under USB
+> > connection.
+> >
+> > Signed-off-by: Chris Ye <lzye@google.com>
+> > ---
+> >  drivers/input/joystick/xpad.c | 9 ++++++++-
+> >  1 file changed, 8 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/input/joystick/xpad.c
+> > b/drivers/input/joystick/xpad.c
+> > index 9f0d07dcbf06..0c3374091aff 100644
+> > --- a/drivers/input/joystick/xpad.c
+> > +++ b/drivers/input/joystick/xpad.c
+> > @@ -79,6 +79,7 @@
+> >  #define MAP_DPAD_TO_BUTTONS            (1 << 0)
+> >  #define MAP_TRIGGERS_TO_BUTTONS                (1 << 1)
+> >  #define MAP_STICKS_TO_NULL             (1 << 2)
+> > +#define MAP_SHARE_BUTTON               (1 << 3)
+> >  #define DANCEPAD_MAP_CONFIG    (MAP_DPAD_TO_BUTTONS
+> > |                  \
+> >                                 MAP_TRIGGERS_TO_BUTTONS |
+> > MAP_STICKS_TO_NULL)
+> >
+> > @@ -130,6 +131,7 @@ static const struct xpad_device {
+> >         { 0x045e, 0x02e3, "Microsoft X-Box One Elite pad", 0,
+> > XTYPE_XBOXONE },
+> >         { 0x045e, 0x02ea, "Microsoft X-Box One S pad", 0, XTYPE_XBOXONE
+> > },
+> >         { 0x045e, 0x0719, "Xbox 360 Wireless Receiver",
+> > MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360W },
+> > +       { 0x045e, 0x0b12, "Microsoft X-Box One X pad",
+> > MAP_SHARE_BUTTON, XTYPE_XBOXONE },
+> >         { 0x046d, 0xc21d, "Logitech Gamepad F310", 0, XTYPE_XBOX360 },
+> >         { 0x046d, 0xc21e, "Logitech Gamepad F510", 0, XTYPE_XBOX360 },
+> >         { 0x046d, 0xc21f, "Logitech Gamepad F710", 0, XTYPE_XBOX360 },
+> > @@ -862,6 +864,8 @@ static void xpadone_process_packet(struct usb_xpad
+> > *xpad, u16 cmd, unsigned char
+> >         /* menu/view buttons */
+> >         input_report_key(dev, BTN_START,  data[4] & 0x04);
+> >         input_report_key(dev, BTN_SELECT, data[4] & 0x08);
+> > +       if (xpad->mapping & MAP_SHARE_BUTTON)
+> > +               input_report_key(dev, KEY_RECORD, data[22] & 0x01);
+> >
+> >         /* buttons A,B,X,Y */
+> >         input_report_key(dev, BTN_A,    data[4] & 0x10);
+> > @@ -1669,9 +1673,12 @@ static int xpad_init_input(struct usb_xpad
+> > *xpad)
+> >
+> >         /* set up model-specific ones */
+> >         if (xpad->xtype == XTYPE_XBOX360 || xpad->xtype ==
+> > XTYPE_XBOX360W ||
+> > -           xpad->xtype == XTYPE_XBOXONE) {
+> > +               xpad->xtype == XTYPE_XBOXONE) {
+> >                 for (i = 0; xpad360_btn[i] >= 0; i++)
+> >                         input_set_capability(input_dev, EV_KEY,
+> > xpad360_btn[i]);
+> > +               if (xpad->mapping & MAP_SHARE_BUTTON) {
+> > +                       input_set_capability(input_dev, EV_KEY,
+> > KEY_RECORD);
+>
+> Is there not a better keycode to use than "Record"? Should a "share"
+> keycode be added?
+>
+> I couldn't find a share button in the most recent USB HID Usage Tables:
+> https://www.usb.org/document-library/hid-usage-tables-121
+>
+> > +               }
+> >         } else {
+> >                 for (i = 0; xpad_btn[i] >= 0; i++)
+> >                         input_set_capability(input_dev, EV_KEY,
+> > xpad_btn[i]);
+>
+>
