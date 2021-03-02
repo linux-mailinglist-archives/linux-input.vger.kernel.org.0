@@ -2,38 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89C4332A594
-	for <lists+linux-input@lfdr.de>; Tue,  2 Mar 2021 17:22:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EFD7F32A599
+	for <lists+linux-input@lfdr.de>; Tue,  2 Mar 2021 17:22:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1447172AbhCBMvC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 2 Mar 2021 07:51:02 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41456 "EHLO mail.kernel.org"
+        id S1447187AbhCBMvJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 2 Mar 2021 07:51:09 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44858 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1350226AbhCBMC5 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 2 Mar 2021 07:02:57 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3393B64F2E;
-        Tue,  2 Mar 2021 11:56:14 +0000 (UTC)
+        id S1443552AbhCBMLd (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 2 Mar 2021 07:11:33 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2AD5864F5F;
+        Tue,  2 Mar 2021 11:57:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614686174;
-        bh=Q8QoCWn0zrvn2VEGKj/DLiIbYOnwej6fNhaDTCBlQwo=;
+        s=k20201202; t=1614686231;
+        bh=JD8u1dCeXN896PWvhN7ssVxUY58m2NaSaqVJ8fjFQYs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ki6S7dLt9rjqpamccIURmJmXwX4XIRZnZtAJTwkzaMZPIUCl0N0Vp0pXxbeky6m6q
-         lzNpwKoH/hjQmTzmDCGJz75IugecxcBSUAXsfjUF78kzhnt+iOtOLZoMHbLVecdHqL
-         Wou2NgPYN6pXyByCpC/iggiBxxr86ypijueoRoyA6LCGpXKLDXFNJyufMHu22HYHbi
-         zCiGr0a50VJLNt6+o/r7eBqGqCK1DsV0jVIIwyWE0X+3nI8YeZYxE9ErbepWo/X+8l
-         eHWPEgKXSHGs6WLijK2kzF4rfDxvS825+MUCwQoM+h3RWi+YjWVwpc88py8gdDGHDK
-         ClzqJMbN28UVw==
+        b=VFNr4ONGo4KwJene1I/snuYoRwCMNWKHqfxF97f+TGRPITbWTBZ1X5xCtWbYtOgfH
+         FF2+UbyUjrjCIl4Ca00PVSEiINxxjLN+TdqAuZzXRN3PJpudKzNcYSWOqcGGhIDQzk
+         Tq4rfZE3UgVymVfeldXVdE6XAvRZ8DxFv+4LsjnUigrjHT6r5w9M/XiWPyRSrhHWoO
+         SNo5HNphijxjO8QiQcfjR3k6kTqXWvRl7DwaXaGW/XJk1xQVk8dXEHE84qhbUzKlp1
+         WuI5A34Ldm+3JdbPXflgg/7gcMH5h4dy+b+Xz3KQi7Hapya0PJygcCieBuJL2OZP+B
+         XnC7zZhCWqQ4g==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     =?UTF-8?q?Ronald=20Tschal=C3=A4r?= <ronald@innovation.ch>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.11 30/52] Input: applespi - don't wait for responses to commands indefinitely.
-Date:   Tue,  2 Mar 2021 06:55:11 -0500
-Message-Id: <20210302115534.61800-30-sashal@kernel.org>
+Cc:     =?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 19/47] HID: logitech-dj: add support for the new lightspeed connection iteration
+Date:   Tue,  2 Mar 2021 06:56:18 -0500
+Message-Id: <20210302115646.62291-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210302115534.61800-1-sashal@kernel.org>
-References: <20210302115534.61800-1-sashal@kernel.org>
+In-Reply-To: <20210302115646.62291-1-sashal@kernel.org>
+References: <20210302115646.62291-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -43,92 +43,55 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Ronald Tschalär <ronald@innovation.ch>
+From: Filipe Laíns <lains@riseup.net>
 
-[ Upstream commit 0ce1ac23149c6da939a5926c098c270c58c317a0 ]
+[ Upstream commit fab3a95654eea01d6b0204995be8b7492a00d001 ]
 
-The response to a command may never arrive or it may be corrupted (and
-hence dropped) for some reason. While exceedingly rare, when it did
-happen it blocked all further commands. One way to fix this was to
-do a suspend/resume. However, recovering automatically seems like a
-nicer option. Hence this puts a time limit (1 sec) on how long we're
-willing to wait for a response, after which we assume it got lost.
+This new connection type is the new iteration of the Lightspeed
+connection and will probably be used in some of the newer gaming
+devices. It is currently use in the G Pro X Superlight.
 
-Signed-off-by: Ronald Tschalär <ronald@innovation.ch>
-Link: https://lore.kernel.org/r/20210217190718.11035-1-ronald@innovation.ch
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+This patch should be backported to older versions, as currently the
+driver will panic when seing the unsupported connection. This isn't
+an issue when using the receiver that came with the device, as Logitech
+has been using different PIDs when they change the connection type, but
+is an issue when using a generic receiver (well, generic Lightspeed
+receiver), which is the case of the one in the Powerplay mat. Currently,
+the only generic Ligthspeed receiver we support, and the only one that
+exists AFAIK, is ther Powerplay.
+
+As it stands, the driver will panic when seeing a G Pro X Superlight
+connected to the Powerplay receiver and won't send any input events to
+userspace! The kernel will warn about this so the issue should be easy
+to identify, but it is still very worrying how hard it will fail :(
+
+[915977.398471] logitech-djreceiver 0003:046D:C53A.0107: unusable device of type UNKNOWN (0x0f) connected on slot 1
+
+Signed-off-by: Filipe Laíns <lains@riseup.net>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/input/keyboard/applespi.c | 21 +++++++++++++++------
- 1 file changed, 15 insertions(+), 6 deletions(-)
+ drivers/hid/hid-logitech-dj.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/input/keyboard/applespi.c b/drivers/input/keyboard/applespi.c
-index d22223154177..27e87c45edf2 100644
---- a/drivers/input/keyboard/applespi.c
-+++ b/drivers/input/keyboard/applespi.c
-@@ -48,6 +48,7 @@
- #include <linux/efi.h>
- #include <linux/input.h>
- #include <linux/input/mt.h>
-+#include <linux/ktime.h>
- #include <linux/leds.h>
- #include <linux/module.h>
- #include <linux/spinlock.h>
-@@ -409,7 +410,7 @@ struct applespi_data {
- 	unsigned int			cmd_msg_cntr;
- 	/* lock to protect the above parameters and flags below */
- 	spinlock_t			cmd_msg_lock;
--	bool				cmd_msg_queued;
-+	ktime_t				cmd_msg_queued;
- 	enum applespi_evt_type		cmd_evt_type;
- 
- 	struct led_classdev		backlight_info;
-@@ -729,7 +730,7 @@ static void applespi_msg_complete(struct applespi_data *applespi,
- 		wake_up_all(&applespi->drain_complete);
- 
- 	if (is_write_msg) {
--		applespi->cmd_msg_queued = false;
-+		applespi->cmd_msg_queued = 0;
- 		applespi_send_cmd_msg(applespi);
- 	}
- 
-@@ -771,8 +772,16 @@ static int applespi_send_cmd_msg(struct applespi_data *applespi)
- 		return 0;
- 
- 	/* check whether send is in progress */
--	if (applespi->cmd_msg_queued)
--		return 0;
-+	if (applespi->cmd_msg_queued) {
-+		if (ktime_ms_delta(ktime_get(), applespi->cmd_msg_queued) < 1000)
-+			return 0;
-+
-+		dev_warn(&applespi->spi->dev, "Command %d timed out\n",
-+			 applespi->cmd_evt_type);
-+
-+		applespi->cmd_msg_queued = 0;
-+		applespi->write_active = false;
-+	}
- 
- 	/* set up packet */
- 	memset(packet, 0, APPLESPI_PACKET_SIZE);
-@@ -869,7 +878,7 @@ static int applespi_send_cmd_msg(struct applespi_data *applespi)
- 		return sts;
- 	}
- 
--	applespi->cmd_msg_queued = true;
-+	applespi->cmd_msg_queued = ktime_get_coarse();
- 	applespi->write_active = true;
- 
- 	return 0;
-@@ -1921,7 +1930,7 @@ static int __maybe_unused applespi_resume(struct device *dev)
- 	applespi->drain = false;
- 	applespi->have_cl_led_on = false;
- 	applespi->have_bl_level = 0;
--	applespi->cmd_msg_queued = false;
-+	applespi->cmd_msg_queued = 0;
- 	applespi->read_active = false;
- 	applespi->write_active = false;
- 
+diff --git a/drivers/hid/hid-logitech-dj.c b/drivers/hid/hid-logitech-dj.c
+index 45e7e0bdd382..1401ee2067ca 100644
+--- a/drivers/hid/hid-logitech-dj.c
++++ b/drivers/hid/hid-logitech-dj.c
+@@ -994,7 +994,12 @@ static void logi_hidpp_recv_queue_notif(struct hid_device *hdev,
+ 		workitem.reports_supported |= STD_KEYBOARD;
+ 		break;
+ 	case 0x0d:
+-		device_type = "eQUAD Lightspeed 1_1";
++		device_type = "eQUAD Lightspeed 1.1";
++		logi_hidpp_dev_conn_notif_equad(hdev, hidpp_report, &workitem);
++		workitem.reports_supported |= STD_KEYBOARD;
++		break;
++	case 0x0f:
++		device_type = "eQUAD Lightspeed 1.2";
+ 		logi_hidpp_dev_conn_notif_equad(hdev, hidpp_report, &workitem);
+ 		workitem.reports_supported |= STD_KEYBOARD;
+ 		break;
 -- 
 2.30.1
 
