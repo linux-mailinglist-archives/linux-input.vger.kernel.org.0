@@ -2,40 +2,41 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8871532B4C5
-	for <lists+linux-input@lfdr.de>; Wed,  3 Mar 2021 06:38:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F311832B4BD
+	for <lists+linux-input@lfdr.de>; Wed,  3 Mar 2021 06:38:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354197AbhCCF2K (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 3 Mar 2021 00:28:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33174 "EHLO
+        id S1354185AbhCCF1j (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 3 Mar 2021 00:27:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1575650AbhCBWvL (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Mar 2021 17:51:11 -0500
+        with ESMTP id S1351253AbhCBWi4 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 2 Mar 2021 17:38:56 -0500
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1707CC0617A7;
-        Tue,  2 Mar 2021 14:35:34 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 488BEC0617A9;
+        Tue,  2 Mar 2021 14:35:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
         References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
         Content-Type:Content-ID:Content-Description;
-        bh=n4VpW1dbQd8Zx+huhC9LfBK+7Clecd7ozsypBkRhGIc=; b=KwElQgJ0cx8ytnlLbFabpIWy08
-        J/f4Q4AS3y98+/1SZSKWbdRKG/keIii2x7wcjk1CK06+dzfjmuh4iYzBnWFNJXQ1On7Mg5t6BOVJF
-        hb6+0v1vXYYXqhd0Ox6dbcsT0cTJqkhFBFqfnzamlA6wkyaVWzFnh6rNnWry9xPMp0Tj1BqVYugXZ
-        YRUyTqvIrVHCF2WSd5w6GalcwpMwa6u+MD5Y+IaGv5VhYrckB/bxbSL5ZJwsYAyL6j0rVzftjA7lo
-        7f2YS25ArJsCFEsEH6C8eLdq4ovfTclMCAdzJZ4smi3tkInr35uxWAdQuS7gLu6ac7VeFEBzHfV7V
-        JIxpgA7Q==;
+        bh=jnru7A6CJNDQgxd1XaHKuQe6QWiH67rHqnYf9JHq3JI=; b=a+9blF9cjjqsNi/iRJ64QnJkOj
+        llIfARqGcb2VZ8jbyw49Pdt6sp0E3SeXCHxf3P0R8wDvPJKcLlps79COQQMhS69UhVJw7jK4M5X3s
+        p53HZ1FGpIUKgaAKj20JCX5gv5vFoRJH2cFrRppXDx5zQVkJ5fgDNy9Ezsd6U1EVAJ0Lth8YxnoBz
+        3+yvfYee+NuIlrAmsuQkhXymQXT6ipQKn6gptURyobrFxK7D03YMnAh/uZ96HMqtPlrpJKTjOI08+
+        ypahQg1MbZ3fOPDjrn6os5PBrW7R2BnLjb2NksV0htTC55xKmkV+N3Ojzs0Tjd5AJbcK8TkPgFcbU
+        QfO/nwZQ==;
 Received: from [2601:1c0:6280:3f0::3ba4] (helo=smtpauth.infradead.org)
         by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lHDc3-000WSO-Fm; Tue, 02 Mar 2021 22:35:32 +0000
+        id 1lHDc6-000WSO-EU; Tue, 02 Mar 2021 22:35:35 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 2/8] input: Documentation: corrections for event-codes.rst
-Date:   Tue,  2 Mar 2021 14:35:17 -0800
-Message-Id: <20210302223523.20130-3-rdunlap@infradead.org>
+        linux-doc@vger.kernel.org, Johann Deneux <johann.deneux@gmail.com>,
+        Anssi Hannula <anssi.hannula@gmail.com>
+Subject: [PATCH 3/8 RESEND] input: Documentation: update related file names in ff.rst
+Date:   Tue,  2 Mar 2021 14:35:18 -0800
+Message-Id: <20210302223523.20130-4-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210302223523.20130-1-rdunlap@infradead.org>
 References: <20210302223523.20130-1-rdunlap@infradead.org>
@@ -45,56 +46,42 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Fix hyphenation, typos, capitalization, and a referenced file name
-(.txt -> .rst).
+Change other related documentation file names from .txt to .rst
+and be more explicit about their paths/locations.
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc: linux-input@vger.kernel.org
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
+Cc: Johann Deneux <johann.deneux@gmail.com>
+Cc: Anssi Hannula <anssi.hannula@gmail.com>
 ---
- Documentation/input/event-codes.rst |   10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+where is fftest mentioned here found? I only found one place:
+  https://github.com/flosse/linuxconsole/blob/master/utils/fftest.c
 
---- linux-next-20210202.orig/Documentation/input/event-codes.rst
-+++ linux-next-20210202/Documentation/input/event-codes.rst
-@@ -246,9 +246,9 @@ A few EV_ABS codes have special meanings
+ Documentation/input/ff.rst |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+--- linux-next-20210202.orig/Documentation/input/ff.rst
++++ linux-next-20210202/Documentation/input/ff.rst
+@@ -16,8 +16,8 @@ goal is not to support these devices as
+ (as it is already the case), but to really enable the rendering of force
+ effects.
+ This document only describes the force feedback part of the Linux input
+-interface. Please read joystick.txt and input.txt before reading further this
+-document.
++interface. Please read joydev/joystick.rst and input.rst before reading further
++this document.
  
-      A device should set the resolution of the axis to indicate whether the
-      pressure is in measurable units. If the resolution is zero, the
--     pressure data is in arbitrary units. If the resolution is nonzero, the
-+     pressure data is in arbitrary units. If the resolution is non-zero, the
-      pressure data is in units/gram. For example, a value of 10 with a
--     resolution of 1 represents 10 gram, a value of 10 with a resolution on
-+     resolution of 1 represents 10 gram, a value of 10 with a resolution of
-      1000 represents 10 microgram.
+ Instructions to the user
+ ~~~~~~~~~~~~~~~~~~~~~~~~
+@@ -36,7 +36,7 @@ should keep a hand on your device, in or
+ something goes wrong.
  
- EV_SW
-@@ -344,7 +344,7 @@ INPUT_PROP_BUTTONPAD
+ If you have a serial iforce device, you need to start inputattach. See
+-joystick.txt for details.
++joydev/joystick.rst for details.
  
- For touchpads where the button is placed beneath the surface, such that
- pressing down on the pad causes a button click, this property should be
--set. Common in clickpad notebooks and macbooks from 2009 and onwards.
-+set. Common in Clickpad notebooks and Macbooks from 2009 and onwards.
- 
- Originally, the buttonpad property was coded into the bcm5974 driver
- version field under the name integrated button. For backwards
-@@ -356,7 +356,7 @@ INPUT_PROP_SEMI_MT
- Some touchpads, most common between 2008 and 2011, can detect the presence
- of multiple contacts without resolving the individual positions; only the
- number of contacts and a rectangular shape is known. For such
--touchpads, the semi-mt property should be set.
-+touchpads, the SEMI_MT property should be set.
- 
- Depending on the device, the rectangle may enclose all touches, like a
- bounding box, or just some of them, for instance the two most recent
-@@ -394,7 +394,7 @@ Guidelines
- ==========
- 
- The guidelines below ensure proper single-touch and multi-finger functionality.
--For multi-touch functionality, see the multi-touch-protocol.txt document for
-+For multi-touch functionality, see the multi-touch-protocol.rst document for
- more information.
- 
- Mice
+ Does it work ?
+ --------------
