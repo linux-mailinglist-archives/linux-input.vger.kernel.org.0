@@ -2,126 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 347B632CD40
-	for <lists+linux-input@lfdr.de>; Thu,  4 Mar 2021 08:02:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6321B32CE52
+	for <lists+linux-input@lfdr.de>; Thu,  4 Mar 2021 09:23:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232491AbhCDHBR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 4 Mar 2021 02:01:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50790 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232362AbhCDHAs (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 4 Mar 2021 02:00:48 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8E27C061756
-        for <linux-input@vger.kernel.org>; Wed,  3 Mar 2021 23:00:07 -0800 (PST)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1lHhxs-0002sD-Lt; Thu, 04 Mar 2021 08:00:04 +0100
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1lHhxn-00069o-2p; Thu, 04 Mar 2021 07:59:59 +0100
-Date:   Thu, 4 Mar 2021 07:59:58 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     stable@vger.kernel.org
-Cc:     jingle <jingle.wu@emc.com.tw>, kernel@pengutronix.de,
-        linux-input@vger.kernel.org,
-        'Dmitry Torokhov' <dmitry.torokhov@gmail.com>
-Subject: Re: elan_i2c: failed to read report data: -71
-Message-ID: <20210304065958.n3u5ewoby6rjsdvj@pengutronix.de>
-References: <20210302210934.iro3a6chigx72r4n@pengutronix.de>
- <016d01d70fdb$2aa48b00$7feda100$@emc.com.tw>
- <20210303183223.rtqi63hdl3a7hahv@pengutronix.de>
- <20210303200330.udsge64hxlrdkbwt@pengutronix.de>
- <YEA9oajb7qj6LGPD@google.com>
+        id S236573AbhCDIWV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 4 Mar 2021 03:22:21 -0500
+Received: from mga12.intel.com ([192.55.52.136]:8184 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235802AbhCDIWK (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 4 Mar 2021 03:22:10 -0500
+IronPort-SDR: h/AZN0XsGLgD729fL568E73zRMBTl/PxrMgf5V0W84KXoYtJipWAQswLzmAHP4rnAIotYJ97mJ
+ 7o49+IX53atw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9912"; a="166625125"
+X-IronPort-AV: E=Sophos;i="5.81,222,1610438400"; 
+   d="scan'208";a="166625125"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 00:20:25 -0800
+IronPort-SDR: KtnJIZJxOwEy5iAWkXc/uy11mqntPRYTwvWunItyldZyge//csYiVPDM+6biih0zU8lGQ2K/V5
+ xk0yPNP0bG5Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,222,1610438400"; 
+   d="scan'208";a="507271929"
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 04 Mar 2021 00:20:23 -0800
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Mark Gross <mgross@linux.intel.com>, linux-input@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+Subject: [PATCH] platform/x86: touchscreen_dmi: Handle device properties with software node API
+Date:   Thu,  4 Mar 2021 11:20:23 +0300
+Message-Id: <20210304082023.17689-1-heikki.krogerus@linux.intel.com>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="33bpheodspxdcs3h"
-Content-Disposition: inline
-In-Reply-To: <YEA9oajb7qj6LGPD@google.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+The old device property API (device_add_properties()) is
+going to be removed. Replacing the it with the software node
+API equivalent, device_create_managed_software_node().
 
---33bpheodspxdcs3h
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+---
+ drivers/platform/x86/touchscreen_dmi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hello,
+diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+index c44a6e8dceb8c..45203e333f578 100644
+--- a/drivers/platform/x86/touchscreen_dmi.c
++++ b/drivers/platform/x86/touchscreen_dmi.c
+@@ -1355,7 +1355,7 @@ static void ts_dmi_add_props(struct i2c_client *client)
+ 
+ 	if (has_acpi_companion(dev) &&
+ 	    !strncmp(ts_data->acpi_name, client->name, I2C_NAME_SIZE)) {
+-		error = device_add_properties(dev, ts_data->properties);
++		error = device_create_managed_software_node(dev, ts_data->properties, NULL);
+ 		if (error)
+ 			dev_err(dev, "failed to add properties: %d\n", error);
+ 	}
+-- 
+2.30.1
 
-On Wed, Mar 03, 2021 at 05:53:37PM -0800, 'Dmitry Torokhov' wrote:
-> On Wed, Mar 03, 2021 at 09:03:30PM +0100, Uwe Kleine-K=F6nig wrote:
-> > On Wed, Mar 03, 2021 at 07:32:23PM +0100, Uwe Kleine-K=F6nig wrote:
-> > > On Wed, Mar 03, 2021 at 11:13:21AM +0800, jingle wrote:
-> > > > Please updates this patchs.
-> > > >=20
-> > > > https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git/comm=
-it/?h=3Dnext&id=3D056115daede8d01f71732bc7d778fb85acee8eb6
-> > > >=20
-> > > > https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git/comm=
-it/?h=3Dnext&id=3De4c9062717feda88900b566463228d1c4910af6d
-> > >=20
-> > > The first was one of the two patches I already tried, but the latter
-> > > indeed fixes my problem \o/.
-> > >=20
-> > > @Dmitry: If you don't consider your tree stable, feel free to add a
-> > >=20
-> > > 	Tested-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
-> > >=20
-> > > to e4c9062717feda88900b566463228d1c4910af6d.
-> >=20
-> > Do you consider this patch for stable? I'd like to see it in Debian's
-> > 5.10 kernel and I guess I'm not the only one who would benefit from such
-> > a backport.
->=20
-> When I was applying the patches I did not realize that there was already
-> hardware in the wild that needed it. The patches are now in mainline, so
-> I can no longer adjust the tags, but I will not object if you propose
-> them for stable.
-
-I want to propose to backport commit
-
-e4c9062717fe ("Input: elantech - fix protocol errors for some trackpoints i=
-n SMBus mode")
-
-to the active stable kernels. This commit repairs the track point and
-the touch pad buttons on a Lenovo Thinkpad E15 here. Without this change
-I don't get any events apart from an error message for each button press
-or move of the track point in the kernel log. (Also the error message is
-the same for all buttons and the track point, so I cannot create a new
-input event driver in userspace that emulates the right event depending
-on the error message :-)
-
-At least to 5.10.x it applies cleanly, I didn't try the older stable
-branches.
-
-Best regards and thanks
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---33bpheodspxdcs3h
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmBAhWsACgkQwfwUeK3K
-7AnfCgf8DepAgt5HV9T00ILyqFKOSNjsnFTcq90lM1GfCYpgcD8Nvi30lS6W8Zyg
-Hv7cNfHShEPeo6FOiu0GJwp5ZwTFzXvNSGSUeqCK98ng60OqQJLRXrpQTDNh3KbP
-0sh9YB/7FSVRaQ7ne8Sr3i0uzs3NIg2LJnMA0OUQySCorqMr/E6yAxWKWnQPclPt
-5SvLm1pQAZbau0R//gxMdt4t8GBjp1wWVOFYO3Y/vjVJmutyeSNu7DGK+n3r4hRq
-zKLQz8gy4jbJ8C3BDoWRM6mg6LjzOl2Vvw92y2RsOMug7h43LjeTRXG9G9GmXohw
-6EliC0vQKR3jesUfO4JfPfLGpCqfDw==
-=OGz2
------END PGP SIGNATURE-----
-
---33bpheodspxdcs3h--
