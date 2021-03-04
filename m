@@ -2,82 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04D1432CF66
-	for <lists+linux-input@lfdr.de>; Thu,  4 Mar 2021 10:13:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 26C3132D1B0
+	for <lists+linux-input@lfdr.de>; Thu,  4 Mar 2021 12:24:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235245AbhCDJL5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 4 Mar 2021 04:11:57 -0500
-Received: from mga12.intel.com ([192.55.52.136]:11477 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237332AbhCDJLf (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 4 Mar 2021 04:11:35 -0500
-IronPort-SDR: lEZmVP1rLumsxaHCGqg13pp4W/hRyobzgy81K8tdC+VUOU88XvXM5mdcm0D0voSm5Ac7QaNEJA
- mPWrfCUqLuRg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9912"; a="166632761"
-X-IronPort-AV: E=Sophos;i="5.81,222,1610438400"; 
-   d="scan'208";a="166632761"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 01:09:50 -0800
-IronPort-SDR: WxN83qVuvjUselEyWfygPSr4RWxenoNmQjPXz9PdQlawaW69d3ir2/pBZrvrEYIwI038KTZSsf
- vGMDv2XcByHg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,222,1610438400"; 
-   d="scan'208";a="507284652"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 04 Mar 2021 01:09:48 -0800
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: docs - Update according to the latest API changes
-Date:   Thu,  4 Mar 2021 12:09:48 +0300
-Message-Id: <20210304090948.27014-1-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.30.1
+        id S239514AbhCDLXS convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Thu, 4 Mar 2021 06:23:18 -0500
+Received: from smtp-out4.electric.net ([192.162.216.192]:59466 "EHLO
+        smtp-out4.electric.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239501AbhCDLXE (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 4 Mar 2021 06:23:04 -0500
+X-Greylist: delayed 347 seconds by postgrey-1.27 at vger.kernel.org; Thu, 04 Mar 2021 06:23:04 EST
+Received: from 1lHlvq-0001KT-TV by out4a.electric.net with emc1-ok (Exim 4.94)
+        (envelope-from <aaron.jones@ftdichip.com>)
+        id 1lHlvr-0001Qv-Ut; Thu, 04 Mar 2021 03:14:15 -0800
+Received: by emcmailer; Thu, 04 Mar 2021 03:14:15 -0800
+Received: from [188.39.184.230] (helo=glaexch1.ftdichip.com)
+        by out4a.electric.net with esmtps  (TLS1) tls TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
+        (Exim 4.94)
+        (envelope-from <aaron.jones@ftdichip.com>)
+        id 1lHlvq-0001KT-TV; Thu, 04 Mar 2021 03:14:14 -0800
+Received: from ftdi-VirtualBox.ftdi.local (172.16.3.24) by GLAEXCH1.ftdi.local
+ (172.16.0.121) with Microsoft SMTP Server id 14.3.487.0; Thu, 4 Mar 2021
+ 11:14:13 +0000
+From:   Aaron Jones <aaron.jones@ftdichip.com>
+To:     <michael.zaidman@gmail.com>, <jikos@kernel.org>,
+        <benjamin.tissoires@redhat.com>, <wsa@kernel.org>
+CC:     <linux-kernel@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-i2c@vger.kernel.org>, Aaron Jones <aaron.jones@ftdichip.com>
+Subject: Re: [PATCHv2 1/1] HID: ft260: add usb hid to i2c host bridge driver
+Date:   Thu, 4 Mar 2021 11:14:06 +0000
+Message-ID: <20210304111406.3482-1-aaron.jones@ftdichip.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210219163644.2811-2-michael.zaidman@gmail.com>
+References: <20210219163644.2811-2-michael.zaidman@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain
+X-Antivirus: AVG (VPS 210303-8, 03/03/2021), Outbound message
+X-Antivirus-Status: Clean
+X-Outbound-IP: 188.39.184.230
+X-Env-From: aaron.jones@ftdichip.com
+X-Proto: esmtps
+X-Revdns: glaexch1.ftdichip.com
+X-HELO: glaexch1.ftdichip.com
+X-TLS:  TLS1:ECDHE-RSA-AES256-SHA:256
+X-Authenticated_ID: 
+X-Virus-Status: Scanned by VirusSMART (c)
+X-Virus-Status: Scanned by VirusSMART (b)
+X-PolicySMART: 10711027
+X-PolicySMART: 10711027
+X-PolicySMART: 10711027
+X-PolicySMART: 10711027
+X-PolicySMART: 10711027
+X-PolicySMART: 10711027
+X-PolicySMART: 10711027
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The old device property API is about to be removed, so
-explaing how to use complete software nodes instead.
+From: Aaron Jones(FTDI-UK) <aaron.jones@ftdichip.com>
 
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
- Documentation/input/devices/rotary-encoder.rst | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+On Fri, Feb 19, 2021 at 06:36:44PM +0200, Michael Zaidman wrote:
+> The FTDI FT260 chip implements USB to I2C/UART bridges through two
+> USB HID class interfaces. The first - for I2C, and the second for UART.
+> Each interface is independent, and the kernel detects it as a separate
+> USB hidraw device.
+>
+> This commitadds I2C host adapter support.
+>
+> Signed-off-by:Michael Zaidman <michael.zaidman@gmail.com>
 
-diff --git a/Documentation/input/devices/rotary-encoder.rst b/Documentation/input/devices/rotary-encoder.rst
-index 810ae02bdaa0d..5865748c13b96 100644
---- a/Documentation/input/devices/rotary-encoder.rst
-+++ b/Documentation/input/devices/rotary-encoder.rst
-@@ -107,13 +107,17 @@ example below:
- 		},
- 	};
- 
--	static const struct property_entry rotary_encoder_properties[] __initconst = {
-+	static const struct property_entry rotary_encoder_properties[] = {
- 		PROPERTY_ENTRY_U32("rotary-encoder,steps-per-period", 24),
- 		PROPERTY_ENTRY_U32("linux,axis",		      ABS_X),
- 		PROPERTY_ENTRY_U32("rotary-encoder,relative_axis",    0),
- 		{ },
- 	};
- 
-+	static const struct software_node rotary_encoder_node = {
-+		.properties = rotary_encoder_properties,
-+	};
-+
- 	static struct platform_device rotary_encoder_device = {
- 		.name		= "rotary-encoder",
- 		.id		= 0,
-@@ -122,7 +126,7 @@ example below:
- 	...
- 
- 	gpiod_add_lookup_table(&rotary_encoder_gpios);
--	device_add_properties(&rotary_encoder_device, rotary_encoder_properties);
-+	device_add_software_node(&rotary_encoder_device.dev, &rotary_encoder_node);
- 	platform_device_register(&rotary_encoder_device);
- 
- 	...
+I've applied the patch, ran some tests with a UMFT260EV1A evaluation board, and found no issues with the functionality it provides.
+
+Tested-by: Aaron Jones (FTDI-UK) <aaron.jones@ftdichip.com>
+Registered in Scotland No 136640
+This message contains confidential information and is intended only for the individual named. If you are not the named addressee you should not disseminate, distribute or copy this e-mail. Please notify the sender immediately by e-mail if you have received this e-mail by mistake and delete this e-mail from your system. E-mail transmission cannot be guaranteed to be secure or error-free as information could be intercepted, lost, destroyed, arrive late or incomplete. The sender therefore does not accept liability for any errors or omissions in the contents of this message, which arise as a result of e-mail transmission. Future Technology Devices International Ltd has taken every reasonable precaution to ensure that any attachment to this e-mail has been swept for viruses. However, we cannot accept liability for any damage sustained as a result of software viruses and would advise that you carry out your own virus checks before opening any attachment.
+
+Please note FTDI have updated their Privacy Policy.
+
+Please click on the following link to access and review.
+
+FTDI Privacy Policy<http://www.ftdichip.com/Corporate/PrivacyPolicy.htm>
+
 -- 
-2.30.1
+This email has been checked for viruses by AVG.
+https://www.avg.com
 
