@@ -2,150 +2,117 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 157EE32D456
-	for <lists+linux-input@lfdr.de>; Thu,  4 Mar 2021 14:42:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2626C32D592
+	for <lists+linux-input@lfdr.de>; Thu,  4 Mar 2021 15:43:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241388AbhCDNkE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 4 Mar 2021 08:40:04 -0500
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:34773 "EHLO
-        wout1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S241366AbhCDNjn (ORCPT
+        id S232174AbhCDOlY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 4 Mar 2021 09:41:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55188 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232146AbhCDOk4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 4 Mar 2021 08:39:43 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-        by mailout.west.internal (Postfix) with ESMTP id 93360146D;
-        Thu,  4 Mar 2021 08:38:57 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Thu, 04 Mar 2021 08:38:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=J
-        sFUfI9vnI/Wxuxff2nIgP3PmFr/du9RijU5zDv93Dk=; b=eYDWsfhZKKhgLGxok
-        zn8OSZl9MF6zF72m1eiXURmektCiV9rZUhtXBj+uzpejXsaiqgm7mmMQguFVKdx9
-        0kHL8RgtBVvUFntes8wMZQvJ8jDlu5uwTs33nDyqocuVs6xN+UnqxeMmUvsoybYQ
-        gNy9N3u/sddxfwM+oi4X2hSDVyTxS3vQVD2AgDbmYLCvVs5keX24SwUiv98e/QXy
-        BAQxcjagn/GI8Liohohrwk+bxo0Dz4tTLuYI2VBXimevo6t0qAtBxdI0ggQeK+gd
-        e8GSHSp6xoo5CB1mytny+zu9aL2nY1NhhVndisCE43zZqDomzXQlSLgT821YcZ4K
-        hE75Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; bh=JsFUfI9vnI/Wxuxff2nIgP3PmFr/du9RijU5zDv93
-        Dk=; b=Znl3FP9KToo6nhMPq3DaiupDD5g4ncDY2kLNPuVNmZrtkbUy8h5psPmsr
-        NMJvQObrTsxmcPFNKHBbGgEjrdUj4jCFK8nyj+1k6rxTJ4phhSQIqa4u8QaH/n6F
-        c4O+HuYfSF+Wn1OpaJzmvJ8dXslZxkdd7IilDhGLeY+hDClYsn8vog6P+GouKXu3
-        CVIal+vZk4bj6o9cYa4LT1CRW0XD06F/GRVDsDTttVrk/+7v05S8r8UYcxITMm4z
-        UlJ1yOkbzE0w9Q52nRPKaRe6kIoUH3JEJRDL7Ue4+CsdMY8Ve8uY/MsR5YCAXRmn
-        +eXLgtFFz0UiXzaQQXeVUiKj9+P3g==
-X-ME-Sender: <xms:7uJAYDTm1EACWXpdYavK4Qj1fGPJumTQgFD70ysrjaUL_2FjbZvUcA>
-    <xme:7uJAYEs93plkLsxnZcDrmYVhmW6wTXs0N828lyeMHtZyhIESiO9sMRN-vTqDHeX_F
-    5iyTGeWTFSb3w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddtgedggeelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtugfgjgesthekredttddtjeenucfhrhhomhepifhrvghg
-    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepgeeije
-    euvdffuedvffdtteefuefhkeehgfeuffejveettdelgfeuudffffetfedtnecuffhomhgr
-    ihhnpehkvghrnhgvlhdrohhrghenucfkphepkeefrdekiedrjeegrdeigeenucevlhhush
-    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgr
-    hhdrtghomh
-X-ME-Proxy: <xmx:7uJAYFtw-lqdcTWM1YGy9VvdobGXL81prVOO0Mmn4BNT8bBEVOm1Zg>
-    <xmx:7uJAYKyFIv1vENbECzPQukANtMftTa4uWk1tDH-Gfl9YJipgdTB3rg>
-    <xmx:7uJAYLh7Wj3roGP27iWmXZA0iGJ24UH7R3jCJhQh-UPW6I90hKzLGw>
-    <xmx:8eJAYHmlWwwXq-tShdAz7P0K2py1rbzErCtv-TAivTHBBpotXkhfDw>
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        by mail.messagingengine.com (Postfix) with ESMTPA id A48D324005B;
-        Thu,  4 Mar 2021 08:38:54 -0500 (EST)
-Date:   Thu, 4 Mar 2021 14:38:52 +0100
-From:   Greg KH <greg@kroah.com>
-To:     Nikolai Kostrigin <nickel@basealt.ru>
-Cc:     stable@vger.kernel.org, jingle <jingle.wu@emc.com.tw>,
-        kernel@pengutronix.de, linux-input@vger.kernel.org,
-        'Dmitry Torokhov' <dmitry.torokhov@gmail.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Subject: Re: elan_i2c: failed to read report data: -71
-Message-ID: <YEDi7H9uIxk6Gb4x@kroah.com>
-References: <20210302210934.iro3a6chigx72r4n@pengutronix.de>
- <016d01d70fdb$2aa48b00$7feda100$@emc.com.tw>
- <20210303183223.rtqi63hdl3a7hahv@pengutronix.de>
- <20210303200330.udsge64hxlrdkbwt@pengutronix.de>
- <YEA9oajb7qj6LGPD@google.com>
- <20210304065958.n3u5ewoby6rjsdvj@pengutronix.de>
- <15cb57ba-9188-51a1-b931-da45932e199f@basealt.ru>
+        Thu, 4 Mar 2021 09:40:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1614868771;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=YeI6QVqkyPzlDneIoONGdEk8YS3pU6UwxyPDkx6WF8w=;
+        b=VO7dnC9EiiKJRjZAtZV6waR+3Qm/mLwg3XEQmkOwPuEeXe5zApEgZkAiX/HcLLLzlT09iQ
+        3P2PbP2Y355BBv6eLp/XjfjEpLXLar3VhUmG1dpZWQ9FB0f6IIqTrPpYjp2IsVxYKhistg
+        Wf/PMLGxL1kKBmxcIgY8ag0W17dCJ4E=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-259-T-tXRlYBPkurcUH15oP7vQ-1; Thu, 04 Mar 2021 09:39:29 -0500
+X-MC-Unique: T-tXRlYBPkurcUH15oP7vQ-1
+Received: by mail-ej1-f72.google.com with SMTP id fy8so7303666ejb.19
+        for <linux-input@vger.kernel.org>; Thu, 04 Mar 2021 06:39:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=YeI6QVqkyPzlDneIoONGdEk8YS3pU6UwxyPDkx6WF8w=;
+        b=shbAjL7bFuNjfhlYaYCf4glFtH7SXz5F1LpDJAoQ+tsOUbRJ6erMGX7HMolLGkRTHC
+         dnTVkKP526sbN6bKYQwf2L+bVUdEfqmNUC35BeBMaUkFHUJlJydVXXPjH0zo29ku7suM
+         POLgVccX+BbipN3ZQdxpHOHJBpKIck2a9Hj7USE7FfPPPkc8nKQIS7l6Ed2VZGbADULO
+         QPlXuBx/9o22nxEPIAgwcCGxyU8cUbutw3u/xnAKa+vihe/3Vax1ZIHkoXQtKZGJ1Wjg
+         OuQDamD8cJJE/Djkf+Y4MUJQw+VfJOpts+hWZv2rEAziG/jDrFRlJT/Gwta10bKD4WYZ
+         6BfQ==
+X-Gm-Message-State: AOAM533PIlnPkxuLA/mNiGdlhcFQI6k2kE0UmsA5Uv/SwQ8m4lRDUjsR
+        Mnd6bPJeImacpowou1xxS46m6vqJZx9zFJ6EofFEN9CcC8q6y5pc4LphMkiETWQap29XK5Vuiw7
+        gnmT91DXfX+WtUltm47omTA4=
+X-Received: by 2002:a17:906:25c4:: with SMTP id n4mr4591240ejb.359.1614868768016;
+        Thu, 04 Mar 2021 06:39:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy11/QudyVeoNft6ZYg7MKckI/1nBzMHtbfeqLfhy/toGFI5OlBPYK91MTO7BEHOCQe6YfuqQ==
+X-Received: by 2002:a17:906:25c4:: with SMTP id n4mr4591126ejb.359.1614868766778;
+        Thu, 04 Mar 2021 06:39:26 -0800 (PST)
+Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id m7sm24180154ejk.52.2021.03.04.06.39.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Mar 2021 06:39:26 -0800 (PST)
+Subject: Re: [PATCH] platform/x86: touchscreen_dmi: Handle device properties
+ with software node API
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Mark Gross <mgross@linux.intel.com>, linux-input@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org
+References: <20210304082023.17689-1-heikki.krogerus@linux.intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <059af9be-46c3-11ee-a9ff-3384e307ed58@redhat.com>
+Date:   Thu, 4 Mar 2021 15:39:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <20210304082023.17689-1-heikki.krogerus@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <15cb57ba-9188-51a1-b931-da45932e199f@basealt.ru>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Mar 04, 2021 at 11:49:59AM +0300, Nikolai Kostrigin wrote:
-> Hi,
-> 
-> 04.03.2021 09:59, Uwe Kleine-König пишет:
-> > Hello,
-> > 
-> > On Wed, Mar 03, 2021 at 05:53:37PM -0800, 'Dmitry Torokhov' wrote:
-> >> On Wed, Mar 03, 2021 at 09:03:30PM +0100, Uwe Kleine-König wrote:
-> >>> On Wed, Mar 03, 2021 at 07:32:23PM +0100, Uwe Kleine-König wrote:
-> >>>> On Wed, Mar 03, 2021 at 11:13:21AM +0800, jingle wrote:
-> >>>>> Please updates this patchs.
-> >>>>>
-> >>>>> https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git/commit/?h=next&id=056115daede8d01f71732bc7d778fb85acee8eb6
-> >>>>>
-> >>>>> https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git/commit/?h=next&id=e4c9062717feda88900b566463228d1c4910af6d
-> >>>>
-> >>>> The first was one of the two patches I already tried, but the latter
-> >>>> indeed fixes my problem \o/.
-> >>>>
-> >>>> @Dmitry: If you don't consider your tree stable, feel free to add a
-> >>>>
-> >>>> 	Tested-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> >>>>
-> >>>> to e4c9062717feda88900b566463228d1c4910af6d.
-> >>>
-> >>> Do you consider this patch for stable? I'd like to see it in Debian's
-> >>> 5.10 kernel and I guess I'm not the only one who would benefit from such
-> >>> a backport.
-> >>
-> >> When I was applying the patches I did not realize that there was already
-> >> hardware in the wild that needed it. The patches are now in mainline, so
-> >> I can no longer adjust the tags, but I will not object if you propose
-> >> them for stable.
-> > 
-> > I want to propose to backport commit
-> > 
-> > e4c9062717fe ("Input: elantech - fix protocol errors for some trackpoints in SMBus mode")
-> > 
-> > to the active stable kernels. This commit repairs the track point and
-> > the touch pad buttons on a Lenovo Thinkpad E15 here. Without this change
-> > I don't get any events apart from an error message for each button press
-> > or move of the track point in the kernel log. (Also the error message is
-> > the same for all buttons and the track point, so I cannot create a new
-> > input event driver in userspace that emulates the right event depending
-> > on the error message :-)
-> > 
-> > At least to 5.10.x it applies cleanly, I didn't try the older stable
-> > branches.
-> > 
-> > Best regards and thanks
-> > Uwe
-> > 
-> 
-> I'd like to propose to backport [1] also as it was checked along with
-> previously proposed patch and fixes Elan Trackpoint operation on
-> Thinkpad L13.
-> 
-> Both patches apply cleanly to 5.10.17 in my case.
-> 
-> I also tried to apply to 5.4.x, but failed.
-> 
-> [1] 056115daede8 Input: elan_i2c - add new trackpoint report type 0x5F
+Hi,
 
-Applied to 5.10.y now, thanks.
+On 3/4/21 9:20 AM, Heikki Krogerus wrote:
+> The old device property API (device_add_properties()) is
+> going to be removed. Replacing the it with the software node
+> API equivalent, device_create_managed_software_node().
+> 
+> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-greg k-h
+Thank you for your patch, I've applied this patch to my review-hans 
+branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
+
+Note it will show up in my review-hans branch once I've pushed my
+local branch there, which might take a while.
+
+Once I've run some tests on this branch the patches there will be
+added to the platform-drivers-x86/for-next branch and eventually
+will be included in the pdx86 pull-request to Linus for the next
+merge-window.
+
+Regards,
+
+Hans
+
+> ---
+>  drivers/platform/x86/touchscreen_dmi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
+> index c44a6e8dceb8c..45203e333f578 100644
+> --- a/drivers/platform/x86/touchscreen_dmi.c
+> +++ b/drivers/platform/x86/touchscreen_dmi.c
+> @@ -1355,7 +1355,7 @@ static void ts_dmi_add_props(struct i2c_client *client)
+>  
+>  	if (has_acpi_companion(dev) &&
+>  	    !strncmp(ts_data->acpi_name, client->name, I2C_NAME_SIZE)) {
+> -		error = device_add_properties(dev, ts_data->properties);
+> +		error = device_create_managed_software_node(dev, ts_data->properties, NULL);
+>  		if (error)
+>  			dev_err(dev, "failed to add properties: %d\n", error);
+>  	}
+> 
+
