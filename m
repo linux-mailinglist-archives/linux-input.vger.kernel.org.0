@@ -2,118 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 284BE32CEC7
-	for <lists+linux-input@lfdr.de>; Thu,  4 Mar 2021 09:52:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04D1432CF66
+	for <lists+linux-input@lfdr.de>; Thu,  4 Mar 2021 10:13:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236429AbhCDIvJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 4 Mar 2021 03:51:09 -0500
-Received: from air.basealt.ru ([194.107.17.39]:46556 "EHLO air.basealt.ru"
+        id S235245AbhCDJL5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 4 Mar 2021 04:11:57 -0500
+Received: from mga12.intel.com ([192.55.52.136]:11477 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236425AbhCDIuo (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 4 Mar 2021 03:50:44 -0500
-Received: by air.basealt.ru (Postfix, from userid 490)
-        id 2E99A589443; Thu,  4 Mar 2021 08:50:02 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on
-        sa.local.altlinux.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=5.0 tests=ALL_TRUSTED,BAYES_00,
-        RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
-Received: from nickel-ws.localdomain (obninsk.basealt.ru [217.15.195.17])
-        by air.basealt.ru (Postfix) with ESMTPSA id AC3FF58941E;
-        Thu,  4 Mar 2021 08:49:59 +0000 (UTC)
-Reply-To: nickel@basealt.ru
-Subject: Re: elan_i2c: failed to read report data: -71
-To:     stable@vger.kernel.org
-Cc:     jingle <jingle.wu@emc.com.tw>, kernel@pengutronix.de,
-        linux-input@vger.kernel.org,
-        'Dmitry Torokhov' <dmitry.torokhov@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
-References: <20210302210934.iro3a6chigx72r4n@pengutronix.de>
- <016d01d70fdb$2aa48b00$7feda100$@emc.com.tw>
- <20210303183223.rtqi63hdl3a7hahv@pengutronix.de>
- <20210303200330.udsge64hxlrdkbwt@pengutronix.de>
- <YEA9oajb7qj6LGPD@google.com>
- <20210304065958.n3u5ewoby6rjsdvj@pengutronix.de>
-From:   Nikolai Kostrigin <nickel@basealt.ru>
-Organization: BaseALT
-Message-ID: <15cb57ba-9188-51a1-b931-da45932e199f@basealt.ru>
-Date:   Thu, 4 Mar 2021 11:49:59 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        id S237332AbhCDJLf (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 4 Mar 2021 04:11:35 -0500
+IronPort-SDR: lEZmVP1rLumsxaHCGqg13pp4W/hRyobzgy81K8tdC+VUOU88XvXM5mdcm0D0voSm5Ac7QaNEJA
+ mPWrfCUqLuRg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9912"; a="166632761"
+X-IronPort-AV: E=Sophos;i="5.81,222,1610438400"; 
+   d="scan'208";a="166632761"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 01:09:50 -0800
+IronPort-SDR: WxN83qVuvjUselEyWfygPSr4RWxenoNmQjPXz9PdQlawaW69d3ir2/pBZrvrEYIwI038KTZSsf
+ vGMDv2XcByHg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,222,1610438400"; 
+   d="scan'208";a="507284652"
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 04 Mar 2021 01:09:48 -0800
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: docs - Update according to the latest API changes
+Date:   Thu,  4 Mar 2021 12:09:48 +0300
+Message-Id: <20210304090948.27014-1-heikki.krogerus@linux.intel.com>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-In-Reply-To: <20210304065958.n3u5ewoby6rjsdvj@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+The old device property API is about to be removed, so
+explaing how to use complete software nodes instead.
 
-04.03.2021 09:59, Uwe Kleine-König пишет:
-> Hello,
-> 
-> On Wed, Mar 03, 2021 at 05:53:37PM -0800, 'Dmitry Torokhov' wrote:
->> On Wed, Mar 03, 2021 at 09:03:30PM +0100, Uwe Kleine-König wrote:
->>> On Wed, Mar 03, 2021 at 07:32:23PM +0100, Uwe Kleine-König wrote:
->>>> On Wed, Mar 03, 2021 at 11:13:21AM +0800, jingle wrote:
->>>>> Please updates this patchs.
->>>>>
->>>>> https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git/commit/?h=next&id=056115daede8d01f71732bc7d778fb85acee8eb6
->>>>>
->>>>> https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git/commit/?h=next&id=e4c9062717feda88900b566463228d1c4910af6d
->>>>
->>>> The first was one of the two patches I already tried, but the latter
->>>> indeed fixes my problem \o/.
->>>>
->>>> @Dmitry: If you don't consider your tree stable, feel free to add a
->>>>
->>>> 	Tested-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
->>>>
->>>> to e4c9062717feda88900b566463228d1c4910af6d.
->>>
->>> Do you consider this patch for stable? I'd like to see it in Debian's
->>> 5.10 kernel and I guess I'm not the only one who would benefit from such
->>> a backport.
->>
->> When I was applying the patches I did not realize that there was already
->> hardware in the wild that needed it. The patches are now in mainline, so
->> I can no longer adjust the tags, but I will not object if you propose
->> them for stable.
-> 
-> I want to propose to backport commit
-> 
-> e4c9062717fe ("Input: elantech - fix protocol errors for some trackpoints in SMBus mode")
-> 
-> to the active stable kernels. This commit repairs the track point and
-> the touch pad buttons on a Lenovo Thinkpad E15 here. Without this change
-> I don't get any events apart from an error message for each button press
-> or move of the track point in the kernel log. (Also the error message is
-> the same for all buttons and the track point, so I cannot create a new
-> input event driver in userspace that emulates the right event depending
-> on the error message :-)
-> 
-> At least to 5.10.x it applies cleanly, I didn't try the older stable
-> branches.
-> 
-> Best regards and thanks
-> Uwe
-> 
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+---
+ Documentation/input/devices/rotary-encoder.rst | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-I'd like to propose to backport [1] also as it was checked along with
-previously proposed patch and fixes Elan Trackpoint operation on
-Thinkpad L13.
-
-Both patches apply cleanly to 5.10.17 in my case.
-
-I also tried to apply to 5.4.x, but failed.
-
-[1] 056115daede8 Input: elan_i2c - add new trackpoint report type 0x5F
-
-Additional info is available here:
-
-https://lore.kernel.org/linux-input/fe31f6f8-6e38-2ed6-8548-6fa271bf36e9@basealt.ru/T/#m514047f2c5e7e2ec4ed9658782f14221ed7598fc
+diff --git a/Documentation/input/devices/rotary-encoder.rst b/Documentation/input/devices/rotary-encoder.rst
+index 810ae02bdaa0d..5865748c13b96 100644
+--- a/Documentation/input/devices/rotary-encoder.rst
++++ b/Documentation/input/devices/rotary-encoder.rst
+@@ -107,13 +107,17 @@ example below:
+ 		},
+ 	};
+ 
+-	static const struct property_entry rotary_encoder_properties[] __initconst = {
++	static const struct property_entry rotary_encoder_properties[] = {
+ 		PROPERTY_ENTRY_U32("rotary-encoder,steps-per-period", 24),
+ 		PROPERTY_ENTRY_U32("linux,axis",		      ABS_X),
+ 		PROPERTY_ENTRY_U32("rotary-encoder,relative_axis",    0),
+ 		{ },
+ 	};
+ 
++	static const struct software_node rotary_encoder_node = {
++		.properties = rotary_encoder_properties,
++	};
++
+ 	static struct platform_device rotary_encoder_device = {
+ 		.name		= "rotary-encoder",
+ 		.id		= 0,
+@@ -122,7 +126,7 @@ example below:
+ 	...
+ 
+ 	gpiod_add_lookup_table(&rotary_encoder_gpios);
+-	device_add_properties(&rotary_encoder_device, rotary_encoder_properties);
++	device_add_software_node(&rotary_encoder_device.dev, &rotary_encoder_node);
+ 	platform_device_register(&rotary_encoder_device);
+ 
+ 	...
 -- 
-Best regards,
-Nikolai Kostrigin
+2.30.1
+
