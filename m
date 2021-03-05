@@ -2,49 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17D4832E070
-	for <lists+linux-input@lfdr.de>; Fri,  5 Mar 2021 05:13:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EDC332E072
+	for <lists+linux-input@lfdr.de>; Fri,  5 Mar 2021 05:13:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229573AbhCEENl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 4 Mar 2021 23:13:41 -0500
-Received: from mail-bgr052100132104.outbound.protection.outlook.com ([52.100.132.104]:13457
-        "EHLO NAM02-CY1-obe.outbound.protection.outlook.com"
+        id S229580AbhCEENs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 4 Mar 2021 23:13:48 -0500
+Received: from mail-bgr052100133034.outbound.protection.outlook.com ([52.100.133.34]:26041
+        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229458AbhCEENl (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 4 Mar 2021 23:13:41 -0500
+        id S229458AbhCEENs (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 4 Mar 2021 23:13:48 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CtiRTyr/yNYrqXEwtwXYAUyTim279UMAqkrSPuf/b87CRJXY1TthNS762DHbPKfG2Q8ep+rgBZnVlsWWbaQpOmn4nXWO0E9A/g+PNr4SrvrQhM8NBcH5wAvWZWMQ61wEgr3S0yvQ8HEaycGrOWPLtPmYzW5fw8QrzpiW+lUGX0aEX0t2/NLDCkT1qBWuv2VoktT7jD4ZX7yf0had/Lj8x1wjeiVY8pkxcdt+0DlFSL85Fzfv3tA1qlihTA5OiE2D9BvovzPZQdd3+MdN1DCN0q2kaA/H/LdMRnL8/UgpnU8nX5pIucvPCK6LN8OQfaq2zru5RABKDdfxdRx80nWfSQ==
+ b=fW6b1OU59EmvJ9WuipPjg+2boct15Rb4YGuBBiMeXgDVW+JRgOSDFGWr0LXYG5YI1K382gaqNgHupjGJkBhrWSCH2EkCGbLf6GqOzoWA8xLfZlcJ29TpM7cM+veaoRaBH/EBkJIPNmDVCMsByIoXN7SwtCEkL+Tu9ao1m5VvQwKq07S1f4oEfQd4u53B0CqZwiHEvwBnMnfJyX9HFTAE7y4uFPnk98frAB/EmZZQivbWAoXQoYabNMgMRnjEwUSQB1IhCRR4g5PHFfanLkXwd2pItXw7vh/Pgs5zNYTlfR5anXe+0N3Pax0OPToGqMxdWHjSAuwEIytz+PLornpVgg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MEue8z/MZFPnMP7mM2eVbTVWx/pEhRGNYr1fU0aF22c=;
- b=gfgr09PT6o51wnYpJidWkPEfFbpekRWkBzuekvULs5qxE/xSKg8GXTIl5QcmyY4uP6w/ucPNmNuJKa9Lh0c+4NibXwDZmUrv9YH98kOZyNSen59X3UjWZDp+lyg3PIKbanqF1/I49MEYoJ7lcTB6ucJoQgK1Y8D18nUqMoPxXiiacTnI2+Zi7Mkm3YNyyydXVvugJ69huZd4P9M/oVQSqhySR4lRr7eSbpSPN7qR0Y4XjPmG5AK9fCDdp9MLccNHb0KkokcyX8/sPyFJEtHy3C60b2ScDltp6wWzPDCVdgK1HPPodDlC9eEup3sMpQtTqx29gOuzZqc1KOqp6NXtug==
+ bh=nyS+3efpQ29EBojVtckYVH8803f3RS0bmp0dmVuQ+xU=;
+ b=RsToDmEqTFvBlzyxBwC1AbEuahEaNgZ/JnD4XwE6mEkRHsYXCOYP715WYLTHrMee45Z6nFER2NCmXkqk/LS1kLJRCFYRW0bY9I2M30gCeJyKivM65DYwuKq4snjc1jprQqGrnv7WiEcT1NeBlJAyHv/fyh2DiifjZG6yMis9O5kdFj95Cro+jluHWKAP26WSQbyyeycMJFluZ21Ldy5ujo2SB4e1KVC/7wJXyEEUEEHBJ1EQ2tD4pklSvrzXNyYL4H9uwe9AUWONTDc8zJ4XimLWGLEM2s+mN/ntdGPnYTv9Nw+QufnhBUS/BTsRaNCRBKbXMoc1Ima+a/Cr54WIVQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
  dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MEue8z/MZFPnMP7mM2eVbTVWx/pEhRGNYr1fU0aF22c=;
- b=a7AcSfhpknVVt0SLy6JHb8fg/oy9CBkTsDHBxSplhV9T4cDZYc3QzFaxmXigYeI9sOrm5iQMrSu88PMeP5QOZcxMfr5kAwfEsgleEDrDlyDGtThaiE4OiJgePduSLd8yhNjsNuyF7h9obuc5FDFgRqd58b6hWB9pQkbqESRiY8k=
+ bh=nyS+3efpQ29EBojVtckYVH8803f3RS0bmp0dmVuQ+xU=;
+ b=Z1PXDvBf/xIpH4Lu+KWGHdfxtha+MOmLAg90h1/uYVzLW8gaMnUtFfjIxhnDqrukSeeozRjZbi9zMAd8p+Qz7ZN1JwOwIrTJ8v82BHoUTV2r2B6ao+MYxsf3/1gIHMISdjn7g34h0OP3HmB0wkiuyTOEReZ8gIqU3eLtaPkkMHw=
 Authentication-Results: gmail.com; dkim=none (message not signed)
  header.d=none;gmail.com; dmarc=none action=none header.from=labundy.com;
 Received: from SN6PR08MB5517.namprd08.prod.outlook.com (2603:10b6:805:fb::32)
  by SN6PR08MB5693.namprd08.prod.outlook.com (2603:10b6:805:f8::33) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.25; Fri, 5 Mar
- 2021 04:13:40 +0000
+ 2021 04:13:47 +0000
 Received: from SN6PR08MB5517.namprd08.prod.outlook.com
  ([fe80::79a3:8aa5:feb8:7f04]) by SN6PR08MB5517.namprd08.prod.outlook.com
  ([fe80::79a3:8aa5:feb8:7f04%7]) with mapi id 15.20.3890.028; Fri, 5 Mar 2021
- 04:13:40 +0000
+ 04:13:47 +0000
 From:   Jeff LaBundy <jeff@labundy.com>
 To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org
 Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         Jeff LaBundy <jeff@labundy.com>
-Subject: [PATCH 6/9] Input: iqs5xx - prevent interrupt storm during removal
-Date:   Thu,  4 Mar 2021 22:12:33 -0600
-Message-Id: <20210305041236.3489-7-jeff@labundy.com>
+Subject: [PATCH 7/9] Input: iqs5xx - suspend or resume regardless of users
+Date:   Thu,  4 Mar 2021 22:12:34 -0600
+Message-Id: <20210305041236.3489-8-jeff@labundy.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210305041236.3489-1-jeff@labundy.com>
 References: <20210305041236.3489-1-jeff@labundy.com>
@@ -55,134 +55,154 @@ X-ClientProxiedBy: SA9PR13CA0086.namprd13.prod.outlook.com
  (2603:10b6:805:fb::32)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (136.49.90.243) by SA9PR13CA0086.namprd13.prod.outlook.com (2603:10b6:806:23::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.9 via Frontend Transport; Fri, 5 Mar 2021 04:13:39 +0000
+Received: from localhost.localdomain (136.49.90.243) by SA9PR13CA0086.namprd13.prod.outlook.com (2603:10b6:806:23::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.9 via Frontend Transport; Fri, 5 Mar 2021 04:13:46 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 429625b5-256f-4e7c-617c-08d8df8d0e5e
+X-MS-Office365-Filtering-Correlation-Id: 2154918a-3ad6-470b-4425-08d8df8d12b6
 X-MS-TrafficTypeDiagnostic: SN6PR08MB5693:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR08MB5693F5C8CE42804A4311409AD3969@SN6PR08MB5693.namprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <SN6PR08MB56932CCE920EA006B8ED273FD3969@SN6PR08MB5693.namprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vHixWAtKlxy8fKgYJHgLiZVzCLPret+deEZs0jzRa81KfiD91pjzNpTQA2C/8MY5V2NEENMseXSOJ6IRV1nIWBxtq5d8DJE6TGNWivDCL1L7n+SeRHGhlWCqa/KgThQ2day6701l2Kbz3xdXWWI/fGycyf9i4pdqs93AgKW1CKaTzNyzXjysbbQrSiGwwLJ4SX6S1fFu7eOjjltF10dZ7SKooHxnWvKvuGzcAUXptV/deTJSgYq93dy28OBFotd/c9z3lWppfjA9LcHdDFlCAQypBe+0UXz+OekaBnCqiIyn3UAGRedfDikpTgE2JvRYiXDRz8VT4EwiSN/f/h9R3phDb/XGF97xKmjjHhyXdYU9PhR7wwWJSL66Tx9Xds62w1hSCJqLKToIe9gaNRlg9yGg1SIaSQWztJcqMBa1ITAoasM3p8OFd1YG/gJHXQzCxda6zSg9C0E/1NuVbf9f2sZcLyuURfINNX7yhqSsxuoZxruv5Ccy3qKZbQQmzQbaWgGy50GhQgMWTT3zysy9oHkh9HuvcNHSar8AFnd6Py7gOSeQntO6klyQw9UnGsvWqOjDPpmVV004dxthKtUUNjaveMzx9ybi0fIsfY9g7TLGHpEpE2zfk+LT9o4fTd+fwQoIc6cNOVshPL4JfxlDfxSIZ3JqbfIJBL0gU5bWNsA57mr67AIyOYfD4Ulb5tfctTspaLoNHDHjfuBSfJwtte2nF7aKwvdxLsfeClFg+ouY8FXUkDbffyLbKVxcksSMytRuza65XeHOk3VrTVSSp/DgJuUjVvjkcQ3T9/aa8KpmlosE3pAZMymj9lSBqx7tmbm6DVWkdcx+bNN1H0eJxfO5y8u/CuW3jkJZl58KO3ccaUBLx3O9ZLXqT6aSDfEXSfzjz1CuYF0nIJ17NXykMY3S72X46PpwXDL59BiqDyy57BxkDvxJ3NAGQZYjt6Y6
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:SN6PR08MB5517.namprd08.prod.outlook.com;PTR:;CAT:OSPM;SFS:(396003)(366004)(136003)(376002)(346002)(39830400003)(16526019)(66476007)(8936002)(956004)(5660300002)(36756003)(2616005)(107886003)(6486002)(8676002)(66946007)(69590400012)(52116002)(508600001)(186003)(26005)(66556008)(6666004)(6512007)(83380400001)(86362001)(4326008)(2906002)(6506007)(1076003)(316002)(42413003)(32563001);DIR:OUT;SFP:1501;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?RQlXIhn4MvJakEjWZK5sWs3d1KYChZXKhS13MgOCCp95WllZ/FDj8p7dA5uh?=
- =?us-ascii?Q?9ZLZwljUatpMBzE0YF2aG1zTvMyMhdxgeKzgniXTuE2yiL0ou+DRd0+xurok?=
- =?us-ascii?Q?qDsugtppBqA8d13QckHh2WBZyLSWbxngEVHSsW4u5CfEN+whbheXsuNZ0DaE?=
- =?us-ascii?Q?1fuIGUSeqUox1h+KSawbcL3+y2kfjJUWUDArOGpPoUc8ZMCETdX0LW4ARtGl?=
- =?us-ascii?Q?T84Nom2O89t0g8Qqjf9SjRcQMNXcTXmBQZduibNPBOXBLkMH+IfjxvMBZhEY?=
- =?us-ascii?Q?ELeTIsx66hMIxy538aVGZVynm2atW3hb1AWU8o0ffB2cGJVFbUIeaRI9XX9u?=
- =?us-ascii?Q?1iddyNtVg+/SY9FORn5Ff9kzH400tnTmwSEs6XSUNT9Azg7geww5gVDFAePc?=
- =?us-ascii?Q?zfknNR2K6hjysgLNghiG5KuYAo8jJOEwD+OpPNKisK/hSp6h93/W0Zb81sLz?=
- =?us-ascii?Q?Sm6WHfEHBfLooIcSCTRY2DoPcoNXtgNkj3jpiB6mW1YJqiq9IDqbxOzWDZIX?=
- =?us-ascii?Q?wS1EAO0+Jea3Y0PnuE0l/0egtOQvwAhDCcZmMfJJx3CMBcR7V/xuVKB56Knx?=
- =?us-ascii?Q?y0zap+EgLa/W2GXGq28F60PaHErARWR3cuFZbwl4eYU1uEvcihlHDeXBnrlc?=
- =?us-ascii?Q?RFPzSD4zT0X91ix0E7ZCGo4PB5+MSyGl4RTuM70U97IEUoL3zwg1sGAronGM?=
- =?us-ascii?Q?jj9Yjh0CKgxx9yvHzLoOuQ9i/96L0NXQocpgBLkSk5RZsSIXEKFzMFTbzc63?=
- =?us-ascii?Q?1Fo8ZlRFGEvrmzsYdxsLuzUF+HMjUCQSuC2n6yiHQs1OnbGsN7KbQJgen0rs?=
- =?us-ascii?Q?Xn7InvUDYX8/ozQmFX2YmvHIbrZ8iOxFMJD8VmsIBVuVjKOy8vz4ez5b7UIX?=
- =?us-ascii?Q?AYr2E0kG9MyTMsyAF44NXt0Uz5cPHgtUvSSZc47lGxLOYA3+xd8vD90LvX+I?=
- =?us-ascii?Q?1YRDCl/U5FL0vT6Z0pD7OPunkC2LIsRFL81qD74B5/+ec91BAokNKi1MeWBx?=
- =?us-ascii?Q?swn8a/fuMRybS+NOhpBxF4ncGTPOJGRZTvdPd9eQw/DG4yd2GBMX9bDj+0sL?=
- =?us-ascii?Q?Kq89krfaAuCA+a33O9BeFspY+EBXlxGLwNqiXh3QCfu+d/viVqXgYDBuQAKG?=
- =?us-ascii?Q?/gf3jLkBKNf9EPAzHC4gTLCg6kywoTQrUwT4QYZwNoK7QLPPSu6DxwhMVZLk?=
- =?us-ascii?Q?M5fzozC4C0YBJMLLI8KRjb8z4vWzhDxJ2/Y4ZBQSRQSKIeoHk16ZKmHOS7gk?=
- =?us-ascii?Q?bZByOuNHAkp61kdhDngPN4abq/4AlXurdBCnz5Ar81j0XH48ElvnAyNuhWPY?=
- =?us-ascii?Q?ZSrFD1Gj6hhJR8Tzoyt2GCaD?=
+X-Microsoft-Antispam-Message-Info: wMQWh/nP08fVvAWW9SjSQFmHthUTKFKoJzqzv7f4yiVqBH5VU8lsfgy7iLQFo2mrsRXSpC+ZZFdiNFWDFVtQv2rE4Av4+FUz8TQAK0DDKMsgH6Bs4PNOETamjxQ2oUWZvO1FV26Oso2pJNPdpKUIom6bYxP/cS1ej29AiYQvCUrR/ukzI8ddXViwzmZzKFpvyLgcxFvsvs4UXWUSNiIBSKjCc1IHTojAdy9RABXDh/TFMpriPrhHHSpFvTBqeQUYtu0mQ4/e0mOe0rbY+NB1p1C0000ywBZ4JTMDNBKlwhtjM05zHNaSqesQM6aazd8qnfjp+QsZBOu7T0baoRc1oxa6w+bwsXrTGxGW77XMrKBtTBfkFiwHNMflh6+GgYWJacjFWLbEdMd+f8lBUYCmis8J3NFevflKgGAjeukLPVml92routmzaYRg/hpN6RGPAgAAxc9sNfy5jqDcMjeuCgXNEZ/IrEC63c4txd6MymRJW7Z0zddGQ9/zSPeH7jllFbz95kWzR0XBZ/MQk+FO/a0OGvW6BhQpNi2q1cjAustYQPwHP0htShwOKHKfFOnAPbF5/32IIqXrpjDIi5TCZmKMMBPfiBYpewyHxleE6EKpN09RRpuqqSkJOiXWhTa4aQvjyjvER5iRZklZyQn7u62k+JW0FMZs04sbNFdfFxZCfyLQiVXmzRAuuOpspPEaoXOF+8NygE2oDLQAjXrjL83d4RCKifHBJfOGCy46e8iaxqkUKD5GVJAi38AaC9cGo9JbObKLawDlddB1C6lJtLjVr+t+5qP3EnSwUdECr7HU6rqep35QbmhXJZQ+Z7dwrNOV78AT1+pZUVXh9PtZRHhr6wcSwSRx21GR+T9Ghmbec8GxowXQ/BVbOH1Xn3W1Xgz5guJCQ3aNxUOtmonaZxN3yKn4hInh/bzdf3sKmY0gqqM1IzzdRCoKzP5HPbXa
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:SN6PR08MB5517.namprd08.prod.outlook.com;PTR:;CAT:OSPM;SFS:(396003)(366004)(136003)(376002)(346002)(39830400003)(16526019)(66476007)(8936002)(956004)(5660300002)(36756003)(2616005)(107886003)(6486002)(8676002)(66946007)(69590400012)(52116002)(508600001)(186003)(26005)(66556008)(6666004)(6512007)(83380400001)(86362001)(4326008)(2906002)(6506007)(15650500001)(1076003)(316002)(42413003)(26730200005);DIR:OUT;SFP:1501;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?HtIMoiKHGrXpmdsopG88ybTa7IixZ8QS0lGJ9BYf8HVWa5xfbsuzi8k0dMiH?=
+ =?us-ascii?Q?V6hn73KZtv3ARBzX5AIhcm81f1f2NrUjSJEDOxPsObcpC3AucBKJs8pnen8F?=
+ =?us-ascii?Q?/btYrN6cjGPGh4F02FnSY/RUhLaaX6VulU5jUbDGlEMpgj9WsJBQMesMbdlK?=
+ =?us-ascii?Q?zHpvOPvd6/u8tP9xuiR7kcTDkwmwWEf2Y+cDpJyIEZ++IF/PREvZi1946Evm?=
+ =?us-ascii?Q?k0Q9z6nUeCGIcf9BPiZK3nZlqckK2Q2JpsIcNzvv0q9CNravh1vfACZHd9lC?=
+ =?us-ascii?Q?MbZnom4JOjegQp7g6u+Y6fcIP2HXMhB/AwRuRyAqhHOOdsNHZlapOmZklBT0?=
+ =?us-ascii?Q?laagcbzBSsUL9YArgvvnQ3KatsPk8NF7l78oj2GgvepP0W3Go6LfHGLDNsWg?=
+ =?us-ascii?Q?Ft7EbuqQcDa5KigC++Kfm25qWh4rjINfAZryr1L44eRpqaCRyx8GgMz6FQmS?=
+ =?us-ascii?Q?PLqkn2xNTb5A0RUlJPOQlzcUlxx1B8JQ7PjfesFnr+Kqn2TH3loamhjvW81/?=
+ =?us-ascii?Q?8y25BOqGXjv75yCIAvdcEMN3nS7hkvdWVkmD1QT6hCnxLmj4xLlJFN3LFkow?=
+ =?us-ascii?Q?EmFnQKAO1dbNMHmg/NaEBNWhEHLIMvUmUuD5iNVzZUz2E7j9u7JPza9gPgXz?=
+ =?us-ascii?Q?2dL+zrxE5SHQsE1Ae8Cu32FUtnslHUKbMNRj3DFdKarJdimwY+pNfSckOsA2?=
+ =?us-ascii?Q?zQCkJmz6EMAnQxXkTVS9Wp1bMk4wjEKKz6jIn0ySI4VSecG01m6sWAbE5+sU?=
+ =?us-ascii?Q?EeuYiPZ26LIr+vH1vt6Tsxk804ZPr2d/fIi8tcJmW/ehDxTGAfZRR/qJYAw9?=
+ =?us-ascii?Q?4zWuBhlV8dqvRigrpc1YFz91JeDlOhBh0nWv81lAjAkE2jfJaJFZ/4J/vGvd?=
+ =?us-ascii?Q?bxyaVaQwPM90VZcVvYuBH0I0Q3uNjPbxuaccgnyt1welGw2LjplL+smqgV2V?=
+ =?us-ascii?Q?ROd+IyXML54EdYPUGPYxPcJTD6ZeJz9hcgw9Hx1Zcihi7twBSu+1ft8eZjKL?=
+ =?us-ascii?Q?trqFs6bewIQjK1+s2LmZgbH9tl3xs2yZ6SyVNg/8Pk/1PUrV7UjMAuHdSzHO?=
+ =?us-ascii?Q?To8rDJatN91g3vmOiZd4b93EmHPrv5sdcuTJ66oJAFt2tDI7NtbAOIyrGqzn?=
+ =?us-ascii?Q?gkkz7VO8mPLcuD1TUeHcejxSBylgSrRjfWYii3ua3IvpGX9hTuBV4f5uuMk9?=
+ =?us-ascii?Q?EQYCUBI6bxa+uA3Z42yUARbX6V1WXFsy618Ea6K94NtPbKCctTMNVpC/YjjJ?=
+ =?us-ascii?Q?1cc/tWQ9n1CeJQEe0Nb2AuTWyo8I+ocyI5+JYvwVhnEpsvoSNkSNuqkXIwuA?=
+ =?us-ascii?Q?ljoTx4mBor1cY6pvSfJ+movt?=
 X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 429625b5-256f-4e7c-617c-08d8df8d0e5e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2154918a-3ad6-470b-4425-08d8df8d12b6
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR08MB5517.namprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2021 04:13:39.8923
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2021 04:13:47.1732
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DIaRkArvnVFS05acIR9H9ys0VkvMQD2+JgjTsfpJTKilh2+gk463dZznetRu3YG5WUQsTS+EfqHfFZ/3QdcTrw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: DyvuGgBKrjrfZcmfPORgqulkiEFASZco1AYG0nE3aKhO1f3z0YeGO7kGLU1tqKXunLgePN2dKKRMjV5OomEv6Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR08MB5693
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Unsolicited I2C communication causes the device to assert an interrupt; as
-such the IRQ is disabled before any registers are written in iqs5xx_open()
-and iqs5xx_close().
+The device should be allowed to enter its lowest-power state during
+suspend, even if there are no users. Therefore, drop the check from
+iqs5xx_suspend().
 
-After the driver is unloaded, however, i2c_device_remove() sets the IRQ to
-zero before any handlers may call input_close_device() while the device is
-unregistered. This keeps iqs5xx_close() from disabling the IRQ, leading to
-an interrupt storm during removal.
+It follows that the same check must be removed from iqs5xx_resume()
+since users are not guaranteed to be present upon resume, and there
+would be no way to power the device back up.
 
-Placing input_register_device() in front of devm_request_threaded_irq() to
-free the IRQ before iqs5xx_close() is called does not cover the case where
-firmware is updated at the factory and the input device is registered well
-after the driver has already probed.
+This change makes iqs5xx_suspend() and iqs5xx_resume() both smaller
+and easier to follow. And because these are the only functions that
+call iqs5xx_set_state() now, call device_may_wakeup() from there to
+avoid duplicate logic.
 
-The solution, therefore, is to remove the open and close callbacks as they
-do not buy much in the first place. The device already starts in an active
-state, then drops into a low-power mode based on activity.
-
-As an added benefit, this change allows the 250-ms delay in initialization
-to be removed as iqs5xx_open() no longer follows immediately. Instead, the
-delay is replaced with a mere 50-us delay which allows the interrupt to be
-deasserted before the handler is registered.
+While here, collapse the return path for iqs5xx_set_state() to save
+a few lines of code.
 
 Signed-off-by: Jeff LaBundy <jeff@labundy.com>
 ---
- drivers/input/touchscreen/iqs5xx.c | 25 +------------------------
- 1 file changed, 1 insertion(+), 24 deletions(-)
+ drivers/input/touchscreen/iqs5xx.c | 41 +++---------------------------
+ 1 file changed, 4 insertions(+), 37 deletions(-)
 
 diff --git a/drivers/input/touchscreen/iqs5xx.c b/drivers/input/touchscreen/iqs5xx.c
-index a990c176abf7..350466ff6bbd 100644
+index 350466ff6bbd..180d2618d8c6 100644
 --- a/drivers/input/touchscreen/iqs5xx.c
 +++ b/drivers/input/touchscreen/iqs5xx.c
-@@ -468,20 +468,6 @@ static int iqs5xx_set_state(struct i2c_client *client, u8 state)
- 	return error2;
- }
+@@ -39,9 +39,7 @@
  
--static int iqs5xx_open(struct input_dev *input)
--{
--	struct iqs5xx_private *iqs5xx = input_get_drvdata(input);
+ #define IQS5XX_SHOW_RESET	BIT(7)
+ #define IQS5XX_ACK_RESET	BIT(7)
 -
--	return iqs5xx_set_state(iqs5xx->client, IQS5XX_RESUME);
--}
--
--static void iqs5xx_close(struct input_dev *input)
--{
--	struct iqs5xx_private *iqs5xx = input_get_drvdata(input);
--
--	iqs5xx_set_state(iqs5xx->client, IQS5XX_SUSPEND);
--}
--
- static int iqs5xx_axis_init(struct i2c_client *client)
- {
+ #define IQS5XX_SUSPEND		BIT(0)
+-#define IQS5XX_RESUME		0
+ 
+ #define IQS5XX_SETUP_COMPLETE	BIT(6)
+ #define IQS5XX_WDT		BIT(5)
+@@ -442,7 +440,7 @@ static int iqs5xx_set_state(struct i2c_client *client, u8 state)
  	struct iqs5xx_private *iqs5xx = i2c_get_clientdata(client);
-@@ -497,10 +483,7 @@ static int iqs5xx_axis_init(struct i2c_client *client)
+ 	int error1, error2;
  
- 		input->name = client->name;
- 		input->id.bustype = BUS_I2C;
--		input->open = iqs5xx_open;
--		input->close = iqs5xx_close;
+-	if (!iqs5xx->dev_id_info.bl_status)
++	if (!iqs5xx->dev_id_info.bl_status || device_may_wakeup(&client->dev))
+ 		return 0;
  
--		input_set_drvdata(input, iqs5xx);
- 		iqs5xx->input = input;
- 	}
+ 	mutex_lock(&iqs5xx->lock);
+@@ -462,10 +460,7 @@ static int iqs5xx_set_state(struct i2c_client *client, u8 state)
  
-@@ -622,13 +605,7 @@ static int iqs5xx_dev_init(struct i2c_client *client)
+ 	mutex_unlock(&iqs5xx->lock);
  
- 	iqs5xx->dev_id_info = *dev_id_info;
- 
--	/*
--	 * The following delay allows ATI to complete before the open and close
--	 * callbacks are free to elicit I2C communication. Any attempts to read
--	 * from or write to the device during this time may face extended clock
--	 * stretching and prompt the I2C controller to report an error.
--	 */
--	msleep(250);
-+	usleep_range(50, 100);
- 
- 	return 0;
+-	if (error1)
+-		return error1;
+-
+-	return error2;
++	return error1 ? : error2;
  }
+ 
+ static int iqs5xx_axis_init(struct i2c_client *client)
+@@ -946,40 +941,12 @@ static const struct attribute_group iqs5xx_attr_group = {
+ 
+ static int __maybe_unused iqs5xx_suspend(struct device *dev)
+ {
+-	struct iqs5xx_private *iqs5xx = dev_get_drvdata(dev);
+-	struct input_dev *input = iqs5xx->input;
+-	int error = 0;
+-
+-	if (!input || device_may_wakeup(dev))
+-		return error;
+-
+-	mutex_lock(&input->mutex);
+-
+-	if (input_device_enabled(input))
+-		error = iqs5xx_set_state(iqs5xx->client, IQS5XX_SUSPEND);
+-
+-	mutex_unlock(&input->mutex);
+-
+-	return error;
++	return iqs5xx_set_state(to_i2c_client(dev), IQS5XX_SUSPEND);
+ }
+ 
+ static int __maybe_unused iqs5xx_resume(struct device *dev)
+ {
+-	struct iqs5xx_private *iqs5xx = dev_get_drvdata(dev);
+-	struct input_dev *input = iqs5xx->input;
+-	int error = 0;
+-
+-	if (!input || device_may_wakeup(dev))
+-		return error;
+-
+-	mutex_lock(&input->mutex);
+-
+-	if (input_device_enabled(input))
+-		error = iqs5xx_set_state(iqs5xx->client, IQS5XX_RESUME);
+-
+-	mutex_unlock(&input->mutex);
+-
+-	return error;
++	return iqs5xx_set_state(to_i2c_client(dev), 0);
+ }
+ 
+ static SIMPLE_DEV_PM_OPS(iqs5xx_pm, iqs5xx_suspend, iqs5xx_resume);
 -- 
 2.17.1
 
