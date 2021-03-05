@@ -2,89 +2,748 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 77AB432F354
-	for <lists+linux-input@lfdr.de>; Fri,  5 Mar 2021 19:59:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 122FC32F35E
+	for <lists+linux-input@lfdr.de>; Fri,  5 Mar 2021 20:01:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229591AbhCES6r (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 5 Mar 2021 13:58:47 -0500
-Received: from mail1.protonmail.ch ([185.70.40.18]:31870 "EHLO
-        mail1.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229562AbhCES6V (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 5 Mar 2021 13:58:21 -0500
-Date:   Fri, 05 Mar 2021 18:58:10 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
-        s=protonmail; t=1614970699;
-        bh=m3ZqDNA+mvjIH0KFFoNe9jlttB2rSnvubz0lZ/kEE/s=;
-        h=Date:To:From:Cc:Reply-To:Subject:From;
-        b=RraqwqbLum2w/1CU4IyPVMd0syvzK4qTXKMEYMjH7BY4Qz+GyBOuEfQvjrZ7OFWEv
-         AU+J1BY/WPE+B7vy5mgnXD3CgUKbGXp4XuMuQv2iFjyTtdRIvwkU3P+WzYiMeFkSI8
-         mvFGANSJDXmP2va9mh6DA7pw0ZePzuhhVosscm2Q=
-To:     caleb@connolly.tech, andi@etezian.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh@kernel.org>
-From:   Caleb Connolly <caleb@connolly.tech>
-Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Reply-To: Caleb Connolly <caleb@connolly.tech>
-Subject: [PATCH v2] input: s6sy761: fix coordinate read bit shift
-Message-ID: <20210305185710.225168-1-caleb@connolly.tech>
+        id S229697AbhCETA4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 5 Mar 2021 14:00:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36538 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229674AbhCETAx (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 5 Mar 2021 14:00:53 -0500
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6A04C061574;
+        Fri,  5 Mar 2021 11:00:52 -0800 (PST)
+Received: by mail-pl1-x636.google.com with SMTP id u18so1855015plc.12;
+        Fri, 05 Mar 2021 11:00:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=LsI+vbW1Gc47OjYBDjN6q1wDUTn0g3Xjwp4F8YUszAk=;
+        b=Sd/4ja86gXOwWNPgg5KLax1p7j4DwKfiYN3+MpdXVDAEesyuC9nGpAucKDU5jpzJPT
+         rRcQi6MfSvKVGpmNhUyLQrRwq4rhXBn7cNyhSthn/0v32Lo1FyJIVGPW+EIQJeAn5Aua
+         MKOGGeDu4urfU0bt7kZvfLvvITHrheEgQACX+KnkU2DUZ7gVeW8WMUzkmNirJuKYZKxp
+         Pf+/U+5PqWIlVU+YLm3I6O9tlk3BTP0C10ahyzf09vGTApuvDSC/WKNml3tBsqBARgba
+         8xuxlGx4Hp51qJ0/LAKP7/xurX8P7Pmfxo772eKDrEbR81v6ci8/8X0IDst8T/Upg1xN
+         ozbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=LsI+vbW1Gc47OjYBDjN6q1wDUTn0g3Xjwp4F8YUszAk=;
+        b=Wk/3/V5AjRgZftH9epuzF6yXRMebx/8QIIVOdGPqg7le/6gtVYBESuh5jKkavWZcb7
+         6XHoxA9g6g9nkVn3v4lMgHjx23B7nwJANren4BMwan5Qc91GlGHiOD1yAb9a9IZikZYb
+         YmHFQRg3U0IRQFxEQpC9MZYNMaybW1EiWD/62M6/ABjvpD+s5WcXeq5LS+W+khDzbeia
+         j6HNbQT9E9eSVSL/Br+4fI/3ITN7uuaymh/PJDuBvO+AW8DBC9et3IeHiuOA0vaqAzHM
+         424HGeIY6d5U0IOVrsMhs/C61JnZBeXjdUCvT0swdJCxwbkfY0sAuDvzSKiLVRtHTAGt
+         Ybaw==
+X-Gm-Message-State: AOAM530fFoHPhvPrPYUJMiZsS/xzKFEfbYYbKCcDfQrtpmoYJ3rF0aYh
+        hJr7EQI8KeOclC8YXJs0Hao0Pk6R8wI=
+X-Google-Smtp-Source: ABdhPJztn1oMhWi4XM5MVwW84jeGJdCQZGLi0ADTXiY3uA01xtaA2DSHvX+qI5wPqB3cASzBGemofA==
+X-Received: by 2002:a17:90a:540c:: with SMTP id z12mr11308210pjh.163.1614970851948;
+        Fri, 05 Mar 2021 11:00:51 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:70ea:1e11:c25c:35fe])
+        by smtp.gmail.com with ESMTPSA id w25sm3177283pfn.106.2021.03.05.11.00.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Mar 2021 11:00:50 -0800 (PST)
+Date:   Fri, 5 Mar 2021 11:00:48 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Giulio Benetti <giulio.benetti@benettiengineering.com>
+Cc:     Henrik Rydberg <rydberg@bitmath.org>,
+        Giulio Benetti <giulio.benetti@micronovasrl.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [PATCH 3/3] Input: add driver for the Hycon HY46XX touchpanel
+ series
+Message-ID: <YEJ/4KHBXdzp2fP/@google.com>
+References: <20210305163834.70924-1-giulio.benetti@benettiengineering.com>
+ <20210305163834.70924-4-giulio.benetti@benettiengineering.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210305163834.70924-4-giulio.benetti@benettiengineering.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The touch coordinate register contains the following:
+Hi Giulio,
 
-        byte 3             byte 2             byte 1
-+--------+--------+ +-----------------+ +-----------------+
-|        |        | |                 | |                 |
-| X[3:0] | Y[3:0] | |     Y[11:4]     | |     X[11:4]     |
-|        |        | |                 | |                 |
-+--------+--------+ +-----------------+ +-----------------+
+On Fri, Mar 05, 2021 at 05:38:34PM +0100, Giulio Benetti wrote:
+> From: Giulio Benetti <giulio.benetti@micronovasrl.com>
+> 
+> This patch adds support for Hycon HY46XX.
 
-Bytes 2 and 1 need to be shifted left by 4 bits, the least significant
-nibble of each is stored in byte 3. Currently they are only
-being shifted by 3 causing the reported coordinates to be incorrect.
+Could you please tell me where patches 1/3 and 2/3. I am guessing they
+are dealing with DT bindings and are most likely to go through my tree
+after Rob's ACK.
 
-This matches downstream examples, and has been confirmed on my
-device (OnePlus 7 Pro).
+> 
+> Signed-off-by: Giulio Benetti <giulio.benetti@micronovasrl.com>
+> ---
+>  MAINTAINERS                              |   1 +
+>  drivers/input/touchscreen/Kconfig        |  12 +
+>  drivers/input/touchscreen/Makefile       |   1 +
+>  drivers/input/touchscreen/hycon-hy46xx.c | 571 +++++++++++++++++++++++
+>  4 files changed, 585 insertions(+)
+>  create mode 100644 drivers/input/touchscreen/hycon-hy46xx.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 3f83daf6b2bf..7a1331657e4b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8250,6 +8250,7 @@ M:	Giulio Benetti <giulio.benetti@micronovasrl.com>
+>  L:	linux-input@vger.kernel.org
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/input/touchscreen/hycon,hy46xx.yaml
+> +F:	drivers/input/touchscreen/hy46xx.c
+>  
+>  HYGON PROCESSOR SUPPORT
+>  M:	Pu Wen <puwen@hygon.cn>
+> diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
+> index 529614d364fe..5d4751d901cb 100644
+> --- a/drivers/input/touchscreen/Kconfig
+> +++ b/drivers/input/touchscreen/Kconfig
+> @@ -1335,4 +1335,16 @@ config TOUCHSCREEN_ZINITIX
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called zinitix.
+>  
+> +config TOUCHSCREEN_HYCON_HY46XX
+> +	tristate "Hycon hy46xx touchscreen support"
+> +	depends on I2C
+> +	help
+> +	  Say Y here if you have a touchscreen using Hycon hy46xx,
+> +	  or something similar enough.
+> +
+> +	  If unsure, say N.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called hycon-hy46xx.
+> +
+>  endif
+> diff --git a/drivers/input/touchscreen/Makefile b/drivers/input/touchscreen/Makefile
+> index 6233541e9173..8b68cf3a3e6d 100644
+> --- a/drivers/input/touchscreen/Makefile
+> +++ b/drivers/input/touchscreen/Makefile
+> @@ -112,3 +112,4 @@ obj-$(CONFIG_TOUCHSCREEN_ROHM_BU21023)	+= rohm_bu21023.o
+>  obj-$(CONFIG_TOUCHSCREEN_RASPBERRYPI_FW)	+= raspberrypi-ts.o
+>  obj-$(CONFIG_TOUCHSCREEN_IQS5XX)	+= iqs5xx.o
+>  obj-$(CONFIG_TOUCHSCREEN_ZINITIX)	+= zinitix.o
+> +obj-$(CONFIG_TOUCHSCREEN_HYCON_HY46XX)	+= hycon-hy46xx.o
+> diff --git a/drivers/input/touchscreen/hycon-hy46xx.c b/drivers/input/touchscreen/hycon-hy46xx.c
+> new file mode 100644
+> index 000000000000..ef0dee9a43a9
+> --- /dev/null
+> +++ b/drivers/input/touchscreen/hycon-hy46xx.c
+> @@ -0,0 +1,571 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2021
+> + * Author(s): Giulio Benetti <giulio.benetti@micronovasrl.com>
+> + */
+> +
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/i2c.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/input.h>
+> +#include <linux/input/mt.h>
+> +#include <linux/input/touchscreen.h>
+> +#include <linux/irq.h>
+> +#include <linux/regulator/consumer.h>
+> +
+> +#include <asm/unaligned.h>
+> +
+> +#define HY46XX_CHKSUM_CODE		0x1
+> +#define HY46XX_FINGER_NUM		0x2
+> +#define HY46XX_CHKSUM_LEN		0x7
+> +#define HY46XX_THRESHOLD		0x80
+> +#define HY46XX_PROX_SENS_SW		0x81
+> +#define HY46XX_GLOVE_EN			0x84
+> +#define HY46XX_REPORT_SPEED		0x88
+> +#define HY46XX_PWR_NOISE_EN		0x89
+> +#define HY46XX_FILTER_DATA		0x8A
+> +#define HY46XX_GAIN			0x92
+> +#define HY46XX_EDGE_OFFSET		0x93
+> +#define HY46XX_RX_NR_USED		0x94
+> +#define HY46XX_TX_NR_USED		0x95
+> +#define HY46XX_PWR_MODE			0xA5
+> +#define HY46XX_FW_VERSION		0xA6
+> +#define HY46XX_LIB_VERSION		0xA7
+> +#define HY46XX_TP_INFO			0xA8
+> +#define HY46XX_TP_CHIP_ID		0xA9
+> +#define HY46XX_BOOT_VER			0xB0
+> +
+> +#define HY46XX_TPLEN			0x6
+> +
+> +#define HY46XX_MAX_SUPPORTED_POINTS	11
+> +
+> +#define TOUCH_EVENT_DOWN		0x00
+> +#define TOUCH_EVENT_UP			0x01
+> +#define TOUCH_EVENT_CONTACT		0x02
+> +#define TOUCH_EVENT_RESERVED		0x03
+> +
+> +struct hycon_hy46xx_data {
+> +	struct i2c_client *client;
+> +	struct input_dev *input;
+> +	struct touchscreen_properties prop;
+> +	struct regulator *vcc;
+> +
+> +	struct gpio_desc *reset_gpio;
+> +
+> +	struct mutex mutex;
+> +
+> +	int threshold;
+> +	int proximity_sensor_switch;
+> +	int glove_enable;
+> +	int report_speed;
+> +	int power_noise_enable;
+> +	int filter_data;
+> +	int gain;
+> +	int edge_offset;
+> +	int rx_number_used;
+> +	int tx_number_used;
+> +	int power_mode;
+> +	int fw_version;
+> +	int lib_version;
+> +	int tp_information;
+> +	int tp_chip_id;
+> +	int bootloader_version;
+> +};
+> +
+> +static int hycon_hy46xx_readwrite(struct i2c_client *client, u16 wr_len, u8 *wr_buf,
+> +			    u16 rd_len, u8 *rd_buf)
+> +{
+> +	struct i2c_msg msgs[2];
+> +	int i = 0;
+> +	int ret;
+> +
+> +	if (wr_len) {
+> +		msgs[i].addr  = client->addr;
+> +		msgs[i].flags = 0;
+> +		msgs[i].len = wr_len;
+> +		msgs[i].buf = wr_buf;
+> +		i++;
+> +	}
+> +	if (rd_len) {
+> +		msgs[i].addr  = client->addr;
+> +		msgs[i].flags = I2C_M_RD;
+> +		msgs[i].len = rd_len;
+> +		msgs[i].buf = rd_buf;
+> +		i++;
+> +	}
+> +
+> +	ret = i2c_transfer(client->adapter, msgs, i);
+> +	if (ret < 0)
+> +		return ret;
+> +	if (ret != i)
+> +		return -EIO;
+> +
+> +	return 0;
+> +}
 
-Fixes: 0145a7141e59 ("Input: add support for the Samsung S6SY761
-touchscreen")
-Signed-off-by: Caleb Connolly <caleb@connolly.tech>
----
-Changes since v1:
- * Use Andi's explanation in the commit message
- * Add Fixes: tag
+Please see if your driver could be converted to regmap API instead of
+"maked" i2c. It will allow using write-gather when system supports it,
+etc.
 
-drivers/input/touchscreen/s6sy761.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +static bool hycon_hy46xx_check_checksum(struct hycon_hy46xx_data *tsdata, u8 *buf)
+> +{
+> +	u8 chksum = 0;
+> +	int i;
+> +
+> +	for (i = 2; i < buf[HY46XX_CHKSUM_LEN]; i++)
+> +		chksum += buf[i];
+> +
+> +	if (chksum == buf[HY46XX_CHKSUM_CODE])
+> +		return true;
+> +
+> +	dev_err_ratelimited(&tsdata->client->dev,
+> +			    "checksum error: 0x%02x expected, got 0x%02x\n",
+> +			    chksum, buf[HY46XX_CHKSUM_CODE]);
+> +
+> +	return false;
+> +}
+> +
+> +static irqreturn_t hycon_hy46xx_isr(int irq, void *dev_id)
+> +{
+> +	struct hycon_hy46xx_data *tsdata = dev_id;
+> +	struct device *dev = &tsdata->client->dev;
+> +	u8 rdbuf[0x44];
+A #define here would be nice.
+A #define here would be nice.
 
-diff --git a/drivers/input/touchscreen/s6sy761.c b/drivers/input/touchscree=
-n/s6sy761.c
-index b63d7fdf0cd2..85a1f465c097 100644
---- a/drivers/input/touchscreen/s6sy761.c
-+++ b/drivers/input/touchscreen/s6sy761.c
-@@ -145,8 +145,8 @@ static void s6sy761_report_coordinates(struct s6sy761_d=
-ata *sdata,
- =09u8 major =3D event[4];
- =09u8 minor =3D event[5];
- =09u8 z =3D event[6] & S6SY761_MASK_Z;
--=09u16 x =3D (event[1] << 3) | ((event[3] & S6SY761_MASK_X) >> 4);
--=09u16 y =3D (event[2] << 3) | (event[3] & S6SY761_MASK_Y);
-+=09u16 x =3D (event[1] << 4) | ((event[3] & S6SY761_MASK_X) >> 4);
-+=09u16 y =3D (event[2] << 4) | (event[3] & S6SY761_MASK_Y);
-=20
- =09input_mt_slot(sdata->input, tid);
-=20
---=20
-2.29.2
+> +	u8 cmd;
+> +	int i, x, y, id;
+> +	int error;
+> +
+> +	memset(rdbuf, 0, sizeof(rdbuf));
+> +
+> +	error = hycon_hy46xx_readwrite(tsdata->client, 1, &cmd, sizeof(rdbuf), rdbuf);
 
+cmd could be any garbage (as it is uninitialized)? This requires a nice
+comment as to why it is OK.
 
+> +	if (error) {
+> +		dev_err_ratelimited(dev, "Unable to fetch data, error: %d\n",
+> +				    error);
+> +		goto out;
+> +	}
+> +
+> +	if (!hycon_hy46xx_check_checksum(tsdata, rdbuf))
+> +		goto out;
+> +
+> +	for (i = 0; i < HY46XX_MAX_SUPPORTED_POINTS; i++) {
+> +		u8 *buf = &rdbuf[3 + (HY46XX_TPLEN * i)];
+> +		int type = buf[0] >> 6;
+> +
+> +		if (type == TOUCH_EVENT_RESERVED)
+> +			continue;
+> +
+> +		x = get_unaligned_be16(buf) & 0x0fff;
+> +		y = get_unaligned_be16(buf + 2) & 0x0fff;
+> +
+> +		id = (buf[2] >> 4) & 0x0f;
+
+buf is u8 so no need to additionally mask after shifting.
+
+> +
+> +		input_mt_slot(tsdata->input, id);
+> +		if (input_mt_report_slot_state(tsdata->input, MT_TOOL_FINGER,
+> +					       type != TOUCH_EVENT_UP))
+> +			touchscreen_report_pos(tsdata->input, &tsdata->prop,
+> +					       x, y, true);
+> +	}
+> +
+> +	input_mt_report_pointer_emulation(tsdata->input, true);
+> +	input_sync(tsdata->input);
+> +
+> +out:
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static int hycon_hy46xx_register_write(struct hycon_hy46xx_data *tsdata, u8 addr, u8 value)
+> +{
+> +	u8 wrbuf[2];
+> +
+> +	wrbuf[0] = addr;
+> +	wrbuf[1] = value;
+> +
+> +	return hycon_hy46xx_readwrite(tsdata->client, 2, wrbuf, 0, NULL);
+> +}
+> +
+> +static int hycon_hy46xx_register_read(struct hycon_hy46xx_data *tsdata, u8 addr)
+> +{
+> +	u8 wrbyte, rdbyte;
+> +	int error;
+> +
+> +	wrbyte = addr;
+> +	error = hycon_hy46xx_readwrite(tsdata->client, 1, &wrbyte, 1, &rdbyte);
+> +	if (error)
+> +		return error;
+> +
+> +	return rdbyte;
+> +}
+> +
+> +struct hycon_hy46xx_attribute {
+> +	struct device_attribute dattr;
+> +	size_t field_offset;
+> +	u8 address;
+> +	u8 limit_low;
+> +	u8 limit_high;
+> +};
+> +
+> +#define HYCON_ATTR(_field, _mode, _address, _limit_low, _limit_high)	\
+> +	struct hycon_hy46xx_attribute hycon_hy46xx_attr_##_field = {		\
+> +		.dattr = __ATTR(_field, _mode,				\
+> +				hycon_hy46xx_setting_show,			\
+> +				hycon_hy46xx_setting_store),			\
+> +		.field_offset = offsetof(struct hycon_hy46xx_data, _field),	\
+> +		.address = _address,					\
+> +		.limit_low = _limit_low,				\
+> +		.limit_high = _limit_high,				\
+> +	}
+> +
+> +static ssize_t hycon_hy46xx_setting_show(struct device *dev,
+> +				   struct device_attribute *dattr, char *buf)
+> +{
+> +	struct i2c_client *client = to_i2c_client(dev);
+> +	struct hycon_hy46xx_data *tsdata = i2c_get_clientdata(client);
+> +	struct hycon_hy46xx_attribute *attr =
+> +			container_of(dattr, struct hycon_hy46xx_attribute, dattr);
+> +	u8 *field = (u8 *)tsdata + attr->field_offset;
+> +	int val;
+> +	size_t count = 0;
+> +	int error = 0;
+> +	u8 addr = attr->address;
+> +
+> +	mutex_lock(&tsdata->mutex);
+> +
+> +	val = hycon_hy46xx_register_read(tsdata, addr);
+> +	if (val < 0) {
+> +		error = val;
+> +		dev_err(&tsdata->client->dev,
+> +			"Failed to fetch attribute %s, error %d\n",
+> +			dattr->attr.name, error);
+> +		goto out;
+> +	}
+> +
+> +	if (val != *field) {
+> +		dev_warn(&tsdata->client->dev,
+> +			 "%s: read (%d) and stored value (%d) differ\n",
+> +			 dattr->attr.name, val, *field);
+> +		*field = val;
+> +	}
+> +
+> +	count = scnprintf(buf, PAGE_SIZE, "%d\n", val);
+> +out:
+> +	mutex_unlock(&tsdata->mutex);
+> +	return error ?: count;
+> +}
+> +
+> +static ssize_t hycon_hy46xx_setting_store(struct device *dev,
+> +					struct device_attribute *dattr,
+> +					const char *buf, size_t count)
+> +{
+> +	struct i2c_client *client = to_i2c_client(dev);
+> +	struct hycon_hy46xx_data *tsdata = i2c_get_clientdata(client);
+> +	struct hycon_hy46xx_attribute *attr =
+> +			container_of(dattr, struct hycon_hy46xx_attribute, dattr);
+> +	u8 *field = (u8 *)tsdata + attr->field_offset;
+> +	unsigned int val;
+> +	int error;
+> +	u8 addr = attr->address;
+> +
+> +	mutex_lock(&tsdata->mutex);
+> +
+> +	error = kstrtouint(buf, 0, &val);
+> +	if (error)
+> +		goto out;
+> +
+> +	if (val < attr->limit_low || val > attr->limit_high) {
+> +		error = -ERANGE;
+> +		goto out;
+> +	}
+> +
+> +	error = hycon_hy46xx_register_write(tsdata, addr, val);
+> +	if (error) {
+> +		dev_err(&tsdata->client->dev,
+> +			"Failed to update attribute %s, error: %d\n",
+> +			dattr->attr.name, error);
+> +		goto out;
+> +	}
+> +	*field = val;
+
+I am not sure why you want this check (I see that we have it in one
+other driver and I really do not recall why we have it there either).
+
+> +
+> +out:
+> +	mutex_unlock(&tsdata->mutex);
+> +	return error ?: count;
+> +}
+> +
+> +static HYCON_ATTR(threshold, 0644, HY46XX_THRESHOLD, 0, 255);
+> +static HYCON_ATTR(proximity_sensor_switch, 0644,  HY46XX_PROX_SENS_SW, 0, 1);
+> +static HYCON_ATTR(glove_enable, 0644, HY46XX_GLOVE_EN, 0, 1);
+> +static HYCON_ATTR(report_speed, 0644, HY46XX_REPORT_SPEED, 0, 255);
+> +static HYCON_ATTR(power_noise_enable, 0644, HY46XX_PWR_NOISE_EN, 0, 1);
+> +static HYCON_ATTR(filter_data, 0644, HY46XX_FILTER_DATA, 0, 5);
+> +static HYCON_ATTR(gain, 0644, HY46XX_GAIN, 0, 5);
+> +static HYCON_ATTR(edge_offset, 0644, HY46XX_EDGE_OFFSET, 0, 5);
+> +static HYCON_ATTR(fw_version, 0444, HY46XX_FW_VERSION, 0, 255);
+> +static HYCON_ATTR(lib_version, 0444, HY46XX_LIB_VERSION, 0, 255);
+> +static HYCON_ATTR(tp_information, 0444, HY46XX_TP_INFO, 0, 255);
+> +static HYCON_ATTR(tp_chip_id, 0444, HY46XX_TP_CHIP_ID, 0, 255);
+> +static HYCON_ATTR(bootloader_version, 0444, HY46XX_BOOT_VER, 0, 255);
+> +
+> +static struct attribute *hycon_hy46xx_attrs[] = {
+> +	&hycon_hy46xx_attr_threshold.dattr.attr,
+> +	&hycon_hy46xx_attr_proximity_sensor_switch.dattr.attr,
+> +	&hycon_hy46xx_attr_glove_enable.dattr.attr,
+> +	&hycon_hy46xx_attr_report_speed.dattr.attr,
+> +	&hycon_hy46xx_attr_power_noise_enable.dattr.attr,
+> +	&hycon_hy46xx_attr_filter_data.dattr.attr,
+> +	&hycon_hy46xx_attr_gain.dattr.attr,
+> +	&hycon_hy46xx_attr_edge_offset.dattr.attr,
+> +	&hycon_hy46xx_attr_fw_version.dattr.attr,
+> +	&hycon_hy46xx_attr_lib_version.dattr.attr,
+> +	&hycon_hy46xx_attr_tp_information.dattr.attr,
+> +	&hycon_hy46xx_attr_tp_chip_id.dattr.attr,
+> +	&hycon_hy46xx_attr_bootloader_version.dattr.attr,
+> +	NULL
+> +};
+> +
+> +static const struct attribute_group hycon_hy46xx_attr_group = {
+> +	.attrs = hycon_hy46xx_attrs,
+> +};
+> +
+> +static void hycon_hy46xx_get_defaults(struct device *dev, struct hycon_hy46xx_data *tsdata)
+> +{
+> +	u32 val;
+> +	int error;
+> +
+> +	error = device_property_read_u32(dev, "threshold", &val);
+> +	if (!error) {
+> +		hycon_hy46xx_register_write(tsdata, HY46XX_THRESHOLD, val);
+> +		tsdata->threshold = val;
+> +	}
+> +
+> +	error = device_property_read_u32(dev, "proximity-sensor-switch", &val);
+> +	if (!error) {
+> +		hycon_hy46xx_register_write(tsdata, HY46XX_PROX_SENS_SW, val);
+> +		tsdata->proximity_sensor_switch = val;
+> +	}
+> +
+> +	error = device_property_read_u32(dev, "glove-enable", &val);
+> +	if (!error) {
+> +		hycon_hy46xx_register_write(tsdata, HY46XX_GLOVE_EN, val);
+> +		tsdata->glove_enable = val;
+> +	}
+> +
+> +	error = device_property_read_u32(dev, "report-speed", &val);
+> +	if (!error) {
+> +		hycon_hy46xx_register_write(tsdata, HY46XX_REPORT_SPEED, val);
+> +		tsdata->report_speed = val;
+> +	}
+> +
+> +	error = device_property_read_u32(dev, "power-noise-enable", &val);
+> +	if (!error) {
+> +		hycon_hy46xx_register_write(tsdata, HY46XX_PWR_NOISE_EN, val);
+> +		tsdata->report_speed = val;
+> +	}
+> +
+> +	error = device_property_read_u32(dev, "filter-data", &val);
+> +	if (!error) {
+> +		hycon_hy46xx_register_write(tsdata, HY46XX_FILTER_DATA, val);
+> +		tsdata->report_speed = val;
+> +	}
+> +
+> +	error = device_property_read_u32(dev, "gain", &val);
+> +	if (!error) {
+> +		hycon_hy46xx_register_write(tsdata, HY46XX_GAIN, val);
+> +		tsdata->report_speed = val;
+> +	}
+> +
+> +	error = device_property_read_u32(dev, "edge-offset", &val);
+> +	if (!error) {
+> +		hycon_hy46xx_register_write(tsdata, HY46XX_EDGE_OFFSET, val);
+> +		tsdata->report_speed = val;
+> +	}
+> +}
+> +
+> +static void hycon_hy46xx_get_parameters(struct hycon_hy46xx_data *tsdata)
+> +{
+> +	tsdata->threshold = hycon_hy46xx_register_read(tsdata, HY46XX_THRESHOLD);
+> +	tsdata->proximity_sensor_switch =
+> +		hycon_hy46xx_register_read(tsdata, HY46XX_PROX_SENS_SW);
+> +	tsdata->glove_enable = hycon_hy46xx_register_read(tsdata, HY46XX_GLOVE_EN);
+> +	tsdata->report_speed =
+> +		hycon_hy46xx_register_read(tsdata, HY46XX_REPORT_SPEED);
+> +	tsdata->power_noise_enable =
+> +		hycon_hy46xx_register_read(tsdata, HY46XX_PWR_NOISE_EN);
+> +	tsdata->filter_data = hycon_hy46xx_register_read(tsdata, HY46XX_FILTER_DATA);
+> +	tsdata->gain = hycon_hy46xx_register_read(tsdata, HY46XX_GAIN);
+> +	tsdata->edge_offset = hycon_hy46xx_register_read(tsdata, HY46XX_EDGE_OFFSET);
+> +	tsdata->rx_number_used =
+> +		hycon_hy46xx_register_read(tsdata, HY46XX_RX_NR_USED);
+> +	tsdata->tx_number_used =
+> +		hycon_hy46xx_register_read(tsdata, HY46XX_TX_NR_USED);
+> +	tsdata->power_mode = hycon_hy46xx_register_read(tsdata, HY46XX_PWR_MODE);
+> +	tsdata->fw_version = hycon_hy46xx_register_read(tsdata, HY46XX_FW_VERSION);
+> +	tsdata->lib_version = hycon_hy46xx_register_read(tsdata, HY46XX_LIB_VERSION);
+> +	tsdata->tp_information = hycon_hy46xx_register_read(tsdata, HY46XX_TP_INFO);
+> +	tsdata->tp_chip_id = hycon_hy46xx_register_read(tsdata, HY46XX_TP_CHIP_ID);
+> +	tsdata->bootloader_version =
+> +		hycon_hy46xx_register_read(tsdata, HY46XX_BOOT_VER);
+> +}
+> +
+> +static void hycon_hy46xx_disable_regulator(void *arg)
+> +{
+> +	struct hycon_hy46xx_data *data = arg;
+> +
+> +	regulator_disable(data->vcc);
+> +}
+> +
+> +static int hycon_hy46xx_probe(struct i2c_client *client,
+> +					 const struct i2c_device_id *id)
+> +{
+> +	const struct hycon_hy46xx_i2c_chip_data *chip_data;
+
+Where is this defined??
+
+> +	struct hycon_hy46xx_data *tsdata;
+> +	struct input_dev *input;
+> +	unsigned long irq_flags;
+> +	int error;
+> +
+> +	dev_dbg(&client->dev, "probing for HYCON HY46XX I2C\n");
+> +
+> +	tsdata = devm_kzalloc(&client->dev, sizeof(*tsdata), GFP_KERNEL);
+> +	if (!tsdata)
+> +		return -ENOMEM;
+> +
+> +	chip_data = device_get_match_data(&client->dev);
+> +	if (!chip_data)
+> +		chip_data = (const struct hycon_hy46xx_i2c_chip_data *)
+> +			     id->driver_data;
+> +	if (!chip_data) {
+> +		dev_err(&client->dev, "invalid or missing chip data\n");
+> +		return -EINVAL;
+> +	}
+
+You are not attaching any additional data to OF or legacy match tables,
+so why are you doing this?
+
+> +
+> +	tsdata->vcc = devm_regulator_get(&client->dev, "vcc");
+> +	if (IS_ERR(tsdata->vcc)) {
+> +		error = PTR_ERR(tsdata->vcc);
+> +		if (error != -EPROBE_DEFER)
+> +			dev_err(&client->dev,
+> +				"failed to request regulator: %d\n", error);
+> +		return error;
+> +	}
+> +
+> +	error = regulator_enable(tsdata->vcc);
+> +	if (error < 0) {
+> +		dev_err(&client->dev, "failed to enable vcc: %d\n", error);
+> +		return error;
+> +	}
+> +
+> +	error = devm_add_action_or_reset(&client->dev,
+> +					 hycon_hy46xx_disable_regulator,
+> +					 tsdata);
+> +	if (error)
+> +		return error;
+> +
+> +	tsdata->reset_gpio = devm_gpiod_get_optional(&client->dev,
+> +						     "reset", GPIOD_OUT_LOW);
+> +	if (IS_ERR(tsdata->reset_gpio)) {
+> +		error = PTR_ERR(tsdata->reset_gpio);
+> +		dev_err(&client->dev,
+> +			"Failed to request GPIO reset pin, error %d\n", error);
+> +		return error;
+> +	}
+> +
+> +	if (tsdata->reset_gpio) {
+> +		usleep_range(5000, 6000);
+> +		gpiod_set_value_cansleep(tsdata->reset_gpio, 1);
+> +		usleep_range(5000, 6000);
+> +		gpiod_set_value_cansleep(tsdata->reset_gpio, 0);
+> +		msleep(1000);
+> +	}
+> +
+> +	input = devm_input_allocate_device(&client->dev);
+> +	if (!input) {
+> +		dev_err(&client->dev, "failed to allocate input device.\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	mutex_init(&tsdata->mutex);
+> +	tsdata->client = client;
+> +	tsdata->input = input;
+> +
+> +	hycon_hy46xx_get_defaults(&client->dev, tsdata);
+> +	hycon_hy46xx_get_parameters(tsdata);
+> +
+> +	input->name = "Hycon Capacitive Touch";
+> +	input->id.bustype = BUS_I2C;
+> +	input->dev.parent = &client->dev;
+> +
+> +	input_set_abs_params(input, ABS_MT_POSITION_X,
+> +			     0, -1, 0, 0);
+> +	input_set_abs_params(input, ABS_MT_POSITION_Y,
+> +			     0, -1, 0, 0);
+> +
+> +	touchscreen_parse_properties(input, true, &tsdata->prop);
+> +
+> +	error = input_mt_init_slots(input, HY46XX_MAX_SUPPORTED_POINTS,
+> +				INPUT_MT_DIRECT);
+> +	if (error) {
+> +		dev_err(&client->dev, "Unable to init MT slots.\n");
+> +		return error;
+> +	}
+> +
+> +	i2c_set_clientdata(client, tsdata);
+> +
+> +	irq_flags = irq_get_trigger_type(client->irq);
+> +	if (irq_flags == IRQF_TRIGGER_NONE)
+> +		irq_flags = IRQF_TRIGGER_FALLING;
+> +	irq_flags |= IRQF_ONESHOT;
+
+Just use IRQF_ONESHOT. The construct above is for compatibility when we
+had drivers in the tree that were hard-coding trigger, and then we moved
+to specify trigger in platform code/ACPI/DT and wanted to limit
+regressions. Given this driver is brand new simply pass IRQF_ONESHOT
+into devm_request_threaded_irq() below and call it a day.
+
+> +
+> +	error = devm_request_threaded_irq(&client->dev, client->irq,
+> +					NULL, hycon_hy46xx_isr, irq_flags,
+> +					client->name, tsdata);
+> +	if (error) {
+> +		dev_err(&client->dev, "Unable to request touchscreen IRQ.\n");
+> +		return error;
+> +	}
+> +
+> +	error = devm_device_add_group(&client->dev, &hycon_hy46xx_attr_group);
+> +	if (error)
+> +		return error;
+> +
+> +	error = input_register_device(input);
+> +	if (error)
+> +		return error;
+> +
+> +	dev_dbg(&client->dev,
+> +		"HYCON HY46XX initialized: IRQ %d, Reset pin %d.\n",
+> +		client->irq,
+> +		tsdata->reset_gpio ? desc_to_gpio(tsdata->reset_gpio) : -1);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct i2c_device_id hycon_hy46xx_id[] = {
+> +	{ .name = "hycon-hy4613" },
+> +	{ .name = "hycon-hy4614" },
+> +	{ .name = "hycon-hy4621" },
+> +	{ .name = "hycon-hy4623" },
+> +	{ .name = "hycon-hy4633" },
+> +	{ .name = "hycon-hy4635" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(i2c, hycon_hy46xx_id);
+> +
+> +static const struct of_device_id hycon_hy46xx_of_match[] = {
+> +	{ .compatible = "hycon,hycon-hy4613" },
+> +	{ .compatible = "hycon,hycon-hy4614" },
+> +	{ .compatible = "hycon,hycon-hy4621" },
+> +	{ .compatible = "hycon,hycon-hy4623" },
+> +	{ .compatible = "hycon,hycon-hy4633" },
+> +	{ .compatible = "hycon,hycon-hy4635" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, hycon_hy46xx_of_match);
+> +
+> +static struct i2c_driver hycon_hy46xx_driver = {
+> +	.driver = {
+> +		.name = "hycon_hy46xx",
+> +		.of_match_table = hycon_hy46xx_of_match,
+> +		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+> +	},
+> +	.id_table = hycon_hy46xx_id,
+> +	.probe    = hycon_hy46xx_probe,
+> +};
+> +
+> +module_i2c_driver(hycon_hy46xx_driver);
+> +
+> +MODULE_AUTHOR("Giulio Benetti <giulio.benetti@micronovasrl.com>");
+> +MODULE_DESCRIPTION("HYCON HY46XX I2C Touchscreen Driver");
+> +MODULE_LICENSE("GPL v2");
+> -- 
+> 2.25.1
+> 
+
+Thanks.
+
+-- 
+Dmitry
