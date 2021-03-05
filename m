@@ -2,22 +2,22 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3498132F088
+	by mail.lfdr.de (Postfix) with ESMTP id CCBF732F08A
 	for <lists+linux-input@lfdr.de>; Fri,  5 Mar 2021 18:02:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231289AbhCERB5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S231324AbhCERB5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Fri, 5 Mar 2021 12:01:57 -0500
-Received: from aposti.net ([89.234.176.197]:60868 "EHLO aposti.net"
+Received: from aposti.net ([89.234.176.197]:60870 "EHLO aposti.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230259AbhCERBk (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 5 Mar 2021 12:01:40 -0500
+        id S230489AbhCERBq (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 5 Mar 2021 12:01:46 -0500
 From:   Paul Cercueil <paul@crapouillou.net>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     od@zcrc.me, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH 2/3] input: gpio-keys: Use hrtimer for release timer
-Date:   Fri,  5 Mar 2021 17:01:10 +0000
-Message-Id: <20210305170111.214782-2-paul@crapouillou.net>
+Subject: [PATCH 3/3] input: gpio-keys: Use hrtimer for software debounce
+Date:   Fri,  5 Mar 2021 17:01:11 +0000
+Message-Id: <20210305170111.214782-3-paul@crapouillou.net>
 In-Reply-To: <20210305170111.214782-1-paul@crapouillou.net>
 References: <20210305170111.214782-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -26,111 +26,123 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dealing with input, timing is important; if the button should be
-released in one millisecond, then it should be done in one millisecond
-and not a hundred milliseconds.
+We want to be able to report the input event as soon as the debounce
+delay elapsed. However, the current code does not really ensure that,
+as it uses the jiffies-based schedule_delayed_work() API. With a small
+enough HZ value (HZ <= 100), this results in some input events being
+lost, when a key is quickly pressed then released (on a human's time
+scale).
 
-Therefore, the standard timer API is not really suitable for this task.
-
-Convert the gpio-keys driver to use a hrtimer instead of the standard
-timer to address this issue.
-
-Note that by using a hard IRQ for the hrtimer callback, we can get rid
-of the spin_lock_irqsave() and spin_unlock_irqrestore().
+Switching to hrtimers fixes this issue, and will work even on extremely
+low HZ values (tested at HZ=24).
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/input/keyboard/gpio_keys.c | 27 ++++++++++++++++-----------
- 1 file changed, 16 insertions(+), 11 deletions(-)
+ drivers/input/keyboard/gpio_keys.c | 33 +++++++++++++++---------------
+ 1 file changed, 17 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
-index 0be204693ab0..1ab112267aa8 100644
+index 1ab112267aa8..267ed99e1911 100644
 --- a/drivers/input/keyboard/gpio_keys.c
 +++ b/drivers/input/keyboard/gpio_keys.c
-@@ -8,6 +8,7 @@
- 
- #include <linux/module.h>
- 
-+#include <linux/hrtimer.h>
- #include <linux/init.h>
- #include <linux/fs.h>
- #include <linux/interrupt.h>
-@@ -36,7 +37,7 @@ struct gpio_button_data {
- 
- 	unsigned short *code;
- 
--	struct timer_list release_timer;
-+	struct hrtimer release_timer;
+@@ -22,7 +22,6 @@
+ #include <linux/platform_device.h>
+ #include <linux/input.h>
+ #include <linux/gpio_keys.h>
+-#include <linux/workqueue.h>
+ #include <linux/gpio.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/of.h>
+@@ -40,7 +39,7 @@ struct gpio_button_data {
+ 	struct hrtimer release_timer;
  	unsigned int release_delay;	/* in msecs, for IRQ-only buttons */
  
- 	struct delayed_work work;
-@@ -146,7 +147,7 @@ static void gpio_keys_disable_button(struct gpio_button_data *bdata)
- 		if (bdata->gpiod)
- 			cancel_delayed_work_sync(&bdata->work);
- 		else
--			del_timer_sync(&bdata->release_timer);
-+			hrtimer_cancel(&bdata->release_timer);
+-	struct delayed_work work;
++	struct hrtimer debounce_timer;
+ 	unsigned int software_debounce;	/* in msecs, for GPIO-driven buttons */
  
- 		bdata->disabled = true;
- 	}
-@@ -415,19 +416,20 @@ static irqreturn_t gpio_keys_gpio_isr(int irq, void *dev_id)
- 	return IRQ_HANDLED;
+ 	unsigned int irq;
+@@ -145,7 +144,7 @@ static void gpio_keys_disable_button(struct gpio_button_data *bdata)
+ 		disable_irq(bdata->irq);
+ 
+ 		if (bdata->gpiod)
+-			cancel_delayed_work_sync(&bdata->work);
++			hrtimer_cancel(&bdata->debounce_timer);
+ 		else
+ 			hrtimer_cancel(&bdata->release_timer);
+ 
+@@ -377,15 +376,18 @@ static void gpio_keys_gpio_report_event(struct gpio_button_data *bdata)
+ 	input_sync(input);
  }
  
--static void gpio_keys_irq_timer(struct timer_list *t)
-+static enum hrtimer_restart gpio_keys_irq_timer(struct hrtimer *t)
+-static void gpio_keys_gpio_work_func(struct work_struct *work)
++static enum hrtimer_restart gpio_keys_debounce_timer(struct hrtimer *t)
  {
--	struct gpio_button_data *bdata = from_timer(bdata, t, release_timer);
+-	struct gpio_button_data *bdata =
+-		container_of(work, struct gpio_button_data, work.work);
 +	struct gpio_button_data *bdata = container_of(t,
 +						      struct gpio_button_data,
-+						      release_timer);
- 	struct input_dev *input = bdata->input;
--	unsigned long flags;
++						      debounce_timer);
  
--	spin_lock_irqsave(&bdata->lock, flags);
- 	if (bdata->key_pressed) {
- 		input_event(input, EV_KEY, *bdata->code, 0);
- 		input_sync(input);
- 		bdata->key_pressed = false;
- 	}
--	spin_unlock_irqrestore(&bdata->lock, flags);
+ 	gpio_keys_gpio_report_event(bdata);
+ 
+ 	if (bdata->button->wakeup)
+ 		pm_relax(bdata->input->dev.parent);
 +
 +	return HRTIMER_NORESTART;
  }
  
- static irqreturn_t gpio_keys_irq_isr(int irq, void *dev_id)
-@@ -457,8 +459,9 @@ static irqreturn_t gpio_keys_irq_isr(int irq, void *dev_id)
+ static irqreturn_t gpio_keys_gpio_isr(int irq, void *dev_id)
+@@ -409,9 +411,9 @@ static irqreturn_t gpio_keys_gpio_isr(int irq, void *dev_id)
+ 		}
  	}
  
- 	if (bdata->release_delay)
--		mod_timer(&bdata->release_timer,
--			jiffies + msecs_to_jiffies(bdata->release_delay));
-+		hrtimer_start(&bdata->release_timer,
-+			      ms_to_ktime(bdata->release_delay),
-+			      HRTIMER_MODE_REL_HARD);
- out:
- 	spin_unlock_irqrestore(&bdata->lock, flags);
- 	return IRQ_HANDLED;
-@@ -471,7 +474,7 @@ static void gpio_keys_quiesce_key(void *data)
- 	if (bdata->gpiod)
- 		cancel_delayed_work_sync(&bdata->work);
- 	else
--		del_timer_sync(&bdata->release_timer);
-+		hrtimer_cancel(&bdata->release_timer);
- }
+-	mod_delayed_work(system_wq,
+-			 &bdata->work,
+-			 msecs_to_jiffies(bdata->software_debounce));
++	hrtimer_start(&bdata->debounce_timer,
++		      ms_to_ktime(bdata->software_debounce),
++		      HRTIMER_MODE_REL_SOFT);
  
- static int gpio_keys_setup_key(struct platform_device *pdev,
-@@ -595,7 +598,9 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
+ 	return IRQ_HANDLED;
+ }
+@@ -472,7 +474,7 @@ static void gpio_keys_quiesce_key(void *data)
+ 	struct gpio_button_data *bdata = data;
+ 
+ 	if (bdata->gpiod)
+-		cancel_delayed_work_sync(&bdata->work);
++		hrtimer_cancel(&bdata->debounce_timer);
+ 	else
+ 		hrtimer_cancel(&bdata->release_timer);
+ }
+@@ -562,11 +564,13 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
+ 			bdata->irq = irq;
  		}
  
- 		bdata->release_delay = button->debounce_interval;
--		timer_setup(&bdata->release_timer, gpio_keys_irq_timer, 0);
-+		hrtimer_init(&bdata->release_timer,
-+			     CLOCK_REALTIME, HRTIMER_MODE_REL_HARD);
-+		bdata->release_timer.function = gpio_keys_irq_timer;
+-		INIT_DELAYED_WORK(&bdata->work, gpio_keys_gpio_work_func);
+-
+ 		isr = gpio_keys_gpio_isr;
+ 		irqflags = IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING;
  
- 		isr = gpio_keys_irq_isr;
- 		irqflags = 0;
++		hrtimer_init(&bdata->debounce_timer,
++			     CLOCK_REALTIME, HRTIMER_MODE_REL_SOFT);
++		bdata->debounce_timer.function = gpio_keys_debounce_timer;
++
+ 		switch (button->wakeup_event_action) {
+ 		case EV_ACT_ASSERTED:
+ 			bdata->wakeup_trigger_type = active_low ?
+@@ -615,10 +619,7 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
+ 	*bdata->code = button->code;
+ 	input_set_capability(input, button->type ?: EV_KEY, *bdata->code);
+ 
+-	/*
+-	 * Install custom action to cancel release timer and
+-	 * workqueue item.
+-	 */
++	/* Install custom action to cancel timers. */
+ 	error = devm_add_action(dev, gpio_keys_quiesce_key, bdata);
+ 	if (error) {
+ 		dev_err(dev, "failed to register quiesce action, error: %d\n",
 -- 
 2.30.1
 
