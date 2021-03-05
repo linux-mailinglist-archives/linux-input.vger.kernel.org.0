@@ -2,147 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CCBF732F08A
-	for <lists+linux-input@lfdr.de>; Fri,  5 Mar 2021 18:02:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3713B32F1E8
+	for <lists+linux-input@lfdr.de>; Fri,  5 Mar 2021 18:55:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231324AbhCERB5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 5 Mar 2021 12:01:57 -0500
-Received: from aposti.net ([89.234.176.197]:60870 "EHLO aposti.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230489AbhCERBq (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 5 Mar 2021 12:01:46 -0500
-From:   Paul Cercueil <paul@crapouillou.net>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     od@zcrc.me, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH 3/3] input: gpio-keys: Use hrtimer for software debounce
-Date:   Fri,  5 Mar 2021 17:01:11 +0000
-Message-Id: <20210305170111.214782-3-paul@crapouillou.net>
-In-Reply-To: <20210305170111.214782-1-paul@crapouillou.net>
-References: <20210305170111.214782-1-paul@crapouillou.net>
+        id S229486AbhCERyq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 5 Mar 2021 12:54:46 -0500
+Received: from mail-40133.protonmail.ch ([185.70.40.133]:57011 "EHLO
+        mail-40133.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230056AbhCERyj (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 5 Mar 2021 12:54:39 -0500
+Date:   Fri, 05 Mar 2021 17:54:23 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
+        s=protonmail; t=1614966877;
+        bh=OLtTeS9whulTVfjNeKIRbp5Nt0oqyEHztozzyRmrAEE=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+        b=OYO+4sh06ZpnXqprWsCe8yamKHLyawP5vvwrgiqOOb6q9Sh/T/3IojDedxALaPefo
+         bmCc24y3E6YSHETHmwgIc0wrPU2gdhTacceW/YIQmT5lKUFTv6cnfhwVWjkvuywrbZ
+         HU7BN7V3I7SAVeY9j0jvenNEbwhOhO2bg81TPftc=
+To:     Andi Shyti <andi@etezian.org>
+From:   Caleb Connolly <caleb@connolly.tech>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Reply-To: Caleb Connolly <caleb@connolly.tech>
+Subject: Re: [PATCH] input: s6sy761: fix coordinate read bit shift
+Message-ID: <ffc3b523-23e2-402d-5727-82cacb226aab@connolly.tech>
+In-Reply-To: <YEIcRBjVSrAIaB+c@jack.zhora.eu>
+References: <20210305020310.550527-1-caleb@connolly.tech> <YEIcRBjVSrAIaB+c@jack.zhora.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+        autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+        mailout.protonmail.ch
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-We want to be able to report the input event as soon as the debounce
-delay elapsed. However, the current code does not really ensure that,
-as it uses the jiffies-based schedule_delayed_work() API. With a small
-enough HZ value (HZ <= 100), this results in some input events being
-lost, when a key is quickly pressed then released (on a human's time
-scale).
+Hi Andi,
 
-Switching to hrtimers fixes this issue, and will work even on extremely
-low HZ values (tested at HZ=24).
+On 05/03/2021 11:55 am, Andi Shyti wrote:
+> Hi Caleb,
+>
+>> -----BEGIN PGP SIGNED MESSAGE-----
+>> Hash: SHA256
+> Please clean up the commit message.
+oops! Sorry
+>
+>> The touch coordinates are read by shifting a value left by 3,
+>> this is incorrect and effectively causes the coordinates to
+>> be half of the correct value.
+>>
+>> Shift by 4 bits instead to report the correct value.
+>>
+>> This matches downstream examples, and has been confirmed on my
+>> device (OnePlus 7 Pro).
+> The real reason is that from the register we get:
+>
+>         byte 3             byte 2             byte 1
+> +--------+--------+ +-----------------+ +-----------------+
+> |        |        | |                 | |                 |
+> | X[3:0] | Y[3:0] | |     Y[11:4]     | |     X[11:4]     |
+> |        |        | |                 | |                 |
+> +--------+--------+ +-----------------+ +-----------------+
+>
+> and the 12 bit values have to fit in a 16bit variable.
+>
+> The upper 8 bits (in event[2] and event[1] need to be shifted
+> left by '4' and not by '3' in order to leave space to the lower
+> 4 bits (in event[3]).
+Thanks for clarifying, sorry for my rather naive commit message.
+>> Signed-off-by: Caleb Connolly <caleb@connolly.tech>
+>> ---
+>>   drivers/input/touchscreen/s6sy761.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/input/touchscreen/s6sy761.c b/drivers/input/touchsc=
+reen/s6sy761.c
+>> index b63d7fdf0cd2..85a1f465c097 100644
+>> --- a/drivers/input/touchscreen/s6sy761.c
+>> +++ b/drivers/input/touchscreen/s6sy761.c
+>> @@ -145,8 +145,8 @@ static void s6sy761_report_coordinates(struct s6sy76=
+1_data *sdata,
+>>   =09u8 major =3D event[4];
+>>   =09u8 minor =3D event[5];
+>>   =09u8 z =3D event[6] & S6SY761_MASK_Z;
+>> -=09u16 x =3D (event[1] << 3) | ((event[3] & S6SY761_MASK_X) >> 4);
+>> -=09u16 y =3D (event[2] << 3) | (event[3] & S6SY761_MASK_Y);
+>> +=09u16 x =3D (event[1] << 4) | ((event[3] & S6SY761_MASK_X) >> 4);
+>> +=09u16 y =3D (event[2] << 4) | (event[3] & S6SY761_MASK_Y);
+> the devil knows how that '3' has ended up there :)
+>
+> Thanks for catching it!
+>
+> Reviewed-by: Andi Shyti <andi@etezian.org>
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
----
- drivers/input/keyboard/gpio_keys.c | 33 +++++++++++++++---------------
- 1 file changed, 17 insertions(+), 16 deletions(-)
+Regards,
 
-diff --git a/drivers/input/keyboard/gpio_keys.c b/drivers/input/keyboard/gpio_keys.c
-index 1ab112267aa8..267ed99e1911 100644
---- a/drivers/input/keyboard/gpio_keys.c
-+++ b/drivers/input/keyboard/gpio_keys.c
-@@ -22,7 +22,6 @@
- #include <linux/platform_device.h>
- #include <linux/input.h>
- #include <linux/gpio_keys.h>
--#include <linux/workqueue.h>
- #include <linux/gpio.h>
- #include <linux/gpio/consumer.h>
- #include <linux/of.h>
-@@ -40,7 +39,7 @@ struct gpio_button_data {
- 	struct hrtimer release_timer;
- 	unsigned int release_delay;	/* in msecs, for IRQ-only buttons */
- 
--	struct delayed_work work;
-+	struct hrtimer debounce_timer;
- 	unsigned int software_debounce;	/* in msecs, for GPIO-driven buttons */
- 
- 	unsigned int irq;
-@@ -145,7 +144,7 @@ static void gpio_keys_disable_button(struct gpio_button_data *bdata)
- 		disable_irq(bdata->irq);
- 
- 		if (bdata->gpiod)
--			cancel_delayed_work_sync(&bdata->work);
-+			hrtimer_cancel(&bdata->debounce_timer);
- 		else
- 			hrtimer_cancel(&bdata->release_timer);
- 
-@@ -377,15 +376,18 @@ static void gpio_keys_gpio_report_event(struct gpio_button_data *bdata)
- 	input_sync(input);
- }
- 
--static void gpio_keys_gpio_work_func(struct work_struct *work)
-+static enum hrtimer_restart gpio_keys_debounce_timer(struct hrtimer *t)
- {
--	struct gpio_button_data *bdata =
--		container_of(work, struct gpio_button_data, work.work);
-+	struct gpio_button_data *bdata = container_of(t,
-+						      struct gpio_button_data,
-+						      debounce_timer);
- 
- 	gpio_keys_gpio_report_event(bdata);
- 
- 	if (bdata->button->wakeup)
- 		pm_relax(bdata->input->dev.parent);
-+
-+	return HRTIMER_NORESTART;
- }
- 
- static irqreturn_t gpio_keys_gpio_isr(int irq, void *dev_id)
-@@ -409,9 +411,9 @@ static irqreturn_t gpio_keys_gpio_isr(int irq, void *dev_id)
- 		}
- 	}
- 
--	mod_delayed_work(system_wq,
--			 &bdata->work,
--			 msecs_to_jiffies(bdata->software_debounce));
-+	hrtimer_start(&bdata->debounce_timer,
-+		      ms_to_ktime(bdata->software_debounce),
-+		      HRTIMER_MODE_REL_SOFT);
- 
- 	return IRQ_HANDLED;
- }
-@@ -472,7 +474,7 @@ static void gpio_keys_quiesce_key(void *data)
- 	struct gpio_button_data *bdata = data;
- 
- 	if (bdata->gpiod)
--		cancel_delayed_work_sync(&bdata->work);
-+		hrtimer_cancel(&bdata->debounce_timer);
- 	else
- 		hrtimer_cancel(&bdata->release_timer);
- }
-@@ -562,11 +564,13 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
- 			bdata->irq = irq;
- 		}
- 
--		INIT_DELAYED_WORK(&bdata->work, gpio_keys_gpio_work_func);
--
- 		isr = gpio_keys_gpio_isr;
- 		irqflags = IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING;
- 
-+		hrtimer_init(&bdata->debounce_timer,
-+			     CLOCK_REALTIME, HRTIMER_MODE_REL_SOFT);
-+		bdata->debounce_timer.function = gpio_keys_debounce_timer;
-+
- 		switch (button->wakeup_event_action) {
- 		case EV_ACT_ASSERTED:
- 			bdata->wakeup_trigger_type = active_low ?
-@@ -615,10 +619,7 @@ static int gpio_keys_setup_key(struct platform_device *pdev,
- 	*bdata->code = button->code;
- 	input_set_capability(input, button->type ?: EV_KEY, *bdata->code);
- 
--	/*
--	 * Install custom action to cancel release timer and
--	 * workqueue item.
--	 */
-+	/* Install custom action to cancel timers. */
- 	error = devm_add_action(dev, gpio_keys_quiesce_key, bdata);
- 	if (error) {
- 		dev_err(dev, "failed to register quiesce action, error: %d\n",
--- 
-2.30.1
+Caleb
+
+>
+> Andi
 
