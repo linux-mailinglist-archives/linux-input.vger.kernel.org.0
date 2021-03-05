@@ -2,102 +2,214 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5463F32F038
-	for <lists+linux-input@lfdr.de>; Fri,  5 Mar 2021 17:42:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 95AB932F049
+	for <lists+linux-input@lfdr.de>; Fri,  5 Mar 2021 17:46:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230249AbhCEQlx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 5 Mar 2021 11:41:53 -0500
-Received: from 10.mo178.mail-out.ovh.net ([46.105.76.150]:39631 "EHLO
-        10.mo178.mail-out.ovh.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231127AbhCEQlu (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 5 Mar 2021 11:41:50 -0500
-X-Greylist: delayed 16793 seconds by postgrey-1.27 at vger.kernel.org; Fri, 05 Mar 2021 11:41:50 EST
-Received: from player691.ha.ovh.net (unknown [10.108.54.133])
-        by mo178.mail-out.ovh.net (Postfix) with ESMTP id 43F9BC6FDC
-        for <linux-input@vger.kernel.org>; Fri,  5 Mar 2021 12:55:57 +0100 (CET)
-Received: from etezian.org (213-243-141-64.bb.dnainternet.fi [213.243.141.64])
-        (Authenticated sender: andi@etezian.org)
-        by player691.ha.ovh.net (Postfix) with ESMTPSA id 1E23A1BCE06D7;
-        Fri,  5 Mar 2021 11:55:50 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass (GARM-104R0055e4a7d2d-f7ba-4b7b-8661-49069e8a18d8,
-                    8BB957472A3FEC517196918F6D0E8FFF2983C800) smtp.auth=andi@etezian.org
-X-OVh-ClientIp: 213.243.141.64
-Date:   Fri, 5 Mar 2021 13:55:48 +0200
-From:   Andi Shyti <andi@etezian.org>
-To:     Caleb Connolly <caleb@connolly.tech>
-Cc:     Andi Shyti <andi@etezian.org>,
+        id S230076AbhCEQqM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 5 Mar 2021 11:46:12 -0500
+Received: from smtpweb146.aruba.it ([62.149.158.146]:43056 "EHLO
+        smtpweb146.aruba.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230155AbhCEQpr (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 5 Mar 2021 11:45:47 -0500
+X-Greylist: delayed 421 seconds by postgrey-1.27 at vger.kernel.org; Fri, 05 Mar 2021 11:45:47 EST
+Received: from ubuntu.localdomain ([146.241.168.111])
+        by Aruba Outgoing Smtp  with ESMTPSA
+        id IDTPlgHCw1jmzIDTRlCrB3; Fri, 05 Mar 2021 17:38:45 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+        t=1614962326; bh=XFPljTLEpx+iDJEZVKAEvkdEGU2G+Au15VT749VzRcI=;
+        h=From:To:Subject:Date:MIME-Version;
+        b=KI54Uu7vZQbo0vKor1OOaOQ4cptRs7rYunM9mlIGJyZsY1ytHlAGnkrAQy/G+U5Mn
+         O+Sgk8NxUGsZ5mYCQ7sX0GAY6rwiTcv77XTd+V1Cu+4sEriYdUTSvoJvLqjT3jxcbv
+         9+T/tyoDvBkoqNvt5uNGFj0vunfW8Pqilmhx0e61mRUzsAvNTqzjEfGiHwqcUjhWF3
+         LMMstKXrSkVJcAl0kl0RffRhZoUiFIHPYqTEPsnhX4mken1jRRi2fNsYQkmvpQConl
+         Flk1UHgygOB/O55UX0WJnJnNEiAODTcwaAO9phU0S7INdw+xRY51fhayNgMGkGcKCp
+         y7/FySFIypXTQ==
+From:   Giulio Benetti <giulio.benetti@benettiengineering.com>
+To:     Giulio Benetti <giulio.benetti@micronovasrl.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] input: s6sy761: fix coordinate read bit shift
-Message-ID: <YEIcRBjVSrAIaB+c@jack.zhora.eu>
-References: <20210305020310.550527-1-caleb@connolly.tech>
+        Rob Herring <robh+dt@kernel.org>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 2/3] dt-bindings: touchscreen: Add HY46XX bindings
+Date:   Fri,  5 Mar 2021 17:38:33 +0100
+Message-Id: <20210305163834.70924-3-giulio.benetti@benettiengineering.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210305163834.70924-1-giulio.benetti@benettiengineering.com>
+References: <20210305163834.70924-1-giulio.benetti@benettiengineering.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210305020310.550527-1-caleb@connolly.tech>
-X-Ovh-Tracer-Id: 2039286209993949911
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledruddtiedgfeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpeetnhguihcuufhhhihtihcuoegrnhguihesvghtvgiiihgrnhdrohhrgheqnecuggftrfgrthhtvghrnheptdfgudduhfefueeujeefieehtdeftefggeevhefgueellefhudetgeeikeduieefnecukfhppedtrddtrddtrddtpddvudefrddvgeefrddugedurdeigeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrheiledurdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheprghnughisegvthgviihirghnrdhorhhgpdhrtghpthhtoheplhhinhhugidqihhnphhuthesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfOjOXavtwRgjjMB8Lcj823f0m6pi8u/nB6O1dPedYSb4BkzaAht/8t+7QmiR8+K7dDfr3baH+CwS5Cap4tW7nMNtxPCnPSA2J3hNQpQCVdUbvroCOjBY
+ a2uLfDHcVT4ZGg/oRC9r6cIbspABP/2O9ebJYjTc56VsMQCyvolkG7hWYv+sD5KNo6cNUfbPc3P8kQmWzkiQQIRw4Ecdb9u7UG0tq/7KQnU5eepacDsfD5yl
+ dEN1pDu+tRLVmv77LgQqaMn0X2nT93BHIQ3r8qrMixpPJ+Vj1rmUO1tffxn0FLRYB7BtEhYJ41QomyYWtq8NqEK0iuMJ8e3ahRFHQbvWtJVDuN7DESWdZNq4
+ dHWH6irjW4MItTTIMhgWU3Zo9mXB40A4dssgxGWd3Oak81SjHzp5mUHhQ9lYlL5b7L8aU/A4
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Caleb,
+From: Giulio Benetti <giulio.benetti@micronovasrl.com>
 
-> -----BEGIN PGP SIGNED MESSAGE-----
-> Hash: SHA256
+This adds device tree bindings for the Hycon HY46XX touchscreen series.
 
-Please clean up the commit message.
+Signed-off-by: Giulio Benetti <giulio.benetti@micronovasrl.com>
+---
+ .../input/touchscreen/hycon,hy46xx.yaml       | 130 ++++++++++++++++++
+ MAINTAINERS                                   |   6 +
+ 2 files changed, 136 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/hycon,hy46xx.yaml
 
-> The touch coordinates are read by shifting a value left by 3,
-> this is incorrect and effectively causes the coordinates to
-> be half of the correct value.
-> 
-> Shift by 4 bits instead to report the correct value.
-> 
-> This matches downstream examples, and has been confirmed on my
-> device (OnePlus 7 Pro).
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/hycon,hy46xx.yaml b/Documentation/devicetree/bindings/input/touchscreen/hycon,hy46xx.yaml
+new file mode 100644
+index 000000000000..cddd5e5bae92
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/touchscreen/hycon,hy46xx.yaml
+@@ -0,0 +1,130 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/touchscreen/hycon-hy46xx.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: hyconon HY46XX series touchscreen controller Bindings
++
++description: |
++             There are 6 variants of the chip for various touch panel sizes and coverl len material
++              Glass: 0.3mm--4.0mm
++              PET/PMMA: 0.2mm--2.0mm
++               HY4613(B)-N048  < 6"
++               HY4614(B)-N068  7" .. 10.1"
++               HY4621-NS32  < 5"
++               HY4623-NS48  5.1" .. 7"
++              Glass: 0.3mm--8.0mm
++              PET/PMMA: 0.2mm--4.0mm
++               HY4633(B)-N048  < 6"
++               HY4635(B)-N048  < 7" .. 10.1"
++
++maintainers:
++  - Giulio Benetti <giulio.benetti@micronovasrl.com>
++
++allOf:
++  - $ref: touchscreen.yaml#
++
++properties:
++  compatible:
++    enum:
++      - hycon,hycon-hy4613
++      - hycon,hycon-hy4614
++      - hycon,hycon-hy4621
++      - hycon,hycon-hy4623
++      - hycon,hycon-hy4633
++      - hycon,hycon-hy4635
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++
++  vcc-supply: true
++
++  threshold:
++    description: Allows setting the sensitivity in the range from 0 to 255.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 255
++
++  proximity-sensor-switch:
++    description: Allows enabling or disabling the Proximity Sensor.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 1
++
++  glove-enable:
++    description: Allows enabling or disabling glove setting.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 1
++
++  report-speed:
++    description: Allows setting the report speed(i.e 0x64 => 100Hz).
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 255
++
++  power-noise-enable:
++    description: Allows enabling or disabling power noise filter.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 1
++
++  filter-data:
++    description: Allows setting the filtering data before reporting touch
++                 in the range from 0 to 5.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 5
++
++  gain:
++    description: Allows setting the sensitivity distance in the range from 0 to 5.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 5
++
++  edge-offset:
++    description: Allows setting the edge compensation in the range from 0 to 16.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0
++    maximum: 16
++
++  touchscreen-size-x: true
++  touchscreen-size-y: true
++  touchscreen-fuzz-x: true
++  touchscreen-fuzz-y: true
++  touchscreen-inverted-x: true
++  touchscreen-inverted-y: true
++  touchscreen-swapped-x-y: true
++  interrupt-controller: true
++
++additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
++      hycon-hy4633@1c {
++        compatible = "hycon,hy4633";
++        reg = <0x1c>;
++        interrupt-parent = <&gpio2>;
++        interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
++        reset-gpios = <&gpio2 6 GPIO_ACTIVE_LOW>;
++      };
++    };
++
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d92f85ca831d..3f83daf6b2bf 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8245,6 +8245,12 @@ S:	Maintained
+ F:	mm/hwpoison-inject.c
+ F:	mm/memory-failure.c
+ 
++HYCON HY46XX TOUCHSCREEN SUPPORT
++M:	Giulio Benetti <giulio.benetti@micronovasrl.com>
++L:	linux-input@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/input/touchscreen/hycon,hy46xx.yaml
++
+ HYGON PROCESSOR SUPPORT
+ M:	Pu Wen <puwen@hygon.cn>
+ L:	linux-kernel@vger.kernel.org
+-- 
+2.25.1
 
-The real reason is that from the register we get:
-
-       byte 3             byte 2             byte 1
-+--------+--------+ +-----------------+ +-----------------+
-|        |        | |                 | |                 |
-| X[3:0] | Y[3:0] | |     Y[11:4]     | |     X[11:4]     |
-|        |        | |                 | |                 |
-+--------+--------+ +-----------------+ +-----------------+
-
-and the 12 bit values have to fit in a 16bit variable.
-
-The upper 8 bits (in event[2] and event[1] need to be shifted
-left by '4' and not by '3' in order to leave space to the lower
-4 bits (in event[3]).
-
-> 
-> Signed-off-by: Caleb Connolly <caleb@connolly.tech>
-> ---
->  drivers/input/touchscreen/s6sy761.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/s6sy761.c b/drivers/input/touchscreen/s6sy761.c
-> index b63d7fdf0cd2..85a1f465c097 100644
-> --- a/drivers/input/touchscreen/s6sy761.c
-> +++ b/drivers/input/touchscreen/s6sy761.c
-> @@ -145,8 +145,8 @@ static void s6sy761_report_coordinates(struct s6sy761_data *sdata,
->  	u8 major = event[4];
->  	u8 minor = event[5];
->  	u8 z = event[6] & S6SY761_MASK_Z;
-> -	u16 x = (event[1] << 3) | ((event[3] & S6SY761_MASK_X) >> 4);
-> -	u16 y = (event[2] << 3) | (event[3] & S6SY761_MASK_Y);
-> +	u16 x = (event[1] << 4) | ((event[3] & S6SY761_MASK_X) >> 4);
-> +	u16 y = (event[2] << 4) | (event[3] & S6SY761_MASK_Y);
-
-the devil knows how that '3' has ended up there :)
-
-Thanks for catching it!
-
-Reviewed-by: Andi Shyti <andi@etezian.org>
-
-Andi
