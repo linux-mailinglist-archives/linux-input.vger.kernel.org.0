@@ -2,168 +2,151 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE2B532DFA4
-	for <lists+linux-input@lfdr.de>; Fri,  5 Mar 2021 03:25:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 06E0D32E064
+	for <lists+linux-input@lfdr.de>; Fri,  5 Mar 2021 05:13:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229478AbhCECZd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 4 Mar 2021 21:25:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48666 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbhCECZd (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 4 Mar 2021 21:25:33 -0500
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45662C061756
-        for <linux-input@vger.kernel.org>; Thu,  4 Mar 2021 18:25:33 -0800 (PST)
-Received: by mail-lj1-x22f.google.com with SMTP id h4so877044ljl.0
-        for <linux-input@vger.kernel.org>; Thu, 04 Mar 2021 18:25:33 -0800 (PST)
+        id S229463AbhCEENA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 4 Mar 2021 23:13:00 -0500
+Received: from mail-dm6nam10hn2248.outbound.protection.outlook.com ([52.100.156.248]:1761
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229458AbhCEEM7 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 4 Mar 2021 23:12:59 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FBsDU2EHP7qibEJK997tPULBKhGh7VnbbRUIdUgiyF1R+1rQ1pBfs92gImkjEyywIvIq0HccXP8SxGYiwlVTOWK22kMPv2LfBHVAVC+T0nh42+3XDy9UhNcRY1vbv3QL4aSyraJmMHvryF5L6bbzJP3eILiXaN/9e8ifKUHMHSb7tXJ4nmJ3a2fPbWmxLyGeZIrPMW1f/bJh7VceZ76Z1TmuKsyDud3AjkPCizOTGl9DB7autK+1LW7NX84U1f3QCvdWOvxa/RqKN5MVcjTSX3FpvgyhHrxNgCk1YS8ylsIF4w+1Y7SAdhPTD2VXTMAW8fyv7O8WnsYIwy29hXjl2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M6NcOmzq9Grh8986VFOEVN7+h7Ht0WE0N9rnMtXYREQ=;
+ b=Mj6K6QrpYO0+dYy46XAWUS7GmxeUuvok/rSn3SrvYrE5zmRQqcD0caAUjjR+zC7J4l1r6hqqPeC5X1YCAJj+E5OgZMI14B0LkOrcXn6m2/9fAHnRgHZD/aSrSy58r7Er36DTBrGpGBRttCkPKR45VtEFFkLix9p1lSnZyPkSC/xDXCW2tj+JQe0VitXaHBeJ9E8Kzt/0Ece2f9JAa5wp4EpSb3zqm5zwuarCiW7Gr/1mO5ojSB30faHMmB4k6UsCjUEV6+k9nqCgy22d1sLH9VvobrTedRA5hU19dyHNzt2DWvB4fWwqeSau4jHTt2+FijUsKL9Sjl7p2K37ByTthQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
+ dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2FGTyyXGBlrhr2U0Y+zu7HE9K3MeHxtD2Y4He3VPYgY=;
-        b=dsvHLQY6xZe01a5ElvrEKz2pi2TzN4XqbM2bPG3BcVWYMkAt1L46kzpBrdiL/S7gZh
-         z0gvyLN132f+PtGiObi6hJSzO+5GunORowUlDFpQFrRd10F77NUVToUY4kwxv7eqltZ3
-         2zcmmsBl5Nam3WZBemqCHgtVPD0X4BV3HVEVEgdMIEOfUmBw2kojQRiJkdAPXT7gUXx7
-         f/+RtIQ/XP/WsODFr4OVERBKz8QrZDGf4HvNGKEoZi7Z21u/cBA1ZYKbVYRO5wvbpsfT
-         OXjhj/cl0EpCdJTuc0QiMiKAwnzLGH2EpVToNseuUNO1LPb7Ti8iktjtHNWePdyT7Fbb
-         J/Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2FGTyyXGBlrhr2U0Y+zu7HE9K3MeHxtD2Y4He3VPYgY=;
-        b=h4Lkt7H+1mS8K06hQvgp9fm78Kd3hXvvrZTXhqjrb1NtDwaVp5L3AUr2J4yH32vbzc
-         15StWXNvBjI9/bROdfAG7UUxEF8Yz1EAw7wMMssb3KHp9aQG3h1h1/bJB+ydG6XvHmRD
-         0c9ltaWAI5iGC2n1ZwqsFG4qyrR/+idfeyW6+0tzBPeLm64jBtH4JaccWGOuVmUyRjFq
-         vpFdVr9p2JR4od98mzv+qrnBe8B0E6CcZwM+HewsVIjdQNOmoFsSQpB1tGi6dWHOXJZ/
-         A3QS6a4nR3OPoz4CuHc4nbJ8sT3JO5zeJVImfwybsp+HRLGHDs8WdbH2gCBixvb12CqB
-         Knfw==
-X-Gm-Message-State: AOAM5339GYvrnUlKwS3y6hkuJURB6ULyVijrAXDJK65y2+96cJrpyw9B
-        xBlycl17xbjxlATWhjttsB4M3rn/m+yJcQTfkYuijw==
-X-Google-Smtp-Source: ABdhPJwe/5pWuEwctojiEqkxaWP/Hd/Y+WMdhvJlCfoB36pYIQsTTJub01OtXWwlx0Dji3uBg8tPbSm0uF9ia4ywm9o=
-X-Received: by 2002:a19:7e0b:: with SMTP id z11mr4314739lfc.320.1614911131451;
- Thu, 04 Mar 2021 18:25:31 -0800 (PST)
+ d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M6NcOmzq9Grh8986VFOEVN7+h7Ht0WE0N9rnMtXYREQ=;
+ b=y2zBQZmTrWFzNHgbZIk2gqi3x7rYHc3G4mhqpX4s0X8TUUYJ6OHbNwURmu+GzmJDnZ7DrkNGQGiPhvFqeNlnmvhJyWJ/JihIqm0eiV0JmRCFF/pYpoI9K5rQacxc7Nw3p9Q0eRfPxGkQf6/jby7EMN8DfxmfTe8suOHbWOZZdK8=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=labundy.com;
+Received: from SN6PR08MB5517.namprd08.prod.outlook.com (2603:10b6:805:fb::32)
+ by SN6PR08MB6112.namprd08.prod.outlook.com (2603:10b6:805:f4::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17; Fri, 5 Mar
+ 2021 04:12:57 +0000
+Received: from SN6PR08MB5517.namprd08.prod.outlook.com
+ ([fe80::79a3:8aa5:feb8:7f04]) by SN6PR08MB5517.namprd08.prod.outlook.com
+ ([fe80::79a3:8aa5:feb8:7f04%7]) with mapi id 15.20.3890.028; Fri, 5 Mar 2021
+ 04:12:57 +0000
+From:   Jeff LaBundy <jeff@labundy.com>
+To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        Jeff LaBundy <jeff@labundy.com>
+Subject: [PATCH 0/9] Input: iqs5xx - more enhancements and optimizations
+Date:   Thu,  4 Mar 2021 22:12:27 -0600
+Message-Id: <20210305041236.3489-1-jeff@labundy.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-Originating-IP: [136.49.90.243]
+X-ClientProxiedBy: SA9PR13CA0086.namprd13.prod.outlook.com
+ (2603:10b6:806:23::31) To SN6PR08MB5517.namprd08.prod.outlook.com
+ (2603:10b6:805:fb::32)
 MIME-Version: 1.0
-References: <20210225053204.697951-1-lzye@google.com> <1b315e2cd02f4017cc746909088cc8bc1a39024e.camel@hadess.net>
- <CAFFuddJKqkUEFdqhk8o+6K3_a42UyT934dmj002MS8deLD6fdA@mail.gmail.com>
-In-Reply-To: <CAFFuddJKqkUEFdqhk8o+6K3_a42UyT934dmj002MS8deLD6fdA@mail.gmail.com>
-From:   Chris Ye <lzye@google.com>
-Date:   Thu, 4 Mar 2021 18:25:20 -0800
-Message-ID: <CAFFudd+Y6maj=F8LwGeakvkRoh_a_s2yi_rtB4LUnY=CVrMGWA@mail.gmail.com>
-Subject: Re: [PATCH] [v2] Input: Add "Share" button to Microsoft Xbox One controller.
-To:     Bastien Nocera <hadess@hadess.net>
-Cc:     =?UTF-8?Q?=C5=81ukasz_Patron?= <priv.luk@gmail.com>,
-        Benjamin Valentin <benpicco@googlemail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Olivier_Cr=C3=AAte?= <olivier.crete@ocrete.ca>,
-        Sanjay Govind <sanjay.govind9@gmail.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        trivial@kernel.org, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (136.49.90.243) by SA9PR13CA0086.namprd13.prod.outlook.com (2603:10b6:806:23::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.9 via Frontend Transport; Fri, 5 Mar 2021 04:12:56 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e7e230c6-7303-46b0-1daf-08d8df8cf4d5
+X-MS-TrafficTypeDiagnostic: SN6PR08MB6112:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR08MB611248394F535EAEDA75E507D3969@SN6PR08MB6112.namprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?YXCho2KBfOH+uKc8aBLl8LLRxKyBmy00jwbzIEv7FS49dc5C5s679ZyaMD4u?=
+ =?us-ascii?Q?HZh3yeIf1MRuVuiSFglLmWfhgwnNgJd0KeNcf4ZjltIIl5QuO+w7wE0VYHgf?=
+ =?us-ascii?Q?QSNk3we8kuB0g2cc2EBtyYJklZnEKKBmsL42Bcudg1LkgLqFSs5OU+szZ101?=
+ =?us-ascii?Q?RG7uf5T5UHQLczIHinTNiFKKrRWSyUs6pZ8OyRe8ur6ZdxL/kmbWI0Ppm7mi?=
+ =?us-ascii?Q?MAO4S8Er0RU4E5fJ+orfZHQ/ZqV+abB9ky7Feo4r4ndkt/kZUgs5yUoN7EM8?=
+ =?us-ascii?Q?k5ds8T7G/zThnhIvbDib7UGytuXiMXBv71kzYzVD3SchH/cFxTTZKkGnGDEd?=
+ =?us-ascii?Q?Yw61UObe3ByMvHx77SlNSSgh42rbPDLHnzhf5DZDbNL6TnHY0/rTs2690HmO?=
+ =?us-ascii?Q?ZnTlVQcW9ArI5A9Kf0nAahOxEm8Lebirjk1Fl+KVWbdj0ZxZ43pPbmghn/dd?=
+ =?us-ascii?Q?Po3NGb80ZAi+v7+7aN9SyqAax7CocyDE58lusdHdocXR5lgVcFMyhN3aWhHs?=
+ =?us-ascii?Q?/cWtRkm93gDTmNZIkHtDQTe+eonuQcZ/06HUfXbZcrBN9q2H2era178uMNl5?=
+ =?us-ascii?Q?CancaWoMASaNXIrt9oG67vs646xmToDSNVlY5h7RWVHEvQ4D94/WYunGu0jc?=
+ =?us-ascii?Q?7cmQwkCkhOrrMWiuwMzyZ2Kuaa+QwWwfkMMJ42k2ztmHlzsPi1X4cQE0xXSr?=
+ =?us-ascii?Q?37iFUOD2C4WS2n4Hdxsc+lC+kab+1vOujmkeMO0bGNZ7WM/3lw8xAZyoqVI+?=
+ =?us-ascii?Q?bSxDdZ9vs2p18rIdUPULzeyrSG5jM5x/NxZWi+OYZu/WxbjGI+e+oXy3g4to?=
+ =?us-ascii?Q?guH9KZigxNszth+tQO6pL7WlAgn8QukJ4Gd8UAs6oRmvyf1d7W4vzj41z42v?=
+ =?us-ascii?Q?nRVs++kTIEqK4Ps3ReeyNWHLkHpgvs8o6+Tuhd1t/pYP9fe7Ucd3KRKNVH9v?=
+ =?us-ascii?Q?Hbk6fw1XjgtzLZcBEI7GvqNjpNYSzypYSEOKnKbqfDOCh2m+VRrJEoctzuWc?=
+ =?us-ascii?Q?WseSrtz/NZC406ETG2Nnjcmbpw=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:SN6PR08MB5517.namprd08.prod.outlook.com;PTR:;CAT:OSPM;SFS:(396003)(346002)(136003)(39830400003)(366004)(376002)(6506007)(66946007)(36756003)(16526019)(186003)(66556008)(5660300002)(2906002)(966005)(1076003)(66476007)(4326008)(86362001)(316002)(8676002)(52116002)(508600001)(69590400012)(8936002)(107886003)(6512007)(83380400001)(956004)(2616005)(26005)(6486002)(6666004)(42413003)(32563001);DIR:OUT;SFP:1501;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?HJIoAT+tkUP6AtRMpZqd+D2ynNX1OVOUdhEM8rjAMyhtH79ibe3feap1rUhF?=
+ =?us-ascii?Q?6mNN8t/HbqBJ8suW+hwdqy7MJH2XnKve3gN32wMNEhsiHGyd/DtkF0fnAKD1?=
+ =?us-ascii?Q?gu9zCduvefWo7aP+IiC+tRXOSSnte0z7tuCUh+ZlhlEqZZgLKTFURHXGpAfC?=
+ =?us-ascii?Q?VAvdUf5eFvdRLwS4Chuit1snLPAZ8kxnWZL8kOR0OPBEyAjsvOVg83TS+Gve?=
+ =?us-ascii?Q?fs4790C1DLeMhiqwt6jZf4nHz1VjL4priCqOZeWukdypPpdwrxwr9IktuWSX?=
+ =?us-ascii?Q?jTvFT7fAko1qjLZHT9NCbi2EtUfU/ht7q3Y/Jw+f6H0+/ApvwNXIvTxMohCi?=
+ =?us-ascii?Q?gPAFPVACsVUq5aRqEWA2+fG95GQGqsGCO564AEybKcZmZMkFdfztCBCGZuDR?=
+ =?us-ascii?Q?eY5HhxIFjrqX0SEYzrQ8NKE4+ybLIHKJ5AEspoxFv6iRgVNbdPS/VMdj4U0A?=
+ =?us-ascii?Q?cPqjkgoOC08Il/Kj/ZmC+hOomMFBVzGKMOy8E/XW1BlYvCybsxIGQ9sCyNkd?=
+ =?us-ascii?Q?UlzXSVuRSxedwA9UDOMxNrhi+C17SVc43ZM+hqwVJ9QuNyxU5Tsm2NBaii8U?=
+ =?us-ascii?Q?f8zfnI1ZU+wftTP4FnTUajYRR7K8b/rYd+DlQZ+RnDu3PccztuKPnArCjRrp?=
+ =?us-ascii?Q?dcKXcb3caer9sIIVxJZqCfK2gvkgHNAoCDFXhkvCQjf/hjYvwG2tUR6EDMN7?=
+ =?us-ascii?Q?RVUcqfw7UEiHFPEEM4gaUfq+fGCHNvPrdtG2uc0InkTKDlL+zXRRToajT+9d?=
+ =?us-ascii?Q?aFufnCzoMeyNlnlpDR7RouTOaD7a0BIASmK6lUHGAbTsYMQwUQMQBba1UDrf?=
+ =?us-ascii?Q?R4zdH75TKOAx+SkZvEvtcj4N5nMj2E7vD6KTxN6QVrgJozudj7uk74XP3fVh?=
+ =?us-ascii?Q?G2P6OTtbNRay+hdDNX0QUNBUqungL/cSYthMwGvOt++xeFBktz8y4uOKxeLm?=
+ =?us-ascii?Q?xUhYeQn5VE9NjbYo0PzOPumlDtVhnOc6Nj6Rjkbcm4o0EULDYM3GHfBVTihz?=
+ =?us-ascii?Q?TzIVRwRCMSEr6SvyIBfWqKu5EbUfoYFOZCHHp0QCECrElwDDKrcmqnsPe2Hv?=
+ =?us-ascii?Q?/Stu65fZFxcioOi8aA1IQTuiYKdXfb4VrSscxefq96Jmg9g9NKgQPzCySDIa?=
+ =?us-ascii?Q?kO89X0iN/HICeMeJp5ueDznfhbR4GSl/ykCVj8hA0Y1cBSjqOhWuFu8ExnFf?=
+ =?us-ascii?Q?aux+lPyqYlR26ydxgIt+yFaNXQIGat9xfGniRG22HeEEyRTTSFOjlC3S9yWu?=
+ =?us-ascii?Q?bFOuOzEbA/TGez/vFKuv/SVunC9spLeWWh7+7+1vMcZ5FUmnJeeDpJE2xxGV?=
+ =?us-ascii?Q?gL08ZelbAG2FXEYqReQ3JEX/?=
+X-OriginatorOrg: labundy.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7e230c6-7303-46b0-1daf-08d8df8cf4d5
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR08MB5517.namprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2021 04:12:57.0427
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +rVsl8r3A0oyjc3HwgNT70IiMqDZ4Gt9t7JxTHN3vxzFp/YTF9aF5zb7CD8Ox5dwQPawjQHfmOM9RX8uX4fEpQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR08MB6112
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Bastien,  just want to follow up again on this.  I've checked again
-with the Xbox team that the "Share button" is given for the product,
-the HID usage profile and mapping to RECORD is what Xbox team expects
-and they want the same mapping for USB.
+This series continues recent work to further enhance and optimize the Azoteq
+IQS550/572/525 trackpad/touchscreen controller driver. In addition to having
+been made a bit smaller, the driver now supports some additional use-cases.
 
-Thanks!
-Chris
+Patches 3 and 8 are based on [1] and [2], respectively. Also included in the
+series is an updated binding, now presented in YAML.
 
+[1] https://patchwork.kernel.org/patch/12028203/
+[2] https://patchwork.kernel.org/patch/12028223/
 
-On Tue, Mar 2, 2021 at 3:57 PM Chris Ye <lzye@google.com> wrote:
->
-> Hi Bastien,
->     The "Share button" is a name Microsoft calls it, it actually has
-> HID descriptor defined in the bluetooth interface, which the HID usage
-> is:
-> consumer 0xB2:
-> 0x05, 0x0C,        //   Usage Page (Consumer)
-> 0x0A, 0xB2, 0x00,  //   Usage (Record)
-> Microsoft wants the same key code to be generated consistently for USB
-> and bluetooth.
-> Thanks!
-> Chris
->
->
-> On Tue, Mar 2, 2021 at 1:50 AM Bastien Nocera <hadess@hadess.net> wrote:
-> >
-> > On Thu, 2021-02-25 at 05:32 +0000, Chris Ye wrote:
-> > > Add "Share" button input capability and input event mapping for
-> > > Microsoft Xbox One controller.
-> > > Fixed Microsoft Xbox One controller share button not working under USB
-> > > connection.
-> > >
-> > > Signed-off-by: Chris Ye <lzye@google.com>
-> > > ---
-> > >  drivers/input/joystick/xpad.c | 9 ++++++++-
-> > >  1 file changed, 8 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/input/joystick/xpad.c
-> > > b/drivers/input/joystick/xpad.c
-> > > index 9f0d07dcbf06..0c3374091aff 100644
-> > > --- a/drivers/input/joystick/xpad.c
-> > > +++ b/drivers/input/joystick/xpad.c
-> > > @@ -79,6 +79,7 @@
-> > >  #define MAP_DPAD_TO_BUTTONS            (1 << 0)
-> > >  #define MAP_TRIGGERS_TO_BUTTONS                (1 << 1)
-> > >  #define MAP_STICKS_TO_NULL             (1 << 2)
-> > > +#define MAP_SHARE_BUTTON               (1 << 3)
-> > >  #define DANCEPAD_MAP_CONFIG    (MAP_DPAD_TO_BUTTONS
-> > > |                  \
-> > >                                 MAP_TRIGGERS_TO_BUTTONS |
-> > > MAP_STICKS_TO_NULL)
-> > >
-> > > @@ -130,6 +131,7 @@ static const struct xpad_device {
-> > >         { 0x045e, 0x02e3, "Microsoft X-Box One Elite pad", 0,
-> > > XTYPE_XBOXONE },
-> > >         { 0x045e, 0x02ea, "Microsoft X-Box One S pad", 0, XTYPE_XBOXONE
-> > > },
-> > >         { 0x045e, 0x0719, "Xbox 360 Wireless Receiver",
-> > > MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360W },
-> > > +       { 0x045e, 0x0b12, "Microsoft X-Box One X pad",
-> > > MAP_SHARE_BUTTON, XTYPE_XBOXONE },
-> > >         { 0x046d, 0xc21d, "Logitech Gamepad F310", 0, XTYPE_XBOX360 },
-> > >         { 0x046d, 0xc21e, "Logitech Gamepad F510", 0, XTYPE_XBOX360 },
-> > >         { 0x046d, 0xc21f, "Logitech Gamepad F710", 0, XTYPE_XBOX360 },
-> > > @@ -862,6 +864,8 @@ static void xpadone_process_packet(struct usb_xpad
-> > > *xpad, u16 cmd, unsigned char
-> > >         /* menu/view buttons */
-> > >         input_report_key(dev, BTN_START,  data[4] & 0x04);
-> > >         input_report_key(dev, BTN_SELECT, data[4] & 0x08);
-> > > +       if (xpad->mapping & MAP_SHARE_BUTTON)
-> > > +               input_report_key(dev, KEY_RECORD, data[22] & 0x01);
-> > >
-> > >         /* buttons A,B,X,Y */
-> > >         input_report_key(dev, BTN_A,    data[4] & 0x10);
-> > > @@ -1669,9 +1673,12 @@ static int xpad_init_input(struct usb_xpad
-> > > *xpad)
-> > >
-> > >         /* set up model-specific ones */
-> > >         if (xpad->xtype == XTYPE_XBOX360 || xpad->xtype ==
-> > > XTYPE_XBOX360W ||
-> > > -           xpad->xtype == XTYPE_XBOXONE) {
-> > > +               xpad->xtype == XTYPE_XBOXONE) {
-> > >                 for (i = 0; xpad360_btn[i] >= 0; i++)
-> > >                         input_set_capability(input_dev, EV_KEY,
-> > > xpad360_btn[i]);
-> > > +               if (xpad->mapping & MAP_SHARE_BUTTON) {
-> > > +                       input_set_capability(input_dev, EV_KEY,
-> > > KEY_RECORD);
-> >
-> > Is there not a better keycode to use than "Record"? Should a "share"
-> > keycode be added?
-> >
-> > I couldn't find a share button in the most recent USB HID Usage Tables:
-> > https://www.usb.org/document-library/hid-usage-tables-121
-> >
-> > > +               }
-> > >         } else {
-> > >                 for (i = 0; xpad_btn[i] >= 0; i++)
-> > >                         input_set_capability(input_dev, EV_KEY,
-> > > xpad_btn[i]);
-> >
-> >
+Jeff LaBundy (9):
+  Input: iqs5xx - update vendor's URL
+  Input: iqs5xx - optimize axis definition and validation
+  Input: iqs5xx - expose firmware revision to user space
+  Input: iqs5xx - remove superfluous revision validation
+  Input: iqs5xx - close bootloader using hardware reset
+  Input: iqs5xx - prevent interrupt storm during removal
+  Input: iqs5xx - suspend or resume regardless of users
+  Input: iqs5xx - make reset GPIO optional
+  dt-bindings: input: iqs5xx: Convert to YAML
+
+ .../bindings/input/touchscreen/iqs5xx.txt     |  80 ------
+ .../bindings/input/touchscreen/iqs5xx.yaml    |  75 ++++++
+ drivers/input/touchscreen/iqs5xx.c            | 238 +++++++-----------
+ 3 files changed, 164 insertions(+), 229 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/iqs5xx.txt
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/iqs5xx.yaml
+
+--
+2.17.1
+
