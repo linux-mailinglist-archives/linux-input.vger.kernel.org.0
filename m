@@ -2,106 +2,85 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B99832FC2D
-	for <lists+linux-input@lfdr.de>; Sat,  6 Mar 2021 18:08:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA41132FCC0
+	for <lists+linux-input@lfdr.de>; Sat,  6 Mar 2021 20:29:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231168AbhCFRII (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 6 Mar 2021 12:08:08 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57572 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231229AbhCFRHt (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 6 Mar 2021 12:07:49 -0500
-Received: from archlinux (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CFA2B64FFD;
-        Sat,  6 Mar 2021 17:07:47 +0000 (UTC)
-Date:   Sat, 6 Mar 2021 17:07:43 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Ye Xiang <xiang.ye@intel.com>
-Cc:     jikos@kernel.org, srinivas.pandruvada@linux.intel.com,
-        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] iio: hid-sensor-temperature: Fix issues of
- timestamp channel
-Message-ID: <20210306170743.16d30d95@archlinux>
-In-Reply-To: <20210303063615.12130-4-xiang.ye@intel.com>
-References: <20210303063615.12130-1-xiang.ye@intel.com>
-        <20210303063615.12130-4-xiang.ye@intel.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S231183AbhCFT2z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 6 Mar 2021 14:28:55 -0500
+Received: from mail-ot1-f43.google.com ([209.85.210.43]:45489 "EHLO
+        mail-ot1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230346AbhCFT20 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sat, 6 Mar 2021 14:28:26 -0500
+Received: by mail-ot1-f43.google.com with SMTP id d9so5241580ote.12;
+        Sat, 06 Mar 2021 11:28:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=5SNSAM5E65XcMxL5cAjZSiL26gAUzQ/0J5AODu6jDRY=;
+        b=syPeSPNCuXa2MIGuJvXP1Z+a+pht9Ao1VDVtQH3hBQ70ApDmcrB+2xicb9+BAMZ8Xh
+         uvzswu+43s/ssiN+emTpyqGQizKWhKm2KxD36e9aqLiVUSi9XUFBpe+tajyYtYSemwbK
+         lcm551bhYfAK+ZWYLF60aMtt17eLFL6g919kUfMfN98jFdCQ4Htz/oDYzXLKBxdBGC2K
+         dmj0G2Cfeo0ja7VRnR+4vDkTYCq0i2UK7LITD0X4G7lLpS7YsL+4T9MP3kcTJYgju81U
+         Hex4O0znupm00SVdnWsdg8VcnNuNGRyIwoIjx/UNl4UMXUbeILab71EUl7wd2tEpzjjU
+         WwaA==
+X-Gm-Message-State: AOAM530q8Mv9xr4tuaNYNnYaudB/Fn1d6cl5dPWCn1yWNiWtzW+ua6sL
+        rQWbIxckO9ZDhkZqoWlNgw==
+X-Google-Smtp-Source: ABdhPJzIBNNbMGn/mivFil/iLzPsKERicom3xi1GgWmv8MOPu0XmO0hksS7BHqKm2MsuJEbWbQEvJw==
+X-Received: by 2002:a9d:6c0a:: with SMTP id f10mr6856396otq.250.1615058904942;
+        Sat, 06 Mar 2021 11:28:24 -0800 (PST)
+Received: from robh.at.kernel.org ([172.58.102.249])
+        by smtp.gmail.com with ESMTPSA id u15sm1327560oiu.28.2021.03.06.11.28.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Mar 2021 11:28:23 -0800 (PST)
+Received: (nullmailer pid 1058181 invoked by uid 1000);
+        Sat, 06 Mar 2021 19:28:21 -0000
+From:   Rob Herring <robh@kernel.org>
+To:     Giulio Benetti <giulio.benetti@benettiengineering.com>
+Cc:     linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Giulio Benetti <giulio.benetti@micronovasrl.com>
+In-Reply-To: <20210305163834.70924-3-giulio.benetti@benettiengineering.com>
+References: <20210305163834.70924-1-giulio.benetti@benettiengineering.com> <20210305163834.70924-3-giulio.benetti@benettiengineering.com>
+Subject: Re: [PATCH 2/3] dt-bindings: touchscreen: Add HY46XX bindings
+Date:   Sat, 06 Mar 2021 12:28:21 -0700
+Message-Id: <1615058901.069674.1058180.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed,  3 Mar 2021 14:36:14 +0800
-Ye Xiang <xiang.ye@intel.com> wrote:
-
-> This patch fixes 2 issues of timestamp channel:
-> 1. This patch ensures that there is sufficient space and correct
-> alignment for the timestamp.
-> 2. Correct the timestamp channel scan index.
-This isn't technically a bug because channel index numbers just need
-to be monotonic.  Still it's a reasonable tidy up given 1.
+On Fri, 05 Mar 2021 17:38:33 +0100, Giulio Benetti wrote:
+> From: Giulio Benetti <giulio.benetti@micronovasrl.com>
 > 
-> Fixes: 59d0f2da3569 ("iio: hid: Add temperature sensor support")
-> Signed-off-by: Ye Xiang <xiang.ye@intel.com>
-Applied to the fixes togreg branch of iio.git and marked for stable.
-Patch 4 is not a fix (I think) so will have to wait for this to
-be upstream.
-
-Jonathan
-
+> This adds device tree bindings for the Hycon HY46XX touchscreen series.
+> 
+> Signed-off-by: Giulio Benetti <giulio.benetti@micronovasrl.com>
 > ---
->  drivers/iio/temperature/hid-sensor-temperature.c | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
+>  .../input/touchscreen/hycon,hy46xx.yaml       | 130 ++++++++++++++++++
+>  MAINTAINERS                                   |   6 +
+>  2 files changed, 136 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/hycon,hy46xx.yaml
 > 
-> diff --git a/drivers/iio/temperature/hid-sensor-temperature.c b/drivers/iio/temperature/hid-sensor-temperature.c
-> index e3d38cbcf354..dc534ed784c3 100644
-> --- a/drivers/iio/temperature/hid-sensor-temperature.c
-> +++ b/drivers/iio/temperature/hid-sensor-temperature.c
-> @@ -15,7 +15,10 @@
->  struct temperature_state {
->  	struct hid_sensor_common common_attributes;
->  	struct hid_sensor_hub_attribute_info temperature_attr;
-> -	s32 temperature_data;
-> +	struct {
-> +		s32 temperature_data;
-> +		u64 timestamp __aligned(8);
-> +	} scan;
->  	int scale_pre_decml;
->  	int scale_post_decml;
->  	int scale_precision;
-> @@ -36,7 +39,7 @@ static const struct iio_chan_spec temperature_channels[] = {
->  			BIT(IIO_CHAN_INFO_SAMP_FREQ) |
->  			BIT(IIO_CHAN_INFO_HYSTERESIS),
->  	},
-> -	IIO_CHAN_SOFT_TIMESTAMP(3),
-> +	IIO_CHAN_SOFT_TIMESTAMP(1),
->  };
->  
->  /* Adjust channel real bits based on report descriptor */
-> @@ -127,9 +130,8 @@ static int temperature_proc_event(struct hid_sensor_hub_device *hsdev,
->  	struct temperature_state *temp_st = iio_priv(indio_dev);
->  
->  	if (atomic_read(&temp_st->common_attributes.data_ready))
-> -		iio_push_to_buffers_with_timestamp(indio_dev,
-> -				&temp_st->temperature_data,
-> -				iio_get_time_ns(indio_dev));
-> +		iio_push_to_buffers_with_timestamp(indio_dev, &temp_st->scan,
-> +						   iio_get_time_ns(indio_dev));
->  
->  	return 0;
->  }
-> @@ -144,7 +146,7 @@ static int temperature_capture_sample(struct hid_sensor_hub_device *hsdev,
->  
->  	switch (usage_id) {
->  	case HID_USAGE_SENSOR_DATA_ENVIRONMENTAL_TEMPERATURE:
-> -		temp_st->temperature_data = *(s32 *)raw_data;
-> +		temp_st->scan.temperature_data = *(s32 *)raw_data;
->  		return 0;
->  	default:
->  		return -EINVAL;
+
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+./Documentation/devicetree/bindings/input/touchscreen/hycon,hy46xx.yaml: $id: relative path/filename doesn't match actual path or filename
+	expected: http://devicetree.org/schemas/input/touchscreen/hycon,hy46xx.yaml#
+
+See https://patchwork.ozlabs.org/patch/1448030
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
