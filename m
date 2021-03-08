@@ -2,120 +2,152 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EFE21330B6E
-	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 11:41:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87211330D0C
+	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 13:04:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231162AbhCHKkn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Mar 2021 05:40:43 -0500
-Received: from [139.28.40.42] ([139.28.40.42]:49824 "EHLO
-        tarta.nabijaczleweli.xyz" rhost-flags-FAIL-FAIL-OK-OK)
-        by vger.kernel.org with ESMTP id S230135AbhCHKkd (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 8 Mar 2021 05:40:33 -0500
-Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
-        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id 9BE3C360002;
-        Mon,  8 Mar 2021 11:40:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=nabijaczleweli.xyz;
-        s=202006; t=1615200029;
-        bh=taIOxwAx6M8NKtQdTHVRJSVo9x6617p7Mk8axUF/cg4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XVjLPqtUEUAE1aYyQiV+yrSvK688NcR9D4YhP5Ecy10ZjlST8ue+Dx2A6dQCqojca
-         4GOJ+5Gz+Zob9NqX0xsHhDVHNO0k/xmTKh4/xI7wrGRLGIWksshFD+LmvKSEyrhrgS
-         d7RGP3l+026mMuE+SPmwAtRs/VhXAf+WSb5AVcNf6OJR1Rw+22HGwuNClKV5bEPKCm
-         R/ZEU+A5g4/4xOCbBptRheGd8cI8jIORZOfK4QGeHg7klc4rmAKkWkxLEdSSaPzZ2Y
-         2ALrCUhmJ25oG/4QW/kOQHQyfLbNGNZc+jtUT4sFm0VCOOYMyUzBGTZmSiS3PbYTpk
-         ZQTaLKsXCxi4A==
-Date:   Mon, 8 Mar 2021 11:40:28 +0100
-From:   =?utf-8?B?0L3QsNCx?= <nabijaczleweli@nabijaczleweli.xyz>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Peter Hutterer <peter.hutterer@who-t.net>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/4] Stylus-on-touchscreen device support
-Message-ID: <20210308104028.tq7r52iekibi4qat@tarta.nabijaczleweli.xyz>
-References: <cover.1613582014.git.nabijaczleweli@nabijaczleweli.xyz>
- <nycvar.YFH.7.76.2103081114580.12405@cbobk.fhfr.pm>
- <CAO-hwJJj0KRCOYPmpNEmU1oVD+SNNYn9+BoGxnPbSthFuCxK9w@mail.gmail.com>
+        id S229627AbhCHMD2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Mar 2021 07:03:28 -0500
+Received: from mga02.intel.com ([134.134.136.20]:7730 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231897AbhCHMDH (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 8 Mar 2021 07:03:07 -0500
+IronPort-SDR: O55wSvBXRBOKZCnBYqkdQlq6zU5mTJwx5WGubBXk82+SFuWD3ZerVyK+MVnaA2Xvcvxlw+Y58/
+ 6lK+riNMFlyg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9916"; a="175125163"
+X-IronPort-AV: E=Sophos;i="5.81,232,1610438400"; 
+   d="scan'208";a="175125163"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2021 04:03:05 -0800
+IronPort-SDR: o/9+f3v3GzuZ6jYw/1rrj8Pp/ryKu+Q8saX1I9KgXFi4UNnMFfB6oM+UiOZf0lrFlTIOgciKHq
+ zDwvMI8gtCRQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,232,1610438400"; 
+   d="scan'208";a="376064470"
+Received: from lkp-server01.sh.intel.com (HELO 3e992a48ca98) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 08 Mar 2021 04:03:04 -0800
+Received: from kbuild by 3e992a48ca98 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1lJEbH-0000xb-FU; Mon, 08 Mar 2021 12:03:03 +0000
+Date:   Mon, 08 Mar 2021 20:02:22 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [input:for-linus] BUILD SUCCESS
+ 30b3f68715595dee7fe4d9bd91a2252c3becdf0a
+Message-ID: <6046124e.bAKM8xn0wwRjCva+%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="6ctdsodpewz5r3qh"
-Content-Disposition: inline
-In-Reply-To: <CAO-hwJJj0KRCOYPmpNEmU1oVD+SNNYn9+BoGxnPbSthFuCxK9w@mail.gmail.com>
-User-Agent: NeoMutt/20210205
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+branch HEAD: 30b3f68715595dee7fe4d9bd91a2252c3becdf0a  Input: s6sy761 - fix coordinate read bit shift
 
---6ctdsodpewz5r3qh
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+elapsed time: 721m
 
-On Mon, Mar 08, 2021 at 11:21:56AM +0100, Benjamin Tissoires wrote:
-> On Mon, Mar 8, 2021 at 11:15 AM Jiri Kosina <jikos@kernel.org> wrote:
-> > On Wed, 17 Feb 2021, =D0=BD=D0=B0=D0=B1 wrote:
-> > > This patchset adds support for stylus-on-touchscreen devices as found=
- on
-> > > the OneMix 3 Pro and Dell Inspiron 15 7000 2-in-1 (7591), among other=
-s;
-> > > with it, they properly behave like a drawing tablet.
-> > >
-> > > Patches 2 and 4 funxionally depend on patch 1.
-> > > Patch 4 needs patch 3 to apply.
-> > >
-> > > The output of this patchset and the need for a kernel, rather than
-> > > userspace, patch was previously discussed here:
-> > >   https://gitlab.freedesktop.org/libinput/libinput/-/merge_requests/5=
-58#note_792834
-> > >
-> > > Ahelenia Ziemia=C5=84ska (4):
-> > >   HID: multitouch: require Finger field to mark Win8 reports as MT
-> > >   HID: multitouch: set Stylus suffix for Stylus-application devices, =
-too
-> > >   HID: input: replace outdated HID numbers+comments with macros
-> > >   HID: input: work around Win8 stylus-on-touchscreen reporting
-> > >
-> > >  drivers/hid/hid-input.c      | 47 +++++++++++++++++++++++++++++++++-=
---
-> > >  drivers/hid/hid-multitouch.c | 18 ++++++++------
-> > >  2 files changed, 55 insertions(+), 10 deletions(-)
-> >
-> > Benjamin, this patchset looks good to me; do you have any objections on
-> > queuing it for 5.13?
-> >
->=20
-> Please hold on this one. I am pretty sure this should break the test
-> suite but couldn't have the chance to get to it. Will pop this one up
-> in TODO list.
+configs tested: 92
+configs skipped: 2
 
-This also has minor behavioural problems regarding BTN_STYLUS reporting
-that came out in testing, and I didn't have the time to dig through
-and verify the logs from pre-v2 a tester sent back last week.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-I hope to send v2 today/tomorrow, energy and time permitting.
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+mips                           ip28_defconfig
+mips                       capcella_defconfig
+arm                        mini2440_defconfig
+arm                           spitz_defconfig
+arm                          pxa168_defconfig
+m68k                             allyesconfig
+m68k                        m5407c3_defconfig
+um                             i386_defconfig
+parisc                generic-32bit_defconfig
+arm                         at91_dt_defconfig
+powerpc                     powernv_defconfig
+csky                             alldefconfig
+mips                        nlm_xlr_defconfig
+xtensa                       common_defconfig
+sh                          sdk7780_defconfig
+powerpc                      bamboo_defconfig
+arm                            hisi_defconfig
+arm                      jornada720_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                               tinyconfig
+i386                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a005-20210308
+i386                 randconfig-a003-20210308
+i386                 randconfig-a002-20210308
+i386                 randconfig-a006-20210308
+i386                 randconfig-a004-20210308
+i386                 randconfig-a001-20210308
+x86_64               randconfig-a006-20210308
+x86_64               randconfig-a001-20210308
+x86_64               randconfig-a004-20210308
+x86_64               randconfig-a002-20210308
+x86_64               randconfig-a005-20210308
+x86_64               randconfig-a003-20210308
+x86_64               randconfig-a013-20210307
+x86_64               randconfig-a016-20210307
+x86_64               randconfig-a015-20210307
+x86_64               randconfig-a014-20210307
+x86_64               randconfig-a012-20210307
+x86_64               randconfig-a011-20210307
+i386                 randconfig-a016-20210308
+i386                 randconfig-a012-20210308
+i386                 randconfig-a014-20210308
+i386                 randconfig-a013-20210308
+i386                 randconfig-a011-20210308
+i386                 randconfig-a015-20210308
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
 
-Best,
-=D0=BD=D0=B0=D0=B1
-
---6ctdsodpewz5r3qh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmBF/xkACgkQvP0LAY0m
-WPFRwRAAkDsDjWfdd8HKR7cQcFEybNgEr+VZAwltqAAI2rogu5myQxwNRdVizujn
-+V+51jlAlUJKuOXYEkWYIS4NWsO6GQyErF+EJlqJ0T9zWwpoiW0zEP3lenUUMDyQ
-9npQslGj5f21khhbEdkStJbI+6p7T4qQGcPgv2FNMCroX6qcVkpie1m5tAx8MK60
-6MduGOzv2P3vfLodUESRHQfHRP2wexWymw1Q0ZTF+d+7Ui4fC02FjZ+HCMkrrRdN
-w7DzS4CBuDzzSzHh+9sK2Rj8xIiUgXigi1I9GqTL+BFVwKe4FDmfnMldcIPA/lfA
-hZlz8dFl0nFQpGEHTa6tmGew0EwxgA4VMr9N2/xvJVom9iQjoDeLOO2fYP3jS1Rb
-U5WMOsWpXfZyp3rsK8mJ55QrqY0p+UO8EQ0aecHWTf4A/2zawzZUE+5kBs2YLbeM
-g3Df7BAg8tncxPTvbTAplyWJNne61ji7amzeICv6FDA4pHt1fNqovWFehYatiY5Q
-quvcX3614RIvbSZ1873aNXEeMHZqNT34upi2LJJ59Dywx2jYguQecDhyZ+k+ejUd
-HGNGcrDwARkW7fha2Hiqp5J280VJ5rUCrDb9Zo7FpebXjCxUWbpfnQZ4XO+644hZ
-iR8modZwgqlVB2JTH43oxx6Gfie8biAJ2UPDNXaKAVMCAMom4oU=
-=I9qN
------END PGP SIGNATURE-----
-
---6ctdsodpewz5r3qh--
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
