@@ -2,205 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 33070331765
-	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 20:36:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D7148331777
+	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 20:41:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229650AbhCHTfl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Mar 2021 14:35:41 -0500
-Received: from mga14.intel.com ([192.55.52.115]:35544 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230046AbhCHTf3 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 8 Mar 2021 14:35:29 -0500
-IronPort-SDR: z8g10iKbaJZZGmUnUXvEHM8+ekZ2xDJegJ9Azzzq6/1XeC+jCDSMxcBi7bPUZue8CAXh/kwosA
- T77cyeNUcSJQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="187456610"
-X-IronPort-AV: E=Sophos;i="5.81,233,1610438400"; 
-   d="scan'208";a="187456610"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2021 11:35:29 -0800
-IronPort-SDR: aLlyGEbij0Ci4F06gWJpJynjJOumh8sKoZVqCt6V/XtOYyugUaQ+uKb5FU7+FK4ugQpnjnUols
- W9b5Hs2dGNZA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,233,1610438400"; 
-   d="scan'208";a="408344930"
-Received: from lkp-server01.sh.intel.com (HELO 3e992a48ca98) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 08 Mar 2021 11:35:27 -0800
-Received: from kbuild by 3e992a48ca98 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lJLf4-000185-Ur; Mon, 08 Mar 2021 19:35:26 +0000
-Date:   Tue, 09 Mar 2021 03:34:39 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [input:master] BUILD SUCCESS
- ad117c558e838f9fa93af265d8f9dd54e87e15b1
-Message-ID: <60467c4f.56gAiEfqBMkKMym9%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S229650AbhCHTlD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Mar 2021 14:41:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40114 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230299AbhCHTku (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Mar 2021 14:40:50 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DE4CC06174A;
+        Mon,  8 Mar 2021 11:40:50 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id nh23-20020a17090b3657b02900c0d5e235a8so3750407pjb.0;
+        Mon, 08 Mar 2021 11:40:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=FX3JvV2x234PQm7yAoaVpeGYnaHDVKU4FehRSM1ykkg=;
+        b=HCz1A039NrYgPV8+0rLFTJmiKz7gnvaC3IDWeFdU2kzeuWoOB1hB7gfGchIWhuPdAM
+         1BjJ8dDuvdaRSQcKtuK7Hjpc5gPoDEAbdP2tphtWGHGklAaK+vofASIl5eUF1+s3xZSy
+         gGD8iV3gRWfRxtyqfCenbDl/UozMImS9am74zNslfe7kw+Wf6ARRbNks5oq/rItFw/zp
+         Ni9CIVtDqXvKMd4M+lNZcu7cv1xbQcC6Y4vDbfyWIeQYfVqmG2SYgpEHpFnSMPXgFHVA
+         bxO86WnbelgX2bGcAZWjAQZQO3JuX6jEFMVuyVm/SUnW+lAvqVuoeb9vHmH4ky6PMMea
+         m/vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=FX3JvV2x234PQm7yAoaVpeGYnaHDVKU4FehRSM1ykkg=;
+        b=KvgIpjtR66GT6r7L3/5+HW0eF9XffXVDKD8cNURBfmbX3DXxiTQFACAzq3ekfxBVy2
+         v2Of+sswtExeJZjdFsOe0Txccok2araGVVHID+WtNS6PStXMfs7fsCsJYkF0rOSOMPfo
+         /I6VyGKgRksrCYcCmy8luysAffRXMWTHccfuqpJIKZ8eoIVtv8ihB5M/+r6E4MFaFuHa
+         povT3h4b7Q+Km7/XIrwrOyNPk1hoqwzd+6/WEe2MtrJM7q+IbBIYLa60nANHtAq87gzV
+         7Ikfu1nn+vmOMXEgWe9voVnfqEqgi7yibO3ffme1v8vijUp7/d9BFJJDjyYYBT5pSPb1
+         JG1w==
+X-Gm-Message-State: AOAM533QGNzbV/Zid+0E9VMA9z58+gEv1nRfA4C17qT903nTe2LKdU2a
+        bvRKyE+X61Y/yFt9kpYtcuAGa0ZzuMs=
+X-Google-Smtp-Source: ABdhPJyU4SXQ2Z/p9G7DKhEo8sZ9i5FjYpjaLu/IhhM5mRczjSLn3ZOgDxpjjtIi2QfNQiBlPOOvnw==
+X-Received: by 2002:a17:903:2301:b029:e4:700b:6d91 with SMTP id d1-20020a1709032301b02900e4700b6d91mr22670501plh.19.1615232449568;
+        Mon, 08 Mar 2021 11:40:49 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:39e0:7b5c:9fa7:f6e0])
+        by smtp.gmail.com with ESMTPSA id u17sm10171740pgl.80.2021.03.08.11.40.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Mar 2021 11:40:48 -0800 (PST)
+Date:   Mon, 8 Mar 2021 11:40:46 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     'Wei Yongjun <weiyongjun1@huawei.com>
+Cc:     Lauri Kasanen <cand@gmx.com>, linux-input@vger.kernel.org,
+        kernel-janitors@vger.kernel.org, Hulk Robot <hulkci@huawei.com>
+Subject: Re: [PATCH -next] Input: n64joy - Fix return value check in
+ n64joy_probe()
+Message-ID: <YEZ9vkue/E1yPeIS@google.com>
+References: <20210308122856.2177071-1-weiyongjun1@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20210308122856.2177071-1-weiyongjun1@huawei.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
-branch HEAD: ad117c558e838f9fa93af265d8f9dd54e87e15b1  Input: exc3000 - add type sysfs attribute
+On Mon, Mar 08, 2021 at 12:28:56PM +0000, 'Wei Yongjun wrote:
+> From: Wei Yongjun <weiyongjun1@huawei.com>
+> 
+> In case of error, the function devm_platform_ioremap_resource()
+> returns ERR_PTR() and never returns NULL. The NULL test in the
+> return value check should be replaced with IS_ERR().
+> 
+> Fixes: 3bdffa8ffb45 ("Input: Add N64 controller driver")
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
 
-elapsed time: 726m
+Applied, thank you.
 
-configs tested: 143
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm64                               defconfig
-arm                                 defconfig
-arm64                            allyesconfig
-arm                              allyesconfig
-arm                              allmodconfig
-mips                         tb0287_defconfig
-powerpc                   bluestone_defconfig
-sh                            titan_defconfig
-xtensa                    smp_lx200_defconfig
-powerpc                     tqm8555_defconfig
-powerpc                     kmeter1_defconfig
-s390                       zfcpdump_defconfig
-powerpc                     akebono_defconfig
-arc                            hsdk_defconfig
-powerpc                        warp_defconfig
-mips                      loongson3_defconfig
-m68k                                defconfig
-mips                         tb0219_defconfig
-xtensa                  audio_kc705_defconfig
-sparc                       sparc32_defconfig
-h8300                               defconfig
-powerpc                       maple_defconfig
-arm                       omap2plus_defconfig
-sh                   sh7770_generic_defconfig
-sh                           se7343_defconfig
-arm                          simpad_defconfig
-powerpc                       holly_defconfig
-arc                           tb10x_defconfig
-powerpc                         wii_defconfig
-arm                          collie_defconfig
-powerpc                 mpc837x_rdb_defconfig
-arm                         at91_dt_defconfig
-powerpc                     powernv_defconfig
-csky                             alldefconfig
-mips                        nlm_xlr_defconfig
-xtensa                       common_defconfig
-arm                          pxa168_defconfig
-m68k                          hp300_defconfig
-arm                          pxa3xx_defconfig
-powerpc                 mpc8313_rdb_defconfig
-sh                             espt_defconfig
-mips                  decstation_64_defconfig
-sh                              ul2_defconfig
-powerpc                  mpc885_ads_defconfig
-sh                          sdk7786_defconfig
-arm                     am200epdkit_defconfig
-mips                            gpr_defconfig
-mips                       capcella_defconfig
-m68k                           sun3_defconfig
-powerpc                     stx_gp3_defconfig
-sh                   rts7751r2dplus_defconfig
-arm                         cm_x300_defconfig
-arc                        vdk_hs38_defconfig
-sh                          polaris_defconfig
-arc                    vdk_hs38_smp_defconfig
-mips                       rbtx49xx_defconfig
-powerpc                 mpc834x_itx_defconfig
-parisc                           alldefconfig
-mips                           rs90_defconfig
-sparc64                             defconfig
-m68k                            mac_defconfig
-sh                           se7721_defconfig
-m68k                        mvme16x_defconfig
-arm                       imx_v6_v7_defconfig
-arm                            xcep_defconfig
-arm                     eseries_pxa_defconfig
-m68k                        m5307c3_defconfig
-powerpc                     tqm8548_defconfig
-sh                          lboxre2_defconfig
-h8300                       h8s-sim_defconfig
-i386                             alldefconfig
-sh                          rsk7264_defconfig
-mips                    maltaup_xpa_defconfig
-arm                         nhk8815_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-i386                             allyesconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a006-20210308
-x86_64               randconfig-a001-20210308
-x86_64               randconfig-a004-20210308
-x86_64               randconfig-a002-20210308
-x86_64               randconfig-a005-20210308
-x86_64               randconfig-a003-20210308
-i386                 randconfig-a005-20210308
-i386                 randconfig-a003-20210308
-i386                 randconfig-a002-20210308
-i386                 randconfig-a006-20210308
-i386                 randconfig-a004-20210308
-i386                 randconfig-a001-20210308
-i386                 randconfig-a016-20210308
-i386                 randconfig-a012-20210308
-i386                 randconfig-a014-20210308
-i386                 randconfig-a013-20210308
-i386                 randconfig-a011-20210308
-i386                 randconfig-a015-20210308
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                           allyesconfig
-x86_64                              defconfig
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a013-20210308
-x86_64               randconfig-a016-20210308
-x86_64               randconfig-a011-20210308
-x86_64               randconfig-a012-20210308
-x86_64               randconfig-a015-20210308
-x86_64               randconfig-a014-20210308
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+-- 
+Dmitry
