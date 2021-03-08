@@ -2,292 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B1763309CC
-	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 09:57:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8B993309FF
+	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 10:11:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229463AbhCHI4k (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Mar 2021 03:56:40 -0500
-Received: from emcscan.emc.com.tw ([192.72.220.5]:36509 "EHLO
-        emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbhCHI4a (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Mar 2021 03:56:30 -0500
-X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
-   d="scan'208";a="39695779"
-Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
-  by emcscan.emc.com.tw with ESMTP; 08 Mar 2021 16:56:17 +0800
-Received: from 192.168.10.23
-        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(9037:0:AUTH_RELAY)
-        (envelope-from <jingle.wu@emc.com.tw>); Mon, 08 Mar 2021 16:56:15 +0800 (CST)
-Received: from 192.168.33.11
-        by webmail.emc.com.tw with Mail2000 ESMTP Server V7.00(2472:3:AUTH_RELAY)
-        (envelope-from <jingle.wu@emc.com.tw>); Mon, 08 Mar 2021 16:56:14 +0800 (CST)
-From:   "jingle" <jingle.wu@emc.com.tw>
-To:     "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>
-Cc:     "'linux-kernel'" <linux-kernel@vger.kernel.org>,
-        "'linux-input'" <linux-input@vger.kernel.org>,
-        "'phoenix'" <phoenix@emc.com.tw>,
-        "'dave.wang'" <dave.wang@emc.com.tw>,
-        "'josh.chen'" <josh.chen@emc.com.tw>
-References: <20210226073537.4926-1-jingle.wu@emc.com.tw> <YDx8M4Rhdi8hW4EO@google.com> <1614647097.9201.jingle.wu@emc.com.tw> <YEGBeWHRfL4gN9pX@google.com> <004f01d7115e$3ba005e0$b2e011a0$@emc.com.tw> <YEGJ7z479pqyBW1w@google.com> <005401d71161$ef9b20e0$ced162a0$@emc.com.tw> <YEWXcV62YpxbBp9P@google.com>
-In-Reply-To: <YEWXcV62YpxbBp9P@google.com>
-Subject: RE: [PATCH] Input: elan_i2c - Reduce the resume time for new dev ices
-Date:   Mon, 8 Mar 2021 16:56:14 +0800
-Message-ID: <005d01d713f8$e4b715a0$ae2540e0$@emc.com.tw>
+        id S229471AbhCHJLB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Mar 2021 04:11:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44200 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229756AbhCHJK4 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Mar 2021 04:10:56 -0500
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59D60C06174A
+        for <linux-input@vger.kernel.org>; Mon,  8 Mar 2021 01:10:56 -0800 (PST)
+Received: by mail-pg1-x52a.google.com with SMTP id e6so6017660pgk.5
+        for <linux-input@vger.kernel.org>; Mon, 08 Mar 2021 01:10:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZBShHwNStV/5ShpgOK6Aa8aoFllWBpI9aNckDNrIEHc=;
+        b=vFbLUjhv/6L3fnJmVvBtWFrOpEk0CXt91xPIKVIclZ8YgAUMoANL0RLUZRSIl+PZH1
+         3C26KFNfBDTTw4GZoiddmW1VJD9gKf7CWi1pcShasb1QI5+c14He3cVSrnQPjZZ2NNtA
+         prc1ko2Y/Dt86RovYmUcwhcXZMaypHe12e5ONY2jPv+1f63DNSL0yOkYejrG1M24i7Pj
+         HS8zcYsbext0JsMLsyLR+s/uRYN7Bb6vTeB8vjmV9KTj8Xmzw8SILwJcsT753EVjLDV4
+         Bwzrv9WWJvoXC5URc8mswH+ssStETf+1psncr53uQzsTeV6TI1IaFpNiR7imfvwjyUVD
+         JsaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZBShHwNStV/5ShpgOK6Aa8aoFllWBpI9aNckDNrIEHc=;
+        b=Pxi3GLvoGdm9zSbaJjDtoQECriWJ7QKLOMtPTItxYmhOsPMeAaeXlte/lHmy0oUayK
+         KIxBZClABncUnLe4gVpPP+q6INJDuU37nxa2c4eJJZmACiaCJofQjfdcvvP+8mtU/8zK
+         JiV5ETvQxsi6zHUPon5rNx6YyVOLKqI/Z4w03nYK0zCVnlORETBwkCq3lLxQ97WJKu2r
+         14viDbtwA1Udl3W+Rt13+SjVZ3lmfEmz+GKenUmyXPIPGXxBz3ZfLiXc8K+y5fVaVC6T
+         Lc7JitBDhcBDcxq7X2KmWSwEGk4S9a7i6CeqdZ380M4X5f+BHtXLG8P6jMXwWhxINL/k
+         E+zw==
+X-Gm-Message-State: AOAM530AqYNPgu1eXKQ/wiffBWmtS98ldsbcri2CtfvS8C3FEoOKLvCd
+        cz4KEATS7pYZ4gOcnjgaeQtfesLSJzCIgjZ00h5RG5hMoeGwr0OV
+X-Google-Smtp-Source: ABdhPJzrr7dpxkQB3I6oKCe+fK4v11RNckACbFYWML2mpe/4AgXMDLbmOF4LetcBTCxcqqKQ7cSpaH2n6b3SvK0uYhM=
+X-Received: by 2002:a65:4c08:: with SMTP id u8mr19294886pgq.203.1615194655723;
+ Mon, 08 Mar 2021 01:10:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 14.0
-Thread-Index: AQGs01cKeSW+WSlGkCw6sJc3Mb/pawH5MxoQAdwxvXACK2QSBAIRtt8MAkDeqHgCB6X1vAJFybuVqllCnIA=
-Content-Language: zh-tw
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDYwMTFcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy0yMjRmZmM4OS03ZmVjLTExZWItOGUwZi1mMDc5NTk2OWU3NWVcYW1lLXRlc3RcMjI0ZmZjOGItN2ZlYy0xMWViLThlMGYtZjA3OTU5NjllNzVlYm9keS50eHQiIHN6PSI2OTMwIiB0PSIxMzI1OTY2NzM3Mzk3NjQ4NDEiIGg9IjJySndkL0J5eUNSOTIyQlc3TlcrVngrVDRWcz0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
-x-dg-rorf: true
+References: <20210307220549.354263-1-andy.shevchenko@gmail.com> <YEVaYiA9Faylr9il@google.com>
+In-Reply-To: <YEVaYiA9Faylr9il@google.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 8 Mar 2021 11:10:38 +0200
+Message-ID: <CAHp75VerojbEjAjtmFqhyrmyhT_WCZxQihgAac80_GAZHyH9LQ@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] Input: tsc2007 - convert to GPIO descriptors
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input <linux-input@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry:
+On Mon, Mar 8, 2021 at 12:57 AM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+> On Mon, Mar 08, 2021 at 12:05:48AM +0200, Andy Shevchenko wrote:
 
-1. missing "i<" 
-+	u32 quirks = 0;
-+	int i;
-+
-+	for (i = 0; ARRAY_SIZE(elan_i2c_quirks); i++) {
+...
 
--> for (i = 0; i<ARRAY_SIZE(elan_i2c_quirks); i++) {
+> > -     return !gpio_get_value(ts->gpio);
+> > +     return !gpiod_get_value(ts->gpiod);
+>
+> This is not correct. gpio_get_value() is raw polarity vs
+> gpiod_get_value() using logical active/inactive, and tsc2007 GPIO lines
+> are active low. The negation must be dropped after switching to GPIOD
+> API.
 
-2. elan_resume () funtion are different with at Chromeos driver.
-@@ -1384,7 +1422,7 @@ static int __maybe_unused elan_resume(struct device
-*dev)
- 		goto err;
- 	}
- 
--	error = elan_initialize(data);
-+	error = elan_initialize(data, data->quirks &
-ETP_QUIRK_QUICK_WAKEUP);
- 	if (error)
- 		dev_err(dev, "initialize when resuming failed: %d\n",
-error);
+Ah, indeed, I missed that, thanks!
 
--> https://chromium.googlesource.com/chromiumos/third_party/kernel/+/ref
--> s/heads/chromeos-5.4/drivers/input/mouse/elan_i2c_core.c#1434
--> error = elan_initialize(data);  this code is in elan_reactivate()
-function at Chromeos driver.
--> Will this change affect cherrypick from linux kernel to chromeos?
+...
 
-THANKS
-JINGLE
+> > -     ts->gpio = of_get_gpio(np, 0);
+> > -     if (gpio_is_valid(ts->gpio))
+> > -             ts->get_pendown_state = tsc2007_get_pendown_state_gpio;
+> > -     else
+> > -             dev_warn(&client->dev,
+> > -                      "GPIO not specified in DT (of_get_gpio returned %d)\n",
+> > -                      ts->gpio);
+> > +     ts->gpiod = devm_gpiod_get_optional(dev, NULL, GPIOD_IN);
+>
+> GPIO is definitely not optional in DT case, at least in the way the
+> driver written right now.
 
------Original Message-----
-From: 'Dmitry Torokhov' [mailto:dmitry.torokhov@gmail.com] 
-Sent: Monday, March 08, 2021 11:18 AM
-To: jingle
-Cc: 'linux-kernel'; 'linux-input'; 'phoenix'; 'dave.wang'; 'josh.chen'
-Subject: Re: [PATCH] Input: elan_i2c - Reduce the resume time for new dev
-ices
+Can you elaborate this, please? I don't see from the dev_warn() w/o
+any error code returned that it's mandatory.
+In the bindings one may read:
 
-Hi Jingle,
+  Optional properties:
+  - gpios: the interrupt gpio the chip is connected to (trough the penirq pin).
+    The penirq pin goes to low when the panel is touched.
+    (see GPIO binding[1] for more details).
 
-On Fri, Mar 05, 2021 at 09:50:35AM +0800, jingle wrote:
-> HI Dmitry:
-> 
-> 1. You mean to let all devices ignore skipping reset/sleep part of 
-> device initialization?
-> 2. The test team found that some old firmware will have errors 
-> (invalid report etc...), so ELAN can only ensure that the new device 
-> can meet the newer parts.
+Nothing suggested it's mandatory. What have I missed?
 
-I see. OK, fair enough.
+> > +     if (IS_ERR(ts->gpiod))
+> > +             return PTR_ERR(ts->gpiod);
 
-I would prefer if we were more explicit about when we skip resetting the
-device, what do you think about the version of your patch below?
-
-Thanks.
-
---
-Dmitry
-
-
-Input: elan_i2c - reduce the resume time for new devices
-
-From: Jingle Wu <jingle.wu@emc.com.tw>
-
-Newer controllers, such as Voxel, Delbin, Magple, Bobba and others, do not
-need to be reset after issuing power-on command, and skipping reset saves
-at least 100ms from resume time.
-
-Note that if first attempt of re-initializing device fails we will not be
-skipping reset on the subsequent ones.
-
-Signed-off-by: Jingle Wu <jingle.wu@emc.com.tw>
-Link: https://lore.kernel.org/r/20210226073537.4926-1-jingle.wu@emc.com.tw
-Patchwork-Id: 12105967
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/mouse/elan_i2c.h      |    5 +++
- drivers/input/mouse/elan_i2c_core.c |   58
-+++++++++++++++++++++++++++++------
- 2 files changed, 53 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/input/mouse/elan_i2c.h b/drivers/input/mouse/elan_i2c.h
-index e12da5b024b0..838b3b346316 100644
---- a/drivers/input/mouse/elan_i2c.h
-+++ b/drivers/input/mouse/elan_i2c.h
-@@ -55,6 +55,11 @@
- #define ETP_FW_PAGE_SIZE_512	512
- #define ETP_FW_SIGNATURE_SIZE	6
- 
-+#define ETP_PRODUCT_ID_DELBIN	0x00C2
-+#define ETP_PRODUCT_ID_VOXEL	0x00BF
-+#define ETP_PRODUCT_ID_MAGPIE	0x0120
-+#define ETP_PRODUCT_ID_BOBBA	0x0121
-+
- struct i2c_client;
- struct completion;
- 
-diff --git a/drivers/input/mouse/elan_i2c_core.c
-b/drivers/input/mouse/elan_i2c_core.c
-index bef73822315d..51a65f6bf1e3 100644
---- a/drivers/input/mouse/elan_i2c_core.c
-+++ b/drivers/input/mouse/elan_i2c_core.c
-@@ -46,6 +46,9 @@
- #define ETP_FINGER_WIDTH	15
- #define ETP_RETRY_COUNT		3
- 
-+/* quirks to control the device */
-+#define ETP_QUIRK_QUICK_WAKEUP	BIT(0)
-+
- /* The main device structure */
- struct elan_tp_data {
- 	struct i2c_client	*client;
-@@ -90,8 +93,38 @@ struct elan_tp_data {
- 	bool			baseline_ready;
- 	u8			clickpad;
- 	bool			middle_button;
-+
-+	u32			quirks;		/* Various quirks */
- };
- 
-+static u32 elan_i2c_lookup_quirks(u16 ic_type, u16 product_id)
-+{
-+	static const struct {
-+		u16 ic_type;
-+		u16 product_id;
-+		u32 quirks;
-+	} elan_i2c_quirks[] = {
-+		{ 0x0D, ETP_PRODUCT_ID_DELBIN, ETP_QUIRK_QUICK_WAKEUP },
-+		{ 0x10, ETP_PRODUCT_ID_VOXEL, ETP_QUIRK_QUICK_WAKEUP },
-+		{ 0x14, ETP_PRODUCT_ID_MAGPIE, ETP_QUIRK_QUICK_WAKEUP },
-+		{ 0x14, ETP_PRODUCT_ID_BOBBA, ETP_QUIRK_QUICK_WAKEUP },
-+	};
-+	u32 quirks = 0;
-+	int i;
-+
-+	for (i = 0; ARRAY_SIZE(elan_i2c_quirks); i++) {
-+		if (elan_i2c_quirks[i].ic_type == ic_type &&
-+		    elan_i2c_quirks[i].product_id == product_id) {
-+			quirks = elan_i2c_quirks[i].quirks;
-+		}
-+	}
-+
-+	if (ic_type >= 0x0D && product_id >= 0x123)
-+		quirks |= ETP_QUIRK_QUICK_WAKEUP;
-+
-+	return quirks;
-+}
-+
- static int elan_get_fwinfo(u16 ic_type, u8 iap_version, u16
-*validpage_count,
- 			   u32 *signature_address, u16 *page_size)
- {
-@@ -258,16 +291,18 @@ static int elan_check_ASUS_special_fw(struct
-elan_tp_data *data)
- 	return false;
- }
- 
--static int __elan_initialize(struct elan_tp_data *data)
-+static int __elan_initialize(struct elan_tp_data *data, bool skip_reset)
- {
- 	struct i2c_client *client = data->client;
- 	bool woken_up = false;
- 	int error;
- 
--	error = data->ops->initialize(client);
--	if (error) {
--		dev_err(&client->dev, "device initialize failed: %d\n",
-error);
--		return error;
-+	if (!skip_reset) {
-+		error = data->ops->initialize(client);
-+		if (error) {
-+			dev_err(&client->dev, "device initialize failed:
-%d\n", error);
-+			return error;
-+		}
- 	}
- 
- 	error = elan_query_product(data);
-@@ -311,16 +346,17 @@ static int __elan_initialize(struct elan_tp_data
-*data)
- 	return 0;
- }
- 
--static int elan_initialize(struct elan_tp_data *data)
-+static int elan_initialize(struct elan_tp_data *data, bool skip_reset)
- {
- 	int repeat = ETP_RETRY_COUNT;
- 	int error;
- 
- 	do {
--		error = __elan_initialize(data);
-+		error = __elan_initialize(data, skip_reset);
- 		if (!error)
- 			return 0;
- 
-+		skip_reset = false;
- 		msleep(30);
- 	} while (--repeat > 0);
- 
-@@ -357,6 +393,8 @@ static int elan_query_device_info(struct elan_tp_data
-*data)
- 	if (error)
- 		return error;
- 
-+	data->quirks = elan_i2c_lookup_quirks(data->ic_type,
-data->product_id);
-+
- 	error = elan_get_fwinfo(data->ic_type, data->iap_version,
- 				&data->fw_validpage_count,
- 				&data->fw_signature_address,
-@@ -546,7 +584,7 @@ static int elan_update_firmware(struct elan_tp_data
-*data,
- 		data->ops->iap_reset(client);
- 	} else {
- 		/* Reinitialize TP after fw is updated */
--		elan_initialize(data);
-+		elan_initialize(data, false);
- 		elan_query_device_info(data);
- 	}
- 
-@@ -1247,7 +1285,7 @@ static int elan_probe(struct i2c_client *client,
- 	}
- 
- 	/* Initialize the touchpad. */
--	error = elan_initialize(data);
-+	error = elan_initialize(data, false);
- 	if (error)
- 		return error;
- 
-@@ -1384,7 +1422,7 @@ static int __maybe_unused elan_resume(struct device
-*dev)
- 		goto err;
- 	}
- 
--	error = elan_initialize(data);
-+	error = elan_initialize(data, data->quirks &
-ETP_QUIRK_QUICK_WAKEUP);
- 	if (error)
- 		dev_err(dev, "initialize when resuming failed: %d\n",
-error);
- 
-
+-- 
+With Best Regards,
+Andy Shevchenko
