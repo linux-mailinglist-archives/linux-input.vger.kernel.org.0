@@ -2,180 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A7BD331517
-	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 18:43:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83150331747
+	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 20:30:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230200AbhCHRmt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Mar 2021 12:42:49 -0500
-Received: from [139.28.40.42] ([139.28.40.42]:54286 "EHLO
-        tarta.nabijaczleweli.xyz" rhost-flags-FAIL-FAIL-OK-OK)
-        by vger.kernel.org with ESMTP id S230050AbhCHRmV (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 8 Mar 2021 12:42:21 -0500
-Received: from tarta.nabijaczleweli.xyz (unknown [192.168.1.250])
-        by tarta.nabijaczleweli.xyz (Postfix) with ESMTPSA id 7CA523602D8;
-        Mon,  8 Mar 2021 18:42:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=nabijaczleweli.xyz;
-        s=202006; t=1615225339;
-        bh=O3opi9rvyEpgs9nlMtb3A5XUwC6OHkH6ahCapGdL/hs=;
-        h=Date:From:Cc:Subject:References:In-Reply-To:From;
-        b=SvwdSa3yVVW9ZP1ubMdmgBQmmi+ZhxESnXAc6EpAR2uqicG0VC850oEvsoimg9QXf
-         lM4Y2S+xcTVYVjAoqCzfCyRIJ+9vVOb46onYgcoKyJFL0kxQOe1oIgacJVDr6fScFJ
-         OKiEjbs+nF/CL0U241YHYE91ZEkmfzAe5nif4FGNGmZkqh0aE00g2YYsa2ADammlot
-         GUIk66QxtRIWAunV8NMrFqhpoMO2JwW4e5/Pdn2L47f3cWmTp6l5YDgcohRVPPUUAl
-         CPMB69qkBaa1zh2sPXbROOZ2Huty3/jYnpR/DL6CGr3draWJce1zlJ2vkFYTBHMyr6
-         M7QQesQhqmtTg==
-Date:   Mon, 8 Mar 2021 18:42:18 +0100
-From:   Ahelenia =?utf-8?Q?Ziemia=C5=84ska?= 
-        <nabijaczleweli@nabijaczleweli.xyz>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        Jiri Kosina <jikos@kernel.org>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/4] HID: input: work around Win8 stylus-on-touchscreen
- reporting
-Message-ID: <2ca91ac7cf92e3048a236db3cd519f04e12c1e61.1615224800.git.nabijaczleweli@nabijaczleweli.xyz>
-References: <cover.1615224800.git.nabijaczleweli@nabijaczleweli.xyz>
+        id S231153AbhCHT3p (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Mar 2021 14:29:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37620 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230075AbhCHT3K (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Mar 2021 14:29:10 -0500
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF851C06174A
+        for <linux-input@vger.kernel.org>; Mon,  8 Mar 2021 11:29:10 -0800 (PST)
+Received: by mail-pl1-x62c.google.com with SMTP id u11so5329609plg.13
+        for <linux-input@vger.kernel.org>; Mon, 08 Mar 2021 11:29:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=sLA4El8vUKSqbUUkrvUDv5c9ZEn5CZGnocmZoe+le6w=;
+        b=Kd80LMyv/PtYZ/89LtQkMyjx1ua/BVaNSsUlLnPUBY+x45P29JUvbnSFIQ8ekqH/S4
+         dop6sG4RMLkBqGZKO1qmPPoaeQ6TnW5WpCQlPwLxzpnf84KWdbO1j23B2HPzcNdWNIcQ
+         nVAaoM7kq8uAgYu1EnQGNIoyIwdSRXDWwwJAdtsX29wE20KFPiIA0WLQceKHWMesYapO
+         43ki6+lW0R7R1z2OiYm2XyZBqNP1FCoo8baF6jH84s6sFbWl4YSKmd+p0nTpkQbXzx/s
+         gZmPmIeI6Izsp73okFLNIQLZJ8GgNiPwmAGmLkWEcKA0ZNxsndp9M8KrX0NakCbIrlLe
+         tF8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=sLA4El8vUKSqbUUkrvUDv5c9ZEn5CZGnocmZoe+le6w=;
+        b=OQE09e+kydLcLa9kECCZbq5B+JlwTtrRQlzotKbxRFbqULbuRjwEUUq5B3I76dd8Am
+         Y/wWcfRVKjRaLr6A0wLpwaW4G7QAmzIHQEjck8J46X6lVDBcoLNNt1wb2+uXv4vPJ4IV
+         6TSUkVmexRHL56rYbrYTosOUN7M0UCMVpC6ekgD8WMLlPctin+DrFeJ5sjJnvEQ2k68n
+         68TLg17eTx72gPMcERMDmkYfLZA8eAm3tMKAKI0TcZ8fTyfS49QcIkadrV8zo1S02ZzK
+         RC4Z/SZLWsCiuS33ta4gaYJ4JgUc0VWH5X6kkltgBxTCv095HdyTyUg5a5LijwgROxrA
+         XfJQ==
+X-Gm-Message-State: AOAM533YX+h9it4YoKVydujYPHygJMidpgE8Ni0qBVUhyJFplr3ppRGX
+        Y4DnOpdZngeMsc88W0lbtL0=
+X-Google-Smtp-Source: ABdhPJzljhuswDOR6anCcs2yujE3U4+zKzUNVc5RFBcKfECrmHoYHSBvWKyuDP3dvy0EOBoXMt6Guw==
+X-Received: by 2002:a17:90a:8408:: with SMTP id j8mr436398pjn.1.1615231750268;
+        Mon, 08 Mar 2021 11:29:10 -0800 (PST)
+Received: from google.com ([2620:15c:202:201:39e0:7b5c:9fa7:f6e0])
+        by smtp.gmail.com with ESMTPSA id k4sm11082447pfg.102.2021.03.08.11.29.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Mar 2021 11:29:09 -0800 (PST)
+Date:   Mon, 8 Mar 2021 11:29:06 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     linux-input <linux-input@vger.kernel.org>
+Subject: Re: [PATCH v1 1/2] Input: tsc2007 - convert to GPIO descriptors
+Message-ID: <YEZ7Atrdg7CAEWYA@google.com>
+References: <20210307220549.354263-1-andy.shevchenko@gmail.com>
+ <YEVaYiA9Faylr9il@google.com>
+ <CAHp75VerojbEjAjtmFqhyrmyhT_WCZxQihgAac80_GAZHyH9LQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="nuuyouwigtdbc5q2"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1615224800.git.nabijaczleweli@nabijaczleweli.xyz>
-User-Agent: NeoMutt/20210205
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <CAHp75VerojbEjAjtmFqhyrmyhT_WCZxQihgAac80_GAZHyH9LQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Mon, Mar 08, 2021 at 11:10:38AM +0200, Andy Shevchenko wrote:
+> On Mon, Mar 8, 2021 at 12:57 AM Dmitry Torokhov
+> <dmitry.torokhov@gmail.com> wrote:
+> > On Mon, Mar 08, 2021 at 12:05:48AM +0200, Andy Shevchenko wrote:
+> 
+> ...
+> 
+> > > -     return !gpio_get_value(ts->gpio);
+> > > +     return !gpiod_get_value(ts->gpiod);
+> >
+> > This is not correct. gpio_get_value() is raw polarity vs
+> > gpiod_get_value() using logical active/inactive, and tsc2007 GPIO lines
+> > are active low. The negation must be dropped after switching to GPIOD
+> > API.
+> 
+> Ah, indeed, I missed that, thanks!
+> 
+> ...
+> 
+> > > -     ts->gpio = of_get_gpio(np, 0);
+> > > -     if (gpio_is_valid(ts->gpio))
+> > > -             ts->get_pendown_state = tsc2007_get_pendown_state_gpio;
+> > > -     else
+> > > -             dev_warn(&client->dev,
+> > > -                      "GPIO not specified in DT (of_get_gpio returned %d)\n",
+> > > -                      ts->gpio);
+> > > +     ts->gpiod = devm_gpiod_get_optional(dev, NULL, GPIOD_IN);
+> >
+> > GPIO is definitely not optional in DT case, at least in the way the
+> > driver written right now.
+> 
+> Can you elaborate this, please? I don't see from the dev_warn() w/o
+> any error code returned that it's mandatory.
+> In the bindings one may read:
+> 
+>   Optional properties:
+>   - gpios: the interrupt gpio the chip is connected to (trough the penirq pin).
+>     The penirq pin goes to low when the panel is touched.
+>     (see GPIO binding[1] for more details).
+> 
+> Nothing suggested it's mandatory. What have I missed?
 
---nuuyouwigtdbc5q2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ah, indeed, I misread the code and thought we'd abort if there is no
+pendown GPIO. I wonder if we should remove the warning since we seem to
+support operations without it.
 
-With this, these devices now behave as tablets as expected by userspace
+Thanks.
 
-The search in hidinput_is_win8_touching() terminates at f=3D0, u=3D0
-on Goodix screens (27C6:0111, 27C6:0113), but I expect it
-to have negligible impact on devices that don't have TipSwitch
-as the first report as well
-
-Signed-off-by: Ahelenia Ziemia=C5=84ska <nabijaczleweli@nabijaczleweli.xyz>
----
-
-Notes:
-    changes in v2:
-      * hidinput_fixup_win8_inrange() became hidinput_is_win8_touching()
-      * BarrelSwitch now anded with TipSwitch
-
- drivers/hid/hid-input.c | 48 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
-
-diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index a5ba92978473..aee1f1283c1d 100644
---- a/drivers/hid/hid-input.c
-+++ b/drivers/hid/hid-input.c
-@@ -1273,6 +1273,42 @@ static void hidinput_handle_scroll(struct hid_usage =
-*usage,
- 	input_event(input, EV_REL, usage->code, hi_res);
- }
-=20
-+/*
-+ * Win8 tablet stylus devices send, in order:
-+ *   HID_DG_TIPSWITCH (BTN_TOUCH)
-+ *   HID_DG_INVERT    (BTN_TOOL_RUBBER)
-+ *   HID_DG_ERASER    (BTN_TOUCH)
-+ *   HID_DG_INRANGE   (BTN_TOOL_PEN)
-+ *
-+ * For each of these states:
-+ *   hover     :                         INRANGE
-+ *   touching  : TIPSWITCH
-+ *   hover+2   :           INVERT        INRANGE
-+ *   touching+2:                  ERASER INRANGE
-+ *
-+ * Which means we'd send BTN_TOUCH=3D0 + BTN_TOOL_PEN=3D1 on proximity,
-+ * then BTN_TOUCH=3D1 and BTN_TOOL_PEN=3D0 in consecutive groups when touc=
-hed,
-+ * indicating the stylus leaving the screen as soon as the two meet.
-+ *
-+ * Additionally, HID_DG_BARRELSWITCH corresponds directly to the button,
-+ * regardless of the tip switch, making it borderline impossible to use pr=
-ecisely.
-+ */
-+static bool hidinput_is_win8_touching(struct hid_device *hid, struct hid_f=
-ield *field)
-+{
-+	unsigned f, u;
-+	struct hid_field *rfield;
-+
-+	for (f =3D 0; f < field->report->maxfield; ++f) {
-+		rfield =3D field->report->field[f];
-+		for (u =3D 0; u < rfield->maxusage; ++u) {
-+			if (rfield->usage[u].hid =3D=3D HID_DG_TIPSWITCH)
-+				return rfield->value[u];
-+		}
-+	}
-+
-+	return false;
-+}
-+
- void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, s=
-truct hid_usage *usage, __s32 value)
- {
- 	struct input_dev *input;
-@@ -1306,7 +1342,13 @@ void hidinput_hid_event(struct hid_device *hid, stru=
-ct hid_field *field, struct
- 		return;
- 	}
-=20
-+	if (usage->hid =3D=3D HID_DG_ERASER && value)
-+		*quirks |=3D HID_QUIRK_INVERT;
-+
- 	if (usage->hid =3D=3D HID_DG_INRANGE) {
-+		if (hid->group =3D=3D HID_GROUP_MULTITOUCH_WIN_8)
-+			value =3D value || hidinput_is_win8_touching(hid, field);
-+
- 		if (value) {
- 			input_event(input, usage->type, (*quirks & HID_QUIRK_INVERT) ? BTN_TOOL=
-_RUBBER : usage->code, 1);
- 			return;
-@@ -1322,6 +1364,12 @@ void hidinput_hid_event(struct hid_device *hid, stru=
-ct hid_field *field, struct
- 		input_event(input, EV_KEY, BTN_TOUCH, value > a + ((b - a) >> 3));
- 	}
-=20
-+	if (usage->hid =3D=3D HID_DG_BARRELSWITCH && hid->group =3D=3D HID_GROUP_=
-MULTITOUCH_WIN_8) {
-+		value =3D value && hidinput_is_win8_touching(hid, field);
-+		input_event(input, usage->type, usage->code, value);
-+		return;
-+	}
-+
- 	if (usage->hid =3D=3D (HID_UP_PID | 0x83UL)) { /* Simultaneous Effects Ma=
-x */
- 		dbg_hid("Maximum Effects - %d\n",value);
- 		return;
---=20
-2.20.1
-
---nuuyouwigtdbc5q2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEfWlHToQCjFzAxEFjvP0LAY0mWPEFAmBGYfoACgkQvP0LAY0m
-WPGvFQ/9Hpkj+5o+tfpSEe8WHH2lZz62GYkyBREAdJn12m+5ps3MJzYd2/gOVwhZ
-UtEwbU5bykW77FLCniyU6f8hKLkQJG8GhmhaA9qrpAT8F4XXoyJpy/U7MRhVDGZT
-Q34jJSNf09Bs5OliHhmpbFm+MPEmPdiq6T/t6dz+NsqS4kI+37X5MJqMWBVMtGJi
-8Jgv6J/Sy2rgjgjsta5sU8wqH4gISECbwbVl91ARWZbwtfUIuGoaf3qmCW6rwcQ4
-gFgyOlll/zKX7dvUUre8FfQU5N2NsEQgpfLwVxqYXMsb187jkM2Ug4+gka1iSe5r
-EtQEounro5T0Z8ynS5SSlNyXlnybBypWKjTEOBJXevtdHYc/H8LROBTc3qJ8UqVL
-DTnfHqqK0x5tAsWOTQ7nJ9ENTR3Wwc957dBu4mEbqcnddFFLnF/DV25zjGbFYyOG
-OqhxqZiS3ul0yKfElBICuNCBUBgnae+8qAw0OKHQHiYbEG93BRhXD/LYrq11sLMe
-Cefs1VAgUxXyAMgtmADgYotBr31T2PRSRWBEtZv7jUdhyEvz+dkEw74wcfE1kBDP
-PaLsQv1dc2ITllaoH67FAP8YRQKIUQCA0GQFHTgwLCjTkH7wA4Dvatx38TP60FpD
-/F4yAuXAfyXUDliSxZX0M+9ZQLkKznjoc8vFdgWNe0gJWXePeGI=
-=i1Fw
------END PGP SIGNATURE-----
-
---nuuyouwigtdbc5q2--
+-- 
+Dmitry
