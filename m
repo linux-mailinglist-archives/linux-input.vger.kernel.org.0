@@ -2,68 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89B1F331245
-	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 16:34:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1911A3312B8
+	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 17:01:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229805AbhCHPdd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Mar 2021 10:33:33 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60660 "EHLO mail.kernel.org"
+        id S230165AbhCHQA4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Mar 2021 11:00:56 -0500
+Received: from mga07.intel.com ([134.134.136.100]:20160 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229459AbhCHPdO (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 8 Mar 2021 10:33:14 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AEEEE65268;
-        Mon,  8 Mar 2021 15:33:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615217593;
-        bh=a0+1uZ6MI+rUazlW6IRSmCcz3df1yEE+4007pOdUess=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=aXMfXPOgEpyl9wN6d7jhFfcYu965UHhN5kSfnjGz8wdRfVwybcyTS5E19/zPdDILF
-         P68qUSc8x4+fNe88cw9AnROwun6LCjnQGD8UNG5xIseVtkrHG76e5dSkpyCUgjl4tD
-         BqbCM+OJfqDcl+hBrstM6hdVIC84U5CggbKcQuLJNxCNax4YxwQpCkotphLd6gJvtk
-         tt1+5I+CEVbupkAz6Zr1aPvU7eiqT7XldFLucjoZBROSrKSiAe1wZkGqXMgaAm11fM
-         S13igphAceLJGj0V/r/zHtF4qqJzIpL8FRqzZMJ5FCLIOpCYoj3G/xC9JZ3KqLzadz
-         KXTL9WI93WxZg==
-Date:   Mon, 8 Mar 2021 16:33:10 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Nehal Shah <nehal-bakulchandra.shah@amd.com>,
-        Sandeep Singh <sandeep.singh@amd.com>,
-        Richard Neumann <mail@richard-neumann.de>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH 0/3] AMD_SFH: Allow overriding sensor-mask by module-param
- or DMI-quirk
-In-Reply-To: <20210128121219.6381-1-hdegoede@redhat.com>
-Message-ID: <nycvar.YFH.7.76.2103081633000.12405@cbobk.fhfr.pm>
-References: <20210128121219.6381-1-hdegoede@redhat.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S230148AbhCHQAs (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 8 Mar 2021 11:00:48 -0500
+IronPort-SDR: qGAn2jkSazw168RkMm0T9BZb9nvVxoDZtLKzoTAi1+duqCYyWBhOn5cjAHh0R6fIO6lWC8BaiL
+ mp9sR3r+s6oQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="252081110"
+X-IronPort-AV: E=Sophos;i="5.81,232,1610438400"; 
+   d="scan'208";a="252081110"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2021 08:00:43 -0800
+IronPort-SDR: B1b74B1yMTqj5Dr9tfyahDvUZ/aOJ8ccU+6DLUh9DF44qFfPJ32yU3L4nggjd+ZOlDxLl1z4vw
+ OQeEo+8PkVsA==
+X-IronPort-AV: E=Sophos;i="5.81,232,1610438400"; 
+   d="scan'208";a="408271207"
+Received: from arohrbax-mobl.amr.corp.intel.com ([10.209.91.130])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2021 08:00:43 -0800
+Message-ID: <00ad0906b90a290e9737b7bf7d8c5ab9c6ed61e6.camel@linux.intel.com>
+Subject: Re: [PATCH] HID: intel_ish-hid: HBM: Use connected standby state
+ bit during suspend/resume
+From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+To:     Jiri Kosina <jikos@kernel.org>, Ye Xiang <xiang.ye@intel.com>
+Cc:     jic23@kernel.org, linux-input@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Mon, 08 Mar 2021 08:00:41 -0800
+In-Reply-To: <nycvar.YFH.7.76.2103081125380.12405@cbobk.fhfr.pm>
+References: <20210303062825.7724-1-xiang.ye@intel.com>
+         <nycvar.YFH.7.76.2103081125380.12405@cbobk.fhfr.pm>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 28 Jan 2021, Hans de Goede wrote:
-
-> Hi All,
+On Mon, 2021-03-08 at 11:26 +0100, Jiri Kosina wrote:
+> On Wed, 3 Mar 2021, Ye Xiang wrote:
 > 
-> There are several bug-reports about the new AMD_SFH driver not working
-> on various HP ENVY x360 Convertible models. The problem is that the
-> driver expects the BIOS to program which sensors are present into the
-> active bits of the AMD_P2C_MSG3 register; and the BIOS on these models
-> does not do this:
+> > ISH firmware uses connected standby state bit
+> > (CONNECTED_STANDBY_STATE_BIT bit 1)
+> > to notify current power state to sensors instead of suspend state
+> > bit (bit 0).
+> > So send both SUSPEND_STATE_BIT and CONNECTED_STANDBY_STATE_BIT to
+> > firmware
+> > to be compatible with the previous version.
 > 
-> https://bugzilla.kernel.org/show_bug.cgi?id=199715
-> https://bugzilla.redhat.com/show_bug.cgi?id=1651886
+> Could you please make the changelog more verbose -- namely what 
+> user-visible issue this is fixing?
+Xiang,
+
+I think this change is for related to Elkhart Lake for support of
+connected standby (keep listening for sensor events during Linux
+suspend for some sensors). In this way some sensor can wake up the
+system.
+
+Thanks,
+Srinivas
+
+
+
+
+
 > 
-> This patch-set adds a module-parameter + DMI-quirk mechanism to override
-> the settings read back from the AMD_P2C_MSG3 register, to work around
-> this problem. The DMI-quirk table is populated with 2 HP ENVY x360
-> Convertible models which are know to need this workaround.
-
-Applied, thanks.
-
--- 
-Jiri Kosina
-SUSE Labs
+> Thanks.
+> 
 
