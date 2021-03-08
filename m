@@ -2,114 +2,292 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 507F13307B7
-	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 06:48:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B1763309CC
+	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 09:57:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232529AbhCHFsP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Mar 2021 00:48:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57326 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231689AbhCHFrs (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Mar 2021 00:47:48 -0500
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F568C06174A
-        for <linux-input@vger.kernel.org>; Sun,  7 Mar 2021 21:47:48 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id w18so6353055pfu.9
-        for <linux-input@vger.kernel.org>; Sun, 07 Mar 2021 21:47:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=7j+iXBsu/DPzJd68jhAtpkrBD/7PjxmtUvYg7qsi5Ik=;
-        b=sy8IgT7tQGejDTohoxjajn6wN/o0r113/c9TxWtDyACNFAZ0EI/ckXauXurwoLiifw
-         ZR2pD0jhqfhQZ6HDy5zPSPj980/5vzt0PzA0I99HxpCh806alVY8Gl8AlaXfYXNlFO8W
-         PnJfFh9NXG1p1IR6W9yDg286TPygF9SFS0Q/R3CkVZm65nm/1b7F1ny99N950kzTlC8M
-         lcAlliyLq7juPuTZKRB9YuuP5KO3lnZAyqI2mbNAHiqPe4fW/TEquaqMHGfm96juLb8p
-         qac76JfIq/e2XezVIIThKEGiIYTYPGiAL3SUUUQbBTkjsWZxAgp0W+kAHRV7uf9/XyG+
-         s4nA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=7j+iXBsu/DPzJd68jhAtpkrBD/7PjxmtUvYg7qsi5Ik=;
-        b=rQQ2Pmoc6kDhjXjJNtzl/5jUJw61MNJ7sAw9RobA85YdoBk28JV5Twezn55RbvZBG6
-         7rcQ2EifLDbZfv8OtIDAFsI2EuuVSzrJJ53EDCaqyvZlAJ1wQCucke7T+OnGmSfSC5Xx
-         eFeMC3Hr5J3kg1+oUcVCoVqf8/w2aNLnRkfff5d9sVw8H6n72tSX7CODkL9iQXObEv1f
-         8P90bAYk1JtgsI56c+Q1ln/P2RTprF7EvePQiCL0rGUfoV55FKDE41vt9oFgvqf6Z6QA
-         UzuA/udanrGZh4QHcql4cDyELMkLzD04qdtRqGr17GK4rf5wi5eYbI391ppMV5BeTreO
-         L0Ug==
-X-Gm-Message-State: AOAM530fnelI5hjhHVBEaQjCVHQIBH+6knTp+GlqFxxFBxoUXX/ZVXs5
-        ZM/fcSE1/8HhaWtat8WxOG0=
-X-Google-Smtp-Source: ABdhPJzxg5PUpuq3aE0M6dV7t4UXAFiMeTNjV24400tLLpIRxFpA3cicvKgBqeJxRCGUVDxdmR83CQ==
-X-Received: by 2002:a65:6a48:: with SMTP id o8mr18826139pgu.424.1615182467614;
-        Sun, 07 Mar 2021 21:47:47 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:39e0:7b5c:9fa7:f6e0])
-        by smtp.gmail.com with ESMTPSA id r4sm9082875pjl.15.2021.03.07.21.47.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Mar 2021 21:47:46 -0800 (PST)
-Date:   Sun, 7 Mar 2021 21:47:44 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Lucas Stach <l.stach@pengutronix.de>
-Cc:     Sebastian Reichel <sebastian.reichel@collabora.com>,
-        linux-input@vger.kernel.org, kernel@pengutronix.de,
-        patchwork-lst@pengutronix.de
-Subject: Re: [PATCH v3 5/5] Input: exc3000 - add firmware update support
-Message-ID: <YEW6gGUmlYFI4T0+@google.com>
-References: <20210125182527.1225245-1-l.stach@pengutronix.de>
- <20210125182527.1225245-6-l.stach@pengutronix.de>
+        id S229463AbhCHI4k (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Mar 2021 03:56:40 -0500
+Received: from emcscan.emc.com.tw ([192.72.220.5]:36509 "EHLO
+        emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229458AbhCHI4a (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Mar 2021 03:56:30 -0500
+X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
+   d="scan'208";a="39695779"
+Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
+  by emcscan.emc.com.tw with ESMTP; 08 Mar 2021 16:56:17 +0800
+Received: from 192.168.10.23
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(9037:0:AUTH_RELAY)
+        (envelope-from <jingle.wu@emc.com.tw>); Mon, 08 Mar 2021 16:56:15 +0800 (CST)
+Received: from 192.168.33.11
+        by webmail.emc.com.tw with Mail2000 ESMTP Server V7.00(2472:3:AUTH_RELAY)
+        (envelope-from <jingle.wu@emc.com.tw>); Mon, 08 Mar 2021 16:56:14 +0800 (CST)
+From:   "jingle" <jingle.wu@emc.com.tw>
+To:     "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>
+Cc:     "'linux-kernel'" <linux-kernel@vger.kernel.org>,
+        "'linux-input'" <linux-input@vger.kernel.org>,
+        "'phoenix'" <phoenix@emc.com.tw>,
+        "'dave.wang'" <dave.wang@emc.com.tw>,
+        "'josh.chen'" <josh.chen@emc.com.tw>
+References: <20210226073537.4926-1-jingle.wu@emc.com.tw> <YDx8M4Rhdi8hW4EO@google.com> <1614647097.9201.jingle.wu@emc.com.tw> <YEGBeWHRfL4gN9pX@google.com> <004f01d7115e$3ba005e0$b2e011a0$@emc.com.tw> <YEGJ7z479pqyBW1w@google.com> <005401d71161$ef9b20e0$ced162a0$@emc.com.tw> <YEWXcV62YpxbBp9P@google.com>
+In-Reply-To: <YEWXcV62YpxbBp9P@google.com>
+Subject: RE: [PATCH] Input: elan_i2c - Reduce the resume time for new dev ices
+Date:   Mon, 8 Mar 2021 16:56:14 +0800
+Message-ID: <005d01d713f8$e4b715a0$ae2540e0$@emc.com.tw>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210125182527.1225245-6-l.stach@pengutronix.de>
+Content-Type: text/plain;
+        charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: AQGs01cKeSW+WSlGkCw6sJc3Mb/pawH5MxoQAdwxvXACK2QSBAIRtt8MAkDeqHgCB6X1vAJFybuVqllCnIA=
+Content-Language: zh-tw
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDYwMTFcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy0yMjRmZmM4OS03ZmVjLTExZWItOGUwZi1mMDc5NTk2OWU3NWVcYW1lLXRlc3RcMjI0ZmZjOGItN2ZlYy0xMWViLThlMGYtZjA3OTU5NjllNzVlYm9keS50eHQiIHN6PSI2OTMwIiB0PSIxMzI1OTY2NzM3Mzk3NjQ4NDEiIGg9IjJySndkL0J5eUNSOTIyQlc3TlcrVngrVDRWcz0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-rorf: true
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Lucas,
+Hi Dmitry:
 
-On Mon, Jan 25, 2021 at 07:25:27PM +0100, Lucas Stach wrote:
-> This change allows the device firmware to be updated by putting a firmware
-> file in /lib/firmware and providing the name of the file via the update_fw
-> sysfs property. The driver will then flash the firmware image into the
-> controller internal storage and restart the controller to activate the new
-> firmware.
-> 
-> The implementation was done by looking at the the messages passed between
-> the controller and proprietary vendor update tool. Not every detail of the
-> protocol is totally well understood, so the implementation still has some
-> "monkey see, monkey do" parts, as far as they have been found to be required
-> for the update to succeed.
-> 
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> ---
->  .../ABI/testing/sysfs-driver-input-exc3000    |  20 ++
->  drivers/input/touchscreen/exc3000.c           | 240 +++++++++++++++++-
->  2 files changed, 258 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-driver-input-exc3000 b/Documentation/ABI/testing/sysfs-driver-input-exc3000
-> index 704434b277b0..123a00ccee8b 100644
-> --- a/Documentation/ABI/testing/sysfs-driver-input-exc3000
-> +++ b/Documentation/ABI/testing/sysfs-driver-input-exc3000
-> @@ -24,3 +24,23 @@ Description:	Reports the type identification provided by the touchscreen, for ex
->  		Access: Read
->  
->  		Valid values: Represented as string
-> +
-> +What:		/sys/bus/i2c/devices/xxx/update_fw
-> +Date:		Jan 2021
-> +Contact:	linux-input@vger.kernel.org
-> +Description:	Allows to specify a firlename of a firmware file located in /lib/firmware/ that will be
-> +		used to update the application firmware on the touchscreen controller. For example
-> +		"eeti/eeti_27_0_EDipper_0735.fw"
+1. missing "i<" 
++	u32 quirks = 0;
++	int i;
++
++	for (i = 0; ARRAY_SIZE(elan_i2c_quirks); i++) {
 
-I believe the current idiomatic way is to have statically defined
-firmware name (it can still encode vid/pid/model info etc) and do not
-re-implement variable firmware name in every driver.
+-> for (i = 0; i<ARRAY_SIZE(elan_i2c_quirks); i++) {
 
-I think if this really is required we need to add this feature of
-overriding default firmware name to firmware loader maybe?
+2. elan_resume () funtion are different with at Chromeos driver.
+@@ -1384,7 +1422,7 @@ static int __maybe_unused elan_resume(struct device
+*dev)
+ 		goto err;
+ 	}
+ 
+-	error = elan_initialize(data);
++	error = elan_initialize(data, data->quirks &
+ETP_QUIRK_QUICK_WAKEUP);
+ 	if (error)
+ 		dev_err(dev, "initialize when resuming failed: %d\n",
+error);
+
+-> https://chromium.googlesource.com/chromiumos/third_party/kernel/+/ref
+-> s/heads/chromeos-5.4/drivers/input/mouse/elan_i2c_core.c#1434
+-> error = elan_initialize(data);  this code is in elan_reactivate()
+function at Chromeos driver.
+-> Will this change affect cherrypick from linux kernel to chromeos?
+
+THANKS
+JINGLE
+
+-----Original Message-----
+From: 'Dmitry Torokhov' [mailto:dmitry.torokhov@gmail.com] 
+Sent: Monday, March 08, 2021 11:18 AM
+To: jingle
+Cc: 'linux-kernel'; 'linux-input'; 'phoenix'; 'dave.wang'; 'josh.chen'
+Subject: Re: [PATCH] Input: elan_i2c - Reduce the resume time for new dev
+ices
+
+Hi Jingle,
+
+On Fri, Mar 05, 2021 at 09:50:35AM +0800, jingle wrote:
+> HI Dmitry:
+> 
+> 1. You mean to let all devices ignore skipping reset/sleep part of 
+> device initialization?
+> 2. The test team found that some old firmware will have errors 
+> (invalid report etc...), so ELAN can only ensure that the new device 
+> can meet the newer parts.
+
+I see. OK, fair enough.
+
+I would prefer if we were more explicit about when we skip resetting the
+device, what do you think about the version of your patch below?
 
 Thanks.
 
--- 
+--
 Dmitry
+
+
+Input: elan_i2c - reduce the resume time for new devices
+
+From: Jingle Wu <jingle.wu@emc.com.tw>
+
+Newer controllers, such as Voxel, Delbin, Magple, Bobba and others, do not
+need to be reset after issuing power-on command, and skipping reset saves
+at least 100ms from resume time.
+
+Note that if first attempt of re-initializing device fails we will not be
+skipping reset on the subsequent ones.
+
+Signed-off-by: Jingle Wu <jingle.wu@emc.com.tw>
+Link: https://lore.kernel.org/r/20210226073537.4926-1-jingle.wu@emc.com.tw
+Patchwork-Id: 12105967
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/mouse/elan_i2c.h      |    5 +++
+ drivers/input/mouse/elan_i2c_core.c |   58
++++++++++++++++++++++++++++++------
+ 2 files changed, 53 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/input/mouse/elan_i2c.h b/drivers/input/mouse/elan_i2c.h
+index e12da5b024b0..838b3b346316 100644
+--- a/drivers/input/mouse/elan_i2c.h
++++ b/drivers/input/mouse/elan_i2c.h
+@@ -55,6 +55,11 @@
+ #define ETP_FW_PAGE_SIZE_512	512
+ #define ETP_FW_SIGNATURE_SIZE	6
+ 
++#define ETP_PRODUCT_ID_DELBIN	0x00C2
++#define ETP_PRODUCT_ID_VOXEL	0x00BF
++#define ETP_PRODUCT_ID_MAGPIE	0x0120
++#define ETP_PRODUCT_ID_BOBBA	0x0121
++
+ struct i2c_client;
+ struct completion;
+ 
+diff --git a/drivers/input/mouse/elan_i2c_core.c
+b/drivers/input/mouse/elan_i2c_core.c
+index bef73822315d..51a65f6bf1e3 100644
+--- a/drivers/input/mouse/elan_i2c_core.c
++++ b/drivers/input/mouse/elan_i2c_core.c
+@@ -46,6 +46,9 @@
+ #define ETP_FINGER_WIDTH	15
+ #define ETP_RETRY_COUNT		3
+ 
++/* quirks to control the device */
++#define ETP_QUIRK_QUICK_WAKEUP	BIT(0)
++
+ /* The main device structure */
+ struct elan_tp_data {
+ 	struct i2c_client	*client;
+@@ -90,8 +93,38 @@ struct elan_tp_data {
+ 	bool			baseline_ready;
+ 	u8			clickpad;
+ 	bool			middle_button;
++
++	u32			quirks;		/* Various quirks */
+ };
+ 
++static u32 elan_i2c_lookup_quirks(u16 ic_type, u16 product_id)
++{
++	static const struct {
++		u16 ic_type;
++		u16 product_id;
++		u32 quirks;
++	} elan_i2c_quirks[] = {
++		{ 0x0D, ETP_PRODUCT_ID_DELBIN, ETP_QUIRK_QUICK_WAKEUP },
++		{ 0x10, ETP_PRODUCT_ID_VOXEL, ETP_QUIRK_QUICK_WAKEUP },
++		{ 0x14, ETP_PRODUCT_ID_MAGPIE, ETP_QUIRK_QUICK_WAKEUP },
++		{ 0x14, ETP_PRODUCT_ID_BOBBA, ETP_QUIRK_QUICK_WAKEUP },
++	};
++	u32 quirks = 0;
++	int i;
++
++	for (i = 0; ARRAY_SIZE(elan_i2c_quirks); i++) {
++		if (elan_i2c_quirks[i].ic_type == ic_type &&
++		    elan_i2c_quirks[i].product_id == product_id) {
++			quirks = elan_i2c_quirks[i].quirks;
++		}
++	}
++
++	if (ic_type >= 0x0D && product_id >= 0x123)
++		quirks |= ETP_QUIRK_QUICK_WAKEUP;
++
++	return quirks;
++}
++
+ static int elan_get_fwinfo(u16 ic_type, u8 iap_version, u16
+*validpage_count,
+ 			   u32 *signature_address, u16 *page_size)
+ {
+@@ -258,16 +291,18 @@ static int elan_check_ASUS_special_fw(struct
+elan_tp_data *data)
+ 	return false;
+ }
+ 
+-static int __elan_initialize(struct elan_tp_data *data)
++static int __elan_initialize(struct elan_tp_data *data, bool skip_reset)
+ {
+ 	struct i2c_client *client = data->client;
+ 	bool woken_up = false;
+ 	int error;
+ 
+-	error = data->ops->initialize(client);
+-	if (error) {
+-		dev_err(&client->dev, "device initialize failed: %d\n",
+error);
+-		return error;
++	if (!skip_reset) {
++		error = data->ops->initialize(client);
++		if (error) {
++			dev_err(&client->dev, "device initialize failed:
+%d\n", error);
++			return error;
++		}
+ 	}
+ 
+ 	error = elan_query_product(data);
+@@ -311,16 +346,17 @@ static int __elan_initialize(struct elan_tp_data
+*data)
+ 	return 0;
+ }
+ 
+-static int elan_initialize(struct elan_tp_data *data)
++static int elan_initialize(struct elan_tp_data *data, bool skip_reset)
+ {
+ 	int repeat = ETP_RETRY_COUNT;
+ 	int error;
+ 
+ 	do {
+-		error = __elan_initialize(data);
++		error = __elan_initialize(data, skip_reset);
+ 		if (!error)
+ 			return 0;
+ 
++		skip_reset = false;
+ 		msleep(30);
+ 	} while (--repeat > 0);
+ 
+@@ -357,6 +393,8 @@ static int elan_query_device_info(struct elan_tp_data
+*data)
+ 	if (error)
+ 		return error;
+ 
++	data->quirks = elan_i2c_lookup_quirks(data->ic_type,
+data->product_id);
++
+ 	error = elan_get_fwinfo(data->ic_type, data->iap_version,
+ 				&data->fw_validpage_count,
+ 				&data->fw_signature_address,
+@@ -546,7 +584,7 @@ static int elan_update_firmware(struct elan_tp_data
+*data,
+ 		data->ops->iap_reset(client);
+ 	} else {
+ 		/* Reinitialize TP after fw is updated */
+-		elan_initialize(data);
++		elan_initialize(data, false);
+ 		elan_query_device_info(data);
+ 	}
+ 
+@@ -1247,7 +1285,7 @@ static int elan_probe(struct i2c_client *client,
+ 	}
+ 
+ 	/* Initialize the touchpad. */
+-	error = elan_initialize(data);
++	error = elan_initialize(data, false);
+ 	if (error)
+ 		return error;
+ 
+@@ -1384,7 +1422,7 @@ static int __maybe_unused elan_resume(struct device
+*dev)
+ 		goto err;
+ 	}
+ 
+-	error = elan_initialize(data);
++	error = elan_initialize(data, data->quirks &
+ETP_QUIRK_QUICK_WAKEUP);
+ 	if (error)
+ 		dev_err(dev, "initialize when resuming failed: %d\n",
+error);
+ 
+
