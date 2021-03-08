@@ -2,152 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87211330D0C
-	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 13:04:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 859C2330D3B
+	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 13:20:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229627AbhCHMD2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Mar 2021 07:03:28 -0500
-Received: from mga02.intel.com ([134.134.136.20]:7730 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231897AbhCHMDH (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 8 Mar 2021 07:03:07 -0500
-IronPort-SDR: O55wSvBXRBOKZCnBYqkdQlq6zU5mTJwx5WGubBXk82+SFuWD3ZerVyK+MVnaA2Xvcvxlw+Y58/
- 6lK+riNMFlyg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9916"; a="175125163"
-X-IronPort-AV: E=Sophos;i="5.81,232,1610438400"; 
-   d="scan'208";a="175125163"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2021 04:03:05 -0800
-IronPort-SDR: o/9+f3v3GzuZ6jYw/1rrj8Pp/ryKu+Q8saX1I9KgXFi4UNnMFfB6oM+UiOZf0lrFlTIOgciKHq
- zDwvMI8gtCRQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,232,1610438400"; 
-   d="scan'208";a="376064470"
-Received: from lkp-server01.sh.intel.com (HELO 3e992a48ca98) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 08 Mar 2021 04:03:04 -0800
-Received: from kbuild by 3e992a48ca98 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lJEbH-0000xb-FU; Mon, 08 Mar 2021 12:03:03 +0000
-Date:   Mon, 08 Mar 2021 20:02:22 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [input:for-linus] BUILD SUCCESS
- 30b3f68715595dee7fe4d9bd91a2252c3becdf0a
-Message-ID: <6046124e.bAKM8xn0wwRjCva+%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S230173AbhCHMUT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Mar 2021 07:20:19 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:13482 "EHLO
+        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230169AbhCHMUT (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Mar 2021 07:20:19 -0500
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
+        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DvHS475GVzjTYN;
+        Mon,  8 Mar 2021 20:18:28 +0800 (CST)
+Received: from localhost.localdomain (10.175.102.38) by
+ DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 8 Mar 2021 20:20:06 +0800
+From:   'Wei Yongjun <weiyongjun1@huawei.com>
+To:     <weiyongjun1@huawei.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lauri Kasanen <cand@gmx.com>
+CC:     <linux-input@vger.kernel.org>, <kernel-janitors@vger.kernel.org>,
+        "Hulk Robot" <hulkci@huawei.com>
+Subject: [PATCH -next] Input: n64joy - Fix return value check in n64joy_probe()
+Date:   Mon, 8 Mar 2021 12:28:56 +0000
+Message-ID: <20210308122856.2177071-1-weiyongjun1@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type:   text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
+X-Originating-IP: [10.175.102.38]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-branch HEAD: 30b3f68715595dee7fe4d9bd91a2252c3becdf0a  Input: s6sy761 - fix coordinate read bit shift
+From: Wei Yongjun <weiyongjun1@huawei.com>
 
-elapsed time: 721m
+In case of error, the function devm_platform_ioremap_resource()
+returns ERR_PTR() and never returns NULL. The NULL test in the
+return value check should be replaced with IS_ERR().
 
-configs tested: 92
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-mips                           ip28_defconfig
-mips                       capcella_defconfig
-arm                        mini2440_defconfig
-arm                           spitz_defconfig
-arm                          pxa168_defconfig
-m68k                             allyesconfig
-m68k                        m5407c3_defconfig
-um                             i386_defconfig
-parisc                generic-32bit_defconfig
-arm                         at91_dt_defconfig
-powerpc                     powernv_defconfig
-csky                             alldefconfig
-mips                        nlm_xlr_defconfig
-xtensa                       common_defconfig
-sh                          sdk7780_defconfig
-powerpc                      bamboo_defconfig
-arm                            hisi_defconfig
-arm                      jornada720_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-i386                                defconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a005-20210308
-i386                 randconfig-a003-20210308
-i386                 randconfig-a002-20210308
-i386                 randconfig-a006-20210308
-i386                 randconfig-a004-20210308
-i386                 randconfig-a001-20210308
-x86_64               randconfig-a006-20210308
-x86_64               randconfig-a001-20210308
-x86_64               randconfig-a004-20210308
-x86_64               randconfig-a002-20210308
-x86_64               randconfig-a005-20210308
-x86_64               randconfig-a003-20210308
-x86_64               randconfig-a013-20210307
-x86_64               randconfig-a016-20210307
-x86_64               randconfig-a015-20210307
-x86_64               randconfig-a014-20210307
-x86_64               randconfig-a012-20210307
-x86_64               randconfig-a011-20210307
-i386                 randconfig-a016-20210308
-i386                 randconfig-a012-20210308
-i386                 randconfig-a014-20210308
-i386                 randconfig-a013-20210308
-i386                 randconfig-a011-20210308
-i386                 randconfig-a015-20210308
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
-
+Fixes: 3bdffa8ffb45 ("Input: Add N64 controller driver")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/input/joystick/n64joy.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/input/joystick/n64joy.c b/drivers/input/joystick/n64joy.c
+index 8bcc529942bc..9dbca366613e 100644
+--- a/drivers/input/joystick/n64joy.c
++++ b/drivers/input/joystick/n64joy.c
+@@ -252,8 +252,8 @@ static int __init n64joy_probe(struct platform_device *pdev)
+ 	mutex_init(&priv->n64joy_mutex);
+ 
+ 	priv->reg_base = devm_platform_ioremap_resource(pdev, 0);
+-	if (!priv->reg_base) {
+-		err = -EINVAL;
++	if (IS_ERR(priv->reg_base)) {
++		err = PTR_ERR(priv->reg_base);
+ 		goto fail;
+ 	}
+ 
+
