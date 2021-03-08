@@ -2,105 +2,115 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8B993309FF
-	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 10:11:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1740330A27
+	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 10:18:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229471AbhCHJLB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Mar 2021 04:11:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44200 "EHLO
+        id S229737AbhCHJSC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Mar 2021 04:18:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229756AbhCHJK4 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Mar 2021 04:10:56 -0500
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59D60C06174A
-        for <linux-input@vger.kernel.org>; Mon,  8 Mar 2021 01:10:56 -0800 (PST)
-Received: by mail-pg1-x52a.google.com with SMTP id e6so6017660pgk.5
-        for <linux-input@vger.kernel.org>; Mon, 08 Mar 2021 01:10:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZBShHwNStV/5ShpgOK6Aa8aoFllWBpI9aNckDNrIEHc=;
-        b=vFbLUjhv/6L3fnJmVvBtWFrOpEk0CXt91xPIKVIclZ8YgAUMoANL0RLUZRSIl+PZH1
-         3C26KFNfBDTTw4GZoiddmW1VJD9gKf7CWi1pcShasb1QI5+c14He3cVSrnQPjZZ2NNtA
-         prc1ko2Y/Dt86RovYmUcwhcXZMaypHe12e5ONY2jPv+1f63DNSL0yOkYejrG1M24i7Pj
-         HS8zcYsbext0JsMLsyLR+s/uRYN7Bb6vTeB8vjmV9KTj8Xmzw8SILwJcsT753EVjLDV4
-         Bwzrv9WWJvoXC5URc8mswH+ssStETf+1psncr53uQzsTeV6TI1IaFpNiR7imfvwjyUVD
-         JsaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZBShHwNStV/5ShpgOK6Aa8aoFllWBpI9aNckDNrIEHc=;
-        b=Pxi3GLvoGdm9zSbaJjDtoQECriWJ7QKLOMtPTItxYmhOsPMeAaeXlte/lHmy0oUayK
-         KIxBZClABncUnLe4gVpPP+q6INJDuU37nxa2c4eJJZmACiaCJofQjfdcvvP+8mtU/8zK
-         JiV5ETvQxsi6zHUPon5rNx6YyVOLKqI/Z4w03nYK0zCVnlORETBwkCq3lLxQ97WJKu2r
-         14viDbtwA1Udl3W+Rt13+SjVZ3lmfEmz+GKenUmyXPIPGXxBz3ZfLiXc8K+y5fVaVC6T
-         Lc7JitBDhcBDcxq7X2KmWSwEGk4S9a7i6CeqdZ380M4X5f+BHtXLG8P6jMXwWhxINL/k
-         E+zw==
-X-Gm-Message-State: AOAM530AqYNPgu1eXKQ/wiffBWmtS98ldsbcri2CtfvS8C3FEoOKLvCd
-        cz4KEATS7pYZ4gOcnjgaeQtfesLSJzCIgjZ00h5RG5hMoeGwr0OV
-X-Google-Smtp-Source: ABdhPJzrr7dpxkQB3I6oKCe+fK4v11RNckACbFYWML2mpe/4AgXMDLbmOF4LetcBTCxcqqKQ7cSpaH2n6b3SvK0uYhM=
-X-Received: by 2002:a65:4c08:: with SMTP id u8mr19294886pgq.203.1615194655723;
- Mon, 08 Mar 2021 01:10:55 -0800 (PST)
-MIME-Version: 1.0
-References: <20210307220549.354263-1-andy.shevchenko@gmail.com> <YEVaYiA9Faylr9il@google.com>
-In-Reply-To: <YEVaYiA9Faylr9il@google.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 8 Mar 2021 11:10:38 +0200
-Message-ID: <CAHp75VerojbEjAjtmFqhyrmyhT_WCZxQihgAac80_GAZHyH9LQ@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] Input: tsc2007 - convert to GPIO descriptors
+        with ESMTP id S229637AbhCHJR5 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Mar 2021 04:17:57 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43609C06174A
+        for <linux-input@vger.kernel.org>; Mon,  8 Mar 2021 01:17:57 -0800 (PST)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1lJC1T-0006WI-4Q; Mon, 08 Mar 2021 10:17:55 +0100
+Message-ID: <10377e89322405b5e60a9288e35a7de3ff40f8c4.camel@pengutronix.de>
+Subject: Re: [PATCH v3 5/5] Input: exc3000 - add firmware update support
+From:   Lucas Stach <l.stach@pengutronix.de>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input <linux-input@vger.kernel.org>
+Cc:     Sebastian Reichel <sebastian.reichel@collabora.com>,
+        linux-input@vger.kernel.org, kernel@pengutronix.de,
+        patchwork-lst@pengutronix.de
+Date:   Mon, 08 Mar 2021 10:17:54 +0100
+In-Reply-To: <YEW6gGUmlYFI4T0+@google.com>
+References: <20210125182527.1225245-1-l.stach@pengutronix.de>
+         <20210125182527.1225245-6-l.stach@pengutronix.de>
+         <YEW6gGUmlYFI4T0+@google.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Mar 8, 2021 at 12:57 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
-> On Mon, Mar 08, 2021 at 12:05:48AM +0200, Andy Shevchenko wrote:
+Hi Dmitry,
 
-...
+Am Sonntag, dem 07.03.2021 um 21:47 -0800 schrieb Dmitry Torokhov:
+> Hi Lucas,
+> 
+> On Mon, Jan 25, 2021 at 07:25:27PM +0100, Lucas Stach wrote:
+> > This change allows the device firmware to be updated by putting a firmware
+> > file in /lib/firmware and providing the name of the file via the update_fw
+> > sysfs property. The driver will then flash the firmware image into the
+> > controller internal storage and restart the controller to activate the new
+> > firmware.
+> > 
+> > The implementation was done by looking at the the messages passed between
+> > the controller and proprietary vendor update tool. Not every detail of the
+> > protocol is totally well understood, so the implementation still has some
+> > "monkey see, monkey do" parts, as far as they have been found to be required
+> > for the update to succeed.
+> > 
+> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+> > ---
+> >  .../ABI/testing/sysfs-driver-input-exc3000    |  20 ++
+> >  drivers/input/touchscreen/exc3000.c           | 240 +++++++++++++++++-
+> >  2 files changed, 258 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/Documentation/ABI/testing/sysfs-driver-input-exc3000 b/Documentation/ABI/testing/sysfs-driver-input-exc3000
+> > index 704434b277b0..123a00ccee8b 100644
+> > --- a/Documentation/ABI/testing/sysfs-driver-input-exc3000
+> > +++ b/Documentation/ABI/testing/sysfs-driver-input-exc3000
+> > @@ -24,3 +24,23 @@ Description:	Reports the type identification provided by the touchscreen, for ex
+> >  		Access: Read
+> >  
+> > 
+> > 
+> > 
+> >  		Valid values: Represented as string
+> > +
+> > +What:		/sys/bus/i2c/devices/xxx/update_fw
+> > +Date:		Jan 2021
+> > +Contact:	linux-input@vger.kernel.org
+> > +Description:	Allows to specify a firlename of a firmware file located in /lib/firmware/ that will be
+> > +		used to update the application firmware on the touchscreen controller. For example
+> > +		"eeti/eeti_27_0_EDipper_0735.fw"
+> 
+> I believe the current idiomatic way is to have statically defined
+> firmware name (it can still encode vid/pid/model info etc) and do not
+> re-implement variable firmware name in every driver.
+> 
+> I think if this really is required we need to add this feature of
+> overriding default firmware name to firmware loader maybe?
 
-> > -     return !gpio_get_value(ts->gpio);
-> > +     return !gpiod_get_value(ts->gpiod);
->
-> This is not correct. gpio_get_value() is raw polarity vs
-> gpiod_get_value() using logical active/inactive, and tsc2007 GPIO lines
-> are active low. The negation must be dropped after switching to GPIOD
-> API.
+One issue I see with the driver provided firmware name is that the
+model name and revision can be changed by the flashed firmware, with
+the EXC3000 being a i2c device ,we also don't have any stable VID/PID
+to use as a key. Which is an issue for the initial firmware flashing.
+In that case one would need to know whats currently on the device to be
+able to place a firmware file with the correct name.
 
-Ah, indeed, I missed that, thanks!
+Also I don't really see how that simplifies the driver code, as all
+this is doing is using the passed in string as a file name to fetch the
+firmware update file from.
 
-...
+To be clear: I'm not totally opposed to using a driver provided
+firmware name, I just see that it complicates some things that are not
+an issue with the patch as-is today and would like to understand the
+reason for pushing for a driver provided name, before deciding one way
+or the other.
 
-> > -     ts->gpio = of_get_gpio(np, 0);
-> > -     if (gpio_is_valid(ts->gpio))
-> > -             ts->get_pendown_state = tsc2007_get_pendown_state_gpio;
-> > -     else
-> > -             dev_warn(&client->dev,
-> > -                      "GPIO not specified in DT (of_get_gpio returned %d)\n",
-> > -                      ts->gpio);
-> > +     ts->gpiod = devm_gpiod_get_optional(dev, NULL, GPIOD_IN);
->
-> GPIO is definitely not optional in DT case, at least in the way the
-> driver written right now.
+Regards,
+Lucas
 
-Can you elaborate this, please? I don't see from the dev_warn() w/o
-any error code returned that it's mandatory.
-In the bindings one may read:
 
-  Optional properties:
-  - gpios: the interrupt gpio the chip is connected to (trough the penirq pin).
-    The penirq pin goes to low when the panel is touched.
-    (see GPIO binding[1] for more details).
-
-Nothing suggested it's mandatory. What have I missed?
-
-> > +     if (IS_ERR(ts->gpiod))
-> > +             return PTR_ERR(ts->gpiod);
-
--- 
-With Best Regards,
-Andy Shevchenko
