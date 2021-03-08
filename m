@@ -2,51 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBCEC330AD1
-	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 11:07:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 05A80330AD7
+	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 11:08:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229528AbhCHKGg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Mar 2021 05:06:36 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58792 "EHLO mail.kernel.org"
+        id S231624AbhCHKIR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Mar 2021 05:08:17 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59250 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231759AbhCHKGV (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 8 Mar 2021 05:06:21 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6703764DE5;
-        Mon,  8 Mar 2021 10:06:20 +0000 (UTC)
+        id S231610AbhCHKHs (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 8 Mar 2021 05:07:48 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D891A64DE5;
+        Mon,  8 Mar 2021 10:07:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615197981;
-        bh=wlxc9luRxtTO47Z1c3K/KXGqq7pfoIkxSExovpemeBU=;
+        s=k20201202; t=1615198068;
+        bh=1l+pOChyWmagC/15Du+ORFDSdCjmKOpaMI4gbleHh2U=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=iRFVD89/cEqC9+8dBhp0PZja+pQwTuvVb5Y2DAPu11kIzbXJCvbpVVYuaNKI0SBKv
-         Fab7O6YioxB4N/yLI0Rm49VKkXZ7Lb1TzaKo/G+D0R1At6KHXuCvVxIYI65ncdbVmZ
-         2XkTDUsx/jlIGc8FnaSbcUHIl0VPbdvlU5MS/FwzabN0NfEMFAnjWmNxY+2z2iqYz6
-         2yZhOEL2K2a7NsY2JDjuYCMOEUwJm1I2YFyhXi6eSAS1x/Eb8giszmrQ87VlPiAXp7
-         5Jgcx5iNa7kRFS+zV8hCylo7dSXktMibkB5oJlzgMkPOzMPOmE018h/Rl0oDIF/c/d
-         jx/DHrpa/hcOg==
-Date:   Mon, 8 Mar 2021 11:06:18 +0100 (CET)
+        b=Sox73KmxMnQGtEbF7X4HAkaa1D1hRHQNyi+ueb30tu1WvXyRJw/J5xukZWaob4HPi
+         VmeO+056cNvGnyqUnKM962UEipgfz3hD/n8MHb6CWtAs53e/7BDyzKEHLtDU+Liqb6
+         KkWIGQnFzinet4zl3SsYSBNXPWLGH9is+ZKABTuURS592Vl042fVi4+55jOIWGIpoJ
+         401zVr20PcNaRyC/beHLtZGVsOLq4zAlblLgu1meOQ6c+Vn3xolXcD8UEmgGPb/5HN
+         M7AmVMgr0JOdfl08muLSLYWVPShMA6e6WdUA2U80daaROGPMZJ7k0hKzU4d7zh3AqZ
+         M7Rp3MU94N/mg==
+Date:   Mon, 8 Mar 2021 11:07:44 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH resend 0/2] HID: logitech-dj: Handle Dinovo quad/bt2.0
- receivers in HID proxy mode
-In-Reply-To: <20210204205617.72527-1-hdegoede@redhat.com>
-Message-ID: <nycvar.YFH.7.76.2103081106070.12405@cbobk.fhfr.pm>
-References: <20210204205617.72527-1-hdegoede@redhat.com>
+To:     =?ISO-8859-15?Q?Uwe_Kleine-K=F6nig?= <uwe@kleine-koenig.org>
+cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/3] HID: intel-ish-hid: Drop if block with an always
+ false condition
+In-Reply-To: <20210206151348.14530-1-uwe@kleine-koenig.org>
+Message-ID: <nycvar.YFH.7.76.2103081107250.12405@cbobk.fhfr.pm>
+References: <20210206151348.14530-1-uwe@kleine-koenig.org>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 4 Feb 2021, Hans de Goede wrote:
+On Sat, 6 Feb 2021, Uwe Kleine-König wrote:
 
-> This series seems to have fallen through the cracks, so here is a resend.
-> This has been tested by my on a Dinovo Edge and I believe that Benjamin
-> tested this successfully on a Dinovo Mini.
+> A remove callback is only ever called for a bound device. So there is no
+> need to check for device or driver being NULL.
 
-Now queued in for-5.13/logitech. Thanks,
+Srinivas, any objections to this patchset? The cleanups look good to me. 
+Thanks,
 
 -- 
 Jiri Kosina
