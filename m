@@ -2,115 +2,79 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1740330A27
-	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 10:18:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0242D330A76
+	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 10:47:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229737AbhCHJSC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Mar 2021 04:18:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45712 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229637AbhCHJR5 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Mar 2021 04:17:57 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43609C06174A
-        for <linux-input@vger.kernel.org>; Mon,  8 Mar 2021 01:17:57 -0800 (PST)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <l.stach@pengutronix.de>)
-        id 1lJC1T-0006WI-4Q; Mon, 08 Mar 2021 10:17:55 +0100
-Message-ID: <10377e89322405b5e60a9288e35a7de3ff40f8c4.camel@pengutronix.de>
-Subject: Re: [PATCH v3 5/5] Input: exc3000 - add firmware update support
-From:   Lucas Stach <l.stach@pengutronix.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Sebastian Reichel <sebastian.reichel@collabora.com>,
-        linux-input@vger.kernel.org, kernel@pengutronix.de,
-        patchwork-lst@pengutronix.de
-Date:   Mon, 08 Mar 2021 10:17:54 +0100
-In-Reply-To: <YEW6gGUmlYFI4T0+@google.com>
-References: <20210125182527.1225245-1-l.stach@pengutronix.de>
-         <20210125182527.1225245-6-l.stach@pengutronix.de>
-         <YEW6gGUmlYFI4T0+@google.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+        id S230094AbhCHJqd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Mar 2021 04:46:33 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49980 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229740AbhCHJqB (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 8 Mar 2021 04:46:01 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 00FBF65134;
+        Mon,  8 Mar 2021 09:45:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1615196761;
+        bh=q6SWqhpUriM+vIzRFxbfC7AUvgDbLRAHIyb9SQHxCEc=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=DtdUpaPh73JoTLX3MdtWcrqPc88fNEfptyZJKk9vaz+AI4wZAzyc8kH/R2twptM/I
+         7bJk7KpepOVNL4i5Gqyy6C/j0zVUp48T2c9JIFQ/AuwUMv8gxdmisxr9P8EZMs30ly
+         gMvst9/mZ4nA6XK78Ca3H3noYXi4CQJkJjZ1p4ZTGmIp9lTCgM8cl+W7aGfs4Hrd9l
+         8WajQ8VUk4IePSZX1JcfqdnwzXIMQJQWyTtt/mJWzuYSWefYUS5Uu+vGGTmm6KtQuQ
+         +VlQ/341JOCkPJa04OhqHO+Q5Yl2qKD5o7VL0+cjHNFezYdOfCbX39mH+d/rBzL33h
+         vOZ1nK7s5/SkA==
+Date:   Mon, 8 Mar 2021 10:45:57 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 4/4] HID: i2c-hid: acpi: Drop redundant ACPI_PTR()
+In-Reply-To: <YD0S7U9CKHf5rKr6@smile.fi.intel.com>
+Message-ID: <nycvar.YFH.7.76.2103081045440.12405@cbobk.fhfr.pm>
+References: <20210226193225.47129-1-andriy.shevchenko@linux.intel.com> <20210226193225.47129-4-andriy.shevchenko@linux.intel.com> <CAO-hwJLWbsj4kDkn3TKdEW0mDv6XdafQEaheCCC0Nyq3=YaOYQ@mail.gmail.com> <nycvar.YFH.7.76.2103011633490.12405@cbobk.fhfr.pm>
+ <YD0S7U9CKHf5rKr6@smile.fi.intel.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+On Mon, 1 Mar 2021, Andy Shevchenko wrote:
 
-Am Sonntag, dem 07.03.2021 um 21:47 -0800 schrieb Dmitry Torokhov:
-> Hi Lucas,
+> > > > The driver depends on ACPI, ACPI_PTR() resolution is always the same.
+> > > > Otherwise a compiler may produce a warning.
+> > > >
+> > > > That said, the rule of thumb either ugly ifdeffery with ACPI_PTR or
+> > > > none should be used in a driver.
+> > > >
+> > > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > > 
+> > > Thanks a lot for the series. This indeed cleans things up.
+> > 
+> > Indeed, thanks.
+> > 
+> > > For the series:
+> > > Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> > > 
+> > > Jiri, I wonder where we want to land this one. This is not strictly
+> > > bug fixes, but we could definitively sneak this one in 5.12-rc1.
+> > > Well, I should probably run the series on an acpi laptop here before
+> > > merging, but I'd like to know if delaying to 5.13 is OK or if we need
+> > > this in 5.12.
+> > 
+> > I'd like to do it the standard way and have it bake in for-next to see if 
+> > it really doesn't break anything, so unless there are convicing arguments 
+> > for 5.12-rcX, I'd rathre queue this for 5.13.
 > 
-> On Mon, Jan 25, 2021 at 07:25:27PM +0100, Lucas Stach wrote:
-> > This change allows the device firmware to be updated by putting a firmware
-> > file in /lib/firmware and providing the name of the file via the update_fw
-> > sysfs property. The driver will then flash the firmware image into the
-> > controller internal storage and restart the controller to activate the new
-> > firmware.
-> > 
-> > The implementation was done by looking at the the messages passed between
-> > the controller and proprietary vendor update tool. Not every detail of the
-> > protocol is totally well understood, so the implementation still has some
-> > "monkey see, monkey do" parts, as far as they have been found to be required
-> > for the update to succeed.
-> > 
-> > Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
-> > ---
-> >  .../ABI/testing/sysfs-driver-input-exc3000    |  20 ++
-> >  drivers/input/touchscreen/exc3000.c           | 240 +++++++++++++++++-
-> >  2 files changed, 258 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/Documentation/ABI/testing/sysfs-driver-input-exc3000 b/Documentation/ABI/testing/sysfs-driver-input-exc3000
-> > index 704434b277b0..123a00ccee8b 100644
-> > --- a/Documentation/ABI/testing/sysfs-driver-input-exc3000
-> > +++ b/Documentation/ABI/testing/sysfs-driver-input-exc3000
-> > @@ -24,3 +24,23 @@ Description:	Reports the type identification provided by the touchscreen, for ex
-> >  		Access: Read
-> >  
-> > 
-> > 
-> > 
-> >  		Valid values: Represented as string
-> > +
-> > +What:		/sys/bus/i2c/devices/xxx/update_fw
-> > +Date:		Jan 2021
-> > +Contact:	linux-input@vger.kernel.org
-> > +Description:	Allows to specify a firlename of a firmware file located in /lib/firmware/ that will be
-> > +		used to update the application firmware on the touchscreen controller. For example
-> > +		"eeti/eeti_27_0_EDipper_0735.fw"
-> 
-> I believe the current idiomatic way is to have statically defined
-> firmware name (it can still encode vid/pid/model info etc) and do not
-> re-implement variable firmware name in every driver.
-> 
-> I think if this really is required we need to add this feature of
-> overriding default firmware name to firmware loader maybe?
+> For the record, I'm not in hurry with this, up to you how to proceed.
+> Thanks!
 
-One issue I see with the driver provided firmware name is that the
-model name and revision can be changed by the flashed firmware, with
-the EXC3000 being a i2c device ,we also don't have any stable VID/PID
-to use as a key. Which is an issue for the initial firmware flashing.
-In that case one would need to know whats currently on the device to be
-able to place a firmware file with the correct name.
+Queued in for-5.13/i2c-hid. Thanks,
 
-Also I don't really see how that simplifies the driver code, as all
-this is doing is using the passed in string as a file name to fetch the
-firmware update file from.
-
-To be clear: I'm not totally opposed to using a driver provided
-firmware name, I just see that it complicates some things that are not
-an issue with the patch as-is today and would like to understand the
-reason for pushing for a driver provided name, before deciding one way
-or the other.
-
-Regards,
-Lucas
-
+-- 
+Jiri Kosina
+SUSE Labs
 
