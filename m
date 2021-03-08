@@ -2,127 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A0C1331924
-	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 22:13:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 16714331989
+	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 22:47:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229446AbhCHVNT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Mar 2021 16:13:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60436 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231506AbhCHVM4 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Mar 2021 16:12:56 -0500
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A76CEC06174A
-        for <linux-input@vger.kernel.org>; Mon,  8 Mar 2021 13:12:56 -0800 (PST)
-Received: by mail-pf1-x42c.google.com with SMTP id 18so8011918pfo.6
-        for <linux-input@vger.kernel.org>; Mon, 08 Mar 2021 13:12:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=jdH86y4Es+0CIE2VD6ULDfjPCdC5LW9r4yUAS5hiKmY=;
-        b=rf0OyOHVGyMaZ6LIIiN9UonGaFXDl1eAAuB/ykE+/8Fh2+9TdrmvuvgToNNi02Tw7i
-         nhMcqvMLLbCgaAqk8EoTggBOqck6/8bTSLlthxP5QqkxP4rWw8YRAcUarqJUXHz0ixyf
-         tyhOFimg/rJazNKBLMHwdW+HKxVjcw3uacWqbrKnteJIESIaS9l6H8u3E+k+7yU3DLjX
-         GJJUQd7phfAcYwVzB4jr42bfLpizyNanhnjy05KWo+zTas9bSwr4Rk/4HGHfAi8EImfX
-         gE7V0pP7TzihMZ/u1fzIj3Y/7f6QBGDvbJoKwJBJOZu7kF8wqNT/+s3o5KaHm0JtLxAL
-         MBKA==
+        id S230327AbhCHVrM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Mar 2021 16:47:12 -0500
+Received: from mail-io1-f46.google.com ([209.85.166.46]:36715 "EHLO
+        mail-io1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230242AbhCHVqo (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Mar 2021 16:46:44 -0500
+Received: by mail-io1-f46.google.com with SMTP id n14so11678366iog.3;
+        Mon, 08 Mar 2021 13:46:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=jdH86y4Es+0CIE2VD6ULDfjPCdC5LW9r4yUAS5hiKmY=;
-        b=aiid/X/52nidgpQ85CNddFfiK2WD7DaZ07gHPheHT8021bEBALxhM6F305vEfcKS42
-         9CQB3twYFEyJRi9CeYEb9MNQdg8X0CiJE0zAG2vuvFld/SG7La761OaNsV9M3H7XAch7
-         8FeEIDmwW/EneoVFvLphYe9b9x1r8D6A4gTdGROVcU1hA+zaQEuYMGHP907SSUWDkNkE
-         3nGXLv8lUFj8+5XD4ZM9u/+Dvgs6vC+2MIRi0/NWQg3xm7O4n1qa6gS+wRlQAt1TScrf
-         4aK4SjeS0hca6fiz15VHn0Ja+/BjtXnVv3QLSTmAIg6S322PbwukYDylvrFt4/4EjyEy
-         vgzg==
-X-Gm-Message-State: AOAM532x6Nj8aCkLeyhe0TNe/6J5WRnuXtxgJQJrMhFcMvQV3+P+7wBn
-        C6fnkQWXd/HDUX94kIUgaeSDQlUPQdY=
-X-Google-Smtp-Source: ABdhPJxSiGqEfkGorIYqq8cBaMFKG3dLQZJawAoCT4zckQHqvSwmkgT2/Tr7mB3hx4I31paHttOTWw==
-X-Received: by 2002:a63:9811:: with SMTP id q17mr22399722pgd.238.1615237976062;
-        Mon, 08 Mar 2021 13:12:56 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:39e0:7b5c:9fa7:f6e0])
-        by smtp.gmail.com with ESMTPSA id 133sm11484585pfa.130.2021.03.08.13.12.54
+        bh=DXrmivq0GIkj5yRSyvc/DDkb3SdD9/pbmd3EobTM7gA=;
+        b=sYLNowb50YKfNFWHa4hTMIqcaCAQMDyOwU1JyLA7Vxkdj63c4LEvkpR4gyin8ryA9D
+         OWf9FUTj1wCjb25W7Wq7MX1mkOqwSEBHr73c8NKCEjFi6rd91cCJK6SmQcFhB1xSa2FV
+         UzncOuUrZrDdtZWMV6VX01r2+9Py08h8MNKex5iIg+fTocC786UaHV0r/tYgDv0rZ8a7
+         UfnaXR/DIB5nBJGTK6c2678YcEFIn1GceOW3iVYgeOYka6RCTTb7krudN7JbX/Z50r+X
+         ksqx6ko0sRC7qqIDRTknLCMmVRNd26GS0+3RoLAhLUp+TqWxn0o8BDojP/XALSjJQqpT
+         KQ3Q==
+X-Gm-Message-State: AOAM532Y6JaGKL+0GAM9xYhJzxxdLYfZOOfrCt6l3xmIgPDvfbfklI/j
+        q5e89XquV5GblByCgLJj/QYWWSGU8Q==
+X-Google-Smtp-Source: ABdhPJxnm15RBP8/mjkZVd5PRGzUOpyOzYQWZd7V0ySuxkIQlG9Hzkq97UhYeePktJU0RyaAfMr8xQ==
+X-Received: by 2002:a5d:8c8f:: with SMTP id g15mr19865373ion.162.1615240003455;
+        Mon, 08 Mar 2021 13:46:43 -0800 (PST)
+Received: from robh.at.kernel.org ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id m5sm6760241ilq.65.2021.03.08.13.46.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Mar 2021 13:12:55 -0800 (PST)
-Date:   Mon, 8 Mar 2021 13:12:52 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     linux-input <linux-input@vger.kernel.org>
-Subject: Re: [PATCH v1 1/2] Input: tsc2007 - convert to GPIO descriptors
-Message-ID: <YEaTVGVbMJzOPHJ6@google.com>
-References: <20210307220549.354263-1-andy.shevchenko@gmail.com>
- <YEVaYiA9Faylr9il@google.com>
- <CAHp75VerojbEjAjtmFqhyrmyhT_WCZxQihgAac80_GAZHyH9LQ@mail.gmail.com>
- <YEZ7Atrdg7CAEWYA@google.com>
- <CAHp75Ve+A+5tEw40P+JXa5sauqBiBesdccvHEDbxzDZc-FmH0g@mail.gmail.com>
+        Mon, 08 Mar 2021 13:46:42 -0800 (PST)
+Received: (nullmailer pid 3010139 invoked by uid 1000);
+        Mon, 08 Mar 2021 21:46:41 -0000
+Date:   Mon, 8 Mar 2021 14:46:41 -0700
+From:   Rob Herring <robh@kernel.org>
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH 9/9] dt-bindings: input: iqs5xx: Convert to YAML
+Message-ID: <20210308214641.GA3007007@robh.at.kernel.org>
+References: <20210305041236.3489-1-jeff@labundy.com>
+ <20210305041236.3489-10-jeff@labundy.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHp75Ve+A+5tEw40P+JXa5sauqBiBesdccvHEDbxzDZc-FmH0g@mail.gmail.com>
+In-Reply-To: <20210305041236.3489-10-jeff@labundy.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Mar 08, 2021 at 11:04:59PM +0200, Andy Shevchenko wrote:
-> On Mon, Mar 8, 2021 at 9:29 PM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> >
-> > On Mon, Mar 08, 2021 at 11:10:38AM +0200, Andy Shevchenko wrote:
-> > > On Mon, Mar 8, 2021 at 12:57 AM Dmitry Torokhov
-> > > <dmitry.torokhov@gmail.com> wrote:
-> > > > On Mon, Mar 08, 2021 at 12:05:48AM +0200, Andy Shevchenko wrote:
-> > >
-> > > ...
-> > >
-> > > > > -     return !gpio_get_value(ts->gpio);
-> > > > > +     return !gpiod_get_value(ts->gpiod);
-> > > >
-> > > > This is not correct. gpio_get_value() is raw polarity vs
-> > > > gpiod_get_value() using logical active/inactive, and tsc2007 GPIO lines
-> > > > are active low. The negation must be dropped after switching to GPIOD
-> > > > API.
-> > >
-> > > Ah, indeed, I missed that, thanks!
-> > >
-> > > ...
-> > >
-> > > > > -     ts->gpio = of_get_gpio(np, 0);
-> > > > > -     if (gpio_is_valid(ts->gpio))
-> > > > > -             ts->get_pendown_state = tsc2007_get_pendown_state_gpio;
-> > > > > -     else
-> > > > > -             dev_warn(&client->dev,
-> > > > > -                      "GPIO not specified in DT (of_get_gpio returned %d)\n",
-> > > > > -                      ts->gpio);
-> > > > > +     ts->gpiod = devm_gpiod_get_optional(dev, NULL, GPIOD_IN);
-> > > >
-> > > > GPIO is definitely not optional in DT case, at least in the way the
-> > > > driver written right now.
-> > >
-> > > Can you elaborate this, please? I don't see from the dev_warn() w/o
-> > > any error code returned that it's mandatory.
-> > > In the bindings one may read:
-> > >
-> > >   Optional properties:
-> > >   - gpios: the interrupt gpio the chip is connected to (trough the penirq pin).
-> > >     The penirq pin goes to low when the panel is touched.
-> > >     (see GPIO binding[1] for more details).
-> > >
-> > > Nothing suggested it's mandatory. What have I missed?
-> >
-> > Ah, indeed, I misread the code and thought we'd abort if there is no
-> > pendown GPIO. I wonder if we should remove the warning since we seem to
-> > support operations without it.
+On Thu, Mar 04, 2021 at 10:12:36PM -0600, Jeff LaBundy wrote:
+> This patch converts the legacy text-based binding document to YAML
+> format. Extraneous details and touchscreen properties that weren't
+> actually supported have been dropped.
 > 
-> But that's what I have done, i.e. removed the warning as well.
-
-Well, what can I say, -ENOCOFFEE.
+> The reset GPIO has since been made optional in the driver; this is
+> now reflected here as well.
 > 
-> So, if there are no other concerns than inverted value, I'll send v2.
+> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> ---
+>  .../bindings/input/touchscreen/iqs5xx.txt     | 80 -------------------
+>  .../bindings/input/touchscreen/iqs5xx.yaml    | 75 +++++++++++++++++
 
-Yes, please.
+azoteq,iqs5xx.yaml for the filename (and $id).
 
--- 
-Dmitry
+With that,
+
+Reviewed-by: Rob Herring <robh@kernel.org>
