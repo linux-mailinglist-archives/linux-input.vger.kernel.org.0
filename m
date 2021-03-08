@@ -2,80 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7148331777
-	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 20:41:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF4A3331847
+	for <lists+linux-input@lfdr.de>; Mon,  8 Mar 2021 21:14:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229650AbhCHTlD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 8 Mar 2021 14:41:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40114 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230299AbhCHTku (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Mar 2021 14:40:50 -0500
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DE4CC06174A;
-        Mon,  8 Mar 2021 11:40:50 -0800 (PST)
-Received: by mail-pj1-x1030.google.com with SMTP id nh23-20020a17090b3657b02900c0d5e235a8so3750407pjb.0;
-        Mon, 08 Mar 2021 11:40:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=FX3JvV2x234PQm7yAoaVpeGYnaHDVKU4FehRSM1ykkg=;
-        b=HCz1A039NrYgPV8+0rLFTJmiKz7gnvaC3IDWeFdU2kzeuWoOB1hB7gfGchIWhuPdAM
-         1BjJ8dDuvdaRSQcKtuK7Hjpc5gPoDEAbdP2tphtWGHGklAaK+vofASIl5eUF1+s3xZSy
-         gGD8iV3gRWfRxtyqfCenbDl/UozMImS9am74zNslfe7kw+Wf6ARRbNks5oq/rItFw/zp
-         Ni9CIVtDqXvKMd4M+lNZcu7cv1xbQcC6Y4vDbfyWIeQYfVqmG2SYgpEHpFnSMPXgFHVA
-         bxO86WnbelgX2bGcAZWjAQZQO3JuX6jEFMVuyVm/SUnW+lAvqVuoeb9vHmH4ky6PMMea
-         m/vg==
+        id S231154AbhCHUNp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 8 Mar 2021 15:13:45 -0500
+Received: from mail-io1-f52.google.com ([209.85.166.52]:34671 "EHLO
+        mail-io1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232062AbhCHUNd (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Mon, 8 Mar 2021 15:13:33 -0500
+Received: by mail-io1-f52.google.com with SMTP id o11so11400474iob.1;
+        Mon, 08 Mar 2021 12:13:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=FX3JvV2x234PQm7yAoaVpeGYnaHDVKU4FehRSM1ykkg=;
-        b=KvgIpjtR66GT6r7L3/5+HW0eF9XffXVDKD8cNURBfmbX3DXxiTQFACAzq3ekfxBVy2
-         v2Of+sswtExeJZjdFsOe0Txccok2araGVVHID+WtNS6PStXMfs7fsCsJYkF0rOSOMPfo
-         /I6VyGKgRksrCYcCmy8luysAffRXMWTHccfuqpJIKZ8eoIVtv8ihB5M/+r6E4MFaFuHa
-         povT3h4b7Q+Km7/XIrwrOyNPk1hoqwzd+6/WEe2MtrJM7q+IbBIYLa60nANHtAq87gzV
-         7Ikfu1nn+vmOMXEgWe9voVnfqEqgi7yibO3ffme1v8vijUp7/d9BFJJDjyYYBT5pSPb1
-         JG1w==
-X-Gm-Message-State: AOAM533QGNzbV/Zid+0E9VMA9z58+gEv1nRfA4C17qT903nTe2LKdU2a
-        bvRKyE+X61Y/yFt9kpYtcuAGa0ZzuMs=
-X-Google-Smtp-Source: ABdhPJyU4SXQ2Z/p9G7DKhEo8sZ9i5FjYpjaLu/IhhM5mRczjSLn3ZOgDxpjjtIi2QfNQiBlPOOvnw==
-X-Received: by 2002:a17:903:2301:b029:e4:700b:6d91 with SMTP id d1-20020a1709032301b02900e4700b6d91mr22670501plh.19.1615232449568;
-        Mon, 08 Mar 2021 11:40:49 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:39e0:7b5c:9fa7:f6e0])
-        by smtp.gmail.com with ESMTPSA id u17sm10171740pgl.80.2021.03.08.11.40.48
+        bh=0xy+8GBNFB8v7Q8o1J++zwVaGoqF/2Cs1YxTIRsnqpE=;
+        b=PkDoao9WdDuhuIsswjw1LaAaBwX+MgHn8uIi43iGdRPSaG68DctlJHk4NI8Ayn1JZ/
+         V8rq90ojcDLii1Rr+YmTNosXP4rmhXrmiDwDFTExhwuLyJ/y/B4NhwbYvZTO2xTN19re
+         KwSMjlUoR1r3If+vhev7Z+eKk6i2rZA17naCSTlVSSJQABV6479E6gDIL7qf6ePWX1N9
+         tTvRrgp/HGAt5MVoXEupssWlloGZS+xJqzpWZhf9otkyQk/s4MSTYs5g08Fn6juFhdXu
+         wj7YWrzLUUSQakAZMTVudLMzx6/MA7J4nKLbT9n4fYCv6mV8K6sswlXfuO/ZUTK1KXub
+         NIaQ==
+X-Gm-Message-State: AOAM533sLDyY38c7pY0DXSMC1ieBdUWWZuI+02DO3D79G+5IXvS1i92Y
+        0ge2YkbxRhs8ndGJz/VZ+Zbx/4oZFA==
+X-Google-Smtp-Source: ABdhPJyiOddfKIeGSGT+sVeLmUwwQTuWI+YLPWY9AolpDGnovi1vt1grPdEW5EGXXztSu1u+m9kAiA==
+X-Received: by 2002:a5e:840a:: with SMTP id h10mr20400527ioj.206.1615234412440;
+        Mon, 08 Mar 2021 12:13:32 -0800 (PST)
+Received: from robh.at.kernel.org ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id 5sm6646410ill.20.2021.03.08.12.13.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Mar 2021 11:40:48 -0800 (PST)
-Date:   Mon, 8 Mar 2021 11:40:46 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     'Wei Yongjun <weiyongjun1@huawei.com>
-Cc:     Lauri Kasanen <cand@gmx.com>, linux-input@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, Hulk Robot <hulkci@huawei.com>
-Subject: Re: [PATCH -next] Input: n64joy - Fix return value check in
- n64joy_probe()
-Message-ID: <YEZ9vkue/E1yPeIS@google.com>
-References: <20210308122856.2177071-1-weiyongjun1@huawei.com>
+        Mon, 08 Mar 2021 12:13:31 -0800 (PST)
+Received: (nullmailer pid 2886558 invoked by uid 1000);
+        Mon, 08 Mar 2021 20:13:29 -0000
+Date:   Mon, 8 Mar 2021 13:13:29 -0700
+From:   Rob Herring <robh@kernel.org>
+To:     Joe Hung <joe_hung@ilitek.com>
+Cc:     luca_hsu@ilitek.com, devicetree@vger.kernel.org,
+        dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+        robh+dt@kernel.org
+Subject: Re: [PATCH v5 1/2] dt-bindings: input: touchscreen: ilitek_ts_i2c:
+ Add bindings
+Message-ID: <20210308201329.GA2886497@robh.at.kernel.org>
+References: <20210304055724.63695-1-joe_hung@ilitek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210308122856.2177071-1-weiyongjun1@huawei.com>
+In-Reply-To: <20210304055724.63695-1-joe_hung@ilitek.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Mar 08, 2021 at 12:28:56PM +0000, 'Wei Yongjun wrote:
-> From: Wei Yongjun <weiyongjun1@huawei.com>
+On Thu, 04 Mar 2021 13:57:23 +0800, Joe Hung wrote:
+> Add binding documentation for ILITEK touch devices.
 > 
-> In case of error, the function devm_platform_ioremap_resource()
-> returns ERR_PTR() and never returns NULL. The NULL test in the
-> return value check should be replaced with IS_ERR().
+> Signed-off-by: Joe Hung <joe_hung@ilitek.com>
+> ---
+> Changes in v5:
+>   - Remove tab in yaml
 > 
-> Fixes: 3bdffa8ffb45 ("Input: Add N64 controller driver")
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
+> Changes in v4:
+>   - Change IRQ flag to level interrupt
+>   - Add support for common touchscreen-related properties
+>   - Modify reset gpio to active low
+>   - Modify irq type to LEVEL_LOW
+>   - Add compatible for Lego series ICs
+> 
+> Changes in v3:
+>   - Add include header in examples, and pass the dt binding check
+> 
+> Changes in v2:
+>   - Convert to DT schema format
+>   - Using interrupts instead of irq-gpios
+> 
+>  .../input/touchscreen/ilitek_ts_i2c.yaml      | 73 +++++++++++++++++++
+>  1 file changed, 73 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/ilitek_ts_i2c.yaml
+> 
 
-Applied, thank you.
-
--- 
-Dmitry
+Reviewed-by: Rob Herring <robh@kernel.org>
