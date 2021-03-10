@@ -2,209 +2,131 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BAF4C334650
-	for <lists+linux-input@lfdr.de>; Wed, 10 Mar 2021 19:11:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2137E334BFF
+	for <lists+linux-input@lfdr.de>; Wed, 10 Mar 2021 23:55:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232809AbhCJSKh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 10 Mar 2021 13:10:37 -0500
-Received: from mga14.intel.com ([192.55.52.115]:11073 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233410AbhCJSKa (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 10 Mar 2021 13:10:30 -0500
-IronPort-SDR: zwyKCtI7HbJplxi9ff+6PKJ4gRWg1IxubN4SS/FLsU5UjhDpMYHxm16bAzcY8qEz6kAJap2N5f
- WCJ15IDfYm0Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9919"; a="187893034"
-X-IronPort-AV: E=Sophos;i="5.81,237,1610438400"; 
-   d="scan'208";a="187893034"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2021 10:10:30 -0800
-IronPort-SDR: 4ju7P/RA+MqtPIHAldicl0vdSgbvJs8fz2nd+MBFAnX9q2rGulLvbfa0Zubyrsg3AIMrgZPN0J
- /1WiInnjHGcQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,237,1610438400"; 
-   d="scan'208";a="377065899"
-Received: from lkp-server02.sh.intel.com (HELO ce64c092ff93) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 10 Mar 2021 10:10:28 -0800
-Received: from kbuild by ce64c092ff93 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lK3Hv-0000JI-Kb; Wed, 10 Mar 2021 18:10:27 +0000
-Date:   Thu, 11 Mar 2021 02:09:45 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [input:master] BUILD SUCCESS
- ea16ef967ec88bd67466d564d461c3fdf7f85bd9
-Message-ID: <60490b69.L8/tfY+awUcD4d/d%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S232966AbhCJWyV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 10 Mar 2021 17:54:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56230 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232859AbhCJWxu (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 10 Mar 2021 17:53:50 -0500
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22E4BC061574;
+        Wed, 10 Mar 2021 14:53:49 -0800 (PST)
+Received: by mail-ej1-x633.google.com with SMTP id hs11so42159731ejc.1;
+        Wed, 10 Mar 2021 14:53:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OawhDM8ZpV0RjPs6QqjlTWNfo7z6flHF8PYYLIyQhBU=;
+        b=ESe3vrbzB/UATj9ZSi4SVtJXCrxBT2El4u51f+/a8jwg3003uoE/GvE314CsC/n/Bk
+         Qw3pzPdiYEofaqzAGjH1BWBwp/rckWHb27ZGGdIetB3hcLTD/MmgsBIYHURgkTdrvHuJ
+         05TUcuJUuC+fPdhSnPNVfy8RB3rDo4geneyEh7XpjLD7NiHrJAtFD2qNUmaaHe9gixIX
+         79/ztvkHsYNlFemgB79g7WIiBKxlsMr2K7lLD+lp7oeR2UA7Q3btM5kBfLw3spdG7E/c
+         L4ERYBcnn/shw2DakCn8/Dr94Y2vhZKiy2tuvhmNyrKoJcm/HO4NGzeuXRDx0z0Ac1Ml
+         mfbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OawhDM8ZpV0RjPs6QqjlTWNfo7z6flHF8PYYLIyQhBU=;
+        b=fxz1ls+1rNV2Kt78uzIiyROG3NrU1bC3BqofQHOWn7S2Jt+U6rMk6SJfwwymTsWIQV
+         bT1HogxBiqYNkOrFaWQALAat0XIfG8JVQWFtIJIhF1c6JK0iefBFygu796OK3Bhn2lGq
+         qzAn/ZWJ+kMsjlwgUWL9DHD3FNH9QbHCTDuEnsiqoE276TxVDnIojDXuFrTrx/X0L0NA
+         E5BK1GNU7XeQPce4hcV4PO+5IAqwUGNSsTAnzTZtyoT9y0ltf9pok3HDik7e6Mqe8Uk7
+         8AudSsuSGUyuuN78T9VbDiTRJ7aDAyW0ZvGs0LZRoVjCyS8IU5Lzd1eqasGtIPhZPyLa
+         A6Qg==
+X-Gm-Message-State: AOAM531PuyhFE+LLtDDFuj6RGBRkqsBACGv+w9lmAtQbqxAGk2MO3LiS
+        SBWGV+o3LeHF2hz0HjYs13I=
+X-Google-Smtp-Source: ABdhPJwthSqDLc2yVwkUwn1vd6m3L0O4bHOthhrXQX310jPT7nQepjJF+t1Z9H6VG41lfhqJbF5RuQ==
+X-Received: by 2002:a17:906:3052:: with SMTP id d18mr191649ejd.530.1615416827897;
+        Wed, 10 Mar 2021 14:53:47 -0800 (PST)
+Received: from xws.localdomain ([37.58.58.229])
+        by smtp.gmail.com with ESMTPSA id lu5sm377286ejb.97.2021.03.10.14.53.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Mar 2021 14:53:47 -0800 (PST)
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        =?UTF-8?q?Bla=C5=BE=20Hrastnik?= <blaz@mxxn.io>,
+        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] HID: Add support for Surface Aggregator Module HID transport
+Date:   Wed, 10 Mar 2021 23:53:27 +0100
+Message-Id: <20210310225329.2393372-1-luzmaximilian@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
-branch HEAD: ea16ef967ec88bd67466d564d461c3fdf7f85bd9  Input: elan_i2c - reduce the resume time for new devices
+This series adds support for the Surface System Aggregator Module (SSAM)
+HID transport subsystem.
 
-elapsed time: 726m
+The SSAM is an embedded controller, found on 5th- and later generation
+Microsoft Surface devices. On some of these devices (specifically
+Surface Laptops 1, 2, and 3, as well as Surface Book 3), built-in input
+devices are connected via the SSAM. These devices communicate (mostly)
+via normal HID reports, so adding support for them is (mostly) just a
+matter of implementing an HID transport driver.
 
-configs tested: 147
-configs skipped: 2
+SSAM actually has two different HID interfaces: One (legacy) interface
+used on Surface Laptops 1 and 2, and a newer interface for the rest. The
+newer interface allows for multiple HID devices to be addressed and is
+implemented in the first patch. The older interface only allows a single
+HID device to be connected and, furthermore, only allows a single output
+report, specifically one for the caps lock LED. This is implemented in
+the second patch.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+See the commit messages of the respective patches for more details.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-mips                         db1xxx_defconfig
-powerpc                     tqm8540_defconfig
-powerpc                      ppc44x_defconfig
-sparc                            allyesconfig
-m68k                          hp300_defconfig
-powerpc                    adder875_defconfig
-powerpc                 mpc8313_rdb_defconfig
-powerpc                      ppc40x_defconfig
-mips                      pistachio_defconfig
-powerpc                 mpc837x_rdb_defconfig
-sh                          landisk_defconfig
-sh                          rsk7264_defconfig
-sh                          r7780mp_defconfig
-m68k                        mvme16x_defconfig
-powerpc                    mvme5100_defconfig
-sh                               j2_defconfig
-mips                        omega2p_defconfig
-arm                       versatile_defconfig
-sh                        sh7757lcr_defconfig
-arm                         hackkit_defconfig
-sh                                  defconfig
-powerpc                 mpc832x_rdb_defconfig
-arm                       cns3420vb_defconfig
-m68k                       m5275evb_defconfig
-h8300                               defconfig
-mips                        bcm63xx_defconfig
-mips                         tb0219_defconfig
-arm                        cerfcube_defconfig
-powerpc                   currituck_defconfig
-ia64                            zx1_defconfig
-arm                          imote2_defconfig
-i386                                defconfig
-microblaze                          defconfig
-powerpc                 mpc836x_mds_defconfig
-sh                          lboxre2_defconfig
-sh                      rts7751r2d1_defconfig
-powerpc                    ge_imp3a_defconfig
-mips                     loongson1b_defconfig
-h8300                            alldefconfig
-powerpc                     pq2fads_defconfig
-arc                 nsimosci_hs_smp_defconfig
-mips                            ar7_defconfig
-powerpc                     asp8347_defconfig
-powerpc                         wii_defconfig
-mips                             allyesconfig
-powerpc                 mpc832x_mds_defconfig
-riscv                               defconfig
-arm                         s3c2410_defconfig
-mips                          ath79_defconfig
-arm                            xcep_defconfig
-arc                           tb10x_defconfig
-arm                          ep93xx_defconfig
-powerpc                     stx_gp3_defconfig
-arm                          pxa910_defconfig
-powerpc                        icon_defconfig
-arm                        shmobile_defconfig
-arm                            mmp2_defconfig
-arm                        mvebu_v5_defconfig
-arm                         palmz72_defconfig
-sh                           se7619_defconfig
-arm                  colibri_pxa300_defconfig
-arm                         at91_dt_defconfig
-arm                          pcm027_defconfig
-sh                          rsk7201_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a006-20210308
-x86_64               randconfig-a001-20210308
-x86_64               randconfig-a004-20210308
-x86_64               randconfig-a002-20210308
-x86_64               randconfig-a005-20210308
-x86_64               randconfig-a003-20210308
-i386                 randconfig-a005-20210309
-i386                 randconfig-a003-20210309
-i386                 randconfig-a002-20210309
-i386                 randconfig-a006-20210309
-i386                 randconfig-a004-20210309
-i386                 randconfig-a001-20210309
-i386                 randconfig-a005-20210308
-i386                 randconfig-a003-20210308
-i386                 randconfig-a002-20210308
-i386                 randconfig-a006-20210308
-i386                 randconfig-a004-20210308
-i386                 randconfig-a001-20210308
-x86_64               randconfig-a013-20210309
-x86_64               randconfig-a016-20210309
-x86_64               randconfig-a015-20210309
-x86_64               randconfig-a014-20210309
-x86_64               randconfig-a011-20210309
-x86_64               randconfig-a012-20210309
-i386                 randconfig-a016-20210309
-i386                 randconfig-a012-20210309
-i386                 randconfig-a013-20210309
-i386                 randconfig-a011-20210309
-i386                 randconfig-a014-20210309
-i386                 randconfig-a015-20210309
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+Regards,
+Max
 
-clang tested configs:
-x86_64               randconfig-a006-20210309
-x86_64               randconfig-a001-20210309
-x86_64               randconfig-a004-20210309
-x86_64               randconfig-a002-20210309
-x86_64               randconfig-a005-20210309
-x86_64               randconfig-a003-20210309
+Note: This patch depends on the
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+    platform/surface: Add Surface Aggregator device registry
+
+series. More specifically patch
+
+    platform/surface: Set up Surface Aggregator device registry
+
+The full series has been merged into the for-next branch of the
+platform-drivers-x86 tree [1]. The commit in question can be found at
+[2].
+
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=for-next
+[2]: https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/commit/?h=for-next&id=fc622b3d36e6d91330fb21506b9ad1e3206a4dde
+
+Maximilian Luz (2):
+  HID: Add support for Surface Aggregator Module HID transport
+  HID: surface-hid: Add support for legacy keyboard interface
+
+ MAINTAINERS                                |   7 +
+ drivers/hid/Kconfig                        |   2 +
+ drivers/hid/Makefile                       |   2 +
+ drivers/hid/surface-hid/Kconfig            |  42 +++
+ drivers/hid/surface-hid/Makefile           |   7 +
+ drivers/hid/surface-hid/surface_hid.c      | 253 +++++++++++++++++
+ drivers/hid/surface-hid/surface_hid_core.c | 272 +++++++++++++++++++
+ drivers/hid/surface-hid/surface_hid_core.h |  77 ++++++
+ drivers/hid/surface-hid/surface_kbd.c      | 300 +++++++++++++++++++++
+ 9 files changed, 962 insertions(+)
+ create mode 100644 drivers/hid/surface-hid/Kconfig
+ create mode 100644 drivers/hid/surface-hid/Makefile
+ create mode 100644 drivers/hid/surface-hid/surface_hid.c
+ create mode 100644 drivers/hid/surface-hid/surface_hid_core.c
+ create mode 100644 drivers/hid/surface-hid/surface_hid_core.h
+ create mode 100644 drivers/hid/surface-hid/surface_kbd.c
+
+-- 
+2.30.1
+
