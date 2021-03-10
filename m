@@ -2,145 +2,166 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56359333B2D
-	for <lists+linux-input@lfdr.de>; Wed, 10 Mar 2021 12:13:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33B3E333BCC
+	for <lists+linux-input@lfdr.de>; Wed, 10 Mar 2021 12:51:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232585AbhCJLNC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 10 Mar 2021 06:13:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45452 "EHLO
+        id S231150AbhCJLvC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 10 Mar 2021 06:51:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232683AbhCJLMx (ORCPT
+        with ESMTP id S231236AbhCJLuw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 10 Mar 2021 06:12:53 -0500
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AC81C061761
-        for <linux-input@vger.kernel.org>; Wed, 10 Mar 2021 03:12:53 -0800 (PST)
-Received: by mail-wr1-x42d.google.com with SMTP id f12so22854376wrx.8
-        for <linux-input@vger.kernel.org>; Wed, 10 Mar 2021 03:12:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=UGJeYMoiqsuqVVTeVoFglXOcNn/3QqsFMhjYUbI14nM=;
-        b=vvdoFTieL1xSFVCJscNZyaslJr62TOvUt/gV0k/8roKq7Tj7IiTvrEK98UXi0VADke
-         WYqY4ETLl5pqlXH8AkZuP4e8ZDg0kKZJ6obvSba9NWk6tvgmiuu5YdUXo0KqjAy3OkZo
-         n3w72Ccqki+lT0WYlyanGzpX3ZcOvTFQKKf0+Znvi5ETGURY6Uf/JRT8XGIGvURcdhh8
-         midXBVZv3MP9J2Viex66h4qlomOe36IfHT2Es0LFgw8eVbEw8NxlT6/VnWhNgdF1FW/m
-         b9o14JxWNZ8sVDy3QCyY9U9xt6olB0OgV36ni8MSJs6wFq81H1LaLi5BpaLYc+uY0nPE
-         b3sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=UGJeYMoiqsuqVVTeVoFglXOcNn/3QqsFMhjYUbI14nM=;
-        b=b2nfK0bd3wBQNdNn70TJ+N5tt1B98zC7Jmza7afCHxtih4evDHvwxvrvw1ioyMTJiB
-         joXAAUspVRbdwGaCTEYo5H8KsaSTKnI6LkloYuwi4BELVRu06UW8UD7Kwrl4/sqHCDJR
-         2Qd0oXjOsYmb8N8VQCbgWaCzuPxUlFVLU4cHZuowyLqD8mQZpiv1XRpw0OhwCKq5il//
-         wErFvjJzfH1eSdqkjG4SO0OewfWDvn/STdYElwxeMBjUSstdXzmt5KvpnLqZNZG5XYOr
-         fesB9+ZsJQ7HDASzIOnCEd0vyBqvBeTbenoVTkbjEIaBJ5h/lRU88sGpZDtpitU1wi1g
-         Y9Dw==
-X-Gm-Message-State: AOAM5314v9UN/5AzidtpSLvqgqWWSrtTMVOFy2X4b69+lmcsjDYZ4CFK
-        IgtyU9qw9hiO1LkeILhfmziDtA==
-X-Google-Smtp-Source: ABdhPJyZZedLdiox6QwX0RPAqq4UkcbE+i7ALdKzi5RmxyINAwBjynOitvDYZFXAUrJ63Pinq0R9GA==
-X-Received: by 2002:a5d:6b84:: with SMTP id n4mr2942743wrx.402.1615374772316;
-        Wed, 10 Mar 2021 03:12:52 -0800 (PST)
-Received: from dell ([91.110.221.204])
-        by smtp.gmail.com with ESMTPSA id a131sm8736012wmc.48.2021.03.10.03.12.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Mar 2021 03:12:51 -0800 (PST)
-Date:   Wed, 10 Mar 2021 11:12:50 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
-Cc:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-actions@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [GIT PULL] Immutable branch between MFD and Input due for the
- v5.13 merge window
-Message-ID: <20210310111250.GM701493@dell>
-References: <cover.1611653995.git.cristian.ciocaltea@gmail.com>
- <20210309135302.GP4931@dell>
- <20210309200417.GZ4931@dell>
+        Wed, 10 Mar 2021 06:50:52 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CD05C06174A
+        for <linux-input@vger.kernel.org>; Wed, 10 Mar 2021 03:50:52 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1lJxMS-0000dy-H8; Wed, 10 Mar 2021 12:50:44 +0100
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1lJxMQ-0001h5-O7; Wed, 10 Mar 2021 12:50:42 +0100
+Date:   Wed, 10 Mar 2021 12:50:41 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc:     f.fainelli@gmail.com, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        wahrenst@gmx.net, linux-input@vger.kernel.org,
+        dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org,
+        devel@driverdev.osuosl.org, p.zabel@pengutronix.de,
+        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
+        linux-clk@vger.kernel.org, sboyd@kernel.org,
+        linux-rpi-kernel@lists.infradead.org, bgolaszewski@baylibre.com,
+        andy.shevchenko@gmail.com
+Subject: Re: [PATCH v7 11/11] pwm: Add Raspberry Pi Firmware based PWM bus
+Message-ID: <20210310115041.s7tzvgdpksws6yss@pengutronix.de>
+References: <20210118123244.13669-1-nsaenzjulienne@suse.de>
+ <20210118123244.13669-12-nsaenzjulienne@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ul6qbztvwf7nowqu"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210309200417.GZ4931@dell>
+In-Reply-To: <20210118123244.13669-12-nsaenzjulienne@suse.de>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 09 Mar 2021, Lee Jones wrote:
 
-> On Tue, 09 Mar 2021, Lee Jones wrote:
-> 
-> > Enjoy!
-> > 
-> > The following changes since commit fe07bfda2fb9cdef8a4d4008a409bb02f35f1bd8:
-> > 
-> >   Linux 5.12-rc1 (2021-02-28 16:05:19 -0800)
-> > 
-> > are available in the Git repository at:
-> > 
-> >   git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git ib-mfd-input-v5.13
-> > 
-> > for you to fetch changes up to b58c808ca46c163c1924ec5d3285e67e9217ec74:
-> > 
-> >   MAINTAINERS: Add entry for ATC260x PMIC (2021-03-09 13:50:39 +0000)
-> > 
-> > ----------------------------------------------------------------
-> > Immutable branch between MFD and Input due for the v5.13 merge window
-> > 
-> > ----------------------------------------------------------------
-> > Cristian Ciocaltea (4):
-> >       dt-bindings: input: Add reset-time-sec common property
-> >       dt-bindings: mfd: Add Actions Semi ATC260x PMIC binding
-> >       mfd: Add MFD driver for ATC260x PMICs
-> >       input: atc260x: Add onkey driver for ATC260x PMICs
-> > 
-> > Manivannan Sadhasivam (1):
-> >       MAINTAINERS: Add entry for ATC260x PMIC
-> > 
-> >  Documentation/devicetree/bindings/input/input.yaml |   7 +
-> >  .../devicetree/bindings/mfd/actions,atc260x.yaml   | 183 ++++++++++++
-> >  MAINTAINERS                                        |  12 +
-> >  drivers/input/misc/Kconfig                         |  11 +
-> >  drivers/input/misc/Makefile                        |   2 +-
-> >  drivers/input/misc/atc260x-onkey.c                 | 305 ++++++++++++++++++++
-> >  drivers/mfd/Kconfig                                |  18 ++
-> >  drivers/mfd/Makefile                               |   3 +
-> >  drivers/mfd/atc260x-core.c                         | 310 +++++++++++++++++++++
-> >  drivers/mfd/atc260x-i2c.c                          |  64 +++++
-> >  include/linux/mfd/atc260x/atc2603c.h               | 281 +++++++++++++++++++
-> >  include/linux/mfd/atc260x/atc2609a.h               | 308 ++++++++++++++++++++
-> >  include/linux/mfd/atc260x/core.h                   |  58 ++++
-> >  13 files changed, 1561 insertions(+), 1 deletion(-)
-> >  create mode 100644 Documentation/devicetree/bindings/mfd/actions,atc260x.yaml
-> >  create mode 100644 drivers/input/misc/atc260x-onkey.c
-> >  create mode 100644 drivers/mfd/atc260x-core.c
-> >  create mode 100644 drivers/mfd/atc260x-i2c.c
-> >  create mode 100644 include/linux/mfd/atc260x/atc2603c.h
-> >  create mode 100644 include/linux/mfd/atc260x/atc2609a.h
-> >  create mode 100644 include/linux/mfd/atc260x/core.h
-> 
-> FYI, if anyone has pulled this, they should probably rebase it onto
-> v5.12-rc2 and delete the v5.12-rc1 tag from their tree:
-> 
->  https://lwn.net/Articles/848431/
+--ul6qbztvwf7nowqu
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In case you haven't pulled this yet, I created a new tag:
+Hello Nicolas,
 
-  ib-mfd-input-v5.13-1
+On Mon, Jan 18, 2021 at 01:32:44PM +0100, Nicolas Saenz Julienne wrote:
+> diff --git a/drivers/pwm/pwm-raspberrypi-poe.c b/drivers/pwm/pwm-raspberr=
+ypi-poe.c
+> new file mode 100644
+> index 000000000000..ca845e8fabe6
+> --- /dev/null
+> +++ b/drivers/pwm/pwm-raspberrypi-poe.c
+> @@ -0,0 +1,220 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright 2020 Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+> + * For more information on Raspberry Pi's PoE hat see:
+> + * https://www.raspberrypi.org/products/poe-hat/
+> + *
+> + * Limitations:
+> + *  - No disable bit, so a disabled PWM is simulated by duty_cycle 0
+> + *  - Only normal polarity
+> + *  - Fixed 12.5 kHz period
+> + *
+> + * The current period is completed when HW is reconfigured.
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+nice.
+
+> + */
+> +
+> [...]
+> +static int raspberrypi_pwm_apply(struct pwm_chip *chip, struct pwm_devic=
+e *pwm,
+> +				 const struct pwm_state *state)
+> +{
+> +	struct raspberrypi_pwm *rpipwm =3D raspberrypi_pwm_from_chip(chip);
+> +	unsigned int duty_cycle;
+> +	int ret;
+> +
+> +	if (state->period < RPI_PWM_PERIOD_NS ||
+> +	    state->polarity !=3D PWM_POLARITY_NORMAL)
+> +		return -EINVAL;
+> +
+> +	if (!state->enabled)
+> +		duty_cycle =3D 0;
+> +	else if (state->duty_cycle < RPI_PWM_PERIOD_NS)
+> +		duty_cycle =3D DIV_ROUND_DOWN_ULL(state->duty_cycle * RPI_PWM_MAX_DUTY,
+> +						RPI_PWM_PERIOD_NS);
+> +	else
+> +		duty_cycle =3D RPI_PWM_MAX_DUTY;
+> +
+> +	if (duty_cycle =3D=3D rpipwm->duty_cycle)
+> +		return 0;
+> +
+> +	ret =3D raspberrypi_pwm_set_property(rpipwm->firmware, RPI_PWM_CUR_DUTY=
+_REG,
+> +					   duty_cycle);
+> +	if (ret) {
+> +		dev_err(chip->dev, "Failed to set duty cycle: %pe\n",
+> +			ERR_PTR(ret));
+> +		return ret;
+> +	}
+> +
+> +	/*
+> +	 * This sets the default duty cycle after resetting the board, we
+> +	 * updated it every time to mimic Raspberry Pi's downstream's driver
+> +	 * behaviour.
+> +	 */
+> +	ret =3D raspberrypi_pwm_set_property(rpipwm->firmware, RPI_PWM_DEF_DUTY=
+_REG,
+> +					   duty_cycle);
+> +	if (ret) {
+> +		dev_err(chip->dev, "Failed to set default duty cycle: %pe\n",
+> +			ERR_PTR(ret));
+> +		return ret;
+
+This only has an effect for the next reboot, right? If so I wonder if it
+is a good idea in general. (Think: The current PWM setting enables a
+motor that makes a self-driving car move at 100 km/h. Consider the rpi
+crashes, do I want to car to pick up driving 100 km/h at power up even
+before Linux is up again?) And if we agree it's a good idea: Should
+raspberrypi_pwm_apply return 0 if setting the duty cycle succeeded and
+only setting the default didn't?
+
+Other than that the patch looks fine.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--ul6qbztvwf7nowqu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmBIso0ACgkQwfwUeK3K
+7An3RQgAk7LiLPojRn3qgp/eEHGcY24aQQQnYHXFzwvNNsqfY9q1T6NOjwiJlIBj
+owBPtq8IteT+V4qhiiQuB4MLMbNeaBZ+iR4l7OVDwzwuPrHtZuGFxz7vZumxdIET
+Eqq1G++2nk48ZFJOUnKeWM733IgWZQwaM0XEr04i58ZjnoJ9mZo7g4nC2c8O6F6A
+HQshnIGC2hEIZbpmpQrBOMI92Uh0pt03ScuCXM4o/YUuKxb8oeygwt963lrJwhXp
+Vb1/aPD/lELD/kAAeOa3cje1nAdfEJPzH0kjIMfXNTkX8TeEEA0klNEEOXkVxrTP
+0c+bK2SaxSe/2i1555OooX7x1H2VCg==
+=540n
+-----END PGP SIGNATURE-----
+
+--ul6qbztvwf7nowqu--
