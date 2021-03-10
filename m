@@ -2,173 +2,145 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5FFE333AB7
-	for <lists+linux-input@lfdr.de>; Wed, 10 Mar 2021 11:53:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56359333B2D
+	for <lists+linux-input@lfdr.de>; Wed, 10 Mar 2021 12:13:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231696AbhCJKwb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 10 Mar 2021 05:52:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26239 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231197AbhCJKwA (ORCPT
+        id S232585AbhCJLNC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 10 Mar 2021 06:13:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45452 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232683AbhCJLMx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 10 Mar 2021 05:52:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1615373519;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=PK6cLAAPgMQw1Zo4Xm+z1EqNf/PbzEskbbZATusIkKY=;
-        b=EPA/ed7zERY+seZ2RvN8XgOx9+bt/bIGJYO6C85jHlWtA5AZ/oCyIWw1Sm3yt8u/SiMNd0
-        CriukhMRIbRH+x4JsXlnNE6dpqPNMa7IbzrnsDj4yddAHtXGzov0URhS82NAkrLvEq2Pun
-        QSMFKklE4tbvfOpqVYRNrXD1cCy3uh4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-511-jvU1VAoCNpy_Sc5VMpZXBw-1; Wed, 10 Mar 2021 05:51:57 -0500
-X-MC-Unique: jvU1VAoCNpy_Sc5VMpZXBw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3E6A80432F;
-        Wed, 10 Mar 2021 10:51:56 +0000 (UTC)
-Received: from x1.localdomain.com (ovpn-113-79.ams2.redhat.com [10.36.113.79])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 92A581349A;
-        Wed, 10 Mar 2021 10:51:52 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org
-Subject: [PATCH v2] Input: elants_i2c - Do not bind to i2c-hid compatible ACPI instantiated devices
-Date:   Wed, 10 Mar 2021 11:51:51 +0100
-Message-Id: <20210310105151.80628-1-hdegoede@redhat.com>
+        Wed, 10 Mar 2021 06:12:53 -0500
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AC81C061761
+        for <linux-input@vger.kernel.org>; Wed, 10 Mar 2021 03:12:53 -0800 (PST)
+Received: by mail-wr1-x42d.google.com with SMTP id f12so22854376wrx.8
+        for <linux-input@vger.kernel.org>; Wed, 10 Mar 2021 03:12:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=UGJeYMoiqsuqVVTeVoFglXOcNn/3QqsFMhjYUbI14nM=;
+        b=vvdoFTieL1xSFVCJscNZyaslJr62TOvUt/gV0k/8roKq7Tj7IiTvrEK98UXi0VADke
+         WYqY4ETLl5pqlXH8AkZuP4e8ZDg0kKZJ6obvSba9NWk6tvgmiuu5YdUXo0KqjAy3OkZo
+         n3w72Ccqki+lT0WYlyanGzpX3ZcOvTFQKKf0+Znvi5ETGURY6Uf/JRT8XGIGvURcdhh8
+         midXBVZv3MP9J2Viex66h4qlomOe36IfHT2Es0LFgw8eVbEw8NxlT6/VnWhNgdF1FW/m
+         b9o14JxWNZ8sVDy3QCyY9U9xt6olB0OgV36ni8MSJs6wFq81H1LaLi5BpaLYc+uY0nPE
+         b3sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=UGJeYMoiqsuqVVTeVoFglXOcNn/3QqsFMhjYUbI14nM=;
+        b=b2nfK0bd3wBQNdNn70TJ+N5tt1B98zC7Jmza7afCHxtih4evDHvwxvrvw1ioyMTJiB
+         joXAAUspVRbdwGaCTEYo5H8KsaSTKnI6LkloYuwi4BELVRu06UW8UD7Kwrl4/sqHCDJR
+         2Qd0oXjOsYmb8N8VQCbgWaCzuPxUlFVLU4cHZuowyLqD8mQZpiv1XRpw0OhwCKq5il//
+         wErFvjJzfH1eSdqkjG4SO0OewfWDvn/STdYElwxeMBjUSstdXzmt5KvpnLqZNZG5XYOr
+         fesB9+ZsJQ7HDASzIOnCEd0vyBqvBeTbenoVTkbjEIaBJ5h/lRU88sGpZDtpitU1wi1g
+         Y9Dw==
+X-Gm-Message-State: AOAM5314v9UN/5AzidtpSLvqgqWWSrtTMVOFy2X4b69+lmcsjDYZ4CFK
+        IgtyU9qw9hiO1LkeILhfmziDtA==
+X-Google-Smtp-Source: ABdhPJyZZedLdiox6QwX0RPAqq4UkcbE+i7ALdKzi5RmxyINAwBjynOitvDYZFXAUrJ63Pinq0R9GA==
+X-Received: by 2002:a5d:6b84:: with SMTP id n4mr2942743wrx.402.1615374772316;
+        Wed, 10 Mar 2021 03:12:52 -0800 (PST)
+Received: from dell ([91.110.221.204])
+        by smtp.gmail.com with ESMTPSA id a131sm8736012wmc.48.2021.03.10.03.12.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Mar 2021 03:12:51 -0800 (PST)
+Date:   Wed, 10 Mar 2021 11:12:50 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
+Cc:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-actions@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: Re: [GIT PULL] Immutable branch between MFD and Input due for the
+ v5.13 merge window
+Message-ID: <20210310111250.GM701493@dell>
+References: <cover.1611653995.git.cristian.ciocaltea@gmail.com>
+ <20210309135302.GP4931@dell>
+ <20210309200417.GZ4931@dell>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210309200417.GZ4931@dell>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Several users have been reporting that elants_i2c gives several errors
-during probe and that their touchscreen does not work on their Lenovo AMD
-based laptops with a touchscreen with a ELAN0001 ACPI hardware-id:
+On Tue, 09 Mar 2021, Lee Jones wrote:
 
-[    0.550596] elants_i2c i2c-ELAN0001:00: i2c-ELAN0001:00 supply vcc33 not found, using dummy regulator
-[    0.551836] elants_i2c i2c-ELAN0001:00: i2c-ELAN0001:00 supply vccio not found, using dummy regulator
-[    0.560932] elants_i2c i2c-ELAN0001:00: elants_i2c_send failed (77 77 77 77): -121
-[    0.562427] elants_i2c i2c-ELAN0001:00: software reset failed: -121
-[    0.595925] elants_i2c i2c-ELAN0001:00: elants_i2c_send failed (77 77 77 77): -121
-[    0.597974] elants_i2c i2c-ELAN0001:00: software reset failed: -121
-[    0.621893] elants_i2c i2c-ELAN0001:00: elants_i2c_send failed (77 77 77 77): -121
-[    0.622504] elants_i2c i2c-ELAN0001:00: software reset failed: -121
-[    0.632650] elants_i2c i2c-ELAN0001:00: elants_i2c_send failed (4d 61 69 6e): -121
-[    0.634256] elants_i2c i2c-ELAN0001:00: boot failed: -121
-[    0.699212] elants_i2c i2c-ELAN0001:00: invalid 'hello' packet: 00 00 ff ff
-[    1.630506] elants_i2c i2c-ELAN0001:00: Failed to read fw id: -121
-[    1.645508] elants_i2c i2c-ELAN0001:00: unknown packet 00 00 ff ff
+> On Tue, 09 Mar 2021, Lee Jones wrote:
+> 
+> > Enjoy!
+> > 
+> > The following changes since commit fe07bfda2fb9cdef8a4d4008a409bb02f35f1bd8:
+> > 
+> >   Linux 5.12-rc1 (2021-02-28 16:05:19 -0800)
+> > 
+> > are available in the Git repository at:
+> > 
+> >   git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git ib-mfd-input-v5.13
+> > 
+> > for you to fetch changes up to b58c808ca46c163c1924ec5d3285e67e9217ec74:
+> > 
+> >   MAINTAINERS: Add entry for ATC260x PMIC (2021-03-09 13:50:39 +0000)
+> > 
+> > ----------------------------------------------------------------
+> > Immutable branch between MFD and Input due for the v5.13 merge window
+> > 
+> > ----------------------------------------------------------------
+> > Cristian Ciocaltea (4):
+> >       dt-bindings: input: Add reset-time-sec common property
+> >       dt-bindings: mfd: Add Actions Semi ATC260x PMIC binding
+> >       mfd: Add MFD driver for ATC260x PMICs
+> >       input: atc260x: Add onkey driver for ATC260x PMICs
+> > 
+> > Manivannan Sadhasivam (1):
+> >       MAINTAINERS: Add entry for ATC260x PMIC
+> > 
+> >  Documentation/devicetree/bindings/input/input.yaml |   7 +
+> >  .../devicetree/bindings/mfd/actions,atc260x.yaml   | 183 ++++++++++++
+> >  MAINTAINERS                                        |  12 +
+> >  drivers/input/misc/Kconfig                         |  11 +
+> >  drivers/input/misc/Makefile                        |   2 +-
+> >  drivers/input/misc/atc260x-onkey.c                 | 305 ++++++++++++++++++++
+> >  drivers/mfd/Kconfig                                |  18 ++
+> >  drivers/mfd/Makefile                               |   3 +
+> >  drivers/mfd/atc260x-core.c                         | 310 +++++++++++++++++++++
+> >  drivers/mfd/atc260x-i2c.c                          |  64 +++++
+> >  include/linux/mfd/atc260x/atc2603c.h               | 281 +++++++++++++++++++
+> >  include/linux/mfd/atc260x/atc2609a.h               | 308 ++++++++++++++++++++
+> >  include/linux/mfd/atc260x/core.h                   |  58 ++++
+> >  13 files changed, 1561 insertions(+), 1 deletion(-)
+> >  create mode 100644 Documentation/devicetree/bindings/mfd/actions,atc260x.yaml
+> >  create mode 100644 drivers/input/misc/atc260x-onkey.c
+> >  create mode 100644 drivers/mfd/atc260x-core.c
+> >  create mode 100644 drivers/mfd/atc260x-i2c.c
+> >  create mode 100644 include/linux/mfd/atc260x/atc2603c.h
+> >  create mode 100644 include/linux/mfd/atc260x/atc2609a.h
+> >  create mode 100644 include/linux/mfd/atc260x/core.h
+> 
+> FYI, if anyone has pulled this, they should probably rebase it onto
+> v5.12-rc2 and delete the v5.12-rc1 tag from their tree:
+> 
+>  https://lwn.net/Articles/848431/
 
-Despite these errors, the elants_i2c driver stays bound to the device
-(it returns 0 from its probe method despite the errors), blocking the
-i2c-hid driver from binding.
+In case you haven't pulled this yet, I created a new tag:
 
-Manually unbinding the elants_i2c driver and binding the i2c-hid driver
-makes the touchscreen work.
+  ib-mfd-input-v5.13-1
 
-Check if the ACPI-fwnode for the touchscreen contains one of the i2c-hid
-compatiblity-id strings and if it has the I2C-HID spec's DSM to get the
-HID descriptor address, If it has both then make elants_i2c not bind,
-so that the i2c-hid driver can bind.
-
-This assumes that non of the (older) elan touchscreens which actually
-need the elants_i2c driver falsely advertise an i2c-hid compatiblity-id
-+ DSM in their ACPI-fwnodes. If some of them actually do have this
-false advertising, then this change may lead to regressions.
-
-While at it also drop the unnecessary DEVICE_NAME prefixing of the
-"I2C check functionality error", dev_err already outputs the driver-name.
-
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-BugLink: https://bugzilla.kernel.org/show_bug.cgi?id=207759
-Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Changes in v2:
-- Factor out the is this an I2C-HID device check into a new
-  elants_acpi_is_hid_device() helper (with an empty stub when !CONFIG_ACPI)
-- While at it also drop the unnecessary DEVICE_NAME prefixing of the
-  "I2C check functionality error"
----
- drivers/input/touchscreen/elants_i2c.c | 44 ++++++++++++++++++++++++--
- 1 file changed, 42 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
-index 4c2b579f6c8b..36cf5694bfcc 100644
---- a/drivers/input/touchscreen/elants_i2c.c
-+++ b/drivers/input/touchscreen/elants_i2c.c
-@@ -38,6 +38,7 @@
- #include <linux/of.h>
- #include <linux/gpio/consumer.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/uuid.h>
- #include <asm/unaligned.h>
- 
- /* Device, Driver information */
-@@ -1334,6 +1335,40 @@ static void elants_i2c_power_off(void *_data)
- 	}
- }
- 
-+#ifdef CONFIG_ACPI
-+static const struct acpi_device_id i2c_hid_ids[] = {
-+	{"ACPI0C50", 0 },
-+	{"PNP0C50", 0 },
-+	{ },
-+};
-+
-+static const guid_t i2c_hid_guid =
-+	GUID_INIT(0x3CDFF6F7, 0x4267, 0x4555,
-+		  0xAD, 0x05, 0xB3, 0x0A, 0x3D, 0x89, 0x38, 0xDE);
-+
-+static bool elants_acpi_is_hid_device(struct device *dev)
-+{
-+	acpi_handle handle = ACPI_HANDLE(dev);
-+	union acpi_object *obj;
-+
-+	if (acpi_match_device_ids(ACPI_COMPANION(dev), i2c_hid_ids))
-+		return false;
-+
-+	obj = acpi_evaluate_dsm_typed(handle, &i2c_hid_guid, 1, 1, NULL, ACPI_TYPE_INTEGER);
-+	if (obj) {
-+		ACPI_FREE(obj);
-+		return true;
-+	}
-+
-+	return false;
-+}
-+#else
-+static bool elants_acpi_is_hid_device(struct device *dev)
-+{
-+	return false;
-+}
-+#endif
-+
- static int elants_i2c_probe(struct i2c_client *client,
- 			    const struct i2c_device_id *id)
- {
-@@ -1342,9 +1377,14 @@ static int elants_i2c_probe(struct i2c_client *client,
- 	unsigned long irqflags;
- 	int error;
- 
-+	/* Don't bind to i2c-hid compatible devices, these are handled by the i2c-hid drv. */
-+	if (elants_acpi_is_hid_device(&client->dev)) {
-+		dev_warn(&client->dev, "This device appears to be an I2C-HID device, not binding\n");
-+		return -ENODEV;
-+	}
-+
- 	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
--		dev_err(&client->dev,
--			"%s: i2c check functionality error\n", DEVICE_NAME);
-+		dev_err(&client->dev, "I2C check functionality error\n");
- 		return -ENXIO;
- 	}
- 
 -- 
-2.30.1
-
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
