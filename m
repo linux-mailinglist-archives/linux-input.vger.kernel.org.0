@@ -2,119 +2,153 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64DEB337E37
-	for <lists+linux-input@lfdr.de>; Thu, 11 Mar 2021 20:31:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA9A4338CBA
+	for <lists+linux-input@lfdr.de>; Fri, 12 Mar 2021 13:26:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229705AbhCKTbQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 11 Mar 2021 14:31:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40066 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229774AbhCKTa4 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 11 Mar 2021 14:30:56 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0E8EC061574;
-        Thu, 11 Mar 2021 11:30:55 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id kk2-20020a17090b4a02b02900c777aa746fso9850339pjb.3;
-        Thu, 11 Mar 2021 11:30:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=WTyvjgP+/OReF3DM4qtKAuAfj8VF6/RyxnNhlngUYSM=;
-        b=QMpxd3SKCfYJwKIgSO6m+mG+nU1QbTtt0KEORM3QxOqsCViqxn7iwGE+bCtb/V9Pgt
-         HyNuxOZmGx20RtgqT0KVxWLxbnh31SHyr3gOcXbCSWUmyLva69FB5naNkjJmyP1w/U0o
-         vvzw00FJdFc6nmTFqil8G+XrF82WXM5da/z5MGUxKSH7aIQirrkGYLp3q3b1pPDtdIq/
-         DkAMsq/FvR/OY+z2ux6N0SgiWP+lpMN9rbj+PbtYq483HZPdHwdg6mK3ItOkYvkXWzBj
-         q10/ZW4Hj8DnqKO6v9/CNYVpxbcYO2mxvca+CQYPobgDG7hRitCRvE5D9rjj+PoFoi6+
-         9rrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=WTyvjgP+/OReF3DM4qtKAuAfj8VF6/RyxnNhlngUYSM=;
-        b=PkDmr155UYkLbbQg2wLYw1u5kIZvWzzn9N8kjKrz6PCvpLaBg3EAmJB5jLGPsoTr+w
-         /+7bo+38DOgK03vjjxIT7mU3kiEB5R1VPii7uKO43bBXAdvT89CUXUB6VGVTsNRQ8Uxz
-         ezpii+Yaa2+nkMtGoxrAx+m3MZAtUc3uLJXRIlik7rC5ywkoUyJ3K2nHQUkdgzM+DBh2
-         +60prsg1I4gj4lJssIxKRz+gUco0lHWR7d5bse9AiRG2e3vqIOtF32tqJABccoobJ27V
-         slhQyZMMC2gm2N8sUqgL+KaZH8EuVwEgaDH5lAqA+a3kToVrFZIjOahFbJ1lhmR+6CDk
-         gbQQ==
-X-Gm-Message-State: AOAM531o1Sv3HyynHrd6i7oNDhIsFoR5O1PsaanP8QA+mhe9IltIkJRS
-        j+BFpsXyDXh+eCAMb8YCFSvrPqBIBOXrGA==
-X-Google-Smtp-Source: ABdhPJwpu05j6sHb/+79qGOjYvAGMZl6wcuxcfZdvKVaGhih2FeRwymyr2puJ4VH3m0ac5Rg3b4I0w==
-X-Received: by 2002:a17:90a:7104:: with SMTP id h4mr10070061pjk.189.1615491054726;
-        Thu, 11 Mar 2021 11:30:54 -0800 (PST)
-Received: from localhost.localdomain ([2601:1c2:4f03:fea0:c4aa:9f76:499c:65e7])
-        by smtp.gmail.com with ESMTPSA id w5sm3161587pfn.51.2021.03.11.11.30.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Mar 2021 11:30:54 -0800 (PST)
-From:   Ping Cheng <pinglinux@gmail.com>
-X-Google-Original-From: Ping Cheng <ping.cheng@wacom.com>
-To:     linux-input@vger.kernel.org
-Cc:     jkosina@suse.cz, Juan.Garrido@wacom.com, Jason.Gerecke@wacom.com,
-        Ping Cheng <ping.cheng@wacom.com>, stable@vger.kernel.org
-Subject: [PATCH] HID: wacom: set EV_KEY and EV_ABS only for non-HID_GENERIC type of devices
-Date:   Thu, 11 Mar 2021 11:30:09 -0800
-Message-Id: <20210311193009.12692-1-ping.cheng@wacom.com>
-X-Mailer: git-send-email 2.17.1
+        id S231488AbhCLMZh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 12 Mar 2021 07:25:37 -0500
+Received: from mx2.suse.de ([195.135.220.15]:56958 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229907AbhCLMZS (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 12 Mar 2021 07:25:18 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id C8322B0AE;
+        Fri, 12 Mar 2021 12:25:16 +0000 (UTC)
+From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To:     u.kleine-koenig@pengutronix.de
+Cc:     f.fainelli@gmail.com, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        wahrenst@gmx.net, linux-input@vger.kernel.org,
+        dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org,
+        devel@driverdev.osuosl.org, p.zabel@pengutronix.de,
+        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
+        linux-clk@vger.kernel.org, sboyd@kernel.org,
+        linux-rpi-kernel@lists.infradead.org, bgolaszewski@baylibre.com,
+        andy.shevchenko@gmail.com,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Subject: [PATCH v8 00/11] Raspberry Pi PoE HAT fan support
+Date:   Fri, 12 Mar 2021 13:24:43 +0100
+Message-Id: <20210312122454.24480-1-nsaenzjulienne@suse.de>
+X-Mailer: git-send-email 2.30.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Valid HID_GENERIC type of devices set EV_KEY and EV_ABS by wacom_map_usage.
-When *_input_capabilities are reached, those devices should already have
-their proper EV_* set. EV_KEY and EV_ABS only need to be set for
-non-HID_GENERIC type of devices in *_input_capabilities.
+The aim of this series is to add support to the fan found on RPi's PoE
+HAT. Some commentary on the design can be found below. But the important
+part to the people CC'd here not involved with PWM is that, in order to
+achieve this properly, we also have to fix the firmware interface the
+driver uses to communicate with the PWM bus (and many other low level
+functions). Specifically, we have to make sure the firmware interface
+isn't unbound while consumers are still up. So, patch #1 & #2 introduce
+reference counting in the firmware interface driver and patches #3 to #8
+update all firmware users. Patches #9 to #11 introduce the new PWM
+driver.
 
-Devices that don't support HID descitoprs will pass back to hid-input for
-registration without being accidentally rejected by the introduction of
-patch: "Input: refuse to register absolute devices without absinfo"
+I sent everything as a single series as the final version of the PWM
+drivers depends on the firmware fixes, but I'll be happy to split this
+into two separate series if you think it's better.
 
-Fixes: 6ecfe51b4082 ("Input: refuse to register absolute devices without absinfo")
-Signed-off-by: Ping Cheng <ping.cheng@wacom.com>
-Reviewed-by: Jason Gerecke <Jason.Gerecke@wacom.com>
-Tested-by: Juan Garrido <Juan.Garrido@wacom.com>
-CC: stable@vger.kernel.org
+--- Original cover letter below ---
+
+This series aims at adding support to RPi's official PoE HAT fan[1].
+
+The HW setup is the following:
+
+| Raspberry Pi                               | PoE HAT                    |
+ arm core -> Mailbox -> RPi co-processor -> I2C -> Atmel MCU -> PWM -> FAN
+
+The arm cores have only access to the mailbox interface, as i2c0, even if
+physically accessible, is to be used solely by the co-processor
+(VideoCore 4/6).
+
+This series implements a PWM bus, and has pwm-fan sitting on top of it as per
+this discussion: https://lkml.org/lkml/2018/9/2/486. Although this design has a
+series of shortcomings:
+
+- It depends on a DT binding: it's not flexible if a new hat shows up with new
+  functionality, we're not 100% sure we'll be able to expand it without
+  breaking backwards compatibility. But without it we can't make use of DT
+  thermal-zones, which IMO is overkill.
+
+- We're using pwm-fan, writing a hwmon driver would, again, give us more
+  flexibility, but it's not really needed at the moment.
+
+I personally think that it's not worth the effort, it's unlikely we'll get
+things right in advance. And ultimately, if the RPi people come up with
+something new, we can always write a new driver/bindings from scratch (as in
+not reusing previous code).
+
+That said, I'm more than happy to change things if there is a consensus that
+another design will do the trick.
+
+[1] https://www.raspberrypi.org/blog/introducing-power-over-ethernet-poe-hat/
+
 ---
- drivers/hid/wacom_wac.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index 5e6e4db..8906b79 100644
---- a/drivers/hid/wacom_wac.c
-+++ b/drivers/hid/wacom_wac.c
-@@ -3578,8 +3578,6 @@ int wacom_setup_pen_input_capabilities(struct input_dev *input_dev,
- {
- 	struct wacom_features *features = &wacom_wac->features;
- 
--	input_dev->evbit[0] |= BIT_MASK(EV_KEY) | BIT_MASK(EV_ABS);
--
- 	if (!(features->device_type & WACOM_DEVICETYPE_PEN))
- 		return -ENODEV;
- 
-@@ -3594,6 +3592,7 @@ int wacom_setup_pen_input_capabilities(struct input_dev *input_dev,
- 		return 0;
- 	}
- 
-+	input_dev->evbit[0] |= BIT_MASK(EV_KEY) | BIT_MASK(EV_ABS);
- 	__set_bit(BTN_TOUCH, input_dev->keybit);
- 	__set_bit(ABS_MISC, input_dev->absbit);
- 
-@@ -3746,8 +3745,6 @@ int wacom_setup_touch_input_capabilities(struct input_dev *input_dev,
- {
- 	struct wacom_features *features = &wacom_wac->features;
- 
--	input_dev->evbit[0] |= BIT_MASK(EV_KEY) | BIT_MASK(EV_ABS);
--
- 	if (!(features->device_type & WACOM_DEVICETYPE_TOUCH))
- 		return -ENODEV;
- 
-@@ -3760,6 +3757,7 @@ int wacom_setup_touch_input_capabilities(struct input_dev *input_dev,
- 		/* setup has already been done */
- 		return 0;
- 
-+	input_dev->evbit[0] |= BIT_MASK(EV_KEY) | BIT_MASK(EV_ABS);
- 	__set_bit(BTN_TOUCH, input_dev->keybit);
- 
- 	if (features->touch_max == 1) {
+Changes since v7:
+ - Remove unwarranted RPI_PWM_DEF_DUTY_REG usage
+
+Changes since v6:
+ - Address PWM driver comments
+
+Changes since v5:
+ - Small cleanups
+ - Add extra code comments
+
+Changes since v4:
+ - Cleanup devm calls
+ - Rename compatible string so it's unique to the PoE HAT
+
+Changes since v3:
+ - Split first patch, #1 introduces refcount, then #2 the devm function
+ - Fix touchscreen function
+ - Use kref
+
+Changes since v2:
+ - Introduce devm_rpi_firmware_get()
+ - Small cleanups in PWM driver
+
+Changes since v1:
+ - Address PWM driver changes
+ - Fix binding, now with 2 cells
+
+Nicolas Saenz Julienne (11):
+  firmware: raspberrypi: Keep count of all consumers
+  firmware: raspberrypi: Introduce devm_rpi_firmware_get()
+  clk: bcm: rpi: Release firmware handle on unbind
+  gpio: raspberrypi-exp: Release firmware handle on unbind
+  reset: raspberrypi: Release firmware handle on unbind
+  soc: bcm: raspberrypi-power: Release firmware handle on unbind
+  staging: vchiq: Release firmware handle on unbind
+  input: raspberrypi-ts: Release firmware handle when not needed
+  dt-bindings: pwm: Add binding for RPi firmware PWM bus
+  DO NOT MERGE: ARM: dts: Add RPi's official PoE hat support
+  pwm: Add Raspberry Pi Firmware based PWM bus
+
+ .../arm/bcm/raspberrypi,bcm2835-firmware.yaml |  20 ++
+ arch/arm/boot/dts/bcm2711-rpi-4-b.dts         |  54 +++++
+ drivers/clk/bcm/clk-raspberrypi.c             |   2 +-
+ drivers/firmware/raspberrypi.c                |  69 +++++-
+ drivers/gpio/gpio-raspberrypi-exp.c           |   2 +-
+ drivers/input/touchscreen/raspberrypi-ts.c    |   2 +-
+ drivers/pwm/Kconfig                           |   9 +
+ drivers/pwm/Makefile                          |   1 +
+ drivers/pwm/pwm-raspberrypi-poe.c             | 206 ++++++++++++++++++
+ drivers/reset/reset-raspberrypi.c             |   2 +-
+ drivers/soc/bcm/raspberrypi-power.c           |   2 +-
+ .../interface/vchiq_arm/vchiq_arm.c           |   2 +-
+ .../pwm/raspberrypi,firmware-poe-pwm.h        |  13 ++
+ include/soc/bcm2835/raspberrypi-firmware.h    |  10 +
+ 14 files changed, 385 insertions(+), 9 deletions(-)
+ create mode 100644 drivers/pwm/pwm-raspberrypi-poe.c
+ create mode 100644 include/dt-bindings/pwm/raspberrypi,firmware-poe-pwm.h
+
 -- 
-2.17.1
+2.30.1
 
