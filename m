@@ -2,49 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44ABB33A03A
+	by mail.lfdr.de (Postfix) with ESMTP id 911DE33A03C
 	for <lists+linux-input@lfdr.de>; Sat, 13 Mar 2021 20:14:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234377AbhCMTOG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 13 Mar 2021 14:14:06 -0500
-Received: from mail-mw2nam10hn2231.outbound.protection.outlook.com ([52.100.157.231]:19535
-        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
+        id S234384AbhCMTOH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 13 Mar 2021 14:14:07 -0500
+Received: from mail-bn7nam10hn2206.outbound.protection.outlook.com ([52.100.155.206]:53024
+        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234071AbhCMTNZ (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 13 Mar 2021 14:13:25 -0500
+        id S234336AbhCMTNa (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 13 Mar 2021 14:13:30 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ARD86VctSTuMY7/rAnr1u1oyG4f/yEQ9nAffaA4+vqv0PFZYO+IfBDHKDHOk28Sm9SYlzfRgtgGQMVnxjLPr+O0M+530Mdf4qeFByEuYtrXGuVNjFrjOwV4e3apQwbw1VsRHWbQAcIqyh/6zTWoUhXXCM9NnAAaRRiaq5FeY+/c3J+1s1gAEIOUkPvksGAXEFuecBMVQ5JvUnNNEKXwEK40obU8MLquyAWEO9X36A4vUBhlTWETrfIrhSTGWNm9fnScW3Q4SsFxNDDZcNa332I1DWQJGmgS6vFWbTRrNr4ct+YnMQKTpZ8R4xdFLQ2owlzc80YXhSxVgR5+qfg4itQ==
+ b=i4HYUshvEDMW8SkJsDfHBTZWjegwsEDwiQM90iB1fxeqp1HkFBgy4abo50fqJkPNDbMF9p2kPjcTNvs6MbtPDvO7NvEv+sB1Y0Iw3YP9mIK8rtR5kW9txqFzu5C26A1W3ulvVscoPY1M79BTTaOwIxZqoj4B1lMDZyfHzZW1YEz4bgu14ZWQ9ibDR8XR0Gr5mbjt3i7odTQXg8DioN/3Mdef+1hZ1Ind3G1hOa8wP37Std+YFe/Mny0c7nFvhS3nkh364RL6zizJPcGKfOedQj0QAA72sAi9rRvjwAUmTCrbkWtWfRv1YeoP4hJZX4uNM1zIIfuWwTI3hsndsewhRA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PH0i1UDyHeNOZyUtxLkDiNiLMUm/TbXQdW5dCfArzMc=;
- b=Fki5daiwIGgBw8SfwFQ3hZbcpcn5iHURsc92uq2uh4mjj/TskmkdrGbu3Q+EYboJDLUUk2DSz/Lh+LlDqkrimS15f2SWs5THOz8gKKyKn5CXplnbVbWdxvEDz+I2lPeXYeoWwPndXxr4uSEL4Kt0p9RMCJRsToWDTrEfmn7t10Svcd9CqM/+AOCo/1MLRkIxSco5ZIvlEU6N4H7lAy2+e8+F0vTiXp8xKwh1Kizedrp4aVKAUEEZP5R14jOdbkKvFz9ROHNEeJWlQSJ4oKQtUmq2rdevbYXrHPp6965qPii3ahIrKEpmwB2uQ7la2wui5Il0HTfsuK0SlGsmPYuufA==
+ bh=7P+XrUv/M/HwUkxxb/ZCp0IQ1C1nEh/oekmjQhVAz2g=;
+ b=hQAbLbEi0KpZAl8DuFyELudz0Et3cGaPUoK3dZPt+2O9hrqi+wzGkVfDT/GNRlJHQUhKWpD1JcPb4VTfU0U5CwpdG0Nk4P75+I7mICfLdVidIRy+QmJ8isJ7tiU1PlzviJ3L2KraHoagatUDqoT460RcTMA/yrax529Xpbm4mvrt80r3mVz1chIdlTUtIudOF7kBMBWCKuJ8PCmi1E+5yjbCdOvJnRTj1TXMpV/EzIvWuYPa0gKy5+x9MFaVFXwaSwvu92SqGhV4f8UdNmqoM/VBCmVrbCgjMzPBX6TdxhvP61bfP1XQ/OpcktPSp2AuLtbOiYsyu5GxgdfOIfSb5g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
  dkim=pass header.d=labundy.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PH0i1UDyHeNOZyUtxLkDiNiLMUm/TbXQdW5dCfArzMc=;
- b=p9AiAklGP+g8ZgAcXhfwQ1f5f19wNL+Ih6DCUHiKLakUbv5kyzluqdkhbeS9kTA3pRi843LR/qIkv2K/RZX+Yzrcr8f10Dt4tToNe+P3pVJGVi7F0elCTA/VxZpv1CYFX4pZ+GE7wWgMPpyuohqHEEVseSeIOxjyNye/a6zeuLI=
+ bh=7P+XrUv/M/HwUkxxb/ZCp0IQ1C1nEh/oekmjQhVAz2g=;
+ b=aWn2m0lijFKbcSJFqFBfxFdf85cvq7PiA2gCc0lmiToZjhuUp2C/+DWXn4gfAXr5zygVH1zQK/l8BqB4HDq0GqMS5N2eOO++YnBnepBSdpqD9ZUq+toZiCOjzFs3jGDaGZByJgn4B3f4juuP6ylbHW3+m7OpvZgbX0YE74gs9xU=
 Authentication-Results: gmail.com; dkim=none (message not signed)
  header.d=none;gmail.com; dmarc=none action=none header.from=labundy.com;
 Received: from SN6PR08MB5517.namprd08.prod.outlook.com (2603:10b6:805:fb::32)
  by SN6PR08MB5694.namprd08.prod.outlook.com (2603:10b6:805:104::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.31; Sat, 13 Mar
- 2021 19:13:24 +0000
+ 2021 19:13:29 +0000
 Received: from SN6PR08MB5517.namprd08.prod.outlook.com
  ([fe80::79a3:8aa5:feb8:7f04]) by SN6PR08MB5517.namprd08.prod.outlook.com
  ([fe80::79a3:8aa5:feb8:7f04%7]) with mapi id 15.20.3912.030; Sat, 13 Mar 2021
- 19:13:24 +0000
+ 19:13:29 +0000
 From:   Jeff LaBundy <jeff@labundy.com>
 To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org
 Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         Jeff LaBundy <jeff@labundy.com>
-Subject: [PATCH v2 4/9] Input: iqs5xx - remove superfluous revision validation
-Date:   Sat, 13 Mar 2021 13:12:31 -0600
-Message-Id: <20210313191236.4366-5-jeff@labundy.com>
+Subject: [PATCH v2 5/9] Input: iqs5xx - close bootloader using hardware reset
+Date:   Sat, 13 Mar 2021 13:12:32 -0600
+Message-Id: <20210313191236.4366-6-jeff@labundy.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210313191236.4366-1-jeff@labundy.com>
 References: <20210313191236.4366-1-jeff@labundy.com>
@@ -55,166 +55,143 @@ X-ClientProxiedBy: SN7PR04CA0231.namprd04.prod.outlook.com
  (2603:10b6:805:fb::32)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (136.49.90.243) by SN7PR04CA0231.namprd04.prod.outlook.com (2603:10b6:806:127::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32 via Frontend Transport; Sat, 13 Mar 2021 19:13:24 +0000
+Received: from localhost.localdomain (136.49.90.243) by SN7PR04CA0231.namprd04.prod.outlook.com (2603:10b6:806:127::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32 via Frontend Transport; Sat, 13 Mar 2021 19:13:29 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dd664148-60ee-4566-e26c-08d8e65412f9
+X-MS-Office365-Filtering-Correlation-Id: c778abf4-0ad1-44d4-a336-08d8e6541603
 X-MS-TrafficTypeDiagnostic: SN6PR08MB5694:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR08MB56943559517A54D751CC1F06D36E9@SN6PR08MB5694.namprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
+X-Microsoft-Antispam-PRVS: <SN6PR08MB56943B601A9926A584E9D378D36E9@SN6PR08MB5694.namprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?jf6BE/iIKWjYa/d3Euha56BQgtaI72MxTQdt08IEJ1mKEKbOZRx6siGPKVEX?=
- =?us-ascii?Q?T5YORJfH+2C8OoC0pBovoFLbdToyHa5I6P9+3P+pqLbTFEBDA9FxTUpEqFhX?=
- =?us-ascii?Q?5MJ2JEay7Bx+OBxYYlPeFCx9qtYkPrqiy2kqubnolkkYelqS/WURi7FvvLoH?=
- =?us-ascii?Q?U/jr8nt658xT+K6j6Uy3pNKqyv/RABlyzYAONH91GXttZdJp4hDDSIRICkpW?=
- =?us-ascii?Q?VJkLZ1c7BooxE6NZIXuhnk3VOTJ0HXUeOCo4J4t1knhm/eF113qh6CIsAkve?=
- =?us-ascii?Q?NxasCR+RDUQaKowWrOT5VzEzmBYjPpF+f0gPCq1I0s88GT0HF7jng2csj6VV?=
- =?us-ascii?Q?+XhHMXTI4JF5PH19oshl8jK9wf/tdqkXyz73ZGqTXtkgzvxEl2CfEwon/wxN?=
- =?us-ascii?Q?9omduG6EdD7dpqFnB/FdGmZpQwftLzmrqQr3yP5ey0Fa7OvujYkVhqTizQiE?=
- =?us-ascii?Q?e8MXbxHbwUdAvfvu+t5X09Rb3VHRn9V2Tf//ZuSjGia3kvcm1EWQWk/kmxcP?=
- =?us-ascii?Q?9t8p8y7XQFsJe1+DHsUrw0wVf33RNUBQaTkhAj3mPonjRAi80Ic7/llR7c5f?=
- =?us-ascii?Q?DsC232QxfBsMZopT7yNj61BZR2r5JSqsSSkiBeItmY1ooDktNpWRgyjLuj3D?=
- =?us-ascii?Q?sHij/s5cWbCrHCXA4RSMzmxhQ5BsNAXSgehwUg41WS8iCV269XvfxxAFpdJV?=
- =?us-ascii?Q?4Z+KegxiRMM5LtNbhQ7YQ45BVHeTWfLbz5iIu1Rr0JbYzJm95zsE8jWV/U/u?=
- =?us-ascii?Q?llrK35y64Lu3ZB9fLRHzfCZaumjg7YY2VceyWE1ROR3MhVP6tDfYYwA3BUx8?=
- =?us-ascii?Q?y3nmzgzdglOSTLXIiZpxytMhz+GJRzOBIOJ6kyPzigd3O35KOTjanLEcAIlo?=
- =?us-ascii?Q?/ilOjhquiFeCxPWA4Y9AxQ7+4t6+O/BJoZi6kE57RQ0BMv8O4TeaRJEnnHwG?=
- =?us-ascii?Q?oweV80MznLaFIlqQuWRghw=3D=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?hb+zdYghlPUiWYmX7XS4rwbesQwcms8cuweCbLRefeN2h2/Z+mU7Bg+f/cJq?=
+ =?us-ascii?Q?G0KOmNnBPEAoFr/hECc44jCoUzVu3kUpmDqMyI+VUdfhHiyVcSAuPWAYzNCS?=
+ =?us-ascii?Q?YAbVExKwEDgQFgI3b5pWQU/ujYnTDchY6IMkk1zPLXI2/aQOYhREtNU6fzgg?=
+ =?us-ascii?Q?03MB7jlW78gLyfLwMi93xdxcMsCV8q+y8TriHBpVAdjcxnNgs7Sx3AEWQLvQ?=
+ =?us-ascii?Q?ZpPeJ4gNp9VuODWX+FMMN7LuQKEs33t6+ilN3Sy9Z++r61y5qOJaRAKtDmBZ?=
+ =?us-ascii?Q?pA3rAd2BOtAS9QhqdUmeSsgaWteA0RNJuWNseijgpLh6RpYBuF829+ESL72a?=
+ =?us-ascii?Q?aOobwovxXaap2M02BniSdDiCDeJyNh4XXLtXdieEP0eFOWwgJ2YrNXonfSCq?=
+ =?us-ascii?Q?UfdNa3SGVjwr5aPeYkrZRZQ0LFINWquXiysfmtqWSNiUZFyep6kYUDfTOMei?=
+ =?us-ascii?Q?+cU2eLaIEA7d8FVPGrx7aav1ip6uf7PRhMBQz9Mqha8Ol7vmtcWcZFeXvBG/?=
+ =?us-ascii?Q?raSMMVlj4oqY3i3iwNpNQEP4eCLJSHC+mVNNX6QIRygKCDp69jqTnoG4pTEa?=
+ =?us-ascii?Q?SdG5240HxiDmh5C+fmayrdeVAx+EfcwfAefEj4yFcUp2PwqteTJC5hAAn4e1?=
+ =?us-ascii?Q?NxLAmWgc6v/Dit+5FMG2uJoq7FTaWMO2uP5/IU6UrCnA5tQW0mA9/L+28say?=
+ =?us-ascii?Q?x/3OwGRhq+GryZFPKhHM1YKEsxLbeIHFDSkuaR1+cSplZas3rYedk4KcVlAJ?=
+ =?us-ascii?Q?VUoMUbnGGinPhOnF1GvsQ3cShK8/v+KAgMUN30fj1UQ69j7Gzwx1uCmy4jig?=
+ =?us-ascii?Q?pSIezgckK5+KTnjs+CukTZJB7JwjX05fTmTJVo3pba6/FZIAfmBFk3OsLKum?=
+ =?us-ascii?Q?epM5l7yBz4M0sAu6wElO/jFsmf2ysxfApeE0VNu30rSpU8fK7cAMfYb1FcYF?=
+ =?us-ascii?Q?he3YDHUVrg/lusyD+m2p9g=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:SN6PR08MB5517.namprd08.prod.outlook.com;PTR:;CAT:OSPM;SFS:(39830400003)(396003)(136003)(376002)(346002)(366004)(6486002)(52116002)(2906002)(66946007)(6512007)(2616005)(36756003)(186003)(69590400012)(6666004)(16526019)(26005)(1076003)(66476007)(478600001)(83380400001)(316002)(66556008)(956004)(4326008)(8936002)(6506007)(86362001)(5660300002)(107886003)(8676002)(42413003)(32563001);DIR:OUT;SFP:1501;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?5W2jVX9L906sCOT2H70aaW1Fru9VkgQChG1D5AEAf8g8zIQ5lvUAcStCtEUA?=
- =?us-ascii?Q?314tJi06SyjuffCCMwqPgrWIjwMvR2TqD53NObdg69J2+KvlbCMbbIp3GtFE?=
- =?us-ascii?Q?YcErAoZG+J6g5ZB/FyZMHkpZa1w1ggBxt0Qqa9aSQKpYA5d1+Wc7uIFWzWrt?=
- =?us-ascii?Q?Jko7BaGgyNm43XK30ZttNfwBLhYfBHZU3vfST6jSg6UCqMZ4GilPxP6A88yJ?=
- =?us-ascii?Q?8656K6l++IgRZ44HfEZ8GHup0oJFKts9Zw6BLYeP8dbBmxEC9iDLK+ykxVKf?=
- =?us-ascii?Q?FiuKM2/LxaRRqvYje6mxk1Q7cjkMEIUNqAlI+YXq29QX2r7NVgeWR5n4b0GY?=
- =?us-ascii?Q?30PKATopY3Fbsqa38M95yGr/ABBe++y9Gt36p3Jq7VI1r1XdghV7kTBMzSrc?=
- =?us-ascii?Q?Zj5UeLTIQHsENGC1MobEw8mUj/5S8R6MjrRlXl7cWYeSh6Q1iZ/YRcQMdvoi?=
- =?us-ascii?Q?Zc2kuEuar8RTz/3BQdb8vAHXCQt5J/+/ORA/vIJQ/DfyqpIWn/FUPtYmiylu?=
- =?us-ascii?Q?4pQMeCCG6NMe4S/P2+MIyZEDluXAIcXKNsPRqm2ktK8Dt4eRachmymNPhEq9?=
- =?us-ascii?Q?3/uv0RfNt1uaRTDZuybfT2T9q43pYLsP4i3MmIJUS05XfnoFU/GPxw654pu5?=
- =?us-ascii?Q?FuKrrufXUXYzGncBuJsLLNDOEitLiAzkd0L3zYiZCI++ruhLAfUzhE058zwI?=
- =?us-ascii?Q?Ap5boj3GElpFDR01awpuMWQ78DOEUvzS1sl493+vhlLSRIiu0mEnECcXp3mD?=
- =?us-ascii?Q?QEVALZU96C/vTKC6P7VomGXIGyN0yPefNzG63XQ1uggp6IvoR9Pf4sj9HXUN?=
- =?us-ascii?Q?rv/UwueK34CvRQEGrDZBfOQGrSmhlGFOzo6qlIAYzonmYy+QjA7Yy+xARxNS?=
- =?us-ascii?Q?O21XvMud7xa5x4oQpxRJjIW+jdEn5UTjmsUnEEW/DAFj8LYQusGkI+01hE/t?=
- =?us-ascii?Q?V9RDKteZ3VyjbJu9J9KNVGqh3o/AHvm5NWxFJPwWP8hgIPxpVbnnNN/Z2Yeo?=
- =?us-ascii?Q?q9IjpunbQP1nLzYF+qlR+UXS64e1C2kzEoTBukGp/s/AFTPCH66Zm3phbJ+1?=
- =?us-ascii?Q?z1T1nPnO6GGVgzVb5aMfULx2Q+2lbfaxHAHbELG3WhfKIf1FTWGeBvBUcZLP?=
- =?us-ascii?Q?gkS7Zg0AATS6+MVLVOPiClwgdZLUw/7CVovkDb4LlkcXvC22v2/mvDbKa2of?=
- =?us-ascii?Q?tYfaSB2DicAi9YflUccnroXUhrJaG1BUaB72TWyVsRQB8U4OOnteG5v8OSLx?=
- =?us-ascii?Q?4ikkFZZF6WSVZkIZZ6kIci5AyR9N4GTpLNWp6VXk3+cPi21skZT2TIyvN1Qv?=
- =?us-ascii?Q?WSyx8v6pFMEwiyyjx/89h6Z+?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?RyHsX1GLx3SFRsSTbXPFrxuy0WjBzURxmOp10pRd/sUvLkfxjFQeKgNqnSo5?=
+ =?us-ascii?Q?PtTAtElWwSTKEp3MGUmRirrObzf9Ei2YuwTocTSKN4tKIR9p+aJ8xfDaIkUn?=
+ =?us-ascii?Q?gxpHYdQtiRgcrig/vL3qsAZkb+DcbbGBIWM1YNc9MhYOu3d9tRJAfDdnjO2O?=
+ =?us-ascii?Q?EfT12x0HfiLDrhdqH1eSgfGzlQbaE7LznJp77sqr7VOprlwBDFLDFFoIqJJh?=
+ =?us-ascii?Q?wt1lrmZHLKqUmjSj+zD7pCkYbaNlEUmuKg8ug5wmDHXEO3nWxYMglEe72eG6?=
+ =?us-ascii?Q?5+XYW9dIdk4Wrual64hXUADldANyd6N+tVEDeS8y0TH8cw6w+Eo9iqGHYuBx?=
+ =?us-ascii?Q?nwTBoSxouOzzTGZ7FAdgxFOfCylcGry4v+Zr5N+9SYji6iCT1kfKklgvNy+g?=
+ =?us-ascii?Q?THBJeX2ceQNldto5Zxfg+8TMPcaKUuAPlDyePgVa60hMRnyjGahNQlSyNjYV?=
+ =?us-ascii?Q?gvzOQHxACTpoIz/Vcg/up7sauURGeZTSzDCCh7i4T7Eyl7eI7VutZ8domf1p?=
+ =?us-ascii?Q?DrFkNzLko3MxYUA0OcITwOn8yXUdfEVmDucmIds4LF+lJWpcf8kswdWuZqL7?=
+ =?us-ascii?Q?WxrxV6EBx1/rOhMfmo3XKW3vDErsPMKiQCEMtw+vM7MKw+727BziZeZC5iwp?=
+ =?us-ascii?Q?MpRVORJrDbt6S7a5OAFzElCIRQcmt462X/LHKLS03b172itsFKMxsr0SN3tu?=
+ =?us-ascii?Q?vYsEcBXdXWtVCelC8KiPDe6ELsRJsJkDSVn29Goufcnoox4VG72SFaZv088+?=
+ =?us-ascii?Q?W89iNa+abGG76gyk1XwY08XDT4Ap0ZdcVQLpLUNx4POTVkfEvzwKJiTbAAA/?=
+ =?us-ascii?Q?wRqlvMhP+LK/X2VHp5eBCivHg5cofjqLPtOkvx2e5qRRC2p7Ffw7bIBkBj8j?=
+ =?us-ascii?Q?v4Epl/TVlZ7JT4TEvFiMW98VQMDigg1DEW1I6qpwybulpiTc8UiR723GcsPG?=
+ =?us-ascii?Q?qUshW3YxuxmdK5Cgh6rmFXxeVWlvY/Kl6XLKzSAUQrI1i4gzDk8EDKtmcE9h?=
+ =?us-ascii?Q?pvN5EGTM8lRE8TP0DW2Myiru8GIRoAXPrhPS5l/3Yqy7tqqq8gM6Ox2Txup6?=
+ =?us-ascii?Q?42o01C85aT6fG86jWsK6jpFj4DnofyQ6Xq6YdHV57hLDtnpnYnBcg2/Zc5wX?=
+ =?us-ascii?Q?N+29ZDAiS1wHZ+mSKFNpe16ToyGKCUZykMYrVdUIIg8HMJ9tgn809xChKWy4?=
+ =?us-ascii?Q?A1GEb6B6G3MvA35w71nDlyVMF/P/H+MQW+6zUt0nbfhWBzaOnqvGcN5uccjW?=
+ =?us-ascii?Q?ie7wkKNuDuuTf0mDK9rDjFlJa8iRg+nQxyBjLgePbAwnhO2S0q6hc7QsAYgq?=
+ =?us-ascii?Q?ZOYVbGykys4+m3Xj5S57fK7j?=
 X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd664148-60ee-4566-e26c-08d8e65412f9
+X-MS-Exchange-CrossTenant-Network-Message-Id: c778abf4-0ad1-44d4-a336-08d8e6541603
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR08MB5517.namprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2021 19:13:24.4222
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2021 19:13:29.5192
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: N8rmLCWRFdzYl4+btJC4uG6f4FrVlAoWajJLcaP/R+4wFTSVfurDTdXwb9Oar5HxUYpC8RhR1hQWo8X0Im0fgQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: hNpDkPD//Mm17J48BU17bx4tq14Q9AIELr0AqcqAh4RURR+6rjb/oqT8UcvF6Dpa9naWq8C8JP9/JrvloSJzfg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR08MB5694
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The vendor-assigned firmware project number is restricted to the
-generic project number (15); however the vendor may assign other
-project numbers to specific applications and customers.
+The bootloader can be closed using the 'execute' command (0x02) or
+hardware reset. Rather than using the former option for successful
+firmware update procedures and reserving the latter for recovering
+the device upon failure, simply use hardware reset for all cases.
 
-These custom project numbers may be based on forwards-compatible
-firmware revision 1.x. However, the driver unnecessarily rejects
-anything older than firmware revision 2.0.
+The post-bootloader initialization delay increases marginally when
+triggered by a hardware reset, so increase the wait time to ensure
+the device does not subsequently fail to respond.
 
-To support other applications, remove these unnecessarily strict
-checks and enter the bootloader only for truly incompatible A000
-devices.
+As part of this change, refactor the return path to avoid an extra
+assignment and to make the logic a bit smaller.
 
 Signed-off-by: Jeff LaBundy <jeff@labundy.com>
 ---
 Changes in v2:
  - None
 
- drivers/input/touchscreen/iqs5xx.c | 40 ++++++------------------------
- 1 file changed, 8 insertions(+), 32 deletions(-)
+ drivers/input/touchscreen/iqs5xx.c | 24 +++++++-----------------
+ 1 file changed, 7 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/input/touchscreen/iqs5xx.c b/drivers/input/touchscreen/iqs5xx.c
-index f36d170e14b2..0920516124c7 100644
+index 0920516124c7..a990c176abf7 100644
 --- a/drivers/input/touchscreen/iqs5xx.c
 +++ b/drivers/input/touchscreen/iqs5xx.c
-@@ -36,9 +36,6 @@
- #define IQS5XX_PROD_NUM_IQS550	40
- #define IQS5XX_PROD_NUM_IQS572	58
- #define IQS5XX_PROD_NUM_IQS525	52
--#define IQS5XX_PROJ_NUM_A000	0
--#define IQS5XX_PROJ_NUM_B000	15
--#define IQS5XX_MAJOR_VER_MIN	2
+@@ -832,7 +832,7 @@ static int iqs5xx_fw_file_parse(struct i2c_client *client,
+ static int iqs5xx_fw_file_write(struct i2c_client *client, const char *fw_file)
+ {
+ 	struct iqs5xx_private *iqs5xx = i2c_get_clientdata(client);
+-	int error, error_bl = 0;
++	int error, error_init = 0;
+ 	u8 *pmap;
 
- #define IQS5XX_SHOW_RESET	BIT(7)
- #define IQS5XX_ACK_RESET	BIT(7)
-@@ -87,7 +84,6 @@
- #define IQS5XX_BL_CMD_CRC	0x03
- #define IQS5XX_BL_BLK_LEN_MAX	64
- #define IQS5XX_BL_ID		0x0200
--#define IQS5XX_BL_STATUS_AVAIL	0xA5
- #define IQS5XX_BL_STATUS_NONE	0xEE
- #define IQS5XX_BL_CRC_PASS	0x00
- #define IQS5XX_BL_CRC_FAIL	0x01
-@@ -573,7 +569,7 @@ static int iqs5xx_dev_init(struct i2c_client *client)
- 	 * the missing zero is prepended).
- 	 */
- 	buf[0] = 0;
--	dev_id_info = (struct iqs5xx_dev_id_info *)&buf[(buf[1] > 0) ? 0 : 1];
-+	dev_id_info = (struct iqs5xx_dev_id_info *)&buf[buf[1] ? 0 : 1];
-
- 	switch (be16_to_cpu(dev_id_info->prod_num)) {
- 	case IQS5XX_PROD_NUM_IQS550:
-@@ -586,36 +582,16 @@ static int iqs5xx_dev_init(struct i2c_client *client)
- 		return -EINVAL;
- 	}
-
--	switch (be16_to_cpu(dev_id_info->proj_num)) {
--	case IQS5XX_PROJ_NUM_A000:
--		dev_err(&client->dev, "Unsupported project number: %u\n",
--			be16_to_cpu(dev_id_info->proj_num));
--		return iqs5xx_bl_open(client);
--	case IQS5XX_PROJ_NUM_B000:
--		break;
--	default:
--		dev_err(&client->dev, "Unrecognized project number: %u\n",
--			be16_to_cpu(dev_id_info->proj_num));
--		return -EINVAL;
--	}
+ 	if (iqs5xx->dev_id_info.bl_status == IQS5XX_BL_STATUS_NONE)
+@@ -875,21 +875,14 @@ static int iqs5xx_fw_file_write(struct i2c_client *client, const char *fw_file)
+ 	error = iqs5xx_bl_verify(client, IQS5XX_CSTM,
+ 				 pmap + IQS5XX_CHKSM_LEN + IQS5XX_APP_LEN,
+ 				 IQS5XX_CSTM_LEN);
+-	if (error)
+-		goto err_reset;
 -
--	if (dev_id_info->major_ver < IQS5XX_MAJOR_VER_MIN) {
--		dev_err(&client->dev, "Unsupported major version: %u\n",
--			dev_id_info->major_ver);
-+	/*
-+	 * With the product number recognized yet shifted by one byte, open the
-+	 * bootloader and wait for user space to convert the A000 device into a
-+	 * B000 device via new firmware.
-+	 */
-+	if (buf[1]) {
-+		dev_err(&client->dev, "Opening bootloader for A000 device\n");
- 		return iqs5xx_bl_open(client);
- 	}
+-	error = iqs5xx_bl_cmd(client, IQS5XX_BL_CMD_EXEC, 0);
 
--	switch (dev_id_info->bl_status) {
--	case IQS5XX_BL_STATUS_AVAIL:
--	case IQS5XX_BL_STATUS_NONE:
--		break;
--	default:
--		dev_err(&client->dev,
--			"Unrecognized bootloader status: 0x%02X\n",
--			dev_id_info->bl_status);
--		return -EINVAL;
+ err_reset:
+-	if (error) {
+-		iqs5xx_reset(client);
+-		usleep_range(10000, 10100);
 -	}
++	iqs5xx_reset(client);
++	usleep_range(15000, 15100);
+
+-	error_bl = error;
+-	error = iqs5xx_dev_init(client);
+-	if (!error && !iqs5xx->dev_id_info.bl_status)
+-		error = -EINVAL;
++	error_init = iqs5xx_dev_init(client);
++	if (!iqs5xx->dev_id_info.bl_status)
++		error_init = error_init ? : -EINVAL;
+
+ 	enable_irq(client->irq);
+
+@@ -898,10 +891,7 @@ static int iqs5xx_fw_file_write(struct i2c_client *client, const char *fw_file)
+ err_kfree:
+ 	kfree(pmap);
+
+-	if (error_bl)
+-		return error_bl;
 -
- 	error = iqs5xx_read_burst(client, IQS5XX_EXP_FILE,
- 				  iqs5xx->exp_file, sizeof(iqs5xx->exp_file));
- 	if (error)
+-	return error;
++	return error ? : error_init;
+ }
+
+ static ssize_t fw_file_store(struct device *dev,
 --
 2.17.1
 
