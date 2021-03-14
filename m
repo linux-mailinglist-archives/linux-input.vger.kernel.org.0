@@ -2,147 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A1EA33A823
-	for <lists+linux-input@lfdr.de>; Sun, 14 Mar 2021 22:10:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DA2C33A825
+	for <lists+linux-input@lfdr.de>; Sun, 14 Mar 2021 22:12:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229870AbhCNVKL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 14 Mar 2021 17:10:11 -0400
-Received: from fgw20-7.mail.saunalahti.fi ([62.142.5.81]:12962 "EHLO
-        fgw20-7.mail.saunalahti.fi" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231809AbhCNVKB (ORCPT
+        id S231345AbhCNVLw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 14 Mar 2021 17:11:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54554 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231809AbhCNVL2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 14 Mar 2021 17:10:01 -0400
-Received: from localhost (88-115-248-186.elisa-laajakaista.fi [88.115.248.186])
-        by fgw20.mail.saunalahti.fi (Halon) with ESMTP
-        id a26cb578-8509-11eb-ba24-005056bd6ce9;
-        Sun, 14 Mar 2021 23:09:59 +0200 (EET)
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: [PATCH v3 2/2] Input: tsc2007 - make use of device properties
-Date:   Sun, 14 Mar 2021 23:09:51 +0200
-Message-Id: <20210314210951.645783-2-andy.shevchenko@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210314210951.645783-1-andy.shevchenko@gmail.com>
-References: <20210314210951.645783-1-andy.shevchenko@gmail.com>
+        Sun, 14 Mar 2021 17:11:28 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D76BEC061574
+        for <linux-input@vger.kernel.org>; Sun, 14 Mar 2021 14:11:27 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id w8so7711551pjf.4
+        for <linux-input@vger.kernel.org>; Sun, 14 Mar 2021 14:11:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3CUnWgKJ+L2IVnACZrtk53I7gULLjZhfNrQSO5LlLGY=;
+        b=NDPPFY9rW6c9zhGpSSJtTAPxF4/HzRdIe7VlYoNtPM6l8yybEQ55SR4GSH5JIYvgez
+         MCewtaKiR0DtD4px6Jw8GA0zwk4UpWMKvEqB2QVTtl3dbia6lXcCdh7MnVGOdYxBvb6o
+         DWwnu5BPCW6egV/h2NpBRedStCI6DybS8E/MnbHzRGEJmPGf7eM6j4NT8W4ol6ExCdQw
+         rgMo6xh+aJMIZbcWUeZawbn8zVjI04cIKgXHrdrceRGHWroMjaHcKmVfKehpfGQQmLoQ
+         x4p4Xm8rIhygD/Rrp85wJ1/lsOFMB7rzyWDaiSbzCatrNELjua+81DQ7YSUgt3xJHHOf
+         QzWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3CUnWgKJ+L2IVnACZrtk53I7gULLjZhfNrQSO5LlLGY=;
+        b=k/h4pOfU5aBmQg0ZxjVKlJtZwuX1LyL8wU/2bQFMFTxoLdh/6DYC/Jb0Cdq8uZeWeN
+         ij5xLbweJxtReWymVy1tlpKxh43iaHIlL1Co8NE/V3JF225MrYq1Uz7CjIYcw7+ECVbs
+         AI8TEu+nkCqNLPUAPYvghEiGkLjE5A3ppyxqt1kDL56oqy/9sPdf1H5+JWls0Ia5l/NG
+         VifGumB7jMpNo92wyUh7+Awt3sdcH+isQ93V1CY7iftJK+mxd/cPXWFOl3t1kIrtjUKX
+         w87RpwdyPYsQmCC4mtkVihBuZ3bz9gyu/HB3/mYDTFSgHWAw26EFTnnmsdcLMiqNdRnY
+         Eccw==
+X-Gm-Message-State: AOAM5339ecyEjkpxzBOVfq/paUdOC+yA7qMJhR31GuP0vKtKJK0gvXwS
+        Q09UiWnS16inwvo2zw+m0f+YxUtYXobpJYBYgjY=
+X-Google-Smtp-Source: ABdhPJwDBE3ZDdT2C/T3bQ1SS5I9/WcQOaXIcQx8YPnWtFKRPz0lo8UGTovN6T/K2BsVTXBZfAby3whnxKSPrlLb7JI=
+X-Received: by 2002:a17:90a:db49:: with SMTP id u9mr9604765pjx.181.1615756287252;
+ Sun, 14 Mar 2021 14:11:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210308215508.399362-1-andy.shevchenko@gmail.com> <YEak4dbMINWNf2rr@google.com>
+In-Reply-To: <YEak4dbMINWNf2rr@google.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sun, 14 Mar 2021 23:11:11 +0200
+Message-ID: <CAHp75VeSSjdLE3raxUKaX_mDro=bYLgSQKSu5bfETSs3kPburA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] Input: tsc2007 - convert to GPIO descriptors
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input <linux-input@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Device property API allows to gather device resources from different sources,
-such as ACPI. Convert the drivers to unleash the power of device property API.
+On Tue, Mar 9, 2021 at 12:27 AM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+> On Mon, Mar 08, 2021 at 11:55:07PM +0200, Andy Shevchenko wrote:
 
-Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
----
-v3: no changes
- drivers/input/touchscreen/tsc2007_core.c | 35 +++++++-----------------
- 1 file changed, 10 insertions(+), 25 deletions(-)
+...
 
-diff --git a/drivers/input/touchscreen/tsc2007_core.c b/drivers/input/touchscreen/tsc2007_core.c
-index e4ab5962ddd4..2f785d9fc893 100644
---- a/drivers/input/touchscreen/tsc2007_core.c
-+++ b/drivers/input/touchscreen/tsc2007_core.c
-@@ -23,7 +23,8 @@
- #include <linux/input.h>
- #include <linux/interrupt.h>
- #include <linux/i2c.h>
--#include <linux/of_device.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/property.h>
- #include <linux/platform_data/tsc2007.h>
- #include "tsc2007.h"
- 
-@@ -220,7 +221,6 @@ static void tsc2007_close(struct input_dev *input_dev)
- 	tsc2007_stop(ts);
- }
- 
--#ifdef CONFIG_OF
- static int tsc2007_get_pendown_state_gpio(struct device *dev)
- {
- 	struct i2c_client *client = to_i2c_client(dev);
-@@ -232,38 +232,32 @@ static int tsc2007_get_pendown_state_gpio(struct device *dev)
- static int tsc2007_probe_dt(struct i2c_client *client, struct tsc2007 *ts)
- {
- 	struct device *dev = &client->dev;
--	struct device_node *np = client->dev.of_node;
- 	u32 val32;
- 	u64 val64;
- 
--	if (!np) {
--		dev_err(&client->dev, "missing device tree data\n");
--		return -EINVAL;
--	}
--
--	if (!of_property_read_u32(np, "ti,max-rt", &val32))
-+	if (!device_property_read_u32(dev, "ti,max-rt", &val32))
- 		ts->max_rt = val32;
- 	else
- 		ts->max_rt = MAX_12BIT;
- 
--	if (!of_property_read_u32(np, "ti,fuzzx", &val32))
-+	if (!device_property_read_u32(dev, "ti,fuzzx", &val32))
- 		ts->fuzzx = val32;
- 
--	if (!of_property_read_u32(np, "ti,fuzzy", &val32))
-+	if (!device_property_read_u32(dev, "ti,fuzzy", &val32))
- 		ts->fuzzy = val32;
- 
--	if (!of_property_read_u32(np, "ti,fuzzz", &val32))
-+	if (!device_property_read_u32(dev, "ti,fuzzz", &val32))
- 		ts->fuzzz = val32;
- 
--	if (!of_property_read_u64(np, "ti,poll-period", &val64))
-+	if (!device_property_read_u64(dev, "ti,poll-period", &val64))
- 		ts->poll_period = msecs_to_jiffies(val64);
- 	else
- 		ts->poll_period = msecs_to_jiffies(1);
- 
--	if (!of_property_read_u32(np, "ti,x-plate-ohms", &val32)) {
-+	if (!device_property_read_u32(dev, "ti,x-plate-ohms", &val32)) {
- 		ts->x_plate_ohms = val32;
- 	} else {
--		dev_err(&client->dev, "missing ti,x-plate-ohms devicetree property.");
-+		dev_err(dev, "missing ti,x-plate-ohms devicetree property.");
- 		return -EINVAL;
- 	}
- 
-@@ -280,13 +274,6 @@ static int tsc2007_probe_dt(struct i2c_client *client, struct tsc2007 *ts)
- 
- 	return 0;
- }
--#else
--static int tsc2007_probe_dt(struct i2c_client *client, struct tsc2007 *ts)
--{
--	dev_err(&client->dev, "platform data is required!\n");
--	return -EINVAL;
--}
--#endif
- 
- static int tsc2007_probe_pdev(struct i2c_client *client, struct tsc2007 *ts,
- 			      const struct tsc2007_platform_data *pdata,
-@@ -435,18 +422,16 @@ static const struct i2c_device_id tsc2007_idtable[] = {
- 
- MODULE_DEVICE_TABLE(i2c, tsc2007_idtable);
- 
--#ifdef CONFIG_OF
- static const struct of_device_id tsc2007_of_match[] = {
- 	{ .compatible = "ti,tsc2007" },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, tsc2007_of_match);
--#endif
- 
- static struct i2c_driver tsc2007_driver = {
- 	.driver = {
- 		.name	= "tsc2007",
--		.of_match_table = of_match_ptr(tsc2007_of_match),
-+		.of_match_table = tsc2007_of_match,
- 	},
- 	.id_table	= tsc2007_idtable,
- 	.probe		= tsc2007_probe,
+> > +     ts->get_pendown_state = tsc2007_get_pendown_state_gpio;
+>
+> OK, I know what my concern was here. You are now assigning
+> ts->get_pendown_state unconditionally, and with ts->gpiod being NULL it
+> will always return false, whereas the old code would skip setting
+> ts->get_pendown_state when GPIO is not available, and the driver would
+> assume that on interrupt the pen is actually down.
+
+Good catch!
+I fixed this in v3 (left original conditional, if we want to drop the
+warning, then we may do it in a separate change).
+
 -- 
-2.30.2
-
+With Best Regards,
+Andy Shevchenko
