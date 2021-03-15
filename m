@@ -2,96 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A67A033C366
-	for <lists+linux-input@lfdr.de>; Mon, 15 Mar 2021 18:07:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF87233C3AB
+	for <lists+linux-input@lfdr.de>; Mon, 15 Mar 2021 18:11:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234907AbhCORHQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 15 Mar 2021 13:07:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57536 "EHLO
+        id S231570AbhCORK7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 15 Mar 2021 13:10:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235149AbhCORG7 (ORCPT
+        with ESMTP id S235659AbhCORKr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 15 Mar 2021 13:06:59 -0400
-Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com [IPv6:2607:f8b0:4864:20::942])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11261C061763
-        for <linux-input@vger.kernel.org>; Mon, 15 Mar 2021 10:06:59 -0700 (PDT)
-Received: by mail-ua1-x942.google.com with SMTP id h34so4420138uah.5
-        for <linux-input@vger.kernel.org>; Mon, 15 Mar 2021 10:06:59 -0700 (PDT)
+        Mon, 15 Mar 2021 13:10:47 -0400
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DBB1C06175F
+        for <linux-input@vger.kernel.org>; Mon, 15 Mar 2021 10:10:47 -0700 (PDT)
+Received: by mail-qk1-x72f.google.com with SMTP id l132so32396282qke.7
+        for <linux-input@vger.kernel.org>; Mon, 15 Mar 2021 10:10:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=7Vrbe4gpVhb7cfcmpNanXi5E+OCzidx3VGMrGNR2bC4=;
-        b=IeztSHzwFXmZolftCfjFRG56pGeDsims74ZNrOy69DoxsYWGoDOf8BTYU1oihzpMjs
-         /UI0k2L0Qw3uMk8fxnCnza7S4kxuw+JHz2cJfu6pTZ0sITqTYvWJGTtVh2KwWkmjRaJy
-         oTsqALi8i98UbsZJ68pP2yxOMTP8DzeoQ8F9tJSRTRKzr7Z/qLAW+V3UqNTj4H1X6nI/
-         PmV4gS2F9+luv8LVHd613zQz/YI0VKn4OQSm+awZ9Ty028cbDK+a/CGJDynN7FOkoDYO
-         LOVsaPRK7onH069em311RQlabQWfJu0IClqpKWhZmgRyNcuRh2wyGe9w6vsdywtZEkI6
-         +lwg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TfYYoY5ECja+GYIj/M/+9ekCkTVsWtvqI/FeqwkLFOw=;
+        b=r+vO8gmU4hQJCq5EkykQ2wgewQMqgW2UIB8Gq31p/UQhs8DsCrHVtUB+ocDUbjO2Kr
+         DePaG4y9MkwNs6OHVebAT8jFqziEZV4SCC5STHeLLLfpP7evXOFMjppLRzHhi2epkqnY
+         HG/jBDrjV/nRLhud0rSdBN49aaWWEhC8sJe62VqN7KNkkBNFGYNv+djgfBVVDY5wlr4E
+         mj0cu16jBbWNZ/K3hq8M49hNFWc59h8PYyOFGnB7gHBOJc6IpIepfuB2kjnyUzTfZQEg
+         OavGTjFpe5EeuJnyn9A4cHQDsqXN6j7r7EVb7FAtrDc0SrJpVIhLQMJyX++FLCu7tvJM
+         U7fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=7Vrbe4gpVhb7cfcmpNanXi5E+OCzidx3VGMrGNR2bC4=;
-        b=Og8zo3kP5eBzDQmdiNDMF2UcA/0W5ugm7jHm/lq2ifyVl2wIGHGRmqesyg6wM2KXEj
-         2SmHcoJiRD6sOAr4o4+QI4Z3a0dyBYm9eb1bSEni+/xPjyfUJjIuoUh/+9Oo0RBnlwF2
-         xA8+nbWp/85husr258sYcrbaTnpuySQcJB6wC4AC+yeZZjM0ZASJDFkuzkqCdM0WzGBH
-         7bE/wm/NCucHBEvOo9Y0ttQBEdAaQimT4ZOGZd5Dr0YlsHd+0Uro6YNgWSGegDyb7C9+
-         OFRPrP3sBLX1t0bze5dUD9bk4SW5/RK/cAUIbreDs+l/GyWypHQ4FN7wgzyKU5kdwrPm
-         ho+Q==
-X-Gm-Message-State: AOAM532jKnYdfp7wUPuuyG5d88lGgqeKFyx5dNOHMmL7uxFlbhDDO+WY
-        QlDpPHNB+mJ8WI+AuPxYofSkhbMYyrVxL11XmPo=
-X-Google-Smtp-Source: ABdhPJwEfkQ2Vj8T+Ow2okUm+JjAfQUJvyZL+X+WzN8tH7luDQmnBYiNeC3HSx9EJovMuQf3n7FVpZyzmlmraCcCLv0=
-X-Received: by 2002:ab0:32cf:: with SMTP id f15mr5321130uao.68.1615828018158;
- Mon, 15 Mar 2021 10:06:58 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TfYYoY5ECja+GYIj/M/+9ekCkTVsWtvqI/FeqwkLFOw=;
+        b=MS9vh/d2QhLssHPnA/hsdG7zqf20aqHxHZ/B3+5CHbijE/0+/cxRY3Dc+zPWBL1dK9
+         N/Un6gKSiDalJovKU9ksCRskf2E8adC8cU8g6V2kWX0oMKDGnQF7LhJTEMIo0mV4JPzg
+         6fsFB28cdAdBSfL8l4Q8GgcPnWH8cKMOBt7Y1vj362MhJ/zqkCw46LidD8/iWTwgrGCa
+         21uYhbesUKae3JbjhybafkAZq3/SB2FQ0qSavY3VYUGLRoVHWLW4oKJFGeoirSnqpnAR
+         6Edttt0IowxcU+m1YN0OFnpjAetWT0H6TIUleWGSziWFb8C0+dMcDrCH2JjntFW2hM0g
+         /AWg==
+X-Gm-Message-State: AOAM532R8/lMtP4zo/QUNehGxSDIIbykgD4rcSswp0MY2WtTOD85uKQW
+        zrlxiQf+7H3IvxNESpia4nIXBm602rgI2w==
+X-Google-Smtp-Source: ABdhPJwmDUyGCftng1oCvu5LB94AQak6LbRLfZM+qA6PdGyDl4WeiwDq5huZAkHecL0gKIJcC0VZ4g==
+X-Received: by 2002:a05:620a:144a:: with SMTP id i10mr26132902qkl.431.1615828246852;
+        Mon, 15 Mar 2021 10:10:46 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14c:482:919::1000])
+        by smtp.gmail.com with ESMTPSA id k8sm9996286qth.74.2021.03.15.10.10.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Mar 2021 10:10:46 -0700 (PDT)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     dmitry.torokhov@gmail.com
+Cc:     linux-input@vger.kernel.org, Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH] Input: imx_keypad - convert to a DT-only driver
+Date:   Mon, 15 Mar 2021 14:10:37 -0300
+Message-Id: <20210315171037.171120-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received: by 2002:ab0:2e8f:0:0:0:0:0 with HTTP; Mon, 15 Mar 2021 10:06:57
- -0700 (PDT)
-Reply-To: ezbtg22@gmail.com
-From:   "Mrs.E.Glenn" <mrganuserge654@gmail.com>
-Date:   Mon, 15 Mar 2021 10:06:57 -0700
-Message-ID: <CAH16wSN_QM_RAUGGsZ7LC8VTEKhCu3+VnJoNqqTumu2QA95yEg@mail.gmail.com>
-Subject: From Mrs.Glenn
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+i.MX has been converted to a DT-only platform, so make the driver
+depend on OF, remove the CONFIG_OF ifdefery and remove of_match_ptr().
+
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+---
+ drivers/input/keyboard/Kconfig      | 1 +
+ drivers/input/keyboard/imx_keypad.c | 4 +---
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/input/keyboard/Kconfig b/drivers/input/keyboard/Kconfig
+index 32d15809ae58..bef0c06ef2a9 100644
+--- a/drivers/input/keyboard/Kconfig
++++ b/drivers/input/keyboard/Kconfig
+@@ -458,6 +458,7 @@ config KEYBOARD_SNVS_PWRKEY
+ config KEYBOARD_IMX
+ 	tristate "IMX keypad support"
+ 	depends on ARCH_MXC || COMPILE_TEST
++	depends on OF
+ 	select INPUT_MATRIXKMAP
+ 	help
+ 	  Enable support for IMX keypad port.
+diff --git a/drivers/input/keyboard/imx_keypad.c b/drivers/input/keyboard/imx_keypad.c
+index 1f5c9ea5e9e5..815b3d11dfbb 100644
+--- a/drivers/input/keyboard/imx_keypad.c
++++ b/drivers/input/keyboard/imx_keypad.c
+@@ -408,13 +408,11 @@ static int imx_keypad_open(struct input_dev *dev)
+ 	return -EIO;
+ }
+ 
+-#ifdef CONFIG_OF
+ static const struct of_device_id imx_keypad_of_match[] = {
+ 	{ .compatible = "fsl,imx21-kpp", },
+ 	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, imx_keypad_of_match);
+-#endif
+ 
+ static int imx_keypad_probe(struct platform_device *pdev)
+ {
+@@ -582,7 +580,7 @@ static struct platform_driver imx_keypad_driver = {
+ 	.driver		= {
+ 		.name	= "imx-keypad",
+ 		.pm	= &imx_kbd_pm_ops,
+-		.of_match_table = of_match_ptr(imx_keypad_of_match),
++		.of_match_table = imx_keypad_of_match,
+ 	},
+ 	.probe		= imx_keypad_probe,
+ };
 -- 
-Dear Beloved,
+2.25.1
 
-I am Mrs Elizabet Glenn from Israel. I am a missionary but right now
-in a hospital bed in Israel. I am 59 years and childless; my husband
-is dead. I was diagnosed with terminal cancer. And my doctor just
-predicted that I have but very limited time to live due to damages in
-my system and as a result of that I decided to dispose my 10.5 million
-US dollars to a God-fearing one for the continuation of charitable
-work. This is why I located you.
-
-My guess about you may not be accurate because I came across your
-contact at the humanitarian calendar event of the year but I believe
-in God who divinely directed me to you for this solemn proposal of
-charitable work.
-
-Therefore I wholeheartedly wish to bequeath my fortune to you as a
-God-fearing person for the continuation of charitable work anywhere
-around the world.
-
-I shall be going in for a surgery operations soonest and desire this
-money to be transferred to you as I do not wish to leave this money in
-the bank because bankers might misuse it for their own interest after
-my death.
-
-As soon as I receive your quick reply assuring me that you will
-utilize the money as I instructed you for the benefit of the less
-privilege, I shall give you more details and also instruct my bank to
-release the money to you for the charity project. I hope you receive
-this mail in good health.
-
-Please contact me on this E-mail (ezbtg22@gmail.com) because I don t
-know what will be my situation in next minute,
-
-I am waiting for your reply.
-
-Yours sincerely,
-Mrs Elizabet Glenn.
