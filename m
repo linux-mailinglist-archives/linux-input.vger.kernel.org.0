@@ -2,119 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 170B533C156
-	for <lists+linux-input@lfdr.de>; Mon, 15 Mar 2021 17:13:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A67A033C366
+	for <lists+linux-input@lfdr.de>; Mon, 15 Mar 2021 18:07:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231253AbhCOQMv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 15 Mar 2021 12:12:51 -0400
-Received: from mx2.suse.de ([195.135.220.15]:37062 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229931AbhCOQMs (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 15 Mar 2021 12:12:48 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 1A270AE44;
-        Mon, 15 Mar 2021 16:12:46 +0000 (UTC)
-Message-ID: <1255e56c66c8704c93adad77f605357267de0231.camel@suse.de>
-Subject: Re: [PATCH v8 11/11] pwm: Add Raspberry Pi Firmware based PWM bus
-From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To:     Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     f.fainelli@gmail.com, linux-kernel@vger.kernel.org,
-        linux-pwm@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        wahrenst@gmx.net, linux-input@vger.kernel.org,
-        dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org,
-        devel@driverdev.osuosl.org, p.zabel@pengutronix.de,
-        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
-        linux-clk@vger.kernel.org, sboyd@kernel.org,
-        linux-rpi-kernel@lists.infradead.org, bgolaszewski@baylibre.com,
-        andy.shevchenko@gmail.com
-Date:   Mon, 15 Mar 2021 17:12:44 +0100
-In-Reply-To: <20210312201217.n2sav23swy7ii4uo@pengutronix.de>
-References: <20210312122454.24480-1-nsaenzjulienne@suse.de>
-         <20210312122454.24480-12-nsaenzjulienne@suse.de>
-         <20210312201217.n2sav23swy7ii4uo@pengutronix.de>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-JjHV4KNwgAtLbBPYBur8"
-User-Agent: Evolution 3.38.4 
+        id S234907AbhCORHQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 15 Mar 2021 13:07:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57536 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235149AbhCORG7 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 15 Mar 2021 13:06:59 -0400
+Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com [IPv6:2607:f8b0:4864:20::942])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11261C061763
+        for <linux-input@vger.kernel.org>; Mon, 15 Mar 2021 10:06:59 -0700 (PDT)
+Received: by mail-ua1-x942.google.com with SMTP id h34so4420138uah.5
+        for <linux-input@vger.kernel.org>; Mon, 15 Mar 2021 10:06:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=7Vrbe4gpVhb7cfcmpNanXi5E+OCzidx3VGMrGNR2bC4=;
+        b=IeztSHzwFXmZolftCfjFRG56pGeDsims74ZNrOy69DoxsYWGoDOf8BTYU1oihzpMjs
+         /UI0k2L0Qw3uMk8fxnCnza7S4kxuw+JHz2cJfu6pTZ0sITqTYvWJGTtVh2KwWkmjRaJy
+         oTsqALi8i98UbsZJ68pP2yxOMTP8DzeoQ8F9tJSRTRKzr7Z/qLAW+V3UqNTj4H1X6nI/
+         PmV4gS2F9+luv8LVHd613zQz/YI0VKn4OQSm+awZ9Ty028cbDK+a/CGJDynN7FOkoDYO
+         LOVsaPRK7onH069em311RQlabQWfJu0IClqpKWhZmgRyNcuRh2wyGe9w6vsdywtZEkI6
+         +lwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=7Vrbe4gpVhb7cfcmpNanXi5E+OCzidx3VGMrGNR2bC4=;
+        b=Og8zo3kP5eBzDQmdiNDMF2UcA/0W5ugm7jHm/lq2ifyVl2wIGHGRmqesyg6wM2KXEj
+         2SmHcoJiRD6sOAr4o4+QI4Z3a0dyBYm9eb1bSEni+/xPjyfUJjIuoUh/+9Oo0RBnlwF2
+         xA8+nbWp/85husr258sYcrbaTnpuySQcJB6wC4AC+yeZZjM0ZASJDFkuzkqCdM0WzGBH
+         7bE/wm/NCucHBEvOo9Y0ttQBEdAaQimT4ZOGZd5Dr0YlsHd+0Uro6YNgWSGegDyb7C9+
+         OFRPrP3sBLX1t0bze5dUD9bk4SW5/RK/cAUIbreDs+l/GyWypHQ4FN7wgzyKU5kdwrPm
+         ho+Q==
+X-Gm-Message-State: AOAM532jKnYdfp7wUPuuyG5d88lGgqeKFyx5dNOHMmL7uxFlbhDDO+WY
+        QlDpPHNB+mJ8WI+AuPxYofSkhbMYyrVxL11XmPo=
+X-Google-Smtp-Source: ABdhPJwEfkQ2Vj8T+Ow2okUm+JjAfQUJvyZL+X+WzN8tH7luDQmnBYiNeC3HSx9EJovMuQf3n7FVpZyzmlmraCcCLv0=
+X-Received: by 2002:ab0:32cf:: with SMTP id f15mr5321130uao.68.1615828018158;
+ Mon, 15 Mar 2021 10:06:58 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 2002:ab0:2e8f:0:0:0:0:0 with HTTP; Mon, 15 Mar 2021 10:06:57
+ -0700 (PDT)
+Reply-To: ezbtg22@gmail.com
+From:   "Mrs.E.Glenn" <mrganuserge654@gmail.com>
+Date:   Mon, 15 Mar 2021 10:06:57 -0700
+Message-ID: <CAH16wSN_QM_RAUGGsZ7LC8VTEKhCu3+VnJoNqqTumu2QA95yEg@mail.gmail.com>
+Subject: From Mrs.Glenn
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+-- 
+Dear Beloved,
 
---=-JjHV4KNwgAtLbBPYBur8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I am Mrs Elizabet Glenn from Israel. I am a missionary but right now
+in a hospital bed in Israel. I am 59 years and childless; my husband
+is dead. I was diagnosed with terminal cancer. And my doctor just
+predicted that I have but very limited time to live due to damages in
+my system and as a result of that I decided to dispose my 10.5 million
+US dollars to a God-fearing one for the continuation of charitable
+work. This is why I located you.
 
-Hi Uwe,
+My guess about you may not be accurate because I came across your
+contact at the humanitarian calendar event of the year but I believe
+in God who divinely directed me to you for this solemn proposal of
+charitable work.
 
-On Fri, 2021-03-12 at 21:12 +0100, Uwe Kleine-K=C3=B6nig wrote:
-> Hello Nicolas,
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Copyright 2020 Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
->=20
-> 2021?
+Therefore I wholeheartedly wish to bequeath my fortune to you as a
+God-fearing person for the continuation of charitable work anywhere
+around the world.
 
-Yes.
+I shall be going in for a surgery operations soonest and desire this
+money to be transferred to you as I do not wish to leave this money in
+the bank because bankers might misuse it for their own interest after
+my death.
 
-> > + * For more information on Raspberry Pi's PoE hat see:
-> > + * https://www.raspberrypi.org/products/poe-hat/
->=20
-> Out of personal interest: Is this hat also able to power a RPi CM4?
+As soon as I receive your quick reply assuring me that you will
+utilize the money as I instructed you for the benefit of the less
+privilege, I shall give you more details and also instruct my bank to
+release the money to you for the charity project. I hope you receive
+this mail in good health.
 
-I haven't tested it, and can't at the moment (no PoE injector available). B=
-ut
-the physical pin layout, and routing in CM4's IO board fits the hat. So I'd=
- say
-yes.
+Please contact me on this E-mail (ezbtg22@gmail.com) because I don t
+know what will be my situation in next minute,
 
-> > + * Limitations:
-> > + *  - No disable bit, so a disabled PWM is simulated by duty_cycle 0
-> > + *  - Only normal polarity
-> > + *  - Fixed 12.5 kHz period
-> > + *
-> > + * The current period is completed when HW is reconfigured.
-> > + */
->=20
-> Other than that as mentioned in the previous round: This looks good,
->=20
-> Reviewed-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+I am waiting for your reply.
 
-Thanks!
-
-> What is your thought about how to get this series merged?
-> At least input, staging, armsoc, clk, reset anf firmware are touched. Do =
-you
-> prepare a branch for merging in the relevant trees (once you have all the
-> necessary Acks)?
-
-As per Linusw suggestion I'll send a pull request myself into the SoC tree =
-and
-hope for the best. :)
-
-Regards,
-Nicolas
-
-
---=-JjHV4KNwgAtLbBPYBur8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAmBPh3wACgkQlfZmHno8
-x/53LQf/dUgfBEd6vbH95M6DCLvf5pt99cSCUEMCwlP7yqwyFwU0PwzaIaaWDZr6
-ndzNDlkPo08HzcPgZ4YenCX25lpjQNMsJ4XAmXsWNv+mmSfFTHlqyZPD9zlfvFe4
-uCxDMhTSdDOW6but1Qq5GoTIOWS49aU6v0ycjXPL6xky1xL6na9w4XuBI0fzQJa8
-cH3A/zt0sFSE6zedvH88o2JcKJqASiIC6M5P8dhShbpQFyJIZSzcebENxCt3AoeA
-Asui9I4P4auIKH3UlvuVYtr2q438+xMD24EpDeMVxeimtYrTcQyB7bwP4v+0cH49
-VTZL6KPpv5TbPD0BnhXJI0owDekNSQ==
-=RDjK
------END PGP SIGNATURE-----
-
---=-JjHV4KNwgAtLbBPYBur8--
-
+Yours sincerely,
+Mrs Elizabet Glenn.
