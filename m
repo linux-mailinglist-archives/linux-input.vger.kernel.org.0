@@ -2,500 +2,119 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67F6933B1EE
-	for <lists+linux-input@lfdr.de>; Mon, 15 Mar 2021 13:00:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 170B533C156
+	for <lists+linux-input@lfdr.de>; Mon, 15 Mar 2021 17:13:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229675AbhCOL75 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 15 Mar 2021 07:59:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46918 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230202AbhCOL7g (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 15 Mar 2021 07:59:36 -0400
-Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com [IPv6:2607:f8b0:4864:20::c2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 053C2C061574
-        for <linux-input@vger.kernel.org>; Mon, 15 Mar 2021 04:59:36 -0700 (PDT)
-Received: by mail-oo1-xc2f.google.com with SMTP id x187-20020a4a41c40000b02901b664cf3220so3222219ooa.10
-        for <linux-input@vger.kernel.org>; Mon, 15 Mar 2021 04:59:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cRAukTNu053js4It+xE3RydBzKEU7I4ibCINBhPeiHc=;
-        b=Fjj+NOQ1Y2G5VPR8I/ng03Ipadi++nxXmRd90C2EnnEc58dWCplHfofRxjctAmPXdm
-         SNi0bOECXe2FhstmaV4HMAPtEfkT30niXVTkWWxtZIkZOgRXO+tPh6DaEW0F6UmyitvN
-         GRJEmCM23JK/YT8H0Xxfwl6KHloAcHxZ8QSjkRaTnVf46dS5kztKOb5Pv6JFaRl+Nh2V
-         NTxKGnAYK0HDB0kTnrqVO9tDEh4JQbUMM3E2c07QHOKgkEb1K+u7S8kZmubkXHLMQjub
-         wLbifgxKQ0jeQlkDtDEHjJH9rjx04BKdWnmjCJOEPQzF3HWX9xozc6ugzitYj8FmVfTA
-         fJSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cRAukTNu053js4It+xE3RydBzKEU7I4ibCINBhPeiHc=;
-        b=Gp256bgXc8WJenvm+asouyO8SHwh6nWuBvcFgLF9aV8VN8adqE3bc5IfvjWt3X5Nm0
-         ICP1bvxoVjyfS+tee72s0+sGjY/neyJhSDKuO9NrZLFR9NCz27zDpDkr1yvoR2GltLZp
-         DzvBGd1lymYIqkRBOdRcnzkoNcfC4rWUc/1hzb6idd2y3ZwfwJsn60apdHhmvWrX/n2B
-         E14Yu3DcbhzYXhKlJsQGSUt2EgK85rjQTydyVNHC5pV3H1loNDbx/eFYtGn31NfrnpaL
-         oVCfQnTkFLMiTXp561Z7sMvmSwXeZqeuKsQp2jNPZ6J4JkifzuZkfXTO9seMbVytuywT
-         bA9g==
-X-Gm-Message-State: AOAM532vFwYH4NsY5EHHZDQqnki7uPThuUqiHMjTcd06i3ByVJMZxD85
-        PwfF3X6n4zmatlS/ckV7ni6MQnRgUTGb6EJgQ5Q=
-X-Google-Smtp-Source: ABdhPJwjv6i9FPgaWtcwf2YbpMBkEjoAARlAoHR1KIxSSSihTsWOEkD0pGDSPUBasJj9J8OaySHV/czlqoyvE25V2sI=
-X-Received: by 2002:a05:6820:20a:: with SMTP id i10mr11345732oob.6.1615809574670;
- Mon, 15 Mar 2021 04:59:34 -0700 (PDT)
+        id S231253AbhCOQMv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 15 Mar 2021 12:12:51 -0400
+Received: from mx2.suse.de ([195.135.220.15]:37062 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229931AbhCOQMs (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 15 Mar 2021 12:12:48 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 1A270AE44;
+        Mon, 15 Mar 2021 16:12:46 +0000 (UTC)
+Message-ID: <1255e56c66c8704c93adad77f605357267de0231.camel@suse.de>
+Subject: Re: [PATCH v8 11/11] pwm: Add Raspberry Pi Firmware based PWM bus
+From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To:     Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     f.fainelli@gmail.com, linux-kernel@vger.kernel.org,
+        linux-pwm@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        wahrenst@gmx.net, linux-input@vger.kernel.org,
+        dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org,
+        devel@driverdev.osuosl.org, p.zabel@pengutronix.de,
+        linux-gpio@vger.kernel.org, linus.walleij@linaro.org,
+        linux-clk@vger.kernel.org, sboyd@kernel.org,
+        linux-rpi-kernel@lists.infradead.org, bgolaszewski@baylibre.com,
+        andy.shevchenko@gmail.com
+Date:   Mon, 15 Mar 2021 17:12:44 +0100
+In-Reply-To: <20210312201217.n2sav23swy7ii4uo@pengutronix.de>
+References: <20210312122454.24480-1-nsaenzjulienne@suse.de>
+         <20210312122454.24480-12-nsaenzjulienne@suse.de>
+         <20210312201217.n2sav23swy7ii4uo@pengutronix.de>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-JjHV4KNwgAtLbBPYBur8"
+User-Agent: Evolution 3.38.4 
 MIME-Version: 1.0
-References: <CAAnY7J2yYdsLMG=07u6QPf5SKN6ba=D+v=SE1vSMxWgP4A05pQ@mail.gmail.com>
- <YEy5Ki/lF2cbQxCH@kroah.com> <CAAnY7J3KDb094ZDZ7QEUQ9biUBBSVr=ru0x7cWPSGsCi-=9quw@mail.gmail.com>
- <YE8M+/LZPDOrOCPh@kroah.com>
-In-Reply-To: <YE8M+/LZPDOrOCPh@kroah.com>
-From:   Zhai Zhaoxuan <kxuanobj@gmail.com>
-Date:   Mon, 15 Mar 2021 19:58:58 +0800
-Message-ID: <CAAnY7J3YQDe1=OR0U66UnS8JE4ALfV9CzugazwAYa7c4TX6F=w@mail.gmail.com>
-Subject: Re: [BUG]an input device can not support more than 568 keys due to
- uevent buffer too small
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Markus Rechberger <kontakt@sundtek.de>
-Content-Type: multipart/mixed; boundary="000000000000b9950105bd91fbf5"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
---000000000000b9950105bd91fbf5
+
+--=-JjHV4KNwgAtLbBPYBur8
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 15, 2021 at 3:30 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Mon, Mar 15, 2021 at 02:58:11PM +0800, Zhai Zhaoxuan wrote:
-> > On Sat, Mar 13, 2021 at 9:07 PM Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > On Sat, Mar 13, 2021 at 02:32:46PM +0800, Zhai Zhaoxuan wrote:
-> > > > Hi Dmitry and Greg,
-> > > >
-> > > > I recently started making a keyboard utility. It basically helps th=
-e
-> > > > user press some keys based on a user script.
-> > > > So I tried to use the "uinput" driver to help me send keys to the k=
-ernel.
-> > > >
-> > > > Due to any key and combination can be requested by the user script,=
- I
-> > > > tried to enable all KEYBIT on the uinput device. But it fails.
-> > > > And more accurate, using a binary search, it seems that I am unable=
- to
-> > > > enable more than 568 keys.
-> > >
-> > > As that's not a "real" device, that makes sense :)
-> > >
-> > > > The KEY_MAX (defined in linux/input-event-codes.h) is 0x2ff. So it
-> > > > should be ok to enable 767 keys. The uinput device should not fail
-> > > > with only 568 keys.
-> > > >
-> > > > I read system logs. The log shows that the new input device fails d=
-ue
-> > > > to systemd-udevd trying to read
-> > > > `/sys/devices/virtual/input/input4/uevent`, but this file is empty
-> > > > unexpectedly.
-> > > >
-> > > > Then ,I searched on the web about this and found a bug opened in
-> > > > 2016-05-24 by Markus:
-> > > > https://bugzilla.kernel.org/show_bug.cgi?id=3D118861
-> > > > The status of this bug is still NEW.
-> > > >
-> > > > I tried to debug the kernel. And I got something that may be useful=
-.
-> > > > The "uevent" shows empty, because a -ENOMEM error returns by
-> > > > `input_add_uevent_modalias_var`.
-> > > > And this function returns -ENOMEM, because the `buf` on `struct
-> > > > kobj_uevent_env` is not enough.
-> > > >
-> > > > The size of `buf` is 2048 (UEVENT_BUFFER_SIZE). According to the
-> > > > MODALIAS encoding algorithm (input_print_modalias_bits), if we allo=
-w
-> > > > all 0x2ff keys to be enabled on the
-> > > > uinput device, the buffer should have at least 2477 bytes. (2477 =
-=3D  3
-> > > > * (0xff - 0x71 + 1) + 4 * 0x200)
-> > > > 2048 is smaller than 2477, so it fails.
-> > > >
-> > > > I have tried to set UEVENT_BUFFER_SIZE to 4096. After that,
-> > > > everythings seems ok. The `/sys/devices/virtual/input/input4/uevent=
-`
-> > > > can show its content correctly. (See the attachment uevent.txt)
-> > > >
-> > > > Since this change is related to the core feature kobject which is u=
-sed
-> > > > everywhere in the kernel, I don't know if doubling the
-> > > > UEVENT_BUFFER_SIZE is the best way to fix it, or if it will cause
-> > > > other serious problems.
-> > > > Or maybe we can use a dynamic buffer size in `struct kobj_uevent_en=
-v`.
-> > > >
-> > > >
-> > > > Thank you,
-> > > > Zhai Zhaoxuan
-> > >
-> > > > PRODUCT=3D3/1234/5678/0
-> > > > NAME=3D"Example device"
-> > > > PROP=3D0
-> > > > EV=3D3
-> > > > KEY=3D7fffffffffffffff ffffffffffffffff ffffffffffffffff ffffffffff=
-ffffff ffffffffffffffff ffffffffffffffff ffffffffffffffff ffffffffffffffff =
-ffffffffffffffff ffffffffffffffff ffffffffffffffff fffffffffffffffe
-> > > > MODALIAS=3Dinput:b0003v1234p5678e0000-e0,1,k71,72,73,74,75,76,77,78=
-,79,7A,7B,7C,7D,7E,7F,80,81,82,83,84,85,86,87,88,89,8A,8B,8C,8D,8E,8F,90,91=
-,92,93,94,95,96,97,98,99,9A,9B,9C,9D,9E,9F,A0,A1,A2,A3,A4,A5,A6,A7,A8,A9,AA=
-,AB,AC,AD,AE,AF,B0,B1,B2,B3,B4,B5,B6,B7,B8,B9,BA,BB,BC,BD,BE,BF,C0,C1,C2,C3=
-,C4,C5,C6,C7,C8,C9,CA,CB,CC,CD,CE,CF,D0,D1,D2,D3,D4,D5,D6,D7,D8,D9,DA,DB,DC=
-,DD,DE,DF,E0,E1,E2,E3,E4,E5,E6,E7,E8,E9,EA,EB,EC,ED,EE,EF,F0,F1,F2,F3,F4,F5=
-,F6,F7,F8,F9,FA,FB,FC,FD,FE,FF,100,101,102,103,104,105,106,107,108,109,10A,=
-10B,10C,10D,10E,10F,110,111,112,113,114,115,116,117,118,119,11A,11B,11C,11D=
-,11E,11F,120,121,122,123,124,125,126,127,128,129,12A,12B,12C,12D,12E,12F,13=
-0,131,132,133,134,135,136,137,138,139,13A,13B,13C,13D,13E,13F,140,141,142,1=
-43,144,145,146,147,148,149,14A,14B,14C,14D,14E,14F,150,151,152,153,154,155,=
-156,157,158,159,15A,15B,15C,15D,15E,15F,160,161,162,163,164,165,166,167,168=
-,169,16A,16B,16C,16D,16E,16F,170,171,172,173,174,175,176,177,178,179,17A,17=
-B,17C,17D,17E,17F,180,181,182,183,184,185,186,187,188,189,18A,18B,18C,18D,1=
-8E,18F,190,191,192,193,194,195,196,197,198,199,19A,19B,19C,19D,19E,19F,1A0,=
-1A1,1A2,1A3,1A4,1A5,1A6,1A7,1A8,1A9,1AA,1AB,1AC,1AD,1AE,1AF,1B0,1B1,1B2,1B3=
-,1B4,1B5,1B6,1B7,1B8,1B9,1BA,1BB,1BC,1BD,1BE,1BF,1C0,1C1,1C2,1C3,1C4,1C5,1C=
-6,1C7,1C8,1C9,1CA,1CB,1CC,1CD,1CE,1CF,1D0,1D1,1D2,1D3,1D4,1D5,1D6,1D7,1D8,1=
-D9,1DA,1DB,1DC,1DD,1DE,1DF,1E0,1E1,1E2,1E3,1E4,1E5,1E6,1E7,1E8,1E9,1EA,1EB,=
-1EC,1ED,1EE,1EF,1F0,1F1,1F2,1F3,1F4,1F5,1F6,1F7,1F8,1F9,1FA,1FB,1FC,1FD,1FE=
-,1FF,200,201,202,203,204,205,206,207,208,209,20A,20B,20C,20D,20E,20F,210,21=
-1,212,213,214,215,216,217,218,219,21A,21B,21C,21D,21E,21F,220,221,222,223,2=
-24,225,226,227,228,229,22A,22B,22C,22D,22E,22F,230,231,232,233,234,235,236,=
-237,238,239,23A,23B,23C,23D,23E,23F,240,241,242,243,244,245,246,247,248,249=
-,24A,24B,24C,24D,24E,24F,250,251,252,253,254,255,256,257,258,259,25A,25B,25=
-C,25D,25E,25F,260,261,262,263,264,265,266,267,268,269,26A,26B,26C,26D,26E,2=
-6F,270,271,272,273,274,275,276,277,278,279,27A,27B,27C,27D,27E,27F,280,281,=
-282,283,284,285,286,287,288,289,28A,28B,28C,28D,28E,28F,290,291,292,293,294=
-,295,296,297,298,299,29A,29B,29C,29D,29E,29F,2A0,2A1,2A2,2A3,2A4,2A5,2A6,2A=
-7,2A8,2A9,2AA,2AB,2AC,2AD,2AE,2AF,2B0,2B1,2B2,2B3,2B4,2B5,2B6,2B7,2B8,2B9,2=
-BA,2BB,2BC,2BD,2BE,2BF,2C0,2C1,2C2,2C3,2C4,2C5,2C6,2C7,2C8,2C9,2CA,2CB,2CC,=
-2CD,2CE,2CF,2D0,2D1,2D2,2D3,2D4,2D5,2D6,2D7,2D8,2D9,2DA,2DB,2DC,2DD,2DE,2DF=
-,2E0,2E1,2E2,2E3,2E4,2E5,2E6,2E7,2E8,2E9,2EA,2EB,2EC,2ED,2EE,2EF,2F0,2F1,2F=
-2,2F3,2F4,2F5,2F6,2F7,2F8,2F9,2FA,2FB,2FC,2FD,2FE,ramlsfw
-> > > >
-> > >
-> > > What about encoding the keys as ranges instead of individual ones, wo=
-uld
-> > > that make more sense?
-> >
-> > I think this solution is ok in most cases.
-> >
-> >
-> > But, just a notice, MODALIAS may be used in user code (such as hwdb in
-> > /lib/udev/hwdb.d). For example, the user may have a pattern "k*74*" in
-> > hwdb to match the new input device which has a POWER button (0x74 is
-> > the key code of power button). Then, the user could use udev to run
-> > some programs, when an input device with power button has been added.
-> >
-> > If we use a "range" to describe the keys, the user may be unable to
-> > detect the power button with only hwdb. They have to move the matching
-> > code into their own programs.
->
-> Yeah, you are right, that's not going to work, I didn't realize that
-> this was a modprobe matching field, but should have.
->
-> I don't mind bumping up the size of the uevent buffer, but just how
-> realistic is this device "in the real world"?  What does offering up a
-> device with that many keys actually provide userspace with?  What
-> functionality does it allow that we do not have today?
+Hi Uwe,
 
-In the real world, I think, it is nearly impossible that a physical
-device contains so many keys or buttons.
+On Fri, 2021-03-12 at 21:12 +0100, Uwe Kleine-K=C3=B6nig wrote:
+> Hello Nicolas,
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2020 Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+>=20
+> 2021?
 
-But I think a virtual device may need this. Such as a server remote
-management card, it simulates a virtual keyboard,
-registers keys and forwards all keys from user's computer to server.
-And the user's computer may have any keys. So the card needs to
-register all possible keys and send them to the kernel.
+Yes.
 
-I have tried to register only all **known** keys instead of all keys,
-but it still fails on the kernel.
-(The userspace source file has been placed in attachment.)
+> > + * For more information on Raspberry Pi's PoE hat see:
+> > + * https://www.raspberrypi.org/products/poe-hat/
+>=20
+> Out of personal interest: Is this hat also able to power a RPi CM4?
 
-> What functionality does it allow that we do not have today?
+I haven't tested it, and can't at the moment (no PoE injector available). B=
+ut
+the physical pin layout, and routing in CM4's IO board fits the hat. So I'd=
+ say
+yes.
 
-If programs are unable to register all known keys on only 1 uinput
-device, programs have to register
-keys on two or more devices. But this may result in unexpected behavior.
+> > + * Limitations:
+> > + *  - No disable bit, so a disabled PWM is simulated by duty_cycle 0
+> > + *  - Only normal polarity
+> > + *  - Fixed 12.5 kHz period
+> > + *
+> > + * The current period is completed when HW is reconfigured.
+> > + */
+>=20
+> Other than that as mentioned in the previous round: This looks good,
+>=20
+> Reviewed-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
 
-For example, the program registers Key A on device1, and registers Key
-B on device2.
-When the program needs to send a key combination A+B to a target
-application, it has to:
-     1. emit Key A down on device 1
-     2. emit Key B down on device 2
-     3. SYN_REPORT on device 1
-     4. SYN_REPORT on device 2
-     5. emit Key A up on device 1
-     6. emit Key B up on device 2
-     7. SYN_REPORT on device 1
-     8. SYN_REPORT on device 2
+Thanks!
 
-Then, the target application polls input events on both devices 1 & 2.
-It reads on device 1, and gets Key A pressed down and then released,
-so it does feature A.
-Then, it reads on device 2, and gets Key B pressed down and then
-released, so it does feature B.
-Finally, the target application loses the A+B key combination.
+> What is your thought about how to get this series merged?
+> At least input, staging, armsoc, clk, reset anf firmware are touched. Do =
+you
+> prepare a branch for merging in the relevant trees (once you have all the
+> necessary Acks)?
 
-If the program has a uinput device with Key A and Key B enabled, the
-program can do this:
-    1. emit Key A down on device 1
-    2. emit Key B down on device 1
-    3. SYN_REPORT on device 1
-    4. emit Key A up on device 1
-    5. emit Key B up on device 1
-    3. SYN_REPORT on device 1
+As per Linusw suggestion I'll send a pull request myself into the SoC tree =
+and
+hope for the best. :)
 
-The target application has no chance to lose the key combination.
+Regards,
+Nicolas
 
->
-> If you change UEVENT_BUFFER_SIZE to be larger, does all of the problems
-> go away?  This is a short-lived memory buffer, there should not be any
-> real issue with increasing it as the memory is used and then freed
-> quickly.
 
-I will do more tests about uinput on the modified kernel, and see if
-there is still something broken.
+--=-JjHV4KNwgAtLbBPYBur8
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
-But please wait for me some time. I don=E2=80=99t have much time on that
-keyboard utility. Since I have a 996 working. :(
+-----BEGIN PGP SIGNATURE-----
 
->
-> thanks,
->
-> greg k-h
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAmBPh3wACgkQlfZmHno8
+x/53LQf/dUgfBEd6vbH95M6DCLvf5pt99cSCUEMCwlP7yqwyFwU0PwzaIaaWDZr6
+ndzNDlkPo08HzcPgZ4YenCX25lpjQNMsJ4XAmXsWNv+mmSfFTHlqyZPD9zlfvFe4
+uCxDMhTSdDOW6but1Qq5GoTIOWS49aU6v0ycjXPL6xky1xL6na9w4XuBI0fzQJa8
+cH3A/zt0sFSE6zedvH88o2JcKJqASiIC6M5P8dhShbpQFyJIZSzcebENxCt3AoeA
+Asui9I4P4auIKH3UlvuVYtr2q438+xMD24EpDeMVxeimtYrTcQyB7bwP4v+0cH49
+VTZL6KPpv5TbPD0BnhXJI0owDekNSQ==
+=RDjK
+-----END PGP SIGNATURE-----
 
---000000000000b9950105bd91fbf5
-Content-Type: text/x-csrc; charset="US-ASCII"; name="uinput.c"
-Content-Disposition: attachment; filename="uinput.c"
-Content-Transfer-Encoding: base64
-Content-ID: <f_kmacb21j0>
-X-Attachment-Id: f_kmacb21j0
+--=-JjHV4KNwgAtLbBPYBur8--
 
-I2luY2x1ZGUgPHN0ZGlvLmg+CiNpbmNsdWRlIDxzdHJpbmcuaD4KI2luY2x1ZGUgPHN0ZGxpYi5o
-PgojaW5jbHVkZSA8dW5pc3RkLmg+CiNpbmNsdWRlIDxlcnJuby5oPgojaW5jbHVkZSA8ZmNudGwu
-aD4KI2luY2x1ZGUgPGxpbnV4L3VpbnB1dC5oPgoKc3RhdGljIGludCBrbm93bl9rZXlzW10gPSB7
-CiAgICBLRVlfRVNDLAogICAgS0VZXzEsCiAgICBLRVlfMiwKICAgIEtFWV8zLAogICAgS0VZXzQs
-CiAgICBLRVlfNSwKICAgIEtFWV82LAogICAgS0VZXzcsCiAgICBLRVlfOCwKICAgIEtFWV85LAog
-ICAgS0VZXzAsCiAgICBLRVlfTUlOVVMsCiAgICBLRVlfRVFVQUwsCiAgICBLRVlfQkFDS1NQQUNF
-LAogICAgS0VZX1RBQiwKICAgIEtFWV9RLAogICAgS0VZX1csCiAgICBLRVlfRSwKICAgIEtFWV9S
-LAogICAgS0VZX1QsCiAgICBLRVlfWSwKICAgIEtFWV9VLAogICAgS0VZX0ksCiAgICBLRVlfTywK
-ICAgIEtFWV9QLAogICAgS0VZX0xFRlRCUkFDRSwKICAgIEtFWV9SSUdIVEJSQUNFLAogICAgS0VZ
-X0VOVEVSLAogICAgS0VZX0xFRlRDVFJMLAogICAgS0VZX0EsCiAgICBLRVlfUywKICAgIEtFWV9E
-LAogICAgS0VZX0YsCiAgICBLRVlfRywKICAgIEtFWV9ILAogICAgS0VZX0osCiAgICBLRVlfSywK
-ICAgIEtFWV9MLAogICAgS0VZX1NFTUlDT0xPTiwKICAgIEtFWV9BUE9TVFJPUEhFLAogICAgS0VZ
-X0dSQVZFLAogICAgS0VZX0xFRlRTSElGVCwKICAgIEtFWV9CQUNLU0xBU0gsCiAgICBLRVlfWiwK
-ICAgIEtFWV9YLAogICAgS0VZX0MsCiAgICBLRVlfViwKICAgIEtFWV9CLAogICAgS0VZX04sCiAg
-ICBLRVlfTSwKICAgIEtFWV9DT01NQSwKICAgIEtFWV9ET1QsCiAgICBLRVlfU0xBU0gsCiAgICBL
-RVlfUklHSFRTSElGVCwKICAgIEtFWV9LUEFTVEVSSVNLLAogICAgS0VZX0xFRlRBTFQsCiAgICBL
-RVlfU1BBQ0UsCiAgICBLRVlfQ0FQU0xPQ0ssCiAgICBLRVlfRjEsCiAgICBLRVlfRjIsCiAgICBL
-RVlfRjMsCiAgICBLRVlfRjQsCiAgICBLRVlfRjUsCiAgICBLRVlfRjYsCiAgICBLRVlfRjcsCiAg
-ICBLRVlfRjgsCiAgICBLRVlfRjksCiAgICBLRVlfRjEwLAogICAgS0VZX05VTUxPQ0ssCiAgICBL
-RVlfU0NST0xMTE9DSywKICAgIEtFWV9LUDcsCiAgICBLRVlfS1A4LAogICAgS0VZX0tQOSwKICAg
-IEtFWV9LUE1JTlVTLAogICAgS0VZX0tQNCwKICAgIEtFWV9LUDUsCiAgICBLRVlfS1A2LAogICAg
-S0VZX0tQUExVUywKICAgIEtFWV9LUDEsCiAgICBLRVlfS1AyLAogICAgS0VZX0tQMywKICAgIEtF
-WV9LUDAsCiAgICBLRVlfS1BET1QsCgogICAgS0VZX1pFTktBS1VIQU5LQUtVLAogICAgS0VZXzEw
-Mk5ELAogICAgS0VZX0YxMSwKICAgIEtFWV9GMTIsCiAgICBLRVlfUk8sCiAgICBLRVlfS0FUQUtB
-TkEsCiAgICBLRVlfSElSQUdBTkEsCiAgICBLRVlfSEVOS0FOLAogICAgS0VZX0tBVEFLQU5BSElS
-QUdBTkEsCiAgICBLRVlfTVVIRU5LQU4sCiAgICBLRVlfS1BKUENPTU1BLAogICAgS0VZX0tQRU5U
-RVIsCiAgICBLRVlfUklHSFRDVFJMLAogICAgS0VZX0tQU0xBU0gsCiAgICBLRVlfU1lTUlEsCiAg
-ICBLRVlfUklHSFRBTFQsCiAgICBLRVlfTElORUZFRUQsCiAgICBLRVlfSE9NRSwKICAgIEtFWV9V
-UCwKICAgIEtFWV9QQUdFVVAsCiAgICBLRVlfTEVGVCwKICAgIEtFWV9SSUdIVCwKICAgIEtFWV9F
-TkQsCiAgICBLRVlfRE9XTiwKICAgIEtFWV9QQUdFRE9XTiwKICAgIEtFWV9JTlNFUlQsCiAgICBL
-RVlfREVMRVRFLAogICAgS0VZX01BQ1JPLAogICAgS0VZX01VVEUsCiAgICBLRVlfVk9MVU1FRE9X
-TiwKICAgIEtFWV9WT0xVTUVVUCwKICAgIEtFWV9QT1dFUiwKICAgIEtFWV9LUEVRVUFMLAogICAg
-S0VZX0tQUExVU01JTlVTLAogICAgS0VZX1BBVVNFLAogICAgS0VZX1NDQUxFLAoKICAgIEtFWV9L
-UENPTU1BLAogICAgS0VZX0hBTkdFVUwsCiAgICBLRVlfSEFOR1VFTCwKICAgIEtFWV9IQU5KQSwK
-ICAgIEtFWV9ZRU4sCiAgICBLRVlfTEVGVE1FVEEsCiAgICBLRVlfUklHSFRNRVRBLAogICAgS0VZ
-X0NPTVBPU0UsCgogICAgS0VZX1NUT1AsCiAgICBLRVlfQUdBSU4sCiAgICBLRVlfUFJPUFMsCiAg
-ICBLRVlfVU5ETywKICAgIEtFWV9GUk9OVCwKICAgIEtFWV9DT1BZLAogICAgS0VZX09QRU4sCiAg
-ICBLRVlfUEFTVEUsCiAgICBLRVlfRklORCwKICAgIEtFWV9DVVQsCiAgICBLRVlfSEVMUCwKICAg
-IEtFWV9NRU5VLAogICAgS0VZX0NBTEMsCiAgICBLRVlfU0VUVVAsCiAgICBLRVlfU0xFRVAsCiAg
-ICBLRVlfV0FLRVVQLAogICAgS0VZX0ZJTEUsCiAgICBLRVlfU0VOREZJTEUsCiAgICBLRVlfREVM
-RVRFRklMRSwKICAgIEtFWV9YRkVSLAogICAgS0VZX1BST0cxLAogICAgS0VZX1BST0cyLAogICAg
-S0VZX1dXVywKICAgIEtFWV9NU0RPUywKICAgIEtFWV9DT0ZGRUUsCiAgICBLRVlfU0NSRUVOTE9D
-SywKICAgIEtFWV9ST1RBVEVfRElTUExBWSwKICAgIEtFWV9ESVJFQ1RJT04sCiAgICBLRVlfQ1lD
-TEVXSU5ET1dTLAogICAgS0VZX01BSUwsCiAgICBLRVlfQk9PS01BUktTLAogICAgS0VZX0NPTVBV
-VEVSLAogICAgS0VZX0JBQ0ssCiAgICBLRVlfRk9SV0FSRCwKICAgIEtFWV9DTE9TRUNELAogICAg
-S0VZX0VKRUNUQ0QsCiAgICBLRVlfRUpFQ1RDTE9TRUNELAogICAgS0VZX05FWFRTT05HLAogICAg
-S0VZX1BMQVlQQVVTRSwKICAgIEtFWV9QUkVWSU9VU1NPTkcsCiAgICBLRVlfU1RPUENELAogICAg
-S0VZX1JFQ09SRCwKICAgIEtFWV9SRVdJTkQsCiAgICBLRVlfUEhPTkUsCiAgICBLRVlfSVNPLAog
-ICAgS0VZX0NPTkZJRywKICAgIEtFWV9IT01FUEFHRSwKICAgIEtFWV9SRUZSRVNILAogICAgS0VZ
-X0VYSVQsCiAgICBLRVlfTU9WRSwKICAgIEtFWV9FRElULAogICAgS0VZX1NDUk9MTFVQLAogICAg
-S0VZX1NDUk9MTERPV04sCiAgICBLRVlfS1BMRUZUUEFSRU4sCiAgICBLRVlfS1BSSUdIVFBBUkVO
-LAogICAgS0VZX05FVywKICAgIEtFWV9SRURPLAoKICAgIEtFWV9GMTMsCiAgICBLRVlfRjE0LAog
-ICAgS0VZX0YxNSwKICAgIEtFWV9GMTYsCiAgICBLRVlfRjE3LAogICAgS0VZX0YxOCwKICAgIEtF
-WV9GMTksCiAgICBLRVlfRjIwLAogICAgS0VZX0YyMSwKICAgIEtFWV9GMjIsCiAgICBLRVlfRjIz
-LAogICAgS0VZX0YyNCwKCiAgICBLRVlfUExBWUNELAogICAgS0VZX1BBVVNFQ0QsCiAgICBLRVlf
-UFJPRzMsCiAgICBLRVlfUFJPRzQsCiAgICBLRVlfREFTSEJPQVJELAogICAgS0VZX1NVU1BFTkQs
-CiAgICBLRVlfQ0xPU0UsCiAgICBLRVlfUExBWSwKICAgIEtFWV9GQVNURk9SV0FSRCwKICAgIEtF
-WV9CQVNTQk9PU1QsCiAgICBLRVlfUFJJTlQsCiAgICBLRVlfSFAsCiAgICBLRVlfQ0FNRVJBLAog
-ICAgS0VZX1NPVU5ELAogICAgS0VZX1FVRVNUSU9OLAogICAgS0VZX0VNQUlMLAogICAgS0VZX0NI
-QVQsCiAgICBLRVlfU0VBUkNILAogICAgS0VZX0NPTk5FQ1QsCiAgICBLRVlfRklOQU5DRSwKICAg
-IEtFWV9TUE9SVCwKICAgIEtFWV9TSE9QLAogICAgS0VZX0FMVEVSQVNFLAogICAgS0VZX0NBTkNF
-TCwKICAgIEtFWV9CUklHSFRORVNTRE9XTiwKICAgIEtFWV9CUklHSFRORVNTVVAsCiAgICBLRVlf
-TUVESUEsCgogICAgS0VZX1NXSVRDSFZJREVPTU9ERSwKICAgIEtFWV9LQkRJTExVTVRPR0dMRSwK
-ICAgIEtFWV9LQkRJTExVTURPV04sCiAgICBLRVlfS0JESUxMVU1VUCwKCiAgICBLRVlfU0VORCwK
-ICAgIEtFWV9SRVBMWSwKICAgIEtFWV9GT1JXQVJETUFJTCwKICAgIEtFWV9TQVZFLAogICAgS0VZ
-X0RPQ1VNRU5UUywKCiAgICBLRVlfQkFUVEVSWSwKCiAgICBLRVlfQkxVRVRPT1RILAogICAgS0VZ
-X1dMQU4sCiAgICBLRVlfVVdCLAoKICAgIEtFWV9VTktOT1dOLAoKICAgIEtFWV9WSURFT19ORVhU
-LAogICAgS0VZX1ZJREVPX1BSRVYsCiAgICBLRVlfQlJJR0hUTkVTU19DWUNMRSwKICAgIEtFWV9C
-UklHSFRORVNTX0FVVE8sCiAgICBLRVlfQlJJR0hUTkVTU19aRVJPLAogICAgS0VZX0RJU1BMQVlf
-T0ZGLAoKICAgIEtFWV9XV0FOLAogICAgS0VZX1dJTUFYLAogICAgS0VZX1JGS0lMTCwKCiAgICBL
-RVlfTUlDTVVURSwKICAgIEJUTl9NSVNDLAogICAgQlROXzAsCiAgICBCVE5fMSwKICAgIEJUTl8y
-LAogICAgQlROXzMsCiAgICBCVE5fNCwKICAgIEJUTl81LAogICAgQlROXzYsCiAgICBCVE5fNywK
-ICAgIEJUTl84LAogICAgQlROXzksCgogICAgQlROX01PVVNFLAogICAgQlROX0xFRlQsCiAgICBC
-VE5fUklHSFQsCiAgICBCVE5fTUlERExFLAogICAgQlROX1NJREUsCiAgICBCVE5fRVhUUkEsCiAg
-ICBCVE5fRk9SV0FSRCwKICAgIEJUTl9CQUNLLAogICAgQlROX1RBU0ssCgogICAgQlROX0pPWVNU
-SUNLLAogICAgQlROX1RSSUdHRVIsCiAgICBCVE5fVEhVTUIsCiAgICBCVE5fVEhVTUIyLAogICAg
-QlROX1RPUCwKICAgIEJUTl9UT1AyLAogICAgQlROX1BJTktJRSwKICAgIEJUTl9CQVNFLAogICAg
-QlROX0JBU0UyLAogICAgQlROX0JBU0UzLAogICAgQlROX0JBU0U0LAogICAgQlROX0JBU0U1LAog
-ICAgQlROX0JBU0U2LAogICAgQlROX0RFQUQsCgogICAgQlROX0dBTUVQQUQsCiAgICBCVE5fU09V
-VEgsCiAgICBCVE5fQSwKICAgIEJUTl9FQVNULAogICAgQlROX0IsCiAgICBCVE5fQywKICAgIEJU
-Tl9OT1JUSCwKICAgIEJUTl9YLAogICAgQlROX1dFU1QsCiAgICBCVE5fWSwKICAgIEJUTl9aLAog
-ICAgQlROX1RMLAogICAgQlROX1RSLAogICAgQlROX1RMMiwKICAgIEJUTl9UUjIsCiAgICBCVE5f
-U0VMRUNULAogICAgQlROX1NUQVJULAogICAgQlROX01PREUsCiAgICBCVE5fVEhVTUJMLAogICAg
-QlROX1RIVU1CUiwKCiAgICBCVE5fRElHSSwKICAgIEJUTl9UT09MX1BFTiwKICAgIEJUTl9UT09M
-X1JVQkJFUiwKICAgIEJUTl9UT09MX0JSVVNILAogICAgQlROX1RPT0xfUEVOQ0lMLAogICAgQlRO
-X1RPT0xfQUlSQlJVU0gsCiAgICBCVE5fVE9PTF9GSU5HRVIsCiAgICBCVE5fVE9PTF9NT1VTRSwK
-ICAgIEJUTl9UT09MX0xFTlMsCiAgICBCVE5fVE9PTF9RVUlOVFRBUCwKICAgIEJUTl9TVFlMVVMz
-LAogICAgQlROX1RPVUNILAogICAgQlROX1NUWUxVUywKICAgIEJUTl9TVFlMVVMyLAogICAgQlRO
-X1RPT0xfRE9VQkxFVEFQLAogICAgQlROX1RPT0xfVFJJUExFVEFQLAogICAgQlROX1RPT0xfUVVB
-RFRBUCwKCiAgICBCVE5fV0hFRUwsCiAgICBCVE5fR0VBUl9ET1dOLAogICAgQlROX0dFQVJfVVAs
-CgogICAgS0VZX09LLAogICAgS0VZX1NFTEVDVCwKICAgIEtFWV9HT1RPLAogICAgS0VZX0NMRUFS
-LAogICAgS0VZX1BPV0VSMiwKICAgIEtFWV9PUFRJT04sCiAgICBLRVlfSU5GTywKICAgIEtFWV9U
-SU1FLAogICAgS0VZX1ZFTkRPUiwKICAgIEtFWV9BUkNISVZFLAogICAgS0VZX1BST0dSQU0sCiAg
-ICBLRVlfQ0hBTk5FTCwKICAgIEtFWV9GQVZPUklURVMsCiAgICBLRVlfRVBHLAogICAgS0VZX1BW
-UiwKICAgIEtFWV9NSFAsCiAgICBLRVlfTEFOR1VBR0UsCiAgICBLRVlfVElUTEUsCiAgICBLRVlf
-U1VCVElUTEUsCiAgICBLRVlfQU5HTEUsCiAgICBLRVlfRlVMTF9TQ1JFRU4sCiAgICBLRVlfWk9P
-TSwKICAgIEtFWV9NT0RFLAogICAgS0VZX0tFWUJPQVJELAogICAgS0VZX0FTUEVDVF9SQVRJTywK
-ICAgIEtFWV9TQ1JFRU4sCiAgICBLRVlfUEMsCiAgICBLRVlfVFYsCiAgICBLRVlfVFYyLAogICAg
-S0VZX1ZDUiwKICAgIEtFWV9WQ1IyLAogICAgS0VZX1NBVCwKICAgIEtFWV9TQVQyLAogICAgS0VZ
-X0NELAogICAgS0VZX1RBUEUsCiAgICBLRVlfUkFESU8sCiAgICBLRVlfVFVORVIsCiAgICBLRVlf
-UExBWUVSLAogICAgS0VZX1RFWFQsCiAgICBLRVlfRFZELAogICAgS0VZX0FVWCwKICAgIEtFWV9N
-UDMsCiAgICBLRVlfQVVESU8sCiAgICBLRVlfVklERU8sCiAgICBLRVlfRElSRUNUT1JZLAogICAg
-S0VZX0xJU1QsCiAgICBLRVlfTUVNTywKICAgIEtFWV9DQUxFTkRBUiwKICAgIEtFWV9SRUQsCiAg
-ICBLRVlfR1JFRU4sCiAgICBLRVlfWUVMTE9XLAogICAgS0VZX0JMVUUsCiAgICBLRVlfQ0hBTk5F
-TFVQLAogICAgS0VZX0NIQU5ORUxET1dOLAogICAgS0VZX0ZJUlNULAogICAgS0VZX0xBU1QsCiAg
-ICBLRVlfQUIsCiAgICBLRVlfTkVYVCwKICAgIEtFWV9SRVNUQVJULAogICAgS0VZX1NMT1csCiAg
-ICBLRVlfU0hVRkZMRSwKICAgIEtFWV9CUkVBSywKICAgIEtFWV9QUkVWSU9VUywKICAgIEtFWV9E
-SUdJVFMsCiAgICBLRVlfVEVFTiwKICAgIEtFWV9UV0VOLAogICAgS0VZX1ZJREVPUEhPTkUsCiAg
-ICBLRVlfR0FNRVMsCiAgICBLRVlfWk9PTUlOLAogICAgS0VZX1pPT01PVVQsCiAgICBLRVlfWk9P
-TVJFU0VULAogICAgS0VZX1dPUkRQUk9DRVNTT1IsCiAgICBLRVlfRURJVE9SLAogICAgS0VZX1NQ
-UkVBRFNIRUVULAogICAgS0VZX0dSQVBISUNTRURJVE9SLAogICAgS0VZX1BSRVNFTlRBVElPTiwK
-ICAgIEtFWV9EQVRBQkFTRSwKICAgIEtFWV9ORVdTLAogICAgS0VZX1ZPSUNFTUFJTCwKICAgIEtF
-WV9BRERSRVNTQk9PSywKICAgIEtFWV9NRVNTRU5HRVIsCiAgICBLRVlfRElTUExBWVRPR0dMRSwK
-ICAgIEtFWV9CUklHSFRORVNTX1RPR0dMRSwKICAgIEtFWV9TUEVMTENIRUNLLAogICAgS0VZX0xP
-R09GRiwKICAgIEtFWV9ET0xMQVIsCiAgICBLRVlfRVVSTywKICAgIEtFWV9GUkFNRUJBQ0ssCiAg
-ICBLRVlfRlJBTUVGT1JXQVJELAogICAgS0VZX0NPTlRFWFRfTUVOVSwKICAgIEtFWV9NRURJQV9S
-RVBFQVQsCiAgICBLRVlfMTBDSEFOTkVMU1VQLAogICAgS0VZXzEwQ0hBTk5FTFNET1dOLAogICAg
-S0VZX0lNQUdFUywKICAgIEtFWV9ERUxfRU9MLAogICAgS0VZX0RFTF9FT1MsCiAgICBLRVlfSU5T
-X0xJTkUsCiAgICBLRVlfREVMX0xJTkUsCiAgICBLRVlfRk4sCiAgICBLRVlfRk5fRVNDLAogICAg
-S0VZX0ZOX0YxLAogICAgS0VZX0ZOX0YyLAogICAgS0VZX0ZOX0YzLAogICAgS0VZX0ZOX0Y0LAog
-ICAgS0VZX0ZOX0Y1LAogICAgS0VZX0ZOX0Y2LAogICAgS0VZX0ZOX0Y3LAogICAgS0VZX0ZOX0Y4
-LAogICAgS0VZX0ZOX0Y5LAogICAgS0VZX0ZOX0YxMCwKICAgIEtFWV9GTl9GMTEsCiAgICBLRVlf
-Rk5fRjEyLAogICAgS0VZX0ZOXzEsCiAgICBLRVlfRk5fMiwKICAgIEtFWV9GTl9ELAogICAgS0VZ
-X0ZOX0UsCiAgICBLRVlfRk5fRiwKICAgIEtFWV9GTl9TLAogICAgS0VZX0ZOX0IsCiAgICBLRVlf
-QlJMX0RPVDEsCiAgICBLRVlfQlJMX0RPVDIsCiAgICBLRVlfQlJMX0RPVDMsCiAgICBLRVlfQlJM
-X0RPVDQsCiAgICBLRVlfQlJMX0RPVDUsCiAgICBLRVlfQlJMX0RPVDYsCiAgICBLRVlfQlJMX0RP
-VDcsCiAgICBLRVlfQlJMX0RPVDgsCiAgICBLRVlfQlJMX0RPVDksCiAgICBLRVlfQlJMX0RPVDEw
-LAogICAgS0VZX05VTUVSSUNfMCwKICAgIEtFWV9OVU1FUklDXzEsCiAgICBLRVlfTlVNRVJJQ18y
-LAogICAgS0VZX05VTUVSSUNfMywKICAgIEtFWV9OVU1FUklDXzQsCiAgICBLRVlfTlVNRVJJQ181
-LAogICAgS0VZX05VTUVSSUNfNiwKICAgIEtFWV9OVU1FUklDXzcsCiAgICBLRVlfTlVNRVJJQ184
-LAogICAgS0VZX05VTUVSSUNfOSwKICAgIEtFWV9OVU1FUklDX1NUQVIsCiAgICBLRVlfTlVNRVJJ
-Q19QT1VORCwKICAgIEtFWV9OVU1FUklDX0EsCiAgICBLRVlfTlVNRVJJQ19CLAogICAgS0VZX05V
-TUVSSUNfQywKICAgIEtFWV9OVU1FUklDX0QsCiAgICBLRVlfQ0FNRVJBX0ZPQ1VTLAogICAgS0VZ
-X1dQU19CVVRUT04sCiAgICBLRVlfVE9VQ0hQQURfVE9HR0xFLAogICAgS0VZX1RPVUNIUEFEX09O
-LAogICAgS0VZX1RPVUNIUEFEX09GRiwKICAgIEtFWV9DQU1FUkFfWk9PTUlOLAogICAgS0VZX0NB
-TUVSQV9aT09NT1VULAogICAgS0VZX0NBTUVSQV9VUCwKICAgIEtFWV9DQU1FUkFfRE9XTiwKICAg
-IEtFWV9DQU1FUkFfTEVGVCwKICAgIEtFWV9DQU1FUkFfUklHSFQsCiAgICBLRVlfQVRURU5EQU5U
-X09OLAogICAgS0VZX0FUVEVOREFOVF9PRkYsCiAgICBLRVlfQVRURU5EQU5UX1RPR0dMRSwKICAg
-IEtFWV9MSUdIVFNfVE9HR0xFLAogICAgQlROX0RQQURfVVAsCiAgICBCVE5fRFBBRF9ET1dOLAog
-ICAgQlROX0RQQURfTEVGVCwKICAgIEJUTl9EUEFEX1JJR0hULAogICAgS0VZX0FMU19UT0dHTEUs
-CiAgICBLRVlfUk9UQVRFX0xPQ0tfVE9HR0xFLAogICAgS0VZX0JVVFRPTkNPTkZJRywKICAgIEtF
-WV9UQVNLTUFOQUdFUiwKICAgIEtFWV9KT1VSTkFMLAogICAgS0VZX0NPTlRST0xQQU5FTCwKICAg
-IEtFWV9BUFBTRUxFQ1QsCiAgICBLRVlfU0NSRUVOU0FWRVIsCiAgICBLRVlfVk9JQ0VDT01NQU5E
-LAogICAgS0VZX0FTU0lTVEFOVCwKICAgIEtFWV9LQkRfTEFZT1VUX05FWFQsCiAgICBLRVlfQlJJ
-R0hUTkVTU19NSU4sCiAgICBLRVlfQlJJR0hUTkVTU19NQVgsCiAgICBLRVlfS0JESU5QVVRBU1NJ
-U1RfUFJFViwKICAgIEtFWV9LQkRJTlBVVEFTU0lTVF9ORVhULAogICAgS0VZX0tCRElOUFVUQVNT
-SVNUX1BSRVZHUk9VUCwKICAgIEtFWV9LQkRJTlBVVEFTU0lTVF9ORVhUR1JPVVAsCiAgICBLRVlf
-S0JESU5QVVRBU1NJU1RfQUNDRVBULAogICAgS0VZX0tCRElOUFVUQVNTSVNUX0NBTkNFTCwKICAg
-IEtFWV9SSUdIVF9VUCwKICAgIEtFWV9SSUdIVF9ET1dOLAogICAgS0VZX0xFRlRfVVAsCiAgICBL
-RVlfTEVGVF9ET1dOLAogICAgS0VZX1JPT1RfTUVOVSwKICAgIEtFWV9NRURJQV9UT1BfTUVOVSwK
-ICAgIEtFWV9OVU1FUklDXzExLAogICAgS0VZX05VTUVSSUNfMTIsCiAgICBLRVlfQVVESU9fREVT
-QywKICAgIEtFWV8zRF9NT0RFLAogICAgS0VZX05FWFRfRkFWT1JJVEUsCiAgICBLRVlfU1RPUF9S
-RUNPUkQsCiAgICBLRVlfUEFVU0VfUkVDT1JELAogICAgS0VZX1ZPRCwKICAgIEtFWV9VTk1VVEUs
-CiAgICBLRVlfRkFTVFJFVkVSU0UsCiAgICBLRVlfU0xPV1JFVkVSU0UsCiAgICBLRVlfREFUQSwK
-ICAgIEtFWV9PTlNDUkVFTl9LRVlCT0FSRCwKICAgIEtFWV9QUklWQUNZX1NDUkVFTl9UT0dHTEUs
-CiAgICBLRVlfU0VMRUNUSVZFX1NDUkVFTlNIT1QsCiAgICBLRVlfTUFDUk8xLAogICAgS0VZX01B
-Q1JPMiwKICAgIEtFWV9NQUNSTzMsCiAgICBLRVlfTUFDUk80LAogICAgS0VZX01BQ1JPNSwKICAg
-IEtFWV9NQUNSTzYsCiAgICBLRVlfTUFDUk83LAogICAgS0VZX01BQ1JPOCwKICAgIEtFWV9NQUNS
-TzksCiAgICBLRVlfTUFDUk8xMCwKICAgIEtFWV9NQUNSTzExLAogICAgS0VZX01BQ1JPMTIsCiAg
-ICBLRVlfTUFDUk8xMywKICAgIEtFWV9NQUNSTzE0LAogICAgS0VZX01BQ1JPMTUsCiAgICBLRVlf
-TUFDUk8xNiwKICAgIEtFWV9NQUNSTzE3LAogICAgS0VZX01BQ1JPMTgsCiAgICBLRVlfTUFDUk8x
-OSwKICAgIEtFWV9NQUNSTzIwLAogICAgS0VZX01BQ1JPMjEsCiAgICBLRVlfTUFDUk8yMiwKICAg
-IEtFWV9NQUNSTzIzLAogICAgS0VZX01BQ1JPMjQsCiAgICBLRVlfTUFDUk8yNSwKICAgIEtFWV9N
-QUNSTzI2LAogICAgS0VZX01BQ1JPMjcsCiAgICBLRVlfTUFDUk8yOCwKICAgIEtFWV9NQUNSTzI5
-LAogICAgS0VZX01BQ1JPMzAsCiAgICBLRVlfTUFDUk9fUkVDT1JEX1NUQVJULAogICAgS0VZX01B
-Q1JPX1JFQ09SRF9TVE9QLAogICAgS0VZX01BQ1JPX1BSRVNFVF9DWUNMRSwKICAgIEtFWV9NQUNS
-T19QUkVTRVQxLAogICAgS0VZX01BQ1JPX1BSRVNFVDIsCiAgICBLRVlfTUFDUk9fUFJFU0VUMywK
-ICAgIEtFWV9LQkRfTENEX01FTlUxLAogICAgS0VZX0tCRF9MQ0RfTUVOVTIsCiAgICBLRVlfS0JE
-X0xDRF9NRU5VMywKICAgIEtFWV9LQkRfTENEX01FTlU0LAogICAgS0VZX0tCRF9MQ0RfTUVOVTUs
-CiAgICBCVE5fVFJJR0dFUl9IQVBQWSwKICAgIEJUTl9UUklHR0VSX0hBUFBZMSwKICAgIEJUTl9U
-UklHR0VSX0hBUFBZMiwKICAgIEJUTl9UUklHR0VSX0hBUFBZMywKICAgIEJUTl9UUklHR0VSX0hB
-UFBZNCwKICAgIEJUTl9UUklHR0VSX0hBUFBZNSwKICAgIEJUTl9UUklHR0VSX0hBUFBZNiwKICAg
-IEJUTl9UUklHR0VSX0hBUFBZNywKICAgIEJUTl9UUklHR0VSX0hBUFBZOCwKICAgIEJUTl9UUklH
-R0VSX0hBUFBZOSwKICAgIEJUTl9UUklHR0VSX0hBUFBZMTAsCiAgICBCVE5fVFJJR0dFUl9IQVBQ
-WTExLAogICAgQlROX1RSSUdHRVJfSEFQUFkxMiwKICAgIEJUTl9UUklHR0VSX0hBUFBZMTMsCiAg
-ICBCVE5fVFJJR0dFUl9IQVBQWTE0LAogICAgQlROX1RSSUdHRVJfSEFQUFkxNSwKICAgIEJUTl9U
-UklHR0VSX0hBUFBZMTYsCiAgICBCVE5fVFJJR0dFUl9IQVBQWTE3LAogICAgQlROX1RSSUdHRVJf
-SEFQUFkxOCwKICAgIEJUTl9UUklHR0VSX0hBUFBZMTksCiAgICBCVE5fVFJJR0dFUl9IQVBQWTIw
-LAogICAgQlROX1RSSUdHRVJfSEFQUFkyMSwKICAgIEJUTl9UUklHR0VSX0hBUFBZMjIsCiAgICBC
-VE5fVFJJR0dFUl9IQVBQWTIzLAogICAgQlROX1RSSUdHRVJfSEFQUFkyNCwKICAgIEJUTl9UUklH
-R0VSX0hBUFBZMjUsCiAgICBCVE5fVFJJR0dFUl9IQVBQWTI2LAogICAgQlROX1RSSUdHRVJfSEFQ
-UFkyNywKICAgIEJUTl9UUklHR0VSX0hBUFBZMjgsCiAgICBCVE5fVFJJR0dFUl9IQVBQWTI5LAog
-ICAgQlROX1RSSUdHRVJfSEFQUFkzMCwKICAgIEJUTl9UUklHR0VSX0hBUFBZMzEsCiAgICBCVE5f
-VFJJR0dFUl9IQVBQWTMyLAogICAgQlROX1RSSUdHRVJfSEFQUFkzMywKICAgIEJUTl9UUklHR0VS
-X0hBUFBZMzQsCiAgICBCVE5fVFJJR0dFUl9IQVBQWTM1LAogICAgQlROX1RSSUdHRVJfSEFQUFkz
-NiwKICAgIEJUTl9UUklHR0VSX0hBUFBZMzcsCiAgICBCVE5fVFJJR0dFUl9IQVBQWTM4LAogICAg
-QlROX1RSSUdHRVJfSEFQUFkzOSwKICAgIEJUTl9UUklHR0VSX0hBUFBZNDAsCn07CnZvaWQgZW1p
-dChpbnQgZmQsIGludCB0eXBlLCBpbnQgY29kZSwgaW50IHZhbCkKewogICAgc3RydWN0IGlucHV0
-X2V2ZW50IGllOwoKICAgIGllLnR5cGUgPSB0eXBlOwogICAgaWUuY29kZSA9IGNvZGU7CiAgICBp
-ZS52YWx1ZSA9IHZhbDsKICAgIC8qIHRpbWVzdGFtcCB2YWx1ZXMgYmVsb3cgYXJlIGlnbm9yZWQg
-Ki8KICAgIGllLnRpbWUudHZfc2VjID0gMDsKICAgIGllLnRpbWUudHZfdXNlYyA9IDA7CgogICAg
-d3JpdGUoZmQsICZpZSwgc2l6ZW9mKGllKSk7Cn0KCmludCBtYWluKHZvaWQpCnsKICAgIHN0cnVj
-dCB1aW5wdXRfc2V0dXAgdXNldHVwOwoKICAgIGludCBmZCA9IG9wZW4oIi9kZXYvdWlucHV0Iiwg
-T19XUk9OTFkgfCBPX05PTkJMT0NLKTsKICAgIGlmIChmZCA8IDApIHsKICAgICAgICBzd2l0Y2gg
-KGVycm5vKSB7CiAgICAgICAgY2FzZSBFQUNDRVM6CiAgICAgICAgICAgIGZwcmludGYoc3RkZXJy
-LCAiUGxlYXNlIHJ1biB0aGlzIHByb2dyYW0gYXMgcm9vdFxuIik7CiAgICAgICAgICAgIGJyZWFr
-OwogICAgICAgIGNhc2UgRU5PRU5UOgogICAgICAgICAgICBmcHJpbnRmKHN0ZGVyciwgIlBsZWFz
-ZSBsb2FkIFwidWlucHV0XCIgbW9kdWxlXG4iKTsKICAgICAgICAgICAgYnJlYWs7CiAgICAgICAg
-ZGVmYXVsdDoKICAgICAgICAgICAgZnByaW50ZihzdGRlcnIsICJFcnJvciBvcGVuIC9kZXYvdWlu
-cHV0OiAlc1xuIiwgc3RyZXJyb3IoZXJybm8pKTsKICAgICAgICAgICAgYnJlYWs7CiAgICAgICAg
-fQogICAgICAgIGV4aXQoMSk7CiAgICB9CgogICAgLyoKICAgICAqIFRoZSBpb2N0bHMgYmVsb3cg
-d2lsbCBlbmFibGUgdGhlIGRldmljZSB0aGF0IGlzIGFib3V0IHRvIGJlCiAgICAgKiBjcmVhdGVk
-LCB0byBwYXNzIGtleSBldmVudHMsIGluIHRoaXMgY2FzZSB0aGUgc3BhY2Uga2V5LgogICAgICov
-CiAgICBpb2N0bChmZCwgVUlfU0VUX0VWQklULCBFVl9LRVkpOwogICAgZm9yIChpbnQgaSA9IDA7
-IGkgPCBzaXplb2Yoa25vd25fa2V5cykgLyBzaXplb2YoKmtub3duX2tleXMpOyBpKyspIHsKICAg
-ICAgICBpb2N0bChmZCwgVUlfU0VUX0tFWUJJVCwga25vd25fa2V5c1tpXSk7CiAgICB9CiAgICBw
-cmludGYoIiVkIGtub3duIGtleXMgcmVnaXN0ZXJlZFxuIiwgc2l6ZW9mKGtub3duX2tleXMpLyBz
-aXplb2YoKmtub3duX2tleXMpKTsKCiAgICBtZW1zZXQoJnVzZXR1cCwgMCwgc2l6ZW9mKHVzZXR1
-cCkpOwogICAgdXNldHVwLmlkLmJ1c3R5cGUgPSBCVVNfVVNCOwogICAgdXNldHVwLmlkLnZlbmRv
-ciA9IDB4MTIzNDsgLyogc2FtcGxlIHZlbmRvciAqLwogICAgdXNldHVwLmlkLnByb2R1Y3QgPSAw
-eDU2Nzg7IC8qIHNhbXBsZSBwcm9kdWN0ICovCiAgICBzdHJjcHkodXNldHVwLm5hbWUsICJFeGFt
-cGxlIGRldmljZSIpOwoKICAgIGlvY3RsKGZkLCBVSV9ERVZfU0VUVVAsICZ1c2V0dXApOwogICAg
-aW9jdGwoZmQsIFVJX0RFVl9DUkVBVEUpOwoKICAgIC8qCiAgICAgKiBHaXZlIHVzZXJzcGFjZSBz
-b21lIHRpbWUgdG8gcmVhZCB0aGUgZXZlbnRzIGJlZm9yZSB3ZSBkZXN0cm95IHRoZQogICAgICog
-ZGV2aWNlIHdpdGggVUlfREVWX0RFU1RPWS4KICAgICAqLwogICAgc2xlZXAoMTAwMCk7CgogICAg
-aW9jdGwoZmQsIFVJX0RFVl9ERVNUUk9ZKTsKICAgIGNsb3NlKGZkKTsKCiAgICByZXR1cm4gMDsK
-fQoK
---000000000000b9950105bd91fbf5--
