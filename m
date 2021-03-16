@@ -2,162 +2,193 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7F5E33D11A
-	for <lists+linux-input@lfdr.de>; Tue, 16 Mar 2021 10:47:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE95C33D421
+	for <lists+linux-input@lfdr.de>; Tue, 16 Mar 2021 13:44:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230467AbhCPJq7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 16 Mar 2021 05:46:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46964 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235047AbhCPJqg (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 16 Mar 2021 05:46:36 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6175C06174A
-        for <linux-input@vger.kernel.org>; Tue, 16 Mar 2021 02:46:35 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id t37so11426425pga.11
-        for <linux-input@vger.kernel.org>; Tue, 16 Mar 2021 02:46:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vk0DU0jMkCG5eo+Lap30wAKD6nL57p9yYhVsjMBlkb8=;
-        b=o+BA74k4t/BM17jl56QWIFXQEqvhkSx8gc356s1rrdmvqDs3Es7RnJjvIzsgRpwB0l
-         XaYpR8LNAzyzdEF/p9IcL923+4bVBOO+HmwX9J+ck7Pq4KmA3SU6mXGqLoydP2ao5vB/
-         Iubv6Bal7VZAoCBzUAwOPo4ZwN9FpdKyFHA70gcboOjRsOPfeCntAe8rEm33nYPwWhCY
-         0qlIkOWFcKO3u+eqwB6/z4LPGSKa79+8/rajqS7AIs8jqbzbFn7cMcFoveXZTcOgrA5w
-         7wYNg67CfbyE978QZ3JfF/OEnzh0modQUAwszvZw7HAwCPmoV/beal01eB2OPQaU9Dx4
-         Kpyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vk0DU0jMkCG5eo+Lap30wAKD6nL57p9yYhVsjMBlkb8=;
-        b=ivjqTdlutsekf3vDgIV5uEQJ8CeBeZGbdPAacQ3qiUrQKNwqyQWSJ1tPxSmv8aTZbB
-         CGIFngRSmmUwE0jPZXcJWwsd226MuMpwukxTIp2c0+Y8B0wxlkejPJ2bVav9cvIuHuMe
-         5/id3Nt7m9ECCxInYs7Ipags/aaR3N+NKfFTZz1nc6sxBXubL6hs04+CuNf8VD0C7r6W
-         c+m/g0O/kWZamcptZx13VIPtFNJv5VW9/HPcrVj7n7m1QZdCwdwUuwUbSjTT9oz6Tj1w
-         syHCgOpHj/ffKuomGYV7MUYn9OnPfD4tqMZxRs/9ldsCVkXZgMZ7De23CMxoZGAD/6Bf
-         LNnA==
-X-Gm-Message-State: AOAM530tdwW4OIu6DMfHP6n60u7zoxfvPi7kFUKexDXZOohfbUGIT0TR
-        rdMRhv133ccpGDaLaRjBGLh925yJ4fxcO67OEPtweo8bFHDASqUS
-X-Google-Smtp-Source: ABdhPJw/p8yKN01fLpAvUhxELIsXeFeYj3p/GcvB0D7xKNBAMW27rg6DNjjSEQ8UHax0bYB8mKEN+ni2ry3eAno91N8=
-X-Received: by 2002:a62:7c43:0:b029:1ef:20ce:ba36 with SMTP id
- x64-20020a627c430000b02901ef20ceba36mr28968813pfc.40.1615887995218; Tue, 16
- Mar 2021 02:46:35 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210314210951.645783-1-andy.shevchenko@gmail.com> <YE/3lDI5UGK51twS@google.com>
-In-Reply-To: <YE/3lDI5UGK51twS@google.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 16 Mar 2021 11:46:18 +0200
-Message-ID: <CAHp75Vfh5Vy8j+9O4yT4p5mw0bwd=ZFYfqsUxaii23W4G92k_Q@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] Input: tsc2007 - convert to GPIO descriptors
+        id S231687AbhCPMnv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 16 Mar 2021 08:43:51 -0400
+Received: from mga01.intel.com ([192.55.52.88]:25433 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232821AbhCPMnM (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 16 Mar 2021 08:43:12 -0400
+IronPort-SDR: ripYbkb6Mq16mJuQkGZFV6bxhRR0tKTtMgbWRZ5JvxS1zyayspkCBtjWUG+D57GvAkLnsesufE
+ 4nvSjahILA4A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9924"; a="209184096"
+X-IronPort-AV: E=Sophos;i="5.81,251,1610438400"; 
+   d="scan'208";a="209184096"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 05:43:12 -0700
+IronPort-SDR: 2Gk0Fv/JhZxzX6DpGiasoIB2DrfDU9O9XeAR5P+5YB7v9vzF1Gp3gckAO4ObXrM5wYCj+OnK84
+ D6sqecMqgF+A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,251,1610438400"; 
+   d="scan'208";a="373775162"
+Received: from lkp-server02.sh.intel.com (HELO 1c294c63cb86) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 16 Mar 2021 05:43:10 -0700
+Received: from kbuild by 1c294c63cb86 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1lM92T-00008q-RM; Tue, 16 Mar 2021 12:43:09 +0000
+Date:   Tue, 16 Mar 2021 20:42:57 +0800
+From:   kernel test robot <lkp@intel.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     linux-input@vger.kernel.org
+Subject: [input:master] BUILD SUCCESS
+ e512a9e9f44db4fad09d3c747c07311a643dd356
+Message-ID: <6050a7d1.ausBNf1o6HYf/dKx%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Mar 16, 2021 at 2:11 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> Hi Andy,
->
-> On Sun, Mar 14, 2021 at 11:09:50PM +0200, Andy Shevchenko wrote:
-> > This converts the driver to use GPIO descriptors.
-> >
-> > Note that it now uses logical polarity and thus nagation has been dropped.
-> >
-> > Signed-off-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> > ---
-> > v3: left ->get_pendown_state() assignment conditionally (Dmitry)
-> >  drivers/input/touchscreen/tsc2007.h      |  4 +++-
-> >  drivers/input/touchscreen/tsc2007_core.c | 12 ++++++++----
-> >  2 files changed, 11 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/drivers/input/touchscreen/tsc2007.h b/drivers/input/touchscreen/tsc2007.h
-> > index 91c60bf6dcaf..69b08dd6c8df 100644
-> > --- a/drivers/input/touchscreen/tsc2007.h
-> > +++ b/drivers/input/touchscreen/tsc2007.h
-> > @@ -19,6 +19,8 @@
-> >  #ifndef _TSC2007_H
-> >  #define _TSC2007_H
-> >
-> > +struct gpio_desc;
-> > +
-> >  #define TSC2007_MEASURE_TEMP0                (0x0 << 4)
-> >  #define TSC2007_MEASURE_AUX          (0x2 << 4)
-> >  #define TSC2007_MEASURE_TEMP1                (0x4 << 4)
-> > @@ -69,7 +71,7 @@ struct tsc2007 {
-> >       int                     fuzzy;
-> >       int                     fuzzz;
-> >
-> > -     unsigned int            gpio;
-> > +     struct gpio_desc        *gpiod;
-> >       int                     irq;
-> >
-> >       wait_queue_head_t       wait;
-> > diff --git a/drivers/input/touchscreen/tsc2007_core.c b/drivers/input/touchscreen/tsc2007_core.c
-> > index 3b80abfc1eca..e4ab5962ddd4 100644
-> > --- a/drivers/input/touchscreen/tsc2007_core.c
-> > +++ b/drivers/input/touchscreen/tsc2007_core.c
-> > @@ -19,11 +19,11 @@
-> >
-> >  #include <linux/module.h>
-> >  #include <linux/slab.h>
-> > +#include <linux/gpio/consumer.h>
-> >  #include <linux/input.h>
-> >  #include <linux/interrupt.h>
-> >  #include <linux/i2c.h>
-> >  #include <linux/of_device.h>
-> > -#include <linux/of_gpio.h>
-> >  #include <linux/platform_data/tsc2007.h>
-> >  #include "tsc2007.h"
-> >
-> > @@ -226,11 +226,12 @@ static int tsc2007_get_pendown_state_gpio(struct device *dev)
-> >       struct i2c_client *client = to_i2c_client(dev);
-> >       struct tsc2007 *ts = i2c_get_clientdata(client);
-> >
-> > -     return !gpio_get_value(ts->gpio);
-> > +     return gpiod_get_value(ts->gpiod);
-> >  }
-> >
-> >  static int tsc2007_probe_dt(struct i2c_client *client, struct tsc2007 *ts)
-> >  {
-> > +     struct device *dev = &client->dev;
-> >       struct device_node *np = client->dev.of_node;
-> >       u32 val32;
-> >       u64 val64;
-> > @@ -266,8 +267,11 @@ static int tsc2007_probe_dt(struct i2c_client *client, struct tsc2007 *ts)
-> >               return -EINVAL;
-> >       }
-> >
-> > -     ts->gpio = of_get_gpio(np, 0);
-> > -     if (gpio_is_valid(ts->gpio))
-> > +     ts->gpiod = devm_gpiod_get_optional(dev, NULL, GPIOD_IN);
-> > +     if (IS_ERR(ts->gpiod))
-> > +             return PTR_ERR(ts->gpiod);
-> > +
-> > +     if (ts->gpiod)
-> >               ts->get_pendown_state = tsc2007_get_pendown_state_gpio;
-> >       else
-> >               dev_warn(&client->dev,
->
-> This does not really compile as the warning still refers to the legacy
-> gpio number.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
+branch HEAD: e512a9e9f44db4fad09d3c747c07311a643dd356  Input: tsc2007 - make use of device properties
 
-Oops, sorry, I was under the impression that I have compiled it, but I
-realized that I have checked only ld-version.sh bugfix (I have
-non-English locale and builds of v5.12-rcX were failing, out of
-curiosity it's tracked here:
-https://bugzilla.kernel.org/show_bug.cgi?id=212105).
+elapsed time: 726m
 
-> I fixed it up locally and applied, thank you.
+configs tested: 131
+configs skipped: 2
 
-Thanks!
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+x86_64                           allyesconfig
+riscv                            allmodconfig
+h8300                     edosk2674_defconfig
+powerpc                    amigaone_defconfig
+powerpc                 linkstation_defconfig
+m68k                        m5407c3_defconfig
+arc                 nsimosci_hs_smp_defconfig
+openrisc                 simple_smp_defconfig
+powerpc                     tqm8541_defconfig
+arm                     eseries_pxa_defconfig
+m68k                            q40_defconfig
+mips                             allmodconfig
+nds32                            alldefconfig
+arc                      axs103_smp_defconfig
+mips                      malta_kvm_defconfig
+arm                           u8500_defconfig
+powerpc                      ppc6xx_defconfig
+powerpc                mpc7448_hpc2_defconfig
+mips                          malta_defconfig
+powerpc                       ppc64_defconfig
+mips                          rb532_defconfig
+arm                        cerfcube_defconfig
+arm                      integrator_defconfig
+powerpc                     ppa8548_defconfig
+mips                           xway_defconfig
+arm                       versatile_defconfig
+arm                         lpc32xx_defconfig
+sh                            shmin_defconfig
+mips                           ip32_defconfig
+parisc                           alldefconfig
+sh                           se7712_defconfig
+arm                         lubbock_defconfig
+x86_64                              defconfig
+sh                   rts7751r2dplus_defconfig
+powerpc                     rainier_defconfig
+parisc                generic-32bit_defconfig
+arm                        mini2440_defconfig
+sh                           se7206_defconfig
+arm                       cns3420vb_defconfig
+powerpc                 canyonlands_defconfig
+mips                         rt305x_defconfig
+arc                     haps_hs_smp_defconfig
+powerpc                     mpc512x_defconfig
+ia64                             alldefconfig
+sh                           se7705_defconfig
+arc                              alldefconfig
+arm                           viper_defconfig
+mips                       lemote2f_defconfig
+arc                        nsimosci_defconfig
+powerpc                 mpc837x_rdb_defconfig
+powerpc                      arches_defconfig
+arm                          pcm027_defconfig
+xtensa                           alldefconfig
+mips                          ath79_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allyesconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a006-20210315
+x86_64               randconfig-a001-20210315
+x86_64               randconfig-a005-20210315
+x86_64               randconfig-a004-20210315
+x86_64               randconfig-a002-20210315
+x86_64               randconfig-a003-20210315
+i386                 randconfig-a001-20210315
+i386                 randconfig-a005-20210315
+i386                 randconfig-a003-20210315
+i386                 randconfig-a002-20210315
+i386                 randconfig-a004-20210315
+i386                 randconfig-a006-20210315
+i386                 randconfig-a001-20210316
+i386                 randconfig-a005-20210316
+i386                 randconfig-a002-20210316
+i386                 randconfig-a003-20210316
+i386                 randconfig-a004-20210316
+i386                 randconfig-a006-20210316
+i386                 randconfig-a013-20210315
+i386                 randconfig-a016-20210315
+i386                 randconfig-a011-20210315
+i386                 randconfig-a012-20210315
+i386                 randconfig-a014-20210315
+i386                 randconfig-a015-20210315
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
 
--- 
-With Best Regards,
-Andy Shevchenko
+clang tested configs:
+x86_64               randconfig-a011-20210315
+x86_64               randconfig-a016-20210315
+x86_64               randconfig-a013-20210315
+x86_64               randconfig-a015-20210315
+x86_64               randconfig-a014-20210315
+x86_64               randconfig-a012-20210315
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
