@@ -2,82 +2,166 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8E7733D781
-	for <lists+linux-input@lfdr.de>; Tue, 16 Mar 2021 16:32:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E07E33DE13
+	for <lists+linux-input@lfdr.de>; Tue, 16 Mar 2021 20:49:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236855AbhCPPcP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 16 Mar 2021 11:32:15 -0400
-Received: from m12-11.163.com ([220.181.12.11]:38685 "EHLO m12-11.163.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237907AbhCPPbv (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 16 Mar 2021 11:31:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=hwmco
-        hvPA6pSBqsTN5q/dpb9KTREeAt8xuIIvviNyhA=; b=l3m5bQ2DJhVJQHNd9GjEm
-        LWTt5GBgFH0bUhc3+iZsgqgn+//RKsUeiKsuwMQbIx3xbzL6rsy6bKPnxrXvNP2B
-        1M3jy/Mk0zkK/Aop980Qk+dY4L6QRzvDjk24Q+rHrg+n8aGlnFfJhAlJBTqSCWJw
-        LcLoIHiV/K57/j3u80Xj4E=
-Received: from jiangzhipeng.ccdomain.com (unknown [218.94.48.178])
-        by smtp7 (Coremail) with SMTP id C8CowACXkJBcz1BgyqVrSg--.58642S2;
-        Tue, 16 Mar 2021 23:31:48 +0800 (CST)
-From:   jzp0409 <jzp0409@163.com>
-To:     dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org,
-        "edison.jiang" <jiangzhipeng@yulong.com>
-Subject: [PATCH] input:touchscreen/lpc32xx_ts:cleanup cppcheck shifting warning
-Date:   Tue, 16 Mar 2021 23:31:50 +0800
-Message-Id: <20210316153150.1207-1-jzp0409@163.com>
-X-Mailer: git-send-email 2.30.0.windows.2
+        id S231352AbhCPTsi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 16 Mar 2021 15:48:38 -0400
+Received: from mail-il1-f178.google.com ([209.85.166.178]:38136 "EHLO
+        mail-il1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231516AbhCPTs3 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 16 Mar 2021 15:48:29 -0400
+Received: by mail-il1-f178.google.com with SMTP id f10so13842395ilq.5;
+        Tue, 16 Mar 2021 12:48:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RdNKGj3FobG6MH1X+dKs4+VSnyyid6fFPtQXmtZq7o4=;
+        b=FwK6JVUO0CXmaLEmwBYx/Vfr7zKgCSvrWXulcsG9FtfTOSMjV9IDF0W0aEEjbHQCYH
+         1XOLbkEh7LTLO+z8jzW9Fjd4q5JUJrquB0Iz9m90ydMR7wtPm0MKA/eKVKmOCWv8gKYw
+         Egg5Mtai88a8jhxCbhkMa+9Bkeej2gTnBSw0gxKiX1uFwHmU31ZQcV/PpvEgsBYOm6FR
+         misFArx9eS2lQ2V33U0rzSW0b4yA9+8qKE1p+dUpe7SmIb8HZmAO8lY6QUjduh70olvu
+         OuuCmR/N6cZ8ZRThVzY/cKP6zgL+G0mnJtAc6bKjaz92JinKLFOu7/Ao7qxOQnu2QI0y
+         Pnfg==
+X-Gm-Message-State: AOAM533jK0xD7lqWMRxzKGlyrpdtZNlgKoWESiaDyTglDNFOAAMHNR4u
+        VBI37/mISv3F5/9O/MWImqtkMguLQg==
+X-Google-Smtp-Source: ABdhPJxr6112TJfnRPR0/Pblh7yamHgST8Dcm9ZPXpcv09y4FtrrYXucVBlNyp/mi8G3zDBhHJPhww==
+X-Received: by 2002:a92:7d0d:: with SMTP id y13mr5263148ilc.269.1615924108645;
+        Tue, 16 Mar 2021 12:48:28 -0700 (PDT)
+Received: from xps15.herring.priv ([64.188.179.253])
+        by smtp.googlemail.com with ESMTPSA id a16sm9928962ild.82.2021.03.16.12.48.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Mar 2021 12:48:27 -0700 (PDT)
+From:   Rob Herring <robh@kernel.org>
+To:     devicetree@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Kevin Tsai <ktsai@capellamicro.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Mark Brown <broonie@kernel.org>, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: [PATCH] dt-bindings: More cleanup of standard unit properties
+Date:   Tue, 16 Mar 2021 13:48:24 -0600
+Message-Id: <20210316194824.3526913-1-robh@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: C8CowACXkJBcz1BgyqVrSg--.58642S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ZF4rWr13GryxKw1rWrW8tFb_yoW8XF13pw
-        10vFyjkrZ7Xayaka1Utas0qF1agF4fJF98WF9F9a13XFy7Aw1rZrnrXF4rXF1qva4ft343
-        Gr97Zw47uas0yw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j2a0PUUUUU=
-X-Originating-IP: [218.94.48.178]
-X-CM-SenderInfo: hm2sikiqz6il2tof0z/xtbBiARXhlaD+Qd66QAAsl
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: "edison.jiang" <jiangzhipeng@yulong.com>
+Properties with standard unit suffixes already have a type and don't need
+type references. Fix a few more cases which have gotten added.
 
-There is error from cppcheck tool.
- "Shifting signed 32-bit value by 31 bits is undefined behaviour errors"
-
-Signed-off-by: edison.jiang <jiangzhipeng@yulong.com>
+Cc: Luca Ceresoli <luca@lucaceresoli.net>
+Cc: Jonathan Cameron <jic23@kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Zhang Rui <rui.zhang@intel.com>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Kevin Tsai <ktsai@capellamicro.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Sebastian Reichel <sre@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: linux-iio@vger.kernel.org
+Cc: linux-input@vger.kernel.org
+Cc: linux-pm@vger.kernel.org
+Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- drivers/input/touchscreen/lpc32xx_ts.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml | 1 -
+ Documentation/devicetree/bindings/input/input.yaml              | 1 -
+ Documentation/devicetree/bindings/power/supply/bq256xx.yaml     | 1 -
+ Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml   | 2 --
+ .../devicetree/bindings/regulator/qcom-labibb-regulator.yaml    | 1 -
+ .../devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml          | 1 -
+ 6 files changed, 7 deletions(-)
 
-diff --git a/drivers/input/touchscreen/lpc32xx_ts.c b/drivers/input/touchscreen/lpc32xx_ts.c
-index b51450b..82f2ffd 100644
---- a/drivers/input/touchscreen/lpc32xx_ts.c
-+++ b/drivers/input/touchscreen/lpc32xx_ts.c
-@@ -34,18 +34,18 @@
- #define LPC32XX_TSC_AUX_MIN			0x38
- #define LPC32XX_TSC_AUX_MAX			0x3C
+diff --git a/Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml b/Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml
+index 27972938b60d..c63b79c3351b 100644
+--- a/Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml
++++ b/Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml
+@@ -48,7 +48,6 @@ properties:
+   vdd-supply: true
  
--#define LPC32XX_TSC_STAT_FIFO_OVRRN		(1 << 8)
--#define LPC32XX_TSC_STAT_FIFO_EMPTY		(1 << 7)
-+#define LPC32XX_TSC_STAT_FIFO_OVRRN		BIT(8)
-+#define LPC32XX_TSC_STAT_FIFO_EMPTY		BIT(7)
+   capella,aset-resistance-ohms:
+-    $ref: /schemas/types.yaml#/definitions/uint32
+     enum: [50000, 100000, 300000, 600000]
+     description: >
+       Sensitivity calibration resistance. Note that calibration curves
+diff --git a/Documentation/devicetree/bindings/input/input.yaml b/Documentation/devicetree/bindings/input/input.yaml
+index ab407f266bef..3fc37478c0c0 100644
+--- a/Documentation/devicetree/bindings/input/input.yaml
++++ b/Documentation/devicetree/bindings/input/input.yaml
+@@ -32,6 +32,5 @@ properties:
+       Duration in seconds which the key should be kept pressed for device to
+       power off automatically. Device with key pressed shutdown feature can
+       specify this property.
+-    $ref: /schemas/types.yaml#/definitions/uint32
  
- #define LPC32XX_TSC_SEL_DEFVAL			0x0284
+ additionalProperties: true
+diff --git a/Documentation/devicetree/bindings/power/supply/bq256xx.yaml b/Documentation/devicetree/bindings/power/supply/bq256xx.yaml
+index 18b54783e11a..92ec7ed25668 100644
+--- a/Documentation/devicetree/bindings/power/supply/bq256xx.yaml
++++ b/Documentation/devicetree/bindings/power/supply/bq256xx.yaml
+@@ -39,7 +39,6 @@ properties:
+     maxItems: 1
  
- #define LPC32XX_TSC_ADCCON_IRQ_TO_FIFO_4	(0x1 << 11)
- #define LPC32XX_TSC_ADCCON_X_SAMPLE_SIZE(s)	((10 - (s)) << 7)
- #define LPC32XX_TSC_ADCCON_Y_SAMPLE_SIZE(s)	((10 - (s)) << 4)
--#define LPC32XX_TSC_ADCCON_POWER_UP		(1 << 2)
-+#define LPC32XX_TSC_ADCCON_POWER_UP		BIT(2)
- #define LPC32XX_TSC_ADCCON_AUTO_EN		(1 << 0)
+   ti,watchdog-timeout-ms:
+-    $ref: /schemas/types.yaml#/definitions/uint32
+     default: 0
+     description: |
+       Watchdog timer in ms. 0 (default) disables the watchdog
+diff --git a/Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml b/Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml
+index 1f88c9e013f4..6d7aa97a6475 100644
+--- a/Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml
++++ b/Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml
+@@ -29,12 +29,10 @@ properties:
+     description: I2C address of the charger.
  
--#define LPC32XX_TSC_FIFO_TS_P_LEVEL		(1 << 31)
-+#define LPC32XX_TSC_FIFO_TS_P_LEVEL		BIT(31)
- #define LPC32XX_TSC_FIFO_NORMALIZE_X_VAL(x)	(((x) & 0x03FF0000) >> 16)
- #define LPC32XX_TSC_FIFO_NORMALIZE_Y_VAL(y)	((y) & 0x000003FF)
+   lltc,rsnsb-micro-ohms:
+-    $ref: /schemas/types.yaml#/definitions/uint32
+     description: Battery sense resistor in microohm.
+     minimum: 1000
+ 
+   lltc,rsnsi-micro-ohms:
+-    $ref: /schemas/types.yaml#/definitions/uint32
+     description: Input current sense resistor in microohm.
+     minimum: 1000
+ 
+diff --git a/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml b/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml
+index cf784bd1f5e5..1ddc1efd19e2 100644
+--- a/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml
++++ b/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml
+@@ -23,7 +23,6 @@ properties:
+ 
+     properties:
+       qcom,soft-start-us:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+         description: Regulator soft start time in microseconds.
+         enum: [200, 400, 600, 800]
+         default: 200
+diff --git a/Documentation/devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml b/Documentation/devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml
+index 7cd364430573..95a728f4d333 100644
+--- a/Documentation/devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml
++++ b/Documentation/devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml
+@@ -78,7 +78,6 @@ patternProperties:
+           also known as absolute calibration.
+ 
+       qcom,hw-settle-time-us:
+-        $ref: /schemas/types.yaml#/definitions/uint32
+         description: Time between AMUX getting configured and the ADC starting conversion.
+         enum: [15, 100, 200, 300, 400, 500, 600, 700, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000]
  
 -- 
-1.9.1
+2.27.0
 
