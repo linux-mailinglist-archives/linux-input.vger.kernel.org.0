@@ -2,110 +2,189 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 330C233DE8D
-	for <lists+linux-input@lfdr.de>; Tue, 16 Mar 2021 21:24:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 98AF233DE99
+	for <lists+linux-input@lfdr.de>; Tue, 16 Mar 2021 21:25:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229608AbhCPUX4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 16 Mar 2021 16:23:56 -0400
-Received: from mga09.intel.com ([134.134.136.24]:41153 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229490AbhCPUXh (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 16 Mar 2021 16:23:37 -0400
-IronPort-SDR: i5AAaFA0RWdl+wKvGOhkmDMquNiKIpttkZVYVFIdPCVJYln/q6jaKU+AQZYL2kSEVNTNvYyTrz
- gpBr+FYpuJDQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9925"; a="189423901"
-X-IronPort-AV: E=Sophos;i="5.81,254,1610438400"; 
-   d="scan'208";a="189423901"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 13:23:37 -0700
-IronPort-SDR: Bw4U02Y9efql+FE/hwt1tt9FMTXpu5xeUT2uKNMT5JhzSBcITxt7FpBcxjqqCbEMS5tR15bUEt
- aNPUCe1BM2MA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,254,1610438400"; 
-   d="scan'208";a="433136802"
-Received: from spandruv-desk.jf.intel.com ([10.54.75.21])
-  by fmsmga004.fm.intel.com with ESMTP; 16 Mar 2021 13:23:36 -0700
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        srinivas.pandruvada@linux.intel.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ye Xiang <xiang.ye@intel.com>
-Subject: [PATCH v2] HID: intel_ish-hid: HBM: Use connected standby state bit during suspend/resume
-Date:   Tue, 16 Mar 2021 13:23:34 -0700
-Message-Id: <20210316202334.655760-1-srinivas.pandruvada@linux.intel.com>
-X-Mailer: git-send-email 2.25.4
+        id S229508AbhCPUZB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 16 Mar 2021 16:25:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44292 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229873AbhCPUY0 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 16 Mar 2021 16:24:26 -0400
+Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 982B9C06175F
+        for <linux-input@vger.kernel.org>; Tue, 16 Mar 2021 13:24:25 -0700 (PDT)
+Received: by mail-qv1-xf2f.google.com with SMTP id cx5so294919qvb.10
+        for <linux-input@vger.kernel.org>; Tue, 16 Mar 2021 13:24:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZRTIY2VRWaUelPcwzaEI0tDQLBHGGalGScH52QJUhXk=;
+        b=UqJNZek9soDpdnk00d4/dL9psTBxWTzV+tYeYFNDQYV0BKDytCNQ69MvwYN732RSDJ
+         9z/KIGy53AmOoKPh/ehQ3LYc6fS8xrLN5mdpgoys0n332oG4dSirW0dLZzdy2WTTTcEV
+         ZksLlgxEY/ENzz448sa2tG7moPeAQI1bYgDymRLCqTn29J7rMMO5z2989rzOo1SRnZg3
+         Ip9JszE0RmHZ1V5hAd/teTQVOV0DdYlSFK1DTUgIiqdILWASdrjQ9XhdSCC7/S5HCPT0
+         5/eob51MuxaEANaot2r+fRJntylbb6jEhQdJeGxjBamauXisA9J2QGE+T5GkiWjaGI94
+         1QZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZRTIY2VRWaUelPcwzaEI0tDQLBHGGalGScH52QJUhXk=;
+        b=saxqXUhBkvgQ3OxHmMjCQt+qTMCwTiAy6DKuTkZqB330I3InHw9FIR39ASGRXWsNeH
+         UJSiB8D0DMnvwGTe/u40RBHP8KFfhaegEGoswwgIUjovzH+mgAsK+v4J4wHb7sMTBKxs
+         /tgm0x0fAAX0R0233QGn1ic1tm1LOPbqlwNzB0P6Ucy4/rcxoV6J9ZRyKdUU7VCdUSF7
+         jAImw2tev60K5OLG8Gnh8vSlFprIG2MX9ueC02dSFbS3bd/81dhcVfP2yomCxQe1U6Vw
+         gP+x+z22HSUNBI9Cev4BgItMoKUNVEyZ8H74kPvcPEUk4tXWh4SC+8YsD+pfKTlzY/Bo
+         RGyQ==
+X-Gm-Message-State: AOAM532i0tAIz+9gSlpyUsDckHRRKuhSI0I4YMslrtUb3gFlzwKMtpnh
+        mMq+d0/AKzGg0Y0uHCtKLim+olCIxdnE71VkVM2JYQ==
+X-Google-Smtp-Source: ABdhPJzY574Rg7Wz9aGieNKAROsMyGwCIA8qjuCRNbxeNxJMPvzEX83368PfHnm6rqJJhBVCSbQbD7A91+oIns7Ifc4=
+X-Received: by 2002:a05:6214:1bcc:: with SMTP id m12mr1656197qvc.47.1615926264430;
+ Tue, 16 Mar 2021 13:24:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210316194824.3526913-1-robh@kernel.org>
+In-Reply-To: <20210316194824.3526913-1-robh@kernel.org>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date:   Tue, 16 Mar 2021 23:24:13 +0300
+Message-ID: <CAA8EJpp5R8_aH=mFxaqQMeNBgmBgJG4knjQkRF06Kgq5XXZT1g@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: More cleanup of standard unit properties
+To:     Rob Herring <robh@kernel.org>
+Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Kevin Tsai <ktsai@capellamicro.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Mark Brown <broonie@kernel.org>, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Ye Xiang <xiang.ye@intel.com>
+On Tue, 16 Mar 2021 at 22:48, Rob Herring <robh@kernel.org> wrote:
+>
+> Properties with standard unit suffixes already have a type and don't need
+> type references. Fix a few more cases which have gotten added.
+>
+> Cc: Luca Ceresoli <luca@lucaceresoli.net>
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Cc: Zhang Rui <rui.zhang@intel.com>
+> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Kevin Tsai <ktsai@capellamicro.com>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: linux-iio@vger.kernel.org
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-pm@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
 
-The individual sensor drivers implemented in the ISH firmware needs
-capability to take special actions when there is a change in the system
-standby state. The ISH core firmware passes this notification to
-individual sensor drivers in response to the OS request via connected
-standby bit in the SYSTEM_STATE_STATUS command.
+For the qcom-spmi-adc-tm5.yaml:
+Acked-by: Dmity Baryshkov <dmitry.baryshkov@linaro.org>
 
-This change sets CONNECTED_STANDBY_STATE_BIT bit to 1 during suspend
-callback and clears during resume callback.
+>  Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml | 1 -
+>  Documentation/devicetree/bindings/input/input.yaml              | 1 -
+>  Documentation/devicetree/bindings/power/supply/bq256xx.yaml     | 1 -
+>  Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml   | 2 --
+>  .../devicetree/bindings/regulator/qcom-labibb-regulator.yaml    | 1 -
+>  .../devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml          | 1 -
+>  6 files changed, 7 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml b/Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml
+> index 27972938b60d..c63b79c3351b 100644
+> --- a/Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml
+> +++ b/Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml
+> @@ -48,7 +48,6 @@ properties:
+>    vdd-supply: true
+>
+>    capella,aset-resistance-ohms:
+> -    $ref: /schemas/types.yaml#/definitions/uint32
+>      enum: [50000, 100000, 300000, 600000]
+>      description: >
+>        Sensitivity calibration resistance. Note that calibration curves
+> diff --git a/Documentation/devicetree/bindings/input/input.yaml b/Documentation/devicetree/bindings/input/input.yaml
+> index ab407f266bef..3fc37478c0c0 100644
+> --- a/Documentation/devicetree/bindings/input/input.yaml
+> +++ b/Documentation/devicetree/bindings/input/input.yaml
+> @@ -32,6 +32,5 @@ properties:
+>        Duration in seconds which the key should be kept pressed for device to
+>        power off automatically. Device with key pressed shutdown feature can
+>        specify this property.
+> -    $ref: /schemas/types.yaml#/definitions/uint32
+>
+>  additionalProperties: true
+> diff --git a/Documentation/devicetree/bindings/power/supply/bq256xx.yaml b/Documentation/devicetree/bindings/power/supply/bq256xx.yaml
+> index 18b54783e11a..92ec7ed25668 100644
+> --- a/Documentation/devicetree/bindings/power/supply/bq256xx.yaml
+> +++ b/Documentation/devicetree/bindings/power/supply/bq256xx.yaml
+> @@ -39,7 +39,6 @@ properties:
+>      maxItems: 1
+>
+>    ti,watchdog-timeout-ms:
+> -    $ref: /schemas/types.yaml#/definitions/uint32
+>      default: 0
+>      description: |
+>        Watchdog timer in ms. 0 (default) disables the watchdog
+> diff --git a/Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml b/Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml
+> index 1f88c9e013f4..6d7aa97a6475 100644
+> --- a/Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml
+> +++ b/Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml
+> @@ -29,12 +29,10 @@ properties:
+>      description: I2C address of the charger.
+>
+>    lltc,rsnsb-micro-ohms:
+> -    $ref: /schemas/types.yaml#/definitions/uint32
+>      description: Battery sense resistor in microohm.
+>      minimum: 1000
+>
+>    lltc,rsnsi-micro-ohms:
+> -    $ref: /schemas/types.yaml#/definitions/uint32
+>      description: Input current sense resistor in microohm.
+>      minimum: 1000
+>
+> diff --git a/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml b/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml
+> index cf784bd1f5e5..1ddc1efd19e2 100644
+> --- a/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml
+> +++ b/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml
+> @@ -23,7 +23,6 @@ properties:
+>
+>      properties:
+>        qcom,soft-start-us:
+> -        $ref: /schemas/types.yaml#/definitions/uint32
+>          description: Regulator soft start time in microseconds.
+>          enum: [200, 400, 600, 800]
+>          default: 200
+> diff --git a/Documentation/devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml b/Documentation/devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml
+> index 7cd364430573..95a728f4d333 100644
+> --- a/Documentation/devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml
+> +++ b/Documentation/devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml
+> @@ -78,7 +78,6 @@ patternProperties:
+>            also known as absolute calibration.
+>
+>        qcom,hw-settle-time-us:
+> -        $ref: /schemas/types.yaml#/definitions/uint32
+>          description: Time between AMUX getting configured and the ADC starting conversion.
+>          enum: [15, 100, 200, 300, 400, 500, 600, 700, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000]
+>
+> --
+> 2.27.0
+>
 
-Signed-off-by: Ye Xiang <xiang.ye@intel.com>
-[srinivas.pandruvada@linux.intel.com: changelog rewrite]
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
----
-v2:
-	changed changelog to be more clear
-	Changed the name in the signed-off to match "From"
 
- drivers/hid/intel-ish-hid/ishtp/hbm.c | 6 +++---
- drivers/hid/intel-ish-hid/ishtp/hbm.h | 1 +
- 2 files changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/hid/intel-ish-hid/ishtp/hbm.c b/drivers/hid/intel-ish-hid/ishtp/hbm.c
-index 30a91d068306..dbfae60f2621 100644
---- a/drivers/hid/intel-ish-hid/ishtp/hbm.c
-+++ b/drivers/hid/intel-ish-hid/ishtp/hbm.c
-@@ -914,7 +914,7 @@ static inline void fix_cl_hdr(struct ishtp_msg_hdr *hdr, size_t length,
- /*** Suspend and resume notification ***/
- 
- static uint32_t current_state;
--static uint32_t supported_states = 0 | SUSPEND_STATE_BIT;
-+static uint32_t supported_states = SUSPEND_STATE_BIT | CONNECTED_STANDBY_STATE_BIT;
- 
- /**
-  * ishtp_send_suspend() - Send suspend message to FW
-@@ -933,7 +933,7 @@ void ishtp_send_suspend(struct ishtp_device *dev)
- 	memset(&state_status_msg, 0, len);
- 	state_status_msg.hdr.cmd = SYSTEM_STATE_STATUS;
- 	state_status_msg.supported_states = supported_states;
--	current_state |= SUSPEND_STATE_BIT;
-+	current_state |= (SUSPEND_STATE_BIT | CONNECTED_STANDBY_STATE_BIT);
- 	dev->print_log(dev, "%s() sends SUSPEND notification\n", __func__);
- 	state_status_msg.states_status = current_state;
- 
-@@ -959,7 +959,7 @@ void ishtp_send_resume(struct ishtp_device *dev)
- 	memset(&state_status_msg, 0, len);
- 	state_status_msg.hdr.cmd = SYSTEM_STATE_STATUS;
- 	state_status_msg.supported_states = supported_states;
--	current_state &= ~SUSPEND_STATE_BIT;
-+	current_state &= ~(CONNECTED_STANDBY_STATE_BIT | SUSPEND_STATE_BIT);
- 	dev->print_log(dev, "%s() sends RESUME notification\n", __func__);
- 	state_status_msg.states_status = current_state;
- 
-diff --git a/drivers/hid/intel-ish-hid/ishtp/hbm.h b/drivers/hid/intel-ish-hid/ishtp/hbm.h
-index 7c445b203f2a..08f3f3ceb18c 100644
---- a/drivers/hid/intel-ish-hid/ishtp/hbm.h
-+++ b/drivers/hid/intel-ish-hid/ishtp/hbm.h
-@@ -235,6 +235,7 @@ struct dma_xfer_hbm {
- #define SYSTEM_STATE_QUERY_SUBSCRIBERS		0x3
- #define SYSTEM_STATE_STATE_CHANGE_REQ		0x4
- /*indicates suspend and resume states*/
-+#define CONNECTED_STANDBY_STATE_BIT		(1<<0)
- #define SUSPEND_STATE_BIT			(1<<1)
- 
- struct ish_system_states_header {
 -- 
-2.25.4
-
+With best wishes
+Dmitry
