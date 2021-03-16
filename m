@@ -2,189 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 98AF233DE99
-	for <lists+linux-input@lfdr.de>; Tue, 16 Mar 2021 21:25:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA30B33DEF8
+	for <lists+linux-input@lfdr.de>; Tue, 16 Mar 2021 21:39:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229508AbhCPUZB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 16 Mar 2021 16:25:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44292 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229873AbhCPUY0 (ORCPT
+        id S231465AbhCPUiz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 16 Mar 2021 16:38:55 -0400
+Received: from antares.kleine-koenig.org ([94.130.110.236]:53548 "EHLO
+        antares.kleine-koenig.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231397AbhCPUiZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 16 Mar 2021 16:24:26 -0400
-Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com [IPv6:2607:f8b0:4864:20::f2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 982B9C06175F
-        for <linux-input@vger.kernel.org>; Tue, 16 Mar 2021 13:24:25 -0700 (PDT)
-Received: by mail-qv1-xf2f.google.com with SMTP id cx5so294919qvb.10
-        for <linux-input@vger.kernel.org>; Tue, 16 Mar 2021 13:24:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZRTIY2VRWaUelPcwzaEI0tDQLBHGGalGScH52QJUhXk=;
-        b=UqJNZek9soDpdnk00d4/dL9psTBxWTzV+tYeYFNDQYV0BKDytCNQ69MvwYN732RSDJ
-         9z/KIGy53AmOoKPh/ehQ3LYc6fS8xrLN5mdpgoys0n332oG4dSirW0dLZzdy2WTTTcEV
-         ZksLlgxEY/ENzz448sa2tG7moPeAQI1bYgDymRLCqTn29J7rMMO5z2989rzOo1SRnZg3
-         Ip9JszE0RmHZ1V5hAd/teTQVOV0DdYlSFK1DTUgIiqdILWASdrjQ9XhdSCC7/S5HCPT0
-         5/eob51MuxaEANaot2r+fRJntylbb6jEhQdJeGxjBamauXisA9J2QGE+T5GkiWjaGI94
-         1QZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZRTIY2VRWaUelPcwzaEI0tDQLBHGGalGScH52QJUhXk=;
-        b=saxqXUhBkvgQ3OxHmMjCQt+qTMCwTiAy6DKuTkZqB330I3InHw9FIR39ASGRXWsNeH
-         UJSiB8D0DMnvwGTe/u40RBHP8KFfhaegEGoswwgIUjovzH+mgAsK+v4J4wHb7sMTBKxs
-         /tgm0x0fAAX0R0233QGn1ic1tm1LOPbqlwNzB0P6Ucy4/rcxoV6J9ZRyKdUU7VCdUSF7
-         jAImw2tev60K5OLG8Gnh8vSlFprIG2MX9ueC02dSFbS3bd/81dhcVfP2yomCxQe1U6Vw
-         gP+x+z22HSUNBI9Cev4BgItMoKUNVEyZ8H74kPvcPEUk4tXWh4SC+8YsD+pfKTlzY/Bo
-         RGyQ==
-X-Gm-Message-State: AOAM532i0tAIz+9gSlpyUsDckHRRKuhSI0I4YMslrtUb3gFlzwKMtpnh
-        mMq+d0/AKzGg0Y0uHCtKLim+olCIxdnE71VkVM2JYQ==
-X-Google-Smtp-Source: ABdhPJzY574Rg7Wz9aGieNKAROsMyGwCIA8qjuCRNbxeNxJMPvzEX83368PfHnm6rqJJhBVCSbQbD7A91+oIns7Ifc4=
-X-Received: by 2002:a05:6214:1bcc:: with SMTP id m12mr1656197qvc.47.1615926264430;
- Tue, 16 Mar 2021 13:24:24 -0700 (PDT)
+        Tue, 16 Mar 2021 16:38:25 -0400
+Received: by antares.kleine-koenig.org (Postfix, from userid 1000)
+        id 2B2A7B3384C; Tue, 16 Mar 2021 21:38:19 +0100 (CET)
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <uwe@kleine-koenig.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>, linux-input@vger.kernel.org,
+        linux-pwm@vger.kernel.org
+Subject: [PATCH] input: misc: max8997: Switch to pwm_apply()
+Date:   Tue, 16 Mar 2021 21:38:13 +0100
+Message-Id: <20210316203813.48999-1-uwe@kleine-koenig.org>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-References: <20210316194824.3526913-1-robh@kernel.org>
-In-Reply-To: <20210316194824.3526913-1-robh@kernel.org>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date:   Tue, 16 Mar 2021 23:24:13 +0300
-Message-ID: <CAA8EJpp5R8_aH=mFxaqQMeNBgmBgJG4knjQkRF06Kgq5XXZT1g@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: More cleanup of standard unit properties
-To:     Rob Herring <robh@kernel.org>
-Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Kevin Tsai <ktsai@capellamicro.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Mark Brown <broonie@kernel.org>, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-pm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 16 Mar 2021 at 22:48, Rob Herring <robh@kernel.org> wrote:
->
-> Properties with standard unit suffixes already have a type and don't need
-> type references. Fix a few more cases which have gotten added.
->
-> Cc: Luca Ceresoli <luca@lucaceresoli.net>
-> Cc: Jonathan Cameron <jic23@kernel.org>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Cc: Zhang Rui <rui.zhang@intel.com>
-> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Kevin Tsai <ktsai@capellamicro.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: linux-iio@vger.kernel.org
-> Cc: linux-input@vger.kernel.org
-> Cc: linux-pm@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
+max8997_haptic_enable() is the only caller of
+max8997_haptic_set_duty_cycle(). For the non-external case the PWM is
+already enabled in max8997_haptic_set_duty_cycle(), so this can be done
+for the external case, too, and so the pwm_enable() call can be folded into
+max8997_haptic_set_duty_cycle()'s call to pwm_apply_state().
 
-For the qcom-spmi-adc-tm5.yaml:
-Acked-by: Dmity Baryshkov <dmitry.baryshkov@linaro.org>
+With max8997_haptic_set_duty_cycle() now using pwm_init_state() the call to
+pwm_apply_args() can be dropped.
 
->  Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml | 1 -
->  Documentation/devicetree/bindings/input/input.yaml              | 1 -
->  Documentation/devicetree/bindings/power/supply/bq256xx.yaml     | 1 -
->  Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml   | 2 --
->  .../devicetree/bindings/regulator/qcom-labibb-regulator.yaml    | 1 -
->  .../devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml          | 1 -
->  6 files changed, 7 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml b/Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml
-> index 27972938b60d..c63b79c3351b 100644
-> --- a/Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml
-> +++ b/Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml
-> @@ -48,7 +48,6 @@ properties:
->    vdd-supply: true
->
->    capella,aset-resistance-ohms:
-> -    $ref: /schemas/types.yaml#/definitions/uint32
->      enum: [50000, 100000, 300000, 600000]
->      description: >
->        Sensitivity calibration resistance. Note that calibration curves
-> diff --git a/Documentation/devicetree/bindings/input/input.yaml b/Documentation/devicetree/bindings/input/input.yaml
-> index ab407f266bef..3fc37478c0c0 100644
-> --- a/Documentation/devicetree/bindings/input/input.yaml
-> +++ b/Documentation/devicetree/bindings/input/input.yaml
-> @@ -32,6 +32,5 @@ properties:
->        Duration in seconds which the key should be kept pressed for device to
->        power off automatically. Device with key pressed shutdown feature can
->        specify this property.
-> -    $ref: /schemas/types.yaml#/definitions/uint32
->
->  additionalProperties: true
-> diff --git a/Documentation/devicetree/bindings/power/supply/bq256xx.yaml b/Documentation/devicetree/bindings/power/supply/bq256xx.yaml
-> index 18b54783e11a..92ec7ed25668 100644
-> --- a/Documentation/devicetree/bindings/power/supply/bq256xx.yaml
-> +++ b/Documentation/devicetree/bindings/power/supply/bq256xx.yaml
-> @@ -39,7 +39,6 @@ properties:
->      maxItems: 1
->
->    ti,watchdog-timeout-ms:
-> -    $ref: /schemas/types.yaml#/definitions/uint32
->      default: 0
->      description: |
->        Watchdog timer in ms. 0 (default) disables the watchdog
-> diff --git a/Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml b/Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml
-> index 1f88c9e013f4..6d7aa97a6475 100644
-> --- a/Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml
-> +++ b/Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml
-> @@ -29,12 +29,10 @@ properties:
->      description: I2C address of the charger.
->
->    lltc,rsnsb-micro-ohms:
-> -    $ref: /schemas/types.yaml#/definitions/uint32
->      description: Battery sense resistor in microohm.
->      minimum: 1000
->
->    lltc,rsnsi-micro-ohms:
-> -    $ref: /schemas/types.yaml#/definitions/uint32
->      description: Input current sense resistor in microohm.
->      minimum: 1000
->
-> diff --git a/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml b/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml
-> index cf784bd1f5e5..1ddc1efd19e2 100644
-> --- a/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml
-> +++ b/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml
-> @@ -23,7 +23,6 @@ properties:
->
->      properties:
->        qcom,soft-start-us:
-> -        $ref: /schemas/types.yaml#/definitions/uint32
->          description: Regulator soft start time in microseconds.
->          enum: [200, 400, 600, 800]
->          default: 200
-> diff --git a/Documentation/devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml b/Documentation/devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml
-> index 7cd364430573..95a728f4d333 100644
-> --- a/Documentation/devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml
-> +++ b/Documentation/devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml
-> @@ -78,7 +78,6 @@ patternProperties:
->            also known as absolute calibration.
->
->        qcom,hw-settle-time-us:
-> -        $ref: /schemas/types.yaml#/definitions/uint32
->          description: Time between AMUX getting configured and the ADC starting conversion.
->          enum: [15, 100, 200, 300, 400, 500, 600, 700, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000]
->
-> --
-> 2.27.0
->
+Signed-off-by: Uwe Kleine-König <uwe@kleine-koenig.org>
+---
+ drivers/input/misc/max8997_haptic.c | 21 ++++++---------------
+ 1 file changed, 6 insertions(+), 15 deletions(-)
 
-
+diff --git a/drivers/input/misc/max8997_haptic.c b/drivers/input/misc/max8997_haptic.c
+index 20ff087b8a44..c86966ea0f16 100644
+--- a/drivers/input/misc/max8997_haptic.c
++++ b/drivers/input/misc/max8997_haptic.c
+@@ -58,8 +58,12 @@ static int max8997_haptic_set_duty_cycle(struct max8997_haptic *chip)
+ 	int ret = 0;
+ 
+ 	if (chip->mode == MAX8997_EXTERNAL_MODE) {
+-		unsigned int duty = chip->pwm_period * chip->level / 100;
+-		ret = pwm_config(chip->pwm, duty, chip->pwm_period);
++		struct pwm_state state;
++		pwm_init_state(chip->pwm, &state);
++		state.enabled = true;
++		state.period = chip->pwm_period;
++		pwm_set_relative_duty_cycle(&state, chip->level, 100);
++		ret = pwm_apply_state(chip->pwm, &state);
+ 	} else {
+ 		int i;
+ 		u8 duty_index = 0;
+@@ -173,14 +177,6 @@ static void max8997_haptic_enable(struct max8997_haptic *chip)
+ 			goto out;
+ 		}
+ 		max8997_haptic_configure(chip);
+-		if (chip->mode == MAX8997_EXTERNAL_MODE) {
+-			error = pwm_enable(chip->pwm);
+-			if (error) {
+-				dev_err(chip->dev, "Failed to enable PWM\n");
+-				regulator_disable(chip->regulator);
+-				goto out;
+-			}
+-		}
+ 		chip->enabled = true;
+ 	}
+ 
+@@ -293,11 +289,6 @@ static int max8997_haptic_probe(struct platform_device *pdev)
+ 			goto err_free_mem;
+ 		}
+ 
+-		/*
+-		 * FIXME: pwm_apply_args() should be removed when switching to
+-		 * the atomic PWM API.
+-		 */
+-		pwm_apply_args(chip->pwm);
+ 		break;
+ 
+ 	default:
 -- 
-With best wishes
-Dmitry
+2.30.1
+
