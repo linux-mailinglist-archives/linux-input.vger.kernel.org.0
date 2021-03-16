@@ -2,65 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 09C6633D5F7
-	for <lists+linux-input@lfdr.de>; Tue, 16 Mar 2021 15:42:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8E7733D781
+	for <lists+linux-input@lfdr.de>; Tue, 16 Mar 2021 16:32:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236873AbhCPOmK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 16 Mar 2021 10:42:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51236 "EHLO mail.kernel.org"
+        id S236855AbhCPPcP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 16 Mar 2021 11:32:15 -0400
+Received: from m12-11.163.com ([220.181.12.11]:38685 "EHLO m12-11.163.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232002AbhCPOmB (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 16 Mar 2021 10:42:01 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 507A86507D;
-        Tue, 16 Mar 2021 14:42:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615905721;
-        bh=OHX825C3UzAW3uf4c1TTiD26NlTs851j5uLceMniJZg=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=Ot3kGTyIF8EOIESfmOddFY7C/KxlBe7wsHWHza4sCQPdw15RCAqD6YriRVAU+yJNi
-         uCZqDKhQwdObTLeR6h2oWct2c+iUzXvBVmlS0It+8ozjb2cAQ04rUvOi6JsOLLLZ0I
-         hefo5wsEA6jrBuGWlsrSpxNToO0e8jKUBHrqcJ1v8P7in7axZAC8x6eahm/x4lTKO5
-         oHk4T7fHSMvUfvPvzlsxQuJJkAyz/rnA2BF27Diid0FwvQ/Dmfko4MeKYVx+7K2Mma
-         8tFb2ox72nEIjEKyusvL9mtX20Q8m6z3jEyjP1zwcm6pJcptUdkXRQoMXY3CFY3bHJ
-         i8l9mSKzpqiNA==
-Date:   Tue, 16 Mar 2021 15:41:58 +0100 (CET)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Ping Cheng <pinglinux@gmail.com>
-cc:     linux-input@vger.kernel.org, Juan.Garrido@wacom.com,
-        Jason.Gerecke@wacom.com, Ping Cheng <ping.cheng@wacom.com>,
-        stable@vger.kernel.org
-Subject: Re: [PATCH] HID: wacom: set EV_KEY and EV_ABS only for non-HID_GENERIC
- type of devices
-In-Reply-To: <20210311193009.12692-1-ping.cheng@wacom.com>
-Message-ID: <nycvar.YFH.7.76.2103161541470.12405@cbobk.fhfr.pm>
-References: <20210311193009.12692-1-ping.cheng@wacom.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S237907AbhCPPbv (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 16 Mar 2021 11:31:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=hwmco
+        hvPA6pSBqsTN5q/dpb9KTREeAt8xuIIvviNyhA=; b=l3m5bQ2DJhVJQHNd9GjEm
+        LWTt5GBgFH0bUhc3+iZsgqgn+//RKsUeiKsuwMQbIx3xbzL6rsy6bKPnxrXvNP2B
+        1M3jy/Mk0zkK/Aop980Qk+dY4L6QRzvDjk24Q+rHrg+n8aGlnFfJhAlJBTqSCWJw
+        LcLoIHiV/K57/j3u80Xj4E=
+Received: from jiangzhipeng.ccdomain.com (unknown [218.94.48.178])
+        by smtp7 (Coremail) with SMTP id C8CowACXkJBcz1BgyqVrSg--.58642S2;
+        Tue, 16 Mar 2021 23:31:48 +0800 (CST)
+From:   jzp0409 <jzp0409@163.com>
+To:     dmitry.torokhov@gmail.com
+Cc:     linux-input@vger.kernel.org,
+        "edison.jiang" <jiangzhipeng@yulong.com>
+Subject: [PATCH] input:touchscreen/lpc32xx_ts:cleanup cppcheck shifting warning
+Date:   Tue, 16 Mar 2021 23:31:50 +0800
+Message-Id: <20210316153150.1207-1-jzp0409@163.com>
+X-Mailer: git-send-email 2.30.0.windows.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: C8CowACXkJBcz1BgyqVrSg--.58642S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ZF4rWr13GryxKw1rWrW8tFb_yoW8XF13pw
+        10vFyjkrZ7Xayaka1Utas0qF1agF4fJF98WF9F9a13XFy7Aw1rZrnrXF4rXF1qva4ft343
+        Gr97Zw47uas0yw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j2a0PUUUUU=
+X-Originating-IP: [218.94.48.178]
+X-CM-SenderInfo: hm2sikiqz6il2tof0z/xtbBiARXhlaD+Qd66QAAsl
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 11 Mar 2021, Ping Cheng wrote:
+From: "edison.jiang" <jiangzhipeng@yulong.com>
 
-> Valid HID_GENERIC type of devices set EV_KEY and EV_ABS by wacom_map_usage.
-> When *_input_capabilities are reached, those devices should already have
-> their proper EV_* set. EV_KEY and EV_ABS only need to be set for
-> non-HID_GENERIC type of devices in *_input_capabilities.
-> 
-> Devices that don't support HID descitoprs will pass back to hid-input for
-> registration without being accidentally rejected by the introduction of
-> patch: "Input: refuse to register absolute devices without absinfo"
-> 
-> Fixes: 6ecfe51b4082 ("Input: refuse to register absolute devices without absinfo")
-> Signed-off-by: Ping Cheng <ping.cheng@wacom.com>
-> Reviewed-by: Jason Gerecke <Jason.Gerecke@wacom.com>
-> Tested-by: Juan Garrido <Juan.Garrido@wacom.com>
-> CC: stable@vger.kernel.org
+There is error from cppcheck tool.
+ "Shifting signed 32-bit value by 31 bits is undefined behaviour errors"
 
-Applied, thanks Ping.
+Signed-off-by: edison.jiang <jiangzhipeng@yulong.com>
+---
+ drivers/input/touchscreen/lpc32xx_ts.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/input/touchscreen/lpc32xx_ts.c b/drivers/input/touchscreen/lpc32xx_ts.c
+index b51450b..82f2ffd 100644
+--- a/drivers/input/touchscreen/lpc32xx_ts.c
++++ b/drivers/input/touchscreen/lpc32xx_ts.c
+@@ -34,18 +34,18 @@
+ #define LPC32XX_TSC_AUX_MIN			0x38
+ #define LPC32XX_TSC_AUX_MAX			0x3C
+ 
+-#define LPC32XX_TSC_STAT_FIFO_OVRRN		(1 << 8)
+-#define LPC32XX_TSC_STAT_FIFO_EMPTY		(1 << 7)
++#define LPC32XX_TSC_STAT_FIFO_OVRRN		BIT(8)
++#define LPC32XX_TSC_STAT_FIFO_EMPTY		BIT(7)
+ 
+ #define LPC32XX_TSC_SEL_DEFVAL			0x0284
+ 
+ #define LPC32XX_TSC_ADCCON_IRQ_TO_FIFO_4	(0x1 << 11)
+ #define LPC32XX_TSC_ADCCON_X_SAMPLE_SIZE(s)	((10 - (s)) << 7)
+ #define LPC32XX_TSC_ADCCON_Y_SAMPLE_SIZE(s)	((10 - (s)) << 4)
+-#define LPC32XX_TSC_ADCCON_POWER_UP		(1 << 2)
++#define LPC32XX_TSC_ADCCON_POWER_UP		BIT(2)
+ #define LPC32XX_TSC_ADCCON_AUTO_EN		(1 << 0)
+ 
+-#define LPC32XX_TSC_FIFO_TS_P_LEVEL		(1 << 31)
++#define LPC32XX_TSC_FIFO_TS_P_LEVEL		BIT(31)
+ #define LPC32XX_TSC_FIFO_NORMALIZE_X_VAL(x)	(((x) & 0x03FF0000) >> 16)
+ #define LPC32XX_TSC_FIFO_NORMALIZE_Y_VAL(y)	((y) & 0x000003FF)
+ 
 -- 
-Jiri Kosina
-SUSE Labs
+1.9.1
 
