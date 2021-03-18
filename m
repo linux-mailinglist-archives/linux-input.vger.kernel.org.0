@@ -2,151 +2,129 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C70C433F783
-	for <lists+linux-input@lfdr.de>; Wed, 17 Mar 2021 18:52:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09F8F33FCF3
+	for <lists+linux-input@lfdr.de>; Thu, 18 Mar 2021 02:59:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232476AbhCQRv2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 17 Mar 2021 13:51:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28128 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232803AbhCQRvY (ORCPT
+        id S230085AbhCRB6n (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 17 Mar 2021 21:58:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34110 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229880AbhCRB6V (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 17 Mar 2021 13:51:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1616003484;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=dEGLhiDnwMkfXyobnjzNNfxRt05nqIQ9oCfTjdxDrNk=;
-        b=MxdI7pY/k9RGQpdZ2mQyxHo/DepSKO04rxcYK8dl1SnybfVKQU71YcZyCjNqg8p1WWpbEL
-        WysKkag3MVROKABumd85gzx4JrodMPyiQLF0ItXTPojcKt4NxicUekHVEvQRgD8/mgz3+Q
-        sFZX7mUcpBRVC5e5ibgqanRN/oQycdw=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-YMGOj5YzOSiDk4t-wWI04Q-1; Wed, 17 Mar 2021 13:51:20 -0400
-X-MC-Unique: YMGOj5YzOSiDk4t-wWI04Q-1
-Received: by mail-ej1-f72.google.com with SMTP id gv58so15490400ejc.6
-        for <linux-input@vger.kernel.org>; Wed, 17 Mar 2021 10:51:20 -0700 (PDT)
+        Wed, 17 Mar 2021 21:58:21 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F17C9C06174A
+        for <linux-input@vger.kernel.org>; Wed, 17 Mar 2021 18:58:20 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id kk2-20020a17090b4a02b02900c777aa746fso2286294pjb.3
+        for <linux-input@vger.kernel.org>; Wed, 17 Mar 2021 18:58:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=l/Ov/hfl3hGPrraA8M6pnauba1uS39CLBSUPqEGoRE8=;
+        b=lD4Sc+W+PDdwVhlGo94tpkcsYOZWInxfnrL5VXOXgiondpyuUE9/Fc18SwNnvcehHu
+         3eVm+M7NYSJBilisV9bR0e4xPovECDolERWVdjQN5e7Q00gPg9jK1Okp32cit/VIFO/S
+         9w2NO5O2ur8KeeI/HRtwB/rdDCe98aHNsflHAl/oldKYdYyfwZpQyxsEgHz/3sTsUubg
+         +dEilMsgxvdmutHbDkzfkOqpmFTPkAQinnFUpCcSRqCaZXvq71KmABBUvYgTWwupeUpt
+         TtCmkaRab9/wsPb7mmw71A0AN+3FUJDVPA0zQmfVWDgEWzsBxvJE0429g7SHOSEnb1jc
+         nGnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=dEGLhiDnwMkfXyobnjzNNfxRt05nqIQ9oCfTjdxDrNk=;
-        b=oT8Du+05QaTwD4YyDtVZywA2bxD7mXubP9V48okh4Fj9NB48eOrhkIcpNcThuBSuxl
-         Z5fF1Bi0JRRfypaHE8YkK+aZXzskPUpy2sQNf6T9cvSfpHTT2RcfJFxpLkTsQ8FfNgHd
-         jP914Oe2z57IhN6CCfKOmk3xNbC7E1bRjgjlW2argsntpf2wXr02+i+8A2vfVd9w61/2
-         T1Qr7M32Be9DVNsUJ0x1kUPBN6ZzKV9qqZpzbCuyOgHuJmpid2FiK+0TSy01b+68VhIV
-         Xjwpy5zHtt/kYvZCoMTOyws/oRYsLG+siagln8/eWG+h9vDfhIiH12sYu+iZUb5hi1Xy
-         Bb/Q==
-X-Gm-Message-State: AOAM533TxoAyWpZIrkXPsUYYMBQn0s2/LyFM01McsjlvjThweLQ1HKBv
-        FUX0hBJ5b5YSVEYCf+vIeiJnoAKrUmnHYmHNMCN/8ErfL7sUrX2jz97Fb//NMsz4vU2EoouCL5l
-        9+1/V5Y9aUMurDOd1kRMv3UA=
-X-Received: by 2002:a17:906:2692:: with SMTP id t18mr35995235ejc.16.1616003479178;
-        Wed, 17 Mar 2021 10:51:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy8IIqqzKi80zAS/wBgk3gjwN2BKvmk4SZApacfhOF8Scf6r4WnqZCq5KX58hhLWGPN0XiQBA==
-X-Received: by 2002:a17:906:2692:: with SMTP id t18mr35995219ejc.16.1616003478982;
-        Wed, 17 Mar 2021 10:51:18 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id t12sm14026179edy.56.2021.03.17.10.51.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Mar 2021 10:51:18 -0700 (PDT)
-Subject: Re: [PATCH 0/2] HID: Add support for Surface Aggregator Module HID
- transport
-To:     Maximilian Luz <luzmaximilian@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        =?UTF-8?Q?Bla=c5=be_Hrastnik?= <blaz@mxxn.io>,
-        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210310225329.2393372-1-luzmaximilian@gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <a1e56ef2-e040-46b1-198e-4784765fc766@redhat.com>
-Date:   Wed, 17 Mar 2021 18:51:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=l/Ov/hfl3hGPrraA8M6pnauba1uS39CLBSUPqEGoRE8=;
+        b=FJ6f3cHb0kJGqNnF8p0a5QiDXzLkaeINn3PaJQ4e2HbNrDVMlEcWXo8AKZD0Xxq9zH
+         knlOj+c3sdF37/s7S+XKgTyN1x7b0r9zOlrfo59+FJ9efLRKykvvTY94a4GdmgYPEZ9x
+         ZrDrE2Mj2ASs50WaHmbNvV/syT/gzAtmgUdMOaEsCZcR5lvgY1eGM1sGvKz07rgcPODq
+         pczbn2Im++zsnR4wHiAiPn14fSzp0q7XpZ+ULyDp13Cs/qI4TtVSbvOeuU/4O5fhh7IC
+         GqAtDpUExvOr7SmVbnxH5kgZbFpp2F79bGg+C3c2iKIGibIRtJiVbjOsenna8joq20tb
+         Ct1Q==
+X-Gm-Message-State: AOAM530cfIJdfylsTCXT1zGkcz7sjTwGACMoCYY7vXg8OTu+/VAiXY8n
+        FoW9iRiucMYzlfnFtgvXyGgxffgHu44=
+X-Google-Smtp-Source: ABdhPJzEp3vHp/EAArNHUAFwhbKk/GVqi1imkPwjRrsLCzVJVeIy6VQkK9h0OrRjIXRSPuI1PIBNdQ==
+X-Received: by 2002:a17:902:c952:b029:e4:89ad:fae2 with SMTP id i18-20020a170902c952b02900e489adfae2mr7357823pla.14.1616032700434;
+        Wed, 17 Mar 2021 18:58:20 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:60d3:f9fb:39d9:9088])
+        by smtp.gmail.com with ESMTPSA id v2sm318071pjg.34.2021.03.17.18.58.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Mar 2021 18:58:19 -0700 (PDT)
+Date:   Wed, 17 Mar 2021 18:58:16 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Zhai Zhaoxuan <kxuanobj@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-input@vger.kernel.org, Markus Rechberger <kontakt@sundtek.de>
+Subject: Re: [BUG]an input device can not support more than 568 keys due to
+ uevent buffer too small
+Message-ID: <YFKzuP2Phh1RRQ8V@google.com>
+References: <CAAnY7J2yYdsLMG=07u6QPf5SKN6ba=D+v=SE1vSMxWgP4A05pQ@mail.gmail.com>
+ <YEy5Ki/lF2cbQxCH@kroah.com>
+ <CAAnY7J3KDb094ZDZ7QEUQ9biUBBSVr=ru0x7cWPSGsCi-=9quw@mail.gmail.com>
+ <YE8M+/LZPDOrOCPh@kroah.com>
+ <CAAnY7J3YQDe1=OR0U66UnS8JE4ALfV9CzugazwAYa7c4TX6F=w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210310225329.2393372-1-luzmaximilian@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAnY7J3YQDe1=OR0U66UnS8JE4ALfV9CzugazwAYa7c4TX6F=w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi Zhai,
 
-On 3/10/21 11:53 PM, Maximilian Luz wrote:
-> This series adds support for the Surface System Aggregator Module (SSAM)
-> HID transport subsystem.
+On Mon, Mar 15, 2021 at 07:58:58PM +0800, Zhai Zhaoxuan wrote:
 > 
-> The SSAM is an embedded controller, found on 5th- and later generation
-> Microsoft Surface devices. On some of these devices (specifically
-> Surface Laptops 1, 2, and 3, as well as Surface Book 3), built-in input
-> devices are connected via the SSAM. These devices communicate (mostly)
-> via normal HID reports, so adding support for them is (mostly) just a
-> matter of implementing an HID transport driver.
+> In the real world, I think, it is nearly impossible that a physical
+> device contains so many keys or buttons.
 > 
-> SSAM actually has two different HID interfaces: One (legacy) interface
-> used on Surface Laptops 1 and 2, and a newer interface for the rest. The
-> newer interface allows for multiple HID devices to be addressed and is
-> implemented in the first patch. The older interface only allows a single
-> HID device to be connected and, furthermore, only allows a single output
-> report, specifically one for the caps lock LED. This is implemented in
-> the second patch.
-> 
-> See the commit messages of the respective patches for more details.
-> 
-> Regards,
-> Max
-> 
-> Note: This patch depends on the
-> 
->     platform/surface: Add Surface Aggregator device registry
-> 
-> series. More specifically patch
-> 
->     platform/surface: Set up Surface Aggregator device registry
-> 
-> The full series has been merged into the for-next branch of the
-> platform-drivers-x86 tree [1]. The commit in question can be found at
-> [2].
-> 
-> [1]: https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=for-next
-> [2]: https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/commit/?h=for-next&id=fc622b3d36e6d91330fb21506b9ad1e3206a4dde
+> But I think a virtual device may need this. Such as a server remote
+> management card, it simulates a virtual keyboard,
+> registers keys and forwards all keys from user's computer to server.
+> And the user's computer may have any keys. So the card needs to
+> register all possible keys and send them to the kernel.
 
-Jiri, I'll prepare an immutable branch with the necessary pdx86 pre-reqs for this
-and I'll send you a pull-req for that IM branch, then you can merge these
-through the HID tree after merging that pull-req.
-
-Regards,
-
-Hans
-
-
+I believe the best approach is to forward input devices to the remote
+system one by one, exactly as they are on the local end, instead of
+trying to crate a frankenstein monster out of them. You will not be able
+to do that in a meaningful way anyway, as for example a touchscreen
+needs to be handled differently from a touchpad, and if you smash them
+all together into one composite device you will get a mess on your
+hands.
 
 > 
-> Maximilian Luz (2):
->   HID: Add support for Surface Aggregator Module HID transport
->   HID: surface-hid: Add support for legacy keyboard interface
+> I have tried to register only all **known** keys instead of all keys,
+> but it still fails on the kernel.
+> (The userspace source file has been placed in attachment.)
 > 
->  MAINTAINERS                                |   7 +
->  drivers/hid/Kconfig                        |   2 +
->  drivers/hid/Makefile                       |   2 +
->  drivers/hid/surface-hid/Kconfig            |  42 +++
->  drivers/hid/surface-hid/Makefile           |   7 +
->  drivers/hid/surface-hid/surface_hid.c      | 253 +++++++++++++++++
->  drivers/hid/surface-hid/surface_hid_core.c | 272 +++++++++++++++++++
->  drivers/hid/surface-hid/surface_hid_core.h |  77 ++++++
->  drivers/hid/surface-hid/surface_kbd.c      | 300 +++++++++++++++++++++
->  9 files changed, 962 insertions(+)
->  create mode 100644 drivers/hid/surface-hid/Kconfig
->  create mode 100644 drivers/hid/surface-hid/Makefile
->  create mode 100644 drivers/hid/surface-hid/surface_hid.c
->  create mode 100644 drivers/hid/surface-hid/surface_hid_core.c
->  create mode 100644 drivers/hid/surface-hid/surface_hid_core.h
->  create mode 100644 drivers/hid/surface-hid/surface_kbd.c
+> > What functionality does it allow that we do not have today?
 > 
+> If programs are unable to register all known keys on only 1 uinput
+> device, programs have to register
+> keys on two or more devices. But this may result in unexpected behavior.
+> 
+> For example, the program registers Key A on device1, and registers Key
+> B on device2.
+> When the program needs to send a key combination A+B to a target
+> application, it has to:
+>      1. emit Key A down on device 1
+>      2. emit Key B down on device 2
+>      3. SYN_REPORT on device 1
+>      4. SYN_REPORT on device 2
+>      5. emit Key A up on device 1
+>      6. emit Key B up on device 2
+>      7. SYN_REPORT on device 1
+>      8. SYN_REPORT on device 2
+> 
+> Then, the target application polls input events on both devices 1 & 2.
+> It reads on device 1, and gets Key A pressed down and then released,
+> so it does feature A.
+> Then, it reads on device 2, and gets Key B pressed down and then
+> released, so it does feature B.
+> Finally, the target application loses the A+B key combination.
 
+Which is exactly what would happen in a real life with 2 hardware
+devices.
+
+Thanks.
+
+-- 
+Dmitry
