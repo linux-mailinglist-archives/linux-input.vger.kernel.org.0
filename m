@@ -2,39 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17D9F341E1B
-	for <lists+linux-input@lfdr.de>; Fri, 19 Mar 2021 14:27:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 26BE0341E73
+	for <lists+linux-input@lfdr.de>; Fri, 19 Mar 2021 14:36:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229634AbhCSN0y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 19 Mar 2021 09:26:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46642 "EHLO mail.kernel.org"
+        id S229987AbhCSNgC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 19 Mar 2021 09:36:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48788 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229784AbhCSN0q (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 19 Mar 2021 09:26:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CF69E64EF2;
-        Fri, 19 Mar 2021 13:26:44 +0000 (UTC)
+        id S229960AbhCSNfi (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 19 Mar 2021 09:35:38 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3299A64F59;
+        Fri, 19 Mar 2021 13:35:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616160406;
-        bh=+fFLKenKDfFeW/qha9ZQ83ZON/mz8Oj9IJEDQuJvrCc=;
+        s=k20201202; t=1616160938;
+        bh=rdAauLvYRy0zXr6edxHi/2TRmVoz5UVwiRNfbSfuNFI=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=k20QHGRlxLhsxwVdeGjZTYuDtCq3g/9WW0Etj1eZALfIaJqpydHHN5V0QHaua20UN
-         uJNYfcvgYwJXh1A9xlScmNYEdxgxeXkU0eiwKSabHMpd8jKDLMElFs4Bi28kL0T5Pk
-         8iLsvknlWjAJCW4AVOZoVGEojkPrQePvopUx0+wLxB0no7DHC5sYQ5Vbn+TDxDbsWV
-         t0HOa2hTWJtSmlqCeCJHVY+Hx19xGmYbQa4JJxaqMbHn3Wz1Yn6Bvmd8IZVCD5+xwH
-         oLv+N9pTavFf2m2UOIw1Kvw27TinpQHYSJzbbWiZVc8rCDewWwRhyeljrElD2cKoG2
-         seyGZoC6EUHYg==
-Date:   Fri, 19 Mar 2021 14:26:43 +0100 (CET)
+        b=q6aNySWngoF6QDChe+q+GdrXF50Zploy1FAkwehAw8DkJ9Sht8dFnI10EtqfawnxM
+         P6QpghwtbfytXWCooCwX/YP9mRFWZZ7RbxBnBilqkDtMN1HptsmrOBw84cuGBcYqD/
+         ZXpyCJx67iW8meu2L+n3gI9qbqQXxlPpZHbNnHMo0xbHf/ds85m6wMoj2kFyYFvkhI
+         QJdZMxxDNMznV5R0aPSQNpzQcXHWyeF0DWpxPNriAFEPzmOflKVzfu5zzi0JQ41GG0
+         EMz1wVeOv2sXwjztc2CPll9PWzIY8u4rS4coq6w1krNSDHfgxNcIP1HYL2fnG8oHAN
+         C8jgw9vyQd/cw==
+Date:   Fri, 19 Mar 2021 14:35:35 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-cc:     Michael Zaidman <michael.zaidman@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] HID: ft260: fix an error message in
- ft260_i2c_write_read()
-In-Reply-To: <YFMt5pml1voGQkUy@mwanda>
-Message-ID: <nycvar.YFH.7.76.2103191426350.12405@cbobk.fhfr.pm>
-References: <YFMt5pml1voGQkUy@mwanda>
+To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Ye Xiang <xiang.ye@intel.com>
+Subject: Re: [PATCH v2] HID: intel_ish-hid: HBM: Use connected standby state
+ bit during suspend/resume
+In-Reply-To: <20210316202334.655760-1-srinivas.pandruvada@linux.intel.com>
+Message-ID: <nycvar.YFH.7.76.2103191435260.12405@cbobk.fhfr.pm>
+References: <20210316202334.655760-1-srinivas.pandruvada@linux.intel.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -42,31 +40,32 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 18 Mar 2021, Dan Carpenter wrote:
+On Tue, 16 Mar 2021, Srinivas Pandruvada wrote:
 
-> The "len" variable is uninitialize.
+> From: Ye Xiang <xiang.ye@intel.com>
 > 
-> Fixes: 6a82582d9fa4 ("HID: ft260: add usb hid to i2c host bridge driver")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> The individual sensor drivers implemented in the ISH firmware needs
+> capability to take special actions when there is a change in the system
+> standby state. The ISH core firmware passes this notification to
+> individual sensor drivers in response to the OS request via connected
+> standby bit in the SYSTEM_STATE_STATUS command.
+> 
+> This change sets CONNECTED_STANDBY_STATE_BIT bit to 1 during suspend
+> callback and clears during resume callback.
+> 
+> Signed-off-by: Ye Xiang <xiang.ye@intel.com>
+> [srinivas.pandruvada@linux.intel.com: changelog rewrite]
+> Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 > ---
->  drivers/hid/hid-ft260.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> v2:
+> 	changed changelog to be more clear
+> 	Changed the name in the signed-off to match "From"
 > 
-> diff --git a/drivers/hid/hid-ft260.c b/drivers/hid/hid-ft260.c
-> index 047aa85a7c83..a5751607ce24 100644
-> --- a/drivers/hid/hid-ft260.c
-> +++ b/drivers/hid/hid-ft260.c
-> @@ -512,7 +512,8 @@ static int ft260_i2c_write_read(struct ft260_device *dev, struct i2c_msg *msgs)
->  	struct hid_device *hdev = dev->hdev;
->  
->  	if (msgs[0].len > 2) {
-> -		hid_err(hdev, "%s: unsupported wr len: %d\n", __func__, len);
-> +		hid_err(hdev, "%s: unsupported wr len: %d\n", __func__,
-> +			msgs[0].len);
->  		return -EOPNOTSUPP;
->  	}
+>  drivers/hid/intel-ish-hid/ishtp/hbm.c | 6 +++---
+>  drivers/hid/intel-ish-hid/ishtp/hbm.h | 1 +
+>  2 files changed, 4 insertions(+), 3 deletions(-)
 
-Applied, thanks Dan.
+Applied, thanks.
 
 -- 
 Jiri Kosina
