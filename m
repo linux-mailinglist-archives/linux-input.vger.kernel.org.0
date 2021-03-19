@@ -2,36 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 31086341DCE
-	for <lists+linux-input@lfdr.de>; Fri, 19 Mar 2021 14:11:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 17D9F341E1B
+	for <lists+linux-input@lfdr.de>; Fri, 19 Mar 2021 14:27:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229926AbhCSNLT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 19 Mar 2021 09:11:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43998 "EHLO mail.kernel.org"
+        id S229634AbhCSN0y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 19 Mar 2021 09:26:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46642 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229934AbhCSNLP (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 19 Mar 2021 09:11:15 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7E03C64ED7;
-        Fri, 19 Mar 2021 13:11:14 +0000 (UTC)
+        id S229784AbhCSN0q (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 19 Mar 2021 09:26:46 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CF69E64EF2;
+        Fri, 19 Mar 2021 13:26:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616159475;
-        bh=fg3NpZXs8IsAw5jPOhQGLsgID4HRrBWTbPX5XMCU8Yo=;
+        s=k20201202; t=1616160406;
+        bh=+fFLKenKDfFeW/qha9ZQ83ZON/mz8Oj9IJEDQuJvrCc=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=psKguyedq2LbiKfDPb3aEuupGUbam786Ze8Wgwu9+MJXzfKM27ygvf7/cDsaQLoul
-         c+8i85pyYZ5zNgtAtLEV2ICEwRhYewxYICWYKYS3tdKq7ZI8GV2Cm4U51NJxcpKeBY
-         yKokG0k1z3n4/3CfCrnYCxEYf85grjK+fgQFPzy9mBaqvMTmYD5EWDTIZuwAVfxP0F
-         5kJDFtfjP0xjp1sO4E9wcMjEGkW6PoforoG23iuuIg2HrAQyNv7S9WywW1M2DLng96
-         xjQiNd33RcAS5cny7RvxfUSQt9FIxGEzTowO6ko/EcQX1yUs80EEtMqSCE6mDBLznA
-         kVMyqIY7toEjg==
-Date:   Fri, 19 Mar 2021 14:11:12 +0100 (CET)
+        b=k20QHGRlxLhsxwVdeGjZTYuDtCq3g/9WW0Etj1eZALfIaJqpydHHN5V0QHaua20UN
+         uJNYfcvgYwJXh1A9xlScmNYEdxgxeXkU0eiwKSabHMpd8jKDLMElFs4Bi28kL0T5Pk
+         8iLsvknlWjAJCW4AVOZoVGEojkPrQePvopUx0+wLxB0no7DHC5sYQ5Vbn+TDxDbsWV
+         t0HOa2hTWJtSmlqCeCJHVY+Hx19xGmYbQa4JJxaqMbHn3Wz1Yn6Bvmd8IZVCD5+xwH
+         oLv+N9pTavFf2m2UOIw1Kvw27TinpQHYSJzbbWiZVc8rCDewWwRhyeljrElD2cKoG2
+         seyGZoC6EUHYg==
+Date:   Fri, 19 Mar 2021 14:26:43 +0100 (CET)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Dario Pagani <dario.pagani.146@gmail.com>
-cc:     linux-input@vger.kernel.org, kimi.h.kuparinen@gmail.com
-Subject: Re: [PATCH] HID: support for initialization of some Thrustmaster
- wheels
-In-Reply-To: <665a7a24-bc18-46e2-dee6-cb08f4a7b973@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2103191410390.12405@cbobk.fhfr.pm>
-References: <20210131090045.10636-1-dario.pagani.146@gmail.com> <nycvar.YFH.7.76.2103081458550.12405@cbobk.fhfr.pm> <665a7a24-bc18-46e2-dee6-cb08f4a7b973@gmail.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+cc:     Michael Zaidman <michael.zaidman@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] HID: ft260: fix an error message in
+ ft260_i2c_write_read()
+In-Reply-To: <YFMt5pml1voGQkUy@mwanda>
+Message-ID: <nycvar.YFH.7.76.2103191426350.12405@cbobk.fhfr.pm>
+References: <YFMt5pml1voGQkUy@mwanda>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -39,20 +42,31 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 14 Mar 2021, Dario Pagani wrote:
+On Thu, 18 Mar 2021, Dan Carpenter wrote:
 
-> > - I don't think we need to have this in a separate driver, is there a
-> >    substantial reason why it can't be folded into hid-thrustmaster proper?
+> The "len" variable is uninitialize.
 > 
-> I didn't add the init code to the hid-tmff as the ff stands for force feedback
-> and hid-tminit does a completely different job.
+> Fixes: 6a82582d9fa4 ("HID: ft260: add usb hid to i2c host bridge driver")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> ---
+>  drivers/hid/hid-ft260.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> However there are no significant reasons to avoid folding the two logics in a
-> common module hid-tmff or hid-thrustmaster.
+> diff --git a/drivers/hid/hid-ft260.c b/drivers/hid/hid-ft260.c
+> index 047aa85a7c83..a5751607ce24 100644
+> --- a/drivers/hid/hid-ft260.c
+> +++ b/drivers/hid/hid-ft260.c
+> @@ -512,7 +512,8 @@ static int ft260_i2c_write_read(struct ft260_device *dev, struct i2c_msg *msgs)
+>  	struct hid_device *hdev = dev->hdev;
+>  
+>  	if (msgs[0].len > 2) {
+> -		hid_err(hdev, "%s: unsupported wr len: %d\n", __func__, len);
+> +		hid_err(hdev, "%s: unsupported wr len: %d\n", __func__,
+> +			msgs[0].len);
+>  		return -EOPNOTSUPP;
+>  	}
 
-I will rename the driver to hid-thurstmaster and apply.
-
-Thanks,
+Applied, thanks Dan.
 
 -- 
 Jiri Kosina
