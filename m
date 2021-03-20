@@ -2,158 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD7D0342A51
-	for <lists+linux-input@lfdr.de>; Sat, 20 Mar 2021 05:11:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90BAD342BBA
+	for <lists+linux-input@lfdr.de>; Sat, 20 Mar 2021 12:13:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229863AbhCTEFr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 20 Mar 2021 00:05:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33448 "EHLO
+        id S229952AbhCTLMe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 20 Mar 2021 07:12:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38716 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229849AbhCTEFq (ORCPT
+        with ESMTP id S229732AbhCTLMI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 20 Mar 2021 00:05:46 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59AC4C061761
-        for <linux-input@vger.kernel.org>; Fri, 19 Mar 2021 21:05:46 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id v2so4996563pgk.11
-        for <linux-input@vger.kernel.org>; Fri, 19 Mar 2021 21:05:46 -0700 (PDT)
+        Sat, 20 Mar 2021 07:12:08 -0400
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E811AC0610D1
+        for <linux-input@vger.kernel.org>; Sat, 20 Mar 2021 03:56:51 -0700 (PDT)
+Received: by mail-qt1-x82e.google.com with SMTP id l13so8772379qtu.9
+        for <linux-input@vger.kernel.org>; Sat, 20 Mar 2021 03:56:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=protocubo.io; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=eLR87YkHxZaZyrKF6MIKECspjzHF6OMn0gEJkHmwGqQ=;
-        b=K8N1HfRGnEm51k2yPKETnj1QgEPSpAX+hAj2PgCjKhrtTaVqTGtpWQq4O4E9ZMa+sd
-         8szTuhM4/qas1/BTYF47uJMBK8VpRHGd/uLJKBt5esivuLr2ozTVQMB6Q2fINDd4ll5h
-         WtBhtwuf+ZLvbXPvGvOCuMZpkDl/tQF+AYpY9euKHNkljwqepxmK9S8yfme+wMs0bPls
-         6bWmlIXctYZLmF+1zCkViy//q/e62a02kfs+oleLUBhqH65c4YHiaX2/lKWhxEUK0Jxk
-         jYi8+bW6/eCtMCnZZwxMW0Er6PEPsWeMegkPaIenzNbWO7jXqWDTcb61SZ7eFPlsSdgO
-         01Fg==
+        bh=iQYzfriQFS4iM4QGzjdYe/EwNKnei3uiMSlE8+pjoTw=;
+        b=RZJmA14Qn4LiKY6BI3f/uMh2na5/N/aCRPh1Pxn74IU5wK+LTAkUoMJs3JRXIujULC
+         uEYz54pHgXGD/0PRED95NZMQ1GKGfWgI6T8xdCn9GjVbs+r0aZ8wzyxobxh9Y/v5+b0U
+         DSNKHWZ3G0CXB8uvCQhEQz7A9Hawt7nmVwXYg0Vmix+1AKLcgUdAncZbNAOc3mY2Q0DO
+         XHky0fR4qSnNI2jxx+cWWRBdl8C+vaoNs4iS9fFjAGW5hpNDOSE/VHOku8Pqh3GXwAlq
+         xE5h4kZKOaDAiNtB7Q52OuYwI3u8kqLf9blWptjuIqRkfNNuu/AOxl0i6BPoTUuCD9So
+         NFOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=eLR87YkHxZaZyrKF6MIKECspjzHF6OMn0gEJkHmwGqQ=;
-        b=DOWWIl+/9SHu/lz41ficp4HYL2wLW3i5igVhugKnVbZQm7BydbzusQb87y8xozAqp8
-         6PmzNs+ljzNAnC/6DoHAK2HIVdAdW+A1u0V0yUy5nbOiwGRu4ZoD7ssiXFAnNZjw9Amq
-         efahpkjc9MdCPE0X9CcjjPjUy/4TRtQTKmdrZqxS0Tlh3IcH5Oba3quqsL7ziWoLSYl/
-         9HzpE8PCR+eylKaexEZPb1Bc0Pa5avnFjAc59kZPoPhjg+xl8nl6CxPE42eywsm1jb12
-         ho6MnR/HOjEns1X99mpv9PgVJStwUgaVt9Lm/T0Uk3CdBY4Ria485+hJ+cQS2H7xQlZR
-         MLzQ==
-X-Gm-Message-State: AOAM532ji0iEJV7z96GjHWX8sZBfcDc6iMBsJHUJlDDdpzJqS8fadUdt
-        OU3B7OTHZisv3BriV4+WOiA=
-X-Google-Smtp-Source: ABdhPJyrdf2XwSFsutTDf0m6d27ZQOVgiTWLXP8dMPdVIumQrcDGJvUnVsdu4oqA7Ja9N0gH9MFNRw==
-X-Received: by 2002:aa7:940a:0:b029:1f1:5b58:24e5 with SMTP id x10-20020aa7940a0000b02901f15b5824e5mr12233993pfo.54.1616213145745;
-        Fri, 19 Mar 2021 21:05:45 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:a468:a574:c1f5:b1a1])
-        by smtp.gmail.com with ESMTPSA id s12sm5948172pgj.70.2021.03.19.21.05.44
+        bh=iQYzfriQFS4iM4QGzjdYe/EwNKnei3uiMSlE8+pjoTw=;
+        b=EV4jKqtOOC7c0sVdN480owQyqEGEXlXziKsH6ypB6XXC8jwc56dnARNG+XmpOi1W1g
+         VuF5w2iOIcy4/2aGdGGWXdsTdGXzZKEkAeDcezt6d6ijjEuLnVfS0GfxJpD6ntb5fuuh
+         KFyw+IBblgbfzhgFXfG2ZvSGi3UGWBadqO/x1nrqxfgm5V2F3/bTmvT3lQtPd/BL6lNj
+         ELPmyH00nmPIGLf+4EUe8K6pH7OrpdQdnnl83MmEwvROxf7If8jXrSIB77MIrQFzG2+K
+         Gi2bMtARcqFcN7gm75Jq9/Lo4z/n7iOsrWP7Dz4+/fsbMGHakL051IiEJ80PIQT528Jr
+         PUDQ==
+X-Gm-Message-State: AOAM532jQy0TeFtaaNdDBiIEv50dKbXo84pVZTjzAByN1+g2ekmt5Mul
+        mbTt9kSD3SKUHasZTeqh1FtBc5qj+rpxawMB
+X-Google-Smtp-Source: ABdhPJz1FMB/45PEuvrU181x6rcn5zNT04hOB3ou2ijZjBDr0Pz7vi5oxJeBK04ql8fXnQDDp8PZqg==
+X-Received: by 2002:aed:2ce3:: with SMTP id g90mr1873788qtd.308.1616221794679;
+        Fri, 19 Mar 2021 23:29:54 -0700 (PDT)
+Received: from calvin.localdomain ([2804:14d:5c5a:802e:bdc9:ded9:cc08:a4e9])
+        by smtp.gmail.com with ESMTPSA id p7sm6221092qkc.75.2021.03.19.23.29.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Mar 2021 21:05:44 -0700 (PDT)
-Date:   Fri, 19 Mar 2021 21:05:42 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Zhai Zhaoxuan <kxuanobj@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-input@vger.kernel.org, Markus Rechberger <kontakt@sundtek.de>
-Subject: Re: [BUG]an input device can not support more than 568 keys due to
- uevent buffer too small
-Message-ID: <YFV0lm1IOZjaycXt@google.com>
-References: <CAAnY7J2yYdsLMG=07u6QPf5SKN6ba=D+v=SE1vSMxWgP4A05pQ@mail.gmail.com>
- <YEy5Ki/lF2cbQxCH@kroah.com>
- <CAAnY7J3KDb094ZDZ7QEUQ9biUBBSVr=ru0x7cWPSGsCi-=9quw@mail.gmail.com>
- <YE8M+/LZPDOrOCPh@kroah.com>
- <CAAnY7J3YQDe1=OR0U66UnS8JE4ALfV9CzugazwAYa7c4TX6F=w@mail.gmail.com>
- <YFKzuP2Phh1RRQ8V@google.com>
- <CAAnY7J0n5zKpGMXYbjBk+TPPv1CfjV7Uh_9RRjfJ+6NbxvLAbg@mail.gmail.com>
+        Fri, 19 Mar 2021 23:29:54 -0700 (PDT)
+Date:   Sat, 20 Mar 2021 03:29:49 -0300
+From:   Jonas Malaco <jonas@protocubo.io>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+        linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] hwmon: add driver for NZXT Kraken X42/X52/X62/X72
+Message-ID: <20210320062949.h2ggfmzq7lyn3zsi@calvin.localdomain>
+References: <20210319045544.416138-1-jonas@protocubo.io>
+ <20210319212640.GA23767@roeck-us.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAAnY7J0n5zKpGMXYbjBk+TPPv1CfjV7Uh_9RRjfJ+6NbxvLAbg@mail.gmail.com>
+In-Reply-To: <20210319212640.GA23767@roeck-us.net>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Mar 18, 2021 at 12:54:48PM +0800, Zhai Zhaoxuan wrote:
-> On Thu, Mar 18, 2021 at 9:58 AM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> >
-> > Hi Zhai,
-> >
-> > On Mon, Mar 15, 2021 at 07:58:58PM +0800, Zhai Zhaoxuan wrote:
-> > >
-> > > In the real world, I think, it is nearly impossible that a physical
-> > > device contains so many keys or buttons.
-> > >
-> > > But I think a virtual device may need this. Such as a server remote
-> > > management card, it simulates a virtual keyboard,
-> > > registers keys and forwards all keys from user's computer to server.
-> > > And the user's computer may have any keys. So the card needs to
-> > > register all possible keys and send them to the kernel.
-> >
-> > I believe the best approach is to forward input devices to the remote
-> > system one by one, exactly as they are on the local end, instead of
-> > trying to crate a frankenstein monster out of them. You will not be able
-> > to do that in a meaningful way anyway, as for example a touchscreen
-> > needs to be handled differently from a touchpad, and if you smash them
-> > all together into one composite device you will get a mess on your
-> > hands.
-> >
-> > >
-> > > I have tried to register only all **known** keys instead of all keys,
-> > > but it still fails on the kernel.
-> > > (The userspace source file has been placed in attachment.)
-> > >
-> > > > What functionality does it allow that we do not have today?
-> > >
-> > > If programs are unable to register all known keys on only 1 uinput
-> > > device, programs have to register
-> > > keys on two or more devices. But this may result in unexpected behavior.
-> > >
-> > > For example, the program registers Key A on device1, and registers Key
-> > > B on device2.
-> > > When the program needs to send a key combination A+B to a target
-> > > application, it has to:
-> > >      1. emit Key A down on device 1
-> > >      2. emit Key B down on device 2
-> > >      3. SYN_REPORT on device 1
-> > >      4. SYN_REPORT on device 2
-> > >      5. emit Key A up on device 1
-> > >      6. emit Key B up on device 2
-> > >      7. SYN_REPORT on device 1
-> > >      8. SYN_REPORT on device 2
-> > >
-> > > Then, the target application polls input events on both devices 1 & 2.
-> > > It reads on device 1, and gets Key A pressed down and then released,
-> > > so it does feature A.
-> > > Then, it reads on device 2, and gets Key B pressed down and then
-> > > released, so it does feature B.
-> > > Finally, the target application loses the A+B key combination.
-> >
-> > Which is exactly what would happen in a real life with 2 hardware
-> > devices.
-> >
+On Fri, Mar 19, 2021 at 02:26:40PM -0700, Guenter Roeck wrote:
+> On Fri, Mar 19, 2021 at 01:55:44AM -0300, Jonas Malaco wrote:
+> > These are "all-in-one" CPU liquid coolers that can be monitored and
+> > controlled through a proprietary USB HID protocol.
+> > 
+> > While the models have differently sized radiators and come with varying
+> > numbers of fans, they are all indistinguishable at the software level.
+> > 
+> > The driver exposes fan/pump speeds and coolant temperature through the
+> > standard hwmon sysfs interface.
+> > 
+> > Fan and pump control, while supported by the devices, are not currently
+> > exposed.  The firmware accepts up to 61 trip points per channel
+> > (fan/pump), but the same set of trip temperatures has to be maintained
+> > for both; with pwmX_auto_point_Y_temp attributes, users would need to
+> > maintain this invariant themselves.
+> > 
+> > Instead, fan and pump control, as well as LED control (which the device
+> > also supports for 9 addressable RGB LEDs on the CPU water block) are
+> > left for existing and already mature user-space tools, which can still
+> > be used alongside the driver, thanks to hidraw.  A link to one, which I
+> > also maintain, is provided in the documentation.
+> > 
+> > The implementation is based on USB traffic analysis.  It has been
+> > runtime tested on x86_64, both as a built-in driver and as a module.
+> > 
+> > Signed-off-by: Jonas Malaco <jonas@protocubo.io>
 > 
-> Yep, but what expected is not 2 hardware devices. It should be one device.
+> Applied (after removing the now unnecessary spinlock.h include).
+
+Thanks for catching/fixing that.
+
+Jonas
+
 > 
-> 
-> The user scripts just want to send a key combination. The user
-> definitely doesn't want the target application to ignore the key
-> combination.
-> 
-> So, we are unable to do the key combination with only 1 input device.
-> And as you can see, it does not work if we separate key combinations
-> into two devices.
-> Finally, this is "we do not have today".
-
-If you want to create a contrived example - sure, you declare too many
-events and run against uevent limits.
-
-The point I am trying to make is that in more realistic use case, when
-you are dealing with remote management, it is not a good idea to smash
-all your input devices on the local side into one input device on the
-remote side. And if you forward hardware devices one by one to the
-remote side you will not run into this issue, as thankfully none of them
-have 500 keys.
-
-Thanks.
-
--- 
-Dmitry
+> Thanks,
+> Guenter
