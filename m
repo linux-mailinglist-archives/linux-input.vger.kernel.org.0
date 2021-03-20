@@ -2,154 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 81B02342D2D
-	for <lists+linux-input@lfdr.de>; Sat, 20 Mar 2021 14:52:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 350DC342E1D
+	for <lists+linux-input@lfdr.de>; Sat, 20 Mar 2021 17:03:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229588AbhCTNvj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 20 Mar 2021 09:51:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44930 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229585AbhCTNvK (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 20 Mar 2021 09:51:10 -0400
-Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5167C6193F;
-        Sat, 20 Mar 2021 13:51:05 +0000 (UTC)
-Date:   Sat, 20 Mar 2021 13:51:01 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Luca Ceresoli <luca@lucaceresoli.net>,
+        id S229817AbhCTQCu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 20 Mar 2021 12:02:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44998 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229865AbhCTQCr (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sat, 20 Mar 2021 12:02:47 -0400
+Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E3BDC061574;
+        Sat, 20 Mar 2021 09:02:47 -0700 (PDT)
+Received: by mail-lj1-x234.google.com with SMTP id f26so15675074ljp.8;
+        Sat, 20 Mar 2021 09:02:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ckrcEbmff1iIMspLq9lx4bc/o3J3DdXAByPuLZNU9cg=;
+        b=HzwIqhpBTZUgkPY3d5szguL4q6maumEY/kIcJ7ceQ5vMmlEic7jw/quc0RHxOxs0C3
+         uILyid4u/gwzxEeKIPWVykAhGCEHaLPuTfqfgggE0gD694grWgrVFbcuYZ9gsdjBODQH
+         HV2O2PgS9bu2u6FUKXEXyzTOwHRCW7nq9GixeI6HqEFwvT7AFu4BeOHxwivYVOaORCgg
+         NnnOMumwtvUqYi8drtcJVf4Qb/byXz9KTTjaL6qvQ3Ojpif8iLWOlfFmDMHN8yA1nCpY
+         X9LHEp/3LPY/FDMLjDs/HPCIFqMARvcPWpC7xvdxR9zAuWcig2f0t6C7IdNZKdMhUSgC
+         LkKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ckrcEbmff1iIMspLq9lx4bc/o3J3DdXAByPuLZNU9cg=;
+        b=bauKiJpBFcpZEQqSLYChddlTZ+N5Bp8WSIM4PaSYVB9LGBLGNmLR3bkT5GvjNhutNU
+         yT0V98nHoy3T3Da78qJQYKNmxbJU233x1Gi9tME92WdIKs7hMGaSztNQUzhHJCkazT+e
+         uUfLyxcbpphrMxJqLHt0eOeeK/TIIdMDKFwD5I54zDntCDmYZAvqJ7iclURZW4PqsDn5
+         3q4veHqQbRjmGqp1N6xia1E6SX+8TJQ4c6zQLnCFFh+KjPOGq8p2FcE3SF+S/TDmrUqW
+         3aED0AVSOQoTu4BUueJQsy7knpO6hc0h4s/h7CsnaC6D97YwloP9qqN45PagpowqYsVq
+         iIkA==
+X-Gm-Message-State: AOAM533G/yXqZQ9ydpvyLItVDsZTwXJK5GwWdz3IqTnrSa+l7NRQ6OVn
+        PZBUZN6NcWfPNHJAwg6+g81f24OzKi8=
+X-Google-Smtp-Source: ABdhPJwfcJXcIHdsjEO62pMyNeYxKV4L0QkLYIMwtkeP29PwQ3/0ZdkIvd3fBIA8Iz+lgQ5CRgBubA==
+X-Received: by 2002:a2e:9e8e:: with SMTP id f14mr4408333ljk.140.1616256164712;
+        Sat, 20 Mar 2021 09:02:44 -0700 (PDT)
+Received: from [192.168.2.145] (109-252-193-52.dynamic.spd-mgts.ru. [109.252.193.52])
+        by smtp.googlemail.com with ESMTPSA id q14sm964257lfd.214.2021.03.20.09.02.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 20 Mar 2021 09:02:44 -0700 (PDT)
+Subject: Re: [PATCH v6 0/3] Support wakeup methods of Atmel maXTouch
+ controllers
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Nick Dyer <nick@shmanahar.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
         Linus Walleij <linus.walleij@linaro.org>,
-        Kevin Tsai <ktsai@capellamicro.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Mark Brown <broonie@kernel.org>, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: More cleanup of standard unit properties
-Message-ID: <20210320135101.64c5c4e1@jic23-huawei>
-In-Reply-To: <20210316194824.3526913-1-robh@kernel.org>
-References: <20210316194824.3526913-1-robh@kernel.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        Jiada Wang <jiada_wang@mentor.com>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210302102158.10533-1-digetx@gmail.com>
+Message-ID: <8c1280f6-b79f-9c62-a064-68b119d74c49@gmail.com>
+Date:   Sat, 20 Mar 2021 19:02:43 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20210302102158.10533-1-digetx@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 16 Mar 2021 13:48:24 -0600
-Rob Herring <robh@kernel.org> wrote:
-
-> Properties with standard unit suffixes already have a type and don't need
-> type references. Fix a few more cases which have gotten added.
+02.03.2021 13:21, Dmitry Osipenko пишет:
+> Some Atmel maXTouch controllers, like mXT1386 and mXT3432S1 for example,
+> have a WAKE line that needs to be asserted in order to wake controller
+> from a deep sleep, otherwise it will be unusable. This series implements
+> support for the wakeup methods in accordance to the mXT1386 datasheet [1],
+> see page 29 (chapter "5.8 WAKE Line").
 > 
-> Cc: Luca Ceresoli <luca@lucaceresoli.net>
-> Cc: Jonathan Cameron <jic23@kernel.org>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Cc: Zhang Rui <rui.zhang@intel.com>
-> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Kevin Tsai <ktsai@capellamicro.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: linux-iio@vger.kernel.org
-> Cc: linux-input@vger.kernel.org
-> Cc: linux-pm@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
-> ---
->  Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml | 1 -
->  Documentation/devicetree/bindings/input/input.yaml              | 1 -
->  Documentation/devicetree/bindings/power/supply/bq256xx.yaml     | 1 -
->  Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml   | 2 --
->  .../devicetree/bindings/regulator/qcom-labibb-regulator.yaml    | 1 -
->  .../devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml          | 1 -
->  6 files changed, 7 deletions(-)
+> The mXT1386 is a widely used controller found on many older Android tablet
+> devices. Touchscreen on Acer A500 tablet now works properly after this
+> series.
 > 
-> diff --git a/Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml b/Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml
-> index 27972938b60d..c63b79c3351b 100644
-> --- a/Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml
-> +++ b/Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml
-> @@ -48,7 +48,6 @@ properties:
->    vdd-supply: true
->  
->    capella,aset-resistance-ohms:
-> -    $ref: /schemas/types.yaml#/definitions/uint32
->      enum: [50000, 100000, 300000, 600000]
->      description: >
->        Sensitivity calibration resistance. Note that calibration curves
-> diff --git a/Documentation/devicetree/bindings/input/input.yaml b/Documentation/devicetree/bindings/input/input.yaml
-> index ab407f266bef..3fc37478c0c0 100644
-> --- a/Documentation/devicetree/bindings/input/input.yaml
-> +++ b/Documentation/devicetree/bindings/input/input.yaml
-> @@ -32,6 +32,5 @@ properties:
->        Duration in seconds which the key should be kept pressed for device to
->        power off automatically. Device with key pressed shutdown feature can
->        specify this property.
-> -    $ref: /schemas/types.yaml#/definitions/uint32
->  
->  additionalProperties: true
-> diff --git a/Documentation/devicetree/bindings/power/supply/bq256xx.yaml b/Documentation/devicetree/bindings/power/supply/bq256xx.yaml
-> index 18b54783e11a..92ec7ed25668 100644
-> --- a/Documentation/devicetree/bindings/power/supply/bq256xx.yaml
-> +++ b/Documentation/devicetree/bindings/power/supply/bq256xx.yaml
-> @@ -39,7 +39,6 @@ properties:
->      maxItems: 1
->  
->    ti,watchdog-timeout-ms:
-> -    $ref: /schemas/types.yaml#/definitions/uint32
->      default: 0
->      description: |
->        Watchdog timer in ms. 0 (default) disables the watchdog
-> diff --git a/Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml b/Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml
-> index 1f88c9e013f4..6d7aa97a6475 100644
-> --- a/Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml
-> +++ b/Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml
-> @@ -29,12 +29,10 @@ properties:
->      description: I2C address of the charger.
->  
->    lltc,rsnsb-micro-ohms:
-> -    $ref: /schemas/types.yaml#/definitions/uint32
->      description: Battery sense resistor in microohm.
->      minimum: 1000
->  
->    lltc,rsnsi-micro-ohms:
-> -    $ref: /schemas/types.yaml#/definitions/uint32
->      description: Input current sense resistor in microohm.
->      minimum: 1000
->  
-> diff --git a/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml b/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml
-> index cf784bd1f5e5..1ddc1efd19e2 100644
-> --- a/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml
-> +++ b/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml
-> @@ -23,7 +23,6 @@ properties:
->  
->      properties:
->        qcom,soft-start-us:
-> -        $ref: /schemas/types.yaml#/definitions/uint32
->          description: Regulator soft start time in microseconds.
->          enum: [200, 400, 600, 800]
->          default: 200
-> diff --git a/Documentation/devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml b/Documentation/devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml
-> index 7cd364430573..95a728f4d333 100644
-> --- a/Documentation/devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml
-> +++ b/Documentation/devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml
-> @@ -78,7 +78,6 @@ patternProperties:
->            also known as absolute calibration.
->  
->        qcom,hw-settle-time-us:
-> -        $ref: /schemas/types.yaml#/definitions/uint32
->          description: Time between AMUX getting configured and the ADC starting conversion.
->          enum: [15, 100, 200, 300, 400, 500, 600, 700, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000]
->  
+> This patchset is a continuation of the work originally started by
+> Jiada Wang [2].
+> 
+> [1] https://ww1.microchip.com/downloads/en/DeviceDoc/mXT1386_1vx_Datasheet_LX.pdf
+> [2] https://patchwork.kernel.org/project/linux-input/list/?series=357875
 
+Hi,
+
+This series is very wanted by Android tablet devices from Acer, Asus and
+other vendors which use Maxtouch 1386 controller. Touchscreens don't
+work without the wakeup support, i.e. without this series. The wakeup
+support is implemented in accordance to the datasheet and touchscreens
+are working excellent using these patches.
+
+Could you please take this series into v5.13?
+
+Or could you please let me know what exactly needs to be improved?
+
+Thanks in advance.
