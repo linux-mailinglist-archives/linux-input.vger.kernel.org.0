@@ -2,107 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9F0634296F
-	for <lists+linux-input@lfdr.de>; Sat, 20 Mar 2021 01:28:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 402F1342A32
+	for <lists+linux-input@lfdr.de>; Sat, 20 Mar 2021 04:39:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229732AbhCTA1i (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 19 Mar 2021 20:27:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43390 "EHLO
+        id S229849AbhCTDhm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 19 Mar 2021 23:37:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229618AbhCTA1U (ORCPT
+        with ESMTP id S229618AbhCTDhM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 19 Mar 2021 20:27:20 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFB34C061760;
-        Fri, 19 Mar 2021 17:27:20 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id v8so3694122plz.10;
-        Fri, 19 Mar 2021 17:27:20 -0700 (PDT)
+        Fri, 19 Mar 2021 23:37:12 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABE81C061761;
+        Fri, 19 Mar 2021 20:37:01 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id x126so7200948pfc.13;
+        Fri, 19 Mar 2021 20:37:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=LIfAiKMbasGNOasGZfkQ+a3+Kv8U74AyNPwiY1+xi0I=;
-        b=uEw4w2iLVHPG0fJofmmmmoqifikNfP+/AoJmablcbwQQiZxfrVffvjdz7RqdQTKyDi
-         SRWQOctMGUsHlcn4fKTLg59aqndu+19g6rwEYXeAcsL3jj5Iyo6s/h+d7MJqnoywNMEv
-         M9rWyglmUmI4jFnphek2qzC7BSjP0viUMctT1tBq6GHjMP2lqmy18B9kJnYN/m0cz3ZL
-         lpz+0C7KIIjKIjQEQJ854MBos+nrGUDtEX1qDjHhvtqGQYFT2eCoKXpLcFMap43lP4XQ
-         A/IpONaQM6rZVXw2u0T89deqtMgYyAp38W9SHF9RKGjWOA9HEq36RSyQ7kG+I5FydC/N
-         1VYw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=F2NpDde5JfVs/08cIpDIKMl9ReyCVFlJWiAxllrxO/o=;
+        b=ojNJR9L79KsnenlcL8sVyKfkANP5c0OQisLGgvYN1Sp7ppi2457mZJCSbRfeF4bhiu
+         w8JJM/ORy+N32von6u5molA0CXO0DI/A+d8tco23CgjSR+l9LmpbQMYjmgWFbjgFATTZ
+         uNO5zDqIFj9+j8MhLpTBzgQDOCKo+39o4Zv9SYJTnZH03fKyCif785iCAafuYYJfvaMF
+         UZnDvG24DGUe21XXIKBQLf/l6mQaBLNEhMeYP9oDjGqYTgCmOkViBCPVWa58fqLaNTEe
+         Zp8aD27T0jtgPFlIWh/17ROyhOsOHbOxhGUmIvQsDB0TwoaXD3CZKksjOtzi2tpn5uYL
+         wtPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=LIfAiKMbasGNOasGZfkQ+a3+Kv8U74AyNPwiY1+xi0I=;
-        b=eOLDpxcuro7+2+PoW01y0YTER92m6t8fyJoqVRuWHFZcw0YEEs5AEOOUp68BrBt8AI
-         2K3W5bt0OWDt9FpBW/lCNpm9GXAd0VFGT+vZLp+yCmeZkJC/hbYvV2vnlyvQJijnC6F0
-         euMoWEtYcgJnnyunOZVHIyKN24PfN0bhssMvNPoDCdqAi6ymK2japptpMRk55aZH1BIW
-         zWqF3r4ImoH0OCFoxk4FPXpvSrSZjjJb2aMYgYUQL4MzYeLTcfLXsz3l25f4qCohfxi0
-         vVOCGHaXcFSnfNg9j1nE+LD7QIaQF3Ytf3lQ8xBxGKlPDBOk7fb0e3/GxYcqYtVSqw6f
-         yduw==
-X-Gm-Message-State: AOAM530wK3bQOQ3aP5sgOx2t6/Dm6zrDSC8xLdzr7n1lk800WW3JiQow
-        lNA/DxPdXH/NiAr6c3p5aYVKAQtDOww=
-X-Google-Smtp-Source: ABdhPJycP1Ktn0eveHth0/NXrwCXqUOVjsbqcd/PxG8fwDidOOKmw6sCLgTgJzcAAXXTnpS1dp110A==
-X-Received: by 2002:a17:903:2301:b029:e4:9026:4c7b with SMTP id d1-20020a1709032301b02900e490264c7bmr16442674plh.76.1616200039685;
-        Fri, 19 Mar 2021 17:27:19 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=F2NpDde5JfVs/08cIpDIKMl9ReyCVFlJWiAxllrxO/o=;
+        b=Boavqk/ONtTqDmZJzj4J/ZiQUichUtEBhtBGTvBcF/I9YpwtR6WpUNQz3ZU7Cd16tD
+         3//o2iW99reTrnGQ4EmD5ZJLsqi+9DNze5u7x1+XXXKOxHU+NBz7jzExO87Tjvw9LFnj
+         Qvwh4Q6OTO3j+/1RHDS6MnLxGlPeDvbRfcZfKGkfCrrLIso0qQGfbLW5Pp/LUh6F9WDT
+         0PMnXmnFQzAsj7oatQic6knZKHcIoVXwZ8DcfuDZ8NtibelQiP74mvKIcD37mIpLBV/u
+         mK1MVSjMo9Uto7bymAneU/PZlwiE09BG337F7vSLxqNy0ZmyPVqHPDjpJGsj9xrigHx9
+         lsQQ==
+X-Gm-Message-State: AOAM53336/zDn5ba12WOWH/QjDfp54YwcKfoUyUecQxRotWc0k9lM6nG
+        oLqa0vRonxkauLcIN0XQlKQ=
+X-Google-Smtp-Source: ABdhPJz/Mzv3lcTWIcJB/eu2sj7N9x6bfZzgkKOYsIHOcNcDxQDAfWM7y+kinqJzkx7zq7dcl8mlNw==
+X-Received: by 2002:a62:160c:0:b029:20a:7b41:f10f with SMTP id 12-20020a62160c0000b029020a7b41f10fmr11899212pfw.67.1616211421008;
+        Fri, 19 Mar 2021 20:37:01 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:a468:a574:c1f5:b1a1])
-        by smtp.gmail.com with ESMTPSA id s3sm6819678pfs.185.2021.03.19.17.27.18
+        by smtp.gmail.com with ESMTPSA id i22sm6211094pjz.56.2021.03.19.20.36.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Mar 2021 17:27:18 -0700 (PDT)
-Date:   Fri, 19 Mar 2021 17:27:16 -0700
+        Fri, 19 Mar 2021 20:36:59 -0700 (PDT)
+Date:   Fri, 19 Mar 2021 20:36:57 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To:     Johan Hovold <johan@kernel.org>
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: do not use down_interruptible() when unbinding devices
-Message-ID: <YFVBZCrmzvNJQstT@google.com>
+Subject: Re: [PATCH] Input: ims-pcu - drop redundant driver-data assignment
+Message-ID: <YFVt2X3He5OT3+ju@google.com>
+References: <20210318155525.22496-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20210318155525.22496-1-johan@kernel.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Action of unbinding driver from a device is not cancellable and should not
-fail, and driver core does not pay attention to the result of "remove"
-method, therefore using down_interruptible() in hid_device_remove() does
-not make sense.
+On Thu, Mar 18, 2021 at 04:55:25PM +0100, Johan Hovold wrote:
+> The driver data for the data interface has already been set by
+> usb_driver_claim_interface() so drop the subsequent redundant
+> assignment.
+> 
+> Signed-off-by: Johan Hovold <johan@kernel.org>
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/hid/hid-core.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index 56172fe6995c..ec63a9ff40dc 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -2300,12 +2300,8 @@ static int hid_device_remove(struct device *dev)
- {
- 	struct hid_device *hdev = to_hid_device(dev);
- 	struct hid_driver *hdrv;
--	int ret = 0;
- 
--	if (down_interruptible(&hdev->driver_input_lock)) {
--		ret = -EINTR;
--		goto end;
--	}
-+	down(&hdev->driver_input_lock);
- 	hdev->io_started = false;
- 
- 	hdrv = hdev->driver;
-@@ -2320,8 +2316,8 @@ static int hid_device_remove(struct device *dev)
- 
- 	if (!hdev->io_started)
- 		up(&hdev->driver_input_lock);
--end:
--	return ret;
-+
-+	return 0;
- }
- 
- static ssize_t modalias_show(struct device *dev, struct device_attribute *a,
--- 
-2.31.0.rc2.261.g7f71774620-goog
-
+Applied, thank you.
 
 -- 
 Dmitry
