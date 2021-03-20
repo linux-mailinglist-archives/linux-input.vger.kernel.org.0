@@ -2,104 +2,154 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 908C7342C54
-	for <lists+linux-input@lfdr.de>; Sat, 20 Mar 2021 12:40:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 81B02342D2D
+	for <lists+linux-input@lfdr.de>; Sat, 20 Mar 2021 14:52:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230101AbhCTLj7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 20 Mar 2021 07:39:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45310 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229946AbhCTLjc (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sat, 20 Mar 2021 07:39:32 -0400
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E39BC0613E6
-        for <linux-input@vger.kernel.org>; Fri, 19 Mar 2021 23:29:55 -0700 (PDT)
-Received: by mail-qt1-x82d.google.com with SMTP id x9so8537422qto.8
-        for <linux-input@vger.kernel.org>; Fri, 19 Mar 2021 23:29:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=protocubo.io; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=iQYzfriQFS4iM4QGzjdYe/EwNKnei3uiMSlE8+pjoTw=;
-        b=RZJmA14Qn4LiKY6BI3f/uMh2na5/N/aCRPh1Pxn74IU5wK+LTAkUoMJs3JRXIujULC
-         uEYz54pHgXGD/0PRED95NZMQ1GKGfWgI6T8xdCn9GjVbs+r0aZ8wzyxobxh9Y/v5+b0U
-         DSNKHWZ3G0CXB8uvCQhEQz7A9Hawt7nmVwXYg0Vmix+1AKLcgUdAncZbNAOc3mY2Q0DO
-         XHky0fR4qSnNI2jxx+cWWRBdl8C+vaoNs4iS9fFjAGW5hpNDOSE/VHOku8Pqh3GXwAlq
-         xE5h4kZKOaDAiNtB7Q52OuYwI3u8kqLf9blWptjuIqRkfNNuu/AOxl0i6BPoTUuCD9So
-         NFOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=iQYzfriQFS4iM4QGzjdYe/EwNKnei3uiMSlE8+pjoTw=;
-        b=icFA5wSvxALtM0zdhxTSIL6z4WVDXmnaMb5inXDJIq3kQjUTVgSN0aFMXwOL5sW99M
-         OI0Vtj4KLhivyPj2WFaualVgC/pdPfRXXK9HHSAzQuCdLs5Fadgc7ue/4NBCVW42OaS1
-         q2NryVpvjypv0ZTPVCF4bW+M4ZhegFihsBF4z4G9Dzur2SIEUae9ZMY+qJmrGSJ8lSOR
-         cL74p5cZQ1I+TWwA9YuKua2gV3zmSeG5Km9Xhcvkax7dXJKmm3rD6r6m4jpM0YVu2EkE
-         j5gn9/Fh0R6nuCy34Ju2iPmYEefY/rDtd+08K1mkexoM0mZZnLcTa27ahRiCPJ7kOCG3
-         wwkQ==
-X-Gm-Message-State: AOAM531ReFppSPgD4CyayyWdD0PPUlLiL0uUB3a/eZ7WYk8EBMt/QWMA
-        FLu6DMSePXZCDJOVeCXA3SSYpA==
-X-Google-Smtp-Source: ABdhPJz1FMB/45PEuvrU181x6rcn5zNT04hOB3ou2ijZjBDr0Pz7vi5oxJeBK04ql8fXnQDDp8PZqg==
-X-Received: by 2002:aed:2ce3:: with SMTP id g90mr1873788qtd.308.1616221794679;
-        Fri, 19 Mar 2021 23:29:54 -0700 (PDT)
-Received: from calvin.localdomain ([2804:14d:5c5a:802e:bdc9:ded9:cc08:a4e9])
-        by smtp.gmail.com with ESMTPSA id p7sm6221092qkc.75.2021.03.19.23.29.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Mar 2021 23:29:54 -0700 (PDT)
-Date:   Sat, 20 Mar 2021 03:29:49 -0300
-From:   Jonas Malaco <jonas@protocubo.io>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
-        linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] hwmon: add driver for NZXT Kraken X42/X52/X62/X72
-Message-ID: <20210320062949.h2ggfmzq7lyn3zsi@calvin.localdomain>
-References: <20210319045544.416138-1-jonas@protocubo.io>
- <20210319212640.GA23767@roeck-us.net>
+        id S229588AbhCTNvj (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 20 Mar 2021 09:51:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44930 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229585AbhCTNvK (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 20 Mar 2021 09:51:10 -0400
+Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5167C6193F;
+        Sat, 20 Mar 2021 13:51:05 +0000 (UTC)
+Date:   Sat, 20 Mar 2021 13:51:01 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Kevin Tsai <ktsai@capellamicro.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Mark Brown <broonie@kernel.org>, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-pm@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: More cleanup of standard unit properties
+Message-ID: <20210320135101.64c5c4e1@jic23-huawei>
+In-Reply-To: <20210316194824.3526913-1-robh@kernel.org>
+References: <20210316194824.3526913-1-robh@kernel.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210319212640.GA23767@roeck-us.net>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Mar 19, 2021 at 02:26:40PM -0700, Guenter Roeck wrote:
-> On Fri, Mar 19, 2021 at 01:55:44AM -0300, Jonas Malaco wrote:
-> > These are "all-in-one" CPU liquid coolers that can be monitored and
-> > controlled through a proprietary USB HID protocol.
-> > 
-> > While the models have differently sized radiators and come with varying
-> > numbers of fans, they are all indistinguishable at the software level.
-> > 
-> > The driver exposes fan/pump speeds and coolant temperature through the
-> > standard hwmon sysfs interface.
-> > 
-> > Fan and pump control, while supported by the devices, are not currently
-> > exposed.  The firmware accepts up to 61 trip points per channel
-> > (fan/pump), but the same set of trip temperatures has to be maintained
-> > for both; with pwmX_auto_point_Y_temp attributes, users would need to
-> > maintain this invariant themselves.
-> > 
-> > Instead, fan and pump control, as well as LED control (which the device
-> > also supports for 9 addressable RGB LEDs on the CPU water block) are
-> > left for existing and already mature user-space tools, which can still
-> > be used alongside the driver, thanks to hidraw.  A link to one, which I
-> > also maintain, is provided in the documentation.
-> > 
-> > The implementation is based on USB traffic analysis.  It has been
-> > runtime tested on x86_64, both as a built-in driver and as a module.
-> > 
-> > Signed-off-by: Jonas Malaco <jonas@protocubo.io>
+On Tue, 16 Mar 2021 13:48:24 -0600
+Rob Herring <robh@kernel.org> wrote:
+
+> Properties with standard unit suffixes already have a type and don't need
+> type references. Fix a few more cases which have gotten added.
 > 
-> Applied (after removing the now unnecessary spinlock.h include).
+> Cc: Luca Ceresoli <luca@lucaceresoli.net>
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Cc: Zhang Rui <rui.zhang@intel.com>
+> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Kevin Tsai <ktsai@capellamicro.com>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: linux-iio@vger.kernel.org
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-pm@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Thanks for catching/fixing that.
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Jonas
-
+> ---
+>  Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml | 1 -
+>  Documentation/devicetree/bindings/input/input.yaml              | 1 -
+>  Documentation/devicetree/bindings/power/supply/bq256xx.yaml     | 1 -
+>  Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml   | 2 --
+>  .../devicetree/bindings/regulator/qcom-labibb-regulator.yaml    | 1 -
+>  .../devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml          | 1 -
+>  6 files changed, 7 deletions(-)
 > 
-> Thanks,
-> Guenter
+> diff --git a/Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml b/Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml
+> index 27972938b60d..c63b79c3351b 100644
+> --- a/Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml
+> +++ b/Documentation/devicetree/bindings/iio/light/capella,cm3605.yaml
+> @@ -48,7 +48,6 @@ properties:
+>    vdd-supply: true
+>  
+>    capella,aset-resistance-ohms:
+> -    $ref: /schemas/types.yaml#/definitions/uint32
+>      enum: [50000, 100000, 300000, 600000]
+>      description: >
+>        Sensitivity calibration resistance. Note that calibration curves
+> diff --git a/Documentation/devicetree/bindings/input/input.yaml b/Documentation/devicetree/bindings/input/input.yaml
+> index ab407f266bef..3fc37478c0c0 100644
+> --- a/Documentation/devicetree/bindings/input/input.yaml
+> +++ b/Documentation/devicetree/bindings/input/input.yaml
+> @@ -32,6 +32,5 @@ properties:
+>        Duration in seconds which the key should be kept pressed for device to
+>        power off automatically. Device with key pressed shutdown feature can
+>        specify this property.
+> -    $ref: /schemas/types.yaml#/definitions/uint32
+>  
+>  additionalProperties: true
+> diff --git a/Documentation/devicetree/bindings/power/supply/bq256xx.yaml b/Documentation/devicetree/bindings/power/supply/bq256xx.yaml
+> index 18b54783e11a..92ec7ed25668 100644
+> --- a/Documentation/devicetree/bindings/power/supply/bq256xx.yaml
+> +++ b/Documentation/devicetree/bindings/power/supply/bq256xx.yaml
+> @@ -39,7 +39,6 @@ properties:
+>      maxItems: 1
+>  
+>    ti,watchdog-timeout-ms:
+> -    $ref: /schemas/types.yaml#/definitions/uint32
+>      default: 0
+>      description: |
+>        Watchdog timer in ms. 0 (default) disables the watchdog
+> diff --git a/Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml b/Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml
+> index 1f88c9e013f4..6d7aa97a6475 100644
+> --- a/Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml
+> +++ b/Documentation/devicetree/bindings/power/supply/ltc4162-l.yaml
+> @@ -29,12 +29,10 @@ properties:
+>      description: I2C address of the charger.
+>  
+>    lltc,rsnsb-micro-ohms:
+> -    $ref: /schemas/types.yaml#/definitions/uint32
+>      description: Battery sense resistor in microohm.
+>      minimum: 1000
+>  
+>    lltc,rsnsi-micro-ohms:
+> -    $ref: /schemas/types.yaml#/definitions/uint32
+>      description: Input current sense resistor in microohm.
+>      minimum: 1000
+>  
+> diff --git a/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml b/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml
+> index cf784bd1f5e5..1ddc1efd19e2 100644
+> --- a/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml
+> +++ b/Documentation/devicetree/bindings/regulator/qcom-labibb-regulator.yaml
+> @@ -23,7 +23,6 @@ properties:
+>  
+>      properties:
+>        qcom,soft-start-us:
+> -        $ref: /schemas/types.yaml#/definitions/uint32
+>          description: Regulator soft start time in microseconds.
+>          enum: [200, 400, 600, 800]
+>          default: 200
+> diff --git a/Documentation/devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml b/Documentation/devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml
+> index 7cd364430573..95a728f4d333 100644
+> --- a/Documentation/devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml
+> +++ b/Documentation/devicetree/bindings/thermal/qcom-spmi-adc-tm5.yaml
+> @@ -78,7 +78,6 @@ patternProperties:
+>            also known as absolute calibration.
+>  
+>        qcom,hw-settle-time-us:
+> -        $ref: /schemas/types.yaml#/definitions/uint32
+>          description: Time between AMUX getting configured and the ADC starting conversion.
+>          enum: [15, 100, 200, 300, 400, 500, 600, 700, 1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000]
+>  
+
