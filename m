@@ -2,167 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F72F3432ED
-	for <lists+linux-input@lfdr.de>; Sun, 21 Mar 2021 15:12:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D86B343482
+	for <lists+linux-input@lfdr.de>; Sun, 21 Mar 2021 21:07:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230137AbhCUOLv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 21 Mar 2021 10:11:51 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:42939 "EHLO
-        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229949AbhCUOLN (ORCPT
+        id S230478AbhCUUGs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 21 Mar 2021 16:06:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37470 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230477AbhCUUGr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 21 Mar 2021 10:11:13 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.nyi.internal (Postfix) with ESMTP id 667625C00FF;
-        Sun, 21 Mar 2021 10:11:13 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Sun, 21 Mar 2021 10:11:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
-         h=from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm3; bh=FUpZqjlOgxXIY
-        s30ynfwBw7aJ5BjzlYIhJyreti8lsQ=; b=J3dobLa5lMB+6VdFeOW7DVK8qno1J
-        zlAFW5hyzccj017ayps3HiwOT0uF9JfZFXi8KYjOayWR11cuAC4w/uA7+1LRxnm0
-        00BaKYkQ+4sOVS/+535OHpVgJXjvYh2gpghPqBWrXXt4lSiQvr9tlzwEFoj88Kzd
-        XVGIYwcMcO6PaCo117Cb1cRDnBfFmVeiDHjIONPjT4mgfeGkx241Tnq4JaDIqcGb
-        SIWn93qyj3UODhD3oekNmdx+IzG9c23xmhQ7yvegVUcCal2eLPSqAYoMQTxU+xp0
-        AIEUtQxrjOGoEBVPTFAl5Ny6voXx4ILCVo7fA0c8exWbhPrtqOyTi5Rhg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :in-reply-to:message-id:mime-version:references:subject:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; bh=FUpZqjlOgxXIYs30ynfwBw7aJ5BjzlYIhJyreti8lsQ=; b=dx+Am8ts
-        49uWGdFJjX8Bnq1EaDh3nrtptzblrRypLP6y00/ORDSGUCM4aKEQi6+PGz13ztog
-        krOmqcmIHcJfd3ehALlKde4gZBWoO8+3wQwTy5PwERFnSuYc+xvxd2PVnxMRYTSw
-        2LCjc1i0ngQhIX3hdCjkp6yHQUcoFL4dy0m/ZgzCMYHctAUDtkeoeYeYGUa/Hfpa
-        hl55vZB85Wortf6mYD84pEV2bNLLWEABTjI6xTrbTtWfKQsthQRZIwoTrDUhsscT
-        1M91zCDXkvVvRK4XbOCWReUI0iQPZuWOtIHsx+U+HTitUBpplOqpHjsyfrTcCu5z
-        DuWY/eGvenG3Kg==
-X-ME-Sender: <xms:AVRXYFkvnH43iFtu35Ew8WEE788aZG-GEkld0GTzb7CYEu0vkHKg6Q>
-    <xme:AVRXYA07DFftrjYJ0M93_-uZSjOiXeYi5MpYwiPoWy_ZYslDbIa1dlB2Jy3oZ0Mxe
-    xJLmqU0Hk90rvUiRuc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudegvddgiedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
-    dtredttdenucfhrhhomheptehlihhsthgrihhrucfhrhgrnhgtihhsuceorghlihhsthgr
-    ihhrsegrlhhishhtrghirhdvfedrmhgvqeenucggtffrrghtthgvrhhnpeeggedtteejke
-    eggeeugfehueevudegvdetjeeviedugedvtdekffekhedtteduhfenucfkphepudelfedr
-    vdejrddufedrvdefheenucevlhhushhtvghrufhiiigvpeeinecurfgrrhgrmhepmhgrih
-    hlfhhrohhmpegrlhhishhtrghirhesrghlihhsthgrihhrvdefrdhmvg
-X-ME-Proxy: <xmx:AVRXYLoqn7r8ntNj10Ck55YBHJ1MrT7M9Q-GLVFIrTSJoRV0-lMPnw>
-    <xmx:AVRXYFm5g2roXxasTdy5rSAJU3opOj8aXcSgIsiMm_APBk6MeUfkdA>
-    <xmx:AVRXYD2l6_pBaxsKt1ruFfNSJxLZ3lzJK9Kg9I544nBOFEZTwQwIPw>
-    <xmx:AVRXYExpjlIfstK4ATVGVFrTvK6TBW01xXGAxQGo2tCp7QzU3Y8H7w>
-Received: from ThinkpadX1Yoga3.localdomain (unknown [193.27.13.235])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 780A32400CC;
-        Sun, 21 Mar 2021 10:11:12 -0400 (EDT)
-From:   Alistair Francis <alistair@alistair23.me>
-To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-        linux-imx@nxp.com, kernel@pengutronix.de
-Cc:     linux-kernel@vger.kernel.org, alistair23@gmail.com,
-        Alistair Francis <alistair@alistair23.me>
-Subject: [PATCH v3 9/9] ARM: dts: imx7d: remarkable2: add wacom digitizer device
-Date:   Sun, 21 Mar 2021 10:10:49 -0400
-Message-Id: <20210321141049.148-10-alistair@alistair23.me>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210321141049.148-1-alistair@alistair23.me>
+        Sun, 21 Mar 2021 16:06:47 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E648BC061574;
+        Sun, 21 Mar 2021 13:06:46 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id v2so7269357pgk.11;
+        Sun, 21 Mar 2021 13:06:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=bgLat3QwQPXE22lSgKapuRMIQv3ZeL5g0dF3mAIdnRI=;
+        b=B3XcgUclaLkzK0LXQgNpeszR5pjA+s085zycj2x3gYErQiomnzZiV86UNgSUzJnvex
+         G6N//i5pVQrHFunuIpMQ7brqR3Ba9lD7fgA2cxoYNkOEgkjMSXDIZPskK1K+63/6qaei
+         dL2DnGxHuh/LhJS3FprNqfTCQ2eZhPyf1SaqhuI2kRcv7JO9A0LNTfx6VsjU5RGPQXlO
+         1EmwxrtvxlJxUnFQV3pRd4reD00SWD9vN3h69oVepSLuRfiRBZJxJlLKG1zSBNSAt5rM
+         nu2hwzdWnfoH3oZsSm/jdPb01I6f37lvXmWhHF5PweFnjeuOxG8Oqi77QLzE6uO29BQE
+         cPeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=bgLat3QwQPXE22lSgKapuRMIQv3ZeL5g0dF3mAIdnRI=;
+        b=EcECZYPz4jlQKSLOKxgcC+30OzVHr84vE5tVZU7u2J/eJhNYCDE0W/7cfR6Rda2H4O
+         G/vLil8ABEfN/1bW+rEZJnPL0d00sN38r8mmHg8nTZ8p/5xn1SeipHK+FqLFh929jpkt
+         8PSWr7mwG8TyNCi6FYMg5u5dW2L/2GpGVnHaBsN+O5K32pMKzoNMuGPqM4JCtJh8geP6
+         eibYse+VKeq6QgWwlT+qH3MCmXbE8IDGysVqWmZC5gvC5nOsGco0dFVwBE7PAXHoByfF
+         vRfrYdI7vMuhFnflfNfmAuB6guTOD8D+KzegOhr31uTJlV8igUZRSmzJUzjjpfKRtxgo
+         Rm7g==
+X-Gm-Message-State: AOAM533Ecm8sdTKEndOsOXjeYwI8F4Cmr/JP/yfH4MaDRXenJ8TYx2qF
+        ay9P3xpafCmK6VFnfE6AB88=
+X-Google-Smtp-Source: ABdhPJyiqF0vl+26lOXTpiSDJc8I+xyFBKSSI5l9FEpRhfFDwUqlfc5OJ/G+jNBOB0G8UjUcbWi6cQ==
+X-Received: by 2002:a63:2507:: with SMTP id l7mr3633544pgl.198.1616357206297;
+        Sun, 21 Mar 2021 13:06:46 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:85c2:9df1:533a:87e9])
+        by smtp.gmail.com with ESMTPSA id fh19sm11246900pjb.33.2021.03.21.13.06.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Mar 2021 13:06:44 -0700 (PDT)
+Date:   Sun, 21 Mar 2021 13:06:41 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Alistair Francis <alistair@alistair23.me>
+Cc:     linux-input@vger.kernel.org, linux-imx@nxp.com,
+        kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+        alistair23@gmail.com
+Subject: Re: [PATCH v3 3/9] Input: wacom_i2c - Add device tree support to
+ wacom_i2c
+Message-ID: <YFenUUP5RDRaAzvP@google.com>
 References: <20210321141049.148-1-alistair@alistair23.me>
+ <20210321141049.148-4-alistair@alistair23.me>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210321141049.148-4-alistair@alistair23.me>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Enable the wacom_i2c touchscreen for the reMarkable2.
+Hi Alistair,
 
-Signed-off-by: Alistair Francis <alistair@alistair23.me>
----
- arch/arm/boot/dts/imx7d-remarkable2.dts | 52 +++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+On Sun, Mar 21, 2021 at 10:10:43AM -0400, Alistair Francis wrote:
+> Allow the wacom-i2c device to be exposed via device tree.
+> 
+> Signed-off-by: Alistair Francis <alistair@alistair23.me>
+> ---
+>  drivers/input/touchscreen/wacom_i2c.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/input/touchscreen/wacom_i2c.c b/drivers/input/touchscreen/wacom_i2c.c
+> index 1afc6bde2891..fc0bf583d33b 100644
+> --- a/drivers/input/touchscreen/wacom_i2c.c
+> +++ b/drivers/input/touchscreen/wacom_i2c.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/slab.h>
+>  #include <linux/irq.h>
+>  #include <linux/interrupt.h>
+> +#include <linux/of.h>
+>  #include <asm/unaligned.h>
+>  
+>  #define WACOM_CMD_QUERY0	0x04
+> @@ -262,10 +263,17 @@ static const struct i2c_device_id wacom_i2c_id[] = {
+>  };
+>  MODULE_DEVICE_TABLE(i2c, wacom_i2c_id);
+>  
+> +static const struct of_device_id wacom_i2c_of_match_table[] __maybe_unused = {
+> +	{ .compatible = "wacom,generic" },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, wacom_i2c_of_match_table);
+> +
+>  static struct i2c_driver wacom_i2c_driver = {
+>  	.driver	= {
+>  		.name	= "wacom_i2c",
+>  		.pm	= &wacom_i2c_pm,
+> +		.of_match_table = of_match_ptr(wacom_i2c_of_match_table),
 
-diff --git a/arch/arm/boot/dts/imx7d-remarkable2.dts b/arch/arm/boot/dts/imx7d-remarkable2.dts
-index 7ed4eb5b8ea9..aa22b77af440 100644
---- a/arch/arm/boot/dts/imx7d-remarkable2.dts
-+++ b/arch/arm/boot/dts/imx7d-remarkable2.dts
-@@ -33,6 +33,19 @@ reg_brcm: regulator-brcm {
- 		startup-delay-us = <150>;
- 	};
- 
-+	reg_digitizer: regulator-digitizer {
-+		compatible = "regulator-fixed";
-+		regulator-name = "VDD_3V3_DIGITIZER";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		pinctrl-names = "default", "sleep";
-+		pinctrl-0 = <&pinctrl_digitizer_reg>;
-+		pinctrl-1 = <&pinctrl_digitizer_reg>;
-+		gpio = <&gpio1 6 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+		startup-delay-us = <100000>; /* 100 ms */
-+	};
-+
- 	wifi_pwrseq: wifi_pwrseq {
- 		compatible = "mmc-pwrseq-simple";
- 		pinctrl-names = "default";
-@@ -50,6 +63,28 @@ &clks {
- 	assigned-clock-rates = <0>, <32768>;
- };
- 
-+&i2c1 {
-+	clock-frequency = <400000>;
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_i2c1>;
-+	status = "okay";
-+
-+	wacom_digitizer: digitizer@9 {
-+		compatible = "wacom,generic";
-+		reg = <0x09>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_wacom>;
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <1 IRQ_TYPE_EDGE_FALLING>;
-+		flip-tilt-x;
-+		flip-tilt-y;
-+		flip-pos-x;
-+		flip-pos-y;
-+		flip-distance;
-+		vdd-supply = <&reg_digitizer>;
-+	};
-+};
-+
- &snvs_pwrkey {
- 	status = "okay";
- };
-@@ -123,6 +158,16 @@ pinctrl_digitizer_reg: digitizerreggrp {
- 			MX7D_PAD_LPSR_GPIO1_IO06__GPIO1_IO6	0x14
- 		>;
- 	};
-+
-+	pinctrl_wacom: wacomgrp {
-+		fsl,pins = <
-+			/*MX7D_PAD_LPSR_GPIO1_IO05__GPIO1_IO5	0x00000014 /* FWE */
-+			MX7D_PAD_LPSR_GPIO1_IO04__GPIO1_IO4	0x00000074 /* PDCTB */
-+			MX7D_PAD_LPSR_GPIO1_IO01__GPIO1_IO1	0x00000034 /* WACOM INT */
-+			/*MX7D_PAD_LPSR_GPIO1_IO06__GPIO1_IO6	0x00000014 /* WACOM PWR ENABLE */
-+			/*MX7D_PAD_LPSR_GPIO1_IO00__GPIO1_IO0	0x00000074 /* WACOM RESET */
-+		>;
-+	};
- };
- 
- &iomuxc {
-@@ -133,6 +178,13 @@ MX7D_PAD_SAI1_TX_BCLK__GPIO6_IO13	0x14
- 		>;
- 	};
- 
-+	pinctrl_i2c1: i2c1grp {
-+		fsl,pins = <
-+			MX7D_PAD_I2C1_SDA__I2C1_SDA		0x4000007f
-+			MX7D_PAD_I2C1_SCL__I2C1_SCL		0x4000007f
-+		>;
-+	};
-+
- 	pinctrl_uart1: uart1grp {
- 		fsl,pins = <
- 			MX7D_PAD_UART1_TX_DATA__UART1_DCE_TX	0x79
+You need to either guard wacom_i2c_of_match_table by #ifdef CONFIG_OF or
+drop of_match_ptr() and assign directly as otherwise you will get
+"unused variable" warning.
+
+Thanks.
+
 -- 
-2.30.1
-
+Dmitry
