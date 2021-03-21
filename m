@@ -2,53 +2,53 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C59B634356C
-	for <lists+linux-input@lfdr.de>; Sun, 21 Mar 2021 23:41:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D4E434356E
+	for <lists+linux-input@lfdr.de>; Sun, 21 Mar 2021 23:41:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230403AbhCUWkt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S230438AbhCUWkt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Sun, 21 Mar 2021 18:40:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41914 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230294AbhCUWkV (ORCPT
+        with ESMTP id S230398AbhCUWkd (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 21 Mar 2021 18:40:21 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71698C061574;
-        Sun, 21 Mar 2021 15:40:21 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id k24so7403288pgl.6;
-        Sun, 21 Mar 2021 15:40:21 -0700 (PDT)
+        Sun, 21 Mar 2021 18:40:33 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC15BC061574;
+        Sun, 21 Mar 2021 15:40:32 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id v186so7410477pgv.7;
+        Sun, 21 Mar 2021 15:40:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=OzhQarW1x783j1gbv/2k7Jj3aLy0HFjmN2um4/lPCow=;
-        b=M59iy5lsGoyLtEfzGXBVZev1BJ9xZ70mAiPEjn8gsRSRFupXNhMsl2Ccj9AHEKPVhe
-         e9d3qigh7AS50kbQ5Mu+mqgXh52oBvPn5hAXqsH1yeox0XwqSKRxkm4i+OQBkfKXFpFO
-         x9grgZiGk+UbIDIsVGSjoRixwCol+fX3G0NRFqoG1SuBlzKN8PixxCVARd4X2suAgJT+
-         DBs81R4p9f2skoLi4QYnFeSiDGFC7Czzs4bRp1Ymim3jGDgz+pewQ+TbBfRxygSMvnlj
-         U8aVI7+gcPiIYO7t4Xn7Sw4fZxxs90x6uMWWMkN+j2HK3A/VH9Y5VggD1QPutNT9Mkqm
-         fG/g==
+        bh=kcVQnKMPrAVA83+GkD2fxL77wzY7stxZZy7JEffOnUM=;
+        b=iYQD9AixIHTIFzlwhnC7Y1WQI6bE+fG8Z2QGrPuF3yQTbHAln166+YId22ZlUPxqCK
+         oXNvhUexcbNsIhXl+dOUo3Zfomu9bSG678VidNoeIt5rZw5ZT4NC6wH3RDNi8NnApRLk
+         0icQad4xiOn7zxfBCM/EV54YL8sYsQQTMlsYhvqlfmNwyd1o0galwtG+6kU4jleV257b
+         yJ55xcMZpliCGixsBHQFd9P6XKolEj7dEtQZjSStalaoxv/t7PPMpSH6+NhTaSwGAmwq
+         aHuiA18D8On2BbnYqzkzLXyy0JdW2twUzC1USI/2sWnMhaLBQGkRA1KzhwiD4yV1440E
+         hLDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=OzhQarW1x783j1gbv/2k7Jj3aLy0HFjmN2um4/lPCow=;
-        b=qirObH9sNEEznEogcOn1v5JTxooYwLahOPMAMrlYgnF20+pmQRrjHMkr3p3swfm4MP
-         xkrg2M0ASew/5d+X5HcloaT4fQSHVau7Vt79yysF9dpEPtkClr7MzpUoeQ/aKzY3Y6AC
-         VnbgAXWoK3aylfbu0cRFjF9v5HMgNHiOGTM/2snvz3QdMPHwSf1dhEs7iirOy4E3Lklt
-         R/fOml8RIBhcWxmpbsN53yLm8TetofVoj4hb4IDSCInECaoP3+JsaCQgvuk5OMJjkxYK
-         kc7zvrlwf24Oue2tyBuqwcowF8Ntud9m/6Pbuk93PMyjAFZcJDr0JcuZqh2jB3OtPW6H
-         Tlew==
-X-Gm-Message-State: AOAM533cISbmQs3gurq35Spb+BdaxF9quPsdBoSvb34CWb3Mh5GdQivd
-        6VZwcPpMuV0FGpnVT1IGjN0=
-X-Google-Smtp-Source: ABdhPJx1rsly1PMlooANnFqbypaFRrwf67r4ScI7vhB0qamwcTuhuZ3L0JaMfOi+/rshl7ZqpTdzcQ==
-X-Received: by 2002:a63:4d4e:: with SMTP id n14mr20155930pgl.37.1616366421020;
-        Sun, 21 Mar 2021 15:40:21 -0700 (PDT)
+        bh=kcVQnKMPrAVA83+GkD2fxL77wzY7stxZZy7JEffOnUM=;
+        b=mGJi+YqFxSQtBrvTcBcnGAzCyzs+Ua2d+76bKMqdtWbkfakS9BfKI1eOjnj3IuPo65
+         fLkfrCNDk77M/gmrHTkRty8CEB16K0ECQzJu2X02SSNH3Inm8UruoZ90OHJ0SN69VbJo
+         8eUjZEom1Nu5giNonmXg02o5Vy3QVHFlkOFPAc2+hvk51kHJeYY7l5Q6nOOeRFf5PKO4
+         jyxgAZZtMtYmBl2Q4L+H5dfz6Q7pJdqSOjQyfEIKapkkyXOaVPk/Ho/nh8jl9JyZ4pZ1
+         doPUQnIZS3sSxU/AdrBeslLM6PfykJVJ/pTOxjOJG1pm0p0dyPoQn0ECB2JKmWVWnfVA
+         wWsg==
+X-Gm-Message-State: AOAM533O13nAvhK7v8R3I8NEEpCyUDw5LJuSjYLEvpQsYs9fis0uIV6b
+        bQBw5JJxa/gCJ7o1uC/E8qs=
+X-Google-Smtp-Source: ABdhPJzUerbZ3fsp5gfgJJaIy/8a0sEaKcwWON2XDPd+0ac9B3c63BRC8/mkfD/EWIOVwxU6M4VDXQ==
+X-Received: by 2002:a63:fe56:: with SMTP id x22mr2250196pgj.329.1616366432244;
+        Sun, 21 Mar 2021 15:40:32 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:85c2:9df1:533a:87e9])
-        by smtp.gmail.com with ESMTPSA id k21sm6873105pfi.28.2021.03.21.15.40.19
+        by smtp.gmail.com with ESMTPSA id o134sm11729132pfd.113.2021.03.21.15.40.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Mar 2021 15:40:20 -0700 (PDT)
-Date:   Sun, 21 Mar 2021 15:40:17 -0700
+        Sun, 21 Mar 2021 15:40:31 -0700 (PDT)
+Date:   Sun, 21 Mar 2021 15:40:28 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Dmitry Osipenko <digetx@gmail.com>
 Cc:     Nick Dyer <nick@shmanahar.org>, Rob Herring <robh+dt@kernel.org>,
@@ -58,39 +58,29 @@ Cc:     Nick Dyer <nick@shmanahar.org>, Rob Herring <robh+dt@kernel.org>,
         Jiada Wang <jiada_wang@mentor.com>,
         linux-input@vger.kernel.org, devicetree@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 2/3] Input: atmel_mxt_ts - support wakeup methods
-Message-ID: <YFfLUWxbfXvjYQgh@google.com>
+Subject: Re: [PATCH v6 3/3] ARM: tegra: acer-a500: Add atmel,wakeup-method
+ property
+Message-ID: <YFfLXLDIuRdj2bWs@google.com>
 References: <20210302102158.10533-1-digetx@gmail.com>
- <20210302102158.10533-3-digetx@gmail.com>
+ <20210302102158.10533-4-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210302102158.10533-3-digetx@gmail.com>
+In-Reply-To: <20210302102158.10533-4-digetx@gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Mar 02, 2021 at 01:21:57PM +0300, Dmitry Osipenko wrote:
-> According to datasheets, chips like mXT1386 have a WAKE line, it is used
-> to wake the chip up from deep sleep mode before communicating with it via
-> the I2C-compatible interface.
+On Tue, Mar 02, 2021 at 01:21:58PM +0300, Dmitry Osipenko wrote:
+> Acer A500 uses Atmel Maxtouch 1386 touchscreen controller. This controller
+> has WAKE line which could be connected to I2C clock lane, dedicated GPIO
+> or fixed to HIGH level. Controller wakes up from a deep sleep when WAKE
+> line is asserted low. Acer A500 has WAKE line connected to I2C clock and
+> Linux device driver doesn't work property without knowing what wakeup
+> method is used by h/w.
 > 
-> If the WAKE line is connected to a GPIO line, the line must be asserted
-> 25 ms before the host attempts to communicate with the controller. If the
-> WAKE line is connected to the SCL pin, the controller will send a NACK on
-> the first attempt to address it, the host must then retry 25 ms later.
+> Add atmel,wakeup-method property to the touchscreen node.
 > 
-> Implement the wake-up methods in the driver. Touchscreen now works
-> properly on devices like Acer A500 tablet, fixing problems like this:
-> 
->  atmel_mxt_ts 0-004c: __mxt_read_reg: i2c transfer failed (-121)
->  atmel_mxt_ts 0-004c: mxt_bootloader_read: i2c recv failed (-121)
->  atmel_mxt_ts 0-004c: Trying alternate bootloader address
->  atmel_mxt_ts 0-004c: mxt_bootloader_read: i2c recv failed (-121)
->  atmel_mxt_ts: probe of 0-004c failed with error -121
-> 
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Jiada Wang <jiada_wang@mentor.com>
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 
 Applied, thank you.
