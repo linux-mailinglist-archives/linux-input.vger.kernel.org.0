@@ -2,115 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4356343572
-	for <lists+linux-input@lfdr.de>; Sun, 21 Mar 2021 23:45:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E1A31343588
+	for <lists+linux-input@lfdr.de>; Sun, 21 Mar 2021 23:53:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230493AbhCUWoi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 21 Mar 2021 18:44:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42862 "EHLO
+        id S230056AbhCUWwq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 21 Mar 2021 18:52:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229870AbhCUWoK (ORCPT
+        with ESMTP id S230397AbhCUWw3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 21 Mar 2021 18:44:10 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34E1FC061574;
-        Sun, 21 Mar 2021 15:44:10 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id ot17-20020a17090b3b51b0290109c9ac3c34so7147978pjb.4;
-        Sun, 21 Mar 2021 15:44:10 -0700 (PDT)
+        Sun, 21 Mar 2021 18:52:29 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51FF3C061574;
+        Sun, 21 Mar 2021 15:52:29 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id 11so9717101pfn.9;
+        Sun, 21 Mar 2021 15:52:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=aDmREtek2RCEuRIQg1f2SGsm7stdLPdHLwdA98L+o6k=;
-        b=JR6txh+5VOXFCxn8Xa9SalOmF1Hgwz/cQYjhSip9/JXliEunqCoBH9t5XeSXY2BtFn
-         osmusNfmZYWXpRKo+nioXEXRv+aYcUIJBoNoJfUvA9SVArM/7s/1FUhXu/uRmjJqweYd
-         oLFdL7Zvl+wC1ZEM9kELXudZUOUQw/IsbuUMYot/L6wq4jRmbcbyNPiDlPF/bsDuRoYM
-         zr2seR0tknUdHs5qr5D6PwKvAvxJq0CSnA2djhy9uDfbYm4PHjCW2wUnSwnVhh8cLjM5
-         43ZlZfVerf0Z8dIz2puDczrOkWrejWcTCaGjn//OoBbhCM7fXZFPM/CGmbwGGKto5/Rf
-         1G0Q==
+         :content-disposition:in-reply-to;
+        bh=O42IXO9/PRSvcgsOSdiISHmofQMCY7XDn/GFKXylUKo=;
+        b=uvpQUKcS/DwH5aVSebXFsuSWwx36/tELpzRll7QkersSlyqMfhlSdqi4UVjQDw5YEh
+         i+P6mUrlsS3z76SOFnH+PaSnL78XfYxU4pYpB6QWIt0fv+udvqX3g+kjpprkP6TWQ+Sw
+         jNArqqp+SCWygm55Csd65eJ7GBoZtOJnQnQ00kDVn2RQZ7GZ2wA4DEnmKZ3FxvoNHsM+
+         AW78L1SK++vzu20mQY9C4BnGwZweHbPVfMt8XLgvAeOtPGWMIA3D56uifrPmA56iPe2q
+         eUfjTGIM71W5F7CLQgbwyYwEbh2eBvCMKlq4LQ5uiWQtqwS0CnA5xKG111RY62SU1qjO
+         FVSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=aDmREtek2RCEuRIQg1f2SGsm7stdLPdHLwdA98L+o6k=;
-        b=suwPeE1OmcnsVu0BgeeIaATyCqoyT0WGIehxRJ+EUy1dVTwO7VL78E/OZoJF6L4GpM
-         CujQkQSfZbHBcpwbnRXUu0wdQYbsAysXRJWv3HCmck7ynBRWYd9sltLrm3bGSw6uAfib
-         jIikAMJHFiiBnHqfcZjIygrBeA5Rarq7kMIw2+S6Wy9KufPJ3c9Gidt0qQ8sEPKxS72L
-         n1ojBZLm0KuHvFhbV00/HiPhBdMm6JAa4+VjYZ8OrbCxhOWFhfvG73mPgmIbR/p9JZLm
-         mKwtsk7PlUXeAPJ8QpVQ/SSAMGegLORgfZrCOm1YHhasGrbPOChc8Z9TFGqrQktFgTem
-         I72g==
-X-Gm-Message-State: AOAM531QQpBEK0XD2BHG1t0c08svwzHFUZHPSQrO4QvpnUJ+gc23vDnH
-        Vl337ZXIdL2wlJ2KUfnlGDY=
-X-Google-Smtp-Source: ABdhPJy1yoAQSryS255LfKkbMZGuKiMTqbBulev67cOsaFjRq4fpnfUZl3is8JApwqa2Yd5DhapGsA==
-X-Received: by 2002:a17:902:9786:b029:e6:508a:7b8c with SMTP id q6-20020a1709029786b02900e6508a7b8cmr24094029plp.44.1616366649521;
-        Sun, 21 Mar 2021 15:44:09 -0700 (PDT)
+         :mime-version:content-disposition:in-reply-to;
+        bh=O42IXO9/PRSvcgsOSdiISHmofQMCY7XDn/GFKXylUKo=;
+        b=jAezQU5ihwTNLgVaTfkR3bqIP1dUrHqi4sQH/lr7oyH0q++Hq3VfYk/ClgzqVRxVXP
+         DekPzhM1fwMrHZ3fCt8EfwIHnyagHy5CHDPKbiH9W/DmJV9tJkspwwqg4YE1IS3nkTKN
+         0NmhH5FbmgRdZaR8hz0ar/gL+QGUSdo+jCr4c0pvm5EBslqszfY7ZLZkCqg2H9nXPrFg
+         kAjGGkYRF0UzVfiSV6OruSUEPM4vD/eC520GHKW4xUz0hvB1T7Z8Cwz2UWkOqq+jzmQX
+         cB5CUPq/N3Eh0Ik0COe+AA98a0vbR9bw+NtnKWuv5BFJ4XgnSkwn2wJ5CSih7AtFKKK/
+         J/AA==
+X-Gm-Message-State: AOAM5317iqjZ8rEx4MScJ7P0cYVAJ0bM2HCxsjXkCl95P5hM6E6jppqx
+        VRkRIoNNx7U9dC7eCesQgB0=
+X-Google-Smtp-Source: ABdhPJzrurTCeauQoOMBeE4I9Z7bCH97DzkYVEfvxxYVcXHSkMJHfz42dUuHAn1bMJ6tts9c6j60Cw==
+X-Received: by 2002:a63:e1b:: with SMTP id d27mr20294863pgl.135.1616367148653;
+        Sun, 21 Mar 2021 15:52:28 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:85c2:9df1:533a:87e9])
-        by smtp.gmail.com with ESMTPSA id j10sm11361412pjs.11.2021.03.21.15.44.07
+        by smtp.gmail.com with ESMTPSA id w203sm11595550pff.59.2021.03.21.15.52.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Mar 2021 15:44:08 -0700 (PDT)
-Date:   Sun, 21 Mar 2021 15:44:05 -0700
+        Sun, 21 Mar 2021 15:52:27 -0700 (PDT)
+Date:   Sun, 21 Mar 2021 15:52:24 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
+To:     Krzysztof Kozlowski <krzk@kernel.org>
 Cc:     Nick Dyer <nick@shmanahar.org>, Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
         Linus Walleij <linus.walleij@linaro.org>,
-        Jiada Wang <jiada_wang@mentor.com>,
         linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 0/3] Support wakeup methods of Atmel maXTouch
- controllers
-Message-ID: <YFfMNQPvaNOjUwBB@google.com>
-References: <20210302102158.10533-1-digetx@gmail.com>
- <8c1280f6-b79f-9c62-a064-68b119d74c49@gmail.com>
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: input: atmel,maxtouch: add wakeup-source
+Message-ID: <YFfOKHzmtvdcB2cG@google.com>
+References: <20210212163806.69996-1-krzk@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8c1280f6-b79f-9c62-a064-68b119d74c49@gmail.com>
+In-Reply-To: <20210212163806.69996-1-krzk@kernel.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+On Fri, Feb 12, 2021 at 05:38:06PM +0100, Krzysztof Kozlowski wrote:
+> The touchscreen can be a wake up source and it's being used in DTS:
+> 
+>   arch/arm/boot/dts/exynos5250-spring.dt.yaml:
+>     trackpad@4b: 'wakeup-source' does not match any of the regexes: 'pinctrl-[0-9]+'
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-On Sat, Mar 20, 2021 at 07:02:43PM +0300, Dmitry Osipenko wrote:
-> 02.03.2021 13:21, Dmitry Osipenko пишет:
-> > Some Atmel maXTouch controllers, like mXT1386 and mXT3432S1 for example,
-> > have a WAKE line that needs to be asserted in order to wake controller
-> > from a deep sleep, otherwise it will be unusable. This series implements
-> > support for the wakeup methods in accordance to the mXT1386 datasheet [1],
-> > see page 29 (chapter "5.8 WAKE Line").
-> > 
-> > The mXT1386 is a widely used controller found on many older Android tablet
-> > devices. Touchscreen on Acer A500 tablet now works properly after this
-> > series.
-> > 
-> > This patchset is a continuation of the work originally started by
-> > Jiada Wang [2].
-> > 
-> > [1] https://ww1.microchip.com/downloads/en/DeviceDoc/mXT1386_1vx_Datasheet_LX.pdf
-> > [2] https://patchwork.kernel.org/project/linux-input/list/?series=357875
-> 
-> Hi,
-> 
-> This series is very wanted by Android tablet devices from Acer, Asus and
-> other vendors which use Maxtouch 1386 controller. Touchscreens don't
-> work without the wakeup support, i.e. without this series. The wakeup
-> support is implemented in accordance to the datasheet and touchscreens
-> are working excellent using these patches.
-> 
-> Could you please take this series into v5.13?
-> 
-> Or could you please let me know what exactly needs to be improved?
-
-Sorry, I was still slightly unhappy that we still are not tracking the
-state of controller and opportunistically retrying failed I2C transfers,
-but as I am failing to find time to come up with another solution I have
-just applied your series.
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
