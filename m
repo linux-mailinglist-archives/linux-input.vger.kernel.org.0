@@ -2,80 +2,76 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB4563436F3
-	for <lists+linux-input@lfdr.de>; Mon, 22 Mar 2021 04:01:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA0B9343779
+	for <lists+linux-input@lfdr.de>; Mon, 22 Mar 2021 04:32:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229930AbhCVDBK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 21 Mar 2021 23:01:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42222 "EHLO
+        id S229840AbhCVDcW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 21 Mar 2021 23:32:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229829AbhCVDBA (ORCPT
+        with ESMTP id S229926AbhCVDcQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 21 Mar 2021 23:01:00 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 190A5C061574;
-        Sun, 21 Mar 2021 20:01:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
-        Reply-To:Cc:Content-ID:Content-Description;
-        bh=qm4alaJ0ONglk44PMxJTfj8yrz4xAUaZCHbbZklVcjc=; b=Mco9HoELyVM3vzxO6ajuvwBpPY
-        Yr25H7tviw1V98P7EJHYs4m6Gn5YXapQqcdmC0KEjI4+PL65+vPUroTq1lUw5ITMOx5MwDTtmmhTr
-        aGxllfDHKifObfDFZUskPD6PRL4+0VfZn0HknhzjbMEHUTCGIG5QTYFK3rzZRyu07QAQZoZX9PSv4
-        FWFKL/cLcPdslE8atTZWC0y4jqf+LBQbLKDihcfEuuW/CSJgaISmnoBevsriZu8WYZQagBgp83Csb
-        p/oTKQ10+YVgBA3ilaa6flHs8SY1mIqtSFzivXdePOMrBVb0X1p+y0raLonyChTr8EEb6i8FYzjP2
-        k+hXpGLw==;
-Received: from [2601:1c0:6280:3f0::3ba4]
-        by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lOAoK-00AjqY-AA; Mon, 22 Mar 2021 03:00:58 +0000
-Subject: Re: [PATCH] Input: Fix a typo
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, hdegoede@redhat.com,
-        dmitry.torokhov@gmail.com, rydberg@bitmath.org,
+        Sun, 21 Mar 2021 23:32:16 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E96A7C061574;
+        Sun, 21 Mar 2021 20:32:14 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id h25so7726064pgm.3;
+        Sun, 21 Mar 2021 20:32:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=G0S6I+wZVHttbgypjBTTF0KD1XSkQLNQ+OX8HCc5mYs=;
+        b=EpjRBVIsNNDdZh7lEDsX325eaA1omJOeh0zGSAmpHKYE0Q4cEcIS/tr+q63ZHtvXs6
+         HpQHFbV+pJN/7fR3Pd3HSih1bGLKHQvxphlabX3+OCzr02iLqbT3YsbWSnPwDcXyPM9n
+         brozHxVS1dmcZCz15XecQy4fZcrNRwE5Sr9IZUEtyqYDt2T5qSjeJk1mHS0BM97Ra0l+
+         pXxtydxcgTJHGayzmKI2umfwPxtgy1C8ih3XWMOTBUxVyVbb/GtTYEZB1n9sP/gcv9Wy
+         XlrcBbKHrG5OFFbjmMnosCI9i8wDM1+8c4LHNrh0rlI7A7JMMb7ND/Vu3dHMJb2FeGsy
+         +cXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=G0S6I+wZVHttbgypjBTTF0KD1XSkQLNQ+OX8HCc5mYs=;
+        b=n71xMTGh/HbP5+Zhnv7z/jUoYNuK3ByAv32E8TszGp+TAR1YVg3E8IRTO3OlWC7shs
+         V4qyt15MGesu6vD1mxpss+tZa52JxdQJYzT+GuFNTSkL2K4cw0yJmZPDoneZswSTppfx
+         qurnvEfxuY6pUPnGAcqbMeUgYsyhEZu+MzIO1awGgjabso9vZaOAykCRUiCkEWF62h69
+         5SWciqFcm+d9mv4k/dmdt+Sg4P5ifab6Jvteisheh5oVyC5hAL6yY45xnQEEBPWI1rKB
+         07XyWbKsOLTHmD3cM+TN2EVb3dtVv6u9QQNu6eVswGhlILXLvfsUKtxSoCC8XmLNuggK
+         ovvw==
+X-Gm-Message-State: AOAM530yBuths45Z8zEyjL6ASw1Pv1oFoc5rhR/vPsa7TVwgJ76W7rbJ
+        pHxhfl4feXwBc/IuyVnQ2/0=
+X-Google-Smtp-Source: ABdhPJyJSu0dRtQKqoI+CFuPsSKDj+pwfBiW93J4i+STXYkh0WtUyXrI9GS4OaIJ4zcRARYJO8Bv8A==
+X-Received: by 2002:aa7:8145:0:b029:20f:58e6:9c17 with SMTP id d5-20020aa781450000b029020f58e69c17mr19736108pfn.52.1616383934434;
+        Sun, 21 Mar 2021 20:32:14 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:85c2:9df1:533a:87e9])
+        by smtp.gmail.com with ESMTPSA id s17sm5129205pjn.44.2021.03.21.20.32.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Mar 2021 20:32:13 -0700 (PDT)
+Date:   Sun, 21 Mar 2021 20:32:11 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Cc:     hdegoede@redhat.com, rydberg@bitmath.org,
         linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+        linux-kernel@vger.kernel.org, rdunlap@infradead.org
+Subject: Re: [PATCH] Input: Fix a typo
+Message-ID: <YFgPu7YZSv8j1Vuz@google.com>
 References: <20210322022030.3857089-1-unixbhaskar@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <713df31a-32a5-e2ec-25d1-79fe14c09a31@infradead.org>
-Date:   Sun, 21 Mar 2021 20:00:53 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20210322022030.3857089-1-unixbhaskar@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 3/21/21 7:20 PM, Bhaskar Chowdhury wrote:
+On Mon, Mar 22, 2021 at 07:50:30AM +0530, Bhaskar Chowdhury wrote:
 > 
 > s/subsytem/subsystem/
 > 
 > Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-> ---
->  drivers/input/touchscreen/silead.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/touchscreen/silead.c b/drivers/input/touchscreen/silead.c
-> index 8fa2f3b7cfd8..32725d7422de 100644
-> --- a/drivers/input/touchscreen/silead.c
-> +++ b/drivers/input/touchscreen/silead.c
-> @@ -486,7 +486,7 @@ static int silead_ts_probe(struct i2c_client *client,
-> 
->  	silead_ts_read_props(client);
-> 
-> -	/* We must have the IRQ provided by DT or ACPI subsytem */
-> +	/* We must have the IRQ provided by DT or ACPI subsystem */
->  	if (client->irq <= 0)
->  		return -ENODEV;
-> 
-> --
-
+Applied, thank you.
 
 -- 
-~Randy
-
+Dmitry
