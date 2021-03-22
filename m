@@ -2,106 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B58E3452FC
-	for <lists+linux-input@lfdr.de>; Tue, 23 Mar 2021 00:30:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00F10345330
+	for <lists+linux-input@lfdr.de>; Tue, 23 Mar 2021 00:47:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230232AbhCVXaC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 22 Mar 2021 19:30:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52840 "EHLO
+        id S230362AbhCVXrP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 22 Mar 2021 19:47:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229871AbhCVX3p (ORCPT
+        with ESMTP id S229622AbhCVXqu (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 22 Mar 2021 19:29:45 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18004C061574;
-        Mon, 22 Mar 2021 16:29:45 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id q6-20020a17090a4306b02900c42a012202so9303297pjg.5;
-        Mon, 22 Mar 2021 16:29:45 -0700 (PDT)
+        Mon, 22 Mar 2021 19:46:50 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 103BAC061574;
+        Mon, 22 Mar 2021 16:46:50 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id l3so12371254pfc.7;
+        Mon, 22 Mar 2021 16:46:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=U/IBmLp8QkjVB/SzgsK/2A+PcX1LFcU9lJnWkixjLUk=;
-        b=XG+yurS4EUzoBdPJxud6mro8oq863CFyPC7zxbgHi2O7EHmpr0CRSmdT2B2Za96O2D
-         eezVz+iVtNAcPA4h956V+7btkbHcZtQiq7XrxE6o5LTQfN/Pt020g6E1Y8IlcGGqauwI
-         TgDc6rLBkQvtkBI72WI1CoQHZGlEp0KI3Bz16pjvs7EXk3LmzKRZKvgghVw9XTWkX6sG
-         ueC9ZnFYb7mMyO3RRFR6EG5G/I3/+QZcLDeAcwocKkZYC+C7XRqIpw2YJd8XI3zaFVw6
-         pbTkROP9GB7xDfunCHPF1mR90gNrPbzK2ldJiDBtx13g0jtAH2LNWCSoS0gXJEzWusIz
-         zPeQ==
+         :content-disposition:in-reply-to;
+        bh=09+31lJGk4pQDs+oaALD6jYkKw6EtoWBarcquy1OJGI=;
+        b=OE3gekNyuaj7RWXNiph2mgyGOKZo3kzf2mRo75nQtfhkVHhueNXBFtE+Nf9wJdZ9rU
+         vhDrIiLPJSgqrZylIzF69eVttuFH3L+bhAzxIPWTxnc1ZunRpkuDsLvrUJKhnYb/JHA0
+         YbMAKNrTCN4cW7pvIg0p5H/vfaqxesUG9SutRZ5RnRI5ccA2rhTrqR1sb/X22EOSycyE
+         77yXg9U0FCf2En0tFs2q6EXKVyRJm9in0cgFbB8cvHQwbhBkQu1GeGbLAVloLMuBpU8v
+         0Gmo1v8AMsyPy0PJit1qrNsZIvVg7gAdRjjW59+QVjtL85NiW9tDEwtQ5twxhTNl1eDY
+         vX8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=U/IBmLp8QkjVB/SzgsK/2A+PcX1LFcU9lJnWkixjLUk=;
-        b=slaBjJCYFSXJ9IDqVqv7qXQRO53+O9UiWrpOIbxZP3Tob43Y+NXF5mcD4qLiDiYVcn
-         jVeUcR87aiPIeK0eewH5zNg2gkismqXW1YYRpepgxd5jX2iC2zJUAGxfbWNLbnyi/ct7
-         v0MQ/cK+PCd6o/ijeQMr2rgq5PF4lxEg9+1SxZzIWAUh1svUNr5zN0Avf73tGsSS9414
-         pNrkBj/v4NS6CFl37Vtr31Uf6FseA4HZYv+bivUV1DUnZ5x1UXRIZYh6D6OjyxcbzfDP
-         a9J+GkeT1d87SOj46jZStpyiO87wRF7st+3EAw54+wLjpDh/j6d/HE6djxE9UWH7en0f
-         MDUA==
-X-Gm-Message-State: AOAM5315RJtyOIchV5H1ggj4L+HVJSrjg/d1iV7vGPMrZToM66P8XQNn
-        +TY/EAQwemgFhW+csT7TeNQ=
-X-Google-Smtp-Source: ABdhPJz/tDZ30C8PiBsuFxIrZ2KEotS2s7Xw+gnv0MR1HNPjfDVu03faBkOxmgcLbN2vTOGLh3nRKQ==
-X-Received: by 2002:a17:90a:fd0b:: with SMTP id cv11mr1404366pjb.183.1616455784445;
-        Mon, 22 Mar 2021 16:29:44 -0700 (PDT)
+         :mime-version:content-disposition:in-reply-to;
+        bh=09+31lJGk4pQDs+oaALD6jYkKw6EtoWBarcquy1OJGI=;
+        b=leqQIC86bJcuAp+IUF5SYg8D2TTxY/EdoWHO38AKq1ZxtmXpQt1mkofVUrGcuPcrrF
+         oLVhjI5U7spdFDBdwicqR4cselbQUaIkfg1KqcEhF5EHIDFTVBtaVrw74XnuyjlTln6t
+         XaM2Ix4HNHu3qf8vPkVKPQvqD4+RklVHFLLlZ1GY11DDWZhv2uLQ/QXs/tVNUALUKLam
+         gDBjGrWOkk/EfraLzSQ/fmQwmIy6gIGl4spKCpG7BLqAKAEEtmj/xCjUhLPhJkrQEHNu
+         MRWUu3moMtebu652TG+IDODR3evIUguQJgUULF7vkkIR/AvWLNy5JsEoCTNSRzI+WmO1
+         kzdw==
+X-Gm-Message-State: AOAM531bnAZUUc57Y4zgVIhhvWW7/2L5AfHDGFV3n/q6WJrMF5OJi8gJ
+        vJ90qTvBN+oj7vf9M0MM650=
+X-Google-Smtp-Source: ABdhPJznS9lEo4jrHlFoJkrWtCOVdK27HK/JjYmA1idC+eIuo+nwxZJQ+WjWoTuwuJkBtNmJI36hNQ==
+X-Received: by 2002:a62:3384:0:b029:202:ee3:f83b with SMTP id z126-20020a6233840000b02902020ee3f83bmr2154552pfz.77.1616456809405;
+        Mon, 22 Mar 2021 16:46:49 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:499f:7361:582b:fd05])
-        by smtp.gmail.com with ESMTPSA id p22sm432999pjg.39.2021.03.22.16.29.42
+        by smtp.gmail.com with ESMTPSA id a21sm15039987pfk.83.2021.03.22.16.46.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Mar 2021 16:29:43 -0700 (PDT)
-Date:   Mon, 22 Mar 2021 16:29:40 -0700
+        Mon, 22 Mar 2021 16:46:48 -0700 (PDT)
+Date:   Mon, 22 Mar 2021 16:46:45 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>, linux-input@vger.kernel.org,
-        linux-pwm@vger.kernel.org
-Subject: Re: [PATCH] input: misc: max8997: Switch to pwm_apply()
-Message-ID: <YFkoZKOEkBg6wdV2@google.com>
-References: <20210316203813.48999-1-uwe@kleine-koenig.org>
- <YFfHciL2CXX0aERa@google.com>
- <2972bc70-2535-0c09-faff-b74f6842fbc4@kleine-koenig.org>
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     robh+dt@kernel.org, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v3 1/4] Input: touchscreen - move helper functions to core
+Message-ID: <YFksZVZMjEqGViPm@google.com>
+References: <20210301234928.4298-1-jeff@labundy.com>
+ <20210301234928.4298-2-jeff@labundy.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2972bc70-2535-0c09-faff-b74f6842fbc4@kleine-koenig.org>
+In-Reply-To: <20210301234928.4298-2-jeff@labundy.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Uwe,
+On Mon, Mar 01, 2021 at 05:49:25PM -0600, Jeff LaBundy wrote:
+> Some devices outside of drivers/input/touchscreen/ can still make
+> use of the touchscreen helper functions. Therefore, it was agreed
+> in [1] to move them outside of drivers/input/touchscreen/ so that
+> other devices can call them without INPUT_TOUCHSCREEN being set.
+> 
+> As part of this change, 'of' is dropped from the filename because
+> the helpers no longer actually use OF. No changes are made to the
+> file contents whatsoever.
+> 
+> Based on the feedback in [2], the corresponding binding documents
+> (touchscreen.yaml and touchscreen.txt) are left in their original
+> locations.
+> 
+> [1] https://patchwork.kernel.org/patch/11924029/
+> [2] https://patchwork.kernel.org/patch/12042037/
+> 
+> Signed-off-by: Jeff LaBundy <jeff@labundy.com>
 
-On Mon, Mar 22, 2021 at 09:16:43AM +0100, Uwe Kleine-König wrote:
-> Hi Dmitry,
-> 
-> On 3/21/21 11:23 PM, Dmitry Torokhov wrote:
-> > On Tue, Mar 16, 2021 at 09:38:13PM +0100, Uwe Kleine-König wrote:
-> > > max8997_haptic_enable() is the only caller of
-> > > max8997_haptic_set_duty_cycle(). For the non-external case the PWM is
-> > > already enabled in max8997_haptic_set_duty_cycle(), so this can be done
-> > 
-> > Are you sure about that? I think the intent was to enable it in
-> > max8997_haptic_configure(), and only after "inmotor" regulator is
-> > enabled. If the device is enabled earlier then I'd say we need to make
-> > sure we disable it until it is needed.
-> 
-> If you claim you understand this better, I will well believe that. I
-> described my train of thoughts, i.e. how I understood the internal case.
-> 
-> Anyhow, there is little sense in separating configuration and enablement of
-> the PWM, because the change of duty_cycle and period for a disabled PWM is
-> expected to do nothing to the hardware's output.
-> 
-> So the safer approach is to do the pwm_apply_state at the place, where
-> pwm_enable was before, but the more consistent is how I suggested in my
-> patch. If it feels better I can do the more conservative change instead and
-> if somebody with a deeper understanding of the driver and/or a testing
-> possibility can be found, the internal and external cases can be unified.
-
-Yes, could we please go with the more conservative approach as I do not
-have the hardware to verify the behavior.
-
-Thanks!
+Applied, thank you.
 
 -- 
 Dmitry
