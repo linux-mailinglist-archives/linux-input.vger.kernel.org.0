@@ -2,226 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BB59344CA0
-	for <lists+linux-input@lfdr.de>; Mon, 22 Mar 2021 18:04:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 48348345251
+	for <lists+linux-input@lfdr.de>; Mon, 22 Mar 2021 23:14:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231696AbhCVRD4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 22 Mar 2021 13:03:56 -0400
-Received: from mga03.intel.com ([134.134.136.65]:45608 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231434AbhCVRDk (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 22 Mar 2021 13:03:40 -0400
-IronPort-SDR: cUKNkog3VhkGexivLqkOvx1iYF6Pec2vI66aTyL4eO8JSIowx0z6tAHXb7mV/d437u4A8t7cxk
- sshjWXhXGnhQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9931"; a="190339257"
-X-IronPort-AV: E=Sophos;i="5.81,269,1610438400"; 
-   d="scan'208";a="190339257"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2021 10:03:35 -0700
-IronPort-SDR: YuNQ2s8F7O/YMR4kTpKV2LeF5x3xOkGWl7EzAZYDzlu2CYHaZX7Lrv5ba6OD6TZ+5ROwmNjT6L
- A0eNJwu3DpIw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,269,1610438400"; 
-   d="scan'208";a="435228040"
-Received: from lkp-server01.sh.intel.com (HELO 69d8fcc516b7) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 22 Mar 2021 10:03:34 -0700
-Received: from kbuild by 69d8fcc516b7 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lONxl-0000BS-Ro; Mon, 22 Mar 2021 17:03:33 +0000
-Date:   Tue, 23 Mar 2021 01:03:02 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [input:master] BUILD SUCCESS
- d72e55f7c09df9719da6ac60e885889c389b0b2c
-Message-ID: <6058cdc6.DESMZ0wJwhoyDA3r%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S229933AbhCVWO0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 22 Mar 2021 18:14:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36650 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230008AbhCVWNy (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 22 Mar 2021 18:13:54 -0400
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9A45C061574
+        for <linux-input@vger.kernel.org>; Mon, 22 Mar 2021 15:13:53 -0700 (PDT)
+Received: by mail-lf1-x12c.google.com with SMTP id g8so16579825lfv.12
+        for <linux-input@vger.kernel.org>; Mon, 22 Mar 2021 15:13:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QG4pJPzpaQNgceNKTVM3fAPhn89r0E2revH+Of2LXuo=;
+        b=FczkD41gsRJbUoAKiQ02Pu/9OECmGnQjTQlg580HvxxH24QuLVv8VL1dxrBjCa9ikv
+         m6L2Boo7s0dCjQH3tb5QbkIfnIeWdGSLv5JJhrl95/9h0XNfyrcN/EMZDnfcXijPXvIs
+         wsJHaGhz5617YOE1wKsjL/oJ1NcstWXoL3bbICPr/JJpgCEPw7LlIS7VQNlv/VhstkCb
+         rWSf3c5H9U6gAZXfjUv7lh4WBKWy/vihzwTu77k8zvr1YwMacWpTXmaKC/jhF0umTQ1s
+         5RrvUuyt0ZzcaUZa4YQlHk6ZQNgTZBHdPXXTanRKGPKzf/ALfOzfHERRr7NsHWe5aUfB
+         T+kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QG4pJPzpaQNgceNKTVM3fAPhn89r0E2revH+Of2LXuo=;
+        b=FnDEdqQPrbj/7fWzFlIYlCx9DSTf/MjTTrvLdUyOefyO1uD6NkLvIP/IyNN/EFbT2g
+         7LwnkPc6+qxD24E0/JxIPn51vdSVUIqrFLiN3lb72EwU1lwGnfVTBOlfRUGsYtL4X5pv
+         36E7OgWazEaixsF3v9ehH72bIpsMeTM+Qz5EkOC9MavdLe7slpG+yInjBnxPcswVcX2y
+         9Z3tC2sJgZLcB/NLJq72fiVkb37A+chXYB2pekITQM9U3FzAkPZU1f/Zwi0zd8E2YEoU
+         b/BCDv2CKr5qZ02OpsPITmjBRsISWGlxtJqgqY+pWh8B8gwuLPEy+9gmTUIiGWln5Vjv
+         QYIg==
+X-Gm-Message-State: AOAM5306tuH9rPqELgzcQ3yBSG1Gm1cDHOQv1ay7Fyb8e7GpTOtnuyNL
+        DtRj//RBUF85jPaSipoaMeN59QSKbLZxU0tLJ2Y=
+X-Google-Smtp-Source: ABdhPJx/2RXdXDB8JncLhelTJojlM7hb0+D2RigoIiOD8MVXwcicrM1aAGVYxcXo2p+I3MKIq4X8zA==
+X-Received: by 2002:ac2:5a1b:: with SMTP id q27mr748665lfn.189.1616451232145;
+        Mon, 22 Mar 2021 15:13:52 -0700 (PDT)
+Received: from localhost.localdomain (c-d7cb225c.014-348-6c756e10.bbcust.telenor.se. [92.34.203.215])
+        by smtp.gmail.com with ESMTPSA id y11sm2133366ljc.18.2021.03.22.15.13.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Mar 2021 15:13:51 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Ferruh Yigit <fery@cypress.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     Henrik Rydberg <rydberg@bitmath.org>,
+        Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH] Input: cyttsp - Verbose error on soft reset
+Date:   Mon, 22 Mar 2021 23:13:49 +0100
+Message-Id: <20210322221349.1116666-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
-branch HEAD: d72e55f7c09df9719da6ac60e885889c389b0b2c  Input: iqs5xx - close bootloader using hardware reset
+The first thing the Cypress driver does when starting
+up is to try a soft reset. This is the first point where
+the driver SPI/I2C communication can fail, so put out some
+nice debug text:
 
-elapsed time: 723m
+  cyttsp-spi spi2.0: failed to send soft reset
 
-configs tested: 164
-configs skipped: 3
+Instead of just:
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+  cyttsp-spi: probe of spi2.0 failed with error -5
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-x86_64                           allyesconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-i386                             allyesconfig
-arm                         socfpga_defconfig
-m68k                         apollo_defconfig
-parisc                generic-64bit_defconfig
-xtensa                       common_defconfig
-powerpc                 mpc837x_mds_defconfig
-m68k                       m5208evb_defconfig
-arc                         haps_hs_defconfig
-sh                   rts7751r2dplus_defconfig
-powerpc                         ps3_defconfig
-nds32                            alldefconfig
-powerpc                     mpc512x_defconfig
-mips                      maltasmvp_defconfig
-powerpc                 mpc836x_mds_defconfig
-sh                                  defconfig
-sh                          urquell_defconfig
-xtensa                    xip_kc705_defconfig
-sh                        sh7757lcr_defconfig
-m68k                        m5407c3_defconfig
-sh                          polaris_defconfig
-powerpc                      mgcoge_defconfig
-mips                      pic32mzda_defconfig
-powerpc                      arches_defconfig
-arm                            mmp2_defconfig
-riscv                               defconfig
-m68k                       m5475evb_defconfig
-mips                          rm200_defconfig
-alpha                            allyesconfig
-powerpc                     skiroot_defconfig
-arc                          axs103_defconfig
-arm                            zeus_defconfig
-arm                        mvebu_v7_defconfig
-s390                                defconfig
-arm                          pcm027_defconfig
-powerpc                       ppc64_defconfig
-mips                       lemote2f_defconfig
-mips                           ip28_defconfig
-arm                             mxs_defconfig
-riscv                            alldefconfig
-powerpc                      katmai_defconfig
-sh                        edosk7705_defconfig
-arm                     eseries_pxa_defconfig
-arm                      tct_hammer_defconfig
-powerpc                      walnut_defconfig
-arm                      footbridge_defconfig
-mips                   sb1250_swarm_defconfig
-sh                               alldefconfig
-powerpc                 mpc832x_rdb_defconfig
-powerpc                     ep8248e_defconfig
-sh                     magicpanelr2_defconfig
-powerpc                    klondike_defconfig
-sh                        dreamcast_defconfig
-powerpc                     kilauea_defconfig
-i386                                defconfig
-sh                          rsk7201_defconfig
-powerpc                  iss476-smp_defconfig
-mips                           ip27_defconfig
-riscv             nommu_k210_sdcard_defconfig
-powerpc                     kmeter1_defconfig
-ia64                          tiger_defconfig
-arm                        vexpress_defconfig
-ia64                      gensparse_defconfig
-mips                         db1xxx_defconfig
-arm                       versatile_defconfig
-arm                            dove_defconfig
-mips                        vocore2_defconfig
-mips                      fuloong2e_defconfig
-sh                          r7780mp_defconfig
-mips                        bcm47xx_defconfig
-powerpc                        icon_defconfig
-arm                          simpad_defconfig
-s390                       zfcpdump_defconfig
-sh                        apsh4ad0a_defconfig
-mips                      loongson3_defconfig
-powerpc                 mpc836x_rdk_defconfig
-openrisc                         alldefconfig
-m68k                       m5249evb_defconfig
-mips                        maltaup_defconfig
-arm                           omap1_defconfig
-powerpc                     mpc5200_defconfig
-arm                         cm_x300_defconfig
-sh                           se7722_defconfig
-powerpc                    socrates_defconfig
-mips                           gcw0_defconfig
-sh                           se7206_defconfig
-sh                 kfr2r09-romimage_defconfig
-m68k                          amiga_defconfig
-mips                          malta_defconfig
-m68k                            mac_defconfig
-powerpc                 mpc8272_ads_defconfig
-mips                            gpr_defconfig
-sh                           se7619_defconfig
-powerpc                      ppc44x_defconfig
-powerpc                 mpc8315_rdb_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                               tinyconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a004-20210322
-i386                 randconfig-a003-20210322
-i386                 randconfig-a001-20210322
-i386                 randconfig-a002-20210322
-i386                 randconfig-a006-20210322
-i386                 randconfig-a005-20210322
-x86_64               randconfig-a012-20210322
-x86_64               randconfig-a015-20210322
-x86_64               randconfig-a013-20210322
-x86_64               randconfig-a014-20210322
-x86_64               randconfig-a016-20210322
-x86_64               randconfig-a011-20210322
-i386                 randconfig-a014-20210322
-i386                 randconfig-a011-20210322
-i386                 randconfig-a015-20210322
-i386                 randconfig-a016-20210322
-i386                 randconfig-a012-20210322
-i386                 randconfig-a013-20210322
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                          rv32_defconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+This is more helpful.
 
-clang tested configs:
-x86_64               randconfig-a002-20210322
-x86_64               randconfig-a003-20210322
-x86_64               randconfig-a001-20210322
-x86_64               randconfig-a006-20210322
-x86_64               randconfig-a004-20210322
-x86_64               randconfig-a005-20210322
-
+Cc: Ferruh Yigit <fery@cypress.com>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/input/touchscreen/cyttsp_core.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/input/touchscreen/cyttsp_core.c b/drivers/input/touchscreen/cyttsp_core.c
+index 73c854f35f33..b9772192b5ea 100644
+--- a/drivers/input/touchscreen/cyttsp_core.c
++++ b/drivers/input/touchscreen/cyttsp_core.c
+@@ -248,12 +248,16 @@ static int cyttsp_soft_reset(struct cyttsp *ts)
+ 	enable_irq(ts->irq);
+ 
+ 	retval = ttsp_send_command(ts, CY_SOFT_RESET_MODE);
+-	if (retval)
++	if (retval) {
++		dev_err(ts->dev, "failed to send soft reset\n");
+ 		goto out;
++	}
+ 
+ 	timeout = wait_for_completion_timeout(&ts->bl_ready,
+ 			msecs_to_jiffies(CY_DELAY_DFLT * CY_DELAY_MAX));
+ 	retval = timeout ? 0 : -EIO;
++	if (retval)
++		dev_err(ts->dev, "timeout waiting for soft reset\n");
+ 
+ out:
+ 	ts->state = CY_IDLE_STATE;
+-- 
+2.29.2
+
