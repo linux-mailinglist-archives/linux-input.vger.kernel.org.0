@@ -2,77 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AA393437BC
-	for <lists+linux-input@lfdr.de>; Mon, 22 Mar 2021 05:03:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 137B03437BA
+	for <lists+linux-input@lfdr.de>; Mon, 22 Mar 2021 05:03:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229829AbhCVEDC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 22 Mar 2021 00:03:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55310 "EHLO
+        id S229854AbhCVEDD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 22 Mar 2021 00:03:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229771AbhCVECb (ORCPT
+        with ESMTP id S229760AbhCVECm (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 22 Mar 2021 00:02:31 -0400
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D907FC061574;
-        Sun, 21 Mar 2021 21:02:30 -0700 (PDT)
-Received: by mail-pf1-x436.google.com with SMTP id b184so10059562pfa.11;
-        Sun, 21 Mar 2021 21:02:30 -0700 (PDT)
+        Mon, 22 Mar 2021 00:02:42 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C429C061574;
+        Sun, 21 Mar 2021 21:02:42 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id k23-20020a17090a5917b02901043e35ad4aso9689289pji.3;
+        Sun, 21 Mar 2021 21:02:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=3l6ZrjsZm4u5OBG6YpG7X+rvDJ5crFIccoSCLeN3KEI=;
-        b=N/udh4JBHRESLu3hSgocpc7n+rccl3zmiDW+NjZMag/9qd3T1OPay7GCDO5ecJdxgQ
-         ctfqsUaEiLyJbOXL4vkTFtlWykXzKY6a0jMHN/HULM8mlShTiK4J4rFUwcCvx7EX8W6G
-         mFvdNytHEU2BfQ0F2u90n3o4RDA1hU1yEeYFM5EOJpnofKwnS829YSRQp9ms4uqfzBAQ
-         CJ6EIASqZ7nKrhhUU6BA58HujAaAxmwskXjOjyq+CY+4PcKL2U3HajQQ86hRt570Yghb
-         AfUiy2brWOZF93oEKGn48VuHBCOLzv1FEb28PflntBXo24IEvHtrTSAG2Ak+mBLFVspj
-         cdSQ==
+        bh=c70hBrvuJRnMEDdoyjD8MSJzqgxTpl4gZIKm/L8XEiw=;
+        b=WGPrwrGq9S9zovZ1ACzFPfgvsM8JGYNLoFKU/5VNLBG02u3yThL4wlpnOEyUt86utg
+         MBDNv/FwMrjI+itG/cmMatdtUESb2xrE0KJvgqaK8Q2vac2mFj5FUyrna+Ik55aHkoQb
+         5Rbd6fRO73YtSduOHJay6TJPSoT9GhsS5bJvx4/tun5gGOkJsbXDN6xujaoJiwHGcwQg
+         9e0NuBESiP/mCs2y+WuypGou25fLsa4EjeTvM1VTlsNfcrB0INDCvRIYA8fljWymxLfI
+         f+pbZPcQ9+J0SNGslS6WtKBlU3iw4L0MmG7+4bEJ3Y47T2/PxkhmUCrU87uijxbhF/4K
+         FX/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=3l6ZrjsZm4u5OBG6YpG7X+rvDJ5crFIccoSCLeN3KEI=;
-        b=JvefskBVJkQuUj0d+6eZDXWsdQ3zBIh4UPNFsXhoLTaopV4OZeE+C66sSeD6kyB6k5
-         WJKVTeFaOUZSJGm1iGXuNNQyW3M2KWVrqnGt9GMWZsyqpEv8MpmH+WclpWyLCjSlnEhl
-         M+/PkeyGeA/4Kn4Wr3Nvn9QumvMVAnBDojxy0Othy9GUQpsEpJLKKs/e7RPBU5l06PBI
-         atrzq4PwQoUwIfIgasxWEpbAQoZa6454YR0gboiWSBKepNyyyZRubF6TinCya46BZ5oQ
-         v3EFynJDrWAAjvZILFsA4Gc3padDQi14TKAhUy2DWh6QjzPnRSKClDpT5BYX+X5XLlVb
-         micw==
-X-Gm-Message-State: AOAM533BGXeZegqi+g8EXSurpNwdUEnzKsrHbRMxrlWSUruv5iirf9ST
-        6frk56WruHoT4nUdzBLYvXI=
-X-Google-Smtp-Source: ABdhPJwq2x1OusaP0MQMBkVYDLV6+Evgzr5qS8V+Ix9++aDcBpyZ3uU93qVQAkQhSqP7JL0ZllhOEw==
-X-Received: by 2002:a63:4850:: with SMTP id x16mr20462595pgk.176.1616385750344;
-        Sun, 21 Mar 2021 21:02:30 -0700 (PDT)
+        bh=c70hBrvuJRnMEDdoyjD8MSJzqgxTpl4gZIKm/L8XEiw=;
+        b=iFwyJI/M5h8g6D3Q00wegF65kVdAvg2gcrMtd+WG2kHoJgT2gruWrVDPwKN6L8Gyu4
+         QkNMXP54lD8H2+1npge0h2XrYoHAQVT2leXCYCACxvz/PM1oUDcoMreIJf7f5BzsipTT
+         +8mPU1cvEvZdKu6Eod7H0NXAxDGDEvGRVXSewZohG1bQNJtN0zZJLGdWQyNVpzZD0CJw
+         GtYTRIDuJHc1hXb+1jsnlxcJlvE9yL5rqRPuT38cQdIcR1EGihYLWcl9Y2bBDaGzOkMO
+         6TJ2pWAMWuLLUZdNGH4NTi0wLInsk5fvywO5meVoo9pi3vxwjQsiEbTkm8HxdZJIGJmR
+         776Q==
+X-Gm-Message-State: AOAM5326hXXFaTJNFCWPaaMMx4yjk1qx5/3Oh8nPxup4Jc2867sOspv6
+        lUfZswHcmpYEDUMFPmjd6cZfNsCwMsc=
+X-Google-Smtp-Source: ABdhPJzOcgBXbiqxcEji3yfyjPhDSFYL1u0hk7OGe+EwWSVvD82RvDuG6nsJ8eRmmD55DYhrap6syA==
+X-Received: by 2002:a17:90a:7bce:: with SMTP id d14mr11427087pjl.139.1616385762097;
+        Sun, 21 Mar 2021 21:02:42 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:85c2:9df1:533a:87e9])
-        by smtp.gmail.com with ESMTPSA id 2sm11666269pfi.116.2021.03.21.21.02.28
+        by smtp.gmail.com with ESMTPSA id v7sm11852493pfv.93.2021.03.21.21.02.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Mar 2021 21:02:29 -0700 (PDT)
-Date:   Sun, 21 Mar 2021 21:02:26 -0700
+        Sun, 21 Mar 2021 21:02:40 -0700 (PDT)
+Date:   Sun, 21 Mar 2021 21:02:38 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Jeff LaBundy <jeff@labundy.com>
 Cc:     robh+dt@kernel.org, linux-input@vger.kernel.org,
         devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 2/9] Input: iqs5xx - optimize axis definition and
- validation
-Message-ID: <YFgW0grnP/dsU5SS@google.com>
+Subject: Re: [PATCH v2 3/9] Input: iqs5xx - expose firmware revision to user
+ space
+Message-ID: <YFgW3vwBTrVJWoJG@google.com>
 References: <20210313191236.4366-1-jeff@labundy.com>
- <20210313191236.4366-3-jeff@labundy.com>
+ <20210313191236.4366-4-jeff@labundy.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210313191236.4366-3-jeff@labundy.com>
+In-Reply-To: <20210313191236.4366-4-jeff@labundy.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Mar 13, 2021 at 01:12:29PM -0600, Jeff LaBundy wrote:
-> Set the maximum ABS_MT_PRESSURE value and use the existing U16_MAX
-> definition instead of a magic number to validate ABS_MT_POSITION_X
-> and ABS_MT_POSITION_Y.
+On Sat, Mar 13, 2021 at 01:12:30PM -0600, Jeff LaBundy wrote:
+> Add the read-only 'fw_info' attribute which reports information
+> about the device's firmware in the following format:
 > 
-> Also use input_set_abs_params() rather than input_abs_set_max() to
-> avoid having to call input_set_capability() separately.
+> a.b.c.d:e.f
+> 
+> Where:
+> 
+> a = Product number (e.g. 40 for IQS550)
+> b = Project number (e.g. 15)
+> c = Firmware revision (major)
+> d = Firmware revision (minor)
+> e = Customer-assigned exported file version (major)
+> f = Customer-assigned exported file version (minor)
+> 
+> As part of the corresponding rework to uses of 'bl_status', the
+> IQS5XX_BL_STATUS_RESET definition is dropped with 0 used in its
+> place instead.
 > 
 > Signed-off-by: Jeff LaBundy <jeff@labundy.com>
 
