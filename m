@@ -2,92 +2,182 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49B543461BB
-	for <lists+linux-input@lfdr.de>; Tue, 23 Mar 2021 15:46:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AEE5346576
+	for <lists+linux-input@lfdr.de>; Tue, 23 Mar 2021 17:39:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232357AbhCWOpo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 23 Mar 2021 10:45:44 -0400
-Received: from mx2.suse.de ([195.135.220.15]:57010 "EHLO mx2.suse.de"
+        id S233135AbhCWQii (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 23 Mar 2021 12:38:38 -0400
+Received: from mga05.intel.com ([192.55.52.43]:36391 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232177AbhCWOpf (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 23 Mar 2021 10:45:35 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 744B5AD6D;
-        Tue, 23 Mar 2021 14:45:33 +0000 (UTC)
-Message-ID: <0241750f5e12fd2805c98ba376e38f1355c31e35.camel@suse.de>
-Subject: Re: [PATCH] Input: i8042 - fix Pegatron C15B ID entry
-From:   Marcos Paulo de Souza <mpdesouza@suse.de>
-To:     Arnd Bergmann <arnd@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Marcos Paulo de Souza <mpdesouza@suse.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Po-Hsu Lin <po-hsu.lin@canonical.com>,
-        Kevin Locke <kevin@kevinlocke.name>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        David Pedersen <limero1337@gmail.com>,
-        Rajat Jain <rajatja@google.com>,
-        Chris Chiu <chiu@endlessos.org>, Jiri Kosina <jkosina@suse.cz>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Tue, 23 Mar 2021 11:42:23 -0300
-In-Reply-To: <20210323130623.2302402-1-arnd@kernel.org>
-References: <20210323130623.2302402-1-arnd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+        id S233256AbhCWQiK (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 23 Mar 2021 12:38:10 -0400
+IronPort-SDR: NT2jRtgIT8dz+KPqj50Ko9apoc0DStnuxLY96KPyXo9rH3t7Ku8xQHyZEyoWHcWQp0IP4WRpqK
+ II3rKxr0fv0g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9932"; a="275614375"
+X-IronPort-AV: E=Sophos;i="5.81,272,1610438400"; 
+   d="scan'208";a="275614375"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2021 09:38:10 -0700
+IronPort-SDR: 9vy+ZqgIuH3aMMitgawkWGrQp9lKIfOOW5RI8R+fcS8sMqeMb2hc1b35iuTG8fLxQjCEUQHlpz
+ r4ckZnmonZpw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,272,1610438400"; 
+   d="scan'208";a="435619034"
+Received: from lkp-server01.sh.intel.com (HELO 69d8fcc516b7) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 23 Mar 2021 09:38:08 -0700
+Received: from kbuild by 69d8fcc516b7 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1lOk2h-0000hu-64; Tue, 23 Mar 2021 16:38:07 +0000
+Date:   Wed, 24 Mar 2021 00:37:40 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [input:master] BUILD SUCCESS
+ ac1e4ca591c0c1369387e5155aac4071b9cdc1ca
+Message-ID: <605a1954.b6qXX5tnJ4NwJEwq%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 2021-03-23 at 14:06 +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The Zenbook Flip entry that was added overwrites a previous one
-> because of a typo:
-> 
-> In file included from drivers/input/serio/i8042.h:23,
->                  from drivers/input/serio/i8042.c:131:
-> drivers/input/serio/i8042-x86ia64io.h:591:28: error: initialized
-> field overwritten [-Werror=override-init]
->   591 |                 .matches = {
->       |                            ^
-> drivers/input/serio/i8042-x86ia64io.h:591:28: note: (near
-> initialization for 'i8042_dmi_noselftest_table[0].matches')
-> 
-> Add the missing separator between the two.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
+branch HEAD: ac1e4ca591c0c1369387e5155aac4071b9cdc1ca  Input: cyttsp - verbose error on soft reset
 
-Oops, my bad...
+elapsed time: 722m
 
-Thanks for fixing it Arnd.
+configs tested: 120
+configs skipped: 2
 
-Reviewed-by: Marcos Paulo de Souza <mpdesouza@suse.com>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> 
-> Fixes: b5d6e7ab7fe7 ("Input: i8042 - add ASUS Zenbook Flip to
-> noselftest list")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/input/serio/i8042-x86ia64io.h | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/input/serio/i8042-x86ia64io.h
-> b/drivers/input/serio/i8042-x86ia64io.h
-> index 9119e12a5778..a5a003553646 100644
-> --- a/drivers/input/serio/i8042-x86ia64io.h
-> +++ b/drivers/input/serio/i8042-x86ia64io.h
-> @@ -588,6 +588,7 @@ static const struct dmi_system_id
-> i8042_dmi_noselftest_table[] = {
->  			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER
-> INC."),
->  			DMI_MATCH(DMI_CHASSIS_TYPE, "10"), /* Notebook
-> */
->  		},
-> +	}, {
->  		.matches = {
->  			DMI_MATCH(DMI_SYS_VENDOR, "ASUSTeK COMPUTER
-> INC."),
->  			DMI_MATCH(DMI_CHASSIS_TYPE, "31"), /*
-> Convertible Notebook */
+gcc tested configs:
+arm                                 defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm64                            allyesconfig
+arm64                               defconfig
+riscv                            allmodconfig
+riscv                            allyesconfig
+xtensa                         virt_defconfig
+powerpc                 mpc837x_mds_defconfig
+arm                        neponset_defconfig
+arm                          pxa168_defconfig
+xtensa                  nommu_kc705_defconfig
+csky                                defconfig
+powerpc                       maple_defconfig
+powerpc                   lite5200b_defconfig
+sparc                            alldefconfig
+mips                    maltaup_xpa_defconfig
+m68k                          hp300_defconfig
+sh                           se7206_defconfig
+um                           x86_64_defconfig
+powerpc                       ebony_defconfig
+sparc                               defconfig
+mips                      bmips_stb_defconfig
+powerpc                      chrp32_defconfig
+powerpc                      arches_defconfig
+arm                      footbridge_defconfig
+powerpc                 mpc85xx_cds_defconfig
+mips                malta_kvm_guest_defconfig
+arc                     haps_hs_smp_defconfig
+powerpc                     sequoia_defconfig
+mips                       rbtx49xx_defconfig
+powerpc                   bluestone_defconfig
+xtensa                    xip_kc705_defconfig
+arm                      tct_hammer_defconfig
+sh                           se7751_defconfig
+powerpc                      makalu_defconfig
+arc                           tb10x_defconfig
+powerpc                     mpc83xx_defconfig
+xtensa                       common_defconfig
+mips                      loongson3_defconfig
+powerpc                      pmac32_defconfig
+mips                           ip28_defconfig
+powerpc                      obs600_defconfig
+m68k                        mvme16x_defconfig
+arm                         orion5x_defconfig
+powerpc                 mpc8272_ads_defconfig
+powerpc                 linkstation_defconfig
+powerpc                     rainier_defconfig
+mips                        maltaup_defconfig
+arm                          collie_defconfig
+powerpc                  mpc866_ads_defconfig
+arm                       mainstone_defconfig
+sh                             sh03_defconfig
+m68k                          multi_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+sh                               allmodconfig
+h8300                            allyesconfig
+arc                                 defconfig
+parisc                              defconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+s390                             allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a003-20210323
+x86_64               randconfig-a004-20210323
+x86_64               randconfig-a005-20210323
+x86_64               randconfig-a002-20210323
+x86_64               randconfig-a006-20210323
+x86_64               randconfig-a001-20210323
+i386                 randconfig-a003-20210323
+i386                 randconfig-a004-20210323
+i386                 randconfig-a001-20210323
+i386                 randconfig-a002-20210323
+i386                 randconfig-a006-20210323
+i386                 randconfig-a005-20210323
+i386                 randconfig-a014-20210323
+i386                 randconfig-a011-20210323
+i386                 randconfig-a015-20210323
+i386                 randconfig-a016-20210323
+i386                 randconfig-a012-20210323
+i386                 randconfig-a013-20210323
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
 
+clang tested configs:
+x86_64               randconfig-a012-20210323
+x86_64               randconfig-a015-20210323
+x86_64               randconfig-a013-20210323
+x86_64               randconfig-a014-20210323
+x86_64               randconfig-a011-20210323
+x86_64               randconfig-a016-20210323
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
