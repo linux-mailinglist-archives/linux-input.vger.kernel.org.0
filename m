@@ -2,298 +2,692 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CCFA2345558
-	for <lists+linux-input@lfdr.de>; Tue, 23 Mar 2021 03:11:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 60CD13455FB
+	for <lists+linux-input@lfdr.de>; Tue, 23 Mar 2021 04:12:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230001AbhCWCLG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 22 Mar 2021 22:11:06 -0400
-Received: from mail-dm6nam10on2053.outbound.protection.outlook.com ([40.107.93.53]:14822
-        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230006AbhCWCKo (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 22 Mar 2021 22:10:44 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=m3n3n7I8cJ65JNOrkLcru89dkd/BqPfVFL2Gkh9RFkmuIW6VtaEvC2kq1Ux3oGHUiTNBiMBNoEF8S66cE9oF9nRxaouk7f9EfS8E+8jnnxoi7XhjzGfKn6XUNGnEKIL+Tah91WBNAf5BCovYV6iqEQe+uTWd8Kr9fNeOJW0DiqNw4Bh12pFfW36cbayXVYUc7UUwIQNQ7sMLcCrs6vSyV6VAe+ZnLz71nsbtJpDW28Pu6uwR04VxY/tuwAcSPO8UiLbmtamXM5uwsgq5dlvTzPxcjRg+Ird1ysZMPF7lDNCujCZYyZ4p2qm4J9Mv4ZGqjxNVGVjsBrRdjyunsnFzmA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kmR2ipi2kzabe0s2ZOEGV9KGgnJWIB814BihrxlUoZc=;
- b=KM5HkwOxprN87LAIWk8YOLgjTTS5U6+aUqmMerVx0n6bSyGJtNKwAuOj1Y/u8Fk10oC7paIQ5NRyrRqtmif9aKBBmLQaC1duKiVIr0nkm9WBhJBQ/2Juqmbc817rdtYyF6m7Z2zllAlYMHEkXtsv9G9fCIMahTEIMbUeRR7Vm63bDPQtTfF1kC0eCyYh7JgbX+YJRvGxb2D7NCSv8e+jRtB0c4rxeE9Z8CrLl2tk0UQ/ygoSt70qLdyqYor0WBOT03GHlc7Gzgbbk34e4P+vmVSxU1czMNnQFsXayhXZle+qsMfZ8SLt7ZVbsKOTUUnHC30uVr+w69aQzW1c6I6qhw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=labundy.com; dmarc=pass action=none header.from=labundy.com;
- dkim=pass header.d=labundy.com; arc=none
+        id S229472AbhCWDMD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 22 Mar 2021 23:12:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44194 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229854AbhCWDL4 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 22 Mar 2021 23:11:56 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3314FC061574;
+        Mon, 22 Mar 2021 20:11:56 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id l3so12820973pfc.7;
+        Mon, 22 Mar 2021 20:11:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NETORG5796793.onmicrosoft.com; s=selector1-NETORG5796793-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kmR2ipi2kzabe0s2ZOEGV9KGgnJWIB814BihrxlUoZc=;
- b=RsEZbMFYqIFBms9YUAIXgnIcyZt2UZG0If0ypJTc/MR7arkFaczufxNV6NvZgPJ5ctSmae5+JMIg11XqOvJ7ep8QHlmHWeqKgM43VWbvqPIAaozHalFr2LIUTnUF/Ph+HjnMIP1ZPijJ92y7wdoiLNINybo1wYZXypPVoaLF8Uk=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=labundy.com;
-Received: from SN6PR08MB5517.namprd08.prod.outlook.com (2603:10b6:805:fb::32)
- by SA2PR08MB6555.namprd08.prod.outlook.com (2603:10b6:806:111::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Tue, 23 Mar
- 2021 02:10:42 +0000
-Received: from SN6PR08MB5517.namprd08.prod.outlook.com
- ([fe80::d443:cdc3:d44e:d1c8]) by SN6PR08MB5517.namprd08.prod.outlook.com
- ([fe80::d443:cdc3:d44e:d1c8%5]) with mapi id 15.20.3955.025; Tue, 23 Mar 2021
- 02:10:42 +0000
-From:   Jeff LaBundy <jeff@labundy.com>
-To:     dmitry.torokhov@gmail.com, robh+dt@kernel.org
-Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        Jeff LaBundy <jeff@labundy.com>
-Subject: [PATCH v3 2/2] dt-bindings: input: iqs5xx: Convert to YAML
-Date:   Mon, 22 Mar 2021 21:10:06 -0500
-Message-Id: <20210323021006.367-2-jeff@labundy.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210323021006.367-1-jeff@labundy.com>
-References: <20210323021006.367-1-jeff@labundy.com>
-Content-Type: text/plain
-X-Originating-IP: [136.49.90.243]
-X-ClientProxiedBy: SA9PR13CA0005.namprd13.prod.outlook.com
- (2603:10b6:806:21::10) To SN6PR08MB5517.namprd08.prod.outlook.com
- (2603:10b6:805:fb::32)
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Bw6ou2b/UUycUrCjLZNqn1jGVnf+rIcT1GHyMvgdwWs=;
+        b=grnyNldgVY5GQIMeIJThNbn9Nu2yUJBf6GhDhuHh56xhjaYn3gUlrqY/DNBzS2Fvx2
+         OXPEhnGjqYt6zwlqHMD+HBsmWMGWnd1Tx7lm66c+xMRKxYDSzzIcpTtfl1fGpIXwinz9
+         ajWysYojNuBc0k6bSsHRGOdp4ItFYheoiqBjHTtPznXp49hOcELGCumX8JtJ77TK2aq7
+         I/z3rt0Kr1LYOwTYQoHlh8H35Uzt1ZvovpmtQwMg3iGjuWUbHFof2D8jmfsqrasauWwj
+         dcflEvZADVnz5tIVerD4grcUUf8F4/K+kDqXUjUdH6yNdv94DpYyGqCTEYbN2/kn1Tyj
+         YHWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Bw6ou2b/UUycUrCjLZNqn1jGVnf+rIcT1GHyMvgdwWs=;
+        b=Kyo1CaJxAkSsEXSO21zKBzG8BYFjZz3nBAIXSiTM+q5rLRnYoWvK/D294uvKSDVnPV
+         kZl4jYuxD9hoqzv0ZHX1JVZaQWW17oHlcnQ86ZR8/h5jtJwsn37GU/o4fYwa7rv2Lr/1
+         ojZAm47pz7O0YgaWsH6hkrdHKou+I3aTd8CXsPp0PdyPFUrxxs965j8+rOF3PlAxDUK+
+         eQ5+bN9quAeXxKzaWQBDI1PRIADoDY/5ZQYFIgqks0W/QILgVmwNXPmt9/USijlMcU4k
+         zl05DqOSSRnvtJ6nkdZvMVl3rJKNB0BJ1ZqTJ6eLulPUQkIOFPH1UkL0fiOrp12gOiyc
+         myXg==
+X-Gm-Message-State: AOAM5330cZoIJ3BmwbHHTv3DXS5v1wXgAQlEDeF4shYLMwPoR+zLwKMP
+        t5cuCU8BGKLO1aft6wBg0d8=
+X-Google-Smtp-Source: ABdhPJwyFLomFDo4Z64ZpHtMTUaxABzUSEM+1GRFnAaArnOJw5L4z5ZykQN2D8DUEvNOCG09TYMUtQ==
+X-Received: by 2002:a63:ce15:: with SMTP id y21mr2200437pgf.4.1616469115402;
+        Mon, 22 Mar 2021 20:11:55 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:499f:7361:582b:fd05])
+        by smtp.gmail.com with ESMTPSA id v14sm724265pju.19.2021.03.22.20.11.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Mar 2021 20:11:54 -0700 (PDT)
+Date:   Mon, 22 Mar 2021 20:11:51 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Jeff LaBundy <jeff@labundy.com>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 3/5] dt-bindings: input: touchscreen: Move helper
+ bindings to core
+Message-ID: <YFlcd7tsM7yNUTya@google.com>
+References: <1611459776-23265-1-git-send-email-jeff@labundy.com>
+ <1611459776-23265-4-git-send-email-jeff@labundy.com>
+ <20210209162740.GA3874323@robh.at.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (136.49.90.243) by SA9PR13CA0005.namprd13.prod.outlook.com (2603:10b6:806:21::10) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.22 via Frontend Transport; Tue, 23 Mar 2021 02:10:42 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 605381cf-9eee-4ca8-f0e3-08d8eda0dc8f
-X-MS-TrafficTypeDiagnostic: SA2PR08MB6555:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA2PR08MB65558CBF2ADA9E5F46C8A9A4D3649@SA2PR08MB6555.namprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Uja94p1yLOOlKUxzrgxgBNjnQpkDrzPxFQ6RxzqKDZMBF5Gx6wYsrjqrrI7xsluqXjvi2rKFpB8CN/mWdmmGMsnReEhu+i4tJisD3RATBwuRWF1sQaF4j+G9DkN75MV82MhdRwYZY3CSTrbSRzZCaTk5aBwvV3dHtfbHM2cSvTku5hswCaOc0skgnQ+mGTl4iMH0MamIsZQBGst//bnzuFl//2lTmOW8FcXPWF3yTI19P3T3Eg3M8FQ4OqlzDDVWUBVqNTidfILaP+jn0odGP8EAAZzl5blDqVPv9F3kSRwpL5uSuqbjD3+bzStpczG3sINsRZLi3AH/dePBnT8K4djSXBmAPBe930lgOvnR7T/SCPwIDPuW96SNi4lM1mg+Sw2SpwHtQjUMawoYJ9cIJouAeLJSrWBh5VIkJTzzZg4I7Ib2na7Lqo85p/mk4aCUMHTyKQ+apd60pJIjl10bAb9/tJSN3yw+Ui+BJmc8isioKb34lExg1kleumsecQMWMxW6I9ASC9Qv1OAaEvwTGwcYrY7mSiucR7q0qZfcb4ZYwN0of+uRpWOCcZ40zNI5naC9naoMYQwDPKz7KVEzdFj05kj6WxZbQVA8b8471fYDMg/eHhPymWjz16tBZdKb+TsSPyQHigsx/orExHy5Svgh2L02h6zX/507oqsnZt16iQAkIq2OnVX3gKYn6T2D58RhFzoFFg7gAJ5aPiyE4ahpVYiSpPfwPxDzgldIi7OGBn9mlbw6mR2Dzw0RS4/pJqm0VpUSJaEDx6ZaBMnD4w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR08MB5517.namprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(136003)(346002)(396003)(376002)(39830400003)(16526019)(38100700001)(6486002)(66946007)(86362001)(186003)(8676002)(66556008)(66476007)(8936002)(107886003)(1076003)(966005)(956004)(26005)(6506007)(4326008)(52116002)(83380400001)(478600001)(316002)(6666004)(69590400012)(5660300002)(36756003)(6512007)(2906002)(2616005)(32563001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?o3evYfuwYWKIS0IHzgcA8u4QA48hRDEpgDigkVxYc7W1LaE0VFlYIip2h+T6?=
- =?us-ascii?Q?BDQfwKUfXY0C4VpI/2xVxZpDTJYviaOfpUcSlycTZTEjaSP/lwDOIYgazo09?=
- =?us-ascii?Q?o0cnl/YSW0v8+OzY2SvmrXT0Ky/dKNORakezrOcWkEDw5JUykY7Odp/N6QNr?=
- =?us-ascii?Q?kmj9QEGK/WE55AUspiBYOiGEL1o36AjGaVyp4lWekqSPPsWUlLnUc6BToV0o?=
- =?us-ascii?Q?rS23WH9PjzdHioSbNj4vSh4/uc/LYy75VSD1/uEZg6eBxexenuG7OhK7VpVP?=
- =?us-ascii?Q?3NOgoTHHP4Ipkcfma84ktcoZYYtGL7+hzmPsuqu+mHyYNmDngSEOphUNSQ7w?=
- =?us-ascii?Q?uzIzeEOpo2evTVc5fRWuTx07eBJExtg/nWMOBPxwwgW4FT+OPvYnKaZSjL3O?=
- =?us-ascii?Q?90+efBt1FYCC5eXd5vOmsuW73vMf2d7spzUMRF47FLkuqmKE3/tdBiQeBVFj?=
- =?us-ascii?Q?XlB2nZ4e2FYDCTgy2A2gvKLkJF3Tk8dPlUXt2Ii1a4c86Bd4tzB+dtpwnRBU?=
- =?us-ascii?Q?pMzXZQ3T57uiX1l286fiEBVNf+LHpRAajXkg06rZBex1eRtG/PZlTzEtVuyE?=
- =?us-ascii?Q?onQPGNeO7pfyz7PqBGHAGNnzRswR+3w4sU6/OSKOztWrRHFF/kSH83AlzIpy?=
- =?us-ascii?Q?8CdvFs+A3S65KHe3uuQ41qbX3p6kiuca0KNqZlkVaVGgvpL4a2zuekH12Sz4?=
- =?us-ascii?Q?/018Taodf3ob7KDYaYkLYRpukstedMNz8Bn9coZ/40kKL6RlRM6hl4s26Qa7?=
- =?us-ascii?Q?vnayKFSRu6MZDzzfOUxMFQxZGP5E7seX3GC/Z5qCat7q6Wb8FRcDeR5QGCTO?=
- =?us-ascii?Q?CHdmw1rwXUei64nqv4+APqI0VIg4/JcI/Gf7qR21JMUUtKOqSI42UqqHXkhi?=
- =?us-ascii?Q?s0NMyNxVKxi+PaMLM714hOE3wbw5NOymMhXBGvL/vb1NG9HXcJPCMTiZoFU1?=
- =?us-ascii?Q?Q7g7thys+ZHm2hfK8fb3UiZXKICm52XEdyTiuBdr72hkMJcb6vbjMtv6Prby?=
- =?us-ascii?Q?Re56IwN4dc1EgzEDZItL/M6cuttZOzkIFdZ67/WWl/B/u/PxRVAs3Mw23WjU?=
- =?us-ascii?Q?cPMx+dkve0Lr3zYGLldRaJqQtpfVvO2BlQ/vU5pVsgjBWhEe5u+J4DZAOs+2?=
- =?us-ascii?Q?p9C9FHurhvV694xJI8MuFt3GfYG44XIi7Ria2lQWbaJkh14r1y4TD9yzPGbc?=
- =?us-ascii?Q?Xa4ZZSHOL9tc/Xk1+0Yb0VAkw5hMBUy7Ukp6GeoJp2Mzl4xRgYuo7V3DFf3A?=
- =?us-ascii?Q?Fqh1ar0DkY08iwEXZNPjodTSe726+ImiqXXhixUtC9t1CRIlbRapUru3dNwz?=
- =?us-ascii?Q?mm6Dw7DZZ8GeDWkSNFkjPvHj?=
-X-OriginatorOrg: labundy.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 605381cf-9eee-4ca8-f0e3-08d8eda0dc8f
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR08MB5517.namprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2021 02:10:42.5325
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 00b69d09-acab-4585-aca7-8fb7c6323e6f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YHVgPcf3A+tk7zmCf4eZtJGnBAk+XlDMRFRA6rLiZEoWxQj80sgMzEPebGQ6Z76x+dJ4nfLTZqKUSi2FF7SNbg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR08MB6555
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210209162740.GA3874323@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch converts the legacy text-based binding document to YAML
-format. Extraneous details and touchscreen properties that weren't
-actually supported have been dropped.
+On Tue, Feb 09, 2021 at 10:27:40AM -0600, Rob Herring wrote:
+> On Sat, Jan 23, 2021 at 09:42:54PM -0600, Jeff LaBundy wrote:
+> > With the helper functions moving to /drivers/input/ following the
+> > discussion in [1], touchscreen.yaml and touchscreen.txt are moved
+> > one level up as well to maintain a consistent directory structure.
+> > 
+> > No changes are made to either file except to update the $id field
+> > in touchscreen.yaml to reflect the new path. The handful of .yaml
+> > bindings that reference the original relative path are updated as
+> > well.
+> > 
+> > Last but not least, the handful of .txt bindings that included an
+> > absolute path to touchscreen.txt are updated too.
+> > 
+> > [1] https://patchwork.kernel.org/patch/11924029/
+> > 
+> > Signed-off-by: Jeff LaBundy <jeff@labundy.com>
+> > ---
+> > Changes in v2:
+> >  - Added this patch to the series
+> > 
+> >  .../devicetree/bindings/input/elan_i2c.txt         |  2 +-
+> >  .../devicetree/bindings/input/touchscreen.txt      |  1 +
+> >  .../devicetree/bindings/input/touchscreen.yaml     | 83 ++++++++++++++++++++++
+> >  .../bindings/input/touchscreen/ads7846.txt         |  2 +-
+> >  .../bindings/input/touchscreen/bu21013.txt         |  2 +-
+> >  .../input/touchscreen/cypress,cy8ctma140.yaml      |  2 +-
+> >  .../bindings/input/touchscreen/edt-ft5x06.yaml     |  2 +-
+> >  .../bindings/input/touchscreen/eeti,exc3000.yaml   |  2 +-
+> >  .../input/touchscreen/elan,elants_i2c.yaml         |  2 +-
+> >  .../bindings/input/touchscreen/goodix.yaml         |  2 +-
+> >  .../bindings/input/touchscreen/iqs5xx.txt          |  2 +-
+> >  .../bindings/input/touchscreen/mms114.txt          |  2 +-
+> >  .../bindings/input/touchscreen/touchscreen.txt     |  1 -
+> >  .../bindings/input/touchscreen/touchscreen.yaml    | 83 ----------------------
+> >  14 files changed, 94 insertions(+), 94 deletions(-)
+> >  create mode 100644 Documentation/devicetree/bindings/input/touchscreen.txt
+> >  create mode 100644 Documentation/devicetree/bindings/input/touchscreen.yaml
+> >  delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/touchscreen.txt
+> >  delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/touchscreen.yaml
+> 
+> No, I prefer the current structure. It's easier to find similar types of 
+> h/w as-is. In fact, if you wanted to move keyboards/keypads to their own 
+> subdir, I'd welcome that.
 
-The reset GPIO has since been made optional in the driver; this is
-now reflected here as well.
+I agree that we should keep all touchscreens in the same subdirectory,
+however the bindings in touchscreen.yaml are applicable to all touch
+controllers and not only touchscreens, so I'd like to rename it to
+touch-controller.yaml and move it to bindings/input/.
 
-Signed-off-by: Jeff LaBundy <jeff@labundy.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
+Is it possible to have bindings/input/touchscreen/touchscreen.yaml
+include bindings/input/touch-controller.yaml?
+
+I also want to get in the patch below where we accept not only
+"touchscreen-*" properties that I want deprecate, but "touch-*'
+properties. If we agree I will try to adjust bindings to reflect the new
+names and mark old ones deprecated.
+
+Thanks!
+
+-- 
+Dmitry
+
+
+Input: rename touchscreen helper module to touch-helper
+
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+
+Because functionality in drivers/input/touchscreen.c is applicable to all
+touch controllers (i.e. not only to touchscreens but touchpads as well),
+let's rename it to touch-helper.c and rename all APIs from touchscreen_*()
+to touch_*() and accept properties with prefix "touch-*" as well as
+"touchscreen-*".
+
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 ---
-Changes in v3:
- - None
+ drivers/input/Makefile             |    2 
+ drivers/input/touch-helper.c       |  220 ++++++++++++++++++++++++++++++++++++
+ drivers/input/touchscreen.c        |  207 ----------------------------------
+ include/linux/input/touch-helper.h |   32 +++++
+ include/linux/input/touchscreen.h  |   30 +++--
+ 5 files changed, 269 insertions(+), 222 deletions(-)
+ create mode 100644 drivers/input/touch-helper.c
+ delete mode 100644 drivers/input/touchscreen.c
+ create mode 100644 include/linux/input/touch-helper.h
 
-Changes in v2:
- - Added vendor prefix to filename and $id
- - Added Reviewed-by trailer
-
- .../input/touchscreen/azoteq,iqs5xx.yaml      | 75 +++++++++++++++++
- .../bindings/input/touchscreen/iqs5xx.txt     | 80 -------------------
- 2 files changed, 75 insertions(+), 80 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/input/touchscreen/azoteq,iqs5xx.yaml
- delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/iqs5xx.txt
-
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/azoteq,iqs5xx.yaml b/Documentation/devicetree/bindings/input/touchscreen/azoteq,iqs5xx.yaml
+diff --git a/drivers/input/Makefile b/drivers/input/Makefile
+index 037cc595106c..c81b16090437 100644
+--- a/drivers/input/Makefile
++++ b/drivers/input/Makefile
+@@ -7,7 +7,7 @@
+ 
+ obj-$(CONFIG_INPUT)		+= input-core.o
+ input-core-y := input.o input-compat.o input-mt.o input-poller.o ff-core.o
+-input-core-y += touchscreen.o
++input-core-y += touch-helper.o
+ 
+ obj-$(CONFIG_INPUT_FF_MEMLESS)	+= ff-memless.o
+ obj-$(CONFIG_INPUT_SPARSEKMAP)	+= sparse-keymap.o
+diff --git a/drivers/input/touch-helper.c b/drivers/input/touch-helper.c
 new file mode 100644
-index 000000000000..b5f377215c09
+index 000000000000..f29bb447c51f
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/input/touchscreen/azoteq,iqs5xx.yaml
-@@ -0,0 +1,75 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/touchscreen/azoteq,iqs5xx.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/input/touch-helper.c
+@@ -0,0 +1,220 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ *  Generic helper functions for touchscreens and other two-dimensional
++ *  pointing devices
++ *
++ *  Copyright (c) 2014 Sebastian Reichel <sre@kernel.org>
++ */
 +
-+title: Azoteq IQS550/572/525 Trackpad/Touchscreen Controller
++#include <linux/property.h>
++#include <linux/input.h>
++#include <linux/input/mt.h>
++#include <linux/input/touch-helper.h>
++#include <linux/module.h>
 +
-+maintainers:
-+  - Jeff LaBundy <jeff@labundy.com>
++static const char * const prefixes[] = { "touch", "touchscreen" };
 +
-+description: |
-+  The Azoteq IQS550, IQS572 and IQS525 trackpad and touchscreen controllers
-+  employ projected-capacitance sensing and can track up to five independent
-+  contacts.
++static bool touch_get_prop_u32(struct device *dev,
++			       const char *property,
++			       unsigned int default_value,
++			       unsigned int *value)
++{
++	char propname[32];
++	u32 val;
++	int error;
++	int i;
 +
-+  Link to datasheet: https://www.azoteq.com/
++	for (i = 0; i < ARRAY_SIZE(prefixes); i++) {
++		snprintf(propname, sizeof(propname),
++			 "%s-%s", prefixes[i], property);
++		error = device_property_read_u32(dev, propname, &val);
++		if (!error) {
++			*value = val;
++			return true;
++		}
++	}
 +
-+allOf:
-+  - $ref: touchscreen.yaml#
++	*value = default_value;
++	return false;
++}
 +
-+properties:
-+  compatible:
-+    enum:
-+      - azoteq,iqs550
-+      - azoteq,iqs572
-+      - azoteq,iqs525
++static bool touch_get_prop_bool(struct device *dev, const char *property)
++{
++	char propname[32];
++	int i;
 +
-+  reg:
-+    maxItems: 1
++	for (i = 0; i < ARRAY_SIZE(prefixes); i++) {
++		snprintf(propname, sizeof(propname),
++			 "%s-%s", prefixes[i], property);
++		if (device_property_read_bool(dev, propname))
++			return true;
++	}
 +
-+  interrupts:
-+    maxItems: 1
++	return false;
++}
 +
-+  reset-gpios:
-+    maxItems: 1
++static void touch_set_params(struct input_dev *dev, unsigned long axis,
++			     int min, int max, int fuzz)
++{
++	struct input_absinfo *absinfo;
 +
-+  wakeup-source: true
++	if (!test_bit(axis, dev->absbit)) {
++		dev_warn(&dev->dev,
++			 "Parameters are specified but the axis %lu is not set up\n",
++			 axis);
++		return;
++	}
 +
-+  touchscreen-size-x: true
-+  touchscreen-size-y: true
-+  touchscreen-inverted-x: true
-+  touchscreen-inverted-y: true
-+  touchscreen-swapped-x-y: true
++	absinfo = &dev->absinfo[axis];
++	absinfo->minimum = min;
++	absinfo->maximum = max;
++	absinfo->fuzz = fuzz;
++}
 +
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
++/**
++ * touch_parse_properties - parse common touch controller properties
++ * @input: input device that should be parsed
++ * @multitouch: specifies whether parsed properties should be applied to
++ *	single-touch or multi-touch axes
++ * @prop: pointer to a struct touch_properties into which to store
++ *	axis swap and invert info for use with touchscreen_report_x_y();
++ *	or %NULL
++ *
++ * This function parses common properties for touchi controllers and sets
++ * up the input device accordingly. The function keeps previously set up
++ * default values if no value is specified.
++ */
++void touch_parse_properties(struct input_dev *input, bool multitouch,
++			    struct touch_properties *prop)
++{
++	struct device *dev = input->dev.parent;
++	struct input_absinfo *absinfo;
++	unsigned int axis, axis_x, axis_y;
++	unsigned int minimum, maximum, fuzz;
++	bool data_present;
 +
-+additionalProperties: false
++	input_alloc_absinfo(input);
++	if (!input->absinfo)
++		return;
 +
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
++	axis_x = multitouch ? ABS_MT_POSITION_X : ABS_X;
++	axis_y = multitouch ? ABS_MT_POSITION_Y : ABS_Y;
 +
-+    i2c {
-+            #address-cells = <1>;
-+            #size-cells = <0>;
++	data_present = touch_get_prop_u32(dev, "min-x",
++					  input_abs_get_min(input, axis_x),
++					  &minimum) |
++		       touch_get_prop_u32(dev, "size-x",
++					  input_abs_get_max(input, axis_x) + 1,
++					  &maximum) |
++		       touch_get_prop_u32(dev, "fuzz-x",
++					  input_abs_get_fuzz(input, axis_x),
++					  &fuzz);
++	if (data_present)
++		touch_set_params(input, axis_x, minimum, maximum - 1, fuzz);
 +
-+            touchscreen@74 {
-+                    compatible = "azoteq,iqs550";
-+                    reg = <0x74>;
-+                    interrupt-parent = <&gpio>;
-+                    interrupts = <27 IRQ_TYPE_LEVEL_HIGH>;
-+                    reset-gpios = <&gpio 22 (GPIO_ACTIVE_LOW |
-+                                             GPIO_PUSH_PULL)>;
++	data_present = touch_get_prop_u32(dev, "min-y",
++					  input_abs_get_min(input, axis_y),
++					  &minimum) |
++		       touch_get_prop_u32(dev, "size-y",
++					  input_abs_get_max(input, axis_y) + 1,
++					  &maximum) |
++		       touch_get_prop_u32(dev, "fuzz-y",
++					  input_abs_get_fuzz(input, axis_y),
++					  &fuzz);
++	if (data_present)
++		touch_set_params(input, axis_y, minimum, maximum - 1, fuzz);
 +
-+                    touchscreen-size-x = <800>;
-+                    touchscreen-size-y = <480>;
-+            };
-+    };
++	axis = multitouch ? ABS_MT_PRESSURE : ABS_PRESSURE;
++	data_present = touch_get_prop_u32(dev, "max-pressure",
++					  input_abs_get_max(input, axis),
++					  &maximum) |
++		       touch_get_prop_u32(dev, "fuzz-pressure",
++					  input_abs_get_fuzz(input, axis),
++					  &fuzz);
++	if (data_present)
++		touch_set_params(input, axis, 0, maximum, fuzz);
 +
-+...
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/iqs5xx.txt b/Documentation/devicetree/bindings/input/touchscreen/iqs5xx.txt
++	if (!prop)
++		return;
++
++	prop->max_x = input_abs_get_max(input, axis_x);
++	prop->max_y = input_abs_get_max(input, axis_y);
++
++	prop->invert_x = touch_get_prop_bool(dev, "inverted-x");
++	if (prop->invert_x) {
++		absinfo = &input->absinfo[axis_x];
++		absinfo->maximum -= absinfo->minimum;
++		absinfo->minimum = 0;
++	}
++
++	prop->invert_y = touch_get_prop_bool(dev, "inverted-y");
++	if (prop->invert_y) {
++		absinfo = &input->absinfo[axis_y];
++		absinfo->maximum -= absinfo->minimum;
++		absinfo->minimum = 0;
++	}
++
++	prop->swap_x_y = touch_get_prop_bool(dev, "swapped-x-y");
++	if (prop->swap_x_y)
++		swap(input->absinfo[axis_x], input->absinfo[axis_y]);
++}
++EXPORT_SYMBOL(touch_parse_properties);
++
++static void touch_apply_prop_to_x_y(const struct touch_properties *prop,
++				    unsigned int *x, unsigned int *y)
++{
++	if (prop->invert_x)
++		*x = prop->max_x - *x;
++
++	if (prop->invert_y)
++		*y = prop->max_y - *y;
++
++	if (prop->swap_x_y)
++		swap(*x, *y);
++}
++
++/**
++ * touch_set_mt_pos - Set input_mt_pos coordinates
++ * @pos: input_mt_pos to set coordinates of
++ * @prop: pointer to a struct touchscreen_properties
++ * @x: X coordinate to store in pos
++ * @y: Y coordinate to store in pos
++ *
++ * Adjust the passed in x and y values applying any axis inversion and
++ * swapping requested in the passed in struct touch_properties and store
++ * the result in a struct input_mt_pos.
++ */
++void touch_set_mt_pos(struct input_mt_pos *pos,
++		      const struct touch_properties *prop,
++		      unsigned int x, unsigned int y)
++{
++	touch_apply_prop_to_x_y(prop, &x, &y);
++	pos->x = x;
++	pos->y = y;
++}
++EXPORT_SYMBOL(touch_set_mt_pos);
++
++/**
++ * touch_report_pos - Report touch coordinates
++ * @input: input_device to report coordinates for
++ * @prop: pointer to a struct touch_properties
++ * @x: X coordinate to report
++ * @y: Y coordinate to report
++ * @multitouch: Report coordinates on single-touch or multi-touch axes
++ *
++ * Adjust the passed in x and y values applying any axis inversion and
++ * swapping requested in the passed in struct touch_properties and then
++ * report the resulting coordinates on the input_dev's x and y axis.
++ */
++void touch_report_pos(struct input_dev *input,
++		      const struct touch_properties *prop,
++		      unsigned int x, unsigned int y, bool multitouch)
++{
++	touch_apply_prop_to_x_y(prop, &x, &y);
++	input_report_abs(input, multitouch ? ABS_MT_POSITION_X : ABS_X, x);
++	input_report_abs(input, multitouch ? ABS_MT_POSITION_Y : ABS_Y, y);
++}
++EXPORT_SYMBOL(touch_report_pos);
++
++MODULE_LICENSE("GPL v2");
++MODULE_DESCRIPTION("Helper functions for touchscreens and other devices");
+diff --git a/drivers/input/touchscreen.c b/drivers/input/touchscreen.c
 deleted file mode 100644
-index efa0820e2469..000000000000
---- a/Documentation/devicetree/bindings/input/touchscreen/iqs5xx.txt
+index dd18cb917c4d..000000000000
+--- a/drivers/input/touchscreen.c
 +++ /dev/null
-@@ -1,80 +0,0 @@
--Azoteq IQS550/572/525 Trackpad/Touchscreen Controller
+@@ -1,207 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/*
+- *  Generic helper functions for touchscreens and other two-dimensional
+- *  pointing devices
+- *
+- *  Copyright (c) 2014 Sebastian Reichel <sre@kernel.org>
+- */
 -
--Required properties:
+-#include <linux/property.h>
+-#include <linux/input.h>
+-#include <linux/input/mt.h>
+-#include <linux/input/touchscreen.h>
+-#include <linux/module.h>
 -
--- compatible			: Must be equal to one of the following:
--				  "azoteq,iqs550"
--				  "azoteq,iqs572"
--				  "azoteq,iqs525"
+-static bool touchscreen_get_prop_u32(struct device *dev,
+-				     const char *property,
+-				     unsigned int default_value,
+-				     unsigned int *value)
+-{
+-	u32 val;
+-	int error;
 -
--- reg				: I2C slave address for the device.
+-	error = device_property_read_u32(dev, property, &val);
+-	if (error) {
+-		*value = default_value;
+-		return false;
+-	}
 -
--- interrupts			: GPIO to which the device's active-high RDY
--				  output is connected (see [0]).
+-	*value = val;
+-	return true;
+-}
 -
--- reset-gpios			: GPIO to which the device's active-low NRST
--				  input is connected (see [1]).
+-static void touchscreen_set_params(struct input_dev *dev,
+-				   unsigned long axis,
+-				   int min, int max, int fuzz)
+-{
+-	struct input_absinfo *absinfo;
 -
--Optional properties:
+-	if (!test_bit(axis, dev->absbit)) {
+-		dev_warn(&dev->dev,
+-			 "Parameters are specified but the axis %lu is not set up\n",
+-			 axis);
+-		return;
+-	}
 -
--- touchscreen-min-x		: See [2].
+-	absinfo = &dev->absinfo[axis];
+-	absinfo->minimum = min;
+-	absinfo->maximum = max;
+-	absinfo->fuzz = fuzz;
+-}
 -
--- touchscreen-min-y		: See [2].
+-/**
+- * touchscreen_parse_properties - parse common touchscreen properties
+- * @input: input device that should be parsed
+- * @multitouch: specifies whether parsed properties should be applied to
+- *	single-touch or multi-touch axes
+- * @prop: pointer to a struct touchscreen_properties into which to store
+- *	axis swap and invert info for use with touchscreen_report_x_y();
+- *	or %NULL
+- *
+- * This function parses common properties for touchscreens and sets up the
+- * input device accordingly. The function keeps previously set up default
+- * values if no value is specified.
+- */
+-void touchscreen_parse_properties(struct input_dev *input, bool multitouch,
+-				  struct touchscreen_properties *prop)
+-{
+-	struct device *dev = input->dev.parent;
+-	struct input_absinfo *absinfo;
+-	unsigned int axis, axis_x, axis_y;
+-	unsigned int minimum, maximum, fuzz;
+-	bool data_present;
 -
--- touchscreen-size-x		: See [2]. If this property is omitted, the
--				  maximum x-coordinate is specified by the
--				  device's "X Resolution" register.
+-	input_alloc_absinfo(input);
+-	if (!input->absinfo)
+-		return;
 -
--- touchscreen-size-y		: See [2]. If this property is omitted, the
--				  maximum y-coordinate is specified by the
--				  device's "Y Resolution" register.
+-	axis_x = multitouch ? ABS_MT_POSITION_X : ABS_X;
+-	axis_y = multitouch ? ABS_MT_POSITION_Y : ABS_Y;
 -
--- touchscreen-max-pressure	: See [2]. Pressure is expressed as the sum of
--				  the deltas across all channels impacted by a
--				  touch event. A channel's delta is calculated
--				  as its count value minus a reference, where
--				  the count value is inversely proportional to
--				  the channel's capacitance.
+-	data_present = touchscreen_get_prop_u32(dev, "touchscreen-min-x",
+-						input_abs_get_min(input, axis_x),
+-						&minimum) |
+-		       touchscreen_get_prop_u32(dev, "touchscreen-size-x",
+-						input_abs_get_max(input,
+-								  axis_x) + 1,
+-						&maximum) |
+-		       touchscreen_get_prop_u32(dev, "touchscreen-fuzz-x",
+-						input_abs_get_fuzz(input, axis_x),
+-						&fuzz);
+-	if (data_present)
+-		touchscreen_set_params(input, axis_x, minimum, maximum - 1, fuzz);
 -
--- touchscreen-fuzz-x		: See [2].
+-	data_present = touchscreen_get_prop_u32(dev, "touchscreen-min-y",
+-						input_abs_get_min(input, axis_y),
+-						&minimum) |
+-		       touchscreen_get_prop_u32(dev, "touchscreen-size-y",
+-						input_abs_get_max(input,
+-								  axis_y) + 1,
+-						&maximum) |
+-		       touchscreen_get_prop_u32(dev, "touchscreen-fuzz-y",
+-						input_abs_get_fuzz(input, axis_y),
+-						&fuzz);
+-	if (data_present)
+-		touchscreen_set_params(input, axis_y, minimum, maximum - 1, fuzz);
 -
--- touchscreen-fuzz-y		: See [2].
+-	axis = multitouch ? ABS_MT_PRESSURE : ABS_PRESSURE;
+-	data_present = touchscreen_get_prop_u32(dev,
+-						"touchscreen-max-pressure",
+-						input_abs_get_max(input, axis),
+-						&maximum) |
+-		       touchscreen_get_prop_u32(dev,
+-						"touchscreen-fuzz-pressure",
+-						input_abs_get_fuzz(input, axis),
+-						&fuzz);
+-	if (data_present)
+-		touchscreen_set_params(input, axis, 0, maximum, fuzz);
 -
--- touchscreen-fuzz-pressure	: See [2].
+-	if (!prop)
+-		return;
 -
--- touchscreen-inverted-x	: See [2]. Inversion is applied relative to that
--				  which may already be specified by the device's
--				  FLIP_X and FLIP_Y register fields.
+-	prop->max_x = input_abs_get_max(input, axis_x);
+-	prop->max_y = input_abs_get_max(input, axis_y);
 -
--- touchscreen-inverted-y	: See [2]. Inversion is applied relative to that
--				  which may already be specified by the device's
--				  FLIP_X and FLIP_Y register fields.
+-	prop->invert_x =
+-		device_property_read_bool(dev, "touchscreen-inverted-x");
+-	if (prop->invert_x) {
+-		absinfo = &input->absinfo[axis_x];
+-		absinfo->maximum -= absinfo->minimum;
+-		absinfo->minimum = 0;
+-	}
 -
--- touchscreen-swapped-x-y	: See [2]. Swapping is applied relative to that
--				  which may already be specified by the device's
--				  SWITCH_XY_AXIS register field.
+-	prop->invert_y =
+-		device_property_read_bool(dev, "touchscreen-inverted-y");
+-	if (prop->invert_y) {
+-		absinfo = &input->absinfo[axis_y];
+-		absinfo->maximum -= absinfo->minimum;
+-		absinfo->minimum = 0;
+-	}
 -
--[0]: Documentation/devicetree/bindings/interrupt-controller/interrupts.txt
--[1]: Documentation/devicetree/bindings/gpio/gpio.txt
--[2]: Documentation/devicetree/bindings/input/touchscreen/touchscreen.txt
+-	prop->swap_x_y =
+-		device_property_read_bool(dev, "touchscreen-swapped-x-y");
+-	if (prop->swap_x_y)
+-		swap(input->absinfo[axis_x], input->absinfo[axis_y]);
+-}
+-EXPORT_SYMBOL(touchscreen_parse_properties);
 -
--Example:
+-static void
+-touchscreen_apply_prop_to_x_y(const struct touchscreen_properties *prop,
+-			      unsigned int *x, unsigned int *y)
+-{
+-	if (prop->invert_x)
+-		*x = prop->max_x - *x;
 -
--	&i2c1 {
--		/* ... */
+-	if (prop->invert_y)
+-		*y = prop->max_y - *y;
 -
--		touchscreen@74 {
--			compatible = "azoteq,iqs550";
--			reg = <0x74>;
--			interrupt-parent = <&gpio>;
--			interrupts = <17 4>;
--			reset-gpios = <&gpio 27 1>;
+-	if (prop->swap_x_y)
+-		swap(*x, *y);
+-}
 -
--			touchscreen-size-x = <640>;
--			touchscreen-size-y = <480>;
+-/**
+- * touchscreen_set_mt_pos - Set input_mt_pos coordinates
+- * @pos: input_mt_pos to set coordinates of
+- * @prop: pointer to a struct touchscreen_properties
+- * @x: X coordinate to store in pos
+- * @y: Y coordinate to store in pos
+- *
+- * Adjust the passed in x and y values applying any axis inversion and
+- * swapping requested in the passed in touchscreen_properties and store
+- * the result in a struct input_mt_pos.
+- */
+-void touchscreen_set_mt_pos(struct input_mt_pos *pos,
+-			    const struct touchscreen_properties *prop,
+-			    unsigned int x, unsigned int y)
+-{
+-	touchscreen_apply_prop_to_x_y(prop, &x, &y);
+-	pos->x = x;
+-	pos->y = y;
+-}
+-EXPORT_SYMBOL(touchscreen_set_mt_pos);
 -
--			touchscreen-max-pressure = <16000>;
--		};
+-/**
+- * touchscreen_report_pos - Report touchscreen coordinates
+- * @input: input_device to report coordinates for
+- * @prop: pointer to a struct touchscreen_properties
+- * @x: X coordinate to report
+- * @y: Y coordinate to report
+- * @multitouch: Report coordinates on single-touch or multi-touch axes
+- *
+- * Adjust the passed in x and y values applying any axis inversion and
+- * swapping requested in the passed in touchscreen_properties and then
+- * report the resulting coordinates on the input_dev's x and y axis.
+- */
+-void touchscreen_report_pos(struct input_dev *input,
+-			    const struct touchscreen_properties *prop,
+-			    unsigned int x, unsigned int y,
+-			    bool multitouch)
+-{
+-	touchscreen_apply_prop_to_x_y(prop, &x, &y);
+-	input_report_abs(input, multitouch ? ABS_MT_POSITION_X : ABS_X, x);
+-	input_report_abs(input, multitouch ? ABS_MT_POSITION_Y : ABS_Y, y);
+-}
+-EXPORT_SYMBOL(touchscreen_report_pos);
 -
--		/* ... */
--	};
---
-2.17.1
-
+-MODULE_LICENSE("GPL v2");
+-MODULE_DESCRIPTION("Helper functions for touchscreens and other devices");
+diff --git a/include/linux/input/touch-helper.h b/include/linux/input/touch-helper.h
+new file mode 100644
+index 000000000000..c9cafacf7a6e
+--- /dev/null
++++ b/include/linux/input/touch-helper.h
+@@ -0,0 +1,32 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (c) 2014 Sebastian Reichel <sre@kernel.org>
++ */
++
++#ifndef _TOUCH_HELPER_H
++#define _TOUCH_HELPER_H
++
++struct input_dev;
++struct input_mt_pos;
++
++struct touch_properties {
++	unsigned int max_x;
++	unsigned int max_y;
++	bool invert_x;
++	bool invert_y;
++	bool swap_x_y;
++};
++
++void touch_parse_properties(struct input_dev *input, bool multitouch,
++			    struct touch_properties *prop);
++
++void touch_set_mt_pos(struct input_mt_pos *pos,
++		      const struct touch_properties *prop,
++		      unsigned int x, unsigned int y);
++
++void touch_report_pos(struct input_dev *input,
++		      const struct touch_properties *prop,
++		      unsigned int x, unsigned int y,
++		      bool multitouch);
++
++#endif
+diff --git a/include/linux/input/touchscreen.h b/include/linux/input/touchscreen.h
+index fe66e2b58f62..fa202ec436df 100644
+--- a/include/linux/input/touchscreen.h
++++ b/include/linux/input/touchscreen.h
+@@ -6,27 +6,29 @@
+ #ifndef _TOUCHSCREEN_H
+ #define _TOUCHSCREEN_H
+ 
+-struct input_dev;
+-struct input_mt_pos;
++#include <linux/input/touch-helper.h>
+ 
+-struct touchscreen_properties {
+-	unsigned int max_x;
+-	unsigned int max_y;
+-	bool invert_x;
+-	bool invert_y;
+-	bool swap_x_y;
+-};
++#define touchscreen_properties touch_properties
+ 
+ void touchscreen_parse_properties(struct input_dev *input, bool multitouch,
+-				  struct touchscreen_properties *prop);
++				  struct touch_properties *prop)
++{
++	touch_parse_properties(input, multitouch, prop);
++}
+ 
+ void touchscreen_set_mt_pos(struct input_mt_pos *pos,
+-			    const struct touchscreen_properties *prop,
+-			    unsigned int x, unsigned int y);
++			    const struct touch_properties *prop,
++			    unsigned int x, unsigned int y)
++{
++	touch_set_mt_pos(pos, prop, x, y);
++}
+ 
+ void touchscreen_report_pos(struct input_dev *input,
+-			    const struct touchscreen_properties *prop,
++			    const struct touch_properties *prop,
+ 			    unsigned int x, unsigned int y,
+-			    bool multitouch);
++			    bool multitouch)
++{
++	touch_report_pos(input, prop, x, y, multitouch);
++}
+ 
+ #endif
