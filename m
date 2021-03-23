@@ -2,113 +2,79 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19DE83467D3
-	for <lists+linux-input@lfdr.de>; Tue, 23 Mar 2021 19:37:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 831A03467E5
+	for <lists+linux-input@lfdr.de>; Tue, 23 Mar 2021 19:40:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232025AbhCWShY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 23 Mar 2021 14:37:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46532 "EHLO
+        id S231449AbhCWSkM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 23 Mar 2021 14:40:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232010AbhCWShS (ORCPT
+        with ESMTP id S232414AbhCWSkG (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 23 Mar 2021 14:37:18 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B810C061574;
-        Tue, 23 Mar 2021 11:37:18 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id w8so10485853pjf.4;
-        Tue, 23 Mar 2021 11:37:18 -0700 (PDT)
+        Tue, 23 Mar 2021 14:40:06 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3405C061574
+        for <linux-input@vger.kernel.org>; Tue, 23 Mar 2021 11:40:05 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id l1so12614839pgb.5
+        for <linux-input@vger.kernel.org>; Tue, 23 Mar 2021 11:40:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Jx4+GF9ZZYPHMBptUp0vl+dag26ugWpIG2FLz4oA2Bc=;
-        b=ZGz1LBB/+Tl/ImvaogRRM+N2fjdxA4mEM6IJCryB1pptDKCa8I+M2/NgvbangQMuml
-         ZS9CAh8HDMzPpxMGpmmwesij9DnnRjqLgxrN06Kctx/fF2amLJkPFr4+c3Jn1XDzqbAU
-         Z+1vTfSr7RuNEKAWcAUv/qP6FKj/E2khDfdf1njgwL+UAyxkqnFC/R3v+zsEKYHp4t0s
-         AXDewHumbobz2+XGRbQmyHtcPRWGZ2g16KJ0shjHCY3h+H82DkC4PCDIrLWAtoo2FPZH
-         BPwWJXs1ouJTlHtDuRNJn3hzajss/dQgjdpAf/p51liaTTsvGEE60+uIQjXQg7xP7j8u
-         AMTQ==
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=Zfj/kWZPix3zndHuoxntuoFJOentd9YWLBF+3wiyM44=;
+        b=Lw+cyIgu7EwPtgbxqldjniVLHYtdTCLqA/NWK5YN+QksiH33zKjTNsv+WkhJ8mq5F3
+         CKYHj1Oz7CXL8TtMpayt2GGHXeWniFJGjBXCTcPfSDkFV3EFLFMdVpz3AKXbOIO01Oxu
+         qYG+f+MK3QII0XXcDXmrtKjVUbsqAyIjmIWCPFd8w1/hjssQV2DBtv5stxk9y+0tRUjo
+         G8U7I2JbOriQGOt/j10ba38Gq2El5BS4wHqrQY79jd6SM62ve8k3OhHW0sjsqHyeYac1
+         qITiLw0Xh6QNcuD1CnlP2iUpeUuVimwhaOl5wpMyLsvq8VkA/Wguu5p0upMRKvTgWDbe
+         c7dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Jx4+GF9ZZYPHMBptUp0vl+dag26ugWpIG2FLz4oA2Bc=;
-        b=XBzIo/gtxeT+sxSZXB3Cx3zA0nf6suwOKyWaf/WcYVDFLtN60OajrsCwS/HrjvH3WC
-         sj5SDmefwLVZpvqt/pLYNz0G5/IVaj4V9QlnrQxuqA1D5B07VRcJyg4+6/Xq0xCMqVC/
-         5YgdQPJG9o9AFr6E9D5fVXe2ZNbrqxYG1w6B+38F2g6Czh3akzE8vWJInmbeOwvJ+mY+
-         HUUOzvlV0+tyqcJTdsihMfv9mnMPaQ1rzz7XqOVOnPbUt2UlRU5mGdrfSA2Sv0I6+HeA
-         l53ITLf5sBNa+vy2FLV4dvV2jp/vBygYktOty7Ff9xzytCQ+0ibJv6P+C8j+57kNLwv5
-         u63Q==
-X-Gm-Message-State: AOAM530wim9fh9S/WUyi+juS2ogqleSBygqpU5MXtrH2xFBeRum4TtPG
-        NMafUJZ9SMEE1SVN5AZeJ4g=
-X-Google-Smtp-Source: ABdhPJzOy6PpC6Md4Mg16vgdEAPmxpVxGglR04sZFMTuBVNZEfItRWOysPkmHR+yZo9X5itOdKjMng==
-X-Received: by 2002:a17:90b:4d05:: with SMTP id mw5mr5774207pjb.236.1616524637632;
-        Tue, 23 Mar 2021 11:37:17 -0700 (PDT)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=Zfj/kWZPix3zndHuoxntuoFJOentd9YWLBF+3wiyM44=;
+        b=flKNvZ1ePj3x6FDUhs741iTKS6QSg3DZ7PjokHeR2DSf++R/EsCFJVee0UI7ge4xPi
+         rk0kd92Psbn76DdkJywLgpRr4jt3DmyoGcQBc/g+pM0hYzJKP+taG4ttHCkNO9EIGRQ0
+         RFw0DIJv+h9zRoCZUX8JBIXVuuRAjJSx+CNXbNM7Qq5A8RPh+qT1oxd0gMSWZcsXZgNq
+         LppTJ50m903SRDyVYI/52gZOsAoRXvwUeQWeD81PeOi34LLIwtm3DEPfn0S3syycoxpz
+         TQEJDiehKiUKsk8LImgP5nIS1F7hcnig5N5Z9eyID1ArdmQAXLmAFzJwnee1pv7C3a6i
+         dyJg==
+X-Gm-Message-State: AOAM532lUl5usD2yBVeEoSw06f1WUvTVLw89zQaRaPvzq9BYoz7p9cnt
+        e1YghgvXIcONLRRccvRp+wI=
+X-Google-Smtp-Source: ABdhPJyKqyxVgCRfSIhDtRzDAMuMilUks9vKkEofqWtJ+n95mqagFZ+TGoyFcafnAa3d6OGsGFuE2Q==
+X-Received: by 2002:a17:902:ecc3:b029:e5:d7cc:2a20 with SMTP id a3-20020a170902ecc3b02900e5d7cc2a20mr7183883plh.11.1616524805254;
+        Tue, 23 Mar 2021 11:40:05 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:4d6b:ca5a:c720:f5c9])
-        by smtp.gmail.com with ESMTPSA id q25sm17516273pfh.34.2021.03.23.11.37.16
+        by smtp.gmail.com with ESMTPSA id 23sm6441343pgo.53.2021.03.23.11.40.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Mar 2021 11:37:16 -0700 (PDT)
-Date:   Tue, 23 Mar 2021 11:37:14 -0700
+        Tue, 23 Mar 2021 11:40:03 -0700 (PDT)
+Date:   Tue, 23 Mar 2021 11:40:01 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Cc:     Arnd Bergmann <arnd@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Zhang Qilong <zhangqilong3@huawei.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: analog - fix invalid snprintf() call
-Message-ID: <YFo1WgbYqYdlwxV0@google.com>
-References: <20210323131456.2600132-1-arnd@kernel.org>
- <a87d99c0-4527-1430-996b-b30826ecc752@prevas.dk>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>
+Cc:     linux-input@vger.kernel.org
+Subject: Re: [PATCH v2] input: misc: max8997: Simplify open coding of a
+ division using up to 64 divisions
+Message-ID: <YFo2AUJ8OeOyTx/D@google.com>
+References: <20210316211822.49830-1-uwe@kleine-koenig.org>
+ <20210316212233.50765-1-uwe@kleine-koenig.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <a87d99c0-4527-1430-996b-b30826ecc752@prevas.dk>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210316212233.50765-1-uwe@kleine-koenig.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Mar 23, 2021 at 02:29:15PM +0100, Rasmus Villemoes wrote:
-> On 23/03/2021 14.14, Arnd Bergmann wrote:
-> > From: Arnd Bergmann <arnd@arndb.de>
-> > 
-> > overlapping input and output arguments to snprintf() are
-> > undefined behavior in C99:
-> > 
+On Tue, Mar 16, 2021 at 10:22:33PM +0100, Uwe Kleine-König wrote:
+> The for loop is just a complicate way to express a division. Replace it
+> by the actual division which is both simpler to understand for a human
+> and more efficient for a CPU to calculate.
 > 
-> Good luck:
-> https://lore.kernel.org/lkml/1457469654-17059-1-git-send-email-linux@rasmusvillemoes.dk/
-> 
-> At least 5 years ago the consensus from old-timers was that "the
-> kernel's snprintf supports this use case, just keep it working that way".
-> 
-> > diff --git a/drivers/input/joystick/analog.c b/drivers/input/joystick/analog.c
-> > index f798922a4598..8c9fed3f13e2 100644
-> > --- a/drivers/input/joystick/analog.c
-> > +++ b/drivers/input/joystick/analog.c
-> > @@ -419,14 +419,16 @@ static void analog_calibrate_timer(struct analog_port *port)
-> >  
-> >  static void analog_name(struct analog *analog)
-> >  {
-> > -	snprintf(analog->name, sizeof(analog->name), "Analog %d-axis %d-button",
-> > +	int len;
-> > +
-> > +	len = snprintf(analog->name, sizeof(analog->name), "Analog %d-axis %d-button",
-> >  		 hweight8(analog->mask & ANALOG_AXES_STD),
-> >  		 hweight8(analog->mask & ANALOG_BTNS_STD) + !!(analog->mask & ANALOG_BTNS_CHF) * 2 +
-> >  		 hweight16(analog->mask & ANALOG_BTNS_GAMEPAD) + !!(analog->mask & ANALOG_HBTN_CHF) * 4);
-> >  
-> >  	if (analog->mask & ANALOG_HATS_ALL)
-> > -		snprintf(analog->name, sizeof(analog->name), "%s %d-hat",
-> > -			 analog->name, hweight16(analog->mask & ANALOG_HATS_ALL));
-> > +		len += snprintf(analog->name + len, sizeof(analog->name) - len, "%d-hat",
-> > +			 hweight16(analog->mask & ANALOG_HATS_ALL));
-> 
-> Use scnprintf, this is too fragile and hard to verify. If the first
-> snprintf overflows, the second passes a huge size_t to snprintf which
-> will WARN.
+> Signed-off-by: Uwe Kleine-König <uwe@kleine-koenig.org>
 
-Also the format needs to be " %d-hat" (note the leading space).
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
