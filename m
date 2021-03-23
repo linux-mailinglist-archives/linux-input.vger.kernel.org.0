@@ -2,120 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83AD0345689
-	for <lists+linux-input@lfdr.de>; Tue, 23 Mar 2021 04:58:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8603934575D
+	for <lists+linux-input@lfdr.de>; Tue, 23 Mar 2021 06:36:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229898AbhCWD6J (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 22 Mar 2021 23:58:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54058 "EHLO
+        id S229472AbhCWFfd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 23 Mar 2021 01:35:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229761AbhCWD5y (ORCPT
+        with ESMTP id S229452AbhCWFfX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 22 Mar 2021 23:57:54 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0C14C061574
-        for <linux-input@vger.kernel.org>; Mon, 22 Mar 2021 20:57:53 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id lr1-20020a17090b4b81b02900ea0a3f38c1so503936pjb.0
-        for <linux-input@vger.kernel.org>; Mon, 22 Mar 2021 20:57:53 -0700 (PDT)
+        Tue, 23 Mar 2021 01:35:23 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8A60C061574;
+        Mon, 22 Mar 2021 22:35:22 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id l123so13130431pfl.8;
+        Mon, 22 Mar 2021 22:35:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=eb0Uqdcis5DrAHEO0wyEVBDrZQnml4qU5kXKL+LDEE8=;
-        b=YrfMAqsuFvqtBK73nqFFdINzlDvzJPDv2QZrjTjo58moCwZ6gyOhn7crfFyCVps7wm
-         Gfg1nCK9SABcDDsTB3EtUQwqaMzNw3UPW1+UIvn7gLedLJi3kqrdIb78AVOHgo01xyHG
-         UfreHKDE1Q0Sb6RqQMrlPxLxAyuHBOK7piI04Q65p8Mmvfj7M9k09LmQqFSuXm2K7RRG
-         oL9SpA75NtaulKIcxKW6Bm6N4xIFdSjF2yGYIcGtdDsksxCmPnuAFSBWlSzuqwdXQI5A
-         xIFwocg2n1w2RvNhFwue4EpyjvGYK9obsKYssYl3/oTy8+mFIs+/bVT9+JwoRdpHC0/1
-         nVYA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GLY3ymCl5yT9GXpslLzZrF5s6T8lhJSvt/auSZruXfQ=;
+        b=orFLt0F0qgN/aGMGyrs/We8qyALwk99UUVUHdrDv0NgSa5zdlwMIKJaQStT1vx7/MW
+         bhq9CAFtGTkCPIM0IE9nuERpK4b0Ca0mHEncTonil1OX4aAIsRoaY87FSEuHbk4DbIyj
+         eFelw2hshSxFC6UFtMtXJ6C6ylC2WCPNs+mBDPvkmiL8yO4NZfh+/+DKANeKUaEeeJLl
+         I7qlMiksgpb0UYOYLJxNMKqYNzfXqvFvHxdWBkVHiaC4tywmVUP2heI3h+JiyKB6VKZs
+         e8/1Pii8PJgFa/I9694AC73QkiK/aIV0nHI8WulYj2Ywvu02qPfDDfDC3YkQqhFQcmP/
+         ef/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=eb0Uqdcis5DrAHEO0wyEVBDrZQnml4qU5kXKL+LDEE8=;
-        b=LOgiAIiTMeSu1U38ntyne29g86VlLPJ0SFOCd6w6GdgN+DineNNCKLn3YxKebpkIf2
-         if7nVz/oCz2njcDseNK0a7NYFSJE3rj0zcJIvrew8UHQ9xrt7ViQdGV8ZZIPT185pNEm
-         BvrvlskE/NEiuPG8kzX2pYrRsZeSU6Ysb18/9qWJlJ+D778vAxcnQXmGhehsAG78nQ+w
-         0CdN6a/54STR3Ss4T52ZSu3Loj3Fi1sw8C3JG7GTDx+v26ctC3OesmDnpwfi9qUWvFcK
-         JjlW6TLbwrEFISLtFianextlf+Fu8SdEtqcL8W8MH4SLFkrGKV85fTmnygJIOeE3cCn9
-         cNIQ==
-X-Gm-Message-State: AOAM530jcmXdhRBsFbaueXEEBSyKpsfA2RP0iQjpsyrX+BdIhDxWXLtx
-        A8cGf7QvTWL/QPsAXfzFuTM=
-X-Google-Smtp-Source: ABdhPJzOnXVZwQo24TdlFoleKHlP6u6ZGnr4CzdwshHRaz0jYr6sxPNtZlEslqjN+wt7K9y65xdXtQ==
-X-Received: by 2002:a17:90a:bf0a:: with SMTP id c10mr2293140pjs.195.1616471873401;
-        Mon, 22 Mar 2021 20:57:53 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:499f:7361:582b:fd05])
-        by smtp.gmail.com with ESMTPSA id z1sm15037740pfn.127.2021.03.22.20.57.52
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GLY3ymCl5yT9GXpslLzZrF5s6T8lhJSvt/auSZruXfQ=;
+        b=hKA/czLYD3+84GG9R0WNvjyz4Rpi06g+65yAmqonyaBLocHskXIcNVs6rZv5kdcaZs
+         S5P5B1cJKH7TQ/I4DyjMlbX3gE1aS9cnLDFq1ZdN3CHgGk6FpQsggKiFozEeqq87O4UA
+         jc+a4VFWpfIT4md6bu3QPDCESHUtrqfHb4rIDHGxJrYnRI15wYu5O/Q1HYDsGJflJaxT
+         Qa1rLnwcu4F9ZIk0l7/5IEVnDHvuFze1ms+7CVQOgZyAV1UyT9l2foWHcftQHr1wyHdo
+         QjG03OyWsGTcrjnm+5GieXT/b/eWhgkgqEJ5iIjXrochFWaMeN4ZS9EsYuD7yM5/1/hl
+         ru9Q==
+X-Gm-Message-State: AOAM5314csmTqIvNKztYVTg+x6cek8O4VMvh7/UoDfc5ZW47/DdualUf
+        0Ls1P5QC3jtYzzstALW+uhM=
+X-Google-Smtp-Source: ABdhPJwcW3bHQ54Ai8D9mH5k0CgMAuFEsYrliBGNRjV6P5oxPNZ6wFo2L0GIRNEMm1FfTDZbYBRaBA==
+X-Received: by 2002:a63:fe14:: with SMTP id p20mr2527186pgh.85.1616477722298;
+        Mon, 22 Mar 2021 22:35:22 -0700 (PDT)
+Received: from nirenjan.com ([138.68.227.108])
+        by smtp.gmail.com with ESMTPSA id f135sm15230111pfa.102.2021.03.22.22.35.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Mar 2021 20:57:52 -0700 (PDT)
-Date:   Mon, 22 Mar 2021 20:57:50 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Ferruh Yigit <fery@cypress.com>, linux-input@vger.kernel.org,
-        Henrik Rydberg <rydberg@bitmath.org>
-Subject: Re: [PATCH] Input: cyttsp - Verbose error on soft reset
-Message-ID: <YFlnPv3m4qfSsU/a@google.com>
-References: <20210322221349.1116666-1-linus.walleij@linaro.org>
+        Mon, 22 Mar 2021 22:35:21 -0700 (PDT)
+From:   Nirenjan Krishnan <nirenjan@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nirenjan Krishnan <nirenjan@gmail.com>
+Subject: [PATCH] HID: quirks: Set INCREMENT_USAGE_ON_DUPLICATE for Saitek X65
+Date:   Mon, 22 Mar 2021 22:35:11 -0700
+Message-Id: <20210323053511.17887-1-nirenjan@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210322221349.1116666-1-linus.walleij@linaro.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Linus,
+The Saitek X65 joystick has a pair of axes that were used as mouse
+pointer controls by the Windows driver. The corresponding usage page is
+the Game Controls page, which is not recognized by the generic HID
+driver, and therefore, both axes get mapped to ABS_MISC. The quirk makes
+the second axis get mapped to ABS_MISC+1, and therefore made available
+separately.
 
-On Mon, Mar 22, 2021 at 11:13:49PM +0100, Linus Walleij wrote:
-> The first thing the Cypress driver does when starting
-> up is to try a soft reset. This is the first point where
-> the driver SPI/I2C communication can fail, so put out some
-> nice debug text:
-> 
->   cyttsp-spi spi2.0: failed to send soft reset
-> 
-> Instead of just:
-> 
->   cyttsp-spi: probe of spi2.0 failed with error -5
-> 
-> This is more helpful.
-> 
-> Cc: Ferruh Yigit <fery@cypress.com>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
->  drivers/input/touchscreen/cyttsp_core.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/touchscreen/cyttsp_core.c b/drivers/input/touchscreen/cyttsp_core.c
-> index 73c854f35f33..b9772192b5ea 100644
-> --- a/drivers/input/touchscreen/cyttsp_core.c
-> +++ b/drivers/input/touchscreen/cyttsp_core.c
-> @@ -248,12 +248,16 @@ static int cyttsp_soft_reset(struct cyttsp *ts)
->  	enable_irq(ts->irq);
->  
->  	retval = ttsp_send_command(ts, CY_SOFT_RESET_MODE);
-> -	if (retval)
-> +	if (retval) {
-> +		dev_err(ts->dev, "failed to send soft reset\n");
->  		goto out;
-> +	}
->  
->  	timeout = wait_for_completion_timeout(&ts->bl_ready,
->  			msecs_to_jiffies(CY_DELAY_DFLT * CY_DELAY_MAX));
->  	retval = timeout ? 0 : -EIO;
-> +	if (retval)
-> +		dev_err(ts->dev, "timeout waiting for soft reset\n");
+Signed-off-by: Nirenjan Krishnan <nirenjan@gmail.com>
+---
+ drivers/hid/hid-ids.h    | 1 +
+ drivers/hid/hid-quirks.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-I think if we have conditional for the error message then having ternary
-above does not make sense. I changed this to:
-
-	if (!wait_for_completion_timeout(&ts->bl_ready,
-			msecs_to_jiffies(CY_DELAY_DFLT * CY_DELAY_MAX))) {
-		dev_err(ts->dev, "timeout waiting for soft reset\n");
-		retval = -EIO;
-	}
-
-Thanks.
-
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index e42aaae..413a06a0 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -1039,6 +1039,7 @@
+ #define USB_DEVICE_ID_SAITEK_X52	0x075c
+ #define USB_DEVICE_ID_SAITEK_X52_2	0x0255
+ #define USB_DEVICE_ID_SAITEK_X52_PRO	0x0762
++#define USB_DEVICE_ID_SAITEK_X65	0x0b6a
+ 
+ #define USB_VENDOR_ID_SAMSUNG		0x0419
+ #define USB_DEVICE_ID_SAMSUNG_IR_REMOTE	0x0001
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index 1a9daf0..df68dd7 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -158,6 +158,7 @@ static const struct hid_device_id hid_quirks[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_X52), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_X52_2), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_X52_PRO), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_X65), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_SEMICO, USB_DEVICE_ID_SEMICO_USB_KEYKOARD2), HID_QUIRK_NO_INIT_REPORTS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_SEMICO, USB_DEVICE_ID_SEMICO_USB_KEYKOARD), HID_QUIRK_NO_INIT_REPORTS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_SENNHEISER, USB_DEVICE_ID_SENNHEISER_BTD500USB), HID_QUIRK_NOGET },
 -- 
-Dmitry
+2.7.4
+
