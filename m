@@ -2,63 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39274347F7F
-	for <lists+linux-input@lfdr.de>; Wed, 24 Mar 2021 18:35:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 94434347F7D
+	for <lists+linux-input@lfdr.de>; Wed, 24 Mar 2021 18:35:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237310AbhCXRen (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 24 Mar 2021 13:34:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33948 "EHLO
+        id S237207AbhCXReo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 24 Mar 2021 13:34:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237070AbhCXRe0 (ORCPT
+        with ESMTP id S237260AbhCXRe1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 24 Mar 2021 13:34:26 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2AE4C0613E7
-        for <linux-input@vger.kernel.org>; Wed, 24 Mar 2021 10:34:22 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id w3so34250199ejc.4
-        for <linux-input@vger.kernel.org>; Wed, 24 Mar 2021 10:34:22 -0700 (PDT)
+        Wed, 24 Mar 2021 13:34:27 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5758C0613E8
+        for <linux-input@vger.kernel.org>; Wed, 24 Mar 2021 10:34:23 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id u21so16273792ejo.13
+        for <linux-input@vger.kernel.org>; Wed, 24 Mar 2021 10:34:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=rL2mdk6qmLyu4l9CO1LjB/Fy6Q7Estk6EutMx9RWcNQ=;
-        b=cGfmb9Ahj4GoVdknRK5zBEm0WRV/rmSsCFJCDiQqtA6qYIzMEz1WKGh1kDUOyYxQON
-         J3KH9Lv/o/PxeWE72TIy+zT4wy4Yqh5zR+/9F2zLduHYhpBRk7kygdVtFMEQdEuL70Z+
-         GebqGQtq7UCn8M6FWc385+DryjwLfMyS3ejU4qMo6qGspPGwsuB8tzUcr3f7vmedDepo
-         s6uqVzuGZNym0/kEkc3Yj/rmDC9gNaa1oJNBFemtHcHiz3+3PeByXXq1VnHtEPoP4yyV
-         x845RvkxhV0krjmMg5hb9q81wOkjLP02ocX7jxRG3GD7vsT/iNFWLyx4QW6IBTJ1pQTQ
-         dVrA==
+        bh=KfriQXFxUvhVGCpwETjq8GWLI1DKoZwsNAe/TYwrv1c=;
+        b=IuGQSm9ZOkoRlOIJfQSFYzPFECEl3x3bg7hp3Q5AREVd+EhDLiDTCzl2LNWOSMW30t
+         gx1htkH4xis3A44H8pUUpnay3+rlpTBlKtCh3NE8lTwvZy7EuPtNttqsXCST9o0h9r+0
+         5dC86DEnkcg1dIS8CHteR8/fT7nEKESUvlW439cTYEZ2I8GLcKsH3Mcm5k8OgKJhCYW6
+         YKU/oAT7O44FCeD3Z/3QAkAMP0K7rxLecHNpg/nYyUulnOGCphHyJ4UOVCDzi1cKEp4W
+         WTb5DoBfYnd6c7WDaOUJOUPZ7zNsfYOKZ5Fd5ytilNiEPZDC7tlVwXyIt4wbPMG14DIS
+         GQbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=rL2mdk6qmLyu4l9CO1LjB/Fy6Q7Estk6EutMx9RWcNQ=;
-        b=OGqeBADBFAA+sIRyWXQYsBaVPOigrDD2tCWdAob8PGcHyoDgDvGbgmv6ZWRw1Lr23e
-         yq0eb5dryeQXm2GSGu2PF4MoaZXPxmVR038+VHcCEchdDNIsoUQ+dbyI9tCn8OVm2wyd
-         2c42G0gI/SXrxdQevqTLbI0jdZSFIVR7KS7HiMO6OMr/U78lKEEeyktsoeFszwtvjZmX
-         fRLOeJNAwM8QKfFAFhCYby9qRvYwhVnP3zHa/GFt5o3zJo5/M1+bRMfTjNMxfs5GgE/Y
-         SHf86pFJ+MqrDThXbvmsVGo6sDjyhwIDjv5CT//F5J4xECW2Jl2ypHjEtuVg7d3pasWV
-         gJbA==
-X-Gm-Message-State: AOAM531b0V/dBSwmgY2zmMMHqA4QwZBrUe0KVUNqDL6CXbfDRNmQksaB
-        qzGtxJYjwXLQLr+BOrZzxX1qSw==
-X-Google-Smtp-Source: ABdhPJwf02ng7fpjFAextXu71pHqM94bIT0ggGpD3yLNfVBOz2yVq6Lvqj/SEV4Q1l09yryl7SL5dw==
-X-Received: by 2002:a17:906:f896:: with SMTP id lg22mr4809036ejb.124.1616607261450;
-        Wed, 24 Mar 2021 10:34:21 -0700 (PDT)
+        bh=KfriQXFxUvhVGCpwETjq8GWLI1DKoZwsNAe/TYwrv1c=;
+        b=PGzRr+oVT9EIy02viQPqhVaAw4GfO5VHR0yAFyGBw7kz4ZYzsVPe4w9LF01sYpyBp9
+         fe9F6DNMQsQmo+SQaL+wpOdF7+HcNim1K4eXFgXqMODPbVvM+szUqPhKf662RwTY2esX
+         VN1wv+gz+c3ctTjvj4pDeNNYkaiJgpfaKnr67OeRGstqfPX3wVBLepzDpXB779iBHFT3
+         /p1+ALhF4wFEeFmAkBWIH7UT9J9MpKn3AUk2qN9b1yfgw3A94Mq1UVLgR4r2/+9go/xa
+         +fFreZDyVsWu4E3uwmDu7UhgaLlA88sIMI8lQY71w7uv5W/wWIqZjo9d2KhobOoN5ZCr
+         emCA==
+X-Gm-Message-State: AOAM533mLdZ2qwBPLXFBpEZTRWvOIKXQJHaAQxgPZ+3YFMojFwMUxpW8
+        y8CDdqfDyhNYhcwJM8lVoaYsqg==
+X-Google-Smtp-Source: ABdhPJzFIus/MG+W6lLos8k0at8stD86NQsJlQa6l9bHKFEG9wvE4jSPSwAB86c7XlEyc1bfasMciA==
+X-Received: by 2002:a17:906:b4c:: with SMTP id v12mr4966203ejg.330.1616607262431;
+        Wed, 24 Mar 2021 10:34:22 -0700 (PDT)
 Received: from dell.default ([91.110.221.180])
-        by smtp.gmail.com with ESMTPSA id p19sm1466367edr.57.2021.03.24.10.34.20
+        by smtp.gmail.com with ESMTPSA id p19sm1466367edr.57.2021.03.24.10.34.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 10:34:21 -0700 (PDT)
+        Wed, 24 Mar 2021 10:34:22 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
-Cc:     linux-kernel@vger.kernel.org,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Jiri Kosina <jikos@kernel.org>,
+Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Daniel Drubin <daniel.drubin@intel.com>,
         linux-input@vger.kernel.org
-Subject: [PATCH 13/25] HID: ishtp-hid-client: Fix incorrect function name report_bad_packet()
-Date:   Wed, 24 Mar 2021 17:33:52 +0000
-Message-Id: <20210324173404.66340-14-lee.jones@linaro.org>
+Subject: [PATCH 14/25] HID: hid-kye: Fix incorrect function name for kye_tablet_enable()
+Date:   Wed, 24 Mar 2021 17:33:53 +0000
+Message-Id: <20210324173404.66340-15-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210324173404.66340-1-lee.jones@linaro.org>
 References: <20210324173404.66340-1-lee.jones@linaro.org>
@@ -70,31 +67,29 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/hid/intel-ish-hid/ishtp-hid-client.c:36: warning: expecting prototype for report_bad_packets(). Prototype was for report_bad_packet() instead
+ drivers/hid/hid-kye.c:666: warning: expecting prototype for Enable fully(). Prototype was for kye_tablet_enable() instead
 
-Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 Cc: Jiri Kosina <jikos@kernel.org>
 Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: Daniel Drubin <daniel.drubin@intel.com>
 Cc: linux-input@vger.kernel.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/hid/intel-ish-hid/ishtp-hid-client.c | 2 +-
+ drivers/hid/hid-kye.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hid/intel-ish-hid/ishtp-hid-client.c b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-index 24599280105d8..042a7091802dd 100644
---- a/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-+++ b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
-@@ -23,7 +23,7 @@ static const guid_t hid_ishtp_guid =
- #define cl_data_to_dev(client_data) ishtp_device(client_data->cl_device)
+diff --git a/drivers/hid/hid-kye.c b/drivers/hid/hid-kye.c
+index c8b40c07eca69..f46616390a984 100644
+--- a/drivers/hid/hid-kye.c
++++ b/drivers/hid/hid-kye.c
+@@ -655,7 +655,7 @@ static __u8 *kye_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+ }
  
  /**
-- * report_bad_packets() - Report bad packets
-+ * report_bad_packet() - Report bad packets
-  * @hid_ishtp_cl:	Client instance to get stats
-  * @recv_buf:		Raw received host interface message
-  * @cur_pos:		Current position index in payload
+- * Enable fully-functional tablet mode by setting a special feature report.
++ * kye_tablet_enable() - Enable fully-functional tablet mode by setting a special feature report.
+  *
+  * @hdev:	HID device
+  *
 -- 
 2.27.0
 
