@@ -2,104 +2,147 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49EE7349951
-	for <lists+linux-input@lfdr.de>; Thu, 25 Mar 2021 19:16:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 43116349AB3
+	for <lists+linux-input@lfdr.de>; Thu, 25 Mar 2021 20:55:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229949AbhCYSQT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 25 Mar 2021 14:16:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44398 "EHLO
+        id S230237AbhCYTyx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 25 Mar 2021 15:54:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229930AbhCYSP6 (ORCPT
+        with ESMTP id S230215AbhCYTyS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 25 Mar 2021 14:15:58 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94581C06174A;
-        Thu, 25 Mar 2021 11:15:58 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id j25so2910935pfe.2;
-        Thu, 25 Mar 2021 11:15:58 -0700 (PDT)
+        Thu, 25 Mar 2021 15:54:18 -0400
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DD39C06174A;
+        Thu, 25 Mar 2021 12:54:17 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id l3so3145265pfc.7;
+        Thu, 25 Mar 2021 12:54:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=fFkDrhnvgiRe+loeaLRgeNukDq8LEqELpmrdaCkopMk=;
-        b=HznVWzNJ1uepmVFF9ibp2m0G4d+aUeOI9jzVNUXtjwhubrus/JeqYekm0Lw8o2BFas
-         IUMOJ1r173SjyJLkPug3QBVlY/z2L9zJ+z5NJKsyFfSYC7Nfhr7ldZO1AWt21OkKRmGn
-         M6RGbv7fV86asTQEhuROVut2nwiIR9XEs8Wt7A4QtWQjn25SrlVtbzvKFjeblhusWXBA
-         ucHR46nw/BgE0ZFr71nbNROo0jAWfgqC1K4TlEf86ZfPlChJ2+hVSnwgCbIIFa3zft6R
-         AZjBY1msCu3CY+depDV/ShzBmRMk+2q5yzY3rWoKBaxrjmH2x0oWWWvYiRDU8erpjLsK
-         dLPg==
+        bh=2ox+lIoJoyg3Q3+HzxwjBXbGMuN52vbWPLtA7Qub7kg=;
+        b=NFFwY8zQIwhkcU272Jm/tvrxR+e+zdpyEFg4BFxEIeC0Do8kt5hzS8pjCkG0kksnca
+         AQyFQCGKeMbBqTUbaDz1DUHSbSlp+n7gnBE4n0to9D2ow9IL1MQcwH3/Jf+GINov9i85
+         Xwbd+Rsh8KJHTUXXkrs93L4csDQUgnmlAylNYPrmzk5vVitnDmhXxzHX2dPEjykP7kRU
+         pr8wY/5/CWCEzS8UHs/jHX3BJbFs/QxBblckmUyXwXCY6qi5kS/J3FTrs8jHysobQJ7d
+         InuZk93Q76uhlfwAAzMb9L5cuqm6yGSZPAQf15W2LnCtfPWMbvANGjmM+rvm+bWmSjkv
+         KsNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=fFkDrhnvgiRe+loeaLRgeNukDq8LEqELpmrdaCkopMk=;
-        b=ce1Fe5P/FHD5zkmMOGyugvVBo/9pPysJRe4YHcrIUKcXz4P4sbSKahLwD2VJ4vEtQk
-         o/ixJiaciROrM3HB0axRyVkOiyBo01JRRZYGpbEym/IoELGijrxcbwN2d5b27uJnjDQX
-         h8uuADvbW6NNsYPWbhQZmZc50rrbVWYdHX4hLNCBzVpXG/LL4aqNbD2SKY/nzh5fgJuG
-         3v/ClXcHhwXB+IQdVV7z4IFxM5bD+GRv5Ng8+I/S/jg5gZwnyzJqiKObPRMq8LymzSyf
-         q7f+ax/w8BQSwni1PQ03y26tAD7SVQnhOD1/1YztjJom/4OtZWrnjogalGwODP1Vj6WF
-         vlXw==
-X-Gm-Message-State: AOAM530zdHcdIWYBrkCwwWKydbI2q8ZC/Szf1XNqtE2ijTL2dwUmm0eF
-        8fAj/2eF3ZTzFRQdY/LGr2c=
-X-Google-Smtp-Source: ABdhPJzj9ne5PO3D+01uzhXw6K+GiAchPv6g8QNXVVUSEghBRxDYpUWhXoVje64VW97iM8PFp5/xUw==
-X-Received: by 2002:aa7:881a:0:b029:1f1:6148:15c3 with SMTP id c26-20020aa7881a0000b02901f1614815c3mr9273155pfo.30.1616696158022;
-        Thu, 25 Mar 2021 11:15:58 -0700 (PDT)
+        bh=2ox+lIoJoyg3Q3+HzxwjBXbGMuN52vbWPLtA7Qub7kg=;
+        b=n2etdgYrscEaGbYWJ1VpRoRD9Jl5He3MBd0gMed6GUa0oDwjqUMwL4ZZEAS3O0gDMF
+         o8NDJvedqNuevXAlbK0EJfwzAAYFb+pFufQD/a8MXfX6oLASXbt3t9QUgrq/zozF+5U8
+         JZZhFDNkeN3FnjA/+aMJoE82mP6bSw4M1luoZjUkf0sqH8pYNOpm92+kSqzFioNHVdMa
+         YDvLQolrYKUc6roLNUyNvk9dCO/2L7zOYdAeAb+DleNBBtIZBFrvNzsviElJelwjKqpO
+         vLb8tu62EIVI9cof5egwxuiUEjQJwkbAjDFXjhYC7smV8MGdR8Za1Bv0dnzpySyaKeuR
+         dA/w==
+X-Gm-Message-State: AOAM530KPqZOz/S3xz57BZ2TS4mxamBgGZSLF9bkL0goj07Ae6mtGL1/
+        SxGzjeTdyNguiiNtn1vaLohGU7awhv8=
+X-Google-Smtp-Source: ABdhPJxlh1ihYtFSa2hkxdYyopMatC6jbdD80SMQE858q/3DidikvgrkbhDcaZEG7YAKz8XeBYnEng==
+X-Received: by 2002:a17:902:8ec9:b029:e6:c5e:cf18 with SMTP id x9-20020a1709028ec9b02900e60c5ecf18mr11465115plo.47.1616702057095;
+        Thu, 25 Mar 2021 12:54:17 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:3991:e59d:d2d4:59dd])
-        by smtp.gmail.com with ESMTPSA id a21sm6618880pfk.83.2021.03.25.11.15.56
+        by smtp.gmail.com with ESMTPSA id p1sm6576942pfn.22.2021.03.25.12.54.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Mar 2021 11:15:56 -0700 (PDT)
-Date:   Thu, 25 Mar 2021 11:15:54 -0700
+        Thu, 25 Mar 2021 12:54:15 -0700 (PDT)
+Date:   Thu, 25 Mar 2021 12:54:12 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Dmitry Osipenko <digetx@gmail.com>, Nick Dyer <nick@shmanahar.org>,
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     Cristian Ciocaltea <cristian.ciocaltea@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
         Linus Walleij <linus.walleij@linaro.org>,
-        Jiada Wang <jiada_wang@mentor.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 3/3] ARM: tegra: acer-a500: Add atmel,wakeup-method
- property
-Message-ID: <YFzTWuUZbdXvnpHC@google.com>
-References: <20210302102158.10533-1-digetx@gmail.com>
- <20210302102158.10533-4-digetx@gmail.com>
- <YFfLXLDIuRdj2bWs@google.com>
- <YFyZ0ejrSxWc3JZT@orome.fritz.box>
+        linux-actions@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: Re: [GIT PULL] Immutable branch between MFD and Input due for the
+ v5.13 merge window
+Message-ID: <YFzqZJeYd4nkF89C@google.com>
+References: <cover.1611653995.git.cristian.ciocaltea@gmail.com>
+ <20210309135302.GP4931@dell>
+ <20210309200417.GZ4931@dell>
+ <20210310111250.GM701493@dell>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YFyZ0ejrSxWc3JZT@orome.fritz.box>
+In-Reply-To: <20210310111250.GM701493@dell>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Mar 25, 2021 at 03:10:25PM +0100, Thierry Reding wrote:
-> On Sun, Mar 21, 2021 at 03:40:28PM -0700, Dmitry Torokhov wrote:
-> > On Tue, Mar 02, 2021 at 01:21:58PM +0300, Dmitry Osipenko wrote:
-> > > Acer A500 uses Atmel Maxtouch 1386 touchscreen controller. This controller
-> > > has WAKE line which could be connected to I2C clock lane, dedicated GPIO
-> > > or fixed to HIGH level. Controller wakes up from a deep sleep when WAKE
-> > > line is asserted low. Acer A500 has WAKE line connected to I2C clock and
-> > > Linux device driver doesn't work property without knowing what wakeup
-> > > method is used by h/w.
-> > > 
-> > > Add atmel,wakeup-method property to the touchscreen node.
-> > > 
-> > > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> > 
-> > Applied, thank you.
-> 
-> I noticed that you had applied this as I was applying a different patch
-> that touches the same area and it causes a conflict. In general I prefer
-> to pick up all device tree changes into the Tegra tree, specifically to
-> avoid such conflicts.
-> 
-> That said, I didn't see an email from Stephen about this causing a
-> conflict in linux-next, so perhaps it's fine. If this pops up again it
-> might be worth considering to drop this from your tree so that I can
-> resolve the conflict in the Tegra tree.
+Hi Lee,
 
-Sorry about that, I went ahead and dropped the patch from my branch.
+On Wed, Mar 10, 2021 at 11:12:50AM +0000, Lee Jones wrote:
+> On Tue, 09 Mar 2021, Lee Jones wrote:
+> 
+> > On Tue, 09 Mar 2021, Lee Jones wrote:
+> > 
+> > > Enjoy!
+> > > 
+> > > The following changes since commit fe07bfda2fb9cdef8a4d4008a409bb02f35f1bd8:
+> > > 
+> > >   Linux 5.12-rc1 (2021-02-28 16:05:19 -0800)
+> > > 
+> > > are available in the Git repository at:
+> > > 
+> > >   git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git ib-mfd-input-v5.13
+> > > 
+> > > for you to fetch changes up to b58c808ca46c163c1924ec5d3285e67e9217ec74:
+> > > 
+> > >   MAINTAINERS: Add entry for ATC260x PMIC (2021-03-09 13:50:39 +0000)
+> > > 
+> > > ----------------------------------------------------------------
+> > > Immutable branch between MFD and Input due for the v5.13 merge window
+> > > 
+> > > ----------------------------------------------------------------
+> > > Cristian Ciocaltea (4):
+> > >       dt-bindings: input: Add reset-time-sec common property
+> > >       dt-bindings: mfd: Add Actions Semi ATC260x PMIC binding
+> > >       mfd: Add MFD driver for ATC260x PMICs
+> > >       input: atc260x: Add onkey driver for ATC260x PMICs
+> > > 
+> > > Manivannan Sadhasivam (1):
+> > >       MAINTAINERS: Add entry for ATC260x PMIC
+> > > 
+> > >  Documentation/devicetree/bindings/input/input.yaml |   7 +
+> > >  .../devicetree/bindings/mfd/actions,atc260x.yaml   | 183 ++++++++++++
+> > >  MAINTAINERS                                        |  12 +
+> > >  drivers/input/misc/Kconfig                         |  11 +
+> > >  drivers/input/misc/Makefile                        |   2 +-
+> > >  drivers/input/misc/atc260x-onkey.c                 | 305 ++++++++++++++++++++
+> > >  drivers/mfd/Kconfig                                |  18 ++
+> > >  drivers/mfd/Makefile                               |   3 +
+> > >  drivers/mfd/atc260x-core.c                         | 310 +++++++++++++++++++++
+> > >  drivers/mfd/atc260x-i2c.c                          |  64 +++++
+> > >  include/linux/mfd/atc260x/atc2603c.h               | 281 +++++++++++++++++++
+> > >  include/linux/mfd/atc260x/atc2609a.h               | 308 ++++++++++++++++++++
+> > >  include/linux/mfd/atc260x/core.h                   |  58 ++++
+> > >  13 files changed, 1561 insertions(+), 1 deletion(-)
+> > >  create mode 100644 Documentation/devicetree/bindings/mfd/actions,atc260x.yaml
+> > >  create mode 100644 drivers/input/misc/atc260x-onkey.c
+> > >  create mode 100644 drivers/mfd/atc260x-core.c
+> > >  create mode 100644 drivers/mfd/atc260x-i2c.c
+> > >  create mode 100644 include/linux/mfd/atc260x/atc2603c.h
+> > >  create mode 100644 include/linux/mfd/atc260x/atc2609a.h
+> > >  create mode 100644 include/linux/mfd/atc260x/core.h
+> > 
+> > FYI, if anyone has pulled this, they should probably rebase it onto
+> > v5.12-rc2 and delete the v5.12-rc1 tag from their tree:
+> > 
+> >  https://lwn.net/Articles/848431/
+> 
+> In case you haven't pulled this yet, I created a new tag:
+> 
+>   ib-mfd-input-v5.13-1
+
+Did you push this one out? I can't seem to see it.
 
 Thanks.
 
