@@ -2,179 +2,255 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C295E34839D
-	for <lists+linux-input@lfdr.de>; Wed, 24 Mar 2021 22:28:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 450DD3488CB
+	for <lists+linux-input@lfdr.de>; Thu, 25 Mar 2021 07:13:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238263AbhCXV2O (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 24 Mar 2021 17:28:14 -0400
-Received: from mga06.intel.com ([134.134.136.31]:35577 "EHLO mga06.intel.com"
+        id S229659AbhCYGMe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 25 Mar 2021 02:12:34 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:61623 "EHLO m43-7.mailgun.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233849AbhCXV2E (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 24 Mar 2021 17:28:04 -0400
-IronPort-SDR: AIynuTeax0lSDR4QNNDrAwjv5zKQly0i/YD/y0BUrNCul06y1zxVSONEJ2DYy4nAgY8oUOJjJV
- biZiQbh9rRyw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="252146191"
-X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; 
-   d="scan'208";a="252146191"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 14:28:01 -0700
-IronPort-SDR: WfPWxzgv6hRguRTx0Lc0se0H/IbC6vbec18pdDFxd4+6q0LrD3loM5RVaRgzQbGak0sV9tw53y
- 2EfXrYrBhmaA==
-X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; 
-   d="scan'208";a="442424773"
-Received: from aksagira-mobl2.amr.corp.intel.com ([10.209.125.174])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 14:27:54 -0700
-Message-ID: <c0121400eea96626cdd212ad95f296a024356289.camel@linux.intel.com>
-Subject: Re: [PATCH 00/25] Rid W=1 warnings from HID
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Anssi Hannula <anssi.hannula@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Bruno =?ISO-8859-1?Q?Pr=E9mont?= <bonbons@linux-vserver.org>,
-        Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Daniel Drubin <daniel.drubin@intel.com>,
-        Dario Pagani <dario.pagani.146+linuxk@gmail.com>,
-        dri-devel@lists.freedesktop.org,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Kim Kuparinen <kimi.h.kuparinen@gmail.com>,
-        Krzysztof =?UTF-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        linaro-mm-sig@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-usb@vger.kernel.org, Lopez Casado <nlopezcasad@logitech.com>,
-        "L. Vinyard, Jr" <rvinyard@cs.nmsu.edu>,
-        Masaki Ota <masaki.ota@jp.alps.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        message to <vojtech@ucw.cz>,
-        Michael Haboustak <mike-@cinci.rr.com>,
-        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
-        Vojtech Pavlik <vojtech@suse.cz>,
-        Zhang Lixu <lixu.zhang@intel.com>
-Date:   Wed, 24 Mar 2021 14:27:54 -0700
-In-Reply-To: <20210324173404.66340-1-lee.jones@linaro.org>
-References: <20210324173404.66340-1-lee.jones@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+        id S229624AbhCYGMV (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 25 Mar 2021 02:12:21 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1616652741; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=orQ8HjFkFqj/28v7uatxw4nTWkgct2pHiy/e+Kklocg=;
+ b=qgNYMshQjOQRA9mFVBHlcgmJ3SPn5hjDd27JUsuxoUyK5MKxMoIxYhGR7Ixx/GpbyqxNHJKT
+ qxPD6j1RheudqW9RSP8HKDwUHMvbkZqMoUeKOLXJKkd+g0zCCgjS4dXZTWkcsSUEE5yzNd9O
+ 5yzdBNWIUjh7Bf+eT4N2Z9dsHYE=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyIxZDE2NCIsICJsaW51eC1pbnB1dEB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
+ 605c29c4c32ceb3a9181ebc8 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 25 Mar 2021 06:12:20
+ GMT
+Sender: skakit=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 7A3DBC43461; Thu, 25 Mar 2021 06:12:20 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: skakit)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 68568C433C6;
+        Thu, 25 Mar 2021 06:12:19 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Thu, 25 Mar 2021 11:42:19 +0530
+From:   skakit@codeaurora.org
+To:     Rob Herring <robh@kernel.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        David Collins <collinsd@codeaurora.org>, kgunda@codeaurora.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 2/3] dt-bindings: input: pm8941-pwrkey: Convert power key
+ bindings to yaml
+In-Reply-To: <20210305144027.GA115719@robh.at.kernel.org>
+References: <1614922721-1390-1-git-send-email-skakit@codeaurora.org>
+ <1614922721-1390-3-git-send-email-skakit@codeaurora.org>
+ <20210305144027.GA115719@robh.at.kernel.org>
+Message-ID: <22580c3c4489506640d2091b94c3b520@codeaurora.org>
+X-Sender: skakit@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 2021-03-24 at 17:33 +0000, Lee Jones wrote:
-> This set is part of a larger effort attempting to clean-up W=1
-> kernel builds, which are currently overwhelmingly riddled with
-> niggly little warnings.
+Hi Rob,
+
+On 2021-03-05 20:10, Rob Herring wrote:
+> On Fri, Mar 05, 2021 at 11:08:40AM +0530, satya priya wrote:
+>> Convert power key bindings from .txt to .yaml format.
+>> 
+>> Signed-off-by: satya priya <skakit@codeaurora.org>
+>> ---
+>>  .../bindings/input/qcom,pm8941-pwrkey.txt          | 53 
+>> ---------------
+>>  .../bindings/input/qcom,pm8941-pwrkey.yaml         | 76 
+>> ++++++++++++++++++++++
+>>  2 files changed, 76 insertions(+), 53 deletions(-)
+>>  delete mode 100644 
+>> Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.txt
+>>  create mode 100644 
+>> Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.yaml
+> 
+> You need to convert the main pm8941 binding first if not done already
+> and then reference this binding from it.
 > 
 
-For changes in  drivers/hid/intel-ish-hid folder
+Okay.
 
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-
-> Lee Jones (25):
->   HID: intel-ish-hid: Remove unused variable 'err'
->   HID: ishtp-hid-client: Move variable to where it's actually used
->   HID: intel-ish-hid: pci-ish: Remove unused variable 'ret'
->   HID: intel-ish: Supply some missing param descriptions
->   HID: intel-ish: Fix a naming disparity and a formatting error
->   HID: usbhid: Repair a formatting issue in a struct description
->   HID: intel-ish-hid: Fix a little doc-rot
->   HID: usbhid: hid-pidff: Demote a couple kernel-doc abuses
->   HID: hid-alps: Correct struct misnaming
->   HID: intel-ish-hid: Fix potential copy/paste error
->   HID: hid-core: Fix incorrect function name in header
->   HID: intel-ish-hid: ipc: Correct fw_reset_work_fn() function name
-> in
->     header
->   HID: ishtp-hid-client: Fix incorrect function name
-> report_bad_packet()
->   HID: hid-kye: Fix incorrect function name for kye_tablet_enable()
->   HID: hid-picolcd_core: Remove unused variable 'ret'
->   HID: hid-logitech-hidpp: Fix conformant kernel-doc header and
-> demote
->     abuses
->   HID: hid-uclogic-rdesc: Kernel-doc is for functions and structs
->   HID: hid-thrustmaster: Demote a bunch of kernel-doc abuses
->   HID: hid-uclogic-params: Ensure function names are present and
-> correct
->     in kernel-doc headers
->   HID: hid-sensor-custom: Remove unused variable 'ret'
->   HID: wacom_sys: Demote kernel-doc abuse
->   HID: hid-sensor-hub: Remove unused struct member 'quirks'
->   HID: hid-sensor-hub: Move 'hsdev' description to correct struct
->     definition
->   HID: intel-ish-hid: ishtp-fw-loader: Fix a bunch of formatting
-> issues
->   HID: ishtp-hid-client: Fix 'suggest-attribute=format' compiler
-> warning
+> And let's have 1 complete example instead of fragments.
 > 
->  drivers/hid/hid-alps.c                       |  2 +-
->  drivers/hid/hid-core.c                       |  2 +-
->  drivers/hid/hid-kye.c                        |  2 +-
->  drivers/hid/hid-logitech-hidpp.c             |  7 +--
->  drivers/hid/hid-picolcd_core.c               |  5 +--
->  drivers/hid/hid-sensor-custom.c              |  5 +--
->  drivers/hid/hid-sensor-hub.c                 |  4 +-
->  drivers/hid/hid-thrustmaster.c               | 24 +++++------
->  drivers/hid/hid-uclogic-params.c             |  8 ++--
->  drivers/hid/hid-uclogic-rdesc.c              |  2 +-
->  drivers/hid/intel-ish-hid/ipc/ipc.c          |  2 +-
->  drivers/hid/intel-ish-hid/ipc/pci-ish.c      |  3 +-
->  drivers/hid/intel-ish-hid/ishtp-fw-loader.c  | 45 ++++++++++------
-> ----
->  drivers/hid/intel-ish-hid/ishtp-hid-client.c | 11 +++--
->  drivers/hid/intel-ish-hid/ishtp-hid.c        |  2 +-
->  drivers/hid/intel-ish-hid/ishtp-hid.h        |  9 +---
->  drivers/hid/intel-ish-hid/ishtp/bus.c        |  9 +++-
->  drivers/hid/intel-ish-hid/ishtp/client.c     |  5 +--
->  drivers/hid/intel-ish-hid/ishtp/hbm.c        |  4 +-
->  drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h  |  4 +-
->  drivers/hid/usbhid/hid-pidff.c               |  4 +-
->  drivers/hid/usbhid/usbkbd.c                  |  2 +-
->  drivers/hid/wacom_sys.c                      |  2 +-
->  include/linux/intel-ish-client-if.h          |  8 +++-
->  24 files changed, 90 insertions(+), 81 deletions(-)
-> 
-> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> Cc: Anssi Hannula <anssi.hannula@gmail.com>
-> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> Cc: "Bruno Prémont" <bonbons@linux-vserver.org>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: Daniel Drubin <daniel.drubin@intel.com>
-> Cc: Dario Pagani <dario.pagani.146+linuxk@gmail.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: Henrik Rydberg <rydberg@bitmath.org>
-> Cc: Jiri Kosina <jikos@kernel.org>
-> Cc: Jonathan Cameron <jic23@kernel.org>
-> Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> Cc: Kim Kuparinen <kimi.h.kuparinen@gmail.com>
-> Cc: "Krzysztof Wilczyński" <kw@linux.com>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Cc: linaro-mm-sig@lists.linaro.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-iio@vger.kernel.org
-> Cc: linux-input@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-stm32@st-md-mailman.stormreply.com
-> Cc: linux-usb@vger.kernel.org
-> Cc: Lopez Casado <nlopezcasad@logitech.com>
-> Cc: "L. Vinyard, Jr" <rvinyard@cs.nmsu.edu>
-> Cc: Masaki Ota <masaki.ota@jp.alps.com>
-> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> Cc: message to <vojtech@ucw.cz>
-> Cc: Michael Haboustak <mike-@cinci.rr.com>
-> Cc: Rushikesh S Kadam <rushikesh.s.kadam@intel.com>
-> Cc: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: "Uwe Kleine-König" <uwe@kleine-koenig.org>
-> Cc: Vojtech Pavlik <vojtech@suse.cz>
-> Cc: Zhang Lixu <lixu.zhang@intel.com>
 
+Sure.
+
+>> 
+>> diff --git 
+>> a/Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.txt 
+>> b/Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.txt
+>> deleted file mode 100644
+>> index 34ab576..0000000
+>> --- a/Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.txt
+>> +++ /dev/null
+>> @@ -1,53 +0,0 @@
+>> -Qualcomm PM8941 PMIC Power Key
+>> -
+>> -PROPERTIES
+>> -
+>> -- compatible:
+>> -	Usage: required
+>> -	Value type: <string>
+>> -	Definition: must be one of:
+>> -		    "qcom,pm8941-pwrkey"
+>> -		    "qcom,pm8941-resin"
+>> -
+>> -- reg:
+>> -	Usage: required
+>> -	Value type: <prop-encoded-array>
+>> -	Definition: base address of registers for block
+>> -
+>> -- interrupts:
+>> -	Usage: required
+>> -	Value type: <prop-encoded-array>
+>> -	Definition: key change interrupt; The format of the specifier is
+>> -		    defined by the binding document describing the node's
+>> -		    interrupt parent.
+>> -
+>> -- debounce:
+>> -	Usage: optional
+>> -	Value type: <u32>
+>> -	Definition: time in microseconds that key must be pressed or 
+>> released
+>> -		    for state change interrupt to trigger.
+>> -
+>> -- bias-pull-up:
+>> -	Usage: optional
+>> -	Value type: <empty>
+>> -	Definition: presence of this property indicates that the KPDPWR_N 
+>> pin
+>> -		    should be configured for pull up.
+>> -
+>> -- linux,code:
+>> -	Usage: optional
+>> -	Value type: <u32>
+>> -	Definition: The input key-code associated with the power key.
+>> -		    Use the linux event codes defined in
+>> -		    include/dt-bindings/input/linux-event-codes.h
+>> -		    When property is omitted KEY_POWER is assumed.
+>> -
+>> -EXAMPLE
+>> -
+>> -	pwrkey@800 {
+>> -		compatible = "qcom,pm8941-pwrkey";
+>> -		reg = <0x800>;
+>> -		interrupts = <0x0 0x8 0 IRQ_TYPE_EDGE_BOTH>;
+>> -		debounce = <15625>;
+>> -		bias-pull-up;
+>> -		linux,code = <KEY_POWER>;
+>> -	};
+>> diff --git 
+>> a/Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.yaml 
+>> b/Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.yaml
+>> new file mode 100644
+>> index 0000000..302866d
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.yaml
+>> @@ -0,0 +1,76 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/input/qcom,pm8941-pwrkey.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Qualcomm PM8941 PMIC Power Key
+>> +
+>> +maintainers:
+>> + - Courtney Cavin <courtney.cavin@sonymobile.com>
+>> + - Vinod Koul <vkoul@kernel.org>
+>> +
+>> +properties:
+>> +  compatible:
+>> +    enum:
+>> +      - qcom,pm8941-pwrkey
+>> +      - qcom,pm8941-resin
+>> +
+>> +  interrupts:
+>> +    description: |
+>> +          Key change interrupt; The format of the specifier is
+>> +          defined by the binding document describing the node's
+>> +          interrupt parent.
+>> +
+>> +  debounce:
+>> +    description: |
+>> +          Time in microseconds that key must be pressed or
+>> +          released for state change interrupt to trigger.
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +
+>> +  bias-pull-up:
+>> +    description: |
+>> +           Presence of this property indicates that the KPDPWR_N
+>> +           pin should be configured for pull up.
+>> +    $ref: /schemas/types.yaml#/definitions/flag
+>> +
+>> +  linux,code:
+>> +    description: |
+>> +           The input key-code associated with the power key.
+>> +           Use the linux event codes defined in
+>> +           include/dt-bindings/input/linux-event-codes.h
+>> +           When property is omitted KEY_POWER is assumed.
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+> 
+> Already has a type definition. Need to reference input.yaml.
+> 
+
+Okay.
+
+>> +
+>> +required:
+>> + - compatible
+>> + - interrupts
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> + - |
+>> +   #include <dt-bindings/interrupt-controller/irq.h>
+>> +   #include <dt-bindings/input/linux-event-codes.h>
+>> +   #include <dt-bindings/spmi/spmi.h>
+>> +   spmi_bus: spmi@c440000 {
+>> +     reg = <0x0c440000 0x1100>;
+>> +     #address-cells = <2>;
+>> +     #size-cells = <0>;
+>> +     pmk8350: pmic@0 {
+>> +       reg = <0x0 SPMI_USID>;
+>> +       #address-cells = <1>;
+>> +       #size-cells = <0>;
+>> +       pmk8350_pon: pon_hlos@1300 {
+>> +         reg = <0x1300>;
+>> +         pwrkey {
+>> +            compatible = "qcom,pm8941-pwrkey";
+>> +            interrupts = < 0x0 0x8 0 IRQ_TYPE_EDGE_BOTH >;
+>> +            debounce = <15625>;
+>> +            bias-pull-up;
+>> +            linux,code = <KEY_POWER>;
+>> +         };
+>> +       };
+>> +     };
+>> +   };
+>> +...
+>> --
+>> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+>> member
+>> of Code Aurora Forum, hosted by The Linux Foundation
+>> 
