@@ -2,119 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43A6034A80C
-	for <lists+linux-input@lfdr.de>; Fri, 26 Mar 2021 14:25:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BF6334A98E
+	for <lists+linux-input@lfdr.de>; Fri, 26 Mar 2021 15:21:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229779AbhCZNY3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 26 Mar 2021 09:24:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37458 "EHLO
+        id S230261AbhCZOUy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 26 Mar 2021 10:20:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229744AbhCZNY1 (ORCPT
+        with ESMTP id S230229AbhCZOUs (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 26 Mar 2021 09:24:27 -0400
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFD61C0613AA;
-        Fri, 26 Mar 2021 06:24:26 -0700 (PDT)
-Received: by mail-lj1-x231.google.com with SMTP id 15so7427103ljj.0;
-        Fri, 26 Mar 2021 06:24:26 -0700 (PDT)
+        Fri, 26 Mar 2021 10:20:48 -0400
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DC36C0613B1
+        for <linux-input@vger.kernel.org>; Fri, 26 Mar 2021 07:20:47 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id w203-20020a1c49d40000b029010c706d0642so6018664wma.0
+        for <linux-input@vger.kernel.org>; Fri, 26 Mar 2021 07:20:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=GV+IkmaeyVjfFxZtZKsjFDIv0K2oiUvswXjmilRzmbk=;
-        b=oQbfOtw8lKNVyi0lhUdLntzpuMpE25nTvsHsmI0TCy9oeQlmJ1pEtzqiskM0X5i8/f
-         q2HLzlaQpbsE0Bbn9QejWDuA46m9stYDR2QvNQo148WCziTXJys9+hDtKEAVXEAgge1v
-         jWP3SNK/h1TLjC/l5UDwLc70W1ZmyawbsARg8Nql8ezynQ1cl22/Il6fdvhbCcqLUAN0
-         8YJPO3D3gf+VLQ88nScB5+ayIerEtH8jQJcyEV9n3fzXmMcYskUAsjT/GZCrN/5QzvWP
-         jO8cse//nYZ61w6HOtZlb0PZ6lRU8muN3DYnD1fg0LMXh7QxoF0oOQsTM6tmX5ScqHG1
-         RnCw==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=6xcgNGeiKXVzTZo3oILiZykt3w8GnNqVy7yzUHjFBQQ=;
+        b=XeWeBn8WX5c+uJ8CnM+CQZtmzh/4bB4qoMOD512ejsGsAJhBMpIRE45WmKhdf2TLqx
+         MiQ6KDk6/7dK5bC7/+YYWLHrtI06Ylrvmd6twooQS+XegMtZPl4Yf+uUHzXSdofzs0cp
+         bvHUTHcKSdaDDHV+Y53fP3oLBS8LcoFCOQn4l1FbEJucpwut9t3dciREPiwQSF0ZQKKQ
+         Ee1jr+vVwrB3+iekJsvmKwpu8RuaJaotHb+gkCtGTJOoxCEV/+4RHUazLmcluVA1pSht
+         YojJg8tbVnIbRSxGQoaeSJBznKPSXq3Clwm4mlT+W4SXXom4TtpEkaUJ2pRM4TzCKw5Z
+         FVdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=GV+IkmaeyVjfFxZtZKsjFDIv0K2oiUvswXjmilRzmbk=;
-        b=icM5l0UBA0SkPaOVucP7GpMuEAC+SJFbLX/x5uVbPRrewu9EPueBGNJhTyjT5rO6H/
-         /RpIwh/JiUoyJOSu/iyqKMoUHljbSBa95t7neMkzvZt4YzH0Uoa2cQMMM2tmBBprTxhX
-         Ms8ZL89DpJbLnK2x5+rXGLMTL+3Pyry8L+ijT7KaqzWqbUXUKFt2CNUKk0Brx4RrdinJ
-         qLuYi9LTcEC2kSjiDLRg7PvbI1xk0Aru/Y0Qbu+BRaRDN+fvo28b9Y8mrCfhoYFp0Ixo
-         hIzcsWFjLzbmvN5EO6QO1Lw+VJ3ceW1zt0LWziwW41YsqOImtf4LiO5gvDyGmzWl6D2z
-         QEZQ==
-X-Gm-Message-State: AOAM530K6O9aSyTGt2oX4LBy/VQLJvqx7k5u9GTW3bUJFb1wzmyLOHJR
-        i83hxunmbgGhtp7Mh77Q0YTNlSf0Z3U3/A==
-X-Google-Smtp-Source: ABdhPJzxQVMAUueHkOyqzjT6R478LgStf4wPn+yRyhhoFXiSxmrd3aDjyZU7AA0Mu/PoIWRyBet+2A==
-X-Received: by 2002:a2e:b4b4:: with SMTP id q20mr8918602ljm.45.1616765064911;
-        Fri, 26 Mar 2021 06:24:24 -0700 (PDT)
-Received: from ?IPv6:2a00:1370:814d:99a9:a10:76ff:fe69:21b6? ([2a00:1370:814d:99a9:a10:76ff:fe69:21b6])
-        by smtp.googlemail.com with ESMTPSA id n25sm868961lfe.86.2021.03.26.06.24.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Mar 2021 06:24:24 -0700 (PDT)
-Subject: Re: [PATCH v1] Input: elants_i2c - fix division by zero if firmware
- reports zero phys size
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        Johnny Chuang <johnny.chuang.emc@gmail.com>,
-        Jasper Korten <jja2000@gmail.com>,
-        Svyatoslav Ryhel <clamor95@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210302100824.3423-1-digetx@gmail.com>
-Message-ID: <bfd65c47-a571-9273-b1c2-82d9857aec95@gmail.com>
-Date:   Fri, 26 Mar 2021 16:24:23 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=6xcgNGeiKXVzTZo3oILiZykt3w8GnNqVy7yzUHjFBQQ=;
+        b=qEiBIqxxEa0msLfqlxZ+pJQz8ihngNtlCYdOKU1u8XqWWkNw3FWEDmOaF/islSxoNz
+         WyuPvWwJ/KjpWJMy5beGUIy4jmICo/Kn3Itlu6nwbk6SBHaSdqxFoVNHAJJyFpS4hlYq
+         19WUiM8Ajezt/gRdbBkHnFCpEJ00qHE0nwNPFJMxV6g7891ruAkjzE81tAFoEOcmDCgd
+         bR7fRYswBOpw8n1TkDDAGnvW5dbOWBjGuo+GeIKeCY1UMEc8Xp1G+aVitfI32cV6zKWx
+         iVaj6lQFUf4rqQMQQQa3PzPikE+510ActvqrZLsY+fAu4xjSXTj8SU7gyOZHg1t6Aalf
+         HgAA==
+X-Gm-Message-State: AOAM532AymJzNI/QwQa2BQ/UyRjKhTcP2g7fRUGtTv4LXt6mltb9cQU5
+        +h3tlli5VZhjJ65XYeHvCeII7g==
+X-Google-Smtp-Source: ABdhPJzCoDvRJ0yro1yeYdy8gIdvQTImgu841Bp+OkX3kL6D2LJpK0xk7inIx+W3Fy7Q3UcDJTIu1w==
+X-Received: by 2002:a05:600c:378c:: with SMTP id o12mr13377556wmr.69.1616768446113;
+        Fri, 26 Mar 2021 07:20:46 -0700 (PDT)
+Received: from dell ([91.110.221.194])
+        by smtp.gmail.com with ESMTPSA id e8sm11125675wme.14.2021.03.26.07.20.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Mar 2021 07:20:45 -0700 (PDT)
+Date:   Fri, 26 Mar 2021 14:20:41 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Jonathan Cameron <jic23@kernel.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Anssi Hannula <anssi.hannula@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Bruno =?iso-8859-1?Q?Pr=E9mont?= <bonbons@linux-vserver.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Daniel Drubin <daniel.drubin@intel.com>,
+        Dario Pagani <dario.pagani.146+linuxk@gmail.com>,
+        dri-devel@lists.freedesktop.org,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Kim Kuparinen <kimi.h.kuparinen@gmail.com>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        linaro-mm-sig@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-usb@vger.kernel.org, Lopez Casado <nlopezcasad@logitech.com>,
+        "L. Vinyard, Jr" <rvinyard@cs.nmsu.edu>,
+        Masaki Ota <masaki.ota@jp.alps.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        message to <vojtech@ucw.cz>,
+        Michael Haboustak <mike-@cinci.rr.com>,
+        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <uwe@kleine-koenig.org>,
+        Vojtech Pavlik <vojtech@suse.cz>,
+        Zhang Lixu <lixu.zhang@intel.com>
+Subject: Re: [PATCH 00/25] Rid W=1 warnings from HID
+Message-ID: <20210326142041.GZ2916463@dell>
+References: <20210324173404.66340-1-lee.jones@linaro.org>
+ <20210326114202.3862b8c5@jic23-huawei>
 MIME-Version: 1.0
-In-Reply-To: <20210302100824.3423-1-digetx@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210326114202.3862b8c5@jic23-huawei>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-02.03.2021 13:08, Dmitry Osipenko пишет:
-> Touchscreen firmware of ASUS Transformer TF700T reports zeros for the phys
-> size. Hence check whether the size is zero and don't set the resolution in
-> this case.
-> 
-> Reported-by: Jasper Korten <jja2000@gmail.com>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
-> 
-> Please note that ASUS TF700T isn't yet supported by upstream kernel,
-> hence this is not a critical fix.
-> 
->  drivers/input/touchscreen/elants_i2c.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
-> index 4c2b579f6c8b..a2e1cc4192b0 100644
-> --- a/drivers/input/touchscreen/elants_i2c.c
-> +++ b/drivers/input/touchscreen/elants_i2c.c
-> @@ -1441,14 +1441,16 @@ static int elants_i2c_probe(struct i2c_client *client,
->  
->  	touchscreen_parse_properties(ts->input, true, &ts->prop);
->  
-> -	if (ts->chip_id == EKTF3624) {
-> +	if (ts->chip_id == EKTF3624 && ts->phy_x && ts->phy_y) {
->  		/* calculate resolution from size */
->  		ts->x_res = DIV_ROUND_CLOSEST(ts->prop.max_x, ts->phy_x);
->  		ts->y_res = DIV_ROUND_CLOSEST(ts->prop.max_y, ts->phy_y);
->  	}
->  
-> -	input_abs_set_res(ts->input, ABS_MT_POSITION_X, ts->x_res);
-> -	input_abs_set_res(ts->input, ABS_MT_POSITION_Y, ts->y_res);
-> +	if (ts->x_res > 0)
-> +		input_abs_set_res(ts->input, ABS_MT_POSITION_X, ts->x_res);
-> +	if (ts->y_res > 0)
-> +		input_abs_set_res(ts->input, ABS_MT_POSITION_Y, ts->y_res);
->  	if (ts->major_res > 0)
->  		input_abs_set_res(ts->input, ABS_MT_TOUCH_MAJOR, ts->major_res);
->  
-> 
+On Fri, 26 Mar 2021, Jonathan Cameron wrote:
 
-Hi,
+> On Wed, 24 Mar 2021 17:33:39 +0000
+> Lee Jones <lee.jones@linaro.org> wrote:
+> 
+> > This set is part of a larger effort attempting to clean-up W=1
+> > kernel builds, which are currently overwhelmingly riddled with
+> > niggly little warnings.
+> 
+> Lee, it's a bit novel to cc linux-iio on the cover letter but
+> none of the actual patches..  Or least none of them reached
+> me or lore.kernel.org
 
-This is a very minor fix, but still will be nice if we could get it into
-5.13 in order to have one less patch to care about. Thanks in advance!
+Looks like only 18 of the 25 actually made it onto the list.
+
+How odd!
+
+Hold on, I'll submit a [RESEND].
+
+> I'm sure they are great :)
+
+Naturally!
+
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
