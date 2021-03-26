@@ -2,61 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88A3F34A9F3
-	for <lists+linux-input@lfdr.de>; Fri, 26 Mar 2021 15:37:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74E1F34A9F0
+	for <lists+linux-input@lfdr.de>; Fri, 26 Mar 2021 15:37:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230197AbhCZOfu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 26 Mar 2021 10:35:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52672 "EHLO
+        id S229984AbhCZOft (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 26 Mar 2021 10:35:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230046AbhCZOfO (ORCPT
+        with ESMTP id S230236AbhCZOfO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
         Fri, 26 Mar 2021 10:35:14 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C001C0613B3
-        for <linux-input@vger.kernel.org>; Fri, 26 Mar 2021 07:35:11 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id x16so5867646wrn.4
-        for <linux-input@vger.kernel.org>; Fri, 26 Mar 2021 07:35:11 -0700 (PDT)
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4813FC0613B4
+        for <linux-input@vger.kernel.org>; Fri, 26 Mar 2021 07:35:12 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id u5-20020a7bcb050000b029010e9316b9d5so3120359wmj.2
+        for <linux-input@vger.kernel.org>; Fri, 26 Mar 2021 07:35:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=E7/N3FVykAR22YhzUhZ15csg3vPH/3PyPAZDl2mJTyE=;
-        b=FQWiQy0EIE+653fmzj9XU1SF5NMeZNCgs/VV4mo5PT9LyRG571UmXuJauUJ0aL1lsQ
-         31HG7A3ja6wq0s6hA1qzpq9p/RAo62r0dAKvoUHFRvBJyr4R4GZ46OnKPqEbtmWzAcKa
-         634knbEo7HgrGK+FcjSGYELCBL1XnOzC+eiEoCU/gWLWFRISxi7wr6FrfE8yCPZPJaQu
-         pSvz3r5gB73TV5rLg+heSe/IcHsdsj8ItZktZAI5J5mW3RX0vDxiVu+22B34cQIJfrk9
-         odZrgDQ8EtlwoHtFND6OdBiltcah311hZtwgV1F3y0Z2qFULwLJAOvY5jUAnZ35QhkWs
-         zbfg==
+        bh=7SaTEj4RTZdOjBa5WGjzyPtQsvCc3pHayG7DFxx2S1o=;
+        b=YYE41tgmks1szX8Y1bR3nupGt01CbJK5hySL9qrXdTmsJ7+++1TBQi+K0Q4loXrl+b
+         ggEyIdSV/O3aTSGuQa5gpW7HCNOvGG4pRhlga3TQZ6GMkX/sAdlRXyP7So29PlkBF2QD
+         yqezQFHKwzU5du6L18QCyjIHDfPCi9r5dI7K1r+UzUfR8HJL/1ECB/m0fAmuyuFNRVPA
+         XXIbP7dCYCG1GDyGlSNXgXq/+2Iky09szLpz8JUF49HdF2zvDiaE7+5UH1L7LUGNaUji
+         dkrGaSU9pyZQSI5+GKPeD/1rBCEm29oEZDVb03TfNDQKIMBsFZUBy90umgS2hLs2GHxe
+         bY8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=E7/N3FVykAR22YhzUhZ15csg3vPH/3PyPAZDl2mJTyE=;
-        b=U3IenOzrQbR5rcTSFHRkcY1Noj0UAbSw4XhosQ7vAPQJYG6oFNQvq9YmPY9JserQ3f
-         faiBdjP5phf+j6M1SQOgdN4SdS+Y/8PaYYazgfrAqnmCkTjfah1glmB3PaKaltMdm2/I
-         x5Fn3IDS1L2x1hpp6/n9qHuf57uLaGBnYvZBgLItbXm0LxSWHMoDfT4nLz2Difdq2mPU
-         /eH/tbJtFRTZ+pBUTdaZhOeACroKSeqsloyR/Qjvw0YgxCYHbLZbek6RwstPSStpLtQL
-         4nhJtYckGAJtr40g5iIJzsVC5IGDLkygIffAiS319mQv3wr2VZsgaw1QG0jAfgpudRTP
-         OWQA==
-X-Gm-Message-State: AOAM532QJki7InUrBLCeDQnNf6kuCXvhl6GwdoUrKVu3hAUIcx9UCEmd
-        DIUXtd/sH+ALppDqX37uJ0uu7Q==
-X-Google-Smtp-Source: ABdhPJxFiTlqN3F0RkSV5mVncLvGDUsps6SqQ0/eWlY0L1Lcp/6xy75ULVxXD1xv8pgKWF11ZcnP9g==
-X-Received: by 2002:a5d:6307:: with SMTP id i7mr15081102wru.305.1616769310126;
-        Fri, 26 Mar 2021 07:35:10 -0700 (PDT)
+        bh=7SaTEj4RTZdOjBa5WGjzyPtQsvCc3pHayG7DFxx2S1o=;
+        b=CGomXNQkJ4B0vTv3k6ZLxIVjXxO+UN26nBl9YTdLsjG32lMJLJ/tv/BYPlR47vImPl
+         qbjRfFynOe+TaV8K1qhquJSV5UV+Owtv7jfWAD6DUwUA4b6x7XWCrB1CRXXoMZctm1Tl
+         hqhObso/oM8iCVdcXGcu4wPrEqb9Rsjegvbl5dSNK7xTOJZV1TBdzsGVqOrwRGp5fjTI
+         LfpYV6NQDJ27PLp6RsEi2/m8o2gIetnWuiAta/RVwUQ5vM32JqBf+NZgrc7bc2rvU99l
+         MKaElDtWJgqdfyLO4ap8UXihntectnqZjBcH//uOJ8sxKl6m04YR5PFpiKmPELgI459d
+         5TpQ==
+X-Gm-Message-State: AOAM533R5UajvqyOAHVKF3ndn+VMbHFBSTwFu5rwSa9nDOComHnQRbFi
+        Ndn10n1+WB+LgLaIrH38vrpwwg==
+X-Google-Smtp-Source: ABdhPJz5f/KrNiqbesoFd5oKM3CYtNcIMzjaUKyZXEZWay2H6+zQTJ7SicPowiz8MnzODgFqK3MLyw==
+X-Received: by 2002:a05:600c:4a06:: with SMTP id c6mr13421638wmp.35.1616769311064;
+        Fri, 26 Mar 2021 07:35:11 -0700 (PDT)
 Received: from dell.default ([91.110.221.194])
-        by smtp.gmail.com with ESMTPSA id j26sm12878225wrh.57.2021.03.26.07.35.09
+        by smtp.gmail.com with ESMTPSA id j26sm12878225wrh.57.2021.03.26.07.35.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 07:35:09 -0700 (PDT)
+        Fri, 26 Mar 2021 07:35:10 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
 Cc:     linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Anssi Hannula <anssi.hannula@gmail.com>,
-        linux-usb@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH 08/25] HID: usbhid: hid-pidff: Demote a couple kernel-doc abuses
-Date:   Fri, 26 Mar 2021 14:34:41 +0000
-Message-Id: <20210326143458.508959-10-lee.jones@linaro.org>
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Masaki Ota <masaki.ota@jp.alps.com>,
+        linux-input@vger.kernel.org
+Subject: [PATCH 09/25] HID: hid-alps: Correct struct misnaming
+Date:   Fri, 26 Mar 2021 14:34:42 +0000
+Message-Id: <20210326143458.508959-11-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210326143458.508959-1-lee.jones@linaro.org>
 References: <20210326143458.508959-1-lee.jones@linaro.org>
@@ -68,46 +69,31 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/hid/usbhid/hid-pidff.c:512: warning: Function parameter or member 'dev' not described in 'pidff_playback'
- drivers/hid/usbhid/hid-pidff.c:512: warning: Function parameter or member 'effect_id' not described in 'pidff_playback'
- drivers/hid/usbhid/hid-pidff.c:512: warning: Function parameter or member 'value' not described in 'pidff_playback'
- drivers/hid/usbhid/hid-pidff.c:512: warning: expecting prototype for value times(). Prototype was for pidff_playback() instead
- drivers/hid/usbhid/hid-pidff.c:1005: warning: Function parameter or member 'pidff' not described in 'pidff_find_effects'
- drivers/hid/usbhid/hid-pidff.c:1005: warning: Function parameter or member 'dev' not described in 'pidff_find_effects'
- drivers/hid/usbhid/hid-pidff.c:1005: warning: expecting prototype for Find the implemented effect types(). Prototype was for pidff_find_effects() instead
+ drivers/hid/hid-alps.c:113: warning: expecting prototype for struct u1_data. Prototype was for struct alps_dev instead
 
 Cc: Jiri Kosina <jikos@kernel.org>
 Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: Anssi Hannula <anssi.hannula@gmail.com>
-Cc: linux-usb@vger.kernel.org
+Cc: Henrik Rydberg <rydberg@bitmath.org>
+Cc: Masaki Ota <masaki.ota@jp.alps.com>
 Cc: linux-input@vger.kernel.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/hid/usbhid/hid-pidff.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/hid/hid-alps.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index fddac7c72f645..ea126c50acc3b 100644
---- a/drivers/hid/usbhid/hid-pidff.c
-+++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -505,7 +505,7 @@ static void pidff_playback_pid(struct pidff_device *pidff, int pid_id, int n)
- 			HID_REQ_SET_REPORT);
- }
- 
--/**
-+/*
-  * Play the effect with effect id @effect_id for @value times
-  */
- static int pidff_playback(struct input_dev *dev, int effect_id, int value)
-@@ -997,7 +997,7 @@ static int pidff_find_special_fields(struct pidff_device *pidff)
- 	return 0;
- }
- 
--/**
-+/*
-  * Find the implemented effect types
-  */
- static int pidff_find_effects(struct pidff_device *pidff,
+diff --git a/drivers/hid/hid-alps.c b/drivers/hid/hid-alps.c
+index 6b665931147df..2b986d0dbde46 100644
+--- a/drivers/hid/hid-alps.c
++++ b/drivers/hid/hid-alps.c
+@@ -74,7 +74,7 @@ enum dev_num {
+ 	UNKNOWN,
+ };
+ /**
+- * struct u1_data
++ * struct alps_dev
+  *
+  * @input: pointer to the kernel input device
+  * @input2: pointer to the kernel input2 device
 -- 
 2.27.0
 
