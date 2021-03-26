@@ -2,157 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60BFA34A31A
-	for <lists+linux-input@lfdr.de>; Fri, 26 Mar 2021 09:19:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB43A34A3B0
+	for <lists+linux-input@lfdr.de>; Fri, 26 Mar 2021 10:08:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229779AbhCZISw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 26 Mar 2021 04:18:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55912 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229984AbhCZISc (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 26 Mar 2021 04:18:32 -0400
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 400EBC0613AA
-        for <linux-input@vger.kernel.org>; Fri, 26 Mar 2021 01:18:32 -0700 (PDT)
-Received: by mail-ed1-x533.google.com with SMTP id l18so5295635edc.9
-        for <linux-input@vger.kernel.org>; Fri, 26 Mar 2021 01:18:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=vVLQWWeMoRmy2aS3RBI+QxFkLC7vNLSa/8Kp82BB7/4=;
-        b=gUYuFDRcjU9OiTVCehZRUVHb9veVGV44Qt6mPlJufVM07cUE3yvOUc12UGbhkgeN07
-         WUk/1zb97PfNyw9MGEad8MJ9CUP61chVPD07wwN2tI95nEQUOp9MQ2XhHtdPOe9DQoYK
-         4VS3iHs7sMptpkEfwaldIqidr+NpZm1vB+K2y4BV2j2FQrH0ehS22nTy8FNod0scrdIm
-         84RoaJnhI2k5kL6G9d45P2rZwOT8m/0QhLlq1Wit7ie2fMhSK7Ozf3g7G1vtDHWuLtDd
-         qz/ERkzKu8O8KNVEKjv3LlykUoN7ZT8PVwzs6RfiECA4TRx38+q0AMaMS9eyWfpXE8qs
-         wZug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=vVLQWWeMoRmy2aS3RBI+QxFkLC7vNLSa/8Kp82BB7/4=;
-        b=huKOspJEnvYyZR81xXFvX5dlXK86d2pqk0UimKCZ4Qy2YBvjBY1Wk68JvvS7HBi9pL
-         Vsnvj4+iAlQjWFYIHIDWUjFtsfOu1lGX4nVRRQyYDykqGd0qRTI+IA4TZw9OfqjycE4g
-         AoVLv9eFrRFyZvieET1v4x1DyNusyzIHN4o2iaptoxQShAhh0RKFTrJC+u2pfcKjKZ/H
-         LhC0jzY0aQriHIMnHAtmF3CvfcSdcXTAg0bvR/ruKSx993EPz5f/Y9/vqfzZzAR1hjJd
-         xOMIBvd9FdZn317UWwv95ElgeomHUT69ToRwe8IH+FOWzKrUTPzurKgd3CVWekDiK2ML
-         /eew==
-X-Gm-Message-State: AOAM530FqliQ1OYTmA7H9Rnd9acfsqUnIDXZwafuOtBSj1HleOLaSnVZ
-        4hupk/68jmvoM4prh+Ke+y2ANQ==
-X-Google-Smtp-Source: ABdhPJyGvc/Q1q6OUIMDE/e3r3sj4QZPNY5A/ebMa3M5iZJ8Q+P0SzWmEAmyp6Q4hUaxIAjyVBMRIg==
-X-Received: by 2002:a05:6402:1855:: with SMTP id v21mr13579580edy.310.1616746711012;
-        Fri, 26 Mar 2021 01:18:31 -0700 (PDT)
-Received: from dell ([91.110.221.194])
-        by smtp.gmail.com with ESMTPSA id m10sm3495486ejx.10.2021.03.26.01.18.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 01:18:30 -0700 (PDT)
-Date:   Fri, 26 Mar 2021 08:18:28 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Cristian Ciocaltea <cristian.ciocaltea@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-actions@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [GIT PULL] Immutable branch between MFD and Input due for the
- v5.13 merge window
-Message-ID: <20210326081828.GY2916463@dell>
-References: <cover.1611653995.git.cristian.ciocaltea@gmail.com>
- <20210309135302.GP4931@dell>
- <20210309200417.GZ4931@dell>
- <20210310111250.GM701493@dell>
- <YFzqZJeYd4nkF89C@google.com>
+        id S229993AbhCZJHu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 26 Mar 2021 05:07:50 -0400
+Received: from air.basealt.ru ([194.107.17.39]:50526 "EHLO air.basealt.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229984AbhCZJHn (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 26 Mar 2021 05:07:43 -0400
+X-Greylist: delayed 427 seconds by postgrey-1.27 at vger.kernel.org; Fri, 26 Mar 2021 05:07:43 EDT
+Received: by air.basealt.ru (Postfix, from userid 490)
+        id 25655589441; Fri, 26 Mar 2021 09:00:34 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on
+        sa.local.altlinux.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-4.3 required=5.0 tests=ALL_TRUSTED,BAYES_00,
+        RP_MATCHES_RCVD autolearn=ham autolearn_force=no version=3.4.1
+Received: from [10.88.144.159] (obninsk.basealt.ru [217.15.195.17])
+        by air.basealt.ru (Postfix) with ESMTPSA id 29292589433;
+        Fri, 26 Mar 2021 09:00:32 +0000 (UTC)
+To:     jingle.wu@emc.com.tw
+Cc:     dmitry.torokhov@gmail.com, kernel@pengutronix.de,
+        linux-input@vger.kernel.org, u.kleine-koenig@pengutronix.de
+References: <016d01d70fdb$2aa48b00$7feda100$@emc.com.tw>
+Subject: RE: elan_i2c: failed to read report data: -71
+From:   Egor Ignatov <egori@basealt.ru>
+Message-ID: <d725011e-5373-a132-71c4-bc7580b36999@basealt.ru>
+Date:   Fri, 26 Mar 2021 12:00:31 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <016d01d70fdb$2aa48b00$7feda100$@emc.com.tw>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YFzqZJeYd4nkF89C@google.com>
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 25 Mar 2021, Dmitry Torokhov wrote:
+Hi,
 
-> Hi Lee,
-> 
-> On Wed, Mar 10, 2021 at 11:12:50AM +0000, Lee Jones wrote:
-> > On Tue, 09 Mar 2021, Lee Jones wrote:
-> > 
-> > > On Tue, 09 Mar 2021, Lee Jones wrote:
-> > > 
-> > > > Enjoy!
-> > > > 
-> > > > The following changes since commit fe07bfda2fb9cdef8a4d4008a409bb02f35f1bd8:
-> > > > 
-> > > >   Linux 5.12-rc1 (2021-02-28 16:05:19 -0800)
-> > > > 
-> > > > are available in the Git repository at:
-> > > > 
-> > > >   git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git ib-mfd-input-v5.13
-> > > > 
-> > > > for you to fetch changes up to b58c808ca46c163c1924ec5d3285e67e9217ec74:
-> > > > 
-> > > >   MAINTAINERS: Add entry for ATC260x PMIC (2021-03-09 13:50:39 +0000)
-> > > > 
-> > > > ----------------------------------------------------------------
-> > > > Immutable branch between MFD and Input due for the v5.13 merge window
-> > > > 
-> > > > ----------------------------------------------------------------
-> > > > Cristian Ciocaltea (4):
-> > > >       dt-bindings: input: Add reset-time-sec common property
-> > > >       dt-bindings: mfd: Add Actions Semi ATC260x PMIC binding
-> > > >       mfd: Add MFD driver for ATC260x PMICs
-> > > >       input: atc260x: Add onkey driver for ATC260x PMICs
-> > > > 
-> > > > Manivannan Sadhasivam (1):
-> > > >       MAINTAINERS: Add entry for ATC260x PMIC
-> > > > 
-> > > >  Documentation/devicetree/bindings/input/input.yaml |   7 +
-> > > >  .../devicetree/bindings/mfd/actions,atc260x.yaml   | 183 ++++++++++++
-> > > >  MAINTAINERS                                        |  12 +
-> > > >  drivers/input/misc/Kconfig                         |  11 +
-> > > >  drivers/input/misc/Makefile                        |   2 +-
-> > > >  drivers/input/misc/atc260x-onkey.c                 | 305 ++++++++++++++++++++
-> > > >  drivers/mfd/Kconfig                                |  18 ++
-> > > >  drivers/mfd/Makefile                               |   3 +
-> > > >  drivers/mfd/atc260x-core.c                         | 310 +++++++++++++++++++++
-> > > >  drivers/mfd/atc260x-i2c.c                          |  64 +++++
-> > > >  include/linux/mfd/atc260x/atc2603c.h               | 281 +++++++++++++++++++
-> > > >  include/linux/mfd/atc260x/atc2609a.h               | 308 ++++++++++++++++++++
-> > > >  include/linux/mfd/atc260x/core.h                   |  58 ++++
-> > > >  13 files changed, 1561 insertions(+), 1 deletion(-)
-> > > >  create mode 100644 Documentation/devicetree/bindings/mfd/actions,atc260x.yaml
-> > > >  create mode 100644 drivers/input/misc/atc260x-onkey.c
-> > > >  create mode 100644 drivers/mfd/atc260x-core.c
-> > > >  create mode 100644 drivers/mfd/atc260x-i2c.c
-> > > >  create mode 100644 include/linux/mfd/atc260x/atc2603c.h
-> > > >  create mode 100644 include/linux/mfd/atc260x/atc2609a.h
-> > > >  create mode 100644 include/linux/mfd/atc260x/core.h
-> > > 
-> > > FYI, if anyone has pulled this, they should probably rebase it onto
-> > > v5.12-rc2 and delete the v5.12-rc1 tag from their tree:
-> > > 
-> > >  https://lwn.net/Articles/848431/
-> > 
-> > In case you haven't pulled this yet, I created a new tag:
-> > 
-> >   ib-mfd-input-v5.13-1
-> 
-> Did you push this one out? I can't seem to see it.
+I have installed the latest 5.10 kernel on Lenovo L13 laptop and
+both touchpad and trackpoint work fine. But after resuming from
+hibernation mode trackpoint(and 3 buttons) stop working. The kernel
+log says:
+     elan_i2c 14-0015: failed to read report data: -71
 
-Seemingly not.  Thanks for the poke.
+I assume this is because some initial trackpoint setup is done on the
+first boot. Then after hibernation the device resets. And the wake-up
+code doesn't set it up properly.
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Any help would be appreciated.
+
