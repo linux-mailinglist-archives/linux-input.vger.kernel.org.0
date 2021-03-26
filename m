@@ -2,52 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1315E34A9D2
-	for <lists+linux-input@lfdr.de>; Fri, 26 Mar 2021 15:35:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AC8834A9D7
+	for <lists+linux-input@lfdr.de>; Fri, 26 Mar 2021 15:35:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230223AbhCZOfM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 26 Mar 2021 10:35:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52602 "EHLO
+        id S230253AbhCZOfQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 26 Mar 2021 10:35:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52624 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230016AbhCZOfD (ORCPT
+        with ESMTP id S230159AbhCZOfH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 26 Mar 2021 10:35:03 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C771EC0613B2
-        for <linux-input@vger.kernel.org>; Fri, 26 Mar 2021 07:35:02 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id g25so3136923wmh.0
-        for <linux-input@vger.kernel.org>; Fri, 26 Mar 2021 07:35:02 -0700 (PDT)
+        Fri, 26 Mar 2021 10:35:07 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38992C0613B9
+        for <linux-input@vger.kernel.org>; Fri, 26 Mar 2021 07:35:04 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id 12so3096239wmf.5
+        for <linux-input@vger.kernel.org>; Fri, 26 Mar 2021 07:35:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VoFNqvJqV3TdL84vFoklC/P+s5SxY+mp4X8TTiNgMtE=;
-        b=P+VsgdwqxC7S+r3aEF02+Phf4siu0/ukHmkddSss85wkzBu4EICPyZs9fP4AJk7kdQ
-         a5dW6dH70JwYO457Ljil7DbwsUtsiPgUC1cMner3cAcl4d3LlgxctQIOREK/EMxLUV8F
-         q54mo9DrRKtujvY75fE8ck0i45ZCiT0WTzJ/DSCCjOOggIX97lR/7mCEjPO7bFzSGPwD
-         qPd+6jvSgAZG2KTUf0sbZVGUUUFLu3eCBc+TbxiPuO09l8pI8Ug4ZrgnfaZniN+UZ0Z6
-         4G9n6eLtW0aHwoxyD6JuqeqHKz6R/GPtIksun4/V53szdCuUiSdL6rlV+Ri/BAgTJrjP
-         pP0g==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=X3l551s5G/pAF2wkYmEGgkPl5576caUaplD4n6kxekE=;
+        b=MTRryAA06req0yLkcmh0+vjQXJlDARQPhUrLZiiD0V629oE/6wzOWZ4olgS2tVfZKf
+         GhzFt96jl+vOy4dKSROxDJg+OomuFS/6kPkB3gqlJTX8kgMhkWvvN4x7+adh72SDEc/i
+         IosIat3qSscvWHtAqM73Ekp8IVStGN4NAGzEz7KDN1334y2kC2zYNpgaPgVkDUn5Z4zS
+         6EXicNQ7KUdBgCnq4Gp/0HoxagX+ru0hgRtEBWGPJkv6Nznmd+N3/tbTSDfW5sLA6z3l
+         OPe14PbUR8UxjVTR6cRUeQgETo+jq7AQD1kdVih5tXqhS2khRSfAQQcwId4Z1SJWolSD
+         il7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VoFNqvJqV3TdL84vFoklC/P+s5SxY+mp4X8TTiNgMtE=;
-        b=h+JQhy1ilaEttsSFE71fPN6cOO6dPPXBItW7xnNZgrSncm1ex2v03Q00s6d0NicGua
-         3Y97fmB3mKeN/qafLbM3cTVHYD/IkJYKHBaoVN4CDB3CsuRImI7bv8bYItQIkf2KPrCL
-         N/kgtlYiyZqsJeYjkwy2TbRaMVgN4qZKRZI+oQ91YrsCVQFpeKGQ3ZEz0Oa0pJQTNc8I
-         +v+UJUjvhxHBqC1eKRMzEevlTBtORGaJCfHJ31TSg2tKZLMZOdgwj5nN2v091zA8Y0wt
-         M4z2Vf+8JfTFX3S4HRtmaNC+z8AFxHNyLPJRORgMwc42RJovdChrbno9zBY59V+PEjAx
-         MDYg==
-X-Gm-Message-State: AOAM531W6+cFSf8opl2i5z6Zxp32N8ySqhQrbIdj7xcuP39MnJCui2WY
-        AZCgRcqK/zo1bMNvRUBDMUuZaQ==
-X-Google-Smtp-Source: ABdhPJwVQ28g1uJ1l+3b8N6u3arMMfkW6TtopkB+1sfuYd5LjRqBrN12fvh40SnvFHqZ/sewwpeOGw==
-X-Received: by 2002:a1c:6a05:: with SMTP id f5mr13383680wmc.184.1616769301335;
-        Fri, 26 Mar 2021 07:35:01 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=X3l551s5G/pAF2wkYmEGgkPl5576caUaplD4n6kxekE=;
+        b=M02YpLnE7szEsLGH6Eq0Jnu09FjNTR8vVpHf0aF6ZV6CCE8ZvdRTyRJU/vQk9A/8hz
+         GnPYlZ5yJqG8e0Z+yseRylwV7g8CIOchf6nOBYP1akyWAYUG9fHPc0hc0+6ZZ6Tn5Fsa
+         gB2Un6NVF6vMcTmV5qAOSh2mB6BbZ4X9qTr/xM9J4lwxfSS40kaEgya8zP/+gOC7zXlU
+         rRWx9PScaotLsrfpD0qj2zgv7OONP+o3dS7bA6TDIQt1yzCYN6MxzPD4Cf/TSEMOcDRy
+         wPqREV+rl0P2Xf0VpDffK70q5M1q0qeGRpp9G2m1b/G05uRHI9t2ERgtYrmYVn4Ol3N4
+         d69A==
+X-Gm-Message-State: AOAM532OfUqqEAhWmKCHNLUGcInU8eLEw6en/1eIBKLRAJnnbelQwRm1
+        7AfzmTFT5lD0/97cACN/38cW7A==
+X-Google-Smtp-Source: ABdhPJys2BqxpGOTGUAOVltyeRUwXqaB5Ir7KGDurKi6UIWqunYXDHtl6cDvVh06p/RXnXTrderF7w==
+X-Received: by 2002:a1c:6543:: with SMTP id z64mr13457846wmb.50.1616769302815;
+        Fri, 26 Mar 2021 07:35:02 -0700 (PDT)
 Received: from dell.default ([91.110.221.194])
-        by smtp.gmail.com with ESMTPSA id j26sm12878225wrh.57.2021.03.26.07.34.59
+        by smtp.gmail.com with ESMTPSA id j26sm12878225wrh.57.2021.03.26.07.35.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 07:35:00 -0700 (PDT)
+        Fri, 26 Mar 2021 07:35:02 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
 Cc:     linux-kernel@vger.kernel.org,
@@ -82,9 +82,11 @@ Cc:     linux-kernel@vger.kernel.org,
         Vojtech Pavlik <vojtech@suse.cz>,
         Zhang Lixu <lixu.zhang@intel.com>
 Subject: [RESEND 00/25] Rid W=1 warnings from HID
-Date:   Fri, 26 Mar 2021 14:34:32 +0000
-Message-Id: <20210326143458.508959-1-lee.jones@linaro.org>
+Date:   Fri, 26 Mar 2021 14:34:33 +0000
+Message-Id: <20210326143458.508959-2-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210326143458.508959-1-lee.jones@linaro.org>
+References: <20210326143458.508959-1-lee.jones@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -95,6 +97,9 @@ X-Mailing-List: linux-input@vger.kernel.org
 This set is part of a larger effort attempting to clean-up W=1
 kernel builds, which are currently overwhelmingly riddled with
 niggly little warnings.
+
+[RESEND] contains no functional changes.  Only 18 of 25 patches
+actually made it to the list during the first attempt.
 
 Lee Jones (25):
   HID: intel-ish-hid: Remove unused variable 'err'
