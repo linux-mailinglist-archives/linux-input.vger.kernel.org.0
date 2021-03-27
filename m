@@ -2,125 +2,355 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9491234B750
-	for <lists+linux-input@lfdr.de>; Sat, 27 Mar 2021 13:54:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1E8934B8A7
+	for <lists+linux-input@lfdr.de>; Sat, 27 Mar 2021 18:57:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230043AbhC0MyB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 27 Mar 2021 08:54:01 -0400
-Received: from mx-out.tlen.pl ([193.222.135.175]:39887 "EHLO mx-out.tlen.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229990AbhC0MyB (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 27 Mar 2021 08:54:01 -0400
-Received: (wp-smtpd smtp.tlen.pl 21019 invoked from network); 27 Mar 2021 13:53:58 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=o2.pl; s=1024a;
-          t=1616849638; bh=Sb5mgSoxi1yX7inO+9+EIZNBWr3/S+es/2PkOGgsF+E=;
-          h=From:To:Cc:Subject;
-          b=IXv8KkbacaUcdUmwB8nkXN1HElxcOonlEx0b1EzeRbck3BMDwS4DP7ltuDfUJr+Au
-           ceiY+n+CR3u76naHj5W+htKTn41JQMVfc72ObbB6Jd5jeNL1ahXCvvXG016mPArGKZ
-           pIGRojo815NYJj5Bs19fUYFowpFHHQjYPP1nOxCk=
-Received: from aclp172.neoplus.adsl.tpnet.pl (HELO localhost.localdomain) (mat.jonczyk@o2.pl@[83.10.117.172])
-          (envelope-sender <mat.jonczyk@o2.pl>)
-          by smtp.tlen.pl (WP-SMTPD) with SMTP
-          for <linux-input@vger.kernel.org>; 27 Mar 2021 13:53:58 +0100
-From:   =?UTF-8?q?Mateusz=20Jo=C5=84czyk?= <mat.jonczyk@o2.pl>
-To:     linux-input@vger.kernel.org
-Cc:     =?UTF-8?q?Mateusz=20Jo=C5=84czyk?= <mat.jonczyk@o2.pl>
-Subject: [PATCH] hid-a4tech: use A4_2WHEEL_MOUSE_HACK_B8 for A4TECH NB-95
-Date:   Sat, 27 Mar 2021 13:53:29 +0100
-Message-Id: <20210327125329.40357-1-mat.jonczyk@o2.pl>
-X-Mailer: git-send-email 2.25.1
+        id S230286AbhC0R5T (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 27 Mar 2021 13:57:19 -0400
+Received: from mail-ot1-f52.google.com ([209.85.210.52]:40866 "EHLO
+        mail-ot1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230092AbhC0R4z (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sat, 27 Mar 2021 13:56:55 -0400
+Received: by mail-ot1-f52.google.com with SMTP id w31-20020a9d36220000b02901f2cbfc9743so8313346otb.7;
+        Sat, 27 Mar 2021 10:56:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=6MGMtq81oUKsRmB4tUHE1yTtgBqJNCQ0Kg5GpCIPAZY=;
+        b=d3ua4pDX1DBorTvXYge5QVCN5/fCaQs20hC2MA9fuxA9XJPsVDRRyET+B1a2SpZzlZ
+         8Wqom/cxFcfEfEnNghTLAAOSdoDmwbCnG162/f57fbFXr+oBiMNE/LhChjwK90PBw2Xk
+         lFRiBzXybZGhu37hhCmK2sgI5J0PDZrEF7vkJssS8Ghe3F+AVfNmw+zT7nbZefHKcl5g
+         7ZFl5yAvUgfI25/oYDt1hm8fBeP/bYZphA3AGytcDBuHZh9tSj1NnODZGtP8cBX7o0+A
+         g3wvLOUT0aKNLGRVQ1LgL7dRnXdni8GsgqukhA6bdW8sg3Wa0kAgpgXHqg49FP2Hmq+r
+         sO4w==
+X-Gm-Message-State: AOAM530bqyFmXplmGcHaCUbMd0OyI89xYVd4pbcXLXeqwfndGREIlaJE
+        p0RfGNK1v/G7UZokDBHY1A==
+X-Google-Smtp-Source: ABdhPJwri1rjHoGZt+kOxfRDPXtxkgJ/zOLdRassoIa/sRnpJCj3v4GYIPuisXLZWiquduGlg4PNeg==
+X-Received: by 2002:a9d:20c6:: with SMTP id x64mr16247189ota.262.1616867814769;
+        Sat, 27 Mar 2021 10:56:54 -0700 (PDT)
+Received: from robh.at.kernel.org ([172.58.107.88])
+        by smtp.gmail.com with ESMTPSA id 62sm1196477oto.60.2021.03.27.10.56.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Mar 2021 10:56:54 -0700 (PDT)
+Received: (nullmailer pid 319173 invoked by uid 1000);
+        Sat, 27 Mar 2021 17:56:47 -0000
+Date:   Sat, 27 Mar 2021 11:56:47 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Ferruh Yigit <fery@cypress.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Henrik Rydberg <rydberg@bitmath.org>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH] Input: cyttsp - Convert bindings to YAML and extend
+Message-ID: <20210327175647.GA312703@robh.at.kernel.org>
+References: <20210325223520.1653715-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-WP-DKIM-Status: good (id: o2.pl)                                      
-X-WP-MailID: c6f9af0d0a5e20339e9aa45f109a1976
-X-WP-AV: skaner antywirusowy Poczty o2
-X-WP-SPAM: NO 0000000 [0SO0]                               
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210325223520.1653715-1-linus.walleij@linaro.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This mouse has a horizontal wheel that requires special handling.
-Without this patch, the horizontal wheel acts like a vertical wheel.
+On Thu, Mar 25, 2021 at 11:35:20PM +0100, Linus Walleij wrote:
+> This converts the CYTTSP "Cypress TrueTouch Standard Product"
+> to YAML bindings and fixes and adds some things in the process:
+> 
+> - Rename the bindings file to cypress,cy8ctma340 after the main
+>   product in the series.
+> - Add proper compatibles for the two known products:
+>   CY8CTMA340 and CY8CTST341.
+> - Deprecate "cypress,cyttsp-spi" and "cypress,cyttsp-i2c"
+>   because device compatibles should be named after the
+>   hardware and not after which bus they are connected to.
+>   The topology implicitly tells us which bus it is and what
+>   interface to used.
+> - Add VCPIN and VDD supplies, these are present just like
+>   on the CY8CTMA140.
+> 
+> Cc: devicetree@vger.kernel.org
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+> Patch to add the new compatibles to the Linux driver is sent
+> separately.
+> ---
+>  .../input/touchscreen/cypress,cy8ctma340.yaml | 153 ++++++++++++++++++
+>  .../bindings/input/touchscreen/cyttsp.txt     |  93 -----------
+>  2 files changed, 153 insertions(+), 93 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/cypress,cy8ctma340.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/cyttsp.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/cypress,cy8ctma340.yaml b/Documentation/devicetree/bindings/input/touchscreen/cypress,cy8ctma340.yaml
+> new file mode 100644
+> index 000000000000..063c140afbbd
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/cypress,cy8ctma340.yaml
+> @@ -0,0 +1,153 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/cypress,cy8ctma340.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Cypress CY8CTMA340 series touchscreen controller bindings
+> +
+> +description: The Cypress CY8CTMA340 series (also known as "CYTTSP" after
+> +  the marketing name Cypress TrueTouch Standard Product) touchscreens can
+> +  be connected to either I2C or SPI buses.
+> +
+> +maintainers:
+> +  - Javier Martinez Canillas <javier@dowhile0.org>
+> +  - Linus Walleij <linus.walleij@linaro.org>
+> +
+> +allOf:
+> +  - $ref: touchscreen.yaml#
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: "^touchscreen(@.*)?$"
+> +
+> +  compatible:
+> +    oneOf:
+> +      - const: cypress,cy8ctma340
+> +      - const: cypress,cy8ctst341
+> +      - const: cypress,cyttsp-spi
+> +        description: Legacy compatible for SPI connected CY8CTMA340
+> +        deprecated: true
+> +      - const: cypress,cyttsp-i2c
+> +        description: Legacy compatible for I2C connected CY8CTMA340
+> +        deprecated: true
+> +
+> +  reg:
+> +    description: I2C address when used on the I2C bus, or the SPI chip
+> +      select index when used on the SPI bus
+> +
+> +  clock-frequency:
+> +    description: I2C client clock frequency, defined for host when using
+> +      the device on the I2C bus
+> +    minimum: 0
+> +    maximum: 400000
+> +
+> +  spi-max-frequency:
+> +    description: SPI clock frequency, defined for host, defined when using
+> +      the device on the SPI bus. The throughput is maximum 2 Mbps so the
+> +      typical value is 2000000, if higher rates are used the total throughput
+> +      needs to be restricted to 2 Mbps.
+> +    minimum: 0
+> +    maximum: 6000000
+> +
+> +  interrupts:
+> +    description: Interrupt to host, must be flagged as
+> +      IRQ_TYPE_EDGE_FALLING.
+> +    maxItems: 1
+> +
+> +  vcpin-supply:
+> +    description: Analog power supply regulator on VCPIN pin
+> +
+> +  vdd-supply:
+> +    description: Digital power supply regulator on VDD pin
+> +
+> +  reset-gpios:
+> +    description: Reset line for the touchscreen, should be tagged
+> +      as GPIO_ACTIVE_LOW
+> +
+> +  bootloader-key:
+> +    description: the 8-byte bootloader key that is required to switch
+> +      the chip from bootloader mode (default mode) to application mode
+> +    $ref: /schemas/types.yaml#/definitions/uint8-array
+> +    items:
+> +      - minItems: 8
+> +        maxItems: 8
 
-In the output of `hidrd-convert` for this mouse, there is a
-`Usage (B8h)` field. It corresponds to a byte in packets sent by the
-device that specifies which wheel generated an input event.
+Just:
 
-Signed-off-by: Mateusz Jończyk <mat.jonczyk@o2.pl>
+minItems: 8
+maxItems: 8
 
----
+(no 'items')
 
-Hello,
+> +
+> +  touchscreen-size-x: true
+> +  touchscreen-size-y: true
+> +  touchscreen-fuzz-x: true
+> +  touchscreen-fuzz-y: true
+> +
+> +  active-distance:
+> +    description: the distance in pixels beyond which a touch must move
+> +      before movement is detected and reported by the device
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 0
+> +    maximum: 15
+> +
+> +  active-interval-ms:
+> +    description: the minimum period in ms between consecutive
+> +      scanning/processing cycles when the chip is in active mode
+> +    $ref: /schemas/types.yaml#/definitions/uint32
 
-This is the first patch I send to the LKML.
+Don't need a type for standard unit suffix properties.
 
-The mouse I have is quite old, I got it somewhere in '00s.
-
-Greetings,
-Mateusz
-
- drivers/hid/Kconfig      | 4 ++--
- drivers/hid/hid-a4tech.c | 2 ++
- drivers/hid/hid-ids.h    | 1 +
- drivers/hid/hid-quirks.c | 1 +
- 4 files changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 09fa75a2b289..be090aad4d2a 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -93,11 +93,11 @@ menu "Special HID drivers"
- 	depends on HID
- 
- config HID_A4TECH
--	tristate "A4 tech mice"
-+	tristate "A4TECH mice"
- 	depends on HID
- 	default !EXPERT
- 	help
--	Support for A4 tech X5 and WOP-35 / Trust 450L mice.
-+	Support for some A4TECH mice with two scroll wheels.
- 
- config HID_ACCUTOUCH
- 	tristate "Accutouch touch device"
-diff --git a/drivers/hid/hid-a4tech.c b/drivers/hid/hid-a4tech.c
-index 3a8c4a5971f7..2cbc32dda7f7 100644
---- a/drivers/hid/hid-a4tech.c
-+++ b/drivers/hid/hid-a4tech.c
-@@ -147,6 +147,8 @@ static const struct hid_device_id a4_devices[] = {
- 		.driver_data = A4_2WHEEL_MOUSE_HACK_B8 },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_A4TECH, USB_DEVICE_ID_A4TECH_RP_649),
- 		.driver_data = A4_2WHEEL_MOUSE_HACK_B8 },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_A4TECH, USB_DEVICE_ID_A4TECH_NB_95),
-+		.driver_data = A4_2WHEEL_MOUSE_HACK_B8 },
- 	{ }
- };
- MODULE_DEVICE_TABLE(hid, a4_devices);
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index b60279aaed43..da3db9b3f640 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -26,6 +26,7 @@
- #define USB_DEVICE_ID_A4TECH_WCP32PU	0x0006
- #define USB_DEVICE_ID_A4TECH_X5_005D	0x000a
- #define USB_DEVICE_ID_A4TECH_RP_649	0x001a
-+#define USB_DEVICE_ID_A4TECH_NB_95	0x022b
- 
- #define USB_VENDOR_ID_AASHIMA		0x06d6
- #define USB_DEVICE_ID_AASHIMA_GAMEPAD	0x0025
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index d9ca874dffac..fabd562c52a4 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -212,6 +212,7 @@ static const struct hid_device_id hid_have_special_driver[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_A4TECH, USB_DEVICE_ID_A4TECH_WCP32PU) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_A4TECH, USB_DEVICE_ID_A4TECH_X5_005D) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_A4TECH, USB_DEVICE_ID_A4TECH_RP_649) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_A4TECH, USB_DEVICE_ID_A4TECH_NB_95) },
- #endif
- #if IS_ENABLED(CONFIG_HID_ACCUTOUCH)
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELO, USB_DEVICE_ID_ELO_ACCUTOUCH_2216) },
--- 
-2.25.1
-
+> +    minimum: 0
+> +    maximum: 255
+> +
+> +  lowpower-interval-ms:
+> +    description: the minimum period in ms between consecutive
+> +      scanning/processing cycles when the chip is in low-power mode
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 0
+> +    maximum: 2550
+> +
+> +  touch-timeout-ms:
+> +    description: minimum time in ms spent in the active power state while no
+> +      touches are detected before entering low-power mode
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 0
+> +    maximum: 2550
+> +
+> +  use-handshake:
+> +    description: enable register-based handshake (boolean). This should only
+> +      be used if the chip is configured to use 'blocking communication with
+> +      timeout' (in this case the device generates an interrupt at the end of
+> +      every scanning/processing cycle)
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - bootloader-key
+> +  - touchscreen-size-x
+> +  - touchscreen-size-y
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    spi {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +      num-cs = <1>;
+> +      cs-gpios = <&gpio 2 GPIO_ACTIVE_HIGH>;
+> +
+> +      touchscreen@0 {
+> +        compatible = "cypress,cy8ctma340";
+> +        reg = <0>;
+> +        interrupt-parent = <&gpio>;
+> +        interrupts = <20 IRQ_TYPE_EDGE_FALLING>;
+> +        reset-gpios = <&gpio 21 GPIO_ACTIVE_LOW>;
+> +        vdd-supply = <&ldo_aux1_reg>;
+> +        vcpin-supply = <&ldo_aux2_reg>;
+> +        bootloader-key = /bits/ 8 <0x00 0x01 0x02 0x03 0x04 0x05 0x06 0x07>;
+> +        touchscreen-size-x = <480>;
+> +        touchscreen-size-y = <800>;
+> +        active-interval-ms = <0>;
+> +        touch-timeout-ms = <255>;
+> +        lowpower-interval-ms = <10>;
+> +      };
+> +    };
+> +
+> +...
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/cyttsp.txt b/Documentation/devicetree/bindings/input/touchscreen/cyttsp.txt
+> deleted file mode 100644
+> index 6ee274aa8b03..000000000000
+> --- a/Documentation/devicetree/bindings/input/touchscreen/cyttsp.txt
+> +++ /dev/null
+> @@ -1,93 +0,0 @@
+> -* Cypress cyttsp touchscreen controller
+> -
+> -Required properties:
+> - - compatible		: must be "cypress,cyttsp-i2c" or "cypress,cyttsp-spi"
+> - - reg			: Device I2C address or SPI chip select number
+> - - spi-max-frequency	: Maximum SPI clocking speed of the device (for cyttsp-spi)
+> - - interrupts		: (gpio) interrupt to which the chip is connected
+> -			  (see interrupt binding[0]).
+> - - bootloader-key	: the 8-byte bootloader key that is required to switch
+> -			  the chip from bootloader mode (default mode) to
+> -			  application mode.
+> -			  This property has to be specified as an array of 8
+> -			  '/bits/ 8' values.
+> -
+> -Optional properties:
+> - - reset-gpios		: the reset gpio the chip is connected to
+> -			  (see GPIO binding[1] for more details).
+> - - touchscreen-size-x	: horizontal resolution of touchscreen (in pixels)
+> - - touchscreen-size-y	: vertical resolution of touchscreen (in pixels)
+> - - touchscreen-fuzz-x	: horizontal noise value of the absolute input device
+> -			  (in pixels)
+> - - touchscreen-fuzz-y	: vertical noise value of the absolute input device
+> -			  (in pixels)
+> - - active-distance	: the distance in pixels beyond which a touch must move
+> -			  before movement is detected and reported by the device.
+> -			  Valid values: 0-15.
+> - - active-interval-ms	: the minimum period in ms between consecutive
+> -			  scanning/processing cycles when the chip is in active mode.
+> -			  Valid values: 0-255.
+> - - lowpower-interval-ms	: the minimum period in ms between consecutive
+> -			  scanning/processing cycles when the chip is in low-power mode.
+> -			  Valid values: 0-2550
+> - - touch-timeout-ms	: minimum time in ms spent in the active power state while no
+> -			  touches are detected before entering low-power mode.
+> -			  Valid values: 0-2550
+> - - use-handshake	: enable register-based handshake (boolean). This should
+> -			  only be used if the chip is configured to use 'blocking
+> -			  communication with timeout' (in this case the device
+> -			  generates an interrupt at the end of every
+> -			  scanning/processing cycle).
+> -
+> -[0]: Documentation/devicetree/bindings/interrupt-controller/interrupts.txt
+> -[1]: Documentation/devicetree/bindings/gpio/gpio.txt
+> -
+> -Example:
+> -	&i2c1 {
+> -		/* ... */
+> -		cyttsp@a {
+> -			compatible = "cypress,cyttsp-i2c";
+> -			reg = <0xa>;
+> -			interrupt-parent = <&gpio0>;
+> -			interrupts = <28 0>;
+> -			reset-gpios = <&gpio3 4 GPIO_ACTIVE_LOW>;
+> -
+> -			touchscreen-size-x = <800>;
+> -			touchscreen-size-y = <480>;
+> -			touchscreen-fuzz-x = <4>;
+> -			touchscreen-fuzz-y = <7>;
+> -
+> -			bootloader-key = /bits/ 8 <0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08>;
+> -			active-distance = <8>;
+> -			active-interval-ms = <0>;
+> -			lowpower-interval-ms = <200>;
+> -			touch-timeout-ms = <100>;
+> -		};
+> -
+> -		/* ... */
+> -	};
+> -
+> -	&mcspi1 {
+> -		/* ... */
+> -		cyttsp@0 {
+> -			compatible = "cypress,cyttsp-spi";
+> -			spi-max-frequency = <6000000>;
+> -			reg = <0>;
+> -			interrupt-parent = <&gpio0>;
+> -			interrupts = <28 0>;
+> -			reset-gpios = <&gpio3 4 GPIO_ACTIVE_LOW>;
+> -
+> -			touchscreen-size-x = <800>;
+> -			touchscreen-size-y = <480>;
+> -			touchscreen-fuzz-x = <4>;
+> -			touchscreen-fuzz-y = <7>;
+> -
+> -			bootloader-key = /bits/ 8 <0x01 0x02 0x03 0x04 0x05 0x06 0x07 0x08>;
+> -			active-distance = <8>;
+> -			active-interval-ms = <0>;
+> -			lowpower-interval-ms = <200>;
+> -			touch-timeout-ms = <100>;
+> -		};
+> -
+> -		/* ... */
+> -	};
+> -- 
+> 2.29.2
+> 
