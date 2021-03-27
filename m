@@ -2,126 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70B0934B925
-	for <lists+linux-input@lfdr.de>; Sat, 27 Mar 2021 20:44:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21ABD34B929
+	for <lists+linux-input@lfdr.de>; Sat, 27 Mar 2021 20:45:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230286AbhC0Tnv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 27 Mar 2021 15:43:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59492 "EHLO
+        id S230259AbhC0To6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 27 Mar 2021 15:44:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230002AbhC0TnV (ORCPT
+        with ESMTP id S230126AbhC0Toz (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 27 Mar 2021 15:43:21 -0400
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A925EC0613B1
-        for <linux-input@vger.kernel.org>; Sat, 27 Mar 2021 12:43:19 -0700 (PDT)
-Received: by mail-qk1-x72e.google.com with SMTP id y5so8721363qkl.9
-        for <linux-input@vger.kernel.org>; Sat, 27 Mar 2021 12:43:19 -0700 (PDT)
+        Sat, 27 Mar 2021 15:44:55 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57435C0613B1
+        for <linux-input@vger.kernel.org>; Sat, 27 Mar 2021 12:44:54 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id u20so11226883lja.13
+        for <linux-input@vger.kernel.org>; Sat, 27 Mar 2021 12:44:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZH2G9zlTYurFt4lii+StEH9jmIKNIv4yiGAm9mlue7E=;
-        b=GCMR5IYPT1nmcVEL4jLtj/ayI4oV0G8K30d7jT6Z9YhNtUwYakbIyp0PUrcmGsQFTQ
-         pd3Ql6fUw7JK3S1ElYFXYtuQZseyjZIrmXL3Nm8B0pDiv8RKLlUwhiQoFWrrTGC4vzsR
-         r35tOXXtzyaGZXor0awXjt0IFBnLQVvA6NhL94mpSv8lg2DJHv2HB1qIE8vQF/BH+KBc
-         8lUtpyty6OifMlk2CtVz6+evHzj2aplfdoDyez4n6++TPmLBlJEjZj8B/prqEGWAdh8g
-         +UXSJS/FpOK1W/Qr1zLn9hA6X/sJ/Z6p71Yeo1o4hLcb04Xf3YM2eeGJJdUtrZhMOQEl
-         kxDw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0yM+xXL4DpBFqP+OauywyjzJwlW9UjCTqUtcFDhx+YI=;
+        b=irJZ5z/DKUI1cDXu09Rto95DXN1ZBs6uYLCLz/zgThkP+jKE1ODOlBYPgvb+y/rl3g
+         bDRvVQmGakB2cmlw7pixe8wh4BRdzschq6m7Pptyugl52JnBtZyraOOuFvTPdvfQvCUI
+         OffAkZbXwSeNyK2NrNDTYeZl1y5devRw22fhXDy3p+a8uemWPo/vu0nMwH9VjNYavloP
+         +O7toA2Dj+GfyAsF79iRbzg98+Gl66lCFBeTx/z0a4dnjJCSzFrJuX+NbTXOTHnm0yA7
+         r98iBXYXYNoqaM3otUBheU7jlW43Qug9UW69my8CjiSc9ujPZXK90GQ3BwAs9eKGgy5j
+         JrXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZH2G9zlTYurFt4lii+StEH9jmIKNIv4yiGAm9mlue7E=;
-        b=OixI14yQ2nuEbYZo/K+Xrso1Ntxyj9LaSUWY0fVvu/K/CelIUhNGwSanrPJyWvzqfj
-         ioyhBGV315QQDZZAjPRlMrfbqXjWb1ePtyphxOvmxs6wS6Arj5AhWhWObFz7Bxjaz36z
-         jSY6iA44lbDdV8WYUUackEe1GzBWbeVHsl0KQ7BdWnwRgOrxkgjXctOpCi3sAPBhdpMp
-         gjhfVDzgVPzeKEolGAqPgZ2hEdNm+ZnyeHtIMJNaMWoa620PCJASoUbX4IvcBzlhO1eR
-         4Eu/LrGa039q5+gRY18hoFrvsbVr1TFqbzsAMy+r7AfFrQDByxPphCb6e0dL9T+Or6su
-         kfnQ==
-X-Gm-Message-State: AOAM530coi6Uo936oN9krj+rJA1cP7ot4ny8UWrNlvjtPjZfMpNWWqjh
-        vfvCW5nVsy3xOm9Nv48fO1REQP/bDGo=
-X-Google-Smtp-Source: ABdhPJyrlIEePS0c11l2VT6cnMJLEa4j8SSbCWxjf7OR69OkOK+5PDC+gqtZFRGwpYKtHv1vzV2nJg==
-X-Received: by 2002:a37:5f04:: with SMTP id t4mr18367002qkb.440.1616874198948;
-        Sat, 27 Mar 2021 12:43:18 -0700 (PDT)
-Received: from localhost.localdomain ([2804:431:d77e:bbfa:7898:56c:200:f2a5])
-        by smtp.gmail.com with ESMTPSA id j14sm3210919qtj.87.2021.03.27.12.43.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Mar 2021 12:43:18 -0700 (PDT)
-From:   Fabio Estevam <festevam@gmail.com>
-To:     dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH v3] Input: imx_keypad - convert to a DT-only driver
-Date:   Sat, 27 Mar 2021 16:43:07 -0300
-Message-Id: <20210327194307.541248-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0yM+xXL4DpBFqP+OauywyjzJwlW9UjCTqUtcFDhx+YI=;
+        b=lNWV89Lmmb7KBsatADcQC9nmpwv0vK3YW3Uxiy3g5e/rau+Rw6p/fGFOWMJdGAY4aG
+         YhXwbUor8OXvw6jQloeYvv3oypQ7oHpax4TGL6BsbBGI4IgkF7RIdCBhOqqyPQlUIVnW
+         VyIF4NEOrj5nErbrXuX26Xz5JW+jvRclbcHKiTWGjrKbGk23dUVdZMppmimVqiIZmF9J
+         H9Cz1aaMSgNoqlbcsaewLdQsyzH2BP7ZF5iCHp7E1H0sux4AP1eWfuGGOSEo4qTfTgWU
+         U57SZo0sMdzIhSM6/d4Zd+rMCrFj3uUM4VgXQcjx0qkbSlQ5w7PLkVBDOmVx4o5HMcBp
+         TgSw==
+X-Gm-Message-State: AOAM532HyVIGDJt5KnqKq+N95El6+pcwhYYd/oBOtexCS+ADGUQlkP0w
+        q+EHZQ2heTJze3ELyt1+neKGT14gwig5K7J21OI=
+X-Google-Smtp-Source: ABdhPJyue9pd2iEIs+DaAFu3or8NCDaV+dimlF3IWWiv0Q9tkdYPPNOEQ/v4PlcGZuV3TpLRJzGrm1qZpkep18y0pRQ=
+X-Received: by 2002:a2e:8590:: with SMTP id b16mr13057917lji.53.1616874292923;
+ Sat, 27 Mar 2021 12:44:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210316133534.224105-1-festevam@gmail.com> <CAOMZO5A36YbA59v4NmEFjhkcXF5fTDRn1204_U3+X86qfbqB9g@mail.gmail.com>
+ <YF+JZsCSY4C+StK5@google.com>
+In-Reply-To: <YF+JZsCSY4C+StK5@google.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Sat, 27 Mar 2021 16:44:41 -0300
+Message-ID: <CAOMZO5B13HCvSKfNh1pUR5PA6x+SKinPxiKNYjQZEUCDy1eq5w@mail.gmail.com>
+Subject: Re: [PATCH v2] Input: imx_keypad - convert to a DT-only driver
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-i.MX has been converted to a DT-only platform, so make the
-adjustments to the driver to convert it to a DT-only driver.
+Hi Dmitry,
 
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
----
-Changes since v2:
-- Remove the OF dependency in Kconfig. (Dmitry)
+On Sat, Mar 27, 2021 at 4:37 PM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
 
- drivers/input/keyboard/imx_keypad.c | 13 ++-----------
- 1 file changed, 2 insertions(+), 11 deletions(-)
+> Sorry, I am still confused why we need the OF dependency given that the
+> driver can be compiled without CONFIG_OF (of_device_id is always
+> defined) and, as far as I understand, while entire ARCH_MXC is not
+> selecting OF, all real users are converted to OF.
+>
+> I guess if we really need this OF dependency we can make it:
+>
+>         depends on (ARCH_MXC && OF) || COMPILE_TEST
+>
+> Please let me know.
 
-diff --git a/drivers/input/keyboard/imx_keypad.c b/drivers/input/keyboard/imx_keypad.c
-index 1f5c9ea5e9e5..ae9303848571 100644
---- a/drivers/input/keyboard/imx_keypad.c
-+++ b/drivers/input/keyboard/imx_keypad.c
-@@ -408,27 +408,18 @@ static int imx_keypad_open(struct input_dev *dev)
- 	return -EIO;
- }
- 
--#ifdef CONFIG_OF
- static const struct of_device_id imx_keypad_of_match[] = {
- 	{ .compatible = "fsl,imx21-kpp", },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, imx_keypad_of_match);
--#endif
- 
- static int imx_keypad_probe(struct platform_device *pdev)
- {
--	const struct matrix_keymap_data *keymap_data =
--			dev_get_platdata(&pdev->dev);
- 	struct imx_keypad *keypad;
- 	struct input_dev *input_dev;
- 	int irq, error, i, row, col;
- 
--	if (!keymap_data && !pdev->dev.of_node) {
--		dev_err(&pdev->dev, "no keymap defined\n");
--		return -EINVAL;
--	}
--
- 	irq = platform_get_irq(pdev, 0);
- 	if (irq < 0)
- 		return irq;
-@@ -469,7 +460,7 @@ static int imx_keypad_probe(struct platform_device *pdev)
- 	input_dev->open = imx_keypad_open;
- 	input_dev->close = imx_keypad_close;
- 
--	error = matrix_keypad_build_keymap(keymap_data, NULL,
-+	error = matrix_keypad_build_keymap(NULL, NULL,
- 					   MAX_MATRIX_KEY_ROWS,
- 					   MAX_MATRIX_KEY_COLS,
- 					   keypad->keycodes, input_dev);
-@@ -582,7 +573,7 @@ static struct platform_driver imx_keypad_driver = {
- 	.driver		= {
- 		.name	= "imx-keypad",
- 		.pm	= &imx_kbd_pm_ops,
--		.of_match_table = of_match_ptr(imx_keypad_of_match),
-+		.of_match_table = imx_keypad_of_match,
- 	},
- 	.probe		= imx_keypad_probe,
- };
--- 
-2.25.1
+You are correct. There is no need to add the OF dependency.
 
+I have just submitted v3 without it.
+
+Thanks
