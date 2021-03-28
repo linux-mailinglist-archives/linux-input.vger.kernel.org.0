@@ -2,126 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 12C3C34BD89
-	for <lists+linux-input@lfdr.de>; Sun, 28 Mar 2021 19:22:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87DD734BDF9
+	for <lists+linux-input@lfdr.de>; Sun, 28 Mar 2021 20:08:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231459AbhC1RV2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 28 Mar 2021 13:21:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53470 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231340AbhC1RVF (ORCPT
+        id S231510AbhC1SHc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 28 Mar 2021 14:07:32 -0400
+Received: from mail.hanoi.gov.vn ([113.160.32.33]:31610 "EHLO
+        mx01.hanoi.gov.vn" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229647AbhC1SHR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 28 Mar 2021 13:21:05 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C17A8C061756;
-        Sun, 28 Mar 2021 10:21:04 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id m12so14902784lfq.10;
-        Sun, 28 Mar 2021 10:21:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=m5n0YXOwW9Hi1GIX7USstKgF3p3m11IaefFXa7cKRmM=;
-        b=KG3dCp5GSUH47Hc4LdQZI/2q+2sU74KRV1LkWlb44jlV8t0LNd9rAUJchmXnEREkEq
-         /kYJkVSUl3siYQIm385XNBBQ9C77ekcH/01si1fudYx3Y2b5V6zQwbcbADBSQI/MakQM
-         1V5T9CO7mhb93jWtlxvISFxEbNj7t1sydOSow4uf5u9CcvVjpys3Wes/upgxBps4D3lG
-         SmD6mqXf6605g9NgIsHVWzzHmrivf+XsXl4MNwNLXplZ0JHin6I7QRMgrNAenXcmTXYE
-         6yvMddvTR02ywUBh8bQ/6Fj2AXxiLd+jj8/sFViDJc25fABhQSLRvgVmmpKbDy2NW9A2
-         KWOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=m5n0YXOwW9Hi1GIX7USstKgF3p3m11IaefFXa7cKRmM=;
-        b=s+tRyqFmhpBmaPanx8yEKxE4AIckLdXfdJ/XIdUYEKPdDFpWBKsDKd478aM7Hx84I5
-         CqrKYOYCupMer7oPCADM5+V3iw27pQnZBWlanIG2xPQZ0w6JQYGqXIWY4S0tb3sF5chL
-         7c4ICVbD3TK2BbolcNGSVPjRhTKcGBBghh2rpFT2e+M1QEPLSErpubwGqUrkYVqeuDvy
-         L/tTU3cdHr1BCTLbD2ztJ52BYpP+ikgbORP6gdc7Cd093uecU8wfs734oSPqYGBwYQPj
-         LGEPJgM7BUgbv7idSBSHsuPjvjTrmHi19EC9rvZEsGCtoggeslPizy3a9Eh896wB4kfe
-         sWSw==
-X-Gm-Message-State: AOAM5307zu2+JTaztGDEpWPXwWSlsiBKl7FGMmV4Aksb3iN3ovDDacYr
-        cLXv7qmDlb7SzgZHHIOitlDk2LE6Qow=
-X-Google-Smtp-Source: ABdhPJzOcVq18vABympiFDVg8EaHQrSG8xdwAihOObkL26wxulKBKB82BxgIOg9JVbo/eOe1tKdBFQ==
-X-Received: by 2002:a05:6512:b97:: with SMTP id b23mr14338302lfv.101.1616952063168;
-        Sun, 28 Mar 2021 10:21:03 -0700 (PDT)
-Received: from ?IPv6:2a00:1370:814d:b259:a10:76ff:fe69:21b6? ([2a00:1370:814d:b259:a10:76ff:fe69:21b6])
-        by smtp.googlemail.com with ESMTPSA id f26sm1534567lfe.118.2021.03.28.10.21.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 Mar 2021 10:21:02 -0700 (PDT)
-Subject: Re: [PATCH v1] Input: elants_i2c - fix division by zero if firmware
- reports zero phys size
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
-        Johnny Chuang <johnny.chuang.emc@gmail.com>,
-        Jasper Korten <jja2000@gmail.com>,
-        Svyatoslav Ryhel <clamor95@gmail.com>,
-        linux-input@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210302100824.3423-1-digetx@gmail.com>
- <YGAJmGqNitQ9XwVl@google.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <ee24fc68-0e58-df10-8b3f-a1b18f95e4ad@gmail.com>
-Date:   Sun, 28 Mar 2021 20:21:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Sun, 28 Mar 2021 14:07:17 -0400
+X-Greylist: delayed 474 seconds by postgrey-1.27 at vger.kernel.org; Sun, 28 Mar 2021 14:07:01 EDT
+Received: from mx01.hanoi.gov.vn (localhost [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 30259EC3D8;
+        Mon, 29 Mar 2021 00:57:51 +0700 (+07)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=hanoi.gov.vn;
+        s=default; t=1616954272;
+        bh=FuW10Z6fSdeNlf/0u/BQ1jcwkjYBw0uHUPQgn0LGo7I=; h=Date:From:To;
+        b=R9blPfqJCHUsZAyZxsyyryS61fl4krmBjYKWM6eGGwB8ZdbTBVPL1mmKOmZXMqNlA
+         7CEqA0MXgUAy+X4oK/wthh4vC9Xoov1Ce8tjf/qJvnL7KGsGNVg9ic0krGeHrdNzGM
+         5cIEKsz0emmHL/izbEfCtadst3HYllOJWdonlm5o=
+X-IMSS-DKIM-Authentication-Result: mx01.hanoi.gov.vn; sigcount=0
+Received: from mx01.hanoi.gov.vn (localhost [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 50FCBEC3DD;
+        Mon, 29 Mar 2021 00:57:49 +0700 (+07)
+Received: from mail.hanoi.gov.vn (mail.hanoi.gov.vn [10.1.1.25])
+        by mx01.hanoi.gov.vn (Postfix) with ESMTPS;
+        Mon, 29 Mar 2021 00:57:49 +0700 (+07)
+Received: from mail.hanoi.gov.vn (localhost [127.0.0.1])
+        by mail.hanoi.gov.vn (Postfix) with ESMTPS id 02AFC7F41B42;
+        Mon, 29 Mar 2021 00:57:44 +0700 (+07)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.hanoi.gov.vn (Postfix) with ESMTP id 08FE47F41B5D;
+        Mon, 29 Mar 2021 00:57:41 +0700 (+07)
+Received: from mail.hanoi.gov.vn ([127.0.0.1])
+        by localhost (mail.hanoi.gov.vn [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 1D3oZsOAVsx3; Mon, 29 Mar 2021 00:57:36 +0700 (+07)
+Received: from mail.hanoi.gov.vn (mail.hanoi.gov.vn [10.1.1.25])
+        by mail.hanoi.gov.vn (Postfix) with ESMTP id 478CE7F41B59;
+        Mon, 29 Mar 2021 00:57:33 +0700 (+07)
+Date:   Mon, 29 Mar 2021 00:57:33 +0700 (ICT)
+From:   Mackenzie Scott <ttptqd_thanhoai@hanoi.gov.vn>
+Reply-To: Mackenzie Scott <propack@propck.net>
+Message-ID: <354204758.25920932.1616954253215.JavaMail.zimbra@hanoi.gov.vn>
+Subject: Congratulations ($ 100,800,000.00)
 MIME-Version: 1.0
-In-Reply-To: <YGAJmGqNitQ9XwVl@google.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.107.80.217]
+X-Mailer: Zimbra 8.8.15_GA_3894 (zclient/8.8.15_GA_3894)
+Thread-Index: ao/APhyKX+JH1nE2Rn/kAmnh2LEgkw==
+Thread-Topic: Congratulations ($ 100,800,000.00)
+To:     undisclosed-recipients:;
+X-TM-AS-GCONF: 00
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-28.03.2021 07:44, Dmitry Torokhov пишет:
-> Hi Dmitry,
-> 
-> On Tue, Mar 02, 2021 at 01:08:24PM +0300, Dmitry Osipenko wrote:
->> Touchscreen firmware of ASUS Transformer TF700T reports zeros for the phys
->> size. Hence check whether the size is zero and don't set the resolution in
->> this case.
->>
->> Reported-by: Jasper Korten <jja2000@gmail.com>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>
->> Please note that ASUS TF700T isn't yet supported by upstream kernel,
->> hence this is not a critical fix.
->>
->>  drivers/input/touchscreen/elants_i2c.c | 8 +++++---
->>  1 file changed, 5 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
->> index 4c2b579f6c8b..a2e1cc4192b0 100644
->> --- a/drivers/input/touchscreen/elants_i2c.c
->> +++ b/drivers/input/touchscreen/elants_i2c.c
->> @@ -1441,14 +1441,16 @@ static int elants_i2c_probe(struct i2c_client *client,
->>  
->>  	touchscreen_parse_properties(ts->input, true, &ts->prop);
->>  
->> -	if (ts->chip_id == EKTF3624) {
->> +	if (ts->chip_id == EKTF3624 && ts->phy_x && ts->phy_y) {
->>  		/* calculate resolution from size */
->>  		ts->x_res = DIV_ROUND_CLOSEST(ts->prop.max_x, ts->phy_x);
->>  		ts->y_res = DIV_ROUND_CLOSEST(ts->prop.max_y, ts->phy_y);
->>  	}
->>  
->> -	input_abs_set_res(ts->input, ABS_MT_POSITION_X, ts->x_res);
->> -	input_abs_set_res(ts->input, ABS_MT_POSITION_Y, ts->y_res);
->> +	if (ts->x_res > 0)
->> +		input_abs_set_res(ts->input, ABS_MT_POSITION_X, ts->x_res);
-> 
-> There is absolutely no difference between setting respluton to 0 vs not
-> setting it at all, so I dropped the conditionals and applied.
-> 
->> +	if (ts->y_res > 0)
->> +		input_abs_set_res(ts->input, ABS_MT_POSITION_Y, ts->y_res);
->>  	if (ts->major_res > 0)
-> 
-> We could drop this condition as well.
-> 
->>  		input_abs_set_res(ts->input, ABS_MT_TOUCH_MAJOR, ts->major_res);
 
-I'll make a follow up patch to clean up this condition, if you haven't
-done it yet. Thanks!
+
+Hello,i&#39;m Mackenzie Scott,Ex-wife of Amazon founder i&#39;m donating $4 billion to charities,individuals,universities across the Globe from my divorce funds,i&#39;m donating part of it to provide immediate support to people suffering economically during the COVID-19 pandemic,i have a donation worth $100,800,000.00 Dollars for you,you can contact me for more information if you&#39;re interested.
