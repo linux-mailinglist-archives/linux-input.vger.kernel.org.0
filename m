@@ -2,90 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 40C2834BFE4
-	for <lists+linux-input@lfdr.de>; Mon, 29 Mar 2021 01:56:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C87C934C36E
+	for <lists+linux-input@lfdr.de>; Mon, 29 Mar 2021 07:59:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229719AbhC1Xzf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 28 Mar 2021 19:55:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52790 "EHLO
+        id S229555AbhC2F6p (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 29 Mar 2021 01:58:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229656AbhC1XzY (ORCPT
+        with ESMTP id S229441AbhC2F6O (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 28 Mar 2021 19:55:24 -0400
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3B11C061756;
-        Sun, 28 Mar 2021 16:55:23 -0700 (PDT)
-Received: by mail-qk1-x72c.google.com with SMTP id c4so10937924qkg.3;
-        Sun, 28 Mar 2021 16:55:23 -0700 (PDT)
+        Mon, 29 Mar 2021 01:58:14 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8FD4C061574;
+        Sun, 28 Mar 2021 22:58:13 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id j25so9194890pfe.2;
+        Sun, 28 Mar 2021 22:58:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Y/X7rLd9c4uJ3A2f0AZurEyNpS9KP1WXO54XbpQnR5g=;
-        b=J0MT42qZJSdOmCP70SSp5E763yWMZCmJVk5R/L0YumVd9Ev989M/WMyetXKkeP22NH
-         0clixICxIaMpObN/L7YE4sMbOYB8JIk184qsHOGoCcVLYcH5uwqRPJdDx3LQqF/smls3
-         RQEZkl+v/KmewMoi369DzYMIs7cismKVucNYjsmLN2iEyYo1EicQzBt6L4uHJnh4JGLx
-         L1MWlO6UAfI4SjicBwTcEUsykad8c+AfPX8vKrQ5a/XXvUAlhOX69yyRHxth+9EFO9Sw
-         z12yIcXAkKK68Z8Sr7seLHppcDmnu4SkQ+0Ri3Ya22WO5xezd4ZUZkkmYiFyWIAbOcQM
-         Gzjg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=m16upIkAqWTm1fGBTe51fjEDym/DB/Ins7P+Du5OzQo=;
+        b=rcUwRWiCJg3j5nr6mqlkRCo5giHz/lZKL5ekbKmxmICeUTyZ/CpyjifTGTbQpiynNi
+         bdZxB6O/MB581oNb3KEu5ZYE/aK+4Dcpd+lW5Ok6/C4HkICfXcr8DWp8KBVO0BU4aLDt
+         4iyou29AnbbMpmZodzSf3RUd7BCm1WMTbsm24SbKsg+5cxXU+EzTSfCWlKmn6OHsv1uF
+         FVqV8d25WjPGppfAhRJHlFHY4eGtDwXha8rqcRKd4EErUVL33tcO7nWCmMKOAE5v7Ti2
+         dqmnInnPKetz3H9h7+zjKZdVydOBDX70szOhgUw0uyAC/h8a68XbtwlHanhEqcdaSZgH
+         yTUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Y/X7rLd9c4uJ3A2f0AZurEyNpS9KP1WXO54XbpQnR5g=;
-        b=sg4qieTPIoufX+yahMeAr+7Q3GVHlirGweMJ/9WM6Db2qnmKzUFz+LBN5R/dbdSZDV
-         +mLUfnnabtOx0fxVfQ34xs9+ELedgxVSM7rAD7BeDEKTdhvIbx2BTOKuTYo2Ll+LpAHO
-         jBEBBj5tdKz40kx2Fy6LVv24eIYe3XZbBiYfuO3qIvHSFnm8BT4qcLrFW21VNOKhbM68
-         Vpi3UyN+M5RDp2Nsw3Q4ZqC/PuVlsVqPTKzUdHlA3Rj3+QbAwJt3F56rzG+s9tCst/1c
-         NwAbMydvRfHXZt03ZHo3aKkz9N9XPMJp1JDMEavL4N76XoCHHpfFK3Wh8b22Kyx9CVLP
-         Bqdg==
-X-Gm-Message-State: AOAM531UZT1RlS2BL2VZ2YpVdKgvMIQB12N2G0mkEMipNIHa1Lyvp+UL
-        10ia1sSWBbcZeb1zYqpoV/quJVYaL1Q=
-X-Google-Smtp-Source: ABdhPJzkaVo9UnsB1HXDVkwln3DMD6ElY0KbO1AASnLgqsE6bSuyGh3orlfjj4DdCu7mTiz1CqQKbw==
-X-Received: by 2002:a37:a404:: with SMTP id n4mr22659531qke.439.1616975723126;
-        Sun, 28 Mar 2021 16:55:23 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:1370:814d:b259:a10:76ff:fe69:21b6])
-        by smtp.gmail.com with ESMTPSA id t2sm9969129qtd.13.2021.03.28.16.55.21
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=m16upIkAqWTm1fGBTe51fjEDym/DB/Ins7P+Du5OzQo=;
+        b=ZSwn8F7CWi9/96loAHaVewBO/90BeHuxRjnWaF1sdSfJog/pKAEYQR6ulkDykYPBkn
+         OnqfW+DPVd8CLO2qkRQF1c660aHVtIkB6NuDwvnVmE2lD80GD5lM9wMaQivuwk3sbxi5
+         //Y1nog7bUGLICoo/5Sbwu3LqMvVmOT+SnpuxrOoTyTGiUQl4qYeoJh70qZZaPMter7P
+         xL7MK/kT2pWpxiMD9lPBzDooA+OQN2404MdbvtfI6glC4TwhLnYmZSSe8d241MCIyDO8
+         MGe0QjSkDZOUlMbCCb4z7zlYDb84pFnHMPYubEwTrbxDpwniWEfg9SRc3ziPu+KSqvTj
+         veng==
+X-Gm-Message-State: AOAM5308KFQZ0DsMqrNvBRZkimdaeVqC1HnbDzNR8fZuRJv7JIkaajyr
+        TWXgFAa230v5MBRmPQYeEQ8=
+X-Google-Smtp-Source: ABdhPJwuyeYLtVyHrfeCqj2UD8vjkEck6ctH4VXhCL3Xu7pbSDwLqXKWWbK/Clbw+PCuR63jvBE4Qw==
+X-Received: by 2002:aa7:8d92:0:b029:1ee:75d1:c87 with SMTP id i18-20020aa78d920000b02901ee75d10c87mr24282739pfr.9.1616997493013;
+        Sun, 28 Mar 2021 22:58:13 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:edd5:9203:cce2:3bb6])
+        by smtp.gmail.com with ESMTPSA id e21sm14125878pgv.74.2021.03.28.22.58.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Mar 2021 16:55:22 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Johnny Chuang <johnny.chuang.emc@gmail.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1] Input: elants_i2c - drop zero-checking of ABS_MT_TOUCH_MAJOR resolution
-Date:   Mon, 29 Mar 2021 02:55:07 +0300
-Message-Id: <20210328235507.19240-1-digetx@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        Sun, 28 Mar 2021 22:58:11 -0700 (PDT)
+Date:   Sun, 28 Mar 2021 22:58:09 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Johnny Chuang <johnny.chuang.emc@gmail.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] Input: elants_i2c - drop zero-checking of
+ ABS_MT_TOUCH_MAJOR resolution
+Message-ID: <YGFscQAEx8TnDm6I@google.com>
+References: <20210328235507.19240-1-digetx@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210328235507.19240-1-digetx@gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Drop unnecessary zero-checking of ABS_MT_TOUCH_MAJOR resolution since
-there is no difference between setting resolution to 0 vs not setting
-it at all. This change makes code cleaner a tad.
+On Mon, Mar 29, 2021 at 02:55:07AM +0300, Dmitry Osipenko wrote:
+> Drop unnecessary zero-checking of ABS_MT_TOUCH_MAJOR resolution since
+> there is no difference between setting resolution to 0 vs not setting
+> it at all. This change makes code cleaner a tad.
+> 
+> Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 
-Suggested-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/input/touchscreen/elants_i2c.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Applied, thank you.
 
-diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
-index 4c2b579f6c8b..7ddc24471819 100644
---- a/drivers/input/touchscreen/elants_i2c.c
-+++ b/drivers/input/touchscreen/elants_i2c.c
-@@ -1449,8 +1449,7 @@ static int elants_i2c_probe(struct i2c_client *client,
- 
- 	input_abs_set_res(ts->input, ABS_MT_POSITION_X, ts->x_res);
- 	input_abs_set_res(ts->input, ABS_MT_POSITION_Y, ts->y_res);
--	if (ts->major_res > 0)
--		input_abs_set_res(ts->input, ABS_MT_TOUCH_MAJOR, ts->major_res);
-+	input_abs_set_res(ts->input, ABS_MT_TOUCH_MAJOR, ts->major_res);
- 
- 	error = input_mt_init_slots(ts->input, MAX_CONTACT_NUM,
- 				    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
 -- 
-2.30.2
-
+Dmitry
