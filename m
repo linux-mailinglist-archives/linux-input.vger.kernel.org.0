@@ -2,104 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD71534D48B
-	for <lists+linux-input@lfdr.de>; Mon, 29 Mar 2021 18:11:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FBEA34D7C9
+	for <lists+linux-input@lfdr.de>; Mon, 29 Mar 2021 21:09:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229468AbhC2QKd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 29 Mar 2021 12:10:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39136 "EHLO
+        id S230122AbhC2TJH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 29 Mar 2021 15:09:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229689AbhC2QKd (ORCPT
+        with ESMTP id S231509AbhC2TIg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 Mar 2021 12:10:33 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EED22C061574;
-        Mon, 29 Mar 2021 09:10:32 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id o2so4620325plg.1;
-        Mon, 29 Mar 2021 09:10:32 -0700 (PDT)
+        Mon, 29 Mar 2021 15:08:36 -0400
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFD1FC061574;
+        Mon, 29 Mar 2021 12:08:36 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id q5so10470297pfh.10;
+        Mon, 29 Mar 2021 12:08:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=GLY3ymCl5yT9GXpslLzZrF5s6T8lhJSvt/auSZruXfQ=;
-        b=SS7rYxURdRFmyT8+DqnMEGRlWazLI0t4f4bknpfN6C/T7fb7ZG5GkDwSDJk/g86UdC
-         uLSUuXZuovWKry6ythBCWhXmDZsqYI47o4fyMI0iZOASm8XuIGaAn7DFaSwS0uUQtVO4
-         +fawJ6vWw1MsFMxpmeDB4eaWX3O97dqoF+8sw23w8b0vsmENlArckSF7dpYcvMC7qLNy
-         B87Y++pNVXcXExCeXKKaT+hMivd1/vgNR5nVXohUwSYzKTb95Krf1VCxURT4eR/YlFh8
-         ZEwx4zDPjyr5SdyaEblR/dpKIjtmrK3uV2IF8vQmpz//pUNICuzpyC6uSbqIqy5RAI+v
-         1vmQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=A1aSVQ8Nbla/MB0w7R8S6KttISqOIat+NhW/HJUeyVI=;
+        b=kDUcdMl7lx9WyPlIQtpfVX26FPaRgsdULjFNf2y3uRlptPKdlmr113tFoGnfe1FBha
+         8FXzDQvJdS4uidnag+vN447OWGuhKoEna/HwkbHQwSN3Z6g7D/BGLHvE+TRCUIQYOnYq
+         z5iKsyheHZfMuPVfd0NY+f5YXOEMkqB4AoTGJ7iDU3UWbquUBgnHtMMz1MTzy2lYvcL7
+         P2BQYmjc1bxXYTC/rt1ay/xFdI/fYDMABjaPZLaoN6XFeisf1+XSzPkUmXDnPMRzxHb0
+         u+nYTP3QN2pp4NWodJGSD1e7hc47IXuEMfNRP4BB6hvnECuLy01/O7wGTi/ferb47Qzs
+         92zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=GLY3ymCl5yT9GXpslLzZrF5s6T8lhJSvt/auSZruXfQ=;
-        b=QUxJ+qny7WuIiD/4vhmJJ8fqUgEwsOUSZjK6RCWM4+HTK7WbDrrvss/pGIyQUniI1G
-         9oXNGDIOCpKeCuQfkmDm3e4DCLaoXBk7EJ+/OaI9F1Tw9vc2s8XBPoKH5QU6mKC3v62s
-         eHB4FIHe94J/n7awFq1bxskRtn3MaMhMPf7AUSZ7PC8IwqGpPoXj+4mxsHYkvCoO/1v1
-         CvzQ0ZAgQ0CbOuN+gtaPFTLoEp9UHpKkp0zAnbkpl3zZdQNYA+NJijhbLfaKga3SThZT
-         o9ipK5yiy8M6t7fLQoTQQXNdHie8HvuGAPrppy6JXDBtViwRXKJy+MaEH1Uxqn59co+C
-         hdHw==
-X-Gm-Message-State: AOAM531kSYJ+AF28KRRNs98HrsdGZBDbIxOYorlE0tPI/pv6JYeIwrQW
-        ngLjpgc0CrqGjLW35K9ZNUg=
-X-Google-Smtp-Source: ABdhPJx8fWM+QByHKswdlWX1ZeEgyyPCiXaQbkm41Iv2W6QvvMrGpHB700aH6K1vE4LDLHOmowI1Wg==
-X-Received: by 2002:a17:90a:7186:: with SMTP id i6mr28458814pjk.191.1617034232430;
-        Mon, 29 Mar 2021 09:10:32 -0700 (PDT)
-Received: from nirenjan.com ([138.68.227.108])
-        by smtp.gmail.com with ESMTPSA id q1sm8403016pgf.20.2021.03.29.09.10.31
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=A1aSVQ8Nbla/MB0w7R8S6KttISqOIat+NhW/HJUeyVI=;
+        b=UTtp1fP/6ZN54aga2dfjgOhKIiYHhbMW7yEp69CxHet3q6wBEBUgPEeFEElGgVrxZF
+         +m1e2gksK7770UjcYRWIvh5tj8OaCl2N5bNV5WfF54Sby5D7nkDg09sgbbSmzASLyx/+
+         ZjpuP8frtbYEjHqGSH/fSCu1BmOlJgTrAHSvJAdQl522HOR5np9WCqzCq2s9iBQ83n7o
+         qRQG17Q9tEbqcmqmYPN5XtYNwCwT6GWXF8X7ggg8ttNwQbG1NLCvmxypNJ/Qfy0fcP17
+         2KZNHQ49zhWeJ6OHdXfUjZk4v1DiebbfrT/vcEmDEsTWYmxbzFgB4LttNnErntypiBZp
+         hHAw==
+X-Gm-Message-State: AOAM531DDcpKvKAc5obatStIM44uBn/l+4NDtGem2Y6pD1fFpJ3mK2Sp
+        wJ4/p0d5uEvDOplYMZgdrhCsSFYHw20=
+X-Google-Smtp-Source: ABdhPJxf1L2ikucUGbFtfXdEwpOaJDv74guHEWbUh3SlyOjrqt5rlHQxd9qgDJxiX3KHnDukIzBaNA==
+X-Received: by 2002:a63:ea53:: with SMTP id l19mr24554459pgk.176.1617044916075;
+        Mon, 29 Mar 2021 12:08:36 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:a82a:a913:988c:7480])
+        by smtp.gmail.com with ESMTPSA id y23sm17862356pfo.50.2021.03.29.12.08.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Mar 2021 09:10:31 -0700 (PDT)
-From:   Nirenjan Krishnan <nirenjan@gmail.com>
-To:     jikos@kernel.org, benjamin.tissoires@redhat.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nirenjan Krishnan <nirenjan@gmail.com>
-Subject: [PATCH] HID: quirks: Set INCREMENT_USAGE_ON_DUPLICATE for Saitek X65
-Date:   Mon, 29 Mar 2021 09:10:02 -0700
-Message-Id: <20210329161002.13202-1-nirenjan@gmail.com>
-In-Reply-To: <20210323053511.17887-1-nirenjan@gmail.com>
-References: <20210323053511.17887-1-nirenjan@gmail.com>
+        Mon, 29 Mar 2021 12:08:34 -0700 (PDT)
+Date:   Mon, 29 Mar 2021 12:08:32 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Alistair Francis <alistair@alistair23.me>
+Cc:     linux-input@vger.kernel.org, linux-imx@nxp.com,
+        kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+        alistair23@gmail.com
+Subject: Re: [PATCH v4 04/10] Input: wacom_i2c - Add touchscren properties
+Message-ID: <YGIlsLgvE9y/jiGk@google.com>
+References: <20210326015229.141-1-alistair@alistair23.me>
+ <20210326015229.141-4-alistair@alistair23.me>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210326015229.141-4-alistair@alistair23.me>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The Saitek X65 joystick has a pair of axes that were used as mouse
-pointer controls by the Windows driver. The corresponding usage page is
-the Game Controls page, which is not recognized by the generic HID
-driver, and therefore, both axes get mapped to ABS_MISC. The quirk makes
-the second axis get mapped to ABS_MISC+1, and therefore made available
-separately.
+On Thu, Mar 25, 2021 at 09:52:24PM -0400, Alistair Francis wrote:
+> Connect touchscreen properties to the wacom_i2c.
+> 
+> Signed-off-by: Alistair Francis <alistair@alistair23.me>
+> ---
+> v4:
+>  - Add touchscreen_report_pos() as well
+> 
+>  drivers/input/touchscreen/wacom_i2c.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/input/touchscreen/wacom_i2c.c b/drivers/input/touchscreen/wacom_i2c.c
+> index eada68770671..ee1829dd35f4 100644
+> --- a/drivers/input/touchscreen/wacom_i2c.c
+> +++ b/drivers/input/touchscreen/wacom_i2c.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/i2c.h>
+>  #include <linux/slab.h>
+>  #include <linux/irq.h>
+> +#include <linux/input/touchscreen.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/of.h>
+>  #include <asm/unaligned.h>
+> @@ -33,6 +34,7 @@ struct wacom_features {
+>  struct wacom_i2c {
+>  	struct i2c_client *client;
+>  	struct input_dev *input;
+> +	struct touchscreen_properties props;
+>  	u8 data[WACOM_QUERY_SIZE];
+>  	bool prox;
+>  	int tool;
+> @@ -188,6 +190,9 @@ static int wacom_i2c_probe(struct i2c_client *client,
+>  	__set_bit(BTN_STYLUS2, input->keybit);
+>  	__set_bit(BTN_TOUCH, input->keybit);
+>  
+> +	touchscreen_parse_properties(input, true, &wac_i2c->props);
+> +	touchscreen_report_pos(input, &wac_i2c->props, features.x_max,
+> +			       features.y_max, true);
 
-Signed-off-by: Nirenjan Krishnan <nirenjan@gmail.com>
----
- drivers/hid/hid-ids.h    | 1 +
- drivers/hid/hid-quirks.c | 1 +
- 2 files changed, 2 insertions(+)
+??? This goes into wacom_i2c_irq() where it previously used
+input_report_abs() for X and Y so that transformations (swap, mirrot)
+requested via device properties are applied to the coordinates.
 
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index e42aaae..413a06a0 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -1039,6 +1039,7 @@
- #define USB_DEVICE_ID_SAITEK_X52	0x075c
- #define USB_DEVICE_ID_SAITEK_X52_2	0x0255
- #define USB_DEVICE_ID_SAITEK_X52_PRO	0x0762
-+#define USB_DEVICE_ID_SAITEK_X65	0x0b6a
- 
- #define USB_VENDOR_ID_SAMSUNG		0x0419
- #define USB_DEVICE_ID_SAMSUNG_IR_REMOTE	0x0001
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index 1a9daf0..df68dd7 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -158,6 +158,7 @@ static const struct hid_device_id hid_quirks[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_X52), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_X52_2), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_X52_PRO), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_X65), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_SEMICO, USB_DEVICE_ID_SEMICO_USB_KEYKOARD2), HID_QUIRK_NO_INIT_REPORTS },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_SEMICO, USB_DEVICE_ID_SEMICO_USB_KEYKOARD), HID_QUIRK_NO_INIT_REPORTS },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_SENNHEISER, USB_DEVICE_ID_SENNHEISER_BTD500USB), HID_QUIRK_NOGET },
+Thanks.
+
 -- 
-2.7.4
-
+Dmitry
