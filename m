@@ -2,147 +2,128 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DFEBB34D912
-	for <lists+linux-input@lfdr.de>; Mon, 29 Mar 2021 22:34:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A3CE34DCB9
+	for <lists+linux-input@lfdr.de>; Tue, 30 Mar 2021 02:01:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230052AbhC2UeI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 29 Mar 2021 16:34:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39532 "EHLO
+        id S230322AbhC3ABV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 29 Mar 2021 20:01:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbhC2Udn (ORCPT
+        with ESMTP id S229441AbhC3ABN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 29 Mar 2021 16:33:43 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B692AC061574;
-        Mon, 29 Mar 2021 13:33:42 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id il9-20020a17090b1649b0290114bcb0d6c2so8319343pjb.0;
-        Mon, 29 Mar 2021 13:33:42 -0700 (PDT)
+        Mon, 29 Mar 2021 20:01:13 -0400
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30247C061762;
+        Mon, 29 Mar 2021 17:01:13 -0700 (PDT)
+Received: by mail-io1-xd2b.google.com with SMTP id j26so14538347iog.13;
+        Mon, 29 Mar 2021 17:01:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=5JWGpm2Luw9oA1XrYw8G4eVqUmBGNX4VUAL1U9HUofM=;
-        b=VY6h3tpEWizPKlvA7CBSflg8EXIOPRjaySIAo+boILZIUfNGhMpoPTGpsWT0sWEbv3
-         lytJCj+65unjb3jJHIMPRddLnlH/NBTRhea/BwtmtNCSTc4aftw0S76vSOenAEE3Vs88
-         HG7RU/iHInlxdB3TPsvhTn9VNDq3/2PWoyTV1rilQpzN2N+P5zlzhbMulO4JF5GZZa7E
-         H4c2oR1eSJixpINYZAy4SWPKu2VLkJSdtve4i76tdp8y8pqgSXbnw9L8QQHcQ8rY6yyg
-         NNaDQTUH4DlDxtHLCWepTog59y3X88RGnJouE354JukTcW7Ngn2VqyvhJvmURVA2FSSp
-         Rbwg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=o1RVU8f6fFPGPUVdEsvhlniyHwKth2qLcDOfg9+oE/0=;
+        b=LbXHkh8g6WyZtVYhBmbQvX79th/toetfxmG/3BXUKws+HCG2fZIw8+T4v7AUNIYaER
+         xlY12DfqmmOZfPTYbMTAPukA+/jQmCsJZyvEKszt0Yp+5HfCJDfrInd38rHpOGSiJNSu
+         LFWVYiD0WBvvdoOJgl6echMQSENrvRB8h2PDT9TwfVTsSl0Vk6Q1ZMvVuojVdccNFxvm
+         zWOEtx31p92PcDDGAx9LVqkNZARhLm/i3bL0UStnZHogNZuNDqr+JRNQ0CZ3MM8RhsbF
+         HzG1s03MzmHP8iPVGuVB85kgJwkQQmwtN9SAX4wKwcVd3SA4KqKntKAPRX+oddBs8rMs
+         MKug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=5JWGpm2Luw9oA1XrYw8G4eVqUmBGNX4VUAL1U9HUofM=;
-        b=EF4JZTthN+eJBReaWRZyylMhon8/YfbRjAm/KlqF82T+qDQNmCrsDGfSrYrBZTzlIl
-         742UGg8UIfi9NZhqH15qdD0LhhgiGA+hNk7BspxCJIUusLLt/3B1iLTb30figPYNcD7W
-         +I1Rm23QvCA/tUW82KhQCrfb21Zd0C2Un82r7avadpE5wx/Ki6cFpJpqkktQEbaop1iX
-         Ly6aPAuOcxvR4BQFyzdPyJqT2tXA5hh/VT+lFXF6VO23UNxYGcVF6omchR2B4FOBNiYJ
-         snsUg0I37Q+H5oFaBTffdT1pA+w3RSXdbITo1Q6kICjaKxglN/+h+uAO39Lxf2rdCDKQ
-         S+mA==
-X-Gm-Message-State: AOAM532ZLCV+56zzpaCz9zqIfqot7+umFuJx5SWYTNHiGQtkc35CIMyN
-        sNvKVY7ca4vAXYVmDPhlFp0=
-X-Google-Smtp-Source: ABdhPJxxBdmZ4Of72OqcTVC5WmVMBPDxwy0e8dm3jNMkc7FK7ywP1A1NxxZkPxbK5AkOMCJnBtENaw==
-X-Received: by 2002:a17:902:d64a:b029:e6:30a6:64e3 with SMTP id y10-20020a170902d64ab02900e630a664e3mr30759214plh.28.1617050022009;
-        Mon, 29 Mar 2021 13:33:42 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:a82a:a913:988c:7480])
-        by smtp.gmail.com with ESMTPSA id t1sm18202660pfc.173.2021.03.29.13.33.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Mar 2021 13:33:41 -0700 (PDT)
-Date:   Mon, 29 Mar 2021 13:33:38 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Alistair Francis <alistair@alistair23.me>
-Cc:     linux-input@vger.kernel.org, linux-imx@nxp.com,
-        kernel@pengutronix.de, linux-kernel@vger.kernel.org,
-        alistair23@gmail.com, Alistair Francis <alistair@alistair22.me>
-Subject: Re: [PATCH v4 07/10] Input: wacom_i2c - Add support for reset control
-Message-ID: <YGI5or9QsfbONo2e@google.com>
-References: <20210326015229.141-1-alistair@alistair23.me>
- <20210326015229.141-7-alistair@alistair23.me>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=o1RVU8f6fFPGPUVdEsvhlniyHwKth2qLcDOfg9+oE/0=;
+        b=IA6fgfs+X2uKSLuZW8zbyEqhXSPhxG9v6Vcna59GllgEZgMJ10aHo6LrTv1cd8hNG5
+         Rta2sTGpJQb0h7hFHQBMQoAw24sjWow/BRzt9qfD+12f6CHP7lbN0DoIKpz/zFzcCFg/
+         pBR5Gu3ZA6ArgbBpS8cLdOS2Fguj2NciuDCPiKyl2u3+Zzf+TypGw6zND7yjr8VWVugP
+         yd8KAimn1RiFE4tpqxYlyWjVSzurM6LlzXYtfFMZLBA/523F1cMZ/vZRpHeXMTajWUtn
+         0GEsZ+3E/hcC7SRNDiOv6NwZDLhGTd28xNUrE54uf/Upxehb3nn/15gJpVRQMSVgvdw8
+         YdEQ==
+X-Gm-Message-State: AOAM530yRkN5uhsY5zNuhd/APYJfdn1wMjzAraqffd8IcVxTJVxk1Qwy
+        llL4LrJTcs2EgqPRSvpY+cWAeUF0yjo6r2JkGT4=
+X-Google-Smtp-Source: ABdhPJxr0CEiheZvBWeaASYN88d9OZ9gNYBFA2ls0TFGGlukYXvpbz506hPqg6AS23RwGni3XVQOC3Ny1NcGD/wjW3w=
+X-Received: by 2002:a6b:d60c:: with SMTP id w12mr6276709ioa.105.1617062472683;
+ Mon, 29 Mar 2021 17:01:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210326015229.141-7-alistair@alistair23.me>
+References: <20210326015229.141-1-alistair@alistair23.me> <20210326015229.141-4-alistair@alistair23.me>
+ <YGIlsLgvE9y/jiGk@google.com>
+In-Reply-To: <YGIlsLgvE9y/jiGk@google.com>
+From:   Alistair Francis <alistair23@gmail.com>
+Date:   Mon, 29 Mar 2021 20:00:41 -0400
+Message-ID: <CAKmqyKPKCa14haos--fVX3w7UrVxxjLP+vg_Aku82uK4LkqTPw@mail.gmail.com>
+Subject: Re: [PATCH v4 04/10] Input: wacom_i2c - Add touchscren properties
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Alistair Francis <alistair@alistair23.me>,
+        linux-input@vger.kernel.org, dl-linux-imx <linux-imx@nxp.com>,
+        Sascha Hauer <kernel@pengutronix.de>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Alistair,
+ On Mon, Mar 29, 2021 at 3:08 PM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> On Thu, Mar 25, 2021 at 09:52:24PM -0400, Alistair Francis wrote:
+> > Connect touchscreen properties to the wacom_i2c.
+> >
+> > Signed-off-by: Alistair Francis <alistair@alistair23.me>
+> > ---
+> > v4:
+> >  - Add touchscreen_report_pos() as well
+> >
+> >  drivers/input/touchscreen/wacom_i2c.c | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> >
+> > diff --git a/drivers/input/touchscreen/wacom_i2c.c b/drivers/input/touchscreen/wacom_i2c.c
+> > index eada68770671..ee1829dd35f4 100644
+> > --- a/drivers/input/touchscreen/wacom_i2c.c
+> > +++ b/drivers/input/touchscreen/wacom_i2c.c
+> > @@ -11,6 +11,7 @@
+> >  #include <linux/i2c.h>
+> >  #include <linux/slab.h>
+> >  #include <linux/irq.h>
+> > +#include <linux/input/touchscreen.h>
+> >  #include <linux/interrupt.h>
+> >  #include <linux/of.h>
+> >  #include <asm/unaligned.h>
+> > @@ -33,6 +34,7 @@ struct wacom_features {
+> >  struct wacom_i2c {
+> >       struct i2c_client *client;
+> >       struct input_dev *input;
+> > +     struct touchscreen_properties props;
+> >       u8 data[WACOM_QUERY_SIZE];
+> >       bool prox;
+> >       int tool;
+> > @@ -188,6 +190,9 @@ static int wacom_i2c_probe(struct i2c_client *client,
+> >       __set_bit(BTN_STYLUS2, input->keybit);
+> >       __set_bit(BTN_TOUCH, input->keybit);
+> >
+> > +     touchscreen_parse_properties(input, true, &wac_i2c->props);
+> > +     touchscreen_report_pos(input, &wac_i2c->props, features.x_max,
+> > +                            features.y_max, true);
+>
+> ??? This goes into wacom_i2c_irq() where it previously used
+> input_report_abs() for X and Y so that transformations (swap, mirrot)
+> requested via device properties are applied to the coordinates.
 
-On Thu, Mar 25, 2021 at 09:52:27PM -0400, Alistair Francis wrote:
-> From: Alistair Francis <alistair@alistair22.me>
-> 
-> Signed-off-by: Alistair Francis <alistair@alistair22.me>
-> ---
-> v4:
->  - Initial commit
-> 
->  drivers/input/touchscreen/wacom_i2c.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/drivers/input/touchscreen/wacom_i2c.c b/drivers/input/touchscreen/wacom_i2c.c
-> index 84c7ccb737bd..28004b1180c9 100644
-> --- a/drivers/input/touchscreen/wacom_i2c.c
-> +++ b/drivers/input/touchscreen/wacom_i2c.c
-> @@ -55,6 +55,7 @@ struct wacom_features {
->  struct wacom_i2c {
->  	struct i2c_client *client;
->  	struct input_dev *input;
-> +	struct reset_control *rstc;
->  	struct touchscreen_properties props;
->  	u8 data[WACOM_QUERY_SIZE];
->  	bool prox;
-> @@ -175,6 +176,8 @@ static int wacom_i2c_open(struct input_dev *dev)
->  	struct wacom_i2c *wac_i2c = input_get_drvdata(dev);
->  	struct i2c_client *client = wac_i2c->client;
->  
-> +	reset_control_reset(wac_i2c->rstc);
+Ah sorry. I misunderstood what touchscreen_report_pos() does (and
+didn't read it).
 
-Why does this device need to be reset on every open compared to doing it
-in probe?
+Looking at the actual code it seems that I need to remove
 
-> +
->  	enable_irq(client->irq);
->  
->  	return 0;
-> @@ -193,6 +196,7 @@ static int wacom_i2c_probe(struct i2c_client *client,
->  {
->  	struct wacom_i2c *wac_i2c;
->  	struct input_dev *input;
-> +	struct reset_control *rstc;
->  	struct wacom_features features = { 0 };
->  	int error;
->  
-> @@ -201,6 +205,12 @@ static int wacom_i2c_probe(struct i2c_client *client,
->  		return -EIO;
->  	}
->  
-> +	rstc = devm_reset_control_get_optional_exclusive(&client->dev, NULL);
-> +	if (IS_ERR(rstc)) {
-> +		dev_err(&client->dev, "Failed to get reset control before init\n");
-> +		return PTR_ERR(rstc);
-> +	}
+input_report_abs(input, ABS_Y, y);
+input_report_abs(input, ABS_X, x);
 
-I think majority users will have this controller reset line connected to
-a GPIO. I briefly looked into reset controller code and I do not see it
-supporting this case. How is this device connected on your board?
+from wacom_i2c_irq() and add touchscreen_report_pos() to wacom_i2c_irq() instead
 
-> +
->  	error = wacom_query_device(client, &features);
->  	if (error)
->  		return error;
-> @@ -214,6 +224,7 @@ static int wacom_i2c_probe(struct i2c_client *client,
->  
->  	wac_i2c->client = client;
->  	wac_i2c->input = input;
-> +	wac_i2c->rstc = rstc;
->  
->  	input->name = "Wacom I2C Digitizer";
->  	input->id.bustype = BUS_I2C;
-> -- 
-> 2.31.0
-> 
+I'll do that in the next version.
 
-Thanks.
+Alistair
 
--- 
-Dmitry
+>
+> Thanks.
+>
+> --
+> Dmitry
