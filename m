@@ -2,86 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 928EE3522BB
-	for <lists+linux-input@lfdr.de>; Fri,  2 Apr 2021 00:24:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00462352333
+	for <lists+linux-input@lfdr.de>; Fri,  2 Apr 2021 01:11:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234004AbhDAWYz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 1 Apr 2021 18:24:55 -0400
-Received: from mail.micronovasrl.com ([212.103.203.10]:53882 "EHLO
-        mail.micronovasrl.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231550AbhDAWYz (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 1 Apr 2021 18:24:55 -0400
-Received: from mail.micronovasrl.com (mail.micronovasrl.com [127.0.0.1])
-        by mail.micronovasrl.com (Postfix) with ESMTP id DCF76B04C4F
-        for <linux-input@vger.kernel.org>; Fri,  2 Apr 2021 00:24:53 +0200 (CEST)
-Authentication-Results: mail.micronovasrl.com (amavisd-new); dkim=pass
-        reason="pass (just generated, assumed good)" header.d=micronovasrl.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=micronovasrl.com;
-         h=content-transfer-encoding:content-language:content-type
-        :content-type:in-reply-to:mime-version:user-agent:date:date
-        :message-id:references:to:from:from:subject:subject; s=dkim; t=
-        1617315893; x=1618179894; bh=eUNH9JCigSWjXMgzJBifLYckuPQkEREt8nx
-        Fxxvn8OA=; b=czphOzgSDiiFiZA74gnuvGetKdwnikJ0F76gD4+2E1Qzoxk9GB6
-        Kp5sOok+YgplLteCmaohFhutF8XOw+emy8DkqG/kr78v9qIiIwtGxGVFkxJ4O7qH
-        cDhYI08xTUUugq3Kn6q2brnxWM9eFjw9Y5CehxEJLWKzpgZhOvq3377Y=
-X-Virus-Scanned: Debian amavisd-new at mail.micronovasrl.com
-X-Spam-Flag: NO
-X-Spam-Score: -2.442
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.442 tagged_above=-10 required=4.5
-        tests=[ALL_TRUSTED=-1, BAYES_00=-1.9, LOTS_OF_MONEY=0.001,
-        MONEY_NOHTML=0.458, NICE_REPLY_A=-0.001]
-        autolearn=no autolearn_force=no
-Received: from mail.micronovasrl.com ([127.0.0.1])
-        by mail.micronovasrl.com (mail.micronovasrl.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 62DcZguyendc for <linux-input@vger.kernel.org>;
-        Fri,  2 Apr 2021 00:24:53 +0200 (CEST)
-Received: from [192.168.50.18] (146-241-168-220.dyn.eolo.it [146.241.168.220])
-        by mail.micronovasrl.com (Postfix) with ESMTPSA id 1F879B04A49;
-        Fri,  2 Apr 2021 00:24:53 +0200 (CEST)
-Subject: Re: [PATCH 2/3] dt-bindings: touchscreen: Add HY46XX bindings
-From:   Giulio Benetti <giulio.benetti@micronovasrl.com>
-To:     Rob Herring <robh@kernel.org>,
-        Giulio Benetti <giulio.benetti@benettiengineering.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        id S234723AbhDAXLK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 1 Apr 2021 19:11:10 -0400
+Received: from smtpcmd0872.aruba.it ([62.149.156.72]:40004 "EHLO
+        smtpcmd0872.aruba.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234508AbhDAXLJ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 1 Apr 2021 19:11:09 -0400
+Received: from ubuntu.localdomain ([146.241.168.220])
+        by Aruba Outgoing Smtp  with ESMTPSA
+        id S6M3lCwpyHTbyS6M3lYQyT; Fri, 02 Apr 2021 01:04:03 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+        t=1617318243; bh=Smfqp5AjnbqZc0Kl/fWbBBo84E0RCZCWyIKDBTINsi0=;
+        h=From:To:Subject:Date:MIME-Version:Content-Type;
+        b=k3cy3BzCVN9XEO+ErWczjyH67khkcbC9n6GVmZZshz514Xu0ilV2mDjUCJ5EdQ7fB
+         w8OnjuhKVMeIdKskowfF6g+4AlHEy8khuTRxGEbD7ovxy7rdtRRPVdCBCyprbKv2pg
+         EHuv9Z+sUxVuXbJsj4NmR5DWQ2vcddouJg3SrjggqUC3c8jzxwJ9yw6Bjou3n1ixAZ
+         BpVXgkPhMDktouQX9XiYBmGTs+htJ/iZib+C0k2W3Nf8VlUDLzREU+SYDUwAWeB1Jf
+         6aZckaeosxKxLEUgJRZ8lPPpQ6Sdy3NiMoqOngV7tx+xnfiQtLt3ZUNAM6oHWj90FX
+         /2rFx2vago7sA==
+From:   Giulio Benetti <giulio.benetti@benettiengineering.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Giulio Benetti <giulio.benetti@benettiengineering.com>,
+        Henrik Rydberg <rydberg@bitmath.org>,
         linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210305163834.70924-1-giulio.benetti@benettiengineering.com>
- <20210305163834.70924-3-giulio.benetti@benettiengineering.com>
- <20210306194120.GA1075725@robh.at.kernel.org>
- <9cd14c69-9c30-a68c-dfd1-396613b5185a@micronovasrl.com>
-Message-ID: <e60aa57b-1641-105a-fb57-9b5803054f3a@micronovasrl.com>
-Date:   Fri, 2 Apr 2021 00:24:53 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+        linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.ne@posteo.net>
+Subject: [PATCH v2 0/3] Input: add Hycon HY46XX Touchscreen controller
+Date:   Fri,  2 Apr 2021 01:03:55 +0200
+Message-Id: <20210401230358.2468618-1-giulio.benetti@benettiengineering.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210306194120.GA1075725@robh.at.kernel.org>
+References: <20210306194120.GA1075725@robh.at.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <9cd14c69-9c30-a68c-dfd1-396613b5185a@micronovasrl.com>
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
-Content-Language: it
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfPI8q7PPoHuBDgszldsBC5l9QWtjpHgziZZ1oWL1Y9aBJ20ZKCIUKdHeRe79gH5oD6k8FsKtkxgfdm4z78hGgGVmZbp1Pyi+pFK9n1uxnAZCXgMyiDGL
+ y8XyeRFDZtcLpfKdph5QT97mJ5tL0bb8GXGSo7tp3K3EYvJ+KNNlBDJyCVd6CjYorM2skEFfTy/msuDZCNmFPyfT7ITKzU4gLD5F3XiFmEv8z602R0NsRYAe
+ tmZ+CV49iR7SwFbePU/qxi9ppPC1N0GZS3c5+Bl3MkKjnnWfn/ha6hCp9vc3q3MiQ8eCLWWWGipH06ZxSu25vksYdei8VxyzgMdGi2Ivxs7PXaIY4RmdJ9Ug
+ RwfybKcYQ+seh+fEuCTLq4Uhs7hQ1xYmENAZWuswrmZ7bCKG4X3FMWQFmm0tkw+lIKzfmh5tuTLVqpndVja1rEB/03gohibKpeE8hgMNksboh8OJFrPSCSw9
+ Zy8b/R+T+aXkQfg8
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Il 01/04/2021 20:37, Giulio Benetti ha scritto:
->>
->> Needs a vendor prefix here and all the custom properties.
-> 
-> Sorry but I can't understand this ^^^, I've checked a lot of other yaml
-> files but couldn't find something related to this. Can you help me by
-> pointing me an example?
-> 
+This patchset adds Hycon vendor, HY46XX touchscreen controller driver
+and its .yaml binding.
 
-Found in example-schema.yaml, sorry for the noise
+---
+V1->V2:
+* changed authorship and SoBs to @benettiengineering.com domain
+* fixed vendor commit log according to Jonathan Neusch√§fer's suggestion
+* fixed hy46xx bindings according to Rob Herring's suggestions
+* fixed hy46xx driver according to Dmitry Torokhov's suggestions
+further details are listed in single patches
+---
+
+Giulio Benetti (3):
+  dt-bindings: Add Hycon Technology vendor prefix
+  dt-bindings: touchscreen: Add HY46XX bindings
+  Input: add driver for the Hycon HY46XX touchpanel series
+
+ .../input/touchscreen/hycon,hy46xx.yaml       | 120 ++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ MAINTAINERS                                   |   7 +
+ drivers/input/touchscreen/Kconfig             |  12 +
+ drivers/input/touchscreen/Makefile            |   1 +
+ drivers/input/touchscreen/hycon-hy46xx.c      | 591 ++++++++++++++++++
+ 6 files changed, 733 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/hycon,hy46xx.yaml
+ create mode 100644 drivers/input/touchscreen/hycon-hy46xx.c
 
 -- 
-Giulio Benetti
-CTO
+2.25.1
 
-MICRONOVA SRL
-Sede: Via A. Niedda 3 - 35010 Vigonza (PD)
-Tel. 049/8931563 - Fax 049/8931346
-Cod.Fiscale - P.IVA 02663420285
-Capitale Sociale § 26.000 i.v.
-Iscritta al Reg. Imprese di Padova N. 02663420285
-Numero R.E.A. 258642
