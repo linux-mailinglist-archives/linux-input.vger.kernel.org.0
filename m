@@ -2,126 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DEF06352D3C
-	for <lists+linux-input@lfdr.de>; Fri,  2 Apr 2021 18:10:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AE33352D92
+	for <lists+linux-input@lfdr.de>; Fri,  2 Apr 2021 18:16:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235296AbhDBPXW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 2 Apr 2021 11:23:22 -0400
-Received: from smtpcmd15177.aruba.it ([62.149.156.177]:36169 "EHLO
-        smtpcmd15177.aruba.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235248AbhDBPXW (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 2 Apr 2021 11:23:22 -0400
-Received: from [192.168.126.129] ([146.241.148.6])
+        id S234650AbhDBQQh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 2 Apr 2021 12:16:37 -0400
+Received: from smtpcmd12131.aruba.it ([62.149.156.131]:41815 "EHLO
+        smtpcmd12131.aruba.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229605AbhDBQQg (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 2 Apr 2021 12:16:36 -0400
+Received: from ubuntu.localdomain ([146.241.148.6])
         by Aruba Outgoing Smtp  with ESMTPSA
-        id SLdmlmMJ3LwkNSLdmleqO8; Fri, 02 Apr 2021 17:23:19 +0200
+        id SMTElkkEVik8wSMTElXAND; Fri, 02 Apr 2021 18:16:34 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-        t=1617376999; bh=Zjgzub5UB8H8XQ9V4GX5bcr4pkotkNmq2kr2buL9Beg=;
-        h=Subject:To:From:Date:MIME-Version:Content-Type;
-        b=X+qGZbDU9Q6w7LxLKkxe5wTWsTbkLVJZuooXOA+BodQ15Is0JLWXkXX/88gINGyzm
-         S7Ur8zROubQakL0IE3GptcbYyzHBkQn1FzxmUuAUX53zq501EFeqmc+V/m7r1FImfn
-         MlAZ4dUSALlA8hyN14yJo3xi0gDdv63FXIqTcsm/yjAA7xjg/Moq4GfNkN3mz6n5d/
-         NEoPHCl1wkIfUhNhUm64Ui0gwCeI81XW3p7IEEILKVR+EZQYOlfAtFvPHs4pAl+oCB
-         aHYFOMCvDUrNarcWfvRuPZmsxDE3O/adte1rzIGFYO2jMaeeCgN5XrZAfohJJobZWy
-         OLlox5yKa5QCw==
-Subject: Re: [PATCH v2 3/3] Input: add driver for the Hycon HY46XX touchpanel
- series
-To:     =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        t=1617380194; bh=m13GAYsHNmluDy30JkKZAaaoyOxCHUEz0RY6LlOxN24=;
+        h=From:To:Subject:Date:MIME-Version:Content-Type;
+        b=cSGgyYnxq2EDqmDNa4Qa+LiSe0Hr11DtKt/uHkS9qUlItD5UqM7xfuVEn/9AHCpXT
+         mVehoI0Bua58p6sD72O0l5Z9HuvXkG3zEm3w+VDT0fyuuJf2vJAHmFsK46iEX7L9ba
+         hO//TTVgGIqu69H/dIerfLxyupG5Cf4H+qO3n9NxxuDR3ayddI7ATWwCP0ey0BDFua
+         0A3/Nv/yTvVDqCTcvqxMGlz1sDxAM8tiv64tzkO0R6DMX1ix2sDoo1xaKJQZLxhwO9
+         gsQI/a0fnrxFtXITnW3n5LQyit7SmF4PWfWIfHTouiry5zvcqcG1rn/26kfa5nKTXy
+         aenloCGE2BUqQ==
+From:   Giulio Benetti <giulio.benetti@benettiengineering.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
+        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.ne@posteo.net>
+Cc:     Giulio Benetti <giulio.benetti@benettiengineering.com>,
         Henrik Rydberg <rydberg@bitmath.org>,
         linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.ne@posteo.net>
-References: <20210306194120.GA1075725@robh.at.kernel.org>
- <20210401230358.2468618-1-giulio.benetti@benettiengineering.com>
- <20210401230358.2468618-4-giulio.benetti@benettiengineering.com>
- <YGbc7Qbu6s659Mx4@latitude>
-From:   Giulio Benetti <giulio.benetti@benettiengineering.com>
-Message-ID: <a4a060a1-8cf3-71f8-9f4a-498870a9cb53@benettiengineering.com>
-Date:   Fri, 2 Apr 2021 17:23:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
-MIME-Version: 1.0
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/3] Input: add Hycon HY46XX Touchscreen controller
+Date:   Fri,  2 Apr 2021 18:16:24 +0200
+Message-Id: <20210402161627.2546145-1-giulio.benetti@benettiengineering.com>
+X-Mailer: git-send-email 2.25.1
 In-Reply-To: <YGbc7Qbu6s659Mx4@latitude>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+References: <YGbc7Qbu6s659Mx4@latitude>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfP0ZAjh3bi9ubFRtnjZE8kNgc6hXya9iP7Jl3K/EySvUDaWVVPU0Dx06B+pTmj0O83bOb72Isk0TMjZIeRHYRKgVDaK9J7C8eSVnJLmDxMnsi6xIZ6aL
- gpSVT1Cs6g6Ji8tQVdRRu/8rE2StHnfe1TKGJWwuMQQpI8Oj1R65ApOIIX317tPE8zjKwApmUxDxUbhkNEUokNxdK1LK3Q0Ez+QdSg3QnKHSSGdu2kjMWMhe
- 4mQhKd02sTfhFDG1h/9tKn1U0fqUzLp+tunyvWmNxgYz7S2G9CMzabtvhwDIYd7oDorYp+yu1nBRYIKL+lM7EtOJBEsXzdmP84StLcVB9Mr9V0n1trMPyZbH
- Bs3i14B3ZDM9Tyuhvoo7vPy2P4HIg0zoQPGfxe8RAqCcANp9I24AUhm9/VQ5y/him10NG7SJqLEfYxq8jKeA2tQqSIO9C2PMJNqJn5DIOAmfYhms1Fk=
+X-CMAE-Envelope: MS4wfAn22ZS6640d6wQU0xrLwtdcW2w0XJWRg6Hs7GkbH8TubKuFKt8xogcjquEDySuKr8IIvqh/w5/MZ4qUw9klDEvbxluHQUZp5P50C49C6EprEmIxGUlD
+ TrBvIhc0px3O19edTVJSAM2ZYpapyOW8jefuO9vnmMqe1Pk1cTAZ8tGBjd9BeW5uWRiHcw664T8jiNZWP/e22JGSKx5Xt8ch6LD/ItBYv3nClPsCDYWVz3AH
+ 1PJB5OAlw8qUBY9WYefXkuNA4jmN4smpm5H/46QKuAMSuVZRF+6eEnyx+Vh/XSJtzP+NWc+43wYSYaIhghyNUOiGOBG19Z3y0yfsLyZ6tB3RvKmSIej9kkKl
+ zqbpadX6ND74yhoGtNyFnOllgrY2nWao6Wxm09Qpo3K8YjC7l+QXeKvvc9+PYJaoxp0id2hFvSyz3UKyJDsAQ0EY/Eap2nj63BXgyvcXXd4o+bcHHjU=
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jonathan,
+This patchset adds Hycon vendor, HY46XX touchscreen controller driver
+and its .yaml binding.
 
-On 4/2/21 10:59 AM, Jonathan Neuschäfer wrote:
-> Hi,
-> 
-> a few remarks below.
-> 
-> On Fri, Apr 02, 2021 at 01:03:58AM +0200, Giulio Benetti wrote:
->> This patch adds support for Hycon HY46XX.
->>
->> Signed-off-by: Giulio Benetti <giulio.benetti@benettiengineering.com>
->> ---
->> V1->V2:
->> * removed proximity-sensor-switch property according to previous patch
->> As suggested by Dmitry Torokhov
->> * moved i2c communaction to regmap use
->> * added macro to avoid magic number
->> * removed cmd variable that could uninitiliazed since we're using regmap now
->> * removed useless byte masking
->> * removed useless struct hycon_hy46xx_i2c_chip_data
->> * used IRQF_ONESHOT only for isr
->> ---
-> 
-> 
->> +config TOUCHSCREEN_HYCON_HY46XX
->> +	tristate "Hycon hy46xx touchscreen support"
->> +	depends on I2C
->> +	help
->> +	  Say Y here if you have a touchscreen using Hycon hy46xx,
->> +	  or something similar enough.
-> 
-> The "something similar enough" part doesn't seem relevant, because the
-> driver only lists HY46xx chips (in the compatible strings), and no chips
-> that are similar enough to work with the driver, but have a different
-> part number.
+---
+V1->V2:
+* changed authorship and SoBs to @benettiengineering.com domain
+* fixed vendor commit log according to Jonathan Neuschäfer's suggestion
+* fixed hy46xx bindings according to Rob Herring's suggestions
+* fixed hy46xx driver according to Dmitry Torokhov's suggestions
+further details are listed in single patches
+V2->V3:
+* fixed hy46xx bindings according to Jonathan Neuschäfer's suggestion
+* fixed hy46xx driver according to Jonathan Neuschäfer's suggestion
+further details are listed in single patches
+---
 
-Right
+Giulio Benetti (3):
+  dt-bindings: Add Hycon Technology vendor prefix
+  dt-bindings: touchscreen: Add HY46XX bindings
+  Input: add driver for the Hycon HY46XX touchpanel series
 
->> +static void hycon_hy46xx_get_defaults(struct device *dev, struct hycon_hy46xx_data *tsdata)
->> +{
->> +	bool val_bool;
->> +	int error;
->> +	u32 val;
->> +
->> +	error = device_property_read_u32(dev, "threshold", &val);
-> 
-> This seems to follow the old version of the binding, where
-> Hycon-specific properties didn't have the "hycon," prefix.
-> Please check that the driver still works with a devicetree that follows
-> the newest version of the binding.
+ .../input/touchscreen/hycon,hy46xx.yaml       | 120 ++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ MAINTAINERS                                   |   7 +
+ drivers/input/touchscreen/Kconfig             |  11 +
+ drivers/input/touchscreen/Makefile            |   1 +
+ drivers/input/touchscreen/hycon-hy46xx.c      | 591 ++++++++++++++++++
+ 6 files changed, 732 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/hycon,hy46xx.yaml
+ create mode 100644 drivers/input/touchscreen/hycon-hy46xx.c
 
-Ah yes, I've forgotten it while changing in bindings.
-
->> +MODULE_AUTHOR("Giulio Benetti <giulio.benetti@micronovasrl.com>");
-> 
-> This is a different email address than you used in the DT binding. If
-> this is intentional, no problem (Just letting you know, in case it's
-> unintentional).
-
-I've missed that
-
-> 
-> Thanks,
-> Jonathan Neuschäfer
-> 
-
-Thank you!
-Best regards
 -- 
-Giulio Benetti
-Benetti Engineering sas
+2.25.1
+
