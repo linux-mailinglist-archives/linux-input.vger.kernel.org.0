@@ -2,37 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DBAB435374B
-	for <lists+linux-input@lfdr.de>; Sun,  4 Apr 2021 10:04:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 353A935374E
+	for <lists+linux-input@lfdr.de>; Sun,  4 Apr 2021 10:04:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229822AbhDDIEp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 4 Apr 2021 04:04:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42125 "EHLO
+        id S230037AbhDDIEs (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 4 Apr 2021 04:04:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24007 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229483AbhDDIEp (ORCPT
+        by vger.kernel.org with ESMTP id S229861AbhDDIEs (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 4 Apr 2021 04:04:45 -0400
+        Sun, 4 Apr 2021 04:04:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617523481;
+        s=mimecast20190719; t=1617523483;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=pukuduU3TIawYxQHAoMTy0xbKqYzMYDKhN45m9gOUjk=;
-        b=SZp1PDZ8NnVh6HE3Z4oanEiHw9LWYOupBPtvybktvFbPDBvtNcUtNRLuSaWRMx2fbi4L/w
-        UDcIXdNA0w51xQWbl0wb2M+ZN+62+lZBkhvBqf7FGG7oz6OoH+U7khkUoSvDQ9svR9PsUi
-        5h3tDHCy8w68ML5W0A5ig2TKQ8Gaejs=
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=iFN6RW3Cpccm3D6gxN7YWCPkIi5izmy1URavwZkYT4o=;
+        b=SYS5FybiaIog/X7dy0WHiJlY39Wbn95hVtAZ10FVDIoOqwmqinSZE87HbGzxC4rpkAz4Ao
+        N2n6XtHStjQLYSo78lnrMErRPC4jxICM2IXXAuYgjlEdcxyyk93x4OX6X3A9yaURN5lhpm
+        H+luU/N4PnlgklJfPuPkljfZp9zFS24=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-0YjccrviOR-RXq1Yi_-SlA-1; Sun, 04 Apr 2021 04:04:39 -0400
-X-MC-Unique: 0YjccrviOR-RXq1Yi_-SlA-1
+ us-mta-217-0cVvFArqNfystABuht2cow-1; Sun, 04 Apr 2021 04:04:42 -0400
+X-MC-Unique: 0cVvFArqNfystABuht2cow-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74A6D87A82A;
-        Sun,  4 Apr 2021 08:04:38 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C3AE180FCA7;
+        Sun,  4 Apr 2021 08:04:40 +0000 (UTC)
 Received: from x1.localdomain (ovpn-112-48.ams2.redhat.com [10.36.112.48])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 72D38100E113;
-        Sun,  4 Apr 2021 08:04:33 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id BA04E100E113;
+        Sun,  4 Apr 2021 08:04:38 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
@@ -40,9 +41,11 @@ To:     Jiri Kosina <jikos@kernel.org>,
 Cc:     Hans de Goede <hdegoede@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         =?UTF-8?q?Marek=20Beh=C3=BAn?= <kabel@kernel.org>,
         linux-input@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: [PATCH v2 resend 0/9] HID: lenovo: LED fixes and Thinkpad X1 Tablet kbd support
-Date:   Sun,  4 Apr 2021 10:04:23 +0200
-Message-Id: <20210404080432.4322-1-hdegoede@redhat.com>
+Subject: [PATCH v2 resend 1/9] HID: lenovo: Use brightness_set_blocking callback for setting LEDs brightness
+Date:   Sun,  4 Apr 2021 10:04:24 +0200
+Message-Id: <20210404080432.4322-2-hdegoede@redhat.com>
+In-Reply-To: <20210404080432.4322-1-hdegoede@redhat.com>
+References: <20210404080432.4322-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -51,47 +54,61 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jiri,
+The lenovo_led_brightness_set function may sleep, so we should have the
+the led_class_dev's brightness_set_blocking callback point to it, rather
+then the regular brightness_set callback.
 
-This seems to have fallen through the cracks, again (IIRC this is the
-second resend) can you please pick this series up?
+When toggled through sysfs this is not a problem, but the brightness_set
+callback may be called from atomic context when using LED-triggers.
 
-Patches 1 - 7 have:
+Fixes: bc04b37ea0ec ("HID: lenovo: Add ThinkPad 10 Ultrabook Keyboard support")
 Reviewed-by: Marek Behún <kabel@kernel.org>
-
-Patches 1, 4, 5, 7 have:
 Acked-by: Pavel Machek <pavel@ucw.cz>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/hid/hid-lenovo.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-With the ack from Pavel (the LED subsys maintainer) indicating that
-there are no problems with the LED classdev API usage in these patches.
-
-Patches 8 - 9 are new in v2 of this series, these add support for the
-Thinkpad X1 Tablet Thin keyboard. They have been tested by me on a
-Thinkpad 10 ultra keyboard dock (so that that does not regress) and
-by Alexander Kobel on a Thinkpad X1 Tablet Thin keyboard.
-
-Regards,
-
-Hans
-
-
-Hans de Goede (9):
-  HID: lenovo: Use brightness_set_blocking callback for setting LEDs
-    brightness
-  HID: lenovo: Fix lenovo_led_set_tp10ubkbd() error handling
-  HID: lenovo: Check hid_get_drvdata() returns non NULL in
-    lenovo_event()
-  HID: lenovo: Remove lenovo_led_brightness_get()
-  HID: lenovo: Set LEDs max_brightness value
-  HID: lenovo: Map mic-mute button to KEY_F20 instead of KEY_MICMUTE
-  HID: lenovo: Set default_triggers for the mute and micmute LEDs
-  HID: lenovo: Rework how the tp10ubkbd code decides which USB interface
-    to use
-  HID: lenovo: Add support for Thinkpad X1 Tablet Thin keyboard
-
- drivers/hid/hid-lenovo.c | 147 ++++++++++++++++++++++++++++++---------
- 1 file changed, 114 insertions(+), 33 deletions(-)
-
+diff --git a/drivers/hid/hid-lenovo.c b/drivers/hid/hid-lenovo.c
+index c6c8e20f3e8d..4dc5e5f932ed 100644
+--- a/drivers/hid/hid-lenovo.c
++++ b/drivers/hid/hid-lenovo.c
+@@ -777,7 +777,7 @@ static enum led_brightness lenovo_led_brightness_get(
+ 				: LED_OFF;
+ }
+ 
+-static void lenovo_led_brightness_set(struct led_classdev *led_cdev,
++static int lenovo_led_brightness_set(struct led_classdev *led_cdev,
+ 			enum led_brightness value)
+ {
+ 	struct device *dev = led_cdev->dev->parent;
+@@ -802,6 +802,8 @@ static void lenovo_led_brightness_set(struct led_classdev *led_cdev,
+ 		lenovo_led_set_tp10ubkbd(hdev, tp10ubkbd_led[led_nr], value);
+ 		break;
+ 	}
++
++	return 0;
+ }
+ 
+ static int lenovo_register_leds(struct hid_device *hdev)
+@@ -822,7 +824,7 @@ static int lenovo_register_leds(struct hid_device *hdev)
+ 
+ 	data->led_mute.name = name_mute;
+ 	data->led_mute.brightness_get = lenovo_led_brightness_get;
+-	data->led_mute.brightness_set = lenovo_led_brightness_set;
++	data->led_mute.brightness_set_blocking = lenovo_led_brightness_set;
+ 	data->led_mute.dev = &hdev->dev;
+ 	ret = led_classdev_register(&hdev->dev, &data->led_mute);
+ 	if (ret < 0)
+@@ -830,7 +832,7 @@ static int lenovo_register_leds(struct hid_device *hdev)
+ 
+ 	data->led_micmute.name = name_micm;
+ 	data->led_micmute.brightness_get = lenovo_led_brightness_get;
+-	data->led_micmute.brightness_set = lenovo_led_brightness_set;
++	data->led_micmute.brightness_set_blocking = lenovo_led_brightness_set;
+ 	data->led_micmute.dev = &hdev->dev;
+ 	ret = led_classdev_register(&hdev->dev, &data->led_micmute);
+ 	if (ret < 0) {
 -- 
 2.30.2
 
