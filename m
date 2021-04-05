@@ -2,169 +2,160 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25B9D3546FD
-	for <lists+linux-input@lfdr.de>; Mon,  5 Apr 2021 21:11:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1118F35478E
+	for <lists+linux-input@lfdr.de>; Mon,  5 Apr 2021 22:27:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234289AbhDETLe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Apr 2021 15:11:34 -0400
-Received: from mout.web.de ([212.227.15.14]:42353 "EHLO mout.web.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233194AbhDETLe (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 5 Apr 2021 15:11:34 -0400
-X-Greylist: delayed 6037 seconds by postgrey-1.27 at vger.kernel.org; Mon, 05 Apr 2021 15:11:34 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1617649882;
-        bh=N2Vk9DfuNMjiOjfXUQZ6ZkL3HDed82ee27rnGwb5C6c=;
-        h=X-UI-Sender-Class:Subject:From:To:Cc:Date:In-Reply-To:References;
-        b=GHgpwlaHtqqLEafx0ie+HLJ18G3OC8i1T/nS5y1EJAhtUtiLekwfF31Kqnrxz/lhl
-         RzpJQXVBQYrU+XVWpAjPOv2JqpGRqMYx8gMhUSNmo8MuC5dVGuWAwIIRupWYhcFCRX
-         Sbp0Qpk1L0KwGIqmwy+s0rSk6CX5rVfNs58AcY1A=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.0.9] ([109.193.148.190]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1M7usw-1lXMVc0bdC-005Eqc; Mon, 05
- Apr 2021 21:11:22 +0200
-Message-ID: <7b16a2f3700b17da5b53c5362255974706208463.camel@web.de>
-Subject: Re: [PATCH] HID: quirks: Add Apple Magic Trackpad 2 to
- hid_have_special_driver list
-From:   Felix =?ISO-8859-1?Q?H=E4dicke?= <felixhaedicke@web.de>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        Sean O'Brien <seobrien@chromium.org>
-Date:   Mon, 05 Apr 2021 21:11:21 +0200
-In-Reply-To: <CAO-hwJLk5hpBQA=Xy4Hmfhx8iMJp+TuqyV33r2ocJX7JW-PkFQ@mail.gmail.com>
-References: <20201119082232.8774-1-felixhaedicke@web.de>
-         <CAKdAkRSyi53f0pwyzmNP4fNhkDT4P5vV_aDneZuCKTqWDvb+Kg@mail.gmail.com>
-         <CAO-hwJLk5hpBQA=Xy4Hmfhx8iMJp+TuqyV33r2ocJX7JW-PkFQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.3-1 
+        id S234102AbhDEU16 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 5 Apr 2021 16:27:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25824 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234100AbhDEU15 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 5 Apr 2021 16:27:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617654470;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=wbmrZGbN/M86yboDsS4QH+/WDN+7fNGDrL3GsQigCbo=;
+        b=Os1UZB/o/wD+9AlfBRF1kizQwFrtzUKMjJoMru/kd9s2ohpd9x6scHCpoKa1S69+qV0SsW
+        mTsPyqUgnFPVlGk3diilGGMXHbc3+uerLHnQiCCnjt80xLEFJRVcxeZCXTm7urC7t0T+eS
+        tjBGqR4imNtKVIPXxxkIy/CHEGU7X6c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-116-iqZDw2UmMK-V2830EKVKtA-1; Mon, 05 Apr 2021 16:27:48 -0400
+X-MC-Unique: iqZDw2UmMK-V2830EKVKtA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D61881620;
+        Mon,  5 Apr 2021 20:27:47 +0000 (UTC)
+Received: from x1.localdomain (ovpn-112-31.ams2.redhat.com [10.36.112.31])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6F69A5C6BD;
+        Mon,  5 Apr 2021 20:27:46 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-input@vger.kernel.org
+Subject: [PATCH resend] Input: silead - Add workaround for x86 BIOS-es which bring the Silead chip up in a stuck state
+Date:   Mon,  5 Apr 2021 22:27:45 +0200
+Message-Id: <20210405202745.16777-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:N8gv7BVzKJgYALK+ZmHveF/8yy99p24NHcvh/Y0pGDheD83gJg0
- Mnfh/aVTgxYm78EuBkUD+S/atjhN0ql6M5kE7CqC7nVtT/hnGEd5aFORmpETyKIuK4q2QYX
- VMLNHyAuHDthj9aXT15t1hr8xbVO5CLmiUA87zsIF9uOgrsTyRfLn2IbHIx++8VGRJ1ipcr
- AY1J3m5+fQAaGn2qJG0AA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:GzPmfWwGMPg=:PyR6F7r2U/JFvNFcMCylQx
- YnYsBrB8snu6hVaR+r/9vWXmoNnKUX/ob47O49nFTMeYSlzGlMBhWw5qWpiO6IH0e3C3CcKbD
- bmd/eamnwFygA8YnY5pGMj9UysAY75LQkwiqp9SRbhZV77sgqgNpbtw+GHLB+qLyDonhAsqA7
- JDWGuUjCub906w0RPCM53e3zQTCLywlBveUXaux1xBaIaZso+BYYlluUgrvhQiOkGonKnuRIg
- iKftnCPJDgsTO9bVuWrcxc7YfnTevRM0pNcv6lD1LppXTrc19FSZctMg59iddAyax+zk0ew59
- UgGldyECAGl/0nGmOgDfTaXnDgPx4FYrfWcpn5eQm5O4qq0CqqOrl8pLyXuI5VaM30hSdfLFD
- 5k4o/QdsETqPj1WQdG4X9pmysCdipsbBXG10wFVTCXU7RxqurhEY57cV6CoIehECoPZDs6T/9
- T3qwRt5CQNzEEc3r+v713ri2+ALiROdDgj/lsD6TWnbFw7OKzcgpLdL1k1+/7WUzOhAN40J6R
- /TqfpRAyCjmHtaywI62mB2QUmhGOrqcYbA3lGU42LFuh5VdR1dWGbeKADJwAcvwgeFd8bYMeI
- K7/sw7uInyP3IalYEjxgNkHOX+WX8aIqY1sqZY99tTZtNpJXrwEyqoVKrO+HfqFYBR5QLWYl7
- WYOUQufr+TygXtXQhJegrdyZkEolGglPkzCu2qEujFfCUL8sEN//6JEi2DgiVotgoylLX0Fga
- nSx4KDTZlQuK92fprlS0SDMXBz3twQYHWc6mBpdG9IfpXxRSsycl/rUAG2/UP16e40PtEAkd9
- r5edwwytI/7k9Z0D+2gpb2wDRM9KGzXQ3IxJX3fSklAwxIndqz7rxA2qYsnEQdWOxi1A3B2lm
- 2r9r9YkvvwFL27BOb22QYg5zBsP5vnRK5iV1p9GzxhfJzCbxXq8rvZFp1EWU96uEffVuSL39r
- ecgvmpaQIV3323QvjG/5X6Byl5wz6KQgXDmcdrv6xXqgu+B8dY3KXBPi496+ZZp3X+9SeWKT7
- 2BLhgKHPF/gowbxYWiuZi6pl8sluhAtG1GAjO3Mr+BcDYFZOinm9ec71JBXC8U6QUX/+D9D9n
- LoI+j/6Z/wruwaZ1CyCIuuwEWbSpqd6zzcYmbe6d9OCS9fpZqsRmx7zwSgUMWQTJQCrxpIFX+
- ehdKEY1aWobKJvA9zTUIMNPndrEB1/F2PZGiRwmZDFLsu1LY9V20apEsbIkx0JECSw0EQ=
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello Benjamin,
+Some buggy BIOS-es bring up the touchscreen-controller in a stuck
+state where it blocks the I2C bus. Specifically this happens on
+the Jumper EZpad 7 tablet model.
 
-On Wed, 2020-12-02 at 11:21 +0100, Benjamin Tissoires wrote:
-> Hi Felix,
->
-> On Wed, Dec 2, 2020 at 5:31 AM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> >
-> > On Thu, Nov 19, 2020 at 12:31 AM Felix H=C3=A4dicke <
-> > felixhaedicke@web.de> wrote:
-> > >
-> > > The Apple Magic Trackpad 2 is handled by the magicmouse driver.
-> > > And
-> > > there were severe stability issues when both drivers (hid-generic
-> > > and
-> > > hid-magicmouse) were loaded for this device.
-> > >
-> > > Fixes: https://bugzilla.kernel.org/show_bug.cgi?id=3D210241
->
-> As mentioned in the bug, this hardly looks like the correct solution.
->
-> The magicmouse is one of the 2 only drivers that calls
-> `hid_register_report` and then overwrites the size of the report
-> manually. I can not figure out immediately if this is wrong, and how
-> that would impact a free in usbhid, but this is highly suspicious to
-> me.
+After much poking at this problem I have found that the following steps
+are necessary to unstuck the chip / bus:
 
-Sorry for my late reply.
+1. Turn off the Silead chip.
+2. Try to do an I2C transfer with the chip, this will fail in response to
+   which the I2C-bus-driver will call: i2c_recover_bus() which will unstuck
+   the I2C-bus. Note the unstuck-ing of the I2C bus only works if we first
+   drop the chip of the bus by turning it off.
+3. Turn the chip back on.
 
-Now I have now found time to investigate this further, and tried to
-understand what effect overwriting the size of the report could have.
-Without success, I found nothing about this, which could explain a
-memory corruption.
+On the x86/ACPI systems were this problem is seen, step 1. and 3. require
+making ACPI calls and dealing with ACPI Power Resources. This commit adds
+a workaround which runtime-suspends the chip to turn it off, leaving it up
+to the ACPI subsystem to deal with all the ACPI specific details.
 
-But as I commented in bug 210241 (see comment #13), usbhid_stop() is
-called twice for the same hid_device instance pointer. The first call
-seems to happen when the HID default driver tries to initialise this
-device, which failes (probably because the hid-magicmouse driver is
-already active for this device).
+There is no good way to detect this bug, so the workaround gets activated
+by a new "silead,stuck-controller-bug" boolean device-property. Since this
+is only used on x86/ACPI, this will be set by model specific device-props
+set by drivers/platform/x86/touchscreen_dmi.c. Therefor this new
+device-property is not documented in the DT-bindings.
 
-Adding the Magic Trackpad 2 to the hid_have_special_driver list makes
-hid_generic_match() return false (in the hid-generic driver), and the
-device is ignored by this driver.
+Dmesg will contain the following messages on systems where the workaround
+is activated:
 
-Is it not the right thing to have the Magic Trackpad 2 in the
-hid_have_special_driver list anyway?
+[   54.309029] silead_ts i2c-MSSL1680:00: [Firmware Bug]: Stuck I2C bus: please ignore the next 'controller timed out' error
+[   55.373593] i2c_designware 808622C1:04: controller timed out
+[   55.582186] silead_ts i2c-MSSL1680:00: Silead chip ID: 0x80360000
 
-Regards,
-Felix
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+Changes in v2:
+- Fix brown paper-bag bug where v1 did not compile
+---
+ drivers/input/touchscreen/silead.c | 39 +++++++++++++++++++++++++++---
+ 1 file changed, 35 insertions(+), 4 deletions(-)
 
-
->
-> Cheers,
-> Benjamin
->
-> >
-> > +Jiri Kosina +Benjamin Tissoires for visibility.
-> >
-> > >
-> > > Signed-off-by: Felix H=C3=A4dicke <felixhaedicke@web.de>
-> > > ---
-> > > =C2=A0drivers/hid/hid-quirks.c | 2 ++
-> > > =C2=A01 file changed, 2 insertions(+)
-> > >
-> > > diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-> > > index 7a2be0205dfd..0a589d956e5c 100644
-> > > --- a/drivers/hid/hid-quirks.c
-> > > +++ b/drivers/hid/hid-quirks.c
-> > > @@ -473,6 +473,8 @@ static const struct hid_device_id
-> > > hid_have_special_driver[] =3D {
-> > > =C2=A0#if IS_ENABLED(CONFIG_HID_MAGICMOUSE)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 { HID_BLUETOOTH_DEVICE(US=
-B_VENDOR_ID_APPLE,
-> > > USB_DEVICE_ID_APPLE_MAGICMOUSE) },
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 { HID_BLUETOOTH_DEVICE(US=
-B_VENDOR_ID_APPLE,
-> > > USB_DEVICE_ID_APPLE_MAGICTRACKPAD) },
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 { HID_BLUETOOTH_DEVICE(BT_VEND=
-OR_ID_APPLE,
-> > > USB_DEVICE_ID_APPLE_MAGICTRACKPAD2) },
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 { HID_USB_DEVICE(USB_VENDOR_ID=
-_APPLE,
-> > > USB_DEVICE_ID_APPLE_MAGICTRACKPAD2) },
-> > > =C2=A0#endif
-> > > =C2=A0#if IS_ENABLED(CONFIG_HID_MAYFLASH)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 { HID_USB_DEVICE(USB_VEND=
-OR_ID_DRAGONRISE,
-> > > USB_DEVICE_ID_DRAGONRISE_PS3) },
-> > > --
-> > > 2.29.2
-> > >
-> >
-> > Thanks.
-> >
-> > --
-> > Dmitry
-> >
->
-
+diff --git a/drivers/input/touchscreen/silead.c b/drivers/input/touchscreen/silead.c
+index 8fa2f3b7cfd8..4df0f93dbb56 100644
+--- a/drivers/input/touchscreen/silead.c
++++ b/drivers/input/touchscreen/silead.c
+@@ -20,6 +20,7 @@
+ #include <linux/input/mt.h>
+ #include <linux/input/touchscreen.h>
+ #include <linux/pm.h>
++#include <linux/pm_runtime.h>
+ #include <linux/irq.h>
+ #include <linux/regulator/consumer.h>
+ 
+@@ -335,10 +336,8 @@ static int silead_ts_get_id(struct i2c_client *client)
+ 
+ 	error = i2c_smbus_read_i2c_block_data(client, SILEAD_REG_ID,
+ 					      sizeof(chip_id), (u8 *)&chip_id);
+-	if (error < 0) {
+-		dev_err(&client->dev, "Chip ID read error %d\n", error);
++	if (error < 0)
+ 		return error;
+-	}
+ 
+ 	data->chip_id = le32_to_cpu(chip_id);
+ 	dev_info(&client->dev, "Silead chip ID: 0x%8X", data->chip_id);
+@@ -351,12 +350,44 @@ static int silead_ts_setup(struct i2c_client *client)
+ 	int error;
+ 	u32 status;
+ 
++	/*
++	 * Some buggy BIOS-es bring up the chip in a stuck state where it blocks the I2C bus.
++	 * The following steps are necessary to unstuck the chip / bus:
++	 * 1. Turn off the Silead chip.
++	 * 2. Try to do an I2C transfer with the chip, this will fail in response to
++	 *    which the I2C-bus-driver will call: i2c_recover_bus() which will unstuck
++	 *    the I2C-bus. Note the unstuck-ing of the I2C bus only works if we first
++	 *    drop the chip of the bus by turning it off.
++	 * 3. Turn the chip back on.
++	 *
++	 * On the x86/ACPI systems were this problem is seen, step 1. and 3. require
++	 * making ACPI calls and dealing with ACPI Power Resources. The workaround below
++	 * runtime-suspends the chip to turn it off, leaving it up to the ACPI subsystem
++	 * to deal with this.
++	 */
++	if (device_property_read_bool(&client->dev, "silead,stuck-controller-bug")) {
++		pm_runtime_set_active(&client->dev);
++		pm_runtime_enable(&client->dev);
++		pm_runtime_allow(&client->dev);
++
++		pm_runtime_suspend(&client->dev);
++
++		dev_warn(&client->dev, FW_BUG "Stuck I2C bus: please ignore the next 'controller timed out' error\n");
++		silead_ts_get_id(client);
++
++		/* The forbid will also resume the device */
++		pm_runtime_forbid(&client->dev);
++		pm_runtime_disable(&client->dev);
++	}
++
+ 	silead_ts_set_power(client, SILEAD_POWER_OFF);
+ 	silead_ts_set_power(client, SILEAD_POWER_ON);
+ 
+ 	error = silead_ts_get_id(client);
+-	if (error)
++	if (error) {
++		dev_err(&client->dev, "Chip ID read error %d\n", error);
+ 		return error;
++	}
+ 
+ 	error = silead_ts_init(client);
+ 	if (error)
+-- 
+2.30.2
 
