@@ -2,128 +2,163 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8CE3355551
-	for <lists+linux-input@lfdr.de>; Tue,  6 Apr 2021 15:37:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8DED355586
+	for <lists+linux-input@lfdr.de>; Tue,  6 Apr 2021 15:44:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243976AbhDFNh1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Apr 2021 09:37:27 -0400
-Received: from mout.gmx.net ([212.227.17.20]:41181 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233252AbhDFNh1 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 6 Apr 2021 09:37:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1617716231;
-        bh=W+UtVtp8aM/GVU9D1YF/wcU0c2NsWAGAV4/H08vIA+o=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=XNb813X1/hhfJXpSMO7YaLu0OTDnVf3MnbAMLI769t3J4DreI+741Sum3BIeqxqeR
-         YeHom9xa1gUcC+7jSSkcCGy7iZg8j/d7Lsx0f/o5M5IC5AcnBdQRGyvyKnfWDZxxqf
-         8gzPlwidvGwzxKC/dbwN1r5jlobXDg7s6Sods7jo=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from longitude ([37.201.215.134]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N1wpt-1lagu62wfZ-012EiF; Tue, 06
- Apr 2021 15:37:11 +0200
-Date:   Tue, 6 Apr 2021 15:37:11 +0200
-From:   Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-To:     Giulio Benetti <giulio.benetti@benettiengineering.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.ne@posteo.net>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] dt-bindings: touchscreen: Add HY46XX bindings
-Message-ID: <YGxkB6icZSJfx/VB@latitude>
-References: <YGbc7Qbu6s659Mx4@latitude>
- <20210402161627.2546145-1-giulio.benetti@benettiengineering.com>
- <20210402161627.2546145-3-giulio.benetti@benettiengineering.com>
+        id S244113AbhDFNoe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Apr 2021 09:44:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33494 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244109AbhDFNoe (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Apr 2021 09:44:34 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42A3AC061756
+        for <linux-input@vger.kernel.org>; Tue,  6 Apr 2021 06:44:26 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1lTlzt-0004HM-FT; Tue, 06 Apr 2021 15:44:01 +0200
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1lTlzo-00033c-7n; Tue, 06 Apr 2021 15:43:56 +0200
+Date:   Tue, 6 Apr 2021 15:43:56 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Heiko Stuebner <heiko@sntech.de>, linux-doc@vger.kernel.org,
+        David Airlie <airlied@linux.ie>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Fabio Estevam <festevam@gmail.com>, linux-clk@vger.kernel.org,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lee Jones <lee.jones@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-rockchip@lists.infradead.org,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-input@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        linux-pwm@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Mark Brown <broonie@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Fabrice Gasnier <fabrice.gasnier@st.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        linux-kernel@vger.kernel.org,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>
+Subject: Re: [PATCH] pwm: Rename pwm_get_state() to better reflect its
+ semantic
+Message-ID: <20210406134356.dda74heeshkwdarw@pengutronix.de>
+References: <20210406073036.26857-1-u.kleine-koenig@pengutronix.de>
+ <YGxDD4jVZx/H/Zdr@orome.fritz.box>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="9WUZB2G+sPhVyB7j"
+        protocol="application/pgp-signature"; boundary="t6hkzfhuwxujjtpy"
 Content-Disposition: inline
-In-Reply-To: <20210402161627.2546145-3-giulio.benetti@benettiengineering.com>
-X-Provags-ID: V03:K1:ZwLG6T1+PLZ8a4BRXNhawlEcNxwpZ5xzDSjFTT/38p33fMLvmuU
- 1qrLhvNhxa3kpkyvF8YcUaQ3ZDB/O7cdZH3oO7+Gs6Epnoky8oo4isNCs0N7HryVOTjqeNe
- aD/JKFTSK75l982EELoloRS5+s17HGLIxh3LzHG7A4wzTHXGptqTXoiJ2Y2xE2YI0ECiTBy
- qAUF6VpqaEq8Vff7IsRIg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:OUFskwDCf28=:bxAP6ALs5g9byp5dd1+nsm
- zMRMYZRrtfe2/BZTdiKNt3DOQiNlFe75qc8AO+IR/VXihGJuYL0Tc3eNiQ+EgnXn6WS9Uu2Hk
- Koo3xi0hP6FBLMLlwpHJm+jA3t5gMna9UAoM7mD3X7W9Jrw/r9GKiXVydrEFwIl6int2+vHID
- BEKst3eEYlnKXEJZ8SDuuLPptaDMhHRK9Q08S0+lothZ3w02dMU4ENSIvb7bygw8SljwAqrXY
- KalMRwzuNn/twZLnTai4AhGQoDBn72pkVSGxNFlvEz+tjJ2i6bB9880tmSwCvUkntc2B1Y9ZG
- 9biQ1FsHip2O71hvOvPcxyFT+tT5K+c7r73lHdd7u3oSDSmz6BZA3VSP8L3QmFLWJJeYQ3JYw
- ACrKuAEN9hErC4ttiNU9dnSh1dzmprizDzBvN640DYImGHxLw72bZVdavEsVTx0+7v8IGMS15
- 9AnYgVFQ4zLX9WBAqjYNpy0DRg5YSpbHVtjr3lsir0wmDvmcc07SouTYY6EBJsHwF/W7bGuEU
- F2EA9PGjiHoCL+jxwz0cW639jfSthKHf19UcV5XGbZ0Lce630F3m97oewVRvX0ENarXPNPF/h
- 9KDK6UW1kME3R+vCGH9pNRJ0dvQ4Kb+5rZU1q1EDpIoFD9L6CySjehMC4Quli3M4mSPSrU1B0
- EE34M0EDXdaJMcdQp7OBnWanZCaAtZZ5pw1OfPI6GA4QhM975xxa0lhlakOZIY0aAlDvZhaMX
- 263piW+lOnS6AJ7/vfaeJNQzqjAv2MwekPbiICoWQBRPMy2Ufz/EhrxcmqSSWakZtaw6IrifR
- BjhjZeawRRy/J77wb7yxBftsf0UgO1PQMZt2l+3qit/zIvQwZqdWyessvMNUY3eaW9kz3G9Ze
- c2psD6MKBMZDYR0dSR1UU5vtO3pViYhpV3p3+72IYeiPJ0Jd5muSsDq3H3ZrHE9U4UmHmhAWT
- EZofinXlNHLpJY8MKXG8gAScyG4fciqdfNx5Wzv4DoqBTek0Vmvp695AxQ2b0o+Dqs4vutpE4
- ti5CzVQJ5gY+czp3e9fmiFaCwji1CL6YwAItbiRDDuBo9OJvmFF6iPaCi7IDEvvR5z2dnxSd2
- UNkIUHxn5p10rFRVYKZe5yjaLgWlYdb2q2cQuUat58ydYKu7bzq2e/KsoBTsgZwf+ZqIqXsvR
- LpLq4tWGHsRr3Bvo1W/G3Kn8GENjphhvwXe7637QrhOsEm17QyWaO1X1UCsqgsjun9eBcqtpR
- eSqu/mcDM1Z3Mrmfi
+In-Reply-To: <YGxDD4jVZx/H/Zdr@orome.fritz.box>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 
---9WUZB2G+sPhVyB7j
-Content-Type: text/plain; charset=utf-8
+--t6hkzfhuwxujjtpy
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-In the binding:
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - hycon,hycon-hy4613
-> +      - hycon,hycon-hy4614
-> +      - hycon,hycon-hy4621
-> +      - hycon,hycon-hy4623
-> +      - hycon,hycon-hy4633
-> +      - hycon,hycon-hy4635
+Hello Thierry,
 
-In the example:
-> +      hycon-hy4633@1c {
-> +        compatible =3D "hycon,hy4633";
-> +        reg =3D <0x1c>;
-> +        interrupt-parent =3D <&gpio2>;
-> +        interrupts =3D <5 IRQ_TYPE_EDGE_FALLING>;
-> +        reset-gpios =3D <&gpio2 6 GPIO_ACTIVE_LOW>;
-> +      };
+On Tue, Apr 06, 2021 at 01:16:31PM +0200, Thierry Reding wrote:
+> On Tue, Apr 06, 2021 at 09:30:36AM +0200, Uwe Kleine-K=F6nig wrote:
+> > Given that lowlevel drivers usually cannot implement exactly what a
+> > consumer requests with pwm_apply_state() there is some rounding involve=
+d.
+> >=20
+> > pwm_get_state() traditionally returned the setting that was requested m=
+ost
+> > recently by the consumer (opposed to what was actually implemented in
+> > hardware in reply to the last request). To make this semantic obvious
+> > rename the function.
+> >=20
+> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+> > ---
+> >  Documentation/driver-api/pwm.rst           |  6 +++-
+> >  drivers/clk/clk-pwm.c                      |  2 +-
+> >  drivers/gpu/drm/i915/display/intel_panel.c |  4 +--
+> >  drivers/input/misc/da7280.c                |  2 +-
+> >  drivers/input/misc/pwm-beeper.c            |  2 +-
+> >  drivers/input/misc/pwm-vibra.c             |  4 +--
+> >  drivers/pwm/core.c                         |  4 +--
+> >  drivers/pwm/pwm-atmel-hlcdc.c              |  2 +-
+> >  drivers/pwm/pwm-atmel.c                    |  2 +-
+> >  drivers/pwm/pwm-imx27.c                    |  2 +-
+> >  drivers/pwm/pwm-rockchip.c                 |  2 +-
+> >  drivers/pwm/pwm-stm32-lp.c                 |  4 +--
+> >  drivers/pwm/pwm-sun4i.c                    |  2 +-
+> >  drivers/pwm/sysfs.c                        | 18 ++++++------
+> >  drivers/regulator/pwm-regulator.c          |  4 +--
+> >  drivers/video/backlight/pwm_bl.c           | 10 +++----
+> >  include/linux/pwm.h                        | 34 ++++++++++++++--------
+> >  17 files changed, 59 insertions(+), 45 deletions(-)
+>=20
+> Honestly, I don't think this is worth the churn. If you think people
+> will easily get confused by this then a better solution might be to more
+> explicitly document the pwm_get_state() function to say exactly what it
+> returns.
 
+I'm not so optimistic that people become aware of the semantic just
+because there is documentation describing it and I strongly believe that
+a good name for functions is more important than accurate documentation.
 
-Rob's devicetree lint bot detected the mismatch in compatible string
-here.
+If you don't agree, what do you think about the updated wording in
+Documentation/driver-api/pwm.rst?
 
-I personally think 'hycon,hy4633' looks better than 'hycon,hycon-hy4633',
-because it isn't so redundant.
+> But there's no need to make life difficult for everyone by
+> renaming this to something as cumbersome as this.
 
+I don't expect any merge conflicts (and if still a problem occurs
+resolving should be trivial enough). So I obviously don't agree to your
+weighing.
 
-Best regards,
-Jonathan Neusch=C3=A4fer
+Best regards
+Uwe
 
---9WUZB2G+sPhVyB7j
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--t6hkzfhuwxujjtpy
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEvHAHGBBjQPVy+qvDCDBEmo7zX9sFAmBsY/8ACgkQCDBEmo7z
-X9sc1A/+JDPo7yRNDI99ucYWvxeTkPEwZTnSP9hUmPOOqOGoz5ZbXHb0IR8uUMK9
-+e8kwQu+yBCOc3I7i+908w6gvOmVjrPJoVXSH3YnTBcFvajCn+onOMK7SRkG0THb
-ISaw4jxduV+2RJ+EwFUKsdDj99zpLTl1d7SV+wB3JXTSjl+P/neEWWOeVPEFD2hH
-ZYDgBASHRO7v8lLmJ6fdI3LMtBx3YZBcIRcpHHbP9HM+XoI29gQQSNA0/FuX30hI
-kBbtYh/o0k/6Xi5jGjmzhpkLLJ5NwDdwhoGhjG9R5YkbNUp9uhuNCfhHXGm3wMvX
-oBzRHZYarUaJa34NJDiluCmrorhV6mfY1214UDiABUOxcO6f4duMXidBtMiboI2p
-WEW3O1iUufgopuiIkLcFQZNRhj3Rc6pdSE0pNPlgeDS9/FNs2hnRmbs6QAlxhr0V
-qyQAlRI9Atj9Bd4Eop/dBXKTF7oJlQc4diDzbKHv3QgM1CLSBx35vUIjKV5Imnh6
-k5wzntzPJu5h9jHmQ58CR4LlKWBq75LytQ0ea304XOA4QSwjeYY6UJXiAy5WmgAf
-kEz/WK+2z7yw+TavxUiUgXuq5J4Pl6m2BIGegsPkE+u+SeqX7OlaXbpwcXOi3NOh
-mXIgAK6tH/IkLC7hjP7LF5FszKdVGhFQh3iTv4tpjrJM4WGv17M=
-=ciuX
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmBsZZkACgkQwfwUeK3K
+7AnKfQf8CsJvMKdyRy2ch/MNcEI+IBzOnV6nRAbwkLN/G3pbTRHLCtd8Zg/Iobf1
+P7ADJlOPATvorbWWUoagJrzcsXswh3ctV5aSWs0Ax1GJQ+PxNtz20n+MtsiTq2gZ
+flPfVN0AurTPqh+oGXK+f9C9N0ASjR7i2qjuUoub37yQ/abR5exNOpaM8FEnIbcF
+OHcBHOokDL0GpBDir8M9UyfrsPt8TfVD5fk5hXr7hmBhY/iuGQynYDRMQ11/zkvM
+lqdH7zPujy5oNqA/+6OSE8vbqoyTRoSqFHuyPRirxDrO14Yu2U570iUznQfg2O/t
+3egDaTaqSuaJjxZHzKE4dbx3R/z8wQ==
+=ePEJ
 -----END PGP SIGNATURE-----
 
---9WUZB2G+sPhVyB7j--
+--t6hkzfhuwxujjtpy--
