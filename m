@@ -2,96 +2,134 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 10F06355612
-	for <lists+linux-input@lfdr.de>; Tue,  6 Apr 2021 16:07:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B34D355B4D
+	for <lists+linux-input@lfdr.de>; Tue,  6 Apr 2021 20:26:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233633AbhDFOHb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Apr 2021 10:07:31 -0400
-Received: from smtpcmd01-sp1.aruba.it ([62.149.158.218]:50910 "EHLO
-        smtpcmd01-sp1.aruba.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232398AbhDFOHa (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Apr 2021 10:07:30 -0400
-Received: from [192.168.126.129] ([146.241.148.6])
-        by Aruba Outgoing Smtp  with ESMTPSA
-        id TmMSlNqy2TIb1TmMSl6TuV; Tue, 06 Apr 2021 16:07:21 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-        t=1617718041; bh=qnNqa3PMe4bx15r4Is7WmH19xKZdB1p4g61UEusxWAk=;
-        h=Subject:To:From:Date:MIME-Version:Content-Type;
-        b=TWan4RDaktPxYOxjqxMW8xRiNVl6PcK0FCsdTsCq33PVswVzFFzjMBsgBewEp09LX
-         UQqCc7wYOq/8HAboLatFAD5M+2mVABZ4GEv70r67wVD4zjHxnx32qHHIXBYCWvOSIL
-         EdvQbl4uuuDgSyFMGwebUO+aH3o02XZ/OEmWcRxad2HG801OA0ceWAjJIoHYED1O1F
-         I4A///xHzoB5FJV+sGDpiVlwsH0vU1+p6SfhBFzrupVMnbcHad1/Lyiwd1XLJqy1ru
-         mxL4V734WVEWaqDBtbFi7q9xW9d8ccTHi2tcoZicZgoOq72YBr4WHE6viPbcwDVYEK
-         yG1fxLe2xEk7A==
-Subject: Re: [PATCH v3 2/3] dt-bindings: touchscreen: Add HY46XX bindings
-To:     =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.ne@posteo.net>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <YGbc7Qbu6s659Mx4@latitude>
- <20210402161627.2546145-1-giulio.benetti@benettiengineering.com>
- <20210402161627.2546145-3-giulio.benetti@benettiengineering.com>
- <YGxkB6icZSJfx/VB@latitude>
-From:   Giulio Benetti <giulio.benetti@benettiengineering.com>
-Message-ID: <a7b384ac-55f4-931b-d8ce-0c74c70f07cd@benettiengineering.com>
-Date:   Tue, 6 Apr 2021 16:07:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        id S233156AbhDFS0n (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Apr 2021 14:26:43 -0400
+Received: from mx-out.tlen.pl ([193.222.135.145]:10157 "EHLO mx-out.tlen.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236505AbhDFS0n (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 6 Apr 2021 14:26:43 -0400
+Received: (wp-smtpd smtp.tlen.pl 2504 invoked from network); 6 Apr 2021 20:26:28 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=o2.pl; s=1024a;
+          t=1617733588; bh=6JhLiDmG9aThvXp3eAzGh/wDeUJFIp/TbQ2272UW4Yk=;
+          h=From:To:Cc:Subject;
+          b=EhkvaBHCu7HXfkv3AjrPNVaQxm1UqJlqZ7JeO0cj6A2fuiyTh6hea3m5Nmjot38nu
+           4Wh5U0gNArH/RmqdX49tvP91LtWDsNBviCFb7hN1JWI6TVpJANaqUix+uvr2+NlquX
+           A/XdxP3q0UNaDKEh6cRr6DJbDpskJuyhcAZ865V0=
+Received: from ackm196.neoplus.adsl.tpnet.pl (HELO localhost.localdomain) (mat.jonczyk@o2.pl@[83.10.88.196])
+          (envelope-sender <mat.jonczyk@o2.pl>)
+          by smtp.tlen.pl (WP-SMTPD) with SMTP
+          for <linux-input@vger.kernel.org>; 6 Apr 2021 20:26:28 +0200
+From:   =?UTF-8?q?Mateusz=20Jo=C5=84czyk?= <mat.jonczyk@o2.pl>
+To:     linux-input@vger.kernel.org
+Cc:     =?UTF-8?q?Mateusz=20Jo=C5=84czyk?= <mat.jonczyk@o2.pl>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: [PATCH resend] hid-a4tech: use A4_2WHEEL_MOUSE_HACK_B8 for A4TECH NB-95
+Date:   Tue,  6 Apr 2021 20:25:38 +0200
+Message-Id: <20210406182538.34347-1-mat.jonczyk@o2.pl>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210327125329.40357-1-mat.jonczyk@o2.pl>
+References: <20210327125329.40357-1-mat.jonczyk@o2.pl>
 MIME-Version: 1.0
-In-Reply-To: <YGxkB6icZSJfx/VB@latitude>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfJtVFEwfrBGwgWRPXTt+otcGFjg32IsmdB3T+rIy/kGUyznTAvNtJeZ1uKEf+AeS7XWdnur8gLRH8KHyct3H8P44GL6xbRbLEEGcJHYEl2irFYMR+EPY
- PlGJWTZhLl3CLqVvURMXcg3hGC75IuTlHApB0H4Z2C/8gHNRXis8P5oqudvQxrgSpX0EjHMyk9h0CGz7u0jUahNVymk8xXceYPj/g1tFX7paBsEJMCy/OrTd
- 2f+PawskwYhBhqlmbOnJa4BVuFcuqosINqDEy+1MbL/Q4NFzhoexLFA512jcEXCAOEbrcqDctvHvZ7DhbAPG19uPId+/5oe1Eew4AXKWxQ2X1H8Ja1APWH9m
- zOKf1zJdvhrAEOP/mR94EeNz8UfimdQG9G1jJeVED/FAOC2ohSe2vqJkZaQRCtVfz33TWd82ppRKFFYt951T/O6STw+3bQ==
+X-WP-MailID: c539c1a5dccf6bd5633cd2b5183ee3b3
+X-WP-AV: skaner antywirusowy Poczty o2
+X-WP-SPAM: NO 0000000 [kfPk]                               
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Jonathan,
+This mouse has a horizontal wheel that requires special handling.
+Without this patch, the horizontal wheel acts like a vertical wheel.
 
-On 4/6/21 3:37 PM, Jonathan Neuschäfer wrote:
-> In the binding:
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - hycon,hycon-hy4613
->> +      - hycon,hycon-hy4614
->> +      - hycon,hycon-hy4621
->> +      - hycon,hycon-hy4623
->> +      - hycon,hycon-hy4633
->> +      - hycon,hycon-hy4635
-> 
-> In the example:
->> +      hycon-hy4633@1c {
->> +        compatible = "hycon,hy4633";
->> +        reg = <0x1c>;
->> +        interrupt-parent = <&gpio2>;
->> +        interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
->> +        reset-gpios = <&gpio2 6 GPIO_ACTIVE_LOW>;
->> +      };
-> 
-> 
-> Rob's devicetree lint bot detected the mismatch in compatible string
-> here.
-> 
-> I personally think 'hycon,hy4633' looks better than 'hycon,hycon-hy4633',
-> because it isn't so redundant.
-> 
+In the output of `hidrd-convert` for this mouse, there is a
+`Usage (B8h)` field. It corresponds to a byte in packets sent by the
+device that specifies which wheel generated an input event.
 
-Thank you, I've realized it after submitting patches and waited for 
-other comments. I've already fixed it the way you've pointed.
+The name "A4TECH" is spelled in all capitals on the company website.
 
-Kind regards
+Signed-off-by: Mateusz Jończyk <mat.jonczyk@o2.pl>
+Cc: Jiri Kosina <jikos@kernel.org>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+
+---
+
+Hello,
+
+This is the first patch I send to the LKML.
+
+The mouse I have is quite old, I got it somewhere in '00s.
+
+I received no answer and apparently the patch was not pulled, so I resend.
+
+Greetings,
+Mateusz
+
+ drivers/hid/Kconfig      | 4 ++--
+ drivers/hid/hid-a4tech.c | 2 ++
+ drivers/hid/hid-ids.h    | 1 +
+ drivers/hid/hid-quirks.c | 1 +
+ 4 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 09fa75a2b289..be090aad4d2a 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -93,11 +93,11 @@ menu "Special HID drivers"
+ 	depends on HID
+ 
+ config HID_A4TECH
+-	tristate "A4 tech mice"
++	tristate "A4TECH mice"
+ 	depends on HID
+ 	default !EXPERT
+ 	help
+-	Support for A4 tech X5 and WOP-35 / Trust 450L mice.
++	Support for some A4TECH mice with two scroll wheels.
+ 
+ config HID_ACCUTOUCH
+ 	tristate "Accutouch touch device"
+diff --git a/drivers/hid/hid-a4tech.c b/drivers/hid/hid-a4tech.c
+index 3a8c4a5971f7..2cbc32dda7f7 100644
+--- a/drivers/hid/hid-a4tech.c
++++ b/drivers/hid/hid-a4tech.c
+@@ -147,6 +147,8 @@ static const struct hid_device_id a4_devices[] = {
+ 		.driver_data = A4_2WHEEL_MOUSE_HACK_B8 },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_A4TECH, USB_DEVICE_ID_A4TECH_RP_649),
+ 		.driver_data = A4_2WHEEL_MOUSE_HACK_B8 },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_A4TECH, USB_DEVICE_ID_A4TECH_NB_95),
++		.driver_data = A4_2WHEEL_MOUSE_HACK_B8 },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(hid, a4_devices);
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index b60279aaed43..da3db9b3f640 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -26,6 +26,7 @@
+ #define USB_DEVICE_ID_A4TECH_WCP32PU	0x0006
+ #define USB_DEVICE_ID_A4TECH_X5_005D	0x000a
+ #define USB_DEVICE_ID_A4TECH_RP_649	0x001a
++#define USB_DEVICE_ID_A4TECH_NB_95	0x022b
+ 
+ #define USB_VENDOR_ID_AASHIMA		0x06d6
+ #define USB_DEVICE_ID_AASHIMA_GAMEPAD	0x0025
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index d9ca874dffac..fabd562c52a4 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -212,6 +212,7 @@ static const struct hid_device_id hid_have_special_driver[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_A4TECH, USB_DEVICE_ID_A4TECH_WCP32PU) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_A4TECH, USB_DEVICE_ID_A4TECH_X5_005D) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_A4TECH, USB_DEVICE_ID_A4TECH_RP_649) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_A4TECH, USB_DEVICE_ID_A4TECH_NB_95) },
+ #endif
+ #if IS_ENABLED(CONFIG_HID_ACCUTOUCH)
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELO, USB_DEVICE_ID_ELO_ACCUTOUCH_2216) },
 -- 
-Giulio Benetti
-Benetti Engineering sas
-> Best regards,
-> Jonathan Neuschäfer
-> 
+2.25.1
 
