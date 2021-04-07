@@ -2,134 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B34D355B4D
-	for <lists+linux-input@lfdr.de>; Tue,  6 Apr 2021 20:26:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3230356245
+	for <lists+linux-input@lfdr.de>; Wed,  7 Apr 2021 06:07:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233156AbhDFS0n (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Apr 2021 14:26:43 -0400
-Received: from mx-out.tlen.pl ([193.222.135.145]:10157 "EHLO mx-out.tlen.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236505AbhDFS0n (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 6 Apr 2021 14:26:43 -0400
-Received: (wp-smtpd smtp.tlen.pl 2504 invoked from network); 6 Apr 2021 20:26:28 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=o2.pl; s=1024a;
-          t=1617733588; bh=6JhLiDmG9aThvXp3eAzGh/wDeUJFIp/TbQ2272UW4Yk=;
-          h=From:To:Cc:Subject;
-          b=EhkvaBHCu7HXfkv3AjrPNVaQxm1UqJlqZ7JeO0cj6A2fuiyTh6hea3m5Nmjot38nu
-           4Wh5U0gNArH/RmqdX49tvP91LtWDsNBviCFb7hN1JWI6TVpJANaqUix+uvr2+NlquX
-           A/XdxP3q0UNaDKEh6cRr6DJbDpskJuyhcAZ865V0=
-Received: from ackm196.neoplus.adsl.tpnet.pl (HELO localhost.localdomain) (mat.jonczyk@o2.pl@[83.10.88.196])
-          (envelope-sender <mat.jonczyk@o2.pl>)
-          by smtp.tlen.pl (WP-SMTPD) with SMTP
-          for <linux-input@vger.kernel.org>; 6 Apr 2021 20:26:28 +0200
-From:   =?UTF-8?q?Mateusz=20Jo=C5=84czyk?= <mat.jonczyk@o2.pl>
-To:     linux-input@vger.kernel.org
-Cc:     =?UTF-8?q?Mateusz=20Jo=C5=84czyk?= <mat.jonczyk@o2.pl>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH resend] hid-a4tech: use A4_2WHEEL_MOUSE_HACK_B8 for A4TECH NB-95
-Date:   Tue,  6 Apr 2021 20:25:38 +0200
-Message-Id: <20210406182538.34347-1-mat.jonczyk@o2.pl>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210327125329.40357-1-mat.jonczyk@o2.pl>
-References: <20210327125329.40357-1-mat.jonczyk@o2.pl>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-WP-MailID: c539c1a5dccf6bd5633cd2b5183ee3b3
-X-WP-AV: skaner antywirusowy Poczty o2
-X-WP-SPAM: NO 0000000 [kfPk]                               
+        id S229588AbhDGEID (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 7 Apr 2021 00:08:03 -0400
+Received: from spam.zju.edu.cn ([61.164.42.155]:25186 "EHLO zju.edu.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229505AbhDGEIC (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 7 Apr 2021 00:08:02 -0400
+Received: from localhost.localdomain (unknown [10.192.24.118])
+        by mail-app2 (Coremail) with SMTP id by_KCgBH0PgNMG1gwH_RAA--.27407S4;
+        Wed, 07 Apr 2021 12:07:44 +0800 (CST)
+From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
+To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Fuqian Huang <huangfq.daxian@gmail.com>,
+        Benson Leung <bleung@chromium.org>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Lee Jones <lee.jones@linaro.org>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: cyapa - Fix rumtime PM imbalance on error
+Date:   Wed,  7 Apr 2021 12:07:38 +0800
+Message-Id: <20210407040740.20257-1-dinghao.liu@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: by_KCgBH0PgNMG1gwH_RAA--.27407S4
+X-Coremail-Antispam: 1UD129KBjvdXoWrtr43Jr4fXr1UAr1xuw1xZrb_yoWfGrX_Gr
+        yruwn7uF15Kw1DtwsxJwnxZrZYva4v934kuw4Yyr42kr1qvrZ5GryUXF4DAr4kXa4xGw15
+        Jw4IgF9ayrW0kjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbcxFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+        wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+        vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
+        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+        8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
+        Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
+        xGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxF
+        aVAv8VW8uw4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr
+        4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxG
+        rwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8Jw
+        CI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAI
+        cVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgoGBlZdtTQGhAALsL
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This mouse has a horizontal wheel that requires special handling.
-Without this patch, the horizontal wheel acts like a vertical wheel.
+When mutex_lock_interruptible() fails, a pairing PM usage
+counter decrement is needed to keep the counter balanced.
 
-In the output of `hidrd-convert` for this mouse, there is a
-`Usage (B8h)` field. It corresponds to a byte in packets sent by the
-device that specifies which wheel generated an input event.
-
-The name "A4TECH" is spelled in all capitals on the company website.
-
-Signed-off-by: Mateusz Jończyk <mat.jonczyk@o2.pl>
-Cc: Jiri Kosina <jikos@kernel.org>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
 ---
+ drivers/input/mouse/cyapa.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Hello,
-
-This is the first patch I send to the LKML.
-
-The mouse I have is quite old, I got it somewhere in '00s.
-
-I received no answer and apparently the patch was not pulled, so I resend.
-
-Greetings,
-Mateusz
-
- drivers/hid/Kconfig      | 4 ++--
- drivers/hid/hid-a4tech.c | 2 ++
- drivers/hid/hid-ids.h    | 1 +
- drivers/hid/hid-quirks.c | 1 +
- 4 files changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 09fa75a2b289..be090aad4d2a 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -93,11 +93,11 @@ menu "Special HID drivers"
- 	depends on HID
+diff --git a/drivers/input/mouse/cyapa.c b/drivers/input/mouse/cyapa.c
+index 77cc653edca2..e411ab45a218 100644
+--- a/drivers/input/mouse/cyapa.c
++++ b/drivers/input/mouse/cyapa.c
+@@ -904,8 +904,10 @@ static ssize_t cyapa_update_rt_suspend_scanrate(struct device *dev,
+ 	pm_runtime_get_sync(dev);
  
- config HID_A4TECH
--	tristate "A4 tech mice"
-+	tristate "A4TECH mice"
- 	depends on HID
- 	default !EXPERT
- 	help
--	Support for A4 tech X5 and WOP-35 / Trust 450L mice.
-+	Support for some A4TECH mice with two scroll wheels.
+ 	error = mutex_lock_interruptible(&cyapa->state_sync_lock);
+-	if (error)
++	if (error) {
++		pm_runtime_put_noidle(dev);
+ 		return error;
++	}
  
- config HID_ACCUTOUCH
- 	tristate "Accutouch touch device"
-diff --git a/drivers/hid/hid-a4tech.c b/drivers/hid/hid-a4tech.c
-index 3a8c4a5971f7..2cbc32dda7f7 100644
---- a/drivers/hid/hid-a4tech.c
-+++ b/drivers/hid/hid-a4tech.c
-@@ -147,6 +147,8 @@ static const struct hid_device_id a4_devices[] = {
- 		.driver_data = A4_2WHEEL_MOUSE_HACK_B8 },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_A4TECH, USB_DEVICE_ID_A4TECH_RP_649),
- 		.driver_data = A4_2WHEEL_MOUSE_HACK_B8 },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_A4TECH, USB_DEVICE_ID_A4TECH_NB_95),
-+		.driver_data = A4_2WHEEL_MOUSE_HACK_B8 },
- 	{ }
- };
- MODULE_DEVICE_TABLE(hid, a4_devices);
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index b60279aaed43..da3db9b3f640 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -26,6 +26,7 @@
- #define USB_DEVICE_ID_A4TECH_WCP32PU	0x0006
- #define USB_DEVICE_ID_A4TECH_X5_005D	0x000a
- #define USB_DEVICE_ID_A4TECH_RP_649	0x001a
-+#define USB_DEVICE_ID_A4TECH_NB_95	0x022b
- 
- #define USB_VENDOR_ID_AASHIMA		0x06d6
- #define USB_DEVICE_ID_AASHIMA_GAMEPAD	0x0025
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index d9ca874dffac..fabd562c52a4 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -212,6 +212,7 @@ static const struct hid_device_id hid_have_special_driver[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_A4TECH, USB_DEVICE_ID_A4TECH_WCP32PU) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_A4TECH, USB_DEVICE_ID_A4TECH_X5_005D) },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_A4TECH, USB_DEVICE_ID_A4TECH_RP_649) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_A4TECH, USB_DEVICE_ID_A4TECH_NB_95) },
- #endif
- #if IS_ENABLED(CONFIG_HID_ACCUTOUCH)
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_ELO, USB_DEVICE_ID_ELO_ACCUTOUCH_2216) },
+ 	cyapa->runtime_suspend_sleep_time = min_t(u16, time, 1000);
+ 	cyapa->runtime_suspend_power_mode =
 -- 
-2.25.1
+2.17.1
 
