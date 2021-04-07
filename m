@@ -2,113 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E86B1356DA0
-	for <lists+linux-input@lfdr.de>; Wed,  7 Apr 2021 15:43:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B83CD357042
+	for <lists+linux-input@lfdr.de>; Wed,  7 Apr 2021 17:29:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236387AbhDGNnJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Apr 2021 09:43:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40678 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234126AbhDGNnI (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 7 Apr 2021 09:43:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617802976;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=4JykgxwBpXHxPgpf4Ep9lgCb1Iwtb1yo1Z+KVdCJiIU=;
-        b=K6BgQUkNzvTrsiyo13WX6hamyjRD8mCnAuR5f6QKX7Bc0qc/fqL7zHWsz4e/1jam/EdfYv
-        +m1Ma3WKDeiuPxob5qppBT/J6LF5OKMXEdMnsSYmZCZmLaug2Etv3tLVO9ZB5JY/6CwzSg
-        RLGek62QSR2pTtxXPu2U3ShcXaMRkUY=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-UorCkXsuMnywvxkoFxclxA-1; Wed, 07 Apr 2021 09:42:54 -0400
-X-MC-Unique: UorCkXsuMnywvxkoFxclxA-1
-Received: by mail-ej1-f71.google.com with SMTP id d6so6896171ejd.15
-        for <linux-input@vger.kernel.org>; Wed, 07 Apr 2021 06:42:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=4JykgxwBpXHxPgpf4Ep9lgCb1Iwtb1yo1Z+KVdCJiIU=;
-        b=ljVsEwWnC5/AhyLmOCcevdLJ0pZLMgRN/hiRblCTVt5c0IP3p71Z7T5RXzW2TIhjVb
-         Jx0wnDT7K4eR20srMLfQ6UrY3Hl6P+7bZrewrJQv3PRT8YJGW4qVd1xNBqCaRo/5bUAk
-         evD0go5B6tzWktJIuJYipyQ1Tq2bjY/PBk24r7dsKk/h3fCc+JuX/hRUf9In1qdumNri
-         7XoCBwTVKa+NexsWnObkeTZ3Fehn1Xr5JNkSqc40aMVwRbnXj1V+K8svVA2TWG8A5npM
-         PZezao43yeGJGaWyHUEeLlGIaDWW0r7wBeVhCyrNLYSGftpJuxztytddrPs2Hubd9TtI
-         Ykmw==
-X-Gm-Message-State: AOAM532m5MXGnkL2IXwfNLQTPLQZYPyOuQ5A/jH9/ouBuWp4W/HolKaG
-        JS9UAyVg4oJRIjAjMvspDJt29wU6xTJoIC534yer+Lam09dnx7+w7ntNQYMc9J4k7HsdYqEsp+G
-        nmJybEunonHsmWacOn8lDjB4=
-X-Received: by 2002:aa7:c1cc:: with SMTP id d12mr4642389edp.136.1617802972981;
-        Wed, 07 Apr 2021 06:42:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwLWHOUjBVnbfbOvCrxRWY652+XA/iPZSKM+JJm7fNQ1uS8HH/a8rXcym4TKklzJMxhpnH+OQ==
-X-Received: by 2002:aa7:c1cc:: with SMTP id d12mr4642380edp.136.1617802972863;
-        Wed, 07 Apr 2021 06:42:52 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id a9sm2426599eda.13.2021.04.07.06.42.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Apr 2021 06:42:52 -0700 (PDT)
-Subject: Re: [PATCH v2 resend 0/9] HID: lenovo: LED fixes and Thinkpad X1
- Tablet kbd support
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Alexander Kobel <a-kobel@a-kobel.de>,
-        Pavel Machek <pavel@ucw.cz>,
-        =?UTF-8?Q?Marek_Beh=c3=ban?= <kabel@kernel.org>,
-        linux-input@vger.kernel.org, linux-leds@vger.kernel.org
-References: <20210404080432.4322-1-hdegoede@redhat.com>
- <nycvar.YFH.7.76.2104071250530.18270@cbobk.fhfr.pm>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <33820898-6610-df44-2cc8-6d06d489a7ea@redhat.com>
-Date:   Wed, 7 Apr 2021 15:42:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S1353570AbhDGP37 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 7 Apr 2021 11:29:59 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:31961 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1353550AbhDGP37 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 7 Apr 2021 11:29:59 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1617809389; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=JcwFyeJqWTt/6F4dr1wtb+EluQ2hrjm6hvh0P5VoiD4=;
+ b=h2NRvpSsCtj+8YWQ+aMfa9N+fq+79cjIcwXFHHLkGFSd59yOh79qVk1CtDX6xaOQH2FW0bR+
+ v3JsevI/W2PKOqpnXYdH1OW7ijm3/nDU6ADjxJKZE/XiaT1RP6oWn1HAptpLokDusiFiPg6u
+ vZnaaegldO0IlDBPKeyOnBhd0wA=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyIxZDE2NCIsICJsaW51eC1pbnB1dEB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 606dcfe403cfff3452ce78cc (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 07 Apr 2021 15:29:40
+ GMT
+Sender: skakit=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id CC458C43468; Wed,  7 Apr 2021 15:29:39 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: skakit)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 19DDEC43465;
+        Wed,  7 Apr 2021 15:29:39 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <nycvar.YFH.7.76.2104071250530.18270@cbobk.fhfr.pm>
-Content-Type: text/plain; charset=iso-8859-15
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Wed, 07 Apr 2021 20:59:39 +0530
+From:   skakit@codeaurora.org
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     David Collins <collinsd@codeaurora.org>, kgunda@codeaurora.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 1/3] input: pm8941-pwrkey: add support for PMK8350
+ PON_HLOS PMIC peripheral
+In-Reply-To: <1614922721-1390-2-git-send-email-skakit@codeaurora.org>
+References: <1614922721-1390-1-git-send-email-skakit@codeaurora.org>
+ <1614922721-1390-2-git-send-email-skakit@codeaurora.org>
+Message-ID: <690456c09c433741900643eafad25beb@codeaurora.org>
+X-Sender: skakit@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Gentle Reminder!
 
-On 4/7/21 2:56 PM, Jiri Kosina wrote:
-> On Sun, 4 Apr 2021, Hans de Goede wrote:
+Thanks,
+Satya Priya
+On 2021-03-05 11:08, satya priya wrote:
+> From: David Collins <collinsd@codeaurora.org>
 > 
->> Hi Jiri,
->>
->> This seems to have fallen through the cracks, again (IIRC this is the
->> second resend) can you please pick this series up?
->>
->> Patches 1 - 7 have:
->> Reviewed-by: Marek Behún <kabel@kernel.org>
->>
->> Patches 1, 4, 5, 7 have:
->> Acked-by: Pavel Machek <pavel@ucw.cz>
->>
->> With the ack from Pavel (the LED subsys maintainer) indicating that
->> there are no problems with the LED classdev API usage in these patches.
->>
->> Patches 8 - 9 are new in v2 of this series, these add support for the
->> Thinkpad X1 Tablet Thin keyboard. They have been tested by me on a
->> Thinkpad 10 ultra keyboard dock (so that that does not regress) and
->> by Alexander Kobel on a Thinkpad X1 Tablet Thin keyboard.
+> On Qualcomm Technologies, Inc. PMIC PMK8350, the PON peripheral
+> is split into two peripherals: PON_HLOS and PON_PBS.  The
+> application processor only has write access to PON_HLOS which
+> limits it to only receiving PON interrupts.
 > 
-> Now in for-5.13/lenovo,
-
-Great, thank you.
-
-> sorry for the delay
-
-No problem.
-
-Regards,
-
-Hans
-
+> Add support for the PMK8350 PON_HLOS peripheral so that its
+> KPDPWR_N and RESIN_N interrupts can be used to detect key
+> presses.
+> 
+> Signed-off-by: David Collins <collinsd@codeaurora.org>
+> Signed-off-by: satya priya <skakit@codeaurora.org>
+> ---
+>  drivers/input/misc/pm8941-pwrkey.c | 103 
+> ++++++++++++++++++++++++++-----------
+>  1 file changed, 72 insertions(+), 31 deletions(-)
+> 
+> diff --git a/drivers/input/misc/pm8941-pwrkey.c
+> b/drivers/input/misc/pm8941-pwrkey.c
+> index cf81044..2044d187 100644
+> --- a/drivers/input/misc/pm8941-pwrkey.c
+> +++ b/drivers/input/misc/pm8941-pwrkey.c
