@@ -2,94 +2,151 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B83CD357042
-	for <lists+linux-input@lfdr.de>; Wed,  7 Apr 2021 17:29:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E52253571D5
+	for <lists+linux-input@lfdr.de>; Wed,  7 Apr 2021 18:10:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353570AbhDGP37 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Apr 2021 11:29:59 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:31961 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1353550AbhDGP37 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 7 Apr 2021 11:29:59 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1617809389; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=JcwFyeJqWTt/6F4dr1wtb+EluQ2hrjm6hvh0P5VoiD4=;
- b=h2NRvpSsCtj+8YWQ+aMfa9N+fq+79cjIcwXFHHLkGFSd59yOh79qVk1CtDX6xaOQH2FW0bR+
- v3JsevI/W2PKOqpnXYdH1OW7ijm3/nDU6ADjxJKZE/XiaT1RP6oWn1HAptpLokDusiFiPg6u
- vZnaaegldO0IlDBPKeyOnBhd0wA=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIxZDE2NCIsICJsaW51eC1pbnB1dEB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
- 606dcfe403cfff3452ce78cc (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 07 Apr 2021 15:29:40
- GMT
-Sender: skakit=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id CC458C43468; Wed,  7 Apr 2021 15:29:39 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: skakit)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 19DDEC43465;
-        Wed,  7 Apr 2021 15:29:39 +0000 (UTC)
+        id S236502AbhDGQJ4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 7 Apr 2021 12:09:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30209 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1354330AbhDGQJt (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 7 Apr 2021 12:09:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617811776;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=GIdD8KXpZXildX/JzoGMDWLdi24taALA9x3SDqt6Iik=;
+        b=ZvWEMeslR1E+khlqfNhBwhO+Zqwx0VCh3Fs1X0HAEz693HMNV8tj7KfGFi8DDunZMlh5Jp
+        DJylOTRh4v+Z0mDUF2sqp93c82nh9snkPY4awEeA48CySxS/aI+Xh8dhDZQyiIfebu0PA5
+        Qdlp/DIjXh8UvgZrw5WfrxuHfi7pFOA=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-297-oYNp7TYOOlK2mLpfQj_Q0Q-1; Wed, 07 Apr 2021 12:09:34 -0400
+X-MC-Unique: oYNp7TYOOlK2mLpfQj_Q0Q-1
+Received: by mail-pf1-f197.google.com with SMTP id r18so12845412pfc.17
+        for <linux-input@vger.kernel.org>; Wed, 07 Apr 2021 09:09:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GIdD8KXpZXildX/JzoGMDWLdi24taALA9x3SDqt6Iik=;
+        b=YA2D5oXij4SmgQpzdy1gsmwl7iYbQemzl2xkLE78SqrgQG7n6HzMNiIeAEd6L79kxE
+         GrHQyPyVpC1I+rfDvDYzen0RJZe5OKK/4dbMHUDfOISGkPaItf2JcoVX8gWuOKV4RdyF
+         DlhmXuhDrdRU2ADs6xoZhos9cozvVXlujYnpSLGPihRfh1WZbUDioddH5x/o5B3XDFoi
+         z/xmmVLi4lQniKwOxlkDisE1gktjz2ncqcySJJ/4FNQE0tEPYwUMVO4aHOXGFCUOhumA
+         C43z6B6KTCPZshn1ATh5F21niv2+c9yZyGq2Aaw4nBCC+6Hu6G4wJGOhnPkm+rGqt7rY
+         BzeA==
+X-Gm-Message-State: AOAM532K9hBmD/kMMEZsx6EpaVN0JdHphfRkdLOaadfMpGrNRwGO58cP
+        ZS0Nk9Ohg4hfiC0UQ6nVYSZBPtqEsXTYN4PlGwL68zt2o+4I1XsQ02Z62avqoZYEHMJVkqiNyn4
+        Bnh6UQnZ8UwXadjof7bB2fq1ssfU/n3ixFlh1tM0=
+X-Received: by 2002:a17:90a:9f0b:: with SMTP id n11mr4041318pjp.56.1617811773507;
+        Wed, 07 Apr 2021 09:09:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxQ/h+B/6MXT+kwdnrI/eZUAdaTH42xPX4Fl95aBz/l50kJXCNcNQsRWwTSkwUMdm87PUkq3Q6JFENBMcJAE68=
+X-Received: by 2002:a17:90a:9f0b:: with SMTP id n11mr4041274pjp.56.1617811773205;
+ Wed, 07 Apr 2021 09:09:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Wed, 07 Apr 2021 20:59:39 +0530
-From:   skakit@codeaurora.org
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     David Collins <collinsd@codeaurora.org>, kgunda@codeaurora.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 1/3] input: pm8941-pwrkey: add support for PMK8350
- PON_HLOS PMIC peripheral
-In-Reply-To: <1614922721-1390-2-git-send-email-skakit@codeaurora.org>
-References: <1614922721-1390-1-git-send-email-skakit@codeaurora.org>
- <1614922721-1390-2-git-send-email-skakit@codeaurora.org>
-Message-ID: <690456c09c433741900643eafad25beb@codeaurora.org>
-X-Sender: skakit@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+References: <20210326143458.508959-1-lee.jones@linaro.org> <20210406085605.GS2916463@dell>
+In-Reply-To: <20210406085605.GS2916463@dell>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Wed, 7 Apr 2021 18:09:22 +0200
+Message-ID: <CAO-hwJ+5Vd6jC2+0pfHLOw3opdXzKoc9pUWzxmBVhSvQvNWMsQ@mail.gmail.com>
+Subject: Re: [RESEND 00/25] Rid W=1 warnings from HID
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     lkml <linux-kernel@vger.kernel.org>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Anssi Hannula <anssi.hannula@gmail.com>,
+        =?UTF-8?Q?Bruno_Pr=C3=A9mont?= <bonbons@linux-vserver.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Daniel Drubin <daniel.drubin@intel.com>,
+        Dario Pagani <dario.pagani.146+linuxk@gmail.com>,
+        dri-devel@lists.freedesktop.org,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Kim Kuparinen <kimi.h.kuparinen@gmail.com>,
+        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>,
+        linaro-mm-sig@lists.linaro.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-iio <linux-iio@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        linux-media@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Linux USB Mailing List <linux-usb@vger.kernel.org>,
+        Lopez Casado <nlopezcasad@logitech.com>,
+        "L. Vinyard, Jr" <rvinyard@cs.nmsu.edu>,
+        Masaki Ota <masaki.ota@jp.alps.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        message to <vojtech@ucw.cz>,
+        Michael Haboustak <mike-@cinci.rr.com>,
+        Rushikesh S Kadam <rushikesh.s.kadam@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <uwe@kleine-koenig.org>,
+        Vojtech Pavlik <vojtech@suse.cz>,
+        Zhang Lixu <lixu.zhang@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Gentle Reminder!
+On Tue, Apr 6, 2021 at 10:56 AM Lee Jones <lee.jones@linaro.org> wrote:
+>
+> On Fri, 26 Mar 2021, Lee Jones wrote:
+>
+> > This set is part of a larger effort attempting to clean-up W=1
+> > kernel builds, which are currently overwhelmingly riddled with
+> > niggly little warnings.
+> >
+> > Lee Jones (25):
+> >   HID: intel-ish-hid: Remove unused variable 'err'
+> >   HID: ishtp-hid-client: Move variable to where it's actually used
+> >   HID: intel-ish-hid: pci-ish: Remove unused variable 'ret'
+> >   HID: intel-ish: Supply some missing param descriptions
+> >   HID: intel-ish: Fix a naming disparity and a formatting error
+> >   HID: usbhid: Repair a formatting issue in a struct description
+> >   HID: intel-ish-hid: Fix a little doc-rot
+> >   HID: usbhid: hid-pidff: Demote a couple kernel-doc abuses
+> >   HID: hid-alps: Correct struct misnaming
+> >   HID: intel-ish-hid: Fix potential copy/paste error
+> >   HID: hid-core: Fix incorrect function name in header
+> >   HID: intel-ish-hid: ipc: Correct fw_reset_work_fn() function name in
+> >     header
+> >   HID: ishtp-hid-client: Fix incorrect function name report_bad_packet()
+> >   HID: hid-kye: Fix incorrect function name for kye_tablet_enable()
+> >   HID: hid-picolcd_core: Remove unused variable 'ret'
+> >   HID: hid-logitech-hidpp: Fix conformant kernel-doc header and demote
+> >     abuses
+> >   HID: hid-uclogic-rdesc: Kernel-doc is for functions and structs
+> >   HID: hid-thrustmaster: Demote a bunch of kernel-doc abuses
+> >   HID: hid-uclogic-params: Ensure function names are present and correct
+> >     in kernel-doc headers
+> >   HID: hid-sensor-custom: Remove unused variable 'ret'
+> >   HID: wacom_sys: Demote kernel-doc abuse
+> >   HID: hid-sensor-hub: Remove unused struct member 'quirks'
+> >   HID: hid-sensor-hub: Move 'hsdev' description to correct struct
+> >     definition
+> >   HID: intel-ish-hid: ishtp-fw-loader: Fix a bunch of formatting issues
+> >   HID: ishtp-hid-client: Fix 'suggest-attribute=format' compiler warning
+>
+> These have been on the list for a couple of weeks now.
+>
+> Is there anything I can do to help expedite their merge?
+>
+> I'm concerned since -rc6 has just been released.
 
-Thanks,
-Satya Priya
-On 2021-03-05 11:08, satya priya wrote:
-> From: David Collins <collinsd@codeaurora.org>
-> 
-> On Qualcomm Technologies, Inc. PMIC PMK8350, the PON peripheral
-> is split into two peripherals: PON_HLOS and PON_PBS.  The
-> application processor only has write access to PON_HLOS which
-> limits it to only receiving PON interrupts.
-> 
-> Add support for the PMK8350 PON_HLOS peripheral so that its
-> KPDPWR_N and RESIN_N interrupts can be used to detect key
-> presses.
-> 
-> Signed-off-by: David Collins <collinsd@codeaurora.org>
-> Signed-off-by: satya priya <skakit@codeaurora.org>
-> ---
->  drivers/input/misc/pm8941-pwrkey.c | 103 
-> ++++++++++++++++++++++++++-----------
->  1 file changed, 72 insertions(+), 31 deletions(-)
-> 
-> diff --git a/drivers/input/misc/pm8941-pwrkey.c
-> b/drivers/input/misc/pm8941-pwrkey.c
-> index cf81044..2044d187 100644
-> --- a/drivers/input/misc/pm8941-pwrkey.c
-> +++ b/drivers/input/misc/pm8941-pwrkey.c
+Sorry for the delay.
+
+I am currently queuing them locally and running a few tests on them. I
+don't expect anything to happen, but better be safe than anything.
+
+FWIW, I am splitting the series in 3:
+- 11 patches for intel ish are going to be queued in for-5.13/intel-ish
+- the thrustmaster one in for-5.13/thrustmaster
+- the rest (13 patches) will be sent in for-5.13/warnings.
+
+Cheers,
+Benjamin
+
