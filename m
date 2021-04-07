@@ -2,38 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66EF4356A46
-	for <lists+linux-input@lfdr.de>; Wed,  7 Apr 2021 12:51:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E8C1356AE9
+	for <lists+linux-input@lfdr.de>; Wed,  7 Apr 2021 13:15:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239159AbhDGKsM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 7 Apr 2021 06:48:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53008 "EHLO mail.kernel.org"
+        id S1351782AbhDGLQE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 7 Apr 2021 07:16:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36278 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1351432AbhDGKr3 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 7 Apr 2021 06:47:29 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 33FCF6108B;
-        Wed,  7 Apr 2021 10:47:18 +0000 (UTC)
+        id S1351780AbhDGLQD (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 7 Apr 2021 07:16:03 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F214F61154;
+        Wed,  7 Apr 2021 11:15:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617792439;
-        bh=8n5JzbFmb2RaP1MmJeLHFSWOgjY+R5dimSwvY0nyTK8=;
+        s=k20201202; t=1617794154;
+        bh=zGQKLzAPrUTjYN5l4TzYhul5bISfbo9smRVnq70A4kY=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=J5VeriK4gKynCyapCwWBzk3RC4dOfV5IlFSkkuidGvBkortPAUiWacnbGJJwvvHvd
-         KBCluJpxMz79z6e/yJkezbCnGSaRTJiXGn5NDxgUJpTzBn2V6tL5ltTsvf3+nWlTiJ
-         iXnD5pE1M8tXDIt0r8yYkoAlpbaGsk7RcbzrfYC8GVW8pouEn5dfFvXiHPc+jK5S0Y
-         zNdrZT004zypSZEhhoujA1Ts+NA2/t8PBFxVx1xstpwVMZTDZet80LMvmomsStyfMX
-         849M36K4XMcHACCW0bHFod0v+WoyhtFMbXW22zH9B77OdDGX4dNUZI90sPSeJwjr49
-         zVLUikxNlZGag==
-Date:   Wed, 7 Apr 2021 12:47:10 +0200 (CEST)
+        b=pxHTe0AlVKXKAg8iftJE8Aod+PeZ5YCs16pkr4+IV6Nt84BxTfvZCpW+fWxdzbuTr
+         5S2SYSFKEjTfn3R6nMvnQEjfCXiaJQpFqAA2Xl3yCm74eFz6ImfR7BnKTqn23bqSRW
+         oQDsPDNCT09u2f7iN3Z6RtfKEdZ9u863FRv2yXt+krEaerNL3nTAB2Bq6kAmeIoUyd
+         Mki8HWzEokvEs7qp2/KjK+ssUGEIj3EKLa1yIYpXIjaKHRih5ItX/r5foyehuMXMd/
+         DjZvCsuiXccDEqEQYGbgDXlyTqqklBtRj5qRQJ7S3wdX7G5baZzxtB6I/intr406m7
+         6mh1L0y8PqUjg==
+Date:   Wed, 7 Apr 2021 13:15:50 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-        =?ISO-8859-15?Q?Marek_Beh=FAn?= <kabel@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>
-Subject: Re: [PATCH resend 0/3] HID: elan: Mute LED support fixes
-In-Reply-To: <20210404075252.4032-1-hdegoede@redhat.com>
-Message-ID: <nycvar.YFH.7.76.2104071246570.18270@cbobk.fhfr.pm>
-References: <20210404075252.4032-1-hdegoede@redhat.com>
+To:     John Chen <johnchen902@gmail.com>
+cc:     linux-input@vger.kernel.org, Rohit Pidaparthi <rohitpid@gmail.com>,
+        RicardoEPRodrigues <ricardo.e.p.rodrigues@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: Re: [PATCH v2 2/4] HID: magicmouse: fix 3 button emulation of Mouse
+ 2
+In-Reply-To: <20210330113319.14010-3-johnchen902@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2104071315240.18270@cbobk.fhfr.pm>
+References: <20210330113319.14010-1-johnchen902@gmail.com> <20210330113319.14010-3-johnchen902@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -41,14 +41,43 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 4 Apr 2021, Hans de Goede wrote:
+On Tue, 30 Mar 2021, John Chen wrote:
 
-> Hi Jiri,
+> It is observed that, with 3 button emulation, when middle button is
+> clicked, either the left button or right button is clicked as well. It
+> is caused by hidinput "correctly" acting on the event, oblivious to the
+> 3 button emulation.
 > 
-> This series seems to have fallen through the cracks, can you
-> please pick this up?
+> As raw_event has taken care of everything, no further processing is
+> needed. However, the only way to stop at raw_event is to return an error
+> (negative) value. Therefore, the processing is stopped at event instead.
+> 
+> Signed-off-by: John Chen <johnchen902@gmail.com>
+> ---
+>  drivers/hid/hid-magicmouse.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+> 
+> diff --git a/drivers/hid/hid-magicmouse.c b/drivers/hid/hid-magicmouse.c
+> index 7aad6ca56780..c646b4cd3783 100644
+> --- a/drivers/hid/hid-magicmouse.c
+> +++ b/drivers/hid/hid-magicmouse.c
+> @@ -440,6 +440,21 @@ static int magicmouse_raw_event(struct hid_device *hdev,
+>  	return 1;
+>  }
+>  
+> +static int magicmouse_event(struct hid_device *hdev, struct hid_field *field,
+> +		struct hid_usage *usage, __s32 value)
+> +{
+> +	struct magicmouse_sc *msc = hid_get_drvdata(hdev);
+> +	if (msc->input->id.product == USB_DEVICE_ID_APPLE_MAGICMOUSE2 &&
+> +	    field->report->id == MOUSE2_REPORT_ID) {
+> +		// magic_mouse_raw_event has done all the work. Skip hidinput.
+> +		//
+> +		// Specifically, hidinput may modify BTN_LEFT and BTN_RIGHT,
+> +		// breaking emulate_3button.
+> +		return 1;
 
-Sorry, it indeed did. Applied now, thanks.
+I have fixed the comment style here, and applied the series. Thanks,
 
 -- 
 Jiri Kosina
