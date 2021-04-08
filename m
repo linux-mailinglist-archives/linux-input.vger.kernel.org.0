@@ -2,100 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D952358449
-	for <lists+linux-input@lfdr.de>; Thu,  8 Apr 2021 15:12:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7F1B358E2E
+	for <lists+linux-input@lfdr.de>; Thu,  8 Apr 2021 22:16:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231446AbhDHNMq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Apr 2021 09:12:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34974 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231474AbhDHNMp (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Apr 2021 09:12:45 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0FC6C061762
-        for <linux-input@vger.kernel.org>; Thu,  8 Apr 2021 06:12:33 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id g8so3889505lfv.12
-        for <linux-input@vger.kernel.org>; Thu, 08 Apr 2021 06:12:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=rB+Uj9Rbn2xqB0YtuwwjNW8xA1jhA5o/KbB6xl34qfI=;
-        b=M9nzOE9ui4stAiFlevwmfrEaPsnFGnNW/70ic3dc+MUdBa0K/si7SVhlZMDSyJbWzn
-         X03j3P2oiM87pK9BhdedoCgCxdc+Rm/2q4hRqU3e2OWRxU+5n+qKUckXglInxLe8UaE3
-         qFkIFP/8nqxLusyGPcPkaKc4e62HWaRg6G0dWz0sD0xCJXRNh6wopchKeKKXxu3Jxwp1
-         H7/rNdMQB7l5qgl8jnkR9EtCZIv1jO/lEG8bMzX9ZttoOn8InwOKhaFfjl8sLslav+d+
-         n3D2fxoVZMxj1cwacF8TPThf3pofuzVvdL3O0tZYlT0QSs+fjf6LUjqoWsW3Or/Gx8Qp
-         NSiA==
+        id S231676AbhDHUQf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Apr 2021 16:16:35 -0400
+Received: from mail-ot1-f50.google.com ([209.85.210.50]:38409 "EHLO
+        mail-ot1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231451AbhDHUQe (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 8 Apr 2021 16:16:34 -0400
+Received: by mail-ot1-f50.google.com with SMTP id w21-20020a9d63950000b02901ce7b8c45b4so3564689otk.5;
+        Thu, 08 Apr 2021 13:16:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=rB+Uj9Rbn2xqB0YtuwwjNW8xA1jhA5o/KbB6xl34qfI=;
-        b=Y3Orl4aEDk5s6y9QrZ3tKhtWCW1C7qzEkyxFFeP9coCpIR+T0GuG22nCTC/I/qp7Z3
-         31/hjw6EehwNN3RmUHsaltjKCtT6yTFTZxm2hzDvzDM3ZVdE5fxDl/x2WFqYlbQFARFk
-         MIsIzH/oyHQLopEOYJtQg7mAxLTSR1DuR1GeUTTeUnbCjFT5NfFmuRSe9AE2Ti1adFRh
-         novTOAeIO78RaZPRZdQf6ZG2WEyybj9ADgEGHZoFZ5CoAz7gf1V0qHJWbPp6/kAj+Yan
-         3zyVSmB1b5fTCZ11zIaGo+aM+7QEfJyHcRXgzxaFZBETs76xl+XgMUbqrycWAJsLPM+X
-         YG0Q==
-X-Gm-Message-State: AOAM53125b4Gkgp3gREu0LNyqeZWVk3KS7BZw8UXMHSuPVMPHZ8RJt8r
-        snMWN28rLGjx5G4G+OkCL9UUlA==
-X-Google-Smtp-Source: ABdhPJy8Np9bPlbHm55raxU1iqh7Nd9lkRjhfrGXENw4oGXm3p1W1lY6HXOmG6FaRRnahh1Fn6HnWA==
-X-Received: by 2002:a19:911e:: with SMTP id t30mr90047lfd.292.1617887552105;
-        Thu, 08 Apr 2021 06:12:32 -0700 (PDT)
-Received: from localhost.localdomain (c-14cb225c.014-348-6c756e10.bbcust.telenor.se. [92.34.203.20])
-        by smtp.gmail.com with ESMTPSA id z7sm126936ljm.102.2021.04.08.06.12.30
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=CLvREP8cSkaXDbZqsQ3pwOZ5gunBfoSYtS8rLqMUnRE=;
+        b=d8uTKvacWqmKDnSOw8ohZmzXnY1wIPlwr1dWDzmsdcehMa4T/mpMVWTWgbQWz1kihb
+         yCsG31+vA4He4WNAYSxc8vobUbdsza8RpVLxldNRL39xKtsiYSUC4LIizlfKw7ffXQIP
+         vCk2hYj1oq2jxoEwpH3is4+zgy3sw8JGBiB09rG5lfm7FWrO76JW0LMWmR5qQO95NPbr
+         enU8ITG9lBDDdmLm+3jMpqeHIyl2DSPW447qt1chgTRpe4NKJhCpNq/h4sExFSMcW1c7
+         mCHRYDkNYdjHOnLQiKGlOXtD72HowukJV17w+FPlm107s5uaeLUy241PMcBxz2+iToPq
+         LBsQ==
+X-Gm-Message-State: AOAM531jiv3EaVKQX6h4GmoflmSoSOCtS8ZtNDuMeZRyEoAxftLMLbOW
+        8FSk/A79dpBt3Mu09aeehw==
+X-Google-Smtp-Source: ABdhPJwHE1KAxgeUupVEo1jaKtlfkwHjdF92MHNCbyWYv6lX+CBk8bl+YGNNxTyOTZZ8wNLtYHQrJg==
+X-Received: by 2002:a9d:928:: with SMTP id 37mr2802691otp.98.1617912981480;
+        Thu, 08 Apr 2021 13:16:21 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id l71sm96104oib.30.2021.04.08.13.16.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 06:12:30 -0700 (PDT)
-From:   Linus Walleij <linus.walleij@linaro.org>
-To:     Ferruh Yigit <fery@cypress.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Javier Martinez Canillas <javier@dowhile0.org>
+        Thu, 08 Apr 2021 13:16:20 -0700 (PDT)
+Received: (nullmailer pid 1890250 invoked by uid 1000);
+        Thu, 08 Apr 2021 20:16:19 -0000
+Date:   Thu, 8 Apr 2021 15:16:19 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Giulio Benetti <giulio.benetti@benettiengineering.com>
 Cc:     Henrik Rydberg <rydberg@bitmath.org>, linux-input@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH 8/8 v3] Input: cyttsp - Flag the device properly
-Date:   Thu,  8 Apr 2021 15:11:53 +0200
-Message-Id: <20210408131153.3446138-9-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210408131153.3446138-1-linus.walleij@linaro.org>
-References: <20210408131153.3446138-1-linus.walleij@linaro.org>
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] dt-bindings: Add Hycon Technology vendor prefix
+Message-ID: <20210408201619.GA1890216@robh.at.kernel.org>
+References: <YGxkB6icZSJfx/VB@latitude>
+ <20210407174909.1475150-1-giulio.benetti@benettiengineering.com>
+ <20210407174909.1475150-2-giulio.benetti@benettiengineering.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210407174909.1475150-2-giulio.benetti@benettiengineering.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This device is certainly a very simple touchscreen so
-we set INPUT_MT_DIRECT.
+On Wed, 07 Apr 2021 19:49:07 +0200, Giulio Benetti wrote:
+> Update Documentation/devicetree/bindings/vendor-prefixes.yaml to
+> include "hycon" as a vendor prefix for "Hycon Technology".
+> Company website: https://www.hycontek.com/
+> 
+> Signed-off-by: Giulio Benetti <giulio.benetti@benettiengineering.com>
+> Reviewed-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+> ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
 
-The sibling driver for CY8CTMA140 also sets
-INPUT_MT_DROP_UNUSED and experimenting with this driver
-it clearly does not hurt: the touchscreen is working just
-fine so let's set it for this one as well.
-
-Reviewed-by: Javier Martinez Canillas <javier@dowhile0.org>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
-ChangeLog v1->v3:
-- Collect Javier's Reviewed-by.
----
- drivers/input/touchscreen/cyttsp_core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/input/touchscreen/cyttsp_core.c b/drivers/input/touchscreen/cyttsp_core.c
-index ac412bcb15d8..fb71cd0d2070 100644
---- a/drivers/input/touchscreen/cyttsp_core.c
-+++ b/drivers/input/touchscreen/cyttsp_core.c
-@@ -672,7 +672,8 @@ struct cyttsp *cyttsp_probe(const struct cyttsp_bus_ops *bus_ops,
- 
- 	touchscreen_parse_properties(input_dev, true, NULL);
- 
--	error = input_mt_init_slots(input_dev, CY_MAX_ID, 0);
-+	error = input_mt_init_slots(input_dev, CY_MAX_ID,
-+				    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
- 	if (error) {
- 		dev_err(dev, "Unable to init MT slots.\n");
- 		return ERR_PTR(error);
--- 
-2.29.2
-
+Acked-by: Rob Herring <robh@kernel.org>
