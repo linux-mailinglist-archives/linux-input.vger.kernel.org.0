@@ -2,87 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4423E35A5A3
-	for <lists+linux-input@lfdr.de>; Fri,  9 Apr 2021 20:19:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0AB735A608
+	for <lists+linux-input@lfdr.de>; Fri,  9 Apr 2021 20:46:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234345AbhDIST1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 9 Apr 2021 14:19:27 -0400
-Received: from mga07.intel.com ([134.134.136.100]:52189 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233332AbhDIST1 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 9 Apr 2021 14:19:27 -0400
-IronPort-SDR: uccLVigrcXuCYjf1I0geCDTAp1/Pgd3GwyhEW1RfsN6DO5AYAEOn3JcRDrcp/I3/j/Q6YF3PMv
- 43G4EP1Id26A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9949"; a="257799132"
-X-IronPort-AV: E=Sophos;i="5.82,210,1613462400"; 
-   d="scan'208";a="257799132"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2021 11:19:13 -0700
-IronPort-SDR: /I9COsxklnbf4TuqSKo0lJiwczd1QgJu1XMilTIe5g9PxIJEOOJz8R2W2dXE/XZO3zTymbGNXP
- v93v85mHJ7vA==
-X-IronPort-AV: E=Sophos;i="5.82,210,1613462400"; 
-   d="scan'208";a="520362034"
-Received: from umangdes-mobl.amr.corp.intel.com ([10.212.128.208])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2021 11:19:12 -0700
-Message-ID: <4079bb49a9c0022603abeffcdaec32208f449e51.camel@linux.intel.com>
-Subject: Re: [PATCH] HID: hid-sensor-custom: remove useless variable
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, jikos@kernel.org
-Cc:     jic23@kernel.org, benjamin.tissoires@redhat.com,
-        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Fri, 09 Apr 2021 11:19:12 -0700
-In-Reply-To: <1617952508-47150-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-References: <1617952508-47150-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+        id S234616AbhDISq6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 9 Apr 2021 14:46:58 -0400
+Received: from mail-ot1-f51.google.com ([209.85.210.51]:38884 "EHLO
+        mail-ot1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234582AbhDISq5 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 9 Apr 2021 14:46:57 -0400
+Received: by mail-ot1-f51.google.com with SMTP id w21-20020a9d63950000b02901ce7b8c45b4so6628637otk.5;
+        Fri, 09 Apr 2021 11:46:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=zIKUUvCQTKc9kZxOX2hfZDYJ/ChiaA0HWL0RSJ3boaw=;
+        b=mnPoqA3w0SVPkbAdPJtvdu/DCCK0ylXGBy8sIpBMccdSXhW5VJ1r+nuncHREvELpL2
+         KOzuyAEiRp7apE+wyx7nS8NFdBAluYAptAlm3CLGbuHQ7JWnTN7ia3aKY7uiAVrnHAQk
+         PzuxCHA0mm1KtkjeINyCG+v6dsRUrH5FY0vDxe/0vPthHcHvzR/QckWUKTJHuhjDhVNL
+         eLjp7BvNO0hsxl+QharUwsHoQwqiFFyJORXp0uBxYC8ASQPKA6/N30j5V7oq0soH0IVF
+         jsFZYe1Nmx9Enw1L/uX9kWksLeveumfoCG5Tj4O2lMiHNnx+/wf34qofC3bvWzUFDp8+
+         U24w==
+X-Gm-Message-State: AOAM531NMYP+aZA6YYksQn6mB7jWMCmoUjvvZ+GOYPNnt1eP51EBowvZ
+        gxp7BZI31R+NKfdfImHiJA==
+X-Google-Smtp-Source: ABdhPJw1vtPQKX2TyzYFXavxrvsJp19iipkYMN+QANMDOK/33HXQOnLjECyJVPRdzn2I/hnNkIO8XQ==
+X-Received: by 2002:a9d:39ca:: with SMTP id y68mr13420149otb.84.1617994004110;
+        Fri, 09 Apr 2021 11:46:44 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id k9sm772670ots.24.2021.04.09.11.46.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Apr 2021 11:46:43 -0700 (PDT)
+Received: (nullmailer pid 3944329 invoked by uid 1000);
+        Fri, 09 Apr 2021 18:46:42 -0000
+Date:   Fri, 9 Apr 2021 13:46:42 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     satya priya <skakit@codeaurora.org>
+Cc:     Courtney Cavin <courtney.cavin@sonymobile.com>,
+        linux-kernel@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        David Collins <collinsd@codeaurora.org>,
+        linux-arm-msm@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
+        linux-pm@vger.kernel.org, kgunda@codeaurora.org,
+        Andy Gross <agross@kernel.org>, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: Re: [PATCH V2 2/4] dt-bindings: input: pm8941-pwrkey: add pmk8350
+ compatible strings
+Message-ID: <20210409184642.GA3944299@robh.at.kernel.org>
+References: <1617881469-31965-1-git-send-email-skakit@codeaurora.org>
+ <1617881469-31965-3-git-send-email-skakit@codeaurora.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1617881469-31965-3-git-send-email-skakit@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 2021-04-09 at 15:15 +0800, Jiapeng Chong wrote:
-> Fix the following gcc warning:
+On Thu, 08 Apr 2021 17:01:07 +0530, satya priya wrote:
+> From: David Collins <collinsd@codeaurora.org>
 > 
-> drivers/hid/hid-sensor-custom.c:400:7: warning: variable ‘ret’ set
-> but
-> not used [-Wunused-but-set-variable].
+> Add power key and resin compatible strings for the PMK8350 PMIC.
+> These are needed to distinguish key PON_HLOS register differences
+> between PMK8350 and previous PMIC PON modules.
 > 
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com
-
+> Signed-off-by: David Collins <collinsd@codeaurora.org>
+> Signed-off-by: satya priya <skakit@codeaurora.org>
 > ---
->  drivers/hid/hid-sensor-custom.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+> Chnages in V2:
+>  - Moved this patch before the conversion patches.
 > 
-> diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-
-> sensor-custom.c
-> index 2628bc5..e430673 100644
-> --- a/drivers/hid/hid-sensor-custom.c
-> +++ b/drivers/hid/hid-sensor-custom.c
-> @@ -397,15 +397,14 @@ static ssize_t store_value(struct device *dev,
-> struct device_attribute *attr,
->  
->  	if (!strncmp(name, "value", strlen("value"))) {
->  		u32 report_id;
-> -		int ret;
->  
->  		if (kstrtoint(buf, 0, &value) != 0)
->  			return -EINVAL;
->  
->  		report_id = sensor_inst->fields[field_index].attribute.
->  								report_
-> id;
-> -		ret = sensor_hub_set_feature(sensor_inst->hsdev,
-> report_id,
-> -					     index, sizeof(value),
-> &value);
-> +		sensor_hub_set_feature(sensor_inst->hsdev, report_id,
-> index,
-> +				       sizeof(value), &value);
->  	} else
->  		return -EINVAL;
->  
+>  Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.txt | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
 
+Acked-by: Rob Herring <robh@kernel.org>
