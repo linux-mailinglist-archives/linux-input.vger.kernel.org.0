@@ -2,154 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28AB0359F24
-	for <lists+linux-input@lfdr.de>; Fri,  9 Apr 2021 14:48:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6C0C359FFC
+	for <lists+linux-input@lfdr.de>; Fri,  9 Apr 2021 15:39:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233830AbhDIMsS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 9 Apr 2021 08:48:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41718 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233776AbhDIMsO (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 9 Apr 2021 08:48:14 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 550F0610E7;
-        Fri,  9 Apr 2021 12:48:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617972481;
-        bh=m2eKblH+l+hCzdwNUEf5egrpSG7CdIPFtLnlQPtnfug=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kVDJDoaipcVMiN/navLdNp8KHl4PhMRXFyRHkYU7u4A6gsBhu6CvRiVAdWK1SHVzR
-         PSw/OyrAxxZ2lmV5QKREtKcQBh6oXrc/i27jpKSRTpg4mtww9bKxNZ3knjwKMHqrY1
-         BmozC3kJ08vKC3+rdkPSa9coB+zdWFz3i7BHFldjWop1NdATWhxmOlUhpBQFhgjBFM
-         KY3y2LlEyBwbnZ7gW91iNvU2HKlZz8uJ9HU/J8LusbkwDT6gbTxhDfuSFBRtK+7VAV
-         Z4NVL5s1s8XkWn1jpibe5mujpgKy5EMSjAimxIlhEPEXNXnwN74PAB4EFLPHBG55rC
-         Zo7tnPLUQzMPg==
-Received: by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1lUqYE-001SLi-5x; Fri, 09 Apr 2021 14:47:54 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Artur Rojek <contact@artur-rojek.eu>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Lee Jones <lee.jones@linaro.org>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH v3 2/8] dt-bindings: fix references for iio-bindings.txt
-Date:   Fri,  9 Apr 2021 14:47:46 +0200
-Message-Id: <4efd81eca266ca0875d3bf9d1672097444146c69.1617972339.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1617972339.git.mchehab+huawei@kernel.org>
-References: <cover.1617972339.git.mchehab+huawei@kernel.org>
+        id S232642AbhDINjO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 9 Apr 2021 09:39:14 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:19600 "EHLO
+        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231819AbhDINjN (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 9 Apr 2021 09:39:13 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1617975541; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=nCLKJ3txbssGA/MS9THnoJcM1/EpV+VVOtQ0VWZ6Umc=;
+ b=AmcL94NG7Ck1xkGZlwlWfi/r3pf526qZKsLyVMdw1xxqxcRsva9Lqh4znvfyB/gDqYqekUOH
+ I9SSXN2h7DsoEsRjzPknCaC6p7hH7Gcs+mvoWQE9XwEZdza4TUtaNfFYVbFv/OMvLRLWYGkj
+ C52tz8yeAvioAStsGGO+xuTaEQY=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyIxZDE2NCIsICJsaW51eC1pbnB1dEB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
+ 607058ec8807bcde1de095c7 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 09 Apr 2021 13:38:52
+ GMT
+Sender: skakit=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 3D8B1C43462; Fri,  9 Apr 2021 13:38:52 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: skakit)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 99624C43461;
+        Fri,  9 Apr 2021 13:38:51 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Fri, 09 Apr 2021 19:08:51 +0530
+From:   skakit@codeaurora.org
+To:     Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        David Collins <collinsd@codeaurora.org>, kgunda@codeaurora.org,
+        Vinod Koul <vkoul@kernel.org>,
+        Courtney Cavin <courtney.cavin@sonymobile.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: Re: [PATCH V2 3/4] dt-bindings: power: reset: qcom-pon: Convert qcom
+ PON binding to yaml
+In-Reply-To: <20210409115748.xfxukqgoyvscgpln@earth.universe>
+References: <1617881469-31965-1-git-send-email-skakit@codeaurora.org>
+ <1617881469-31965-4-git-send-email-skakit@codeaurora.org>
+ <20210408130001.k3qbq3vvwkiyykzv@earth.universe>
+ <0cb9b3503000ac7206f4a3ef5fd16c17@codeaurora.org>
+ <20210409115748.xfxukqgoyvscgpln@earth.universe>
+Message-ID: <ad5d04c2a806213e9922834e996da15a@codeaurora.org>
+X-Sender: skakit@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The iio-bindings.txt was converted into two files and merged
-at the dt-schema git tree at:
+On 2021-04-09 17:27, Sebastian Reichel wrote:
+> Hi,
+> 
+> On Fri, Apr 09, 2021 at 01:48:58PM +0530, skakit@codeaurora.org wrote:
+>>> Please do not drop the example :)
+>> 
+>> As per my understanding on Rob's comments [1] I have added one 
+>> complete
+>> example in qcom,pm8941-pwrkey.yaml (see patch 4/4) and dropped it 
+>> here.
+>> 
+>> [1] https://lore.kernel.org/patchwork/patch/1390062/#1588027
+> 
+> Ok, please add a note about this in the commit message.
+> Something like:
+> 
+> The example has been removed in favour of full example being
+> available in the qcom,pm8941-pwrkey binding.
+> 
 
-	https://github.com/devicetree-org/dt-schema
+Okay.
 
-Yet, some documents still refer to the old file. Fix their
-references, in order to point to the right URL.
-
-Fixes: dba91f82d580 ("dt-bindings:iio:iio-binding.txt Drop file as content now in dt-schema")
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Acked-by: Guenter Roeck <linux@roeck-us.net>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/devicetree/bindings/hwmon/ntc_thermistor.txt   | 2 +-
- Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml   | 5 +++--
- Documentation/devicetree/bindings/input/adc-joystick.yaml    | 4 +++-
- .../bindings/input/touchscreen/resistive-adc-touch.txt       | 5 ++++-
- Documentation/devicetree/bindings/mfd/ab8500.txt             | 4 +++-
- 5 files changed, 14 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/hwmon/ntc_thermistor.txt b/Documentation/devicetree/bindings/hwmon/ntc_thermistor.txt
-index 37f18d684f6a..4c5c3712970e 100644
---- a/Documentation/devicetree/bindings/hwmon/ntc_thermistor.txt
-+++ b/Documentation/devicetree/bindings/hwmon/ntc_thermistor.txt
-@@ -32,7 +32,7 @@ Optional node properties:
- - "#thermal-sensor-cells" Used to expose itself to thermal fw.
- 
- Read more about iio bindings at
--	Documentation/devicetree/bindings/iio/iio-bindings.txt
-+	https://github.com/devicetree-org/dt-schema/blob/master/schemas/iio/
- 
- Example:
- 	ncp15wb473@0 {
-diff --git a/Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml b/Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml
-index 9f414dbdae86..433a3fb55a2e 100644
---- a/Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml
-+++ b/Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml
-@@ -14,8 +14,9 @@ description: >
-   Industrial I/O subsystem bindings for ADC controller found in
-   Ingenic JZ47xx SoCs.
- 
--  ADC clients must use the format described in iio-bindings.txt, giving
--  a phandle and IIO specifier pair ("io-channels") to the ADC controller.
-+  ADC clients must use the format described in
-+  https://github.com/devicetree-org/dt-schema/blob/master/schemas/iio/iio-consumer.yaml,
-+  giving a phandle and IIO specifier pair ("io-channels") to the ADC controller.
- 
- properties:
-   compatible:
-diff --git a/Documentation/devicetree/bindings/input/adc-joystick.yaml b/Documentation/devicetree/bindings/input/adc-joystick.yaml
-index 054406bbd22b..721878d5b7af 100644
---- a/Documentation/devicetree/bindings/input/adc-joystick.yaml
-+++ b/Documentation/devicetree/bindings/input/adc-joystick.yaml
-@@ -24,7 +24,9 @@ properties:
-     description: >
-       List of phandle and IIO specifier pairs.
-       Each pair defines one ADC channel to which a joystick axis is connected.
--      See Documentation/devicetree/bindings/iio/iio-bindings.txt for details.
-+      See
-+      https://github.com/devicetree-org/dt-schema/blob/master/schemas/iio/iio-consumer.yaml
-+      for details.
- 
-   '#address-cells':
-     const: 1
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.txt b/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.txt
-index fee0da12474e..af5223bb5bdd 100644
---- a/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.txt
-+++ b/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.txt
-@@ -5,7 +5,10 @@ Required properties:
-  - compatible: must be "resistive-adc-touch"
- The device must be connected to an ADC device that provides channels for
- position measurement and optional pressure.
--Refer to Documentation/devicetree/bindings/iio/iio-bindings.txt for details
-+Refer to
-+https://github.com/devicetree-org/dt-schema/blob/master/schemas/iio/iio-consumer.yaml
-+for details
-+
-  - iio-channels: must have at least two channels connected to an ADC device.
- These should correspond to the channels exposed by the ADC device and should
- have the right index as the ADC device registers them. These channels
-diff --git a/Documentation/devicetree/bindings/mfd/ab8500.txt b/Documentation/devicetree/bindings/mfd/ab8500.txt
-index d2a6e835c257..937b3e5505e0 100644
---- a/Documentation/devicetree/bindings/mfd/ab8500.txt
-+++ b/Documentation/devicetree/bindings/mfd/ab8500.txt
-@@ -72,7 +72,9 @@ Required child device properties:
-                                                pwm|regulator|rtc|sysctrl|usb]";
- 
-   A few child devices require ADC channels from the GPADC node. Those follow the
--  standard bindings from iio/iio-bindings.txt and iio/adc/adc.txt
-+  standard bindings from
-+  https://github.com/devicetree-org/dt-schema/blob/master/schemas/iio/iio-consumer.yaml
-+  and Documentation/devicetree/bindings/iio/adc/adc.yaml
- 
-   abx500-temp		 : io-channels "aux1" and "aux2" for measuring external
- 			   temperatures.
--- 
-2.30.2
-
+> Thanks,
+> 
+> -- Sebastian
