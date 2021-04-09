@@ -2,117 +2,120 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 99298359EBC
-	for <lists+linux-input@lfdr.de>; Fri,  9 Apr 2021 14:32:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8833359F32
+	for <lists+linux-input@lfdr.de>; Fri,  9 Apr 2021 14:48:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233604AbhDIMcf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 9 Apr 2021 08:32:35 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:43764 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233576AbhDIMcb (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Fri, 9 Apr 2021 08:32:31 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 139CTA2K008524;
-        Fri, 9 Apr 2021 12:32:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=kunsNhIQ2xDmvr6H5OV9rmwY85KybRfRwhrk0dShMvk=;
- b=I7FFxJUWWxArWq+Cd+cdV98Nd4plGkTcBQ+u+rpURr80g1saLXwQryUWpr6oUWxSnHUX
- qcyTXjEv4o+blq0gxLr3BHLXBnMvGBE7VlL44aCcX6C9cF6njvfH/nm4U5AnDFXrfQQB
- nurO0Ra2Ju9q5yOsUIJ1i0GX4L+DeE3qTK6YrojCF4VBIhfY37IIZZE7v5kMO09+W5u0
- uII7+o8P1JGV688Lrqj4tP5OwXK0IZ43kd6zM0IcKSvZddzBxh/A3NV3hfgE9tqHnvDx
- zzedPf5bpuwMYr8NCVye3ftsYzNOE00xoFA1/hZyiPq56TpO1hUo7Vc5SqQM6xe/Wt6P CA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2130.oracle.com with ESMTP id 37rvaw98er-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 09 Apr 2021 12:32:16 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 139CU7B0045543;
-        Fri, 9 Apr 2021 12:32:14 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userp3030.oracle.com with ESMTP id 37rvbgyvt0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 09 Apr 2021 12:32:14 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 139CWDok005047;
-        Fri, 9 Apr 2021 12:32:13 GMT
-Received: from mwanda (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 09 Apr 2021 05:32:13 -0700
-Date:   Fri, 9 Apr 2021 15:32:06 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     michael.zaidman@gmail.com
-Cc:     linux-i2c@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [bug report] HID: ft260: add usb hid to i2c host bridge driver
-Message-ID: <YHBJRvcOSaM/b0RL@mwanda>
+        id S233835AbhDIMsS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 9 Apr 2021 08:48:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41840 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233712AbhDIMsP (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 9 Apr 2021 08:48:15 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5DEB26113A;
+        Fri,  9 Apr 2021 12:48:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617972481;
+        bh=KVB99uveFfZEtOFS+rw6+GuSTG0eUAu7eT5aXgN+A2I=;
+        h=From:To:Cc:Subject:Date:From;
+        b=HVeqO0LTdb6P34NPuz+kcIo3Rf749nd/WbbdJGxFgX+jaSQh3ut1YKoPYl1MgyRxh
+         Q7kRjml+eMUN9cb6xXsqyy1LpRy94RSYcfiRD58M7/eXFD0KYEG5fV6LbU9gb6NNhs
+         OKJrR0HItZx9dkSG0Rw4RaD0KWq57c5q3+CPTWH2cN7XJpYHQhm2OdH9T1q1mdIFOS
+         qamXogV+8qqqQnkylXpoWSIOs+K54//txxScI0SkPXbR+BMNCVw9UukyZhMQi81Ybh
+         U+G/5ZiQeDykJPDsU7gNFXuoH2Hs/Mon3ZPlABh5XFVA3MUkHq3gld+lw+RHLfRuKm
+         yWvyZlhUcvMnA==
+Received: by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lUqYE-001SLe-2j; Fri, 09 Apr 2021 14:47:54 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Alex Shi <alexs@kernel.org>,
+        Artur Rojek <contact@artur-rojek.eu>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Kir Kolyshkin <kolyshkin@gmail.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mark Pearson <markpearson@lenovo.com>,
+        Maximilian Luz <luzmaximilian@gmail.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rob Herring <robh+dt@kernel.org>, Tejun Heo <tj@kernel.org>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Wu XiangCheng <bobwxc@email.cn>, devicetree@vger.kernel.org,
+        kvm@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [PATCH v3 0/8] Fix broken documentation file references
+Date:   Fri,  9 Apr 2021 14:47:44 +0200
+Message-Id: <cover.1617972339.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9949 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=995 bulkscore=0
- suspectscore=0 phishscore=0 malwarescore=0 mlxscore=0 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104090093
-X-Proofpoint-ORIG-GUID: Nql2C3aEI3SSi1Zrk1LHLwMhUamjNxIR
-X-Proofpoint-GUID: Nql2C3aEI3SSi1Zrk1LHLwMhUamjNxIR
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9949 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 priorityscore=1501
- suspectscore=0 phishscore=0 mlxlogscore=908 spamscore=0 malwarescore=0
- mlxscore=0 bulkscore=0 impostorscore=0 adultscore=0 clxscore=1011
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104090093
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello Michael Zaidman,
+Hi Jon,
 
-The patch 6a82582d9fa4: "HID: ft260: add usb hid to i2c host bridge
-driver" from Feb 19, 2021, leads to the following static checker
-warning:
+As files keep being moved around and DT bindings are 
+converted and renamed to yaml, their doc references get 
+outdated, pointing to an invalid places.
 
-	drivers/hid/hid-ft260.c:441 ft260_smbus_write()
-	error: '__memcpy()' '&rep->data[1]' too small (59 vs 255)
+This series address those. It is based on the top of docs-next tree,
+and most patches here are independent from the other ones.
 
-drivers/hid/hid-ft260.c
-   423  static int ft260_smbus_write(struct ft260_device *dev, u8 addr, u8 cmd,
-   424                               u8 *data, u8 data_len, u8 flag)
-   425  {
-   426          int ret = 0;
-   427          int len = 4;
-   428  
-   429          struct ft260_i2c_write_request_report *rep =
-   430                  (struct ft260_i2c_write_request_report *)dev->write_buf;
-   431  
-   432          rep->address = addr;
-   433          rep->data[0] = cmd;
-   434          rep->length = data_len + 1;
-   435          rep->flag = flag;
-   436          len += rep->length;
-   437  
-   438          rep->report = FT260_I2C_DATA_REPORT_ID(len);
-   439  
-   440          if (data_len > 0)
-   441                  memcpy(&rep->data[1], data, data_len);
-                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Smatch says that this can be called from the i2cdev_ioctl_smbus()
-function.
+v3:
+  - Dropped patches already applied at next-20210409 and
+    changes that would cause conflicts there;
+  - Added received acks.
 
-i2cdev_ioctl_smbus()
-  --> i2c_smbus_xfer
-      --> __i2c_smbus_xfer
-          --> ft260_smbus_xfer
-              --> ft260_smbus_write
+v2:
+  - Dropped patches that were already applied, Most of those
+    will be following via Jonathan Cameron's iio tree;
+  - Dropped patches that don't apply on the top of docs next.
+  - Added some new patches fixing other breakages.
 
-   442  
-   443          ft260_dbg("rep %#02x addr %#02x cmd %#02x datlen %d replen %d\n",
-   444                    rep->report, addr, cmd, rep->length, len);
-   445  
-   446          ret = ft260_hid_output_report_check_status(dev, (u8 *)rep, len);
-   447  
-   448          return ret;
-   449  }
+Mauro Carvalho Chehab (8):
+  dt-bindings: don't use ../dir for doc references
+  dt-bindings: fix references for iio-bindings.txt
+  dt-bindings:iio:adc: update motorola,cpcap-adc.yaml reference
+  docs: update sysfs-platform_profile.rst reference
+  docs: vcpu-requests.rst: fix reference for atomic ops
+  docs: replace transation references for reporting-bugs.rst
+  docs: translations/zh_CN: fix a typo at 8.Conclusion.rst
+  docs: sched-bwc.rst: fix a typo on a doc name
 
-regards,
-dan carpenter
+ .../devicetree/bindings/hwmon/ntc_thermistor.txt |  2 +-
+ .../devicetree/bindings/iio/adc/ingenic,adc.yaml |  5 +++--
+ .../devicetree/bindings/input/adc-joystick.yaml  |  4 +++-
+ .../input/touchscreen/resistive-adc-touch.txt    |  5 ++++-
+ Documentation/devicetree/bindings/mfd/ab8500.txt |  4 +++-
+ .../devicetree/bindings/mfd/motorola-cpcap.txt   | 16 ++++++++--------
+ Documentation/scheduler/sched-bwc.rst            |  2 +-
+ .../translations/it_IT/process/howto.rst         |  2 +-
+ Documentation/translations/ja_JP/howto.rst       |  2 +-
+ Documentation/translations/zh_CN/SecurityBugs    |  2 +-
+ .../zh_CN/admin-guide/reporting-issues.rst       |  4 ++--
+ .../translations/zh_CN/process/8.Conclusion.rst  |  2 +-
+ .../translations/zh_CN/process/howto.rst         |  2 +-
+ Documentation/virt/kvm/vcpu-requests.rst         |  2 +-
+ include/linux/platform_profile.h                 |  2 +-
+ 15 files changed, 32 insertions(+), 24 deletions(-)
+
+-- 
+2.30.2
+
+
