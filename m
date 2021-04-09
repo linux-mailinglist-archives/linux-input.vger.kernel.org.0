@@ -2,67 +2,96 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D600035987C
-	for <lists+linux-input@lfdr.de>; Fri,  9 Apr 2021 11:01:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2650D359E11
+	for <lists+linux-input@lfdr.de>; Fri,  9 Apr 2021 13:57:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230181AbhDIJB0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 9 Apr 2021 05:01:26 -0400
-Received: from out30-44.freemail.mail.aliyun.com ([115.124.30.44]:56205 "EHLO
-        out30-44.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231127AbhDIJB0 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 9 Apr 2021 05:01:26 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R591e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04420;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0UUyvAMd_1617958862;
-Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0UUyvAMd_1617958862)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 09 Apr 2021 17:01:12 +0800
-From:   Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To:     dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Subject: [PATCH] Input: apbps2 - remove useless variable
-Date:   Fri,  9 Apr 2021 17:00:59 +0800
-Message-Id: <1617958859-64707-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+        id S233534AbhDIL6G (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 9 Apr 2021 07:58:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51620 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231611AbhDIL6F (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 9 Apr 2021 07:58:05 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1B04C061760;
+        Fri,  9 Apr 2021 04:57:52 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: sre)
+        with ESMTPSA id A26831F4659F
+Received: by earth.universe (Postfix, from userid 1000)
+        id 0F1A63C0C96; Fri,  9 Apr 2021 13:57:48 +0200 (CEST)
+Date:   Fri, 9 Apr 2021 13:57:48 +0200
+From:   Sebastian Reichel <sebastian.reichel@collabora.com>
+To:     skakit@codeaurora.org
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        David Collins <collinsd@codeaurora.org>, kgunda@codeaurora.org,
+        Vinod Koul <vkoul@kernel.org>,
+        Courtney Cavin <courtney.cavin@sonymobile.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: Re: [PATCH V2 3/4] dt-bindings: power: reset: qcom-pon: Convert qcom
+ PON binding to yaml
+Message-ID: <20210409115748.xfxukqgoyvscgpln@earth.universe>
+References: <1617881469-31965-1-git-send-email-skakit@codeaurora.org>
+ <1617881469-31965-4-git-send-email-skakit@codeaurora.org>
+ <20210408130001.k3qbq3vvwkiyykzv@earth.universe>
+ <0cb9b3503000ac7206f4a3ef5fd16c17@codeaurora.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ioziho372aqje6wl"
+Content-Disposition: inline
+In-Reply-To: <0cb9b3503000ac7206f4a3ef5fd16c17@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Fix the following gcc warning:
 
-drivers/input/serio/apbps2.c:106:16: warning: variable ‘tmp’ set but not
-used [-Wunused-but-set-variable].
+--ioziho372aqje6wl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
----
- drivers/input/serio/apbps2.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Hi,
 
-diff --git a/drivers/input/serio/apbps2.c b/drivers/input/serio/apbps2.c
-index 594ac4e..974d7bf 100644
---- a/drivers/input/serio/apbps2.c
-+++ b/drivers/input/serio/apbps2.c
-@@ -103,7 +103,6 @@ static int apbps2_open(struct serio *io)
- {
- 	struct apbps2_priv *priv = io->port_data;
- 	int limit;
--	unsigned long tmp;
- 
- 	/* clear error flags */
- 	iowrite32be(0, &priv->regs->status);
-@@ -111,7 +110,7 @@ static int apbps2_open(struct serio *io)
- 	/* Clear old data if available (unlikely) */
- 	limit = 1024;
- 	while ((ioread32be(&priv->regs->status) & APBPS2_STATUS_DR) && --limit)
--		tmp = ioread32be(&priv->regs->data);
-+		ioread32be(&priv->regs->data);
- 
- 	/* Enable reciever and it's interrupt */
- 	iowrite32be(APBPS2_CTRL_RE | APBPS2_CTRL_RI, &priv->regs->ctrl);
--- 
-1.8.3.1
+On Fri, Apr 09, 2021 at 01:48:58PM +0530, skakit@codeaurora.org wrote:
+>> Please do not drop the example :)
+>=20
+> As per my understanding on Rob's comments [1] I have added one complete
+> example in qcom,pm8941-pwrkey.yaml (see patch 4/4) and dropped it here.
+>=20
+> [1] https://lore.kernel.org/patchwork/patch/1390062/#1588027
 
+Ok, please add a note about this in the commit message.
+Something like:
+
+The example has been removed in favour of full example being
+available in the qcom,pm8941-pwrkey binding.
+
+Thanks,
+
+-- Sebastian
+
+--ioziho372aqje6wl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmBwQTsACgkQ2O7X88g7
++ppvxA//ZDqA2HcgKmkY/5edbV1Mv2x1kz92+zc6n7n8g0HO5qCxbIDi0BVH+O9X
+OPP6eoyMRa2zTcKh9Z9j/KxRVNSx7ntnIm9CS/q8nDD6f99tyCCUTcNcHsd0QC0I
+Ff4T4FlGYVWwbyb3p5Qly2YaAAngd5C6zV1ln9RtKOUJs+eJxfy6lluJwSgyPPGq
+ssQtuRpUdq7Ql9vuxbHa5fMzFlwvibz9UYKMfNTxIc8KU/E8NtZVegtP0q1GDX0O
+Df9iNLTAYcN1olyG5gTo9223kPFwcuJtGAHMVrORjpXsmrY6kznRWtRVEB/YBZE6
+8pihnV01bgdalxXkn17VvBulRzUERYzXTaLUC0z90BI9/qg8ZeUgWAk7O4TGBiuF
+vo4TERUhwbI0KwOwaQ1F/qHVSlJN6XQiiq9MB5Pr7SxzNdvcCp6p6OBmGyjWhBwU
+jb/0XOBG9n6C8MNjwc6GGyM6W92Vd7jRca1RRvPQaXWTKX8zijFvdXKhKgY4DCAy
+yxtHKsxqUDi/uW6rQZYh1jDVKTjN4MbTJoXdlNfyHU2nkijBDKWJumtxHh5tetj4
+W+ouewINUSGbpzyeiHLHWXXnPXBetuh8OOA9J3IF39wFJzp2O5kAdnpcQ35QhvIz
+zc0tY9CRl4/dAl4UMezOF9RTtWIeuA0h0U0dmc6rnrnwGY4ibFc=
+=KCef
+-----END PGP SIGNATURE-----
+
+--ioziho372aqje6wl--
