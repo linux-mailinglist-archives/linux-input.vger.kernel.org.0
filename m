@@ -2,88 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 493E335ABBB
-	for <lists+linux-input@lfdr.de>; Sat, 10 Apr 2021 09:41:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E11AB35ABBE
+	for <lists+linux-input@lfdr.de>; Sat, 10 Apr 2021 09:45:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229591AbhDJHlv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 10 Apr 2021 03:41:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53908 "EHLO
+        id S229632AbhDJHpR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 10 Apr 2021 03:45:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbhDJHlu (ORCPT
+        with ESMTP id S229472AbhDJHpR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 10 Apr 2021 03:41:50 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCD00C061762
-        for <linux-input@vger.kernel.org>; Sat, 10 Apr 2021 00:41:36 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id c17so5733056pfn.6
-        for <linux-input@vger.kernel.org>; Sat, 10 Apr 2021 00:41:36 -0700 (PDT)
+        Sat, 10 Apr 2021 03:45:17 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76886C061762;
+        Sat, 10 Apr 2021 00:45:03 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id s11so5748000pfm.1;
+        Sat, 10 Apr 2021 00:45:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=Fmmg78Sl42MbdiclrruvhikRdn3OFmqgIlFuSut1Jfc=;
-        b=jlSyuQHV3VQhZ84q3Ex/INWI3E/UTA+wgW9YS5VDd7j1FBYYm5klU/QLysIhZC4nZ2
-         8B8ezB1LeZs5UkBxPU1+FnBn48jK5ChTf9rlyqoTUo58kIrcWMeiqqOYZuDwIQwaZ7Cr
-         rgli97Amy6ArZpLUkIXgkA9PVVHVVAmjtsNQtY+q5Sqt+Li2WnhKVNenG60kI/Rp+AX2
-         N+SepGYKpfH+J4ebGG7m6u2ih09OIw62+bKAwu36I7OQY9McbYuI9btU12XvcG8wrTna
-         0OTO90oB2Dbm6IomqzdsZLRTCT+lAZLhc++4Hny9OSDKzjAv+W2kMxJPlHz6LCKZy+SE
-         9HqA==
+        bh=A7qHo22TZRNMA+/mUNXvKEnpqrhKD9AcxA2RK7Q4jDs=;
+        b=ioO1CLGoJZt6fN1zf6gB1J5iOtjwE0SAM1kRpuP/tv2z/5adcIbASuBMWneZRrKrnA
+         dI7T++xQZzIuTNiqIZKlinTUtO9BQGwHTgrMCEIprbAAqolx6FrBr35ZlvZ2+RU0szcf
+         SUEWGRNnx6kskE8V9Mnqr/2tGdhM1ByRwyvzgvfYll4+STSIkL28nJdxA8Mu/G1oD4g4
+         IN0Zu2sIvxO6skhnwyhnxC7MxJzZYFL6ZrsmW3Tc3/Tks2kmIj6h5335ErMTMOX9XJOr
+         OoE3FPbQHPxhKFNhQtCe8iaeDWUn4VW+CsibxhYA+dNYjM6ZrnZcgThukzK4+Nuhcoc7
+         zqig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=Fmmg78Sl42MbdiclrruvhikRdn3OFmqgIlFuSut1Jfc=;
-        b=Y30OMRm/QDnSHP138iJ2oXPjq9L2CghADsGflbJLfNhKDtipvQHicqv6iWMyVqkxDd
-         MNwm7NQFbcSrPhsljqa9i+l0936hOIfpZvchqRJ/LzTMUColzP2BWXHgGNZ/AxSD6/jZ
-         vRID1OhRwTQAJtYQ/iKfHYbaqVpCXR/WZ8T2OjObX0NekyQ0IGW4JFaxIGamTirv+4mS
-         4EvZkaMU7oB4dOq0yc/LTE4Cb4Trzl4VuKtQrYxwldkauy1XjRNEju/CBikwW+fJ9lWG
-         Bq9szLNBrt1WnY758+f2r6KWucELDKh4VrP+qRxYsID7T7Wxtlbs1GB9hM9tKba7eDfU
-         bM5g==
-X-Gm-Message-State: AOAM531wMECzb+mQHxJFDEmQ8pUp7SxYfOCLcC2RNwhFQeID1tttMPNX
-        TxuNWrFb+BAjH81+1sZhuusur3QTk+Q=
-X-Google-Smtp-Source: ABdhPJzN5ccfd/s50pKZ7s6BDx6q2loUYP8OVf9nXwixD+cd5XF8FUWIL6IqhdJEWbMY5aFeoE9YWA==
-X-Received: by 2002:a05:6a00:72b:b029:218:6603:a6a9 with SMTP id 11-20020a056a00072bb02902186603a6a9mr15150053pfm.78.1618040496254;
-        Sat, 10 Apr 2021 00:41:36 -0700 (PDT)
+        bh=A7qHo22TZRNMA+/mUNXvKEnpqrhKD9AcxA2RK7Q4jDs=;
+        b=Js0QixGISCdl3FG2Q938N0ZeC6CBpeZ1HI0nG6ceMe7PeGVgGjUmjTmZosX0bjdIA4
+         fMhzHtVQ76kIJJzMqnUDxubSkKn7BIbmtq+2nFt6MsfiN7TW+ARLynrvkTwf7Ds6YDlw
+         NbuBuHjjUlN7m4pRpU9Jd4kN7t3gJdHnSHK6w15YueIBEVDEZ/qrUf6P3g1dPCNJrC1G
+         cWBgMIRBRq3txTCwP4ERQNFi3lxBH7biISFwoPVdWKb7t3Kba8p2Tw0h+XJixb/4Ik4o
+         UG1hl5yd14PtSXRcCme2F9C5DzKue3PaWVUz/+/waQ2mhiVUI/3sc6F+1xxef/V/bboR
+         PpIA==
+X-Gm-Message-State: AOAM531FvfFN3o8HoV+z0YTwDtUDQNVm9dlGSuUEcIcl17uwU5A6m81R
+        1Erl1ORyhXsw07PnzLW/Ikk=
+X-Google-Smtp-Source: ABdhPJy2XFwxIKY6QiwDX/lD2aMlTwQsKbN0QCBxUXAT2cixr1Ygh44sblWDI0DntGZ/3JK+Tvzzdw==
+X-Received: by 2002:a63:5a55:: with SMTP id k21mr16664137pgm.312.1618040702656;
+        Sat, 10 Apr 2021 00:45:02 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:c9de:23b9:54df:4a55])
-        by smtp.gmail.com with ESMTPSA id t205sm4491514pgb.37.2021.04.10.00.41.34
+        by smtp.gmail.com with ESMTPSA id z17sm4445858pjn.47.2021.04.10.00.45.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Apr 2021 00:41:35 -0700 (PDT)
-Date:   Sat, 10 Apr 2021 00:41:33 -0700
+        Sat, 10 Apr 2021 00:45:01 -0700 (PDT)
+Date:   Sat, 10 Apr 2021 00:44:59 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Javier Martinez Canillas <javier@dowhile0.org>,
+Cc:     Ferruh Yigit <fery@cypress.com>,
+        Javier Martinez Canillas <javier@dowhile0.org>,
         Henrik Rydberg <rydberg@bitmath.org>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH 8/8 v3] Input: cyttsp - Flag the device properly
-Message-ID: <YHFWrdYMSmnLAm2V@google.com>
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 1/8 v3] Input: cyttsp - Convert bindings to YAML and
+ extend
+Message-ID: <YHFXe5lnxy8nUbxE@google.com>
 References: <20210408131153.3446138-1-linus.walleij@linaro.org>
- <20210408131153.3446138-9-linus.walleij@linaro.org>
+ <20210408131153.3446138-2-linus.walleij@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210408131153.3446138-9-linus.walleij@linaro.org>
+In-Reply-To: <20210408131153.3446138-2-linus.walleij@linaro.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 Hi Linus,
 
-On Thu, Apr 08, 2021 at 03:11:53PM +0200, Linus Walleij wrote:
-> This device is certainly a very simple touchscreen so
-> we set INPUT_MT_DIRECT.
-> 
-> The sibling driver for CY8CTMA140 also sets
-> INPUT_MT_DROP_UNUSED and experimenting with this driver
-> it clearly does not hurt: the touchscreen is working just
-> fine so let's set it for this one as well.
+On Thu, Apr 08, 2021 at 03:11:46PM +0200, Linus Walleij wrote:
+> +
+> +  interrupts:
+> +    description: Interrupt to host, must be flagged as
+> +      IRQ_TYPE_EDGE_FALLING.
 
-This is not a good justification, and INPUT_MT_DROP_UNUSED is
-essentially a noop if the driver does not use input_mt_sync_frame().
+I do not think this is such a great idea to mandate falling edge
+interrupt. In fact, on devices that can support it I think level
+interrupts would be better.
 
-I dropped INPUT_MT_DROP_UNUSED from the patch and applied, but I would
-appreciate a followup patch switching the driver to INPUT_MT_DROP_UNUSED
-and adding input_mt_sync_frame() to cyttsp_report_tchdata() and removing
-manual release of inactive slots from there (the "used" bitmap).
+And I would prefer if we dropped IRQF_TRIGGER_FALLING from
+devm_request_threaded_irq() in drivers/input/touchscreen/cyttsp_core.c
+and rely on the platform to specify appropriate trigger.
 
 Thanks.
 
