@@ -2,88 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A7F5B35B133
-	for <lists+linux-input@lfdr.de>; Sun, 11 Apr 2021 04:56:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D60935B38D
+	for <lists+linux-input@lfdr.de>; Sun, 11 Apr 2021 13:34:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235009AbhDKC42 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 10 Apr 2021 22:56:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46290 "EHLO
+        id S233822AbhDKLei (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 11 Apr 2021 07:34:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234991AbhDKC42 (ORCPT
+        with ESMTP id S233696AbhDKLei (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 10 Apr 2021 22:56:28 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D475C06138B;
-        Sat, 10 Apr 2021 19:56:12 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id o123so6891339pfb.4;
-        Sat, 10 Apr 2021 19:56:12 -0700 (PDT)
+        Sun, 11 Apr 2021 07:34:38 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDCF0C061574;
+        Sun, 11 Apr 2021 04:34:21 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id p6so3278706wrn.9;
+        Sun, 11 Apr 2021 04:34:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=kl8rMjMXuj6cBDVw8taKm3mwuU9tiU2czLtgJ2JcpSA=;
-        b=uu1D02zsOB4E8TOKnRVBwHJoVXRCgkvLb4MtVnrpwGPZFyxkKpdbBlwQbmMeryzFX7
-         puJXmIDv3jmV/jxocq/BUoLAxUrRUcBN4cJCTr6ZQ0riZfkD+LJgu/tPZsMFogT75edD
-         twUe3mZ+ZduH4Jihq6YLZiJlN4qc27yyBVsVH7crFZwlSZNAouyqWSihEf6a44TQvPSR
-         Riie98YlD/gg/EhAX0bXgU/Wtg5qy93LF4WJ6K6KhDcDYLOT7yMPo+uIC+5XDjVvJBLU
-         UvUCvdnVteGGKmTUOtAdUGOYYRQuPNqwsID/lu+HK4d3qWC8qIjql+4V8Rk2Y6QcZKqs
-         BEbQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KxOidUwJFl59zNURg0gtXwYaJwB9tMFuA2e5v9bizjA=;
+        b=qDqiye67OEdqlj9+bp401TeF952h8w4h9UVjd8mFDbQAeiCC800PHk/NDeLtuYXQIi
+         fntNpbqUki/uYFFMlKvFn0Tu13ySpAfxFBECOcb7yqn4KT0U3OOqxmeiHQQANRuqCzpf
+         Q64fTflkMgpK7BXHFtWMQA6b+ig2JzhjR0t5JXSmkmq9LDmQx3P7VfFhXORQdJo3cFT1
+         So1WYtz6wS8Xmyk9SNjClx7BRUMCcuwPG+vzcfYdlP20uRhHHjhvlfOV9MS5FTF8z/1Z
+         1bVvg6kV+EWEnQEdfniMbKyBCW7jgVJp8TZIfMIqfp7KAwRPn5g7M1a/GYdMa0JXA9ax
+         DPrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=kl8rMjMXuj6cBDVw8taKm3mwuU9tiU2czLtgJ2JcpSA=;
-        b=FoKZZEmUGe67keVXYec02rhjlcTjPrlcNUE4y/26l3jiD4JZpqeYt5RJkbevo/G5qu
-         d8bOHwtE66ywLLjnEVMBWn31xItjqOdwcF87qoTiIyBZwU5//uO0FPzdgWCIPULpzB34
-         eLWaPUEuzvUNHmcqDBO9KWYJMF120mHLiJOVxZYvOwgP4N0Mj95GbQI5s0xZjoH4Lmy7
-         U+jojTYGG82/Y3CIuBlHQRdM1KLZxbSjcN4yCQpmOxlw4DQfPClW/KryiHPa+NnRaIdq
-         1NDqsFpnEwZpHA0ic6RHOYxSyzb7W0kS6hWDbDFFof1Wv24+tC9tx7zERWG3mX50fY5G
-         e6bg==
-X-Gm-Message-State: AOAM532q6qMLjEhVaUoXcrcXYu42mZeHUqZlxl3rpqHRPCc6X+uQ0Kcl
-        uRyxXkIvzDj+bxlGyV16atA=
-X-Google-Smtp-Source: ABdhPJxxp51keRrO/YRVzKGssNZdwXZ00ImjHm40l/ESWKSyaLp9lvQZZX/0bnIMt8miWi1Wpwggmw==
-X-Received: by 2002:a63:1b5c:: with SMTP id b28mr6578047pgm.444.1618109772170;
-        Sat, 10 Apr 2021 19:56:12 -0700 (PDT)
-Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:a9b4:ff60:6655:5c5f])
-        by smtp.gmail.com with ESMTPSA id fs3sm6207001pjb.30.2021.04.10.19.56.10
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KxOidUwJFl59zNURg0gtXwYaJwB9tMFuA2e5v9bizjA=;
+        b=oZJnGPMvCVFQnbYPA8/KIHEzLMBF4kwwtVKwPmOk4QV4w+/5q4cu3imOxqY1f9LYI4
+         CcCXR/Gnc0N4ibGod54PYfHTxkR1Iq8k27b/lwx9MWt2Hle8sr8t9RzWgLSs4JFTQmlP
+         JqkAVZSHIjacszPZ8DxZIj+w0pX8wW5ZwKeJ9yRnxyx6YooeBvp9TK45gQCa7cuEGbFf
+         o8iBfRpvfYevBm2PEGTD8Y/YpJqZlwYgpznGNEIo8OZ3jPkRgSFSVNRxrrvTqZxuH21t
+         E1BeZvUlZek8yUVu+txC7ncz4XxAVM1Vn2xb/XVI1A8Phnh1jB0USqaQu5l5tivGZIR+
+         SCWw==
+X-Gm-Message-State: AOAM530//aogSJGZcjHltqDLWdeEcf7SDY0NhWoEVJd2Ercq6+XAjh3C
+        OH//Qymw+cegQEHDZMpymcWpDPnJ7T0=
+X-Google-Smtp-Source: ABdhPJwGGfyfy4PmkxP7LYhI1ud5F6B6OE9MKtKBw1kagNekVukyYYQmRp2Vh7bYnHY+dUWvksh3sQ==
+X-Received: by 2002:a05:6000:1091:: with SMTP id y17mr50396wrw.270.1618140860698;
+        Sun, 11 Apr 2021 04:34:20 -0700 (PDT)
+Received: from xws.localdomain (p5487b63a.dip0.t-ipconnect.de. [84.135.182.58])
+        by smtp.gmail.com with ESMTPSA id 66sm4930727wmb.36.2021.04.11.04.34.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Apr 2021 19:56:10 -0700 (PDT)
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] HID: hid-debug: recognize KEY_ASSISTANT and KEY_KBD_LAYOUT_NEXT
-Date:   Sat, 10 Apr 2021 19:56:06 -0700
-Message-Id: <20210411025606.2744875-2-dmitry.torokhov@gmail.com>
-X-Mailer: git-send-email 2.31.1.295.g9ea45b61b8-goog
-In-Reply-To: <20210411025606.2744875-1-dmitry.torokhov@gmail.com>
-References: <20210411025606.2744875-1-dmitry.torokhov@gmail.com>
+        Sun, 11 Apr 2021 04:34:20 -0700 (PDT)
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel test robot <lkp@intel.com>
+Subject: [PATCH] HID: surface-hid: Fix integer endian conversion
+Date:   Sun, 11 Apr 2021 13:34:02 +0200
+Message-Id: <20210411113402.2594945-1-luzmaximilian@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add missing descriptions for KEY_ASSISTANT and KEY_KBD_LAYOUT_NEXT.
+We want to convert from 16 bit (unsigned) little endian values contained
+in a packed struct to CPU native endian values here, not the other way
+around. So replace cpu_to_le16() with get_unaligned_le16(), using the
+latter instead of le16_to_cpu() to acknowledge that we are reading from
+a packed struct.
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Fixes: b05ff1002a5c ("HID: Add support for Surface Aggregator Module HID transport")
+Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
 ---
- drivers/hid/hid-debug.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/hid/surface-hid/surface_hid_core.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
-index 982737827b87..4d2b699daf8d 100644
---- a/drivers/hid/hid-debug.c
-+++ b/drivers/hid/hid-debug.c
-@@ -929,6 +929,8 @@ static const char *keys[KEY_MAX + 1] = {
- 	[KEY_APPSELECT] = "AppSelect",
- 	[KEY_SCREENSAVER] = "ScreenSaver",
- 	[KEY_VOICECOMMAND] = "VoiceCommand",
-+	[KEY_ASSISTANT] = "Assistant",
-+	[KEY_KBD_LAYOUT_NEXT] = "KbdLayoutNext",
- 	[KEY_EMOJI_PICKER] = "EmojiPicker",
- 	[KEY_BRIGHTNESS_MIN] = "BrightnessMin",
- 	[KEY_BRIGHTNESS_MAX] = "BrightnessMax",
+diff --git a/drivers/hid/surface-hid/surface_hid_core.c b/drivers/hid/surface-hid/surface_hid_core.c
+index 7b27ec392232..5571e74abe91 100644
+--- a/drivers/hid/surface-hid/surface_hid_core.c
++++ b/drivers/hid/surface-hid/surface_hid_core.c
+@@ -168,9 +168,9 @@ int surface_hid_device_add(struct surface_hid_device *shid)
+ 
+ 	shid->hid->dev.parent = shid->dev;
+ 	shid->hid->bus = BUS_HOST;
+-	shid->hid->vendor = cpu_to_le16(shid->attrs.vendor);
+-	shid->hid->product = cpu_to_le16(shid->attrs.product);
+-	shid->hid->version = cpu_to_le16(shid->hid_desc.hid_version);
++	shid->hid->vendor = get_unaligned_le16(&shid->attrs.vendor);
++	shid->hid->product = get_unaligned_le16(&shid->attrs.product);
++	shid->hid->version = get_unaligned_le16(&shid->hid_desc.hid_version);
+ 	shid->hid->country = shid->hid_desc.country_code;
+ 
+ 	snprintf(shid->hid->name, sizeof(shid->hid->name), "Microsoft Surface %04X:%04X",
 -- 
-2.31.1.295.g9ea45b61b8-goog
+2.31.1
 
