@@ -2,234 +2,118 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4C8335B08E
-	for <lists+linux-input@lfdr.de>; Sat, 10 Apr 2021 23:04:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E73035B131
+	for <lists+linux-input@lfdr.de>; Sun, 11 Apr 2021 04:56:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234548AbhDJVEp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 10 Apr 2021 17:04:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56410 "EHLO
+        id S234973AbhDKC41 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 10 Apr 2021 22:56:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232659AbhDJVEp (ORCPT
+        with ESMTP id S234950AbhDKC40 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 10 Apr 2021 17:04:45 -0400
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03A5FC06138A;
-        Sat, 10 Apr 2021 14:04:30 -0700 (PDT)
-Received: by mail-ed1-x532.google.com with SMTP id 18so10507657edx.3;
-        Sat, 10 Apr 2021 14:04:29 -0700 (PDT)
+        Sat, 10 Apr 2021 22:56:26 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 138CDC06138B;
+        Sat, 10 Apr 2021 19:56:11 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id t140so6725725pgb.13;
+        Sat, 10 Apr 2021 19:56:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=J8CpfW9tNNdOnyqAlN5irkk8A1Y7n30r2i7u+iBINtk=;
-        b=X21Jd8A0CvDlEOEBWT8BPcxmAdOlwYy3oGK3WSvgCa9/du/4XhyvAyL4IEVxcx0FsD
-         J3D4x1Tsd77dTypHIi7oyZPxR5hiqgswStG6y3KltugbNwz7H476ZTU9hW/sXWZ5NpFJ
-         gSoRfRUy3vwOxvlpNe98pYzS8bv9n8Lc0snUzVuAH6z+uE8UbIXBzFXScTYLMd6QW3+6
-         JojbJ9sylMs8TvwyfPM1N6SJvRB1xpa+I+P+9jYqUNjVokj1CX1MjA+hkX8OmEoi5ccj
-         8sP9LlYNRZnj0tr5JAS4FSOKYml1REDNIuWvtob2jF9+k8HHvHxfGCHiGPjNZiqiPEPa
-         6k8Q==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=h8aVGITkFnZdJUFZyLeM717/3kVXSiIqRZAvMjZr15k=;
+        b=cYz+eatAhkFH/2f4Hqcr+qqN5USaw6ASc58yCVenD8SxD6mkRGDBIf16w5CTMoXQMO
+         CiOpGdJgj6OODNMYm6V4tinXJGbn2R2n+m5LDbHvz2iDJZ6H8cpOeEw5p3zzXnsVeiD4
+         aGkUaEQ1t6scj1l1hWLycuirjvugrjV7GzAoGKKv5KvxYU9gY/nZsvcFVojMOp+SVCbm
+         vCvOX89tyAihV658oxoAhW+a0259dfb9GBxGteLa29BKuM2jJbmar9uYYoJlcHmoLXZ9
+         iB6cXIZ3OUVyqC0fMUByTkAlxFtM0GnCCKaBS13nbPi8ogmRwr6jdHZILlzWh/7fHbzR
+         sqAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=J8CpfW9tNNdOnyqAlN5irkk8A1Y7n30r2i7u+iBINtk=;
-        b=Q3UXOyJ0moKSB/EAPkecY94BL+VaVewlygxY6pthpwoFaj7c7RDaRwjeGhbDd5h/hE
-         mAbW5KFX0bTg6sMlQ6hZlivlAabS/fTy9GQZPAMJIEI1Y4h76RCfsHo/RLLcjKvS0ekR
-         dQ6jj+tGTwrLbe+oh+LLAGPp9ukH2D2DHZ/SKizM6JmthhBpGbJ/kSZbEAjJZCSZNAT6
-         XyN3EbFu7jaXy2CK0nyT7aIxVQcZJ976fZ6m6yjaEi7E/BkGA2tJcfNzK3FTqGi2A1aX
-         njStChwge+f6usLMKKTbJaDmMa19lCCAwI2WpPYFeuYZp/xc7Y9JgDTiR2iY7uws/sqS
-         c/NA==
-X-Gm-Message-State: AOAM532Ugq4oPwC/j3QGzCLa8nh3RPknoqm1Nq5pjAFeel9HITfVdBN2
-        ffylue8GrdBCmyUMhiBDX2c=
-X-Google-Smtp-Source: ABdhPJzDgbAQBAPprRJ4aSAmbcCupRQV7IV5a3d0M9mJDq33jZY7o0wypx6f53Pe3rfC4nYbC2oQJA==
-X-Received: by 2002:a05:6402:151a:: with SMTP id f26mr23133504edw.43.1618088668722;
-        Sat, 10 Apr 2021 14:04:28 -0700 (PDT)
-Received: from michael-VirtualBox (cbl217-132-244-50.bb.netvision.net.il. [217.132.244.50])
-        by smtp.gmail.com with ESMTPSA id ga28sm3097484ejc.82.2021.04.10.14.04.27
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=h8aVGITkFnZdJUFZyLeM717/3kVXSiIqRZAvMjZr15k=;
+        b=GsGvUkzcH6OidIsfL/nFxSwfVisOg85wpBBPtSZaYQ13WieQcwGGW782xBDA8stmY/
+         9/QWqMTyFYafTHzIVn0JuTzFFGywDyUgEMnVgAUV38V5MkrLQnGt2qbE0Kr2RVnNI9pa
+         SqUTwDsDFYBu8Z/VeodU6+4C32SHfsai+EMgzhu98joQ7DKlm+wIM5763MIi3rn5OVGt
+         98ZO6T75ACDQ/1Gt6SiDrsziwuhZn0pWjewItFbbyT/1m6HNcW1xiFXX+D22enUP2nOx
+         iODFYOjB2YxsNxm+WSZ1pBuvX7rSsSbc5hiaBnt9vpi6zMyEFfY9YilcE/lSnMHcxhSS
+         dddQ==
+X-Gm-Message-State: AOAM531EFheQ18KdbS7P/twi+0nUS7oXDxMRRL1fZInr2mMJOcXpAckY
+        Vr7mO/AQuQqW6vtdNfbA+UqFr3l/9ME=
+X-Google-Smtp-Source: ABdhPJxMDkglUU7qbyL5M9DcQV2TgN60Kb03gyz2GxGfm0vDv3hxPY/WLh3D8Tzz9DxigGLSNU2EWg==
+X-Received: by 2002:a63:eb49:: with SMTP id b9mr19766250pgk.318.1618109770346;
+        Sat, 10 Apr 2021 19:56:10 -0700 (PDT)
+Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:a9b4:ff60:6655:5c5f])
+        by smtp.gmail.com with ESMTPSA id fs3sm6207001pjb.30.2021.04.10.19.56.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Apr 2021 14:04:28 -0700 (PDT)
-Date:   Sun, 11 Apr 2021 00:04:25 +0300
-From:   Michael Zaidman <michael.zaidman@gmail.com>
-To:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Jiri Kosina <jikos@kernel.org>,
+        Sat, 10 Apr 2021 19:56:09 -0700 (PDT)
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
-        michael.zaidman@gmail.com
-Subject: Re: [bug report] HID: ft260: add usb hid to i2c host bridge driver
-Message-ID: <20210410210425.GA4073@michael-VirtualBox>
-References: <YHBJRvcOSaM/b0RL@mwanda>
- <20210410122729.GA6136@michael-VirtualBox>
- <20210410153712.GQ6048@kadam>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] HID: hid-input: add mapping for emoji picker key
+Date:   Sat, 10 Apr 2021 19:56:05 -0700
+Message-Id: <20210411025606.2744875-1-dmitry.torokhov@gmail.com>
+X-Mailer: git-send-email 2.31.1.295.g9ea45b61b8-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210410153712.GQ6048@kadam>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Apr 10, 2021 at 06:37:13PM +0300, Dan Carpenter wrote:
-> On Sat, Apr 10, 2021 at 03:27:29PM +0300, Michael Zaidman wrote:
-> > On Fri, Apr 09, 2021 at 03:32:06PM +0300, Dan Carpenter wrote:
-> > > Hello Michael Zaidman,
-> > > 
-> > > The patch 6a82582d9fa4: "HID: ft260: add usb hid to i2c host bridge
-> > > driver" from Feb 19, 2021, leads to the following static checker
-> > > warning:
-> > > 
-> > > 	drivers/hid/hid-ft260.c:441 ft260_smbus_write()
-> > > 	error: '__memcpy()' '&rep->data[1]' too small (59 vs 255)
-> > > 
-> > > drivers/hid/hid-ft260.c
-> > >    423  static int ft260_smbus_write(struct ft260_device *dev, u8 addr, u8 cmd,
-> > >    424                               u8 *data, u8 data_len, u8 flag)
-> > >    425  {
-> > >    426          int ret = 0;
-> > >    427          int len = 4;
-> > >    428  
-> > >    429          struct ft260_i2c_write_request_report *rep =
-> > >    430                  (struct ft260_i2c_write_request_report *)dev->write_buf;
-> > >    431  
-> > >    432          rep->address = addr;
-> > >    433          rep->data[0] = cmd;
-> > >    434          rep->length = data_len + 1;
-> > >    435          rep->flag = flag;
-> > >    436          len += rep->length;
-> > >    437  
-> > >    438          rep->report = FT260_I2C_DATA_REPORT_ID(len);
-> > >    439  
-> > >    440          if (data_len > 0)
-> > >    441                  memcpy(&rep->data[1], data, data_len);
-> > >                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > Smatch says that this can be called from the i2cdev_ioctl_smbus()
-> > > function.
-> > 
-> > Hi Dan,
-> > 
-> > This is an example of a false-positive static checker warning.
-> > 
-> > The maximum data size that the i2cdev_ioctl_smbus() can pass to the
-> > i2c_smbus_xfer() is sizeof(data->block) which is (I2C_SMBUS_BLOCK_MAX + 2)
-> > or 34 bytes. Thus, no need to check the data_len against 59 here.
-> > 
-> > > 
-> > > i2cdev_ioctl_smbus()
-> > >   --> i2c_smbus_xfer
-> > >       --> __i2c_smbus_xfer
-> > >           --> ft260_smbus_xfer
-> > >               --> ft260_smbus_write
-> 
-> It's actually me who misunderstood the Smatch warning.  Smatch is not
-> complaining about data_len, it's data->block[0] which is user
-> controlled and only for the I2C_SMBUS_I2C_BLOCK_DATA command.
-> 
-> The call tree is the same.  I've looked at it again.  Here is how
-> i2cdev_ioctl_smbus() looks like:
-> 
-> drivers/i2c/i2c-dev.c
->    355                  return -EINVAL;
->    356          }
->    357  
->    358          if ((size == I2C_SMBUS_BYTE_DATA) ||
->    359              (size == I2C_SMBUS_BYTE))
->    360                  datasize = sizeof(data->byte);
->    361          else if ((size == I2C_SMBUS_WORD_DATA) ||
->    362                   (size == I2C_SMBUS_PROC_CALL))
->    363                  datasize = sizeof(data->word);
->    364          else /* size == smbus block, i2c block, or block proc. call */
->    365                  datasize = sizeof(data->block);
->                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 
->    366  
->    367          if ((size == I2C_SMBUS_PROC_CALL) ||
->    368              (size == I2C_SMBUS_BLOCK_PROC_CALL) ||
->    369              (size == I2C_SMBUS_I2C_BLOCK_DATA) ||
->                              ^^^^^^^^^^^^^^^^^^^^^^^^
->    370              (read_write == I2C_SMBUS_WRITE)) {
->    371                  if (copy_from_user(&temp, data, datasize))
->                                             ^^^^
-> temp.block[0] is user controlled.
-> 
->    372                          return -EFAULT;
->    373          }
->    374          if (size == I2C_SMBUS_I2C_BLOCK_BROKEN) {
->                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 
->    375                  /* Convert old I2C block commands to the new
->    376                     convention. This preserves binary compatibility. */
->    377                  size = I2C_SMBUS_I2C_BLOCK_DATA;
->    378                  if (read_write == I2C_SMBUS_READ)
->    379                          temp.block[0] = I2C_SMBUS_BLOCK_MAX;
->                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> Except for size BROKEN
-> 
->    380          }
->    381          res = i2c_smbus_xfer(client->adapter, client->addr, client->flags,
->    382                read_write, command, size, &temp);
->                                                  ^^^^^
-> 
->    383          if (!res && ((size == I2C_SMBUS_PROC_CALL) ||
->    384                       (size == I2C_SMBUS_BLOCK_PROC_CALL) ||
->    385                       (read_write == I2C_SMBUS_READ))) {
->    386                  if (copy_to_user(data, &temp, datasize))
->    387                          return -EFAULT;
->    388          }
-> 
-> The rest of the call tree seems straight forward but it's possible I
-> have missed somewhere that checks data[0].  Here is how ft260_smbus_xfer()
-> looks like.
+HUTRR101 added a new usage code for a key that is supposed to invoke and
+dismiss an emoji picker widget to assist users to locate and enter emojis.
 
-Oh, you are right. Despite that the SMbus block transaction limits the maximum
-number of bytes to 32, nothing prevents a user from specifying via ioctl a larger
-data size than the ft260 can handle in a single transfer.
+This patch adds a new key definition KEY_EMOJI_PICKER and maps 0x0c/0x0d9
+usage code to this new keycode. Additionally hid-debug is adjusted to
+recognize this new usage code as well.
 
-I am going to fix it in the ft260_smbus_write (with your Signed-off-by), but
-perhaps we should fix it in the first place, in the i2cdev_ioctl_smbus routine?
-What do you think?
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/hid/hid-debug.c                | 1 +
+ drivers/hid/hid-input.c                | 3 +++
+ include/uapi/linux/input-event-codes.h | 1 +
+ 3 files changed, 5 insertions(+)
 
-> 
-> drivers/hid/hid-ft260.c
->    655          case I2C_SMBUS_BLOCK_DATA:
->    656                  if (read_write == I2C_SMBUS_READ) {
->    657                          ret = ft260_smbus_write(dev, addr, cmd, NULL, 0,
->    658                                                  FT260_FLAG_START);
->    659                          if (ret)
->    660                                  goto smbus_exit;
->    661  
->    662                          ret = ft260_i2c_read(dev, addr, data->block,
->    663                                               data->block[0] + 1,
->    664                                               FT260_FLAG_START_STOP_REPEATED);
->    665                  } else {
->    666                          ret = ft260_smbus_write(dev, addr, cmd, data->block,
->    667                                                  data->block[0] + 1,
->    668                                                  FT260_FLAG_START_STOP);
->    669                  }
->    670                  break;
->    671          case I2C_SMBUS_I2C_BLOCK_DATA:
->    672                  if (read_write == I2C_SMBUS_READ) {
->    673                          ret = ft260_smbus_write(dev, addr, cmd, NULL, 0,
->    674                                                  FT260_FLAG_START);
->    675                          if (ret)
->    676                                  goto smbus_exit;
->    677  
->    678                          ret = ft260_i2c_read(dev, addr, data->block + 1,
->    679                                               data->block[0],
->    680                                               FT260_FLAG_START_STOP_REPEATED);
->    681                  } else {
->    682                          ret = ft260_smbus_write(dev, addr, cmd, data->block + 1,
->    683                                                  data->block[0],
->                                                         ^^^^^^^^^^^^^^
-> Boom.  Dead.
-> 
->    684                                                  FT260_FLAG_START_STOP);
->    685                  }
->    686                  break;
->    687          default:
->    688                  hid_err(hdev, "unsupported smbus transaction size %d\n", size);
->    689                  ret = -EOPNOTSUPP;
->    690          }
-> 
-> regards,
-> dan carpenter
-> 
-> 
+diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
+index d7eaf9100370..982737827b87 100644
+--- a/drivers/hid/hid-debug.c
++++ b/drivers/hid/hid-debug.c
+@@ -929,6 +929,7 @@ static const char *keys[KEY_MAX + 1] = {
+ 	[KEY_APPSELECT] = "AppSelect",
+ 	[KEY_SCREENSAVER] = "ScreenSaver",
+ 	[KEY_VOICECOMMAND] = "VoiceCommand",
++	[KEY_EMOJI_PICKER] = "EmojiPicker",
+ 	[KEY_BRIGHTNESS_MIN] = "BrightnessMin",
+ 	[KEY_BRIGHTNESS_MAX] = "BrightnessMax",
+ 	[KEY_BRIGHTNESS_AUTO] = "BrightnessAuto",
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index 236bccd37760..e982d8173c9c 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -963,6 +963,9 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+ 
+ 		case 0x0cd: map_key_clear(KEY_PLAYPAUSE);	break;
+ 		case 0x0cf: map_key_clear(KEY_VOICECOMMAND);	break;
++
++		case 0x0d9: map_key_clear(KEY_EMOJI_PICKER);	break;
++
+ 		case 0x0e0: map_abs_clear(ABS_VOLUME);		break;
+ 		case 0x0e2: map_key_clear(KEY_MUTE);		break;
+ 		case 0x0e5: map_key_clear(KEY_BASSBOOST);	break;
+diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+index ee93428ced9a..225ec87d4f22 100644
+--- a/include/uapi/linux/input-event-codes.h
++++ b/include/uapi/linux/input-event-codes.h
+@@ -611,6 +611,7 @@
+ #define KEY_VOICECOMMAND		0x246	/* Listening Voice Command */
+ #define KEY_ASSISTANT		0x247	/* AL Context-aware desktop assistant */
+ #define KEY_KBD_LAYOUT_NEXT	0x248	/* AC Next Keyboard Layout Select */
++#define KEY_EMOJI_PICKER	0x249	/* Show/hide emoji picker (HUTRR101) */
+ 
+ #define KEY_BRIGHTNESS_MIN		0x250	/* Set Brightness to Minimum */
+ #define KEY_BRIGHTNESS_MAX		0x251	/* Set Brightness to Maximum */
+-- 
+2.31.1.295.g9ea45b61b8-goog
+
