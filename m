@@ -2,80 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B50D435C978
-	for <lists+linux-input@lfdr.de>; Mon, 12 Apr 2021 17:12:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C83735C9BD
+	for <lists+linux-input@lfdr.de>; Mon, 12 Apr 2021 17:24:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242364AbhDLPNH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 12 Apr 2021 11:13:07 -0400
-Received: from smtpcmd0986.aruba.it ([62.149.156.86]:55317 "EHLO
-        smtpcmd0986.aruba.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241430AbhDLPNG (ORCPT
+        id S242790AbhDLPYX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 12 Apr 2021 11:24:23 -0400
+Received: from smtpcmd0987.aruba.it ([62.149.156.87]:39907 "EHLO
+        smtpcmd0987.aruba.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238498AbhDLPYV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 12 Apr 2021 11:13:06 -0400
-Received: from [192.168.126.129] ([146.241.148.6])
+        Mon, 12 Apr 2021 11:24:21 -0400
+Received: from ubuntu.localdomain ([146.241.148.6])
         by Aruba Outgoing Smtp  with ESMTPSA
-        id VyF4lWemPppTXVyF4lrnl4; Mon, 12 Apr 2021 17:12:47 +0200
+        id VyPxlWzubppTXVyPxls0RY; Mon, 12 Apr 2021 17:24:02 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-        t=1618240367; bh=05YH1edc9XK59JPH66Dmvc3mEaxIZz36eNWjd1ZW4Ng=;
-        h=Subject:To:From:Date:MIME-Version:Content-Type;
-        b=LtV4fLVwIXRxBuJ3cFTXmjPo8FLezhN3q4vs+/Rci+m7AJgAT2JYcCVz3W7szGo8o
-         IX8Q4XBYohhv6Oh1hFhMNz7prhTWuvIDJssIBa7Cd1LYVFmAVWbr2TVYqzPbu/Stqs
-         Ir2jG+XYYQAcB72+uOjAR7LKjsnKzal2iOYF8gJyf0dZFSTx1SSEqr3PaO/5ZZGfNo
-         H0n1ZGoRDEDvQui5VikWG8zHaRrsLBkhL59OTipv1aFzqD2G2sAeYo3/48rqdgTyye
-         8qkdK6H350rYWSYXbxGaHJtENrtX7BJkXe6kcwraDAZ/+gTOI5j7zy+AMYBnzGfsaF
-         ylDMpqYdV88Rw==
-Subject: Re: [PATCH v5 1/3] dt-bindings: Add Hycon Technology vendor prefix
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, Henrik Rydberg <rydberg@bitmath.org>,
-        linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
-        linux-kernel@vger.kernel.org
-References: <20210408202137.GA1890401@robh.at.kernel.org>
- <20210411114804.151754-1-giulio.benetti@benettiengineering.com>
- <20210411114804.151754-2-giulio.benetti@benettiengineering.com>
- <20210412150527.GA3897939@robh.at.kernel.org>
+        t=1618241042; bh=F75spvDPrGLK56GsG2uIcQcV5ho8yiSRhxmiVJCzFCw=;
+        h=From:To:Subject:Date:MIME-Version:Content-Type;
+        b=HVBUAWtI2gC13gheKRG+gGjhIBm9BEyXi1/5ekgWsWLrFnFh/e7BT917CXbuit+D2
+         NUZIiHdGWiQi3ozU4F00ubF2YBJfX1lLFTFr0gJ8Vr/PQ4aLyCXFpTYY3E+aPCj949
+         YH0ax0ZzDVcq57XRZcosIv/iknYp/f+Ob41n7ujSnNvQGUdMSoAUK+A5Co8O9Hg6DI
+         xo4JW1yvEBCTCRF2t/yxPSqAklAorkw8B/j6P+dZ54HrHghTY6upVxuUhNcHWHBSKw
+         BmNP8PHKBelFzyLOdVmZCCyLF17OtkNfhwUQ+YnQJm2cSPzVrjlE0yIfr2EcVpJqtO
+         STMCxGG16ZC2Q==
 From:   Giulio Benetti <giulio.benetti@benettiengineering.com>
-Message-ID: <5ca45a6b-2cf0-cbb5-1f0d-3bf780052951@benettiengineering.com>
-Date:   Mon, 12 Apr 2021 17:12:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+To:     Rob Herring <robh@kernel.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Giulio Benetti <giulio.benetti@benettiengineering.com>
+Subject: [PATCH v6 0/2] Input: add Hycon HY46XX Touchscreen controller
+Date:   Mon, 12 Apr 2021 17:23:58 +0200
+Message-Id: <20210412152400.1587623-1-giulio.benetti@benettiengineering.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210412144624.GA3868831@robh.at.kernel.org>
+References: <20210412144624.GA3868831@robh.at.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20210412150527.GA3897939@robh.at.kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfFM4C8SuuIloPGmzhUtjrznkNIWHSHS24nFZk0jEuHifBL11YCf+odWbGZzhK8bLZtJaSZHRol1ElxfIkenw9hFX824gD2zWyPxkOOza+OKzb21ryAUu
- K875Eu+qSKLU2oDSwKZP+sxeVzsicsXBE5KAyydqwWh8Apt1aSsL6u0ldToPXHGJLvhMxl1C3BdogWmoFIL67/q+UzMP0jKRBDWM/7l39GcLYbnfjEKnp3uP
- XHylK2tJ06JFKN4p9o8g1LBUoMMKLlBY5+bCa62EQ1Fi+DUK2E/Rtn3W8rDZ+5dwoD/vcXNEPRl9Qn4W1Riu3I1l6LayWKvnd6ODZGzxj76FbTQwnqEijtyI
- Gwf0P0ZDDQhkHuy40KPCcmbfkSlAY82vkESw40nMIj9CHb4bO/xufzhJ20MjhGgzI4kDSJQF
+X-CMAE-Envelope: MS4wfJFLlVjNTSOowySM1XCPDyzj8JPIsNhjjV08JbsejMH/KsJgqlhoZ2X5sZCfeA+Ob3mbaV58MhEuqKTQbAf+8LYRL5Y4Ib8YFJJfpjec22W4BA71zveF
+ eSFrMCR/5P1iVLvskRckfD7R1XKJuyUu8LBwxez5JNKyEYv5iDuRJ33BCX/bL9myf1i4bVOr9ZgkCT/zN3gdCH+8U8qb1365ZiUg07RkKtp+ywOWA+CYEOZ+
+ FDraBHuOI2k2+3czHFfGlA8Of+3l34UFya1kh1IUEU6DIImQgNdyKEdADbUKkMd3Y01nM+YZZ+QuR3314Fpqr+/iWeZ7xguOdU2xZBLgIoGzAv4xWA+lttIY
+ T+Kqm9dFK2GAZOaxr+ouyjVDIruWihiPLIFzNcuQWt+OaeYA1pAWj19WtkxkDX94GKpr2MHCNNbNRYGDRNMXEt9J1OzCU7xJQaCKcapzbMw90on70AYUXzaP
+ mYhaQoDoTl1kRbOk
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 4/12/21 5:05 PM, Rob Herring wrote:
-> On Sun, 11 Apr 2021 13:48:02 +0200, Giulio Benetti wrote:
->> Update Documentation/devicetree/bindings/vendor-prefixes.yaml to
->> include "hycon" as a vendor prefix for "Hycon Technology".
->> Company website: https://www.hycontek.com/
->>
->> Signed-off-by: Giulio Benetti <giulio.benetti@benettiengineering.com>
->> Reviewed-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
->> ---
->>   Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->>   1 file changed, 2 insertions(+)
->>
-> 
-> 
-> Please add Acked-by/Reviewed-by tags when posting new versions. However,
-> there's no need to repost patches *only* to add the tags. The upstream
-> maintainer will do that for acks received on the version they apply.
-> 
-> If a tag was not added on purpose, please state why and what changed.
-> 
+This patchset adds Hycon vendor, HY46XX touchscreen controller driver
+and its .yaml binding.
 
-Ok, so on V6 series I'll send only patches 2 and 3 without this one.
+---
+V1->V2:
+* changed authorship and SoBs to @benettiengineering.com domain
+* fixed vendor commit log according to Jonathan Neuschäfer's suggestion
+* fixed hy46xx bindings according to Rob Herring's suggestions
+* fixed hy46xx driver according to Dmitry Torokhov's suggestions
+further details are listed in single patches
+V2->V3:
+* fixed hy46xx bindings according to Jonathan Neuschäfer's suggestion
+* fixed hy46xx driver according to Jonathan Neuschäfer's suggestion
+further details are listed in single patches
+V3->V4:
+* fixed binding compatible string as suggested by Jonathan Neuschäfer
+V4->V5:
+* fixed hy46xx bindings and driver according to Rob Herring's suggestions
+further details are listed in single patches
+V5->V6:
+* changed report-speed property name into report-speed-hz according to
+Rob Herring's suggestion
+---
+
+Giulio Benetti (2):
+  dt-bindings: touchscreen: Add HY46XX bindings
+  Input: add driver for the Hycon HY46XX touchpanel series
+
+ .../input/touchscreen/hycon,hy46xx.yaml       | 119 ++++
+ MAINTAINERS                                   |   7 +
+ drivers/input/touchscreen/Kconfig             |  11 +
+ drivers/input/touchscreen/Makefile            |   1 +
+ drivers/input/touchscreen/hycon-hy46xx.c      | 591 ++++++++++++++++++
+ 5 files changed, 729 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/hycon,hy46xx.yaml
+ create mode 100644 drivers/input/touchscreen/hycon-hy46xx.c
 
 -- 
-Giulio Benetti
-Benetti Engineering sas
+2.25.1
+
