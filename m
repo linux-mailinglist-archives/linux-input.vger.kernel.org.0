@@ -2,126 +2,203 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CE6235B80B
-	for <lists+linux-input@lfdr.de>; Mon, 12 Apr 2021 03:21:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02FA735C0F1
+	for <lists+linux-input@lfdr.de>; Mon, 12 Apr 2021 11:23:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236358AbhDLBV3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 11 Apr 2021 21:21:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51856 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236329AbhDLBV2 (ORCPT
+        id S239140AbhDLJSO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 12 Apr 2021 05:18:14 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:59448 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239024AbhDLJMj (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 11 Apr 2021 21:21:28 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38501C061574;
-        Sun, 11 Apr 2021 18:21:10 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id t22so5167843ply.1;
-        Sun, 11 Apr 2021 18:21:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=YZNlQJhFG4qD/x7YVQs5Q/vIJOU+Y0vRNafnFm9QJmM=;
-        b=h9JWQ6Ol/bM/2R9gY9tZa5rc+gsWRaAgOUw2l3PC9nYKCxW/Kqk/TmPo1R1ybRFHP7
-         1EILT6YvI5wl9RJQI/8ZduiVwu27qXyX69YNABMCnIezE6Igl3scrCOizyyWCqzP1Y4v
-         ioGpyXFpR1ju0r4PrgjoSvDuYkhNyzrbR2N/CLTVPehn2f1yRNBJ8uB5K3xwjMVmYKd8
-         iBM1fCSZ+daTyHDEP0lK2mxlCLSktaBHG2egUGSxL7COThsqOxWHlvMm5xczSlmV/Jhw
-         6ZzROiS++6gTxAccCPinOd1DHA8NZj+qkKK2BSQb0yuzvvNCFHXSNCohzkrEEMxX/Ooo
-         n/Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=YZNlQJhFG4qD/x7YVQs5Q/vIJOU+Y0vRNafnFm9QJmM=;
-        b=sR3H4EuaaXxPMhBXp6UOu3i9zn2Ch3UocBeMFdifzWk6BcAdY09FXDDhp0OVVmCtUC
-         aITpimleeNBeNSuX1eyyeuDJpOtpIgmEYFuSYv+lg8HNu/CTjdjXen6w9p9dRC4CGx2S
-         qz8lMMhjES58qHW8XZnT482kIeY9n9FNC9yygjJ4fWpbwcX6K/+bPXneccPquyHIbNWb
-         1Zyw9rXeBf3Wssp732lJaSP8ZtRZIVbwKC1ePwJ3W4q33yxpAi6zzqbjwAUSeH1i0kFl
-         h4hCbKm2iI7NXjX0tVbIIhUJwfjyIkch8VT8PT8ckx65q/bZxLLet3G23he0yPhI1WKE
-         z02g==
-X-Gm-Message-State: AOAM5317rvvZ3ZpJYU3qzyDxfk+p0pQnbdv1YdrIqoiEIApyS6ip2I2d
-        1xoJCd0fHMcTiyHRuAhCaxA=
-X-Google-Smtp-Source: ABdhPJxvcsTgZjtXqK32GaAuV2MtCNgkx+s1Bjk3eR8/pGt2rFEPU53LYOGuqOvzBSy3EvwtzUuBLw==
-X-Received: by 2002:a17:90a:6304:: with SMTP id e4mr19053959pjj.63.1618190469675;
-        Sun, 11 Apr 2021 18:21:09 -0700 (PDT)
-Received: from localhost.localdomain ([2401:e180:8830:7d97:945d:de90:edc9:855b])
-        by smtp.gmail.com with ESMTPSA id i73sm10093477pgc.9.2021.04.11.18.21.05
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 11 Apr 2021 18:21:08 -0700 (PDT)
-From:   Johnny Chuang <johnny.chuang.emc@gmail.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mon, 12 Apr 2021 05:12:39 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13C9BJKG123315;
+        Mon, 12 Apr 2021 09:12:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=nbrMDN3r/gmkDt/OOiRBzu4eDv1M/6rOyOwm3hSUUfY=;
+ b=sFcUw/8ZGohmnbWBp4cvM0MAznOt7gi4zBk+F3bUEiAQ3zgD/UHvNyNKUr04OInjPg8J
+ 7uCophsIQMwkHKu5tDLb49oSS4oBZy2CPV6eFB1jW1k0kRN4VgvikGw7j1O0QfbelKwE
+ +W2l7ZXqNdLSTKiHP+tJNDjAklCji8kkXStW9cKj3q+l46YS2elA782vcKf0zuDZZHgu
+ TyRXbYNH7+6P1kcyjrZ3gNTEUPyPKN58WIM4bK7gsTgdJSlPRSP7dX22lAIPBWyiQ+mU
+ wuaEh3ICCP+3Mv0Ahff8hT5c6wXrzWcuSYw26Nv25vL/22xV7T8Cg8CUFD7fu16w2nUi aw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by aserp2120.oracle.com with ESMTP id 37u3ymaxg8-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 12 Apr 2021 09:12:01 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13C99anN122075;
+        Mon, 12 Apr 2021 09:12:00 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3020.oracle.com with ESMTP id 37unwx3dww-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 12 Apr 2021 09:12:00 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 13C9BweC031359;
+        Mon, 12 Apr 2021 09:11:58 GMT
+Received: from kadam (/102.36.221.92)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 12 Apr 2021 02:11:57 -0700
+Date:   Mon, 12 Apr 2021 12:11:51 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Michael Zaidman <michael.zaidman@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Harry Cutts <hcutts@chromium.org>,
-        Johnny Chuang <johnny.chuang@emc.com.tw>
-Cc:     James Chen <james.chen@emc.com.tw>,
-        Jennifer Tsai <jennifer.tsai@emc.com.tw>,
-        Paul Liang <paul.liang@emc.com.tw>,
-        Jeff Chuang <jeff.chuang@emc.com.tw>,
-        Douglas Anderson <dianders@chromium.org>,
-        Jingle <jingle.wu@emc.com.tw>
-Subject: [PATCH v2] HID: i2c-hid: Skip ELAN power-on command after reset
-Date:   Mon, 12 Apr 2021 09:21:03 +0800
-Message-Id: <1618190463-12993-1-git-send-email-johnny.chuang.emc@gmail.com>
-X-Mailer: git-send-email 2.7.4
+        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [bug report] HID: ft260: add usb hid to i2c host bridge driver
+Message-ID: <20210412091151.GV6048@kadam>
+References: <YHBJRvcOSaM/b0RL@mwanda>
+ <20210410122729.GA6136@michael-VirtualBox>
+ <20210410153712.GQ6048@kadam>
+ <20210410210425.GA4073@michael-VirtualBox>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210410210425.GA4073@michael-VirtualBox>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9951 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
+ mlxscore=0 malwarescore=0 adultscore=0 bulkscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104120061
+X-Proofpoint-GUID: DuN6qnFhiNejlye4IJG2eFkmPgql03eb
+X-Proofpoint-ORIG-GUID: DuN6qnFhiNejlye4IJG2eFkmPgql03eb
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9951 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=999 spamscore=0
+ impostorscore=0 priorityscore=1501 lowpriorityscore=0 adultscore=0
+ bulkscore=0 phishscore=0 suspectscore=0 malwarescore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104120061
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Previous commit 43b7029f475e ("HID: i2c-hid:
-Send power-on command after reset"), it fixed issue for SIS touchscreen.
+On Sun, Apr 11, 2021 at 12:04:25AM +0300, Michael Zaidman wrote:
+> On Sat, Apr 10, 2021 at 06:37:13PM +0300, Dan Carpenter wrote:
+> > On Sat, Apr 10, 2021 at 03:27:29PM +0300, Michael Zaidman wrote:
+> > > On Fri, Apr 09, 2021 at 03:32:06PM +0300, Dan Carpenter wrote:
+> > > > Hello Michael Zaidman,
+> > > > 
+> > > > The patch 6a82582d9fa4: "HID: ft260: add usb hid to i2c host bridge
+> > > > driver" from Feb 19, 2021, leads to the following static checker
+> > > > warning:
+> > > > 
+> > > > 	drivers/hid/hid-ft260.c:441 ft260_smbus_write()
+> > > > 	error: '__memcpy()' '&rep->data[1]' too small (59 vs 255)
+> > > > 
+> > > > drivers/hid/hid-ft260.c
+> > > >    423  static int ft260_smbus_write(struct ft260_device *dev, u8 addr, u8 cmd,
+> > > >    424                               u8 *data, u8 data_len, u8 flag)
+> > > >    425  {
+> > > >    426          int ret = 0;
+> > > >    427          int len = 4;
+> > > >    428  
+> > > >    429          struct ft260_i2c_write_request_report *rep =
+> > > >    430                  (struct ft260_i2c_write_request_report *)dev->write_buf;
+> > > >    431  
+> > > >    432          rep->address = addr;
+> > > >    433          rep->data[0] = cmd;
+> > > >    434          rep->length = data_len + 1;
+> > > >    435          rep->flag = flag;
+> > > >    436          len += rep->length;
+> > > >    437  
+> > > >    438          rep->report = FT260_I2C_DATA_REPORT_ID(len);
+> > > >    439  
+> > > >    440          if (data_len > 0)
+> > > >    441                  memcpy(&rep->data[1], data, data_len);
+> > > >                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > > > Smatch says that this can be called from the i2cdev_ioctl_smbus()
+> > > > function.
+> > > 
+> > > Hi Dan,
+> > > 
+> > > This is an example of a false-positive static checker warning.
+> > > 
+> > > The maximum data size that the i2cdev_ioctl_smbus() can pass to the
+> > > i2c_smbus_xfer() is sizeof(data->block) which is (I2C_SMBUS_BLOCK_MAX + 2)
+> > > or 34 bytes. Thus, no need to check the data_len against 59 here.
+> > > 
+> > > > 
+> > > > i2cdev_ioctl_smbus()
+> > > >   --> i2c_smbus_xfer
+> > > >       --> __i2c_smbus_xfer
+> > > >           --> ft260_smbus_xfer
+> > > >               --> ft260_smbus_write
+> > 
+> > It's actually me who misunderstood the Smatch warning.  Smatch is not
+> > complaining about data_len, it's data->block[0] which is user
+> > controlled and only for the I2C_SMBUS_I2C_BLOCK_DATA command.
+> > 
+> > The call tree is the same.  I've looked at it again.  Here is how
+> > i2cdev_ioctl_smbus() looks like:
+> > 
+> > drivers/i2c/i2c-dev.c
+> >    355                  return -EINVAL;
+> >    356          }
+> >    357  
+> >    358          if ((size == I2C_SMBUS_BYTE_DATA) ||
+> >    359              (size == I2C_SMBUS_BYTE))
+> >    360                  datasize = sizeof(data->byte);
+> >    361          else if ((size == I2C_SMBUS_WORD_DATA) ||
+> >    362                   (size == I2C_SMBUS_PROC_CALL))
+> >    363                  datasize = sizeof(data->word);
+> >    364          else /* size == smbus block, i2c block, or block proc. call */
+> >    365                  datasize = sizeof(data->block);
+> >                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > 
+> >    366  
+> >    367          if ((size == I2C_SMBUS_PROC_CALL) ||
+> >    368              (size == I2C_SMBUS_BLOCK_PROC_CALL) ||
+> >    369              (size == I2C_SMBUS_I2C_BLOCK_DATA) ||
+> >                              ^^^^^^^^^^^^^^^^^^^^^^^^
+> >    370              (read_write == I2C_SMBUS_WRITE)) {
+> >    371                  if (copy_from_user(&temp, data, datasize))
+> >                                             ^^^^
+> > temp.block[0] is user controlled.
+> > 
+> >    372                          return -EFAULT;
+> >    373          }
+> >    374          if (size == I2C_SMBUS_I2C_BLOCK_BROKEN) {
+> >                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > 
+> >    375                  /* Convert old I2C block commands to the new
+> >    376                     convention. This preserves binary compatibility. */
+> >    377                  size = I2C_SMBUS_I2C_BLOCK_DATA;
+> >    378                  if (read_write == I2C_SMBUS_READ)
+> >    379                          temp.block[0] = I2C_SMBUS_BLOCK_MAX;
+> >                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > Except for size BROKEN
+> > 
+> >    380          }
+> >    381          res = i2c_smbus_xfer(client->adapter, client->addr, client->flags,
+> >    382                read_write, command, size, &temp);
+> >                                                  ^^^^^
+> > 
+> >    383          if (!res && ((size == I2C_SMBUS_PROC_CALL) ||
+> >    384                       (size == I2C_SMBUS_BLOCK_PROC_CALL) ||
+> >    385                       (read_write == I2C_SMBUS_READ))) {
+> >    386                  if (copy_to_user(data, &temp, datasize))
+> >    387                          return -EFAULT;
+> >    388          }
+> > 
+> > The rest of the call tree seems straight forward but it's possible I
+> > have missed somewhere that checks data[0].  Here is how ft260_smbus_xfer()
+> > looks like.
+> 
+> Oh, you are right. Despite that the SMbus block transaction limits the maximum
+> number of bytes to 32, nothing prevents a user from specifying via ioctl a larger
+> data size than the ft260 can handle in a single transfer.
+> 
+> I am going to fix it in the ft260_smbus_write (with your Signed-off-by), but
+> perhaps we should fix it in the first place, in the i2cdev_ioctl_smbus routine?
+> What do you think?
 
-For ELAN touchscreen, we found our boot code of IC was not flexible enough
-to receive and handle this command.
-Once the FW main code of our controller is crashed for some reason,
-the controller could not be enumerated successfully to be recognized
-by the system host. therefore, it lost touch functionality.
+Could you just give me a Reported-by tag?  Thanks!
 
-Add quirk for skip send power-on command after reset.
-It will impact to ELAN touchscreen and touchpad on HID over I2C projects.
+regards,
+dan carpenter
 
-Signed-off-by: Johnny Chuang <johnny.chuang.emc@gmail.com>
----
-Changes in v2:
-    - move comment to quirk entry
----
- drivers/hid/i2c-hid/i2c-hid-core.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 9993133..957d865 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -45,6 +45,7 @@
- #define I2C_HID_QUIRK_BOGUS_IRQ			BIT(4)
- #define I2C_HID_QUIRK_RESET_ON_RESUME		BIT(5)
- #define I2C_HID_QUIRK_BAD_INPUT_SIZE		BIT(6)
-+#define I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET	BIT(7)
- 
- 
- /* flags */
-@@ -178,6 +179,12 @@ static const struct i2c_hid_quirks {
- 		 I2C_HID_QUIRK_RESET_ON_RESUME },
- 	{ USB_VENDOR_ID_ITE, I2C_DEVICE_ID_ITE_LENOVO_LEGION_Y720,
- 		I2C_HID_QUIRK_BAD_INPUT_SIZE },
-+/*
-+ * Sending the wakeup after reset actually break ELAN touchscreen controller
-+ * Add I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET to skip wakeup after reset
-+ */
-+	{ USB_VENDOR_ID_ELAN, HID_ANY_ID,
-+		 I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET },
- 	{ 0, 0 }
- };
- 
-@@ -461,7 +468,8 @@ static int i2c_hid_hwreset(struct i2c_client *client)
- 	}
- 
- 	/* At least some SIS devices need this after reset */
--	ret = i2c_hid_set_power(client, I2C_HID_PWR_ON);
-+	if (!(ihid->quirks & I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET))
-+		ret = i2c_hid_set_power(client, I2C_HID_PWR_ON);
- 
- out_unlock:
- 	mutex_unlock(&ihid->reset_lock);
--- 
-2.7.4
 
