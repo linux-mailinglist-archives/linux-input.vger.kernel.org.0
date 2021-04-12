@@ -2,114 +2,126 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2F9335B608
-	for <lists+linux-input@lfdr.de>; Sun, 11 Apr 2021 18:06:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CE6235B80B
+	for <lists+linux-input@lfdr.de>; Mon, 12 Apr 2021 03:21:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236390AbhDKQGy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 11 Apr 2021 12:06:54 -0400
-Received: from mga05.intel.com ([192.55.52.43]:63433 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236336AbhDKQGx (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sun, 11 Apr 2021 12:06:53 -0400
-IronPort-SDR: f9upS+UTTlOInoyyfcuCvJeGYCU+CHF/OxnYQt9UWhjQiNfdqPdUlUxb7YvTSC1A643H7CM3yo
- OZB0xCu8Ilgg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9951"; a="279339599"
-X-IronPort-AV: E=Sophos;i="5.82,214,1613462400"; 
-   d="scan'208";a="279339599"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2021 09:06:36 -0700
-IronPort-SDR: muuYQBEec/nm4lJTFq5kEdfvwsFQ3Xli2/vfZ5JI0OkN+3BmshVlST9fseMmIbl4DNYzId3+wj
- +1EMe0+Mmk+A==
-X-IronPort-AV: E=Sophos;i="5.82,214,1613462400"; 
-   d="scan'208";a="417033834"
-Received: from eunsohlk-mobl1.amr.corp.intel.com ([10.212.186.19])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2021 09:06:36 -0700
-Message-ID: <ceb25b0000013f1c3e89d772c62b5e967a032446.camel@linux.intel.com>
-Subject: Re: [PATCH] HID: hid-sensor-custom: remove useless variable
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Jonathan Cameron <jic23@kernel.org>
-Cc:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, jikos@kernel.org,
-        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Sun, 11 Apr 2021 09:06:35 -0700
-In-Reply-To: <20210411145635.3c6b48d1@jic23-huawei>
-References: <1617952508-47150-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-         <4079bb49a9c0022603abeffcdaec32208f449e51.camel@linux.intel.com>
-         <20210411145635.3c6b48d1@jic23-huawei>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S236358AbhDLBV3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 11 Apr 2021 21:21:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51856 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236329AbhDLBV2 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sun, 11 Apr 2021 21:21:28 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38501C061574;
+        Sun, 11 Apr 2021 18:21:10 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id t22so5167843ply.1;
+        Sun, 11 Apr 2021 18:21:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=YZNlQJhFG4qD/x7YVQs5Q/vIJOU+Y0vRNafnFm9QJmM=;
+        b=h9JWQ6Ol/bM/2R9gY9tZa5rc+gsWRaAgOUw2l3PC9nYKCxW/Kqk/TmPo1R1ybRFHP7
+         1EILT6YvI5wl9RJQI/8ZduiVwu27qXyX69YNABMCnIezE6Igl3scrCOizyyWCqzP1Y4v
+         ioGpyXFpR1ju0r4PrgjoSvDuYkhNyzrbR2N/CLTVPehn2f1yRNBJ8uB5K3xwjMVmYKd8
+         iBM1fCSZ+daTyHDEP0lK2mxlCLSktaBHG2egUGSxL7COThsqOxWHlvMm5xczSlmV/Jhw
+         6ZzROiS++6gTxAccCPinOd1DHA8NZj+qkKK2BSQb0yuzvvNCFHXSNCohzkrEEMxX/Ooo
+         n/Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=YZNlQJhFG4qD/x7YVQs5Q/vIJOU+Y0vRNafnFm9QJmM=;
+        b=sR3H4EuaaXxPMhBXp6UOu3i9zn2Ch3UocBeMFdifzWk6BcAdY09FXDDhp0OVVmCtUC
+         aITpimleeNBeNSuX1eyyeuDJpOtpIgmEYFuSYv+lg8HNu/CTjdjXen6w9p9dRC4CGx2S
+         qz8lMMhjES58qHW8XZnT482kIeY9n9FNC9yygjJ4fWpbwcX6K/+bPXneccPquyHIbNWb
+         1Zyw9rXeBf3Wssp732lJaSP8ZtRZIVbwKC1ePwJ3W4q33yxpAi6zzqbjwAUSeH1i0kFl
+         h4hCbKm2iI7NXjX0tVbIIhUJwfjyIkch8VT8PT8ckx65q/bZxLLet3G23he0yPhI1WKE
+         z02g==
+X-Gm-Message-State: AOAM5317rvvZ3ZpJYU3qzyDxfk+p0pQnbdv1YdrIqoiEIApyS6ip2I2d
+        1xoJCd0fHMcTiyHRuAhCaxA=
+X-Google-Smtp-Source: ABdhPJxvcsTgZjtXqK32GaAuV2MtCNgkx+s1Bjk3eR8/pGt2rFEPU53LYOGuqOvzBSy3EvwtzUuBLw==
+X-Received: by 2002:a17:90a:6304:: with SMTP id e4mr19053959pjj.63.1618190469675;
+        Sun, 11 Apr 2021 18:21:09 -0700 (PDT)
+Received: from localhost.localdomain ([2401:e180:8830:7d97:945d:de90:edc9:855b])
+        by smtp.gmail.com with ESMTPSA id i73sm10093477pgc.9.2021.04.11.18.21.05
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 11 Apr 2021 18:21:08 -0700 (PDT)
+From:   Johnny Chuang <johnny.chuang.emc@gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Harry Cutts <hcutts@chromium.org>,
+        Johnny Chuang <johnny.chuang@emc.com.tw>
+Cc:     James Chen <james.chen@emc.com.tw>,
+        Jennifer Tsai <jennifer.tsai@emc.com.tw>,
+        Paul Liang <paul.liang@emc.com.tw>,
+        Jeff Chuang <jeff.chuang@emc.com.tw>,
+        Douglas Anderson <dianders@chromium.org>,
+        Jingle <jingle.wu@emc.com.tw>
+Subject: [PATCH v2] HID: i2c-hid: Skip ELAN power-on command after reset
+Date:   Mon, 12 Apr 2021 09:21:03 +0800
+Message-Id: <1618190463-12993-1-git-send-email-johnny.chuang.emc@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 2021-04-11 at 14:56 +0100, Jonathan Cameron wrote:
-> On Fri, 09 Apr 2021 11:19:12 -0700
-> Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com> wrote:
-> 
-> > On Fri, 2021-04-09 at 15:15 +0800, Jiapeng Chong wrote:
-> > > Fix the following gcc warning:
-> > > 
-> > > drivers/hid/hid-sensor-custom.c:400:7: warning: variable ‘ret’
-> > > set
-> > > but
-> > > not used [-Wunused-but-set-variable].
-> > > 
-> > > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> > > Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>  
-> > Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com
-> 
-> Perhaps better to return ret if it is non zero?
-> I can't immediately figure out if there is a reason we know that
-> can't
-> happen.
-Only time it can fail when there is no report descriptor or the field
-index is >= report->maxfield.
-But since the attribute is registered from the report descriptor and
-index, this can't happen.
-But we can enhance sensor_hub_set_feature() to fail when
- hid_set_field() fails. There is one case where field->logical_minimum
-< 0  and value is out of range.
+Previous commit 43b7029f475e ("HID: i2c-hid:
+Send power-on command after reset"), it fixed issue for SIS touchscreen.
 
-Thanks,
-Srinivas
+For ELAN touchscreen, we found our boot code of IC was not flexible enough
+to receive and handle this command.
+Once the FW main code of our controller is crashed for some reason,
+the controller could not be enumerated successfully to be recognized
+by the system host. therefore, it lost touch functionality.
 
+Add quirk for skip send power-on command after reset.
+It will impact to ELAN touchscreen and touchpad on HID over I2C projects.
 
-> 
-> Jonathan
-> 
-> > > ---
-> > >  drivers/hid/hid-sensor-custom.c | 5 ++---
-> > >  1 file changed, 2 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-
-> > > sensor-custom.c
-> > > index 2628bc5..e430673 100644
-> > > --- a/drivers/hid/hid-sensor-custom.c
-> > > +++ b/drivers/hid/hid-sensor-custom.c
-> > > @@ -397,15 +397,14 @@ static ssize_t store_value(struct device
-> > > *dev,
-> > > struct device_attribute *attr,
-> > >  
-> > >  	if (!strncmp(name, "value", strlen("value"))) {
-> > >  		u32 report_id;
-> > > -		int ret;
-> > >  
-> > >  		if (kstrtoint(buf, 0, &value) != 0)
-> > >  			return -EINVAL;
-> > >  
-> > >  		report_id = sensor_inst->fields[field_index].attribute.
-> > >  								report_
-> > > id;
-> > > -		ret = sensor_hub_set_feature(sensor_inst->hsdev,
-> > > report_id,
-> > > -					     index, sizeof(value),
-> > > &value);
-> > > +		sensor_hub_set_feature(sensor_inst->hsdev, report_id,
-> > > index,
-> > > +				       sizeof(value), &value);
-> > >  	} else
-> > >  		return -EINVAL;
-> > >    
+Signed-off-by: Johnny Chuang <johnny.chuang.emc@gmail.com>
+---
+Changes in v2:
+    - move comment to quirk entry
+---
+ drivers/hid/i2c-hid/i2c-hid-core.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+index 9993133..957d865 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-core.c
++++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+@@ -45,6 +45,7 @@
+ #define I2C_HID_QUIRK_BOGUS_IRQ			BIT(4)
+ #define I2C_HID_QUIRK_RESET_ON_RESUME		BIT(5)
+ #define I2C_HID_QUIRK_BAD_INPUT_SIZE		BIT(6)
++#define I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET	BIT(7)
+ 
+ 
+ /* flags */
+@@ -178,6 +179,12 @@ static const struct i2c_hid_quirks {
+ 		 I2C_HID_QUIRK_RESET_ON_RESUME },
+ 	{ USB_VENDOR_ID_ITE, I2C_DEVICE_ID_ITE_LENOVO_LEGION_Y720,
+ 		I2C_HID_QUIRK_BAD_INPUT_SIZE },
++/*
++ * Sending the wakeup after reset actually break ELAN touchscreen controller
++ * Add I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET to skip wakeup after reset
++ */
++	{ USB_VENDOR_ID_ELAN, HID_ANY_ID,
++		 I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET },
+ 	{ 0, 0 }
+ };
+ 
+@@ -461,7 +468,8 @@ static int i2c_hid_hwreset(struct i2c_client *client)
+ 	}
+ 
+ 	/* At least some SIS devices need this after reset */
+-	ret = i2c_hid_set_power(client, I2C_HID_PWR_ON);
++	if (!(ihid->quirks & I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET))
++		ret = i2c_hid_set_power(client, I2C_HID_PWR_ON);
+ 
+ out_unlock:
+ 	mutex_unlock(&ihid->reset_lock);
+-- 
+2.7.4
 
