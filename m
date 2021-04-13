@@ -2,120 +2,129 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D500935D4A0
-	for <lists+linux-input@lfdr.de>; Tue, 13 Apr 2021 03:03:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB15E35D4B8
+	for <lists+linux-input@lfdr.de>; Tue, 13 Apr 2021 03:20:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237739AbhDMBDT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 12 Apr 2021 21:03:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52646 "EHLO
+        id S238194AbhDMBVP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 12 Apr 2021 21:21:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240180AbhDMBDS (ORCPT
+        with ESMTP id S235837AbhDMBVP (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 12 Apr 2021 21:03:18 -0400
-Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com [IPv6:2607:f8b0:4864:20::54a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 038F6C061574
-        for <linux-input@vger.kernel.org>; Mon, 12 Apr 2021 18:02:59 -0700 (PDT)
-Received: by mail-pg1-x54a.google.com with SMTP id a36so3062839pgl.8
-        for <linux-input@vger.kernel.org>; Mon, 12 Apr 2021 18:02:58 -0700 (PDT)
+        Mon, 12 Apr 2021 21:21:15 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0CE2C061574;
+        Mon, 12 Apr 2021 18:20:56 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id e8-20020a17090a7288b029014e51f5a6baso2819670pjg.2;
+        Mon, 12 Apr 2021 18:20:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=va+loHmaPIg1VXR1YY66HryM0coYFUb4xNRZHwADPtk=;
-        b=I6XNHF5opU/D6EF/855/PG+DEcxVqiS4iyz+mBiT7Mtj2nPEJcIjuoIV3/k9w8lrXp
-         GvIO/UC9AEYUHe+xhNK6Hwulvwc9c9wGStcI3A/KLnk6OJ1Nz8JUVE1S6wPof17VSaJ0
-         vYzTwR3O/JtZPM3egpNspK7BdFscqOm8+o5eg9Z4G5k7FNEFnSf4WgOZbUwrRyccpok5
-         5pD4VcB10BnXK+8g3QvjhX6g7TjhhRbUYIjQs8ZcSrwDn+sS3wbwZ0lldtPVCLh4M6+6
-         vFrr3BvgLG2AXokXI0sUULJJMWNhdTzkLMAeVIESN/3fxJTAb0VZu4p8KeokokNKVWbu
-         eiRA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=yheRx+kYUsbNUD7gJ5pySz1Sr2ILfCsXaKYlyJifNug=;
+        b=SjJPOJQw3GzbMhck9SE/ymw2UYnJispVYGjMPUusA0rigSRiMzorrPnOljdlHyqsE1
+         mVlMQLcUmJCy91zWbdR4+qQxlcFQ5sQc5QlF7T+dCENiCwEz9gZcapR/TDMRu/iDw985
+         8i4qkTB+P12CJZn+Puiel1RX6jV0IGI8UKElzscv7rbggIRu2nAp8udcwk7fq+V+wFTc
+         bsmojpb0+vNqEOSw42NbyAR2yix5SIII+ZHxkCQU4/e94KjFIexK+VJz/Riledn73mUH
+         wq/6F65d0rYoS+hsZaFRvLBX9bjURWOQbXJlGJ0dW2HqzQO2UlO2Ut5zYI9CNmCcOlgb
+         NhQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=va+loHmaPIg1VXR1YY66HryM0coYFUb4xNRZHwADPtk=;
-        b=HJwyJYzgc2iwBo0EBv286NLEaWwI2bP3aIkfrB6OE0jaJTr90QNSt1hOzMDxgu5wlP
-         9HOhUgT5BHTJ8l3Klh9eXwAOJiJTUEgTq/+XCJeofhJMv/YKPaUDt7cIlZbf5vb/qe88
-         zxYIDs3vaixyt3bsL8INri2WjJOqqLZw00DsaR++QjRa7dSG5mejn211vtb4V9CHKEhx
-         HmsureToG0IkqkPZGNhzC6cB1YFDYnSCmDscRFLMFoTMaWFpp0N96+A41ZqgXVQhG2ZI
-         GUsZBqI9GVBxQgK9QAUyOCloCkRB61edIE9pBKn/mX1j+DPMy6HPSEqv2BuVQBHCVJ/f
-         z13Q==
-X-Gm-Message-State: AOAM531BUFGWL6C5uiLR2T9Q/nrejruaNlAUFvecdkqNWDpJwWhlfF4C
-        +Ae+BA4/Unx/cYevqTg4wg0Ucy2x
-X-Google-Smtp-Source: ABdhPJyYziSdcyjLySHqZc1ZCTFFULAVs3dcPk8nVHJj6SBIdbSgGP50TNGs7nhSuuJYiHHwgMIN4E0L
-X-Received: from lzye2.c.googlers.com ([fda3:e722:ac3:10:24:72f4:c0a8:6713])
- (user=lzye job=sendgmr) by 2002:a17:902:7203:b029:e6:a8b1:8d37 with SMTP id
- ba3-20020a1709027203b02900e6a8b18d37mr29132267plb.44.1618275778426; Mon, 12
- Apr 2021 18:02:58 -0700 (PDT)
-Date:   Tue, 13 Apr 2021 01:02:52 +0000
-Message-Id: <20210413010252.2255812-1-lzye@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.31.1.295.g9ea45b61b8-goog
-Subject: [PATCH] [v4] Input: Add "Select" button to Microsoft Xbox One controller.
-From:   Chris Ye <lzye@google.com>
-To:     "=?UTF-8?q?=C5=81ukasz=20Patron?=" <priv.luk@gmail.com>,
-        Benjamin Valentin <benpicco@googlemail.com>,
-        Chris Ye <lzye@google.com>, Lee Jones <lee.jones@linaro.org>,
-        "=?UTF-8?q?Olivier=20Cr=C3=AAte?=" <olivier.crete@ocrete.ca>,
-        Sanjay Govind <sanjay.govind9@gmail.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        trivial@kernel.org, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=yheRx+kYUsbNUD7gJ5pySz1Sr2ILfCsXaKYlyJifNug=;
+        b=AfY49Td9VCg3/5NWwszK1OE6snailjEGkm+SZnxuk72QkvIlDusaSrsggOTVn42mhF
+         hbuXzLnXxBBr2e6rV1coR42hEXsifleLgHWhpvdhbUG0RG3VUF2EIppwTr54BDyhJmxd
+         9SGnudmAQrJNwSaKsbJEcT4nxCLmpg7SoVsbQAnrSMTIRoHiEe8a0lfQ6rjt043iziiz
+         u4xFvbLB9kc9pUWzu23hXFOftRWv9Q/t3nOPAF9ALbqXkUYy+t1eTgXPRtD5Rq5qNBpd
+         UBwALET0+y+2aHcVY40LmTrKP4+YKhSTYB3+LDuNx3mEDhO3WvnNzQHtBlwWmcPErc2C
+         czXw==
+X-Gm-Message-State: AOAM5302AFIBaPZfSfWF0y5JK9XpdI4BiLVGAQs0ivjlNKWfxVltBWRz
+        Xebk7kwQ4SL63XFT7aUhhyk=
+X-Google-Smtp-Source: ABdhPJwwXImzc4a7nHQ9vSY+xVT5JxCAWg8ef7cVhlyxbtUv4GUYCTKm4caH7uJN0xTKDqVEwBn4pw==
+X-Received: by 2002:a17:902:e889:b029:e7:1490:9da5 with SMTP id w9-20020a170902e889b02900e714909da5mr28568352plg.20.1618276856107;
+        Mon, 12 Apr 2021 18:20:56 -0700 (PDT)
+Received: from localhost.localdomain ([2401:e180:8d00:23:945d:de90:edc9:855b])
+        by smtp.gmail.com with ESMTPSA id e13sm3402514pfd.64.2021.04.12.18.20.52
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 12 Apr 2021 18:20:55 -0700 (PDT)
+From:   Johnny Chuang <johnny.chuang.emc@gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Harry Cutts <hcutts@chromium.org>,
+        Johnny Chuang <johnny.chuang@emc.com.tw>
+Cc:     James Chen <james.chen@emc.com.tw>,
+        Jennifer Tsai <jennifer.tsai@emc.com.tw>,
+        Paul Liang <paul.liang@emc.com.tw>,
+        Jeff Chuang <jeff.chuang@emc.com.tw>,
+        Douglas Anderson <dianders@chromium.org>,
+        Jingle <jingle.wu@emc.com.tw>
+Subject: [PATCH v3] HID: i2c-hid: Skip ELAN power-on command after reset
+Date:   Tue, 13 Apr 2021 09:20:50 +0800
+Message-Id: <1618276850-27178-1-git-send-email-johnny.chuang.emc@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add "Select" button input capability and input event mapping for
-Microsoft Xbox One controller. From product site this is also referred as
-"Share" button.
-Fixed Microsoft Xbox One controller select button not working under USB
-connection.
+Fixes: 43b7029f475e ("HID: i2c-hid: Send power-on command after reset").
 
-Signed-off-by: Chris Ye <lzye@google.com>
+For ELAN touchscreen, we found our boot code of IC was not flexible enough
+to receive and handle this command.
+Once the FW main code of our controller is crashed for some reason,
+the controller could not be enumerated successfully to be recognized
+by the system host. therefore, it lost touch functionality.
+
+Add quirk for skip send power-on command after reset.
+It will impact to ELAN touchscreen and touchpad on HID over I2C projects.
+
+Signed-off-by: Johnny Chuang <johnny.chuang.emc@gmail.com>
 ---
- drivers/input/joystick/xpad.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Changes in V3:
+    - intent the comment at qurik entry
+    - add Fixes:flag for previous commit id
 
-diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index 9f0d07dcbf06..99cb8bb78570 100644
---- a/drivers/input/joystick/xpad.c
-+++ b/drivers/input/joystick/xpad.c
-@@ -79,6 +79,7 @@
- #define MAP_DPAD_TO_BUTTONS		(1 << 0)
- #define MAP_TRIGGERS_TO_BUTTONS		(1 << 1)
- #define MAP_STICKS_TO_NULL		(1 << 2)
-+#define MAP_SELECT_BUTTON		(1 << 3)
- #define DANCEPAD_MAP_CONFIG	(MAP_DPAD_TO_BUTTONS |			\
- 				MAP_TRIGGERS_TO_BUTTONS | MAP_STICKS_TO_NULL)
+Changes in v2:
+    - move comment to quirk entry
+---
+ drivers/hid/i2c-hid/i2c-hid-core.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+index 9993133..32e3287 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-core.c
++++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+@@ -45,6 +45,7 @@
+ #define I2C_HID_QUIRK_BOGUS_IRQ			BIT(4)
+ #define I2C_HID_QUIRK_RESET_ON_RESUME		BIT(5)
+ #define I2C_HID_QUIRK_BAD_INPUT_SIZE		BIT(6)
++#define I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET	BIT(7)
  
-@@ -130,6 +131,7 @@ static const struct xpad_device {
- 	{ 0x045e, 0x02e3, "Microsoft X-Box One Elite pad", 0, XTYPE_XBOXONE },
- 	{ 0x045e, 0x02ea, "Microsoft X-Box One S pad", 0, XTYPE_XBOXONE },
- 	{ 0x045e, 0x0719, "Xbox 360 Wireless Receiver", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360W },
-+	{ 0x045e, 0x0b12, "Microsoft Xbox One X pad", MAP_SELECT_BUTTON, XTYPE_XBOXONE },
- 	{ 0x046d, 0xc21d, "Logitech Gamepad F310", 0, XTYPE_XBOX360 },
- 	{ 0x046d, 0xc21e, "Logitech Gamepad F510", 0, XTYPE_XBOX360 },
- 	{ 0x046d, 0xc21f, "Logitech Gamepad F710", 0, XTYPE_XBOX360 },
-@@ -862,6 +864,8 @@ static void xpadone_process_packet(struct usb_xpad *xpad, u16 cmd, unsigned char
- 	/* menu/view buttons */
- 	input_report_key(dev, BTN_START,  data[4] & 0x04);
- 	input_report_key(dev, BTN_SELECT, data[4] & 0x08);
-+	if (xpad->mapping & MAP_SELECT_BUTTON)
-+		input_report_key(dev, KEY_RECORD, data[22] & 0x01);
  
- 	/* buttons A,B,X,Y */
- 	input_report_key(dev, BTN_A,	data[4] & 0x10);
-@@ -1669,9 +1673,11 @@ static int xpad_init_input(struct usb_xpad *xpad)
+ /* flags */
+@@ -178,6 +179,12 @@ static const struct i2c_hid_quirks {
+ 		 I2C_HID_QUIRK_RESET_ON_RESUME },
+ 	{ USB_VENDOR_ID_ITE, I2C_DEVICE_ID_ITE_LENOVO_LEGION_Y720,
+ 		I2C_HID_QUIRK_BAD_INPUT_SIZE },
++	/*
++	 * Sending the wakeup after reset actually break ELAN touchscreen controller
++	 * Add I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET to skip wakeup after reset
++	 */
++	{ USB_VENDOR_ID_ELAN, HID_ANY_ID,
++		 I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET },
+ 	{ 0, 0 }
+ };
  
- 	/* set up model-specific ones */
- 	if (xpad->xtype == XTYPE_XBOX360 || xpad->xtype == XTYPE_XBOX360W ||
--	    xpad->xtype == XTYPE_XBOXONE) {
-+		xpad->xtype == XTYPE_XBOXONE) {
- 		for (i = 0; xpad360_btn[i] >= 0; i++)
- 			input_set_capability(input_dev, EV_KEY, xpad360_btn[i]);
-+		if (xpad->mapping & MAP_SELECT_BUTTON)
-+			input_set_capability(input_dev, EV_KEY, KEY_RECORD);
- 	} else {
- 		for (i = 0; xpad_btn[i] >= 0; i++)
- 			input_set_capability(input_dev, EV_KEY, xpad_btn[i]);
+@@ -461,7 +468,8 @@ static int i2c_hid_hwreset(struct i2c_client *client)
+ 	}
+ 
+ 	/* At least some SIS devices need this after reset */
+-	ret = i2c_hid_set_power(client, I2C_HID_PWR_ON);
++	if (!(ihid->quirks & I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET))
++		ret = i2c_hid_set_power(client, I2C_HID_PWR_ON);
+ 
+ out_unlock:
+ 	mutex_unlock(&ihid->reset_lock);
 -- 
-2.31.1.295.g9ea45b61b8-goog
+2.7.4
 
