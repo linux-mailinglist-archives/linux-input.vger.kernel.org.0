@@ -2,118 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B42035DEF9
-	for <lists+linux-input@lfdr.de>; Tue, 13 Apr 2021 14:35:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81F4E35E02A
+	for <lists+linux-input@lfdr.de>; Tue, 13 Apr 2021 15:35:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229463AbhDMMfQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 13 Apr 2021 08:35:16 -0400
-Received: from relay12.mail.gandi.net ([217.70.178.232]:54519 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229458AbhDMMfQ (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 13 Apr 2021 08:35:16 -0400
-Received: from [192.168.1.150] (unknown [78.199.60.242])
-        (Authenticated sender: hadess@hadess.net)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 6415B20000E;
-        Tue, 13 Apr 2021 12:34:52 +0000 (UTC)
-Message-ID: <a2be79bcf1ce93096d6843a0856927cda65d4842.camel@hadess.net>
-Subject: Re: [PATCH] [v4] Input: Add "Select" button to Microsoft Xbox One
- controller.
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Chris Ye <lzye@google.com>,
-        =?UTF-8?Q?=C5=81ukasz?= Patron <priv.luk@gmail.com>,
-        Benjamin Valentin <benpicco@googlemail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Olivier =?ISO-8859-1?Q?Cr=EAte?= <olivier.crete@ocrete.ca>,
-        Sanjay Govind <sanjay.govind9@gmail.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        trivial@kernel.org, kernel-team@android.com
-Date:   Tue, 13 Apr 2021 14:34:51 +0200
-In-Reply-To: <20210413010252.2255812-1-lzye@google.com>
-References: <20210413010252.2255812-1-lzye@google.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.0 (3.40.0-1.fc34) 
+        id S237789AbhDMNgG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 13 Apr 2021 09:36:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59118 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237619AbhDMNgF (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 13 Apr 2021 09:36:05 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 29AA46128C;
+        Tue, 13 Apr 2021 13:35:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1618320946;
+        bh=VZQV9Opjy86FewZMAhYePFDcd5qXgMbf260PrkOeNnQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=iEBP3eVQDtkMO4DxAf+v0sdWwnqL0IGJE2SwFHIsc/UAdvyNXLNRrv/cD49zU7+gB
+         1TerQCaoVZcHqGrbYfGNzH9ckYnMglfiC3NBYBcVh2CpVrDtP2kRLWYld914hyk6ek
+         GZP7rRrzcQVUZOG87uLUZijCi6U9FRNTu0I/03QS5RXXGlzFnqXGeJTPwZdY81ztfs
+         H3NvrVX/cqeqXzYrjTtF/tH306OCZ9nKVDTO6mCM2XYYHrTw9KzSBpl01pss2WRVVj
+         NQGv9QQuHJrZDcM/A2i+4Z8ZJbHY6TfLYsG8KqsTCHs7uco0NPnB9skS7+DPbQ0yAK
+         PocrAolh71QNA==
+Received: by mail-ej1-f46.google.com with SMTP id sd23so17315009ejb.12;
+        Tue, 13 Apr 2021 06:35:46 -0700 (PDT)
+X-Gm-Message-State: AOAM531YdXHeDyRoFKdIdyAvBJs49d9XuEhPaoWOj6iA5XgYq3KwnUFj
+        B+4gO4mHNyD8E8nqZpj1hRw0vUj9JUESxvnKag==
+X-Google-Smtp-Source: ABdhPJzARnbJQG3HiMaabtpq3OZPCNjGKEjJAbrhn3GvTlOBImId00g/2D+na3HVG+mIDw7JkKQKWOHRHQRClEFvuO8=
+X-Received: by 2002:a17:906:9ac5:: with SMTP id ah5mr6764815ejc.360.1618320944742;
+ Tue, 13 Apr 2021 06:35:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210408202137.GA1890401@robh.at.kernel.org> <20210411114804.151754-1-giulio.benetti@benettiengineering.com>
+ <20210411114804.151754-2-giulio.benetti@benettiengineering.com>
+ <20210412150527.GA3897939@robh.at.kernel.org> <5ca45a6b-2cf0-cbb5-1f0d-3bf780052951@benettiengineering.com>
+In-Reply-To: <5ca45a6b-2cf0-cbb5-1f0d-3bf780052951@benettiengineering.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 13 Apr 2021 08:35:33 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqK6Bm==DaCMD3PruZoFO9iv0Te_KBVPnb9ZU0L8yDYF5Q@mail.gmail.com>
+Message-ID: <CAL_JsqK6Bm==DaCMD3PruZoFO9iv0Te_KBVPnb9ZU0L8yDYF5Q@mail.gmail.com>
+Subject: Re: [PATCH v5 1/3] dt-bindings: Add Hycon Technology vendor prefix
+To:     Giulio Benetti <giulio.benetti@benettiengineering.com>
+Cc:     devicetree@vger.kernel.org, Henrik Rydberg <rydberg@bitmath.org>,
+        Linux Input <linux-input@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 2021-04-13 at 01:02 +0000, Chris Ye wrote:
-> Add "Select" button input capability and input event mapping for
-> Microsoft Xbox One controller. From product site this is also
-> referred as
-> "Share" button.
-> Fixed Microsoft Xbox One controller select button not working under
-> USB
-> connection.
-> 
-> Signed-off-by: Chris Ye <lzye@google.com>
-> ---
->  drivers/input/joystick/xpad.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/joystick/xpad.c
-> b/drivers/input/joystick/xpad.c
-> index 9f0d07dcbf06..99cb8bb78570 100644
-> --- a/drivers/input/joystick/xpad.c
-> +++ b/drivers/input/joystick/xpad.c
-> @@ -79,6 +79,7 @@
->  #define MAP_DPAD_TO_BUTTONS            (1 << 0)
->  #define MAP_TRIGGERS_TO_BUTTONS                (1 << 1)
->  #define MAP_STICKS_TO_NULL             (1 << 2)
-> +#define MAP_SELECT_BUTTON              (1 << 3)
->  #define DANCEPAD_MAP_CONFIG    (MAP_DPAD_TO_BUTTONS
-> |                  \
->                                 MAP_TRIGGERS_TO_BUTTONS |
-> MAP_STICKS_TO_NULL)
->  
-> @@ -130,6 +131,7 @@ static const struct xpad_device {
->         { 0x045e, 0x02e3, "Microsoft X-Box One Elite pad", 0,
-> XTYPE_XBOXONE },
->         { 0x045e, 0x02ea, "Microsoft X-Box One S pad", 0,
-> XTYPE_XBOXONE },
->         { 0x045e, 0x0719, "Xbox 360 Wireless Receiver",
-> MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360W },
-> +       { 0x045e, 0x0b12, "Microsoft Xbox One X pad",
-> MAP_SELECT_BUTTON, XTYPE_XBOXONE },
->         { 0x046d, 0xc21d, "Logitech Gamepad F310", 0, XTYPE_XBOX360
-> },
->         { 0x046d, 0xc21e, "Logitech Gamepad F510", 0, XTYPE_XBOX360
-> },
->         { 0x046d, 0xc21f, "Logitech Gamepad F710", 0, XTYPE_XBOX360
-> },
-> @@ -862,6 +864,8 @@ static void xpadone_process_packet(struct
-> usb_xpad *xpad, u16 cmd, unsigned char
->         /* menu/view buttons */
->         input_report_key(dev, BTN_START,  data[4] & 0x04);
->         input_report_key(dev, BTN_SELECT, data[4] & 0x08);
-> +       if (xpad->mapping & MAP_SELECT_BUTTON)
-> +               input_report_key(dev, KEY_RECORD, data[22] & 0x01);
->  
->         /* buttons A,B,X,Y */
->         input_report_key(dev, BTN_A,    data[4] & 0x10);
-> @@ -1669,9 +1673,11 @@ static int xpad_init_input(struct usb_xpad
-> *xpad)
->  
->         /* set up model-specific ones */
->         if (xpad->xtype == XTYPE_XBOX360 || xpad->xtype ==
-> XTYPE_XBOX360W ||
-> -           xpad->xtype == XTYPE_XBOXONE) {
-> +               xpad->xtype == XTYPE_XBOXONE) {
+On Mon, Apr 12, 2021 at 10:12 AM Giulio Benetti
+<giulio.benetti@benettiengineering.com> wrote:
+>
+> On 4/12/21 5:05 PM, Rob Herring wrote:
+> > On Sun, 11 Apr 2021 13:48:02 +0200, Giulio Benetti wrote:
+> >> Update Documentation/devicetree/bindings/vendor-prefixes.yaml to
+> >> include "hycon" as a vendor prefix for "Hycon Technology".
+> >> Company website: https://www.hycontek.com/
+> >>
+> >> Signed-off-by: Giulio Benetti <giulio.benetti@benettiengineering.com>
+> >> Reviewed-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+> >> ---
+> >>   Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+> >>   1 file changed, 2 insertions(+)
+> >>
+> >
+> >
+> > Please add Acked-by/Reviewed-by tags when posting new versions. However=
+,
+> > there's no need to repost patches *only* to add the tags. The upstream
+> > maintainer will do that for acks received on the version they apply.
+> >
+> > If a tag was not added on purpose, please state why and what changed.
+> >
+>
+> Ok, so on V6 series I'll send only patches 2 and 3 without this one.
 
-Why the indentation change here?
+No, send the whole series and add any tags. Just don't resend a series
+for the sole purpose of adding tags.
 
->                 for (i = 0; xpad360_btn[i] >= 0; i++)
->                         input_set_capability(input_dev, EV_KEY,
-> xpad360_btn[i]);
-> +               if (xpad->mapping & MAP_SELECT_BUTTON)
-> +                       input_set_capability(input_dev, EV_KEY,
-> KEY_RECORD);
->         } else {
->                 for (i = 0; xpad_btn[i] >= 0; i++)
->                         input_set_capability(input_dev, EV_KEY,
-> xpad_btn[i]);
-
-
+Rob
