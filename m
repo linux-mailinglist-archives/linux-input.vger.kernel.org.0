@@ -2,84 +2,95 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 81F4E35E02A
-	for <lists+linux-input@lfdr.de>; Tue, 13 Apr 2021 15:35:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EAF035E1C9
+	for <lists+linux-input@lfdr.de>; Tue, 13 Apr 2021 16:45:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237789AbhDMNgG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 13 Apr 2021 09:36:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59118 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237619AbhDMNgF (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 13 Apr 2021 09:36:05 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 29AA46128C;
-        Tue, 13 Apr 2021 13:35:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1618320946;
-        bh=VZQV9Opjy86FewZMAhYePFDcd5qXgMbf260PrkOeNnQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=iEBP3eVQDtkMO4DxAf+v0sdWwnqL0IGJE2SwFHIsc/UAdvyNXLNRrv/cD49zU7+gB
-         1TerQCaoVZcHqGrbYfGNzH9ckYnMglfiC3NBYBcVh2CpVrDtP2kRLWYld914hyk6ek
-         GZP7rRrzcQVUZOG87uLUZijCi6U9FRNTu0I/03QS5RXXGlzFnqXGeJTPwZdY81ztfs
-         H3NvrVX/cqeqXzYrjTtF/tH306OCZ9nKVDTO6mCM2XYYHrTw9KzSBpl01pss2WRVVj
-         NQGv9QQuHJrZDcM/A2i+4Z8ZJbHY6TfLYsG8KqsTCHs7uco0NPnB9skS7+DPbQ0yAK
-         PocrAolh71QNA==
-Received: by mail-ej1-f46.google.com with SMTP id sd23so17315009ejb.12;
-        Tue, 13 Apr 2021 06:35:46 -0700 (PDT)
-X-Gm-Message-State: AOAM531YdXHeDyRoFKdIdyAvBJs49d9XuEhPaoWOj6iA5XgYq3KwnUFj
-        B+4gO4mHNyD8E8nqZpj1hRw0vUj9JUESxvnKag==
-X-Google-Smtp-Source: ABdhPJzARnbJQG3HiMaabtpq3OZPCNjGKEjJAbrhn3GvTlOBImId00g/2D+na3HVG+mIDw7JkKQKWOHRHQRClEFvuO8=
-X-Received: by 2002:a17:906:9ac5:: with SMTP id ah5mr6764815ejc.360.1618320944742;
- Tue, 13 Apr 2021 06:35:44 -0700 (PDT)
+        id S1344769AbhDMOpK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 13 Apr 2021 10:45:10 -0400
+Received: from smtpcmd15177.aruba.it ([62.149.156.177]:55520 "EHLO
+        smtpcmd15177.aruba.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1344609AbhDMOpJ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 13 Apr 2021 10:45:09 -0400
+Received: from ubuntu.localdomain ([146.241.148.6])
+        by Aruba Outgoing Smtp  with ESMTPSA
+        id WKHXlmrLILwkNWKHXlJXst; Tue, 13 Apr 2021 16:44:48 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+        t=1618325088; bh=U0Qd1ET85p5b68Y13MpIUPlK1rDZzbVefoF3xvqLDOU=;
+        h=From:To:Subject:Date:MIME-Version:Content-Type;
+        b=NBaMcotXY70bC56EXyeoFnz3RCJ29sJl6g+TIIkxSELVlyJ7hfeHsJIyXfHuz/1Pp
+         keWgoiX6aQOIBx0JsvcWNlalUktwwkGg2QiZE6hZYK744XETkEPz+8+Dx1G2tBhIum
+         5fJNawsLqx3kU70SzDqKhZHNux9d+sFSZegxT304amEObSI6JU90CDeItptugt50N7
+         V0FrIjGe4TjFOvJl38524xiUzfJY+/YYqM4Bhl/CFAYqBp1yZjSIOeovVcuZHHtRp4
+         mrbUnmOnriZNejgRkQLN4Ko9CyxJQu1f2x7gcywfy0bTH4FFy+/xpR6siQrRoUTfVd
+         RJr4x3k0QgJeA==
+From:   Giulio Benetti <giulio.benetti@benettiengineering.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Henrik Rydberg <rydberg@bitmath.org>,
+        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Giulio Benetti <giulio.benetti@benettiengineering.com>
+Subject: [PATCH v7 0/3] Input: add Hycon HY46XX Touchscreen controller
+Date:   Tue, 13 Apr 2021 16:44:43 +0200
+Message-Id: <20210413144446.2277817-1-giulio.benetti@benettiengineering.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <CAL_JsqK6Bm==DaCMD3PruZoFO9iv0Te_KBVPnb9ZU0L8yDYF5Q@mail.gmail.com>
+References: <CAL_JsqK6Bm==DaCMD3PruZoFO9iv0Te_KBVPnb9ZU0L8yDYF5Q@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210408202137.GA1890401@robh.at.kernel.org> <20210411114804.151754-1-giulio.benetti@benettiengineering.com>
- <20210411114804.151754-2-giulio.benetti@benettiengineering.com>
- <20210412150527.GA3897939@robh.at.kernel.org> <5ca45a6b-2cf0-cbb5-1f0d-3bf780052951@benettiengineering.com>
-In-Reply-To: <5ca45a6b-2cf0-cbb5-1f0d-3bf780052951@benettiengineering.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 13 Apr 2021 08:35:33 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqK6Bm==DaCMD3PruZoFO9iv0Te_KBVPnb9ZU0L8yDYF5Q@mail.gmail.com>
-Message-ID: <CAL_JsqK6Bm==DaCMD3PruZoFO9iv0Te_KBVPnb9ZU0L8yDYF5Q@mail.gmail.com>
-Subject: Re: [PATCH v5 1/3] dt-bindings: Add Hycon Technology vendor prefix
-To:     Giulio Benetti <giulio.benetti@benettiengineering.com>
-Cc:     devicetree@vger.kernel.org, Henrik Rydberg <rydberg@bitmath.org>,
-        Linux Input <linux-input@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfB+HwW2y5aybo6pZitV3RXOKGVSD8WEGtMAvMUoYxMPIR8MXShWixvm+OpeQtwmrpIYCjyoMziiHttrgE2F51MTZOCHNk4CLae/gqgZUPH2dfyqw2RQc
+ qn1nSafpPFia4c3LZOkT/F20xEsKv91Tm6LbSuXj7pASrSSzoT9GXvD/8vTBPIjB38R9zBBqhhe0BwQieaQOM1cyJDpj31r6IJaA3Bc0OE8UneoeHx5eTiLi
+ swJ7nzKHcXGO6jlmhHbfsZnYv4eR79gAAyFLrfBG2CQNst/scecMLvtzqDzfJEZ1dtj72eFK1ElOYbkeTGRkUWfGOrX8cAGygfQLYwYZ5IiSCRjxlADrmqjv
+ zDoD4M5UpLaT3odQwLa9Lxeg+NfnDyqY8x+IcrZSIr0nhvvtSEdICV0eUcVGa3WpXI8YAB8QlrbuXWP0FwMT+pNNqwWZqHY0yxFNGvW8odWDCbdiFD4sRVgT
+ bPGeSFOuu0xN/PqCfDZgWyoHavcrjzK6uuxiGg==
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Apr 12, 2021 at 10:12 AM Giulio Benetti
-<giulio.benetti@benettiengineering.com> wrote:
->
-> On 4/12/21 5:05 PM, Rob Herring wrote:
-> > On Sun, 11 Apr 2021 13:48:02 +0200, Giulio Benetti wrote:
-> >> Update Documentation/devicetree/bindings/vendor-prefixes.yaml to
-> >> include "hycon" as a vendor prefix for "Hycon Technology".
-> >> Company website: https://www.hycontek.com/
-> >>
-> >> Signed-off-by: Giulio Benetti <giulio.benetti@benettiengineering.com>
-> >> Reviewed-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
-> >> ---
-> >>   Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
-> >>   1 file changed, 2 insertions(+)
-> >>
-> >
-> >
-> > Please add Acked-by/Reviewed-by tags when posting new versions. However=
-,
-> > there's no need to repost patches *only* to add the tags. The upstream
-> > maintainer will do that for acks received on the version they apply.
-> >
-> > If a tag was not added on purpose, please state why and what changed.
-> >
->
-> Ok, so on V6 series I'll send only patches 2 and 3 without this one.
+This patchset adds Hycon vendor, HY46XX touchscreen controller driver
+and its .yaml binding.
 
-No, send the whole series and add any tags. Just don't resend a series
-for the sole purpose of adding tags.
+---
+V1->V2:
+* changed authorship and SoBs to @benettiengineering.com domain
+* fixed vendor commit log according to Jonathan Neuschäfer's suggestion
+* fixed hy46xx bindings according to Rob Herring's suggestions
+* fixed hy46xx driver according to Dmitry Torokhov's suggestions
+further details are listed in single patches
+V2->V3:
+* fixed hy46xx bindings according to Jonathan Neuschäfer's suggestion
+* fixed hy46xx driver according to Jonathan Neuschäfer's suggestion
+further details are listed in single patches
+V3->V4:
+* fixed binding compatible string as suggested by Jonathan Neuschäfer
+V4->V5:
+* fixed hy46xx bindings and driver according to Rob Herring's suggestions
+further details are listed in single patches
+V5->V6:
+* changed report-speed property name into report-speed-hz according to
+Rob Herring's suggestion
+V6->V7:
+* added missing patch to series
+---
 
-Rob
+Giulio Benetti (3):
+  dt-bindings: Add Hycon Technology vendor prefix
+  dt-bindings: touchscreen: Add HY46XX bindings
+  Input: add driver for the Hycon HY46XX touchpanel series
+
+ .../input/touchscreen/hycon,hy46xx.yaml       | 119 ++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ MAINTAINERS                                   |   7 +
+ drivers/input/touchscreen/Kconfig             |  11 +
+ drivers/input/touchscreen/Makefile            |   1 +
+ drivers/input/touchscreen/hycon-hy46xx.c      | 591 ++++++++++++++++++
+ 6 files changed, 731 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/hycon,hy46xx.yaml
+ create mode 100644 drivers/input/touchscreen/hycon-hy46xx.c
+
+-- 
+2.25.1
+
