@@ -2,106 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6072935E2D3
-	for <lists+linux-input@lfdr.de>; Tue, 13 Apr 2021 17:27:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C59B35E32F
+	for <lists+linux-input@lfdr.de>; Tue, 13 Apr 2021 17:53:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232137AbhDMP1a (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 13 Apr 2021 11:27:30 -0400
-Received: from smtpcmd15177.aruba.it ([62.149.156.177]:54656 "EHLO
-        smtpcmd15177.aruba.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232109AbhDMP13 (ORCPT
+        id S1346189AbhDMPxT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 13 Apr 2021 11:53:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49656 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1345974AbhDMPxT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 13 Apr 2021 11:27:29 -0400
-Received: from [192.168.126.129] ([146.241.148.6])
-        by Aruba Outgoing Smtp  with ESMTPSA
-        id WKwUlnaxTLwkNWKwUlK0tu; Tue, 13 Apr 2021 17:27:07 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-        t=1618327627; bh=eHQ7oMwhKAzY0bMH6NRyd7uaxv2qIxO2vq5jkgp4Xa4=;
-        h=Subject:To:From:Date:MIME-Version:Content-Type;
-        b=nOcZ7PfCmRMBgVsJBIO2K5lc/aQtdZINMsPM4IzWiZzKNckxxNXM/mzfoTQ/qr7f1
-         RDM7CC21WlsX3GL0CJ3ovBMXSVoABD0pwwj8Q47SrWcx4O0QMBF0g4mpYrtTs9sSRX
-         KwJZ3opbTE9t/FV59dnegsogVzkh2W37IMLxKHtrxY7w+KEOfpJ923n7bHOaNCplkK
-         lsjTAteYNw2ClF6f2F+lH3gXG81Fz9byK67kmSGDetO30xG+A7qbv7XS4xq6pTwIjm
-         t2ydYZOZLvu9G57VKKcvi0JOm0fFWzTnOtStETf23XHQ3mKvm/lSCt5jdySxsmwTT/
-         gNHvFmnFmfPBA==
-Subject: Re: [PATCH v6 1/2] dt-bindings: touchscreen: Add HY46XX bindings
-To:     Rob Herring <robh@kernel.org>
-Cc:     linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        devicetree@vger.kernel.org,
-        =?UTF-8?Q?Jonathan_Neusch=c3=a4fer?= <j.neuschaefer@gmx.net>,
-        linux-kernel@vger.kernel.org
-References: <20210412144624.GA3868831@robh.at.kernel.org>
- <20210412152400.1587623-1-giulio.benetti@benettiengineering.com>
- <20210412152400.1587623-2-giulio.benetti@benettiengineering.com>
- <20210413150710.GA1683048@robh.at.kernel.org>
-From:   Giulio Benetti <giulio.benetti@benettiengineering.com>
-Message-ID: <3bf86aaf-bfad-0615-44c7-3a89417af56a@benettiengineering.com>
-Date:   Tue, 13 Apr 2021 17:27:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        Tue, 13 Apr 2021 11:53:19 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C97BFC061574;
+        Tue, 13 Apr 2021 08:52:58 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id g66-20020a1c39450000b0290125d187ba22so8677029wma.2;
+        Tue, 13 Apr 2021 08:52:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=1fRMYRlU1zkDxOhEU/7l2PavvaQEOmk+7tLW+jlnzBY=;
+        b=PXa8BO4Zl8fopeEmLTGYm70CRn/3V/s3V/347dk7DdoPdoo+EYtji9keGCeAMQcYiE
+         MdaUNwlBMo7OZRxDD0Dhj57iwISAN6OALq8aQrEvt/Baen1ZapmGFXutXAVn9EETv4M+
+         36tAv2VZ+VTP3L6LJsAFHjt6TBtpBPqg2IH0RZr7VyDup1kwCrSgJKdF7SmW7D0daeXM
+         evzJPW1oEezNgOgmlM0VXcliv5+uaSKmi08jgiWvnX4j/cS6N9fFLEQsnURL5cv6Wjmj
+         ha3ECY9LEreKGo3sRKtYIkEPfLbppsDhrvtoD1RwZNYpAAgE//ki27yXyS61WdCHPxZ7
+         7uSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=1fRMYRlU1zkDxOhEU/7l2PavvaQEOmk+7tLW+jlnzBY=;
+        b=eH5p7N3o+wZk3r0oW+DQsYAnjX7lufekDbMg5C3DcZZAYAL3AW7k9W3qEKoccawsX8
+         BSfhuQJ+1+0OnGNQeZ8WGxyfXcN8qHGOXKuQvbCINjX/UmHbNWNJNjyFQcXjYYSmofjI
+         0RcQ3zgT1nNa4amFkRJJWiTNULwxT7zZxuDG84BAXJ9FW8x76cDcLU0SltTubt7gjTXX
+         ikH3kyo8j2PT13FYAiwv7SFU/RX+YXACVbFcR17oeI+6pP3tXi2tl/gH9cEwVgIbDEwa
+         7ZFjugCn/hqTsy6Fe6oCa4z2H4o2gLkPnSD8+XQeIWnoe07SYzPUK5PLMG0PNOvxmnFW
+         jpBg==
+X-Gm-Message-State: AOAM5306CXDdNYF9J6dLp/39uBuJNQ+iNgvgKFh5D7FM9JECeYi+6/t2
+        63a8IIMcBKqXgyPopmj3RsE=
+X-Google-Smtp-Source: ABdhPJzxP1/myp3YE5dwBaeE/lMzu2yIuICTKk7pUlEFZe/Z7nA2Mrf++puZOoiSHPokweVTOYdXLg==
+X-Received: by 2002:a1c:6356:: with SMTP id x83mr635040wmb.169.1618329177604;
+        Tue, 13 Apr 2021 08:52:57 -0700 (PDT)
+Received: from michael-VirtualBox (cbl217-132-244-50.bb.netvision.net.il. [217.132.244.50])
+        by smtp.gmail.com with ESMTPSA id b14sm1445974wrf.75.2021.04.13.08.52.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Apr 2021 08:52:56 -0700 (PDT)
+Date:   Tue, 13 Apr 2021 18:52:54 +0300
+From:   Michael Zaidman <michael.zaidman@gmail.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org
+Subject: Re: [bug report] HID: ft260: add usb hid to i2c host bridge driver
+Message-ID: <20210413155254.GA2470@michael-VirtualBox>
+References: <YHBJRvcOSaM/b0RL@mwanda>
+ <20210410122729.GA6136@michael-VirtualBox>
+ <20210410153712.GQ6048@kadam>
+ <20210410210425.GA4073@michael-VirtualBox>
+ <20210412091151.GV6048@kadam>
 MIME-Version: 1.0
-In-Reply-To: <20210413150710.GA1683048@robh.at.kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfLKEA42qwuNUsmqgoxEOl28wb9B9Iz58/E9S+weKlL7saASpLU98VdRGhOBsgnZ+Q+B6KesynCwfAL0aenbumu1qiNP0+tVWViJtpx7KxnZm1G/raSFc
- cBHqMoQpAA0BOzDV7tNvQdhoKalhd2mUN+TxkFvYxmKxousjC/kWr3n6agMz1fBWmNumU7Ww2ND8Pu1EdYUuHzOmY47zNf/7lCMW2iDjDXsHplahJ9NgtVlD
- s95Gx/1mgQGOkpwLkDTu+tioCv20NA4JqZR/NlQ6Cd1slcKYn+n1LwoCt3uZK0Rgw0NYHBr8UmumZLdZACaBw3K3c1preN3r8kTnsI+o68stnsP2N+kHyTjs
- pYc2qbWElWcthZbETqKfCQ+GjUPbpfK5cJwDiEJNwQlprnNFPUddpNhm+T/Id6PbK0ITw35r2s5Th0VABUE7e687Ep6BLw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210412091151.GV6048@kadam>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 4/13/21 5:07 PM, Rob Herring wrote:
-> On Mon, 12 Apr 2021 17:23:59 +0200, Giulio Benetti wrote:
->> This adds device tree bindings for the Hycon HY46XX touchscreen series.
->>
->> Signed-off-by: Giulio Benetti <giulio.benetti@benettiengineering.com>
->> ---
->> V1->V2:
->> As suggested by Rob Herring:
->> * fixed $id: address
->> * added "hycon," in front of every custom property
->> * changed all possible property to boolean type
->> * removed proximity-sensor-switch property since it's not handled in driver
->> V2->V3:
->> As suggested by Jonathan Neuschäfer:
->> * fixed some typo
->> * fixed description indentation
->> * improved boolean properties descriptions
->> * improved hycon,report-speed description
->> V3->V4:
->> * fixed binding compatible string in example as suggested by Jonathan Neuschäfer
->> V4->V5:
->> As suggested by Rob Herring:
->> * drop hycon- prefix from compatible
->> * use Hertz unit suffix for hycon,report-speed instead of u32
->> * set hycon,report-speed minimum to 1Hz, 0Hz make controller to do nothing
->> * change hycon,power-noise-enable property name to hycon,noise-filter-enable
->> * improve hycon,filter-data property description
->> * use generic touchscreen node name in example
->> V5->V6:
->> * changed report-speed property name into report-speed-hz according to
->> Rob Herring's suggestion
->> ---
->>   .../input/touchscreen/hycon,hy46xx.yaml       | 119 ++++++++++++++++++
->>   MAINTAINERS                                   |   6 +
->>   2 files changed, 125 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/input/touchscreen/hycon,hy46xx.yaml
->>
+On Mon, Apr 12, 2021 at 12:11:51PM +0300, Dan Carpenter wrote:
+> On Sun, Apr 11, 2021 at 12:04:25AM +0300, Michael Zaidman wrote:
+> > 
+> > Oh, you are right. Despite that the SMbus block transaction limits the maximum
+> > number of bytes to 32, nothing prevents a user from specifying via ioctl a larger
+> > data size than the ft260 can handle in a single transfer.
+> > 
+> > I am going to fix it in the ft260_smbus_write (with your Signed-off-by), but
+> > perhaps we should fix it in the first place, in the i2cdev_ioctl_smbus routine?
+> > What do you think?
 > 
-> Reviewed-by: Rob Herring <robh@kernel.org>
+> Could you just give me a Reported-by tag?  Thanks!
+> 
+> regards,
+> dan carpenter
 
-I've sent v7[1] before receiving your Reviewed-by.
-Do I have to re-submit it once and if I receive a Reviewed-by from you 
-as a v8 with all your Reviewed-by's?
-
-Sorry for the noise.
-
-[1]: https://patchwork.kernel.org/project/linux-input/list/?series=466405
-
--- 
-Giulio Benetti
-Benetti Engineering sas
+Done, thanks!  
