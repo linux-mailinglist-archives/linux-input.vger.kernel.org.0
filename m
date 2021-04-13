@@ -2,279 +2,118 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EAA135D58A
-	for <lists+linux-input@lfdr.de>; Tue, 13 Apr 2021 05:03:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B42035DEF9
+	for <lists+linux-input@lfdr.de>; Tue, 13 Apr 2021 14:35:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242785AbhDMDBW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 12 Apr 2021 23:01:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49710 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343718AbhDMDBW (ORCPT
+        id S229463AbhDMMfQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 13 Apr 2021 08:35:16 -0400
+Received: from relay12.mail.gandi.net ([217.70.178.232]:54519 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229458AbhDMMfQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 12 Apr 2021 23:01:22 -0400
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 395EBC061574
-        for <linux-input@vger.kernel.org>; Mon, 12 Apr 2021 20:01:02 -0700 (PDT)
-Received: by mail-ot1-x329.google.com with SMTP id f75-20020a9d03d10000b0290280def9ab76so9713152otf.12
-        for <linux-input@vger.kernel.org>; Mon, 12 Apr 2021 20:01:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Dmc0hZXmCrSXdyT5/+BGkfJc60KHiV2RT1PtaXLe5Bw=;
-        b=T6q6GhuwqN7A3KdhOF5AVGdnpPx5ePtwoQwax4QGqKNPuqCnCzmWx7Xc2zvZNLA4zw
-         vaWVs++vP4Y53aCeGS59FgjYf6jwZi5+tAcH6e2KCfepjvaujEFByGLFXodeBCAHms15
-         n06Fyqmo51EYaXN2AMozzYPIv3u0gm5xk7Wrk/de4TUjLuYJVEQ1hRSebmqFC1PbcU2C
-         dpgg9KSCjBCjOOpgtSH3DCQvQnRmvvEPrnNXmVgDcFXtNKHJH5Hz60BoLhbpL3RMfTgr
-         UHPE8N/nPoGFHpjQDVhAg0SrmPqDCGNs9uWSJbLWykuqskkUoTsYsLin9g8VznANsrY9
-         wlMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Dmc0hZXmCrSXdyT5/+BGkfJc60KHiV2RT1PtaXLe5Bw=;
-        b=QQr8iqNv7GvSvo0kZgdNa11CMHGcnjqIIWrQZCTzWPsdpVf5FFxgBQzBvZsg+OwQsX
-         V3ULFgBaiWu9ErZH3y2kDiTf7ImmylDqrHvB7oKBHhmhp+xB0ELWs/BgGWHoRqsSYPsW
-         yHOsVd+SEf2c6FFM1lwxbXPvPI744mKFtKUshH6TNAypjYXqj2W/sK4TA65lOyoa/Dak
-         HB2hMRaHLqG5fqTPv6CTZwThYUbHFYgGIvqWHC1pMPSzHtHebtiuXhZy0M42Wwd9d81x
-         arCJ8H7gdUODRKlXW0kH44DgFgJFpXglD3ZyyhqiDaSxnCOa+N+zSK3yzYcWrfqejs7A
-         2ePw==
-X-Gm-Message-State: AOAM53340y3h5+DYrjnquVOB9QZsJKl/MwUAVPXxvVy1+3JlpDluMKn7
-        M6YvZAwIG2ZXHJ2lkXmmNxAqLw==
-X-Google-Smtp-Source: ABdhPJzLEu/ne59rxKLrYKwS39IEy24zduSSC5TNViBz5Wb5iDoKEYf/g3Cma7Q3wf5RooKPWOn1uw==
-X-Received: by 2002:a9d:1a1:: with SMTP id e30mr2371575ote.283.1618282860923;
-        Mon, 12 Apr 2021 20:01:00 -0700 (PDT)
-Received: from yoga (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id h59sm3115213otb.29.2021.04.12.20.00.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Apr 2021 20:01:00 -0700 (PDT)
-Date:   Mon, 12 Apr 2021 22:00:58 -0500
-From:   Bjorn Andersson <bjorn.andersson@linaro.org>
-To:     satya priya <skakit@codeaurora.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        David Collins <collinsd@codeaurora.org>, kgunda@codeaurora.org,
-        Vinod Koul <vkoul@kernel.org>,
-        Courtney Cavin <courtney.cavin@sonymobile.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH V2 1/4] input: pm8941-pwrkey: add support for PMK8350
- PON_HLOS PMIC peripheral
-Message-ID: <20210413030058.GK1538589@yoga>
-References: <1617881469-31965-1-git-send-email-skakit@codeaurora.org>
- <1617881469-31965-2-git-send-email-skakit@codeaurora.org>
+        Tue, 13 Apr 2021 08:35:16 -0400
+Received: from [192.168.1.150] (unknown [78.199.60.242])
+        (Authenticated sender: hadess@hadess.net)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 6415B20000E;
+        Tue, 13 Apr 2021 12:34:52 +0000 (UTC)
+Message-ID: <a2be79bcf1ce93096d6843a0856927cda65d4842.camel@hadess.net>
+Subject: Re: [PATCH] [v4] Input: Add "Select" button to Microsoft Xbox One
+ controller.
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Chris Ye <lzye@google.com>,
+        =?UTF-8?Q?=C5=81ukasz?= Patron <priv.luk@gmail.com>,
+        Benjamin Valentin <benpicco@googlemail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Olivier =?ISO-8859-1?Q?Cr=EAte?= <olivier.crete@ocrete.ca>,
+        Sanjay Govind <sanjay.govind9@gmail.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        trivial@kernel.org, kernel-team@android.com
+Date:   Tue, 13 Apr 2021 14:34:51 +0200
+In-Reply-To: <20210413010252.2255812-1-lzye@google.com>
+References: <20210413010252.2255812-1-lzye@google.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.0 (3.40.0-1.fc34) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1617881469-31965-2-git-send-email-skakit@codeaurora.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu 08 Apr 06:31 CDT 2021, satya priya wrote:
-
-> From: David Collins <collinsd@codeaurora.org>
+On Tue, 2021-04-13 at 01:02 +0000, Chris Ye wrote:
+> Add "Select" button input capability and input event mapping for
+> Microsoft Xbox One controller. From product site this is also
+> referred as
+> "Share" button.
+> Fixed Microsoft Xbox One controller select button not working under
+> USB
+> connection.
 > 
-> On Qualcomm Technologies, Inc. PMIC PMK8350, the PON peripheral
-> is split into two peripherals: PON_HLOS and PON_PBS.  The
-> application processor only has write access to PON_HLOS which
-> limits it to only receiving PON interrupts.
-> 
-> Add support for the PMK8350 PON_HLOS peripheral so that its
-> KPDPWR_N and RESIN_N interrupts can be used to detect key
-> presses.
-> 
-
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-
-Regards,
-Bjorn
-
-> Signed-off-by: David Collins <collinsd@codeaurora.org>
-> Signed-off-by: satya priya <skakit@codeaurora.org>
+> Signed-off-by: Chris Ye <lzye@google.com>
 > ---
-> Changes in V2:
->  - No change.
+>  drivers/input/joystick/xpad.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 > 
->  drivers/input/misc/pm8941-pwrkey.c | 103 ++++++++++++++++++++++++++-----------
->  1 file changed, 72 insertions(+), 31 deletions(-)
-> 
-> diff --git a/drivers/input/misc/pm8941-pwrkey.c b/drivers/input/misc/pm8941-pwrkey.c
-> index cf81044..10e3fc0 100644
-> --- a/drivers/input/misc/pm8941-pwrkey.c
-> +++ b/drivers/input/misc/pm8941-pwrkey.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0-only
->  /*
-> - * Copyright (c) 2010-2011, Code Aurora Forum. All rights reserved.
-> + * Copyright (c) 2010-2011, 2020-2021, The Linux Foundation. All rights reserved.
->   * Copyright (c) 2014, Sony Mobile Communications Inc.
->   */
->  
-> @@ -22,6 +22,8 @@
->  #define PON_RT_STS			0x10
->  #define  PON_KPDPWR_N_SET		BIT(0)
->  #define  PON_RESIN_N_SET		BIT(1)
-> +#define  PON_GEN3_RESIN_N_SET		BIT(6)
-> +#define  PON_GEN3_KPDPWR_N_SET		BIT(7)
->  
->  #define PON_PS_HOLD_RST_CTL		0x5a
->  #define PON_PS_HOLD_RST_CTL2		0x5b
-> @@ -38,8 +40,12 @@
->  #define  PON_DBC_DELAY_MASK		0x7
->  
->  struct pm8941_data {
-> -	unsigned int pull_up_bit;
-> -	unsigned int status_bit;
-> +	unsigned int	pull_up_bit;
-> +	unsigned int	status_bit;
-> +	bool		supports_ps_hold_poff_config;
-> +	bool		supports_debounce_config;
-> +	const char	*name;
-> +	const char	*phys;
->  };
->  
->  struct pm8941_pwrkey {
-> @@ -231,34 +237,40 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
->  
->  	input_set_capability(pwrkey->input, EV_KEY, pwrkey->code);
->  
-> -	pwrkey->input->name = "pm8941_pwrkey";
-> -	pwrkey->input->phys = "pm8941_pwrkey/input0";
-> -
-> -	req_delay = (req_delay << 6) / USEC_PER_SEC;
-> -	req_delay = ilog2(req_delay);
-> -
-> -	error = regmap_update_bits(pwrkey->regmap,
-> -				   pwrkey->baseaddr + PON_DBC_CTL,
-> -				   PON_DBC_DELAY_MASK,
-> -				   req_delay);
-> -	if (error) {
-> -		dev_err(&pdev->dev, "failed to set debounce: %d\n", error);
-> -		return error;
-> +	pwrkey->input->name = pwrkey->data->name;
-> +	pwrkey->input->phys = pwrkey->data->phys;
-> +
-> +	if (pwrkey->data->supports_debounce_config) {
-> +		req_delay = (req_delay << 6) / USEC_PER_SEC;
-> +		req_delay = ilog2(req_delay);
-> +
-> +		error = regmap_update_bits(pwrkey->regmap,
-> +					   pwrkey->baseaddr + PON_DBC_CTL,
-> +					   PON_DBC_DELAY_MASK,
-> +					   req_delay);
-> +		if (error) {
-> +			dev_err(&pdev->dev, "failed to set debounce: %d\n",
-> +				error);
-> +			return error;
-> +		}
->  	}
->  
-> -	error = regmap_update_bits(pwrkey->regmap,
-> -				   pwrkey->baseaddr + PON_PULL_CTL,
-> -				   pwrkey->data->pull_up_bit,
-> -				   pull_up ? pwrkey->data->pull_up_bit : 0);
-> -	if (error) {
-> -		dev_err(&pdev->dev, "failed to set pull: %d\n", error);
-> -		return error;
-> +	if (pwrkey->data->pull_up_bit) {
-> +		error = regmap_update_bits(pwrkey->regmap,
-> +					   pwrkey->baseaddr + PON_PULL_CTL,
-> +					   pwrkey->data->pull_up_bit,
-> +					   pull_up ? pwrkey->data->pull_up_bit :
-> +						     0);
-> +		if (error) {
-> +			dev_err(&pdev->dev, "failed to set pull: %d\n", error);
-> +			return error;
-> +		}
->  	}
->  
->  	error = devm_request_threaded_irq(&pdev->dev, pwrkey->irq,
->  					  NULL, pm8941_pwrkey_irq,
->  					  IRQF_ONESHOT,
-> -					  "pm8941_pwrkey", pwrkey);
-> +					  pwrkey->data->name, pwrkey);
->  	if (error) {
->  		dev_err(&pdev->dev, "failed requesting IRQ: %d\n", error);
->  		return error;
-> @@ -271,12 +283,14 @@ static int pm8941_pwrkey_probe(struct platform_device *pdev)
->  		return error;
->  	}
->  
-> -	pwrkey->reboot_notifier.notifier_call = pm8941_reboot_notify,
-> -	error = register_reboot_notifier(&pwrkey->reboot_notifier);
-> -	if (error) {
-> -		dev_err(&pdev->dev, "failed to register reboot notifier: %d\n",
-> -			error);
-> -		return error;
-> +	if (pwrkey->data->supports_ps_hold_poff_config) {
-> +		pwrkey->reboot_notifier.notifier_call = pm8941_reboot_notify,
-> +		error = register_reboot_notifier(&pwrkey->reboot_notifier);
-> +		if (error) {
-> +			dev_err(&pdev->dev, "failed to register reboot notifier: %d\n",
-> +				error);
-> +			return error;
-> +		}
->  	}
->  
->  	platform_set_drvdata(pdev, pwrkey);
-> @@ -289,7 +303,8 @@ static int pm8941_pwrkey_remove(struct platform_device *pdev)
->  {
->  	struct pm8941_pwrkey *pwrkey = platform_get_drvdata(pdev);
->  
-> -	unregister_reboot_notifier(&pwrkey->reboot_notifier);
-> +	if (pwrkey->data->supports_ps_hold_poff_config)
-> +		unregister_reboot_notifier(&pwrkey->reboot_notifier);
->  
->  	return 0;
->  }
-> @@ -297,16 +312,42 @@ static int pm8941_pwrkey_remove(struct platform_device *pdev)
->  static const struct pm8941_data pwrkey_data = {
->  	.pull_up_bit = PON_KPDPWR_PULL_UP,
->  	.status_bit = PON_KPDPWR_N_SET,
-> +	.name = "pm8941_pwrkey",
-> +	.phys = "pm8941_pwrkey/input0",
-> +	.supports_ps_hold_poff_config = true,
-> +	.supports_debounce_config = true,
->  };
->  
->  static const struct pm8941_data resin_data = {
->  	.pull_up_bit = PON_RESIN_PULL_UP,
->  	.status_bit = PON_RESIN_N_SET,
-> +	.name = "pm8941_resin",
-> +	.phys = "pm8941_resin/input0",
-> +	.supports_ps_hold_poff_config = true,
-> +	.supports_debounce_config = true,
-> +};
-> +
-> +static const struct pm8941_data pon_gen3_pwrkey_data = {
-> +	.status_bit = PON_GEN3_KPDPWR_N_SET,
-> +	.name = "pmic_pwrkey",
-> +	.phys = "pmic_pwrkey/input0",
-> +	.supports_ps_hold_poff_config = false,
-> +	.supports_debounce_config = false,
-> +};
-> +
-> +static const struct pm8941_data pon_gen3_resin_data = {
-> +	.status_bit = PON_GEN3_RESIN_N_SET,
-> +	.name = "pmic_resin",
-> +	.phys = "pmic_resin/input0",
-> +	.supports_ps_hold_poff_config = false,
-> +	.supports_debounce_config = false,
->  };
->  
->  static const struct of_device_id pm8941_pwr_key_id_table[] = {
->  	{ .compatible = "qcom,pm8941-pwrkey", .data = &pwrkey_data },
->  	{ .compatible = "qcom,pm8941-resin", .data = &resin_data },
-> +	{ .compatible = "qcom,pmk8350-pwrkey", .data = &pon_gen3_pwrkey_data },
-> +	{ .compatible = "qcom,pmk8350-resin", .data = &pon_gen3_resin_data },
->  	{ }
->  };
->  MODULE_DEVICE_TABLE(of, pm8941_pwr_key_id_table);
-> -- 
-> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member 
-> of Code Aurora Forum, hosted by The Linux Foundation
-> 
+> diff --git a/drivers/input/joystick/xpad.c
+> b/drivers/input/joystick/xpad.c
+> index 9f0d07dcbf06..99cb8bb78570 100644
+> --- a/drivers/input/joystick/xpad.c
+> +++ b/drivers/input/joystick/xpad.c
+> @@ -79,6 +79,7 @@
+>  #define MAP_DPAD_TO_BUTTONS            (1 << 0)
+>  #define MAP_TRIGGERS_TO_BUTTONS                (1 << 1)
+>  #define MAP_STICKS_TO_NULL             (1 << 2)
+> +#define MAP_SELECT_BUTTON              (1 << 3)
+>  #define DANCEPAD_MAP_CONFIG    (MAP_DPAD_TO_BUTTONS
+> |                  \
+>                                 MAP_TRIGGERS_TO_BUTTONS |
+> MAP_STICKS_TO_NULL)
+>  
+> @@ -130,6 +131,7 @@ static const struct xpad_device {
+>         { 0x045e, 0x02e3, "Microsoft X-Box One Elite pad", 0,
+> XTYPE_XBOXONE },
+>         { 0x045e, 0x02ea, "Microsoft X-Box One S pad", 0,
+> XTYPE_XBOXONE },
+>         { 0x045e, 0x0719, "Xbox 360 Wireless Receiver",
+> MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360W },
+> +       { 0x045e, 0x0b12, "Microsoft Xbox One X pad",
+> MAP_SELECT_BUTTON, XTYPE_XBOXONE },
+>         { 0x046d, 0xc21d, "Logitech Gamepad F310", 0, XTYPE_XBOX360
+> },
+>         { 0x046d, 0xc21e, "Logitech Gamepad F510", 0, XTYPE_XBOX360
+> },
+>         { 0x046d, 0xc21f, "Logitech Gamepad F710", 0, XTYPE_XBOX360
+> },
+> @@ -862,6 +864,8 @@ static void xpadone_process_packet(struct
+> usb_xpad *xpad, u16 cmd, unsigned char
+>         /* menu/view buttons */
+>         input_report_key(dev, BTN_START,  data[4] & 0x04);
+>         input_report_key(dev, BTN_SELECT, data[4] & 0x08);
+> +       if (xpad->mapping & MAP_SELECT_BUTTON)
+> +               input_report_key(dev, KEY_RECORD, data[22] & 0x01);
+>  
+>         /* buttons A,B,X,Y */
+>         input_report_key(dev, BTN_A,    data[4] & 0x10);
+> @@ -1669,9 +1673,11 @@ static int xpad_init_input(struct usb_xpad
+> *xpad)
+>  
+>         /* set up model-specific ones */
+>         if (xpad->xtype == XTYPE_XBOX360 || xpad->xtype ==
+> XTYPE_XBOX360W ||
+> -           xpad->xtype == XTYPE_XBOXONE) {
+> +               xpad->xtype == XTYPE_XBOXONE) {
+
+Why the indentation change here?
+
+>                 for (i = 0; xpad360_btn[i] >= 0; i++)
+>                         input_set_capability(input_dev, EV_KEY,
+> xpad360_btn[i]);
+> +               if (xpad->mapping & MAP_SELECT_BUTTON)
+> +                       input_set_capability(input_dev, EV_KEY,
+> KEY_RECORD);
+>         } else {
+>                 for (i = 0; xpad_btn[i] >= 0; i++)
+>                         input_set_capability(input_dev, EV_KEY,
+> xpad_btn[i]);
+
+
