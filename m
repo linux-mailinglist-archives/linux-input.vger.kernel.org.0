@@ -2,98 +2,143 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 95D6E35E415
-	for <lists+linux-input@lfdr.de>; Tue, 13 Apr 2021 18:36:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9663A35E50D
+	for <lists+linux-input@lfdr.de>; Tue, 13 Apr 2021 19:30:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345660AbhDMQgl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 13 Apr 2021 12:36:41 -0400
-Received: from mail-oi1-f176.google.com ([209.85.167.176]:40770 "EHLO
-        mail-oi1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345371AbhDMQgk (ORCPT
+        id S1347188AbhDMRa4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 13 Apr 2021 13:30:56 -0400
+Received: from mail-vs1-f47.google.com ([209.85.217.47]:39580 "EHLO
+        mail-vs1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347187AbhDMRa4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 13 Apr 2021 12:36:40 -0400
-Received: by mail-oi1-f176.google.com with SMTP id u16so286642oiu.7;
-        Tue, 13 Apr 2021 09:36:16 -0700 (PDT)
+        Tue, 13 Apr 2021 13:30:56 -0400
+Received: by mail-vs1-f47.google.com with SMTP id r4so4768051vsq.6
+        for <linux-input@vger.kernel.org>; Tue, 13 Apr 2021 10:30:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HJEhIE4vihT2Owsc6wUtrNP/XIiOpOQ3etGCIsAaU9c=;
+        b=AckIjkwx4FEDkORJKZgpOkQWycL4WE85rLbuKXcaLTLjjLjVs3YT20WyqdEnDarpey
+         +M/Hd8oRNX1EZ67bpQhd/7I4ETJXaQ+an4BsfZujfJPilai/yhAJKqZ7OQMM2z459kFU
+         prCwm4q71osfsJc63hGEhKVwWa8ywOeLGbvok=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Su+smkv+Ue5t563FZXIHYLjuhV5cHzGEDiXfivp9QAk=;
-        b=Rmvvjbd2soR0Iu3/3oBgEZsEiuBqWJRLTEEVJkU2PhaybNrHddlVwBAX5MSib19v3w
-         6ry4r8DtJdrQTpWrEyPYlTo/GVti+euK10EjKGNZIB5I6Rm1xVRQ/LefrKICb50zLQwM
-         grNtpxWfz7hCwpIYuflULCO9pPO+6scVgELpZk8EKn3MDm/V7Pe/b5NtSc/xwFyQQ2+U
-         2SIazObPSQGBbzxFEbd752zEYE6IclKaLKeeiQ0wWPe9cacRxoZCihOFNscMMjJ5muPg
-         0eKgyM1iub6fAcW9CgN7KK/b6HX3B2xZiKZT8uRPfY0+KAG67AHsq6mCyY1zuBKqcG/+
-         PQjg==
-X-Gm-Message-State: AOAM530c8+T8KjONXIJPS5rys6zHu7XXSD+neKm1LXK3x3mWgX9EF8eu
-        j72J4atvw2V25A/9m4zpBw==
-X-Google-Smtp-Source: ABdhPJyUkQidP41T7W71kLGQaTKNSiCw6vq26O4+vOFl9Siq1PhaG+cA01QgG7+kJsvUJZpfLzoPpg==
-X-Received: by 2002:aca:3788:: with SMTP id e130mr571269oia.45.1618331775925;
-        Tue, 13 Apr 2021 09:36:15 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id r136sm2973190oor.28.2021.04.13.09.36.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 09:36:14 -0700 (PDT)
-Received: (nullmailer pid 1797270 invoked by uid 1000);
-        Tue, 13 Apr 2021 16:36:13 -0000
-Date:   Tue, 13 Apr 2021 11:36:13 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Giulio Benetti <giulio.benetti@benettiengineering.com>
-Cc:     devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 2/3] dt-bindings: touchscreen: Add HY46XX bindings
-Message-ID: <20210413163613.GA1797136@robh.at.kernel.org>
-References: <CAL_JsqK6Bm==DaCMD3PruZoFO9iv0Te_KBVPnb9ZU0L8yDYF5Q@mail.gmail.com>
- <20210413144446.2277817-1-giulio.benetti@benettiengineering.com>
- <20210413144446.2277817-3-giulio.benetti@benettiengineering.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HJEhIE4vihT2Owsc6wUtrNP/XIiOpOQ3etGCIsAaU9c=;
+        b=LA5xUmiwDvlu3S214QIU3EpIwEDnls/OEYmo82CpgdiPjzvcD5u5j8HNgBDRPKA51Z
+         LOI+Gfca+nY2yCjk+K4MWrevHboqhaH0gl7qqQvkljYcaJrYkf/EeZO62PAkQjco522r
+         jeaJ80nqzkCW3C+S6gky4hFHKe52nAEsKZO3UNXyHsmKDP5Z728QX2NafwgomVBvTvrT
+         RqvkfAwl9GD4XE64eGQqUxRX0Q7tvYSTqZtUynzSq70NDUiLCQQfwBRn+to14U3k22UM
+         nk8yNKHxdu9iNXO3O9F97BoxXapuvSLDAFj3HlXUrooqDfFSMmnt+u08INZPYDTaw8wy
+         zy0w==
+X-Gm-Message-State: AOAM530R6lZt6OLG8TwGzRm+6myBr+wPwmyFt9mPrF2jgn6Rd4TKb/mY
+        +R5zjLiR8P+f4SX8gpmkpzWNirzZNJtZJQ7a
+X-Google-Smtp-Source: ABdhPJxAoWm/kwcDZSf/3asTEGwbyJAasmTWqB/4PdjDRS+ltEh+lNt2HxXdxD36vLZW74oa+d+Qlg==
+X-Received: by 2002:a67:e06:: with SMTP id 6mr25006257vso.58.1618334975501;
+        Tue, 13 Apr 2021 10:29:35 -0700 (PDT)
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
+        by smtp.gmail.com with ESMTPSA id f190sm1695218vkf.51.2021.04.13.10.29.34
+        for <linux-input@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Apr 2021 10:29:34 -0700 (PDT)
+Received: by mail-vs1-f50.google.com with SMTP id k124so8944393vsk.3
+        for <linux-input@vger.kernel.org>; Tue, 13 Apr 2021 10:29:34 -0700 (PDT)
+X-Received: by 2002:a67:d994:: with SMTP id u20mr25110324vsj.29.1618334973954;
+ Tue, 13 Apr 2021 10:29:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210413144446.2277817-3-giulio.benetti@benettiengineering.com>
+References: <1618276850-27178-1-git-send-email-johnny.chuang.emc@gmail.com>
+In-Reply-To: <1618276850-27178-1-git-send-email-johnny.chuang.emc@gmail.com>
+From:   Harry Cutts <hcutts@chromium.org>
+Date:   Tue, 13 Apr 2021 10:29:22 -0700
+X-Gmail-Original-Message-ID: <CA+jURcuD_qr0AwQJsVbpTGdVEdkr5eFtt87xGaMYSmPpBH3ZBg@mail.gmail.com>
+Message-ID: <CA+jURcuD_qr0AwQJsVbpTGdVEdkr5eFtt87xGaMYSmPpBH3ZBg@mail.gmail.com>
+Subject: Re: [PATCH v3] HID: i2c-hid: Skip ELAN power-on command after reset
+To:     Johnny Chuang <johnny.chuang.emc@gmail.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Peter Hutterer <peter.hutterer@who-t.net>,
+        lkml <linux-kernel@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        Johnny Chuang <johnny.chuang@emc.com.tw>,
+        James Chen <james.chen@emc.com.tw>,
+        Jennifer Tsai <jennifer.tsai@emc.com.tw>,
+        Paul Liang <paul.liang@emc.com.tw>,
+        Jeff Chuang <jeff.chuang@emc.com.tw>,
+        Douglas Anderson <dianders@chromium.org>,
+        Jingle <jingle.wu@emc.com.tw>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 13 Apr 2021 16:44:45 +0200, Giulio Benetti wrote:
-> This adds device tree bindings for the Hycon HY46XX touchscreen series.
-> 
-> Signed-off-by: Giulio Benetti <giulio.benetti@benettiengineering.com>
+On Mon, 12 Apr 2021 at 18:20, Johnny Chuang <johnny.chuang.emc@gmail.com> wrote:
+>
+> Fixes: 43b7029f475e ("HID: i2c-hid: Send power-on command after reset").
+>
+> For ELAN touchscreen, we found our boot code of IC was not flexible enough
+> to receive and handle this command.
+> Once the FW main code of our controller is crashed for some reason,
+> the controller could not be enumerated successfully to be recognized
+> by the system host. therefore, it lost touch functionality.
+>
+> Add quirk for skip send power-on command after reset.
+> It will impact to ELAN touchscreen and touchpad on HID over I2C projects.
+>
+> Signed-off-by: Johnny Chuang <johnny.chuang.emc@gmail.com>
 > ---
-> V1->V2:
-> As suggested by Rob Herring:
-> * fixed $id: address
-> * added "hycon," in front of every custom property
-> * changed all possible property to boolean type
-> * removed proximity-sensor-switch property since it's not handled in driver
-> V2->V3:
-> As suggested by Jonathan Neuschäfer:
-> * fixed some typo
-> * fixed description indentation
-> * improved boolean properties descriptions
-> * improved hycon,report-speed description
-> V3->V4:
-> * fixed binding compatible string in example as suggested by Jonathan Neuschäfer
-> V4->V5:
-> As suggested by Rob Herring:
-> * drop hycon- prefix from compatible
-> * use Hertz unit suffix for hycon,report-speed instead of u32
-> * set hycon,report-speed minimum to 1Hz, 0Hz make controller to do nothing
-> * change hycon,power-noise-enable property name to hycon,noise-filter-enable
-> * improve hycon,filter-data property description
-> * use generic touchscreen node name in example
-> V5->V6:
-> * changed report-speed property name into report-speed-hz according to
-> Rob Herring's suggestion
-> ---
->  .../input/touchscreen/hycon,hy46xx.yaml       | 119 ++++++++++++++++++
->  MAINTAINERS                                   |   6 +
->  2 files changed, 125 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/hycon,hy46xx.yaml
-> 
+> Changes in V3:
+>     - intent the comment at qurik entry
+>     - add Fixes:flag for previous commit id
+>
+> Changes in v2:
+>     - move comment to quirk entry
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Harry Cutts <hcutts@chromium.org>
+
+Harry Cutts
+Chrome OS Touch/Input team
+
+> ---
+>  drivers/hid/i2c-hid/i2c-hid-core.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+> index 9993133..32e3287 100644
+> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
+> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+> @@ -45,6 +45,7 @@
+>  #define I2C_HID_QUIRK_BOGUS_IRQ                        BIT(4)
+>  #define I2C_HID_QUIRK_RESET_ON_RESUME          BIT(5)
+>  #define I2C_HID_QUIRK_BAD_INPUT_SIZE           BIT(6)
+> +#define I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET    BIT(7)
+>
+>
+>  /* flags */
+> @@ -178,6 +179,12 @@ static const struct i2c_hid_quirks {
+>                  I2C_HID_QUIRK_RESET_ON_RESUME },
+>         { USB_VENDOR_ID_ITE, I2C_DEVICE_ID_ITE_LENOVO_LEGION_Y720,
+>                 I2C_HID_QUIRK_BAD_INPUT_SIZE },
+> +       /*
+> +        * Sending the wakeup after reset actually break ELAN touchscreen controller
+> +        * Add I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET to skip wakeup after reset
+> +        */
+> +       { USB_VENDOR_ID_ELAN, HID_ANY_ID,
+> +                I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET },
+>         { 0, 0 }
+>  };
+>
+> @@ -461,7 +468,8 @@ static int i2c_hid_hwreset(struct i2c_client *client)
+>         }
+>
+>         /* At least some SIS devices need this after reset */
+> -       ret = i2c_hid_set_power(client, I2C_HID_PWR_ON);
+> +       if (!(ihid->quirks & I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET))
+> +               ret = i2c_hid_set_power(client, I2C_HID_PWR_ON);
+>
+>  out_unlock:
+>         mutex_unlock(&ihid->reset_lock);
+> --
+> 2.7.4
+>
