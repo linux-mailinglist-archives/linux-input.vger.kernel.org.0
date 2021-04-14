@@ -2,170 +2,109 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8A2B35F7E8
-	for <lists+linux-input@lfdr.de>; Wed, 14 Apr 2021 17:48:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EBBA35F7F6
+	for <lists+linux-input@lfdr.de>; Wed, 14 Apr 2021 17:48:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233074AbhDNPeb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 14 Apr 2021 11:34:31 -0400
-Received: from mga06.intel.com ([134.134.136.31]:55921 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230281AbhDNPea (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 14 Apr 2021 11:34:30 -0400
-IronPort-SDR: fxNr5biy5juZWswMIpO0deoWvJwdDENrMN6rHExqP6MtRrfODd05bTomww+IDS4pHMv5IsSwIk
- X2XEfd6ueXIw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9954"; a="255983498"
-X-IronPort-AV: E=Sophos;i="5.82,222,1613462400"; 
-   d="scan'208";a="255983498"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2021 08:34:09 -0700
-IronPort-SDR: MK4CyN+//NPrx1YFuifJEdapQ/1SypabACibuL1qoxYAKjNa8uK22tsRf0/+Uo0Bfjt4qtfUF1
- OpLzuJeuF09A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,222,1613462400"; 
-   d="scan'208";a="399219606"
-Received: from lkp-server02.sh.intel.com (HELO fa9c8fcc3464) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 14 Apr 2021 08:34:08 -0700
-Received: from kbuild by fa9c8fcc3464 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lWhWp-00005Y-BF; Wed, 14 Apr 2021 15:34:07 +0000
-Date:   Wed, 14 Apr 2021 23:33:53 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [input:master] BUILD SUCCESS
- aa2f62cf211a0985c14fd78a17d55296769698d6
-Message-ID: <60770b61.Lt83+x9EBk5N0rVZ%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S232001AbhDNPkD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 14 Apr 2021 11:40:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49668 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1352129AbhDNPjj (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 14 Apr 2021 11:39:39 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03655C061574;
+        Wed, 14 Apr 2021 08:39:17 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id f8so24244577edd.11;
+        Wed, 14 Apr 2021 08:39:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BWl/CswV5h5tF8gFnhbkOzCdOcdg+NiH7m6Zh/6/t0c=;
+        b=UVSFdvOdbZaQsL7f5vWj1kxRhlLo+Ihnx1HdyGR2Rci3Uy8fkRjE33rcIQGcwUo/vz
+         V5usTEzSvwWdQyHBd9dFhKrwBfKyvGEbp+LMQ8zl/yETPrA4hHgnlMxBzhFNZdmZC02W
+         3nwFkklfyHSzKHUJ2I0P6T4V6AnocyohFn/14rHfeGr6LKbNHWBYyuLRiQZ9sBxliAar
+         4N9zB7Y8KX7cMXnLlo3i8mE8x5cyusa9JbLbLunnqKPxiop8bP5Koc54Bm15l8HgYmfL
+         63m3K9VLEuNXugFAjqYm0huwLwGt4yS9uasEkcgtjGN3KvIAYOK84Dn28TuU/BQVRvQL
+         QL+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BWl/CswV5h5tF8gFnhbkOzCdOcdg+NiH7m6Zh/6/t0c=;
+        b=rD+8Rejz8MVCS1fe+JCeED8KY2AvrThs/Tv1c9tbVoXdbS/ons+ZmC3W451ykcBZEQ
+         ot5/dnlwdIxxRyTBt7Lkwt+O/n35ZQcfHSTOe36gPQLWheZWpWh9UdDnaeYZiDdViPJt
+         NZ7F2ioYDcoR5OdWiWup7d5XGulIR+LcCHgse4HMv/tPn19edDK0ufEzvbBozvx361pS
+         gkrlr1qC6Q5+M8jUEQVxuVp5N4933YQVhUGvthagXOM3fSWEaNUP4FhArsVat5ysIoPh
+         M/v5AG3d5+zk0OFabBWEIlM7AsdGiDzOVwHybZ+tStxnBYF9bMVhlLTT44FlkHfPPrXY
+         jR1A==
+X-Gm-Message-State: AOAM533TSesbOkm95OFCnjFFTmmT+k6Q9baZH54j/G/mJ9jOEno3VX1n
+        fzsakG55SXomPHwk02mzXOuRtZcRin5CB/HkGIE=
+X-Google-Smtp-Source: ABdhPJxhfLjhalre+GKyAEGDYbBlm7aBpXrHuEcJz9RhQp2Me0CbjXJmEFzEmorafW5Yb5Wy4siopM022TVMg34Ql0M=
+X-Received: by 2002:a05:6402:22a6:: with SMTP id cx6mr41882587edb.55.1618414756602;
+ Wed, 14 Apr 2021 08:39:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <000000000000301a4d05bfe14b8f@google.com> <CACT4Y+ZT2m7t+o9=VYCE32U_1aUVJXRp_5KgJSdEZC1YXy=qgA@mail.gmail.com>
+In-Reply-To: <CACT4Y+ZT2m7t+o9=VYCE32U_1aUVJXRp_5KgJSdEZC1YXy=qgA@mail.gmail.com>
+From:   Andrey Konovalov <andreyknvl@gmail.com>
+Date:   Wed, 14 Apr 2021 17:39:06 +0200
+Message-ID: <CA+fCnZcWEuYeOx6-0LY+cqtGVbMx2OiyhEELErdfwaHGcUWHbQ@mail.gmail.com>
+Subject: Re: [syzbot] unexpected kernel reboot (4)
+To:     Dmitry Vyukov <dvyukov@google.com>,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc:     syzbot <syzbot+9ce030d4c89856b27619@syzkaller.appspotmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
-branch HEAD: aa2f62cf211a0985c14fd78a17d55296769698d6  Input: add driver for the Hycon HY46XX touchpanel series
+On Wed, Apr 14, 2021 at 7:45 AM Dmitry Vyukov <dvyukov@google.com> wrote:
+>
+> On Tue, Apr 13, 2021 at 11:27 PM syzbot
+> <syzbot+9ce030d4c89856b27619@syzkaller.appspotmail.com> wrote:
+> >
+> > Hello,
+> >
+> > syzbot found the following issue on:
+> >
+> > HEAD commit:    89698bec Merge tag 'm68knommu-for-v5.12-rc7' of git://git...
+> > git tree:       upstream
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=1243fcfed00000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=b234ddbbe2953747
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=9ce030d4c89856b27619
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=173e92fed00000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1735da2ed00000
+> >
+> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> > Reported-by: syzbot+9ce030d4c89856b27619@syzkaller.appspotmail.com
+> >
+> > output_len: 0x000000000e74eb68
+> > kernel_total_size: 0x000000000f226000
+> > needed_size: 0x000000000f400000
+> > trampoline_32bit: 0x000000000009d000
+> > Decompressing Linux... Parsing ELF... done.
+> > Booting the kernel.
+>
+> +linux-input
+>
+> The reproducer connects some USB HID device and communicates with the driver.
+> Previously we observed reboots because HID devices can trigger reboot
+> SYSRQ, but we disable it with "CONFIG_MAGIC_SYSRQ is not set".
+> How else can a USB device reboot the machine? Is it possible to disable it?
+> I don't see any direct includes of <linux/reboot.h> in drivers/usb/*
 
-elapsed time: 720m
+This happens when a keyboard sends the Ctrl+Alt+Del sequence, see
+fn_boot_it()->ctrl_alt_del() in drivers/tty/vt/keyboard.c.
 
-configs tested: 108
-configs skipped: 3
+There was a patchset by Tetsuo [1] to suppress this, but I think it
+was abandoned.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+(This reminds of a somewhat related syzkaller issue:
+https://github.com/google/syzkaller/issues/1824; it relies on a
+similar reproducer.)
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-x86_64                           allyesconfig
-riscv                            allmodconfig
-riscv                            allyesconfig
-i386                             allyesconfig
-sh                 kfr2r09-romimage_defconfig
-csky                             alldefconfig
-mips                      pistachio_defconfig
-mips                          ath79_defconfig
-mips                           ip22_defconfig
-powerpc                 mpc836x_mds_defconfig
-nds32                            alldefconfig
-arm                         socfpga_defconfig
-sparc64                             defconfig
-powerpc                        warp_defconfig
-mips                        nlm_xlr_defconfig
-ia64                      gensparse_defconfig
-powerpc                      cm5200_defconfig
-sh                   secureedge5410_defconfig
-s390                             alldefconfig
-mips                        bcm47xx_defconfig
-mips                  decstation_64_defconfig
-h8300                       h8s-sim_defconfig
-powerpc                       ebony_defconfig
-powerpc                      ppc6xx_defconfig
-mips                          rb532_defconfig
-sh                        sh7785lcr_defconfig
-arm                  colibri_pxa300_defconfig
-arc                    vdk_hs38_smp_defconfig
-powerpc                      acadia_defconfig
-arm                          pxa168_defconfig
-powerpc                         ps3_defconfig
-sh                                  defconfig
-s390                             allyesconfig
-arm                           sunxi_defconfig
-powerpc                 mpc836x_rdk_defconfig
-powerpc                    sam440ep_defconfig
-sh                          rsk7203_defconfig
-powerpc                   currituck_defconfig
-sh                            hp6xx_defconfig
-sh                ecovec24-romimage_defconfig
-arm                          lpd270_defconfig
-mips                           ci20_defconfig
-arm                        multi_v7_defconfig
-arm                        spear3xx_defconfig
-powerpc                       eiger_defconfig
-powerpc                     mpc512x_defconfig
-sh                   rts7751r2dplus_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-s390                                defconfig
-parisc                              defconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-sparc                            allyesconfig
-i386                                defconfig
-sparc                               defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a003-20210414
-i386                 randconfig-a006-20210414
-i386                 randconfig-a001-20210414
-i386                 randconfig-a005-20210414
-i386                 randconfig-a004-20210414
-i386                 randconfig-a002-20210414
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-um                               allmodconfig
-um                                allnoconfig
-um                               allyesconfig
-um                                  defconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a003-20210414
-x86_64               randconfig-a002-20210414
-x86_64               randconfig-a005-20210414
-x86_64               randconfig-a001-20210414
-x86_64               randconfig-a006-20210414
-x86_64               randconfig-a004-20210414
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+[1] https://groups.google.com/g/syzkaller/c/7wCmrGlLgm0/m/5yG6HVtbBQAJ
