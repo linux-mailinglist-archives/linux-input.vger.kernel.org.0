@@ -2,108 +2,170 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01A3C35F7A4
-	for <lists+linux-input@lfdr.de>; Wed, 14 Apr 2021 17:29:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8A2B35F7E8
+	for <lists+linux-input@lfdr.de>; Wed, 14 Apr 2021 17:48:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352250AbhDNP31 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 14 Apr 2021 11:29:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47390 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352280AbhDNP3Y (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 14 Apr 2021 11:29:24 -0400
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 082D2C061574
-        for <linux-input@vger.kernel.org>; Wed, 14 Apr 2021 08:29:02 -0700 (PDT)
-Received: by mail-qt1-x82e.google.com with SMTP id i6so6104690qti.10
-        for <linux-input@vger.kernel.org>; Wed, 14 Apr 2021 08:29:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=w9Oa3BGE0nLdxfYSEJulYCQMQ2MOOmW16QvouCtA+Ws=;
-        b=Trw4QaVx4IDtynizdbhRMzOZ6NQrZOQkImB52ygkyeKLdYaiE1ZQofk/brnMhXSpSS
-         84gc4QfaWVXCoIWRgBQ+2U/V90JRhWBtDdeODEyCIwoQ7RTmvB+6v8tXi4ZltwjX7XbJ
-         UBthN1H+rm9GC2LQJeI14t5WmXgg2Zgh075As=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=w9Oa3BGE0nLdxfYSEJulYCQMQ2MOOmW16QvouCtA+Ws=;
-        b=ecRTWNgIgAIEZ8/M+bmPC66hNMCQwjj9nSWH/em6c/06eNR7LW5/mGb9anm3Fec/GM
-         9Zm5WGosbHYdrIgg8+58JHyWPKYEk+RaCRPn6ArJzwsnBRGMo3dUYrh7Yiv3MdrbZtIF
-         hdaLlgyrifzm6Se2EbWwjytPluFZbqTouRyGviyCUJ3OWDKQYAGvi3YACvRQH8jJARbr
-         06D1Gvp6A/w5JFQ08TdsAl0buSD6s7/mXYGwqkDwA25CpDZcCfnbiozMufR+UDEeyujc
-         xdew1gTz9XcZpKEfjztx2N694aH9vJFQjKdt8F+pTVIQvB82DJvFuISMnlK6417na2aO
-         /AWw==
-X-Gm-Message-State: AOAM5319sJdKceKMVkvtzzVSyrhyUbpKZq3vB3twK6MJTQls39zKOzE/
-        f8pdmzRNV2Ki5hp9XXh2x+hlT6UiQ+qNSA==
-X-Google-Smtp-Source: ABdhPJzWzIttkLC9gRfp7/DRGMNE//+BuOraxYshyHTj8ShSXnMh5HqWe94Xr3tP7x59zMj/HttStA==
-X-Received: by 2002:ac8:6f31:: with SMTP id i17mr18507835qtv.184.1618414141269;
-        Wed, 14 Apr 2021 08:29:01 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id h14sm11710476qtx.64.2021.04.14.08.29.00
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Apr 2021 08:29:01 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id v72so1850623ybe.11
-        for <linux-input@vger.kernel.org>; Wed, 14 Apr 2021 08:29:00 -0700 (PDT)
-X-Received: by 2002:a25:58d5:: with SMTP id m204mr55376026ybb.32.1618414140336;
- Wed, 14 Apr 2021 08:29:00 -0700 (PDT)
+        id S233074AbhDNPeb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 14 Apr 2021 11:34:31 -0400
+Received: from mga06.intel.com ([134.134.136.31]:55921 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230281AbhDNPea (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 14 Apr 2021 11:34:30 -0400
+IronPort-SDR: fxNr5biy5juZWswMIpO0deoWvJwdDENrMN6rHExqP6MtRrfODd05bTomww+IDS4pHMv5IsSwIk
+ X2XEfd6ueXIw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9954"; a="255983498"
+X-IronPort-AV: E=Sophos;i="5.82,222,1613462400"; 
+   d="scan'208";a="255983498"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2021 08:34:09 -0700
+IronPort-SDR: MK4CyN+//NPrx1YFuifJEdapQ/1SypabACibuL1qoxYAKjNa8uK22tsRf0/+Uo0Bfjt4qtfUF1
+ OpLzuJeuF09A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,222,1613462400"; 
+   d="scan'208";a="399219606"
+Received: from lkp-server02.sh.intel.com (HELO fa9c8fcc3464) ([10.239.97.151])
+  by orsmga002.jf.intel.com with ESMTP; 14 Apr 2021 08:34:08 -0700
+Received: from kbuild by fa9c8fcc3464 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1lWhWp-00005Y-BF; Wed, 14 Apr 2021 15:34:07 +0000
+Date:   Wed, 14 Apr 2021 23:33:53 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [input:master] BUILD SUCCESS
+ aa2f62cf211a0985c14fd78a17d55296769698d6
+Message-ID: <60770b61.Lt83+x9EBk5N0rVZ%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <1618276850-27178-1-git-send-email-johnny.chuang.emc@gmail.com>
-In-Reply-To: <1618276850-27178-1-git-send-email-johnny.chuang.emc@gmail.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Wed, 14 Apr 2021 08:28:49 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VvrWKKbLExpFaDLTDGTam3rbwd7CwTLVFdCY=_c7-eag@mail.gmail.com>
-Message-ID: <CAD=FV=VvrWKKbLExpFaDLTDGTam3rbwd7CwTLVFdCY=_c7-eag@mail.gmail.com>
-Subject: Re: [PATCH v3] HID: i2c-hid: Skip ELAN power-on command after reset
-To:     Johnny Chuang <johnny.chuang.emc@gmail.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Harry Cutts <hcutts@chromium.org>,
-        Johnny Chuang <johnny.chuang@emc.com.tw>,
-        James Chen <james.chen@emc.com.tw>,
-        Jennifer Tsai <jennifer.tsai@emc.com.tw>,
-        Paul Liang <paul.liang@emc.com.tw>,
-        Jeff Chuang <jeff.chuang@emc.com.tw>,
-        Jingle <jingle.wu@emc.com.tw>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
+branch HEAD: aa2f62cf211a0985c14fd78a17d55296769698d6  Input: add driver for the Hycon HY46XX touchpanel series
 
-On Mon, Apr 12, 2021 at 6:20 PM Johnny Chuang
-<johnny.chuang.emc@gmail.com> wrote:
->
-> Fixes: 43b7029f475e ("HID: i2c-hid: Send power-on command after reset").
+elapsed time: 720m
 
-Note that the "Fixes" tag actually belongs down at the end. It also
-shouldn't have a "." at the end. Presumably the maintainer can adjust
-this when landing?
+configs tested: 108
+configs skipped: 3
 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> For ELAN touchscreen, we found our boot code of IC was not flexible enough
-> to receive and handle this command.
-> Once the FW main code of our controller is crashed for some reason,
-> the controller could not be enumerated successfully to be recognized
-> by the system host. therefore, it lost touch functionality.
->
-> Add quirk for skip send power-on command after reset.
-> It will impact to ELAN touchscreen and touchpad on HID over I2C projects.
->
-> Signed-off-by: Johnny Chuang <johnny.chuang.emc@gmail.com>
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+x86_64                           allyesconfig
+riscv                            allmodconfig
+riscv                            allyesconfig
+i386                             allyesconfig
+sh                 kfr2r09-romimage_defconfig
+csky                             alldefconfig
+mips                      pistachio_defconfig
+mips                          ath79_defconfig
+mips                           ip22_defconfig
+powerpc                 mpc836x_mds_defconfig
+nds32                            alldefconfig
+arm                         socfpga_defconfig
+sparc64                             defconfig
+powerpc                        warp_defconfig
+mips                        nlm_xlr_defconfig
+ia64                      gensparse_defconfig
+powerpc                      cm5200_defconfig
+sh                   secureedge5410_defconfig
+s390                             alldefconfig
+mips                        bcm47xx_defconfig
+mips                  decstation_64_defconfig
+h8300                       h8s-sim_defconfig
+powerpc                       ebony_defconfig
+powerpc                      ppc6xx_defconfig
+mips                          rb532_defconfig
+sh                        sh7785lcr_defconfig
+arm                  colibri_pxa300_defconfig
+arc                    vdk_hs38_smp_defconfig
+powerpc                      acadia_defconfig
+arm                          pxa168_defconfig
+powerpc                         ps3_defconfig
+sh                                  defconfig
+s390                             allyesconfig
+arm                           sunxi_defconfig
+powerpc                 mpc836x_rdk_defconfig
+powerpc                    sam440ep_defconfig
+sh                          rsk7203_defconfig
+powerpc                   currituck_defconfig
+sh                            hp6xx_defconfig
+sh                ecovec24-romimage_defconfig
+arm                          lpd270_defconfig
+mips                           ci20_defconfig
+arm                        multi_v7_defconfig
+arm                        spear3xx_defconfig
+powerpc                       eiger_defconfig
+powerpc                     mpc512x_defconfig
+sh                   rts7751r2dplus_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+s390                                defconfig
+parisc                              defconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+sparc                            allyesconfig
+i386                                defconfig
+sparc                               defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+i386                 randconfig-a003-20210414
+i386                 randconfig-a006-20210414
+i386                 randconfig-a001-20210414
+i386                 randconfig-a005-20210414
+i386                 randconfig-a004-20210414
+i386                 randconfig-a002-20210414
+riscv                    nommu_k210_defconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+um                               allmodconfig
+um                                allnoconfig
+um                               allyesconfig
+um                                  defconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
 
-This patch looks fine to me, thus:
+clang tested configs:
+x86_64               randconfig-a003-20210414
+x86_64               randconfig-a002-20210414
+x86_64               randconfig-a005-20210414
+x86_64               randconfig-a001-20210414
+x86_64               randconfig-a006-20210414
+x86_64               randconfig-a004-20210414
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-
-I can confirm that after applying this patch I can recovery my borked
-touchscreen (which got borked by a failed firmware update ages ago):
-
-Tested-by: Douglas Anderson <dianders@chromium.org>
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
