@@ -2,122 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7024B36007B
-	for <lists+linux-input@lfdr.de>; Thu, 15 Apr 2021 05:30:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44640360197
+	for <lists+linux-input@lfdr.de>; Thu, 15 Apr 2021 07:28:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229867AbhDODaf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 14 Apr 2021 23:30:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34910 "EHLO
+        id S230115AbhDOF2a (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 15 Apr 2021 01:28:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229927AbhDODae (ORCPT
+        with ESMTP id S229503AbhDOF2a (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 14 Apr 2021 23:30:34 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05E2FC06138C
-        for <linux-input@vger.kernel.org>; Wed, 14 Apr 2021 20:30:10 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id em21-20020a17090b0155b029014e204a81e6so4012581pjb.1
-        for <linux-input@vger.kernel.org>; Wed, 14 Apr 2021 20:30:10 -0700 (PDT)
+        Thu, 15 Apr 2021 01:28:30 -0400
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1125BC061574;
+        Wed, 14 Apr 2021 22:28:08 -0700 (PDT)
+Received: by mail-pl1-x62e.google.com with SMTP id d8so11405703plh.11;
+        Wed, 14 Apr 2021 22:28:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=L/J0PuGsoQ9jKaU7QDPzGYAqcrZkxGOtbfN36+E+p8I=;
-        b=LGHLZBSOwzpZ9O510rIL4ZM32mfTVVIY11xJJeGRe404aX0hfcWxjokJKytl+/wxiO
-         bSuhMJNi1caURHh9x8TSTzB4INo7Yy5crEqzvacuN3sQjzQppEtluAKaHfRmW8467vuk
-         KomjIjGzFdAYynHossjAeKnE+UL6wviA9+iHc=
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=k2yUYeG+28QcibceenXGfoVohHfUzQs5aF8cgYnWup4=;
+        b=EL/H67VV9jDnI5FeYT1sUW657hXMUtzvs3reiqj1yJB2UFYtXRC+yc/pOQd8xAE61W
+         HR8OBvIYM8W+w8OwP79rMMulc+TKqJ+vGMqg7SakSZg8sfYBJjUZHHkRqAUjoUYlunIO
+         fkLV+iJisCX/N+xUYsw/c2mX09VNmPR4o4WDbkYVT1oZQMSjOf2zLPEJAGAgsVSLNlBX
+         QqLpUIGcGcQFyDhO55Ux9GtplMnRPOtYKSj32xof2imnccyJincL7ECQHqmmNLpQCgdb
+         7J/X5bToQSXzhDskiE6MDKP5WfXljWVYKV24XeKgQkcKy2rm6h3FZbyWNOgOwdpZojwr
+         fIcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=L/J0PuGsoQ9jKaU7QDPzGYAqcrZkxGOtbfN36+E+p8I=;
-        b=I1sbsrmRavkuskuLsbOzbakPJ2I//xhDnteF+hDmsEFdVzUd+4WnyRZMFXJzQ4LTtA
-         ukiYG29GPV6WnD/e6aEYpBK4KU/Qtn6HFEbeiYuU4AzbCA29cQqSPqvvdaJaqRRtwey+
-         04zgh/6BcMEI1C2L7SXnrp22MyV6zRvOiI8nahEglRZ5Zup/8loRBm6mDZq2O+1Hi60B
-         6koWMxz9tDfI9whir8HIB4c6+2VeYSFx8ZgQv9s5rwxjQ7hh6kMKGBGwHLT4lMb+0PRD
-         BKMUoHzBczh59az0unyKXv1I8IYB44tXhXp8KoAKFkpTbmafY79N9KI2pp5zzB1Ymts/
-         xkhA==
-X-Gm-Message-State: AOAM532VCrBPXuHQE8WG1DSNmrdZ/VfCRYUiAcUQ6+dQ7lfDRcYeOGQ9
-        dsQTSDtRLfvstzp3P8dty4Ftu2FHsPzwzQ==
-X-Google-Smtp-Source: ABdhPJwoj7f2JqKoECZlBfOxjMxLfaPaqA7yxldayc265YPN0gbhK0JJj702ZI/Wz77wEj5Y8ROZWA==
-X-Received: by 2002:a17:90a:e298:: with SMTP id d24mr1455055pjz.37.1618457410343;
-        Wed, 14 Apr 2021 20:30:10 -0700 (PDT)
-Received: from ikjn-p920.tpe.corp.google.com ([2401:fa00:1:b:2d50:863d:8932:d6bc])
-        by smtp.gmail.com with ESMTPSA id n3sm351622pga.92.2021.04.14.20.30.08
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=k2yUYeG+28QcibceenXGfoVohHfUzQs5aF8cgYnWup4=;
+        b=L6u0g2fezOQiiMU2VFGeGP5KfGFid7W6x8dn0MABv8sJkrbIbhcuXOX5j6kOmXZ51e
+         acwB8H9ru7gQrV3BjqGoPCK4F45mkKRdAWmVCxt9kc6zQEvxae+2GZk2iVcOhojnvBj/
+         1ZsM78VndSsoLcXEoKMPYsdUpifAiTHs6jxyS/9OGpI5Xgoq9mlioauF6oJRJQlODjUK
+         5HVyZBburLlYkUE0MxmBZJ7+kOOIiQk5L/GeZvs85YJWcV2grpQxTxy6JA2gdJDpv04R
+         uGypoO/UPYo9r6b4Qn0jK+aP7yybMHoJTjqGRPOVJowqSQPEZZZaWfal5O6AEdoL1qL9
+         y/2Q==
+X-Gm-Message-State: AOAM530C/PNY3int7zY20hNd6YXMdb1pMx3RuC5JoOG9LUCeh+cwPTuT
+        Ikm6uiDzfPhdxPGx1LvJFb4=
+X-Google-Smtp-Source: ABdhPJyX9F9dW8Q96gP6m1OtMEnURJdz1eajEDbujbqiZnqe2AL+L6xJS8NB6P8B+NDpw+s6Vqi+4w==
+X-Received: by 2002:a17:902:e98a:b029:eb:65ee:ddc9 with SMTP id f10-20020a170902e98ab02900eb65eeddc9mr1994430plb.73.1618464487535;
+        Wed, 14 Apr 2021 22:28:07 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:4d7e:4d10:d9a7:9fa4])
+        by smtp.gmail.com with ESMTPSA id d4sm992012pjs.1.2021.04.14.22.28.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 20:30:09 -0700 (PDT)
-From:   Ikjoon Jang <ikjn@chromium.org>
-To:     linux-input@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     Dmitry Torokhov <dtor@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        Ikjoon Jang <ikjn@chromium.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jiri Kosina <jkosina@suse.cz>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jikos@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH v5 2/2] HID: google: Add of_match table to Whiskers switch device.
-Date:   Thu, 15 Apr 2021 11:29:58 +0800
-Message-Id: <20210415032958.740233-3-ikjn@chromium.org>
-X-Mailer: git-send-email 2.31.1.295.g9ea45b61b8-goog
-In-Reply-To: <20210415032958.740233-1-ikjn@chromium.org>
-References: <20210415032958.740233-1-ikjn@chromium.org>
+        Wed, 14 Apr 2021 22:28:06 -0700 (PDT)
+Date:   Wed, 14 Apr 2021 22:28:04 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Subject: [git pull] Input updates for v5.12-rc7
+Message-ID: <YHfO5AMF3PwmEBhR@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add a device tree match table for "cros-cbas" switch device.
+Hi Linus,
 
-Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
-Reviewed-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Acked-by: Jiri Kosina <jkosina@suse.cz>
+Please pull from:
 
----
+	git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
 
-(no changes since v1)
+to receive updates for the input subsystem. Just a few driver fixes
+here.
 
-Please note that v3 was submitted in 28 Oct 2019, 1.5yrs ago.
-Link(v2): https://patchwork.kernel.org/project/linux-input/patch/20191021030158.32464-1-ikjn@chromium.org/
+Changelog:
+---------
 
----
- drivers/hid/hid-google-hammer.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Arnd Bergmann (1):
+      Input: i8042 - fix Pegatron C15B ID entry
 
-diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hammer.c
-index d9319622da44..be4f9f3dbbba 100644
---- a/drivers/hid/hid-google-hammer.c
-+++ b/drivers/hid/hid-google-hammer.c
-@@ -17,6 +17,7 @@
- #include <linux/hid.h>
- #include <linux/leds.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/platform_data/cros_ec_commands.h>
- #include <linux/platform_data/cros_ec_proto.h>
- #include <linux/platform_device.h>
-@@ -272,12 +273,21 @@ static const struct acpi_device_id cbas_ec_acpi_ids[] = {
- };
- MODULE_DEVICE_TABLE(acpi, cbas_ec_acpi_ids);
- 
-+#ifdef CONFIG_OF
-+static const struct of_device_id cbas_ec_of_match[] = {
-+	{ .compatible = "google,cros-cbas" },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, cbas_ec_of_match);
-+#endif
-+
- static struct platform_driver cbas_ec_driver = {
- 	.probe = cbas_ec_probe,
- 	.remove = cbas_ec_remove,
- 	.driver = {
- 		.name = "cbas_ec",
- 		.acpi_match_table = ACPI_PTR(cbas_ec_acpi_ids),
-+		.of_match_table = of_match_ptr(cbas_ec_of_match),
- 		.pm = &cbas_ec_pm_ops,
- 	},
- };
+Caleb Connolly (1):
+      Input: s6sy761 - fix coordinate read bit shift
+
+Dmitry Osipenko (2):
+      Input: elants_i2c - fix division by zero if firmware reports zero phys size
+      Input: elants_i2c - drop zero-checking of ABS_MT_TOUCH_MAJOR resolution
+
+Fabian Vogt (1):
+      Input: nspire-keypad - enable interrupts only when opened
+
+Wei Yongjun (1):
+      Input: n64joy - fix return value check in n64joy_probe()
+
+Diffstat:
+--------
+
+ drivers/input/joystick/n64joy.c        |  4 +--
+ drivers/input/keyboard/nspire-keypad.c | 56 +++++++++++++++++++---------------
+ drivers/input/serio/i8042-x86ia64io.h  |  1 +
+ drivers/input/touchscreen/elants_i2c.c |  5 ++-
+ drivers/input/touchscreen/s6sy761.c    |  4 +--
+ 5 files changed, 38 insertions(+), 32 deletions(-)
+
+Thanks.
+
+
 -- 
-2.31.1.295.g9ea45b61b8-goog
-
+Dmitry
