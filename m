@@ -2,54 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 62DDA3603C0
-	for <lists+linux-input@lfdr.de>; Thu, 15 Apr 2021 09:55:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C71B4360518
+	for <lists+linux-input@lfdr.de>; Thu, 15 Apr 2021 10:58:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231391AbhDOH4Q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 15 Apr 2021 03:56:16 -0400
-Received: from mail.digitalprior.com ([80.211.186.237]:54260 "EHLO
-        mail.digitalprior.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230511AbhDOH4P (ORCPT
+        id S231682AbhDOI7H (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 15 Apr 2021 04:59:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50024 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231534AbhDOI7H (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 15 Apr 2021 03:56:15 -0400
-Received: by mail.digitalprior.com (Postfix, from userid 1001)
-        id 04DE6A3147; Thu, 15 Apr 2021 08:55:41 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digitalprior.com;
-        s=mail; t=1618473350;
-        bh=tegSUSO8UdW4nPAN+CTxUCS0b4WeMgxljdiMdwCnwbk=;
-        h=Date:From:To:Subject:From;
-        b=Hvf/EJTiSafWfoGfvBB6Ym2x2lmaRkuXRC3gD00GX0bT2enm9aDVxs81XOyUw/p3Y
-         l9ATIxIfKp3CjPou9L9WhBO+g2/rT1LpwyzUONdxly238k25FwlmCFLh03nyWx7NvW
-         aPKkBOh1ziWcDGJzFnnow1NLE4TY1qOe0PqB9bjDwW+ENMycd3aPYudR2zrWrcIePU
-         2VDiYzJG1r/WNca3PBd/5046nkU9QFWoB/zS/B3aCrEoj9oExc/oNf6lQwVE0QZXpp
-         2WqWWpjpF5zpOMIarrCSi8nDiTPZIr1eKyALq7Hr9L9yel4tKQAn2xccOi1S9wjojd
-         M4hJriF0FJ7QA==
-Received: by mail.digitalprior.com for <linux-input@vger.kernel.org>; Thu, 15 Apr 2021 07:55:36 GMT
-Message-ID: <20210415074501-0.1.20.259z.0.iwqfb2dfde@digitalprior.com>
-Date:   Thu, 15 Apr 2021 07:55:36 GMT
-From:   "Alarico Veloz" <alarico.veloz@digitalprior.com>
-To:     <linux-input@vger.kernel.org>
-Subject: Servicio de la flota
-X-Mailer: mail.digitalprior.com
+        Thu, 15 Apr 2021 04:59:07 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90326C061574
+        for <linux-input@vger.kernel.org>; Thu, 15 Apr 2021 01:58:44 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id p67so10679168pfp.10
+        for <linux-input@vger.kernel.org>; Thu, 15 Apr 2021 01:58:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raydium-corp-partner-google-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=H3nwljrpf1jf8bySluxRv8rZgDkPdXANojdvTEFQXIo=;
+        b=ixrsZLFMmuaql2Etmu49zksRPb1hdpL95Q86zMxUA19u0RAQgtx54Pd4gUEUtDW9o4
+         aRf1OLWDWDSJKpGBJ7P4zz0/E6uxGzTqnjYH4DXNOl+lAnelFGFbN+Ouc8zdUSEGl0yM
+         7Iy8B6zhe0e0qIrbLToGdIi9qBp5WAT1mN6qxMhRYPbpy+P1B2ua8D+1QlPNjaC72ko6
+         vkYRgYPnpbWP0Ac5elWcCRHmnaT9eSZ5SRoASpIU9I/VlB1rYbQtdwoGsTW9IY6em5v4
+         r1Uag2lQILM/b5xtslPeioY0M55xnK6DcDrM+PlJ4dL7Ldd50Lx64hjmKv/RB0/+PAGT
+         V8mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=H3nwljrpf1jf8bySluxRv8rZgDkPdXANojdvTEFQXIo=;
+        b=GHOufoy5wnlRYRarJUwVs5mDT9BKZHLzqLr1FJrgkWAAfU7F5NFOukKIQ7yYxXonOX
+         I/I43K3fmgTYcW2W8PULFyY3nnO0m3xm1LQPKIbl3xmDbaGWqy1DflYXzgQmDwDQM6nR
+         SZGEISJPUKCupDDsPs+lFmMCKFFm5T9fkRCpYLBi+B9sTGqJHhWV5qYKKxmHrHTEz+Yx
+         WZFVpbWLjDiitNQaERFsL9+isOtFrxw7HLbJuNS9cm//eHQmyGVAHepp3IlDEyknFxEs
+         dstW3H5lVo15vD0zhGZGi5qeMfkhp2PS42nkQITbI/WM3WtXyFeEHGv1trAKs4mM15QP
+         ubTw==
+X-Gm-Message-State: AOAM533Ijs3gCUPMVkJow3gahYcq7jWIIPcDNQP4340iW0B13IZwU+4z
+        z6uKjniztRXaJpvHgeYRcE4LbQ==
+X-Google-Smtp-Source: ABdhPJyGYZQMDrb6VLkEkR/4k9dlcJGA10PNNI1qnL4lyUwtOhzy0MuaOpO5O4nzSO5ai4n6hT8srQ==
+X-Received: by 2002:a65:6143:: with SMTP id o3mr2473224pgv.332.1618477124217;
+        Thu, 15 Apr 2021 01:58:44 -0700 (PDT)
+Received: from localhost.localdomain ([2402:7500:568:4ad6:da14:907c:85c9:a997])
+        by smtp.gmail.com with ESMTPSA id t3sm1575883pfg.176.2021.04.15.01.58.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Apr 2021 01:58:43 -0700 (PDT)
+From:   "simba.hsu" <simba.hsu@raydium.corp-partner.google.com>
+To:     dmitry.torokhov@gmail.com, furquan@google.com,
+        seanpaul@chromium.org, rrangel@chromium.org, simba.hsu@rad-ic.com
+Cc:     jeffrey.lin@rad-ic.com, KP.li@rad-ic.com,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "simba.hsu" <simba.hsu@raydium.corp-partner.google.com>
+Subject: [PATCH] driver: input: touchscreen: modify Raydium i2c touchscreen driver
+Date:   Thu, 15 Apr 2021 16:58:29 +0800
+Message-Id: <20210415085829.1419147-1-simba.hsu@raydium.corp-partner.google.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Buenos d=C3=ADas:
+This path makes auto-update available when IC's status is
+Recovery mode.
 
-Le escribo para hablarle sobre una de las mejores herramientas GPS en el =
-mercado.
+Signed-off-by: simba.hsu@raydium.corp-partner.google.com
+Change-Id: I5ae54896a201b949eba7514500a7e75574f5726b
+---
+ drivers/input/touchscreen/raydium_i2c_ts.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-La herramienta, que me gustar=C3=ADa presentarle brevemente, dispone de m=
-uchas funciones =C3=BAtiles para su trabajo, que optimizan los procesos d=
-e transporte y le ayudan a realizar tareas de campo de manera m=C3=A1s ef=
-iciente.
+diff --git a/drivers/input/touchscreen/raydium_i2c_ts.c b/drivers/input/touchscreen/raydium_i2c_ts.c
+index 444479ef699e..a97403c55f75 100644
+--- a/drivers/input/touchscreen/raydium_i2c_ts.c
++++ b/drivers/input/touchscreen/raydium_i2c_ts.c
+@@ -298,6 +298,7 @@ static int raydium_i2c_query_ts_BL_info(struct raydium_data *ts)
+ 					 0x10, 0xc0, 0x01, 0x00, 0x04, 0x00};
+ 	int error;
+ 	u8 rbuf[5] = {0, 0, 0, 0, 0};
++	u32 tmpdata = 0;
+ 
+ 	error = raydium_i2c_send(client,
+ 				 RM_CMD_BOOT_WRT, get_hwid, sizeof(get_hwid));
+@@ -315,7 +316,8 @@ static int raydium_i2c_query_ts_BL_info(struct raydium_data *ts)
+ 	error = raydium_i2c_read(client,
+ 				 RM_CMD_BOOT_CHK, rbuf, sizeof(rbuf));
+ 	if (!error) {
+-		ts->info.hw_ver = cpu_to_le32(rbuf[1]<<24|rbuf[2]<<16|rbuf[3]<<8|rbuf[4]);
++		tmpdata = (rbuf[1]<<24|rbuf[2]<<16|rbuf[3]<<8|rbuf[4]);
++		ts->info.hw_ver = cpu_to_le32(tmpdata);
+ 		dev_err(&client->dev, "HWID %08X\n", ts->info.hw_ver);
+ 	} else {
+ 		ts->info.hw_ver = cpu_to_le32(0xffffffffUL);
+-- 
+2.25.1
 
-=C2=BFQuiere conocer los detalles?
-
-
-Atentamente,
-Alarico Veloz
