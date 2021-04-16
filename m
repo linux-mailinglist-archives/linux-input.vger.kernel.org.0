@@ -2,71 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F219D361D6A
-	for <lists+linux-input@lfdr.de>; Fri, 16 Apr 2021 12:09:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2D7D361DD5
+	for <lists+linux-input@lfdr.de>; Fri, 16 Apr 2021 12:14:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238515AbhDPJvX convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Fri, 16 Apr 2021 05:51:23 -0400
-Received: from os3-362-14218.vs.sakura.ne.jp ([133.167.64.222]:58188 "EHLO
-        mail.j-snap.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S238093AbhDPJvX (ORCPT
+        id S239216AbhDPKOh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Apr 2021 06:14:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42996 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235124AbhDPKOg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Apr 2021 05:51:23 -0400
-X-Greylist: delayed 21569 seconds by postgrey-1.27 at vger.kernel.org; Fri, 16 Apr 2021 05:51:22 EDT
-Received: from johnlewis.co.uk (ec2-54-183-249-251.us-west-1.compute.amazonaws.com [54.183.249.251])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        Fri, 16 Apr 2021 06:14:36 -0400
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [IPv6:2001:67c:2050::465:201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCB19C061574
+        for <linux-input@vger.kernel.org>; Fri, 16 Apr 2021 03:14:11 -0700 (PDT)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by mail.j-snap.com (Postfix) with ESMTPSA id C5EC15A45F9
-        for <linux-input@vger.kernel.org>; Fri, 16 Apr 2021 12:16:54 +0900 (JST)
-Reply-To: robturner.procurement@johnlewis-trade.com, rob76295@gmail.com
-From:   John Lewis Partnersip <robert-turner42@johnlewis.co.uk>
+        by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4FMBrd1Cz6zQjxF
+        for <linux-input@vger.kernel.org>; Fri, 16 Apr 2021 12:14:09 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp2.mailbox.org ([80.241.60.241])
+        by spamfilter01.heinlein-hosting.de (spamfilter01.heinlein-hosting.de [80.241.56.115]) (amavisd-new, port 10030)
+        with ESMTP id ViEZpyB_-xoy for <linux-input@vger.kernel.org>;
+        Fri, 16 Apr 2021 12:14:06 +0200 (CEST)
+From:   =?ISO-8859-1?Q?Andr=E9?= Najda <andre@najda.de>
 To:     linux-input@vger.kernel.org
-Subject: Order Inquiry  [JL] 4/16/21
-Date:   16 Apr 2021 03:16:51 +0000
-Message-ID: <20210415215243.D8921155FDDE7257@johnlewis.co.uk>
+Subject: psmouse serio2 psmouse.synaptics_intertouch=1
+Date:   Fri, 16 Apr 2021 12:14:04 +0200
+Message-ID: <4438747.vXUDI8C0e8@xc1507v2>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: multipart/signed; boundary="nextPart2014958.9o76ZdvQCi"; micalg="pgp-sha256"; protocol="application/pgp-signature"
+X-MBO-SPAM-Probability: 
+X-Rspamd-Score: -3.32 / 15.00 / 15.00
+X-Rspamd-Queue-Id: 004E216FF
+X-Rspamd-UID: 919bf4
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Dear linux-input
+--nextPart2014958.9o76ZdvQCi
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
+From: =?ISO-8859-1?Q?Andr=E9?= Najda <andre@najda.de>
+To: linux-input@vger.kernel.org
+Subject: psmouse serio2 psmouse.synaptics_intertouch=1
+Date: Fri, 16 Apr 2021 12:14:04 +0200
+Message-ID: <4438747.vXUDI8C0e8@xc1507v2>
 
-The famous brand John Lewis Partnership, is UK's largest multi-
-channel retailer with over 126 shops and multiple expansion in 
-Africa furnished by European/Asian/American products. We are 
-sourcing
-new products to attract new customers and also retain our 
-existing ones, create new partnerships with companies dealing 
-with different kinds of goods globally.
+[    4.315902] psmouse serio2: synaptics: Your touchpad (PNP: SYN1219 PNP0f=
+13)=20
+says it can support a different bus. If i2c-hid and hid-rmi are not used, y=
+ou=20
+might want to try setting psmouse.synaptics_intertouch to 1 and report this=
+ to=20
+linux-input@vger.kernel.org.
 
-Your company's products are of interest to our market as we have 
-an amazing market for your products.
+I'd like to report this as being told. If you need any further information=
+=20
+please ask me. I'm happy to answer any questions.
 
-Provide us your current catalog through email to review more. We 
-hope to be able to order with you and start a long-term friendly,
-respectable and solid business partnership. Please we would 
-appreciate it if you could send us your stock availability via 
-email if any.
+psmouse.synaptics_intertouch=3D1 works fine.
 
-Our payment terms are 15 days net in Europe, 30 days Net in UK 
-and 30 days net in Asia/USA as we operate with over 5297 
-suppliers around the globe for the past 50 years now. For 
-immediate response Send your reply to 
-robturner.procurement@johnlewis-trade.com for us to be able to 
-treat with care and urgency.
+=2D-=20
+Mit freundlichem Gru=DF, Andr=E9 Najda
 
-On behalf of our entire team, we wish you a fruitful 2021. 
+--nextPart2014958.9o76ZdvQCi
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
 
-Best Regards
+-----BEGIN PGP SIGNATURE-----
 
-Rob Turner
-Head Of Procurement Operations
-John Lewis Partnership.
-robturner.procurement@johnlewis-trade.com
-Tel: +44-7451-274090
-WhatsApp: +447497483925
-www.johnlewis.com
-REGISTERED OFFICE: 171 VICTORIA STREET, LONDON SW1E 5NN  
+iQEzBAABCAAdFiEEy4gtanl2vns0f3w0DB9QvgihGZYFAmB5Y2wACgkQDB9Qvgih
+GZaqNQf9EukGAsBe1Q8GxUTNYBbmS0ugmo+Rau03nfrtr2gQG9mfQubVw0xVEB3v
+Y1WUJPCi3KcPvSBTMLTdWO750toSD9KIIbp64a5Aw4Ko/oEoes62MVO1JZU8jjpJ
+C/HirKgDDZdOaObWia/ptYXzRRZZaCmnULqItTBFYJD9LyZJOX1JrMSkx1hrloLJ
+NliZojjMIxdS5ZjgnWrg2Gm/PnQXZ/Po0IBCkH/Iz6GA4H0YoAW9EMpUrs+kwxr6
+Shz7fL1H6kUXHdHGDNIXZXrtEA9gyrXg06iKpydZG548w3sRYK88u3VziFPYRUGc
+1B9shk34mcCm5LJ+bfNrCD+Lrpj/OA==
+=iYjc
+-----END PGP SIGNATURE-----
+
+--nextPart2014958.9o76ZdvQCi--
+
+
+
