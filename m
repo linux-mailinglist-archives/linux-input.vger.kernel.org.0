@@ -2,77 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37A16361E9C
-	for <lists+linux-input@lfdr.de>; Fri, 16 Apr 2021 13:27:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DE3636209A
+	for <lists+linux-input@lfdr.de>; Fri, 16 Apr 2021 15:13:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239119AbhDPL1p convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Fri, 16 Apr 2021 07:27:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58914 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235253AbhDPL1p (ORCPT
+        id S239122AbhDPNN7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Apr 2021 09:13:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43504 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235575AbhDPNN7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Apr 2021 07:27:45 -0400
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [IPv6:2001:67c:2050::465:102])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACC56C061574
-        for <linux-input@vger.kernel.org>; Fri, 16 Apr 2021 04:27:20 -0700 (PDT)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        Fri, 16 Apr 2021 09:13:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1618578814;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=5A3fp/cmojZQhykcJnsyJK/CDGgxHvSrDHImy/tnTOI=;
+        b=CxCippaQaUhfMDDK1hI9pDlyhnaeXEt6fYnmvIVL/eNXkoqDYIEtIniFKahB/ykGjlGhLR
+        lzGxn/rtkpogFv14P3uEs6qWjVUSmXMgljIp78DQVII6nMF10oDUtDK80HPImo9iCXf3eB
+        kQ5hSXV5gwMvx8oxRzYUMaDeFnYQyWM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-61-xw9javTiMDGQHuLjgvZQSg-1; Fri, 16 Apr 2021 09:13:30 -0400
+X-MC-Unique: xw9javTiMDGQHuLjgvZQSg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4FMDT12C1gzQjmf;
-        Fri, 16 Apr 2021 13:27:17 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp2.mailbox.org ([80.241.60.241])
-        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
-        with ESMTP id DR7PEpu6tYqR; Fri, 16 Apr 2021 13:27:14 +0200 (CEST)
-From:   =?ISO-8859-1?Q?Andr=E9?= Najda <andre@najda.de>
-To:     Yussuf Khalil <dev@pp3345.net>
-Cc:     linux-input@vger.kernel.org
-Subject: Re: psmouse serio2 psmouse.synaptics_intertouch=1
-Date:   Fri, 16 Apr 2021 13:27:12 +0200
-Message-ID: <2130114.vFx2qVVIhK@xc1507v2>
-In-Reply-To: <d81cea9f-67f4-c333-4652-e41cb837a8d5@pp3345.net>
-References: <4438747.vXUDI8C0e8@xc1507v2> <d81cea9f-67f4-c333-4652-e41cb837a8d5@pp3345.net>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76A2E84BA40;
+        Fri, 16 Apr 2021 13:13:29 +0000 (UTC)
+Received: from x1.localdomain (ovpn-113-102.ams2.redhat.com [10.36.113.102])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id CAEBA5C260;
+        Fri, 16 Apr 2021 13:13:24 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>, Peter Hoeg <peter@hoeg.com>,
+        linux-input@vger.kernel.org
+Subject: [PATCH 0/6] HID: lg-g15: Add support for the Logitech Z-10 speakers
+Date:   Fri, 16 Apr 2021 15:13:17 +0200
+Message-Id: <20210416131323.233184-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="iso-8859-1"
-X-MBO-SPAM-Probability: 
-X-Rspamd-Score: -3.33 / 15.00 / 15.00
-X-Rspamd-Queue-Id: 54E5A17FD
-X-Rspamd-UID: 444fe3
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-[    0.000000] DMI: TUXEDO P65_67HSHP/P65_67HSHP, BIOS 1.05.14 02/23/2018 
-02/23/2018
+Hi All,
 
-This is a laptop from Tuxedo company based on Clevo P650HS(-G) model.
+Here is a patch series adding support for the LCD menu keys +
+LCD brightness control on the Logitech Z-10 speakers (with LCD)
+which use the same protocol as the G15 keyboards.
 
-the touchpad still works after
+The first patch is an unrelated cleanup, patches 2-4 move some code
+into helper functions to allow re-use in the Z-10 case, patch 5
+adds the actual Z-10 support and patch 6 is a bonus patch adding
+missing MODULE_AUTHOR tags to 2 HID drivers which I maintain.
 
-- suspend and resume cycle
-- hibernate and resume cycle
+Regards,
 
-(sent a second time with mailinglist in CC)
+Hans
+
+
+Hans de Goede (6):
+  HID: lg-g15: Remove unused size argument from lg_*_event() functions
+  HID: lg-g15: Add a lg_g15_handle_lcd_menu_keys() helper function
+  HID: lg-g15: Add a lg_g15_init_input_dev() helper function
+  HID: lg-g15: Make the LED-name used by lg_g15_register_led() a
+    parameter
+  HID: lg-g15: Add support for the Logitech Z-10 speakers
+  HID: lg-g15 + ite: Add MODULE_AUTHOR
+
+ drivers/hid/hid-ids.h    |   1 +
+ drivers/hid/hid-lg-g15.c | 140 ++++++++++++++++++++++++++-------------
+ 2 files changed, 96 insertions(+), 45 deletions(-)
+
 -- 
-Mit freundlichem Gruß, André Najda
-
-
-On Friday, 16 April 2021 12:40:08 CEST you wrote:
-> Can you name the precise model of your laptop? Does the touchpad still work
-> properly after a suspend and resume cycle?
-> 
-> On 16.04.21 12:14, André Najda wrote:
-> > [    4.315902] psmouse serio2: synaptics: Your touchpad (PNP: SYN1219
-> > PNP0f13) says it can support a different bus. If i2c-hid and hid-rmi are
-> > not used, you might want to try setting psmouse.synaptics_intertouch to 1
-> > and report this to linux-input@vger.kernel.org.
-> > 
-> > I'd like to report this as being told. If you need any further information
-> > please ask me. I'm happy to answer any questions.
-> > 
-> > psmouse.synaptics_intertouch=1 works fine.
-
-
+2.31.1
 
