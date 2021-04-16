@@ -2,83 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64A8F361E12
-	for <lists+linux-input@lfdr.de>; Fri, 16 Apr 2021 12:38:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3634E361E30
+	for <lists+linux-input@lfdr.de>; Fri, 16 Apr 2021 12:46:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240881AbhDPKip (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Apr 2021 06:38:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33786 "EHLO mail.kernel.org"
+        id S240467AbhDPKqd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Apr 2021 06:46:33 -0400
+Received: from saul.pp3345.net ([163.172.111.124]:58536 "EHLO saul.pp3345.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240513AbhDPKin (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Apr 2021 06:38:43 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E2190610CD;
-        Fri, 16 Apr 2021 10:38:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1618569499;
-        bh=IwthkpghUgaJJRlf4fBazKvw5wFO1M0ZTtJe9yFo0YA=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=RAeFqmjk9tfJt62NfPMGJnali8yVh9D8pOU+pNHzN8XUuEKvChiVw08eex8FxsnAG
-         YjM/c/ziz5nyM2EajyWtLMUWywlz+Ntl/UbJBZUMNEQHWf4t+A8QJPmiJ+5y99+WPh
-         mO4v6NqfNRTUruhc1L22ER20DHpCl1SeC6jI3RGs1VQ9S1cJ3s0I/skm41p86Im1H0
-         xPFxHn4r2epHDuM7uMJaEk+2zlnz+qDCBbwt5cwcpCmnF/rem2cKCrZLbU8p8XrU5A
-         poMxYyG0LpOja86q/ndyng9KhDvMjEr50n5q//TWJoy8fQYV4AseC37ueqxrPRuG7u
-         44CkXt2uwV+yA==
-From:   Felipe Balbi <balbi@kernel.org>
-To:     zhuguangqing83@gmail.com,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Guangqing Zhu <zhuguangqing83@gmail.com>
-Subject: Re: [PATCH] Input: twl4030_keypad - Fix missing IRQF_ONESHOT as
- only threaded handler
-In-Reply-To: <20210416025706.11214-1-zhuguangqing83@gmail.com>
-References: <20210416025706.11214-1-zhuguangqing83@gmail.com>
-Date:   Fri, 16 Apr 2021 13:38:12 +0300
-Message-ID: <8735vqo6p7.fsf@kernel.org>
+        id S235225AbhDPKqc (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 16 Apr 2021 06:46:32 -0400
+X-Greylist: delayed 356 seconds by postgrey-1.27 at vger.kernel.org; Fri, 16 Apr 2021 06:46:32 EDT
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 711469A563C;
+        Fri, 16 Apr 2021 12:40:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pp3345.net; s=saul;
+        t=1618569610;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=FGD7AujQBLEbJ99eMMvwOdzGe1vpLrkYendPbmAUiNg=;
+        b=Z9f2335R+ZuwaKi1H5qnmISArCykgCLTZct+RoMnKu/N1PIPrsxAIvtfNTMvInGWSWU/5G
+        nKaetyuG/ZkyGA5tOJl94O6rxu0dWTInU6jFcpECe28cIVbMadBi1BbCUYEg9oX+MemK9Q
+        6ZuWUOdFK2/OtBvmCe4asJEvLG9sfr6VyTRa0gnQiNHNFjRjP0EmqFE//R+QxQMBIIDvwX
+        QtBPmFTmO9mQHEKd2rZPclHUyl7VzU4r1DV0MoES277FpYTxsPpG+hPdQcebzmPAYeYvIk
+        6A4I9YHiVWmLb+jOy3ViiUXuNzr4WT1/5P0+ZUngXVV+RAYtpQ6eT3Y/tWEWkg==
+Subject: Re: psmouse serio2 psmouse.synaptics_intertouch=1
+To:     =?UTF-8?Q?Andr=c3=a9_Najda?= <andre@najda.de>
+References: <4438747.vXUDI8C0e8@xc1507v2>
+Cc:     linux-input@vger.kernel.org
+From:   Yussuf Khalil <dev@pp3345.net>
+Message-ID: <d81cea9f-67f4-c333-4652-e41cb837a8d5@pp3345.net>
+Date:   Fri, 16 Apr 2021 12:40:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+In-Reply-To: <4438747.vXUDI8C0e8@xc1507v2>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Can you name the precise model of your laptop? Does the touchpad still work 
+properly after a suspend and resume cycle?
 
-zhuguangqing83@gmail.com writes:
-
-> From: Guangqing Zhu <zhuguangqing83@gmail.com>
->
-> Coccinelle noticed:
-> drivers/input/keyboard/twl4030_keypad.c:413:9-34: ERROR: Threaded IRQ with
-> no primary handler requested without IRQF_ONESHOT
->
-> Signed-off-by: Guangqing Zhu <zhuguangqing83@gmail.com>
-
-Reviewed-by: Felipe Balbi <balbi@kernel.org>
-
-=2D-=20
-balbi
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQJFBAEBCAAvFiEElLzh7wn96CXwjh2IzL64meEamQYFAmB5aRQRHGJhbGJpQGtl
-cm5lbC5vcmcACgkQzL64meEamQawLg//bnXV+MhAYjVymdFOcBk5tGG+lzgqcxjE
-Hh5n5iPt//21d7bQ79f5pHgQ/XuDREwLkdiisYp1xwan5ABUqfXh7PaZOGiyysdZ
-yKQ5SbwGUgfKpXmp74//+Vuz/AhfK8p8EFKim2aOFP+g6FFZ1CmB+b+rRRmLmG7Z
-cxxxdbsFIKzQi979wVqKAfVHtQgAbUlUM2l4OPFoYdrLErO3l2F597BUBS3oyGbZ
-lHtg6vsympXXJbrMwRKBcy9tUCsEbhbpkmSQNCwx+n6ajG97w9rduzU3tUHbK/oP
-kLc5nZr7720wFaHiXpKlLhAZB8pDAwwmC2K7lh4k7eZQT/Uf0nSaniOaEJfRW4CM
-9IjjwyInEYaSvhyQugREWxoxRt69/v5n2hlCBh3I+YowapeV6boReRdyLbCI/TmI
-+P6tZeOJFhDCa/mTs8svKYe+4ay6j6fUMmVSV3UpaqtHGzvg6h9SLvWAwhJwspPB
-GVv4AQjX8TwFzj1M8XAHEn1/WBjU+1wGs6KBYUEjE0uOtk3lHfNuJZ6kJwXBqBs5
-LimPM8/nB6inoE005qnekI/LE4KAUHdWvK27TqgdI4rtar/8qJjjepe+6BjRgn+N
-Ss72LPncIJekNSBzQhE4s/7ctMEG///twnr8Ut5YW5NkYJKW6Eube65pCw/Tk0l7
-SzrBrud0dlM=
-=AUSC
------END PGP SIGNATURE-----
---=-=-=--
+On 16.04.21 12:14, André Najda wrote:
+> [    4.315902] psmouse serio2: synaptics: Your touchpad (PNP: SYN1219 PNP0f13) 
+> says it can support a different bus. If i2c-hid and hid-rmi are not used, you 
+> might want to try setting psmouse.synaptics_intertouch to 1 and report this to 
+> linux-input@vger.kernel.org.
+> 
+> I'd like to report this as being told. If you need any further information 
+> please ask me. I'm happy to answer any questions.
+> 
+> psmouse.synaptics_intertouch=1 works fine.
+> 
