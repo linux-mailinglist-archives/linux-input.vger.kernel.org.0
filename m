@@ -2,76 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 86B3636169D
-	for <lists+linux-input@lfdr.de>; Fri, 16 Apr 2021 01:59:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D06973617E7
+	for <lists+linux-input@lfdr.de>; Fri, 16 Apr 2021 04:57:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235291AbhDOX7j (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 15 Apr 2021 19:59:39 -0400
-Received: from smtprelay0145.hostedemail.com ([216.40.44.145]:42916 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S234716AbhDOX7j (ORCPT
+        id S234768AbhDPC6P (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 15 Apr 2021 22:58:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60308 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234548AbhDPC6P (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 15 Apr 2021 19:59:39 -0400
-X-Greylist: delayed 405 seconds by postgrey-1.27 at vger.kernel.org; Thu, 15 Apr 2021 19:59:39 EDT
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-        by smtpgrave05.hostedemail.com (Postfix) with ESMTP id 8336C182BDA10
-        for <linux-input@vger.kernel.org>; Thu, 15 Apr 2021 23:52:36 +0000 (UTC)
-Received: from omf06.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay04.hostedemail.com (Postfix) with ESMTP id 389091808827C;
-        Thu, 15 Apr 2021 23:52:30 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf06.hostedemail.com (Postfix) with ESMTPA id 486BD2448BB;
-        Thu, 15 Apr 2021 23:52:29 +0000 (UTC)
-Message-ID: <82fc2a9a0df1fa6c901645693cca2eab34d5f032.camel@perches.com>
-Subject: Re: [PATCH 2/2] Input: evbug - Use 'pr_debug()' instead of
- hand-writing it
-From:   Joe Perches <joe@perches.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        dmitry.torokhov@gmail.com
+        Thu, 15 Apr 2021 22:58:15 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25237C061574;
+        Thu, 15 Apr 2021 19:57:51 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id p12so18255354pgj.10;
+        Thu, 15 Apr 2021 19:57:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=wSLtLWNldL3bwnHVUbpbHPx0qmEqpwBVn9Q/YYOJZMM=;
+        b=nzHjvcZoeaFfx2ht6hWPTSxnD7zz4+4tyDqDSLpnkA2/iWUakcCqL2ypHfWtJ6IsdO
+         3oZIlUT4ImtKDklUYSHKdGil7yf1hcA3lzLu1BpIgt4s2ULb8tGsI7mB/Rav/7dL8wI5
+         VWxO8J5Pu3XoBF9e85zOWX4cUgkzEyTy4GIBX16yz+yGoL+pSRZa6+lS62f0zJJJsxcl
+         NkgVzKMXKEknoRhUwSFkGG4lhtZegY2V6q1XVS9fY+j/m7CDQMifURd5wXHZbjnZq2/P
+         i7/yOZY5KDunHvJix+nU4hzABtfbnjCurDvpwvgSzXrI6v28PT/AOnQEbXfUSz6WIctf
+         XQyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=wSLtLWNldL3bwnHVUbpbHPx0qmEqpwBVn9Q/YYOJZMM=;
+        b=TZdN1n5afAq9k+iUF6dMLD+ePjS1pkZc+4iu9lgLIMIMSVQpQWuabPFYQ0KNS5Xjlm
+         kM8PLb2gVi+t2LHvFl7htR9XIQjGaex26VVGWO99B7XUtcZS7OZblw4yuSo4Xo7neJfg
+         1KdVnSQlVsq3ZVAN62W4XuNil33jhc2tuYXFrUWnRLGTrIBCUx2ozBqmvcoEow3KaVQk
+         AtJf/ua65+/4ExxnSN7tC2qjlxpzrZdcIAfQ3H1kTbbrdCJ+4T7GxNGloY741LEmneWJ
+         OqvvRFj4Jay+hTUMIX4f+M7K2vW0PrG0UanlfNFd7XEGRzFM9fdW4/7Z1G0IFoE29jTW
+         fdkA==
+X-Gm-Message-State: AOAM530DhmfonTWZlGpllrGYMsoLisd6pHdeqYt9LAqK0BFpPrsK3fcp
+        saX1R2KiliCvghkGAnTJwow=
+X-Google-Smtp-Source: ABdhPJxLm1q4S1c5CEqoGxOxhPGmq3m1vfEfEsJw27vRwto8JVbAnHl/cj/ypy6EWywPJ2xXqeB5Jw==
+X-Received: by 2002:a63:1a47:: with SMTP id a7mr6162986pgm.437.1618541870762;
+        Thu, 15 Apr 2021 19:57:50 -0700 (PDT)
+Received: from mi-OptiPlex-7060.mioffice.cn ([209.9.72.212])
+        by smtp.gmail.com with ESMTPSA id o9sm2956484pfu.112.2021.04.15.19.57.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Apr 2021 19:57:24 -0700 (PDT)
+From:   zhuguangqing83@gmail.com
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Date:   Thu, 15 Apr 2021 16:52:27 -0700
-In-Reply-To: <5bc599f199df4e43c4a7f02f167af3e897f823dd.1618520227.git.christophe.jaillet@wanadoo.fr>
-References: <fda981546203427a0ac86ef47f231239ad18ecfe.1618520227.git.christophe.jaillet@wanadoo.fr>
-         <5bc599f199df4e43c4a7f02f167af3e897f823dd.1618520227.git.christophe.jaillet@wanadoo.fr>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=0.10
-X-Stat-Signature: 3rr1ck6noq6yr1bba6hr6fyqncmzgtx7
-X-Rspamd-Server: rspamout05
-X-Rspamd-Queue-Id: 486BD2448BB
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX18L6sZKnhCru4z3Lnm5SnBf8KVcLAjIW4I=
-X-HE-Tag: 1618530749-3431
+        Guangqing Zhu <zhuguangqing83@gmail.com>
+Subject: [PATCH] Input: twl4030_keypad - Fix missing IRQF_ONESHOT as only threaded handler
+Date:   Fri, 16 Apr 2021 10:57:06 +0800
+Message-Id: <20210416025706.11214-1-zhuguangqing83@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 2021-04-15 at 22:58 +0200, Christophe JAILLET wrote:
-> 'printk(KERN_DEBUG pr_fmt(...))' can be replaced by a much less verbose
-> 'pr_debug()'.
+From: Guangqing Zhu <zhuguangqing83@gmail.com>
 
-This is not really true because
-	printk(KERN_DEBUG ...);
-will _always_ be emitted if the console level allows
-	pr_debug(...);
-will _only_ be emitted if the console level allows _and_
-	DEBUG is defined or dynamic_debug is enabled
-		(and for dynamic_debug, only if specifically enabled)
-	DEBUG is defined and dynamic_debug is enabled
+Coccinelle noticed:
+drivers/input/keyboard/twl4030_keypad.c:413:9-34: ERROR: Threaded IRQ with
+no primary handler requested without IRQF_ONESHOT
 
-> diff --git a/drivers/input/evbug.c b/drivers/input/evbug.c
-[]
-> @@ -21,8 +21,8 @@ MODULE_LICENSE("GPL");
->  
-> 
->  static void evbug_event(struct input_handle *handle, unsigned int type, unsigned int code, int value)
->  {
-> -	printk(KERN_DEBUG pr_fmt("Event. Dev: %s, Type: %d, Code: %d, Value: %d\n"),
-> -	       dev_name(&handle->dev->dev), type, code, value);
-> +	pr_debug("Event. Dev: %s, Type: %d, Code: %d, Value: %d\n",
-> +		 dev_name(&handle->dev->dev), type, code, value);
->  }
+Signed-off-by: Guangqing Zhu <zhuguangqing83@gmail.com>
+---
+ drivers/input/keyboard/twl4030_keypad.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/input/keyboard/twl4030_keypad.c b/drivers/input/keyboard/twl4030_keypad.c
+index 77e0743a3cf8..05057ebb1ab2 100644
+--- a/drivers/input/keyboard/twl4030_keypad.c
++++ b/drivers/input/keyboard/twl4030_keypad.c
+@@ -411,7 +411,7 @@ static int twl4030_kp_probe(struct platform_device *pdev)
+ 	 * NOTE:  we assume this host is wired to TWL4040 INT1, not INT2 ...
+ 	 */
+ 	error = devm_request_threaded_irq(&pdev->dev, kp->irq, NULL, do_kp_irq,
+-					  0, pdev->name, kp);
++					  IRQF_ONESHOT, pdev->name, kp);
+ 	if (error) {
+ 		dev_info(kp->dbg_dev, "request_irq failed for irq no=%d: %d\n",
+ 			kp->irq, error);
+-- 
+2.17.1
 
