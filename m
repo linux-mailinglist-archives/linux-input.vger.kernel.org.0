@@ -2,85 +2,143 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C462A36209F
-	for <lists+linux-input@lfdr.de>; Fri, 16 Apr 2021 15:13:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E9A73620F2
+	for <lists+linux-input@lfdr.de>; Fri, 16 Apr 2021 15:30:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243526AbhDPNOG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Apr 2021 09:14:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40563 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S240600AbhDPNOG (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Apr 2021 09:14:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1618578821;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=e4rWDrDfwyLsDweYXZDDicczuMT9JBPonwOXgMZ3Nl8=;
-        b=TNDXG9wbYMSpu7Pq65j/cwlk1gN4t0pHUW1eyVhDJf88qDsz5IZZiLe3upbxyowlWJ5xYJ
-        LEj6VVaFM4m3BVx35lCwJgZraDT/aJDLW9iyt9NJtx0H31ZQFA61jYUALkOssTPykRx3qh
-        sWu528Q+20nboQhl3sIubqXRV6otd7w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-566-Ms3Fs5yXO_qKlNvY_Tc65A-1; Fri, 16 Apr 2021 09:13:38 -0400
-X-MC-Unique: Ms3Fs5yXO_qKlNvY_Tc65A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7548C87A83E;
-        Fri, 16 Apr 2021 13:13:37 +0000 (UTC)
-Received: from x1.localdomain (ovpn-113-102.ams2.redhat.com [10.36.113.102])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 5CA0B5C626;
-        Fri, 16 Apr 2021 13:13:36 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, Peter Hoeg <peter@hoeg.com>,
-        linux-input@vger.kernel.org
-Subject: [PATCH 6/6] HID: lg-g15 + ite: Add MODULE_AUTHOR
-Date:   Fri, 16 Apr 2021 15:13:23 +0200
-Message-Id: <20210416131323.233184-7-hdegoede@redhat.com>
-In-Reply-To: <20210416131323.233184-1-hdegoede@redhat.com>
-References: <20210416131323.233184-1-hdegoede@redhat.com>
+        id S243857AbhDPNan (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Apr 2021 09:30:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43802 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235011AbhDPNal (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 16 Apr 2021 09:30:41 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6EDB4611AB;
+        Fri, 16 Apr 2021 13:30:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1618579816;
+        bh=n9xmFN2NsaASWbiOf1tjXSrysPr4eQ8p8Daqq/eQqzI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=VzLXW0btd8iMCdR16X/ODd6jzYF2rBVrRWHEtPAB8wfNKf2U2Lx3wHtrHI6efxbLb
+         9pEbsB6Lwp5gYD7UfLl5dBRx57lyC2RyMtU2RF7jZtDzil0ovv6rSzC3r6jsO6A2gW
+         QaDxbIC7zAYlv93wEngg/rclzoVVWP6/Wu+yhm8nDY3zB8fuEv8T1i2vC0Shqn6Evd
+         jgXqShtryKm22DTQC63oRLEcXmJxrdslhq58LKXMS823acjj9d8E7miF13AM4bk7Dw
+         qOjyHJs4NtdsWbQ6hK91pKVtcd4ZA3WJm7mHhFFOCwdIKi2NyZjBxvMejJijPphbZ1
+         /L1nIpWGNhnHw==
+Received: by mail-ej1-f49.google.com with SMTP id x12so21386493ejc.1;
+        Fri, 16 Apr 2021 06:30:16 -0700 (PDT)
+X-Gm-Message-State: AOAM530Z3nT6xCfEXgElRw8u0+5WRJ1QwtHYOBWJU+0GIG1ahIprpW6y
+        vQ3VagzT+NQEzIdhF4/6f5m7PNrpzjRCZPARTA==
+X-Google-Smtp-Source: ABdhPJyYkMxFlTQe3wBkH0km71+lVgj11mjrhrSuWMukjpytVS+13WuaQ0umP4fhq7OEonjh4vw2GDt98yeQoFruT88=
+X-Received: by 2002:a17:906:9ac5:: with SMTP id ah5mr8145109ejc.360.1618579815055;
+ Fri, 16 Apr 2021 06:30:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+References: <20210415032958.740233-1-ikjn@chromium.org> <20210415032958.740233-2-ikjn@chromium.org>
+ <CAFqH_53GXdCfPCke_UN3fqrDxHZ_scd21ZekVzrYoVWbmLUmrw@mail.gmail.com>
+In-Reply-To: <CAFqH_53GXdCfPCke_UN3fqrDxHZ_scd21ZekVzrYoVWbmLUmrw@mail.gmail.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Fri, 16 Apr 2021 08:30:01 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJ0mqqK69m_iFKTqGzu_TYvR7WdsuKw-ead74Sc=6msDw@mail.gmail.com>
+Message-ID: <CAL_JsqJ0mqqK69m_iFKTqGzu_TYvR7WdsuKw-ead74Sc=6msDw@mail.gmail.com>
+Subject: Re: [PATCH v5 1/2] mfd: google,cros-ec: add DT bindings for a
+ baseboard's switch device
+To:     Enric Balletbo Serra <eballetbo@gmail.com>
+Cc:     Ikjoon Jang <ikjn@chromium.org>,
+        Linux Input <linux-input@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Dmitry Torokhov <dtor@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-I noticed that the 2 HID drivers which I've written and maintain were
-missing a MODULE_AUTHOR tag, add this so that people can easily figure
-out who to email with questions.
+On Fri, Apr 16, 2021 at 12:37 AM Enric Balletbo Serra
+<eballetbo@gmail.com> wrote:
+>
+> Hi Ikjoon,
+>
+> Thank you for your patch.
+>
+> Missatge de Ikjoon Jang <ikjn@chromium.org> del dia dj., 15 d=E2=80=99abr=
+.
+> 2021 a les 5:32:
+> >
+> > This is for ChromeOS tablets which have a 'cros_cbas' switch device
+> > in the "Whiskers" base board. This device can be instantiated only by
+> > device tree on ARM platforms. ChromeOS EC doesn't provide a way to
+> > probe the device.
+> >
+> > Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
+> >
+> > ---
+> >
+> > Changes in v5:
+> >  - Add missing blank lines and change the description property's positi=
+on.
+> >  - Add a note to description: "this device cannot be detected at runtim=
+e."
+> >
+> > Changes in v4:
+> > Define cros-cbase bindings inside google,cros-ec.yaml instead of
+> > a separated binding document.
+> >
+> >  .../bindings/mfd/google,cros-ec.yaml          | 20 +++++++++++++++++++
+> >  1 file changed, 20 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml =
+b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+> > index 76bf16ee27ec..8dcce176b72e 100644
+> > --- a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+> > +++ b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
+> > @@ -114,6 +114,22 @@ properties:
+> >        - "#address-cells"
+> >        - "#size-cells"
+> >
+> > +  cbas:
+> > +    type: object
+> > +
+> > +    description:
+> > +      This device is used to signal when a detachable base is attached
+> > +      to a Chrome OS tablet. This device cannot be detected at runtime=
+.
+> > +
+> > +    properties:
+> > +      compatible:
+> > +        const: google,cros-cbas
+> > +
+> > +    required:
+> > +      - compatible
+> > +
+> > +    additionalProperties: false
+> > +
+> >  patternProperties:
+> >    "^i2c-tunnel[0-9]*$":
+> >      type: object
+> > @@ -180,6 +196,10 @@ examples:
+> >              interrupts =3D <99 0>;
+> >              interrupt-parent =3D <&gpio7>;
+> >              spi-max-frequency =3D <5000000>;
+> > +
+> > +            base_detection: cbas {
+>
+> nit: Rob, shouldn't this be just cbas?
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/hid/hid-ite.c    | 1 +
- drivers/hid/hid-lg-g15.c | 1 +
- 2 files changed, 2 insertions(+)
+Yes.
 
-diff --git a/drivers/hid/hid-ite.c b/drivers/hid/hid-ite.c
-index 14fc068affad..430fa4f52ed3 100644
---- a/drivers/hid/hid-ite.c
-+++ b/drivers/hid/hid-ite.c
-@@ -135,4 +135,5 @@ static struct hid_driver ite_driver = {
- };
- module_hid_driver(ite_driver);
- 
-+MODULE_AUTHOR("Hans de Goede <hdegoede@redhat.com>");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/hid/hid-lg-g15.c b/drivers/hid/hid-lg-g15.c
-index 701ddb98e7d2..b2a08233f8d5 100644
---- a/drivers/hid/hid-lg-g15.c
-+++ b/drivers/hid/hid-lg-g15.c
-@@ -952,4 +952,5 @@ static struct hid_driver lg_g15_driver = {
- };
- module_hid_driver(lg_g15_driver);
- 
-+MODULE_AUTHOR("Hans de Goede <hdegoede@redhat.com>");
- MODULE_LICENSE("GPL");
--- 
-2.31.1
-
+>
+> > +                compatible =3D "google,cros-cbas";
+> > +            };
+> >          };
+> >      };
+> >
+> > --
+> > 2.31.1.295.g9ea45b61b8-goog
+> >
+>
+> Acked-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
