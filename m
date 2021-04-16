@@ -2,74 +2,71 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3C0F361C35
-	for <lists+linux-input@lfdr.de>; Fri, 16 Apr 2021 11:00:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F219D361D6A
+	for <lists+linux-input@lfdr.de>; Fri, 16 Apr 2021 12:09:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241079AbhDPIsD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Apr 2021 04:48:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38840 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240918AbhDPIrs (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Apr 2021 04:47:48 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 129B561152;
-        Fri, 16 Apr 2021 08:47:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1618562844;
-        bh=tMfZZI7wDgcErE81PEljNtPPfVUB8rsBAM0RyZ9q+ec=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=VudZc+IcuueMcbLQgEmtpuyLGVpG/rpz/LFmBBuWJNAhoFNaeYPNYtHU3fM9Ls5iE
-         eM2X62QivRqxwAjSDj/vXNEwAETmvdI+6eyJJS/NCtqQm1VP7fHTHrl98z0rcVD28T
-         MeAmq+/z6dL0QPYaxoBYsWRYTRogN3c2rbX9FVkcY4LpSSTVsM7FgQXQi9N3ZUrhLd
-         44luQfzWmrqPGk6y8tCMGPZTDrBBIMn9MnZVUM93MJKyDKr2NrIJ2U6KnkIufawQ+b
-         6x2ZuE6nawq7G2QlPAjitQ4Z+vcpqLyPTjNMhMDiKxwqrjUAcC8Gy/rZXg4rRWA3jZ
-         3AsTNWiF+7CJA==
-Received: by mail-ed1-f49.google.com with SMTP id bx20so30165782edb.12;
-        Fri, 16 Apr 2021 01:47:23 -0700 (PDT)
-X-Gm-Message-State: AOAM533NP/yBSi3ed0eN0YFJaAOTanHvwzDzsCi/lD7h/Jerq5D+Fgme
-        TRjRCeeJbOjbXR6qh2v3A8fcO86pUyjpdAz5FRI=
-X-Google-Smtp-Source: ABdhPJwBH137n6LlWEJeuS6vyGz1Okcc2OVHIcOTnZrZMbDjFkUEQKuzi/EZXh72wQfZQ3mH2/MZ/dOJcnklG8DHSV4=
-X-Received: by 2002:a05:6402:35d3:: with SMTP id z19mr8641928edc.143.1618562842732;
- Fri, 16 Apr 2021 01:47:22 -0700 (PDT)
+        id S238515AbhDPJvX convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Fri, 16 Apr 2021 05:51:23 -0400
+Received: from os3-362-14218.vs.sakura.ne.jp ([133.167.64.222]:58188 "EHLO
+        mail.j-snap.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S238093AbhDPJvX (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Fri, 16 Apr 2021 05:51:23 -0400
+X-Greylist: delayed 21569 seconds by postgrey-1.27 at vger.kernel.org; Fri, 16 Apr 2021 05:51:22 EDT
+Received: from johnlewis.co.uk (ec2-54-183-249-251.us-west-1.compute.amazonaws.com [54.183.249.251])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mail.j-snap.com (Postfix) with ESMTPSA id C5EC15A45F9
+        for <linux-input@vger.kernel.org>; Fri, 16 Apr 2021 12:16:54 +0900 (JST)
+Reply-To: robturner.procurement@johnlewis-trade.com, rob76295@gmail.com
+From:   John Lewis Partnersip <robert-turner42@johnlewis.co.uk>
+To:     linux-input@vger.kernel.org
+Subject: Order Inquiry  [JL] 4/16/21
+Date:   16 Apr 2021 03:16:51 +0000
+Message-ID: <20210415215243.D8921155FDDE7257@johnlewis.co.uk>
 MIME-Version: 1.0
-References: <20210416031747.28504-1-zhuguangqing83@gmail.com>
-In-Reply-To: <20210416031747.28504-1-zhuguangqing83@gmail.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-Date:   Fri, 16 Apr 2021 10:47:11 +0200
-X-Gmail-Original-Message-ID: <CAJKOXPeEHRZboCJs+eScjsLDybDzXSaP3jBLkAYiQt_7Ft2nog@mail.gmail.com>
-Message-ID: <CAJKOXPeEHRZboCJs+eScjsLDybDzXSaP3jBLkAYiQt_7Ft2nog@mail.gmail.com>
-Subject: Re: [PATCH] Input: goodix - Fix missing IRQF_ONESHOT as only threaded handler
-To:     zhuguangqing83@gmail.com
-Cc:     Bastien Nocera <hadess@hadess.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        linux-input@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 16 Apr 2021 at 05:18, <zhuguangqing83@gmail.com> wrote:
->
-> From: Guangqing Zhu <zhuguangqing83@gmail.com>
->
-> Coccinelle noticed:
-> drivers/input/touchscreen/goodix.c:497:8-33: ERROR: Threaded IRQ with no
-> primary handler requested without IRQF_ONESHOT
->
-> Signed-off-by: Guangqing Zhu <zhuguangqing83@gmail.com>
-> ---
->  drivers/input/touchscreen/goodix.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+Dear linux-input
 
+The famous brand John Lewis Partnership, is UK's largest multi-
+channel retailer with over 126 shops and multiple expansion in 
+Africa furnished by European/Asian/American products. We are 
+sourcing
+new products to attract new customers and also retain our 
+existing ones, create new partnerships with companies dealing 
+with different kinds of goods globally.
 
-Did you test it? There are several patches like this all over the tree
-so it looks like "let's fix everything from Coccinelle" because you
-ignored at least in some of the cases that the handler is not the
-default primary one. I am not saying that the change is bad, but
-rather it looks automated and needs more consideration.
+Your company's products are of interest to our market as we have 
+an amazing market for your products.
 
-Best regards,
-Krzysztof
-Best regards,
-Krzysztof
+Provide us your current catalog through email to review more. We 
+hope to be able to order with you and start a long-term friendly,
+respectable and solid business partnership. Please we would 
+appreciate it if you could send us your stock availability via 
+email if any.
+
+Our payment terms are 15 days net in Europe, 30 days Net in UK 
+and 30 days net in Asia/USA as we operate with over 5297 
+suppliers around the globe for the past 50 years now. For 
+immediate response Send your reply to 
+robturner.procurement@johnlewis-trade.com for us to be able to 
+treat with care and urgency.
+
+On behalf of our entire team, we wish you a fruitful 2021. 
+
+Best Regards
+
+Rob Turner
+Head Of Procurement Operations
+John Lewis Partnership.
+robturner.procurement@johnlewis-trade.com
+Tel: +44-7451-274090
+WhatsApp: +447497483925
+www.johnlewis.com
+REGISTERED OFFICE: 171 VICTORIA STREET, LONDON SW1E 5NN  
