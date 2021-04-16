@@ -2,146 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4194036195D
-	for <lists+linux-input@lfdr.de>; Fri, 16 Apr 2021 07:38:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37A55361A6A
+	for <lists+linux-input@lfdr.de>; Fri, 16 Apr 2021 09:17:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236893AbhDPFiK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 16 Apr 2021 01:38:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38396 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230250AbhDPFiJ (ORCPT
+        id S234681AbhDPHRR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 16 Apr 2021 03:17:17 -0400
+Received: from mail.astralinux.ru ([217.74.38.119]:57484 "EHLO
+        mail.astralinux.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230466AbhDPHRR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 16 Apr 2021 01:38:09 -0400
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B4D7C061574;
-        Thu, 15 Apr 2021 22:37:45 -0700 (PDT)
-Received: by mail-oi1-x234.google.com with SMTP id k18so21818890oik.1;
-        Thu, 15 Apr 2021 22:37:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=T/IW+M3bZXs+TidV7rj8NDJLHs9tA2SQf7kB4PctnB8=;
-        b=u1XcTRAQSCYZMFFdJoZAgxCpueQIkybF5upn5JS7bciBx066PS/niKBAknL/+AZWsn
-         lyjhRluVLFodzDicNZ6q2nMyfdAwhNIAvaHZavphYt1FFjdETjPtXb74pIXAg0hhG/9T
-         LyZBU12TNfu21sVaCuIr4lbDxb5GMpSpsmPpigj6nwbgT6mxb9OvqFeLPbSi++OvFXcm
-         BfGZRn9uDMJZJNcbPwOFKLTZAX/OfxJnHCWIRDcydxXZKEuYj92NT12IU/tEgMA4P/Mp
-         lLcp908DoxyM3/wfKcxM4XQhbqMtgZM2/t1pA1vGm+vuanrPaU06DRVMIVCCxwHxhcmB
-         rkAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=T/IW+M3bZXs+TidV7rj8NDJLHs9tA2SQf7kB4PctnB8=;
-        b=rfNSazw03KWZifJB06CcoPU6o0g9P8id0EH8I9K79Iqorv3ICSv+mW58cYMpYpn3S5
-         rOWTk+3fiShEUQguJzbRScdnl+sao8JlYI9y/+qd5G5SO+xsSHo+HZX3JZw7j0FOwhve
-         17rcv8HJ8gK1hnh0gTGh1vNPN2n8z4WgcIhu7XPChPXOfzHQiFA9BtU8z+E3ChgvNcJS
-         QWg3+LMUHN5Le66vumgu1k/q8eSKlE2lGXRnMtPL28IIkNnYLbs8+VrxhpQiAZ/mkb9F
-         JOjKCYuiC8fU7DqJ+0g7wWL64A1dBQEL5OvvllfYA+ZLedtSpE7Zq8IotGNy4BkIVo3z
-         QYOg==
-X-Gm-Message-State: AOAM532IC8xPHBEUctDSOr8KGWGqG7fbykt3YxRHUlofxXo97QxKgjTs
-        QpG4lGsco5k4jZpqRnIrs3aDNQWXCZsX2C4/jJE=
-X-Google-Smtp-Source: ABdhPJzVVY8o2g1JY7ImbyMuNJEWh+ukSW598cUYKC5UHZjiTU7TXwWRbqaRryxNjJrLI/8oc2QpZPUbmGLfypCx2qw=
-X-Received: by 2002:aca:b408:: with SMTP id d8mr5275217oif.47.1618551464901;
- Thu, 15 Apr 2021 22:37:44 -0700 (PDT)
+        Fri, 16 Apr 2021 03:17:17 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.astralinux.ru (Postfix) with ESMTP id 230C935E7571;
+        Fri, 16 Apr 2021 10:16:31 +0300 (MSK)
+Received: from mail.astralinux.ru ([127.0.0.1])
+        by localhost (rbta-msk-vsrv-mail01.astralinux.ru [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id EzC_lXdhUdom; Fri, 16 Apr 2021 10:16:30 +0300 (MSK)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.astralinux.ru (Postfix) with ESMTP id 5442835E7573;
+        Fri, 16 Apr 2021 10:16:30 +0300 (MSK)
+X-Virus-Scanned: amavisd-new at astralinux.ru
+Received: from mail.astralinux.ru ([127.0.0.1])
+        by localhost (rbta-msk-vsrv-mail01.astralinux.ru [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id a_wrFsdTO1HC; Fri, 16 Apr 2021 10:16:30 +0300 (MSK)
+Received: from [192.168.32.67] (unknown [192.168.32.67])
+        by mail.astralinux.ru (Postfix) with ESMTPSA id 25EDD35E7570;
+        Fri, 16 Apr 2021 10:16:30 +0300 (MSK)
+Subject: Re: UPD: hid-multitouch: goodix: hovering works as touch
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Vitaly Minko <vitaly@minko.me>, linux-input@vger.kernel.org
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Daniele Gobbetti <daniele@gobbetti.name>
+References: <ab5ad25b-d39c-83fe-4a88-eebed7f8b23a@minko.me>
+ <7b7af64e-8e70-3a9c-eee9-010574adc241@astralinux.ru>
+ <8e25e7c4-53bd-98d5-35da-cb596f84e9c4@minko.me>
+ <62b7301b-a3a1-d49c-2a60-5640984a404a@redhat.com>
+From:   Dmitry Mastykin <dmastykin@astralinux.ru>
+Message-ID: <7b988eea-62b5-e799-ae5e-d7fa3ebcb9a1@astralinux.ru>
+Date:   Fri, 16 Apr 2021 10:16:29 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20210415032958.740233-1-ikjn@chromium.org> <20210415032958.740233-2-ikjn@chromium.org>
-In-Reply-To: <20210415032958.740233-2-ikjn@chromium.org>
-From:   Enric Balletbo Serra <eballetbo@gmail.com>
-Date:   Fri, 16 Apr 2021 07:37:35 +0200
-Message-ID: <CAFqH_53GXdCfPCke_UN3fqrDxHZ_scd21ZekVzrYoVWbmLUmrw@mail.gmail.com>
-Subject: Re: [PATCH v5 1/2] mfd: google,cros-ec: add DT bindings for a
- baseboard's switch device
-To:     Ikjoon Jang <ikjn@chromium.org>
-Cc:     linux-input@vger.kernel.org,
-        devicetree <devicetree@vger.kernel.org>,
-        Dmitry Torokhov <dtor@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <62b7301b-a3a1-d49c-2a60-5640984a404a@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Ikjoon,
+Hi Hans,
 
-Thank you for your patch.
+Of course I would like to put a pen patch to upstream, and ready to work 
+for that.
+Have you taken a look to it? It's seems to be like a workaround. And 
+it's difficult to say if pen button part of the patch will work fine 
+with all gt7385p firmwares (sequence of tip, barrel and eraser is very 
+tricky, but is it stable from version to version?)
+Should I rebase my patch, provide with comments and send the series to 
+linux-input? Do you have any wishes how I could improve it before?
 
-Missatge de Ikjoon Jang <ikjn@chromium.org> del dia dj., 15 d=E2=80=99abr.
-2021 a les 5:32:
->
-> This is for ChromeOS tablets which have a 'cros_cbas' switch device
-> in the "Whiskers" base board. This device can be instantiated only by
-> device tree on ARM platforms. ChromeOS EC doesn't provide a way to
-> probe the device.
->
-> Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
->
-> ---
->
-> Changes in v5:
->  - Add missing blank lines and change the description property's position=
-.
->  - Add a note to description: "this device cannot be detected at runtime.=
-"
->
-> Changes in v4:
-> Define cros-cbase bindings inside google,cros-ec.yaml instead of
-> a separated binding document.
->
->  .../bindings/mfd/google,cros-ec.yaml          | 20 +++++++++++++++++++
->  1 file changed, 20 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml b/=
-Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-> index 76bf16ee27ec..8dcce176b72e 100644
-> --- a/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/google,cros-ec.yaml
-> @@ -114,6 +114,22 @@ properties:
->        - "#address-cells"
->        - "#size-cells"
->
-> +  cbas:
-> +    type: object
-> +
-> +    description:
-> +      This device is used to signal when a detachable base is attached
-> +      to a Chrome OS tablet. This device cannot be detected at runtime.
-> +
-> +    properties:
-> +      compatible:
-> +        const: google,cros-cbas
-> +
-> +    required:
-> +      - compatible
-> +
-> +    additionalProperties: false
-> +
->  patternProperties:
->    "^i2c-tunnel[0-9]*$":
->      type: object
-> @@ -180,6 +196,10 @@ examples:
->              interrupts =3D <99 0>;
->              interrupt-parent =3D <&gpio7>;
->              spi-max-frequency =3D <5000000>;
-> +
-> +            base_detection: cbas {
+Thank you very much!
+Dmitry Mastykin
 
-nit: Rob, shouldn't this be just cbas?
 
-> +                compatible =3D "google,cros-cbas";
-> +            };
->          };
->      };
->
-> --
-> 2.31.1.295.g9ea45b61b8-goog
->
-
-Acked-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+On 4/15/21 7:02 PM, Hans de Goede wrote:
+> Hi,
+> 
+> On 4/15/21 3:33 PM, Vitaly Minko wrote:
+>> Hello Dmitry,
+>>
+>>
+>> I have tested your patches on the kernel version 5.10.27. I had to add one define for I2C_DEVICE_ID_GOODIX_0113. Everything else was applied successfully.
+>>
+>> The digitizer works fine now. So the original issue is solved. Both pen buttons also work as expected (right and middle mouse buttons).
+>>
+>> All tests performed on One-Netbook A1.
+>>
+>> Thanks a lot for your efforts. Could you please send me a private email with your credentials for sending a tip (I would like to buy you a coffee).
+> 
+> Although it is nice that these patches fix things for you, I wonder if there
+> is any plan to get the fixes for this upstream, so that once distros jump
+> to a newer kernel this will just work out of the box for all Linux users ?
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
+> 
+> 
+>> 15.04.2021 10:13, Dmitry Mastykin wrote:
+>>> Hi Vitaly,
+>>>
+>>> Yes, we made a quirk for separate non-multitouch processing of the HID_DG_PEN application for Goodix gt7385p (I2C_DEVICE_ID_GOODIX_0113 == 0x0113). It works well, BTN_TOOL_PEN and BTN_TOUCH events have right order.
+>>> I attach patches for kernel 5.4
+>>> Buttons support was very tricky, because the panel tries to imitate eraser usage with combination of tip's and eraser's bits off and on, seems that Windows driver needs this. In second patch we add state-machines for pen buttons to simulate right and middle click. It works also well with this panel/pen, but I'm not sure if it works with other devices.
+>>>
+>>> Kind regards,
+>>> Dmitry Mastykin
+>>>
+>>>
+>>> On 4/14/21 6:35 PM, Vitaly Minko wrote:
+>>>> Hello Dmitry,
+>>>>
+>>>>
+>>>> I have faced with exactly the same problem. Have you managed to solve the issue?
+>>>>
+>>>> If yes, could you please share the patch?
+>>>>
+>>>> Thanks in advance!
+>>>>
+>>>>
+>>>> Best regards,
+>>>>
+>>>> Vitaly
+>>>>
+>>
+> 
