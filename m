@@ -2,101 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 71328363D2D
-	for <lists+linux-input@lfdr.de>; Mon, 19 Apr 2021 10:16:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C052B363DB2
+	for <lists+linux-input@lfdr.de>; Mon, 19 Apr 2021 10:39:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232431AbhDSIRI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 19 Apr 2021 04:17:08 -0400
-Received: from smtpcmd10101.aruba.it ([62.149.156.101]:40735 "EHLO
-        smtpcmd10101.aruba.it" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232271AbhDSIRH (ORCPT
+        id S229790AbhDSIjt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 19 Apr 2021 04:39:49 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:55341 "EHLO
+        out4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229635AbhDSIjs (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 19 Apr 2021 04:17:07 -0400
-Received: from [192.168.126.129] ([146.241.148.6])
-        by Aruba Outgoing Smtp  with ESMTPSA
-        id YP54lgfxuSvjVYP55lMM7u; Mon, 19 Apr 2021 10:16:35 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
-        t=1618820195; bh=EgjvdP/tGfj217l54hOzQFhxxNRicPHj7+iUKb5Klzk=;
-        h=Subject:To:From:Date:MIME-Version:Content-Type;
-        b=OdGiKazruJIOzO2Lw+iFZsKaL+ePF+h5fiuJ+4J2kXiwQJW1M3HJ6O1dLIvUFukYR
-         e6QpVNABlg5iS1HBfloytPLpR+0vNQiYKk6p4solbGpDmhFLg1owlizCn5wEZrP0HI
-         GLvW5wJ6uDDQNn0sIFbdN/3Y98yysEOGYTv3VE4W9G1Dw84PHRw2G+jFnsDLGBYggD
-         QmgtAFoJz10fBUpJ0QBLZV/zNc5f7m3FQcq87t8m7lcN28iuuEuZbV6lStDE4aieoM
-         ttyfJAJjfgiSxBKz25KzWds2eYSKTL7Aw8u50XI9uwINfYc0qnaFg0uwniRiguvtRX
-         0/rbY5sZoY5Xw==
-Subject: Re: [PATCH] MAINTAINERS: repair reference in HYCON HY46XX TOUCHSCREEN
- SUPPORT
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
-        Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210419060023.3460-1-lukas.bulwahn@gmail.com>
-From:   Giulio Benetti <giulio.benetti@benettiengineering.com>
-Message-ID: <02ce3130-f86e-7a91-ba06-e79d96d7eab7@benettiengineering.com>
-Date:   Mon, 19 Apr 2021 10:16:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        Mon, 19 Apr 2021 04:39:48 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.nyi.internal (Postfix) with ESMTP id 1C2DA5C007E;
+        Mon, 19 Apr 2021 04:39:19 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Mon, 19 Apr 2021 04:39:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
+         h=from:to:cc:subject:date:message-id:mime-version
+        :content-transfer-encoding; s=fm3; bh=0HKqazXNqfs4VKoNzw2xDM3usy
+        hk8xBQeC7/PRjOD9E=; b=qMnuHtJiOEkMXLi/hJw/4FtT6/MXzjAvJ1O5N/xbkC
+        1Kvkkb97ovqpmwWazC7lPzh1xMUMOKoLg7DP4uMGK2Glp4HcH3YWgWqGDCRJGu0L
+        K4KN/CZh9G5Nv3N+BX9SfSaS0VucTFXKx0vTctZdZrF5NA13KssAwnNvqxGDv4It
+        CJscA5hSTdQGt7hJFwJZuORN4g7u3AP2+dmdcA9RjonV/QOTtKkMSONDEsrEArMU
+        u9IKxDAR9+Bq9tOk+vRtDucKV1oKBQ1lPoX1Y5PWhSMfKaBMQWN0XvDzRZ/p8etL
+        r7wKgqXGYk9L0IF0tJX6snVHjmhUEVzG9zAT1TyHPzrA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+        :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=0HKqazXNqfs4VKoNz
+        w2xDM3usyhk8xBQeC7/PRjOD9E=; b=kX++TCxmYialEnCplTz6SimctZ2mzZg61
+        4S/KVCHw3wxvDRcb1cd7d5/PU59WSg2AGxr8BNI+Ss9/lYZJ91Z0Ne6D5cxke8wn
+        RQcDyN9fjHxAXR3+Ul61rZJqSPniyG46QiMAHfUkUNsCffvYZlKYScClqzrLTJ38
+        6AxbW5aAVoANG0XQwpoO+Wk3pSaHVkJeeGfk4LitLB3L02dFFTLM2r0rJya/xMid
+        rzJcetqXgS8OPjdPBwHiBVFXKKIOknE150QsK9iATRjig+l4a0zXbyQ5Wak6nWuw
+        R48rqYfGE5mb8hQ17Nov/krf3JrjEw505VFnGW/51+h/9fpyH4pjQ==
+X-ME-Sender: <xms:tkF9YPSe19kXzeaABENHK3UZig9l9teXjBigi4y-EQ0reEvqX4Oqqg>
+    <xme:tkF9YAwChOIskZqaAofxx5gu-8jkefBLZsD3OxU2Z73J1OcHuSUbDPE4uycjPWs0z
+    2vnkbom1343QxTLnhQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddtgedgtdejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
+    dttdenucfhrhhomheptehlihhsthgrihhrucfhrhgrnhgtihhsuceorghlihhsthgrihhr
+    segrlhhishhtrghirhdvfedrmhgvqeenucggtffrrghtthgvrhhnpeejleeihfdvtefgtd
+    ethfdtgefftdeiffefjeeiffefveeuleejheejvefhffeukeenucfkphepkeelrdeggedr
+    uddtrdduvdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homheprghlihhsthgrihhrsegrlhhishhtrghirhdvfedrmhgv
+X-ME-Proxy: <xmx:tkF9YE3_e06EyoOAe3HkXm_qDWMUn5aKGF0aeJZoyocP3yAwa9WpcQ>
+    <xmx:tkF9YPBNCjhpgEPsGCscFFKZNrnwQMA17DRVXTFs1jAmvhE-aHJRLg>
+    <xmx:tkF9YIiT7FOg_10gXfT_VRDVx8sgMNRv155JaPlvBlky3rbVs2Lvng>
+    <xmx:t0F9YBuw8qWiAsXeMoSj2EyftMn_-d92_2BfOILxbZyTzGGgi29buw>
+Received: from ThinkpadX1Yoga3.localdomain (unknown [89.44.10.123])
+        by mail.messagingengine.com (Postfix) with ESMTPA id AA9CA1080063;
+        Mon, 19 Apr 2021 04:39:15 -0400 (EDT)
+From:   Alistair Francis <alistair@alistair23.me>
+To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+        linux-imx@nxp.com, kernel@pengutronix.de
+Cc:     linux-kernel@vger.kernel.org, alistair23@gmail.com,
+        Alistair Francis <alistair@alistair23.me>
+Subject: [PATCH v5 1/9] dt-bindings: Add Wacom to vendor bindings
+Date:   Mon, 19 Apr 2021 07:00:56 +1000
+Message-Id: <20210418210104.2876-1-alistair@alistair23.me>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210419060023.3460-1-lukas.bulwahn@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfFBxJkjiGMfFM17OV5dn0SLigDntxG2hC2J3+yB/AC7MPEPD5xXgRLQ11iql2I2X3jqwoT5knCQpXDuf+J/zMGQGD13NUrXSbKT1wSPBxrlSZyf36BUG
- tYcsYv9QQDGsn5SvPQ7AtR7WFpoJ0wRrsYB+kShf7hno7mtDJ9dMTy1nRgM1qh7QOcHMp3pqz9cYJyXF14yN1FIzabScoPqREx0AI6/UYWgmAn/6Yos2he9v
- vtBsi1Fde9Y9An5JlXpVnwa8pLG8Advgzm6iwXroShhnpwlKHWXsXiPY7caVj93E0lTca4qG7p0ceNYFm4LKkziarb/gApSxo9gL/lpnLAggB7fRuRynkQcu
- gQQx6lY5JLnrb8Kk0HhxPHgy3MSKP8/8qqN2sS4mNC0pUaqDb60aqJpOAHD2w4tqe2diZcZyKjQCFoJDljMhhXKCP0rOMRhwzel8rh3de8OaS+UOpyn5mRBw
- +fR8xSpgLwZihyrb
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Lukas,
+Signed-off-by: Alistair Francis <alistair@alistair23.me>
+---
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-thank you,
-
-On 4/19/21 8:00 AM, Lukas Bulwahn wrote:
-> Commit aa2f62cf211a ("Input: add driver for the Hycon HY46XX touchpanel
-> series") adds the file ./drivers/input/touchscreen/hycon-hy46xx.c, but the
-> file entry in MAINTAINERS refers to ./drivers/input/touchscreen/hy46xx.c.
-> 
-> Hence, ./scripts/get_maintainer.pl --self-test=patterns complains:
-> 
->    warning: no file matches    F:    drivers/input/touchscreen/hy46xx.c
-> 
-> Repair the file entry by referring to the right location.
-> 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-
-Acked-by: Giulio Benetti <giulio.benetti@benettiengineering.com>
-
-Best regards
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index a8e1e8d2ef20..996f4de2fff5 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -1216,6 +1216,8 @@ patternProperties:
+     description: Vision Optical Technology Co., Ltd.
+   "^vxt,.*":
+     description: VXT Ltd
++  "^wacom,.*":
++    description: Wacom Co., Ltd
+   "^wand,.*":
+     description: Wandbord (Technexion)
+   "^waveshare,.*":
 -- 
-Giulio Benetti
-Benetti Engineering sas
-
-> ---
-> applies cleanly on next-20210419
-> 
-> Guilio, please ack.
-> Dmitry, please pick this minor clean up patch for your -next tree.
-> 
->   MAINTAINERS | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c54b8e4520d1..bbe356508f29 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -8425,7 +8425,7 @@ M:	Giulio Benetti <giulio.benetti@benettiengineering.com>
->   L:	linux-input@vger.kernel.org
->   S:	Maintained
->   F:	Documentation/devicetree/bindings/input/touchscreen/hycon,hy46xx.yaml
-> -F:	drivers/input/touchscreen/hy46xx.c
-> +F:	drivers/input/touchscreen/hycon-hy46xx.c
->   
->   HYGON PROCESSOR SUPPORT
->   M:	Pu Wen <puwen@hygon.cn>
-> 
+2.31.1
 
