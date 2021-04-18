@@ -2,68 +2,67 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D12C2363DB4
-	for <lists+linux-input@lfdr.de>; Mon, 19 Apr 2021 10:39:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75F80363DB6
+	for <lists+linux-input@lfdr.de>; Mon, 19 Apr 2021 10:39:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231799AbhDSIjv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 19 Apr 2021 04:39:51 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:45923 "EHLO
+        id S237718AbhDSIj6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 19 Apr 2021 04:39:58 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:60029 "EHLO
         out4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231687AbhDSIjv (ORCPT
+        by vger.kernel.org with ESMTP id S237262AbhDSIjy (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 19 Apr 2021 04:39:51 -0400
+        Mon, 19 Apr 2021 04:39:54 -0400
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.nyi.internal (Postfix) with ESMTP id CAD455C00D6;
-        Mon, 19 Apr 2021 04:39:21 -0400 (EDT)
+        by mailout.nyi.internal (Postfix) with ESMTP id D10B95C007E;
+        Mon, 19 Apr 2021 04:39:24 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Mon, 19 Apr 2021 04:39:21 -0400
+  by compute1.internal (MEProxy); Mon, 19 Apr 2021 04:39:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
          h=from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm3; bh=xa3UKf0PeGo+y
-        c9OQD4iBkuA6ndOakmgwVIDpufF6mw=; b=B6YZ3PMQL3Yh8/blfMLlP1SVxUHIr
-        GWvbPyIwxf25oVg1QwWOBF97vviagXVZXKqqo/Pp2R1fffWf0CdXct66OWCvhszf
-        PyAM1WvmOjLhxcPlY+X6iI+2vVtHzBR2FiM84k6wee3rMS52GxXypNvvOnxNiH23
-        3TiXU4B4ZfEUoJ3dBDzT1ZZaMIAx7FoePG1ZlxYnlgKOTOgh6Z2vXd6OeVRAGRNz
-        EIKn7DoemWIuWAfEhGYpg3A1qieLSvgw4d4t+C/BETETl9hXK+MkYyuJvEtZvELo
-        zjitpPkqNysl1ynTNG1PtQaHhi0GYI1kGRtCQtV6l/8PmnkNrEr/dZjVw==
+        :mime-version:content-transfer-encoding; s=fm3; bh=iMA5K+xFvBtF3
+        QCb4I1QCVjObfpkmcYxY9AlcLhoGG4=; b=ZziTWBBEcxyZkAFDl/Quo8gX9IxE0
+        M1D8RRxzlC+hmNs3MMH3isyLxmYtJzLpczRFmDMmuDWjA1C37Bqdx/6gIlgwDZcl
+        lfLpWtK5AFzhXaSr90LLw+47S18Ijk2wAagx5tqrbqV6Op/28JF0Uhc0viOcPhjm
+        +xWsNaUCHDtL3llarUCdis1UNtMriXYA51xerbnjX7qZYzBDSIkE67MroIaYOYkl
+        pZ2EQj3VqMWBKWRkOFW/MAjc0Y+OQsQuB3XXtzP+ND+6D7pKtMH2T7T0fFQz0OLE
+        gRek90N4DVCppbjI82rqLwy+SXmBVpNycUMxHQuPzu+2uapOdMxrb8QDg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
         :in-reply-to:message-id:mime-version:references:subject:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm2; bh=xa3UKf0PeGo+yc9OQD4iBkuA6ndOakmgwVIDpufF6mw=; b=IcNZtujq
-        JNP4oYpE/4zzaziqie0HW5dpc+vxqZCQ69fVosBRYP/8HtPlKIW/OYM1BE5CjJa6
-        xoPZCp8X+TJqjlPdOJNGhPdWx401iFpFtWIXv7ELaa6OFZLL4mCF4Xasr3X9M1o1
-        tR+YT+Q8bTJffuYilcLlQVD67tjgTlVfQ8aC7fx7mUVPCLviT27QpRunrLPP4L5H
-        vMr/JfaFZZyaxVNFivfWwR6QqfDm385bcy9phybDp6MHxrdtvLPRtpxclMMbXq+v
-        qs1eaWLXNVQ4NXnlqUjdQZ2RZkwxd9ShyRUcS8bgGJNO5pCNPplhTawFCeqiExlM
-        bzZzW+lutO6fwA==
-X-ME-Sender: <xms:uUF9YKtEXHorRKMotjDA810nyMoOq1L98slYLpiJMwesgbqzLwR3pQ>
-    <xme:uUF9YPf6lN6PlafOxvxy8rHRqWO0qEadb7pHqf5nGe5BrWHVzWB6a1zQ0W62alr2Q
-    7j7PR62DC7dD3scdPY>
+        fm2; bh=iMA5K+xFvBtF3QCb4I1QCVjObfpkmcYxY9AlcLhoGG4=; b=VyK2X7Qg
+        m2XkwNq/OpmMDxi3L0gv1BlwqjYtZCd2eX4MePZMgjnx+M4NFVqX0lGqY05UP+IM
+        NnrKuYeRKiMIOW8PKWxzfcMEQcbs75L7I+833BCtmeUqc127gdf5+cNvfD8WyxZU
+        YacMlyILAhK5MFtURR92uo99TCHhkyCg9Jl50uDMmuXGWRVt7+5ANWGbY9OTOZo6
+        5ARBR5R3oZ4Q6zqYLvS9u0uvN3U5QwTJ5er6aG5IJLU60b5zDCND3yjr/yy7B5vl
+        e5hEuZjbjZjkH5m78ioV6DVKCYPoHd2iFe8+2edrY2gBv6Mp52PLai2JKCtu1qJr
+        +n0i7TGOomZVrg==
+X-ME-Sender: <xms:vEF9YMEzC0weIHI1rQbGoYZWM02LRffqzC9DAjelthOQhLQi3oPdrA>
+    <xme:vEF9YFWLJs1bMUzMlZFsNuWffF7ZNukw_Xxot4wj-CAASdQe9m5filr5Eg_XGvxe_
+    3PiZSyJls9vASKZNe4>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddtgedgtdejucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
     dtredttdenucfhrhhomheptehlihhsthgrihhrucfhrhgrnhgtihhsuceorghlihhsthgr
-    ihhrsegrlhhishhtrghirhdvfedrmhgvqeenucggtffrrghtthgvrhhnpefftdfhgfeggf
-    elgfekjefhkeeigfelleefhfethfehfeetleeggeeggfefffdvtdenucffohhmrghinhep
-    uggvvhhitggvthhrvggvrdhorhhgnecukfhppeekledrgeegrddutddruddvfeenucevlh
-    hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrlhhishhtrghi
-    rhesrghlihhsthgrihhrvdefrdhmvg
-X-ME-Proxy: <xmx:uUF9YFwd_SNUxq9UhUiBWYAw9CGHNdtvwoAbQhgoJ-8SY5zfwGKOFA>
-    <xmx:uUF9YFOU2dhoGjFD1Rzh2HxPZbnwP0lPWXlotJV73fpk0D-yUu7Y4w>
-    <xmx:uUF9YK99rsLdZTyOMmB7XuDYmVjQpf_RsEtfCftslEkwh6EL4MQ6lA>
-    <xmx:uUF9YBZF2YqrZhzqqWcaoybOm5GrwqbszgLOleKvbKKXEcheM2aa7A>
+    ihhrsegrlhhishhtrghirhdvfedrmhgvqeenucggtffrrghtthgvrhhnpeeggedtteejke
+    eggeeugfehueevudegvdetjeeviedugedvtdekffekhedtteduhfenucfkphepkeelrdeg
+    gedruddtrdduvdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomheprghlihhsthgrihhrsegrlhhishhtrghirhdvfedrmhgv
+X-ME-Proxy: <xmx:vEF9YGIJVBr1aaGGilrqHUvPVqMM46PigADnrbB8Vw4EB7U-0fyfVA>
+    <xmx:vEF9YOF2cZ2SioRoCk0tsQda-ElnCQsDKJuKSM8nvOGTqemC96_XNw>
+    <xmx:vEF9YCWIzevI1mzLElEB3qfucyqVdu5EUBe7Q5N562Y_Ow8j8cHJTQ>
+    <xmx:vEF9YBRHkp4vn7fqzjTXA4ZcPhRFzpEfqUWIT8V4lJLcYblXvKRL3g>
 Received: from ThinkpadX1Yoga3.localdomain (unknown [89.44.10.123])
-        by mail.messagingengine.com (Postfix) with ESMTPA id F26D0108005B;
-        Mon, 19 Apr 2021 04:39:18 -0400 (EDT)
+        by mail.messagingengine.com (Postfix) with ESMTPA id 3B4FE1080057;
+        Mon, 19 Apr 2021 04:39:21 -0400 (EDT)
 From:   Alistair Francis <alistair@alistair23.me>
 To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
         linux-imx@nxp.com, kernel@pengutronix.de
 Cc:     linux-kernel@vger.kernel.org, alistair23@gmail.com,
         Alistair Francis <alistair@alistair23.me>
-Subject: [PATCH v5 2/9] dt-bindings: touchscreen: Initial commit of wacom,generic
-Date:   Mon, 19 Apr 2021 07:00:57 +1000
-Message-Id: <20210418210104.2876-2-alistair@alistair23.me>
+Subject: [PATCH v5 3/9] Input: wacom_i2c - Add device tree support to wacom_i2c
+Date:   Mon, 19 Apr 2021 07:00:58 +1000
+Message-Id: <20210418210104.2876-3-alistair@alistair23.me>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210418210104.2876-1-alistair@alistair23.me>
 References: <20210418210104.2876-1-alistair@alistair23.me>
@@ -73,66 +72,43 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Allow the wacom-i2c device to be exposed via device tree.
+
 Signed-off-by: Alistair Francis <alistair@alistair23.me>
 ---
- .../input/touchscreen/wacom,generic.yaml      | 48 +++++++++++++++++++
- 1 file changed, 48 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/input/touchscreen/wacom,generic.yaml
+ drivers/input/touchscreen/wacom_i2c.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/wacom,generic.yaml b/Documentation/devicetree/bindings/input/touchscreen/wacom,generic.yaml
-new file mode 100644
-index 000000000000..19bbfc55ed76
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/touchscreen/wacom,generic.yaml
-@@ -0,0 +1,48 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/touchscreen/wacom,generic.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/input/touchscreen/wacom_i2c.c b/drivers/input/touchscreen/wacom_i2c.c
+index 1afc6bde2891..dd3fc54d3825 100644
+--- a/drivers/input/touchscreen/wacom_i2c.c
++++ b/drivers/input/touchscreen/wacom_i2c.c
+@@ -12,6 +12,7 @@
+ #include <linux/slab.h>
+ #include <linux/irq.h>
+ #include <linux/interrupt.h>
++#include <linux/of.h>
+ #include <asm/unaligned.h>
+ 
+ #define WACOM_CMD_QUERY0	0x04
+@@ -262,10 +263,17 @@ static const struct i2c_device_id wacom_i2c_id[] = {
+ };
+ MODULE_DEVICE_TABLE(i2c, wacom_i2c_id);
+ 
++static const struct of_device_id wacom_i2c_of_match_table[] = {
++	{ .compatible = "wacom,i2c-30" },
++	{}
++};
++MODULE_DEVICE_TABLE(of, wacom_i2c_of_match_table);
 +
-+title: Wacom I2C Controller
-+
-+maintainers:
-+  - Alistair Francis <alistair@alistair23.me>
-+
-+allOf:
-+  - $ref: touchscreen.yaml#
-+
-+properties:
-+  compatible:
-+    const: wacom,generic
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  vdd-supply:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include "dt-bindings/interrupt-controller/irq.h"
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        digitiser@9 {
-+                compatible = "wacom,generic";
-+                reg = <0x9>;
-+                interrupt-parent = <&gpio1>;
-+                interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
-+                vdd-supply = <&reg_touch>;
-+        };
-+    };
+ static struct i2c_driver wacom_i2c_driver = {
+ 	.driver	= {
+ 		.name	= "wacom_i2c",
+ 		.pm	= &wacom_i2c_pm,
++		.of_match_table = wacom_i2c_of_match_table,
+ 	},
+ 
+ 	.probe		= wacom_i2c_probe,
 -- 
 2.31.1
 
