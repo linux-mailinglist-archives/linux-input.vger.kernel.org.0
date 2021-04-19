@@ -2,39 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2822F364C43
-	for <lists+linux-input@lfdr.de>; Mon, 19 Apr 2021 22:49:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55508364C68
+	for <lists+linux-input@lfdr.de>; Mon, 19 Apr 2021 22:55:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237667AbhDSUuB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 19 Apr 2021 16:50:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54422 "EHLO mail.kernel.org"
+        id S241307AbhDSUul (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 19 Apr 2021 16:50:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55198 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241092AbhDSUsN (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 19 Apr 2021 16:48:13 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F2540613E1;
-        Mon, 19 Apr 2021 20:45:39 +0000 (UTC)
+        id S243124AbhDSUsb (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 19 Apr 2021 16:48:31 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 70368613B8;
+        Mon, 19 Apr 2021 20:45:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1618865140;
-        bh=SkoBSXbmmv0oXSDIFiqFXAQ3njA2bHxvanTYMuRaALA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kzQqdaZUKcXFAro0nVBA5c+j7UlBNA/gWobIQuvcNYlB3yNfOsstz+ihmt4obOBM+
-         ywWGjG2+8Ge67HbuGqWWk/j+CbUBxK6hMCvwIhCNqYc4A7hY4a34B7cBNUDjF/5uvZ
-         AJOIqPpIja5cyMPYCZ+rnSP2XaVM7PwOB4jHKxUFVGmfLwlTx8er3cxM6pSagH2vi2
-         Ldvm7jbYLNQVjBCZnTcKnbwLsfJqcJxa1HlCyK47p5Hiy9CsbvmOYzB4LH1trNLubU
-         vXUN1+4XcW7afDyG49i4sda1k6AWFiJrjjeWUUe8RqqpS+dMZvm87UGDOb3b6NV6Qz
-         1V6TKF6MEClAQ==
+        s=k20201202; t=1618865157;
+        bh=EDj1gHlZSzYdYf98LrWwBli/46xSjlYyncHL60ccxE8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Gfi9BDNqg3bFiiDYn6at6yfZIY0um2cP05TBgXNpefOHsShPOhVcHtY2KrikMipcT
+         19zsFoyA8AeW+1+BvL08Gh7T/LcTmEC1DRfDYrzMs8e6qVQrsuppegAYxI0JtqXt5d
+         eYuxpB7FrJppc9g8HwfQyuWh1k5F57mC1E5JrNgQIYimW8gFJhb4X2wsWeOOrYG1Ru
+         J2YvZKTrKOg4PHKELB9xul+4ou+6PPMKu1Oy1wJNFoIVFj5tpdtFDi5JtQYwRNaVEH
+         eRH/12UPQyfLTfVTjkgdpDB0uzOKDK6h1m6qwSyr96uzbijBGzDEmGBD7lFJVvtfqV
+         +h/dlN6aFNN7w==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jiapeng Zhong <abaci-bugfix@linux.alibaba.com>,
-        Abaci Robot <abaci@linux.alibaba.com>,
+Cc:     Jia-Ju Bai <baijiaju1990@gmail.com>,
+        TOTE Robot <oslab@tsinghua.edu.cn>,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 02/11] HID: wacom: Assign boolean values to a bool variable
-Date:   Mon, 19 Apr 2021 16:45:27 -0400
-Message-Id: <20210419204536.6924-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 1/8] HID: alps: fix error return code in alps_input_configured()
+Date:   Mon, 19 Apr 2021 16:45:47 -0400
+Message-Id: <20210419204554.7071-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210419204536.6924-1-sashal@kernel.org>
-References: <20210419204536.6924-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -43,36 +41,33 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Jiapeng Zhong <abaci-bugfix@linux.alibaba.com>
+From: Jia-Ju Bai <baijiaju1990@gmail.com>
 
-[ Upstream commit e29c62ffb008829dc8bcc0a2ec438adc25a8255e ]
+[ Upstream commit fa8ba6e5dc0e78e409e503ddcfceef5dd96527f4 ]
 
-Fix the following coccicheck warnings:
+When input_register_device() fails, no error return code is assigned.
+To fix this bug, ret is assigned with -ENOENT as error return code.
 
-./drivers/hid/wacom_wac.c:2536:2-6: WARNING: Assignment of
-0/1 to bool variable.
-
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Jiapeng Zhong <abaci-bugfix@linux.alibaba.com>
+Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
+Signed-off-by: Jia-Ju Bai <baijiaju1990@gmail.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/wacom_wac.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/hid/hid-alps.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index 8c0718b3754e..5e4c4ae6e193 100644
---- a/drivers/hid/wacom_wac.c
-+++ b/drivers/hid/wacom_wac.c
-@@ -2391,7 +2391,7 @@ static void wacom_wac_finger_slot(struct wacom_wac *wacom_wac,
- 	    !wacom_wac->shared->is_touch_on) {
- 		if (!wacom_wac->shared->touch_down)
- 			return;
--		prox = 0;
-+		prox = false;
+diff --git a/drivers/hid/hid-alps.c b/drivers/hid/hid-alps.c
+index ed9c0ea5b026..1bc6ad0339d2 100644
+--- a/drivers/hid/hid-alps.c
++++ b/drivers/hid/hid-alps.c
+@@ -429,6 +429,7 @@ static int alps_input_configured(struct hid_device *hdev, struct hid_input *hi)
+ 		ret = input_register_device(data->input2);
+ 		if (ret) {
+ 			input_free_device(input2);
++			ret = -ENOENT;
+ 			goto exit;
+ 		}
  	}
- 
- 	wacom_wac->hid_data.num_received++;
 -- 
 2.30.2
 
