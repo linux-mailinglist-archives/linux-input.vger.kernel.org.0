@@ -2,39 +2,36 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 11865364B58
-	for <lists+linux-input@lfdr.de>; Mon, 19 Apr 2021 22:44:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96F34364B9C
+	for <lists+linux-input@lfdr.de>; Mon, 19 Apr 2021 22:46:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242260AbhDSUoY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 19 Apr 2021 16:44:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53736 "EHLO mail.kernel.org"
+        id S240300AbhDSUpV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 19 Apr 2021 16:45:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54550 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242235AbhDSUoV (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 19 Apr 2021 16:44:21 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A37D761104;
-        Mon, 19 Apr 2021 20:43:50 +0000 (UTC)
+        id S242463AbhDSUox (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 19 Apr 2021 16:44:53 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D8F64613B0;
+        Mon, 19 Apr 2021 20:44:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1618865031;
-        bh=EMSOErM+XGT3IjjPP6q2ENZMPE6YrPXjfhCkysRZ84s=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=WJo498/pjJeujPfYDcIfF/369FjG0EzkjX9YYZ6MxGJMC5MN65SF4v6PpEfLk+PU6
-         gjQn0OCQxmAlFOQ2klanNtvOhZ1ifvuVGBZVCZngT8uGCOyWX7OWR3/ctToFyPMmEY
-         CDAHKRglm8gRRlCoxeZDMgkipl8OSwoTOsMM3lH5sud+RHiyhXDIObtpQUoMC7vt9H
-         Z2oZFbX53CyidBqDKfIJQ9W9wYmaQs4FW56q4nZvvX2BkVlITbNhGBLaEVOklmpqHz
-         7Ftp+8KXjjvDMdMeyOvhMJM7nkdp8Kq04vB/l4e+NyigJst/PBP9s/WbG2tu7z5A8D
-         Yk8a9yC/Tj7hA==
+        s=k20201202; t=1618865062;
+        bh=Bmc3UvqQwnCRxqT2QiwzYnZNbecrLCRtRP3bqL4xAAQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=YYPFlnY8q+vuLntLHINfBLDDpT2B7ZgV0eCyhsPEmZl2RVzMBcgU2cNbLScy8IZfJ
+         Ev7rVTh+clSuajwLzRFKUgh/IyXVcVXAZCMcarO3FCg4nux3/jl1Y2LpaBuWLn3IF1
+         NOTm5srWcCWk9myOVAo2fN5HEuuX0NTPzgjQ/VehJ9aavex5LyEN7sQrvMFP3r43PA
+         6KtYBSrxzAYOs2XvyUOv0pnP9fkPvc8zNnlj17mvwb21O6f4uTpjiJ51Fa9j7TnNoe
+         sMvXAMoDqoUc6RTJWzZu7XLSikbAHxGf0ts17jA0/jlM/y9mHdlmPpA1n22rTi/tc0
+         nVvrPzq22T3jw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jiapeng Zhong <abaci-bugfix@linux.alibaba.com>,
-        Abaci Robot <abaci@linux.alibaba.com>,
+Cc:     Shou-Chieh Hsu <shouchieh@chromium.org>,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.11 05/23] HID: wacom: Assign boolean values to a bool variable
-Date:   Mon, 19 Apr 2021 16:43:24 -0400
-Message-Id: <20210419204343.6134-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 01/21] HID: google: add don USB id
+Date:   Mon, 19 Apr 2021 16:43:59 -0400
+Message-Id: <20210419204420.6375-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210419204343.6134-1-sashal@kernel.org>
-References: <20210419204343.6134-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -43,36 +40,45 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Jiapeng Zhong <abaci-bugfix@linux.alibaba.com>
+From: Shou-Chieh Hsu <shouchieh@chromium.org>
 
-[ Upstream commit e29c62ffb008829dc8bcc0a2ec438adc25a8255e ]
+[ Upstream commit 36b87cf302a4f13f8b4344bcf98f67405a145e2f ]
 
-Fix the following coccicheck warnings:
+Add 1 additional hammer-like device.
 
-./drivers/hid/wacom_wac.c:2536:2-6: WARNING: Assignment of
-0/1 to bool variable.
-
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: Jiapeng Zhong <abaci-bugfix@linux.alibaba.com>
+Signed-off-by: Shou-Chieh Hsu <shouchieh@chromium.org>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/wacom_wac.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/hid/hid-google-hammer.c | 2 ++
+ drivers/hid/hid-ids.h           | 1 +
+ 2 files changed, 3 insertions(+)
 
-diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index 44d715c12f6a..bdd9ba577150 100644
---- a/drivers/hid/wacom_wac.c
-+++ b/drivers/hid/wacom_wac.c
-@@ -2533,7 +2533,7 @@ static void wacom_wac_finger_slot(struct wacom_wac *wacom_wac,
- 	    !wacom_wac->shared->is_touch_on) {
- 		if (!wacom_wac->shared->touch_down)
- 			return;
--		prox = 0;
-+		prox = false;
- 	}
+diff --git a/drivers/hid/hid-google-hammer.c b/drivers/hid/hid-google-hammer.c
+index 85a054f1ce38..2a176f77b32e 100644
+--- a/drivers/hid/hid-google-hammer.c
++++ b/drivers/hid/hid-google-hammer.c
+@@ -526,6 +526,8 @@ static void hammer_remove(struct hid_device *hdev)
+ }
  
- 	wacom_wac->hid_data.num_received++;
+ static const struct hid_device_id hammer_devices[] = {
++	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
++		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_DON) },
+ 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+ 		     USB_VENDOR_ID_GOOGLE, USB_DEVICE_ID_GOOGLE_HAMMER) },
+ 	{ HID_DEVICE(BUS_USB, HID_GROUP_GENERIC,
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index 06813f297dcc..b93ce0d475e0 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -486,6 +486,7 @@
+ #define USB_DEVICE_ID_GOOGLE_MASTERBALL	0x503c
+ #define USB_DEVICE_ID_GOOGLE_MAGNEMITE	0x503d
+ #define USB_DEVICE_ID_GOOGLE_MOONBALL	0x5044
++#define USB_DEVICE_ID_GOOGLE_DON	0x5050
+ 
+ #define USB_VENDOR_ID_GOTOP		0x08f2
+ #define USB_DEVICE_ID_SUPER_Q2		0x007f
 -- 
 2.30.2
 
