@@ -2,146 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C4AB36655D
-	for <lists+linux-input@lfdr.de>; Wed, 21 Apr 2021 08:23:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 922DF367412
+	for <lists+linux-input@lfdr.de>; Wed, 21 Apr 2021 22:16:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236013AbhDUGYP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Apr 2021 02:24:15 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:45601 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236018AbhDUGYO (ORCPT
+        id S235643AbhDUURR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Apr 2021 16:17:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50478 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235370AbhDUURR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Apr 2021 02:24:14 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1618986222; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=joVt7EiJpq5MpkTsFfA7/raYnftwlEGm8PrYlH6jj2I=;
- b=DkbHvbE4w1MMfJu+bT6r5gh7em96MbTYBJLGvHcXMYrQnFT5u1ch9PogQIHECeD9549KgE50
- cDWAPPc77nn0MRK3sh8rLoFryychDN9Wn0iIB+LnmGbxqTiJ1OA3CJfwy25kaP8lUaNphh4g
- LTWN3/UHaaoQxgdXwivg+DlpBks=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyIxZDE2NCIsICJsaW51eC1pbnB1dEB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
- 607fc4db215b831afb7a20d7 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 21 Apr 2021 06:23:23
- GMT
-Sender: skakit=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id C9C07C4338A; Wed, 21 Apr 2021 06:23:23 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: skakit)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 73638C433D3;
-        Wed, 21 Apr 2021 06:23:21 +0000 (UTC)
+        Wed, 21 Apr 2021 16:17:17 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDF9FC06174A
+        for <linux-input@vger.kernel.org>; Wed, 21 Apr 2021 13:16:43 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id u17so65383918ejk.2
+        for <linux-input@vger.kernel.org>; Wed, 21 Apr 2021 13:16:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ivDrmLJQ78MRoNxDq6lpDH6wyRibjzDPlh4Bfq0I76g=;
+        b=aZNQaP9Nt8mcyewR1rhQdrQsUpCmDSag+YgDnubsGHHFQBM4/YFVPI6bFVgVGn8TBS
+         QM53rSV14uzrOPWWWNkncUX7QiiKC1Lj4+ZGwZpJxrZ/cdi8dX//yUdmZIiK1ZN497t9
+         yXqcul3Q1SIiyro2nVViotBK+X4EOeSGOfKWk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ivDrmLJQ78MRoNxDq6lpDH6wyRibjzDPlh4Bfq0I76g=;
+        b=bkZBwFGc8pw51q7n0svRym86HzjIcAaC97x9F8hAZ077pRIE7ABaSesv8yWUbmIcZ7
+         DLG7wEDSayjbUdgH4J16LCYCAMz68iMLtfexUrXy/yURbZZcGAdN/wW8hOzwrRiNgrN/
+         Wtm2lKXtgTHWKt78YbuH/ZGYicD8URYrBZtk49XO7T7tFqjLA5FuH34tvBijyJLDNmYJ
+         X5X+Vd91YxFfxoeV04GKHjsXqkuilOzUn3g0uGYEg1BZVx6gFRcEMAnc/5pf0GQS9ndQ
+         /nNng+ovQ+CcLPVt2wtYVG9j+N0yU1S4oyaylLLhAL+B2xFsbdMC0+fvEAKEjx5GPucl
+         inKg==
+X-Gm-Message-State: AOAM533rJK3h8JmII5c9BT71X5eL3hWIhKLEzoZdb/DgB14AL2puEPPM
+        YY5WZ8xVWLjsVl9BYBt5l3frPQ==
+X-Google-Smtp-Source: ABdhPJzttZUmAioz/rDZIfVjdKdCfclwYa/Lkfbgwz6n9uxqccMtaO6hxzGpMyecZ3o1yZBPtAHz6A==
+X-Received: by 2002:a17:906:aecd:: with SMTP id me13mr34886896ejb.324.1619036202576;
+        Wed, 21 Apr 2021 13:16:42 -0700 (PDT)
+Received: from prevas-ravi.prevas.se ([80.208.71.248])
+        by smtp.gmail.com with ESMTPSA id u19sm348825edy.23.2021.04.21.13.16.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Apr 2021 13:16:42 -0700 (PDT)
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: atkbd - simplify atkbd_show_force_release()
+Date:   Wed, 21 Apr 2021 22:16:39 +0200
+Message-Id: <20210421201639.1541945-1-linux@rasmusvillemoes.dk>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Wed, 21 Apr 2021 11:53:21 +0530
-From:   skakit@codeaurora.org
-To:     Rob Herring <robh@kernel.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        David Collins <collinsd@codeaurora.org>, kgunda@codeaurora.org,
-        Vinod Koul <vkoul@kernel.org>,
-        Courtney Cavin <courtney.cavin@sonymobile.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH V2 4/4] dt-bindings: input: pm8941-pwrkey: Convert pm8941
- power key binding to yaml
-In-Reply-To: <20210409185044.GA3946207@robh.at.kernel.org>
-References: <1617881469-31965-1-git-send-email-skakit@codeaurora.org>
- <1617881469-31965-5-git-send-email-skakit@codeaurora.org>
- <20210409185044.GA3946207@robh.at.kernel.org>
-Message-ID: <68095bad57e336c70b622c5b8d5870b1@codeaurora.org>
-X-Sender: skakit@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Rob,
+We can just include the newline in the format string, and scnprintf()
+guarantees nul-termination. These days, sysfs_emit() is
+preferred in sysfs ->show methods, so switch to that.
 
-On 2021-04-10 00:20, Rob Herring wrote:
-> On Thu, Apr 08, 2021 at 05:01:09PM +0530, satya priya wrote:
->> Convert qcom pm8941 power key binding from .txt to .yaml format.
->> 
->> Signed-off-by: satya priya <skakit@codeaurora.org>
-[...]
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - qcom,pm8941-pwrkey
->> +      - qcom,pm8941-resin
->> +      - qcom,pmk8350-pwrkey
->> +      - qcom,pmk8350-resin
->> +
->> +  interrupts:
-> 
-> How many?
-> 
+Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+---
+ drivers/input/keyboard/atkbd.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-ok, will add maxItems.
+diff --git a/drivers/input/keyboard/atkbd.c b/drivers/input/keyboard/atkbd.c
+index edc613efc158..b146a3ec631a 100644
+--- a/drivers/input/keyboard/atkbd.c
++++ b/drivers/input/keyboard/atkbd.c
+@@ -1492,13 +1492,8 @@ static ssize_t atkbd_set_extra(struct atkbd *atkbd, const char *buf, size_t coun
+ 
+ static ssize_t atkbd_show_force_release(struct atkbd *atkbd, char *buf)
+ {
+-	size_t len = scnprintf(buf, PAGE_SIZE - 1, "%*pbl",
+-			       ATKBD_KEYMAP_SIZE, atkbd->force_release_mask);
+-
+-	buf[len++] = '\n';
+-	buf[len] = '\0';
+-
+-	return len;
++	return sysfs_emit(buf, "%*pbl\n",
++			  ATKBD_KEYMAP_SIZE, atkbd->force_release_mask);
+ }
+ 
+ static ssize_t atkbd_set_force_release(struct atkbd *atkbd,
+-- 
+2.29.2
 
->> +    description: |
->> +          Key change interrupt; The format of the specifier is
->> +          defined by the binding document describing the node's
->> +          interrupt parent.
-> 
-> The 2nd sentence is every 'interrupts' property. Drop.
-> 
-
-Will remove the description.
-
->> +
->> +  debounce:
->> +    description: |
->> +          Time in microseconds that key must be pressed or
->> +          released for state change interrupt to trigger.
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +
->> +  bias-pull-up:
->> +    description: |
->> +           Presence of this property indicates that the KPDPWR_N
->> +           pin should be configured for pull up.
->> +    $ref: /schemas/types.yaml#/definitions/flag
->> +
->> +  linux,code:
->> +    description: |
->> +           The input key-code associated with the power key.
->> +           Use the linux event codes defined in
->> +           include/dt-bindings/input/linux-event-codes.h
->> +           When property is omitted KEY_POWER is assumed.
->> +    $ref: "input.yaml#"
-> 
-> You've just defined that 'linux,code' is a node with properties defined
-> in input.yaml. Need to move this up to the top level.
-> 
-
-allOf:
-   $ref: "input.yaml#"
-That means I should add like this at the beginning? please correct me if 
-wrong.
-
->> +
->> +required:
->> +  - compatible
->> +  - interrupts
->> +
->> +additionalProperties: false
-[...]
-
-Thanks,
-Satya Priya
