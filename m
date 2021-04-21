@@ -2,86 +2,146 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D168D3664EE
-	for <lists+linux-input@lfdr.de>; Wed, 21 Apr 2021 07:40:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C4AB36655D
+	for <lists+linux-input@lfdr.de>; Wed, 21 Apr 2021 08:23:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234854AbhDUFlY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 21 Apr 2021 01:41:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53404 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230343AbhDUFlX (ORCPT
+        id S236013AbhDUGYP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 21 Apr 2021 02:24:15 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:45601 "EHLO
+        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236018AbhDUGYO (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 21 Apr 2021 01:41:23 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35DA1C06174A;
-        Tue, 20 Apr 2021 22:40:50 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id p16so17038430plf.12;
-        Tue, 20 Apr 2021 22:40:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Tz/1YLak3C2mdGfTxiavo+SW8NvwR0wTpkEAogFdEMQ=;
-        b=eIHbYrmFhAfP4GMs4jOK134+pFUSXvPIzF4F4qGRT/C4rs0rIr3CxpbSEIfCdQU1Hl
-         bk+tU3q0H3Sdx1EaUoxz5VZ1JV2zHUqBzXG2vSq1UegKTAoYC4qXcYC9wh+xTPl1Qk7I
-         Ubqz2QpPQ5sckLYMDpVe+ZDMcVrVCGICrcX1/4rLbb6EknNeXCqmzRLPkZ/Ij92Rhb3q
-         2nsIkdoN1YgVz3Fdc1hqxGL6MFqH8zqchQX8jkzfBSxNQO2g4SA2lkxEvCAsn0NkpTfc
-         eKhFDi6chfSUTeH6cNOn0mE2akDPIJnVCm6iR6s7b5i3fF0EeeplSCnn7KxKs4MLll20
-         LQLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Tz/1YLak3C2mdGfTxiavo+SW8NvwR0wTpkEAogFdEMQ=;
-        b=uf0DRa648hBorxu99tt+MR3oXjbISwZJFvHB8q0WcURg64OuTS0X+ivQdfwljvfJzU
-         2jk7z6obTo3SJsazZnNB2d5uNxGVOK9tB0iFLDLpYQPk/7izKGta4WUFENEKK8aXOG6P
-         0o4GrLsVdoWlSsFqZzqf0ysqh9oFtvnfOMlBqpNzr2DnC69LDwgSMmGP0Iy2RJ9Yzgkq
-         jTwSpC5ErbwurqOfZoMsL8VbbEyClJaO9bUKbeRTweTtNgcR1jm5ST8j2S0saXMSKzt/
-         bXA1DW+zLkxsMPqquEAEOyGsgNZmc/duiICB6iQR6CSRDo+bVei3cGMq5uSaidhbsJP7
-         C0QQ==
-X-Gm-Message-State: AOAM531kobC4ublzyPWUBSXynnOu2I0jUkR5rr6vo16DYf6hPvBluVIY
-        ZmUzTIS2781sGLxy+yAb9hbyIHU0vUg=
-X-Google-Smtp-Source: ABdhPJxkhfM8E+r6GkwGoNudsvs1kPqFhcTMeMXeBjBvi4ipLS+yWEMxKOpjlwN130tSfSC99n0+dw==
-X-Received: by 2002:a17:902:edd0:b029:ec:8e2a:d6ed with SMTP id q16-20020a170902edd0b02900ec8e2ad6edmr21176740plk.32.1618983649760;
-        Tue, 20 Apr 2021 22:40:49 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:b533:61c1:84ff:eacd])
-        by smtp.gmail.com with ESMTPSA id k127sm683705pfd.63.2021.04.20.22.40.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Apr 2021 22:40:48 -0700 (PDT)
-Date:   Tue, 20 Apr 2021 22:40:46 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Giulio Benetti <giulio.benetti@benettiengineering.com>,
-        linux-input@vger.kernel.org, Rob Herring <robh@kernel.org>,
-        devicetree@vger.kernel.org,
-        Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] MAINTAINERS: repair reference in HYCON HY46XX
- TOUCHSCREEN SUPPORT
-Message-ID: <YH+63pkPpT52PkFV@google.com>
-References: <20210419060023.3460-1-lukas.bulwahn@gmail.com>
+        Wed, 21 Apr 2021 02:24:14 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1618986222; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=joVt7EiJpq5MpkTsFfA7/raYnftwlEGm8PrYlH6jj2I=;
+ b=DkbHvbE4w1MMfJu+bT6r5gh7em96MbTYBJLGvHcXMYrQnFT5u1ch9PogQIHECeD9549KgE50
+ cDWAPPc77nn0MRK3sh8rLoFryychDN9Wn0iIB+LnmGbxqTiJ1OA3CJfwy25kaP8lUaNphh4g
+ LTWN3/UHaaoQxgdXwivg+DlpBks=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyIxZDE2NCIsICJsaW51eC1pbnB1dEB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
+ 607fc4db215b831afb7a20d7 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 21 Apr 2021 06:23:23
+ GMT
+Sender: skakit=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id C9C07C4338A; Wed, 21 Apr 2021 06:23:23 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: skakit)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 73638C433D3;
+        Wed, 21 Apr 2021 06:23:21 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210419060023.3460-1-lukas.bulwahn@gmail.com>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Wed, 21 Apr 2021 11:53:21 +0530
+From:   skakit@codeaurora.org
+To:     Rob Herring <robh@kernel.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        David Collins <collinsd@codeaurora.org>, kgunda@codeaurora.org,
+        Vinod Koul <vkoul@kernel.org>,
+        Courtney Cavin <courtney.cavin@sonymobile.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: Re: [PATCH V2 4/4] dt-bindings: input: pm8941-pwrkey: Convert pm8941
+ power key binding to yaml
+In-Reply-To: <20210409185044.GA3946207@robh.at.kernel.org>
+References: <1617881469-31965-1-git-send-email-skakit@codeaurora.org>
+ <1617881469-31965-5-git-send-email-skakit@codeaurora.org>
+ <20210409185044.GA3946207@robh.at.kernel.org>
+Message-ID: <68095bad57e336c70b622c5b8d5870b1@codeaurora.org>
+X-Sender: skakit@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Apr 19, 2021 at 08:00:23AM +0200, Lukas Bulwahn wrote:
-> Commit aa2f62cf211a ("Input: add driver for the Hycon HY46XX touchpanel
-> series") adds the file ./drivers/input/touchscreen/hycon-hy46xx.c, but the
-> file entry in MAINTAINERS refers to ./drivers/input/touchscreen/hy46xx.c.
-> 
-> Hence, ./scripts/get_maintainer.pl --self-test=patterns complains:
-> 
->   warning: no file matches    F:    drivers/input/touchscreen/hy46xx.c
-> 
-> Repair the file entry by referring to the right location.
-> 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Hi Rob,
 
-Applied, thank you.
+On 2021-04-10 00:20, Rob Herring wrote:
+> On Thu, Apr 08, 2021 at 05:01:09PM +0530, satya priya wrote:
+>> Convert qcom pm8941 power key binding from .txt to .yaml format.
+>> 
+>> Signed-off-by: satya priya <skakit@codeaurora.org>
+[...]
+>> +
+>> +properties:
+>> +  compatible:
+>> +    enum:
+>> +      - qcom,pm8941-pwrkey
+>> +      - qcom,pm8941-resin
+>> +      - qcom,pmk8350-pwrkey
+>> +      - qcom,pmk8350-resin
+>> +
+>> +  interrupts:
+> 
+> How many?
+> 
 
--- 
-Dmitry
+ok, will add maxItems.
+
+>> +    description: |
+>> +          Key change interrupt; The format of the specifier is
+>> +          defined by the binding document describing the node's
+>> +          interrupt parent.
+> 
+> The 2nd sentence is every 'interrupts' property. Drop.
+> 
+
+Will remove the description.
+
+>> +
+>> +  debounce:
+>> +    description: |
+>> +          Time in microseconds that key must be pressed or
+>> +          released for state change interrupt to trigger.
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +
+>> +  bias-pull-up:
+>> +    description: |
+>> +           Presence of this property indicates that the KPDPWR_N
+>> +           pin should be configured for pull up.
+>> +    $ref: /schemas/types.yaml#/definitions/flag
+>> +
+>> +  linux,code:
+>> +    description: |
+>> +           The input key-code associated with the power key.
+>> +           Use the linux event codes defined in
+>> +           include/dt-bindings/input/linux-event-codes.h
+>> +           When property is omitted KEY_POWER is assumed.
+>> +    $ref: "input.yaml#"
+> 
+> You've just defined that 'linux,code' is a node with properties defined
+> in input.yaml. Need to move this up to the top level.
+> 
+
+allOf:
+   $ref: "input.yaml#"
+That means I should add like this at the beginning? please correct me if 
+wrong.
+
+>> +
+>> +required:
+>> +  - compatible
+>> +  - interrupts
+>> +
+>> +additionalProperties: false
+[...]
+
+Thanks,
+Satya Priya
