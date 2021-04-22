@@ -2,87 +2,114 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 129DF3684E6
-	for <lists+linux-input@lfdr.de>; Thu, 22 Apr 2021 18:32:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49BBE368561
+	for <lists+linux-input@lfdr.de>; Thu, 22 Apr 2021 19:00:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236662AbhDVQdM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Apr 2021 12:33:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35596 "EHLO
+        id S237972AbhDVRBN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Apr 2021 13:01:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237972AbhDVQdI (ORCPT
+        with ESMTP id S236664AbhDVRBM (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Apr 2021 12:33:08 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14B42C06174A;
-        Thu, 22 Apr 2021 09:32:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=HBW9pi1AtwAKNZXHGCpKKjsedA+rzUKisGIAxuDRPPE=; b=KPw58ASa5uatO+OME3CXuHpLgP
-        fO2sTkNeWLtDXLbD0fyJZm8OxTjbxJjjBBy5Ed1OPurDQrwSjaKjh0F2ZwsTI0YUbbadhQbwKWgqf
-        IL5nAwmi8tLxwgZtYq5aWPOIh4tCEGVkpwpr+XOVOyNXdKJ7lpDn1SUqFw+2HIQUqN2zL/OIh9aPS
-        fSuu+f+82Wf4XmxD6OspvX/fOpWhhNP3l1wVI/VAA2D8HwgmuUtcXH424UU+kkzRgSHHgfRn5r7IF
-        a5E+yguRdBE5GPwqDHNG7Ys5uij5+qiGUDn/8ewV5W9dQ+bgHNjS5qYzxS9zZsLUR7btA0nU3Jn7R
-        1NQln+Mg==;
-Received: from [2601:1c0:6280:3f0::df68]
-        by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lZcFj-00H5cH-CO; Thu, 22 Apr 2021 16:32:31 +0000
-Subject: Re: [PATCH] Input: rework USB Kconfig dependencies
-To:     Arnd Bergmann <arnd@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210422133647.1877425-1-arnd@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <74e04402-58b3-b1e5-4f72-9fe227f21b35@infradead.org>
-Date:   Thu, 22 Apr 2021 09:32:27 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        Thu, 22 Apr 2021 13:01:12 -0400
+Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CE3DC061756
+        for <linux-input@vger.kernel.org>; Thu, 22 Apr 2021 10:00:37 -0700 (PDT)
+Received: by mail-qt1-x835.google.com with SMTP id s4so6541001qtw.3
+        for <linux-input@vger.kernel.org>; Thu, 22 Apr 2021 10:00:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4NFW06ZWVVvB3Pa4IKaIF3Oq2NHOUsU574bdpGJ5vzc=;
+        b=OpC9Dhbyh8h4V7kjnqAizEKHlJNtpC0Cby476Sbc9g0vcFCI5skCnvPSB1BrJtVLrJ
+         ZuVOWh0yZrkxX4UcOJdaR7evFPa7xdYQhoNKDsP3kG7CG/1kImjdw0h1fMAWE+tkRhfy
+         kyCojuJA0ITYGXMAqoVaUd6GruNeAa9WzVUSlj8EwQ/rcCavHCGHkknTG9RodeTCwVKo
+         tCiMTn61Xjg9HZ0k1c0pavO0o+jxJa4FUQ5ekmsgomFTEO8ja+BZrlpG7S4fqPJUcYHa
+         GMY5we84Z0XWpudDD3/2tmq1IT30iGa6x00RQ2+upz2/UpziqUmzGSw1Ns4OobUzVbHG
+         TqXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4NFW06ZWVVvB3Pa4IKaIF3Oq2NHOUsU574bdpGJ5vzc=;
+        b=CTiS6iWIyHPBG1JA3kM611yzfpSzEfNJCi2n2kTC38cZDhiqCkoTrmjZ+EpGi/5EHn
+         2LgEUGZGLk3I3Z8ucCk4DoedRpM0j4GYDpsiiD7FoDqM6HpRg2HFSJEnpwqiAH6GmM6P
+         Pa36GjUCSpsGVGPIkSJAzIf/Q/g+malvZHM3aju7pIjtH/ah8rZQ2P5kyfMlmVlA4WpK
+         ngc534jHFCmKabbHSj6hanT43ZKJG46BlXIXT9t+KXS5xQkyHRSjmdpAlGlFl4MjoSea
+         gceABo9grF8RKz59cuxaqjQi4o6Z2FcCAMk6YiXaUHv/DCHXd5mUinkX2DXx6VeFQCfg
+         ll6A==
+X-Gm-Message-State: AOAM531X6AD5hYFIIy17vH1FkYArtwccp1l1mHM1tlpul263LgFm65Ea
+        rGowhxnEUW2YcwZCSm+KQsKG2C2VsI7P7ND2d0wrCQ==
+X-Google-Smtp-Source: ABdhPJwwGBdAMahWWP4Of3diwBUUp2pJ8fWrcqtryzZ/+ILUO95ZkaAPMEURjdpqL2eJ1C0SEsVuwthhGpE09widbCs=
+X-Received: by 2002:ac8:5c92:: with SMTP id r18mr4130674qta.66.1619110836355;
+ Thu, 22 Apr 2021 10:00:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210422133647.1877425-1-arnd@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <000000000000301a4d05bfe14b8f@google.com> <CACT4Y+ZT2m7t+o9=VYCE32U_1aUVJXRp_5KgJSdEZC1YXy=qgA@mail.gmail.com>
+ <CA+fCnZcWEuYeOx6-0LY+cqtGVbMx2OiyhEELErdfwaHGcUWHbQ@mail.gmail.com>
+ <b8162e95-fb2e-51f6-9d9b-a4d64873876e@i-love.sakura.ne.jp>
+ <abcb019f-a78a-3c6d-e199-719176a394d6@i-love.sakura.ne.jp>
+ <CACT4Y+ZvidVY5R4XqqW=b_j1Lbe2DnoKM2bPLgB4mS-CW10g1w@mail.gmail.com> <d829f5a8-95ba-1a17-c36a-21e23d382875@i-love.sakura.ne.jp>
+In-Reply-To: <d829f5a8-95ba-1a17-c36a-21e23d382875@i-love.sakura.ne.jp>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Thu, 22 Apr 2021 19:00:25 +0200
+Message-ID: <CACT4Y+aJ510rkgq6Y3A7KK53P+1N0nPyRJ=+hZg5MYyicV4xgg@mail.gmail.com>
+Subject: Re: [syzbot] unexpected kernel reboot (4)
+To:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc:     Andrey Konovalov <andreyknvl@gmail.com>,
+        syzbot <syzbot+9ce030d4c89856b27619@syzkaller.appspotmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        syzkaller <syzkaller@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 4/22/21 6:36 AM, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> A lot of input drivers traditionally depend on CONFIG_USB_ARCH_HAS_HCD
-> and select CONFIG_USB. This works but is different from almost every
-> other subsystem in the kernel.
-> 
-> I found this when debugging a build failure in the RC subsystem that
-> had the same logic.
-> 
-> The problem here is that CONFIG_USB_ARCH_HAS_HCD no longer has
-> a meaning since the host controller support has been changed to
-> use machine specific loadable modules for the USB host. Selecting
-> a subsystem that a driver needs is confusing and can lead to
-> recursive dependency chains in Kconfig.
-> 
-> In both cases, the normal logic is to specify 'depends on USB'.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+On Thu, Apr 22, 2021 at 6:13 PM Tetsuo Handa
+<penguin-kernel@i-love.sakura.ne.jp> wrote:
+>
+> On 2021/04/22 23:20, Dmitry Vyukov wrote:
+> > I've prepared this syzkaller change:
+> > https://github.com/google/syzkaller/pull/2550/files
+>
+> OK. Please merge and let's see whether syzkaller can find different ways.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Merge. Thanks for digging into this.
 
-Thanks.
+> In my environment, this problem behaves very puzzling. While the reproducer
+> I use is single threaded, changing timing via CONFIG_DEBUG_KOBJECT=y or
+> even https://syzkaller.appspot.com/x/patch.diff?x=13d69ffed00000 avoids
+> this problem. I can't narrow down what is happening.
 
-> ---
->  drivers/input/joystick/Kconfig    |  6 ++----
->  drivers/input/misc/Kconfig        | 15 +++++----------
->  drivers/input/mouse/Kconfig       |  9 +++------
->  drivers/input/tablet/Kconfig      | 15 +++++----------
->  drivers/input/touchscreen/Kconfig |  3 +--
->  5 files changed, 16 insertions(+), 32 deletions(-)
-> 
+This:
+- kill_cad_pid(SIGINT, 1);
+suggests the change can help... I think... this is good.
 
 
--- 
-~Randy
+> > Re hibernation/suspend configs, you said disabling them is not
+> > helping, right? Does it still make sense to disable them?
+> > If these configs are enabled, we can at least find some bugs in the
+> > preparation for suspend code. However, as you noted, it will
+> > immediately lead to "lost connection".
+> > Ideally we somehow tweak hibernation/suspend to get to the
+> > hibernation/suspend point and then immediately and automatically
+> > resume.
+>
+> That will be one of disable-specific-functionality changes.
+>
+> >         This way we could test both suspend and unsuspend code, which
+> > I assume can lead to bugs, and don't cause "lost connection" at the
+> > same time. I guess such a mode does not exist today... and I am not
+> > sure what happens with TCP connections after this.
+>
+> I don't know whether ssh sessions can survive 10 seconds of
+> hibernation/suspend. But maybe disabling hibernation/suspend configs
+> until disable-specific-functionality changes are accepted makes sense.
 
+We would need to disable CONFIG_SUSPEND and CONFIG_HIBERNATION. I am
+thinking if we will gain more than we lose... We will lose coverage of
+these subsystems, but this will eliminate some of "lost connection"
+crashes. Do you have any understanding as to how many "lost
+connection"s this can prevent?
