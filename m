@@ -2,248 +2,145 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F9AC368190
-	for <lists+linux-input@lfdr.de>; Thu, 22 Apr 2021 15:36:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0814368259
+	for <lists+linux-input@lfdr.de>; Thu, 22 Apr 2021 16:20:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236144AbhDVNha (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 22 Apr 2021 09:37:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32914 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235977AbhDVNha (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 22 Apr 2021 09:37:30 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8D03C61426;
-        Thu, 22 Apr 2021 13:36:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1619098615;
-        bh=AsB5a//wbGi9tH3U2EOc0QPelMK+SQVAHVb8qX57eQY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=jBM7xxsspuAwMDcRv/DY/iVakN+zpyCiExDuJCr4H5ltKRVDfpskc8mVr4+Id0WcT
-         +pTSzq3z8QNFBE6BjtKnSd4+ynvQP/j5i+iduP42cr3xk6j0IG6K7cFORaBQXlDwdC
-         5NolXKXFf2W7S1F/OJF4D8zDiSLH1S+HwfH1M2UumiowF3BKAK10dmbd5kuDOlINqG
-         SiDchdbA8UkHOeT0suG7gZrlSIHQ8XQQuobEYaFIv3lCP3HV6CGYOtgEQ9DjZANflj
-         36ivXnlteOahi5grpq84VvvKczXXAxpZwFoAnVSEsjDf85DLRtNERQ78ggW/jULQdg
-         DivpCVJgWD8wA==
-From:   Arnd Bergmann <arnd@kernel.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Input: rework USB Kconfig dependencies
-Date:   Thu, 22 Apr 2021 15:36:06 +0200
-Message-Id: <20210422133647.1877425-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
+        id S236763AbhDVOU7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 22 Apr 2021 10:20:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34636 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237164AbhDVOU6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 22 Apr 2021 10:20:58 -0400
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0911C06138C
+        for <linux-input@vger.kernel.org>; Thu, 22 Apr 2021 07:20:23 -0700 (PDT)
+Received: by mail-qt1-x833.google.com with SMTP id o2so20475173qtr.4
+        for <linux-input@vger.kernel.org>; Thu, 22 Apr 2021 07:20:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ApfMOAte0C127jwHR+Rs3V/gkRXkrllStqF0YgW+bds=;
+        b=ewY3djZ7Yj9TRMXNThQvj1l8pcIa8qQSIZTdlgvtCYYmQMYwuJpPRVrXcw4c/2F54W
+         9otM/uMBOgbFqcfWq9+6pTEqgxxxZ2StRn/K+jZ3876ajMuksrS3enO0Y/4XigyrgMoB
+         y33e0ZHIWx4VmhHALFLfutQ4ifhzivpbv0iJtwO/1YCDQiAo/geAMcCMIoJkoB4zv5ay
+         3jS0xI5jY8Wes+SrQy9LWs51KxU7pNLLuCPc0Tck1ogCqG7mC4+Ch9x05YQKAn8Qo5IB
+         GVw8aCIiBnIbnrX7FvGcVnvci6Tq2lVB95eAjUOsZtv/x6yC7rFUUq3GDK/60+TZ4uHb
+         R8Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ApfMOAte0C127jwHR+Rs3V/gkRXkrllStqF0YgW+bds=;
+        b=jw4zmC88pnqY+hpVM+bA285U47IW9TJArpv9MtogxS/XrQ9hLGgjqkZtxTuHs8q5hg
+         fr+z9JKMRAkB2Q/FBonSMLGXx4NklgiwSonJuCCn/UsLoZl7f6J6+chMUQeNGpzqa+x3
+         4+Yvq8Ux0PX9/Z85M1SR9AGT/Jornc+NUsF6D0i6OgVI9ElcftZBKMzjwGE3DRmUsZzk
+         T3PHoluEgtE7m/sJ4yN9kRquh6yJmzcWpgeiwqpa6QERyFbS1YkSmBePVvkeuyzCivyC
+         Il/uJPLtJpVJthY/qMa1xVcNEfaZDZrEIWwNnZtDTkVXpfBQBo1OnB+WfehGlN8pJGU8
+         mmaw==
+X-Gm-Message-State: AOAM533FHKXz/awTNriP0BHNDswFjSLCNyCAaeT1KgSAexlZ7BQjEj/H
+        Tp/OYx/uLjHdB51pC+sZh1lSe8YiUKKoe9M0Cr4HpA==
+X-Google-Smtp-Source: ABdhPJzA2yNa5ia2nyaegY1JUCPWCSgm77x71L2cMONiFDl2MZ0YNIOrbO9kKiEJrfQhLlmDqophIt5kPGXScZMy+NY=
+X-Received: by 2002:a05:622a:5d0:: with SMTP id d16mr3357947qtb.290.1619101222962;
+ Thu, 22 Apr 2021 07:20:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <000000000000301a4d05bfe14b8f@google.com> <CACT4Y+ZT2m7t+o9=VYCE32U_1aUVJXRp_5KgJSdEZC1YXy=qgA@mail.gmail.com>
+ <CA+fCnZcWEuYeOx6-0LY+cqtGVbMx2OiyhEELErdfwaHGcUWHbQ@mail.gmail.com>
+ <b8162e95-fb2e-51f6-9d9b-a4d64873876e@i-love.sakura.ne.jp> <abcb019f-a78a-3c6d-e199-719176a394d6@i-love.sakura.ne.jp>
+In-Reply-To: <abcb019f-a78a-3c6d-e199-719176a394d6@i-love.sakura.ne.jp>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Thu, 22 Apr 2021 16:20:11 +0200
+Message-ID: <CACT4Y+ZvidVY5R4XqqW=b_j1Lbe2DnoKM2bPLgB4mS-CW10g1w@mail.gmail.com>
+Subject: Re: [syzbot] unexpected kernel reboot (4)
+To:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc:     Andrey Konovalov <andreyknvl@gmail.com>,
+        syzbot <syzbot+9ce030d4c89856b27619@syzkaller.appspotmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        syzkaller <syzkaller@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Thu, Apr 22, 2021 at 12:16 PM Tetsuo Handa
+<penguin-kernel@i-love.sakura.ne.jp> wrote:
+>
+> On 2021/04/15 1:16, Tetsuo Handa wrote:
+> > On 2021/04/15 0:39, Andrey Konovalov wrote:
+> >> On Wed, Apr 14, 2021 at 7:45 AM Dmitry Vyukov <dvyukov@google.com> wrote:
+> >>>
+> >>> On Tue, Apr 13, 2021 at 11:27 PM syzbot
+> >>> <syzbot+9ce030d4c89856b27619@syzkaller.appspotmail.com> wrote:
+> >>>>
+> >>>> Hello,
+> >>>>
+> >>>> syzbot found the following issue on:
+> >>>>
+> >>>> HEAD commit:    89698bec Merge tag 'm68knommu-for-v5.12-rc7' of git://git...
+> >>>> git tree:       upstream
+> >>>> console output: https://syzkaller.appspot.com/x/log.txt?x=1243fcfed00000
+> >>>> kernel config:  https://syzkaller.appspot.com/x/.config?x=b234ddbbe2953747
+> >>>> dashboard link: https://syzkaller.appspot.com/bug?extid=9ce030d4c89856b27619
+> >>>> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=173e92fed00000
+> >>>> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1735da2ed00000
+> >>>>
+> >>>> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> >>>> Reported-by: syzbot+9ce030d4c89856b27619@syzkaller.appspotmail.com
+> >>>>
+> >>>> output_len: 0x000000000e74eb68
+> >>>> kernel_total_size: 0x000000000f226000
+> >>>> needed_size: 0x000000000f400000
+> >>>> trampoline_32bit: 0x000000000009d000
+> >>>> Decompressing Linux... Parsing ELF... done.
+> >>>> Booting the kernel.
+> >>>
+> >>> +linux-input
+> >>>
+> >>> The reproducer connects some USB HID device and communicates with the driver.
+> >>> Previously we observed reboots because HID devices can trigger reboot
+> >>> SYSRQ, but we disable it with "CONFIG_MAGIC_SYSRQ is not set".
+> >>> How else can a USB device reboot the machine? Is it possible to disable it?
+> >>> I don't see any direct includes of <linux/reboot.h> in drivers/usb/*
+> >>
+> >> This happens when a keyboard sends the Ctrl+Alt+Del sequence, see
+> >> fn_boot_it()->ctrl_alt_del() in drivers/tty/vt/keyboard.c.
+>
+> Hmm, maybe the reproducer I use and "#syz test:" uses differs.
+> But since "#syz test:" did not trigger the problem if
+> https://syzkaller.appspot.com/x/patch.diff?x=14ba0851d00000 is applied,
+> can we add
+>
+>         if (fork() == 0) {
+>                 char buf[20] = { };
+>                 int fd = open("/proc/sys/kernel/ctrl-alt-del", O_WRONLY);
+>                 write(fd, "0\n", 2);
+>                 close(fd);
+>                 fd = open("/proc/sys/kernel/cad_pid", O_WRONLY);
+>                 snprintf(buf, sizeof(buf) - 1, "%d\n", getpid());
+>                 write(fd, buf, strlen(buf));
+>                 close(fd);
+>         }
+>
+> to the common setup function? This will serve as a temporary workaround
+> until Linus accepts disable-specific-functionality changes.
+>
+> There is no need to keep the process referenced by /proc/sys/kernel/cad_pid alive,
+> for "struct pid" which can remain after the process terminates is saved there.
 
-A lot of input drivers traditionally depend on CONFIG_USB_ARCH_HAS_HCD
-and select CONFIG_USB. This works but is different from almost every
-other subsystem in the kernel.
+I've prepared this syzkaller change:
+https://github.com/google/syzkaller/pull/2550/files
 
-I found this when debugging a build failure in the RC subsystem that
-had the same logic.
-
-The problem here is that CONFIG_USB_ARCH_HAS_HCD no longer has
-a meaning since the host controller support has been changed to
-use machine specific loadable modules for the USB host. Selecting
-a subsystem that a driver needs is confusing and can lead to
-recursive dependency chains in Kconfig.
-
-In both cases, the normal logic is to specify 'depends on USB'.
-
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/input/joystick/Kconfig    |  6 ++----
- drivers/input/misc/Kconfig        | 15 +++++----------
- drivers/input/mouse/Kconfig       |  9 +++------
- drivers/input/tablet/Kconfig      | 15 +++++----------
- drivers/input/touchscreen/Kconfig |  3 +--
- 5 files changed, 16 insertions(+), 32 deletions(-)
-
-diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconfig
-index 5e38899058c1..10eb463b42f7 100644
---- a/drivers/input/joystick/Kconfig
-+++ b/drivers/input/joystick/Kconfig
-@@ -291,8 +291,7 @@ config JOYSTICK_JOYDUMP
- 
- config JOYSTICK_XPAD
- 	tristate "X-Box gamepad support"
--	depends on USB_ARCH_HAS_HCD
--	select USB
-+	depends on USB
- 	help
- 	  Say Y here if you want to use the X-Box pad with your computer.
- 	  Make sure to say Y to "Joystick support" (CONFIG_INPUT_JOYDEV)
-@@ -364,8 +363,7 @@ config JOYSTICK_PSXPAD_SPI_FF
- 
- config JOYSTICK_PXRC
- 	tristate "PhoenixRC Flight Controller Adapter"
--	depends on USB_ARCH_HAS_HCD
--	select USB
-+	depends on USB
- 	help
- 	  Say Y here if you want to use the PhoenixRC Flight Controller Adapter.
- 
-diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
-index 97f0455c2aee..85575df19aa8 100644
---- a/drivers/input/misc/Kconfig
-+++ b/drivers/input/misc/Kconfig
-@@ -367,8 +367,7 @@ config INPUT_ATLAS_BTNS
- 
- config INPUT_ATI_REMOTE2
- 	tristate "ATI / Philips USB RF remote control"
--	depends on USB_ARCH_HAS_HCD
--	select USB
-+	depends on USB
- 	help
- 	  Say Y here if you want to use an ATI or Philips USB RF remote control.
- 	  These are RF remotes with USB receivers.
-@@ -382,8 +381,7 @@ config INPUT_ATI_REMOTE2
- 
- config INPUT_KEYSPAN_REMOTE
- 	tristate "Keyspan DMR USB remote control"
--	depends on USB_ARCH_HAS_HCD
--	select USB
-+	depends on USB
- 	help
- 	  Say Y here if you want to use a Keyspan DMR USB remote control.
- 	  Currently only the UIA-11 type of receiver has been tested.  The tag
-@@ -407,8 +405,7 @@ config INPUT_KXTJ9
- 
- config INPUT_POWERMATE
- 	tristate "Griffin PowerMate and Contour Jog support"
--	depends on USB_ARCH_HAS_HCD
--	select USB
-+	depends on USB
- 	help
- 	  Say Y here if you want to use Griffin PowerMate or Contour Jog devices.
- 	  These are aluminum dials which can measure clockwise and anticlockwise
-@@ -423,8 +420,7 @@ config INPUT_POWERMATE
- 
- config INPUT_YEALINK
- 	tristate "Yealink usb-p1k voip phone"
--	depends on USB_ARCH_HAS_HCD
--	select USB
-+	depends on USB
- 	help
- 	  Say Y here if you want to enable keyboard and LCD functions of the
- 	  Yealink usb-p1k usb phones. The audio part is enabled by the generic
-@@ -438,8 +434,7 @@ config INPUT_YEALINK
- 
- config INPUT_CM109
- 	tristate "C-Media CM109 USB I/O Controller"
--	depends on USB_ARCH_HAS_HCD
--	select USB
-+	depends on USB
- 	help
- 	  Say Y here if you want to enable keyboard and buzzer functions of the
- 	  C-Media CM109 usb phones. The audio part is enabled by the generic
-diff --git a/drivers/input/mouse/Kconfig b/drivers/input/mouse/Kconfig
-index 63c9cda555c3..ce6c0ccafacc 100644
---- a/drivers/input/mouse/Kconfig
-+++ b/drivers/input/mouse/Kconfig
-@@ -215,8 +215,7 @@ config MOUSE_SERIAL
- 
- config MOUSE_APPLETOUCH
- 	tristate "Apple USB Touchpad support"
--	depends on USB_ARCH_HAS_HCD
--	select USB
-+	depends on USB
- 	help
- 	  Say Y here if you want to use an Apple USB Touchpad.
- 
-@@ -236,8 +235,7 @@ config MOUSE_APPLETOUCH
- 
- config MOUSE_BCM5974
- 	tristate "Apple USB BCM5974 Multitouch trackpad support"
--	depends on USB_ARCH_HAS_HCD
--	select USB
-+	depends on USB
- 	help
- 	  Say Y here if you have an Apple USB BCM5974 Multitouch
- 	  trackpad.
-@@ -430,8 +428,7 @@ config MOUSE_SYNAPTICS_I2C
- 
- config MOUSE_SYNAPTICS_USB
- 	tristate "Synaptics USB device support"
--	depends on USB_ARCH_HAS_HCD
--	select USB
-+	depends on USB
- 	help
- 	  Say Y here if you want to use a Synaptics USB touchpad or pointing
- 	  stick.
-diff --git a/drivers/input/tablet/Kconfig b/drivers/input/tablet/Kconfig
-index ec27eff6ae37..e7b98d179a6b 100644
---- a/drivers/input/tablet/Kconfig
-+++ b/drivers/input/tablet/Kconfig
-@@ -14,8 +14,7 @@ if INPUT_TABLET
- 
- config TABLET_USB_ACECAD
- 	tristate "Acecad Flair tablet support (USB)"
--	depends on USB_ARCH_HAS_HCD
--	select USB
-+	depends on USB
- 	help
- 	  Say Y here if you want to use the USB version of the Acecad Flair
- 	  tablet.  Make sure to say Y to "Mouse support"
-@@ -27,8 +26,7 @@ config TABLET_USB_ACECAD
- 
- config TABLET_USB_AIPTEK
- 	tristate "Aiptek 6000U/8000U and Genius G_PEN tablet support (USB)"
--	depends on USB_ARCH_HAS_HCD
--	select USB
-+	depends on USB
- 	help
- 	  Say Y here if you want to use the USB version of the Aiptek 6000U,
- 	  Aiptek 8000U or Genius G-PEN 560 tablet.  Make sure to say Y to
-@@ -40,8 +38,7 @@ config TABLET_USB_AIPTEK
- 
- config TABLET_USB_HANWANG
- 	tristate "Hanwang Art Master III tablet support (USB)"
--	depends on USB_ARCH_HAS_HCD
--	select USB
-+	depends on USB
- 	help
- 	  Say Y here if you want to use the USB version of the Hanwang Art
- 	  Master III tablet.
-@@ -51,8 +48,7 @@ config TABLET_USB_HANWANG
- 
- config TABLET_USB_KBTAB
- 	tristate "KB Gear JamStudio tablet support (USB)"
--	depends on USB_ARCH_HAS_HCD
--	select USB
-+	depends on USB
- 	help
- 	  Say Y here if you want to use the USB version of the KB Gear
- 	  JamStudio tablet.  Make sure to say Y to "Mouse support"
-@@ -64,8 +60,7 @@ config TABLET_USB_KBTAB
- 
- config TABLET_USB_PEGASUS
- 	tristate "Pegasus Mobile Notetaker Pen input tablet support"
--	depends on USB_ARCH_HAS_HCD
--	select USB
-+	depends on USB
- 	help
- 	  Say Y here if you want to use the Pegasus Mobile Notetaker,
- 	  also known as:
-diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
-index 0181f3cd99bc..69656200a2f0 100644
---- a/drivers/input/touchscreen/Kconfig
-+++ b/drivers/input/touchscreen/Kconfig
-@@ -917,8 +917,7 @@ config TOUCHSCREEN_WM97XX_ZYLONITE
- 
- config TOUCHSCREEN_USB_COMPOSITE
- 	tristate "USB Touchscreen Driver"
--	depends on USB_ARCH_HAS_HCD
--	select USB
-+	depends on USB
- 	help
- 	  USB Touchscreen driver for:
- 	  - eGalax Touchkit USB (also includes eTurboTouch CT-410/510/700)
--- 
-2.29.2
-
+Re hibernation/suspend configs, you said disabling them is not
+helping, right? Does it still make sense to disable them?
+If these configs are enabled, we can at least find some bugs in the
+preparation for suspend code. However, as you noted, it will
+immediately lead to "lost connection".
+Ideally we somehow tweak hibernation/suspend to get to the
+hibernation/suspend point and then immediately and automatically
+resume. This way we could test both suspend and unsuspend code, which
+I assume can lead to bugs, and don't cause "lost connection" at the
+same time. I guess such a mode does not exist today... and I am not
+sure what happens with TCP connections after this.
