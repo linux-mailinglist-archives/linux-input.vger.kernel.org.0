@@ -2,98 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76B9836A4F0
-	for <lists+linux-input@lfdr.de>; Sun, 25 Apr 2021 07:30:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22C1D36A8AE
+	for <lists+linux-input@lfdr.de>; Sun, 25 Apr 2021 19:52:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229466AbhDYFbM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 25 Apr 2021 01:31:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38892 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229477AbhDYFbM (ORCPT
+        id S230359AbhDYRxe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 25 Apr 2021 13:53:34 -0400
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21348 "EHLO
+        sender4-of-o53.zoho.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230329AbhDYRxe (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 25 Apr 2021 01:31:12 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B43C9C061574;
-        Sat, 24 Apr 2021 22:30:32 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id 10so1383340pfl.1;
-        Sat, 24 Apr 2021 22:30:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=a3+ipCY9vk70vioGW8dxqD6cTHuZgEM4qMQTJ6iWkys=;
-        b=aRjs6dvjkj6kZGGmsSfu/rZ8k1tKxua8TnAnHe3CJaC9bj8fi/J2kdwrcWIc9+ZM89
-         mIpz9qnvIKSNJzHL0Mc4o72f7pJtkIEstLWidgCRyqWsTAyHVfkv7NB5ku5H0nfD90WX
-         bek/xBNUM7XfnZjDoMIKSdpKk5qp9HAM3ecGllyz2XAejqrC0iOPo/ZUf9f/GwSKhqUH
-         QqTFyjKrLCW+OijOaXNiYsaWyAvKCx0DrwjJrhmq1RJL/HwIC2bmUomOEv/xH96LYRX7
-         rDwGSMaCHQ9ThY64wDBIeO9C0+hHNi3ok3x/bq5c4QRv4gLW8pYYAkoZ42UnuitTPDR4
-         +wEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=a3+ipCY9vk70vioGW8dxqD6cTHuZgEM4qMQTJ6iWkys=;
-        b=cC/QaZL/TM50SXkrjp3M2RYQ39P0wNQLpOH7F8MUOxQZ6llByNvSsSSdHvlpCDMVNP
-         51QnTruM24O00+NKVKF4ZezI4teQLO6DLeTbJTtg0g0k6yg7dpw9VcTpmnFNEkFUi0ng
-         r/zNeQFsQ99kWNMoZIR4J0oWjxXX3dESMVTHj9oIVKY6V1BJhyz9bXvmE8uurvWWyOXi
-         3jL/jB6CuckrhPHyAjPN9UkhhvrCaxNlIybax/XYoXZ+DhywBMQwJoZsSWGsDYwgqctn
-         fUoCobVlvC3XaxPXnJmfZIZkqj2Kj944GkqsH/RjR4dqBarm/N0L9454LRbuOvcEPNuT
-         Jp0w==
-X-Gm-Message-State: AOAM531Q4z32L45cdfJrQD47dPX9s/yCEtnR867lcEbY/PUBjo2Anph3
-        Qf00pbMSQ8UTTDklBjs6ScQ=
-X-Google-Smtp-Source: ABdhPJxUixRvy3pXd2mOtVWJRCF1AyuQ/tqm8NRWs+OY2VLn2+PQjLic6j4gjWPiM2nbNLXvQ8JNOw==
-X-Received: by 2002:a63:175c:: with SMTP id 28mr10914775pgx.376.1619328632129;
-        Sat, 24 Apr 2021 22:30:32 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:28b7:b656:4f0d:6473])
-        by smtp.gmail.com with ESMTPSA id b21sm7356492pfl.82.2021.04.24.22.30.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Apr 2021 22:30:31 -0700 (PDT)
-Date:   Sat, 24 Apr 2021 22:30:29 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     zhuguangqing83@gmail.com, Bastien Nocera <hadess@hadess.net>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        linux-input@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] Input: goodix - Fix missing IRQF_ONESHOT as only
- threaded handler
-Message-ID: <YIT+da7/ZXr5Uj33@google.com>
-References: <20210416031747.28504-1-zhuguangqing83@gmail.com>
- <CAJKOXPeEHRZboCJs+eScjsLDybDzXSaP3jBLkAYiQt_7Ft2nog@mail.gmail.com>
+        Sun, 25 Apr 2021 13:53:34 -0400
+X-Greylist: delayed 904 seconds by postgrey-1.27 at vger.kernel.org; Sun, 25 Apr 2021 13:53:34 EDT
+ARC-Seal: i=1; a=rsa-sha256; t=1619372265; cv=none; 
+        d=zohomail.com; s=zohoarc; 
+        b=fywXrVS5FDz6iU2UMI38X0Fikxn98aH2GUygN9jtSMHGaQcRFey+e8nCvWZRYNSfrcC0DgH3afaGzw/PdOTJXUCjWDPj9+UhJOnq2OMBgSpU7fpz8j2kdn6DAMoVFAaJsiVBaXKEWKMmv1XVJWiX8vci4rSqCQI5+OAZZdOAud0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+        t=1619372265; h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
+        bh=k/EGKXFAZVuJOd2JkD/RJjW4fi/tHKJRxr2RkqQG2Do=; 
+        b=UXRWi7MJ3YF0d33lLIIRegelrktSJhhi6qRGWm7+xK1UPeAQaKZS7mIgkiLBaW/PKi5gTFauYgeBHbSK7xaMX2Km7RFZpxBm3eiHsxame0qkyN87MyoLxGh9pQU2Dh6YaibJsUzM7VOikhFO8FT7cHW3uoKiPnejzYG+k7inKRo=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+        dkim=pass  header.i=anirudhrb.com;
+        spf=pass  smtp.mailfrom=mail@anirudhrb.com;
+        dmarc=pass header.from=<mail@anirudhrb.com> header.from=<mail@anirudhrb.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1619372265;
+        s=zoho; d=anirudhrb.com; i=mail@anirudhrb.com;
+        h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Transfer-Encoding;
+        bh=k/EGKXFAZVuJOd2JkD/RJjW4fi/tHKJRxr2RkqQG2Do=;
+        b=MQeLg+DkcwiBucf3gKN4zHpugUU+ZfFm44TS+mQL0Ckm9C+2cPNv025i49WXlwxK
+        3L26ZXqb5K88mqgNN50g0ViwD+JvHD/ag1O3xll0MiVaVg7VqdpcPAURcz3ajZD2aqI
+        VovkqqKulT0PClkW/qRPhWaVTULat/J7gvlMG3Jw=
+Received: from localhost.localdomain (49.207.208.26 [49.207.208.26]) by mx.zohomail.com
+        with SMTPS id 1619372262325930.7778518171191; Sun, 25 Apr 2021 10:37:42 -0700 (PDT)
+From:   Anirudh Rayabharam <mail@anirudhrb.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     gregkh@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Anirudh Rayabharam <mail@anirudhrb.com>,
+        syzbot+7c2bb71996f95a82524c@syzkaller.appspotmail.com,
+        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] usbhid: fix info leak in hid_submit_ctrl
+Date:   Sun, 25 Apr 2021 23:03:53 +0530
+Message-Id: <20210425173353.10231-1-mail@anirudhrb.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJKOXPeEHRZboCJs+eScjsLDybDzXSaP3jBLkAYiQt_7Ft2nog@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 10:47:11AM +0200, Krzysztof Kozlowski wrote:
-> On Fri, 16 Apr 2021 at 05:18, <zhuguangqing83@gmail.com> wrote:
-> >
-> > From: Guangqing Zhu <zhuguangqing83@gmail.com>
-> >
-> > Coccinelle noticed:
-> > drivers/input/touchscreen/goodix.c:497:8-33: ERROR: Threaded IRQ with no
-> > primary handler requested without IRQF_ONESHOT
-> >
-> > Signed-off-by: Guangqing Zhu <zhuguangqing83@gmail.com>
-> > ---
-> >  drivers/input/touchscreen/goodix.c | 5 +++--
-> >  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> 
-> Did you test it? There are several patches like this all over the tree
-> so it looks like "let's fix everything from Coccinelle" because you
-> ignored at least in some of the cases that the handler is not the
-> default primary one. I am not saying that the change is bad, but
-> rather it looks automated and needs more consideration.
+In hid_submit_ctrl(), the way of calculating the report length doesn't
+take into account that report->size can be zero. When running the
+syzkaller reproducer, a report of size 0 causes hid_submit_ctrl) to
+calculate transfer_buffer_length as 16384. When this urb is passed to
+the usb core layer, KMSAN reports an info leak of 16384 bytes.
 
-At least the subject is bad because IRQF_ONESHOT is not missing, it is
-simply set up elsewhere, the patch itself is a noop. I do not see a
-reason to take this.
+To fix this, first modify hid_report_len() to account for the zero
+report size case by using DIV_ROUND_UP for the division. Then, call it
+from hid_submit_ctrl().
 
-Thanks.
+Reported-by: syzbot+7c2bb71996f95a82524c@syzkaller.appspotmail.com
+Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
+---
+ drivers/hid/usbhid/hid-core.c | 2 +-
+ include/linux/hid.h           | 3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
+index 86257ce6d619..4e9077363c96 100644
+--- a/drivers/hid/usbhid/hid-core.c
++++ b/drivers/hid/usbhid/hid-core.c
+@@ -374,7 +374,7 @@ static int hid_submit_ctrl(struct hid_device *hid)
+ 	raw_report = usbhid->ctrl[usbhid->ctrltail].raw_report;
+ 	dir = usbhid->ctrl[usbhid->ctrltail].dir;
+ 
+-	len = ((report->size - 1) >> 3) + 1 + (report->id > 0);
++	len = hid_report_len(report);
+ 	if (dir == USB_DIR_OUT) {
+ 		usbhid->urbctrl->pipe = usb_sndctrlpipe(hid_to_usb_dev(hid), 0);
+ 		usbhid->urbctrl->transfer_buffer_length = len;
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index 271021e20a3f..10e922cee4eb 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -1167,8 +1167,7 @@ static inline void hid_hw_wait(struct hid_device *hdev)
+  */
+ static inline u32 hid_report_len(struct hid_report *report)
+ {
+-	/* equivalent to DIV_ROUND_UP(report->size, 8) + !!(report->id > 0) */
+-	return ((report->size - 1) >> 3) + 1 + (report->id > 0);
++	return DIV_ROUND_UP(report->size, 8) + (report->id > 0);
+ }
+ 
+ int hid_report_raw_event(struct hid_device *hid, int type, u8 *data, u32 size,
 -- 
-Dmitry
+2.26.2
+
