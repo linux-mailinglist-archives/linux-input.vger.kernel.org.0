@@ -2,195 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A806236DD47
-	for <lists+linux-input@lfdr.de>; Wed, 28 Apr 2021 18:42:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3773736DFED
+	for <lists+linux-input@lfdr.de>; Wed, 28 Apr 2021 21:52:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241146AbhD1QnV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 28 Apr 2021 12:43:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35548 "EHLO
+        id S239791AbhD1Tx1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 28 Apr 2021 15:53:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241149AbhD1QnT (ORCPT
+        with ESMTP id S232284AbhD1Tx1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 28 Apr 2021 12:43:19 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AD57C06138D
-        for <linux-input@vger.kernel.org>; Wed, 28 Apr 2021 09:42:31 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id f15-20020a05600c4e8fb029013f5599b8a9so7617062wmq.1
-        for <linux-input@vger.kernel.org>; Wed, 28 Apr 2021 09:42:31 -0700 (PDT)
+        Wed, 28 Apr 2021 15:53:27 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AB7DC061573;
+        Wed, 28 Apr 2021 12:52:42 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id v191so2695396pfc.8;
+        Wed, 28 Apr 2021 12:52:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=8MBBaDUhre2srLQsKuOsbdZLzzPzjDADAo7LfYVNdh0=;
-        b=dMf2Rf068EIMcUbF86uGcl7y+VrBjvrEi4miS1537sNXIbP9JquFm7dJ5IeYmFN76Z
-         pGvXL3FrZO4lrlvufUenqE3iR66VJuHsxG6s8CYAd8JqLwKK8J6vtXO2JvN6a3UsPNB2
-         5z26JFooDrce9sSy0NcayH18fKq18fogX8pAclxHfsf3f2jjC36M3nMpCwU8mbSYG5Y3
-         Fu1OSc3ft1OuyDI7B2ulWyAHtJ4EwVE+QPl+nVw8ZYZsnxicGM+BxJsSAko3JvYJbgbl
-         a/72V4mirXmmtfDg94OEWEjpjKeD+z7QOHkYiRIf9OOu0elrDUw1F84Z3llTyfLmntSh
-         lbHQ==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=/pKytGN9W8sMrVQvaOgwD5WVJi+L1fCKHCS1G7ffXOI=;
+        b=JdOCV6VmnRIbLKx6LWiszLtHYvAkv+YliD1uLto2Y6DskP5feuZ1MAw4DS5RW+HFJ4
+         8zokwR1WHii0SuYzgFVWPHNRgWI2AhhKkMrVqbnzSEaj6wOzopLJEtFfaSPgjJw5s+n4
+         TqSWWAyy/KhkQhxPCVoRPlPl/7SgukqcyWd29bGs7Xqy+ieZDwu73MCwq3zdFz7Ptv4m
+         em525mqmueFIEMONZbRdU4RmW47dKUG3CSlM58KGTgefI2jgeiuNd3EDF9xy+/XBg0Tn
+         EHOVhT6zqINh0wW8wIEmpoX7xxxNP5C3fZngAkZfSz5954/GGsLV+kCtrhoV1hk/hYXc
+         OM+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8MBBaDUhre2srLQsKuOsbdZLzzPzjDADAo7LfYVNdh0=;
-        b=k59YBrerUV44OrpguKiUasiNDdtYPPdmaEap/9EHC1k6xa+diMGYJzib9xNEIiIF/J
-         yaVj590ycCRWaDC2nxMhrLBquQ93bZd3eVZyE2pillwM6tJx4ZnZUN+5Z8EWPI3CFALC
-         BS6g1dhzoJ/P0lOIkT+DMGxRx0P6lVt2vCnOhsNIpfjZcC9IBbOvKv/sUPE/lEacFeST
-         tQ/GvsOk/1Zfi75RT2TErMvkNiJIueOvzhOhptD2OpsKfksKxexs1pqgb1OP5SnM+ElT
-         36xq7XQ+SgtYYaGix5unPH8u6ubOW2enj6+Fo5wIYZPeRR0YlyoUJZJPIJwzvwi3IKqC
-         yeIw==
-X-Gm-Message-State: AOAM530FcTcgYuEF2Ed/F2vkikYwYwUYIngYvXFCGpU9xnz0mxBcjqF6
-        8TMP0cmT8y9wgyTgOAvTpBxlTQ==
-X-Google-Smtp-Source: ABdhPJzqx+5Jrn6TxR9YemEiPetOXDFd1ci6biCyGonApUTwl6FfBsvBadevq0hrO5ugKbb/NwxzKA==
-X-Received: by 2002:a1c:c918:: with SMTP id f24mr33059054wmb.12.1619628150175;
-        Wed, 28 Apr 2021 09:42:30 -0700 (PDT)
-Received: from groot.home ([2a01:cb19:826e:8e00:5864:ddd1:d623:f912])
-        by smtp.gmail.com with ESMTPSA id o10sm351299wrx.35.2021.04.28.09.42.29
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=/pKytGN9W8sMrVQvaOgwD5WVJi+L1fCKHCS1G7ffXOI=;
+        b=iRwcq2XtbfZiS7lIwkqlBiDKLOmGbTaAAhss5KVxEQSW2md5Lc8oT+ojJwfezvJpHN
+         fHTkqyfptoKajnGPLZF5l2QGnjQYTmtY0ijxYBEZS8nGr9VG50TbIWPk2WzMjGTWxFZV
+         Dkgoc3SFMVe4o/DxuMzSlCxfQ+bXzbIQtO/gUEX17B3Z0wsJf1dMDsenURN3TqgYApl7
+         kWVRwOrv+1pM0t/dC7DVav2VS2CLsW59QMcw6fnedc5sseSxzPGQwweQRi4ZQm59yCzU
+         onH5x6W4y700XjkW3ap90baTrHEpzT3R3d1CBhFvxLXSBOv5h/DsUQ0L9UCRZf0DMMOy
+         it6g==
+X-Gm-Message-State: AOAM531AIP47i09PUXxB88ftQ4pjPifA1YNGqxcb+ya0vgH5RzFYk4Lp
+        MZduznvPasXN+7JHsu3M/Yg=
+X-Google-Smtp-Source: ABdhPJyR42PL2NF7XSqxdOxYCe5B8OyzbVldVe5KhSgU38V4lHZ6FgoTjWcNp+kqYN7WP3BqdhkR9w==
+X-Received: by 2002:a63:5d18:: with SMTP id r24mr29461665pgb.94.1619639561456;
+        Wed, 28 Apr 2021 12:52:41 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:84c0:9bcd:2e20:f79d])
+        by smtp.gmail.com with ESMTPSA id 123sm430826pfz.127.2021.04.28.12.52.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Apr 2021 09:42:29 -0700 (PDT)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     fparent@baylibre.com,
-        Mattijs Korpershoek <mkorpershoek@baylibre.com>,
+        Wed, 28 Apr 2021 12:52:40 -0700 (PDT)
+Date:   Wed, 28 Apr 2021 12:52:37 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Mattijs Korpershoek <mkorpershoek@baylibre.com>
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>, fparent@baylibre.com,
         linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/7] Input: mtk-pmic-keys - add support for MT6358
-Date:   Wed, 28 Apr 2021 18:42:17 +0200
-Message-Id: <20210428164219.1115537-6-mkorpershoek@baylibre.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210428164219.1115537-1-mkorpershoek@baylibre.com>
+Subject: Re: [PATCH 1/7] Input: mtk-pmic-keys - check for NULL on
+ of_match_device()
+Message-ID: <YIm9Bb3eBjYwY53R@google.com>
 References: <20210428164219.1115537-1-mkorpershoek@baylibre.com>
+ <20210428164219.1115537-2-mkorpershoek@baylibre.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210428164219.1115537-2-mkorpershoek@baylibre.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-MT6358 pmic keys behave differently than mt6397 and mt6323: there are
-two interrupts per key: one for press, the other one for release (_r)
+Hi Mattijs,
 
-Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
----
- drivers/input/keyboard/mtk-pmic-keys.c | 49 ++++++++++++++++++++++++--
- 1 file changed, 47 insertions(+), 2 deletions(-)
+On Wed, Apr 28, 2021 at 06:42:13PM +0200, Mattijs Korpershoek wrote:
+> mtk-pmic-keys being a child device of mt6397, it will always get probed
+> when mt6397_probe() is called.
+> 
+> This also happens when we have no device tree node matching
+> mediatek,mt6397-keys.
 
-diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
-index b877bf98db38..c635d612bd44 100644
---- a/drivers/input/keyboard/mtk-pmic-keys.c
-+++ b/drivers/input/keyboard/mtk-pmic-keys.c
-@@ -9,6 +9,7 @@
- #include <linux/interrupt.h>
- #include <linux/kernel.h>
- #include <linux/mfd/mt6323/registers.h>
-+#include <linux/mfd/mt6358/registers.h>
- #include <linux/mfd/mt6397/core.h>
- #include <linux/mfd/mt6397/registers.h>
- #include <linux/module.h>
-@@ -74,11 +75,22 @@ static const struct mtk_pmic_regs mt6323_regs = {
- 	.pmic_rst_reg = MT6323_TOP_RST_MISC,
- };
- 
-+static const struct mtk_pmic_regs mt6358_regs = {
-+	.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
-+		MTK_PMIC_KEYS_REGS(MT6358_TOPSTATUS,
-+		0x2, MT6358_PSC_TOP_INT_CON0, 0x5),
-+	.keys_regs[MTK_PMIC_HOMEKEY_INDEX] =
-+		MTK_PMIC_KEYS_REGS(MT6358_TOPSTATUS,
-+		0x8, MT6358_PSC_TOP_INT_CON0, 0xa),
-+	.pmic_rst_reg = MT6358_TOP_RST_MISC,
-+};
-+
- struct mtk_pmic_keys_info {
- 	struct mtk_pmic_keys *keys;
- 	const struct mtk_pmic_keys_regs *regs;
- 	unsigned int keycode;
- 	int irq;
-+	int irq_r; /* optional: release irq if different */
- 	bool wakeup:1;
- };
- 
-@@ -188,6 +200,19 @@ static int mtk_pmic_key_setup(struct mtk_pmic_keys *keys,
- 		return ret;
- 	}
- 
-+	if (info->irq_r > 0) {
-+		ret = devm_request_threaded_irq(
-+			keys->dev, info->irq_r, NULL,
-+			mtk_pmic_keys_irq_handler_thread,
-+			IRQF_ONESHOT | IRQF_TRIGGER_HIGH, "mtk-pmic-keys",
-+			info);
-+		if (ret) {
-+			dev_err(keys->dev, "Failed to request IRQ_r: %d: %d\n",
-+				info->irq, ret);
-+			return ret;
-+		}
-+	}
-+
- 	input_set_capability(keys->input_dev, EV_KEY, info->keycode);
- 
- 	return 0;
-@@ -199,8 +224,11 @@ static int __maybe_unused mtk_pmic_keys_suspend(struct device *dev)
- 	int index;
- 
- 	for (index = 0; index < MTK_PMIC_MAX_KEY_COUNT; index++) {
--		if (keys->keys[index].wakeup)
-+		if (keys->keys[index].wakeup) {
- 			enable_irq_wake(keys->keys[index].irq);
-+			if (keys->keys[index].irq_r > 0)
-+				enable_irq_wake(keys->keys[index].irq_r);
-+		}
- 	}
- 
- 	return 0;
-@@ -212,8 +240,11 @@ static int __maybe_unused mtk_pmic_keys_resume(struct device *dev)
- 	int index;
- 
- 	for (index = 0; index < MTK_PMIC_MAX_KEY_COUNT; index++) {
--		if (keys->keys[index].wakeup)
-+		if (keys->keys[index].wakeup) {
- 			disable_irq_wake(keys->keys[index].irq);
-+			if (keys->keys[index].irq_r > 0)
-+				disable_irq_wake(keys->keys[index].irq_r);
-+		}
- 	}
- 
- 	return 0;
-@@ -229,6 +260,9 @@ static const struct of_device_id of_mtk_pmic_keys_match_tbl[] = {
- 	}, {
- 		.compatible = "mediatek,mt6323-keys",
- 		.data = &mt6323_regs,
-+	}, {
-+		.compatible = "mediatek,mt6358-keys",
-+		.data = &mt6358_regs,
- 	}, {
- 		/* sentinel */
- 	}
-@@ -242,6 +276,7 @@ static int mtk_pmic_keys_probe(struct platform_device *pdev)
- 	struct mt6397_chip *pmic_chip = dev_get_drvdata(pdev->dev.parent);
- 	struct device_node *node = pdev->dev.of_node, *child;
- 	static const char *const irqnames[] = { "powerkey", "homekey" };
-+	static const char *const irqnames_r[] = { "powerkey_r", "homekey_r" };
- 	struct mtk_pmic_keys *keys;
- 	const struct mtk_pmic_regs *mtk_pmic_regs;
- 	struct input_dev *input_dev;
-@@ -288,6 +323,16 @@ static int mtk_pmic_keys_probe(struct platform_device *pdev)
- 			return keys->keys[index].irq;
- 		}
- 
-+		if (of_device_is_compatible(node, "mediatek,mt6358-keys")) {
-+			keys->keys[index].irq_r = platform_get_irq_byname(
-+				pdev, irqnames_r[index]);
-+
-+			if (keys->keys[index].irq_r < 0) {
-+				of_node_put(child);
-+				return keys->keys[index].irq_r;
-+			}
-+		}
-+
- 		error = of_property_read_u32(child,
- 			"linux,keycodes", &keys->keys[index].keycode);
- 		if (error) {
+It sounds for me that creating a platform device instance in case where
+we know need OF node, but do not have one, is wasteful. Can
+mt6397-core.c and/or MFD core be adjusted to not do that.
+
+> 
+> In that case, the mfd core warns us:
+> 
+>   [    0.352175] mtk-pmic-keys: Failed to locate of_node [id: -1]
+> 
+> Check return value from call to of_match_device()
+> in order to prevent a NULL pointer dereference.
+> 
+> In case of NULL print error message and return -ENODEV
+> 
+> Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
+> ---
+>  drivers/input/keyboard/mtk-pmic-keys.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
+> index 62391d6c7da6..12c449eed026 100644
+> --- a/drivers/input/keyboard/mtk-pmic-keys.c
+> +++ b/drivers/input/keyboard/mtk-pmic-keys.c
+> @@ -247,6 +247,9 @@ static int mtk_pmic_keys_probe(struct platform_device *pdev)
+>  	const struct of_device_id *of_id =
+>  		of_match_device(of_mtk_pmic_keys_match_tbl, &pdev->dev);
+>  
+> +	if (!of_id)
+> +		return -ENODEV;
+> +
+
+So if we make MFD/6396 core smarter we would not be needing this. I
+guess there is still a possibility of someone stuffing "mtk-pmic-keys"
+into "driver_override" attribute of a random platform device but I
+wonder if we really need to take care of such scenarios...
+
+>  	keys = devm_kzalloc(&pdev->dev, sizeof(*keys), GFP_KERNEL);
+>  	if (!keys)
+>  		return -ENOMEM;
+> -- 
+> 2.27.0
+> 
+
+Thanks.
+
 -- 
-2.27.0
-
+Dmitry
