@@ -2,143 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 119CF36ECAB
-	for <lists+linux-input@lfdr.de>; Thu, 29 Apr 2021 16:49:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0E6236EF00
+	for <lists+linux-input@lfdr.de>; Thu, 29 Apr 2021 19:36:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240646AbhD2Otr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 29 Apr 2021 10:49:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44844 "EHLO
+        id S240917AbhD2Rhb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 29 Apr 2021 13:37:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240635AbhD2Otq (ORCPT
+        with ESMTP id S233695AbhD2Rhb (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 29 Apr 2021 10:49:46 -0400
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32422C06138B
-        for <linux-input@vger.kernel.org>; Thu, 29 Apr 2021 07:48:58 -0700 (PDT)
-Received: by mail-wr1-x435.google.com with SMTP id z6so5952225wrm.4
-        for <linux-input@vger.kernel.org>; Thu, 29 Apr 2021 07:48:58 -0700 (PDT)
+        Thu, 29 Apr 2021 13:37:31 -0400
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D19BBC06138B
+        for <linux-input@vger.kernel.org>; Thu, 29 Apr 2021 10:36:44 -0700 (PDT)
+Received: by mail-pg1-x529.google.com with SMTP id j7so38246412pgi.3
+        for <linux-input@vger.kernel.org>; Thu, 29 Apr 2021 10:36:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=vngK38/uzYnT4W+jr6IRjRIJAM+iJCix31NgQ9EuLvg=;
-        b=YTSzJGcJHQgMlVXHNlXeaegByzcdO/Ixq9cwa3gZIFs3WIVEICy7i6oaNv6IY9heK7
-         3c+2qFCcvore/t6PybqZ371mANjlIO6Gow70D+otyIZbAmzdIs25wLSskUQbnAeN6e/F
-         Ka3IZAu9ACMS2YqTyCoGjzJdaTJLf6Bh5Q3u0ojWvmh3ox6/A/oHVkgYkmtR5Uk5ykVn
-         9MciTdw6XCQoZaeHTMxi/igOej912jK01qR+4ZtYYNTFHrluX9deMM+JEN8vmzveHWyr
-         iUd6sEyPOAhufRaw9anUNU86N5EcjVMvyafncjUCAGlePRQXghhvzVcsKb39+t+pipJY
-         iuwQ==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AXnNG//uI6UzI+LacV/tB+eSQ+ET+C4V/gt9RJQIfIY=;
+        b=NZvMJliuNZgK1+eGDe80k5PB/1SBfEGOr5B1t5miC6z3ORr3TuxDY2K+ZwSDmC8Cye
+         qz/sHCHGmT6YO1rQNm0AP0t0OdCqOrt+Fg4DCap2Q64VCB4vXmUj+KBECPsK3gIHZr+T
+         727s3ESZZPHCuaeuXGpDK291q7bim+AwsrgrA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=vngK38/uzYnT4W+jr6IRjRIJAM+iJCix31NgQ9EuLvg=;
-        b=bRqGXiqAaFUspKtww5Hn1SVWipvhTtmx+5a4tuiA43UDqhP9+N8efQGXyFK2TzEOVR
-         +pi+Sy3SzbuQD3dRfxm1usnZh0ckyWzkeHo4WUvpiCYMgVym/1gGIXfnAjETnc23Yk/z
-         bT6XRsuWZ9M0/MP7k6NPzOOnLps8r5xlVxNt/EBZVyPxSochBKsGHRYTBzdQLnOrvzhh
-         L1CNA/IADoTvXErb/nvk3+9purNLVuOys8uKkdh8wLU8TpQQz5Khunfj/JyYHMsEzvsP
-         /HuH+YPB1c4g5A+ZRHieZtMS4+Bpvtkm3KzaEr5gVLjzo1mHIbfbMSePxVNpc8vNwOt4
-         yC/Q==
-X-Gm-Message-State: AOAM532aRb/wAEadsoZSEzLxIyMGCcO47kuGfOxrITgzdU+tlrtc+eEt
-        3mi5yn0p/Jnb2D9uZwJbhh/ebedF+VQ4GA==
-X-Google-Smtp-Source: ABdhPJzRr1ptHoMK+F/hhQ1TsfC2223uBRcGsPIsIY79GHjAwVNUN4USMf1S/BuOGfztjsVVwGhQrA==
-X-Received: by 2002:a5d:6da8:: with SMTP id u8mr218171wrs.48.1619707736884;
-        Thu, 29 Apr 2021 07:48:56 -0700 (PDT)
-Received: from localhost ([2a01:cb19:826e:8e00:f37e:9091:b397:6f48])
-        by smtp.gmail.com with ESMTPSA id r2sm4995675wrt.79.2021.04.29.07.48.56
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=AXnNG//uI6UzI+LacV/tB+eSQ+ET+C4V/gt9RJQIfIY=;
+        b=qHPRPp65beDmPgwPD/l8hgkzyJxaecqYIlm+pgoY+hbr7wKFrM9fDiUCbr/GZe0q9H
+         1JjhgjuwE0stCcshUPts01UzFGMhY+JT7E82WguVlOMaqBtujyzqJqOsW+OWc9mncDOK
+         bIjXejlbQKaYr/Azzf4XhyHvan/kYj2eUhCCOfvWKnwz+J2kRcuYz38104+2kFZt0Wrk
+         fUnQZzyPS8+RgkDZkBb9YLr4RsqTmEV2+vZG31HFWpacA5sqXdl0ibO3uGJus9QQy6UK
+         WQMSj/+8gCdoUkkmUIx7XuhEwgT8FdJe7/BdBWLjD0E6HmMjXlYebpR9i+3P2Uszz1qX
+         G/VQ==
+X-Gm-Message-State: AOAM530+j5sMKM23QjNcdnLiYjEmYiiOtqPjXuw3HFvTTCf31Sqw/Lx5
+        fEDzHbKq6i7zpbmndUAmcEFZrg==
+X-Google-Smtp-Source: ABdhPJyOCIIrVgLByDkjGatJhd5XRT9aDrboAZZ282bTbIMJYMV9LlHmy+wM5N9j4lTY2jx0LF9aiA==
+X-Received: by 2002:a63:e347:: with SMTP id o7mr828830pgj.184.1619717804263;
+        Thu, 29 Apr 2021 10:36:44 -0700 (PDT)
+Received: from mrr-linux.mtv.corp.google.com (047-224-219-247.res.spectrum.com. [47.224.219.247])
+        by smtp.gmail.com with ESMTPSA id c24sm2187072pfi.32.2021.04.29.10.36.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Apr 2021 07:48:56 -0700 (PDT)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Matthias Brugger <matthias.bgg@gmail.com>, fparent@baylibre.com,
-        linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/7] Input: mtk-pmic-keys - check for NULL on
- of_match_device()
-In-Reply-To: <875z05y4a2.fsf@baylibre.com>
-References: <20210428164219.1115537-1-mkorpershoek@baylibre.com>
- <20210428164219.1115537-2-mkorpershoek@baylibre.com>
- <YIm9Bb3eBjYwY53R@google.com> <875z05y4a2.fsf@baylibre.com>
-Date:   Thu, 29 Apr 2021 16:48:55 +0200
-Message-ID: <87wnslw3hk.fsf@baylibre.com>
+        Thu, 29 Apr 2021 10:36:44 -0700 (PDT)
+From:   Matt Reynolds <mattreynolds@chromium.org>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     Matt Reynolds <mattreynolds@chromium.org>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Benjamin Valentin <benpicco@googlemail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?q?Olivier=20Cr=C3=AAte?= <olivier.crete@ocrete.ca>,
+        Sanjay Govind <sanjay.govind9@gmail.com>,
+        linux-input@vger.kernel.org
+Subject: [PATCH] Input: xpad - add support for Amazon Game Controller
+Date:   Thu, 29 Apr 2021 10:36:11 -0700
+Message-Id: <20210429103548.1.If5f9a44cb81e25b9350f7c6c0b3c88b4ecd81166@changeid>
+X-Mailer: git-send-email 2.31.1.527.g47e6f16901-goog
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+The Amazon Luna controller (product name "Amazon Game Controller") behaves
+like an Xbox 360 controller when connected over USB.
 
-Mattijs Korpershoek <mkorpershoek@baylibre.com> writes:
+Signed-off-by: Matt Reynolds <mattreynolds@chromium.org>
+---
 
-> Hi Dmitry,
->
-> Dmitry Torokhov <dmitry.torokhov@gmail.com> writes:
->
->> Hi Mattijs,
->>
->> On Wed, Apr 28, 2021 at 06:42:13PM +0200, Mattijs Korpershoek wrote:
->>> mtk-pmic-keys being a child device of mt6397, it will always get probed
->>> when mt6397_probe() is called.
->>> 
->>> This also happens when we have no device tree node matching
->>> mediatek,mt6397-keys.
->>
->> It sounds for me that creating a platform device instance in case where
->> we know need OF node, but do not have one, is wasteful. Can
->> mt6397-core.c and/or MFD core be adjusted to not do that.
->
-> You are right. Maybe I can fix MFD core instead. I will look into it.
->
-> Thanks for your review.
->>
->>> 
->>> In that case, the mfd core warns us:
->>> 
->>>   [    0.352175] mtk-pmic-keys: Failed to locate of_node [id: -1]
->>> 
->>> Check return value from call to of_match_device()
->>> in order to prevent a NULL pointer dereference.
->>> 
->>> In case of NULL print error message and return -ENODEV
->>> 
->>> Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
->>> ---
->>>  drivers/input/keyboard/mtk-pmic-keys.c | 3 +++
->>>  1 file changed, 3 insertions(+)
->>> 
->>> diff --git a/drivers/input/keyboard/mtk-pmic-keys.c b/drivers/input/keyboard/mtk-pmic-keys.c
->>> index 62391d6c7da6..12c449eed026 100644
->>> --- a/drivers/input/keyboard/mtk-pmic-keys.c
->>> +++ b/drivers/input/keyboard/mtk-pmic-keys.c
->>> @@ -247,6 +247,9 @@ static int mtk_pmic_keys_probe(struct platform_device *pdev)
->>>  	const struct of_device_id *of_id =
->>>  		of_match_device(of_mtk_pmic_keys_match_tbl, &pdev->dev);
->>>  
->>> +	if (!of_id)
->>> +		return -ENODEV;
->>> +
->>
->> So if we make MFD/6396 core smarter we would not be needing this. I
->> guess there is still a possibility of someone stuffing "mtk-pmic-keys"
->> into "driver_override" attribute of a random platform device but I
->> wonder if we really need to take care of such scenarios...
-It turns out it was possible to make 6397-core smarter.
-I've submitted [1] to replace this patch.
+ drivers/input/joystick/xpad.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Thanks again for your suggestion. Please let me know if I should add
-your Suggested-by: in [1].
+diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+index 9f0d07dcbf06..d69d7657ab12 100644
+--- a/drivers/input/joystick/xpad.c
++++ b/drivers/input/joystick/xpad.c
+@@ -268,6 +268,7 @@ static const struct xpad_device {
+ 	{ 0x1689, 0xfd00, "Razer Onza Tournament Edition", 0, XTYPE_XBOX360 },
+ 	{ 0x1689, 0xfd01, "Razer Onza Classic Edition", 0, XTYPE_XBOX360 },
+ 	{ 0x1689, 0xfe00, "Razer Sabertooth", 0, XTYPE_XBOX360 },
++	{ 0x1949, 0x041a, "Amazon Game Controller", 0, XTYPE_XBOX360 },
+ 	{ 0x1bad, 0x0002, "Harmonix Rock Band Guitar", 0, XTYPE_XBOX360 },
+ 	{ 0x1bad, 0x0003, "Harmonix Rock Band Drumkit", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360 },
+ 	{ 0x1bad, 0x0130, "Ion Drum Rocker", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360 },
+@@ -440,6 +441,7 @@ static const struct usb_device_id xpad_table[] = {
+ 	XPAD_XBOX360_VENDOR(0x15e4),		/* Numark X-Box 360 controllers */
+ 	XPAD_XBOX360_VENDOR(0x162e),		/* Joytech X-Box 360 controllers */
+ 	XPAD_XBOX360_VENDOR(0x1689),		/* Razer Onza */
++	XPAD_XBOX360_VENDOR(0x1949),		/* Amazon controllers */
+ 	XPAD_XBOX360_VENDOR(0x1bad),		/* Harminix Rock Band Guitar and Drums */
+ 	XPAD_XBOX360_VENDOR(0x20d6),		/* PowerA Controllers */
+ 	XPAD_XBOXONE_VENDOR(0x20d6),		/* PowerA Controllers */
+-- 
+2.31.1.527.g47e6f16901-goog
 
-[1] https://patchwork.kernel.org/project/linux-mediatek/patch/20210429143811.2030717-1-mkorpershoek@baylibre.com/ instead
->>
->>>  	keys = devm_kzalloc(&pdev->dev, sizeof(*keys), GFP_KERNEL);
->>>  	if (!keys)
->>>  		return -ENOMEM;
->>> -- 
->>> 2.27.0
->>> 
->>
->> Thanks.
->>
->> -- 
->> Dmitry
