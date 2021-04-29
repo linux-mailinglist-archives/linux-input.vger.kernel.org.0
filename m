@@ -2,113 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2633D36EF0D
-	for <lists+linux-input@lfdr.de>; Thu, 29 Apr 2021 19:41:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B41F936EFBF
+	for <lists+linux-input@lfdr.de>; Thu, 29 Apr 2021 20:51:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235685AbhD2RmJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 29 Apr 2021 13:42:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54942 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232991AbhD2RmJ (ORCPT
+        id S241455AbhD2Sv6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 29 Apr 2021 14:51:58 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:49816 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241434AbhD2Svx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 29 Apr 2021 13:42:09 -0400
-Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com [IPv6:2607:f8b0:4864:20::e36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49C8BC06138B
-        for <linux-input@vger.kernel.org>; Thu, 29 Apr 2021 10:41:22 -0700 (PDT)
-Received: by mail-vs1-xe36.google.com with SMTP id u22so23142806vsu.6
-        for <linux-input@vger.kernel.org>; Thu, 29 Apr 2021 10:41:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wo7qtIBe5Iy1CaOW+br7RSq7Xc5bnAGdn6RablMYxR8=;
-        b=FpBgYWmGFQfzYavI/ukkpnT1P7QX/aHKstDvjUU0HUKO2wASA3Lz7UghFq9otTMMQ8
-         GNBQJWCxTUsoTRmtG2RIQvvnNhpq9uoI57dpidm8hCyzgmxhF9z2H6WpyC3vD9eSuHMD
-         Vw0PXe640CCS4zWSCKgM9tolLuGU+Vh++T6j8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wo7qtIBe5Iy1CaOW+br7RSq7Xc5bnAGdn6RablMYxR8=;
-        b=MPkARPbUULakmnazNKvUSv+1nkEq8s/lGR00+Eqx1wjdqErmh6a9mzceDaMY39orYG
-         miA4nLHO1P9lZp8nyPrPEsyVDSegTsLqGimHQHiDFJCo6dmXS+Ya5+W24kXUONjcDQOi
-         sBWP+FqqI8O65AtUppkgl23XCy7ZE/083BJdEAcH/xpgbXCaSuXj+KD3+XL2vQYDLLXI
-         MoTrIUlgVZUB4Gm8go8Cmz0kk746zWbn16l1lafAzoVKtmnjfmY2hzEjo+yydfHtFhBu
-         bg6pOnEPYYNcLCPGh/LX7kIburWW+BLq/MwinKHdD2Yskw7cf/+eErjbrG95xw08d3n6
-         j7eQ==
-X-Gm-Message-State: AOAM530eVoFXuMEpDcEvqEwOUP3gl0P7FwrFwSupJWuZj/1Eb9tIDtlV
-        FcxuBqN+vPzopIz5IxMKX6FzsnGWyUIsYA==
-X-Google-Smtp-Source: ABdhPJzX7lhD0FJ1wAbqcncqlm1k/gel9kqJoYjn3lbit7r5R8ior708akHmhaE4S0sG9g38PoZhgA==
-X-Received: by 2002:a05:6102:127b:: with SMTP id q27mr1565733vsg.27.1619718080949;
-        Thu, 29 Apr 2021 10:41:20 -0700 (PDT)
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
-        by smtp.gmail.com with ESMTPSA id x28sm560615vkn.28.2021.04.29.10.41.19
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Apr 2021 10:41:20 -0700 (PDT)
-Received: by mail-ua1-f53.google.com with SMTP id z7so5324535uav.4
-        for <linux-input@vger.kernel.org>; Thu, 29 Apr 2021 10:41:19 -0700 (PDT)
-X-Received: by 2002:ab0:638e:: with SMTP id y14mr461069uao.82.1619718079327;
- Thu, 29 Apr 2021 10:41:19 -0700 (PDT)
+        Thu, 29 Apr 2021 14:51:53 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13TIohum016066;
+        Thu, 29 Apr 2021 18:51:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2020-01-29; bh=6WL3UehjKjLvokjQ71PRkHVn0xAi2FYu3gjgUD+xzsw=;
+ b=yOb4L89nACWZsbgVaPXoyWC8gAhcNX/X0eCTtVp8S+wjNFE8/6SGWDhUoQHJRYJ+6lOz
+ qebyy7w/rS70YJsXSXkrk6+KRI/rAetP109XxQpj3DIzOKmJUq2ytr0OFNGNHpMaNUdh
+ IvgHnNhigv3WNlAAI9uH6ETrRQ9ZHHVj6j3jxkzl7LwNKJ7izsFBJDPrldta2jWDVA8y
+ SLmfGAlVrT484IR0pdKOxePls39F+y+DMiYjMLCHfJT9J7YY4WJnbDzRdoUsKfj2rEC5
+ cOrYTU/aozISb3pn3CzM3EP9fO8KdNG/GrA36WxU7A8znBQRJAeCiTFf4kVnp9y6HcGh 0g== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2130.oracle.com with ESMTP id 385aft5e8a-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 29 Apr 2021 18:51:02 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13TIktLi022195;
+        Thu, 29 Apr 2021 18:51:02 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by userp3030.oracle.com with ESMTP id 3848f1grqv-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 29 Apr 2021 18:51:02 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 13TIp2ir041420;
+        Thu, 29 Apr 2021 18:51:02 GMT
+Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.147.25.63])
+        by userp3030.oracle.com with ESMTP id 3848f1grqc-1;
+        Thu, 29 Apr 2021 18:51:02 +0000
+From:   Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+Cc:     saeed.mirzamohammadi@oracle.com, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH  1/1] HID: quirks: Add quirk for Lenovo optical mouse
+Date:   Thu, 29 Apr 2021 11:50:39 -0700
+Message-Id: <20210429185040.46249-1-saeed.mirzamohammadi@oracle.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20210429103548.1.If5f9a44cb81e25b9350f7c6c0b3c88b4ecd81166@changeid>
-In-Reply-To: <20210429103548.1.If5f9a44cb81e25b9350f7c6c0b3c88b4ecd81166@changeid>
-From:   Harry Cutts <hcutts@chromium.org>
-Date:   Thu, 29 Apr 2021 10:41:08 -0700
-X-Gmail-Original-Message-ID: <CA+jURcvzh0AJ-Vszs21L9MhU5JWV1xKHkYm8x2nH1Djek9ueWw@mail.gmail.com>
-Message-ID: <CA+jURcvzh0AJ-Vszs21L9MhU5JWV1xKHkYm8x2nH1Djek9ueWw@mail.gmail.com>
-Subject: Re: [PATCH] Input: xpad - add support for Amazon Game Controller
-To:     Matt Reynolds <mattreynolds@chromium.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Benjamin Valentin <benpicco@googlemail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Olivier_Cr=C3=AAte?= <olivier.crete@ocrete.ca>,
-        Sanjay Govind <sanjay.govind9@gmail.com>,
-        linux-input <linux-input@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: cwHqY566YxCjjfXVwr3HCcFMPJeMcS3A
+X-Proofpoint-ORIG-GUID: cwHqY566YxCjjfXVwr3HCcFMPJeMcS3A
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9969 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 lowpriorityscore=0
+ mlxlogscore=999 malwarescore=0 phishscore=0 priorityscore=1501
+ clxscore=1011 spamscore=0 bulkscore=0 suspectscore=0 adultscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104290119
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 29 Apr 2021 at 10:36, Matt Reynolds <mattreynolds@chromium.org> wrote:
->
-> The Amazon Luna controller (product name "Amazon Game Controller") behaves
-> like an Xbox 360 controller when connected over USB.
->
-> Signed-off-by: Matt Reynolds <mattreynolds@chromium.org>
+The Lenovo optical mouse with vendor id of 0x17ef and product id of
+0x600e experiences disconnecting issues every 55 seconds:
 
-Reviewed-by: Harry Cutts <hcutts@chromium.org>
+[38565.706242] usb 1-1.4: Product: Lenovo Optical Mouse
+[38565.728603] input: Lenovo Optical Mouse as /devices/platform/scb/fd500000.pcie/pci0000:00/0000:00:00.0/0000:01:00.0/usb1/1-1/1-1.4/1-1.4:1.0/0003:17EF:600E.029A/input/input665
+[38565.755949] hid-generic 0003:17EF:600E.029A: input,hidraw1: USB HID v1.11 Mouse [Lenovo Optical Mouse] on usb-0000:01:00.0-1.4/input0
+[38619.360692] usb 1-1.4: USB disconnect, device number 48
+[38620.864990] usb 1-1.4: new low-speed USB device number 49 using xhci_hcd
+[38620.984011] usb 1-1.4: New USB device found, idVendor=17ef,idProduct=600e, bcdDevice= 1.00
+[38620.998117] usb 1-1.4: New USB device strings: Mfr=0, Product=2,SerialNumber=0
 
-Harry Cutts
-Chrome OS Touch/Input team
+This adds HID_QUIRK_ALWAYS_POLL for this device in order to work properly.
 
-> ---
->
->  drivers/input/joystick/xpad.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-> index 9f0d07dcbf06..d69d7657ab12 100644
-> --- a/drivers/input/joystick/xpad.c
-> +++ b/drivers/input/joystick/xpad.c
-> @@ -268,6 +268,7 @@ static const struct xpad_device {
->         { 0x1689, 0xfd00, "Razer Onza Tournament Edition", 0, XTYPE_XBOX360 },
->         { 0x1689, 0xfd01, "Razer Onza Classic Edition", 0, XTYPE_XBOX360 },
->         { 0x1689, 0xfe00, "Razer Sabertooth", 0, XTYPE_XBOX360 },
-> +       { 0x1949, 0x041a, "Amazon Game Controller", 0, XTYPE_XBOX360 },
->         { 0x1bad, 0x0002, "Harmonix Rock Band Guitar", 0, XTYPE_XBOX360 },
->         { 0x1bad, 0x0003, "Harmonix Rock Band Drumkit", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360 },
->         { 0x1bad, 0x0130, "Ion Drum Rocker", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360 },
-> @@ -440,6 +441,7 @@ static const struct usb_device_id xpad_table[] = {
->         XPAD_XBOX360_VENDOR(0x15e4),            /* Numark X-Box 360 controllers */
->         XPAD_XBOX360_VENDOR(0x162e),            /* Joytech X-Box 360 controllers */
->         XPAD_XBOX360_VENDOR(0x1689),            /* Razer Onza */
-> +       XPAD_XBOX360_VENDOR(0x1949),            /* Amazon controllers */
->         XPAD_XBOX360_VENDOR(0x1bad),            /* Harminix Rock Band Guitar and Drums */
->         XPAD_XBOX360_VENDOR(0x20d6),            /* PowerA Controllers */
->         XPAD_XBOXONE_VENDOR(0x20d6),            /* PowerA Controllers */
-> --
-> 2.31.1.527.g47e6f16901-goog
->
+Reference:
+https://github.com/sriemer/fix-linux-mouse
+
+Signed-off-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+---
+ drivers/hid/hid-ids.h    | 1 +
+ drivers/hid/hid-quirks.c | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index d004f5645b30..98a8c2e9cf03 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -740,6 +740,7 @@
+ #define USB_DEVICE_ID_LENOVO_X1_COVER	0x6085
+ #define USB_DEVICE_ID_LENOVO_X1_TAB	0x60a3
+ #define USB_DEVICE_ID_LENOVO_X1_TAB3	0x60b5
++#define USB_DEVICE_ID_LENOVO_OPTICAL_USB_MOUSE_600E	0x600e
+ #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_608D	0x608d
+ #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6019	0x6019
+ #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_602E	0x602e
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index f35d919c4eba..680406305a7c 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -110,6 +110,7 @@ static const struct hid_device_id hid_quirks[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_PENSKETCH_M912), HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M406XE), HID_QUIRK_MULTI_INPUT },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_PIXART_USB_OPTICAL_MOUSE_ID2), HID_QUIRK_ALWAYS_POLL },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_OPTICAL_USB_MOUSE_600E), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_608D), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6019), HID_QUIRK_ALWAYS_POLL },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_602E), HID_QUIRK_ALWAYS_POLL },
+-- 
+2.27.0
+
