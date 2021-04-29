@@ -2,113 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B41F936EFBF
-	for <lists+linux-input@lfdr.de>; Thu, 29 Apr 2021 20:51:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BD2436F0F7
+	for <lists+linux-input@lfdr.de>; Thu, 29 Apr 2021 22:21:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241455AbhD2Sv6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 29 Apr 2021 14:51:58 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:49816 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241434AbhD2Svx (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 29 Apr 2021 14:51:53 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13TIohum016066;
-        Thu, 29 Apr 2021 18:51:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding;
- s=corp-2020-01-29; bh=6WL3UehjKjLvokjQ71PRkHVn0xAi2FYu3gjgUD+xzsw=;
- b=yOb4L89nACWZsbgVaPXoyWC8gAhcNX/X0eCTtVp8S+wjNFE8/6SGWDhUoQHJRYJ+6lOz
- qebyy7w/rS70YJsXSXkrk6+KRI/rAetP109XxQpj3DIzOKmJUq2ytr0OFNGNHpMaNUdh
- IvgHnNhigv3WNlAAI9uH6ETrRQ9ZHHVj6j3jxkzl7LwNKJ7izsFBJDPrldta2jWDVA8y
- SLmfGAlVrT484IR0pdKOxePls39F+y+DMiYjMLCHfJT9J7YY4WJnbDzRdoUsKfj2rEC5
- cOrYTU/aozISb3pn3CzM3EP9fO8KdNG/GrA36WxU7A8znBQRJAeCiTFf4kVnp9y6HcGh 0g== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by userp2130.oracle.com with ESMTP id 385aft5e8a-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 29 Apr 2021 18:51:02 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 13TIktLi022195;
-        Thu, 29 Apr 2021 18:51:02 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by userp3030.oracle.com with ESMTP id 3848f1grqv-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 29 Apr 2021 18:51:02 +0000
-Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 13TIp2ir041420;
-        Thu, 29 Apr 2021 18:51:02 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.147.25.63])
-        by userp3030.oracle.com with ESMTP id 3848f1grqc-1;
-        Thu, 29 Apr 2021 18:51:02 +0000
-From:   Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
-Cc:     saeed.mirzamohammadi@oracle.com, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH  1/1] HID: quirks: Add quirk for Lenovo optical mouse
-Date:   Thu, 29 Apr 2021 11:50:39 -0700
-Message-Id: <20210429185040.46249-1-saeed.mirzamohammadi@oracle.com>
-X-Mailer: git-send-email 2.27.0
+        id S234728AbhD2UUV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 29 Apr 2021 16:20:21 -0400
+Received: from vps.thesusis.net ([34.202.238.73]:37460 "EHLO vps.thesusis.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229674AbhD2UUU (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 29 Apr 2021 16:20:20 -0400
+X-Greylist: delayed 321 seconds by postgrey-1.27 at vger.kernel.org; Thu, 29 Apr 2021 16:20:20 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by vps.thesusis.net (Postfix) with ESMTP id 201FE2EC90;
+        Thu, 29 Apr 2021 16:14:11 -0400 (EDT)
+Received: from vps.thesusis.net ([IPv6:::1])
+        by localhost (vps.thesusis.net [IPv6:::1]) (amavisd-new, port 10024)
+        with ESMTP id 89QMLZuC1OIo; Thu, 29 Apr 2021 16:14:10 -0400 (EDT)
+Received: by vps.thesusis.net (Postfix, from userid 1000)
+        id D9C722ECB9; Thu, 29 Apr 2021 16:14:10 -0400 (EDT)
+References: <87o8dw52jc.fsf@vps.thesusis.net>
+User-agent: mu4e 1.5.7; emacs 26.3
+From:   Phillip Susi <phill@thesusis.net>
+To:     xen-devel@lists.xenproject.org
+Cc:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com
+Subject: Re: Xen Virtual Keyboard modalias breaking uevents
+Date:   Thu, 29 Apr 2021 16:10:09 -0400
+In-reply-to: <87o8dw52jc.fsf@vps.thesusis.net>
+Message-ID: <87fsz84zn1.fsf@vps.thesusis.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: cwHqY566YxCjjfXVwr3HCcFMPJeMcS3A
-X-Proofpoint-ORIG-GUID: cwHqY566YxCjjfXVwr3HCcFMPJeMcS3A
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9969 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 lowpriorityscore=0
- mlxlogscore=999 malwarescore=0 phishscore=0 priorityscore=1501
- clxscore=1011 spamscore=0 bulkscore=0 suspectscore=0 adultscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104290119
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The Lenovo optical mouse with vendor id of 0x17ef and product id of
-0x600e experiences disconnecting issues every 55 seconds:
 
-[38565.706242] usb 1-1.4: Product: Lenovo Optical Mouse
-[38565.728603] input: Lenovo Optical Mouse as /devices/platform/scb/fd500000.pcie/pci0000:00/0000:00:00.0/0000:01:00.0/usb1/1-1/1-1.4/1-1.4:1.0/0003:17EF:600E.029A/input/input665
-[38565.755949] hid-generic 0003:17EF:600E.029A: input,hidraw1: USB HID v1.11 Mouse [Lenovo Optical Mouse] on usb-0000:01:00.0-1.4/input0
-[38619.360692] usb 1-1.4: USB disconnect, device number 48
-[38620.864990] usb 1-1.4: new low-speed USB device number 49 using xhci_hcd
-[38620.984011] usb 1-1.4: New USB device found, idVendor=17ef,idProduct=600e, bcdDevice= 1.00
-[38620.998117] usb 1-1.4: New USB device strings: Mfr=0, Product=2,SerialNumber=0
+It appears that input/input.c is responsible for the insane modalias
+length.  If I am reading input_print_modalias() correctly, it appends a
+"k" plus every key code that the keyboard supports, and the Xen Virtual
+Keyboard supports a lot of keycodes.  Why does it do this?
 
-This adds HID_QUIRK_ALWAYS_POLL for this device in order to work properly.
+Phillip Susi writes:
 
-Reference:
-https://github.com/sriemer/fix-linux-mouse
-
-Signed-off-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
----
- drivers/hid/hid-ids.h    | 1 +
- drivers/hid/hid-quirks.c | 1 +
- 2 files changed, 2 insertions(+)
-
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index d004f5645b30..98a8c2e9cf03 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -740,6 +740,7 @@
- #define USB_DEVICE_ID_LENOVO_X1_COVER	0x6085
- #define USB_DEVICE_ID_LENOVO_X1_TAB	0x60a3
- #define USB_DEVICE_ID_LENOVO_X1_TAB3	0x60b5
-+#define USB_DEVICE_ID_LENOVO_OPTICAL_USB_MOUSE_600E	0x600e
- #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_608D	0x608d
- #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6019	0x6019
- #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_602E	0x602e
-diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index f35d919c4eba..680406305a7c 100644
---- a/drivers/hid/hid-quirks.c
-+++ b/drivers/hid/hid-quirks.c
-@@ -110,6 +110,7 @@ static const struct hid_device_id hid_quirks[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_PENSKETCH_M912), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_KYE_EASYPEN_M406XE), HID_QUIRK_MULTI_INPUT },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_KYE, USB_DEVICE_ID_PIXART_USB_OPTICAL_MOUSE_ID2), HID_QUIRK_ALWAYS_POLL },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_OPTICAL_USB_MOUSE_600E), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_608D), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6019), HID_QUIRK_ALWAYS_POLL },
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO, USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_602E), HID_QUIRK_ALWAYS_POLL },
--- 
-2.27.0
+> So I have finally drilled down to the modalias for the Xen Virtual
+> Keyboard driver being so long ( over 2KB ) that it causes an -ENOMEM
+> when trying to add it to the environment for uevents.  This causes
+> coldplug to fail, which causes the script doing coldplug as part of the
+> debian-installer init to fail, which causes a kernel panic when init
+> exits, which then for reasons I have yet to understand, causes the Xen
+> domU to reboot.
+>
+> Why is this modalias so huge?  Can we pare it down, or or is there
+> another solution to get uevents working on this device again?  Maybe the
+> environment block size needs to be increased?  I don't know.
 
