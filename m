@@ -2,85 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 240B637001B
-	for <lists+linux-input@lfdr.de>; Fri, 30 Apr 2021 20:01:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DB20370B04
+	for <lists+linux-input@lfdr.de>; Sun,  2 May 2021 12:09:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229990AbhD3SCb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 30 Apr 2021 14:02:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38006 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229750AbhD3SCa (ORCPT
+        id S230354AbhEBKKr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 2 May 2021 06:10:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23854 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230322AbhEBKKr (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 30 Apr 2021 14:02:30 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD0E6C06174A;
-        Fri, 30 Apr 2021 11:01:41 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id x5so21281409wrv.13;
-        Fri, 30 Apr 2021 11:01:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=8P8AUIJDD0CsuvU0cN5V+UaLYi6WAreX/VWn7wkB1hc=;
-        b=VAztjF92+NdUNr64Zc1zgfhAJfbpoJ/UJRXuzuiw+JolgdvgWczfpYGvF/NAJMNNjG
-         jnd7DrSwOFrJDqo9hjoe/mhtWcBno4yWHL5WErn5jrBFmdSY5X2pgbVY7VsZ/Vv40cLS
-         AEqtMs3FynkfDCoDRMO5ev3Jk1im15mCAePtJmsKiRxxWJPZiylQP7bxsISs23TfWF3Y
-         7r88Bs9SXXPCrW4gMfSkzKi4M7T9FUtOVIAvRMZDyOHAkQDwuklVzTRd5o8+mw5NsFn7
-         uYvePjmIkr6PoL9grk/rUta1CE1zqlor1x5etdWe9MmuNXvF2W4thaBXEVFeE0Aw6pwr
-         Q1Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=8P8AUIJDD0CsuvU0cN5V+UaLYi6WAreX/VWn7wkB1hc=;
-        b=iXdmpbjgEcmYu1EggkCstCsZHlUN8soNmJjXWcCm4WONBhPBqujrAyvuhRR+8UJYYT
-         1W5XUfDSdnLyKKybBREieE40XXY/RUXlM/YUegdpzl7Gwj77EbUuRE/fs7euDTr5kIBi
-         vdbeFqwlfT33XnC8j0BiP+bGXG3YqlRmA/P7O6CbJBuU1SExliKevGc6E3aNok7jLp5L
-         qSpHTCVzisa5KtdAOj2woX3snMG4VbRqt1+ocdHmwLATSOZB4TsH8qy1nyfLUDlBcF9e
-         emFAHTsxzcQtcN0f5VKda87rReI1Ei9k9Em2gVKX6AMXzNT6JmrFxtLASnME6gd47Do8
-         2jNQ==
-X-Gm-Message-State: AOAM530obVYv2zHLf/4yERvQtdT+xAE0Sj/EFwKVuF16YWXYej59g+SB
-        yfB8skT/vV/yvXBGq+UafeuHAlAGGQ0=
-X-Google-Smtp-Source: ABdhPJz2RgZglpa3i3SHM9YnkMH3HkwmgJjY3o98L5iz7pSaaCNmGiXBeqWd+H2Gos00yk0Khbdujw==
-X-Received: by 2002:a05:6000:192:: with SMTP id p18mr8468813wrx.347.1619805700726;
-        Fri, 30 Apr 2021 11:01:40 -0700 (PDT)
-Received: from [10.17.0.10] ([37.58.58.229])
-        by smtp.gmail.com with ESMTPSA id a2sm3334782wrt.82.2021.04.30.11.01.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Apr 2021 11:01:40 -0700 (PDT)
-Subject: Re: [PATCH] HID: surface-hid: Fix integer endian conversion
-To:     Jiri Kosina <jikos@kernel.org>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel test robot <lkp@intel.com>
-References: <20210411113402.2594945-1-luzmaximilian@gmail.com>
-From:   Maximilian Luz <luzmaximilian@gmail.com>
-Message-ID: <16133d79-eac0-4407-f494-c38459eadea4@gmail.com>
-Date:   Fri, 30 Apr 2021 20:01:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        Sun, 2 May 2021 06:10:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1619950195;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=1/ADmldQr1R8zhRLqQ7W2xL7DpdwCZaaSkQyPcvdm+Q=;
+        b=PauzAsA/AjQG48ujVVstQYb2TzVqtsm47ANP/duBxm6sJyjZBDT2XTS2dSuW8JUsDRJUEW
+        8l691za7/w+UXzL0gd6qI4WARb6rOwtXR10mEw10IIxhUA2jxC/35RWRM4cQHqpwPmQKPH
+        MP+lxKheIO9NIqDR724gVavZrHKy1xs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-245-96kHLDn0Nm6okGx6qfnBIQ-1; Sun, 02 May 2021 06:09:54 -0400
+X-MC-Unique: 96kHLDn0Nm6okGx6qfnBIQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 286B6107ACC7;
+        Sun,  2 May 2021 10:09:52 +0000 (UTC)
+Received: from x1.localdomain (ovpn-112-34.ams2.redhat.com [10.36.112.34])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id F246F19714;
+        Sun,  2 May 2021 10:09:49 +0000 (UTC)
+From:   Hans de Goede <hdegoede@redhat.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Bastien Nocera <hadess@hadess.net>,
+        Mark Gross <mgross@linux.intel.com>,
+        Andy Shevchenko <andy@infradead.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>, Arkadiy <arkan49@yandex.ru>,
+        "Sergei A . Trusov" <sergei.a.trusov@ya.ru>,
+        linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: [RFC 0/4] Input: goodix - platform/x86: touchscreen_dmi - Move quirks to touchscreen_dmi.c
+Date:   Sun,  2 May 2021 12:09:45 +0200
+Message-Id: <20210502100949.5371-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210411113402.2594945-1-luzmaximilian@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 4/11/21 1:34 PM, Maximilian Luz wrote:
-> We want to convert from 16 bit (unsigned) little endian values contained
-> in a packed struct to CPU native endian values here, not the other way
-> around. So replace cpu_to_le16() with get_unaligned_le16(), using the
-> latter instead of le16_to_cpu() to acknowledge that we are reading from
-> a packed struct.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Fixes: b05ff1002a5c ("HID: Add support for Surface Aggregator Module HID transport")
-> Signed-off-by: Maximilian Luz <luzmaximilian@gmail.com>
+Hi Dmitry, Bastien,
 
-Friendly ping as it seems this hasn't made it into the PR for v5.13 :)
+As discussed before here is a patch series which moves the
+DMI quirks for upside-down and x-axis-inverted touchscreens in goodix.c
+to the generic x86 touchscreen mechanism found in
+drivers/platform/x86/touchscreen_dmi.c .
+
+Note this is marked as RFC for now since I have been unable to confirm
+the ACPI HID for the touchscreen on the Cube I15-TC which is necessary
+for the touchscreen_dmi.c code. I've send an email to the reporter and
+the author of the patch adding the quirk for the Cube I15-TC.
+
+Since this patch touches files in both the Input and pdx86 subsystems
+we need to discuss how to merge this. Dmitry I can create an immutable
+branch which these 4 patches on top of 5.13-rc1 (once released) and
+then send you a pull-req for that im-branch, would that work for you ?
 
 Regards,
-Max
+
+Hans
+
+
+Hans de Goede (4):
+  platform/x86: touchscreen_dmi: Match on ACPI HID instead of ACPI
+    companion-dev-name
+  Input: goodix - platform/x86: touchscreen_dmi - Move upside down
+    quirks to touchscreen_dmi.c
+  Input: goodix - platform/x86: touchscreen_dmi - Move inverted-x quirk
+    to touchscreen_dmi.c
+  platform/x86: touchscreen_dmi: Add an extra entry for the upside down
+    Goodix touchscreen on Teclast X89 tablets
+
+ drivers/input/touchscreen/goodix.c     |  74 ----------
+ drivers/platform/x86/touchscreen_dmi.c | 184 ++++++++++++++++++-------
+ 2 files changed, 131 insertions(+), 127 deletions(-)
+
+-- 
+2.31.1
+
