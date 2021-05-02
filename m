@@ -2,14 +2,14 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0D3E370B08
-	for <lists+linux-input@lfdr.de>; Sun,  2 May 2021 12:10:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DE1B370B09
+	for <lists+linux-input@lfdr.de>; Sun,  2 May 2021 12:10:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230453AbhEBKKx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S230361AbhEBKKx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Sun, 2 May 2021 06:10:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39737 "EHLO
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24200 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230361AbhEBKKw (ORCPT
+        by vger.kernel.org with ESMTP id S230373AbhEBKKw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
         Sun, 2 May 2021 06:10:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
@@ -18,22 +18,22 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=8AwLgm5+laCXXOXtIFfOulmibYnrop19AoxsbnF5vY0=;
-        b=XsGn8aiauX8V58KEpbGASoIUXOFLSStChaqErzLYmhegIvS9Clai8tTQ1pKzwc5R+RuwFp
-        Gcybx6g9zKbuMcy7WGYfdJJm3a/JXlRNzkW+FaFvtMmXjdrN3LPnrxg2ACXsV65sYc7IZ7
-        x9sQ6gpNVd5fSUQH07yRLJ1lsHPvqs0=
+        bh=tlLUsklXPtVH3UyGV6LcQ+0htPTXCL0NhzahVgnZ+o4=;
+        b=WGfeyBqyPUmkVp+CIUHrZJR0ctpuLrn2Ty7s6k+32V2kBfkhfF1CqSxC2GZNd0nW1SvpWo
+        wnWcNm6OGTCMqYFDrGc0CkVmrxOrcV+kSr05u8Kk48MKP/dRKp1L2BX/yE8kxl2McXd94u
+        pOcENLUPccJB3FQ04Kn/XhyHRWxFTS8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-468-MoCGfsD1MlqubDIdUzfk7g-1; Sun, 02 May 2021 06:09:57 -0400
-X-MC-Unique: MoCGfsD1MlqubDIdUzfk7g-1
+ us-mta-435-K-_vtX7TNv6pqazK51s6VQ-1; Sun, 02 May 2021 06:09:59 -0400
+X-MC-Unique: K-_vtX7TNv6pqazK51s6VQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46A0A18C35BA;
-        Sun,  2 May 2021 10:09:56 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C01410066E6;
+        Sun,  2 May 2021 10:09:58 +0000 (UTC)
 Received: from x1.localdomain (ovpn-112-34.ams2.redhat.com [10.36.112.34])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8ED7519714;
-        Sun,  2 May 2021 10:09:54 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8BC8E19D7C;
+        Sun,  2 May 2021 10:09:56 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Bastien Nocera <hadess@hadess.net>,
@@ -42,9 +42,9 @@ To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
 Cc:     Hans de Goede <hdegoede@redhat.com>, Arkadiy <arkan49@yandex.ru>,
         "Sergei A . Trusov" <sergei.a.trusov@ya.ru>,
         linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: [RFC 2/4] Input: goodix - platform/x86: touchscreen_dmi - Move upside down quirks to touchscreen_dmi.c
-Date:   Sun,  2 May 2021 12:09:47 +0200
-Message-Id: <20210502100949.5371-3-hdegoede@redhat.com>
+Subject: [RFC 3/4] Input: goodix - platform/x86: touchscreen_dmi - Move inverted-x quirk to touchscreen_dmi.c
+Date:   Sun,  2 May 2021 12:09:48 +0200
+Message-Id: <20210502100949.5371-4-hdegoede@redhat.com>
 In-Reply-To: <20210502100949.5371-1-hdegoede@redhat.com>
 References: <20210502100949.5371-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -54,178 +54,94 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Move the DMI quirks for upside-down mounted Goodix touchscreens from
-drivers/input/touchscreen/goodix.c to
-drivers/platform/x86/touchscreen_dmi.c,
-where all the other x86 touchscreen quirks live.
-
-Note the touchscreen_dmi.c code attaches standard touchscreen
-device-properties to an i2c-client device based on a combination of a
-DMI match + a device-name match. I've verified that the: Teclast X98 Pro,
-WinBook TW100 and WinBook TW700 uses an ACPI devicename of "GDIX1001:00"
-based on acpidumps and/or dmesg output available on the web.
-
-This patch was tested on a Teclast X89 tablet.
+Move the DMI quirk for the Goodix touchscreen with inverted X coordinates
+found on the Cube I15-TC tablet from drivers/input/touchscreen/goodix.c to
+drivers/platform/x86/touchscreen_dmi.c, where all the other x86
+touchscreen quirks live.
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/input/touchscreen/goodix.c     | 52 --------------------------
- drivers/platform/x86/touchscreen_dmi.c | 51 +++++++++++++++++++++++++
- 2 files changed, 51 insertions(+), 52 deletions(-)
+ drivers/input/touchscreen/goodix.c     | 22 ----------------------
+ drivers/platform/x86/touchscreen_dmi.c | 19 +++++++++++++++++++
+ 2 files changed, 19 insertions(+), 22 deletions(-)
 
 diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscreen/goodix.c
-index e743709b55f0..d92f6b2b6dcf 100644
+index d92f6b2b6dcf..2203ad4d8e30 100644
 --- a/drivers/input/touchscreen/goodix.c
 +++ b/drivers/input/touchscreen/goodix.c
-@@ -118,51 +118,6 @@ static const unsigned long goodix_irq_flags[] = {
- 	IRQ_TYPE_LEVEL_HIGH,
+@@ -131,22 +131,6 @@ static const struct dmi_system_id nine_bytes_report[] = {
+ 	{}
  };
  
 -/*
-- * Those tablets have their coordinates origin at the bottom right
-- * of the tablet, as if rotated 180 degrees
+- * Those tablets have their x coordinate inverted
 - */
--static const struct dmi_system_id rotated_screen[] = {
+-static const struct dmi_system_id inverted_x_screen[] = {
 -#if defined(CONFIG_DMI) && defined(CONFIG_X86)
 -	{
--		.ident = "Teclast X89",
+-		.ident = "Cube I15-TC",
 -		.matches = {
--			/* tPAD is too generic, also match on bios date */
--			DMI_MATCH(DMI_BOARD_VENDOR, "TECLAST"),
--			DMI_MATCH(DMI_BOARD_NAME, "tPAD"),
--			DMI_MATCH(DMI_BIOS_DATE, "12/19/2014"),
--		},
--	},
--	{
--		.ident = "Teclast X98 Pro",
--		.matches = {
--			/*
--			 * Only match BIOS date, because the manufacturers
--			 * BIOS does not report the board name at all
--			 * (sometimes)...
--			 */
--			DMI_MATCH(DMI_BOARD_VENDOR, "TECLAST"),
--			DMI_MATCH(DMI_BIOS_DATE, "10/28/2015"),
--		},
--	},
--	{
--		.ident = "WinBook TW100",
--		.matches = {
--			DMI_MATCH(DMI_SYS_VENDOR, "WinBook"),
--			DMI_MATCH(DMI_PRODUCT_NAME, "TW100")
--		}
--	},
--	{
--		.ident = "WinBook TW700",
--		.matches = {
--			DMI_MATCH(DMI_SYS_VENDOR, "WinBook"),
--			DMI_MATCH(DMI_PRODUCT_NAME, "TW700")
+-			DMI_MATCH(DMI_SYS_VENDOR, "Cube"),
+-			DMI_MATCH(DMI_PRODUCT_NAME, "I15-TC")
 -		},
 -	},
 -#endif
 -	{}
 -};
 -
- static const struct dmi_system_id nine_bytes_report[] = {
- #if defined(CONFIG_DMI) && defined(CONFIG_X86)
- 	{
-@@ -1086,13 +1041,6 @@ static int goodix_configure_dev(struct goodix_ts_data *ts)
- 				  ABS_MT_POSITION_Y, ts->prop.max_y);
+ /**
+  * goodix_i2c_read - read data from a register of the i2c slave device.
+  *
+@@ -1048,12 +1032,6 @@ static int goodix_configure_dev(struct goodix_ts_data *ts)
+ 			"Non-standard 9-bytes report format quirk\n");
  	}
  
--	if (dmi_check_system(rotated_screen)) {
+-	if (dmi_check_system(inverted_x_screen)) {
 -		ts->prop.invert_x = true;
--		ts->prop.invert_y = true;
 -		dev_dbg(&ts->client->dev,
--			"Applying '180 degrees rotated screen' quirk\n");
+-			"Applying 'inverted x screen' quirk\n");
 -	}
 -
- 	if (dmi_check_system(nine_bytes_report)) {
- 		ts->contact_size = 9;
- 
+ 	error = input_mt_init_slots(ts->input_dev, ts->max_touch_num,
+ 				    INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
+ 	if (error) {
 diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index 4f64a77e1ae8..bb47cea8d297 100644
+index bb47cea8d297..60876d8962b6 100644
 --- a/drivers/platform/x86/touchscreen_dmi.c
 +++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -285,6 +285,18 @@ static const struct ts_dmi_data glavey_tm800a550l_data = {
- 	.properties	= glavey_tm800a550l_props,
+@@ -218,6 +218,17 @@ static const struct ts_dmi_data cube_iwork8_air_data = {
+ 	.properties	= cube_iwork8_air_props,
  };
  
-+/* Generic props + data for upside-down mounted GDIX1001 touchscreens */
-+static const struct property_entry gdix1001_upside_down_props[] = {
++static const struct property_entry cube_iwork10_ultimate_i15_tc_props[] = {
 +	PROPERTY_ENTRY_BOOL("touchscreen-inverted-x"),
-+	PROPERTY_ENTRY_BOOL("touchscreen-inverted-y"),
 +	{ }
 +};
 +
-+static const struct ts_dmi_data gdix1001_upside_down_data = {
++static const struct ts_dmi_data cube_iwork10_ultimate_i15_tc_data = {
 +	.acpi_hid	= "GDIX1001",
-+	.properties	= gdix1001_upside_down_props,
++	.properties	= cube_iwork10_ultimate_i15_tc_props,
 +};
 +
- static const struct property_entry gp_electronic_t701_props[] = {
- 	PROPERTY_ENTRY_U32("touchscreen-size-x", 960),
- 	PROPERTY_ENTRY_U32("touchscreen-size-y", 640),
-@@ -1308,6 +1320,16 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
- 			DMI_MATCH(DMI_BOARD_NAME, "X3 Plus"),
++
+ static const struct property_entry cube_knote_i1101_props[] = {
+ 	PROPERTY_ENTRY_U32("touchscreen-min-x", 20),
+ 	PROPERTY_ENTRY_U32("touchscreen-min-y",  22),
+@@ -992,6 +1003,14 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
  		},
  	},
 +	{
-+		/* Teclast X89 (Windows version / BIOS) */
-+		.driver_data = (void *)&gdix1001_upside_down_data,
++		/* CUBE iWork10 Ultimate (I15-TC) */
++		.driver_data = (void *)&cube_iwork10_ultimate_i15_tc_data,
 +		.matches = {
-+			/* tPAD is too generic, also match on bios date */
-+			DMI_MATCH(DMI_BOARD_VENDOR, "TECLAST"),
-+			DMI_MATCH(DMI_BOARD_NAME, "tPAD"),
-+			DMI_MATCH(DMI_BIOS_DATE, "12/19/2014"),
++			DMI_MATCH(DMI_SYS_VENDOR, "Cube"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "I15-TC")
 +		},
 +	},
  	{
- 		/* Teclast X98 Plus II */
- 		.driver_data = (void *)&teclast_x98plus2_data,
-@@ -1316,6 +1338,19 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "X98 Plus II"),
- 		},
- 	},
-+	{
-+		/* Teclast X98 Pro */
-+		.driver_data = (void *)&gdix1001_upside_down_data,
-+		.matches = {
-+			/*
-+			 * Only match BIOS date, because the manufacturers
-+			 * BIOS does not report the board name at all
-+			 * (sometimes)...
-+			 */
-+			DMI_MATCH(DMI_BOARD_VENDOR, "TECLAST"),
-+			DMI_MATCH(DMI_BIOS_DATE, "10/28/2015"),
-+		},
-+	},
- 	{
- 		/* Trekstor Primebook C11 */
- 		.driver_data = (void *)&trekstor_primebook_c11_data,
-@@ -1391,6 +1426,22 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "VINGA Twizzle J116"),
- 		},
- 	},
-+	{
-+		/* "WinBook TW100" */
-+		.driver_data = (void *)&gdix1001_upside_down_data,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "WinBook"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "TW100")
-+		}
-+	},
-+	{
-+		/* WinBook TW700 */
-+		.driver_data = (void *)&gdix1001_upside_down_data,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "WinBook"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "TW700")
-+		},
-+	},
- 	{
- 		/* Yours Y8W81, same case and touchscreen as Chuwi Vi8 */
- 		.driver_data = (void *)&chuwi_vi8_data,
+ 		/* Cube KNote i1101 */
+ 		.driver_data = (void *)&cube_knote_i1101_data,
 -- 
 2.31.1
 
