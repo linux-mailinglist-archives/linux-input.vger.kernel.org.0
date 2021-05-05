@@ -2,126 +2,183 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9ED463730AF
-	for <lists+linux-input@lfdr.de>; Tue,  4 May 2021 21:21:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE9F437348F
+	for <lists+linux-input@lfdr.de>; Wed,  5 May 2021 07:08:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232455AbhEDTV4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 4 May 2021 15:21:56 -0400
-Received: from mail4.protonmail.ch ([185.70.40.27]:33111 "EHLO
-        mail4.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232483AbhEDTV4 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 4 May 2021 15:21:56 -0400
-X-Greylist: delayed 38008 seconds by postgrey-1.27 at vger.kernel.org; Tue, 04 May 2021 15:21:56 EDT
-Date:   Tue, 04 May 2021 19:20:50 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1620156059;
-        bh=hPN9j0nF1AQgM6cAsZDixp19IElNYSJ0wg7fViCdyB0=;
-        h=Date:To:From:Cc:Reply-To:Subject:From;
-        b=A9qhvxX2TE6AkNYqZY73Rg0aM45HJH6nqpWLhbwtPjN3zEmA+EQDKQiZNOKhY6rh2
-         MaEvSH3naAkrtk8sgTaD4WnauKugRPywXxjfQR/zGShdgp7G4FFv8GJYYcZTdw/JK2
-         OiFZuz3QuJjR7H8c4D1t1jJZvPMAgu1b9aBAwu6A=
-To:     "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>
-From:   Yassine Oudjana <y.oudjana@protonmail.com>
-Cc:     Yassine Oudjana <y.oudjana@protonmail.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "phone-devel@vger.kernel.org" <phone-devel@vger.kernel.org>,
-        "~postmarketos/upstreaming@lists.sr.ht" 
-        <~postmarketos/upstreaming@lists.sr.ht>
-Reply-To: Yassine Oudjana <y.oudjana@protonmail.com>
-Subject: [PATCH v2 2/2] dt-bindings: input: Add binding for cypress-sf
-Message-ID: <BmgtYLgM0FI0tmBcQQLEPss7D2v0jW1Ci8LWeLLd3g@cp3-web-020.plabs.ch>
+        id S231663AbhEEFJp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 May 2021 01:09:45 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:57424 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231665AbhEEFJo (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 5 May 2021 01:09:44 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1620191328; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=ufbzClt2siENd3mar5OZbcbZXJ2ZidipGfMDOw2kcCA=;
+ b=NhIsXpCFN5ct3MHk4Xydgkx+yT55Y7HRQz3YTGS5+DNC0MRvdfyQtGMs/g4yCOOQzIPiOF4q
+ JnP7khUupqvqZbE8m4IXYgKyrDRTxRPILp+Y23URu8r+NRBHG21YcMLaTdz0Zl73B+g+G2Ex
+ zZhJc/uVmc/onBv4zt/0Y3NG59Q=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyIxZDE2NCIsICJsaW51eC1pbnB1dEB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
+ 6092286087ce1fbb565dfe80 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 05 May 2021 05:08:48
+ GMT
+Sender: skakit=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 66DECC433F1; Wed,  5 May 2021 05:08:47 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: skakit)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 689EDC4338A;
+        Wed,  5 May 2021 05:08:46 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Wed, 05 May 2021 10:38:46 +0530
+From:   skakit@codeaurora.org
+To:     Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        David Collins <collinsd@codeaurora.org>, kgunda@codeaurora.org,
+        Vinod Koul <vkoul@kernel.org>,
+        Courtney Cavin <courtney.cavin@sonymobile.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-pm@vger.kernel.org
+Subject: Re: [PATCH V2 3/4] dt-bindings: power: reset: qcom-pon: Convert qcom
+ PON binding to yaml
+In-Reply-To: <20210427083721.heavcdadeb4ajkk2@earth.universe>
+References: <1617881469-31965-1-git-send-email-skakit@codeaurora.org>
+ <1617881469-31965-4-git-send-email-skakit@codeaurora.org>
+ <20210408130001.k3qbq3vvwkiyykzv@earth.universe>
+ <0cb9b3503000ac7206f4a3ef5fd16c17@codeaurora.org>
+ <322cbdbb022fec3f43c1cbe13c532dd3@codeaurora.org>
+ <20210427083721.heavcdadeb4ajkk2@earth.universe>
+Message-ID: <a190e414c53af3ea094548f5011c3a04@codeaurora.org>
+X-Sender: skakit@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add a device tree binding for Cypress StreetFighter.
+On 2021-04-27 14:07, Sebastian Reichel wrote:
+> Hi,
+> 
+> On Tue, Apr 27, 2021 at 11:45:44AM +0530, skakit@codeaurora.org wrote:
+>> Hi Sebastian,
+>> 
+>> On 2021-04-09 13:48, skakit@codeaurora.org wrote:
+>> > Hi Sebastian,
+>> >
+>> > On 2021-04-08 18:30, Sebastian Reichel wrote:
+>> > > Hi,
+>> > >
+>> > > On Thu, Apr 08, 2021 at 05:01:08PM +0530, satya priya wrote:
+>> > > > Convert qcom PON binding from .txt to .yaml format.
+>> > > >
+>> > > > Signed-off-by: satya priya <skakit@codeaurora.org>
+>> > > > ---
+>> > >
+>> > > Thanks for doing this.
+>> > >
+>> > > > Changes in V2:
+>> > > >  - As per Rob's comments, converted the main PON binding and
+>> > > > added in V2.
+>> > > >
+>> [...]
+>> > > > +  reg:
+>> > > > +    description: Specifies the physical address of the pon register
+>> > >
+>> > > That description is obvious and pointless. Instead add
+>> > >
+>> > > maxItems: 1
+>> > >
+>> >
+>> > Okay.
+>> >
+>> > > > +  pwrkey:
+>> > > > +    type: object
+>> > > > +    $ref: "../../input/qcom,pm8941-pwrkey.yaml#"
+>> > > > +
+>> > > > +  resin:
+>> > > > +    type: object
+>> > > > +    $ref: "../../input/qcom,pm8941-pwrkey.yaml#"
+>> > > > +
+>> > > > +required:
+>> > > > +  - compatible
+>> > > > +  - reg
+>> > > > +
+>> > > > +additionalProperties: true
+>> > >
+>> > > Instead of allowing arbitrary properties, only valid modes
+>> > > should be allowed. So drop additionalProperties and do this
+>> > > instead:
+>> > >
+>> > > allOf:
+>> > >   - $ref: reboot-mode.yaml#
+>> > >
+>> > > unevaluatedProperties: false
+>> > >
+>> >
+>> > Okay.
+>> 
+>> I am not able to use 'allOf' to refer reboot-mode.yaml as some of the
+>> properties do not match with reboot-mode.yaml properties. Can we use 
+>> oneOf
+>> like below?
+>> 
+>> oneOf:
+>>   - $ref: "reboot-mode.yaml#"
+>>   - $ref: "../../input/qcom,pm8941-pwrkey.yaml#"
+> 
+> That does not make sense.
+> 
+> The reference to reboot-mode.yaml is needed because it adds valid
+> mode properties, so that you can set unevaluatedProperties to false.
+> You need it at the root of the PON binding. They are not added to
+> the required list, so it's fine if not all of them are used. Also
+> there can (and usually is) more than one mode, so using oneOf is not
+> ok.
+> 
 
-Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
----
- .../devicetree/bindings/input/cypress-sf.yaml | 61 +++++++++++++++++++
- 1 file changed, 61 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/input/cypress-sf.yaml
+Okay, but I am getting errors like below during make dtbs_check.
 
-diff --git a/Documentation/devicetree/bindings/input/cypress-sf.yaml b/Docu=
-mentation/devicetree/bindings/input/cypress-sf.yaml
-new file mode 100644
-index 000000000000..14689daf6567
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/cypress-sf.yaml
-@@ -0,0 +1,61 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/cypress-sf.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Cypress StreetFighter touchkey controller
-+
-+maintainers:
-+  - Yassine Oudjana <y.oudjana@protonmail.com>
-+
-+allOf:
-+  - $ref: input.yaml#
-+
-+properties:
-+  compatible:
-+    const: cypress,sf3155
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  avdd-supply:
-+    description: Regulator for AVDD analog voltage
-+
-+  vdd-supply:
-+    description: Regulator for VDD digital voltage
-+
-+  linux,keycodes:
-+    minItems: 1
-+    maxItems: 8
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - avdd-supply
-+  - vdd-supply
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/input/input.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    i2c {
-+        #address-cells =3D <1>;
-+        #size-cells =3D <0>;
-+
-+        touchkey@28 {
-+                compatible =3D "cypress,sf3155";
-+                reg =3D <0x28>;
-+                interrupt-parent =3D <&msmgpio>;
-+                interrupts =3D <77 IRQ_TYPE_EDGE_FALLING>;
-+                avdd-supply =3D <&vreg_l6a_1p8>;
-+                vdd-supply =3D <&vdd_3v2_tp>;
-+                linux,keycodes =3D <KEY_BACK KEY_MENU>;
-+        };
-+    };
---=20
-2.31.1
+kernel/arch/arm64/boot/dts/qcom/sdm630-sony-xperia-ganges-kirin.dt.yaml: 
+pon@800: 'compatible', 'pwrkey', 'reg' do not match any of the regexes: 
+'^mode-.*$', 'pinctrl-[0-9]+'
 
+As suggested I have added
 
+allOf:
+  - $ref: reboot-mode.yaml#
+
+at the root of binding and also added unevaluatedProperties: false
+
+> Last but not least the pwrkey reference is needed to describe
+> specific nodes (resin, pwrkey) and should not appear at the root
+> of the PON binding.
+> 
+>> Also, If I drop additionalProperties I am getting below error.
+>> 
+>> kernel/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml:
+>> 'additionalProperties' is a required property
+> 
+> You need to add 'unevaluatedProperties: false'. It is basically
+> the same as 'additionalProperties: false', but also accepts
+> properties from the referenced bindings.
+> 
+> Thanks,
+> 
+> -- Sebastian
