@@ -2,37 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BC57373B2B
-	for <lists+linux-input@lfdr.de>; Wed,  5 May 2021 14:27:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0894373B31
+	for <lists+linux-input@lfdr.de>; Wed,  5 May 2021 14:28:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232351AbhEEM2M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 May 2021 08:28:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60210 "EHLO mail.kernel.org"
+        id S229559AbhEEM3Z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 May 2021 08:29:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33762 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232314AbhEEM2L (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 5 May 2021 08:28:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A161F611AC;
-        Wed,  5 May 2021 12:27:14 +0000 (UTC)
+        id S232577AbhEEM3X (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 5 May 2021 08:29:23 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2D190613B3;
+        Wed,  5 May 2021 12:28:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620217635;
-        bh=DiQ5O5xvSy4pcbiJ/ckScU/ZOGmwCRYyJ8aUIeZeV9I=;
+        s=k20201202; t=1620217707;
+        bh=nnoUyV6w1xAIR6P9TGr/Je7lKmviC1pu5rkYtnQVEdg=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=RD1CXXumyHJ6oJEolAVmoYjFMaNIbJ+jIgmAxCjUfF5dXxEsKigBGAcHSca1BNWt/
-         1qoilPd49nahetD2xHlELy5OEyrvTEMQSiHCX8VCUoIulaQgKe6vO9Mgr6OCBU34ms
-         6h1ObD2JztvGGfIWQoOibfbTIzXBzGIUPJHTigjVxO7CQ7XYmXinv7MYLCRAJaEUfK
-         JVgNqVE5WuUMSH3WdQ1FghOXqOz669X/5kaok2N2ZEEb2HqMLtJhpe5FX30jccfEK1
-         cl4xM1RbRybV1p3RSXz+cWLT5smkbHtGpmUcjEEE1LRKqGRsqlqyAT9JWi5UPSuttK
-         DAFzZLU5ej68w==
-Date:   Wed, 5 May 2021 14:27:12 +0200 (CEST)
+        b=I4/z1Vg/f/3bzjL/JA45PDbnIWRVe/k6oAKBEX2ZiV591UJas2L+sC0yFBc76He+I
+         4nTYefsT//8hg3kH9wDGQ5NOa395QIEANRXS6ikqOcJkTXhNIRRDbl5FIDztbd5sVg
+         Kd6Kw5CsWqCadt9tAlfRAHeWf+xG7SYI3sRAwtyreJ8c8r05QiTUoPBgunt9w2a38z
+         XwhIWOs1763/HceO895O3PSVHH2yK1iqiVpY1DgnwnuNYRhCpNwNykKuTeBCOs0zxc
+         Wi4E2/VS2Na+4cC7Yn4jQ2nMfV/H7K1cBjCZ6WMnwhVcWr03wtCyZSyEtyk213sbhx
+         ya2RSJheNGqSw==
+Date:   Wed, 5 May 2021 14:28:24 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
 To:     Hans de Goede <hdegoede@redhat.com>
 cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         linux-input@vger.kernel.org
-Subject: Re: [PATCH] HID: quirks: Add HID_QUIRK_NO_INIT_REPORTS quirk for
- Dell K15A keyboard-dock
-In-Reply-To: <20210404154054.27560-1-hdegoede@redhat.com>
-Message-ID: <nycvar.YFH.7.76.2105051427040.28378@cbobk.fhfr.pm>
-References: <20210404154054.27560-1-hdegoede@redhat.com>
+Subject: Re: [PATCH] HID: logitech-dj/hidpp: Add info/warn/err messages about
+ 27 MHz keyboard encryption
+In-Reply-To: <20210404185609.5120-1-hdegoede@redhat.com>
+Message-ID: <nycvar.YFH.7.76.2105051428140.28378@cbobk.fhfr.pm>
+References: <20210404185609.5120-1-hdegoede@redhat.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -42,30 +42,38 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 On Sun, 4 Apr 2021, Hans de Goede wrote:
 
-> Just like the K12A the Dell K15A keyboard-dock has problems with
-> get_feature requests. This sometimes leads to several
-> "failed to fetch feature 8" messages getting logged, after which the
-> touchpad may or may not work.
+> By default 27 MHz Logitech keyboards send the keypresses to the receiver
+> in plain text. Logitech's Windows "Keyboard and Mouse settings" tool allows
+> configuring encryption for the keyboard wireless link.
 > 
-> Just like the K15A these errors are triggered by undocking and docking
-> the tablet.
+> Now there also is a Linux tool for setting this up:
+> https://gitlab.freedesktop.org/jwrdegoede/logitech-27mhz-keyboard-encryption-setup
 > 
-> There also seem to be other problems when undocking and then docking again
-> in quick succession. It seems that in this case the keyboard-controller
-> still retains some power from capacitors and does not go through a
-> power-on-reset leaving it in a confuses state, symptoms of this are:
+> Once a keyboard is paired in encrypted mode, it will no longer work with
+> any receiver other then the receiver it was paired with.
+> If a user accidentally tries to pair another keyboard with the receiver
+> with which a keyboard has been paired in encrypted mode, then the receiver
+> looses the encryption key and the originally paired keyboard will no longer
+> work with either that receiver, or another receiver until the keyboard's
+> encryption key is rewritten by another encrypted mode pairing using the
+> tool. Or until it is reset by following a special reset procedure.
 > 
-> 1. The USB-ids changing to 048d:8910
-> 2. Failure to read the HID descriptors on the second (mouse) USB intf.
-> 3. The touchpad freezing after a while
+> This commit adds 3 new log messages related to 27 MHz keyboard link
+> encryption to the Logitech dj / hidpp drivers:
 > 
-> These problems can all be cleared by undocking the keyboard and waiting
-> a full minute before redocking it. Unfortunately there is nothing we can
-> do about this in the kernel.
+> 1. An info level message when keyboard encryption is being used
+> 2. A warning message when keyboard encryption is not used
+> 3. An error message when the encryption key has been lost and the
+>    keyboard will not work because of this
+> 
+> Messages 2. and 3. contain a link to the userspace tool to setup the
+> encryption. The linked page also contains instructions to clear the key
+> (without needing the tool) to help a user recover from the keyboard not
+> working in case 3.
 > 
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 
-Applied, thanks Hans.
+Applied, thank you Hans.
 
 -- 
 Jiri Kosina
