@@ -2,37 +2,42 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0E93373B49
-	for <lists+linux-input@lfdr.de>; Wed,  5 May 2021 14:33:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10ABC373B60
+	for <lists+linux-input@lfdr.de>; Wed,  5 May 2021 14:35:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233351AbhEEMeD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 May 2021 08:34:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42570 "EHLO mail.kernel.org"
+        id S233230AbhEEMgM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 May 2021 08:36:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47210 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229793AbhEEMeC (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 5 May 2021 08:34:02 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8AB31610FB;
-        Wed,  5 May 2021 12:33:04 +0000 (UTC)
+        id S233471AbhEEMgH (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 5 May 2021 08:36:07 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3C12F613AA;
+        Wed,  5 May 2021 12:35:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620217986;
-        bh=WRPI8uSvBQAHJQ3atlPtvokxA0AWzk1rFNxT0nzJCFU=;
+        s=k20201202; t=1620218110;
+        bh=WoLNm9lJaRrgB/82wCLAmBaJ86xs4xLka0E/fHFUwDk=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=RZoEErko5le4MAz5NTu/Tb35/ZzyOi447kBNz0XY8Ijv85gotH4g5yU9Wk8Qyz+bi
-         bBtBFzJITyZeQaQAmRqE32BUFBUj6cvodUU5kgASSKFWYEJF4kzGryzapIO64q18cL
-         H0HwhKpU+j+lqpNSRpMWgH9vvbPgkO2B7+nv3uj5LlUJp16ZfkpEMhY6Q5LdNmC0oB
-         zfPcltkGRjKG1PDqpIisxr17g6WrzJ4hyVTOEMw3GKObXKMerjwgt40uYERiDT4JhR
-         aNU9tVOxwOvNWRQIJxOraGC8R7YngeFfcNnJkQnYycVKk9inWl6cjpz8rLrUKebasm
-         vJsgFX0IhOtug==
-Date:   Wed, 5 May 2021 14:33:02 +0200 (CEST)
+        b=KXOeDFq6Mjqix5IiRmXDa0u52xHRdzYyNmHEH22Vm6ZGKN3Vzu6uapC66DDx3Nkc0
+         7jNFLP2aYUyNZsRMXqgzUjfg+yapORQGnENQAh5bYac5S++8fuiRwFNIZMbXTuMQkU
+         WYOSlvSWKbpkxKk3FPr7mKyE4IIBYt2JWqt+Br99lT1ti8c3GLOwIzXSKTO/+BksKi
+         GWoTsnQ4bnPc7mxBihBS8Ynmkb5KVTpiDVYHxsRhmnvvovlAiskAx4V6lBNx/yF8YV
+         KHJx31ren6a82ghxz9hdocjHoF5yy6O12qVKDRJbbevqqmjPb12rXq7BMdm2qJJ+SJ
+         8UpiNMjGvOOgg==
+Date:   Wed, 5 May 2021 14:35:07 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Michael Zaidman <michael.zaidman@gmail.com>
-cc:     dan.carpenter@oracle.com, benjamin.tissoires@redhat.com,
-        wsa@kernel.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-i2c@vger.kernel.org
-Subject: Re: [PATCH] HID: ft260: check data size in ft260_smbus_write()
-In-Reply-To: <20210413151200.2174-1-michael.zaidman@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2105051432470.28378@cbobk.fhfr.pm>
-References: <20210413151200.2174-1-michael.zaidman@gmail.com>
+To:     Ikjoon Jang <ikjn@chromium.org>
+cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        Dmitry Torokhov <dtor@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 2/2] HID: google: Add of_match table to Whiskers switch
+ device.
+In-Reply-To: <20210415032958.740233-3-ikjn@chromium.org>
+Message-ID: <nycvar.YFH.7.76.2105051434520.28378@cbobk.fhfr.pm>
+References: <20210415032958.740233-1-ikjn@chromium.org> <20210415032958.740233-3-ikjn@chromium.org>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -40,27 +45,11 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 13 Apr 2021, Michael Zaidman wrote:
+On Thu, 15 Apr 2021, Ikjoon Jang wrote:
 
-> Fixes: 98189a0adfa0 ("HID: ft260: add usb hid to i2c host bridge driver")
-> 
-> The SMbus block transaction limits the number of bytes transferred to 32,
-> but nothing prevents a user from specifying via ioctl a larger data size
-> than the ft260 can handle in a single transfer.
-> 
-> i2cdev_ioctl_smbus()
->    --> i2c_smbus_xfer
->        --> __i2c_smbus_xfer
->            --> ft260_smbus_xfer
->                --> ft260_smbus_write
-> 
-> This patch adds data size checking in the ft260_smbus_write().
-> 
-> Signed-off-by: Michael Zaidman <michael.zaidman@gmail.com>
-> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> Add a device tree match table for "cros-cbas" switch device.
 
-I have moved the 'Fixes:' tag to place where it belongs, and applied. 
-Thanks,
+Applied, sorry for the delay.
 
 -- 
 Jiri Kosina
