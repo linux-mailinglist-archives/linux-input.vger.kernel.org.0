@@ -2,183 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CE9F437348F
-	for <lists+linux-input@lfdr.de>; Wed,  5 May 2021 07:08:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2C9A373824
+	for <lists+linux-input@lfdr.de>; Wed,  5 May 2021 11:51:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231663AbhEEFJp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 May 2021 01:09:45 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:57424 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231665AbhEEFJo (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 5 May 2021 01:09:44 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1620191328; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=ufbzClt2siENd3mar5OZbcbZXJ2ZidipGfMDOw2kcCA=;
- b=NhIsXpCFN5ct3MHk4Xydgkx+yT55Y7HRQz3YTGS5+DNC0MRvdfyQtGMs/g4yCOOQzIPiOF4q
- JnP7khUupqvqZbE8m4IXYgKyrDRTxRPILp+Y23URu8r+NRBHG21YcMLaTdz0Zl73B+g+G2Ex
- zZhJc/uVmc/onBv4zt/0Y3NG59Q=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIxZDE2NCIsICJsaW51eC1pbnB1dEB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
- 6092286087ce1fbb565dfe80 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 05 May 2021 05:08:48
- GMT
-Sender: skakit=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 66DECC433F1; Wed,  5 May 2021 05:08:47 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: skakit)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 689EDC4338A;
-        Wed,  5 May 2021 05:08:46 +0000 (UTC)
+        id S231494AbhEEJwk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 May 2021 05:52:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60730 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232589AbhEEJwj (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 5 May 2021 05:52:39 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 021CAC061761
+        for <linux-input@vger.kernel.org>; Wed,  5 May 2021 02:51:42 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id b21so855824plz.0
+        for <linux-input@vger.kernel.org>; Wed, 05 May 2021 02:51:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bNDJPGwrquZJ+gjSDnL9VcoDb165ZhWuJrSq+RVYVfk=;
+        b=ctYNEZWB1el/6E/2d5ygQncwiOHKXrTDL1j8NwOTBP8osLWB8VXPmMCr7VViju1jTg
+         8VPv3/HnAG7TyVkTXuIAGdGPsS+3Yd8k3oyzw7AZK+3QQSq8U+WXbf+knqOSKd1h3Y7l
+         cQLfyAUVp6h6u19r7Z9AY4hg40/SLeSuQcoyY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bNDJPGwrquZJ+gjSDnL9VcoDb165ZhWuJrSq+RVYVfk=;
+        b=tGpovxjjQmJZCJb2hGnEdfdAN9Yp94cz1vdxzqjC2A23O6N6pWTHaNlXH3mgPmOAg+
+         zvvXKTHJ6NV636+Syyxnbj3Y69iUMLCsbheF0V0c3vgzXp7lMgAKUrvIjYX9lagxuKre
+         jqtgETiBJujZCGbJn9aeEfKso5Z7ogrjsXTfrKhJzXuqUFTHStPzJQmAq/sDhHqlRul4
+         LrTPmdoAt2TSaqatGj8zwo/+d5orVg50OZ20Abt8iuo7zz+paaRV0cDdK+98mhIg5Y4w
+         GRkI4L1sAFiu4XRT9Htbh6OrTsgmylHL4GOI453xTSr4Psegu/RXmS81yOiV2NjRg0Nm
+         o3gw==
+X-Gm-Message-State: AOAM533p/9kRfI4PmUFr1AbwXkxBu1rv+hUrShniys9sUC3HynQyFz0e
+        Gc6ZnERFxHiMovGYTJwQIGwrxGklKaA7SHjQY5N6fssdtZH0vA==
+X-Google-Smtp-Source: ABdhPJytAVBDYKsW07DVIG1RkxBtcNqsprJkbKLW6RGyTiSonhBpHmC5MH6QSv/ICRd4ybE5enTFCE5sXuHIWc18FKM=
+X-Received: by 2002:a17:90a:be10:: with SMTP id a16mr9989671pjs.112.1620208302210;
+ Wed, 05 May 2021 02:51:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Wed, 05 May 2021 10:38:46 +0530
-From:   skakit@codeaurora.org
-To:     Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+References: <20210415032958.740233-1-ikjn@chromium.org>
+In-Reply-To: <20210415032958.740233-1-ikjn@chromium.org>
+From:   Ikjoon Jang <ikjn@chromium.org>
+Date:   Wed, 5 May 2021 17:51:31 +0800
+Message-ID: <CAATdQgDr0N-ewRrt4V14R72G4VTufmBzqzKka+xwSwkeodx=zQ@mail.gmail.com>
+Subject: Re: [PATCH v5 0/2] HID: google: add device tree bindings for Whiskers
+ switch device
+To:     linux-input@vger.kernel.org,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Cc:     Dmitry Torokhov <dtor@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        David Collins <collinsd@codeaurora.org>, kgunda@codeaurora.org,
-        Vinod Koul <vkoul@kernel.org>,
-        Courtney Cavin <courtney.cavin@sonymobile.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH V2 3/4] dt-bindings: power: reset: qcom-pon: Convert qcom
- PON binding to yaml
-In-Reply-To: <20210427083721.heavcdadeb4ajkk2@earth.universe>
-References: <1617881469-31965-1-git-send-email-skakit@codeaurora.org>
- <1617881469-31965-4-git-send-email-skakit@codeaurora.org>
- <20210408130001.k3qbq3vvwkiyykzv@earth.universe>
- <0cb9b3503000ac7206f4a3ef5fd16c17@codeaurora.org>
- <322cbdbb022fec3f43c1cbe13c532dd3@codeaurora.org>
- <20210427083721.heavcdadeb4ajkk2@earth.universe>
-Message-ID: <a190e414c53af3ea094548f5011c3a04@codeaurora.org>
-X-Sender: skakit@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+        open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 2021-04-27 14:07, Sebastian Reichel wrote:
-> Hi,
-> 
-> On Tue, Apr 27, 2021 at 11:45:44AM +0530, skakit@codeaurora.org wrote:
->> Hi Sebastian,
->> 
->> On 2021-04-09 13:48, skakit@codeaurora.org wrote:
->> > Hi Sebastian,
->> >
->> > On 2021-04-08 18:30, Sebastian Reichel wrote:
->> > > Hi,
->> > >
->> > > On Thu, Apr 08, 2021 at 05:01:08PM +0530, satya priya wrote:
->> > > > Convert qcom PON binding from .txt to .yaml format.
->> > > >
->> > > > Signed-off-by: satya priya <skakit@codeaurora.org>
->> > > > ---
->> > >
->> > > Thanks for doing this.
->> > >
->> > > > Changes in V2:
->> > > >  - As per Rob's comments, converted the main PON binding and
->> > > > added in V2.
->> > > >
->> [...]
->> > > > +  reg:
->> > > > +    description: Specifies the physical address of the pon register
->> > >
->> > > That description is obvious and pointless. Instead add
->> > >
->> > > maxItems: 1
->> > >
->> >
->> > Okay.
->> >
->> > > > +  pwrkey:
->> > > > +    type: object
->> > > > +    $ref: "../../input/qcom,pm8941-pwrkey.yaml#"
->> > > > +
->> > > > +  resin:
->> > > > +    type: object
->> > > > +    $ref: "../../input/qcom,pm8941-pwrkey.yaml#"
->> > > > +
->> > > > +required:
->> > > > +  - compatible
->> > > > +  - reg
->> > > > +
->> > > > +additionalProperties: true
->> > >
->> > > Instead of allowing arbitrary properties, only valid modes
->> > > should be allowed. So drop additionalProperties and do this
->> > > instead:
->> > >
->> > > allOf:
->> > >   - $ref: reboot-mode.yaml#
->> > >
->> > > unevaluatedProperties: false
->> > >
->> >
->> > Okay.
->> 
->> I am not able to use 'allOf' to refer reboot-mode.yaml as some of the
->> properties do not match with reboot-mode.yaml properties. Can we use 
->> oneOf
->> like below?
->> 
->> oneOf:
->>   - $ref: "reboot-mode.yaml#"
->>   - $ref: "../../input/qcom,pm8941-pwrkey.yaml#"
-> 
-> That does not make sense.
-> 
-> The reference to reboot-mode.yaml is needed because it adds valid
-> mode properties, so that you can set unevaluatedProperties to false.
-> You need it at the root of the PON binding. They are not added to
-> the required list, so it's fine if not all of them are used. Also
-> there can (and usually is) more than one mode, so using oneOf is not
-> ok.
-> 
+Hi Jiri,
 
-Okay, but I am getting errors like below during make dtbs_check.
+Genting ping on this series.
 
-kernel/arch/arm64/boot/dts/qcom/sdm630-sony-xperia-ganges-kirin.dt.yaml: 
-pon@800: 'compatible', 'pwrkey', 'reg' do not match any of the regexes: 
-'^mode-.*$', 'pinctrl-[0-9]+'
+On Thu, Apr 15, 2021 at 11:30 AM Ikjoon Jang <ikjn@chromium.org> wrote:
+>
+> Add device a tree binding for a "cros-cbas" switch device of
+> ChromeOS tablets with Whiskers base board.
+>
+> Changes in v5:
+>  - Add missing blank lines and change the description property's position.
+>  - Add a note to description: "this device cannot be detected at runtime."
+>
+> Changes in v4:
+> Define cros-cbase bindings inside google,cros-ec.yaml instead of
+> a separated binding document.
+>
+> Ikjoon Jang (2):
+>   mfd: google,cros-ec: add DT bindings for a baseboard's switch device
+>   HID: google: Add of_match table to Whiskers switch device.
+>
+>  .../bindings/mfd/google,cros-ec.yaml          | 20 +++++++++++++++++++
+>  drivers/hid/hid-google-hammer.c               | 10 ++++++++++
+>  2 files changed, 30 insertions(+)
+>
 
-As suggested I have added
+Can this be queued up to hid.git?
 
-allOf:
-  - $ref: reboot-mode.yaml#
+Thanks!
 
-at the root of binding and also added unevaluatedProperties: false
 
-> Last but not least the pwrkey reference is needed to describe
-> specific nodes (resin, pwrkey) and should not appear at the root
-> of the PON binding.
-> 
->> Also, If I drop additionalProperties I am getting below error.
->> 
->> kernel/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml:
->> 'additionalProperties' is a required property
-> 
-> You need to add 'unevaluatedProperties: false'. It is basically
-> the same as 'additionalProperties: false', but also accepts
-> properties from the referenced bindings.
-> 
-> Thanks,
-> 
-> -- Sebastian
+
+> --
+> 2.31.1.295.g9ea45b61b8-goog
+>
