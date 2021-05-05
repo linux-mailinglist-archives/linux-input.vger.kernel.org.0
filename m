@@ -2,40 +2,36 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73375373B9C
-	for <lists+linux-input@lfdr.de>; Wed,  5 May 2021 14:42:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01B7A373BAA
+	for <lists+linux-input@lfdr.de>; Wed,  5 May 2021 14:47:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230034AbhEEMnk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 May 2021 08:43:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33566 "EHLO mail.kernel.org"
+        id S232142AbhEEMsN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 May 2021 08:48:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39460 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229793AbhEEMnk (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 5 May 2021 08:43:40 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 36D9961132;
-        Wed,  5 May 2021 12:42:42 +0000 (UTC)
+        id S230034AbhEEMsM (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 5 May 2021 08:48:12 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 413F8613BC;
+        Wed,  5 May 2021 12:47:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620218563;
-        bh=j5tgY7P6UNnRgnZwcKAWN+v013/tjXzDMOOa52v8hj0=;
+        s=k20201202; t=1620218836;
+        bh=K1tvaeyBF65sqdxG7iy3TRk3SWi/mJo1kQamET0hdrc=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=mc/IuCu2Pq6OzFcuAyZMNnqZZRpLxI98AEaW+RhjjNP9s0ypSX22cyZKHka2UXzp8
-         RDuOVBCrEDB3O0c+NdE3VVG95tkWkZfmWzGvrh4iL84BoqpoW+TltKoSGK0+l9Pqhl
-         O2q0Sg3kPP1IBWtXLp7QEn5jB9JzOBVNuz4cMzX/Z3qtyveL+Ke+LvuLTI1+38Vrtr
-         +3mynjLXY+FFm3YjF1xj4Oe9lxjzi+MZLnqfghvrjeb9a8l1KZtGt8aPy9vfCM2evb
-         0pj4/Y3p38j6I76Y/3gukTYVfBbCH7DSUB4l1nYN6g4n9c+fRAbdOf3Elajq4unGeE
-         nvRxGtJeY7jkw==
-Date:   Wed, 5 May 2021 14:42:40 +0200 (CEST)
+        b=uJXxKUeauXVYvxttkbTJrgnH0oV8Ff8lv9JHIJ/jsX2vWXsF78LN4LBltwYlcym8F
+         WBerd7r0mJDb4vy6jjZ6IkEfYuenFBRa8rz2y78VajuRt8z89lnrMjfgUVS6eELK5a
+         OzV8fL1Nt+OJfk2ZWZvp/6YRDFgYYwWfGIUk0ddK5niC3BRTMUL8WgbDC122VGiTAM
+         EmoSvKFH3u05R9VqRsjPufWvNdeADRkge58H5MaV73Tpl6yMcb1z2G1BM/GOE3gh0l
+         F+Fj//3DX+AQjy14hsXOkHOJO+cmerWYt0oZ5v+0BPLMYIjQQdbPb8Z/JiyHgDoBQn
+         i0GAE8JwCxA0w==
+Date:   Wed, 5 May 2021 14:47:13 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Anirudh Rayabharam <mail@anirudhrb.com>
+To:     Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
 cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        gregkh@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        syzbot+7c2bb71996f95a82524c@syzkaller.appspotmail.com,
-        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usbhid: fix info leak in hid_submit_ctrl
-In-Reply-To: <20210425173353.10231-1-mail@anirudhrb.com>
-Message-ID: <nycvar.YFH.7.76.2105051442120.28378@cbobk.fhfr.pm>
-References: <20210425173353.10231-1-mail@anirudhrb.com>
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH  1/1] HID: quirks: Add quirk for Lenovo optical mouse
+In-Reply-To: <20210429185040.46249-1-saeed.mirzamohammadi@oracle.com>
+Message-ID: <nycvar.YFH.7.76.2105051447031.28378@cbobk.fhfr.pm>
+References: <20210429185040.46249-1-saeed.mirzamohammadi@oracle.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -43,25 +39,27 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 25 Apr 2021, Anirudh Rayabharam wrote:
+On Thu, 29 Apr 2021, Saeed Mirzamohammadi wrote:
 
-> In hid_submit_ctrl(), the way of calculating the report length doesn't
-> take into account that report->size can be zero. When running the
-> syzkaller reproducer, a report of size 0 causes hid_submit_ctrl) to
-> calculate transfer_buffer_length as 16384. When this urb is passed to
-> the usb core layer, KMSAN reports an info leak of 16384 bytes.
+> The Lenovo optical mouse with vendor id of 0x17ef and product id of
+> 0x600e experiences disconnecting issues every 55 seconds:
 > 
-> To fix this, first modify hid_report_len() to account for the zero
-> report size case by using DIV_ROUND_UP for the division. Then, call it
-> from hid_submit_ctrl().
+> [38565.706242] usb 1-1.4: Product: Lenovo Optical Mouse
+> [38565.728603] input: Lenovo Optical Mouse as /devices/platform/scb/fd500000.pcie/pci0000:00/0000:00:00.0/0000:01:00.0/usb1/1-1/1-1.4/1-1.4:1.0/0003:17EF:600E.029A/input/input665
+> [38565.755949] hid-generic 0003:17EF:600E.029A: input,hidraw1: USB HID v1.11 Mouse [Lenovo Optical Mouse] on usb-0000:01:00.0-1.4/input0
+> [38619.360692] usb 1-1.4: USB disconnect, device number 48
+> [38620.864990] usb 1-1.4: new low-speed USB device number 49 using xhci_hcd
+> [38620.984011] usb 1-1.4: New USB device found, idVendor=17ef,idProduct=600e, bcdDevice= 1.00
+> [38620.998117] usb 1-1.4: New USB device strings: Mfr=0, Product=2,SerialNumber=0
 > 
-> Reported-by: syzbot+7c2bb71996f95a82524c@syzkaller.appspotmail.com
-> Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
+> This adds HID_QUIRK_ALWAYS_POLL for this device in order to work properly.
+> 
+> Reference:
+> https://github.com/sriemer/fix-linux-mouse
+> 
+> Signed-off-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
 
-Benjamin, could you please run this one through your regression testing 
-machinery before we send it upstream?
-
-Thanks,
+Applied, thanks.
 
 -- 
 Jiri Kosina
