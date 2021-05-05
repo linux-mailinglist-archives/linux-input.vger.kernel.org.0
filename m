@@ -2,39 +2,37 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF145373B7F
-	for <lists+linux-input@lfdr.de>; Wed,  5 May 2021 14:38:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2135C373B92
+	for <lists+linux-input@lfdr.de>; Wed,  5 May 2021 14:40:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233420AbhEEMjZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 May 2021 08:39:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53818 "EHLO mail.kernel.org"
+        id S229864AbhEEMlB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 May 2021 08:41:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57652 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233555AbhEEMjL (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 5 May 2021 08:39:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0FBEA608FE;
-        Wed,  5 May 2021 12:38:12 +0000 (UTC)
+        id S232019AbhEEMlB (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 5 May 2021 08:41:01 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 20CC1608FE;
+        Wed,  5 May 2021 12:40:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620218294;
-        bh=/+2VzFRJPGasWSU5GhWAr3OrK3XekxrSTsUlVTbikPY=;
+        s=k20201202; t=1620218405;
+        bh=IO50buX3ruWyeEriZ1RvrpQnE/VghzsWT9srr7tHe+c=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=D59oFyJHUt9CttXDsUimugJnjeOHwFL1YmM4DQ0BXW5gQqOH1qJUlYqUwlHPLduNI
-         gXkaQv0wTHqG8G0+Ac6zApU6wsb8s881hbwSVph2nIJjqD2HWjZ08G2NgJTWJ1tl30
-         uQQ64Slbd4aUP9hrM+fzTK5pH/dbShuK93JOPxpd6YR0WvtnErk9uo6vgEFw2zvJsx
-         1xvbD9yFw8nEfhP3AOgjewQiNBhFieOOe3E2J2BiGzHU0e3QfBYi1vyFCNzGaYvUoA
-         l66NMR0T10dN9t8KeDIecQjaYxROf112+JlZkYtxzkd4PRsReTDTj2lS0cUuEqIQZH
-         +0OHv88r9uxPw==
-Date:   Wed, 5 May 2021 14:38:11 +0200 (CEST)
+        b=c0znP9suMvauNLpFEEhSukcmjDSHz9s+hFxEbILI5cghjzeNcRlRSB1fv4jHDIQOd
+         5jzFgtToahUEXJDcck++eFTQKey1A/hbIFJ+xeenctG8glhJ22KXNHs2kMMUy6A/2y
+         z2Me7SMILZmrWHJbnyYZF/UBVRjJpEFAcAAhIYqFF6vmSKUowi4DT2sOqtUsEODOKP
+         7rZvq8oqaKE7nr8WiUwYSQypJ+AEu4D0ek/Orf3uX05/BKeiNcouDwIZ4PMtY2TP0u
+         XXENpo25LFaEhLNpiv36tymRi+IA17QVszdN/uiJ4HsuPvKp8BFYCypd2I54gPygAT
+         vKHme/j57/6HA==
+Date:   Wed, 5 May 2021 14:40:02 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-cc:     jic23@kernel.org, benjamin.tissoires@redhat.com,
-        jiapeng.chong@linux.alibaba.com, linux-input@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Abaci Robot <abaci@linux.alibaba.com>
-Subject: Re: [PATCH 2/2] HID: hid-sensor-custom: Process failure of
- sensor_hub_set_feature()
-In-Reply-To: <20210415185232.2617398-2-srinivas.pandruvada@linux.intel.com>
-Message-ID: <nycvar.YFH.7.76.2105051437420.28378@cbobk.fhfr.pm>
-References: <20210415185232.2617398-1-srinivas.pandruvada@linux.intel.com> <20210415185232.2617398-2-srinivas.pandruvada@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Peter Hoeg <peter@hoeg.com>, linux-input@vger.kernel.org
+Subject: Re: [PATCH 0/6] HID: lg-g15: Add support for the Logitech Z-10
+ speakers
+In-Reply-To: <20210416131323.233184-1-hdegoede@redhat.com>
+Message-ID: <nycvar.YFH.7.76.2105051439480.28378@cbobk.fhfr.pm>
+References: <20210416131323.233184-1-hdegoede@redhat.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -42,33 +40,20 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 15 Apr 2021, Srinivas Pandruvada wrote:
+On Fri, 16 Apr 2021, Hans de Goede wrote:
 
-> When user modifies a custom feature value and sensor_hub_set_feature()
-> fails, return error.
+> Hi All,
 > 
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-> ---
-> Replaces patch: HID: hid-sensor-custom: remove useless variable
-> by Jiapeng Chong <jiapeng.chong@linux.alibaba.com> 
+> Here is a patch series adding support for the LCD menu keys +
+> LCD brightness control on the Logitech Z-10 speakers (with LCD)
+> which use the same protocol as the G15 keyboards.
 > 
->  drivers/hid/hid-sensor-custom.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/hid/hid-sensor-custom.c b/drivers/hid/hid-sensor-custom.c
-> index 2628bc53ed80..58b54b127cdf 100644
-> --- a/drivers/hid/hid-sensor-custom.c
-> +++ b/drivers/hid/hid-sensor-custom.c
-> @@ -406,6 +406,8 @@ static ssize_t store_value(struct device *dev, struct device_attribute *attr,
->  								report_id;
->  		ret = sensor_hub_set_feature(sensor_inst->hsdev, report_id,
->  					     index, sizeof(value), &value);
-> +		if (ret)
-> +			return ret;
+> The first patch is an unrelated cleanup, patches 2-4 move some code
+> into helper functions to allow re-use in the Z-10 case, patch 5
+> adds the actual Z-10 support and patch 6 is a bonus patch adding
+> missing MODULE_AUTHOR tags to 2 HID drivers which I maintain.
 
-What tree is this patch against? In my tree, we're not even assigning 
-sensor_hub_set_feature() return value to anything.
+Series now in for-5.14/logitech. Thanks,
 
 -- 
 Jiri Kosina
