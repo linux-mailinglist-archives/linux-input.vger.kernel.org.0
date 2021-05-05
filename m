@@ -2,78 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B0894373B31
-	for <lists+linux-input@lfdr.de>; Wed,  5 May 2021 14:28:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06FD9373B39
+	for <lists+linux-input@lfdr.de>; Wed,  5 May 2021 14:30:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229559AbhEEM3Z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 May 2021 08:29:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33762 "EHLO mail.kernel.org"
+        id S231633AbhEEMbT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 May 2021 08:31:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36966 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232577AbhEEM3X (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 5 May 2021 08:29:23 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2D190613B3;
-        Wed,  5 May 2021 12:28:26 +0000 (UTC)
+        id S232144AbhEEMbS (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 5 May 2021 08:31:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 47E8D613B3;
+        Wed,  5 May 2021 12:30:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620217707;
-        bh=nnoUyV6w1xAIR6P9TGr/Je7lKmviC1pu5rkYtnQVEdg=;
+        s=k20201202; t=1620217822;
+        bh=vsuyRUh/qyAm0gdbH4V9YAP+0xz3dUwTdkckuf5eyP8=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=I4/z1Vg/f/3bzjL/JA45PDbnIWRVe/k6oAKBEX2ZiV591UJas2L+sC0yFBc76He+I
-         4nTYefsT//8hg3kH9wDGQ5NOa395QIEANRXS6ikqOcJkTXhNIRRDbl5FIDztbd5sVg
-         Kd6Kw5CsWqCadt9tAlfRAHeWf+xG7SYI3sRAwtyreJ8c8r05QiTUoPBgunt9w2a38z
-         XwhIWOs1763/HceO895O3PSVHH2yK1iqiVpY1DgnwnuNYRhCpNwNykKuTeBCOs0zxc
-         Wi4E2/VS2Na+4cC7Yn4jQ2nMfV/H7K1cBjCZ6WMnwhVcWr03wtCyZSyEtyk213sbhx
-         ya2RSJheNGqSw==
-Date:   Wed, 5 May 2021 14:28:24 +0200 (CEST)
+        b=pk7ObtvA3DAU06w2srSzKTwQaIcVWvBJLMSCscf8nFnNfhjMQa5yca3j/njCr2W73
+         0+120NveanCvnahilGDY92ydC5sTEeLTn/l6crtuNA+aw7us9pwKqSRHQEYNKlg2GS
+         LaVi0UvHn7+FoHLzM2aSqnswGYVPUjBUGXxCN2fS8+8y2+PTwbRd3iaqoxL1RigMKN
+         tqzIk5/8zD36NEr+QyzRJr5nTtet4+oLC5kb4RqiV6nB82++Iwe4CiGdlAOjOuJLGp
+         RgtX20QtmZP606Y4eNB7BUn6R5dFeDZvtHsDXXslscGtyKoBQaNExhKb/7X8hIN0qY
+         lxWWgziDi1Dpw==
+Date:   Wed, 5 May 2021 14:30:19 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH] HID: logitech-dj/hidpp: Add info/warn/err messages about
- 27 MHz keyboard encryption
-In-Reply-To: <20210404185609.5120-1-hdegoede@redhat.com>
-Message-ID: <nycvar.YFH.7.76.2105051428140.28378@cbobk.fhfr.pm>
-References: <20210404185609.5120-1-hdegoede@redhat.com>
+To:     =?ISO-8859-2?Q?Mateusz_Jo=F1czyk?= <mat.jonczyk@o2.pl>
+cc:     linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: Re: [PATCH resend] hid-a4tech: use A4_2WHEEL_MOUSE_HACK_B8 for A4TECH
+ NB-95
+In-Reply-To: <20210406182538.34347-1-mat.jonczyk@o2.pl>
+Message-ID: <nycvar.YFH.7.76.2105051429520.28378@cbobk.fhfr.pm>
+References: <20210327125329.40357-1-mat.jonczyk@o2.pl> <20210406182538.34347-1-mat.jonczyk@o2.pl>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 4 Apr 2021, Hans de Goede wrote:
+On Tue, 6 Apr 2021, Mateusz Jończyk wrote:
 
-> By default 27 MHz Logitech keyboards send the keypresses to the receiver
-> in plain text. Logitech's Windows "Keyboard and Mouse settings" tool allows
-> configuring encryption for the keyboard wireless link.
+> This mouse has a horizontal wheel that requires special handling.
+> Without this patch, the horizontal wheel acts like a vertical wheel.
 > 
-> Now there also is a Linux tool for setting this up:
-> https://gitlab.freedesktop.org/jwrdegoede/logitech-27mhz-keyboard-encryption-setup
+> In the output of `hidrd-convert` for this mouse, there is a
+> `Usage (B8h)` field. It corresponds to a byte in packets sent by the
+> device that specifies which wheel generated an input event.
 > 
-> Once a keyboard is paired in encrypted mode, it will no longer work with
-> any receiver other then the receiver it was paired with.
-> If a user accidentally tries to pair another keyboard with the receiver
-> with which a keyboard has been paired in encrypted mode, then the receiver
-> looses the encryption key and the originally paired keyboard will no longer
-> work with either that receiver, or another receiver until the keyboard's
-> encryption key is rewritten by another encrypted mode pairing using the
-> tool. Or until it is reset by following a special reset procedure.
+> The name "A4TECH" is spelled in all capitals on the company website.
 > 
-> This commit adds 3 new log messages related to 27 MHz keyboard link
-> encryption to the Logitech dj / hidpp drivers:
-> 
-> 1. An info level message when keyboard encryption is being used
-> 2. A warning message when keyboard encryption is not used
-> 3. An error message when the encryption key has been lost and the
->    keyboard will not work because of this
-> 
-> Messages 2. and 3. contain a link to the userspace tool to setup the
-> encryption. The linked page also contains instructions to clear the key
-> (without needing the tool) to help a user recover from the keyboard not
-> working in case 3.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Mateusz Jończyk <mat.jonczyk@o2.pl>
+> Cc: Jiri Kosina <jikos@kernel.org>
+> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
-Applied, thank you Hans.
+Now applied to hid.git#for-5.13/upstream-fixes. Thanks,
 
 -- 
 Jiri Kosina
