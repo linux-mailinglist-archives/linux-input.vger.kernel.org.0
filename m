@@ -2,236 +2,126 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EFB69373D0D
-	for <lists+linux-input@lfdr.de>; Wed,  5 May 2021 16:09:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFA563746FA
+	for <lists+linux-input@lfdr.de>; Wed,  5 May 2021 19:53:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233682AbhEEOKy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 May 2021 10:10:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40111 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233654AbhEEOKy (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 5 May 2021 10:10:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1620223797;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=BCehOakkY6M3NGmE20hZ34gBRldCFoBFVx1MLP4b5Gc=;
-        b=PcG1lF12tGfkn5vFtfxJfuj7QZ6zAyq5WdILIJDP3McVQ3YwuuoOAt98n9UMlysQJ5cRop
-        Iqujoao5j6yieCVnoPxA7hkvqcjMKrCU8bnyXL2bV2G3m+ErbfFLN9OdASDbWDxoykUxLo
-        uZes31Oh/Jy5Yqpl717DJx7sCK43LGg=
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
- [209.85.215.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-546-KWquvP4QM8-x3erTFz7cJQ-1; Wed, 05 May 2021 10:09:55 -0400
-X-MC-Unique: KWquvP4QM8-x3erTFz7cJQ-1
-Received: by mail-pg1-f199.google.com with SMTP id r22-20020a63ec560000b029020eba8e44f7so1426767pgj.4
-        for <linux-input@vger.kernel.org>; Wed, 05 May 2021 07:09:55 -0700 (PDT)
+        id S236488AbhEERgO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 May 2021 13:36:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50498 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239487AbhEERbV (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 5 May 2021 13:31:21 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AFCFC07E5F7
+        for <linux-input@vger.kernel.org>; Wed,  5 May 2021 09:57:34 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id n138so3571305lfa.3
+        for <linux-input@vger.kernel.org>; Wed, 05 May 2021 09:57:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=h2Rkiic1Qu5JUyXDgw7mY1fOZmJcCWfsiNziLqg7Wlo=;
+        b=JYizrWyK02sThSbFQwjDEqxWacSLOX+HiHOuavlPwv6otO/1VqE5O2XtC2jOK/aUOD
+         /3IVSoq+eY1SVvZjM5I1nc6nROOaI6uju5rHaA6hQ4tgzq+BVC6z1oIx5qcpiKLNZaLy
+         LkO94YggpCRpXgV/5/2WaF85cNFw2TEiPqnA+XoHN2aurBzp+c4HZv5ZA6P/D3/NaOnr
+         cqT4fMLGNmfP1PDwovqz52zuKZwTsibd1WdiLBM1gf7uirktx0n8xksElqggqYEwQtue
+         ITYEXXjU0I3TkbQ3yZ1tSaCbck4+4PqBxYucEMraROfPjbzh5H8Z6FuFxEZ0p/qRgWgf
+         oh8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=BCehOakkY6M3NGmE20hZ34gBRldCFoBFVx1MLP4b5Gc=;
-        b=qCMvnaJoHzPFXLuilZwxXN9imvX2O9E1MNgjXLv9+OBSlI9e0T0OySUvn92O9K/GAK
-         4wPbce4o1UWzUs5FWm/zP+BHyMIwLm15kEZL5CVXfNpiq7w321xUyZTWPzoygfmujpQ0
-         gIpBfA4fjJv12etXPhrrz8jpSgatPdQ9J53Ui5TlF8aoxU2ywFc7qPOu8HLw3M2vJ8B3
-         DVs1S8/9QNdEUrACt7ZL3imvcfly0YJtEWk8rVufiXGr+fU93U+rVfZ5ENjvKETwAyp1
-         fqFM1ZCyVKRogq1afEqg0e26XcpDxWo5fErVBF6vh6H38cN/6LPvlFx+jh1TcJgKpX0g
-         Utlw==
-X-Gm-Message-State: AOAM5337i/V/IUq+QDhGRdnW2kOBKpkiC03iEhUmmhEgFNc+StgYashs
-        plI4neBr3mAr3ceXYxzsldKV2uOrmGumcGzKS1kSnKZ60dFdEVT9/A/dScjiqlZOQwPOtQbLyYI
-        ea1jBQyUrr/oU8v30s2SMXfy2nzLGUO3gYzxh8qo=
-X-Received: by 2002:a62:bd13:0:b029:25c:5ec4:c2f3 with SMTP id a19-20020a62bd130000b029025c5ec4c2f3mr28430422pff.35.1620223794320;
-        Wed, 05 May 2021 07:09:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyJb7UdmjBbvQC0QrORDm6EcuNj/TJRU6m9p3BcHXA8yApRNJjU+oMLaVPhSlZhLDQMgkdftbx8KPNt6hQOkOY=
-X-Received: by 2002:a62:bd13:0:b029:25c:5ec4:c2f3 with SMTP id
- a19-20020a62bd130000b029025c5ec4c2f3mr28430384pff.35.1620223793842; Wed, 05
- May 2021 07:09:53 -0700 (PDT)
+        bh=h2Rkiic1Qu5JUyXDgw7mY1fOZmJcCWfsiNziLqg7Wlo=;
+        b=NUY+SuadxqAUR1YRBXZ0b5du+ehLr+LD2kJMvVXCxDJfavCw2KkHy65mpJsMSIxbb9
+         UAASKHDHFTGTHrsa0sUBx92kq24vHDdHDmuOXsFR+nKG4D8RA8mnYbobRun+UUJaQbGX
+         H8bUy1gvhUPBCejjmtR384bgYMrJa2FGflH3tUg5LB6h5pQslOKpVYYm/QN2oANZqoCB
+         SzQYyIKHXck9ZLALHBJ3ZsK/o6x1lEe20LI0UvB9inkbNnlTDAXwhuRtd0X7usxIYI2n
+         0mDVs3D67nDErESrtoomBXF3jPrqKvd4tUJ6X8APU8xJQOW3AwKIrzeYbwTfNFFBw7iN
+         GFfQ==
+X-Gm-Message-State: AOAM533MciMf/C8Zju83UFWe8QNP9F0iK2Sv2be6fsvpoRpq0ZJdujQk
+        k1WB3BsZQFkhv+XHyj+CjI4vPjPgoSaf6Pid62EVoQ==
+X-Google-Smtp-Source: ABdhPJzzaK7bU9VxXE56biKtUu0R+rle9JF1mX286hoB/BX/R3ldbxHgVdl4uAmbva9abcBivR0Luuh0xiiAv9sJLis=
+X-Received: by 2002:a19:4082:: with SMTP id n124mr21510445lfa.154.1620233852801;
+ Wed, 05 May 2021 09:57:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210306133716.453447-1-hdegoede@redhat.com> <20210306133716.453447-3-hdegoede@redhat.com>
- <CAO-hwJLdNiKG-+YZVSZ1hPztjgCTYrmeh2qdVvropkeeRxpYAg@mail.gmail.com> <2c62d70f-4878-a286-cc78-7f6360378253@redhat.com>
-In-Reply-To: <2c62d70f-4878-a286-cc78-7f6360378253@redhat.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 5 May 2021 16:09:43 +0200
-Message-ID: <CAO-hwJ+GG_ZyLsqgCKxcXW9am+an+Ym0brZ7B9hfBFYkJXUrCQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] HID: multitouch: Disable event reporting on suspend
- when our parent is not a wakeup-source
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+References: <20210414021201.2462114-1-lzye@google.com>
+In-Reply-To: <20210414021201.2462114-1-lzye@google.com>
+From:   Chris Ye <lzye@google.com>
+Date:   Wed, 5 May 2021 09:57:21 -0700
+Message-ID: <CAFFuddLDgidkqDsihCU0VpXC_qEXVww67DmoFOvRdgrrPgOj_A@mail.gmail.com>
+Subject: Re: [PATCH] [v5] Input: Add "Select" button to Microsoft Xbox One controller.
+To:     =?UTF-8?Q?=C5=81ukasz_Patron?= <priv.luk@gmail.com>,
+        Benjamin Valentin <benpicco@googlemail.com>,
+        Chris Ye <lzye@google.com>, Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?Q?Olivier_Cr=C3=AAte?= <olivier.crete@ocrete.ca>,
+        Sanjay Govind <sanjay.govind9@gmail.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Bastien Nocera <hadess@hadess.net>
+Cc:     linux-input <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>, trivial@kernel.org,
+        kernel-team@android.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, May 5, 2021 at 4:00 PM Hans de Goede <hdegoede@redhat.com> wrote:
->
-> Hi,
->
-> On 5/5/21 3:40 PM, Benjamin Tissoires wrote:
-> > Hi Hans,
-> >
-> > On Sat, Mar 6, 2021 at 2:37 PM Hans de Goede <hdegoede@redhat.com> wrote:
-> >>
-> >> Disable event reporting on suspend when our parent is not
-> >> a wakeup-source. This should help save some extra power in
-> >> this case.
-> >>
-> >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> >> ---
-> >>  drivers/hid/Kconfig          |  2 +-
-> >>  drivers/hid/hid-multitouch.c | 23 ++++++++++++++++++++++-
-> >>  2 files changed, 23 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> >> index 786b71ef7738..5cbe4adfd816 100644
-> >> --- a/drivers/hid/Kconfig
-> >> +++ b/drivers/hid/Kconfig
-> >> @@ -675,7 +675,7 @@ config HID_MONTEREY
-> >>
-> >>  config HID_MULTITOUCH
-> >>         tristate "HID Multitouch panels"
-> >> -       depends on HID
-> >> +       depends on USB_HID
-> >
-> > I tried really hard during the past 8 years to not have a usbhid
-> > dependency on hid-multitouch.
-> >
-> > The code below should not break the test suite, but still I am not
-> > that happy about the Kconfig change.
-> >
-> > I don't see an immediate and better way of doing what you are
-> > achieving here, but maybe you have some magic I did not think about
-> > that would help to no pull USB_HID with HID_MULTITOUCH.
-> >
-> > FTR, I think the use case of hid-multitouch *without* USB is rather
-> > non-existent, but there might be some weird systems with I2C only
-> > (edge computing?).
->
-> Interesting how you often manage to pick out the bits of patches
-> which I'm not 100% happy with myself either. I was thinking the
-> same thing myself.
+Hi Bastien,
+      Can you please take a look at the patch v5, which has restored
+the same tab formatting?
+Thanks! Regards,
+Chris
 
-:)
-
+On Tue, Apr 13, 2021 at 7:12 PM Chris Ye <lzye@google.com> wrote:
 >
-> We have this: "hid_is_using_ll_driver(hdev, &usb_hid_driver)" check
-> in various drivers under drivers/hid and so far the dependency fix
-> of adding a "depends on USB_HID" was not pretty but ok, because it
-> would be weird to enable those HID drivers on a system without
-> USB_HID being enabled. But I agree with you that hid-multitouch
-> is different. So I did try to come up with something better and
-> failed.
+> Add "Select" button input capability and input event mapping for
+> Microsoft Xbox One controller. From product site this is also referred as
+> "Share" button.
+> Fixed Microsoft Xbox One controller select button not working under USB
+> connection.
 >
-> But now that I look at this with fresh eyes I think I see a
-> nice solution for this.
+> Signed-off-by: Chris Ye <lzye@google.com>
+> ---
+>  drivers/input/joystick/xpad.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 >
-> I propose to add a hid_is_usb_device() helper which is defined
-> in hid-core.c (1) and this helper would look like this:
+> diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
+> index 9f0d07dcbf06..cfbf1747b205 100644
+> --- a/drivers/input/joystick/xpad.c
+> +++ b/drivers/input/joystick/xpad.c
+> @@ -79,6 +79,7 @@
+>  #define MAP_DPAD_TO_BUTTONS            (1 << 0)
+>  #define MAP_TRIGGERS_TO_BUTTONS                (1 << 1)
+>  #define MAP_STICKS_TO_NULL             (1 << 2)
+> +#define MAP_SELECT_BUTTON              (1 << 3)
+>  #define DANCEPAD_MAP_CONFIG    (MAP_DPAD_TO_BUTTONS |                  \
+>                                 MAP_TRIGGERS_TO_BUTTONS | MAP_STICKS_TO_NULL)
 >
-> bool hid_is_usb_device(struct hid_device *hid)
-> {
-> #if IS_ENABLED(CONFIG_USB_HID)
->         return hid_is_using_ll_driver(hid, &usb_hid_driver);
-> #else
->         return false;
-> #endif
-> }
+> @@ -130,6 +131,7 @@ static const struct xpad_device {
+>         { 0x045e, 0x02e3, "Microsoft X-Box One Elite pad", 0, XTYPE_XBOXONE },
+>         { 0x045e, 0x02ea, "Microsoft X-Box One S pad", 0, XTYPE_XBOXONE },
+>         { 0x045e, 0x0719, "Xbox 360 Wireless Receiver", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360W },
+> +       { 0x045e, 0x0b12, "Microsoft Xbox One X pad", MAP_SELECT_BUTTON, XTYPE_XBOXONE },
+>         { 0x046d, 0xc21d, "Logitech Gamepad F310", 0, XTYPE_XBOX360 },
+>         { 0x046d, 0xc21e, "Logitech Gamepad F510", 0, XTYPE_XBOX360 },
+>         { 0x046d, 0xc21f, "Logitech Gamepad F710", 0, XTYPE_XBOX360 },
+> @@ -862,6 +864,8 @@ static void xpadone_process_packet(struct usb_xpad *xpad, u16 cmd, unsigned char
+>         /* menu/view buttons */
+>         input_report_key(dev, BTN_START,  data[4] & 0x04);
+>         input_report_key(dev, BTN_SELECT, data[4] & 0x08);
+> +       if (xpad->mapping & MAP_SELECT_BUTTON)
+> +               input_report_key(dev, KEY_RECORD, data[22] & 0x01);
 >
-> And then I can use this helper function instead of directly doing
-> the hid_is_using_ll_driver() check in hid-multitouch.c fixing
-> this dependency ugliness.
+>         /* buttons A,B,X,Y */
+>         input_report_key(dev, BTN_A,    data[4] & 0x10);
+> @@ -1672,6 +1676,8 @@ static int xpad_init_input(struct usb_xpad *xpad)
+>             xpad->xtype == XTYPE_XBOXONE) {
+>                 for (i = 0; xpad360_btn[i] >= 0; i++)
+>                         input_set_capability(input_dev, EV_KEY, xpad360_btn[i]);
+> +               if (xpad->mapping & MAP_SELECT_BUTTON)
+> +                       input_set_capability(input_dev, EV_KEY, KEY_RECORD);
+>         } else {
+>                 for (i = 0; xpad_btn[i] >= 0; i++)
+>                         input_set_capability(input_dev, EV_KEY, xpad_btn[i]);
+> --
+> 2.31.1.295.g9ea45b61b8-goog
 >
-> 1) hid-core.c is controlled by CONFIG_HID which gets selected at
-> the Kconfig level by CONFIG_USB_HID so there is no chance of
-> builtin vs module issues.
-
-OK, sounds good enough to me. The one thing I dislike about IS_ENABLED
-is that it is not very friendly with out of the tree modules. But
-here, I guess if you have a system without CONFIG_USB_HID, you will
-probably never need to enable it without recompiling your tree.
-
-So ack by me.
-
->
-> As an added bonus I can then also do a follow-up patch-set to
-> remove more depends on USB_HID stuff by switching to the helper
-> in other places too.
-
-That would be wonderful :)
-
->
-> ###
->
-> Unrelated but something else which I was wondering about while
-> working on this patch.
->
-> I think that it might also be useful to change the
-> mt_parent_may_wake() helper introduced here into a generic
-> hid_parent_may_wakeup() helper in case we need a similar thing
-> in other places. I decided it may be best to do that once we
-> have a second driver needing such a check, but since we're
-> discussing this anyways, what is your opinion on this ?
-
-I can definitely see the benefit of it, but OTOH, I would stick to
-your first approach. If we are just needing it for one driver, we
-probably want to keep it local to this one driver.
-
-Cheers,
-Benjamin
-
->
-> Regards,
->
-> Hans
->
->
->
-> >>         help
-> >>           Generic support for HID multitouch panels.
-> >>
-> >> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-> >> index cfb68e443ddd..7926295bab81 100644
-> >> --- a/drivers/hid/hid-multitouch.c
-> >> +++ b/drivers/hid/hid-multitouch.c
-> >> @@ -1759,12 +1759,33 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
-> >>  }
-> >>
-> >>  #ifdef CONFIG_PM
-> >> +
-> >> +/* Check if the parent which has the power/wakeup* sysfs attributes may wake the hdev */
-> >> +static bool mt_parent_may_wake(struct hid_device *hdev)
-> >> +{
-> >> +       struct device *parent = hdev->dev.parent;
-> >> +
-> >> +       /*
-> >> +        * USB-HID is attached to the usb_interface (our parent), the
-> >> +        * power/wakeup* attr are part of the usb-device which is its parent.
-> >> +        */
-> >> +       if (hid_is_using_ll_driver(hdev, &usb_hid_driver) && parent)
-> >> +               parent = parent->parent;
-> >> +
-> >> +       if (parent)
-> >> +               return device_may_wakeup(parent);
-> >> +
-> >> +       /* Huh? Play it safe and keep reporting events. */
-> >> +       return true;
-> >> +}
-> >> +
-> >>  static int mt_suspend(struct hid_device *hdev, pm_message_t state)
-> >>  {
-> >>         struct mt_device *td = hid_get_drvdata(hdev);
-> >>
-> >>         /* High latency is desirable for power savings during S3/S0ix */
-> >> -       if (td->mtclass.quirks & MT_QUIRK_DISABLE_WAKEUP)
-> >> +       if ((td->mtclass.quirks & MT_QUIRK_DISABLE_WAKEUP) ||
-> >> +           !mt_parent_may_wake(hdev))
-> >>                 mt_set_modes(hdev, HID_LATENCY_HIGH, false, false);
-> >>         else
-> >>                 mt_set_modes(hdev, HID_LATENCY_HIGH, true, true);
-> >> --
-> >> 2.30.1
-> >>
-> >
->
-
