@@ -2,151 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CA07373C8C
-	for <lists+linux-input@lfdr.de>; Wed,  5 May 2021 15:40:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA2DB373CA8
+	for <lists+linux-input@lfdr.de>; Wed,  5 May 2021 15:47:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233635AbhEENll (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 5 May 2021 09:41:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41743 "EHLO
+        id S231265AbhEENst (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 5 May 2021 09:48:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60633 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233638AbhEENlj (ORCPT
+        by vger.kernel.org with ESMTP id S232588AbhEENsq (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 5 May 2021 09:41:39 -0400
+        Wed, 5 May 2021 09:48:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1620222043;
+        s=mimecast20190719; t=1620222469;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=uMkkNQ1tKwhAWkYqdTZvIK99akfUJ1LfL0r9InR3MrA=;
-        b=bpWKyGRp5sh5x7DtCazI9L7o/p0y58FpoNThPt6r7ddf84HtV771iFy5UJ6xzYjiKY4HzR
-        hWK9pV8KH438UXb2Y6wpt+9tR1/ksGCMwI7o4oqnUTGz096TNW++1kQGwreW886+I8fvf7
-        4r2CoTzPMu4orfaVLwXWsKdFZFfvoc8=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-425-iJSFIa6ZPDmTDDPDBhg2Eg-1; Wed, 05 May 2021 09:40:41 -0400
-X-MC-Unique: iJSFIa6ZPDmTDDPDBhg2Eg-1
-Received: by mail-pl1-f198.google.com with SMTP id a8-20020a1709029008b02900eccb4b7296so657448plp.23
-        for <linux-input@vger.kernel.org>; Wed, 05 May 2021 06:40:41 -0700 (PDT)
+        bh=Y66UDdCQVyt6iTD3be2pNfjrnjlN1nlgdtRgR8WWsZk=;
+        b=CnNWrIMCJfz1bKhXoUODGhiSg3ruuENX4mbuzZAFD4ZNTgUoIngyy0emUwWYDXBdbSQyEe
+        ssjFiKUm1AYRYV4wuvt4NL3aL3czPFxt/vX5giuQyZZk17C5D8kw/IP0H/4YCIWZRg6O11
+        rOvr4uB4xquw7KUfRIB1fUgRloRuCpk=
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-359-wd1RmjkGNM-k0NstRLXNlQ-1; Wed, 05 May 2021 09:47:48 -0400
+X-MC-Unique: wd1RmjkGNM-k0NstRLXNlQ-1
+Received: by mail-pg1-f198.google.com with SMTP id r22-20020a63ec560000b029020eba8e44f7so1376128pgj.4
+        for <linux-input@vger.kernel.org>; Wed, 05 May 2021 06:47:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=uMkkNQ1tKwhAWkYqdTZvIK99akfUJ1LfL0r9InR3MrA=;
-        b=XqbRf+SIlsG3+iNMm5fkXs3wn22Vgg8lhKK4AOfA6SpYT0I/E5sWuI8mnOmOyzpjfj
-         COpHVzKwWzXLIh/o20H8n11m1qQYF5rrmCviQd+uwJzl2bS4tW7WW4q9vG4g/7Jy9LiD
-         DMLis3fyNcoMdt4cSdKq20D9UA74iL86wK8LArGtEeZjvOn6vOd5Pe5S3wl3Hq/t69zA
-         XASkEnfB/+RuzkYUw7y0K45uyv4uE77h4+E7Am1yMFaCLpIjukLoH6i4U2Dyg7fDFTFr
-         JRPL+pj+DZJnT6xfSCVfTsQ2EpclHes/PPn5V632aVFiBhKMOulTksnelmemxFnWFnhh
-         738g==
-X-Gm-Message-State: AOAM53284qCsC+TS7vrSSLDm7iUZ9sxaQmWtb1aV5Q19jKdmPc5awbt6
-        2B2nHXQByYU6Mtg8Het52X1utBYUPS/08C/AO2Gmaz5fDI2FQiicJipaHEyDsS5/Lsz85cES4oG
-        bj1CzkpPEmtl7PVADPd4xxoORq3y7HeSaJEDrz4Q=
-X-Received: by 2002:a17:90a:c28e:: with SMTP id f14mr34822875pjt.56.1620222040344;
-        Wed, 05 May 2021 06:40:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy7cnIiu+WxfeCwjS5tyfsPvVXHGPhlhdZd7BLJCPPapF4VYnPTcvdDgYGZppFLhonQeNs+mG8XmgQ9zgIiUvk=
-X-Received: by 2002:a17:90a:c28e:: with SMTP id f14mr34822858pjt.56.1620222040130;
- Wed, 05 May 2021 06:40:40 -0700 (PDT)
+        bh=Y66UDdCQVyt6iTD3be2pNfjrnjlN1nlgdtRgR8WWsZk=;
+        b=B1pYUnTynDgTwzvpkwrQWe+551rOSEeyPQVqwZxNdc1YqeK6eUHX0vd5w/moK/skRa
+         2bx+0GkrXpow7VLXYiHY2jJ+qSfztMrVrw7lgot8uz/g9VI570RBP3tCXekXzb3ubde4
+         be+Sc+QIgxDYMYYPsvrfmE4PJ1an+0BZmVs8PpqSeLUjyg21sS2f83HKvL2WLGwHQA51
+         c3Rr1BoJar2UYn1e9HZy56u0rmHV6g3w5wx+bZIfaDqqyfjeBIcapVUNnN6mkoelOKxx
+         s/4+/NRRa5EhaW2DGg0VpSMvo80HVZ6tgUSCDZUInYdbziqfldl0WEjL0am6Xy/siC4C
+         Fmog==
+X-Gm-Message-State: AOAM530/nsqTdtvWte04J91sFFTZ0rORLr9b4ewcEPuQFQJf0lY+Q54F
+        Uv3a9c1qplvUajurp55Kkm3arMVLzOvV4fRsfVnSV46W+G8O4FvkYEW5siMCBY6WCl2+TdbaTEk
+        Asqb0+g4DwecIwxA3JX7QeZc+J0s1ycnN6u2T51s=
+X-Received: by 2002:a62:bd13:0:b029:25c:5ec4:c2f3 with SMTP id a19-20020a62bd130000b029025c5ec4c2f3mr28336992pff.35.1620222467039;
+        Wed, 05 May 2021 06:47:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwHQnlOigptQ6V8Tb5EPxmwXRqyApalxmcQXnnohdiel63N8xCKjxPUmXIlS3n8uNtO7Mq3xZvHCoCynHhq2LY=
+X-Received: by 2002:a62:bd13:0:b029:25c:5ec4:c2f3 with SMTP id
+ a19-20020a62bd130000b029025c5ec4c2f3mr28336975pff.35.1620222466853; Wed, 05
+ May 2021 06:47:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210306133716.453447-1-hdegoede@redhat.com> <20210306133716.453447-3-hdegoede@redhat.com>
-In-Reply-To: <20210306133716.453447-3-hdegoede@redhat.com>
+References: <20210425173353.10231-1-mail@anirudhrb.com> <nycvar.YFH.7.76.2105051442120.28378@cbobk.fhfr.pm>
+ <CAO-hwJJ4u5NZ-81Tq3PGu-F9r3iUSCiKp=JUsTfuVsyd-Sxsew@mail.gmail.com> <nycvar.YFH.7.76.2105051528090.28378@cbobk.fhfr.pm>
+In-Reply-To: <nycvar.YFH.7.76.2105051528090.28378@cbobk.fhfr.pm>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 5 May 2021 15:40:29 +0200
-Message-ID: <CAO-hwJLdNiKG-+YZVSZ1hPztjgCTYrmeh2qdVvropkeeRxpYAg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] HID: multitouch: Disable event reporting on suspend
- when our parent is not a wakeup-source
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Date:   Wed, 5 May 2021 15:47:36 +0200
+Message-ID: <CAO-hwJJKyLT4iG4DEhXGREPLVU8UASB8_gOFULmQ7hx2dYG7uw@mail.gmail.com>
+Subject: Re: [PATCH] usbhid: fix info leak in hid_submit_ctrl
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Anirudh Rayabharam <mail@anirudhrb.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        syzbot+7c2bb71996f95a82524c@syzkaller.appspotmail.com,
+        Linux USB Mailing List <linux-usb@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Hans,
-
-On Sat, Mar 6, 2021 at 2:37 PM Hans de Goede <hdegoede@redhat.com> wrote:
+On Wed, May 5, 2021 at 3:28 PM Jiri Kosina <jikos@kernel.org> wrote:
 >
-> Disable event reporting on suspend when our parent is not
-> a wakeup-source. This should help save some extra power in
-> this case.
+> On Wed, 5 May 2021, Benjamin Tissoires wrote:
 >
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->  drivers/hid/Kconfig          |  2 +-
->  drivers/hid/hid-multitouch.c | 23 ++++++++++++++++++++++-
->  2 files changed, 23 insertions(+), 2 deletions(-)
+> > I don't have a reproducer like syzbot has for the exact bug here, as I
+> > am relying on one real USB device to check if usbhid is not too broken.
+> > However, the test suite should catch if there is an error implied by the
+> > hid_report_len() change.
 >
-> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> index 786b71ef7738..5cbe4adfd816 100644
-> --- a/drivers/hid/Kconfig
-> +++ b/drivers/hid/Kconfig
-> @@ -675,7 +675,7 @@ config HID_MONTEREY
+> Yes, that was exactly what I wanted to check, sorry for not being verbose
+> enough :)
 >
->  config HID_MULTITOUCH
->         tristate "HID Multitouch panels"
-> -       depends on HID
-> +       depends on USB_HID
+> > Anyway, I manually started the job and will report when it is done.
+>
 
-I tried really hard during the past 8 years to not have a usbhid
-dependency on hid-multitouch.
+Heh, no problems.
 
-The code below should not break the test suite, but still I am not
-that happy about the Kconfig change.
+"Job succeeded" \o/
 
-I don't see an immediate and better way of doing what you are
-achieving here, but maybe you have some magic I did not think about
-that would help to no pull USB_HID with HID_MULTITOUCH.
-
-FTR, I think the use case of hid-multitouch *without* USB is rather
-non-existent, but there might be some weird systems with I2C only
-(edge computing?).
+Given that you are on a spree:
+Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
 Cheers,
 Benjamin
-
->         help
->           Generic support for HID multitouch panels.
->
-> diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-> index cfb68e443ddd..7926295bab81 100644
-> --- a/drivers/hid/hid-multitouch.c
-> +++ b/drivers/hid/hid-multitouch.c
-> @@ -1759,12 +1759,33 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
->  }
->
->  #ifdef CONFIG_PM
-> +
-> +/* Check if the parent which has the power/wakeup* sysfs attributes may wake the hdev */
-> +static bool mt_parent_may_wake(struct hid_device *hdev)
-> +{
-> +       struct device *parent = hdev->dev.parent;
-> +
-> +       /*
-> +        * USB-HID is attached to the usb_interface (our parent), the
-> +        * power/wakeup* attr are part of the usb-device which is its parent.
-> +        */
-> +       if (hid_is_using_ll_driver(hdev, &usb_hid_driver) && parent)
-> +               parent = parent->parent;
-> +
-> +       if (parent)
-> +               return device_may_wakeup(parent);
-> +
-> +       /* Huh? Play it safe and keep reporting events. */
-> +       return true;
-> +}
-> +
->  static int mt_suspend(struct hid_device *hdev, pm_message_t state)
->  {
->         struct mt_device *td = hid_get_drvdata(hdev);
->
->         /* High latency is desirable for power savings during S3/S0ix */
-> -       if (td->mtclass.quirks & MT_QUIRK_DISABLE_WAKEUP)
-> +       if ((td->mtclass.quirks & MT_QUIRK_DISABLE_WAKEUP) ||
-> +           !mt_parent_may_wake(hdev))
->                 mt_set_modes(hdev, HID_LATENCY_HIGH, false, false);
->         else
->                 mt_set_modes(hdev, HID_LATENCY_HIGH, true, true);
-> --
-> 2.30.1
->
 
