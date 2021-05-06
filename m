@@ -2,207 +2,232 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49B4D374ECD
-	for <lists+linux-input@lfdr.de>; Thu,  6 May 2021 07:14:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5ABD375201
+	for <lists+linux-input@lfdr.de>; Thu,  6 May 2021 12:07:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229925AbhEFFPC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 6 May 2021 01:15:02 -0400
-Received: from mga05.intel.com ([192.55.52.43]:41054 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229622AbhEFFPC (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 6 May 2021 01:15:02 -0400
-IronPort-SDR: nyvUZNjhXnKiyAdtGqHb1AYFr2urJn7KwJxm7sfdeRG4y68tckdOTNyBJM4savf2IbSi7HVLoP
- 9G8tOq2E8Yig==
-X-IronPort-AV: E=McAfee;i="6200,9189,9975"; a="283816394"
-X-IronPort-AV: E=Sophos;i="5.82,276,1613462400"; 
-   d="scan'208";a="283816394"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2021 22:14:04 -0700
-IronPort-SDR: UOP8YMFfr1HZd+97yaKZwNqOyt1jUsvY9lqFYHefRZXp4wAnjUXn+cTSNzGosiIsig+dLYSNF7
- XfFPaRs6uIoQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,276,1613462400"; 
-   d="scan'208";a="532356422"
-Received: from lkp-server01.sh.intel.com (HELO a48ff7ddd223) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 05 May 2021 22:14:03 -0700
-Received: from kbuild by a48ff7ddd223 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1leWKp-000AMK-9j; Thu, 06 May 2021 05:14:03 +0000
-Date:   Thu, 06 May 2021 13:13:36 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [input:for-linus] BUILD SUCCESS
- d0034a7a4ac7fae708146ac0059b9c47a1543f0d
-Message-ID: <60937b00.x8G/8kYF296JgDIs%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S229836AbhEFKIL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 6 May 2021 06:08:11 -0400
+Received: from 82-65-109-163.subs.proxad.net ([82.65.109.163]:49506 "EHLO
+        luna.linkmauve.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233573AbhEFKIL (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 6 May 2021 06:08:11 -0400
+Received: by luna.linkmauve.fr (Postfix, from userid 1000)
+        id C2EB0F4059A; Thu,  6 May 2021 12:07:05 +0200 (CEST)
+Date:   Thu, 6 May 2021 12:07:05 +0200
+From:   Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
+To:     Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.ne@posteo.net>
+Cc:     linux-input@vger.kernel.org, Ash Logan <ash@heyquark.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] HID: wiiu-drc: Add a driver for this gamepad
+Message-ID: <20210506100705.5bcpywy25kfqwgkn@luna>
+Jabber-ID: linkmauve@linkmauve.fr
+References: <20210502232836.26134-1-linkmauve@linkmauve.fr>
+ <20210502232836.26134-2-linkmauve@linkmauve.fr>
+ <YJMdK8zQR7Al3wWC@latitude>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="jtw7k5qsxufz3nus"
+Content-Disposition: inline
+In-Reply-To: <YJMdK8zQR7Al3wWC@latitude>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-branch HEAD: d0034a7a4ac7fae708146ac0059b9c47a1543f0d  Merge branch 'next' into for-linus
 
-elapsed time: 722m
+--jtw7k5qsxufz3nus
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-configs tested: 145
-configs skipped: 3
+On Wed, May 05, 2021 at 10:33:15PM +0000, Jonathan Neusch=C3=A4fer wrote:
+> Hi,
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Hi,
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-x86_64                           allyesconfig
-riscv                            allmodconfig
-i386                             allyesconfig
-riscv                            allyesconfig
-powerpc                   motionpro_defconfig
-powerpc                     redwood_defconfig
-arm                       cns3420vb_defconfig
-powerpc                      ppc40x_defconfig
-powerpc                 mpc8315_rdb_defconfig
-sh                           se7705_defconfig
-sh                             sh03_defconfig
-sh                         ecovec24_defconfig
-powerpc                  mpc885_ads_defconfig
-sh                           sh2007_defconfig
-arm                          pxa168_defconfig
-arm                         orion5x_defconfig
-sh                          rsk7201_defconfig
-sh                          rsk7203_defconfig
-xtensa                  audio_kc705_defconfig
-arm                        multi_v5_defconfig
-arm                      jornada720_defconfig
-arm                              alldefconfig
-arm                         cm_x300_defconfig
-arm                        vexpress_defconfig
-arm                        neponset_defconfig
-arm                          imote2_defconfig
-powerpc                     mpc5200_defconfig
-mips                     loongson1b_defconfig
-arm                          iop32x_defconfig
-arm                         nhk8815_defconfig
-mips                           ip27_defconfig
-sh                          r7785rp_defconfig
-mips                        omega2p_defconfig
-sparc64                          alldefconfig
-arc                     nsimosci_hs_defconfig
-powerpc                  mpc866_ads_defconfig
-mips                     cu1830-neo_defconfig
-powerpc                     rainier_defconfig
-sh                        dreamcast_defconfig
-sh                     sh7710voipgw_defconfig
-nios2                            alldefconfig
-powerpc                     tqm5200_defconfig
-um                             i386_defconfig
-arm                      footbridge_defconfig
-i386                                defconfig
-mips                      malta_kvm_defconfig
-xtensa                    smp_lx200_defconfig
-mips                        qi_lb60_defconfig
-powerpc                        warp_defconfig
-arm                            mps2_defconfig
-powerpc                 mpc836x_rdk_defconfig
-arm                             pxa_defconfig
-powerpc                      ep88xc_defconfig
-arm                       aspeed_g4_defconfig
-alpha                            alldefconfig
-m68k                       m5275evb_defconfig
-arm                          ep93xx_defconfig
-sh                            migor_defconfig
-openrisc                  or1klitex_defconfig
-arc                 nsimosci_hs_smp_defconfig
-arm                         palmz72_defconfig
-mips                       bmips_be_defconfig
-sh                           se7619_defconfig
-xtensa                generic_kc705_defconfig
-powerpc                    mvme5100_defconfig
-h8300                    h8300h-sim_defconfig
-arc                          axs103_defconfig
-parisc                              defconfig
-mips                             allyesconfig
-m68k                       m5249evb_defconfig
-mips                           ip32_defconfig
-riscv                               defconfig
-arm                       imx_v4_v5_defconfig
-sh                           se7751_defconfig
-m68k                            mac_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a001-20210505
-x86_64               randconfig-a003-20210505
-x86_64               randconfig-a005-20210505
-x86_64               randconfig-a002-20210505
-x86_64               randconfig-a006-20210505
-x86_64               randconfig-a004-20210505
-i386                 randconfig-a003-20210505
-i386                 randconfig-a006-20210505
-i386                 randconfig-a001-20210505
-i386                 randconfig-a005-20210505
-i386                 randconfig-a004-20210505
-i386                 randconfig-a002-20210505
-i386                 randconfig-a015-20210505
-i386                 randconfig-a013-20210505
-i386                 randconfig-a016-20210505
-i386                 randconfig-a014-20210505
-i386                 randconfig-a012-20210505
-i386                 randconfig-a011-20210505
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                          rv32_defconfig
-um                               allmodconfig
-um                                allnoconfig
-um                               allyesconfig
-um                                  defconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
+>=20
+> some mostly trivial remarks and questions of curiosity below, because
+> I'm not very qualified to review the input subsystem side of things.
 
-clang tested configs:
-x86_64               randconfig-a014-20210505
-x86_64               randconfig-a015-20210505
-x86_64               randconfig-a012-20210505
-x86_64               randconfig-a013-20210505
-x86_64               randconfig-a011-20210505
-x86_64               randconfig-a016-20210505
+Thanks for the questions anyway, I can probably make things clearer in
+the patch thanks to them. :)
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+[=E2=80=A6]
+> Out of curiosity:
+>=20
+> Do the HID reports travel over the wireless link from DRC to DRH, or are
+> they formed in DRH firmware?
+
+This HID report is a 1:1 copy of what the DRC sends, with no
+modification that I could find.
+
+>=20
+> Is there a reference of the device-specific HID format? I briefly looked
+> at https://libdrc.org/docs/index.html but couldn't find it there.
+
+You were very close, the input report is described here:
+https://libdrc.org/docs/re/sc-input.html
+
+This project wrote a userland driver for using the DRC without the DRH,
+but it requires a very specific wifi chip which makes it quite
+cumbersome to use.
+
+>=20
+>=20
+> >  drivers/hid/Kconfig        |   7 +
+> >  drivers/hid/Makefile       |   1 +
+> >  drivers/hid/hid-ids.h      |   1 +
+> >  drivers/hid/hid-quirks.c   |   3 +
+> >  drivers/hid/hid-wiiu-drc.c | 270 +++++++++++++++++++++++++++++++++++++
+> >  5 files changed, 282 insertions(+)
+> >  create mode 100644 drivers/hid/hid-wiiu-drc.c
+> >=20
+> > diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+> > index 4bf263c2d61a..01116c315459 100644
+> > --- a/drivers/hid/Kconfig
+> > +++ b/drivers/hid/Kconfig
+> > @@ -1105,6 +1105,13 @@ config HID_WACOM
+> >  	  To compile this driver as a module, choose M here: the
+> >  	  module will be called wacom.
+> > =20
+> > +config HID_WIIU_DRC
+> > +	tristate "Nintendo Wii U gamepad over internal DRH"
+>=20
+>                                  gamepad (DRC)
+>=20
+> ... so it's clearer where the "DRC" name comes from.
+
+Will do in v2.
+
+>=20
+> > +#if IS_ENABLED(CONFIG_HID_WIIU_DRC)
+> > +	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_NINTENDO, USB_DEVICE_ID_NINTENDO=
+_WIIU_DRH) },
+> > +#endif
+>=20
+> Is the DRC connection the only USB function that the DRH provides?
+
+As far as I know, yes.
+
+But the DRC also sends microphone and camera data, which gets exposed by
+the DRH, but juuuuuust not quite standard enough to work as is using
+snd_usb_audio or uvcvideo.  There is also a NFC reader which no one has
+reversed yet to my knowledge.
+
+There are two DRCs exposed by the DRH, despite only one of them being
+bundled with each Wii=C2=A0U, and no game ever making use of more.
+
+>=20
+>=20
+> > +++ b/drivers/hid/hid-wiiu-drc.c
+> > @@ -0,0 +1,270 @@
+> > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > +/*
+> > + * HID driver for Nintendo Wii U gamepad, connected via console-intern=
+al DRH
+>=20
+>                                     gamepad (DRC)
+
+Ack, will be fixed in v2.
+
+>=20
+>=20
+> > +static int drc_raw_event(struct hid_device *hdev, struct hid_report *r=
+eport,
+> > +	 u8 *data, int len)
+> > +{
+> > +	struct drc *drc =3D hid_get_drvdata(hdev);
+> > +	int i;
+> > +	u32 buttons;
+> > +
+> > +	if (len !=3D 128)
+> > +		return 0;
+>=20
+> From include/linux/hid.h:
+>=20
+>  * raw_event and event should return negative on error, any other value w=
+ill
+>  * pass the event on to .event() typically return 0 for success.
+>=20
+> Not sure if returning 0 as you do above is appropriate.
+
+Oops, thanks for noticing, this will be fixed in v2.
+
+>=20
+>=20
+> > +static bool drc_setup_joypad(struct drc *drc,
+> > +		struct hid_device *hdev)
+> > +{
+> > +	struct input_dev *input_dev;
+> > +
+> > +	input_dev =3D allocate_and_setup(hdev, DEVICE_NAME " Joypad");
+>=20
+> "Nintendo Wii U gamepad Joypad" looks a bit sub-optimal, but I'm not
+> sure about the conventions here.
+
+"Nintendo Wii U gamepad buttons and sticks" would be better I think.
+
+>=20
+>=20
+> > +
+> > +	/* These two buttons are actually TV control and Power. */
+> > +	set_bit(BTN_Z, input_dev->keybit);
+> > +	set_bit(BTN_DEAD, input_dev->keybit);
+>=20
+> Hmm... from what I've deen the TV control button opens a menu on the
+> gamepad itself. Does it send the input event in addition to that?
+> Or is there a mode where it opens the TV menu, and a mode where it
+> forwards the button press to the Wii U?
+
+It does draw a line of text near the bottom of the screen, saying =E2=80=9C=
+TV
+Remote can be configured in System Settings.=E2=80=9D, but also sends the b=
+utton
+as a normal button in the report.  It could be possible to change its
+behaviour (in System Settings perhaps?) but so far I=E2=80=99ve been avoidi=
+ng
+interacting with the proprietary OS.
+
+The power button also has a special behaviour: when it is held for four
+seconds, it will power off the DRC.
+
+>=20
+>=20
+> > +MODULE_AUTHOR("Ash Logan <ash@heyquark.com>");
+>=20
+> Since you're submitting the driver, rather than Ash, maybe adjust the
+> author field here? (totally your choice.)
+
+I=E2=80=99ll ask them, I=E2=80=99m perfectly fine with becoming the author,=
+ but they
+wrote most of that code, I only fixed the last few missing pieces and
+did some cleanup.
+
+>=20
+>=20
+>=20
+> Thanks,
+> Jonathan
+
+Thanks!
+
+--=20
+Emmanuel Gil Peyrot
+
+--jtw7k5qsxufz3nus
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEjrVT1SzTln43kCLJOWgfYkb2LpAFAmCTv8AACgkQOWgfYkb2
+LpCeaAf/X3dtreCXE5NVSLSA0zloCS5Y7WAPlshsE2Zc8NCVKcRPNamkHSFWtENf
++OkJ6mZyQ8dGBEwqlrxPMyn1mL8FnIgvZOeNfIzCbNcodpdfLoL+noM+7hrOQRUj
+0vACbVkhCVYT3Gu9cDE9/2wQLHnvm/W1u4RWeWO2YLb+hjFzyWx4DmE2AdL2KeWw
+gy9BDiH6eao3StD3p1mhuMtg9YQD5Dj6C+c0hvzNRx9933fS+CvBsEQqVNpCdczi
+giGJ9vbngW83Y+OcRcfJIMwL4yKsI/ABngFwy6t4IWIN1lP73o5T56Kei6y0idlO
+kBHFMKSy3SAq/MVOyBsUIhv871tnXw==
+=F43R
+-----END PGP SIGNATURE-----
+
+--jtw7k5qsxufz3nus--
