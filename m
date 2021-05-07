@@ -2,62 +2,62 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D6B3376A18
-	for <lists+linux-input@lfdr.de>; Fri,  7 May 2021 20:38:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA541376A9A
+	for <lists+linux-input@lfdr.de>; Fri,  7 May 2021 21:18:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229512AbhEGSjF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 7 May 2021 14:39:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30028 "EHLO
+        id S229799AbhEGTT2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 7 May 2021 15:19:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29541 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229470AbhEGSjE (ORCPT
+        by vger.kernel.org with ESMTP id S229798AbhEGTT2 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 7 May 2021 14:39:04 -0400
+        Fri, 7 May 2021 15:19:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1620412684;
+        s=mimecast20190719; t=1620415107;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding;
-        bh=1k6eq9jPcs1/rUuIMW2P4M5PT4z4+pXOzj/IObfRD18=;
-        b=X3O0Wfk28wLvIKc9BGq2UPFq0CBB9NYaiD92sot5OUY6ja1kGW0BvJbgky2fhpz7qcmDHr
-        OvmIrV9DSGl0O0sR2CIj/p/cSDrhXVzVrl6HTHYrSBClD8oBnNeO0gmL8znTOpK6vfBsz2
-        +M8B0Za8/gHkF/roI/vqDuKjG1z2Em0=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-68-uTXe9YKCONqA1gVWimF5TA-1; Fri, 07 May 2021 14:38:03 -0400
-X-MC-Unique: uTXe9YKCONqA1gVWimF5TA-1
-Received: by mail-qv1-f71.google.com with SMTP id b1-20020a0c9b010000b02901c4bcfbaa53so7262758qve.19
-        for <linux-input@vger.kernel.org>; Fri, 07 May 2021 11:38:03 -0700 (PDT)
+        bh=9vQNFc66jLn6fvNyaqUrjOtN4OqZQ0DSAM4WhQKPK0U=;
+        b=O2gvXlRcY8w/G41myR7kkRH1oyGy6wBBWNCI7w/+ZSNaeKz1SeJDSGm/IbDbJlrkJ6WZbL
+        MRCcmfN2T2pqsFe+8Gy67H4V35WKWoREIYUHRzJ3GYOiG6EjlVcBNPHR5WFvcEfmRaeBIu
+        luiDy7FPvCL0nDA1uqctrcMpmJFc1Jw=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-353-23BcFDvTO6OCFr-G3krhmg-1; Fri, 07 May 2021 15:18:24 -0400
+X-MC-Unique: 23BcFDvTO6OCFr-G3krhmg-1
+Received: by mail-qt1-f199.google.com with SMTP id s4-20020ac85cc40000b02901b59d9c0986so6383130qta.19
+        for <linux-input@vger.kernel.org>; Fri, 07 May 2021 12:18:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=1k6eq9jPcs1/rUuIMW2P4M5PT4z4+pXOzj/IObfRD18=;
-        b=px7BppCqiUg0JS79tGIodq8VT/bYb/tzOH7UZnpNGM35REImcVYnW0i/iYXl9WRWec
-         mtjMsASAXo2s9kb2OXvUeXLiWAeWUw6gHIhZBRBZJKDvV9Pt23LMXCpVn7wNpPlOYUxQ
-         8fyDWjJ8/DJYBV/vvzoOqYdpJuUsZTxNmhdJvPUcmpoBCcMRYaqTN/T8GPWfouBCgwYy
-         v+QlSV+O0xq5yzRXyr3OPSI8QM1Y2yuGDuO9NAq9p71mydB2fB9O6TsyfnI8u/rMJCW4
-         MJRhgDoyf+vF6TN9Yf23zBFNEHNXb3QiFFKc7ezbk7C7covhMUHwfjnE46PtLGcvBNPF
-         7big==
-X-Gm-Message-State: AOAM5317ZVrobH7dYb9mxTsYU25aWk7m0iCS63Y9MhbSHhE2OgsRxjoV
-        Y1LDD9u8vM+89GUfh6J2gdmlk2gQ4iW/FgOCQGlwmZZU+KhI0bk0BP3QV6AlSYFmWCF//uFKO0q
-        VszB9Wu1wKthX/2LA7oRYlAw=
-X-Received: by 2002:a37:4017:: with SMTP id n23mr10328954qka.338.1620412682483;
-        Fri, 07 May 2021 11:38:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwcasrcawhbP+7zVi8omyoDWPuKGLAwmdSq3xmIbEg+FiBTtNoZWmFJja8xDruM9cbUDbsfUA==
-X-Received: by 2002:a37:4017:: with SMTP id n23mr10328937qka.338.1620412682253;
-        Fri, 07 May 2021 11:38:02 -0700 (PDT)
+        bh=9vQNFc66jLn6fvNyaqUrjOtN4OqZQ0DSAM4WhQKPK0U=;
+        b=Aux8MBA5nCuz9M83CybuTudrYwdMlrbPA++Afq20XQqc8U4uMzLoBACZuscDeAGie6
+         R59kTaAj1mts+GT0m3qVB52VQ3A0WApX4AFleaDa9TYX1F+mK47kp4XcYndi7ku/i4+F
+         otqUfmC4lHKh72mEcao3O7pxfl4jfQflnRqApK58qk6QAentdZ2D/I1Ski+AxW6kTl2j
+         gAUZMlDymlriV4EjCxFiQTzmESx56MyCwuVXsbJQuihV//DZyhJzFLMabj5aPRN4VJLw
+         gQr2ggoPVRKeQpw1SFmLs1km7UVPsqUOTIPTxsI3sHx1y4Nw0s/WRcKhciBTBbBsOpHR
+         ljHw==
+X-Gm-Message-State: AOAM5301oPJ8musblYNCTJS7cEg4MN1FttxKC1npYo9cYICbnJM0qAMb
+        kQPgUPZxIe7y2ZsuFQ27L+N9rMyxTgml7hf6CtHQjYRIofCETmdIWkHV7hkG+RQYYCBYYEY/xot
+        CwJc4hygRRO0Yw0lKjg2HlV4=
+X-Received: by 2002:a37:8703:: with SMTP id j3mr10953669qkd.308.1620415104159;
+        Fri, 07 May 2021 12:18:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyzlFaDqzXRgPx/CFlc+XrDDafUs8RHVrsY6l98ExmRWzvIi43IlMJnIhHGAtVTeeSq/45BNg==
+X-Received: by 2002:a37:8703:: with SMTP id j3mr10953659qkd.308.1620415103985;
+        Fri, 07 May 2021 12:18:23 -0700 (PDT)
 Received: from localhost.localdomain.com (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id s21sm1048679qks.114.2021.05.07.11.38.00
+        by smtp.gmail.com with ESMTPSA id e12sm5578773qtj.81.2021.05.07.12.18.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 May 2021 11:38:01 -0700 (PDT)
+        Fri, 07 May 2021 12:18:23 -0700 (PDT)
 From:   trix@redhat.com
-To:     michael.zaidman@gmail.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com
-Cc:     linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Tom Rix <trix@redhat.com>
-Subject: [PATCH] HID: ft260: improve error handling of ft260_hid_feature_report_get()
-Date:   Fri,  7 May 2021 11:37:57 -0700
-Message-Id: <20210507183757.68810-1-trix@redhat.com>
+To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
+        pedro@pedrovanzella.com
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tom Rix <trix@redhat.com>
+Subject: [PATCH] HID: logitech-hidpp: initialize level variable
+Date:   Fri,  7 May 2021 12:18:19 -0700
+Message-Id: <20210507191819.71092-1-trix@redhat.com>
 X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -69,85 +69,32 @@ From: Tom Rix <trix@redhat.com>
 
 Static analysis reports this representative problem
 
-hid-ft260.c:787:9: warning: 4th function call argument is an
-  uninitialized value
-        return scnprintf(buf, PAGE_SIZE, "%hi\n", *field);
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+hid-logitech-hidpp.c:1356:23: warning: Assigned value is
+  garbage or undefined
+        hidpp->battery.level = level;
+                             ^ ~~~~~
 
-Uses of ft260_hid_feature_report_get() check if the return size matches
-the requested size.  But the function can also fail with at least -ENOMEM.
-Add the < 0 checks.
+In some cases, 'level' is never set in hidpp20_battery_map_status_voltage()
+Since level is not available on all hw, initialize level to unknown.
 
-In ft260_hid_feature_report_get(), do not do the memcpy to the caller's
-buffer if there is an error.
-
-Fixes: 6a82582d9fa4 ("HID: ft260: add usb hid to i2c host bridge driver")
+Fixes: be281368f297 ("hid-logitech-hidpp: read battery voltage from newer devices")
 Signed-off-by: Tom Rix <trix@redhat.com>
 ---
- drivers/hid/hid-ft260.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+ drivers/hid/hid-logitech-hidpp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/hid/hid-ft260.c b/drivers/hid/hid-ft260.c
-index 7a9ba984a75a..628fa664a10b 100644
---- a/drivers/hid/hid-ft260.c
-+++ b/drivers/hid/hid-ft260.c
-@@ -249,7 +249,8 @@ static int ft260_hid_feature_report_get(struct hid_device *hdev,
+diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
+index 69670ca7e1e1..61635e629469 100644
+--- a/drivers/hid/hid-logitech-hidpp.c
++++ b/drivers/hid/hid-logitech-hidpp.c
+@@ -1265,6 +1265,7 @@ static int hidpp20_battery_map_status_voltage(u8 data[3], int *voltage,
+ 	int status;
  
- 	ret = hid_hw_raw_request(hdev, report_id, buf, len, HID_FEATURE_REPORT,
- 				 HID_REQ_GET_REPORT);
--	memcpy(data, buf, len);
-+	if (ret == len)
-+		memcpy(data, buf, len);
- 	kfree(buf);
- 	return ret;
- }
-@@ -295,12 +296,16 @@ static int ft260_xfer_status(struct ft260_device *dev)
- 	struct hid_device *hdev = dev->hdev;
- 	struct ft260_get_i2c_status_report report;
- 	int ret;
-+	int len = sizeof(report);
+ 	long flags = (long) data[2];
++	*level = POWER_SUPPLY_CAPACITY_LEVEL_UNKNOWN;
  
- 	ret = ft260_hid_feature_report_get(hdev, FT260_I2C_STATUS,
--					   (u8 *)&report, sizeof(report));
--	if (ret < 0) {
-+					   (u8 *)&report, len);
-+	if (ret != len) {
- 		hid_err(hdev, "failed to retrieve status: %d\n", ret);
--		return ret;
-+		if (ret >= 0)
-+			return -EIO;
-+		else
-+			return ret;
- 	}
- 
- 	dev->clock = le16_to_cpu(report.clock);
-@@ -728,6 +733,8 @@ static int ft260_get_system_config(struct hid_device *hdev,
- 		hid_err(hdev, "failed to retrieve system status\n");
- 		if (ret >= 0)
- 			return -EIO;
-+		else
-+			return ret;
- 	}
- 	return 0;
- }
-@@ -782,6 +789,8 @@ static int ft260_byte_show(struct hid_device *hdev, int id, u8 *cfg, int len,
- 	ret = ft260_hid_feature_report_get(hdev, id, cfg, len);
- 	if (ret != len && ret >= 0)
- 		return -EIO;
-+	else if (ret < 0)
-+		return  ret;
- 
- 	return scnprintf(buf, PAGE_SIZE, "%hi\n", *field);
- }
-@@ -794,6 +803,8 @@ static int ft260_word_show(struct hid_device *hdev, int id, u8 *cfg, int len,
- 	ret = ft260_hid_feature_report_get(hdev, id, cfg, len);
- 	if (ret != len && ret >= 0)
- 		return -EIO;
-+	else if (ret < 0)
-+		return ret;
- 
- 	return scnprintf(buf, PAGE_SIZE, "%hi\n", le16_to_cpu(*field));
- }
+ 	if (flags & 0x80)
+ 		switch (flags & 0x07) {
 -- 
 2.26.3
 
