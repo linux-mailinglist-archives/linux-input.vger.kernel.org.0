@@ -2,99 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA541376A9A
-	for <lists+linux-input@lfdr.de>; Fri,  7 May 2021 21:18:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 054E2376CB0
+	for <lists+linux-input@lfdr.de>; Sat,  8 May 2021 00:26:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229799AbhEGTT2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 7 May 2021 15:19:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29541 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229798AbhEGTT2 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 7 May 2021 15:19:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1620415107;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=9vQNFc66jLn6fvNyaqUrjOtN4OqZQ0DSAM4WhQKPK0U=;
-        b=O2gvXlRcY8w/G41myR7kkRH1oyGy6wBBWNCI7w/+ZSNaeKz1SeJDSGm/IbDbJlrkJ6WZbL
-        MRCcmfN2T2pqsFe+8Gy67H4V35WKWoREIYUHRzJ3GYOiG6EjlVcBNPHR5WFvcEfmRaeBIu
-        luiDy7FPvCL0nDA1uqctrcMpmJFc1Jw=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-23BcFDvTO6OCFr-G3krhmg-1; Fri, 07 May 2021 15:18:24 -0400
-X-MC-Unique: 23BcFDvTO6OCFr-G3krhmg-1
-Received: by mail-qt1-f199.google.com with SMTP id s4-20020ac85cc40000b02901b59d9c0986so6383130qta.19
-        for <linux-input@vger.kernel.org>; Fri, 07 May 2021 12:18:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9vQNFc66jLn6fvNyaqUrjOtN4OqZQ0DSAM4WhQKPK0U=;
-        b=Aux8MBA5nCuz9M83CybuTudrYwdMlrbPA++Afq20XQqc8U4uMzLoBACZuscDeAGie6
-         R59kTaAj1mts+GT0m3qVB52VQ3A0WApX4AFleaDa9TYX1F+mK47kp4XcYndi7ku/i4+F
-         otqUfmC4lHKh72mEcao3O7pxfl4jfQflnRqApK58qk6QAentdZ2D/I1Ski+AxW6kTl2j
-         gAUZMlDymlriV4EjCxFiQTzmESx56MyCwuVXsbJQuihV//DZyhJzFLMabj5aPRN4VJLw
-         gQr2ggoPVRKeQpw1SFmLs1km7UVPsqUOTIPTxsI3sHx1y4Nw0s/WRcKhciBTBbBsOpHR
-         ljHw==
-X-Gm-Message-State: AOAM5301oPJ8musblYNCTJS7cEg4MN1FttxKC1npYo9cYICbnJM0qAMb
-        kQPgUPZxIe7y2ZsuFQ27L+N9rMyxTgml7hf6CtHQjYRIofCETmdIWkHV7hkG+RQYYCBYYEY/xot
-        CwJc4hygRRO0Yw0lKjg2HlV4=
-X-Received: by 2002:a37:8703:: with SMTP id j3mr10953669qkd.308.1620415104159;
-        Fri, 07 May 2021 12:18:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyzlFaDqzXRgPx/CFlc+XrDDafUs8RHVrsY6l98ExmRWzvIi43IlMJnIhHGAtVTeeSq/45BNg==
-X-Received: by 2002:a37:8703:: with SMTP id j3mr10953659qkd.308.1620415103985;
-        Fri, 07 May 2021 12:18:23 -0700 (PDT)
-Received: from localhost.localdomain.com (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id e12sm5578773qtj.81.2021.05.07.12.18.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 May 2021 12:18:23 -0700 (PDT)
-From:   trix@redhat.com
-To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        pedro@pedrovanzella.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tom Rix <trix@redhat.com>
-Subject: [PATCH] HID: logitech-hidpp: initialize level variable
-Date:   Fri,  7 May 2021 12:18:19 -0700
-Message-Id: <20210507191819.71092-1-trix@redhat.com>
-X-Mailer: git-send-email 2.26.3
+        id S229898AbhEGW1h (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 7 May 2021 18:27:37 -0400
+Received: from bosmailout01.eigbox.net ([66.96.190.1]:36027 "EHLO
+        bosmailout01.eigbox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229470AbhEGW1h (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 7 May 2021 18:27:37 -0400
+X-Greylist: delayed 1929 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 May 2021 18:27:30 EDT
+Received: from bosmailscan09.eigbox.net ([10.20.15.9])
+        by bosmailout01.eigbox.net with esmtp (Exim)
+        id 1lf8QO-00068o-JJ; Fri, 07 May 2021 17:54:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=godsofu4.com; s=dkim; h=Sender:Content-Transfer-Encoding:Content-Type:
+        Message-ID:Reply-To:Subject:To:From:Date:MIME-Version:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=aM9bUFGSTpfnep8zAVAJMnojqhcwpuHDFPgQnPqW4M4=; b=bjgKomV6NO5Eg5D3qsCBps1llx
+        tj4k2teSfIdfo/duBtOSoC/FW1+C1nXiYJbrvf2JDobx8fDCsgnxHFoPWOCb5eI+OJOIgvnnfKlpl
+        ZqidIuDnjEPTMao1vFwrg6M9FUKU/cz6TT5/KN4ccsk+aQli3Wgs3G1cQz5vdbC1Y2SXULFY8Mu2t
+        1PShwmiDRn71EPzgUHUVu0GG39z6uSTEuRgOXhiNl9ekuZ5QXUAEykoocvC5/DkORRmERAA91o1HY
+        Sl76pPWw9UBVGbuFbfdVPfVcFxJM5xZDrmgt6uCf9J+dn/n7LFOSOxBaL9svxxYdhOkJwdz4uh075
+        2gI+xJSw==;
+Received: from [10.115.3.32] (helo=bosimpout12)
+        by bosmailscan09.eigbox.net with esmtp (Exim)
+        id 1lf8QO-0003aD-AI; Fri, 07 May 2021 17:54:20 -0400
+Received: from boswebmail06.eigbox.net ([10.20.16.6])
+        by bosimpout12 with 
+        id 1xuH2500407qujN01xuLVi; Fri, 07 May 2021 17:54:20 -0400
+X-EN-SP-DIR: OUT
+X-EN-SP-SQ: 1
+Received: from [127.0.0.1] (helo=homestead)
+        by boswebmail06.eigbox.net with esmtp (Exim)
+        id 1lf8QL-0006fx-UG; Fri, 07 May 2021 17:54:17 -0400
+Received: from [197.239.81.229]
+ by emailmg.homestead.com
+ with HTTP (HTTP/1.1 POST); Fri, 07 May 2021 17:54:17 -0400
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date:   Fri, 07 May 2021 21:54:17 +0000
+From:   Mrs Suzara Maling Wan <fast65@godsofu4.com>
+To:     undisclosed-recipients:;
+Subject: URGENT REPLY NEEDED
+Reply-To: suzara2017malingwan@gmail.com
+Mail-Reply-To: suzara2017malingwan@gmail.com
+Message-ID: <36acfe805efde59f3f399df1324ce6b9@godsofu4.com>
+X-Sender: fast65@godsofu4.com
+User-Agent: Roundcube Webmail/1.3.14
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-EN-AuthUser: fast65@godsofu4.com
+Sender:  Mrs Suzara Maling Wan <fast65@godsofu4.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Tom Rix <trix@redhat.com>
 
-Static analysis reports this representative problem
 
-hid-logitech-hidpp.c:1356:23: warning: Assigned value is
-  garbage or undefined
-        hidpp->battery.level = level;
-                             ^ ~~~~~
+My names are Mrs Suzara Maling Wan, I am a Nationality of the Republic
+of the Philippine presently base in West Africa B/F, dealing with
+exportation of Gold, I was diagnose of blood Causal decease, and my
+doctor have announce to me that I have few days to leave due to the
+condition of my sickness.
 
-In some cases, 'level' is never set in hidpp20_battery_map_status_voltage()
-Since level is not available on all hw, initialize level to unknown.
+I have a desire to build an orphanage home in your country of which i
+cannot execute the project myself due to my present health condition,
+I am willing to hand over the project under your care for you to help
+me fulfill my dreams and desire of building an orphanage home in your
+country.
 
-Fixes: be281368f297 ("hid-logitech-hidpp: read battery voltage from newer devices")
-Signed-off-by: Tom Rix <trix@redhat.com>
----
- drivers/hid/hid-logitech-hidpp.c | 1 +
- 1 file changed, 1 insertion(+)
+Reply in you are will to help so that I can direct you to my bank for
+the urgent transfer of the fund/money require for the project to your
+account as I have already made the fund/money available.
 
-diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-hidpp.c
-index 69670ca7e1e1..61635e629469 100644
---- a/drivers/hid/hid-logitech-hidpp.c
-+++ b/drivers/hid/hid-logitech-hidpp.c
-@@ -1265,6 +1265,7 @@ static int hidpp20_battery_map_status_voltage(u8 data[3], int *voltage,
- 	int status;
- 
- 	long flags = (long) data[2];
-+	*level = POWER_SUPPLY_CAPACITY_LEVEL_UNKNOWN;
- 
- 	if (flags & 0x80)
- 		switch (flags & 0x07) {
--- 
-2.26.3
-
+With kind regards
+Mrs Suzara Maling Wan
