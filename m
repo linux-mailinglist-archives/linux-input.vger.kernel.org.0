@@ -2,59 +2,94 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CDF5537617C
-	for <lists+linux-input@lfdr.de>; Fri,  7 May 2021 09:51:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9539C37624A
+	for <lists+linux-input@lfdr.de>; Fri,  7 May 2021 10:44:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230007AbhEGHwn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 7 May 2021 03:52:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39866 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235799AbhEGHwn (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 7 May 2021 03:52:43 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id AA22961431;
-        Fri,  7 May 2021 07:51:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620373903;
-        bh=54w0k5sqcPlMUtrAtS0ClNSU/LGrv7FQXtkFcE2NjJ0=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=gMvVlCp6UXUsqAU3zHP00uxb82LLFe+i/pnRLnmF1q6lGf8YPqrxx4OoJs2v5ss3y
-         zii/pPsOn8MW6ExWDvqaF5GjW4H/XVmmcbTpb5UtRtnR1UaYsQ05M6GEIyTWo/Wcok
-         QRw07c8By52SbEiiF0CRo+AUeC5D/7ZCe8za0Ns/DBEO86N8BO7EnOfB4TtEOoag9L
-         031iaV+LtxL1aHAdWyQOeMmwCi9Jx2dQAOc1G5ZuKPL9f0UUwbe+AYgO20utju+7Xj
-         +49tnkSMrtNyEhx8/+86GXKhG7S62FUfVr4Ct9Pd4Rb884raqSKbwk1yHEvw+g9dJZ
-         57OqeQl/P3Onw==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id A489C609AC;
-        Fri,  7 May 2021 07:51:43 +0000 (UTC)
-Subject: Re: [git pull] Input updates for v5.13-rc0
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <YJRsc3LxpkFNTknm@google.com>
-References: <YJRsc3LxpkFNTknm@google.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <YJRsc3LxpkFNTknm@google.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-X-PR-Tracked-Commit-Id: 05665cef4b745cb46b1d1b8e96deaa25464092d3
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: aef511fb91b6efb2d355c2704cf979f3202d310a
-Message-Id: <162037390366.26493.3264925485074967088.pr-tracker-bot@kernel.org>
-Date:   Fri, 07 May 2021 07:51:43 +0000
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+        id S236405AbhEGIpu convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Fri, 7 May 2021 04:45:50 -0400
+Received: from emcscan.emc.com.tw ([192.72.220.5]:33768 "EHLO
+        emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230426AbhEGIpt (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Fri, 7 May 2021 04:45:49 -0400
+X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
+   d="scan'208";a="40617667"
+Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
+  by emcscan.emc.com.tw with ESMTP; 07 May 2021 16:44:47 +0800
+Received: from 192.168.10.23
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(178003:0:AUTH_RELAY)
+        (envelope-from <johnny.chuang@emc.com.tw>); Fri, 07 May 2021 16:44:47 +0800 (CST)
+Received: from 192.168.55.71
+        by webmail.emc.com.tw with Mail2000 ESMTPA Server V7.00(2470:1:AUTH_LOGIN)
+        (envelope-from <johnny.chuang@emc.com.tw>); Fri, 07 May 2021 16:44:44 +0800 (CST)
+From:   "Johnny.Chuang" <johnny.chuang@emc.com.tw>
+To:     "'Doug Anderson'" <dianders@chromium.org>,
+        "'Johnny Chuang'" <johnny.chuang.emc@gmail.com>
+Cc:     "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>,
+        "'Benjamin Tissoires'" <benjamin.tissoires@redhat.com>,
+        "'Peter Hutterer'" <peter.hutterer@who-t.net>,
+        "'LKML'" <linux-kernel@vger.kernel.org>,
+        "'open list:HID CORE LAYER'" <linux-input@vger.kernel.org>,
+        "'Harry Cutts'" <hcutts@chromium.org>,
+        "'James Chen'" <james.chen@emc.com.tw>,
+        "'Jennifer Tsai'" <jennifer.tsai@emc.com.tw>,
+        "'Paul Liang'" <paul.liang@emc.com.tw>,
+        "'Jeff Chuang'" <jeff.chuang@emc.com.tw>,
+        "'Jingle'" <jingle.wu@emc.com.tw>
+References: <1618276850-27178-1-git-send-email-johnny.chuang.emc@gmail.com> <CAD=FV=VvrWKKbLExpFaDLTDGTam3rbwd7CwTLVFdCY=_c7-eag@mail.gmail.com> 
+In-Reply-To: 
+Subject: RE: [PATCH v3] HID: i2c-hid: Skip ELAN power-on command after reset
+Date:   Fri, 7 May 2021 16:44:44 +0800
+Message-ID: <038a01d7431d$3adb6b90$b09242b0$@emc.com.tw>
+MIME-Version: 1.0
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: 8BIT
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: AQG7a3HnjRYiIwf6YyXjsXt955W0TQGCv5oKqu063NCAFbNHsA==
+Content-Language: zh-tw
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDUwMTBcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy03Nzk3MWRlMi1hZjEwLTExZWItODY2Mi03YzVjZjg3NDk0NzhcYW1lLXRlc3RcNzc5NzFkZTQtYWYxMC0xMWViLTg2NjItN2M1Y2Y4NzQ5NDc4Ym9keS50eHQiIHN6PSIxNTM1IiB0PSIxMzI2NDg1MDY4MzcwNjU5NDAiIGg9Ijk5U2ZtRWNqcGhrd01SM1hkazA1QmtNcFZCYz0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-rorf: true
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The pull request you sent on Thu, 6 May 2021 15:23:47 -0700:
+> > Hi,
+> >
+> > On Mon, Apr 12, 2021 at 6:20 PM Johnny Chuang
+> > <johnny.chuang.emc@gmail.com> wrote:
+> > >
+> > > Fixes: 43b7029f475e ("HID: i2c-hid: Send power-on command after reset").
+> >
+> > Note that the "Fixes" tag actually belongs down at the end. It also
+> > shouldn't have a "." at the end. Presumably the maintainer can adjust this
+> when landing?
+> >
+> 
+> Hi Dmitry,
+> Could you help to review this patch and give an advice?
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+Hi Sirs,
+Could anyone help to review this patch and give an advice?
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/aef511fb91b6efb2d355c2704cf979f3202d310a
+> 
+> >
+> > > For ELAN touchscreen, we found our boot code of IC was not flexible
+> > > enough to receive and handle this command.
+> > > Once the FW main code of our controller is crashed for some reason,
+> > > the controller could not be enumerated successfully to be recognized
+> > > by the system host. therefore, it lost touch functionality.
+> > >
+> > > Add quirk for skip send power-on command after reset.
+> > > It will impact to ELAN touchscreen and touchpad on HID over I2C projects.
+> > >
+> > > Signed-off-by: Johnny Chuang <johnny.chuang.emc@gmail.com>
+> >
+> > This patch looks fine to me, thus:
+> >
+> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> >
+> > I can confirm that after applying this patch I can recovery my borked
+> > touchscreen (which got borked by a failed firmware update ages ago):
+> >
+> > Tested-by: Douglas Anderson <dianders@chromium.org>
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
