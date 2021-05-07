@@ -2,160 +2,152 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C2C7376649
-	for <lists+linux-input@lfdr.de>; Fri,  7 May 2021 15:38:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D6B3376A18
+	for <lists+linux-input@lfdr.de>; Fri,  7 May 2021 20:38:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237286AbhEGNjv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 7 May 2021 09:39:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46841 "EHLO
+        id S229512AbhEGSjF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 7 May 2021 14:39:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30028 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236049AbhEGNjv (ORCPT
+        by vger.kernel.org with ESMTP id S229470AbhEGSjE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 7 May 2021 09:39:51 -0400
+        Fri, 7 May 2021 14:39:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1620394730;
+        s=mimecast20190719; t=1620412684;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=1lBldkVI1Lz29e5G5ZcuHtAMgpbsiACK1LzJjPj1N0E=;
-        b=QtFOMDMtrDRZxn3NvdHBA7qR5/yAX/YGqpdT2acwX/+Obzp3OB1Fbt8pW0zZf55Db9J32U
-        nBaAi5rl5w9S7M5TUHtU7uPxwh33iyppzUPT6LXWHn6he6rxjoy2VpAyaV0SAx2qv1jiDZ
-        MfeJAAbLhVhwqXu71W8pSG0g2LtPNG4=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-442-iMhHW3DgM6ymmRwc6ZEXyQ-1; Fri, 07 May 2021 09:38:48 -0400
-X-MC-Unique: iMhHW3DgM6ymmRwc6ZEXyQ-1
-Received: by mail-pj1-f71.google.com with SMTP id h8-20020a17090a7108b029015020b35657so5243616pjk.5
-        for <linux-input@vger.kernel.org>; Fri, 07 May 2021 06:38:48 -0700 (PDT)
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=1k6eq9jPcs1/rUuIMW2P4M5PT4z4+pXOzj/IObfRD18=;
+        b=X3O0Wfk28wLvIKc9BGq2UPFq0CBB9NYaiD92sot5OUY6ja1kGW0BvJbgky2fhpz7qcmDHr
+        OvmIrV9DSGl0O0sR2CIj/p/cSDrhXVzVrl6HTHYrSBClD8oBnNeO0gmL8znTOpK6vfBsz2
+        +M8B0Za8/gHkF/roI/vqDuKjG1z2Em0=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-68-uTXe9YKCONqA1gVWimF5TA-1; Fri, 07 May 2021 14:38:03 -0400
+X-MC-Unique: uTXe9YKCONqA1gVWimF5TA-1
+Received: by mail-qv1-f71.google.com with SMTP id b1-20020a0c9b010000b02901c4bcfbaa53so7262758qve.19
+        for <linux-input@vger.kernel.org>; Fri, 07 May 2021 11:38:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1lBldkVI1Lz29e5G5ZcuHtAMgpbsiACK1LzJjPj1N0E=;
-        b=QOtJHYlDkUOQ5FlMOll/3uV7cu3dSuOzgJcbmFZoXOOOW5iy5pWQ1eaYZnKuWoiqJt
-         UuyKRWGhylvNnQ0+PgyTUUYJYRlxhtfJnLPTHnm6H3Ph/gbFILqIyN7sl7HOHLnU4RFq
-         vppV64mqbG+FsFoE5L/DDoLhYDq2hMNptFzOSkMKUTHW7Wcxyw1Y+SNqMp4kjosj9R+E
-         0iIhGlHV2pbgGJM9Tc6bRU5Y+CcLbNC9PvMudltFEFLCx61x+/Eg2lzU+FnCnq8hdaMd
-         RKno+VMZYP6odtqgz7MXocpX0jCVyBguojeirXSFME3bIijjgtpPZeN7sDdQ96BGWpWJ
-         YgXA==
-X-Gm-Message-State: AOAM531ArL7iXvNcsa1zfU+heyL48P3zaO2THqMIfdr1QCL/bajvThuB
-        wNvGj3j9lGpaRoxLxokSuNPw4xh3eWo7Lehx/J4VBhhJQNFFbCJW8oegY0anZnH/9OS6pB++P5M
-        CWLow2Y6UDklGTC2Kj/g+qFLs49RKyvFKvMwksSc=
-X-Received: by 2002:a17:90a:bb0c:: with SMTP id u12mr10768504pjr.234.1620394727615;
-        Fri, 07 May 2021 06:38:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwTx0E1DzDaW8HBGJ7bD9cKUSs/UfJO/Q2YfaYjiJSZQ898sjau4tHQZy81CQ3yjgb+FYIVmcN7sCgesANTjbs=
-X-Received: by 2002:a17:90a:bb0c:: with SMTP id u12mr10768485pjr.234.1620394727364;
- Fri, 07 May 2021 06:38:47 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1k6eq9jPcs1/rUuIMW2P4M5PT4z4+pXOzj/IObfRD18=;
+        b=px7BppCqiUg0JS79tGIodq8VT/bYb/tzOH7UZnpNGM35REImcVYnW0i/iYXl9WRWec
+         mtjMsASAXo2s9kb2OXvUeXLiWAeWUw6gHIhZBRBZJKDvV9Pt23LMXCpVn7wNpPlOYUxQ
+         8fyDWjJ8/DJYBV/vvzoOqYdpJuUsZTxNmhdJvPUcmpoBCcMRYaqTN/T8GPWfouBCgwYy
+         v+QlSV+O0xq5yzRXyr3OPSI8QM1Y2yuGDuO9NAq9p71mydB2fB9O6TsyfnI8u/rMJCW4
+         MJRhgDoyf+vF6TN9Yf23zBFNEHNXb3QiFFKc7ezbk7C7covhMUHwfjnE46PtLGcvBNPF
+         7big==
+X-Gm-Message-State: AOAM5317ZVrobH7dYb9mxTsYU25aWk7m0iCS63Y9MhbSHhE2OgsRxjoV
+        Y1LDD9u8vM+89GUfh6J2gdmlk2gQ4iW/FgOCQGlwmZZU+KhI0bk0BP3QV6AlSYFmWCF//uFKO0q
+        VszB9Wu1wKthX/2LA7oRYlAw=
+X-Received: by 2002:a37:4017:: with SMTP id n23mr10328954qka.338.1620412682483;
+        Fri, 07 May 2021 11:38:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwcasrcawhbP+7zVi8omyoDWPuKGLAwmdSq3xmIbEg+FiBTtNoZWmFJja8xDruM9cbUDbsfUA==
+X-Received: by 2002:a37:4017:: with SMTP id n23mr10328937qka.338.1620412682253;
+        Fri, 07 May 2021 11:38:02 -0700 (PDT)
+Received: from localhost.localdomain.com (075-142-250-213.res.spectrum.com. [75.142.250.213])
+        by smtp.gmail.com with ESMTPSA id s21sm1048679qks.114.2021.05.07.11.38.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 May 2021 11:38:01 -0700 (PDT)
+From:   trix@redhat.com
+To:     michael.zaidman@gmail.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com
+Cc:     linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Tom Rix <trix@redhat.com>
+Subject: [PATCH] HID: ft260: improve error handling of ft260_hid_feature_report_get()
+Date:   Fri,  7 May 2021 11:37:57 -0700
+Message-Id: <20210507183757.68810-1-trix@redhat.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-References: <1618276850-27178-1-git-send-email-johnny.chuang.emc@gmail.com>
-In-Reply-To: <1618276850-27178-1-git-send-email-johnny.chuang.emc@gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 7 May 2021 15:38:36 +0200
-Message-ID: <CAO-hwJL1RFXDTHaMj+rHrERBMhNhYv57TBM1VSoTx2a4OA25NQ@mail.gmail.com>
-Subject: Re: [PATCH v3] HID: i2c-hid: Skip ELAN power-on command after reset
-To:     Johnny Chuang <johnny.chuang.emc@gmail.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Harry Cutts <hcutts@chromium.org>,
-        Johnny Chuang <johnny.chuang@emc.com.tw>,
-        James Chen <james.chen@emc.com.tw>,
-        Jennifer Tsai <jennifer.tsai@emc.com.tw>,
-        Paul Liang <paul.liang@emc.com.tw>,
-        Jeff Chuang <jeff.chuang@emc.com.tw>,
-        Douglas Anderson <dianders@chromium.org>,
-        Jingle <jingle.wu@emc.com.tw>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Johnny,
+From: Tom Rix <trix@redhat.com>
 
-Apologies fo the delay.
+Static analysis reports this representative problem
 
-When I first saw your patch I wondered why we need a  special case for Elan.
-But then, we need a special case for SIS, as mentioned by
-43b7029f475e. Given that this patch was in for a year and a half, and
-not many people seemed to complain about it, I decided to apply your
-patch.
+hid-ft260.c:787:9: warning: 4th function call argument is an
+  uninitialized value
+        return scnprintf(buf, PAGE_SIZE, "%hi\n", *field);
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Uses of ft260_hid_feature_report_get() check if the return size matches
+the requested size.  But the function can also fail with at least -ENOMEM.
+Add the < 0 checks.
 
-On Tue, Apr 13, 2021 at 3:21 AM Johnny Chuang
-<johnny.chuang.emc@gmail.com> wrote:
->
-> Fixes: 43b7029f475e ("HID: i2c-hid: Send power-on command after reset").
+In ft260_hid_feature_report_get(), do not do the memcpy to the caller's
+buffer if there is an error.
 
-As requested per Doug, I have moved that Fixes tag at the end, though
-I forgot to remove the extra '.' at the end :-(
+Fixes: 6a82582d9fa4 ("HID: ft260: add usb hid to i2c host bridge driver")
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/hid/hid-ft260.c | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
 
->
-> For ELAN touchscreen, we found our boot code of IC was not flexible enough
-> to receive and handle this command.
-> Once the FW main code of our controller is crashed for some reason,
-> the controller could not be enumerated successfully to be recognized
-> by the system host. therefore, it lost touch functionality.
->
-> Add quirk for skip send power-on command after reset.
-> It will impact to ELAN touchscreen and touchpad on HID over I2C projects.
->
-> Signed-off-by: Johnny Chuang <johnny.chuang.emc@gmail.com>
-> ---
-> Changes in V3:
->     - intent the comment at qurik entry
->     - add Fixes:flag for previous commit id
->
-> Changes in v2:
->     - move comment to quirk entry
-> ---
->  drivers/hid/i2c-hid/i2c-hid-core.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-> index 9993133..32e3287 100644
-> --- a/drivers/hid/i2c-hid/i2c-hid-core.c
-> +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-> @@ -45,6 +45,7 @@
->  #define I2C_HID_QUIRK_BOGUS_IRQ                        BIT(4)
->  #define I2C_HID_QUIRK_RESET_ON_RESUME          BIT(5)
->  #define I2C_HID_QUIRK_BAD_INPUT_SIZE           BIT(6)
-> +#define I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET    BIT(7)
->
->
->  /* flags */
-> @@ -178,6 +179,12 @@ static const struct i2c_hid_quirks {
->                  I2C_HID_QUIRK_RESET_ON_RESUME },
->         { USB_VENDOR_ID_ITE, I2C_DEVICE_ID_ITE_LENOVO_LEGION_Y720,
->                 I2C_HID_QUIRK_BAD_INPUT_SIZE },
-> +       /*
-> +        * Sending the wakeup after reset actually break ELAN touchscreen controller
-> +        * Add I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET to skip wakeup after reset
-
-I removed that extra second line.
-
-Also added Cc: stable, and pushed to for-5.13/upstream-fixes
-
-Cheers,
-Benjamin
-
-> +        */
-> +       { USB_VENDOR_ID_ELAN, HID_ANY_ID,
-> +                I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET },
->         { 0, 0 }
->  };
->
-> @@ -461,7 +468,8 @@ static int i2c_hid_hwreset(struct i2c_client *client)
->         }
->
->         /* At least some SIS devices need this after reset */
-> -       ret = i2c_hid_set_power(client, I2C_HID_PWR_ON);
-> +       if (!(ihid->quirks & I2C_HID_QUIRK_NO_WAKEUP_AFTER_RESET))
-> +               ret = i2c_hid_set_power(client, I2C_HID_PWR_ON);
->
->  out_unlock:
->         mutex_unlock(&ihid->reset_lock);
-> --
-> 2.7.4
->
+diff --git a/drivers/hid/hid-ft260.c b/drivers/hid/hid-ft260.c
+index 7a9ba984a75a..628fa664a10b 100644
+--- a/drivers/hid/hid-ft260.c
++++ b/drivers/hid/hid-ft260.c
+@@ -249,7 +249,8 @@ static int ft260_hid_feature_report_get(struct hid_device *hdev,
+ 
+ 	ret = hid_hw_raw_request(hdev, report_id, buf, len, HID_FEATURE_REPORT,
+ 				 HID_REQ_GET_REPORT);
+-	memcpy(data, buf, len);
++	if (ret == len)
++		memcpy(data, buf, len);
+ 	kfree(buf);
+ 	return ret;
+ }
+@@ -295,12 +296,16 @@ static int ft260_xfer_status(struct ft260_device *dev)
+ 	struct hid_device *hdev = dev->hdev;
+ 	struct ft260_get_i2c_status_report report;
+ 	int ret;
++	int len = sizeof(report);
+ 
+ 	ret = ft260_hid_feature_report_get(hdev, FT260_I2C_STATUS,
+-					   (u8 *)&report, sizeof(report));
+-	if (ret < 0) {
++					   (u8 *)&report, len);
++	if (ret != len) {
+ 		hid_err(hdev, "failed to retrieve status: %d\n", ret);
+-		return ret;
++		if (ret >= 0)
++			return -EIO;
++		else
++			return ret;
+ 	}
+ 
+ 	dev->clock = le16_to_cpu(report.clock);
+@@ -728,6 +733,8 @@ static int ft260_get_system_config(struct hid_device *hdev,
+ 		hid_err(hdev, "failed to retrieve system status\n");
+ 		if (ret >= 0)
+ 			return -EIO;
++		else
++			return ret;
+ 	}
+ 	return 0;
+ }
+@@ -782,6 +789,8 @@ static int ft260_byte_show(struct hid_device *hdev, int id, u8 *cfg, int len,
+ 	ret = ft260_hid_feature_report_get(hdev, id, cfg, len);
+ 	if (ret != len && ret >= 0)
+ 		return -EIO;
++	else if (ret < 0)
++		return  ret;
+ 
+ 	return scnprintf(buf, PAGE_SIZE, "%hi\n", *field);
+ }
+@@ -794,6 +803,8 @@ static int ft260_word_show(struct hid_device *hdev, int id, u8 *cfg, int len,
+ 	ret = ft260_hid_feature_report_get(hdev, id, cfg, len);
+ 	if (ret != len && ret >= 0)
+ 		return -EIO;
++	else if (ret < 0)
++		return ret;
+ 
+ 	return scnprintf(buf, PAGE_SIZE, "%hi\n", le16_to_cpu(*field));
+ }
+-- 
+2.26.3
 
