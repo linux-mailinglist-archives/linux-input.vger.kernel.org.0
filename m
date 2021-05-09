@@ -2,175 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6116B3773DB
-	for <lists+linux-input@lfdr.de>; Sat,  8 May 2021 21:39:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9AB4377771
+	for <lists+linux-input@lfdr.de>; Sun,  9 May 2021 17:52:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229549AbhEHTku (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 8 May 2021 15:40:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42294 "EHLO
+        id S229669AbhEIPxe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 9 May 2021 11:53:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229546AbhEHTkt (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sat, 8 May 2021 15:40:49 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1683C061574;
-        Sat,  8 May 2021 12:39:47 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id o6-20020a05600c4fc6b029015ec06d5269so263590wmq.0;
-        Sat, 08 May 2021 12:39:47 -0700 (PDT)
+        with ESMTP id S229645AbhEIPxe (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Sun, 9 May 2021 11:53:34 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7E80C061573;
+        Sun,  9 May 2021 08:52:30 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id s82so7793311wmf.3;
+        Sun, 09 May 2021 08:52:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=/aT2AFj/W6pt+Y3HFn5Q+rY7c1xeC8Z2fMPQBVN+RjI=;
-        b=S3ej4r8Wmp0240zqQhmNsHAcsH5gByygrKd1YQd6wNG9zlPJaYkHCWWWNcfHQkIWY5
-         2KwNDcmYIfKy3qAgjLmeZw/YlI6t1E5OjY06XmhKiHbwuTjS02SOh0WUcQ8cYHCZg05P
-         +a7LkBZZJDGOyUHuY0Rw8002AK6qc/V6I7QmGzbxnAuZjJxiRaAlONwu7/eRTmSZcxHk
-         hGI1i0MFgDrET1zhnEn/ztqetpdbowmKh1SWYo9UwZeupiH445Mycnyq4w5l/Z8omqs5
-         vb9iMnGOYQkgjZ52ma3/SYCeKMtMh2tnetJCKBxSJwBqQO2eqP4lzj1s4yRvA4MGulev
-         YeYQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/ypDkbMZaKPK8sfgDZCv9j21HgYlr75ecNlXl40Qqfc=;
+        b=EoPa8bUdKFyBjVbsoqioR3RF8WK0eQBFtO6JeAJjjMKaT3ZyunKakwUcpUEE5LeJ73
+         D0we/k8vulIchkHVu9VFjO0jBYpZoiXe/D1bZygKujfQAbPNxhPIh/DVzYayB0uAFq7f
+         tWBlYJNdWaIUYAVnvJiRE+Q6K7Wt13sns47QTujP2+5jf4SlL5RGXESRgytBDDdij3o8
+         LsXR9Py4gxjHyqOCEjxJDkDhKWetUfDo/2k2nNCAlPyePPtco5Oa1PTFKS4zPOAs1UTO
+         NEqXPSxPN3gMVXuUtkpTc18lD4pCZKDhIgCMUwrML034BK8WRVWKbc+TQpasJmTT2U+k
+         F35A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=/aT2AFj/W6pt+Y3HFn5Q+rY7c1xeC8Z2fMPQBVN+RjI=;
-        b=J5RMs/6TfhJbwX5isQc+ZJjOH0Lg1lx5xU9M+INaoVDxAFNd+ODnJ1V06E8Ox/mgww
-         2lXiYrqWfR2iFRHduOp79zA34TUu/a924nunkGz8ZEDj3CBBn317BBu+Iw0Jl+iBLpV2
-         jfRMD9MXj0VwHj0nuUDDmIFakOPQPQT0gdOBUWQzRnZvvq5fj3CZ0hbjf+d4e5etqko1
-         4ZrR/o9gMOg7FnI0wQ7Y4AQj3pVmUkYevTYGRV53/j6Zi7JD/SmHoxLiLWwBSEXJEz/X
-         n/hFgPy5vX77i2WMH0hLTOR5/xw7ugf6qcAWSSleiVO8aKfG5ECQJk489fJ1l8HcoVtq
-         8jhw==
-X-Gm-Message-State: AOAM5311/zde8/KzH6ejgSx8v3lI6g3mn/BjZRV0kXmp4n/DOVI3rSje
-        +rfdIYg7r9SDAeQTwHdtQsP7X0k/pk47dQ==
-X-Google-Smtp-Source: ABdhPJwFwC43on281PSVJ9/z+oV3EVuqNO4OKfwmHJwMU2KxkyH+ddQmClfeBUPVbt5B0Z8GGcR2DQ==
-X-Received: by 2002:a1c:b38b:: with SMTP id c133mr4649652wmf.8.1620502786282;
-        Sat, 08 May 2021 12:39:46 -0700 (PDT)
-Received: from michael-VirtualBox (cbl217-132-244-50.bb.netvision.net.il. [217.132.244.50])
-        by smtp.gmail.com with ESMTPSA id d3sm1000822wrs.41.2021.05.08.12.39.44
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/ypDkbMZaKPK8sfgDZCv9j21HgYlr75ecNlXl40Qqfc=;
+        b=S2IaT79w44GjaSTzt6IWd5tqZXu93XMnDT3glFpCSfOBfZOJ7Mtt0uLRZ1w1DlTgkq
+         wQzf5K4InZwOyeSGrVOz57xMQ1aDYxNl9vl4cZlhPOoi8qWqQ6+wdi5OrC0HQqUeqLSg
+         /MTB1o6iIm2ekUTrab2kTaMrkWIFNu2vDKNBqrIuNvOhvJY/9lRTz6urRqxkTlK+G06c
+         G6z3G2pVQ7ZQDw9y0k0n11na5y4siBGixUjaf3KcI9IK7QL28auZzgsXlAZWMfzBnUsz
+         mUh74k6pIudcHCuYeqVVMrxmDjunCxxAt//HCpE4VA577uCqSzWsMPnHG042Ny3j8QfI
+         yuOA==
+X-Gm-Message-State: AOAM533NiBDyU58andPfDjYZPUJX5AwXnzNCZDyqf2tcORqQVcPRtx9Y
+        +wM8+r89cyTLiyrsmV/K29PGJBL898bCYKR1
+X-Google-Smtp-Source: ABdhPJwJYntq3Tn5Ue0vG01f4EXq0m3ObkAuA36mJMvQSRj6jrBm1DvonCOH8ATTF31Z8RKMjmrmgQ==
+X-Received: by 2002:a1c:9a95:: with SMTP id c143mr22019705wme.143.1620575548969;
+        Sun, 09 May 2021 08:52:28 -0700 (PDT)
+Received: from localhost.localdomain ([94.73.38.147])
+        by smtp.gmail.com with ESMTPSA id i3sm13591172wmq.28.2021.05.09.08.52.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 May 2021 12:39:45 -0700 (PDT)
-Date:   Sat, 8 May 2021 22:39:43 +0300
-From:   Michael Zaidman <michael.zaidman@gmail.com>
-To:     trix@redhat.com
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, michael.zaidman@gmail.com
-Subject: Re: [PATCH] HID: ft260: improve error handling of
- ft260_hid_feature_report_get()
-Message-ID: <20210508193943.GA1581@michael-VirtualBox>
-References: <20210507183757.68810-1-trix@redhat.com>
+        Sun, 09 May 2021 08:52:28 -0700 (PDT)
+From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH] HID: magicmouse: fix crash when disconnecting Magic Trackpad 2
+Date:   Sun,  9 May 2021 17:51:38 +0200
+Message-Id: <20210509155138.39601-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210507183757.68810-1-trix@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, May 07, 2021 at 11:37:57AM -0700, trix@redhat.com wrote:
-> From: Tom Rix <trix@redhat.com>
-> 
-> Static analysis reports this representative problem
-> 
-> hid-ft260.c:787:9: warning: 4th function call argument is an
->   uninitialized value
->         return scnprintf(buf, PAGE_SIZE, "%hi\n", *field);
->                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
-> Uses of ft260_hid_feature_report_get() check if the return size matches
-> the requested size.  But the function can also fail with at least -ENOMEM.
-> Add the < 0 checks.
+When the Apple Magic Trackpad 2 is connected over USB it registers four
+hid_device interfaces, however, the driver only handles the one with
+type HID_TYPE_USBMOUSE and ignores the other three, thus, no driver
+data is attached to them.
 
-Hi Tom, thanks for catching and fixing it!
+When the device is disconnected, the remove method is called for the
+four hid_device interfaces, crashing when the driver data is NULL.
 
-I applied the patch, built the driver, and run some tests on my HW setup -
-no regression so far. But I think the fix can be improved even more, by
-reducing the number of questions to one in the successful case where the
-performance matters. Please see the proposal below inline.
+Check that the driver data is not NULL before using it on the remove
+callback.
 
-> 
-> In ft260_hid_feature_report_get(), do not do the memcpy to the caller's
-> buffer if there is an error.
-> 
-> Fixes: 6a82582d9fa4 ("HID: ft260: add usb hid to i2c host bridge driver")
-> Signed-off-by: Tom Rix <trix@redhat.com>
-> ---
->  drivers/hid/hid-ft260.c | 19 +++++++++++++++----
->  1 file changed, 15 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/hid/hid-ft260.c b/drivers/hid/hid-ft260.c
-> index 7a9ba984a75a..628fa664a10b 100644
-> --- a/drivers/hid/hid-ft260.c
-> +++ b/drivers/hid/hid-ft260.c
-> @@ -249,7 +249,8 @@ static int ft260_hid_feature_report_get(struct hid_device *hdev,
->  
->  	ret = hid_hw_raw_request(hdev, report_id, buf, len, HID_FEATURE_REPORT,
->  				 HID_REQ_GET_REPORT);
-> -	memcpy(data, buf, len);
-> +	if (ret == len)
-> +		memcpy(data, buf, len);
->  	kfree(buf);
->  	return ret;
->  }
-> @@ -295,12 +296,16 @@ static int ft260_xfer_status(struct ft260_device *dev)
->  	struct hid_device *hdev = dev->hdev;
->  	struct ft260_get_i2c_status_report report;
->  	int ret;
-> +	int len = sizeof(report);
->  
->  	ret = ft260_hid_feature_report_get(hdev, FT260_I2C_STATUS,
-> -					   (u8 *)&report, sizeof(report));
-> -	if (ret < 0) {
-> +					   (u8 *)&report, len);
-> +	if (ret != len) {
->  		hid_err(hdev, "failed to retrieve status: %d\n", ret);
-> -		return ret;
-> +		if (ret >= 0)
-> +			return -EIO;
-> +		else
-> +			return ret;
->  	}
->  
->  	dev->clock = le16_to_cpu(report.clock);
-> @@ -728,6 +733,8 @@ static int ft260_get_system_config(struct hid_device *hdev,
->  		hid_err(hdev, "failed to retrieve system status\n");
->  		if (ret >= 0)
->  			return -EIO;
-> +		else
-> +			return ret;
->  	}
->  	return 0;
->  }
-> @@ -782,6 +789,8 @@ static int ft260_byte_show(struct hid_device *hdev, int id, u8 *cfg, int len,
->  	ret = ft260_hid_feature_report_get(hdev, id, cfg, len);
->  	if (ret != len && ret >= 0)
->  		return -EIO;
-> +	else if (ret < 0)
-> +		return  ret;
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+---
+ linux/drivers/hid/hid-magicmouse.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Please consider the below code to reduce the number of questions to one in the "likely" case
-and two in the worst-case scenario.
+diff --git a/linux/drivers/hid/hid-magicmouse.c b/linux/drivers/hid/hid-magicmouse.c
+index 2bb473d..097870e 100644
+--- a/linux/drivers/hid/hid-magicmouse.c
++++ b/linux/drivers/hid/hid-magicmouse.c
+@@ -779,7 +779,10 @@ err_stop_hw:
+ static void magicmouse_remove(struct hid_device *hdev)
+ {
+ 	struct magicmouse_sc *msc = hid_get_drvdata(hdev);
+-	cancel_delayed_work_sync(&msc->work);
++
++	if (msc)
++		cancel_delayed_work_sync(&msc->work);
++
+ 	hid_hw_stop(hdev);
+ }
+ 
+-- 
+2.25.1
 
-	if (ret != len) {
-	        if (ret >= 0)
-                        return -EIO;
-                else
-                        return ret;
-        }
-
->  
->  	return scnprintf(buf, PAGE_SIZE, "%hi\n", *field);
->  }
-> @@ -794,6 +803,8 @@ static int ft260_word_show(struct hid_device *hdev, int id, u8 *cfg, int len,
->  	ret = ft260_hid_feature_report_get(hdev, id, cfg, len);
->  	if (ret != len && ret >= 0)
->  		return -EIO;
-> +	else if (ret < 0)
-> +		return ret;
-
-The same.
-
->  
->  	return scnprintf(buf, PAGE_SIZE, "%hi\n", le16_to_cpu(*field));
->  }
-> -- 
-> 2.26.3
-> 
