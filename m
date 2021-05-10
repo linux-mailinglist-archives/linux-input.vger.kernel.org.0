@@ -2,82 +2,111 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 870353797A2
-	for <lists+linux-input@lfdr.de>; Mon, 10 May 2021 21:22:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35AAB379808
+	for <lists+linux-input@lfdr.de>; Mon, 10 May 2021 21:53:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233298AbhEJTXx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 May 2021 15:23:53 -0400
-Received: from outgoing-auth-1.mit.edu ([18.9.28.11]:47815 "EHLO
-        outgoing.mit.edu" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S233208AbhEJTXt (ORCPT
+        id S230342AbhEJTyn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 May 2021 15:54:43 -0400
+Received: from mo4-p01-ob.smtp.rzone.de ([81.169.146.165]:33021 "EHLO
+        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231651AbhEJTym (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 May 2021 15:23:49 -0400
-Received: from cwcc.thunk.org (pool-72-74-133-215.bstnma.fios.verizon.net [72.74.133.215])
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 14AJM3dI013584
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 10 May 2021 15:22:05 -0400
-Received: by cwcc.thunk.org (Postfix, from userid 15806)
-        id F267215C3CD9; Mon, 10 May 2021 15:22:02 -0400 (EDT)
-Date:   Mon, 10 May 2021 15:22:02 -0400
-From:   "Theodore Ts'o" <tytso@mit.edu>
-To:     David Woodhouse <dwmw2@infradead.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
-        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-fpga@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
-        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
-        rcu@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH 00/53] Get rid of UTF-8 chars that can be mapped as ASCII
-Message-ID: <YJmH2irxoRsyNudb@mit.edu>
-References: <cover.1620641727.git.mchehab+huawei@kernel.org>
- <2ae366fdff4bd5910a2270823e8da70521c859af.camel@infradead.org>
- <20210510135518.305cc03d@coco.lan>
- <de6d1fa5b7934f4afd61370d9c58502bef588466.camel@infradead.org>
+        Mon, 10 May 2021 15:54:42 -0400
+X-Greylist: delayed 362 seconds by postgrey-1.27 at vger.kernel.org; Mon, 10 May 2021 15:54:42 EDT
+ARC-Seal: i=1; a=rsa-sha256; t=1620675691; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=E3s379Pcz6m5c2eiCFYn6tEydRwo1kChePN2SK7CLBYxpiqUQ+SPo/XubMdGIEEtG2
+    fKo0facaVgOIq6DasmBGubbdvoQh+npKb5VVBuirbrvo4PqK49LCWLx2hYzn9m+YNayQ
+    lMNK2GNB9dD9LIfKBEjqPRO3gQpkfb1hteCFdcF2fAvAoGPkTtEacPEYuPckrNylZ6sD
+    zCdbnPKTsdWJzJ8FjExYvOH3Nv4YGpnbZ7fLti9s/U7Ya6XfQuvq53v5C1dt6IDkyEq3
+    m0G29UJ2sRu7P4df0YYlIAtTAglU5AUAs6M1xVLX6iE5k1ylE820K04nxJ8GZU/4uis8
+    zZAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1620675691;
+    s=strato-dkim-0002; d=strato.com;
+    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=TFB/5G3yt0EOH3u0v6krrpts7AKC5aDuRVy+pogaHus=;
+    b=RdgNd6Jn3V2ZivOkVQudSfoH/IgtOAJ9uZZ4jvnE6r7GJAOglwV3OjgS8hY039cC61
+    rkCHeohztSzweqlLQ0C1r94ZjYcSTI4/SZNkB7DVgPnL1tjv1Z7IZeWZQ9dqb4GwPosl
+    PHCuL+rvllVjZN3q3L2QdrKBat0sVN0+jDvtL2/4Mc+jwXE+7q1oE1SPKkiTJaxGjCSl
+    bn/yhFzXWMf3zRtez6vpAqlFFy18oDnU3zPiXWdAo9+TMkML9h2otcvUlbxyNEaL7KGM
+    IzTkm7a/7/gloM62cjZ3qZox4Ho2N3Q9GWtBfn0O+Y3yRjVLk5VVUs1T7InqZTPEM/oB
+    80uQ==
+ARC-Authentication-Results: i=1; strato.com;
+    dkim=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1620675691;
+    s=strato-dkim-0002; d=gerhold.net;
+    h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+    bh=TFB/5G3yt0EOH3u0v6krrpts7AKC5aDuRVy+pogaHus=;
+    b=RFsAC6sTPN1zdGGwH3v5IWIgBcQ44/UPgqgq+PTPGclYDWGVO7+LKW2zurhHLsxcVW
+    sJoWaiSdCRY5eQ3EFvTpubCP06UP7L9w5q6NLFuQb0Md/r3TNKLas4HwUOtU6o0jA/Th
+    oz2DywczDAiWZyk15lEuoDYqTak8X6dWcdkhIudNHWIRGKB7ZuN3+sLntCJSTQ4gqIgD
+    4mZ6fBYv3qg0yRlX1CexxwNIm8U4nRnR/cgLoT3nO2r47ZsjC7NXSwnISGdErg5tacL1
+    wAA4P0/xL5tfKH1ReyJsd6ObuF3PEfxDUwUe5cb64cOwgpf91JdRo+q3suO77lQh30X5
+    Y0Ow==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVORvLd4SsytBXS7IYBkLahKxB5m6NCQEo"
+X-RZG-CLASS-ID: mo00
+Received: from droid..
+    by smtp.strato.de (RZmta 47.25.6 DYNA|AUTH)
+    with ESMTPSA id e01f26x4AJfTYUH
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+    Mon, 10 May 2021 21:41:29 +0200 (CEST)
+From:   Stephan Gerhold <stephan@gerhold.net>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org,
+        Simon Budig <simon.budig@kernelconcepts.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Ondrej Jirman <megous@megous.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v2 1/2] dt-bindings: input: touchscreen: edt-ft5x06: add iovcc-supply
+Date:   Mon, 10 May 2021 21:31:07 +0200
+Message-Id: <20210510193108.50178-1-stephan@gerhold.net>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <de6d1fa5b7934f4afd61370d9c58502bef588466.camel@infradead.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, May 10, 2021 at 02:49:44PM +0100, David Woodhouse wrote:
-> On Mon, 2021-05-10 at 13:55 +0200, Mauro Carvalho Chehab wrote:
-> > This patch series is doing conversion only when using ASCII makes
-> > more sense than using UTF-8. 
-> > 
-> > See, a number of converted documents ended with weird characters
-> > like ZERO WIDTH NO-BREAK SPACE (U+FEFF) character. This specific
-> > character doesn't do any good.
-> > 
-> > Others use NO-BREAK SPACE (U+A0) instead of 0x20. Harmless, until
-> > someone tries to use grep[1].
-> 
-> Replacing those makes sense. But replacing emdashes — which are a
-> distinct character that has no direct replacement in ASCII and which
-> people do *deliberately* use instead of hyphen-minus — does not.
+At the moment, the edt-ft5x06 driver can control a single regulator
+("vcc"). However, some FocalTech touch controllers have an additional
+IOVCC pin that should be supplied with the digital I/O voltage.
 
-I regularly use --- for em-dashes and -- for en-dashes.  Markdown will
-automatically translate 3 ASCII hypens to em-dashes, and 2 ASCII
-hyphens to en-dashes.  It's much, much easier for me to type 2 or 3
-hypens into my text editor of choice than trying to enter the UTF-8
-characters.  If we can make sphinx do this translation, maybe that's
-the best way of dealing with these two characters?
+The I/O voltage might be provided by another regulator that should also
+be kept on. Otherwise, the touchscreen can randomly stop functioning if
+the regulator is turned off because no other components still require it.
 
-Cheers,
+Document (optional) support for controlling the regulator for IOVCC
+using "iovcc-supply".
 
-					- Ted
+Cc: Ondrej Jirman <megous@megous.com>
+Cc: Marco Felsch <m.felsch@pengutronix.de>
+Acked-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
+---
+Changes in v2: None, added Rob's Acked-by
+v1: https://lore.kernel.org/linux-input/20210108192337.563679-1-stephan@gerhold.net/
+---
+ .../devicetree/bindings/input/touchscreen/edt-ft5x06.yaml        | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
+index bfc3a8b5e118..2e8da7470513 100644
+--- a/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
++++ b/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
+@@ -56,6 +56,7 @@ properties:
+   wakeup-source: true
+ 
+   vcc-supply: true
++  iovcc-supply: true
+ 
+   gain:
+     description: Allows setting the sensitivity in the range from 0 to 31.
+-- 
+2.31.1
+
