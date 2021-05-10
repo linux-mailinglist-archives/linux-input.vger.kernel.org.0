@@ -2,118 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 91019379243
-	for <lists+linux-input@lfdr.de>; Mon, 10 May 2021 17:15:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6E063793A0
+	for <lists+linux-input@lfdr.de>; Mon, 10 May 2021 18:20:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241727AbhEJPQc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 May 2021 11:16:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45230 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240361AbhEJPOf (ORCPT
+        id S230254AbhEJQV4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 May 2021 12:21:56 -0400
+Received: from mail-ot1-f54.google.com ([209.85.210.54]:38764 "EHLO
+        mail-ot1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230145AbhEJQV4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 May 2021 11:14:35 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B71FCC056756;
-        Mon, 10 May 2021 07:33:50 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id t18so16891382wry.1;
-        Mon, 10 May 2021 07:33:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=iXsxoOt9fS3DXvxCyyFOaJfbPkU6WlTqA1MG4BgEpJA=;
-        b=jIc4OS4UG1e9Htue39hs2SdJXCmPLn+MTostxG/pw06sXYt4cF0beJY8cOPd4XkNvN
-         wMkWqq4rS4nqVWqmlHYwknDCThc4F5oj3a10x6AGXMwZ0Kkxjgx6mU53ky5S6gct5IOF
-         gb8YE/CdqFeQhJSfkuXg75IoXDsEW/QKbfnCDm8DSyF/6zHxA2in236S9Jv233h02Cag
-         nY/zUkluYzDhxrfM75C6Qnf/beBRBG9DBN2uslTW/jB8AmOrnU4strwuRTlIYCmTiED9
-         Adakd2gy/AYmhY6PfiGery2Nb+BVYLJb2xN6RqR96XQSpLkoAkrrTIc1zJH3tzspThUx
-         eDlQ==
+        Mon, 10 May 2021 12:21:56 -0400
+Received: by mail-ot1-f54.google.com with SMTP id q7-20020a9d57870000b02902a5c2bd8c17so14939803oth.5;
+        Mon, 10 May 2021 09:20:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=iXsxoOt9fS3DXvxCyyFOaJfbPkU6WlTqA1MG4BgEpJA=;
-        b=mtcfeMsx7dMqYNepetHcvVEp2glMa9yIlLyEQ8rzKenwJZWsHQ0xYa4FlfmN2J8LUY
-         bPfOWxNXZyLuUbv6mxcQzDooN2CybZw4KKRpvAa/DrNtG9dFdBPkqfMLVMWB9yeSeuhw
-         KifzQf56nF3lwZi75f/YZ9fJAMLNWYeuMRIm/mSQXcM0o6HLRxrVNe3PcWPOde4Ouehf
-         HQo08nNDf9XEIEtKPrSCYDyPT+1asNxWQJ15AiWCwdz6YBacVGiCzslr6WMf0PAAJhWe
-         NOEZZaMTk+c6yb5EuDFdDdRkIJXz5xQH1O3KiVzaCllG860vf8paCuiuRV8XjsFmGVtg
-         sxhw==
-X-Gm-Message-State: AOAM532ZdhgvQU2/PzbBMlyPonGNmCSVV+wEv5FYNx421ebedZz5AXty
-        8pgEwWSVt3X7TC9UFQeGUWQ=
-X-Google-Smtp-Source: ABdhPJze1q8t3iuv5DjzOv0RveTjqSpEwnprh+IG3St78u9eWCZrU93KSEZYLbobgkyZLBZ/m0bYBQ==
-X-Received: by 2002:adf:e98c:: with SMTP id h12mr30469476wrm.314.1620657229579;
-        Mon, 10 May 2021 07:33:49 -0700 (PDT)
-Received: from [192.168.1.122] (cpc159425-cmbg20-2-0-cust403.5-4.cable.virginm.net. [86.7.189.148])
-        by smtp.gmail.com with ESMTPSA id h9sm20117820wmb.35.2021.05.10.07.33.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 May 2021 07:33:48 -0700 (PDT)
-Subject: Re: [PATCH 00/53] Get rid of UTF-8 chars that can be mapped as ASCII
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
-        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-fpga@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
-        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
-        rcu@vger.kernel.org, x86@kernel.org
-References: <cover.1620641727.git.mchehab+huawei@kernel.org>
- <2ae366fdff4bd5910a2270823e8da70521c859af.camel@infradead.org>
- <20210510135518.305cc03d@coco.lan>
- <df6b4567-030c-a480-c5a6-fe579830e8c0@gmail.com>
- <YJk8LMFViV7Z3Uu7@casper.infradead.org>
-From:   Edward Cree <ecree.xilinx@gmail.com>
-Message-ID: <ed65025c-1087-9672-7451-6d28e7ab8f92@gmail.com>
-Date:   Mon, 10 May 2021 15:33:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=lK9/oyY3m8MgUruhYK2DPu5cjgnBxY2p95ZouQCulpI=;
+        b=Jv6wo+A7F3rZu4ZtPJJzJhJCIgqU8ccysDFnvPgDUFCh0KhGSliQo3yGciyQBLlJu1
+         xNo2KWft5HI4lL7iJMr9+pkGJtDTpl+/F+q38aFFTWO8LFQ0HTpNdylDE35P80ncIKSh
+         XSoZyqvGrjuJb7cGPycaUuL2h3K+xN/LD4sDLuEtFFoVKNRl+/p6wPsJzps9oTllfmK/
+         xa9TmuA0cG3M+NVOPfm7xoAl1Vq7w5+Gyp5NzaQrSqHuHywHasf5nslWliH5jb6HQZEh
+         gEXMadtkksgimMbBG6Ygl2SeFowTGZes+LffO897VcNJICNlGqo1Fz1e3GecgONPUHPy
+         eXsQ==
+X-Gm-Message-State: AOAM533F4ygwWEjxlR2RTobaJX13KetU1L39fQRnF0ggh49qZaj3YPxw
+        N4yk95IFYdPBP7lorEA9+uVQwhB7jw==
+X-Google-Smtp-Source: ABdhPJwjr2gIDHJ9GnOXJIxijY4RjHXEfNYDzfLT+l/6t2ZnFp61g/9gPgf7e1AUIuBUpMN+TIVnlA==
+X-Received: by 2002:a9d:73d7:: with SMTP id m23mr22219775otk.325.1620663649533;
+        Mon, 10 May 2021 09:20:49 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id j18sm3192624ota.7.2021.05.10.09.20.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 May 2021 09:20:48 -0700 (PDT)
+Received: (nullmailer pid 228437 invoked by uid 1000);
+        Mon, 10 May 2021 16:20:47 -0000
+Date:   Mon, 10 May 2021 11:20:47 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     satya priya <skakit@codeaurora.org>
+Cc:     linux-input@vger.kernel.org,
+        Courtney Cavin <courtney.cavin@sonymobile.com>,
+        kgunda@codeaurora.org, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        David Collins <collinsd@codeaurora.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Andy Yan <andy.yan@rock-chips.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Andy Gross <agross@kernel.org>
+Subject: Re: [PATCH V3 3/5] dt-bindings: power: reset: Change
+ 'additionalProperties' to true
+Message-ID: <20210510162047.GA228385@robh.at.kernel.org>
+References: <1620630064-16354-1-git-send-email-skakit@codeaurora.org>
+ <1620630064-16354-4-git-send-email-skakit@codeaurora.org>
 MIME-Version: 1.0
-In-Reply-To: <YJk8LMFViV7Z3Uu7@casper.infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1620630064-16354-4-git-send-email-skakit@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 10/05/2021 14:59, Matthew Wilcox wrote:
-> Most of these
-> UTF-8 characters come from latex conversions and really aren't
-> necessary (and are being used incorrectly).
-I fully agree with fixing those.
-The cover-letter, however, gave the impression that that was not the
- main purpose of this series; just, perhaps, a happy side-effect.
+On Mon, 10 May 2021 12:31:02 +0530, satya priya wrote:
+> Change 'additionalProperties' to true as this is a generic binding.
+> 
+> Signed-off-by: satya priya <skakit@codeaurora.org>
+> ---
+> Changes in V3:
+>  - This is newly added in V3.
+> 
+>  Documentation/devicetree/bindings/power/reset/reboot-mode.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 
-> You seem quite knowedgeable about the various differences.  Perhaps
-> you'd be willing to write a document for Documentation/doc-guide/
-> that provides guidance for when to use which kinds of horizontal
-> line?I have Opinions about the proper usage of punctuation, but I also know
- that other people have differing opinions.  For instance, I place
- spaces around an em dash, which is nonstandard according to most
- style guides.  Really this is an individual enough thing that I'm not
- sure we could have a "kernel style guide" that would be more useful
- than general-purpose guidance like the page you linked.
-Moreover, such a guide could make non-native speakers needlessly self-
- conscious about their writing and discourage them from contributing
- documentation at all.  I'm not advocating here for trying to push
- kernel developers towards an eats-shoots-and-leaves level of
- linguistic pedantry; rather, I merely think that existing correct
- usages should be left intact (and therefore, excising incorrect usage
- should only be attempted by someone with both the expertise and time
- to check each case).
-
-But if you really want such a doc I wouldn't mind contributing to it.
-
--ed
+Acked-by: Rob Herring <robh@kernel.org>
