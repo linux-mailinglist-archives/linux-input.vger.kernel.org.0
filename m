@@ -2,133 +2,165 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 51BDC377F5D
-	for <lists+linux-input@lfdr.de>; Mon, 10 May 2021 11:29:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCA66378070
+	for <lists+linux-input@lfdr.de>; Mon, 10 May 2021 11:53:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230098AbhEJJac (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 May 2021 05:30:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52892 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229566AbhEJJa1 (ORCPT
+        id S231180AbhEJJyC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 May 2021 05:54:02 -0400
+Received: from smtprelay0211.hostedemail.com ([216.40.44.211]:50288 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S230497AbhEJJxX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 May 2021 05:30:27 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D771AC061574
-        for <linux-input@vger.kernel.org>; Mon, 10 May 2021 02:29:21 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id m11so5910399lfg.3
-        for <linux-input@vger.kernel.org>; Mon, 10 May 2021 02:29:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9NQQkdNhXevLawtr24xbgszMZ8KLgwl2l9QNBESZzYY=;
-        b=A++sdj3DRLNhLEGLeWsuwGTOHwHcEnoxio4u8Ra63uEdmfQRcZrZt1MGUp6mYocWq4
-         ZiHToB1ibTBXKCZjRASM5xhHSX+s9OiNhezgxvbVgzK1nBLiZjWxkV61vxVR4lfBf9HT
-         9K8qnU34cyWcsiaF8rKbT03O4bjfe8DVQKiCHvOGOxfEJS+5baFAtVfb2ku+JceRJGgt
-         4kLFgM1Y1HhLo8N9DI0VYVxaMVN4yXYuGqV0ZpXGShMYRM6vaq5wnJNPEftAnd+0X3tS
-         hGC+SccY3ahBLRhQYuqiUn5hfeSEB1gkxrbigMHB3ofxkPn7KVYXYuBYb7yGtxT/pS+v
-         03Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9NQQkdNhXevLawtr24xbgszMZ8KLgwl2l9QNBESZzYY=;
-        b=HIn+3dAsJCqzR8+HXol0eTT33uHchE50EM0EiQsRAzDlDF5hHvcsPVVMtWQ/RVv23v
-         bBxuHTGtV/m4VUIOt+Jzu4LbelhMe2JqG0nmpHj3oOgXrUz78r/72A2CRoZTva3wTeI9
-         d5yb8I4Z4F7CrJEix/Xaw1Rus9DP2gQUFzG+qaNfO6SK/Ys2GNHDPcSWypd+BNyTLm/Q
-         9aHLp05P9qcbzfRwb3yO5IgwH/OXYgLa2x6rq162wYkynsqpj1J/1Q767DAI+lxJ7z8h
-         lB4z3NVuq70ZEPoeQs4/MMby6li/T39u9nworR8mF2loRpt6rEvBGmH30QUmIkTw9DnY
-         tXQg==
-X-Gm-Message-State: AOAM531Z5ZWr30m3C4vpY8nqnUTsl0xwN+/iMGFi7IHR0eC3mh8efNAj
-        snDmAgFozpKqcD7NTsu8Foiekbcg7wgUZcwmSJQmOg==
-X-Google-Smtp-Source: ABdhPJyk102VoBZY+PDPZgmfYHlWdQ81Rw2pNDWYNSIpvfnqu1GqdrL4ZuuxSiV/QL6ovH8UHYEMSha4mBWWwJiJ35M=
-X-Received: by 2002:a19:a418:: with SMTP id q24mr15771913lfc.649.1620638960242;
- Mon, 10 May 2021 02:29:20 -0700 (PDT)
+        Mon, 10 May 2021 05:53:23 -0400
+Received: from omf15.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay01.hostedemail.com (Postfix) with ESMTP id 21A4C100E7B42;
+        Mon, 10 May 2021 09:52:17 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf15.hostedemail.com (Postfix) with ESMTPA id C6992C4184;
+        Mon, 10 May 2021 09:52:15 +0000 (UTC)
+Message-ID: <7c0f57c1208b09742c839b1c1e54e2b79c83b8af.camel@perches.com>
+Subject: Re: [PATCH] HID: ft260: fix format type warning in ft260_word_show()
+From:   Joe Perches <joe@perches.com>
+To:     Michael Zaidman <michael.zaidman@gmail.com>
+Cc:     lkp@intel.com, kbuild-all@lists.01.org,
+        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org,
+        jikos@kernel.org, dan.carpenter@oracle.com,
+        linux-input@vger.kernel.org
+Date:   Mon, 10 May 2021 02:52:14 -0700
+In-Reply-To: <20210510091730.GA2276@michael-VirtualBox>
+References: <202105060637.LeEC6ztp-lkp@intel.com>
+         <20210509193213.5974-1-michael.zaidman@gmail.com>
+         <26e1929386babea33d4a320b506c5247caacde77.camel@perches.com>
+         <20210510091730.GA2276@michael-VirtualBox>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-References: <20210509233830.359134-1-linus.walleij@linaro.org> <YJh8s5rU2VE+DyQz@google.com>
-In-Reply-To: <YJh8s5rU2VE+DyQz@google.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 10 May 2021 11:29:08 +0200
-Message-ID: <CACRpkdbXuZOrKyDeBttkMzGvHJbnqVgAnQv=Z=Ui0fHQOOaUMg@mail.gmail.com>
-Subject: Re: [PATCH] Input: tsc200x: Drop hard-coded IRQ edge
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Linux Input <linux-input@vger.kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
-        Tony Lindgren <tony@atomide.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.40
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: C6992C4184
+X-Stat-Signature: 6ttn4yrgzpd86o1w8ng177yj47jjhw4t
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+pan58tWSx0z0CVolnNbeqmvoWkh/6unM=
+X-HE-Tag: 1620640335-659357
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, May 10, 2021 at 2:22 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
-> On Mon, May 10, 2021 at 01:38:30AM +0200, Linus Walleij wrote:
+On Mon, 2021-05-10 at 12:17 +0300, Michael Zaidman wrote:
+> On Sun, May 09, 2021 at 01:39:29PM -0700, Joe Perches wrote:
+> > On Sun, 2021-05-09 at 22:32 +0300, Michael Zaidman wrote:
+> > > Fixes: 6a82582d9fa4 ("HID: ft260: add usb hid to i2c host bridge driver")
+> > > 
+> > > Fix warning reported by static analysis when built with W=1 for arm64 by
+> > > clang version 13.0.0
+> > > 
+> > > > > drivers/hid/hid-ft260.c:794:44: warning: format specifies type 'short' but
+> > >    the argument has type 'int' [-Wformat]
+> > >            return scnprintf(buf, PAGE_SIZE, "%hi\n", le16_to_cpu(*field));
+> > >                                              ~~~     ^~~~~~~~~~~~~~~~~~~
+> > >                                              %i
+> > >    include/linux/byteorder/generic.h:91:21: note: expanded from
+> > >                                             macro 'le16_to_cpu'
+> > >    #define le16_to_cpu __le16_to_cpu
+> > >                        ^
+> > >    include/uapi/linux/byteorder/big_endian.h:36:26: note: expanded from
+> > >                                                     macro '__le16_to_cpu'
+> > >    #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+> > >                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > >    include/uapi/linux/swab.h:105:2: note: expanded from macro '__swab16'
+> > >            (__builtin_constant_p((__u16)(x)) ?     \
+> > >            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > > 
+> > > Signed-off-by: Michael Zaidman <michael.zaidman@gmail.com>
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > > ---
+> > >  drivers/hid/hid-ft260.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/hid/hid-ft260.c b/drivers/hid/hid-ft260.c
+> > > index 047aa85a7c83..38794a29599c 100644
+> > > --- a/drivers/hid/hid-ft260.c
+> > > +++ b/drivers/hid/hid-ft260.c
+> > > @@ -791,7 +791,7 @@ static int ft260_word_show(struct hid_device *hdev, int id, u8 *cfg, int len,
+> > >  	if (ret != len && ret >= 0)
+> > >  		return -EIO;
+> > >  
+> > > 
+> > > -	return scnprintf(buf, PAGE_SIZE, "%hi\n", le16_to_cpu(*field));
+> > > +	return scnprintf(buf, PAGE_SIZE, "%d\n", le16_to_cpu(*field));
+> > >  }
+> > 
+> > There are 2 of these so I wonder about the static analysis.
+> 
+> There is nothing wrong with the static analysis. The first scnprintf format
+> type is perfectly valid as far as its size is greater than the size of the
+> data pointed by the *field pointer, which is a one byte size in our case.
+> The static analysis warned about the second scnprintf case, where the format
+> type was shorter than the integer returned by the __builtin_constant_p.
+> This warning can be considered as a false positive since the le16_to_cpu is
+> all about the 16 bits numbers, but to silence it, I submitted the above fix.
 
-> > This edge setting should come from the device tree not
-> > the driver. Also, most device trees sets this to the
-> > falling edge, which is contradictory to what is hardcoded.
->
-> I see there are 2 possibilities:
->
-> 1. The driver has never worked
-> 2. DT interrupt annotation is wrong.
->
-> It would be nice to know if we are dealing with 1 or 2, as in case of #2
-> we need to adjust DTSes before this patch can be applied.
+$ git grep __arch_swab16 arch/arm*/
+arch/arm/include/asm/swab.h:#define __arch_swab16(x) ((__u16)__arch_swahb32(x))
 
-I looked closer and unfortunately the mess and confusion
-is bizarre.
+otherwise:
 
-The DTS files we know of are:
-arch/arm/boot/dts/am3517-som.dtsi - rising
-arch/arm/boot/dts/imx28-tx28.dts - falling
-arch/arm/boot/dts/imx35-eukrea-cpuimx35.dtsi - low
-arch/arm/boot/dts/imx51-eukrea-cpuimx51.dtsi - low
-arch/arm/boot/dts/imx53-tx53-x03x.dts - falling
-arch/arm/boot/dts/imx6q-dhcom-som.dtsi - falling
-arch/arm/boot/dts/imx6qdl-tx6.dtsi - none
-arch/arm/boot/dts/imx6ul-tx6ul.dtsi - none
-arch/arm/boot/dts/imx7d-nitrogen7.dts - falling
-arch/arm/boot/dts/logicpd-som-lv.dtsi - rising
-arch/arm/boot/dts/logicpd-torpedo-baseboard.dtsi - rising
-arch/arm/boot/dts/omap3-gta04.dtsi - falling
-arch/arm/boot/dts/omap3-n900.dts - rising
-arch/arm/boot/dts/omap4-var-som-om44.dtsi - low
-arch/arm/boot/dts/stm32mp15xx-dhcom-som.dtsi - falling
+static inline __attribute_const__ __u16 __fswab16(__u16 val)
+{
+#if defined (__arch_swab16)
+	return __arch_swab16(val);
+#else
+	return ___constant_swab16(val);
+#endif
+}
 
-We can assume that some of this is the result of board
-engineers introducing inverters on the board as is custom,
-so the flags are actually correct when set to falling, just
-that we don't model the inverter.
+#define ___constant_swab16(x) ((__u16)(				\
+	(((__u16)(x) & (__u16)0x00ffU) << 8) |			\
+	(((__u16)(x) & (__u16)0xff00U) >> 8)))
 
-In the case of imx6qdl-tx6 and imx6ul-tx6ul with "none" IRQ
-type I assume this flag in the driver is actually necessary
-for the device to work at all.
+/**
+ * __swab16 - return a byteswapped 16-bit value
+ * @x: value to byteswap
+ */
+#ifdef __HAVE_BUILTIN_BSWAP16__
+#define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+#else
+#define __swab16(x)				\
+	(__builtin_constant_p((__u16)(x)) ?	\
+	___constant_swab16(x) :			\
+	__fswab16(x))
+#endif
 
-In the cases where rising is set, the addition of the flag is
-plain tautology, just setting what is already set.
+Under what condition does the ?: return an int sized value
+rather than a u16 sized value?  I fail to see a path where
+the compiler should promote the returned value to int _before_
+the promotion done for the varargs use.
 
-In the cases where falling are set the interrupts will arrive
-on both edges (if the hardware can provide that, which is
-not always the case) and as a result fire twice as many
-interrupts as they should, probably with zero effect on the
-second IRQ, just reporting nothing.
+If it's for the varargs use, then both instances are promoted.
 
-The combination with active low is weird. I wonder what
-happens there.
+> > It's probably better to use sysfs_emit as well.
+> 
+> The sysfs_emit was introduced in the 5.10 kernel:
+> 2efc459d06f16 (Joe Perches 2020-09-16 13:40:38 -0700 335) int sysfs_emit(...)
+> 
+> But, the hid-ft260 driver will be used mostly with older kernels, at least,
+> for the next couple of years. Since older kernel versions do not have this API,
+> it will require patching the driver or kernel that I would like to avoid.
+> Nevertheless, we can reconsider the sysfs_emit usage in this driver in the
+> future, upon wider 5.10+ kernels' adoption.
 
-I am just confused now and have no idea what to do about
-it...
+If this is only for older kernels, then it's not really useful
+upstream IMO.
 
-But I just CC all the Freescale and OMAP people who
-seem to maintain these DTS files so they can clarify
-how well assigned these edges, none and active low (!)
-IRQs are.
+any sprintf style use of %h or %hh for a sub int sized value isn't
+particularly useful as integer promotion is done on the value so it
+should use %d (or %i, but %i is atypical) anyway.
 
-Yours,
-Linus Walleij
+https://lore.kernel.org/lkml/CAHk-=wgoxnmsj8GEVFJSvTwdnWm8wVJthefNk2n6+4TC=20e0Q@mail.gmail.com/
+
+$ git grep '%d\b' | wc -l
+109922
+$ git grep '%i\b' | wc -l
+3508
+
+
