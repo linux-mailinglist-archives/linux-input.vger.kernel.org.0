@@ -2,135 +2,149 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B8E73798F9
-	for <lists+linux-input@lfdr.de>; Mon, 10 May 2021 23:14:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5AF7379983
+	for <lists+linux-input@lfdr.de>; Tue, 11 May 2021 00:00:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231434AbhEJVPl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 May 2021 17:15:41 -0400
-Received: from vps.xff.cz ([195.181.215.36]:35402 "EHLO vps.xff.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231420AbhEJVPk (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 May 2021 17:15:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
-        t=1620681272; bh=IQYgneSxXFHNToivaNjomIHrIi876UiE0UgSZmBPqiM=;
-        h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
-        b=aspt371u3j9CFz26ZX2zEPXWfyBCBWUMCjFUW+M9J6qQYU7nzemEXr9qlfKfs5qcr
-         zh7XbcpqcQJL83QD2oy3nfGprEtyWr97W6JN6qFKDlGu3i25exnHRHXKHegiFsmbvS
-         qD1vL+Kj7z8lMpBUN+KaMT/Nhzfpvrgg41UFMmeo=
-Date:   Mon, 10 May 2021 23:14:32 +0200
-From:   =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
-To:     Stephan Gerhold <stephan@gerhold.net>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        devicetree@vger.kernel.org,
-        Simon Budig <simon.budig@kernelconcepts.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Marco Felsch <m.felsch@pengutronix.de>
-Subject: Re: [PATCH v2 2/2] Input: edt-ft5x06 - add support for iovcc-supply
-Message-ID: <20210510211432.c3hsph52zlbqi6nw@core>
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20210510193108.50178-1-stephan@gerhold.net>
- <20210510193108.50178-2-stephan@gerhold.net>
- <20210510194848.g7cgty3lirxkht5g@core>
- <YJmUm/6Vm3d9hp1z@gerhold.net>
+        id S233051AbhEJWBV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 May 2021 18:01:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52538 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232827AbhEJWBU (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 10 May 2021 18:01:20 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB4F1C061574
+        for <linux-input@vger.kernel.org>; Mon, 10 May 2021 15:00:14 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id gc22-20020a17090b3116b02901558435aec1so170712pjb.4
+        for <linux-input@vger.kernel.org>; Mon, 10 May 2021 15:00:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Y6arkyk3IWfnlh10eIyVxN4+C46Wz4GpxdTEupi3VfI=;
+        b=lxuBNxZS9o06/OGynjfaiFC8tbJB9pP7cC6QCMi8L0fiRh4Eou2a7jtPLEM1QLXLVW
+         gtMLg+caGvBuWpFwRfyS5OpPVW/BRPnueXiIO+yevB2MGBJT0PRBB+QopIUjlJwO3oKm
+         EnyAuD/WlkK9tUSL2pg2IZ2kVFx2u1IEpJmcE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Y6arkyk3IWfnlh10eIyVxN4+C46Wz4GpxdTEupi3VfI=;
+        b=g7GWU57pih2bS9U78rYKeb+NWIH8ODRmr1ZY9n1gr2w2I67Q1C3RIGThSaCBgIWx6o
+         ZaJZLzY406CzQohbartJfv75s4435uv7GG3vNTMivCXCrMeY7/5ORIGS4OHH7wNcKnXG
+         hhrPIOmHPI7WvV8eYj1quPzxIIjoSj+d4d9yfP6ReLIPhdYCmHV1wZxGrGWJQfwJQUyx
+         JHRRRFYWRxfoTy4xmHAG+ZuUzWo/4jt1QaN2PsU+Yz9aOtgj3q62TmMMTMy2jKPFcfI5
+         a+AK6IV2vglakX6fpb7esObttzLlr/pOsf2SwOdhEV4EunJmjw2ypHUx3gpWuUaz4ixl
+         4BmQ==
+X-Gm-Message-State: AOAM530SzFNUNApXQjLnZcL7cwZCKXOdl+oYSKtwZ8UyQoJ7bVquO+Uo
+        BeQBY1r7rSRsLFkRWb2TmKMkQg==
+X-Google-Smtp-Source: ABdhPJyJ+htNeBEZhjSatB5U6+cHwWNPaMlJBDD8No5uP2QOO90DVoRFNFO+QQwdjE98lewXT8UnTA==
+X-Received: by 2002:a17:90a:1382:: with SMTP id i2mr1368924pja.83.1620684014438;
+        Mon, 10 May 2021 15:00:14 -0700 (PDT)
+Received: from smtp.gmail.com ([2620:15c:202:201:6765:417e:19fc:9756])
+        by smtp.gmail.com with ESMTPSA id a24sm11867717pgv.76.2021.05.10.15.00.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 May 2021 15:00:14 -0700 (PDT)
+From:   Stephen Boyd <swboyd@chromium.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Jingle Wu <jingle.wu@emc.com.tw>
+Subject: [PATCH] Input: elan_i2c: Disable irq on shutdown
+Date:   Mon, 10 May 2021 15:00:12 -0700
+Message-Id: <20210510220012.2003285-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.31.1.607.g51e8a6a459-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YJmUm/6Vm3d9hp1z@gerhold.net>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, May 10, 2021 at 10:16:41PM +0200, Stephan Gerhold wrote:
-> Hi!
-> 
-> On Mon, May 10, 2021 at 09:48:48PM +0200, Ondřej Jirman wrote:
-> > Hello Stephan,
-> > 
-> > On Mon, May 10, 2021 at 09:31:08PM +0200, Stephan Gerhold wrote:
-> > > At the moment, the edt-ft5x06 driver can control a single regulator
-> > > ("vcc"). However, some FocalTech touch controllers have an additional
-> > > IOVCC pin that should be supplied with the digital I/O voltage.
-> > > 
-> > > The I/O voltage might be provided by another regulator that should also
-> > > be kept on. Otherwise, the touchscreen can randomly stop functioning if
-> > > the regulator is turned off because no other components still require it.
-> > > 
-> > > Implement (optional) support for also enabling an "iovcc-supply".
-> > > The datasheet specifies a delay of ~ 10us before enabling VDD/VCC
-> > > after IOVCC is enabled, so make sure to enable IOVCC first.
-> > > 
-> > > Cc: Ondrej Jirman <megous@megous.com>
-> > > Cc: Marco Felsch <m.felsch@pengutronix.de>
-> > > Signed-off-by: Stephan Gerhold <stephan@gerhold.net>
-> > > ---
-> > > Sorry about the long delay, couldn't find the time to test the new changes :)
-> > > 
-> > > Changes in v2:
-> > >   - Respect 10us delay between enabling IOVCC and VDD/VCC line
-> > >     (suggested by Marco Felsch)
-> > > 
-> > > v1: https://lore.kernel.org/linux-input/20210108192337.563679-2-stephan@gerhold.net/
-> > > ---
-> > >  drivers/input/touchscreen/edt-ft5x06.c | 34 ++++++++++++++++++++++++++
-> > >  1 file changed, 34 insertions(+)
-> > > 
-> > > diff --git a/drivers/input/touchscreen/edt-ft5x06.c b/drivers/input/touchscreen/edt-ft5x06.c
-> > > index 2eefbc2485bc..d3271856bb5c 100644
-> > > --- a/drivers/input/touchscreen/edt-ft5x06.c
-> > > +++ b/drivers/input/touchscreen/edt-ft5x06.c
-> > > @@ -104,6 +104,7 @@ struct edt_ft5x06_ts_data {
-> > >  	u16 num_x;
-> > >  	u16 num_y;
-> > >  	struct regulator *vcc;
-> > > +	struct regulator *iovcc;
-> > >  
-> > >  	struct gpio_desc *reset_gpio;
-> > >  	struct gpio_desc *wake_gpio;
-> > > @@ -1067,6 +1068,7 @@ static void edt_ft5x06_disable_regulator(void *arg)
-> > >  	struct edt_ft5x06_ts_data *data = arg;
-> > >  
-> > >  	regulator_disable(data->vcc);
-> > > +	regulator_disable(data->iovcc);
-> > >  }
-> > >  
-> > >  static int edt_ft5x06_ts_probe(struct i2c_client *client,
-> > > @@ -1107,9 +1109,28 @@ static int edt_ft5x06_ts_probe(struct i2c_client *client,
-> > >  		return error;
-> > >  	}
-> > >  
-> > > +	tsdata->iovcc = devm_regulator_get(&client->dev, "iovcc");
-> > > +	if (IS_ERR(tsdata->iovcc)) {
-> > > +		error = PTR_ERR(tsdata->iovcc);
-> > > +		if (error != -EPROBE_DEFER)
-> > > +			dev_err(&client->dev,
-> > > +				"failed to request iovcc regulator: %d\n", error);
-> > 
-> > Please use dev_err_probe instead. If this pattern is used for vcc-supply, maybe
-> > change that too. Maybe also consider using a bulk regulator API.
-> >
-> 
-> I had both of that in v1 but reverted both of that as discussed.
-> I didn't make that very clear in the changelog, sorry about that. :)
-> 
-> The reasons were:
-> 
->   - Bulk regulator API: AFAICT there is no way to use it while also
->     maintaining the correct enable/disable order plus the 10us delay.
->     See https://lore.kernel.org/linux-input/X%2Fwj+bxe%2FIlznCj6@gerhold.net/
-> 
->   - dev_err_probe(): For some reason the patch set that converted a lot of
->     input drivers (including edt-ft5x06) to dev_err_probe() was never applied:
->     https://lore.kernel.org/linux-input/20200827185829.30096-12-krzk@kernel.org/
->     I dropped the change from my patch since Andy already mentioned
->     a similar thing back then.
+Touching an elan trackpad while shutting down the system sometimes leads
+to the following warning from i2c core. This is because the irq is still
+active and working, but the i2c bus for the device has been shutdown
+already. If the bus has been taken down then we shouldn't expect
+transfers to work. Disable the irq on shutdown so that this driver
+doesn't try to get the report in the irq handler after the i2c bus is
+shutdown.
 
-Thanks for explanation.
+ i2c i2c-7: Transfer while suspended
+ WARNING: CPU: 0 PID: 196 at drivers/i2c/i2c-core.h:54 __i2c_transfer+0xb8/0x38c
+ Modules linked in: rfcomm algif_hash algif_skcipher af_alg uinput xt_cgroup
+ CPU: 0 PID: 196 Comm: irq/166-ekth300 Not tainted 5.4.115 #96
+ Hardware name: Google Lazor (rev3+) with KB Backlight (DT)
+ pstate: 60c00009 (nZCv daif +PAN +UAO)
+ pc : __i2c_transfer+0xb8/0x38c
+ lr : __i2c_transfer+0xb8/0x38c
+ sp : ffffffc011793c20
+ x29: ffffffc011793c20 x28: 0000000000000000
+ x27: ffffff85efd60348 x26: ffffff85efdb8040
+ x25: ffffffec39d579cc x24: ffffffec39d57bac
+ x23: ffffffec3aab17b9 x22: ffffff85f02d6400
+ x21: 0000000000000001 x20: ffffff85f02aa190
+ x19: ffffff85f02aa100 x18: 00000000ffff0a10
+ x17: 0000000000000044 x16: 00000000000000ec
+ x15: ffffffec3a0b9174 x14: 0000000000000006
+ x13: 00000000003fe680 x12: 0000000000000000
+ x11: 0000000000000000 x10: 00000000ffffffff
+ x9 : 806da3cb9f8c1d00 x8 : 806da3cb9f8c1d00
+ x7 : 0000000000000000 x6 : ffffffec3afd3bef
+ x5 : 0000000000000000 x4 : 0000000000000000
+ x3 : 0000000000000000 x2 : fffffffffffffcc7
+ x1 : 0000000000000000 x0 : 0000000000000023
+ Call trace:
+  __i2c_transfer+0xb8/0x38c
+  i2c_transfer+0xa0/0xf4
+  i2c_transfer_buffer_flags+0x64/0x98
+  elan_i2c_get_report+0x2c/0x88
+  elan_isr+0x68/0x3e4
+  irq_thread_fn+0x2c/0x70
+  irq_thread+0xf8/0x148
+  kthread+0x140/0x17c
+  ret_from_fork+0x10/0x18
 
-regards,
-	o.
+Cc: Jingle Wu <jingle.wu@emc.com.tw>
+Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+---
+ drivers/input/mouse/elan_i2c_core.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-> Thanks!
-> Stephan
+diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
+index bef73822315d..6f64992e70d1 100644
+--- a/drivers/input/mouse/elan_i2c_core.c
++++ b/drivers/input/mouse/elan_i2c_core.c
+@@ -1338,6 +1338,22 @@ static int elan_probe(struct i2c_client *client,
+ 	return 0;
+ }
+ 
++static void elan_shutdown(struct i2c_client *client)
++{
++	struct elan_tp_data *data = i2c_get_clientdata(client);
++
++	/*
++	 * Make sure we don't access i2c bus after it is shutdown.
++	 *
++	 * We are taking the mutex to make sure sysfs operations are
++	 * complete before we attempt to silence the device by disabling
++	 * the irq.
++	 */
++	mutex_lock(&data->sysfs_mutex);
++	disable_irq(client->irq);
++	mutex_unlock(&data->sysfs_mutex);
++}
++
+ static int __maybe_unused elan_suspend(struct device *dev)
+ {
+ 	struct i2c_client *client = to_i2c_client(dev);
+@@ -1423,6 +1439,7 @@ static struct i2c_driver elan_driver = {
+ 		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+ 	},
+ 	.probe		= elan_probe,
++	.shutdown	= elan_shutdown,
+ 	.id_table	= elan_id,
+ };
+ 
+
+base-commit: 9f4ad9e425a1d3b6a34617b8ea226d56a119a717
+-- 
+https://chromeos.dev
+
