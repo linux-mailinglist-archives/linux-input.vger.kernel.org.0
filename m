@@ -2,61 +2,61 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC1963793CE
-	for <lists+linux-input@lfdr.de>; Mon, 10 May 2021 18:31:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E5513793FC
+	for <lists+linux-input@lfdr.de>; Mon, 10 May 2021 18:35:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231529AbhEJQcE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 May 2021 12:32:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34684 "EHLO
+        id S231651AbhEJQg3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 May 2021 12:36:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231189AbhEJQcC (ORCPT
+        with ESMTP id S230300AbhEJQg3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 May 2021 12:32:02 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E50DC061574;
-        Mon, 10 May 2021 09:30:55 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id l13so17251377wru.11;
-        Mon, 10 May 2021 09:30:55 -0700 (PDT)
+        Mon, 10 May 2021 12:36:29 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC5EBC061574;
+        Mon, 10 May 2021 09:35:23 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id y124-20020a1c32820000b029010c93864955so11525826wmy.5;
+        Mon, 10 May 2021 09:35:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=R6WlYIrjXhMMjZDmiNrG4Yb4zFnbOA06CnHiWUBda2k=;
-        b=Px1xRieQxe8ehGRuN7Wyo2OY6CRbuNXoURb1Riu6ipDPqPJSCaC4UfdOfGLZwFpzFo
-         PNcryMDWzfzonBmoaJ7+dvnq5F0dGEUgpuirAVal5ruTpi+vymrykViINecL5riZX3yC
-         ovG0qCtfgjKwignTnSva//cbxTHAyMKbXv6/OeBkjLWgJfkqazPD2K9iUQP14F96gdqm
-         Y8BF5GwWAf8aGSnctTXkXPtbB47v4uE89/ad+QJLaIKnMs+G3iYZkQpXlbeNvqvR5NI1
-         Bffaqc6K7BzOmbHFnrB4h9AwOR3s/wUVZ4pch6MPz9pPEKttUVTwidRI+g5NF8YdPrYk
-         BtIg==
+        bh=7CyBniwOPY8tdUbpu/vyod1IQczw+Lx7Gt7hD7CHSiE=;
+        b=edmVc4vEoj+vVu6hrbDgVhufb4geSAjDgThsIGQTVMT5HZ4GJ8L5LpgigU08uhuHoJ
+         +6rNnBuq4i2YtIKnGtl4u5fTY+FHfBUBnJ8dUSEyL/pfKbw+jjyvGJ3i/0YlGVXbSkCt
+         4W+qYf5ou+e5z812qHpg3d4x4HOyQ6qxdUWY5W79xiyeT6wf5+58wDKW0XmUts1v9+wU
+         0KWGZQmKHIupsDD8+4Agp5dWaDTiOM5FW37yk5+YrD3zvAiaTufb5z7arCGDWNx0jlMs
+         BVJkrYKeneo1VWH4z39mxxgIgPsnlfizai0vm5xDA49llDB8uwT+1VQO3ok08wovJZFc
+         QsLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=R6WlYIrjXhMMjZDmiNrG4Yb4zFnbOA06CnHiWUBda2k=;
-        b=FpQ2lu1A5bY0timy0ksmWFb/jrF6eDv/SeR1wIlvS/p5hlCxnDYWE98iUwzPiKWXDk
-         Q1Ohn/EpAdBZR99qeE8e7jdP+ALISfhDgJUJfwOoCJ4vbiKmuQNs9WrrhDxiAkCf7wK/
-         LYP5lF8xLx1QeMQZCyl70iyhrBFuOPK1zIM+pgr1Jdu63mhr/BGWics5fjcCbZcPnJWw
-         gt+0ya2jEF2uYkZU296eyRB7rZh9GoYzXb445nIlnt1TVe+ZgW7i7yXb7iBW5hLil35I
-         O9cdmshDUHuYqrT9ypRNuSU6/Zt4v9aZ8HQEowl1y+PHXX2bdaOMGXaueayOeE52D+7l
-         0tQg==
-X-Gm-Message-State: AOAM531icpiP1nMLfVn6oq24I0mBk+3vS05vRQqpyiS4C5/tEPY5QO+d
-        wM2suZHPmvScKmW1sBF3q/A=
-X-Google-Smtp-Source: ABdhPJxiP80SgspqWEp7vlbzcr7pBoWxrZItqUl7atVFSSA9G61xs6uo/nr1DMR60ewPN3dDoWyQLg==
-X-Received: by 2002:adf:cf0f:: with SMTP id o15mr31765037wrj.181.1620664254079;
-        Mon, 10 May 2021 09:30:54 -0700 (PDT)
+        bh=7CyBniwOPY8tdUbpu/vyod1IQczw+Lx7Gt7hD7CHSiE=;
+        b=PcW9ymxKTlBMVEzkGi/XCNORVwPihD2OOGKgp09/rfwcaZOKZzVNwo0Uu+i6bfRVyd
+         amNzArhEel6f3Z1FCMeCiUp/tSiQHSYSyfrb0cT0NmcF1ZxiVFoiHlVfvwhHAYhH4kD6
+         UNxOVGjkhI9mrYUKUgyD2T5WnB87Z64buMrAvaRFGmPw5xjSXmuhb0f98bbn2VDHqvSi
+         efYu7YOtN6TNJjYK+BJU0qOUn/9NhL1+m8LYf6P1mdKI33gqSoZJPJ6QWzSHHctoxiYl
+         I/n6IC+fWE4VsfLERG4duhkmLMNKexkRCJ2oxCarEYQktrCP8c+bL2rNFoGP1f22RRnY
+         uRkg==
+X-Gm-Message-State: AOAM533UY23RgRIFMVkNXFTV2rU+7fc8TxTLl7nLzcV0xlCgV2h2NPjr
+        KKXvKYFiBuh8awyKlSSkrkmDom3Xs8Gqag==
+X-Google-Smtp-Source: ABdhPJz66QGT0ifBmhFa1w9697xJVRFm8QvqW7gLBKuDL8Zum1vbolRCnb6urNgNONhkB21fe5RX8w==
+X-Received: by 2002:a1c:f20d:: with SMTP id s13mr27169110wmc.92.1620664522711;
+        Mon, 10 May 2021 09:35:22 -0700 (PDT)
 Received: from michael-VirtualBox.xsight.ent ([31.168.255.170])
-        by smtp.googlemail.com with ESMTPSA id w4sm22827156wrl.5.2021.05.10.09.30.52
+        by smtp.googlemail.com with ESMTPSA id c14sm23944991wrt.77.2021.05.10.09.35.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 09:30:53 -0700 (PDT)
+        Mon, 10 May 2021 09:35:22 -0700 (PDT)
 From:   Michael Zaidman <michael.zaidman@gmail.com>
 To:     lkp@intel.com
 Cc:     kbuild-all@lists.01.org, clang-built-linux@googlegroups.com,
         linux-kernel@vger.kernel.org, jikos@kernel.org, joe@perches.com,
         dan.carpenter@oracle.com, linux-input@vger.kernel.org,
         Michael Zaidman <michael.zaidman@gmail.com>
-Subject: [PATCH v2] HID: ft260: fix format type warning in ft260_word_show()
-Date:   Mon, 10 May 2021 19:30:29 +0300
-Message-Id: <20210510163029.2217-1-michael.zaidman@gmail.com>
+Subject: [PATCH v3] HID: ft260: fix format type warning in ft260_word_show()
+Date:   Mon, 10 May 2021 19:34:28 +0300
+Message-Id: <20210510163428.2415-1-michael.zaidman@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <202105060637.LeEC6ztp-lkp@intel.com>
 References: <202105060637.LeEC6ztp-lkp@intel.com>
@@ -97,13 +97,22 @@ Signed-off-by: Michael Zaidman <michael.zaidman@gmail.com>
 Suggested-by: Joe Perches <joe@perches.com>
 Reported-by: kernel test robot <lkp@intel.com>
 ---
- drivers/hid/hid-ft260.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/hid/hid-ft260.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/hid/hid-ft260.c b/drivers/hid/hid-ft260.c
-index 047aa85a7c83..38794a29599c 100644
+index 047aa85a7c83..ff2a49b5cac5 100644
 --- a/drivers/hid/hid-ft260.c
 +++ b/drivers/hid/hid-ft260.c
+@@ -779,7 +779,7 @@ static int ft260_byte_show(struct hid_device *hdev, int id, u8 *cfg, int len,
+ 	if (ret != len && ret >= 0)
+ 		return -EIO;
+ 
+-	return scnprintf(buf, PAGE_SIZE, "%hi\n", *field);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", *field);
+ }
+ 
+ static int ft260_word_show(struct hid_device *hdev, int id, u8 *cfg, int len,
 @@ -791,7 +791,7 @@ static int ft260_word_show(struct hid_device *hdev, int id, u8 *cfg, int len,
  	if (ret != len && ret >= 0)
  		return -EIO;
