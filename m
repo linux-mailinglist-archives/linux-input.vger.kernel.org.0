@@ -2,62 +2,63 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 407A0377E31
-	for <lists+linux-input@lfdr.de>; Mon, 10 May 2021 10:29:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE050377E50
+	for <lists+linux-input@lfdr.de>; Mon, 10 May 2021 10:36:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230186AbhEJIak (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 May 2021 04:30:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39502 "EHLO
+        id S230182AbhEJIhF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 May 2021 04:37:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230170AbhEJIaj (ORCPT
+        with ESMTP id S230049AbhEJIhE (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 May 2021 04:30:39 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB410C061574
-        for <linux-input@vger.kernel.org>; Mon, 10 May 2021 01:29:35 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id b21so8799172plz.0
-        for <linux-input@vger.kernel.org>; Mon, 10 May 2021 01:29:35 -0700 (PDT)
+        Mon, 10 May 2021 04:37:04 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4379CC061573
+        for <linux-input@vger.kernel.org>; Mon, 10 May 2021 01:36:00 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id b21so8806817plz.0
+        for <linux-input@vger.kernel.org>; Mon, 10 May 2021 01:36:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raydium-corp-partner-google-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=nti7k0aWmxKKtAKgFMSnvSLPYcjIi1zTilsQciHI1RE=;
-        b=JQQ85+wK04UnJ+t/Fsh0eQzUazMsnG6ZikOBKRF4hOdbbaDcxfJDjBAV1ggI1/wIAL
-         twbH/ZZ949LO1fHhUFt2/Wvp1lshyw6xQ3aIqeFgyJXhmpFR8vB0fQyqObI21+435AP+
-         +D79Fz6Pxnfqbe/OxSLSJnVY/OZq0gV95NvuVFCqlRWgZIvoG8/Kd8KhsGt/pWE8o0pX
-         C9zo9ZigI+qomKDAa+QPSFIW5BEWfe5hdUQrPwsF/6Ok5Hirlq+20rgea0yjsMxDbDXZ
-         Qsa5SVBzRzck5f04da4ERSPQXVG9okEfYiljm7WMQEtCrCeq1tPgMuOr6XD/U5ArDUau
-         +ABQ==
+        b=EKxSdMlbDaGqkv7cyz9p+w5EQ7gS34Xa4z/sddpGX1NH5xuEbf26dZmekpxAXX70Qf
+         SEh7eFXk7lRzB5DWmqp4AVDyciCSi/8JnHlIFANsIIEDUQGAcGMDKe3EfdPzHDdx+ao0
+         P1f7n5B9EsVeBLk8Owfh0dXZIWucpKGSN2hFlwS5IFMa0MkZpp3dW7TCEBY7O5j/4KYl
+         F/IdIt+EwxwrDMDl/scpj7xlJqwnGFx9QL/CxQcqHzOf8LP0WOyfnXU3S+AUjBnL8SQd
+         ApaCSL086VKRYJItn/qF7PlY8QRRvlR9mh3YmJlXZxy7eDUgS/6G+3XfT9/TcXO2N3RV
+         4TUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=nti7k0aWmxKKtAKgFMSnvSLPYcjIi1zTilsQciHI1RE=;
-        b=lpjyJ7Zjui0Mwuw5U3lZW/56sqImCpUUHk/O81fxEEwu8sFeSsT9A7LxXGz/ASQqad
-         /cQg+8GiD1ovt63osO4XI1bwVxbFIYa5v8kOwIwOK+eyQ6Oa/i6unb/rtx0mvBJxqTl8
-         BAydm4WyIJ4xALvhgHwL6f3ap7kVyxth+YC5S9vwYkoe4yOIn66y+Cn8CUdDnSxe3lLd
-         V88/gI4z1ImevFBWZ4f2+mirPiKj5gtbyb3VRXakNvakb8iELKq8z28Z3lQVWDaM5Uv2
-         JLChRCIUMfX5sDjQKFsdS6ev8SUTE63fxMfOq8dyEatO8nsyTLLToE2XsEDgEJr41GMN
-         g3GA==
-X-Gm-Message-State: AOAM531RnGdFFZw4Byf7yGbSJvvwzSLi3I9SeHvjazo9WRGDByST6d7C
-        F8xkIUm+RcCrZdndsejKj42/qQ==
-X-Google-Smtp-Source: ABdhPJyRJkxsjD55cX9CgdaAkxuFt8akxHSTSjfCDpWDYMQcVQklWjgQi3qKpx4t1rG1+7hVcH7ODw==
-X-Received: by 2002:a17:90b:19c4:: with SMTP id nm4mr16844674pjb.102.1620635375332;
-        Mon, 10 May 2021 01:29:35 -0700 (PDT)
+        b=tr8Lu6FmhTjbeyp5Mi1+0mkLcrqZPRnjd5SZHOmUNcUvEFSlfgg5FOUSrgsFWfDUxA
+         NZ6D9Bt+p6EduH9Dw8j8f4Ue1a/DdYZtZo6QA48nvbdBUEnfY9tWK1n+GTr2dImLfe63
+         kqVPs+Ug2Je7rHxJ8Hl5W9flCBTkIfw8uaBOXlQbF4JpEMv9URwQWoJqXnXIy8ExVTDX
+         g/43aVUmJqwaWzve1SlZbDyq0WFcsi7K0iVicb3pCVkIBt9vSW9nJUhjiD16C7pxOW3r
+         0ViMPqnamn05G3xSLhc/01wPF5m5RLauZNxbckLmevSVD5ff6YfH5nXx8kj8RejRzm4J
+         eudw==
+X-Gm-Message-State: AOAM533F8JJAf6osn7LyAA8xZpnRG0RrLXvUeqnNtQxunCCNMC9gqtNR
+        87Z5CIlUrLtTTTcABMUjDj2CMFc/A4NKZYG1GKI=
+X-Google-Smtp-Source: ABdhPJzBPv4HVGUFeXpNup/nkVlWfjuJ2RCafgwnL+VX9/BVLzrE6OVuMat/o2CuxamJF4Yr+qjmQg==
+X-Received: by 2002:a17:90b:1298:: with SMTP id fw24mr25520515pjb.223.1620635759880;
+        Mon, 10 May 2021 01:35:59 -0700 (PDT)
 Received: from localhost.localdomain ([2402:7500:590:a0b:68e6:4109:c7b2:3cc])
-        by smtp.gmail.com with ESMTPSA id ge4sm18791463pjb.49.2021.05.10.01.29.32
+        by smtp.gmail.com with ESMTPSA id x10sm11083340pfp.177.2021.05.10.01.35.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 01:29:34 -0700 (PDT)
+        Mon, 10 May 2021 01:35:59 -0700 (PDT)
 From:   "simba.hsu" <simba.hsu@raydium.corp-partner.google.com>
 X-Google-Original-From: "simba.hsu" <simba.hsu@rad-ic.com>
 To:     dmitry.torokhov@gmail.com, simba.hsu@rad-ic.com,
-        furquan@google.com, seanpaul@chromium.org, rrangle@chromium.org
+        furquan@google.com, seanpaul@chromium.org, rrangle@chromium.org,
+        evgreen@chromium.org
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         KP.li@rad-ic.com, jeffrey.lin@rad-ic.com,
         "simba.hsu" <simba.hsu@raydium.corp-partner.google.com>
 Subject: [PATCH] driver:input:touchscreen: improve the mechanism of auto-update
-Date:   Mon, 10 May 2021 16:27:08 +0800
-Message-Id: <20210510082708.41844-1-simba.hsu@rad-ic.com>
+Date:   Mon, 10 May 2021 16:35:36 +0800
+Message-Id: <20210510083536.41925-1-simba.hsu@rad-ic.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
