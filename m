@@ -2,105 +2,103 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EFD16377981
-	for <lists+linux-input@lfdr.de>; Mon, 10 May 2021 02:22:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B173C377C3B
+	for <lists+linux-input@lfdr.de>; Mon, 10 May 2021 08:23:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229994AbhEJAXU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 9 May 2021 20:23:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45592 "EHLO
+        id S229863AbhEJGYc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 May 2021 02:24:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229853AbhEJAXU (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Sun, 9 May 2021 20:23:20 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDB2AC061573
-        for <linux-input@vger.kernel.org>; Sun,  9 May 2021 17:22:15 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id z16so12100302pga.1
-        for <linux-input@vger.kernel.org>; Sun, 09 May 2021 17:22:15 -0700 (PDT)
+        with ESMTP id S229943AbhEJGYb (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 10 May 2021 02:24:31 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26EE0C061573;
+        Sun,  9 May 2021 23:23:27 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id x5so15270855wrv.13;
+        Sun, 09 May 2021 23:23:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=mh71sIa9IV9CspUI1y6O260LhUj1PmeIYgoJfTR1kYw=;
-        b=S9cYI3Mq9H1tWbn/fjiTiLWC1efadqO6vL13TPjPJph2ZMoKHvJmZA0HTP1iCHXCxL
-         wfJADyGuKNMbP6GB/UqWsegv4Pldf5Cp3Ttms+w+qneGgOVpgmk7358NwE5OHHt6q4Cu
-         gwyQyntcdDljhdDkPIQTYGYa1xhkZhgMcj6/ighIWGjlpYwcLhO4UHf3fHcuFzkEsBjb
-         iMGEVsJyog6/cMvfQasDsPYXukl+ShAVf5jMh7Q9S+VixdcmQ6z9v5OjWpORifgOezoS
-         t5NUclsTfK6+OoaPbwWY0lZDXBf/7s+sNYtPGzJnKrIctzEkJk1mswGbKJNRiewkKMAE
-         Jg6w==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ozgg+t2OGoL/gMG6femJDH394IeCSoLaxkJhSHtZh8g=;
+        b=sQpdxyccy6hkn9TGWvTDaPjoZaMwRJ/uLi97x5vCJ3u0wJCJgyHOb7vrcZt2jmrPh3
+         pc42JhZ2+G+FLJ+XVkO9RxTUsU3LC9DNgfz3bTgm3BwtSiYa8/ZPnAI1loV3WsXWBMkZ
+         iZKqGGGZwBwa5VWidg42L0X9igLlJGqAE4Nh/tsK9GTJ8LgVDpJZx9iCixvA1XSujJfr
+         spU2oN0oayFvnBsnYhl3fihCoECNCqpeMTt7uJlndkX4i36OMLVpZ70zGeM0I141VHUx
+         ap6dJZgFet49lKYmj5aQ4y84wg8vcAkrXRp5LHlnkLCP3cSbqMjvFRf7KftnnGxpOD4d
+         zgFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=mh71sIa9IV9CspUI1y6O260LhUj1PmeIYgoJfTR1kYw=;
-        b=tsfWgV6MBYV/IgiUYfyQGexKPFB+5p/ChZ96V8sEATCbLI/4wyB78ckNQqkBke0YVu
-         du0kwyG/Jqs7opEu6Ne805l1h6jiYlyUetOgV9OSfyia+abfszIu1nlZhwWvfVbyagUe
-         kzNGe6XU9nLFe/DhbwQjsMpd3ZCcSFREi6CbeYnRCOUZhezHVGLSYCc7DqFh9KnN8R7Q
-         0+9nSkOJ9vwa+TcWSgGYRJIOr7rujzKaK68d1jVsml2BxXKoyfu6Gi3K0yQS4NmQn3xH
-         VKhNtHdbTSW+5bFvPMau/sZIPhDjNySO+q8r+V0Sjtspsi5/dvEN3K7kvghTnKWvXC1U
-         P5/w==
-X-Gm-Message-State: AOAM530ZCTFkIBoWsWBx2qwtdOBUF9gwkQLjp6eqaLRosUVzX305iv8R
-        lYZvOu2J0mMVa8NFftJwRr0=
-X-Google-Smtp-Source: ABdhPJxVpjiRI0wbYJ31rnhVB2xFz+m8sABp5iCgh6XRK6MYY3oRmpYpq7xaB5vYDvWwRFPdxjROUA==
-X-Received: by 2002:a62:7704:0:b029:28e:358e:fa8b with SMTP id s4-20020a6277040000b029028e358efa8bmr22651152pfc.38.1620606135172;
-        Sun, 09 May 2021 17:22:15 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:681e:f810:27a7:e4f9])
-        by smtp.gmail.com with ESMTPSA id c6sm17062118pjs.11.2021.05.09.17.22.13
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ozgg+t2OGoL/gMG6femJDH394IeCSoLaxkJhSHtZh8g=;
+        b=rRYewCSeIEZjeIIbFGjPDuTdsQ3+0gPTHvKlMMXTsr5oMPlfbVQlrMvC/wLIIjHtu0
+         zSXHZm02Ytazh7J18wHBtl5u+QoIM7w6SdeS/NUEMrvk+iOkLHgdmX9C3H8/2mTy6onm
+         nPf+BQXn6WS3T3M4bX3RsA22/SmViSYo/rYX13xhwB8FXLVZXAfauTiTyUcpOk5orAFC
+         33DYjiWK3hEljMc3MWURZhHSQvbVwj/ivpCK0lC646CU2yvJbuL6+uSenqR6T8NRqFw9
+         +EejbWKGY2FZeYAnPrp5mOTTrgbrTWvVTgs7kvaCoRrlz1QrdVmqhd/A05dPq5tOueRg
+         abiA==
+X-Gm-Message-State: AOAM531GE6C1m51PJkS1k9Ar9YPaQh8jMPND7H6BfRs3ZWouv3ygoJah
+        vrgLXl3TWw/dcZzwclsvw2ImI3dG9AWtSKl+
+X-Google-Smtp-Source: ABdhPJyuhMpTGVkQ4bhcSlmO4kHhc2LEdT3XPojkxohxHtukm18XlGp47IXY8c3fm2RpUy/BIOiw0g==
+X-Received: by 2002:a5d:500d:: with SMTP id e13mr28265114wrt.39.1620627805892;
+        Sun, 09 May 2021 23:23:25 -0700 (PDT)
+Received: from localhost.localdomain ([94.73.38.147])
+        by smtp.gmail.com with ESMTPSA id a15sm20446244wrr.53.2021.05.09.23.23.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 May 2021 17:22:14 -0700 (PDT)
-Date:   Sun, 9 May 2021 17:22:11 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-input@vger.kernel.org
-Subject: Re: [PATCH] Input: tsc200x: Drop hard-coded IRQ edge
-Message-ID: <YJh8s5rU2VE+DyQz@google.com>
-References: <20210509233830.359134-1-linus.walleij@linaro.org>
+        Sun, 09 May 2021 23:23:25 -0700 (PDT)
+From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To:     jikos@kernel.org
+Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH v2] HID: magicmouse: fix crash when disconnecting Magic Trackpad 2
+Date:   Mon, 10 May 2021 08:22:37 +0200
+Message-Id: <20210510062237.319457-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210509155138.39601-1-jose.exposito89@gmail.com>
+References: <20210509155138.39601-1-jose.exposito89@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210509233830.359134-1-linus.walleij@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Linus,
+When the Apple Magic Trackpad 2 is connected over USB it registers four
+hid_device report descriptors, however, the driver only handles the one
+with type HID_TYPE_USBMOUSE and ignores the other three, thus, no driver
+data is attached to them.
 
-On Mon, May 10, 2021 at 01:38:30AM +0200, Linus Walleij wrote:
-> This edge setting should come from the device tree not
-> the driver. Also, most device trees sets this to the
-> falling edge, which is contradictory to what is hardcoded.
+When the device is disconnected, the remove callback is called for the
+four hid_device report descriptors, crashing when the driver data is
+NULL.
 
-I see there are 2 possibilities:
+Check that the driver data is not NULL before using it in the remove
+callback.
 
-1. The driver has never worked
-2. DT interrupt annotation is wrong.
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+---
+ drivers/hid/hid-magicmouse.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-It would be nice to know if we are dealing with 1 or 2, as in case of #2
-we need to adjust DTSes before this patch can be applied.
-
-> 
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
->  drivers/input/touchscreen/tsc200x-core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/touchscreen/tsc200x-core.c b/drivers/input/touchscreen/tsc200x-core.c
-> index ce2fe30d6b8a..5f0ce663a2dc 100644
-> --- a/drivers/input/touchscreen/tsc200x-core.c
-> +++ b/drivers/input/touchscreen/tsc200x-core.c
-> @@ -540,7 +540,7 @@ int tsc200x_probe(struct device *dev, int irq, const struct input_id *tsc_id,
->  
->  	error = devm_request_threaded_irq(dev, irq, NULL,
->  					  tsc200x_irq_thread,
-> -					  IRQF_TRIGGER_RISING | IRQF_ONESHOT,
-> +					  IRQF_ONESHOT,
->  					  "tsc200x", ts);
->  	if (error) {
->  		dev_err(dev, "Failed to request irq, err: %d\n", error);
-> -- 
-> 2.30.2
-> 
-
-Thanks.
-
+diff --git a/drivers/hid/hid-magicmouse.c b/drivers/hid/hid-magicmouse.c
+index 2bb473d8c424..097870e43cfe 100644
+--- a/drivers/hid/hid-magicmouse.c
++++ b/drivers/hid/hid-magicmouse.c
+@@ -779,7 +779,10 @@ static int magicmouse_probe(struct hid_device *hdev,
+ static void magicmouse_remove(struct hid_device *hdev)
+ {
+ 	struct magicmouse_sc *msc = hid_get_drvdata(hdev);
+-	cancel_delayed_work_sync(&msc->work);
++
++	if (msc)
++		cancel_delayed_work_sync(&msc->work);
++
+ 	hid_hw_stop(hdev);
+ }
+ 
 -- 
-Dmitry
+2.25.1
+
