@@ -2,175 +2,122 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B66337AE64
-	for <lists+linux-input@lfdr.de>; Tue, 11 May 2021 20:24:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4531937AF56
+	for <lists+linux-input@lfdr.de>; Tue, 11 May 2021 21:32:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231462AbhEKSZV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 May 2021 14:25:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46130 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231329AbhEKSZV (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 May 2021 14:25:21 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 902EDC061574
-        for <linux-input@vger.kernel.org>; Tue, 11 May 2021 11:24:13 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id b25so31130129eju.5
-        for <linux-input@vger.kernel.org>; Tue, 11 May 2021 11:24:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SXEwYB1Y2EYTuZm4BqlvsgjrmrmNyGSE2d2Vv2IpoK8=;
-        b=G/TjkccCT6/9EiLvtC7Y/w2n9cqtzu9rRS9IZ4Iqcl2vJjdc0D+2eYbllBf+QgGpZX
-         0J3HdJDeE0cdwr6dxln/A9gLQGf4D1EHglvrA9SUPmYhVPFyif8dZZuufa9btSMHXWMS
-         gu5oqlR50kzM7k7Ee5eg0a64HpLcFmnU4bVUp8OzV0mJ0vjG93V4ylHON7ITG5FAdLaC
-         d0CbmI+nT8MpZNXiUnNZQ8gxKncaSz01P897pzQYopUS5n08seI2UGUXLzmOkdWkqthX
-         MwnKI3Lt1JvK+EVafMG2YsdM/ph9Zc3vlNPfJZRXMY0CsHfdKi8sB4omEHMYry+XJfPq
-         J2VA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SXEwYB1Y2EYTuZm4BqlvsgjrmrmNyGSE2d2Vv2IpoK8=;
-        b=JhZIB0zxCU2LFFdAWMYpczDzS/yXctkudZVMrMMoS6XfSycqEqfuOpbFtKTfHes3zS
-         mDaTWSJhKnzt0+D0NSMLIT/qMLSR/ijmC+FoWBYOKu1XWmD2Q21EjUBrfU6T+JIg3LWV
-         NAZG3hOi+MkEzon6/DTFpf5Vg2kFVZfks5QKdVWei0h8dLFB76hqRKcULqT0k0FSDyUx
-         Y0egXFUf+w8bKSYJkgQ2v2e47uxLUrtX6RCON2D3zCDR+Gd9y6C+NXIEHFH1stMDHk80
-         S2u5RxWL4L5N6KbiTbANbHMilVuvthYgnynl56/aPtdy93WGLnCCdbnzeQ32zHvarJ2b
-         poog==
-X-Gm-Message-State: AOAM5336Ltt2SQI8tjRKWv4o8ClD7cbTDjY3ISt2IRp8cCJNXM+FnSG5
-        YB/VVMExWPcX7DUyl6onfo/3fJh4y2xPG2gGF8OY/EaQhDk=
-X-Google-Smtp-Source: ABdhPJxofUWKnEfjncp/oIOHqP4w5Ay6Lfh4QecK7xCbboTRNxnQY2TAxu3bTvi5IseK0MHyTeVWWRu4jsI+AeY9Kh0=
-X-Received: by 2002:a17:906:5a96:: with SMTP id l22mr33294455ejq.450.1620757452006;
- Tue, 11 May 2021 11:24:12 -0700 (PDT)
+        id S231864AbhEKTdG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 May 2021 15:33:06 -0400
+Received: from saul.pp3345.net ([163.172.111.124]:60512 "EHLO saul.pp3345.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231454AbhEKTdF (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 11 May 2021 15:33:05 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EE5599A5869;
+        Tue, 11 May 2021 21:31:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pp3345.net; s=saul;
+        t=1620761518;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=2qKaI+TEaMg5Mxk1UOW8Jgh4tvvuMaSgDEV3+liuiF4=;
+        b=JbKCDEA7ycMhQ6W79qE9kHKpet1FMtG2ROR1i0VdmDva9sxP35/Gpr0WX/rQGAQthB93wL
+        nYPbRlfg8jDzh+Belye/dZ/TbmOMCSaEupgwv+BCDyatGcFKu9PqZ8tRmLUTsBg9iynepN
+        5zKdH6LHpMnJu1RFaYq6alN6yvPSw4iGnPu0jApluRTW7n8ESySSOtjcgT+i3eh/qiIo3q
+        fLXpXcTMmXh9TsabaytsdKhsa0wlsvroouXTJC7PMwp0/460NemxxX4A8p5pnNw71GQxdR
+        7pgP44yxBxaawuEDtGeMUJs32+0XsSYlseN70QWrm6HbLf3lRV4MGLhpgpo7lg==
+Subject: Re: synaptics: Your touchpad (PNP: LEN2018 PNP0f13) says it can
+ support a different bus
+To:     Derek Dolney <kernel@dolney.com>, linux-input@vger.kernel.org
+References: <a89decb8584e4bc6d01eaade28fed7be334c56af.camel@dolney.com>
+ <e98baacb-7523-4df9-bada-36b50f090b41@pp3345.net>
+ <82d616e6e3efc1f735b4641f5c6bb6f4b129104d.camel@dolney.com>
+From:   Yussuf Khalil <dev@pp3345.net>
+Message-ID: <3f3a1990-0420-fcd3-3e46-c4f719e96807@pp3345.net>
+Date:   Tue, 11 May 2021 21:31:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <20210509233830.359134-1-linus.walleij@linaro.org>
- <YJh8s5rU2VE+DyQz@google.com> <CACRpkdbXuZOrKyDeBttkMzGvHJbnqVgAnQv=Z=Ui0fHQOOaUMg@mail.gmail.com>
- <YJnSCGN1vUAtjf8F@google.com>
-In-Reply-To: <YJnSCGN1vUAtjf8F@google.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Tue, 11 May 2021 13:24:00 -0500
-Message-ID: <CAHCN7xKPZHLSSehkm5W9MtYSv1S2wH2sNoOAD8yHHWjEpc6tpg@mail.gmail.com>
-Subject: Re: [PATCH] Input: tsc200x: Drop hard-coded IRQ edge
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Linux Input <linux-input@vger.kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
-        Tony Lindgren <tony@atomide.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <82d616e6e3efc1f735b4641f5c6bb6f4b129104d.camel@dolney.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Last-TLS-Session-Version: TLSv1.3
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, May 10, 2021 at 7:39 PM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> On Mon, May 10, 2021 at 11:29:08AM +0200, Linus Walleij wrote:
-> > On Mon, May 10, 2021 at 2:22 AM Dmitry Torokhov
-> > <dmitry.torokhov@gmail.com> wrote:
-> > > On Mon, May 10, 2021 at 01:38:30AM +0200, Linus Walleij wrote:
-> >
-> > > > This edge setting should come from the device tree not
-> > > > the driver. Also, most device trees sets this to the
-> > > > falling edge, which is contradictory to what is hardcoded.
-> > >
-> > > I see there are 2 possibilities:
-> > >
-> > > 1. The driver has never worked
-> > > 2. DT interrupt annotation is wrong.
-> > >
-> > > It would be nice to know if we are dealing with 1 or 2, as in case of #2
-> > > we need to adjust DTSes before this patch can be applied.
-> >
-> > I looked closer and unfortunately the mess and confusion
-> > is bizarre.
-> >
-> > The DTS files we know of are:
-> > arch/arm/boot/dts/am3517-som.dtsi - rising
-> > arch/arm/boot/dts/imx28-tx28.dts - falling
-> > arch/arm/boot/dts/imx35-eukrea-cpuimx35.dtsi - low
-> > arch/arm/boot/dts/imx51-eukrea-cpuimx51.dtsi - low
-> > arch/arm/boot/dts/imx53-tx53-x03x.dts - falling
-> > arch/arm/boot/dts/imx6q-dhcom-som.dtsi - falling
-> > arch/arm/boot/dts/imx6qdl-tx6.dtsi - none
-> > arch/arm/boot/dts/imx6ul-tx6ul.dtsi - none
-> > arch/arm/boot/dts/imx7d-nitrogen7.dts - falling
-> > arch/arm/boot/dts/logicpd-som-lv.dtsi - rising
-> > arch/arm/boot/dts/logicpd-torpedo-baseboard.dtsi - rising
-> > arch/arm/boot/dts/omap3-gta04.dtsi - falling
-> > arch/arm/boot/dts/omap3-n900.dts - rising
-> > arch/arm/boot/dts/omap4-var-som-om44.dtsi - low
-> > arch/arm/boot/dts/stm32mp15xx-dhcom-som.dtsi - falling
-> >
-> > We can assume that some of this is the result of board
-> > engineers introducing inverters on the board as is custom,
-> > so the flags are actually correct when set to falling, just
-> > that we don't model the inverter.
-> >
-> > In the case of imx6qdl-tx6 and imx6ul-tx6ul with "none" IRQ
-> > type I assume this flag in the driver is actually necessary
-> > for the device to work at all.
-> >
-> > In the cases where rising is set, the addition of the flag is
-> > plain tautology, just setting what is already set.
-> >
-> > In the cases where falling are set the interrupts will arrive
-> > on both edges (if the hardware can provide that, which is
-> > not always the case) and as a result fire twice as many
-> > interrupts as they should, probably with zero effect on the
-> > second IRQ, just reporting nothing.
->
-> That is not how we set up interrupts though. We only use
-> platform-supplied trigger if caller did not specify trigger when calling
-> request_irq().  From kernel/irq/manage.c::__setup_irq():
->
->         /*
->          * If the trigger type is not specified by the caller,
->          * then use the default for this interrupt.
->          */
->         if (!(new->flags & IRQF_TRIGGER_MASK))
->                 new->flags |= irqd_get_trigger_type(&desc->irq_data);
->
-> So in our case, since driver specified IRQF_TRIGGER_RISING it is how
-> interrupt line was configured, and what was in DTS had no effect.
->
-> >
-> > The combination with active low is weird. I wonder what
-> > happens there.
-> >
-> > I am just confused now and have no idea what to do about
-> > it...
-> >
-> > But I just CC all the Freescale and OMAP people who
-> > seem to maintain these DTS files so they can clarify
-> > how well assigned these edges, none and active low (!)
-> > IRQs are.
->
-> Hopefully they can confirm how the controller is wired on their boards
-> and then we can correct invalid DTSes and then finally apply your patch
-> to the driver.
+What kernel version are you using precisely?
 
-I reviewed the Logicpd Torpedo (DM3730) and there isn't an interter.
-I changed the device tree entry for it to falling edge instead and
-rising, and it continued to work perfectly.
-
-I'll review both the schematics and test the am3517-evm and the
-logicpd som-lv, but I am going to expect the same results since
-they'll all basically copy-paste of each other.
-
-Once I've completed my analysis, I'll post device tree updates for all
-the logicpd stuff.
-
-adam
-
+On 11.05.21 19:42, Derek Dolney wrote:
+> Hi, Yussuf,
 >
-> Thanks.
+> Thanks for your help. I finally noticed today that it does not work.
+> Sometimes suspends and resumes but sometimes chokes. Any advice about
+> that or can you point me in the right direction to find some fix? I get
+> these messages in my syslog:
 >
-> --
-> Dmitry
+> kernel: i801_smbus 0000:00:1f.4: SMBus is busy, can't use it!
+> kernel: rmi4_f01 rmi4-00.fn01: Failed to write sleep mode: -16.
+> kernel: rmi4_f01 rmi4-00.fn01: Suspend failed with code -16.
+> kernel: rmi4_physical rmi4-00: Failed to suspend functions: -16
+> kernel: rmi4_smbus 7-002c: Failed to suspend device: -16
+> kernel: PM: dpm_run_callback(): 0xffffffffc06a0050 returns -16
+> kernel: PM: Device 7-002c failed to suspend: error -16
+> kernel: PM: Some devices failed to suspend, or early wake event
+> detected
+> kernel: i801_smbus 0000:00:1f.4: SMBus is busy, can't use it!
+> kernel: rmi4_physical rmi4-00: rmi_driver_set_irq_bits: Failed to
+> change enabled interrupts!
+> kernel: psmouse: probe of serio2 failed with error -1
+>
+> On Wed, 2021-05-05 at 23:32 +0200, Yussuf Khalil wrote:
+>> Hi Derek,
+>>
+>> have you tested whether suspending and resuming works fine? If yes, can
+>> you send in a commit that adds the PNP ID to the list in
+>> drivers/input/mouse/synaptics.c?
+>>
+>> Regards
+>> Yussuf Khalil
+>>
+>> On 05.05.21 23:06, Derek Dolney wrote:
+>>> First of all thank you for all your hard work keeping the Linux
+>>> kernel
+>>> awesome!
+>>>
+>>> Running on a Lenovo Thinkpad T460p, I found these lines in my dmesg:
+>>>
+>>> [   17.360279] psmouse serio1: synaptics: queried max coordinates: x
+>>> [..5676], y [..4758]
+>>> [   17.390832] psmouse serio1: synaptics: queried min coordinates: x
+>>> [1266..], y [1096..]
+>>> [   17.390853] psmouse serio1: synaptics: Your touchpad (PNP: LEN2018
+>>> PNP0f13) says it can support a different bus. If i2c-hid and hid-rmi
+>>> are not used, you might want to try setting
+>>> psmouse.synaptics_intertouch to 1 and report this to
+>>> linux-input@vger.kernel.org.
+>>>
+>>> Indeed i2c-hid and hid-rmi modules are not loaded. Setting
+>>> psmouse.synaptics_intertouch=1 as directed, now I get the following
+>>> and
+>>> the device works well imho:
+>>>
+>>> [   80.967562] psmouse serio1: synaptics: queried max coordinates: x
+>>> [..5676], y [..4758]
+>>> [   81.004823] psmouse serio1: synaptics: queried min coordinates: x
+>>> [1266..], y [1096..]
+>>> [   81.004828] psmouse serio1: synaptics: Trying to set up SMBus
+>>> access
+>>> [   81.025153] rmi4_smbus 7-002c: registering SMbus-connected sensor
+>>> [   81.079177] rmi4_f01 rmi4-00.fn01: found RMI device, manufacturer:
+>>> Synaptics, product: TM3053-006, fw id: 2010421
+>>> [   81.141785] input: Synaptics TM3053-006 as /devices/rmi4-
+>>> 00/input/input22
+>>> [   81.148458] serio: RMI4 PS/2 pass-through port at rmi4-00.fn03
+>>> [   81.559841] input: PS/2 Generic Mouse as /devices/rmi4-00/rmi4-
+>>> 00.fn03/serio2/input/input23
+>>>
+>>> Thanks again,
+>>> Derek
+>>>
+>
