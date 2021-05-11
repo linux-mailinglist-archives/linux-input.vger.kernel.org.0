@@ -2,160 +2,147 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D9D69379B9D
-	for <lists+linux-input@lfdr.de>; Tue, 11 May 2021 02:38:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACA0B379C63
+	for <lists+linux-input@lfdr.de>; Tue, 11 May 2021 04:02:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229684AbhEKAjo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 10 May 2021 20:39:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59786 "EHLO
+        id S230334AbhEKCDH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 10 May 2021 22:03:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229628AbhEKAjn (ORCPT
+        with ESMTP id S229948AbhEKCDH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 10 May 2021 20:39:43 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E547CC061574
-        for <linux-input@vger.kernel.org>; Mon, 10 May 2021 17:38:37 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id gj14so10724959pjb.5
-        for <linux-input@vger.kernel.org>; Mon, 10 May 2021 17:38:37 -0700 (PDT)
+        Mon, 10 May 2021 22:03:07 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ED94C061574;
+        Mon, 10 May 2021 19:02:02 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id h127so14923384pfe.9;
+        Mon, 10 May 2021 19:02:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=dJM8F61UuigzNguogv0R+++DBzre3BtNoj2mtvsmVh4=;
-        b=CWYKVThI/hOLDTms5P7XmHZHuaJI23wlOOGoR8cyr7hFIdWGH9CoeIJTUfKCS4f1SN
-         M7dGnYYZa2D83+2QbfPmK1TJGSTktXGNAMvu7GVswX3AlWw2YgeAiPZZdJ47vwQKObk8
-         U4drG/KNtrJJObXRYXxkNJPi9QDJgxq7yaKCknBzpPsNONLHo/S60xiPFMekyxDZIDbU
-         ZJen7m78O/tumsPKSMZoG8t/Ng7fJRYglj/KuUPZ90lEta9R+2kX01aXuaWepaWDweGK
-         GBj7/hPCjVe/4j5VYOdHpVDjCIlqSvRCgM+qe0ExR50sJ49ZFGdRpkRRDEpK2iEYPn8p
-         kPmw==
+        bh=dRcz4fiE4UZIEjQ44lwl5Ekk7gTvZIEnVsKtSc+dcgg=;
+        b=uhCPxJc+uCjyrwuNRcLWteetAAXbWAWOsnlfkq0tsartX5UnZ25DsojLEmi3JCq/cX
+         11Pj0WmE2mLPxU3Av+cshuf8IfjSRmoQZpVgRrQuRn1daIu3GKh5CETfmCf0gyE7RNSI
+         Dnfcyvm44OrxfFEUIUsOxJG+fnUW7UqHmGkIwMyigGBtJJankwM4hogyo6CWFSK58oQi
+         +/Wbi+h9dXWGMd6vq6DlvnZ5ke0QF63aTf2uRoKijoRZaEcMJpkSDSNV1UutQGaMP+QC
+         0iOiqAfT2Wj9pCxL5NA0tuSapheqk8TiyU0fvXLYt6i5X698yWdf8g9JZ/4AFDI9YsBX
+         THLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=dJM8F61UuigzNguogv0R+++DBzre3BtNoj2mtvsmVh4=;
-        b=mQ21mjKAZtxMojReHk2GxH5p/hqz8ESfcznRM/8lIGomHbdI12dKsMC7hZhvMa8Jiu
-         t+fvm+hmKC/j9/VjP2twWvaA1hhlsFwhEwGDfUl5PPOQfwhbv9CtL9kAFieup8g8EbD5
-         i1U/hTlrPLbzOG6c8p1ydd1ovkdpBGJsf4X7DpjiK33/d5xnjrmW49zGTBxwwmzAvj3G
-         oI2FcQnc6FLD/MvDI11R469v4af1hTPaOvzQ1YsJhtW4H9t3iAIr8dl2DzSfLs3KQsAP
-         smdFlCdVzg5NH8ezzB3iiW4qPQxbSon2nGiY5CdOdeLp3HEd7HVJibnnGd0oLWb/60RN
-         XOMw==
-X-Gm-Message-State: AOAM531QsRMw1RrqSBWnVRhwUwCZcK9jSsd7hWt5+1hhGj0ca3qPMgsa
-        CDprJSU9WpaCLVgXo9K6RtHu5884KFQ=
-X-Google-Smtp-Source: ABdhPJxVl7d7IAtblDXUTSF/geDqAMR0SrbXMiKoGKNVrEfp4p+0fv04zFDTrwZSSIGGf9iz5/gltw==
-X-Received: by 2002:a17:903:230d:b029:ef:5d8f:f2c4 with SMTP id d13-20020a170903230db02900ef5d8ff2c4mr499798plh.62.1620693517312;
-        Mon, 10 May 2021 17:38:37 -0700 (PDT)
+        bh=dRcz4fiE4UZIEjQ44lwl5Ekk7gTvZIEnVsKtSc+dcgg=;
+        b=RwZsFjd3ZcO1Hmc7vq69CHDSx5KibxD7ViJLOkXRS3cG4YbDhTh8cehs/oJIrIgig+
+         xm00jYIEDUNoDwWKFYY73UP7mVp/KYxrgmPvol0BL23W5B6Q1/TjP35yIsV/WnQXk7hw
+         WIymxBcQGSt7mEbIz1GnSPQDUMh2fnEfHcNiDUaL8PiTRA+nVRXAQVMv5AwY+jl6dOOX
+         aZVaoY7MVrNfq1zB895cQ5wqESpCmBqSB02pby0eADsKOUY+3WHQHgfKJxl7/BVKAMau
+         uUpSAIDHFWSpBDuArQImBt7uDK+lykE69HiEs3N7cQkClByQ+VpXlAaiapWDtTv+txkD
+         dzTg==
+X-Gm-Message-State: AOAM533rUdI5eryop/FFq26z6/lyWrJV2llEGWGlSoCHoEH/AoOlhX0G
+        vgx7tWXt2ZVwczeEfdoAOw4=
+X-Google-Smtp-Source: ABdhPJyLMK0mm4wOSmZhxBy+FHgGp2mimnIA308q/KAQBqLKcwUzqpdyI0KnPPhWA8fTz4svh8cI5g==
+X-Received: by 2002:a63:6ec1:: with SMTP id j184mr28003983pgc.364.1620698521839;
+        Mon, 10 May 2021 19:02:01 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:206:cca1:1e8c:52e0])
-        by smtp.gmail.com with ESMTPSA id w81sm11893137pfc.106.2021.05.10.17.38.34
+        by smtp.gmail.com with ESMTPSA id b1sm13394801pgf.84.2021.05.10.19.02.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 17:38:35 -0700 (PDT)
-Date:   Mon, 10 May 2021 17:38:32 -0700
+        Mon, 10 May 2021 19:02:00 -0700 (PDT)
+Date:   Mon, 10 May 2021 19:01:58 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Linux Input <linux-input@vger.kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
-        Tony Lindgren <tony@atomide.com>
-Subject: Re: [PATCH] Input: tsc200x: Drop hard-coded IRQ edge
-Message-ID: <YJnSCGN1vUAtjf8F@google.com>
-References: <20210509233830.359134-1-linus.walleij@linaro.org>
- <YJh8s5rU2VE+DyQz@google.com>
- <CACRpkdbXuZOrKyDeBttkMzGvHJbnqVgAnQv=Z=Ui0fHQOOaUMg@mail.gmail.com>
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        Jingle Wu <jingle.wu@emc.com.tw>
+Subject: Re: [PATCH] Input: elan_i2c: Disable irq on shutdown
+Message-ID: <YJnllh7GfuVlL3ze@google.com>
+References: <20210510220012.2003285-1-swboyd@chromium.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACRpkdbXuZOrKyDeBttkMzGvHJbnqVgAnQv=Z=Ui0fHQOOaUMg@mail.gmail.com>
+In-Reply-To: <20210510220012.2003285-1-swboyd@chromium.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, May 10, 2021 at 11:29:08AM +0200, Linus Walleij wrote:
-> On Mon, May 10, 2021 at 2:22 AM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
-> > On Mon, May 10, 2021 at 01:38:30AM +0200, Linus Walleij wrote:
-> 
-> > > This edge setting should come from the device tree not
-> > > the driver. Also, most device trees sets this to the
-> > > falling edge, which is contradictory to what is hardcoded.
-> >
-> > I see there are 2 possibilities:
-> >
-> > 1. The driver has never worked
-> > 2. DT interrupt annotation is wrong.
-> >
-> > It would be nice to know if we are dealing with 1 or 2, as in case of #2
-> > we need to adjust DTSes before this patch can be applied.
-> 
-> I looked closer and unfortunately the mess and confusion
-> is bizarre.
-> 
-> The DTS files we know of are:
-> arch/arm/boot/dts/am3517-som.dtsi - rising
-> arch/arm/boot/dts/imx28-tx28.dts - falling
-> arch/arm/boot/dts/imx35-eukrea-cpuimx35.dtsi - low
-> arch/arm/boot/dts/imx51-eukrea-cpuimx51.dtsi - low
-> arch/arm/boot/dts/imx53-tx53-x03x.dts - falling
-> arch/arm/boot/dts/imx6q-dhcom-som.dtsi - falling
-> arch/arm/boot/dts/imx6qdl-tx6.dtsi - none
-> arch/arm/boot/dts/imx6ul-tx6ul.dtsi - none
-> arch/arm/boot/dts/imx7d-nitrogen7.dts - falling
-> arch/arm/boot/dts/logicpd-som-lv.dtsi - rising
-> arch/arm/boot/dts/logicpd-torpedo-baseboard.dtsi - rising
-> arch/arm/boot/dts/omap3-gta04.dtsi - falling
-> arch/arm/boot/dts/omap3-n900.dts - rising
-> arch/arm/boot/dts/omap4-var-som-om44.dtsi - low
-> arch/arm/boot/dts/stm32mp15xx-dhcom-som.dtsi - falling
-> 
-> We can assume that some of this is the result of board
-> engineers introducing inverters on the board as is custom,
-> so the flags are actually correct when set to falling, just
-> that we don't model the inverter.
-> 
-> In the case of imx6qdl-tx6 and imx6ul-tx6ul with "none" IRQ
-> type I assume this flag in the driver is actually necessary
-> for the device to work at all.
-> 
-> In the cases where rising is set, the addition of the flag is
-> plain tautology, just setting what is already set.
-> 
-> In the cases where falling are set the interrupts will arrive
-> on both edges (if the hardware can provide that, which is
-> not always the case) and as a result fire twice as many
-> interrupts as they should, probably with zero effect on the
-> second IRQ, just reporting nothing.
+Hi Stephen,
 
-That is not how we set up interrupts though. We only use
-platform-supplied trigger if caller did not specify trigger when calling
-request_irq().  From kernel/irq/manage.c::__setup_irq():
+On Mon, May 10, 2021 at 03:00:12PM -0700, Stephen Boyd wrote:
+> Touching an elan trackpad while shutting down the system sometimes leads
+> to the following warning from i2c core. This is because the irq is still
+> active and working, but the i2c bus for the device has been shutdown
+> already. If the bus has been taken down then we shouldn't expect
+> transfers to work. Disable the irq on shutdown so that this driver
+> doesn't try to get the report in the irq handler after the i2c bus is
+> shutdown.
+> 
+>  i2c i2c-7: Transfer while suspended
+>  WARNING: CPU: 0 PID: 196 at drivers/i2c/i2c-core.h:54 __i2c_transfer+0xb8/0x38c
+>  Modules linked in: rfcomm algif_hash algif_skcipher af_alg uinput xt_cgroup
+>  CPU: 0 PID: 196 Comm: irq/166-ekth300 Not tainted 5.4.115 #96
+>  Hardware name: Google Lazor (rev3+) with KB Backlight (DT)
+>  pstate: 60c00009 (nZCv daif +PAN +UAO)
+>  pc : __i2c_transfer+0xb8/0x38c
+>  lr : __i2c_transfer+0xb8/0x38c
+>  sp : ffffffc011793c20
+>  x29: ffffffc011793c20 x28: 0000000000000000
+>  x27: ffffff85efd60348 x26: ffffff85efdb8040
+>  x25: ffffffec39d579cc x24: ffffffec39d57bac
+>  x23: ffffffec3aab17b9 x22: ffffff85f02d6400
+>  x21: 0000000000000001 x20: ffffff85f02aa190
+>  x19: ffffff85f02aa100 x18: 00000000ffff0a10
+>  x17: 0000000000000044 x16: 00000000000000ec
+>  x15: ffffffec3a0b9174 x14: 0000000000000006
+>  x13: 00000000003fe680 x12: 0000000000000000
+>  x11: 0000000000000000 x10: 00000000ffffffff
+>  x9 : 806da3cb9f8c1d00 x8 : 806da3cb9f8c1d00
+>  x7 : 0000000000000000 x6 : ffffffec3afd3bef
+>  x5 : 0000000000000000 x4 : 0000000000000000
+>  x3 : 0000000000000000 x2 : fffffffffffffcc7
+>  x1 : 0000000000000000 x0 : 0000000000000023
+>  Call trace:
+>   __i2c_transfer+0xb8/0x38c
+>   i2c_transfer+0xa0/0xf4
+>   i2c_transfer_buffer_flags+0x64/0x98
+>   elan_i2c_get_report+0x2c/0x88
+>   elan_isr+0x68/0x3e4
+>   irq_thread_fn+0x2c/0x70
+>   irq_thread+0xf8/0x148
+>   kthread+0x140/0x17c
+>   ret_from_fork+0x10/0x18
 
-	/*
-	 * If the trigger type is not specified by the caller,
-	 * then use the default for this interrupt.
-	 */
-	if (!(new->flags & IRQF_TRIGGER_MASK))
-		new->flags |= irqd_get_trigger_type(&desc->irq_data);
-
-So in our case, since driver specified IRQF_TRIGGER_RISING it is how
-interrupt line was configured, and what was in DTS had no effect.
+This does not seem to me that it is Elan-specific issue. I wonder if
+this should be pushed into I2C core to shut off client->irq in shutdown
+for everyone.
 
 > 
-> The combination with active low is weird. I wonder what
-> happens there.
+> Cc: Jingle Wu <jingle.wu@emc.com.tw>
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+> ---
+>  drivers/input/mouse/elan_i2c_core.c | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
 > 
-> I am just confused now and have no idea what to do about
-> it...
-> 
-> But I just CC all the Freescale and OMAP people who
-> seem to maintain these DTS files so they can clarify
-> how well assigned these edges, none and active low (!)
-> IRQs are.
+> diff --git a/drivers/input/mouse/elan_i2c_core.c b/drivers/input/mouse/elan_i2c_core.c
+> index bef73822315d..6f64992e70d1 100644
+> --- a/drivers/input/mouse/elan_i2c_core.c
+> +++ b/drivers/input/mouse/elan_i2c_core.c
+> @@ -1338,6 +1338,22 @@ static int elan_probe(struct i2c_client *client,
+>  	return 0;
+>  }
+>  
+> +static void elan_shutdown(struct i2c_client *client)
+> +{
+> +	struct elan_tp_data *data = i2c_get_clientdata(client);
+> +
+> +	/*
+> +	 * Make sure we don't access i2c bus after it is shutdown.
+> +	 *
+> +	 * We are taking the mutex to make sure sysfs operations are
+> +	 * complete before we attempt to silence the device by disabling
+> +	 * the irq.
+> +	 */
 
-Hopefully they can confirm how the controller is wired on their boards
-and then we can correct invalid DTSes and then finally apply your patch
-to the driver.
+I do not think important on shutdown as I expect we'll stop/kill
+userspace first, and then fully reinitialize device on subsequent boot.
 
 Thanks.
 
