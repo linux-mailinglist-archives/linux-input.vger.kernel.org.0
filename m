@@ -2,229 +2,199 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B4B137B005
-	for <lists+linux-input@lfdr.de>; Tue, 11 May 2021 22:16:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E49337B08F
+	for <lists+linux-input@lfdr.de>; Tue, 11 May 2021 23:09:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229548AbhEKUR3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 May 2021 16:17:29 -0400
-Received: from 82-65-109-163.subs.proxad.net ([82.65.109.163]:37966 "EHLO
-        luna.linkmauve.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229984AbhEKURX (ORCPT
+        id S229809AbhEKVK0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 May 2021 17:10:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55182 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229920AbhEKVK0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 May 2021 16:17:23 -0400
-Received: by luna.linkmauve.fr (Postfix, from userid 1000)
-        id D7217F4063D; Tue, 11 May 2021 22:16:14 +0200 (CEST)
-From:   Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
-To:     linux-input@vger.kernel.org
-Cc:     Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
-        Ash Logan <ash@heyquark.com>,
-        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.ne@posteo.net>,
-        =?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/4] HID: wiiu-drc: Add battery reporting
-Date:   Tue, 11 May 2021 22:16:04 +0200
-Message-Id: <20210511201604.23204-5-linkmauve@linkmauve.fr>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210511201604.23204-1-linkmauve@linkmauve.fr>
-References: <20210511201604.23204-1-linkmauve@linkmauve.fr>
+        Tue, 11 May 2021 17:10:26 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F3D5C061574
+        for <linux-input@vger.kernel.org>; Tue, 11 May 2021 14:09:19 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id i14so16663891pgk.5
+        for <linux-input@vger.kernel.org>; Tue, 11 May 2021 14:09:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=TlrKkozj1QZ61N8+O/f9bA13eX8eTv6izDyMzuisg3s=;
+        b=i2TjoK5rCYIELX5hIhFl7iu3MXH6UXLSQhmI4GAkIPeOZeo4kPgVwX/7cJiu7OwNYr
+         vHp19CFWweE0M6nQRh3Dpb+1FNMvtR0J3mujL26yLraR9IwOAYxgmSLN4kWPzbTGjgoc
+         +IdOnbP5a6np9eirzP40r5AGQEPJ3bIfBwa5OC46iH6CI+e5cnA5ZpiiC5N2anOjtUBv
+         Rt2CmSLKwIzAXHIvMiFIB8RTPShipNtYFm8btC4MO5bArFiXKszFZoBmAeNMhkzmyLaD
+         LKU/9hcBRXaLg8Nlq5bAptjWq7Ou2u8VZm688/Fl2AAx1fY1hhpuKgKv//x5PaJlazp1
+         k6gQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=TlrKkozj1QZ61N8+O/f9bA13eX8eTv6izDyMzuisg3s=;
+        b=pB44CwL87h2PS9lS1cx7kWHYcaMd8cjY4DleOjhY4UvG9a61r+HtsgFVT1hnx1v/XA
+         OINEcD2341lujr0IhzNoDusVW1h5w068fa8JZ3yExilWhRqs00CoBRuCzUaTv1f3xBme
+         eBH9JjeZgUu4C2xgkM/IhrwsyGs4PEjgD04QGTWt/cdrXCgavy3lhzScphO6phBTdqOv
+         fgCqSf318gmvhtTvW7mI2ifYQD/lFaREaXUskaoUsF5FoO3JWqOPidEKKiCVl8R/mSfV
+         BIW8J0mtO/UgZADOUX04AaIQroyEd9uDuVUhgQmg6JxKugTd7O+12z7m1S51l9gNWfzR
+         rKwQ==
+X-Gm-Message-State: AOAM533w/1LOS5AsrZIMNHEpCTx7Pnq8Ndb7R7FpDqSLkLdY9DySfJNx
+        7ltyIMjtc8Kp4SzDFgA74x4=
+X-Google-Smtp-Source: ABdhPJy39V2VtDQV3JtRgaRZPuhrvH8/a2/ar6DAl0cghryhDaX3NvGhdlJa5w8+EQNVQaoWT9YW4g==
+X-Received: by 2002:a63:ed17:: with SMTP id d23mr32953384pgi.107.1620767358694;
+        Tue, 11 May 2021 14:09:18 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:206:cca1:1e8c:52e0])
+        by smtp.gmail.com with ESMTPSA id u22sm3355543pfl.118.2021.05.11.14.09.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 May 2021 14:09:17 -0700 (PDT)
+Date:   Tue, 11 May 2021 14:09:15 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Adam Ford <aford173@gmail.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Linux Input <linux-input@vger.kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        =?iso-8859-1?Q?Beno=EEt?= Cousson <bcousson@baylibre.com>,
+        Tony Lindgren <tony@atomide.com>
+Subject: Re: [PATCH] Input: tsc200x: Drop hard-coded IRQ edge
+Message-ID: <YJrye4Ji7CtZq8ds@google.com>
+References: <20210509233830.359134-1-linus.walleij@linaro.org>
+ <YJh8s5rU2VE+DyQz@google.com>
+ <CACRpkdbXuZOrKyDeBttkMzGvHJbnqVgAnQv=Z=Ui0fHQOOaUMg@mail.gmail.com>
+ <YJnSCGN1vUAtjf8F@google.com>
+ <CAHCN7xKPZHLSSehkm5W9MtYSv1S2wH2sNoOAD8yHHWjEpc6tpg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHCN7xKPZHLSSehkm5W9MtYSv1S2wH2sNoOAD8yHHWjEpc6tpg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On my DRC the values only go between 142 (battery LED blinking red
-before shutdown) and 178 (charge LED stopping), it seems to be the same
-on other units according to other testers.  This might be the raw
-voltage value as reported by an ADC, so adding a linear interpolation
-between two common battery voltage values.
+On Tue, May 11, 2021 at 01:24:00PM -0500, Adam Ford wrote:
+> On Mon, May 10, 2021 at 7:39 PM Dmitry Torokhov
+> <dmitry.torokhov@gmail.com> wrote:
+> >
+> > On Mon, May 10, 2021 at 11:29:08AM +0200, Linus Walleij wrote:
+> > > On Mon, May 10, 2021 at 2:22 AM Dmitry Torokhov
+> > > <dmitry.torokhov@gmail.com> wrote:
+> > > > On Mon, May 10, 2021 at 01:38:30AM +0200, Linus Walleij wrote:
+> > >
+> > > > > This edge setting should come from the device tree not
+> > > > > the driver. Also, most device trees sets this to the
+> > > > > falling edge, which is contradictory to what is hardcoded.
+> > > >
+> > > > I see there are 2 possibilities:
+> > > >
+> > > > 1. The driver has never worked
+> > > > 2. DT interrupt annotation is wrong.
+> > > >
+> > > > It would be nice to know if we are dealing with 1 or 2, as in case of #2
+> > > > we need to adjust DTSes before this patch can be applied.
+> > >
+> > > I looked closer and unfortunately the mess and confusion
+> > > is bizarre.
+> > >
+> > > The DTS files we know of are:
+> > > arch/arm/boot/dts/am3517-som.dtsi - rising
+> > > arch/arm/boot/dts/imx28-tx28.dts - falling
+> > > arch/arm/boot/dts/imx35-eukrea-cpuimx35.dtsi - low
+> > > arch/arm/boot/dts/imx51-eukrea-cpuimx51.dtsi - low
+> > > arch/arm/boot/dts/imx53-tx53-x03x.dts - falling
+> > > arch/arm/boot/dts/imx6q-dhcom-som.dtsi - falling
+> > > arch/arm/boot/dts/imx6qdl-tx6.dtsi - none
+> > > arch/arm/boot/dts/imx6ul-tx6ul.dtsi - none
+> > > arch/arm/boot/dts/imx7d-nitrogen7.dts - falling
+> > > arch/arm/boot/dts/logicpd-som-lv.dtsi - rising
+> > > arch/arm/boot/dts/logicpd-torpedo-baseboard.dtsi - rising
+> > > arch/arm/boot/dts/omap3-gta04.dtsi - falling
+> > > arch/arm/boot/dts/omap3-n900.dts - rising
+> > > arch/arm/boot/dts/omap4-var-som-om44.dtsi - low
+> > > arch/arm/boot/dts/stm32mp15xx-dhcom-som.dtsi - falling
+> > >
+> > > We can assume that some of this is the result of board
+> > > engineers introducing inverters on the board as is custom,
+> > > so the flags are actually correct when set to falling, just
+> > > that we don't model the inverter.
+> > >
+> > > In the case of imx6qdl-tx6 and imx6ul-tx6ul with "none" IRQ
+> > > type I assume this flag in the driver is actually necessary
+> > > for the device to work at all.
+> > >
+> > > In the cases where rising is set, the addition of the flag is
+> > > plain tautology, just setting what is already set.
+> > >
+> > > In the cases where falling are set the interrupts will arrive
+> > > on both edges (if the hardware can provide that, which is
+> > > not always the case) and as a result fire twice as many
+> > > interrupts as they should, probably with zero effect on the
+> > > second IRQ, just reporting nothing.
+> >
+> > That is not how we set up interrupts though. We only use
+> > platform-supplied trigger if caller did not specify trigger when calling
+> > request_irq().  From kernel/irq/manage.c::__setup_irq():
+> >
+> >         /*
+> >          * If the trigger type is not specified by the caller,
+> >          * then use the default for this interrupt.
+> >          */
+> >         if (!(new->flags & IRQF_TRIGGER_MASK))
+> >                 new->flags |= irqd_get_trigger_type(&desc->irq_data);
+> >
+> > So in our case, since driver specified IRQF_TRIGGER_RISING it is how
+> > interrupt line was configured, and what was in DTS had no effect.
+> >
+> > >
+> > > The combination with active low is weird. I wonder what
+> > > happens there.
+> > >
+> > > I am just confused now and have no idea what to do about
+> > > it...
+> > >
+> > > But I just CC all the Freescale and OMAP people who
+> > > seem to maintain these DTS files so they can clarify
+> > > how well assigned these edges, none and active low (!)
+> > > IRQs are.
+> >
+> > Hopefully they can confirm how the controller is wired on their boards
+> > and then we can correct invalid DTSes and then finally apply your patch
+> > to the driver.
+> 
+> I reviewed the Logicpd Torpedo (DM3730) and there isn't an interter.
+> I changed the device tree entry for it to falling edge instead and
+> rising, and it continued to work perfectly.
+> 
+> I'll review both the schematics and test the am3517-evm and the
+> logicpd som-lv, but I am going to expect the same results since
+> they'll all basically copy-paste of each other.
+> 
+> Once I've completed my analysis, I'll post device tree updates for all
+> the logicpd stuff.
 
-A spinlock is used to avoid the battery level and status from being
-reported unsynchronised.
+OK, so this is quite complicated. According to the datasheets [1], [2]
+the ^PINTDAV pin is an active low pin, but in the default mode of
+touchcsreen the "value" of the pin is logical AND of ^PENIRQ (active
+low) and DAV [data available] (active high), which essentially turns it
+into "edge" interrupt with data being available when pin is
+transitioning from low to high. See fig 39 in [1] and 32 in [2].
+This explains all the confusion in DTSes.
 
-Signed-off-by: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
----
- drivers/hid/hid-wiiu-drc.c | 123 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 123 insertions(+)
+The driver is using this default mode, but this is not purely hardware
+configuration. I think what we need is to have DTS to specify level,
+either low or high, to allow handle presence of an inverter, and have
+driver check the assigned polarity and convert it to the right edge as
+long as it continues using the default method of handling of PINTDAV.
 
-diff --git a/drivers/hid/hid-wiiu-drc.c b/drivers/hid/hid-wiiu-drc.c
-index a631d405119e..c1c883641b67 100644
---- a/drivers/hid/hid-wiiu-drc.c
-+++ b/drivers/hid/hid-wiiu-drc.c
-@@ -17,6 +17,8 @@
- #include <linux/input.h>
- #include <linux/minmax.h>
- #include <linux/module.h>
-+#include <linux/power_supply.h>
-+#include <linux/spinlock.h>
- #include "hid-ids.h"
- 
- #define DEVICE_NAME	"Nintendo Wii U gamepad (DRC)"
-@@ -71,6 +73,13 @@
- #define MAGNET_MIN	-(1 << 15)
- #define MAGNET_MAX	((1 << 15) - 1)
- 
-+/* ADC constants for the battery */
-+#define BATTERY_CHARGING_BIT	BIT(6)
-+#define BATTERY_MIN	142
-+#define BATTERY_MAX	178
-+#define VOLTAGE_MIN	3270000
-+#define VOLTAGE_MAX	4100000
-+
- /*
-  * The device is setup with multiple input devices:
-  * - A joypad with the buttons and sticks.
-@@ -83,6 +92,12 @@ struct drc {
- 	struct input_dev *touch_input_dev;
- 	struct input_dev *accel_input_dev;
- 	struct hid_device *hdev;
-+
-+	struct power_supply *battery;
-+	struct power_supply_desc battery_desc;
-+	spinlock_t battery_lock;
-+	u8 battery_energy;
-+	int battery_status;
- };
- 
- /*
-@@ -99,6 +114,7 @@ static int drc_raw_event(struct hid_device *hdev, struct hid_report *report,
- 	struct drc *drc = hid_get_drvdata(hdev);
- 	int i, x, y, z, pressure, base;
- 	u32 buttons;
-+	unsigned long flags;
- 
- 	if (len != 128)
- 		return -EINVAL;
-@@ -217,6 +233,17 @@ static int drc_raw_event(struct hid_device *hdev, struct hid_report *report,
- 	input_report_abs(drc->accel_input_dev, ABS_WHEEL, (int16_t)z);
- 	input_sync(drc->accel_input_dev);
- 
-+	/* battery */
-+	spin_lock_irqsave(&drc->battery_lock, flags);
-+	drc->battery_energy = data[5];
-+	if (drc->battery_energy == BATTERY_MAX)
-+		drc->battery_status = POWER_SUPPLY_STATUS_FULL;
-+	else if (data[4] & BATTERY_CHARGING_BIT)
-+		drc->battery_status = POWER_SUPPLY_STATUS_CHARGING;
-+	else
-+		drc->battery_status = POWER_SUPPLY_STATUS_DISCHARGING;
-+	spin_unlock_irqrestore(&drc->battery_lock, flags);
-+
- 	/* let hidraw and hiddev handle the report */
- 	return 0;
- }
-@@ -366,6 +393,96 @@ static bool drc_setup_accel(struct drc *drc,
- 	return true;
- }
- 
-+static enum power_supply_property drc_battery_props[] = {
-+	POWER_SUPPLY_PROP_STATUS,
-+	POWER_SUPPLY_PROP_PRESENT,
-+	POWER_SUPPLY_PROP_VOLTAGE_MAX,
-+	POWER_SUPPLY_PROP_VOLTAGE_MIN,
-+	POWER_SUPPLY_PROP_VOLTAGE_NOW,
-+	POWER_SUPPLY_PROP_CAPACITY,
-+	POWER_SUPPLY_PROP_SCOPE,
-+};
-+
-+static int drc_battery_get_property(struct power_supply *psy,
-+				    enum power_supply_property psp,
-+				    union power_supply_propval *val)
-+{
-+	struct drc *drc = power_supply_get_drvdata(psy);
-+	unsigned long flags;
-+	int ret = 0;
-+	u8 battery_energy;
-+	int battery_status;
-+
-+	spin_lock_irqsave(&drc->battery_lock, flags);
-+	battery_energy = drc->battery_energy;
-+	battery_status = drc->battery_status;
-+	spin_unlock_irqrestore(&drc->battery_lock, flags);
-+
-+	switch (psp) {
-+	case POWER_SUPPLY_PROP_STATUS:
-+		val->intval = battery_status;
-+		break;
-+	case POWER_SUPPLY_PROP_PRESENT:
-+		val->intval = 1;
-+		break;
-+	case POWER_SUPPLY_PROP_VOLTAGE_MAX:
-+		val->intval = VOLTAGE_MAX;
-+		break;
-+	case POWER_SUPPLY_PROP_VOLTAGE_MIN:
-+		val->intval = VOLTAGE_MIN;
-+		break;
-+	case POWER_SUPPLY_PROP_VOLTAGE_NOW:
-+		val->intval = fixp_linear_interpolate(BATTERY_MIN, VOLTAGE_MIN,
-+						      BATTERY_MAX, VOLTAGE_MAX,
-+						      battery_energy);
-+		break;
-+	case POWER_SUPPLY_PROP_CAPACITY:
-+		val->intval = fixp_linear_interpolate(BATTERY_MIN, 0,
-+						      BATTERY_MAX, 100,
-+						      battery_energy);
-+		break;
-+	case POWER_SUPPLY_PROP_SCOPE:
-+		val->intval = POWER_SUPPLY_SCOPE_DEVICE;
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+	return ret;
-+}
-+
-+static int drc_setup_battery(struct drc *drc,
-+			     struct hid_device *hdev)
-+{
-+	struct power_supply_config psy_cfg = { .drv_data = drc, };
-+	static atomic_t drc_num = ATOMIC_INIT(0);
-+	int ret;
-+
-+	spin_lock_init(&drc->battery_lock);
-+
-+	drc->battery_desc.properties = drc_battery_props;
-+	drc->battery_desc.num_properties = ARRAY_SIZE(drc_battery_props);
-+	drc->battery_desc.get_property = drc_battery_get_property;
-+	drc->battery_desc.type = POWER_SUPPLY_TYPE_BATTERY;
-+	drc->battery_desc.use_for_apm = 0;
-+
-+	drc->battery_desc.name = devm_kasprintf(&hdev->dev, GFP_KERNEL,
-+						"wiiu-drc-%i-battery", atomic_fetch_inc(&drc_num));
-+	if (!drc->battery_desc.name)
-+		return -ENOMEM;
-+
-+	drc->battery = devm_power_supply_register(&hdev->dev, &drc->battery_desc, &psy_cfg);
-+	if (IS_ERR(drc->battery)) {
-+		ret = PTR_ERR(drc->battery);
-+		hid_err(hdev, "Unable to register battery device\n");
-+		return ret;
-+	}
-+
-+	power_supply_powers(drc->battery, &hdev->dev);
-+
-+	return 0;
-+}
-+
- static int drc_probe(struct hid_device *hdev, const struct hid_device_id *id)
- {
- 	struct drc *drc;
-@@ -392,6 +509,12 @@ static int drc_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 		return -ENOMEM;
- 	}
- 
-+	ret = drc_setup_battery(drc, hdev);
-+	if (ret) {
-+		hid_err(hdev, "could not allocate battery interface\n");
-+		return ret;
-+	}
-+
- 	ret = hid_hw_start(hdev, HID_CONNECT_HIDRAW | HID_CONNECT_DRIVER);
- 	if (ret) {
- 		hid_err(hdev, "hw start failed\n");
+WDYT?
+
+[1] https://www.ti.com/lit/ds/symlink/tsc2004.pdf
+[2] https://www.ti.com/lit/ds/symlink/tsc2005.pdf
+
+Thanks.
+
 -- 
-2.31.1
-
+Dmitry
