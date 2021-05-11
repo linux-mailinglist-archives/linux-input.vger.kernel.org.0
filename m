@@ -2,218 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6306037A133
-	for <lists+linux-input@lfdr.de>; Tue, 11 May 2021 09:52:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9FCF37A280
+	for <lists+linux-input@lfdr.de>; Tue, 11 May 2021 10:50:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230126AbhEKHxh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 May 2021 03:53:37 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:3059 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229917AbhEKHxd (ORCPT
+        id S230484AbhEKIvW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 May 2021 04:51:22 -0400
+Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.52]:11750 "EHLO
+        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230480AbhEKIvV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 May 2021 03:53:33 -0400
-Received: from fraeml704-chm.china.huawei.com (unknown [172.18.147.207])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FfVNg53Pnz6wm4T;
-        Tue, 11 May 2021 15:46:27 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml704-chm.china.huawei.com (10.206.15.53) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2176.2; Tue, 11 May 2021 09:52:24 +0200
-Received: from localhost (10.52.125.126) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Tue, 11 May
- 2021 08:52:23 +0100
-Date:   Tue, 11 May 2021 08:50:41 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        "Luca Ceresoli" <luca@lucaceresoli.net>,
-        Stephen Boyd <sboyd@kernel.org>,
-        "Olivier Moysan" <olivier.moysan@foss.st.com>,
-        Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
+        Tue, 11 May 2021 04:51:21 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1620723006; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=ssw2nfbJInwO2EZDBz1hpWgmX+x8qdNbHngLj2q5MLnV1nPTbfRJxjav0czKXq1h35
+    2JazBrdv1385wJxv933ltuMjBLwvgpZOmcKUBqk+QnRextehVWuOXgLYxLrhZ0UT6v4S
+    28YDnn0EDeNt0x0SeUgmli/hI4xguY/RmDPmYGaORNVQ/4VJkSTxv2A7SiVqZaASksQ6
+    CzbPrOy7WIoLJUjWvqUQv4aIaeJn+bxDcFUSg/JaGYFCRdYbIzq6tvJRHca/CoWqp5RV
+    VpOyYIrKSkwn6+qY2PGj2wd+5iw69n857Hrk+J/gD0LKqspGi+054yV+O0xOcTuw5d+N
+    X+Uw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1620723006;
+    s=strato-dkim-0002; d=strato.com;
+    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=HuyggU0+c1IyGuqhfH37nqp0a2aZqTw9VSyu5gx2FuI=;
+    b=bj5F/p/HxQJbkKmh5bvJ4og2RD6dxeOHkQQwASJti5iiEKUWJAKxalZwNoBBBCd4Sm
+    +ux5e2Z0yIYj7JvIeGpSppkPYWZnuAoGw954Or/ESkZ3lQKksl1tU8yoGOjlGB/8I+Ku
+    aOkczFD5kbNVkpc7tc51/GyO0RzDERL87TioY9fu4Jub0/v66kf77soKMUPCnjkM90if
+    vnIL9N3uon9UfyX8VdEaJkb51TZJzFMyv+39J56m4KtMxy7cFR1lklXCJxp12o6KuQu8
+    4EQaywKRBKc3iXbSx9W0YsLt55iBC3lEuNUHzZHgNM9ADxacpmZ22NksQhNUkIMciEzT
+    wwHQ==
+ARC-Authentication-Results: i=1; strato.com;
+    dkim=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1620723006;
+    s=strato-dkim-0002; d=gerhold.net;
+    h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+    From:Subject:Sender;
+    bh=HuyggU0+c1IyGuqhfH37nqp0a2aZqTw9VSyu5gx2FuI=;
+    b=tA2ATFgf7hZEJ3fH7rXkFEq3jbW042aEnnPszG0yTT84mglI4gcFCooinVWefT2sx2
+    EKN7T3X64KxybpdwfdBd/7u7i/1itf9Ta9dXvZ7niS53Ryr36H6RZZ1fJUs7UP2fjdEv
+    laZFeu0FStR2Nq9S82C5wlu/Q0FEO7ISRfDdtSUneRGMExhlDu4hH8vzcEmSKSJ6Mzq3
+    QH5UcVns7ES4iNUIjm70X+DQoi6zv41OpUkkeZ/mi/HoF0NtcMREkNIO905V66tv+U5H
+    ENa0a3Y9aik8droOGhmJNsNjnDFughMr0Vl4j10ahnqjBGx6zna5FM9uxP5IaaXb4nb6
+    be/Q==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":P3gBZUipdd93FF5ZZvYFPugejmSTVR2nRPhVOQ/OcYgojyw4j34+u26zEodhPgRDZ8j8IczFY4o="
+X-RZG-CLASS-ID: mo00
+Received: from gerhold.net
+    by smtp.strato.de (RZmta 47.25.6 DYNA|AUTH)
+    with ESMTPSA id e01f26x4B8o6bkS
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+        (Client did not present a certificate);
+    Tue, 11 May 2021 10:50:06 +0200 (CEST)
+Date:   Tue, 11 May 2021 10:50:01 +0200
+From:   Stephan Gerhold <stephan@gerhold.net>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Georgi Djakov <djakov@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        "Orson Zhai" <orsonzhai@gmail.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        "Chunyan Zhang" <zhang.lyra@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Fabrice Gasnier <fabrice.gasnier@st.com>,
-        Odelu Kukatla <okukatla@codeaurora.org>,
-        Alex Elder <elder@kernel.org>,
-        Shengjiu Wang <shengjiu.wang@nxp.com>,
-        <linux-clk@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-iio@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-input@vger.kernel.org>, <linux-pm@vger.kernel.org>,
-        <netdev@vger.kernel.org>
-Subject: Re: [PATCH] dt-bindings: More removals of type references on common
- properties
-Message-ID: <20210511085041.00000d39@Huawei.com>
-In-Reply-To: <20210510204524.617390-1-robh@kernel.org>
-References: <20210510204524.617390-1-robh@kernel.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; i686-w64-mingw32)
+        linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org,
+        Simon Budig <simon.budig@kernelconcepts.de>,
+        Marco Felsch <m.felsch@pengutronix.de>
+Subject: Re: [PATCH v2 2/2] Input: edt-ft5x06 - add support for iovcc-supply
+Message-ID: <YJpFOVv1ifKBEwWV@gerhold.net>
+References: <20210510193108.50178-1-stephan@gerhold.net>
+ <20210510193108.50178-2-stephan@gerhold.net>
+ <20210510194848.g7cgty3lirxkht5g@core>
+ <YJmUm/6Vm3d9hp1z@gerhold.net>
+ <YJowd/tDgVD2TBKO@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.52.125.126]
-X-ClientProxiedBy: lhreml730-chm.china.huawei.com (10.201.108.81) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YJowd/tDgVD2TBKO@smile.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 10 May 2021 15:45:24 -0500
-Rob Herring <robh@kernel.org> wrote:
-
-> Users of common properties shouldn't have a type definition as the
-> common schemas already have one. A few new ones slipped in and
-> *-names was missed in the last clean-up pass. Drop all the unnecessary
-> type references in the tree.
+On Tue, May 11, 2021 at 10:21:27AM +0300, Andy Shevchenko wrote:
+> On Mon, May 10, 2021 at 10:16:41PM +0200, Stephan Gerhold wrote:
+> > On Mon, May 10, 2021 at 09:48:48PM +0200, Ondřej Jirman wrote:
+> > 
+> >   - Bulk regulator API: AFAICT there is no way to use it while also
+> >     maintaining the correct enable/disable order plus the 10us delay.
+> >     See https://lore.kernel.org/linux-input/X%2Fwj+bxe%2FIlznCj6@gerhold.net/
 > 
-> A meta-schema update to catch these is pending.
+> This by the way can be fixed on regulator level (adding some like ranges into
+> bulk structure with timeouts, and if 0, skip them).
 > 
-> Cc: Luca Ceresoli <luca@lucaceresoli.net>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Olivier Moysan <olivier.moysan@foss.st.com>
-> Cc: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
-> Cc: Jonathan Cameron <jic23@kernel.org>
-> Cc: Lars-Peter Clausen <lars@metafoo.de>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Cc: Georgi Djakov <djakov@kernel.org>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: Orson Zhai <orsonzhai@gmail.com>
-> Cc: Baolin Wang <baolin.wang7@gmail.com>
-> Cc: Chunyan Zhang <zhang.lyra@gmail.com>
-> Cc: Liam Girdwood <lgirdwood@gmail.com>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Fabrice Gasnier <fabrice.gasnier@st.com>
-> Cc: Odelu Kukatla <okukatla@codeaurora.org>
-> Cc: Alex Elder <elder@kernel.org>
-> Cc: Shengjiu Wang <shengjiu.wang@nxp.com>
-> Cc: linux-clk@vger.kernel.org
-> Cc: alsa-devel@alsa-project.org
-> Cc: linux-iio@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-input@vger.kernel.org
-> Cc: linux-pm@vger.kernel.org
-> Cc: netdev@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
 
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+At the moment the bulk regulator API seems specifically designed to
+enable all the regulators at the same time (with some funky asynchronous
+scheduling code). I'm not sure if there is a straightforward way to
+fit in a sequential enable/disable order with potential delays.
 
-> ---
->  Documentation/devicetree/bindings/clock/idt,versaclock5.yaml    | 2 --
->  .../devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml         | 1 -
->  Documentation/devicetree/bindings/input/input.yaml              | 1 -
->  Documentation/devicetree/bindings/interconnect/qcom,rpmh.yaml   | 1 -
->  Documentation/devicetree/bindings/net/qcom,ipa.yaml             | 1 -
->  .../devicetree/bindings/power/supply/sc2731-charger.yaml        | 2 +-
->  Documentation/devicetree/bindings/sound/fsl,rpmsg.yaml          | 2 +-
->  7 files changed, 2 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-> index c268debe5b8d..28675b0b80f1 100644
-> --- a/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-> +++ b/Documentation/devicetree/bindings/clock/idt,versaclock5.yaml
-> @@ -60,7 +60,6 @@ properties:
->      maxItems: 2
->  
->    idt,xtal-load-femtofarads:
-> -    $ref: /schemas/types.yaml#/definitions/uint32
->      minimum: 9000
->      maximum: 22760
->      description: Optional load capacitor for XTAL1 and XTAL2
-> @@ -84,7 +83,6 @@ patternProperties:
->          enum: [ 1800000, 2500000, 3300000 ]
->        idt,slew-percent:
->          description: The Slew rate control for CMOS single-ended.
-> -        $ref: /schemas/types.yaml#/definitions/uint32
->          enum: [ 80, 85, 90, 100 ]
->  
->  required:
-> diff --git a/Documentation/devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml b/Documentation/devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml
-> index 6f2398cdc82d..1e7894e524f9 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml
-> @@ -102,7 +102,6 @@ patternProperties:
->  
->        st,adc-channel-names:
->          description: List of single-ended channel names.
-> -        $ref: /schemas/types.yaml#/definitions/string-array
->  
->        st,filter-order:
->          description: |
-> diff --git a/Documentation/devicetree/bindings/input/input.yaml b/Documentation/devicetree/bindings/input/input.yaml
-> index 74244d21d2b3..d41d8743aad4 100644
-> --- a/Documentation/devicetree/bindings/input/input.yaml
-> +++ b/Documentation/devicetree/bindings/input/input.yaml
-> @@ -38,6 +38,5 @@ properties:
->        Duration in seconds which the key should be kept pressed for device to
->        reset automatically. Device with key pressed reset feature can specify
->        this property.
-> -    $ref: /schemas/types.yaml#/definitions/uint32
->  
->  additionalProperties: true
-> diff --git a/Documentation/devicetree/bindings/interconnect/qcom,rpmh.yaml b/Documentation/devicetree/bindings/interconnect/qcom,rpmh.yaml
-> index cb6498108b78..36c955965d90 100644
-> --- a/Documentation/devicetree/bindings/interconnect/qcom,rpmh.yaml
-> +++ b/Documentation/devicetree/bindings/interconnect/qcom,rpmh.yaml
-> @@ -92,7 +92,6 @@ properties:
->        this interconnect to send RPMh commands.
->  
->    qcom,bcm-voter-names:
-> -    $ref: /schemas/types.yaml#/definitions/string-array
->      description: |
->        Names for each of the qcom,bcm-voters specified.
->  
-> diff --git a/Documentation/devicetree/bindings/net/qcom,ipa.yaml b/Documentation/devicetree/bindings/net/qcom,ipa.yaml
-> index 7443490d4cc6..5fe6d3dceb08 100644
-> --- a/Documentation/devicetree/bindings/net/qcom,ipa.yaml
-> +++ b/Documentation/devicetree/bindings/net/qcom,ipa.yaml
-> @@ -105,7 +105,6 @@ properties:
->        - description: Whether the IPA clock is enabled (if valid)
->  
->    qcom,smem-state-names:
-> -    $ref: /schemas/types.yaml#/definitions/string-array
->      description: The names of the state bits used for SMP2P output
->      items:
->        - const: ipa-clock-enabled-valid
-> diff --git a/Documentation/devicetree/bindings/power/supply/sc2731-charger.yaml b/Documentation/devicetree/bindings/power/supply/sc2731-charger.yaml
-> index db1aa238cda5..b62c2431f94e 100644
-> --- a/Documentation/devicetree/bindings/power/supply/sc2731-charger.yaml
-> +++ b/Documentation/devicetree/bindings/power/supply/sc2731-charger.yaml
-> @@ -20,7 +20,7 @@ properties:
->      maxItems: 1
->  
->    phys:
-> -    $ref: /schemas/types.yaml#/definitions/phandle
-> +    maxItems: 1
->      description: phandle to the USB phy
->  
->    monitored-battery:
-> diff --git a/Documentation/devicetree/bindings/sound/fsl,rpmsg.yaml b/Documentation/devicetree/bindings/sound/fsl,rpmsg.yaml
-> index b4c190bddd84..61802a11baf4 100644
-> --- a/Documentation/devicetree/bindings/sound/fsl,rpmsg.yaml
-> +++ b/Documentation/devicetree/bindings/sound/fsl,rpmsg.yaml
-> @@ -49,7 +49,7 @@ properties:
->      maxItems: 1
->  
->    memory-region:
-> -    $ref: /schemas/types.yaml#/definitions/phandle
-> +    maxItems: 1
->      description:
->        phandle to a node describing reserved memory (System RAM memory)
->        The M core can't access all the DDR memory space on some platform,
+I'm also not entirely convinced it's worth it in this case. I would say
+the code in this patch (except for the dev_err_probe()) is still quite
+easy to read. Encoding the enable/disable order + delays in some bulk
+regulator struct might actually be more difficult to read.
 
+Thanks,
+Stephan
