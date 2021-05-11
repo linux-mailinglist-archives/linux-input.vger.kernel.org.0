@@ -2,106 +2,175 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8659A37AE4F
-	for <lists+linux-input@lfdr.de>; Tue, 11 May 2021 20:20:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B66337AE64
+	for <lists+linux-input@lfdr.de>; Tue, 11 May 2021 20:24:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232084AbhEKSV6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 May 2021 14:21:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45290 "EHLO
+        id S231462AbhEKSZV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 May 2021 14:25:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232019AbhEKSVz (ORCPT
+        with ESMTP id S231329AbhEKSZV (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 May 2021 14:21:55 -0400
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E1AAC061574;
-        Tue, 11 May 2021 11:20:48 -0700 (PDT)
-Received: by mail-wm1-x32d.google.com with SMTP id o6-20020a05600c4fc6b029015ec06d5269so1758099wmq.0;
-        Tue, 11 May 2021 11:20:48 -0700 (PDT)
+        Tue, 11 May 2021 14:25:21 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 902EDC061574
+        for <linux-input@vger.kernel.org>; Tue, 11 May 2021 11:24:13 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id b25so31130129eju.5
+        for <linux-input@vger.kernel.org>; Tue, 11 May 2021 11:24:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=DXAhBfbLQ+Z6qa68rOJY6vHkUQpdl/o/mBrv046HmPE=;
-        b=aN9uGxsVCwSGaaMATi9By/8HDdoqPOl0q3lr3cIzdtbfu/G/eNywekhLkna127VCEt
-         tZE3NE6TAu9KsM/jlbwp3k1l/Tme4wHoarmv/dBahLYoiZ4Z3UHRSmlNrfJq1Be+F7mC
-         Crr01OCpUEiz2VLgF3B7HVTViQXg3r0iBnHVsBsvQKMB6n3W4pGIX7NE0STtN7flNZO0
-         OL4jN4QzJ3SYcRtQcy15+SLA61tzqOf4IziNuXew0YgLKH82KFCEAu9WytWtAqgrnQ7q
-         CBeL309KqrkyZh16Vomg8ESDCKwEHHxpLujOcfZxjnV8ukFV/EkHkorJ07kzxGlVkwol
-         8E7g==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SXEwYB1Y2EYTuZm4BqlvsgjrmrmNyGSE2d2Vv2IpoK8=;
+        b=G/TjkccCT6/9EiLvtC7Y/w2n9cqtzu9rRS9IZ4Iqcl2vJjdc0D+2eYbllBf+QgGpZX
+         0J3HdJDeE0cdwr6dxln/A9gLQGf4D1EHglvrA9SUPmYhVPFyif8dZZuufa9btSMHXWMS
+         gu5oqlR50kzM7k7Ee5eg0a64HpLcFmnU4bVUp8OzV0mJ0vjG93V4ylHON7ITG5FAdLaC
+         d0CbmI+nT8MpZNXiUnNZQ8gxKncaSz01P897pzQYopUS5n08seI2UGUXLzmOkdWkqthX
+         MwnKI3Lt1JvK+EVafMG2YsdM/ph9Zc3vlNPfJZRXMY0CsHfdKi8sB4omEHMYry+XJfPq
+         J2VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=DXAhBfbLQ+Z6qa68rOJY6vHkUQpdl/o/mBrv046HmPE=;
-        b=d1rndeaMIlnhuyPBa0yczMhYr89DczuAEArd2zBsbYttsu4ibFwqfy95UHFY8cpfHD
-         GPrFFxsnanYShQuHPznoHAaA6zSA+UJNeT4t/zeRqMMiUlPZ/i4TSH+i3RPUnpg+tVGy
-         Gb5oYD3/4eS3C9ex3OdMkp4+icDs1ko12eDjd+UP+8pW2e+bz5atKtA6uHyKEurMLiAc
-         56Gb1f/QeWVT3H6puBipGt1/OoH4K6lNrR+1TOneiDNK1tQEHoxPjh/doAidT0XXx6Qw
-         JYVX45ERB9nFs+v52+Pq/OAhWr3yoyA9sN8tag2Mz8Lhr3gxRgc0GnHZtK0ve8ebC2Bl
-         xQoQ==
-X-Gm-Message-State: AOAM532i1cAGNzLAR3/fuvX0BYeEof4lLiFEDUO4JqXpLsbygO4RwX9Q
-        z09UprtmmGspR7pigaH2WOE=
-X-Google-Smtp-Source: ABdhPJxV18DCIwXmjWUt0yrboA4C4tGwbySkgdDTrM7UyarjQvbbUVLI4Dd1XWDU8CIePuUZeXs8pA==
-X-Received: by 2002:a05:600c:4f04:: with SMTP id l4mr33852177wmq.18.1620757247138;
-        Tue, 11 May 2021 11:20:47 -0700 (PDT)
-Received: from localhost.localdomain ([94.73.38.147])
-        by smtp.gmail.com with ESMTPSA id d15sm28012133wrw.71.2021.05.11.11.20.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 May 2021 11:20:46 -0700 (PDT)
-From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-To:     jikos@kernel.org
-Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH 5/5] HID: magicmouse: report battery status
-Date:   Tue, 11 May 2021 20:20:23 +0200
-Message-Id: <20210511182023.730524-5-jose.exposito89@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210511182023.730524-1-jose.exposito89@gmail.com>
-References: <20210511182023.730524-1-jose.exposito89@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SXEwYB1Y2EYTuZm4BqlvsgjrmrmNyGSE2d2Vv2IpoK8=;
+        b=JhZIB0zxCU2LFFdAWMYpczDzS/yXctkudZVMrMMoS6XfSycqEqfuOpbFtKTfHes3zS
+         mDaTWSJhKnzt0+D0NSMLIT/qMLSR/ijmC+FoWBYOKu1XWmD2Q21EjUBrfU6T+JIg3LWV
+         NAZG3hOi+MkEzon6/DTFpf5Vg2kFVZfks5QKdVWei0h8dLFB76hqRKcULqT0k0FSDyUx
+         Y0egXFUf+w8bKSYJkgQ2v2e47uxLUrtX6RCON2D3zCDR+Gd9y6C+NXIEHFH1stMDHk80
+         S2u5RxWL4L5N6KbiTbANbHMilVuvthYgnynl56/aPtdy93WGLnCCdbnzeQ32zHvarJ2b
+         poog==
+X-Gm-Message-State: AOAM5336Ltt2SQI8tjRKWv4o8ClD7cbTDjY3ISt2IRp8cCJNXM+FnSG5
+        YB/VVMExWPcX7DUyl6onfo/3fJh4y2xPG2gGF8OY/EaQhDk=
+X-Google-Smtp-Source: ABdhPJxofUWKnEfjncp/oIOHqP4w5Ay6Lfh4QecK7xCbboTRNxnQY2TAxu3bTvi5IseK0MHyTeVWWRu4jsI+AeY9Kh0=
+X-Received: by 2002:a17:906:5a96:: with SMTP id l22mr33294455ejq.450.1620757452006;
+ Tue, 11 May 2021 11:24:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20210509233830.359134-1-linus.walleij@linaro.org>
+ <YJh8s5rU2VE+DyQz@google.com> <CACRpkdbXuZOrKyDeBttkMzGvHJbnqVgAnQv=Z=Ui0fHQOOaUMg@mail.gmail.com>
+ <YJnSCGN1vUAtjf8F@google.com>
+In-Reply-To: <YJnSCGN1vUAtjf8F@google.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Tue, 11 May 2021 13:24:00 -0500
+Message-ID: <CAHCN7xKPZHLSSehkm5W9MtYSv1S2wH2sNoOAD8yHHWjEpc6tpg@mail.gmail.com>
+Subject: Re: [PATCH] Input: tsc200x: Drop hard-coded IRQ edge
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Linux Input <linux-input@vger.kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
+        Tony Lindgren <tony@atomide.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Report the battery charging status for the Apple Magic Mouse 2
-and the Apple Magic Trackpad 2.
+On Mon, May 10, 2021 at 7:39 PM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> On Mon, May 10, 2021 at 11:29:08AM +0200, Linus Walleij wrote:
+> > On Mon, May 10, 2021 at 2:22 AM Dmitry Torokhov
+> > <dmitry.torokhov@gmail.com> wrote:
+> > > On Mon, May 10, 2021 at 01:38:30AM +0200, Linus Walleij wrote:
+> >
+> > > > This edge setting should come from the device tree not
+> > > > the driver. Also, most device trees sets this to the
+> > > > falling edge, which is contradictory to what is hardcoded.
+> > >
+> > > I see there are 2 possibilities:
+> > >
+> > > 1. The driver has never worked
+> > > 2. DT interrupt annotation is wrong.
+> > >
+> > > It would be nice to know if we are dealing with 1 or 2, as in case of #2
+> > > we need to adjust DTSes before this patch can be applied.
+> >
+> > I looked closer and unfortunately the mess and confusion
+> > is bizarre.
+> >
+> > The DTS files we know of are:
+> > arch/arm/boot/dts/am3517-som.dtsi - rising
+> > arch/arm/boot/dts/imx28-tx28.dts - falling
+> > arch/arm/boot/dts/imx35-eukrea-cpuimx35.dtsi - low
+> > arch/arm/boot/dts/imx51-eukrea-cpuimx51.dtsi - low
+> > arch/arm/boot/dts/imx53-tx53-x03x.dts - falling
+> > arch/arm/boot/dts/imx6q-dhcom-som.dtsi - falling
+> > arch/arm/boot/dts/imx6qdl-tx6.dtsi - none
+> > arch/arm/boot/dts/imx6ul-tx6ul.dtsi - none
+> > arch/arm/boot/dts/imx7d-nitrogen7.dts - falling
+> > arch/arm/boot/dts/logicpd-som-lv.dtsi - rising
+> > arch/arm/boot/dts/logicpd-torpedo-baseboard.dtsi - rising
+> > arch/arm/boot/dts/omap3-gta04.dtsi - falling
+> > arch/arm/boot/dts/omap3-n900.dts - rising
+> > arch/arm/boot/dts/omap4-var-som-om44.dtsi - low
+> > arch/arm/boot/dts/stm32mp15xx-dhcom-som.dtsi - falling
+> >
+> > We can assume that some of this is the result of board
+> > engineers introducing inverters on the board as is custom,
+> > so the flags are actually correct when set to falling, just
+> > that we don't model the inverter.
+> >
+> > In the case of imx6qdl-tx6 and imx6ul-tx6ul with "none" IRQ
+> > type I assume this flag in the driver is actually necessary
+> > for the device to work at all.
+> >
+> > In the cases where rising is set, the addition of the flag is
+> > plain tautology, just setting what is already set.
+> >
+> > In the cases where falling are set the interrupts will arrive
+> > on both edges (if the hardware can provide that, which is
+> > not always the case) and as a result fire twice as many
+> > interrupts as they should, probably with zero effect on the
+> > second IRQ, just reporting nothing.
+>
+> That is not how we set up interrupts though. We only use
+> platform-supplied trigger if caller did not specify trigger when calling
+> request_irq().  From kernel/irq/manage.c::__setup_irq():
+>
+>         /*
+>          * If the trigger type is not specified by the caller,
+>          * then use the default for this interrupt.
+>          */
+>         if (!(new->flags & IRQF_TRIGGER_MASK))
+>                 new->flags |= irqd_get_trigger_type(&desc->irq_data);
+>
+> So in our case, since driver specified IRQF_TRIGGER_RISING it is how
+> interrupt line was configured, and what was in DTS had no effect.
+>
+> >
+> > The combination with active low is weird. I wonder what
+> > happens there.
+> >
+> > I am just confused now and have no idea what to do about
+> > it...
+> >
+> > But I just CC all the Freescale and OMAP people who
+> > seem to maintain these DTS files so they can clarify
+> > how well assigned these edges, none and active low (!)
+> > IRQs are.
+>
+> Hopefully they can confirm how the controller is wired on their boards
+> and then we can correct invalid DTSes and then finally apply your patch
+> to the driver.
 
-Signed-off-by: José Expósito <jose.exposito89@gmail.com>
----
- drivers/hid/hid-magicmouse.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+I reviewed the Logicpd Torpedo (DM3730) and there isn't an interter.
+I changed the device tree entry for it to falling edge instead and
+rising, and it continued to work perfectly.
 
-diff --git a/drivers/hid/hid-magicmouse.c b/drivers/hid/hid-magicmouse.c
-index 53e8a10f0551..4085b6698f2c 100644
---- a/drivers/hid/hid-magicmouse.c
-+++ b/drivers/hid/hid-magicmouse.c
-@@ -155,6 +155,7 @@ static enum power_supply_property magicmouse_ps_props[] = {
- 	POWER_SUPPLY_PROP_PRESENT,
- 	POWER_SUPPLY_PROP_SCOPE,
- 	POWER_SUPPLY_PROP_CAPACITY,
-+	POWER_SUPPLY_PROP_STATUS,
- };
- 
- static bool magicmouse_can_report_battery(struct magicmouse_sc *msc)
-@@ -229,6 +230,15 @@ static int magicmouse_battery_get_property(struct power_supply *psy,
- 
- 		val->intval = msc->battery.capacity;
- 		break;
-+	case POWER_SUPPLY_PROP_STATUS:
-+		if (msc->input->id.vendor == BT_VENDOR_ID_APPLE) {
-+			val->intval = POWER_SUPPLY_STATUS_DISCHARGING;
-+		} else { /* USB_VENDOR_ID_APPLE */
-+			val->intval = (msc->battery.capacity == 100) ?
-+				      POWER_SUPPLY_STATUS_FULL :
-+				      POWER_SUPPLY_STATUS_CHARGING;
-+		}
-+		break;
- 	default:
- 		ret = -EINVAL;
- 		break;
--- 
-2.25.1
+I'll review both the schematics and test the am3517-evm and the
+logicpd som-lv, but I am going to expect the same results since
+they'll all basically copy-paste of each other.
 
+Once I've completed my analysis, I'll post device tree updates for all
+the logicpd stuff.
+
+adam
+
+>
+> Thanks.
+>
+> --
+> Dmitry
