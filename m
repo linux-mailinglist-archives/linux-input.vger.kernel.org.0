@@ -2,162 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 250C937A45B
-	for <lists+linux-input@lfdr.de>; Tue, 11 May 2021 12:12:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C11A437A586
+	for <lists+linux-input@lfdr.de>; Tue, 11 May 2021 13:14:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231340AbhEKKN3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 May 2021 06:13:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47022 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231177AbhEKKN3 (ORCPT
+        id S231397AbhEKLPZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 11 May 2021 07:15:25 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2695 "EHLO
+        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230237AbhEKLPW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 May 2021 06:13:29 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89AE4C061574;
-        Tue, 11 May 2021 03:12:22 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id n84so10824252wma.0;
-        Tue, 11 May 2021 03:12:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yycjFgbB6++8FfDR2a0SYMKkib7VSh+fxdoVw7JnnlI=;
-        b=uTm8lLy485DrhpF6TDFZ6Yq5Uo/c1/8UArG+whHuSSYuMmtio4/zuwd5OhozoCGnLP
-         TLTroSjQ5Oc1leU6eX0Z7LFNh27M+b0yi7vIBpicdmFk1fT2NN2Mn81YPSj+xC/SY5gl
-         yDgU4EAc11VBrrD3pc6lkJHuUs+v3x+z7hXUDO173c8MMNUW4hNVpSQiDtolJB0xYEcU
-         NwuqMTcXW/9QCQpLvoLuAwZYACGiEuMJ8/aCbmwOLeEteeEOJtQtWAe3voSzxQBYNdNt
-         atSSY+AQzd9WoBtIAROoV5P/0UN6lzdbiSNaL+X4uXJwmnDLhlTU8KwXZgM9RpN+vJSU
-         0Edw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yycjFgbB6++8FfDR2a0SYMKkib7VSh+fxdoVw7JnnlI=;
-        b=eVae1JH3Plcv4y2V49UHEU/yk0ro/pRcTprUcYMlvNVOKBXRMIsUFnuDi8BstuyApn
-         tunp4fE+O++fwKgs3mTeaYIxq+2z/X+x1zCA0n36N5aUwOBzSretVm7YBYBXT2v+K2R+
-         m0maORx1jGDvONNjFUnr5MKJzcG7ohbooLXI27MFuAXSyqgs4B84ipxei2dfHqvaEPG3
-         NzmMjLoQUvxB4xG91BktoJW+yAmBdiQtZ1W6mdYItg/2LLNtHLYykXu+h0ItFGaCwrOK
-         N6KvukKmU6ROmsTaTd1+K+JQDSCfqrTFF7643WfZKhKHTm+TUwf1dxugqnSBNcromfnZ
-         hk5Q==
-X-Gm-Message-State: AOAM530aBjW1TOhMvPlEHoEcz52FFtOJap566ceWpHA+I6HLinA3/OMF
-        wNmgFHY47YRTZzs9XFtO5XQ=
-X-Google-Smtp-Source: ABdhPJxqFAKv38utcX0KHG3ZH/EH1jArGTeSsn9R5iYAXMjMfzPlsDO32mDGedmZOg2VdMzzUpIY/A==
-X-Received: by 2002:a05:600c:4f0f:: with SMTP id l15mr4482464wmq.143.1620727941224;
-        Tue, 11 May 2021 03:12:21 -0700 (PDT)
-Received: from michael-VirtualBox.xsight.ent (cbl217-132-244-50.bb.netvision.net.il. [217.132.244.50])
-        by smtp.googlemail.com with ESMTPSA id y14sm26691084wrs.64.2021.05.11.03.12.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 May 2021 03:12:20 -0700 (PDT)
-From:   Michael Zaidman <michael.zaidman@gmail.com>
-To:     trix@redhat.com, jikos@kernel.org, benjamin.tissoires@redhat.com
-Cc:     linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Michael Zaidman <michael.zaidman@gmail.com>
-Subject: [PATCH v4] HID: ft260: improve error handling of ft260_hid_feature_report_get()
-Date:   Tue, 11 May 2021 13:12:08 +0300
-Message-Id: <20210511101208.16401-1-michael.zaidman@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 11 May 2021 07:15:22 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.59])
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FfZxK4Z9kz1BJbS
+        for <linux-input@vger.kernel.org>; Tue, 11 May 2021 19:11:33 +0800 (CST)
+Received: from thunder-town.china.huawei.com (10.174.177.72) by
+ DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
+ 14.3.498.0; Tue, 11 May 2021 19:14:07 +0800
+From:   Zhen Lei <thunder.leizhen@huawei.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input <linux-input@vger.kernel.org>
+CC:     Zhen Lei <thunder.leizhen@huawei.com>
+Subject: [PATCH 1/1] Input: olpc_apsp - Remove redundant error printing in olpc_apsp_probe()
+Date:   Tue, 11 May 2021 19:13:21 +0800
+Message-ID: <20210511111321.5209-1-thunder.leizhen@huawei.com>
+X-Mailer: git-send-email 2.26.0.windows.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.174.177.72]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Fixes: 6a82582d9fa4 ("HID: ft260: add usb hid to i2c host bridge driver")
+When devm_ioremap_resource() fails, a clear enough error message will be
+printed by its subfunction __devm_ioremap_resource(). The error
+information contains the device name, failure cause, and possibly resource
+information.
 
-The ft260_hid_feature_report_get() checks if the return size matches
-the requested size. But the function can also fail with at least -ENOMEM.
-Add the < 0 checks.
+Therefore, remove the error printing here to simplify code and reduce the
+binary size.
 
-In ft260_hid_feature_report_get(), do not do the memcpy to the caller's
-buffer if there is an error.
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+---
+ drivers/input/serio/olpc_apsp.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
----
-v4   Fixed commit message
----
-v3   Simplify and optimize the changes
----
-v2:  add unlikely()'s for error conditions
----
-
-Signed-off-by: Tom Rix <trix@redhat.com>
-Signed-off-by: Michael Zaidman <michael.zaidman@gmail.com>
----
- drivers/hid/hid-ft260.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/hid/hid-ft260.c b/drivers/hid/hid-ft260.c
-index 047aa85a7c83..7f4cb823129e 100644
---- a/drivers/hid/hid-ft260.c
-+++ b/drivers/hid/hid-ft260.c
-@@ -249,7 +249,10 @@ static int ft260_hid_feature_report_get(struct hid_device *hdev,
+diff --git a/drivers/input/serio/olpc_apsp.c b/drivers/input/serio/olpc_apsp.c
+index 59de8d9b6710e34..ef0a16d4c8f46de 100644
+--- a/drivers/input/serio/olpc_apsp.c
++++ b/drivers/input/serio/olpc_apsp.c
+@@ -180,10 +180,8 @@ static int olpc_apsp_probe(struct platform_device *pdev)
  
- 	ret = hid_hw_raw_request(hdev, report_id, buf, len, HID_FEATURE_REPORT,
- 				 HID_REQ_GET_REPORT);
--	memcpy(data, buf, len);
-+	if (likely(ret == len))
-+		memcpy(data, buf, len);
-+	else if (ret >= 0)
-+		ret = -EIO;
- 	kfree(buf);
- 	return ret;
- }
-@@ -298,7 +301,7 @@ static int ft260_xfer_status(struct ft260_device *dev)
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	priv->base = devm_ioremap_resource(&pdev->dev, res);
+-	if (IS_ERR(priv->base)) {
+-		dev_err(&pdev->dev, "Failed to map WTM registers\n");
++	if (IS_ERR(priv->base))
+ 		return PTR_ERR(priv->base);
+-	}
  
- 	ret = ft260_hid_feature_report_get(hdev, FT260_I2C_STATUS,
- 					   (u8 *)&report, sizeof(report));
--	if (ret < 0) {
-+	if (unlikely(ret < 0)) {
- 		hid_err(hdev, "failed to retrieve status: %d\n", ret);
- 		return ret;
- 	}
-@@ -720,10 +723,9 @@ static int ft260_get_system_config(struct hid_device *hdev,
- 
- 	ret = ft260_hid_feature_report_get(hdev, FT260_SYSTEM_SETTINGS,
- 					   (u8 *)cfg, len);
--	if (ret != len) {
-+	if (ret < 0) {
- 		hid_err(hdev, "failed to retrieve system status\n");
--		if (ret >= 0)
--			return -EIO;
-+		return ret;
- 	}
- 	return 0;
- }
-@@ -776,8 +778,8 @@ static int ft260_byte_show(struct hid_device *hdev, int id, u8 *cfg, int len,
- 	int ret;
- 
- 	ret = ft260_hid_feature_report_get(hdev, id, cfg, len);
--	if (ret != len && ret >= 0)
--		return -EIO;
-+	if (ret < 0)
-+		return ret;
- 
- 	return scnprintf(buf, PAGE_SIZE, "%hi\n", *field);
- }
-@@ -788,8 +790,8 @@ static int ft260_word_show(struct hid_device *hdev, int id, u8 *cfg, int len,
- 	int ret;
- 
- 	ret = ft260_hid_feature_report_get(hdev, id, cfg, len);
--	if (ret != len && ret >= 0)
--		return -EIO;
-+	if (ret < 0)
-+		return ret;
- 
- 	return scnprintf(buf, PAGE_SIZE, "%hi\n", le16_to_cpu(*field));
- }
-@@ -940,10 +942,8 @@ static int ft260_probe(struct hid_device *hdev, const struct hid_device_id *id)
- 
- 	ret = ft260_hid_feature_report_get(hdev, FT260_CHIP_VERSION,
- 					   (u8 *)&version, sizeof(version));
--	if (ret != sizeof(version)) {
-+	if (ret < 0) {
- 		hid_err(hdev, "failed to retrieve chip version\n");
--		if (ret >= 0)
--			ret = -EIO;
- 		goto err_hid_close;
- 	}
- 
+ 	priv->irq = platform_get_irq(pdev, 0);
+ 	if (priv->irq < 0)
 -- 
-2.25.1
+2.26.0.106.g9fadedd
+
 
