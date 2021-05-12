@@ -2,216 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A66237B2D5
-	for <lists+linux-input@lfdr.de>; Wed, 12 May 2021 01:58:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB27537B51F
+	for <lists+linux-input@lfdr.de>; Wed, 12 May 2021 06:47:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229736AbhEKX7S (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 11 May 2021 19:59:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36970 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229637AbhEKX7S (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 11 May 2021 19:59:18 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D926C061574
-        for <linux-input@vger.kernel.org>; Tue, 11 May 2021 16:58:10 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id l4so32302438ejc.10
-        for <linux-input@vger.kernel.org>; Tue, 11 May 2021 16:58:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UxZ1tmt/dVOEDzMFaE6wBrJZUDhQ6gvsHT4DJhGYTZg=;
-        b=fjAMpsaaz9iaNfquaFuJ1SOIrdvG5w0r+YMEbqVbB5QmLSbodipKhG4KADo+z2VabH
-         7SsZBt1YOh6pQO7lhcFspmx+uF++lsPnn1EjoTOXu0uldpHzeYqbNpQOvXG7Pzxf/wo+
-         NQzki0Yc4q6ayaJS05cFf1KVT1WMTwg1OylThwe7+R/g9u7lGQUI02WvJBQQr0K3Gn+0
-         rAeG4TpFufDxjBhjDxNDX+dpRmXqQ+BYmFSUR/yArlF6AVxZ2WXOvp3OY5x6AHGsrZdn
-         dqINF1wlGA0DYZ4scfn7I/qC9cd48Jfu2tkyl9P9yHZk6AISF1ygB68ZjmWoIPltzO4P
-         k4NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UxZ1tmt/dVOEDzMFaE6wBrJZUDhQ6gvsHT4DJhGYTZg=;
-        b=fwOvI9ad5XrOSjOpRAhBZiZQOBmX6QdRnjmKgdtKdZJaJZ6noXHyr8mORDdjTgOOcs
-         P6CUJtj/H5r+7xTaTlkWslIt647chpsouGqQvmJJbvnptl7Bm3HNmdLt9llk7ErpMTo3
-         Lk0AuLIb6aGahXSojXvsHRoWI0w7JyvyfxFOJsf+uIMCENtZhcrAt6bBmIpUC9j2y8WB
-         VVJg72bj+hLJiAPqV6wYVvLiyQe59tE6ytPSafDnpdogwDMF4014mSxNnjpsfz6xd/6d
-         /cK8sXLmSe6gHA4gCIazYmCsk4QdRULLmdxzzP4RtSVOPoeCEN3nFWbBO/kVHb1P7gEK
-         1Rlw==
-X-Gm-Message-State: AOAM5324hTCOd9zmHYFxDE5BQkKvuv2Fj8z2Nkf3shOzMo5NIydPkwcC
-        2c73SElkczUYWNXMJ0qaGQ0cOeh5aTKadn5Blaz83OT+tnZOAw==
-X-Google-Smtp-Source: ABdhPJzH1uk5mt3unzrLsnsk0/o8OG07PDE+dHFG2LUdXNPO1rtF+BG0gYE/xg0b5k6ZCGKBKspiRvnZkELGf4J0mYM=
-X-Received: by 2002:a17:906:d7a2:: with SMTP id pk2mr34632979ejb.551.1620777488868;
- Tue, 11 May 2021 16:58:08 -0700 (PDT)
+        id S229495AbhELEs4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 May 2021 00:48:56 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:60108 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230019AbhELEsy (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 12 May 2021 00:48:54 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1620794867; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=IWt2toohdxLCE2CFRRMmRw4/HdGmAbB02mam/jKAH7k=;
+ b=HzzcoXco4iIesdQKssSW9gNy4s+fGmjQn9QZzP/fEYCbjOC8xbQIWJOkHZNfp7VYPr0JdDoC
+ mQJCRltW6shsyrDfDz9kx5BEUppt4wh9d6NFtfMugztj1Kus34eAL1afpH/NwkFPdDSXtpEh
+ s8dhUhl/kskb2s26eP8YcUU/a9I=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyIxZDE2NCIsICJsaW51eC1pbnB1dEB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
+ 609b5df04ab9954eb8c8f4e0 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 12 May 2021 04:47:44
+ GMT
+Sender: skakit=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 72312C4323A; Wed, 12 May 2021 04:47:44 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: skakit)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id AB931C433D3;
+        Wed, 12 May 2021 04:47:43 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210509233830.359134-1-linus.walleij@linaro.org>
- <YJh8s5rU2VE+DyQz@google.com> <CACRpkdbXuZOrKyDeBttkMzGvHJbnqVgAnQv=Z=Ui0fHQOOaUMg@mail.gmail.com>
- <YJnSCGN1vUAtjf8F@google.com> <CAHCN7xKPZHLSSehkm5W9MtYSv1S2wH2sNoOAD8yHHWjEpc6tpg@mail.gmail.com>
- <YJrye4Ji7CtZq8ds@google.com>
-In-Reply-To: <YJrye4Ji7CtZq8ds@google.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Tue, 11 May 2021 18:57:57 -0500
-Message-ID: <CAHCN7xKhEp9wYUqEatsCTEANzRVXZw-Sd1CTbCFY=_oJ08yg1A@mail.gmail.com>
-Subject: Re: [PATCH] Input: tsc200x: Drop hard-coded IRQ edge
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Linux Input <linux-input@vger.kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        =?UTF-8?Q?Beno=C3=AEt_Cousson?= <bcousson@baylibre.com>,
-        Tony Lindgren <tony@atomide.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Wed, 12 May 2021 10:17:43 +0530
+From:   skakit@codeaurora.org
+To:     Rob Herring <robh@kernel.org>
+Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        kgunda@codeaurora.org, linux-pm@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        Courtney Cavin <courtney.cavin@sonymobile.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        David Collins <collinsd@codeaurora.org>,
+        Andy Yan <andy.yan@rock-chips.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, Andy Gross <agross@kernel.org>
+Subject: Re: [PATCH V3 4/5] dt-bindings: input: pm8941-pwrkey: Convert pm8941
+ power key binding to yaml
+In-Reply-To: <20210510162445.GA230005@robh.at.kernel.org>
+References: <1620630064-16354-1-git-send-email-skakit@codeaurora.org>
+ <1620630064-16354-5-git-send-email-skakit@codeaurora.org>
+ <1620655299.793818.41438.nullmailer@robh.at.kernel.org>
+ <20210510162445.GA230005@robh.at.kernel.org>
+Message-ID: <c4e286ae6bd621a9d84184d5d014d060@codeaurora.org>
+X-Sender: skakit@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, May 11, 2021 at 4:09 PM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> On Tue, May 11, 2021 at 01:24:00PM -0500, Adam Ford wrote:
-> > On Mon, May 10, 2021 at 7:39 PM Dmitry Torokhov
-> > <dmitry.torokhov@gmail.com> wrote:
-> > >
-> > > On Mon, May 10, 2021 at 11:29:08AM +0200, Linus Walleij wrote:
-> > > > On Mon, May 10, 2021 at 2:22 AM Dmitry Torokhov
-> > > > <dmitry.torokhov@gmail.com> wrote:
-> > > > > On Mon, May 10, 2021 at 01:38:30AM +0200, Linus Walleij wrote:
-> > > >
-> > > > > > This edge setting should come from the device tree not
-> > > > > > the driver. Also, most device trees sets this to the
-> > > > > > falling edge, which is contradictory to what is hardcoded.
-> > > > >
-> > > > > I see there are 2 possibilities:
-> > > > >
-> > > > > 1. The driver has never worked
-> > > > > 2. DT interrupt annotation is wrong.
-> > > > >
-> > > > > It would be nice to know if we are dealing with 1 or 2, as in case of #2
-> > > > > we need to adjust DTSes before this patch can be applied.
-> > > >
-> > > > I looked closer and unfortunately the mess and confusion
-> > > > is bizarre.
-> > > >
-> > > > The DTS files we know of are:
-> > > > arch/arm/boot/dts/am3517-som.dtsi - rising
-> > > > arch/arm/boot/dts/imx28-tx28.dts - falling
-> > > > arch/arm/boot/dts/imx35-eukrea-cpuimx35.dtsi - low
-> > > > arch/arm/boot/dts/imx51-eukrea-cpuimx51.dtsi - low
-> > > > arch/arm/boot/dts/imx53-tx53-x03x.dts - falling
-> > > > arch/arm/boot/dts/imx6q-dhcom-som.dtsi - falling
-> > > > arch/arm/boot/dts/imx6qdl-tx6.dtsi - none
-> > > > arch/arm/boot/dts/imx6ul-tx6ul.dtsi - none
-> > > > arch/arm/boot/dts/imx7d-nitrogen7.dts - falling
-> > > > arch/arm/boot/dts/logicpd-som-lv.dtsi - rising
-> > > > arch/arm/boot/dts/logicpd-torpedo-baseboard.dtsi - rising
-> > > > arch/arm/boot/dts/omap3-gta04.dtsi - falling
-> > > > arch/arm/boot/dts/omap3-n900.dts - rising
-> > > > arch/arm/boot/dts/omap4-var-som-om44.dtsi - low
-> > > > arch/arm/boot/dts/stm32mp15xx-dhcom-som.dtsi - falling
-> > > >
-> > > > We can assume that some of this is the result of board
-> > > > engineers introducing inverters on the board as is custom,
-> > > > so the flags are actually correct when set to falling, just
-> > > > that we don't model the inverter.
-> > > >
-> > > > In the case of imx6qdl-tx6 and imx6ul-tx6ul with "none" IRQ
-> > > > type I assume this flag in the driver is actually necessary
-> > > > for the device to work at all.
-> > > >
-> > > > In the cases where rising is set, the addition of the flag is
-> > > > plain tautology, just setting what is already set.
-> > > >
-> > > > In the cases where falling are set the interrupts will arrive
-> > > > on both edges (if the hardware can provide that, which is
-> > > > not always the case) and as a result fire twice as many
-> > > > interrupts as they should, probably with zero effect on the
-> > > > second IRQ, just reporting nothing.
-> > >
-> > > That is not how we set up interrupts though. We only use
-> > > platform-supplied trigger if caller did not specify trigger when calling
-> > > request_irq().  From kernel/irq/manage.c::__setup_irq():
-> > >
-> > >         /*
-> > >          * If the trigger type is not specified by the caller,
-> > >          * then use the default for this interrupt.
-> > >          */
-> > >         if (!(new->flags & IRQF_TRIGGER_MASK))
-> > >                 new->flags |= irqd_get_trigger_type(&desc->irq_data);
-> > >
-> > > So in our case, since driver specified IRQF_TRIGGER_RISING it is how
-> > > interrupt line was configured, and what was in DTS had no effect.
-> > >
-> > > >
-> > > > The combination with active low is weird. I wonder what
-> > > > happens there.
-> > > >
-> > > > I am just confused now and have no idea what to do about
-> > > > it...
-> > > >
-> > > > But I just CC all the Freescale and OMAP people who
-> > > > seem to maintain these DTS files so they can clarify
-> > > > how well assigned these edges, none and active low (!)
-> > > > IRQs are.
-> > >
-> > > Hopefully they can confirm how the controller is wired on their boards
-> > > and then we can correct invalid DTSes and then finally apply your patch
-> > > to the driver.
-> >
-> > I reviewed the Logicpd Torpedo (DM3730) and there isn't an interter.
-> > I changed the device tree entry for it to falling edge instead and
-> > rising, and it continued to work perfectly.
-> >
-> > I'll review both the schematics and test the am3517-evm and the
-> > logicpd som-lv, but I am going to expect the same results since
-> > they'll all basically copy-paste of each other.
-> >
-> > Once I've completed my analysis, I'll post device tree updates for all
-> > the logicpd stuff.
->
-> OK, so this is quite complicated. According to the datasheets [1], [2]
-> the ^PINTDAV pin is an active low pin, but in the default mode of
-> touchcsreen the "value" of the pin is logical AND of ^PENIRQ (active
-> low) and DAV [data available] (active high), which essentially turns it
-> into "edge" interrupt with data being available when pin is
-> transitioning from low to high. See fig 39 in [1] and 32 in [2].
-> This explains all the confusion in DTSes.
+On 2021-05-10 21:54, Rob Herring wrote:
+> On Mon, May 10, 2021 at 09:01:39AM -0500, Rob Herring wrote:
+>> On Mon, 10 May 2021 12:31:03 +0530, satya priya wrote:
+>> > Convert qcom pm8941 power key binding from .txt to .yaml format.
+>> >
+>> > Signed-off-by: satya priya <skakit@codeaurora.org>
+>> > ---
+>> > Changes in V2:
+>> >  - Fixed bot errors, took reference from input.yaml for "linux,code"
+>> >  - Added one complete example for powerkey and resin, and referenced it
+>> >    in main PON binding.
+>> >  - Moved this patch to the end of the series.
+>> >
+>> > Changes in V3:
+>> >  - Moved this patch before PON binding patch.
+>> >  - As per Rob's comments, added allOf at the beginning of binding.
+>> >    Added maxItems for interrupts.
+>> >  - Added 'unevaluatedProperties' instead of 'additionalProperties' as
+>> >    we are using allOf.
+>> >
+>> >  .../bindings/input/qcom,pm8941-pwrkey.txt          | 55 --------------
+>> >  .../bindings/input/qcom,pm8941-pwrkey.yaml         | 87 ++++++++++++++++++++++
+>> >  2 files changed, 87 insertions(+), 55 deletions(-)
+>> >  delete mode 100644 Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.txt
+>> >  create mode 100644 Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.yaml
+>> >
+>> 
+>> My bot found errors running 'make DT_CHECKER_FLAGS=-m 
+>> dt_binding_check'
+>> on your patch (DT_CHECKER_FLAGS is new in v5.13):
+>> 
+>> yamllint warnings/errors:
+>> 
+>> dtschema/dtc warnings/errors:
+>> Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.example.dt.yaml:0:0: 
+>> /example-0/spmi@c440000/pmic@0/pon_hlos@1300: failed to match any 
+>> schema with compatible: ['qcom,pm8998-pon']
+> 
+> You have the same example in patch 5, so drop the example here. That
+> will fix this circular dependency.
 
-The bindings in tsc2005.txt also state rising, but if you simply look
-at the schematic symbol which shows active low, it's really easy for
-me to see why there would be confusion.
->
-> The driver is using this default mode, but this is not purely hardware
-> configuration. I think what we need is to have DTS to specify level,
-> either low or high, to allow handle presence of an inverter, and have
-> driver check the assigned polarity and convert it to the right edge as
-> long as it continues using the default method of handling of PINTDAV.
->
-> WDYT?
-
-Personally, I have never been a fan of hard-coding IRQ's or GPIO's,
-because some hardware implementations may use inverters for various
-reasons, so I am always in favor of actually using the device tree to
-specify it.
-Since the driver is currently hard-coded, it seems reasonable to me to
-unify all the device trees with whatever the current hard-coded value
-is first.  I think doing so would better reflect what's happening now.
-If we leave the device trees unchanged, any code chance to handle the
-IRQ differently may appear to break functionality when in fact, it
-would potentially be an incorrect device tree.
-
-I am happy to test code changes on the TSC2004's implementations that
-I have if you need.
-
-adam
->
-> [1] https://www.ti.com/lit/ds/symlink/tsc2004.pdf
-> [2] https://www.ti.com/lit/ds/symlink/tsc2005.pdf
->
-> Thanks.
->
-> --
-> Dmitry
+Earlier I have dropped example from qcom-pon.yaml. Now, I will add the 
+example there and drop here.
