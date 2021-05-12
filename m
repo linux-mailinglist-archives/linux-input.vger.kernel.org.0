@@ -2,41 +2,41 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 048E237BDC2
-	for <lists+linux-input@lfdr.de>; Wed, 12 May 2021 15:12:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BF5937BDC3
+	for <lists+linux-input@lfdr.de>; Wed, 12 May 2021 15:12:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231980AbhELNNq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 May 2021 09:13:46 -0400
-Received: from mail-bn7nam10on2051.outbound.protection.outlook.com ([40.107.92.51]:45536
+        id S231846AbhELNNz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 May 2021 09:13:55 -0400
+Received: from mail-bn7nam10on2062.outbound.protection.outlook.com ([40.107.92.62]:10368
         "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231695AbhELNNp (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 May 2021 09:13:45 -0400
+        id S231695AbhELNNy (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 12 May 2021 09:13:54 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bXFYSwrKJP231PnqB74AqFTNjyVoxAIWLTe54KM8GuXhzb0X07ubCoWGWu1lemCN64pLXQGIa9pxpg7Gb/1UfL8SlzK04RG3KFWLugwiLgAmm0lkqVzRYPgi2zhv66KT87LNkibt0QMqbbK4J5TLZ1ngf4PDqsd/f57QdEsxW6NR8ve7w/R/pM/jN56ytseyz3jm7PjOSK/YlItUoLT4FAECY4gWtxlrHADbDEIhvofNmivkcI8SSo4VmkfvqWXwXmEZfykGrtSf1Jc4T2P5dsjwpyrNVow0AKhJUmVoibvTFFWbEaZJi8aKmgeMekwFYrHDztgCTjQhGEZ04YWNkw==
+ b=VT9WGaxG3CtGY6gV0NF4CGrgMQr/9BnNvxn4NaRdVUe+mKpwc8U+YC433Y5K373uCrpetqe1m0TZ8eToaY705R9kKf8gbCCsquH1qugCA/emxt3vuAQdrzQ7wjk4No72KmL52YD6L4FF/K8OtD7sbH5/aANh4eproGmIoYEfrAnJWImNqjN3a1jPHT1aNVclbevGAHMX5uU1Eo9rDoTx/3YeRjRfFUaL7T0nFPnezwhVNza4QRCpwlWxZLSJumJal2CPll0ejJFY7fk5DYqq+rX1ThF5lGP78VtSAFlDSGqPvEnKpe2euh3Y5NH1RivbiEbUI22ir8c1JAGujzmPxw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o9sqHgR3nNXF8teSN+CjgNFW+syzDQx8hvusf5rK29o=;
- b=VjCVBoJbIDnp/JUIxo/IkxpyHGW3Q10K1GUo3S8+d5ruHeXc9tUhtN21fLKZJXmvA5KzfOM55M/+QfY/SfHZSurpNAyhq53NGFQGv/QaqTdyCR4pZz7jVc8HzDNw3BBQaEMtdqbQIaGLIQUmObQNdQltPv97lGUSh4xt24/2He3eAJMnIcWIjnzJLkW6SWO5kTEaPe0Ws/qjLwSmgA8DfnUbP1ug4DECpBwNllS+4nA3DeFvquYaaJQeJUiAD7w9xfeePjSE4+kg2AyzOVrXhxjdifEdomQ3/fneSlXTuKlNdeZfeUo6KJ5ULaMOqXteu/GW3inAC1kNlTvWqYZfsg==
+ bh=V5ZEQH40bV4yhJNbWkvuRHBEA9MkWHTzkzFVFZAu6Lk=;
+ b=lTemDJbHeie7UCRAQPnoI6kF+R5WCEAPwWCsGRmpKcOaAOKDDxBypbdO2yeOGN7qKZChGKThWH1pncRSOUh4K90Uxkl76sJgalf/IGzq0ufxZ4tgZueWyaIzugX1RPQ7m8nHuYRaumFUZVKNN9cuxBynOJnxOEzWE8dD4kp6NzLopdVWd8rwooIGwhMQMfHvubmhDabZbGr2+nf9q0cwl/n5ADggsCu2plIKyMYNNrPmOKzzLL1q/TH+Ksptl75Sfcl19pIK7qoN4UezQYuYsZ49+m0TaD8K2m8stG5zMOEU3Frn6UYClU0OiHxNcsN/NS0G1XhtLsAPl7FyqzNbhA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o9sqHgR3nNXF8teSN+CjgNFW+syzDQx8hvusf5rK29o=;
- b=491uZ11CPRneHjBsLNhwRuvz7BlNAEmfISbcPZk/Fvv9Y9VBYWi4njb7D00Kytze+2n1poe29GrcDaKkYhmhA865vMnn5JvZOls8kM70Fv9ZpnBEOrodyA8WmmPHGjlxyy5I3v9Y6pdLN+X+o+phEMC4KMNGFm8giplOXNdHhzo=
+ bh=V5ZEQH40bV4yhJNbWkvuRHBEA9MkWHTzkzFVFZAu6Lk=;
+ b=eWxsbZ2O+nSxM4etc0V++bM8mDsu4D1R7wUh1TBsgG7Wvu7xd9lQn/1dnQfqzU9pp0Jj+IOxEX0Z8z2aUP3bPUuOco4PQYeYPhTQTyJTZfXpJew3JWH1M6Rk7F4NeAt0FJ8lVO1TefIc9bn61gFMnO6OWf+VwlQmvqQoQhJ5ADY=
 Authentication-Results: kernel.org; dkim=none (message not signed)
  header.d=none;kernel.org; dmarc=none action=none header.from=amd.com;
 Received: from DM6PR12MB4812.namprd12.prod.outlook.com (2603:10b6:5:1ff::24)
- by DM6PR12MB4218.namprd12.prod.outlook.com (2603:10b6:5:21b::16) with
+ by DM5PR12MB1259.namprd12.prod.outlook.com (2603:10b6:3:75::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.26; Wed, 12 May
- 2021 13:12:36 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.27; Wed, 12 May
+ 2021 13:12:45 +0000
 Received: from DM6PR12MB4812.namprd12.prod.outlook.com
  ([fe80::52f:e464:d09e:67fa]) by DM6PR12MB4812.namprd12.prod.outlook.com
  ([fe80::52f:e464:d09e:67fa%7]) with mapi id 15.20.4108.031; Wed, 12 May 2021
- 13:12:36 +0000
+ 13:12:45 +0000
 From:   Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 To:     jikos@kernel.org, benjamin.tissoires@redhat.com,
         linux-input@vger.kernel.org
@@ -44,9 +44,9 @@ Cc:     Nehal-Bakulchandra.shah@amd.com, Sandeep.Singh@amd.com,
         shyam-sundar.s-k@amd.com,
         Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
         Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-Subject: [PATCH 1/2] amd_sfh: Use devm_kzalloc() instead of kzalloc()
-Date:   Wed, 12 May 2021 18:41:55 +0530
-Message-Id: <20210512131156.740493-2-Basavaraj.Natikar@amd.com>
+Subject: [PATCH 2/2] amd_sfh: Fix memory leak in amd_sfh_work
+Date:   Wed, 12 May 2021 18:41:56 +0530
+Message-Id: <20210512131156.740493-3-Basavaraj.Natikar@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210512131156.740493-1-Basavaraj.Natikar@amd.com>
 References: <20210512131156.740493-1-Basavaraj.Natikar@amd.com>
@@ -58,143 +58,104 @@ X-ClientProxiedBy: MAXPR01CA0118.INDPRD01.PROD.OUTLOOK.COM
  (2603:10b6:5:1ff::24)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from amd-DAYTONA-X.amd.com (165.204.156.251) by MAXPR01CA0118.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:5d::36) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25 via Frontend Transport; Wed, 12 May 2021 13:12:33 +0000
+Received: from amd-DAYTONA-X.amd.com (165.204.156.251) by MAXPR01CA0118.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:5d::36) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4108.25 via Frontend Transport; Wed, 12 May 2021 13:12:42 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: edb870ff-5967-4620-6646-08d915479ca7
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4218:
+X-MS-Office365-Filtering-Correlation-Id: f73a81a1-02a4-4d40-1c29-08d91547a1bf
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1259:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB42180C5E511724659699B402E6529@DM6PR12MB4218.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
+X-Microsoft-Antispam-PRVS: <DM5PR12MB1259D53DD6607D2906D3F4E8E6529@DM5PR12MB1259.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mKGf2dDp/PJU4hbLvyzZWZWcupajudpD688wPBhevorNKSFEv36JPv1GwLJvctPlWu2hVZq76ZqE77kQ/KQqPqDcu/QNq5ur4M/Vyzwor7XSRF3oCphHn4oPj/VXZro0jV5NqLGRbDSUofuhk0XXsXYW0hDzFM9U9qYa1h5D8vZnMOkcEsHqhqVdkbFnoEVq6Q57eSeMAKiYvj9kQVvspSUwqFnjmyLp7IjXX/E5p2bHajfyl526rMz8sDdCy25bmrVpKReYaz+Vhk6wQoyAVVjIRfcpEW2SDzosAfWQQQLAwsWY1ckcYjrXLTmCN3u2bMQOJsiZcuM3iulqLWS2+/e8CJvuRbcSJ4nfGWykDRB8d7NiMu8/4HhXFRciuAoSJtBGo0G+HCzz423ARmCvRpPTe/9RGjh2CZM14eABKQhB/7uWcgtFrnVvooXgQIb8/EYg02GVTnqnICjAQlR2CW0xbL1TOaBv+jB9MLSU62EJLF4ILaCeE/DLIGlsIQYUSSTp+39QLZRuGVN27WnK2exQn5xLaVYaEH2cb/llDY4HxtXdt2rC8EfaWutFVQ93e3rEH0rds2kgC5mVHJcHbj8153bp8L1nglJ1SX1kMZPb7iFtJtjB15mCvoUdKj4BGdMN7MISfjuxDO1X5nUjWR86sJrrAJ1yrasakFb3gWg=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4812.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(346002)(376002)(366004)(396003)(39860400002)(66556008)(4326008)(8676002)(66476007)(36756003)(316002)(66946007)(186003)(8936002)(7696005)(956004)(2616005)(86362001)(6486002)(26005)(52116002)(16526019)(83380400001)(478600001)(54906003)(5660300002)(38100700002)(1076003)(6666004)(38350700002)(2906002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?TZc/AYcjir5dPqfQCKgtEcGPoKdbA6oj4c6cZ+Y1APYD/PwG/rMjmO5Er+z/?=
- =?us-ascii?Q?C01dNbLoA0sjvH5aTGw9bHmMdwfFIpp58YgKN5AgTmTgwB8KdD6Yg56d4BoM?=
- =?us-ascii?Q?dSbWqKGi9vaV6TXiGOUu1rg5shScQEfUvgIyd5yA8qMQ4jv6/ZceQIJnd2xF?=
- =?us-ascii?Q?jotMQNdP5+8Q1ekLGTTpGF+WWYA87P6bFnNqcCm0yhXRS9p7mSE61ECxVBz9?=
- =?us-ascii?Q?IvnMoUzPJLbD65mgBCSd8Fi7hcfhkXej9RzOgYA4/KjHYLmRBrkuugkRqGOy?=
- =?us-ascii?Q?OxAGoy0AwnClLAiNCWIPUGGXBuljbKUvrNCma2PPqMUcReUlhI6V/1N2J29K?=
- =?us-ascii?Q?9ybcEIUceReCC6akKLVicifQkZSx8nPD+aA4yqxJy3k+aYu14nNCgU2vSG3Q?=
- =?us-ascii?Q?8A81lKWHU2DKHrR5Us0a4dEOp3sJujMib2LWM3uJ/7oBVohoyXKohyl/kW/L?=
- =?us-ascii?Q?2NsX66aIpqTcBEhsjej3dkkrnZOx9AGt8cVZ1qy40qppbFAOozsY2J/iZyqe?=
- =?us-ascii?Q?EJifzVa4S+TxBaGzQ6G0hwZC3FCR0+EFSoW0n3hQjAGeWCO98nMb7ZyzQviT?=
- =?us-ascii?Q?fmjbTxzt64tjRRWOz88UDaXnO37PSNzSabLEM/CtS/bX1JCQNF45xl1nuPoP?=
- =?us-ascii?Q?u2yeYCQT1pjgw/moGgozcCJ3kOv9aRYPHDv/dwLvRie5TxStK/NUVG1hvlyA?=
- =?us-ascii?Q?gv0Ofnoa7eYwZq1IQSR1E+mhkcmbzWudEPXgPf8dkphf8xx6e/pA5i/N06FT?=
- =?us-ascii?Q?pvFakGMGvqWAm0ZeyE8yTIllG7f68cX/MnA0IiU16+n26CjD1Ua87idE1708?=
- =?us-ascii?Q?cPzHBwd+DN8BD1EdPEER+K+WQwp27DcgspTIQutZGfgxLvzoI1Y/eAJ99jyd?=
- =?us-ascii?Q?6HFeL0DBAfzcDmtuDfIP2OTO6dCL5/9DurLdU3EmpyTMw4+lltWgoGwgCZs0?=
- =?us-ascii?Q?JOpNxMnRAL/fhSX5LbR3k2HyuvK1a1AjRudyY2/DDh+qhxlF3A9ajpKW/eG4?=
- =?us-ascii?Q?bZZ/nEvsgpmRxAuK7uz5hfd4X5CE0pqTAtQdGohXQF+4/1I1SvUgiyqJQh6p?=
- =?us-ascii?Q?RjrRexcyzVG/+eTJ1ldeANLCP1c/c3VrdnfVUZ+WriQw8HfjJbx6n4B4LRAm?=
- =?us-ascii?Q?X8qLbfJfYw/r0qF22r1Q7W49KZRTIj02UprPBgndhal8P7HBUDEOc3kpK+7J?=
- =?us-ascii?Q?nLDMie2Px9bC1tawOqsBrtwIjvTLhtWdFdkSM/vHaYPzZ3Tq9mind/sziOXN?=
- =?us-ascii?Q?UXlqU85RZ+SrQicbEUqLzSENpPT7PLxcVkXgIeS5cpCR8ILHe38u2rlaJ7/R?=
- =?us-ascii?Q?OihlhG0En/0mkXFENJg4BMMt?=
+X-Microsoft-Antispam-Message-Info: Y4mU+v+jF6W5CV3RXbnGorlLZHDecA3xppbICVLcdV3RZJhtTshLIwm9Vu21WbKE7lHGkLjQTKgCX7w24V4DqrQl2fYboYx7dIy+LM4NlLe0hornKBbTw38EH7kuoyI++Biu5Qpc+jzo9Xw0FDZELKfoxjx8+VBMVo34+22udSPSffERwy/0uIA8Hja8MLLm/IEScETwwHdQretjstzViqpB2TQeSuihAO3L6mb33MFTXshalLI3yTwo6QeofDuBVqGzpGPWkSBIkMnN7CNI+masi83r9cJFGY2Z918ayseRytquxFNV0Vs0cqQp2I798RZL6FPBAfwucWwdVLP2ODEqYdWwNGxhuSCV1O9oNyJqJjuVz+1HckpBzS4roJltZ6U+gest47JW7yD5ewzTyvinQkx6DYxcOYAlpsdUu1RYa5QErFEkBbuy2LLclb4XA7SFGeIQr2oeZQZ8eaGNehINO0GTuAmNVjlhItZ7/v2JvR4CzluOc91cPUXHGfC4473edLs3D4rxjoMJcJflTJ4kX5poX6PBne1bHo8Xnh1yNMZXdeqlZS7zYh9jM1wFeWPbxY5jinSLyc0G9BDjHFgWmJyrctFO6vaTACsbHpI0xhKvt0c0nMn2Si7AwfaUOIJYnhNewcbLiI1sqhfhN6PsmElXxamcNU8h9+kEfKA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4812.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(346002)(39860400002)(396003)(366004)(376002)(38350700002)(86362001)(52116002)(8676002)(38100700002)(2616005)(316002)(26005)(6666004)(66946007)(6486002)(1076003)(7696005)(54906003)(2906002)(186003)(66556008)(16526019)(478600001)(66476007)(5660300002)(8936002)(83380400001)(36756003)(4326008)(956004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?ceEcctGfAHRVStaOT3Iv9rgDsZM6Ip+nG1pwwsd9mJuUFcUTkxhtgYyqbEH3?=
+ =?us-ascii?Q?KT8X6ogIKQxuILdiWGlkjAGtnqiRSYIb1L9sc6Hkn9TmETLxot6OdH38KzA3?=
+ =?us-ascii?Q?HMAfATFFEOtq6T5K/usOy7HYhBGFN35N/enq12PjcZ6wT9QEfH9CkjqkMdoP?=
+ =?us-ascii?Q?azukKIHnoC3KFIkhI3P7KnMwADM/fxXTyll1NIm4BR/C+yMSSSdo88BjXlDz?=
+ =?us-ascii?Q?L+TFdmZVteR1LFTz1W6ZB7X/SLuyV5kmR9432hxFBjK/CRY41YOfvLo1Ctgd?=
+ =?us-ascii?Q?vgM54Q9V1nHsKIySXeNZs7Xft6HBNThFD/hAGC3/boN8xMpMeWDXmqkqrNyV?=
+ =?us-ascii?Q?FCQsxuk07WPXonwqCOHUWnmfLMbDGgq2gz+PBlE99i8XTOo9UCfPZn6QlplT?=
+ =?us-ascii?Q?qCevmbx0lfHi6F6+jfFakiLyyW9qm1O6DCsE2mYVKn6wDqBqUmksknwie0pU?=
+ =?us-ascii?Q?6wyMgSajWjBa7Y1f+UPu7J1aHMG0NvnSK9iciX9e5GZgthvT9cEd0XxzziQ3?=
+ =?us-ascii?Q?bAEuTVtkwAFibeuN+arjIt+y+xwXwDyndGDfiHZ5ewRHZNzs1ubEaZQP2yfS?=
+ =?us-ascii?Q?h19m8E4PJTQQShdOTauZNkQcxBN16dn1ENK0D+c9WoAxRBkzWJnhmOmEarK6?=
+ =?us-ascii?Q?BOwfPEB2c3eEToQKYwgme5T5OUoYabNvC023g+GLny6L5gsBxFpV72YoxtqA?=
+ =?us-ascii?Q?GwXhEw62dezW6LuzogrenEjwDIoBXZpgaJXDh/bUPECceE5uNxcxn38sX0Pd?=
+ =?us-ascii?Q?29vUIbZRFY3xiwBQtV2QnaVloktRb+uRQwi9jC6z2Y40zwRQHz7pzGqMOBhe?=
+ =?us-ascii?Q?fByIBRPG9FTUUQzf5TeZp4UNh+wcr+w3mT+IzXqdjs8Mx6VCLAaIpGm/mJmm?=
+ =?us-ascii?Q?1SSC2gTbkV3WThW+CCfWZ2t31Q9Pmd8nllyl7MjSW9ynZKJ0byuXTyR5+oM0?=
+ =?us-ascii?Q?23QXPfnnXzWl/hBZNWEf3yqQ74e8CXi2tbDJtRfNp7VAojfSlBZ56WouyB6l?=
+ =?us-ascii?Q?PoR9RxNmIE6Wf54wPnpiTlitjw8hsaf6yytlJ1KukLHJ01PhQ4LyNQmu/iW5?=
+ =?us-ascii?Q?yaInMR3aHYHI3l5pndEJz8TLa9fo7okfTwPORtH4xVxnXhM+L2rGKt2eDTeb?=
+ =?us-ascii?Q?eOFFhZUe4MUN3X2d/a6qVnukFVT5z+Bcf0ari1zmbmt12hWrLjIqS1+16TG6?=
+ =?us-ascii?Q?E4N6GJxJnXC5MW/lIdh+jndzM3mx+UXGLRDOpiPI9r2RZoTcvHbgWag0MMJ9?=
+ =?us-ascii?Q?esRa7A7A4BdvCZ0dbiIb+sSKOWJB9C7THWfftjbGynwme7d539vFp7Q6rR/R?=
+ =?us-ascii?Q?ty110tlIWvdmdNY5hbmtVq7C?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: edb870ff-5967-4620-6646-08d915479ca7
+X-MS-Exchange-CrossTenant-Network-Message-Id: f73a81a1-02a4-4d40-1c29-08d91547a1bf
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4812.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2021 13:12:36.6502
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2021 13:12:45.1472
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MQgZaxMUhhB7wYvPWbPnpWm+91G5tBlPZC/DoPG1GUojrkbXjpXphRELdE5EdjpRJSmiT3e2yvdTxmA6gyVJmw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4218
+X-MS-Exchange-CrossTenant-UserPrincipalName: h8OYAuF1AAtEiSk538MpYzk1iwfkYsz2+VvFtj0htH03rXR9ChNB2HVyhPIt+AmJoYXd7po6MmTrTKuckF+veg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1259
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Replace kzalloc with devm_kzalloc in driver initialization sequence. The
-allocation can be tied to the lifetime of the amd_sfh driver. This cleans
-up an exit & error paths, since the objects does not need to be
-explicitly freed anymore.
+Kmemleak tool detected a memory leak in the amd_sfh driver.
+
+====================
+unreferenced object 0xffff88810228ada0 (size 32):
+  comm "insmod", pid 3968, jiffies 4295056001 (age 775.792s)
+  hex dump (first 32 bytes):
+    00 20 73 1f 81 88 ff ff 00 01 00 00 00 00 ad de  . s.............
+    22 01 00 00 00 00 ad de 01 00 02 00 00 00 00 00  "...............
+  backtrace:
+    [<000000007b4c8799>] kmem_cache_alloc_trace+0x163/0x4f0
+    [<0000000005326893>] amd_sfh_get_report+0xa4/0x1d0 [amd_sfh]
+    [<000000002a9e5ec4>] amdtp_hid_request+0x62/0x80 [amd_sfh]
+    [<00000000b8a95807>] sensor_hub_get_feature+0x145/0x270 [hid_sensor_hub]
+    [<00000000fda054ee>] hid_sensor_parse_common_attributes+0x215/0x460 [hid_sensor_iio_common]
+    [<0000000021279ecf>] hid_accel_3d_probe+0xff/0x4a0 [hid_sensor_accel_3d]
+    [<00000000915760ce>] platform_probe+0x6a/0xd0
+    [<0000000060258a1f>] really_probe+0x192/0x620
+    [<00000000fa812f2d>] driver_probe_device+0x14a/0x1d0
+    [<000000005e79f7fd>] __device_attach_driver+0xbd/0x110
+    [<0000000070d15018>] bus_for_each_drv+0xfd/0x160
+    [<0000000013a3c312>] __device_attach+0x18b/0x220
+    [<000000008c7b4afc>] device_initial_probe+0x13/0x20
+    [<00000000e6e99665>] bus_probe_device+0xfe/0x120
+    [<00000000833fa90b>] device_add+0x6a6/0xe00
+    [<00000000fa901078>] platform_device_add+0x180/0x380
+====================
+
+The fix is to freeing request_list entry once the processed entry is
+removed from the request_list.
 
 Fixes: 4b2c53d93a4b ("SFH:Transport Driver to add support of AMD Sensor Fusion Hub (SFH)")
 Reviewed-by: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 ---
- drivers/hid/amd-sfh-hid/amd_sfh_client.c | 18 +++++++++---------
- drivers/hid/amd-sfh-hid/amd_sfh_hid.c    |  3 ---
- 2 files changed, 9 insertions(+), 12 deletions(-)
+ drivers/hid/amd-sfh-hid/amd_sfh_client.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_client.c b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-index 2ab38b715347..d04d6bd4623d 100644
+index d04d6bd4623d..3589d9945da1 100644
 --- a/drivers/hid/amd-sfh-hid/amd_sfh_client.c
 +++ b/drivers/hid/amd-sfh-hid/amd_sfh_client.c
-@@ -142,7 +142,7 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata)
- 	int rc, i;
+@@ -88,6 +88,7 @@ static void amd_sfh_work(struct work_struct *work)
+ 	sensor_index = req_node->sensor_idx;
+ 	report_id = req_node->report_id;
+ 	node_type = req_node->report_type;
++	kfree(req_node);
  
- 	dev = &privdata->pdev->dev;
--	cl_data = kzalloc(sizeof(*cl_data), GFP_KERNEL);
-+	cl_data = devm_kzalloc(dev, sizeof(*cl_data), GFP_KERNEL);
- 	if (!cl_data)
- 		return -ENOMEM;
- 
-@@ -175,12 +175,12 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata)
- 			rc = -EINVAL;
- 			goto cleanup;
- 		}
--		cl_data->feature_report[i] = kzalloc(feature_report_size, GFP_KERNEL);
-+		cl_data->feature_report[i] = devm_kzalloc(dev, feature_report_size, GFP_KERNEL);
- 		if (!cl_data->feature_report[i]) {
- 			rc = -ENOMEM;
- 			goto cleanup;
- 		}
--		cl_data->input_report[i] = kzalloc(input_report_size, GFP_KERNEL);
-+		cl_data->input_report[i] = devm_kzalloc(dev, input_report_size, GFP_KERNEL);
- 		if (!cl_data->input_report[i]) {
- 			rc = -ENOMEM;
- 			goto cleanup;
-@@ -189,7 +189,8 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata)
- 		info.sensor_idx = cl_idx;
- 		info.dma_address = cl_data->sensor_dma_addr[i];
- 
--		cl_data->report_descr[i] = kzalloc(cl_data->report_descr_sz[i], GFP_KERNEL);
-+		cl_data->report_descr[i] =
-+			devm_kzalloc(dev, cl_data->report_descr_sz[i], GFP_KERNEL);
- 		if (!cl_data->report_descr[i]) {
- 			rc = -ENOMEM;
- 			goto cleanup;
-@@ -214,11 +215,11 @@ int amd_sfh_hid_client_init(struct amd_mp2_dev *privdata)
- 					  cl_data->sensor_virt_addr[i],
- 					  cl_data->sensor_dma_addr[i]);
- 		}
--		kfree(cl_data->feature_report[i]);
--		kfree(cl_data->input_report[i]);
--		kfree(cl_data->report_descr[i]);
-+		devm_kfree(dev, cl_data->feature_report[i]);
-+		devm_kfree(dev, cl_data->input_report[i]);
-+		devm_kfree(dev, cl_data->report_descr[i]);
- 	}
--	kfree(cl_data);
-+	devm_kfree(dev, cl_data);
- 	return rc;
- }
- 
-@@ -241,6 +242,5 @@ int amd_sfh_hid_client_deinit(struct amd_mp2_dev *privdata)
- 					  cl_data->sensor_dma_addr[i]);
- 		}
- 	}
--	kfree(cl_data);
- 	return 0;
- }
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_hid.c b/drivers/hid/amd-sfh-hid/amd_sfh_hid.c
-index 4f989483aa03..5ad1e7acd294 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_hid.c
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_hid.c
-@@ -162,9 +162,6 @@ void amdtp_hid_remove(struct amdtp_cl_data *cli_data)
- 	int i;
- 
- 	for (i = 0; i < cli_data->num_hid_devices; ++i) {
--		kfree(cli_data->feature_report[i]);
--		kfree(cli_data->input_report[i]);
--		kfree(cli_data->report_descr[i]);
- 		if (cli_data->hid_sensor_hubs[i]) {
- 			kfree(cli_data->hid_sensor_hubs[i]->driver_data);
- 			hid_destroy_device(cli_data->hid_sensor_hubs[i]);
+ 	if (node_type == HID_FEATURE_REPORT) {
+ 		report_size = get_feature_report(sensor_index, report_id,
 -- 
 2.25.1
 
