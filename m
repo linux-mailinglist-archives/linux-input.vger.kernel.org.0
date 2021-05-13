@@ -2,37 +2,43 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D89A337F5A5
-	for <lists+linux-input@lfdr.de>; Thu, 13 May 2021 12:34:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 118DC37F62E
+	for <lists+linux-input@lfdr.de>; Thu, 13 May 2021 13:01:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231339AbhEMKfN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 13 May 2021 06:35:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39870 "EHLO mail.kernel.org"
+        id S232932AbhEMLCT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 13 May 2021 07:02:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54200 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231327AbhEMKfN (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 13 May 2021 06:35:13 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F2050610A0;
-        Thu, 13 May 2021 10:34:02 +0000 (UTC)
+        id S232226AbhEMLCJ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 13 May 2021 07:02:09 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4FDB2611BE;
+        Thu, 13 May 2021 11:00:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1620902043;
-        bh=BHLepAgGfImmzwIaKiKF/RrZZFhle8ozbvuz7BQi72Y=;
+        s=k20201202; t=1620903659;
+        bh=YXLCuwcON4n32bYUAQ0iiYQxhsUG0yDo7ecdRHK+GGo=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=W1CAZbMWImG90ZPkIh8wA0skCXob3TZ451OTy2l2ccDJYHizSa8LOqZyqpJPDkyW/
-         PWr/wGaDNwEXWXVy71qWVHG+RRexO98Bp6AHLPokn4el9pWYSakUt0vGQpI8HM3nBh
-         9pFkEbWavPD+2Phh6ey9+8FepD5GlM9M+LZUv/P31nnepycV2rEIxLp8z/u31nP38b
-         vuGQKSpvEre4elpGqS8GxQ92cUqx1EOY8fMe0HrbwFP3CrtcJh4Y5IVV736gFVP8fU
-         rftWfVUiBLxgnsqg/2C9FQ7pyHt7Xs4KsRo4FZdXd0dQRd8XnnHrqCu/dnvb++2vY2
-         8AxpwqJw1Jv4g==
-Date:   Thu, 13 May 2021 12:34:00 +0200 (CEST)
+        b=cemf6uxKxozht0K3j1A57GGN4g4cbWw2w4gZZpw9W2je50S8noTX+Jlivh2qRytre
+         7PQIGqUZ+9u0y+ez/EVMBpXO72RGbBblpTjvlyGNXNYOwpWwDSf2i21UsPPOgGGeaZ
+         XUP8+9FDfzFmvrVPUnf6OEaETgCpTJ7654jL0NlMT9ZnZrLoATMT1DlInsJD00BYYZ
+         RwXsdxLvMQFZyp6HeG70Wtn2Jd77farKaejPMy/9FLt34m05mQrm8I5n5oFNEQexQt
+         hw980pqSBYi0+2Ic8ATHAs8SDnIFRSNNLIP1McnzEcedtZhd3nR1F/T9VXE9RVXo7m
+         Epv7pTsy+PXtg==
+Date:   Thu, 13 May 2021 13:00:56 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH 2/3] HID: multitouch: Disable event reporting on suspend
- on the Asus T101HA touchpad
-In-Reply-To: <20210306133716.453447-2-hdegoede@redhat.com>
-Message-ID: <nycvar.YFH.7.76.2105131233500.28378@cbobk.fhfr.pm>
-References: <20210306133716.453447-1-hdegoede@redhat.com> <20210306133716.453447-2-hdegoede@redhat.com>
+To:     "Pandruvada, Srinivas" <srinivas.pandruvada@intel.com>
+cc:     "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
+        "jiapeng.chong@linux.alibaba.com" <jiapeng.chong@linux.alibaba.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        "jic23@kernel.org" <jic23@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+        "abaci@linux.alibaba.com" <abaci@linux.alibaba.com>
+Subject: Re: [PATCH 2/2] HID: hid-sensor-custom: Process failure of
+ sensor_hub_set_feature()
+In-Reply-To: <7d2c6d4e918485cba09d43702a2a78ae68550ab2.camel@intel.com>
+Message-ID: <nycvar.YFH.7.76.2105131300410.28378@cbobk.fhfr.pm>
+References: <20210415185232.2617398-1-srinivas.pandruvada@linux.intel.com>  <20210415185232.2617398-2-srinivas.pandruvada@linux.intel.com>  <nycvar.YFH.7.76.2105051437420.28378@cbobk.fhfr.pm>  <CAO-hwJJM5F-1PAh62JSW+GAivMRpgjBiPT2Jvf7+vNcL=HRhGw@mail.gmail.com>
+ <7d2c6d4e918485cba09d43702a2a78ae68550ab2.camel@intel.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -40,18 +46,11 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 6 Mar 2021, Hans de Goede wrote:
+On Thu, 6 May 2021, Pandruvada, Srinivas wrote:
 
-> The Asus T101HA has a problem with spurious wakeups when the lid is
-> closed, this is caused by the screen sitting so close to the touchpad
-> that the touchpad ends up reporting touch events, causing these wakeups.
-> 
-> Add a quirk which disables event reporting on suspend when set, and
-> enable this quirk for the Asus T101HA touchpad fixing the spurious
-> wakeups, while still allowing the device to be woken by pressing a
-> key on the keyboard (which is part of the same USB device).
+> Rebased and attached based on top of the latest mainline.
 
-This one also applied to for-5.13/upstream-fixes. Thanks,
+Applied, thanks.
 
 -- 
 Jiri Kosina
