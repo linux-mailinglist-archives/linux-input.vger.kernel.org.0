@@ -2,108 +2,137 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83CC237F874
-	for <lists+linux-input@lfdr.de>; Thu, 13 May 2021 15:16:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8706137FAC1
+	for <lists+linux-input@lfdr.de>; Thu, 13 May 2021 17:34:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233293AbhEMNRD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 13 May 2021 09:17:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32418 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232733AbhEMNRB (ORCPT
+        id S234793AbhEMPfT (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 13 May 2021 11:35:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57956 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231296AbhEMPfS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 13 May 2021 09:17:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1620911746;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=qsfYYVuA4z4/qDu23wSBRsngQvHS7+tVBTsrP7EpQa4=;
-        b=ZSS0Ow0yVIj/8djFDi37KJEZxlXFxH8bgoFVsPn4vJ7s9q1eknKlpRcl7jnOJ+9iQ+XvJh
-        zj0+ZqlvlsImzJR6/+aPAEWTXVwaJXARh6RILXozv3qzgfA5x01mnnewA7EY7+XHeNsrgM
-        KRFvlGjFYEzjcV+xYHGj1+bwEYrblk4=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-352-zA4FPfgbO5S2gcOBcE8zvQ-1; Thu, 13 May 2021 09:15:41 -0400
-X-MC-Unique: zA4FPfgbO5S2gcOBcE8zvQ-1
-Received: by mail-qv1-f69.google.com with SMTP id d11-20020a0cdb0b0000b02901c0da4391d5so21386784qvk.12
-        for <linux-input@vger.kernel.org>; Thu, 13 May 2021 06:15:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=qsfYYVuA4z4/qDu23wSBRsngQvHS7+tVBTsrP7EpQa4=;
-        b=Vnh9Ic3NbyFudR86u80oZiKEmHaNH9ZDw971I05UBDkWgnuXjUvUQK3Ixv3vcHhEyV
-         TkMn98JgycEbQK1wKgPKf+tec81zvER0IiV2F/EwGi6XDIKorYjUC+9Jaxd6HDSc8+Ma
-         AgYYoYcnwfHxPAr9RNL4vhCE/ysYrxt1KcXOc+bsWotLeVKmBSkc8cOXzczzaQNIDTzV
-         5LZ8Dqn/qsSg+pRq1ZhBfZDITJ6PX7vx17Gdljp5lgdVRhGpLYi5cSItkjTNVz6/rFV/
-         9OzuRO+Kkp02Fu88V+28bkqSfXRZPGX3fUdVoP2Fg44XJ0/gEzRAADa1aD1Ob7epRdZg
-         WkGw==
-X-Gm-Message-State: AOAM532+oaeZwEa/xl0gY8cWtvSftttaGgCSVp+YPlRqMxY/nEF8FdRn
-        tpW8guE5xN3NuQx5GviU/c3xZByxGw0rfLnejuxNDX9MWaiMcp8vX9qxxVN1dMG1qAvNIPwZjbu
-        lq+12k87neb7Np8/psFVVQMw=
-X-Received: by 2002:a05:622a:341:: with SMTP id r1mr9994080qtw.307.1620911741378;
-        Thu, 13 May 2021 06:15:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzwEjyY3u1J/G6+Cm8z9/t8ewZ6vW2TOaD0qCa1us8rfNgrCbblKdYRP+6ulsrYSiTB+uVbAA==
-X-Received: by 2002:a05:622a:341:: with SMTP id r1mr9994062qtw.307.1620911741198;
-        Thu, 13 May 2021 06:15:41 -0700 (PDT)
-Received: from localhost.localdomain (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id l10sm2519572qtn.28.2021.05.13.06.15.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 May 2021 06:15:40 -0700 (PDT)
-Subject: Re: [PATCH v4] HID: ft260: improve error handling of
- ft260_hid_feature_report_get()
-To:     Jiri Kosina <jikos@kernel.org>,
-        Michael Zaidman <michael.zaidman@gmail.com>
-Cc:     benjamin.tissoires@redhat.com, linux-i2c@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210511101208.16401-1-michael.zaidman@gmail.com>
- <nycvar.YFH.7.76.2105131308260.28378@cbobk.fhfr.pm>
-From:   Tom Rix <trix@redhat.com>
-Message-ID: <8c48cdcc-ee47-3352-4023-db24b7a94759@redhat.com>
-Date:   Thu, 13 May 2021 06:15:38 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Thu, 13 May 2021 11:35:18 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 952BBC061574;
+        Thu, 13 May 2021 08:34:08 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: sre)
+        with ESMTPSA id 4FF711F42C47
+Received: by earth.universe (Postfix, from userid 1000)
+        id D36D73C0C95; Thu, 13 May 2021 17:34:02 +0200 (CEST)
+Date:   Thu, 13 May 2021 17:34:02 +0200
+From:   Sebastian Reichel <sebastian.reichel@collabora.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Olivier Moysan <olivier.moysan@foss.st.com>,
+        Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Georgi Djakov <djakov@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Orson Zhai <orsonzhai@gmail.com>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Chunyan Zhang <zhang.lyra@gmail.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Fabrice Gasnier <fabrice.gasnier@st.com>,
+        Odelu Kukatla <okukatla@codeaurora.org>,
+        Alex Elder <elder@kernel.org>,
+        Shengjiu Wang <shengjiu.wang@nxp.com>,
+        linux-clk@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-input@vger.kernel.org, linux-pm@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: More removals of type references on common
+ properties
+Message-ID: <20210513153402.q3w42oayif2l7rf4@earth.universe>
+References: <20210510204524.617390-1-robh@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <nycvar.YFH.7.76.2105131308260.28378@cbobk.fhfr.pm>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="6zntmlcncahxaxdz"
+Content-Disposition: inline
+In-Reply-To: <20210510204524.617390-1-robh@kernel.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
 
-On 5/13/21 4:09 AM, Jiri Kosina wrote:
-> On Tue, 11 May 2021, Michael Zaidman wrote:
->
->> Fixes: 6a82582d9fa4 ("HID: ft260: add usb hid to i2c host bridge driver")
->>
->> The ft260_hid_feature_report_get() checks if the return size matches
->> the requested size. But the function can also fail with at least -ENOMEM.
->> Add the < 0 checks.
->>
->> In ft260_hid_feature_report_get(), do not do the memcpy to the caller's
->> buffer if there is an error.
->>
->> ---
->> v4   Fixed commit message
->> ---
->> v3   Simplify and optimize the changes
->> ---
->> v2:  add unlikely()'s for error conditions
->> ---
->>
->> Signed-off-by: Tom Rix <trix@redhat.com>
->> Signed-off-by: Michael Zaidman <michael.zaidman@gmail.com>
-> Who should be the author of the git commit?
+--6zntmlcncahxaxdz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Go with the latest patch's author, Micheal.
+Hi,
 
-Tom
+On Mon, May 10, 2021 at 03:45:24PM -0500, Rob Herring wrote:
+> Users of common properties shouldn't have a type definition as the
+> common schemas already have one. A few new ones slipped in and
+> *-names was missed in the last clean-up pass. Drop all the unnecessary
+> type references in the tree.
+>=20
+> A meta-schema update to catch these is pending.
+>=20
+> Cc: Luca Ceresoli <luca@lucaceresoli.net>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: Olivier Moysan <olivier.moysan@foss.st.com>
+> Cc: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: Lars-Peter Clausen <lars@metafoo.de>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Cc: Georgi Djakov <djakov@kernel.org>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: Orson Zhai <orsonzhai@gmail.com>
+> Cc: Baolin Wang <baolin.wang7@gmail.com>
+> Cc: Chunyan Zhang <zhang.lyra@gmail.com>
+> Cc: Liam Girdwood <lgirdwood@gmail.com>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Fabrice Gasnier <fabrice.gasnier@st.com>
+> Cc: Odelu Kukatla <okukatla@codeaurora.org>
+> Cc: Alex Elder <elder@kernel.org>
+> Cc: Shengjiu Wang <shengjiu.wang@nxp.com>
+> Cc: linux-clk@vger.kernel.org
+> Cc: alsa-devel@alsa-project.org
+> Cc: linux-iio@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-pm@vger.kernel.org
+> Cc: netdev@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+> [...]
+>  .../devicetree/bindings/power/supply/sc2731-charger.yaml        | 2 +-
+> [...]
 
->
-> Thanks,
->
+Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
+-- Sebastian
+
+--6zntmlcncahxaxdz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmCdRuoACgkQ2O7X88g7
++pp2eRAAji89IV6U3huPwd3QFqIvXt4J/smg1VWppBF8MRaAl/GQyC0ulamRL7Nw
+JjkjziYNiLcykycKuiWb89OfBsoCPVS5WKRNvI5ckZTu2egIE+lEr7mACjughIpk
+xp0NvbW8iIO3WxjnYh8LkFwJm4GxphCqlUkl32HKbafHkW9UKVEh8Ex6eoqnUk63
+RXluSTs0bDdfkeGzWaR4/2ZBJh+iHoaoVbPiqTr4lLCfIEpg+6tERKBeIHFL82fE
+8bxpm8/YAiG3ymllKDDzQIMTt1NHbBs4WtUcUq4X2gIlRFrLnV8w0DXmVPwDynKW
+tN9mYEhHqR1y8bc0dx5X++M9ZEWX67GbuGa1+Om1rdSnnM2uxEwQEjht7JjpLFg3
+n4urCpUbQjh+uW/hkNZjQlWb43TuUmslUrutHts+vlwf2vD6srxH0uy9I/GwtVGg
+7CtZBtofKACRiYO2Aud7iaMuWYd8wYFx6gfuw7WY9tUJ5vlwQacPeLqedRcYWLPj
+N5y/tY01/DqTBHFJmjUqCsvR2R+W17P9zO0Q4sB+wYLtE82H7O5suUkZFpe79bn5
+rVpnaz3YAWirzucHrMpOsPVP8gs5taBkdSTKClnSQLek1Z/WJKwPAq26gqZ/EPOw
+EJBYc0TMSmzTJIoRSkXxJGAeSwiDp8wCTFJA6r/QyASeQkGfqrM=
+=Tg1h
+-----END PGP SIGNATURE-----
+
+--6zntmlcncahxaxdz--
