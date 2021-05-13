@@ -2,138 +2,131 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5941E37ECFB
-	for <lists+linux-input@lfdr.de>; Thu, 13 May 2021 00:37:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 451CA37F0FF
+	for <lists+linux-input@lfdr.de>; Thu, 13 May 2021 03:45:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354186AbhELUEI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 12 May 2021 16:04:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57490 "EHLO
+        id S230338AbhEMBqX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 12 May 2021 21:46:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245126AbhELSYW (ORCPT
+        with ESMTP id S229959AbhEMBqW (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 12 May 2021 14:24:22 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7F97C0613ED
-        for <linux-input@vger.kernel.org>; Wed, 12 May 2021 11:21:31 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id c3so35073042lfs.7
-        for <linux-input@vger.kernel.org>; Wed, 12 May 2021 11:21:31 -0700 (PDT)
+        Wed, 12 May 2021 21:46:22 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0688DC06175F
+        for <linux-input@vger.kernel.org>; Wed, 12 May 2021 18:45:12 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id b21so13134397pft.10
+        for <linux-input@vger.kernel.org>; Wed, 12 May 2021 18:45:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Dg0aT9CGnTa3wuH7NsxQOFQv42isTf38NzWAad/uPQE=;
-        b=ctV+PfMrQmaJ6slkQjOSQ6FIInzYoAdDelIR0/I7GSCPQ4WH2Q8dxhHwgJMrmZbwGL
-         kh6tCAmEynkqhBqS2Zq535RALK3OuF+bx9QSLY5qSu3hgltGeBxYdo2kf08oONihR7MR
-         hR6/ZCVFamIbKX3nUP3xLRMq0Ew0MuQNkLrDr5/H2rsOtDKcCuBLixVoYhpoXQZTsEl3
-         SGcq8ehsB83FCjS3drP5fg7FkAKKbXe2nsbpRhVUKeyiBErpIdAdlPPoIQ/dWMzCnecd
-         xHEgkbJmZjX1Y32vvilyiCyPYdhgJ1mBKRj9+8kHUGCzaO3SprhU7wjBjmCZ9hgSUpSy
-         okag==
+        bh=Y9OSOdifwJ/U6Y7EVaNtB+dGpCcruOcZL8rYhMqEey4=;
+        b=Fr4qTZMcIVQwesgH7iOol4OkmW1/52NmyRhF1zWTYJmRVZh7G00+iiQr0xSE7Jn55R
+         bSoByr7woQr/XQI3sZVzZJlUo7RlWqaDd1xyh6mCTJRUF+W2hoSl7SN9RdZnIq1w+HmM
+         A4DBdX0Nx7PnFWJoZO+OXIARomsPVvsJ04ANA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Dg0aT9CGnTa3wuH7NsxQOFQv42isTf38NzWAad/uPQE=;
-        b=svBBjuLyzAEqxZtFixy+OOXGOlyX1OZ+V+oVq2yNansmOYtctHf3zxpytiuN0CE77k
-         ulFwzrlXnGVlrLsgH8srfDrRrArIuv+1iAxlBrlQrNldG/ndMC5lbvQJ9gXLayj3I/Y9
-         ygUUb0hDA8W9lmPxn1BuZFwr6GCsnRoWLXMsfNHnLEixWNe5GJCnz6oMnDWwiMFC/0RX
-         7HboehnJnnaV6dCkpyG/UiEycznxT9ZLt28bLglRasNS1RKSW2yZSgxwpX/1YXfLyWPK
-         rDo64pFZnyuRDMxDBQLBYRQzO8WHmG3vhFoCW36oTFiPvcbej0h8WtzCVYi0Ppvoy06C
-         wcbA==
-X-Gm-Message-State: AOAM530YUOw90na7hBAxF9eB9QmPFQtJjuBNJxGq3ZNUG9OOI7DZaleR
-        rNwl0dzkv2KUdctfbw/ofFXCKGhq39kZLtjkBaBl+Q==
-X-Google-Smtp-Source: ABdhPJyMQQ57JywNBx+Etccl693u861JrcS1dP7sUHeNMxrNogeWNU6kbdnM9bk0QULlC4xClEAX/ReXS4wVQSi6JgM=
-X-Received: by 2002:ac2:428e:: with SMTP id m14mr25450552lfh.478.1620843689766;
- Wed, 12 May 2021 11:21:29 -0700 (PDT)
+        bh=Y9OSOdifwJ/U6Y7EVaNtB+dGpCcruOcZL8rYhMqEey4=;
+        b=HbGz1M3C+Cfw51ivU33MeLZlJR/g0DXe3wWAXObXEheXsaQU9nw088AIUauwL4Vw4U
+         Y+v4o+KS8ZCC33xxLJTlrVXYgU30CTJAqp49MtM4ctSzPwHR32m+1f4CZrGWH39Jqrc8
+         q2Oyv//sbM1A5g0rjaWaoNGiMYdnUX5WQ24ZA32hdev7S7O9npxxtY73WuT9tR92KMRy
+         hj6WkuNHWYwi4X9y387N3rzZMyj6za48m2EtgDYXgbRLjgjGe7NJ0LvyoqNxLMrdWN77
+         xRW2ffbbCTvhV78bCrzzKqPJovMtiANeO6FbN5tRBcIVnrEIkkxZv+k/xs8CNuwFIiM4
+         8PvQ==
+X-Gm-Message-State: AOAM530mDaOOpD1u1B1iLtlpl0AlFUKWmhADCmKVj1T1SLyjVuI2VpU3
+        c+boKzyc2F+5I+QCSdbJtNQZUk669vu/zm3T9vZKmQ==
+X-Google-Smtp-Source: ABdhPJx9FdyNW+2z7f/xqG8Mk4Yok0erOgCRj+tZ6RPtmwF2b1M4b7JDdPpu10FSJnZjOXEFDHY2ToGEW5Y+7H7xlX8=
+X-Received: by 2002:a17:90a:4298:: with SMTP id p24mr1758687pjg.144.1620870312282;
+ Wed, 12 May 2021 18:45:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210414021201.2462114-1-lzye@google.com> <CAFFuddLDgidkqDsihCU0VpXC_qEXVww67DmoFOvRdgrrPgOj_A@mail.gmail.com>
-In-Reply-To: <CAFFuddLDgidkqDsihCU0VpXC_qEXVww67DmoFOvRdgrrPgOj_A@mail.gmail.com>
-From:   Chris Ye <lzye@google.com>
-Date:   Wed, 12 May 2021 11:21:18 -0700
-Message-ID: <CAFFuddK_u2XxjbXnvhaRP1PakMCPDD5tV2T6ihXcAzzC72fu9g@mail.gmail.com>
-Subject: Re: [PATCH] [v5] Input: Add "Select" button to Microsoft Xbox One controller.
-To:     =?UTF-8?Q?=C5=81ukasz_Patron?= <priv.luk@gmail.com>,
-        Benjamin Valentin <benpicco@googlemail.com>,
-        Chris Ye <lzye@google.com>, Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Olivier_Cr=C3=AAte?= <olivier.crete@ocrete.ca>,
-        Sanjay Govind <sanjay.govind9@gmail.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Bastien Nocera <hadess@hadess.net>
-Cc:     linux-input <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>, trivial@kernel.org,
-        kernel-team@android.com
+References: <20210510092631.3141204-1-ikjn@chromium.org> <c5a253ba-6451-c538-39ea-c339c176afbb@gmail.com>
+In-Reply-To: <c5a253ba-6451-c538-39ea-c339c176afbb@gmail.com>
+From:   Ikjoon Jang <ikjn@chromium.org>
+Date:   Thu, 13 May 2021 09:45:01 +0800
+Message-ID: <CAATdQgDfQUVQQwL1KQZvRffUgE+ADcwjBReWhCnmNL3SSgoE-A@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: mt8183: add cbas node under cros_ec
+To:     Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     Jiri Kosina <jikos@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>, linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Hsinyi Wang <hsinyi@chromium.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Benjamin,
-     It seems I don't have any further comments on patch v5, do you
-think we can land the patch in the next kernel release? Please advise
-if there are any further comments.
-Thank you!
-
-Regards,
-Chris
-
-On Wed, May 5, 2021 at 9:57 AM Chris Ye <lzye@google.com> wrote:
+On Thu, May 13, 2021 at 12:38 AM Matthias Brugger
+<matthias.bgg@gmail.com> wrote:
 >
-> Hi Bastien,
->       Can you please take a look at the patch v5, which has restored
-> the same tab formatting?
-> Thanks! Regards,
-> Chris
+> Hi Ikjoon,
 >
-> On Tue, Apr 13, 2021 at 7:12 PM Chris Ye <lzye@google.com> wrote:
+> On 10/05/2021 11:26, Ikjoon Jang wrote:
+> > Add a 'cbas' device node for supporting table mode switch in
+
+tablet
+
+> > kukui devices.
 > >
-> > Add "Select" button input capability and input event mapping for
-> > Microsoft Xbox One controller. From product site this is also referred as
-> > "Share" button.
-> > Fixed Microsoft Xbox One controller select button not working under USB
-> > connection.
+> > Kukui platforms with detacheable base have an additional input
+> > device under cros-ec, which reports SW_TABLET_MODE regarding
+> > its base state (e.g. base flipped or detached).
 > >
-> > Signed-off-by: Chris Ye <lzye@google.com>
+> > Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
 > > ---
-> >  drivers/input/joystick/xpad.c | 6 ++++++
-> >  1 file changed, 6 insertions(+)
 > >
-> > diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-> > index 9f0d07dcbf06..cfbf1747b205 100644
-> > --- a/drivers/input/joystick/xpad.c
-> > +++ b/drivers/input/joystick/xpad.c
-> > @@ -79,6 +79,7 @@
-> >  #define MAP_DPAD_TO_BUTTONS            (1 << 0)
-> >  #define MAP_TRIGGERS_TO_BUTTONS                (1 << 1)
-> >  #define MAP_STICKS_TO_NULL             (1 << 2)
-> > +#define MAP_SELECT_BUTTON              (1 << 3)
-> >  #define DANCEPAD_MAP_CONFIG    (MAP_DPAD_TO_BUTTONS |                  \
-> >                                 MAP_TRIGGERS_TO_BUTTONS | MAP_STICKS_TO_NULL)
+> >  arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi | 4 ++++
+> >  1 file changed, 4 insertions(+)
 > >
-> > @@ -130,6 +131,7 @@ static const struct xpad_device {
-> >         { 0x045e, 0x02e3, "Microsoft X-Box One Elite pad", 0, XTYPE_XBOXONE },
-> >         { 0x045e, 0x02ea, "Microsoft X-Box One S pad", 0, XTYPE_XBOXONE },
-> >         { 0x045e, 0x0719, "Xbox 360 Wireless Receiver", MAP_DPAD_TO_BUTTONS, XTYPE_XBOX360W },
-> > +       { 0x045e, 0x0b12, "Microsoft Xbox One X pad", MAP_SELECT_BUTTON, XTYPE_XBOXONE },
-> >         { 0x046d, 0xc21d, "Logitech Gamepad F310", 0, XTYPE_XBOX360 },
-> >         { 0x046d, 0xc21e, "Logitech Gamepad F510", 0, XTYPE_XBOX360 },
-> >         { 0x046d, 0xc21f, "Logitech Gamepad F710", 0, XTYPE_XBOX360 },
-> > @@ -862,6 +864,8 @@ static void xpadone_process_packet(struct usb_xpad *xpad, u16 cmd, unsigned char
-> >         /* menu/view buttons */
-> >         input_report_key(dev, BTN_START,  data[4] & 0x04);
-> >         input_report_key(dev, BTN_SELECT, data[4] & 0x08);
-> > +       if (xpad->mapping & MAP_SELECT_BUTTON)
-> > +               input_report_key(dev, KEY_RECORD, data[22] & 0x01);
+> > diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
+> > index ff56bcfa3370..40030ed48854 100644
+> > --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
+> > +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
+> > @@ -816,6 +816,10 @@ usbc_extcon: extcon0 {
+> >                       compatible = "google,extcon-usbc-cros-ec";
+> >                       google,usb-port-id = <0>;
+> >               };
+> > +
+> > +             base_detection: cbas {
+> > +                     compatible = "google,cros-cbas";
+>
+> I'm not able to find any binding description for this. It seems linux-next has
+> driver binding to this compatible, but the description is missing.
+>
+> Can you please clarify.
+
+Yep, that's correct.
+Let me resend this with v2 after the dt-binding patch is applied.
+
+In this series, I requested queueing these to hid tree:
+
+[v5, 1/2] mfd: google,cros-ec: add DT bindings for a baseboard's switch device
+https://patchwork.kernel.org/project/linux-input/patch/20210415032958.740233-2-ikjn@chromium.org/
+
+[v5, 2/2] HID: google: Add of_match table to Whiskers switch device.
+https://patchwork.kernel.org/project/linux-input/patch/20210415032958.740233-3-ikjn@chromium.org/
+
+Later I found that I missed a comment from [v5, 1/2]
+But only [v5, 2/2] part is already applied to hid tree as I asked for it.
+
+I sent a v6 dt-binding patch is here (not yet applied)
+https://patchwork.kernel.org/project/linux-input/patch/20210512100832.3878138-1-ikjn@chromium.org/
+
+>
+> Thanks,
+> Mathias
+>
+> > +             };
+> >       };
+> >  };
 > >
-> >         /* buttons A,B,X,Y */
-> >         input_report_key(dev, BTN_A,    data[4] & 0x10);
-> > @@ -1672,6 +1676,8 @@ static int xpad_init_input(struct usb_xpad *xpad)
-> >             xpad->xtype == XTYPE_XBOXONE) {
-> >                 for (i = 0; xpad360_btn[i] >= 0; i++)
-> >                         input_set_capability(input_dev, EV_KEY, xpad360_btn[i]);
-> > +               if (xpad->mapping & MAP_SELECT_BUTTON)
-> > +                       input_set_capability(input_dev, EV_KEY, KEY_RECORD);
-> >         } else {
-> >                 for (i = 0; xpad_btn[i] >= 0; i++)
-> >                         input_set_capability(input_dev, EV_KEY, xpad_btn[i]);
-> > --
-> > 2.31.1.295.g9ea45b61b8-goog
 > >
