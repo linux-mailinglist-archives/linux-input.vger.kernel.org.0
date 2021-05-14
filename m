@@ -2,115 +2,167 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B6AF38081F
-	for <lists+linux-input@lfdr.de>; Fri, 14 May 2021 13:08:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 564EF38083B
+	for <lists+linux-input@lfdr.de>; Fri, 14 May 2021 13:14:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231380AbhENLJw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 May 2021 07:09:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35466 "EHLO
+        id S232017AbhENLPu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 May 2021 07:15:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbhENLJu (ORCPT
+        with ESMTP id S231981AbhENLPu (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 May 2021 07:09:50 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39449C061574;
-        Fri, 14 May 2021 04:08:39 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id n17-20020a7bc5d10000b0290169edfadac9so1248684wmk.1;
-        Fri, 14 May 2021 04:08:39 -0700 (PDT)
+        Fri, 14 May 2021 07:15:50 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38500C061574
+        for <linux-input@vger.kernel.org>; Fri, 14 May 2021 04:14:39 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id m190so23924367pga.2
+        for <linux-input@vger.kernel.org>; Fri, 14 May 2021 04:14:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=DnsDrIqkWnYf7da8HpIWFBQQt2XImu+6ZyHWBvjrfcE=;
-        b=sDX/4vOZ59ic93Kj1k7EQHH5H75TwRxFQdfU97NsB2/Y+xVttZgCu6VcmdiZBbTXV4
-         Yd9dS94Y1asR2VIYZN7NEerfwgmtEUFK3NZSUIzeY6J/4AmyVofgnwxiuO5puvulkCHX
-         zAH+iCNJUU2yLFhQkplxklOlcyZUbrmQbTIThNq4BukYbZy9X610Bla24hpoPnMCKKtF
-         HaX7GWwtAjZyjiNuvWcCoIBPkXTf9xY5aCFfjMGcrbRCdRoMLY/c+VX1+t1XGHSYNqtQ
-         /vEAS8jymBn+QTD3oR/5dtU3nH62pPJpzKh6iPn38AjBb8Fr8EpkCArPsjTRrMSNZ8n3
-         9CtA==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=AobE3rqWzAR5whOCqPuXrD/28KwqAfI01k8Xsr9LaIQ=;
+        b=oYiFUcpoI5mc4qXcCTHNdjkzQyGcqlPV2dBqIpLLg1p1i6pV0e8esUCkHWl6GOs3+L
+         HtrYY2xNR1Sob1F68xp3HluEr+snyZTiOYThD47YrOQv+cVfNsqWy/pMfe3aJIL5ZcQu
+         R2X7KK4wFkgCHgxGRnnixEsSXJGGistXO3dc4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=DnsDrIqkWnYf7da8HpIWFBQQt2XImu+6ZyHWBvjrfcE=;
-        b=TD856n5ZaQSeJHGEx9lBl3DYJwSrmzWVHV1McUmXOwhUBLbSBNiZ/6VlNVh199g9Ri
-         9ldmsRKsgTpW0jJKu8wKKq9vTGxH8oYk1RYzr0pjjLyUXEWToFutGV6NHvDxrr3dRNcd
-         xpI6drJa0q8KxQI7Q383NhY5taZvAWG0bu4SH+Vv8KsL8GmXv+26WjLv17OjGJIsC9KP
-         zFk3FPiWWaCXwZzHBuEalGXketW02Jwpz/pzIJrrM7hhmVXx0ONOcWgQH31a0goO2DN0
-         0t4ahJ7da1+KepMU+CFz4Dgi5zZsjD3BtWZd2x/DzFYx57euWgcPya3+ADCpQXiDX1a0
-         9KEw==
-X-Gm-Message-State: AOAM530kBEY1aeTl7/fqP01xjKBxsG+XUhMJjIAC3GW4JTFpOAA74x2o
-        06yceDCYnkP+PZ9QsYvx+4mADfV1+btBCg==
-X-Google-Smtp-Source: ABdhPJwViz0BDPUuVH349RqXP0p4zCVFhrVjXNorTYnm55dAjMiaqH0FajvtM+sJwCYcinjBh5k1qQ==
-X-Received: by 2002:a7b:c005:: with SMTP id c5mr21007074wmb.113.1620990517974;
-        Fri, 14 May 2021 04:08:37 -0700 (PDT)
-Received: from [192.168.1.122] (cpc159425-cmbg20-2-0-cust403.5-4.cable.virginm.net. [86.7.189.148])
-        by smtp.gmail.com with ESMTPSA id b10sm7116349wrr.27.2021.05.14.04.08.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 May 2021 04:08:37 -0700 (PDT)
-Subject: Re: [PATCH v2 00/40] Use ASCII subset instead of UTF-8 alternate
- symbols
-To:     David Woodhouse <dwmw2@infradead.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Mali DP Maintainers <malidp@foss.arm.com>,
-        alsa-devel@alsa-project.org, coresight@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
-        kvm@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-sgx@vger.kernel.org, linux-usb@vger.kernel.org,
-        mjpeg-users@lists.sourceforge.net, netdev@vger.kernel.org,
-        rcu@vger.kernel.org
-References: <cover.1620823573.git.mchehab+huawei@kernel.org>
- <d2fed242fbe200706b8d23a53512f0311d900297.camel@infradead.org>
- <20210514102118.1b71bec3@coco.lan>
- <61c286b7afd6c4acf71418feee4eecca2e6c80c8.camel@infradead.org>
-From:   Edward Cree <ecree.xilinx@gmail.com>
-Message-ID: <8b8bc929-2f07-049d-f24c-cb1f1d85bbaa@gmail.com>
-Date:   Fri, 14 May 2021 12:08:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AobE3rqWzAR5whOCqPuXrD/28KwqAfI01k8Xsr9LaIQ=;
+        b=fCSL4h4iOSmGbTDJYN57ek34hltMWp42IaaUpdvVtFysx5fmJrehDe0IirwKgXRlhM
+         P+3U1J41aTgoUcJ0BwEvTOBbDuQCQFtXugesPZd0NU1QBQubOAEYfMVs5LrI+qpwv8US
+         AHY4UJ+et5HdBtA8DOapgTyGgEsFzF9ZNmRlxsw2uCiGuOMv/uDWJ2IZKq5vAwxuV/Lv
+         GkAssXRqPDhHlIjIqA4VE23bZHLirEPTfE4O+atBwOeltwTLPWwg8D2tlLXX+58QzzFt
+         gVzH9KbS1XRLMf4DcZb9szw5+XoaJkYUt1VspNKQfB8PpmThzCCAVqr0633xH5Hnqglv
+         9yjg==
+X-Gm-Message-State: AOAM531KAfXazLQvo/7RqUuMRkmVUhQ7HpqtF0rheIzKLkWOGDbz6SlC
+        0vlPPO7yuC2KMF4AYFFmPlsvQCOJzi+gOD5cggpdEQ==
+X-Google-Smtp-Source: ABdhPJwjE+6SUc2igDiKD6aOkPfhQ+moPvTk2uBOhn2pCVuVe74ruIEn3ws/XYYPLnK6BryC/P/y8TZxqH/yf+1UFQc=
+X-Received: by 2002:a63:8149:: with SMTP id t70mr46454849pgd.299.1620990878139;
+ Fri, 14 May 2021 04:14:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <61c286b7afd6c4acf71418feee4eecca2e6c80c8.camel@infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+References: <20210510092631.3141204-1-ikjn@chromium.org> <c5a253ba-6451-c538-39ea-c339c176afbb@gmail.com>
+ <CAATdQgDfQUVQQwL1KQZvRffUgE+ADcwjBReWhCnmNL3SSgoE-A@mail.gmail.com> <daeb031a-1992-704b-49bf-c935078f15f8@collabora.com>
+In-Reply-To: <daeb031a-1992-704b-49bf-c935078f15f8@collabora.com>
+From:   Ikjoon Jang <ikjn@chromium.org>
+Date:   Fri, 14 May 2021 19:14:27 +0800
+Message-ID: <CAATdQgAK3VL69DuyWziYi=4ZTXTd1r7fuOXTHgw33Xu6HCvTXA@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: mt8183: add cbas node under cros_ec
+To:     Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Linux Input <linux-input@vger.kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Hsinyi Wang <hsinyi@chromium.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-> On Fri, 2021-05-14 at 10:21 +0200, Mauro Carvalho Chehab wrote:
->> I do use a lot of UTF-8 here, as I type texts in Portuguese, but I rely
->> on the US-intl keyboard settings, that allow me to type as "'a" for á.
->> However, there's no shortcut for non-Latin UTF-codes, as far as I know.
->>
->> So, if would need to type a curly comma on the text editors I normally 
->> use for development (vim, nano, kate), I would need to cut-and-paste
->> it from somewhere
+On Fri, May 14, 2021 at 4:55 PM Enric Balletbo i Serra
+<enric.balletbo@collabora.com> wrote:
+>
+> Hi Ikjoon,
+>
+> Thank you for the patch.
+>
+> On 13/5/21 3:45, Ikjoon Jang wrote:
+> > On Thu, May 13, 2021 at 12:38 AM Matthias Brugger
+> > <matthias.bgg@gmail.com> wrote:
+> >>
+> >> Hi Ikjoon,
+> >>
+> >> On 10/05/2021 11:26, Ikjoon Jang wrote:
+> >>> Add a 'cbas' device node for supporting table mode switch in
+> >
+> > tablet
+> >
+> >>> kukui devices.
+> >>>
+> >>> Kukui platforms with detacheable base have an additional input
+> >>> device under cros-ec, which reports SW_TABLET_MODE regarding
+> >>> its base state (e.g. base flipped or detached).
+> >>>
+> >>> Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
+> >>> ---
+> >>>
+> >>>  arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi | 4 ++++
+> >>>  1 file changed, 4 insertions(+)
+> >>>
+> >>> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
+> >>> index ff56bcfa3370..40030ed48854 100644
+> >>> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
+> >>> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
+> >>> @@ -816,6 +816,10 @@ usbc_extcon: extcon0 {
+> >>>                       compatible = "google,extcon-usbc-cros-ec";
+> >>>                       google,usb-port-id = <0>;
+> >>>               };
+> >>> +
+> >>> +             base_detection: cbas {
+>
+>
+> This should be just cbas, remove base_detection. It was a bit confusing follow
+> these series. If [v5, 2/2] is already applied in hid tree, I'd suggest send a v7
+> version including:
+>
+> [v7, 1/2] mfd: google,cros-ec: add DT bindings for a baseboard's switch device
+> [v7, 2/2] arm64: dts: mt8183: add cbas node under cros_ec
 
-For anyone who doesn't know about it: X has this wonderful thing called
- the Compose key[1].  For instance, type ⎄--- to get —, or ⎄<" for “.
-Much more mnemonic than Unicode codepoints; and you can extend it with
- user-defined sequences in your ~/.XCompose file.
-(I assume Wayland supports all this too, but don't know the details.)
+sure, let me upload v7 with dt-bindings + mt8183.dtsi together.
 
-On 14/05/2021 10:06, David Woodhouse wrote:
-> Again, if you want to make specific fixes like removing non-breaking
-> spaces and byte order marks, with specific reasons, then those make
-> sense. But it's got very little to do with UTF-8 and how easy it is to
-> type them. And the excuse you've put in the commit comment for your
-> patches is utterly bogus.
+>
+> Both patches can go through the Matthias tree, but the first one also needs an
+> Ack from Lee Jones, MFD maintainer, which I think is not cc'ied, so unlikely to
+> give you the needed ack.
 
-+1
+Oops.. :-S
+(Why did I think this should go through hid?)
+Thanks a lot for pointing out the basic but critical mistake.
 
--ed
-
-[1] https://en.wikipedia.org/wiki/Compose_key
+>
+> Thanks,
+>   Enric
+>
+>
+> >>> +                     compatible = "google,cros-cbas";
+> >>
+> >> I'm not able to find any binding description for this. It seems linux-next has
+> >> driver binding to this compatible, but the description is missing.
+> >>
+> >> Can you please clarify.
+> >
+> > Yep, that's correct.
+> > Let me resend this with v2 after the dt-binding patch is applied.
+> >
+> > In this series, I requested queueing these to hid tree:
+> >
+> > [v5, 1/2] mfd: google,cros-ec: add DT bindings for a baseboard's switch device
+> > https://patchwork.kernel.org/project/linux-input/patch/20210415032958.740233-2-ikjn@chromium.org/
+> >
+> > [v5, 2/2] HID: google: Add of_match table to Whiskers switch device.
+> > https://patchwork.kernel.org/project/linux-input/patch/20210415032958.740233-3-ikjn@chromium.org/
+> >
+> > Later I found that I missed a comment from [v5, 1/2]
+> > But only [v5, 2/2] part is already applied to hid tree as I asked for it.
+> >
+> > I sent a v6 dt-binding patch is here (not yet applied)
+> > https://patchwork.kernel.org/project/linux-input/patch/20210512100832.3878138-1-ikjn@chromium.org/
+> >
+> >>
+> >> Thanks,
+> >> Mathias
+> >>
+> >>> +             };
+> >>>       };
+> >>>  };
+> >>>
+> >>>
