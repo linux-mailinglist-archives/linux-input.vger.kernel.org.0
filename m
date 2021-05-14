@@ -2,88 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 827D1380A5B
-	for <lists+linux-input@lfdr.de>; Fri, 14 May 2021 15:23:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 480D1380AE5
+	for <lists+linux-input@lfdr.de>; Fri, 14 May 2021 15:59:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233926AbhENNZA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 14 May 2021 09:25:00 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:52266 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230075AbhENNY6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 14 May 2021 09:24:58 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: eballetbo)
-        with ESMTPSA id 39A851F432DE
-Subject: Re: [RESEND PATCH v7 2/2] arm64: dts: mt8183: add cbas node under
- cros_ec
-To:     Ikjoon Jang <ikjn@chromium.org>, devicetree@vger.kernel.org,
-        Lee Jones <lee.jones@linaro.org>
-Cc:     linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Guenter Roeck <groeck@chromium.org>,
-        Benson Leung <bleung@chromium.org>,
-        linux-input@vger.kernel.org, Hsin-Yi Wang <hsinyi@chromium.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Rob Herring <robh+dt@kernel.org>
-References: <20210514122051.266169-1-ikjn@chromium.org>
- <20210514122051.266169-3-ikjn@chromium.org>
-From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Message-ID: <2a216922-c93b-0e1b-0dee-add6cdc9a3c9@collabora.com>
-Date:   Fri, 14 May 2021 15:23:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+        id S232456AbhENOBE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 14 May 2021 10:01:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59328 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232103AbhENOBD (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 14 May 2021 10:01:03 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 793C3613E9;
+        Fri, 14 May 2021 13:59:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621000792;
+        bh=Ow2qpjN+bkVwWRQxi7G/HA/bPZRg73EV0cI+Qppnl1g=;
+        h=From:To:Cc:Subject:Date:From;
+        b=uVSWX0VdAgwE8oNHi7N4hUyTxIxHIEBmiX409MwQtsBRhSynnvCSa7SS9yc663Pin
+         gvRpy2Pl1l9/1FETAhVWQqHuBsn4ksqPz4qAy73tc769g2FOmmSiVgFVRLCsDGImXM
+         xMAvl1qUfYv1TdIzRX5z/+XBvwzUfjDLBeq/g1NbYbpsiO6g26Yo7te61I4O2IuD/n
+         UYvjTaWGm+Empwkz2bGBBQ4twSebbk7ESa+71Ks0CmU60YhcS/PBLPj98m4Ww/BuHt
+         QXNBbRM1GZh9TcFQ9NCanHVp3iJKrl398meP1DkEMJ2V8zh+0CREOGdJ+cnBi9Uq9S
+         QPwP1q3MMxgVQ==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Julian Sax <jsbc@gmx.de>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Hans de Goede <hdegoede@redhat.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Xiaofei Tan <tanxiaofei@huawei.com>,
+        Coiby Xu <coiby.xu@gmail.com>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: [PATCH] HID: i2c-hid: fix format string mismatch
+Date:   Fri, 14 May 2021 15:58:50 +0200
+Message-Id: <20210514135901.2924982-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210514122051.266169-3-ikjn@chromium.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Ikjoon,
+From: Arnd Bergmann <arnd@arndb.de>
 
-Thank you for the patch.
+clang doesn't like printing a 32-bit integer using %hX format string:
 
-On 14/5/21 14:20, Ikjoon Jang wrote:
-> Add a 'cbas' device node for supporting tablet mode switch in
-> kukui devices.
-> 
-> Kukui platforms with detacheable base have an additional input
-> device under cros-ec, which reports SW_TABLET_MODE regarding
-> its base state (e.g. base flipped or detached).
-> 
-> Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
-> 
+drivers/hid/i2c-hid/i2c-hid-core.c:994:18: error: format specifies type 'unsigned short' but the argument has type '__u32' (aka 'unsigned int') [-Werror,-Wformat]
+                 client->name, hid->vendor, hid->product);
+                               ^~~~~~~~~~~
+drivers/hid/i2c-hid/i2c-hid-core.c:994:31: error: format specifies type 'unsigned short' but the argument has type '__u32' (aka 'unsigned int') [-Werror,-Wformat]
+                 client->name, hid->vendor, hid->product);
+                                            ^~~~~~~~~~~~
 
-Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Use an explicit cast to truncate it to the low 16 bits instead.
 
-> ---
-> 
-> Changes in v7:
-> - remove a label in cbas node
-> - fix an erratum in commit message (table --> tablet)
-> - dt-binding patchess merged altogether with mt8183 dts
-> 
->  arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
-> index ff56bcfa3370..1512605a438e 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi
-> @@ -816,6 +816,10 @@ usbc_extcon: extcon0 {
->  			compatible = "google,extcon-usbc-cros-ec";
->  			google,usb-port-id = <0>;
->  		};
-> +
-> +		cbas {
-> +			compatible = "google,cros-cbas";
-> +		};
->  	};
->  };
->  
-> 
+Fixes: 9ee3e06610fd ("HID: i2c-hid: override HID descriptors for certain devices")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/hid/i2c-hid/i2c-hid-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
+index 9993133989a5..f9d28ad17d9c 100644
+--- a/drivers/hid/i2c-hid/i2c-hid-core.c
++++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+@@ -990,8 +990,8 @@ int i2c_hid_core_probe(struct i2c_client *client, struct i2chid_ops *ops,
+ 	hid->vendor = le16_to_cpu(ihid->hdesc.wVendorID);
+ 	hid->product = le16_to_cpu(ihid->hdesc.wProductID);
+ 
+-	snprintf(hid->name, sizeof(hid->name), "%s %04hX:%04hX",
+-		 client->name, hid->vendor, hid->product);
++	snprintf(hid->name, sizeof(hid->name), "%s %04X:%04X",
++		 client->name, (u16)hid->vendor, (u16)hid->product);
+ 	strlcpy(hid->phys, dev_name(&client->dev), sizeof(hid->phys));
+ 
+ 	ihid->quirks = i2c_hid_lookup_quirk(hid->vendor, hid->product);
+-- 
+2.29.2
+
