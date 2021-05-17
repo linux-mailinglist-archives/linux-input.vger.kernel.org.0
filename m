@@ -2,101 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CED23827A2
-	for <lists+linux-input@lfdr.de>; Mon, 17 May 2021 10:58:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 742A6382864
+	for <lists+linux-input@lfdr.de>; Mon, 17 May 2021 11:34:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235814AbhEQI7c (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 17 May 2021 04:59:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38150 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235544AbhEQI7a (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 17 May 2021 04:59:30 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 58EB561184;
-        Mon, 17 May 2021 08:58:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1621241893;
-        bh=hc8A8D9fFnzto48SzMasRY0xBuoa+Ue7uGSpDnxppJs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ifNid6jnHCdc7IjlazvZQRUXtKDcah37RAUUZ9cCj2owKZHjRNDYPN8bu0/MPwbVd
-         RCcY+QQIdt3+XvjRdk8qYmpBhWMOaFU5V8LbOkF1k4dzo95o8rk5h/gl0xJ9Ptfqcs
-         2ZZgMekRAH7ScOYh/J/u4R4TOCjpSiFoEY++LBrY=
-Date:   Mon, 17 May 2021 10:58:11 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Qiang Ma <maqianga@uniontech.com>
-Cc:     jikos@kernel.org, benjamin.tissoires@redhat.com,
-        linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: usbhid: enable remote wakeup for mouse
-Message-ID: <YKIwIwx+nLyX/9LG@kroah.com>
-References: <20210517060145.32359-1-maqianga@uniontech.com>
+        id S235952AbhEQJfp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 17 May 2021 05:35:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58400 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235863AbhEQJfo (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 17 May 2021 05:35:44 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94942C061573
+        for <linux-input@vger.kernel.org>; Mon, 17 May 2021 02:34:28 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id q6so3348008pjj.2
+        for <linux-input@vger.kernel.org>; Mon, 17 May 2021 02:34:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pxM54HyqHqiY/YoPUjHSIQ4Np3NFE5HEGLzd+ZrNKbk=;
+        b=e4pYJS7BmQr27s+S3EFe8uAp3O9husVhmv3AjQWU+7oPfVzCFTN4cGRLwXmpL7dspF
+         eO/LSeMXiffzc1yOepqTXFP4FeXlr1gCDl8iSDKZyyEAtu9HSnMHXwnb0oESyRQGTXFi
+         BGdAb2EAmSZnWEkiN63lKVlIb6G6Xbr6Rto+8OPER26rQiIPtd/UzTAaZPiy1GdMi+Ai
+         +10fiaROGS5bY/3skR4PXWX+YLD42SD7a4DycOoZk7UMU/W937SGkPFIIaBExv0wvHRL
+         1Jw0CI2N7DF34jx/NO/yOpxWzNfto4cAZ3gQKAR4lIpAjytAEZhZfX0GVD1/jMuykHKI
+         3NnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pxM54HyqHqiY/YoPUjHSIQ4Np3NFE5HEGLzd+ZrNKbk=;
+        b=KG6uL3MVSOpB+Flz+drNXgNmc5og5MdbXsxgYZwCyO+AUk6y61ZR+/cMbp+A+d5eF/
+         orwXOYZDZMbH1vImP8BdMKeIfKgCNIN+yrs16d+Gcg3ofGSbTUQh4JMq88vdGj1z3rP/
+         rYxO+o05IR3Kdxt/rJMtgKM/m2UMAWhe8pkQOJjZPXOYJc2iJj8nw+M7glHEYoH9WpQZ
+         qjtvLZd60DWYhCZMU1tZN/a0WRrElsvXc28qMvAZGUsZlkFUeVEBrS2rdzI/vmsbLp83
+         M7Y/AA0Gbf0JKD2YRRn64c4qBEU8Xd28OInoY7lqtTsymhq9cyfRqjz0pDCzupchYnoB
+         reKw==
+X-Gm-Message-State: AOAM533GqOV50+ID+0AcAD4Bt/RJlKyDUzfm5qdhWI567DMZzNZhH6nQ
+        D/AeeTzBAI3K+AZCcwUByGA=
+X-Google-Smtp-Source: ABdhPJx1RWPuzk244AHSY6cuYicJXDCq8OvdKA58ColtxBhXCVcKVk+OdTEvGMaZIBbBDT3h6nTrIQ==
+X-Received: by 2002:a17:902:a40e:b029:e9:7253:8198 with SMTP id p14-20020a170902a40eb02900e972538198mr60260571plq.82.1621244068205;
+        Mon, 17 May 2021 02:34:28 -0700 (PDT)
+Received: from yguoaz-VirtualBox.hz.ali.com ([106.11.30.46])
+        by smtp.googlemail.com with ESMTPSA id b12sm6882972pjd.22.2021.05.17.02.34.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 May 2021 02:34:27 -0700 (PDT)
+From:   Yiyuan GUO <yguoaz@gmail.com>
+X-Google-Original-From: Yiyuan GUO <yguoaz@cse.ust.hk>
+To:     jikos@kernel.org
+Cc:     linux-input@vger.kernel.org, yguoaz@gmail.com,
+        Yiyuan GUO <yguoaz@cse.ust.hk>
+Subject: [PATCH] HID: wacom: check input_dev->absinfo in wacom_bpt3_touch_msg
+Date:   Mon, 17 May 2021 17:34:03 +0800
+Message-Id: <20210517093403.74276-1-yguoaz@cse.ust.hk>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210517060145.32359-1-maqianga@uniontech.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, May 17, 2021 at 02:01:45PM +0800, Qiang Ma wrote:
-> This patch enables remote wakeup by default for USB mouse
-> devices.  Mouse in general are supposed to be wakeup devices, but
-> the correct place to enable it depends on the device's bus; no single
-> approach will work for all mouse devices.  In particular, this
-> covers only USB mouse (and then only those supporting the boot
-> protocol).
-> 
-> Signed-off-by: Qiang Ma <maqianga@uniontech.com>
+The function wacom_bpt3_touch_msg calls input_abs_get_res(input,
+ABS_MT_POSITION_X) to obtain x_res, which may equal to 0 if
+input->absinfo is NULL. Since x_res is used as a divisor, this
+may lead to divide by zero problem.
 
-Based on hardware testing, I do not think we can do this as no other
-operating system does this, right?  It's not a requirement of the USB
-specification to support this, so we can not enforce it either.
+Signed-off-by: Yiyuan GUO <yguoaz@cse.ust.hk>
+---
+ drivers/hid/wacom_wac.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
+index 81d7d12bc..a5a6fb8bc 100644
+--- a/drivers/hid/wacom_wac.c
++++ b/drivers/hid/wacom_wac.c
+@@ -2892,7 +2892,7 @@ static void wacom_bpt3_touch_msg(struct wacom_wac *wacom, unsigned char *data)
+ 	bool touch = data[1] & 0x80;
+ 	int slot = input_mt_get_slot_by_key(input, data[0]);
+ 
+-	if (slot < 0)
++	if (slot < 0 || !input->absinfo)
+ 		return;
+ 
+ 	touch = touch && report_touch_events(wacom);
+-- 
+2.25.1
 
-> ---
->  drivers/hid/usbhid/hid-core.c | 12 +++++++-----
->  drivers/hid/usbhid/usbmouse.c |  1 +
->  2 files changed, 8 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
-> index 86257ce6d619..592aa57a97f5 100644
-> --- a/drivers/hid/usbhid/hid-core.c
-> +++ b/drivers/hid/usbhid/hid-core.c
-> @@ -1186,11 +1186,13 @@ static int usbhid_start(struct hid_device *hid)
->  	 * In addition, enable remote wakeup by default for all keyboard
->  	 * devices supporting the boot protocol.
->  	 */
-> -	if (interface->desc.bInterfaceSubClass == USB_INTERFACE_SUBCLASS_BOOT &&
-> -			interface->desc.bInterfaceProtocol ==
-> -				USB_INTERFACE_PROTOCOL_KEYBOARD) {
-> -		usbhid_set_leds(hid);
-> -		device_set_wakeup_enable(&dev->dev, 1);
-> +	if (interface->desc.bInterfaceSubClass == USB_INTERFACE_SUBCLASS_BOOT) {
-> +		if (interface->desc.bInterfaceProtocol == USB_INTERFACE_PROTOCOL_KEYBOARD ||
-> +			interface->desc.bInterfaceProtocol == USB_INTERFACE_PROTOCOL_MOUSE) {
-> +			if (interface->desc.bInterfaceProtocol == USB_INTERFACE_PROTOCOL_KEYBOARD)
-> +				usbhid_set_leds(hid);
-> +			device_set_wakeup_enable(&dev->dev, 1);
-> +		}
->  	}
->  
->  	mutex_unlock(&usbhid->mutex);
-> diff --git a/drivers/hid/usbhid/usbmouse.c b/drivers/hid/usbhid/usbmouse.c
-> index 073127e65ac1..cf785369a5ed 100644
-> --- a/drivers/hid/usbhid/usbmouse.c
-> +++ b/drivers/hid/usbhid/usbmouse.c
-> @@ -188,6 +188,7 @@ static int usb_mouse_probe(struct usb_interface *intf, const struct usb_device_i
->  		goto fail3;
->  
->  	usb_set_intfdata(intf, mouse);
-> +	device_set_wakeup_enable(&dev->dev, 1);
->  	return 0;
->  
->  fail3:	
-> -- 
-> 2.20.1
-
-How many different devices did you test this on?
-
-thanks,
-
-greg k-h
