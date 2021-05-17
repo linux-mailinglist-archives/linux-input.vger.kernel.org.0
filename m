@@ -2,126 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69543386C2C
-	for <lists+linux-input@lfdr.de>; Mon, 17 May 2021 23:20:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D449C386D14
+	for <lists+linux-input@lfdr.de>; Tue, 18 May 2021 00:42:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244618AbhEQVWD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 17 May 2021 17:22:03 -0400
-Received: from mail-ot1-f41.google.com ([209.85.210.41]:44571 "EHLO
-        mail-ot1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238105AbhEQVWC (ORCPT
+        id S234833AbhEQWn7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 17 May 2021 18:43:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39188 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1344006AbhEQWn7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 17 May 2021 17:22:02 -0400
-Received: by mail-ot1-f41.google.com with SMTP id r26-20020a056830121ab02902a5ff1c9b81so6801804otp.11;
-        Mon, 17 May 2021 14:20:45 -0700 (PDT)
+        Mon, 17 May 2021 18:43:59 -0400
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42653C061756
+        for <linux-input@vger.kernel.org>; Mon, 17 May 2021 15:42:41 -0700 (PDT)
+Received: by mail-ot1-x330.google.com with SMTP id t4-20020a05683014c4b02902ed26dd7a60so6982475otq.7
+        for <linux-input@vger.kernel.org>; Mon, 17 May 2021 15:42:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+         :subject:to:cc;
+        bh=n3Djli0CBbr/m3SaXSvVNvzipKsQbtn+bmmLzOnVVqI=;
+        b=nCoLyuMlxHCUgeTLjyz9XLZgPJV8gVt7fHvVleOKVgXyMbYoTOTnjn4s2niBe2ZQmP
+         Y1QLjAH7k6zw/Fj/f8O8N7U9ittx6ZQUrVx6sj04EOjq6C+tjhUTZU6ugXRuzUR1bRUG
+         YaqYd770CHzQfDlKuHqA8JhTB1zLEDRVfC860=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=YcPVqnyxUoQRqLqrcd+xwOvSykAyUXn6XXyXXfewed8=;
-        b=mtIO+EMTrhG0OFp22u7lFtRl2KcrfioE8we6bdl6QaDdVzWKkrjHzr5NSSAzjEfEK3
-         +uC0PnHiL6yYpt1AU4vERZqQmbpY0DjPYBf1fbnyA7YiQA1MCdMW9mLCjiwlTmMU+N4/
-         C3WYlQy0Khqzn9C37V4N0EUpchIEmyJbqV3Sj2eFj3omkuG/OLNte89KxujUC53b9WbV
-         pD1ynqWGamMaXuxblqlVsvvRx/ohfMs+gCoq51AmF7iU2TijaEvRJsCunU9XHG5tmkAD
-         1VBX4N6KZsa5IL6TSd/8fmHaS93FpVilsALOrBrjAHcb8eNild+zKygDTLrOgE5q+bsg
-         in9w==
-X-Gm-Message-State: AOAM533tbhNUmyfK3yNKFx8XdslE0i57ER21Ol71btaIivjk1+1+c3m9
-        dldr3jWbHRl0fXuhG+Cxvg==
-X-Google-Smtp-Source: ABdhPJyETxg9k9XJAKSPDZnyLWwwIHaYxzn+ovOlDY4J+ItNb3j1tMU05rQr9vzb7eu8lf00QgA4Rw==
-X-Received: by 2002:a9d:5a1a:: with SMTP id v26mr1334412oth.50.1621286444548;
-        Mon, 17 May 2021 14:20:44 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id y191sm2998370oia.50.2021.05.17.14.19.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 May 2021 14:19:33 -0700 (PDT)
-Received: (nullmailer pid 3215069 invoked by uid 1000);
-        Mon, 17 May 2021 21:18:28 -0000
-Date:   Mon, 17 May 2021 16:18:28 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Stephen Boyd <sboyd@kernel.org>, alsa-devel@alsa-project.org,
-        Georgi Djakov <djakov@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-pm@vger.kernel.org, Alex Elder <elder@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Chunyan Zhang <zhang.lyra@gmail.com>,
-        devicetree@vger.kernel.org,
-        Fabrice Gasnier <fabrice.gasnier@st.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-        linux-input@vger.kernel.org,
-        Odelu Kukatla <okukatla@codeaurora.org>,
-        Shengjiu Wang <shengjiu.wang@nxp.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Olivier Moysan <olivier.moysan@foss.st.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Cameron <jic23@kernel.org>, netdev@vger.kernel.org,
-        Orson Zhai <orsonzhai@gmail.com>
-Subject: Re: [PATCH] dt-bindings: More removals of type references on common
- properties
-Message-ID: <20210517211828.GA3214995@robh.at.kernel.org>
-References: <20210510204524.617390-1-robh@kernel.org>
+        h=x-gm-message-state:mime-version:in-reply-to:references:from
+         :user-agent:date:message-id:subject:to:cc;
+        bh=n3Djli0CBbr/m3SaXSvVNvzipKsQbtn+bmmLzOnVVqI=;
+        b=QD7mNfuwG55PvoV/NxUdE06zwhaIZQPeycwQj6EMtaaZFtNNJPTycuOkJZ1l7vvSOq
+         so+zz8190gprpDyCmn7BAr4PBP41bfrbM13STereiI7srFIQJmjYaIKNqlp/gFDZ1ze5
+         IQmmFrgHyPqELRsJZSKv9ifZ/d2SeRgMh5DnGyxCG8IW6UXn0vmEnc4DznZQQYafrvc4
+         z97k9q8Soa4tOatzHslBwnni9vWDCddg7lOiB2kh1l2NjyzNfDJtwDmx/NCoXJTbJapI
+         7Cq37jU63nafCoCzaMv6OwyH6GZ+EZigssnjpDhTXHEeEHgWtpNE39w8A7tXru5ACDj6
+         o8jA==
+X-Gm-Message-State: AOAM531JMD8gTKCWNvim+jRRJd479jev0/mCRLEIOaudrxf1Ay5BT/3E
+        ycd9nAzfBIPbmo1YCkV71qEh+/Ak6W6V+MAM2sCvf0+WDC4=
+X-Google-Smtp-Source: ABdhPJyrlcKA5TRpRHBaLxQm81FvqdUsYD3Zuf8Wq5ItOf2C8GCdiAJD8DSnsXJA9rpT0DGnCkm7oobN8EvyA4mOsRo=
+X-Received: by 2002:a05:6830:4a1:: with SMTP id l1mr1582306otd.25.1621291360739;
+ Mon, 17 May 2021 15:42:40 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 17 May 2021 15:42:40 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210510204524.617390-1-robh@kernel.org>
+In-Reply-To: <20210514122051.266169-2-ikjn@chromium.org>
+References: <20210514122051.266169-1-ikjn@chromium.org> <20210514122051.266169-2-ikjn@chromium.org>
+From:   Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date:   Mon, 17 May 2021 15:42:40 -0700
+Message-ID: <CAE-0n52_fypoKrobC+fSrMqf9aovHFgu71qRqKK7J_Q4g-tPTw@mail.gmail.com>
+Subject: Re: [RESEND PATCH v7 1/2] mfd: google,cros-ec: add DT bindings for a
+ baseboard's switch device
+To:     Ikjoon Jang <ikjn@chromium.org>, Lee Jones <lee.jones@linaro.org>,
+        devicetree@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Guenter Roeck <groeck@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Benson Leung <bleung@chromium.org>,
+        linux-input@vger.kernel.org, Hsin-Yi Wang <hsinyi@chromium.org>,
+        Jiri Kosina <jikos@kernel.org>, Rob Herring <robh@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, 10 May 2021 15:45:24 -0500, Rob Herring wrote:
-> Users of common properties shouldn't have a type definition as the
-> common schemas already have one. A few new ones slipped in and
-> *-names was missed in the last clean-up pass. Drop all the unnecessary
-> type references in the tree.
-> 
-> A meta-schema update to catch these is pending.
-> 
-> Cc: Luca Ceresoli <luca@lucaceresoli.net>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Olivier Moysan <olivier.moysan@foss.st.com>
-> Cc: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
-> Cc: Jonathan Cameron <jic23@kernel.org>
-> Cc: Lars-Peter Clausen <lars@metafoo.de>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-> Cc: Georgi Djakov <djakov@kernel.org>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Sebastian Reichel <sre@kernel.org>
-> Cc: Orson Zhai <orsonzhai@gmail.com>
-> Cc: Baolin Wang <baolin.wang7@gmail.com>
-> Cc: Chunyan Zhang <zhang.lyra@gmail.com>
-> Cc: Liam Girdwood <lgirdwood@gmail.com>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Fabrice Gasnier <fabrice.gasnier@st.com>
-> Cc: Odelu Kukatla <okukatla@codeaurora.org>
-> Cc: Alex Elder <elder@kernel.org>
-> Cc: Shengjiu Wang <shengjiu.wang@nxp.com>
-> Cc: linux-clk@vger.kernel.org
-> Cc: alsa-devel@alsa-project.org
-> Cc: linux-iio@vger.kernel.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-input@vger.kernel.org
-> Cc: linux-pm@vger.kernel.org
-> Cc: netdev@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Quoting Ikjoon Jang (2021-05-14 05:20:49)
+> This is for ChromeOS tablets which have a 'cros_cbas' switch device
+> in the "Whiskers" base board. This device can be instantiated only by
+> device tree on ARM platforms. ChromeOS EC doesn't provide a way to
+> probe the device.
+>
+> Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Acked-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+>
 > ---
->  Documentation/devicetree/bindings/clock/idt,versaclock5.yaml    | 2 --
->  .../devicetree/bindings/iio/adc/st,stm32-dfsdm-adc.yaml         | 1 -
->  Documentation/devicetree/bindings/input/input.yaml              | 1 -
->  Documentation/devicetree/bindings/interconnect/qcom,rpmh.yaml   | 1 -
->  Documentation/devicetree/bindings/net/qcom,ipa.yaml             | 1 -
->  .../devicetree/bindings/power/supply/sc2731-charger.yaml        | 2 +-
->  Documentation/devicetree/bindings/sound/fsl,rpmsg.yaml          | 2 +-
->  7 files changed, 2 insertions(+), 8 deletions(-)
-> 
 
-Applied, thanks!
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
