@@ -2,94 +2,125 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BADD386E72
-	for <lists+linux-input@lfdr.de>; Tue, 18 May 2021 02:49:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A7F5386EB5
+	for <lists+linux-input@lfdr.de>; Tue, 18 May 2021 03:07:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239874AbhERAub (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 17 May 2021 20:50:31 -0400
-Received: from mail-ot1-f52.google.com ([209.85.210.52]:41664 "EHLO
-        mail-ot1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235151AbhERAua (ORCPT
+        id S240000AbhERBJN convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-input@lfdr.de>); Mon, 17 May 2021 21:09:13 -0400
+Received: from emcscan.emc.com.tw ([192.72.220.5]:42182 "EHLO
+        emcscan.emc.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239122AbhERBJN (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 17 May 2021 20:50:30 -0400
-Received: by mail-ot1-f52.google.com with SMTP id 36-20020a9d0ba70000b02902e0a0a8fe36so7187726oth.8;
-        Mon, 17 May 2021 17:49:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=yrOVOD3qCQLVHCAZtNnKfo5QLzokUdgJlnu6Nj1LShg=;
-        b=bksPmQOl1KmLt8+GbI3BysmLt/jNV1DiszPzDa56X6iDZsqaIKjcUI/egYcOoC+y2l
-         +HiBLJllVFxSqf1LxrsxX55r+plRL4lS9ucKhA5mvKHUUkq4h5vnZ4V61hkBUeRkQT8J
-         3mRgRxzSVfrgw8tVu8IPFJcOCIZQSSYxBRrIn3khfjIYmPaYOHeudb3lEjNvW4eXOYxu
-         4ALHJP0IydUq4gefpChVUkDlsF0Y5/FIUj4a3KFH84NUNtZ3OOIj6DkxmXCxekEAl5mO
-         r7I2VPGff996OuFn7ZgfHfE5crbwoxVVI59NoLqkhe7AnNT2HBpRVRiAc7K4qzOss7e0
-         Fvog==
-X-Gm-Message-State: AOAM531feDvPBxaZvpQO/opKfd8Y+hoip4eTW2OogiaabUAxXjM/SF9G
-        KyfRC6pWhLLp2llLha8/VowsQu2JgA==
-X-Google-Smtp-Source: ABdhPJzZGd6W9pWreOFJczdOUWlEjgy74Wn/YqJdcE9vazY5nq6T8nk1pZFnHebne/IBkKE8s44FHQ==
-X-Received: by 2002:a05:6830:1256:: with SMTP id s22mr1861242otp.333.1621298951553;
-        Mon, 17 May 2021 17:49:11 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id i18sm3411184oot.48.2021.05.17.17.49.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 May 2021 17:49:10 -0700 (PDT)
-Received: (nullmailer pid 3538545 invoked by uid 1000);
-        Tue, 18 May 2021 00:49:09 -0000
-Date:   Mon, 17 May 2021 19:49:09 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     satya priya <skakit@codeaurora.org>
-Cc:     Vinod Koul <vkoul@kernel.org>, devicetree@vger.kernel.org,
-        linux-pm@vger.kernel.org, David Collins <collinsd@codeaurora.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, kgunda@codeaurora.org,
-        linux-kernel@vger.kernel.org, Andy Gross <agross@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH V4 4/5] dt-bindings: input: pm8941-pwrkey: Convert pm8941
- power key binding to yaml
-Message-ID: <20210518004909.GA3538493@robh.at.kernel.org>
-References: <1620800053-26405-1-git-send-email-skakit@codeaurora.org>
- <1620800053-26405-5-git-send-email-skakit@codeaurora.org>
+        Mon, 17 May 2021 21:09:13 -0400
+X-IronPort-AV: E=Sophos;i="5.56,253,1539619200"; 
+   d="scan'208";a="40764565"
+Received: from unknown (HELO webmail.emc.com.tw) ([192.168.10.1])
+  by emcscan.emc.com.tw with ESMTP; 18 May 2021 09:07:54 +0800
+Received: from 192.168.10.23
+        by webmail.emc.com.tw with MailAudit ESMTP Server V5.0(177985:0:AUTH_RELAY)
+        (envelope-from <johnny.chuang@emc.com.tw>); Tue, 18 May 2021 09:07:54 +0800 (CST)
+Received: from 192.168.55.71
+        by webmail.emc.com.tw with Mail2000 ESMTPA Server V7.00(2473:3:AUTH_LOGIN)
+        (envelope-from <johnny.chuang@emc.com.tw>); Tue, 18 May 2021 09:07:53 +0800 (CST)
+From:   "Johnny.Chuang" <johnny.chuang@emc.com.tw>
+To:     "'Harry Cutts'" <hcutts@chromium.org>,
+        "'Johnny Chuang'" <johnny.chuang.emc@gmail.com>
+Cc:     "'Dmitry Torokhov'" <dmitry.torokhov@gmail.com>,
+        "'Benjamin Tissoires'" <benjamin.tissoires@redhat.com>,
+        "'Peter Hutterer'" <peter.hutterer@who-t.net>,
+        "'lkml'" <linux-kernel@vger.kernel.org>,
+        "'linux-input'" <linux-input@vger.kernel.org>,
+        "'James Chen'" <james.chen@emc.com.tw>,
+        "'Jennifer Tsai'" <jennifer.tsai@emc.com.tw>,
+        "'Paul Liang'" <paul.liang@emc.com.tw>,
+        "'Jeff Chuang'" <jeff.chuang@emc.com.tw>,
+        "'Douglas Anderson'" <dianders@chromium.org>,
+        "'Jingle'" <jingle.wu@emc.com.tw>, "'Paris Yeh'" <pyeh@google.com>,
+        "'sukumar . ghorai'" <sukumar.ghorai@intel.corp-partner.google.com>
+References: <1621295824-12730-1-git-send-email-johnny.chuang.emc@gmail.com> <CA+jURcv-o3g3C6zZhGio7KKtco-b+dGk+vm=3Nj8ps_-yMQRNA@mail.gmail.com>
+In-Reply-To: <CA+jURcv-o3g3C6zZhGio7KKtco-b+dGk+vm=3Nj8ps_-yMQRNA@mail.gmail.com>
+Subject: RE: [PATCH] HID: i2c-hid: Add I2C_HID_QUIRK_NO_DELAY_AFTER_PWR_ON to optimize timing
+Date:   Tue, 18 May 2021 09:07:53 +0800
+Message-ID: <089701d74b82$3b0c1c00$b1245400$@emc.com.tw>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1620800053-26405-5-git-send-email-skakit@codeaurora.org>
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: 8BIT
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: AQKTds7H4vJlViKUoEQ2K8NJpxt9xgIFo9jjqV/oReA=
+Content-Language: zh-tw
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcMDUwMTBcYXBwZGF0YVxyb2FtaW5nXDA5ZDg0OWI2LTMyZDMtNGE0MC04NWVlLTZiODRiYTI5ZTM1Ylxtc2dzXG1zZy03ODgyODQxOS1iNzc1LTExZWItODY2Mi03YzVjZjg3NDk0NzhcYW1lLXRlc3RcNzg4Mjg0MWItYjc3NS0xMWViLTg2NjItN2M1Y2Y4NzQ5NDc4Ym9keS50eHQiIHN6PSIyNDAyIiB0PSIxMzI2NTc3MzY3MzYyNzYxNTYiIGg9IlpXYng0VXJYT0lKRnp4WmtPdjE1NWpWRk9mOD0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-rorf: true
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 12 May 2021 11:44:12 +0530, satya priya wrote:
-> Convert qcom pm8941 power key binding from .txt to .yaml format.
+> On Mon, 17 May 2021 at 16:57, Johnny Chuang
+> <johnny.chuang.emc@gmail.com> wrote:
+> >
+> > There is a hard coding 60ms delay after I2C_HID_PWR_ON commadn.
+> > Elan didn't need the delay, so we add a quirk to reduce boot time and
+> resume time.
+> >
+> > Optimized: eef4016243e9("HID: i2c-hid: Always sleep 60ms after
+> > I2C_HID_PWR_ON commands")
 > 
-> The example has been removed in favour of full example being
-> available in the qcom,pon.yaml binding.
-> 
-> Signed-off-by: satya priya <skakit@codeaurora.org>
-> ---
-> Changes in V2:
->  - Fixed bot errors, took reference from input.yaml for "linux,code"
->  - Added one complete example for powerkey and resin, and referenced it
->    in main PON binding.
->  - Moved this patch to the end of the series.
-> 
-> Changes in V3:
->  - Moved this patch before PON binding patch.
->  - As per Rob's comments, added allOf at the beginning of binding.
->    Added maxItems for interrupts.
->  - Added 'unevaluatedProperties' instead of 'additionalProperties' as
->    we are using allOf.
-> 
-> Changes in V4:
->  - Removed the example and added in qcom,pon.yaml
-> 
->  .../bindings/input/qcom,pm8941-pwrkey.txt          | 55 ----------------------
->  .../bindings/input/qcom,pm8941-pwrkey.yaml         | 51 ++++++++++++++++++++
->  2 files changed, 51 insertions(+), 55 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.txt
->  create mode 100644 Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.yaml
-> 
+> I don't think Optimized: is a valid commit tag, though I'm not sure if it'll cause
+> any problems.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+I will change to Fixed tag at PATCH v2.
+
+> 
+> >
+> > Signed-off-by: Johnny Chuang <johnny.chuang.emc@gmail.com>
+> > ---
+> >  drivers/hid/i2c-hid/i2c-hid-core.c | 9 ++++++++-
+> >  1 file changed, 8 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c
+> > b/drivers/hid/i2c-hid/i2c-hid-core.c
+> > index 9993133..e7ec280 100644
+> > --- a/drivers/hid/i2c-hid/i2c-hid-core.c
+> > +++ b/drivers/hid/i2c-hid/i2c-hid-core.c
+> > [...snip...]
+> > @@ -178,6 +179,11 @@ static const struct i2c_hid_quirks {
+> >                  I2C_HID_QUIRK_RESET_ON_RESUME },
+> >         { USB_VENDOR_ID_ITE,
+> I2C_DEVICE_ID_ITE_LENOVO_LEGION_Y720,
+> >                 I2C_HID_QUIRK_BAD_INPUT_SIZE },
+> > +       /*
+> > +        * Optimize boot time and resume time
+> > +        */
+> 
+> This comment is a bit too vague to be useful; maybe state that Elan devices
+> don't need the delay instead, or just remove the comment.
+> 
+> Other than that,
+
+Okay, I will change to Elan devices don't need the delay at PATCH v2.
+
+> 
+> Reviewed-by: Harry Cutts <hcutts@chromium.org>
+> 
+> > +       { USB_VENDOR_ID_ELAN, HID_ANY_ID,
+> > +                I2C_HID_QUIRK_NO_DELAY_AFTER_PWR_ON },
+> >         { 0, 0 }
+> >  };
+> >
+> > @@ -427,7 +433,8 @@ static int i2c_hid_set_power(struct i2c_client *client,
+> int power_state)
+> >          * PWR_ON requests. Testing has confirmed that several devices
+> >          * will not work properly without a delay after a PWR_ON
+> request.
+> >          */
+> > -       if (!ret && power_state == I2C_HID_PWR_ON)
+> > +       if (!ret && power_state == I2C_HID_PWR_ON &&
+> > +           !(ihid->quirks &
+> I2C_HID_QUIRK_NO_DELAY_AFTER_PWR_ON))
+> >                 msleep(60);
+> >
+> >         return ret;
+> > --
+> > 2.7.4
+> >
+
