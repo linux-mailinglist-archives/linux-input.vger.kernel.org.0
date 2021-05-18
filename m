@@ -2,140 +2,186 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E73A4387A57
-	for <lists+linux-input@lfdr.de>; Tue, 18 May 2021 15:45:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A38C387B9F
+	for <lists+linux-input@lfdr.de>; Tue, 18 May 2021 16:47:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234868AbhERNqR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 18 May 2021 09:46:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51841 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233832AbhERNqR (ORCPT
+        id S235177AbhEROsm (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 18 May 2021 10:48:42 -0400
+Received: from mail-ot1-f42.google.com ([209.85.210.42]:35591 "EHLO
+        mail-ot1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234550AbhEROsl (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 18 May 2021 09:46:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1621345498;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=keW/z/7Dpy5O9ju83p8wx5U035Fy3tAAVmCh5ZRaXCM=;
-        b=gzcQyj3cqwsInH5TEZAMkZEEaiHzGbTwWj0FpvBw2LQw5tRHmLZEFpjqx6O8X6JwqIstjf
-        q9jk3pUvQIkukcg6iAyp5cNem95UwMO/yLiKxaD93NPf6fmQko8EbpldpX5kVbz3H6b+iU
-        jgX40yR4dXSD05MqaJ3aGZd/u1nPNro=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-V61wAfp-NRCGTPu8NVEXjA-1; Tue, 18 May 2021 09:44:55 -0400
-X-MC-Unique: V61wAfp-NRCGTPu8NVEXjA-1
-Received: by mail-ej1-f69.google.com with SMTP id p25-20020a1709061419b0290378364a6464so2389972ejc.15
-        for <linux-input@vger.kernel.org>; Tue, 18 May 2021 06:44:54 -0700 (PDT)
+        Tue, 18 May 2021 10:48:41 -0400
+Received: by mail-ot1-f42.google.com with SMTP id 69-20020a9d0a4b0000b02902ed42f141e1so8849942otg.2;
+        Tue, 18 May 2021 07:47:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=keW/z/7Dpy5O9ju83p8wx5U035Fy3tAAVmCh5ZRaXCM=;
-        b=S3LN5UoeulWZuKDDwi39PQdfuGWDwEAmJV+CSGsWXhdXOvg3VRrrsjtvD26/QOTSwQ
-         y2xDnRN6pvBmGJvofpPECnE2cjHsqLogQbFETE5LZib/yNqVRTwZ1toFr1of4QcibUbe
-         NHfqjcJfUpyMtNwpmVZMGjC38CVRZQLEfv0KEAs9b//jJBRlIjGgKr76+Wz/EW44Ae87
-         AL6yowUKawGME/KW1DM1FosysMAezeg2m4co8Q54AfWUNIP5ZsOqKuval8hB2zx7tE7W
-         2qI/1COxLtsKM3XGS7+toCTJxBBDrwK/xOoU5BU1w41SDUDGT6IkrZvabDXpE3Bu71Hx
-         trkg==
-X-Gm-Message-State: AOAM533kFAEN71Mb07nwfv+Y6F2DZF62uXDldccbT1XTW/n6T2B+HBVT
-        PH0kLeDVYY6IrGRApiv26PWl88I+rMZskowY3aATfLtkS2jT0uIDSsCvyq6ldWK+2+LwrSMq5IU
-        49zWekWWEXweOTa4vzahVmX0=
-X-Received: by 2002:a05:6402:4313:: with SMTP id m19mr7076936edc.263.1621345493881;
-        Tue, 18 May 2021 06:44:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzUhlQtuAY0GPaQM/J3vCTCkrcE0giYJERx7T9KrmeM7xcF47HJZ6orjqYyxWic4VUeEX1JUw==
-X-Received: by 2002:a05:6402:4313:: with SMTP id m19mr7076917edc.263.1621345493693;
-        Tue, 18 May 2021 06:44:53 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id k9sm10862688eje.102.2021.05.18.06.44.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 May 2021 06:44:53 -0700 (PDT)
-Subject: Re: Handling of USB "Programmable button" controls as KEY_MACRO#
- events
-To:     =?UTF-8?Q?Thomas_Wei=c3=9fschuh?= <linux@weissschuh.net>,
-        linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     linux-kernel@vger.kernel.org
-References: <6ebbb200-1f2c-450b-8fae-e5e2dd9b6be9@t-8ch.de>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <61dcf8c7-2dcb-4173-fbbd-9adf3412edb7@redhat.com>
-Date:   Tue, 18 May 2021 15:44:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=i/3knGC4CpMEkTbYVCH3cvqb7hCOaLFy+F4QJW4cARQ=;
+        b=VgIUTGjFIYEyx89OyA+x2eyprZkhbidxndWSDmGvKvsU2F/BjQhjZ37I0pcEaJ2UL+
+         Yd4zuVIZhMXhbSwHeMfwTbx9vxw4viMRyS9NSzqMBDQDBWmrp/aGsdL/stQQb0qP3F+g
+         yP1lkhXcn1ReYkYi+9TCyV1JkrkA0R9VX7nrK/DkvQDYIY3VIbhPbA2g94UooOs/wdz5
+         lsFdHM+9iudcJkLw47shxd6g8ONYgOgqYW1gKGJz9vysYJhRcq5IkgWXGwrEATFerEBI
+         ZwH6NE/9ITMiyBDfyJc6dZdI5s7kNcjUNff3V8Y3DWi5on/oZw7YtfrgYlYSeeRN4KI5
+         aVZQ==
+X-Gm-Message-State: AOAM533TChvvo9usaT6J3KEu6QzM2d7TUIGMb+2fcRqYDqE7AiG34h8Y
+        SG0SWqjtmLfLOYU1/7qDP8gRvUttxA==
+X-Google-Smtp-Source: ABdhPJwNmUr4/MF32fXbrpebVI1fsgUw9cKHKbmY3WR/0DiaZb3AQD49VP0j6t9aYWtsxn3SuKSE0w==
+X-Received: by 2002:a05:6830:1284:: with SMTP id z4mr4599470otp.148.1621349243412;
+        Tue, 18 May 2021 07:47:23 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id v79sm3415081oia.14.2021.05.18.07.47.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 May 2021 07:47:23 -0700 (PDT)
+Received: (nullmailer pid 656643 invoked by uid 1000);
+        Tue, 18 May 2021 14:47:22 -0000
+Date:   Tue, 18 May 2021 09:47:22 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, David Jander <david@protonic.nl>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v2] dt-bindings: touchscreen: Convert resistive-adc-touch
+ binding to json schema
+Message-ID: <20210518144722.GA617855@robh.at.kernel.org>
+References: <20210517071825.20316-1-o.rempel@pengutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <6ebbb200-1f2c-450b-8fae-e5e2dd9b6be9@t-8ch.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210517071825.20316-1-o.rempel@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+On Mon, May 17, 2021 at 09:18:24AM +0200, Oleksij Rempel wrote:
+> Convert the resistive-adc-touch binding to DT schema format using json-schema.
+> 
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> ---
+>  .../input/touchscreen/resistive-adc-touch.txt | 33 ----------
+>  .../touchscreen/resistive-adc-touch.yaml      | 61 +++++++++++++++++++
+>  2 files changed, 61 insertions(+), 33 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.txt
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.txt b/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.txt
+> deleted file mode 100644
+> index af5223bb5bdd..000000000000
+> --- a/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.txt
+> +++ /dev/null
+> @@ -1,33 +0,0 @@
+> -Generic resistive touchscreen ADC
+> -
+> -Required properties:
+> -
+> - - compatible: must be "resistive-adc-touch"
+> -The device must be connected to an ADC device that provides channels for
+> -position measurement and optional pressure.
+> -Refer to
+> -https://github.com/devicetree-org/dt-schema/blob/master/schemas/iio/iio-consumer.yaml
+> -for details
+> -
+> - - iio-channels: must have at least two channels connected to an ADC device.
+> -These should correspond to the channels exposed by the ADC device and should
+> -have the right index as the ADC device registers them. These channels
+> -represent the relative position on the "x" and "y" axes.
+> - - iio-channel-names: must have all the channels' names. Mandatory channels
+> -are "x" and "y".
+> -
+> -Optional properties:
+> - - iio-channels: The third channel named "pressure" is optional and can be
+> -used if the ADC device also measures pressure besides position.
+> -If this channel is missing, pressure will be ignored and the touchscreen
+> -will only report position.
+> - - iio-channel-names: optional channel named "pressure".
+> -
+> -Example:
+> -
+> -	resistive_touch: resistive_touch {
+> -		compatible = "resistive-adc-touch";
+> -		touchscreen-min-pressure = <50000>;
+> -		io-channels = <&adc 24>, <&adc 25>, <&adc 26>;
+> -		io-channel-names = "x", "y", "pressure";
+> -	};
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.yaml b/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.yaml
+> new file mode 100644
+> index 000000000000..53df21a6589e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.yaml
+> @@ -0,0 +1,61 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/resistive-adc-touch.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Generic resistive touchscreen ADC
+> +
+> +maintainers:
+> +  - Oleksij Rempel <o.rempel@pengutronix.de>
+> +
+> +description: |
+> +  Generic ADC based resistive touchscreen controller
+> +  The device must be connected to an ADC device that provides channels for
+> +  position measurement and optional pressure.
+> +
+> +allOf:
+> +  - $ref: touchscreen.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: resistive-adc-touch
+> +
+> +  io-channels:
+> +    minItems: 2
+> +    maxItems: 3
 
-On 5/18/21 3:21 PM, Thomas Weißschuh wrote:
-> Hi everybody,
-> 
-> Would it make sense to map the "Programmable Buttons" control from the
-> USB HID Consumer page [0] to the linux event codes KEY_MACRO1 ... KEY_MACRO# ?
-> 
-> Those controls are documented in the USB spec as:
-> 
-> "The user defines the function of these
-> buttons to control software applications or GUI objects."
-> 
-> The KEY_MACRO event codes are documented with:
-> 
-> "Some keyboards have keys which do not have a defined meaning, these keys
-> are intended to be programmed / bound to macros by the user."
-> 
-> My usecase is the passing of custom keycodes from a programmable keypad
-> (via QMK[1]) to Linux.
-> (This would also need new functionality in QMK itself)
+maxItems is implied by the 'items' length.
 
-I think the idea is good, but AFAICT the HUT does not actually assign
-any usage codes in the consumer-page for this. It simply points to the
-Button usage-page, which means things conflict with e.g. mouse and joystick
-buttons and I do not see any dedicated codes in the table
-"Table 15.1: Consumer Page" so I'm not sure how to interpret the spec. here ...
+> +    items:
+> +      - description: x
+> +      - description: y
+> +      - description: pressure (optional)
+> +
+> +  io-channel-names:
 
-I guess there is something which we can do with the report's application here,
-since the code dealing with HID_UP_BUTTON is already doing a switch-case
-on field->application to differentiate between mouse and gaming buttons.
+This needs minItems, too.
 
-I guess interpreting an application of HID_CP_CONSUMER_CONTROL in combination
-with using the buttons usage-page as wat the HUT is trying to specify and
-thus map that the first 30 codes in that combination to KEY_MACRO1 - 30
-might make sense.
+> +    items:
+> +      - const: x
+> +      - const: y
+> +      - const: pressure
+> +
+> +  touchscreen-size-x: true
+> +  touchscreen-size-y: true
+> +  touchscreen-fuzz-x: true
+> +  touchscreen-fuzz-y: true
+> +  touchscreen-inverted-x: true
+> +  touchscreen-inverted-y: true
+> +  touchscreen-swapped-x-y: true
+> +  touchscreen-min-pressure: true
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - io-channels
+> +  - io-channel-names
+> +
+> +examples:
+> +  - |
+> +    resistive_touch {
 
-Regards,
+touchscreen {
 
-Hans
-
-
-
-
+> +      compatible = "resistive-adc-touch";
+> +      touchscreen-min-pressure = <50000>;
+> +      io-channels = <&adc 24>, <&adc 25>, <&adc 26>;
+> +      io-channel-names = "x", "y", "pressure";
+> +    };
+> -- 
+> 2.29.2
 > 
-> Alternatives:
-> 
-> * Send Raw HID from QMK
->   * Con: needs a dedicated, nonstandard driver on the host
-> * Use F-Keys
->   * Con: only F13-F19 are usable (F1-F12 are used by normal keyboards, F20-F23
->     are repurposed with other keys for X11 compat)
-> 
-> Possible problems:
-> 
-> * There are 65k programmable keys defined by USB but only 30 macro keys are
->   supported by Linux.
-> 
-> Thanks,
-> Thomas
-> 
-> [0] https://www.usb.org/sites/default/files/hut1_22.pdf#section.15.14
-> [1] https://qmk.fm/
-> 
-
