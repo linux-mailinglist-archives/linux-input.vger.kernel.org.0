@@ -2,254 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5681C387956
-	for <lists+linux-input@lfdr.de>; Tue, 18 May 2021 14:58:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94E51387A04
+	for <lists+linux-input@lfdr.de>; Tue, 18 May 2021 15:31:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232723AbhERM7R (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 18 May 2021 08:59:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34160 "EHLO
+        id S1349650AbhERNcw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 18 May 2021 09:32:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231859AbhERM7Q (ORCPT
+        with ESMTP id S1349647AbhERNcw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 18 May 2021 08:59:16 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D9E4C061573
-        for <linux-input@vger.kernel.org>; Tue, 18 May 2021 05:57:58 -0700 (PDT)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1lizIE-0002tn-Dc; Tue, 18 May 2021 14:57:50 +0200
-Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1lizID-00079P-TA; Tue, 18 May 2021 14:57:49 +0200
-From:   Oleksij Rempel <o.rempel@pengutronix.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-Cc:     Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        David Jander <david@protonic.nl>, devicetree@vger.kernel.org
-Subject: [PATCH v2 4/4] Input: resistive-adc-touch: add support for z1 and z2 channels
-Date:   Tue, 18 May 2021 14:57:48 +0200
-Message-Id: <20210518125748.26823-5-o.rempel@pengutronix.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210518125748.26823-1-o.rempel@pengutronix.de>
-References: <20210518125748.26823-1-o.rempel@pengutronix.de>
+        Tue, 18 May 2021 09:32:52 -0400
+X-Greylist: delayed 585 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 18 May 2021 06:31:34 PDT
+Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0B7BC061573;
+        Tue, 18 May 2021 06:31:34 -0700 (PDT)
+Date:   Tue, 18 May 2021 15:21:40 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
+        s=mail; t=1621344101;
+        bh=c73kIoBsDpAy+yCZg+mOnr7VdjTq2wMsaBIYMScY8l4=;
+        h=Date:From:To:Cc:Subject:From;
+        b=RY7sbvsayItCmTcrOiNlGHGPirtg8zTW33X5Y9wQXaiUs5BbrPlC0OgWz9M8DA033
+         VSq/JVpFhGUHh8xLDX0XT9Mp/s67wtCAf9cPgFksTYcdS0eHXRUPJgny3YLOrCCflA
+         L0qWMUXLH2Mp2nXyjYQYhuqN61ZpcC0GIqZRDZ0Y=
+From:   Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To:     linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     linux-kernel@vger.kernel.org
+Subject: Handling of USB "Programmable button" controls as KEY_MACRO# events
+Message-ID: <6ebbb200-1f2c-450b-8fae-e5e2dd9b6be9@t-8ch.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch adds support for the z1 and z2 channels. These are used to
-calculate the applied pressure. As there is no common order of the
-individual channels of a resistive touch ADC, support for
-io-channel-names is added (although the DT bindings stated the
-driver already supports these).
+Hi everybody,
 
-Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
----
- .../input/touchscreen/resistive-adc-touch.c   | 141 ++++++++++++++++--
- 1 file changed, 128 insertions(+), 13 deletions(-)
+Would it make sense to map the "Programmable Buttons" control from the
+USB HID Consumer page [0] to the linux event codes KEY_MACRO1 ... KEY_MACRO# ?
 
-diff --git a/drivers/input/touchscreen/resistive-adc-touch.c b/drivers/input/touchscreen/resistive-adc-touch.c
-index e50af30183f4..470b95ed3569 100644
---- a/drivers/input/touchscreen/resistive-adc-touch.c
-+++ b/drivers/input/touchscreen/resistive-adc-touch.c
-@@ -20,7 +20,18 @@
- 
- #define DRIVER_NAME					"resistive-adc-touch"
- #define GRTS_DEFAULT_PRESSURE_MIN			50000
-+#define GRTS_DEFAULT_PRESSURE_MAX			65535
- #define GRTS_MAX_POS_MASK				GENMASK(11, 0)
-+#define GRTS_MAX_CHANNELS				4
-+
-+enum grts_ch_type {
-+	GRTS_CH_NONE = 0,
-+	GRTS_CH_X,
-+	GRTS_CH_Y,
-+	GRTS_CH_PRESSURE,
-+	GRTS_CH_Z1,
-+	GRTS_CH_Z2,
-+};
- 
- /**
-  * struct grts_state - generic resistive touch screen information struct
-@@ -33,24 +44,61 @@
-  */
- struct grts_state {
- 	u32				pressure_min;
-+	u32				x_plate_ohms;
- 	bool				pressure;
- 	struct iio_channel		*iio_chans;
- 	struct iio_cb_buffer		*iio_cb;
- 	struct input_dev		*input;
- 	struct touchscreen_properties	prop;
-+	u8				ch[GRTS_MAX_CHANNELS];
- };
- 
- static int grts_cb(const void *data, void *private)
- {
- 	const u16 *touch_info = data;
- 	struct grts_state *st = private;
--	unsigned int x, y, press = 0x0;
-+	unsigned int x, y, press = 0, z1 = 0, z2;
-+	unsigned int Rt, i;
-+
-+	for (i = 0; i < ARRAY_SIZE(st->ch) && st->ch[i] != GRTS_CH_NONE; i++) {
-+		switch (st->ch[i]) {
-+		case GRTS_CH_X:
-+			x = touch_info[i];
-+			break;
-+		case GRTS_CH_Y:
-+			y = touch_info[i];
-+			break;
-+		case GRTS_CH_PRESSURE:
-+			press = touch_info[i];
-+			break;
-+		case GRTS_CH_Z1:
-+			z1 = touch_info[i];
-+			break;
-+		case GRTS_CH_Z2:
-+			z2 = touch_info[i];
-+			break;
-+		case GRTS_CH_NONE:
-+			break;
-+		}
-+	}
- 
--	/* channel data coming in buffer in the order below */
--	x = touch_info[0];
--	y = touch_info[1];
--	if (st->pressure)
--		press = touch_info[2];
-+	if (z1) {
-+		Rt = z2;
-+		Rt -= z1;
-+		Rt *= st->x_plate_ohms;
-+		Rt = DIV_ROUND_CLOSEST(Rt, 16);
-+		Rt *= x;
-+		Rt /= z1;
-+		Rt = DIV_ROUND_CLOSEST(Rt, 256);
-+		/*
-+		 * On increased pressure the resistance (Rt) is decreasing
-+		 * so, convert values to make it looks as real pressure.
-+		 */
-+		if (Rt < GRTS_DEFAULT_PRESSURE_MAX)
-+			press = GRTS_DEFAULT_PRESSURE_MAX - Rt;
-+		else
-+			press = 0;
-+	}
- 
- 	if ((!x && !y) || (st->pressure && (press < st->pressure_min))) {
- 		/* report end of touch */
-@@ -94,6 +142,72 @@ static void grts_disable(void *data)
- 	iio_channel_release_all_cb(data);
- }
- 
-+static int grts_get_properties(struct grts_state *st, struct device *dev)
-+{
-+	int idx, error;
-+
-+	idx = device_property_match_string(dev, "io-channel-names", "x");
-+	if (idx < 0)
-+		return idx;
-+
-+	if (idx >= ARRAY_SIZE(st->ch))
-+		return -EOVERFLOW;
-+
-+	st->ch[idx] = GRTS_CH_X;
-+
-+	idx = device_property_match_string(dev, "io-channel-names", "y");
-+	if (idx < 0)
-+		return idx;
-+
-+	if (idx >= ARRAY_SIZE(st->ch))
-+		return -EOVERFLOW;
-+
-+	st->ch[idx] = GRTS_CH_Y;
-+
-+	/* pressure is optional */
-+	idx = device_property_match_string(dev, "io-channel-names", "pressure");
-+	if (idx >= 0) {
-+		if (idx >= ARRAY_SIZE(st->ch))
-+			return -EOVERFLOW;
-+
-+		st->ch[idx] = GRTS_CH_PRESSURE;
-+		st->pressure = true;
-+
-+		return 0;
-+	}
-+
-+	/* if no pressure is defined, try optional z1 + z2 */
-+	idx = device_property_match_string(dev, "io-channel-names", "z1");
-+	if (idx < 0)
-+		return 0;
-+
-+	if (idx >= ARRAY_SIZE(st->ch))
-+		return -EOVERFLOW;
-+
-+	st->ch[idx] = GRTS_CH_Z1;
-+
-+	/* if z1 is provided z2 is not optional */
-+	idx = device_property_match_string(dev, "io-channel-names", "z2");
-+	if (idx < 0)
-+		return idx;
-+
-+	if (idx >= ARRAY_SIZE(st->ch))
-+		return -EOVERFLOW;
-+
-+	st->ch[idx] = GRTS_CH_Z2;
-+	st->pressure = true;
-+
-+	error = device_property_read_u32(dev,
-+					 "touchscreen-x-plate-ohms",
-+					 &st->x_plate_ohms);
-+	if (error) {
-+		dev_err(dev, "can't get touchscreen-x-plate-ohms property\n");
-+		return error;
-+	}
-+
-+	return 0;
-+}
-+
- static int grts_probe(struct platform_device *pdev)
- {
- 	struct grts_state *st;
-@@ -115,12 +229,13 @@ static int grts_probe(struct platform_device *pdev)
- 		return error;
- 	}
- 
--	chan = &st->iio_chans[0];
--	st->pressure = false;
--	while (chan && chan->indio_dev) {
--		if (!strcmp(chan->channel->datasheet_name, "pressure"))
--			st->pressure = true;
--		chan++;
-+	if (!device_property_present(dev, "io-channel-names"))
-+		return -ENODEV;
-+
-+	error = grts_get_properties(st, dev);
-+	if (error) {
-+		dev_err(dev, "Failed to parse properties\n");
-+		return error;
- 	}
- 
- 	if (st->pressure) {
-@@ -148,7 +263,7 @@ static int grts_probe(struct platform_device *pdev)
- 	input_set_abs_params(input, ABS_Y, 0, GRTS_MAX_POS_MASK - 1, 0, 0);
- 	if (st->pressure)
- 		input_set_abs_params(input, ABS_PRESSURE, st->pressure_min,
--				     0xffff, 0, 0);
-+				     GRTS_DEFAULT_PRESSURE_MAX, 0, 0);
- 
- 	input_set_capability(input, EV_KEY, BTN_TOUCH);
- 
--- 
-2.29.2
+Those controls are documented in the USB spec as:
 
+"The user defines the function of these
+buttons to control software applications or GUI objects."
+
+The KEY_MACRO event codes are documented with:
+
+"Some keyboards have keys which do not have a defined meaning, these keys
+are intended to be programmed / bound to macros by the user."
+
+My usecase is the passing of custom keycodes from a programmable keypad
+(via QMK[1]) to Linux.
+(This would also need new functionality in QMK itself)
+
+Alternatives:
+
+* Send Raw HID from QMK
+  * Con: needs a dedicated, nonstandard driver on the host
+* Use F-Keys
+  * Con: only F13-F19 are usable (F1-F12 are used by normal keyboards, F20-F23
+    are repurposed with other keys for X11 compat)
+
+Possible problems:
+
+* There are 65k programmable keys defined by USB but only 30 macro keys are
+  supported by Linux.
+
+Thanks,
+Thomas
+
+[0] https://www.usb.org/sites/default/files/hut1_22.pdf#section.15.14
+[1] https://qmk.fm/
