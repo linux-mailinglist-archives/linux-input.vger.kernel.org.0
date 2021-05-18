@@ -2,120 +2,186 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BEF0386F5B
-	for <lists+linux-input@lfdr.de>; Tue, 18 May 2021 03:37:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95D2038790D
+	for <lists+linux-input@lfdr.de>; Tue, 18 May 2021 14:41:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239969AbhERBij (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 17 May 2021 21:38:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50346 "EHLO
+        id S1349318AbhERMms (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 18 May 2021 08:42:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240665AbhERBig (ORCPT
+        with ESMTP id S1349323AbhERMmo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 17 May 2021 21:38:36 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99346C061573;
-        Mon, 17 May 2021 18:37:18 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id b13-20020a17090a8c8db029015cd97baea9so878742pjo.0;
-        Mon, 17 May 2021 18:37:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=GYAYPUFZq7/QeDMZ8M5DkimvQ3Zl9qErKdzMaX8z1ks=;
-        b=BPiKOFE6QhuvDSzH8fiO1OIqMQF+xk8UwHyG9nO4nv7xBThMTLIQ853paAgFohG2vC
-         iGBUcw29qlwFfbUNkGTEMTAihhKOdhn1oRPX2PBL3uZXsGKBMS/JDpex+O/SffMK+A5d
-         NmvNcmhbNMW1qFbwzQZ7tLg6ZWsU6H/hHcJ/UZrmstFsYOuhA/X0AQetA3vl0NnmPQTw
-         f2er/bg6WQnd/C35enXwDV4YPtdbzs8RXCboYgN/Hqp9MkK8eNFR18JcVoqEZSt18806
-         NBkzdKa5SqXeetqTaNUBmwK/kNUUdzdCsVOslL1Dd4U8OY63pCRFujBzZIsw6z8mS2TS
-         sesA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=GYAYPUFZq7/QeDMZ8M5DkimvQ3Zl9qErKdzMaX8z1ks=;
-        b=YUCHndxsduNLrr1k93z1fWwPPAghxKw1Urxj6tHEklI6izZ5NhaCBcfe5YRpqHn2o4
-         IxUu1TzVmGYiDWQWKkxrccM/sjFWEz/C7Kza86+MRIWkbfgGj0fKnSxZuPWxurgpEk+t
-         iUFCJ81/OSuUc31wYsW0AJl4Sza1Fw264//75mgyz2siDHC/nlwmp6lW3dN3VxBMtNNX
-         scV4QmfjfppQmjOCOfCIIdO3cNpjMXcEcWBELPbYalJMQP+A1LfuYN370I4HENLcEIqK
-         /G+kSxW2QrXcw0XIbwg/EEn+jBMl1xqy34U4VXYrihGAvqef1bnkShOkhoTfBWdhAA06
-         dHdg==
-X-Gm-Message-State: AOAM5301Or3magBW+YF1rHiZl7qNkGgQ4/xk4B/jo0bQjiVnzvGolpNc
-        nHPD9uClo/9VLpCexBQAeAU=
-X-Google-Smtp-Source: ABdhPJzzcRaS1/5Hnlnc5v1hCfbiCSvbqedPSv7VM2SFdlhY6YxnVB8mcZ1xzERwpdCS2SmWijnv8g==
-X-Received: by 2002:a17:90a:1588:: with SMTP id m8mr2278642pja.226.1621301838209;
-        Mon, 17 May 2021 18:37:18 -0700 (PDT)
-Received: from localhost.localdomain ([2401:e180:8891:36a1:f153:748:2ea9:f579])
-        by smtp.gmail.com with ESMTPSA id g8sm510893pju.6.2021.05.17.18.37.14
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 17 May 2021 18:37:17 -0700 (PDT)
-From:   Johnny Chuang <johnny.chuang.emc@gmail.com>
+        Tue, 18 May 2021 08:42:44 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 523EBC06175F
+        for <linux-input@vger.kernel.org>; Tue, 18 May 2021 05:41:26 -0700 (PDT)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1liz2D-00013o-CT; Tue, 18 May 2021 14:41:17 +0200
+Received: from ore by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ore@pengutronix.de>)
+        id 1liz2C-0003m6-EV; Tue, 18 May 2021 14:41:16 +0200
+Date:   Tue, 18 May 2021 14:41:16 +0200
+From:   Oleksij Rempel <o.rempel@pengutronix.de>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Peter Hutterer <peter.hutterer@who-t.net>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Harry Cutts <hcutts@chromium.org>,
-        Johnny Chuang <johnny.chuang@emc.com.tw>
-Cc:     James Chen <james.chen@emc.com.tw>,
-        Jennifer Tsai <jennifer.tsai@emc.com.tw>,
-        Paul Liang <paul.liang@emc.com.tw>,
-        Jeff Chuang <jeff.chuang@emc.com.tw>,
-        Douglas Anderson <dianders@chromium.org>,
-        Jingle <jingle.wu@emc.com.tw>, Paris Yeh <pyeh@google.com>,
-        "sukumar . ghorai" <sukumar.ghorai@intel.corp-partner.google.com>
-Subject: [PATCH v2] HID: i2c-hid: Add I2C_HID_QUIRK_NO_DELAY_AFTER_PWR_ON to optimize timing
-Date:   Tue, 18 May 2021 09:37:12 +0800
-Message-Id: <1621301832-25479-1-git-send-email-johnny.chuang.emc@gmail.com>
-X-Mailer: git-send-email 2.7.4
+        Rob Herring <robh+dt@kernel.org>,
+        Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+Cc:     kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, David Jander <david@protonic.nl>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v2] dt-bindings: touchscreen: Convert resistive-adc-touch
+ binding to json schema
+Message-ID: <20210518124116.lam6jht2uhqfjbg4@pengutronix.de>
+References: <20210517071825.20316-1-o.rempel@pengutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210517071825.20316-1-o.rempel@pengutronix.de>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 14:40:30 up 167 days,  2:46, 48 users,  load average: 0.10, 0.07,
+ 0.07
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-There is a hard coding 60ms delay after I2C_HID_PWR_ON commadn.
-Elan didn't need the delay, so we add a quirk to reduce boot time and resume time.
+I'll resend this patch with all followup patches depending on this
+change.
 
-Fixed: eef4016243e9("HID: i2c-hid: Always sleep 60ms after I2C_HID_PWR_ON commands")
+On Mon, May 17, 2021 at 09:18:24AM +0200, Oleksij Rempel wrote:
+> Convert the resistive-adc-touch binding to DT schema format using json-schema.
+> 
+> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> ---
+>  .../input/touchscreen/resistive-adc-touch.txt | 33 ----------
+>  .../touchscreen/resistive-adc-touch.yaml      | 61 +++++++++++++++++++
+>  2 files changed, 61 insertions(+), 33 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.txt
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.txt b/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.txt
+> deleted file mode 100644
+> index af5223bb5bdd..000000000000
+> --- a/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.txt
+> +++ /dev/null
+> @@ -1,33 +0,0 @@
+> -Generic resistive touchscreen ADC
+> -
+> -Required properties:
+> -
+> - - compatible: must be "resistive-adc-touch"
+> -The device must be connected to an ADC device that provides channels for
+> -position measurement and optional pressure.
+> -Refer to
+> -https://github.com/devicetree-org/dt-schema/blob/master/schemas/iio/iio-consumer.yaml
+> -for details
+> -
+> - - iio-channels: must have at least two channels connected to an ADC device.
+> -These should correspond to the channels exposed by the ADC device and should
+> -have the right index as the ADC device registers them. These channels
+> -represent the relative position on the "x" and "y" axes.
+> - - iio-channel-names: must have all the channels' names. Mandatory channels
+> -are "x" and "y".
+> -
+> -Optional properties:
+> - - iio-channels: The third channel named "pressure" is optional and can be
+> -used if the ADC device also measures pressure besides position.
+> -If this channel is missing, pressure will be ignored and the touchscreen
+> -will only report position.
+> - - iio-channel-names: optional channel named "pressure".
+> -
+> -Example:
+> -
+> -	resistive_touch: resistive_touch {
+> -		compatible = "resistive-adc-touch";
+> -		touchscreen-min-pressure = <50000>;
+> -		io-channels = <&adc 24>, <&adc 25>, <&adc 26>;
+> -		io-channel-names = "x", "y", "pressure";
+> -	};
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.yaml b/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.yaml
+> new file mode 100644
+> index 000000000000..53df21a6589e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.yaml
+> @@ -0,0 +1,61 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/resistive-adc-touch.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Generic resistive touchscreen ADC
+> +
+> +maintainers:
+> +  - Oleksij Rempel <o.rempel@pengutronix.de>
+> +
+> +description: |
+> +  Generic ADC based resistive touchscreen controller
+> +  The device must be connected to an ADC device that provides channels for
+> +  position measurement and optional pressure.
+> +
+> +allOf:
+> +  - $ref: touchscreen.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: resistive-adc-touch
+> +
+> +  io-channels:
+> +    minItems: 2
+> +    maxItems: 3
+> +    items:
+> +      - description: x
+> +      - description: y
+> +      - description: pressure (optional)
+> +
+> +  io-channel-names:
+> +    items:
+> +      - const: x
+> +      - const: y
+> +      - const: pressure
+> +
+> +  touchscreen-size-x: true
+> +  touchscreen-size-y: true
+> +  touchscreen-fuzz-x: true
+> +  touchscreen-fuzz-y: true
+> +  touchscreen-inverted-x: true
+> +  touchscreen-inverted-y: true
+> +  touchscreen-swapped-x-y: true
+> +  touchscreen-min-pressure: true
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - io-channels
+> +  - io-channel-names
+> +
+> +examples:
+> +  - |
+> +    resistive_touch {
+> +      compatible = "resistive-adc-touch";
+> +      touchscreen-min-pressure = <50000>;
+> +      io-channels = <&adc 24>, <&adc 25>, <&adc 26>;
+> +      io-channel-names = "x", "y", "pressure";
+> +    };
+> -- 
+> 2.29.2
+> 
+> 
 
-Signed-off-by: Johnny Chuang <johnny.chuang.emc@gmail.com>
----
-Change in v2:
-    - Modify Optimized tag to Fixed tag
-    - Modify comment for i2c_hid_quirks
----
- drivers/hid/i2c-hid/i2c-hid-core.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/hid/i2c-hid/i2c-hid-core.c b/drivers/hid/i2c-hid/i2c-hid-core.c
-index 9993133..f4ee690 100644
---- a/drivers/hid/i2c-hid/i2c-hid-core.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-core.c
-@@ -45,6 +45,7 @@
- #define I2C_HID_QUIRK_BOGUS_IRQ			BIT(4)
- #define I2C_HID_QUIRK_RESET_ON_RESUME		BIT(5)
- #define I2C_HID_QUIRK_BAD_INPUT_SIZE		BIT(6)
-+#define I2C_HID_QUIRK_NO_DELAY_AFTER_PWR_ON	BIT(8)
- 
- 
- /* flags */
-@@ -178,6 +179,11 @@ static const struct i2c_hid_quirks {
- 		 I2C_HID_QUIRK_RESET_ON_RESUME },
- 	{ USB_VENDOR_ID_ITE, I2C_DEVICE_ID_ITE_LENOVO_LEGION_Y720,
- 		I2C_HID_QUIRK_BAD_INPUT_SIZE },
-+	/*
-+	 * Elan devices don't need delay after I2C_HID_PWR_ON
-+	 */
-+	{ USB_VENDOR_ID_ELAN, HID_ANY_ID,
-+		 I2C_HID_QUIRK_NO_DELAY_AFTER_PWR_ON },
- 	{ 0, 0 }
- };
- 
-@@ -427,7 +433,8 @@ static int i2c_hid_set_power(struct i2c_client *client, int power_state)
- 	 * PWR_ON requests. Testing has confirmed that several devices
- 	 * will not work properly without a delay after a PWR_ON request.
- 	 */
--	if (!ret && power_state == I2C_HID_PWR_ON)
-+	if (!ret && power_state == I2C_HID_PWR_ON &&
-+	    !(ihid->quirks & I2C_HID_QUIRK_NO_DELAY_AFTER_PWR_ON))
- 		msleep(60);
- 
- 	return ret;
 -- 
-2.7.4
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
