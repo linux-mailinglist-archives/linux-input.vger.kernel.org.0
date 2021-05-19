@@ -2,89 +2,105 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66DF7389299
-	for <lists+linux-input@lfdr.de>; Wed, 19 May 2021 17:29:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2278B389333
+	for <lists+linux-input@lfdr.de>; Wed, 19 May 2021 18:04:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354781AbhESPat (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 19 May 2021 11:30:49 -0400
-Received: from mail-ot1-f46.google.com ([209.85.210.46]:33289 "EHLO
-        mail-ot1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354777AbhESPat (ORCPT
+        id S1346972AbhESQFg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 19 May 2021 12:05:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35248 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241482AbhESQFe (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 19 May 2021 11:30:49 -0400
-Received: by mail-ot1-f46.google.com with SMTP id i23-20020a9d68d70000b02902dc19ed4c15so12138502oto.0;
-        Wed, 19 May 2021 08:29:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=7+JB9Zyu4+IY2hdDOgcmRMbIQW9I3jTmXTZo7gASLew=;
-        b=ngOo7DLOlIDsUKLSWCs7rPfiOhBa0xQ9GrNexUdEnYzVKtXrkrv8PdfCV9Vxn/llC/
-         7akxXHyAcB119dMfhLr1tVoYeWo3vbsR8bJ5HZLHzPVxpAadzj/j+KskrzDXzvNHcU2M
-         HdnYcQrLXQRFpx3kOqIjy/S1xrMoS7BO+HuyT4KnSnX6zKzNiBUwHEAr6z7iWmOXvv3n
-         aV32dol6+4t9TEffbL4aL8QYP11qQZC+aS79Pe8GQWNn7xZLUgVymhWNuEkh+7jkSTh4
-         VvTMzWmddU/eAF/5+G0Aw2oEkNICM74ADyyPEwUe5yvcjrH4YR0nFiBPHM0OiHE+I06N
-         ebxw==
-X-Gm-Message-State: AOAM531iRPtwgULdWS0BZdo8c/9wpRo2RIg9/JF5u9BA2yVtmkrJSDOZ
-        Tzfj/nJznhm9XpslT+uWYQ==
-X-Google-Smtp-Source: ABdhPJzaSafp0audcs87a9mL6YLp05FiXb1wBCFLn+0OqGYGYkYPD48OIiWNXACJVQ2DTYwY+cmQ/g==
-X-Received: by 2002:a9d:62d2:: with SMTP id z18mr9579427otk.78.1621438168410;
-        Wed, 19 May 2021 08:29:28 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id z9sm5015oti.37.2021.05.19.08.29.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 May 2021 08:29:27 -0700 (PDT)
-Received: (nullmailer pid 3134238 invoked by uid 1000);
-        Wed, 19 May 2021 15:29:24 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Oleksij Rempel <o.rempel@pengutronix.de>
-Cc:     devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        kernel@pengutronix.de, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
-        David Jander <david@protonic.nl>
-In-Reply-To: <20210519094221.27792-2-o.rempel@pengutronix.de>
-References: <20210519094221.27792-1-o.rempel@pengutronix.de> <20210519094221.27792-2-o.rempel@pengutronix.de>
-Subject: Re: [PATCH v4 1/5] dt-bindings: touchscreen: validate nodename
-Date:   Wed, 19 May 2021 10:29:24 -0500
-Message-Id: <1621438164.148746.3134237.nullmailer@robh.at.kernel.org>
+        Wed, 19 May 2021 12:05:34 -0400
+Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9D8CC06175F
+        for <linux-input@vger.kernel.org>; Wed, 19 May 2021 09:04:11 -0700 (PDT)
+From:   =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
+        s=mail; t=1621440246;
+        bh=HjX1XlOaRqJLsyW2CK3RwmEjpoWJVREThQk49QVY79g=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=pSaoOsZLSSK4+Z5Py33kpGAnpxsQ88TsVV86OrAler9Qi8Q+/a/IQmZ9sAh+ZkzhB
+         3FiMXSwGbT/tsMqizSvktVCEU34Q2ZuSl6kfwsQw12lY/PhPLOLdz6kl03OgzVo9w1
+         YipaCSdlZARTBl3n4tGjYE+e94gBKWXPf1Mxu2tE=
+To:     linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: input: Add support for Programmable Buttons
+Date:   Wed, 19 May 2021 18:03:49 +0200
+Message-Id: <20210519160349.609690-1-linux@weissschuh.net>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <61dcf8c7-2dcb-4173-fbbd-9adf3412edb7@redhat.com>
+References: <61dcf8c7-2dcb-4173-fbbd-9adf3412edb7@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 19 May 2021 11:42:17 +0200, Oleksij Rempel wrote:
-> Validate touchscreen nodes. Make sure it is named touchscreen*.
-> 
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> ---
->  .../devicetree/bindings/input/touchscreen/touchscreen.yaml     | 3 +++
->  1 file changed, 3 insertions(+)
-> 
+From: Thomas Weißschuh <thomas@t-8ch.de>
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Map them to KEY_MACRO# event codes.
 
-yamllint warnings/errors:
+These buttons are defined by HID as follows:
+"The user defines the function of these buttons to control software
+applications or GUI objects."
 
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.example.dt.yaml: edt-ft5x06@38: $nodename:0: 'edt-ft5x06@38' does not match '^touchscreen(@.*)?$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/touchscreen/edt-ft5x06.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/touchscreen/goodix.example.dt.yaml: gt928@5d: $nodename:0: 'gt928@5d' does not match '^touchscreen(@.*)?$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/iqs626a.example.dt.yaml: iqs626a@44: $nodename:0: 'iqs626a@44' does not match '^touchscreen(@.*)?$'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/iqs626a.yaml
+This matches the semantics of the KEY_MACRO# input event codes that
+Linux supports.
 
-See https://patchwork.ozlabs.org/patch/1480791
+Signed-off-by: Thomas Weißschuh <thomas@t-8ch.de>
+---
+ drivers/hid/hid-debug.c | 11 +++++++++++
+ drivers/hid/hid-input.c |  1 +
+ 2 files changed, 12 insertions(+)
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
+index 59f8d716d78f..0e76d9b4530a 100644
+--- a/drivers/hid/hid-debug.c
++++ b/drivers/hid/hid-debug.c
+@@ -122,6 +122,7 @@ static const struct hid_usage_entry hid_usage_table[] = {
+   {  9, 0, "Button" },
+   { 10, 0, "Ordinal" },
+   { 12, 0, "Consumer" },
++      {0, 0x003, "ProgrammableButtons"},
+       {0, 0x238, "HorizontalWheel"},
+   { 13, 0, "Digitizers" },
+     {0, 0x01, "Digitizer"},
+@@ -939,6 +940,16 @@ static const char *keys[KEY_MAX + 1] = {
+ 	[KEY_KBDINPUTASSIST_NEXTGROUP] = "KbdInputAssistNextGroup",
+ 	[KEY_KBDINPUTASSIST_ACCEPT] = "KbdInputAssistAccept",
+ 	[KEY_KBDINPUTASSIST_CANCEL] = "KbdInputAssistCancel",
++	[KEY_MACRO1] = "Macro1", [KEY_MACRO2] = "Macro2", [KEY_MACRO3] = "Macro3",
++	[KEY_MACRO4] = "Macro4", [KEY_MACRO5] = "Macro5", [KEY_MACRO6] = "Macro6",
++	[KEY_MACRO7] = "Macro7", [KEY_MACRO8] = "Macro8", [KEY_MACRO9] = "Macro9",
++	[KEY_MACRO10] = "Macro10", [KEY_MACRO11] = "Macro11", [KEY_MACRO12] = "Macro12",
++	[KEY_MACRO13] = "Macro13", [KEY_MACRO14] = "Macro14", [KEY_MACRO15] = "Macro15",
++	[KEY_MACRO16] = "Macro16", [KEY_MACRO17] = "Macro17", [KEY_MACRO18] = "Macro18",
++	[KEY_MACRO19] = "Macro19", [KEY_MACRO20] = "Macro20", [KEY_MACRO21] = "Macro21",
++	[KEY_MACRO22] = "Macro22", [KEY_MACRO23] = "Macro23", [KEY_MACRO24] = "Macro24",
++	[KEY_MACRO25] = "Macro25", [KEY_MACRO26] = "Macro26", [KEY_MACRO27] = "Macro27",
++	[KEY_MACRO28] = "Macro28", [KEY_MACRO29] = "Macro29", [KEY_MACRO30] = "Macro30",
+ };
+ 
+ static const char *relatives[REL_MAX + 1] = {
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index 18f5e28d475c..7d4dee58d869 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -632,6 +632,7 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+ 				else
+ 					code += BTN_TRIGGER_HAPPY - 0x10;
+ 				break;
++		case HID_CP_CONSUMER_CONTROL: code += KEY_MACRO1; break;
+ 		default:
+ 			switch (field->physical) {
+ 			case HID_GD_MOUSE:
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+base-commit: efd8929b9eec1cde120abb36d76dd00ff6711023
+-- 
+2.31.1
 
