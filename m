@@ -2,138 +2,149 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 12FC8389E70
-	for <lists+linux-input@lfdr.de>; Thu, 20 May 2021 08:57:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A82838A011
+	for <lists+linux-input@lfdr.de>; Thu, 20 May 2021 10:48:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230383AbhETG7E (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 20 May 2021 02:59:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38752 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230406AbhETG7D (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 20 May 2021 02:59:03 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7FAAC06175F
-        for <linux-input@vger.kernel.org>; Wed, 19 May 2021 23:57:41 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id s5-20020a7bc0c50000b0290147d0c21c51so4529679wmh.4
-        for <linux-input@vger.kernel.org>; Wed, 19 May 2021 23:57:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=h0fXYIN2E5J54+ZmwB3JHOzFpG3abb+viSfy+a5rRgw=;
-        b=kYsHClz4ZtHy58wi/PZc8Bs4XDjVdchu3qYDz74eF+jeJ1IcvezLu7xBX3SUAex/Fr
-         WRUwd9s2agikUezDuM7gyKY2QxMlrLnZTlsDcy1M4boya7xjTOK59F46hBC+jvIwWu0d
-         DFOLKIjh5BIRKyLLbT3RC4x+k/ZXWrPBdTtqfwz1EhkqD0TTzux7YHxOCCWkc6zKwQHo
-         gc8B8Yq5nFGgMo+tad28yqUrL4ZTghKDfSsJrZxgEALJ6dXRavaUnUTCWklWorJuFaga
-         ocs1ZtX9yll7uVmZyp6noJWyThvG6AQmR8evtXzzvXuPzyxSjT6YhKwQsjXcrv0cFjY9
-         /FjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=h0fXYIN2E5J54+ZmwB3JHOzFpG3abb+viSfy+a5rRgw=;
-        b=ivlui+1cI94hOExrkwVoheelH+D8YxMh3Mp9iSWobVpKfdW6eMp5vQpoA5B0ea/1uF
-         ONvJzCvfiZFFwdgcEn9M080wo6Cjev2IcIif384L7UAnCBKGn8OSj4DGzASoYuHuRzTk
-         2SqKag50UhMCCYA2YCzoW7YfT+UK38sdGxL609p5ey4oDG4+fUwtFlDnqE5NA6YBPCiy
-         JZeihhOa7ThA7vORH1iwKhGpMfWEi+Rkn0o548rA2yIk7fXaWd6IyLs+4m5Rl5l5twFx
-         Zwzvd+amsaU+x4yCybhDFSFbTnDUqJB5AT1Mvu0Ozc2qGqvhN5S60cMHnef3FpiLGhMd
-         pMKQ==
-X-Gm-Message-State: AOAM532HbG0YayIbbpYC9G8CWdnp78A8HIyUlD15tT4XsO29j51Y0Fl7
-        5z5RIvvgwp2jDu0z3n+GHWX55g==
-X-Google-Smtp-Source: ABdhPJwfHhX3Uc2t1nICQjEObP1SNmCR/vpanAyfFKJX+C5RLOD3pJjV/DqCSibv78lHl+kI5oJEjA==
-X-Received: by 2002:a1c:9dc3:: with SMTP id g186mr2053326wme.47.1621493860351;
-        Wed, 19 May 2021 23:57:40 -0700 (PDT)
-Received: from localhost ([2a01:cb19:826e:8e00:a45f:260c:febd:73ce])
-        by smtp.gmail.com with ESMTPSA id w12sm1928423wrt.16.2021.05.19.23.57.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 May 2021 23:57:39 -0700 (PDT)
-From:   Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To:     kernel test robot <lkp@intel.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     kbuild-all@lists.01.org, Fabien Parent <fparent@baylibre.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] Input: mtk-pmic-keys - add support for MT6358
-In-Reply-To: <202105200248.VC2Rdk6B-lkp@intel.com>
-References: <20210512152648.39961-4-mkorpershoek@baylibre.com>
- <202105200248.VC2Rdk6B-lkp@intel.com>
-Date:   Thu, 20 May 2021 08:57:38 +0200
-Message-ID: <87sg2h28pp.fsf@baylibre.com>
+        id S230469AbhETItk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 20 May 2021 04:49:40 -0400
+Received: from todd.t-8ch.de ([159.69.126.157]:37085 "EHLO todd.t-8ch.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230458AbhETItk (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 20 May 2021 04:49:40 -0400
+From:   =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
+        s=mail; t=1621500498;
+        bh=2QBntlyguLyQL1zPzuDVF9QZ1km+f4GFMHBcOu36OkU=;
+        h=From:To:Cc:Subject:Date:From;
+        b=JFG2pna6HnVPJnNe4a6KAQ3nnG8cRL5HWxBbd1yoc9pfutfb+ju8X2J2S7f1dVLv7
+         N0HvLy0/wJnx7OtOP3sUoHRaM3VoOE+y4OMnFPi6gmVgZ2nDoGUktDPpyzZ761vtcN
+         pe8m0nmaYajgA5Fe3xPrNsCUrAszGVGjDVsYTJ5c=
+To:     linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Hans de Goede <hdegoede@redhat.com>
+Cc:     =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3] HID: input: Add support for Programmable Buttons
+Date:   Thu, 20 May 2021 10:48:05 +0200
+Message-Id: <20210520084805.685486-1-linux@weissschuh.net>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Map them to KEY_MACRO# event codes.
 
-kernel test robot <lkp@intel.com> writes:
+These buttons are defined by HID as follows:
+"The user defines the function of these buttons to control software applications or GUI objects."
 
-> Hi Mattijs,
->
-> Thank you for the patch! Yet something to improve:
->
-> [auto build test ERROR on input/next]
-> [also build test ERROR on v5.13-rc2 next-20210519]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
->
-> url:    https://github.com/0day-ci/linux/commits/Mattijs-Korpershoek/input-MT6358-PMIC-button-support/20210513-001558
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-> config: s390-randconfig-r014-20210519 (attached as .config)
-> compiler: s390-linux-gcc (GCC) 9.3.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/0day-ci/linux/commit/74aae2763d0c259046aa7079a46ba0dfe1995e37
->         git remote add linux-review https://github.com/0day-ci/linux
->         git fetch --no-tags linux-review Mattijs-Korpershoek/input-MT6358-PMIC-button-support/20210513-001558
->         git checkout 74aae2763d0c259046aa7079a46ba0dfe1995e37
->         # save the attached .config to linux build tree
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=s390 
->
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
->
-> All errors (new ones prefixed by >>):
->
->>> drivers/input/keyboard/mtk-pmic-keys.c:80:22: error: 'MT6358_TOPSTATUS' undeclared here (not in a function); did you mean 'MT6397_OCSTATUS0'?
->       80 |   MTK_PMIC_KEYS_REGS(MT6358_TOPSTATUS,
->          |                      ^~~~~~~~~~~~~~~~
->    drivers/input/keyboard/mtk-pmic-keys.c:47:14: note: in definition of macro 'MTK_PMIC_KEYS_REGS'
->       47 |  .deb_reg  = _deb_reg,  \
->          |              ^~~~~~~~
->>> drivers/input/keyboard/mtk-pmic-keys.c:85:18: error: 'MT6358_TOP_RST_MISC' undeclared here (not in a function); did you mean 'MT6397_TOP_RST_MISC'?
->       85 |  .pmic_rst_reg = MT6358_TOP_RST_MISC,
->          |                  ^~~~~~~~~~~~~~~~~~~
->          |                  MT6397_TOP_RST_MISC
-This build failure is expected.
-As written in the cover letter, this depends on [1]
+This matches the semantics of the KEY_MACRO# input event codes that Linux supports.
 
-[1] has been applied to the mfd tree but it's not part of v5.13-rc2
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
 
-[1] https://lore.kernel.org/r/20210506094116.638527-1-mkorpershoek@baylibre.com
+v1: https://lore.kernel.org/linux-input/20210519160349.609690-1-linux@weissschuh.net/
 
->
->
-> vim +80 drivers/input/keyboard/mtk-pmic-keys.c
->
->     77	
->     78	static const struct mtk_pmic_regs mt6358_regs = {
->     79		.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
->   > 80			MTK_PMIC_KEYS_REGS(MT6358_TOPSTATUS,
->     81			0x2, MT6358_PSC_TOP_INT_CON0, 0x5),
->     82		.keys_regs[MTK_PMIC_HOMEKEY_INDEX] =
->     83			MTK_PMIC_KEYS_REGS(MT6358_TOPSTATUS,
->     84			0x8, MT6358_PSC_TOP_INT_CON0, 0xa),
->   > 85		.pmic_rst_reg = MT6358_TOP_RST_MISC,
->     86	};
->     87	
->
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+v1 -> v2: Only handle the 30 keys known
+
+v2: https://lore.kernel.org/linux-input/20210519174345.614467-1-linux@weissschuh.net/
+
+v2 -> v3:
+ * Use hex constants for consistency
+ * Validate that the button is part of a "Programmable Buttons" Named Array.
+   Otherwise the condition would also apply to "Function Buttons".
+ * Ignore non-"Programmable Buttons" buttons.
+
+ drivers/hid/hid-debug.c | 11 +++++++++++
+ drivers/hid/hid-input.c | 22 ++++++++++++++++++++++
+ include/linux/hid.h     |  1 +
+ 3 files changed, 34 insertions(+)
+
+diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
+index 59f8d716d78f..0e76d9b4530a 100644
+--- a/drivers/hid/hid-debug.c
++++ b/drivers/hid/hid-debug.c
+@@ -122,6 +122,7 @@ static const struct hid_usage_entry hid_usage_table[] = {
+   {  9, 0, "Button" },
+   { 10, 0, "Ordinal" },
+   { 12, 0, "Consumer" },
++      {0, 0x003, "ProgrammableButtons"},
+       {0, 0x238, "HorizontalWheel"},
+   { 13, 0, "Digitizers" },
+     {0, 0x01, "Digitizer"},
+@@ -939,6 +940,16 @@ static const char *keys[KEY_MAX + 1] = {
+ 	[KEY_KBDINPUTASSIST_NEXTGROUP] = "KbdInputAssistNextGroup",
+ 	[KEY_KBDINPUTASSIST_ACCEPT] = "KbdInputAssistAccept",
+ 	[KEY_KBDINPUTASSIST_CANCEL] = "KbdInputAssistCancel",
++	[KEY_MACRO1] = "Macro1", [KEY_MACRO2] = "Macro2", [KEY_MACRO3] = "Macro3",
++	[KEY_MACRO4] = "Macro4", [KEY_MACRO5] = "Macro5", [KEY_MACRO6] = "Macro6",
++	[KEY_MACRO7] = "Macro7", [KEY_MACRO8] = "Macro8", [KEY_MACRO9] = "Macro9",
++	[KEY_MACRO10] = "Macro10", [KEY_MACRO11] = "Macro11", [KEY_MACRO12] = "Macro12",
++	[KEY_MACRO13] = "Macro13", [KEY_MACRO14] = "Macro14", [KEY_MACRO15] = "Macro15",
++	[KEY_MACRO16] = "Macro16", [KEY_MACRO17] = "Macro17", [KEY_MACRO18] = "Macro18",
++	[KEY_MACRO19] = "Macro19", [KEY_MACRO20] = "Macro20", [KEY_MACRO21] = "Macro21",
++	[KEY_MACRO22] = "Macro22", [KEY_MACRO23] = "Macro23", [KEY_MACRO24] = "Macro24",
++	[KEY_MACRO25] = "Macro25", [KEY_MACRO26] = "Macro26", [KEY_MACRO27] = "Macro27",
++	[KEY_MACRO28] = "Macro28", [KEY_MACRO29] = "Macro29", [KEY_MACRO30] = "Macro30",
+ };
+ 
+ static const char *relatives[REL_MAX + 1] = {
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index 18f5e28d475c..791a2baf9ccd 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -567,6 +567,16 @@ static void hidinput_update_battery(struct hid_device *dev, int value)
+ }
+ #endif	/* CONFIG_HID_BATTERY_STRENGTH */
+ 
++static bool hidinput_field_in_collection(struct hid_device *device, struct hid_field *field,
++					 unsigned int type, unsigned int usage)
++{
++	struct hid_collection *collection;
++
++	collection = &device->collection[field->usage->collection_index];
++
++	return collection->type == type && collection->usage == usage;
++}
++
+ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_field *field,
+ 				     struct hid_usage *usage)
+ {
+@@ -632,6 +642,18 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+ 				else
+ 					code += BTN_TRIGGER_HAPPY - 0x10;
+ 				break;
++		case HID_CP_CONSUMER_CONTROL:
++				if (hidinput_field_in_collection(device, field,
++								 HID_COLLECTION_NAMED_ARRAY,
++								 HID_CP_PROGRAMMABLEBUTTONS)) {
++					if (code <= 0x1d)
++						code += KEY_MACRO1;
++					else
++						code += BTN_TRIGGER_HAPPY - 0x1e;
++				} else {
++					goto ignore;
++				}
++				break;
+ 		default:
+ 			switch (field->physical) {
+ 			case HID_GD_MOUSE:
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index 271021e20a3f..fb0e4dde6175 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -102,6 +102,7 @@ struct hid_item {
+ #define HID_COLLECTION_PHYSICAL		0
+ #define HID_COLLECTION_APPLICATION	1
+ #define HID_COLLECTION_LOGICAL		2
++#define HID_COLLECTION_NAMED_ARRAY	4
+ 
+ /*
+  * HID report descriptor global item tags
+
+base-commit: efd8929b9eec1cde120abb36d76dd00ff6711023
+-- 
+2.31.1
+
