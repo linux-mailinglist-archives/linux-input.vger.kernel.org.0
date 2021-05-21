@@ -2,130 +2,116 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E0FDF38C466
-	for <lists+linux-input@lfdr.de>; Fri, 21 May 2021 12:09:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25B4238C46C
+	for <lists+linux-input@lfdr.de>; Fri, 21 May 2021 12:11:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231687AbhEUKLR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 May 2021 06:11:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39554 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232281AbhEUKLQ (ORCPT
+        id S234093AbhEUKM2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 May 2021 06:12:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52243 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234068AbhEUKM0 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 May 2021 06:11:16 -0400
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07A21C061574
-        for <linux-input@vger.kernel.org>; Fri, 21 May 2021 03:09:53 -0700 (PDT)
-Received: by mail-wm1-x330.google.com with SMTP id o127so10809667wmo.4
-        for <linux-input@vger.kernel.org>; Fri, 21 May 2021 03:09:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding:thread-index:content-language;
-        bh=S1NXafE3uy10Oi97PDfWbvKj6LJv5EkPDGSbFXUSjko=;
-        b=UOrXKjmBBKhmP9gio6Ktp83EIIBUg5k7Vk6/P24zHP6ya7F5b+sWzcP+HBdYJ0fEFc
-         odG4t6lvZPnFlhrR7LD57zSWQE0KWwPgI/AGpnqlKRGlyH2Z0FzjOfj2MPJGErRHJKjS
-         o+jvguey3M5ky+dxuM1jRlFiWxny26Jwz7ty3HAIAxghj32gB6EUhpZqKhl04uN6dE0w
-         Iiur0KzwVjcJvR3NR3lI4unPu3XTkmoUr/GPaHgm6k46NniEhxUvTRrtEveBAKH+hWJs
-         HwQrgwnmPZGlWKePgHFHR1NHzdPnxig7lKeZgPvZhoRDbQrL9fgBYi8+jHBiU0HpFTTy
-         QP4g==
+        Fri, 21 May 2021 06:12:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1621591863;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=5DGucTpOSdNB3udh/jHOq//Wrt+SINHxa1SZsMWftOs=;
+        b=cElqm1n7hkHpjsXz9zwR8A6/stQbnjKgcR+eJyTpFHG9k4srao8JZThFkFX3vsyHvagnZd
+        4eNOYbNh14JDChcOLUntRpxpSTtsMa3OEsr04ym8f4N6qL/pXWK9Itorrl1fcMPmqbz5e3
+        2LMejDazNpfTtFJY53iuBULFjMNTMIY=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-172-YvGNgrOQO0a00dNcBp1qpQ-1; Fri, 21 May 2021 06:11:02 -0400
+X-MC-Unique: YvGNgrOQO0a00dNcBp1qpQ-1
+Received: by mail-ej1-f69.google.com with SMTP id z6-20020a17090665c6b02903700252d1ccso5973301ejn.10
+        for <linux-input@vger.kernel.org>; Fri, 21 May 2021 03:11:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding:thread-index:content-language;
-        bh=S1NXafE3uy10Oi97PDfWbvKj6LJv5EkPDGSbFXUSjko=;
-        b=p9Xsunj8D4crR5i/Tapy/ttRMk7Yp1oOXxHrqE/OGxl1M0MhJwkpkRJVF94PqXMd9P
-         LHgpYdiVH38Ki5X1/46MrtKgjRQSVDDw0m8Ye6F0MbFwzzY4QOnduMjhf1yZH28xVYtz
-         /47AawJ3qrV9TRkExZoEPYiZvNS/DwZ59z3e3qkjzO7GQAHqCdn6mKuL84lFtdyfFPGS
-         o7xnCaQ1H23WjhFqZj9MN5JL7D5jVIok57lMczEy92mARQoO+QZy1LNoEJO3yj1su4sP
-         XISrF8O0N7kXqgBnPMcZTL1mKIi6KfBPpaG2ljV4nRorQWboOXG1Zwb4Oixm33GvYjRS
-         aArw==
-X-Gm-Message-State: AOAM532mmk1huaTsEU5ic20+Zj7pu9iUZogPgxepcwUs5ZkQ5b/42tkz
-        FhOEbnuxxA1Ji8Ct8u4oecLpVD1G+zSIgA==
-X-Google-Smtp-Source: ABdhPJwl9D8JaAnJ91gxh+X/+yOLfp84qr8wxei88rZPLcVPI1NKxvBaTf6UE+E1dvvCtr1ZP81+Dg==
-X-Received: by 2002:a05:600c:19c8:: with SMTP id u8mr8436238wmq.50.1621591791637;
-        Fri, 21 May 2021 03:09:51 -0700 (PDT)
-Received: from DIABLO (p4ff03a2a.dip0.t-ipconnect.de. [79.240.58.42])
-        by smtp.gmail.com with ESMTPSA id a11sm1461173wrx.38.2021.05.21.03.09.51
-        for <linux-input@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 21 May 2021 03:09:51 -0700 (PDT)
-From:   "Max d'Wit" <maxdwit@googlemail.com>
-To:     <linux-input@vger.kernel.org>
-Subject: I2C-HID Quirk touchpad synopsys designware
-Date:   Fri, 21 May 2021 12:09:49 +0200
-Message-ID: <001c01d74e29$6f6cdcb0$4e469610$@com>
+        h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=5DGucTpOSdNB3udh/jHOq//Wrt+SINHxa1SZsMWftOs=;
+        b=TvuvOpg+Jh9+mab4RLmNhRiOgaCLT2EVoD4szxuJ2z7AIML5vB1fcwCsG4ds58FShK
+         cH4v/V5VSJu4Uyf2tIHFXjp7On6m5y8/aWBI4OUp89r086rrdAybvd2J9c02aQwuDkRj
+         /lnH0QNCZddpCkZmrXfcG7wHmDxeqvLg5qIhOyZBvgFFATiSS3rRSEdB1hCqx4h4Yvzc
+         0e2oeCee+mZ2vfK7cd6Jkz0yjKOQPQWP/+1NqC92xqJDgxePIZnbaiVdOn2xyT+TQmoD
+         esgLI3sIwVkseEG3zTJvtaYFrwXscuwu/CYLAqORPaiGGjpxKXmbqckV5Ncd/h2V+avy
+         omqQ==
+X-Gm-Message-State: AOAM531fiR5LgTYpGYVkWgzJtUeNJAgb69kvoNDcRwu+tI3tPF/UA/Qf
+        88mdoVoAdfDV9TbJmR1Rzq2UFG0Na/4R2n68bB+KkRp83gucoO1dKoeyG5DrpLFV1i3hV1mFiP9
+        rH/20cQ5Hcja/EgzFCkP0Hgk=
+X-Received: by 2002:a50:fe8c:: with SMTP id d12mr10387557edt.336.1621591860826;
+        Fri, 21 May 2021 03:11:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyqwBZgAHfKXprfcoCGvRBQD5yN2IfHv4HoLl9fzWMPRypgMwG/SUMK0ms4xynSGoqYQuGB4Q==
+X-Received: by 2002:a50:fe8c:: with SMTP id d12mr10387547edt.336.1621591860707;
+        Fri, 21 May 2021 03:11:00 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+        by smtp.gmail.com with ESMTPSA id gz8sm3151526ejb.38.2021.05.21.03.11.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 May 2021 03:11:00 -0700 (PDT)
+From:   Hans de Goede <hdegoede@redhat.com>
+Subject: [GIT PULL] Immutable branch between drivers/platform/x86 and
+ drivers/input due for the v5.14 merge window
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input <linux-input@vger.kernel.org>,
+        "platform-driver-x86@vger.kernel.org" 
+        <platform-driver-x86@vger.kernel.org>,
+        Bastien Nocera <hadess@hadess.net>
+Message-ID: <eb032465-5d2c-35a4-73ed-866648c5936f@redhat.com>
+Date:   Fri, 21 May 2021 12:10:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Office Outlook 12.0
-Thread-Index: AddOKW7U+fsIC8uSTqGs5Eb+1rSYgw==
-Content-Language: de
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-I2C-HID Quirk touchpad synopsys designware
-I've got the hold on a Fujitsu Ultrabook U7411/U7x11 which has some =
-glitches/quirks with the touchpad that can be fixed with modprobe =
-i2c-hid. ( Ubuntu 20.04 / 5.8.0-53-generic )
+Hi Dmitry,
 
-In dmesg I can see this when I modprobe it:
-## dmesg
-[   34.531333] i2c_hid i2c-0X53 0X59 0X4E 0X50 0X31 0X46 0X31 0X35 =
-0X00:00: supply vdd not found, using dummy regulator
-[   34.531357] i2c_hid i2c-0X53 0X59 0X4E 0X50 0X31 0X46 0X31 0X35 =
-0X00:00: supply vddl not found, using dummy regulator
-[   34.707167] input: 0X53 0X59 0X4E 0X50 06CB:CE2B Mouse as =
-/devices/pci0000:00/0000:00:15.3/i2c_designware.2/i2c-3/i2c-0X53 0X59 =
-0X4E 0X50 0X31 0X46 0X31 0X35 0X00:00/0018:06CB:CE2B.0004/input/input16
-[   34.707243] input: 0X53 0X59 0X4E 0X50 06CB:CE2B Touchpad as =
-/devices/pci0000:00/0000:00:15.3/i2c_designware.2/i2c-3/i2c-0X53 0X59 =
-0X4E 0X50 0X31 0X46 0X31 0X35 0X00:00/0018:06CB:CE2B.0004/input/input17
-[   34.707305] hid-generic 0018:06CB:CE2B.0004: input,hidraw3: I2C HID =
-v1.00 Mouse [0X53 0X59 0X4E 0X50 06CB:CE2B] on i2c-0X53 0X59 0X4E 0X50 =
-0X31 0X46 0X31 0X35 0X00:00
-[   34.800992] input: 0X53 0X59 0X4E 0X50 06CB:CE2B Mouse as =
-/devices/pci0000:00/0000:00:15.3/i2c_designware.2/i2c-3/i2c-0X53 0X59 =
-0X4E 0X50 0X31 0X46 0X31 0X35 0X00:00/0018:06CB:CE2B.0004/input/input19
-[   34.801200] input: 0X53 0X59 0X4E 0X50 06CB:CE2B Touchpad as =
-/devices/pci0000:00/0000:00:15.3/i2c_designware.2/i2c-3/i2c-0X53 0X59 =
-0X4E 0X50 0X31 0X46 0X31 0X35 0X00:00/0018:06CB:CE2B.0004/input/input20
-[   34.801250] hid-multitouch 0018:06CB:CE2B.0004: input,hidraw3: I2C =
-HID v1.00 Mouse [0X53 0X59 0X4E 0X50 06CB:CE2B] on i2c-0X53 0X59 0X4E =
-0X50 0X31 0X46 0X31 0X35 0X00:00
+As discussed before here is a pull-req from an immutable branch moving most
+of the drivers/input/touchscreen/goodix.c DMI quirks to the generic
+x86/DMI touchscreen database in drivers/platform/x86/touchscreen_dmi.c
 
-After this it appears in xinput and works:
-## xinput:
- Virtual core pointer                          id=3D2    [master pointer =
- (3)]
-    Virtual core XTEST pointer                id=3D4    [slave  pointer  =
-(2)]
-    Logitech Optical USB Mouse                id=3D9    [slave  pointer  =
-(2)]
-    Generic USB Audio Consumer Control        id=3D10   [slave  pointer  =
-(2)]
-    0X53 0X59 0X4E 0X50 06CB:CE2B Mouse       id=3D18   [slave  pointer  =
-(2)]
-    0X53 0X59 0X4E 0X50 06CB:CE2B Touchpad    id=3D19   [slave  pointer  =
-(2)]
-## i2c-detect:
-i2c-2   i2c             Synopsys DesignWare I2C adapter         I2C =
-adapt
+Note I've dropped the patch moving the single invert_x quirk (leaving that
+quirk in goodix.c) since the generic touchscreen quirk code needs the dev_name()
+of the ACPI-device to which it should add the device-props and my requests to
+provide that have not been answered.
 
-## kernel config designware + i2c hid
-CONFIG_I2C_DESIGNWARE_CORE=3Dy
-CONFIG_I2C_DESIGNWARE_PLATFORM=3Dy
-CONFIG_I2C_DESIGNWARE_BAYTRAIL=3Dy
-CONFIG_I2C_DESIGNWARE_PCI=3Dm
-CONFIG_SPI_DESIGNWARE=3Dm
-CONFIG_SND_DESIGNWARE_I2S=3Dm
-CONFIG_SND_DESIGNWARE_PCM=3Dy
-CONFIG_I2C_HID=3Dm
+Note I also have an outstanding (unrelated) patch-series for goodix touchscreens:
+"[PATCH 0/7] Input: goodix - Add support for controllers without flash"
+Please merge this pull-req first (there should be no conflicts, but still).
 
-I already found that this is the Microsoft HID over I2C protocol and =
-that this has some issues because of the implementation.
+Regards,
 
-Any clues / suggestions to make this work "out of the box" are =
-appreciated.
+Hans
+
+
+The following changes since commit 6efb943b8616ec53a5e444193dccf1af9ad627b5:
+
+  Linux 5.13-rc1 (2021-05-09 14:17:44 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git tags/platform-drivers-x86-goodix-v5.14-1
+
+for you to fetch changes up to fcd8cf0e3e48f4c66af82c8e799c37cb0cccffe0:
+
+  platform/x86: touchscreen_dmi: Add info for the Goodix GT912 panel of TM800A550L tablets (2021-05-20 15:17:24 +0200)
+
+----------------------------------------------------------------
+Signed tag for the immutable platform-drivers-x86-goodix branch for merging into the input subsystem.
+
+----------------------------------------------------------------
+Hans de Goede (3):
+      Input: goodix - platform/x86: touchscreen_dmi - Move upside down quirks to touchscreen_dmi.c
+      platform/x86: touchscreen_dmi: Add an extra entry for the upside down Goodix touchscreen on Teclast X89 tablets
+      platform/x86: touchscreen_dmi: Add info for the Goodix GT912 panel of TM800A550L tablets
+
+ drivers/input/touchscreen/goodix.c     | 52 ---------------------
+ drivers/platform/x86/touchscreen_dmi.c | 85 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 85 insertions(+), 52 deletions(-)
 
