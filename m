@@ -2,151 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 864EB38C46D
-	for <lists+linux-input@lfdr.de>; Fri, 21 May 2021 12:11:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FCAB38C7E8
+	for <lists+linux-input@lfdr.de>; Fri, 21 May 2021 15:25:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234064AbhEUKMi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 21 May 2021 06:12:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42720 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234122AbhEUKMb (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 21 May 2021 06:12:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1621591868;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=QTVAFRd+ch3MDPYuYA8sXO3Rh7Hv+KTYpT1g337Oyrs=;
-        b=bZ3+quxGBo5uKrz68XHHJH5zgwyaNeM4nikkCBMYvZboUJBJQl5hqQuP4OioJnMXu6Zvqy
-        jwzax1zhZv/YF9L+35r/J3P5OXGapojfaRtl3S/pHwge/6Lah4YDWczsJ036Ov/BhRMM34
-        p1s3JvSBLP8BAnCOVIOtzx/OX02liNM=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-554-_eE5kenNNWeux2Z63kFfHw-1; Fri, 21 May 2021 06:11:06 -0400
-X-MC-Unique: _eE5kenNNWeux2Z63kFfHw-1
-Received: by mail-ej1-f72.google.com with SMTP id i23-20020a17090685d7b02903d089ab83fcso5987844ejy.19
-        for <linux-input@vger.kernel.org>; Fri, 21 May 2021 03:11:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=QTVAFRd+ch3MDPYuYA8sXO3Rh7Hv+KTYpT1g337Oyrs=;
-        b=OS4IjalYblreugPODeTNzGLoH+uG70Q2rymctyXVn97HaDSuCR4FxrNYIowSVasRgh
-         +503klbN29N5OSAewuGAfzc5LGCjJrjAMB8dWFsA05iuz0CU/n1y2uQXVjiSHmWQ3z0O
-         JQDkprMJjVfm6rONzdnHkeqpADk8UWJDnLGZNI+WnaaOb1CnNNQTE7RUl9vo0LH6E7uw
-         zBApfgZp4het5wUMY0nLdqr1W0eOdKfZjK3h864FzszanMMpE5ngv+nyNcCy5tSV/XuP
-         YKFXnaMpDSz/mUBklXzOdoCihRUECUS8P4SLLToP9fHIjwZjnUTI8IS+KR+8NO1sRILc
-         Qx8Q==
-X-Gm-Message-State: AOAM532FQq37cUYRFtaVCwf4pOFzUdAnOFKKkerBhkjQc6c7G4v1hH11
-        xedqh6SBsAkNEEQlvgVp5fzrIst0QHLL/IgqMWBfEnYKJM5NiC0tEJX/9BSPvv8JjtA3FVwvg6R
-        UnYoXJcFbHN7kobsOzsirqm6cyuKv7uwkP5jm1kxcrE5Uk6b+4mC+29nsq/Wh+ugmiyBeeJCo7Z
-        Y=
-X-Received: by 2002:a05:6402:13c3:: with SMTP id a3mr10442840edx.18.1621591864821;
-        Fri, 21 May 2021 03:11:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyEE0I+7Oj/t85kZdjybmj7XGUwzD+4nSRd6xocXGu6tldlgBLYI3L732/FSU3b7C80OaMHHA==
-X-Received: by 2002:a05:6402:13c3:: with SMTP id a3mr10442825edx.18.1621591864598;
-        Fri, 21 May 2021 03:11:04 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id gl20sm3190137ejb.5.2021.05.21.03.11.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 May 2021 03:11:04 -0700 (PDT)
-Subject: Re: [PATCH 7/7] platform/x86: touchscreen_dmi: Add info for the
- Goodix GT912 panel of TM800A550L tablets
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Bastien Nocera <hadess@hadess.net>
-Cc:     linux-input@vger.kernel.org
-References: <20210428114608.101795-1-hdegoede@redhat.com>
- <20210428114608.101795-8-hdegoede@redhat.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <74d0c9f1-f062-8f3a-3d3f-5e9e35a1b283@redhat.com>
-Date:   Fri, 21 May 2021 12:11:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        id S235384AbhEUN1R (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 21 May 2021 09:27:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44780 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235214AbhEUN1A (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 21 May 2021 09:27:00 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9A6A5613EB;
+        Fri, 21 May 2021 13:25:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1621603536;
+        bh=+v0/KSHe8/QCCcMSvhEpsTDVCUNBQhlWaeoDCNnhHVI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=iDnAlD1kScLtyQhrAR2eIQjeIzWAoIc0Ma5K1rLOSXxSLOfo9ULPxTAsGsbu/H765
+         PbfBj5eSV0eESxg2x1rl6wB5mJyBKCbc4BT7Fwy7RT+ok6zPWJeLPgrKHbI92zcdnv
+         HfVm2U9GmppkWDUHRZ6m+YJ1q94QoebMICIrzT+ylbkuXidQ+Csyjj5IP2dQDZ9X7J
+         NT2DuXilo3N9b6536gYOQA0rf7Vj1gDfWKQvTmd/Zp3k0DqpqBfRHFovAUR1T1UXvc
+         iaQUE3vblNp2w7zWkmNKZBXYd1KKUEp0p/BZ+zmfSGO1N6dD+lf0mtldWD1KuIA78o
+         nF4p8QshezlXA==
+Received: from johan by xi.lan with local (Exim 4.94.2)
+        (envelope-from <johan@kernel.org>)
+        id 1lk59k-0004RA-QW; Fri, 21 May 2021 15:25:37 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+        stable@vger.kernel.org
+Subject: [PATCH] Input: usbtouchscreen - fix control-request directions
+Date:   Fri, 21 May 2021 15:25:03 +0200
+Message-Id: <20210521132503.17013-1-johan@kernel.org>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-In-Reply-To: <20210428114608.101795-8-hdegoede@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+The direction of the pipe argument must match the request-type direction
+bit or control requests may fail depending on the host-controller-driver
+implementation.
 
-On 4/28/21 1:46 PM, Hans de Goede wrote:
-> The Bay Trail Glavey TM800A550L tablet, which ships with Android installed
-> from the factory, uses a GT912 touchscreen controller which needs to have
-> its firmware uploaded by the OS to work (this is a first for a x86 based
-> device with a Goodix touchscreen controller).
-> 
-> Add a touchscreen_dmi entry for this which specifies the filenames
-> to use for the firmware and config files needed for this.
-> 
-> Note this matches on a GDIX1001 ACPI HID, while the original DSDT uses
-> a HID of GODX0911. For the touchscreen to work on these devices a DSDT
-> override is necessary to fix a missing IRQ and broken GPIO settings in
-> the ACPI-resources for the touchscreen. This override also changes the
-> HID to the standard GDIX1001 id typically used for Goodix touchscreens.
-> The DSDT override is available here:
-> https://fedorapeople.org/~jwrdegoede/glavey-tm800a550l-dsdt-override/
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Fix the three control requests which erroneously used usb_rcvctrlpipe().
 
-Note this patch is part of the
-"[GIT PULL] Immutable branch between drivers/platform/x86 and drivers/input due for the v5.14 merge window"
-pull-req which I just send out, leaving patches 1-6 to be merged through
-the input tree (after merging the pull-req).
+Fixes: 1d3e20236d7a ("[PATCH] USB: usbtouchscreen: unified USB touchscreen driver")
+Fixes: 24ced062a296 ("usbtouchscreen: add support for DMC TSC-10/25 devices")
+Cc: stable@vger.kernel.org      # 2.6.17
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/input/touchscreen/usbtouchscreen.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Regards,
-
-Hans
-
-
-> ---
->  drivers/platform/x86/touchscreen_dmi.c | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
-> 
-> diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-> index 90fe4f8f3c2c..d95f04b61111 100644
-> --- a/drivers/platform/x86/touchscreen_dmi.c
-> +++ b/drivers/platform/x86/touchscreen_dmi.c
-> @@ -273,6 +273,18 @@ static const struct ts_dmi_data estar_beauty_hd_data = {
->  	.properties	= estar_beauty_hd_props,
->  };
->  
-> +static const struct property_entry glavey_tm800a550l_props[] = {
-> +	PROPERTY_ENTRY_STRING("firmware-name", "gt912-glavey-tm800a550l.fw"),
-> +	PROPERTY_ENTRY_STRING("goodix,config-name", "gt912-glavey-tm800a550l.cfg"),
-> +	PROPERTY_ENTRY_U32("goodix,main-clk", 54),
-> +	{ }
-> +};
-> +
-> +static const struct ts_dmi_data glavey_tm800a550l_data = {
-> +	.acpi_name	= "GDIX1001:00",
-> +	.properties	= glavey_tm800a550l_props,
-> +};
-> +
->  static const struct property_entry gp_electronic_t701_props[] = {
->  	PROPERTY_ENTRY_U32("touchscreen-size-x", 960),
->  	PROPERTY_ENTRY_U32("touchscreen-size-y", 640),
-> @@ -1003,6 +1015,15 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
->  			DMI_MATCH(DMI_PRODUCT_NAME, "eSTAR BEAUTY HD Intel Quad core"),
->  		},
->  	},
-> +	{	/* Glavey TM800A550L */
-> +		.driver_data = (void *)&glavey_tm800a550l_data,
-> +		.matches = {
-> +			DMI_MATCH(DMI_BOARD_VENDOR, "AMI Corporation"),
-> +			DMI_MATCH(DMI_BOARD_NAME, "Aptio CRB"),
-> +			/* Above strings are too generic, also match on BIOS version */
-> +			DMI_MATCH(DMI_BIOS_VERSION, "ZY-8-BI-PX4S70VTR400-X423B-005-D"),
-> +		},
-> +	},
->  	{
->  		/* GP-electronic T701 */
->  		.driver_data = (void *)&gp_electronic_t701_data,
-> 
+diff --git a/drivers/input/touchscreen/usbtouchscreen.c b/drivers/input/touchscreen/usbtouchscreen.c
+index c847453a03c2..7c47fedd555d 100644
+--- a/drivers/input/touchscreen/usbtouchscreen.c
++++ b/drivers/input/touchscreen/usbtouchscreen.c
+@@ -531,7 +531,7 @@ static int mtouch_init(struct usbtouch_usb *usbtouch)
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
++	ret = usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
+ 	                      MTOUCHUSB_RESET,
+ 	                      USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
+ 	                      1, 0, NULL, 0, USB_CTRL_SET_TIMEOUT);
+@@ -543,7 +543,7 @@ static int mtouch_init(struct usbtouch_usb *usbtouch)
+ 	msleep(150);
+ 
+ 	for (i = 0; i < 3; i++) {
+-		ret = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
++		ret = usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
+ 				      MTOUCHUSB_ASYNC_REPORT,
+ 				      USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
+ 				      1, 1, NULL, 0, USB_CTRL_SET_TIMEOUT);
+@@ -722,7 +722,7 @@ static int dmc_tsc10_init(struct usbtouch_usb *usbtouch)
+ 	}
+ 
+ 	/* start sending data */
+-	ret = usb_control_msg(dev, usb_rcvctrlpipe (dev, 0),
++	ret = usb_control_msg(dev, usb_sndctrlpipe(dev, 0),
+ 	                      TSC10_CMD_DATA1,
+ 	                      USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
+ 	                      0, 0, NULL, 0, USB_CTRL_SET_TIMEOUT);
+-- 
+2.26.3
 
