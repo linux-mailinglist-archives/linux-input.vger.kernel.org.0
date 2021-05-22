@@ -2,60 +2,60 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3240238D6C8
-	for <lists+linux-input@lfdr.de>; Sat, 22 May 2021 20:06:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EFFA38D6CA
+	for <lists+linux-input@lfdr.de>; Sat, 22 May 2021 20:06:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231340AbhEVSHp (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 22 May 2021 14:07:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40754 "EHLO
+        id S231370AbhEVSHt (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 22 May 2021 14:07:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231316AbhEVSHo (ORCPT
+        with ESMTP id S231342AbhEVSHp (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 22 May 2021 14:07:44 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC978C061574;
-        Sat, 22 May 2021 11:06:17 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id c14so22365377wrx.3;
-        Sat, 22 May 2021 11:06:17 -0700 (PDT)
+        Sat, 22 May 2021 14:07:45 -0400
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C37A6C06174A;
+        Sat, 22 May 2021 11:06:18 -0700 (PDT)
+Received: by mail-wm1-x331.google.com with SMTP id u5-20020a7bc0450000b02901480e40338bso8192904wmc.1;
+        Sat, 22 May 2021 11:06:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=rxhjwjEE7ZOo0E56gyS1tUalNN5E638sE9uVTQlGAvw=;
-        b=vQRaJRfbPbdAGEJBzqPuJXJakMKu+r1s68xgDWZGh0RkrzLgRPgRusCXLhEITcdHyv
-         L0DkmYWnGfBKjUoBO+2WmhQcUZXx42d3xlAFb68tTEuxwIS10XwFBWAZuHlPDKxeCj46
-         CwCmsdijo0MzofR6f3OT4I54pg5nJuQauDZ6v5k8UXjnjKp0MsdVep0Gc5gmTttfdJuw
-         +Tsmg5fFuS4txhKBWR4+9DAYEKdjN2/LUEKtbbsqBkMLDRFk57uzAD4fN6x93gp5lPhl
-         8JeycI0nlP/HjWnih8m2PoPloWKb00qwmf8Ip/39cIT2ijpcc0nh+P+uNDGikIJhat9m
-         jyaQ==
+        bh=tvQkJA45dcnDhgUgMx0vMPfrn39cI+zkH5R9jIgqU68=;
+        b=PsQ+cdJzZiglWQZ9C5mjX1BI5wFjif4GcbAGBC9hpjefTRbC6E8eYWsHIxWXX9JdYJ
+         qoBLltW3bDowuM+Uc9iKcYgsZNeWq8SZiLo58Jp6ZCy4pLi1WBCdhTqtaKGpPNDAclZt
+         sURjbCRUqQC5EZ2dhpItSMU2vBJc/f71HPe0EMB8qURat42D2jBbQcM70IhFpZAE8ymt
+         bFsB6XlaUwx0FvaB3JX2tSJE666UWlUEhkmYXQCfj4RVi3SJVHZNJ7dgVzWFEnqEgdSu
+         5v8XXrJkvTvu2EZVih64nOGzX82YbmUgFu7rZR/pkjY/dHaUbDnUIP2vwOzIcRuk4SRy
+         mImg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=rxhjwjEE7ZOo0E56gyS1tUalNN5E638sE9uVTQlGAvw=;
-        b=XlJpuHPfyPyfRD6BznKO0iGPA6pBALp+Yzc+RrYIIZM58nrgVbb48KvhK05cxJ3E1j
-         oMs8gwTPbymMKYZkzR0903z9uRas2wV1Ukh90rOhWJU12m6t0FbhHtbbYHnHF4AnJXgF
-         LcjtKB5q/VxLQv0+OFglKE0X24YiOsNTtQ81RUVe3O6FeMyIWDkHNdFttv1VbRwH59zp
-         ohB3Kkyx6jUYswdbk8HFTV4XtLPy9Y60f2O9obCTtVBK97Yk0As0g9iZPaeekK5XkWOS
-         /HVHzHQHzso8CxZmCFWPUTr1WBSXwadLnAu7ZGuoQ3+TzO1Ygp7sqO3m/kAawTPgnBX8
-         DvLA==
-X-Gm-Message-State: AOAM530sbnlykzk6B8NVSRu2tzWM0NE91LKAePdKVtJGWHPWlEQ4MKZm
-        /BsP4DtKflycfPDomelHDd0gnIvWay7EEA==
-X-Google-Smtp-Source: ABdhPJwyo8xPhgskFs4G7N0xAGxaYufSswon1nj8sXwnGyUL57kpvr8ITB+QmUIiQhQAusw+ib/fkg==
-X-Received: by 2002:adf:f7cf:: with SMTP id a15mr14601539wrq.184.1621706776382;
-        Sat, 22 May 2021 11:06:16 -0700 (PDT)
+        bh=tvQkJA45dcnDhgUgMx0vMPfrn39cI+zkH5R9jIgqU68=;
+        b=g9qzAyVHfUnFG4VstmF0loXOtVm1rkvVKYSe9s1IdXRV4fY0MYGpJlp+kbS/z1radu
+         me3xWskr+sO7Ef3el95mIo1KTWCKYtBVXox9BZyVwF7adPRseNuweSpTOuad8tFQL+h6
+         jXPxTfzXKI+04XheBf2e5Mgva9VN/PHR8pkP9ROceSAFlkADHRi4W9LpSveHoD2DBZOs
+         q3nh2HC7DEshP6VCa5A8PZWDCes6vqGNNVsz3JoZSWAct55/ob+4euR1kbvDZkhkPZ97
+         nF7KxvaguhDSii11XOXquAal4x619mZpzfYzO92+ueoJAA6EQmdvn1wF8Mj08aFXHAZ9
+         Q0jQ==
+X-Gm-Message-State: AOAM533fB6aKaaiUYhtqmVsvgTY5BqhM+gMf2IMR7mo1jVfroIgdKTxl
+        b1U1/fxsHKXuZYXSi8kdvN8=
+X-Google-Smtp-Source: ABdhPJyg9eEetn5/JE63jwsuleitlk0zssXyJ1gSTKVV37ZYnLabg3vncKl6jxji7BBlVaB+6R94GQ==
+X-Received: by 2002:a05:600c:2909:: with SMTP id i9mr13674853wmd.116.1621706777371;
+        Sat, 22 May 2021 11:06:17 -0700 (PDT)
 Received: from localhost.localdomain ([94.73.38.147])
-        by smtp.gmail.com with ESMTPSA id v12sm5913217wrv.76.2021.05.22.11.06.15
+        by smtp.gmail.com with ESMTPSA id v12sm5913217wrv.76.2021.05.22.11.06.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 May 2021 11:06:15 -0700 (PDT)
+        Sat, 22 May 2021 11:06:17 -0700 (PDT)
 From:   =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To:     jikos@kernel.org
 Cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH v2 2/5] HID: magicmouse: report battery capacity over bluetooth
-Date:   Sat, 22 May 2021 20:06:08 +0200
-Message-Id: <20210522180611.314300-2-jose.exposito89@gmail.com>
+Subject: [PATCH v2 3/5] HID: magicmouse: Magic Trackpad 2 USB battery capacity
+Date:   Sat, 22 May 2021 20:06:09 +0200
+Message-Id: <20210522180611.314300-3-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210522180611.314300-1-jose.exposito89@gmail.com>
 References: <20210522180611.314300-1-jose.exposito89@gmail.com>
@@ -66,113 +66,211 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Report the battery capacity percentage for the Apple Magic Mouse 2
-and the Apple Magic Trackpad 2 when they are connected over bluetooth.
+Report the battery capacity percentage for the Apple Magic Trackpad 2
+when it is connected over USB.
 
 Signed-off-by: José Expósito <jose.exposito89@gmail.com>
 ---
- drivers/hid/hid-magicmouse.c | 54 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 54 insertions(+)
+ drivers/hid/Kconfig          |   2 +-
+ drivers/hid/hid-magicmouse.c | 136 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 137 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 4bf263c2d61a..f4856e5f5aa4 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -640,7 +640,7 @@ config LOGIWHEELS_FF
+ 
+ config HID_MAGICMOUSE
+ 	tristate "Apple Magic Mouse/Trackpad multi-touch support"
+-	depends on HID
++	depends on USB_HID
+ 	help
+ 	Support for the Apple Magic Mouse/Trackpad multi-touch.
+ 
 diff --git a/drivers/hid/hid-magicmouse.c b/drivers/hid/hid-magicmouse.c
-index 0f766bce4537..d4a58dd6d2b8 100644
+index d4a58dd6d2b8..ea8a85767c39 100644
 --- a/drivers/hid/hid-magicmouse.c
 +++ b/drivers/hid/hid-magicmouse.c
-@@ -57,6 +57,8 @@ MODULE_PARM_DESC(report_undeciphered, "Report undeciphered multi-touch state fie
- #define MOUSE_REPORT_ID    0x29
+@@ -16,6 +16,7 @@
+ #include <linux/input/mt.h>
+ #include <linux/module.h>
+ #include <linux/slab.h>
++#include <linux/usb.h>
+ #include <linux/workqueue.h>
+ 
+ #include "hid-ids.h"
+@@ -58,6 +59,7 @@ MODULE_PARM_DESC(report_undeciphered, "Report undeciphered multi-touch state fie
  #define MOUSE2_REPORT_ID   0x12
  #define DOUBLE_REPORT_ID   0xf7
-+#define BT_BATTERY_REPORT_ID 0x90
-+
+ #define BT_BATTERY_REPORT_ID 0x90
++#define USB_BATTERY_EP_ADDR  0x81
+ 
  /* These definitions are not precise, but they're close enough.  (Bits
   * 0x03 seem to indicate the aspect ratio of the touch, bits 0x70 seem
-  * to be some kind of bit mask -- 0x20 may be a near-field reading,
-@@ -139,12 +141,14 @@ struct magicmouse_sc {
- 	struct {
+@@ -142,6 +144,10 @@ struct magicmouse_sc {
  		struct power_supply *ps;
  		struct power_supply_desc ps_desc;
-+		int capacity;
+ 		int capacity;
++		struct urb *urb;
++		u8 *urb_buf;
++		int urb_buf_size;
++		dma_addr_t urb_buf_dma;
  	} battery;
  };
  
- static enum power_supply_property magicmouse_ps_props[] = {
- 	POWER_SUPPLY_PROP_PRESENT,
- 	POWER_SUPPLY_PROP_SCOPE,
-+	POWER_SUPPLY_PROP_CAPACITY,
- };
- 
- static bool magicmouse_can_report_battery(struct magicmouse_sc *msc)
-@@ -153,6 +157,49 @@ static bool magicmouse_can_report_battery(struct magicmouse_sc *msc)
- 	       (msc->input->id.product == USB_DEVICE_ID_APPLE_MAGICMOUSE2);
+@@ -231,6 +237,112 @@ static int magicmouse_battery_get_property(struct power_supply *psy,
+ 	return ret;
  }
  
-+static bool magicmouse_can_report_battery_vendor(struct magicmouse_sc *msc,
-+						 unsigned short vendor)
++static void magicmouse_battery_usb_urb_complete(struct urb *urb)
 +{
-+	return magicmouse_can_report_battery(msc) &&
-+	       (msc->input->id.vendor == vendor);
-+}
-+
-+static int magicmouse_battery_bt_get_capacity(struct magicmouse_sc *msc)
-+{
-+	struct hid_report_enum report_enum;
-+	struct hid_report *report;
++	struct magicmouse_sc *msc = urb->context;
 +	int ret;
 +
-+	if (!magicmouse_can_report_battery_vendor(msc, BT_VENDOR_ID_APPLE))
-+		return -EINVAL;
-+
-+	report_enum = msc->hdev->report_enum[HID_INPUT_REPORT];
-+	report = report_enum.report_id_hash[BT_BATTERY_REPORT_ID];
-+
-+	if (!report || report->maxfield < 1) {
-+		hid_err(msc->hdev, "failed to retrieve report with ID %d\n",
-+			BT_BATTERY_REPORT_ID);
-+		return -EINVAL;
++	switch (urb->status) {
++	case 0:
++		msc->battery.capacity = msc->battery.urb_buf[2];
++		break;
++	case -EOVERFLOW:
++		hid_err(msc->hdev, "URB overflow\n");
++		fallthrough;
++	case -ECONNRESET:
++	case -ENOENT:
++	case -ESHUTDOWN:
++		return;
++	default:
++		break;
 +	}
 +
-+	hid_hw_request(msc->hdev, report, HID_REQ_GET_REPORT);
-+
-+	if (!report || report->maxfield < 2) {
-+		hid_err(msc->hdev, "invalid report->maxfield: %d\n",
-+			report->maxfield);
-+		return -EINVAL;
-+	}
-+
-+	ret = report->field[0]->value[0];
-+	if (ret < 0) {
-+		hid_err(msc->hdev, "invalid report status %d\n", ret);
-+		return ret;
-+	}
-+
-+	msc->battery.capacity = report->field[1]->value[0];
-+	return 0;
++	ret = usb_submit_urb(msc->battery.urb, GFP_ATOMIC);
++	if (ret)
++		hid_err(msc->hdev, "unable to submit URB, %d\n", ret);
 +}
 +
- static int magicmouse_battery_get_property(struct power_supply *psy,
- 					   enum power_supply_property psp,
- 					   union power_supply_propval *val)
-@@ -170,6 +217,12 @@ static int magicmouse_battery_get_property(struct power_supply *psy,
- 	case POWER_SUPPLY_PROP_SCOPE:
- 		val->intval = POWER_SUPPLY_SCOPE_DEVICE;
- 		break;
-+	case POWER_SUPPLY_PROP_CAPACITY:
-+		if (msc->input->id.vendor == BT_VENDOR_ID_APPLE)
-+			magicmouse_battery_bt_get_capacity(msc);
++static int magicmouse_battery_usb_probe(struct magicmouse_sc *msc)
++{
++	struct usb_interface *iface = to_usb_interface(msc->hdev->dev.parent);
++	struct usb_device *usbdev = interface_to_usbdev(iface);
++	struct usb_host_endpoint *endpoint = NULL;
++	u8 ep_address;
++	unsigned int pipe = 0;
++	int i, ret;
 +
-+		val->intval = msc->battery.capacity;
-+		break;
- 	default:
- 		ret = -EINVAL;
- 		break;
-@@ -188,6 +241,7 @@ static int magicmouse_battery_probe(struct hid_device *hdev)
- 	if (!magicmouse_can_report_battery(msc))
- 		return 0;
++	if (!magicmouse_can_report_battery_vendor(msc, USB_VENDOR_ID_APPLE))
++		return -EINVAL;
++
++	for (i = 0; i < sizeof(usbdev->ep_in); i++) {
++		endpoint = usbdev->ep_in[i];
++		if (endpoint) {
++			ep_address = endpoint->desc.bEndpointAddress;
++			if (ep_address == USB_BATTERY_EP_ADDR)
++				break;
++		}
++	}
++
++	if (!endpoint) {
++		hid_err(msc->hdev, "endpoint with address %d not found\n",
++			USB_BATTERY_EP_ADDR);
++		ret = -EIO;
++		goto exit;
++	}
++
++	msc->battery.urb = usb_alloc_urb(0, GFP_ATOMIC);
++	if (!msc->battery.urb) {
++		hid_err(msc->hdev, "unable to alloc URB, ENOMEM\n");
++		ret = -ENOMEM;
++		goto exit;
++	}
++
++	pipe = usb_rcvintpipe(usbdev, endpoint->desc.bEndpointAddress);
++	if (pipe == 0) {
++		hid_err(msc->hdev, "unable to create USB rcvintpipe\n");
++		ret = -EIO;
++		goto err_free_urb;
++	}
++
++	msc->battery.urb_buf_size = endpoint->desc.wMaxPacketSize;
++	msc->battery.urb_buf_dma = msc->battery.urb->transfer_dma;
++	msc->battery.urb_buf = usb_alloc_coherent(usbdev,
++			       msc->battery.urb_buf_size, GFP_ATOMIC,
++			       &msc->battery.urb_buf_dma);
++	if (!msc->battery.urb_buf) {
++		hid_err(msc->hdev, "unable to alloc URB buffer, ENOMEM\n");
++		ret = -ENOMEM;
++		goto err_free_urb;
++	}
++
++	usb_fill_int_urb(msc->battery.urb, usbdev, pipe, msc->battery.urb_buf,
++			 msc->battery.urb_buf_size,
++			 magicmouse_battery_usb_urb_complete, msc,
++			 endpoint->desc.bInterval);
++
++	ret = usb_submit_urb(msc->battery.urb, GFP_ATOMIC);
++	if (ret) {
++		hid_err(msc->hdev, "unable to submit URB, %d\n", ret);
++		goto err_free_urb_buf;
++	}
++
++	return 0;
++
++err_free_urb_buf:
++	usb_free_coherent(usbdev, msc->battery.urb_buf_size,
++			  msc->battery.urb_buf, msc->battery.urb_buf_dma);
++
++err_free_urb:
++	usb_free_urb(msc->battery.urb);
++
++exit:
++	msc->battery.urb = NULL;
++	msc->battery.urb_buf = NULL;
++	msc->battery.urb_buf_size = 0;
++
++	return ret;
++}
++
+ static int magicmouse_battery_probe(struct hid_device *hdev)
+ {
+ 	struct magicmouse_sc *msc = hid_get_drvdata(hdev);
+@@ -269,6 +381,12 @@ static int magicmouse_battery_probe(struct hid_device *hdev)
+ 		return ret;
+ 	}
  
-+	msc->battery.capacity = 100;
- 	msc->battery.ps_desc.type = POWER_SUPPLY_TYPE_BATTERY;
- 	msc->battery.ps_desc.properties = magicmouse_ps_props;
- 	msc->battery.ps_desc.num_properties = ARRAY_SIZE(magicmouse_ps_props);
++	if (msc->input->id.vendor == USB_VENDOR_ID_APPLE) {
++		ret = magicmouse_battery_usb_probe(msc);
++		if (ret)
++			return ret;
++	}
++
+ 	return 0;
+ }
+ 
+@@ -923,7 +1041,25 @@ static int magicmouse_probe(struct hid_device *hdev,
+ static void magicmouse_remove(struct hid_device *hdev)
+ {
+ 	struct magicmouse_sc *msc = hid_get_drvdata(hdev);
++	struct usb_interface *iface;
++	struct usb_device *usbdev;
+ 	cancel_delayed_work_sync(&msc->work);
++
++	if (msc &&
++	    magicmouse_can_report_battery_vendor(msc, USB_VENDOR_ID_APPLE) &&
++	    msc->battery.urb && msc->battery.urb_buf) {
++		iface = to_usb_interface(hdev->dev.parent);
++		usbdev = interface_to_usbdev(iface);
++
++		usb_kill_urb(msc->battery.urb);
++
++		usb_free_coherent(usbdev, msc->battery.urb_buf_size,
++				  msc->battery.urb_buf,
++				  msc->battery.urb_buf_dma);
++
++		usb_free_urb(msc->battery.urb);
++	}
++
+ 	hid_hw_stop(hdev);
+ }
+ 
 -- 
 2.25.1
 
