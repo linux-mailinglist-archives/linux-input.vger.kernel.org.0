@@ -2,174 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 446E938E426
-	for <lists+linux-input@lfdr.de>; Mon, 24 May 2021 12:36:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8512838E5A3
+	for <lists+linux-input@lfdr.de>; Mon, 24 May 2021 13:43:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232516AbhEXKiG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 May 2021 06:38:06 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:39688 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232575AbhEXKiF (ORCPT
+        id S232711AbhEXLpR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 May 2021 07:45:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51014 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232690AbhEXLpQ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 May 2021 06:38:05 -0400
-Received: from [123.112.66.152] (helo=localhost.localdomain)
-        by youngberry.canonical.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <hui.wang@canonical.com>)
-        id 1ll7wq-00028Q-8H; Mon, 24 May 2021 10:36:37 +0000
-From:   Hui Wang <hui.wang@canonical.com>
-To:     linux-input@vger.kernel.org, dmitry.torokhov@gmail.com
-Cc:     hui.wang@canonical.com
-Subject: [PATCH] Input: i8042 - disable non-wakeup port during suspend
-Date:   Mon, 24 May 2021 18:36:27 +0800
-Message-Id: <20210524103627.4235-1-hui.wang@canonical.com>
-X-Mailer: git-send-email 2.25.1
+        Mon, 24 May 2021 07:45:16 -0400
+X-Greylist: delayed 367 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 24 May 2021 04:43:48 PDT
+Received: from smtp.ungleich.ch (smtp.ungleich.ch [IPv6:2a0a:e5c0:0:2:400:b3ff:fe39:7956])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2D2FC061574
+        for <linux-input@vger.kernel.org>; Mon, 24 May 2021 04:43:48 -0700 (PDT)
+Received: from nb3.localdomain (localhost [IPv6:::1])
+        by smtp.ungleich.ch (Postfix) with ESMTP id CE432202B5;
+        Mon, 24 May 2021 13:37:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ungleich.ch; s=mail;
+        t=1621856259; bh=Qgu9ATNe/ZNN3kXY3DhEEP9QF8hYSxEa+6QfCZbETbk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=aZ6rwoP1P4Cft8RdHnU7mUlS9AVuxUban7NOXU510OI9oYlOzuIvIuLhJRIJECslu
+         y4zNhbd0enSNUMsEJ/ZnDC6tRfok7ZicxSEQJD4nq9XmP8RKt2+XEP5lJuS5aRLPsw
+         W2hrcDql+YXT/KcgSY3WV1/QkpNg/bBhVxWMxH6UBHoqNDAZShdVtkuWuCxsdrqbDj
+         sQjve9bFIgJGaQCY6KCBhgkUl6lnltGW2UjK5qOpErxpN+SMadoojDUlp9aiYIEzfB
+         FdVRLWjHQn2qSbKmZcJ2czzwRswI4T1eltMKP5Y0pQZo/4G2sK0qeK5OI/xj3qPYHR
+         iXOGR6LQJZPRg==
+Received: by nb3.localdomain (Postfix, from userid 1000)
+        id A2A4E14C0444; Mon, 24 May 2021 13:38:06 +0200 (CEST)
+User-agent: mu4e 1.4.15; emacs 27.2
+From:   Nico Schottelius <nico.schottelius@ungleich.ch>
+To:     linux-input@vger.kernel.org
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: Regression in Elan Touchpad driver / Linux 5.12
+Message-ID: <87eedw5ptw.fsf@ungleich.ch>
+Date:   Mon, 24 May 2021 13:38:06 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-We found an suspend/resume issue on many Lenovo and Dell laptops,
-those machines support s2idle and have i8042 kbd, i8042 trackpoint and
-i8042 touchpad, the current driver will enable the wakeup on kbd if
-the s2idle is the current mode. If we suspend the system, then press
-any key on the keyboard, the system will be resumed as expected. But
-if we press trackpoint or touchpad ahead of kbd, the kbd can't wakeup
-the system anymore, need to press PWR_BUTTON to resume the system.
 
-Similarly, if we enable wakeup on i8042 trackpoint and disable wakeup
-on i8042 kbd via sysfs interface, and after suspend, we press the kbd
-ahead of trackpoint, the trackpoint can't wakeup the system too.
+Hello,
 
-It is highly possible that this is a defect in the EC firmware, but
-this issue exists on most of the laptops (maybe all laptops with i8042
-kbd, i8042 trackpoint and i8042 touchpad), it is not practical to
-fix this issue by upgrading the firmware.
+since migrating to Linux 5.12, the Elan touchpad stopped working for
+me. I created a bug report on
+https://bugzilla.kernel.org/show_bug.cgi?id=213093
+2but I am not sure whether that reached anyone here.
 
-Let's workaround this issue in the kernel driver. So far, this
-issue is only reproduced on KBD port + AUX port, there is no issue
-reported on MUX port yet, we only handle these 2 ports here. If
-one of them is enabled for wakeup, we temporarily disable the port
-which is not enabled for wakeup. If both of them are enabled or
-disabled for wakeup, do nothing.
+The symptom is that when running 5.12, the touchpad does not show up.
 
-Signed-off-by: Hui Wang <hui.wang@canonical.com>
----
- drivers/input/serio/i8042.c | 66 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 64 insertions(+), 2 deletions(-)
+I tested so far with 5.12.3, 5.12.4 and 5.12.6, all behave the same,
+latest dmesg output on 5.12.6 does not show the touchpad driver loading,
+only the one for the trackpoint:
 
-diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
-index abae23af0791..90a7f042628f 100644
---- a/drivers/input/serio/i8042.c
-+++ b/drivers/input/serio/i8042.c
-@@ -605,6 +605,25 @@ static irqreturn_t i8042_interrupt(int irq, void *dev_id)
- 	return IRQ_RETVAL(ret);
- }
- 
-+/*
-+ * i8042_disable_kbd_port disables keyboard port on chip
-+ */
-+
-+static int i8042_disable_kbd_port(void)
-+{
-+	i8042_ctr |= I8042_CTR_KBDDIS;
-+	i8042_ctr &= ~I8042_CTR_KBDINT;
-+
-+	if (i8042_command(&i8042_ctr, I8042_CMD_CTL_WCTR)) {
-+		i8042_ctr |= I8042_CTR_KBDINT;
-+		i8042_ctr &= ~I8042_CTR_KBDDIS;
-+		pr_err("Failed to disable KBD port\n");
-+		return -EIO;
-+	}
-+
-+	return 0;
-+}
-+
- /*
-  * i8042_enable_kbd_port enables keyboard port on chip
-  */
-@@ -624,6 +643,25 @@ static int i8042_enable_kbd_port(void)
- 	return 0;
- }
- 
-+/*
-+ * i8042_disable_aux_port disables AUX (mouse) port on chip
-+ */
-+
-+static int i8042_disable_aux_port(void)
-+{
-+	i8042_ctr |= I8042_CTR_AUXDIS;
-+	i8042_ctr &= ~I8042_CTR_AUXINT;
-+
-+	if (i8042_command(&i8042_ctr, I8042_CMD_CTL_WCTR)) {
-+		i8042_ctr |= I8042_CTR_AUXINT;
-+		i8042_ctr &= ~I8042_CTR_AUXDIS;
-+		pr_err("Failed to disable AUX port\n");
-+		return -EIO;
-+	}
-+
-+	return 0;
-+}
-+
- /*
-  * i8042_enable_aux_port enables AUX (mouse) port on chip
-  */
-@@ -1227,6 +1265,7 @@ static int i8042_controller_resume(bool s2r_wants_reset)
- static int i8042_pm_suspend(struct device *dev)
- {
- 	int i;
-+	bool wakeup_enabled[I8042_NUM_PORTS] = { false };
- 
- 	if (pm_suspend_via_firmware())
- 		i8042_controller_reset(true);
-@@ -1235,8 +1274,21 @@ static int i8042_pm_suspend(struct device *dev)
- 	for (i = 0; i < I8042_NUM_PORTS; i++) {
- 		struct serio *serio = i8042_ports[i].serio;
- 
--		if (serio && device_may_wakeup(&serio->dev))
-+		if (serio && device_may_wakeup(&serio->dev)) {
- 			enable_irq_wake(i8042_ports[i].irq);
-+			wakeup_enabled[i] = true;
-+		}
-+	}
-+
-+	/* For KBD and AUX ports, if at least one of them is enabled for wakeup
-+	 * the system, we need to disable the one which isn't enabled for
-+	 * wakeup, otherwise this port could impact the wakeup of the other port
-+	 */
-+	if (wakeup_enabled[I8042_KBD_PORT_NO] || wakeup_enabled[I8042_AUX_PORT_NO]) {
-+		if (i8042_ports[I8042_KBD_PORT_NO].serio && !wakeup_enabled[I8042_KBD_PORT_NO])
-+			i8042_disable_kbd_port();
-+		else if (i8042_ports[I8042_AUX_PORT_NO].serio && !wakeup_enabled[I8042_AUX_PORT_NO])
-+			i8042_disable_aux_port();
- 	}
- 
- 	return 0;
-@@ -1254,12 +1306,22 @@ static int i8042_pm_resume(struct device *dev)
- {
- 	bool want_reset;
- 	int i;
-+	bool wakeup_enabled[I8042_NUM_PORTS] = { false };
- 
- 	for (i = 0; i < I8042_NUM_PORTS; i++) {
- 		struct serio *serio = i8042_ports[i].serio;
- 
--		if (serio && device_may_wakeup(&serio->dev))
-+		if (serio && device_may_wakeup(&serio->dev)) {
- 			disable_irq_wake(i8042_ports[i].irq);
-+			wakeup_enabled[i] = true;
-+		}
-+	}
-+
-+	if (wakeup_enabled[I8042_KBD_PORT_NO] || wakeup_enabled[I8042_AUX_PORT_NO]) {
-+		if (i8042_ports[I8042_KBD_PORT_NO].serio && !wakeup_enabled[I8042_KBD_PORT_NO])
-+			i8042_enable_kbd_port();
-+		else if (i8042_ports[I8042_AUX_PORT_NO].serio && !wakeup_enabled[I8042_AUX_PORT_NO])
-+			i8042_enable_aux_port();
- 	}
- 
- 	/*
--- 
-2.25.1
+[13:35] nb3:~% dmesg| grep -i elan
+[   11.845386] psmouse serio1: trackpoint: Elan TrackPoint firmware: 0x62, buttons: 3/3
+[   11.857853] input: TPPS/2 Elan TrackPoint as /devices/platform/i8042/serio1/input/input23
+[13:35] nb3:~%
 
+The hardware I am using is an Lenovo X1 nano, however other people also
+reported this problem before.
+
+If there is anything I can do to debug this, any pointer would be
+appreciated.
+
+Best regards,
+
+Nico
+
+--
+Sustainable and modern Infrastructures by ungleich.ch
