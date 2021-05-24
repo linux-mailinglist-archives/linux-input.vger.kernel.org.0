@@ -2,82 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EDB3538EB68
-	for <lists+linux-input@lfdr.de>; Mon, 24 May 2021 17:01:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4CE738ED0A
+	for <lists+linux-input@lfdr.de>; Mon, 24 May 2021 17:31:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234057AbhEXPCv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 May 2021 11:02:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37846 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233273AbhEXPAt (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 May 2021 11:00:49 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 489376145F;
-        Mon, 24 May 2021 14:50:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1621867801;
-        bh=xqcJR1KERW8KFWTM2WRvC/CRYUvxYo0LiAy0HNtebjk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Fvqu1QC88vX1+B/3j6aEQgTbU+awx0d5u6C3Qj5zxs3K3jVFNgm5RTJWCKIYU80+Z
-         48vK2h/Ek12IrOG1S0+UmN53Ca5vIye7TAbCgcS9HNyQ0n71qe4IDySBwWWDb6zeaK
-         890jH4r15b9yieBdCjQrgMkQPSxhy9GopMawm0Ean1ZD1AQ4a06Z2UFYU7mRBfTPqS
-         OTcZAJV0mIQOf+227v0WtfdUQoTecTGMNm2CrZcfyytlHuHqZexrBUMHM+wqmJwnw8
-         /YwC9DPH2p3ZdQcg3QE4REP+luIvb3hvq207K7KjjdXjNqg4PBcxG5VaqnlkZYyxKl
-         0IJowHd0A3tgA==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Teava Radu <rateava@gmail.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 47/52] platform/x86: touchscreen_dmi: Add info for the Mediacom Winpad 7.0 W700 tablet
-Date:   Mon, 24 May 2021 10:48:57 -0400
-Message-Id: <20210524144903.2498518-47-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210524144903.2498518-1-sashal@kernel.org>
-References: <20210524144903.2498518-1-sashal@kernel.org>
+        id S233103AbhEXPdY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 May 2021 11:33:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45914 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233193AbhEXPce (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 24 May 2021 11:32:34 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAEBDC08E820;
+        Mon, 24 May 2021 07:57:48 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id g6-20020a17090adac6b029015d1a9a6f1aso93735pjx.1;
+        Mon, 24 May 2021 07:57:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=UpgWWaqRJSv+ldPuvlsNrJYw/LOoZUhMrwWVqwyHvOw=;
+        b=tnrr8MNN8/zoyRJbbrHI80mW2pYIue6ZNjCt8Ps2cTfG+2J9DCTw/WwenQefR6ZZz4
+         7omiZS16IC5BU/B+m9mfGSiOZewzcr53BDSlmAPKg30wSNVvfi2OmdhN4jZrq50ZERb4
+         qnSp8y9EOqYPkSM7ZN9dqTbvu08Tc9l9VfSVybB3Vd6iPt8TZfJ4GP/akCel85k51rC0
+         4irox27haDgAdgchUoNO9Ols2TTB3+j9SBl+QIG3L6/6DhgRsnjfWaPM8NqgXJQdcdl7
+         tabV9bieSlsrNHkQEMU0jXyLwFI8owl5ZJxanucs5y7kwjgb5k1CfnKKXrsj8aPnOy2b
+         Wsfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=UpgWWaqRJSv+ldPuvlsNrJYw/LOoZUhMrwWVqwyHvOw=;
+        b=XYM+zZDW3utOwm585NZnPE3ugeBQTYDAvvz7QCfDMo6QcUZKBOlTSTmYNilwpAGU2O
+         C1LuIReIPknHpjFb3eNnrvaPwNBg6Ic1Cr9fD4YKJyrQWm904U7v/NIg3f8VoGEfb+W7
+         tX9yuun5MCp+7KfksTsOpEuZzXXU1JXRqv2Kru9fqZAFH8/VAJQRfIpja1wYmY7WVvHw
+         cRLOTRhbCLDund6XzQkrlTWElwqOfk3pJRgcGC4KKBPkVduqS6yZx1a/OjSRauZ+4WhK
+         GT4CrXobhFuYqD7mHWDo39jOL6hG3IHclmfnMdoSQl2UPWUaDyAFOqNrpFpsmUpc7soa
+         JZPg==
+X-Gm-Message-State: AOAM531sn2rnJl401lsW3PwVMidDb9LZhYzwxAFfW+JPf87DiFcpqDTb
+        5yY4aFuVqb+9WeQVPI/TIxh4WDiXdoJrWQ==
+X-Google-Smtp-Source: ABdhPJyB0Ko8atad96hwk3nC5Zcn43hhK9rwbzdEy3Gm93tqfuP2pu+UjjqNja9NadL6ycV2nGO6SQ==
+X-Received: by 2002:a17:90b:1244:: with SMTP id gx4mr26232703pjb.210.1621868268447;
+        Mon, 24 May 2021 07:57:48 -0700 (PDT)
+Received: from hyeyoo ([183.99.11.150])
+        by smtp.gmail.com with ESMTPSA id y66sm11478001pgb.14.2021.05.24.07.57.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 May 2021 07:57:48 -0700 (PDT)
+Date:   Mon, 24 May 2021 23:57:43 +0900
+From:   Hyeonggon Yoo <42.hyeyoo@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: usbmouse: Avoid GFP_ATOMIC when GFP_KERNEL is possible
+Message-ID: <20210524145743.GA92203@hyeyoo>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Teava Radu <rateava@gmail.com>
+probe in usb don't need to be atomic. So GFP_KERNEL can be used here,
+instead of GFP_ATOMIC.
 
-[ Upstream commit 39a6172ea88b3117353ae16cbb0a53cd80a9340a ]
-
-Add touchscreen info for the Mediacom Winpad 7.0 W700 tablet.
-Tested on 5.11 hirsute.
-Note: it's hw clone to Wintron surftab 7.
-
-Signed-off-by: Teava Radu <rateava@gmail.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://lore.kernel.org/r/20210504185746.175461-6-hdegoede@redhat.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
 ---
- drivers/platform/x86/touchscreen_dmi.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/hid/usbhid/usbmouse.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index 7ed1189a7200..515c66ca1aec 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -838,6 +838,14 @@ static const struct dmi_system_id touchscreen_dmi_table[] = {
- 			DMI_MATCH(DMI_BIOS_VERSION, "jumperx.T87.KFBNEEA"),
- 		},
- 	},
-+	{
-+		/* Mediacom WinPad 7.0 W700 (same hw as Wintron surftab 7") */
-+		.driver_data = (void *)&trekstor_surftab_wintron70_data,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "MEDIACOM"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "WinPad 7 W10 - WPW700"),
-+		},
-+	},
- 	{
- 		/* Mediacom Flexbook Edge 11 (same hw as TS Primebook C11) */
- 		.driver_data = (void *)&trekstor_primebook_c11_data,
+diff --git a/drivers/hid/usbhid/usbmouse.c b/drivers/hid/usbhid/usbmouse.c
+index 073127e65ac1..c89332017d5d 100644
+--- a/drivers/hid/usbhid/usbmouse.c
++++ b/drivers/hid/usbhid/usbmouse.c
+@@ -130,7 +130,7 @@ static int usb_mouse_probe(struct usb_interface *intf, const struct usb_device_i
+ 	if (!mouse || !input_dev)
+ 		goto fail1;
+ 
+-	mouse->data = usb_alloc_coherent(dev, 8, GFP_ATOMIC, &mouse->data_dma);
++	mouse->data = usb_alloc_coherent(dev, 8, GFP_KERNEL, &mouse->data_dma);
+ 	if (!mouse->data)
+ 		goto fail1;
+ 
 -- 
-2.30.2
+2.25.1
 
