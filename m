@@ -2,73 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6889C38F449
-	for <lists+linux-input@lfdr.de>; Mon, 24 May 2021 22:22:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E731738F8E3
+	for <lists+linux-input@lfdr.de>; Tue, 25 May 2021 05:37:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233145AbhEXUYX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 May 2021 16:24:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56448 "EHLO
+        id S230010AbhEYDif (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 May 2021 23:38:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232900AbhEXUYW (ORCPT
+        with ESMTP id S229890AbhEYDif (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 May 2021 16:24:22 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEC99C061574;
-        Mon, 24 May 2021 13:22:52 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id v5so35236825ljg.12;
-        Mon, 24 May 2021 13:22:52 -0700 (PDT)
+        Mon, 24 May 2021 23:38:35 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74187C061574
+        for <linux-input@vger.kernel.org>; Mon, 24 May 2021 20:37:06 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id m190so21646234pga.2
+        for <linux-input@vger.kernel.org>; Mon, 24 May 2021 20:37:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zmHgGUSHIFychmCNai/HQ+GoGaggXlD85UtIJX00PFc=;
-        b=Kb7gxfEkLnJ4LcVqhu8XP+yp6DtPdbRfpHSVPF/xHbPVFjv02JFHruTdQpBgMbCnbc
-         vGG/a5U0D1XtTfAcqWyizBF4Bo4vmCykXZnpFdodTi/G9fytL+5XW+3pHMTea+pbmjH+
-         V1xpouMge0PWuCf8N7zs4e140Tc4me5Mc4f2lZDA5VemCasn8g/ssqUoI7LBe8XScwtA
-         Re/wZZ/LfjFHL3zFORFQdWLHkxLfspAVzqPMke0UYOLTlYh8fD48KcceSgGidRrBV9m3
-         dbFrxWR5QuCl75zYRLhATtxGwSZQwkBlZBWPnIpcMorGgUQou1p9gDp3zWISVuZsx8lx
-         ggtw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=q2K7Ekmr0MyOBWRVtSmB0rSJcrKiIP5TauS2+nwyhso=;
+        b=Ox3ETs5DoyQOOHfDP+sdH49aRPWnfuoNhbr4XeTh9UoT0JjO4o/aLmGGeskLAZUBWS
+         2uKNIPWSJgi1LslOLBa1pYHRanPO+hlVp4cshJavp8bc5ev4MeYsggX9xpJrvv7W1GM4
+         P16QI9KdoHAXHnu8QOYzXWqKKrvLlh1dgBYnHANj+1G4Fo1LRhk5QnSyhCFng9N5Yawd
+         LvXfHXyFnOrNeyKMLVDzCwP5R76tvyxHMot42JMjRUyuRBgv52SeNjBi2eiRqrtz+pXx
+         g/Bwvv9k0Lu0ixXi8O9sGsy3nXiWFBmzCtxeqvo70oCyxsak+n9ZR2tI6/0PdHJHEHUv
+         iP3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zmHgGUSHIFychmCNai/HQ+GoGaggXlD85UtIJX00PFc=;
-        b=JLvk0UNOVtCKPgnVdpBo/r06fhftKggNxCIukkgbpgi7Ui25TfuQ3OPV17OIcBS9Zb
-         L+KOv3UcP6nJv47IVPf6yZGXOTyQCAesu61GKofgN4GitQ9gU0BWX9n3VZdTFkaMvc3z
-         pQvaYTulWlBEWv5Plw9Y37UqbJtIfMsBf3Ld7cCzejlEamDL5AApUXj7zeG+MPah2/GQ
-         F60AkTYXotkvvH2sI8H5IThkMcUhgRvJhEbTS/lT+qNhJgqUhHB/Nb43BuQO+b00EHDo
-         m+M3g4uWdpzzewV43e2e1nC7+kACnRSwS++AZgmjqLaMhgDxdrw7xU9gWgF5Ga6/nDDK
-         g5bA==
-X-Gm-Message-State: AOAM533jYy7aBuG+YFiT8VEiObGG8+vkZZkar6pXf+LhG4KK7gyQ6LKG
-        heZXCCg7LyRhiDyIoTFdD+MJ+iDHQzp0SALLilLOLkGmK3U=
-X-Google-Smtp-Source: ABdhPJyNHlSOR+gyDfs4Vr3xW8JgoI41JuEisXLMFVRjIhUBIekPUrSm24R6828nDLAhNoGSpoam+h4k9zm1sFqUsIU=
-X-Received: by 2002:a2e:824c:: with SMTP id j12mr18140721ljh.490.1621887771087;
- Mon, 24 May 2021 13:22:51 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=q2K7Ekmr0MyOBWRVtSmB0rSJcrKiIP5TauS2+nwyhso=;
+        b=LRUUlXC6NW1CNB+eBthpFMlZYEN/DGZlaUv6zQMR34uNpsl2p+dHvhYGbzJxVaa/7u
+         BjCxjmIjLU7f4YseT5eTtDXix5d+dgKL3PiCnXmcgNWLcWluxEzSXGnpjyBGz8H76+4Y
+         fpRUaWQh3Gcf4KaMhfzagixEXfqNRqPfw2ZHKJkpIhZzoyZSKSMB9dMFGXXwfQy/n2Ic
+         nAbfkK94uOxJXZeBlJtbf5bVy7Fi4xHFSXYkYo4GAj6dBva/cmjplwlZQfUsjh533rDH
+         Nj1aa3rxE+eg1GB4DT/zub2vfzOno8xGHBWwYNKxPBZjjKFzOEHFbKZ9P/0IdA0P6rGo
+         CCAg==
+X-Gm-Message-State: AOAM532fqSmY3gLQEIzpzF93CUaqbiLYnwaB+nYnGkN/XPgv6ZoTnV3O
+        UCMf0HqANHUg00RaGSI7PZA=
+X-Google-Smtp-Source: ABdhPJw/FWUP+mo+qjnZnzJ4sPV8w7eO0T8wmc69zM3wppsGAfJKFTPXd8NXsVUJeDyTY/HBYfyMPA==
+X-Received: by 2002:a63:d710:: with SMTP id d16mr16586559pgg.214.1621913825764;
+        Mon, 24 May 2021 20:37:05 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:870d:a395:9098:674])
+        by smtp.gmail.com with ESMTPSA id 136sm12132516pfu.195.2021.05.24.20.37.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 May 2021 20:37:04 -0700 (PDT)
+Date:   Mon, 24 May 2021 20:37:01 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Zhen Lei <thunder.leizhen@huawei.com>
+Cc:     linux-input <linux-input@vger.kernel.org>
+Subject: Re: [PATCH 1/1] Input: hil_kbd - Fix error return code in
+ hil_dev_connect()
+Message-ID: <YKxw3U7GlxT/BArl@google.com>
+References: <20210515030053.6824-1-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
-References: <20210521192210.12839-1-clabbe@baylibre.com>
-In-Reply-To: <20210521192210.12839-1-clabbe@baylibre.com>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Mon, 24 May 2021 17:22:39 -0300
-Message-ID: <CAOMZO5BRUF5aHC32zp0+iKWLtVN87-zjOgHhj2p7AOqorOEwGg@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: input: remove fsl-mma8450 which is handled
- by trivial-devices
-To:     Corentin Labbe <clabbe@baylibre.com>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, linux-input@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Fabio Estevam <fabio.estevam@freescale.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210515030053.6824-1-thunder.leizhen@huawei.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, May 21, 2021 at 5:27 PM Corentin Labbe <clabbe@baylibre.com> wrote:
->
-> trivial-devices.yaml already provide bindings for fsl-mma8450.
-> Since input/fsl-mma8450.txt provides no extra value, lets remove it.
->
-> Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+Hi Zhen,
 
-Reviewed-by: Fabio Estevam <festevam@gmail.com>
+On Sat, May 15, 2021 at 11:00:53AM +0800, Zhen Lei wrote:
+> Return error code -EPERM rather than '0' when the combo devices are not
+
+I believe -EINVAL suits better here, so I used it and applied, thank
+you.
+
+Thanks.
+
+-- 
+Dmitry
