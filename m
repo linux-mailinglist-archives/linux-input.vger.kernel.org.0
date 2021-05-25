@@ -2,80 +2,81 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 31FBF390A4A
-	for <lists+linux-input@lfdr.de>; Tue, 25 May 2021 22:05:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4ED0C390A4D
+	for <lists+linux-input@lfdr.de>; Tue, 25 May 2021 22:06:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232762AbhEYUGO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 25 May 2021 16:06:14 -0400
-Received: from jabberwock.ucw.cz ([46.255.230.98]:38498 "EHLO
-        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231846AbhEYUGO (ORCPT
+        id S231846AbhEYUH5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 25 May 2021 16:07:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39296 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229595AbhEYUH4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 May 2021 16:06:14 -0400
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-        id 7F3941C0B79; Tue, 25 May 2021 22:04:42 +0200 (CEST)
-Date:   Tue, 25 May 2021 22:04:42 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Roderick Colenbrander <thunderbird2k@gmail.com>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        marek.behun@nic.cz, linux-input <linux-input@vger.kernel.org>,
-        linux-leds@vger.kernel.org,
-        "Daniel J. Ogorchock" <djogorchock@gmail.com>,
-        =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>,
-        Jiri Kosina <jikos@kernel.org>
-Subject: Re: Naming of HID LED devices
-Message-ID: <20210525200442.GA1106@duo.ucw.cz>
-References: <CAEc3jaCfS=DPQiSjh+_aVePbUXHe-M7WH1t+JtSLwqu0Vktnxw@mail.gmail.com>
- <20210521160455.GA10159@duo.ucw.cz>
- <CAEc3jaBdWwfbMdrdKOc9e19Mb5HD3DE4QUNu+5UseQ9WLt0THQ@mail.gmail.com>
+        Tue, 25 May 2021 16:07:56 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62E81C061574;
+        Tue, 25 May 2021 13:06:24 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id 6so23621642pgk.5;
+        Tue, 25 May 2021 13:06:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=hrmAyf4ekB8FpoHtyNAMAZhBlwYB6oLMGVhprZSO18c=;
+        b=fYNcnKcCLJRao2bFYyvroRFzvd90Tw9noB6EwiHO2huhVZKsPGIltNkWhksA1b+dd0
+         M2v+MZGiNxcNvfBagrTHPkglpfKqLvZswqlMNahoFc2ZPYNqPiXTWK5RyLtNLb0Kojuh
+         nbkqaQOkd/rRXM1mnJx1H9aa9PxlBF2OW85TmiD4TcJetxOqPx7m3fGJ1YRE+4LumPwp
+         o/uTV6kkZ3XDoo7vb8kamyBE2LurBAH9DzdRe6HY+iRzRVm1ZqwdY5o8K/SmuASEWPI9
+         Aj/expcKyb6yBG5qzYuzzc8uaTJL4Ouru/aut7S0K7lvmDLfV+FBNxAZrCO4xF3i2yru
+         ocFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=hrmAyf4ekB8FpoHtyNAMAZhBlwYB6oLMGVhprZSO18c=;
+        b=B2UA0j+T6XTBFk9VrK8syM68fCcqHdrYvoJZUNzWOZsLkYYNnF2c6Pf+QrhFAo0H7h
+         PDCl/HsykyOXp/0hl7RnGCKd2ZJgl3mqZyoQbwaG/cTwqmxldyEpWjkEZZiwO/2u2EAf
+         Do6hhZg0An1yAgOCtBpj0xioepwdo6ZOIJAZswtAsMn+qdUHBBWkJqrKMaUyenbfohks
+         XZgAIrkyXX71l5pqWvAJo9ZoqWI13tkSO7v23yjQ/l5BSHx8qB3tQJdL0O/gfaxvkPFj
+         cTNQWUn6QHGsgeu9sNX+kSRM9piAi0Jlrk5kTV4vbsXm/eoKCSYdDUx2lWVj5Ybu511j
+         V/6w==
+X-Gm-Message-State: AOAM533Bq8bLr9bFThVKijx+uEjKwipZyhyIbSN07z52DMxA3BAJkOL8
+        dlX974ZvlI+4znwYrKl1Hq4=
+X-Google-Smtp-Source: ABdhPJw505JxwnUALZ6tQJnxKexnvtJwEXchT7PYHpC8VmXCsUQaCt5MWOLf3ak1KCrUtxOBEufFJw==
+X-Received: by 2002:a63:3342:: with SMTP id z63mr20893123pgz.187.1621973183863;
+        Tue, 25 May 2021 13:06:23 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:b993:67d5:4c88:1ac9])
+        by smtp.gmail.com with ESMTPSA id lj13sm2639925pjb.3.2021.05.25.13.06.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 May 2021 13:06:22 -0700 (PDT)
+Date:   Tue, 25 May 2021 13:06:19 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org, David Jander <david@protonic.nl>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v6 0/4] add z1 and z2 channels support for
+ resistive-adc-touch driver
+Message-ID: <YK1Yu3k7alGWqEX7@google.com>
+References: <20210525054634.9134-1-o.rempel@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="gKMricLos+KVdGMg"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAEc3jaBdWwfbMdrdKOc9e19Mb5HD3DE4QUNu+5UseQ9WLt0THQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210525054634.9134-1-o.rempel@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Hi Oleksij,
 
---gKMricLos+KVdGMg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, May 25, 2021 at 07:46:30AM +0200, Oleksij Rempel wrote:
+> changes v6:
+> - drop other DT changes
+> - add more Reviewed-by tags
+> - remove redundant GRTS_CH_NONE check
 
-Hi!
+Applied the lot, thank you.
 
-> > I suggest you simply select one input device (call it primary,
-> > probably the one that contains the master joystick) and use its input
-> > number....
->=20
-> It is of course an option. Though I recall in the previous discussion,
-> technically the LED is registered on the HID device and not on the
-> input device, so it is not entirely correct. There are also cases I
-> believe where LEDs are directly created for the HID device itself.
-> Based on a quick search this includes the 'hid-led' driver. Though its
-> naming is probably fixed as we may not want to break user space (not
-> sure if anyone is relying on it). There might be other plain HID
-> device use cases with LEDs.
-
-I'm not that familiar with HID vs. input differences. We already use
-inputX naming for keyboard LEDs.
-
-I'd say lets do that.
-								Pavel
-
---=20
-http://www.livejournal.com/~pavelmachek
-
---gKMricLos+KVdGMg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCYK1YWgAKCRAw5/Bqldv6
-8n+xAJ9XGP6/9s9rUP1bnZj51+XkVHxBcACgl/TzQ1Ozo8ihtA95jZl42oIfze0=
-=juqZ
------END PGP SIGNATURE-----
-
---gKMricLos+KVdGMg--
+-- 
+Dmitry
