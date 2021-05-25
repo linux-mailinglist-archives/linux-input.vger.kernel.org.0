@@ -2,121 +2,70 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7B6438FA70
-	for <lists+linux-input@lfdr.de>; Tue, 25 May 2021 07:56:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39C0538FE43
+	for <lists+linux-input@lfdr.de>; Tue, 25 May 2021 11:55:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230398AbhEYF5Z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 25 May 2021 01:57:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43568 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbhEYF5X (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 May 2021 01:57:23 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A38EBC061574;
-        Mon, 24 May 2021 22:55:53 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id z38so11772517ybh.5;
-        Mon, 24 May 2021 22:55:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6pmVU3dpIgp8CIixqWB9X4Z4r3f+OzJWJVHDt4+uTLQ=;
-        b=RbX2t3LF7cCjSPU1TFYocJR54IHyaCKEYcJfG+rSZg9dUQo4opFJn4MVxLGO8J04VC
-         KvDHMxvnMZqhMUPX8xxtKiB8atlU+oP7VJMaZilXGpXzJD7v4r8UZ38+A9hsiXFd9HOJ
-         JNEgEFMJDFvg3Yn8vvKqrgLL2Av0KZfvbPQSN+NKz6KmGPoA2U/QP3ixx7SJnQcgMm3E
-         AgnI50QZ97oTmUJOInpAjfpa5wPLuprkVJDEskzgRvpTQXAwoIp3cqDal7IgNlJj+hLg
-         ES+KibybPbToa2VtSKmFAQUB6ppCs09O5YUCxet/Dg28LrLhN6BP13im0kvf3///r995
-         AUBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6pmVU3dpIgp8CIixqWB9X4Z4r3f+OzJWJVHDt4+uTLQ=;
-        b=dULPEAkEutyoP2n4E2l2WaKtBXmmoNWqkcGptFwSEg022hYd4DJNROJKeXGGjlVaj3
-         xnJrGLOvRk/sfGK7jt/FNU6unjJjLVLT1ip2/4YnfWgDJp3fse5Am6RwO/4eAQsvaacT
-         VkW58iA+BKeKcSuQksiDW2S0leytgc9xMeaevaHfpB2vXu/tMOcn6PrYCRaHsRgFGqC7
-         yHAhGOAcwHlK/xXBRH/asin9JsaqIIoHsarJKv1BRej3cp/8P94CHt4LnG/isjZRprWI
-         v+hM27+rc0/A82zzTU3ClvdrmAl9UnRJHvfP7gsA/N2CFZb0UlZvJhrolGKTNBaEqD8v
-         4Xbg==
-X-Gm-Message-State: AOAM533Y6EODVDZUxUfJCqVWLdWqM5wJOGFRcpJoIzl9I8dHO3l/5K4D
-        dTqqTWU/3d7VkkbWrtqobMOC+ykSUrukWOMxDkBc8fJG
-X-Google-Smtp-Source: ABdhPJzj1YxPTGxGT1aZh2Df9jczAAjWL5yvxRY1DMR9iC9tE9IqDTptyJd+LLC1Y+pTedzjQbp/y8uO8xJnL512TlY=
-X-Received: by 2002:a25:4409:: with SMTP id r9mr39054034yba.401.1621922152946;
- Mon, 24 May 2021 22:55:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAEc3jaCfS=DPQiSjh+_aVePbUXHe-M7WH1t+JtSLwqu0Vktnxw@mail.gmail.com>
- <20210521160455.GA10159@duo.ucw.cz>
-In-Reply-To: <20210521160455.GA10159@duo.ucw.cz>
-From:   Roderick Colenbrander <thunderbird2k@gmail.com>
-Date:   Mon, 24 May 2021 22:55:41 -0700
-Message-ID: <CAEc3jaBdWwfbMdrdKOc9e19Mb5HD3DE4QUNu+5UseQ9WLt0THQ@mail.gmail.com>
-Subject: Re: Naming of HID LED devices
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        marek.behun@nic.cz, linux-input <linux-input@vger.kernel.org>,
-        linux-leds@vger.kernel.org,
-        "Daniel J. Ogorchock" <djogorchock@gmail.com>,
-        =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>,
-        Jiri Kosina <jikos@kernel.org>
+        id S232850AbhEYJ5U (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 25 May 2021 05:57:20 -0400
+Received: from mx2.suse.de ([195.135.220.15]:50752 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232805AbhEYJ5S (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 25 May 2021 05:57:18 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1621936547; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Qt7xSUNOmHAQi4P06mTZcqw+fj0oxkeRlZUfC9qB+no=;
+        b=CWxK040fDU6xWiJFGjqBnSfLokQxf0NAodqQwYFO98AYBY+y7HOgzvwJpZdOG830Jp3/YM
+        /O5AtRUDHEjsrZFBLTJfzilo/NCxFWr7khzgjEkomXaI0KZttD+0rNSO11nlOwKfPP3Dy1
+        ZCgvtP9lLzMN/p7piMTQIv5x53cTzSA=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id A2769AE1F;
+        Tue, 25 May 2021 09:55:47 +0000 (UTC)
+Message-ID: <4086b017d678f2edaea3a87b8eae18a85cc8e89d.camel@suse.com>
+Subject: Re: Re: [PATCH] HID: usbhid: enable remote wakeup for mouse
+From:   Oliver Neukum <oneukum@suse.com>
+To:     =?UTF-8?Q?=E9=A9=AC=E5=BC=BA?= <maqianga@uniontech.com>,
+        Alan Stern <stern@rowland.harvard.edu>
+Cc:     jikos <jikos@kernel.org>,
+        "benjamin.tissoires" <benjamin.tissoires@redhat.com>,
+        linux-usb <linux-usb@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Date:   Tue, 25 May 2021 11:55:46 +0200
+In-Reply-To: <1209199573.51584.1621492845444.JavaMail.xmail@bj-wm-cp-1>
+References: <20210517060145.32359-1-maqianga@uniontech.com>
+         <1327a9251c74587670970baa0f662cd61006f576.camel@suse.com>
+        , <20210517133247.GB1083813@rowland.harvard.edu>
+         <1209199573.51584.1621492845444.JavaMail.xmail@bj-wm-cp-1>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi
+Am Donnerstag, den 20.05.2021, 14:40 +0800 schrieb 马强:
+> This is caused by external reasons, as the kernel cannot sense 
+> whether it is accidentally triggered or actively triggered. 
+> If this kind of unintentional situation is avoided, 
+> the keyboard should also be disabled wakeup by default. 
+> Otherwise, the normally used computer may be awakened 
+> by someone else accidentally pressing the keyboard on standby.
+> 
 
-On Fri, May 21, 2021 at 9:04 AM Pavel Machek <pavel@ucw.cz> wrote:
->
-> Hi!
->
-> > Earlier this year during review of the hid-playstation driver there
-> > was a discussion on the naming of LEDs exposed by HID drivers. Moving
-> > forward the preference from the LED maintainers was to follow the
-> > naming scheme "device:color:function" instead of the custom names used
-> > so far by HID drivers.
-> >
-> > I would like to get some guidance on the naming direction not just for
-> > hid-playstation, but Daniel's hid-nintendo driver for which he posted
-> > a new revision today has the same problem.
-> >
-> > The original discussion was on "why not use the input device name?"
-> > (e.g. input15). It was concluded that it wouldn't uniquely identify a
-> > HID device among reasons.
->
-> I understand that problem is that one controller is present as
-> multiple input devices to userspace.
->
-> [That is something you might want to fix, BTW. IIRC input protocol is
-> flexible enough to do that.]
+The kernel has to manage keyboards. There just is no genuine
+keyboard device user space could open, nor could we do sysrq
+or sak if we left the keyboard fully to user space.
 
-[That part is actually non-trivial to fix without an overhaul of the
-Linux evdev system. Essentially evdev is a bit limiting for some
-devices due to conflicts in use of axes or buttons. This is what
-prompted creation of multiple input devices I believe. Though various
-HID devices are now also receiving multiple input devices
-automatically now based on collections or something. Benjamin and Jiri
-are the experts there. Anway that's a major other conversation, people
-are trying to steer away from...]
+Hence keyboards are a special case unfortunately. We will
+have to live with two classes of wakeup, keyboards and power
+buttons on the one hand, versus everything else.
 
->
-> I suggest you simply select one input device (call it primary,
-> probably the one that contains the master joystick) and use its input
-> number....
+	Regards
+		Oliver
 
-It is of course an option. Though I recall in the previous discussion,
-technically the LED is registered on the HID device and not on the
-input device, so it is not entirely correct. There are also cases I
-believe where LEDs are directly created for the HID device itself.
-Based on a quick search this includes the 'hid-led' driver. Though its
-naming is probably fixed as we may not want to break user space (not
-sure if anyone is relying on it). There might be other plain HID
-device use cases with LEDs.
 
-> Best regards,
->                                                                 Pavel
-> --
-> http://www.livejournal.com/~pavelmachek
-
-Thanks,
-Roderick
