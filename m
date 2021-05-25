@@ -2,85 +2,89 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA6BB38F908
-	for <lists+linux-input@lfdr.de>; Tue, 25 May 2021 05:53:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF7F638F917
+	for <lists+linux-input@lfdr.de>; Tue, 25 May 2021 05:58:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230327AbhEYDzK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 May 2021 23:55:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44496 "EHLO
+        id S229446AbhEYEAM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 25 May 2021 00:00:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230048AbhEYDzJ (ORCPT
+        with ESMTP id S229492AbhEYEAL (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 May 2021 23:55:09 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0745C061574;
-        Mon, 24 May 2021 20:53:39 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id ep16-20020a17090ae650b029015d00f578a8so12381938pjb.2;
-        Mon, 24 May 2021 20:53:39 -0700 (PDT)
+        Tue, 25 May 2021 00:00:11 -0400
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54F90C061756
+        for <linux-input@vger.kernel.org>; Mon, 24 May 2021 20:58:41 -0700 (PDT)
+Received: by mail-lj1-x22f.google.com with SMTP id a4so21523722ljd.5
+        for <linux-input@vger.kernel.org>; Mon, 24 May 2021 20:58:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=dDsnnWJzd59s0wc/jGhwKP2XZK0889qPpwAI7XHf3C0=;
-        b=Whmbx39LmQ8jUfJzLeUy66KfaSV1It73ReN35cLytEn8a/YtftgeXFjsEYw/p2rLGg
-         4xfRPSorR2WSIU+asnM+RWW+DM2orn7Jnea+vm6KdbqqSlVdrSSE5boF8fkpQbV5+/et
-         IJSf7Pe4TN4JavXAFKa3oqJhkEhFtNyPjGIfJg8KtdzTxqBv6Wy2qVgnwSw7xzP00cXy
-         BmFTAU+KDX9s8mfaiSRADWUVQUmu7vmbRHp07T3fvg6a0duoIyA5iIGKx7mYL0IGMgws
-         NAIMAgjTAozVYykTSfm5/f2w3mroj2tpfD/fAVlCn5dJsr9XhvHen1lFxlgjEqQ7ocHh
-         Z8SQ==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8KoZfY47+etg0JP/Zz64TPz3Kh9vNJ9gmPx9fA+UJ1E=;
+        b=MxlRbsAP5XolN9Xtt4upLjkysqnimbidG9E+iMvEmgCbftg63e/XEdqCpyuPZfrVUA
+         QA2l3vhNcIFqj4HNE42ZEbL/uFGumbqsslVmEGXswlQ+rvDQsIOflEwBRDh7BDLmYYQx
+         zqbNyDQhbXxbAdoaUdjkNxS2JYIOv3EKWmVPuly4UkJz9i69TS5it3svyDEaXZrdts7c
+         hWJ5mp3SH+XRk67TJRT78qoIx+kuPhtjlMYuXoVYEAi918zQl2qEfXBmfI7gQxqJKcD2
+         OzdwX9W2PxA52705hVgtJqEchVFRyJxfoCTx5JUQmR0Y/EPgTNUyt8vB89ZMG7/WFEe4
+         YAZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=dDsnnWJzd59s0wc/jGhwKP2XZK0889qPpwAI7XHf3C0=;
-        b=G6asjk0z8WrSPsKXD/TpgSyY1VwhpMq0f7WmsNgZA9tjuh+ene36sQvOAGDg1OW4U8
-         QTu/+EWa8n459QylwWSEStZpi55jKejvx92Q7JDnMWlEt4vOsfE6HaaHpFgDxZL78SFt
-         Hx7jce1cdinCTbyuBKnzoS3JVeKDqKAKU0HQmR3OVX91W1Ae/gvGGgNsf7dpIAnGEIm5
-         xBRGDw9DsYIHFIpInczNn0ar3geX0fwprtiKI5Cik6gVvG7+Dls7xul1ZXrbnxgUTQOK
-         y3QQoOo0RDWCWzvRnMvX9fBcM9gt51+2CeW2j3O/kUk9li/Dx3IDqlspVdoAsqSKfULt
-         89uA==
-X-Gm-Message-State: AOAM532EOlX7FLCK+1rfA8Mcr+zdnfXwRWWDaIxvAtwaP0NFgKUsv7Pk
-        lupnzZB6v+ay5rMPl2RZYUaLgLGqE+I=
-X-Google-Smtp-Source: ABdhPJwHK7YwVMelEh+iZ82/k6JDQmxStHwcMUVpthAxJivQedCSwFCAa4+bB2y3YpPXoUB+MudAoA==
-X-Received: by 2002:a17:90a:5405:: with SMTP id z5mr2638995pjh.38.1621914818941;
-        Mon, 24 May 2021 20:53:38 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:870d:a395:9098:674])
-        by smtp.gmail.com with ESMTPSA id a20sm11949525pfn.23.2021.05.24.20.53.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 May 2021 20:53:37 -0700 (PDT)
-Date:   Mon, 24 May 2021 20:53:35 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Chris Ye <lzye@google.com>
-Cc:     =?utf-8?Q?=C5=81ukasz?= Patron <priv.luk@gmail.com>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8KoZfY47+etg0JP/Zz64TPz3Kh9vNJ9gmPx9fA+UJ1E=;
+        b=C9l0AzjIMsFeAW08Oilt2t9Q+kvEAzhy3dVE70b3Ef7QxBlFhQ9XbqE+rXbkHJt2cH
+         ur3aKEbbuyuAsTZUnnPeEjwB5TDfNQPys8uaOa5PpjRTuDxmUEkynk3VEk/jftL6XezD
+         /xfuh7qvYXwQoQfd9SXBR5SNfrHZhPj3lhLO/SRfkXXThqQl45vCnS7TdZhR2GOZeN64
+         /aJk736N85SrANw/oVn0dRy/kQBEXnX07GdJZ4FrdQGFc+PWkjp+3iVXMWWEJqNpMxJn
+         JxbnRhOF1Wnc2twf0ANHuakm0Q+gMUThpiJHaqfSRc8jvF5VDEZ6QyslW3wIAIc0JMrY
+         SXVg==
+X-Gm-Message-State: AOAM5315EheG+8P3dueXiP62+eukC0kzPOdx5h/FOAq88CStodU5wGIq
+        YLYaTjcx2cR29QRaHadlu1h0yECRfMvHsgsqsg58tw==
+X-Google-Smtp-Source: ABdhPJzgkqXi2jDaDd2wVgppJTYoSj+ULr9eNjF0ZZo/RbUD+tja8vY5AcD9358BV5ekoMFZhpKeYI/gIK9KtD+Cg4Y=
+X-Received: by 2002:a2e:b601:: with SMTP id r1mr18761487ljn.203.1621915119234;
+ Mon, 24 May 2021 20:58:39 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210414021201.2462114-1-lzye@google.com> <YKx0v9K/1TUZrlbD@google.com>
+In-Reply-To: <YKx0v9K/1TUZrlbD@google.com>
+From:   Chris Ye <lzye@google.com>
+Date:   Mon, 24 May 2021 20:58:28 -0700
+Message-ID: <CAFFudd+1+mOsZAc855jFeYkpbKh70Jt9iVYb0F0DQHrUDjbPBg@mail.gmail.com>
+Subject: Re: [PATCH] [v5] Input: Add "Select" button to Microsoft Xbox One controller.
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     =?UTF-8?Q?=C5=81ukasz_Patron?= <priv.luk@gmail.com>,
         Benjamin Valentin <benpicco@googlemail.com>,
         Lee Jones <lee.jones@linaro.org>,
-        Olivier =?iso-8859-1?Q?Cr=EAte?= <olivier.crete@ocrete.ca>,
+        =?UTF-8?Q?Olivier_Cr=C3=AAte?= <olivier.crete@ocrete.ca>,
         Sanjay Govind <sanjay.govind9@gmail.com>,
         Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        trivial@kernel.org, kernel-team@android.com
-Subject: Re: [PATCH] [v5] Input: Add "Select" button to Microsoft Xbox One
- controller.
-Message-ID: <YKx0v9K/1TUZrlbD@google.com>
-References: <20210414021201.2462114-1-lzye@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210414021201.2462114-1-lzye@google.com>
+        linux-input <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>, trivial@kernel.org,
+        kernel-team@android.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Apr 14, 2021 at 02:12:01AM +0000, Chris Ye wrote:
-> Add "Select" button input capability and input event mapping for
-> Microsoft Xbox One controller. From product site this is also referred as
-> "Share" button.
-> Fixed Microsoft Xbox One controller select button not working under USB
-> connection.
-> 
-> Signed-off-by: Chris Ye <lzye@google.com>
+Thanks a lot Dmitry!
 
-Applied, thank you.
+Regards,
+Chris
 
--- 
-Dmitry
+
+On Mon, May 24, 2021 at 8:53 PM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> On Wed, Apr 14, 2021 at 02:12:01AM +0000, Chris Ye wrote:
+> > Add "Select" button input capability and input event mapping for
+> > Microsoft Xbox One controller. From product site this is also referred as
+> > "Share" button.
+> > Fixed Microsoft Xbox One controller select button not working under USB
+> > connection.
+> >
+> > Signed-off-by: Chris Ye <lzye@google.com>
+>
+> Applied, thank you.
+>
+> --
+> Dmitry
