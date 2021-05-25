@@ -2,77 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E731738F8E3
-	for <lists+linux-input@lfdr.de>; Tue, 25 May 2021 05:37:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB28F38F8E6
+	for <lists+linux-input@lfdr.de>; Tue, 25 May 2021 05:37:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230010AbhEYDif (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 May 2021 23:38:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40810 "EHLO
+        id S230048AbhEYDjD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 May 2021 23:39:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229890AbhEYDif (ORCPT
+        with ESMTP id S229598AbhEYDjC (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 May 2021 23:38:35 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74187C061574
-        for <linux-input@vger.kernel.org>; Mon, 24 May 2021 20:37:06 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id m190so21646234pga.2
-        for <linux-input@vger.kernel.org>; Mon, 24 May 2021 20:37:06 -0700 (PDT)
+        Mon, 24 May 2021 23:39:02 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF655C061574;
+        Mon, 24 May 2021 20:37:33 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id q6so16031568pjj.2;
+        Mon, 24 May 2021 20:37:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=q2K7Ekmr0MyOBWRVtSmB0rSJcrKiIP5TauS2+nwyhso=;
-        b=Ox3ETs5DoyQOOHfDP+sdH49aRPWnfuoNhbr4XeTh9UoT0JjO4o/aLmGGeskLAZUBWS
-         2uKNIPWSJgi1LslOLBa1pYHRanPO+hlVp4cshJavp8bc5ev4MeYsggX9xpJrvv7W1GM4
-         P16QI9KdoHAXHnu8QOYzXWqKKrvLlh1dgBYnHANj+1G4Fo1LRhk5QnSyhCFng9N5Yawd
-         LvXfHXyFnOrNeyKMLVDzCwP5R76tvyxHMot42JMjRUyuRBgv52SeNjBi2eiRqrtz+pXx
-         g/Bwvv9k0Lu0ixXi8O9sGsy3nXiWFBmzCtxeqvo70oCyxsak+n9ZR2tI6/0PdHJHEHUv
-         iP3g==
+        bh=VUffwK+7IC0tCDt0OY9O/6/zTgAkNujBMjziaP06FdE=;
+        b=cg0epT+hZeES5tX6z7lJq+yVABgUSn+j9mzft6PnlkI3wrJarOlpE7o3tcP7uO/fa8
+         lbAQoErQ7GDQCiN4tJvwrvUNht7Tw+/JqFOgUdXeiGsnbHYjIM5Kg3d1IgNwHJ/NSQpw
+         L7hldJK+1wl11IUUqvqeQHEc/GTQJevR/5KubmB03SNV26UgOpTDX3GhnTAyeuEBuVxc
+         4SCh6Ur1LM+mu8bEgfNIBWbw/RJUJeKiqFBwLAjc2MLpREYbYM1bNTofi5poCaxdGtGs
+         7OwY4wSaCgBqilxIBt34wOdl131vy2a2iZ6Erg/2Gbex8jz3pGzDOEtdopmBy8K4f9Fi
+         xNpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=q2K7Ekmr0MyOBWRVtSmB0rSJcrKiIP5TauS2+nwyhso=;
-        b=LRUUlXC6NW1CNB+eBthpFMlZYEN/DGZlaUv6zQMR34uNpsl2p+dHvhYGbzJxVaa/7u
-         BjCxjmIjLU7f4YseT5eTtDXix5d+dgKL3PiCnXmcgNWLcWluxEzSXGnpjyBGz8H76+4Y
-         fpRUaWQh3Gcf4KaMhfzagixEXfqNRqPfw2ZHKJkpIhZzoyZSKSMB9dMFGXXwfQy/n2Ic
-         nAbfkK94uOxJXZeBlJtbf5bVy7Fi4xHFSXYkYo4GAj6dBva/cmjplwlZQfUsjh533rDH
-         Nj1aa3rxE+eg1GB4DT/zub2vfzOno8xGHBWwYNKxPBZjjKFzOEHFbKZ9P/0IdA0P6rGo
-         CCAg==
-X-Gm-Message-State: AOAM532fqSmY3gLQEIzpzF93CUaqbiLYnwaB+nYnGkN/XPgv6ZoTnV3O
-        UCMf0HqANHUg00RaGSI7PZA=
-X-Google-Smtp-Source: ABdhPJw/FWUP+mo+qjnZnzJ4sPV8w7eO0T8wmc69zM3wppsGAfJKFTPXd8NXsVUJeDyTY/HBYfyMPA==
-X-Received: by 2002:a63:d710:: with SMTP id d16mr16586559pgg.214.1621913825764;
-        Mon, 24 May 2021 20:37:05 -0700 (PDT)
+        bh=VUffwK+7IC0tCDt0OY9O/6/zTgAkNujBMjziaP06FdE=;
+        b=UMbbptrcs+ejtjOqxsI32gqy+aZCJf6Zrefj3oONh6nq/01ojJEu4g8EETIyKDYygY
+         iPrDHGPKFa2VJmo002CvCxjVb4J2GvsKketwNv9Tx4fpvRei8zQa0OoOtv6FLujJKIx2
+         zcuROU9SAFUGD713rJOFxyJ4IQ/e17dDsuzlV9v65ASimtYgpWeJOj6BESIUCDWJf67b
+         R4T38sYHOv4/ER+XVT61l4tzsoxMRG6BI1ojgbNmcI1Q22vUoDb5lyawFaYaQJl2qysd
+         EgXDP6rY5c/2z39xHRG4KtHgYC16/zGADYG9HzwqWLL0hl5AixAe5DJhZOIQv1LTw6jE
+         synw==
+X-Gm-Message-State: AOAM533JkrWhlPEsVIzVMvgB5yS0qSgBvM1PHYVnAf6sIeR1TPXTBHum
+        JVWDRDqefqCqjskhuGs9Uwgyf9ODk9w=
+X-Google-Smtp-Source: ABdhPJxRtvUfWMfeS7YatzWSiPno9vBgJ+3pyfP4ZpT3l6IxmRLhJimzQfJG3x/hj+XP7ly33xT8GA==
+X-Received: by 2002:a17:902:d2c5:b029:f1:c207:b0fd with SMTP id n5-20020a170902d2c5b02900f1c207b0fdmr27902437plc.45.1621913853192;
+        Mon, 24 May 2021 20:37:33 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:870d:a395:9098:674])
-        by smtp.gmail.com with ESMTPSA id 136sm12132516pfu.195.2021.05.24.20.37.03
+        by smtp.gmail.com with ESMTPSA id g29sm12444988pgm.11.2021.05.24.20.37.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 May 2021 20:37:04 -0700 (PDT)
-Date:   Mon, 24 May 2021 20:37:01 -0700
+        Mon, 24 May 2021 20:37:32 -0700 (PDT)
+Date:   Mon, 24 May 2021 20:37:29 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Zhen Lei <thunder.leizhen@huawei.com>
-Cc:     linux-input <linux-input@vger.kernel.org>
-Subject: Re: [PATCH 1/1] Input: hil_kbd - Fix error return code in
- hil_dev_connect()
-Message-ID: <YKxw3U7GlxT/BArl@google.com>
-References: <20210515030053.6824-1-thunder.leizhen@huawei.com>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] Input: usbtouchscreen - fix control-request directions
+Message-ID: <YKxw+cw4HnyzDjUt@google.com>
+References: <20210524092048.4443-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210515030053.6824-1-thunder.leizhen@huawei.com>
+In-Reply-To: <20210524092048.4443-1-johan@kernel.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Zhen,
+On Mon, May 24, 2021 at 11:20:48AM +0200, Johan Hovold wrote:
+> The direction of the pipe argument must match the request-type direction
+> bit or control requests may fail depending on the host-controller-driver
+> implementation.
+> 
+> Fix the four control requests which erroneously used usb_rcvctrlpipe().
+> 
+> Fixes: 1d3e20236d7a ("[PATCH] USB: usbtouchscreen: unified USB touchscreen driver")
+> Fixes: 24ced062a296 ("usbtouchscreen: add support for DMC TSC-10/25 devices")
+> Fixes: 9e3b25837a20 ("Input: usbtouchscreen - add support for e2i touchscreen controller")
+> Cc: stable@vger.kernel.org      # 2.6.17
+> Signed-off-by: Johan Hovold <johan@kernel.org>
 
-On Sat, May 15, 2021 at 11:00:53AM +0800, Zhen Lei wrote:
-> Return error code -EPERM rather than '0' when the combo devices are not
-
-I believe -EINVAL suits better here, so I used it and applied, thank
-you.
-
-Thanks.
+Applied, thank you.
 
 -- 
 Dmitry
