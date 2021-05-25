@@ -2,261 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DEB6B38FA0F
-	for <lists+linux-input@lfdr.de>; Tue, 25 May 2021 07:46:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7B6438FA70
+	for <lists+linux-input@lfdr.de>; Tue, 25 May 2021 07:56:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229621AbhEYFsS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 25 May 2021 01:48:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41428 "EHLO
+        id S230398AbhEYF5Z (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 25 May 2021 01:57:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230494AbhEYFsR (ORCPT
+        with ESMTP id S229476AbhEYF5X (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 May 2021 01:48:17 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 009A5C06138D
-        for <linux-input@vger.kernel.org>; Mon, 24 May 2021 22:46:47 -0700 (PDT)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1llPtm-0000Au-0N; Tue, 25 May 2021 07:46:38 +0200
-Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1llPtk-0002Ps-65; Tue, 25 May 2021 07:46:36 +0200
-From:   Oleksij Rempel <o.rempel@pengutronix.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-Cc:     Oleksij Rempel <o.rempel@pengutronix.de>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        kernel@pengutronix.de, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org, David Jander <david@protonic.nl>,
-        devicetree@vger.kernel.org
-Subject: [PATCH v6 4/4] Input: resistive-adc-touch: add support for z1 and z2 channels
-Date:   Tue, 25 May 2021 07:46:34 +0200
-Message-Id: <20210525054634.9134-5-o.rempel@pengutronix.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210525054634.9134-1-o.rempel@pengutronix.de>
-References: <20210525054634.9134-1-o.rempel@pengutronix.de>
+        Tue, 25 May 2021 01:57:23 -0400
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A38EBC061574;
+        Mon, 24 May 2021 22:55:53 -0700 (PDT)
+Received: by mail-yb1-xb36.google.com with SMTP id z38so11772517ybh.5;
+        Mon, 24 May 2021 22:55:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6pmVU3dpIgp8CIixqWB9X4Z4r3f+OzJWJVHDt4+uTLQ=;
+        b=RbX2t3LF7cCjSPU1TFYocJR54IHyaCKEYcJfG+rSZg9dUQo4opFJn4MVxLGO8J04VC
+         KvDHMxvnMZqhMUPX8xxtKiB8atlU+oP7VJMaZilXGpXzJD7v4r8UZ38+A9hsiXFd9HOJ
+         JNEgEFMJDFvg3Yn8vvKqrgLL2Av0KZfvbPQSN+NKz6KmGPoA2U/QP3ixx7SJnQcgMm3E
+         AgnI50QZ97oTmUJOInpAjfpa5wPLuprkVJDEskzgRvpTQXAwoIp3cqDal7IgNlJj+hLg
+         ES+KibybPbToa2VtSKmFAQUB6ppCs09O5YUCxet/Dg28LrLhN6BP13im0kvf3///r995
+         AUBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6pmVU3dpIgp8CIixqWB9X4Z4r3f+OzJWJVHDt4+uTLQ=;
+        b=dULPEAkEutyoP2n4E2l2WaKtBXmmoNWqkcGptFwSEg022hYd4DJNROJKeXGGjlVaj3
+         xnJrGLOvRk/sfGK7jt/FNU6unjJjLVLT1ip2/4YnfWgDJp3fse5Am6RwO/4eAQsvaacT
+         VkW58iA+BKeKcSuQksiDW2S0leytgc9xMeaevaHfpB2vXu/tMOcn6PrYCRaHsRgFGqC7
+         yHAhGOAcwHlK/xXBRH/asin9JsaqIIoHsarJKv1BRej3cp/8P94CHt4LnG/isjZRprWI
+         v+hM27+rc0/A82zzTU3ClvdrmAl9UnRJHvfP7gsA/N2CFZb0UlZvJhrolGKTNBaEqD8v
+         4Xbg==
+X-Gm-Message-State: AOAM533Y6EODVDZUxUfJCqVWLdWqM5wJOGFRcpJoIzl9I8dHO3l/5K4D
+        dTqqTWU/3d7VkkbWrtqobMOC+ykSUrukWOMxDkBc8fJG
+X-Google-Smtp-Source: ABdhPJzj1YxPTGxGT1aZh2Df9jczAAjWL5yvxRY1DMR9iC9tE9IqDTptyJd+LLC1Y+pTedzjQbp/y8uO8xJnL512TlY=
+X-Received: by 2002:a25:4409:: with SMTP id r9mr39054034yba.401.1621922152946;
+ Mon, 24 May 2021 22:55:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+References: <CAEc3jaCfS=DPQiSjh+_aVePbUXHe-M7WH1t+JtSLwqu0Vktnxw@mail.gmail.com>
+ <20210521160455.GA10159@duo.ucw.cz>
+In-Reply-To: <20210521160455.GA10159@duo.ucw.cz>
+From:   Roderick Colenbrander <thunderbird2k@gmail.com>
+Date:   Mon, 24 May 2021 22:55:41 -0700
+Message-ID: <CAEc3jaBdWwfbMdrdKOc9e19Mb5HD3DE4QUNu+5UseQ9WLt0THQ@mail.gmail.com>
+Subject: Re: Naming of HID LED devices
+To:     Pavel Machek <pavel@ucw.cz>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        marek.behun@nic.cz, linux-input <linux-input@vger.kernel.org>,
+        linux-leds@vger.kernel.org,
+        "Daniel J. Ogorchock" <djogorchock@gmail.com>,
+        =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>,
+        Jiri Kosina <jikos@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This patch adds support for the z1 and z2 channels. These are used to
-calculate the applied pressure. As there is no common order of the
-individual channels of a resistive touch ADC, support for
-io-channel-names is added (although the DT bindings stated the
-driver already supports these).
+Hi
 
-Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- .../input/touchscreen/resistive-adc-touch.c   | 140 ++++++++++++++++--
- 1 file changed, 126 insertions(+), 14 deletions(-)
+On Fri, May 21, 2021 at 9:04 AM Pavel Machek <pavel@ucw.cz> wrote:
+>
+> Hi!
+>
+> > Earlier this year during review of the hid-playstation driver there
+> > was a discussion on the naming of LEDs exposed by HID drivers. Moving
+> > forward the preference from the LED maintainers was to follow the
+> > naming scheme "device:color:function" instead of the custom names used
+> > so far by HID drivers.
+> >
+> > I would like to get some guidance on the naming direction not just for
+> > hid-playstation, but Daniel's hid-nintendo driver for which he posted
+> > a new revision today has the same problem.
+> >
+> > The original discussion was on "why not use the input device name?"
+> > (e.g. input15). It was concluded that it wouldn't uniquely identify a
+> > HID device among reasons.
+>
+> I understand that problem is that one controller is present as
+> multiple input devices to userspace.
+>
+> [That is something you might want to fix, BTW. IIRC input protocol is
+> flexible enough to do that.]
 
-diff --git a/drivers/input/touchscreen/resistive-adc-touch.c b/drivers/input/touchscreen/resistive-adc-touch.c
-index e50af30183f4..0939c0e97efb 100644
---- a/drivers/input/touchscreen/resistive-adc-touch.c
-+++ b/drivers/input/touchscreen/resistive-adc-touch.c
-@@ -20,7 +20,18 @@
- 
- #define DRIVER_NAME					"resistive-adc-touch"
- #define GRTS_DEFAULT_PRESSURE_MIN			50000
-+#define GRTS_DEFAULT_PRESSURE_MAX			65535
- #define GRTS_MAX_POS_MASK				GENMASK(11, 0)
-+#define GRTS_MAX_CHANNELS				4
-+
-+enum grts_ch_type {
-+	GRTS_CH_NONE = 0,
-+	GRTS_CH_X,
-+	GRTS_CH_Y,
-+	GRTS_CH_PRESSURE,
-+	GRTS_CH_Z1,
-+	GRTS_CH_Z2,
-+};
- 
- /**
-  * struct grts_state - generic resistive touch screen information struct
-@@ -33,24 +44,59 @@
-  */
- struct grts_state {
- 	u32				pressure_min;
-+	u32				x_plate_ohms;
- 	bool				pressure;
- 	struct iio_channel		*iio_chans;
- 	struct iio_cb_buffer		*iio_cb;
- 	struct input_dev		*input;
- 	struct touchscreen_properties	prop;
-+	u8				ch[GRTS_MAX_CHANNELS];
- };
- 
- static int grts_cb(const void *data, void *private)
- {
- 	const u16 *touch_info = data;
- 	struct grts_state *st = private;
--	unsigned int x, y, press = 0x0;
-+	unsigned int x, y, press = 0, z1 = 0, z2;
-+	unsigned int Rt, i;
-+
-+	for (i = 0; i < ARRAY_SIZE(st->ch) && st->ch[i] != GRTS_CH_NONE; i++) {
-+		switch (st->ch[i]) {
-+		case GRTS_CH_X:
-+			x = touch_info[i];
-+			break;
-+		case GRTS_CH_Y:
-+			y = touch_info[i];
-+			break;
-+		case GRTS_CH_PRESSURE:
-+			press = touch_info[i];
-+			break;
-+		case GRTS_CH_Z1:
-+			z1 = touch_info[i];
-+			break;
-+		case GRTS_CH_Z2:
-+			z2 = touch_info[i];
-+			break;
-+		}
-+	}
- 
--	/* channel data coming in buffer in the order below */
--	x = touch_info[0];
--	y = touch_info[1];
--	if (st->pressure)
--		press = touch_info[2];
-+	if (z1) {
-+		Rt = z2;
-+		Rt -= z1;
-+		Rt *= st->x_plate_ohms;
-+		Rt = DIV_ROUND_CLOSEST(Rt, 16);
-+		Rt *= x;
-+		Rt /= z1;
-+		Rt = DIV_ROUND_CLOSEST(Rt, 256);
-+		/*
-+		 * On increased pressure the resistance (Rt) is decreasing
-+		 * so, convert values to make it looks as real pressure.
-+		 */
-+		if (Rt < GRTS_DEFAULT_PRESSURE_MAX)
-+			press = GRTS_DEFAULT_PRESSURE_MAX - Rt;
-+		else
-+			press = 0;
-+	}
- 
- 	if ((!x && !y) || (st->pressure && (press < st->pressure_min))) {
- 		/* report end of touch */
-@@ -94,12 +140,77 @@ static void grts_disable(void *data)
- 	iio_channel_release_all_cb(data);
- }
- 
-+static int grts_get_properties(struct grts_state *st, struct device *dev)
-+{
-+	int idx, error;
-+
-+	idx = device_property_match_string(dev, "io-channel-names", "x");
-+	if (idx < 0)
-+		return idx;
-+
-+	if (idx >= ARRAY_SIZE(st->ch))
-+		return -EOVERFLOW;
-+
-+	st->ch[idx] = GRTS_CH_X;
-+
-+	idx = device_property_match_string(dev, "io-channel-names", "y");
-+	if (idx < 0)
-+		return idx;
-+
-+	if (idx >= ARRAY_SIZE(st->ch))
-+		return -EOVERFLOW;
-+
-+	st->ch[idx] = GRTS_CH_Y;
-+
-+	/* pressure is optional */
-+	idx = device_property_match_string(dev, "io-channel-names", "pressure");
-+	if (idx >= 0) {
-+		if (idx >= ARRAY_SIZE(st->ch))
-+			return -EOVERFLOW;
-+
-+		st->ch[idx] = GRTS_CH_PRESSURE;
-+		st->pressure = true;
-+
-+		return 0;
-+	}
-+
-+	/* if no pressure is defined, try optional z1 + z2 */
-+	idx = device_property_match_string(dev, "io-channel-names", "z1");
-+	if (idx < 0)
-+		return 0;
-+
-+	if (idx >= ARRAY_SIZE(st->ch))
-+		return -EOVERFLOW;
-+
-+	st->ch[idx] = GRTS_CH_Z1;
-+
-+	/* if z1 is provided z2 is not optional */
-+	idx = device_property_match_string(dev, "io-channel-names", "z2");
-+	if (idx < 0)
-+		return idx;
-+
-+	if (idx >= ARRAY_SIZE(st->ch))
-+		return -EOVERFLOW;
-+
-+	st->ch[idx] = GRTS_CH_Z2;
-+	st->pressure = true;
-+
-+	error = device_property_read_u32(dev,
-+					 "touchscreen-x-plate-ohms",
-+					 &st->x_plate_ohms);
-+	if (error) {
-+		dev_err(dev, "can't get touchscreen-x-plate-ohms property\n");
-+		return error;
-+	}
-+
-+	return 0;
-+}
-+
- static int grts_probe(struct platform_device *pdev)
- {
- 	struct grts_state *st;
- 	struct input_dev *input;
- 	struct device *dev = &pdev->dev;
--	struct iio_channel *chan;
- 	int error;
- 
- 	st = devm_kzalloc(dev, sizeof(struct grts_state), GFP_KERNEL);
-@@ -115,12 +226,13 @@ static int grts_probe(struct platform_device *pdev)
- 		return error;
- 	}
- 
--	chan = &st->iio_chans[0];
--	st->pressure = false;
--	while (chan && chan->indio_dev) {
--		if (!strcmp(chan->channel->datasheet_name, "pressure"))
--			st->pressure = true;
--		chan++;
-+	if (!device_property_present(dev, "io-channel-names"))
-+		return -ENODEV;
-+
-+	error = grts_get_properties(st, dev);
-+	if (error) {
-+		dev_err(dev, "Failed to parse properties\n");
-+		return error;
- 	}
- 
- 	if (st->pressure) {
-@@ -148,7 +260,7 @@ static int grts_probe(struct platform_device *pdev)
- 	input_set_abs_params(input, ABS_Y, 0, GRTS_MAX_POS_MASK - 1, 0, 0);
- 	if (st->pressure)
- 		input_set_abs_params(input, ABS_PRESSURE, st->pressure_min,
--				     0xffff, 0, 0);
-+				     GRTS_DEFAULT_PRESSURE_MAX, 0, 0);
- 
- 	input_set_capability(input, EV_KEY, BTN_TOUCH);
- 
--- 
-2.29.2
+[That part is actually non-trivial to fix without an overhaul of the
+Linux evdev system. Essentially evdev is a bit limiting for some
+devices due to conflicts in use of axes or buttons. This is what
+prompted creation of multiple input devices I believe. Though various
+HID devices are now also receiving multiple input devices
+automatically now based on collections or something. Benjamin and Jiri
+are the experts there. Anway that's a major other conversation, people
+are trying to steer away from...]
 
+>
+> I suggest you simply select one input device (call it primary,
+> probably the one that contains the master joystick) and use its input
+> number....
+
+It is of course an option. Though I recall in the previous discussion,
+technically the LED is registered on the HID device and not on the
+input device, so it is not entirely correct. There are also cases I
+believe where LEDs are directly created for the HID device itself.
+Based on a quick search this includes the 'hid-led' driver. Though its
+naming is probably fixed as we may not want to break user space (not
+sure if anyone is relying on it). There might be other plain HID
+device use cases with LEDs.
+
+> Best regards,
+>                                                                 Pavel
+> --
+> http://www.livejournal.com/~pavelmachek
+
+Thanks,
+Roderick
