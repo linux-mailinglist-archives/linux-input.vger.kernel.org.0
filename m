@@ -2,77 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B492738F8EB
-	for <lists+linux-input@lfdr.de>; Tue, 25 May 2021 05:39:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CB5E38F8FB
+	for <lists+linux-input@lfdr.de>; Tue, 25 May 2021 05:46:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230230AbhEYDkr (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 24 May 2021 23:40:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41304 "EHLO
+        id S230366AbhEYDro (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 24 May 2021 23:47:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230048AbhEYDkq (ORCPT
+        with ESMTP id S230048AbhEYDrn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 24 May 2021 23:40:46 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D06D2C061574;
-        Mon, 24 May 2021 20:39:16 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id kr9so7967459pjb.5;
-        Mon, 24 May 2021 20:39:16 -0700 (PDT)
+        Mon, 24 May 2021 23:47:43 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7048C061574;
+        Mon, 24 May 2021 20:46:14 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id 27so20349962pgy.3;
+        Mon, 24 May 2021 20:46:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=QOMx6S5Svo75qhT8EVMIczrEF8W1ia8RcvUjP8gNL8U=;
-        b=SHin2bobx8qEbT+hhQVm7Hnks0KnChnlPqQqPNbhd8+FPhxNbFcCuygNDwRfb3J70s
-         QFsYzykwpGsUASvKWq3H2Eyw0nkeyr88XdLXEJ1RNEEQYDRtjPKus6Z4X+A0yyqoPWbE
-         rdrMOTlHNewh3oI9Eo+tB/mWuF3tFn1HhsrmjKWTnQLZzkpiymCaLaD5h4BUatRdQfNX
-         5sMItCeo7vLFgkIDpQiRs3LAQH9y9C81YvZ3I86ScrLYqeNlTJXK1Fx2YwR4VwKfvbWf
-         o3pEn9ZsCE1O9JXK72TVt3eiTt8DG/7ws7AndEzh45OMhEbKFnJdiQrVLDpTK01Ky1nF
-         Oy+w==
+        bh=y9wnl7d6pRDoIXMa5h4mXaUllCK4xoz1xJ5yVUVeTMM=;
+        b=uW6YjY7ix8PwtpYIBkWmFCI6HB+CTUM4qg3JvQymoQKupk0Cmhj9x/vpiwo5ytDFzW
+         nv9dgt2LIWXc4yFxNyBDzLJgssuYdm4UlKH8tNLAJuJTQXggJDjKVnvapmm8mbSo2uxr
+         gJkDK02aP+CAjBw07cfOP7qY0Q9wTCvJzkXO/CQrf9H+MA1PDG+CyxljKqH4Czp0rC/7
+         WhXjLWt5Ijr2VTLegaxsTcnv4Ft1cb3gLxXXLhulzj7R6QzbFqtQcz2FYh0VSnh9NScE
+         ogQbCFZG6OGgRktk3whm6KkUzLGFKOsIsYvRegKJe4KgL1N2kqTN66zcBgpT56jbeEY7
+         6pXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=QOMx6S5Svo75qhT8EVMIczrEF8W1ia8RcvUjP8gNL8U=;
-        b=nA7gpmaDGmx+xb96CW7D5trU5KdAk0IIEGGH4gjwiS/oxIOwe0anh//M8hX8pOYlLc
-         UAqgjgZdq9ndiTRXCBPYO0IAqK5Kmlo0ceIz2lZWXvkhHncIqJGwGPzhVdEbJhvdOwuG
-         1SfpbKyBznzH3XGkGAh7GQBntflech5KN5cz+TNvKeMDBVg8eqINxrlkd4Qj1eryzXtY
-         scgLQXahXzdJS03r2xSxNexhN7x5l2UB5jX5BiDPy3rLNVdHJlOobodRc6QVGIPtjN6h
-         lQ3jN2L3FahNDy3UqQbJVGrcSM5huTnS+4zzo177jZ9J8l84tW9iL/xxRoteGJZ8UfiQ
-         tsyQ==
-X-Gm-Message-State: AOAM530TjHNUZmtDpYamZjHK28UmwHZfSXhZUPKfcjqdOTuTjSw60y+/
-        9sG4pEbIpX+9VGqBsd1iQAgIfRWZ894=
-X-Google-Smtp-Source: ABdhPJzn4/lyAagQsR/z/q2Wkj7lTWR74FV9JBQO02c8GzavzXiPp5CYFeFjB9wuqLaIEr+J4kHwGg==
-X-Received: by 2002:a17:902:b20a:b029:f4:8b9a:5bf8 with SMTP id t10-20020a170902b20ab02900f48b9a5bf8mr28365346plr.37.1621913956336;
-        Mon, 24 May 2021 20:39:16 -0700 (PDT)
+        bh=y9wnl7d6pRDoIXMa5h4mXaUllCK4xoz1xJ5yVUVeTMM=;
+        b=PPI+A8nLyb3kWXgcKuG8G+RdJ+Yw/Kog7FHWRzj6Rk0nA+WypKg6oDJPA/6tZSB8OW
+         Hr71fNRXy5PQuARjjb5LmgAQMoOuB9YfivTNRhqUTjLC3xd/kMgjowxIG86akZNgjbuT
+         N3RZh7fSVN+Hj5wpeHgJxK+3j/m3Mie9OCXmmyO/F2vuxzrFFjAwMz/4wJZ2hP5N9SQF
+         aSMdM18iZYe7559f0bT/9V47vq6QnZ4XERhkNLAihiQrk2SXystemfbAig21giMm958E
+         vvpbxlTjqtCf2JstIm7aQiSeJwKddjuSa9l/npBGmV8Oo8WmN+OAt87UsE49UwthDd2e
+         Dmhw==
+X-Gm-Message-State: AOAM532EfCt2uGt0I8DvwMvr+jlsQdh91qkfuMNbYHpoyOQXBqVt4fa3
+        2IeOJalstmyneEQ1guVi2MQ=
+X-Google-Smtp-Source: ABdhPJzhWauyvU55ldRmF1oSSm19HFo9knnG0RpC6i8VKjQYeGX6pQJya7VOMbOohRzMHL1MAsuTCw==
+X-Received: by 2002:aa7:8d46:0:b029:2de:75aa:1964 with SMTP id s6-20020aa78d460000b02902de75aa1964mr28282121pfe.61.1621914374201;
+        Mon, 24 May 2021 20:46:14 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:870d:a395:9098:674])
-        by smtp.gmail.com with ESMTPSA id t14sm11489716pfg.168.2021.05.24.20.39.14
+        by smtp.gmail.com with ESMTPSA id o14sm2140358pfd.1.2021.05.24.20.46.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 May 2021 20:39:15 -0700 (PDT)
-Date:   Mon, 24 May 2021 20:39:13 -0700
+        Mon, 24 May 2021 20:46:13 -0700 (PDT)
+Date:   Mon, 24 May 2021 20:46:10 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Corentin Labbe <clabbe@baylibre.com>
-Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        fabio.estevam@freescale.com
-Subject: Re: [PATCH] dt-bindings: input: remove fsl-mma8450 which is handled
- by trivial-devices
-Message-ID: <YKxxYWNLEjEwih9/@google.com>
-References: <20210521192210.12839-1-clabbe@baylibre.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Oleksij Rempel <o.rempel@pengutronix.de>,
+        devicetree@vger.kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        David Jander <david@protonic.nl>,
+        Rob Herring <robh+dt@kernel.org>, kernel@pengutronix.de
+Subject: Re: [PATCH v5 4/8] dt-bindings: touchscreen: validate nodename
+Message-ID: <YKxzAgVrNjNdHnoJ@google.com>
+References: <20210521044525.7397-1-o.rempel@pengutronix.de>
+ <20210521044525.7397-5-o.rempel@pengutronix.de>
+ <20210521171823.GA33003@robh.at.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210521192210.12839-1-clabbe@baylibre.com>
+In-Reply-To: <20210521171823.GA33003@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, May 21, 2021 at 07:22:10PM +0000, Corentin Labbe wrote:
-> trivial-devices.yaml already provide bindings for fsl-mma8450.
-> Since input/fsl-mma8450.txt provides no extra value, lets remove it.
+On Fri, May 21, 2021 at 12:18:23PM -0500, Rob Herring wrote:
+> On Fri, 21 May 2021 06:45:21 +0200, Oleksij Rempel wrote:
+> > Validate touchscreen nodes. Make sure it is named touchscreen*.
+> > 
+> > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> > ---
+> >  .../devicetree/bindings/input/touchscreen/touchscreen.yaml     | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
 > 
-> Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+> Acked-by: Rob Herring <robh@kernel.org>
 
-Applied, thank you.
+These bindings are used for devices other than touchscreens (touchpads
+and other touch controllers that are not touchscreens), so forcing them
+to be named "touchscreen*" is wrong. In fact, I'd like to allow using
+"touch-*" property names as aliases for "touchscreen-*" properties.
+
+Thanks.
 
 -- 
 Dmitry
