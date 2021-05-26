@@ -2,172 +2,77 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C3F8390EA7
-	for <lists+linux-input@lfdr.de>; Wed, 26 May 2021 05:07:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CABC391127
+	for <lists+linux-input@lfdr.de>; Wed, 26 May 2021 09:03:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230194AbhEZDIo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 25 May 2021 23:08:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47938 "EHLO
+        id S232913AbhEZHFS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 May 2021 03:05:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230075AbhEZDIo (ORCPT
+        with ESMTP id S232336AbhEZHFS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 May 2021 23:08:44 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BD16C061574
-        for <linux-input@vger.kernel.org>; Tue, 25 May 2021 20:07:13 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id x188so25150810pfd.7
-        for <linux-input@vger.kernel.org>; Tue, 25 May 2021 20:07:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raydium-corp-partner-google-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=OVaWv7rah9ME2kXB5zbarT4yDB4K5xEKSyGiKfO3Qq8=;
-        b=mEjfgml+NNKprzdyyyUzWkkBkUx4YNuwQIBsfKg1QPsaAreU21vnEO0NG8TE1/FTP5
-         AJFDbPQSvglWfWq9NkfblP5QYUqnupPkqucR+Mn6uRaeyYIH6GmwEbUjPIFqhEbdLGf9
-         syzEHVJKhN8qrrisbY4Zp6haKA71UUp7+0xXJc9KmgiCz17uhuzsWW4GJ3O8CZXpMEYT
-         TAxvZi0oN2iOWnGsFKObrMJ8Swg4w0y0O5zIV2SO+h+oxGqsgt4DjvWDZtiAIGvqDi5u
-         ptXS2oqMwdJb5EXaP8NSka4J2yQnSwsYQZm51p2Yy17JHAtSSL6XrURCheevGgm/r6m8
-         Op3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=OVaWv7rah9ME2kXB5zbarT4yDB4K5xEKSyGiKfO3Qq8=;
-        b=si8vMxTAqkq4YUdrOfNM+0DMa9pPbufC/DqiWdOb1BC6z5TxaTqtIXgDR5wirGHAPe
-         eEVIHdDCqv0lSPVnhjye2buyPqTv2mi9k4sXJOTwsK1f1M5MRAuCC2UTGonEmCOdysrK
-         X7GZVpXL8/fFfG3+pf1PBBScxSrTQEyqdfDxgouiK/tegbF1O7hpu3MvuvAJh/ndETm4
-         MIooExCZA8jg/wM+rFeHxeot1H1c4Htkt8a0A+3e/DagmFvHOzcyJs90QxsNieK172w3
-         BcHWzCDMqyM9hVplb21oP/l4pfrk/8QeWVj9qR97dLRF7pwpz8kv6ZxfPvIrBNjPVXU1
-         3pyg==
-X-Gm-Message-State: AOAM532o3ZojiAyRuJ4QsajEdfxCn5sl5IykF7G1Awu1bHgMR0XlyFod
-        Jk/hYyZwwu/vAhaKIkAdU/wR2g==
-X-Google-Smtp-Source: ABdhPJwPIUdQAfIrUprU6C1NzHtqnTl7YGli1bhK3pyoAVCmW43IYoRr47JFqbzwSMaLnUtgNiejxA==
-X-Received: by 2002:a63:e114:: with SMTP id z20mr22365187pgh.207.1621998432900;
-        Tue, 25 May 2021 20:07:12 -0700 (PDT)
-Received: from localhost.localdomain ([2402:7500:47b:3de6:ff1b:1098:9398:7094])
-        by smtp.gmail.com with ESMTPSA id o7sm16099266pgs.45.2021.05.25.20.07.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 May 2021 20:07:12 -0700 (PDT)
-From:   "simba.hsu" <simba.hsu@raydium.corp-partner.google.com>
-X-Google-Original-From: "simba.hsu" <simba.hsu@rad-ic.com>
-To:     dmitry.torokhov@gmail.com, simba.hsu@rad-ic.com,
-        furquan@google.com, seanpaul@chromium.org, rrangle@chromium.org,
-        adurbin@chromium.org
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        KP.li@rad-ic.com, jeffrey.lin@rad-ic.com
-Subject: [PATCH] Input:raydium_i2c_ts - improve the mechanism of auto-update
-Date:   Wed, 26 May 2021 11:06:51 +0800
-Message-Id: <20210526030651.22760-1-simba.hsu@rad-ic.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 26 May 2021 03:05:18 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41122C061574;
+        Wed, 26 May 2021 00:03:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=LnyynXqRaay9EIKqTDGE/6aSzoHUm9VFq1HVjhq7rak=; b=GC2F1saaBl0IodIk10Z3nk7vAg
+        DlP6C6tXb093nfV5WHpZj8CsDXBbfIKbslMvQyS6JYW8AWkgMXjmT4C9uHUyITOT13/re2/EIe56/
+        1V56SdMmYbi3OgFCBWFYlfj3UwiK6FN+7/45n31ptPV2xBF3gwR6yh4hMebi7Z5sK39aVJj+prE4j
+        mSVj777ijtqOkQTpwQ5Q2MfFUUvgA/7n6zfLNF0zXqg9GRNRb9iAn4SOIwFGHF+8iCNTaIHLWgb3d
+        WUAt64FKFuCCZTeAzADcJ8Huwb4RXEe/mpVp/7Hp6EcVkFvUnkswxbSk2D5iDk0yfhN2zBWZgTa4c
+        Y/K6i7iw==;
+Received: from [2601:1c0:6280:3f0::1c1d] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1llnZx-00Brxm-V9; Wed, 26 May 2021 07:03:46 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Michael Schmitz <schmitz@debian.org>,
+        Roman Zippel <zippel@linux-m68k.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Subject: [PATCH] MOUSE_ATARI: fix kconfig unmet dependency warning
+Date:   Wed, 26 May 2021 00:03:45 -0700
+Message-Id: <20210526070345.31114-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Once auto-update has been interrupted, touch IC will be stuck in
-recovery mode forever and it will lead to touch malfunction.
-This patch maskes auto-update available when touch IC is in
-recovery mode to avoid touch malfunction.
+MOUSE_ATARI should depend on INPUT_KEYBOARD since ATARI_KBD_CORE
+depends on INPUT_KEYBOARD. This prevents MOUSE_ATARI from
+selecting ATARI_KBD_CORE when INPUT_KEYBOARD is not set/enabled.
 
-Signed-off-by: simba.hsu <simba.hsu@rad-ic.com>
+WARNING: unmet direct dependencies detected for ATARI_KBD_CORE
+  Depends on [n]: !UML && INPUT [=y] && INPUT_KEYBOARD [=n]
+  Selected by [y]:
+  - MOUSE_ATARI [=y] && !UML && INPUT [=y] && INPUT_MOUSE [=y] && ATARI [=y]
+
+Fixes: c04cb856e20a ("m68k: Atari keyboard and mouse support.")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Michael Schmitz <schmitz@debian.org>
+Cc: Roman Zippel <zippel@linux-m68k.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
 ---
- drivers/input/touchscreen/raydium_i2c_ts.c | 53 ++++++++++++++++++----
- 1 file changed, 45 insertions(+), 8 deletions(-)
+ drivers/input/mouse/Kconfig |    1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/input/touchscreen/raydium_i2c_ts.c b/drivers/input/touchscreen/raydium_i2c_ts.c
-index 4d2d22a86977..50f6fbbe4775 100644
---- a/drivers/input/touchscreen/raydium_i2c_ts.c
-+++ b/drivers/input/touchscreen/raydium_i2c_ts.c
-@@ -36,7 +36,8 @@
- #define RM_CMD_BOOT_CHK		0x33		/* send data check */
- #define RM_CMD_BOOT_READ	0x44		/* send wait bl data ready*/
+--- linux-next-20210525.orig/drivers/input/mouse/Kconfig
++++ linux-next-20210525/drivers/input/mouse/Kconfig
+@@ -348,6 +348,7 @@ config MOUSE_AMIGA
  
--#define RM_BOOT_RDY		0xFF		/* bl data ready */
-+#define RM_BOOT_RDY		0xFF			/* bl data ready */
-+#define RM_BOOT_CMD_READHWID	0x0E	/* read hwid */
- 
- /* I2C main commands */
- #define RM_CMD_QUERY_BANK	0x2B
-@@ -155,6 +156,7 @@ static int raydium_i2c_xfer(struct i2c_client *client, u32 addr,
- 	 * sent first. Else, skip the header i.e. xfer[0].
- 	 */
- 	int xfer_start_idx = (addr > 0xff) ? 0 : 1;
-+
- 	xfer_count -= xfer_start_idx;
- 
- 	ret = i2c_transfer(client->adapter, &xfer[xfer_start_idx], xfer_count);
-@@ -289,6 +291,44 @@ static int raydium_i2c_sw_reset(struct i2c_client *client)
- 
- 	return 0;
- }
-+static int raydium_i2c_query_ts_BL_info(struct raydium_data *ts)
-+{
-+	struct i2c_client *client = ts->client;
-+	static const u8 get_hwid[7] = {RM_BOOT_CMD_READHWID,
-+					 0x10, 0xc0, 0x01, 0x00, 0x04, 0x00};
-+	int error;
-+	u8 rbuf[5] = {0, 0, 0, 0, 0};
-+	u32 tmpdata = 0;
-+
-+	error = raydium_i2c_send(client,
-+				 RM_CMD_BOOT_WRT, get_hwid, sizeof(get_hwid));
-+	if (error) {
-+		dev_err(&client->dev, "WRT HWID command failed: %d\n", error);
-+		return error;
-+	}
-+
-+	error = raydium_i2c_send(client, RM_CMD_BOOT_ACK, rbuf, 1);
-+	if (error) {
-+		dev_err(&client->dev, "Ack HWID command failed: %d\n", error);
-+		return error;
-+	}
-+
-+	error = raydium_i2c_read(client,
-+				 RM_CMD_BOOT_CHK, rbuf, sizeof(rbuf));
-+	if (!error) {
-+		tmpdata = (rbuf[1]<<24|rbuf[2]<<16|rbuf[3]<<8|rbuf[4]);
-+		ts->info.hw_ver = tmpdata;
-+		dev_err(&client->dev, "HWID %08X\n", ts->info.hw_ver);
-+	} else {
-+		ts->info.hw_ver = cpu_to_le32(0xffffffffUL);
-+		dev_err(&client->dev, "raydium_i2c_read HWID failed, %X, %X, %X, %X\n",
-+					 rbuf[1], rbuf[2], rbuf[3], rbuf[4]);
-+	}
-+	ts->info.main_ver = 0xff;
-+	ts->info.sub_ver = 0xff;
-+
-+	return error;
-+}
- 
- static int raydium_i2c_query_ts_info(struct raydium_data *ts)
- {
-@@ -388,13 +428,10 @@ static int raydium_i2c_initialize(struct raydium_data *ts)
- 	if (error)
- 		ts->boot_mode = RAYDIUM_TS_BLDR;
- 
--	if (ts->boot_mode == RAYDIUM_TS_BLDR) {
--		ts->info.hw_ver = cpu_to_le32(0xffffffffUL);
--		ts->info.main_ver = 0xff;
--		ts->info.sub_ver = 0xff;
--	} else {
-+	if (ts->boot_mode == RAYDIUM_TS_BLDR)
-+		raydium_i2c_query_ts_BL_info(ts);
-+	else
- 		raydium_i2c_query_ts_info(ts);
--	}
- 
- 	return error;
- }
-@@ -1218,7 +1255,7 @@ static SIMPLE_DEV_PM_OPS(raydium_i2c_pm_ops,
- 			 raydium_i2c_suspend, raydium_i2c_resume);
- 
- static const struct i2c_device_id raydium_i2c_id[] = {
--	{ "raydium_i2c" , 0 },
-+	{ "raydium_i2c", 0 },
- 	{ "rm32380", 0 },
- 	{ /* sentinel */ }
- };
--- 
-2.25.1
-
+ config MOUSE_ATARI
+ 	tristate "Atari mouse"
++	depends on INPUT_KEYBOARD
+ 	depends on ATARI
+ 	select ATARI_KBD_CORE
+ 	help
