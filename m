@@ -2,76 +2,87 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89CA2391513
-	for <lists+linux-input@lfdr.de>; Wed, 26 May 2021 12:38:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32963391524
+	for <lists+linux-input@lfdr.de>; Wed, 26 May 2021 12:39:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233912AbhEZKkF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 May 2021 06:40:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52156 "EHLO mail.kernel.org"
+        id S234125AbhEZKlL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 May 2021 06:41:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52634 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233793AbhEZKkB (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 May 2021 06:40:01 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E385A613D3;
-        Wed, 26 May 2021 10:38:28 +0000 (UTC)
+        id S234050AbhEZKlF (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 26 May 2021 06:41:05 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1B089613D3;
+        Wed, 26 May 2021 10:39:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622025509;
-        bh=EH5hNeUV7Rx2qzUf2ikRb5G4lxugDZTTdqSMZQLuyuc=;
+        s=k20201202; t=1622025574;
+        bh=XkkR+3D/FW9VYxBOYTi3kuPLSQb/fFmFtNWeOGh98uU=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=ZJE8RLzLaEolZJReKnJzbSfO5lILPbgW1QNHp2Lwy5qX8PfyRixNAiLR87msQZO1u
-         fb87xdjnRMaxopYrayU8wXbdsw627wZygoD3S630ukF4eU+S/2V5L97F0IDNPuMFfW
-         YKbxZngb+sAE9+K6hbJn3RTFFODf87eGpMvfv1xWTfNjrtiD3OPRFOemKUy2HURMAC
-         nl99i2Iv+2LQY8X3KZsD6kq97bgV3b2YM9c46eJQWfuT56kzPEIfLWR1R4f9xy6/EZ
-         5XgbHCf9qkP5DBuz/eo00Lt8xRHOnF2VvewA7psrgp2aUa7A0j5nGGMRZGUcKzYLMS
-         xKy189gCdV1ZA==
-Date:   Wed, 26 May 2021 12:38:27 +0200 (CEST)
+        b=bGJcvcujacwa2IPyL5izJYMIWtVxwBpUeou1i8mqK/XXq7Y52M3LW71d+rogG8ZXi
+         nSzo3U58Io9VJ/eYtQ/JE/lNguf+UXD8UeG3/uX96fMFlBbR2zw/HtlkPZ6scJIpKo
+         0M/u6PGuxw4QwVAlqYPItzDwjmR9zuC2lBxBPv/nC3kq/v8tWaVtXLkifJOhbZ1z0P
+         O5FY0RiH8W8zgaKiXe91N7cc6SAhF5tOJMQaFZeuNNtfit8xP92bXGbwzBL+zcIkdv
+         Nj4dYAoWfCsFmqdN4WZTTklN2IhX5ZV2m2mXDxEct3Rck4NcJns7uiHoapcrIDO1PN
+         genHFjPxf2rhQ==
+Date:   Wed, 26 May 2021 12:39:31 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] HID: Misc. fixes
-In-Reply-To: <20210505213935.631351-1-hdegoede@redhat.com>
-Message-ID: <nycvar.YFH.7.76.2105261238110.28378@cbobk.fhfr.pm>
-References: <20210505213935.631351-1-hdegoede@redhat.com>
+To:     =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>
+cc:     trix@redhat.com, benjamin.tissoires@redhat.com,
+        pedro@pedrovanzella.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: logitech-hidpp: initialize level variable
+In-Reply-To: <a81900062b1e517ea20ecbf9324ddaf33e15f262.camel@riseup.net>
+Message-ID: <nycvar.YFH.7.76.2105261239240.28378@cbobk.fhfr.pm>
+References: <20210507191819.71092-1-trix@redhat.com> <a81900062b1e517ea20ecbf9324ddaf33e15f262.camel@riseup.net>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 5 May 2021, Hans de Goede wrote:
+On Sun, 16 May 2021, Filipe Laíns wrote:
 
-> Hi Jiri, Benjamin,
+> > Static analysis reports this representative problem
+> > 
+> > hid-logitech-hidpp.c:1356:23: warning: Assigned value is
+> >   garbage or undefined
+> >         hidpp->battery.level = level;
+> >                              ^ ~~~~~
+> > 
+> > In some cases, 'level' is never set in hidpp20_battery_map_status_voltage()
+> > Since level is not available on all hw, initialize level to unknown.
+> > 
+> > Fixes: be281368f297 ("hid-logitech-hidpp: read battery voltage from newer
+> > devices")
+> > Signed-off-by: Tom Rix <trix@redhat.com>
+> > ---
+> >  drivers/hid/hid-logitech-hidpp.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-
+> > hidpp.c
+> > index 69670ca7e1e1..61635e629469 100644
+> > --- a/drivers/hid/hid-logitech-hidpp.c
+> > +++ b/drivers/hid/hid-logitech-hidpp.c
+> > @@ -1265,6 +1265,7 @@ static int hidpp20_battery_map_status_voltage(u8
+> > data[3], int *voltage,
+> >         int status;
+> >  
+> >         long flags = (long) data[2];
+> > +       *level = POWER_SUPPLY_CAPACITY_LEVEL_UNKNOWN;
+> >  
+> >         if (flags & 0x80)
+> >                 switch (flags & 0x07) {
 > 
-> Here is v2 of what started out as a small series to fix spurious wakeups
-> on T101HA 2-in-1s.
+> Hi Tom,
 > 
-> This adds the discussed hid_is_usb_device() helper and uses that in:
+> Taking a look at how this function is used, it does make sense to initialize the
+> level, thank you :)
 > 
-> "HID: multitouch: Disable event reporting on suspend when our parent is
-> not a wakeup-source"
-> 
-> To avoid needing to add a "depends on USB_HID" to hid-multitouch Kconfig
-> settings.
-> 
-> I've checked all other hid_is_using_ll_driver(hdev, &usb_hid_driver) callers
-> and the only one which can truely benefit from the new helper is the
-> hid-asus driver, which also deals with some I2C devices on some Asus hw.
-> 
-> All other drivers using hid_is_using_ll_driver(hdev, &usb_hid_driver)
-> are only for USB devices, so dropping the "depends on USB_HID" does not
-> make sense for them.
-> 
-> The one other driver which may benefit from the new hid_is_usb_device()
-> helper would be the Wacom driver which seems to also support I2C devices,
-> but that contains a lot of USB specific code, so I don't think we can
-> easily drop the "depends on USB_HID" there.
-> 
-> Even though this is a bit if a mixed-bag of patches, their are several
-> dependencies between them, so these should probably all go on a single
-> topic branch.
+> Reviewed-by: Filipe Laíns <lains@riseup.net>
 
-Now in for-5.13/upstream-fixes. Thanks,
+Applied, thanks.
 
 -- 
 Jiri Kosina
