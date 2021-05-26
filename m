@@ -2,67 +2,78 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 171023913E4
-	for <lists+linux-input@lfdr.de>; Wed, 26 May 2021 11:40:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89CA2391513
+	for <lists+linux-input@lfdr.de>; Wed, 26 May 2021 12:38:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233288AbhEZJmI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 May 2021 05:42:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51742 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233117AbhEZJmH (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 May 2021 05:42:07 -0400
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AB1EC061574
-        for <linux-input@vger.kernel.org>; Wed, 26 May 2021 02:40:35 -0700 (PDT)
-Received: by mail-oi1-x22d.google.com with SMTP id j75so881026oih.10
-        for <linux-input@vger.kernel.org>; Wed, 26 May 2021 02:40:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=j157uAdH+Dt8bO1dH9QROoJp127aqvEjds9YChOAzaU=;
-        b=Iiv+ZZubwfSMsz7wmOyF68F0D/Vwo6KbTohBU8Cce+6nMEi0MvGQ8nyv3fLS1Hf2gE
-         k2Mwj51QnvdQtHOPnLjIvx6zu2aeBeSkMMiyHBbMmonqUhdHurvnCyDjQJIHSMAcF5z4
-         SaVyn6TWGlCvbP9XyNy4ks1J2FrwDqp+gXPSRuXZuKi9giTB2naV2QDrVL6rnIp7Of6p
-         qOQss8sxKAHp/O9PObuQFJeFMz2bWUy6EsD1Mb3t9DoKLnA9+q8mV4NlsHiUYaeYfYH4
-         Uj2MzPpkwftH1uHMsrWf3L12N8Q+LYkp3QrzE2OGphC3USohx2+815z5EEJimjF4D0x+
-         oaWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=j157uAdH+Dt8bO1dH9QROoJp127aqvEjds9YChOAzaU=;
-        b=fMFw/eqFz+jgu8lQA7/SP4deJESrbESr1menAkxIJsvqdEB+H28W7ss2KvrZFLiwh6
-         SVz0l7R9LRCUtCB4l/j11HpaxOCp65hKTHckqM2kAARlcnekL1D8F5JlptpgfPbzIRgd
-         7GkkrxUV+DT3vdGEAp0F5wBvTPo+2+Ve9aeuqv8Oi2+1jB6UTSz+GIQ+uHZI90gWMiBU
-         hFfkT+HG+9lkIClWeU4effRI8Eoq5hCrW+5eguR59bl/kKjN4RSPiZ3yoqjuwCQgMOJO
-         CUXpZgo5NDJcKudRqdX+JnrCd59KUZyp7Kl9PKc/54kly/HQEzOf+nJdtqWmHeiUpDuR
-         EJ4g==
-X-Gm-Message-State: AOAM531U23+yV8hY3rrhb/GuD7KWzqN3GWj7jTXURWMx7PH4mjV5K3d+
-        ozEuB4WNuQSG6v/jdBjkxifUFVSyy2IlFYT0E0tQREH7RsVjNQ==
-X-Google-Smtp-Source: ABdhPJxSOKqc8yAtwdC3qV659y2lKcSM9gys6PzXC1iQrBmtY5+zezC2W+ZmSU9v1A+M15XnQ7yhLQuKFfNKp1w3WMo=
-X-Received: by 2002:aca:d68a:: with SMTP id n132mr1137134oig.105.1622022035038;
- Wed, 26 May 2021 02:40:35 -0700 (PDT)
+        id S233912AbhEZKkF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 May 2021 06:40:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52156 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233793AbhEZKkB (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 26 May 2021 06:40:01 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E385A613D3;
+        Wed, 26 May 2021 10:38:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1622025509;
+        bh=EH5hNeUV7Rx2qzUf2ikRb5G4lxugDZTTdqSMZQLuyuc=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=ZJE8RLzLaEolZJReKnJzbSfO5lILPbgW1QNHp2Lwy5qX8PfyRixNAiLR87msQZO1u
+         fb87xdjnRMaxopYrayU8wXbdsw627wZygoD3S630ukF4eU+S/2V5L97F0IDNPuMFfW
+         YKbxZngb+sAE9+K6hbJn3RTFFODf87eGpMvfv1xWTfNjrtiD3OPRFOemKUy2HURMAC
+         nl99i2Iv+2LQY8X3KZsD6kq97bgV3b2YM9c46eJQWfuT56kzPEIfLWR1R4f9xy6/EZ
+         5XgbHCf9qkP5DBuz/eo00Lt8xRHOnF2VvewA7psrgp2aUa7A0j5nGGMRZGUcKzYLMS
+         xKy189gCdV1ZA==
+Date:   Wed, 26 May 2021 12:38:27 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org
+Subject: Re: [PATCH v2 0/6] HID: Misc. fixes
+In-Reply-To: <20210505213935.631351-1-hdegoede@redhat.com>
+Message-ID: <nycvar.YFH.7.76.2105261238110.28378@cbobk.fhfr.pm>
+References: <20210505213935.631351-1-hdegoede@redhat.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-From:   Max Witte <maxdwit@googlemail.com>
-Date:   Wed, 26 May 2021 11:40:22 +0200
-Message-ID: <CADG_wDYbo9AftRUF1vMpmcOAeC56Y5E-dsAaC3RQF2Z+ey1yoQ@mail.gmail.com>
-Subject: i2c-hid touchpad synopsys designware
-To:     linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-i2c-hid touchpad synopsys designware
-I've got the hold on a Fujitsu Ultrabook U7411/U7x11 which has some
-glitches/quirks with the touchpad that can be fixed with modprobe
-i2c-hid. ( Ubuntu 20.04 / 5.8.0-53-generic )
+On Wed, 5 May 2021, Hans de Goede wrote:
 
-In dmesg I can see this when I modprobe it:
-i2c_hid i2c-0X53 0X59 0X4E 0X50 0X31 0X46 0X31 0X35 0X00:00: supply
-vdd not found, using dummy regulator
+> Hi Jiri, Benjamin,
+> 
+> Here is v2 of what started out as a small series to fix spurious wakeups
+> on T101HA 2-in-1s.
+> 
+> This adds the discussed hid_is_usb_device() helper and uses that in:
+> 
+> "HID: multitouch: Disable event reporting on suspend when our parent is
+> not a wakeup-source"
+> 
+> To avoid needing to add a "depends on USB_HID" to hid-multitouch Kconfig
+> settings.
+> 
+> I've checked all other hid_is_using_ll_driver(hdev, &usb_hid_driver) callers
+> and the only one which can truely benefit from the new helper is the
+> hid-asus driver, which also deals with some I2C devices on some Asus hw.
+> 
+> All other drivers using hid_is_using_ll_driver(hdev, &usb_hid_driver)
+> are only for USB devices, so dropping the "depends on USB_HID" does not
+> make sense for them.
+> 
+> The one other driver which may benefit from the new hid_is_usb_device()
+> helper would be the Wacom driver which seems to also support I2C devices,
+> but that contains a lot of USB specific code, so I don't think we can
+> easily drop the "depends on USB_HID" there.
+> 
+> Even though this is a bit if a mixed-bag of patches, their are several
+> dependencies between them, so these should probably all go on a single
+> topic branch.
 
-After this it appears in xinput and works:
-    0X53 0X59 0X4E 0X50 06CB:CE2B Touchpad    id=19
+Now in for-5.13/upstream-fixes. Thanks,
 
-Any clues / suggestions to make this work "out of the box" are appreciated.
+-- 
+Jiri Kosina
+SUSE Labs
+
