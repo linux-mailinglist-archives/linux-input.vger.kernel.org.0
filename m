@@ -2,87 +2,74 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32963391524
-	for <lists+linux-input@lfdr.de>; Wed, 26 May 2021 12:39:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 384F4391531
+	for <lists+linux-input@lfdr.de>; Wed, 26 May 2021 12:40:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234125AbhEZKlL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 May 2021 06:41:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52634 "EHLO mail.kernel.org"
+        id S233943AbhEZKmP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 May 2021 06:42:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52936 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234050AbhEZKlF (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 May 2021 06:41:05 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1B089613D3;
-        Wed, 26 May 2021 10:39:32 +0000 (UTC)
+        id S233946AbhEZKmM (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 26 May 2021 06:42:12 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 356DF613D3;
+        Wed, 26 May 2021 10:40:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622025574;
-        bh=XkkR+3D/FW9VYxBOYTi3kuPLSQb/fFmFtNWeOGh98uU=;
+        s=k20201202; t=1622025641;
+        bh=fgxtvK+VLmElnGTJt7fJtJ+g5hluXnrJ9ugzu78I4T8=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=bGJcvcujacwa2IPyL5izJYMIWtVxwBpUeou1i8mqK/XXq7Y52M3LW71d+rogG8ZXi
-         nSzo3U58Io9VJ/eYtQ/JE/lNguf+UXD8UeG3/uX96fMFlBbR2zw/HtlkPZ6scJIpKo
-         0M/u6PGuxw4QwVAlqYPItzDwjmR9zuC2lBxBPv/nC3kq/v8tWaVtXLkifJOhbZ1z0P
-         O5FY0RiH8W8zgaKiXe91N7cc6SAhF5tOJMQaFZeuNNtfit8xP92bXGbwzBL+zcIkdv
-         Nj4dYAoWfCsFmqdN4WZTTklN2IhX5ZV2m2mXDxEct3Rck4NcJns7uiHoapcrIDO1PN
-         genHFjPxf2rhQ==
-Date:   Wed, 26 May 2021 12:39:31 +0200 (CEST)
+        b=F7mffP8tCx5ArjCKqddjKqLgQ8A4agdIqWtTcrcJMywyjJNwJk29+NaKCN9sWdD6L
+         6IFyHYzgoE9xUotWBjOqqhXwPyfeIKM2CZigNHYy6+aNxIW3559XWdhfJL7TOJmmrQ
+         ykIm7cbvrhe5VMSps8I8I6e89doYxZs2HBOv5DkXGWCTAOBmXJH9THr1sFfeRnsAKZ
+         piWmD32EBgnNhdRKXaNS0N7VTHY1c7fNlJFE6nMQHqWov5zEiaGN70cYOXcY8W/N4X
+         OJ9HpcmN+g3U0x26RPwM5kpbKb7a5V+rQoVXP6bVXu8JGNbrCw+ByqdbOinb6o312T
+         yuOOfvHfGFr1w==
+Date:   Wed, 26 May 2021 12:40:38 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>
-cc:     trix@redhat.com, benjamin.tissoires@redhat.com,
-        pedro@pedrovanzella.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: logitech-hidpp: initialize level variable
-In-Reply-To: <a81900062b1e517ea20ecbf9324ddaf33e15f262.camel@riseup.net>
-Message-ID: <nycvar.YFH.7.76.2105261239240.28378@cbobk.fhfr.pm>
-References: <20210507191819.71092-1-trix@redhat.com> <a81900062b1e517ea20ecbf9324ddaf33e15f262.camel@riseup.net>
+To:     Zhen Lei <thunder.leizhen@huawei.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Anssi Hannula <anssi.hannula@gmail.com>,
+        Dmitry Torokhov <dtor@mail.ru>,
+        linux-usb <linux-usb@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/1] HID: pidff: fix error return code in
+ hid_pidff_init()
+In-Reply-To: <20210508024737.1927-1-thunder.leizhen@huawei.com>
+Message-ID: <nycvar.YFH.7.76.2105261240280.28378@cbobk.fhfr.pm>
+References: <20210508024737.1927-1-thunder.leizhen@huawei.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 16 May 2021, Filipe Laíns wrote:
+On Sat, 8 May 2021, Zhen Lei wrote:
 
-> > Static analysis reports this representative problem
-> > 
-> > hid-logitech-hidpp.c:1356:23: warning: Assigned value is
-> >   garbage or undefined
-> >         hidpp->battery.level = level;
-> >                              ^ ~~~~~
-> > 
-> > In some cases, 'level' is never set in hidpp20_battery_map_status_voltage()
-> > Since level is not available on all hw, initialize level to unknown.
-> > 
-> > Fixes: be281368f297 ("hid-logitech-hidpp: read battery voltage from newer
-> > devices")
-> > Signed-off-by: Tom Rix <trix@redhat.com>
-> > ---
-> >  drivers/hid/hid-logitech-hidpp.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/drivers/hid/hid-logitech-hidpp.c b/drivers/hid/hid-logitech-
-> > hidpp.c
-> > index 69670ca7e1e1..61635e629469 100644
-> > --- a/drivers/hid/hid-logitech-hidpp.c
-> > +++ b/drivers/hid/hid-logitech-hidpp.c
-> > @@ -1265,6 +1265,7 @@ static int hidpp20_battery_map_status_voltage(u8
-> > data[3], int *voltage,
-> >         int status;
-> >  
-> >         long flags = (long) data[2];
-> > +       *level = POWER_SUPPLY_CAPACITY_LEVEL_UNKNOWN;
-> >  
-> >         if (flags & 0x80)
-> >                 switch (flags & 0x07) {
+> Fix to return a negative error code from the error handling
+> case instead of 0, as done elsewhere in this function.
 > 
-> Hi Tom,
+> Fixes: 224ee88fe395 ("Input: add force feedback driver for PID devices")
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+> ---
+>  drivers/hid/usbhid/hid-pidff.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Taking a look at how this function is used, it does make sense to initialize the
-> level, thank you :)
-> 
-> Reviewed-by: Filipe Laíns <lains@riseup.net>
+> diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
+> index ea126c50acc3..3b4ee21cd811 100644
+> --- a/drivers/hid/usbhid/hid-pidff.c
+> +++ b/drivers/hid/usbhid/hid-pidff.c
+> @@ -1292,6 +1292,7 @@ int hid_pidff_init(struct hid_device *hid)
+>  
+>  	if (pidff->pool[PID_DEVICE_MANAGED_POOL].value &&
+>  	    pidff->pool[PID_DEVICE_MANAGED_POOL].value[0] == 0) {
+> +		error = -EPERM;
+>  		hid_notice(hid,
+>  			   "device does not support device managed pool\n");
+>  		goto fail;
 
-Applied, thanks.
+Good catch, applied, thank you.
 
 -- 
 Jiri Kosina
