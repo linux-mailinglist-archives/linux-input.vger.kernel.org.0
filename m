@@ -2,92 +2,238 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07BB2391155
-	for <lists+linux-input@lfdr.de>; Wed, 26 May 2021 09:20:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD931391372
+	for <lists+linux-input@lfdr.de>; Wed, 26 May 2021 11:11:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232990AbhEZHWD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 May 2021 03:22:03 -0400
-Received: from mail-ua1-f41.google.com ([209.85.222.41]:37502 "EHLO
-        mail-ua1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232974AbhEZHWC (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 May 2021 03:22:02 -0400
-Received: by mail-ua1-f41.google.com with SMTP id w28so243960uae.4;
-        Wed, 26 May 2021 00:20:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mfyNClndHUNcIv3x/5sWBhrH6KgenkR88tjR35EvNYU=;
-        b=HrEhP41rl7HC2suyTXmUqNDjCUQqTJPP/vBDDq++ido4SJYWCi4+vqhzm6pXUaAicZ
-         EHpqOK/QnAvXECuhCRpw5/vaD4vg7MkFvKdNSihaPSt4epsp2hPxe9KDjb/80qHctJke
-         i6yyXTJRqvxLcT1Snep32PZM41ulTSVjm71OPkj3kLxQQFdecQvruSVkNGqINBLGTm/I
-         Zbw0LBjA6H/+gCgk4OQHQlaqMtuLroyBqAmr5k9ivE/KF+0Fe5tmUgoI6Q19gOeEmDn2
-         WUMgcjM4CdaR9W6rESCIOxwbz0wJRy3MYmMh06SNvKPRvsRZpeevschz+tcrHNLhDgUn
-         eJsA==
-X-Gm-Message-State: AOAM530ekZYNX6tSy/7BG4YISpRQYi0w68AfUFSPBa4dQIVTE1BYlONQ
-        Qbo5fAfYT8wqwLzxfVBrCUmmwej0Tqr2M6KDcmy/FU5g1Hw=
-X-Google-Smtp-Source: ABdhPJxF+qtPXKWBS1ATx0OB8NSVaKioeEzf3uGa4Whzc6rDzo7AkL3e1u+kHO4TtFK5BkjfqOjJo9rP8okfur+vUSQ=
-X-Received: by 2002:ab0:7705:: with SMTP id z5mr30510980uaq.2.1622013630064;
- Wed, 26 May 2021 00:20:30 -0700 (PDT)
+        id S233368AbhEZJNK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 May 2021 05:13:10 -0400
+Received: from mga05.intel.com ([192.55.52.43]:17563 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233321AbhEZJNJ (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 26 May 2021 05:13:09 -0400
+IronPort-SDR: xAiMy7N6V6zDTVr42J8ZMr5B4xcx8bNNzoveNDmbnVTETg5TOI8SwkHhzdvYW6LGoknHWTvHY5
+ EOTAGHu0aL8A==
+X-IronPort-AV: E=McAfee;i="6200,9189,9995"; a="287996348"
+X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; 
+   d="scan'208";a="287996348"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2021 02:11:37 -0700
+IronPort-SDR: 6kT/J0y2vbYP7YqMq9T+WnPZkNbqze/ry94D1P2K9Arf3/TGjqEGsBURtKzbcaW66/zULsi+lo
+ V1dktyuZEF7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.82,331,1613462400"; 
+   d="scan'208";a="397227641"
+Received: from lkp-server02.sh.intel.com (HELO 1ec8406c5392) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 26 May 2021 02:11:36 -0700
+Received: from kbuild by 1ec8406c5392 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1llpZf-000260-IM; Wed, 26 May 2021 09:11:35 +0000
+Date:   Wed, 26 May 2021 17:11:05 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     linux-input@vger.kernel.org
+Subject: [input:master] BUILD SUCCESS
+ fb082cd59afa7fbd3a610e9835050675040b1b99
+Message-ID: <60ae10a9.K/opn9tglCA19wwX%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20210526070345.31114-1-rdunlap@infradead.org>
-In-Reply-To: <20210526070345.31114-1-rdunlap@infradead.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 26 May 2021 09:20:18 +0200
-Message-ID: <CAMuHMdXdpzmFMSmM+8z9csZ094O5UG6nmAyTYYb=4TAmyUiSnw@mail.gmail.com>
-Subject: Re: [PATCH] MOUSE_ATARI: fix kconfig unmet dependency warning
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michael Schmitz <schmitz@debian.org>,
-        Roman Zippel <zippel@linux-m68k.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Randy,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
+branch HEAD: fb082cd59afa7fbd3a610e9835050675040b1b99  Input: resistive-adc-touch - add support for z1 and z2 channels
 
-On Wed, May 26, 2021 at 9:03 AM Randy Dunlap <rdunlap@infradead.org> wrote:
-> MOUSE_ATARI should depend on INPUT_KEYBOARD since ATARI_KBD_CORE
-> depends on INPUT_KEYBOARD. This prevents MOUSE_ATARI from
-> selecting ATARI_KBD_CORE when INPUT_KEYBOARD is not set/enabled.
->
-> WARNING: unmet direct dependencies detected for ATARI_KBD_CORE
->   Depends on [n]: !UML && INPUT [=y] && INPUT_KEYBOARD [=n]
->   Selected by [y]:
->   - MOUSE_ATARI [=y] && !UML && INPUT [=y] && INPUT_MOUSE [=y] && ATARI [=y]
->
-> Fixes: c04cb856e20a ("m68k: Atari keyboard and mouse support.")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+elapsed time: 724m
 
-Thanks for your patch!
+configs tested: 176
+configs skipped: 2
 
-> --- linux-next-20210525.orig/drivers/input/mouse/Kconfig
-> +++ linux-next-20210525/drivers/input/mouse/Kconfig
-> @@ -348,6 +348,7 @@ config MOUSE_AMIGA
->
->  config MOUSE_ATARI
->         tristate "Atari mouse"
-> +       depends on INPUT_KEYBOARD
->         depends on ATARI
->         select ATARI_KBD_CORE
->         help
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-It looks like arch/m68k/atari/atakeyb.c doesn't use anything from the
-input subsystem, so I think you can move the ATARI_KBD_CORE symbol
-outside the "if INPUT_KEYBOARD" section instead.
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arc                     haps_hs_smp_defconfig
+sh                           se7751_defconfig
+arm                           sunxi_defconfig
+powerpc                  mpc866_ads_defconfig
+mips                  maltasmvp_eva_defconfig
+powerpc                     tqm8548_defconfig
+powerpc                      ppc44x_defconfig
+sh                           se7780_defconfig
+arm                        spear3xx_defconfig
+powerpc                     tqm5200_defconfig
+sh                            titan_defconfig
+csky                                defconfig
+arm                       multi_v4t_defconfig
+mips                           ip22_defconfig
+m68k                             allyesconfig
+powerpc                     redwood_defconfig
+mips                        omega2p_defconfig
+arm                            xcep_defconfig
+i386                                defconfig
+powerpc                       eiger_defconfig
+powerpc                    ge_imp3a_defconfig
+um                               allmodconfig
+powerpc                     pq2fads_defconfig
+arm                         at91_dt_defconfig
+powerpc                       holly_defconfig
+sh                          rsk7269_defconfig
+sparc                            allyesconfig
+sh                         microdev_defconfig
+powerpc                        fsp2_defconfig
+arm                       netwinder_defconfig
+mips                  cavium_octeon_defconfig
+powerpc                    klondike_defconfig
+powerpc                 mpc832x_mds_defconfig
+mips                    maltaup_xpa_defconfig
+arm                         orion5x_defconfig
+mips                           ip28_defconfig
+mips                         db1xxx_defconfig
+xtensa                         virt_defconfig
+nios2                            alldefconfig
+arm                      jornada720_defconfig
+powerpc                     tqm8541_defconfig
+nds32                               defconfig
+powerpc                      obs600_defconfig
+powerpc64                           defconfig
+powerpc                      bamboo_defconfig
+mips                        bcm47xx_defconfig
+arm                         cm_x300_defconfig
+mips                          rm200_defconfig
+arm                            pleb_defconfig
+sparc64                             defconfig
+arm                           omap1_defconfig
+mips                         mpc30x_defconfig
+sh                           se7750_defconfig
+arc                        vdk_hs38_defconfig
+mips                      pic32mzda_defconfig
+csky                             alldefconfig
+sparc                       sparc32_defconfig
+sh                           se7343_defconfig
+sh                           se7619_defconfig
+sh                           se7206_defconfig
+arm                       cns3420vb_defconfig
+powerpc                     sequoia_defconfig
+s390                                defconfig
+arc                          axs101_defconfig
+sh                           se7724_defconfig
+powerpc               mpc834x_itxgp_defconfig
+parisc                generic-32bit_defconfig
+nios2                            allyesconfig
+arm                         lpc18xx_defconfig
+arm                            qcom_defconfig
+mips                      fuloong2e_defconfig
+sparc                       sparc64_defconfig
+m68k                        stmark2_defconfig
+riscv                    nommu_k210_defconfig
+alpha                            alldefconfig
+arc                    vdk_hs38_smp_defconfig
+m68k                        mvme147_defconfig
+microblaze                      mmu_defconfig
+arm                         nhk8815_defconfig
+powerpc                 mpc8272_ads_defconfig
+mips                          malta_defconfig
+powerpc                         wii_defconfig
+powerpc                      tqm8xx_defconfig
+um                               allyesconfig
+powerpc                   currituck_defconfig
+mips                          ath25_defconfig
+arm                        oxnas_v6_defconfig
+m68k                          hp300_defconfig
+s390                          debug_defconfig
+arm                       aspeed_g5_defconfig
+arc                            hsdk_defconfig
+mips                          rb532_defconfig
+arm                        trizeps4_defconfig
+x86_64                            allnoconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+s390                             allmodconfig
+parisc                           allyesconfig
+i386                             allyesconfig
+sparc                               defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a005-20210526
+x86_64               randconfig-a001-20210526
+x86_64               randconfig-a006-20210526
+x86_64               randconfig-a003-20210526
+x86_64               randconfig-a004-20210526
+x86_64               randconfig-a002-20210526
+i386                 randconfig-a001-20210525
+i386                 randconfig-a002-20210525
+i386                 randconfig-a005-20210525
+i386                 randconfig-a006-20210525
+i386                 randconfig-a003-20210525
+i386                 randconfig-a001-20210526
+i386                 randconfig-a002-20210526
+i386                 randconfig-a005-20210526
+i386                 randconfig-a004-20210526
+i386                 randconfig-a003-20210526
+i386                 randconfig-a006-20210526
+x86_64               randconfig-a014-20210525
+x86_64               randconfig-a016-20210525
+i386                 randconfig-a011-20210526
+i386                 randconfig-a016-20210526
+i386                 randconfig-a015-20210526
+i386                 randconfig-a012-20210526
+i386                 randconfig-a014-20210526
+i386                 randconfig-a013-20210526
+i386                 randconfig-a016-20210525
+i386                 randconfig-a011-20210525
+i386                 randconfig-a015-20210525
+i386                 randconfig-a012-20210525
+i386                 randconfig-a014-20210525
+i386                 randconfig-a013-20210525
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+um                                allnoconfig
+um                                  defconfig
+x86_64                           allyesconfig
+x86_64                    rhel-8.3-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                      rhel-8.3-kbuiltin
+x86_64                                  kexec
 
-Gr{oetje,eeting}s,
+clang tested configs:
+x86_64               randconfig-b001-20210526
+x86_64               randconfig-a013-20210526
+x86_64               randconfig-a012-20210526
+x86_64               randconfig-a014-20210526
+x86_64               randconfig-a016-20210526
+x86_64               randconfig-a015-20210526
+x86_64               randconfig-a011-20210526
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
