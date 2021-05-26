@@ -2,37 +2,44 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4426939154F
-	for <lists+linux-input@lfdr.de>; Wed, 26 May 2021 12:48:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33791391552
+	for <lists+linux-input@lfdr.de>; Wed, 26 May 2021 12:49:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234185AbhEZKtn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 May 2021 06:49:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54104 "EHLO mail.kernel.org"
+        id S234172AbhEZKuh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 May 2021 06:50:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54296 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234178AbhEZKtm (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 May 2021 06:49:42 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5B985610A8;
-        Wed, 26 May 2021 10:48:10 +0000 (UTC)
+        id S233959AbhEZKug (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 26 May 2021 06:50:36 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C143F610A8;
+        Wed, 26 May 2021 10:49:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1622026091;
-        bh=HCgkqlnwl/zSdIilasJBroxPUaXntN8wNt8TSfh69C0=;
+        s=k20201202; t=1622026145;
+        bh=TSSvNDUIoJTXJ/LJROSxxiw8o+OmuykYbaXrTyzuKis=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=iChGp/qFL9U4PWgNSe48GX1KM+Z4IFrKOD5qdXMb/WKYJfD/5kv0z4+FNGrn15hfo
-         YKAMa76g1BptETneV2WJClx7A9m+XuzilNYC9sBXFufFXr14etCdsD2JeCOxpDWy3t
-         gAyarHg9Svi7HxpVdCe28S6QOu7R2Dr96ZEjVl1OPBAPq+ZqCQcmuCb3lmteRfynfb
-         qlPv4hy6HsKQl9afF/vxC9OCpdS7O4v0A6jBmoj8+1lAlGrqdSJOstAFfDwSxYfO0R
-         8q+fGY9FUlSW57DLb6l8jilW9OlycFXOzLQ6iY7hZNKNPSGx/Uaq5cbxtWWlT1m8hB
-         SEln1UJeZswkA==
-Date:   Wed, 26 May 2021 12:48:08 +0200 (CEST)
+        b=D7TqMxxwmLrc1ZUcvLvWWEuIixbxveLpgPtE3SlJhz3FUUgn7Ub0e9p2OrH3K0qAM
+         OIMy/iASQ10VGqf1yZVOVbUUyG3cXLLh2IommX6TpqqeOETT1rke7bOyGr+WW1mRUA
+         /QRkR9WrQTuq/ohhBaVvZeEMjG2nsYaNPY8n7Wvefq1VcLey8ANj9lP8QQ6DT8C6Ji
+         OsBFS9LfCFFDrG4ldQgRo2M3WpvGgVE8lstMzE5rsbs0xenT6ODAL385E6pKW0udj3
+         urKmbszXyN0u2RCwPBd97Trf3gc822Us2GWXlQ+Vb5O9M8oxLj24wHbgDt4hV4Eu8R
+         B0xAfkYmaAhiw==
+Date:   Wed, 26 May 2021 12:49:00 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        Nehal-Bakulchandra.shah@amd.com, Sandeep.Singh@amd.com,
-        shyam-sundar.s-k@amd.com
-Subject: Re: [PATCH 0/2] General bug fixes to amd_sfh driver
-In-Reply-To: <20210512131156.740493-1-Basavaraj.Natikar@amd.com>
-Message-ID: <nycvar.YFH.7.76.2105261247560.28378@cbobk.fhfr.pm>
-References: <20210512131156.740493-1-Basavaraj.Natikar@amd.com>
+To:     Arnd Bergmann <arnd@kernel.org>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Julian Sax <jsbc@gmx.de>, Arnd Bergmann <arnd@arndb.de>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Xiaofei Tan <tanxiaofei@huawei.com>,
+        Coiby Xu <coiby.xu@gmail.com>, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: Re: [PATCH] HID: i2c-hid: fix format string mismatch
+In-Reply-To: <20210514135901.2924982-1-arnd@kernel.org>
+Message-ID: <nycvar.YFH.7.76.2105261248530.28378@cbobk.fhfr.pm>
+References: <20210514135901.2924982-1-arnd@kernel.org>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -40,26 +47,25 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 12 May 2021, Basavaraj Natikar wrote:
+On Fri, 14 May 2021, Arnd Bergmann wrote:
 
-> The allocations which are required lifetime of amd_sfh driver is
-> changed from kzalloc with devm_kzalloc. This cleans up an exit & error
-> paths, since the objects does not need to be explicitly freed anymore.
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> amd_sfh driver with kernel memory detector config enabled. kmemleak
-> (/sys/kernel/debug/kmemleak): suspected memory leaks in amd_sfh driver.
-> So added a kfree which frees request_list entry once the processed entry
-> is removed from the request_list.
+> clang doesn't like printing a 32-bit integer using %hX format string:
 > 
-> Basavaraj Natikar (2):
->   amd_sfh: Use devm_kzalloc() instead of kzalloc()
->   amd_sfh: Fix memory leak in amd_sfh_work
+> drivers/hid/i2c-hid/i2c-hid-core.c:994:18: error: format specifies type 'unsigned short' but the argument has type '__u32' (aka 'unsigned int') [-Werror,-Wformat]
+>                  client->name, hid->vendor, hid->product);
+>                                ^~~~~~~~~~~
+> drivers/hid/i2c-hid/i2c-hid-core.c:994:31: error: format specifies type 'unsigned short' but the argument has type '__u32' (aka 'unsigned int') [-Werror,-Wformat]
+>                  client->name, hid->vendor, hid->product);
+>                                             ^~~~~~~~~~~~
 > 
->  drivers/hid/amd-sfh-hid/amd_sfh_client.c | 19 ++++++++++---------
->  drivers/hid/amd-sfh-hid/amd_sfh_hid.c    |  3 ---
->  2 files changed, 10 insertions(+), 12 deletions(-)
+> Use an explicit cast to truncate it to the low 16 bits instead.
+> 
+> Fixes: 9ee3e06610fd ("HID: i2c-hid: override HID descriptors for certain devices")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Queued in for-5.13/upstream-fixes, thank you.
+Applied, thanks Arnd.
 
 -- 
 Jiri Kosina
