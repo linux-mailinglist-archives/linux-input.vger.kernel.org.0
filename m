@@ -2,87 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AA8F391D8E
-	for <lists+linux-input@lfdr.de>; Wed, 26 May 2021 19:08:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1821D3920B4
+	for <lists+linux-input@lfdr.de>; Wed, 26 May 2021 21:16:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234038AbhEZRKC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 May 2021 13:10:02 -0400
-Received: from confino.investici.org ([212.103.72.250]:32041 "EHLO
-        confino.investici.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233955AbhEZRKB (ORCPT
+        id S233167AbhEZTSA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 May 2021 15:18:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42682 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232696AbhEZTR6 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 May 2021 13:10:01 -0400
-X-Greylist: delayed 419 seconds by postgrey-1.27 at vger.kernel.org; Wed, 26 May 2021 13:10:01 EDT
-Received: from mx1.investici.org (unknown [127.0.0.1])
-        by confino.investici.org (Postfix) with ESMTP id 4Fqy094hb5z10vC
-        for <linux-input@vger.kernel.org>; Wed, 26 May 2021 17:01:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=autistici.org;
-        s=stigmate; t=1622048489;
-        bh=bLruLpmQOuAMRBQjh4mfDVoQQZmjHxD5mSXlyddpj+Y=;
-        h=From:To:Subject:Date:From;
-        b=OV+Q6DsZtSSa2WFieOJ9q1SEuuPUKxmNE6bPlmrYFxqyDCfznbeMC2aW0f18eLGOv
-         Kci0+g9uGcqP4QNj/Xn41RZbPISL2FACXj7hnMVmyN8k631iVLc7VJ73HRpRlxLt+2
-         UD9Hrn88V56qWxofNuOQ7BIHy8o4EDElM9SPGCDw=
-Received: from [212.103.72.250] (mx1.investici.org [212.103.72.250]) (Authenticated sender: andrea.monaco@autistici.org) by localhost (Postfix) with ESMTPSA id 4Fqy093zHGz10v7
-        for <linux-input@vger.kernel.org>; Wed, 26 May 2021 17:01:29 +0000 (UTC)
-From:   "Andrea G. Monaco" <andrea.monaco@autistici.org>
-To:     linux-input@vger.kernel.org
-Subject: Acer laptop, SYN1B7F Synaptics touchpad gets wild sometimes
-Date:   Wed, 26 May 2021 19:01:28 +0200
-Message-ID: <87mtshfmzb.fsf@autistici.org>
+        Wed, 26 May 2021 15:17:58 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B5A6C061574;
+        Wed, 26 May 2021 12:16:25 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id pi6-20020a17090b1e46b029015cec51d7cdso918158pjb.5;
+        Wed, 26 May 2021 12:16:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=lmnkLjzK/JbRrZ85h2/Oaot1KsIjWqq+/RKIMUx5aaU=;
+        b=EwaEhuNvSUrjiDB+n5d5E0luNIoihEH7O1+n2FYb9WywNMGPvzNdtfTMyEAtG2a3ZB
+         uCXKKqLvJ6P+nxTc7p9/BRggRgeaFrCgCM4XOl5Aos8F9i1Omd+5PtNfq1AX0efkvfDn
+         fCrZ2IjAY0zfm8Yf+XOlqmRczrtfMMWMuJNQ4aWcRxJBc3bhmdZvaWgFGIJpEidnoZX3
+         3E7fWTq2RpNw0NCC0Ve4P07Y90vsP9YUNdWTIER0Gt/1Nv6apraPx711kBSJ+mNlNK+k
+         ihO/TmO4x1lGzjCe3L0rvdYDMU+6d4okyIjKH7ytG8i0telgv4LcGG9QYZGHZa1JsYYZ
+         h5ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=lmnkLjzK/JbRrZ85h2/Oaot1KsIjWqq+/RKIMUx5aaU=;
+        b=dOWOIlQQHwlh0I/RNQu8x/Ouhq2DUlmQxIGOY58/bsTkPiJR6TUgLwYM0NFGddCIoJ
+         VCnExNUjnsUWBt3dFQm2zMwZqsCyqXgHYrSnN0BzL7uXz5nUsgb6GDzvmtePBNrPQq5f
+         xi0K5QzmigKeyr2zl3iEFeseZw+OE1dbpYrzz9h5RKYfrXfLIKhcZObJb0Gh7PeYcJjv
+         Ft7eZmre9gUh5HDegrE8UMusAQvYe2I6gnACnNdRm+svQZ1pWTgxuXasGsbhGUd7itcl
+         jifdXQsDZrDy6xTQnOFfFuvsTArYbL47WMQ6FtqDZbnkREEtzZSZkG1hf9hWW5UKvSXZ
+         1p/w==
+X-Gm-Message-State: AOAM5313mDGFQehdZij+XIwKy6J22FWNXcY8gySbvFVP35NiRlW/5z9A
+        bKIoUrOptT11BFKPrKCDm/BpecYY24s=
+X-Google-Smtp-Source: ABdhPJzluiegAaZdsK1CnyKwh5S3OzYmcO6JztdsGAouGGDaemY2eupq30RWhUFmOTdmGZQsvP4KTg==
+X-Received: by 2002:a17:90a:17e7:: with SMTP id q94mr36946273pja.117.1622056584534;
+        Wed, 26 May 2021 12:16:24 -0700 (PDT)
+Received: from ?IPv6:2001:df0:0:200c:c104:b5ae:a3c1:6470? ([2001:df0:0:200c:c104:b5ae:a3c1:6470])
+        by smtp.gmail.com with ESMTPSA id y13sm128878pgp.16.2021.05.26.12.16.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 26 May 2021 12:16:23 -0700 (PDT)
+Subject: Re: [PATCH] MOUSE_ATARI: fix kconfig unmet dependency warning
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Michael Schmitz <schmitz@debian.org>,
+        Roman Zippel <zippel@linux-m68k.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+References: <20210526070345.31114-1-rdunlap@infradead.org>
+From:   Michael Schmitz <schmitzmic@gmail.com>
+Message-ID: <662f3b08-0f28-eda8-82a3-7d29b6474a47@gmail.com>
+Date:   Thu, 27 May 2021 07:16:18 +1200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20210526070345.31114-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+Randy,
 
-Hello,
+On 26/05/21 7:03 pm, Randy Dunlap wrote:
+> MOUSE_ATARI should depend on INPUT_KEYBOARD since ATARI_KBD_CORE
+> depends on INPUT_KEYBOARD. This prevents MOUSE_ATARI from
+> selecting ATARI_KBD_CORE when INPUT_KEYBOARD is not set/enabled.
 
+Right you are! Thanks for spotting this.
 
-on Acer laptop, my SYN1B7F Synaptics touchpad quite often starts acting
-wild, moving and clicking and scrolling on its own. It uses HID over I2C
-interface. The kernel is 4.19.0 on Debian.
+Reviewed-by: Michael Schmitz <schmitzmic@gmail.com>
 
-
-This is an example of the evtest output in those moments, while I didn't
-touch the pad at all:
-
-
-Event: time 1622047857.609072, type 4 (EV_MSC), code 5 (MSC_TIMESTAMP), value 42932700
-Event: time 1622047857.609072, -------------- SYN_REPORT ------------
-Event: time 1622047857.616372, type 4 (EV_MSC), code 5 (MSC_TIMESTAMP), value 42939900
-Event: time 1622047857.616372, -------------- SYN_REPORT ------------
-Event: time 1622047857.623630, type 4 (EV_MSC), code 5 (MSC_TIMESTAMP), value 42947100
-Event: time 1622047857.623630, -------------- SYN_REPORT ------------
-Event: time 1622047857.630933, type 4 (EV_MSC), code 5 (MSC_TIMESTAMP), value 42954300
-Event: time 1622047857.630933, -------------- SYN_REPORT ------------
-Event: time 1622047857.638218, type 4 (EV_MSC), code 5 (MSC_TIMESTAMP), value 42961500
-Event: time 1622047857.638218, -------------- SYN_REPORT ------------
-Event: time 1622047857.645786, type 3 (EV_ABS), code 53 (ABS_MT_POSITION_X), value 489
-Event: time 1622047857.645786, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y), value 215
-Event: time 1622047857.645786, type 3 (EV_ABS), code 0 (ABS_X), value 489
-Event: time 1622047857.645786, type 3 (EV_ABS), code 1 (ABS_Y), value 215
-Event: time 1622047857.645786, type 4 (EV_MSC), code 5 (MSC_TIMESTAMP), value 42968700
-Event: time 1622047857.645786, -------------- SYN_REPORT ------------
-Event: time 1622047857.653065, type 4 (EV_MSC), code 5 (MSC_TIMESTAMP), value 42975900
-Event: time 1622047857.653065, -------------- SYN_REPORT ------------
-Event: time 1622047857.660063, type 3 (EV_ABS), code 53 (ABS_MT_POSITION_X), value 498
-Event: time 1622047857.660063, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y), value 181
-Event: time 1622047857.660063, type 3 (EV_ABS), code 0 (ABS_X), value 498
-Event: time 1622047857.660063, type 3 (EV_ABS), code 1 (ABS_Y), value 181
-Event: time 1622047857.660063, type 4 (EV_MSC), code 5 (MSC_TIMESTAMP), value 42983100
-Event: time 1622047857.660063, -------------- SYN_REPORT ------------
-Event: time 1622047857.667358, type 3 (EV_ABS), code 54 (ABS_MT_POSITION_Y), value 182
-Event: time 1622047857.667358, type 3 (EV_ABS), code 1 (ABS_Y), value 182
-Event: time 1622047857.667358, type 4 (EV_MSC), code 5 (MSC_TIMESTAMP), value 42990300
-Event: time 1622047857.667358, -------------- SYN_REPORT ------------
-
-
-I also noted that lots of those lonely MSC_TIMESTAMPs get emitted when
-the touchpad works fine too. Is this expected behavior?
-
-
-I would appreciate any pointer or feedback to help me work on it.
-
-Andrea Monaco
+>
+> WARNING: unmet direct dependencies detected for ATARI_KBD_CORE
+>    Depends on [n]: !UML && INPUT [=y] && INPUT_KEYBOARD [=n]
+>    Selected by [y]:
+>    - MOUSE_ATARI [=y] && !UML && INPUT [=y] && INPUT_MOUSE [=y] && ATARI [=y]
+>
+> Fixes: c04cb856e20a ("m68k: Atari keyboard and mouse support.")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Michael Schmitz <schmitz@debian.org>
+> Cc: Roman Zippel <zippel@linux-m68k.org>
+> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: linux-input@vger.kernel.org
+> ---
+>   drivers/input/mouse/Kconfig |    1 +
+>   1 file changed, 1 insertion(+)
+>
+> --- linux-next-20210525.orig/drivers/input/mouse/Kconfig
+> +++ linux-next-20210525/drivers/input/mouse/Kconfig
+> @@ -348,6 +348,7 @@ config MOUSE_AMIGA
+>   
+>   config MOUSE_ATARI
+>   	tristate "Atari mouse"
+> +	depends on INPUT_KEYBOARD
+>   	depends on ATARI
+>   	select ATARI_KBD_CORE
+>   	help
