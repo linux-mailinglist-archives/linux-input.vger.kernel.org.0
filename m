@@ -2,56 +2,56 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3F20391D24
-	for <lists+linux-input@lfdr.de>; Wed, 26 May 2021 18:36:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 640C7391D25
+	for <lists+linux-input@lfdr.de>; Wed, 26 May 2021 18:36:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231968AbhEZQiA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 May 2021 12:38:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36213 "EHLO
+        id S234464AbhEZQiG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 May 2021 12:38:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53076 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234445AbhEZQiA (ORCPT
+        by vger.kernel.org with ESMTP id S234445AbhEZQiD (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 May 2021 12:38:00 -0400
+        Wed, 26 May 2021 12:38:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1622046987;
+        s=mimecast20190719; t=1622046991;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
         bh=9S7K5mCRRWIkeYI1MIav6MV57dgu0jXBjA3giCneipo=;
-        b=RMhhOBnOyF5beVjdHH6EUvGz1UJ1dIvwlplAO8zTX4xZmqyswRHNSP0HK3aDlqsep4ZzSI
-        Z7JUmjqQP+xqAl22rlTjLNSwopy85VLTFygfqfpct4dGjTFWe+S7Qw8KZTzVhix1N4U9G9
-        mrk1vi7MnPvuWto6JpzGgpkHJyJTtw0=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-vv3ZUlI9Nxy5QyGNsYp1pQ-1; Wed, 26 May 2021 12:36:24 -0400
-X-MC-Unique: vv3ZUlI9Nxy5QyGNsYp1pQ-1
-Received: by mail-ej1-f69.google.com with SMTP id p18-20020a1709067852b02903dab2a3e1easo609141ejm.17
-        for <linux-input@vger.kernel.org>; Wed, 26 May 2021 09:36:24 -0700 (PDT)
+        b=ZCRr+ahIeTZOIJXVvJxjaQqk5kCUGU7S5/MUtD6sHUY6KQMMjkqB5cYP9GGDOVq1bFHB2A
+        hMAud+S8UHMJ0Yec9OHiAFwCbp/TSEXqy/CIfGpEtVnAp8HeFa5MYJoZWWK1EuBjLGfhh3
+        PXr7P6O5dykPWfYam51dG7ehEnCjvNc=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-512-v5sdkvbNOjaBtoaGVDoSbQ-1; Wed, 26 May 2021 12:36:29 -0400
+X-MC-Unique: v5sdkvbNOjaBtoaGVDoSbQ-1
+Received: by mail-ej1-f70.google.com with SMTP id p18-20020a1709067852b02903dab2a3e1easo609224ejm.17
+        for <linux-input@vger.kernel.org>; Wed, 26 May 2021 09:36:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
         bh=9S7K5mCRRWIkeYI1MIav6MV57dgu0jXBjA3giCneipo=;
-        b=RLFOzPptXAN/IlVUGRE+r2ED8pcQP8qz9jeGqNUNmlAADbThWFpvTB63c3H2NnqOGN
-         VWL6Rzkbje0JipLou966Q+wod+u3YxX1YobrxAWsuGHNLwNSXFDyS/nufsaKcjsqszqH
-         0pCcw7vPdzK1z1gu/nJmorxtmNbl4p4fj7++9SB7+RJsqjWxwqFqZNStR2DYEYZMOQbR
-         A8CVUbZz5cluyUSC+srV72Ru1o8Gc6SY5r87BPAAIpfJAl+0g3L+Josfi5VuANhs73DC
-         fy5Y7eHOCja/ysz9a6fpKus+5UTOZ574CkkZYo5Ehi6gqHAftidK8q39+x2SQLnwIORK
-         SVQA==
-X-Gm-Message-State: AOAM533RW3Fy+UwOHwbK58C3Z2lthQD0gmENzbQEbzG74vGAqgWCGuWt
-        KfkTVt5zD+YPMw30Yu2AFKsBDYo9t4zXn9RnQbBXpDlcOP9+3iKdOFNsoxvsM8CmbJJa1vy4sJE
-        K6EqRSEuRoHL3Mtf80gqRJbM=
-X-Received: by 2002:aa7:d48f:: with SMTP id b15mr11297050edr.110.1622046983402;
-        Wed, 26 May 2021 09:36:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzqUsg45P9hVX4+Mzs2jqi+wmu5RoHGMs4kr9YjqFX4TdvrB5ULImPIpxNf2R/868R6Lo46JA==
-X-Received: by 2002:aa7:d48f:: with SMTP id b15mr11297032edr.110.1622046983220;
-        Wed, 26 May 2021 09:36:23 -0700 (PDT)
+        b=SaCqVGe+YQ3EY4wIIjjwtf9SZSN96AqBAe4RH4QBbHYUtli4/ynOtirFy0djh4aaXb
+         iaDbB8goWxmerW9OGqB7oE0Owiyp8nzqMLKxK/HGTsQzOOLtZZ607+II+o3ZlB1bkvqY
+         vhFygSMV0BePjTIszbrQEWeVh0UMaysjPA+f0wcIJSzdtORCRpg6UOiwXPd3rJgeFJS3
+         dlrD+79YK6N6KbqHbGH1EDCXP2ka1h0rYv2qnvnW+U5rSHGf2DJYfxIfRuEQ67j/SnrZ
+         wv92M/j22ZVX2E792A6ctWwy8maZJ7CaM7Xvn+87V+Ttd2nLrznAApIxOYryq1PRWyeo
+         aVQA==
+X-Gm-Message-State: AOAM532atvpU7mdOm+wdQW8o+dc8YfcFXdG0uyQi1FfX6rLskrStGnxP
+        p8C1s9NMlXudJUpm+SayXOwV75iBMspoHjhaxA14KtbYejj3rZMOElPdof5WGwGrL14uJcj/kk7
+        WrpmiedazfIZ9TGNllCUh6JY=
+X-Received: by 2002:aa7:d3c8:: with SMTP id o8mr38288328edr.181.1622046987613;
+        Wed, 26 May 2021 09:36:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzxG5nUS2tzeLfF/ko31Zkoj4J6s1xJp6pCkVxc5Tlev7KvdVW88txGwzPXfF8BZRUVPKrMlQ==
+X-Received: by 2002:aa7:d3c8:: with SMTP id o8mr38288313edr.181.1622046987451;
+        Wed, 26 May 2021 09:36:27 -0700 (PDT)
 Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id k2sm2204657ejx.98.2021.05.26.09.36.22
+        by smtp.gmail.com with ESMTPSA id n8sm10494884ejl.0.2021.05.26.09.36.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 May 2021 09:36:22 -0700 (PDT)
+        Wed, 26 May 2021 09:36:27 -0700 (PDT)
 Subject: Re: [hid:for-5.13/upstream-fixes 3/17] undefined reference to
  `usb_hid_driver'
 To:     kernel test robot <lkp@intel.com>
@@ -59,8 +59,8 @@ Cc:     kbuild-all@lists.01.org, linux-input@vger.kernel.org,
         Jiri Kosina <jkosina@suse.cz>
 References: <202105262320.BAmXkxUd-lkp@intel.com>
 From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <384d160b-5cf2-e5e6-8976-a0919ddfed80@redhat.com>
-Date:   Wed, 26 May 2021 18:36:21 +0200
+Message-ID: <963aa6e9-bf3d-8f2b-bf8f-b7d3fac4f05d@redhat.com>
+Date:   Wed, 26 May 2021 18:36:26 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
