@@ -2,52 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C9DDF390E87
-	for <lists+linux-input@lfdr.de>; Wed, 26 May 2021 04:55:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C3F8390EA7
+	for <lists+linux-input@lfdr.de>; Wed, 26 May 2021 05:07:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230075AbhEZC5M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 25 May 2021 22:57:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45358 "EHLO
+        id S230194AbhEZDIo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 25 May 2021 23:08:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229750AbhEZC5L (ORCPT
+        with ESMTP id S230075AbhEZDIo (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 25 May 2021 22:57:11 -0400
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96CDDC061574
-        for <linux-input@vger.kernel.org>; Tue, 25 May 2021 19:55:39 -0700 (PDT)
-Received: by mail-pl1-x62d.google.com with SMTP id 69so17397706plc.5
-        for <linux-input@vger.kernel.org>; Tue, 25 May 2021 19:55:39 -0700 (PDT)
+        Tue, 25 May 2021 23:08:44 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BD16C061574
+        for <linux-input@vger.kernel.org>; Tue, 25 May 2021 20:07:13 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id x188so25150810pfd.7
+        for <linux-input@vger.kernel.org>; Tue, 25 May 2021 20:07:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=raydium-corp-partner-google-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=1jpht/8/Fp8Mx3c3AAcQfzzXctquL9RKvRYq4W50Glk=;
-        b=qD4/Z8QL6XmCTIQTnjLal+ZiPbGmxQoBXWr2mLxGLzZrp0Gx1AksVsG9vkOIDI0OS8
-         wylbQctflsyF492Zl8v1C6sa7z2TpAtigtO77JL00OvElWO5otj1TAyF7hT/7EDcuDSh
-         JO1Q/b0bka0JXpWI6JE52QMFhbZJx1055beuX5uo3JhEFtA5rwr6XEBN15BaVJQXqvYM
-         eoe1XMGIJ29sf2xjQFeeZ2SGYAnGvxiQQLuBNf8ydZOmGKfFRJO6pYysNSI1g+WtWXEW
-         nD1WHb4/bMFWRqu/cimpOWl6PLY+CuHm0UkIpk86J5iECpUxw48CtwZIfibQu46hzzxD
-         xVkA==
+        bh=OVaWv7rah9ME2kXB5zbarT4yDB4K5xEKSyGiKfO3Qq8=;
+        b=mEjfgml+NNKprzdyyyUzWkkBkUx4YNuwQIBsfKg1QPsaAreU21vnEO0NG8TE1/FTP5
+         AJFDbPQSvglWfWq9NkfblP5QYUqnupPkqucR+Mn6uRaeyYIH6GmwEbUjPIFqhEbdLGf9
+         syzEHVJKhN8qrrisbY4Zp6haKA71UUp7+0xXJc9KmgiCz17uhuzsWW4GJ3O8CZXpMEYT
+         TAxvZi0oN2iOWnGsFKObrMJ8Swg4w0y0O5zIV2SO+h+oxGqsgt4DjvWDZtiAIGvqDi5u
+         ptXS2oqMwdJb5EXaP8NSka4J2yQnSwsYQZm51p2Yy17JHAtSSL6XrURCheevGgm/r6m8
+         Op3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=1jpht/8/Fp8Mx3c3AAcQfzzXctquL9RKvRYq4W50Glk=;
-        b=AhB73rD8bJsSaGv7pelBsQnb6qvk6sEzE8czYij3841Lsvjzx+ydmeVRmaBTD5vCX4
-         sR5lWXBWLs+a6lFZu3QPrSqtce1PSw1xb/G9/oW5ZiPnabw36w0vjAs657P6YRQebCk9
-         xYObAPtrd/Tq6hP5ovecdHUEwNUp48gXIFr+/MWDw5nLmNj1CF3NgTvLiAGYrY4q97V1
-         zTQrdiUhUT0DWBftwsEMkLy12W77U8KWsLwuX/zALM4suEwzYuxfc6zHoBI2PTNXPZ6W
-         1IUKZBkg+2/cBsjMgeg7dRBpQ52zrcMI9iu78F1g+F8/MQVmyt+iRG53xky0N13MxHVZ
-         +RhA==
-X-Gm-Message-State: AOAM5308pJMmxPoU5h3ZxmNFkW+xSQfCPvB6MJQWa0sgLd6usDwok7Ab
-        +o1Z2MZmDC0VqcvGgbNlP0orYw==
-X-Google-Smtp-Source: ABdhPJxmqAXINvTiCite1x13thKZcCPdQcEsdY+IlRaknEy+Lx1IUA5Gs8kWOMYLPnjcR2vtubhGoA==
-X-Received: by 2002:a17:90a:6f06:: with SMTP id d6mr33857771pjk.216.1621997738984;
-        Tue, 25 May 2021 19:55:38 -0700 (PDT)
+        bh=OVaWv7rah9ME2kXB5zbarT4yDB4K5xEKSyGiKfO3Qq8=;
+        b=si8vMxTAqkq4YUdrOfNM+0DMa9pPbufC/DqiWdOb1BC6z5TxaTqtIXgDR5wirGHAPe
+         eEVIHdDCqv0lSPVnhjye2buyPqTv2mi9k4sXJOTwsK1f1M5MRAuCC2UTGonEmCOdysrK
+         X7GZVpXL8/fFfG3+pf1PBBScxSrTQEyqdfDxgouiK/tegbF1O7hpu3MvuvAJh/ndETm4
+         MIooExCZA8jg/wM+rFeHxeot1H1c4Htkt8a0A+3e/DagmFvHOzcyJs90QxsNieK172w3
+         BcHWzCDMqyM9hVplb21oP/l4pfrk/8QeWVj9qR97dLRF7pwpz8kv6ZxfPvIrBNjPVXU1
+         3pyg==
+X-Gm-Message-State: AOAM532o3ZojiAyRuJ4QsajEdfxCn5sl5IykF7G1Awu1bHgMR0XlyFod
+        Jk/hYyZwwu/vAhaKIkAdU/wR2g==
+X-Google-Smtp-Source: ABdhPJwPIUdQAfIrUprU6C1NzHtqnTl7YGli1bhK3pyoAVCmW43IYoRr47JFqbzwSMaLnUtgNiejxA==
+X-Received: by 2002:a63:e114:: with SMTP id z20mr22365187pgh.207.1621998432900;
+        Tue, 25 May 2021 20:07:12 -0700 (PDT)
 Received: from localhost.localdomain ([2402:7500:47b:3de6:ff1b:1098:9398:7094])
-        by smtp.gmail.com with ESMTPSA id c191sm14658641pfc.94.2021.05.25.19.55.36
+        by smtp.gmail.com with ESMTPSA id o7sm16099266pgs.45.2021.05.25.20.07.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 May 2021 19:55:38 -0700 (PDT)
+        Tue, 25 May 2021 20:07:12 -0700 (PDT)
 From:   "simba.hsu" <simba.hsu@raydium.corp-partner.google.com>
 X-Google-Original-From: "simba.hsu" <simba.hsu@rad-ic.com>
 To:     dmitry.torokhov@gmail.com, simba.hsu@rad-ic.com,
@@ -55,9 +55,9 @@ To:     dmitry.torokhov@gmail.com, simba.hsu@rad-ic.com,
         adurbin@chromium.org
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         KP.li@rad-ic.com, jeffrey.lin@rad-ic.com
-Subject: [PATCH] driver:input:touchscreen: improve the mechanism of auto-update
-Date:   Wed, 26 May 2021 10:53:54 +0800
-Message-Id: <20210526025354.22455-1-simba.hsu@rad-ic.com>
+Subject: [PATCH] Input:raydium_i2c_ts - improve the mechanism of auto-update
+Date:   Wed, 26 May 2021 11:06:51 +0800
+Message-Id: <20210526030651.22760-1-simba.hsu@rad-ic.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -67,8 +67,8 @@ X-Mailing-List: linux-input@vger.kernel.org
 
 Once auto-update has been interrupted, touch IC will be stuck in
 recovery mode forever and it will lead to touch malfunction.
-This patch makes auto-update available when touch IC is in
-recovery mode to avoid touch malfunction
+This patch maskes auto-update available when touch IC is in
+recovery mode to avoid touch malfunction.
 
 Signed-off-by: simba.hsu <simba.hsu@rad-ic.com>
 ---
