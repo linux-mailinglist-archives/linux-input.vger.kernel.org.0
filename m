@@ -2,78 +2,83 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B4BA39210B
-	for <lists+linux-input@lfdr.de>; Wed, 26 May 2021 21:43:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85F7F39215F
+	for <lists+linux-input@lfdr.de>; Wed, 26 May 2021 22:19:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234141AbhEZTok (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 May 2021 15:44:40 -0400
-Received: from mx2.suse.de ([195.135.220.15]:38650 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231924AbhEZToj (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 May 2021 15:44:39 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1622058186; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=PDr39Ej3qpXf1ztiFP8D4NcikT1U25GcUHsEX5q8P2Q=;
-        b=WPdW5C/mFutCugh4ULAVqQeh1IXJQuKMdVt3cTawXj10HXFKTrDkv792PMVP0fAK1ojyzl
-        gG33wErSQyJV8r9Jd85lwcv9DonJRw35MvSX7rEfWuo3pGm92OdWg4fkj7B00OdNObmiOP
-        YK5VtRXqU7jSMGIvFWX5IKVsOzvd2dc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1622058186;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=PDr39Ej3qpXf1ztiFP8D4NcikT1U25GcUHsEX5q8P2Q=;
-        b=Dyko30elgdOA/4/L7YoOPCqGxB6ndErjplaeRLXsmTx5HZrpcACU52cDNXzqXCUJ9a4+jD
-        lsWQvn1c3xQuRQDA==
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 4196BAB71;
-        Wed, 26 May 2021 19:43:06 +0000 (UTC)
-From:   Takashi Iwai <tiwai@suse.de>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+        id S234215AbhEZUV3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 May 2021 16:21:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57062 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233683AbhEZUV2 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 26 May 2021 16:21:28 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56C16C061574;
+        Wed, 26 May 2021 13:19:55 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id f22so1900428pgb.9;
+        Wed, 26 May 2021 13:19:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=lTaZiSjHTYTfLBHw5KYDWGju9wq7Uxw21u2vrmX0bvQ=;
+        b=ucgC07yjyCuw/DuoBl3D5TOpZELZZziy2tecqB2NV+JF1VR6wza2xYWRoDEpf99NbV
+         YFtcpqGiIsBDwTuxuYyX7lBj0Zrlvtj3PLfouybsA4/+VbR27IPj0dD0JNCgQ1Z3NagO
+         k+Ws3MviqWhp8GKt+7z/6slw3Nw6nlTHMPqUMeQWC9cyGaHmTDBu0G2dbuSp7lBu2dHI
+         Codjh7G1QDHKRTInQoAtyS51Iy10g8mdSuzDBbD9x40yp+gK/WxlHAaI9zEyTVqaQBTK
+         s4H0AhnuUIArt7PCoaFuObcDAj+8l++kikY2EzTTib9LApw9m0L58ZLH1JUZ1EwCJtvc
+         dP3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=lTaZiSjHTYTfLBHw5KYDWGju9wq7Uxw21u2vrmX0bvQ=;
+        b=k+CvBSUblSsi2R+xwyYKISdbgEGE4XMIuYYMX0U1PKheDC7sfeXJXAKqmjxulzPqRM
+         nu9HNgI2C624mdTm4EJE6NDSOColqouzzUYECU05Xp767sgLyqGz/xQu29sEsD3mf7CY
+         RPVs1gEgfrQslbb6CqtvLAGuXezoYhjwIG2rMAhVgsvgnciseoYEmkDgKIEqIYUnPSRc
+         zhH3/zZgF9VRqRMNOz94O6MdLyjFzV+yS1Tn9zEODjeejS6+Nk+CTQNb+tx0/yK5MKNI
+         nj6zlOnQYdnyBj3yya1cpFSylzvX+8/kEekWQLFAas+boQeEV1AfSIfvzsALoWNy/5WH
+         /fgQ==
+X-Gm-Message-State: AOAM532zFZVCflMdaTGmqDltQ876nqxmsX2Y5Wr196MkrL1bXOwtYiJ9
+        KxW0MUcjufhK8uBgRdOxnyY=
+X-Google-Smtp-Source: ABdhPJxVoGyB4misgrEphjTViOIytDe6a29L9584OK26YgihQux54kY6mI9t4UGMCgO9oyknUmP0CA==
+X-Received: by 2002:a63:2dc4:: with SMTP id t187mr241278pgt.80.1622060394761;
+        Wed, 26 May 2021 13:19:54 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:bf6f:1c57:1da9:bcbb])
+        by smtp.gmail.com with ESMTPSA id y13sm197351pgp.16.2021.05.26.13.19.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 May 2021 13:19:53 -0700 (PDT)
+Date:   Wed, 26 May 2021 13:19:51 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Takashi Iwai <tiwai@suse.de>
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         stable@vger.kernel.org
-Subject: [PATCH] Input: elants_i2c - Fix NULL dereference at probing
-Date:   Wed, 26 May 2021 21:43:01 +0200
-Message-Id: <20210526194301.28780-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.26.2
+Subject: Re: [PATCH] Input: elants_i2c - Fix NULL dereference at probing
+Message-ID: <YK6tZy3E/XZpOAbh@google.com>
+References: <20210526194301.28780-1-tiwai@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210526194301.28780-1-tiwai@suse.de>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The recent change in elants_i2c driver to support more chips
-introduced a regression leading to Oops at probing.  The driver reads
-id->driver_data, but the id may be NULL depending on the device type
-the driver gets bound.
+Hi Takashi,
 
-Add a NULL check and falls back to the default EKTH3500.
+On Wed, May 26, 2021 at 09:43:01PM +0200, Takashi Iwai wrote:
+> The recent change in elants_i2c driver to support more chips
+> introduced a regression leading to Oops at probing.  The driver reads
+> id->driver_data, but the id may be NULL depending on the device type
+> the driver gets bound.
+> 
+> Add a NULL check and falls back to the default EKTH3500.
 
-Fixes: 9517b95bdc46 ("Input: elants_i2c - add support for eKTF3624")
-BugLink: https://bugzilla.suse.com/show_bug.cgi?id=1186454
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- drivers/input/touchscreen/elants_i2c.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Thank you for the patch. I think my preference would be to switch to
+device_get_match_data() and annotate the rest of the match tables with
+proper controller types.
 
-diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
-index 17540bdb1eaf..172a6951cead 100644
---- a/drivers/input/touchscreen/elants_i2c.c
-+++ b/drivers/input/touchscreen/elants_i2c.c
-@@ -1396,7 +1396,10 @@ static int elants_i2c_probe(struct i2c_client *client,
- 	init_completion(&ts->cmd_done);
- 
- 	ts->client = client;
--	ts->chip_id = (enum elants_chip_id)id->driver_data;
-+	if (id)
-+		ts->chip_id = (enum elants_chip_id)id->driver_data;
-+	else
-+		ts->chip_id = EKTH3500;
- 	i2c_set_clientdata(client, ts);
- 
- 	ts->vcc33 = devm_regulator_get(&client->dev, "vcc33");
+Thanks!
+
 -- 
-2.26.2
-
+Dmitry
