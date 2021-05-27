@@ -2,220 +2,98 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC0D1392DD0
-	for <lists+linux-input@lfdr.de>; Thu, 27 May 2021 14:17:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9441C392FEE
+	for <lists+linux-input@lfdr.de>; Thu, 27 May 2021 15:41:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234797AbhE0MTR (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 May 2021 08:19:17 -0400
-Received: from mga01.intel.com ([192.55.52.88]:36624 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234091AbhE0MTR (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 May 2021 08:19:17 -0400
-IronPort-SDR: Dw3I5Ai7nbahOwCqIkbPTljTL5j1esHuCU2G2nm02EXw5YK+/ASZQRAk98gnDtKRNIs3krTPv7
- zgUmeKeYTJAQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,9996"; a="223921201"
-X-IronPort-AV: E=Sophos;i="5.82,334,1613462400"; 
-   d="scan'208";a="223921201"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2021 05:17:28 -0700
-IronPort-SDR: 21MWuLq/9u4McXm3o1gVDOqmgZlUxHmKg3FieT9yg4751cL0O0RKOxWdqIF6ARuoqgYk4+FWtU
- DUSdpHbeYVwA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.82,334,1613462400"; 
-   d="scan'208";a="398182528"
-Received: from lkp-server02.sh.intel.com (HELO 1ec8406c5392) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 27 May 2021 05:17:26 -0700
-Received: from kbuild by 1ec8406c5392 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1lmEx4-0002ks-7a; Thu, 27 May 2021 12:17:26 +0000
-Date:   Thu, 27 May 2021 20:16:24 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-input@vger.kernel.org
-Subject: [input:master] BUILD SUCCESS WITH WARNING
- 6cf3b3abbf0b3b778138c0f8936aa7820af62cfc
-Message-ID: <60af8d98.tyIcAFCQdyiul2xO%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S236505AbhE0Nmz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 May 2021 09:42:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37814 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236007AbhE0Nmy (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Thu, 27 May 2021 09:42:54 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9191FC061574;
+        Thu, 27 May 2021 06:41:21 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id j14so4802012wrq.5;
+        Thu, 27 May 2021 06:41:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8mRVNjU7EVMPfm2tJ8ewxcllQhMQHsHcpye39BjUXEo=;
+        b=HlX74lXKDHNrWlpJg3jfHSoEUiH/WLpOaUvXbb09fqH8oVS09AWphQSz+KPZYc/rvU
+         aDW/DbqbD2ZRVFr6CWDZqmPYSCzqSV+tiFvIIIm6vQ12Kx0zin3fmcemolkGRc4J7eGe
+         ut/7Qo+1nnSO3skv9ZoYWbj0yV0LK13zleYJsBxXDCBX1K0X+ReUZIg+YlE/fJ9VMv96
+         YesbDMWWPIbaTPin4xfk0I4Gmz3vYRRoo4QssNlaxpwYfTuj5zt8M267QJsrU/w/Emgc
+         rs/fk5Rc83TPk4sMjKlo69hVujhpI6K6qG88gtLy93/qOTTvdfhUZ0Cc0wDIuZ09LXv0
+         z6nA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8mRVNjU7EVMPfm2tJ8ewxcllQhMQHsHcpye39BjUXEo=;
+        b=WtznvMqrNAYzn1tYjFvmudHF70G3RUYdmaIj5D8TxUGvOZ0vRtcN9aVkOfohWJJVSD
+         oi+Ad7Rbn8NRRRn73242wvsy6LVEO8aRSkedr+RGq7CUa4k5VNPWLPbE0A2QEGSzrWWG
+         ihmdb78xgmge3tS1ve8syeB/vIWjRdPPAKYoESxr04Dr4EIoxanAVIACQFibKAEkoS1n
+         x54eGqjXZXbl6Hw47FVqLrZhti1vzLlA6tkfrIl8YI2evKyjnlZTxIKu5KqYNwqU/H4t
+         jBJoYBSa363tawUUOkNvZ4urz+7d5Wz0F0pMTSVTgzsdWiCr5pgQ/EFBavrgvGLdWQQW
+         Qzjg==
+X-Gm-Message-State: AOAM533XlnYWrKyczpCMDs+ZfLpSk+jXhifZjdXGOFHyTzK54q1DwrKX
+        4aSYn1MSiEAvuPyyUY+BHICTLFIvCC6nC64h
+X-Google-Smtp-Source: ABdhPJwg0zgFrQ0D6KPkFMbRadEZ+cNtnr4neJEo+SlKBR8QbFVXKXAAgojqevms/EzY7+lQrm1Eng==
+X-Received: by 2002:adf:f309:: with SMTP id i9mr3567261wro.307.1622122879837;
+        Thu, 27 May 2021 06:41:19 -0700 (PDT)
+Received: from caroline.lan (233.119.189.80.dyn.plus.net. [80.189.119.233])
+        by smtp.gmail.com with ESMTPSA id b10sm3741284wrr.27.2021.05.27.06.41.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 May 2021 06:41:19 -0700 (PDT)
+From:   Erica Taylor <rickytaylor26@gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     Erica Taylor <rickytaylor26@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Benjamin Valentin <benpicco@googlemail.com>,
+        Matt Reynolds <mattreynolds@chromium.org>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Sanjay Govind <sanjay.govind9@gmail.com>,
+        linux-kernel@vger.kernel.org, Simon Wood <simon@mungewell.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH 0/2] G923 Racing Wheel support
+Date:   Thu, 27 May 2021 14:41:02 +0100
+Message-Id: <20210527134104.217865-1-rickytaylor26@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git master
-branch HEAD: 6cf3b3abbf0b3b778138c0f8936aa7820af62cfc  Input: cyttsp - obtain regulators
+These two patches add the G923 to the two drivers which support it:
+xpad & hid-logitech-hidpp.
 
-possible Warning in current branch:
+The device boots up in Xbox-mode (which has some support out
+of the box if added to the xpad device list). However, Logitech
+use the HID++ protocol for 'PC mode'.
 
-drivers/input/touchscreen/resistive-adc-touch.c:101 grts_cb() error: uninitialized symbol 'y'.
-drivers/input/touchscreen/resistive-adc-touch.c:84 grts_cb() error: uninitialized symbol 'z2'.
-drivers/input/touchscreen/resistive-adc-touch.c:88 grts_cb() error: uninitialized symbol 'x'.
+I've added code to xpad to perform the switch-over
+and device information to the hid-logitech-hidpp driver.
 
-Warning ids grouped by kconfigs:
+With the hid-logitech-hidpp driver the wheel seems to have pretty
+good support. As far as I can tell, all inputs & force feedback
+work.
 
-gcc_recent_errors
-`-- x86_64-randconfig-m001-20210526
-    |-- drivers-input-touchscreen-resistive-adc-touch.c-grts_cb()-error:uninitialized-symbol-x-.
-    |-- drivers-input-touchscreen-resistive-adc-touch.c-grts_cb()-error:uninitialized-symbol-y-.
-    `-- drivers-input-touchscreen-resistive-adc-touch.c-grts_cb()-error:uninitialized-symbol-z2-.
+Erica Taylor (2):
+  HID: logitech-hidpp: add G923
+  Input: xpad - add Logitech G923 Xbox variant
 
-elapsed time: 725m
+ drivers/hid/hid-ids.h            |  1 +
+ drivers/hid/hid-logitech-hidpp.c |  3 +++
+ drivers/input/joystick/xpad.c    | 30 ++++++++++++++++++++++++++++++
+ 3 files changed, 34 insertions(+)
 
-configs tested: 147
-configs skipped: 3
+-- 
+2.31.1
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                          pcm027_defconfig
-powerpc                          g5_defconfig
-mips                       capcella_defconfig
-powerpc                     tqm8555_defconfig
-arm                             ezx_defconfig
-mips                           ip32_defconfig
-m68k                         amcore_defconfig
-mips                        jmr3927_defconfig
-powerpc                      ppc44x_defconfig
-mips                        nlm_xlp_defconfig
-powerpc                  iss476-smp_defconfig
-powerpc                  mpc866_ads_defconfig
-xtensa                         virt_defconfig
-arm                          ep93xx_defconfig
-s390                                defconfig
-sh                           se7705_defconfig
-powerpc                       maple_defconfig
-arc                 nsimosci_hs_smp_defconfig
-arm                              alldefconfig
-powerpc                    sam440ep_defconfig
-sh                        edosk7760_defconfig
-arm                          iop32x_defconfig
-arm                         lpc32xx_defconfig
-arm                          ixp4xx_defconfig
-sh                          lboxre2_defconfig
-powerpc                     tqm8560_defconfig
-powerpc                     skiroot_defconfig
-arm                     davinci_all_defconfig
-arc                        vdk_hs38_defconfig
-sparc64                          alldefconfig
-i386                                defconfig
-arm                          pxa910_defconfig
-powerpc                 mpc8313_rdb_defconfig
-arc                     nsimosci_hs_defconfig
-powerpc                 xes_mpc85xx_defconfig
-powerpc                       ebony_defconfig
-mips                        vocore2_defconfig
-mips                        workpad_defconfig
-arm                          moxart_defconfig
-mips                          malta_defconfig
-powerpc                     pseries_defconfig
-powerpc                 mpc834x_mds_defconfig
-sh                          r7780mp_defconfig
-m68k                          amiga_defconfig
-powerpc                    mvme5100_defconfig
-mips                          ath79_defconfig
-arm                          lpd270_defconfig
-powerpc                   lite5200b_defconfig
-alpha                               defconfig
-powerpc                mpc7448_hpc2_defconfig
-powerpc                     tqm8548_defconfig
-arm                        multi_v5_defconfig
-mips                            e55_defconfig
-powerpc                      mgcoge_defconfig
-openrisc                            defconfig
-mips                     loongson1c_defconfig
-m68k                             allmodconfig
-arm                            qcom_defconfig
-arm                       cns3420vb_defconfig
-arc                        nsim_700_defconfig
-m68k                        mvme147_defconfig
-mips                        nlm_xlr_defconfig
-mips                     cu1830-neo_defconfig
-arm                           corgi_defconfig
-mips                     cu1000-neo_defconfig
-parisc                generic-64bit_defconfig
-sh                            shmin_defconfig
-mips                           ci20_defconfig
-x86_64                            allnoconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-parisc                           allyesconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a005-20210526
-x86_64               randconfig-a001-20210526
-x86_64               randconfig-a006-20210526
-x86_64               randconfig-a003-20210526
-x86_64               randconfig-a004-20210526
-x86_64               randconfig-a002-20210526
-i386                 randconfig-a001-20210526
-i386                 randconfig-a002-20210526
-i386                 randconfig-a005-20210526
-i386                 randconfig-a004-20210526
-i386                 randconfig-a003-20210526
-i386                 randconfig-a006-20210526
-i386                 randconfig-a011-20210526
-i386                 randconfig-a016-20210526
-i386                 randconfig-a015-20210526
-i386                 randconfig-a012-20210526
-i386                 randconfig-a014-20210526
-i386                 randconfig-a013-20210526
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-um                            kunit_defconfig
-um                               allmodconfig
-um                                allnoconfig
-um                               allyesconfig
-um                                  defconfig
-x86_64                           allyesconfig
-x86_64                    rhel-8.3-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                      rhel-8.3-kbuiltin
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-b001-20210526
-x86_64               randconfig-a013-20210526
-x86_64               randconfig-a012-20210526
-x86_64               randconfig-a014-20210526
-x86_64               randconfig-a016-20210526
-x86_64               randconfig-a015-20210526
-x86_64               randconfig-a011-20210526
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
