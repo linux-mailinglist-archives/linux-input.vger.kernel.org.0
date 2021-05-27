@@ -2,101 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 798D53923A0
-	for <lists+linux-input@lfdr.de>; Thu, 27 May 2021 02:12:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD1783923C7
+	for <lists+linux-input@lfdr.de>; Thu, 27 May 2021 02:30:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233315AbhE0AO3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 May 2021 20:14:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52400 "EHLO
+        id S234515AbhE0AcG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 May 2021 20:32:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232829AbhE0AO2 (ORCPT
+        with ESMTP id S232903AbhE0AcF (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 May 2021 20:14:28 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7134C061574;
-        Wed, 26 May 2021 17:12:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=/mkS48c0mh9e8PGwzXLkD0N/csDVEEHF15MWB/exkqw=; b=2Z8CkuWyzbvSKkqqPdVKo0p4Cq
-        S4EdPYT/LXn94S81bYRBYp0gY3X0hw5rFwehV2CLt9siXvcRIFkDXGVQMW0MClPZ/rjGL1tY2HB+n
-        TUlEEv79v2EGgS84h/CIUWAGKuxg4qhpIMWN4j5vJy5IW1zPpCjYvDwqfT/xEbxit5avKQxzJWpXE
-        /u2zK8qEX0Zu66TywY5K/mECMEDjDZHs0XPpHtt+wUdPmZw3hC4xOe3VaYXpkQEvJ4pvoWQBiSQ00
-        YuyXROAsqsRA9ZLaqj3tYmfSRAVHGUgpSh4zmBvd9I2l6GovSzg/zOqt59JlMxKNI8DSumBHtWEDr
-        /OOvghhw==;
-Received: from [2601:1c0:6280:3f0::ce7d] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1lm3du-0014je-7c; Thu, 27 May 2021 00:12:54 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Michael Schmitz <schmitz@debian.org>,
-        Roman Zippel <zippel@linux-m68k.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        Michael Schmitz <schmitzmic@gmail.com>
-Subject: [PATCH v2] MOUSE_ATARI: fix kconfig unmet dependency warning
-Date:   Wed, 26 May 2021 17:12:51 -0700
-Message-Id: <20210527001251.8529-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
+        Wed, 26 May 2021 20:32:05 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A11BC06175F
+        for <linux-input@vger.kernel.org>; Wed, 26 May 2021 17:30:33 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id g7so3662923edm.4
+        for <linux-input@vger.kernel.org>; Wed, 26 May 2021 17:30:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nqOWBc5Vkt6mpmIWMkw8cPEAfhoVE6+CoM7HYKuIu8s=;
+        b=EvwEfGyy11UbI7Zt9geDpmBcBvjnn1gjkUIy0CJzh2zn7cGGE+dvpdGmHwR97ANyi2
+         GytSNhMhOtQ4atdLvHTnqclw5oC+auYRQHQUtLdLdJSQjxKN1wAc2OEwZD5E3nN9Zx8A
+         wO3Rgz397hcVDNye2OHNRSqN6HHQv/Ba3oOQCbTpnqOPEypaVlzhY81f7ojpdxWJfiEX
+         uNEGXCE9RgBkHaxcI5HJcx9R39jArPgSkeTgJqh3uqelrhXMDfiwzNOwYCkS0I0yNtWa
+         svXnVfnxzCtQ1N16WFGj9iWXDv/h3236GX5f7wG3Ab2pnroAs6NU5BrFLXwBWZXAD3wB
+         gjBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nqOWBc5Vkt6mpmIWMkw8cPEAfhoVE6+CoM7HYKuIu8s=;
+        b=TCnTSkzaWAQqIMmGuHaMzbv4SyTIFPLPdN0dc14COj8vmpd+A3w9ganZPJJnedaVWn
+         SgQF5PfUzvtTfVcOhkzKESosPDU0iEP+egSFRQEcFgtBh6L/U7rJ7k62oo+QaRzwq6po
+         fLRa+vhlfrDxn1EXl82nHPHKUi0s8zAUgKvHGiNBwXk7KLwiX8gwKiJO/JbiEKOmFqSx
+         5WFVyI2RRZVCUfSNFP5Gg1Ak0LZh6pB2A+Nj3wI94DBkCEjoGhQGXbt6DJVz8N4H7DT2
+         OOD2xvF0sifzjJ2OKT8lt2iVCtQYzvjeGYqhUAo+cSUKX2yR3cflEkBgZz0B1h//2kjZ
+         OLYg==
+X-Gm-Message-State: AOAM5303U7OLGWdkpc5JrdHMzPEmhyEtN9RnMDrat958K22sbcv/xv8O
+        Txs3NJPZtgNYktdmbK5hgJ3ubzLbTuyI1/C744CbYQ==
+X-Google-Smtp-Source: ABdhPJyY/2stx8PhpsQFWpDFP4m6A0jn6atr7DNeD7UEb/Hdiezsr7390YIlJdKM7opXTdkG3ceWEMM4xgWZSnqGB2M=
+X-Received: by 2002:aa7:d4ca:: with SMTP id t10mr1003169edr.42.1622075432187;
+ Wed, 26 May 2021 17:30:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <YK7iO96g+7yIC0l1@google.com>
+In-Reply-To: <YK7iO96g+7yIC0l1@google.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 27 May 2021 02:30:21 +0200
+Message-ID: <CACRpkdbBGAbZXsFiekoQUH2MRh4V0e6gR78+cLh+CM2NzXP-dA@mail.gmail.com>
+Subject: Re: [PATCH] Input: cyttsp - do not force interrupt trigger
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Linux Input <linux-input@vger.kernel.org>,
+        Javier Martinez Canillas <javier@dowhile0.org>,
+        Barry Song <song.bao.hua@hisilicon.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Since the code for ATARI_KBD_CORE does not use drivers/input/keyboard/
-code, just move ATARI_KBD_CORE to arch/m68k/Kconfig.machine to remove
-this dependency.
+On Thu, May 27, 2021 at 2:05 AM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
 
-Removes this kconfig warning:
+> Instead of forcing interrupt trigger to be "falling edge" let's rely on the
+> platform to set it up according to how it is set up on a given board based
+> on data in device tree or ACPI tables.
+>
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-WARNING: unmet direct dependencies detected for ATARI_KBD_CORE
-  Depends on [n]: !UML && INPUT [=y] && INPUT_KEYBOARD [=n]
-  Selected by [y]:
-  - MOUSE_ATARI [=y] && !UML && INPUT [=y] && INPUT_MOUSE [=y] && ATARI [=y]
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Fixes: c04cb856e20a ("m68k: Atari keyboard and mouse support.")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Michael Schmitz <schmitz@debian.org>
-Cc: Roman Zippel <zippel@linux-m68k.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Cc: linux-m68k@lists.linux-m68k.org
-Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Suggested-by: Michael Schmitz <schmitzmic@gmail.com>
----
-v2: move the symbol outside of INPUT_KEYBOARD (Geert) -- all the way
-    to Kconfig.machine (Michael). Thanks.
+> Linus, Ferruh's email has been bouncing for ages, it looks like you have
+> the hardware and you are already looking over another Cypress touch
+> controller, mind if I put you down as a maintainer for this one as well?
 
- arch/m68k/Kconfig.machine      |    3 +++
- drivers/input/keyboard/Kconfig |    3 ---
- 2 files changed, 3 insertions(+), 3 deletions(-)
+That's fine, just list me if you want, one more or less.
 
---- linux-next-20210525.orig/arch/m68k/Kconfig.machine
-+++ linux-next-20210525/arch/m68k/Kconfig.machine
-@@ -25,6 +25,9 @@ config ATARI
- 	  this kernel on an Atari, say Y here and browse the material
- 	  available in <file:Documentation/m68k>; otherwise say N.
- 
-+config ATARI_KBD_CORE
-+	bool
-+
- config MAC
- 	bool "Macintosh support"
- 	depends on MMU
---- linux-next-20210525.orig/drivers/input/keyboard/Kconfig
-+++ linux-next-20210525/drivers/input/keyboard/Kconfig
-@@ -67,9 +67,6 @@ config KEYBOARD_AMIGA
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called amikbd.
- 
--config ATARI_KBD_CORE
--	bool
--
- config KEYBOARD_APPLESPI
- 	tristate "Apple SPI keyboard and trackpad"
- 	depends on ACPI && EFI
+Yours,
+Linus Walleij
