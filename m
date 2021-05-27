@@ -2,88 +2,160 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A50DB392856
-	for <lists+linux-input@lfdr.de>; Thu, 27 May 2021 09:16:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34DEE392ACD
+	for <lists+linux-input@lfdr.de>; Thu, 27 May 2021 11:30:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229614AbhE0HSP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 May 2021 03:18:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33744 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229579AbhE0HSP (ORCPT
+        id S235887AbhE0JcL (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 May 2021 05:32:11 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:31744 "EHLO
+        mx0b-00069f02.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235903AbhE0JcH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 May 2021 03:18:15 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 443C0C061574;
-        Thu, 27 May 2021 00:16:42 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id p39so2952329pfw.8;
-        Thu, 27 May 2021 00:16:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=aXcHzWfb/Dirh4NWw/6J1XlJd4u/1NQEUALt9W0iBEk=;
-        b=qSbRV9zrYn+PgvegnTWsfEDZ28k8xMm67yCRua9V+1MOZ5QvMqhb47O9sCOr9p0o5A
-         KrZ2ecEM8ZymUTshZdBjQUsSOBtr+Wm3faND6LjLBkGV2uondEP3Y5hjQWnOmeWCcvGz
-         pHDQWnghbtUxMG79uYMPHUbXyRSz0gB4Yg9TuzmF66kFi91L1kEEpMlJAmLwcEVhi0QE
-         XbaST/wmZ6CbXVieKiqyOyaqvddtniRSQc+AD2GIJk7TfXJa6InAQr7WrUosn6Y/iZXX
-         aQk1PVvTN0NWOPEmUeM8MN/r1UiEOaBBo9Gy7eO5ml9sbC5ruXH0pWF1XNxXJ3bfesYn
-         pCgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=aXcHzWfb/Dirh4NWw/6J1XlJd4u/1NQEUALt9W0iBEk=;
-        b=p2HQKP0Fj5zuSR1onzEhlB3EdysP0py77IpEFyC+Aq8Ee2Xenog8K3HW/Ew518uRSn
-         XMMhlae8n6RP9HtsMucA4tdIus/dOl/P4O+LQoCrJ2hQN1Go7MIUS7D3f8AM6uis4YE0
-         XZ/is90V2E/3QcEeOp3kf64d8d8s75EFkuCy9RxaGy/kJBdBJl4pGXgUkY8HjrfFsxUJ
-         3wxh4NYAU6yzao9+e6SaNbN7akxcp9Upc4lDpjevOUFmw8/xkBwXCAu0DIQC/PBR6jJf
-         V8pRuhKV2D+bkOwpGzS1bItguZyS/An5mnoZl2Ktw88/KLyD+3jGJjc2jU7VPBIh8Q/g
-         6Bsg==
-X-Gm-Message-State: AOAM532x2epdlF+CqBQM8DkQIZlg/nKr45Ka89+/WTPVqOjkHX+j/W0m
-        DrRfcWCTN+oaF14O8WqWkdc=
-X-Google-Smtp-Source: ABdhPJyW1LaQ79gYyjDvDCHvXfFan6inC3PPhCVmLhMlF2QYWSGy0bCZHbkQnBOLRVaXVN1eRuAQYg==
-X-Received: by 2002:a63:ad0f:: with SMTP id g15mr2390464pgf.415.1622099801747;
-        Thu, 27 May 2021 00:16:41 -0700 (PDT)
-Received: from raspberrypi ([125.141.84.155])
-        by smtp.gmail.com with ESMTPSA id bo10sm1210111pjb.36.2021.05.27.00.16.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 May 2021 00:16:41 -0700 (PDT)
-Date:   Thu, 27 May 2021 08:16:37 +0100
-From:   Austin Kim <austindh.kim@gmail.com>
-To:     srinivas.pandruvada@linux.intel.com, jikos@kernel.org,
-        benjamin.tissoires@redhat.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        austin.kim@lge.com, austindh.kim@gmail.com
-Subject: [PATCH] HID: intel-ish-hid: Fix minor typos in comments
-Message-ID: <20210527071637.GA1516@raspberrypi>
+        Thu, 27 May 2021 05:32:07 -0400
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 14R9IUHF028197;
+        Thu, 27 May 2021 09:30:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=BDdq8UWbW4G3ht8T92r0mzF/1i/bwFurIhmGWnA6NYs=;
+ b=y5jwIrQBec5vC1X+1Hd4trW17qE0WIiMCGrWOgY0dxtaNIHnC3wHMODpUq8gqXnku1b9
+ jTr2IcZqFzgHXyYkWddLTt7k21BfvyVSaj/rtkgheOlPDCE6LqAornTiGfJDdcMmsYNL
+ JYsONbqnlf2EqFSTl2BWTUra5Ly1ZIalBluYfRJoobR8v6PjQcyXnijdezPfyjSHyTDF
+ 8jsvvZ2WIsAC6I6ITxJUQSRPrQaY1w3RjKB56RMGqZ1olZdL+tQf2is4PDdSFG10tQh4
+ 2XIsna0L66jadNZ4QAtjYjNFoiqBTXViRz7uOS/xKeuFCcu09z0LVZZ64jTyO1QEgZtP NQ== 
+Received: from oracle.com (userp3030.oracle.com [156.151.31.80])
+        by mx0b-00069f02.pphosted.com with ESMTP id 38sppd0byg-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 27 May 2021 09:30:22 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+        by pps.podrdrct (8.16.0.36/8.16.0.36) with SMTP id 14R9ULdf115787;
+        Thu, 27 May 2021 09:30:21 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by userp3030.oracle.com with ESMTP id 38pq2w7r1d-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 27 May 2021 09:30:21 +0000
+Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 14R9O6PG102507;
+        Thu, 27 May 2021 09:30:20 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by userp3030.oracle.com with ESMTP id 38pq2w7r19-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 27 May 2021 09:30:20 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 14R9UIUJ017758;
+        Thu, 27 May 2021 09:30:18 GMT
+Received: from kadam (/41.212.42.34)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 27 May 2021 02:30:16 -0700
+Date:   Thu, 27 May 2021 12:30:00 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     kbuild@lists.01.org, Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     lkp@intel.com, kbuild-all@lists.01.org,
+        linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: [input:next 2732/2735]
+ drivers/input/touchscreen/resistive-adc-touch.c:84 grts_cb() error:
+ uninitialized symbol 'z2'.
+Message-ID: <202105270957.mdv83Usm-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-GUID: 5VperKINHOwlk9IFiFgRQjvP_n55luXW
+X-Proofpoint-ORIG-GUID: 5VperKINHOwlk9IFiFgRQjvP_n55luXW
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Change "poiner" to "pointer" in comments.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+head:   6cf3b3abbf0b3b778138c0f8936aa7820af62cfc
+commit: fb082cd59afa7fbd3a610e9835050675040b1b99 [2732/2735] Input: resistive-adc-touch - add support for z1 and z2 channels
+config: x86_64-randconfig-m001-20210526 (attached as .config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
-Signed-off-by: Austin Kim <austindh.kim@gmail.com>
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+New smatch warnings:
+drivers/input/touchscreen/resistive-adc-touch.c:84 grts_cb() error: uninitialized symbol 'z2'.
+drivers/input/touchscreen/resistive-adc-touch.c:88 grts_cb() error: uninitialized symbol 'x'.
+drivers/input/touchscreen/resistive-adc-touch.c:101 grts_cb() error: uninitialized symbol 'y'.
+
+Old smatch warnings:
+drivers/input/touchscreen/resistive-adc-touch.c:101 grts_cb() error: uninitialized symbol 'x'.
+drivers/input/touchscreen/resistive-adc-touch.c:109 grts_cb() error: uninitialized symbol 'y'.
+
+vim +/z2 +84 drivers/input/touchscreen/resistive-adc-touch.c
+
+aa132ffb6b0a18 Eugen Hristev  2018-05-22   56  static int grts_cb(const void *data, void *private)
+aa132ffb6b0a18 Eugen Hristev  2018-05-22   57  {
+aa132ffb6b0a18 Eugen Hristev  2018-05-22   58  	const u16 *touch_info = data;
+aa132ffb6b0a18 Eugen Hristev  2018-05-22   59  	struct grts_state *st = private;
+fb082cd59afa7f Oleksij Rempel 2021-05-25   60  	unsigned int x, y, press = 0, z1 = 0, z2;
+fb082cd59afa7f Oleksij Rempel 2021-05-25   61  	unsigned int Rt, i;
+aa132ffb6b0a18 Eugen Hristev  2018-05-22   62  
+fb082cd59afa7f Oleksij Rempel 2021-05-25   63  	for (i = 0; i < ARRAY_SIZE(st->ch) && st->ch[i] != GRTS_CH_NONE; i++) {
+fb082cd59afa7f Oleksij Rempel 2021-05-25   64  		switch (st->ch[i]) {
+fb082cd59afa7f Oleksij Rempel 2021-05-25   65  		case GRTS_CH_X:
+fb082cd59afa7f Oleksij Rempel 2021-05-25   66  			x = touch_info[i];
+fb082cd59afa7f Oleksij Rempel 2021-05-25   67  			break;
+fb082cd59afa7f Oleksij Rempel 2021-05-25   68  		case GRTS_CH_Y:
+fb082cd59afa7f Oleksij Rempel 2021-05-25   69  			y = touch_info[i];
+fb082cd59afa7f Oleksij Rempel 2021-05-25   70  			break;
+fb082cd59afa7f Oleksij Rempel 2021-05-25   71  		case GRTS_CH_PRESSURE:
+fb082cd59afa7f Oleksij Rempel 2021-05-25   72  			press = touch_info[i];
+fb082cd59afa7f Oleksij Rempel 2021-05-25   73  			break;
+fb082cd59afa7f Oleksij Rempel 2021-05-25   74  		case GRTS_CH_Z1:
+fb082cd59afa7f Oleksij Rempel 2021-05-25   75  			z1 = touch_info[i];
+fb082cd59afa7f Oleksij Rempel 2021-05-25   76  			break;
+fb082cd59afa7f Oleksij Rempel 2021-05-25   77  		case GRTS_CH_Z2:
+fb082cd59afa7f Oleksij Rempel 2021-05-25   78  			z2 = touch_info[i];
+fb082cd59afa7f Oleksij Rempel 2021-05-25   79  			break;
+fb082cd59afa7f Oleksij Rempel 2021-05-25   80  		}
+fb082cd59afa7f Oleksij Rempel 2021-05-25   81  	}
+fb082cd59afa7f Oleksij Rempel 2021-05-25   82  
+fb082cd59afa7f Oleksij Rempel 2021-05-25   83  	if (z1) {
+fb082cd59afa7f Oleksij Rempel 2021-05-25  @84  		Rt = z2;
+
+It's likely this is a false positive, but we can see why the static
+checker would complain.
+
+fb082cd59afa7f Oleksij Rempel 2021-05-25   85  		Rt -= z1;
+fb082cd59afa7f Oleksij Rempel 2021-05-25   86  		Rt *= st->x_plate_ohms;
+fb082cd59afa7f Oleksij Rempel 2021-05-25   87  		Rt = DIV_ROUND_CLOSEST(Rt, 16);
+fb082cd59afa7f Oleksij Rempel 2021-05-25  @88  		Rt *= x;
+fb082cd59afa7f Oleksij Rempel 2021-05-25   89  		Rt /= z1;
+fb082cd59afa7f Oleksij Rempel 2021-05-25   90  		Rt = DIV_ROUND_CLOSEST(Rt, 256);
+fb082cd59afa7f Oleksij Rempel 2021-05-25   91  		/*
+fb082cd59afa7f Oleksij Rempel 2021-05-25   92  		 * On increased pressure the resistance (Rt) is decreasing
+fb082cd59afa7f Oleksij Rempel 2021-05-25   93  		 * so, convert values to make it looks as real pressure.
+fb082cd59afa7f Oleksij Rempel 2021-05-25   94  		 */
+fb082cd59afa7f Oleksij Rempel 2021-05-25   95  		if (Rt < GRTS_DEFAULT_PRESSURE_MAX)
+fb082cd59afa7f Oleksij Rempel 2021-05-25   96  			press = GRTS_DEFAULT_PRESSURE_MAX - Rt;
+fb082cd59afa7f Oleksij Rempel 2021-05-25   97  		else
+fb082cd59afa7f Oleksij Rempel 2021-05-25   98  			press = 0;
+fb082cd59afa7f Oleksij Rempel 2021-05-25   99  	}
+aa132ffb6b0a18 Eugen Hristev  2018-05-22  100  
+aa132ffb6b0a18 Eugen Hristev  2018-05-22 @101  	if ((!x && !y) || (st->pressure && (press < st->pressure_min))) {
+aa132ffb6b0a18 Eugen Hristev  2018-05-22  102  		/* report end of touch */
+aa132ffb6b0a18 Eugen Hristev  2018-05-22  103  		input_report_key(st->input, BTN_TOUCH, 0);
+aa132ffb6b0a18 Eugen Hristev  2018-05-22  104  		input_sync(st->input);
+aa132ffb6b0a18 Eugen Hristev  2018-05-22  105  		return 0;
+aa132ffb6b0a18 Eugen Hristev  2018-05-22  106  	}
+aa132ffb6b0a18 Eugen Hristev  2018-05-22  107  
+aa132ffb6b0a18 Eugen Hristev  2018-05-22  108  	/* report proper touch to subsystem*/
+aa132ffb6b0a18 Eugen Hristev  2018-05-22  109  	touchscreen_report_pos(st->input, &st->prop, x, y, false);
+aa132ffb6b0a18 Eugen Hristev  2018-05-22  110  	if (st->pressure)
+aa132ffb6b0a18 Eugen Hristev  2018-05-22  111  		input_report_abs(st->input, ABS_PRESSURE, press);
+aa132ffb6b0a18 Eugen Hristev  2018-05-22  112  	input_report_key(st->input, BTN_TOUCH, 1);
+aa132ffb6b0a18 Eugen Hristev  2018-05-22  113  	input_sync(st->input);
+aa132ffb6b0a18 Eugen Hristev  2018-05-22  114  
+aa132ffb6b0a18 Eugen Hristev  2018-05-22  115  	return 0;
+aa132ffb6b0a18 Eugen Hristev  2018-05-22  116  }
+
 ---
- drivers/hid/intel-ish-hid/ishtp-fw-loader.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/hid/intel-ish-hid/ishtp-fw-loader.c b/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
-index d20d74a890e9..1b486f262747 100644
---- a/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
-+++ b/drivers/hid/intel-ish-hid/ishtp-fw-loader.c
-@@ -456,7 +456,7 @@ static void loader_cl_event_cb(struct ishtp_cl_device *cl_device)
- /**
-  * ish_query_loader_prop() -  Query ISH Shim firmware loader
-  * @client_data:	Client data instance
-- * @fw:			Poiner to firmware data struct in host memory
-+ * @fw:			Pointer to firmware data struct in host memory
-  * @fw_info:		Loader firmware properties
-  *
-  * This function queries the ISH Shim firmware loader for capabilities.
--- 
-2.20.1
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
