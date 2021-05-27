@@ -2,81 +2,100 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38E4039237C
-	for <lists+linux-input@lfdr.de>; Thu, 27 May 2021 01:58:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6360439238E
+	for <lists+linux-input@lfdr.de>; Thu, 27 May 2021 02:07:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234697AbhEZX7m (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 26 May 2021 19:59:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49086 "EHLO
+        id S234964AbhE0AIa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 26 May 2021 20:08:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234564AbhEZX7l (ORCPT
+        with ESMTP id S234152AbhE0AI1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 26 May 2021 19:59:41 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 088BAC061574
-        for <linux-input@vger.kernel.org>; Wed, 26 May 2021 16:58:09 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id t193so2318343pgb.4
-        for <linux-input@vger.kernel.org>; Wed, 26 May 2021 16:58:09 -0700 (PDT)
+        Wed, 26 May 2021 20:08:27 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60716C061574;
+        Wed, 26 May 2021 17:05:21 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id a7so1443990plh.3;
+        Wed, 26 May 2021 17:05:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=RqNFYvTSCQo5EECqppvTLuCqm7OpQwliEDgby0Wmq6U=;
-        b=HWryLjky5SzLT3AuoEFKMPiZtLouEete8OHlx1q0CmDVFtGMEBNOh7dCchl0gyXR6C
-         1SDAmWT8u64RYuaDpKt87mnmPqpPlyXi2UM12KVVtyacKftWZU0WpeRhz3I0TcrGDrgU
-         mdcpswGf5zPGDKxHvt1QFbazctUNXh93t9o/aAbRY16zCw4ksxw+gAGBwEwZ8gSbsh6N
-         F3hHadHhcgN9H+qTbAh2wzqX7v/dlOhVN12GekGAvMigPt1d4G3eQI/bb/tckUAzEbyK
-         GEAzAHO7b0W2xSjfkeqN6lIbJLTVgl+jYJ0v6QZB9m6Ci6BaFi2l+2SZhTk8M60E5ci3
-         3epA==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=dAagfPfme8wuHZ/z6Or4wIqyS0K4PCwBMNV6nbEnU6U=;
+        b=sJ/mBM0yDTvxZEa2xj2wn7fWy1+6ZjmdS0Cmm5ccAVNovkUHfdrewvep7rCZRfUazT
+         c/5aOq6xjk+FxWuj8WymrboEOQyLltTA536YQo17jhChE4sI7aTd0x1cybkc0/+7cE6U
+         RP+M0uQeEtDCiArQxWkuwyz4wYUfraxfT4Puq7ACAEOtveogbH1fTWLr1aiewsVZ7XsJ
+         dDHfN/zhNgZ+mFKTO0gC77TB3MzDyZpuSZNDnAZ7A0KH5OKJMujx6xhJzgUhoWB8XFjQ
+         ugzCPSKmoYdfvnJmTQ3Mg2szOYAW7wramv3PeHUuUSUCrcQPS6Zkphngu1WSu2fO7Wl1
+         YhSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=RqNFYvTSCQo5EECqppvTLuCqm7OpQwliEDgby0Wmq6U=;
-        b=J4gKBGY9wriIqyyIYlNsllUTHkwbo51jSS8aANKtPMPrexqqAoMZQx2n3NS6X2so9n
-         TKBjs919i8KD83LZ0qhMUYNRtxPEbnWYlZDy0iU75WwxhyGfTgk3u+N/xFPmXA5R1yGZ
-         1YCFdJy84/j37sO6kdy6+AKbruR2pDRugjyOSNnQ3p+qONTdPpuoED6ZNBWpcJxmmIhy
-         3RkS+FeJTBkCZZHHzUIiUolzzoylCCDTqK/QFd/zruYyVENHcZFO5VcFWvvyfKzJtYbb
-         R/dbvWxMqWYFDF6AIHecJlJ+3i1Kuc4XvNnKEw+82ChbkXAD9+0w2yfJW/QBtm34t0UX
-         rK+Q==
-X-Gm-Message-State: AOAM531TRg3DhNjqt+H+hTEv/b01kqQIaMx7aax9yitv7J0XfvPH8MFq
-        MegCKXll9pM2D/EQCYT0rbs=
-X-Google-Smtp-Source: ABdhPJwODf3lwQxEqV9METwNMCI6RwL6ZEvGY6St37WE1XFUqjx5xzphu74nSbAnNsyedaOxbr97GQ==
-X-Received: by 2002:aa7:800a:0:b029:250:c8c5:64b3 with SMTP id j10-20020aa7800a0000b0290250c8c564b3mr953092pfi.23.1622073488551;
-        Wed, 26 May 2021 16:58:08 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=dAagfPfme8wuHZ/z6Or4wIqyS0K4PCwBMNV6nbEnU6U=;
+        b=ojO3/R8YUIP8IaChpPpBfaTZ5RhY0a5FyGgad35em6tbACV3nNppbgtbyzifV6LLuy
+         WQFPRx0dQY3wAeKJVzlyRiNMgvTicU2eOF4ARcyoSqu4ZyHlJbFGpNdvMCkHLkHOsU3N
+         GeoU0RQjzW7KP4yJtX9ZlmjBrhcAJP1r7RqnxKmC3FsUtIUsQ/CRw1feUzMuATMgxAhD
+         MkW7m0YmlkSu+iE5VYjhbIWByJcc4e6lO1/2HtAGcgWb7aUXQTE6CwaVYTofSlcfIpbs
+         vocpts18pHKtzkZ6/3uvzKr7fg4CrTofoEhLVeWaaOWCNw0q2FcKXvAD1G5+YoazLAjO
+         17XQ==
+X-Gm-Message-State: AOAM532DGjMAL1URlnp6XNy4FaoJ2u4biaD+DiEsatNO1/OkVz7JSWy7
+        52Nra1cLRF+YLiCtMfNyVJXR/SCP63U=
+X-Google-Smtp-Source: ABdhPJyWVtNepw1QYUr4zt2amDlrEBOepl89mV6Bz7ipKiavJPZijxOXTr4GJh3uJugvqI+99NFGhA==
+X-Received: by 2002:a17:90a:af8b:: with SMTP id w11mr763041pjq.228.1622073919615;
+        Wed, 26 May 2021 17:05:19 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:2eca:168c:3933:43bc])
-        by smtp.gmail.com with ESMTPSA id s123sm264898pfb.78.2021.05.26.16.58.07
+        by smtp.gmail.com with ESMTPSA id e22sm270461pfl.188.2021.05.26.17.05.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 May 2021 16:58:07 -0700 (PDT)
-Date:   Wed, 26 May 2021 16:58:05 -0700
+        Wed, 26 May 2021 17:05:18 -0700 (PDT)
+Date:   Wed, 26 May 2021 17:05:15 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Ferruh Yigit <fery@cypress.com>,
-        Javier Martinez Canillas <javier@dowhile0.org>,
-        Henrik Rydberg <rydberg@bitmath.org>,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH 2/3 v6] Input: cyttsp - Probe from compatibles
-Message-ID: <YK7gjaT90sUnVm94@google.com>
-References: <20210526230352.1433537-1-linus.walleij@linaro.org>
- <20210526230352.1433537-2-linus.walleij@linaro.org>
+To:     linux-input@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>
+Cc:     Javier Martinez Canillas <javier@dowhile0.org>,
+        Barry Song <song.bao.hua@hisilicon.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Input: cyttsp - do not force interrupt trigger
+Message-ID: <YK7iO96g+7yIC0l1@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210526230352.1433537-2-linus.walleij@linaro.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, May 27, 2021 at 01:03:51AM +0200, Linus Walleij wrote:
-> The driver (both SPI and I2C interface) should probe from
-> the compatible strings, cypress,cy8ctma340 etc when using
-> device tree, not as now, where it is probing implicitly from
-> the I2C/SPI node name "cypress,cyttsp-i2c" etc.
-> 
-> Reviewed-by: Javier Martinez Canillas <javier@dowhile0.org>
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+Instead of forcing interrupt trigger to be "falling edge" let's rely on the
+platform to set it up according to how it is set up on a given board based
+on data in device tree or ACPI tables.
 
-Applied, thank you.
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+
+Linus, Ferruh's email has been bouncing for ages, it looks like you have
+the hardware and you are already looking over another Cypress touch
+controller, mind if I put you down as a maintainer for this one as well?
+
+
+ drivers/input/touchscreen/cyttsp_core.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/input/touchscreen/cyttsp_core.c b/drivers/input/touchscreen/cyttsp_core.c
+index d9debcdeeec7..a6352d79e23d 100644
+--- a/drivers/input/touchscreen/cyttsp_core.c
++++ b/drivers/input/touchscreen/cyttsp_core.c
+@@ -699,8 +699,7 @@ struct cyttsp *cyttsp_probe(const struct cyttsp_bus_ops *bus_ops,
+ 	}
+ 
+ 	error = devm_request_threaded_irq(dev, ts->irq, NULL, cyttsp_irq,
+-					  IRQF_TRIGGER_FALLING | IRQF_ONESHOT |
+-					  IRQF_NO_AUTOEN,
++					  IRQF_ONESHOT | IRQF_NO_AUTOEN,
+ 					  "cyttsp", ts);
+ 	if (error) {
+ 		dev_err(ts->dev, "failed to request IRQ %d, err: %d\n",
+-- 
+2.31.1.818.g46aad6cb9e-goog
+
 
 -- 
 Dmitry
