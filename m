@@ -2,52 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D58BA392FF1
-	for <lists+linux-input@lfdr.de>; Thu, 27 May 2021 15:41:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 387403930C0
+	for <lists+linux-input@lfdr.de>; Thu, 27 May 2021 16:22:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236550AbhE0NnK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 27 May 2021 09:43:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37870 "EHLO
+        id S236313AbhE0OYU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 27 May 2021 10:24:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236553AbhE0NnH (ORCPT
+        with ESMTP id S235718AbhE0OYT (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 27 May 2021 09:43:07 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8204C061760;
-        Thu, 27 May 2021 06:41:33 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id f11so1417287wrq.1;
-        Thu, 27 May 2021 06:41:33 -0700 (PDT)
+        Thu, 27 May 2021 10:24:19 -0400
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4126C061574;
+        Thu, 27 May 2021 07:22:45 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id o127so311213wmo.4;
+        Thu, 27 May 2021 07:22:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=42av6mzVPz1UHZ76BiA/La0SCJcbWprbyJjdY5KanPk=;
-        b=kUjVgGokmyR/Ib90dM14WzCWpEV7Zx3c0rTZxucvYgXc7QLwkioEsIbmMBGrPVVwVy
-         lVWyKi1fiwEdpjq2kxoKKg15iH0rw2I6pB4HuEWTMItOdYVmt+268OUmAx0TllC56648
-         UCiuaHM8o62B8Ws3uns3P6u5KQ4Szb206fH65cwQLObDG7KGYpVnJFoNGkBq70uyKsje
-         wWuQyXSkOzuPec+SVVJjs90oc9/f7+1A6CLCjr2nNVSoUpUor358gnvDZVl/b9LKVc1m
-         FC1qGUsnNLYGOCGqa5HCaDKjcEpz8gnT0fuBln9BXV3WT9J9QsZhDl2M1qSHS1lEeB0M
-         JMWQ==
+        bh=QsWTepLMactVsdg+/QXcO62wOHZsVn4dChcvBHnKZCw=;
+        b=CUhbiRVlw/PMWlesoiivvGu/ePUNDKrUzcdh8yXCeZxTsRTFyFlQzbxn58DDC2Wzqt
+         z0v3fApdmwIbpHlk268uV8BhT1L8mf5D3qcJgq+7RRaCFqG7Noi1yOmFJpxBmJT6p2r1
+         WSYW405k2Nt5QxFoaBRyaIabn9IGduHvlN3gndNl0S9mWxBBDvskApfMx6lub+k8XfLC
+         8qGXQaVG2IutumB7dwnTDaml11SaWql3CM1dPgdC+2EQao6WBWAZT3PiuynoNmyT5VwN
+         h1niEMgwYs+vd4LPzeMysZAolb6e4d5lXAtLmHIN6AFWiASst0gVzeyQErFgd98lyIxG
+         3UZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=42av6mzVPz1UHZ76BiA/La0SCJcbWprbyJjdY5KanPk=;
-        b=oE6NMiCrRpdamc7cZT9WgGhR7MZ7hSycc4fskO8m1afUFEZkP1UhdE4x8U9lhR4fUg
-         buMxFlPufb+TOXtp5bDQQ5VrN6jgXWebuC1e5Jn3ehL1SGddI3bweHBlziaBZwxP3xum
-         4Qi3olYdhXyZmZB3r7tllyeRXx/0yMXIE4NuxWzKRvka04WjSvWu7qqcqid9xDWP6qvT
-         lJoEzYUbT62S7cdCgAUdxMjV5cJbgM5Luko7cw7zlg9L9mBk2hvDGplhO2tEvdsaWuWi
-         ostnFUJEcwy6mRw1XZ9wqHdEFt0ccsjo2VGJJSq6otsJkRNn0zvIU44Z73wOYXwO+o+K
-         mAAw==
-X-Gm-Message-State: AOAM533jlD1hmfUq8tkj+eLVpzObPmLqVfv+FWcHY+oMkVNcFLh4XblI
-        NxfqebUL2z6K4bKO4cQWbR4Fjo+EYnuHR372
-X-Google-Smtp-Source: ABdhPJy556o6tWC0YcIsFt1xTFX6RlPMfpeadDdwGVTqn8HRR1EecOx0zbvwHmzoyMzG22pdOLYu5Q==
-X-Received: by 2002:adf:dc88:: with SMTP id r8mr3425987wrj.277.1622122892175;
-        Thu, 27 May 2021 06:41:32 -0700 (PDT)
+        bh=QsWTepLMactVsdg+/QXcO62wOHZsVn4dChcvBHnKZCw=;
+        b=P9GBEnot/eepVvC2VODGPRBqlcSCf7aKvGaLJaEV2FKL2+WXPrIe8oke2Z0ND3adpc
+         pP716df6kLYXGgrPVVQC8NXYYj0Ddwf+FCFlG1Ocb0MKURxrWegTdeDnTItHEUg/UfdQ
+         7hhEWDxPpdRLCRnQVyY4Um6SjfQ+w5EAtb+sMtvJ05QJ3di06NFW+XOLZO7J6a3+2k7r
+         Ur/XarttMNn0z7Yz9lEx3IjG3sgXjXDNp0bTvvFJxn0kBIVhF/ppgAG5PDma72chqyb3
+         d2Fmfdf7UcsH5nUWKAK9ujba1hlT2BhhMpTBeApylD5RdLvWyPnkEberPqiTNvv52d/U
+         DBHw==
+X-Gm-Message-State: AOAM5303lr920Q+f2yvaGY03E8gOCydPbTrT7YsQrGbh6u7JdoVr/Hsa
+        iKSB5+bGWa1Kjqaql61Qt9hfrrEoL7IZt9Um
+X-Google-Smtp-Source: ABdhPJxBDuZA8NgUiHU6Xf7BDm6hDPalhE7pX1O8LeadTBI+ekTEQndmijp6mVfgEqY0i00OQ26umw==
+X-Received: by 2002:a1c:b306:: with SMTP id c6mr8783730wmf.37.1622125363993;
+        Thu, 27 May 2021 07:22:43 -0700 (PDT)
 Received: from caroline.lan (233.119.189.80.dyn.plus.net. [80.189.119.233])
-        by smtp.gmail.com with ESMTPSA id b10sm3741284wrr.27.2021.05.27.06.41.31
+        by smtp.gmail.com with ESMTPSA id k205sm3128482wmf.13.2021.05.27.07.22.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 May 2021 06:41:31 -0700 (PDT)
+        Thu, 27 May 2021 07:22:43 -0700 (PDT)
 From:   Erica Taylor <rickytaylor26@gmail.com>
 To:     linux-input@vger.kernel.org
 Cc:     Erica Taylor <rickytaylor26@gmail.com>,
@@ -61,17 +61,20 @@ Cc:     Erica Taylor <rickytaylor26@gmail.com>,
         Sanjay Govind <sanjay.govind9@gmail.com>,
         linux-kernel@vger.kernel.org, Simon Wood <simon@mungewell.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH 2/2] Input: xpad - add Logitech G923 Xbox variant
-Date:   Thu, 27 May 2021 14:41:04 +0100
-Message-Id: <20210527134104.217865-3-rickytaylor26@gmail.com>
+Subject: RE: [PATCH 2/2] Input: xpad - add Logitech G923 Xbox variant
+Date:   Thu, 27 May 2021 15:21:39 +0100
+Message-Id: <20210527142139.384723-1-rickytaylor26@gmail.com>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210527134104.217865-1-rickytaylor26@gmail.com>
-References: <20210527134104.217865-1-rickytaylor26@gmail.com>
+In-Reply-To: <20210527134104.217865-3-rickytaylor26@gmail.com>
+References: <20210527134104.217865-3-rickytaylor26@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
+
+It looks like I sent a stale patch in my first e-mail. I'm very sorry.
+I've included the correct patch below:
 
 This includes device information for the G923 as well as
 code to perform a protocol change to HID++.
@@ -95,11 +98,11 @@ What does not work:
 
 Signed-off-by: Erica Taylor <rickytaylor26@gmail.com>
 ---
- drivers/input/joystick/xpad.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ drivers/input/joystick/xpad.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
 diff --git a/drivers/input/joystick/xpad.c b/drivers/input/joystick/xpad.c
-index d69d7657ab12..930283433615 100644
+index d69d7657ab12..a07fa92f1d6a 100644
 --- a/drivers/input/joystick/xpad.c
 +++ b/drivers/input/joystick/xpad.c
 @@ -79,6 +79,7 @@
@@ -121,16 +124,15 @@ index d69d7657ab12..930283433615 100644
  static const struct xpad_device {
  	u16 idVendor;
  	u16 idProduct;
-@@ -333,6 +338,8 @@ static const struct xpad_device {
+@@ -333,6 +338,7 @@ static const struct xpad_device {
  	{ 0x24c6, 0x5d04, "Razer Sabertooth", 0, XTYPE_XBOX360 },
  	{ 0x24c6, 0xfafe, "Rock Candy Gamepad for Xbox 360", 0, XTYPE_XBOX360 },
  	{ 0x3767, 0x0101, "Fanatec Speedster 3 Forceshock Wheel", 0, XTYPE_XBOX },
-+	{ 0x046d, 0xc262, "Logitech G920 Wheel (Xbox Mode)", HIDPP_CAPABLE, XTYPE_XBOXONE },
 +	{ 0x046d, 0xc26d, "Logitech G923 Wheel (Xbox Mode)", HIDPP_CAPABLE, XTYPE_XBOXONE },
  	{ 0xffff, 0xffff, "Chinese-made Xbox Controller", 0, XTYPE_XBOX },
  	{ 0x0000, 0x0000, "Generic X-Box pad", 0, XTYPE_UNKNOWN }
  };
-@@ -420,6 +427,7 @@ static const struct usb_device_id xpad_table[] = {
+@@ -420,6 +426,7 @@ static const struct usb_device_id xpad_table[] = {
  	XPAD_XBOX360_VENDOR(0x045e),		/* Microsoft X-Box 360 controllers */
  	XPAD_XBOXONE_VENDOR(0x045e),		/* Microsoft X-Box One controllers */
  	XPAD_XBOX360_VENDOR(0x046d),		/* Logitech X-Box 360 style controllers */
@@ -138,7 +140,7 @@ index d69d7657ab12..930283433615 100644
  	XPAD_XBOX360_VENDOR(0x056e),		/* Elecom JC-U3613M */
  	XPAD_XBOX360_VENDOR(0x06a3),		/* Saitek P3600 */
  	XPAD_XBOX360_VENDOR(0x0738),		/* Mad Catz X-Box 360 controllers */
-@@ -558,6 +566,17 @@ static const struct xboxone_init_packet xboxone_init_packets[] = {
+@@ -558,6 +565,17 @@ static const struct xboxone_init_packet xboxone_init_packets[] = {
  	XBOXONE_INIT_PKT(0x24c6, 0x543a, xboxone_rumbleend_init),
  };
  
@@ -156,14 +158,14 @@ index d69d7657ab12..930283433615 100644
  struct xpad_output_packet {
  	u8 data[XPAD_PKT_LEN];
  	u8 len;
-@@ -998,6 +1017,14 @@ static bool xpad_prepare_next_init_packet(struct usb_xpad *xpad)
+@@ -998,6 +1016,14 @@ static bool xpad_prepare_next_init_packet(struct usb_xpad *xpad)
  		return true;
  	}
  
 +	if (switch_to_hidpp && xpad->mapping & HIDPP_CAPABLE) {
 +		dev_dbg(&xpad->intf->dev, "%s - switching to HID++", __func__);
-+		memcpy(xpad->odata, g923_hidpp_init, ARRAY_SIZE(g923_hidpp_init));
-+		xpad->irq_out->transfer_buffer_length = ARRAY_SIZE(g923_hidpp_init);
++		memcpy(xpad->odata, switch_to_hidpp_cmd, ARRAY_SIZE(switch_to_hidpp_cmd));
++		xpad->irq_out->transfer_buffer_length = ARRAY_SIZE(switch_to_hidpp_cmd);
 +		xpad->odata[2] = xpad->odata_serial++;
 +		return true;
 +	}
