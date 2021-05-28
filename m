@@ -2,89 +2,84 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 33C25393D82
-	for <lists+linux-input@lfdr.de>; Fri, 28 May 2021 09:10:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FFFB393D81
+	for <lists+linux-input@lfdr.de>; Fri, 28 May 2021 09:10:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234967AbhE1HMD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 28 May 2021 03:12:03 -0400
-Received: from mx2.suse.de ([195.135.220.15]:44716 "EHLO mx2.suse.de"
+        id S235000AbhE1HMB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 28 May 2021 03:12:01 -0400
+Received: from mx2.suse.de ([195.135.220.15]:44724 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229574AbhE1HMB (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        id S234927AbhE1HMB (ORCPT <rfc822;linux-input@vger.kernel.org>);
         Fri, 28 May 2021 03:12:01 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
         t=1622185826; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=EuWl45fi++D9CsXoPhxBvOEj+IvNMeCoT7T6D+BcKi4=;
-        b=bNZ73iYmKPJY9NYd60tei7i1UPaEzVA2ORbU7n3BxGqpYR4ClZUmpsnJKqlVmeAlfn7oWL
-        6/C9RBVMY6OHbTFNaLB6EPtppNFdyzVcA21zv1mbyfPMeaBmZjvavFgsjJV0Bx4SrifHz+
-        xPSxZ/BkGQDGtmdB9Qq3dOYVy4EM8OQ=
+         mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=BwgXQ9oy+Jp0j3qXdKyBDPbJOS4YWNwV57qE6gV32HM=;
+        b=meEbrH/VCJvx/3YxQuUsrCcMxFqbox2ZUmxPvz5MG4sz6ewPNGYsnjUdgVxhcDNyXbj6W3
+        D2WnwR6fu187Q4dypeD9IJVJJbTqHLH3h7qKe5+/1GPIXhmyj83YmrXl1gTCJddxMvtwNf
+        VSnHr2TvffnwMfH2THSi7xCnuG54O+8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
         s=susede2_ed25519; t=1622185826;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-        bh=EuWl45fi++D9CsXoPhxBvOEj+IvNMeCoT7T6D+BcKi4=;
-        b=TBxplDT4JiUUr57LokKv2IhW2a0KH+vHg6zPMgoaasriZnQj1fASctRqzmsfiHxjuaaEF5
-        IxbXZKR5KYqF34Ag==
+         mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=BwgXQ9oy+Jp0j3qXdKyBDPbJOS4YWNwV57qE6gV32HM=;
+        b=tRvr7VV6MsFwhC2BjgGbBiA3s8ziOcN0AjqKALMgEDjQx/iSEaGPX6KmNq5ZzAip5plSC6
+        tW9yC2VOOfTj+uAw==
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id EE237B159;
-        Fri, 28 May 2021 07:10:25 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id 09938B175;
+        Fri, 28 May 2021 07:10:26 +0000 (UTC)
 From:   Takashi Iwai <tiwai@suse.de>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/2] Input: elants_i2c - Fix NULL dereference at probing
-Date:   Fri, 28 May 2021 09:10:23 +0200
-Message-Id: <20210528071024.26450-1-tiwai@suse.de>
+Subject: [PATCH v3 2/2] Input: elants_i2c - Switch to probe_new
+Date:   Fri, 28 May 2021 09:10:24 +0200
+Message-Id: <20210528071024.26450-2-tiwai@suse.de>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210528071024.26450-1-tiwai@suse.de>
+References: <20210528071024.26450-1-tiwai@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The recent change in elants_i2c driver to support more chips
-introduced a regression leading to Oops at probing.  The driver reads
-id->driver_data, but the id may be NULL depending on the device type
-the driver gets bound.
+Now that we get rid of the usage of id argument at probe again, let's
+switch to the new i2c probe method; this will avoid for people
+misusing the possibly unassigned id pointer again.
 
-Replace the driver data extraction with the device_get_match_data()
-helper, and define the driver data in OF table, too.
-
-Fixes: 9517b95bdc46 ("Input: elants_i2c - add support for eKTF3624")
-BugLink: https://bugzilla.suse.com/show_bug.cgi?id=1186454
-Cc: <stable@vger.kernel.org>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
-v1->v2: Use device_get_match_data()   
-v2->v3: Fix pointer cast
-
- drivers/input/touchscreen/elants_i2c.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/input/touchscreen/elants_i2c.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/input/touchscreen/elants_i2c.c b/drivers/input/touchscreen/elants_i2c.c
-index 17540bdb1eaf..0f9e3ec99aae 100644
+index 0f9e3ec99aae..68f542bb809f 100644
 --- a/drivers/input/touchscreen/elants_i2c.c
 +++ b/drivers/input/touchscreen/elants_i2c.c
-@@ -1396,7 +1396,7 @@ static int elants_i2c_probe(struct i2c_client *client,
- 	init_completion(&ts->cmd_done);
+@@ -1369,8 +1369,7 @@ static bool elants_acpi_is_hid_device(struct device *dev)
+ }
+ #endif
  
- 	ts->client = client;
--	ts->chip_id = (enum elants_chip_id)id->driver_data;
-+	ts->chip_id = (enum elants_chip_id)(uintptr_t)device_get_match_data(&client->dev);
- 	i2c_set_clientdata(client, ts);
+-static int elants_i2c_probe(struct i2c_client *client,
+-			    const struct i2c_device_id *id)
++static int elants_i2c_probe(struct i2c_client *client)
+ {
+ 	union i2c_smbus_data dummy;
+ 	struct elants_data *ts;
+@@ -1644,7 +1643,7 @@ MODULE_DEVICE_TABLE(of, elants_of_match);
+ #endif
  
- 	ts->vcc33 = devm_regulator_get(&client->dev, "vcc33");
-@@ -1636,8 +1636,8 @@ MODULE_DEVICE_TABLE(acpi, elants_acpi_id);
- 
- #ifdef CONFIG_OF
- static const struct of_device_id elants_of_match[] = {
--	{ .compatible = "elan,ekth3500" },
--	{ .compatible = "elan,ektf3624" },
-+	{ .compatible = "elan,ekth3500", .data = (void *)EKTH3500 },
-+	{ .compatible = "elan,ektf3624", .data = (void *)EKTF3624 },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, elants_of_match);
+ static struct i2c_driver elants_i2c_driver = {
+-	.probe = elants_i2c_probe,
++	.probe_new = elants_i2c_probe,
+ 	.id_table = elants_i2c_id,
+ 	.driver = {
+ 		.name = DEVICE_NAME,
 -- 
 2.26.2
 
