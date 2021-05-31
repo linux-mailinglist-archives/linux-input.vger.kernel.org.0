@@ -2,188 +2,328 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A8401395501
-	for <lists+linux-input@lfdr.de>; Mon, 31 May 2021 07:23:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E96A39587A
+	for <lists+linux-input@lfdr.de>; Mon, 31 May 2021 11:54:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230142AbhEaFYz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 31 May 2021 01:24:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34426 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229730AbhEaFYx (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Mon, 31 May 2021 01:24:53 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF6C6C06174A;
-        Sun, 30 May 2021 22:23:12 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id k5so5938273pjj.1;
-        Sun, 30 May 2021 22:23:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=L2oO4yyapOcPcSgk5euKZ0kOypADACJjFfpex/V3+Lk=;
-        b=oGTXhTdM8wNru8KORHE0rJGRmMXqLdj9RZ5Cnd4/qX5mfWqF/vXs7JgkgJfdmxk5WC
-         U3qMHNTPMJgV4yAJWMqUvBARbWbU3DY3R7YipA1u9ea5Ha9+hjwLD9W9M0/izTBD+4RY
-         RSmN0IUCGXYoDpsQ0iz8riHgUBvMfJVi3Ysh5ug7PyOnwSBFfIguDm5IYhLiuXi0yOR4
-         bGPJB8KRojNwxpf5nlO8AStlYXfrR3SFnqDI/hBsRuBk75XEo6wQ9Ip7QzI5CYGR2kdJ
-         oWjOtlyasekzMf/QRDCdjVcCJFQ1i73SGxiBt9Ks9tTXwKYU86aj9ZFYUZhvqF6+XCzj
-         5OXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=L2oO4yyapOcPcSgk5euKZ0kOypADACJjFfpex/V3+Lk=;
-        b=RQ5oH8zb8RBBvT7HxeaxO9PJA9OoUUPyNcOuXh7jPpIBkNMQ3vf0TcWNgbWsHOc5bL
-         VoQVwr+R8c3tPanaFLONQeq+z/jbaYcCk58aAk3CQOueOW83arMD0CIYx7JL6iqvu9Zb
-         SXYNJ7EAc5KCxYjC4GyXeyBbUiqcdz+amUwmG/GRNis18w6ep/jzj7MyvBEcAg8u7zlV
-         q6xJV+Zf33cefgfEFsACyIKbxoY3YVhmDyN1ls7xFXe6va9el9f8S8RMpfjKihfUJGOV
-         Vn10GB+GyHN7KRhI+vuUB5j3ku+XYzRBOFQ6LHJmBXC0EeXmCOWQrZmcaRNQmwi3JBn6
-         DQgw==
-X-Gm-Message-State: AOAM5339X7e3ycE+2Hj8sjb0d9YOthwOdtMKPolXSpQs8rqlsFtzf4Cy
-        F7sTF2P5Ypahdi9CafjZbEM=
-X-Google-Smtp-Source: ABdhPJwhMpX/Dpwm4x83+K8MVoTaYChsHSX94IxXhljd51rI4zEVbsrPLjrid1qzjY2N4Q+YGG1oCg==
-X-Received: by 2002:a17:903:2482:b029:fd:696c:1d2b with SMTP id p2-20020a1709032482b02900fd696c1d2bmr19107198plw.24.1622438592395;
-        Sun, 30 May 2021 22:23:12 -0700 (PDT)
-Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:f797:8c47:4837:ec11])
-        by smtp.gmail.com with ESMTPSA id y1sm9895555pfn.13.2021.05.30.22.23.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 May 2021 22:23:11 -0700 (PDT)
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] Input: cyttsp - remove public header
-Date:   Sun, 30 May 2021 22:23:07 -0700
-Message-Id: <20210531052307.1433979-2-dmitry.torokhov@gmail.com>
-X-Mailer: git-send-email 2.32.0.rc0.204.g9fa02ecfa5-goog
-In-Reply-To: <20210531052307.1433979-1-dmitry.torokhov@gmail.com>
-References: <20210531052307.1433979-1-dmitry.torokhov@gmail.com>
+        id S230520AbhEaJ4J (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 31 May 2021 05:56:09 -0400
+Received: from smtp.220.in.ua ([89.184.67.205]:59605 "EHLO smtp.220.in.ua"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230518AbhEaJ4H (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 31 May 2021 05:56:07 -0400
+Received: from localhost.localdomain (unknown [149.255.131.2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by smtp.220.in.ua (Postfix) with ESMTPSA id 00F2C1A205EA;
+        Mon, 31 May 2021 12:54:24 +0300 (EEST)
+From:   Oleh Kravchenko <oleg@kaa.org.ua>
+To:     linux-input@vger.kernel.org
+Cc:     Oleh Kravchenko <oleg@kaa.org.ua>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Device Tree mailing list <devicetree@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jiri Kosina <jikos@jikos.cz>,
+        Patchwork Bot <patchwork-bot@kernel.org>
+Subject: [PATCH] input: add SparkFun Qwiic Joystick driver
+Date:   Mon, 31 May 2021 12:54:19 +0300
+Message-Id: <20210531095419.27372-1-oleg@kaa.org.ua>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-There is nothing in include/linux/input/cyttsp.h that might be of interes
-to the kernel at large, so let's move this information into the driver
-code and remove the header.
+A simple analog joystick built on Low Power ATtiny85 Microcontroller.
+Directional movements are measured with two 10 kΩ potentiometers
+connected with a gimbal mechanism that separates the horizontal and
+vertical movements. This joystick also has a select button that is actuated
+when the joystick is pressed down.
 
-Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Input events polled over the I2C bus.
+
+Product page:
+https://www.sparkfun.com/products/15168
+Firmware and hardware sources:
+https://github.com/sparkfun/Qwiic_Joystick
+
+Tested on RPi4B and O4-iMX-NANO boards.
+
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: Device Tree mailing list <devicetree@vger.kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Jiri Kosina <jikos@jikos.cz>
+Cc: Patchwork Bot <patchwork-bot@kernel.org>
+Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
 ---
- MAINTAINERS                             |  1 -
- drivers/input/touchscreen/cyttsp_core.c |  9 +++++++-
- drivers/input/touchscreen/cyttsp_core.h |  1 -
- drivers/input/touchscreen/cyttsp_i2c.c  |  2 ++
- drivers/input/touchscreen/cyttsp_spi.c  |  2 ++
- include/linux/input/cyttsp.h            | 29 -------------------------
- 6 files changed, 12 insertions(+), 32 deletions(-)
- delete mode 100644 include/linux/input/cyttsp.h
+ .../bindings/input/qwiic-joystick.yaml        |  31 ++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ drivers/input/joystick/Kconfig                |   9 +
+ drivers/input/joystick/Makefile               |   1 +
+ drivers/input/joystick/qwiic-joystick.c       | 170 ++++++++++++++++++
+ 5 files changed, 213 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/qwiic-joystick.yaml
+ create mode 100644 drivers/input/joystick/qwiic-joystick.c
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9a43400480e2..920f33866799 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4918,7 +4918,6 @@ M:	Linus Walleij <linus.walleij@linaro.org>
- L:	linux-input@vger.kernel.org
- S:	Maintained
- F:	drivers/input/touchscreen/cyttsp*
--F:	include/linux/input/cyttsp.h
- 
- D-LINK DIR-685 TOUCHKEYS DRIVER
- M:	Linus Walleij <linus.walleij@linaro.org>
-diff --git a/drivers/input/touchscreen/cyttsp_core.c b/drivers/input/touchscreen/cyttsp_core.c
-index a6352d79e23d..1dbd849c9613 100644
---- a/drivers/input/touchscreen/cyttsp_core.c
-+++ b/drivers/input/touchscreen/cyttsp_core.c
-@@ -46,8 +46,15 @@
- #define CY_MAXZ				255
- #define CY_DELAY_DFLT			20 /* ms */
- #define CY_DELAY_MAX			500
--#define CY_ACT_DIST_DFLT		0xF8
-+/* Active distance in pixels for a gesture to be reported */
-+#define CY_ACT_DIST_DFLT		0xF8 /* pixels */
- #define CY_ACT_DIST_MASK		0x0F
-+/* Active Power state scanning/processing refresh interval */
-+#define CY_ACT_INTRVL_DFLT		0x00 /* ms */
-+/* Low Power state scanning/processing refresh interval */
-+#define CY_LP_INTRVL_DFLT		0x0A /* ms */
-+/* touch timeout for the Active power */
-+#define CY_TCH_TMOUT_DFLT		0xFF /* ms */
- #define CY_HNDSHK_BIT			0x80
- /* device mode bits */
- #define CY_OPERATE_MODE			0x00
-diff --git a/drivers/input/touchscreen/cyttsp_core.h b/drivers/input/touchscreen/cyttsp_core.h
-index 8eba9d8ba74a..075509e695a2 100644
---- a/drivers/input/touchscreen/cyttsp_core.h
-+++ b/drivers/input/touchscreen/cyttsp_core.h
-@@ -22,7 +22,6 @@
- #include <linux/module.h>
- #include <linux/types.h>
- #include <linux/device.h>
--#include <linux/input/cyttsp.h>
- #include <linux/regulator/consumer.h>
- 
- #define CY_NUM_RETRY		16 /* max number of retries for read ops */
-diff --git a/drivers/input/touchscreen/cyttsp_i2c.c b/drivers/input/touchscreen/cyttsp_i2c.c
-index 0a09f07bc23a..4c8473d327ab 100644
---- a/drivers/input/touchscreen/cyttsp_i2c.c
-+++ b/drivers/input/touchscreen/cyttsp_i2c.c
-@@ -18,6 +18,8 @@
- #include <linux/i2c.h>
- #include <linux/input.h>
- 
-+#define CY_I2C_NAME		"cyttsp-i2c"
+diff --git a/Documentation/devicetree/bindings/input/qwiic-joystick.yaml b/Documentation/devicetree/bindings/input/qwiic-joystick.yaml
+new file mode 100644
+index 000000000000..51cadeb350f2
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/qwiic-joystick.yaml
+@@ -0,0 +1,31 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++# Copyright 2021 Oleh Kravchenko
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/input/qwiic-joystick.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
 +
- #define CY_I2C_DATA_SIZE	128
- 
- static const struct cyttsp_bus_ops cyttsp_i2c_bus_ops = {
-diff --git a/drivers/input/touchscreen/cyttsp_spi.c b/drivers/input/touchscreen/cyttsp_spi.c
-index 8715e5354d79..30c6fbf86a86 100644
---- a/drivers/input/touchscreen/cyttsp_spi.c
-+++ b/drivers/input/touchscreen/cyttsp_spi.c
-@@ -20,6 +20,8 @@
- #include <linux/input.h>
- #include <linux/spi/spi.h>
- 
-+#define CY_SPI_NAME		"cyttsp-spi"
++title: SparkFun Qwiic Joystick
 +
- #define CY_SPI_WR_OP		0x00 /* r/~w */
- #define CY_SPI_RD_OP		0x01
- #define CY_SPI_CMD_BYTES	4
-diff --git a/include/linux/input/cyttsp.h b/include/linux/input/cyttsp.h
-deleted file mode 100644
-index 118b9af6e01a..000000000000
---- a/include/linux/input/cyttsp.h
-+++ /dev/null
-@@ -1,29 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * Header file for:
-- * Cypress TrueTouch(TM) Standard Product (TTSP) touchscreen drivers.
-- * For use with Cypress Txx3xx parts.
-- * Supported parts include:
-- * CY8CTST341
-- * CY8CTMA340
-- *
-- * Copyright (C) 2009, 2010, 2011 Cypress Semiconductor, Inc.
-- * Copyright (C) 2012 Javier Martinez Canillas <javier@dowhile0.org>
-- *
-- * Contact Cypress Semiconductor at www.cypress.com (kev@cypress.com)
-- */
--#ifndef _CYTTSP_H_
--#define _CYTTSP_H_
--
--#define CY_SPI_NAME "cyttsp-spi"
--#define CY_I2C_NAME "cyttsp-i2c"
--/* Active Power state scanning/processing refresh interval */
--#define CY_ACT_INTRVL_DFLT 0x00 /* ms */
--/* touch timeout for the Active power */
--#define CY_TCH_TMOUT_DFLT 0xFF /* ms */
--/* Low Power state scanning/processing refresh interval */
--#define CY_LP_INTRVL_DFLT 0x0A /* ms */
--/* Active distance in pixels for a gesture to be reported */
--#define CY_ACT_DIST_DFLT 0xF8 /* pixels */
--
--#endif /* _CYTTSP_H_ */
++maintainers:
++  - Oleh Kravchenko <oleg@kaa.org.ua>
++
++description: |
++  Bindings for SparkFun Qwiic Joystick (COM-15168).
++  https://www.sparkfun.com/products/15168
++
++properties:
++  compatible:
++    const: sparkfun,qwiic-joystick
++
++required:
++  - compatible
++
++additionalProperties: false
++
++examples:
++  - |
++    qwiic@20 {
++        compatible = "sparkfun,qwiic-joystick";
++        reg = <0x20>;
++    };
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 944b02bb96d7..a5631e68f5d1 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -1060,6 +1060,8 @@ patternProperties:
+     description: Sony Corporation
+   "^spansion,.*":
+     description: Spansion Inc.
++  "^sparkfun,.*":
++    description: SparkFun Electronics
+   "^sprd,.*":
+     description: Spreadtrum Communications Inc.
+   "^sst,.*":
+diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconfig
+index 5e38899058c1..7dfe8ea90923 100644
+--- a/drivers/input/joystick/Kconfig
++++ b/drivers/input/joystick/Kconfig
+@@ -372,6 +372,15 @@ config JOYSTICK_PXRC
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called pxrc.
+ 
++config JOYSTICK_QWIIC
++	tristate "SparkFun Qwiic Joystick"
++	depends on I2C
++	help
++	  Say Y here if you want to use the SparkFun Qwiic Joystick.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called qwiic-joystick.
++
+ config JOYSTICK_FSIA6B
+ 	tristate "FlySky FS-iA6B RC Receiver"
+ 	select SERIO
+diff --git a/drivers/input/joystick/Makefile b/drivers/input/joystick/Makefile
+index 31d720c9e493..5174b8aba2dd 100644
+--- a/drivers/input/joystick/Makefile
++++ b/drivers/input/joystick/Makefile
+@@ -27,6 +27,7 @@ obj-$(CONFIG_JOYSTICK_MAPLE)		+= maplecontrol.o
+ obj-$(CONFIG_JOYSTICK_N64)		+= n64joy.o
+ obj-$(CONFIG_JOYSTICK_PSXPAD_SPI)	+= psxpad-spi.o
+ obj-$(CONFIG_JOYSTICK_PXRC)		+= pxrc.o
++obj-$(CONFIG_JOYSTICK_QWIIC)		+= qwiic-joystick.o
+ obj-$(CONFIG_JOYSTICK_SIDEWINDER)	+= sidewinder.o
+ obj-$(CONFIG_JOYSTICK_SPACEBALL)	+= spaceball.o
+ obj-$(CONFIG_JOYSTICK_SPACEORB)		+= spaceorb.o
+diff --git a/drivers/input/joystick/qwiic-joystick.c b/drivers/input/joystick/qwiic-joystick.c
+new file mode 100644
+index 000000000000..a20793f7f2a3
+--- /dev/null
++++ b/drivers/input/joystick/qwiic-joystick.c
+@@ -0,0 +1,170 @@
++// SPDX-License-Identifier: GPL-2.0
++// Copyright (C) 2021 Oleh Kravchenko <oleg@kaa.org.ua>
++
++/*
++ * SparkFun Qwiic Joystick
++ * Product page:https://www.sparkfun.com/products/15168
++ * Firmware and hardware sources:https://github.com/sparkfun/Qwiic_Joystick
++ */
++
++#include <linux/bits.h>
++#include <linux/i2c.h>
++#include <linux/input.h>
++#include <linux/input-polldev.h>
++#include <linux/module.h>
++
++#define QWIIC_JSK_REG_VERS	0
++#define QWIIC_JSK_REG_DATA	3
++
++#define QWIIC_JSK_MAX_AXIS	GENMASK(10, 0)
++#define QWIIC_JSK_FUZZ		2
++#define QWIIC_JSK_FLAT		2
++
++struct qwiic_jsk {
++	char			phys[32];
++	struct input_dev	*dev;
++	struct i2c_client	*i2c;
++};
++
++struct qwiic_ver {
++	u8 addr;
++	u8 major;
++	u8 minor;
++} __packed;
++
++struct qwiic_data {
++	u8 hx;
++	u8 lx;
++	u8 hy;
++	u8 ly;
++	u8 thumb;
++} __packed;
++
++static void qwiic_poll(struct input_dev *input)
++{
++	struct qwiic_jsk	*priv;
++	struct qwiic_data	data;
++	int			ret;
++	int			x, y, btn;
++
++	priv = input_get_drvdata(input);
++
++	ret = i2c_smbus_read_i2c_block_data(priv->i2c, QWIIC_JSK_REG_DATA,
++					    sizeof(data), (u8 *)&data);
++	if (ret == sizeof(data)) {
++		x = (data.hx << 8 | data.lx) >> 6;
++		y = (data.hy << 8 | data.ly) >> 6;
++		btn = !!!data.thumb;
++
++		input_report_abs(input, ABS_X, x);
++		input_report_abs(input, ABS_Y, y);
++		input_report_key(input, BTN_THUMBL, btn);
++
++		input_sync(input);
++	}
++}
++
++static int qwiic_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
++{
++	struct qwiic_jsk	*priv;
++	struct qwiic_ver	vers;
++	int			ret;
++
++	ret = i2c_smbus_read_i2c_block_data(i2c, QWIIC_JSK_REG_VERS,
++					    sizeof(vers), (u8 *)&vers);
++	if (ret != sizeof(vers)) {
++		ret = -EIO;
++		goto err;
++	}
++
++	if (i2c->addr != vers.addr) {
++		dev_err(&i2c->dev, "address doesn't match!\n");
++		ret = -ENODEV;
++		goto err;
++	}
++
++	dev_info(&i2c->dev, "SparkFun Qwiic Joystick, FW: %d.%d\n",
++		 vers.major, vers.minor);
++
++	priv = devm_kzalloc(&i2c->dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv) {
++		ret = -ENOMEM;
++		goto err;
++	}
++
++	priv->i2c = i2c;
++	snprintf(priv->phys, sizeof(priv->phys), "i2c/%s", dev_name(&i2c->dev));
++	i2c_set_clientdata(i2c, priv);
++
++	priv->dev = devm_input_allocate_device(&i2c->dev);
++	if (!priv->dev) {
++		dev_err(&i2c->dev, "failed to allocate input device\n");
++		ret = -ENOMEM;
++		goto err;
++	}
++
++	priv->dev->dev.parent = &i2c->dev;
++	priv->dev->id.bustype = BUS_I2C;
++	priv->dev->name = "SparkFun Qwiic Joystick";
++	priv->dev->phys = priv->phys;
++	input_set_drvdata(priv->dev, priv);
++
++	input_set_abs_params(priv->dev, ABS_X, 0, QWIIC_JSK_MAX_AXIS,
++			     QWIIC_JSK_FUZZ, QWIIC_JSK_FLAT);
++	input_set_abs_params(priv->dev, ABS_Y, 0, QWIIC_JSK_MAX_AXIS,
++			     QWIIC_JSK_FUZZ, QWIIC_JSK_FLAT);
++	input_set_capability(priv->dev, EV_KEY, BTN_THUMBL);
++
++	ret = input_setup_polling(priv->dev, qwiic_poll);
++	if (ret) {
++		dev_err(&i2c->dev, "failed to set up polling: %d\n", ret);
++		goto err;
++	}
++	input_set_poll_interval(priv->dev, 16);
++	input_set_min_poll_interval(priv->dev, 8);
++	input_set_max_poll_interval(priv->dev, 32);
++
++	ret = input_register_device(priv->dev);
++	if (ret)
++		dev_err(&i2c->dev, "failed to register joystick: %d\n", ret);
++
++err:
++	return ret;
++}
++
++static int qwiic_remove(struct i2c_client *i2c)
++{
++	struct qwiic_jsk *priv;
++
++	priv = i2c_get_clientdata(i2c);
++	input_unregister_device(priv->dev);
++
++	return 0;
++}
++
++static const struct of_device_id of_qwiic_match[] = {
++	{ .compatible = "sparkfun,qwiic-joystick", },
++	{},
++};
++MODULE_DEVICE_TABLE(of, of_qwiic_match);
++
++static const struct i2c_device_id qwiic_id_table[] = {
++	{ KBUILD_MODNAME, 0 },
++	{},
++};
++MODULE_DEVICE_TABLE(i2c, qwiic_id_table);
++
++static struct i2c_driver qwiic_driver = {
++	.driver = {
++		.name		= KBUILD_MODNAME,
++		.of_match_table	= of_match_ptr(of_qwiic_match),
++	},
++	.id_table	= qwiic_id_table,
++	.probe		= qwiic_probe,
++	.remove		= qwiic_remove,
++};
++module_i2c_driver(qwiic_driver);
++
++MODULE_AUTHOR("Oleh Kravchenko <oleg@kaa.org.ua>");
++MODULE_DESCRIPTION("SparkFun Qwiic Joystick driver");
++MODULE_LICENSE("GPL v2");
 -- 
-2.32.0.rc0.204.g9fa02ecfa5-goog
+2.26.3
 
