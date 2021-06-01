@@ -2,72 +2,270 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0261A3970D3
-	for <lists+linux-input@lfdr.de>; Tue,  1 Jun 2021 12:02:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEA65397168
+	for <lists+linux-input@lfdr.de>; Tue,  1 Jun 2021 12:27:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231576AbhFAKDo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 1 Jun 2021 06:03:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49868 "EHLO
+        id S230282AbhFAK3N (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Jun 2021 06:29:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230262AbhFAKDn (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Jun 2021 06:03:43 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD40CC061574
-        for <linux-input@vger.kernel.org>; Tue,  1 Jun 2021 03:02:01 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id a2so20841989lfc.9
-        for <linux-input@vger.kernel.org>; Tue, 01 Jun 2021 03:02:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=WpI8GHLsJcrZ58Z+YoJaB7PSP+47yWiasjYAw5B6Hg8=;
-        b=AA74wBTPZSpiPxChVnNfVNN4bpKUdDKtSW4Hiek8lM/LP0cE+23moWVD+cf0MbpiS8
-         gT3lreTwLL+F6pTLDk7pd0yYKIDVJF6lE0EAbirEtXkePAgA7XYWix94XETfWAw/uJnR
-         I0n1mfFFFeIJbjDWTHKEyvgWO5q9FpKijlESGpwUDEvZmdqNMmtgPmNvJuS0qOPyqrow
-         b9QqEBc8c5HJ/U9Mw19/fSd4+W4hiEDPuWNMAN1nCvclpVquVBRZj5lN+FRg1+V+0Bv2
-         AyfYSsQf3lbuVNJqdO05id1ryzuAsvmizFzIweWzj9+RK6tbgm++hd2Ufs1joCde5YRP
-         p6PA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=WpI8GHLsJcrZ58Z+YoJaB7PSP+47yWiasjYAw5B6Hg8=;
-        b=RT/9xESCc8YjVPK8QhfaJ/dQDg0zhG7zPstV0fRmS88fmIMX547hIfzWqZuT5J1CXg
-         Rc2Jhzsv9MTBrrxDx1rqYHohLRBsZMNe8YHavg/rdwieZb4LYuhefSuNhPxAegG4V7+b
-         PiTH1/gXSlampsnBuwY5ler9p4vjRJvJDzoQCOk/y95PtC619W4yY5Tb/dYpbzUGKUwi
-         QYJoH3tU8n4cCpg6C7TxDuGC2qLMhe2rgosHmWMgeLdlwg7vwcobs/h8zKIUzBZ/JWjk
-         YNx1wq+X+J9EzcBQcTsFehSk8l3F0CY/85XmktchwNDBkXJNnMVmlVdZGsm7limctRRZ
-         K7DA==
-X-Gm-Message-State: AOAM5308cGzuGnFx/q8cnrcHsVOGw2pHkILxhkYg21YoASAb9JIbv+ap
-        pFrj2kgerP5bheF1FKZvieokXA6Mg4eoQg3WJqqlUA==
-X-Google-Smtp-Source: ABdhPJyENCN6slN50xDFDVXreOas+przMVWpk1EoCHMp7aoF1LFbRhdFgFsjN6uAweYWTB+ajbTiy1nNeLUMf4vm4t0=
-X-Received: by 2002:ac2:544f:: with SMTP id d15mr18089239lfn.465.1622541720092;
- Tue, 01 Jun 2021 03:02:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210531052307.1433979-1-dmitry.torokhov@gmail.com> <20210531052307.1433979-2-dmitry.torokhov@gmail.com>
-In-Reply-To: <20210531052307.1433979-2-dmitry.torokhov@gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 1 Jun 2021 12:01:49 +0200
-Message-ID: <CACRpkdb180Gp5xgQUO6LGuCxgvgWB1qirLu9wP6Uky9Qnw+w7w@mail.gmail.com>
-Subject: Re: [PATCH 2/2] Input: cyttsp - remove public header
+        with ESMTP id S230170AbhFAK3N (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Jun 2021 06:29:13 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F218CC061574
+        for <linux-input@vger.kernel.org>; Tue,  1 Jun 2021 03:27:31 -0700 (PDT)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1lo1cF-0002ny-4t; Tue, 01 Jun 2021 12:27:19 +0200
+Received: from ore by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ore@pengutronix.de>)
+        id 1lo1cB-0007qg-KG; Tue, 01 Jun 2021 12:27:15 +0200
+Date:   Tue, 1 Jun 2021 12:27:15 +0200
+From:   Oleksij Rempel <o.rempel@pengutronix.de>
 To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Linux Input <linux-input@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>, kbuild@lists.01.org,
+        lkp@intel.com, kbuild-all@lists.01.org,
+        linux-input@vger.kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [input:next 2732/2735]
+ drivers/input/touchscreen/resistive-adc-touch.c:84 grts_cb() error:
+ uninitialized symbol 'z2'.
+Message-ID: <20210601102715.uu2wflgzvrler6rt@pengutronix.de>
+References: <202105270957.mdv83Usm-lkp@intel.com>
+ <20210527101951.5q5ixq2tnd7esq2w@pengutronix.de>
+ <20210527104157.GK24442@kadam>
+ <YLXR2brkc4H54xtK@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YLXR2brkc4H54xtK@google.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 12:25:29 up 181 days, 31 min, 54 users,  load average: 0.24, 0.16,
+ 0.10
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, May 31, 2021 at 7:23 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
+Hi Dmitry,
 
-> There is nothing in include/linux/input/cyttsp.h that might be of interes
-> to the kernel at large, so let's move this information into the driver
-> code and remove the header.
->
+ 
+> Input: resistive-adc-touch - rework mapping of channels
+> 
+> From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> 
+> Instead of iterating over channels establish and use channel map to
+> retrieve data. As a side effect this will silence "uninitialized variable"
+> warnings.
+> 
 > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> ---
+>  drivers/input/touchscreen/resistive-adc-touch.c |  114 ++++++++++-------------
+>  1 file changed, 51 insertions(+), 63 deletions(-)
+> 
+> diff --git a/drivers/input/touchscreen/resistive-adc-touch.c b/drivers/input/touchscreen/resistive-adc-touch.c
+> index ea1884fb49a1..2102916a37ea 100644
+> --- a/drivers/input/touchscreen/resistive-adc-touch.c
+> +++ b/drivers/input/touchscreen/resistive-adc-touch.c
+> @@ -25,12 +25,12 @@
+>  #define GRTS_MAX_CHANNELS				4
+>  
+>  enum grts_ch_type {
+> -	GRTS_CH_NONE = 0,
+>  	GRTS_CH_X,
+>  	GRTS_CH_Y,
+>  	GRTS_CH_PRESSURE,
+>  	GRTS_CH_Z1,
+>  	GRTS_CH_Z2,
+> +	GRTS_CH_MAX = GRTS_CH_Z2 + 1
+>  };
+>  
+>  /**
+> @@ -42,7 +42,7 @@ enum grts_ch_type {
+>   * @iio_cb:		iio_callback buffer for the data
+>   * @input:		the input device structure that we register
+>   * @prop:		touchscreen properties struct
+> - * @ch:			channels that are defined for the touchscreen
+> + * @ch_map:		map of channels that are defined for the touchscreen
+>   */
+>  struct grts_state {
+>  	u32				x_plate_ohms;
+> @@ -52,37 +52,25 @@ struct grts_state {
+>  	struct iio_cb_buffer		*iio_cb;
+>  	struct input_dev		*input;
+>  	struct touchscreen_properties	prop;
+> -	u8				ch[GRTS_MAX_CHANNELS];
+> +	u8				ch_map[GRTS_CH_MAX];
+>  };
+>  
+>  static int grts_cb(const void *data, void *private)
+>  {
+>  	const u16 *touch_info = data;
+>  	struct grts_state *st = private;
+> -	unsigned int x, y, press = 0, z1 = 0, z2;
+> -	unsigned int Rt, i;
+> -
+> -	for (i = 0; i < ARRAY_SIZE(st->ch) && st->ch[i] != GRTS_CH_NONE; i++) {
+> -		switch (st->ch[i]) {
+> -		case GRTS_CH_X:
+> -			x = touch_info[i];
+> -			break;
+> -		case GRTS_CH_Y:
+> -			y = touch_info[i];
+> -			break;
+> -		case GRTS_CH_PRESSURE:
+> -			press = touch_info[i];
+> -			break;
+> -		case GRTS_CH_Z1:
+> -			z1 = touch_info[i];
+> -			break;
+> -		case GRTS_CH_Z2:
+> -			z2 = touch_info[i];
+> -			break;
+> -		}
+> -	}
+> +	unsigned int x, y, press;
+> +
+> +	x = touch_info[st->ch_map[GRTS_CH_X]];
+> +	y = touch_info[st->ch_map[GRTS_CH_X]];
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Here should be GRTS_CH_Y
 
-Yours,
-Linus Walleij
+With this fix:
+Tested-by: Oleksij Rempel <o.rempel@pengutronix.de>
+
+> +
+> +	if (st->ch_map[GRTS_CH_PRESSURE] < GRTS_MAX_CHANNELS) {
+> +		press = touch_info[st->ch_map[GRTS_CH_PRESSURE]];
+> +	} else if (st->ch_map[GRTS_CH_Z1] < GRTS_MAX_CHANNELS) {
+> +		unsigned int z1 = touch_info[st->ch_map[GRTS_CH_Z1]];
+> +		unsigned int z2 = touch_info[st->ch_map[GRTS_CH_Z2]];
+> +		unsigned int Rt;
+>  
+> -	if (z1) {
+>  		Rt = z2;
+>  		Rt -= z1;
+>  		Rt *= st->x_plate_ohms;
+> @@ -142,60 +130,59 @@ static void grts_disable(void *data)
+>  	iio_channel_release_all_cb(data);
+>  }
+>  
+> -static int grts_get_properties(struct grts_state *st, struct device *dev)
+> +static int grts_map_channel(struct grts_state *st, struct device *dev,
+> +			    enum grts_ch_type type, const char *name,
+> +			    bool optional)
+>  {
+> -	int idx, error;
+> -
+> -	idx = device_property_match_string(dev, "io-channel-names", "x");
+> -	if (idx < 0)
+> -		return idx;
+> -
+> -	if (idx >= ARRAY_SIZE(st->ch))
+> +	int idx;
+> +
+> +	idx = device_property_match_string(dev, "io-channel-names", name);
+> +	if (idx < 0) {
+> +		if (!optional)
+> +			return idx;
+> +		idx = GRTS_MAX_CHANNELS;
+> +	} else if (idx >= GRTS_MAX_CHANNELS) {
+>  		return -EOVERFLOW;
+> +	}
+>  
+> -	st->ch[idx] = GRTS_CH_X;
+> +	st->ch_map[type] = idx;
+> +	return 0;
+> +}
+>  
+> -	idx = device_property_match_string(dev, "io-channel-names", "y");
+> -	if (idx < 0)
+> -		return idx;
+> +static int grts_get_properties(struct grts_state *st, struct device *dev)
+> +{
+> +	int error;
+>  
+> -	if (idx >= ARRAY_SIZE(st->ch))
+> -		return -EOVERFLOW;
+> +	error = grts_map_channel(st, dev, GRTS_CH_X, "x", false);
+> +	if (error)
+> +		return error;
+>  
+> -	st->ch[idx] = GRTS_CH_Y;
+> +	error = grts_map_channel(st, dev, GRTS_CH_Y, "y", false);
+> +	if (error)
+> +		return error;
+>  
+>  	/* pressure is optional */
+> -	idx = device_property_match_string(dev, "io-channel-names", "pressure");
+> -	if (idx >= 0) {
+> -		if (idx >= ARRAY_SIZE(st->ch))
+> -			return -EOVERFLOW;
+> +	error = grts_map_channel(st, dev, GRTS_CH_PRESSURE, "pressure", true);
+> +	if (error)
+> +		return error;
+>  
+> -		st->ch[idx] = GRTS_CH_PRESSURE;
+> +	if (st->ch_map[GRTS_CH_PRESSURE] < GRTS_MAX_CHANNELS) {
+>  		st->pressure = true;
+> -
+>  		return 0;
+>  	}
+>  
+>  	/* if no pressure is defined, try optional z1 + z2 */
+> -	idx = device_property_match_string(dev, "io-channel-names", "z1");
+> -	if (idx < 0)
+> -		return 0;
+> -
+> -	if (idx >= ARRAY_SIZE(st->ch))
+> -		return -EOVERFLOW;
+> +	error = grts_map_channel(st, dev, GRTS_CH_Z1, "z1", true);
+> +	if (error)
+> +		return error;
+>  
+> -	st->ch[idx] = GRTS_CH_Z1;
+> +	if (st->ch_map[GRTS_CH_Z1] >= GRTS_MAX_CHANNELS)
+> +		return 0;
+>  
+>  	/* if z1 is provided z2 is not optional */
+> -	idx = device_property_match_string(dev, "io-channel-names", "z2");
+> -	if (idx < 0)
+> -		return idx;
+> -
+> -	if (idx >= ARRAY_SIZE(st->ch))
+> -		return -EOVERFLOW;
+> -
+> -	st->ch[idx] = GRTS_CH_Z2;
+> -	st->pressure = true;
+> +	error = grts_map_channel(st, dev, GRTS_CH_Z2, "z2", true);
+> +	if (error)
+> +		return error;
+>  
+>  	error = device_property_read_u32(dev,
+>  					 "touchscreen-x-plate-ohms",
+> @@ -205,6 +192,7 @@ static int grts_get_properties(struct grts_state *st, struct device *dev)
+>  		return error;
+>  	}
+>  
+> +	st->pressure = true;
+>  	return 0;
+>  }
+>  
+> 
+> 
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
