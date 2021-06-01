@@ -2,421 +2,347 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1F46396D3A
-	for <lists+linux-input@lfdr.de>; Tue,  1 Jun 2021 08:18:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12FBB396D3D
+	for <lists+linux-input@lfdr.de>; Tue,  1 Jun 2021 08:21:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231375AbhFAGUQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 1 Jun 2021 02:20:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55412 "EHLO
+        id S229984AbhFAGW7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 1 Jun 2021 02:22:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229984AbhFAGUP (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Jun 2021 02:20:15 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBD6AC061574;
-        Mon, 31 May 2021 23:18:33 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id pi6-20020a17090b1e46b029015cec51d7cdso1228970pjb.5;
-        Mon, 31 May 2021 23:18:33 -0700 (PDT)
+        with ESMTP id S229477AbhFAGW7 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 1 Jun 2021 02:22:59 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BADEDC061574
+        for <linux-input@vger.kernel.org>; Mon, 31 May 2021 23:21:17 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id g6so605212pfq.1
+        for <linux-input@vger.kernel.org>; Mon, 31 May 2021 23:21:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=TAQkCcgm8nZJld9czv/74HZS1nt7FJgNUtwXqioRjFQ=;
-        b=BZP9pCTCVlbZgMndbgx0h6MuciaPd9QGccOhIkpNaS+m53rESB+24aR0+Auv/yO4aX
-         AhFbVhWh85RH/I7O2J4dxlu8l885e8WQQ49qIdNfEIp2FuqnC+w2pK7zwyzQ3hy4c+oV
-         J0vHQYcsxrOVnItYE/nr10kzstzb8e9gr/yVZe9A596WLHbtalqCcqz+ojq9j7/zRBQ2
-         9MiVbLgRVUD6PXNTkRhjjt8Y1HbgNDKPIFxxZDyIe3mVjzUNUmYylfzXEfLCaZJj9WUn
-         cVttjDSd58trQK6v9LJMaR/O0pH6KQ2KhEz2uYfVq2D1P5qhvNXHERTNnCUGZpTJTv7Q
-         H+ig==
+         :content-disposition:in-reply-to;
+        bh=g9ycelqs6imQgvhh6l/FRb9G/2ONnMYxtw/Expol5gM=;
+        b=iAvBgPYduk91FaP9D1H6ebrICRD7Cjk5ABXbZO3foTp8BwNYrk5fD/fRQKQy/0RHEY
+         IO/6tz9nz9ZSn7k4ja9ZDtBMiKLfLnas3R3SeK19rSniH53VjE1IV8bi6h1ydfzPwO3L
+         jkEWElfRxX2M6gOht103N9/dG7AYU87SqMHMe2vD+EVksdams96UhAqBt+GzQXWAWhNl
+         lJj8Ie1g3/bAmu0EqFb39JwlQ3GGjpf5fQV8buE1HIj4CpigJ2C0QStH0WgKfDBCLmXJ
+         xybMDQxh2ByWFuyORQXptonIlgeEGtl8BjODdigIwPB3wPTMvPTALWVzrsqes+dkJGpu
+         uZ0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=TAQkCcgm8nZJld9czv/74HZS1nt7FJgNUtwXqioRjFQ=;
-        b=dBFzMSl5AH+vS6GFRT5USOYDAMHIH4ciZl6kbyhEsbn1sprgPHEkZDCbDbhKA1DJAC
-         BmLSWfLpe5Py3iYHxWBif93S+eDzLXt64BZip1Hg6HtyYL961H9VUlOygMa5/mENuFCB
-         9ErHkTux1RVMAzQy63jp4lUbHQ5qVH5C+Yy+0IhiWo2djJV9VuecnEvZLbSluYp20vpk
-         WihSbE3HIjnyHA25S2l0StfO1t91E4mo5p6qp1+HnZirHNa+g1zMHz+MU7EFsF5iOkvD
-         tHXjhWgXnSfwkE+5Qbb1gw6xy9xWmGFbz0C8hqc9EAHZHhE4KNpBCkq6U8iAaWWdedPE
-         GF1A==
-X-Gm-Message-State: AOAM531hadiM8mv1UZ+D5zpzOBNNrTFVCtJNjFhWwBnE0z7RgFV/oB4p
-        2gIqF3DqdmkqUOBx8ithbus=
-X-Google-Smtp-Source: ABdhPJx/IT3Y2DPkvvKJxMgW/m4mrehx+iYxeesAAvQu2ntSxMjqxXkTNaa54K8398HMxUQOjwj+Sg==
-X-Received: by 2002:a17:90b:1d89:: with SMTP id pf9mr3162627pjb.26.1622528312490;
-        Mon, 31 May 2021 23:18:32 -0700 (PDT)
+         :mime-version:content-disposition:in-reply-to;
+        bh=g9ycelqs6imQgvhh6l/FRb9G/2ONnMYxtw/Expol5gM=;
+        b=F5lnIKE5eoN3ugiv/7InaoC/pG3JFCsr0J4feB0p/RO6zD2nQ9/55KYoF1THttD57y
+         m2rC52lRZ2OygOvlSX4xHprWPADJG4ZH5kirHO23DySCL0X9t/v9yDSCA5ozK1d/O5P4
+         5bh07Kt15HbpIrFgVutWRo3p5OzLUpppMa7ny4kNZXWaGFvDcSv51u9emQCuLl64uO2u
+         2N3FE3k6smR6WLm0qdsuMNpAqtC6oC1SzNJAEpahFGP53GQIaCvEyd6oWa83e347TRNm
+         F/vCnLdOA2OCIoFC8f4KHOMe0albKz7O7rJvmaz152nPynIOmQIEI6bsPLmNJXDGd6oZ
+         VuqQ==
+X-Gm-Message-State: AOAM532OgS6+Fus3DILwm3UUFb/RqMevepDASACCUB/58WtplCUA3jhu
+        xEReG5egTnOjfb9OIaYTwPY=
+X-Google-Smtp-Source: ABdhPJxmcGvAJzby6uU/wWz0ewq+5qLi/w5tALoBWDQRioEkvbSzYclUW4QrQxQSvXNQau1yeqSDPQ==
+X-Received: by 2002:a05:6a00:7c5:b029:2e8:d5f5:9677 with SMTP id n5-20020a056a0007c5b02902e8d5f59677mr20319271pfu.68.1622528477150;
+        Mon, 31 May 2021 23:21:17 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:f313:c4c:d05e:895b])
-        by smtp.gmail.com with ESMTPSA id c190sm3770978pfc.26.2021.05.31.23.18.30
+        by smtp.gmail.com with ESMTPSA id q91sm5648787pja.50.2021.05.31.23.21.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 May 2021 23:18:31 -0700 (PDT)
-Date:   Mon, 31 May 2021 23:18:29 -0700
+        Mon, 31 May 2021 23:21:16 -0700 (PDT)
+Date:   Mon, 31 May 2021 23:21:13 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Oleh Kravchenko <oleg@kaa.org.ua>, Rob Herring <robh@kernel.org>
-Cc:     linux-input@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Device Tree mailing list <devicetree@vger.kernel.org>,
-        Jiri Kosina <jikos@jikos.cz>,
-        Patchwork Bot <patchwork-bot@kernel.org>
-Subject: Re: [PATCH] input: add SparkFun Qwiic Joystick driver
-Message-ID: <YLXRNVBG0ewhVUxD@google.com>
-References: <20210531133243.9488-1-oleg@kaa.org.ua>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Oleksij Rempel <o.rempel@pengutronix.de>, kbuild@lists.01.org,
+        lkp@intel.com, kbuild-all@lists.01.org,
+        linux-input@vger.kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [input:next 2732/2735]
+ drivers/input/touchscreen/resistive-adc-touch.c:84 grts_cb() error:
+ uninitialized symbol 'z2'.
+Message-ID: <YLXR2brkc4H54xtK@google.com>
+References: <202105270957.mdv83Usm-lkp@intel.com>
+ <20210527101951.5q5ixq2tnd7esq2w@pengutronix.de>
+ <20210527104157.GK24442@kadam>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210531133243.9488-1-oleg@kaa.org.ua>
+In-Reply-To: <20210527104157.GK24442@kadam>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Oleh,
-
-On Mon, May 31, 2021 at 04:32:43PM +0300, Oleh Kravchenko wrote:
-> A simple analog joystick built on Low Power ATtiny85 Microcontroller.
-> Directional movements are measured with two 10 kΩ potentiometers
-> connected with a gimbal mechanism that separates the horizontal and
-> vertical movements. This joystick also has a select button that is actuated
-> when the joystick is pressed down.
+On Thu, May 27, 2021 at 01:41:57PM +0300, Dan Carpenter wrote:
+> On Thu, May 27, 2021 at 12:19:51PM +0200, Oleksij Rempel wrote:
+> > Hi,
+> > 
+> > On Thu, May 27, 2021 at 12:30:00PM +0300, Dan Carpenter wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git  next
+> > > head:   6cf3b3abbf0b3b778138c0f8936aa7820af62cfc
+> > > commit: fb082cd59afa7fbd3a610e9835050675040b1b99 [2732/2735] Input: resistive-adc-touch - add support for z1 and z2 channels
+> > > config: x86_64-randconfig-m001-20210526 (attached as .config)
+> > > compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+> > > 
+> > > If you fix the issue, kindly add following tag as appropriate
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > > 
+> > > New smatch warnings:
+> > > drivers/input/touchscreen/resistive-adc-touch.c:84 grts_cb() error: uninitialized symbol 'z2'.
+> > > drivers/input/touchscreen/resistive-adc-touch.c:88 grts_cb() error: uninitialized symbol 'x'.
+> > > drivers/input/touchscreen/resistive-adc-touch.c:101 grts_cb() error: uninitialized symbol 'y'.
+> > > 
+> > > Old smatch warnings:
+> > > drivers/input/touchscreen/resistive-adc-touch.c:101 grts_cb() error: uninitialized symbol 'x'.
+> > > drivers/input/touchscreen/resistive-adc-touch.c:109 grts_cb() error: uninitialized symbol 'y'.
+> > > 
+> > > vim +/z2 +84 drivers/input/touchscreen/resistive-adc-touch.c
+> > > 
+> > > aa132ffb6b0a18 Eugen Hristev  2018-05-22   56  static int grts_cb(const void *data, void *private)
+> > > aa132ffb6b0a18 Eugen Hristev  2018-05-22   57  {
+> > > aa132ffb6b0a18 Eugen Hristev  2018-05-22   58  	const u16 *touch_info = data;
+> > > aa132ffb6b0a18 Eugen Hristev  2018-05-22   59  	struct grts_state *st = private;
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   60  	unsigned int x, y, press = 0, z1 = 0, z2;
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   61  	unsigned int Rt, i;
+> > > aa132ffb6b0a18 Eugen Hristev  2018-05-22   62  
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   63  	for (i = 0; i < ARRAY_SIZE(st->ch) && st->ch[i] != GRTS_CH_NONE; i++) {
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   64  		switch (st->ch[i]) {
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   65  		case GRTS_CH_X:
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   66  			x = touch_info[i];
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   67  			break;
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   68  		case GRTS_CH_Y:
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   69  			y = touch_info[i];
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   70  			break;
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   71  		case GRTS_CH_PRESSURE:
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   72  			press = touch_info[i];
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   73  			break;
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   74  		case GRTS_CH_Z1:
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   75  			z1 = touch_info[i];
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   76  			break;
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   77  		case GRTS_CH_Z2:
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   78  			z2 = touch_info[i];
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   79  			break;
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   80  		}
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   81  	}
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   82  
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25   83  	if (z1) {
+> > > fb082cd59afa7f Oleksij Rempel 2021-05-25  @84  		Rt = z2;
+> > > 
+> > > It's likely this is a false positive, but we can see why the static
+> > > checker would complain.
+> > 
+> > The presence of this values was validated on probe. Do we really need
+> > extra set them to 0?
 > 
-> Input events polled over the I2C bus.
-
-Thank you for the driver.
-
+> You don't need to do anything.  ;)  These are a one time email.  I just
+> look it over and hit forward.
 > 
-> Product page:
-> https://www.sparkfun.com/products/15168
-> Firmware and hardware sources:
-> https://github.com/sparkfun/Qwiic_Joystick
-> 
-> Tested on RPi4B and O4-iMX-NANO boards.
-> 
-> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> Cc: Device Tree mailing list <devicetree@vger.kernel.org>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Jiri Kosina <jikos@jikos.cz>
-> Cc: Patchwork Bot <patchwork-bot@kernel.org>
-> Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
-> ---
->  .../bindings/input/qwiic-joystick.yaml        |  31 ++++
->  .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
->  drivers/input/joystick/Kconfig                |   9 +
->  drivers/input/joystick/Makefile               |   1 +
->  drivers/input/joystick/qwiic-joystick.c       | 169 ++++++++++++++++++
->  5 files changed, 212 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/qwiic-joystick.yaml
->  create mode 100644 drivers/input/joystick/qwiic-joystick.c
-> 
-> diff --git a/Documentation/devicetree/bindings/input/qwiic-joystick.yaml b/Documentation/devicetree/bindings/input/qwiic-joystick.yaml
-> new file mode 100644
-> index 000000000000..51cadeb350f2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/qwiic-joystick.yaml
-> @@ -0,0 +1,31 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +# Copyright 2021 Oleh Kravchenko
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/input/qwiic-joystick.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: SparkFun Qwiic Joystick
-> +
-> +maintainers:
-> +  - Oleh Kravchenko <oleg@kaa.org.ua>
-> +
-> +description: |
-> +  Bindings for SparkFun Qwiic Joystick (COM-15168).
-> +  https://www.sparkfun.com/products/15168
-> +
-> +properties:
-> +  compatible:
-> +    const: sparkfun,qwiic-joystick
+> Currently GCC's uninitialized variable checking is disabled in the
+> kernel otherwise there would be more presure to silence the checker
+> warning.
 
-Rob, is this compatible acceptable?
+I find "ununitialzied" warnings to be quite useful. How about we change
+a bit how we map the channels, and this will help with uninitialized
+warnings as well.
 
-> +
-> +required:
-> +  - compatible
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    qwiic@20 {
-> +        compatible = "sparkfun,qwiic-joystick";
-> +        reg = <0x20>;
-> +    };
-
-I think this device would be covered by
-Documentation/devicetree/bindings/trivial-devices.yaml so please add its
-compatible there.
-
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> index 944b02bb96d7..a5631e68f5d1 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -1060,6 +1060,8 @@ patternProperties:
->      description: Sony Corporation
->    "^spansion,.*":
->      description: Spansion Inc.
-> +  "^sparkfun,.*":
-> +    description: SparkFun Electronics
-
-This should be a separate patch, please also send to Rob Herring and
-device tree list.
-
->    "^sprd,.*":
->      description: Spreadtrum Communications Inc.
->    "^sst,.*":
-> diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconfig
-> index 5e38899058c1..7dfe8ea90923 100644
-> --- a/drivers/input/joystick/Kconfig
-> +++ b/drivers/input/joystick/Kconfig
-> @@ -372,6 +372,15 @@ config JOYSTICK_PXRC
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called pxrc.
->  
-> +config JOYSTICK_QWIIC
-> +	tristate "SparkFun Qwiic Joystick"
-> +	depends on I2C
-> +	help
-> +	  Say Y here if you want to use the SparkFun Qwiic Joystick.
-> +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called qwiic-joystick.
-> +
->  config JOYSTICK_FSIA6B
->  	tristate "FlySky FS-iA6B RC Receiver"
->  	select SERIO
-> diff --git a/drivers/input/joystick/Makefile b/drivers/input/joystick/Makefile
-> index 31d720c9e493..5174b8aba2dd 100644
-> --- a/drivers/input/joystick/Makefile
-> +++ b/drivers/input/joystick/Makefile
-> @@ -27,6 +27,7 @@ obj-$(CONFIG_JOYSTICK_MAPLE)		+= maplecontrol.o
->  obj-$(CONFIG_JOYSTICK_N64)		+= n64joy.o
->  obj-$(CONFIG_JOYSTICK_PSXPAD_SPI)	+= psxpad-spi.o
->  obj-$(CONFIG_JOYSTICK_PXRC)		+= pxrc.o
-> +obj-$(CONFIG_JOYSTICK_QWIIC)		+= qwiic-joystick.o
->  obj-$(CONFIG_JOYSTICK_SIDEWINDER)	+= sidewinder.o
->  obj-$(CONFIG_JOYSTICK_SPACEBALL)	+= spaceball.o
->  obj-$(CONFIG_JOYSTICK_SPACEORB)		+= spaceorb.o
-> diff --git a/drivers/input/joystick/qwiic-joystick.c b/drivers/input/joystick/qwiic-joystick.c
-> new file mode 100644
-> index 000000000000..9b7ab0dd1218
-> --- /dev/null
-> +++ b/drivers/input/joystick/qwiic-joystick.c
-> @@ -0,0 +1,169 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +// Copyright (C) 2021 Oleh Kravchenko <oleg@kaa.org.ua>
-> +
-> +/*
-> + * SparkFun Qwiic Joystick
-> + * Product page:https://www.sparkfun.com/products/15168
-> + * Firmware and hardware sources:https://github.com/sparkfun/Qwiic_Joystick
-> + */
-> +
-> +#include <linux/bits.h>
-> +#include <linux/i2c.h>
-> +#include <linux/input.h>
-> +#include <linux/module.h>
-> +
-> +#define QWIIC_JSK_REG_VERS	0
-> +#define QWIIC_JSK_REG_DATA	3
-> +
-> +#define QWIIC_JSK_MAX_AXIS	GENMASK(10, 0)
-> +#define QWIIC_JSK_FUZZ		2
-> +#define QWIIC_JSK_FLAT		2
-> +
-> +struct qwiic_jsk {
-> +	char			phys[32];
-> +	struct input_dev	*dev;
-> +	struct i2c_client	*i2c;
-> +};
-> +
-> +struct qwiic_ver {
-> +	u8 addr;
-> +	u8 major;
-> +	u8 minor;
-> +} __packed;
-
-There is no reason to declare structure containing only bytes as packed.
-
-> +
-> +struct qwiic_data {
-> +	u8 hx;
-> +	u8 lx;
-> +	u8 hy;
-> +	u8 ly;
-> +	u8 thumb;
-> +} __packed;
-> +
-> +static void qwiic_poll(struct input_dev *input)
-> +{
-> +	struct qwiic_jsk	*priv;
-> +	struct qwiic_data	data;
-> +	int			ret;
-> +	int			x, y, btn;
-> +
-> +	priv = input_get_drvdata(input);
-> +
-> +	ret = i2c_smbus_read_i2c_block_data(priv->i2c, QWIIC_JSK_REG_DATA,
-> +					    sizeof(data), (u8 *)&data);
-> +	if (ret == sizeof(data)) {
-> +		x = (data.hx << 8 | data.lx) >> 6;
-
-Why not define data as a u8 array, and then do
-
-		u16 x = be16_to_cpup(data) >> 6;
-		u16 y = be16_to_cpup(data + 2) >> 6;
-
-Or declare coordinates as __be16 in qwiic_data (and use be16_to_cpu when
-accessing).
-
-> +		y = (data.hy << 8 | data.ly) >> 6;
-> +		btn = !!!data.thumb;
-
-Triple negation is too much, one should be enough.
-
-> +
-> +		input_report_abs(input, ABS_X, x);
-> +		input_report_abs(input, ABS_Y, y);
-> +		input_report_key(input, BTN_THUMBL, btn);
-> +
-> +		input_sync(input);
-> +	}
-> +}
-> +
-> +static int qwiic_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
-> +{
-> +	struct qwiic_jsk	*priv;
-> +	struct qwiic_ver	vers;
-> +	int			ret;
-> +
-> +	ret = i2c_smbus_read_i2c_block_data(i2c, QWIIC_JSK_REG_VERS,
-> +					    sizeof(vers), (u8 *)&vers);
-> +	if (ret != sizeof(vers)) {
-> +		ret = -EIO;
-> +		goto err;
-> +	}
-> +
-> +	if (i2c->addr != vers.addr) {
-> +		dev_err(&i2c->dev, "address doesn't match!\n");
-> +		ret = -ENODEV;
-> +		goto err;
-> +	}
-> +
-> +	dev_info(&i2c->dev, "SparkFun Qwiic Joystick, FW: %d.%d\n",
-> +		 vers.major, vers.minor);
-
-Preference is not to be too noisy, please change to dev_dbg().
-
-> +
-> +	priv = devm_kzalloc(&i2c->dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv) {
-> +		ret = -ENOMEM;
-
-Return -ENOMEM directly, no need to use labels when you do not need to
-do any cleanup by hand.
-
-> +		goto err;
-> +	}
-> +
-> +	priv->i2c = i2c;
-> +	snprintf(priv->phys, sizeof(priv->phys), "i2c/%s", dev_name(&i2c->dev));
-> +	i2c_set_clientdata(i2c, priv);
-> +
-> +	priv->dev = devm_input_allocate_device(&i2c->dev);
-> +	if (!priv->dev) {
-> +		dev_err(&i2c->dev, "failed to allocate input device\n");
-> +		ret = -ENOMEM;
-> +		goto err;
-> +	}
-> +
-> +	priv->dev->dev.parent = &i2c->dev;
-
-Done by devm_input_allocate_device(), please drop.
-
-> +	priv->dev->id.bustype = BUS_I2C;
-> +	priv->dev->name = "SparkFun Qwiic Joystick";
-> +	priv->dev->phys = priv->phys;
-> +	input_set_drvdata(priv->dev, priv);
-> +
-> +	input_set_abs_params(priv->dev, ABS_X, 0, QWIIC_JSK_MAX_AXIS,
-> +			     QWIIC_JSK_FUZZ, QWIIC_JSK_FLAT);
-> +	input_set_abs_params(priv->dev, ABS_Y, 0, QWIIC_JSK_MAX_AXIS,
-> +			     QWIIC_JSK_FUZZ, QWIIC_JSK_FLAT);
-> +	input_set_capability(priv->dev, EV_KEY, BTN_THUMBL);
-> +
-> +	ret = input_setup_polling(priv->dev, qwiic_poll);
-
-Please call variables that carry error code or 0 "error" and not "ret".
-
-> +	if (ret) {
-> +		dev_err(&i2c->dev, "failed to set up polling: %d\n", ret);
-> +		goto err;
-> +	}
-> +	input_set_poll_interval(priv->dev, 16);
-> +	input_set_min_poll_interval(priv->dev, 8);
-> +	input_set_max_poll_interval(priv->dev, 32);
-> +
-> +	ret = input_register_device(priv->dev);
-> +	if (ret)
-> +		dev_err(&i2c->dev, "failed to register joystick: %d\n", ret);
-> +
-> +err:
-> +	return ret;
-> +}
-> +
-> +static int qwiic_remove(struct i2c_client *i2c)
-> +{
-> +	struct qwiic_jsk *priv;
-> +
-> +	priv = i2c_get_clientdata(i2c);
-> +	input_unregister_device(priv->dev);
-
-Since you are using devm_input_allocate_device() you do not need to
-manually unregister it, it will be done automatically. Drop this and you
-can remove qwiic_remove() altogether.
-
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id of_qwiic_match[] = {
-> +	{ .compatible = "sparkfun,qwiic-joystick", },
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, of_qwiic_match);
-> +
-> +static const struct i2c_device_id qwiic_id_table[] = {
-> +	{ KBUILD_MODNAME, 0 },
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(i2c, qwiic_id_table);
-> +
-> +static struct i2c_driver qwiic_driver = {
-> +	.driver = {
-> +		.name		= KBUILD_MODNAME,
-> +		.of_match_table	= of_match_ptr(of_qwiic_match),
-
-You either need to guard of_qwiic_match with #ifdef CONFIG_OF, or drop
-of_match_ptr() and assign of_match_table directly, otherwise for certain
-configs you may get "defined but not used" warning.
-
-> +	},
-> +	.id_table	= qwiic_id_table,
-> +	.probe		= qwiic_probe,
-> +	.remove		= qwiic_remove,
-> +};
-> +module_i2c_driver(qwiic_driver);
-> +
-> +MODULE_AUTHOR("Oleh Kravchenko <oleg@kaa.org.ua>");
-> +MODULE_DESCRIPTION("SparkFun Qwiic Joystick driver");
-> +MODULE_LICENSE("GPL v2");
-> -- 
-> 2.26.3
-> 
+Absolutely not tested, so...
 
 Thanks.
 
 -- 
 Dmitry
+
+
+Input: resistive-adc-touch - rework mapping of channels
+
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+
+Instead of iterating over channels establish and use channel map to
+retrieve data. As a side effect this will silence "uninitialized variable"
+warnings.
+
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/touchscreen/resistive-adc-touch.c |  114 ++++++++++-------------
+ 1 file changed, 51 insertions(+), 63 deletions(-)
+
+diff --git a/drivers/input/touchscreen/resistive-adc-touch.c b/drivers/input/touchscreen/resistive-adc-touch.c
+index ea1884fb49a1..2102916a37ea 100644
+--- a/drivers/input/touchscreen/resistive-adc-touch.c
++++ b/drivers/input/touchscreen/resistive-adc-touch.c
+@@ -25,12 +25,12 @@
+ #define GRTS_MAX_CHANNELS				4
+ 
+ enum grts_ch_type {
+-	GRTS_CH_NONE = 0,
+ 	GRTS_CH_X,
+ 	GRTS_CH_Y,
+ 	GRTS_CH_PRESSURE,
+ 	GRTS_CH_Z1,
+ 	GRTS_CH_Z2,
++	GRTS_CH_MAX = GRTS_CH_Z2 + 1
+ };
+ 
+ /**
+@@ -42,7 +42,7 @@ enum grts_ch_type {
+  * @iio_cb:		iio_callback buffer for the data
+  * @input:		the input device structure that we register
+  * @prop:		touchscreen properties struct
+- * @ch:			channels that are defined for the touchscreen
++ * @ch_map:		map of channels that are defined for the touchscreen
+  */
+ struct grts_state {
+ 	u32				x_plate_ohms;
+@@ -52,37 +52,25 @@ struct grts_state {
+ 	struct iio_cb_buffer		*iio_cb;
+ 	struct input_dev		*input;
+ 	struct touchscreen_properties	prop;
+-	u8				ch[GRTS_MAX_CHANNELS];
++	u8				ch_map[GRTS_CH_MAX];
+ };
+ 
+ static int grts_cb(const void *data, void *private)
+ {
+ 	const u16 *touch_info = data;
+ 	struct grts_state *st = private;
+-	unsigned int x, y, press = 0, z1 = 0, z2;
+-	unsigned int Rt, i;
+-
+-	for (i = 0; i < ARRAY_SIZE(st->ch) && st->ch[i] != GRTS_CH_NONE; i++) {
+-		switch (st->ch[i]) {
+-		case GRTS_CH_X:
+-			x = touch_info[i];
+-			break;
+-		case GRTS_CH_Y:
+-			y = touch_info[i];
+-			break;
+-		case GRTS_CH_PRESSURE:
+-			press = touch_info[i];
+-			break;
+-		case GRTS_CH_Z1:
+-			z1 = touch_info[i];
+-			break;
+-		case GRTS_CH_Z2:
+-			z2 = touch_info[i];
+-			break;
+-		}
+-	}
++	unsigned int x, y, press;
++
++	x = touch_info[st->ch_map[GRTS_CH_X]];
++	y = touch_info[st->ch_map[GRTS_CH_X]];
++
++	if (st->ch_map[GRTS_CH_PRESSURE] < GRTS_MAX_CHANNELS) {
++		press = touch_info[st->ch_map[GRTS_CH_PRESSURE]];
++	} else if (st->ch_map[GRTS_CH_Z1] < GRTS_MAX_CHANNELS) {
++		unsigned int z1 = touch_info[st->ch_map[GRTS_CH_Z1]];
++		unsigned int z2 = touch_info[st->ch_map[GRTS_CH_Z2]];
++		unsigned int Rt;
+ 
+-	if (z1) {
+ 		Rt = z2;
+ 		Rt -= z1;
+ 		Rt *= st->x_plate_ohms;
+@@ -142,60 +130,59 @@ static void grts_disable(void *data)
+ 	iio_channel_release_all_cb(data);
+ }
+ 
+-static int grts_get_properties(struct grts_state *st, struct device *dev)
++static int grts_map_channel(struct grts_state *st, struct device *dev,
++			    enum grts_ch_type type, const char *name,
++			    bool optional)
+ {
+-	int idx, error;
+-
+-	idx = device_property_match_string(dev, "io-channel-names", "x");
+-	if (idx < 0)
+-		return idx;
+-
+-	if (idx >= ARRAY_SIZE(st->ch))
++	int idx;
++
++	idx = device_property_match_string(dev, "io-channel-names", name);
++	if (idx < 0) {
++		if (!optional)
++			return idx;
++		idx = GRTS_MAX_CHANNELS;
++	} else if (idx >= GRTS_MAX_CHANNELS) {
+ 		return -EOVERFLOW;
++	}
+ 
+-	st->ch[idx] = GRTS_CH_X;
++	st->ch_map[type] = idx;
++	return 0;
++}
+ 
+-	idx = device_property_match_string(dev, "io-channel-names", "y");
+-	if (idx < 0)
+-		return idx;
++static int grts_get_properties(struct grts_state *st, struct device *dev)
++{
++	int error;
+ 
+-	if (idx >= ARRAY_SIZE(st->ch))
+-		return -EOVERFLOW;
++	error = grts_map_channel(st, dev, GRTS_CH_X, "x", false);
++	if (error)
++		return error;
+ 
+-	st->ch[idx] = GRTS_CH_Y;
++	error = grts_map_channel(st, dev, GRTS_CH_Y, "y", false);
++	if (error)
++		return error;
+ 
+ 	/* pressure is optional */
+-	idx = device_property_match_string(dev, "io-channel-names", "pressure");
+-	if (idx >= 0) {
+-		if (idx >= ARRAY_SIZE(st->ch))
+-			return -EOVERFLOW;
++	error = grts_map_channel(st, dev, GRTS_CH_PRESSURE, "pressure", true);
++	if (error)
++		return error;
+ 
+-		st->ch[idx] = GRTS_CH_PRESSURE;
++	if (st->ch_map[GRTS_CH_PRESSURE] < GRTS_MAX_CHANNELS) {
+ 		st->pressure = true;
+-
+ 		return 0;
+ 	}
+ 
+ 	/* if no pressure is defined, try optional z1 + z2 */
+-	idx = device_property_match_string(dev, "io-channel-names", "z1");
+-	if (idx < 0)
+-		return 0;
+-
+-	if (idx >= ARRAY_SIZE(st->ch))
+-		return -EOVERFLOW;
++	error = grts_map_channel(st, dev, GRTS_CH_Z1, "z1", true);
++	if (error)
++		return error;
+ 
+-	st->ch[idx] = GRTS_CH_Z1;
++	if (st->ch_map[GRTS_CH_Z1] >= GRTS_MAX_CHANNELS)
++		return 0;
+ 
+ 	/* if z1 is provided z2 is not optional */
+-	idx = device_property_match_string(dev, "io-channel-names", "z2");
+-	if (idx < 0)
+-		return idx;
+-
+-	if (idx >= ARRAY_SIZE(st->ch))
+-		return -EOVERFLOW;
+-
+-	st->ch[idx] = GRTS_CH_Z2;
+-	st->pressure = true;
++	error = grts_map_channel(st, dev, GRTS_CH_Z2, "z2", true);
++	if (error)
++		return error;
+ 
+ 	error = device_property_read_u32(dev,
+ 					 "touchscreen-x-plate-ohms",
+@@ -205,6 +192,7 @@ static int grts_get_properties(struct grts_state *st, struct device *dev)
+ 		return error;
+ 	}
+ 
++	st->pressure = true;
+ 	return 0;
+ }
+ 
+
