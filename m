@@ -2,110 +2,164 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC88D398010
-	for <lists+linux-input@lfdr.de>; Wed,  2 Jun 2021 06:15:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9F30398019
+	for <lists+linux-input@lfdr.de>; Wed,  2 Jun 2021 06:17:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230054AbhFBERd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Jun 2021 00:17:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41142 "EHLO
+        id S229625AbhFBESh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Jun 2021 00:18:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229767AbhFBERd (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Jun 2021 00:17:33 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5076C061574;
-        Tue,  1 Jun 2021 21:15:50 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id h16so928031pjv.2;
-        Tue, 01 Jun 2021 21:15:50 -0700 (PDT)
+        with ESMTP id S229607AbhFBESg (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Jun 2021 00:18:36 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BC85C061574
+        for <linux-input@vger.kernel.org>; Tue,  1 Jun 2021 21:16:53 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id i22so952448pju.0
+        for <linux-input@vger.kernel.org>; Tue, 01 Jun 2021 21:16:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=/1wSyt9lFdOW+ZpHSxjEn9egCfQ8IpXv9FipEBLxVKA=;
-        b=A0zZaxAbhJjpcQ6ZlZ5KabO4GHlMw7dRWskq7QPKx0KrpNisezotqM+N1+MQawtzip
-         cHVFfMR0RcUhjfBBVs1ojRbH5vAHWHDZ7W0Yk80W/hkKXlwER+79glZocKvVaYn0eRCd
-         gByvwFhj8QzFN9OEHnxOX1+0hbRN1i98905UMOrOxdi97An3tb+8m8HxowQtSA7cfK8n
-         tPittSPYKEqw7xK3fI1fTnoxhfrfC3APOLvil65vQB115anWo9fTa5oxVBvN025Cp2wl
-         GCzRZJ94Bazx5QKBsYYkwJpqHj22ZSbi2PUcqU1w0TGjLX2E5in5QatIBbC9vyX8Qc/W
-         KT8g==
+        bh=YXhVmi+KVui1H+7u1MzE9yqL+IHTsUAOmBz91vb513E=;
+        b=hPB6Koc9TV9hy7jeCWG8fMHuEASws+PRRLqiUVvfz2r1Ue6NSV/ILM+JHK2uAkul/r
+         ZVIpMxGO5jOZ3AHeiq92hXep5ZkgCa1Q6Y6vW8uNT8s0hVkVXbdxNxMxjZzFIsRymZHw
+         3Uyp5Yr+/91qf+tZVL161Z1jIMaSY81GBUmHm18nioLGLfDH+KmeQdYkb3M7TKHplzr6
+         59oOU9hz7kkNYafwlGJRyYxLBOBWlwEUcA3Q96AdXOWFb2+TiTqXBzf8HCAv4Nb76YXA
+         zXgxDiIuBdt2MoTKJwVgE7meJUsuutFQR2oDTYTO0fc81sux5HJv30ghrtPtcMZYGu/W
+         U1Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=/1wSyt9lFdOW+ZpHSxjEn9egCfQ8IpXv9FipEBLxVKA=;
-        b=XjlBjWO73wfp9YB33AO/UwZtYNfpnSFeOVIPZ1jY9zQQ15qErbes/uga3DEby9bXRm
-         I4PIhSi0coHI5ZlNqaO/t0/hjx0j2pRSxiiTGfFVNiv7LqtEcViAD0Lp2JiW854rFam8
-         Z7USPSbEMLsbnSU/dW9yxTvohvCRxYQI5Z4bkzC0U06bY5vTv9j8NwOLXCyVr+i+1LpW
-         BEuhycyd65+yPVAHyJQQh99R9X8A6UcshlEA8IJmR5kqXpwWxIDv/lWS4AooBpckwb3P
-         8l91oOZm0TmsRFVQrDspHKjpqQOKjQRtohhL+2au+/yQLauXinguoQD9rxxcnki0wlvd
-         DzYA==
-X-Gm-Message-State: AOAM531M4nKsbfdkQD+BzvpKly+WehFvMnzxOdOwIlKYHbNPv9cEAoD/
-        sojjhcK6d2GmeLoTeD9SrgQ=
-X-Google-Smtp-Source: ABdhPJyPfEgLySzIcgD97mB22RFDByH3ihiCq4Sa0rTLX1HYtlfhh+50oXuL2mi1wdMQMq+yubr79A==
-X-Received: by 2002:a17:902:bf04:b029:fd:7c7c:bbf3 with SMTP id bi4-20020a170902bf04b02900fd7c7cbbf3mr29016675plb.59.1622607350098;
-        Tue, 01 Jun 2021 21:15:50 -0700 (PDT)
+        bh=YXhVmi+KVui1H+7u1MzE9yqL+IHTsUAOmBz91vb513E=;
+        b=Ddh8ItNSlAPq42/sICq2Y7Fr/lYiXdgUajXZatec+6fPS0HC8lm9d0QBhLwL98mjrc
+         bQ06Eo9279Qpn60U93Rug0JxBxxt+tYRETxlWhHq3/NymfdBVc9k3d8E0uUtUZOHfIC1
+         3mcSaRW600jLurm8fpBum65YBvvGVrOqVagrq+fPATOyqdvzH2/sWvG3uRzo1Ghs2oFY
+         N1SD8YpubaARA8lD+Y61gXkebnSgcVY/QCDxRnKNyxdCzvumvnj92ueCSud+qhLQJkcU
+         P2PFZI4G5CDP4TwLgbIkGJcdtlfGXLrrfElfMmXMlbYDYUAhywci6cOxskxTg9D3JU0s
+         lgYQ==
+X-Gm-Message-State: AOAM531IUW9VmOdmAya0oYk32SLiWVyFTVsxYpHAK6ShhElr3kjkUAoe
+        VzuBvXrz4ISM32nua1pycpY=
+X-Google-Smtp-Source: ABdhPJwndCpZj27H27a+7/jhJIEe+N/ki62c+5VgGT6HvDvmgmKQCJ3MoXjU9CQC/F4nAzmX0VgSRA==
+X-Received: by 2002:a17:90a:588c:: with SMTP id j12mr28928003pji.10.1622607412646;
+        Tue, 01 Jun 2021 21:16:52 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:a596:b3cb:1a6:1ee4])
-        by smtp.gmail.com with ESMTPSA id lp13sm3331919pjb.0.2021.06.01.21.15.48
+        by smtp.gmail.com with ESMTPSA id d18sm15693554pgm.93.2021.06.01.21.16.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jun 2021 21:15:49 -0700 (PDT)
-Date:   Tue, 1 Jun 2021 21:15:46 -0700
+        Tue, 01 Jun 2021 21:16:51 -0700 (PDT)
+Date:   Tue, 1 Jun 2021 21:16:48 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michael Schmitz <schmitz@debian.org>,
-        Roman Zippel <zippel@linux-m68k.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        Michael Schmitz <schmitzmic@gmail.com>
-Subject: Re: [PATCH v2] MOUSE_ATARI: fix kconfig unmet dependency warning
-Message-ID: <YLcF8k71w1mhN9OX@google.com>
-References: <20210527001251.8529-1-rdunlap@infradead.org>
- <CAMuHMdWxBDM6za4_zPrkPGja8K6vy47gfdzYMNjJ-i1n1ySsHA@mail.gmail.com>
+To:     Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>, kbuild@lists.01.org,
+        lkp@intel.com, kbuild-all@lists.01.org,
+        linux-input@vger.kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [input:next 2732/2735]
+ drivers/input/touchscreen/resistive-adc-touch.c:84 grts_cb() error:
+ uninitialized symbol 'z2'.
+Message-ID: <YLcGMNL1MoOVhhmv@google.com>
+References: <202105270957.mdv83Usm-lkp@intel.com>
+ <20210527101951.5q5ixq2tnd7esq2w@pengutronix.de>
+ <20210527104157.GK24442@kadam>
+ <YLXR2brkc4H54xtK@google.com>
+ <20210601102715.uu2wflgzvrler6rt@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdWxBDM6za4_zPrkPGja8K6vy47gfdzYMNjJ-i1n1ySsHA@mail.gmail.com>
+In-Reply-To: <20210601102715.uu2wflgzvrler6rt@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, May 27, 2021 at 08:56:30AM +0200, Geert Uytterhoeven wrote:
-> On Thu, May 27, 2021 at 2:12 AM Randy Dunlap <rdunlap@infradead.org> wrote:
-> > Since the code for ATARI_KBD_CORE does not use drivers/input/keyboard/
-> > code, just move ATARI_KBD_CORE to arch/m68k/Kconfig.machine to remove
-> > this dependency.
-> >
-> > Removes this kconfig warning:
-> >
-> > WARNING: unmet direct dependencies detected for ATARI_KBD_CORE
-> >   Depends on [n]: !UML && INPUT [=y] && INPUT_KEYBOARD [=n]
-> >   Selected by [y]:
-> >   - MOUSE_ATARI [=y] && !UML && INPUT [=y] && INPUT_MOUSE [=y] && ATARI [=y]
-> >
-> > Fixes: c04cb856e20a ("m68k: Atari keyboard and mouse support.")
-> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> > Cc: Michael Schmitz <schmitz@debian.org>
-> > Cc: Roman Zippel <zippel@linux-m68k.org>
-> > Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> > Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > Cc: linux-input@vger.kernel.org
-> > Cc: linux-m68k@lists.linux-m68k.org
-> > Suggested-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> > Suggested-by: Michael Schmitz <schmitzmic@gmail.com>
+On Tue, Jun 01, 2021 at 12:27:15PM +0200, Oleksij Rempel wrote:
+> Hi Dmitry,
 > 
+>  
+> > Input: resistive-adc-touch - rework mapping of channels
+> > 
+> > From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > 
+> > Instead of iterating over channels establish and use channel map to
+> > retrieve data. As a side effect this will silence "uninitialized variable"
+> > warnings.
+> > 
+> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 > > ---
-> > v2: move the symbol outside of INPUT_KEYBOARD (Geert) -- all the way
-> >     to Kconfig.machine (Michael). Thanks.
+> >  drivers/input/touchscreen/resistive-adc-touch.c |  114 ++++++++++-------------
+> >  1 file changed, 51 insertions(+), 63 deletions(-)
+> > 
+> > diff --git a/drivers/input/touchscreen/resistive-adc-touch.c b/drivers/input/touchscreen/resistive-adc-touch.c
+> > index ea1884fb49a1..2102916a37ea 100644
+> > --- a/drivers/input/touchscreen/resistive-adc-touch.c
+> > +++ b/drivers/input/touchscreen/resistive-adc-touch.c
+> > @@ -25,12 +25,12 @@
+> >  #define GRTS_MAX_CHANNELS				4
+> >  
+> >  enum grts_ch_type {
+> > -	GRTS_CH_NONE = 0,
+> >  	GRTS_CH_X,
+> >  	GRTS_CH_Y,
+> >  	GRTS_CH_PRESSURE,
+> >  	GRTS_CH_Z1,
+> >  	GRTS_CH_Z2,
+> > +	GRTS_CH_MAX = GRTS_CH_Z2 + 1
+> >  };
+> >  
+> >  /**
+> > @@ -42,7 +42,7 @@ enum grts_ch_type {
+> >   * @iio_cb:		iio_callback buffer for the data
+> >   * @input:		the input device structure that we register
+> >   * @prop:		touchscreen properties struct
+> > - * @ch:			channels that are defined for the touchscreen
+> > + * @ch_map:		map of channels that are defined for the touchscreen
+> >   */
+> >  struct grts_state {
+> >  	u32				x_plate_ohms;
+> > @@ -52,37 +52,25 @@ struct grts_state {
+> >  	struct iio_cb_buffer		*iio_cb;
+> >  	struct input_dev		*input;
+> >  	struct touchscreen_properties	prop;
+> > -	u8				ch[GRTS_MAX_CHANNELS];
+> > +	u8				ch_map[GRTS_CH_MAX];
+> >  };
+> >  
+> >  static int grts_cb(const void *data, void *private)
+> >  {
+> >  	const u16 *touch_info = data;
+> >  	struct grts_state *st = private;
+> > -	unsigned int x, y, press = 0, z1 = 0, z2;
+> > -	unsigned int Rt, i;
+> > -
+> > -	for (i = 0; i < ARRAY_SIZE(st->ch) && st->ch[i] != GRTS_CH_NONE; i++) {
+> > -		switch (st->ch[i]) {
+> > -		case GRTS_CH_X:
+> > -			x = touch_info[i];
+> > -			break;
+> > -		case GRTS_CH_Y:
+> > -			y = touch_info[i];
+> > -			break;
+> > -		case GRTS_CH_PRESSURE:
+> > -			press = touch_info[i];
+> > -			break;
+> > -		case GRTS_CH_Z1:
+> > -			z1 = touch_info[i];
+> > -			break;
+> > -		case GRTS_CH_Z2:
+> > -			z2 = touch_info[i];
+> > -			break;
+> > -		}
+> > -	}
+> > +	unsigned int x, y, press;
+> > +
+> > +	x = touch_info[st->ch_map[GRTS_CH_X]];
+> > +	y = touch_info[st->ch_map[GRTS_CH_X]];
 > 
-> Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Here should be GRTS_CH_Y
 > 
-> I'm willing to queue this in the m68k for-v5.14 branch, if Dmitry agrees.
+> With this fix:
+> Tested-by: Oleksij Rempel <o.rempel@pengutronix.de>
 
-Sure, works for me.
-
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-
-Thanks.
+Thank you Okeksij, I fixed this up and applied.
 
 -- 
 Dmitry
