@@ -2,99 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3BB3398096
-	for <lists+linux-input@lfdr.de>; Wed,  2 Jun 2021 07:13:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 446913980F0
+	for <lists+linux-input@lfdr.de>; Wed,  2 Jun 2021 08:13:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229806AbhFBFPe (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Jun 2021 01:15:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53700 "EHLO
+        id S230465AbhFBGP1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Jun 2021 02:15:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38390 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229790AbhFBFPe (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Jun 2021 01:15:34 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E50F6C061574;
-        Tue,  1 Jun 2021 22:13:50 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id u18so1248801pfk.11;
-        Tue, 01 Jun 2021 22:13:50 -0700 (PDT)
+        with ESMTP id S230458AbhFBGPZ (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Jun 2021 02:15:25 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F24C7C061756
+        for <linux-input@vger.kernel.org>; Tue,  1 Jun 2021 23:13:42 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id ei4so1054225pjb.3
+        for <linux-input@vger.kernel.org>; Tue, 01 Jun 2021 23:13:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=zL1wvqyfXO+HW4dTElnGK+sL97cvui1bm1K7ZTkih8o=;
-        b=VTNw7g1ryf4OovZTbyimx1r3x9HsIdmA7EyNVte4VZTvWqAYsMKSj00i/tHOJDeVKp
-         7EFafkCuhhOuufThSHijAliYIsF21fxJnKR8ct+TzWplx/gsKaewQks40+34+/Wq3fPv
-         JF2779DPA9WVdwOrOyIcpzKtukUoIg8euVIeRJ6wTL1dlyvXvLAjquO1Y0Cwf1yPb3SV
-         G+Mw82a9bxf+FXxojCmf0B3UWbKy7kW92o4tGJP+hDSkrWXEsfkzVFF8ZBEoyxlZFpi5
-         HTKbKgv39Pr84dS1zUkmAyjtUheieWt3IdsO1Yf62l2MAhieb6Dbjm36Ya5NdOd79Ac3
-         8KcA==
+        d=gaikai-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nPQLnAvO0NoLejjj/G5agnrfa1ACwjvpC6bBzczsjoQ=;
+        b=QWvkVse8D3Vu6Qi0ZdMcQZMAflrIM9G2DvpK0M75esTzRE+Io1TMd2rIlNcpBoDhTR
+         1Bk7LgJD2runhimlGs8pfmymjBAwr5D27pqj3NVLnk+PiFWVGstv50btcVfSZrNgSsdd
+         y7E/93y04GVrtE3ysUq7KmSDYT2UrDrV+2t8oWOwNpYoOvAlPoF8iH2fwBzvF0q5d933
+         CGi7E7VRkiHAWIXy1ucF3O/sLhQIlexbSRjP9+3Xt2sfpz6iMLT/QWHDdEceahTA+P47
+         KtSX0UNPmpLwYCJ0qRnH/BVr5HzeY/H4XklbrbncsVz21bhFuXfw6Bi3KpYbyuMSM9Zk
+         v2FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=zL1wvqyfXO+HW4dTElnGK+sL97cvui1bm1K7ZTkih8o=;
-        b=pNSdtuMLWy8e9z+dYW4oyr6we96HKe0haXw4AmyIXv1WTsdFf2sOkTt2sKdX2jgb1W
-         XeuSbe26V6xQTc27cWDcvkWGPRJrerLuU30njJwdzXiIQe5EMMvM+Hm/2nlL4zWDBssl
-         MXgmbt6JHgHihqcXLOIR2/PMAICvJ+dbPt1dYH4aBcd7+P5r5CFRKwbLzx9y+0eNHpDz
-         CcZLESh/1QE40NOk7zA2JfoMVFy0VIxWJcq46lH7U2cFFKzKQI2FndUxr2Hr1pv2qob4
-         nML9ZxSvwXz6HlkHBtoJfKCokwF3yPE9lfoZI9dbqZUFEhqfWoC61RlLPLABYPyP+b0m
-         zhsQ==
-X-Gm-Message-State: AOAM533O1R6GmVq4P75ZOS0weeJ38KN/ilaHQzzQ+mwF/kqn3HaLsQPu
-        W8wb6rvQ9yRvlf6nYcTd2Ew=
-X-Google-Smtp-Source: ABdhPJwS2fPg55Vd/UKuXsco3dr3OjGO9zKoLGadpmct7e2l7DwE/WppZsNFCr5UG8LaFPwfmpVZQQ==
-X-Received: by 2002:a63:f815:: with SMTP id n21mr32460255pgh.2.1622610830371;
-        Tue, 01 Jun 2021 22:13:50 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:a596:b3cb:1a6:1ee4])
-        by smtp.gmail.com with ESMTPSA id f13sm15213630pfa.207.2021.06.01.22.13.48
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nPQLnAvO0NoLejjj/G5agnrfa1ACwjvpC6bBzczsjoQ=;
+        b=pfOoBygqGAFTRJ6XyWxetiYioDMfFQ5IXWWu722qIaCJZ2JLy1djyv++d8OEvSRzGR
+         C1bgDKdsp8w/U4pNRkhxZcmupxWMG8DT95HHxoNlHuoV0wt6CkFIre3GViAPFrNX8RTV
+         MG4SAo5T622x4Y6HL/lW917kxZ3LG+krfKPtQD1rBWHFNt5T/Ih8b/vX+mfgSp7/NQrz
+         QD/WrcWjPCM5DXwVUytiyTBlOOLMFWxuPGBhSDLMXiLoXb2oP8M3q5ah4O9/roamuhI6
+         yI0648cCwvboNol9sBgRiObtWkZnDLOOTfl1rGbnnTnwW+NZsOLeRpfyaXRaPD8s25Oq
+         qGBg==
+X-Gm-Message-State: AOAM530YbF0OrXm0Vr/TD60f7UYSqpfUcGhHgp6PAgsGbWPPgwx7tPz3
+        R7WuvHBAGdOoc9ZqvjoHGO48AQ==
+X-Google-Smtp-Source: ABdhPJyAMBgEJSTHOvy9/THVLT+kpKc/NwtJhTyDfUAtIvdvHALTgX0N/dNqWMKbnrjrM+zLPJldbQ==
+X-Received: by 2002:a17:90b:247:: with SMTP id fz7mr3839418pjb.137.1622614422454;
+        Tue, 01 Jun 2021 23:13:42 -0700 (PDT)
+Received: from localhost.localdomain (cpe-76-87-77-78.socal.res.rr.com. [76.87.77.78])
+        by smtp.gmail.com with ESMTPSA id k20sm16535374pgl.72.2021.06.01.23.13.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jun 2021 22:13:48 -0700 (PDT)
-Date:   Tue, 1 Jun 2021 22:13:46 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Qiang Ma <maqianga@uniontech.com>
-Cc:     wangxiongfeng2@huawei.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: psmouse - fix psmouse detect function is a NULL
- pointer
-Message-ID: <YLcTilSGgW6jMKEy@google.com>
-References: <20210519032335.19326-1-maqianga@uniontech.com>
+        Tue, 01 Jun 2021 23:13:41 -0700 (PDT)
+From:   Roderick Colenbrander <roderick@gaikai.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Pavel Machek <pavel@ucw.cz>
+Cc:     linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        =?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>,
+        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: [PATCH 0/3] HID: playstation: add LED support.
+Date:   Tue,  1 Jun 2021 23:12:50 -0700
+Message-Id: <20210602061253.5747-1-roderick@gaikai.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210519032335.19326-1-maqianga@uniontech.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Qiang,
+From: Roderick Colenbrander <roderick.colenbrander@sony.com>
 
-On Wed, May 19, 2021 at 11:23:35AM +0800, Qiang Ma wrote:
-> Add a check for psmouse_do_detect(), when the detect is NULL pointer,
-> returning false, avoiding this possible NULL pointer exception.
-> 
-> Signed-off-by: Qiang Ma <maqianga@uniontech.com>
-> ---
->  drivers/input/mouse/psmouse-base.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/input/mouse/psmouse-base.c b/drivers/input/mouse/psmouse-base.c
-> index 0b4a3039f312..86b095728587 100644
-> --- a/drivers/input/mouse/psmouse-base.c
-> +++ b/drivers/input/mouse/psmouse-base.c
-> @@ -1006,6 +1006,9 @@ static bool psmouse_do_detect(int (*detect)(struct psmouse *, bool),
->  	if (set_properties)
->  		psmouse_apply_defaults(psmouse);
->  
-> +	if (!detect)
-> +		return false;
+Hi,
 
-There are no protocols that do not define detect() method, so this
-condition is not possible.
+Earlier this year Sony published a new driver 'hid-playstation' to support
+our new DualSense controller. During the review process, the maintainers
+of the LED subsystem expressed that they wanted to be more strict about LED
+naming moving forward. There was little time to make the necessary changes
+for Linux 5.12 at the time, so LED support was taken out for Linux 5.12.
 
-> +
->  	return detect(psmouse, set_properties) == 0;
->  }
->  
+This patch set adds support for the DualSense lightbar and player LEDs
+based on previous patches, but using a new naming scheme.
 
-Thanks.
+The DualSense lightbar is exposed using a multi-color LED and is named
+after the 'main' input device and uses a name like "inputX:rgb:indicator".
+
+The player LEDs didn't have a suitable "function" type defined by the LED
+subsystem. This patch series introduces a new "LED_FUNCTION_PLAYER" type
+for these LEDs. This type is then used for 'hid-playstation' and long-term
+will be used by 'hid-nintendo' as well. The overall naming takes the form:
+"inputX:white:player-1" for the first player LED on a DualSense controller.
+
+Regards,
+
+Roderick Colenbrander
+Sony Interactive Entertainment, LLC
+
+Roderick Colenbrander (3):
+  HID: playstation: expose DualSense lightbar through a multi-color LED.
+  leds: add new LED_FUNCTION_PLAYER for player LEDs for game
+    controllers.
+  HID: playstation: expose DualSense player LEDs through LED class.
+
+ drivers/hid/hid-playstation.c     | 157 +++++++++++++++++++++++++++++-
+ include/dt-bindings/leds/common.h |   3 +
+ 2 files changed, 159 insertions(+), 1 deletion(-)
 
 -- 
-Dmitry
+2.31.1
+
