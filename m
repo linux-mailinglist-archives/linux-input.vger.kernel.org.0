@@ -2,207 +2,168 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 13FCB3980F6
-	for <lists+linux-input@lfdr.de>; Wed,  2 Jun 2021 08:13:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E7B8398595
+	for <lists+linux-input@lfdr.de>; Wed,  2 Jun 2021 11:48:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230458AbhFBGPa (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Jun 2021 02:15:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38422 "EHLO
+        id S232299AbhFBJte (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Jun 2021 05:49:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230475AbhFBGP3 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Jun 2021 02:15:29 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 415C5C06174A
-        for <linux-input@vger.kernel.org>; Tue,  1 Jun 2021 23:13:46 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id c13so587578plz.0
-        for <linux-input@vger.kernel.org>; Tue, 01 Jun 2021 23:13:46 -0700 (PDT)
+        with ESMTP id S232255AbhFBJtc (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Jun 2021 05:49:32 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 793B9C061756
+        for <linux-input@vger.kernel.org>; Wed,  2 Jun 2021 02:47:49 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id u9so751739plr.1
+        for <linux-input@vger.kernel.org>; Wed, 02 Jun 2021 02:47:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gaikai-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=NphrMj5gDb0rmEpg9zfCKaIjhOM88O65yK/GryJXXag=;
-        b=v2KrMpbvl09EObzutxNcAOJS7JlsYctduYzF2VBrEu4P6DZSqM3vtD7cA49E3UYU40
-         pTaMh5I8maoWjK0br+jn70PFRw676dW6s5taJqCBS3qQScg3xVwrRaKS8U4brsXO3ce9
-         nzjLFt4HxBnrIOc0DJopOUtSgdeB8wCNBkfMqPwuPLKFNqZVK9l51gfa51ln53AThsFx
-         UyJD93LvVw+X9gXjp6QUWrIQwt8jOTk2MP5HPmIjcgt6DjEuT9jValMPQWSNRFIPMX85
-         kbOIaGpkQ7CO6xPYhw0dCE8uZoiP3k7oM1e7WtVkVdx0xxVh5s7SUDEo8yKlr7rD9orx
-         uk2w==
+        d=raydium-corp-partner-google-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ajTOyjYSJ0oov782itPNsymFCO3cX1BrHaaPfNpFmD8=;
+        b=CRyB+GLIUpj3XTXjaTvvk3ZHNpUXeO2ivEtqgy083EHSvoUMzyHOBjSjH3SLfGRB/l
+         XlyTMFlxovc2DXIeDXJU6UbffP1E2MsK2kioTnPHQL07Ybew6mYifTh3NZEDHLwl0rVX
+         QnMb1tfPNOSiJmrWB4MN74LQchgkJro/6EkuJXZ6WQDrgYZcoYU9oCNPDqKbopnNJa8G
+         Vro/VTMPOjqXoXztq+rHTvwbj+lQES2Te0jOQTjIc+rNGvit5G8vBIzvxgu7cKx6bs+y
+         Wx1Bku7lQplbCwHvbyGV6i8x78BkPZg56nBAPId3Q6WGDukdn5gR6O8I1FFnTcqnbgwH
+         xsMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=NphrMj5gDb0rmEpg9zfCKaIjhOM88O65yK/GryJXXag=;
-        b=rdvZiC+0BLE/uZS0n+7+NI6ogCiGTdd1O44uYQOqNPRRaqDb2x0UBYXUWGPaWLeQXX
-         6lwhQX0k+9zzeSgZIercTGraVnANpXNVazNkNVBZTPE3BloqOqhq2hxRQQZCbfDugTwx
-         JqJ4ZgotILgZloK0xcm4CgVKKj+Yr9xPRhAxriuBq4EvEGC247/MBmsaao4UCgHWlfdq
-         WHhFnjHzGr398dhHRbKMEnspiE8avDj52H/kzFzPkQzWEzt5MkgauAGh4FSoHbTVribd
-         UpgFyb9/Sv818L3ittDllMl6GOdwOojfiei/7DwmaCUVCeToNTBpY5Pg4z2bGRrkifvr
-         tI1Q==
-X-Gm-Message-State: AOAM533OyAmCleHKLzcgwpnPtYiYwa6aKIOdvYsDqgX6cnZE4RJBFzIl
-        qpC5by9iosw9uNqZ/kRVRLsFAi5c6yWlqA==
-X-Google-Smtp-Source: ABdhPJwB2/oweqEVGjQ6oBPjse8L5a8LZ0flBWjADjGefhEQ7MvqYg59VHn7l2TBHIJaIBM+kecfNg==
-X-Received: by 2002:a17:90a:e393:: with SMTP id b19mr3896297pjz.18.1622614425799;
-        Tue, 01 Jun 2021 23:13:45 -0700 (PDT)
-Received: from localhost.localdomain (cpe-76-87-77-78.socal.res.rr.com. [76.87.77.78])
-        by smtp.gmail.com with ESMTPSA id k20sm16535374pgl.72.2021.06.01.23.13.44
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ajTOyjYSJ0oov782itPNsymFCO3cX1BrHaaPfNpFmD8=;
+        b=ajzTMtI4zdxlVGKNPBLITcjzUKX28NEEDgoiiPJaahU7f9nmcbWQkmlKVRFIKxYfwF
+         QoOLEbNjFvEZI+2606pT3Pi3pNEkDWefUGrvQk6OubbahNvDAdxX13KLb+1riuwwrEia
+         9TJXhDTOn9ysRAYAgZ6Oj063+Qr+EiHTS9Q/C9UqQqh4C9XK/srVvjuHy7wIAGMUj39I
+         0HHnJmfped1/YL4IPvVPxUFHOk1m634Y91o50i2nDXTNf3Xkxjvg1UZ/2wCuSNhiZB7u
+         2NKKgglN2cq/QWqpoTjjMFz1KwZLto4R61HsqU/YWloCUvODQxnRvZIGfnVjECLdcHfo
+         FoXg==
+X-Gm-Message-State: AOAM532dc7SqSLLv5e0yDzD+t7e4BwUSy5KTFCMyS3ncJceMcupcKMXV
+        8F5yFvSgSXJ4nNeUJHYMQ6MDjg==
+X-Google-Smtp-Source: ABdhPJw1MxH/7OPjYMlpMjp9fxC4KJ30bjW5bTQ/ADqpaZxq/03VcVA8zH3uYD9eWIlddAgOvAnpNA==
+X-Received: by 2002:a17:902:b713:b029:fd:8738:63cb with SMTP id d19-20020a170902b713b02900fd873863cbmr29797671pls.28.1622627269067;
+        Wed, 02 Jun 2021 02:47:49 -0700 (PDT)
+Received: from localhost.localdomain ([2402:7500:586:be69:d084:f1e6:e32b:ba45])
+        by smtp.gmail.com with ESMTPSA id l9sm15730491pja.20.2021.06.02.02.47.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Jun 2021 23:13:45 -0700 (PDT)
-From:   Roderick Colenbrander <roderick@gaikai.com>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Pavel Machek <pavel@ucw.cz>
-Cc:     linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-        =?UTF-8?q?Barnab=C3=A1s=20P=C5=91cze?= <pobrn@protonmail.com>,
-        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: [PATCH 3/3] HID: playstation: expose DualSense player LEDs through LED class.
-Date:   Tue,  1 Jun 2021 23:12:53 -0700
-Message-Id: <20210602061253.5747-4-roderick@gaikai.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210602061253.5747-1-roderick@gaikai.com>
-References: <20210602061253.5747-1-roderick@gaikai.com>
+        Wed, 02 Jun 2021 02:47:48 -0700 (PDT)
+From:   "simba.hsu" <simba.hsu@raydium.corp-partner.google.com>
+X-Google-Original-From: "simba.hsu" <simba.hsu@rad-ic.com>
+To:     dmitry.torokhov@gmail.com, simba.hsu@rad-ic.com,
+        furquan@google.com, seanpaul@chromium.org, rrangle@chromium.org,
+        gregkh@linuxfoundation.org
+Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        KP.li@rad-ic.com, jeffrey.lin@rad-ic.com
+Subject: [PATCH] Input: raydium_i2c_ts - read device version in bootloader mode
+Date:   Wed,  2 Jun 2021 17:46:21 +0800
+Message-Id: <20210602094621.452943-1-simba.hsu@rad-ic.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Roderick Colenbrander <roderick.colenbrander@sony.com>
+Add support reading device ID when controller is in bootloader
+mode, which may happen if firmware update has been interrupted.
 
-The DualSense player LEDs were so far not adjustable from user-space.
-This patch exposes each LED individually through the LED class. Each
-LED uses the new 'player' function resulting in a name like:
-'inputX:white:player-1' for the first LED.
-
-Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
+Signed-off-by: simba.hsu <simba.hsu@rad-ic.com>
 ---
- drivers/hid/hid-playstation.c | 85 ++++++++++++++++++++++++++++++++++-
- 1 file changed, 84 insertions(+), 1 deletion(-)
+ drivers/input/touchscreen/raydium_i2c_ts.c | 52 ++++++++++++++++++----
+ 1 file changed, 44 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
-index ff2fc315a89d..9b96239bba5f 100644
---- a/drivers/hid/hid-playstation.c
-+++ b/drivers/hid/hid-playstation.c
-@@ -56,6 +56,13 @@ struct ps_calibration_data {
- 	int sens_denom;
- };
+diff --git a/drivers/input/touchscreen/raydium_i2c_ts.c b/drivers/input/touchscreen/raydium_i2c_ts.c
+index 4d2d22a86977..d3f8cc3285a2 100644
+--- a/drivers/input/touchscreen/raydium_i2c_ts.c
++++ b/drivers/input/touchscreen/raydium_i2c_ts.c
+@@ -36,7 +36,8 @@
+ #define RM_CMD_BOOT_CHK		0x33		/* send data check */
+ #define RM_CMD_BOOT_READ	0x44		/* send wait bl data ready*/
  
-+struct ps_led_info {
-+	const char *name;
-+	const char *color;
-+	enum led_brightness (*brightness_get)(struct led_classdev *cdev);
-+	void (*brightness_set)(struct led_classdev *cdev, enum led_brightness);
-+};
+-#define RM_BOOT_RDY		0xFF		/* bl data ready */
++#define RM_BOOT_RDY		0xFF			/* bl data ready */
++#define RM_BOOT_CMD_READHWID	0x0E	/* read hwid */
+ 
+ /* I2C main commands */
+ #define RM_CMD_QUERY_BANK	0x2B
+@@ -155,6 +156,7 @@ static int raydium_i2c_xfer(struct i2c_client *client, u32 addr,
+ 	 * sent first. Else, skip the header i.e. xfer[0].
+ 	 */
+ 	int xfer_start_idx = (addr > 0xff) ? 0 : 1;
 +
- /* Seed values for DualShock4 / DualSense CRC32 for different report types. */
- #define PS_INPUT_CRC32_SEED	0xA1
- #define PS_OUTPUT_CRC32_SEED	0xA2
-@@ -531,6 +538,32 @@ static int ps_get_report(struct hid_device *hdev, uint8_t report_id, uint8_t *bu
+ 	xfer_count -= xfer_start_idx;
+ 
+ 	ret = i2c_transfer(client->adapter, &xfer[xfer_start_idx], xfer_count);
+@@ -290,6 +292,43 @@ static int raydium_i2c_sw_reset(struct i2c_client *client)
  	return 0;
  }
  
-+static int ps_led_register(struct ps_device *ps_dev, struct led_classdev *led,
-+		const struct ps_led_info *led_info)
++static int raydium_i2c_query_ts_bootloader_info(struct raydium_data *ts)
 +{
-+	int ret;
++	struct i2c_client *client = ts->client;
++	static const u8 get_hwid[7] = {RM_BOOT_CMD_READHWID,
++				0x10, 0xc0, 0x01, 0x00, 0x04, 0x00};
++	u8 rbuf[5] = {0};
++	u32 hw_ver;
++	int error;
 +
-+	led->name = devm_kasprintf(&ps_dev->hdev->dev, GFP_KERNEL,
-+			"%s:%s:%s", ps_dev->input_dev_name, led_info->color, led_info->name);
-+
-+	if (!led->name)
-+		return -ENOMEM;
-+
-+	led->brightness = 0;
-+	led->max_brightness = 1;
-+	led->flags = LED_CORE_SUSPENDRESUME;
-+	led->brightness_get = led_info->brightness_get;
-+	led->brightness_set = led_info->brightness_set;
-+
-+	ret = devm_led_classdev_register(&ps_dev->hdev->dev, led);
-+	if (ret) {
-+		hid_err(ps_dev->hdev, "Failed to register LED %s: %d\n", led_info->name, ret);
-+		return ret;
++	error = raydium_i2c_send(client, RM_CMD_BOOT_WRT,
++			 get_hwid, sizeof(get_hwid));
++	if (error) {
++		dev_err(&client->dev, "WRT HWID command failed: %d\n", error);
++		return error;
 +	}
 +
-+	return 0;
++	error = raydium_i2c_send(client, RM_CMD_BOOT_ACK, rbuf, 1);
++	if (error) {
++		dev_err(&client->dev, "Ack HWID command failed: %d\n", error);
++		return error;
++	}
++
++	error = raydium_i2c_read(client, RM_CMD_BOOT_CHK, rbuf, sizeof(rbuf));
++	if (error) {
++		dev_err(&client->dev, "Read HWID command failed: %d (%4ph)\n",
++			error, rbuf + 1);
++		hw_ver = 0xffffffffUL;
++	} else
++		hw_ver = get_unaligned_be32(rbuf + 1);
++
++	ts->info.hw_ver = cpu_to_le32(hw_ver);
++	ts->info.main_ver = 0xff;
++	ts->info.sub_ver = 0xff;
++
++	return error;
 +}
 +
- /* Register a DualSense/DualShock4 RGB lightbar represented by a multicolor LED. */
- static int ps_lightbar_register(struct ps_device *ps_dev, struct led_classdev_mc *lightbar_mc_dev,
- 	int (*brightness_set)(struct led_classdev *, enum led_brightness))
-@@ -822,6 +855,35 @@ static int dualsense_lightbar_set_brightness(struct led_classdev *cdev,
- 	return 0;
- }
- 
-+static enum led_brightness dualsense_player_led_get_brightness(struct led_classdev *led)
-+{
-+	struct hid_device *hdev = to_hid_device(led->dev->parent);
-+	struct dualsense *ds = hid_get_drvdata(hdev);
-+
-+	return !!(ds->player_leds_state & BIT(led - ds->player_leds));
-+}
-+
-+static void dualsense_player_led_set_brightness(struct led_classdev *led, enum led_brightness value)
-+{
-+	struct hid_device *hdev = to_hid_device(led->dev->parent);
-+	struct dualsense *ds = hid_get_drvdata(hdev);
-+	unsigned long flags;
-+	unsigned int led_index;
-+
-+	spin_lock_irqsave(&ds->base.lock, flags);
-+
-+	led_index = led - ds->player_leds;
-+	if (value == LED_OFF)
-+		ds->player_leds_state &= ~BIT(led_index);
-+	else
-+		ds->player_leds_state |= BIT(led_index);
-+
-+	ds->update_player_leds = true;
-+	spin_unlock_irqrestore(&ds->base.lock, flags);
-+
-+	schedule_work(&ds->output_worker);
-+}
-+
- static void dualsense_init_output_report(struct dualsense *ds, struct dualsense_output_report *rp,
- 		void *buf)
+ static int raydium_i2c_query_ts_info(struct raydium_data *ts)
  {
-@@ -1207,7 +1269,20 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
- 	struct dualsense *ds;
- 	struct ps_device *ps_dev;
- 	uint8_t max_output_report_size;
--	int ret;
-+	int i, ret;
-+
-+	static const struct ps_led_info player_leds_info[] = {
-+		{ LED_FUNCTION_PLAYER "-1", "white", dualsense_player_led_get_brightness,
-+				dualsense_player_led_set_brightness },
-+		{ LED_FUNCTION_PLAYER "-2", "white", dualsense_player_led_get_brightness,
-+				dualsense_player_led_set_brightness },
-+		{ LED_FUNCTION_PLAYER "-3", "white", dualsense_player_led_get_brightness,
-+				dualsense_player_led_set_brightness },
-+		{ LED_FUNCTION_PLAYER "-4", "white", dualsense_player_led_get_brightness,
-+				dualsense_player_led_set_brightness },
-+		{ LED_FUNCTION_PLAYER "-5", "white", dualsense_player_led_get_brightness,
-+				dualsense_player_led_set_brightness }
-+	};
+ 	struct i2c_client *client = ts->client;
+@@ -388,13 +427,10 @@ static int raydium_i2c_initialize(struct raydium_data *ts)
+ 	if (error)
+ 		ts->boot_mode = RAYDIUM_TS_BLDR;
  
- 	ds = devm_kzalloc(&hdev->dev, sizeof(*ds), GFP_KERNEL);
- 	if (!ds)
-@@ -1297,6 +1372,14 @@ static struct ps_device *dualsense_create(struct hid_device *hdev)
- 	/* Set default lightbar color. */
- 	dualsense_set_lightbar(ds, 0, 0, 128); /* blue */
+-	if (ts->boot_mode == RAYDIUM_TS_BLDR) {
+-		ts->info.hw_ver = cpu_to_le32(0xffffffffUL);
+-		ts->info.main_ver = 0xff;
+-		ts->info.sub_ver = 0xff;
+-	} else {
++	if (ts->boot_mode == RAYDIUM_TS_BLDR)
++		raydium_i2c_query_ts_bootloader_info(ts);
++	else
+ 		raydium_i2c_query_ts_info(ts);
+-	}
  
-+	for (i = 0; i < ARRAY_SIZE(player_leds_info); i++) {
-+		const struct ps_led_info *led_info = &player_leds_info[i];
-+
-+		ret = ps_led_register(ps_dev, &ds->player_leds[i], led_info);
-+		if (ret < 0)
-+			goto err;
-+	}
-+
- 	ret = ps_device_set_player_id(ps_dev);
- 	if (ret) {
- 		hid_err(hdev, "Failed to assign player id for DualSense: %d\n", ret);
+ 	return error;
+ }
+@@ -1218,7 +1254,7 @@ static SIMPLE_DEV_PM_OPS(raydium_i2c_pm_ops,
+ 			 raydium_i2c_suspend, raydium_i2c_resume);
+ 
+ static const struct i2c_device_id raydium_i2c_id[] = {
+-	{ "raydium_i2c" , 0 },
++	{ "raydium_i2c", 0 },
+ 	{ "rm32380", 0 },
+ 	{ /* sentinel */ }
+ };
 -- 
-2.31.1
+2.25.1
 
