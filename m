@@ -2,168 +2,138 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E7B8398595
-	for <lists+linux-input@lfdr.de>; Wed,  2 Jun 2021 11:48:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FA1E398698
+	for <lists+linux-input@lfdr.de>; Wed,  2 Jun 2021 12:32:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232299AbhFBJte (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Jun 2021 05:49:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59406 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232255AbhFBJtc (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Jun 2021 05:49:32 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 793B9C061756
-        for <linux-input@vger.kernel.org>; Wed,  2 Jun 2021 02:47:49 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id u9so751739plr.1
-        for <linux-input@vger.kernel.org>; Wed, 02 Jun 2021 02:47:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raydium-corp-partner-google-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ajTOyjYSJ0oov782itPNsymFCO3cX1BrHaaPfNpFmD8=;
-        b=CRyB+GLIUpj3XTXjaTvvk3ZHNpUXeO2ivEtqgy083EHSvoUMzyHOBjSjH3SLfGRB/l
-         XlyTMFlxovc2DXIeDXJU6UbffP1E2MsK2kioTnPHQL07Ybew6mYifTh3NZEDHLwl0rVX
-         QnMb1tfPNOSiJmrWB4MN74LQchgkJro/6EkuJXZ6WQDrgYZcoYU9oCNPDqKbopnNJa8G
-         Vro/VTMPOjqXoXztq+rHTvwbj+lQES2Te0jOQTjIc+rNGvit5G8vBIzvxgu7cKx6bs+y
-         Wx1Bku7lQplbCwHvbyGV6i8x78BkPZg56nBAPId3Q6WGDukdn5gR6O8I1FFnTcqnbgwH
-         xsMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ajTOyjYSJ0oov782itPNsymFCO3cX1BrHaaPfNpFmD8=;
-        b=ajzTMtI4zdxlVGKNPBLITcjzUKX28NEEDgoiiPJaahU7f9nmcbWQkmlKVRFIKxYfwF
-         QoOLEbNjFvEZI+2606pT3Pi3pNEkDWefUGrvQk6OubbahNvDAdxX13KLb+1riuwwrEia
-         9TJXhDTOn9ysRAYAgZ6Oj063+Qr+EiHTS9Q/C9UqQqh4C9XK/srVvjuHy7wIAGMUj39I
-         0HHnJmfped1/YL4IPvVPxUFHOk1m634Y91o50i2nDXTNf3Xkxjvg1UZ/2wCuSNhiZB7u
-         2NKKgglN2cq/QWqpoTjjMFz1KwZLto4R61HsqU/YWloCUvODQxnRvZIGfnVjECLdcHfo
-         FoXg==
-X-Gm-Message-State: AOAM532dc7SqSLLv5e0yDzD+t7e4BwUSy5KTFCMyS3ncJceMcupcKMXV
-        8F5yFvSgSXJ4nNeUJHYMQ6MDjg==
-X-Google-Smtp-Source: ABdhPJw1MxH/7OPjYMlpMjp9fxC4KJ30bjW5bTQ/ADqpaZxq/03VcVA8zH3uYD9eWIlddAgOvAnpNA==
-X-Received: by 2002:a17:902:b713:b029:fd:8738:63cb with SMTP id d19-20020a170902b713b02900fd873863cbmr29797671pls.28.1622627269067;
-        Wed, 02 Jun 2021 02:47:49 -0700 (PDT)
-Received: from localhost.localdomain ([2402:7500:586:be69:d084:f1e6:e32b:ba45])
-        by smtp.gmail.com with ESMTPSA id l9sm15730491pja.20.2021.06.02.02.47.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jun 2021 02:47:48 -0700 (PDT)
-From:   "simba.hsu" <simba.hsu@raydium.corp-partner.google.com>
-X-Google-Original-From: "simba.hsu" <simba.hsu@rad-ic.com>
-To:     dmitry.torokhov@gmail.com, simba.hsu@rad-ic.com,
-        furquan@google.com, seanpaul@chromium.org, rrangle@chromium.org,
-        gregkh@linuxfoundation.org
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        KP.li@rad-ic.com, jeffrey.lin@rad-ic.com
-Subject: [PATCH] Input: raydium_i2c_ts - read device version in bootloader mode
-Date:   Wed,  2 Jun 2021 17:46:21 +0800
-Message-Id: <20210602094621.452943-1-simba.hsu@rad-ic.com>
-X-Mailer: git-send-email 2.25.1
+        id S232695AbhFBKd6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Jun 2021 06:33:58 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:42776 "EHLO
+        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232858AbhFBKd6 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Jun 2021 06:33:58 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1622629935; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=dDtT9RKDST8Kb7cX/QWo/KyCGcfZAqjbXnH9sp+GoxM=;
+ b=GzTJP9cGan5A3tbIoTzLfAZ4OpUwI69JelWAsCA0wb5rlyhHNP6FKBZ5sHeOys+zHgUgNHIJ
+ OC6Cjw0M2oSgJyYjtwRq936Dqtp8hVALV0SVdVjrVwrK8fRXwf+DnSjfpHjw0ySU487LahHN
+ 6NKgMFS0JDhX4Ie5jWD6oJLJHa0=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyIxZDE2NCIsICJsaW51eC1pbnB1dEB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
+ 60b75e17e27c0cc77f24f3a7 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 02 Jun 2021 10:31:51
+ GMT
+Sender: skakit=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 83569C43148; Wed,  2 Jun 2021 10:31:50 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: skakit)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id E114DC43144;
+        Wed,  2 Jun 2021 10:31:47 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Wed, 02 Jun 2021 16:01:47 +0530
+From:   skakit@codeaurora.org
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Rob Herring <robh@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        kgunda@codeaurora.org, linux-pm@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        Courtney Cavin <courtney.cavin@sonymobile.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        David Collins <collinsd@codeaurora.org>,
+        Andy Yan <andy.yan@rock-chips.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        devicetree@vger.kernel.org, Andy Gross <agross@kernel.org>
+Subject: Re: [PATCH V3 4/5] dt-bindings: input: pm8941-pwrkey: Convert pm8941
+ power key binding to yaml
+In-Reply-To: <YLcLCmxNOYqj0SN3@google.com>
+References: <1620630064-16354-1-git-send-email-skakit@codeaurora.org>
+ <1620630064-16354-5-git-send-email-skakit@codeaurora.org>
+ <1620655299.793818.41438.nullmailer@robh.at.kernel.org>
+ <20210510162445.GA230005@robh.at.kernel.org>
+ <c4e286ae6bd621a9d84184d5d014d060@codeaurora.org>
+ <YLcLCmxNOYqj0SN3@google.com>
+Message-ID: <a308dc5984d80709311a095b8435752f@codeaurora.org>
+X-Sender: skakit@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add support reading device ID when controller is in bootloader
-mode, which may happen if firmware update has been interrupted.
+On 2021-06-02 10:07, Dmitry Torokhov wrote:
+> On Wed, May 12, 2021 at 10:17:43AM +0530, skakit@codeaurora.org wrote:
+>> On 2021-05-10 21:54, Rob Herring wrote:
+>> > On Mon, May 10, 2021 at 09:01:39AM -0500, Rob Herring wrote:
+>> > > On Mon, 10 May 2021 12:31:03 +0530, satya priya wrote:
+>> > > > Convert qcom pm8941 power key binding from .txt to .yaml format.
+>> > > >
+>> > > > Signed-off-by: satya priya <skakit@codeaurora.org>
+>> > > > ---
+>> > > > Changes in V2:
+>> > > >  - Fixed bot errors, took reference from input.yaml for "linux,code"
+>> > > >  - Added one complete example for powerkey and resin, and referenced it
+>> > > >    in main PON binding.
+>> > > >  - Moved this patch to the end of the series.
+>> > > >
+>> > > > Changes in V3:
+>> > > >  - Moved this patch before PON binding patch.
+>> > > >  - As per Rob's comments, added allOf at the beginning of binding.
+>> > > >    Added maxItems for interrupts.
+>> > > >  - Added 'unevaluatedProperties' instead of 'additionalProperties' as
+>> > > >    we are using allOf.
+>> > > >
+>> > > >  .../bindings/input/qcom,pm8941-pwrkey.txt          | 55 --------------
+>> > > >  .../bindings/input/qcom,pm8941-pwrkey.yaml         | 87 ++++++++++++++++++++++
+>> > > >  2 files changed, 87 insertions(+), 55 deletions(-)
+>> > > >  delete mode 100644 Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.txt
+>> > > >  create mode 100644 Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.yaml
+>> > > >
+>> > >
+>> > > My bot found errors running 'make DT_CHECKER_FLAGS=-m
+>> > > dt_binding_check'
+>> > > on your patch (DT_CHECKER_FLAGS is new in v5.13):
+>> > >
+>> > > yamllint warnings/errors:
+>> > >
+>> > > dtschema/dtc warnings/errors:
+>> > > Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.example.dt.yaml:0:0:
+>> > > /example-0/spmi@c440000/pmic@0/pon_hlos@1300: failed to match any
+>> > > schema with compatible: ['qcom,pm8998-pon']
+>> >
+>> > You have the same example in patch 5, so drop the example here. That
+>> > will fix this circular dependency.
+>> 
+>> Earlier I have dropped example from qcom-pon.yaml. Now, I will add the
+>> example there and drop here.
+> 
+> It sounds to me you want to combine patches 4 and 5 since they depend 
+> on
+> each other.
+> 
 
-Signed-off-by: simba.hsu <simba.hsu@rad-ic.com>
----
- drivers/input/touchscreen/raydium_i2c_ts.c | 52 ++++++++++++++++++----
- 1 file changed, 44 insertions(+), 8 deletions(-)
+No, the idea was to have one complete example, instead of bits. So, 
+initially I have removed the example part from qcom-pon.yaml and added 
+full example here, but it was causing a circular dependency issue. Rob 
+suggested to move it back to qcom-pon.yaml to fix issue.
 
-diff --git a/drivers/input/touchscreen/raydium_i2c_ts.c b/drivers/input/touchscreen/raydium_i2c_ts.c
-index 4d2d22a86977..d3f8cc3285a2 100644
---- a/drivers/input/touchscreen/raydium_i2c_ts.c
-+++ b/drivers/input/touchscreen/raydium_i2c_ts.c
-@@ -36,7 +36,8 @@
- #define RM_CMD_BOOT_CHK		0x33		/* send data check */
- #define RM_CMD_BOOT_READ	0x44		/* send wait bl data ready*/
- 
--#define RM_BOOT_RDY		0xFF		/* bl data ready */
-+#define RM_BOOT_RDY		0xFF			/* bl data ready */
-+#define RM_BOOT_CMD_READHWID	0x0E	/* read hwid */
- 
- /* I2C main commands */
- #define RM_CMD_QUERY_BANK	0x2B
-@@ -155,6 +156,7 @@ static int raydium_i2c_xfer(struct i2c_client *client, u32 addr,
- 	 * sent first. Else, skip the header i.e. xfer[0].
- 	 */
- 	int xfer_start_idx = (addr > 0xff) ? 0 : 1;
-+
- 	xfer_count -= xfer_start_idx;
- 
- 	ret = i2c_transfer(client->adapter, &xfer[xfer_start_idx], xfer_count);
-@@ -290,6 +292,43 @@ static int raydium_i2c_sw_reset(struct i2c_client *client)
- 	return 0;
- }
- 
-+static int raydium_i2c_query_ts_bootloader_info(struct raydium_data *ts)
-+{
-+	struct i2c_client *client = ts->client;
-+	static const u8 get_hwid[7] = {RM_BOOT_CMD_READHWID,
-+				0x10, 0xc0, 0x01, 0x00, 0x04, 0x00};
-+	u8 rbuf[5] = {0};
-+	u32 hw_ver;
-+	int error;
-+
-+	error = raydium_i2c_send(client, RM_CMD_BOOT_WRT,
-+			 get_hwid, sizeof(get_hwid));
-+	if (error) {
-+		dev_err(&client->dev, "WRT HWID command failed: %d\n", error);
-+		return error;
-+	}
-+
-+	error = raydium_i2c_send(client, RM_CMD_BOOT_ACK, rbuf, 1);
-+	if (error) {
-+		dev_err(&client->dev, "Ack HWID command failed: %d\n", error);
-+		return error;
-+	}
-+
-+	error = raydium_i2c_read(client, RM_CMD_BOOT_CHK, rbuf, sizeof(rbuf));
-+	if (error) {
-+		dev_err(&client->dev, "Read HWID command failed: %d (%4ph)\n",
-+			error, rbuf + 1);
-+		hw_ver = 0xffffffffUL;
-+	} else
-+		hw_ver = get_unaligned_be32(rbuf + 1);
-+
-+	ts->info.hw_ver = cpu_to_le32(hw_ver);
-+	ts->info.main_ver = 0xff;
-+	ts->info.sub_ver = 0xff;
-+
-+	return error;
-+}
-+
- static int raydium_i2c_query_ts_info(struct raydium_data *ts)
- {
- 	struct i2c_client *client = ts->client;
-@@ -388,13 +427,10 @@ static int raydium_i2c_initialize(struct raydium_data *ts)
- 	if (error)
- 		ts->boot_mode = RAYDIUM_TS_BLDR;
- 
--	if (ts->boot_mode == RAYDIUM_TS_BLDR) {
--		ts->info.hw_ver = cpu_to_le32(0xffffffffUL);
--		ts->info.main_ver = 0xff;
--		ts->info.sub_ver = 0xff;
--	} else {
-+	if (ts->boot_mode == RAYDIUM_TS_BLDR)
-+		raydium_i2c_query_ts_bootloader_info(ts);
-+	else
- 		raydium_i2c_query_ts_info(ts);
--	}
- 
- 	return error;
- }
-@@ -1218,7 +1254,7 @@ static SIMPLE_DEV_PM_OPS(raydium_i2c_pm_ops,
- 			 raydium_i2c_suspend, raydium_i2c_resume);
- 
- static const struct i2c_device_id raydium_i2c_id[] = {
--	{ "raydium_i2c" , 0 },
-+	{ "raydium_i2c", 0 },
- 	{ "rm32380", 0 },
- 	{ /* sentinel */ }
- };
--- 
-2.25.1
+I have posted V4 making that change.
+https://lore.kernel.org/patchwork/patch/1425638/
 
+Thanks,
+Satya Priya
+
+> Thanks.
