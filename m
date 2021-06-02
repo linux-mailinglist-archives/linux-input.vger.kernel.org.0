@@ -2,182 +2,258 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3F803987C5
-	for <lists+linux-input@lfdr.de>; Wed,  2 Jun 2021 13:15:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09F0B399329
+	for <lists+linux-input@lfdr.de>; Wed,  2 Jun 2021 21:06:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229618AbhFBLRf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 2 Jun 2021 07:17:35 -0400
-Received: from esa.microchip.iphmx.com ([68.232.153.233]:44908 "EHLO
-        esa.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229603AbhFBLRf (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Wed, 2 Jun 2021 07:17:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1622632553; x=1654168553;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=NCzE1Qta6l3+YehhcPLxvjdu1jhUHXEchzTrZR2Aagk=;
-  b=2DoQ6VpajmE+q11XgLngMQgbeGLh8xLJjWMxQEo7Tp+uK41l6Pkx5Nb5
-   VHyZylA7MzcTaBEAPEcNcoYyVIzyU48RyaI+yf19Kqw6xpHaonijnVVTk
-   PJB6U68lKKJFxNXY7pGhckK+zPwoc9QCBJyeHFb1NcOYqmsSsoHoiECq+
-   cxSbgM//Lo+rupxHDrUvEY9FqaVPEwHTQxQNDh+hX3zVGqv+s6/Vyb2/Z
-   XDipKs0Fh1lfByWX3+M9QSqjKvhkwp7sK7fs6ZtkJ36rBj3vXAB7HlohG
-   a6Lr6l6COuxQ9+oGiH65kY9f4Enky9jdvb358lWjeTdvmrf9GYIP92JqY
-   w==;
-IronPort-SDR: WE9oiV+9qc8XSr7s4iAAnrSwhgnVW8jDKMCV4/StY0Sd4F2DAd0O5slYh2aD9zper7BT6kxVmj
- 6QkgvfcwBTMkMsX6bH4LpKf7rhhliguUITrGUwMcRcowhimoqy2gDn/IZ+TUuSIUv86BKqWD7Q
- 86d8oJOJTlQHvCSVPLItcTV0dxCDignVlxc3UsD93PCjyxlT9dsGQ7Lt0aHJm+mRNkPhzUTZta
- r17FeSkm7uLCAGe5Mj0mvqSBNiQYeLKEDgPx4IshD+V2Ih8GQ7NX+jUt7RaP6NqERvv1j6puvJ
- wZ4=
-X-IronPort-AV: E=Sophos;i="5.83,242,1616482800"; 
-   d="scan'208";a="123237471"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 02 Jun 2021 04:15:53 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 2 Jun 2021 04:15:51 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.72) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2 via Frontend
- Transport; Wed, 2 Jun 2021 04:15:51 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bgBe7WzmAgR5tnSyb7+Dl7ZuEoK5NTDy/P2KDal3oam8nQEzY2Qu9xLee7i2yRG4PQDeDTQaKCo4r2Q1qiDn3dqZRVsRvkS5AvJnoiP0tdX8nDO9DgJFaNzkPYNG2mjY7LlUEKvM+ixk05aFF+xWaHDl8/U8MPySimxigRzqXLIUfgjup67QzBXBi8SGkeeXxY4OGIpx2vzkQGFnhmD+4bNDOfqF7rIWhW879QyQq3Pb/IAZ9fjksuRnuV7Uw+89ztNJM9f/09tzQ0pKr0R53cq7Ikk6kjxHzn+RN0wTrUADuN4wLFsjiwWfHH29P3232FrxiyfopH4y0nvbJeu8aA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NCzE1Qta6l3+YehhcPLxvjdu1jhUHXEchzTrZR2Aagk=;
- b=jQ19VXhRE+QOrqCoN7mKuJmRCMQ1a+nEbo33PEOmwPF8jMzSBGaS1BUfT4LZKQwW8PqXiPIyvKosZnyKIdyXfpo92tgVVC3Q6CDPbgaygFadqaIRjWEj2lcubC3snc+33xEOIEpXxKaa4ygfCuW2nD6o2i/vAKEaTpCWXoZYtPsS3vVRb52GPvmYxmWTEFN37P4IzYitpnm+nSLYn6bmXkaeTERnJPXlhaL7wP6u72XAKBkntMYp0VukmvXHH1UXshq4oss0M/PU5rqSqycKzdiT8DFYC/U2zMglhw5uyV2iF+2sXJylmSCBMS5LZib3AQ3aMGhA0k3vycSB31Sx8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector2-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NCzE1Qta6l3+YehhcPLxvjdu1jhUHXEchzTrZR2Aagk=;
- b=dozF5PMe0ah63FnrpOpNt2gyFVExxNKshD+rkZZboD8/gaEQFuqCkLZpUha4cTL0kEE0hu45nopKC3XXKolKrC8qvDAO+6wlu/3Zyos0gLADSBhy2s4mwYjrAqdjUd6xIFM/Pyv04kB8G0xU4NyF+t+HkOmYd3Jcxo6SWB8Udhk=
-Received: from BN9PR11MB5514.namprd11.prod.outlook.com (2603:10b6:408:103::7)
- by BN6PR11MB4113.namprd11.prod.outlook.com (2603:10b6:405:77::30) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4173.24; Wed, 2 Jun
- 2021 11:15:48 +0000
-Received: from BN9PR11MB5514.namprd11.prod.outlook.com
- ([fe80::a830:4422:d5b3:d53f]) by BN9PR11MB5514.namprd11.prod.outlook.com
- ([fe80::a830:4422:d5b3:d53f%3]) with mapi id 15.20.4195.020; Wed, 2 Jun 2021
- 11:15:47 +0000
-From:   <Eugen.Hristev@microchip.com>
-To:     <o.rempel@pengutronix.de>, <dmitry.torokhov@gmail.com>,
-        <robh+dt@kernel.org>, <Jonathan.Cameron@Huawei.com>
-CC:     <kernel@pengutronix.de>, <linux-kernel@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <david@protonic.nl>,
-        <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v6 0/4] add z1 and z2 channels support for
- resistive-adc-touch driver
-Thread-Topic: [PATCH v6 0/4] add z1 and z2 channels support for
- resistive-adc-touch driver
-Thread-Index: AQHXUSlmJhWZ13ph/ESwP8e5v80BDqsAnvYA
-Date:   Wed, 2 Jun 2021 11:15:47 +0000
-Message-ID: <88b91dc3-efbf-51f5-51cf-3e865c0988ff@microchip.com>
-References: <20210525054634.9134-1-o.rempel@pengutronix.de>
-In-Reply-To: <20210525054634.9134-1-o.rempel@pengutronix.de>
-Accept-Language: en-US, ro-RO
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-authentication-results: pengutronix.de; dkim=none (message not signed)
- header.d=none;pengutronix.de; dmarc=none action=none
- header.from=microchip.com;
-x-originating-ip: [94.177.32.157]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 7b9462c5-073e-48e2-a2c8-08d925b7c5e6
-x-ms-traffictypediagnostic: BN6PR11MB4113:
-x-microsoft-antispam-prvs: <BN6PR11MB41136951BA651F2E4C41C30AE83D9@BN6PR11MB4113.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:439;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 4vfOUMr3+koYBu607A6bfslB+CSHQwgCyBD3uzGBRPr4VC3kI+IRAsIB4Uj2kq+GiPqi9Us6XahWPkEnxipjlThK20nZoEKMLfo4e0HNyMKeaaZy3zzBpNAFY1D9IaJ1fhKqIsRtEcnlNLnYJSxm5afDVk7X8oLfZJloTYYnyvgEDznDNvovxJ9oUWbO2EDz4JcUWzHogn8SxaN11Xmlrhj5PwpdZPW6K0a7k5l8i3IkgDKwj2E0KgrVKHhZlFT3bd0/VxCjOyPK5g8C5NZxgqLMMWb4jGqPiW5vEJ+Pfayy1jE3LTUWw1N0GhlB4y/6l9HhcWMKY9NFkqh4IYM1HYAxPwKwL+ZGf4Geod/pEZ9RCV71JT0B8cnn18zu/g9NPnPKNSs0+3GoW4ybW1Gjx+cRa2CIYMgDOz2kHCe4c87RYwAKntrpULHXWXt37NpWcHNouDvDp2aHC3y/NbJ/N7HdJBdYAa/UPNiNnoZ4vqJVMoLtMR0kMbnAkKhytPj9aEOWdF8p2ngnOuShG06zNhZnMi4qHqjByZzlrEIGSRtlCQz9SeyTSU/jF0Xu0D+fTpPmCd7SDtvnPT+TV53UVFQkGssPURAGtaXSlsnjdzmKUe5kY0nF9iyAKSnwrrc1QT9R2yV90Niuisu39LFoWdb/mvwa5054Iwk9iO8TxswRLi3w2/5H6nocCjOvzJJi
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5514.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(39860400002)(136003)(396003)(376002)(346002)(366004)(31686004)(86362001)(31696002)(2906002)(6486002)(66946007)(478600001)(91956017)(76116006)(36756003)(6512007)(186003)(66446008)(122000001)(66556008)(8676002)(66476007)(316002)(83380400001)(38100700002)(2616005)(110136005)(54906003)(5660300002)(64756008)(71200400001)(53546011)(8936002)(26005)(6506007)(4326008)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: =?utf-8?B?UG92aStmOTJLenJXai9xNzhRNWlzeE5oeFYwWEszQ0paR3QyamxvRjZ0b24v?=
- =?utf-8?B?WVZSVkZJV1I3eHNleGQ1YVIrak4vK1RzTXg0ZnA3eUdQcTNSaTJsenNKbXpZ?=
- =?utf-8?B?bTZaSkUvcEFGMnJKaVJzVkc4YU84WWZINnZiMlJEaytLb01PY3YwVklEam1P?=
- =?utf-8?B?MVNOSHE1aHVDK0ZrVnJRQ1BGT25UcmFVNzNOWGVRcWlLb2xVYVVYbkM0UE83?=
- =?utf-8?B?SkhKb3A5WGhhckVmVTRFditTV20zaStRSUJ4KzZ4OTUwN3NDcnBBa2Vma1pG?=
- =?utf-8?B?dGVVb0ZRcDYrMU5vVm4rR01VSStzeHVFS280emg3RS9jM0lhY044cUhqcjJT?=
- =?utf-8?B?V1dWbWdHa014bjE4ejdvd0tmTXlka2RqVmgvVmZRd1JmeHF4QkJJREFVVWR4?=
- =?utf-8?B?SXFzNzNxbVhLbHZNaEcrTk5OaHlMZlhsdHJ2dzZHQU5pbGZOUlpheExEZ2c2?=
- =?utf-8?B?WTU3ZmFRV2I0OERyMlFyTGRFckhFalgwZmxYM2dEaUYyYVdKK05JQlpBZ3g4?=
- =?utf-8?B?TnMvaHJEWnlUa0k1Y2ZFQjFMeVhaK2QyWThPRHNMZWI5cGVsTFQ4Sy9lblJ1?=
- =?utf-8?B?MFprWE5lU3g4UVVLOGZRSGZ1T3M1Nm9DaXkzdjlGbnBuc2JGSFljRThYSXVp?=
- =?utf-8?B?aTY5UEYyMG5iTHdzdFFzaWhnelcyelBjN2tjY1dsWXVQbFFsdkdwcVRCQXBY?=
- =?utf-8?B?R2JFZmExOS92UTRnT0hDM2JTRnYrSmRxMExHVThWbk0zN0hQREpYdDRpRDF6?=
- =?utf-8?B?UEJDYmRnSkN5T2dQTkFCMUlqeTFZMS9mTEtjWWxhWDcrTTBzNzNLMmNxTkt3?=
- =?utf-8?B?QVpNb2hmSjhsREpRcElrNlVyQkptNXlvbmhHNVZFUDVKWmZheHllUGNGaFdD?=
- =?utf-8?B?QTBKdVRSTDc1anMrVk05V0RPbmt6S3lvUHpqNGhKblpTSzd5cVlER0FhNWw3?=
- =?utf-8?B?WHpsa09aa255bCtzWi9neEdEQ1NRaHhLenI3NUw0OUtGaDFjMUp1YUpnUzlZ?=
- =?utf-8?B?d25IVHNjY3ZhcnV1UzBpbE1UTS8remRnaXFjNmNnYTBqakFVeUVEN092REZn?=
- =?utf-8?B?UmZ1aGRXU01SWU5sTk54ODNaNDdBYlAraVBBNGxWejF5NkhOR1dBS08zcG5B?=
- =?utf-8?B?clZaSU9xQjVhdWlGYmNyTzVFN2VpczAwN3ZHaitFSm93VFhMRk4yUUh5dzNU?=
- =?utf-8?B?bjBrWDdGanp5Z3JNZ2I0V0g1MWpuRW5QUFlSeTFPYWNpWmx3Q0ZTRmtXdDY5?=
- =?utf-8?B?cDdld0NQcUFJanhVL0w0K1o4ejYzcUcwemQyQ1hVck05K0JOVHRMMlpISXJ6?=
- =?utf-8?B?Vk1Iemd3T3lCVUxLdi9MdldmNFpoY3Y1Y2dBVHkxejF2aHlvQmp1eXFOZDhQ?=
- =?utf-8?B?YXgzUkgxc0FQaXhpNE9VVVVTQ1MrM2NXaVhGMXBNRFRjY0NsUkVBQTVkUWZS?=
- =?utf-8?B?RWx4QmVZeDljUUNjNDZrUFJYT3ZXWDRxUG1FTFpVaEhEdEU4YUlyaXU1Lzky?=
- =?utf-8?B?Rkc0K053b3V6d2hENmd6UVc3SVRhZkFIVHNkUllMTm9DVHViSFdHdlE2Qm0y?=
- =?utf-8?B?ckVxaCtabFQrYk0raEZYd20reSs1OXZyVGErZTE4L1dFZFM4QjBrY05lbzBL?=
- =?utf-8?B?SFlsbElJYmdHdnlGTEUweXFNM09MYTR4OVRzYVp6SHArU3FNbXJOUWRuS3RX?=
- =?utf-8?B?eERZVVpHUHI3L3hIWCtSamtMZmdFYkhuRXdsTVVpdDF6dkxQMEJiekZMV3Ri?=
- =?utf-8?Q?yEdo7P/IiRdHkc4nFA=3D?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <69317FE9DA9EB64BBFB01373611108B5@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S229489AbhFBTHo (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 2 Jun 2021 15:07:44 -0400
+Received: from smtp.220.in.ua ([89.184.67.205]:52810 "EHLO smtp.220.in.ua"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229656AbhFBTHm (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 2 Jun 2021 15:07:42 -0400
+Received: from oleh-pc.lan (unknown [95.67.115.55])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by smtp.220.in.ua (Postfix) with ESMTPSA id 013E71A205E9;
+        Wed,  2 Jun 2021 22:05:55 +0300 (EEST)
+From:   Oleh Kravchenko <oleg@kaa.org.ua>
+To:     linux-input@vger.kernel.org
+Cc:     Oleh Kravchenko <oleg@kaa.org.ua>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Device Tree mailing list <devicetree@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jiri Kosina <jikos@jikos.cz>,
+        Patchwork Bot <patchwork-bot@kernel.org>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH 1/2 v2] input: add SparkFun Qwiic Joystick driver
+Date:   Wed,  2 Jun 2021 22:05:04 +0300
+Message-Id: <20210602190504.23076-1-oleg@kaa.org.ua>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5514.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7b9462c5-073e-48e2-a2c8-08d925b7c5e6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jun 2021 11:15:47.7283
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: E+rouqCKC1hjMS5s7kx+Rhtx7UO30gJL1l3nvky8I1HgfFHjp68b3i9GjiXpRt0DGZStIu8OlsKoHMLtd+S/bj5QnGEvTi4nMGSDk1v7IGE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB4113
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-T24gNS8yNS8yMSA4OjQ2IEFNLCBPbGVrc2lqIFJlbXBlbCB3cm90ZToNCj4gY2hhbmdlcyB2NjoN
-Cj4gLSBkcm9wIG90aGVyIERUIGNoYW5nZXMNCj4gLSBhZGQgbW9yZSBSZXZpZXdlZC1ieSB0YWdz
-DQo+IC0gcmVtb3ZlIHJlZHVuZGFudCBHUlRTX0NIX05PTkUgY2hlY2sNCj4gDQo+IGNoYW5nZXMg
-djU6DQo+IC0gZml4IHZhbGlkYXRlIGZvciBvdGhlciBEVCBleGFtcGxlcy4NCj4gLSBhZGQgUmV2
-aWV3ZWQtYnk6IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+IHRvIHNvbWUgb2YgdGhlIHBh
-dGNoZXMNCj4gDQo+IGNoYW5nZXMgdjQ6DQo+IC0gcmVzaXN0aXZlLWFkYy10b3VjaDogcmVtb3Zl
-IHVudXNlZCB2YXJpYWJsZQ0KPiANCj4gY2hhbmdlcyB2MzoNCj4gLSB5YW1sOiBmaXggdmFsaWRh
-dGlvbiBmb3IgY2hhbm5lbCBuYW1lcw0KPiAtIHlhbWw6IGFkZCBub2RlbmFtZSB2YWxpZGF0aW9u
-DQo+IA0KPiBjaGFuZ2VzIHYyOg0KPiAtIGFkZCB5YW1sIGNvbnZlcnNpb24gcGF0Y2ggdG8gdGhp
-cyBzZXJpZXMNCj4gLSByZXdvcmQgY29tbWl0IG1lc3NhZ2UgZm9yIHRoZSBsYXN0IHBhdGNoDQo+
-IC0gZml4IHBvc3NpYmxlIG92ZXJmbG93IG9uIHRoZSBidWZmZXIgZGlzcGF0Y2hlcg0KPiANCj4g
-T2xla3NpaiBSZW1wZWwgKDQpOg0KPiAgICBkdC1iaW5kaW5nczogdG91Y2hzY3JlZW46IENvbnZl
-cnQgcmVzaXN0aXZlLWFkYy10b3VjaCBiaW5kaW5nIHRvIGpzb24NCj4gICAgICBzY2hlbWENCj4g
-ICAgZHQtYmluZGluZ3M6IHRvdWNoc2NyZWVuOiBhZGQgdG91Y2hzY3JlZW4teC95LXBsYXRlLW9o
-bXMgcHJvcGVydHkNCj4gICAgZHQtYmluZGluZ3M6IHRvdWNoc2NyZWVuOiByZXNpc3RpdmUtYWRj
-LXRvdWNoOiBhZGQgc3VwcG9ydCBmb3IgejEgYW5kDQo+ICAgICAgejIgY2hhbm5lbHMNCj4gICAg
-SW5wdXQ6IHJlc2lzdGl2ZS1hZGMtdG91Y2g6IGFkZCBzdXBwb3J0IGZvciB6MSBhbmQgejIgY2hh
-bm5lbHMNCj4gDQo+ICAgLi4uL2lucHV0L3RvdWNoc2NyZWVuL3Jlc2lzdGl2ZS1hZGMtdG91Y2gu
-dHh0IHwgIDMzIC0tLS0tDQo+ICAgLi4uL3RvdWNoc2NyZWVuL3Jlc2lzdGl2ZS1hZGMtdG91Y2gu
-eWFtbCAgICAgIHwgIDg2ICsrKysrKysrKysrDQo+ICAgLi4uL2lucHV0L3RvdWNoc2NyZWVuL3Rv
-dWNoc2NyZWVuLnlhbWwgICAgICAgIHwgICA2ICsNCj4gICAuLi4vaW5wdXQvdG91Y2hzY3JlZW4v
-cmVzaXN0aXZlLWFkYy10b3VjaC5jICAgfCAxNDAgKysrKysrKysrKysrKysrKy0tDQo+ICAgNCBm
-aWxlcyBjaGFuZ2VkLCAyMTggaW5zZXJ0aW9ucygrKSwgNDcgZGVsZXRpb25zKC0pDQo+ICAgZGVs
-ZXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9pbnB1dC90
-b3VjaHNjcmVlbi9yZXNpc3RpdmUtYWRjLXRvdWNoLnR4dA0KPiAgIGNyZWF0ZSBtb2RlIDEwMDY0
-NCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvaW5wdXQvdG91Y2hzY3JlZW4vcmVz
-aXN0aXZlLWFkYy10b3VjaC55YW1sDQo+IA0KPiAtLQ0KPiAyLjI5LjINCj4gDQoNCg0KDQpIZWxs
-byBPbGVrc2lqLA0KDQpBcyBJIGFtIGxpc3RlZCBpbiB0aGUgTUFJTlRBSU5FUlMgZmlsZSBmb3Ig
-dGhpcyBkcml2ZXIsIHdoeSBJIGFtIG5vdCANCmV2ZW4gQ0MtZWQgdG8gdGhpcyBwYXRjaCBzZXJp
-ZXMgPw0KQXQgbGVhc3Qgd2hhdCBJIGNvdWxkIGhhdmUgZG9uZSBpcyB0ZXN0IHRoaXMgc2VyaWVz
-IG9uIG15IGJvYXJkIHVzaW5nIA0KdGhpcyBkcml2ZXIuDQoNCkV1Z2VuDQo=
+A simple analog joystick built on Low Power ATtiny85 Microcontroller.
+Directional movements are measured with two 10 kΩ potentiometers
+connected with a gimbal mechanism that separates the horizontal and
+vertical movements. This joystick also has a select button that is actuated
+when the joystick is pressed down.
+
+Input events polled over the I2C bus.
+
+Product page:
+https://www.sparkfun.com/products/15168
+Firmware and hardware sources:
+https://github.com/sparkfun/Qwiic_Joystick
+
+Tested on RPi4B and O4-iMX-NANO boards.
+
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: Device Tree mailing list <devicetree@vger.kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Jiri Kosina <jikos@jikos.cz>
+Cc: Patchwork Bot <patchwork-bot@kernel.org>
+Cc: Rob Herring <robh@kernel.org>
+Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
+---
+
+Changes:
+- update code after code review
+
+ drivers/input/joystick/Kconfig          |   9 ++
+ drivers/input/joystick/Makefile         |   1 +
+ drivers/input/joystick/qwiic-joystick.c | 147 ++++++++++++++++++++++++
+ 3 files changed, 157 insertions(+)
+ create mode 100644 drivers/input/joystick/qwiic-joystick.c
+
+diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconfig
+index 5e38899058c1..7dfe8ea90923 100644
+--- a/drivers/input/joystick/Kconfig
++++ b/drivers/input/joystick/Kconfig
+@@ -372,6 +372,15 @@ config JOYSTICK_PXRC
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called pxrc.
+ 
++config JOYSTICK_QWIIC
++	tristate "SparkFun Qwiic Joystick"
++	depends on I2C
++	help
++	  Say Y here if you want to use the SparkFun Qwiic Joystick.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called qwiic-joystick.
++
+ config JOYSTICK_FSIA6B
+ 	tristate "FlySky FS-iA6B RC Receiver"
+ 	select SERIO
+diff --git a/drivers/input/joystick/Makefile b/drivers/input/joystick/Makefile
+index 31d720c9e493..5174b8aba2dd 100644
+--- a/drivers/input/joystick/Makefile
++++ b/drivers/input/joystick/Makefile
+@@ -27,6 +27,7 @@ obj-$(CONFIG_JOYSTICK_MAPLE)		+= maplecontrol.o
+ obj-$(CONFIG_JOYSTICK_N64)		+= n64joy.o
+ obj-$(CONFIG_JOYSTICK_PSXPAD_SPI)	+= psxpad-spi.o
+ obj-$(CONFIG_JOYSTICK_PXRC)		+= pxrc.o
++obj-$(CONFIG_JOYSTICK_QWIIC)		+= qwiic-joystick.o
+ obj-$(CONFIG_JOYSTICK_SIDEWINDER)	+= sidewinder.o
+ obj-$(CONFIG_JOYSTICK_SPACEBALL)	+= spaceball.o
+ obj-$(CONFIG_JOYSTICK_SPACEORB)		+= spaceorb.o
+diff --git a/drivers/input/joystick/qwiic-joystick.c b/drivers/input/joystick/qwiic-joystick.c
+new file mode 100644
+index 000000000000..59c0f3e6ee75
+--- /dev/null
++++ b/drivers/input/joystick/qwiic-joystick.c
+@@ -0,0 +1,147 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2021 Oleh Kravchenko <oleg@kaa.org.ua>
++ *
++ * SparkFun Qwiic Joystick
++ * Product page:https://www.sparkfun.com/products/15168
++ * Firmware and hardware sources:https://github.com/sparkfun/Qwiic_Joystick
++ */
++
++#include <linux/bits.h>
++#include <linux/i2c.h>
++#include <linux/input.h>
++#include <linux/module.h>
++
++#define DRV_NAME "qwiic-joystick"
++
++#define QWIIC_JSK_REG_VERS	0
++#define QWIIC_JSK_REG_DATA	3
++
++#define QWIIC_JSK_MAX_AXIS	GENMASK(9, 0)
++#define QWIIC_JSK_FUZZ		2
++#define QWIIC_JSK_FLAT		2
++#define QWIIC_JSK_POLL_INTERVAL	16
++#define QWIIC_JSK_POLL_MIN	8
++#define QWIIC_JSK_POLL_MAX	32
++
++struct qwiic_jsk {
++	char			phys[32];
++	struct input_dev	*dev;
++	struct i2c_client	*client;
++};
++
++struct qwiic_ver {
++	u8 addr;
++	u8 major;
++	u8 minor;
++} __packed;
++
++struct qwiic_data {
++	__be16	x;
++	__be16	y;
++	u8	thumb;
++} __packed;
++
++static void qwiic_poll(struct input_dev *input)
++{
++	struct qwiic_jsk *priv;
++	struct qwiic_data data;
++	int err;
++
++	priv = input_get_drvdata(input);
++
++	err = i2c_smbus_read_i2c_block_data(priv->client, QWIIC_JSK_REG_DATA,
++					    sizeof(data), (u8 *)&data);
++	if (err != sizeof(data))
++		return;
++
++	input_report_abs(input, ABS_X, be16_to_cpu(data.x) >> 6);
++	input_report_abs(input, ABS_Y, be16_to_cpu(data.y) >> 6);
++	input_report_key(input, BTN_THUMBL, !data.thumb);
++	input_sync(input);
++}
++
++static int qwiic_probe(struct i2c_client *client,
++		       const struct i2c_device_id *id)
++{
++	struct qwiic_jsk *priv;
++	struct qwiic_ver vers;
++	int err;
++
++	err = i2c_smbus_read_i2c_block_data(client, QWIIC_JSK_REG_VERS,
++					    sizeof(vers), (u8 *)&vers);
++	if (0 <= err && err < sizeof(vers))
++		err = -EIO;
++	if (err < 0)
++		return err;
++
++	dev_dbg(&client->dev, "SparkFun Qwiic Joystick, FW: %d.%d\n",
++		vers.major, vers.minor);
++
++	priv = devm_kzalloc(&client->dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	priv->client = client;
++	snprintf(priv->phys, sizeof(priv->phys),
++		 "i2c/%s", dev_name(&client->dev));
++	i2c_set_clientdata(client, priv);
++
++	priv->dev = devm_input_allocate_device(&client->dev);
++	if (!priv->dev)
++		return -ENOMEM;
++
++	priv->dev->id.bustype = BUS_I2C;
++	priv->dev->name = "SparkFun Qwiic Joystick";
++	priv->dev->phys = priv->phys;
++	input_set_drvdata(priv->dev, priv);
++
++	input_set_abs_params(priv->dev, ABS_X, 0, QWIIC_JSK_MAX_AXIS,
++			     QWIIC_JSK_FUZZ, QWIIC_JSK_FLAT);
++	input_set_abs_params(priv->dev, ABS_Y, 0, QWIIC_JSK_MAX_AXIS,
++			     QWIIC_JSK_FUZZ, QWIIC_JSK_FLAT);
++	input_set_capability(priv->dev, EV_KEY, BTN_THUMBL);
++
++	err = input_setup_polling(priv->dev, qwiic_poll);
++	if (err) {
++		dev_err(&client->dev, "failed to set up polling: %d\n", err);
++		return err;
++	}
++	input_set_poll_interval(priv->dev, QWIIC_JSK_POLL_INTERVAL);
++	input_set_min_poll_interval(priv->dev, QWIIC_JSK_POLL_MIN);
++	input_set_max_poll_interval(priv->dev, QWIIC_JSK_POLL_MAX);
++
++	err = input_register_device(priv->dev);
++	if (err)
++		dev_err(&client->dev, "failed to register joystick: %d\n", err);
++
++	return err;
++}
++
++#ifdef CONFIG_OF
++static const struct of_device_id of_qwiic_match[] = {
++	{ .compatible = "sparkfun,qwiic-joystick", },
++	{ },
++};
++MODULE_DEVICE_TABLE(of, of_qwiic_match);
++#endif /* CONFIG_OF */
++
++static const struct i2c_device_id qwiic_id_table[] = {
++	{ KBUILD_MODNAME, 0 },
++	{ },
++};
++MODULE_DEVICE_TABLE(i2c, qwiic_id_table);
++
++static struct i2c_driver qwiic_driver = {
++	.driver = {
++		.name		= DRV_NAME,
++		.of_match_table	= of_match_ptr(of_qwiic_match),
++	},
++	.id_table	= qwiic_id_table,
++	.probe		= qwiic_probe,
++};
++module_i2c_driver(qwiic_driver);
++
++MODULE_AUTHOR("Oleh Kravchenko <oleg@kaa.org.ua>");
++MODULE_DESCRIPTION("SparkFun Qwiic Joystick driver");
++MODULE_LICENSE("GPL v2");
+-- 
+2.26.3
+
