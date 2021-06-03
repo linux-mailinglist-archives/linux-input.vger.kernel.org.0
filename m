@@ -2,73 +2,88 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3447439AD72
-	for <lists+linux-input@lfdr.de>; Fri,  4 Jun 2021 00:08:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C35A39ADE4
+	for <lists+linux-input@lfdr.de>; Fri,  4 Jun 2021 00:21:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230230AbhFCWJ4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 3 Jun 2021 18:09:56 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:52678 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229924AbhFCWJ4 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Jun 2021 18:09:56 -0400
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
-        by youngberry.canonical.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <colin.king@canonical.com>)
-        id 1lovVZ-0000zv-DN; Thu, 03 Jun 2021 22:08:09 +0000
-From:   Colin King <colin.king@canonical.com>
-To:     Eugen Hristev <eugen.hristev@microchip.com>,
+        id S230421AbhFCWWw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 3 Jun 2021 18:22:52 -0400
+Received: from smtp.220.in.ua ([89.184.67.205]:39508 "EHLO smtp.220.in.ua"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230083AbhFCWWv (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 3 Jun 2021 18:22:51 -0400
+Received: from oleh-pc.lan (unknown [95.67.115.55])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by smtp.220.in.ua (Postfix) with ESMTPSA id 86CAD1A20871;
+        Fri,  4 Jun 2021 01:21:04 +0300 (EEST)
+From:   Oleh Kravchenko <oleg@kaa.org.ua>
+To:     linux-input@vger.kernel.org
+Cc:     Oleh Kravchenko <oleg@kaa.org.ua>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Device Tree mailing list <devicetree@vger.kernel.org>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH][next] Input: resistive-adc-touch: Fix uninitialized variable 'press'
-Date:   Thu,  3 Jun 2021 23:08:09 +0100
-Message-Id: <20210603220809.155118-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.31.1
+        Jeff LaBundy <jeff@labundy.com>, Jiri Kosina <jikos@jikos.cz>,
+        Patchwork Bot <patchwork-bot@kernel.org>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH 1/2 v3] dt-bindings: Add vendor prefix and bindings for Qwiic Joystick
+Date:   Fri,  4 Jun 2021 01:18:01 +0300
+Message-Id: <20210603221801.16586-1-oleg@kaa.org.ua>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+Add vendor prefix for SparkFun Electronics.
+Update trivial-devices.yaml with SparkFun Qwiic Joystick description.
 
-In the case where st->ch_map[GRTS_CH_PRESSURE] < GRTS_MAX_CHANNELS is false
-and also st->ch_map[GRTS_CH_Z1] < GRTS_MAX_CHANNELS is false the variable
-press is not initialized and contains garbage. This affects a later
-comparison of press < st->pressure_min.  Fix this by initializing press
-to 0 and allows us to also remove an else clause that sets press to 0.
-
-Addresses-Coverity: ("Uninitialized scalar variable")
-Fixes: 60b7db914ddd ("Input: resistive-adc-touch - rework mapping of channels")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: Device Tree mailing list <devicetree@vger.kernel.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Jeff LaBundy <jeff@labundy.com>
+Cc: Jiri Kosina <jikos@jikos.cz>
+Cc: Patchwork Bot <patchwork-bot@kernel.org>
+Cc: Rob Herring <robh@kernel.org>
+Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
 ---
- drivers/input/touchscreen/resistive-adc-touch.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/input/touchscreen/resistive-adc-touch.c b/drivers/input/touchscreen/resistive-adc-touch.c
-index ea7dd9d2b2ac..744544a723b7 100644
---- a/drivers/input/touchscreen/resistive-adc-touch.c
-+++ b/drivers/input/touchscreen/resistive-adc-touch.c
-@@ -59,7 +59,7 @@ static int grts_cb(const void *data, void *private)
- {
- 	const u16 *touch_info = data;
- 	struct grts_state *st = private;
--	unsigned int x, y, press;
-+	unsigned int x, y, press = 0;
- 
- 	x = touch_info[st->ch_map[GRTS_CH_X]];
- 	y = touch_info[st->ch_map[GRTS_CH_Y]];
-@@ -84,8 +84,6 @@ static int grts_cb(const void *data, void *private)
- 		 */
- 		if (Rt < GRTS_DEFAULT_PRESSURE_MAX)
- 			press = GRTS_DEFAULT_PRESSURE_MAX - Rt;
--		else
--			press = 0;
- 	}
- 
- 	if ((!x && !y) || (st->pressure && (press < st->pressure_min))) {
+Changes for v3:
+- rebase patch for device tree before code.
+
+Changes for v2:
+- Separate patch for device tree bindings.
+
+ Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
+index a327130d1faa..706aa102d96d 100644
+--- a/Documentation/devicetree/bindings/trivial-devices.yaml
++++ b/Documentation/devicetree/bindings/trivial-devices.yaml
+@@ -261,6 +261,8 @@ properties:
+             # Socionext SynQuacer TPM MMIO module
+           - socionext,synquacer-tpm-mmio
+             # i2c serial eeprom  (24cxx)
++          - sparkfun,qwiic-joystick
++            # SparkFun Qwiic Joystick (COM-15168) with i2c interface
+           - st,24c256
+             # Ambient Light Sensor with SMBUS/Two Wire Serial Interface
+           - taos,tsl2550
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 944b02bb96d7..a5631e68f5d1 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -1060,6 +1060,8 @@ patternProperties:
+     description: Sony Corporation
+   "^spansion,.*":
+     description: Spansion Inc.
++  "^sparkfun,.*":
++    description: SparkFun Electronics
+   "^sprd,.*":
+     description: Spreadtrum Communications Inc.
+   "^sst,.*":
 -- 
-2.31.1
+2.26.3
 
