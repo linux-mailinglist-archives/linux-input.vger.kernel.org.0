@@ -2,427 +2,319 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27E5F39AB68
-	for <lists+linux-input@lfdr.de>; Thu,  3 Jun 2021 22:01:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56EEF39AD42
+	for <lists+linux-input@lfdr.de>; Thu,  3 Jun 2021 23:54:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230008AbhFCUDG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 3 Jun 2021 16:03:06 -0400
-Received: from mga11.intel.com ([192.55.52.93]:53062 "EHLO mga11.intel.com"
+        id S229963AbhFCV4e (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 3 Jun 2021 17:56:34 -0400
+Received: from smtp.220.in.ua ([89.184.67.205]:37429 "EHLO smtp.220.in.ua"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230271AbhFCUDF (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 3 Jun 2021 16:03:05 -0400
-IronPort-SDR: sb5W6pUO7QFtwPG0Ub8QMMeFHyrfxmb+HjpX8SU+96ipmYQ2PMt5HFJyYIIwdFW9w/gD+zddj/
- +u3360qVwEWw==
-X-IronPort-AV: E=McAfee;i="6200,9189,10004"; a="201121000"
-X-IronPort-AV: E=Sophos;i="5.83,246,1616482800"; 
-   d="scan'208";a="201121000"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2021 13:00:49 -0700
-IronPort-SDR: ZIdi119SmA54O1UEyZN4sogHhzn9Rt2itcPQ24EDp1DJwHho7bTV19PI+tg2aMrwgybBgQZdAl
- 0ONG4xrgXkAA==
-X-IronPort-AV: E=Sophos;i="5.83,246,1616482800"; 
-   d="scan'208";a="550288746"
-Received: from tienngu2-mobl.amr.corp.intel.com ([10.212.248.234])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2021 13:00:49 -0700
-Message-ID: <dd13ee6019987ff23b34bfb10e2c2fbe13f999dd.camel@linux.intel.com>
-Subject: Re: [PATCH v1 1/1] iio: hid-sensors: lighten the exported symbols
- by introducing IIO_HID namespace
-From:   Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-To:     Jonathan Cameron <jic23@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Ye Xiang <xiang.ye@intel.com>, linux-input@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jiri Kosina <jikos@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>
-Date:   Thu, 03 Jun 2021 13:00:48 -0700
-In-Reply-To: <20210603180700.3206eda0@jic23-huawei>
-References: <20210525132119.21800-1-andriy.shevchenko@linux.intel.com>
-         <20210603180700.3206eda0@jic23-huawei>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        id S229707AbhFCV4e (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 3 Jun 2021 17:56:34 -0400
+Received: from [192.168.202.100] (unknown [95.67.115.55])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by smtp.220.in.ua (Postfix) with ESMTPSA id 2EE341A20871;
+        Fri,  4 Jun 2021 00:54:47 +0300 (EEST)
+To:     Jeff LaBundy <jeff@labundy.com>
+Cc:     linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Device Tree mailing list <devicetree@vger.kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jiri Kosina <jikos@jikos.cz>,
+        Patchwork Bot <patchwork-bot@kernel.org>,
+        Rob Herring <robh@kernel.org>
+References: <20210602190504.23076-1-oleg@kaa.org.ua>
+ <20210603143807.GA13110@labundy.com>
+From:   Oleh Kravchenko <oleg@kaa.org.ua>
+Subject: Re: [PATCH 1/2 v2] input: add SparkFun Qwiic Joystick driver
+Message-ID: <7a78421c-f1aa-c5a8-bdde-0f24e5c9b669@kaa.org.ua>
+Date:   Fri, 4 Jun 2021 00:54:42 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20210603143807.GA13110@labundy.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, 2021-06-03 at 18:07 +0100, Jonathan Cameron wrote:
-> On Tue, 25 May 2021 16:21:19 +0300
-> Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> 
-> > A namespace for exported symbols makes clear who is a provider and
-> > who is
-> > a consumer of the certain resources. Besides that, it doesn't
-> > pollute
-> > the common namespace.
-> > 
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> 
-> I'm fine with this, but looking for input from Srinivas and Jiri
-> before
-> I apply it.
+Hello Jeff,
+thank you for your code-review.
 
-I see these names are using "IIO_HID" and "IIO_HID_ATTRIBUTES".
-Since they are only used in hid-sensors, may be explicitly define
-"HID_SENSOR_IIO". Also prefer only one name space.
+Could you please clarify a few things below?
+Just for my better understanding.
 
-Thanks,
-Srinivas
 
+03.06.21 17:38, Jeff LaBundy пише:
+> Hi Oleh,
 > 
-> > ---
-> > 
-> > Jonothan et al. This is just a work against HID IIO sensor drivers,
-> > I think
-> > that entire IIO can gain from namespaces. But I leave it for you to
-> > decide and
-> > how to proceed / convert.
+> This cleaned up rather nicely; just a few more comments from myself.
 > 
-> It's been on the todo list since Jon Corbetts recent LWN article
-> pointing out
-> how underused this feature is which reminded me of it's existence.
+> On Wed, Jun 02, 2021 at 10:05:04PM +0300, Oleh Kravchenko wrote:
+>> A simple analog joystick built on Low Power ATtiny85 Microcontroller.
+>> Directional movements are measured with two 10 kΩ potentiometers
+>> connected with a gimbal mechanism that separates the horizontal and
+>> vertical movements. This joystick also has a select button that is actuated
+>> when the joystick is pressed down.
+>>
+>> Input events polled over the I2C bus.
+>>
+>> Product page:
+>> https://www.sparkfun.com/products/15168
+>> Firmware and hardware sources:
+>> https://github.com/sparkfun/Qwiic_Joystick
+>>
+>> Tested on RPi4B and O4-iMX-NANO boards.
+>>
+>> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+>> Cc: Device Tree mailing list <devicetree@vger.kernel.org>
+>> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+>> Cc: Jiri Kosina <jikos@jikos.cz>
+>> Cc: Patchwork Bot <patchwork-bot@kernel.org>
+>> Cc: Rob Herring <robh@kernel.org>
+>> Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
 > 
-> I agree in principle with doing it, but that is going to be a rather
-> big
-> single shot patch.  One for early in a cycle I think.
+> Typically a binding patch should be first in the series (i.e. [1/2])
+> with the driver next (i.e. [2/2]) so that checkpatch does not signal
+> a warning about an undocumented compatible string.
 > 
-> We have a lot of multi-module drivers as well where this might have
-> benefits
-> and would be a rather more contained change.
+>> ---
+>>
+>> Changes:
+>> - update code after code review
+>>
+>>  drivers/input/joystick/Kconfig          |   9 ++
+>>  drivers/input/joystick/Makefile         |   1 +
+>>  drivers/input/joystick/qwiic-joystick.c | 147 ++++++++++++++++++++++++
+>>  3 files changed, 157 insertions(+)
+>>  create mode 100644 drivers/input/joystick/qwiic-joystick.c
+>>
+>> diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconfig
+>> index 5e38899058c1..7dfe8ea90923 100644
+>> --- a/drivers/input/joystick/Kconfig
+>> +++ b/drivers/input/joystick/Kconfig
+>> @@ -372,6 +372,15 @@ config JOYSTICK_PXRC
+>>  	  To compile this driver as a module, choose M here: the
+>>  	  module will be called pxrc.
+>>  
+>> +config JOYSTICK_QWIIC
+>> +	tristate "SparkFun Qwiic Joystick"
+>> +	depends on I2C
+>> +	help
+>> +	  Say Y here if you want to use the SparkFun Qwiic Joystick.
+>> +
+>> +	  To compile this driver as a module, choose M here: the
+>> +	  module will be called qwiic-joystick.
+>> +
+>>  config JOYSTICK_FSIA6B
+>>  	tristate "FlySky FS-iA6B RC Receiver"
+>>  	select SERIO
+>> diff --git a/drivers/input/joystick/Makefile b/drivers/input/joystick/Makefile
+>> index 31d720c9e493..5174b8aba2dd 100644
+>> --- a/drivers/input/joystick/Makefile
+>> +++ b/drivers/input/joystick/Makefile
+>> @@ -27,6 +27,7 @@ obj-$(CONFIG_JOYSTICK_MAPLE)		+= maplecontrol.o
+>>  obj-$(CONFIG_JOYSTICK_N64)		+= n64joy.o
+>>  obj-$(CONFIG_JOYSTICK_PSXPAD_SPI)	+= psxpad-spi.o
+>>  obj-$(CONFIG_JOYSTICK_PXRC)		+= pxrc.o
+>> +obj-$(CONFIG_JOYSTICK_QWIIC)		+= qwiic-joystick.o
+>>  obj-$(CONFIG_JOYSTICK_SIDEWINDER)	+= sidewinder.o
+>>  obj-$(CONFIG_JOYSTICK_SPACEBALL)	+= spaceball.o
+>>  obj-$(CONFIG_JOYSTICK_SPACEORB)		+= spaceorb.o
+>> diff --git a/drivers/input/joystick/qwiic-joystick.c b/drivers/input/joystick/qwiic-joystick.c
+>> new file mode 100644
+>> index 000000000000..59c0f3e6ee75
+>> --- /dev/null
+>> +++ b/drivers/input/joystick/qwiic-joystick.c
+>> @@ -0,0 +1,147 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * Copyright (C) 2021 Oleh Kravchenko <oleg@kaa.org.ua>
+>> + *
+>> + * SparkFun Qwiic Joystick
+>> + * Product page:https://www.sparkfun.com/products/15168
+>> + * Firmware and hardware sources:https://github.com/sparkfun/Qwiic_Joystick
+>> + */
+>> +
+>> +#include <linux/bits.h>
+>> +#include <linux/i2c.h>
+>> +#include <linux/input.h>
 > 
-> Jonathan
+> Now that you are using byte order macros, you should explicitly include
+> linux/kernel.h.
+
+Where is requirement is described?
+I've found a lot of drivers without including linux/kernel.h but linux/bits.h
+
+>> +#include <linux/module.h>
+>> +
+>> +#define DRV_NAME "qwiic-joystick"
+>> +
+>> +#define QWIIC_JSK_REG_VERS	0
+>> +#define QWIIC_JSK_REG_DATA	3
+>> +
+>> +#define QWIIC_JSK_MAX_AXIS	GENMASK(9, 0)
+>> +#define QWIIC_JSK_FUZZ		2
+>> +#define QWIIC_JSK_FLAT		2
+>> +#define QWIIC_JSK_POLL_INTERVAL	16
+>> +#define QWIIC_JSK_POLL_MIN	8
+>> +#define QWIIC_JSK_POLL_MAX	32
+>> +
+>> +struct qwiic_jsk {
+>> +	char			phys[32];
+>> +	struct input_dev	*dev;
+>> +	struct i2c_client	*client;
+>> +};
 > 
-> > Yes, due to nature of this (kind of) change it may not be split.
-> > 
-> >  drivers/iio/accel/hid-sensor-accel-3d.c       |  1 +
-> >  .../hid-sensors/hid-sensor-attributes.c       | 26 +++++++++----
-> > ------
-> >  .../common/hid-sensors/hid-sensor-trigger.c   |  9 ++++---
-> >  drivers/iio/gyro/hid-sensor-gyro-3d.c         |  1 +
-> >  drivers/iio/humidity/hid-sensor-humidity.c    |  1 +
-> >  drivers/iio/light/hid-sensor-als.c            |  1 +
-> >  drivers/iio/light/hid-sensor-prox.c           |  1 +
-> >  drivers/iio/magnetometer/hid-sensor-magn-3d.c |  1 +
-> >  drivers/iio/orientation/hid-sensor-incl-3d.c  |  1 +
-> >  drivers/iio/orientation/hid-sensor-rotation.c |  1 +
-> >  .../position/hid-sensor-custom-intel-hinge.c  |  1 +
-> >  drivers/iio/pressure/hid-sensor-press.c       |  1 +
-> >  .../iio/temperature/hid-sensor-temperature.c  |  1 +
-> >  13 files changed, 29 insertions(+), 17 deletions(-)
-> > 
-> > diff --git a/drivers/iio/accel/hid-sensor-accel-3d.c
-> > b/drivers/iio/accel/hid-sensor-accel-3d.c
-> > index 27f47e1c251e..bcafca7b2eac 100644
-> > --- a/drivers/iio/accel/hid-sensor-accel-3d.c
-> > +++ b/drivers/iio/accel/hid-sensor-accel-3d.c
-> > @@ -465,3 +465,4 @@
-> > module_platform_driver(hid_accel_3d_platform_driver);
-> >  MODULE_DESCRIPTION("HID Sensor Accel 3D");
-> >  MODULE_AUTHOR("Srinivas Pandruvada <srinivas.pandruvada@intel.com>
-> > ");
-> >  MODULE_LICENSE("GPL");
-> > +MODULE_IMPORT_NS(IIO_HID);
-> > diff --git a/drivers/iio/common/hid-sensors/hid-sensor-attributes.c 
-> > b/drivers/iio/common/hid-sensors/hid-sensor-attributes.c
-> > index cb52b4fd6bf7..a81a0b206af6 100644
-> > --- a/drivers/iio/common/hid-sensors/hid-sensor-attributes.c
-> > +++ b/drivers/iio/common/hid-sensors/hid-sensor-attributes.c
-> > @@ -176,7 +176,7 @@ s32 hid_sensor_read_poll_value(struct
-> > hid_sensor_common *st)
-> >  
-> >  	return value;
-> >  }
-> > -EXPORT_SYMBOL(hid_sensor_read_poll_value);
-> > +EXPORT_SYMBOL_NS(hid_sensor_read_poll_value, IIO_HID_ATTRIBUTES);
-> >  
-> >  int hid_sensor_read_samp_freq_value(struct hid_sensor_common *st,
-> >  				int *val1, int *val2)
-> > @@ -203,7 +203,7 @@ int hid_sensor_read_samp_freq_value(struct
-> > hid_sensor_common *st,
-> >  
-> >  	return IIO_VAL_INT_PLUS_MICRO;
-> >  }
-> > -EXPORT_SYMBOL(hid_sensor_read_samp_freq_value);
-> > +EXPORT_SYMBOL_NS(hid_sensor_read_samp_freq_value, IIO_HID);
-> >  
-> >  int hid_sensor_write_samp_freq_value(struct hid_sensor_common *st,
-> >  				int val1, int val2)
-> > @@ -238,7 +238,7 @@ int hid_sensor_write_samp_freq_value(struct
-> > hid_sensor_common *st,
-> >  
-> >  	return 0;
-> >  }
-> > -EXPORT_SYMBOL(hid_sensor_write_samp_freq_value);
-> > +EXPORT_SYMBOL_NS(hid_sensor_write_samp_freq_value, IIO_HID);
-> >  
-> >  int hid_sensor_read_raw_hyst_value(struct hid_sensor_common *st,
-> >  				int *val1, int *val2)
-> > @@ -261,7 +261,7 @@ int hid_sensor_read_raw_hyst_value(struct
-> > hid_sensor_common *st,
-> >  
-> >  	return IIO_VAL_INT_PLUS_MICRO;
-> >  }
-> > -EXPORT_SYMBOL(hid_sensor_read_raw_hyst_value);
-> > +EXPORT_SYMBOL_NS(hid_sensor_read_raw_hyst_value, IIO_HID);
-> >  
-> >  int hid_sensor_read_raw_hyst_rel_value(struct hid_sensor_common
-> > *st, int *val1,
-> >  				       int *val2)
-> > @@ -283,7 +283,7 @@ int hid_sensor_read_raw_hyst_rel_value(struct
-> > hid_sensor_common *st, int *val1,
-> >  
-> >  	return IIO_VAL_INT_PLUS_MICRO;
-> >  }
-> > -EXPORT_SYMBOL(hid_sensor_read_raw_hyst_rel_value);
-> > +EXPORT_SYMBOL_NS(hid_sensor_read_raw_hyst_rel_value, IIO_HID);
-> >  
-> >  
-> >  int hid_sensor_write_raw_hyst_value(struct hid_sensor_common *st,
-> > @@ -315,7 +315,7 @@ int hid_sensor_write_raw_hyst_value(struct
-> > hid_sensor_common *st,
-> >  
-> >  	return 0;
-> >  }
-> > -EXPORT_SYMBOL(hid_sensor_write_raw_hyst_value);
-> > +EXPORT_SYMBOL_NS(hid_sensor_write_raw_hyst_value, IIO_HID);
-> >  
-> >  int hid_sensor_write_raw_hyst_rel_value(struct hid_sensor_common
-> > *st,
-> >  					int val1, int val2)
-> > @@ -346,7 +346,7 @@ int hid_sensor_write_raw_hyst_rel_value(struct
-> > hid_sensor_common *st,
-> >  
-> >  	return 0;
-> >  }
-> > -EXPORT_SYMBOL(hid_sensor_write_raw_hyst_rel_value);
-> > +EXPORT_SYMBOL_NS(hid_sensor_write_raw_hyst_rel_value, IIO_HID);
-> >  
-> >  /*
-> >   * This fuction applies the unit exponent to the scale.
-> > @@ -430,14 +430,14 @@ int hid_sensor_format_scale(u32 usage_id,
-> >  
-> >  	return IIO_VAL_INT_PLUS_NANO;
-> >  }
-> > -EXPORT_SYMBOL(hid_sensor_format_scale);
-> > +EXPORT_SYMBOL_NS(hid_sensor_format_scale, IIO_HID);
-> >  
-> >  int64_t hid_sensor_convert_timestamp(struct hid_sensor_common *st,
-> >  				     int64_t raw_value)
-> >  {
-> >  	return st->timestamp_ns_scale * raw_value;
-> >  }
-> > -EXPORT_SYMBOL(hid_sensor_convert_timestamp);
-> > +EXPORT_SYMBOL_NS(hid_sensor_convert_timestamp, IIO_HID);
-> >  
-> >  static
-> >  int hid_sensor_get_reporting_interval(struct hid_sensor_hub_device
-> > *hsdev,
-> > @@ -484,7 +484,7 @@ int hid_sensor_get_report_latency(struct
-> > hid_sensor_common *st)
-> >  
-> >  	return value;
-> >  }
-> > -EXPORT_SYMBOL(hid_sensor_get_report_latency);
-> > +EXPORT_SYMBOL_NS(hid_sensor_get_report_latency,
-> > IIO_HID_ATTRIBUTES);
-> >  
-> >  int hid_sensor_set_report_latency(struct hid_sensor_common *st,
-> > int latency_ms)
-> >  {
-> > @@ -492,13 +492,13 @@ int hid_sensor_set_report_latency(struct
-> > hid_sensor_common *st, int latency_ms)
-> >  				      st->report_latency.index,
-> >  				      sizeof(latency_ms), &latency_ms);
-> >  }
-> > -EXPORT_SYMBOL(hid_sensor_set_report_latency);
-> > +EXPORT_SYMBOL_NS(hid_sensor_set_report_latency,
-> > IIO_HID_ATTRIBUTES);
-> >  
-> >  bool hid_sensor_batch_mode_supported(struct hid_sensor_common *st)
-> >  {
-> >  	return st->report_latency.index > 0 && st-
-> > >report_latency.report_id > 0;
-> >  }
-> > -EXPORT_SYMBOL(hid_sensor_batch_mode_supported);
-> > +EXPORT_SYMBOL_NS(hid_sensor_batch_mode_supported,
-> > IIO_HID_ATTRIBUTES);
-> >  
-> >  int hid_sensor_parse_common_attributes(struct
-> > hid_sensor_hub_device *hsdev,
-> >  					u32 usage_id,
-> > @@ -590,7 +590,7 @@ int hid_sensor_parse_common_attributes(struct
-> > hid_sensor_hub_device *hsdev,
-> >  
-> >  	return 0;
-> >  }
-> > -EXPORT_SYMBOL(hid_sensor_parse_common_attributes);
-> > +EXPORT_SYMBOL_NS(hid_sensor_parse_common_attributes, IIO_HID);
-> >  
-> >  MODULE_AUTHOR("Srinivas Pandruvada <srinivas.pandruvada@intel.com>
-> > ");
-> >  MODULE_DESCRIPTION("HID Sensor common attribute processing");
-> > diff --git a/drivers/iio/common/hid-sensors/hid-sensor-trigger.c
-> > b/drivers/iio/common/hid-sensors/hid-sensor-trigger.c
-> > index c06537e106e9..60e85d675387 100644
-> > --- a/drivers/iio/common/hid-sensors/hid-sensor-trigger.c
-> > +++ b/drivers/iio/common/hid-sensors/hid-sensor-trigger.c
-> > @@ -150,7 +150,7 @@ static int _hid_sensor_power_state(struct
-> > hid_sensor_common *st, bool state)
-> >  
-> >  	return 0;
-> >  }
-> > -EXPORT_SYMBOL(hid_sensor_power_state);
-> > +EXPORT_SYMBOL_NS(hid_sensor_power_state, IIO_HID);
-> >  
-> >  int hid_sensor_power_state(struct hid_sensor_common *st, bool
-> > state)
-> >  {
-> > @@ -225,7 +225,7 @@ void hid_sensor_remove_trigger(struct iio_dev
-> > *indio_dev,
-> >  	iio_trigger_free(attrb->trigger);
-> >  	iio_triggered_buffer_cleanup(indio_dev);
-> >  }
-> > -EXPORT_SYMBOL(hid_sensor_remove_trigger);
-> > +EXPORT_SYMBOL_NS(hid_sensor_remove_trigger, IIO_HID);
-> >  
-> >  static const struct iio_trigger_ops hid_sensor_trigger_ops = {
-> >  	.set_trigger_state = &hid_sensor_data_rdy_trigger_set_state,
-> > @@ -291,7 +291,7 @@ int hid_sensor_setup_trigger(struct iio_dev
-> > *indio_dev, const char *name,
-> >  	iio_triggered_buffer_cleanup(indio_dev);
-> >  	return ret;
-> >  }
-> > -EXPORT_SYMBOL(hid_sensor_setup_trigger);
-> > +EXPORT_SYMBOL_NS(hid_sensor_setup_trigger, IIO_HID);
-> >  
-> >  static int __maybe_unused hid_sensor_suspend(struct device *dev)
-> >  {
-> > @@ -321,8 +321,9 @@ const struct dev_pm_ops hid_sensor_pm_ops = {
-> >  	SET_RUNTIME_PM_OPS(hid_sensor_suspend,
-> >  			   hid_sensor_runtime_resume, NULL)
-> >  };
-> > -EXPORT_SYMBOL(hid_sensor_pm_ops);
-> > +EXPORT_SYMBOL_NS(hid_sensor_pm_ops, IIO_HID);
-> >  
-> >  MODULE_AUTHOR("Srinivas Pandruvada <srinivas.pandruvada@intel.com>
-> > ");
-> >  MODULE_DESCRIPTION("HID Sensor trigger processing");
-> >  MODULE_LICENSE("GPL");
-> > +MODULE_IMPORT_NS(IIO_HID_ATTRIBUTES);
-> > diff --git a/drivers/iio/gyro/hid-sensor-gyro-3d.c
-> > b/drivers/iio/gyro/hid-sensor-gyro-3d.c
-> > index dad26ee4fd1f..2ed2a8effb86 100644
-> > --- a/drivers/iio/gyro/hid-sensor-gyro-3d.c
-> > +++ b/drivers/iio/gyro/hid-sensor-gyro-3d.c
-> > @@ -400,3 +400,4 @@
-> > module_platform_driver(hid_gyro_3d_platform_driver);
-> >  MODULE_DESCRIPTION("HID Sensor Gyroscope 3D");
-> >  MODULE_AUTHOR("Srinivas Pandruvada <srinivas.pandruvada@intel.com>
-> > ");
-> >  MODULE_LICENSE("GPL");
-> > +MODULE_IMPORT_NS(IIO_HID);
-> > diff --git a/drivers/iio/humidity/hid-sensor-humidity.c
-> > b/drivers/iio/humidity/hid-sensor-humidity.c
-> > index 74383abc0d44..8a9091d71d2a 100644
-> > --- a/drivers/iio/humidity/hid-sensor-humidity.c
-> > +++ b/drivers/iio/humidity/hid-sensor-humidity.c
-> > @@ -295,3 +295,4 @@
-> > module_platform_driver(hid_humidity_platform_driver);
-> >  MODULE_DESCRIPTION("HID Environmental humidity sensor");
-> >  MODULE_AUTHOR("Song Hongyan <hongyan.song@intel.com>");
-> >  MODULE_LICENSE("GPL v2");
-> > +MODULE_IMPORT_NS(IIO_HID);
-> > diff --git a/drivers/iio/light/hid-sensor-als.c
-> > b/drivers/iio/light/hid-sensor-als.c
-> > index 85c8a05b73cb..a63d577493e2 100644
-> > --- a/drivers/iio/light/hid-sensor-als.c
-> > +++ b/drivers/iio/light/hid-sensor-als.c
-> > @@ -392,3 +392,4 @@
-> > module_platform_driver(hid_als_platform_driver);
-> >  MODULE_DESCRIPTION("HID Sensor ALS");
-> >  MODULE_AUTHOR("Srinivas Pandruvada <srinivas.pandruvada@intel.com>
-> > ");
-> >  MODULE_LICENSE("GPL");
-> > +MODULE_IMPORT_NS(IIO_HID);
-> > diff --git a/drivers/iio/light/hid-sensor-prox.c
-> > b/drivers/iio/light/hid-sensor-prox.c
-> > index 17d167c3d595..99de268563d6 100644
-> > --- a/drivers/iio/light/hid-sensor-prox.c
-> > +++ b/drivers/iio/light/hid-sensor-prox.c
-> > @@ -350,3 +350,4 @@
-> > module_platform_driver(hid_prox_platform_driver);
-> >  MODULE_DESCRIPTION("HID Sensor Proximity");
-> >  MODULE_AUTHOR("Archana Patni <archana.patni@intel.com>");
-> >  MODULE_LICENSE("GPL");
-> > +MODULE_IMPORT_NS(IIO_HID);
-> > diff --git a/drivers/iio/magnetometer/hid-sensor-magn-3d.c
-> > b/drivers/iio/magnetometer/hid-sensor-magn-3d.c
-> > index b78691523dd4..a66f9e933628 100644
-> > --- a/drivers/iio/magnetometer/hid-sensor-magn-3d.c
-> > +++ b/drivers/iio/magnetometer/hid-sensor-magn-3d.c
-> > @@ -587,3 +587,4 @@
-> > module_platform_driver(hid_magn_3d_platform_driver);
-> >  MODULE_DESCRIPTION("HID Sensor Magnetometer 3D");
-> >  MODULE_AUTHOR("Srinivas Pandruvada <srinivas.pandruvada@intel.com>
-> > ");
-> >  MODULE_LICENSE("GPL");
-> > +MODULE_IMPORT_NS(IIO_HID);
-> > diff --git a/drivers/iio/orientation/hid-sensor-incl-3d.c
-> > b/drivers/iio/orientation/hid-sensor-incl-3d.c
-> > index 7af48d336285..cc905b0fa835 100644
-> > --- a/drivers/iio/orientation/hid-sensor-incl-3d.c
-> > +++ b/drivers/iio/orientation/hid-sensor-incl-3d.c
-> > @@ -425,3 +425,4 @@
-> > module_platform_driver(hid_incl_3d_platform_driver);
-> >  MODULE_DESCRIPTION("HID Sensor Inclinometer 3D");
-> >  MODULE_AUTHOR("Srinivas Pandruvada <
-> > srinivas.pandruvada@linux.intel.com>");
-> >  MODULE_LICENSE("GPL");
-> > +MODULE_IMPORT_NS(IIO_HID);
-> > diff --git a/drivers/iio/orientation/hid-sensor-rotation.c
-> > b/drivers/iio/orientation/hid-sensor-rotation.c
-> > index cf7f57a47681..6570bfd22035 100644
-> > --- a/drivers/iio/orientation/hid-sensor-rotation.c
-> > +++ b/drivers/iio/orientation/hid-sensor-rotation.c
-> > @@ -373,3 +373,4 @@
-> > module_platform_driver(hid_dev_rot_platform_driver);
-> >  MODULE_DESCRIPTION("HID Sensor Device Rotation");
-> >  MODULE_AUTHOR("Srinivas Pandruvada <
-> > srinivas.pandruvada@linux.intel.com>");
-> >  MODULE_LICENSE("GPL");
-> > +MODULE_IMPORT_NS(IIO_HID);
-> > diff --git a/drivers/iio/position/hid-sensor-custom-intel-hinge.c
-> > b/drivers/iio/position/hid-sensor-custom-intel-hinge.c
-> > index 738b5f4626ce..4478ad9387c5 100644
-> > --- a/drivers/iio/position/hid-sensor-custom-intel-hinge.c
-> > +++ b/drivers/iio/position/hid-sensor-custom-intel-hinge.c
-> > @@ -376,3 +376,4 @@
-> > module_platform_driver(hid_hinge_platform_driver);
-> >  MODULE_DESCRIPTION("HID Sensor INTEL Hinge");
-> >  MODULE_AUTHOR("Ye Xiang <xiang.ye@intel.com>");
-> >  MODULE_LICENSE("GPL");
-> > +MODULE_IMPORT_NS(IIO_HID);
-> > diff --git a/drivers/iio/pressure/hid-sensor-press.c
-> > b/drivers/iio/pressure/hid-sensor-press.c
-> > index c416d261e3e3..79b3399e4095 100644
-> > --- a/drivers/iio/pressure/hid-sensor-press.c
-> > +++ b/drivers/iio/pressure/hid-sensor-press.c
-> > @@ -357,3 +357,4 @@
-> > module_platform_driver(hid_press_platform_driver);
-> >  MODULE_DESCRIPTION("HID Sensor Pressure");
-> >  MODULE_AUTHOR("Archana Patni <archana.patni@intel.com>");
-> >  MODULE_LICENSE("GPL");
-> > +MODULE_IMPORT_NS(IIO_HID);
-> > diff --git a/drivers/iio/temperature/hid-sensor-temperature.c
-> > b/drivers/iio/temperature/hid-sensor-temperature.c
-> > index dc534ed784c3..21aa952b9f6d 100644
-> > --- a/drivers/iio/temperature/hid-sensor-temperature.c
-> > +++ b/drivers/iio/temperature/hid-sensor-temperature.c
-> > @@ -291,3 +291,4 @@
-> > module_platform_driver(hid_temperature_platform_driver);
-> >  MODULE_DESCRIPTION("HID Environmental temperature sensor");
-> >  MODULE_AUTHOR("Song Hongyan <hongyan.song@intel.com>");
-> >  MODULE_LICENSE("GPL v2");
-> > +MODULE_IMPORT_NS(IIO_HID);
+> Nit: no need to align these declarations (here and a few other places).
+> 
+>> +
+>> +struct qwiic_ver {
+>> +	u8 addr;
+>> +	u8 major;
+>> +	u8 minor;
+>> +} __packed;
+> 
+> 'addr' is unused so it can be dropped, in which case QWIIC_JSK_REG_VERS
+> would need to be increased to 1.
+> 
+>> +
+>> +struct qwiic_data {
+>> +	__be16	x;
+>> +	__be16	y;
+>> +	u8	thumb;
+>> +} __packed;
+>> +
+>> +static void qwiic_poll(struct input_dev *input)
+>> +{
+>> +	struct qwiic_jsk *priv;
+>> +	struct qwiic_data data;
+>> +	int err;
+>> +
+>> +	priv = input_get_drvdata(input);
+>> +
+>> +	err = i2c_smbus_read_i2c_block_data(priv->client, QWIIC_JSK_REG_DATA,
+>> +					    sizeof(data), (u8 *)&data);
+>> +	if (err != sizeof(data))
+>> +		return;
+>> +
+>> +	input_report_abs(input, ABS_X, be16_to_cpu(data.x) >> 6);
+>> +	input_report_abs(input, ABS_Y, be16_to_cpu(data.y) >> 6);
+>> +	input_report_key(input, BTN_THUMBL, !data.thumb);
+>> +	input_sync(input);
+>> +}
+>> +
+>> +static int qwiic_probe(struct i2c_client *client,
+>> +		       const struct i2c_device_id *id)
+>> +{
+>> +	struct qwiic_jsk *priv;
+>> +	struct qwiic_ver vers;
+>> +	int err;
+>> +
+>> +	err = i2c_smbus_read_i2c_block_data(client, QWIIC_JSK_REG_VERS,
+>> +					    sizeof(vers), (u8 *)&vers);
+>> +	if (0 <= err && err < sizeof(vers))
+>> +		err = -EIO;
+>> +	if (err < 0)
+>> +		return err;
+> 
+> I think this reads a little simpler as:
+> 
+> if (err < 0)
+> 	return err;
+> if (err != sizeof(vers))
+> 	return -EIO;
+> 
+
+Can we sure that i2c_smbus_read_i2c_block_data() will read exact numbers of bytes?
+And if it read less, will return it an error?
+
+>> +
+>> +	dev_dbg(&client->dev, "SparkFun Qwiic Joystick, FW: %d.%d\n",
+>> +		vers.major, vers.minor);
+> 
+> These should be printed as %u.
+> 
+>> +
+>> +	priv = devm_kzalloc(&client->dev, sizeof(*priv), GFP_KERNEL);
+>> +	if (!priv)
+>> +		return -ENOMEM;
+>> +
+>> +	priv->client = client;
+>> +	snprintf(priv->phys, sizeof(priv->phys),
+>> +		 "i2c/%s", dev_name(&client->dev));
+>> +	i2c_set_clientdata(client, priv);
+>> +
+>> +	priv->dev = devm_input_allocate_device(&client->dev);
+>> +	if (!priv->dev)
+>> +		return -ENOMEM;
+>> +
+>> +	priv->dev->id.bustype = BUS_I2C;
+>> +	priv->dev->name = "SparkFun Qwiic Joystick";
+>> +	priv->dev->phys = priv->phys;
+>> +	input_set_drvdata(priv->dev, priv);
+>> +
+>> +	input_set_abs_params(priv->dev, ABS_X, 0, QWIIC_JSK_MAX_AXIS,
+>> +			     QWIIC_JSK_FUZZ, QWIIC_JSK_FLAT);
+>> +	input_set_abs_params(priv->dev, ABS_Y, 0, QWIIC_JSK_MAX_AXIS,
+>> +			     QWIIC_JSK_FUZZ, QWIIC_JSK_FLAT);
+>> +	input_set_capability(priv->dev, EV_KEY, BTN_THUMBL);
+>> +
+>> +	err = input_setup_polling(priv->dev, qwiic_poll);
+>> +	if (err) {
+>> +		dev_err(&client->dev, "failed to set up polling: %d\n", err);
+>> +		return err;
+>> +	}
+>> +	input_set_poll_interval(priv->dev, QWIIC_JSK_POLL_INTERVAL);
+>> +	input_set_min_poll_interval(priv->dev, QWIIC_JSK_POLL_MIN);
+>> +	input_set_max_poll_interval(priv->dev, QWIIC_JSK_POLL_MAX);
+>> +
+>> +	err = input_register_device(priv->dev);
+>> +	if (err)
+>> +		dev_err(&client->dev, "failed to register joystick: %d\n", err);
+>> +
+>> +	return err;
+>> +}
+>> +
+>> +#ifdef CONFIG_OF
+>> +static const struct of_device_id of_qwiic_match[] = {
+>> +	{ .compatible = "sparkfun,qwiic-joystick", },
+>> +	{ },
+>> +};
+>> +MODULE_DEVICE_TABLE(of, of_qwiic_match);
+>> +#endif /* CONFIG_OF */
+>> +
+>> +static const struct i2c_device_id qwiic_id_table[] = {
+>> +	{ KBUILD_MODNAME, 0 },
+>> +	{ },
+>> +};
+>> +MODULE_DEVICE_TABLE(i2c, qwiic_id_table);
+>> +
+>> +static struct i2c_driver qwiic_driver = {
+>> +	.driver = {
+>> +		.name		= DRV_NAME,
+>> +		.of_match_table	= of_match_ptr(of_qwiic_match),
+>> +	},
+>> +	.id_table	= qwiic_id_table,
+>> +	.probe		= qwiic_probe,
+>> +};
+>> +module_i2c_driver(qwiic_driver);
+>> +
+>> +MODULE_AUTHOR("Oleh Kravchenko <oleg@kaa.org.ua>");
+>> +MODULE_DESCRIPTION("SparkFun Qwiic Joystick driver");
+>> +MODULE_LICENSE("GPL v2");
+>> -- 
+>> 2.26.3
+>>
+> 
+> Kind regards,
+> Jeff LaBundy
+> 
+
+-- 
+Best regards,
+Oleh Kravchenko
 
