@@ -2,116 +2,102 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26A1C399A7E
-	for <lists+linux-input@lfdr.de>; Thu,  3 Jun 2021 08:14:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C0E4399B59
+	for <lists+linux-input@lfdr.de>; Thu,  3 Jun 2021 09:16:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229640AbhFCGQZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 3 Jun 2021 02:16:25 -0400
-Received: from mail-oi1-f176.google.com ([209.85.167.176]:34760 "EHLO
-        mail-oi1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229635AbhFCGQY (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Jun 2021 02:16:24 -0400
-Received: by mail-oi1-f176.google.com with SMTP id u11so5271158oiv.1
-        for <linux-input@vger.kernel.org>; Wed, 02 Jun 2021 23:14:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:in-reply-to:references:from:user-agent:date:message-id
-         :subject:to:cc;
-        bh=e3PDKrL5MVOFhdI4AdMvQfhjcpRkxau04Ply0138w7E=;
-        b=LAemQ8PV7z/sZ5epDYtMuLEXUGtStxQKEHRht7XgX/IxKUJiGCdh0Eplyp1k9ExmQo
-         bcurPq3MV8FHoiU9iybK/cgbxOzbSfVwIlWcrO47AuMn9lHDa8W4aPQgI9V2SmCZboCS
-         1IKUirWjiGGLdTW2Dy00FWB7sqnBp+gPaN2gM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from
-         :user-agent:date:message-id:subject:to:cc;
-        bh=e3PDKrL5MVOFhdI4AdMvQfhjcpRkxau04Ply0138w7E=;
-        b=nM+tJXaica+/1wdR6EWklIcYBgCWlXmDGOOUpvA/Z1BWlVJYEyIXYwdrwyBljJP3fu
-         R5FHQyWJPvHL73roH7QOD2ei8Tlb5JBfYlxojmbxzZCv2t+l7trWBC/MFsUTWzF/G+t/
-         WTvl7hqvS7/3Ujg6gQlLSCUAjkPDMAYerhIomZMVSVXfIQN9P8uJH/Ohw/RRyHc62+Kc
-         8ME1dMuos5v9xJ5LX+FqmwkyBTywMK9WbMtF6GDIOeL6e1/GeUylNa0P0MVdOuW/7Kb6
-         DvyFbPoKVBQDDpi+E7kUSictVtiW3uiBqDU80zfzOQwer3hJZEtyVENjb1ZCPy5qBHCe
-         WzHQ==
-X-Gm-Message-State: AOAM530oj+lg4KPPtpbPFN6ctkNSbL6tt1j2X84+sIq31CipDBz6dyfJ
-        9ujerrxWKPZS1QtS+aErqHMI/ke2X0RuY8dAjhWDgGgWvV4=
-X-Google-Smtp-Source: ABdhPJxVRXGh0McY8Kq2QVZFEf5hHPhoESVxSZxB6o4pMi/aki7Vp94/9fv3Xkvv0PvK2plcOuy9w5nX9VR+IhhGzqQ=
-X-Received: by 2002:a54:4501:: with SMTP id l1mr24414113oil.19.1622700820736;
- Wed, 02 Jun 2021 23:13:40 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 2 Jun 2021 23:13:40 -0700
+        id S229667AbhFCHSd (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 3 Jun 2021 03:18:33 -0400
+Received: from smtp.220.in.ua ([89.184.67.205]:50905 "EHLO smtp.220.in.ua"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229567AbhFCHSd (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 3 Jun 2021 03:18:33 -0400
+Received: from [192.168.202.100] (unknown [95.67.115.55])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by smtp.220.in.ua (Postfix) with ESMTPSA id 55B991A207C9;
+        Thu,  3 Jun 2021 10:16:47 +0300 (EEST)
+To:     Rob Herring <robh@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jeff LaBundy <jeff@labundy.com>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input@vger.kernel.org,
+        Device Tree mailing list <devicetree@vger.kernel.org>,
+        Jiri Kosina <jikos@jikos.cz>,
+        Patchwork Bot <patchwork-bot@kernel.org>
+References: <20210602190504.23076-1-oleg@kaa.org.ua>
+ <20210602190504.23076-2-oleg@kaa.org.ua>
+From:   Oleh Kravchenko <oleg@kaa.org.ua>
+Subject: Re: [PATCH 2/2 v2] dt-bindings: Add vendor prefix and bindings for
+ Qwiic Joystick
+Message-ID: <ce085b5f-3831-60e1-4859-205ecaf081c1@kaa.org.ua>
+Date:   Thu, 3 Jun 2021 10:16:43 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <YLhbpYq8/+JUlP27@google.com>
-References: <20210510220012.2003285-1-swboyd@chromium.org> <YJnllh7GfuVlL3ze@google.com>
- <CAE-0n539o_DWqHbPuarWozk4Rev_d++2Da=AvOYALwvB1j3dVA@mail.gmail.com>
- <YLgt2ZJ6GZwUNL8T@google.com> <CAE-0n52S72vWZkzwva2_uqsMMdgdKbX7-MKtNE5PdaetyeqN2Q@mail.gmail.com>
- <YLhbpYq8/+JUlP27@google.com>
-From:   Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date:   Wed, 2 Jun 2021 23:13:40 -0700
-Message-ID: <CAE-0n50PZ+vUH_dSQnunViWrkEdQNHyLNHjKbrsbEbO-YL8DRA@mail.gmail.com>
-Subject: Re: [PATCH] Input: elan_i2c: Disable irq on shutdown
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Jingle Wu <jingle.wu@emc.com.tw>, Wolfram Sang <wsa@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210602190504.23076-2-oleg@kaa.org.ua>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Quoting Dmitry Torokhov (2021-06-02 21:33:41)
-> On Wed, Jun 02, 2021 at 06:33:49PM -0700, Stephen Boyd wrote:
-> > Quoting Dmitry Torokhov (2021-06-02 18:18:17)
-> > >
-> > > I do not think keeping counter balanced would be important here, as we
-> > > are shutting down, and upon reboot everything will be reinitialized from
-> > > scratch. Also, we are lucky in that there is just a handful of I2C
-> > > drivers defining shutdown() methods.
-> > >
-> > > > Please don't make me shave this yak.
-> > >
-> > > I'm afraid someone has to... I'm adding Wolfram to CC to get his take on
-> > > this.
-> > >
-> >
-> > I suppose another option would be to introduce some common function that
-> > i2c drivers can use for their shutdown op, like i2c_generic_shutdown()
-> > that would disable the irq? I would guess that it isn't a great idea to
-> > blanket disable the irq in case some i2c driver wants to do something
-> > that may require that irq to come in once more during shutdown to signal
-> > that things are off or something like that.
-> >
-> > Would having this common function that this driver opts into work for
-> > you?
->
-> Opting in in this fashion will still require changes in the majority
-> of drivers (any I2C touchscreen or touchpad may be touched while system
-> is being shut down, so all of them will need to have interrupt freed or
-> disabled, or they may initiate I2C transfer). How about something like
-> this;
+Hello Dmitry, Jeff, Rob,
 
-Yes, this approach should work. I assume a device that doesn't have a
-shutdown function will be happy to let the i2c core disable the irq for
-it so it looks low risk.
+Thank you for reviewing the previous patch.
+I've fixed all your comments and split the patch into two.
 
-Will you send a proper patch to Wolfram or would you like me to wrap it
-up and resend?
+Could you please review these too?
 
->
-> diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-> index 38107c0c318c..c835e7bb71de 100644
-> --- a/drivers/i2c/i2c-core-base.c
-> +++ b/drivers/i2c/i2c-core-base.c
-> @@ -603,9 +603,12 @@ static void i2c_device_shutdown(struct device *dev)
->
->         if (!client || !dev->driver)
->                 return;
-> +
->         driver = to_i2c_driver(dev->driver);
->         if (driver->shutdown)
->                 driver->shutdown(client);
-> +       else if (client->irq > 0)
-> +               disable_irq(client->irq);
->  }
->
->  static void i2c_client_dev_release(struct device *dev)
->
+02.06.21 22:05, Oleh Kravchenko пише:
+> Add vendor prefix for SparkFun Electronics.
+> Update trivial-devices.yaml with SparkFun Qwiic Joystick description.
+> 
+> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Cc: Device Tree mailing list <devicetree@vger.kernel.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Jiri Kosina <jikos@jikos.cz>
+> Cc: Patchwork Bot <patchwork-bot@kernel.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
+> ---
+> 
+> Changes:
+> - Separate patch for device tree bindings.
+> 
+>  Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  2 files changed, 4 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
+> index a327130d1faa..706aa102d96d 100644
+> --- a/Documentation/devicetree/bindings/trivial-devices.yaml
+> +++ b/Documentation/devicetree/bindings/trivial-devices.yaml
+> @@ -261,6 +261,8 @@ properties:
+>              # Socionext SynQuacer TPM MMIO module
+>            - socionext,synquacer-tpm-mmio
+>              # i2c serial eeprom  (24cxx)
+> +          - sparkfun,qwiic-joystick
+> +            # SparkFun Qwiic Joystick (COM-15168) with i2c interface
+>            - st,24c256
+>              # Ambient Light Sensor with SMBUS/Two Wire Serial Interface
+>            - taos,tsl2550
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> index 944b02bb96d7..a5631e68f5d1 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -1060,6 +1060,8 @@ patternProperties:
+>      description: Sony Corporation
+>    "^spansion,.*":
+>      description: Spansion Inc.
+> +  "^sparkfun,.*":
+> +    description: SparkFun Electronics
+>    "^sprd,.*":
+>      description: Spreadtrum Communications Inc.
+>    "^sst,.*":
+> 
+
+-- 
+Best regards,
+Oleh Kravchenko
+
