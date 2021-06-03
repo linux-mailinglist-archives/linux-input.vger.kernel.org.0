@@ -2,198 +2,160 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 745EE39992C
-	for <lists+linux-input@lfdr.de>; Thu,  3 Jun 2021 06:34:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C452B39993B
+	for <lists+linux-input@lfdr.de>; Thu,  3 Jun 2021 06:39:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229486AbhFCEg3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 3 Jun 2021 00:36:29 -0400
-Received: from mail-pj1-f53.google.com ([209.85.216.53]:40685 "EHLO
-        mail-pj1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbhFCEg2 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Jun 2021 00:36:28 -0400
-Received: by mail-pj1-f53.google.com with SMTP id jz2-20020a17090b14c2b0290162cf0b5a35so4700222pjb.5;
-        Wed, 02 Jun 2021 21:34:45 -0700 (PDT)
+        id S229506AbhFCEkb (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 3 Jun 2021 00:40:31 -0400
+Received: from mail-pl1-f177.google.com ([209.85.214.177]:34594 "EHLO
+        mail-pl1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229441AbhFCEka (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 3 Jun 2021 00:40:30 -0400
+Received: by mail-pl1-f177.google.com with SMTP id u9so2170616plr.1;
+        Wed, 02 Jun 2021 21:38:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Urq5p1xoH90Draw9l3rymrwCgm46nXEYLvPhdjj3VHc=;
-        b=G9sfxTJT2AoopmmeT72urDESMHfrCrp6EViRGle/fJ3Yaryb+z5+sbAVMrgTEV5w3g
-         xkoQetndhlpmcHbeOGp6EUSMkRyo8PLTofWHP6Nyf25VuWgeJ7PY+tSFfuZj4eiLSHR8
-         Uv+LdorscOfKBO8v9Ov103dDb2lLXV1LgdgsIvLuPxikRu9LLyyEe/OLy+PA0fcd2AtH
-         N9nUXKeJrMmn3SrnWB+iL3+JR6Ryi7xrWdJ8BtgJLpdL3X3fkLsa9rYKtBh6QQTrs4mV
-         VSCP2/3/NYXgu6FlrWJmD/RnulqFgg6o8TkF/roXrCerxuBtebIILUvxEje7j8N4MYAc
-         sIVg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bwoFt+YDQyQhxfnq961VZU5Jf/+5sxsJJaX0acjEBXE=;
+        b=C3DXv7NMl/Uw80vgRKQfdquRd/YoCx8tRMrG/BDd/N1mjJ77Mi01CSrNSbkKkmmwYB
+         IMoXTND/eW0oLppwffL+MpyRj+uRxEp4cyyOT6DK+aLvKKsrfBqOphxqRWR63U63cwM4
+         M6bufKVt9T1NCIEwcN6qF9qUaGS7ztfR3FE7iR290Rg3tc7HV2++Chjm9Z72S3Y0okQ/
+         TJWOcip9ogAEOSclWPpX4b94XCSW45RbhzidzQ+FzBhz625GuMVEcxQ1kQ582rE/Lwj8
+         wNz4ii1HCdOK+AHIe3pzF0rb82Cj5rNdk6KyWQWyZMzEck7cf4mwnXMmprF4hCV+W6Jn
+         DcRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Urq5p1xoH90Draw9l3rymrwCgm46nXEYLvPhdjj3VHc=;
-        b=NYVD8jxoMyt3YpycU4QEP4wQIuss/bye/NXbJ5x+Kjhh/TApU//RIUi7Y87cN5Y1IZ
-         KXMzZY56Bn03Y+KvWaPTP/WdUTi8rphFrXtL6MFnH2o8+UYzE6ctHDpLcQ2biANJd5pS
-         tVdf5mZbsHwqvrNIbzUTirrpzmFJQ7Ei9mTm49C4ZzB4ZHx/zM1IFePEIJWASYQXMI6O
-         LSEauzTzkONzUrN3o9ypKZyD1N7Ulr/2ptwmdNFW043SZ8But2CJx9mEii78Yq1OYe7D
-         Ob24tLubulGwfGSJDtf0RltWCc6soXOpEdA2eDhe969GlbDKrqsL8Vjn9oSxVfYkOkjy
-         eCEQ==
-X-Gm-Message-State: AOAM5318ycoQJlH3Lq7GPFRNuObtIk0APOsytHdecJu/ufiQKA9zy9HW
-        dx1SZrtPZfT4iD8Lx5QNxnc=
-X-Google-Smtp-Source: ABdhPJyCSgRQ2EShBeBW5cFJPBy1MD04jdSHLpDz8E3katuYAjHQUpaeGryfmDxkq3bhoRSkiCLTWQ==
-X-Received: by 2002:a17:90a:6402:: with SMTP id g2mr34127646pjj.82.1622694824822;
-        Wed, 02 Jun 2021 21:33:44 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:fc6a:97ca:f00c:8377])
-        by smtp.gmail.com with ESMTPSA id x15sm488156pfd.121.2021.06.02.21.33.43
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bwoFt+YDQyQhxfnq961VZU5Jf/+5sxsJJaX0acjEBXE=;
+        b=kMLG6cgzxjBHNxLMYkma/B2+SeirSZ/WuckedgTfTTYmZjFwnE7M9PqNzmJg/aJcvn
+         AUXdyGJkhnJ6gd570iOK2XJkRx5BV/TUnduO9j1fm8mja5J/vNJyfEfsOl7NRTTwk0F6
+         K15RF3iY3JzTU6kvPKTzhVSYqp+QyMkfhG8URHhzjDPCvToGXrN1d2g89jL40HJ4vNNk
+         1zkmeTeokv+ZyFz9gCZSSieEXDLUvU+jQsNkCmcCObmBF6bHW0dCOTB8hDQDvQatcs5c
+         W1EEaUocq46yDJ4eo/Frwh8uL3KyrH80yqI0pcCQQUgJ9HVg7EIoxLUQK0Azg4qMQScF
+         ML5A==
+X-Gm-Message-State: AOAM530QiO+jObhK/DcezczP8Wfr5t2uboDNQ6BLVW8zUOxFzheXeX4d
+        8GmFI93uVMsHqG/eRq1Fn9ef8vWD2tc=
+X-Google-Smtp-Source: ABdhPJwQXXCQGpLHiBRaSEb/7Erz/reTDL3D8w099btb2Xvd717wf5IqDBRnNY5XudQd4eBQTxhhxA==
+X-Received: by 2002:a17:90a:5282:: with SMTP id w2mr34770518pjh.145.1622695049797;
+        Wed, 02 Jun 2021 21:37:29 -0700 (PDT)
+Received: from dtor-ws.mtv.corp.google.com ([2620:15c:202:201:fc6a:97ca:f00c:8377])
+        by smtp.gmail.com with ESMTPSA id f28sm1132414pgb.12.2021.06.02.21.37.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jun 2021 21:33:43 -0700 (PDT)
-Date:   Wed, 2 Jun 2021 21:33:41 -0700
+        Wed, 02 Jun 2021 21:37:28 -0700 (PDT)
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        Jingle Wu <jingle.wu@emc.com.tw>, Wolfram Sang <wsa@kernel.org>
-Subject: Re: [PATCH] Input: elan_i2c: Disable irq on shutdown
-Message-ID: <YLhbpYq8/+JUlP27@google.com>
-References: <20210510220012.2003285-1-swboyd@chromium.org>
- <YJnllh7GfuVlL3ze@google.com>
- <CAE-0n539o_DWqHbPuarWozk4Rev_d++2Da=AvOYALwvB1j3dVA@mail.gmail.com>
- <YLgt2ZJ6GZwUNL8T@google.com>
- <CAE-0n52S72vWZkzwva2_uqsMMdgdKbX7-MKtNE5PdaetyeqN2Q@mail.gmail.com>
+To:     linux-input@vger.kernel.org
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/7] Input: cy8ctmg110_ts - rely on platform code to supply interrupt
+Date:   Wed,  2 Jun 2021 21:37:20 -0700
+Message-Id: <20210603043726.3793876-1-dmitry.torokhov@gmail.com>
+X-Mailer: git-send-email 2.32.0.rc0.204.g9fa02ecfa5-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAE-0n52S72vWZkzwva2_uqsMMdgdKbX7-MKtNE5PdaetyeqN2Q@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jun 02, 2021 at 06:33:49PM -0700, Stephen Boyd wrote:
-> Quoting Dmitry Torokhov (2021-06-02 18:18:17)
-> > Hi Stephen,
-> >
-> > Sorry for the long delay with the response.
-> >
-> > On Mon, May 10, 2021 at 10:11:21PM -0700, Stephen Boyd wrote:
-> > > Quoting Dmitry Torokhov (2021-05-10 19:01:58)
-> > > > Hi Stephen,
-> > > >
-> > > > On Mon, May 10, 2021 at 03:00:12PM -0700, Stephen Boyd wrote:
-> > > > > Touching an elan trackpad while shutting down the system sometimes leads
-> > > > > to the following warning from i2c core. This is because the irq is still
-> > > > > active and working, but the i2c bus for the device has been shutdown
-> > > > > already. If the bus has been taken down then we shouldn't expect
-> > > > > transfers to work. Disable the irq on shutdown so that this driver
-> > > > > doesn't try to get the report in the irq handler after the i2c bus is
-> > > > > shutdown.
-> > > > >
-> > > > >  i2c i2c-7: Transfer while suspended
-> > > > >  WARNING: CPU: 0 PID: 196 at drivers/i2c/i2c-core.h:54 __i2c_transfer+0xb8/0x38c
-> > > > >  Modules linked in: rfcomm algif_hash algif_skcipher af_alg uinput xt_cgroup
-> > > > >  CPU: 0 PID: 196 Comm: irq/166-ekth300 Not tainted 5.4.115 #96
-> > > > >  Hardware name: Google Lazor (rev3+) with KB Backlight (DT)
-> > > > >  pstate: 60c00009 (nZCv daif +PAN +UAO)
-> > > > >  pc : __i2c_transfer+0xb8/0x38c
-> > > > >  lr : __i2c_transfer+0xb8/0x38c
-> > > > >  sp : ffffffc011793c20
-> > > > >  x29: ffffffc011793c20 x28: 0000000000000000
-> > > > >  x27: ffffff85efd60348 x26: ffffff85efdb8040
-> > > > >  x25: ffffffec39d579cc x24: ffffffec39d57bac
-> > > > >  x23: ffffffec3aab17b9 x22: ffffff85f02d6400
-> > > > >  x21: 0000000000000001 x20: ffffff85f02aa190
-> > > > >  x19: ffffff85f02aa100 x18: 00000000ffff0a10
-> > > > >  x17: 0000000000000044 x16: 00000000000000ec
-> > > > >  x15: ffffffec3a0b9174 x14: 0000000000000006
-> > > > >  x13: 00000000003fe680 x12: 0000000000000000
-> > > > >  x11: 0000000000000000 x10: 00000000ffffffff
-> > > > >  x9 : 806da3cb9f8c1d00 x8 : 806da3cb9f8c1d00
-> > > > >  x7 : 0000000000000000 x6 : ffffffec3afd3bef
-> > > > >  x5 : 0000000000000000 x4 : 0000000000000000
-> > > > >  x3 : 0000000000000000 x2 : fffffffffffffcc7
-> > > > >  x1 : 0000000000000000 x0 : 0000000000000023
-> > > > >  Call trace:
-> > > > >   __i2c_transfer+0xb8/0x38c
-> > > > >   i2c_transfer+0xa0/0xf4
-> > > > >   i2c_transfer_buffer_flags+0x64/0x98
-> > > > >   elan_i2c_get_report+0x2c/0x88
-> > > > >   elan_isr+0x68/0x3e4
-> > > > >   irq_thread_fn+0x2c/0x70
-> > > > >   irq_thread+0xf8/0x148
-> > > > >   kthread+0x140/0x17c
-> > > > >   ret_from_fork+0x10/0x18
-> > > >
-> > > > This does not seem to me that it is Elan-specific issue. I wonder if
-> > > > this should be pushed into I2C core to shut off client->irq in shutdown
-> > > > for everyone.
-> > >
-> > > It sounds nice if we don't have to play whack-a-mole, except for the
-> > > part where the irq is requested in this driver via
-> > > devm_request_threaded_irq(). The i2c bus code doesn't request the irq,
-> > > so it doesn't enable it, hence the responsibility of enabling and
-> > > disabling the irq is on the driver.
-> >
-> > There is purity, and there is practicality. Drivers normally prepare
-> > device for suspend and waking up from suspend, however I2C core does
-> > handle enabling interrupt as wakeup source because this saves on
-> > boilerplate. I2C core already does a lot of preparing for interrupt
-> > being requested by drivers (parsing ACPI and DT tables, etc).
-> >
-> > > Maybe another option would be to
-> > > disable all device irqs, similar to how that is done during suspend, but
-> > > then we would need a split shutdown flow where there's irq enabled
-> > > shutdown and irq disabled shutdown callbacks.
-> >
-> > Yes, that would be quite large patch, and probably not needed for
-> > devices/buses that do not use out of bound signalling of attention.
-> >
-> > > That would be a large
-> > > change. Similarly, disabling it in the i2c bus code would be a large
-> > > change that would mean auditing each i2c driver shutdown function to
-> > > make sure we don't disable the irq more than the number of times it has
-> > > been enabled.
-> >
-> > I do not think keeping counter balanced would be important here, as we
-> > are shutting down, and upon reboot everything will be reinitialized from
-> > scratch. Also, we are lucky in that there is just a handful of I2C
-> > drivers defining shutdown() methods.
-> >
-> > > Please don't make me shave this yak.
-> >
-> > I'm afraid someone has to... I'm adding Wolfram to CC to get his take on
-> > this.
-> >
-> 
-> I suppose another option would be to introduce some common function that
-> i2c drivers can use for their shutdown op, like i2c_generic_shutdown()
-> that would disable the irq? I would guess that it isn't a great idea to
-> blanket disable the irq in case some i2c driver wants to do something
-> that may require that irq to come in once more during shutdown to signal
-> that things are off or something like that.
-> 
-> Would having this common function that this driver opts into work for
-> you?
+Instead of using platform data to specify GPIO that is used as interrupt
+source, rely on the platform and I2C core to set it up properly.
 
-Opting in in this fashion will still require changes in the majority
-of drivers (any I2C touchscreen or touchpad may be touched while system
-is being shut down, so all of them will need to have interrupt freed or
-disabled, or they may initiate I2C transfer). How about something like
-this;
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/input/touchscreen/cy8ctmg110_ts.c | 32 +----------------------
+ include/linux/input/cy8ctmg110_pdata.h    |  1 -
+ 2 files changed, 1 insertion(+), 32 deletions(-)
 
-diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-index 38107c0c318c..c835e7bb71de 100644
---- a/drivers/i2c/i2c-core-base.c
-+++ b/drivers/i2c/i2c-core-base.c
-@@ -603,9 +603,12 @@ static void i2c_device_shutdown(struct device *dev)
+diff --git a/drivers/input/touchscreen/cy8ctmg110_ts.c b/drivers/input/touchscreen/cy8ctmg110_ts.c
+index f465bae618fe..691f35f1bdd7 100644
+--- a/drivers/input/touchscreen/cy8ctmg110_ts.c
++++ b/drivers/input/touchscreen/cy8ctmg110_ts.c
+@@ -46,7 +46,6 @@ struct cy8ctmg110 {
+ 	char phys[32];
+ 	struct i2c_client *client;
+ 	int reset_pin;
+-	int irq_pin;
+ };
  
- 	if (!client || !dev->driver)
- 		return;
-+
- 	driver = to_i2c_driver(dev->driver);
- 	if (driver->shutdown)
- 		driver->shutdown(client);
-+	else if (client->irq > 0)
-+		disable_irq(client->irq);
- }
+ /*
+@@ -191,7 +190,6 @@ static int cy8ctmg110_probe(struct i2c_client *client,
+ 	ts->client = client;
+ 	ts->input = input_dev;
+ 	ts->reset_pin = pdata->reset_pin;
+-	ts->irq_pin = pdata->irq_pin;
  
- static void i2c_client_dev_release(struct device *dev)
-
-Thanks.
-
+ 	snprintf(ts->phys, sizeof(ts->phys),
+ 		 "%s/input0", dev_name(&client->dev));
+@@ -222,38 +220,13 @@ static int cy8ctmg110_probe(struct i2c_client *client,
+ 	cy8ctmg110_power(ts, true);
+ 	cy8ctmg110_set_sleepmode(ts, false);
+ 
+-	err = gpio_request(ts->irq_pin, "touch_irq_key");
+-	if (err < 0) {
+-		dev_err(&client->dev,
+-			"Failed to request GPIO %d, error %d\n",
+-			ts->irq_pin, err);
+-		goto err_shutoff_device;
+-	}
+-
+-	err = gpio_direction_input(ts->irq_pin);
+-	if (err < 0) {
+-		dev_err(&client->dev,
+-			"Failed to configure input direction for GPIO %d, error %d\n",
+-			ts->irq_pin, err);
+-		goto err_free_irq_gpio;
+-	}
+-
+-	client->irq = gpio_to_irq(ts->irq_pin);
+-	if (client->irq < 0) {
+-		err = client->irq;
+-		dev_err(&client->dev,
+-			"Unable to get irq number for GPIO %d, error %d\n",
+-			ts->irq_pin, err);
+-		goto err_free_irq_gpio;
+-	}
+-
+ 	err = request_threaded_irq(client->irq, NULL, cy8ctmg110_irq_thread,
+ 				   IRQF_TRIGGER_RISING | IRQF_ONESHOT,
+ 				   "touch_reset_key", ts);
+ 	if (err < 0) {
+ 		dev_err(&client->dev,
+ 			"irq %d busy? error %d\n", client->irq, err);
+-		goto err_free_irq_gpio;
++		goto err_shutoff_device;
+ 	}
+ 
+ 	err = input_register_device(input_dev);
+@@ -266,8 +239,6 @@ static int cy8ctmg110_probe(struct i2c_client *client,
+ 
+ err_free_irq:
+ 	free_irq(client->irq, ts);
+-err_free_irq_gpio:
+-	gpio_free(ts->irq_pin);
+ err_shutoff_device:
+ 	cy8ctmg110_set_sleepmode(ts, true);
+ 	cy8ctmg110_power(ts, false);
+@@ -318,7 +289,6 @@ static int cy8ctmg110_remove(struct i2c_client *client)
+ 
+ 	free_irq(client->irq, ts);
+ 	input_unregister_device(ts->input);
+-	gpio_free(ts->irq_pin);
+ 	if (ts->reset_pin)
+ 		gpio_free(ts->reset_pin);
+ 	kfree(ts);
+diff --git a/include/linux/input/cy8ctmg110_pdata.h b/include/linux/input/cy8ctmg110_pdata.h
+index 77582ae1745a..ee1d44545f30 100644
+--- a/include/linux/input/cy8ctmg110_pdata.h
++++ b/include/linux/input/cy8ctmg110_pdata.h
+@@ -5,7 +5,6 @@
+ struct cy8ctmg110_pdata
+ {
+ 	int reset_pin;		/* Reset pin is wired to this GPIO (optional) */
+-	int irq_pin;		/* IRQ pin is wired to this GPIO */
+ };
+ 
+ #endif
 -- 
-Dmitry
+2.32.0.rc0.204.g9fa02ecfa5-goog
+
