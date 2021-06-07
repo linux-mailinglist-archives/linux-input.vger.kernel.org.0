@@ -2,63 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0642439DFEB
-	for <lists+linux-input@lfdr.de>; Mon,  7 Jun 2021 17:03:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B68CE39E1C9
+	for <lists+linux-input@lfdr.de>; Mon,  7 Jun 2021 18:16:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230220AbhFGPFl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 7 Jun 2021 11:05:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32786 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230198AbhFGPFl (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Mon, 7 Jun 2021 11:05:41 -0400
-X-Greylist: delayed 423 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 07 Jun 2021 08:03:50 PDT
-Received: from latitanza.investici.org (latitanza.investici.org [IPv6:2001:888:2000:56::19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 139EEC061766
-        for <linux-input@vger.kernel.org>; Mon,  7 Jun 2021 08:03:50 -0700 (PDT)
-Received: from mx3.investici.org (unknown [127.0.0.1])
-        by latitanza.investici.org (Postfix) with ESMTP id 4FzGfh6lXmzGp2t
-        for <linux-input@vger.kernel.org>; Mon,  7 Jun 2021 14:56:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=autistici.org;
-        s=stigmate; t=1623077804;
-        bh=drIYtE9YNOUvLbj74nik26kKbpDez0QoyNgyxMADdww=;
-        h=From:To:Subject:Date:From;
-        b=koOxgXNyPDrwRtr81CfDSNu7h/Y1Ji81rIIHX648P7xhbhuOhu2sZequSB1Yazjjc
-         wVOlhSFUOEgIgkVjzb5lhdkQ7UiSzmsGxtYwGS3bmlEv0LwFjG7wpnmec7BHPPm90R
-         V70fdAl1TZb+bsauejv1fH4lwWhkEZayDTvjYDsE=
-Received: from [82.94.249.234] (mx3.investici.org [82.94.249.234]) (Authenticated sender: andrea.monaco@autistici.org) by localhost (Postfix) with ESMTPSA id 4FzGfh5wz9zGp2l
-        for <linux-input@vger.kernel.org>; Mon,  7 Jun 2021 14:56:44 +0000 (UTC)
-From:   "Andrea G. Monaco" <andrea.monaco@autistici.org>
-To:     linux-input@vger.kernel.org
-Subject: Report descriptor is printed partially
-Date:   Mon, 07 Jun 2021 16:56:33 +0200
-Message-ID: <87pmwxwwny.fsf@autistici.org>
+        id S230525AbhFGQOQ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 7 Jun 2021 12:14:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47198 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231282AbhFGQOK (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 7 Jun 2021 12:14:10 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0E00E6135D;
+        Mon,  7 Jun 2021 16:12:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1623082338;
+        bh=ewBxHwmu+PcHoCfNmRdf7wetx4+AcOOFNVgj1mOHnnM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=MuBrubhFrF1Mm1tHxbjkqxayTFusoXv1z3gIXd64ijYEL3QOhORl41kJFldmDgJGG
+         xsCjF1XiRVHLA8AEBkPl/d/5Uzl85jvkTgKdCWWP2U6LjUmhF+e3aHX8NxeKXV5+yi
+         C7VokQJrpdexlqHVoUOm6/V9gQ4QDEp/9485hCns8VqmkybKKlZRE1/d2U1349JCnO
+         jRLxFI8T1x+JPIPXbdsy1S3UAKfAWPcTQfAlXToBvMmUL841GmbaFUvUAokzVK5EA6
+         Z7F9KNH6UFz08miF7aJvM98bZgow0hkhFVPG7FX7qBxpQett2kWMTDoxnvKHER6sCl
+         NibkEeOuUjHPw==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Luke D Jones <luke@ljones.dev>, Jiri Kosina <jkosina@suse.cz>,
+        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.12 02/49] HID: asus: Filter keyboard EC for old ROG keyboard
+Date:   Mon,  7 Jun 2021 12:11:28 -0400
+Message-Id: <20210607161215.3583176-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210607161215.3583176-1-sashal@kernel.org>
+References: <20210607161215.3583176-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+From: Luke D Jones <luke@ljones.dev>
 
-Hello everyone,
+[ Upstream commit 4bfb2c72b2bfca8684c2f5c25a3119bad016a9d3 ]
 
+Older ROG keyboards emit a similar stream of bytes to the new
+N-Key keyboards and require filtering to prevent a lot of
+unmapped key warnings showing. As all the ROG keyboards use
+QUIRK_USE_KBD_BACKLIGHT this is now used to branch to filtering
+in asus_raw_event.
 
-while investigating a problem with my touchpad in i2c_hid, I found out that the
-%*ph specifier in printk only prints 64 bytes at most
-(https://www.kernel.org/doc/html/latest/core-api/printk-formats.html).
-That means the line
+Signed-off-by: Luke D Jones <luke@ljones.dev>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/hid/hid-asus.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/hid/hid-asus.c b/drivers/hid/hid-asus.c
+index 2ab22b925941..1ed1c05c3d54 100644
+--- a/drivers/hid/hid-asus.c
++++ b/drivers/hid/hid-asus.c
+@@ -335,7 +335,7 @@ static int asus_raw_event(struct hid_device *hdev,
+ 	if (drvdata->quirks & QUIRK_MEDION_E1239T)
+ 		return asus_e1239t_event(drvdata, data, size);
+ 
+-	if (drvdata->quirks & QUIRK_ROG_NKEY_KEYBOARD) {
++	if (drvdata->quirks & QUIRK_USE_KBD_BACKLIGHT) {
+ 		/*
+ 		 * Skip these report ID, the device emits a continuous stream associated
+ 		 * with the AURA mode it is in which looks like an 'echo'.
+-- 
+2.30.2
 
-	i2c_hid_dbg(ihid, "Report Descriptor: %*ph\n", rsize, rdesc);
-
-
-in i2c_parse only prints the beginning of the report descriptor. My
-touchpad declares a 665 bytes long descriptor, so I guess it is usually
-much bigger than 64. 
-
-
-Perhaps we could dump the full descriptor, or at least make this limit
-clear.
-
-
-
-Andrea Monaco
