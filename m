@@ -2,37 +2,35 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1750439E3D3
+	by mail.lfdr.de (Postfix) with ESMTP id E036239E3D5
 	for <lists+linux-input@lfdr.de>; Mon,  7 Jun 2021 18:40:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233819AbhFGQ14 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 7 Jun 2021 12:27:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60366 "EHLO mail.kernel.org"
+        id S233967AbhFGQ17 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 7 Jun 2021 12:27:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60478 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232468AbhFGQWq (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 7 Jun 2021 12:22:46 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ADD59613D5;
-        Mon,  7 Jun 2021 16:15:22 +0000 (UTC)
+        id S232773AbhFGQWs (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 7 Jun 2021 12:22:48 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 99E6061930;
+        Mon,  7 Jun 2021 16:15:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623082523;
-        bh=udkCOC6Hz1MXtaCm4KFABL+LowYHouaHndMAfGaCQBo=;
+        s=k20201202; t=1623082526;
+        bh=iX2oTkmqyn78O4KlibLV5yCnz9KKb3Q9Wkez32DsvKE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lm7LR2ia65hgwyU/3gqEhoa6ltwAG7nbBoAS7ptgld1aEoq/dLK3Z4xSVblVIODA5
-         9vol8QMUyBOcFeYdbKXl+u+gFz4aSWUfqNTBN0sb5TyeYJc26pYmzO+NsWxjP/twj1
-         9R6aN6rnEU7Z0SJzhaHTbDoScdDizPDaJsgkeGOueO4seBQirYIPTbl4smH9aPpQNj
-         Mi7r9mRcfa1+sQ3akeOL7xf5SzJ3LIoyayZ/YRhThhkid48N6bcoKMK876fAwJZuwV
-         VaNQOUs/IlsT0bTQ5bmPQD2K3hWQZb9uievZWeCF4ASmtx5YQ/Qs8qVz6K1cJc4C/4
-         txRmmCIvWdsZQ==
+        b=gqCGn3xPG2Gxd8KpowKexxNgMg8c0oFjkU7XCk/qv9+f60IjukDEZeSOjBncWgEDu
+         cdCXfrnn8T0436llGu6KVO4Wt3tlbjgNiBW8g6d+5ZZKwpiKo5eBCNOvLWkVjBa0YW
+         TW4XXbz2bix41tKm7FrEh4vEK0iHJ8bAMImUn4OEK63SbDCZofBWByZCHW0hrAjOW9
+         pv21Ax7mZTXn7zbE1PUKlEsKIyn76unlgGvS4EuOU23gJTd/0GLZ6XNKxFIQ7En/sR
+         73feLI8hLDWO84sAxIfnlaXdZzvj7raxPSkiFawHWmHMAkVU/H0QJNE5frfGNsEz/7
+         GrgwpKPQqBdbw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Anirudh Rayabharam <mail@anirudhrb.com>,
-        syzbot+7c2bb71996f95a82524c@syzkaller.appspotmail.com,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+Cc:     Bixuan Cui <cuibixuan@huawei.com>, Hulk Robot <hulkci@huawei.com>,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        linux-usb@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 04/18] HID: usbhid: fix info leak in hid_submit_ctrl
-Date:   Mon,  7 Jun 2021 12:15:02 -0400
-Message-Id: <20210607161517.3584577-4-sashal@kernel.org>
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 06/18] HID: gt683r: add missing MODULE_DEVICE_TABLE
+Date:   Mon,  7 Jun 2021 12:15:04 -0400
+Message-Id: <20210607161517.3584577-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210607161517.3584577-1-sashal@kernel.org>
 References: <20210607161517.3584577-1-sashal@kernel.org>
@@ -44,57 +42,34 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Anirudh Rayabharam <mail@anirudhrb.com>
+From: Bixuan Cui <cuibixuan@huawei.com>
 
-[ Upstream commit 6be388f4a35d2ce5ef7dbf635a8964a5da7f799f ]
+[ Upstream commit a4b494099ad657f1cb85436d333cf38870ee95bc ]
 
-In hid_submit_ctrl(), the way of calculating the report length doesn't
-take into account that report->size can be zero. When running the
-syzkaller reproducer, a report of size 0 causes hid_submit_ctrl) to
-calculate transfer_buffer_length as 16384. When this urb is passed to
-the usb core layer, KMSAN reports an info leak of 16384 bytes.
+This patch adds missing MODULE_DEVICE_TABLE definition which generates
+correct modalias for automatic loading of this driver when it is built
+as an external module.
 
-To fix this, first modify hid_report_len() to account for the zero
-report size case by using DIV_ROUND_UP for the division. Then, call it
-from hid_submit_ctrl().
-
-Reported-by: syzbot+7c2bb71996f95a82524c@syzkaller.appspotmail.com
-Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
-Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Bixuan Cui <cuibixuan@huawei.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/usbhid/hid-core.c | 2 +-
- include/linux/hid.h           | 3 +--
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ drivers/hid/hid-gt683r.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
-index 98916fb4191a..46b8f4c353de 100644
---- a/drivers/hid/usbhid/hid-core.c
-+++ b/drivers/hid/usbhid/hid-core.c
-@@ -373,7 +373,7 @@ static int hid_submit_ctrl(struct hid_device *hid)
- 	raw_report = usbhid->ctrl[usbhid->ctrltail].raw_report;
- 	dir = usbhid->ctrl[usbhid->ctrltail].dir;
+diff --git a/drivers/hid/hid-gt683r.c b/drivers/hid/hid-gt683r.c
+index a298fbd8db6b..8ca4c1baeda8 100644
+--- a/drivers/hid/hid-gt683r.c
++++ b/drivers/hid/hid-gt683r.c
+@@ -64,6 +64,7 @@ static const struct hid_device_id gt683r_led_id[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_MSI, USB_DEVICE_ID_MSI_GT683R_LED_PANEL) },
+ 	{ }
+ };
++MODULE_DEVICE_TABLE(hid, gt683r_led_id);
  
--	len = ((report->size - 1) >> 3) + 1 + (report->id > 0);
-+	len = hid_report_len(report);
- 	if (dir == USB_DIR_OUT) {
- 		usbhid->urbctrl->pipe = usb_sndctrlpipe(hid_to_usb_dev(hid), 0);
- 		usbhid->urbctrl->transfer_buffer_length = len;
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index d07fe33a9045..5a2c55ed33fa 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -1114,8 +1114,7 @@ static inline void hid_hw_wait(struct hid_device *hdev)
-  */
- static inline u32 hid_report_len(struct hid_report *report)
- {
--	/* equivalent to DIV_ROUND_UP(report->size, 8) + !!(report->id > 0) */
--	return ((report->size - 1) >> 3) + 1 + (report->id > 0);
-+	return DIV_ROUND_UP(report->size, 8) + (report->id > 0);
- }
- 
- int hid_report_raw_event(struct hid_device *hid, int type, u8 *data, u32 size,
+ static void gt683r_brightness_set(struct led_classdev *led_cdev,
+ 				enum led_brightness brightness)
 -- 
 2.30.2
 
