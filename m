@@ -2,38 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E036239E3D5
-	for <lists+linux-input@lfdr.de>; Mon,  7 Jun 2021 18:40:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A450A39E3D7
+	for <lists+linux-input@lfdr.de>; Mon,  7 Jun 2021 18:40:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233967AbhFGQ17 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 7 Jun 2021 12:27:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60478 "EHLO mail.kernel.org"
+        id S233508AbhFGQ2B (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 7 Jun 2021 12:28:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59844 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232773AbhFGQWs (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 7 Jun 2021 12:22:48 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 99E6061930;
-        Mon,  7 Jun 2021 16:15:25 +0000 (UTC)
+        id S233707AbhFGQYV (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 7 Jun 2021 12:24:21 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 499B961463;
+        Mon,  7 Jun 2021 16:15:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623082526;
-        bh=iX2oTkmqyn78O4KlibLV5yCnz9KKb3Q9Wkez32DsvKE=;
+        s=k20201202; t=1623082547;
+        bh=mmoRBbN8jbnNMclRxAC+IJf3w21VBf1HJgDECfgzels=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=gqCGn3xPG2Gxd8KpowKexxNgMg8c0oFjkU7XCk/qv9+f60IjukDEZeSOjBncWgEDu
-         cdCXfrnn8T0436llGu6KVO4Wt3tlbjgNiBW8g6d+5ZZKwpiKo5eBCNOvLWkVjBa0YW
-         TW4XXbz2bix41tKm7FrEh4vEK0iHJ8bAMImUn4OEK63SbDCZofBWByZCHW0hrAjOW9
-         pv21Ax7mZTXn7zbE1PUKlEsKIyn76unlgGvS4EuOU23gJTd/0GLZ6XNKxFIQ7En/sR
-         73feLI8hLDWO84sAxIfnlaXdZzvj7raxPSkiFawHWmHMAkVU/H0QJNE5frfGNsEz/7
-         GrgwpKPQqBdbw==
+        b=rM35i3tKfAiXEACKF6w7pVRoRDAEuMwIdR1JKVAuPnOLRDqip49570ufyL9fJvIvD
+         KXj3ournKVF5y8t6KYqwx3Po0VWkMy/8qC85bMTEDQsOeJ379isSMQkVgbV7fHNwxv
+         7It1+N9R5joP8USkIoSbxgMmv/G1BHXUnm9cWMsJ92o11Sn0KAhYMj2irVZy7HsAgm
+         qKsyAA88AX7JVvCXErQsND+gET9QP/QxmSXdGEdsHK2wd4GHGuUSRFp3KBAumLw4Ck
+         2JcT6vX4HiqTsTsqIgZoTy7OutybwVpyjeQyRpSVOlmXYO1ROuZ79FZaepaOsy8+PG
+         8t9LiYmApaBOg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Bixuan Cui <cuibixuan@huawei.com>, Hulk Robot <hulkci@huawei.com>,
+Cc:     Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 06/18] HID: gt683r: add missing MODULE_DEVICE_TABLE
-Date:   Mon,  7 Jun 2021 12:15:04 -0400
-Message-Id: <20210607161517.3584577-6-sashal@kernel.org>
+        linux-input@vger.kernel.org, linux-iio@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.9 02/15] HID: hid-sensor-hub: Return error for hid_set_field() failure
+Date:   Mon,  7 Jun 2021 12:15:30 -0400
+Message-Id: <20210607161543.3584778-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210607161517.3584577-1-sashal@kernel.org>
-References: <20210607161517.3584577-1-sashal@kernel.org>
+In-Reply-To: <20210607161543.3584778-1-sashal@kernel.org>
+References: <20210607161543.3584778-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -42,34 +43,51 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Bixuan Cui <cuibixuan@huawei.com>
+From: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
-[ Upstream commit a4b494099ad657f1cb85436d333cf38870ee95bc ]
+[ Upstream commit edb032033da0dc850f6e7740fa1023c73195bc89 ]
 
-This patch adds missing MODULE_DEVICE_TABLE definition which generates
-correct modalias for automatic loading of this driver when it is built
-as an external module.
+In the function sensor_hub_set_feature(), return error when hid_set_field()
+fails.
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Bixuan Cui <cuibixuan@huawei.com>
+Signed-off-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/hid-gt683r.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/hid/hid-sensor-hub.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/hid/hid-gt683r.c b/drivers/hid/hid-gt683r.c
-index a298fbd8db6b..8ca4c1baeda8 100644
---- a/drivers/hid/hid-gt683r.c
-+++ b/drivers/hid/hid-gt683r.c
-@@ -64,6 +64,7 @@ static const struct hid_device_id gt683r_led_id[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_MSI, USB_DEVICE_ID_MSI_GT683R_LED_PANEL) },
- 	{ }
- };
-+MODULE_DEVICE_TABLE(hid, gt683r_led_id);
- 
- static void gt683r_brightness_set(struct led_classdev *led_cdev,
- 				enum led_brightness brightness)
+diff --git a/drivers/hid/hid-sensor-hub.c b/drivers/hid/hid-sensor-hub.c
+index 7001f07ca399..4ea18f07c65b 100644
+--- a/drivers/hid/hid-sensor-hub.c
++++ b/drivers/hid/hid-sensor-hub.c
+@@ -223,16 +223,21 @@ int sensor_hub_set_feature(struct hid_sensor_hub_device *hsdev, u32 report_id,
+ 	buffer_size = buffer_size / sizeof(__s32);
+ 	if (buffer_size) {
+ 		for (i = 0; i < buffer_size; ++i) {
+-			hid_set_field(report->field[field_index], i,
+-				      (__force __s32)cpu_to_le32(*buf32));
++			ret = hid_set_field(report->field[field_index], i,
++					    (__force __s32)cpu_to_le32(*buf32));
++			if (ret)
++				goto done_proc;
++
+ 			++buf32;
+ 		}
+ 	}
+ 	if (remaining_bytes) {
+ 		value = 0;
+ 		memcpy(&value, (u8 *)buf32, remaining_bytes);
+-		hid_set_field(report->field[field_index], i,
+-			      (__force __s32)cpu_to_le32(value));
++		ret = hid_set_field(report->field[field_index], i,
++				    (__force __s32)cpu_to_le32(value));
++		if (ret)
++			goto done_proc;
+ 	}
+ 	hid_hw_request(hsdev->hdev, report, HID_REQ_SET_REPORT);
+ 	hid_hw_wait(hsdev->hdev);
 -- 
 2.30.2
 
