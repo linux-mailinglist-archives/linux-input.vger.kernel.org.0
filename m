@@ -2,37 +2,34 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2915A39E1E3
-	for <lists+linux-input@lfdr.de>; Mon,  7 Jun 2021 18:16:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFA1739E1F8
+	for <lists+linux-input@lfdr.de>; Mon,  7 Jun 2021 18:16:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231557AbhFGQOZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 7 Jun 2021 12:14:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47632 "EHLO mail.kernel.org"
+        id S231199AbhFGQOi (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 7 Jun 2021 12:14:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48218 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231538AbhFGQOW (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 7 Jun 2021 12:14:22 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5A1E3613BC;
-        Mon,  7 Jun 2021 16:12:30 +0000 (UTC)
+        id S231601AbhFGQOg (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 7 Jun 2021 12:14:36 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B402461403;
+        Mon,  7 Jun 2021 16:12:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623082351;
-        bh=cF5V4SDiCYcWy6ZhQI1V4h8C12A6fAAAmTs7Yoba0eA=;
+        s=k20201202; t=1623082364;
+        bh=6oQnb4cR2EZows9NeHlZ+bIaKQt/uyMishpAEm92e1Y=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KsXm0kiCTbl1S0xgeV7Ot4CmKOR1+Olqj/+XCqsi5pxI96e3+kMw16cdX+XnbDmnw
-         aKvC7Mv2d1QExKeY5JSJ34KeOfnXRBmgUeZwe2P21recOWh9mXrILNzsXpLOIU3Otf
-         jS3HVjbOyThRfsWOxtcE6recXzPWow5dtb3YZqgSClkfoOdBEXbFNE+qHw2NHmhDyD
-         W2871TjQ93AARbg4DFkmaLWTrXR+2UG+23vC9dlJbcQPETnEeDJQ0msRTbmTM2SMjM
-         2ubjQqpJxh/775quiafD7JKQJqv54QxaSjBVUPQO9svqCS4jdknO7sol74nP/YNRci
-         IxxPKviVzCoUg==
+        b=nIGdXGVhRH5hoXry/cNOveGETzKqTusrMY2xNqQSsiEHAN0hbMYra0LxOaiTYRmFV
+         v2WidqoqiDv/PcRkVSrAO5vsO9DtK500triuOQCpKM/lYJeczigzk44cCd95xfBdHP
+         bf0vy9rZxKYarZ1HAQzGr3Yj6WsDca4URWPeEyA5GglG6zQ/0HQfpdf+DUxUSMRWM0
+         91VUfQjGpzwZivhJ6Og7rHmNc7QAnCTgT4wZ8TUjZq/7ZvMa3Yx+bj5iiM18ALtBtF
+         JeNtJzqflSOS2mn1mOo0ql8YwRupWjZhldecamOKpG54755Wzt9ZzGo7wU4p8MCSYx
+         q7Y/bjIwV5zVg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Anirudh Rayabharam <mail@anirudhrb.com>,
-        syzbot+7c2bb71996f95a82524c@syzkaller.appspotmail.com,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
-        linux-usb@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 12/49] HID: usbhid: fix info leak in hid_submit_ctrl
-Date:   Mon,  7 Jun 2021 12:11:38 -0400
-Message-Id: <20210607161215.3583176-12-sashal@kernel.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>, Jiri Kosina <jkosina@suse.cz>,
+        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.12 23/49] HID: multitouch: Disable event reporting on suspend on the Asus T101HA touchpad
+Date:   Mon,  7 Jun 2021 12:11:49 -0400
+Message-Id: <20210607161215.3583176-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210607161215.3583176-1-sashal@kernel.org>
 References: <20210607161215.3583176-1-sashal@kernel.org>
@@ -44,57 +41,101 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Anirudh Rayabharam <mail@anirudhrb.com>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit 6be388f4a35d2ce5ef7dbf635a8964a5da7f799f ]
+[ Upstream commit 31a4cf1d223dc6144d2e7c679cc3a98f84a1607b ]
 
-In hid_submit_ctrl(), the way of calculating the report length doesn't
-take into account that report->size can be zero. When running the
-syzkaller reproducer, a report of size 0 causes hid_submit_ctrl) to
-calculate transfer_buffer_length as 16384. When this urb is passed to
-the usb core layer, KMSAN reports an info leak of 16384 bytes.
+The Asus T101HA has a problem with spurious wakeups when the lid is
+closed, this is caused by the screen sitting so close to the touchpad
+that the touchpad ends up reporting touch events, causing these wakeups.
 
-To fix this, first modify hid_report_len() to account for the zero
-report size case by using DIV_ROUND_UP for the division. Then, call it
-from hid_submit_ctrl().
+Add a quirk which disables event reporting on suspend when set, and
+enable this quirk for the Asus T101HA touchpad fixing the spurious
+wakeups, while still allowing the device to be woken by pressing a
+key on the keyboard (which is part of the same USB device).
 
-Reported-by: syzbot+7c2bb71996f95a82524c@syzkaller.appspotmail.com
-Signed-off-by: Anirudh Rayabharam <mail@anirudhrb.com>
-Acked-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/usbhid/hid-core.c | 2 +-
- include/linux/hid.h           | 3 +--
- 2 files changed, 2 insertions(+), 3 deletions(-)
+ drivers/hid/hid-multitouch.c | 28 ++++++++++++++++++++++++++--
+ 1 file changed, 26 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
-index 86257ce6d619..4e9077363c96 100644
---- a/drivers/hid/usbhid/hid-core.c
-+++ b/drivers/hid/usbhid/hid-core.c
-@@ -374,7 +374,7 @@ static int hid_submit_ctrl(struct hid_device *hid)
- 	raw_report = usbhid->ctrl[usbhid->ctrltail].raw_report;
- 	dir = usbhid->ctrl[usbhid->ctrltail].dir;
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index ae1fee9d7474..6bc49fb53d74 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -70,6 +70,7 @@ MODULE_LICENSE("GPL");
+ #define MT_QUIRK_WIN8_PTP_BUTTONS	BIT(18)
+ #define MT_QUIRK_SEPARATE_APP_REPORT	BIT(19)
+ #define MT_QUIRK_FORCE_MULTI_INPUT	BIT(20)
++#define MT_QUIRK_DISABLE_WAKEUP		BIT(21)
  
--	len = ((report->size - 1) >> 3) + 1 + (report->id > 0);
-+	len = hid_report_len(report);
- 	if (dir == USB_DIR_OUT) {
- 		usbhid->urbctrl->pipe = usb_sndctrlpipe(hid_to_usb_dev(hid), 0);
- 		usbhid->urbctrl->transfer_buffer_length = len;
-diff --git a/include/linux/hid.h b/include/linux/hid.h
-index 3e33eb14118c..5e79a21c696f 100644
---- a/include/linux/hid.h
-+++ b/include/linux/hid.h
-@@ -1164,8 +1164,7 @@ static inline void hid_hw_wait(struct hid_device *hdev)
-  */
- static inline u32 hid_report_len(struct hid_report *report)
+ #define MT_INPUTMODE_TOUCHSCREEN	0x02
+ #define MT_INPUTMODE_TOUCHPAD		0x03
+@@ -191,6 +192,7 @@ static void mt_post_parse(struct mt_device *td, struct mt_application *app);
+ #define MT_CLS_EXPORT_ALL_INPUTS		0x0013
+ /* reserved					0x0014 */
+ #define MT_CLS_WIN_8_FORCE_MULTI_INPUT		0x0015
++#define MT_CLS_WIN_8_DISABLE_WAKEUP		0x0016
+ 
+ /* vendor specific classes */
+ #define MT_CLS_3M				0x0101
+@@ -283,6 +285,15 @@ static const struct mt_class mt_classes[] = {
+ 			MT_QUIRK_WIN8_PTP_BUTTONS |
+ 			MT_QUIRK_FORCE_MULTI_INPUT,
+ 		.export_all_inputs = true },
++	{ .name = MT_CLS_WIN_8_DISABLE_WAKEUP,
++		.quirks = MT_QUIRK_ALWAYS_VALID |
++			MT_QUIRK_IGNORE_DUPLICATES |
++			MT_QUIRK_HOVERING |
++			MT_QUIRK_CONTACT_CNT_ACCURATE |
++			MT_QUIRK_STICKY_FINGERS |
++			MT_QUIRK_WIN8_PTP_BUTTONS |
++			MT_QUIRK_DISABLE_WAKEUP,
++		.export_all_inputs = true },
+ 
+ 	/*
+ 	 * vendor specific classes
+@@ -759,7 +770,8 @@ static int mt_touch_input_mapping(struct hid_device *hdev, struct hid_input *hi,
+ 			return 1;
+ 		case HID_DG_CONFIDENCE:
+ 			if ((cls->name == MT_CLS_WIN_8 ||
+-			     cls->name == MT_CLS_WIN_8_FORCE_MULTI_INPUT) &&
++			     cls->name == MT_CLS_WIN_8_FORCE_MULTI_INPUT ||
++			     cls->name == MT_CLS_WIN_8_DISABLE_WAKEUP) &&
+ 				(field->application == HID_DG_TOUCHPAD ||
+ 				 field->application == HID_DG_TOUCHSCREEN))
+ 				app->quirks |= MT_QUIRK_CONFIDENCE;
+@@ -1749,8 +1761,14 @@ static int mt_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ #ifdef CONFIG_PM
+ static int mt_suspend(struct hid_device *hdev, pm_message_t state)
  {
--	/* equivalent to DIV_ROUND_UP(report->size, 8) + !!(report->id > 0) */
--	return ((report->size - 1) >> 3) + 1 + (report->id > 0);
-+	return DIV_ROUND_UP(report->size, 8) + (report->id > 0);
++	struct mt_device *td = hid_get_drvdata(hdev);
++
+ 	/* High latency is desirable for power savings during S3/S0ix */
+-	mt_set_modes(hdev, HID_LATENCY_HIGH, true, true);
++	if (td->mtclass.quirks & MT_QUIRK_DISABLE_WAKEUP)
++		mt_set_modes(hdev, HID_LATENCY_HIGH, false, false);
++	else
++		mt_set_modes(hdev, HID_LATENCY_HIGH, true, true);
++
+ 	return 0;
  }
  
- int hid_report_raw_event(struct hid_device *hid, int type, u8 *data, u32 size,
+@@ -1809,6 +1827,12 @@ static const struct hid_device_id mt_devices[] = {
+ 		MT_USB_DEVICE(USB_VENDOR_ID_ANTON,
+ 			USB_DEVICE_ID_ANTON_TOUCH_PAD) },
+ 
++	/* Asus T101HA */
++	{ .driver_data = MT_CLS_WIN_8_DISABLE_WAKEUP,
++		HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8,
++			   USB_VENDOR_ID_ASUSTEK,
++			   USB_DEVICE_ID_ASUSTEK_T101HA_KEYBOARD) },
++
+ 	/* Asus T304UA */
+ 	{ .driver_data = MT_CLS_ASUS,
+ 		HID_DEVICE(BUS_USB, HID_GROUP_MULTITOUCH_WIN_8,
 -- 
 2.30.2
 
