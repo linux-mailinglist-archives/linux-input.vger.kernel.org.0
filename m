@@ -2,67 +2,74 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB46539E930
-	for <lists+linux-input@lfdr.de>; Mon,  7 Jun 2021 23:47:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA00039E942
+	for <lists+linux-input@lfdr.de>; Tue,  8 Jun 2021 00:02:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230394AbhFGVt1 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 7 Jun 2021 17:49:27 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41794 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230359AbhFGVt1 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 7 Jun 2021 17:49:27 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4E3CC610A2;
-        Mon,  7 Jun 2021 21:47:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623102455;
-        bh=u9vV4UfWTCHytZo+SzuAh2oQSHhHNg5p38YQqfCxWwQ=;
-        h=Date:From:To:Cc:Subject:From;
-        b=WiZKHdJMtPxBhL13qPMSuBRAhBR2Hf3Qviq3aqd6IAOvL6SkOmFH2YKomQw+uxOdQ
-         4Tj939BKh2m5IT3CLqNDvqNN1nszUE0yPXnE0YfNEDdlA15HB0PR/GM9B2huMAMvU3
-         FwmM1aHhPi/o6gnyGT/KkOqokcnXu9pzF826UxuvVqcvcrKz72ZXEGFG+gRb+d2Lhb
-         UpEGULB/vmt34geBCGAVsCusrXqYkABkiWH2QLOdXiT3oaOF81dZCK4gtwfzhjnSIb
-         wUENc5BIXWdHmsUu3DwpT0IfF/KxDoimPCTZis5T+CdULelwOwJIGcgQvIV9y3Nhwt
-         OMbRx7YMJTmjA==
-Date:   Mon, 7 Jun 2021 16:48:52 -0500
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+        id S231177AbhFGWEf (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 7 Jun 2021 18:04:35 -0400
+Received: from smtprelay0205.hostedemail.com ([216.40.44.205]:49756 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S230359AbhFGWEf (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 7 Jun 2021 18:04:35 -0400
+Received: from omf04.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay03.hostedemail.com (Postfix) with ESMTP id D089D837F24D;
+        Mon,  7 Jun 2021 22:02:42 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf04.hostedemail.com (Postfix) with ESMTPA id B12A8D1514;
+        Mon,  7 Jun 2021 22:02:41 +0000 (UTC)
+Message-ID: <91eef5ab3143ae8fadb8eb2969aecba5f3e7ad98.camel@perches.com>
+Subject: Re: [PATCH][next] Input: Fix fall-through warning for Clang
+From:   Joe Perches <joe@perches.com>
+To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
         linux-hardening@vger.kernel.org, Kees Cook <keescook@chromium.org>
-Subject: [PATCH][next] Input: Fix fall-through warning for Clang
-Message-ID: <20210607214852.GA65141@embeddedor>
+Date:   Mon, 07 Jun 2021 15:02:40 -0700
+In-Reply-To: <20210607214852.GA65141@embeddedor>
+References: <20210607214852.GA65141@embeddedor>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: B12A8D1514
+X-Spam-Status: No, score=-0.65
+X-Stat-Signature: ynu6jtzcnxw8izy8nxad333mwtbwtion
+X-Rspamd-Server: rspamout03
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX18hRqlM6OTNhLYnzoh+elKVaVujchnKqRk=
+X-HE-Tag: 1623103361-870172
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-In preparation to enable -Wimplicit-fallthrough for Clang, fix a
-warning by explicitly adding a fallthrough; statement.
+On Mon, 2021-06-07 at 16:48 -0500, Gustavo A. R. Silva wrote:
+> In preparation to enable -Wimplicit-fallthrough for Clang, fix a
+> warning by explicitly adding a fallthrough; statement.
+[]
+> diff --git a/drivers/input/joystick/sidewinder.c b/drivers/input/joystick/sidewinder.c
+[]
+> @@ -660,6 +660,7 @@ static int sw_connect(struct gameport *gameport, struct gameport_driver *drv)
+>  					fallthrough;
+>  				case 45:				/* Ambiguous packet length */
+>  					if (j <= 40) {			/* ID length less or eq 40 -> FSP */
+> +					fallthrough;
+>  				case 43:
+>  						sw->type = SW_ID_FSP;
+>  						break;
 
-Link: https://github.com/KSPP/linux/issues/115
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
----
-JFYI: We had thousands of these sorts of warnings and now we are down
-      to just 13 in linux-next(20210607). This is one of those last
-      remaining warnings. :)
+Yuck.  Super ugly.  There's no need to play games with indentation.
 
- drivers/input/joystick/sidewinder.c | 1 +
- 1 file changed, 1 insertion(+)
+Perhaps the simpler:
 
-diff --git a/drivers/input/joystick/sidewinder.c b/drivers/input/joystick/sidewinder.c
-index fac91ea14f17..8e9672deb1eb 100644
---- a/drivers/input/joystick/sidewinder.c
-+++ b/drivers/input/joystick/sidewinder.c
-@@ -660,6 +660,7 @@ static int sw_connect(struct gameport *gameport, struct gameport_driver *drv)
- 					fallthrough;
- 				case 45:				/* Ambiguous packet length */
- 					if (j <= 40) {			/* ID length less or eq 40 -> FSP */
-+					fallthrough;
- 				case 43:
- 						sw->type = SW_ID_FSP;
- 						break;
--- 
-2.27.0
+				case 43:
+					sw->type = SW_ID_FSP;
+					break;
+				case 45:				/* Ambiguous packet length */
+					if (j <= 40) {			/* ID length less or eq 40 -> FSP */
+						sw->type = SW_ID_FSP;
+						break;
+					}
+					sw->number++;
+					fallthrough;
+
 
