@@ -2,37 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A01AF39E201
-	for <lists+linux-input@lfdr.de>; Mon,  7 Jun 2021 18:16:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C99939E245
+	for <lists+linux-input@lfdr.de>; Mon,  7 Jun 2021 18:16:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231663AbhFGQOl (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 7 Jun 2021 12:14:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47564 "EHLO mail.kernel.org"
+        id S231982AbhFGQQM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 7 Jun 2021 12:16:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48406 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231617AbhFGQOi (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 7 Jun 2021 12:14:38 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0E7F861406;
-        Mon,  7 Jun 2021 16:12:45 +0000 (UTC)
+        id S232000AbhFGQPR (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 7 Jun 2021 12:15:17 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id ACD2C61405;
+        Mon,  7 Jun 2021 16:13:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1623082366;
-        bh=Zz6lVfculsy0Ef24lMedqejwDUXaVODn45oG3Z33TNE=;
+        s=k20201202; t=1623082402;
+        bh=8NROY7982HeFSxDEn9mkhUirj3sifUv/lZZ+MmRV36g=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZM0WZvPn755hPr3w5dN2Huz2gcFmsDLlmV0qKbN+l/0P6ySkHF/GQdJnBBDpLiTT2
-         Cq2jwVTgS8jCQ3h7tTDAYD7zgAkY6jwUVJIZb90m7pUo9UwZgaDoM7dtmA8ns3IfoZ
-         QdwpiNPZ2n8BLOFePmjHr86R0eA2ykznkF/lL1KXg/Pau/T+QFdG9utxlWCMb+nBS1
-         sgp6l2N7DYxt8ZEdBAcWnRZ72JnF4W08vTBnh7+ShzucOAefa8PBNPYZ52MWfA7zFC
-         4BCjXUfu0+YPuOb1NgPtCsJ5p24uH+6RHxnA+8EaIi3WwB7nanfjNRdxtrl6Do51GK
-         NcaCiL7Ji/SPw==
+        b=if/2X7twSChJ9nKEJjvRkcscY/9qrk+8Fh2FUsFUwS9Lra9mLxDBJ8pcjtCl8cyu7
+         CUFcaNpZxLxBKSKJhrDohlq8ozoR2Z5238YI/6EDk43OmyspOK610pHE5PnduAxxa8
+         G1juaXM/REwnZ4pgaQXNGNLUMhbMNyk1t4wj2XHoSSWvagN5PB2BQi0tq2LzXyzm7I
+         dqzfUAW8IA35i2rB86uzJNmZGY/6I1TiirzzGdW3PsEDfEy4Pyp6EVC+oc6R+99Ooc
+         XzxJzubY8KGfrduqepzgpKX1KkHDeLg9OFuSmM0V7OILZRGaLc3USSXPr6RI4WQxme
+         ytTmyw9oKry3w==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Ye Xiang <xiang.ye@intel.com>, Jiri Kosina <jkosina@suse.cz>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.12 25/49] HID: intel-ish-hid: ipc: Add Alder Lake device IDs
-Date:   Mon,  7 Jun 2021 12:11:51 -0400
-Message-Id: <20210607161215.3583176-25-sashal@kernel.org>
+Cc:     Nirenjan Krishnan <nirenjan@gmail.com>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 02/39] HID: quirks: Set INCREMENT_USAGE_ON_DUPLICATE for Saitek X65
+Date:   Mon,  7 Jun 2021 12:12:41 -0400
+Message-Id: <20210607161318.3583636-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210607161215.3583176-1-sashal@kernel.org>
-References: <20210607161215.3583176-1-sashal@kernel.org>
+In-Reply-To: <20210607161318.3583636-1-sashal@kernel.org>
+References: <20210607161318.3583636-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -41,46 +42,49 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Ye Xiang <xiang.ye@intel.com>
+From: Nirenjan Krishnan <nirenjan@gmail.com>
 
-[ Upstream commit 22db5e0003e1441cd829180cebb42f7a6b7a46b7 ]
+[ Upstream commit 25bdbfbb2d8331a67824dd03d0087e9c98835f3a ]
 
-Add Alder Lake PCI device IDs to the supported device list.
+The Saitek X65 joystick has a pair of axes that were used as mouse
+pointer controls by the Windows driver. The corresponding usage page is
+the Game Controls page, which is not recognized by the generic HID
+driver, and therefore, both axes get mapped to ABS_MISC. The quirk makes
+the second axis get mapped to ABS_MISC+1, and therefore made available
+separately.
 
-Signed-off-by: Ye Xiang <xiang.ye@intel.com>
+Signed-off-by: Nirenjan Krishnan <nirenjan@gmail.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/intel-ish-hid/ipc/hw-ish.h  | 2 ++
- drivers/hid/intel-ish-hid/ipc/pci-ish.c | 2 ++
- 2 files changed, 4 insertions(+)
+ drivers/hid/hid-ids.h    | 1 +
+ drivers/hid/hid-quirks.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/drivers/hid/intel-ish-hid/ipc/hw-ish.h b/drivers/hid/intel-ish-hid/ipc/hw-ish.h
-index 21b87e4003af..07e3cbc86bef 100644
---- a/drivers/hid/intel-ish-hid/ipc/hw-ish.h
-+++ b/drivers/hid/intel-ish-hid/ipc/hw-ish.h
-@@ -28,6 +28,8 @@
- #define EHL_Ax_DEVICE_ID	0x4BB3
- #define TGL_LP_DEVICE_ID	0xA0FC
- #define TGL_H_DEVICE_ID		0x43FC
-+#define ADL_S_DEVICE_ID		0x7AF8
-+#define ADL_P_DEVICE_ID		0x51FC
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index e220a05a05b4..c2e0c65b111b 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -1034,6 +1034,7 @@
+ #define USB_DEVICE_ID_SAITEK_X52	0x075c
+ #define USB_DEVICE_ID_SAITEK_X52_2	0x0255
+ #define USB_DEVICE_ID_SAITEK_X52_PRO	0x0762
++#define USB_DEVICE_ID_SAITEK_X65	0x0b6a
  
- #define	REVISION_ID_CHT_A0	0x6
- #define	REVISION_ID_CHT_Ax_SI	0x0
-diff --git a/drivers/hid/intel-ish-hid/ipc/pci-ish.c b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-index 06081cf9b85a..a6d5173ac003 100644
---- a/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-+++ b/drivers/hid/intel-ish-hid/ipc/pci-ish.c
-@@ -39,6 +39,8 @@ static const struct pci_device_id ish_pci_tbl[] = {
- 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, EHL_Ax_DEVICE_ID)},
- 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, TGL_LP_DEVICE_ID)},
- 	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, TGL_H_DEVICE_ID)},
-+	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ADL_S_DEVICE_ID)},
-+	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, ADL_P_DEVICE_ID)},
- 	{0, }
- };
- MODULE_DEVICE_TABLE(pci, ish_pci_tbl);
+ #define USB_VENDOR_ID_SAMSUNG		0x0419
+ #define USB_DEVICE_ID_SAMSUNG_IR_REMOTE	0x0001
+diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+index 2e38340e19df..2bda94199aaf 100644
+--- a/drivers/hid/hid-quirks.c
++++ b/drivers/hid/hid-quirks.c
+@@ -158,6 +158,7 @@ static const struct hid_device_id hid_quirks[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_X52), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_X52_2), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_X52_PRO), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_SAITEK, USB_DEVICE_ID_SAITEK_X65), HID_QUIRK_INCREMENT_USAGE_ON_DUPLICATE },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_SEMICO, USB_DEVICE_ID_SEMICO_USB_KEYKOARD2), HID_QUIRK_NO_INIT_REPORTS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_SEMICO, USB_DEVICE_ID_SEMICO_USB_KEYKOARD), HID_QUIRK_NO_INIT_REPORTS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_SENNHEISER, USB_DEVICE_ID_SENNHEISER_BTD500USB), HID_QUIRK_NOGET },
 -- 
 2.30.2
 
