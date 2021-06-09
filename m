@@ -2,41 +2,41 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B853C3A15C2
-	for <lists+linux-input@lfdr.de>; Wed,  9 Jun 2021 15:36:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 979E83A178D
+	for <lists+linux-input@lfdr.de>; Wed,  9 Jun 2021 16:38:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236440AbhFINiO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 9 Jun 2021 09:38:14 -0400
-Received: from flippie-beckerswealth-sa.xyz ([62.173.147.2]:33640 "EHLO
-        host.flippie-beckerswealth-sa.xyz" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232746AbhFINiO (ORCPT
+        id S238040AbhFIOj4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 9 Jun 2021 10:39:56 -0400
+Received: from flippie-beckerswealthsa.xyz ([62.173.138.170]:33132 "EHLO
+        host.flippie-beckerswealthsa.xyz" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238058AbhFIOjw (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 9 Jun 2021 09:38:14 -0400
-Received: from flippie-beckerswealth-sa.xyz (ec2-3-131-99-163.us-east-2.compute.amazonaws.com [3.131.99.163])
-        by host.flippie-beckerswealth-sa.xyz (Postfix) with ESMTPA id B31BE30CF0DC
-        for <linux-input@vger.kernel.org>; Wed,  9 Jun 2021 15:10:27 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 host.flippie-beckerswealth-sa.xyz B31BE30CF0DC
+        Wed, 9 Jun 2021 10:39:52 -0400
+Received: from flippie-beckerswealthsa.xyz (ec2-18-118-29-154.us-east-2.compute.amazonaws.com [18.118.29.154])
+        by host.flippie-beckerswealthsa.xyz (Postfix) with ESMTPA id E32CD30C3EA2
+        for <linux-input@vger.kernel.org>; Wed,  9 Jun 2021 15:09:32 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 host.flippie-beckerswealthsa.xyz E32CD30C3EA2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flippie-beckerswealth-sa.xyz; s=default; t=1623240629;
+        d=flippie-beckerswealthsa.xyz; s=default; t=1623240573;
         bh=h0ivQLrZuUWuyEKz/TWb+FP9AASpHhVqOsJtRcwKQV4=;
         h=Reply-To:From:To:Subject:Date:From;
-        b=S/jQDarAz6pY0LTX3Qht6pnHk19C3XH3GEjMydzgjUg0tj2n+4XDNykzz0yUjDEWW
-         BnM+orLvRWGjuchd14ZKK7e0TFimZF3TZ+NOwJ5A+5hqzWgG2TRgTF01b0r8nkiPMu
-         SIO2BccsYBTgxcEExbC++eSZxPNQS4+XjfbmHTUE=
-DKIM-Filter: OpenDKIM Filter v2.11.0 host.flippie-beckerswealth-sa.xyz B31BE30CF0DC
+        b=ADNBsTRLmQZbOvB9kGBhOLnIp+Y+X24fxIecj4J+CWsRgOTsDRMQiwe/MpXzU86CB
+         KDwIaF5DDZsJvDgIJXPQ3rYHtk2YDA1xwf+6XXHLC4WVt43b79MI1Maq7KxbJHXxAw
+         iFO7gnIdMnjgKw5CyzkSbDjEfQqKyosrfnzkDN2g=
+DKIM-Filter: OpenDKIM Filter v2.11.0 host.flippie-beckerswealthsa.xyz E32CD30C3EA2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flippie-beckerswealth-sa.xyz; s=default; t=1623240629;
+        d=flippie-beckerswealthsa.xyz; s=default; t=1623240573;
         bh=h0ivQLrZuUWuyEKz/TWb+FP9AASpHhVqOsJtRcwKQV4=;
         h=Reply-To:From:To:Subject:Date:From;
-        b=S/jQDarAz6pY0LTX3Qht6pnHk19C3XH3GEjMydzgjUg0tj2n+4XDNykzz0yUjDEWW
-         BnM+orLvRWGjuchd14ZKK7e0TFimZF3TZ+NOwJ5A+5hqzWgG2TRgTF01b0r8nkiPMu
-         SIO2BccsYBTgxcEExbC++eSZxPNQS4+XjfbmHTUE=
+        b=ADNBsTRLmQZbOvB9kGBhOLnIp+Y+X24fxIecj4J+CWsRgOTsDRMQiwe/MpXzU86CB
+         KDwIaF5DDZsJvDgIJXPQ3rYHtk2YDA1xwf+6XXHLC4WVt43b79MI1Maq7KxbJHXxAw
+         iFO7gnIdMnjgKw5CyzkSbDjEfQqKyosrfnzkDN2g=
 Reply-To: jmasuku40@flippiebeckerwealthservices.com
-From:   Jotham Masuku <jmasuku40@flippie-beckerswealth-sa.xyz>
+From:   Jotham Masuku <jmasuku40@flippie-beckerswealthsa.xyz>
 To:     linux-input@vger.kernel.org
-Subject: Proposal
-Date:   09 Jun 2021 12:10:27 +0000
-Message-ID: <20210609121027.6D9CB259E35DE852@flippie-beckerswealth-sa.xyz>
+Subject: Projects
+Date:   09 Jun 2021 12:09:32 +0000
+Message-ID: <20210609120932.112FE910549FEE0E@flippie-beckerswealthsa.xyz>
 Mime-Version: 1.0
 Content-Type: text/plain;
         charset="utf-8"
