@@ -2,97 +2,66 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD80A3A218C
-	for <lists+linux-input@lfdr.de>; Thu, 10 Jun 2021 02:41:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 854FB3A21C4
+	for <lists+linux-input@lfdr.de>; Thu, 10 Jun 2021 03:07:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229557AbhFJAm6 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 9 Jun 2021 20:42:58 -0400
-Received: from relais.etsmtl.ca ([142.137.1.25]:55110 "EHLO relais.etsmtl.ca"
+        id S229507AbhFJBJq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 9 Jun 2021 21:09:46 -0400
+Received: from unboiled.info ([51.15.87.8]:33496 "EHLO unboiled.info"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229507AbhFJAm6 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 9 Jun 2021 20:42:58 -0400
-X-Greylist: delayed 901 seconds by postgrey-1.27 at vger.kernel.org; Wed, 09 Jun 2021 20:42:58 EDT
-Content-Type: text/plain; charset="UTF-8"
-DKIM-Signature: v=1; a=rsa-sha256; d=etsmtl.ca; s=bbb; c=relaxed/relaxed;
-        t=1623284761; h=from:subject:to:date:ad-hoc;
-        bh=YrcDoTRJREfJvkaI1wsHtH/dI3ibV2/I8hsUsmQp/FE=;
-        b=vcwVKLK2kLt9b/0T3TiDTOPrSPMAoXIxj9ozjpMm8UaRgC7FXsZFvwwTuUPSefrsWmOvcWRquS5
-        0d482R/Ge2FGSY2JCU4j7XlCg4ASoo0zvA9CInBeigzwRDxHtXrPvzRDr58DM3605dPjEA3ur79Fp
-        nL6hl9w9YGVUavm6vcg=
-X-Gm-Message-State: AOAM531q5zH1R5DB3cSGAnZxWT5+HvoKlEmvZ1lBZnDl0HB8PuQYdIqP
-        OTsi0OTIDJqixHvs/hs9DecqNIULlkm1N8MZlCY=
-X-Google-Smtp-Source: ABdhPJyXcYRjnkzIL338agj5rjfpR8b4kGCNuXiITSIp3obKAC251x/UpkiLISJl64/fnC+COmBdw9gUVOLUWPJ+pJI=
-X-Received: by 2002:a05:6122:614:: with SMTP id u20mr2918033vkp.20.1623284758318;
- Wed, 09 Jun 2021 17:25:58 -0700 (PDT)
+        id S229557AbhFJBJq (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 9 Jun 2021 21:09:46 -0400
+X-Greylist: delayed 526 seconds by postgrey-1.27 at vger.kernel.org; Wed, 09 Jun 2021 21:09:46 EDT
+Subject: Re: UPD: hid-multitouch: goodix: hovering works as touch
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=unboiled.info;
+        s=mail; t=1623286744;
+        bh=6i/DnXGYfzcprDlbRyWJPM7fK9YDa7T/isKmO6JnvOU=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To;
+        b=bT2OOGEGJFOiAR0rV8R/1QAMPlkyaDpbiVjaliB/YeEJkgwPPQxErjGCSgo2nlKVe
+         4Nw5V/pCljnDdekJHhoWnAtoFw7etLCAzKusXrM2U9snGKvo81jnscvPDlDcn1la0I
+         t6Cnm57Nd+UOOitlPSJoeV9Zs9+8/wxAfI95F5zQ=
+To:     Dmitry Mastykin <dmastykin@astralinux.ru>,
+        linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Daniele Gobbetti <daniele@gobbetti.name>,
+        Vitaly Minko <vitaly@minko.me>
+References: <ab5ad25b-d39c-83fe-4a88-eebed7f8b23a@minko.me>
+ <7b7af64e-8e70-3a9c-eee9-010574adc241@astralinux.ru>
+From:   Alexander Sosedkin <monk@unboiled.info>
+Message-ID: <a84aa67c-16b8-27c2-e1a2-e497314efc4b@unboiled.info>
+Date:   Thu, 10 Jun 2021 02:59:03 +0200
 MIME-Version: 1.0
-References: <20210604161023.1498582-1-pascal.giard@etsmtl.ca> <YLsdEtbAWJxLB+GF@kroah.com>
-In-Reply-To: <YLsdEtbAWJxLB+GF@kroah.com>
-From:   Pascal Giard <pascal.giard@etsmtl.ca>
-Date:   Wed, 9 Jun 2021 20:25:47 -0400
-X-Gmail-Original-Message-ID: <CAJNNDmk7z=aJtx00C+8kpBOk0j_XVOk2fDMG9Xf9Na_ChXM2OA@mail.gmail.com>
-Message-ID: <CAJNNDmk7z=aJtx00C+8kpBOk0j_XVOk2fDMG9Xf9Na_ChXM2OA@mail.gmail.com>
-Subject: Re: [PATCH] HID: sony: fix freeze when inserting ghlive ps3/wii dongles
-To:     Greg KH <gregkh@linuxfoundation.org>
-CC:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <stable@vger.kernel.org>,
-        Daniel Nguyen <daniel.nguyen.1@ens.etsmtl.ca>
-X-Originating-IP: [142.137.250.50]
-X-ClientProxiedBy: FacteurB.ad.etsmtl.ca (10.162.28.15) To
- FacteurB.ad.etsmtl.ca (10.162.28.15)
+In-Reply-To: <7b7af64e-8e70-3a9c-eee9-010574adc241@astralinux.ru>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, Jun 5, 2021 at 2:44 AM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Fri, Jun 04, 2021 at 12:10:23PM -0400, Pascal Giard wrote:
-> > This commit fixes a freeze on insertion of a Guitar Hero Live PS3/WiiU
-> > USB dongle. Indeed, with the current implementation, inserting one of
-> > those USB dongles will lead to a hard freeze. I apologize for not
-> > catching this earlier, it didn't occur on my old laptop.
-> >
-> > While the issue was isolated to memory alloc/free, I could not figure
-> > out why it causes a freeze. So this patch fixes this issue by
-> > simplifying memory allocation and usage.
-> >
-> > We remind that for the dongle to work properly, a control URB needs to
-> > be sent periodically. We used to alloc/free the URB each time this URB
-> > needed to be sent.
-> >
-> > With this patch, the memory for the URB is allocated on the probe, reused
-> > for as long as the dongle is plugged in, and freed once the dongle is
-> > unplugged.
-> >
-> > Signed-off-by: Pascal Giard <pascal.giard@etsmtl.ca>
-> > ---
-> >  drivers/hid/hid-sony.c | 98 +++++++++++++++++++++---------------------
-> >  1 file changed, 49 insertions(+), 49 deletions(-)
->
-> <formletter>
->
-> This is not the correct way to submit patches for inclusion in the
-> stable kernel tree.  Please read:
->     https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-> for how to do this properly.
->
-> </formletter>
+On 4/15/21 9:13 AM, Dmitry Mastykin wrote:
+> Hi Vitaly,
+> 
+> Yes, we made a quirk for separate non-multitouch processing of the 
+> HID_DG_PEN application for Goodix gt7385p (I2C_DEVICE_ID_GOODIX_0113 == 
+> 0x0113). It works well, BTN_TOOL_PEN and BTN_TOUCH events have right order.
+> I attach patches for kernel 5.4
+> Buttons support was very tricky, because the panel tries to imitate 
+> eraser usage with combination of tip's and eraser's bits off and on, 
+> seems that Windows driver needs this. In second patch we add 
+> state-machines for pen buttons to simulate right and middle click. It 
+> works also well with this panel/pen, but I'm not sure if it works with 
+> other devices.
+> 
+> Kind regards,
+> Dmitry Mastykin
 
-Dear Greg,
+These patches have solved the same problem for my OneNetbook 4's
+"GXTP7386:00 27C6:011A Stylus" manifesting the same symptoms.
+I just had to replace the device ID from 0x0113 to 0x011A.
+Tested on 5.12.4 and 5.12.7.
+It'd be nice to see these fixes extended and upstreamed one day.
 
-I apologize for failing to follow the procedure. I had already read
-these guidelines, and I actually thought I was following Option 1 :-/
-
-I thought that I had to get my patch merged into next first (patch
-against dtor's git) and that by adding stable@ as CC, it would
-automatically get considered for inclusion into stable once merged
-into Linus' tree. Based on your email, I got that wrong...
-
-So I sent my patch to the right place BUT my patch should be against
-this [1] tree instead?
-
-Thank you for your patience,
-
--Pascal
-[1] git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+Dmitry, thanks for putting work into this.
+Benjamin, would you kindly take a look at this submission?
