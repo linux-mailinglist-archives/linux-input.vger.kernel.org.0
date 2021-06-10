@@ -2,97 +2,65 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E70E3A23DB
-	for <lists+linux-input@lfdr.de>; Thu, 10 Jun 2021 07:23:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E944F3A2463
+	for <lists+linux-input@lfdr.de>; Thu, 10 Jun 2021 08:22:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230087AbhFJFY7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Jun 2021 01:24:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49828 "EHLO mail.kernel.org"
+        id S230027AbhFJGYC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Jun 2021 02:24:02 -0400
+Received: from mga17.intel.com ([192.55.52.151]:10599 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230154AbhFJFY5 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Jun 2021 01:24:57 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 72635613E1;
-        Thu, 10 Jun 2021 05:22:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1623302566;
-        bh=kKp8oU7QwWVcxL3bQAssMPPgzG6/DfWTtdrYTafZCoc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=R6Ye10hhufA/hdgGi3PrCWos3nqsMj0z2K+vp2phrtLj+tKIkHYnbxMRIjBcbcixv
-         L2ZXSltM7yJcJFb8uo4Pf+jk3XqMH3DvP1qzY5W/o5ZXcF650En0iIfHsEslM3O6lQ
-         FWSQycXuLbFhHSEKWkpbSS6I//mdskUeQgBj66PQ=
-Date:   Thu, 10 Jun 2021 07:22:42 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Pascal Giard <pascal.giard@etsmtl.ca>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org,
-        Daniel Nguyen <daniel.nguyen.1@ens.etsmtl.ca>
-Subject: Re: [PATCH] HID: sony: fix freeze when inserting ghlive ps3/wii
- dongles
-Message-ID: <YMGhotmI1kHFe3gL@kroah.com>
-References: <20210604161023.1498582-1-pascal.giard@etsmtl.ca>
- <YLsdEtbAWJxLB+GF@kroah.com>
- <CAJNNDmk7z=aJtx00C+8kpBOk0j_XVOk2fDMG9Xf9Na_ChXM2OA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJNNDmk7z=aJtx00C+8kpBOk0j_XVOk2fDMG9Xf9Na_ChXM2OA@mail.gmail.com>
+        id S229634AbhFJGYB (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 10 Jun 2021 02:24:01 -0400
+IronPort-SDR: clUlXSqTvISsEbkgamURpucUVAsCWIaFLqg4pCVCHZ3NMwr8ZR73ATeCIYkk8FWPtsMa4THiCY
+ C7fWLBLYlSVA==
+X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="185610244"
+X-IronPort-AV: E=Sophos;i="5.83,262,1616482800"; 
+   d="scan'208";a="185610244"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2021 23:21:59 -0700
+IronPort-SDR: Yem9iuGyxETW9hKudxfZND+nZwC1JEejgbywJSsMPQqnGs5vGgC9rIEBxinD4oRrywIwO4FNfh
+ l3AtBvm/M7bQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,262,1616482800"; 
+   d="scan'208";a="482702815"
+Received: from shsensorbuild2.sh.intel.com ([10.239.132.180])
+  by orsmga001.jf.intel.com with ESMTP; 09 Jun 2021 23:21:57 -0700
+From:   Even Xu <even.xu@intel.com>
+To:     srinivas.pandruvada@linux.intel.com, jikos@kernel.org,
+        benjamin.tissoires@redhat.com
+Cc:     linux-input@vger.kernel.org, Even Xu <even.xu@intel.com>
+Subject: [PATCH 0/3] enable ISH DMA on EHL platform
+Date:   Thu, 10 Jun 2021 14:21:51 +0800
+Message-Id: <1623306114-19208-1-git-send-email-even.xu@intel.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jun 09, 2021 at 08:25:47PM -0400, Pascal Giard wrote:
-> On Sat, Jun 5, 2021 at 2:44 AM Greg KH <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Fri, Jun 04, 2021 at 12:10:23PM -0400, Pascal Giard wrote:
-> > > This commit fixes a freeze on insertion of a Guitar Hero Live PS3/WiiU
-> > > USB dongle. Indeed, with the current implementation, inserting one of
-> > > those USB dongles will lead to a hard freeze. I apologize for not
-> > > catching this earlier, it didn't occur on my old laptop.
-> > >
-> > > While the issue was isolated to memory alloc/free, I could not figure
-> > > out why it causes a freeze. So this patch fixes this issue by
-> > > simplifying memory allocation and usage.
-> > >
-> > > We remind that for the dongle to work properly, a control URB needs to
-> > > be sent periodically. We used to alloc/free the URB each time this URB
-> > > needed to be sent.
-> > >
-> > > With this patch, the memory for the URB is allocated on the probe, reused
-> > > for as long as the dongle is plugged in, and freed once the dongle is
-> > > unplugged.
-> > >
-> > > Signed-off-by: Pascal Giard <pascal.giard@etsmtl.ca>
-> > > ---
-> > >  drivers/hid/hid-sony.c | 98 +++++++++++++++++++++---------------------
-> > >  1 file changed, 49 insertions(+), 49 deletions(-)
-> >
-> > <formletter>
-> >
-> > This is not the correct way to submit patches for inclusion in the
-> > stable kernel tree.  Please read:
-> >     https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-> > for how to do this properly.
-> >
-> > </formletter>
-> 
-> Dear Greg,
-> 
-> I apologize for failing to follow the procedure. I had already read
-> these guidelines, and I actually thought I was following Option 1 :-/
+These patch set are used for enabling ISH DMA on EHL platform.
 
-Is this commit already in Linus's tree?  If so then we just need a git
-commit id and we can queue it up.
+During ISH DMA enabling, some platforms (such as EHL) don't
+support cache snooping, bus driver (ishtp) has to involve
+a new callback, dma_no_cache_snooping(), in hardware layer (ipc)
+to get hardware DMA capability.
 
-> I thought that I had to get my patch merged into next first (patch
-> against dtor's git) and that by adding stable@ as CC, it would
-> automatically get considered for inclusion into stable once merged
-> into Linus' tree. Based on your email, I got that wrong...
+When do cache flush, clflush_cache_range() API is used on X86
+which isn't supported by all other archs (such as ARM).
+Considering ISH only exists on Intel platforms, adding ISH
+depending on X86 in Kconfig to avoid build warnings or errors
+on other archs.
 
-It will, but you need to add that to the signed-off-by: area, as the
-document says.
+Even Xu (3):
+  hid: intel-ish-hid: Set ISH driver depends on x86
+  hid: intel-ish-hid: ishtp: Add dma_no_cache_snooping() callback
+  hid: intel-ish-hid: ipc: Specify that EHL no cache snooping
 
-thanks,
+ drivers/hid/intel-ish-hid/Kconfig           |  1 +
+ drivers/hid/intel-ish-hid/ipc/ipc.c         | 26 +++++++++++++++++++++++++-
+ drivers/hid/intel-ish-hid/ishtp/client.c    | 18 ++++++++++++++++++
+ drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h |  1 +
+ 4 files changed, 45 insertions(+), 1 deletion(-)
 
-greg k-h
+-- 
+2.7.4
+
