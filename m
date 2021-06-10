@@ -2,36 +2,36 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A97513A2465
-	for <lists+linux-input@lfdr.de>; Thu, 10 Jun 2021 08:22:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E2983A2467
+	for <lists+linux-input@lfdr.de>; Thu, 10 Jun 2021 08:22:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229634AbhFJGYD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Jun 2021 02:24:03 -0400
-Received: from mga17.intel.com ([192.55.52.151]:10603 "EHLO mga17.intel.com"
+        id S229925AbhFJGYG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Jun 2021 02:24:06 -0400
+Received: from mga17.intel.com ([192.55.52.151]:10611 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229911AbhFJGYC (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Jun 2021 02:24:02 -0400
-IronPort-SDR: wTKdSUwOucPBMQIZV6Gtm3bXPn3MfI6LA7QO2GgdlVYpON322uVWf3f86bqqFGBq5ZnbRzO5a9
- g9GYjPEA2iig==
-X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="185610256"
+        id S229778AbhFJGYF (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 10 Jun 2021 02:24:05 -0400
+IronPort-SDR: mq1UJxuc1IV2w1XkST+/nzGEmjtex+Vpyf1Gfcj3Xj/SFzvLTgAYK7PVsKripuY2kKJ9Rg+GMJ
+ jVfng+ZOu4ZQ==
+X-IronPort-AV: E=McAfee;i="6200,9189,10010"; a="185610269"
 X-IronPort-AV: E=Sophos;i="5.83,262,1616482800"; 
-   d="scan'208";a="185610256"
+   d="scan'208";a="185610269"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2021 23:22:05 -0700
-IronPort-SDR: XU6TCadIPGuNbVpJ6ae5zFbcYlDx2+qpS68heo9Ryle7BTaap6ODtyWF/oh3/74+GvCxA3BFBZ
- gXmJeeir8BJg==
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2021 23:22:10 -0700
+IronPort-SDR: uqd8o3yUzwQcQv82l5+O7O6CqraZQJ+nf8hXev/W3s5quidbY85zYrebySqcejH+0PAHCWzfx2
+ 965lfUz23SRA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.83,262,1616482800"; 
-   d="scan'208";a="482702891"
+   d="scan'208";a="482702912"
 Received: from shsensorbuild2.sh.intel.com ([10.239.132.180])
-  by orsmga001.jf.intel.com with ESMTP; 09 Jun 2021 23:22:03 -0700
+  by orsmga001.jf.intel.com with ESMTP; 09 Jun 2021 23:22:08 -0700
 From:   Even Xu <even.xu@intel.com>
 To:     srinivas.pandruvada@linux.intel.com, jikos@kernel.org,
         benjamin.tissoires@redhat.com
 Cc:     linux-input@vger.kernel.org, Even Xu <even.xu@intel.com>
-Subject: [PATCH 2/3] hid: intel-ish-hid: ishtp: Add dma_no_cache_snooping() callback
-Date:   Thu, 10 Jun 2021 14:21:53 +0800
-Message-Id: <1623306114-19208-3-git-send-email-even.xu@intel.com>
+Subject: [PATCH 3/3] hid: intel-ish-hid: ipc: Specify that EHL no cache snooping
+Date:   Thu, 10 Jun 2021 14:21:54 +0800
+Message-Id: <1623306114-19208-4-git-send-email-even.xu@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1623306114-19208-1-git-send-email-even.xu@intel.com>
 References: <1623306114-19208-1-git-send-email-even.xu@intel.com>
@@ -39,77 +39,55 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Different platforms have different DMA capability, on most of
-platforms, DMA support cache snooping. But few platforms,
-such as ElkhartLake (EHL), don't support cache snooping
-which requires cache flush from driver.
-
-So add a hardware level callback to let ishtp driver know if cache
-flush is needed.
-
-As most of platform support cache snooping, so driver will not
-do cache flush by default, until platform implements this callback
-and return true explicitly.
+Specify that EHL doesn't support DMA cache snooping.
 
 Acked-by: Pandruvada, Srinivas <srinivas.pandruvada@intel.com>
 Signed-off-by: Even Xu <even.xu@intel.com>
 ---
- drivers/hid/intel-ish-hid/ishtp/client.c    | 18 ++++++++++++++++++
- drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h |  1 +
- 2 files changed, 19 insertions(+)
+ drivers/hid/intel-ish-hid/ipc/ipc.c | 26 +++++++++++++++++++++++++-
+ 1 file changed, 25 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/intel-ish-hid/ishtp/client.c b/drivers/hid/intel-ish-hid/ishtp/client.c
-index 1cc1571..be443d6 100644
---- a/drivers/hid/intel-ish-hid/ishtp/client.c
-+++ b/drivers/hid/intel-ish-hid/ishtp/client.c
-@@ -10,6 +10,7 @@
- #include <linux/wait.h>
- #include <linux/delay.h>
- #include <linux/dma-mapping.h>
-+#include <asm/cacheflush.h>
- #include "hbm.h"
- #include "client.h"
+diff --git a/drivers/hid/intel-ish-hid/ipc/ipc.c b/drivers/hid/intel-ish-hid/ipc/ipc.c
+index 47bbeb8..89ea2ff 100644
+--- a/drivers/hid/intel-ish-hid/ipc/ipc.c
++++ b/drivers/hid/intel-ish-hid/ipc/ipc.c
+@@ -889,6 +889,29 @@ static uint32_t ish_ipc_get_header(struct ishtp_device *dev, int length,
+ 	return drbl_val;
+ }
  
-@@ -773,6 +774,14 @@ static void ishtp_cl_send_msg_dma(struct ishtp_device *dev,
- 	/* write msg to dma buf */
- 	memcpy(msg_addr, cl_msg->send_buf.data, cl_msg->send_buf.size);
- 
-+	/*
-+	 * if current fw don't support cache snooping, driver have to
-+	 * flush the cache manually.
-+	 */
-+	if (dev->ops->dma_no_cache_snooping &&
-+		dev->ops->dma_no_cache_snooping(dev))
-+		clflush_cache_range(msg_addr, cl_msg->send_buf.size);
++/**
++ * _dma_no_cache_snooping()
++ *
++ * Check on current platform, DMA supports cache snooping or not.
++ * This callback is used to notify uplayer driver if manully cache
++ * flush is needed when do DMA operation.
++ *
++ * Please pay attention to this callback implementation, if declare
++ * having cache snooping on a cache snooping not supported platform
++ * will cause uplayer driver receiving mismatched data; and if
++ * declare no cache snooping on a cache snooping supported platform
++ * will cause cache be flushed twice and performance hit.
++ *
++ * @dev: ishtp device pointer
++ *
++ * Return: false - has cache snooping capability
++ *         true - no cache snooping, need manually cache flush
++ */
++static bool _dma_no_cache_snooping(struct ishtp_device *dev)
++{
++	return dev->pdev->device == EHL_Ax_DEVICE_ID;
++}
 +
- 	/* send dma_xfer hbm msg */
- 	off = msg_addr - (unsigned char *)dev->ishtp_host_dma_tx_buf;
- 	ishtp_hbm_hdr(&hdr, sizeof(struct dma_xfer_hbm));
-@@ -997,6 +1006,15 @@ void recv_ishtp_cl_msg_dma(struct ishtp_device *dev, void *msg,
- 		}
- 
- 		buffer = rb->buffer.data;
-+
-+		/*
-+		 * if current fw don't support cache snooping, driver have to
-+		 * flush the cache manually.
-+		 */
-+		if (dev->ops->dma_no_cache_snooping &&
-+			dev->ops->dma_no_cache_snooping(dev))
-+			clflush_cache_range(msg, hbm->msg_length);
-+
- 		memcpy(buffer, msg, hbm->msg_length);
- 		rb->buf_idx = hbm->msg_length;
- 
-diff --git a/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h b/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h
-index 1cc6364..e443dc9 100644
---- a/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h
-+++ b/drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h
-@@ -118,6 +118,7 @@ struct ishtp_hw_ops {
- 			unsigned long buffer_length);
- 	uint32_t	(*get_fw_status)(struct ishtp_device *dev);
- 	void	(*sync_fw_clock)(struct ishtp_device *dev);
-+	bool	(*dma_no_cache_snooping)(struct ishtp_device *dev);
+ static const struct ishtp_hw_ops ish_hw_ops = {
+ 	.hw_reset = _ish_hw_reset,
+ 	.ipc_reset = _ish_ipc_reset,
+@@ -897,7 +920,8 @@ static const struct ishtp_hw_ops ish_hw_ops = {
+ 	.write = write_ipc_to_queue,
+ 	.get_fw_status = _ish_read_fw_sts_reg,
+ 	.sync_fw_clock = _ish_sync_fw_clock,
+-	.ishtp_read_hdr = _ishtp_read_hdr
++	.ishtp_read_hdr = _ishtp_read_hdr,
++	.dma_no_cache_snooping = _dma_no_cache_snooping
  };
  
  /**
