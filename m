@@ -2,85 +2,80 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BD733A2557
-	for <lists+linux-input@lfdr.de>; Thu, 10 Jun 2021 09:23:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64E1B3A2D7D
+	for <lists+linux-input@lfdr.de>; Thu, 10 Jun 2021 15:53:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230268AbhFJHZh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Jun 2021 03:25:37 -0400
-Received: from mail.chalver.com.ec ([186.3.12.10]:31549 "EHLO
-        mail.chalver.com.ec" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230368AbhFJHZd (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Jun 2021 03:25:33 -0400
-X-Greylist: delayed 4203 seconds by postgrey-1.27 at vger.kernel.org; Thu, 10 Jun 2021 03:25:32 EDT
-Received: from mail.chalver.com.ec (localhost.localdomain [127.0.0.1])
-        by mail.chalver.com.ec (Postfix) with ESMTPS id 692FC1F22E20;
-        Thu, 10 Jun 2021 00:40:19 -0500 (ECT)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.chalver.com.ec (Postfix) with ESMTP id 301B81F22E66;
-        Thu, 10 Jun 2021 00:26:57 -0500 (ECT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.chalver.com.ec 301B81F22E66
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chalver.com.ec;
-        s=E2A417BC-DDA7-11E6-85F6-38495636B764; t=1623302817;
-        bh=PxMh0SAMbBGlctefOH2OhvTlJNlHw25bONEEE7Ldp0I=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=IQpbGJlJ31v6mBm/u1EC4XRF8GAkiIc0naJta4foSEp4vKxiGUbGQ+jjnmP8/yKfV
-         nizne3bT7xaYPDKjhrT79Za0XtxMkK9ZfXpPE05wWckosjboGSHbQ5DT0kp2i4h7gL
-         v6QDfqDOh7h+MMngr71a1uW2Cq4Ue1/HyyAxwehEls2PTEeyaxegwyuw56EDoBr+cK
-         qc+1DovIlX1MF75hAj09TaXf+l8x8sfFye8IBialIyBc0IfUmK8XcnYyaxHwS8rpOx
-         913f1+Se1ii0fmfIaHpkVdTicqjFe0MOXGsYuoxG8rIJO6sOEsXgZNqlHQcpgiLMl0
-         zdnFhCpo54AhQ==
-X-Virus-Scanned: amavisd-new at chalver.com.ec
-Received: from mail.chalver.com.ec ([127.0.0.1])
-        by localhost (mail.chalver.com.ec [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id qiK6BOQDGzi9; Thu, 10 Jun 2021 00:26:57 -0500 (ECT)
-Received: from cris-PC.wifi (unknown [105.9.120.116])
-        by mail.chalver.com.ec (Postfix) with ESMTPSA id 4EE841F22E4E;
-        Thu, 10 Jun 2021 00:26:47 -0500 (ECT)
-Content-Type: text/plain; charset="utf-8"
+        id S231217AbhFJNzO (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 10 Jun 2021 09:55:14 -0400
+Received: from relais.etsmtl.ca ([142.137.1.25]:54158 "EHLO relais.etsmtl.ca"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230329AbhFJNzN (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 10 Jun 2021 09:55:13 -0400
+Content-Type: text/plain; charset="UTF-8"
+DKIM-Signature: v=1; a=rsa-sha256; d=etsmtl.ca; s=bbb; c=relaxed/relaxed;
+        t=1623333196; h=from:subject:to:date:ad-hoc;
+        bh=j3oCbljVfV3a5vZ7w621ARkBBGcGHNysssfAUWTOSB8=;
+        b=Ac12XPsIJ9B3G3Otax9h+AYRd+yfUEwK/EpqYL8GmoMtWkU++OAvdtlXoMQLVYLw3UYDNa2RiNx
+        Z14pzLePCaHzqKnTPMz2WBQj2QGVCuBJlkw6HqcvPQ2Dar53oVT2k6NGxKXFQB8YDckm0TRdNY0lv
+        +La8cUAXVuHb7W9oRoc=
+X-Gm-Message-State: AOAM532kQkpUghnIxewNTJOhNB9h6Xpt7wPsJrFwbowrELl1rqxg8X5z
+        WUsodlSm1cuEZXiR/mT2FG2CwM3bwB5U9l/G83s=
+X-Google-Smtp-Source: ABdhPJzal31zP8KEgxyDpJyVOOU/6Ae9/Vny59ZdLcQpjpXZV2H9rt6ezM6+/iqFE0LlNEnlsJ8o9vX+51/M2ujY/QI=
+X-Received: by 2002:aca:3bc5:: with SMTP id i188mr3573052oia.72.1623333196029;
+ Thu, 10 Jun 2021 06:53:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: =?utf-8?q?Covid_19_Wohlt=C3=A4tigkeitsfonds?=
-To:     Recipients <mpaucar@chalver.com.ec>
-From:   ''Tayeb souami'' <mpaucar@chalver.com.ec>
-Date:   Thu, 10 Jun 2021 07:34:03 +0200
-Reply-To: Tayebsouam.spende@gmail.com
-Message-Id: <20210610052648.4EE841F22E4E@mail.chalver.com.ec>
-X-Laboratorios-Chalver-MailScanner-Information: Please contact the ISP for more information
-X-Laboratorios-Chalver-MailScanner-ID: 4EE841F22E4E.A2C6B
-X-Laboratorios-Chalver-MailScanner: Not scanned: please contact your Internet E-Mail Service Provider for details
+References: <20210604161023.1498582-1-pascal.giard@etsmtl.ca>
+ <YLsdEtbAWJxLB+GF@kroah.com> <CAJNNDmk7z=aJtx00C+8kpBOk0j_XVOk2fDMG9Xf9Na_ChXM2OA@mail.gmail.com>
+ <YMGhotmI1kHFe3gL@kroah.com>
+In-Reply-To: <YMGhotmI1kHFe3gL@kroah.com>
+From:   Pascal Giard <pascal.giard@etsmtl.ca>
+Date:   Thu, 10 Jun 2021 09:53:04 -0400
+X-Gmail-Original-Message-ID: <CAJNNDmmz60qn+AXWD7423T62DoO-gC8KjrtLmfyR0o4vWzhZfw@mail.gmail.com>
+Message-ID: <CAJNNDmmz60qn+AXWD7423T62DoO-gC8KjrtLmfyR0o4vWzhZfw@mail.gmail.com>
+Subject: Re: [PATCH] HID: sony: fix freeze when inserting ghlive ps3/wii dongles
+To:     Greg KH <gregkh@linuxfoundation.org>
+CC:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <stable@vger.kernel.org>,
+        Daniel Nguyen <daniel.nguyen.1@ens.etsmtl.ca>
+X-Originating-IP: [142.137.250.50]
+X-ClientProxiedBy: FacteurA.ad.etsmtl.ca (10.162.28.14) To
+ FacteurB.ad.etsmtl.ca (10.162.28.15)
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Thu, Jun 10, 2021 at 1:25 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Wed, Jun 09, 2021 at 08:25:47PM -0400, Pascal Giard wrote:
+>
+> > I apologize for failing to follow the procedure. I had already read
+> > these guidelines, and I actually thought I was following Option 1 :-/
+>
+> Is this commit already in Linus's tree?  If so then we just need a git
+> commit id and we can queue it up.
 
-Lieber Freund,
+No, it isn't yet. My patch has not been reviewed yet.
 
-Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika, der =
-Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich an 5 zu=
-f=C3=A4llige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Ma=
-il nach einem Spinball ausgew=C3=A4hlt.Ich habe den gr=C3=B6=C3=9Ften Teil =
-meines Verm=C3=B6gens auf eine Reihe von Wohlt=C3=A4tigkeitsorganisationen =
-und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die =
-Summe von =E2=82=AC 2.000.000,00 an Sie als eine der ausgew=C3=A4hlten 5 zu=
- spenden, um meine Gewinne zu =C3=BCberpr=C3=BCfen, sehen Sie bitte meine Y=
-ou Tube Seite unten.
+> > I thought that I had to get my patch merged into next first (patch
+> > against dtor's git) and that by adding stable@ as CC, it would
+> > automatically get considered for inclusion into stable once merged
+> > into Linus' tree. Based on your email, I got that wrong...
+>
+> It will, but you need to add that to the signed-off-by: area, as the
+> document says.
 
-UHR MICH HIER: https://www.youtube.com/watch?v=3DZ6ui8ZDQ6Ks
+Oh dear, that's the bit I missed.
 
+At this point I assume that I should not resubmit a patch (to avoid
+unnecessary noise) and patiently wait for a review, e.g., by Jiri, for
+it to be included in next.
+From there, I'll try to do the right thing (CC stable in the
+signed-off area) shall a new version be necessary or follow option 2
+with the commit id when it gets merged to Linus' tree.
 
+Once again, my apologies for failing to follow the procedure and thank
+you for your patience.
 
-Das ist dein Spendencode: [TS530342018]
-
-
-
-Antworten Sie mit dem SPENDE-CODE an diese
-
-E-Mail:Tayebsouam.spende@gmail.com
-
-
-Ich hoffe, Sie und Ihre Familie gl=C3=BCcklich zu machen.
-
-Gr=C3=BC=C3=9Fe
-Herr Tayeb Souami
+-Pascal
