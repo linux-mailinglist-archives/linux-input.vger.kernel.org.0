@@ -2,251 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A5C13A4679
-	for <lists+linux-input@lfdr.de>; Fri, 11 Jun 2021 18:29:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C298D3A4896
+	for <lists+linux-input@lfdr.de>; Fri, 11 Jun 2021 20:23:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229777AbhFKQbZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Jun 2021 12:31:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52882 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229517AbhFKQbZ (ORCPT
+        id S231192AbhFKSZg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Jun 2021 14:25:36 -0400
+Received: from mail-vs1-f49.google.com ([209.85.217.49]:40575 "EHLO
+        mail-vs1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230313AbhFKSZf (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Jun 2021 12:31:25 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0972C061574
-        for <linux-input@vger.kernel.org>; Fri, 11 Jun 2021 09:29:19 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id x73so4868680pfc.8
-        for <linux-input@vger.kernel.org>; Fri, 11 Jun 2021 09:29:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3/eX1BStPq88A20kAipbkOk3FyPBK6b1OqKfu9OBG6c=;
-        b=bTooVZOlg62B2ZAud90QJFaBxQJg/uZ84EYm3uA41eVAhrt6rYG7MZwyl1knxXgE3R
-         oeoBy32MujQJbLnnA/u6tcqnfz2MLAdi0IaeWUegcgZk6Q8kzUD+BSoGdYXADeoq6/Zf
-         XVS9gcUvC6pTfnr3KYOMaIApGjXaCEzUuKLwk=
+        Fri, 11 Jun 2021 14:25:35 -0400
+Received: by mail-vs1-f49.google.com with SMTP id b1so4261172vsh.7;
+        Fri, 11 Jun 2021 11:23:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3/eX1BStPq88A20kAipbkOk3FyPBK6b1OqKfu9OBG6c=;
-        b=hWPP4jEwcXfvDUb5xAv1B6JSNE5KMMn3+Ed3iHyfTnBkTszK8nOJ+vGpASNKaAy84M
-         Yz59saiEHXC6QH8X+KzAR2YoEzjxnbw+b1y/mUOsiykP8fvSGXesZKLG9ZgAOEnJO6I7
-         tdhqP0uuh+1iPMbhJV3RoaMI1Cy37iBnEq2AYW5r8L76SHC7/QZeLVBUzODCM7dBCe0Q
-         FBgMz+FThbflVPP/DKSEtGIU4hMkM9b2VsWxM2pRxNUCidYfklmwptE8Ti/3WOhep0BC
-         yC63ePp+/CNBw1FE27jg01rxXryvJNWsPfkpT6AOTGYKMh0L+PTUjfiExoNNHDLJvV4r
-         plgQ==
-X-Gm-Message-State: AOAM531VxyxBRirGi1pUs1w2rc1NBieS8/qFNMNE23zR+fnuzjzUO8hn
-        PbN/Ory3bH76geGt1+/lli/ACQ==
-X-Google-Smtp-Source: ABdhPJyb+ZUJ3oRp5zDcqDz4AAar8QPY8s6eKp6yvD+hsI3aoJftwlBSXJWCMSG4bDOXKYlUI5kfmg==
-X-Received: by 2002:a62:3444:0:b029:2ec:9658:a755 with SMTP id b65-20020a6234440000b02902ec9658a755mr9023721pfa.71.1623428958419;
-        Fri, 11 Jun 2021 09:29:18 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com ([2620:15c:202:201:4128:5428:5cd0:cfa5])
-        by smtp.gmail.com with ESMTPSA id m129sm5804006pfb.7.2021.06.11.09.29.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Jun 2021 09:29:17 -0700 (PDT)
-From:   Douglas Anderson <dianders@chromium.org>
-To:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Douglas Anderson <dianders@chromium.org>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: i2c-hid: goodix: Tie the reset line to true state of the regulator
-Date:   Fri, 11 Jun 2021 09:28:56 -0700
-Message-Id: <20210611092847.1.I358cae5e33f742765fd38485d6ddf1a4a978644d@changeid>
-X-Mailer: git-send-email 2.32.0.272.g935e593368-goog
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/QyKO2sWDPRuH+xh/7ic5xA0q4lXz7dWRKEZ89NMiBc=;
+        b=s3vIxum2BL2xN+cTiHzvZzFCguayWxjbWpyFChiofj4QTNiStqXSMOx2y3ictR/qaX
+         ay6QOxKU94H2ATS8hnkBBt8i8iK7sl+ObtgdiRZAF6ijEQEjkIH2F2c67Q59eAnh8FpH
+         1LdW3VOC9LTePnatXADlIFrgbzc3QkT/PtGyItbtFM0aeXJXIdo8tsmHb45Jk3zQIglU
+         sep2aBwYfegT95kS5FsqZv+ba7XVVoli9MGEZbd2R6m7Dw/EJ5enzuZ7oAeEajF72cpb
+         zkIX9VdTul6c1rZxkCXQKuS2JYaoBcHMmpBtTog9tSyfMKMSr017BHRXqmAClDC7IFuH
+         0ISw==
+X-Gm-Message-State: AOAM530a/pjdUhdJgG+gq58KuzN/AnhLPPpgLzGUlHyhawEkL2MTXNk5
+        PW+bhDDnw68yVOsZ344TceRhzQgNRHf4jtSh6dAUL/sr4UUWgw==
+X-Google-Smtp-Source: ABdhPJxKpLIukv3+hXCAEtgy5XgKF+PqMiSYY3kcEcOkNqeN7r/uF4Q0MaxqvPfExI0gyVzU4ZW2v8c/1jmbKuNVq2k=
+X-Received: by 2002:a05:6102:c4c:: with SMTP id y12mr11191098vss.18.1623435801977;
+ Fri, 11 Jun 2021 11:23:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <c381ee2526074e02b6058c489f85cfdaee582713.1623419587.git.geert+renesas@glider.be>
+ <9b1b2a44-348e-5453-d767-d5c69a0869a7@denx.de>
+In-Reply-To: <9b1b2a44-348e-5453-d767-d5c69a0869a7@denx.de>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 11 Jun 2021 20:23:10 +0200
+Message-ID: <CAMuHMdXE0kipUm6wqHsrFurFkviU_nRJJB7cg6z1XwEvpEewGQ@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: input: touchscreen: ilitek_ts_i2c: Absorb
+ ili2xxx bindings
+To:     Marek Vasut <marex@denx.de>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Joe Hung <joe_hung@ilitek.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The regulator for the touchscreen could be:
-* A dedicated regulator just for the touchscreen.
-* A regulator shared with something else in the system.
-* An always-on regulator.
+Hi Marek,
 
-How we want the "reset" line to behave depends a bit on which of those
-three cases we're in. Currently the code is written with the
-assumption that it has a dedicated regulator, but that's not really
-guaranteed to be the case.
+On Fri, Jun 11, 2021 at 4:20 PM Marek Vasut <marex@denx.de> wrote:
+> On 6/11/21 3:54 PM, Geert Uytterhoeven wrote:
+> > While Linux uses a different driver, the Ilitek
+> > ILI210x/ILI2117/ILI2120/ILI251x touchscreen controller Device Tree
+> > binding documentation is very similar.
+> >
+> >    - Drop the fixed reg value, as some controllers use a different
+> >      address,
+> >    - Make reset-gpios optional, as it is not always wired.
+>
+> It looks like there are now two drivers for the same hardware,
+> drivers/input/touchscreen/ili210x.c
+> drivers/input/touchscreen/ilitek_ts_i2c.c
+> The ilitek_ts_i2c (newer) seems to be derived from the ilitek example
+> code / driver, while the ili210x was written from scratch as far as I
+> can tell.
 
-The problem we run into is that if we leave the touchscreen powered on
-(because someone else is requesting the regulator or it's an always-on
-regulator) and we assert reset then we apparently burn an extra 67 mW
-of power. That's not great.
+I'm not so sure they're for the same hardware, but you may know better?
+https://www.displayvisions.us/fileadmin/html-seiten/eng/pdf/zubehoer/ILITek_TP_Programming_Guide_V1.50.pdf
+lists only Ilitek parts handled by ilitek_ts_i2c.c.
 
-Let's instead tie the control of the reset line to the true state of
-the regulator as reported by regulator notifiers. If we have an
-always-on regulator our notifier will never be called. If we have a
-shared regulator then our notifier will be called when the touchscreen
-is truly turned on or truly turned off.
+Gr{oetje,eeting}s,
 
-Using notifiers like this nicely handles all the cases without
-resorting to hacks like pretending that there is no "reset" GPIO if we
-have an always-on regulator.
+                        Geert
 
-NOTE: if the regulator is on a shared line it's still possible that
-things could be a little off. Specifically, this case is not handled
-even after this patch:
-1. Suspend goodix (send "sleep", goodix stops requesting regulator on)
-2. Other regulator user turns off (regulator fully turns off).
-3. Goodix driver gets notified and asserts reset.
-4. Other regulator user turns on.
-5. Goodix driver gets notified and deasserts reset.
-6. Nobody resumes goodix.
-
-With that set of steps we'll have reset deasserted but we will have
-lost the results of the I2C_HID_PWR_SLEEP from the suspend path. That
-means we might be in higher power than we could be even if the goodix
-driver thinks things are suspended. Presumably, however, we're still
-in better shape than if we were asserting "reset" the whole time. If
-somehow the above situation is actually affecting someone and we want
-to do better we can deal with it when we have a real use case.
-
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
-
- drivers/hid/i2c-hid/i2c-hid-of-goodix.c | 90 +++++++++++++++++++++----
- 1 file changed, 77 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/hid/i2c-hid/i2c-hid-of-goodix.c b/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
-index ee0225982a82..c13ea29c7911 100644
---- a/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
-+++ b/drivers/hid/i2c-hid/i2c-hid-of-goodix.c
-@@ -26,28 +26,29 @@ struct i2c_hid_of_goodix {
- 	struct i2chid_ops ops;
- 
- 	struct regulator *vdd;
-+	struct notifier_block nb;
-+	struct mutex regulator_mutex;
- 	struct gpio_desc *reset_gpio;
- 	const struct goodix_i2c_hid_timing_data *timings;
- };
- 
--static int goodix_i2c_hid_power_up(struct i2chid_ops *ops)
-+static void goodix_i2c_hid_deassert_reset(struct i2c_hid_of_goodix *ihid_goodix,
-+					  bool regulator_just_turned_on)
- {
--	struct i2c_hid_of_goodix *ihid_goodix =
--		container_of(ops, struct i2c_hid_of_goodix, ops);
--	int ret;
--
--	ret = regulator_enable(ihid_goodix->vdd);
--	if (ret)
--		return ret;
--
--	if (ihid_goodix->timings->post_power_delay_ms)
-+	if (regulator_just_turned_on && ihid_goodix->timings->post_power_delay_ms)
- 		msleep(ihid_goodix->timings->post_power_delay_ms);
- 
- 	gpiod_set_value_cansleep(ihid_goodix->reset_gpio, 0);
- 	if (ihid_goodix->timings->post_gpio_reset_delay_ms)
- 		msleep(ihid_goodix->timings->post_gpio_reset_delay_ms);
-+}
- 
--	return 0;
-+static int goodix_i2c_hid_power_up(struct i2chid_ops *ops)
-+{
-+	struct i2c_hid_of_goodix *ihid_goodix =
-+		container_of(ops, struct i2c_hid_of_goodix, ops);
-+
-+	return regulator_enable(ihid_goodix->vdd);
- }
- 
- static void goodix_i2c_hid_power_down(struct i2chid_ops *ops)
-@@ -55,20 +56,54 @@ static void goodix_i2c_hid_power_down(struct i2chid_ops *ops)
- 	struct i2c_hid_of_goodix *ihid_goodix =
- 		container_of(ops, struct i2c_hid_of_goodix, ops);
- 
--	gpiod_set_value_cansleep(ihid_goodix->reset_gpio, 1);
- 	regulator_disable(ihid_goodix->vdd);
- }
- 
-+static int ihid_goodix_vdd_notify(struct notifier_block *nb,
-+				    unsigned long event,
-+				    void *ignored)
-+{
-+	struct i2c_hid_of_goodix *ihid_goodix =
-+		container_of(nb, struct i2c_hid_of_goodix, nb);
-+	int ret = NOTIFY_OK;
-+
-+	mutex_lock(&ihid_goodix->regulator_mutex);
-+
-+	switch (event) {
-+	case REGULATOR_EVENT_PRE_DISABLE:
-+		gpiod_set_value_cansleep(ihid_goodix->reset_gpio, 1);
-+		break;
-+
-+	case REGULATOR_EVENT_ENABLE:
-+		goodix_i2c_hid_deassert_reset(ihid_goodix, true);
-+		break;
-+
-+	case REGULATOR_EVENT_ABORT_DISABLE:
-+		goodix_i2c_hid_deassert_reset(ihid_goodix, false);
-+		break;
-+
-+	default:
-+		ret = NOTIFY_DONE;
-+		break;
-+	}
-+
-+	mutex_unlock(&ihid_goodix->regulator_mutex);
-+
-+	return ret;
-+}
-+
- static int i2c_hid_of_goodix_probe(struct i2c_client *client,
- 				   const struct i2c_device_id *id)
- {
- 	struct i2c_hid_of_goodix *ihid_goodix;
--
-+	int ret;
- 	ihid_goodix = devm_kzalloc(&client->dev, sizeof(*ihid_goodix),
- 				   GFP_KERNEL);
- 	if (!ihid_goodix)
- 		return -ENOMEM;
- 
-+	mutex_init(&ihid_goodix->regulator_mutex);
-+
- 	ihid_goodix->ops.power_up = goodix_i2c_hid_power_up;
- 	ihid_goodix->ops.power_down = goodix_i2c_hid_power_down;
- 
-@@ -84,6 +119,35 @@ static int i2c_hid_of_goodix_probe(struct i2c_client *client,
- 
- 	ihid_goodix->timings = device_get_match_data(&client->dev);
- 
-+	/*
-+	 * We need to control the "reset" line in lockstep with the regulator
-+	 * actually turning on an off instead of just when we make the request.
-+	 * This matters if the regulator is shared with another consumer.
-+	 * - If the regulator is off then we must assert reset. The reset
-+	 *   line is active low and on some boards it could cause a current
-+	 *   leak if left high.
-+	 * - If the regulator is on then we don't want reset asserted for very
-+	 *   long. Holding the controller in reset apparently draws extra
-+	 *   power.
-+	 */
-+	mutex_lock(&ihid_goodix->regulator_mutex);
-+	ihid_goodix->nb.notifier_call = ihid_goodix_vdd_notify;
-+	ret = regulator_register_notifier(ihid_goodix->vdd, &ihid_goodix->nb);
-+	if (ret)
-+		return dev_err_probe(&client->dev, ret,
-+			"regulator notifier request failed\n");
-+
-+	/*
-+	 * If someone else is holding the regulator on (or the regulator is
-+	 * an always-on one) we might never be told to deassert reset. Do it
-+	 * now. Here we'll assume that someone else might have _just
-+	 * barely_ turned the regulator on so we'll do the full
-+	 * "post_power_delay" just in case.
-+	 */
-+	if (ihid_goodix->reset_gpio && regulator_is_enabled(ihid_goodix->vdd))
-+		goodix_i2c_hid_deassert_reset(ihid_goodix, true);
-+	mutex_unlock(&ihid_goodix->regulator_mutex);
-+
- 	return i2c_hid_core_probe(client, &ihid_goodix->ops, 0x0001);
- }
- 
 -- 
-2.32.0.272.g935e593368-goog
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
