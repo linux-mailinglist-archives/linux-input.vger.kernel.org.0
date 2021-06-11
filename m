@@ -2,87 +2,149 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC5E93A30D3
-	for <lists+linux-input@lfdr.de>; Thu, 10 Jun 2021 18:38:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC9333A430B
+	for <lists+linux-input@lfdr.de>; Fri, 11 Jun 2021 15:30:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230391AbhFJQky (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 10 Jun 2021 12:40:54 -0400
-Received: from mail-ot1-f42.google.com ([209.85.210.42]:38679 "EHLO
-        mail-ot1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229823AbhFJQky (ORCPT
+        id S229951AbhFKNcJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Jun 2021 09:32:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41344 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229517AbhFKNcI (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 10 Jun 2021 12:40:54 -0400
-Received: by mail-ot1-f42.google.com with SMTP id j11-20020a9d738b0000b02903ea3c02ded8so302298otk.5;
-        Thu, 10 Jun 2021 09:38:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ThsuhgjwQPY1nL0DC6AfRGD4QCrDv0Wb8QRuS1qgScc=;
-        b=MbcVzL6956KJ6h3WCrJzWntC9sFBb7cqYmcywSKeCoXemdUoURf3ivIdom4XJNotUs
-         t9dq14WLShXaO3kzzdKyBbybgUDfrQZoxz9fP66P7Wb7zewO99Qfdy31NFBL+6N0gdiV
-         2suHeAo+ImGkfc9hA7Ks8fTb5OHve9MnQRRNvV+X07Hhdws4WmO+9B6IHQ9qvLsF7IVx
-         pVmo+hgjECXUNSzoeogKDTptCNpr0P5gQqe/jopFRO9qYdV16rSmXD1rjbqMcLtrB1ab
-         fOOHkP5jkzDgu57TtdVanCLAD7v4SwKRqm0YmV1RoTpPjj5fy19LYbZKDehV+hR7tJc0
-         U32Q==
-X-Gm-Message-State: AOAM532m6OZv1gGQSZirMwcR6PmReZSmWRlgDia7ThpEulWvYLNGbIlY
-        /LzrM5q+qPOp6nIZSWs2HA==
-X-Google-Smtp-Source: ABdhPJzx+hvlN/w4B0vDRWK2ePv0ZMiOVeLFHf3+Gx7ZGUnN8pfqLv5McDPcDbaldOvEE/AsVN1NFA==
-X-Received: by 2002:a05:6830:99:: with SMTP id a25mr3193911oto.72.1623343129066;
-        Thu, 10 Jun 2021 09:38:49 -0700 (PDT)
-Received: from robh.at.kernel.org ([172.58.99.113])
-        by smtp.gmail.com with ESMTPSA id f63sm711216otb.36.2021.06.10.09.38.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Jun 2021 09:38:48 -0700 (PDT)
-Received: (nullmailer pid 1937010 invoked by uid 1000);
-        Thu, 10 Jun 2021 16:38:46 -0000
-Date:   Thu, 10 Jun 2021 11:38:46 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Oleh Kravchenko <oleg@kaa.org.ua>
-Cc:     Patchwork Bot <patchwork-bot@kernel.org>,
-        Jiri Kosina <jikos@jikos.cz>,
-        Device Tree mailing list <devicetree@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: Re: [PATCH 1/2 v4] dt-bindings: Add vendor prefix and bindings for
- Qwiic Joystick
-Message-ID: <20210610163846.GA1936976@robh.at.kernel.org>
-References: <20210608223130.16830-1-oleg@kaa.org.ua>
+        Fri, 11 Jun 2021 09:32:08 -0400
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D87BC061574
+        for <linux-input@vger.kernel.org>; Fri, 11 Jun 2021 06:30:10 -0700 (PDT)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:2411:a261:8fe2:b47f])
+        by albert.telenet-ops.be with bizsmtp
+        id FpW82500P25eH3q06pW8XV; Fri, 11 Jun 2021 15:30:08 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lrhEe-00Fgkx-5u; Fri, 11 Jun 2021 15:30:08 +0200
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lrhEd-00CnbF-Nc; Fri, 11 Jun 2021 15:30:07 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Bastian Hecht <hechtb@gmail.com>,
+        Martin Kepplinger <martink@posteo.de>
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] dt-bindings: input: touchscreen: st1232: Convert to json-schema
+Date:   Fri, 11 Jun 2021 15:30:05 +0200
+Message-Id: <fbba650cff07780c28ad6dd8dbef5cc1451b7762.1623418065.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210608223130.16830-1-oleg@kaa.org.ua>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 09 Jun 2021 01:31:30 +0300, Oleh Kravchenko wrote:
-> Add vendor prefix for SparkFun Electronics.
-> Update trivial-devices.yaml with SparkFun Qwiic Joystick description.
-> 
-> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> Cc: Device Tree mailing list <devicetree@vger.kernel.org>
-> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> Cc: Jiri Kosina <jikos@jikos.cz>
-> Cc: Patchwork Bot <patchwork-bot@kernel.org>
-> Cc: Rob Herring <robh@kernel.org>
-> Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
-> ---
-> 
-> Changes for v4:
-> - no updates.
-> 
-> Changes for v3:
-> - update patch after code review.
-> 
-> Changes for v2:
-> - update code after code review
-> 
-> 
->  Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->  2 files changed, 4 insertions(+)
-> 
+Convert the Sitronix st1232/st1633 touchscreen controller Device Tree
+binding documentation to json-schema.
 
-Acked-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ .../input/touchscreen/sitronix,st1232.yaml    | 50 +++++++++++++++++++
+ .../input/touchscreen/sitronix-st1232.txt     | 28 -----------
+ 2 files changed, 50 insertions(+), 28 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/sitronix-st1232.txt
+
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml b/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
+new file mode 100644
+index 0000000000000000..1d8ca19fd37ae3fc
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/touchscreen/sitronix,st1232.yaml
+@@ -0,0 +1,50 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/touchscreen/sitronix,st1232.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Sitronix st1232 or st1633 touchscreen controller
++
++maintainers:
++  - Bastian Hecht <hechtb@gmail.com>
++
++allOf:
++  - $ref: touchscreen.yaml#
++
++properties:
++  compatible:
++    enum:
++      - sitronix,st1232
++      - sitronix,st1633
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  gpios:
++    description: A phandle to the reset GPIO
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    i2c {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            touchscreen@55 {
++                    compatible = "sitronix,st1232";
++                    reg = <0x55>;
++                    interrupts = <2 0>;
++                    gpios = <&gpio1 166 0>;
++            };
++    };
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/sitronix-st1232.txt b/Documentation/devicetree/bindings/input/touchscreen/sitronix-st1232.txt
+deleted file mode 100644
+index 019373253b28c08c..0000000000000000
+--- a/Documentation/devicetree/bindings/input/touchscreen/sitronix-st1232.txt
++++ /dev/null
+@@ -1,28 +0,0 @@
+-* Sitronix st1232 or st1633 touchscreen controller
+-
+-Required properties:
+-- compatible: must contain one of
+-  * "sitronix,st1232"
+-  * "sitronix,st1633"
+-- reg: I2C address of the chip
+-- interrupts: interrupt to which the chip is connected
+-
+-Optional properties:
+-- gpios: a phandle to the reset GPIO
+-
+-For additional optional properties see: touchscreen.txt
+-
+-Example:
+-
+-	i2c@00000000 {
+-		/* ... */
+-
+-		touchscreen@55 {
+-			compatible = "sitronix,st1232";
+-			reg = <0x55>;
+-			interrupts = <2 0>;
+-			gpios = <&gpio1 166 0>;
+-		};
+-
+-		/* ... */
+-	};
+-- 
+2.25.1
+
