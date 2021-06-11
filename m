@@ -2,131 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C91783A4368
-	for <lists+linux-input@lfdr.de>; Fri, 11 Jun 2021 15:54:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AF663A43F3
+	for <lists+linux-input@lfdr.de>; Fri, 11 Jun 2021 16:20:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231294AbhFKN4a (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Jun 2021 09:56:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46712 "EHLO
+        id S231516AbhFKOWh (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 11 Jun 2021 10:22:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52572 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231244AbhFKN4a (ORCPT
+        with ESMTP id S231389AbhFKOWg (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Jun 2021 09:56:30 -0400
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 186FBC0617AF
-        for <linux-input@vger.kernel.org>; Fri, 11 Jun 2021 06:54:31 -0700 (PDT)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:2411:a261:8fe2:b47f])
-        by baptiste.telenet-ops.be with bizsmtp
-        id FpuV2500825eH3q01puVxq; Fri, 11 Jun 2021 15:54:29 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lrhcC-00FhDG-Ns; Fri, 11 Jun 2021 15:54:28 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lrhcC-00CsQD-2l; Fri, 11 Jun 2021 15:54:28 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Fri, 11 Jun 2021 10:22:36 -0400
+Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA7D6C061574;
+        Fri, 11 Jun 2021 07:20:38 -0700 (PDT)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id 99EBA801DE;
+        Fri, 11 Jun 2021 16:20:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1623421235;
+        bh=Tzh7KahU0XoqqYoKIqzCwB0di8bH65dp33p+SPOKOYA=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=YuhWjZRDGTt6LXgtK2SWj6D1AE+JtFnEqFdzQ6fbtifVvzKZhC8pLNXDtVdDyTtn6
+         WzDiaKGUs1eBP+Yf/u7klEZvsuSyhcxRqa4+YicNhwhfOZwSOL/RckXO4zU77nlgz/
+         iRcbKpmLjgueZg5hGuBT8g2CPeY0F4sw7zPw4DUA94QvhWbjJUgmluxHm8HH4FLfbJ
+         yTNJVdLUjk/f2vHcnuLU8ctggjslL4V707ZwgzeBRGG68k6xFET4t5HPsfDOv2WzqB
+         2fg4/U8TYW4T0G1OEo3sSkWovXkzhqprO4DdSKHgD9bVSVny0BU7adqSTCjsQP+gt6
+         YlUM4tPGDwCHQ==
+Subject: Re: [PATCH] dt-bindings: input: touchscreen: ilitek_ts_i2c: Absorb
+ ili2xxx bindings
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Joe Hung <joe_hung@ilitek.com>, Marek Vasut <marex@denx.de>
+        Joe Hung <joe_hung@ilitek.com>
 Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] dt-bindings: input: touchscreen: ilitek_ts_i2c: Absorb ili2xxx bindings
-Date:   Fri, 11 Jun 2021 15:54:27 +0200
-Message-Id: <c381ee2526074e02b6058c489f85cfdaee582713.1623419587.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
+        linux-renesas-soc@vger.kernel.org
+References: <c381ee2526074e02b6058c489f85cfdaee582713.1623419587.git.geert+renesas@glider.be>
+From:   Marek Vasut <marex@denx.de>
+Message-ID: <9b1b2a44-348e-5453-d767-d5c69a0869a7@denx.de>
+Date:   Fri, 11 Jun 2021 16:20:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <c381ee2526074e02b6058c489f85cfdaee582713.1623419587.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-While Linux uses a different driver, the Ilitek
-ILI210x/ILI2117/ILI2120/ILI251x touchscreen controller Device Tree
-binding documentation is very similar.
+On 6/11/21 3:54 PM, Geert Uytterhoeven wrote:
+> While Linux uses a different driver, the Ilitek
+> ILI210x/ILI2117/ILI2120/ILI251x touchscreen controller Device Tree
+> binding documentation is very similar.
+> 
+>    - Drop the fixed reg value, as some controllers use a different
+>      address,
+>    - Make reset-gpios optional, as it is not always wired.
 
-  - Drop the fixed reg value, as some controllers use a different
-    address,
-  - Make reset-gpios optional, as it is not always wired.
-
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- .../bindings/input/ilitek,ili2xxx.txt         | 27 -------------------
- .../input/touchscreen/ilitek_ts_i2c.yaml      |  7 +++--
- 2 files changed, 5 insertions(+), 29 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/input/ilitek,ili2xxx.txt
-
-diff --git a/Documentation/devicetree/bindings/input/ilitek,ili2xxx.txt b/Documentation/devicetree/bindings/input/ilitek,ili2xxx.txt
-deleted file mode 100644
-index cdcaa3f52d253670..0000000000000000
---- a/Documentation/devicetree/bindings/input/ilitek,ili2xxx.txt
-+++ /dev/null
-@@ -1,27 +0,0 @@
--Ilitek ILI210x/ILI2117/ILI2120/ILI251x touchscreen controller
--
--Required properties:
--- compatible:
--    ilitek,ili210x for ILI210x
--    ilitek,ili2117 for ILI2117
--    ilitek,ili2120 for ILI2120
--    ilitek,ili251x for ILI251x
--
--- reg: The I2C address of the device
--
--- interrupts: The sink for the touchscreen's IRQ output
--    See ../interrupt-controller/interrupts.txt
--
--Optional properties for main touchpad device:
--
--- reset-gpios: GPIO specifier for the touchscreen's reset pin (active low)
--
--Example:
--
--	touchscreen@41 {
--		compatible = "ilitek,ili251x";
--		reg = <0x41>;
--		interrupt-parent = <&gpio4>;
--		interrupts = <7 IRQ_TYPE_EDGE_FALLING>;
--		reset-gpios = <&gpio5 21 GPIO_ACTIVE_LOW>;
--	};
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/ilitek_ts_i2c.yaml b/Documentation/devicetree/bindings/input/touchscreen/ilitek_ts_i2c.yaml
-index a190e7baac3162a3..9f732899975683a8 100644
---- a/Documentation/devicetree/bindings/input/touchscreen/ilitek_ts_i2c.yaml
-+++ b/Documentation/devicetree/bindings/input/touchscreen/ilitek_ts_i2c.yaml
-@@ -15,6 +15,9 @@ allOf:
- properties:
-   compatible:
-     enum:
-+      - ilitek,ili210x
-+      - ilitek,ili2117
-+      - ilitek,ili2120
-       - ilitek,ili2130
-       - ilitek,ili2131
-       - ilitek,ili2132
-@@ -22,11 +25,12 @@ properties:
-       - ilitek,ili2322
-       - ilitek,ili2323
-       - ilitek,ili2326
-+      - ilitek,ili251x
-       - ilitek,ili2520
-       - ilitek,ili2521
- 
-   reg:
--    const: 0x41
-+    maxItems: 1
- 
-   interrupts:
-     maxItems: 1
-@@ -50,7 +54,6 @@ required:
-   - compatible
-   - reg
-   - interrupts
--  - reset-gpios
- 
- examples:
-   - |
--- 
-2.25.1
-
+It looks like there are now two drivers for the same hardware,
+drivers/input/touchscreen/ili210x.c
+drivers/input/touchscreen/ilitek_ts_i2c.c
+The ilitek_ts_i2c (newer) seems to be derived from the ilitek example 
+code / driver, while the ili210x was written from scratch as far as I 
+can tell.
