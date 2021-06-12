@@ -2,92 +2,79 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 860863A4AC7
-	for <lists+linux-input@lfdr.de>; Fri, 11 Jun 2021 23:50:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E2693A4D08
+	for <lists+linux-input@lfdr.de>; Sat, 12 Jun 2021 07:52:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230205AbhFKVv7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 11 Jun 2021 17:51:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39032 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229633AbhFKVv6 (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Fri, 11 Jun 2021 17:51:58 -0400
-Received: from phobos.denx.de (phobos.denx.de [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63DBFC061574;
-        Fri, 11 Jun 2021 14:50:00 -0700 (PDT)
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id 8B0368047F;
-        Fri, 11 Jun 2021 23:49:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1623448196;
-        bh=J1w1Qy+UZUBMOkVepzUoEUawid8tPfM8riAKr4+3hes=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=kOfhTWKNaDLvYWOSRk0HwKPzXaTTm/qgE84IOw6w4DueqrI17o6U8z8Vp7csa0qvs
-         VlA7aUY0tfosX4im3hXbtGrge+XzfhY9C31t4BsdFeutIe91PlKCXA7YkoddwvUg4f
-         WsGkofi6CF5oDgZMo6zrstCNesofWdfkd5ZXx0Jr1A9NbHXy3wUQBq70pLH8oRo8c5
-         hUBi2Ls06XeJ0GUG19FLeK2Jq5b+/Q3MklOXt85rHap7IN9FKjPTBCqQtpFJdhaXGQ
-         ypKbjZpHlHeNxQWiXvQdtrpormvDVivTScvcoS2qFgYm2WILtjF2Fu0TC22aKfxbDs
-         4Kujj0O3oFCfQ==
-Subject: Re: [PATCH] dt-bindings: input: touchscreen: ilitek_ts_i2c: Absorb
- ili2xxx bindings
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        id S229532AbhFLFyJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 12 Jun 2021 01:54:09 -0400
+Received: from mail.ilitek.com ([60.248.80.92]:41766 "EHLO cello.ilitek.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230095AbhFLFyI (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 12 Jun 2021 01:54:08 -0400
+X-UUID: 262bdf1980d34c6ba79c3e8786eb79c0-20210612
+X-UUID: 262bdf1980d34c6ba79c3e8786eb79c0-20210612
+Received: from ex1.ili.com.tw [(192.168.1.131)] by cello.ilitek.com
+        (envelope-from <joe_hung@ilitek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256 128/128)
+        with ESMTP id 1790632648; Sat, 12 Jun 2021 13:52:03 +0800
+Received: from EX1.ili.com.tw (192.168.1.131) by EX1.ili.com.tw
+ (192.168.1.131) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Sat, 12 Jun
+ 2021 13:52:01 +0800
+Received: from EX1.ili.com.tw ([fe80::a0a2:6b83:b4ce:7ab1]) by EX1.ili.com.tw
+ ([fe80::a0a2:6b83:b4ce:7ab1%8]) with mapi id 15.01.2242.004; Sat, 12 Jun 2021
+ 13:52:01 +0800
+From:   =?utf-8?B?Sm9lIEh1bmcgKOa0qumKmOmZvSk=?= <joe_hung@ilitek.com>
+To:     Marek Vasut <marex@denx.de>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Rob Herring <robh+dt@kernel.org>, Joe Hung <joe_hung@ilitek.com>,
+CC:     Rob Herring <robh+dt@kernel.org>,
         linux-input <linux-input@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        =?utf-8?B?THVjYSBIc3UgKOW+kOWYiemNiik=?= <luca_hsu@ilitek.com>
+Subject: RE: [PATCH] dt-bindings: input: touchscreen: ilitek_ts_i2c: Absorb
+ ili2xxx bindings
+Thread-Topic: [PATCH] dt-bindings: input: touchscreen: ilitek_ts_i2c: Absorb
+ ili2xxx bindings
+Thread-Index: AQHXXslRFmrcUvyaMUGTGc+sD7d/e6sOVjMAgABDyACAAAKmgIAANxwAgAEGmbA=
+Date:   Sat, 12 Jun 2021 05:52:01 +0000
+Message-ID: <b30e65d0847949b497c635dd1d5035ac@ilitek.com>
 References: <c381ee2526074e02b6058c489f85cfdaee582713.1623419587.git.geert+renesas@glider.be>
  <9b1b2a44-348e-5453-d767-d5c69a0869a7@denx.de>
  <CAMuHMdXE0kipUm6wqHsrFurFkviU_nRJJB7cg6z1XwEvpEewGQ@mail.gmail.com>
- <YMOsRzfDnZ/iApwD@google.com>
-From:   Marek Vasut <marex@denx.de>
-Message-ID: <9d901eb1-6408-6b4f-1377-03c394d440c4@denx.de>
-Date:   Fri, 11 Jun 2021 23:49:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ <YMOsRzfDnZ/iApwD@google.com> <9d901eb1-6408-6b4f-1377-03c394d440c4@denx.de>
+In-Reply-To: <9d901eb1-6408-6b4f-1377-03c394d440c4@denx.de>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.168.9.252]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <YMOsRzfDnZ/iApwD@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On 6/11/21 8:32 PM, Dmitry Torokhov wrote:
+SGkgTWFyZWssDQoNCkknbSB0aGUgY29tbWl0dGVyIG9mICJpbGl0ZWtfdHNfaTJjLmMiIGRyaXZl
+ci4NClRoZSBzby1jYWxsZWQgIkxlZ28iIHNlcmllcyB3YXMgbGlzdGVkIGJlbG93LCBhcyBsaXN0
+ZWQgaW4gaWxpdGVrX3RzX2kyYy55YW1sDQpJdCdzIHRoZSBuZXdlciBzZXJpZXMgd2l0aCBkaWZm
+ZXJlbnQgcHJvdG9jb2wgYW5kIGNvbnRyb2wgZmxvdyB0byBJTElURUsgSUMgRlcuDQoNCi0gaWxp
+dGVrLGlsaTIxMzANCi0gaWxpdGVrLGlsaTIxMzENCi0gaWxpdGVrLGlsaTIxMzINCi0gaWxpdGVr
+LGlsaTIzMTYNCi0gaWxpdGVrLGlsaTIzMjINCi0gaWxpdGVrLGlsaTIzMjMNCi0gaWxpdGVrLGls
+aTIzMjYNCi0gaWxpdGVrLGlsaTI1MjANCi0gaWxpdGVrLGlsaTI1MjENCg0KPiBUaGUgb2xkZXIg
+ZHJpdmVyIGFsc28gc3VwcG9ydHMgMjUxeCAuIFdoYXQgZXhhY3RseSBpcyAiTGVnbyIgc2VyaWVz
+ID8NCk1vcmUgc3BlY2lmaWNhbGx5LCBMZWdvIHNlcmllcyBzdXBwb3J0ICIyNTJ4Iiwgbm90ICIy
+NTEwIi4NClRoZSBvbGRlciBkcml2ZXIgc3VwcG9ydCAyMTB4IGFuZCAyNTF4LCB3aGljaCBoYXMg
+b2xkZXIgcHJvdG9jb2wuDQoNCj4gSW4gZmFjdCwgaXMgdGhlcmUgZG9jdW1lbnRhdGlvbiBmb3Ig
+dGhlIGRpZmZlcmVudCBJTEkyeHh4IHRvdWNoc2NyZWVuIGNvbnRyb2xsZXJzID8gU28gZmFyLCBh
+bGwgdGhlIGluZm9ybWF0aW9uIEkgaGFkIHdhcyBwdWxsZWQgZnJvbSB0aGUgdmFyaW91cyBmb3Jr
+cyBvZiBkb3duc3RyZWFtIGV4YW1wbGUgY29kZS4NCklmIGl0IG5lZWQgZm9yIGEgZG9jLiB0byBk
+aXN0aW5ndWlzaCBpdCwgSSBhbSBnbGFkIHRvIHN1cHBvcnQvYXJyYW5nZSwgYW5kIHdoZXJlIHNo
+b3VsZCBJIHB1dCB0aG9zZSBkZXNjcmlwdGlvbiB0byA/DQoNCkJlc3QgcmVnYXJkcywNCg0KSm9l
+IEhvbmcNCklMSSBURUNITk9MT0dZIENPUlAuDQpURUw6ICs4ODYtMy01NjAwMDk5IGV4dC42MTM4
+DQpFbWFpbDogam9lX2h1bmdAaWxpdGVrLmNvbQ0KOEYuLCBOby4xLCBUYWl5dWFuIDJuZCBTdC4s
+IFpodWJlaSBDaXR5LCBIc2luY2h1IENvdW50cnkgMzAyLCBUYWl3YW4gKFIuTy5DLikNCg==
 
-Hi,
-
->>> On 6/11/21 3:54 PM, Geert Uytterhoeven wrote:
->>>> While Linux uses a different driver, the Ilitek
->>>> ILI210x/ILI2117/ILI2120/ILI251x touchscreen controller Device Tree
->>>> binding documentation is very similar.
->>>>
->>>>     - Drop the fixed reg value, as some controllers use a different
->>>>       address,
->>>>     - Make reset-gpios optional, as it is not always wired.
->>>
->>> It looks like there are now two drivers for the same hardware,
->>> drivers/input/touchscreen/ili210x.c
->>> drivers/input/touchscreen/ilitek_ts_i2c.c
->>> The ilitek_ts_i2c (newer) seems to be derived from the ilitek example
->>> code / driver, while the ili210x was written from scratch as far as I
->>> can tell.
->>
->> I'm not so sure they're for the same hardware, but you may know better?
->> https://www.displayvisions.us/fileadmin/html-seiten/eng/pdf/zubehoer/ILITek_TP_Programming_Guide_V1.50.pdf
->> lists only Ilitek parts handled by ilitek_ts_i2c.c.
-> 
-> Ilitek folks said that the new driver is for their "Lego" series
-> controllers, whereas ili210x.c is for older hardware.
-
-The older driver also supports 251x . What exactly is "Lego" series ?
-In fact, is there documentation for the different ILI2xxx touchscreen 
-controllers ? So far, all the information I had was pulled from the 
-various forks of downstream example code.
