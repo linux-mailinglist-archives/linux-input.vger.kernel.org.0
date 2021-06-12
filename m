@@ -2,79 +2,92 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E2693A4D08
-	for <lists+linux-input@lfdr.de>; Sat, 12 Jun 2021 07:52:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8C543A4D13
+	for <lists+linux-input@lfdr.de>; Sat, 12 Jun 2021 08:09:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229532AbhFLFyJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 12 Jun 2021 01:54:09 -0400
-Received: from mail.ilitek.com ([60.248.80.92]:41766 "EHLO cello.ilitek.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230095AbhFLFyI (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 12 Jun 2021 01:54:08 -0400
-X-UUID: 262bdf1980d34c6ba79c3e8786eb79c0-20210612
-X-UUID: 262bdf1980d34c6ba79c3e8786eb79c0-20210612
-Received: from ex1.ili.com.tw [(192.168.1.131)] by cello.ilitek.com
-        (envelope-from <joe_hung@ilitek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES128-GCM-SHA256 128/128)
-        with ESMTP id 1790632648; Sat, 12 Jun 2021 13:52:03 +0800
-Received: from EX1.ili.com.tw (192.168.1.131) by EX1.ili.com.tw
- (192.168.1.131) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Sat, 12 Jun
- 2021 13:52:01 +0800
-Received: from EX1.ili.com.tw ([fe80::a0a2:6b83:b4ce:7ab1]) by EX1.ili.com.tw
- ([fe80::a0a2:6b83:b4ce:7ab1%8]) with mapi id 15.01.2242.004; Sat, 12 Jun 2021
- 13:52:01 +0800
-From:   =?utf-8?B?Sm9lIEh1bmcgKOa0qumKmOmZvSk=?= <joe_hung@ilitek.com>
-To:     Marek Vasut <marex@denx.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        linux-input <linux-input@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        =?utf-8?B?THVjYSBIc3UgKOW+kOWYiemNiik=?= <luca_hsu@ilitek.com>
-Subject: RE: [PATCH] dt-bindings: input: touchscreen: ilitek_ts_i2c: Absorb
- ili2xxx bindings
-Thread-Topic: [PATCH] dt-bindings: input: touchscreen: ilitek_ts_i2c: Absorb
- ili2xxx bindings
-Thread-Index: AQHXXslRFmrcUvyaMUGTGc+sD7d/e6sOVjMAgABDyACAAAKmgIAANxwAgAEGmbA=
-Date:   Sat, 12 Jun 2021 05:52:01 +0000
-Message-ID: <b30e65d0847949b497c635dd1d5035ac@ilitek.com>
-References: <c381ee2526074e02b6058c489f85cfdaee582713.1623419587.git.geert+renesas@glider.be>
- <9b1b2a44-348e-5453-d767-d5c69a0869a7@denx.de>
- <CAMuHMdXE0kipUm6wqHsrFurFkviU_nRJJB7cg6z1XwEvpEewGQ@mail.gmail.com>
- <YMOsRzfDnZ/iApwD@google.com> <9d901eb1-6408-6b4f-1377-03c394d440c4@denx.de>
-In-Reply-To: <9d901eb1-6408-6b4f-1377-03c394d440c4@denx.de>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.9.252]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S229898AbhFLGLX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 12 Jun 2021 02:11:23 -0400
+Received: from mail-qt1-f173.google.com ([209.85.160.173]:38570 "EHLO
+        mail-qt1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229446AbhFLGLX (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sat, 12 Jun 2021 02:11:23 -0400
+Received: by mail-qt1-f173.google.com with SMTP id o19so4368054qtp.5
+        for <linux-input@vger.kernel.org>; Fri, 11 Jun 2021 23:09:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tyson.me; s=g;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=c0BSBF+pXHD5qNA80GelDN1/w3V366d1SDVNCgdWdyk=;
+        b=drs1u41uSH+grKst84KHt404qQUtDHpm1svHN8xAsZk8Oj7uZR1a+hccvfE3DpifLI
+         bTfhFEPmTybirPKfiN7XIat6yf/N3nh+pp72rZSeCNv/JdyR07iac0dpYWJ/+NbC6MSI
+         r2wSLLfykler663G3lu204xREfj52cXnkl7Lo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=c0BSBF+pXHD5qNA80GelDN1/w3V366d1SDVNCgdWdyk=;
+        b=M3ubPcq+iywRAsxyixLfDeZE9Tx1WL9OyK4xS2K7aQQ3twTwZAUeFIa80DF+T9An1L
+         3CFIsY2T6hIzuYdQGYNPhGun8d+9nYdj+JA9Z0E56NdjHGvISqrPPbCLCTSLRNupWl79
+         yfog+L5oTILZVgma3pAA21EYgEDz9hCcpCGWEqfvMzckGOlgUmdwI1gFeQ7GrfeprxXy
+         IpO6I887KPSFyqcKUtWnNE+JVupqFz1yOUEjn4r9e7yG03Hc0U4tUB4+PKjfqEEp7Tdu
+         lbUCGBCK78pIsgDX/hpe8MpAgAygsEmnrBwRNn8MlE4P4BeQokwq8WX4v0/JFSM0sL7I
+         DHbQ==
+X-Gm-Message-State: AOAM533NGz3Qit5m5ErZsiVRE/QwMjShw8qUa771k1MH7LzXM4gqn39R
+        TKxTa3lOhOQXLDeXioYLA+cdUw==
+X-Google-Smtp-Source: ABdhPJzuhCQhr2R5BlV8krtHrZcbQ0e5q0+vb09PapOOhSJsu3JiR+01RRo2GUKecHPvPI9CbxJsfA==
+X-Received: by 2002:a05:622a:1708:: with SMTP id h8mr7099362qtk.183.1623478089063;
+        Fri, 11 Jun 2021 23:08:09 -0700 (PDT)
+Received: from norquay.oak.tppnw.com ([2607:f2c0:f00f:7f03:81a5:9107:3996:6476])
+        by smtp.gmail.com with ESMTPSA id h6sm5621145qtr.73.2021.06.11.23.08.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Jun 2021 23:08:08 -0700 (PDT)
+From:   Tyson Moore <tyson@tyson.me>
+To:     dmitry.torokhov@gmail.com
+Cc:     trivial@kernel.org, linux-input@vger.kernel.org,
+        Tyson Moore <tyson@tyson.me>
+Subject: [PATCH trivial] Input: i8042: fix typos in comments
+Date:   Sat, 12 Jun 2021 02:07:53 -0400
+Message-Id: <20210612060753.28968-1-tyson@tyson.me>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-SGkgTWFyZWssDQoNCkknbSB0aGUgY29tbWl0dGVyIG9mICJpbGl0ZWtfdHNfaTJjLmMiIGRyaXZl
-ci4NClRoZSBzby1jYWxsZWQgIkxlZ28iIHNlcmllcyB3YXMgbGlzdGVkIGJlbG93LCBhcyBsaXN0
-ZWQgaW4gaWxpdGVrX3RzX2kyYy55YW1sDQpJdCdzIHRoZSBuZXdlciBzZXJpZXMgd2l0aCBkaWZm
-ZXJlbnQgcHJvdG9jb2wgYW5kIGNvbnRyb2wgZmxvdyB0byBJTElURUsgSUMgRlcuDQoNCi0gaWxp
-dGVrLGlsaTIxMzANCi0gaWxpdGVrLGlsaTIxMzENCi0gaWxpdGVrLGlsaTIxMzINCi0gaWxpdGVr
-LGlsaTIzMTYNCi0gaWxpdGVrLGlsaTIzMjINCi0gaWxpdGVrLGlsaTIzMjMNCi0gaWxpdGVrLGls
-aTIzMjYNCi0gaWxpdGVrLGlsaTI1MjANCi0gaWxpdGVrLGlsaTI1MjENCg0KPiBUaGUgb2xkZXIg
-ZHJpdmVyIGFsc28gc3VwcG9ydHMgMjUxeCAuIFdoYXQgZXhhY3RseSBpcyAiTGVnbyIgc2VyaWVz
-ID8NCk1vcmUgc3BlY2lmaWNhbGx5LCBMZWdvIHNlcmllcyBzdXBwb3J0ICIyNTJ4Iiwgbm90ICIy
-NTEwIi4NClRoZSBvbGRlciBkcml2ZXIgc3VwcG9ydCAyMTB4IGFuZCAyNTF4LCB3aGljaCBoYXMg
-b2xkZXIgcHJvdG9jb2wuDQoNCj4gSW4gZmFjdCwgaXMgdGhlcmUgZG9jdW1lbnRhdGlvbiBmb3Ig
-dGhlIGRpZmZlcmVudCBJTEkyeHh4IHRvdWNoc2NyZWVuIGNvbnRyb2xsZXJzID8gU28gZmFyLCBh
-bGwgdGhlIGluZm9ybWF0aW9uIEkgaGFkIHdhcyBwdWxsZWQgZnJvbSB0aGUgdmFyaW91cyBmb3Jr
-cyBvZiBkb3duc3RyZWFtIGV4YW1wbGUgY29kZS4NCklmIGl0IG5lZWQgZm9yIGEgZG9jLiB0byBk
-aXN0aW5ndWlzaCBpdCwgSSBhbSBnbGFkIHRvIHN1cHBvcnQvYXJyYW5nZSwgYW5kIHdoZXJlIHNo
-b3VsZCBJIHB1dCB0aG9zZSBkZXNjcmlwdGlvbiB0byA/DQoNCkJlc3QgcmVnYXJkcywNCg0KSm9l
-IEhvbmcNCklMSSBURUNITk9MT0dZIENPUlAuDQpURUw6ICs4ODYtMy01NjAwMDk5IGV4dC42MTM4
-DQpFbWFpbDogam9lX2h1bmdAaWxpdGVrLmNvbQ0KOEYuLCBOby4xLCBUYWl5dWFuIDJuZCBTdC4s
-IFpodWJlaSBDaXR5LCBIc2luY2h1IENvdW50cnkgMzAyLCBUYWl3YW4gKFIuTy5DLikNCg==
+This trivial patch fixes two spelling typos in i8042.c:
+
+- 'i8042_unlock_ship()' to 'i8042_unlock_chip()'
+- 'i8042_controller init' to 'i8042_controller_init'
+
+Signed-off-by: Tyson Moore <tyson@tyson.me>
+---
+ drivers/input/serio/i8042.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/input/serio/i8042.c b/drivers/input/serio/i8042.c
+index abae23af0..0b9f1d0a8 100644
+--- a/drivers/input/serio/i8042.c
++++ b/drivers/input/serio/i8042.c
+@@ -139,7 +139,7 @@ static DEFINE_SPINLOCK(i8042_lock);
+ /*
+  * Writers to AUX and KBD ports as well as users issuing i8042_command
+  * directly should acquire i8042_mutex (by means of calling
+- * i8042_lock_chip() and i8042_unlock_ship() helpers) to ensure that
++ * i8042_lock_chip() and i8042_unlock_chip() helpers) to ensure that
+  * they do not disturb each other (unfortunately in many i8042
+  * implementations write to one of the ports will immediately abort
+  * command that is being processed by another port).
+@@ -979,7 +979,7 @@ static int i8042_controller_selftest(void)
+ }
+ 
+ /*
+- * i8042_controller init initializes the i8042 controller, and,
++ * i8042_controller_init initializes the i8042 controller, and,
+  * most importantly, sets it into non-xlated mode if that's
+  * desired.
+  */
+-- 
+2.31.1
 
