@@ -2,1146 +2,175 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7DF93A50A7
-	for <lists+linux-input@lfdr.de>; Sat, 12 Jun 2021 22:55:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0913A3A5620
+	for <lists+linux-input@lfdr.de>; Sun, 13 Jun 2021 05:25:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231580AbhFLU4x (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 12 Jun 2021 16:56:53 -0400
-Received: from mail-40133.protonmail.ch ([185.70.40.133]:60377 "EHLO
-        mail-40133.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231537AbhFLU4u (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Sat, 12 Jun 2021 16:56:50 -0400
-Date:   Sat, 12 Jun 2021 20:54:40 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
-        s=protonmail; t=1623531285;
-        bh=sdYTke0pnWQMy4t9fFYQfeuipPdHvpWVkj7POwQHrHk=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=nfYuvM88TInzdELPelr4nwI7nQLebgNUYL9y3DQr55XW1FnEcwh/hYDYBLA7z/3Zw
-         lYBQlavXGoRprYnCPTIXYlH8VUDVgm0/XPlIwtfS+GSivGQ+8B9E6ReMCVmjwDfe50
-         /ehVcmky6tgtfdi7iw359ATyz6LBIys1flF0DUPo=
-To:     caleb@connolly.tech, Dmitry Torokhov <dmitry.torokhov@gmail.com>
-From:   Caleb Connolly <caleb@connolly.tech>
-Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-input@vger.kernel.org
-Reply-To: Caleb Connolly <caleb@connolly.tech>
-Subject: [PATCH 2/4] input: add Qualcomm QPNP haptics driver
-Message-ID: <20210612205405.1233588-3-caleb@connolly.tech>
-In-Reply-To: <20210612205405.1233588-1-caleb@connolly.tech>
-References: <20210612205405.1233588-1-caleb@connolly.tech>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+        id S230492AbhFMD1k (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 12 Jun 2021 23:27:40 -0400
+Received: from mga17.intel.com ([192.55.52.151]:53882 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230281AbhFMD1k (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Sat, 12 Jun 2021 23:27:40 -0400
+IronPort-SDR: IWpK5c/D7V81XjanoirRbTwN1jH348F7pZiCgCJkG6gBtx9mmuTDS80P43Hxuc8/7FrRqihBSO
+ 72BQ+5Gcmfng==
+X-IronPort-AV: E=McAfee;i="6200,9189,10013"; a="186066748"
+X-IronPort-AV: E=Sophos;i="5.83,270,1616482800"; 
+   d="scan'208";a="186066748"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2021 20:25:36 -0700
+IronPort-SDR: HUGo9qOeNR94Lt0nN5DrKSLfpa9hk/uhsL97rD2lb/Lj7s2MKZIZokuPvKUYhnqSCSqB0v7mBo
+ l5o/Zz4s4oew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,270,1616482800"; 
+   d="scan'208";a="449521634"
+Received: from host.sh.intel.com ([10.239.154.115])
+  by orsmga008.jf.intel.com with ESMTP; 12 Jun 2021 20:25:34 -0700
+From:   Ye Xiang <xiang.ye@intel.com>
+To:     jikos@kernel.org, jic23@kernel.org,
+        srinivas.pandruvada@linux.intel.com
+Cc:     linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Ye Xiang <xiang.ye@intel.com>
+Subject: [PATCH] HID: intel-ish-hid: use async resume function
+Date:   Sun, 13 Jun 2021 11:25:07 +0800
+Message-Id: <20210613032507.7474-1-xiang.ye@intel.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add support for the haptics found in pmi8998 and related PMICs.
-Based on the ff-memless interface. Currently this driver provides
-a partial implementation of hardware features.
+ISH IPC driver uses asynchronous workqueue to do resume now, but there is
+a potential timing issue: when child devices resume before bus driver, it
+will cause child devices resume failed and cannot be recovered until
+reboot. The current implementation in this case do wait for IPC to resume
+but fail to accommodate for a case when there is no ISH reboot and soft
+resume is taking time. This issue is apparent on Tiger Lake platform with
+5.11.13 kernel when doing suspend to idle then resume(s0ix) test. To
+resolve this issue, we change ISHTP HID client to use asynchronous resume
+callback too. In the asynchronous resume callback, it waits for the ISHTP
+resume done event, and then notify ISHTP HID client link ready.
 
-This driver only supports LRAs (Linear Resonant Actuators) in the "buffer"
-mode with a single wave pattern.
-
-Signed-off-by: Caleb Connolly <caleb@connolly.tech>
+Signed-off-by: Ye Xiang <xiang.ye@intel.com>
 ---
- drivers/input/misc/Kconfig        |   11 +
- drivers/input/misc/Makefile       |    1 +
- drivers/input/misc/qpnp-haptics.c | 1022 +++++++++++++++++++++++++++++
- 3 files changed, 1034 insertions(+)
- create mode 100644 drivers/input/misc/qpnp-haptics.c
+ drivers/hid/intel-ish-hid/ishtp-hid-client.c | 15 +++++++++-
+ drivers/hid/intel-ish-hid/ishtp-hid.h        |  1 +
+ drivers/hid/intel-ish-hid/ishtp/bus.c        | 29 +++++++++++++++-----
+ include/linux/intel-ish-client-if.h          |  2 ++
+ 4 files changed, 39 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
-index 498cde376981..b5ba03e6cf58 100644
---- a/drivers/input/misc/Kconfig
-+++ b/drivers/input/misc/Kconfig
-@@ -186,6 +186,17 @@ config INPUT_PMIC8XXX_PWRKEY
- =09  To compile this driver as a module, choose M here: the
- =09  module will be called pmic8xxx-pwrkey.
+diff --git a/drivers/hid/intel-ish-hid/ishtp-hid-client.c b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
+index 7167412d89d9..9d53e85fdef3 100644
+--- a/drivers/hid/intel-ish-hid/ishtp-hid-client.c
++++ b/drivers/hid/intel-ish-hid/ishtp-hid-client.c
+@@ -779,6 +779,17 @@ static void hid_ishtp_cl_reset_handler(struct work_struct *work)
+ 	}
+ }
+ 
++static void hid_ishtp_cl_resume_handler(struct work_struct *work)
++{
++	struct ishtp_cl_data *client_data = container_of(work, struct ishtp_cl_data, resume_work);
++	struct ishtp_cl *hid_ishtp_cl = client_data->hid_ishtp_cl;
++
++	if (ishtp_wait_resume(ishtp_get_ishtp_device(hid_ishtp_cl))) {
++		client_data->suspended = false;
++		wake_up_interruptible(&client_data->ishtp_resume_wait);
++	}
++}
++
+ void (*hid_print_trace)(void *unused, const char *format, ...);
+ 
+ /**
+@@ -817,6 +828,8 @@ static int hid_ishtp_cl_probe(struct ishtp_cl_device *cl_device)
+ 	init_waitqueue_head(&client_data->ishtp_resume_wait);
+ 
+ 	INIT_WORK(&client_data->work, hid_ishtp_cl_reset_handler);
++	INIT_WORK(&client_data->resume_work, hid_ishtp_cl_resume_handler);
++
+ 
+ 	hid_print_trace = ishtp_trace_callback(cl_device);
+ 
+@@ -918,7 +931,7 @@ static int hid_ishtp_cl_resume(struct device *device)
+ 
+ 	hid_ishtp_trace(client_data, "%s hid_ishtp_cl %p\n", __func__,
+ 			hid_ishtp_cl);
+-	client_data->suspended = false;
++	schedule_work(&client_data->resume_work);
+ 	return 0;
+ }
+ 
+diff --git a/drivers/hid/intel-ish-hid/ishtp-hid.h b/drivers/hid/intel-ish-hid/ishtp-hid.h
+index 5ffd0da3cf1f..e5fa753fe92f 100644
+--- a/drivers/hid/intel-ish-hid/ishtp-hid.h
++++ b/drivers/hid/intel-ish-hid/ishtp-hid.h
+@@ -140,6 +140,7 @@ struct ishtp_cl_data {
+ 	int multi_packet_cnt;
+ 
+ 	struct work_struct work;
++	struct work_struct resume_work;
+ 	struct ishtp_cl_device *cl_device;
+ };
+ 
+diff --git a/drivers/hid/intel-ish-hid/ishtp/bus.c b/drivers/hid/intel-ish-hid/ishtp/bus.c
+index 0d6465f0eaa8..ead6c8f32759 100644
+--- a/drivers/hid/intel-ish-hid/ishtp/bus.c
++++ b/drivers/hid/intel-ish-hid/ishtp/bus.c
+@@ -329,13 +329,6 @@ static int ishtp_cl_device_resume(struct device *dev)
+ 	if (!device)
+ 		return 0;
+ 
+-	/*
+-	 * When ISH needs hard reset, it is done asynchrnously, hence bus
+-	 * resume will  be called before full ISH resume
+-	 */
+-	if (device->ishtp_dev->resume_flag)
+-		return 0;
+-
+ 	driver = to_ishtp_cl_driver(dev->driver);
+ 	if (driver && driver->driver.pm) {
+ 		if (driver->driver.pm->resume)
+@@ -863,6 +856,28 @@ struct device *ishtp_device(struct ishtp_cl_device *device)
+ }
+ EXPORT_SYMBOL(ishtp_device);
+ 
++/**
++ * ishtp_wait_resume() - Wait for IPC resume
++ *
++ * Wait for IPC resume
++ *
++ * Return: resume complete or not
++ */
++bool ishtp_wait_resume(struct ishtp_device *dev)
++{
++	/* 50ms to get resume response */
++	#define WAIT_FOR_RESUME_ACK_MS		50
++
++	/* Waiting to get resume response */
++	if (dev->resume_flag)
++		wait_event_interruptible_timeout(dev->resume_wait,
++						 !dev->resume_flag,
++						 msecs_to_jiffies(WAIT_FOR_RESUME_ACK_MS));
++
++	return (!dev->resume_flag);
++}
++EXPORT_SYMBOL_GPL(ishtp_wait_resume);
++
+ /**
+  * ishtp_get_pci_device() - Return PCI device dev pointer
+  * This interface is used to return PCI device pointer
+diff --git a/include/linux/intel-ish-client-if.h b/include/linux/intel-ish-client-if.h
+index 1153e0030133..ec3a6ccbece4 100644
+--- a/include/linux/intel-ish-client-if.h
++++ b/include/linux/intel-ish-client-if.h
+@@ -76,6 +76,8 @@ int ishtp_register_event_cb(struct ishtp_cl_device *device,
+ 
+ /* Get the device * from ishtp device instance */
+ struct device *ishtp_device(struct ishtp_cl_device *cl_device);
++/* wait for IPC resume */
++bool ishtp_wait_resume(struct ishtp_device *dev);
+ /* Trace interface for clients */
+ void *ishtp_trace_callback(struct ishtp_cl_device *cl_device);
+ /* Get device pointer of PCI device for DMA acces */
 
-+config INPUT_QPNP_HAPTICS
-+=09tristate "Qualcomm QPNP HAPTICS"
-+=09depends on ARCH_QCOM
-+=09select INPUT_FF_MEMLESS
-+=09help
-+=09  This option enables support for the haptics found in pmi8998 and
-+=09  related PMICs. Based on the ff-memless interface.
-+
-+=09  To compile this driver as module, choose M here: the
-+=09  module will be called qpnp-haptics.
-+
- config INPUT_SPARCSPKR
- =09tristate "SPARC Speaker support"
- =09depends on PCI && SPARC64
-diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
-index f593beed7e05..c43290163db0 100644
---- a/drivers/input/misc/Makefile
-+++ b/drivers/input/misc/Makefile
-@@ -65,6 +65,7 @@ obj-$(CONFIG_INPUT_PMIC8XXX_PWRKEY)=09+=3D pmic8xxx-pwrke=
-y.o
- obj-$(CONFIG_INPUT_POWERMATE)=09=09+=3D powermate.o
- obj-$(CONFIG_INPUT_PWM_BEEPER)=09=09+=3D pwm-beeper.o
- obj-$(CONFIG_INPUT_PWM_VIBRA)=09=09+=3D pwm-vibra.o
-+obj-$(CONFIG_INPUT_QPNP_HAPTICS)=09+=3D qpnp-haptics.o
- obj-$(CONFIG_INPUT_RAVE_SP_PWRBUTTON)=09+=3D rave-sp-pwrbutton.o
- obj-$(CONFIG_INPUT_RB532_BUTTON)=09+=3D rb532_button.o
- obj-$(CONFIG_INPUT_REGULATOR_HAPTIC)=09+=3D regulator-haptic.o
-diff --git a/drivers/input/misc/qpnp-haptics.c b/drivers/input/misc/qpnp-ha=
-ptics.c
-new file mode 100644
-index 000000000000..daa7a18ffc7d
---- /dev/null
-+++ b/drivers/input/misc/qpnp-haptics.c
-@@ -0,0 +1,1022 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2021, Caleb Connolly <caleb@connolly.tech>
-+ * Qualcomm Plug and Play haptics driver for pmi8998 and related PMICs.
-+ * Based on ./pm8xxx-vibrator.c
-+ */
-+
-+#include <dt-bindings/input/qcom,qpnp-haptics.h>
-+
-+#include <linux/atomic.h>
-+#include <linux/bits.h>
-+#include <linux/errno.h>
-+#include <linux/input.h>
-+#include <linux/interrupt.h>
-+#include <linux/kernel.h>
-+#include <linux/log2.h>
-+#include <linux/minmax.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_device.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+#include <linux/slab.h>
-+#include <linux/time.h>
-+#include <linux/types.h>
-+
-+/*
-+ * Register and bit definitions
-+ */
-+
-+#define HAP_STATUS_1_REG(chip)=09=09(chip->base + 0x0A)
-+#define HAP_BUSY_BIT=09=09=09BIT(1)
-+#define SC_FLAG_BIT=09=09=09BIT(3)
-+#define AUTO_RES_ERROR_BIT=09=09BIT(4)
-+
-+#define HAP_LRA_AUTO_RES_LO_REG(chip)=09(chip->base + 0x0B)
-+#define HAP_LRA_AUTO_RES_HI_REG(chip)=09(chip->base + 0x0C)
-+
-+#define HAP_EN_CTL_REG(chip)=09=09(chip->base + 0x46)
-+#define HAP_EN_BIT=09=09=09BIT(7)
-+
-+#define HAP_EN_CTL2_REG(chip)=09=09(chip->base + 0x48)
-+#define BRAKE_EN_BIT=09=09=09BIT(0)
-+
-+#define HAP_AUTO_RES_CTRL_REG(chip)=09(chip->base + 0x4B)
-+#define AUTO_RES_EN_BIT=09=09=09BIT(7)
-+#define AUTO_RES_ERR_RECOVERY_BIT=09BIT(3)
-+#define AUTO_RES_EN_FLAG_BIT=09BIT(0)
-+
-+#define HAP_CFG1_REG(chip)=09=09(chip->base + 0x4C)
-+#define HAP_ACT_TYPE_MASK=09=09BIT(0)
-+
-+#define HAP_CFG2_REG(chip)=09=09(chip->base + 0x4D)
-+#define HAP_LRA_RES_TYPE_MASK=09=09BIT(0)
-+
-+#define HAP_SEL_REG(chip)=09=09(chip->base + 0x4E)
-+#define HAP_WF_SOURCE_MASK=09=09GENMASK(5, 4)
-+#define HAP_WF_SOURCE_SHIFT=09=094
-+
-+#define HAP_LRA_AUTO_RES_REG(chip)=09(chip->base + 0x4F)
-+#define LRA_AUTO_RES_MODE_MASK=09=09GENMASK(6, 4)
-+#define LRA_AUTO_RES_MODE_SHIFT=09=094
-+#define LRA_HIGH_Z_MASK=09=09=09GENMASK(3, 2)
-+#define LRA_HIGH_Z_SHIFT=09=092
-+#define LRA_RES_CAL_MASK=09=09GENMASK(1, 0)
-+#define HAP_RES_CAL_PERIOD_MIN=09=094
-+#define HAP_RES_CAL_PERIOD_MAX=09=0932
-+
-+#define HAP_VMAX_CFG_REG(chip)=09=09(chip->base + 0x51)
-+#define HAP_VMAX_OVD_BIT=09=09BIT(6)
-+#define HAP_VMAX_MASK=09=09=09GENMASK(5, 1)
-+#define HAP_VMAX_SHIFT=09=09=091
-+
-+#define HAP_ILIM_CFG_REG(chip)=09=09(chip->base + 0x52)
-+#define HAP_ILIM_SEL_MASK=09=09BIT(0)
-+#define HAP_ILIM_400_MA=09=09=090
-+#define HAP_ILIM_800_MA=09=09=091
-+
-+#define HAP_SC_DEB_REG(chip)=09=09(chip->base + 0x53)
-+#define HAP_SC_DEB_MASK=09=09=09GENMASK(2, 0)
-+#define HAP_SC_DEB_CYCLES_MIN=09=090
-+#define HAP_DEF_SC_DEB_CYCLES=09=098
-+#define HAP_SC_DEB_CYCLES_MAX=09=0932
-+
-+#define HAP_RATE_CFG1_REG(chip)=09=09(chip->base + 0x54)
-+#define HAP_RATE_CFG1_MASK=09=09GENMASK(7, 0)
-+#define HAP_RATE_CFG2_SHIFT=09=098 // As CFG2 is the most significant byte
-+
-+#define HAP_RATE_CFG2_REG(chip)=09=09(chip->base + 0x55)
-+#define HAP_RATE_CFG2_MASK=09=09GENMASK(3, 0)
-+
-+#define HAP_SC_CLR_REG(chip)=09=09(chip->base + 0x59)
-+#define SC_CLR_BIT=09=09=09BIT(0)
-+
-+#define HAP_BRAKE_REG(chip)=09=09(chip->base + 0x5C)
-+#define HAP_BRAKE_PAT_MASK=09=090x3
-+
-+#define HAP_WF_REPEAT_REG(chip)=09=09(chip->base + 0x5E)
-+#define WF_REPEAT_MASK=09=09=09GENMASK(6, 4)
-+#define WF_REPEAT_SHIFT=09=09=094
-+#define WF_REPEAT_MIN=09=09=091
-+#define WF_REPEAT_MAX=09=09=09128
-+#define WF_S_REPEAT_MASK=09=09GENMASK(1, 0)
-+#define WF_S_REPEAT_MIN=09=09=091
-+#define WF_S_REPEAT_MAX=09=09=098
-+
-+#define HAP_WF_S1_REG(chip)=09=09(chip->base + 0x60)
-+#define HAP_WF_SIGN_BIT=09=09=09BIT(7)
-+#define HAP_WF_OVD_BIT=09=09=09BIT(6)
-+#define HAP_WF_SAMP_MAX=09=09=09GENMASK(5, 1)
-+#define HAP_WF_SAMPLE_LEN=09=098
-+
-+#define HAP_PLAY_REG(chip)=09=09(chip->base + 0x70)
-+#define HAP_PLAY_BIT=09=09=09BIT(7)
-+#define HAP_PAUSE_BIT=09=09=09BIT(0)
-+
-+#define HAP_SEC_ACCESS_REG(chip)=09(chip->base + 0xD0)
-+#define HAP_SEC_ACCESS_UNLOCK=09=090xA5
-+
-+#define HAP_TEST2_REG(chip)=09=09(chip->base + 0xE3)
-+
-+// Values
-+#define HAP_VMAX_MIN_MV=09=09=09116
-+#define HAP_VMAX_MAX_MV=09=09=093596
-+#define HAP_VMAX_MAX_MV_STRONG=09=093596
-+
-+#define HAP_WAVE_PLAY_RATE_MIN_US=090
-+#define HAP_WAVE_PLAY_RATE_MAX_US=0920475
-+#define HAP_WAVE_PLAY_TIME_MAX_MS=0915000
-+
-+#define AUTO_RES_ERR_POLL_TIME_NS=09(20 * NSEC_PER_MSEC)
-+#define HAPTICS_BACK_EMF_DELAY_US=0920000
-+
-+#define HAP_BRAKE_PAT_LEN=09=094
-+#define HAP_WAVE_SAMP_LEN=09=098
-+#define NUM_WF_SET=09=09=094
-+#define HAP_WAVE_SAMP_SET_LEN=09=09(HAP_WAVE_SAMP_LEN * NUM_WF_SET)
-+#define HAP_RATE_CFG_STEP_US=09=095
-+
-+#define SC_MAX_COUNT=09=09=095
-+#define SC_COUNT_RST_DELAY_US=09=091000000
-+
-+enum hap_play_control {
-+=09HAP_STOP,
-+=09HAP_PAUSE,
-+=09HAP_PLAY,
-+};
-+
-+/**
-+ * struct qpnp_haptics - struct for qpnp haptics data.
-+ *
-+ * @pdev: The platform device responsible for the haptics.
-+ * @regmap: Register map for the hardware block.
-+ * @input_dev: The input device used to receive events.
-+ * @work: Work struct to play effects.
-+ * @base: Base address of the regmap.
-+ * @active: Atomic value used to track if haptics are currently playing.
-+ * @play_irq: Fired to load the next wave pattern.
-+ * @sc_irq: Short circuit irq.
-+ * @last_sc_time: Time since the short circuit IRQ last fired.
-+ * @sc_count: Number of times the short circuit IRQ has fired in this inte=
-rval.
-+ * @actuator_type: The type of actuator in use.
-+ * @wave_shape: The shape of the waves to use (sine or square).
-+ * @play_mode: The play mode to use (direct, buffer, pwm, audio).
-+ * @magnitude: The strength we should be playing at.
-+ * @vmax: Max voltage to use when playing.
-+ * @current_limit: The current limit for this hardware (400mA or 800mA).
-+ * @play_wave_rate: The wave rate to use for this hardware.
-+ * @wave_samp: The array of wave samples to write for buffer mode.
-+ * @brake_pat: The pattern to apply when braking.
-+ * @play_lock: Lock to be held when updating the hardware state.
-+ */
-+struct qpnp_haptics {
-+=09struct platform_device *pdev;
-+=09struct regmap *regmap;
-+=09struct input_dev *haptics_input_dev;
-+=09struct work_struct work;
-+=09u32 base;
-+
-+=09atomic_t active;
-+
-+=09int play_irq;
-+=09int sc_irq;
-+=09ktime_t last_sc_time;
-+=09u8 sc_count;
-+
-+=09u8 actuator_type;
-+=09u8 wave_shape;
-+=09u8 play_mode;
-+=09int magnitude;
-+=09u32 vmax;
-+=09u32 current_limit;
-+=09u32 play_wave_rate;
-+
-+=09u32 wave_samp[HAP_WAVE_SAMP_SET_LEN];
-+=09u8 brake_pat[HAP_BRAKE_PAT_LEN];
-+
-+=09struct mutex play_lock;
-+};
-+
-+static inline bool is_secure_addr(u16 addr)
-+{
-+=09return (addr & 0xFF) > 0xD0;
-+}
-+
-+static int qpnp_haptics_read(struct qpnp_haptics *haptics,
-+=09u16 addr, u8 *val, int len)
-+{
-+=09int ret;
-+
-+=09ret =3D regmap_bulk_read(haptics->regmap, addr, val, len);
-+=09if (ret < 0)
-+=09=09pr_err("Error reading address: 0x%x, ret %d\n", addr, ret);
-+
-+=09return ret;
-+}
-+
-+static int qpnp_haptics_write(struct qpnp_haptics *haptics,
-+=09u16 addr, u8 *val, int len)
-+{
-+=09int ret, i;
-+
-+=09if (is_secure_addr(addr)) {
-+=09=09for (i =3D 0; i < len; i++) {
-+=09=09=09pr_info("%s: unlocking for addr: 0x%x, val: 0x%x", __func__,
-+=09=09=09=09addr, val[i]);
-+=09=09=09ret =3D regmap_write(haptics->regmap,
-+=09=09=09=09HAP_SEC_ACCESS_REG(haptics), HAP_SEC_ACCESS_UNLOCK);
-+=09=09=09if (ret < 0) {
-+=09=09=09=09pr_err("Error writing unlock code, ret %d\n",
-+=09=09=09=09=09ret);
-+=09=09=09=09return ret;
-+=09=09=09}
-+
-+=09=09=09ret =3D regmap_write(haptics->regmap, addr + i, val[i]);
-+=09=09=09if (ret < 0) {
-+=09=09=09=09pr_err("Error writing address 0x%x, ret %d\n",
-+=09=09=09=09=09addr + i, ret);
-+=09=09=09=09return ret;
-+=09=09=09}
-+=09=09}
-+=09} else {
-+=09=09if (len > 1)
-+=09=09=09ret =3D regmap_bulk_write(haptics->regmap, addr, val, len);
-+=09=09else
-+=09=09=09ret =3D regmap_write(haptics->regmap, addr, *val);
-+=09}
-+
-+=09if (ret < 0)
-+=09=09pr_err("%s: Error writing address: 0x%x, ret %d\n", __func__, addr, =
-ret);
-+
-+=09return ret;
-+}
-+
-+static int qpnp_haptics_write_masked(struct qpnp_haptics *haptics,
-+=09u16 addr, u8 mask, u8 val)
-+{
-+=09int ret;
-+
-+=09if (is_secure_addr(addr)) {
-+=09=09ret =3D regmap_write(haptics->regmap,
-+=09=09=09HAP_SEC_ACCESS_REG(haptics), HAP_SEC_ACCESS_UNLOCK);
-+=09=09if (ret < 0) {
-+=09=09=09pr_err("Error writing unlock code - ret %d\n", ret);
-+=09=09=09return ret;
-+=09=09}
-+=09}
-+
-+=09ret =3D regmap_update_bits(haptics->regmap, addr, mask, val);
-+=09if (ret < 0)
-+=09=09pr_err("Error writing address: 0x%x - ret %d\n", addr, ret);
-+
-+=09return ret;
-+}
-+
-+static bool is_haptics_idle(struct qpnp_haptics *haptics)
-+{
-+=09int ret;
-+=09u8 val;
-+
-+=09if (haptics->play_mode =3D=3D HAP_PLAY_DIRECT ||
-+=09=09=09haptics->play_mode =3D=3D HAP_PLAY_PWM)
-+=09=09return true;
-+
-+=09ret =3D qpnp_haptics_read(haptics, HAP_STATUS_1_REG(haptics), &val, 1);
-+=09if (ret < 0 || (val & HAP_BUSY_BIT))
-+=09=09return false;
-+
-+=09return true;
-+}
-+
-+static int qpnp_haptics_module_enable(struct qpnp_haptics *haptics, bool e=
-nable)
-+{
-+=09u8 val;
-+=09int rc;
-+
-+=09dev_dbg(&haptics->pdev->dev, "Setting module enable: %d", enable);
-+
-+=09val =3D enable ? HAP_EN_BIT : 0;
-+=09rc =3D qpnp_haptics_write(haptics, HAP_EN_CTL_REG(haptics), &val, 1);
-+=09if (rc < 0)
-+=09=09return rc;
-+
-+=09return 0;
-+}
-+
-+static int qpnp_haptics_write_vmax(struct qpnp_haptics *haptics)
-+{
-+=09u8 val =3D 0;
-+=09int ret;
-+=09u32 vmax_mv =3D haptics->vmax;
-+
-+=09vmax_mv =3D clamp_t(u32, vmax_mv, HAP_VMAX_MIN_MV, HAP_VMAX_MAX_MV);
-+
-+=09dev_dbg(&haptics->pdev->dev, "Setting vmax to: %d", vmax_mv);
-+
-+=09val =3D DIV_ROUND_CLOSEST(vmax_mv, HAP_VMAX_MIN_MV);
-+=09val <<=3D HAP_VMAX_SHIFT;
-+=09// overdrive is only supported on pm660
-+=09val &=3D ~HAP_VMAX_OVD_BIT;
-+
-+=09ret =3D qpnp_haptics_write_masked(haptics, HAP_VMAX_CFG_REG(haptics),
-+=09=09=09HAP_VMAX_MASK | HAP_VMAX_OVD_BIT, val);
-+=09return ret;
-+}
-+
-+static int qpnp_haptics_write_current_limit(struct qpnp_haptics *haptics)
-+{
-+=09int ret;
-+
-+=09haptics->current_limit =3D clamp_t(u32, haptics->current_limit,
-+=09=09=09=09=09 HAP_ILIM_400_MA, HAP_ILIM_800_MA);
-+
-+=09dev_dbg(&haptics->pdev->dev, "Setting current_limit to: 0x%x", haptics-=
->current_limit);
-+
-+=09ret =3D qpnp_haptics_write_masked(haptics, HAP_ILIM_CFG_REG(haptics),
-+=09=09=09HAP_ILIM_SEL_MASK, haptics->current_limit);
-+=09return ret;
-+}
-+
-+static int qpnp_haptics_write_play_mode(struct qpnp_haptics *haptics)
-+{
-+=09u8 val =3D 0;
-+=09int ret;
-+
-+=09if (!is_haptics_idle(haptics))
-+=09=09return -EBUSY;
-+
-+=09dev_dbg(&haptics->pdev->dev, "Setting play_mode to: 0x%x", haptics->pla=
-y_mode);
-+
-+=09val =3D haptics->play_mode << HAP_WF_SOURCE_SHIFT;
-+=09ret =3D qpnp_haptics_write_masked(haptics, HAP_SEL_REG(haptics),
-+=09=09=09HAP_WF_SOURCE_MASK, val);
-+
-+=09return ret;
-+}
-+
-+static int qpnp_haptics_write_play_rate(struct qpnp_haptics *haptics, u16 =
-play_rate)
-+{
-+=09int rc;
-+=09u8 val[2];
-+
-+=09dev_dbg(&haptics->pdev->dev, "Setting play_rate to: %d", play_rate);
-+
-+=09val[0] =3D play_rate & HAP_RATE_CFG1_MASK;
-+=09val[1] =3D (play_rate >> HAP_RATE_CFG2_SHIFT) & HAP_RATE_CFG2_MASK;
-+=09rc =3D qpnp_haptics_write(haptics, HAP_RATE_CFG1_REG(haptics), val, 2);
-+=09if (rc < 0)
-+=09=09return rc;
-+
-+=09return 0;
-+}
-+
-+/*
-+ * qpnp_haptics_set_auto_res() - Auto resonance
-+ * allows the haptics to automatically adjust the
-+ * speed of the oscillation in order to maintain
-+ * the resonant frequency.
-+ */
-+static int qpnp_haptics_set_auto_res(struct qpnp_haptics *haptics, bool en=
-able)
-+{
-+=09int rc =3D 0;
-+=09u8 val;
-+
-+=09// LRAs are the only type to support auto res
-+=09if (haptics->actuator_type !=3D HAP_TYPE_LRA)
-+=09=09return 0;
-+
-+=09val =3D enable ? AUTO_RES_EN_BIT : 0;
-+
-+=09rc =3D qpnp_haptics_write_masked(haptics, HAP_TEST2_REG(haptics),
-+=09=09=09AUTO_RES_EN_BIT, val);
-+=09if (rc < 0)
-+=09=09return rc;
-+
-+=09dev_dbg(&haptics->pdev->dev, "Auto resonance enabled: %d", enable);
-+=09return rc;
-+}
-+
-+static int qpnp_haptics_write_brake(struct qpnp_haptics *haptics)
-+{
-+=09int ret, i;
-+=09u32 temp;
-+=09u8 val;
-+
-+=09dev_dbg(&haptics->pdev->dev, "Configuring brake pattern");
-+
-+=09ret =3D qpnp_haptics_write_masked(haptics, HAP_EN_CTL2_REG(haptics),
-+=09=09=09BRAKE_EN_BIT, 1);
-+=09if (ret < 0)
-+=09=09return ret;
-+
-+=09for (i =3D HAP_BRAKE_PAT_LEN - 1, val =3D 0; i >=3D 0; i--) {
-+=09=09u8 p =3D haptics->brake_pat[i] & HAP_BRAKE_PAT_MASK;
-+
-+=09=09temp =3D i << 1;
-+=09=09val |=3D p << temp;
-+=09}
-+
-+=09ret =3D qpnp_haptics_write(haptics, HAP_BRAKE_REG(haptics), &val, 1);
-+=09if (ret < 0)
-+=09=09return ret;
-+
-+=09return 0;
-+}
-+
-+static int qpnp_haptics_write_buffer_config(struct qpnp_haptics *haptics)
-+{
-+=09u8 buf[HAP_WAVE_SAMP_LEN];
-+=09int rc, i;
-+
-+=09dev_dbg(&haptics->pdev->dev, "Writing buffer config");
-+
-+=09for (i =3D 0; i < HAP_WAVE_SAMP_LEN; i++)
-+=09=09buf[i] =3D haptics->wave_samp[i];
-+
-+=09rc =3D qpnp_haptics_write(haptics, HAP_WF_S1_REG(haptics), buf,
-+=09=09=09HAP_WAVE_SAMP_LEN);
-+
-+=09return rc;
-+}
-+
-+/**
-+ * qpnp_haptics_write_wave_repeat() - write wave repeat values.
-+ */
-+static int qpnp_haptics_write_wave_repeat(struct qpnp_haptics *haptics)
-+{
-+=09int ret;
-+=09u8 val =3D 0, mask =3D 0;
-+
-+=09// The number of times to repeat each wave
-+=09mask =3D WF_REPEAT_MASK;
-+=09val =3D ilog2(1) << WF_REPEAT_SHIFT; // Currently hard coded to default=
- of 1
-+
-+=09// the number of times to repeat each wave sample (group of waves)
-+=09mask |=3D WF_S_REPEAT_MASK;
-+=09val |=3D ilog2(1);
-+
-+=09ret =3D qpnp_haptics_write_masked(haptics, HAP_WF_REPEAT_REG(haptics),
-+=09=09=09mask, val);
-+=09return ret;
-+}
-+
-+static int qpnp_haptics_write_play_control(struct qpnp_haptics *haptics,
-+=09=09=09=09=09=09enum hap_play_control ctrl)
-+{
-+=09u8 val;
-+=09int rc;
-+
-+=09switch (ctrl) {
-+=09case HAP_STOP:
-+=09=09val =3D 0;
-+=09=09break;
-+=09case HAP_PAUSE:
-+=09=09val =3D HAP_PAUSE_BIT;
-+=09=09break;
-+=09case HAP_PLAY:
-+=09=09val =3D HAP_PLAY_BIT;
-+=09=09break;
-+=09default:
-+=09=09return 0;
-+=09}
-+
-+=09rc =3D qpnp_haptics_write(haptics, HAP_PLAY_REG(haptics), &val, 1);
-+=09if (rc < 0) {
-+=09=09pr_err("Error writing to PLAY_REG, rc=3D%d\n", rc);
-+=09=09return rc;
-+=09}
-+
-+=09dev_dbg(&haptics->pdev->dev, "haptics play ctrl: %d\n", ctrl);
-+=09return rc;
-+}
-+
-+/*
-+ * This IRQ is fired to tell us to load the next wave sample set.
-+ * As we only currently support a single sample set, it's unused.
-+ */
-+static irqreturn_t qpnp_haptics_play_irq_handler(int irq, void *data)
-+{
-+=09struct qpnp_haptics *haptics =3D data;
-+
-+=09dev_dbg(&haptics->pdev->dev, "play_irq triggered");
-+
-+=09return IRQ_HANDLED;
-+}
-+
-+/*
-+ * Fires every ~50ms whilst the haptics are active.
-+ * If the SC_FLAG_BIT is set then that means there isn't a short circuit
-+ * and we just need to clear the IRQ to indicate that the device should
-+ * keep vibrating.
-+ *
-+ * Otherwise, it means a short circuit situation has occurred.
-+ */
-+static irqreturn_t qpnp_haptics_sc_irq_handler(int irq, void *data)
-+{
-+=09struct qpnp_haptics *haptics =3D data;
-+=09int ret;
-+=09u8 val;
-+=09s64 sc_delta_time_us;
-+=09ktime_t temp;
-+
-+=09ret =3D qpnp_haptics_read(haptics, HAP_STATUS_1_REG(haptics), &val, 1);
-+=09if (ret < 0)
-+=09=09return IRQ_HANDLED;
-+
-+=09if (!(val & SC_FLAG_BIT)) {
-+=09=09haptics->sc_count =3D 0;
-+=09=09return IRQ_HANDLED;
-+=09}
-+
-+=09temp =3D ktime_get();
-+=09sc_delta_time_us =3D ktime_us_delta(temp, haptics->last_sc_time);
-+=09haptics->last_sc_time =3D temp;
-+
-+=09if (sc_delta_time_us > SC_COUNT_RST_DELAY_US)
-+=09=09haptics->sc_count =3D 0;
-+=09else
-+=09=09haptics->sc_count++;
-+
-+=09// Clear the interrupt flag
-+=09val =3D SC_CLR_BIT;
-+=09ret =3D qpnp_haptics_write(haptics, HAP_SC_CLR_REG(haptics), &val, 1);
-+=09if (ret < 0) {
-+=09=09pr_err("Error writing to SC_CLR_REG, rc=3D%d\n", ret);
-+=09=09return IRQ_HANDLED;
-+=09}
-+
-+=09if (haptics->sc_count > SC_MAX_COUNT) {
-+=09=09pr_crit("Short circuit persists, disabling haptics\n");
-+=09=09ret =3D qpnp_haptics_module_enable(haptics, false);
-+=09=09if (ret < 0) {
-+=09=09=09pr_err("Error disabling module, rc=3D%d\n", ret);
-+=09=09=09return IRQ_HANDLED;
-+=09=09}
-+=09}
-+
-+=09return IRQ_HANDLED;
-+}
-+
-+
-+/**
-+ * qpnp_haptics_init() - Initialise haptics hardware for use
-+ * @haptics: haptics device
-+ */
-+static int qpnp_haptics_init(struct qpnp_haptics *haptics)
-+{
-+=09int ret;
-+=09u8 val, mask;
-+=09u16 auto_res_mode;
-+=09u16 play_rate =3D 0;
-+
-+=09ret =3D qpnp_haptics_write_masked(haptics, HAP_CFG1_REG(haptics),
-+=09=09HAP_ACT_TYPE_MASK, haptics->actuator_type);
-+=09if (ret < 0)
-+=09=09return ret;
-+
-+=09// Configure auto resonance
-+=09// see qpnp_haptics_lra_auto_res_config downstream
-+=09// This is greatly simplified.
-+=09auto_res_mode =3D HAP_AUTO_RES_ZXD_EOP << LRA_AUTO_RES_MODE_SHIFT;
-+
-+=09//Default LRA calibration period
-+=09val =3D ilog2(32 / HAP_RES_CAL_PERIOD_MIN);
-+
-+=09val |=3D (auto_res_mode << LRA_AUTO_RES_MODE_SHIFT);
-+=09// The 1 here is for OPT2 "High Z configuration", there are 3
-+=09// options and no documentation indicating the difference
-+=09val |=3D (1 << LRA_HIGH_Z_SHIFT);
-+=09mask =3D LRA_AUTO_RES_MODE_MASK | LRA_HIGH_Z_MASK | LRA_RES_CAL_MASK;
-+
-+=09ret =3D qpnp_haptics_write_masked(haptics, HAP_LRA_AUTO_RES_REG(haptics=
-),
-+=09=09=09mask, val);
-+
-+=09dev_dbg(&haptics->pdev->dev, "%s: auto_res_mode: %d\n", __func__,
-+=09=09auto_res_mode);
-+
-+=09/* Configure the PLAY MODE register */
-+=09ret =3D qpnp_haptics_write_play_mode(haptics);
-+=09if (ret < 0)
-+=09=09return ret;
-+
-+=09ret =3D qpnp_haptics_write_vmax(haptics);
-+=09if (ret < 0)
-+=09=09return ret;
-+
-+=09/* Configure the ILIM register */
-+=09ret =3D qpnp_haptics_write_current_limit(haptics);
-+=09if (ret < 0)
-+=09=09return ret;
-+
-+=09// Configure the debounce for short-circuit detection.
-+=09val =3D HAP_SC_DEB_CYCLES_MAX;
-+=09ret =3D qpnp_haptics_write_masked(haptics, HAP_SC_DEB_REG(haptics),
-+=09=09=09HAP_SC_DEB_MASK, HAP_SC_DEB_CYCLES_MAX);
-+=09if (ret < 0)
-+=09=09return ret;
-+
-+=09// write the wave shape
-+=09ret =3D qpnp_haptics_write_masked(haptics, HAP_CFG2_REG(haptics),
-+=09=09=09HAP_LRA_RES_TYPE_MASK, haptics->wave_shape);
-+=09if (ret < 0)
-+=09=09return ret;
-+
-+=09play_rate =3D haptics->play_wave_rate / HAP_RATE_CFG_STEP_US;
-+
-+=09/*
-+=09 * Configure RATE_CFG1 and RATE_CFG2 registers.
-+=09 * Note: For ERM these registers act as play rate and
-+=09 * for LRA these represent resonance period
-+=09 */
-+=09ret =3D qpnp_haptics_write_play_rate(haptics, play_rate);
-+
-+=09ret =3D qpnp_haptics_write_brake(haptics);
-+=09if (ret < 0)
-+=09=09return ret;
-+
-+=09if (haptics->play_mode =3D=3D HAP_PLAY_BUFFER) {
-+=09=09ret =3D qpnp_haptics_write_wave_repeat(haptics);
-+=09=09if (ret < 0)
-+=09=09=09return ret;
-+
-+=09=09ret =3D qpnp_haptics_write_buffer_config(haptics);
-+=09}
-+
-+=09if (haptics->play_irq >=3D 0) {
-+=09=09dev_dbg(&haptics->pdev->dev, "%s: Requesting play IRQ, irq: %d", __f=
-unc__,
-+=09=09=09haptics->play_irq);
-+=09=09ret =3D devm_request_threaded_irq(&haptics->pdev->dev, haptics->play=
-_irq,
-+=09=09=09NULL, qpnp_haptics_play_irq_handler, IRQF_ONESHOT,
-+=09=09=09"haptics_play_irq", haptics);
-+
-+=09=09if (ret < 0) {
-+=09=09=09pr_err("Unable to request play IRQ ret=3D%d\n", ret);
-+=09=09=09return ret;
-+=09=09}
-+
-+=09=09/* use play_irq only for buffer mode */
-+=09=09if (haptics->play_mode !=3D HAP_PLAY_BUFFER)
-+=09=09=09disable_irq(haptics->play_irq);
-+=09}
-+
-+=09if (haptics->sc_irq >=3D 0) {
-+=09=09dev_dbg(&haptics->pdev->dev, "%s: Requesting play IRQ, irq: %d", __f=
-unc__,
-+=09=09=09haptics->play_irq);
-+=09=09ret =3D devm_request_threaded_irq(&haptics->pdev->dev, haptics->sc_i=
-rq,
-+=09=09=09NULL, qpnp_haptics_sc_irq_handler, IRQF_ONESHOT,
-+=09=09=09"haptics_sc_irq", haptics);
-+
-+=09=09if (ret < 0) {
-+=09=09=09pr_err("Unable to request sc IRQ ret=3D%d\n", ret);
-+=09=09=09return ret;
-+=09=09}
-+=09}
-+
-+=09return ret;
-+}
-+
-+/**
-+ * qpnp_haptics_set - handler to start/stop vibration
-+ * @haptics: pointer to haptics struct
-+ * @enable: state to set
-+ */
-+static int qpnp_haptics_set(struct qpnp_haptics *haptics, bool enable)
-+{
-+=09int ret;
-+
-+=09mutex_lock(&haptics->play_lock);
-+
-+=09if (enable) {
-+=09=09if (haptics->sc_count > SC_MAX_COUNT) {
-+=09=09=09pr_err("Can't play while in short circuit");
-+=09=09=09ret =3D -1;
-+=09=09=09goto out;
-+=09=09}
-+=09=09ret =3D qpnp_haptics_set_auto_res(haptics, false);
-+=09=09if (ret < 0) {
-+=09=09=09pr_err("Error disabling auto_res, ret=3D%d\n", ret);
-+=09=09=09goto out;
-+=09=09}
-+
-+=09=09ret =3D qpnp_haptics_module_enable(haptics, true);
-+=09=09if (ret < 0) {
-+=09=09=09pr_err("Error enabling module, ret=3D%d\n", ret);
-+=09=09=09goto out;
-+=09=09}
-+
-+=09=09ret =3D qpnp_haptics_write_play_control(haptics, HAP_PLAY);
-+=09=09if (ret < 0) {
-+=09=09=09pr_err("Error enabling play, ret=3D%d\n", ret);
-+=09=09=09goto out;
-+=09=09}
-+
-+=09=09ret =3D qpnp_haptics_set_auto_res(haptics, true);
-+=09=09if (ret < 0) {
-+=09=09=09pr_err("Error enabling auto_res, ret=3D%d\n", ret);
-+=09=09=09goto out;
-+=09=09}
-+=09} else {
-+=09=09ret =3D qpnp_haptics_write_play_control(haptics, HAP_STOP);
-+=09=09if (ret < 0) {
-+=09=09=09pr_err("Error disabling play, ret=3D%d\n", ret);
-+=09=09=09goto out;
-+=09=09}
-+
-+=09=09ret =3D qpnp_haptics_module_enable(haptics, false);
-+=09=09if (ret < 0) {
-+=09=09=09pr_err("Error disabling module, ret=3D%d\n", ret);
-+=09=09=09goto out;
-+=09=09}
-+=09}
-+
-+out:
-+=09mutex_unlock(&haptics->play_lock);
-+=09return ret;
-+}
-+
-+/*
-+ * Threaded function to update the haptics state.
-+ */
-+static void qpnp_haptics_work(struct work_struct *work)
-+{
-+=09struct qpnp_haptics *haptics =3D container_of(work, struct qpnp_haptics=
-, work);
-+
-+=09int ret;
-+=09bool enable;
-+
-+=09enable =3D atomic_read(&haptics->active);
-+=09dev_dbg(&haptics->pdev->dev, "%s: state: %d\n", __func__, enable);
-+
-+=09ret =3D qpnp_haptics_set(haptics, enable);
-+=09if (ret < 0)
-+=09=09pr_err("Error setting haptics, ret=3D%d", ret);
-+}
-+
-+/**
-+ * qpnp_haptics_close - callback for input device close
-+ * @dev: input device pointer
-+ *
-+ * Turns off the vibrator.
-+ */
-+static void qpnp_haptics_close(struct input_dev *dev)
-+{
-+=09struct qpnp_haptics *haptics =3D input_get_drvdata(dev);
-+
-+=09cancel_work_sync(&haptics->work);
-+=09if (atomic_read(&haptics->active)) {
-+=09=09atomic_set(&haptics->active, 0);
-+=09=09schedule_work(&haptics->work);
-+=09}
-+}
-+
-+/**
-+ * qpnp_haptics_play_effect - play haptics effects
-+ * @dev: input device pointer
-+ * @data: data of effect
-+ * @effect: effect to play
-+ */
-+static int qpnp_haptics_play_effect(struct input_dev *dev, void *data,
-+=09=09=09=09=09struct ff_effect *effect)
-+{
-+=09struct qpnp_haptics *haptics =3D input_get_drvdata(dev);
-+
-+=09dev_dbg(&haptics->pdev->dev, "%s: Rumbling with strong: %d and weak: %d=
-", __func__,
-+=09=09effect->u.rumble.strong_magnitude, effect->u.rumble.weak_magnitude);
-+
-+=09haptics->magnitude =3D effect->u.rumble.strong_magnitude >> 8;
-+=09if (!haptics->magnitude)
-+=09=09haptics->magnitude =3D effect->u.rumble.weak_magnitude >> 10;
-+
-+=09if (!haptics->magnitude) {
-+=09=09atomic_set(&haptics->active, 0);
-+=09=09goto end;
-+=09}
-+
-+=09atomic_set(&haptics->active, 1);
-+
-+=09haptics->vmax =3D ((HAP_VMAX_MAX_MV - HAP_VMAX_MIN_MV) * haptics->magni=
-tude) / 100 +
-+=09=09=09=09=09HAP_VMAX_MIN_MV;
-+
-+=09dev_dbg(&haptics->pdev->dev, "%s: magnitude: %d, vmax: %d", __func__,
-+=09=09haptics->magnitude, haptics->vmax);
-+
-+=09qpnp_haptics_write_vmax(haptics);
-+
-+end:
-+=09schedule_work(&haptics->work);
-+
-+=09return 0;
-+}
-+
-+static int qpnp_haptics_probe(struct platform_device *pdev)
-+{
-+=09struct qpnp_haptics *haptics;
-+=09struct device_node *node;
-+=09struct input_dev *input_dev;
-+=09int ret;
-+=09u32 val;
-+=09int i;
-+
-+=09haptics =3D devm_kzalloc(&pdev->dev, sizeof(*haptics), GFP_KERNEL);
-+=09if (!haptics)
-+=09=09return -ENOMEM;
-+
-+=09haptics->regmap =3D dev_get_regmap(pdev->dev.parent, NULL);
-+=09if (!haptics->regmap)
-+=09=09return -ENODEV;
-+
-+=09node =3D pdev->dev.of_node;
-+
-+=09haptics->pdev =3D pdev;
-+
-+=09ret =3D of_property_read_u32(node, "reg", &haptics->base);
-+=09if (ret < 0) {
-+=09=09pr_err("Couldn't find reg in node =3D %s ret =3D %d\n",
-+=09=09=09node->full_name, ret);
-+=09=09return ret;
-+=09}
-+
-+=09if (haptics->base <=3D 0) {
-+=09=09pr_err("Invalid base address: 0x%x\n", haptics->base);
-+=09=09return -EINVAL;
-+=09}
-+
-+=09haptics->play_irq =3D platform_get_irq_byname(pdev, "play");
-+=09if (haptics->play_irq < 0) {
-+=09=09dev_err(&pdev->dev, "Unable to get play irq\n");
-+=09=09ret =3D haptics->play_irq;
-+=09=09goto register_fail;
-+=09}
-+
-+=09haptics->sc_irq =3D platform_get_irq_byname(pdev, "short");
-+=09if (haptics->sc_irq < 0) {
-+=09=09dev_err(&pdev->dev, "Unable to get sc irq\n");
-+=09=09ret =3D haptics->sc_irq;
-+=09=09goto register_fail;
-+=09}
-+
-+=09// We only support LRAs for now
-+=09haptics->actuator_type =3D HAP_TYPE_LRA;
-+=09ret =3D of_property_read_u32(node, "qcom,actuator-type", &val);
-+=09if (!ret) {
-+=09=09if (val !=3D HAP_TYPE_LRA) {
-+=09=09=09dev_err(&pdev->dev, "qcom,actuator-type (%d) isn't supported\n", =
-val);
-+=09=09=09ret =3D -EINVAL;
-+=09=09=09goto register_fail;
-+=09=09}
-+=09=09haptics->actuator_type =3D val;
-+=09}
-+
-+=09// Only buffer mode is currently supported
-+=09haptics->play_mode =3D HAP_PLAY_BUFFER;
-+=09ret =3D of_property_read_u32(node, "qcom,play-mode", &val);
-+=09if (!ret) {
-+=09=09if (val !=3D HAP_PLAY_BUFFER) {
-+=09=09=09dev_err(&pdev->dev, "qcom,play-mode (%d) isn't supported\n", val)=
-;
-+=09=09=09ret =3D -EINVAL;
-+=09=09=09goto register_fail;
-+=09=09}
-+=09=09haptics->play_mode =3D val;
-+=09}
-+
-+=09ret =3D of_property_read_u32(node,
-+=09=09=09"qcom,wave-play-rate-us", &val);
-+=09if (!ret) {
-+=09=09haptics->play_wave_rate =3D val;
-+=09} else if (ret !=3D -EINVAL) {
-+=09=09pr_err("Unable to read play rate ret=3D%d\n", ret);
-+=09=09goto register_fail;
-+=09}
-+
-+=09haptics->wave_shape =3D HAP_WAVE_SINE;
-+=09ret =3D of_property_read_u32(node, "qcom,wave-shape", &val);
-+=09if (!ret) {
-+=09=09if (val !=3D HAP_WAVE_SINE && val !=3D HAP_WAVE_SQUARE) {
-+=09=09=09dev_err(&pdev->dev, "qcom,wave-shape is invalid: %d\n", val);
-+=09=09=09ret =3D -EINVAL;
-+=09=09=09goto register_fail;
-+=09=09}
-+=09=09haptics->wave_shape =3D val;
-+=09}
-+
-+=09ret =3D of_property_read_u8_array(node, "qcom,brake-pattern", haptics->=
-brake_pat, 4);
-+=09// Default if not set
-+=09if (ret =3D=3D -EINVAL) {
-+=09=09haptics->brake_pat[0] =3D 0x3;
-+=09=09haptics->brake_pat[1] =3D 0x3;
-+=09=09haptics->brake_pat[2] =3D 0x2;
-+=09=09haptics->brake_pat[3] =3D 0x1;
-+=09} else if (ret) {
-+=09=09dev_err(&pdev->dev, "qcom,brake-pattern is invalid, ret =3D %d\n", r=
-et);
-+=09}
-+
-+=09haptics->current_limit =3D HAP_ILIM_400_MA;
-+
-+=09for (i =3D 0; i < HAP_WAVE_SAMP_LEN; i++)
-+=09=09haptics->wave_samp[i] =3D HAP_WF_SAMP_MAX;
-+
-+=09haptics->play_wave_rate =3D
-+=09=09clamp_t(u32, haptics->play_wave_rate,
-+=09=09HAP_WAVE_PLAY_RATE_MIN_US, HAP_WAVE_PLAY_RATE_MAX_US);
-+
-+=09ret =3D qpnp_haptics_init(haptics);
-+=09if (ret < 0) {
-+=09=09dev_err(&pdev->dev, "Error initialising haptics, ret=3D%d\n",
-+=09=09=09ret);
-+=09=09goto register_fail;
-+=09}
-+
-+=09platform_set_drvdata(pdev, haptics);
-+
-+=09input_dev =3D devm_input_allocate_device(&pdev->dev);
-+=09if (!input_dev)
-+=09=09return -ENOMEM;
-+
-+=09INIT_WORK(&haptics->work, qpnp_haptics_work);
-+=09haptics->haptics_input_dev =3D input_dev;
-+
-+=09input_dev->name =3D "qpnp_haptics";
-+=09input_dev->id.version =3D 1;
-+=09input_dev->close =3D qpnp_haptics_close;
-+=09input_set_drvdata(input_dev, haptics);
-+=09// Figure out how to make this FF_PERIODIC
-+=09input_set_capability(haptics->haptics_input_dev, EV_FF, FF_RUMBLE);
-+
-+=09ret =3D input_ff_create_memless(input_dev, NULL,
-+=09=09=09=09=09qpnp_haptics_play_effect);
-+=09if (ret) {
-+=09=09dev_err(&pdev->dev,
-+=09=09=09"couldn't register vibrator as FF device\n");
-+=09=09goto register_fail;
-+=09}
-+
-+=09ret =3D input_register_device(input_dev);
-+=09if (ret) {
-+=09=09dev_err(&pdev->dev, "couldn't register input device\n");
-+=09=09goto register_fail;
-+=09}
-+
-+=09return 0;
-+
-+register_fail:
-+=09cancel_work_sync(&haptics->work);
-+=09mutex_destroy(&haptics->play_lock);
-+
-+=09return ret;
-+}
-+
-+static int __maybe_unused qpnp_haptics_suspend(struct device *dev)
-+{
-+=09struct qpnp_haptics *haptics =3D dev_get_drvdata(dev);
-+
-+=09cancel_work_sync(&haptics->work);
-+=09qpnp_haptics_set(haptics, false);
-+
-+=09return 0;
-+}
-+
-+static SIMPLE_DEV_PM_OPS(qpnp_haptics_pm_ops, qpnp_haptics_suspend, NULL);
-+
-+static int qpnp_haptics_remove(struct platform_device *pdev)
-+{
-+=09struct qpnp_haptics *haptics =3D dev_get_drvdata(&pdev->dev);
-+
-+=09cancel_work_sync(&haptics->work);
-+=09mutex_destroy(&haptics->play_lock);
-+=09dev_set_drvdata(&pdev->dev, NULL);
-+
-+=09return 0;
-+}
-+
-+static void qpnp_haptics_shutdown(struct platform_device *pdev)
-+{
-+=09struct qpnp_haptics *haptics =3D dev_get_drvdata(&pdev->dev);
-+
-+=09cancel_work_sync(&haptics->work);
-+
-+=09qpnp_haptics_set(haptics, false);
-+}
-+
-+static const struct of_device_id qpnp_haptics_match_table[] =3D {
-+=09{ .compatible =3D "qcom,qpnp-haptics" },
-+=09{ }
-+};
-+MODULE_DEVICE_TABLE(of, qpnp_haptics_match_table);
-+
-+static struct platform_driver qpnp_haptics_driver =3D {
-+=09.probe=09=09=3D qpnp_haptics_probe,
-+=09.remove=09=09=3D qpnp_haptics_remove,
-+=09.shutdown=09=3D qpnp_haptics_shutdown,
-+=09.driver=09=09=3D {
-+=09=09.name=09=3D "qpnp-haptics",
-+=09=09.pm=09=3D &qpnp_haptics_pm_ops,
-+=09=09.of_match_table =3D qpnp_haptics_match_table,
-+=09},
-+};
-+module_platform_driver(qpnp_haptics_driver);
-+
-+MODULE_ALIAS("platform:qpnp_haptics");
-+MODULE_DESCRIPTION("QPNP haptics driver using ff-memless framework");
-+MODULE_LICENSE("GPL v2");
-+MODULE_AUTHOR("Caleb Connolly <caleb@connolly.tech>");
---
-2.31.1
-
+base-commit: f5711311bfa1abcc64c6dd1e912666a8c0b29a1a
+-- 
+2.17.1
 
