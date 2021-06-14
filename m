@@ -2,110 +2,113 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B0C763A7199
-	for <lists+linux-input@lfdr.de>; Mon, 14 Jun 2021 23:55:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A782C3A71CE
+	for <lists+linux-input@lfdr.de>; Tue, 15 Jun 2021 00:12:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231676AbhFNV5u (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Jun 2021 17:57:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41656 "EHLO
+        id S231499AbhFNWOy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Jun 2021 18:14:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231636AbhFNV51 (ORCPT
+        with ESMTP id S231226AbhFNWOx (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Jun 2021 17:57:27 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB967C061767;
-        Mon, 14 Jun 2021 14:55:23 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id 13-20020a17090a08cdb029016eed209ca4so209840pjn.1;
-        Mon, 14 Jun 2021 14:55:23 -0700 (PDT)
+        Mon, 14 Jun 2021 18:14:53 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F0CCC061574;
+        Mon, 14 Jun 2021 15:12:35 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id c12so11696338pfl.3;
+        Mon, 14 Jun 2021 15:12:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=n7uYeUnQHRN8Nl6Ldfot2gZEPq2ram/9bJnItzNoEn8=;
-        b=qFvwtZCDo7ulnyTgkW4rxRCqOTQdLDn3Xcw0Q3DUlBGwAmY42uhj5Au4cBVnjvdUCI
-         OzIHIc8f5jiTkv+AmdB6IMHGFWCNEj9UqZg8Gk5DhsUpBRe0pYumeOwk0aPom9DwumRX
-         1k+wlpZPYHLAGOjb2RZkV+lC3G9U5HddNvPqvdZXUvPytr8dNH+KwRrozOrxedVTQZkF
-         1G9or7xzKx1jnrRShrx4PLwiS/Zf03r/nk27Lh2xQSKmRgmawAOyMPFP79zdt3I5pjQR
-         qXH8w7LVzlvmNKJs4lNpF5su5/i6X2XKMqTwtWdLWqSxujSxUhV51DqhjuqJmRe78ion
-         u0eg==
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=tfaE+ckEfdYiVmVZT4kEyQZOGqZRS3O95UKV5ziD/LM=;
+        b=PTUG4iIiYxk8tOELSf72zXlEnMuz60cKGRFeGulxWkr7bWPyJ+V7s6UjKINBryR8UK
+         Ij0Mn7Vf6a8bDjCDCEd5lJMOIl8Ei0i8bGGoTv87rjeujjpUOfSjeiARMD4B+gV9fD/o
+         Teyf1fiQl3bEYb8PAmZUT8tvTocx8JxYQZlAiB5xLZFbMSyRjutBpJHPAZeZwurQmQIn
+         +M/N+/j3XLFCe0jihu5SICEtKivUmct7+7HSs6XnbMy2a++U+4orr1AFQZTGidd+SVQM
+         eQKJ9FepQrWxymxTH+BlYecFNXB1aUE1FGTT2JhPHEewlozwLiwGfpFXy5Qe/HfgfGx4
+         SkvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=n7uYeUnQHRN8Nl6Ldfot2gZEPq2ram/9bJnItzNoEn8=;
-        b=alEhdBZafsGB1evCAHN9+hcj9yPcIUHC2vO/zZCeMyLmsf9tJyXSOvHKmgxspMoPsU
-         OyOVPt8WH91eqma4VwDUL14xQGF1/Sf5ejjX33EnOVwHx1UF1KVMEQdhDnKmIorE7hL2
-         6JQCL091U03dgGeNnLgD2I1EooRoJqJMWhJmfILBMK83uPI4WyA8OGGwAMSdVytUcKYK
-         VyrrYZqpVrWrFeKf3nBii6Xx+73rAbz8eEuzj4sVBwxSPu5+pubfWOTCX7ig68/gsrY4
-         PvRVI+MPmlOgOx8SQxA/VsgqoteH9WzHkvamyOkJhqSsNvq4xXny5JSx4aQTZp8YAY+P
-         S3qA==
-X-Gm-Message-State: AOAM530lo9wwIn5MwquHsA8ELMkfJvVr/tYWHYifnkuiT4Zw0eHXOaAF
-        N+ZtUYkb0apNe9FH4oIKL68=
-X-Google-Smtp-Source: ABdhPJx2GE4PSoxUgNiWHnou2aRLJd4bY3YT/54u9rZ9X3gDoY+PSjirSFav7AY8wWB8Ozmkr5SIcg==
-X-Received: by 2002:a17:902:d386:b029:11a:6d87:a7db with SMTP id e6-20020a170902d386b029011a6d87a7dbmr1193907pld.31.1623707723196;
-        Mon, 14 Jun 2021 14:55:23 -0700 (PDT)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=tfaE+ckEfdYiVmVZT4kEyQZOGqZRS3O95UKV5ziD/LM=;
+        b=QCbvlxz6uvXKPR5SWPtBiI+wD2BwVl4dW3N2u3ZvKugZbtVHhgKt6aaScaMUE8kRsX
+         QzgIaydYi/WR08xVphVg/Au2/boNaQ7i9Tmh52/pAjJFA8FwCVlGwls9lfdiWOK0zj+w
+         JtRXJeyXqrKFw5Dj04Ijs2T4oIGgyj3Ce3qrr8VBUgB18e5vwAFf/dx3T5KVqp5ziym2
+         vAqTQG/BI7mNkMsTu0LIyS3O3iBQU+mQF0ZV2vLep07i8VqqhGqjSppeuIYJSuWAbrsk
+         6RrkdKzqveIJ42ujvX7xtJ1XWnKRbFZ6Z+dqnhJITUjnKGZ1Xgpm9og6+VpD/BdkzEHY
+         sG4w==
+X-Gm-Message-State: AOAM5302D1ItDXjxts8t12ST/ZlOHlTDSuk0yXhgfb4YnoWNgFjh2VfW
+        m68UO6LSxr5RDVWA9P/sXrQ=
+X-Google-Smtp-Source: ABdhPJz99UtJzCwMKEZFhBhS8Wj+/+Sxwia8HuoR2wtMHTOw+5BAJzGB+AJiBLgGsu6FBo3E5TYc5g==
+X-Received: by 2002:a62:e21a:0:b029:2ea:26c5:2ec3 with SMTP id a26-20020a62e21a0000b02902ea26c52ec3mr1241436pfi.8.1623708754599;
+        Mon, 14 Jun 2021 15:12:34 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:2a26:15ba:dc71:c4ba])
-        by smtp.gmail.com with ESMTPSA id t12sm13874891pfc.133.2021.06.14.14.55.21
+        by smtp.gmail.com with ESMTPSA id m7sm7872812pgr.62.2021.06.14.15.12.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jun 2021 14:55:22 -0700 (PDT)
-Date:   Mon, 14 Jun 2021 14:55:19 -0700
+        Mon, 14 Jun 2021 15:12:33 -0700 (PDT)
+Date:   Mon, 14 Jun 2021 15:12:31 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Nikita Shubin <nikita.shubin@maquefel.me>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/7] Input: ep93xx_keypad: Prepare clock before using it
-Message-ID: <YMfQR8iM9be5Qg8+@google.com>
-References: <20210613233041.128961-1-alexander.sverdlin@gmail.com>
- <20210613233041.128961-4-alexander.sverdlin@gmail.com>
+To:     Joe Perches <joe@perches.com>
+Cc:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org, Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH][next] Input: Fix fall-through warning for Clang
+Message-ID: <YMfUT7pvBWreiR1K@google.com>
+References: <20210607214852.GA65141@embeddedor>
+ <91eef5ab3143ae8fadb8eb2969aecba5f3e7ad98.camel@perches.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210613233041.128961-4-alexander.sverdlin@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <91eef5ab3143ae8fadb8eb2969aecba5f3e7ad98.camel@perches.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Alexander,
+Hi Joe,
 
-On Mon, Jun 14, 2021 at 01:30:37AM +0200, Alexander Sverdlin wrote:
-> Use clk_prepare_enable()/clk_disable_unprepare() in preparation for switch
-> to Common Clock Framework.
+On Mon, Jun 07, 2021 at 03:02:40PM -0700, Joe Perches wrote:
+> On Mon, 2021-06-07 at 16:48 -0500, Gustavo A. R. Silva wrote:
+> > In preparation to enable -Wimplicit-fallthrough for Clang, fix a
+> > warning by explicitly adding a fallthrough; statement.
+> []
+> > diff --git a/drivers/input/joystick/sidewinder.c b/drivers/input/joystick/sidewinder.c
+> []
+> > @@ -660,6 +660,7 @@ static int sw_connect(struct gameport *gameport, struct gameport_driver *drv)
+> >  					fallthrough;
+> >  				case 45:				/* Ambiguous packet length */
+> >  					if (j <= 40) {			/* ID length less or eq 40 -> FSP */
+> > +					fallthrough;
+> >  				case 43:
+> >  						sw->type = SW_ID_FSP;
+> >  						break;
+> 
+> Yuck.  Super ugly.  There's no need to play games with indentation.
 
-Can this be merged standalone?
+Yeah, the original code is not pretty :(
 
 > 
-> Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
-> ---
->  drivers/input/keyboard/ep93xx_keypad.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Perhaps the simpler:
 > 
-> diff --git a/drivers/input/keyboard/ep93xx_keypad.c b/drivers/input/keyboard/ep93xx_keypad.c
-> index c8194333d612..e0e931e796fa 100644
-> --- a/drivers/input/keyboard/ep93xx_keypad.c
-> +++ b/drivers/input/keyboard/ep93xx_keypad.c
-> @@ -157,7 +157,7 @@ static int ep93xx_keypad_open(struct input_dev *pdev)
->  
->  	if (!keypad->enabled) {
->  		ep93xx_keypad_config(keypad);
-> -		clk_enable(keypad->clk);
-> +		clk_prepare_enable(keypad->clk);
->  		keypad->enabled = true;
->  	}
->  
-> @@ -169,7 +169,7 @@ static void ep93xx_keypad_close(struct input_dev *pdev)
->  	struct ep93xx_keypad *keypad = input_get_drvdata(pdev);
->  
->  	if (keypad->enabled) {
-> -		clk_disable(keypad->clk);
-> +		clk_disable_unprepare(keypad->clk);
->  		keypad->enabled = false;
+> 				case 43:
+> 					sw->type = SW_ID_FSP;
+> 					break;
+> 				case 45:				/* Ambiguous packet length */
+> 					if (j <= 40) {			/* ID length less or eq 40 -> FSP */
+> 						sw->type = SW_ID_FSP;
+> 						break;
+> 					}
+> 					sw->number++;
+> 					fallthrough;
+> 
+> 
 
-While we are at it, I wonder about handling suspend/resume. I see that
-we disable the clock even if keyboard is configured as a wakeup source.
-Is it really capable of waking up the system when clock is off?
+Could you resubmit this version properly formatted?
 
 Thanks.
-
+ 
 -- 
 Dmitry
