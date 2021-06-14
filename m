@@ -2,101 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E01003A5AFC
-	for <lists+linux-input@lfdr.de>; Mon, 14 Jun 2021 01:31:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 628CF3A5D87
+	for <lists+linux-input@lfdr.de>; Mon, 14 Jun 2021 09:16:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232220AbhFMXdq (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 13 Jun 2021 19:33:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58616 "EHLO
+        id S232096AbhFNHSS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Jun 2021 03:18:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232245AbhFMXdp (ORCPT
+        with ESMTP id S232455AbhFNHSR (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 13 Jun 2021 19:33:45 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4DE9C061767;
-        Sun, 13 Jun 2021 16:31:27 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id 3-20020a05600c0243b029019f2f9b2b8aso11712948wmj.2;
-        Sun, 13 Jun 2021 16:31:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=16tOXTFARRM7dKHNQ+/96ISTaL6FsxfGvA/KqriFMEI=;
-        b=n7zBl0CXUp2knd7Z1u/xgP7MXaDYm2cbdIJwuSJe458mygeXpa++bY9+2NGqacnEyx
-         HfGuSmD33i+4kO0faJr8etKOREGsXRU8CAAlbHp7oUAW+7PDfYKGVTR+RZulQnZHIJat
-         OCXk+39Hx3w24wLllbNPQ+EiRcSXVzMy76nV17epgpz4PuwwJ71/9i35hOUpyaZlfImB
-         S9LAyWLtt8sZQKZdtyyXHYfn5/98xb/9prbXIjfxcGkME1+yiUhHKfD2PEggkRXFqgqP
-         ySdDgYLiIZh7Xw4XEzeXFhGNUmRH7fIrL2QGuElWewLRnyFMqdbhKibTYZ92NKp5FSAD
-         DAcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=16tOXTFARRM7dKHNQ+/96ISTaL6FsxfGvA/KqriFMEI=;
-        b=r/dYTLXcniPKFXrafZnXlwXWPloSSK+wIAOHBilLhNwgY4MxlDm/ofFPIKEc1pKXNO
-         Y3SBtmJhbDz/jac1BgMxuateuvmo1EYl4T9HQ+24V4AEex0tlzUzWG+DNtpZh6P1nF6w
-         Lv4kFHzLG2NiaGRCBVNSJ4J5VRBvX33G10Px00iOgucdoRLI6deFDB3qdDPQdibuAvxK
-         zUqEaEX9Ge6UqvNITTE6bUcHm70A1C7Q6w1VUXTZFvNqKyMCcjo8/4ih7BNBjYEcE5RL
-         hapBfdoYkQSd7hLfTQtf+nJZdhxM7jzZotikTX05YtnKq+K15Oh9jd7/ITlFcFjmua6/
-         torw==
-X-Gm-Message-State: AOAM530kXsk93BbSdPFT1uAUO6YXuNYrgcl0EkzIkj6LYKdfHKxplR4r
-        cAY80kfg/xoem0VZD7mCl2Q=
-X-Google-Smtp-Source: ABdhPJyenv4WmNvHo9WeEQc1A13FYXEHa5yHxB+e6gDqJyLjjfp5k8D6OjkKq5vTzruexNKKgHgR3Q==
-X-Received: by 2002:a05:600c:1c1b:: with SMTP id j27mr13670286wms.133.1623627082242;
-        Sun, 13 Jun 2021 16:31:22 -0700 (PDT)
-Received: from localhost.localdomain ([195.245.23.224])
-        by smtp.gmail.com with ESMTPSA id i9sm17882511wrn.54.2021.06.13.16.31.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Jun 2021 16:31:21 -0700 (PDT)
-From:   Alexander Sverdlin <alexander.sverdlin@gmail.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Mon, 14 Jun 2021 03:18:17 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0010C061574
+        for <linux-input@vger.kernel.org>; Mon, 14 Jun 2021 00:16:14 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1lsgog-0000BB-Lg; Mon, 14 Jun 2021 09:15:26 +0200
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1lsgoe-0005Jf-D8; Mon, 14 Jun 2021 09:15:24 +0200
+Date:   Mon, 14 Jun 2021 09:15:21 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Alexander Sverdlin <alexander.sverdlin@gmail.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
         Nikita Shubin <nikita.shubin@maquefel.me>,
-        linux-input@vger.kernel.org
-Cc:     Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 3/7] Input: ep93xx_keypad: Prepare clock before using it
-Date:   Mon, 14 Jun 2021 01:30:37 +0200
-Message-Id: <20210613233041.128961-4-alexander.sverdlin@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210613233041.128961-1-alexander.sverdlin@gmail.com>
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, dmaengine@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/7] Prepare EP93xx drivers for Common Clock Framework
+Message-ID: <20210614071521.bv6tc5d27tj3yvlv@pengutronix.de>
 References: <20210613233041.128961-1-alexander.sverdlin@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="tzksnyblxledsl3b"
+Content-Disposition: inline
+In-Reply-To: <20210613233041.128961-1-alexander.sverdlin@gmail.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-input@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Use clk_prepare_enable()/clk_disable_unprepare() in preparation for switch
-to Common Clock Framework.
 
-Signed-off-by: Alexander Sverdlin <alexander.sverdlin@gmail.com>
----
- drivers/input/keyboard/ep93xx_keypad.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+--tzksnyblxledsl3b
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/input/keyboard/ep93xx_keypad.c b/drivers/input/keyboard/ep93xx_keypad.c
-index c8194333d612..e0e931e796fa 100644
---- a/drivers/input/keyboard/ep93xx_keypad.c
-+++ b/drivers/input/keyboard/ep93xx_keypad.c
-@@ -157,7 +157,7 @@ static int ep93xx_keypad_open(struct input_dev *pdev)
- 
- 	if (!keypad->enabled) {
- 		ep93xx_keypad_config(keypad);
--		clk_enable(keypad->clk);
-+		clk_prepare_enable(keypad->clk);
- 		keypad->enabled = true;
- 	}
- 
-@@ -169,7 +169,7 @@ static void ep93xx_keypad_close(struct input_dev *pdev)
- 	struct ep93xx_keypad *keypad = input_get_drvdata(pdev);
- 
- 	if (keypad->enabled) {
--		clk_disable(keypad->clk);
-+		clk_disable_unprepare(keypad->clk);
- 		keypad->enabled = false;
- 	}
- }
--- 
-2.32.0
+On Mon, Jun 14, 2021 at 01:30:34AM +0200, Alexander Sverdlin wrote:
+> Nikita posted a patch converting EP93xx to use Common Clock Framework. It
+> turns out some cleanup is necessary in the EP93xx drivers to avoid
+> "Enabling unprepared" clock warnings.
+>=20
+> Patches with stack traces in the commit messages are tested on EP9302.
 
+One thing to note is: ep93xx currently doesn't provide a clk_prepare
+function, this isn't a problem though because include/linux/clk.h
+provides a dummy if CONFIG_HAVE_CLK_PREPARE isn't defined. So as ep93xx
+doesn't define this symbol the changes here effectively only add a
+might_sleep.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--tzksnyblxledsl3b
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmDHAgYACgkQwfwUeK3K
+7Anz4wf/fZ6UpIbiQ9trvkqr6Bj6ontdmEdjh7ZjZkt/uCGHoWMQ1h2blpmdMD/z
+wzcscbTaQkBDOdRPlWqqRB77EOqy7TdJe7vKeGygZflhyBx6so3Yk+Jf9NhZ73sY
+WpFRQP5v/utpk7qmx7SXBdlJG3mkWmIujPAJd56OX6RwFped6Bqh+bpRv+jMKhHv
+KLWyqkKehDsDd9EQtPokkcgnhvFo584TGv3oWUFi0AtPTgVXCSSNCiIxkR8BKLhs
+/pwCZo/rdneUeHPZpvBsR2AAVefwMmCQphi9CA4JaCsxGkA6Hfa5c1YBpsPXKnSZ
+aL6XNpm9fn67SU0C3GhW4R4lGjRoMQ==
+=giTe
+-----END PGP SIGNATURE-----
+
+--tzksnyblxledsl3b--
