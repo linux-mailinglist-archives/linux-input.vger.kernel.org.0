@@ -2,101 +2,90 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 628CF3A5D87
-	for <lists+linux-input@lfdr.de>; Mon, 14 Jun 2021 09:16:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85CEC3A5E8A
+	for <lists+linux-input@lfdr.de>; Mon, 14 Jun 2021 10:48:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232096AbhFNHSS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Jun 2021 03:18:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45430 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232455AbhFNHSR (ORCPT
+        id S232630AbhFNIu3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 14 Jun 2021 04:50:29 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:52805 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232528AbhFNIu3 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Jun 2021 03:18:17 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0010C061574
-        for <linux-input@vger.kernel.org>; Mon, 14 Jun 2021 00:16:14 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1lsgog-0000BB-Lg; Mon, 14 Jun 2021 09:15:26 +0200
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1lsgoe-0005Jf-D8; Mon, 14 Jun 2021 09:15:24 +0200
-Date:   Mon, 14 Jun 2021 09:15:21 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Nikita Shubin <nikita.shubin@maquefel.me>,
-        Vinod Koul <vkoul@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, dmaengine@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-spi@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/7] Prepare EP93xx drivers for Common Clock Framework
-Message-ID: <20210614071521.bv6tc5d27tj3yvlv@pengutronix.de>
-References: <20210613233041.128961-1-alexander.sverdlin@gmail.com>
+        Mon, 14 Jun 2021 04:50:29 -0400
+Received: (Authenticated sender: hadess@hadess.net)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 0237D40003;
+        Mon, 14 Jun 2021 08:48:24 +0000 (UTC)
+Message-ID: <be664f7551029705030188f446799e1ff9ad9e03.camel@hadess.net>
+Subject: Re: [PATCH 1/3] Input: touchscreen - Extend
+ touchscreen_parse_properties() to allow overriding settings with a module
+ option
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Gregor Riepl <onitake@gmail.com>, linux-input@vger.kernel.org
+Date:   Mon, 14 Jun 2021 10:48:24 +0200
+In-Reply-To: <20210613102158.16886-2-hdegoede@redhat.com>
+References: <20210613102158.16886-1-hdegoede@redhat.com>
+         <20210613102158.16886-2-hdegoede@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.1 (3.40.1-1.fc34) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="tzksnyblxledsl3b"
-Content-Disposition: inline
-In-Reply-To: <20210613233041.128961-1-alexander.sverdlin@gmail.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-input@vger.kernel.org
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
+On Sun, 2021-06-13 at 12:21 +0200, Hans de Goede wrote:
+> On x86/ACPI platforms touchscreens mostly just work without needing
+> any
+> device/model specific configuration. But in some cases (mostly with
+> Silead
+> and Goodix touchscreens) it is still necessary to manually specify
+> various
+> touchscreen-properties on a per model basis.
+> 
+> This is handled by drivers/platform/x86/touchscreen_dmi.c which
+> contains
+> a large list of per-model touchscreen properties which it attaches to
+> the
+> (i2c)device before the touchscreen driver's probe() method gets
+> called.
+> This means that ATM changing these settings requires recompiling the
+> kernel. This makes figuring out what settings/properties a specific
+> touchscreen needs very hard for normal users to do.
+> 
+> Add a new, optional, settings_override string argument to
+> touchscreen_parse_properties(), which takes a list of ; separated
+> property-name=value pairs, e.g. :
+> "touchscreen-size-x=1665;touchscreen-size-y=1140;touchscreen-swapped-
+> x-y".
+> 
+> This new argument can be used by drivers to implement a module option
+> which
+> allows users to easily specify alternative settings for testing.
+> 
+> The 2 new touchscreen_property_read_u32() and
+> touchscreen_property_read_bool() helpers are also exported so that
+> drivers can use these to add settings-override support to the code
+> for driver-specific properties.
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> Note instead of patching all touchscreen drivers we could also rename
+> touchscreen_parse_properties() to
+> touchscreen_parse_properties_with_override()
+> and add a static inline wrapper which passes NULL. Just patching the
+> drivers
+> feels a bit cleaner to me though.
 
---tzksnyblxledsl3b
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It would be easier to do that in a separate commit, or separate
+commits, keeping just the new parsing code separate, even if you remove
+the _with_override() variant the next commit.
 
-On Mon, Jun 14, 2021 at 01:30:34AM +0200, Alexander Sverdlin wrote:
-> Nikita posted a patch converting EP93xx to use Common Clock Framework. It
-> turns out some cleanup is necessary in the EP93xx drivers to avoid
-> "Enabling unprepared" clock warnings.
->=20
-> Patches with stack traces in the commit messages are tested on EP9302.
+I haven't reviewed the argument parsing code, but eep. If this were
+user-space code, we'd have exported it and tried to feed it all kind of
+garbage to see whether it parsed things properly, even if it's only run
+on the author's machine. Can't say that I like it.
 
-One thing to note is: ep93xx currently doesn't provide a clk_prepare
-function, this isn't a problem though because include/linux/clk.h
-provides a dummy if CONFIG_HAVE_CLK_PREPARE isn't defined. So as ep93xx
-doesn't define this symbol the changes here effectively only add a
-might_sleep.
+Cheers
 
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---tzksnyblxledsl3b
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmDHAgYACgkQwfwUeK3K
-7Anz4wf/fZ6UpIbiQ9trvkqr6Bj6ontdmEdjh7ZjZkt/uCGHoWMQ1h2blpmdMD/z
-wzcscbTaQkBDOdRPlWqqRB77EOqy7TdJe7vKeGygZflhyBx6so3Yk+Jf9NhZ73sY
-WpFRQP5v/utpk7qmx7SXBdlJG3mkWmIujPAJd56OX6RwFped6Bqh+bpRv+jMKhHv
-KLWyqkKehDsDd9EQtPokkcgnhvFo584TGv3oWUFi0AtPTgVXCSSNCiIxkR8BKLhs
-/pwCZo/rdneUeHPZpvBsR2AAVefwMmCQphi9CA4JaCsxGkA6Hfa5c1YBpsPXKnSZ
-aL6XNpm9fn67SU0C3GhW4R4lGjRoMQ==
-=giTe
------END PGP SIGNATURE-----
-
---tzksnyblxledsl3b--
