@@ -2,136 +2,123 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D75B3A89AF
-	for <lists+linux-input@lfdr.de>; Tue, 15 Jun 2021 21:41:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B295C3A8AF6
+	for <lists+linux-input@lfdr.de>; Tue, 15 Jun 2021 23:20:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229946AbhFOToB (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Jun 2021 15:44:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54510 "EHLO
+        id S229829AbhFOVWY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Jun 2021 17:22:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229898AbhFOToB (ORCPT
+        with ESMTP id S229898AbhFOVWX (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Jun 2021 15:44:01 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 705BEC061574;
-        Tue, 15 Jun 2021 12:41:55 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id x21-20020a17090aa395b029016e25313bfcso317368pjp.2;
-        Tue, 15 Jun 2021 12:41:55 -0700 (PDT)
+        Tue, 15 Jun 2021 17:22:23 -0400
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBA34C061574;
+        Tue, 15 Jun 2021 14:20:17 -0700 (PDT)
+Received: by mail-io1-xd2d.google.com with SMTP id k16so686453ios.10;
+        Tue, 15 Jun 2021 14:20:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=f6/i5s8IOzCUxNSyaYvlK4MuXc588RPfZhmyhczPhoM=;
-        b=WBPbfro2NwATm3JEz1Lg4fLKfLoX9TbPrF2j5G6OvxuIWu42YzPvjntCGsNjz+hlRd
-         OCMLh+uE8u7spUQyarI/anBiSczOW3GVEkR4erCABZJ0Zgrzh9F3ZvxRFfimRRR0Y1cz
-         rpPPtbnlrZyB3qU0YGCwDJnD1VIi6fejznBKQ0SYBb/NR23U/2hWucitbpc1nkw5XJna
-         Ob9Q5ZDVZmU02N653mtAnfxUXiaK6YSNOU+bn/8I8oGryfv8nvn2KOPSIdxth6CwkWqJ
-         PrVWhedUUw67dIhd/VZebA4YdrsD4tu6HlvlVMu4ViGGxbHpXl/zPjabcD26F5AnB9Gh
-         KC2A==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=97TJcAjBd1iZqMFhsvySC1UyoWAf8puuK3z+QG0Byvk=;
+        b=TxpQGW5rosQ4pTG+SGARWldmvvcDyz4oHwmarDH+PCIhx5jlGKTHL+VhbnAv/LANkz
+         ELGmhMSqOUUmnyepQVOhKu4qyGMTeYsaVvukX0KyLPgp8ajz4XOvtkOo1coyb8hAI+QM
+         fo8MgpJ+hWm0NcuXRiexySVyHluMvBGxosrIKV4A4TcDbg9K7jn8aeD+qozL34yNk4l3
+         rPtLA94UrCKkXARlSs7eA+BnkNg5naXo4pm4D0uXmyAHRIv4FR4DXpYIUm2yCdGeQ9dt
+         6O6PB95znaNggudJ89TwSZTFl99dJ4otDyFyzxZ0cjldys1fcLmLSD8sgsTkhcWsyQG1
+         ly6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=f6/i5s8IOzCUxNSyaYvlK4MuXc588RPfZhmyhczPhoM=;
-        b=tF0+6iuzAUpr7oso4O8vNd65TBbSgBNfrlbSg9i/xK3nZBmTQU2RXRnq8+djJWeoAB
-         kcHOUq5V6+O3+V4pDeQOz0WWDoNn6LaeVgronQ1E+ix1VrqePkur276xEu9A86Z/Aubc
-         oLtcC5wPm5v++ZqvD8d0o6lzB2bZ4GechYjJTppeJTwOZHDs4XkVJ5/WRn41HOhmbpuF
-         56PF67Z6+LZ3FxTRyQ/hHXow5sQwZML5866MKYD7aGbfXz1wvoXGz7nCnzrLHeRGBbJ3
-         vXwo0Tz4x5+5sdfb7WY9WH/s5R+dI0LNqA2jFeq7fQAnZmKGjCRSIxwobrGuMzkPkiIJ
-         uYNw==
-X-Gm-Message-State: AOAM533j2zkWYZPGdBa9FV0pJOFt+1CWkr+S9jjumhQxCBq3AhFbyLlo
-        /uIlcSRFQQ8CHK0kqdxs0Zo=
-X-Google-Smtp-Source: ABdhPJwGP9achyFY7LVCoQp+gaF/JatGoWlCKrtrfiNATf+SFZF8Hi0GvRMlCM+ICP1uQ4JVzP6Bbg==
-X-Received: by 2002:a17:902:b181:b029:fc:c069:865c with SMTP id s1-20020a170902b181b02900fcc069865cmr5728006plr.28.1623786114824;
-        Tue, 15 Jun 2021 12:41:54 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:c700:bb55:c690:c756])
-        by smtp.gmail.com with ESMTPSA id n69sm16483124pfd.132.2021.06.15.12.41.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jun 2021 12:41:53 -0700 (PDT)
-Date:   Tue, 15 Jun 2021 12:41:51 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Yizhuo Zhai <yzhai003@ucr.edu>
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: hideep - fix the uninitialized use in
- hideep_nvm_unlock()
-Message-ID: <YMkCfykNyHtuMUkY@google.com>
-References: <CABvMjLRuGPgEJ3Ef7=sBk3m3oa+3HuyV9mVY0ZCYuHK=rJRA4w@mail.gmail.com>
- <YMjuPtKtiaVLLO0q@google.com>
- <CABvMjLSKe2ojoVTZOwv_Dr4P4rsDa334vBc_-T8sMTPUJ-f==g@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=97TJcAjBd1iZqMFhsvySC1UyoWAf8puuK3z+QG0Byvk=;
+        b=lvz5mCrQIUwf4wXCgmV+S5Ife1+TCRl0YEDNN1BDb4XgoiUPOSyjpdU+ppxLgYB9Vv
+         EWussCU3HFmBq+TPwj91jUzOtkzGMJNuJqQ/kJvu3JGQ5bfxbs+JTsgy/SlM364t+B4J
+         PeG7Xm3abbWaPZrSSI6KOKWY+wxIigX9Ty1Hs3KUbJOmc5DPHGa4Jxs0OGIfUxB56SWF
+         Afqw82pnr3EysqfYAmeq1i2ZHyYieNNjniiafM7QZKO60vP2cJRFtDcf1vRoNAWO/uWG
+         wmMAmj1/f7u2dWte/4+OuXa9Hphi+Q6NLWxtMWt4DYsrqjM1Se57vXtk4eOqxJzrT2Yz
+         nkrA==
+X-Gm-Message-State: AOAM532lV5G+utG2Jyo3PXtA/5+E385Dr3Re9f427PhvuTZFp0v0ESt7
+        0T+8C/oX0oreVlYc36PK3RduCfjp9QQqFiDAMz0=
+X-Google-Smtp-Source: ABdhPJwmvU6CUatjHUrciHtdutGCcA865MCqv5dHeA63UWt2s5cANU0CIqkx+02hb+gcbDRWwVCkMghxYCtxnMeM5us=
+X-Received: by 2002:a05:6638:3048:: with SMTP id u8mr987287jak.91.1623792015795;
+ Tue, 15 Jun 2021 14:20:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CABvMjLSKe2ojoVTZOwv_Dr4P4rsDa334vBc_-T8sMTPUJ-f==g@mail.gmail.com>
+References: <20210615103014.798-1-alistair@alistair23.me> <20210615103014.798-4-alistair@alistair23.me>
+ <YMjbi2sz/y0RFG3z@google.com>
+In-Reply-To: <YMjbi2sz/y0RFG3z@google.com>
+From:   Alistair Francis <alistair23@gmail.com>
+Date:   Wed, 16 Jun 2021 07:19:49 +1000
+Message-ID: <CAKmqyKOH_vrb=BTUC-1pQrGv5WooSU9jWnx2jGaf9OBV4rGLug@mail.gmail.com>
+Subject: Re: [PATCH v6 3/9] Input: wacom_i2c - Add device tree support to wacom_i2c
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc:     Alistair Francis <alistair@alistair23.me>,
+        linux-input@vger.kernel.org, dl-linux-imx <linux-imx@nxp.com>,
+        pinglinux@gmail.com, tatsunosuke.tobita@wacom.com,
+        junkpainting@gmail.com, ping.cheng@wacom.com,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jun 15, 2021 at 11:57:36AM -0700, Yizhuo Zhai wrote:
-> Hi Demitry:
-> 
-> Thanks for your quick response, following your advice, a careful way
-> is changing the return type of  "hideep_nvm_unlock()" from void to
-> int, and its caller "hideep_program_nvm()" also needs to add the
-> return check.
-> 
-> If this sounds ok, I would go ahead to modify the patch accordingly.
+On Wed, Jun 16, 2021 at 2:55 AM Dmitry Torokhov
+<dmitry.torokhov@gmail.com> wrote:
+>
+> On Tue, Jun 15, 2021 at 08:30:08PM +1000, Alistair Francis wrote:
+> > Allow the wacom-i2c device to be exposed via device tree.
+> >
+> > Signed-off-by: Alistair Francis <alistair@alistair23.me>
+> > ---
+> >  drivers/input/touchscreen/wacom_i2c.c | 8 ++++++++
+> >  1 file changed, 8 insertions(+)
+> >
+> > diff --git a/drivers/input/touchscreen/wacom_i2c.c b/drivers/input/touchscreen/wacom_i2c.c
+> > index 22826c387da5..6053595f2b30 100644
+> > --- a/drivers/input/touchscreen/wacom_i2c.c
+> > +++ b/drivers/input/touchscreen/wacom_i2c.c
+> > @@ -12,6 +12,7 @@
+> >  #include <linux/slab.h>
+> >  #include <linux/irq.h>
+> >  #include <linux/interrupt.h>
+> > +#include <linux/of.h>
+> >  #include <asm/unaligned.h>
+> >
+> >  #define WACOM_CMD_QUERY0     0x04
+> > @@ -241,10 +242,17 @@ static const struct i2c_device_id wacom_i2c_id[] = {
+> >  };
+> >  MODULE_DEVICE_TABLE(i2c, wacom_i2c_id);
+> >
+> > +static const struct of_device_id wacom_i2c_of_match_table[] = {
+> > +     { .compatible = "wacom,i2c-30" },
+>
+> What is this compatible?
 
-Yes, this sounds right.
+Sorry, I updated it here but missed the previous patch documentation.
 
-> 
-> On Tue, Jun 15, 2021 at 11:15 AM Dmitry Torokhov
-> <dmitry.torokhov@gmail.com> wrote:
+It's wacom, connected via I2C and then version 30.
+
+I'll fixup the documentation.
+
+Alistair
+
+>
+> > +     {}
+> > +};
+> > +MODULE_DEVICE_TABLE(of, wacom_i2c_of_match_table);
+> > +
+> >  static struct i2c_driver wacom_i2c_driver = {
+> >       .driver = {
+> >               .name   = "wacom_i2c",
+> >               .pm     = &wacom_i2c_pm,
+> > +             .of_match_table = wacom_i2c_of_match_table,
+> >       },
 > >
-> > Hi Yizhuo,
-> >
-> > On Tue, Jun 15, 2021 at 10:26:09AM -0700, Yizhuo Zhai wrote:
-> > > Inside function hideep_nvm_unlock(), variable "unmask_code" could
-> > > be uninitialized if hideep_pgm_r_reg() returns error, however, it
-> > > is used in the later if statement after an "and" operation, which
-> > > is potentially unsafe.
-> >
-> > I do not think that simply initializing the variable makes the code
-> > behave any better. If we want to fix this properly we need to check for
-> > errors returned by hideep_pgm_r_reg() and hideep_pgm_w_reg() and exit
-> > this function early, signalling the caller about errors.
-> >
-> > >
-> > > Signed-off-by: Yizhuo <yzhai003@ucr.edu>
-> > > ---
-> > >  drivers/input/touchscreen/hideep.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/input/touchscreen/hideep.c
-> > > b/drivers/input/touchscreen/hideep.c
-> > > index ddad4a82a5e5..49b713ad4384 100644
-> > > --- a/drivers/input/touchscreen/hideep.c
-> > > +++ b/drivers/input/touchscreen/hideep.c
-> > > @@ -363,7 +363,7 @@ static int hideep_enter_pgm(struct hideep_ts *ts)
-> > >
-> > >  static void hideep_nvm_unlock(struct hideep_ts *ts)
-> > >  {
-> > > -       u32 unmask_code;
-> > > +       u32 unmask_code = 0;
-> > >
-> > >         hideep_pgm_w_reg(ts, HIDEEP_FLASH_CFG, HIDEEP_NVM_SFR_RPAGE);
-> > >         hideep_pgm_r_reg(ts, 0x0000000C, &unmask_code);
-> > > --
-> > > 2.17.1
-> >
-> > Thanks.
-> >
+> >       .probe          = wacom_i2c_probe,
 > > --
-> > Dmitry
-> 
-> 
-> 
-> -- 
-> Kind Regards,
-> 
-> Yizhuo Zhai
-> 
-> Computer Science, Graduate Student
-> University of California, Riverside
-
--- 
-Dmitry
+> > 2.31.1
+> >
+>
+> --
+> Dmitry
