@@ -2,187 +2,233 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF7873A74D9
-	for <lists+linux-input@lfdr.de>; Tue, 15 Jun 2021 05:16:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF95D3A7634
+	for <lists+linux-input@lfdr.de>; Tue, 15 Jun 2021 06:57:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231172AbhFODSX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 14 Jun 2021 23:18:23 -0400
-Received: from mga04.intel.com ([192.55.52.120]:24732 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229809AbhFODSU (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 14 Jun 2021 23:18:20 -0400
-IronPort-SDR: 12c6YO3Xv45EVfJ+28yYU4e59doU3EPEnCoveBxsEydkbdIqJ12vNvOoHIb+DCAxrNeCsNaI9C
- DWfnaGATRIsA==
-X-IronPort-AV: E=McAfee;i="6200,9189,10015"; a="204074410"
-X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; 
-   d="scan'208";a="204074410"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2021 18:22:01 -0700
-IronPort-SDR: 8AIcktzXJOtAXjas+Ku0etzCqVUdSGEhLyVPa4KehbyGddKeaa699Bq02ZbKOSK+F+9/4EWB4Z
- N7oAzPCvW+tA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,273,1616482800"; 
-   d="scan'208";a="553531003"
-Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
-  by orsmga004.jf.intel.com with ESMTP; 14 Jun 2021 18:22:00 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Mon, 14 Jun 2021 18:22:00 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Mon, 14 Jun 2021 18:22:00 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4
- via Frontend Transport; Mon, 14 Jun 2021 18:22:00 -0700
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.47) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.4; Mon, 14 Jun 2021 18:21:57 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VWPQoqXgsaAwDTbAFhOLthq5AMqeLxquYGCCMGjcevZ0/5eP0LRkvfoGhGQCIfJgfuJX21MwfCZI9EBzFGbHPRZk2ya39WJiTI9xWdZnGPab5Ff2GWSH4gJq5AX/yMlFU5j5pSIDub1A6e65GIfdwgUa1yggSaWssjiV/X5ahrg/WcC4/Iwajc90rB+SndPG4JQUcRGLjkcUSKeTwBcqKssHCZrtpBxMHWN0cn/DwFIJPphzJn39uxvDOtIWJhp8Kod7pu+Kk7i4hen9LZJq0QgiX0/pedVB4ja+BbeHSBgQgn2tguqJvkZHwaJoa1+WGjBytLvtzwqrHg5ax9eIEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oFW3y5wrHHa/Dm21o+vr9yHRspdfgThWO0ZH8nYlSJE=;
- b=OGZ0Wz9uycxdz9mNn+5IWOyn5wnLqRTw1dRYxZ+iU0gJtpt/ZBWy9w2O3i1X5DiYMbF+TPMdc40+3OIRbY2BP6vYbUDPihlPqgXdgqWGGnkkyNFxmSVAE/XuNqUA7bv4ErRd+7OzOgguOhlc1VIAU0+yUwhrBRjZ5cfQJlGDR6u1NXC4xLxXe7Lz+xfBmNrxtWGRnOIMx0supwtzsC/Jcx1Mm+E4bojm+l5tOK4gsuET24aReoqPVzNDU4lyb97Q2Jfw8ACOyJvcnud3BuLVHb2hxaetk6I0iI8ZcO9lbtJpUaq9rtSiFZr2oj91zLgThFyhx9IBd5NkcmZv0QIHWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oFW3y5wrHHa/Dm21o+vr9yHRspdfgThWO0ZH8nYlSJE=;
- b=At7fJuulNR9EywFbOcMOoxo17ZKqPHCVaYQ8WLRcFygdDkiY4t/YCQ/9NjhUT0deokEdSIzknrFM7ZqyvLXSdVmkICSIEQ2uzwNUX94Q9U2/hC8+yN1VO+nJD5HXYItJcIFUp3W59Gg/oac3Ptl/xb3gdC6p8LpVQSJFF739YaE=
-Received: from CO6PR11MB5601.namprd11.prod.outlook.com (2603:10b6:303:13d::7)
- by CO6PR11MB5668.namprd11.prod.outlook.com (2603:10b6:5:355::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4219.20; Tue, 15 Jun
- 2021 01:21:57 +0000
-Received: from CO6PR11MB5601.namprd11.prod.outlook.com
- ([fe80::cc1b:b997:93:6616]) by CO6PR11MB5601.namprd11.prod.outlook.com
- ([fe80::cc1b:b997:93:6616%8]) with mapi id 15.20.4219.025; Tue, 15 Jun 2021
- 01:21:57 +0000
-From:   "Xu, Even" <even.xu@intel.com>
-To:     Jiri Kosina <jikos@kernel.org>
-CC:     "srinivas.pandruvada@linux.intel.com" 
-        <srinivas.pandruvada@linux.intel.com>,
-        "benjamin.tissoires@redhat.com" <benjamin.tissoires@redhat.com>,
-        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>
-Subject: RE: [PATCH 0/3] enable ISH DMA on EHL platform
-Thread-Topic: [PATCH 0/3] enable ISH DMA on EHL platform
-Thread-Index: AQHXXcDwEYinpxe1nEG94xx7NthWgqsTjm2AgAC/hVA=
-Date:   Tue, 15 Jun 2021 01:21:56 +0000
-Message-ID: <CO6PR11MB56015263E483EA550B816FDEF4309@CO6PR11MB5601.namprd11.prod.outlook.com>
-References: <1623306114-19208-1-git-send-email-even.xu@intel.com>
- <nycvar.YFH.7.76.2106141555350.28378@cbobk.fhfr.pm>
-In-Reply-To: <nycvar.YFH.7.76.2106141555350.28378@cbobk.fhfr.pm>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [192.198.143.2]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c3443023-b772-4cab-b49a-08d92f9bf79a
-x-ms-traffictypediagnostic: CO6PR11MB5668:
-x-microsoft-antispam-prvs: <CO6PR11MB566833703C9665A674B88DD7F4309@CO6PR11MB5668.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: wbFAwW+ngrdjYKkydiUgwtDkW972R9Yg94DvwD5Bt7d6erNcKNmAcSjLe97YgAdZol+abayvZNABNa74Vsnftf00VGSh7zd16gVp65KKwwVokMAyWP0VnoqbYgFXIV29X4NiYEjfKs+vYipugMoqCzZwhCGWwodS+hfd2p7LrIhKjRTxt+lUfe7sQnJakyXLkGfy06IlN8+/JN0Aj8R5lBy5OqN+56n3QsfJtNAEriYWLHXplvt0crA4RdSiwzmvxH5Vqbu0rfJd78oAqrO4eQCry2G+XsPZwfGdWV2y4VRG196AkT7bwymRCaEX8c6rbQlXx5Rjn2WKVoJJfZGkskXjNzijz/R4IhNUS2EGdRp8NLl4+wycXTR/FcFL9O7bphAThcTbuQlKgfx3o104npMal+wbtPywkPdl5ydhoEE7m1Ml4ewEIDYGskjtchhjuORuYtuuHmF320dm0Vc+lf8qm4L1h3PDZh/u9dkcl7Pgds6m3FkoGWpncuh3HYOw/57iL6As6qGdzOdB8wNkFincsIqmXtRfxruOe2lqRiSCJu3j05gU7wUoqZBXhxQcFpaDC7dwzNTFG6g2SLJU30pcfrNya3e/rTueoFCXUsk=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5601.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(346002)(136003)(366004)(39860400002)(376002)(396003)(38100700002)(186003)(122000001)(76116006)(8936002)(53546011)(6506007)(4326008)(5660300002)(26005)(8676002)(55016002)(54906003)(7696005)(6916009)(52536014)(86362001)(2906002)(33656002)(66476007)(66446008)(66556008)(83380400001)(64756008)(316002)(9686003)(71200400001)(66946007)(478600001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?CPqtlNEDYnnRt5TxCp4ZkvGZuK+cpPP5JWQcf9gATvccv+REi71uAEVA3S6i?=
- =?us-ascii?Q?GFG1XMXZjYg29UHs6WogV/f0VgXxR9mDS/SoRg69/nw8nt766GHo5DSb5ged?=
- =?us-ascii?Q?szyeR9yiHEzWj7ApkQECUYrvWlnX5sfvtV05iDMudMuAm/qvfKzDM6ekEQBC?=
- =?us-ascii?Q?Gu9/hhvw4B92GrwSZvSdacurK+o6SZv64hoFwzoOclDRTnxlOBmbLZKT6EBL?=
- =?us-ascii?Q?yG87cJ5L7XtolCz8W/aFZLopkU+e1VQ3Wyp4JERtToG0yPy6xx02jDpYmt0l?=
- =?us-ascii?Q?5wLvG+D5WcucsdqnRlRm9rv+TPTD8XtptUy1QODu/pCAH8MBSpQDQIWs10Rh?=
- =?us-ascii?Q?ygAlQiXgS3Q9rMOGNlqRZ9yL6yVWKq5FPEzeO3LQHtmFvCS4LgGdU0HNvJOQ?=
- =?us-ascii?Q?Ob48mk4N49tr7e8EyxmK/F+QwzI8ymma/GjEdSXKakx9ODscdbQQ2tPcqK+T?=
- =?us-ascii?Q?uEVDNDPcboZlqFn60BCYhPMGmhJeBAFnodLJEhFIjHtdKyJkn+fshExh05Qd?=
- =?us-ascii?Q?fSYNBd74jwO8hrkvY9XV5nrhQWUFVjkUk73ZxcIne0kAUs98VixXmsj3Y59Q?=
- =?us-ascii?Q?4pmqBd5uBJ2yuk8DYwp9Goum1WSiMPLnoc40mKJFroHz1n5sn36u/BMllqsK?=
- =?us-ascii?Q?mAV5/8xAPHUZJxeo/be5Nxy0NRhy0T8AkyAevhOSA6D1rEYSpNj5ot/O0vow?=
- =?us-ascii?Q?ZW701BhPFDY9ph8ArslO5EhwvfDp0MK1MWt1+dCeXNP3LdfToIMDa8x1AWiB?=
- =?us-ascii?Q?3w2xbWA3163sLMDh4oweNhPwB5+m+EF0lFPU+fs1qICSuYN9qrNd4c8mA9i1?=
- =?us-ascii?Q?BK5wkbmvIwUs5FUcfFkO5ozYuXfhBoHT1WiltwyfjvHk+5MNiI9TzNkejFu9?=
- =?us-ascii?Q?b5OrrJNTiVefnHJp7uec1NBKO8Ve4Bl2a5bDbiBRwjsF0ts7hB12phr6KRUu?=
- =?us-ascii?Q?SxW01ELggJlTN5aUpI8Mzkcqh/layCIZaGPAG742DjELwLVWY79H+hrcRSdZ?=
- =?us-ascii?Q?Q5oxAnp+zthMHgLTf0GUNmppOzPY3+guXGDI0AVJIfh89+Xqh7LIKa8dBfur?=
- =?us-ascii?Q?2dGGN/aq9+l2oEEXB8Nijg2aK1WBRkS0nf5Ly7QW/tEqZOjpQgw1gj2fSPsc?=
- =?us-ascii?Q?hT55JGjnYQ8ZcxjQv1CC4gPUqFAAvsUzxpl0VWIagq0o0JXns0d9eySo++rN?=
- =?us-ascii?Q?zcIP5UT7USlLpVRhFinWpIMpFLLpcZMEl42bzEglsxC26AfWRUyovodzCto1?=
- =?us-ascii?Q?BCDHNB3RaGTv4rHq8d+vYYteQ3x8+7HWWp9MB8TQDQS6BF5TUYAtxs6gOgJs?=
- =?us-ascii?Q?66O4GgmXiEPXTaT2qJHODw67?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S230136AbhFOE75 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Jun 2021 00:59:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49964 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229659AbhFOE74 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 15 Jun 2021 00:59:56 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B793C061574;
+        Mon, 14 Jun 2021 21:57:52 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id o88-20020a17090a0a61b029016eeb2adf66so828128pjo.4;
+        Mon, 14 Jun 2021 21:57:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=w59JjuzuqUTD0+HNEEQ9W6FgI5MwsLGU6SFCtN9fgKE=;
+        b=AlJHVINvpXl/63CgtK/AN/bKNc0MKdD9QBrCgXIIC4K5X/NSFHhRC8qpmdL2FEcXje
+         Nk9Fh1tkYSMOK8OInulpEXB463O5KhXlTSuF1QyUDckxDJi2EzM3MIC1CWrAH1LskeMI
+         SRnp/Y5HdroTmPetMeQQjygc4f3XQA6Hh+PS6AJWp/9XEAiuIPk72+xVj6OAKSrLbQGz
+         QAM5mvSogP11DxMInlQ9uX5bAXGcGOLD5rOI9ZwGrdUbn7756oVYWLWupfiTur7gzt+R
+         +1+7773ZzEkb4oGk78m2P25M2DzSdkcq7EikVc3miQQ3whdF14W3VmOWlKGzTS9krGHE
+         uEVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=w59JjuzuqUTD0+HNEEQ9W6FgI5MwsLGU6SFCtN9fgKE=;
+        b=FV3Mh78it+MR8eKtAqYL0VDqNn700IUNFsi2Ltd79j24vTQ99oGjwN50MIXG8Pa8kq
+         Ew721U3VKPmgsEDM7eCb2tjbyp+1QfVNbK62PBxM78Xpi2L73UwJ7386OoqTR0Ltmlq5
+         6R2v2zyuAoE9UAM9g4Vp1fnZwHbyjKzNKZq+6RGwcXJGS06SEBRk1a6Wk81JyGFskvZt
+         H1D21fUXykxAHwbfmf1OUy10RLyb6FwyJhPoCneKGG2OXHMZXBxwIQRA9jliUW5CqlIa
+         CUnM5PMtmovGSz3ch/wlMsinwaChL/+DPvxAVO+9ZjpPHUa2/uv3/Blp8cnbE6oGSbvt
+         hz2A==
+X-Gm-Message-State: AOAM531HKxfiAQFNB7L6Qsj0eIy6NcKos75YhnfH315oyPf0B3D2o/Dz
+        5SsCmnprqJ5EqDHKQRlPKRk=
+X-Google-Smtp-Source: ABdhPJzF59upPOJIhNKQNDqOWZzNQZF7W4jqeBruRos9KBBlqVnsy826wLzJPQaLygK0MPFu8uwLnA==
+X-Received: by 2002:a17:90a:c397:: with SMTP id h23mr2977837pjt.101.1623733071476;
+        Mon, 14 Jun 2021 21:57:51 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:2a26:15ba:dc71:c4ba])
+        by smtp.gmail.com with ESMTPSA id d23sm1004515pjz.15.2021.06.14.21.57.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Jun 2021 21:57:50 -0700 (PDT)
+Date:   Mon, 14 Jun 2021 21:57:47 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Oleh Kravchenko <oleg@kaa.org.ua>
+Cc:     linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Device Tree mailing list <devicetree@vger.kernel.org>,
+        Jiri Kosina <jikos@jikos.cz>,
+        Patchwork Bot <patchwork-bot@kernel.org>,
+        Rob Herring <robh@kernel.org>, Jeff LaBundy <jeff@labundy.com>
+Subject: Re: [PATCH 2/2 v4] input: add SparkFun Qwiic Joystick driver
+Message-ID: <YMgzS6FIh/byG8Q5@google.com>
+References: <20210608223130.16830-1-oleg@kaa.org.ua>
+ <20210608223130.16830-2-oleg@kaa.org.ua>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5601.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3443023-b772-4cab-b49a-08d92f9bf79a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jun 2021 01:21:56.9267
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: nnzWE3rIGT4Gd0vbEzgOdzMpZH40/f/iVoAGKcspMh7FJZWgnhxOaabbjg42BE0KisEvaSOWGocQjfCTGcTOUQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR11MB5668
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210608223130.16830-2-oleg@kaa.org.ua>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Got it, Thanks Jiri!
+Hi Oleh,
 
-Best Regards,
-Even Xu
+On Wed, Jun 09, 2021 at 01:31:32AM +0300, Oleh Kravchenko wrote:
+> A simple analog joystick built on Low Power ATtiny85 Microcontroller.
+> Directional movements are measured with two 10 kΩ potentiometers
+> connected with a gimbal mechanism that separates the horizontal and
+> vertical movements. This joystick also has a select button that is actuated
+> when the joystick is pressed down.
+> 
+> Input events polled over the I2C bus.
+> 
+> Product page:
+> https://www.sparkfun.com/products/15168
+> Firmware and hardware sources:
+> https://github.com/sparkfun/Qwiic_Joystick
+> 
+> Tested on RPi4B and O4-iMX-NANO boards.
+> 
+> Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> Cc: Device Tree mailing list <devicetree@vger.kernel.org>
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Cc: Jiri Kosina <jikos@jikos.cz>
+> Cc: Patchwork Bot <patchwork-bot@kernel.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Signed-off-by: Oleh Kravchenko <oleg@kaa.org.ua>
+> Reviewed-by: Jeff LaBundy <jeff@labundy.com>
+> ---
+> 
+> Changes for v4:
+> - alphabetize include headers.
+> 
+> Changes for v3:
+> - rebase patch for device tree before code.
+> 
+> Changes for v2:
+> - Separate patch for device tree bindings.
+> 
+>  drivers/input/joystick/Kconfig          |   9 ++
+>  drivers/input/joystick/Makefile         |   1 +
+>  drivers/input/joystick/qwiic-joystick.c | 147 ++++++++++++++++++++++++
+>  3 files changed, 157 insertions(+)
+>  create mode 100644 drivers/input/joystick/qwiic-joystick.c
+> 
+> diff --git a/drivers/input/joystick/Kconfig b/drivers/input/joystick/Kconfig
+> index 5e38899058c1..7dfe8ea90923 100644
+> --- a/drivers/input/joystick/Kconfig
+> +++ b/drivers/input/joystick/Kconfig
+> @@ -372,6 +372,15 @@ config JOYSTICK_PXRC
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called pxrc.
+>  
+> +config JOYSTICK_QWIIC
+> +	tristate "SparkFun Qwiic Joystick"
+> +	depends on I2C
+> +	help
+> +	  Say Y here if you want to use the SparkFun Qwiic Joystick.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called qwiic-joystick.
+> +
+>  config JOYSTICK_FSIA6B
+>  	tristate "FlySky FS-iA6B RC Receiver"
+>  	select SERIO
+> diff --git a/drivers/input/joystick/Makefile b/drivers/input/joystick/Makefile
+> index 31d720c9e493..5174b8aba2dd 100644
+> --- a/drivers/input/joystick/Makefile
+> +++ b/drivers/input/joystick/Makefile
+> @@ -27,6 +27,7 @@ obj-$(CONFIG_JOYSTICK_MAPLE)		+= maplecontrol.o
+>  obj-$(CONFIG_JOYSTICK_N64)		+= n64joy.o
+>  obj-$(CONFIG_JOYSTICK_PSXPAD_SPI)	+= psxpad-spi.o
+>  obj-$(CONFIG_JOYSTICK_PXRC)		+= pxrc.o
+> +obj-$(CONFIG_JOYSTICK_QWIIC)		+= qwiic-joystick.o
+>  obj-$(CONFIG_JOYSTICK_SIDEWINDER)	+= sidewinder.o
+>  obj-$(CONFIG_JOYSTICK_SPACEBALL)	+= spaceball.o
+>  obj-$(CONFIG_JOYSTICK_SPACEORB)		+= spaceorb.o
+> diff --git a/drivers/input/joystick/qwiic-joystick.c b/drivers/input/joystick/qwiic-joystick.c
+> new file mode 100644
+> index 000000000000..557708e9e756
+> --- /dev/null
+> +++ b/drivers/input/joystick/qwiic-joystick.c
+> @@ -0,0 +1,147 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2021 Oleh Kravchenko <oleg@kaa.org.ua>
+> + *
+> + * SparkFun Qwiic Joystick
+> + * Product page:https://www.sparkfun.com/products/15168
+> + * Firmware and hardware sources:https://github.com/sparkfun/Qwiic_Joystick
+> + */
+> +
+> +#include <linux/bits.h>
+> +#include <linux/i2c.h>
+> +#include <linux/input.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +
+> +#define DRV_NAME "qwiic-joystick"
+> +
+> +#define QWIIC_JSK_REG_VERS	1
+> +#define QWIIC_JSK_REG_DATA	3
+> +
+> +#define QWIIC_JSK_MAX_AXIS	GENMASK(9, 0)
+> +#define QWIIC_JSK_FUZZ		2
+> +#define QWIIC_JSK_FLAT		2
+> +#define QWIIC_JSK_POLL_INTERVAL	16
+> +#define QWIIC_JSK_POLL_MIN	8
+> +#define QWIIC_JSK_POLL_MAX	32
+> +
+> +struct qwiic_jsk {
+> +	char phys[32];
+> +	struct input_dev *dev;
+> +	struct i2c_client *client;
+> +};
+> +
+> +struct qwiic_ver {
+> +	u8 major;
+> +	u8 minor;
+> +};
+> +
+> +struct qwiic_data {
+> +	__be16 x;
+> +	__be16 y;
+> +	u8 thumb;
+> +} __packed;
 
------Original Message-----
-From: Jiri Kosina <jikos@kernel.org>=20
-Sent: Monday, June 14, 2021 9:56 PM
-To: Xu, Even <even.xu@intel.com>
-Cc: srinivas.pandruvada@linux.intel.com; benjamin.tissoires@redhat.com; lin=
-ux-input@vger.kernel.org
-Subject: Re: [PATCH 0/3] enable ISH DMA on EHL platform
+The members of this structure are naturally aligned, so there is no need
+to declare it as __packed.
 
-On Thu, 10 Jun 2021, Even Xu wrote:
+> +
+> +static void qwiic_poll(struct input_dev *input)
+> +{
+> +	struct qwiic_jsk *priv;
+> +	struct qwiic_data data;
+> +	int err;
+> +
+> +	priv = input_get_drvdata(input);
+> +
+> +	err = i2c_smbus_read_i2c_block_data(priv->client, QWIIC_JSK_REG_DATA,
+> +					    sizeof(data), (u8 *)&data);
+> +	if (err != sizeof(data))
+> +		return;
+> +
+> +	input_report_abs(input, ABS_X, be16_to_cpu(data.x) >> 6);
+> +	input_report_abs(input, ABS_Y, be16_to_cpu(data.y) >> 6);
+> +	input_report_key(input, BTN_THUMBL, !data.thumb);
+> +	input_sync(input);
+> +}
+> +
+> +static int qwiic_probe(struct i2c_client *client,
+> +		       const struct i2c_device_id *id)
 
-> These patch set are used for enabling ISH DMA on EHL platform.
->=20
-> During ISH DMA enabling, some platforms (such as EHL) don't support=20
-> cache snooping, bus driver (ishtp) has to involve a new callback,=20
-> dma_no_cache_snooping(), in hardware layer (ipc) to get hardware DMA=20
-> capability.
->=20
-> When do cache flush, clflush_cache_range() API is used on X86 which=20
-> isn't supported by all other archs (such as ARM).
-> Considering ISH only exists on Intel platforms, adding ISH depending=20
-> on X86 in Kconfig to avoid build warnings or errors on other archs.
->=20
-> Even Xu (3):
->   hid: intel-ish-hid: Set ISH driver depends on x86
->   hid: intel-ish-hid: ishtp: Add dma_no_cache_snooping() callback
->   hid: intel-ish-hid: ipc: Specify that EHL no cache snooping
->=20
->  drivers/hid/intel-ish-hid/Kconfig           |  1 +
->  drivers/hid/intel-ish-hid/ipc/ipc.c         | 26 +++++++++++++++++++++++=
-++-
->  drivers/hid/intel-ish-hid/ishtp/client.c    | 18 ++++++++++++++++++
->  drivers/hid/intel-ish-hid/ishtp/ishtp-dev.h |  1 +
->  4 files changed, 45 insertions(+), 1 deletion(-)
+The probe() does not use the i2c_device_id parameter, so I will switch
+it to probe_new() to avoid the temptation of using it in the future.
 
-Now queued in for-5.14/intel-ish, thanks.
+Please let me know if you disagree, otherwise I will go and apply (no
+need to resubmit).
 
---
-Jiri Kosina
-SUSE Labs
+Thanks.
 
+-- 
+Dmitry
