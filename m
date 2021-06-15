@@ -2,89 +2,82 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B27A3A7869
-	for <lists+linux-input@lfdr.de>; Tue, 15 Jun 2021 09:50:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 917453A7931
+	for <lists+linux-input@lfdr.de>; Tue, 15 Jun 2021 10:40:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231205AbhFOHwH convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-input@lfdr.de>); Tue, 15 Jun 2021 03:52:07 -0400
-Received: from smtp.220.in.ua ([89.184.67.205]:50160 "EHLO smtp.220.in.ua"
+        id S231176AbhFOImU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Jun 2021 04:42:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41700 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231168AbhFOHv5 (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Jun 2021 03:51:57 -0400
-Received: from smtpclient.apple (unknown [95.67.115.55])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp.220.in.ua (Postfix) with ESMTPSA id E7EC41A203F3;
-        Tue, 15 Jun 2021 10:49:51 +0300 (EEST)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-From:   Oleh Kravchenko <oleg@kaa.org.ua>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH 2/2 v4] input: add SparkFun Qwiic Joystick driver
-Date:   Tue, 15 Jun 2021 10:49:46 +0300
-Message-Id: <01842F09-0140-4340-8582-117A20D69A99@kaa.org.ua>
-References: <YMgzS6FIh/byG8Q5@google.com>
-Cc:     linux-input@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Device Tree mailing list <devicetree@vger.kernel.org>,
-        Jiri Kosina <jikos@jikos.cz>,
-        Patchwork Bot <patchwork-bot@kernel.org>,
-        Rob Herring <robh@kernel.org>, Jeff LaBundy <jeff@labundy.com>
-In-Reply-To: <YMgzS6FIh/byG8Q5@google.com>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-X-Mailer: iPad Mail (18F72)
+        id S230519AbhFOImT (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Tue, 15 Jun 2021 04:42:19 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 37628613D9;
+        Tue, 15 Jun 2021 08:40:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1623746415;
+        bh=vbzQgSVybUVrugIU/hTERs0Txkxt18U6iUh3R1s7r+8=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=KmlLfM74w4Dyusv6oRlLv1NUVsRkbb4+5OfKO9ZTX6XkuCOpxRCCryvEIBiY+gpZ3
+         Po0S0kgWO+YO/5xJ5D4iUPiDprfAkY2PMtrRAxc7brwSQCyI64tH/xozRjeJrWld6i
+         pokv95FJjj++NlfE4jw+qShKI2Y7Q9LAd3tatwDyIGvv/01s8y/1rXTPmM6/wWu3bp
+         0CfnvgqPelHxdCoaECPhTFiwZcyD2b8csy6uU0xeYEo+Z4Pgyr4oJyrmzW3dxaqown
+         8/LX2dd0LmVGeT+eUAIgg2sSfdvmZXiiN+U3j1yuGApAZH0zdlJGh/ptAGf1T3yNPw
+         zkuzz+r1VHK3g==
+Date:   Tue, 15 Jun 2021 10:40:04 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     "Shah, Nehal-bakulchandra" <nehal-bakulchandra.shah@amd.com>
+cc:     "Singh, Sandeep" <ssingh1@amd.com>,
+        Basavaraj Natikar <bnatikar@amd.com>,
+        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        "Singh, Sandeep" <Sandeep.Singh@amd.com>,
+        "S-k, Shyam-sundar" <Shyam-sundar.S-k@amd.com>,
+        "Natikar, Basavaraj" <Basavaraj.Natikar@amd.com>
+Subject: Re: [PATCH RESEND] amd_sfh: change in maintainer
+In-Reply-To: <d817e3c5-0ba9-541f-23c6-c1875d371586@amd.com>
+Message-ID: <nycvar.YFH.7.76.2106151039560.18969@cbobk.fhfr.pm>
+References: <5f36f1b9-67f8-519d-051b-eb88fcfc2e71@amd.com> <402d47b4-71ba-ee81-2b1b-195b35e0794e@amd.com> <nycvar.YFH.7.76.2106141508520.28378@cbobk.fhfr.pm> <d817e3c5-0ba9-541f-23c6-c1875d371586@amd.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello Dmitry,
-Thank you for your code-review
+On Tue, 15 Jun 2021, Shah, Nehal-bakulchandra wrote:
 
-> 15 черв. 2021 р. о 07:57 Dmitry Torokhov <dmitry.torokhov@gmail.com> пише:
+> >>> I would like to take the maintainer-ship of AMD SENSOR FUSION HUB DRIVER
+> >>>
+> >>> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+> >>> ---
+> >>>   MAINTAINERS | 2 +-
+> >>>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/MAINTAINERS b/MAINTAINERS
+> >>> index 04babfa8fc76..1d27060fca21 100644
+> >>> --- a/MAINTAINERS
+> >>> +++ b/MAINTAINERS
+> >>> @@ -973,7 +973,7 @@ F:  drivers/net/ethernet/amd/xgbe/
+> >>>
+> >>>   AMD SENSOR FUSION HUB DRIVER
+> >>>   M:     Nehal Shah <nehal-bakulchandra.shah@amd.com>
+> >>> -M:     Sandeep Singh <sandeep.singh@amd.com>
+> >>> +M:     Basavaraj Natikar <basavaraj.natikar@amd.com>
+> >>>   L:     linux-input@vger.kernel.org
+> >>>   S:     Maintained
+> >>>   F:     Documentation/hid/amd-sfh*
+> >>> --
+> >>> 2.25.1
+> >> Acked-by: Sandeep Singh <sandeep.singh@amd.com
+> >> <mailto:andy.shevchenko@gmail.com>>
+> > This reads strange. I guess Andy's mail should be just removed?
 > 
-> ﻿Hi Oleh,
+> yes,not sure what was the issue.
 > 
->> +struct qwiic_data {
->> +    __be16 x;
->> +    __be16 y;
->> +    u8 thumb;
->> +} __packed;
-> 
-> The members of this structure are naturally aligned, so there is no need
-> to declare it as __packed.
+> Acked-by: Nehal Shah <nehal-bakulchandra.shah@amd.com>
 
-Sorry, I forgot to fix this nitpick :-/
+Thanks, now applied.
 
->> +
->> +static void qwiic_poll(struct input_dev *input)
->> +{
->> +    struct qwiic_jsk *priv;
->> +    struct qwiic_data data;
->> +    int err;
->> +
->> +    priv = input_get_drvdata(input);
->> +
->> +    err = i2c_smbus_read_i2c_block_data(priv->client, QWIIC_JSK_REG_DATA,
->> +                        sizeof(data), (u8 *)&data);
->> +    if (err != sizeof(data))
->> +        return;
->> +
->> +    input_report_abs(input, ABS_X, be16_to_cpu(data.x) >> 6);
->> +    input_report_abs(input, ABS_Y, be16_to_cpu(data.y) >> 6);
->> +    input_report_key(input, BTN_THUMBL, !data.thumb);
->> +    input_sync(input);
->> +}
->> +
->> +static int qwiic_probe(struct i2c_client *client,
->> +               const struct i2c_device_id *id)
-> 
-> The probe() does not use the i2c_device_id parameter, so I will switch
-> it to probe_new() to avoid the temptation of using it in the future.
+-- 
+Jiri Kosina
+SUSE Labs
 
-Sounds awesome!
-
-> Please let me know if you disagree, otherwise I will go and apply (no
-> need to resubmit).
-
-I agree,
-please merge.
