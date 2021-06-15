@@ -2,59 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 979213A7BEB
-	for <lists+linux-input@lfdr.de>; Tue, 15 Jun 2021 12:31:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 148BB3A7BED
+	for <lists+linux-input@lfdr.de>; Tue, 15 Jun 2021 12:31:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231214AbhFOKdG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 15 Jun 2021 06:33:06 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:46151 "EHLO
+        id S231712AbhFOKdI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 15 Jun 2021 06:33:08 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:57961 "EHLO
         new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231616AbhFOKdD (ORCPT
+        by vger.kernel.org with ESMTP id S231706AbhFOKdH (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 15 Jun 2021 06:33:03 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 600DD580729;
-        Tue, 15 Jun 2021 06:30:58 -0400 (EDT)
+        Tue, 15 Jun 2021 06:33:07 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailnew.nyi.internal (Postfix) with ESMTP id DA2E1580729;
+        Tue, 15 Jun 2021 06:31:02 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Tue, 15 Jun 2021 06:30:58 -0400
+  by compute1.internal (MEProxy); Tue, 15 Jun 2021 06:31:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
          h=from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm1; bh=jLYfQBxc5Fss5
-        wHk6K78mpbcM1U0H/2OtEIpp1nXFxo=; b=Kj8RYwPVR3UYiD8swIqWSr832jMpr
-        tRb56hVG5ccBEr/5v+UF1wMkoSNMmpiBEVLJhYtAV1huyk4c0/SwWecxXG4mDB9I
-        wO9oOC2LR6/D3qfe2mxrZoDn0UtAePDuNybIchE2YOv4xcQHKISWJaSyg2Jv0nrQ
-        siN/adeDzoBBtQCZkEPVnsNM9irW/rRkJN5rnqxy2p2V+ozLU1AbUmSimfjfS4oH
-        prxH3obXnhbsM5vXucJAhXQ9xROufVLy9I89LK8pCRKSiZa6aUycC04A10gFUlE4
-        DTG3wPGuW43Lh0RgiY3cMhXcg2xL7IYICKH/ZypHzSyB4lsIhftNKUWIg==
+        :mime-version:content-transfer-encoding; s=fm1; bh=8knOJ7YElFUkD
+        BiiRH7ZJBc2RpziTa8+4Ew7FNGqJ8Y=; b=NodUZB64NxqRyqR8Ted5Vd68+dIMD
+        bUAatAJWkpZsaoxI3QrYifEWVVsXkGsWspipUg4v6ukhN/sYwIjP4KK8xIsw6Dxw
+        /PJpUcF+iKSxRu7ztBSVuLbKb1LWjDTHDDkX44MRfZrAJr9pR0nyGPl9k87k/t3H
+        XbkpDNMPyzSucSDixCdLQ02ZFpQkX7S5N1qCwRM3hZ0T3P9u4sOVDWHsu0llR06k
+        h2mPxZxCQIhKqHZ/rFMAljlNfzcYwVjqneSv0KanQihtwR1V7jDX0wVt+WRZ+jeF
+        QmpakBbICeL/ESBkPPE1sLgJMeHHx1aWKMVp5vg3DeWMl7Yy7wSau5dfA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
         :in-reply-to:message-id:mime-version:references:subject:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=jLYfQBxc5Fss5wHk6K78mpbcM1U0H/2OtEIpp1nXFxo=; b=tI0pJLi3
-        s2iFPaKgdNoHg9JWto8F1Llssnjx7w4Fc6omg7bYMiNxqNOAfSkHIZ6zkLKIpHWc
-        0l0xQtNLLQbEjflD5QHNxlc8S7xBA93XYgJvfFWgwqWznqMe5c7ZnR4YT3PsHzLR
-        ycbOvjIjdeygm/Dy/AYgWrzxWkgwYjcfsJypcYFEXJTFztfP+019110XPQj5XNUf
-        9/r9fqcjbRLjtLOmYU9ZvLoEy0rYRk3gwjqCDLv6w75SpvPccuEdg01lbogLqpRq
-        n3cq2Sm9mIXzGxeBSLLlWW5SakdscPN2yoFCMF41DfeJprWJCgASCALjG8x9tFkz
-        Rm17YAm4IrQ+6Q==
-X-ME-Sender: <xms:YoHIYMWa4ycFVqqTvtsU-FygwO9ZfDTa5u5RFH0Tr6QGY42-HfHHMw>
-    <xme:YoHIYAkAiEQ82ehC1hAXMPGoAqnn93vnOkOMQlgJwvFJOwTW3RAXqEV6IUrYr2Hup
-    2OYG5yaM2bIxS7peEE>
-X-ME-Received: <xmr:YoHIYAZynCvrOZWPddScYyQ2lZCK0hrQukXm5X53dnhGu1NUyE8P9TydwjKasL0QL_Urch-La2a6_Cgh>
+        fm3; bh=8knOJ7YElFUkDBiiRH7ZJBc2RpziTa8+4Ew7FNGqJ8Y=; b=nRz1XLoG
+        tdxDMkupfNqD7UNLrjVm8ryCvwZW3imV7vfyQaRjXlO8pRjmuuHkKJHZLpPXRYGO
+        z6FyLWBQzDUaPd2cH8X6UhmiNLdFm6XAwK/Zl3iD/a3NrmnjUx0hHOhYAF4pOhBF
+        M9gYJngWs23f4mIYitCulpKaljvgEkfe3YOzfo2VheylAs81JGKDalwDdcP1tJwE
+        76XbAZZoMGJW0n9twuwbhKwFPc5WFXWqeWrUoA2SY9ejwOdT8saRKNdzIYMCDQCT
+        M1YA5hEOXcspj3ESX6KNh0eijJH+tVYDJWCx5tSWIqoIguhBqgPZ2OIU3drK6pcB
+        7uZlWPmGqQYWtQ==
+X-ME-Sender: <xms:ZoHIYNt4jbthcAR2zZAhoFCRlmU-YHCc1BbEn6xp52HP42mWH5TlSw>
+    <xme:ZoHIYGdTq5Gon3XNMfobVqjG6eWvFRUY5c5EX2ZNLAkfOj_67qm5fAPhm_cuIxgk4
+    GzCxHFX1Nua5FCHzFQ>
+X-ME-Received: <xmr:ZoHIYAxlNR9RzKYGMKXJAeC4vYClYlAJ3g6cBWsx-uSpZ9yzEYDWbO8VV6g3yl2yczJPBak_xtMTLxlz>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedvjedgvdelucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
     dtredttdenucfhrhhomheptehlihhsthgrihhrucfhrhgrnhgtihhsuceorghlihhsthgr
     ihhrsegrlhhishhtrghirhdvfedrmhgvqeenucggtffrrghtthgvrhhnpeeggedtteejke
     eggeeugfehueevudegvdetjeeviedugedvtdekffekhedtteduhfenucevlhhushhtvghr
-    ufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpegrlhhishhtrghirhesrghlih
+    ufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrlhhishhtrghirhesrghlih
     hsthgrihhrvdefrdhmvg
-X-ME-Proxy: <xmx:YoHIYLVcebYFpNf_zjL1imAY0MLawtjtlWzphRbFwDSSgTqujnYNuA>
-    <xmx:YoHIYGnbFmT7vqDgGShO_TtMaYMkKCXvV-XLnC0YgmBZawdKRhVqlQ>
-    <xmx:YoHIYAdejvq4esWe8WSD7hWWT8NDcYXoAT2P7g2_k6dgv5GPhivL4g>
-    <xmx:YoHIYA7oA25wRrUymM8t7XPviLMIHNuhveUxzs0S7my9G7OFKMk2BA>
+X-ME-Proxy: <xmx:ZoHIYEM6eBZgVjL5uGspE44UH8nSmGXD-MuR1U6Qhy1rtH03ztbSnQ>
+    <xmx:ZoHIYN_EkKEEKkeYWLDvEoGY5jBkk2z3-eMnMSQf1w5_TlsyBaEiSg>
+    <xmx:ZoHIYEXJ_js5Ha-9szbwV4vzD864vMWvsvTq78dMIcWlE34VeLaMLQ>
+    <xmx:ZoHIYJSod9h3vsIRepmMKiCtSC0vPYOT332kJCyNfPICHWNvtxNwcQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 15 Jun 2021 06:30:54 -0400 (EDT)
+ 15 Jun 2021 06:30:58 -0400 (EDT)
 From:   Alistair Francis <alistair@alistair23.me>
 To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
         linux-imx@nxp.com, kernel@pengutronix.d, pinglinux@gmail.com,
@@ -62,9 +62,9 @@ To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
         ping.cheng@wacom.com
 Cc:     linux-kernel@vger.kernel.org, alistair23@gmail.com,
         Alistair Francis <alistair@alistair23.me>
-Subject: [PATCH v6 5/9] Input: wacom_i2c - Add support for distance and tilt x/y
-Date:   Tue, 15 Jun 2021 20:30:10 +1000
-Message-Id: <20210615103014.798-6-alistair@alistair23.me>
+Subject: [PATCH v6 6/9] Input: wacom_i2c - Clean up the query device fields
+Date:   Tue, 15 Jun 2021 20:30:11 +1000
+Message-Id: <20210615103014.798-7-alistair@alistair23.me>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210615103014.798-1-alistair@alistair23.me>
 References: <20210615103014.798-1-alistair@alistair23.me>
@@ -74,98 +74,115 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-This is based on the out of tree rM2 driver.
+Improve the query device fields to be more verbose.
 
 Signed-off-by: Alistair Francis <alistair@alistair23.me>
 ---
- drivers/input/touchscreen/wacom_i2c.c | 34 +++++++++++++++++++++++++--
- 1 file changed, 32 insertions(+), 2 deletions(-)
+ drivers/input/touchscreen/wacom_i2c.c | 64 ++++++++++++++++++---------
+ 1 file changed, 44 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/input/touchscreen/wacom_i2c.c b/drivers/input/touchscreen/wacom_i2c.c
-index b47bc08efdd1..e2449a4fa2e3 100644
+index e2449a4fa2e3..49d1c15e623c 100644
 --- a/drivers/input/touchscreen/wacom_i2c.c
 +++ b/drivers/input/touchscreen/wacom_i2c.c
-@@ -22,12 +22,18 @@
- #define WACOM_CMD_QUERY3	0x02
- #define WACOM_CMD_THROW0	0x05
- #define WACOM_CMD_THROW1	0x00
--#define WACOM_QUERY_SIZE	19
-+#define WACOM_QUERY_SIZE	22
+@@ -13,15 +13,32 @@
+ #include <linux/irq.h>
+ #include <linux/input/touchscreen.h>
+ #include <linux/interrupt.h>
++#include <linux/reset.h>
+ #include <linux/of.h>
+ #include <asm/unaligned.h>
+ 
+-#define WACOM_CMD_QUERY0	0x04
+-#define WACOM_CMD_QUERY1	0x00
+-#define WACOM_CMD_QUERY2	0x33
+-#define WACOM_CMD_QUERY3	0x02
+-#define WACOM_CMD_THROW0	0x05
+-#define WACOM_CMD_THROW1	0x00
++// Registers
++#define WACOM_COMMAND_LSB   0x04
++#define WACOM_COMMAND_MSB   0x00
 +
-+#define WACOM_DISTANCE_TILT_VERSION	0x30
++#define WACOM_DATA_LSB      0x05
++#define WACOM_DATA_MSB      0x00
++
++// Report types
++#define REPORT_FEATURE      0x30
++
++// Requests / operations
++#define OPCODE_GET_REPORT   0x02
++
++// Power settings
++#define POWER_ON            0x00
++#define POWER_SLEEP         0x01
++
++// Input report ids
++#define WACOM_PEN_DATA_REPORT           2
++#define WACOM_SHINONOME_REPORT          26
++
++#define WACOM_QUERY_REPORT	3
+ #define WACOM_QUERY_SIZE	22
  
- struct wacom_features {
- 	int x_max;
- 	int y_max;
- 	int pressure_max;
-+	int distance_max;
-+	int distance_physical_max;
-+	int tilt_x_max;
-+	int tilt_y_max;
- 	char fw_version;
- };
- 
-@@ -80,6 +86,17 @@ static int wacom_query_device(struct i2c_client *client,
- 	features->y_max = get_unaligned_le16(&data[5]);
- 	features->pressure_max = get_unaligned_le16(&data[11]);
- 	features->fw_version = get_unaligned_le16(&data[13]);
-+	if (features->fw_version >= WACOM_DISTANCE_TILT_VERSION) {
-+		features->distance_max = data[15];
-+		features->distance_physical_max = data[16];
-+		features->tilt_x_max = get_unaligned_le16(&data[17]);
-+		features->tilt_y_max = get_unaligned_le16(&data[19]);
-+	} else {
-+		features->distance_max = -1;
-+		features->distance_physical_max = -1;
-+		features->tilt_x_max = -1;
-+		features->tilt_y_max = -1;
-+	}
+ #define WACOM_DISTANCE_TILT_VERSION	0x30
+@@ -51,27 +68,30 @@ static int wacom_query_device(struct i2c_client *client,
+ 			      struct wacom_features *features)
+ {
+ 	int ret;
+-	u8 cmd1[] = { WACOM_CMD_QUERY0, WACOM_CMD_QUERY1,
+-			WACOM_CMD_QUERY2, WACOM_CMD_QUERY3 };
+-	u8 cmd2[] = { WACOM_CMD_THROW0, WACOM_CMD_THROW1 };
+ 	u8 data[WACOM_QUERY_SIZE];
++
++	u8 get_query_data_cmd[] = {
++		WACOM_COMMAND_LSB,
++		WACOM_COMMAND_MSB,
++		REPORT_FEATURE | WACOM_QUERY_REPORT,
++		OPCODE_GET_REPORT,
++		WACOM_DATA_LSB,
++		WACOM_DATA_MSB,
++	};
++
+ 	struct i2c_msg msgs[] = {
++		// Request reading of feature ReportID: 3 (Pen Query Data)
+ 		{
+ 			.addr = client->addr,
+ 			.flags = 0,
+-			.len = sizeof(cmd1),
+-			.buf = cmd1,
+-		},
+-		{
+-			.addr = client->addr,
+-			.flags = 0,
+-			.len = sizeof(cmd2),
+-			.buf = cmd2,
++			.len = sizeof(get_query_data_cmd),
++			.buf = get_query_data_cmd,
+ 		},
++		// Read 21 bytes
+ 		{
+ 			.addr = client->addr,
+ 			.flags = I2C_M_RD,
+-			.len = sizeof(data),
++			.len = WACOM_QUERY_SIZE - 1,
+ 			.buf = data,
+ 		},
+ 	};
+@@ -99,9 +119,13 @@ static int wacom_query_device(struct i2c_client *client,
+ 	}
  
  	dev_dbg(&client->dev,
- 		"x_max:%d, y_max:%d, pressure:%d, fw:%d\n",
-@@ -97,6 +114,7 @@ static irqreturn_t wacom_i2c_irq(int irq, void *dev_id)
- 	u8 *data = wac_i2c->data;
- 	unsigned int x, y, pressure;
- 	unsigned char tsw, f1, f2, ers;
-+	short tilt_x, tilt_y, distance;
- 	int error;
+-		"x_max:%d, y_max:%d, pressure:%d, fw:%d\n",
++		"x_max:%d, y_max:%d, pressure:%d, fw:%d, "
++		"distance: %d, phys distance: %d, "
++		"tilt_x_max: %d, tilt_y_max: %d\n",
+ 		features->x_max, features->y_max,
+-		features->pressure_max, features->fw_version);
++		features->pressure_max, features->fw_version,
++		features->distance_max, features->distance_physical_max,
++		features->tilt_x_max, features->tilt_y_max);
  
- 	error = i2c_master_recv(wac_i2c->client,
-@@ -111,6 +129,11 @@ static irqreturn_t wacom_i2c_irq(int irq, void *dev_id)
- 	x = le16_to_cpup((__le16 *)&data[4]);
- 	y = le16_to_cpup((__le16 *)&data[6]);
- 	pressure = le16_to_cpup((__le16 *)&data[8]);
-+	distance = data[10];
-+
-+	/* Signed */
-+	tilt_x = le16_to_cpup((__le16 *)&data[11]);
-+	tilt_y = le16_to_cpup((__le16 *)&data[13]);
- 
- 	if (!wac_i2c->prox)
- 		wac_i2c->tool = (data[3] & 0x0c) ?
-@@ -125,6 +148,9 @@ static irqreturn_t wacom_i2c_irq(int irq, void *dev_id)
- 	input_report_key(input, BTN_STYLUS, f1);
- 	input_report_key(input, BTN_STYLUS2, f2);
- 	input_report_abs(input, ABS_PRESSURE, pressure);
-+	input_report_abs(input, ABS_DISTANCE, distance);
-+	input_report_abs(input, ABS_TILT_X, tilt_x);
-+	input_report_abs(input, ABS_TILT_Y, tilt_y);
- 	input_sync(input);
- 
- out:
-@@ -200,7 +226,11 @@ static int wacom_i2c_probe(struct i2c_client *client,
- 	input_set_abs_params(input, ABS_Y, 0, features->y_max, 0, 0);
- 	input_set_abs_params(input, ABS_PRESSURE,
- 			     0, features->pressure_max, 0, 0);
--
-+	input_set_abs_params(input, ABS_DISTANCE, 0, features->distance_max, 0, 0);
-+	input_set_abs_params(input, ABS_TILT_X, -features->tilt_x_max,
-+			     features->tilt_x_max, 0, 0);
-+	input_set_abs_params(input, ABS_TILT_Y, -features->tilt_y_max,
-+			     features->tilt_y_max, 0, 0);
- 	input_set_drvdata(input, wac_i2c);
- 
- 	error = devm_request_threaded_irq(dev, client->irq, NULL, wacom_i2c_irq,
+ 	return 0;
+ }
 -- 
 2.31.1
 
