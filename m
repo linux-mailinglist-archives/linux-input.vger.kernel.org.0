@@ -2,120 +2,104 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C50A03ADE3F
-	for <lists+linux-input@lfdr.de>; Sun, 20 Jun 2021 14:01:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C311D3ADEC6
+	for <lists+linux-input@lfdr.de>; Sun, 20 Jun 2021 15:36:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229587AbhFTMDZ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 20 Jun 2021 08:03:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48018 "EHLO
+        id S229737AbhFTNiv (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 20 Jun 2021 09:38:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229581AbhFTMDY (ORCPT
+        with ESMTP id S229662AbhFTNia (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 20 Jun 2021 08:03:24 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD30AC061574;
-        Sun, 20 Jun 2021 05:01:07 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id m18so16275930wrv.2;
-        Sun, 20 Jun 2021 05:01:06 -0700 (PDT)
+        Sun, 20 Jun 2021 09:38:30 -0400
+Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33280C06175F
+        for <linux-input@vger.kernel.org>; Sun, 20 Jun 2021 06:36:16 -0700 (PDT)
+Received: by mail-io1-xd41.google.com with SMTP id d9so3761291ioo.2
+        for <linux-input@vger.kernel.org>; Sun, 20 Jun 2021 06:36:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4RUYewpS29ETOvUxb+NczxmZJGUDZdUQNsR1o2uZhLQ=;
-        b=a4P03FHp/G5xoH/Qz+baVm74UVa5M2x393f/xxz/Aeji9liEJZnnCG39pO0nPjrNQ1
-         HL3TmGiPA7XDoH0uoVV/DUgDy7U0nWt491sUtZ0hsx9qgVmINZoB1+D+vFicZhrYrt3G
-         ExMC927QkRbueiCv0xGLzMejZN1TuQAYsTfM3OghISZ1Cu4pF0CNVGbcuSUSVLSuTy8T
-         A8RG+xhbcC1LfC3GAH1Vydmryz5MJv33dhN05yu2vB5e+IvCDibqO/z5EuhDP+HUTzC1
-         tCVx6rZ4PtH0DQyDYHhOKtmBK6ek4sthmHWdnlSijDtqLFXyDk7eHqq1NPSXLQiHl5Yw
-         fBJA==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=D7l/Y2nU4ivOXB3kYNarWKNDy1SUWuawPt7q4q/Bhv4=;
+        b=uDIEtWfgl91FDet7ZYX1u1ozW0abpKvg4acx3thqXBCDoYcWKg7eyNZSXNk+51VeuJ
+         sYbwx77CCJt/Xl1UBy7P++4/uHOQjQcptGzc4BiJd5A/7x+FLCtsFr6R08yAScCPxE/G
+         ycRitdP5UZQCPHBcljPWiYz9qooX9+o9VlIcE1iBIKjgWFsG58IfpnIZmKh5Mer/et0Q
+         Wvv2McVtUA6rn+iTugaAQulni5t+7gIBWkpgi42U+JEUmcEEUifIxcViVFyKhDEEgfNV
+         A33afccbptAYxVMQ3XRd6cg8QS8Vl2AEYQyihFbFLRpIaiCXlHMQE4BSfPfytvzUMqcd
+         FXMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4RUYewpS29ETOvUxb+NczxmZJGUDZdUQNsR1o2uZhLQ=;
-        b=HQyPzblhG4y8+EH1RwCfDH5FpNk3nnpBoDIRItuh6/PkQcRIidy7eHVfGlFfOf/xq0
-         cEBv7c5f4FdZC5Y2U9slyHTzDU9M4nPh14YEFKFhmZ/J3fpVMCYHRz+D8Mxic1eRQ4NQ
-         wklDud7Pc1VmBxulqJRYtfZO8LUC94KAPP139v41JHbfpfLDsP3/ttDwY1ooke3t3j1y
-         dhu/K2Teu4GOyFJZcP4d5xbRs42H3afb6d+vceOiJVpEjnPYl3RW1ITzjEtTIYsJrs4U
-         Ai+t8mKZODadBevSobDYn/boWqtuaFW7c6n1uJI04tRNCldwvyESHE7pE2BjskwsdLCB
-         Pzbw==
-X-Gm-Message-State: AOAM533b7RqFHtIA9KKtJbl8nnVwTiS3KeR5s9g13x48AHLWhlXawV3o
-        jN6yfOHtsQy1omeCfwq+UZ0=
-X-Google-Smtp-Source: ABdhPJxn24sxYO+VPoCxfseNeeXud7waSRMknBi4iozf/4cYOfphYDXBrvmRU+m/a5xEXz7qB/LnpA==
-X-Received: by 2002:a5d:538c:: with SMTP id d12mr22500253wrv.116.1624190465604;
-        Sun, 20 Jun 2021 05:01:05 -0700 (PDT)
-Received: from allarkin.tlv.csb ([176.230.197.133])
-        by smtp.googlemail.com with ESMTPSA id j34sm12640807wms.7.2021.06.20.05.01.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Jun 2021 05:01:05 -0700 (PDT)
-From:   Alexander Larkin <avlarkin82@gmail.com>
-To:     dmitry.torokhov@gmail.com, dan.carpenter@oracle.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        security@kernel.org
-Cc:     Alexander Larkin <avlarkin82@gmail.com>,
-        Murray McAllister <murray.mcallister@gmail.com>
-Subject: [PATCH]     Input: joydev - prevent potential write out of bounds in ioctl
-Date:   Sun, 20 Jun 2021 15:00:30 +0300
-Message-Id: <20210620120030.1513655-1-avlarkin82@gmail.com>
-X-Mailer: git-send-email 2.27.0
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=D7l/Y2nU4ivOXB3kYNarWKNDy1SUWuawPt7q4q/Bhv4=;
+        b=DmJjVEiCfQIRpnr/hteynOD78bXi4T6TV4lxy+T966xO3ksxiuk/mZfMFKZY1ruv+f
+         uPRlzaMk8J6c/YC/zwXpbuc6DCnMoIfZcYE7Xooa2og5lY1hdmWN9nuIiaTF/c2Rma1D
+         ZuXKjAVLO5BdqlYOY/SmxCvU56zecLdf4XIPg9/jQvgZwcuJ3YqhG8Lk7d12IMLsllYO
+         0lbwrJ61PjmklV3HYHitk0MgGqSfhUCK955EdmxjqLKC/RkkYnyn3uR4c+r7APAMWl9E
+         LY6XiaC/CFuLQz0693WsLOPITQQHD5U0gw0B2d+ZMWXAwosto/GynF2RtQSSH2AE/Wnc
+         xAwA==
+X-Gm-Message-State: AOAM531KWd9pDcplEabn5AEch9+Ps5R0SDKh90xRJBdVT4ZK21m7q5yt
+        YZMPR6M/D3jvMI7Etiw/DM43I1uBICm+BLj/az0=
+X-Google-Smtp-Source: ABdhPJwOQ5lA8oaPxit1UXNypL8Kah2QWj0jtAWNuj5/Z8/Rl7T8YsfxHtOIriCZuXo1tXOWzxp5d5YlbnVjDFRsY5Q=
+X-Received: by 2002:a02:a810:: with SMTP id f16mr12630337jaj.64.1624196175568;
+ Sun, 20 Jun 2021 06:36:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a05:6e02:1baf:0:0:0:0 with HTTP; Sun, 20 Jun 2021 06:36:14
+ -0700 (PDT)
+Reply-To: sarahkoffi389@yahoo.co.jp
+From:   Sarah Koffi <sarah.koffi101@gmail.com>
+Date:   Sun, 20 Jun 2021 15:36:14 +0200
+Message-ID: <CA+ifgLE1g7jgi567M2HhZfvRSUF63Hu6stsW+ysX=3U-=qnn6Q@mail.gmail.com>
+Subject: Greetings From Mrs. Sarah Koffi
+To:     sarahkoffi389@yahoo.co.jp
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-    The problem is that the check of user input values that is just
-    before the fixed line of code is for the part of first values
-    (before len or before len/2), but then the usage of all the values
-    including i >= len (or i >= len/2) could be.
-    Since the resulted array of values inited by default with some
-    good values, the fix is to ignore out of bounds values and
-    just to use only correct input values by user.
-    Originally detected by Murray with this simple poc
-    (If you run the following as an unprivileged user on a default install
-     it will instantly panic the system:
+Greetings From Mrs. Sarah Koffi
 
-int main(void) {
-	int fd, ret;
-	unsigned int buffer[10000];
+I'm contacting you based on your good profiles I read and for a good
+reasons, I am in search of a property to buy in your country as I
+intended to come over to your
+country for investment, Though I have not meet with you before but I
+believe that one has to risk confiding in someone to succeed sometimes
+in life.
 
-	fd = open("/dev/input/js0", O_RDONLY);
-	if (fd == -1)
-		printf("Error opening file\n");
+My name is Mrs. Sarah Koffi. My late husband deals on Crude Oil with
+Federal Government of Sudan and he has a personal Oil firm in Bentiu
+Oil zone town and Upper
+Nile city. What I have experience physically, I don't wish to
+experience it again in my life due to the recent civil Ethnic war
+cause by our President Mr. Salva Kiir
+and the rebel leader Mr Riek Machar, I have been Under United Nation
+refuge camp in chad to save my life and that of my little daughter.
 
-	ret = ioctl(fd, JSIOCSBTNMAP & ~IOCSIZE_MASK, &buffer);
-	printf("%d\n", ret);
-}
+Though, I do not know how you will feel to my proposal, but the truth
+is that I sneaked into Chad our neighboring country where I am living
+now as a refugee.
+I escaped with my little daughter when the rebels bust into our house
+and killed my husband as one of the big oil dealers in the country,
+ever since then, I have being on the run.
 
-Fixes: 182d679b2298 ("Input: joydev - prevent potential read overflow in ioctl")
-Reported-by: Murray McAllister <murray.mcallister@gmail.com>
-Signed-off-by: Alexander Larkin <avlarkin82@gmail.com>
----
- drivers/input/joydev.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I left my country and move to Chad our neighboring country with the
+little ceasefire we had, due to the face to face peace meeting accord
+coordinated by the US Secretary of State, Mr John Kerry and United
+Nations in Ethiopia (Addis Ababa) between our President Mr Salva Kiir
+and the rebel leader Mr Riek Machar to stop this war.
 
-diff --git a/drivers/input/joydev.c b/drivers/input/joydev.c
-index da8963a9f044..1aa067d4a3e8 100644
---- a/drivers/input/joydev.c
-+++ b/drivers/input/joydev.c
-@@ -464,7 +464,7 @@ static int joydev_handle_JSIOCSAXMAP(struct joydev *joydev,
- 
- 	memcpy(joydev->abspam, abspam, len);
- 
--	for (i = 0; i < joydev->nabs; i++)
-+	for (i = 0; i < len && i < joydev->nabs; i++)
- 		joydev->absmap[joydev->abspam[i]] = i;
- 
-  out:
-@@ -498,7 +498,7 @@ static int joydev_handle_JSIOCSBTNMAP(struct joydev *joydev,
- 
- 	memcpy(joydev->keypam, keypam, len);
- 
--	for (i = 0; i < joydev->nkey; i++)
-+	for (i = 0; i < (len / 2) && i < joydev->nkey; i++)
- 		joydev->keymap[keypam[i] - BTN_MISC] = i;
- 
-  out:
--- 
-2.27.0
+I want to solicit for your partnership with trust to invest the $8
+million dollars deposited by my late husband in Bank because my life
+is no longer safe in our country, since the rebels are looking for the
+families of all the oil business men in the country to kill, saying
+that they are they one that is milking the country dry.
 
+I will offer you 20% of the total fund for your help while I will
+partner with you for the investment in your country.
+If I get your reply.
+
+I will wait to hear from you so as to give you details.With love from
+
+ i need you to contact me here sarahkoffi389@yahoo.co.jp
+
+Mrs. Sarah Koffi
