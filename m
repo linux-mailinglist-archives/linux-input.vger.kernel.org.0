@@ -2,76 +2,99 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7DAB3ADD2F
-	for <lists+linux-input@lfdr.de>; Sun, 20 Jun 2021 07:24:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F0123ADD31
+	for <lists+linux-input@lfdr.de>; Sun, 20 Jun 2021 07:25:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229701AbhFTF0k (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sun, 20 Jun 2021 01:26:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47544 "EHLO
+        id S229489AbhFTF1W (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 20 Jun 2021 01:27:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229680AbhFTF0i (ORCPT
+        with ESMTP id S229469AbhFTF1W (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sun, 20 Jun 2021 01:26:38 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26075C061574;
-        Sat, 19 Jun 2021 22:24:26 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id l11so3676237pji.5;
-        Sat, 19 Jun 2021 22:24:26 -0700 (PDT)
+        Sun, 20 Jun 2021 01:27:22 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61153C061574;
+        Sat, 19 Jun 2021 22:25:10 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id h12so11096218pfe.2;
+        Sat, 19 Jun 2021 22:25:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=XoUdbl8/iH4bV2m2lMvHIzJ5HFiHOofiN0bR1YN1jDQ=;
-        b=oqPfclwio1l84+NpEb3DWaQyUBJ4odUgPhyhke+U88+cCGrdwL748/F84TGal+yjX9
-         CPBgAbzKz5bXbkN2vBNDQmQ8n3xUmBaQEzXGx3Em0FcYXo9ibmj5dly/dZb6vjTJpDNo
-         SQzF1v1U+jRcHJGwykyh+B0NJHFgV5JFIvKxTuKOJgYTUvc/9DZzz32qRvAMuYbjQZrD
-         cYFs47l/b8jAQdOAIiALPNNifghBZULH0eMRuH5FnLa6Y3OQPtSc7X0peFCBSzatNgIJ
-         KaXtEL1VLy8YyA/zxc5EaeSPynas6ve6gKChgluDPmX4J6lhHdvzW+fYXG72uPf3OdpK
-         bxqg==
+        bh=c84gboM6YO8wjY8fbf/+Prb/3NjUtMSk7Q9JQIXwWGQ=;
+        b=K5Sye0wDHtJ3tNxPNnflu1pi6n+PYXHyrcQjU2hfg2X2QoHEM3ci7v6igwbyp9lBjW
+         Vx/oWv/8t8UQMMJS3SVysZyrSbiRkqDPkPnKH5ymRKFGPtpq0Bt2uv+FAre3+f9266W0
+         +8r9fKnYJcCxP65FH2cgehVbR0q0nP8NRBy2eZQl3OJdMIzFGWKLxmcWP/ir/y1qvdYb
+         IzGVUKWJXEvmFvkZPJF4wOIL41jEWJKAPO7lVr6QgVte/T48YbmmpLDr0yCPwL6sttSA
+         ksb3JtjEIJGgs6keaGcjcN5OC94VuhD3uFGhY9gZ/DM5aKJCYNDzOtPY+qbPOFRO+W4G
+         yFmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=XoUdbl8/iH4bV2m2lMvHIzJ5HFiHOofiN0bR1YN1jDQ=;
-        b=M6D37pJuYncww4tRtsTTPyCBSdwDF5O3IYPSt8wm5HNtVh3ZlzbNDpfM+ObCzKzkGd
-         j6wOn3OMu0cCg+F5UI6JMaJcECJsuLTi284mO3cjZAnMA9TdaNnNTKFBaUqguIzJwxAR
-         LxyA6MwqX0My7KP9MFWWtnB84Zk3sTadHfZx81K34dPWKkZMSZVXpQDyO6qakimk1X0o
-         BQaQ7U8SQvNb3Xi1WnXIx27jX6HqgnCY67OUjKZWVSilaajfL5rrdTxvQb8CfiN6Y41q
-         3Majrz9sXHNJy3CC5PIfXC61iApURcGlQjyWv921l6Q2IHbWMCwHm4XnBPzj3xLlSdwX
-         yjgQ==
-X-Gm-Message-State: AOAM532VRRldxUXLMeTZzDvXlx7zHUo1wgJxdTRJsFwpv76LljnYRvkS
-        Db+RQL7246znlAirfwScM2k=
-X-Google-Smtp-Source: ABdhPJzWaT6lmmfA7JAJkLJZkpbWcBmBX68TC80LO83K5xBv5JZVsK7ySqxw7e6zgHo7EAAd5vo90A==
-X-Received: by 2002:a17:90a:c093:: with SMTP id o19mr20057663pjs.6.1624166665695;
-        Sat, 19 Jun 2021 22:24:25 -0700 (PDT)
+        bh=c84gboM6YO8wjY8fbf/+Prb/3NjUtMSk7Q9JQIXwWGQ=;
+        b=O+5aGqAyu6KlG/ZvOQ91egruDhUGfMyoWM8sOSNYGvX460wHMPr+hWp9PH/6U8mh5i
+         EUy39jkV9p6QHkb5NRtTZpNBhARVODwvtgzvVoRb8Qq9AE2+GAS8P5pj5emLRJwBOnOv
+         +Lp0puPPOwOtADEdowsUBHpGlHgP+MwOOzaWEJ5UjTaAQ/jiuBGVRd7rLtoqkk5232bx
+         VlvHwPpCFYiXsTHpLneuvNsIoixQgoRSnNfY+Qha/h6g9QyAUJEwevTMtxJjWSOjtKx+
+         q3ixfeefdGNrbb1FjdKXoqpcofFOeL3PTlXxSIDsr2Ua0NbA6xwu/LrO0C8PxDTlFtB/
+         tnDw==
+X-Gm-Message-State: AOAM532eWCopVVdWNG5bEvxVLxgPfgEQ70JFMZo5AZTDoxMd8R5TMHcf
+        1h+TOBllb27bVvp1rH4Rm5Y=
+X-Google-Smtp-Source: ABdhPJx/G26zmFtihUSubj90Hq0VohTLrhgx/jfeEuWQUZTg0XoHeH+teXcLQFCta9kpPZcH5/1xhA==
+X-Received: by 2002:a63:508:: with SMTP id 8mr13154427pgf.308.1624166709904;
+        Sat, 19 Jun 2021 22:25:09 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:b83e:d8b6:9f4f:2be2])
-        by smtp.gmail.com with ESMTPSA id w59sm11696348pjj.13.2021.06.19.22.24.24
+        by smtp.gmail.com with ESMTPSA id h21sm11232533pfv.190.2021.06.19.22.25.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Jun 2021 22:24:24 -0700 (PDT)
-Date:   Sat, 19 Jun 2021 22:24:22 -0700
+        Sat, 19 Jun 2021 22:25:09 -0700 (PDT)
+Date:   Sat, 19 Jun 2021 22:25:06 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     YueHaibing <yuehaibing@huawei.com>
-Cc:     vincent.huang@tw.synaptics.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] Input: trackpoint - Fix kobj_to_dev.cocci warnings
-Message-ID: <YM7RBqrpqWT7oT3f@google.com>
-References: <20210607122722.36736-1-yuehaibing@huawei.com>
+Cc:     bleung@chromium.org, enric.balletbo@collabora.com,
+        groeck@chromium.org, philipchen@chromium.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -next] Input: cros_ec_keyb - Fix kobj_to_dev.cocci
+ warnings
+Message-ID: <YM7RMvCuHPfLkjVX@google.com>
+References: <20210607122616.1316-1-yuehaibing@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210607122722.36736-1-yuehaibing@huawei.com>
+In-Reply-To: <20210607122616.1316-1-yuehaibing@huawei.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jun 07, 2021 at 08:27:22PM +0800, YueHaibing wrote:
+On Mon, Jun 07, 2021 at 08:26:16PM +0800, YueHaibing wrote:
 > Use kobj_to_dev() instead of container_of()
 > 
 > Generated by: scripts/coccinelle/api/kobj_to_dev.cocci
+
+Ended up picking another incarnation of this same patch, sorry.
+
 > 
 > Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-
-Applied, thank you.
+> ---
+>  drivers/input/keyboard/cros_ec_keyb.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/input/keyboard/cros_ec_keyb.c b/drivers/input/keyboard/cros_ec_keyb.c
+> index 38457d9641bd..fc02c540636e 100644
+> --- a/drivers/input/keyboard/cros_ec_keyb.c
+> +++ b/drivers/input/keyboard/cros_ec_keyb.c
+> @@ -644,7 +644,7 @@ static umode_t cros_ec_keyb_attr_is_visible(struct kobject *kobj,
+>  					    struct attribute *attr,
+>  					    int n)
+>  {
+> -	struct device *dev = container_of(kobj, struct device, kobj);
+> +	struct device *dev = kobj_to_dev(kobj);
+>  	struct cros_ec_keyb *ckdev = dev_get_drvdata(dev);
+>  
+>  	if (attr == &dev_attr_function_row_physmap.attr &&
+> -- 
+> 2.17.1
+> 
 
 -- 
 Dmitry
