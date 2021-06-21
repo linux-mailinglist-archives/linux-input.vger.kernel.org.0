@@ -2,92 +2,107 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 98F0A3AF219
-	for <lists+linux-input@lfdr.de>; Mon, 21 Jun 2021 19:40:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C976A3AF60A
+	for <lists+linux-input@lfdr.de>; Mon, 21 Jun 2021 21:23:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230241AbhFURmX (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Jun 2021 13:42:23 -0400
-Received: from mail-oo1-f46.google.com ([209.85.161.46]:43828 "EHLO
-        mail-oo1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230082AbhFURmV (ORCPT
+        id S231167AbhFUTZc (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Jun 2021 15:25:32 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:51265 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230052AbhFUTZc (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Jun 2021 13:42:21 -0400
-Received: by mail-oo1-f46.google.com with SMTP id z14-20020a4a984e0000b029024a8c622149so4681256ooi.10;
-        Mon, 21 Jun 2021 10:40:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=OTu1rFDXJaf7m6eaRf3X1vz4LoglE2W+ViSBkQZ+Tmo=;
-        b=iaZMWWwWPpbDk8oFGmtGwTM/DQ7U0hjnZCDVUvJ5NpfK0TnxR2IunoanE1zXXMZ5ap
-         FMfLAPf5ELorhFyevqVvDkqSKZHInIq8KIrdowvKF+MiYRBNMk8HgcGRitOq4cbxdIJ7
-         18COWDJR0tphxG9yQPCDnBm8rG7o+3yWFNtJj6rGBNApTlaPS+p7nc8zeE+eqUWtbVwI
-         Pbmd0o7PVHpZ4s8sIE1zhVEBdzRQnP/lkLrxgfmuEau05ie74R/LwAEngfmDEbKVLBmk
-         dmZaEsw+mGmrGRzH1gGcIZTsS4QO8ggXDjbpnLCZ9YBgWcouy2yRG2GKh0vYQUqXvqev
-         OjTg==
-X-Gm-Message-State: AOAM533cgZlWv5KvRAs3i7Z3xdL3cLbU6oEgxH8EldIzR309f7KCsn+x
-        GXm3LgYgf4TWachuVGPo9w==
-X-Google-Smtp-Source: ABdhPJyj0i0dlbjjULNKOFeXXFeW9k3yDTGHMW07iAO8gEx7hy2a9JMAVGFPynK0H0u+7IZnwMYzRw==
-X-Received: by 2002:a4a:e989:: with SMTP id s9mr12227893ood.44.1624297205219;
-        Mon, 21 Jun 2021 10:40:05 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id a78sm3685164oii.42.2021.06.21.10.40.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jun 2021 10:40:04 -0700 (PDT)
-Received: (nullmailer pid 1161628 invoked by uid 1000);
-        Mon, 21 Jun 2021 17:40:02 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Caleb Connolly <caleb@connolly.tech>
-Cc:     linux-arm-msm@vger.kernel.org,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Andy Gross <agross@kernel.org>, phone-devel@vger.kernel.org,
-        jo@jsfamily.in, jami.kettunen@somainline.org,
-        linux-kernel@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht
-In-Reply-To: <20210618175041.323495-2-caleb@connolly.tech>
-References: <20210618175041.323495-1-caleb@connolly.tech> <20210618175041.323495-2-caleb@connolly.tech>
-Subject: Re: [RESEND PATCH v2 1/6] dt-bindings: input: add Qualcomm SPMI haptics driver
-Date:   Mon, 21 Jun 2021 11:40:02 -0600
-Message-Id: <1624297202.328811.1161627.nullmailer@robh.at.kernel.org>
+        Mon, 21 Jun 2021 15:25:32 -0400
+Received: from [192.168.1.155] ([95.118.106.223]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MdNwm-1lM4lE3FxI-00ZRYS; Mon, 21 Jun 2021 21:23:12 +0200
+Subject: Re: [PATCH v2] platform/x86: add support for Acer Predator LEDs
+To:     Hans de Goede <hdegoede@redhat.com>, leo60228 <leo@60228.dev>,
+        platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-input@vger.kernel.org
+References: <20210615221931.18148-1-leo@60228.dev>
+ <20210616005147.26212-1-leo@60228.dev>
+ <87e6f17f-3d82-ac63-b5eb-e7f3205f59e8@metux.net>
+ <ae4e7db3-ffc5-b8f3-c08c-bba6882d44ad@60228.dev>
+ <62d2de8d-e539-5b4f-447a-5e6116844992@metux.net>
+ <0148a2e3-c91e-7422-df3d-6942c38334ed@redhat.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <436b87c1-5c24-05ce-98fd-c3664c7765e2@metux.net>
+Date:   Mon, 21 Jun 2021 21:23:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <0148a2e3-c91e-7422-df3d-6942c38334ed@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: tl
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:pssvFtUXCsKqPabfMS3MfR5mWNP3oGs46zYpeqHlY03AhyYToJq
+ OZBUO+yvxTojMEOnEco1QsHElQQwAhiv3agEKPDigXhDclBzjgrGDdTXRwN8Z52rj98u2uG
+ wTOUokDLp5Tepye2OjEZubps/lpQB8utp9ZNGH8L0N+b61X0FVd0JLwXaxWN4JePGu0ZwcT
+ D1Uzw15IHfJHQqX6hsXkA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:QCtZMNliL7o=:JyTuljuGLp200MJtuMMENa
+ h1n8vyNqcyQWSBrTSiUrsqu35I+G9Ws7dyEmgVs/1zEI+cwg5nh5HoJmcF+kRu3oiY1a17lu5
+ pUCp122Sx0K5sozf9wsrFAZ9SMlZyg4yZivzgK7m35G/rxd1DmFCSJrsN82lcVCY5m4FiQ5EL
+ e65puVTwLobzVSR6Cx26nSGyrTaZVzNFisbdd1b6FBtC1OfxoN+4iJxcAQwGgY0d7mHWTZe9t
+ CUo+eVJL+XExOku2vOeW3qsfsV5x5J/TpXbF9Tw4i1+oIF6FEjHQM2v2/KytTIvESrUwcjfxF
+ XloA6D7WpYYIUuj5WB159TEPt29tJbRKZdRjsRmYj7zZ2OgTZIrzbYY5j8kWS7V+JCyu+Jt7/
+ zbpIKdf7MEJ69a2oZe5AyVUPfLZXhIErU4F54LUmFGk6LMO06gaK1WqC1coNBE6E0XLjHCHxU
+ rL/ewgL5iwKpDnLQoMWplBUCbYhN7rHUjXir4BvwJIO6ANOVpaA07DcU1YZBFr4B6AZVfwTc3
+ Y4AuZk/3pvGzeZTAa9fZ6E=
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 18 Jun 2021 17:51:03 +0000, Caleb Connolly wrote:
-> Add bindings for qcom PMIC SPMI haptics driver.
+On 16.06.21 19:50, Hans de Goede wrote:
+
+Hi,
+
+>> hmm, keyboard backlight ... don't we already have something for that
+>> in input subsys ? I believe that some lone LEDs aren't the right subsys
+>> for those stuff.
 > 
-> Signed-off-by: Caleb Connolly <caleb@connolly.tech>
-> ---
->  .../bindings/input/qcom,spmi-haptics.yaml     | 128 ++++++++++++++++++
->  include/dt-bindings/input/qcom,spmi-haptics.h |  32 +++++
->  2 files changed, 160 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/input/qcom,spmi-haptics.yaml
->  create mode 100644 include/dt-bindings/input/qcom,spmi-haptics.h
+> Actually the standardized userspace API for exporting keyboard backlights
+> is using the LED class sysfs API, e.g.:
 > 
+> cat /sys/class/leds/tpacpi\:\:kbd_backlight/brightnes
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Sounds like we don't have an API for that particular case at all.
+Everbody just exposes LED class devices and userland always needs
+hardware specific code to practically use it.
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/input/qcom,spmi-haptics.yaml:23:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+We should at least have some standard mechanism for get least getting
+the connection between an input device and it's backlight device(s).
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/input/qcom,spmi-haptics.example.dt.yaml:0:0: /example-0/pmic@3: failed to match any schema with compatible: ['qcom,pmi8998', 'qcom,spmi-pmic']
-Documentation/devicetree/bindings/input/qcom,spmi-haptics.example.dt.yaml:0:0: /example-0/pmic@3: failed to match any schema with compatible: ['qcom,pmi8998', 'qcom,spmi-pmic']
-\ndoc reference errors (make refcheckdocs):
+> And the same for Dell and other kbd backlights, also the upower
+> daemon even has code for dealing with kbd-backlights:
+> https://gitlab.freedesktop.org/upower/upower/-/blob/master/src/up-kbd-backlight.c
+> exporting them over its dbus API so that non-root users can
+> control them.
 
-See https://patchwork.ozlabs.org/patch/1494375
+Looks like a very complicated way to do that. But actually I've never
+understood why I should use this strange upower thing anways :p
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+> Basically using the LED class for kbd-backlight functionality
+> basically is the defacto standard under Linux, so exposing this
+> through the LED class is definitely the right thing to do.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+In general, LED class isn't so bad, as it already gives us LED control
+(*1), but I don't see any portable way for finding the corresponding
+LED for some input device. In DRM I see the backlight as subdevice.
 
-pip3 install dtschema --upgrade
 
-Please check and re-submit.
 
+--mtx
+
+
+*1) just recognized that on my toshiba portege (TOS6208) it only works
+    for readout - writing to "brightness" does nothing at all
+-- 
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
