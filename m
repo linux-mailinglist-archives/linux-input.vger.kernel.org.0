@@ -2,141 +2,85 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 944603AE2BB
-	for <lists+linux-input@lfdr.de>; Mon, 21 Jun 2021 07:25:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD4FA3AE2C6
+	for <lists+linux-input@lfdr.de>; Mon, 21 Jun 2021 07:30:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229567AbhFUF12 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Jun 2021 01:27:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48178 "EHLO
+        id S229486AbhFUFc0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Jun 2021 01:32:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49284 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229486AbhFUF11 (ORCPT
+        with ESMTP id S229479AbhFUFcZ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Jun 2021 01:27:27 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6EF8C061574;
-        Sun, 20 Jun 2021 22:25:12 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id t19-20020a17090ae513b029016f66a73701so4510053pjy.3;
-        Sun, 20 Jun 2021 22:25:12 -0700 (PDT)
+        Mon, 21 Jun 2021 01:32:25 -0400
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3560EC061574;
+        Sun, 20 Jun 2021 22:30:11 -0700 (PDT)
+Received: by mail-pj1-x102f.google.com with SMTP id t19-20020a17090ae513b029016f66a73701so4516041pjy.3;
+        Sun, 20 Jun 2021 22:30:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=1qVAoYNk5ZopylsEj2qCzbf543VF7z7ZlB5UYvXcDuI=;
-        b=o8cXAWOYVtQerhlY9qg+MFlJo6FPNgDQscSbfLfanhgNNooHFb1DOPVyw9XR3LCRPq
-         dFKL4xFyDp6SUGi/7EcgmyHWs45UEVR0VJQd/PnM+K5AwVDOc5Bd1/i3QKVy4uQjxugO
-         QDY45KOfVk+ySEbwdtJSdjXNC2v7cJT7QgMoi3w9/03MHePlzt22jT/I1MfcD6n7jlch
-         Ei7QEEUrl1XJO3I/Hk2GfxRXlNygIYlEHqoW6qH/5vM5FEIUfwMo5PKrf80c4wtzsQEu
-         vjU95k9JBjWiMpT5tMfdhXMKlne6HdPlkpPxpPKYFTeChbfB/ZHRQfPdJCOBYRYBm3jb
-         4JVA==
+        bh=4IlYTzqTiHSSyCrVD+PHTHP/vSzXrM8Iuj5rsEYS1ag=;
+        b=Pbv+96vIF+02I2wwcvgORNfYiULcsseOROoTrlSkAdKQ8/0Jt3oHyCsTpSYEpixQa9
+         0QcfW+xMj20lELFCZw3O2rZS61pC1kdLQl0qeDJp/c/mw0IKd4G6fmq0LMWvXKOT6g0q
+         8bNbSxDCaQPn9FC4iYdH88nTPZyCMlmeA+pQ019Dm41oF6WiYiM3aR+qIYFQjwFIwSbu
+         cG/ueNacxVotmLx/0LLZUEP24oAMu6qAq/V8Zj5IEiXkCPlapYJlpGprSHshJtBNz7fH
+         dEJJqOaV+PYUmEEYIESe0gUDDDxg5hynZnKc1vnGDiiJX5pYvGd9U8V1yme0RS6atH1L
+         IbPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=1qVAoYNk5ZopylsEj2qCzbf543VF7z7ZlB5UYvXcDuI=;
-        b=UeZ3we64/69R03o3pFX43YQQoU+88hrVaXKHCbeDyIsBGyPs4Wkmxoiex0uCz2hiyB
-         deavNBR+zurtU5nFK9Mgec3ZADGtYODY24RyCbD/cPxHho2uN9GlkORkqbwyzdYhjskQ
-         BOcdPOU4BPSFuQguPdfu76UlLdGb8QeNhcsGgbn9XqbSFbpTKREJwY56cXZeA++jB2N6
-         ivXBsRG/cNFV7E6AgdzNF9wlFRxLsRaDgKT8LE4VV1v+8dOswlvzzzIMyexTY6jxaCIV
-         mlo2Ae/GlzpYXn1mJBVJczuPjNVG6RUdGuhj5XdaVZ+HEpQ/11WW8KKd70hCeb1Dp1Nq
-         utWA==
-X-Gm-Message-State: AOAM532fu+vK/BWBAramedvpkooweTIygn+bh3P4xRnrWKT6Gq+32FDw
-        jvgT+fZHb7lQ4FVmcWQpNl2csDO4yAM=
-X-Google-Smtp-Source: ABdhPJzJJGTDm3OMi6Ry4Jn28iYe9McE/TLPRyz1L+rmBGOn7vyxdANL/JSPvMEwwzjTlmgXVx2iGg==
-X-Received: by 2002:a17:902:d909:b029:11b:870f:ddad with SMTP id c9-20020a170902d909b029011b870fddadmr16374023plz.81.1624253112211;
-        Sun, 20 Jun 2021 22:25:12 -0700 (PDT)
+        bh=4IlYTzqTiHSSyCrVD+PHTHP/vSzXrM8Iuj5rsEYS1ag=;
+        b=jEqZ72o3ZtKHdkyXBulqyvXwNJKgo00JOZErCp+ubLdJNt6hcVoobURrVeWSQPfh6p
+         BvXgaB4hgKK1qm2nLXs/1GnJveoJgE6OR1d01pmyO5dYlRev9RpJ/4kZa9Tg48fns+CP
+         5NhzLkp+MT/qlaB7EvLRpEsYdwLLNdSH/aNKV79GTP9j6pN2wXzEUe/fp331Nsl0ddRS
+         gfRyvUaKy65F9NH0C78qeilXVHn1v9iyUDJ+WIc7vtqWRBHOm966UTZbXRgyk1qbWsJj
+         zeHHpfw+BE6ylLbLTBxYD4xrdv/2LGxcY2+041vSyGgpx4agSBtxC1fwD3z4fCCrqbY7
+         vVqA==
+X-Gm-Message-State: AOAM531AmkpLH/F9uuQmuOTUgnAGp8l3aVUHTydGaz5MD/I1/eY3Zd5k
+        QgT2raKf1uGDtJsNnv+mGGU=
+X-Google-Smtp-Source: ABdhPJwxJnLSM4mz1fCQWv4Mof+GiaalZ0RUmJTvO4iQIhAj/uMqCpXrb8enkuozJHLC0dCp8MiF2g==
+X-Received: by 2002:a17:90a:901:: with SMTP id n1mr35920253pjn.44.1624253410705;
+        Sun, 20 Jun 2021 22:30:10 -0700 (PDT)
 Received: from google.com ([2620:15c:202:201:df5a:b40e:40c9:a3e7])
-        by smtp.gmail.com with ESMTPSA id w123sm13835706pfb.109.2021.06.20.22.25.10
+        by smtp.gmail.com with ESMTPSA id l6sm1210484pgh.34.2021.06.20.22.30.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Jun 2021 22:25:11 -0700 (PDT)
-Date:   Sun, 20 Jun 2021 22:25:08 -0700
+        Sun, 20 Jun 2021 22:30:09 -0700 (PDT)
+Date:   Sun, 20 Jun 2021 22:30:07 -0700
 From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Alexander Larkin <avlarkin82@gmail.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        linux-input@vger.kernel.org, lkml <linux-kernel@vger.kernel.org>,
-        Security Officers <security@kernel.org>,
-        Murray McAllister <murray.mcallister@gmail.com>
-Subject: Re: [PATCH] Input: joydev - prevent potential write out of bounds in
- ioctl
-Message-ID: <YNAitJfOpoBkFitU@google.com>
-References: <20210620120030.1513655-1-avlarkin82@gmail.com>
- <CAADWXX-fpcPh+jGX7=Hbkqr7yhwzbUT915NBBzqHGecFVbxmzw@mail.gmail.com>
+To:     Sergey Larin <cerg2010cerg2010@mail.ru>
+Cc:     Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        linux-input@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Input: stmpe-keypad - add STMPE1801 support
+Message-ID: <YNAj30vl2yGxRX4e@google.com>
+References: <20210618145149.10136-1-cerg2010cerg2010@mail.ru>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAADWXX-fpcPh+jGX7=Hbkqr7yhwzbUT915NBBzqHGecFVbxmzw@mail.gmail.com>
+In-Reply-To: <20210618145149.10136-1-cerg2010cerg2010@mail.ru>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, Jun 20, 2021 at 09:37:47AM -0700, Linus Torvalds wrote:
-> On Sun, Jun 20, 2021 at 5:01 AM Alexander Larkin <avlarkin82@gmail.com> wrote:
-> >
-> >     The problem is that the check of user input values that is just
-> >     before the fixed line of code is for the part of first values
-> >     (before len or before len/2), but then the usage of all the values
-> >     including i >= len (or i >= len/2) could be.
-> 
-> No, I think the problem is simpler than that.
-> 
-> > -       for (i = 0; i < joydev->nabs; i++)
-> > +       for (i = 0; i < len && i < joydev->nabs; i++)
-> >                 joydev->absmap[joydev->abspam[i]] = i;
-> 
-> This part is unnecessary - all values of "joydev->abspam[i]" have been
-> validated (either they are the old ones, or the new ones that we just
-> validated).
-> 
-> >         memcpy(joydev->keypam, keypam, len);
-> >
-> > -       for (i = 0; i < joydev->nkey; i++)
-> > +       for (i = 0; i < (len / 2) && i < joydev->nkey; i++)
-> >                 joydev->keymap[keypam[i] - BTN_MISC] = i;
-> 
-> The problem here is not that we walk past "len/2", but that the code
-> *should* have used
-> 
->         joydev->keymap[joydev->keypam[i] - BTN_MISC] = i;
-> 
-> (note the "keypam[1]" vs "joydev->keypam[i]").
-> 
-> And the reason it *should* walk the whole "joydev->nkey" is that if
-> there are later cases with the same keypam value, the later ones
-> should override the previous ones (well, that "should" is more a
-> "traditionally have").
+Hi Sergey,
 
-Yes, we can discuss whether "short" ioctl should clear out the part of
-map that is not supplied by the call, but given that I consider joydev
-legacy my preference would be to leave this as it was.
+On Fri, Jun 18, 2021 at 05:51:49PM +0300, Sergey Larin wrote:
+> @@ -176,7 +232,9 @@ static irqreturn_t stmpe_keypad_irq(int irq, void *dev)
+>  		u8 data = fifo[i];
+>  		int row = (data & STMPE_KPC_DATA_ROW) >> 3;
+>  		int col = data & STMPE_KPC_DATA_COL;
+> -		int code = MATRIX_SCAN_CODE(row, col, STMPE_KEYPAD_ROW_SHIFT);
+> +		int code = variant->read_inverted ?
+> +			  MATRIX_SCAN_CODE(col, row, STMPE_KEYPAD_ROW_SHIFT)
+> +			: MATRIX_SCAN_CODE(row, col, STMPE_KEYPAD_ROW_SHIFT);
 
-> 
-> So I think the right patch is this one-liner
-> 
->   diff --git a/drivers/input/joydev.c b/drivers/input/joydev.c
->   index da8963a9f044..947d440a3be6 100644
->   --- a/drivers/input/joydev.c
->   +++ b/drivers/input/joydev.c
->   @@ -499,7 +499,7 @@ static int joydev_handle_JSIOCSBTNMAP(struct
-> joydev *joydev,
->         memcpy(joydev->keypam, keypam, len);
-> 
->         for (i = 0; i < joydev->nkey; i++)
->   -             joydev->keymap[keypam[i] - BTN_MISC] = i;
->   +             joydev->keymap[joydev->keypam[i] - BTN_MISC] = i;
-> 
->     out:
->         kfree(keypam);
-> 
-> (whitespace-damaged, I would like Dmitry to think about it rather than
-> apply this mindlessly.
-> 
-> Dmitry?
-
-Yes, this makes sense to me and it is safe as joydev->keypam is
-guaranteed to be the right size.
-
-Are you going to reformat this and resend or should I?
-
+Do we really need to do this swap vs. simply arranging the keymap
+differently for 1801?
 
 Thanks.
 
