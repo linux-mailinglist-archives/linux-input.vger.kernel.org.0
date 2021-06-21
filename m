@@ -2,52 +2,52 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D2233AF765
-	for <lists+linux-input@lfdr.de>; Mon, 21 Jun 2021 23:30:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9EAA3AF76B
+	for <lists+linux-input@lfdr.de>; Mon, 21 Jun 2021 23:32:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231234AbhFUVcx (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Jun 2021 17:32:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41086 "EHLO
+        id S230202AbhFUVes (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 21 Jun 2021 17:34:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231218AbhFUVcx (ORCPT
+        with ESMTP id S230006AbhFUVer (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Jun 2021 17:32:53 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0216C061574;
-        Mon, 21 Jun 2021 14:30:38 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id h11so3746220wrx.5;
-        Mon, 21 Jun 2021 14:30:38 -0700 (PDT)
+        Mon, 21 Jun 2021 17:34:47 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 234EEC061574;
+        Mon, 21 Jun 2021 14:32:31 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id u5-20020a7bc0450000b02901480e40338bso554234wmc.1;
+        Mon, 21 Jun 2021 14:32:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=JurTSdOp+UFrSX4hMp+B1Orm1qcT5exeX9APSpHRGFc=;
-        b=dqRTYAVDDhkAdEN+fQ9ILLp73mhzlgyyt+m48dKIos/dfbpnPwTf/DjPTiwhwlyvcO
-         WDZabokkB6PpkWI1K171fFwFVmBTtw4kukOf+6f9Z2XPiHk8vdHnEFlKyRSCOtfy6+Wn
-         bgsqYwrnL16/4T5KU1xwARlhZXwNFEdK3NLlCf3x/787Mx3W25qqun6QRAVlpXtC37dH
-         6BrzpXfHh2Whsg0Jg0XMTlu4Ds2rd5onPwGmk5njZuk4j7UXom6mzeZP0cK30gjl9+kY
-         wJbKXt3pW1/rdynuldWIpc2UF75nEDpd40+BoMldkDE5anb5go9+Qg/YqrpJBbVjbuDX
-         kGtQ==
+        bh=mcoCwcelo8Lbr0Q6rkCvF0dSgI5+ZcbGqGlqkbILsEM=;
+        b=mI+NH1eVUdGTdvXe4s6oG7uyQMwxJ/Y1+LLtw6u+JF9mWcViYBceNkl9wcFIW0aGIo
+         AsReJ/1bBUt+hpag2r9hfzZhfk1GtlpkoTyhKU3HW0I2E4gaFhlLbJeQCLqDk+Z7rYWP
+         +JFePEa0TVlWt9adHECXa1//npXa+FpAc6GPWP4G/jbloJqvc278mMMix8URVpHxMAC+
+         tVWei4q/qGyftBGq33aJ5EGpcl4lzOHLZXO7Ok0b8kgWnEE1ndbXGcZ7LMtg2E/cSnIq
+         UydyGecaunA+OD9zz8ACp/PpXqlNVpMTZUDWt1c+aIPYcbu7/IK6XJXHloFFmrSH3Lf0
+         OekA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=JurTSdOp+UFrSX4hMp+B1Orm1qcT5exeX9APSpHRGFc=;
-        b=d7g2VPRckS0Ws7UrL/caHIkXuhrSx3AJmC0Tlt/sUTNfm88hjW2otk7MiVrjOJBBMH
-         upJd5W6Ugo3y9BkcqKFv7AXzOI+TjnVNaJesHqbnZZQxIqCfySU3g7cHPSYkXw7u4SXi
-         e81fop/aCG45lN45Jy2Lipp/FhNWEkw6ydu5UjSvPR7Up4k7eMYqgTKnFLmN3rKNjMRc
-         yLkSbH3pPH//PcCXVPc+u28ALfJan0JDGA6ZBwG1KLcvpxuNTfrvZSX+/yZjSUYYM3Cd
-         ZEuU+zm7bJsasH3hYk1IjihA7i4YbDpiXeppX34VkW2W0FVKA11jOFkNQZIzekbl0JzH
-         eZ7g==
-X-Gm-Message-State: AOAM5318LHWswwoTm1X7RcaitF+eJscFsHQraSB16vCkiVPKaxmPuID5
-        mipvuZeVEOicZ6pTbDVZHOM=
-X-Google-Smtp-Source: ABdhPJzU+KvqpuPlba4UIOuw9CpyFr3uOieFk41afnGKCAHah2TbkjXHXybXGbLve2tDZqknNJhDBQ==
-X-Received: by 2002:a05:6000:1281:: with SMTP id f1mr183005wrx.137.1624311037307;
-        Mon, 21 Jun 2021 14:30:37 -0700 (PDT)
+        bh=mcoCwcelo8Lbr0Q6rkCvF0dSgI5+ZcbGqGlqkbILsEM=;
+        b=ajPNMeM3/cwhR0+j1fybO+uNh2it8E5riynhol2CkOitU1Sy/LSDstKihoQg+HPtX9
+         pY21h8jhTHpT5S3sHgigIHokClflPFnoEWRxU1A5GHan+X7M2Z4JyAAdEqo3+HHhqSdO
+         k5xNYK3sBMDOTSZCr8bAaCj8dVAaT5AIb7OftLZRFMFOvkKKqkwnlf4yNeHbKdzbd+Tj
+         u7Mhjo9cvACbLmENZiU+XVGa2OCPqUuPn5+gTMS9I7Pb9uBZ/gNEL8vIyB7HwMLp08CN
+         ywm+xYLRK9QKNB9e+Y0NQCm4E8du0CoVsFnrOD3uMZL0m53w/yD2ODYCCGKtULbpPOAr
+         4DCQ==
+X-Gm-Message-State: AOAM533N0IgNkORUg6z4jCFgafSyVOROBCIQjTO6zGvyEGt55yuya/iY
+        IMX3c/8rKoOhMxk3tw/wUXNjRMjOVULkpTCSFuI=
+X-Google-Smtp-Source: ABdhPJzrYslg47YXudm09Gq6WIxI559PJmj9C7Qdhcw+hFMDmwgdD/LsjCNT9dZHwyjQVoOhBoqCSw==
+X-Received: by 2002:a1c:7219:: with SMTP id n25mr404810wmc.3.1624311149806;
+        Mon, 21 Jun 2021 14:32:29 -0700 (PDT)
 Received: from allarkin.tlv.csb ([176.230.197.133])
-        by smtp.googlemail.com with ESMTPSA id u15sm618195wmq.1.2021.06.21.14.30.35
+        by smtp.googlemail.com with ESMTPSA id s62sm280907wms.13.2021.06.21.14.32.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jun 2021 14:30:36 -0700 (PDT)
+        Mon, 21 Jun 2021 14:32:29 -0700 (PDT)
 From:   Alexander Larkin <avlarkin82@gmail.com>
 To:     torvalds@linux-foundation.org
 Cc:     avlarkin82@gmail.com, dan.carpenter@oracle.com,
@@ -55,8 +55,8 @@ Cc:     avlarkin82@gmail.com, dan.carpenter@oracle.com,
         linux-kernel@vger.kernel.org, murray.mcallister@gmail.com,
         security@kernel.org
 Subject: Re: [PATCH] Input: joydev - prevent potential write out of bounds in ioctl
-Date:   Tue, 22 Jun 2021 00:30:24 +0300
-Message-Id: <20210621213024.1698133-1-avlarkin82@gmail.com>
+Date:   Tue, 22 Jun 2021 00:32:15 +0300
+Message-Id: <20210621213215.1698347-1-avlarkin82@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <CAHk-=wjtK7XgQqTE_OyGV8uPX3d1RqUhTQO1D+Bk3wGEiea3Ow@mail.gmail.com>
 References: <CAHk-=wjtK7XgQqTE_OyGV8uPX3d1RqUhTQO1D+Bk3wGEiea3Ow@mail.gmail.com>
@@ -65,6 +65,19 @@ Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
+
+I'm still studying "git send-email", so the first intro part of prev msg deleted, sorry, again:
+
+Continuying my previous message, the JSIOCGBTNMAP always returns 1024 return code,
+but not "amount of buttons" like I said before
+(that is probably the size of the keymap that is _u16 keymap[KEY_MAX - BTN_MISC + 1] ).
+Is it correct?
+Reading the line of kernel joydev.c
+579	len = min_t(size_t, _IOC_SIZE(cmd), sizeof(joydev->keypam)),
+, why the min is always sizeof(joydev->keypam) ?
+If I try to call from the userspace
+ioctl(fd, JSIOCGBTNMAP, buttons)
+where the buttons is "__u16 buttons[5]", then still I get 1024.
 
 Also I did userspace test (that shows how kernel overwrites (out of array bound) the userspace):
 1. The buttons is "__u16 buttons[5]" in userspace,
