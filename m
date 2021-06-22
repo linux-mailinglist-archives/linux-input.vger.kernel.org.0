@@ -2,74 +2,168 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BF3C3B10E7
-	for <lists+linux-input@lfdr.de>; Wed, 23 Jun 2021 02:05:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EA8F3B1133
+	for <lists+linux-input@lfdr.de>; Wed, 23 Jun 2021 03:04:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229955AbhFWAHz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 22 Jun 2021 20:07:55 -0400
-Received: from fallback18.mail.ru ([185.5.136.250]:34832 "EHLO
-        fallback18.mail.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229954AbhFWAHz (ORCPT
+        id S229769AbhFWBHJ (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Jun 2021 21:07:09 -0400
+Received: from mx0b-000eb902.pphosted.com ([205.220.177.212]:52230 "EHLO
+        mx0b-000eb902.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229751AbhFWBHJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 22 Jun 2021 20:07:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail3;
-        h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date; bh=mU2Ayn5gYoFPGauTijC+NFA1H+bS1gD6zZD3uhMdnq0=;
-        b=uDyXkB95O4Zaeg9nD8DQ1Ucmq1rvymn3IPVG7XeTm+JSgLI267kdsq1yvAKzNMkZX57Qz7QeomLdUFeQCpT/EZ3Tra9uZM/hiAYEPBI76OkKcwNPijmjmsOSHesXBXMKyTME3qqTBDqjvo3zP6440vPzO7aSYJmVDysrR/NVa8I=;
-Received: from [10.161.64.55] (port=59260 helo=smtp47.i.mail.ru)
-        by fallback18.m.smailru.net with esmtp (envelope-from <cerg2010cerg2010@mail.ru>)
-        id 1lvqOf-0005NE-8O
-        for linux-input@vger.kernel.org; Wed, 23 Jun 2021 03:05:37 +0300
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail3;
-        h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=mU2Ayn5gYoFPGauTijC+NFA1H+bS1gD6zZD3uhMdnq0=;
-        t=1624406737;x=1625012137; 
-        b=Ty53RIJTihABNdo9PwsUDCnDpqKZWksriCO7/16hlOoSxnS4bDR6cs2zsSEhEKUZi+58hi4pTpo9lm33QEwRDDxVKtYQRmL+5IDxsHEBzrMN04NYreNWbnecaIJ2hH1ZsEoh7uZvmGAoI+UnV4EAPhAqwqdGf3ZpTL0lCH59nto=;
-Received: by smtp47.i.mail.ru with esmtpa (envelope-from <cerg2010cerg2010@mail.ru>)
-        id 1lvqOX-00056K-GL; Wed, 23 Jun 2021 03:05:30 +0300
-Date:   Wed, 23 Jun 2021 03:05:19 +0300
-From:   Sergey Larin <cerg2010cerg2010@mail.ru>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        linux-input@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: stmpe-keypad - add STMPE1801 support
-Message-ID: <YNJ6v7DfXUFMO8YA@minibook.localdomain>
-References: <20210618145149.10136-1-cerg2010cerg2010@mail.ru>
- <YNAj30vl2yGxRX4e@google.com>
+        Tue, 22 Jun 2021 21:07:09 -0400
+X-Greylist: delayed 3963 seconds by postgrey-1.27 at vger.kernel.org; Tue, 22 Jun 2021 21:07:08 EDT
+Received: from pps.filterd (m0220299.ppops.net [127.0.0.1])
+        by mx0a-000eb902.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15MNtfv9031444;
+        Tue, 22 Jun 2021 18:58:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garmin.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding :
+ content-type; s=pps1; bh=YqXlYX4cbBb+rKcTFiBhfJL/yuO5lzjI/HftG3gUD/Q=;
+ b=LrN/xO1/k30vIT7okMkdBnh6CjLxAMOGJ+oYsR4vWMuWcmloQE711xTZEC0SganXaT5r
+ Z0zWtzuOX6+xp8+ge0i90EF+4IaHNutIvlm1bue/tzt4PQ+fgqoZcv383uK2yZZVcSHV
+ q9sI0e0xbqy9AjTcGIMEea2FyJxo9ogJqktq+JT2b9PCw69SpVem66GOZ0oiDsGpgukQ
+ MaBGY08g4uq0/swdcho6HGO/X4ndfJVBjfhoGO83cr+SV1M/FMRwS0hLZuIpzseShV04
+ JVD3NlHD8Bv+HVRtUmD1f9YXkMuvRW35Kl29CIZT43ouK/utIlwv4M4d/9tJWF99nVY1 Rg== 
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2177.outbound.protection.outlook.com [104.47.58.177])
+        by mx0a-000eb902.pphosted.com with ESMTP id 39at8njyt7-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 22 Jun 2021 18:58:27 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kJXRh+6TaDa3fWZ+hj/IRVNSNM+Bk0y66P9eWp5FpQTwEEqSsGuBRQ/oa682VHnANCPIWNOOHQO9RYlUYCrLDmoaLCrdPHd4dnJzn5yL5/fKsZOrUGGwFWjQBa3TgWleTSj5XRIjwFkSawdGzLVI5AOaOIcwlOyW0t/BKPF6Wem96L/UzhlH/B3saWPRHzK69u4TejZRkBqRa3lWgQqMBr7WD8Qk52p3LekJYagK1n0MrBl081N9Jv9fwuSIpRA5fgwI8NBBEXXHOafOmtuptydB5Sk88EMTb39+VbqXkUbx0EVvzgurPoooSa8wtMYM135aqvqWfaXK4+e9r5KHvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YqXlYX4cbBb+rKcTFiBhfJL/yuO5lzjI/HftG3gUD/Q=;
+ b=G0WkLsf0n36ph3MqKk9m+xgfYEZSbCH1/1Tu8ONFywM3ollB1HveQbD6v75PHMGxGEKWFrPj9ELOpiDYCIImlk3mHbv9jPpUpIaxHSNY/qrxBoK/lYp7RbNvNOXyx+vS0T9VthkQUsuhdfHKUNGHErG/7vxVkH0BtPIDDdrr3QIKOeJjTOGfAOCT17LJWykdVda1QwNlwUOWcFSTNOrrkI7dcnf4Onexsy1vvKmGOAJFk/KxDxbztXY2jq+4llbj4vzE3EFzxFXvx9Ma9x/WOz44rBSaU1NLZoGZsIt1C+FIkqapTajzYdtOLViHN+NjkwglrZ4+51k9/jxBzCeokQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 204.77.163.244) smtp.rcpttodomain=gmail.com smtp.mailfrom=garmin.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=garmin.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=garmin.onmicrosoft.com; s=selector1-garmin-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YqXlYX4cbBb+rKcTFiBhfJL/yuO5lzjI/HftG3gUD/Q=;
+ b=Ljawmh2RG11Olej7HBv+HREcBcIrugVRBrsQcHa1Y0XuMo7r6t2iYB7u230nqmePchNTRfsuCEyN++v5nUUBiUMZKHN+wKBaB2Y6g/5IoKG8Vh92vZ22RVOg0Lg6libkFIJN49OjTHkaWTOHpoZsKKzM1xu0IxLFxROaIqDeJHACjb2AerVyKqT9ucrW+/AKAt6vH+RaeDMLyUQXhcNwb8m+JsxxZXC9zS618XHNR71xa6vx8M96oB1E3DQk8+aWch6TtJGkCoByzELgZ2oNhLXD5MLjNRYO4ZnvhyM+3vHJSl//3zTzxytKoFUpvNoOgs6DV4LdNSY/8LO2+WhRJg==
+Received: from BN9PR03CA0849.namprd03.prod.outlook.com (2603:10b6:408:13d::14)
+ by BYAPR04MB5045.namprd04.prod.outlook.com (2603:10b6:a03:4b::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4242.23; Tue, 22 Jun
+ 2021 23:58:25 +0000
+Received: from BN7NAM10FT024.eop-nam10.prod.protection.outlook.com
+ (2603:10b6:408:13d:cafe::a7) by BN9PR03CA0849.outlook.office365.com
+ (2603:10b6:408:13d::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4264.18 via Frontend
+ Transport; Tue, 22 Jun 2021 23:58:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 204.77.163.244)
+ smtp.mailfrom=garmin.com; gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=pass action=none header.from=garmin.com;
+Received-SPF: Pass (protection.outlook.com: domain of garmin.com designates
+ 204.77.163.244 as permitted sender) receiver=protection.outlook.com;
+ client-ip=204.77.163.244; helo=olawpa-edge2.garmin.com;
+Received: from olawpa-edge2.garmin.com (204.77.163.244) by
+ BN7NAM10FT024.mail.protection.outlook.com (10.13.156.244) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4264.18 via Frontend Transport; Tue, 22 Jun 2021 23:58:25 +0000
+Received: from OLAWPA-EXMB10.ad.garmin.com (10.5.144.12) by
+ olawpa-edge2.garmin.com (10.60.4.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2106.2; Tue, 22 Jun 2021 18:58:18 -0500
+Received: from OLAWPA-EXMB3.ad.garmin.com (10.5.144.15) by
+ OLAWPA-EXMB10.ad.garmin.com (10.5.144.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2242.10; Tue, 22 Jun 2021 18:58:24 -0500
+Received: from OLA-DKH2RP2.ad.garmin.com (10.5.84.15) by smtp.garmin.com
+ (10.5.144.15) with Microsoft SMTP Server id 15.1.2242.10 via Frontend
+ Transport; Tue, 22 Jun 2021 18:58:23 -0500
+From:   Matthew Stephenson <matthew.stephenson2@garmin.com>
+To:     <dmitry.torokhov@gmail.com>, <linux-input@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     Matthew Stephenson <matthew.stephenson2@garmin.com>
+Subject: [PATCH] input: Add Marine Navigation Keycodes
+Date:   Tue, 22 Jun 2021 18:57:08 -0500
+Message-ID: <20210622235708.8828-1-matthew.stephenson2@garmin.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YNAj30vl2yGxRX4e@google.com>
-X-4EC0790: 10
-X-7564579A: 646B95376F6C166E
-X-77F55803: 4F1203BC0FB41BD954DFF1DC42D673FB0C620705B15DE32DFE392EA95FA71EAB182A05F5380850409D49A42B3DAEFD1A747001B17FDD96B4733F37DE7D0E7804F51113CE28EC3845
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE76574C3D62D66A535EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F79006371D5B197C6EC5B4BE8638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D8598EEFA7D2C0B3AF39201CB3FE49DD556F9789CCF6C18C3F8528715B7D10C86878DA827A17800CE7C26CFBAC0749D213D2E47CDBA5A96583C09775C1D3CA48CFA12191B5F2BB8629117882F4460429724CE54428C33FAD30A8DF7F3B2552694AC26CFBAC0749D213D2E47CDBA5A9658378DA827A17800CE7D9442B0B5983000E8941B15DA834481F9449624AB7ADAF37BA3038C0950A5D3613377AFFFEAFD2697680F9384605B9038DDEAFF2085696F27B076A6E789B0E97A8DF7F3B2552694A1E7802607F20496D49FD398EE364050F652FD71AFB96DC7DC8623B8F170C382FB3661434B16C20AC78D18283394535A9E827F84554CEF5019E625A9149C048EE9ECD01F8117BC8BEE2021AF6380DFAD18AA50765F790063735872C767BF85DA227C277FBC8AE2E8BD7F3427536E911FA75ECD9A6C639B01B4E70A05D1297E1BBCB5012B2E24CD356
-X-B7AD71C0: AC4F5C86D027EB782CDD5689AFBDA7A2368A440D3B0F6089093C9A16E5BC824A2A04A2ABAA09D25379311020FFC8D4ADA1D348123C1DF65DCE436DEC22D88E07
-X-C1DE0DAB: 0D63561A33F958A537E89769116E7D7A9891AC65CEF55E09E241BE8572CD6504D59269BC5F550898D99A6476B3ADF6B47008B74DF8BB9EF7333BD3B22AA88B938A852937E12ACA75C4D20244F7083972410CA545F18667F91A7EA1CDA0B5A7A0
-X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D341E2D05735FCBECD1B739B158BCC54AE74274D818876CDA4ACB0D75FB0E0BC791288F50ABA9C210BD1D7E09C32AA3244C5F30E075F0AF1E1ED204972B6BA2444D24AF4FAF06DA24FDDCA3B3C10BC03908
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojXL4lMZLpcSTBWKEz5bkzNA==
-X-Mailru-Sender: 4121B63E61E70785D3806BAA2BD19524DEF24F9614A5AA65747001B17FDD96B4825871508D9F3970CAD91EC71FC00F3837D2A27E1A8065646C7A2150F6097340301919DCEDD5454186FA049C4F996C4B5FEEDEB644C299C0ED14614B50AE0675
-X-Mras: Ok
-X-7564579A: B8F34718100C35BD
-X-77F55803: 6242723A09DB00B4AF5E86D184BC81F83CDC0DACDC54A29EB4F99DFF8652FDF1049FFFDB7839CE9E900CA3F9FE5F4131A38657F3BBB49DE4AEF40DC2586DA5B26B9563721F96B0FE
-X-7FA49CB5: 0D63561A33F958A55D4E0BB7F19215EED8E1B330CB55A517E1BE1A16A3C9BD5FCACD7DF95DA8FC8BD5E8D9A59859A8B6668B94F0A65C3A0CCC7F00164DA146DAFE8445B8C89999728AA50765F790063706C2E049600DA66E9FA2833FD35BB23D2EF20D2F80756B5F868A13BD56FB6657A471835C12D1D977725E5C173C3A84C36804EF05EF4ADF2ACC7F00164DA146DA6F5DAA56C3B73B237318B6A418E8EAB8D32BA5DBAC0009BE9E8FC8737B5C224994326393C9D815A376E601842F6C81A12EF20D2F80756B5F7E9C4E3C761E06A7089D37D7C0E48F6C8AA50765F7900637514F9D21EFA8CFFAEFF80C71ABB335746BA297DBC24807EABDAD6C7F3747799A
-X-C1DE0DAB: 0D63561A33F958A55D4E0BB7F19215EED8E1B330CB55A51770A4A5C0B35DF55BD59269BC5F550898D99A6476B3ADF6B4886A5961035A09600383DAD389E261318FB05168BE4CE3AF
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojXL4lMZLpcST0yL4TH79OhQ==
-X-Mailru-MI: 800
-X-Mailru-Sender: A5480F10D64C9005EB82917A46D9527676E6C5DA15516C124BF8C74EA53B80E57958A49548C749F6CAD91EC71FC00F3837D2A27E1A8065646C7A2150F6097340301919DCEDD5454186FA049C4F996C4B5FEEDEB644C299C0ED14614B50AE0675
-X-Mras: Ok
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 89aec984-3093-4335-dc0c-08d935d99fab
+X-MS-TrafficTypeDiagnostic: BYAPR04MB5045:
+X-Microsoft-Antispam-PRVS: <BYAPR04MB504593588BA72219AB493BD2C2099@BYAPR04MB5045.namprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: d6YTevGm6YknByNy9GrxLlGAY/iGP/lVPgwIG3w/z0qhOHID2tULTbuK21H0OK6esWmLdDaZupSDd2XZ41bAFO75Ehvo/HvCV0nb1lxPIlXdlwpWDX1wX4wdf3MBSgYHj3E/cM9MTiI6OQzRtSh291En8QKgvbWP1D1ujBiX9/ZaxTg/V4aEZZi1nXZru8Qy30U6m8hihasEfWO5dzYoH2IQoBDPhxrjgKn/L+/pHeBZy/5wv6jx3QHmz4H4ScHiJO7mRuSRXiYsoZTh43bhcfWbG6w2KG51aEs/gu0sNBnK59mNrPL2ZdScX7c0nO5YsCPIwIKl5UVjsVPVyG93e+jNW+Ht7JAtqpOg4s7oyOpdrxdkMsCI6dbmlAF3AczcBnZgZglwrUrEkT/iaxe6Fq/iR0wbZPnW8/qVEMaNIhZ9nhKRiLtb9hzyn8S50WYa0xTqQjBlcs0l5js7miClWNul2PvRa0J52RMacVtEZwoonuAGX1CNi+gdrH3xFMYv7py0dhhO4zsTkV/vNUV+y2QKJxyk5f2Xn/EXyELdgf+qXVWGgtkhgJAlylLb6KvZlSGzf135XrjVPwrH94NGiJ7M1msY+uuYdjmDa5J2N8oztb0KyPcVvNDb87ajCvDb4IhPv3o2d3kK5VgSTRy0UhbELrgYkJCsQu4WSi6T2WM=
+X-Forefront-Antispam-Report: CIP:204.77.163.244;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:olawpa-edge2.garmin.com;PTR:extedge.garmin.com;CAT:NONE;SFS:(346002)(396003)(376002)(136003)(39860400002)(36840700001)(46966006)(110136005)(70586007)(70206006)(4326008)(26005)(107886003)(316002)(5660300002)(8936002)(36860700001)(356005)(7696005)(82740400003)(7636003)(186003)(8676002)(336012)(2906002)(66574015)(86362001)(426003)(47076005)(6666004)(82310400003)(1076003)(2616005)(478600001)(36756003);DIR:OUT;SFP:1102;
+X-OriginatorOrg: garmin.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2021 23:58:25.1612
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89aec984-3093-4335-dc0c-08d935d99fab
+X-MS-Exchange-CrossTenant-Id: 38d0d425-ba52-4c0a-a03e-2a65c8e82e2d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38d0d425-ba52-4c0a-a03e-2a65c8e82e2d;Ip=[204.77.163.244];Helo=[olawpa-edge2.garmin.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN7NAM10FT024.eop-nam10.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5045
+X-Proofpoint-GUID: XXa4fHU_fVZ8HkplrnusGPj_KCrk2p0-
+X-Proofpoint-ORIG-GUID: XXa4fHU_fVZ8HkplrnusGPj_KCrk2p0-
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
+ definitions=2021-06-22_14:2021-06-22,2021-06-22 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 mlxscore=0
+ lowpriorityscore=0 suspectscore=0 malwarescore=0 bulkscore=0 adultscore=0
+ impostorscore=0 priorityscore=1501 phishscore=0 spamscore=0
+ mlxlogscore=842 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2106220135
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hello Dmitry,
+Add keycodes that are used by marine navigation devices
 
-On Sun, Jun 20, 2021 at 10:30:07PM -0700, Dmitry Torokhov wrote:
-> Do we really need to do this swap vs. simply arranging the keymap
-> differently for 1801?
+Signed-off-by: Matthew Stephenson <matthew.stephenson2@garmin.com>
+---
+ include/uapi/linux/input-event-codes.h | 27 ++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-Yes I thought about it, but that will break device tree writer's
-assumptions of the device so I think it's better to keep the keymap
-correct and not make driver's behavior confusing.
+diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+index ee93428ced9a..4d5e5cd17a7b 100644
+--- a/include/uapi/linux/input-event-codes.h
++++ b/include/uapi/linux/input-event-codes.h
+@@ -659,6 +659,33 @@
+ /* Select an area of screen to be copied */
+ #define KEY_SELECTIVE_SCREENSHOT	0x27a
+ 
++/* Toggle the focus in or out */
++#define KEY_FOCUSE_TOGGLE		0x27b
++
++/* Move between highlightable items */
++#define KEY_NEXT_HIGHLIGHT		0x27c
++#define KEY_PREVIOUS_HIGHLIGHT		0x27d
++
++/* Toggle Autopilot enagement */
++#define KEY_AUTOPILOT_ENGAGE_TOGGLE	0x27e
++
++/* Navigate Displays */
++#define KEY_NEXT_DISPLAY		0x27f
++#define KEY_PREVIOUS_DISPLAY		0x280
++
++/* Shortcut Keys */
++#define KEY_MARK_WAYPOINT		0x281
++#define KEY_SOS			0x282
++#define KEY_NAV_CHART			0x283
++#define KEY_FISHING_CHART		0x284
++#define KEY_SINGLE_RANGE_RADAR		0x285
++#define KEY_DUAL_RANGE_RADAR		0x286
++#define KEY_RADAR_OVERLAY		0x287
++#define KEY_TRADITIONAL_SONAR		0x288
++#define KEY_CLEARVU_SONAR		0x289
++#define KEY_SIDEVU_SONAR		0x28a
++#define KEY_NAV_INFO			0x28d
++
+ /*
+  * Some keyboards have keys which do not have a defined meaning, these keys
+  * are intended to be programmed / bound to macros by the user. For most
+-- 
+2.32.0
 
