@@ -2,104 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37AE43AFA21
-	for <lists+linux-input@lfdr.de>; Tue, 22 Jun 2021 02:15:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E69533AFC2C
+	for <lists+linux-input@lfdr.de>; Tue, 22 Jun 2021 06:46:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230403AbhFVASG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 21 Jun 2021 20:18:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50420 "EHLO
+        id S229668AbhFVEsn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 22 Jun 2021 00:48:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230515AbhFVASF (ORCPT
+        with ESMTP id S229574AbhFVEsn (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 21 Jun 2021 20:18:05 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47480C06175F;
-        Mon, 21 Jun 2021 17:15:49 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id e20so15574005pgg.0;
-        Mon, 21 Jun 2021 17:15:49 -0700 (PDT)
+        Tue, 22 Jun 2021 00:48:43 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33A54C061574
+        for <linux-input@vger.kernel.org>; Mon, 21 Jun 2021 21:46:27 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id z3-20020a17090a3983b029016bc232e40bso1506898pjb.4
+        for <linux-input@vger.kernel.org>; Mon, 21 Jun 2021 21:46:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=xjeQ6YHL6C4BqKPQsAy2CGN9kW0jUoC6gb89fv76eR4=;
-        b=lJKwe1abb+L5bLxskk94f1F66Uxn5v6KczAseBu7Duqjm9j/fPiaCkWgEXkwvduGsT
-         b58uAdDqWFUmuwe76igsrS40kaNCJBTST9cY2tf5lDdAob0JYBY8VpElUZA7j8EQETzU
-         tvSCZg97Lg3KhFTid2Q7NEpm+7LM6MDEJS+KdyOfFJ2fPNm3Q7VuO9Ov0uNQAN98O7hh
-         Hu01Ds+PpU1OjpTfxHAF3fPDCbs2+rrJUQzWnzZ2HtpPrs4rlNsIgvXUgDpOMocOElWu
-         NNGsWVb/OyfWs5LW3hPPQ5CtZvfGAgkTk/VxsRyEsARblpg6gbPCWF85AFJZ2A8RmWSg
-         0P6Q==
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=Lg+PacMqZTuq8Jy1/6OpCX2y6psrEykiYDFGHzLD8LY=;
+        b=HiF7R91hjMmnRdWNrQlkugoEBwIqb3fVOB6dX7xYT5Xg9D3lPfTScwtnY53ZfOgdAe
+         ZOJV/8jJEdqS1Q5cJrnsWtj1tLtdfr2vbpLrRne+oM60zW8PgcyxVxR8XkKHw/LSIWIt
+         7BaF4Ni4rdT0T37DwcWthMw0Tw9u/P2IM80PbVT7OTFa0BCDhtki+3yddwKpQG4U0syD
+         n168ZjoBJ2l+dTEmK8SAhX8Cphe1tsR4JWDzOEl6CZkpadwb2RUstGhQuIhosGP2gBKf
+         Fu125AB4nCDSheKIaZNLkFrTUL93Ts0tFIQHg97Lxf/GwXjkrYYqoDg1Jq9PcXge1jAX
+         6rxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=xjeQ6YHL6C4BqKPQsAy2CGN9kW0jUoC6gb89fv76eR4=;
-        b=kz2Wk1M84fxERQdElorLNFKP2/kEDuyvhfpW3przgmlZNo8PossK0Z0LJN6gdMN7EH
-         s6PcDfGEN785aK7Xf9MNrqoKY97AtuxOYX0Mm+4zxtHsbMZAkaETyfT1uQN8q99QMDPN
-         7w7AliK0SasXZxZ2jikXDExsoBLVHfCKNfF3K7nOd00tEwbaCihTT/sMcwW0AEsf0ACu
-         /N4tuIrttit4NqZzFKWZcFHLi4kweTnbXpZ9o/Enx+/7CmQNsOz/9TBM1nauTBpTxwzB
-         yfIVRKX3tGyDR46ZUxKJUxbUHZR7x2X07S/n0A3NfKXFtECZ/jA5CUWMO4tdQuvElIeQ
-         XR2g==
-X-Gm-Message-State: AOAM533twZTWWHSk16OBZDJY9bup8IIr6MuftDP3JPCjxXMl5o0Czx9H
-        wbikjyntN9cJ1meBVfATMFM=
-X-Google-Smtp-Source: ABdhPJwiFUjJJjoOnF8GlTN0ANSH8aIcBswriSUu9jYDNN+E1YUN/0a+kWr4CCRhfPHAn2/H332sCQ==
-X-Received: by 2002:a63:5756:: with SMTP id h22mr989096pgm.377.1624320948888;
-        Mon, 21 Jun 2021 17:15:48 -0700 (PDT)
-Received: from envious.. (c-71-236-190-222.hsd1.or.comcast.net. [71.236.190.222])
-        by smtp.gmail.com with ESMTPSA id n63sm11142432pfn.140.2021.06.21.17.15.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jun 2021 17:15:48 -0700 (PDT)
-From:   Dylan MacKenzie <ecstaticmorse@gmail.com>
-Cc:     Nehal Shah <nehal-bakulchandra.shah@amd.com>,
-        Sandeep Singh <sandeep.singh@amd.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] HID: amd_sfh: Continue if fallback DMA mask is accepted
-Date:   Mon, 21 Jun 2021 17:15:02 -0700
-Message-Id: <20210622001503.47541-3-ecstaticmorse@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210622001503.47541-1-ecstaticmorse@gmail.com>
-References: <20210622001503.47541-1-ecstaticmorse@gmail.com>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=Lg+PacMqZTuq8Jy1/6OpCX2y6psrEykiYDFGHzLD8LY=;
+        b=GMralcGcNOsqZp86Voy/olFwPzXASr4OnJLr/0DhndfjBx59diflqYqu3R/1fHVhrF
+         ssmZBwHCZv2RdoOQQgEqs80EJ9AFPtAmBL7QX2h5KZLaJRsiN3t2GQOJpDbBHTD5HPM0
+         /hPuNASC0T/24a/fFgyKZA0iSmOTOfqER0GRQQ9iU4e48juaHbcvgP5eJs5OvdFXxG4l
+         cSJtWKPARjsoq5nGP77WRM3l0fddLec2SBna15mUig1UWsrplrs06+uBG8Mbu0YPNRWE
+         V1ssVNkBeSOqLc3LQ53SudxSLgEON94PTV8j8v/a5sIbO4uMIeuHZ8i3LOKYY5EF10W3
+         Qehg==
+X-Gm-Message-State: AOAM530nhV28Xb472xF295wnDpd1p/7fwg3b6DN1YwSpv9ZYBq/jsKoe
+        mUoEAbdS4hO3w6HIX0PY2VextZluku4mvtcP/h1M7AcEUvnrvXlA
+X-Google-Smtp-Source: ABdhPJxo5g7sIZ6J1EU6tXtgguDgI6WUyRSHWbxioHIgFZ0b6HJtpMt+0xK/rxnF3YhGzXc0VE4yySKB1gA8X508eTA=
+X-Received: by 2002:a17:902:e313:b029:125:827f:c621 with SMTP id
+ q19-20020a170902e313b0290125827fc621mr5855474plc.25.1624337186634; Mon, 21
+ Jun 2021 21:46:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+From:   Dylan MacKenzie <ecstaticmorse@gmail.com>
+Date:   Mon, 21 Jun 2021 21:46:15 -0700
+Message-ID: <CAHpHHjbDGjSaupSsG1aQpP+s_hzaSs6ggJfLSYQGei-ehnXu2w@mail.gmail.com>
+Subject: Re: [PATCH 1/3] amd_sfh: Extend driver capabilities for
+ multi-generation support
+To:     basavaraj.natikar@amd.com
+Cc:     Nehal-Bakulchandra.shah@amd.com, benjamin.tissoires@redhat.com,
+        jikos@kernel.org, linux-input@vger.kernel.org,
+        shyam-sundar.s-k@amd.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Currently, if a call to `set_dma_mask(DMA_BIT_MASK(64))` fails, the
-driver calls `set_dma_mask(DMA_BIT_MASK(32))` and immediately returns
-regardless of the result. If that second call were to succeed, the SFH
-would not get initialized (defeating the whole purpose of falling back
-to a 32-bit address space) but the driver would remain registered
-(since `probe` returned 0).
+> +static void amd_stop_sensor_v2(struct amd_mp2_dev *privdata, u16 sensor_idx)
+> +{
+> + union sfh_cmd_base cmd_base;
+> +
+> + cmd_base.ul = 0;
+> + cmd_base.cmd_v2.cmd_id = DISABLE_SENSOR;
+> + cmd_base.cmd_v2.period = 0;
+> + cmd_base.cmd_v2.sensor_id = sensor_idx;
+> + cmd_base.cmd_v2.length  = 16;
+> +
+> + writeq(0x0, privdata->mmio + AMD_C2P_MSG2);
 
-Signed-off-by: Dylan MacKenzie <ecstaticmorse@gmail.com>
----
- drivers/hid/amd-sfh-hid/amd_sfh_pcie.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-index c2de650cd8e..a4f363d082c 100644
---- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-+++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
-@@ -155,11 +155,15 @@ static int amd_mp2_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
- 
- 	privdata->mmio = pcim_iomap_table(pdev)[2];
- 	pci_set_master(pdev);
-+
- 	rc = pci_set_consistent_dma_mask(pdev, DMA_BIT_MASK(64));
--	if (rc) {
-+	if (rc)
- 		rc = pci_set_consistent_dma_mask(pdev, DMA_BIT_MASK(32));
-+	if (rc) {
-+		pci_err(pdev, "Failed to set DMA mask");
- 		return rc;
- 	}
-+
- 	rc = devm_add_action_or_reset(&pdev->dev, amd_mp2_pci_remove, privdata);
- 	if (rc)
- 		return rc;
--- 
-2.31.1
-
+That should be AMD_C2P_MSG1, no? The new hardware has no param register.
