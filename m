@@ -2,127 +2,106 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 92EAF3B270E
-	for <lists+linux-input@lfdr.de>; Thu, 24 Jun 2021 07:58:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C116D3B298D
+	for <lists+linux-input@lfdr.de>; Thu, 24 Jun 2021 09:42:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230283AbhFXGAU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 24 Jun 2021 02:00:20 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:36497 "EHLO
-        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230257AbhFXGAT (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 24 Jun 2021 02:00:19 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-        by mailout.nyi.internal (Postfix) with ESMTP id CA08A5C01EB;
-        Thu, 24 Jun 2021 01:58:00 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Thu, 24 Jun 2021 01:58:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=kI5PKTYnwD2iOxUiX9eRlJl9ibr
-        RaexayB1p1GJB46A=; b=GgErM1dpWNbTmCUZdkpSeUOdK1CvxfOSQBCvkWJdMAh
-        3vJm/EyvqhgCue5Sa5VN6DiIW8GZPUmrIAEGtq76eowKzzIsHZoxzRsGt+VpxEyw
-        FXqOaijsrC33GmUxNBtDOr+cHt1K2KW+Mw+8N79NL0Nodb8Z8T+30K9XsslL8Di4
-        G+bBbncFenmpC2NT9S6/FQlCm+KTOCe+6HiG41/vNbS710bGjNPaXVpomhAKdQm1
-        vnXVAiTzW6qu89bnHLRXSiWlsQj13iBxhumkvK4JiRY8Xtd8hepxksA98wolPEZ+
-        vWlXCyxD2c7c/iGya47wPtg157HLTlhBgYBaHCMl3OA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=kI5PKT
-        YnwD2iOxUiX9eRlJl9ibrRaexayB1p1GJB46A=; b=uawkHXH7nTxpIt8bJwG++0
-        +GMbJ8jwULwF75ilm3scS7O7Qzsyc5ozS3oEMo/g3LlrLY4GOGcIEwCjRkPfM4dn
-        ke0hhsHgrm6N2vTkPrrD7MWCJZFe/51bdMpYW5Le05/mePzPG4z5ctl5kkxNXfUV
-        pOckh8SMVxxcA7oopSO6yJeowGEQKhO9W+/FFafkEIfJGg3Q6jEk09e20wWw92iR
-        okXU+9Ek7mvLyg3qY7Zr5+2AdKbnHMAXf6rxb3/u46MBwBuxWHIZLw91fGLTsZFh
-        TB8UNKjHH7XKM0WVlFVGzXALYYAr6evhOPFepAy4X+m11ZDjgpLXdk+leKDOCUTw
-        ==
-X-ME-Sender: <xms:6B7UYJ6jlDjIcIld1IDVzwUClZTt4NyquEUfkzkDK9ykpwRHZd75aA>
-    <xme:6B7UYG6658PsJBgklz2QDOIsZvMLiZBIVNEKieidUObvV7T4Ee6Jg0SYhFGkiZaZD
-    oXIlm3OAjFZlm7sVk8>
-X-ME-Received: <xmr:6B7UYAeN8dNBIXrmcDJv5dnBdORwfU5k2T7OuMPEbyvzTiezOWJ_NOYOzNpx5d0SCRVj4BmB_5818SA797NqQCjRptfYJAsd>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeeggedgleegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefrvghtvghr
-    ucfjuhhtthgvrhgvrhcuoehpvghtvghrrdhhuhhtthgvrhgvrhesfihhohdqthdrnhgvth
-    eqnecuggftrfgrthhtvghrnhephefhheffgfehleegueduleehgfdvfeevkeduveejveej
-    veevgfeggfduudefueevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
-    hilhhfrhhomhepphgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvght
-X-ME-Proxy: <xmx:6B7UYCLC5Jvhc9sM6ATJLJPGe_BGVketlV-auMt1y3fCPO7q_QdiNg>
-    <xmx:6B7UYNL4bJZoaQuHBqY-l_HpeoFxPxGjZwhdMsWUWJIuYcWDlIU2rA>
-    <xmx:6B7UYLw5cfKb2hy6NQwK29AHFnRLP4WzBSFzFx91Q4VyuREjzUzhHA>
-    <xmx:6B7UYEWOuzPLqIx76WYVxjPD8EfJqEVoXQnK0PEoaxZQZUfemfavwg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 24 Jun 2021 01:57:58 -0400 (EDT)
-Date:   Thu, 24 Jun 2021 15:57:54 +1000
-From:   Peter Hutterer <peter.hutterer@who-t.net>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Loic Poulain <loic.poulain@linaro.org>, nick@shmanahar.org,
-        linux-input@vger.kernel.org
-Subject: Re: [PATCH 2/2] Input: atmel_mxt_ts: atmel_mxt_ts: Fix event loss
-Message-ID: <YNQe4uEDyNDcPAkY@koala>
-References: <1624456597-9486-1-git-send-email-loic.poulain@linaro.org>
- <1624456597-9486-2-git-send-email-loic.poulain@linaro.org>
- <YNPWcXkG4gCBmmeT@google.com>
+        id S231652AbhFXHoY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 24 Jun 2021 03:44:24 -0400
+Received: from puss.venthur.de ([138.201.246.87]:38912 "EHLO puss.venthur.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231531AbhFXHoW (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 24 Jun 2021 03:44:22 -0400
+X-Greylist: delayed 413 seconds by postgrey-1.27 at vger.kernel.org; Thu, 24 Jun 2021 03:44:22 EDT
+Received: from [10.3.128.125] (h-213.61.119.98.host.de.colt.net [213.61.119.98])
+        by puss.venthur.de (Postfix) with ESMTPSA id 898761E0491;
+        Thu, 24 Jun 2021 09:35:06 +0200 (CEST)
+Subject: Re: fn-key issue with hid_apple and keychron keyboards
+To:     Hans de Goede <hdegoede@redhat.com>,
+        linux-input <linux-input@vger.kernel.org>
+References: <f2ac3660-b95c-eb7b-8f92-57af0a27672d@venthur.de>
+ <f82dd7a1-a5c6-b651-846c-29f6df9436af@redhat.com>
+ <155865d7-f964-ac9a-2c02-1eabeac0e443@venthur.de>
+ <897e57a9-38d8-c05f-ceed-01d486f02726@redhat.com>
+ <ae3e52eb-fa43-ce5e-bf81-f014318a02ff@venthur.de>
+ <0d69820a-30ee-755c-b146-49c2bbc0714f@redhat.com>
+From:   Bastian Venthur <mail@venthur.de>
+Message-ID: <5815adb9-f9b4-308b-6ac8-3e7b10bd71b8@venthur.de>
+Date:   Thu, 24 Jun 2021 09:35:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YNPWcXkG4gCBmmeT@google.com>
+In-Reply-To: <0d69820a-30ee-755c-b146-49c2bbc0714f@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, Jun 23, 2021 at 05:48:49PM -0700, Dmitry Torokhov wrote:
-> On Wed, Jun 23, 2021 at 03:56:37PM +0200, Loic Poulain wrote:
-> > If both touch events and release are part of the same report,
-> > userspace will not consider it as a touch-down & touch-up but as
-> > a non-action. That can happen on resume when 'buffered' events are
-> > dequeued in a row.
-> > 
-> > Make sure that release always causes previous events to be synced
-> > before being reported.
-> > 
-> > Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
-> > ---
-> >  drivers/input/touchscreen/atmel_mxt_ts.c | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> > 
-> > diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-> > index 807f449..e05ec30 100644
-> > --- a/drivers/input/touchscreen/atmel_mxt_ts.c
-> > +++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-> > @@ -990,6 +990,13 @@ static void mxt_proc_t100_message(struct mxt_data *data, u8 *message)
-> >  		input_report_abs(input_dev, ABS_MT_DISTANCE, distance);
-> >  		input_report_abs(input_dev, ABS_MT_ORIENTATION, orientation);
-> >  	} else {
-> > +		/*
-> > +		 * Always sync input before reporting release, to be sure
-> > +		 * previous event(s) are taking into account by user side.
-> > +		 */
-> > +		if (data->update_input)
-> > +			mxt_input_sync(data);
+Hi Hans et al,
+
+
+On 23.06.21 16:16, Hans de Goede wrote:
+[...]
+> Thank you for the logs and sorry for being so slow to respond.
+
+no worries, thank you for working on that issue.
+
+
+> So looking at your evemu-record output, the keyboard is actually
+> behaving like a real Apple keyboard when put in Mac. mode.
 > 
-> That means we sync for every contact release, whereas I think ideal
-> would be to only sync when we observe touch-down and touch-up in the
-> same slot.
+> This means that you should be able to send a "F1" keypress without
+> specifying any module parameter at all by pressing "Fn + F1" when
+> the keyboard is in Mac mode.
 > 
-> Let's also add Peter to the conversation...
+> IOW in Mac mode everything should work fine, except that you may not
+> like the default behavior of F1-F12 being to send "multi-media" key
+> events instead of just plain "F1" - "F12" (and that you can change
+> with the fnmode=2 module parameter).
+> 
+> Since the keyboard is also using an Apple vendor- + product-id code
+> when in PC mode, things won't work as well in PC mode though since
+> then the "Fn" key likely does not actually send an event to the
+> machine to which the kbd is connected, causing the keys to be
+> stuck in "multi-media" mode regardless of the Fn key state
+> since when Fn is not pressed this is the default behavior and when
+> Fn is pressed then the key-press gets reported on the second
+> interface / device as a multi-media key-press.
+> 
+> This is really all the fault of the kbd-manufacturer, it should
+> really use different (non Apple) vendor- + product-ids when in
+> PC mode.
+> 
+> So the reason why I asked for the descriptors is to see if there
+> was some way to distuingish this keyboard from real Apple
+> keyboards, but I've already found a way to do that:
+> 
+>> # Properties:
+>> N: Keychron Keychron C1
+> 
+> The "Keychron Keychron C1" here comes from the USB device
+> strings; and we can use that to tell that we are dealing with
+> this Apple clone.
+> 
+> So now the question becomes what to do with this info though.
+> As I already said, I believe that in "Mac" mode all is working as
+> it should.  The problem is the "PC mode", the only thing which
+> I can come up with is to make fnmode=2 the default on this keyboard,
+> since that will also work in Mac mode (albeit different as on real
+> Mac keyboards) while also working in PC mode.
+> 
+> Does anyone (including you, Bastian) has any opinion on making
+> fnmode=2 the default on this keyboard model ?
 
-Thanks for the CC.
+If i understand you correctly, you're saying you cannot make the fnmode 
+depend on the Mac- or PC-mode that the keyboard is currently running on? 
+I mean that would be of course the best solution, but if that is not 
+possible I'd prefer the fnmode=2 switched on by default as this is not a 
+Mac keyboard AND this is not an Apple operating system.
 
-FTR, this is expected userspace behaviour, the device state is only looked
-at during SYN_REPORT. Where you send event E=1 and E=0 in the same frame,
-the state at SYN_REPORT time is 0, the 1 never happened.
 
-The only device we (as in: libinput) make an exception for here are
-keyboards because too many drivers get it wrong and it's too hard to fix all
-of them. But especially for touch devices (and tablets!) we don't really
-have any choice but to look at the state of the device at the end of the
-frame.
+Thanks again Hans and take care,
 
-So, yes, this patch is needed but I agree with Dmitry that you should only
-send this for the special case that requires it.
+Bastian
 
-Cheers,
-   Peter
