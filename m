@@ -2,71 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF5113B2FF3
-	for <lists+linux-input@lfdr.de>; Thu, 24 Jun 2021 15:27:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E66173B3003
+	for <lists+linux-input@lfdr.de>; Thu, 24 Jun 2021 15:33:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229881AbhFXN3S (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 24 Jun 2021 09:29:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54852 "EHLO mail.kernel.org"
+        id S229881AbhFXNgC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 24 Jun 2021 09:36:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57248 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229878AbhFXN3S (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 24 Jun 2021 09:29:18 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 68BFD61074;
-        Thu, 24 Jun 2021 13:26:58 +0000 (UTC)
+        id S229878AbhFXNgB (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 24 Jun 2021 09:36:01 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D9FBE60FD9;
+        Thu, 24 Jun 2021 13:33:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624541219;
-        bh=Z5RpeZUVxCdnt3wBN/6yt62Dz6n8RjGJQhupaQlo8DM=;
+        s=k20201202; t=1624541622;
+        bh=O2I69TLhOqa5YCAAvlK2YkSpMRBWz/dmGuYy8PcAUZo=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=ifCbq/gjQNLmGqQu6A1ti1Tgdz5JBiJsreBTWk6xM3lYA3vwl9UL5WFeiknok1XpV
-         Izip4nU0e2CoLl2EMwwsRZ5BcDqK5T//SrzgFcWl1iPJhPepyNz39kNq0p/SoDbcyt
-         1ALv8mM79HC7G7FOuYbx15bYfBQRpMKE4BRsb52eEvl51OEij/vYjUSDAUcs+ftqPI
-         Gy69Y8oK3mk0HtFlbh3R6iRaCRPf9pvLNruGciLa6F3fgDnSd+fJGXkhW4ixHZMOL0
-         2iuO3Edh70rOyIUdxSdKbQJBLVnnyENR51F3OUtQFGnm99HFUYGqq7LEqFtfg2GHJ+
-         ikIs0TQrn31Qg==
-Date:   Thu, 24 Jun 2021 15:26:56 +0200 (CEST)
+        b=OpLYG3zybn8V4R1zfKzmH2mKfSVAh3286XKCokDK8lW1IOFZyzpppT+2v8uAOYdUF
+         1J2M1TSbj4+TXy4rL+I71aQ9eTISTa+yjsXMwiZV1Yqsgyaqi4PeDiKkvV8tvyXH6y
+         yaXnttJe2FrAuwTRXIkDi6p9NOShUcoldjcHPlDV3HTyJvzQpZS7VsecKhdLdu7KBX
+         mH4cK+CGwaSdjYF319AS+XzHhw8RvZlNgzPbPszm+C8FMD4DZEsvmwXqm8OnUi0Yqb
+         bq2fz+dd1SHyJlX8+3iIWZJoF/OflsVJfA8H/5o1rUQIzltPyhYi0lZSWT/E3/hoJR
+         dvNRJCxNgc1iw==
+Date:   Thu, 24 Jun 2021 15:33:39 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Jason Gerecke <killertofu@gmail.com>
-cc:     linux-input@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Ping Cheng <pinglinux@gmail.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>
-Subject: Re: [PATCH] HID: wacom: Correct base usage for capacitive ExpressKey
- status bits
-In-Reply-To: <20210623165809.101208-1-jason.gerecke@wacom.com>
-Message-ID: <nycvar.YFH.7.76.2106241526510.18969@cbobk.fhfr.pm>
-References: <20210623165809.101208-1-jason.gerecke@wacom.com>
+To:     =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] HID: magicmouse: register power supply
+In-Reply-To: <20210522180611.314300-1-jose.exposito89@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2106241532511.18969@cbobk.fhfr.pm>
+References: <20210522180611.314300-1-jose.exposito89@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Wed, 23 Jun 2021, Jason Gerecke wrote:
+On Sat, 22 May 2021, José Expósito wrote:
 
-> The capacitive status of ExpressKeys is reported with usages beginning
-> at 0x940, not 0x950. Bring our driver into alignment with reality.
+> Unlike the Apple Magic Mouse 1 and the Apple Magic Trackpad 1, the
+> second generation of the devices don't report their battery status
+> automatically.
 > 
-> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+> This patchset adds support for reporting the battery capacity and
+> charging status for the Apple Magic Mouse 2 and Apple Magic Trackpad
+> 2 both over bluetooth and USB.
+> 
+> This patch:
+> 
+> Register the required power supply structs for the Apple Magic Mouse 2
+> and the Apple Magic Trackpad 2 to be able to report battery capacity
+> and status in future patches.
+> 
+> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+> 
 > ---
->  drivers/hid/wacom_wac.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/hid/wacom_wac.h b/drivers/hid/wacom_wac.h
-> index 71c886245dbf..8f16654eca09 100644
-> --- a/drivers/hid/wacom_wac.h
-> +++ b/drivers/hid/wacom_wac.h
-> @@ -122,7 +122,7 @@
->  #define WACOM_HID_WD_TOUCHONOFF         (WACOM_HID_UP_WACOMDIGITIZER | 0x0454)
->  #define WACOM_HID_WD_BATTERY_LEVEL      (WACOM_HID_UP_WACOMDIGITIZER | 0x043b)
->  #define WACOM_HID_WD_EXPRESSKEY00       (WACOM_HID_UP_WACOMDIGITIZER | 0x0910)
-> -#define WACOM_HID_WD_EXPRESSKEYCAP00    (WACOM_HID_UP_WACOMDIGITIZER | 0x0950)
-> +#define WACOM_HID_WD_EXPRESSKEYCAP00    (WACOM_HID_UP_WACOMDIGITIZER | 0x0940)
->  #define WACOM_HID_WD_MODE_CHANGE        (WACOM_HID_UP_WACOMDIGITIZER | 0x0980)
->  #define WACOM_HID_WD_MUTE_DEVICE        (WACOM_HID_UP_WACOMDIGITIZER | 0x0981)
->  #define WACOM_HID_WD_CONTROLPANEL       (WACOM_HID_UP_WACOMDIGITIZER | 0x0982)
+> v2: Add depends on USB_HID to Kconfig
 
-Applied, thanks Jason.
+Hmm, why is this dependency needed in the first place, please? I think 
+trying to keep the drivers independent on transport drivers (especially in 
+cases like this, where more variants of physical transports actually 
+really do exist) is worth trying.
+
+Thanks,
 
 -- 
 Jiri Kosina
