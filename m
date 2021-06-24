@@ -2,36 +2,41 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 185F63B2EE6
-	for <lists+linux-input@lfdr.de>; Thu, 24 Jun 2021 14:29:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0245E3B2FF1
+	for <lists+linux-input@lfdr.de>; Thu, 24 Jun 2021 15:25:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229505AbhFXMbV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 24 Jun 2021 08:31:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36482 "EHLO mail.kernel.org"
+        id S230087AbhFXN2M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 24 Jun 2021 09:28:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54522 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229448AbhFXMbV (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 24 Jun 2021 08:31:21 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 76D87613EC;
-        Thu, 24 Jun 2021 12:29:01 +0000 (UTC)
+        id S229881AbhFXN2L (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 24 Jun 2021 09:28:11 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4BD5D61074;
+        Thu, 24 Jun 2021 13:25:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624537742;
-        bh=ptYzv12FcfuaXvLp7c84fIeEWzzjzuXlDBVCh6BO2Lw=;
+        s=k20201202; t=1624541152;
+        bh=tWunjCgimVyMEhbYavDkqwUe8wS7IKZbRXg1CpFPpm8=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=sxBgpwfPE5QFkJiY+9Y8kaJ4IZyy/T5v8p8B5rTodL+Ap4f+2meY0C40cPgMw0M+h
-         Q0r57Uox3K+7wsAJpYca41ChRXxV1A00/fmTZSVMdpGOAKPaVcYbeRS3SktLTXcv0d
-         o74ICz8qKjJl9yKO00wsFreFmUTNW1zEgqtnYahzBHFsCX0Y2Hkw/S+ZSTmiGlJpCV
-         M141Zbtqsj43cUYX8cpmKUKJDXYyAohMdBCGSSjMak5E4rDVYfhkNk8tJyPduF8q9n
-         wZtONcEmKFC1nXCsYQp0CnsN8PzR5BKioCfSR+srZPa0ydHtU1s7/S/K8KH0y004HJ
-         mLiFPzCK0eWnA==
-Date:   Thu, 24 Jun 2021 14:28:59 +0200 (CEST)
+        b=JtxnsM46RYCtgwr57yvp9cVyiQFm6XzvKswX7kXlDTqOEK39IorV0Q1OAcYDtFnBy
+         1XjUv8rygdMaykzsy4WicCG4ZIQme2T7g5Ta7tDKYIjAEzRfLDy8lVcv/K/wfSoofW
+         YkXLs8soKsmoo4RmRMWVA76BeQCAxn6M+gARtjkdBLQBsI/AH0XtfeTmGGSGLh9DY4
+         /eV5wj+5SnxQ41+4/gXXEY5TWjxFmFScLfxBWbZGmIE0cf5Mm8MX5EL4nJcLzbtV0+
+         vVEkVi1zXg4j38487J4KjejisspkRmLAN/7lbRyupfWoxuJWTFuLFSIpq1fYdJ0twq
+         vnRoyA6s5viDA==
+Date:   Thu, 24 Jun 2021 15:25:49 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        Nehal-Bakulchandra.shah@amd.com, shyam-sundar.s-k@amd.com
-Subject: Re: [PATCH 0/3] Add SFH sensor support for newer AMD platforms
-In-Reply-To: <20210618081838.4156571-1-Basavaraj.Natikar@amd.com>
-Message-ID: <nycvar.YFH.7.76.2106241428430.18969@cbobk.fhfr.pm>
-References: <20210618081838.4156571-1-Basavaraj.Natikar@amd.com>
+To:     Roderick Colenbrander <roderick@gaikai.com>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Pavel Machek <pavel@ucw.cz>, linux-input@vger.kernel.org,
+        linux-leds@vger.kernel.org,
+        =?ISO-8859-2?Q?Barnab=E1s_P=F5cze?= <pobrn@protonmail.com>,
+        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Subject: Re: [PATCH 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
+ for game controllers.
+In-Reply-To: <20210602061253.5747-3-roderick@gaikai.com>
+Message-ID: <nycvar.YFH.7.76.2106241525330.18969@cbobk.fhfr.pm>
+References: <20210602061253.5747-1-roderick@gaikai.com> <20210602061253.5747-3-roderick@gaikai.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -39,34 +44,46 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Fri, 18 Jun 2021, Basavaraj Natikar wrote:
+On Tue, 1 Jun 2021, Roderick Colenbrander wrote:
 
-> AMD SFH firmware (MP2) has evolved since the time the last driver update
-> has been pushed. The way in which the MP2 FW and the driver communicates
-> have also changed with changing silicon versions. Hence there is an
-> update to the data structure and the things around it.
+> From: Roderick Colenbrander <roderick.colenbrander@sony.com>
 > 
-> With this in-place, the AMD next generation SoC's like Renoir, Cezanne
-> are added here along with the support for Ambient Light Sensor (ALS).
+> Player LEDs are commonly found on game controllers from Nintendo and Sony
+> to indicate a player ID across a number of LEDs. For example, "Player 2"
+> might be indicated as "-x--" on a device with 4 LEDs where "x" means on.
 > 
-> Finally, bringing in initial support for Human Presence Detection (HPD)
-> sensor on supported generations.
+> This patch introduces a new LED_FUNCTION_PLAYER to properly indicate
+> player LEDs from the kernel. Until now there was no good standard, which
+> resulted in inconsistent behavior across xpad, hid-sony, hid-wiimote and
+> other drivers. Moving forward new drivers should use LED_FUNCTION_PLAYER.
 > 
-> Basavaraj Natikar (3):
->   amd_sfh: Extend driver capabilities for multi-generation support
->   amd_sfh: Extend ALS support for newer AMD platform
->   amd_sfh: Add initial support for HPD sensor
+> Note: management of Player IDs is left to user space, though a kernel
+> driver may pick a default value.
 > 
->  drivers/hid/amd-sfh-hid/amd_sfh_client.c      |  43 ++++---
->  drivers/hid/amd-sfh-hid/amd_sfh_hid.h         |  12 +-
->  drivers/hid/amd-sfh-hid/amd_sfh_pcie.c        |  89 +++++++++++++-
->  drivers/hid/amd-sfh-hid/amd_sfh_pcie.h        |  43 +++++++
->  .../hid_descriptor/amd_sfh_hid_desc.c         |  48 +++++++-
->  .../hid_descriptor/amd_sfh_hid_desc.h         |  11 +-
->  .../hid_descriptor/amd_sfh_hid_report_desc.h  | 112 ++++++++++++++++++
->  7 files changed, 324 insertions(+), 34 deletions(-)
+> Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> ---
+>  include/dt-bindings/leds/common.h | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
+> index 52b619d44ba2..94999c250e4d 100644
+> --- a/include/dt-bindings/leds/common.h
+> +++ b/include/dt-bindings/leds/common.h
+> @@ -60,6 +60,9 @@
+>  #define LED_FUNCTION_MICMUTE "micmute"
+>  #define LED_FUNCTION_MUTE "mute"
+>  
+> +/* Used for player LEDs as found on game controllers from e.g. Nintendo, Sony. */
+> +#define LED_FUNCTION_PLAYER "player"
+> +
+>  /* Miscelleaus functions. Use functions above if you can. */
+>  #define LED_FUNCTION_ACTIVITY "activity"
+>  #define LED_FUNCTION_ALARM "alarm"
 
-Now queued in for-5.14/amd-sfh. Thanks,
+Pavel, can I please get your Ack on this one, so that I can take it with 
+the rest of the series?
+
+Thanks,
 
 -- 
 Jiri Kosina
