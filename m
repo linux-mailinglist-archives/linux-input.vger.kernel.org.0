@@ -2,41 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0245E3B2FF1
-	for <lists+linux-input@lfdr.de>; Thu, 24 Jun 2021 15:25:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF5113B2FF3
+	for <lists+linux-input@lfdr.de>; Thu, 24 Jun 2021 15:27:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230087AbhFXN2M (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 24 Jun 2021 09:28:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54522 "EHLO mail.kernel.org"
+        id S229881AbhFXN3S (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 24 Jun 2021 09:29:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54852 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229881AbhFXN2L (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 24 Jun 2021 09:28:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4BD5D61074;
-        Thu, 24 Jun 2021 13:25:51 +0000 (UTC)
+        id S229878AbhFXN3S (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 24 Jun 2021 09:29:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 68BFD61074;
+        Thu, 24 Jun 2021 13:26:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624541152;
-        bh=tWunjCgimVyMEhbYavDkqwUe8wS7IKZbRXg1CpFPpm8=;
+        s=k20201202; t=1624541219;
+        bh=Z5RpeZUVxCdnt3wBN/6yt62Dz6n8RjGJQhupaQlo8DM=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=JtxnsM46RYCtgwr57yvp9cVyiQFm6XzvKswX7kXlDTqOEK39IorV0Q1OAcYDtFnBy
-         1XjUv8rygdMaykzsy4WicCG4ZIQme2T7g5Ta7tDKYIjAEzRfLDy8lVcv/K/wfSoofW
-         YkXLs8soKsmoo4RmRMWVA76BeQCAxn6M+gARtjkdBLQBsI/AH0XtfeTmGGSGLh9DY4
-         /eV5wj+5SnxQ41+4/gXXEY5TWjxFmFScLfxBWbZGmIE0cf5Mm8MX5EL4nJcLzbtV0+
-         vVEkVi1zXg4j38487J4KjejisspkRmLAN/7lbRyupfWoxuJWTFuLFSIpq1fYdJ0twq
-         vnRoyA6s5viDA==
-Date:   Thu, 24 Jun 2021 15:25:49 +0200 (CEST)
+        b=ifCbq/gjQNLmGqQu6A1ti1Tgdz5JBiJsreBTWk6xM3lYA3vwl9UL5WFeiknok1XpV
+         Izip4nU0e2CoLl2EMwwsRZ5BcDqK5T//SrzgFcWl1iPJhPepyNz39kNq0p/SoDbcyt
+         1ALv8mM79HC7G7FOuYbx15bYfBQRpMKE4BRsb52eEvl51OEij/vYjUSDAUcs+ftqPI
+         Gy69Y8oK3mk0HtFlbh3R6iRaCRPf9pvLNruGciLa6F3fgDnSd+fJGXkhW4ixHZMOL0
+         2iuO3Edh70rOyIUdxSdKbQJBLVnnyENR51F3OUtQFGnm99HFUYGqq7LEqFtfg2GHJ+
+         ikIs0TQrn31Qg==
+Date:   Thu, 24 Jun 2021 15:26:56 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Roderick Colenbrander <roderick@gaikai.com>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Pavel Machek <pavel@ucw.cz>, linux-input@vger.kernel.org,
-        linux-leds@vger.kernel.org,
-        =?ISO-8859-2?Q?Barnab=E1s_P=F5cze?= <pobrn@protonmail.com>,
-        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
-Subject: Re: [PATCH 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs
- for game controllers.
-In-Reply-To: <20210602061253.5747-3-roderick@gaikai.com>
-Message-ID: <nycvar.YFH.7.76.2106241525330.18969@cbobk.fhfr.pm>
-References: <20210602061253.5747-1-roderick@gaikai.com> <20210602061253.5747-3-roderick@gaikai.com>
+To:     Jason Gerecke <killertofu@gmail.com>
+cc:     linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Ping Cheng <pinglinux@gmail.com>,
+        Jason Gerecke <jason.gerecke@wacom.com>
+Subject: Re: [PATCH] HID: wacom: Correct base usage for capacitive ExpressKey
+ status bits
+In-Reply-To: <20210623165809.101208-1-jason.gerecke@wacom.com>
+Message-ID: <nycvar.YFH.7.76.2106241526510.18969@cbobk.fhfr.pm>
+References: <20210623165809.101208-1-jason.gerecke@wacom.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -44,46 +42,31 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, 1 Jun 2021, Roderick Colenbrander wrote:
+On Wed, 23 Jun 2021, Jason Gerecke wrote:
 
-> From: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> The capacitive status of ExpressKeys is reported with usages beginning
+> at 0x940, not 0x950. Bring our driver into alignment with reality.
 > 
-> Player LEDs are commonly found on game controllers from Nintendo and Sony
-> to indicate a player ID across a number of LEDs. For example, "Player 2"
-> might be indicated as "-x--" on a device with 4 LEDs where "x" means on.
-> 
-> This patch introduces a new LED_FUNCTION_PLAYER to properly indicate
-> player LEDs from the kernel. Until now there was no good standard, which
-> resulted in inconsistent behavior across xpad, hid-sony, hid-wiimote and
-> other drivers. Moving forward new drivers should use LED_FUNCTION_PLAYER.
-> 
-> Note: management of Player IDs is left to user space, though a kernel
-> driver may pick a default value.
-> 
-> Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
 > ---
->  include/dt-bindings/leds/common.h | 3 +++
->  1 file changed, 3 insertions(+)
+>  drivers/hid/wacom_wac.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
-> index 52b619d44ba2..94999c250e4d 100644
-> --- a/include/dt-bindings/leds/common.h
-> +++ b/include/dt-bindings/leds/common.h
-> @@ -60,6 +60,9 @@
->  #define LED_FUNCTION_MICMUTE "micmute"
->  #define LED_FUNCTION_MUTE "mute"
->  
-> +/* Used for player LEDs as found on game controllers from e.g. Nintendo, Sony. */
-> +#define LED_FUNCTION_PLAYER "player"
-> +
->  /* Miscelleaus functions. Use functions above if you can. */
->  #define LED_FUNCTION_ACTIVITY "activity"
->  #define LED_FUNCTION_ALARM "alarm"
+> diff --git a/drivers/hid/wacom_wac.h b/drivers/hid/wacom_wac.h
+> index 71c886245dbf..8f16654eca09 100644
+> --- a/drivers/hid/wacom_wac.h
+> +++ b/drivers/hid/wacom_wac.h
+> @@ -122,7 +122,7 @@
+>  #define WACOM_HID_WD_TOUCHONOFF         (WACOM_HID_UP_WACOMDIGITIZER | 0x0454)
+>  #define WACOM_HID_WD_BATTERY_LEVEL      (WACOM_HID_UP_WACOMDIGITIZER | 0x043b)
+>  #define WACOM_HID_WD_EXPRESSKEY00       (WACOM_HID_UP_WACOMDIGITIZER | 0x0910)
+> -#define WACOM_HID_WD_EXPRESSKEYCAP00    (WACOM_HID_UP_WACOMDIGITIZER | 0x0950)
+> +#define WACOM_HID_WD_EXPRESSKEYCAP00    (WACOM_HID_UP_WACOMDIGITIZER | 0x0940)
+>  #define WACOM_HID_WD_MODE_CHANGE        (WACOM_HID_UP_WACOMDIGITIZER | 0x0980)
+>  #define WACOM_HID_WD_MUTE_DEVICE        (WACOM_HID_UP_WACOMDIGITIZER | 0x0981)
+>  #define WACOM_HID_WD_CONTROLPANEL       (WACOM_HID_UP_WACOMDIGITIZER | 0x0982)
 
-Pavel, can I please get your Ack on this one, so that I can take it with 
-the rest of the series?
-
-Thanks,
+Applied, thanks Jason.
 
 -- 
 Jiri Kosina
