@@ -2,36 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E66173B3003
-	for <lists+linux-input@lfdr.de>; Thu, 24 Jun 2021 15:33:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 240423B3046
+	for <lists+linux-input@lfdr.de>; Thu, 24 Jun 2021 15:41:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229881AbhFXNgC (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 24 Jun 2021 09:36:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57248 "EHLO mail.kernel.org"
+        id S230056AbhFXNn5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 24 Jun 2021 09:43:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32928 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229878AbhFXNgB (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 24 Jun 2021 09:36:01 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D9FBE60FD9;
-        Thu, 24 Jun 2021 13:33:41 +0000 (UTC)
+        id S229995AbhFXNn5 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 24 Jun 2021 09:43:57 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9EBB4613DC;
+        Thu, 24 Jun 2021 13:41:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624541622;
-        bh=O2I69TLhOqa5YCAAvlK2YkSpMRBWz/dmGuYy8PcAUZo=;
+        s=k20201202; t=1624542098;
+        bh=Q5XRw5adCPiypuyfJm2Co5msCh8O+vpMzbd2IR4nRVQ=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=OpLYG3zybn8V4R1zfKzmH2mKfSVAh3286XKCokDK8lW1IOFZyzpppT+2v8uAOYdUF
-         1J2M1TSbj4+TXy4rL+I71aQ9eTISTa+yjsXMwiZV1Yqsgyaqi4PeDiKkvV8tvyXH6y
-         yaXnttJe2FrAuwTRXIkDi6p9NOShUcoldjcHPlDV3HTyJvzQpZS7VsecKhdLdu7KBX
-         mH4cK+CGwaSdjYF319AS+XzHhw8RvZlNgzPbPszm+C8FMD4DZEsvmwXqm8OnUi0Yqb
-         bq2fz+dd1SHyJlX8+3iIWZJoF/OflsVJfA8H/5o1rUQIzltPyhYi0lZSWT/E3/hoJR
-         dvNRJCxNgc1iw==
-Date:   Thu, 24 Jun 2021 15:33:39 +0200 (CEST)
+        b=Lxm30UuqsD3x3QIxS/+whFGWM8MZ5TVS8XfAbeii9nTTpojKCNiSuXQenKP89SSrC
+         QBBdX07zCuVyPZxTiITVDKxAGbsluHSXjaXlMzYnqYw30uPP3QdddLad3fKIOSDJYn
+         qM5OIrtV0/DS/9J7wo7zMpydVKMEWz4hEixW8XbGkBIX1DCfk319GGWYUCAXhGiS3c
+         tKRROSmQjParnI+Jrvj/AnC6rUg41dRWksMO7DOkMXnMacyOD8Uq+eLOUyiDZtSDpF
+         Pdr2KWOOEWfdrJGXyXEqvL0cB8YTJs0h75hh+yz6Y/Aj3puJCJyThCDIcvWTMptzxS
+         2eVCLl5TzkTZg==
+Date:   Thu, 24 Jun 2021 15:41:30 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     =?ISO-8859-15?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-cc:     benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+To:     =?ISO-8859-15?Q?Thomas_Wei=DFschuh?= <linux@weissschuh.net>
+cc:     linux-input@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Hans de Goede <hdegoede@redhat.com>,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] HID: magicmouse: register power supply
-In-Reply-To: <20210522180611.314300-1-jose.exposito89@gmail.com>
-Message-ID: <nycvar.YFH.7.76.2106241532511.18969@cbobk.fhfr.pm>
-References: <20210522180611.314300-1-jose.exposito89@gmail.com>
+Subject: Re: [PATCH v4] HID: input: Add support for Programmable Buttons
+In-Reply-To: <20210615214103.1031479-1-linux@weissschuh.net>
+Message-ID: <nycvar.YFH.7.76.2106241541190.18969@cbobk.fhfr.pm>
+References: <20210615214103.1031479-1-linux@weissschuh.net>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -40,34 +42,42 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 22 May 2021, José Expósito wrote:
+On Tue, 15 Jun 2021, Thomas Weißschuh wrote:
 
-> Unlike the Apple Magic Mouse 1 and the Apple Magic Trackpad 1, the
-> second generation of the devices don't report their battery status
-> automatically.
+> Map them to KEY_MACRO# event codes.
 > 
-> This patchset adds support for reporting the battery capacity and
-> charging status for the Apple Magic Mouse 2 and Apple Magic Trackpad
-> 2 both over bluetooth and USB.
+> These buttons are defined by HID as follows:
+> "The user defines the function of these buttons to control software applications or GUI objects."
 > 
-> This patch:
+> This matches the semantics of the KEY_MACRO# input event codes that Linux supports.
 > 
-> Register the required power supply structs for the Apple Magic Mouse 2
-> and the Apple Magic Trackpad 2 to be able to report battery capacity
-> and status in future patches.
+> Also add support for HID "Named Array" collections.
+> Also add hid-debug support for KEY_MACRO#.
 > 
-> Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> ---
 > 
 > ---
 > 
-> v2: Add depends on USB_HID to Kconfig
+> v1: https://lore.kernel.org/linux-input/20210519160349.609690-1-linux@weissschuh.net/
+> 
+> v1 -> v2: Only handle the 30 keys known
+> 
+> v2: https://lore.kernel.org/linux-input/20210519174345.614467-1-linux@weissschuh.net/
+> 
+> v2 -> v3:
+>  * Use hex constants for consistency
+>  * Validate that the button is part of a "Programmable Buttons" Named Array.
+>    Otherwise the condition would also apply to "Function Buttons".
+>  * Ignore non-"Programmable Buttons" buttons.
+> 
+> v3: https://lore.kernel.org/linux-input/20210520084805.685486-1-linux@weissschuh.net/
+> 
+> v3 -> v4:
+>  * Mention new support for HID "Named Array" collections in commit message.
+>  * Mention new support KEY_MACRO# in hid-debug.
 
-Hmm, why is this dependency needed in the first place, please? I think 
-trying to keep the drivers independent on transport drivers (especially in 
-cases like this, where more variants of physical transports actually 
-really do exist) is worth trying.
-
-Thanks,
+Applied, thank you.
 
 -- 
 Jiri Kosina
