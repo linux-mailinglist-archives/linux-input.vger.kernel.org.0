@@ -2,301 +2,267 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69E213B400D
-	for <lists+linux-input@lfdr.de>; Fri, 25 Jun 2021 11:08:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 453C23B429F
+	for <lists+linux-input@lfdr.de>; Fri, 25 Jun 2021 13:36:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230456AbhFYJLH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 25 Jun 2021 05:11:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41486 "EHLO
+        id S230063AbhFYLjK (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 25 Jun 2021 07:39:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230126AbhFYJLH (ORCPT
+        with ESMTP id S229458AbhFYLjJ (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Fri, 25 Jun 2021 05:11:07 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DE2DC061574
-        for <linux-input@vger.kernel.org>; Fri, 25 Jun 2021 02:08:46 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id d11so9829978wrm.0
-        for <linux-input@vger.kernel.org>; Fri, 25 Jun 2021 02:08:46 -0700 (PDT)
+        Fri, 25 Jun 2021 07:39:09 -0400
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FF10C061767
+        for <linux-input@vger.kernel.org>; Fri, 25 Jun 2021 04:36:48 -0700 (PDT)
+Received: by mail-lj1-x233.google.com with SMTP id d13so12042598ljg.12
+        for <linux-input@vger.kernel.org>; Fri, 25 Jun 2021 04:36:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=nQLpNqH9Q62lwj8TZnGuZUrf+AHa/sGCjIjmBPI4YLA=;
-        b=BSAkzAD/IQkhEK31HU/2IDIiYcQqS6oHPOpUV1+wrYbmDiWG2bQ5uq4P4Bc+RFGHnm
-         sXxrX3e85Bz/kUeIHq7G365T1ujKrG8VxDcxCq2wLTiRo2dxROWmFLUw4uhYPIeyZBeS
-         LeRhgi6kC7YFzwvWghlpkh1aSsyxkvWH4+eJhY3Oa89kLMbmvHv03VuMIZKM2fw71Hkq
-         4KtcmRy8jGSkULnpsPF64FbXjdHX4H/noHjzlI7Fz51193EE39/1nDOC2ydu4eR7Phdx
-         r7ZEGsZnd0L6y5He0OJ/f7EV9Op4I0BEs66HYL59V1VZ6XaAEDk/b/Y3fiTKo98g/qfl
-         SKPg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mFVix5hj4qMWkWTebg8/V8+S9K9ne/G74p8v6BIfU6o=;
+        b=I2So+MXmqnpvFXypMoaFVV6uKyzK7GRRg14dhmjcbQaxRXBweaj2GX5hHc00YS6YRc
+         kqNOoF7S4ESkn2VDsouQFHdx5zMYdbQaHyS1Zouc4VTgJkpdWiyIJHNqK9g91PxbpGRr
+         xustDbI3DEeAOrO8FxjI7O/HA+SC/n2gefMOGdr+DoCU3ihT4wyi8+fmL0XGCq5qcUtk
+         P1tbAxddEoFqC4FFN3rBSJIfI5TkD0WVbng42trX0B0Uy196AUuxCEOQT8l7NzT4mbM/
+         QINoGWYJ2T1KicpeY3kAKyc/rhBfX6kebAjGkl4e4FXYBUSYeu7+P1Gd2oH4g8fLtdfv
+         Jt6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=nQLpNqH9Q62lwj8TZnGuZUrf+AHa/sGCjIjmBPI4YLA=;
-        b=t6GVJ3/liEf9LwmE1EF1EcUOyc0gNDSR4jKgXxCsQRfEkR/IsyY7HVilaO/pvHvObi
-         L7WnoYrem4OuAGvNjn3iPPs3EqCu5cqHCFjZ213nqr//QQp4vG8TJsrJsmxelCrjAcFq
-         fEQ9XJl663JcHtbaunsVKWxhrksZCm1b3T+Slpr1avFW4RY8Ao2jOBMIYYeCeHOISOTI
-         yAxoXr4hYu5XiZFKo+N0N9NTwr7NybMVOa+iZ3I8Bh03qorD3hwgIvL2YWw7NHcGYdtv
-         lCTaelUiEbH9I3U3k2IEYO0c38smtHakCA1q3yQVd0yropP9clcEhdJOgFstItnI3DUg
-         wooQ==
-X-Gm-Message-State: AOAM5315QfqxBpHwoiT2NmKqpSzl/fJ+yc+EMNqpE/RcTh+jMQ48B9mZ
-        FfzdepyiHejlq/cch3W/hPgR/A==
-X-Google-Smtp-Source: ABdhPJxXwokYZLNq6LacatgZqVkC/CbmvmkBE+J7bbcbvei303DZmRAc+Ywf0Cm8p0/CBcDkUoEsMg==
-X-Received: by 2002:a05:6000:246:: with SMTP id m6mr9734723wrz.116.1624612124921;
-        Fri, 25 Jun 2021 02:08:44 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:e0a:82c:5f0:78f0:ea41:c81:639b])
-        by smtp.gmail.com with ESMTPSA id n29sm51879wms.34.2021.06.25.02.08.43
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 25 Jun 2021 02:08:43 -0700 (PDT)
-From:   Loic Poulain <loic.poulain@linaro.org>
-To:     nick@shmanahar.org, dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, Loic Poulain <loic.poulain@linaro.org>
-Subject: [PATCH] Input: atmel_mxt_ts: Add selftest support
-Date:   Fri, 25 Jun 2021 11:18:47 +0200
-Message-Id: <1624612727-31762-1-git-send-email-loic.poulain@linaro.org>
-X-Mailer: git-send-email 2.7.4
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mFVix5hj4qMWkWTebg8/V8+S9K9ne/G74p8v6BIfU6o=;
+        b=DGGAsb0dof3kKwgG26nOjhXAqj25YHROUAlNGvSEM3sCsHGOUuI1nUe5XMTB4rZRTm
+         +/ctmevWyiWN6zQvrqdZRbH4EPEv1aoKSY7NS7xIeyPbcTuKCXJ+FqDNHSR6i0+dtqho
+         7PSDPEhkf6xJmd43yzB7shjwTQAgJ+LYuFJ+i5KWHt8j7yJJ/9DEo4SIHLFN3G1YAmHD
+         KDN4vtxNDvxNgkWAw53posZjkb9H1/w9tTIAZDC8JmvDlxiN691bBJfdkl2I0sh8efhT
+         qkt+SGL4FtS6ZzMqdkID8cQZS0+rAll9TUjt2lvSv2mSJLfZfEFmD60bmClDuzOmcB/v
+         DsoA==
+X-Gm-Message-State: AOAM532vdcwE+nOYC2J2FWJQga15slq1WrDj4AwbZdwzOpj4z0RZDloz
+        n316WyBMkjN13zE84Rh9t2rZ1w==
+X-Google-Smtp-Source: ABdhPJyhgY8f/6Jz/KKUMwRU1cFzxqjiaNfbIahMe0T7VNKkBkdz3XX3DHfDtNLtGxzoKRkwCUkFIA==
+X-Received: by 2002:a2e:8ecd:: with SMTP id e13mr38921ljl.193.1624621006511;
+        Fri, 25 Jun 2021 04:36:46 -0700 (PDT)
+Received: from localhost.localdomain (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
+        by smtp.gmail.com with ESMTPSA id g24sm489682lfv.228.2021.06.25.04.36.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Jun 2021 04:36:46 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Mark Brown <broonie@kernel.org>,
+        Michael Srba <Michael.Srba@seznam.cz>,
+        phone-devel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH 1/2] dt-bindings: input/ts/zinitix: Convert to YAML, fix and extend
+Date:   Fri, 25 Jun 2021 13:34:34 +0200
+Message-Id: <20210625113435.2539282-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add selftest support via T25 function. Selftest is exposed as a sysfs
-attribute which can be written with a test code and read to get the
-test result (PASS or FAIL).
+This converts the Zinitix BT4xx and BT5xx touchscreen bindings to YAML, fix
+them up a bit and extends them.
 
-The supported test codes seem to be device specific, so refer to the
-device documentation for getting an exhausive list.
+We list all the existing BT4xx and BT5xx components with compatible strings.
+These are all similar, use the same bindings and work in similar ways.
 
-So far I've validated the following tests:
-Signal limit test: code 0x17
-AVdd test: code 0x01
-All tests: code 0xfe
-pin-fault test: code 0x12 (or 0x11)
+We rename the supplies from the erroneous vdd/vddo to the actual supply
+names vcca/vdd as specified on the actual component. It is long established
+that supplies shall be named after the supply pin names of a component.
+The confusion probably stems from that in a certain product the rails to the
+component were named vdd/vddo. Drop some notes on how OS implementations should
+avoid confusion by first looking for vddo, and if that exists assume the
+legacy binding pair and otherwise use vcca/vdd.
 
-Example:
-$ echo 0x17 > /sys/bus/i2c/devices/*/selftest
-$ cat /sys/bus/i2c/devices/*/selftest
-PASS
+Add reset-gpios as sometimes manufacturers pulls a GPIO line to the reset
+line on the chip.
 
-Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
+Add optional touchscreen-fuzz-x and touchscreen-fuzz-y properties.
+
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Michael Srba <Michael.Srba@seznam.cz>
+Cc: phone-devel@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- drivers/input/touchscreen/atmel_mxt_ts.c | 133 +++++++++++++++++++++++++++++++
- 1 file changed, 133 insertions(+)
+ .../input/touchscreen/zinitix,bt400.yaml      | 115 ++++++++++++++++++
+ .../bindings/input/touchscreen/zinitix.txt    |  40 ------
+ 2 files changed, 115 insertions(+), 40 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/zinitix,bt400.yaml
+ delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/zinitix.txt
 
-diff --git a/drivers/input/touchscreen/atmel_mxt_ts.c b/drivers/input/touchscreen/atmel_mxt_ts.c
-index 05de92c..12dfeb8 100644
---- a/drivers/input/touchscreen/atmel_mxt_ts.c
-+++ b/drivers/input/touchscreen/atmel_mxt_ts.c
-@@ -222,6 +222,13 @@ enum t100_type {
- 
- #define MXT_PIXELS_PER_MM	20
- 
-+#define MXT_T25_RESULT_STATUS_SUCCESS   0xFE
-+#define MXT_T25_RESULT_STATUS_INVALID   0xFD
-+#define MXT_T25_RESULT_STATUS_NOAVDD    0x01
-+#define MXT_T25_RESULT_STATUS_PINFAULT  0x11
-+#define MXT_T25_RESULT_STATUS_PINFAULT2 0x12
-+#define MXT_T25_RESULT_STATUS_SIGFAULT  0x17
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/zinitix,bt400.yaml b/Documentation/devicetree/bindings/input/touchscreen/zinitix,bt400.yaml
+new file mode 100644
+index 000000000000..6e8b4dede9d7
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/touchscreen/zinitix,bt400.yaml
+@@ -0,0 +1,115 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/touchscreen/zinitix,bt400.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- struct mxt_info {
- 	u8 family_id;
- 	u8 variant_id;
-@@ -266,6 +273,11 @@ enum mxt_suspend_mode {
- 	MXT_SUSPEND_T9_CTRL	= 1,
- };
- 
-+struct t25_result_msg {
-+	u8 status;
-+	u8 info[5];
-+} __packed;
++title: Zinitix BT4xx and BT5xx series touchscreen controller bindings
 +
- /* Config update context */
- struct mxt_cfg {
- 	u8 *raw;
-@@ -328,6 +340,8 @@ struct mxt_data {
- 	u8 T9_reportid_max;
- 	u16 T18_address;
- 	u8 T19_reportid;
-+	u16 T25_address;
-+	u8 T25_reportid;
- 	u16 T44_address;
- 	u8 T100_reportid_min;
- 	u8 T100_reportid_max;
-@@ -341,6 +355,9 @@ struct mxt_data {
- 	/* for config update handling */
- 	struct completion crc_completion;
- 
-+	/* store selftest result */
-+	struct t25_result_msg t25_result;
++description: The Zinitix BT4xx and BT5xx series of touchscreen controllers
++  are Korea-produced touchscreens with embedded microcontrollers. The
++  BT4xx series was produced 2010-2013 and the BT5xx series 2013-2014.
 +
- 	u32 *t19_keymap;
- 	unsigned int t19_num_keys;
- 
-@@ -999,6 +1016,41 @@ static void mxt_proc_t100_message(struct mxt_data *data, u8 *message)
- 	data->update_input = true;
- }
- 
-+static void mxt_proc_t25_message(struct mxt_data *data, u8 *msg)
-+{
-+	struct device *dev = &data->client->dev;
++maintainers:
++  - Michael Srba <Michael.Srba@seznam.cz>
++  - Linus Walleij <linus.walleij@linaro.org>
 +
-+	memcpy(&data->t25_result, &msg[1], sizeof(data->t25_result));
++allOf:
++  - $ref: touchscreen.yaml#
 +
-+	if (data->t25_result.status == MXT_T25_RESULT_STATUS_SUCCESS)
-+		return;
++properties:
++  $nodename:
++    pattern: "^touchscreen(@.*)?$"
 +
-+	switch (data->t25_result.status) {
-+	case MXT_T25_RESULT_STATUS_INVALID:
-+		dev_err(dev, "Invalid test code\n");
-+		break;
-+	case MXT_T25_RESULT_STATUS_NOAVDD:
-+		dev_err(dev, "AVdd is not present\n");
-+		break;
-+	case MXT_T25_RESULT_STATUS_PINFAULT:
-+	case MXT_T25_RESULT_STATUS_PINFAULT2:
-+		dev_err(dev, "Pin fault (seqnum=%02x)\n",
-+			data->t25_result.info[0]);
-+		break;
-+	case MXT_T25_RESULT_STATUS_SIGFAULT:
-+		dev_err(dev, "Signal limit fault\n");
-+		break;
-+	default:
-+		dev_err(dev, "Status %02x\n", data->t25_result.status);
-+		break;
-+	}
++  compatible:
++    oneOf:
++      - const: zinitix,bt402
++      - const: zinitix,bt403
++      - const: zinitix,bt404
++      - const: zinitix,bt412
++      - const: zinitix,bt413
++      - const: zinitix,bt431
++      - const: zinitix,bt432
++      - const: zinitix,bt531
++      - const: zinitix,bt532
++      - const: zinitix,bt538
++      - const: zinitix,bt541
++      - const: zinitix,bt548
++      - const: zinitix,bt554
++      - const: zinitix,at100
 +
-+	dev_err(dev, "info: %02x %02x %02x %02x %02x\n",
-+		data->t25_result.info[1], data->t25_result.info[2],
-+		data->t25_result.info[3], data->t25_result.info[4],
-+		data->t25_result.info[5]);
-+}
++  reg:
++    description: I2C address on the I2C bus
 +
- static int mxt_proc_message(struct mxt_data *data, u8 *message)
- {
- 	u8 report_id = message[0];
-@@ -1023,6 +1075,8 @@ static int mxt_proc_message(struct mxt_data *data, u8 *message)
- 	} else if (report_id == data->T19_reportid) {
- 		mxt_input_button(data, message);
- 		data->update_input = true;
-+	} else if (report_id == data->T25_reportid) {
-+		mxt_proc_t25_message(data, message);
- 	} else {
- 		mxt_dump_message(data, message);
- 	}
-@@ -1231,6 +1285,36 @@ static int mxt_t6_command(struct mxt_data *data, u16 cmd_offset,
- 	return 0;
- }
- 
-+static int mxt_t25_command(struct mxt_data *data, u8 test_code)
-+{
-+	int timeout_counter = 0;
-+	u16 reg;
-+	int ret;
-+	u8  val[2];
++  clock-frequency:
++    description: I2C client clock frequency, defined for host when using
++      the device on the I2C bus
++    minimum: 0
++    maximum: 400000
 +
-+	reg = data->T25_address;
-+	val[0] = 0x3;
-+	val[1] = test_code;
++  interrupts:
++    description: Interrupt to host
++    maxItems: 1
 +
-+	ret = __mxt_write_reg(data->client, reg, sizeof(val), val);
-+	if (ret)
-+		return ret;
++  vcca-supply:
++    description: Analog power supply regulator on the VCCA pin
 +
-+	do {
-+		msleep(100);
-+		ret = __mxt_read_reg(data->client, reg, sizeof(val), &val);
-+		if (ret)
-+			return ret;
-+	} while ((val[1] != 0) && (timeout_counter++ <= 20));
++  vdd-supply:
++    description: Digital power supply regulator on the VDD pin.
++      In older device trees this can be the accidental name for the analog
++      supply on the VCCA pin, and in that case the deprecated vddo-supply is
++      used for the digital power supply.
 +
-+	if (timeout_counter > 20) {
-+		dev_err(&data->client->dev, "Command failed!\n");
-+		return -EIO;
-+	}
++  vddo-supply:
++    description: Deprecated name for the digital power supply, use vdd-supply
++      as this reflects the real name of the pin. If this supply is present,
++      the vdd-supply represents VCCA instead of VDD. Implementers should first
++      check for this property, and if it is present assume that the vdd-supply
++      represents the analog supply.
++    deprecated: true
 +
-+	return 0;
-+}
++  reset-gpios:
++    description: Reset line for the touchscreen, should be tagged
++      as GPIO_ACTIVE_LOW
 +
- static int mxt_acquire_irq(struct mxt_data *data)
- {
- 	int error;
-@@ -1691,6 +1775,8 @@ static void mxt_free_object_table(struct mxt_data *data)
- 	data->T9_reportid_max = 0;
- 	data->T18_address = 0;
- 	data->T19_reportid = 0;
-+	data->T25_address = 0;
-+	data->T25_reportid = 0;
- 	data->T44_address = 0;
- 	data->T100_reportid_min = 0;
- 	data->T100_reportid_max = 0;
-@@ -1767,6 +1853,10 @@ static int mxt_parse_object_table(struct mxt_data *data,
- 		case MXT_SPT_COMMSCONFIG_T18:
- 			data->T18_address = object->start_address;
- 			break;
-+		case MXT_SPT_SELFTEST_T25:
-+			data->T25_address = object->start_address;
-+			data->T25_reportid = min_id;
-+			break;
- 		case MXT_SPT_MESSAGECOUNT_T44:
- 			data->T44_address = object->start_address;
- 			break;
-@@ -3002,16 +3092,59 @@ static ssize_t mxt_update_fw_store(struct device *dev,
- 	return count;
- }
- 
-+static ssize_t mxt_selftest_show(struct device *dev,
-+				 struct device_attribute *attr, char *buf)
-+{
-+	struct mxt_data *data = dev_get_drvdata(dev);
++  zinitix,mode:
++    description: Mode of reporting touch points. Some modes may not work
++      with a particular ts firmware for unknown reasons. Available modes are
++      1 and 2. Mode 2 is the default and preferred.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [1, 2]
 +
-+	if (!data->T25_address)
-+		return -EOPNOTSUPP;
++  touchscreen-size-x: true
++  touchscreen-size-y: true
++  touchscreen-fuzz-x: true
++  touchscreen-fuzz-y: true
 +
-+	if (!data->t25_result.status)
-+		return -ENODATA;
++additionalProperties: false
 +
-+	if (data->t25_result.status == MXT_T25_RESULT_STATUS_SUCCESS)
-+		return scnprintf(buf, PAGE_SIZE, "PASS\n");
++required:
++  - compatible
++  - reg
++  - interrupts
++  - touchscreen-size-x
++  - touchscreen-size-y
 +
-+	return scnprintf(buf, PAGE_SIZE, "FAIL\n");
-+}
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/gpio/gpio.h>
++    i2c {
++      #address-cells = <1>;
++      #size-cells = <0>;
 +
-+static ssize_t mxt_selftest_store(struct device *dev,
-+				  struct device_attribute *attr,
-+				  const char *buf, size_t count)
-+{
-+	struct mxt_data *data = dev_get_drvdata(dev);
-+	u8 test_code;
-+	int ret;
-+
-+	if (!data->T25_address)
-+		return -EOPNOTSUPP;
-+
-+	/* Refer to documentation for available seltest codes */
-+	if (kstrtou8(buf, 0, &test_code))
-+		return -EINVAL;
-+
-+	data->t25_result.status = 0;
-+
-+	ret = mxt_t25_command(data, test_code);
-+	if (ret)
-+		return ret;
-+
-+	return count;
-+}
-+
- static DEVICE_ATTR(fw_version, S_IRUGO, mxt_fw_version_show, NULL);
- static DEVICE_ATTR(hw_version, S_IRUGO, mxt_hw_version_show, NULL);
- static DEVICE_ATTR(object, S_IRUGO, mxt_object_show, NULL);
- static DEVICE_ATTR(update_fw, S_IWUSR, NULL, mxt_update_fw_store);
-+static DEVICE_ATTR(selftest, S_IWUSR | S_IRUGO, mxt_selftest_show, mxt_selftest_store);
- 
- static struct attribute *mxt_attrs[] = {
- 	&dev_attr_fw_version.attr,
- 	&dev_attr_hw_version.attr,
- 	&dev_attr_object.attr,
- 	&dev_attr_update_fw.attr,
-+	&dev_attr_selftest.attr,
- 	NULL
- };
- 
++      touchscreen@20 {
++        compatible = "zinitix,bt541";
++        reg = <0x20>;
++        interrupt-parent = <&gpio>;
++        interrupts = <13 IRQ_TYPE_EDGE_FALLING>;
++        vcca-supply = <&reg_vcca_tsp>;
++        vdd-supply = <&reg_vdd_tsp>;
++        touchscreen-size-x = <540>;
++        touchscreen-size-y = <960>;
++        zinitix,mode = <2>;
++      };
++    };
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/zinitix.txt b/Documentation/devicetree/bindings/input/touchscreen/zinitix.txt
+deleted file mode 100644
+index 446efb9f5f55..000000000000
+--- a/Documentation/devicetree/bindings/input/touchscreen/zinitix.txt
++++ /dev/null
+@@ -1,40 +0,0 @@
+-Device tree bindings for Zinitx BT541 touchscreen controller
+-
+-Required properties:
+-
+- - compatible		: Should be "zinitix,bt541"
+- - reg			: I2C address of the chip. Should be 0x20
+- - interrupts		: Interrupt to which the chip is connected
+-
+-Optional properties:
+-
+- - vdd-supply		: Analog power supply regulator on VCCA pin
+- - vddo-supply		: Digital power supply regulator on VDD pin
+- - zinitix,mode		: Mode of reporting touch points. Some modes may not work
+-			  with a particular ts firmware for unknown reasons. Available
+-			  modes are 1 and 2. Mode 2 is the default and preferred.
+-
+-The touchscreen-* properties are documented in touchscreen.txt in this
+-directory.
+-
+-Example:
+-
+-	i2c@00000000 {
+-		/* ... */
+-
+-		bt541@20 {
+-			compatible = "zinitix,bt541";
+-			reg = <0x20>;
+-			interrupt-parent = <&msmgpio>;
+-			interrupts = <13 IRQ_TYPE_EDGE_FALLING>;
+-			pinctrl-names = "default";
+-			pinctrl-0 = <&tsp_default>;
+-			vdd-supply = <&reg_vdd_tsp>;
+-			vddo-supply = <&pm8916_l6>;
+-			touchscreen-size-x = <540>;
+-			touchscreen-size-y = <960>;
+-			zinitix,mode = <2>;
+-		};
+-
+-		/* ... */
+-	};
 -- 
-2.7.4
+2.31.1
 
