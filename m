@@ -2,87 +2,73 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 20A3E3B4D40
-	for <lists+linux-input@lfdr.de>; Sat, 26 Jun 2021 08:54:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B27EB3B508A
+	for <lists+linux-input@lfdr.de>; Sun, 27 Jun 2021 01:34:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229630AbhFZG4y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 26 Jun 2021 02:56:54 -0400
-Received: from mout.gmx.net ([212.227.15.15]:41927 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229518AbhFZG4x (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Sat, 26 Jun 2021 02:56:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1624690469;
-        bh=kFRlnSJzJgyhHhg4Rh+NKUGJzI3tZPEzSxXMORNGKAI=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-        b=gw+xeMkL7ByA81cMQ8atBe9aIElg+n8ztBhgkpYzTfAOWlQmwL02asgemU4Cks+qI
-         KvnH7fxx5Xh5FU28eBPr5z92o597U0MB5d6ft262MDohRZeR+EQ/jjQfzjTV/Ra1Ns
-         rJNFPYBzg2j1Gxj3F5Tt3mdFkPv/hy3O+laiQRQ8=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from surftab ([77.20.254.179]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MkYXs-1lX4JP2RUE-00m7IU; Sat, 26
- Jun 2021 08:54:29 +0200
-From:   Julian Schulte <schu.ju@gmx.net>
-To:     hadess@hadess.net, dmitry.torokhov@gmail.com
-Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Julian Schulte <schu.ju@gmx.net>
-Subject: [PATCH] fix Touchscreen X Axis inversion on Trekstor Surftab W1
-Date:   Sat, 26 Jun 2021 08:54:17 +0200
-Message-Id: <20210626065417.8818-1-schu.ju@gmx.net>
-X-Mailer: git-send-email 2.30.2
+        id S229794AbhFZXg5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sat, 26 Jun 2021 19:36:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37526 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229630AbhFZXg5 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Sat, 26 Jun 2021 19:36:57 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D9F1C061574
+        for <linux-input@vger.kernel.org>; Sat, 26 Jun 2021 16:34:34 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id i6so10708099pfq.1
+        for <linux-input@vger.kernel.org>; Sat, 26 Jun 2021 16:34:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=s8N2p8L5R1nG2E0L2JYaFBMMPQDbT9/NBvassGgx7tA=;
+        b=g8kF88cfVzNu+D66itZ0zykP+q476q75XBjceWJJb8rJDGcEcFVd2Zpd0l6B548OWs
+         JNx1+1qlJd8xUNCv3Glw3KVC/VHPLVYyuG6LvhhIZEhZhOC5AtEe+uRURuu495PBpQOu
+         oEZbeJ9Kox7BQTUX1pcQDBKteJbxySe8w7zd/LR5H69+fLI9O/2ppRZ2WpZxCjHY+Bf5
+         qR0Iiw/ssP8M5lM+5V4BAgPlgoBj7qsSQKOctki6zfZUhlF3W97NsAH6ivM7zLoegS3z
+         H4RRCk13NKqJ7rM+lxuFlbdGl9u51HfhAhwgcK3NsLjzH1HaQmiJqcVFtZfhzdFwYUUu
+         yc0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=s8N2p8L5R1nG2E0L2JYaFBMMPQDbT9/NBvassGgx7tA=;
+        b=X3PiTef3y8yNhWwmF5czrq2k6EoOlPbrkthLRZI9rzZ8sEWBqjQeZPlw82oFTW1NPD
+         a8HTj9CMg5EJxr5TC0xw0MtuepvelpK6C5qIfTD/cgdNyO3LTq5kneZ0NlZ6fwr7xmgN
+         WZKnviZQ6OfqlAd+WFpeVJsEgWUm51t1ExGIM+ZkifkgQnL0YFpUMGXRCKaysHUz/0VW
+         2pVwCmVD4NL9mnpLTb9MbWym+613u76NbHdvMhFyCofFwIOFmv98NabqH1jdD83btgyA
+         ShTaH3gcdZ7TfOi1Vf9INqoy2p74E+OHRwkcENGkCFa0PFMqTVvxVvM/6y+fakFnbtvS
+         iyng==
+X-Gm-Message-State: AOAM530sDO5TayVzWr09Hm3ejUAk8tSbadWabHigEAnNjj1OgJ4OE64q
+        4T3la8QXqpjmUK/ckHgdnWrDhZCRwmfuLLSSs9w=
+X-Google-Smtp-Source: ABdhPJyycYNIXjx5w9c7Bf16O5J70tFoAbfiJnflbD8BF4h4re9r/8wQjCDV7zAFwKTkmFnHVRyv3drxxd7Y+c1iFg0=
+X-Received: by 2002:a62:8fc3:0:b029:304:7b0a:a2b7 with SMTP id
+ n186-20020a628fc30000b02903047b0aa2b7mr17414717pfd.46.1624750472052; Sat, 26
+ Jun 2021 16:34:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:KqVF4NJWDk8WXtlIu49CD/DAkXvqF85E720jguRJxxomufRNTFz
- O2MqC43/MkGvPDw6YhEricxYabzKF9Fo7kJBT600cbGwN8ubWsT1D2AYVirn0Ht8YBp0nWl
- v3MglQAT9Nf1sTtr8qWL0mcob848I5I3RCIHH/brY/WqfknnpHWlURSujDS+kbF3MxtTNp1
- mebizRxoo0rqmQfrgMmtA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:3+pNHCt4Py0=:f5vK/oADrqumpX4ktCEm72
- +6sfKlar6oXkuR7kCXJOwjFAYEbr4O9NUzugMgIZHQ6MKI8Au3KNB15M/z/AIEV5DvDHYoRWC
- KX99G2+LBBxRfyn04a0/QArBGWQxbrhV6Svm00W02ZyIGx6OfC9di1cg84t55fOIVYqN1VNrN
- Q7jhJf1x5GlckpgtWc5k+nME+fqZTyANOJVXDmuwhP3bl9qZPYxk30kjfLFE9yr1aRu8Q8ts6
- Q/5Q7pOCDoU6+QVSg8ebFTlfik+le4Iy3aQO75NFpvPAXN14yF3RRN6z6eMSogNsu3QIoTqCi
- 4/CkVHWk2EYrEP53Gk15NJUj7JX+OBJKijtEmZNOMLwCYSyavmnyb5vP5Xb+aWcbQzM4uLmuY
- SKxKHUE42VRkzvwBZni5L7YKGcaLcMXPj+KpjcGFfEoZx7Kv/LnhfdPDjch83MIX1+nmmUt4P
- 3cxz7ismJfng1yACl8d7FOP9++HasauNvWMpeCJcLd77uQdxnNupWC2hItV3eEzQtWF5R60fB
- DLKAtWB9mdSRju+gNJSSg6eC5lHUu2BrEtGb2QH9E1sZOk2hDTi/hr95BbXn+VjioMWMFbtdA
- w1n7uuSmeH1lDNj/OnEk7MRroSF1XwZDxGSYsGOXot8F2GDMLBXlfVLRmZNpLXBqR5Td0lZFd
- xBa2wvcf94XU5sWDWkUsEoEGlAKDzw5XPgHi+EAZyda4wB6fVB4tC8u0XbkBq4VMKXrTheFSx
- eOEbEW6Cs+hOJO/MpiaILgWxX95R0EPdalClzCjDTiMmYfSxx2mkUQSFiMVa/haN1lQhKTsFW
- ZX5kyefVi9462Gcea+2RF2JCqLy9tGm77IJYH/Uomr2zFbxRk9F5uoUEPprp0u03OjdQyCqkd
- vaJpLKFoyQSY3RDe9uTEfyUhny1wHPqnda9PFJSKtWLvSNsFvJiSkOEHo5Vy7vT3OWUjXZvW0
- pNeJJ1YNfrTnwSkB7A/qFLYabut2XwaSeyLn1nXDD7psP4km2DQGNnYesDtVSt9ykHTejjLgU
- lQ7Ic+GY2jHIWz21qsl234wGbx0oPcaj3QHWgj0ygfTxOuCtwGUEUvV630DY5vtETJwpEz8dv
- 8BLwWrdwmNsxzV4Qb1CgXaqR+xnrr1RqC5m
+From:   Dylan MacKenzie <ecstaticmorse@gmail.com>
+Date:   Sat, 26 Jun 2021 16:34:21 -0700
+Message-ID: <CAHpHHjbnhAnhkq-G1UbtjP=SB24FVnEtsXqkT8_ZTb7UD8j_kA@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Add SFH sensor support for newer AMD platforms
+To:     jikos@kernel.org
+Cc:     Basavaraj.Natikar@amd.com, Nehal-Bakulchandra.shah@amd.com,
+        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
+        shyam-sundar.s-k@amd.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Signed-off-by: Julian Schulte <schu.ju@gmx.net>
-=2D--
- drivers/input/touchscreen/goodix.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+> Now queued in for-5.14/amd-sfh. Thanks,
 
-diff --git a/drivers/input/touchscreen/goodix.c b/drivers/input/touchscree=
-n/goodix.c
-index c682b028f..cec5f7bdc 100644
-=2D-- a/drivers/input/touchscreen/goodix.c
-+++ b/drivers/input/touchscreen/goodix.c
-@@ -248,6 +248,13 @@ static const struct dmi_system_id inverted_x_screen[]=
- =3D {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "I15-TC")
- 		},
- 	},
-+	{
-+		.ident =3D "TrekStor SurfTab duo W1 10.1 (VT4)",
-+		.matches =3D {
-+			DMI_MATCH(DMI_SYS_VENDOR, "TrekStor"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "SurfTab duo W1 10.1 (VT4)")
-+		},
-+	},
- #endif
- 	{}
- };
-=2D-
-2.30.2
+FYI, this patch still uses the wrong register in `amd_sensor_stop_v2`.
+Basavaraj confirmed this, but my email client didn't CC the list for
+that conversation. Whoops!
 
+Also, I've tested this locally on an HP Envy x360 with a Ryzen 4700U
+(Renoir) and it doesn't work even though the new code paths are taken.
+My `activecontrolstatus`, the register containing the sensor mask
+along with the newly checked hardware ID in the lower four bits, is
+`0x002bdff2`. Just like before, three IIO devices are initialized, but
+the first read from the DMA buffers returns a constant, garbage value,
+and all subsequent reads return zeroes. I assume that this patch is
+working on whatever hardware the OP is using to test. Should it be
+working on all Renoir systems?
