@@ -2,121 +2,101 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A71663B73BA
-	for <lists+linux-input@lfdr.de>; Tue, 29 Jun 2021 16:03:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E30B3B77C9
+	for <lists+linux-input@lfdr.de>; Tue, 29 Jun 2021 20:25:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231799AbhF2OGE (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 29 Jun 2021 10:06:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34232 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229510AbhF2OGC (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Tue, 29 Jun 2021 10:06:02 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AC84561DBC;
-        Tue, 29 Jun 2021 14:03:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1624975415;
-        bh=AOf1hLbhW8ExMxmDRBQFjznQog2wDILxU65eq6cY/QM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fuzMYFmPIQtg4+mUaELuVt0DYOhFp6lZ8vZZc/m61WUVMee5+6WEHUdo6pVk0mbIF
-         Pije2vvBU4y7IFtpZKeBphPrG4vxCjVUO8qHzobb63lTEVHUrqGTcLvt2lH2FVA51P
-         RgLzyRDx/z0dElEI3KkouNdPrH9G5UMI2rQgYbrSoTJ6qUmFtZnp6rZt9vNrEmEfqx
-         c4ax7fDaw5nNhUZgF9v1gyMx4MDINQAezUxnxiZL++TkPwVbqjyf6Vu+R3tD6LX098
-         6A9kwO7nYjQaMnhx9VpaWzp99WOdqEmjZbwEC/wZj2GjGA5EmpkgNoHfY2NXJL6edF
-         Rias1XxwBG0Sw==
-Date:   Tue, 29 Jun 2021 09:05:25 -0500
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Joe Perches <joe@perches.com>, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        Kees Cook <keescook@chromium.org>
-Subject: Re: [PATCH][next] Input: Fix fall-through warning for Clang
-Message-ID: <20210629140525.GA65130@embeddedor>
-References: <20210607214852.GA65141@embeddedor>
- <91eef5ab3143ae8fadb8eb2969aecba5f3e7ad98.camel@perches.com>
- <YMfUT7pvBWreiR1K@google.com>
+        id S234413AbhF2S2X (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 29 Jun 2021 14:28:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42598 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233843AbhF2S2W (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 29 Jun 2021 14:28:22 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AEE0C061760;
+        Tue, 29 Jun 2021 11:25:54 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id cx9-20020a17090afd89b0290170a3e085edso3064731pjb.0;
+        Tue, 29 Jun 2021 11:25:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=u/6UWA7ctrHsSbnwm4aIjgzhxXKmYH8AmE03qul2tjE=;
+        b=Kc3AmH7ISBDlp2uBDPoPEEe6ErlktdvQCxficV34qOTKQI0je687lG98Yyx2gBEeXO
+         OWIFrpdkV2et2dvANGCIQVTHapU3GbWcoPDQqMqOeKVdICo//PSCgiVj+QySfs1PlzhJ
+         Ezl8/FGF4DhAnNI+Sj4JvQ2V80+81u6NnH2fD9xO71L0Y1GDq2FTbnpOy4plfJk1VPFp
+         CB3kkxbJc8jIHGW7wwALeWs+orB/7hCu4Gn2F5LCpN10zY17vWJmxxJ4xqEqc6ngLMwT
+         Lf3kk5FYkXyuVwN42kNY0fQqJo/YuZgVeDldSH/CyQg1voEhPWa6spIzUkxdxzt3biNE
+         oIBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=u/6UWA7ctrHsSbnwm4aIjgzhxXKmYH8AmE03qul2tjE=;
+        b=bYvOD/KzEZrFn4wesngCzILMX4KzQhsWWVjWU5ZWvCezAG9e96kXBZvk4ZOLHO1dOL
+         ZRiungd6F99564+/vRN60eAyZDLxS8lzIc3IY5ulf1Eq0ryQco0qudi4uz/yhRnCBS2Z
+         HUIL3vmsvWCTMlLqz2xarftOVAUe4PAC2ff3Dlwl9BhbSowohTvjze88bapSJoCBvESw
+         NlO88ZYk8WPmBz/aKsQp+d7Nm9choZNB0jUQvM2ycrhClBCqvLUlaOkKLIiO8wXQRaj2
+         Kp+3s+TEGc7SSatPxsAeCuyuiY9ZB+T6qyUfIGcpk4Sh1R9FZwBOGeNe9qiE7Z8t6mat
+         aiHw==
+X-Gm-Message-State: AOAM533+RK7SAIPjTZrLBPRUv38SFqcJ+inXCyI6+nH9oMWZz5VlQ5H5
+        y1C8ZNX5FwCbKhCWCV+KQCo=
+X-Google-Smtp-Source: ABdhPJwuzmxm4aF1jiWRpiCNBTPwZkmU4cBHZ3VlUv3GXwn6QSSfZ8eiGeSbkZynzEcstDzMB15sxQ==
+X-Received: by 2002:a17:90b:3612:: with SMTP id ml18mr159229pjb.209.1624991153535;
+        Tue, 29 Jun 2021 11:25:53 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:a179:bab4:eeba:e548])
+        by smtp.gmail.com with ESMTPSA id b10sm17245359pfi.122.2021.06.29.11.25.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Jun 2021 11:25:52 -0700 (PDT)
+Date:   Tue, 29 Jun 2021 11:25:50 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Kenneth Albanowski <kenalba@google.com>,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] HID: input: do not report stylus battery state as "full"
+Message-ID: <YNtlrrKZVQY4byVa@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YMfUT7pvBWreiR1K@google.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Mon, Jun 14, 2021 at 03:12:31PM -0700, Dmitry Torokhov wrote:
-> Hi Joe,
-> 
-> On Mon, Jun 07, 2021 at 03:02:40PM -0700, Joe Perches wrote:
-> > On Mon, 2021-06-07 at 16:48 -0500, Gustavo A. R. Silva wrote:
-> > > In preparation to enable -Wimplicit-fallthrough for Clang, fix a
-> > > warning by explicitly adding a fallthrough; statement.
-> > []
-> > > diff --git a/drivers/input/joystick/sidewinder.c b/drivers/input/joystick/sidewinder.c
-> > []
-> > > @@ -660,6 +660,7 @@ static int sw_connect(struct gameport *gameport, struct gameport_driver *drv)
-> > >  					fallthrough;
-> > >  				case 45:				/* Ambiguous packet length */
-> > >  					if (j <= 40) {			/* ID length less or eq 40 -> FSP */
-> > > +					fallthrough;
-> > >  				case 43:
-> > >  						sw->type = SW_ID_FSP;
-> > >  						break;
-> > 
-> > Yuck.  Super ugly.  There's no need to play games with indentation.
-> 
-> Yeah, the original code is not pretty :(
+The power supply states of discharging, charging, full, etc, represent
+state of charging, not the capacity level of the battery (for which
+we have a separate property). Current HID usage tables to not allow
+for expressing charging state of the batteries found in generic
+styli, so we should simply assume that the battery is discharging
+even if current capacity is at 100% when battery strength reporting
+is done via HID interface. In fact, we were doing just that before
+commit 581c4484769e.
 
-Isn't this a Duff device for performance[1]?
+This change helps UIs to not mis-represent fully charged batteries in
+styli as being charging/topping-off.
 
-In which case it might be better not to modify it and just go
-with the fallthrough marking?
+Fixes: 581c4484769e ("HID: input: map digitizer battery usage")
+Reported-by: Kenneth Albanowski <kenalba@google.com>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ drivers/hid/hid-input.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-Another similar case can be found at
-drivers/scsi/aic94xx/aic94xx_sds.c:714:
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index e982d8173c9c..e85a1a34ff39 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -417,8 +417,6 @@ static int hidinput_get_battery_property(struct power_supply *psy,
+ 
+ 		if (dev->battery_status == HID_BATTERY_UNKNOWN)
+ 			val->intval = POWER_SUPPLY_STATUS_UNKNOWN;
+-		else if (dev->battery_capacity == 100)
+-			val->intval = POWER_SUPPLY_STATUS_FULL;
+ 		else
+ 			val->intval = POWER_SUPPLY_STATUS_DISCHARGING;
+ 		break;
+-- 
+2.32.0.93.g670b81a890-goog
 
- 714 static void *asd_find_ll_by_id(void * const start, const u8 id0, const u8 id1)
- 715 {
- 716         struct asd_ll_el *el = start;
- 717
- 718         do {
- 719                 switch (id1) {
- 720                 default:
- 721                         if (el->id1 == id1)
- 722                 case 0xFF:
- 723                                 if (el->id0 == id0)
- 724                                         return el;
- 725                 }
- 726                 el = start + le16_to_cpu(el->next);
- 727         } while (el != start);
- 728
- 729         return NULL;
- 730 }
-
---
-Gustavo
-
-[1] https://www.drdobbs.com/a-reusable-duff-device/184406208
-
-> 
-> > 
-> > Perhaps the simpler:
-> > 
-> > 				case 43:
-> > 					sw->type = SW_ID_FSP;
-> > 					break;
-> > 				case 45:				/* Ambiguous packet length */
-> > 					if (j <= 40) {			/* ID length less or eq 40 -> FSP */
-> > 						sw->type = SW_ID_FSP;
-> > 						break;
-> > 					}
-> > 					sw->number++;
-> > 					fallthrough;
-> > 
-> > 
-> 
-> Could you resubmit this version properly formatted?
-> 
-> Thanks.
->  
-> -- 
-> Dmitry
+-- 
+Dmitry
