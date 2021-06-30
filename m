@@ -2,76 +2,72 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D2F893B7A43
-	for <lists+linux-input@lfdr.de>; Wed, 30 Jun 2021 00:07:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AF9B3B7DDC
+	for <lists+linux-input@lfdr.de>; Wed, 30 Jun 2021 09:09:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235280AbhF2WKD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 29 Jun 2021 18:10:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35286 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233985AbhF2WKB (ORCPT
+        id S232598AbhF3HMP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 30 Jun 2021 03:12:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57202 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232816AbhF3HML (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 29 Jun 2021 18:10:01 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D2ADC061760
-        for <linux-input@vger.kernel.org>; Tue, 29 Jun 2021 15:07:34 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id hc16so460932ejc.12
-        for <linux-input@vger.kernel.org>; Tue, 29 Jun 2021 15:07:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1q7Ain0DLUkGOfXS9EwfmlJ7f9E2SKVgo1z1o4tW/v8=;
-        b=sNJP561TgLPulHMOn7QGOO2ndcGumuoOg3lMJmx9mePF3ls5eTTIX0sGZ2zNpLEXaU
-         J7rzQdc5YT5pdKkAAGvaAk0gQ9sll7hgjRY21wJm9/USdN0drvSZW32uTYMAM2y/HLO/
-         dAIYpyHzjZ/TyDiws9b6v7fPcMCh7EaztHjSwWNPAjbO+vYfTnmJq+IpaWRfmneoCIAy
-         b4IKFit61HKhQ1MVC1J8wb4lZcP8k1+gcu7hEHf1rK5xmTAsfk4k6bQcAKCyhXShefaf
-         Rt11rvdrWGjo56phA0v1fYSWwwv+rhBsLbsecSW5JfB9H6yrLzroABGfbaWHPh4EyuVc
-         A35Q==
+        Wed, 30 Jun 2021 03:12:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1625036981;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Q18aGERUrb8MXoJ7uF/M0uiRsJPxf2agVURvlb+VBVE=;
+        b=ervHHmumT2IArFzymCk4+4pN3RLq8IZfYm8sL3dg7+6do2k4YoH+T0ERl4bpuYrove2UQa
+        NdeZ/VWmmbBPzJGl/WQeWMhj+UmEzIQPmQSgOTtTa69RBDy+/2ruVYZ9BNle7uMLdWw05V
+        EMn7NwWP/u+nJWX1VzP5/d6XFGrYEvM=
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-116-gsUVIeqQPEalldHELSCw7A-1; Wed, 30 Jun 2021 03:09:39 -0400
+X-MC-Unique: gsUVIeqQPEalldHELSCw7A-1
+Received: by mail-pg1-f198.google.com with SMTP id p2-20020a63e6420000b02902271082c631so1070324pgj.5
+        for <linux-input@vger.kernel.org>; Wed, 30 Jun 2021 00:09:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=1q7Ain0DLUkGOfXS9EwfmlJ7f9E2SKVgo1z1o4tW/v8=;
-        b=DTvDfeL18Miemwr1T6iA5ri0cGyj1izixjusxKmjkHpSYVSrWrLYlhBlGk8f8rW+W7
-         NGkwfgTOyKCA9RbgpNylWaQQYAgsBdWLKOp1wpwFvgBO0dh65HTBhGIabqaPVjHqTp5z
-         HTiSHYOlV0WqbSzl395QPGkk01F0lHu3+QymdHPWNuvzBBgBoorHW2cZmsRDEswM8QG6
-         zHgtrD2sT/QBX2slcV8r+QCyayYQEnyKoI/+gzzCKpk3Gb5P2So+5lxPYNKmbfas2ypn
-         1xjOgLUDmC35KOh00hrEuaXR1AQZ8YzKJjNNHruWYj2Ojo2i+qwwbD1HOuDch85eIGvA
-         VV/w==
-X-Gm-Message-State: AOAM5329gN40Zo6iZZwDewKDNx3KhSmB3o1GiO5+gGMhTpwHZ8vwB2gR
-        m/KLMy1VjXte36cIBzI+VMI9WLRSmyDAGJsSnSo6uA==
-X-Google-Smtp-Source: ABdhPJyFL8pCPijezwPCujfo677fGnEMrbfTjwpgNpqLmPtMLLSo5Wkmd3U8I7RWYi73MzJC1yy4wGds03Y/Y7Fh8OQ=
-X-Received: by 2002:a17:906:70cf:: with SMTP id g15mr31769008ejk.366.1625004452346;
- Tue, 29 Jun 2021 15:07:32 -0700 (PDT)
+        bh=Q18aGERUrb8MXoJ7uF/M0uiRsJPxf2agVURvlb+VBVE=;
+        b=tUjCKFF0guESBENWmgif/KhTGCN0yU/lyw9WJgBtheBvWFqZ8xNC79LGvMa7attTaz
+         6oCRO3uVTsMpotB/IYOsgi5CtcmSeKNO+NTZVc5apfTkQKISfmtGQZLzer8SqQeSiMOt
+         K39WS8uf74Ho3LoXV6MOZQJdBRzbwOYRqWDmu/AduXpBeJwH3GM05WJceeIgHhMx12MI
+         EXIxtcA6/iCyKGGRzOWPSbxtHHbz3Y9Scb+d9l53nTYg5/V3Ye/aR/0KMvNY6Nfg5sHb
+         DE/wfTbJPkPuqyj7rS56jGwhJ5fy+3hDcuqwXSKAPK0MScxYoY+CMtjrbr3FCoy0FX57
+         LaPw==
+X-Gm-Message-State: AOAM5309zvu6Jaz57MDU5qap2bWr6hEYl23n18bKE0aoVv2OOfFO50MS
+        9PmE9iz1wy1I9AIOPbtd1zsy+Du0f5ndD3hLRdXX2ZLW1zVkgPSSlEsgdJzfdBYa/TjlE0VfnAf
+        nWkzV44dEz2ANQq1w8p5KTMy1ZRRwyu5oJeY68lM=
+X-Received: by 2002:a17:90a:5889:: with SMTP id j9mr38116481pji.234.1625036978314;
+        Wed, 30 Jun 2021 00:09:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwyfRTZ234ZIqRtqXaVxOazEOugzigkHX+SuWQnUapE6hJKzL6PWnsWKH0UoiAtg14WGWpsaRbMv84hFVc2rYc=
+X-Received: by 2002:a17:90a:5889:: with SMTP id j9mr38116460pji.234.1625036978035;
+ Wed, 30 Jun 2021 00:09:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <YNtlrrKZVQY4byVa@google.com>
 In-Reply-To: <YNtlrrKZVQY4byVa@google.com>
-From:   Kenneth Albanowski <kenalba@google.com>
-Date:   Tue, 29 Jun 2021 15:07:20 -0700
-Message-ID: <CALvoSf7y2WRtX5R8-_Uo1Gzhq4i_WnMRw0AGMW+JQdZvXMX_Xg@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Wed, 30 Jun 2021 09:09:27 +0200
+Message-ID: <CAO-hwJJ-VyKBohETJabxmgjZ8RtmZHWWOBr2kZNC=feOxHgTtQ@mail.gmail.com>
 Subject: Re: [PATCH] HID: input: do not report stylus battery state as "full"
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Bastien Nocera <hadess@hadess.net>
 Cc:     Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Hans de Goede <hdegoede@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+        Kenneth Albanowski <kenalba@google.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-I've tested it on a 5.4 derivative, and that works as expected. Looks
-good to me.
+Hi Dmitry,
 
-- Kenneth Albanowski
-
-
-
-- Kenneth
-
-
-On Tue, Jun 29, 2021 at 11:25 AM Dmitry Torokhov
+On Tue, Jun 29, 2021 at 8:26 PM Dmitry Torokhov
 <dmitry.torokhov@gmail.com> wrote:
 >
 > The power supply states of discharging, charging, full, etc, represent
@@ -82,6 +78,10 @@ On Tue, Jun 29, 2021 at 11:25 AM Dmitry Torokhov
 > even if current capacity is at 100% when battery strength reporting
 > is done via HID interface. In fact, we were doing just that before
 > commit 581c4484769e.
+
+This commit is 4 year old already, so I'd like to have the opinion of
+Bastien on the matter for the upower side (or at least notify him).
+
 >
 > This change helps UIs to not mis-represent fully charged batteries in
 > styli as being charging/topping-off.
@@ -101,6 +101,17 @@ On Tue, Jun 29, 2021 at 11:25 AM Dmitry Torokhov
 >
 >                 if (dev->battery_status == HID_BATTERY_UNKNOWN)
 >                         val->intval = POWER_SUPPLY_STATUS_UNKNOWN;
+
+What's the point of keeping the HID_BATTERY_UNKNOWN code path? AFAICT,
+before 581c4484769e, we were just returning
+POWER_SUPPLY_STATUS_DISCHARGING. If we don't need to check for the
+capacity, I think we could also drop the hunk just before where we do
+the query of the capacity.
+
+Cheers,
+Benjamin
+
+
 > -               else if (dev->battery_capacity == 100)
 > -                       val->intval = POWER_SUPPLY_STATUS_FULL;
 >                 else
@@ -111,3 +122,5 @@ On Tue, Jun 29, 2021 at 11:25 AM Dmitry Torokhov
 >
 > --
 > Dmitry
+>
+
