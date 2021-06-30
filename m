@@ -2,125 +2,75 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AF9B3B7DDC
-	for <lists+linux-input@lfdr.de>; Wed, 30 Jun 2021 09:09:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 752363B8191
+	for <lists+linux-input@lfdr.de>; Wed, 30 Jun 2021 14:01:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232598AbhF3HMP (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 30 Jun 2021 03:12:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57202 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232816AbhF3HML (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Wed, 30 Jun 2021 03:12:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1625036981;
+        id S234309AbhF3MEV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 30 Jun 2021 08:04:21 -0400
+Received: from [94.230.151.217] ([94.230.151.217]:44888 "EHLO ixit.cz"
+        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
+        id S234148AbhF3MEV (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Wed, 30 Jun 2021 08:04:21 -0400
+X-Greylist: delayed 588 seconds by postgrey-1.27 at vger.kernel.org; Wed, 30 Jun 2021 08:04:21 EDT
+Received: from newone.lan (ixit.cz [94.230.151.217])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by ixit.cz (Postfix) with ESMTPSA id 6C5CC23B1D;
+        Wed, 30 Jun 2021 13:52:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+        t=1625053921;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=Q18aGERUrb8MXoJ7uF/M0uiRsJPxf2agVURvlb+VBVE=;
-        b=ervHHmumT2IArFzymCk4+4pN3RLq8IZfYm8sL3dg7+6do2k4YoH+T0ERl4bpuYrove2UQa
-        NdeZ/VWmmbBPzJGl/WQeWMhj+UmEzIQPmQSgOTtTa69RBDy+/2ruVYZ9BNle7uMLdWw05V
-        EMn7NwWP/u+nJWX1VzP5/d6XFGrYEvM=
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-116-gsUVIeqQPEalldHELSCw7A-1; Wed, 30 Jun 2021 03:09:39 -0400
-X-MC-Unique: gsUVIeqQPEalldHELSCw7A-1
-Received: by mail-pg1-f198.google.com with SMTP id p2-20020a63e6420000b02902271082c631so1070324pgj.5
-        for <linux-input@vger.kernel.org>; Wed, 30 Jun 2021 00:09:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Q18aGERUrb8MXoJ7uF/M0uiRsJPxf2agVURvlb+VBVE=;
-        b=tUjCKFF0guESBENWmgif/KhTGCN0yU/lyw9WJgBtheBvWFqZ8xNC79LGvMa7attTaz
-         6oCRO3uVTsMpotB/IYOsgi5CtcmSeKNO+NTZVc5apfTkQKISfmtGQZLzer8SqQeSiMOt
-         K39WS8uf74Ho3LoXV6MOZQJdBRzbwOYRqWDmu/AduXpBeJwH3GM05WJceeIgHhMx12MI
-         EXIxtcA6/iCyKGGRzOWPSbxtHHbz3Y9Scb+d9l53nTYg5/V3Ye/aR/0KMvNY6Nfg5sHb
-         DE/wfTbJPkPuqyj7rS56jGwhJ5fy+3hDcuqwXSKAPK0MScxYoY+CMtjrbr3FCoy0FX57
-         LaPw==
-X-Gm-Message-State: AOAM5309zvu6Jaz57MDU5qap2bWr6hEYl23n18bKE0aoVv2OOfFO50MS
-        9PmE9iz1wy1I9AIOPbtd1zsy+Du0f5ndD3hLRdXX2ZLW1zVkgPSSlEsgdJzfdBYa/TjlE0VfnAf
-        nWkzV44dEz2ANQq1w8p5KTMy1ZRRwyu5oJeY68lM=
-X-Received: by 2002:a17:90a:5889:: with SMTP id j9mr38116481pji.234.1625036978314;
-        Wed, 30 Jun 2021 00:09:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwyfRTZ234ZIqRtqXaVxOazEOugzigkHX+SuWQnUapE6hJKzL6PWnsWKH0UoiAtg14WGWpsaRbMv84hFVc2rYc=
-X-Received: by 2002:a17:90a:5889:: with SMTP id j9mr38116460pji.234.1625036978035;
- Wed, 30 Jun 2021 00:09:38 -0700 (PDT)
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=y1XL/hYUEe4pWSBZNrr6vcPc+Q9l5vvzj2hUWj7Z/8E=;
+        b=xDa463UlFhTvYmEfNZHhVAEKesM/Fvsx8lNCXI/nHZk0c96HA1PwzRxv67vuoRbaxM4O6C
+        KeA7+kjSFY20sCaCqD3MEDYYzU3MqQmcV6OrQY2xuxrwE5aDhgw5WoYC/5PcY5LegotpM1
+        9iq8aCLCJkq0rQejGMOt/4MFnGO3UAw=
+From:   David Heidelberg <david@ixit.cz>
+To:     john.stultz@linaro.org
+Cc:     linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+        David Heidelberg <david@ixit.cz>
+Subject: [PATCH] ARM: dts: qcom: nexus7: define touchscreen properties
+Date:   Wed, 30 Jun 2021 13:51:14 +0200
+Message-Id: <20210630115114.19808-1-david@ixit.cz>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <YNtlrrKZVQY4byVa@google.com>
-In-Reply-To: <YNtlrrKZVQY4byVa@google.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 30 Jun 2021 09:09:27 +0200
-Message-ID: <CAO-hwJJ-VyKBohETJabxmgjZ8RtmZHWWOBr2kZNC=feOxHgTtQ@mail.gmail.com>
-Subject: Re: [PATCH] HID: input: do not report stylus battery state as "full"
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Bastien Nocera <hadess@hadess.net>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Kenneth Albanowski <kenalba@google.com>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+This change makes touchscreen work as expected on Nexus 7 2013 (tested).
 
-On Tue, Jun 29, 2021 at 8:26 PM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> The power supply states of discharging, charging, full, etc, represent
-> state of charging, not the capacity level of the battery (for which
-> we have a separate property). Current HID usage tables to not allow
-> for expressing charging state of the batteries found in generic
-> styli, so we should simply assume that the battery is discharging
-> even if current capacity is at 100% when battery strength reporting
-> is done via HID interface. In fact, we were doing just that before
-> commit 581c4484769e.
+Signed-off-by: David Heidelberg <david@ixit.cz>
+---
+ arch/arm/boot/dts/qcom-apq8064-asus-nexus7-flo.dts | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-This commit is 4 year old already, so I'd like to have the opinion of
-Bastien on the matter for the upower side (or at least notify him).
-
->
-> This change helps UIs to not mis-represent fully charged batteries in
-> styli as being charging/topping-off.
->
-> Fixes: 581c4484769e ("HID: input: map digitizer battery usage")
-> Reported-by: Kenneth Albanowski <kenalba@google.com>
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> ---
->  drivers/hid/hid-input.c | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-> index e982d8173c9c..e85a1a34ff39 100644
-> --- a/drivers/hid/hid-input.c
-> +++ b/drivers/hid/hid-input.c
-> @@ -417,8 +417,6 @@ static int hidinput_get_battery_property(struct power_supply *psy,
->
->                 if (dev->battery_status == HID_BATTERY_UNKNOWN)
->                         val->intval = POWER_SUPPLY_STATUS_UNKNOWN;
-
-What's the point of keeping the HID_BATTERY_UNKNOWN code path? AFAICT,
-before 581c4484769e, we were just returning
-POWER_SUPPLY_STATUS_DISCHARGING. If we don't need to check for the
-capacity, I think we could also drop the hunk just before where we do
-the query of the capacity.
-
-Cheers,
-Benjamin
-
-
-> -               else if (dev->battery_capacity == 100)
-> -                       val->intval = POWER_SUPPLY_STATUS_FULL;
->                 else
->                         val->intval = POWER_SUPPLY_STATUS_DISCHARGING;
->                 break;
-> --
-> 2.32.0.93.g670b81a890-goog
->
-> --
-> Dmitry
->
+diff --git a/arch/arm/boot/dts/qcom-apq8064-asus-nexus7-flo.dts b/arch/arm/boot/dts/qcom-apq8064-asus-nexus7-flo.dts
+index 3cf7650ca086..e7ed775abc5d 100644
+--- a/arch/arm/boot/dts/qcom-apq8064-asus-nexus7-flo.dts
++++ b/arch/arm/boot/dts/qcom-apq8064-asus-nexus7-flo.dts
+@@ -306,11 +306,17 @@ i2c@16280000 {
+ 				pinctrl-0 = <&i2c3_pins>;
+ 				pinctrl-names = "default";
+ 
+-				trackpad@10 {
++				touchscreen@10 {
+ 					compatible = "elan,ekth3500";
+ 					reg = <0x10>;
++
+ 					interrupt-parent = <&tlmm_pinmux>;
+ 					interrupts = <6 IRQ_TYPE_EDGE_FALLING>;
++
++					touchscreen-size-x = <2240>;
++					touchscreen-size-y = <1350>;
++					touchscreen-swapped-x-y;
++					touchscreen-inverted-x;
+ 				};
+ 			};
+ 		};
+-- 
+2.30.2
 
