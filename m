@@ -2,136 +2,126 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E12F23B935B
-	for <lists+linux-input@lfdr.de>; Thu,  1 Jul 2021 16:29:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A11773B9A59
+	for <lists+linux-input@lfdr.de>; Fri,  2 Jul 2021 03:02:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233977AbhGAObn (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 1 Jul 2021 10:31:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20462 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231698AbhGAObn (ORCPT
-        <rfc822;linux-input@vger.kernel.org>);
-        Thu, 1 Jul 2021 10:31:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1625149752;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=SYSR+DGXj4dB5AnICjCd03ccDF2w3Uf502xeGyEKyTo=;
-        b=CekVU7inpQtclNihjm02+stnIcdm1ymRmddK9yQpD2L5KajOFFaoV4X1r5pXNKDmTo3ICp
-        Y267OmPCSa/hChdKCgGjaDjUJ3yy/GH1hxS41brIAYTgCCPVKp3hZbw08ncNHgFLTffhu8
-        B3vIVse5MdrtY+xZGzWvqvGHuLfm3W4=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-594-6Ox_i-ggNFKwJqxYn8uY1A-1; Thu, 01 Jul 2021 10:29:11 -0400
-X-MC-Unique: 6Ox_i-ggNFKwJqxYn8uY1A-1
-Received: by mail-ej1-f72.google.com with SMTP id de48-20020a1709069bf0b029048ae3ebecabso2154884ejc.16
-        for <linux-input@vger.kernel.org>; Thu, 01 Jul 2021 07:29:10 -0700 (PDT)
+        id S234585AbhGBBEw (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 1 Jul 2021 21:04:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32816 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234564AbhGBBEv (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Thu, 1 Jul 2021 21:04:51 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05F93C061762;
+        Thu,  1 Jul 2021 18:02:20 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id a7so7989604pga.1;
+        Thu, 01 Jul 2021 18:02:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=UlRaziJx7TG6nALXj+SGSTTIDO8Ah1AeLcJr/4yfTEo=;
+        b=N3qrbUbrbXvO6UBNyPwxKENi27xaa+ZyNXM6j73mX+vTKc0YdsY4jGFhtweBmuMATQ
+         wI4SCSn0a5BdNPya0Dwgm7o9kQtFFnV++aH6kKD85edHCKUEYetEE0aTxXBOxwkVZPIg
+         HYE5VSWDvHZIyrOkMQQJkcK0uoOgAp2WgHEqc5nIq6xDHz+dPrhz/18F3G2/gdDYunYD
+         bOgAL//p2u8UIjb3wpHy758dWgiGxy1AJlfTKOjc+xHxHnhZ80/eu86gVAgRIZYfOv1D
+         I5E1IP1+SlC2g80gBnnvB6kDWcW5yPNBRP2MOhZ7CKdZVpW1kLKKTQvE3KIO4GKAzqQh
+         hnzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=SYSR+DGXj4dB5AnICjCd03ccDF2w3Uf502xeGyEKyTo=;
-        b=IuCre84xFOQZREoMz4FTeXqTqrNPl7PmHJn+8cB386b6Hlq8wSnWWWtsi5lRlbtdxK
-         XQYWRW78WjK9S3982L9t7rejZVTy7I9JnQvlEqu1thXsr7WMK0nT+RfqvnxfQeGjmpsl
-         32VEH8ZqftFu0bUzAf0S5nRhwyfNzgg8tcXl28wLIGOlv9y551atX/RutK1TumK5BqZd
-         FApT193me3iyhAcoqHypYzw7nw1s3PYBk/bQ+/S5UaCwFmGLzqxviLRi1Ieyv5ZBYkt6
-         AeUIq2xeRQxyiIFRU9NlhWWC9ggs9Kuwka5fehXMkrlWjgCEkfKN6q7GMqpbdXQlvxo2
-         OzSg==
-X-Gm-Message-State: AOAM533/tc9iYaYqFxyEatGPCJ+bkyHJm9lVdkfp7Eq5uGrSCUXvdEft
-        FhhSOHtXYEqRhvD7WYvLB/28lsmPN5cwzygjepqXdJfU5dyJWH3GlROtCyz0EaHtSFU4xGE279x
-        SM3qOZAKxzaxeSdp1c90kgk6iStUarH/gGpdTdUhU4tlhaGQO7HrctwbET9c0pL75Vu1mw0ns6d
-        A=
-X-Received: by 2002:a17:906:c1d0:: with SMTP id bw16mr149624ejb.146.1625149749726;
-        Thu, 01 Jul 2021 07:29:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxdI8sH5musWyQETXOq8AKETAR+7Vc1ZbexFI4D+gHhMRbQrdxFglJuXSHeq6Vk8WutsY6Gbw==
-X-Received: by 2002:a17:906:c1d0:: with SMTP id bw16mr149601ejb.146.1625149749501;
-        Thu, 01 Jul 2021 07:29:09 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
-        by smtp.gmail.com with ESMTPSA id jy6sm361ejc.21.2021.07.01.07.29.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Jul 2021 07:29:09 -0700 (PDT)
-Subject: Re: [PATCH 0/7] Input: goodix - Add support for controllers without
- flash
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Bastien Nocera <hadess@hadess.net>
-Cc:     linux-input@vger.kernel.org
-References: <20210428114608.101795-1-hdegoede@redhat.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <04b72c55-8122-73b2-a37a-271a510db2e1@redhat.com>
-Date:   Thu, 1 Jul 2021 16:29:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=UlRaziJx7TG6nALXj+SGSTTIDO8Ah1AeLcJr/4yfTEo=;
+        b=So0n1wedMIU2ribzFeah8w+Hddui1QiB6+BSTVUZP/VNB63wFhIITPMY6WpuytgF3k
+         OKSPCudfKijsW3cxNYTiY5mDUmRZRFY2cg1RkOR/UdjHjf7/I8LT6dF21mtHGVg8nlTL
+         YARBir763MMusFtcWJqnq8U1hcQQ6BgqZkKWha3nDSgb3qsf+O/EfBSFxcjH9+yU4Fxl
+         9awma79QaA4JBt0pOtz4lygNe8l3I/YXfoZs6d/1iDthqJYXcgiL8bTBaq0NjMb+ITl+
+         smXjCrTsMqGN/7a1vjzuwAr/5G5hAYvsJdmVKLPatz9wpTeD4rHlUBQh/f6FH+9wtbam
+         jJnQ==
+X-Gm-Message-State: AOAM532DvinaoOaDB+t7uQD1BRMYgq5OTd7qcTljpaDoMrHHRK/VSnx0
+        FbIJEmLRO1FF3lJ01FO0jSc=
+X-Google-Smtp-Source: ABdhPJzTREkZp9dUcvTZuI7IztdsabYQPAgtglkvGMlzzhr3yxSAhWflfuZ9WeDF7GXmlSkPcE5zYw==
+X-Received: by 2002:a62:844d:0:b029:308:230c:fe3a with SMTP id k74-20020a62844d0000b0290308230cfe3amr2759538pfd.34.1625187739384;
+        Thu, 01 Jul 2021 18:02:19 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:5027:e508:7678:5df6])
+        by smtp.gmail.com with ESMTPSA id y9sm1244254pfa.197.2021.07.01.18.02.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Jul 2021 18:02:18 -0700 (PDT)
+Date:   Thu, 1 Jul 2021 18:02:15 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Bastien Nocera <hadess@hadess.net>, Jiri Kosina <jikos@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Kenneth Albanowski <kenalba@google.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] HID: input: do not report stylus battery state as "full"
+Message-ID: <YN5llwVfb0abPJZU@google.com>
+References: <YNtlrrKZVQY4byVa@google.com>
+ <CAO-hwJJ-VyKBohETJabxmgjZ8RtmZHWWOBr2kZNC=feOxHgTtQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210428114608.101795-1-hdegoede@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAO-hwJJ-VyKBohETJabxmgjZ8RtmZHWWOBr2kZNC=feOxHgTtQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi,
+Hi Benjamin,
 
-On 4/28/21 1:46 PM, Hans de Goede wrote:
-> Hi All,
+On Wed, Jun 30, 2021 at 09:09:27AM +0200, Benjamin Tissoires wrote:
+> Hi Dmitry,
 > 
-> A while ago I bought a Glavey TM800A550L tablet. This is a Bay Trail (x86)
-> tablet which comes with Android from the factory.
+> On Tue, Jun 29, 2021 at 8:26 PM Dmitry Torokhov
+> <dmitry.torokhov@gmail.com> wrote:
+> >
+> > The power supply states of discharging, charging, full, etc, represent
+> > state of charging, not the capacity level of the battery (for which
+> > we have a separate property). Current HID usage tables to not allow
+> > for expressing charging state of the batteries found in generic
+> > styli, so we should simply assume that the battery is discharging
+> > even if current capacity is at 100% when battery strength reporting
+> > is done via HID interface. In fact, we were doing just that before
+> > commit 581c4484769e.
 > 
-> It is mostly just another Bay Trail tablet, but the way the Goodix
-> touchscreen on it works is interesting. The controller needs to have
-> firmware uploaded to it before it will work. After that it pretty much
-> works 100% the same as any other Goodix touchscreen controller.
+> This commit is 4 year old already, so I'd like to have the opinion of
+> Bastien on the matter for the upower side (or at least notify him).
 > 
-> I've described this patch-set in the Subject as "Add support for
-> controllers without flash", but I suspect that the Goodix controllers
-> used on Bay Trail devices which ship with Windows pre-installed may also
-> lack flash; and that the Windows version of the BIOS-es on these devices
-> does the upload for us. Anyways just something which I'm wondering about,
-> these patches are necessary to make things work regardless.
+> >
+> > This change helps UIs to not mis-represent fully charged batteries in
+> > styli as being charging/topping-off.
+> >
+> > Fixes: 581c4484769e ("HID: input: map digitizer battery usage")
+> > Reported-by: Kenneth Albanowski <kenalba@google.com>
+> > Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> > ---
+> >  drivers/hid/hid-input.c | 2 --
+> >  1 file changed, 2 deletions(-)
+> >
+> > diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> > index e982d8173c9c..e85a1a34ff39 100644
+> > --- a/drivers/hid/hid-input.c
+> > +++ b/drivers/hid/hid-input.c
+> > @@ -417,8 +417,6 @@ static int hidinput_get_battery_property(struct power_supply *psy,
+> >
+> >                 if (dev->battery_status == HID_BATTERY_UNKNOWN)
+> >                         val->intval = POWER_SUPPLY_STATUS_UNKNOWN;
 > 
-> These patches should also be useful for supporting the Goodix controllers
-> on some ARM based devices, as some of those need the OS to upload the
-> firmware too AFAIK.
-> 
-> Note patch 7/7 is included to get an overview of the entire set.
-> I'll merge that one myself through the pdx86 tree. Patches 1-6 are
-> intended for merging through the input tree.
+> What's the point of keeping the HID_BATTERY_UNKNOWN code path? AFAICT,
+> before 581c4484769e, we were just returning
+> POWER_SUPPLY_STATUS_DISCHARGING. If we don't need to check for the
+> capacity, I think we could also drop the hunk just before where we do
+> the query of the capacity.
 
-Self NACK for this series I just found out that the controller on
-a Chuwi Hi13 gets mis-indentified as needing fw upload even though
-that is not the case.  I'll send out a fixed v2 rebased on top of
-5.14-rc1 once 5.14-rc1 is out.
+I believe it is beneficial to keep this check: prior to 581c4484769e we
+were only handling batteries reported via generic device control -
+HID_DC_BATTERYSTRENGTH - essentially UPS batteries that normally can be
+queried at will. Stylus batteries are typically only reported when
+stylus is in contact with the digitzer, so until user actually engages
+stylus we do not have idea about its level/capacity. For this reason I
+think we should keep reporting POWER_SUPPLY_STATUS_UNKNOWN.
 
-Regards,
+Thanks.
 
-Hans
-
-
-
-> Hans de Goede (7):
->   Input: goodix - Change goodix_i2c_write() len parameter type to int
->   Input: goodix - Add a goodix.h header file
->   Input: goodix - Refactor reset handling
->   Input: goodix - Push error logging up into i2c_read and i2c_write
->     helpers
->   Input: goodix - Allow specifying the config filename through a
->     "goodix,config-name" device-property
->   Input: goodix - Add support for controllers without flash
->   platform/x86: touchscreen_dmi: Add info for the Goodix GT912 panel of
->     TM800A550L tablets
-> 
->  MAINTAINERS                                 |   3 +-
->  drivers/input/touchscreen/Makefile          |   3 +-
->  drivers/input/touchscreen/goodix.c          | 239 +++++------
->  drivers/input/touchscreen/goodix.h          | 118 ++++++
->  drivers/input/touchscreen/goodix_fwupload.c | 437 ++++++++++++++++++++
->  drivers/platform/x86/touchscreen_dmi.c      |  21 +
->  6 files changed, 684 insertions(+), 137 deletions(-)
->  create mode 100644 drivers/input/touchscreen/goodix.h
->  create mode 100644 drivers/input/touchscreen/goodix_fwupload.c
-> 
-
+-- 
+Dmitry
