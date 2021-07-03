@@ -2,49 +2,49 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 888103BAA65
+	by mail.lfdr.de (Postfix) with ESMTP id D1DED3BAA66
 	for <lists+linux-input@lfdr.de>; Sun,  4 Jul 2021 00:02:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229520AbhGCWFG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        id S229874AbhGCWFG (ORCPT <rfc822;lists+linux-input@lfdr.de>);
         Sat, 3 Jul 2021 18:05:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58440 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229813AbhGCWFC (ORCPT
+        with ESMTP id S229818AbhGCWFC (ORCPT
         <rfc822;linux-input@vger.kernel.org>); Sat, 3 Jul 2021 18:05:02 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D35A5C061762;
-        Sat,  3 Jul 2021 15:02:27 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id b2so22588036ejg.8;
-        Sat, 03 Jul 2021 15:02:27 -0700 (PDT)
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F7B0C061764;
+        Sat,  3 Jul 2021 15:02:28 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id t3so18394514edc.7;
+        Sat, 03 Jul 2021 15:02:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=xm7MxMs6oqkzwyDsDCu2psTMjwceySVOJUdtTYPqDgo=;
-        b=OjP9IlxA0VqhuspZXVfG3U1AGaZn+yfZmq1Gbf9r7VUA961CLdLcRaYpK4kBqt/CTi
-         PgqaLnOcKQ72e/dKvQYEFpAoopiZv6sclQfObJDNoFXsPMwUwkqjzZ5toKBi5hoq9p5k
-         XRCncH61iBvgvvAGL+th4ET7/Zrrec3OEzQMcPkyMYkyb9FtNbJ8FDMioSgc/CDRY4ry
-         Fa5yGyn8Oo7amt4RyeBRk/KEE0ux2vrWxWkkrjEEM7gNxp97zJpTaP/C8mzNVCm4part
-         yn8OC4mayGx9MYJ+vSS0Q8Paw5lCZC/oX4Y26rD9TpSL8RPIx+H47oUHIucTFz05jEXI
-         Tl7Q==
+        bh=6NWHzNIVgTYrqzEJ/wMRZOIsI/zAzKZABgGCwsk3RCM=;
+        b=dte5+mQfRU0pGl3J6Xq3F/7bKDp/g9/gsVcHeew4UGwXVYKN/tyrFYnn6JXgUmmmVm
+         /gZESB+JVmF5T5o2DiEiLUrQpe/VgJRZIZxopzVUnFdQ2F6PfT7TxczPdsXIwensQsSB
+         ThDdFLLkUUyTMWtRDtPo+f7u2lCH2ZoXYJOL/aUKab1beuP0y8uhaY973sPqpVsb78Rc
+         KnP3Y85eNIOx7JBSJTAvJfAYDkIvFcHsylufio0GEJMgsnsW4fn/UVma6NWP0NrXGGdW
+         /mZIaoHMbfYbkMVOsgEb5eAojBX6qmYmxVkhaFv087mwvLirHTtYZts5//qkVz1ikU0E
+         P5jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=xm7MxMs6oqkzwyDsDCu2psTMjwceySVOJUdtTYPqDgo=;
-        b=UTvs5r8UVKPVxx0oxV1iMsIGY3gIowxtH6cysbnZLsmHAJmSi0OQ8mEfklN3lCUnsN
-         BVjU2iRroaUcoyrWzgVWQoXmzPFS0Y64JgvVoSTJvc1joXQenm9Vf6FclsfCNRWC+gb+
-         auIRARZ6+ibCWXsA+Y9e1G/B8m4OrmehJv2tP1OH4mITtbFk1PgJbcRusqR4Cj3Rdano
-         6u8hugBbNGG7YZICuCgvh6AX33OURLsTTMSGzW7urtUTF7B7nIcX8CY7yl6bhtFSPGC2
-         1/YzGR4ryRSIzdq916oJpLwutf/OWQPtsH5Vpm+IkjQulWquwYUPXsdZh1Hkb2BYf+Xt
-         A7kQ==
-X-Gm-Message-State: AOAM530OHoQUUomO0guyfAaEp8x/fQYMnWjanJBXQk2aVIBpBCoK//Yc
-        Iv2d9sewQFMeo4yGHI/RtDQ=
-X-Google-Smtp-Source: ABdhPJz64hZ1wztW37NqkrOS5nSppL6Wnju7K5VElKwHvgADegMu8rB1/7/dbfl3FXMc8C1G5WZVMw==
-X-Received: by 2002:a17:906:9745:: with SMTP id o5mr6190110ejy.344.1625349746323;
-        Sat, 03 Jul 2021 15:02:26 -0700 (PDT)
+        bh=6NWHzNIVgTYrqzEJ/wMRZOIsI/zAzKZABgGCwsk3RCM=;
+        b=Av9+Xrx/zm5FzcIzlLgI2bC88TxfAscW75SGR/usAtg4GOIOExAOGILBHfMw4+2lBc
+         zCbPvtaxdO14bvbzao5wEet5h7L91l9rBOahnrhTCwFLh4U8jnuAbREy6w8JIrkEIsWq
+         PiGwPIBLekjs2TsYfb0MytBv0I577I0MDP7TXsrSXliZDoZARxDgL0jK3bb8AkzzE0za
+         8cvVf9z76YFCpYSZhjG6hTi2BKKnZEosE9Yh6zR7HofoELM95xozinrvLJ8gn8meYnK4
+         9RnCLIQrhiGBFhTke9Uwpfi+phRPoL+y8atSKR1+2xukH1bD3Zc+c1JdJA752Zhs97Je
+         tvqQ==
+X-Gm-Message-State: AOAM53328xyBL5FAkuwFqLFRnEMXTLvET+ugVDWrSUBLo5EzW2be5aR9
+        OTL8TyG07gQVTeSUxKlL5Do=
+X-Google-Smtp-Source: ABdhPJyxrt188AFeT5cWtDDaKJ6m5O7ShihoeaRWzNuWQhLh0RKVAEtLS/yUb9BDqRNYbl8BbVyn/w==
+X-Received: by 2002:a05:6402:2681:: with SMTP id w1mr7090616edd.275.1625349747157;
+        Sat, 03 Jul 2021 15:02:27 -0700 (PDT)
 Received: from warrior.lan ([2a03:7380:2407:bc63:7e28:eb67:305b:8ba0])
-        by smtp.gmail.com with ESMTPSA id b25sm3186110edv.9.2021.07.03.15.02.25
+        by smtp.gmail.com with ESMTPSA id b25sm3186110edv.9.2021.07.03.15.02.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sat, 03 Jul 2021 15:02:26 -0700 (PDT)
 From:   Maxim Mikityanskiy <maxtram95@gmail.com>
@@ -55,9 +55,9 @@ To:     Jiri Kosina <jikos@kernel.org>,
         Oliver Neukum <oneukum@suse.de>
 Cc:     linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
         Maxim Mikityanskiy <maxtram95@gmail.com>
-Subject: [PATCH 1/6] HID: hid-input: Add offhook and ring LEDs for headsets
-Date:   Sun,  4 Jul 2021 01:01:57 +0300
-Message-Id: <20210703220202.5637-2-maxtram95@gmail.com>
+Subject: [PATCH 2/6] HID: hid-input: Add phone hook and mic mute buttons for headsets
+Date:   Sun,  4 Jul 2021 01:01:58 +0300
+Message-Id: <20210703220202.5637-3-maxtram95@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210703220202.5637-1-maxtram95@gmail.com>
 References: <20210703220202.5637-1-maxtram95@gmail.com>
@@ -67,56 +67,232 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-A lot of USBHID headsets available on the market have LEDs that indicate
-ringing and off-hook states when used with VoIP applications. This
-commit exposes these LEDs via the standard sysfs interface.
+A lot of USBHID headsets available on the market have buttons to toggle
+microphone mute and to answer the call/hang up.
+
+According to the HID Usage Tables specification, these usages are on/off
+controls, which may be presented by either two buttons, a single toggle
+button or a mechanical switch. This commit adds a function called
+hidinput_handle_onoff that handles all these cases in a compliant way.
 
 Signed-off-by: Maxim Mikityanskiy <maxtram95@gmail.com>
 ---
- drivers/hid/hid-input.c                | 2 ++
- drivers/input/input-leds.c             | 2 ++
- include/uapi/linux/input-event-codes.h | 2 ++
- 3 files changed, 6 insertions(+)
+ drivers/hid/hid-input.c                | 140 +++++++++++++++++++++++++
+ include/uapi/linux/input-event-codes.h |   8 ++
+ 2 files changed, 148 insertions(+)
 
 diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
-index 4286a51f7f16..44b8243f9924 100644
+index 44b8243f9924..533a7f429a5f 100644
 --- a/drivers/hid/hid-input.c
 +++ b/drivers/hid/hid-input.c
-@@ -798,6 +798,8 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
- 		case 0x4b:  map_led (LED_MISC);     break;    /*   "Generic Indicator"        */
- 		case 0x19:  map_led (LED_MAIL);     break;    /*   "Message Waiting"          */
- 		case 0x4d:  map_led (LED_CHARGING); break;    /*   "External Power Connected" */
-+		case 0x17:  map_led (LED_OFFHOOK);  break;    /*   "Off-Hook"                 */
-+		case 0x18:  map_led (LED_RING);     break;    /*   "Ring"                     */
+@@ -579,6 +579,43 @@ static bool hidinput_field_in_collection(struct hid_device *device, struct hid_f
+ 	return collection->type == type && collection->usage == usage;
+ }
  
- 		default: goto ignore;
- 		}
-diff --git a/drivers/input/input-leds.c b/drivers/input/input-leds.c
-index 0b11990ade46..bc6e25b9af25 100644
---- a/drivers/input/input-leds.c
-+++ b/drivers/input/input-leds.c
-@@ -33,6 +33,8 @@ static const struct {
- 	[LED_MISC]	= { "misc" },
- 	[LED_MAIL]	= { "mail" },
- 	[LED_CHARGING]	= { "charging" },
-+	[LED_OFFHOOK]	= { "offhook" },
-+	[LED_RING]	= { "ring" },
- };
++/**
++ * hidinput_get_onoff_keycodes - Gets on and off keycodes for OOC usages.
++ * @usage: HID usage.
++ * @code_on: Output parameter for the on keycode.
++ * @code_off: Output parameter for the off keycode.
++ *
++ * Returns true if @usage is a supported on/off control (OOC), as defined by HID
++ * Usage Tables 1.21 (3.4.1.2).
++ *
++ * Depending on the OOC type, we need to send either a toggle keycode or
++ * separate on/off keycodes. This function detects whether @usage is an OOC. If
++ * yes, and if this OOC is supported, it returns the on and off keycodes
++ * corresponding to the toggle keycode stored in usage->code.
++ */
++static bool hidinput_get_onoff_keycodes(struct hid_usage *usage,
++					u16 *code_on, u16 *code_off)
++{
++	if (usage->type != EV_KEY)
++		return false;
++
++	if ((usage->hid & HID_USAGE_PAGE) != HID_UP_TELEPHONY)
++		return false;
++
++	switch (usage->code) {
++	case KEY_TOGGLE_PHONE:
++		*code_on = KEY_PICKUP_PHONE;
++		*code_off = KEY_HANGUP_PHONE;
++		return true;
++	case KEY_MICMUTE:
++		*code_on = KEY_MICMUTE_ON;
++		*code_off = KEY_MICMUTE_OFF;
++		return true;
++	}
++
++	return false;
++}
++
+ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_field *field,
+ 				     struct hid_usage *usage)
+ {
+@@ -586,6 +623,7 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+ 	struct hid_device *device = input_get_drvdata(input);
+ 	int max = 0, code;
+ 	unsigned long *bit = NULL;
++	u16 code_on, code_off;
  
- struct input_led {
+ 	field->hidinput = hidinput;
+ 
+@@ -887,6 +925,7 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+ 
+ 	case HID_UP_TELEPHONY:
+ 		switch (usage->hid & HID_USAGE) {
++		case 0x20: map_key_clear(KEY_TOGGLE_PHONE);	break;
+ 		case 0x2f: map_key_clear(KEY_MICMUTE);		break;
+ 		case 0xb0: map_key_clear(KEY_NUMERIC_0);	break;
+ 		case 0xb1: map_key_clear(KEY_NUMERIC_1);	break;
+@@ -1198,6 +1237,11 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+ 
+ 	set_bit(usage->type, input->evbit);
+ 
++	if (hidinput_get_onoff_keycodes(usage, &code_on, &code_off)) {
++		set_bit(code_on, bit);
++		set_bit(code_off, bit);
++	}
++
+ 	/*
+ 	 * This part is *really* controversial:
+ 	 * - HID aims at being generic so we should do our best to export
+@@ -1314,6 +1358,92 @@ static void hidinput_handle_scroll(struct hid_usage *usage,
+ 	input_event(input, EV_REL, usage->code, hi_res);
+ }
+ 
++/**
++ * hidinput_handle_onoff - Handle on/off control (OOC).
++ * @field: HID field that corresponds to the event.
++ * @value: HID value that corresponds to the event.
++ * @code_toggle: Key code to send when toggling state of the on/off control.
++ * @code_on: Key code to send when turning on the on/off control.
++ * @code_off: Key code to send when turning off the on/off control.
++ *
++ * Returns true if the event was handled, false if the @field flags are invalid.
++ *
++ * Handles on/off control (OOC), as defined by HID Usage Tables 1.21 (3.4.1.2).
++ * Determines the type of the OOC by looking at @field and sends one of the key
++ * codes accordingly. Whenever it's possible to distinguish on and off states,
++ * different key strokes (@code_on, @code_off) are sent, otherwise @code_toggle
++ * is sent.
++ */
++static bool hidinput_handle_onoff(struct hid_field *field, __s32 value, unsigned int scan,
++				  __u16 code_toggle, __u16 code_on, __u16 code_off)
++{
++	struct input_dev *input = field->hidinput->input;
++	__u16 code = 0;
++
++	/* Two buttons, on and off */
++	if ((field->flags & HID_MAIN_ITEM_RELATIVE) &&
++	    (field->flags & HID_MAIN_ITEM_NO_PREFERRED) &&
++	    (field->logical_minimum == -1) &&
++	    (field->logical_maximum == 1)) {
++		if (value != 1 && value != -1)
++			return true;
++
++		code = value == 1 ? code_on : code_off;
++	}
++
++	/* A single button that toggles the on/off state each time it is pressed */
++	if ((field->flags & HID_MAIN_ITEM_RELATIVE) &&
++	    !(field->flags & HID_MAIN_ITEM_NO_PREFERRED) &&
++	    (field->logical_minimum == 0) &&
++	    (field->logical_maximum == 1)) {
++		if (value != 1)
++			return true;
++
++		code = code_toggle;
++	}
++
++	/* A toggle switch that maintains the on/off state mechanically */
++	if (!(field->flags & HID_MAIN_ITEM_RELATIVE) &&
++	    (field->flags & HID_MAIN_ITEM_NO_PREFERRED) &&
++	    (field->logical_minimum == 0) &&
++	    (field->logical_maximum == 1))
++		code = value ? code_on : code_off;
++
++	if (!code)
++		return false;
++
++	input_event(input, EV_MSC, MSC_SCAN, scan);
++	input_event(input, EV_KEY, code, 1);
++	input_sync(input);
++	input_event(input, EV_KEY, code, 0);
++
++	return true;
++}
++
++/**
++ * hidinput_handle_onoffs - Handles an OOC event if the HID usage type is OOC.
++ * @usage: HID usage to check.
++ * @field: HID field that corresponds to the event.
++ * @value: HID value that corresponds to the event.
++ *
++ * Returns: 1 if @usage is a supported on/off control (OOC), as defined by HID
++ *          Usage Tables 1.21 (3.4.1.2).
++ *          0 if @usage is not a supported OOC.
++ *          -EINVAL if @usage is not a valid OOC (@field is invalid).
++ */
++static int hidinput_handle_onoffs(struct hid_usage *usage, struct hid_field *field, __s32 value)
++{
++	u16 code_on, code_off;
++
++	if (!hidinput_get_onoff_keycodes(usage, &code_on, &code_off))
++		return 0;
++
++	if (!hidinput_handle_onoff(field, value, usage->hid, usage->code, code_on, code_off))
++		return -EINVAL;
++
++	return 1;
++}
++
+ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct hid_usage *usage, __s32 value)
+ {
+ 	struct input_dev *input;
+@@ -1438,6 +1568,16 @@ void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct
+ 	    value == field->value[usage->usage_index])
+ 		return;
+ 
++	switch (hidinput_handle_onoffs(usage, field, value)) {
++	case 1:
++		return;
++	case -EINVAL:
++		hid_warn_once(hid, "Invalid OOC usage: code %u, flags %#x, min %d, max %d\n",
++			      usage->code, field->flags,
++			      field->logical_minimum, field->logical_maximum);
++		return;
++	}
++
+ 	/* report the usage code as scancode if the key status has changed */
+ 	if (usage->type == EV_KEY &&
+ 	    (!test_bit(usage->code, input->key)) == value)
 diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
-index 225ec87d4f22..dd785a5b5076 100644
+index dd785a5b5076..d490de9ce7fe 100644
 --- a/include/uapi/linux/input-event-codes.h
 +++ b/include/uapi/linux/input-event-codes.h
-@@ -925,6 +925,8 @@
- #define LED_MISC		0x08
- #define LED_MAIL		0x09
- #define LED_CHARGING		0x0a
-+#define LED_OFFHOOK		0x0b
-+#define LED_RING		0x0c
- #define LED_MAX			0x0f
- #define LED_CNT			(LED_MAX+1)
+@@ -518,6 +518,7 @@
+ #define KEY_NOTIFICATION_CENTER	0x1bc	/* Show/hide the notification center */
+ #define KEY_PICKUP_PHONE	0x1bd	/* Answer incoming call */
+ #define KEY_HANGUP_PHONE	0x1be	/* Decline incoming call */
++#define KEY_TOGGLE_PHONE	0x1bf	/* Toggle phone hook */
  
+ #define KEY_DEL_EOL		0x1c0
+ #define KEY_DEL_EOS		0x1c1
+@@ -660,6 +661,13 @@
+ /* Select an area of screen to be copied */
+ #define KEY_SELECTIVE_SCREENSHOT	0x27a
+ 
++/*
++ * In contrast to KEY_MICMUTE (that toggles the mute state), these set specific
++ * (on/off) states.
++ */
++#define KEY_MICMUTE_ON			0x280
++#define KEY_MICMUTE_OFF			0x281
++
+ /*
+  * Some keyboards have keys which do not have a defined meaning, these keys
+  * are intended to be programmed / bound to macros by the user. For most
 -- 
 2.32.0
 
