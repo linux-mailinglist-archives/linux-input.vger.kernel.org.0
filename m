@@ -2,39 +2,36 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D3CF3BC048
-	for <lists+linux-input@lfdr.de>; Mon,  5 Jul 2021 17:34:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 206AE3BC04E
+	for <lists+linux-input@lfdr.de>; Mon,  5 Jul 2021 17:34:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233040AbhGEPfN (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Jul 2021 11:35:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58662 "EHLO mail.kernel.org"
+        id S232137AbhGEPfV (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 5 Jul 2021 11:35:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58876 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233050AbhGEPeM (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 5 Jul 2021 11:34:12 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3F3A2619C5;
-        Mon,  5 Jul 2021 15:31:05 +0000 (UTC)
+        id S232810AbhGEPeR (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 5 Jul 2021 11:34:17 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6DACE619D2;
+        Mon,  5 Jul 2021 15:31:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625499065;
-        bh=IH4lhPDpvxmWg2bAKUCN01/Ju1RnAolEGFYrWtFY018=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Eo7wqFym4gQUFkQAusXBaNlY+3z3mD1KN1bu3aG8UI/GyYTy44PdWYJuzFDv0iMry
-         TCu+1k28OZuJ7A/VukO8EGmikthLDvXZjn0VvUwj2TMf/brJqKS8mr5jjlPoINOyL6
-         An5AFqH8ICKL065siREp0CaVtvtbRlt2RgeC64LFpWoUyFO3QCWDykhW0BWyHJ3/Hh
-         5IKDcGsVbzhc9sluX0o7yuJCYRb7FhAwS9isFg73+iJzc3fsgEA5HY5l0dz0w5zGnj
-         zlRfjrvZbq5suzMum7Q7ABXm4T1gOwZ2P2PUxb/O0W6pORrFS8ikSgze8jcfP29QFM
-         IiJmUit5/oRcg==
+        s=k20201202; t=1625499076;
+        bh=tLzq40I5rp2sftIpF6kx7cinp4UMtxwfUEqPR7i3oVc=;
+        h=From:To:Cc:Subject:Date:From;
+        b=qW+rcHALE9TYuEX2APV1s09kLw1gHTAeuXLXla3V7Wcow/o+5G/kBJKjY+c78Wrp4
+         M1PcrqphRIWfHSoiIcVFKcAUmBROi4g8tWzLDEC9pU4dWbqU4Ihd8uZZFQTng7PAwO
+         S2gTEa9bvpsYBJ4JvWM8QK4J+wBjKz7H1FbOC56XpKrBhuTXHaORINircTeXRIIPkj
+         AjgrZvL9ts9XG1844Z/Mv0Omy5GkB7Ds9FMvyrQUpYqRYkcZn+uo71tAIUXgDLyt0R
+         JNNdabcNdhdEVQvV6Z/TlDivoGgc4bQwsf5Y0qAWV0DGqwaxwyiOyMlP02X3/AU5ib
+         9rtWCzWfskBOg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jason Gerecke <killertofu@gmail.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>,
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
         linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 21/26] HID: wacom: Correct base usage for capacitive ExpressKey status bits
-Date:   Mon,  5 Jul 2021 11:30:34 -0400
-Message-Id: <20210705153039.1521781-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 01/17] HID: do not use down_interruptible() when unbinding devices
+Date:   Mon,  5 Jul 2021 11:30:57 -0400
+Message-Id: <20210705153114.1522046-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210705153039.1521781-1-sashal@kernel.org>
-References: <20210705153039.1521781-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -43,33 +40,51 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Jason Gerecke <killertofu@gmail.com>
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-[ Upstream commit 424d8237945c6c448c8b3f23885d464fb5685c97 ]
+[ Upstream commit f2145f8dc566c4f3b5a8deb58dcd12bed4e20194 ]
 
-The capacitive status of ExpressKeys is reported with usages beginning
-at 0x940, not 0x950. Bring our driver into alignment with reality.
+Action of unbinding driver from a device is not cancellable and should not
+fail, and driver core does not pay attention to the result of "remove"
+method, therefore using down_interruptible() in hid_device_remove() does
+not make sense.
 
-Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/hid/wacom_wac.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/hid/hid-core.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/hid/wacom_wac.h b/drivers/hid/wacom_wac.h
-index 195910dd2154..e3835407e8d2 100644
---- a/drivers/hid/wacom_wac.h
-+++ b/drivers/hid/wacom_wac.h
-@@ -122,7 +122,7 @@
- #define WACOM_HID_WD_TOUCHONOFF         (WACOM_HID_UP_WACOMDIGITIZER | 0x0454)
- #define WACOM_HID_WD_BATTERY_LEVEL      (WACOM_HID_UP_WACOMDIGITIZER | 0x043b)
- #define WACOM_HID_WD_EXPRESSKEY00       (WACOM_HID_UP_WACOMDIGITIZER | 0x0910)
--#define WACOM_HID_WD_EXPRESSKEYCAP00    (WACOM_HID_UP_WACOMDIGITIZER | 0x0950)
-+#define WACOM_HID_WD_EXPRESSKEYCAP00    (WACOM_HID_UP_WACOMDIGITIZER | 0x0940)
- #define WACOM_HID_WD_MODE_CHANGE        (WACOM_HID_UP_WACOMDIGITIZER | 0x0980)
- #define WACOM_HID_WD_MUTE_DEVICE        (WACOM_HID_UP_WACOMDIGITIZER | 0x0981)
- #define WACOM_HID_WD_CONTROLPANEL       (WACOM_HID_UP_WACOMDIGITIZER | 0x0982)
+diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+index acbbc21e6233..4549fbb74156 100644
+--- a/drivers/hid/hid-core.c
++++ b/drivers/hid/hid-core.c
+@@ -2124,12 +2124,8 @@ static int hid_device_remove(struct device *dev)
+ {
+ 	struct hid_device *hdev = to_hid_device(dev);
+ 	struct hid_driver *hdrv;
+-	int ret = 0;
+ 
+-	if (down_interruptible(&hdev->driver_input_lock)) {
+-		ret = -EINTR;
+-		goto end;
+-	}
++	down(&hdev->driver_input_lock);
+ 	hdev->io_started = false;
+ 
+ 	hdrv = hdev->driver;
+@@ -2144,8 +2140,8 @@ static int hid_device_remove(struct device *dev)
+ 
+ 	if (!hdev->io_started)
+ 		up(&hdev->driver_input_lock);
+-end:
+-	return ret;
++
++	return 0;
+ }
+ 
+ static ssize_t modalias_show(struct device *dev, struct device_attribute *a,
 -- 
 2.30.2
 
