@@ -2,36 +2,35 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E1C663BBEF4
-	for <lists+linux-input@lfdr.de>; Mon,  5 Jul 2021 17:28:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12ECA3BBF20
+	for <lists+linux-input@lfdr.de>; Mon,  5 Jul 2021 17:29:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231929AbhGEPbH (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Jul 2021 11:31:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55506 "EHLO mail.kernel.org"
+        id S232127AbhGEPbg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 5 Jul 2021 11:31:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56202 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231910AbhGEPbG (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 5 Jul 2021 11:31:06 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7878361968;
-        Mon,  5 Jul 2021 15:28:28 +0000 (UTC)
+        id S232056AbhGEPb2 (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Mon, 5 Jul 2021 11:31:28 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 85F8461991;
+        Mon,  5 Jul 2021 15:28:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625498909;
-        bh=9sPp45fM8wteLFPUW04KcfGX1KPwjKIgyG1tMjNGc3g=;
+        s=k20201202; t=1625498931;
+        bh=BIu+qtv5hhbidYX/HPZHCOaj3iIlpzXP9dYH1XAO6Vs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=c/Unv4KfmtVH64LTvyrfNx7Oq/LJLTG3/1xNayJsT11pL7/WtxbsD4nSvRaugInpU
-         JBHCqurihg05fS9oTzeqTxrT/junRXW5S/V8FumxslhhLnPCpDT49D/kIt9RlhOTdO
-         Vma9mEY54pGzMnRxNZSJbcRtjpLxW+rbFB7rMNWHpH7bLnqJMSTfjckXSfFKAnkvRL
-         uetOwis1tEIq5h/eRXfsqwOsdLywrwYAbMH2XEwozYIr4rliIJVIOrlht/23SDtpw9
-         zxaff5NRtmW7bBZDruXQnPgMhE88deh8fhXREIg6/p+aX8MKTXuVCtNICSidNLD3Rh
-         hbetnQv2O528g==
+        b=bpRTPUrnaH0XckOlC0o8Rt1H1NWLyL+6uhB5my+BOTPVImy8F4o+y/Swm60lu4lFg
+         vfQKm0Xcp2RBl8E8DbDH/29qjZ1Ackj6vnQeq5C6hSUp8fSMD0PG+/2hholPH2m8uB
+         TmIQkIqzKK0EV4waxZScDDhJygNGmrJIdA4EoYGL8F2HEB3PPxl2bnHaXLgv5nBYlK
+         BKG9lMOkrq6QJcNWl4pvRc9QiXzFoxaF9HzVkkAGo47DpUk35ISs18oFR7TDOYKF7A
+         jhmrI+p8O8RvLHfw0MM9qHy6QH2WMtWSJHa5woxH7SJ0bG6JeFZMPnayY+u0dwMhxA
+         6TTAw0r/cFXLQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Bastien Nocera <hadess@hadess.net>,
-        Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.13 10/59] platform/x86: touchscreen_dmi: Add info for the Goodix GT912 panel of TM800A550L tablets
-Date:   Mon,  5 Jul 2021 11:27:26 -0400
-Message-Id: <20210705152815.1520546-10-sashal@kernel.org>
+Cc:     Zoltan Tamas Vajda <zoltan.tamas.vajda@gmail.com>,
+        Jiri Kosina <jkosina@suse.cz>, Sasha Levin <sashal@kernel.org>,
+        linux-input@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.13 27/59] HID: hid-input: add Surface Go battery quirk
+Date:   Mon,  5 Jul 2021 11:27:43 -0400
+Message-Id: <20210705152815.1520546-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210705152815.1520546-1-sashal@kernel.org>
 References: <20210705152815.1520546-1-sashal@kernel.org>
@@ -43,73 +42,50 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: Zoltan Tamas Vajda <zoltan.tamas.vajda@gmail.com>
 
-[ Upstream commit fcd8cf0e3e48f4c66af82c8e799c37cb0cccffe0 ]
+[ Upstream commit b5539722eb832441f309642fe5102cc3536f92b8 ]
 
-The Bay Trail Glavey TM800A550L tablet, which ships with Android installed
-from the factory, uses a GT912 touchscreen controller which needs to have
-its firmware uploaded by the OS to work (this is a first for a x86 based
-device with a Goodix touchscreen controller).
+The Elantech touchscreen/digitizer in the Surface Go mistakenly reports
+having a battery. This results in a low battery message every time you
+try to use the pen.
 
-Add a touchscreen_dmi entry for this which specifies the filenames
-to use for the firmware and config files needed for this.
+This patch adds a quirk to ignore the non-existent battery and
+gets rid of the false low battery messages.
 
-Note this matches on a GDIX1001 ACPI HID, while the original DSDT uses
-a HID of GODX0911. For the touchscreen to work on these devices a DSDT
-override is necessary to fix a missing IRQ and broken GPIO settings in
-the ACPI-resources for the touchscreen. This override also changes the
-HID to the standard GDIX1001 id typically used for Goodix touchscreens.
-The DSDT override is available here:
-https://fedorapeople.org/~jwrdegoede/glavey-tm800a550l-dsdt-override/
-
-Reviewed-by: Bastien Nocera <hadess@hadess.net>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://lore.kernel.org/r/20210504185746.175461-5-hdegoede@redhat.com
+Signed-off-by: Zoltan Tamas Vajda <zoltan.tamas.vajda@gmail.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/platform/x86/touchscreen_dmi.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ drivers/hid/hid-ids.h   | 1 +
+ drivers/hid/hid-input.c | 2 ++
+ 2 files changed, 3 insertions(+)
 
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index 8b9926a9db7e..424cf2a84744 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -316,6 +316,18 @@ static const struct ts_dmi_data gdix1001_01_upside_down_data = {
- 	.properties	= gdix1001_upside_down_props,
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index b84a0a11e05b..63ca5959dc67 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -396,6 +396,7 @@
+ #define USB_DEVICE_ID_HP_X2_10_COVER	0x0755
+ #define I2C_DEVICE_ID_HP_SPECTRE_X360_15	0x2817
+ #define USB_DEVICE_ID_ASUS_UX550_TOUCHSCREEN	0x2706
++#define I2C_DEVICE_ID_SURFACE_GO_TOUCHSCREEN	0x261A
+ 
+ #define USB_VENDOR_ID_ELECOM		0x056e
+ #define USB_DEVICE_ID_ELECOM_BM084	0x0061
+diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+index abbfa91e73e4..68c8644234a4 100644
+--- a/drivers/hid/hid-input.c
++++ b/drivers/hid/hid-input.c
+@@ -326,6 +326,8 @@ static const struct hid_device_id hid_battery_quirks[] = {
+ 	  HID_BATTERY_QUIRK_IGNORE },
+ 	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_HP_SPECTRE_X360_15),
+ 	  HID_BATTERY_QUIRK_IGNORE },
++	{ HID_I2C_DEVICE(USB_VENDOR_ID_ELAN, I2C_DEVICE_ID_SURFACE_GO_TOUCHSCREEN),
++	  HID_BATTERY_QUIRK_IGNORE },
+ 	{}
  };
  
-+static const struct property_entry glavey_tm800a550l_props[] = {
-+	PROPERTY_ENTRY_STRING("firmware-name", "gt912-glavey-tm800a550l.fw"),
-+	PROPERTY_ENTRY_STRING("goodix,config-name", "gt912-glavey-tm800a550l.cfg"),
-+	PROPERTY_ENTRY_U32("goodix,main-clk", 54),
-+	{ }
-+};
-+
-+static const struct ts_dmi_data glavey_tm800a550l_data = {
-+	.acpi_name	= "GDIX1001:00",
-+	.properties	= glavey_tm800a550l_props,
-+};
-+
- static const struct property_entry gp_electronic_t701_props[] = {
- 	PROPERTY_ENTRY_U32("touchscreen-size-x", 960),
- 	PROPERTY_ENTRY_U32("touchscreen-size-y", 640),
-@@ -1055,6 +1067,15 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "eSTAR BEAUTY HD Intel Quad core"),
- 		},
- 	},
-+	{	/* Glavey TM800A550L */
-+		.driver_data = (void *)&glavey_tm800a550l_data,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "AMI Corporation"),
-+			DMI_MATCH(DMI_BOARD_NAME, "Aptio CRB"),
-+			/* Above strings are too generic, also match on BIOS version */
-+			DMI_MATCH(DMI_BIOS_VERSION, "ZY-8-BI-PX4S70VTR400-X423B-005-D"),
-+		},
-+	},
- 	{
- 		/* GP-electronic T701 */
- 		.driver_data = (void *)&gp_electronic_t701_data,
 -- 
 2.30.2
 
