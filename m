@@ -2,59 +2,121 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C1D93BC314
-	for <lists+linux-input@lfdr.de>; Mon,  5 Jul 2021 21:23:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C75113BC5C8
+	for <lists+linux-input@lfdr.de>; Tue,  6 Jul 2021 06:51:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229931AbhGET0d (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 5 Jul 2021 15:26:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40662 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229743AbhGET0d (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 5 Jul 2021 15:26:33 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPS id F178F61973;
-        Mon,  5 Jul 2021 19:23:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625513036;
-        bh=KHOwF2jilzJkZ8G58qKfNoU+iDZm1vr1ifNZiRfIdwc=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=S1I0Z9qUMiMhTXpmEhaU6BHM6PY5p6UbTl7/hknLM+/jf7fNCQtkmeIE3I96ntn4G
-         4/PKfuYUTzq+TTjY2JsFls6OO10lSuhyZ+rpAvaYa1eoC5Lma88cjY/8OyOV2ECIU8
-         q4j4pA1n7u1eNum39P+NndESE9WCPuBmNq/RGcQ3AXG5mla2NRwMLWqMpse0ErRI56
-         W9s221w2fR6Wo8DcMQGODF06numYt3ZYcFNZzsq5hWeCIB6s9P2e0466jchZ0UFviH
-         sV0a5mDhaMAbsMbCny9BmZaR3w5Md0FGlkTIPm+r+dl+uS4BIrFYsvzTJXA4+LPU7L
-         yjluRSuy6fIlw==
-Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id DF19960A6C;
-        Mon,  5 Jul 2021 19:23:55 +0000 (UTC)
-Subject: Re: [git pull] Input updates for v5.14-rc0
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <YOKiP9QsgXyK8zQK@google.com>
-References: <YOKiP9QsgXyK8zQK@google.com>
-X-PR-Tracked-List-Id: <linux-input.vger.kernel.org>
-X-PR-Tracked-Message-Id: <YOKiP9QsgXyK8zQK@google.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
-X-PR-Tracked-Commit-Id: 818b26588994d9d95743fca0a427f08ec6c1c41d
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 1f89a590b26e34ec7c32fbafaed446e52c3d0c3f
-Message-Id: <162551303585.9654.5667796917902159690.pr-tracker-bot@kernel.org>
-Date:   Mon, 05 Jul 2021 19:23:55 +0000
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+        id S229963AbhGFExz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Jul 2021 00:53:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42766 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229950AbhGFExz (ORCPT
+        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Jul 2021 00:53:55 -0400
+Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 600D7C061574;
+        Mon,  5 Jul 2021 21:51:17 -0700 (PDT)
+Received: by mail-yb1-xb2c.google.com with SMTP id i4so32387709ybe.2;
+        Mon, 05 Jul 2021 21:51:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Ue8wfJArJUiAGRPLhV8O3dxTUdawONUoNb/La0Imkkw=;
+        b=JJVzLqXtuUZceC9abhq3EYY1Kk9b29G0f7p5oxDtWlRYJHZmkoy87BQlVKH987qvaz
+         C3npaiMjQNO9r0CkxpORfks6+jPpas429+U+lYbHbeFU68BNdlTZJEhKMayTpn3BwGAu
+         GRX4v1fM1HK26nJthXlwhQOwW4mDMqUUmkTV3dS7uBvGmFYRW8WT8wrPvf4zwJHTtrtc
+         nQzeQOWvOlu8UuORMh8WZb6UocUxpOAf97GUEJ1hAD52pHAJFgiIQNe3BLjO0Fme/Lwu
+         vaRqk3VNeCdHPQ3S/D85fFnyk1f37EPCermc5K4jMCKcp3/uaciZCob8Td2rV6/YJtU1
+         sviw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ue8wfJArJUiAGRPLhV8O3dxTUdawONUoNb/La0Imkkw=;
+        b=FWqpwDHcpLmWepeRfIqfA09CpRZ7yfKtqVLzjgv6+5WFeNnQ39bA3xPLGoQsj/5aMW
+         QGJ1dkftm8WV5DkiS3UFhfv4cx/N9wyaQM3EDDSxKDNPZPjfLx+sBUJba8hzRtISruJJ
+         gGGqgzmBDSaYcOeWJDKEV/4sezDszC7gN1/45EdaZgYbUtzBZVuaHa2e8mMJwLsczOZS
+         9SKoV44eKsWdk5vOzxTdYijrJmSWxaQO2lDeAgOGMQ9RLbuSJTepSiZPp9Rz3jPrpZQB
+         Wz038EgaLK6MfZD8fw4G/dU+HuNESoc/XY2J3eqs1pWrpDEZhtewkIYwhx3Twm6xZtiF
+         mpCQ==
+X-Gm-Message-State: AOAM533MudKfCLMs9Hd5WckUTOkf39j6TpIVxunTJBe+IElMpPrZFYMk
+        SZeVqdGWOiIeeHU8H0NRXny8ib27cmy78rsuCR0=
+X-Google-Smtp-Source: ABdhPJx51J0vU4ZpGr7dv1tMEffEAnRT6PC43l9dJWxu88g8PYQLJqkgwP3ocR5asqB1S4GVzh3G3r5v5bWba+tlJlU=
+X-Received: by 2002:a25:dbce:: with SMTP id g197mr17599535ybf.152.1625547076665;
+ Mon, 05 Jul 2021 21:51:16 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210602061253.5747-1-roderick@gaikai.com> <20210602061253.5747-3-roderick@gaikai.com>
+ <nycvar.YFH.7.76.2106241525330.18969@cbobk.fhfr.pm>
+In-Reply-To: <nycvar.YFH.7.76.2106241525330.18969@cbobk.fhfr.pm>
+From:   Roderick Colenbrander <thunderbird2k@gmail.com>
+Date:   Mon, 5 Jul 2021 21:51:05 -0700
+Message-ID: <CAEc3jaDN7iHDYD868LeMBSr-zrgGEu7s-_PQgh9ffzgL1BWBtg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs for
+ game controllers.
+To:     Jiri Kosina <jikos@kernel.org>, Pavel Machek <pavel@ucw.cz>
+Cc:     Roderick Colenbrander <roderick@gaikai.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        linux-leds@vger.kernel.org,
+        =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>,
+        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
+        Roderick Colenbrander <roderick.colenbrander@sony.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-The pull request you sent on Sun, 4 Jul 2021 23:10:07 -0700:
+Hi Pavel,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git for-linus
+Any feedback on this patch, which introduces a new player led type,
+which is common on game controllers?
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/1f89a590b26e34ec7c32fbafaed446e52c3d0c3f
+Thanks,
+Roderick Colenbrander
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+On Thu, Jun 24, 2021 at 6:26 AM Jiri Kosina <jikos@kernel.org> wrote:
+>
+> On Tue, 1 Jun 2021, Roderick Colenbrander wrote:
+>
+> > From: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> >
+> > Player LEDs are commonly found on game controllers from Nintendo and Sony
+> > to indicate a player ID across a number of LEDs. For example, "Player 2"
+> > might be indicated as "-x--" on a device with 4 LEDs where "x" means on.
+> >
+> > This patch introduces a new LED_FUNCTION_PLAYER to properly indicate
+> > player LEDs from the kernel. Until now there was no good standard, which
+> > resulted in inconsistent behavior across xpad, hid-sony, hid-wiimote and
+> > other drivers. Moving forward new drivers should use LED_FUNCTION_PLAYER.
+> >
+> > Note: management of Player IDs is left to user space, though a kernel
+> > driver may pick a default value.
+> >
+> > Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
+> > ---
+> >  include/dt-bindings/leds/common.h | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
+> > index 52b619d44ba2..94999c250e4d 100644
+> > --- a/include/dt-bindings/leds/common.h
+> > +++ b/include/dt-bindings/leds/common.h
+> > @@ -60,6 +60,9 @@
+> >  #define LED_FUNCTION_MICMUTE "micmute"
+> >  #define LED_FUNCTION_MUTE "mute"
+> >
+> > +/* Used for player LEDs as found on game controllers from e.g. Nintendo, Sony. */
+> > +#define LED_FUNCTION_PLAYER "player"
+> > +
+> >  /* Miscelleaus functions. Use functions above if you can. */
+> >  #define LED_FUNCTION_ACTIVITY "activity"
+> >  #define LED_FUNCTION_ALARM "alarm"
+>
+> Pavel, can I please get your Ack on this one, so that I can take it with
+> the rest of the series?
+>
+> Thanks,
+>
+> --
+> Jiri Kosina
+> SUSE Labs
+>
