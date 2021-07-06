@@ -2,121 +2,133 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C75113BC5C8
-	for <lists+linux-input@lfdr.de>; Tue,  6 Jul 2021 06:51:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A2D63BC799
+	for <lists+linux-input@lfdr.de>; Tue,  6 Jul 2021 10:02:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229963AbhGFExz (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 6 Jul 2021 00:53:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42766 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229950AbhGFExz (ORCPT
-        <rfc822;linux-input@vger.kernel.org>); Tue, 6 Jul 2021 00:53:55 -0400
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 600D7C061574;
-        Mon,  5 Jul 2021 21:51:17 -0700 (PDT)
-Received: by mail-yb1-xb2c.google.com with SMTP id i4so32387709ybe.2;
-        Mon, 05 Jul 2021 21:51:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ue8wfJArJUiAGRPLhV8O3dxTUdawONUoNb/La0Imkkw=;
-        b=JJVzLqXtuUZceC9abhq3EYY1Kk9b29G0f7p5oxDtWlRYJHZmkoy87BQlVKH987qvaz
-         C3npaiMjQNO9r0CkxpORfks6+jPpas429+U+lYbHbeFU68BNdlTZJEhKMayTpn3BwGAu
-         GRX4v1fM1HK26nJthXlwhQOwW4mDMqUUmkTV3dS7uBvGmFYRW8WT8wrPvf4zwJHTtrtc
-         nQzeQOWvOlu8UuORMh8WZb6UocUxpOAf97GUEJ1hAD52pHAJFgiIQNe3BLjO0Fme/Lwu
-         vaRqk3VNeCdHPQ3S/D85fFnyk1f37EPCermc5K4jMCKcp3/uaciZCob8Td2rV6/YJtU1
-         sviw==
+        id S230303AbhGFIF3 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 6 Jul 2021 04:05:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54881 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230257AbhGFIF3 (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Tue, 6 Jul 2021 04:05:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1625558570;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=+swUsT6jfn8OEw879qU85kP2j+79w+z6Jt4ztqDMvpo=;
+        b=dFimcwSZhIoQiGuKQvuJhEhkh5uC+xnxsqvzeRfdRRtgL+V9p+5F3IvJogoHn/Pqc0wv53
+        RxMYNjIcLf+8cMWk/YHFKEPpb3Kpm2t9qhzSVh/iVb0LRf2EpkzHl1vDHoyIlIXKa98bWe
+        L0rYHIZyZvWUj/Pdx3p5UYbLoxgLB80=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-170-5CzXzNiFNEubWzBQ9VluNQ-1; Tue, 06 Jul 2021 04:02:49 -0400
+X-MC-Unique: 5CzXzNiFNEubWzBQ9VluNQ-1
+Received: by mail-pf1-f198.google.com with SMTP id 124-20020a6217820000b02902feebfd791eso13564219pfx.19
+        for <linux-input@vger.kernel.org>; Tue, 06 Jul 2021 01:02:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Ue8wfJArJUiAGRPLhV8O3dxTUdawONUoNb/La0Imkkw=;
-        b=FWqpwDHcpLmWepeRfIqfA09CpRZ7yfKtqVLzjgv6+5WFeNnQ39bA3xPLGoQsj/5aMW
-         QGJ1dkftm8WV5DkiS3UFhfv4cx/N9wyaQM3EDDSxKDNPZPjfLx+sBUJba8hzRtISruJJ
-         gGGqgzmBDSaYcOeWJDKEV/4sezDszC7gN1/45EdaZgYbUtzBZVuaHa2e8mMJwLsczOZS
-         9SKoV44eKsWdk5vOzxTdYijrJmSWxaQO2lDeAgOGMQ9RLbuSJTepSiZPp9Rz3jPrpZQB
-         Wz038EgaLK6MfZD8fw4G/dU+HuNESoc/XY2J3eqs1pWrpDEZhtewkIYwhx3Twm6xZtiF
-         mpCQ==
-X-Gm-Message-State: AOAM533MudKfCLMs9Hd5WckUTOkf39j6TpIVxunTJBe+IElMpPrZFYMk
-        SZeVqdGWOiIeeHU8H0NRXny8ib27cmy78rsuCR0=
-X-Google-Smtp-Source: ABdhPJx51J0vU4ZpGr7dv1tMEffEAnRT6PC43l9dJWxu88g8PYQLJqkgwP3ocR5asqB1S4GVzh3G3r5v5bWba+tlJlU=
-X-Received: by 2002:a25:dbce:: with SMTP id g197mr17599535ybf.152.1625547076665;
- Mon, 05 Jul 2021 21:51:16 -0700 (PDT)
+        bh=+swUsT6jfn8OEw879qU85kP2j+79w+z6Jt4ztqDMvpo=;
+        b=lo379/5HK7QhKezQkCgx+R40gVRwa1Ry+VbpM4qI02MTw2THC73sg4r3wPiTy9IF6U
+         Ud2iUUOaflTbfilIizwagVTO5C1+PDXVUp3RembHNRjmAoT5xAA3KXYhnitnLCeH/zb1
+         tsDU5sIOiqbwpcTrqDAa0VnOfYnMImD4JVcCZb9DpMZHksJWu4XfgjnFglGGzA+MM3nj
+         L+mJ1MaDG9/Umoqju6IoRxSt+O/BQcR0Oi5rHadPEUikR9MnWISRpDLySOHI9Ox5j92a
+         5JS8YGKX74W3BFcV1uIsnC5sthBzoEOumXWCQXW7IM7qlijpV6kuvnuTtE4aeb6rFk3L
+         GfvA==
+X-Gm-Message-State: AOAM532WVObCGxtGC3CE0/DmMEpiVmWA5c1gJWPDQhKeVtzMc7p2atXU
+        zgr8chsf+PHxyPiTWiAWBeuiwnYutD/n+fjFlviWUzbbgnK/67jx/kAMzS03COlFTc5DhnzL/dF
+        ozRgpr5rdvoCQDaT3pXhhXvtcsv10ni3h3Zdob0w=
+X-Received: by 2002:a17:902:e5d0:b029:129:b045:ffb with SMTP id u16-20020a170902e5d0b0290129b0450ffbmr1180042plf.41.1625558567987;
+        Tue, 06 Jul 2021 01:02:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw7uA1JRg8MsIVmaLevHXUJY8rWznA01LvLEUQpGY5+hHO4RWODpYWBnxeZnbAMkItBKZKlnG/RDG4srQa9Ssg=
+X-Received: by 2002:a17:902:e5d0:b029:129:b045:ffb with SMTP id
+ u16-20020a170902e5d0b0290129b0450ffbmr1180019plf.41.1625558567746; Tue, 06
+ Jul 2021 01:02:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210602061253.5747-1-roderick@gaikai.com> <20210602061253.5747-3-roderick@gaikai.com>
- <nycvar.YFH.7.76.2106241525330.18969@cbobk.fhfr.pm>
-In-Reply-To: <nycvar.YFH.7.76.2106241525330.18969@cbobk.fhfr.pm>
-From:   Roderick Colenbrander <thunderbird2k@gmail.com>
-Date:   Mon, 5 Jul 2021 21:51:05 -0700
-Message-ID: <CAEc3jaDN7iHDYD868LeMBSr-zrgGEu7s-_PQgh9ffzgL1BWBtg@mail.gmail.com>
-Subject: Re: [PATCH 2/3] leds: add new LED_FUNCTION_PLAYER for player LEDs for
- game controllers.
-To:     Jiri Kosina <jikos@kernel.org>, Pavel Machek <pavel@ucw.cz>
-Cc:     Roderick Colenbrander <roderick@gaikai.com>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input <linux-input@vger.kernel.org>,
-        linux-leds@vger.kernel.org,
-        =?UTF-8?B?QmFybmFiw6FzIFDFkWN6ZQ==?= <pobrn@protonmail.com>,
-        "Daniel J . Ogorchock" <djogorchock@gmail.com>,
-        Roderick Colenbrander <roderick.colenbrander@sony.com>
+References: <20210703220202.5637-1-maxtram95@gmail.com> <20210703220202.5637-2-maxtram95@gmail.com>
+In-Reply-To: <20210703220202.5637-2-maxtram95@gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 6 Jul 2021 10:02:36 +0200
+Message-ID: <CAO-hwJJxJqgW6CGPmvL41teh6vgWfSg55qoXWL3TjQx+mvsbHg@mail.gmail.com>
+Subject: Re: [PATCH 1/6] HID: hid-input: Add offhook and ring LEDs for headsets
+To:     Maxim Mikityanskiy <maxtram95@gmail.com>,
+        linux-leds@vger.kernel.org
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Daniel Kurtz <djkurtz@chromium.org>,
+        Oliver Neukum <oneukum@suse.de>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Pavel,
+Hi Maxim,
 
-Any feedback on this patch, which introduces a new player led type,
-which is common on game controllers?
+On Sun, Jul 4, 2021 at 12:02 AM Maxim Mikityanskiy <maxtram95@gmail.com> wrote:
+>
+> A lot of USBHID headsets available on the market have LEDs that indicate
+> ringing and off-hook states when used with VoIP applications. This
+> commit exposes these LEDs via the standard sysfs interface.
+>
+> Signed-off-by: Maxim Mikityanskiy <maxtram95@gmail.com>
+> ---
+>  drivers/hid/hid-input.c                | 2 ++
+>  drivers/input/input-leds.c             | 2 ++
+>  include/uapi/linux/input-event-codes.h | 2 ++
+>  3 files changed, 6 insertions(+)
+>
+> diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> index 4286a51f7f16..44b8243f9924 100644
+> --- a/drivers/hid/hid-input.c
+> +++ b/drivers/hid/hid-input.c
+> @@ -798,6 +798,8 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+>                 case 0x4b:  map_led (LED_MISC);     break;    /*   "Generic Indicator"        */
+>                 case 0x19:  map_led (LED_MAIL);     break;    /*   "Message Waiting"          */
+>                 case 0x4d:  map_led (LED_CHARGING); break;    /*   "External Power Connected" */
+> +               case 0x17:  map_led (LED_OFFHOOK);  break;    /*   "Off-Hook"                 */
+> +               case 0x18:  map_led (LED_RING);     break;    /*   "Ring"                     */
+>
+>                 default: goto ignore;
+>                 }
+> diff --git a/drivers/input/input-leds.c b/drivers/input/input-leds.c
+> index 0b11990ade46..bc6e25b9af25 100644
+> --- a/drivers/input/input-leds.c
+> +++ b/drivers/input/input-leds.c
+> @@ -33,6 +33,8 @@ static const struct {
+>         [LED_MISC]      = { "misc" },
+>         [LED_MAIL]      = { "mail" },
+>         [LED_CHARGING]  = { "charging" },
+> +       [LED_OFFHOOK]   = { "offhook" },
 
-Thanks,
-Roderick Colenbrander
+I am pretty sure this also needs to be reviewed by the led folks.
+Adding them in Cc.
 
-On Thu, Jun 24, 2021 at 6:26 AM Jiri Kosina <jikos@kernel.org> wrote:
+Cheers,
+Benjamin
+
+> +       [LED_RING]      = { "ring" },
+>  };
 >
-> On Tue, 1 Jun 2021, Roderick Colenbrander wrote:
->
-> > From: Roderick Colenbrander <roderick.colenbrander@sony.com>
-> >
-> > Player LEDs are commonly found on game controllers from Nintendo and Sony
-> > to indicate a player ID across a number of LEDs. For example, "Player 2"
-> > might be indicated as "-x--" on a device with 4 LEDs where "x" means on.
-> >
-> > This patch introduces a new LED_FUNCTION_PLAYER to properly indicate
-> > player LEDs from the kernel. Until now there was no good standard, which
-> > resulted in inconsistent behavior across xpad, hid-sony, hid-wiimote and
-> > other drivers. Moving forward new drivers should use LED_FUNCTION_PLAYER.
-> >
-> > Note: management of Player IDs is left to user space, though a kernel
-> > driver may pick a default value.
-> >
-> > Signed-off-by: Roderick Colenbrander <roderick.colenbrander@sony.com>
-> > ---
-> >  include/dt-bindings/leds/common.h | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/include/dt-bindings/leds/common.h b/include/dt-bindings/leds/common.h
-> > index 52b619d44ba2..94999c250e4d 100644
-> > --- a/include/dt-bindings/leds/common.h
-> > +++ b/include/dt-bindings/leds/common.h
-> > @@ -60,6 +60,9 @@
-> >  #define LED_FUNCTION_MICMUTE "micmute"
-> >  #define LED_FUNCTION_MUTE "mute"
-> >
-> > +/* Used for player LEDs as found on game controllers from e.g. Nintendo, Sony. */
-> > +#define LED_FUNCTION_PLAYER "player"
-> > +
-> >  /* Miscelleaus functions. Use functions above if you can. */
-> >  #define LED_FUNCTION_ACTIVITY "activity"
-> >  #define LED_FUNCTION_ALARM "alarm"
->
-> Pavel, can I please get your Ack on this one, so that I can take it with
-> the rest of the series?
->
-> Thanks,
+>  struct input_led {
+> diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+> index 225ec87d4f22..dd785a5b5076 100644
+> --- a/include/uapi/linux/input-event-codes.h
+> +++ b/include/uapi/linux/input-event-codes.h
+> @@ -925,6 +925,8 @@
+>  #define LED_MISC               0x08
+>  #define LED_MAIL               0x09
+>  #define LED_CHARGING           0x0a
+> +#define LED_OFFHOOK            0x0b
+> +#define LED_RING               0x0c
+>  #define LED_MAX                        0x0f
+>  #define LED_CNT                        (LED_MAX+1)
 >
 > --
-> Jiri Kosina
-> SUSE Labs
+> 2.32.0
 >
+
