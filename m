@@ -2,46 +2,46 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 571F63BF99B
-	for <lists+linux-input@lfdr.de>; Thu,  8 Jul 2021 13:59:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 855753BF9A1
+	for <lists+linux-input@lfdr.de>; Thu,  8 Jul 2021 13:59:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231920AbhGHMCW (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Jul 2021 08:02:22 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:44565 "EHLO
+        id S231934AbhGHMC2 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Jul 2021 08:02:28 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:33113 "EHLO
         new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231382AbhGHMCW (ORCPT
+        by vger.kernel.org with ESMTP id S231915AbhGHMC1 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 8 Jul 2021 08:02:22 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 3A17B58057A;
-        Thu,  8 Jul 2021 07:59:40 -0400 (EDT)
+        Thu, 8 Jul 2021 08:02:27 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 6D07758057A;
+        Thu,  8 Jul 2021 07:59:45 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Thu, 08 Jul 2021 07:59:40 -0400
+  by compute2.internal (MEProxy); Thu, 08 Jul 2021 07:59:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
          h=from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm1; bh=gJSZFhKVP4HKE
-        Mu49hVwBOwgPgn/uZOPWaLARXY00kE=; b=R7Exi59pvZZ1O/wLtUlwprEPR7Avy
-        CfweQdojUBKlebCW5KK/a/V5SaxUEA95Ai9i+BvEgO+4yHaJ26O1ZUBzvV0divV0
-        eZj50I1OUVWk7X3HrNexihvhvKVY9h1SvhYu/RiPv0txsoxSeaKJIxBEykqj229G
-        UqQ/3RnR//UiyQdGmlouVeG3nkiz5QUgB6++xlgDhej/JBpmmdtDM7FTjSdlMS8K
-        xaeh9RvB4JhXeIZc970w/ofKUjnYWlmvvqCmMkmRWKZlE6KSe5HMOanwiwPxaIBe
-        vGawiAK/iNHJaTiknljf6bZkcqs05omDvgQIUzAY5qhhdTywLeWq0msyg==
+        :mime-version:content-transfer-encoding; s=fm1; bh=ATQZFgAJhWZiG
+        ySupWX/oJS6Wb8DhGdjsY6S4Ar60bs=; b=OG2Qyw+jXV0gHaz+tRS/bxu7zqzey
+        m/kfVD+1ooNhcTP66KEy+Fsv+zXFI8mVE4ZcZEV5+u5f3bbXuUaxTDjziJKMUbvQ
+        w+azZuT4P/ka/OqlcUGLvI280ateqZhRNOJCM42jh5fPefWaJFWcw+xPwfE8jN09
+        ub3QZy/0yaX7VSH4RTTyutta5PJ4rlNRFrCPebn8lerfz99vVJU1vkfjGbTQZD1K
+        VCu+hwv6LpfnR//x/xCdOwLy9upr6d6AebzrFAJhz3UjIDw6r2fs2eyyNfe/15NB
+        +vinhCXwRRsi0jaQI3cch7oRBpKTvnorQThrzxsfML9tpK2Bsbyu88uFw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
         :in-reply-to:message-id:mime-version:references:subject:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=gJSZFhKVP4HKEMu49hVwBOwgPgn/uZOPWaLARXY00kE=; b=a4xKCPLT
-        /5NqTguWL8CGD8JC2mFjL0q0ZoXwwcfnjU5DkQTk0SfV22qD7Ktt3HlVuKcxzJXD
-        xIyNqCv66Jab/yokvzlQZKY3FRMoLxF+gzZnv/FC9/VIDNcTIGT0HMT1HQU+XoYH
-        u9hWOF6DxIWecGWj+SwBnDgj8n+gpOobhylosoLY8/UdJY34WJnihZ4IMxYkS7OF
-        OZstUGkamUvE9z9IkbttlsKJ3g5u0EdbcqmPqdXJXg8TBoi8jUFsrVKrunsqJH3u
-        BCJRMi2V8Uk9v0uu99jt9fARm2FHu5lYVc+JKYVilH0QQ8x2uD7llmExhquZBHeg
-        3JXdPSSCwKs1VA==
-X-ME-Sender: <xms:rOjmYKz14GeITZuFJ84FscYzqk6-oZ80Q-Yk5eS7u2rcNBWNSmUJaw>
-    <xme:rOjmYGQ-B0IKJCe3zGMevPRGCm8sl6RvwtZWHEOnioELEOakPmhD3XypWfvAK-AAc
-    zyNfOFAVC4X1NPgkPE>
-X-ME-Received: <xmr:rOjmYMXAs9L9UnoIT7Lwv7jTLKTFwQwU2k9fpQSJligBRWrgmqdZTKf7y2Q9w7H3I896R54_5r-JbIwmHE4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtdeggdegiecutefuodetggdotefrodftvf
+        fm3; bh=ATQZFgAJhWZiGySupWX/oJS6Wb8DhGdjsY6S4Ar60bs=; b=Ztqcdvdm
+        YB0uqUP+Q8iud76oDZ/FeZjwnBstNMp/QHfaL5rCgWVzgATtVs4KFNi0kjupFsNf
+        9Q3v6kBG9Onf0IlA0PUnJuT5VC6cfuZLTozJ0zEggUA+pXVr+X25TYU1AKOQCuer
+        ZDBh+IzwUl+wlva8S89iuu18ab0i7+4H1ZgI/xSH/hfzwsYYo6AF0GVPTt4QcIX/
+        M5xzpe28YQL1fyjbXrozKUfa0b7IiUBmUA46x2e+Wqmz3BM3pcBFqbIy0MkNTDU2
+        2xMELDD5753SN/L52CvEIQEMB0/arKTTE6IfEmbWxJyKjba6nzcOqsJ9EAEHjegG
+        CbHS3WmlnpiKVw==
+X-ME-Sender: <xms:sejmYKFgNZd9GFb41i9QQrUWwd8AxuJhEZWbnG_tF4tbcco5_LLVrw>
+    <xme:sejmYLXm7FBc3r9__ErO78mp9v_Hshm98-8mvT9lKRewEp2w5vLW8TG5vojSWNscP
+    nx8Sf5f5siM22e5Xnc>
+X-ME-Received: <xmr:sejmYEIxYeiTNVdJiIaTad22OGRuaiuBLrCIjqvn-RK1BMkse8lFf1HFiqlI6t4eSjlpuCBsrjj_V5omPJg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtdeggdeghecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtkeertd
     ertddtnecuhfhrohhmpeetlhhishhtrghirhcuhfhrrghntghishcuoegrlhhishhtrghi
@@ -49,12 +49,12 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtdeggdegiecutefuodetggdote
     eguefgheeuvedugedvteejveeiudegvddtkeffkeehtdetudfhnecuvehluhhsthgvrhfu
     ihiivgepfeenucfrrghrrghmpehmrghilhhfrhhomheprghlihhsthgrihhrsegrlhhish
     htrghirhdvfedrmhgv
-X-ME-Proxy: <xmx:rOjmYAh-OQbUB4uveQjKm0p7Ey-F5mI0m77SToExSB8Oh59dZAEPjA>
-    <xmx:rOjmYMCdWameRohmnC2mFLA_nhgYzOiMU0Or4omDLo7p7KKzn8UdQQ>
-    <xmx:rOjmYBJHyQzkk1TPjozBfZOx5k-a2RHB1gzsqEYcwefRLwqC7m-RRw>
-    <xmx:rOjmYA4gY77ktbDK7XCki3SvWr5DXwjBs1Nb1gNE3P1Yb5Cw3n3Y-g>
+X-ME-Proxy: <xmx:sejmYEGxXi2sEXGZ8DFx0YGM99jO_OAQF6VXmX-U4bwQ7PCDhwUGOg>
+    <xmx:sejmYAWjwWZ-NAyl9v7VibPSzD16gDy8nNSkAmYmHiIar6ADE3YRpQ>
+    <xmx:sejmYHODa9jYmce7aJIsMdGqR581A3tXYyMOFu3eoz3RYSiXAy7ZgQ>
+    <xmx:sejmYJMAG-nVzZWDZVc1lcgNYUWDiaYP51n9usiD5TjdpDnTlWN8CA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 8 Jul 2021 07:59:35 -0400 (EDT)
+ 8 Jul 2021 07:59:40 -0400 (EDT)
 From:   Alistair Francis <alistair@alistair23.me>
 To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
         linux-imx@nxp.com, kernel@pengutronix.de, pinglinux@gmail.com,
@@ -63,9 +63,9 @@ To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
 Cc:     linux-kernel@vger.kernel.org, alistair23@gmail.com,
         robh+dt@kernel.org, devicetree@vger.kernel.org,
         Alistair Francis <alistair@alistair23.me>
-Subject: [PATCH v7 7/9] Input: wacom_i2c - Add support for vdd regulator
-Date:   Thu,  8 Jul 2021 21:58:51 +1000
-Message-Id: <20210708115853.281-8-alistair@alistair23.me>
+Subject: [PATCH v7 8/9] ARM: imx_v6_v7_defconfig: Enable Wacom I2C
+Date:   Thu,  8 Jul 2021 21:58:52 +1000
+Message-Id: <20210708115853.281-9-alistair@alistair23.me>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210708115853.281-1-alistair@alistair23.me>
 References: <20210708115853.281-1-alistair@alistair23.me>
@@ -75,78 +75,26 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Add support for a VDD regulator. This allows the kernel to prove the
-Wacom-I2C device on the rM2.
+Enable the Wacom I2C in the imx defconfig as it is used by the
+reMarkable2 tablet.
 
 Signed-off-by: Alistair Francis <alistair@alistair23.me>
 ---
- drivers/input/touchscreen/wacom_i2c.c | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+ arch/arm/configs/imx_v6_v7_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/input/touchscreen/wacom_i2c.c b/drivers/input/touchscreen/wacom_i2c.c
-index 49d1c15e623c..df77b17835e4 100644
---- a/drivers/input/touchscreen/wacom_i2c.c
-+++ b/drivers/input/touchscreen/wacom_i2c.c
-@@ -13,6 +13,7 @@
- #include <linux/irq.h>
- #include <linux/input/touchscreen.h>
- #include <linux/interrupt.h>
-+#include <linux/regulator/consumer.h>
- #include <linux/reset.h>
- #include <linux/of.h>
- #include <asm/unaligned.h>
-@@ -59,6 +60,7 @@ struct wacom_i2c {
- 	struct input_dev *input;
- 	struct touchscreen_properties props;
- 	struct wacom_features features;
-+	struct regulator *vdd;
- 	u8 data[WACOM_QUERY_SIZE];
- 	bool prox;
- 	int tool;
-@@ -222,11 +224,24 @@ static int wacom_i2c_probe(struct i2c_client *client,
- 	if (error)
- 		return error;
- 
-+	wac_i2c->vdd = regulator_get(&client->dev, "vdd");
-+	if (IS_ERR(wac_i2c->vdd))
-+		return PTR_ERR(wac_i2c->vdd);
-+
-+	error = regulator_enable(wac_i2c->vdd);
-+	if (error) {
-+		regulator_put(wac_i2c->vdd);
-+		return error;
-+	}
-+
- 	wac_i2c->client = client;
- 
- 	input = devm_input_allocate_device(dev);
--	if (!input)
-+	if (!input) {
-+		regulator_disable(wac_i2c->vdd);
-+		regulator_put(wac_i2c->vdd);
- 		return -ENOMEM;
-+	}
- 
- 	wac_i2c->input = input;
- 
-@@ -261,6 +276,8 @@ static int wacom_i2c_probe(struct i2c_client *client,
- 					  IRQF_ONESHOT, "wacom_i2c", wac_i2c);
- 	if (error) {
- 		dev_err(dev, "Failed to request IRQ: %d\n", error);
-+		regulator_disable(wac_i2c->vdd);
-+		regulator_put(wac_i2c->vdd);
- 		return error;
- 	}
- 
-@@ -270,6 +287,8 @@ static int wacom_i2c_probe(struct i2c_client *client,
- 	error = input_register_device(wac_i2c->input);
- 	if (error) {
- 		dev_err(dev, "Failed to register input device: %d\n", error);
-+		regulator_disable(wac_i2c->vdd);
-+		regulator_put(wac_i2c->vdd);
- 		return error;
- 	}
- 
+diff --git a/arch/arm/configs/imx_v6_v7_defconfig b/arch/arm/configs/imx_v6_v7_defconfig
+index 70928cc48939..cd80e85d37cf 100644
+--- a/arch/arm/configs/imx_v6_v7_defconfig
++++ b/arch/arm/configs/imx_v6_v7_defconfig
+@@ -174,6 +174,7 @@ CONFIG_TOUCHSCREEN_DA9052=y
+ CONFIG_TOUCHSCREEN_EGALAX=y
+ CONFIG_TOUCHSCREEN_GOODIX=y
+ CONFIG_TOUCHSCREEN_ILI210X=y
++CONFIG_TOUCHSCREEN_WACOM_I2C=y
+ CONFIG_TOUCHSCREEN_MAX11801=y
+ CONFIG_TOUCHSCREEN_IMX6UL_TSC=y
+ CONFIG_TOUCHSCREEN_EDT_FT5X06=y
 -- 
 2.31.1
 
