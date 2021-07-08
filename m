@@ -2,59 +2,59 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8D913BF986
-	for <lists+linux-input@lfdr.de>; Thu,  8 Jul 2021 13:59:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E68523BF98A
+	for <lists+linux-input@lfdr.de>; Thu,  8 Jul 2021 13:59:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231784AbhGHMBy (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 8 Jul 2021 08:01:54 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:55935 "EHLO
+        id S231802AbhGHMB7 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 8 Jul 2021 08:01:59 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:49237 "EHLO
         new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231802AbhGHMBy (ORCPT
+        by vger.kernel.org with ESMTP id S231838AbhGHMB7 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 8 Jul 2021 08:01:54 -0400
+        Thu, 8 Jul 2021 08:01:59 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 6B5A758057A;
-        Thu,  8 Jul 2021 07:59:12 -0400 (EDT)
+        by mailnew.nyi.internal (Postfix) with ESMTP id 6B74A58057A;
+        Thu,  8 Jul 2021 07:59:17 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Thu, 08 Jul 2021 07:59:12 -0400
+  by compute4.internal (MEProxy); Thu, 08 Jul 2021 07:59:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
          h=from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm1; bh=RXz/Mrv2ZOQSs
-        988OYbwQ3ZEBSjlxX/Dj7PYFF7OJuM=; b=dF0OYEY0zGBKPIoHlCRLk+L6JHUG5
-        qUpSTYGVb7d0f93Hj8m0BVpjIoPL5AWjtAsc0ZwKv50Ryqh+XJB6r7BCcR5uhm9O
-        BZCDu1gA1a3cef1OAK0fOf3agKxKbzXqmx3hWGArLw/KxSQ4tLGLzd1gWAjuxkGq
-        qQDQFbNk1Z0DNLtSvf4nO2EJklUKPeXjAUYWQwp2WZVtujTO0jy6L2TBzJ8ih70M
-        u3ea/9k62WrbHMumTfQfbJ0Wm4z0TLCbMkQ0jtF8UprJSBDDSlhFziJ8/7H857kk
-        TRBqUPyj+aRNiCakPV7W206zBr3AofN3WKDZ9Zot0Xa/quGHbGpR/CWKw==
+        :mime-version:content-transfer-encoding; s=fm1; bh=VSMZ0QroRzB6P
+        CADkSPacl+6PN2Ml10WpvWIgK+mcKE=; b=NQZVuwq2SA/5Qoc2432suvdtuTIhU
+        +1x7CHaDX7orWJQ4AP3Ff6SYEUMoDwWizUgqCeWxlbkoQPDIghVsiNR2OA2DEzYw
+        vgG9x7HVuuyyv5MK7YaY69dOzaoRdDLj2rmjZhbotN/10qxC1P+mvo3nKDWGo/k6
+        MQovss5VyHES9MiQTxnWsHf7L5eycxji/B/n5rQivf8yTZl1ysPNtgoZ8nPhgZht
+        i1OicyZBvObJYy33TAJINPzq4zMiftvilGrKoFOG0hucK/oltNGhJ4afC7+gxSFG
+        zS7YkAtDF0cfVpt0xfsL2V8tUznLaGIu5ft8JicQ2YfbB7Mk/oA60StJQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:date:from
         :in-reply-to:message-id:mime-version:references:subject:to
         :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm3; bh=RXz/Mrv2ZOQSs988OYbwQ3ZEBSjlxX/Dj7PYFF7OJuM=; b=s0olmlAx
-        6xVl4kdGFEty1qGTQE9x/wrNEzUchFO0QAvodoM7YEH8iJCfBB3vreV9IvSajEEp
-        SEhLOURUUAraRjfBl4Uv0mUpxQ4noF/a0ebqZKUaAqp0ZsaN83ySRrcU2pJRG1X0
-        PPib2vRIqwTCV6ect1C80KwI54uCqoLS1k1GitQmPZ9SHk3pFza2b27OLVivzves
-        QNQntdAj45pTpsQi4kiEoEZtRMndnTciJcgGkb+V3f36ytFth1qO1KKRrGoIHXrx
-        YiCD4j98CxwXr9atMPxwNtvzOJZbuB+q8BhrrCunuGISpbJNVbW8/+mnjWyGsGED
-        24sqB3XE8+xu4w==
-X-ME-Sender: <xms:kOjmYNUzwzzDkfN1f31Y_6lwdXEj1DNbNqrLXnb3wzNdcwIgP7ol0Q>
-    <xme:kOjmYNmLAAZNy1Iid-jgwRiSq-q3mTJ53JA8K5rEkS0NYXoirat_HFCnnBxx3ROUX
-    cfWM541EajRA3Ds43c>
-X-ME-Received: <xmr:kOjmYJbZTB3digrm2eOmXchEgOSDe23S7piIZdxFkurhTebhs_UbiScOhxpPmWh3yrb52_mq74vMKvc0kjY>
+        fm3; bh=VSMZ0QroRzB6PCADkSPacl+6PN2Ml10WpvWIgK+mcKE=; b=EcWliMQr
+        QUGxkdJBPaPX/sIvmUNXpu1TaxOLb6HEJpRB7N5dxJ53rLBItsAQUCkwWJsZq8TB
+        V073fiUy9zFfrXAMvG7h8+p2K/e4ib03FC/r6MLoE+f5IwJcuvzXSu4P1YLa9emM
+        U3SUiHmljqvcYJxepWhBb3gullgB1f5XtTqtQ+n3D70sFVg51duVxaRIOUyOTIJn
+        0nBYIAAxIKdcnA+ZIn2WVocx7Z9lxASgQm6OdK9+uZLFTvSfCwI1YiWK+Kpbhzm6
+        NmDh9jWinp5+7d6hoYLkCxGOn9IN1VTUBrs1yf7nANO6bE8BRnHs1hAKxAXTgndw
+        sM76cf7FE7MIqQ==
+X-ME-Sender: <xms:lejmYNpEqBQAKtxlDPqw7MqI3GXHyd008L2Ry7i5cbXn-5fdrXQmJw>
+    <xme:lejmYPpIb8YdHZnyLYtfS12bI7r2es_GVFMJf15icF36sO3jV6CmcVqDIk6IgZRnF
+    dWDEPU_gJObF8S3MXQ>
+X-ME-Received: <xmr:lejmYKMGy4Io2nmRkdNqFi3UPcqTJ9yNG08ZQOBQPH6y6toozqGdGe-aqg25ScI33LMqAqyHjPk-cuzcByc>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtdeggdegiecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtkeertd
     ertddtnecuhfhrohhmpeetlhhishhtrghirhcuhfhrrghntghishcuoegrlhhishhtrghi
-    rhesrghlihhsthgrihhrvdefrdhmvgeqnecuggftrfgrthhtvghrnhepgeegtdetjeekge
-    eguefgheeuvedugedvteejveeiudegvddtkeffkeehtdetudfhnecuvehluhhsthgvrhfu
-    ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghlihhsthgrihhrsegrlhhish
-    htrghirhdvfedrmhgv
-X-ME-Proxy: <xmx:kOjmYAXVYHQLCLwtuJ_IgNT_RXeTdrrS8MGvQOajmL_3L1bPV3JI4w>
-    <xmx:kOjmYHn1fH8V4nPF2-TMmPGWNUFHlHsrZPVTWZnI40DiXB-urJbdOA>
-    <xmx:kOjmYNfWMUfp6-1L5sSuO_u7h4ipSYCSnqYKrct2_tGuKjBaA2et1A>
-    <xmx:kOjmYAfY34O-Iq4WkcXz8AnMPtQ10ZShvkjh7GsHVd5pOY3oqTI7Fw>
+    rhesrghlihhsthgrihhrvdefrdhmvgeqnecuggftrfgrthhtvghrnhepffdthffggefgle
+    fgkeejhfekiefgleelfefhtefhheefteelgeeggefgfeffvddtnecuffhomhgrihhnpegu
+    vghvihgtvghtrhgvvgdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpegrlhhishhtrghirhesrghlihhsthgrihhrvdefrdhmvg
+X-ME-Proxy: <xmx:lejmYI6xj9X8mUJu_hW3TvhIJs4dxr_lT5K0ifujDAbWjJ6bypZ2-A>
+    <xmx:lejmYM7x3xbHVwOdS7yobqn6YSrJ0WGiel127umaqri9x9sxs5xjQw>
+    <xmx:lejmYAilZ_9R6PmLRksQ_JRNZpU_Qg5AlKknDwiddTkG_glafrwcEg>
+    <xmx:lejmYJyTfvB4iBvMpn7KKsnTuOMwpljGE1pa3O8PUeIaoixehCR_AA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 8 Jul 2021 07:59:08 -0400 (EDT)
+ 8 Jul 2021 07:59:12 -0400 (EDT)
 From:   Alistair Francis <alistair@alistair23.me>
 To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
         linux-imx@nxp.com, kernel@pengutronix.de, pinglinux@gmail.com,
@@ -63,9 +63,9 @@ To:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
 Cc:     linux-kernel@vger.kernel.org, alistair23@gmail.com,
         robh+dt@kernel.org, devicetree@vger.kernel.org,
         Alistair Francis <alistair@alistair23.me>
-Subject: [PATCH v7 1/9] dt-bindings: Add Wacom to vendor bindings
-Date:   Thu,  8 Jul 2021 21:58:45 +1000
-Message-Id: <20210708115853.281-2-alistair@alistair23.me>
+Subject: [PATCH v7 2/9] dt-bindings: touchscreen: Initial commit of wacom,i2c
+Date:   Thu,  8 Jul 2021 21:58:46 +1000
+Message-Id: <20210708115853.281-3-alistair@alistair23.me>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210708115853.281-1-alistair@alistair23.me>
 References: <20210708115853.281-1-alistair@alistair23.me>
@@ -79,22 +79,64 @@ Signed-off-by: Alistair Francis <alistair@alistair23.me>
 Cc: Rob Herring <robh+dt@kernel.org>
 Cc: devicetree@vger.kernel.org
 ---
- Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ .../input/touchscreen/wacom,generic.yaml      | 48 +++++++++++++++++++
+ 1 file changed, 48 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/input/touchscreen/wacom,generic.yaml
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index 2bbc27aae977..0199728d2eaf 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -1244,6 +1244,8 @@ patternProperties:
-     description: Vision Optical Technology Co., Ltd.
-   "^vxt,.*":
-     description: VXT Ltd
-+  "^wacom,.*":
-+    description: Wacom Co., Ltd
-   "^wand,.*":
-     description: Wandbord (Technexion)
-   "^waveshare,.*":
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/wacom,generic.yaml b/Documentation/devicetree/bindings/input/touchscreen/wacom,generic.yaml
+new file mode 100644
+index 000000000000..48c611d63bd8
+--- /dev/null
++++ b/Documentation/devicetree/bindings/input/touchscreen/wacom,generic.yaml
+@@ -0,0 +1,48 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/input/touchscreen/wacom,generic.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Wacom I2C Controller
++
++maintainers:
++  - Alistair Francis <alistair@alistair23.me>
++
++allOf:
++  - $ref: touchscreen.yaml#
++
++properties:
++  compatible:
++    const: wacom,i2c-30
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  vdd-supply:
++    description: Power Supply
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    #include "dt-bindings/interrupt-controller/irq.h"
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        digitiser@9 {
++                compatible = "wacom,i2c-30";
++                reg = <0x9>;
++                interrupt-parent = <&gpio1>;
++                interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
++                vdd-supply = <&reg_touch>;
++        };
++    };
 -- 
 2.31.1
 
