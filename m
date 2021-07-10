@@ -2,38 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C476A3C3070
-	for <lists+linux-input@lfdr.de>; Sat, 10 Jul 2021 04:47:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E21C83C313C
+	for <lists+linux-input@lfdr.de>; Sat, 10 Jul 2021 04:48:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234320AbhGJCfg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 9 Jul 2021 22:35:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53320 "EHLO mail.kernel.org"
+        id S235105AbhGJClA (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 9 Jul 2021 22:41:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56686 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235263AbhGJCel (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 9 Jul 2021 22:34:41 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A162D613D3;
-        Sat, 10 Jul 2021 02:31:41 +0000 (UTC)
+        id S233805AbhGJCho (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 9 Jul 2021 22:37:44 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 19E56613BE;
+        Sat, 10 Jul 2021 02:34:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625884302;
-        bh=hwI9xTL2ebUdO0DmxdC1jpzwPPvsqSev3UsSzitDOfE=;
+        s=k20201202; t=1625884499;
+        bh=Hvm7ppRyQJJFoZu7LAYNLjkXJAGcAG0e9cv6Q0x2NAI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hwFbaZNqSjYwUYUJ9d0mJtS+nSIkbLHAHcGzChFqP0BWYISmzF4q2fIxVdxyZq5NF
-         52Q7B5qQuf0UmI7gu7ibvlbeSpBR4OLlJm+kcbayob4H548z9U4fEW82NnKHpZm79O
-         ELZcyLk6sPNvNeecpFqbBcv2f8H+hhb/plPG31Y+wi59iXvfw+nYNhuVjghDU1LUP/
-         CeCjMfC3R2KMSYTGlzXwyyIzNvgNQrYSkdt0H4juJ0Rt5r6cnIGlhdJmvMkmBpCa8D
-         Qer2jw3agJr7pAR3QsedXhtx75hhkCTByzFbOtMmZjV4VTosKLwHhxnt61eYoSV1PF
-         nM5nDfLuymMNw==
+        b=W3YxLh48a2moPK9OIlx3/lrAsUltOhwF1U0PY5BDyqXdI2wpXMw755ZJSrkWnuuwW
+         FcHYdO9slkeWw1mmQfEq4eupHp5agLUFTqVLmH2uW7U/n1TwhvJ3OWAyHjyowI1EvQ
+         P6PIUzEkFUVf9gbEAfGfeRGcQlpfO2hrWy83Cb0Vxk3G3OMaNrB/OUZTzwn4FQw9/8
+         nCd8hrF+puXi238Nom6t+nUlK3xNJyifXRZhHXLfV/8ORZkuQbNsaY1n6+kqplAxrN
+         xZ6QSbo7TYEckACONUoXs77f+Gs7vpCz8cM3yOjR2KIzQt0ojCcvy1iadJzC2t6+4Z
+         bajtKH1DDrWpQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Yizhuo Zhai <yzhai003@ucr.edu>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 47/63] Input: hideep - fix the uninitialized use in hideep_nvm_unlock()
-Date:   Fri,  9 Jul 2021 22:26:53 -0400
-Message-Id: <20210710022709.3170675-47-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 28/39] Input: hideep - fix the uninitialized use in hideep_nvm_unlock()
+Date:   Fri,  9 Jul 2021 22:31:53 -0400
+Message-Id: <20210710023204.3171428-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210710022709.3170675-1-sashal@kernel.org>
-References: <20210710022709.3170675-1-sashal@kernel.org>
+In-Reply-To: <20210710023204.3171428-1-sashal@kernel.org>
+References: <20210710023204.3171428-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -59,10 +59,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 10 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/input/touchscreen/hideep.c b/drivers/input/touchscreen/hideep.c
-index ddad4a82a5e5..e9547ee29756 100644
+index f1cd4dd9a4a3..d7775db0b711 100644
 --- a/drivers/input/touchscreen/hideep.c
 +++ b/drivers/input/touchscreen/hideep.c
-@@ -361,13 +361,16 @@ static int hideep_enter_pgm(struct hideep_ts *ts)
+@@ -364,13 +364,16 @@ static int hideep_enter_pgm(struct hideep_ts *ts)
  	return -EIO;
  }
  
@@ -81,7 +81,7 @@ index ddad4a82a5e5..e9547ee29756 100644
  
  	/* make it unprotected code */
  	unmask_code &= ~HIDEEP_PROT_MODE;
-@@ -384,6 +387,8 @@ static void hideep_nvm_unlock(struct hideep_ts *ts)
+@@ -387,6 +390,8 @@ static void hideep_nvm_unlock(struct hideep_ts *ts)
  	NVM_W_SFR(HIDEEP_NVM_MASK_OFS, ts->nvm_mask);
  	SET_FLASH_HWCONTROL();
  	hideep_pgm_w_reg(ts, HIDEEP_FLASH_CFG, HIDEEP_NVM_DEFAULT_PAGE);
@@ -90,7 +90,7 @@ index ddad4a82a5e5..e9547ee29756 100644
  }
  
  static int hideep_check_status(struct hideep_ts *ts)
-@@ -462,7 +467,9 @@ static int hideep_program_nvm(struct hideep_ts *ts,
+@@ -465,7 +470,9 @@ static int hideep_program_nvm(struct hideep_ts *ts,
  	u32 addr = 0;
  	int error;
  
