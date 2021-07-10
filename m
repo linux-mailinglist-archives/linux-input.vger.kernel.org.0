@@ -2,38 +2,38 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EF183C2F68
-	for <lists+linux-input@lfdr.de>; Sat, 10 Jul 2021 04:29:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C476A3C3070
+	for <lists+linux-input@lfdr.de>; Sat, 10 Jul 2021 04:47:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234048AbhGJCbS (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Fri, 9 Jul 2021 22:31:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42616 "EHLO mail.kernel.org"
+        id S234320AbhGJCfg (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Fri, 9 Jul 2021 22:35:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53320 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234512AbhGJC3e (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Fri, 9 Jul 2021 22:29:34 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A0DF1613F7;
-        Sat, 10 Jul 2021 02:26:37 +0000 (UTC)
+        id S235263AbhGJCel (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Fri, 9 Jul 2021 22:34:41 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A162D613D3;
+        Sat, 10 Jul 2021 02:31:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625883998;
+        s=k20201202; t=1625884302;
         bh=hwI9xTL2ebUdO0DmxdC1jpzwPPvsqSev3UsSzitDOfE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=klgRP1EVgAIw91GXIzTdXzzKumL7cKM1O4YGc1NuHXXQncY07YQQfdd6C6tMiekp+
-         X+dTvEnWkqxTIpOvbYWVKglBbB84iT6HxrJHeklHqf9a6XlgqfKpqUwIkKmixqrhes
-         9R13d26KUxIcZK+zBRZy9bIudZMZU3zOklsdvDv52Hf/FZVcYOwtHpEp6LtHeDiIkf
-         q5ABhP/JFtVjFKPEvv5nU2BCfIz7k2AU8N2WH/ixyuisJ+MYeqRjPB+kgqdzvaiIb+
-         uETh+gAZg/7fofqQMlqLXM7ofdmASTp95bjOF7fiNLPISBbnKz8U7RAYy67O71HhSa
-         xjLrZ1L3ZvPjw==
+        b=hwFbaZNqSjYwUYUJ9d0mJtS+nSIkbLHAHcGzChFqP0BWYISmzF4q2fIxVdxyZq5NF
+         52Q7B5qQuf0UmI7gu7ibvlbeSpBR4OLlJm+kcbayob4H548z9U4fEW82NnKHpZm79O
+         ELZcyLk6sPNvNeecpFqbBcv2f8H+hhb/plPG31Y+wi59iXvfw+nYNhuVjghDU1LUP/
+         CeCjMfC3R2KMSYTGlzXwyyIzNvgNQrYSkdt0H4juJ0Rt5r6cnIGlhdJmvMkmBpCa8D
+         Qer2jw3agJr7pAR3QsedXhtx75hhkCTByzFbOtMmZjV4VTosKLwHhxnt61eYoSV1PF
+         nM5nDfLuymMNw==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Yizhuo Zhai <yzhai003@ucr.edu>,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Sasha Levin <sashal@kernel.org>, linux-input@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 73/93] Input: hideep - fix the uninitialized use in hideep_nvm_unlock()
-Date:   Fri,  9 Jul 2021 22:24:07 -0400
-Message-Id: <20210710022428.3169839-73-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 47/63] Input: hideep - fix the uninitialized use in hideep_nvm_unlock()
+Date:   Fri,  9 Jul 2021 22:26:53 -0400
+Message-Id: <20210710022709.3170675-47-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210710022428.3169839-1-sashal@kernel.org>
-References: <20210710022428.3169839-1-sashal@kernel.org>
+In-Reply-To: <20210710022709.3170675-1-sashal@kernel.org>
+References: <20210710022709.3170675-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
