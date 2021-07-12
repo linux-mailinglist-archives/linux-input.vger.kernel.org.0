@@ -2,58 +2,131 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CCFC3C5605
-	for <lists+linux-input@lfdr.de>; Mon, 12 Jul 2021 12:56:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D7C23C61C6
+	for <lists+linux-input@lfdr.de>; Mon, 12 Jul 2021 19:21:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351027AbhGLINI (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 12 Jul 2021 04:13:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37248 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232200AbhGLILU (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Mon, 12 Jul 2021 04:11:20 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 160EF6192A;
-        Mon, 12 Jul 2021 08:08:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1626077305;
-        bh=D5axI1QpdvyIYgpEcT9MGTrQcsKd2iXjRFMwgVwRytA=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=QdSyplWQp0Pj/G1G6eLSGqJwuEIGWr4woRd7cO52TbJeQJPYmYAd2ASg7kRMvpKgV
-         FCrWBE4wY8C7H4rchI1FE3D44HlHH8caFlUBcoju5HfWT4pvgvp8CF5AIXw3Hn6bzG
-         Jq0AQbMxxaHQ+mWJ4T+0Dw9RIvJNC6vqXqQBTRZEL5C5VikojklH0xjlhVkfiFv7sf
-         7mP6e7phY+PEAx+/fzVE7W+z1IvIJjGy242dQHJwJgborzH/nQygnayFdRi6rsxcQs
-         IPuXvstr76R22jfgsEU06Mwk2Y7N/0Mo3TTt+uXnDso8EIHbVYFd1cohEjdyx3/wQM
-         kNe7mMTIyvXUw==
-Date:   Mon, 12 Jul 2021 10:08:14 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Dylan MacKenzie <ecstaticmorse@gmail.com>
-cc:     Basavaraj.Natikar@amd.com, Nehal-Bakulchandra.shah@amd.com,
-        benjamin.tissoires@redhat.com, linux-input@vger.kernel.org,
-        shyam-sundar.s-k@amd.com
-Subject: Re: [PATCH 0/3] Add SFH sensor support for newer AMD platforms
-In-Reply-To: <CAHpHHjbnhAnhkq-G1UbtjP=SB24FVnEtsXqkT8_ZTb7UD8j_kA@mail.gmail.com>
-Message-ID: <nycvar.YFH.7.76.2107121007410.8253@cbobk.fhfr.pm>
-References: <CAHpHHjbnhAnhkq-G1UbtjP=SB24FVnEtsXqkT8_ZTb7UD8j_kA@mail.gmail.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        id S235567AbhGLRYM (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Mon, 12 Jul 2021 13:24:12 -0400
+Received: from mail-io1-f51.google.com ([209.85.166.51]:37518 "EHLO
+        mail-io1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235514AbhGLRYL (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Mon, 12 Jul 2021 13:24:11 -0400
+Received: by mail-io1-f51.google.com with SMTP id l18so18654973iow.4;
+        Mon, 12 Jul 2021 10:21:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=po5Mrb+fjJQ2Xn5LewDjFuCzmgPRfNYcYqBaBw+bAEI=;
+        b=UDN0L6oXuFupvyZt5i8DgIYJAkjcsbeu/HR9wEPJwZpyhmotJkeplP7r2P/wgmG4ex
+         R+RRMI36ySvYHid2eIdk5FPqODBPB0Ok1Imy8RHKbSvJJIww5MHRzkp7vN4kAYBfQs01
+         0trW3fMv++MjS7ru1pZfSoM+vzRP1v7MLYhgnpTLvszRRaUpbC/BiYnUD1FOSkpN60+s
+         twyCogLnM1K5jJHu9y37S+tGi3587jOK+1hZVrI2ZlrmbJbk9cqPpzCaM905b0gR4kRm
+         GrVNNCWwgvpVl+NFyR8TmEULp33HUEGlUjzoosqd+06By00QB7QYoMk8Afk+vQGR6a+Z
+         pMFg==
+X-Gm-Message-State: AOAM533LZ2S6IyjdPodZeRBKOqauM9Rh4KdAxlHlJcLGOtlovvLksVzs
+        XEVk56xiIhK0bC+V4d4eWw==
+X-Google-Smtp-Source: ABdhPJw0K3bLJnLUad1dDRzKcmvCLK2WB8ZmWMg9QqX77L909j5Xy50vEAUVr847MaDWxAzlmcMKgA==
+X-Received: by 2002:a5d:8198:: with SMTP id u24mr4396ion.81.1626110482359;
+        Mon, 12 Jul 2021 10:21:22 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id b21sm3872375iot.35.2021.07.12.10.21.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jul 2021 10:21:21 -0700 (PDT)
+Received: (nullmailer pid 2141274 invoked by uid 1000);
+        Mon, 12 Jul 2021 17:21:16 -0000
+Date:   Mon, 12 Jul 2021 11:21:16 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Alistair Francis <alistair@alistair23.me>
+Cc:     dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
+        linux-imx@nxp.com, kernel@pengutronix.de, pinglinux@gmail.com,
+        tatsunosuke.tobita@wacom.com, junkpainting@gmail.com,
+        ping.cheng@wacom.com, linux-kernel@vger.kernel.org,
+        alistair23@gmail.com, devicetree@vger.kernel.org
+Subject: Re: [PATCH v7 2/9] dt-bindings: touchscreen: Initial commit of
+ wacom,i2c
+Message-ID: <20210712172116.GA2137814@robh.at.kernel.org>
+References: <20210708115853.281-1-alistair@alistair23.me>
+ <20210708115853.281-3-alistair@alistair23.me>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210708115853.281-3-alistair@alistair23.me>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sat, 26 Jun 2021, Dylan MacKenzie wrote:
-
-> > Now queued in for-5.14/amd-sfh. Thanks,
+On Thu, Jul 08, 2021 at 09:58:46PM +1000, Alistair Francis wrote:
+> Signed-off-by: Alistair Francis <alistair@alistair23.me>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> ---
+>  .../input/touchscreen/wacom,generic.yaml      | 48 +++++++++++++++++++
+>  1 file changed, 48 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/wacom,generic.yaml
 > 
-> FYI, this patch still uses the wrong register in `amd_sensor_stop_v2`.
-> Basavaraj confirmed this, but my email client didn't CC the list for
-> that conversation. Whoops!
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/wacom,generic.yaml b/Documentation/devicetree/bindings/input/touchscreen/wacom,generic.yaml
+> new file mode 100644
+> index 000000000000..48c611d63bd8
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/wacom,generic.yaml
+> @@ -0,0 +1,48 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/touchscreen/wacom,generic.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Wacom I2C Controller
+> +
+> +maintainers:
+> +  - Alistair Francis <alistair@alistair23.me>
+> +
+> +allOf:
+> +  - $ref: touchscreen.yaml#
 
-Could you please send a followup patch on top of for-5.14/amd-sfh branch 
-to fix that?
+If you use properties from here...
 
-Thanks,
+> +
+> +properties:
+> +  compatible:
+> +    const: wacom,i2c-30
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  vdd-supply:
+> +    description: Power Supply
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +
+> +additionalProperties: false
 
--- 
-Jiri Kosina
-SUSE Labs
+then this needs to be 'unevaluatedProperties: false' instead. 
 
+> +
+> +examples:
+> +  - |
+> +    #include "dt-bindings/interrupt-controller/irq.h"
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +        digitiser@9 {
+> +                compatible = "wacom,i2c-30";
+> +                reg = <0x9>;
+> +                interrupt-parent = <&gpio1>;
+> +                interrupts = <9 IRQ_TYPE_LEVEL_LOW>;
+> +                vdd-supply = <&reg_touch>;
+> +        };
+> +    };
+> -- 
+> 2.31.1
+> 
+> 
