@@ -2,106 +2,86 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CD963C68F5
-	for <lists+linux-input@lfdr.de>; Tue, 13 Jul 2021 05:58:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 860123C6914
+	for <lists+linux-input@lfdr.de>; Tue, 13 Jul 2021 06:11:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229436AbhGMEAu (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 13 Jul 2021 00:00:50 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:13939 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbhGMEAt (ORCPT
+        id S229458AbhGMEOU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 13 Jul 2021 00:14:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44942 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229449AbhGMEOU (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 13 Jul 2021 00:00:49 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1626148680; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=w42WAE4DU8ptf8ebzyNY4PLTveQspPorDiUyQcBnboo=;
- b=oYgMQZanp1u8lbYD7YtVCRfaEYE+pNWcta6ZBNwqZBmy647gZeQt4b0QGd+1TYIO4Y9d1I07
- D0v6n3lDbCYyYmju3hoOapKTQnkmJoeYqxKjKPwaWQ8yAS6emHX8oM4Vy22BsuaDJj5GEszu
- 8odFq19/HyWuxmkZrtKaOK6IFJA=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyIxZDE2NCIsICJsaW51eC1pbnB1dEB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 60ed0f457b2963a282f2e139 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 13 Jul 2021 03:57:57
- GMT
-Sender: skakit=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 60FF4C4338A; Tue, 13 Jul 2021 03:57:56 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
-        autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: skakit)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id CF787C433D3;
-        Tue, 13 Jul 2021 03:57:55 +0000 (UTC)
+        Tue, 13 Jul 2021 00:14:20 -0400
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59643C0613DD
+        for <linux-input@vger.kernel.org>; Mon, 12 Jul 2021 21:11:31 -0700 (PDT)
+Received: by mail-qk1-x736.google.com with SMTP id e14so20290417qkl.9
+        for <linux-input@vger.kernel.org>; Mon, 12 Jul 2021 21:11:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UBL6vrnWu6qcqanBvPZXK5teSLL1qQNycVv7MRHIOgw=;
+        b=qyLuKxlWzSKE/66cu+dEQ7WjrMCvAbjwnlxPLW4vI0lbV/NpiLHyEvB9Nvqn2rEOBB
+         lL9yHYVRIjhPUWNspGqZYUsCAfV5jS92DhjrCs0qz/mpWuoLqdTol7VA/qriC6+CYjGn
+         DT/WlWDGhx5lO4rNLIgvELJg4UD9zPkZZXVnC7Q2v19e+wU5RDR6p1L3G5MXJkK0RkXF
+         //hhvxTOqZmaxxfKStA2C21atlLwz12yePxSGfJgt8jsYCqdXbnuCZkiNcQ+oD31iubp
+         SDVdwDbrGGSy2c26bCVLGDleE/U0HgdRExOK9x8ZdRacGM45j5vMqsGo0vj9IfFt2URn
+         9sKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=UBL6vrnWu6qcqanBvPZXK5teSLL1qQNycVv7MRHIOgw=;
+        b=UnLDxDtj4cu49cons83u1Hle4cjYrpZUgQibxIWKHpWdCNsu7UYudWRe5op58pCsLE
+         KMYSay/f1e4iMyNlgTFfCmVPRMtahHdS6q1gcjHxVwBQ8N6mQmVm09cVGN4736lz0GVY
+         RYck+etrVztijhFAuJMc9Lo5zcpgLs7DLTQj5Bq8KZrJO9H0ZlMrXMl5ISpc2ATcRAvB
+         ASDEUcUML0G8qHcV7/qWB34uiq4xJQaloSZJhR6acTA0uvCNnuJWWpe83mjKNamZXB0f
+         yeSwdZ3o0xzDRD7Ozaf+gAxeVYwkDUk0dHZENtUrsC35RkyN1Cs8pbn3/YMuwbD2oAHB
+         gqNg==
+X-Gm-Message-State: AOAM532T3dFiE8G7Z9cD4x6L+VOBcjFMViW5gMH2iG/29j10uPOdu5Vj
+        pNzjAsaKEWQ2CJ+YvGObanw=
+X-Google-Smtp-Source: ABdhPJx1Xo0jIFeOr3QJyroysFru1ch5K0PzJu5k08L3uq4ICBG1gNEuFW/YG2vOXh65p6FIfJi9/w==
+X-Received: by 2002:a05:620a:41d:: with SMTP id 29mr2205673qkp.18.1626149490247;
+        Mon, 12 Jul 2021 21:11:30 -0700 (PDT)
+Received: from envious.. (047-007-031-017.res.spectrum.com. [47.7.31.17])
+        by smtp.gmail.com with ESMTPSA id j7sm7373126qkd.21.2021.07.12.21.11.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Jul 2021 21:11:29 -0700 (PDT)
+From:   Dylan MacKenzie <ecstaticmorse@gmail.com>
+To:     jikos@kernel.org
+Cc:     Basavaraj.Natikar@amd.com, Nehal-Bakulchandra.shah@amd.com,
+        benjamin.tissoires@redhat.com, ecstaticmorse@gmail.com,
+        linux-input@vger.kernel.org, shyam-sundar.s-k@amd.com
+Subject: [PATCH] HID: amd_sfh: Use correct MMIO register for DMA address
+Date:   Mon, 12 Jul 2021 21:11:21 -0700
+Message-Id: <20210713041121.13418-1-ecstaticmorse@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Tue, 13 Jul 2021 09:27:55 +0530
-From:   skakit@codeaurora.org
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>
-Cc:     David Collins <collinsd@codeaurora.org>, kgunda@codeaurora.org,
-        linux-input@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
-        Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH V4 0/5] Add support for PMK8350 PON_HLOS PMIC peripheral
-In-Reply-To: <1620800053-26405-1-git-send-email-skakit@codeaurora.org>
-References: <1620800053-26405-1-git-send-email-skakit@codeaurora.org>
-Message-ID: <676720d932927fa0850924500da565df@codeaurora.org>
-X-Sender: skakit@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Dmitry,
+amd_stop_sensor_v2 accidentally used a different MMIO register than
+amd_start_sensor_v2 for the DMA address.
+---
+ drivers/hid/amd-sfh-hid/amd_sfh_pcie.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 2021-05-12 11:44, satya priya wrote:
-> David Collins (2):
->   input: pm8941-pwrkey: add support for PMK8350 PON_HLOS PMIC 
-> peripheral
->   dt-bindings: input: pm8941-pwrkey: add pmk8350 compatible strings
-> 
+diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+index 96e2577fa37e..8d68796aa905 100644
+--- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
++++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+@@ -58,7 +58,7 @@ static void amd_stop_sensor_v2(struct amd_mp2_dev *privdata, u16 sensor_idx)
+ 	cmd_base.cmd_v2.sensor_id = sensor_idx;
+ 	cmd_base.cmd_v2.length  = 16;
+ 
+-	writeq(0x0, privdata->mmio + AMD_C2P_MSG2);
++	writeq(0x0, privdata->mmio + AMD_C2P_MSG1);
+ 	writel(cmd_base.ul, privdata->mmio + AMD_C2P_MSG0);
+ }
+ 
+-- 
+2.31.1
 
-
-> satya priya (3):
->   dt-bindings: power: reset: Change 'additionalProperties' to true
->   dt-bindings: input: pm8941-pwrkey: Convert pm8941 power key binding 
-> to
->     yaml
->   dt-bindings: power: reset: qcom-pon: Convert qcom PON binding to yaml
-> 
-Could you please pick these 3 patches.
-
-Thanks,
-Satya Priya
->  .../bindings/input/qcom,pm8941-pwrkey.txt          |  53 -----------
->  .../bindings/input/qcom,pm8941-pwrkey.yaml         |  51 ++++++++++
->  .../devicetree/bindings/power/reset/qcom,pon.txt   |  49 ----------
->  .../devicetree/bindings/power/reset/qcom,pon.yaml  |  80 
-> ++++++++++++++++
->  .../bindings/power/reset/reboot-mode.yaml          |   2 +-
->  drivers/input/misc/pm8941-pwrkey.c                 | 103 
-> ++++++++++++++-------
->  6 files changed, 204 insertions(+), 134 deletions(-)
->  delete mode 100644
-> Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.txt
->  create mode 100644
-> Documentation/devicetree/bindings/input/qcom,pm8941-pwrkey.yaml
->  delete mode 100644 
-> Documentation/devicetree/bindings/power/reset/qcom,pon.txt
->  create mode 100644 
-> Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
