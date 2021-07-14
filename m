@@ -2,95 +2,91 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B6773C8B6B
-	for <lists+linux-input@lfdr.de>; Wed, 14 Jul 2021 21:11:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80BBC3C9137
+	for <lists+linux-input@lfdr.de>; Wed, 14 Jul 2021 22:04:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229956AbhGNTNk (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 14 Jul 2021 15:13:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41504 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229735AbhGNTNk (ORCPT
+        id S237870AbhGNT64 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 14 Jul 2021 15:58:56 -0400
+Received: from mail-io1-f54.google.com ([209.85.166.54]:44911 "EHLO
+        mail-io1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241913AbhGNTyv (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Wed, 14 Jul 2021 15:13:40 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2B57C06175F;
-        Wed, 14 Jul 2021 12:10:47 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id jx7-20020a17090b46c7b02901757deaf2c8so2109276pjb.0;
-        Wed, 14 Jul 2021 12:10:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=eVOzCA9vN/udrQW0niM+HIJJjScNVs7pEzEmnaK2AoU=;
-        b=MfCzVFFQbyqCkUh6OWrlqZbhKM+oSI+ugm1EHunw/uuJRnLfg0i795y5NHo09ZBNcW
-         Hy4e4DdJF9KmXHfO4RotuThrZ0iZciN8imCIPA/No0ZSwAGbk9A3xQpK/ZN2xf62hJ1q
-         4Pg+A44kEBnF/tvbEZSWzBu0G35YJR+K/PZxxrZGlvxXlbpYRRZqbWRyjCIXs4zEH/dA
-         KOoSZUFadY9/6Aiz2mo8T8CYYAZtcnELWmr49CJVh25/Z4EvVeYM037EOd9ie6ZOPwai
-         ptAoLtZaqYAv2SzDkkkKgCzb9SIPGBaUdYMPQFRMLtN1DROH5j297R3ty/npzGRnltBh
-         hHrQ==
+        Wed, 14 Jul 2021 15:54:51 -0400
+Received: by mail-io1-f54.google.com with SMTP id v26so3603144iom.11;
+        Wed, 14 Jul 2021 12:51:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=eVOzCA9vN/udrQW0niM+HIJJjScNVs7pEzEmnaK2AoU=;
-        b=odOPWYb1+AX4dH6+IklNmvU+UcjJNVcfbKtO/2tcBkhPIoU1paAosGkFyZ8dSXxFDy
-         b7ykbSbAHy5TYq9IxfRmYON4EPV03iekx3r6zNS6Vg/G48F+JKwX9b0xhymgkvZJ2ZH6
-         +fldJuIg8rLVirSnEhopMoXz+26W1/ATNbZ5YXzSe62izSvD/7jQFbZFKd/UH5GwttqV
-         Cyu8WzM+Y3CD28xv35HIZNirOiWBZd1SeDIMEoMtmQZUbeh/dyScoS6WHcYfZvfuVnLF
-         l30GBbn4ZFkijlBotTxrQy6FuLckDm/q90o18IuwXeKoCiE53Op5oZOPHRcSMkmv2X6o
-         7DXA==
-X-Gm-Message-State: AOAM531/UF6hnE9ULY+2NGSarAqSGUTvELI0ENGRJ9nLttyNmQ9gChFd
-        lrETxr5MKc04xZVM5Hrnv/4=
-X-Google-Smtp-Source: ABdhPJzP67ZWRLI7GmmRAITDoykQKNyfLMCsD4TWHd1AF7NTmZ+6ZneWGx6mX7S++nw3drnoK2JHSA==
-X-Received: by 2002:a17:902:6bcb:b029:127:9c65:f1fb with SMTP id m11-20020a1709026bcbb02901279c65f1fbmr8658316plt.64.1626289846990;
-        Wed, 14 Jul 2021 12:10:46 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:a7d1:b34b:7f4a:849b])
-        by smtp.gmail.com with ESMTPSA id p3sm4058304pgi.20.2021.07.14.12.10.45
+         :mime-version:content-disposition:in-reply-to;
+        bh=JdBJNAtYvBdjGt7vqYO3Z871VY9xVAV5SBNAA/ScJgk=;
+        b=Iz0cgX5Euf6vI1E3J5bIqggaazD8t9lDsiGC0rN8o1Rjm7+nSv3l59FbCHsP0w4OrK
+         nRI0bifTxroUwXoH/e0vxP9iSn/wy9oLJj1ohTM1pCIhz8jCFllCXMBQTXP4odGLgeON
+         V6QnF15g/UCKtdvlhAojKPcXbtIqDi9z636PzVpbPme8MWZhG2FvvXkNB+y1zKehoGvS
+         a14MzW0Sf6VxmIm2hsAE3kuY/NGFEwU+0KvfSbN012dKQmlpNvBb1Oz2Parn4Vg6+noT
+         ppEs/lGsV3crT+w/l30XSTRKy4+yAr5qsBqpzypmk7ztRqZFsZx5w/QQ17T6CrFi29sE
+         w9Bg==
+X-Gm-Message-State: AOAM532go0EjB+zaZnyfqQL1Lgl0tpeWFxlE8dYGGcFg86JZDlrEwAm0
+        aeDIOTMal+g+FtlxxekADA==
+X-Google-Smtp-Source: ABdhPJztT4eyiIkF00BNIDS67g07hFOMZlkoZzL0+Dum9aBnIYEwwjrOIduGi/sgiIaXyoV76PYBQA==
+X-Received: by 2002:a05:6638:1350:: with SMTP id u16mr4483881jad.19.1626292318228;
+        Wed, 14 Jul 2021 12:51:58 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id p21sm1853042iog.37.2021.07.14.12.51.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jul 2021 12:10:45 -0700 (PDT)
-Date:   Wed, 14 Jul 2021 12:10:43 -0700
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Linux Input <linux-input@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 5/5] bus: Make remove callback return void
-Message-ID: <YO82s5MC6HA8mL2Q@google.com>
-References: <20210713193522.1770306-1-u.kleine-koenig@pengutronix.de>
- <20210713193522.1770306-6-u.kleine-koenig@pengutronix.de>
+        Wed, 14 Jul 2021 12:51:57 -0700 (PDT)
+Received: (nullmailer pid 3286595 invoked by uid 1000);
+        Wed, 14 Jul 2021 19:51:54 -0000
+Date:   Wed, 14 Jul 2021 13:51:54 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Michael Srba <Michael.Srba@seznam.cz>,
+        Mark Brown <broonie@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        devicetree@vger.kernel.org, linux-input@vger.kernel.org,
+        phone-devel@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: input/ts/zinitix: Convert to YAML, fix
+ and extend
+Message-ID: <20210714195154.GA3286486@robh.at.kernel.org>
+References: <20210625113435.2539282-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210713193522.1770306-6-u.kleine-koenig@pengutronix.de>
+In-Reply-To: <20210625113435.2539282-1-linus.walleij@linaro.org>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jul 13, 2021 at 09:35:22PM +0200, Uwe Kleine-König wrote:
-> The driver core ignores the return value of this callback because there
-> is only little it can do when a device disappears.
+On Fri, 25 Jun 2021 13:34:34 +0200, Linus Walleij wrote:
+> This converts the Zinitix BT4xx and BT5xx touchscreen bindings to YAML, fix
+> them up a bit and extends them.
 > 
-> This is the final bit of a long lasting cleanup quest where several
-> buses were converted to also return void from their remove callback.
-> Additionally some resource leaks were fixed that were caused by drivers
-> returning an error code in the expectation that the driver won't go
-> away.
+> We list all the existing BT4xx and BT5xx components with compatible strings.
+> These are all similar, use the same bindings and work in similar ways.
 > 
-> With struct bus_type::remove returning void it's prevented that newly
-> implemented buses return an ignored error code and so don't anticipate
-> wrong expectations for driver authors.
+> We rename the supplies from the erroneous vdd/vddo to the actual supply
+> names vcca/vdd as specified on the actual component. It is long established
+> that supplies shall be named after the supply pin names of a component.
+> The confusion probably stems from that in a certain product the rails to the
+> component were named vdd/vddo. Drop some notes on how OS implementations should
+> avoid confusion by first looking for vddo, and if that exists assume the
+> legacy binding pair and otherwise use vcca/vdd.
+> 
+> Add reset-gpios as sometimes manufacturers pulls a GPIO line to the reset
+> line on the chip.
+> 
+> Add optional touchscreen-fuzz-x and touchscreen-fuzz-y properties.
+> 
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Michael Srba <Michael.Srba@seznam.cz>
+> Cc: phone-devel@vger.kernel.org
+> Cc: devicetree@vger.kernel.org
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+>  .../input/touchscreen/zinitix,bt400.yaml      | 115 ++++++++++++++++++
+>  .../bindings/input/touchscreen/zinitix.txt    |  40 ------
+>  2 files changed, 115 insertions(+), 40 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/input/touchscreen/zinitix,bt400.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/zinitix.txt
 > 
 
-...
-
->  drivers/input/gameport/gameport.c         | 3 +--
->  drivers/input/serio/serio.c               | 3 +--
-
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-
-Thanks.
-
--- 
-Dmitry
+Reviewed-by: Rob Herring <robh@kernel.org>
