@@ -2,221 +2,334 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F95D3C82B8
-	for <lists+linux-input@lfdr.de>; Wed, 14 Jul 2021 12:27:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0F7C3C841B
+	for <lists+linux-input@lfdr.de>; Wed, 14 Jul 2021 13:52:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237903AbhGNK3y (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Wed, 14 Jul 2021 06:29:54 -0400
-Received: from foss.arm.com ([217.140.110.172]:32948 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237703AbhGNK3w (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Wed, 14 Jul 2021 06:29:52 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3209A1042;
-        Wed, 14 Jul 2021 03:27:00 -0700 (PDT)
-Received: from bogus (unknown [10.57.79.213])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2FF633F774;
-        Wed, 14 Jul 2021 03:26:27 -0700 (PDT)
-Date:   Wed, 14 Jul 2021 11:25:29 +0100
-From:   Sudeep Holla <sudeep.holla@arm.com>
-To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        kernel@pengutronix.de, Sudeep Holla <sudeep.holla@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Alexandre Bounine <alex.bou9@gmail.com>,
-        Alex Dubov <oakad@yahoo.com>, Alex Elder <elder@kernel.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Alison Schofield <alison.schofield@intel.com>,
-        Allen Hubbe <allenbh@gmail.com>,
-        Andreas Noever <andreas.noever@gmail.com>,
-        Andy Gross <agross@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Ben Widawsky <ben.widawsky@intel.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Bodo Stroesser <bostroesser@gmail.com>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Cristian Marussi <cristian.marussi@arm.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Jiang <dave.jiang@intel.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        David Woodhouse <dwmw@amazon.co.uk>,
-        Dexuan Cui <decui@microsoft.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Dominik Brodowski <linux@dominikbrodowski.net>,
-        Finn Thain <fthain@linux-m68k.org>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Frank Li <lznuaa@gmail.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Geoff Levand <geoff@infradead.org>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Hannes Reinecke <hare@suse.de>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Harald Freudenberger <freude@linux.ibm.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Helge Deller <deller@gmx.de>, Ira Weiny <ira.weiny@intel.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Jason Wang <jasowang@redhat.com>,
-        Jens Taprogge <jens.taprogge@taprogge.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Joey Pabalan <jpabalanb@gmail.com>,
-        Johan Hovold <johan@kernel.org>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Johannes Thumshirn <morbidrsa@gmail.com>,
-        Jon Mason <jdmason@kudzu.us>, Juergen Gross <jgross@suse.com>,
-        Julien Grall <jgrall@amazon.com>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Kirti Wankhede <kwankhede@nvidia.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        "K. Y. Srinivasan" <kys@microsoft.com>,
-        Lee Jones <lee.jones@linaro.org>, Len Brown <lenb@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Manohar Vanga <manohar.vanga@gmail.com>,
-        Marc Zyngier <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
-        Mark Gross <mgross@linux.intel.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Martyn Welch <martyn@welchs.me.uk>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Matt Porter <mporter@kernel.crashing.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Maxim Levitsky <maximlevitsky@gmail.com>,
-        Michael Buesch <m@bues.ch>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michael Jamet <michael.jamet@intel.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Mike Christie <michael.christie@oracle.com>,
-        Moritz Fischer <mdf@kernel.org>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
-        Rich Felker <dalias@libc.org>,
-        Rikard Falkeborn <rikard.falkeborn@gmail.com>,
-        Rob Herring <robh@kernel.org>,
-        Russell King <linux@armlinux.org.uk>,
-        "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-        Samuel Holland <samuel@sholland.org>,
-        Samuel Iglesias Gonsalvez <siglesias@igalia.com>,
-        SeongJae Park <sjpark@amazon.de>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Stefan Richter <stefanr@s5r6.in-berlin.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Sven Van Asbroeck <TheSven73@gmail.com>,
-        Takashi Iwai <tiwai@suse.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thorsten Scherer <t.scherer@eckelmann.de>,
-        Tomas Winkler <tomas.winkler@intel.com>,
-        Tom Rix <trix@redhat.com>,
-        Tyrel Datwyler <tyreld@linux.ibm.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Vishal Verma <vishal.l.verma@intel.com>,
-        Wei Liu <wei.liu@kernel.org>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Wolfram Sang <wsa@kernel.org>, Wu Hao <hao.wu@intel.com>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        YueHaibing <yuehaibing@huawei.com>,
-        Yufen Yu <yuyufen@huawei.com>, alsa-devel@alsa-project.org,
-        dmaengine@vger.kernel.org, greybus-dev@lists.linaro.org,
-        industrypack-devel@lists.sourceforge.net, kvm@vger.kernel.org,
-        linux1394-devel@lists.sourceforge.net, linux-acpi@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, linux-cxl@vger.kernel.org,
-        linux-fpga@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-i3c@lists.infradead.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-media@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-ntb@googlegroups.com, linux-parisc@vger.kernel.org,
-        linux-pci@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-sunxi@lists.linux.dev,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, nvdimm@lists.linux.dev,
-        platform-driver-x86@vger.kernel.org, sparclinux@vger.kernel.org,
-        target-devel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        xen-devel@lists.xenproject.org,
-        Johannes Thumshirn <jth@kernel.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>
-Subject: Re: [PATCH v4 5/5] bus: Make remove callback return void
-Message-ID: <20210714102529.ehwquc2s2qlbccyg@bogus>
-References: <20210713193522.1770306-1-u.kleine-koenig@pengutronix.de>
- <20210713193522.1770306-6-u.kleine-koenig@pengutronix.de>
+        id S231173AbhGNLzY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Wed, 14 Jul 2021 07:55:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53524 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230467AbhGNLzX (ORCPT
+        <rfc822;linux-input@vger.kernel.org>);
+        Wed, 14 Jul 2021 07:55:23 -0400
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2327FC06175F
+        for <linux-input@vger.kernel.org>; Wed, 14 Jul 2021 04:52:32 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id 141so2978082ljj.2
+        for <linux-input@vger.kernel.org>; Wed, 14 Jul 2021 04:52:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=x5F+oiLoZDgz4n1rikeDdN1fS2gjJBwHi7b7Xx8hd2Y=;
+        b=tu3LQQpQWm9hHemK3WDPskwHFsqiNatU2JBezkXHuZOoP5vQs7YQ+aLoAnYKS9c9Pb
+         E7EkIMlCMEtTPPJzWP7ZoclgYgp3fAyROxZCsVTM7rJrckuD/XYvUlAD4lD1+vh8S/mC
+         KpQodgbuDyNJjg0IkFe3sessciisxqUq1B14mX944eEo6dAz56AyGBo5fPy448CCptMz
+         GruuFLf31niK/96X+L7q2YChqnUNF4AdpBt0g0v29cVHR37jkxymNsdKaGcXdGoOeS+a
+         /j+R8nQ9eW3wmUSbsLrVSCvGBaw3Q6ZfX+Xz1U8b/v9YUkZwhkx+ntMV3nk7ucik4KIJ
+         wpww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=x5F+oiLoZDgz4n1rikeDdN1fS2gjJBwHi7b7Xx8hd2Y=;
+        b=VKU/u6RpgYa85EdkaxBa7YWCQDRjIR44Phr84o2Y1g/4xDx3HIM3loLdiLhWBlGd7F
+         QJSfuFbaseRjy1N71UnbL0nTOab9x715n7/nQ7nKiVkqy0k3xcQsGKHCYxn4fOAcStUt
+         hyytPkqmj/gq2rdB6knyYqo8ne0WONZq8/xEAmys/f3u8sbratj/JTVlnMGq6q4HEFhS
+         N8O+3kbYIALY271FkNyeqc75ut2WDRx8/ni1/wERMGmOIO/YH3t4rvIx1Eu/VtJWkatz
+         /nh1GtIQptrbjloiP2cS3qxRcho+l0/hs9OeI3dikD8yU3ORns21njFW90RDsvO2wY/G
+         DLqg==
+X-Gm-Message-State: AOAM531LcfFHO6kVan6/w2VrmO4hjxjP9OAtB3HSTBFda1vb0ZdWIayY
+        XE9E5BRfKFlg2chX4Vp0F0YWRQ==
+X-Google-Smtp-Source: ABdhPJzviuQ881WlNasF73kT4/bmHr/DwxbZqLDNTVi89KYNPo+TmvjkUrOKLB8ZSxtE3sw2lVfUOw==
+X-Received: by 2002:a2e:868f:: with SMTP id l15mr8534711lji.420.1626263550439;
+        Wed, 14 Jul 2021 04:52:30 -0700 (PDT)
+Received: from localhost.localdomain (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
+        by smtp.gmail.com with ESMTPSA id z19sm147593lfq.241.2021.07.14.04.52.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Jul 2021 04:52:30 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>, Imre Kaloz <kaloz@openwrt.org>,
+        Krzysztof Halasa <khalasa@piap.pl>,
+        Alessandro Zummo <a.zummo@towertech.it>
+Subject: [PATCH] Input: ixp4xx-beeper - Delete driver
+Date:   Wed, 14 Jul 2021 13:50:28 +0200
+Message-Id: <20210714115028.916360-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210713193522.1770306-6-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Tue, Jul 13, 2021 at 09:35:22PM +0200, Uwe Kleine-König wrote:
-> The driver core ignores the return value of this callback because there
-> is only little it can do when a device disappears.
-> 
-> This is the final bit of a long lasting cleanup quest where several
-> buses were converted to also return void from their remove callback.
-> Additionally some resource leaks were fixed that were caused by drivers
-> returning an error code in the expectation that the driver won't go
-> away.
-> 
-> With struct bus_type::remove returning void it's prevented that newly
-> implemented buses return an ignored error code and so don't anticipate
-> wrong expectations for driver authors.
-> 
+The NSLU2 has been migrated to devicetree and there we use
+the gpio-beeper.c driver instead, the boardfile will be deleted
+for kernel v5.15 so drop this custom and now unneeded driver.
 
-[...]
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Imre Kaloz <kaloz@openwrt.org>
+Cc: Krzysztof Halasa <khalasa@piap.pl>
+Cc: Alessandro Zummo <a.zummo@towertech.it>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ drivers/input/misc/Kconfig         |  12 --
+ drivers/input/misc/Makefile        |   1 -
+ drivers/input/misc/ixp4xx-beeper.c | 208 -----------------------------
+ 3 files changed, 221 deletions(-)
+ delete mode 100644 drivers/input/misc/ixp4xx-beeper.c
 
-> diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
-> index 784cf0027da3..2682c3df651c 100644
-> --- a/drivers/firmware/arm_scmi/bus.c
-> +++ b/drivers/firmware/arm_scmi/bus.c
-> @@ -116,15 +116,13 @@ static int scmi_dev_probe(struct device *dev)
->  	return scmi_drv->probe(scmi_dev);
->  }
->  
-> -static int scmi_dev_remove(struct device *dev)
-> +static void scmi_dev_remove(struct device *dev)
->  {
->  	struct scmi_driver *scmi_drv = to_scmi_driver(dev->driver);
->  	struct scmi_device *scmi_dev = to_scmi_dev(dev);
->  
->  	if (scmi_drv->remove)
->  		scmi_drv->remove(scmi_dev);
-> -
-> -	return 0;
->  }
->  
->  static struct bus_type scmi_bus_type = {
+diff --git a/drivers/input/misc/Kconfig b/drivers/input/misc/Kconfig
+index 97f0455c2aee..ae01507b7afd 100644
+--- a/drivers/input/misc/Kconfig
++++ b/drivers/input/misc/Kconfig
+@@ -309,18 +309,6 @@ config INPUT_GPIO_VIBRA
+ 	  To compile this driver as a module, choose M here: the module will be
+ 	  called gpio-vibra.
+ 
+-config INPUT_IXP4XX_BEEPER
+-	tristate "IXP4XX Beeper support"
+-	depends on ARCH_IXP4XX || COMPILE_TEST
+-	help
+-	  If you say yes here, you can connect a beeper to the
+-	  ixp4xx gpio pins. This is used by the LinkSys NSLU2.
+-
+-	  If unsure, say Y.
+-
+-	  To compile this driver as a module, choose M here: the
+-	  module will be called ixp4xx-beeper.
+-
+ config INPUT_COBALT_BTNS
+ 	tristate "Cobalt button interface"
+ 	depends on MIPS_COBALT
+diff --git a/drivers/input/misc/Makefile b/drivers/input/misc/Makefile
+index f593beed7e05..2a0943507467 100644
+--- a/drivers/input/misc/Makefile
++++ b/drivers/input/misc/Makefile
+@@ -44,7 +44,6 @@ obj-$(CONFIG_HP_SDC_RTC)		+= hp_sdc_rtc.o
+ obj-$(CONFIG_INPUT_IMS_PCU)		+= ims-pcu.o
+ obj-$(CONFIG_INPUT_IQS269A)		+= iqs269a.o
+ obj-$(CONFIG_INPUT_IQS626A)		+= iqs626a.o
+-obj-$(CONFIG_INPUT_IXP4XX_BEEPER)	+= ixp4xx-beeper.o
+ obj-$(CONFIG_INPUT_KEYSPAN_REMOTE)	+= keyspan_remote.o
+ obj-$(CONFIG_INPUT_KXTJ9)		+= kxtj9.o
+ obj-$(CONFIG_INPUT_M68K_BEEP)		+= m68kspkr.o
+diff --git a/drivers/input/misc/ixp4xx-beeper.c b/drivers/input/misc/ixp4xx-beeper.c
+deleted file mode 100644
+index b31c04a9e683..000000000000
+--- a/drivers/input/misc/ixp4xx-beeper.c
++++ /dev/null
+@@ -1,208 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/*
+- * Generic IXP4xx beeper driver
+- *
+- * Copyright (C) 2005 Tower Technologies
+- *
+- * based on nslu2-io.c
+- *  Copyright (C) 2004 Karen Spearel
+- *
+- * Author: Alessandro Zummo <a.zummo@towertech.it>
+- * Maintainers: http://www.nslu2-linux.org/
+- */
+-
+-#include <linux/module.h>
+-#include <linux/input.h>
+-#include <linux/delay.h>
+-#include <linux/platform_device.h>
+-#include <linux/interrupt.h>
+-#include <linux/gpio.h>
+-
+-MODULE_AUTHOR("Alessandro Zummo <a.zummo@towertech.it>");
+-MODULE_DESCRIPTION("ixp4xx beeper driver");
+-MODULE_LICENSE("GPL");
+-MODULE_ALIAS("platform:ixp4xx-beeper");
+-
+-static DEFINE_SPINLOCK(beep_lock);
+-
+-static int ixp4xx_timer2_irq;
+-static void __iomem *ixp4xx_spkr_regs;
+-static int ixp4xx_spkr_timer_freq;
+-
+-#define IXP4XX_OSRT2_OFFSET		0x10 /* Timer 2 Reload */
+-#define IXP4XX_OSST_OFFSET		0x20 /* Timer Status */
+-
+-#define IXP4XX_OST_ENABLE		0x00000001
+-#define IXP4XX_OST_RELOAD_MASK		0x00000003
+-
+-#define IXP4XX_OSST_TIMER_2_PEND	0x00000002
+-
+-static void ixp4xx_spkr_control(unsigned int pin, unsigned int count)
+-{
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&beep_lock, flags);
+-
+-	if (count) {
+-		gpio_direction_output(pin, 0);
+-		__raw_writel((count & ~IXP4XX_OST_RELOAD_MASK) | IXP4XX_OST_ENABLE,
+-			     ixp4xx_spkr_regs + IXP4XX_OSRT2_OFFSET);
+-	} else {
+-		gpio_direction_output(pin, 1);
+-		gpio_direction_input(pin);
+-		__raw_writel(0, ixp4xx_spkr_regs + IXP4XX_OSRT2_OFFSET);
+-	}
+-
+-	spin_unlock_irqrestore(&beep_lock, flags);
+-}
+-
+-static int ixp4xx_spkr_event(struct input_dev *dev, unsigned int type, unsigned int code, int value)
+-{
+-	unsigned int pin = (unsigned int) input_get_drvdata(dev);
+-	unsigned int count = 0;
+-
+-	if (type != EV_SND)
+-		return -1;
+-
+-	switch (code) {
+-		case SND_BELL:
+-			if (value)
+-				value = 1000;
+-		case SND_TONE:
+-			break;
+-		default:
+-			return -1;
+-	}
+-
+-	if (value > 20 && value < 32767)
+-		count = (ixp4xx_spkr_timer_freq / (value * 4)) - 1;
+-
+-	ixp4xx_spkr_control(pin, count);
+-
+-	return 0;
+-}
+-
+-static irqreturn_t ixp4xx_spkr_interrupt(int irq, void *dev_id)
+-{
+-	unsigned int pin = (unsigned int) dev_id;
+-
+-	/* clear interrupt */
+-	__raw_writel(IXP4XX_OSST_TIMER_2_PEND, ixp4xx_spkr_regs + IXP4XX_OSST_OFFSET);
+-
+-	/* flip the beeper output */
+-	gpio_set_value(pin, !gpio_get_value(pin));
+-
+-	return IRQ_HANDLED;
+-}
+-
+-static int ixp4xx_spkr_probe(struct platform_device *dev)
+-{
+-	struct input_dev *input_dev;
+-	struct resource *res;
+-	int irq;
+-	int err;
+-
+-	input_dev = input_allocate_device();
+-	if (!input_dev)
+-		return -ENOMEM;
+-
+-	input_set_drvdata(input_dev, (void *) dev->id);
+-
+-	input_dev->name = "ixp4xx beeper";
+-	input_dev->phys = "ixp4xx/gpio";
+-	input_dev->id.bustype = BUS_HOST;
+-	input_dev->id.vendor  = 0x001f;
+-	input_dev->id.product = 0x0001;
+-	input_dev->id.version = 0x0100;
+-	input_dev->dev.parent = &dev->dev;
+-
+-	input_dev->evbit[0] = BIT_MASK(EV_SND);
+-	input_dev->sndbit[0] = BIT_MASK(SND_BELL) | BIT_MASK(SND_TONE);
+-	input_dev->event = ixp4xx_spkr_event;
+-
+-	irq = platform_get_irq(dev, 0);
+-	if (irq < 0) {
+-		err = irq;
+-		goto err_free_device;
+-	}
+-
+-	res = platform_get_resource(dev, IORESOURCE_MEM, 0);
+-	if (!res) {
+-		err = -ENXIO;
+-		goto err_free_device;
+-	}
+-	/* note: don't call request_mem_region because of conflict */
+-	ixp4xx_spkr_regs = devm_ioremap(&dev->dev, res->start, resource_size(res));
+-	if (!ixp4xx_spkr_regs) {
+-		err = -ENXIO;
+-		goto err_free_device;
+-	}
+-
+-	ixp4xx_spkr_timer_freq = (uintptr_t)dev_get_platdata(&dev->dev);
+-
+-	err = gpio_request(dev->id, "ixp4-beeper");
+-	if (err)
+-		goto err_free_device;
+-
+-	err = request_irq(irq, &ixp4xx_spkr_interrupt,
+-			  IRQF_NO_SUSPEND, "ixp4xx-beeper",
+-			  (void *) dev->id);
+-	if (err)
+-		goto err_free_gpio;
+-	ixp4xx_timer2_irq = irq;
+-
+-	err = input_register_device(input_dev);
+-	if (err)
+-		goto err_free_irq;
+-
+-	platform_set_drvdata(dev, input_dev);
+-
+-	return 0;
+-
+- err_free_irq:
+-	free_irq(irq, (void *)dev->id);
+- err_free_gpio:
+-	gpio_free(dev->id);
+- err_free_device:
+-	input_free_device(input_dev);
+-
+-	return err;
+-}
+-
+-static int ixp4xx_spkr_remove(struct platform_device *dev)
+-{
+-	struct input_dev *input_dev = platform_get_drvdata(dev);
+-	unsigned int pin = (unsigned int) input_get_drvdata(input_dev);
+-
+-	input_unregister_device(input_dev);
+-
+-	/* turn the speaker off */
+-	disable_irq(ixp4xx_timer2_irq);
+-	ixp4xx_spkr_control(pin, 0);
+-
+-	free_irq(ixp4xx_timer2_irq, (void *)dev->id);
+-	gpio_free(dev->id);
+-
+-	return 0;
+-}
+-
+-static void ixp4xx_spkr_shutdown(struct platform_device *dev)
+-{
+-	struct input_dev *input_dev = platform_get_drvdata(dev);
+-	unsigned int pin = (unsigned int) input_get_drvdata(input_dev);
+-
+-	/* turn off the speaker */
+-	disable_irq(ixp4xx_timer2_irq);
+-	ixp4xx_spkr_control(pin, 0);
+-}
+-
+-static struct platform_driver ixp4xx_spkr_platform_driver = {
+-	.driver		= {
+-		.name	= "ixp4xx-beeper",
+-	},
+-	.probe		= ixp4xx_spkr_probe,
+-	.remove		= ixp4xx_spkr_remove,
+-	.shutdown	= ixp4xx_spkr_shutdown,
+-};
+-module_platform_driver(ixp4xx_spkr_platform_driver);
+-
+-- 
+2.31.1
 
-Acked-by: Sudeep Holla <sudeep.holla@arm.com>
-
---
-Regards,
-Sudeep
