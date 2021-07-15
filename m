@@ -2,83 +2,124 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 18E6E3CAD7B
-	for <lists+linux-input@lfdr.de>; Thu, 15 Jul 2021 22:02:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05B3C3CAE0A
+	for <lists+linux-input@lfdr.de>; Thu, 15 Jul 2021 22:39:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239580AbhGOUFD (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 15 Jul 2021 16:05:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44658 "EHLO
+        id S237083AbhGOUmY (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 15 Jul 2021 16:42:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346146AbhGOUEg (ORCPT
+        with ESMTP id S236255AbhGOUmY (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Thu, 15 Jul 2021 16:04:36 -0400
-Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 521D3C04F962
-        for <linux-input@vger.kernel.org>; Thu, 15 Jul 2021 12:45:52 -0700 (PDT)
-Date:   Thu, 15 Jul 2021 21:45:49 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
-        s=mail; t=1626378350;
-        bh=XLx+C8EmGeUInQ8/g4lidS0Ph1eLMBWqE1keBI/qGOs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MD9B9AI8qmOQBxckkk8E3Y0tNNjWAw9P7jiLcYlb+q2o272BWjXGugDa9aVmjyScE
-         Vz3s/TtrqcrWpWxP6z5JakYuiguYAh9QL56a6qLZBM+dZ/HNEALMtliNT6aUeTC7Zo
-         WSJnuD4lT0luDq/uzl5lBeJSWQ8rhuw5qAfUJvK0=
-From:   Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+        Thu, 15 Jul 2021 16:42:24 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80614C06175F;
+        Thu, 15 Jul 2021 13:39:30 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id y4so6632816pfi.9;
+        Thu, 15 Jul 2021 13:39:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=AlufaE/uhtXpJS+X/Cv/4V7lXF/7VmTD9+u29xK53j4=;
+        b=WMkOTGATLrOKWgNXjdLG5Bd02p15Mv9Rt65nn2iAH5WKiK/nK3v1POvrH8bj1d5U5k
+         eiN06yyVW6UmSAVlvVogGbmqKhiP8EgFYiNnSGJiO57Zckwlbj7mwz/l6XkL44XozFLu
+         FuD2P3hWdepZc6s+nMxUAEF+4ave0lpkK3rRAzsH0BweeD78buL/8g0oAC1w/Y+/TMeY
+         OyRnG/9g2yPoOCsqptvAHL2w7ZLXbi7xXK5XyGAAX8QQKId2ssiXjjRNAvAFCP+p2jjJ
+         pcNdVwZXOeVp3V8ccMT2TCnRO07XFukbnjVglhT+GCiSMSIDLVwavehDhBCbqbgHCNCJ
+         cboA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=AlufaE/uhtXpJS+X/Cv/4V7lXF/7VmTD9+u29xK53j4=;
+        b=lT17t0rHQ7ziJxXJ8/3KFX9PKGRjd72pFy5cyUy4sW0DneAEzvJ2Rdqx5Ql5hVN5n5
+         lpEHIral3qI1dslzELtbDbdJGeMJXnSb522kb9dTv3P0X4WeIXkzd92UhTCM/8aZg2RC
+         vrK3yx4OIAMWx1x9an8FWA6jGjii4+LZWDplAjpbA25j6CUT9mVM1gs0M71cugqL//uO
+         IFkLeCkXJzdAj7d8F+ISlwqanwdkZPKFTuGZ0XtEFRp0Dpmf54yU+KHh0nhENNi3we/3
+         K7s1RNPQmZ9doAc1d9vvyTrn/2dg1niKNiv+W8zUm2dViOK3bGxiBbO/pZ9lMpwgTKSW
+         G9Dw==
+X-Gm-Message-State: AOAM5301ElUaKVZxU00+n7TGdd7NXPR8Kyi9TEeaCPG+AxC0XgbwGDgl
+        tyPBgC6zIvFD+KWZTY+OW1A=
+X-Google-Smtp-Source: ABdhPJyBxF680f6wW7jw2RGmcltUb3M8jWjlKmoX0ibfr7N5zAVVXNLcEMVdMH7PUcEtwX5M3uNrQA==
+X-Received: by 2002:a63:6644:: with SMTP id a65mr6296216pgc.431.1626381569951;
+        Thu, 15 Jul 2021 13:39:29 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:5ddb:aee3:1e4b:38])
+        by smtp.gmail.com with ESMTPSA id d13sm7353266pfn.136.2021.07.15.13.39.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Jul 2021 13:39:28 -0700 (PDT)
+Date:   Thu, 15 Jul 2021 13:39:26 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To:     Jiri Kosina <jikos@kernel.org>
 Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.or
-Subject: Re: [PATCH] HID: add cmedia-fixup driver
-Message-ID: <a769ae40-6d0c-47c4-803f-2c8dbc362f24@t-8ch.de>
-References: <20210704104906.78490-1-linux@weissschuh.net>
- <nycvar.YFH.7.76.2107152059330.8253@cbobk.fhfr.pm>
- <2f89257c-b074-45ed-8103-e3e70db2c1c6@t-8ch.de>
- <nycvar.YFH.7.76.2107152114020.8253@cbobk.fhfr.pm>
+        Maxim Mikityanskiy <maxtram95@gmail.com>,
+        linux-leds@vger.kernel.org, Daniel Kurtz <djkurtz@chromium.org>,
+        Oliver Neukum <oneukum@suse.de>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/6] HID: hid-input: Add offhook and ring LEDs for
+ headsets
+Message-ID: <YPCc/k89XNTmeKVo@google.com>
+References: <20210703220202.5637-1-maxtram95@gmail.com>
+ <20210703220202.5637-2-maxtram95@gmail.com>
+ <CAO-hwJJxJqgW6CGPmvL41teh6vgWfSg55qoXWL3TjQx+mvsbHg@mail.gmail.com>
+ <nycvar.YFH.7.76.2107152057230.8253@cbobk.fhfr.pm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <nycvar.YFH.7.76.2107152114020.8253@cbobk.fhfr.pm>
+In-Reply-To: <nycvar.YFH.7.76.2107152057230.8253@cbobk.fhfr.pm>
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Do, 2021-07-15T21:14+0200, Jiri Kosina wrote:
-> On Thu, 15 Jul 2021, Thomas Weißschuh wrote:
+On Thu, Jul 15, 2021 at 08:57:44PM +0200, Jiri Kosina wrote:
+> On Tue, 6 Jul 2021, Benjamin Tissoires wrote:
 > 
-> > > > This driver provides HID fixups for CMedia audio chips.
-> > > > For now this enables the recognition of the microphone mute button for the
-> > > > HS-100B.
-> > > > 
-> > > > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> > > > ---
-> > > >  drivers/hid/Kconfig            |  6 +++
-> > > >  drivers/hid/Makefile           |  1 +
-> > > >  drivers/hid/hid-cmedia-fixup.c | 82 ++++++++++++++++++++++++++++++++++
-> > > >  drivers/hid/hid-ids.h          |  1 +
-> > > >  drivers/hid/hid-quirks.c       |  3 ++
-> > > >  5 files changed, 93 insertions(+)
-> > > >  create mode 100644 drivers/hid/hid-cmedia-fixup.c
-> > > 
-> > > Can you please drop the '-fixup' from the driver name? We have quite a 
-> > > couple of drivers that do report descriptor modifications, but we're not 
-> > > using this '-fixup' naming scheme for them either.
+> > > A lot of USBHID headsets available on the market have LEDs that indicate
+> > > ringing and off-hook states when used with VoIP applications. This
+> > > commit exposes these LEDs via the standard sysfs interface.
+> > >
+> > > Signed-off-by: Maxim Mikityanskiy <maxtram95@gmail.com>
+> > > ---
+> > >  drivers/hid/hid-input.c                | 2 ++
+> > >  drivers/input/input-leds.c             | 2 ++
+> > >  include/uapi/linux/input-event-codes.h | 2 ++
+> > >  3 files changed, 6 insertions(+)
+> > >
+> > > diff --git a/drivers/hid/hid-input.c b/drivers/hid/hid-input.c
+> > > index 4286a51f7f16..44b8243f9924 100644
+> > > --- a/drivers/hid/hid-input.c
+> > > +++ b/drivers/hid/hid-input.c
+> > > @@ -798,6 +798,8 @@ static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_fiel
+> > >                 case 0x4b:  map_led (LED_MISC);     break;    /*   "Generic Indicator"        */
+> > >                 case 0x19:  map_led (LED_MAIL);     break;    /*   "Message Waiting"          */
+> > >                 case 0x4d:  map_led (LED_CHARGING); break;    /*   "External Power Connected" */
+> > > +               case 0x17:  map_led (LED_OFFHOOK);  break;    /*   "Off-Hook"                 */
+> > > +               case 0x18:  map_led (LED_RING);     break;    /*   "Ring"                     */
+> > >
+> > >                 default: goto ignore;
+> > >                 }
+> > > diff --git a/drivers/input/input-leds.c b/drivers/input/input-leds.c
+> > > index 0b11990ade46..bc6e25b9af25 100644
+> > > --- a/drivers/input/input-leds.c
+> > > +++ b/drivers/input/input-leds.c
+> > > @@ -33,6 +33,8 @@ static const struct {
+> > >         [LED_MISC]      = { "misc" },
+> > >         [LED_MAIL]      = { "mail" },
+> > >         [LED_CHARGING]  = { "charging" },
+> > > +       [LED_OFFHOOK]   = { "offhook" },
 > > 
-> > There is already an existing driver "hid-cmedia":
-> > "HID driver for CMedia CM6533 audio jack controls".
-> > 
-> > This driver works in a completely different way from mine, so I thought 
-> > to keep them separate. The idea was for the new driver to be a 
-> > collection of simple, similar report fixups.
-> > 
-> > Should they be combined?
+> > I am pretty sure this also needs to be reviewed by the led folks.
+> > Adding them in Cc.
 > 
-> If it's the same vendor, then yes. We generally (with exceptions, of 
-> course :) ) group the HID drivers by vendor, even if completely different 
-> quirks are needed for different devices from the same vendor.
+> Can we please get Ack from the LED maintainers? Thanks.
 
-Will do.
+I do not think we should be adding more LED bits to the input
+subsystem/events; this functionality should be routed purely though LED
+subsystem. input-leds is a bridge for legacy input functionality
+reflecting it onto the newer LED subsystem.
 
-Should I merge it into the existing `struct hid_driver` and do id checks in
-every member function or declare a dedicated `struct hid_driver`?
+Thanks.
 
-Thanks!
+-- 
+Dmitry
