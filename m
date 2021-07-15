@@ -2,37 +2,39 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C1243CA7B4
-	for <lists+linux-input@lfdr.de>; Thu, 15 Jul 2021 20:53:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 776193CA7F4
+	for <lists+linux-input@lfdr.de>; Thu, 15 Jul 2021 20:54:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241865AbhGOSz5 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Thu, 15 Jul 2021 14:55:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59012 "EHLO mail.kernel.org"
+        id S241350AbhGOS5Q (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Thu, 15 Jul 2021 14:57:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32942 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241889AbhGOSyj (ORCPT <rfc822;linux-input@vger.kernel.org>);
-        Thu, 15 Jul 2021 14:54:39 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E8178613C4;
-        Thu, 15 Jul 2021 18:51:44 +0000 (UTC)
+        id S242071AbhGOS4s (ORCPT <rfc822;linux-input@vger.kernel.org>);
+        Thu, 15 Jul 2021 14:56:48 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0EA8A613CC;
+        Thu, 15 Jul 2021 18:53:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1626375106;
-        bh=szkVf8VkFhpsu4g2RfO3cWKYx15qXcEHUrQf1gZVuSc=;
+        s=k20201202; t=1626375235;
+        bh=pQlmsw5zGtMZ6o2KG+Z4LY6W600ov5/ynMNtRf6FIo4=;
         h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=I+KseXXFVkAI6iRsrO6p00SQfeIODEVfHNgDKPpFMo+QRwTe9a/5QrQqX0YxKJbN5
-         ClN+5l6BaxqIU+tOZNTqZooTsvzsq4kjb0kwCtgKGA5YJ6scea/Ym1TpSZXqvNNmsk
-         6WDXGY+xm0Y+t1Ve4mYle3PuG/XOQKVkCCrKh/b35FMJaTIHRU/MgFoZpTq5VA4BxT
-         tATYrpkbLttt+k1VNJa/wBHsuFfy2M81d+1cMnkzI/jRCOmqpJiQcVOulSHi+Aswqv
-         LPcNqJAreoNsoBIsguGwdIXv2PtYAgRx0gB8zePArT/g0dmsPO+YIVOFZU1EwDZFxY
-         7Qgq1GHeshA5A==
-Date:   Thu, 15 Jul 2021 20:51:43 +0200 (CEST)
+        b=QOjslq6eJRhkQnCIw0tR9LOVKr5CP9AmTHR+j04r6H5tZVYPGz40MbJE+jnG8Cx6y
+         RmdDqQAmLv/k2JHHy2UCLbzhuVz+4g3o3WQqjBrrYG0YhkvvgufVvSzecX1Nz6yqhv
+         XkS9gpilUQRLlb+5x9+ntR0jgtNvyDFvbJAN1DX1Oe5cBJKZ9ysgwC+UimP3AjNDCn
+         UuSzp12zBN5dbNV0spOekuGq86BQglttXjgpkgTxZBLXTG22wmGAmdjLMriJzfGOCv
+         YylBgON3Dhg4MQ5Qbf8RduYoBdx7/jt5yXPC/oDG0XMfcDCV5BX88v7VW1vbVc4f0L
+         wd6bhTbIVlwvA==
+Date:   Thu, 15 Jul 2021 20:53:51 +0200 (CEST)
 From:   Jiri Kosina <jikos@kernel.org>
-To:     Ye Xiang <xiang.ye@intel.com>
-cc:     jic23@kernel.org, srinivas.pandruvada@linux.intel.com,
-        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] HID: intel-ish-hid: use async resume function
-In-Reply-To: <20210613032507.7474-1-xiang.ye@intel.com>
-Message-ID: <nycvar.YFH.7.76.2107152051340.8253@cbobk.fhfr.pm>
-References: <20210613032507.7474-1-xiang.ye@intel.com>
+To:     "Daniel J. Ogorchock" <djogorchock@gmail.com>
+cc:     linux-input@vger.kernel.org, thunderbird2k@gmail.com,
+        blaws05@gmail.com, benjamin.tissoires@redhat.com,
+        Roderick.Colenbrander@sony.com, svv@google.com, s.jegen@gmail.com,
+        carmueller@gmail.com, pgriffais@valvesoftware.com,
+        hadess@hadess.net
+Subject: Re: [PATCH v13 00/15] HID: nintendo
+In-Reply-To: <20210520224715.680919-1-djogorchock@gmail.com>
+Message-ID: <nycvar.YFH.7.76.2107152053100.8253@cbobk.fhfr.pm>
+References: <20210520224715.680919-1-djogorchock@gmail.com>
 User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -40,22 +42,17 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Sun, 13 Jun 2021, Ye Xiang wrote:
+On Thu, 20 May 2021, Daniel J. Ogorchock wrote:
 
-> ISH IPC driver uses asynchronous workqueue to do resume now, but there is
-> a potential timing issue: when child devices resume before bus driver, it
-> will cause child devices resume failed and cannot be recovered until
-> reboot. The current implementation in this case do wait for IPC to resume
-> but fail to accommodate for a case when there is no ISH reboot and soft
-> resume is taking time. This issue is apparent on Tiger Lake platform with
-> 5.11.13 kernel when doing suspend to idle then resume(s0ix) test. To
-> resolve this issue, we change ISHTP HID client to use asynchronous resume
-> callback too. In the asynchronous resume callback, it waits for the ISHTP
-> resume done event, and then notify ISHTP HID client link ready.
-> 
-> Signed-off-by: Ye Xiang <xiang.ye@intel.com>
+> I've neglected updating this for awhile. Not much has changed in this
+> revision. It has a couple bug fixes caught in the prior rev in addition
+> to altering how rumble is handled
 
-Applied, thank you.
+I have gone through this series, and haven't found anything outstanding, 
+so unless anyone voices any objections immediately, I am planning to queue 
+it for 5.15.
+
+Thanks,
 
 -- 
 Jiri Kosina
