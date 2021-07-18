@@ -2,284 +2,110 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE4853CC67E
-	for <lists+linux-input@lfdr.de>; Sat, 17 Jul 2021 23:39:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A14C3CC9C8
+	for <lists+linux-input@lfdr.de>; Sun, 18 Jul 2021 17:46:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233853AbhGQVll (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Sat, 17 Jul 2021 17:41:41 -0400
-Received: from mail-40133.protonmail.ch ([185.70.40.133]:56400 "EHLO
-        mail-40133.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232077AbhGQVlk (ORCPT
+        id S234091AbhGRPtU (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Sun, 18 Jul 2021 11:49:20 -0400
+Received: from mail-io1-f69.google.com ([209.85.166.69]:54061 "EHLO
+        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234042AbhGRPtS (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Sat, 17 Jul 2021 17:41:40 -0400
-Date:   Sat, 17 Jul 2021 21:38:31 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=connolly.tech;
-        s=protonmail; t=1626557921;
-        bh=LCLMKFnO7TvI6Bx3wiF64fZ45WT+b2LT5S9wOpPgDac=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=bxU2nGMqY/sv3aFzrw92jHVnGa1ELjGQJrVmZdMf+cqTN+0zGgfe+jC505pdmZ2ad
-         USF53FQgEiSdwIprHGn47f6RhHk1LWFBWfyDJxs60QhJxU44arjjLX6JztSZsgJKpj
-         5cS35qRrJ+5Q0Hkr1J/8f1eESw7KW1/Wtno3qlXM=
-To:     Rob Herring <robh@kernel.org>
-From:   Caleb Connolly <caleb@connolly.tech>
-Cc:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, jami.kettunen@somainline.org,
-        jo@jsfamily.in, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Reply-To: Caleb Connolly <caleb@connolly.tech>
-Subject: Re: [RESEND PATCH v2 1/6] dt-bindings: input: add Qualcomm SPMI haptics driver
-Message-ID: <25d5bce7-401f-f1d5-207f-784e0780c5e0@connolly.tech>
-In-Reply-To: <20210622155837.GA3746854@robh.at.kernel.org>
-References: <20210618175041.323495-1-caleb@connolly.tech> <20210618175041.323495-2-caleb@connolly.tech> <20210622155837.GA3746854@robh.at.kernel.org>
+        Sun, 18 Jul 2021 11:49:18 -0400
+Received: by mail-io1-f69.google.com with SMTP id c18-20020a5d9a920000b0290515fa57d24aso10403372iom.20
+        for <linux-input@vger.kernel.org>; Sun, 18 Jul 2021 08:46:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=3BTWT7hOTOoutziemX0GlZm4ft3GIKdnYK170YdXmDk=;
+        b=CbTbp3GFf8xbrU+0Yi/8K5X6vGMuwHzVgrTny3YPxaMHzk/cq3KpdwnFUsOSNfG97h
+         dNleGSX7G5L9vou2iA/J0mepkOGFZIcFFfCZYuRB5be/KxLcq7gQszrUqxd1HiDIedpW
+         UIS5ib4PIR+XdjHJFpNMSPElNm2WjI+xB9Lo2xWKZbyaeiiXNba66WJKQvj0o9NQioZ9
+         Q4f5FQuxcJBLrKZp7Ur+pmWnq2Yx+gRLZf46IU1s72AJtnYUvnTrmcX6o111vYTYpowv
+         yHsi9IBVAZKKSoCO/GK8L+zzytaPkmVTuyubYSCefAl8uUlng6MY1t96ob/+ACqMojge
+         WBJQ==
+X-Gm-Message-State: AOAM530MFsuLBlC0w/Guw6m5EUaNDlyJSPCHBRAhHw4TQG9O1ubM4oqu
+        Ojxgh6k653XZGyYphuMQ+SJJ0gnkeXS5n9LoxbtRmyVXIRVV
+X-Google-Smtp-Source: ABdhPJxxjcNkJfLc/19iCekAmSQTCZ0At/ztzraN5OxSKXhe6pIuPgcfxEjJ+pVXWIYItwRnUKm2DmNLtBmfiKy3YWaMVI60jNjn
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-        mailout.protonmail.ch
+X-Received: by 2002:a92:cf48:: with SMTP id c8mr4985606ilr.237.1626623180239;
+ Sun, 18 Jul 2021 08:46:20 -0700 (PDT)
+Date:   Sun, 18 Jul 2021 08:46:20 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000d77b6505c767b8f8@google.com>
+Subject: [syzbot] WARNING in hid_submit_ctrl/usb_submit_urb
+From:   syzbot <syzbot+9b57a46bf1801ce2a2ca@syzkaller.appspotmail.com>
+To:     benjamin.tissoires@redhat.com, jikos@kernel.org,
+        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-Hi Rob,
+Hello,
 
-Thanks a lot for your feedback.
+syzbot found the following issue on:
 
-I'm still struggling a little to get my head around schema, would you
-mind clarifying a few things?
+HEAD commit:    dd9c7df94c1b Merge branch 'akpm' (patches from Andrew)
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14a9f66a300000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=f1b998c1afc13578
+dashboard link: https://syzkaller.appspot.com/bug?extid=9b57a46bf1801ce2a2ca
+userspace arch: i386
 
-On 22/06/2021 16:58, Rob Herring wrote:
-> On Fri, Jun 18, 2021 at 05:51:03PM +0000, Caleb Connolly wrote:
->> Add bindings for qcom PMIC SPMI haptics driver.
->>
->> Signed-off-by: Caleb Connolly <caleb@connolly.tech>
->> ---
->>   .../bindings/input/qcom,spmi-haptics.yaml     | 128 ++++++++++++++++++
->>   include/dt-bindings/input/qcom,spmi-haptics.h |  32 +++++
->>   2 files changed, 160 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/input/qcom,spmi-h=
-aptics.yaml
->>   create mode 100644 include/dt-bindings/input/qcom,spmi-haptics.h
->>
->> diff --git a/Documentation/devicetree/bindings/input/qcom,spmi-haptics.y=
-aml b/Documentation/devicetree/bindings/input/qcom,spmi-haptics.yaml
->> new file mode 100644
->> index 000000000000..8ef9b4ec3a07
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/input/qcom,spmi-haptics.yaml
->> @@ -0,0 +1,128 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +# Copyright 2020 Unisoc Inc.
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/input/qcom,spmi-haptics.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Qualcomm Technologies Inc PMI8998 spmi haptics
->> +
->> +maintainers:
->> +  - Caleb Connolly <caleb@connolly.tech>
->> +
->> +description: |
->> +  Qualcomm SPMI haptics is a peripheral on some QTI PMICs. It supports =
-linear resonant
->> +  actuators and eccentric rotating mass type haptics commonly found in =
-mobile devices.
->> +  It supports multiple sources of wave data such as an internal buffer,=
- direct play
->> +  (from kernel or userspace) as well as an audio output mode.
->> +
->> +properties:
->> +  compatible:
->> +    items:
->> +      - enum:
->> +        - qcom,pmi8998-haptics
->> +        - qcom,pmi8996-haptics
->> +        - qcom,pmi8941-haptics
->> +      - const: qcom,spmi-haptics
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  interrupts:
->> +    items:
->> +      - description: short circuit interrupt
->> +      - description: play interrupt
->> +
->> +  interrupt-names:
->> +    items:
->> +      - const: short
->> +      - const: play
->> +
->> +  qcom,actuator-type:
->> +    description: |
->> +      The type of actuator attached to the hardware.
->> +      Allowed values are,
->> +        0 - HAP_TYPE_LRA
->> +        1 - HAP_TYPE_ERM
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    enum: [ 0, 1 ]
->> +    default: 0
->> +
->> +  qcom,wave-shape:
->> +    description: |
->> +      Selects the wave shape to use.
->> +      Allowed values are,
->> +        0 - HAP_WAVE_SINE
->> +        1 - HAP_WAVE_SQUARE
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    enum: [ 0, 1 ]
->> +    default: 0
->> +
->> +  qcom,play-mode:
->> +    description: |
->> +      Selects the play mode to use.
->> +      Allowed values are,
->> +        0 - HAP_PLAY_DIRECT
->> +        1 - HAP_PLAY_BUFFER
->> +        2 - HAP_PLAY_AUDIO
->> +        3 - HAP_PLAY_PWM
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    enum: [ 0, 1, 2, 3 ]
->> +    default: 2
->> +
->> +  qcom,wave-play-rate-us:
->> +    description: |
->> +      Wave sample durection in microseconds, 1/f where f
->> +      is the resonant frequency of the actuator.
->> +    $ref: /schemas/types.yaml#/definitions/uint32
-> Don't need a type for standard units.
->
->> +    minimum: 0
->> +    maximum: 20475
->> +
->> +  qcom,brake-pattern:
->> +    minItems: 4
->> +    maxItems: 4
->> +    description: |
->> +      The brake pattern are the strengths of the pattern
->> +      used to brake the haptics. Allowed values are,
->> +        0 - 0V
->> +        1 - Vmax/4
->> +        2 - Vmax/2
->> +        3 - Vmax
->> +    $ref: /schemas/types.yaml#/definitions/uint32-array
->> +    default: [0x3, 0x3, 0x2, 0x1]
-> To express the constraints on all items:
->
-> items:
->    enum: [ 0, 1, 2, 3 ]
->
-> (items is a schema here rather than a list)
+Unfortunately, I don't have any reproducer for this issue yet.
 
-Ah, that's exactly what I was looking for! Should I replace one of the
-other properties with this?
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+9b57a46bf1801ce2a2ca@syzkaller.appspotmail.com
 
-Or should I just add it to the list?
-
->
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - interrupts
->> +  - qcom,wave-play-rate-us
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/spmi/spmi.h>
->> +    #include <dt-bindings/interrupt-controller/irq.h>
->> +    #include <dt-bindings/input/qcom,spmi-haptics.h>
->> +
->> +    pmi8998_lsid1: pmic@3 {
-> Drop unused labels.
->
->> +      compatible =3D "qcom,pmi8998", "qcom,spmi-pmic";
-> Really, this needs to be converted to schema first so we're not adding
-> warnings.
-
-Hmm, is it ok to leave this here? I had a look at converting the spmi-pmic
-
-bindings to schema but it's a bit beyond me in all honestly.
-
->
->> +      reg =3D <0x3 SPMI_USID>;
->> +      #address-cells =3D <1>;
->> +      #size-cells =3D <0>;
->> +
->> +      pmi8998_haptics: haptics@c000 {
->> +        compatible =3D "qcom,pmi8998-haptics", "qcom,spmi-haptics";
->> +        reg =3D <0xc000>;
->> +
->> +        interrupts =3D <0x3 0xc0 0x0 IRQ_TYPE_EDGE_BOTH>,
->> +                     <0x3 0xc0 0x1 IRQ_TYPE_EDGE_BOTH>;
->> +        interrupt-names =3D "short", "play";
->> +
->> +        qcom,wave-shape =3D <HAP_WAVE_SINE>;
->> +        qcom,play-mode =3D <HAP_PLAY_BUFFER>;
->> +        qcom,brake-pattern =3D <0x3 0x3 0x2 0x1>;
->> +
->> +        status =3D "disabled";
-> Don't show status in examples.
->
->> +      };
->> +    };
->> diff --git a/include/dt-bindings/input/qcom,spmi-haptics.h b/include/dt-=
-bindings/input/qcom,spmi-haptics.h
->> new file mode 100644
->> index 000000000000..14a7e7d1471e
->> --- /dev/null
->> +++ b/include/dt-bindings/input/qcom,spmi-haptics.h
->> @@ -0,0 +1,32 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only */
-> Dual license please. DT files are used elsewhere.
-Will do.
->
->> +/*
->> + * This header provides constants for pmi8998 SPMI haptics options.
->> + */
->> +
->> +#ifndef _DT_BINDINGS_QCOM_PMIC_SPMI_HAPTICS_
->> +#define _DT_BINDINGS_QCOM_PMIC_SPMI_HAPTICS_
->> +
->> +// Actuator types
->> +#define HAP_TYPE_LRA=09=090
->> +#define HAP_TYPE_ERM=09=091
->> +
->> +// LRA Wave type
->> +#define HAP_WAVE_SINE=09=090
->> +#define HAP_WAVE_SQUARE=09=091
->> +
->> +// Play modes
->> +#define HAP_PLAY_DIRECT=09=090
->> +#define HAP_PLAY_BUFFER=09=091
->> +#define HAP_PLAY_AUDIO=09=092
->> +#define HAP_PLAY_PWM=09=093
->> +
->> +#define HAP_PLAY_MAX=09=09HAP_PLAY_PWM
->> +
->> +// Auto resonance type
->> +#define HAP_AUTO_RES_NONE=090
->> +#define HAP_AUTO_RES_ZXD=091
->> +#define HAP_AUTO_RES_QWD=092
->> +#define HAP_AUTO_RES_MAX_QWD=093
->> +#define HAP_AUTO_RES_ZXD_EOP=094
->> +
->> +#endif /* _DT_BINDINGS_QCOM_PMIC_SPMI_HAPTICS_ */
->> --
->> 2.31.1
->>
->>
->>
-Kind Regards,
-
-Caleb
+------------[ cut here ]------------
+usb 7-1: BOGUS control dir, pipe 80000280 doesn't match bRequestType a1
+WARNING: CPU: 0 PID: 15508 at drivers/usb/core/urb.c:410 usb_submit_urb+0x149d/0x18a0 drivers/usb/core/urb.c:410
+Modules linked in:
+CPU: 0 PID: 15508 Comm: syz-executor.2 Not tainted 5.14.0-rc1-syzkaller #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
+RIP: 0010:usb_submit_urb+0x149d/0x18a0 drivers/usb/core/urb.c:410
+Code: 7c 24 40 e8 a5 e9 1f fc 48 8b 7c 24 40 e8 db 25 0c ff 45 89 e8 44 89 f1 4c 89 e2 48 89 c6 48 c7 c7 60 96 27 8a e8 e4 b2 91 03 <0f> 0b e9 a5 ee ff ff e8 77 e9 1f fc 0f b6 1d 37 2e 02 08 31 ff 41
+RSP: 0018:ffffc900021cfb88 EFLAGS: 00010082
+RAX: 0000000000000000 RBX: ffff8880786df058 RCX: 0000000000000000
+RDX: 0000000000040000 RSI: ffffffff815d6855 RDI: fffff52000439f63
+RBP: ffff88804a27bbe0 R08: 0000000000000000 R09: 0000000000000000
+R10: ffffffff815d068e R11: 0000000000000000 R12: ffff8880168a42a8
+R13: 00000000000000a1 R14: 0000000080000280 R15: ffff888029c86f00
+FS:  0000000000000000(0000) GS:ffff88802ca00000(0063) knlGS:00000000f558cb40
+CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
+CR2: 00000000f5580db0 CR3: 0000000077c36000 CR4: 0000000000150ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ hid_submit_ctrl+0x6ec/0xd80 drivers/hid/usbhid/hid-core.c:416
+ usbhid_restart_ctrl_queue.isra.0+0x244/0x3a0 drivers/hid/usbhid/hid-core.c:258
+ __usbhid_submit_report+0x6f0/0xd50 drivers/hid/usbhid/hid-core.c:603
+ usbhid_submit_report drivers/hid/usbhid/hid-core.c:640 [inline]
+ usbhid_init_reports+0x16e/0x3b0 drivers/hid/usbhid/hid-core.c:784
+ hiddev_ioctl+0x10d4/0x1630 drivers/hid/usbhid/hiddev.c:794
+ compat_ptr_ioctl+0x67/0x90 fs/ioctl.c:1105
+ __do_compat_sys_ioctl+0x1c7/0x290 fs/ioctl.c:1167
+ do_syscall_32_irqs_on arch/x86/entry/common.c:112 [inline]
+ __do_fast_syscall_32+0x65/0xf0 arch/x86/entry/common.c:178
+ do_fast_syscall_32+0x2f/0x70 arch/x86/entry/common.c:203
+ entry_SYSENTER_compat_after_hwframe+0x4d/0x5c
+RIP: 0023:0xf7fb3549
+Code: 03 74 c0 01 10 05 03 74 b8 01 10 06 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 8d b4 26 00 00 00 00 8d b4 26 00 00 00 00
+RSP: 002b:00000000f558c5fc EFLAGS: 00000296 ORIG_RAX: 0000000000000036
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00000000c018480d
+RDX: 0000000020000080 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
 
 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
