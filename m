@@ -2,145 +2,133 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 787EA3CF01A
-	for <lists+linux-input@lfdr.de>; Tue, 20 Jul 2021 01:39:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9B753CF5A8
+	for <lists+linux-input@lfdr.de>; Tue, 20 Jul 2021 10:03:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344988AbhGSW6D (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Mon, 19 Jul 2021 18:58:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60734 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346541AbhGSUPS (ORCPT
+        id S229922AbhGTHU4 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Jul 2021 03:20:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53573 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229726AbhGTHU4 (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Mon, 19 Jul 2021 16:15:18 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0803C0613DE
-        for <linux-input@vger.kernel.org>; Mon, 19 Jul 2021 13:54:23 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id y4so17641331pfi.9
-        for <linux-input@vger.kernel.org>; Mon, 19 Jul 2021 13:55:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Hj7k29MxTKJQR8WxrFkV2bIJPSosFcmcW1WgKY1tqjI=;
-        b=SeMUAORWeR37L9hAKVh04ZZtqfngg0+FwYygl+wElRodajScCu48l87eeIOilPPUzg
-         qe/N24+GDpKj0r9DUofAmTPRGyTmV3vI0b1yDg/aquLuDy6WljRK8pNjuU3i+EmvQGbo
-         dwT/hAOBbLXXhza/wPn8z5VERDKhXv4shMTsM7J2lE/5LAKffKeFJCz81pU+TSiqWAyo
-         ojibVU3YX9haf9L9ENRhYb6Bq6jL5/fGbg/jm+fTm/SI3UGVPls+TLcUnfbaRfeUiEh+
-         +FvlJKrBH/zlWD/B7Gl2wjL5GCJ8/DmzduPTefzHfMD3Jdy6ZODQgqYgIw4nG/KtvlXO
-         jEtQ==
+        Tue, 20 Jul 2021 03:20:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1626768094;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=LTrV5RbVeDNyG1pYgWpiiRkaajyN4AH34gq6Sc1Ja5U=;
+        b=NnU2ZAi7Fgxdq1HPF8do9QLB25YnmCnNYvVftLS/Zw6RvH/lizgAfEvds++Jy7YiLXW1EL
+        P4RtDsN9QAlyHWY26MJtDEsDGeR4eLE67jvgKr5hjqaV2IhxkuWzkKREEsNWZYZLG8eCti
+        A9Yet7Zfi1+LfEfoQSCTY8nyxI53cdg=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-95-D5Ab2zogM_eBavctZJ1FHA-1; Tue, 20 Jul 2021 04:01:32 -0400
+X-MC-Unique: D5Ab2zogM_eBavctZJ1FHA-1
+Received: by mail-pl1-f199.google.com with SMTP id w19-20020a1709027b93b029012b8f96f53eso1180193pll.8
+        for <linux-input@vger.kernel.org>; Tue, 20 Jul 2021 01:01:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Hj7k29MxTKJQR8WxrFkV2bIJPSosFcmcW1WgKY1tqjI=;
-        b=Cr9xmjuU7VhtXhBAtLUFgy3Yhyd1QQN2tlHdNWL2bzF17nyWNDJfCMFyEoAbw0pjqD
-         GI+8S91Tro3PLP0YESW6NttAOYXucgDxoLxUXbLSgoBU0RZiZw8rcKR4SpNJVBY8sOa3
-         jZXJoHVgE1rnOqr7PgZDAo1cYriuCmMr8L4RSpSbOWZVaMJfUVqRv25Em4nxMgmQns+A
-         2q7SPrepQsjn9po9MhDpSMBrO9njMQLqWDS2WCcOmgHYcz08zZUJwCxT0LUK0+GQq6O4
-         4CFC0gKJXh7alXCzQeqkNAldtIVdq6MIoNDVKVXdxdbP+XBeXxkWW7ZZuRQ7cH+9/sOD
-         UmiA==
-X-Gm-Message-State: AOAM532eyn2tMK2gH8w6SSMmi5P4tGZpSt6YM538DVj3vzECTYbTdhEy
-        9TCFLMkfVzKe7D8DZFe9FFwLqvllcJo0gA==
-X-Google-Smtp-Source: ABdhPJzI5K7MJEeOptvvTRX5nNSsmmgRMKf39vJOy8NgrSgFMc9N2jE32sDX9309FlcnfTDKDxz3Jw==
-X-Received: by 2002:aa7:93ac:0:b029:32e:4fce:bde1 with SMTP id x12-20020aa793ac0000b029032e4fcebde1mr28158579pff.54.1626728148628;
-        Mon, 19 Jul 2021 13:55:48 -0700 (PDT)
-Received: from horus.lan (71-34-86-28.ptld.qwest.net. [71.34.86.28])
-        by smtp.gmail.com with ESMTPSA id y82sm21451233pfb.121.2021.07.19.13.55.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jul 2021 13:55:48 -0700 (PDT)
-From:   Jason Gerecke <killertofu@gmail.com>
-X-Google-Original-From: Jason Gerecke <jason.gerecke@wacom.com>
-To:     linux-input@vger.kernel.org, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Ping Cheng <pinglinux@gmail.com>,
-        Jason Gerecke <jason.gerecke@wacom.com>
-Subject: [PATCH 6/6] HID: wacom: Refactor touch input mute checks into a common function
-Date:   Mon, 19 Jul 2021 13:55:33 -0700
-Message-Id: <20210719205533.2189804-6-jason.gerecke@wacom.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210719205533.2189804-1-jason.gerecke@wacom.com>
-References: <20210719205533.2189804-1-jason.gerecke@wacom.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LTrV5RbVeDNyG1pYgWpiiRkaajyN4AH34gq6Sc1Ja5U=;
+        b=eQErpS16f67dcNBpPfxeeox2FyzYVy5gp2N7pWwBQuBUjKk9LNwFg8nPt9Bf09lOoD
+         XktdmtRbI+jYHnAYuXgsuB25wty4rFG/Jbjl8BVIXcckcewuszUtoYYBUuvHgm/dq1ev
+         jQuRx4g0UJHCbs0DYs485LLOTAvEMK5/7+1hYfQ66BUiV0us0tJEDG0RzqKlitIaUyQ+
+         BD5qDzyIh8ZSIrZCX5LLFAInIH8qunQHaBGMnZQT/IaiP7ojWnw46xDI+xm8SnCFGww2
+         G+87jax/uXsvnyD+DpVeocfvzi/LPRRIVB1CjYBGbZjithS4RVvhDwWmfzRgqXVbpnn7
+         EwhQ==
+X-Gm-Message-State: AOAM531tewWHNyBEkCJevXg07By8eYrNBBQtmRzb2aDiBuSuolNfgSXg
+        KG3qM0ocJqkSy5pTYthLNUnONPaN2ih+GObCJJwTMmrlUUbOZvw7MT+ouMpK6YUD+WLLTNsFzzl
+        gxo4tauyjEB67uoWAcDcnh5OJkC7c9bTgPXaYc8k=
+X-Received: by 2002:aa7:9687:0:b029:337:3b49:df24 with SMTP id f7-20020aa796870000b02903373b49df24mr21001794pfk.35.1626768091698;
+        Tue, 20 Jul 2021 01:01:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw/lz7xyoR5XNVuKo5OpMeCS8ZcA7bhLmy40KWtYzX4iPv/i5bUyo43tpWf+jLShuoE3NzooQDIy9RWJTynEGk=
+X-Received: by 2002:aa7:9687:0:b029:337:3b49:df24 with SMTP id
+ f7-20020aa796870000b02903373b49df24mr21001779pfk.35.1626768091519; Tue, 20
+ Jul 2021 01:01:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210625081818.v2.1.I358cae5e33f742765fd38485d6ddf1a4a978644d@changeid>
+ <nycvar.YFH.7.76.2107152150060.8253@cbobk.fhfr.pm>
+In-Reply-To: <nycvar.YFH.7.76.2107152150060.8253@cbobk.fhfr.pm>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 20 Jul 2021 10:01:20 +0200
+Message-ID: <CAO-hwJJp-qg0pRZNk1PKhha6S=Zd2_r1UDjZUgm9Yq0MFL69MQ@mail.gmail.com>
+Subject: Re: [PATCH v2] HID: i2c-hid: goodix: Tie the reset line to true state
+ of the regulator
+To:     Jiri Kosina <jikos@kernel.org>
+Cc:     Douglas Anderson <dianders@chromium.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-We perform this same set of tests to see if touch input is muted in
-several places. We might as well replace these independent copies with
-an inline function.
+On Thu, Jul 15, 2021 at 9:50 PM Jiri Kosina <jikos@kernel.org> wrote:
+>
+> On Fri, 25 Jun 2021, Douglas Anderson wrote:
+>
+> > The regulator for the touchscreen could be:
+> > * A dedicated regulator just for the touchscreen.
+> > * A regulator shared with something else in the system.
+> > * An always-on regulator.
+> >
+> > How we want the "reset" line to behave depends a bit on which of those
+> > three cases we're in. Currently the code is written with the
+> > assumption that it has a dedicated regulator, but that's not really
+> > guaranteed to be the case.
+> >
+> > The problem we run into is that if we leave the touchscreen powered on
+> > (because someone else is requesting the regulator or it's an always-on
+> > regulator) and we assert reset then we apparently burn an extra 67 mW
+> > of power. That's not great.
+> >
+> > Let's instead tie the control of the reset line to the true state of
+> > the regulator as reported by regulator notifiers. If we have an
+> > always-on regulator our notifier will never be called. If we have a
+> > shared regulator then our notifier will be called when the touchscreen
+> > is truly turned on or truly turned off.
+> >
+> > Using notifiers like this nicely handles all the cases without
+> > resorting to hacks like pretending that there is no "reset" GPIO if we
+> > have an always-on regulator.
+> >
+> > NOTE: if the regulator is on a shared line it's still possible that
+> > things could be a little off. Specifically, this case is not handled
+> > even after this patch:
+> > 1. Suspend goodix (send "sleep", goodix stops requesting regulator on)
+> > 2. Other regulator user turns off (regulator fully turns off).
+> > 3. Goodix driver gets notified and asserts reset.
+> > 4. Other regulator user turns on.
+> > 5. Goodix driver gets notified and deasserts reset.
+> > 6. Nobody resumes goodix.
+> >
+> > With that set of steps we'll have reset deasserted but we will have
+> > lost the results of the I2C_HID_PWR_SLEEP from the suspend path. That
+> > means we might be in higher power than we could be even if the goodix
+> > driver thinks things are suspended. Presumably, however, we're still
+> > in better shape than if we were asserting "reset" the whole time. If
+> > somehow the above situation is actually affecting someone and we want
+> > to do better we can deal with it when we have a real use case.
+> >
+> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+>
+> Applied, thanks Doug.
 
-Signed-off-by: Jason Gerecke <jason.gerecke@wacom.com>
----
- drivers/hid/wacom_wac.c | 27 ++++++++++++---------------
- 1 file changed, 12 insertions(+), 15 deletions(-)
+Thanks Jiri for taking this one in.
 
-diff --git a/drivers/hid/wacom_wac.c b/drivers/hid/wacom_wac.c
-index 3f992c9dca4d..fd51769d0994 100644
---- a/drivers/hid/wacom_wac.c
-+++ b/drivers/hid/wacom_wac.c
-@@ -824,6 +824,13 @@ static int wacom_intuos_inout(struct wacom_wac *wacom)
- 	return 0;
- }
- 
-+static inline bool touch_is_muted(struct wacom_wac *wacom_wac)
-+{
-+	return wacom_wac->probe_complete &&
-+	       wacom_wac->shared->has_mute_touch_switch &&
-+	       !wacom_wac->shared->is_touch_on;
-+}
-+
- static inline bool report_touch_events(struct wacom_wac *wacom)
- {
- 	return (touch_arbitration ? !wacom->shared->stylus_in_proximity : 1);
-@@ -1525,11 +1532,8 @@ static int wacom_24hdt_irq(struct wacom_wac *wacom)
- 	int byte_per_packet = WACOM_BYTES_PER_24HDT_PACKET;
- 	int y_offset = 2;
- 
--	if (wacom->shared->has_mute_touch_switch &&
--	    !wacom->shared->is_touch_on) {
--		if (!wacom->shared->touch_down)
--			return 0;
--	}
-+	if (touch_is_muted(wacom) && !wacom->shared->touch_down)
-+		return 0;
- 
- 	if (wacom->features.type == WACOM_27QHDT) {
- 		current_num_contacts = data[63];
-@@ -2536,8 +2540,7 @@ static void wacom_wac_finger_slot(struct wacom_wac *wacom_wac,
- 	bool prox = hid_data->tipswitch &&
- 		    report_touch_events(wacom_wac);
- 
--	if (wacom_wac->shared->has_mute_touch_switch &&
--	    !wacom_wac->shared->is_touch_on) {
-+	if (touch_is_muted(wacom_wac)) {
- 		if (!wacom_wac->shared->touch_down)
- 			return;
- 		prox = false;
-@@ -2593,10 +2596,7 @@ static void wacom_wac_finger_event(struct hid_device *hdev,
- 	unsigned equivalent_usage = wacom_equivalent_usage(usage->hid);
- 	struct wacom_features *features = &wacom->wacom_wac.features;
- 
--	/* don't process touch events when touch is off */
--	if (wacom_wac->probe_complete &&
--	    !wacom_wac->shared->is_touch_on &&
--	    !wacom_wac->shared->touch_down)
-+	if (touch_is_muted(wacom_wac) && !wacom_wac->shared->touch_down)
- 		return;
- 
- 	if (wacom_wac->is_invalid_bt_frame)
-@@ -2648,10 +2648,7 @@ static void wacom_wac_finger_pre_report(struct hid_device *hdev,
- 	struct hid_data* hid_data = &wacom_wac->hid_data;
- 	int i;
- 
--	/* don't process touch events when touch is off */
--	if (wacom_wac->probe_complete &&
--	    !wacom_wac->shared->is_touch_on &&
--	    !wacom_wac->shared->touch_down)
-+	if (touch_is_muted(wacom_wac) && !wacom_wac->shared->touch_down)
- 		return;
- 
- 	wacom_wac->is_invalid_bt_frame = false;
--- 
-2.32.0
+FWIW, I am really glad Doug made the effort of splitting i2c-hid-core
+and i2c-hid-goodix, because this is the kind of patch that would have
+been a nightmare to make it generic :)
+
+Cheers,
+Benjamin
+
+>
+> --
+> Jiri Kosina
+> SUSE Labs
+>
 
