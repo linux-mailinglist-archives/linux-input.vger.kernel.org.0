@@ -2,59 +2,58 @@ Return-Path: <linux-input-owner@vger.kernel.org>
 X-Original-To: lists+linux-input@lfdr.de
 Delivered-To: lists+linux-input@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44B613CF5DF
-	for <lists+linux-input@lfdr.de>; Tue, 20 Jul 2021 10:15:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C0B43CF5E2
+	for <lists+linux-input@lfdr.de>; Tue, 20 Jul 2021 10:15:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232984AbhGTHcF (ORCPT <rfc822;lists+linux-input@lfdr.de>);
-        Tue, 20 Jul 2021 03:32:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22488 "EHLO
+        id S232806AbhGTHd0 (ORCPT <rfc822;lists+linux-input@lfdr.de>);
+        Tue, 20 Jul 2021 03:33:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25555 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232461AbhGTHbF (ORCPT
+        by vger.kernel.org with ESMTP id S232453AbhGTHcB (ORCPT
         <rfc822;linux-input@vger.kernel.org>);
-        Tue, 20 Jul 2021 03:31:05 -0400
+        Tue, 20 Jul 2021 03:32:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1626768704;
+        s=mimecast20190719; t=1626768758;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=8tWwaf4dTIHdf1q4elmIekQnjUsOuFALRymZ2CR/Mz8=;
-        b=YORi5SJel/ryu1UJbkMUa2dpabqYx9NkgOO/5hhhLwc4CiBbU9SWwSMcsd3TLhP+GMBlgW
-        Qb21KCqnUWjG2Aj5yYMGEodzwWZVu51w8DWXg1MJnmQKnXwWbY2P1gjGW0hyOVlmy8SDKI
-        Z0BaCJ03NJ9O9D97ARYws0e2SDcxD14=
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-e2R3x8n-OzOWMpmo1RpjQw-1; Tue, 20 Jul 2021 04:11:42 -0400
-X-MC-Unique: e2R3x8n-OzOWMpmo1RpjQw-1
-Received: by mail-pj1-f71.google.com with SMTP id 11-20020a17090a0f8bb0290175eac3b1c8so1955671pjz.3
-        for <linux-input@vger.kernel.org>; Tue, 20 Jul 2021 01:11:42 -0700 (PDT)
+        bh=gMMS5Nyp1gty+GDyH7M3faltrXcJNNb3kv+Uj+W2Bzs=;
+        b=W7EzwY6tgcEBer13sZpOHdmmZD3Q359CiqKe1ghtXPz4Gy6jo3cAD7lqtarIsd+0q0R2Ab
+        aO8D7/D1mgZ3OZF7Ib1RkMhHJ7vB2SerseYtFi13I2AZeV3MDxu+ByL1A7GE5S4zfMBMqf
+        vgvwnijGuFeGYqTNpHlbaDVXHIyb054=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-217-z1YYXoRkPRea7TuESOlfPQ-1; Tue, 20 Jul 2021 04:12:36 -0400
+X-MC-Unique: z1YYXoRkPRea7TuESOlfPQ-1
+Received: by mail-pf1-f200.google.com with SMTP id 15-20020aa7924f0000b029033034a332ecso15637875pfp.16
+        for <linux-input@vger.kernel.org>; Tue, 20 Jul 2021 01:12:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=8tWwaf4dTIHdf1q4elmIekQnjUsOuFALRymZ2CR/Mz8=;
-        b=UScGlm7y2DkgW6PGcVcO2EqpI2r2QVJI1+8o2lKAqRl6fWplFsBKKJHiDKnNerVLs3
-         8O1Fy051d1xKLabfcN+Yabr1lZl7wV7a2ui/2vRI49KH6FoGWRnZE8fYq9aqoBh6gtyt
-         UQJR6Kx2GVRX41Eh8vDTJsSYW2qWFOhueyB+mHAtDu1FLCxL53R12xX5zyKBB8XEoEDj
-         oiaZpHbgSQU8LzpsfHfENOvKcamilGh6JLlTE9ysaHY4oAswALj444tt/ePHunPLu3Eq
-         42ffgZyeMvSyDmZIGRwWA67bcpowO6TAsSpiROYzMIwxUaknDznOS/hnhQ8VFRwDxeW8
-         Fokg==
-X-Gm-Message-State: AOAM532inDZUK9alNcayICsOASkF63/UCfVVjckeYbQQRYAlJU24/KIr
-        iGv0L04R7In59B+7qadxcIedisO68U9IdXDaeLIu29jGwwOXfgCo8kvRIIPPQty9EeYjWgY3mye
-        ZUu4jAK4AjqcTDGG2NwEFlUzTdFbXVj4e6Y3O9XA=
-X-Received: by 2002:a63:4c49:: with SMTP id m9mr29195077pgl.419.1626768701669;
-        Tue, 20 Jul 2021 01:11:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxG8j4cQo0sSikEalWGBNDUfUQlpvmHm2octMwKwSNSbMu6pAwQfKzrA9J4vL7ZOt5nG9PGH8PsXO2guK9oqrk=
-X-Received: by 2002:a63:4c49:: with SMTP id m9mr29195063pgl.419.1626768701476;
- Tue, 20 Jul 2021 01:11:41 -0700 (PDT)
+        bh=gMMS5Nyp1gty+GDyH7M3faltrXcJNNb3kv+Uj+W2Bzs=;
+        b=ZuBqQxoKZe4k/PBgRLY+IiDAkYs6owSxUTySowmKCNlmyzTouG9D2x6QOAv93n+y7t
+         XfniSpTkA68tyUd9EQe4X91VIfn2zznutDFNpMWtiGAd7YplimrYfg6hTmhcrMiizfRU
+         7I84i8FbKks5nh0DqvckGYOobAS0D4LQaSuwvlEJCmB+gb69tBIY7XsGJskhnkEoZL0D
+         Y6zJ3WBRJlQcSzSXc4JJ2vu9C57HPMLhyuMYxX9dqgBFmi9VLMlRc6Y8IZjXW9F1lF+H
+         CvqZXaRi2OE68vDOIiNuLJb75ubJprpT/GoNtL94JCve0YcDTg5HH5YQyiGwLWwetALM
+         Sd5A==
+X-Gm-Message-State: AOAM532NwVs77dxTcFGBjOJn7gMuWYEkP09osL7OmMyk9MELqUOnqmTl
+        /QACXFeqBhrdqT1OQ8yGoTXVfSCpk3ZdSBgYxUb/KKlI5Dnm5Mcf4ectNRshUmnWX1xZ4UBS4h7
+        0eCPVXqcA5rRyyl5/yJWnTSO2Q2MNZxKJWefkC+o=
+X-Received: by 2002:a05:6a00:bd3:b029:329:3e4f:eadb with SMTP id x19-20020a056a000bd3b02903293e4feadbmr30123632pfu.44.1626768755703;
+        Tue, 20 Jul 2021 01:12:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx30wUbR3ZbkrRujufBm831KX8L1CnejyUseOrJxJgmHifMLp8k08WpoKQngJ4PWubxc4cXuMsbbYyzAH9MbGQ=
+X-Received: by 2002:a05:6a00:bd3:b029:329:3e4f:eadb with SMTP id
+ x19-20020a056a000bd3b02903293e4feadbmr30123613pfu.44.1626768755482; Tue, 20
+ Jul 2021 01:12:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210704104906.78490-1-linux@weissschuh.net> <nycvar.YFH.7.76.2107152059330.8253@cbobk.fhfr.pm>
- <2f89257c-b074-45ed-8103-e3e70db2c1c6@t-8ch.de> <nycvar.YFH.7.76.2107152114020.8253@cbobk.fhfr.pm>
- <a769ae40-6d0c-47c4-803f-2c8dbc362f24@t-8ch.de>
-In-Reply-To: <a769ae40-6d0c-47c4-803f-2c8dbc362f24@t-8ch.de>
+References: <20210704104906.78490-1-linux@weissschuh.net>
+In-Reply-To: <20210704104906.78490-1-linux@weissschuh.net>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 20 Jul 2021 10:11:30 +0200
-Message-ID: <CAO-hwJJ1q2UC_QHqX_=vdQiDcMEhyO5Nxg65s=1h-smQNCiMoA@mail.gmail.com>
+Date:   Tue, 20 Jul 2021 10:12:24 +0200
+Message-ID: <CAO-hwJLtUNUZuix08DndOpQ7Z9bYj+G0V-zyCxmr_tRgQPROkw@mail.gmail.com>
 Subject: Re: [PATCH] HID: add cmedia-fixup driver
 To:     =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 Cc:     Jiri Kosina <jikos@kernel.org>,
@@ -66,74 +65,185 @@ Precedence: bulk
 List-ID: <linux-input.vger.kernel.org>
 X-Mailing-List: linux-input@vger.kernel.org
 
-On Thu, Jul 15, 2021 at 9:45 PM Thomas Wei=C3=9Fschuh <linux@weissschuh.net=
+On Sun, Jul 4, 2021 at 12:49 PM Thomas Wei=C3=9Fschuh <linux@weissschuh.net=
 > wrote:
 >
-> On Do, 2021-07-15T21:14+0200, Jiri Kosina wrote:
-> > On Thu, 15 Jul 2021, Thomas Wei=C3=9Fschuh wrote:
-> >
-> > > > > This driver provides HID fixups for CMedia audio chips.
-> > > > > For now this enables the recognition of the microphone mute butto=
-n for the
-> > > > > HS-100B.
-> > > > >
-> > > > > Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
-> > > > > ---
-> > > > >  drivers/hid/Kconfig            |  6 +++
-> > > > >  drivers/hid/Makefile           |  1 +
-> > > > >  drivers/hid/hid-cmedia-fixup.c | 82 ++++++++++++++++++++++++++++=
-++++++
-> > > > >  drivers/hid/hid-ids.h          |  1 +
-> > > > >  drivers/hid/hid-quirks.c       |  3 ++
-> > > > >  5 files changed, 93 insertions(+)
-> > > > >  create mode 100644 drivers/hid/hid-cmedia-fixup.c
-> > > >
-> > > > Can you please drop the '-fixup' from the driver name? We have quit=
-e a
-> > > > couple of drivers that do report descriptor modifications, but we'r=
-e not
-> > > > using this '-fixup' naming scheme for them either.
-> > >
-> > > There is already an existing driver "hid-cmedia":
-> > > "HID driver for CMedia CM6533 audio jack controls".
-> > >
-> > > This driver works in a completely different way from mine, so I thoug=
-ht
-> > > to keep them separate. The idea was for the new driver to be a
-> > > collection of simple, similar report fixups.
-> > >
-> > > Should they be combined?
-> >
-> > If it's the same vendor, then yes. We generally (with exceptions, of
-> > course :) ) group the HID drivers by vendor, even if completely differe=
-nt
-> > quirks are needed for different devices from the same vendor.
+> This driver provides HID fixups for CMedia audio chips.
+> For now this enables the recognition of the microphone mute button for th=
+e
+> HS-100B.
 >
-> Will do.
+> Signed-off-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+> ---
+>  drivers/hid/Kconfig            |  6 +++
+>  drivers/hid/Makefile           |  1 +
+>  drivers/hid/hid-cmedia-fixup.c | 82 ++++++++++++++++++++++++++++++++++
+>  drivers/hid/hid-ids.h          |  1 +
+>  drivers/hid/hid-quirks.c       |  3 ++
+>  5 files changed, 93 insertions(+)
+>  create mode 100644 drivers/hid/hid-cmedia-fixup.c
 >
-> Should I merge it into the existing `struct hid_driver` and do id checks =
-in
-> every member function or declare a dedicated `struct hid_driver`?
+> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+> index 160554903ef9..5e139c93f75a 100644
+> --- a/drivers/hid/Kconfig
+> +++ b/drivers/hid/Kconfig
+> @@ -264,6 +264,12 @@ config HID_CMEDIA
+>         help
+>         Support for CMedia CM6533 HID audio jack controls.
+>
+> +config HID_CMEDIA_FIXUP
+> +       tristate "CMedia hid fixup"
+> +       depends on HID
+> +       help
+> +       Fixups for CMedia based audio chips.
+> +
+>  config HID_CP2112
+>         tristate "Silicon Labs CP2112 HID USB-to-SMBus Bridge support"
+>         depends on USB_HID && HIDRAW && I2C && GPIOLIB
+> diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+> index 1ea1a7c0b20f..66d6b06ce4d2 100644
+> --- a/drivers/hid/Makefile
+> +++ b/drivers/hid/Makefile
+> @@ -36,6 +36,7 @@ obj-$(CONFIG_HID_BIGBEN_FF)   +=3D hid-bigbenff.o
+>  obj-$(CONFIG_HID_CHERRY)       +=3D hid-cherry.o
+>  obj-$(CONFIG_HID_CHICONY)      +=3D hid-chicony.o
+>  obj-$(CONFIG_HID_CMEDIA)       +=3D hid-cmedia.o
+> +obj-$(CONFIG_HID_CMEDIA_FIXUP) +=3D hid-cmedia-fixup.o
+>  obj-$(CONFIG_HID_CORSAIR)      +=3D hid-corsair.o
+>  obj-$(CONFIG_HID_COUGAR)       +=3D hid-cougar.o
+>  obj-$(CONFIG_HID_CP2112)       +=3D hid-cp2112.o
+> diff --git a/drivers/hid/hid-cmedia-fixup.c b/drivers/hid/hid-cmedia-fixu=
+p.c
+> new file mode 100644
+> index 000000000000..c9a984ea6f0a
+> --- /dev/null
+> +++ b/drivers/hid/hid-cmedia-fixup.c
+> @@ -0,0 +1,82 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * HID driver containing fixups for CMedia audio chips.
+> + *
+> + * Copyright (C) 2021 Thomas Wei=C3=9Fschuh <thomas@weissschuh.net>
+> + */
+> +
+> +#include <linux/device.h>
+> +#include <linux/hid.h>
+> +#include <linux/module.h>
+> +#include "hid-ids.h"
+> +
+> +#define HS100B_RDESC_ORIG_SIZE 60
+> +
+> +/* Fixed report descriptor of HS-100B audio chip
+> + * Bit 4 is an abolute Microphone mute usage instead of being unassigned=
+.
+> + */
+> +static __u8 hs100b_rdesc_fixed[] =3D {
+> +       0x05, 0x0C,         /*  Usage Page (Consumer),          */
+> +       0x09, 0x01,         /*  Usage (Consumer Control),       */
+> +       0xA1, 0x01,         /*  Collection (Application),       */
+> +       0x15, 0x00,         /*      Logical Minimum (0),        */
+> +       0x25, 0x01,         /*      Logical Maximum (1),        */
+> +       0x09, 0xE9,         /*      Usage (Volume Inc),         */
+> +       0x09, 0xEA,         /*      Usage (Volume Dec),         */
+> +       0x75, 0x01,         /*      Report Size (1),            */
+> +       0x95, 0x02,         /*      Report Count (2),           */
+> +       0x81, 0x02,         /*      Input (Variable),           */
+> +       0x09, 0xE2,         /*      Usage (Mute),               */
+> +       0x95, 0x01,         /*      Report Count (1),           */
+> +       0x81, 0x06,         /*      Input (Variable, Relative), */
+> +       0x05, 0x0B,         /*      Usage Page (Telephony),     */
+> +       0x09, 0x2F,         /*      Usage (2Fh),                */
+> +       0x81, 0x02,         /*      Input (Variable),           */
+> +       0x09, 0x20,         /*      Usage (20h),                */
+> +       0x81, 0x06,         /*      Input (Variable, Relative), */
+> +       0x05, 0x0C,         /*      Usage Page (Consumer),      */
+> +       0x09, 0x00,         /*      Usage (00h),                */
+> +       0x95, 0x03,         /*      Report Count (3),           */
+> +       0x81, 0x02,         /*      Input (Variable),           */
+> +       0x26, 0xFF, 0x00,   /*      Logical Maximum (255),      */
+> +       0x09, 0x00,         /*      Usage (00h),                */
+> +       0x75, 0x08,         /*      Report Size (8),            */
+> +       0x95, 0x03,         /*      Report Count (3),           */
+> +       0x81, 0x02,         /*      Input (Variable),           */
+> +       0x09, 0x00,         /*      Usage (00h),                */
+> +       0x95, 0x04,         /*      Report Count (4),           */
+> +       0x91, 0x02,         /*      Output (Variable),          */
+> +       0xC0                /*  End Collection                  */
+> +};
+> +
+> +static __u8 *cmhid_fixup_report_fixup(struct hid_device *hdev, __u8 *rde=
+sc,
+> +                                     unsigned int *rsize)
+> +{
+> +       switch (hdev->product) {
+> +       case USB_DEVICE_ID_CMEDIA_HS100B:
+> +               if (*rsize =3D=3D HS100B_RDESC_ORIG_SIZE) {
+> +                       hid_info(hdev, "Fixing CMedia HS-100B report desc=
+riptor\n");
+> +                       rdesc =3D hs100b_rdesc_fixed;
+> +                       *rsize =3D sizeof(hs100b_rdesc_fixed);
+> +               }
+> +               break;
+> +       }
+> +       return rdesc;
+> +}
+> +
+> +static const struct hid_device_id cmhid_fixup_devices[] =3D {
+> +       { HID_USB_DEVICE(USB_VENDOR_ID_CMEDIA, USB_DEVICE_ID_CMEDIA_HS100=
+B) },
+> +       { }
+> +};
+> +
+> +static struct hid_driver cmhid_fixup_driver =3D {
+> +       .name =3D "cmedia_fixups",
+> +       .id_table =3D cmhid_fixup_devices,
+> +       .report_fixup =3D cmhid_fixup_report_fixup,
+> +};
+> +module_hid_driver(cmhid_fixup_driver);
+> +
+> +MODULE_DEVICE_TABLE(hid, cmhid_fixup_devices);
+> +MODULE_AUTHOR("Thomas Wei=C3=9Fschuh <thomas@weissschuh.net>");
+> +MODULE_DESCRIPTION("CMedia HID fixup");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+> index 8f1893e68112..6864e4e6ac8b 100644
+> --- a/drivers/hid/hid-ids.h
+> +++ b/drivers/hid/hid-ids.h
+> @@ -292,6 +292,7 @@
+>
+>  #define USB_VENDOR_ID_CMEDIA           0x0d8c
+>  #define USB_DEVICE_ID_CM109            0x000e
+> +#define USB_DEVICE_ID_CMEDIA_HS100B    0x0014
+>  #define USB_DEVICE_ID_CM6533           0x0022
+>
+>  #define USB_VENDOR_ID_CODEMERCS                0x07c0
+> diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
+> index 51b39bda9a9d..7776aa13ee27 100644
+> --- a/drivers/hid/hid-quirks.c
+> +++ b/drivers/hid/hid-quirks.c
+> @@ -346,6 +346,9 @@ static const struct hid_device_id hid_have_special_dr=
+iver[] =3D {
+>  #if IS_ENABLED(CONFIG_HID_CMEDIA)
+>         { HID_USB_DEVICE(USB_VENDOR_ID_CMEDIA, USB_DEVICE_ID_CM6533) },
+>  #endif
+> +#if IS_ENABLED(CONFIG_HID_CMEDIA_FIXUP)
+> +       { HID_USB_DEVICE(USB_VENDOR_ID_CMEDIA, USB_DEVICE_ID_CMEDIA_HS100=
+B) },
+> +#endif
 
-Adding checks for every function is less than ideal because that would
-add useless calls for every raw event.
-But adding a new `struct hid_driver` is tempting given how different
-the 2 drivers are. However, you would have to write a new
-module_init/exit for it to register 2 drivers.
-
-Worse case, if you can not create 2 drivers in one module, you could
-always not set `.raw_event` in the main `struct hid_driver`, and
-assign it in the `.probe` once you know which device you are facing.
-In both cases, this is not something we already have in the HID
-subsystem, but we need a first, right?
-
-I also have a small nitpick on the patch itself, will comment in the
-original submission email.
+FWIW, this hunk should be dropped entirely if the driver works without it.
 
 Cheers,
 Benjamin
 
+>  #if IS_ENABLED(CONFIG_HID_CORSAIR)
+>         { HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, USB_DEVICE_ID_CORSAIR_K90=
+) },
+>         { HID_USB_DEVICE(USB_VENDOR_ID_CORSAIR, USB_DEVICE_ID_CORSAIR_GLA=
+IVE_RGB) },
 >
-> Thanks!
+> base-commit: df04fbe8680bfe07f3d7487eccff9f768bb02533
+> --
+> 2.32.0
 >
 
